@@ -31,6 +31,7 @@
 /*---------------------------------------------------------------------------*/
 
 static struct s_file file;
+static struct s_file back;
 
 static float clock = 0.f;               /* Clock time                        */
 
@@ -90,7 +91,7 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-int game_init(const char *s, int t)
+int game_init(const char *file_name, const char *back_name, int t)
 {
     game_ix = 0.f;
     game_iz = 0.f;
@@ -117,8 +118,9 @@ int game_init(const char *s, int t)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     }
 
-    return sol_load(&file, s, config_get(CONFIG_TEXTURES),
-                              config_get(CONFIG_SHADOW));
+    return (sol_load(&back, back_name, config_get(CONFIG_TEXTURES), 0) &&
+            sol_load(&file, file_name, config_get(CONFIG_TEXTURES),
+                                       config_get(CONFIG_SHADOW)));
 }
 
 void game_free(void)
@@ -127,6 +129,7 @@ void game_free(void)
         glDeleteTextures(1, &shadow_text);
 
     sol_free(&file);
+    sol_free(&back);
     part_free();
 }
 
@@ -307,7 +310,7 @@ static void game_clr_shadow(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_refl_all(void)
+static void game_refl_all(int s)
 {
     const float *ball_p = file.uv->p;
     
@@ -322,7 +325,9 @@ static void game_refl_all(void)
 
         /* Draw the floor. */
 
-        sol_refl(&file);
+        if (s) game_set_shadow(&file);
+        sol_refl(&file, s);
+        if (s) game_clr_shadow();
     }
     glPopMatrix();
 }
@@ -342,8 +347,6 @@ static void game_draw_light(void)
 
     /* Configure the lighting. */
 
-    glEnable(GL_LIGHTING);
-
     glEnable(GL_LIGHT0);
     glLightfv(GL_LIGHT0, GL_POSITION, light_p[0]);
     glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_c[0]);
@@ -355,26 +358,52 @@ static void game_draw_light(void)
     glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
 }
 
-static void game_draw_all(int pose, float rx, float ry, int d, const float p[3])
+
+
+static void game_draw_back(int pose, float rx, float ry, int d, const float p[3])
+{
+    float o[3] = { 0.0f, 0.0f, 0.0f };
+    float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+    glPushAttrib(GL_FOG_BIT);
+    glPushMatrix();
+    {
+        if (d < 0)
+        {
+            glRotatef(game_rz * 2, view_e[2][0], view_e[2][1], view_e[2][2]);
+            glRotatef(game_rx * 2, view_e[0][0], view_e[0][1], view_e[0][2]);
+        }
+
+        glTranslatef(p[0], p[1], p[2]);
+        game_clr_shadow();
+        glColor3f(1.0f, 1.0f, 1.0f);
+
+        /* Draw all background layers back to front. */
+
+        sol_back(&back, o, BACK_DIST, FAR_DIST);
+        back_draw(0);
+        sol_back(&back, o, 0, BACK_DIST);
+
+        /* Draw all foreground geometry in the background file. */
+
+        glEnable(GL_FOG);
+        glFogf(GL_FOG_START, BACK_DIST / 2.0f);
+        glFogf(GL_FOG_END,   BACK_DIST);
+        glFogfv(GL_FOG_COLOR, c);
+
+        sol_draw(&back, 0);
+    }
+    glPopMatrix();
+    glPopAttrib();
+}
+
+static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3])
 {
     const float *ball_p = file.uv->p;
     
     glPushAttrib(GL_LIGHTING_BIT);
     glPushAttrib(GL_COLOR_BUFFER_BIT);
     {
-        glPushMatrix();
-        {
-            if (d < 0)
-            {
-                glRotatef(game_rz, view_e[2][0], view_e[2][1], view_e[2][2]);
-                glRotatef(game_rx, view_e[0][0], view_e[0][1], view_e[0][2]);
-            }
-
-            game_clr_shadow();
-            back_draw(d, 0);
-        }
-        glPopMatrix();
-
         glPushMatrix();
         {
             /* Rotate the environment about the position of the ball. */
@@ -400,7 +429,7 @@ static void game_draw_all(int pose, float rx, float ry, int d, const float p[3])
             /* Draw the floor. */
 
             if (pose == 0) game_set_shadow(&file);
-            sol_draw(&file, config_get(CONFIG_SHADOW), p);
+            sol_draw(&file, config_get(CONFIG_SHADOW));
             if (pose == 0) game_clr_shadow();
 
             /* Draw the game elements. */
@@ -457,18 +486,22 @@ void game_draw(int pose, float st)
 
         if (config_get(CONFIG_REFLECTION))
         {
-            /* Draw the mirror into the stencil buffer. */
+            /* Draw the mirror only into the stencil buffer. */
 
+            glDisable(GL_DEPTH_TEST);
             glEnable(GL_STENCIL_TEST);
             glStencilFunc(GL_ALWAYS, 1, 0xFFFFFFFF);
             glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+            glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
-            game_refl_all();
+            game_refl_all(0);
 
-            /* Draw the scene reflected. */
+            /* Draw the scene reflected into color and depth buffers. */
 
+            glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
             glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
             glStencilFunc(GL_EQUAL, 1, 0xFFFFFFFF);
+            glEnable(GL_DEPTH_TEST);
 
             glFrontFace(GL_CW);
             glPushMatrix();
@@ -476,7 +509,8 @@ void game_draw(int pose, float st)
                 glScalef(+1.f, -1.f, +1.f);
 
                 game_draw_light();
-                game_draw_all(pose, rx, ry, -1, pdn);
+                game_draw_back(pose, rx, ry, -1, pdn);
+                game_draw_fore(pose, rx, ry, -1, pdn);
             }
             glPopMatrix();
             glFrontFace(GL_CCW);
@@ -487,7 +521,9 @@ void game_draw(int pose, float st)
         /* Draw the scene normally. */
 
         game_draw_light();
-        game_draw_all(pose, rx, ry, +1, pup);
+        game_refl_all(config_get(CONFIG_SHADOW));
+        game_draw_back(pose, rx, ry, +1, pup);
+        game_draw_fore(pose, rx, ry, +1, pup);
     }
     glPopMatrix();
     config_pop_matrix();
@@ -845,6 +881,13 @@ void game_set_fly(float k)
     v_crs(view_e[2], view_e[0], view_e[1]);
     v_nrm(view_e[0], view_e[0]);
     v_nrm(view_e[2], view_e[2]);
+}
+
+void game_look(float phi, float theta)
+{
+    view_c[0] = view_p[0] + fsinf(V_RAD(theta)) * fcosf(V_RAD(phi));
+    view_c[1] = view_p[1] +                       fsinf(V_RAD(phi));
+    view_c[2] = view_p[2] - fcosf(V_RAD(theta)) * fcosf(V_RAD(phi));
 }
 
 /*---------------------------------------------------------------------------*/

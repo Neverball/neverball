@@ -64,10 +64,12 @@ See below for details.
     F2     Lazy Camera                               (configurable)
     F3     Static Camera                             (configurable)
 
+    F7     Toggle wire mode
+    F8     Toggle nice mode
     F9     Toggle frame counter
     F10    Snap a screenshot
     F11    Save the current demo
-
+    F12    Toggle look-around mode
 
 
 * HIGH SCORES

@@ -1,6 +1,7 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include <stdlib.h>
 #include <stdio.h>
 
 /*---------------------------------------------------------------------------*/

@@ -18,7 +18,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-int   game_init(const char *, int);
+int   game_init(const char *, const char *, int);
 void  game_free(void);
 
 int   curr_clock(void);
@@ -32,6 +32,8 @@ void  game_set_x  (int);
 void  game_set_z  (int);
 void  game_set_rot(int);
 void  game_set_fly(float);
+
+void  game_look(float, float);
 
 int game_put(FILE *);
 int game_get(FILE *);

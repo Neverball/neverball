@@ -240,6 +240,7 @@ static void size_image(const char *name, int *w, int *h)
 {
     char jpg[MAXSTR];
     char tga[MAXSTR];
+    char png[MAXSTR];
     int i;
 
     for (i = 0; i < image_n; i++)
@@ -256,8 +257,9 @@ static void size_image(const char *name, int *w, int *h)
 
     strapp(jpg, path, name, ".jpg", MAXSTR);
     strapp(tga, path, name, ".tga", MAXSTR);
+    strapp(png, path, name, ".png", MAXSTR);
 
-    if (size_load(jpg, w, h) || size_load(tga, w, h))
+    if (size_load(png, w, h) || size_load(tga, w, h) || size_load(jpg, w, h))
     {
         image_s[image_n] = (char *) calloc(strlen(name) + 1, 1);
         image_w[image_n] = *w;
@@ -776,7 +778,8 @@ static void make_bill(struct s_file *fp,
     rp->p[0] = 0.f;
     rp->p[1] = 0.f;
     rp->p[2] = 0.f;
-    rp->r    = 1.f;
+    rp->w    = 1.f;
+    rp->h    = 1.f;
     rp->z    = 0.f;
 
     for (i = 0; i < c; i++)
@@ -785,7 +788,16 @@ static void make_bill(struct s_file *fp,
             sscanf(v[i], "%f", &rp->z);
 
         if (strcmp(k[i], "radius") == 0)
-            sscanf(v[i], "%f", &rp->r);
+        {
+            sscanf(v[i], "%f", &rp->w);
+            sscanf(v[i], "%f", &rp->h);
+        }
+
+        if (strcmp(k[i], "width") == 0)
+            sscanf(v[i], "%f", &rp->w);
+
+        if (strcmp(k[i], "height") == 0)
+            sscanf(v[i], "%f", &rp->h);
 
         if (strcmp(k[i], "image") == 0)
             rp->mi = read_mtrl(fp, v[i]);

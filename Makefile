@@ -87,6 +87,7 @@ BALL_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS)
 PUTT_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS) $(OGL_LIBS)
 
 SOLS= \
+	data/map-rlk/back.sol     \
 	data/map-rlk/easy.sol     \
 	data/map-rlk/peasy.sol    \
 	data/map-rlk/coins.sol    \

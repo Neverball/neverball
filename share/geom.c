@@ -42,8 +42,8 @@ void ball_init(int b)
 
     if ((ball_quad = gluNewQuadric()))
     {
-        int slices = b ? 64 : 16;
-        int stacks = b ? 32 :  8;
+        int slices = b ? 32 : 16;
+        int stacks = b ? 16 :  8;
 
         gluQuadricOrientation(ball_quad, GLU_OUTSIDE);
         gluQuadricNormals(ball_quad, GLU_SMOOTH);

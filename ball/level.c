@@ -45,6 +45,7 @@ struct level
 {
     char file[MAXSTR];
     char back[MAXSTR];
+    char grad[MAXSTR];
     char shot[MAXSTR];
     char song[MAXSTR];
     int  time;
@@ -165,10 +166,11 @@ static void level_init_rc(const char *filename)
     {
         while (count < MAXLVL && fgets(buf, MAXSTR, fin))
         {
-            sscanf(buf, "%s %s %s %d %s",
+            sscanf(buf, "%s %s %s %s %d %s",
                     level_v[count].file,
-                    level_v[count].shot,
                     level_v[count].back,
+                    level_v[count].shot,
+                    level_v[count].grad,
                    &level_v[count].time,
                     level_v[count].song);
             count++;
@@ -407,9 +409,10 @@ int level_goto(int s, int c, int b, int l)
     if (b >= 0) balls = b;
     if (l >= 0) level = l;
 
-    back_init(level_v[level].back, config_get(CONFIG_GEOMETRY));
+    back_init(level_v[level].grad, config_get(CONFIG_GEOMETRY));
 
     return game_init(level_v[level].file,
+                     level_v[level].back,
                      level_v[level].time);
 }
 
@@ -483,9 +486,10 @@ int level_pass(void)
         back_free();
         score = 0;
 
-        back_init(level_v[level].back, config_get(CONFIG_GEOMETRY));
+        back_init(level_v[level].grad, config_get(CONFIG_GEOMETRY));
 
         return game_init(level_v[level].file,
+                         level_v[level].back,
                          level_v[level].time);
     }
     else
@@ -527,9 +531,10 @@ int level_fail(void)
         back_free();
         score = 0;
 
-        back_init(level_v[level].back, config_get(CONFIG_GEOMETRY));
+        back_init(level_v[level].grad, config_get(CONFIG_GEOMETRY));
 
         return game_init(level_v[level].file,
+                         level_v[level].back,
                          level_v[level].time);
     }
     return 0;
@@ -574,9 +579,11 @@ void level_snap(int i)
 
     /* Initialize the game for a snapshot. */
 
-    back_init(level_v[i].back, config_get(CONFIG_GEOMETRY));
+    back_init(level_v[i].grad, config_get(CONFIG_GEOMETRY));
     
-    if (game_init(level_v[i].file, level_v[i].time))
+    if (game_init(level_v[i].file,
+                  level_v[i].back,
+                  level_v[i].time))
     {
         /* Render the level and grab the screen. */
 

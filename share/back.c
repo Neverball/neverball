@@ -40,8 +40,8 @@ void back_init(const char *s, int b)
 
     if ((back_quad = gluNewQuadric()))
     {
-        int slices = b ? 64 : 32;
-        int stacks = b ? 32 : 16;
+        int slices = b ? 32 : 16;
+        int stacks = b ? 16 :  8;
 
         gluQuadricOrientation(back_quad, GLU_INSIDE);
         gluQuadricNormals(back_quad, GLU_SMOOTH);
@@ -68,7 +68,7 @@ void back_free(void)
         glDeleteTextures(1, &back_text);
 }
 
-void back_draw(int d, float t)
+void back_draw(float t)
 {
     glPushMatrix();
     glPushAttrib(GL_LIGHTING_BIT);
@@ -78,15 +78,10 @@ void back_draw(int d, float t)
         GLfloat dz = 180.f * fsinf(t / 12.f);
 
         glDisable(GL_LIGHTING);
-
-        /*
-         * Being by definition far away, the reflected skysphere likes
-         * to Z-fight  with the normal  skysphere.  So, we  offset the
-         * reflected  sky  inward to  ensure  that  it  wins when  the
-         * stencil test passes.
-         */
-
-        glScalef(BACK_DIST + d, BACK_DIST + d, BACK_DIST + d);
+        glDepthMask(GL_FALSE);
+        
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glScalef(BACK_DIST, BACK_DIST, BACK_DIST);
         glRotatef(dz, 0.f, 0.f, 1.f);
         glRotatef(dx, 1.f, 0.f, 0.f);
 

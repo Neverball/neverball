@@ -1243,10 +1243,13 @@ void gui_paint(int id)
 
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-            glDisable(GL_TEXTURE_2D);
-            gui_paint_rect(id);
+            glPushAttrib(GL_TEXTURE_BIT);
+            {
+                glDisable(GL_TEXTURE_2D);
+                gui_paint_rect(id);
+            }
+            glPopAttrib();
 
-            glEnable(GL_TEXTURE_2D);
             gui_paint_text(id);
         }
         config_pop_matrix();

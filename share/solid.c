@@ -165,6 +165,12 @@ static void sol_draw_mtrl(const struct s_file *fp, short i)
 
         glBindTexture(GL_TEXTURE_2D, mp->o);
     }
+
+    if (mp->fl & M_ADDITIVE)
+        glBlendFunc(GL_ONE, GL_ONE);
+    else
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 }
 
 static void sol_draw_geom(const struct s_file *fp,
@@ -267,7 +273,8 @@ static void sol_draw_bill(const struct s_file *fp,
     float rx;
     float ry;
     float rz = rp->z;
-    float sz = rp->r;
+    float x  = rp->w;
+    float y  = rp->h;
     float v[3];
 
     glPushMatrix();
@@ -289,21 +296,19 @@ static void sol_draw_bill(const struct s_file *fp,
 
         glBegin(GL_QUADS);
         {
-            glTexCoord2f(0.0f, 0.0f);
-            glVertex2f(-sz, -sz);
-            glTexCoord2f(1.0f, 0.0f);
-            glVertex2f(+sz, -sz);
-            glTexCoord2f(1.0f, 1.0f);
-            glVertex2f(+sz, +sz);
             glTexCoord2f(0.0f, 1.0f);
-            glVertex2f(-sz, +sz);
+            glVertex2f(-x, -y);
+            glTexCoord2f(1.0f, 1.0f);
+            glVertex2f(+x, -y);
+            glTexCoord2f(1.0f, 0.0f);
+            glVertex2f(+x, +y);
+            glTexCoord2f(0.0f, 0.0f);
+            glVertex2f(-x, +y);
         }
         glEnd();
     }
     glPopMatrix();
 }
-
-/*---------------------------------------------------------------------------*/
 
 static void sol_draw_list(const struct s_file *fp,
                           const struct s_body *bp, GLuint list, int s)
@@ -352,7 +357,54 @@ static void sol_draw_list(const struct s_file *fp,
     glPopMatrix();
 }
 
-void sol_draw(const struct s_file *fp, int s, const float p[3])
+/*---------------------------------------------------------------------------*/
+
+void sol_back(const struct s_file *fp, const float p[3], float n, float f)
+{
+    int ri;
+
+    glPushAttrib(GL_LIGHTING_BIT);
+    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    {
+        /* Render all billboards in the given range. */
+
+        glDisable(GL_LIGHTING);
+        glDepthMask(GL_FALSE);
+
+        for (ri = 0; ri < fp->rc; ri++)
+        {
+            float dx = fp->rv[ri].p[0] - p[0];
+            float dy = fp->rv[ri].p[1] - p[1];
+            float dz = fp->rv[ri].p[2] - p[2];
+            float dd = dx * dx + dy * dy + dz * dz;
+
+            if (n * n <= dd && dd < f * f)
+                sol_draw_bill(fp, fp->rv + ri, p);
+        }
+    }
+    glPopAttrib();
+    glPopAttrib();
+}
+
+void sol_refl(const struct s_file *fp, int s)
+{
+    short bi;
+
+    glPushAttrib(GL_LIGHTING_BIT);
+    {
+        /* Render all reflective geometry into the color and depth buffers. */
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        for (bi = 0; bi < fp->bc; bi++)
+            if (fp->bv[bi].rl)
+                sol_draw_list(fp, fp->bv + bi, fp->bv[bi].rl, s);
+    }
+    glPopAttrib();
+}
+
+void sol_draw(const struct s_file *fp, int s)
 {
     short i;
 
@@ -361,65 +413,27 @@ void sol_draw(const struct s_file *fp, int s, const float p[3])
     glPushAttrib(GL_COLOR_BUFFER_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
-        /* Render all reflective geometry into the color and depth buffers. */
-
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        for (i = 0; i < fp->bc; i++)
-            if (fp->bv[i].rl)
-                sol_draw_list(fp, fp->bv + i, fp->bv[i].rl, s);
-
         /* Render all obaque geometry into the color and depth buffers. */
-
-        glDisable(GL_BLEND);
 
         for (i = 0; i < fp->bc; i++)
             if (fp->bv[i].ol)
                 sol_draw_list(fp, fp->bv + i, fp->bv[i].ol, s);
 
-        glEnable(GL_BLEND);
-
         /* Render all translucent geometry into only the color buffer. */
 
         glDepthMask(GL_FALSE);
 
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         for (i = 0; i < fp->bc; i++)
             if (fp->bv[i].tl)
                 sol_draw_list(fp, fp->bv + i, fp->bv[i].tl, s);
-
-        for (i = 0; i < fp->rc; i++)
-            sol_draw_bill(fp, fp->rv + i, p);
     }
     glPopAttrib();
     glPopAttrib();
     glPopAttrib();
     glPopAttrib();
-}
-
-void sol_refl(const struct s_file *fp)
-{
-    float p[3];
-    short bi;
-
-    glDepthMask(GL_FALSE);
-    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-    {
-        for (bi = 0; bi < fp->bc; bi++)
-            if (fp->bv[bi].rl)
-            {
-                sol_body_p(p, fp, fp->bv + bi);
-
-                glPushMatrix();
-                {
-                    glTranslatef(p[0], p[1], p[2]);
-                    glCallList(fp->bv[bi].rl);
-                }
-                glPopMatrix();
-            }
-    }
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-    glDepthMask(GL_TRUE);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -476,29 +490,56 @@ static void sol_load_objects(struct s_file *fp, int s)
     }
 }
 
+static SDL_Surface *sol_find_texture(const char *name, GLenum *f0, GLenum *f1)
+{
+    SDL_Surface *s;
+    char png[64];
+    char tga[64];
+    char jpg[64];
+
+    strncpy(png, name, PATHMAX);
+    strcat(png, ".png");
+    strncpy(tga, name, PATHMAX);
+    strcat(tga, ".tga");
+    strncpy(jpg, name, PATHMAX);
+    strcat(jpg, ".jpg");
+
+    /* Prefer a lossless copy of the texture over a lossy compression. */
+
+    if ((s = IMG_Load(png)))
+    {
+        *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
+        *f1 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
+        return s;
+    }
+    if ((s = IMG_Load(tga)))
+    {
+        *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
+        *f1 = (s->format->BitsPerPixel == 32) ? GL_BGRA : GL_RGB;  /* swab */
+        return s;
+    }
+    if ((s = IMG_Load(jpg)))
+    {
+        *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
+        *f1 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
+        return s;
+    }
+
+    return NULL;
+}
+
 static void sol_load_textures(struct s_file *fp, int k)
 {
     SDL_Surface *s;
     SDL_Surface *d;
-    char tga[64];
-    char jpg[64];
+    GLenum f0;
+    GLenum f1;
 
     int i;
 
     for (i = 0; i < fp->mc; i++)
-    {
-        strncpy(tga, fp->mv[i].f, PATHMAX);
-        strcat(tga, ".tga");
-        strncpy(jpg, fp->mv[i].f, PATHMAX);
-        strcat(jpg, ".jpg");
-
-        /* Prefer a lossless copy of the texture over a lossy compression. */
-
-        if ((s = IMG_Load(tga)) || (s = IMG_Load(jpg)))
+        if ((s = sol_find_texture(fp->mv[i].f, &f0, &f1)))
         {
-            GLenum f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
-            GLenum f1 = (s->format->BitsPerPixel == 32) ? GL_BGRA : GL_RGB;
-
             glGenTextures(1, &fp->mv[i].o);
             glBindTexture(GL_TEXTURE_2D, fp->mv[i].o);
 
@@ -538,7 +579,6 @@ static void sol_load_textures(struct s_file *fp, int k)
 
             SDL_FreeSurface(s);
         }
-    }
 }
 
 int sol_load(struct s_file *fp, const char *filename, int k, int s)
@@ -1315,68 +1355,70 @@ float sol_step(struct s_file *fp, const float *g, float dt, short ui, int *m)
     float P[3], V[3], v[3], r[3], d, e, nt, b = 0.0f, tt = dt;
     int c = 16;
 
-    struct s_ball *up = fp->uv + ui;
-
-    /* If the ball is in contact with a surface, apply friction. */
-
-    v_cpy(v, up->v);
-    v_cpy(up->v, g);
-
-    if (m && sol_test_file(tt, P, V, up, fp) < 0.0005f)
+    if (ui < fp->uc)
     {
-        v_cpy(up->v, v);
-        v_sub(r, P, up->p);
+        struct s_ball *up = fp->uv + ui;
 
-        if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
+        /* If the ball is in contact with a surface, apply friction. */
+
+        v_cpy(v, up->v);
+        v_cpy(up->v, g);
+
+        if (m && sol_test_file(tt, P, V, up, fp) < 0.0005f)
         {
-            if ((e = (v_len(up->v) - dt)) > 0.0f)
+            v_cpy(up->v, v);
+            v_sub(r, P, up->p);
+
+            if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
             {
-                /* Scale the linear velocity. */
+                if ((e = (v_len(up->v) - dt)) > 0.0f)
+                {
+                    /* Scale the linear velocity. */
 
-                v_nrm(up->v, up->v);
-                v_scl(up->v, up->v, e);
+                    v_nrm(up->v, up->v);
+                    v_scl(up->v, up->v, e);
 
-                /* Scale the angular velocity. */
+                    /* Scale the angular velocity. */
 
-                v_sub(v, V, up->v);
-                v_crs(up->w, v, r);
-                v_scl(up->w, up->w, -1.0f / (up->r * up->r));
+                    v_sub(v, V, up->v);
+                    v_crs(up->w, v, r);
+                    v_scl(up->w, up->w, -1.0f / (up->r * up->r));
+                }
+                else
+                {
+                    /* Friction has brought the ball to a stop. */
+
+                    up->v[0] = 0.0f;
+                    up->v[1] = 0.0f;
+                    up->v[2] = 0.0f;
+
+                    (*m)++;
+                }
             }
-            else
-            {
-                /* Friction has brought the ball to a stop. */
-
-                up->v[0] = 0.0f;
-                up->v[1] = 0.0f;
-                up->v[2] = 0.0f;
-
-                (*m)++;
-            }
+            else v_mad(up->v, v, g, tt);
         }
         else v_mad(up->v, v, g, tt);
+
+        /* Test for collision. */
+
+        while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp)))
+        {
+            sol_body_step(fp, nt);
+            sol_swch_step(fp, nt);
+            sol_ball_step(fp, nt);
+
+            tt -= nt;
+
+            if (b < (d = sol_bounce(up, P, V, nt)))
+                b = d;
+
+            c--;
+        }
+
+        sol_body_step(fp, tt);
+        sol_swch_step(fp, tt);
+        sol_ball_step(fp, tt);
     }
-    else v_mad(up->v, v, g, tt);
-
-    /* Test for collision. */
-
-    while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp)))
-    {
-        sol_body_step(fp, nt);
-        sol_swch_step(fp, nt);
-        sol_ball_step(fp, nt);
-
-        tt -= nt;
-
-        if (b < (d = sol_bounce(up, P, V, nt)))
-            b = d;
-
-        c--;
-    }
-
-    sol_body_step(fp, tt);
-    sol_swch_step(fp, tt);
-    sol_ball_step(fp, tt);
-
     return b;
 }
 

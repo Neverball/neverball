@@ -53,14 +53,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -70,14 +72,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -87,14 +91,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -104,14 +110,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -121,14 +129,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -138,14 +148,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -155,14 +167,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -172,14 +186,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -189,14 +205,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -206,14 +224,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -223,14 +243,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -240,14 +262,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -257,14 +281,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -274,14 +300,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -291,14 +319,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -308,14 +338,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -325,14 +357,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -342,14 +376,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -359,14 +395,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -378,6 +416,41 @@
 						Name="VCCustomBuildTool"
 						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
 "
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-rlk\bg_clouds.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-rlk\bg_clouds_stars.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -402,7 +475,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -420,7 +494,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -438,7 +513,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -456,7 +532,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -474,7 +551,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -492,7 +570,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -510,7 +589,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -528,7 +608,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -546,7 +627,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -564,7 +646,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -582,7 +665,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -600,7 +684,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -618,7 +703,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -636,7 +722,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -654,7 +741,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -672,7 +760,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -690,7 +779,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -708,7 +798,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -726,7 +817,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -744,7 +836,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -762,7 +855,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -780,7 +874,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -798,7 +893,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -816,7 +912,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -834,7 +931,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -852,7 +950,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -870,7 +969,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -888,7 +988,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -906,7 +1007,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -924,7 +1026,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -942,7 +1045,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -960,7 +1064,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -978,7 +1083,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -996,7 +1102,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1014,7 +1121,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1032,7 +1140,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1050,7 +1159,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1068,7 +1178,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1086,7 +1197,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1104,7 +1216,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1122,7 +1235,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1140,7 +1254,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1158,7 +1273,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1176,7 +1292,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1194,7 +1311,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1212,7 +1330,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1230,7 +1349,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1248,7 +1368,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1266,7 +1387,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1284,7 +1406,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1302,7 +1425,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1320,7 +1444,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1338,7 +1463,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1356,7 +1482,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1374,7 +1501,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1392,7 +1520,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1410,7 +1539,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1428,7 +1558,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1446,7 +1577,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1464,7 +1596,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1482,7 +1615,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1500,7 +1634,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1518,7 +1653,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1536,7 +1672,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1554,7 +1691,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1572,7 +1710,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1590,7 +1729,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1608,7 +1748,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1626,7 +1767,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1644,7 +1786,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1662,7 +1805,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1680,7 +1824,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -1698,7 +1843,8 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>

@@ -273,6 +273,8 @@ static int play_loop_keybd(int c, int d)
 
     if (d && c == SDLK_ESCAPE)
         goto_state(&st_over);
+    if (d && c == SDLK_F12)
+        goto_state(&st_look);
     return 1;
 }
 
@@ -295,6 +297,47 @@ static int play_loop_buttn(int b, int d)
         if (config_tst(CONFIG_JOYSTICK_BUTTON_L, b))
             view_rotate = 0;
     }
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static float phi;
+static float theta;
+
+static int look_enter(void)
+{
+    SDL_ShowCursor(SDL_DISABLE);
+    phi   = 0;
+    theta = 0;
+    return 0;
+}
+
+static void look_paint(int id, float st)
+{
+    game_draw(0, st);
+    gui_paint(id);
+}
+
+static void look_point(int id, int x, int y, int dx, int dy)
+{
+    phi   +=  90.0f * dy / config_get(CONFIG_HEIGHT);
+    theta += 180.0f * dx / config_get(CONFIG_WIDTH);
+
+    if (phi > +90.0f) phi = +90.0f;
+    if (phi < -90.0f) phi = -90.0f;
+
+    if (theta > +180.0f) theta -= 360.0f;
+    if (theta < -180.0f) theta += 360.0f;
+
+    game_look(phi, theta);
+}
+
+static int look_keybd(int c, int d)
+{
+    if (d && c == SDLK_ESCAPE) goto_state(&st_play_loop);
+    if (d && c == SDLK_F12)    goto_state(&st_play_loop);
+
     return 1;
 }
 
@@ -336,5 +379,18 @@ struct state st_play_loop = {
     play_loop_click,
     play_loop_keybd,
     play_loop_buttn,
-    0
+    0, 0
+};
+
+struct state st_look = {
+    look_enter,
+    NULL,
+    look_paint,
+    NULL,
+    look_point,
+    NULL,
+    NULL,
+    look_keybd,
+    NULL,
+    0, 0
 };

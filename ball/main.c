@@ -109,6 +109,26 @@ static void toggle_grab(void)
         enable_grab();
 }
 
+static void toggle_wire(void)
+{
+    static int wire = 0;
+
+    if (wire)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_LIGHTING);
+        wire = 0;
+    }
+    else
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glDisable(GL_TEXTURE_2D);
+        glDisable(GL_LIGHTING);
+        wire = 1;
+    }
+}
+
 /*---------------------------------------------------------------------------*/
 
 static int loop(void)
@@ -141,6 +161,7 @@ static int loop(void)
 
         case SDL_KEYDOWN:
             if (e.key.keysym.sym == SDLK_SPACE) { toggle_grab();        break; }
+            if (e.key.keysym.sym == SDLK_F7)    { toggle_wire();        break; }
             if (e.key.keysym.sym == SDLK_F11)   { d = demo();           break; }
             if (e.key.keysym.sym == SDLK_F10)   { d = shot();           break; }
             if (e.key.keysym.sym == SDLK_F9) { config_tgl(CONFIG_FPS);  break; }

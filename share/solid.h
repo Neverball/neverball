@@ -77,10 +77,11 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define M_OPAQUE      1
-#define M_TRANSPARENT 2
-#define M_REFLECTIVE  4
-#define M_ENVIRONMENT 8
+#define M_OPAQUE       1
+#define M_TRANSPARENT  2
+#define M_REFLECTIVE   4
+#define M_ENVIRONMENT  8
+#define M_ADDITIVE    16
 
 #define L_DETAIL     1
 
@@ -198,7 +199,8 @@ struct s_swch
 struct s_bill
 {
     float p[3];                                /* position                   */
-    float r;                                   /* radius                     */
+    float w;                                   /* width                      */
+    float h;                                   /* height                     */
     float z;                                   /* rotation about Z axis      */
     int   mi;
 };
@@ -274,8 +276,10 @@ int   sol_load(struct s_file *, const char *, int, int);
 int   sol_stor(struct s_file *, const char *);
 void  sol_free(struct s_file *);
 
-void  sol_draw(const struct s_file *, int, const float[3]);
-void  sol_refl(const struct s_file *);
+void  sol_back(const struct s_file *, const float[3], float, float);
+void  sol_refl(const struct s_file *, int);
+void  sol_draw(const struct s_file *, int);
+
 float sol_step(struct s_file *, const float *, float, short, int *);
 
 int   sol_coin_test(struct s_file *, float *, float);

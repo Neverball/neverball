@@ -19,6 +19,10 @@ New in 1.2.6
 * Changed pause screen to include the word "Paused".
 * Changed internal clock to use integer deciseconds instead of float seconds.
   (HIGH SCORE FILE CHANGED)
+* Made some fixes to reflection handling.
+* Added background .SOLs.
+* Added wireframe mode.
+* Added look-around mode.
 
 -------------------------------------------------------------------------------
 New in 1.2.5

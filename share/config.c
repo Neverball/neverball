@@ -281,12 +281,13 @@ int config_mode(int f, int w, int h)
         option[CONFIG_SHADOW]     = (option[CONFIG_SHADOW] & glext_init());
 
         glViewport(0, 0, w, h);
-        glClearColor(0.0f, 0.8f, 1.0f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         glEnable(GL_NORMALIZE);
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
+        glEnable(GL_LIGHTING);
 
         return 1;
     }

@@ -104,7 +104,7 @@ static void set_paint(int id, float st)
 {
     config_push_persp((float) config_get(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
-        back_draw(0, time_state());
+        back_draw(time_state());
     }
     config_pop_matrix();
     gui_paint(id);
