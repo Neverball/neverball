@@ -6,6 +6,7 @@
 
 INCDIR= /I C:\SDL\include
 LIBDIR= /LIBPATH:C:\SDL\lib
+
 #------------------------------------------------------------------------------
 
 CFLAGS= /Ox
@@ -14,96 +15,159 @@ SYS_LIBS= glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib
 SDL_LIBS= SDL.lib SDLmain.lib
 
 MAPC_TARG= mapc.exe
-GAME_TARG= neverball.exe
+BALL_TARG= neverball.exe
+PUTT_TARG= neverputt.exe
 
 MAPC_OBJS= \
-	vec3.obj   \
-	solid.obj  \
-	glext.obj  \
-	mapc.obj
-GAME_OBJS= \
-	vec3.obj   \
-	text.obj   \
-	image.obj  \
-	audio.obj  \
-	solid.obj  \
-	hud.obj    \
-	part.obj   \
-	geom.obj   \
-	back.obj   \
-	game.obj   \
-	level.obj  \
-	set.obj    \
-	menu.obj   \
-	state.obj  \
-	config.obj \
-	glext.obj  \
-	main.obj
+	share\vec3.obj   \
+	share\solid.obj  \
+	share\glext.obj  \
+	share\mapc.obj
+BALL_OBJS= \
+	share\vec3.obj   \
+	share\text.obj   \
+	share\image.obj  \
+	share\solid.obj  \
+	share\part.obj   \
+	share\geom.obj   \
+	share\back.obj   \
+	share\menu.obj   \
+	share\glext.obj  \
+	share\config.obj \
+	ball\audio.obj   \
+	ball\hud.obj     \
+	ball\game.obj    \
+	ball\level.obj   \
+	ball\set.obj     \
+	ball\state.obj   \
+	ball\main.obj
+PUTT_OBJS= \
+	share\vec3.obj   \
+	share\text.obj   \
+	share\image.obj  \
+	share\solid.obj  \
+	share\part.obj   \
+	share\geom.obj   \
+	share\back.obj   \
+	share\menu.obj   \
+	share\glext.obj  \
+	share\config.obj \
+	putt\audio.obj   \
+	putt\hud.obj     \
+	putt\game.obj    \
+	putt\hole.obj    \
+	putt\state.obj   \
+	putt\main.obj
 
 MAPC_FLAGS= /nologo /subsystem:console
-GAME_FLAGS= /nologo /subsystem:windows
+BALL_FLAGS= /nologo /subsystem:windows
+PUTT_FLAGS= /nologo /subsystem:windows
 
 MAPC_LIBS= SDL_image.lib $(SDL_LIBS) $(SYS_LIBS)
-GAME_LIBS= SDL_ttf.lib SDL_mixer.lib SDL_image.lib $(SDL_LIBS) $(SYS_LIBS)
+BALL_LIBS= SDL_ttf.lib SDL_mixer.lib SDL_image.lib $(SDL_LIBS) $(SYS_LIBS)
+PUTT_LIBS= SDL_ttf.lib SDL_mixer.lib SDL_image.lib $(SDL_LIBS) $(SYS_LIBS)
 
 SOLS= \
-	data\sol-rlk\title.sol    \
-	data\sol-rlk\pipe.sol     \
-	data\sol-rlk\pyramid.sol  \
-	data\sol-rlk\greed.sol    \
-	data\sol-rlk\easytele.sol \
-	data\sol-rlk\drops.sol    \
-	data\sol-rlk\curbs.sol    \
-	data\sol-rlk\rampdn.sol   \
-	data\sol-rlk\invis.sol    \
-	data\sol-rlk\plinko.sol   \
-	data\sol-rlk\telemaze.sol \
-	data\sol-rlk\islands.sol  \
-	data\sol-rlk\check.sol    \
-	data\sol-rlk\bumps.sol    \
-	data\sol-rlk\corners.sol  \
-	data\sol-rlk\peasy.sol    \
-	data\sol-rlk\timer.sol    \
-	data\sol-rlk\bumper.sol   \
-	data\sol-rlk\stairs.sol   \
-	data\sol-rlk\tilt.sol     \
-	data\sol-rlk\gaps.sol     \
-	data\sol-rlk\spiralin.sol \
-	data\sol-rlk\locks.sol    \
 	data\sol-rlk\easy.sol     \
+	data\sol-rlk\peasy.sol    \
 	data\sol-rlk\coins.sol    \
 	data\sol-rlk\goslow.sol   \
 	data\sol-rlk\fence.sol    \
+	data\sol-rlk\bumper.sol   \
+	data\sol-rlk\maze.sol     \
+	data\sol-rlk\goals.sol    \
 	data\sol-rlk\hole.sol     \
+	data\sol-rlk\bumps.sol    \
+	data\sol-rlk\corners.sol  \
+	data\sol-rlk\easytele.sol \
 	data\sol-rlk\zigzag.sol   \
+	data\sol-rlk\greed.sol    \
 	data\sol-rlk\mover.sol    \
 	data\sol-rlk\wakka.sol    \
+	data\sol-rlk\curbs.sol    \
 	data\sol-rlk\curved.sol   \
+	data\sol-rlk\stairs.sol   \
+	data\sol-rlk\rampdn.sol   \
 	data\sol-rlk\sync.sol     \
+	data\sol-rlk\spiralin.sol \
+	data\sol-rlk\plinko.sol   \
+	data\sol-rlk\drops.sol    \
+	data\sol-rlk\locks.sol    \
 	data\sol-rlk\grid.sol     \
-	data\sol-rlk\maze.sol     \
+	data\sol-rlk\four.sol     \
+	data\sol-rlk\telemaze.sol \
 	data\sol-rlk\spiraldn.sol \
+	data\sol-rlk\islands.sol  \
+	data\sol-rlk\angle.sol    \
 	data\sol-rlk\spiralup.sol \
 	data\sol-rlk\rampup.sol   \
-	data\sol-rlk\goals.sol    \
+	data\sol-rlk\check.sol    \
 	data\sol-rlk\risers.sol   \
+	data\sol-rlk\tilt.sol     \
+	data\sol-rlk\gaps.sol     \
+	data\sol-rlk\pyramid.sol  \
 	data\sol-rlk\quads.sol    \
 	data\sol-rlk\frogger.sol  \
-	data\sol-rlk\angle.sol    \
+	data\sol-rlk\timer.sol    \
 	data\sol-rlk\spread.sol   \
-	data\sol-rlk\four.sol     \
 	data\sol-rlk\hump.sol     \
 	data\sol-rlk\movers.sol   \
+	data\sol-rlk\teleport.sol \
 	data\sol-rlk\poker.sol    \
+	data\sol-rlk\invis.sol    \
 	data\sol-rlk\ring.sol     \
-	data\sol-rlk\teleport.sol
+	data\sol-rlk\pipe.sol     \
+	data\sol-rlk\title.sol    \
+	data\sol-mym\descent.sol        \
+	data\sol-mym\glass_tower.sol    \
+	data\sol-mym\scrambling.sol     \
+	data\sol-mym\trust.sol          \
+	data\sol-mym\maze1.sol          \
+	data\sol-mym\turn.sol           \
+	data\sol-mym\loop1.sol          \
+	data\sol-mym\free_fall.sol      \
+	data\sol-mym\earth_quake.sol    \
+	data\sol-mym\drive1.sol         \
+	data\sol-mym\maze2.sol          \
+	data\sol-mym\up.sol             \
+	data\sol-mym\circuit2.sol       \
+	data\sol-mym\comeback.sol       \
+	data\sol-mym\maze3.sol          \
+	data\sol-mym\assault_course.sol \
+	data\sol-mym\narrow.sol         \
+	data\sol-mym\loop2.sol          \
+	data\sol-mym\drive2.sol         \
+	data\sol-mym\running.sol        \
+	data\sol-mym\circuit1.sol       \
+	data\sol-mym\bombman.sol        \
+	data\sol-mym\climb.sol          \
+	data\sol-mym\dance.sol          \
+	data\sol-mym\hard.sol           \
+	data\sol-putt\01_easy.sol    \
+	data\sol-putt\02_uturn.sol   \
+	data\sol-putt\03_kink.sol    \
+	data\sol-putt\04_aych.sol    \
+	data\sol-putt\05_ramp.sol    \
+	data\sol-putt\06_cone.sol    \
+	data\sol-putt\07_tele.sol    \
+	data\sol-putt\08_zig.sol     \
+	data\sol-putt\09_vturn.sol   \
+	data\sol-putt\10_diamond.sol \
+	data\sol-putt\11_mover.sol   \
+	data\sol-putt\12_bumpy.sol   \
+	data\sol-putt\13_choose.sol  \
+	data\sol-putt\14_walls.sol   \
+	data\sol-putt\15_hole.sol    \
+	data\sol-putt\16_pipe.sol    \
+	data\sol-putt\17_timing.sol  \
+	data\sol-putt\18_hill.sol
 
 #------------------------------------------------------------------------------
 
 .SUFFIXES : .c .obj .map .sol
 
 .c.obj :
-	cl /nologo /MD $(CFLAGS) /c $< $(INCDIR)
+	cl /nologo /MD $(CFLAGS) /Fo$@ /c $< /Ishare $(INCDIR)
 
 {data\map-rlk}.map{data\sol-rlk}.sol :
 	$(MAPC_TARG) $< $@ data
@@ -111,25 +175,38 @@ SOLS= \
 {data\map-mym}.map{data\sol-mym}.sol :
 	$(MAPC_TARG) $< $@ data
 
+{data\map-putt}.map{data\sol-putt}.sol :
+	$(MAPC_TARG) $< $@ data
+
+{data\map-misc}.map{data\sol-misc}.sol :
+	$(MAPC_TARG) $< $@ data
+
 #------------------------------------------------------------------------------
 
-all : $(GAME_TARG) $(MAPC_TARG) $(SOLS)
+all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS)
 
-$(GAME_TARG) : $(GAME_OBJS)
-	link $(GAME_FLAGS) /out:$(GAME_TARG) $(GAME_OBJS) $(GAME_LIBS) $(LIBDIR)
+$(BALL_TARG) : $(BALL_OBJS)
+	link $(BALL_FLAGS) /out:$(BALL_TARG) $(BALL_OBJS) $(BALL_LIBS) $(LIBDIR)
+
+$(PUTT_TARG) : $(PUTT_OBJS)
+	link $(PUTT_FLAGS) /out:$(PUTT_TARG) $(PUTT_OBJS) $(PUTT_LIBS) $(LIBDIR)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
 	link $(MAPC_FLAGS) /out:$(MAPC_TARG) $(MAPC_OBJS) $(MAPC_LIBS) $(LIBDIR)
 
 clean :
-	del $(GAME_TARG) $(GAME_OBJS)
+	del $(BALL_TARG) $(BALL_OBJS)
+	del $(PUTT_TARG) $(PUTT_OBJS)
 	del $(MAPC_TARG) $(MAPC_OBJS)
 	del /q data\sol-rlk\*.sol
 	del /q data\sol-mym\*.sol
+	del /q data\sol-putt\*.sol
+	del /q data\sol-misc\*.sol
 	del /q *.txt
 
 dist :
-        del $(GAME_OBJS)
+        del $(BALL_OBJS)
+        del $(PUTT_OBJS)
         del $(MAPC_OBJS)
         del *.c
         del *.h

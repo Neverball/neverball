@@ -1,0 +1,2 @@
+sol-misc/easyrider.sol shot-misc/title.jpg  png/green_blue.png  0 bgm/title.ogg
+sol-misc/easyrider.sol shot-misc/title.jpg  png/green_blue.png 90 bgm/flood.ogg

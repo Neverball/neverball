@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Turn, turn and turn."
+"message" "Le cône vomitif.\Turn, turn and turn."
 // brush 0
 {
 ( 128 0 -160 ) ( 127 23 -160 ) ( 128 0 96 ) mtrl/glass 0 0 0 0.500000 0.500000 0 0 0

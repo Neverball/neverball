@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "You know the way, you see it,\so why are you taking another one?"
+"message" "Le labyrinthe fou.\You know the way, you see it,\so why are you taking another one?"
 "classname" "worldspawn"
 // brush 0
 {

@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Frustrating?"
+"message" "Le labyrinthe aveugle.\Frustrating?"
 "classname" "worldspawn"
 // brush 0
 {
@@ -923,7 +923,7 @@
 "targetname" "t2"
 "target" "t1"
 "speed" "2"
-"origin" "-788 -236 16"
+"origin" "-788 -108 16"
 "classname" "path_corner"
 }
 // entity 3
@@ -931,7 +931,7 @@
 "target" "t2"
 "targetname" "t1"
 "speed" "2"
-"origin" "-788 -1036 16"
+"origin" "-788 -1164 16"
 "classname" "path_corner"
 }
 // entity 4
@@ -1234,4 +1234,10 @@
 ( -620 804 48 ) ( 108 804 48 ) ( 108 132 48 ) mtrl/turf-grey -119 -38 -90 0.500000 0.500000 0 0 0
 ( 108 132 40 ) ( 108 804 40 ) ( -620 804 40 ) mtrl/turf-grey -119 -38 -90 0.500000 0.500000 0 0 0
 }
+}
+// entity 36
+{
+"light" "1"
+"origin" "-132 -796 16"
+"classname" "light"
 }

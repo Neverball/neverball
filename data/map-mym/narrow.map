@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Patience and timing.\Tips: maximise speed at the first slope."
+"message" "Le sentier étroit.\Patience and timing.\Tips: maximise speed at the first slope."
 // brush 0
 {
 ( 72 64 -8 ) ( -56 64 -8 ) ( -56 -64 -8 ) mtrl/turf-grey -16 0 0 0.500000 0.500000 0 0 0

@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Don't watch down below.\Rotate the view to see where you fall."
+"message" "La chute controlée.\Don't watch down below.\Rotate the view to see where you fall."
 // brush 0
 {
 ( 72 256 1216 ) ( -56 256 1216 ) ( -56 128 1216 ) mtrl/turf-grey 0 128 0 0.500000 0.500000 0 0 0
