@@ -1,5 +1,5 @@
-OBJS= vec.o
-TARG= libvec.so
+OBJS= glv.o
+TARG= libglv.so
 
 .c.o :
 	$(CC) $(CFLAGS) -c $<
@@ -11,5 +11,6 @@ clean :
 	rm $(TARG) $(OBJS)
 
 install : $(TARG)
-	cp $(TARG) $(HOME)/lib
-	cp vec.h   $(HOME)/include
+	cp $(TARG) ../../lib
+	cp glv.h   ../../include
+

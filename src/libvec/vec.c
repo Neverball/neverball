@@ -109,7 +109,7 @@ void m_xps(double M[16], const double N[16])
 	M[C] = N[3]; M[D] = N[7]; M[E] = N[B]; M[F] = N[F];
 }
 
-void m_inv(double I[16], const double M[16])
+int  m_inv(double I[16], const double M[16])
 {
 	double T[16], d;
 
@@ -167,22 +167,28 @@ void m_inv(double I[16], const double M[16])
 
 	d = M[0] * T[0] + M[4] * T[4] + M[8] * T[8] + M[C] * T[C];
 
-	I[0] = T[0] / d;
-	I[1] = T[4] / d;
-	I[2] = T[8] / d;
-	I[3] = T[C] / d;
-	I[4] = T[1] / d;
-	I[5] = T[5] / d;
-	I[6] = T[9] / d;
-	I[7] = T[D] / d;
-	I[8] = T[2] / d;
-	I[9] = T[6] / d;
-	I[A] = T[A] / d;
-	I[B] = T[E] / d;
-	I[C] = T[3] / d;
-	I[D] = T[7] / d;
-	I[E] = T[B] / d;
-	I[F] = T[F] / d;
+	if (finite(1.0 / d))
+	{
+		I[0] = T[0] / d;
+		I[1] = T[4] / d;
+		I[2] = T[8] / d;
+		I[3] = T[C] / d;
+		I[4] = T[1] / d;
+		I[5] = T[5] / d;
+		I[6] = T[9] / d;
+		I[7] = T[D] / d;
+		I[8] = T[2] / d;
+		I[9] = T[6] / d;
+		I[A] = T[A] / d;
+		I[B] = T[E] / d;
+		I[C] = T[3] / d;
+		I[D] = T[7] / d;
+		I[E] = T[B] / d;
+		I[F] = T[F] / d;
+
+		return 1;
+	}
+	return 0;
 }
 
 /*--------------------------------------------------------------------*/

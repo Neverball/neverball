@@ -1,9 +1,9 @@
 OBJS= main.o
-TARG= putt
+TARG= ball
 LIBS= -lsol -lglv -lglw -lvec -lGL -lX11 -lm
 
-INCDIR= -I$(HOME)/include
-LIBDIR= -L$(HOME)/lib -L/usr/X11R6/lib
+INCDIR= -I../../include
+LIBDIR= -L../../lib -L/usr/X11R6/lib
 
 .c.o :
 	$(CC) $(CFLAGS) -c $< $(INCDIR)
@@ -15,4 +15,4 @@ clean :
 	rm $(TARG) $(OBJS)
 
 install : $(TARG)
-	cp $(TARG) $(HOME)/bin
+	cp $(TARG) ../../bin

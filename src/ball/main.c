@@ -1,24 +1,39 @@
+#include <stdlib.h>
+#include <sys/time.h>
+#include <time.h>
+
 #include <glw.h>
 #include <glv.h>
 #include <vec.h>
 #include <sol.h>
 
-#include <time.h>
-#include <sys/time.h>
-
 /*--------------------------------------------------------------------*/
 
+static int win_w = 800;
+static int win_h = 600;
+
+static double rot_x0 = 0.0, rot_x1 = 0.0;
+static double rot_z0 = 0.0, rot_z1 = 0.0;
+
+static int dragging = 0;
+static int drag_x0, drag_x1;
+static int drag_y0, drag_y1;
+
+static double gravity[3];
+
+static struct sol  S;
 static struct ball drop;
 static struct ball ball;
-static struct body body;
 
 static GLuint list_ball  = 0;
 static GLuint list_sky   = 0;
+static GLuint list_sol  = 0;
 
 /*--------------------------------------------------------------------*/
 
 static double init_time;
 static double last_time;
+static double draw_time;
 
 static double now(void)
 {
@@ -85,6 +100,25 @@ static void section(int d, const double p0[3], const double c0[4],
 }
 
 /*--------------------------------------------------------------------*/
+
+static GLuint make_sol(const struct sol *Sp)
+{
+	GLuint list = glGenLists(1);
+
+	glNewList(list, GL_COMPILE);
+	{
+		sol_draw(Sp, 0);
+
+		glDepthMask(GL_FALSE);
+		{
+			sol_draw(Sp, 1);
+		}
+		glDepthMask(GL_TRUE);
+	}
+	glEndList();
+
+	return list;
+}
 
 static GLuint make_ball(int d)
 {
@@ -180,11 +214,23 @@ static GLuint make_sky(int d, double k)
 
 /*--------------------------------------------------------------------*/
 
-static void ball_init(void)
+static void ball_init(double r)
 {
-	ball.p[0] = 0.0;
-	ball.p[1] = 0.0;
-	ball.p[2] = 0.0;
+	double e[3][3] = {
+		{ 1.0, 0.0, 0.0 },
+		{ 0.0, 1.0, 0.0 },
+		{ 0.0, 0.0, 1.0 },
+	};
+
+	ball.r = r;
+
+	v_cpy(ball.e[0], e[0]);
+	v_cpy(ball.e[1], e[1]);
+	v_cpy(ball.e[2], e[2]);
+
+	ball.p[0] =  0.0;
+	ball.p[1] =  ball.r + 1.0;
+	ball.p[2] =  0.0;
 
 	ball.v[0] = 0.0;
 	ball.v[1] = 0.0;
@@ -194,36 +240,7 @@ static void ball_init(void)
 	ball.w[1] = 0.0;
 	ball.w[2] = 0.0;
 
-	ball.r = 1.0;
-}
-
-static int ball_drop(int x, int y)
-{
-	double p[3], e[3][3], s = 2.0;
-
-	glv_get_point(p, e, x, y);
-
-	v_cpy(drop.e[0], e[0]);
-	v_cpy(drop.e[1], e[1]);
-	v_cpy(drop.e[2], e[2]);
-
-	drop.p[0] = p[0] - e[2][0] * 2.0;
-	drop.p[1] = p[1] - e[2][1] * 2.0;
-	drop.p[2] = p[2] - e[2][2] * 2.0;
-
-	drop.v[0] = -e[2][0] * s;
-	drop.v[1] = -e[2][1] * s;
-	drop.v[2] = -e[2][2] * s;
-
-	drop.w[0] = 0.0;
-	drop.w[1] = 0.0;
-	drop.w[2] = 0.0;
-
-	drop.r =  1.0;
-
-	ball = drop;
-
-	return 1;
+	drop = ball;
 }
 
 static void ball_draw(void)
@@ -244,45 +261,14 @@ static void ball_draw(void)
 
 /*--------------------------------------------------------------------*/
 
-static void cube(void)
-{
-	static const double v[8][3] = {
-		{ -1.0, -1.0, -1.0 }, { +1.0, -1.0, -1.0 },
-		{ -1.0, +1.0, -1.0 }, { +1.0, +1.0, -1.0 },
-		{ -1.0, -1.0, +1.0 }, { +1.0, -1.0, +1.0 },
-		{ -1.0, +1.0, +1.0 }, { +1.0, +1.0, +1.0 }
-	};
-	static const int p[6][4] = {
-		{ 5, 1, 3, 7 }, { 0, 4, 6, 2 }, { 6, 7, 3, 2 },
-		{ 0, 1, 5, 4 }, { 4, 5, 7, 6 }, { 1, 0, 2, 3 }
-	};
-	static const double n[6][3] = {
-		{ +1.0,  0.0,  0.0 }, { -1.0,  0.0,  0.0 },
-		{  0.0, +1.0,  0.0 }, {  0.0, -1.0,  0.0 },
-		{  0.0,  0.0, +1.0 }, {  0.0,  0.0, -1.0 },
-	};
-
-	GLint i, j;
-
-	glBegin(GL_QUADS);
-	{
-		glColor3d(1.0, 0.5, 0.0);
-
-		for (i = 0; i < 6; i++)
-		{
-			if (i == 2) continue;
-
-			glNormal3dv(n[i]);
-
-			for (j = 0; j < 4; j++)
-				glVertex3dv(v[p[i][j]]);
-		}
-	}
-	glEnd();
-}
 static int render(void)
 {
-	float p[4] = { 3.0, 8.0, 3.0, 1.0 };
+	float  p[4] = {  8.0,  32.0, 8.0, 1.0 };
+	double o[3] = {  0.0, 0.0, 0.0 };
+	double s[3] = {  5.0, -30.0, 0.0 };
+
+	glv_set(o, s, 0.5);
+
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 
@@ -299,17 +285,32 @@ static int render(void)
 	}
 	glPopMatrix();
 
-	sol_draw(&body);
-
-	glDepthMask(GL_FALSE);
+	glPushMatrix();
 	{
+		glRotated(rot_z1, 0.0, 0.0, 1.0);
+		glRotated(rot_x1, 1.0, 0.0, 0.0);
 
-		glCullFace(GL_FRONT);
-		ball_draw();
-		glCullFace(GL_BACK);
-		ball_draw();
+		glTranslated(-ball.p[0], -ball.p[1], -ball.p[2]);
+		glPushAttrib(GL_LIGHTING_BIT);
+		{
+			glCallList(list_sol);
+		}
+		glPopAttrib();
+
+		glDepthMask(GL_FALSE);
+		glPushAttrib(GL_ENABLE_BIT);
+		{
+			glEnable(GL_COLOR_MATERIAL);
+
+			glCullFace(GL_FRONT);
+			ball_draw();
+			glCullFace(GL_BACK);
+			ball_draw();
+		}
+		glPopAttrib();
+		glDepthMask(GL_TRUE);
 	}
-	glDepthMask(GL_TRUE);
+	glPopMatrix();
 
 	return 1;
 }
@@ -318,19 +319,18 @@ static int update(void)
 {
 	struct ball next;
 
-	double time = now();
-	double nt;
-	double dt = time - last_time;
+	double time = now(), nt, dt = time - last_time;
 
-	while (dt > (nt = sol_ball(&next, &ball, &body)))
+	while (dt >= (nt = sol_ball(&next, &ball, &S, NULL)))
 	{
 		ball = next;
-		dt  -= nt;
+		dt -= nt;
 	}
 
-	sol_step(&ball, &ball, dt);
+	next = ball;
+	sol_step(&ball, &next, dt);
 
-	ball.v[1] -= 9.8 * dt;
+/*	v_mad(ball.v, ball.v, gravity, dt);*/
 
 	last_time = time;
 	return glv_time_step(time);
@@ -338,87 +338,100 @@ static int update(void)
 
 /*--------------------------------------------------------------------*/
 
+static void do_drag(int x, int y)
+{
+	if (dragging)
+	{
+/*		double h[3], g[3] = { 0.0, -9.8, 0.0 };*/
+		double h[3], g[3] = { 0.0, -20.0, 0.0 };
+		double A[16], B[16];
+
+		double x[3] = { 1.0, 0.0, 0.0 };
+/*		double y[3] = { 0.0, 1.0, 0.0 }; */
+		double z[3] = { 0.0, 0.0, 1.0 };
+
+		int dx = drag_x0 - drag_x1;
+		int dy = drag_y1 - drag_y0;
+
+		rot_z1 = rot_z0 + 60.0 * dx / win_w;
+		rot_x1 = rot_x0 + 60.0 * dy / win_h;
+
+		m_rot(A, x, -V_RAD(rot_x1));
+		m_rot(B, z, -V_RAD(rot_z1));
+
+		m_vxfm(h, A, g);
+		m_vxfm(gravity, B, h);
+	}
+}
+
+/*--------------------------------------------------------------------*/
+
 static int on_shape(int w, int h)
 {
+	win_w = w;
+	win_h = h;
+
 	glv_set_shape(w, h);
 	return 1;
 }
 
 static int on_point(int x, int y)
 {
-	return glv_drag_step(x, y);
+	drag_x1 = x;
+	drag_y1 = y;
+
+	do_drag(x, y);
+
+	return 1;
 }
 
 static int on_click(int x, int y, int b, int d)
 {
-	if (b == 0 && d != 0)
-		return glv_drag_begin(x, y, GLV_NEG_THETA, GLV_NEG_PHI);
-	if (b == 0 && d == 0)
-		return glv_drag_end(x, y);
+	if (b == 0)
+	{
+		dragging = d;
 
-	if (b == 1 && d != 0)
-		return ball_drop(x, y);
+		drag_x0  = x;
+		drag_y0  = y;
 
-	return 0;
+		rot_x0 = rot_x1;
+		rot_z0 = rot_z1;
+	}
+
+	return 1;
 }
 
 static int on_key(int k, int d)
 {
-	int v = GLV_NONE;
+	if (k == 27 && d == 0) exit(0);
 
-	switch (k)
-	{
-	case 'a': v = GLV_LEFT;  break;
-	case 'u': v = GLV_RIGHT; break;
-	case ',': v = GLV_UP;    break;
-	case 'o': v = GLV_DOWN;  break;
-	case '.': v = GLV_FORE;  break;
-	case 'e': v = GLV_BACK;  break;
-
-	case '1': ball.r = 1.0; break;
-	case '2': ball.r = 0.5; break;
-	case '3': ball.r = 2.0; break;
-	case '4': ball.r = 0.05; break;
-
-	case ' ':
-		if (d) ball = drop;
-		break;
-	}
-
-	if (d)
-		return glv_time_begin(now(), v);
-	else
-		return glv_time_end(now(), v);
+	return 0;
 }
 
 /*--------------------------------------------------------------------*/
 
-static void init(void)
+static void init(const struct sol *Sp, double r)
 {
-	double o[3] = {  0.0,  4.0,  8.0 };
-	double s[3] = {  0.0,  0.0,  0.0 };
-
-	glv_set(o, s, 0.5);
-	glv_set_speed(5.0, 180.0, 2.0);
-
 	glEnable(GL_NORMALIZE);
+	glEnable(GL_DEPTH_TEST);
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-
-	glEnable(GL_COLOR_MATERIAL);
-	glEnable(GL_DEPTH_TEST);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_CULL_FACE);
 
-	list_ball  = make_ball(4);
-	list_sky   = make_sky(3, 64.0);
+	list_ball = make_ball(4);
+	list_sky  = make_sky(3, 64.0);
+	list_sol  = make_sol(Sp);
 
-	sol_load(&body);
-	ball_init();
+	ball_init(r);
+
+	gravity[0] =  0.0;
+	gravity[1] = -9.8;
+	gravity[2] =  0.0;
 }
 
 static int loop(int d)
@@ -431,8 +444,6 @@ static int loop(int d)
 	case GLW_MOTION:  return on_point(glw_x(), glw_y());
 	case GLW_L_BTN_D: return on_click(glw_x(), glw_y(), 0, 1);
 	case GLW_L_BTN_U: return on_click(glw_x(), glw_y(), 0, 0);
-	case GLW_R_BTN_D: return on_click(glw_x(), glw_y(), 1, 1);
-	case GLW_R_BTN_U: return on_click(glw_x(), glw_y(), 1, 0);
 	case GLW_KEY_D:   return on_key(glw_x(), 1);
 	case GLW_KEY_U:   return on_key(glw_x(), 0);
 	case GLW_CLOSE:   return -1;
@@ -441,19 +452,26 @@ static int loop(int d)
 	return 0;
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
+	FILE *fp;
 	int d = 0;
 
-	if (glw_create("Putt", 640, 480, 1))
+	if (argc > 1 && (fp = fopen(argv[1], "r")))
 	{
-		init_time = last_time = now();
-		init();
+		sol_load(&S, fp);
+		fclose(fp);
 
-		while ((d = loop(d)) >= 0)
-			d = render();
+		if (glw_create(argv[1], 640, 480, 1))
+		{
+			init_time = draw_time = last_time = now();
+			init(&S, 0.5);
 
-		glw_delete();
+			while ((d = loop(d)) >= 0)
+				d = render();
+
+			glw_delete();
+		}
 	}
 
 	return 0;

@@ -1,27 +1,41 @@
 
                               * PUTTNIK *
 
-Puttnik  is a small test program that simulates the physics of a  sphere
-interacting  with faceted solid geomtry.  It has been tested only  under
-Linux. The build requires that the following directories exist:
-
-    $HOME/bin
-    $HOME/lib
-    $HOME/include
+Puttnik is a small test program that simulates the physics of a sphere
+interacting with faceted solid geometry.  It has been tested only under
+Linux.
 
 To build:
 
     make install
 
-To run:
+Libraries and binaires will be copied into puttnik/lib and puttnik/bin.
+To run, puttnik/lib must be included in LD_LIBRARY_PATH.  Specify a .sol
+file as a command line parameter.
 
-    $HOME/bin/putt
+    export LD_LIBRARY_PATH=lib
 
-The  putt  flight  controls  are  dvorakish.  This  may  be  changed  in
-putt/main.c in the function on_key.
+    bin/putt map/plinko.sol
+    bin/putt map/u.sol
 
-      , .
-    a o e u
+If the .sol files do not exists, use map2sol to create them.  This must
+be done from the map/ directory in order for the materials to resolve
+correctly.
+
+    cd map/
+    ../bin/map2sol plinko.map plinko.sol
+
+Right drag rotates the view in a Quakish manner.  Left drag hits the
+ball.  The mouse wheel moves the viewpoint forward and back.
+
+The flight controls are dvorakish.  This may be changed in putt/main.c
+in the function on_key.
+
+    esc 1 2 3 4 5
+    tab    , .
+         a o e u
+
+             spacebar
 
   .  - move forward
   e  - move backward
@@ -30,25 +44,6 @@ putt/main.c in the function on_key.
   a  - strafe left
   u  - strafe right
 
-Left  drag rotates the view in a Quakish manner.  Right click drops  the
-ball.  The initial parameters of the ball may be changed in  putt/main.c
-in ball_drop. drop.r is the radius, drop.w is the angular velocity, s is
-the linear speed.
-
-No,  you can't actually interact with the ball once it has been  set  in
-motion.  You may redrop it at any time.
-
-Spacebar  will redrop the ball on the same trajectory as the last  right
-click.  This  is useful if you want to see the same interaction  from  a
-different angle or with a different radius.
-
-The radius of the ball may be changed during the simulation:
-
-  1  - radius 1.00 m
-  2  - radius 0.50 m
-  3  - radius 2.00 m
-  4  - radius 0.05 m
-
-If  the  ball is within a solid when it is dropped,  or too close  to  a
-solid when resized, it may pass through that solid.  This is your fault.
+Spacebar redrops the ball back at the origin.  Tab toggles performance
+statistics, numbers 1-5 alter the size of the ball.  Escape exits.
 

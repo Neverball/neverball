@@ -1,7 +1,7 @@
-OBJS= sol.o cube.o
+OBJS= sol.o
 TARG= libsol.so
 
-INCDIR= -I$(HOME)/include
+INCDIR= -I../../include
 
 .c.o :
 	$(CC) $(CFLAGS) -c $< $(INCDIR)
@@ -13,5 +13,5 @@ clean :
 	rm $(TARG) $(OBJS)
 
 install : $(TARG)
-	cp $(TARG) $(HOME)/lib
-	cp sol.h   $(HOME)/include
+	cp $(TARG) ../../lib
+	cp sol.h   ../../include

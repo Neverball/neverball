@@ -20,7 +20,7 @@ void   v_mad(double[3], const double[3], const double[3], double);
 
 void   m_cpy(double[16], const double[16]);
 void   m_xps(double[16], const double[16]);
-void   m_inv(double[16], const double[16]);
+int    m_inv(double[16], const double[16]);
 
 void   m_ident(double[16]);
 void   m_basis(double[16], const double[3],
