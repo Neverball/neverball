@@ -10,8 +10,13 @@
 
 #define GL_GLEXT_LEGACY
 
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#else
 #include <GL/gl.h>
 #include <GL/glu.h>
+#endif
 
 #ifdef _WIN32
 #include <GL/glext.h>

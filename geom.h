@@ -11,6 +11,7 @@
 #define COIN_RADIUS   0.15
 #define COIN_THICK    0.01
 #define JUMP_HEIGHT   2.00
+#define SWCH_HEIGHT   2.00
 #define GOAL_HEIGHT   3.00
 #define GOAL_SPARKS  64
 
@@ -38,6 +39,12 @@ void goal_draw(void);
 void jump_init(int);
 void jump_free(void);
 void jump_draw(void);
+
+/*---------------------------------------------------------------------------*/
+
+void swch_init(int);
+void swch_free(void);
+void swch_draw(int);
 
 /*---------------------------------------------------------------------------*/
 

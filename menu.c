@@ -222,41 +222,6 @@ void menu_paint(void)
 }
 
 /*---------------------------------------------------------------------------*/
-/*
-int menu_point(int dx, int dy)
-{
-    static int ax = 0;
-    static int ay = 0;
-
-    int trip = config_sens() / 3;
-
-    ax += dx;
-    ay += dy;
-
-    if (ax < -trip && menu.item[menu.value].L >= 0)
-    {
-        menu.value = menu.item[menu.value].L;
-        ax = 0;
-    }
-    if (ax > +trip && menu.item[menu.value].R >= 0)
-    {
-        menu.value = menu.item[menu.value].R;
-        ax = 0;
-    }
-    if (ay < -trip && menu.item[menu.value].D >= 0)
-    {
-        menu.value = menu.item[menu.value].D;
-        ay = 0;
-    }
-    if (ay > +trip && menu.item[menu.value].U >= 0)
-    {
-        menu.value = menu.item[menu.value].U;
-        ay = 0;
-    }
-
-    return menu.value;
-}
-*/
 
 int menu_point(int x, int y)
 {

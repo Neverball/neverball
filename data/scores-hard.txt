@@ -1,0 +1,3 @@
+599.99 BEAT   1 BEAT  599.99 THESE    2 THESE   599.99 SCORES  3 SCORES
+ 30.00 Hard  59 Hard  45.00 Medium  30 Medium  60.00 Easy   10 Easy (teleport)
+ 15.00 Hard  39 Hard  30.00 Medium  20 Medium  60.00 Easy   10 Easy (title)

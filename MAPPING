@@ -14,6 +14,18 @@ GtkRadiant, documentation, and tutorials may be found at
 
 
 
+* CONTENTS
+
+    - Overview          ... How Neverball compares to Quake et al
+    - Setting Up        ... Getting GtkRadiant to work with Neverball
+    - Tutorial          ... The map compilation process
+    - Entities          ... Adding active elements to the map
+    - Decals            ... Adding visual elements to the map
+    - Adding Materials  ... Creating custom textures and materials
+    - Caveats           ... Problems and things to avoid
+
+
+
 * OVERVIEW
 
 So now that we all know  everything about Quake engine mapping, we can
@@ -64,7 +76,7 @@ Some of the important differences are as follows:
 
 
 
-* SETUP
+* SETTING UP
 
 Most any  version of  radiant will suffice.   To install  radiant, you
 will need  to have  one of the  supported games installed.   Demos MAY
@@ -98,7 +110,7 @@ menu.  Be sure that ONLY mtrl shaders are used for Neverball maps.
 
 
 
-* QUICKSTART TUTORIAL
+* TUTORIAL
 
 Here we gloss over all the details and try to get custom geometry into
 the game a quickly as possible.
@@ -114,15 +126,16 @@ the mtrl directory.  Output should be similar.
 
     mapc funkyball.map funkyball.sol ~/neverball/data
 
- mtrl vert edge side texc geom lump node path body coin goal ball indx
-  512  736 1104  512 1392  776   72    0    1    1   14    1    1 3128
-   10  368  754  158  320  776   72    0    1    1   14    1    1 3128
+    mtrl  vert  edge  side  texc  geom  lump  path  node
+       9   320   616   267   214   412    49     0     4
+    body  coin  goal  view  jump  swch  ball  char  indx
+       2    10     1     1     0     0     1    17  2070
 
-To test your map, add the filename to data/levels.txt. Include a level
-shot path,  a skybox  path, and  the level time  in seconds.  Paths in
+To test  your map, add it  to a data/levels.txt file.  Include a level
+shot path, a background path, and the level time in seconds.  Paths in
 levels.txt  are  relative  to  the  data directory  (the  location  of
-levels.txt). Then, run  the game as normal.  If the  level time is set
-to 99 seconds, the clock will not run.
+levels.txt). Then, run the game as normal.
+
 
 
 
@@ -147,6 +160,10 @@ info_player_start
     entity in the editor will correspond  to the bottom of the ball in
     Neverball.
 
+    Note  that the "angle"  attribute does  NOT determine  the initial
+    facing direction.  The player begins each level looking down the Y
+    axis.  If your level begins wrong, you must rotate your map.
+
 info_player_deathmatch
 
     The info_player_deathmatch  entity defines a goal in  a .sol file.
@@ -169,7 +186,7 @@ light
 
 path_corner
 
-    The path_corner entity defines a  point along the path of a moving
+    The path_corner entity  defines a segment of the  path of a moving
     object.  The "origin" attribute gives the point location.
 
     The "targetname" attribute gives  the name by which other entities
@@ -182,12 +199,21 @@ path_corner
     select  path_corner A,  then  select path_corner  B, then  Connect
     Entities (control-k).
 
-    The "speed"  attribute gives  the duration of  the trip  from this
-    point to  the target.   Note that this  attribute has  a different
-    meaning to  Neverball than it does  to Quake.  In  Quake, it gives
-    the speed in  units per second.  In Neverball  it gives the travel
-    time in seconds, regardless of  the distance between one point and
-    the next.  The default is "1.0".
+    The "speed"  attribute gives the  duration of the trip  along this
+    path segment.  Note that this attribute has a different meaning to
+    Neverball than it does to Quake.   In Quake, it gives the speed in
+    units  per second.   In  Neverball  it gives  the  travel time  in
+    seconds,  regardless of  the distance  between one  point  and the
+    next.  The default is "1.0".
+
+    The  "state" attribute  determines  whether this  path segment  is
+    enabled.   A  func_train will  only  move  along  an enabled  path
+    segment.  A train may be stopped and started by toggling the state
+    of the  path to  which it  is attached.  "0"  means no,  "1" means
+    yes. The default is 1.  Note that the state attribute only applies
+    to the segment of the path defined by the path_corner in question.
+    A func_train will continue to move along enabled path segments and
+    stop at the beginning of the first disabled segment.
 
     To  create a  pause  in  a path.   Simply  position two  connected
     path_corner entities at  the same point.  The trip  will have zero
@@ -197,22 +223,17 @@ path_corner
 
 func_train
 
-    The   func_train  entity   defines  the   geometry  of   a  moving
-    object.  Think of it  as a container  or a grouping  mechanism for
-    lumps, rather than an object in-and-of itself.
+    The  func_train entity defines  the geometry  of a  moving object.
+    Think  of it as  a container  or a  grouping mechanism  for lumps,
+    rather than an object in-and-of itself.
 
     To create a func_train, first  select all of the brushes that form
     the moving object, then  select func_train from the entities popup
     (right click) menu.
 
-    Now, when selecting a func_train, be sure to select the group as a
-    whole, rather than one of  the brushes comprising it. You may want
-    to use the Entity Info dialog.
-
     To assign  a func_train  to a path,  first select  the func_train,
     then select the first path_corner entity of the path, then Connect
-    Entities.  Multiple func_trains may be  assigned to one  path, but
-    they should each have a different starting path_corner.
+    Entities.  Multiple func_trains may be assigned to one path.
 
     To destroy a func_train  leaving only the original brushes, select
     the  func_train, and  choose Ungroup  Entities from  the Selection
@@ -240,6 +261,27 @@ target_teleporter
     The "target" attribute refers to a target_position entity defining
     the destination of the teleporter.
 
+info_camp
+
+    The  info_camp entity defines  a switch.   A switch's  behavior is
+    similar to a teleporter.   The "radius" attribute gives the radius
+    and defaults to "0.5".  The "origin" attribute gives the location.
+    The "target"  attribute refers to the path_corner  that the switch
+    controls.
+
+    The "state" attribute gives the  initial state of the switch.  "0"
+    is off, "1" is on.  The  default is off.  This parallels the state
+    attribute of  the path_corner.  An info_camp  entity should always
+    have the same initial "state" value as the path_corner it targets.
+
+    The "timer" attribute defines a  delay time.  The time begins when
+    a  switch is  toggled to  its non-initial  state.  When  the timer
+    expires, the  switch toggles back  to its initial state.   A timer
+    value  of  zero  indicates  an  untimed switch.   The  default  is
+    zero.  This may be  used to define  a door  that opens only  for a
+    moment before closing,  or a func_train that moves  along its path
+    in discrete activated steps.
+
 info_player_intermission
 
     The info_player_intermission entity defines the camera position at
@@ -262,6 +304,28 @@ worldspawn
     '\' character in the text marks  the end of a line.  Limited space
     is available.  Wrapping text within  the intro text box is often a
     process of trial and error.
+
+
+
+* DECALS
+
+There are a number of occasions where you'll want to apply one texture
+overtop another.  Examples include goals, jumps, switches, and arrows.
+It's common  to have a  goal texture appearing  in green turf,  or red
+turf, etc,  but it is inefficient  to use a different  texture map for
+each ground/decal combination.
+
+To accomplish  this, we  apply the decal  texture just above  the base
+texture using a second lump.  Mark the top of this lump with the decal
+texture and mark the other 5 sides with the invisible texture.
+
+Position the decal  lump 1 unit above the base  lump.  Do not position
+the top of the decal lump  coincident with the base lump, as this will
+cause depth buffer artifacts.
+
+Very important: mark the decal  lump as detail using the "Make Detail"
+menu item.   If the decal  lump is allowed  to be structural  then the
+ball will bump into it, as it is 1/64th of a meter from the floor.
 
 
 

@@ -3,7 +3,8 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <GL/gl.h>
+
+#include "glext.h"
 
 /*---------------------------------------------------------------------------*/
 

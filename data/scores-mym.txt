@@ -1,0 +1,14 @@
+599.99 BEAT   1 BEAT 599.99 THESE    2 THESE  599.99 SCORES  3 SCORES
+12.0 Hard     62 Hard     20.0 Medium   32 Medium    30.0 Easy     10 Easy
+  43 Hard     113 Hard    80.0 Medium   98 Medium    100.0 Easy    50 Easy
+12.0 Hard     136 Hard    30.0 Medium   56 Medium    80.0 Easy     36 Easy
+26.0 Hard     128 Hard    40.0 Medium   80 Medium    60.0 Easy     50 Easy
+12.0 Hard     119 Hard    20.0 Medium   63 Medium    28.0 Easy     29 Easy
+ 6.0 Hard     155 Hard    14.0 Medium   47 Medium    50.0 Easy     10 Easy
+12.0 Hard     91 Hard     20.0 Medium   50 Medium    50.0 Easy     10 Easy
+18.0 Hard     31 Hard     21.0 Medium   20 Medium    28.0 Easy     10 Easy
+45.0 Hard     140 Hard    90.0 Medium   100 Medium  130.0 Easy     50 Easy
+30.0 Hard     123 Hard    40.0 Medium   100 Medium   50.0 Easy     80 Easy
+25.0 Hard     104 Hard    35.0 Medium   94 Medium    45.0 Easy     74 Easy
+35.0 Hard     49 Hard     38.0 Medium   39 Medium    41.0 Easy     29 Easy
+180.0 Hard    80 Hard     180.0 Medium  60 Medium    180.0 Easy    40 Easy

@@ -20,9 +20,10 @@
 
 #include "config.h"
 #include "glext.h"
-#include "level.h"
 #include "geom.h"
 #include "text.h"
+#include "level.h"
+#include "set.h"
 #include "hud.h"
 
 /*---------------------------------------------------------------------------*/
@@ -46,9 +47,7 @@ static int geometry     = CONFIG_DEF_GEOMETRY;
 static int audio_rate   = CONFIG_DEF_AUDIO_RATE;
 static int audio_buff   = CONFIG_DEF_AUDIO_BUFF;
 static int mouse_sense  = CONFIG_DEF_MOUSE_SENSE;
-static int high_level   = CONFIG_DEF_HIGH_LEVEL;
-static int done         = CONFIG_DEF_DONE;
-static int nice         = CONFIG_DEF_NICE;
+static int niceness     = CONFIG_DEF_NICE;
 static int fps          = CONFIG_DEF_FPS;
 static int joy          = CONFIG_DEF_JOY;
 static int sound_vol    = CONFIG_DEF_SOUND_VOL;
@@ -102,7 +101,7 @@ int config_home(char *dst, const char *src, size_t n)
 /*
  * Game  assets are  accessed  via relative  paths.   Set the  current
  * directory to the root of the asset hierarchy.  Confirm the location
- * by checking for the presence of the level catalog.
+ * by checking for the presence of the level set catalog.
  */
 int config_path(const char *path)
 {
@@ -110,7 +109,7 @@ int config_path(const char *path)
 
     chdir(path);
 
-    if ((fp = fopen(LEVEL_FILE, "r")))
+    if ((fp = fopen(SET_FILE, "r")))
     {
         fclose(fp);
         return 1;
@@ -165,9 +164,7 @@ void config_load(void)
                 if (strcmp(key, "audio_rate")   == 0) audio_rate   = val;
                 if (strcmp(key, "audio_buff")   == 0) audio_buff   = val;
                 if (strcmp(key, "mouse_sense")  == 0) mouse_sense  = val;
-                if (strcmp(key, "high_level")   == 0) high_level   = val;
-                if (strcmp(key, "nice")         == 0) nice         = val;
-                if (strcmp(key, "done")         == 0) done         = val;
+                if (strcmp(key, "niceness")     == 0) niceness     = val;
                 if (strcmp(key, "fps")          == 0) fps          = val;
                 if (strcmp(key, "joy")          == 0) joy          = val;
                 if (strcmp(key, "sound_vol")    == 0) sound_vol    = val;
@@ -208,10 +205,8 @@ void config_store(void)
         fprintf(fp, "audio_rate %d\n",   audio_rate);
         fprintf(fp, "audio_buff %d\n",   audio_buff);
         fprintf(fp, "mouse_sense %d\n",  mouse_sense);
-        fprintf(fp, "high_level %d\n",   high_level);
         fprintf(fp, "player %s\n",       player);
-        fprintf(fp, "nice %d\n",         nice);
-        fprintf(fp, "done %d\n",         done);
+        fprintf(fp, "niceness %d\n",     niceness);
         fprintf(fp, "fps %d\n",          fps);
         fprintf(fp, "joy %d\n",          joy);
         fprintf(fp, "sound_vol %d\n",    sound_vol);
@@ -240,9 +235,7 @@ int config_geom(void) { return geometry; }
 int config_rate(void) { return audio_rate; }
 int config_buff(void) { return audio_buff; }
 int config_sens(void) { return mouse_sense; }
-int config_high(void) { return high_level; }
-int config_done(void) { return done; }
-int config_nice(void) { return nice; }
+int config_nice(void) { return niceness; }
 int config_fps (void) { return fps; }
 int config_sound(void) { return sound_vol; }
 int config_music(void) { return music_vol; }
@@ -262,6 +255,7 @@ int config_set_mode(int w, int h, int m)
     if (SDL_SetVideoMode(w, h, 0, m))
     {
         hud_free();
+        swch_free();
         jump_free();
         goal_free();
         coin_free();
@@ -289,6 +283,7 @@ int config_set_mode(int w, int h, int m)
         coin_init(geometry);
         goal_init(geometry);
         jump_init(geometry);
+        swch_init(geometry);
         hud_init();
 
         return 1;
@@ -307,6 +302,7 @@ int config_set_text(int t)
 
 int config_set_geom(int g)
 {
+    swch_free();
     jump_free();
     goal_free();
     coin_free();
@@ -318,6 +314,7 @@ int config_set_geom(int g)
     coin_init(g);
     goal_init(g);
     jump_init(g);
+    swch_init(g);
 
     return 1;
 }
@@ -350,17 +347,6 @@ void config_set_music(int n)
     }
 }
 
-void config_set_high(int n)
-{
-    if (n > high_level)
-        high_level = n;
-}
-
-void config_set_done(int n)
-{
-    done = n;
-}
-
 void config_set_view(int c)
 {
     camera = c;
@@ -368,7 +354,7 @@ void config_set_view(int c)
 
 void config_tog_nice(void)
 {
-    nice = nice ? 0 : 1;
+    niceness = niceness ? 0 : 1;
 }
 
 void config_tog_fps(void)

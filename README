@@ -18,6 +18,21 @@ Neverball requires:
 
 
 
+* THANKS TO
+
+    Mehdi Yousfi Monod  (Feature ideas and levels)
+    Max Gilead          (Debian packaging)
+    Michael Sterret     (Gentoo ebuild)
+    Christoph Frick     (OSX port)
+    Jeremy Messenger    (FreeBSD port)
+
+    Countless others for play testing and bug reports.
+
+    http://www.happypenguin.org
+    http://www.flipcode.com
+
+
+
 * BUILDING
 
     make                     (Unix)
@@ -34,19 +49,21 @@ may be executed in place.
 
     ./neverball
 
-Click Play  to begin.  The floor  tilts in the direction  of the mouse
-pointer.
+Click Play  to begin.   Mouse motion tilts  the floor.   Mouse buttons
+rotate the  viewpoint.  The  following keyboard controls  are defined.
+See below for details.
 
-Spacebar pauses  and resumes.  Escape ends  a game, and  escape at the
-title  screen  exits.   F9  toggles  a frame  counter.   F10  takes  a
-screenshot.   F11 saves  the current  demo recording.   F1, F2  and F3
-select the camera type (see below).
+    SPACE  Pause and resume / Release mouse grab
+    ESC    End a game / Exit
 
-Pause releases the pointer grab.   I get email about that so I'm gonna
-yell it really loudly here so that I can say "RTFM" from now on.
+    F1     Default Camera
+    F2     Lazy Camera
+    F3     Static Camera
 
+    F9     Toggle frame counter
+    F10    Snap a screenshot
+    F11    Save the current demo
 
-              PRESS SPACEBAR TO RELEASE THE POINTER GRAB
 
 
 * DEMO REPLAY
@@ -127,7 +144,7 @@ default values follow.
         This key enables an on-screen frames-per-second counter. Press
         F9 to toggle this flag in-game.
 
-    nice 1
+    niceness 1
 
         This  key  enables  a  delay  function  after  each  frame  is
         rendered, forcing a context  switch and ensuring that the game
@@ -138,13 +155,6 @@ default values follow.
         disable it.
 
         Press F8 to toggle this flag in-game.
-
-    high_level 1
-
-        This key gives the number  of the highest level you've opened.
-        You  can cheat by  setting this  to a  big number.   It's open
-        source,  so there's  absolutely no  way to  keep  players from
-        cheating.  Might as well just document it.
 
     joy 0
 

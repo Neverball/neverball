@@ -46,6 +46,8 @@
  *     b  Body          (struct s_body)
  *     c  Coin          (struct s_coin)
  *     z  Goal          (struct s_goal)
+ *     j  Jump          (struct s_jump)
+ *     x  Switch        (struct s_swch)
  *     u  User          (struct s_ball)
  *     a  Text          (char)
  *     i  Index         (int)
@@ -142,7 +144,7 @@ struct s_path
     double t;                                  /* travel time                */
 
     int pi;
-    int xx;                                    /* padding                    */
+    int f;                                     /* enable flag                */
 };
 
 struct s_body
@@ -169,6 +171,18 @@ struct s_goal
 {
     double p[3];                               /* position                   */
     double r;                                  /* radius                     */
+};
+
+struct s_swch
+{
+    double p[3];                               /* position                   */
+    double r;                                  /* radius                     */
+    int    pi;
+
+    double t0;                                 /* default timer              */
+    double t;                                  /* current timer              */
+    int    f0;                                 /* default state              */
+    int    f;                                  /* current state              */
 };
 
 struct s_jump
@@ -208,6 +222,7 @@ struct s_file
     int cc;
     int zc;
     int jc;
+    int xc;
     int uc;
     int wc;
     int ac;
@@ -226,6 +241,7 @@ struct s_file
     struct s_coin *cv;
     struct s_goal *zv;
     struct s_jump *jv;
+    struct s_swch *xv;
     struct s_ball *uv;
     struct s_view *wv;
     char          *av;
@@ -244,6 +260,7 @@ double sol_step(struct s_file *, const double *, double);
 int    sol_coin_test(struct s_file *, double *, double);
 int    sol_goal_test(struct s_file *, double *);
 int    sol_jump_test(struct s_file *, double *);
+int    sol_swch_test(struct s_file *, int);
 
 /*---------------------------------------------------------------------------*/
 

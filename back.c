@@ -21,130 +21,40 @@
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint back_list;
-
-static GLuint back_u;
-static GLuint back_n;
-static GLuint back_s;
-static GLuint back_w;
-static GLuint back_e;
-static GLuint back_d;
+static GLUquadric *back_quad = NULL;
+static GLuint      back_list;
+static GLuint      back_text;
 
 /*---------------------------------------------------------------------------*/
 
 #define STRMAX 256
 
-static GLuint back_load(const char *root, char *suff)
+void back_init(const char *s, int b)
 {
-    char filename[STRMAX];
-    GLuint text;
+    back_text = make_image_from_file(NULL, NULL, s);
 
-    /* Try to load an uncompressed copy of the image. */
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    strncpy(filename, root, STRMAX - 8);
-    strcat (filename, suff);
-    strcat (filename, ".tga");
+    if ((back_quad = gluNewQuadric()))
+    {
+        int slices = b ? 64 : 32;
+        int stacks = b ? 32 : 16;
 
-    if ((text = make_image_from_file(NULL, NULL, filename)))
-        return text;
+        gluQuadricOrientation(back_quad, GLU_INSIDE);
+        gluQuadricNormals(back_quad, GLU_SMOOTH);
+        gluQuadricTexture(back_quad, GL_TRUE);
 
-    /* Try to load a lossless copy of the image. */
-
-    strncpy(filename, root, STRMAX - 8);
-    strcat (filename, suff);
-    strcat (filename, ".png");
-
-    if ((text = make_image_from_file(NULL, NULL, filename)))
-        return text;
-
-    /* Try to load a lossy copy of the image. */
-
-    strncpy(filename, root, STRMAX - 8);
-    strcat (filename, suff);
-    strcat (filename, ".jpg");
-
-    if ((text = make_image_from_file(NULL, NULL, filename)))
-        return text;
-
-    return 0;
-}
-
-void back_init(const char *s)
-{
-    back_u = back_load(s, "_u");
-    back_n = back_load(s, "_n");
-    back_s = back_load(s, "_s");
-    back_w = back_load(s, "_w");
-    back_e = back_load(s, "_e");
-    back_d = back_load(s, "_d");
-
-    back_list = glGenLists(1);
-
-    glNewList(back_list, GL_COMPILE);
-    { 
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-        glBindTexture(GL_TEXTURE_2D, back_u);
-        glBegin(GL_QUADS);
+        back_list = glGenLists(1);
+    
+        glNewList(back_list, GL_COMPILE);
         {
-            glTexCoord2i(0, 1); glVertex3i(-1, +1, -1);
-            glTexCoord2i(1, 1); glVertex3i(+1, +1, -1);
-            glTexCoord2i(1, 0); glVertex3i(+1, +1, +1);
-            glTexCoord2i(0, 0); glVertex3i(-1, +1, +1);
+            glColor3f(1.0f, 1.0f, 1.0f);
+            glBindTexture(GL_TEXTURE_2D, back_text);
+            gluSphere(back_quad, 1.0, slices, stacks);
         }
-        glEnd();
-
-        glBindTexture(GL_TEXTURE_2D, back_n);
-        glBegin(GL_QUADS);
-        {
-            glTexCoord2i(0, 1); glVertex3i(-1, -1, -1);
-            glTexCoord2i(1, 1); glVertex3i(+1, -1, -1);
-            glTexCoord2i(1, 0); glVertex3i(+1, +1, -1);
-            glTexCoord2i(0, 0); glVertex3i(-1, +1, -1);
-        }
-        glEnd();
-
-        glBindTexture(GL_TEXTURE_2D, back_s);
-        glBegin(GL_QUADS);
-        {
-            glTexCoord2i(0, 1); glVertex3i(+1, -1, +1);
-            glTexCoord2i(1, 1); glVertex3i(-1, -1, +1);
-            glTexCoord2i(1, 0); glVertex3i(-1, +1, +1);
-            glTexCoord2i(0, 0); glVertex3i(+1, +1, +1);
-        }
-        glEnd();
-
-        glBindTexture(GL_TEXTURE_2D, back_w);
-        glBegin(GL_QUADS);
-        {
-            glTexCoord2i(0, 1); glVertex3i(-1, -1, +1);
-            glTexCoord2i(1, 1); glVertex3i(-1, -1, -1);
-            glTexCoord2i(1, 0); glVertex3i(-1, +1, -1);
-            glTexCoord2i(0, 0); glVertex3i(-1, +1, +1);
-        }
-        glEnd();
-
-        glBindTexture(GL_TEXTURE_2D, back_e);
-        glBegin(GL_QUADS);
-        {
-            glTexCoord2i(0, 1); glVertex3i(+1, -1, -1);
-            glTexCoord2i(1, 1); glVertex3i(+1, -1, +1);
-            glTexCoord2i(1, 0); glVertex3i(+1, +1, +1);
-            glTexCoord2i(0, 0); glVertex3i(+1, +1, -1);
-        }
-        glEnd();
-
-        glBindTexture(GL_TEXTURE_2D, back_d);
-        glBegin(GL_QUADS);
-        {
-            glTexCoord2i(0, 1); glVertex3i(-1, -1, +1);
-            glTexCoord2i(1, 1); glVertex3i(+1, -1, +1);
-            glTexCoord2i(1, 0); glVertex3i(+1, -1, -1);
-            glTexCoord2i(0, 0); glVertex3i(-1, -1, -1);
-        }
-        glEnd();
+        glEndList();
     }
-    glEndList();
 }
 
 void back_free(void)
@@ -152,18 +62,8 @@ void back_free(void)
     if (glIsList(back_list))
         glDeleteLists(back_list, 1);
 
-    if (glIsTexture(back_d))
-        glDeleteTextures(1, &back_d);
-    if (glIsTexture(back_e))
-        glDeleteTextures(1, &back_e);
-    if (glIsTexture(back_w))
-        glDeleteTextures(1, &back_w);
-    if (glIsTexture(back_s))
-        glDeleteTextures(1, &back_s);
-    if (glIsTexture(back_n))
-        glDeleteTextures(1, &back_n);
-    if (glIsTexture(back_u))
-        glDeleteTextures(1, &back_u);
+    if (glIsTexture(back_text))
+        glDeleteTextures(1, &back_text);
 }
 
 void back_draw(void)
@@ -174,9 +74,7 @@ void back_draw(void)
         glDisable(GL_LIGHTING);
 
         glScalef(BACK_DIST, BACK_DIST, BACK_DIST);
-
-        /* My crappy skyboxes somehow look better looking east. */
-        glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+        glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
 
         glCallList(back_list);
     }

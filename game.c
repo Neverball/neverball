@@ -29,27 +29,6 @@
 #include "config.h"
 
 /*---------------------------------------------------------------------------*/
-/*
-#include <sys/time.h>
-
-struct timeval tv;
-struct timeval tu;
-
-static void timer_start(void)
-{
-    gettimeofday(&tv, NULL);
-}
-
-static void timer_end(void)
-{
-    gettimeofday(&tu, NULL);
-
-    printf("%f\n",
-           (double) (tu.tv_sec  - tv.tv_sec) +
-           (double) (tu.tv_usec - tv.tv_usec) / 1000000.0);
-}
-*/
-/*---------------------------------------------------------------------------*/
 
 static struct s_file file;
 
@@ -70,6 +49,7 @@ static double view_v[3];                /* Current view vector               */
 static double view_p[3];                /* Current view position             */
 static double view_e[3][3];             /* Current view orientation          */
 
+static double swch_e = 1;               /* Switching enabled flag            */
 static double jump_e = 1;               /* Jumping enabled flag              */
 static double jump_b = 0;               /* Jump-in-progress flag             */
 static double jump_dt;                  /* Jump duration                     */
@@ -118,6 +98,10 @@ void game_init(const char *s, int t)
     view_init();
     part_init(GOAL_HEIGHT);
 
+    hud_ball_pulse(0.0);
+    hud_time_pulse(0.0);
+    hud_coin_pulse(0.0);
+
     sol_load(&file, s, config_text());
     clock = t;
 
@@ -137,7 +121,7 @@ void game_free(void)
 
 double curr_clock(void)
 {
-    return clock;
+    return floor(clock * 100.0) / 100.0;
 }
 
 char *curr_intro(void)
@@ -230,6 +214,25 @@ static void game_draw_jumps(const struct s_file *fp)
     }
 }
 
+static void game_draw_swchs(const struct s_file *fp)
+{
+    int xi;
+
+    for (xi = 0; xi < fp->xc; xi++)
+    {
+        glPushMatrix();
+        {
+            glTranslated(fp->xv[xi].p[0],
+                         fp->xv[xi].p[1],
+                         fp->xv[xi].p[2]);
+
+            glScaled(fp->xv[xi].r, 1.0, fp->xv[xi].r);
+            swch_draw(fp->xv[xi].f);
+        }
+        glPopMatrix();
+    }
+}
+
 /*---------------------------------------------------------------------------*/
 
 /*
@@ -245,10 +248,10 @@ static void game_draw_jumps(const struct s_file *fp)
  * projection would only magnify the problem.
  */
 
-#ifdef GL_ARB_multitexture
-
 static void game_set_shadow(const struct s_file *fp)
 {
+#ifdef GL_ARB_multitexture
+
     const double *ball_p = fp->uv->p;
     const double  ball_r = fp->uv->r;
 
@@ -272,10 +275,14 @@ static void game_set_shadow(const struct s_file *fp)
         glMatrixMode(GL_MODELVIEW);
         glActiveTextureARB(GL_TEXTURE0_ARB);
     }
+
+#endif /* GL_ARB_multitexture */
 }
 
 static void game_clr_shadow(void)
 {
+#ifdef GL_ARB_multitexture
+
     if (glActiveTextureARB)
     {
         glActiveTextureARB(GL_TEXTURE1_ARB);
@@ -284,15 +291,23 @@ static void game_clr_shadow(void)
         }
         glActiveTextureARB(GL_TEXTURE0_ARB);
     }
-}
 
 #endif /* GL_ARB_multitexture */
+}
 
 /*---------------------------------------------------------------------------*/
 
 void game_draw(int pose)
 {
-    const float light_p[4] = { 8.0, 32.0, 8.0, 1.0 };
+/*    const float light_p[4] = { 8.0, 32.0, 8.0, 1.0 }; */
+    const float light_p[2][4] = {
+        { -8.0, +8.0, -8.0, 1.0 },
+        { +8.0, +8.0, +8.0, 1.0 },
+    };
+    const float light_c[2][4] = {
+        { 1.0, 0.8, 0.8, 1.0 },
+        { 0.8, 1.0, 0.8, 1.0 },
+    };
 
     const struct s_file *fp = &file;
     const double *ball_p = file.uv->p;
@@ -322,6 +337,7 @@ void game_draw(int pose)
         glPushMatrix();
         {
             glTranslated(view_p[0], view_p[1], view_p[2]);
+            game_clr_shadow();
             back_draw();
         }
         glPopMatrix();
@@ -336,20 +352,22 @@ void game_draw(int pose)
         /* Configure the lighting. */
 
         glEnable(GL_LIGHTING);
+
         glEnable(GL_LIGHT0);
-        glLightfv(GL_LIGHT0, GL_POSITION, light_p);
+        glLightfv(GL_LIGHT0, GL_POSITION, light_p[0]);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_c[0]);
+        glLightfv(GL_LIGHT0, GL_SPECULAR, light_c[0]);
+
+        glEnable(GL_LIGHT1);
+        glLightfv(GL_LIGHT1, GL_POSITION, light_p[1]);
+        glLightfv(GL_LIGHT1, GL_DIFFUSE,  light_c[1]);
+        glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
 
         /* Draw the floor. */
 
-#ifdef GL_ARB_multitexture
         if (pose == 0) game_set_shadow(fp);
-
         sol_draw(fp);
-
         if (pose == 0) game_clr_shadow();
-#else
-        sol_draw(fp);
-#endif
 
         /* Draw the game elements. */
 
@@ -361,6 +379,7 @@ void game_draw(int pose)
         }
         game_draw_goals(fp, -rx, -ry);
         game_draw_jumps(fp);
+        game_draw_swchs(fp);
     }
     glPopMatrix();
     glPopAttrib();
@@ -483,7 +502,7 @@ static void game_update_time(double dt, int b)
 
     if (b)
     {
-        if (clock < 99.0)
+        if (clock < 600.0)
             clock -= dt;
         if (clock < 0.0)
             clock = 0.0;
@@ -506,7 +525,7 @@ static int game_update_state(void)
     struct s_file *fp = &file;
     double p[3];
     double c[3];
-    int n;
+    int n, e = swch_e;
 
     /* Test for a coin grab and a possible 1UP. */
 
@@ -516,6 +535,11 @@ static int game_update_state(void)
         part_burst(p, c);
         level_score(n);
     }
+
+    /* Test for a switch. */
+
+    if ((swch_e = sol_swch_test(fp, swch_e)) != e && e)
+        audio_play(AUD_COIN, 1.f);
 
     /* Test for a jump. */
 
@@ -542,7 +566,7 @@ static int game_update_state(void)
 
     /* Test for fall-out. */
 
-    if (fp->uv[0].p[1] < -10.0)
+    if (fp->uv[0].p[1] < -20.0)
         return GAME_FALL;
 
     return GAME_NONE;
@@ -567,23 +591,20 @@ int game_step(const double g[3], double dt, int bt)
 {
     struct s_file *fp = &file;
 
-    static double s = 0.0;
-
     double h[3];
     double d = 0.0;
     double b = 0.0;
     double t;
     int i, n = 1;
 
-    s = (7.0 * s + dt) / 8.0;
-    t = s;
+    t = dt;
 
     /* Smooth jittery or discontinuous input. */
 
-    if (dt < RESPONSE)
+    if (t < RESPONSE)
     {
-        game_rx += (game_ix - game_rx) * dt / RESPONSE;
-        game_rz += (game_iz - game_rz) * dt / RESPONSE;
+        game_rx += (game_ix - game_rx) * t / RESPONSE;
+        game_rz += (game_iz - game_rz) * t / RESPONSE;
     }
     else
     {
@@ -592,11 +613,11 @@ int game_step(const double g[3], double dt, int bt)
     }
 
     game_update_grav(h, g);
-    part_step(h, dt);
+    part_step(h, t);
 
     if (jump_b)
     {
-        jump_dt += dt;
+        jump_dt += t;
 
         /* Handle a jump. */
 
@@ -629,8 +650,8 @@ int game_step(const double g[3], double dt, int bt)
             audio_play(AUD_BUMP, (float) (b - 0.5) * 2.0f);
     }
 
-    game_update_view(dt);
-    game_update_time(dt, bt);
+    game_update_view(t);
+    game_update_time(t, bt);
 
     return game_update_state();
 }
@@ -744,21 +765,14 @@ int game_put(FILE *fout)
 
 int game_get(FILE *fin)
 {
-    if (double_get(fin, &game_rx)  &&
-        double_get(fin, &game_rz)  &&
-        vector_get(fin, view_c)    &&
-        vector_get(fin, view_p)    &&
-        vector_get(fin, view_e[0]) &&
-        vector_get(fin, view_e[1]) &&
-        vector_get(fin, view_e[2]) &&
-        sol_get(fin, &file));
-    {
-        /*
-        v_crs(view_e[2], view_e[0], view_e[1]);
-        */
-        return 1;
-    }
-    return 0;
+    return (double_get(fin, &game_rx)  &&
+            double_get(fin, &game_rz)  &&
+            vector_get(fin, view_c)    &&
+            vector_get(fin, view_p)    &&
+            vector_get(fin, view_e[0]) &&
+            vector_get(fin, view_e[1]) &&
+            vector_get(fin, view_e[2]) &&
+            sol_get(fin, &file));
 }
 
 /*---------------------------------------------------------------------------*/

@@ -37,13 +37,14 @@ extern FILE *replay_fp;
 
 extern struct state st_null;
 extern struct state st_title;
+extern struct state st_set;
 extern struct state st_start;
 extern struct state st_help;
 extern struct state st_conf;
 extern struct state st_level;
 extern struct state st_poser;
-extern struct state st_ready;
-extern struct state st_set;
+extern struct state st_two;
+extern struct state st_one;
 extern struct state st_play;
 extern struct state st_demo;
 extern struct state st_goal;

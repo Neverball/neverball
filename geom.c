@@ -42,10 +42,7 @@ void ball_init(int b)
     static const float  e[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
     static const float  h[1] = { 64.0f };
 
-    if (config_done())
-        ball_text = make_image_from_file(NULL, NULL, IMG_DONE);
-    else
-        ball_text = make_image_from_file(NULL, NULL, IMG_BALL);
+    ball_text = make_image_from_file(NULL, NULL, IMG_BALL);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -361,6 +358,85 @@ void jump_draw(void)
         glDepthMask(GL_FALSE);
 
         glCallList(jump_list);
+    }
+    glPopAttrib();
+    glPopAttrib();
+    glPopAttrib();
+    glPopAttrib();
+}
+
+/*---------------------------------------------------------------------------*/
+
+static GLuint swch_list = 0;
+
+void swch_init(int b)
+{
+    int i, n = b ? 32 : 16;
+
+    swch_list = glGenLists(2);
+
+    glNewList(swch_list, GL_COMPILE);
+    {
+        glBegin(GL_QUAD_STRIP);
+        {
+            for (i = 0; i <= n; i++)
+            {
+                double x = cos(2.0 * PI * i / n);
+                double y = sin(2.0 * PI * i / n);
+            
+                glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
+                glVertex3d(x, 0.0, y);
+                glColor4f(1.0f, 0.0f, 0.0f, 0.0f);
+                glVertex3d(x, SWCH_HEIGHT, y);
+            }
+        }
+        glEnd();
+    }
+    glEndList();
+
+    glNewList(swch_list + 1, GL_COMPILE);
+    {
+        glBegin(GL_QUAD_STRIP);
+        {
+            for (i = 0; i <= n; i++)
+            {
+                double x = cos(2.0 * PI * i / n);
+                double y = sin(2.0 * PI * i / n);
+            
+                glColor4f(0.0f, 1.0f, 0.0f, 0.5f);
+                glVertex3d(x, 0.0, y);
+                glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
+                glVertex3d(x, SWCH_HEIGHT, y);
+            }
+        }
+        glEnd();
+    }
+    glEndList();
+}
+
+void swch_free(void)
+{
+    if (glIsList(swch_list))
+        glDeleteLists(swch_list, 1);
+}
+
+void swch_draw(int b)
+{
+    glPushAttrib(GL_TEXTURE_BIT);
+    glPushAttrib(GL_POLYGON_BIT);
+    glPushAttrib(GL_LIGHTING_BIT);
+    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    {
+        glEnable(GL_COLOR_MATERIAL);
+        glDisable(GL_LIGHTING);
+        glDisable(GL_CULL_FACE);
+        glDisable(GL_TEXTURE_2D);
+        glDepthMask(GL_FALSE);
+
+        if (b)
+            glCallList(swch_list + 1);
+        else
+            glCallList(swch_list);
     }
     glPopAttrib();
     glPopAttrib();

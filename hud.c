@@ -29,8 +29,8 @@ static GLuint large_list[10];           /* Large digit display lists   */
 static int    large_w = 0;              /* Large digit layout size     */
 static int    large_h = 0;
 
-static GLuint small_text[10];           /* Small digit texture objects */
-static GLuint small_list[10];           /* Small digit display lists   */
+static GLuint small_text[11];           /* Small digit texture objects */
+static GLuint small_list[11];           /* Small digit display lists   */
 static int    small_w = 0;              /* Small digit layout size     */
 static int    small_h = 0;
 
@@ -76,6 +76,9 @@ void hud_init(void)
         large_list[i] = make_list(buf, TXT_LRG, c_yellow, c_red);
     }
 
+    small_text[10] = make_text(":", TXT_MED);
+    small_list[10] = make_list(":", TXT_MED, c_yellow, c_red);
+
     balls_text = make_text(STR_BALLS, TXT_SML);
     coins_text = make_text(STR_COINS, TXT_SML);
 
@@ -92,6 +95,9 @@ void hud_free(void)
 
     glDeleteTextures(1, &balls_text);
     glDeleteTextures(1, &coins_text);
+
+    glDeleteLists(small_list[10], 1);
+    glDeleteTextures(1, small_text + 10);
 
     for (i = 0; i < 10; i++)
     {
@@ -165,8 +171,8 @@ static void hud_draw_back(void)
 
     glDisable(GL_TEXTURE_2D);
     {
-        const int a = 2 * space_w + 2 * small_w + coins_w;
-        const int b =     space_w +     large_w + small_w;
+        const int a =      coins_w + 2 * small_w + 2 * space_w;
+        const int b = (3 * large_w + 2 * small_w + 3 * space_w) / 2;
 
         glColor4fv(c_grey);
 
@@ -214,15 +220,18 @@ void hud_draw(void)
     const int    balls = curr_balls();
     const int    coins = curr_coins();
 
-    const int s = (int) floor(clock);
-    const int h = (int) (100.0 * (clock - s));
+    const int m = (int) floor(clock) / 60;
+    const int s = (int) floor(clock) % 60;
+    const int h = (int) (100.0 * (clock - m * 60 - s));
 
     config_push_ortho();
     {
         glPushAttrib(GL_LIGHTING_BIT);
         glPushAttrib(GL_DEPTH_BUFFER_BIT);
         {
-            const int tx = C - large_w - small_w;
+            const int tw = 3 * large_w + 2 * small_w + space_w;
+            const int tx = C - tw / 2;
+
             const int bx =     balls_w + space_w;
             const int cx = W - coins_w - space_w - small_w * 2;
             const int hy = (large_h - small_h) / 2;
@@ -240,14 +249,16 @@ void hud_draw(void)
             {
                 glTranslated(tx, 0.0, 0.0);
 
-                glTranslated(+large_w + small_w, +large_h / 2, 0.0);
+                glTranslated(+tw / 2, +large_h / 2, 0.0);
                 glScaled(time_k, time_k, 1.0);
-                glTranslated(-large_w - small_w, -large_h / 2, 0.0);
+                glTranslated(-tw / 2, -large_h / 2, 0.0);
 
-                hud_draw_large((s / 10), 0,       0);
-                hud_draw_large((s % 10), large_w, 0);
-                hud_draw_small((h / 10), large_w + large_w,           hy);
-                hud_draw_small((h % 10), large_w + large_w + small_w, hy);
+                hud_draw_large(m,          0,                            0);
+                hud_draw_small(10,         large_w,                     hy);
+                hud_draw_large(s / 10,     large_w + space_w,            0);
+                hud_draw_large(s % 10, 2 * large_w + space_w,            0);
+                hud_draw_small(h / 10, 3 * large_w + space_w,           hy);
+                hud_draw_small(h % 10, 3 * large_w + space_w + small_w, hy);
             }
             glPopMatrix();
 

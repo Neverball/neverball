@@ -18,13 +18,12 @@
 #define CONFIG_PATH "./data"
 
 /*
- * Global settings  are stored  in USER_CONFIG_FILE.  High  scores are
- * stored in  USER_SCORES_FILE.  These files are placed  in the user's
- * home directory as given by  the HOME environment var.  If this file
+ * Global settings are stored in USER_CONFIG_FILE.  Replays are stored
+ * in  USER_REPLAY_FILE.  These files  are placed  in the  user's home
+ * directory as given by the HOME environment var.  If the config file
  * is deleted, it will be recreated using the defaults.
  */
 #define USER_CONFIG_FILE ".neverballrc"
-#define USER_SCORES_FILE ".neverballhs"
 #define USER_REPLAY_FILE ".neverballrp"
 
 #define CONFIG_DEF_WIDTH       800
@@ -35,7 +34,6 @@
 #define CONFIG_DEF_AUDIO_RATE  44100
 #define CONFIG_DEF_AUDIO_BUFF  AUD_BUFF_HI
 #define CONFIG_DEF_MOUSE_SENSE 300
-#define CONFIG_DEF_HIGH_LEVEL  1
 #define CONFIG_DEF_NICE        1
 #define CONFIG_DEF_DONE        0
 #define CONFIG_DEF_FPS         0
@@ -98,8 +96,6 @@ int  config_geom(void);
 int  config_rate(void);
 int  config_buff(void);
 int  config_sens(void);
-int  config_high(void);
-int  config_done(void);
 int  config_nice(void);
 int  config_fps (void);
 int  config_sound(void);
@@ -117,7 +113,6 @@ int  config_set_mode(int, int, int);
 int  config_set_text(int);
 int  config_set_geom(int);
 void config_set_high(int);
-void config_set_done(int);
 void config_set_view(int);
 int  config_set_audio(int, int);
 void config_set_sound(int);

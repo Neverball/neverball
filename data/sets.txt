@@ -1,0 +1,9 @@
+levels-easy.txt scores-easy.txt .neverballhs-easy shot-rlk/title.jpg
+Neverball Easy
+Difficulty: Beginner through Intermediate\Some description of this set of\levels goes here\\Author: Robert Kooima <rlk@snth.net>
+levels-hard.txt scores-hard.txt .neverballhs-hard shot-rlk/title.jpg
+Neverball Hard
+Difficulty: Intermediate through Expert\Some description of this set of\levels goes here\\Author: Robert Kooima <rlk@snth.net>
+levels-mym.txt  scores-mym.txt  .neverballhs-mym  shot-mym/descent.jpg
+Mehdi's Levels
+Difficulty: Expert through Insane\Some description of this set of\levels goes here\\Author: Mehdi Yousfi Monod

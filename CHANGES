@@ -1,4 +1,42 @@
 -------------------------------------------------------------------------------
+New in 1.0.2
+
+* Added level set selector.
+* Modified demo playback to handle level sets.
+* Added BSP optimization to physics.
+* New textures.
+* New levels.
+* Added Mehdi's level set.
+* Modified switches to act on paths rather than bodies.
+* Added timer option to switches.
+
+-------------------------------------------------------------------------------
+New in 1.0.1
+
+* Modified physics to better handle vertical movers.
+* Added mover switch entity.
+* Replaced level 13 with a level using vertical movers and switches.
+
+-------------------------------------------------------------------------------
+New in 1.0.0
+
+* Absolutely nothing
+
+-------------------------------------------------------------------------------
+New in 0.25.12
+
+* FreeBSD support
+* OSX support
+
+-------------------------------------------------------------------------------
+New in 0.25.11
+
+* Changed platforms to accelerate rather than change velocity instantly.
+* Changed timer to display minutes.  Increased max time from 99s to 9m59s.
+* Changed teleport exit to be relative to teleport entry.
+* Fixed time comparison ambiguity.
+
+-------------------------------------------------------------------------------
 New in 0.25.10
 
 * Fix broken load balancer starving the renderer on early level load.

@@ -21,17 +21,22 @@
 #include "glext.h"
 #include "hud.h"
 #include "game.h"
+#include "back.h"
 #include "menu.h"
 #include "text.h"
 #include "solid.h"
 #include "state.h"
 #include "level.h"
+#include "set.h"
 #include "image.h"
 #include "audio.h"
 #include "config.h"
 
 FILE *record_fp;
 FILE *replay_fp;
+
+static double global_time;
+static double replay_time;
 
 /*---------------------------------------------------------------------------*/
 
@@ -120,7 +125,7 @@ static int title_action(int i)
 {
     switch (i)
     {
-    case TITLE_PLAY: audio_play(AUD_MENU, 1.f); goto_state(&st_start); break;
+    case TITLE_PLAY: audio_play(AUD_MENU, 1.f); goto_state(&st_set);   break;
     case TITLE_DEMO: audio_play(AUD_MENU, 1.f); goto_state(&st_demo);  break;
     case TITLE_CONF: audio_play(AUD_MENU, 1.f); goto_state(&st_conf);  break;
     case TITLE_EXIT: return 0;
@@ -159,11 +164,13 @@ static void title_enter(void)
 
     menu_stat(0,          -1);
     menu_stat(TITLE_PLAY, +1);
+    menu_stat(TITLE_DEMO, -1);
     menu_stat(TITLE_DEMO,  config_demo() ? 0 : -1);
     menu_stat(TITLE_CONF,  0);
     menu_stat(TITLE_EXIT,  0);
 
-    level_init();
+    set_init();
+    set_goto(0);
     level_goto(0, 0, 0, 0);
 
     audio_music_play("bgm/title.ogg");
@@ -175,8 +182,9 @@ static void title_leave(void)
 {
     SDL_ShowCursor(SDL_DISABLE);
 
-    level_free();
+    set_free();
     menu_free();
+    audio_music_play("bgm/inter.ogg");
 }
 
 static void title_paint(void)
@@ -385,6 +393,7 @@ static void conf_enter(void)
     sprintf(muss, "%02d", config_music());
 
     menu_init(36, 25, value);
+    back_init("png/green_blue.png", config_geom());
 
     /* Text elements */
 
@@ -509,11 +518,19 @@ static void conf_leave(void)
 
     config_store();
     menu_free();
+    back_free();
 }
 
 static void conf_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    config_push_persp(FOV, 0.1, 300.0);
+    {
+        back_draw();
+    }
+    config_pop_matrix();
+
     menu_paint();
 }
 
@@ -542,6 +559,212 @@ static int conf_stick(int a, int v)
 static int conf_buttn(int b, int d)
 {
     if (config_button_a(b) && d == 1) return conf_action(menu_buttn());
+    if (config_button_b(b) && d == 1) return goto_state(&st_title);
+    if (config_button_X(b) && d == 1) return goto_state(&st_title);
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static int shot_set = 0;
+
+static int shot_x0  = 0;
+static int shot_y0  = 0;
+static int shot_x1  = 0;
+static int shot_y1  = 0;
+
+static int set_action(int i)
+{
+    if (i >= 0)
+    {
+        if (i == 0)
+        {
+            back_free();
+            return goto_state(&st_title);
+        }
+        if (2 <= i && i <= 6)
+        {
+            back_free();
+            set_goto(i - 2);
+            return goto_state(&st_start);
+        }
+    }
+    return 1;
+}
+
+static void set_describe(int i)
+{
+    int w, h, j, y, m = 7;
+
+    char buf[STRMAX];
+    const char *p = set_desc(i);
+
+    text_size("0", TXT_SML, &w, &h);
+    y = -2 * h;
+    h =  3 * h / 2;
+
+    while (p && m < 12)
+    {
+        memset(buf, 0, 256);
+        j = 0;
+
+        while (p && *p && *p != '\\')
+            buf[j++] = *p++;
+
+        if (j > 0) menu_text(m, 0, y, c_yellow, c_white, buf, TXT_SML);
+
+        menu_item(m, 0, y, h * 15, h);
+        menu_stat(m, -1);
+
+        y -= h;
+        m++;
+
+        if (*p) p++;
+    }
+}
+
+static void set_enter(void)
+{
+    int w;
+    int h;
+    int j;
+
+    shot_set = 0;
+
+    text_size("0", TXT_SML, &w, &h);
+    j = h / 2;
+
+    set_init();
+    menu_init(12, 12, 0);
+    back_init("png/green_blue.png", config_geom());
+
+    /* Text elements */
+
+    menu_text(0, -8 * h, 16 * j, c_white,  c_white,      "Back", TXT_SML);
+    menu_text(1, +7 * h, 16 * j, c_yellow, c_red,   "Level Set", TXT_SML);
+    menu_text(2, -5 * h, 13 * j, c_white,  c_white, set_name(0), TXT_SML);
+    menu_text(3, -5 * h, 10 * j, c_white,  c_white, set_name(1), TXT_SML);
+    menu_text(4, -5 * h,  7 * j, c_white,  c_white, set_name(2), TXT_SML);
+    menu_text(5, -5 * h,  4 * j, c_white,  c_white, set_name(3), TXT_SML);
+    menu_text(6, -5 * h,      j, c_white,  c_white, set_name(4), TXT_SML);
+
+    /* Active items */
+
+    menu_item(0, -8 * h, 16 * j,  4 * h, 3 * j);
+    menu_item(1, +7 * h, 16 * j,  6 * h, 3 * j);
+    menu_item(2, -5 * h, 13 * j, 10 * h, 3 * j);
+    menu_item(3, -5 * h, 10 * j, 10 * h, 3 * j);
+    menu_item(4, -5 * h,  7 * j, 10 * h, 3 * j);
+    menu_item(5, -5 * h,  4 * j, 10 * h, 3 * j);
+    menu_item(6, -5 * h,      j, 10 * h, 3 * j);
+
+    /* Item state */
+
+    menu_stat(0, 0);
+    menu_stat(1, 0);
+    menu_stat(2, set_exists(0) ? 0 : -1);
+    menu_stat(3, set_exists(1) ? 0 : -1);
+    menu_stat(4, set_exists(2) ? 0 : -1);
+    menu_stat(5, set_exists(3) ? 0 : -1);
+    menu_stat(6, set_exists(4) ? 0 : -1);
+
+    /* Item linkings */
+
+    menu_link(0,                     -1, set_exists(0) ? 2 : -1, -1, -1);
+    menu_link(2,                      0, set_exists(1) ? 3 : -1, -1, -1);
+    menu_link(3, set_exists(0) ? 2 : -1, set_exists(2) ? 4 : -1, -1, -1);
+    menu_link(4, set_exists(1) ? 3 : -1, set_exists(3) ? 5 : -1, -1, -1);
+    menu_link(5, set_exists(2) ? 4 : -1, set_exists(4) ? 6 : -1, -1, -1);
+    menu_link(6, set_exists(3) ? 5 : -1,                     -1, -1, -1);
+
+    set_describe(0);
+
+    /* Position the set shot. */
+
+    shot_x0 = config_w() / 2;
+    shot_y0 = config_h() / 2 -      j / 2;
+    shot_x1 = config_w() / 2 + 10 * h;
+    shot_y1 = config_h() / 2 + 29 * j / 2;
+
+    SDL_ShowCursor(SDL_ENABLE);
+}
+
+static void set_leave(void)
+{
+    SDL_ShowCursor(SDL_DISABLE);
+    menu_free();
+}
+
+static void set_paint(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    config_push_persp(FOV, 0.1, 300.0);
+    {
+        back_draw();
+    }
+    config_pop_matrix();
+
+    glPushAttrib(GL_LIGHTING_BIT);
+    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    config_push_ortho();
+    {
+        glEnable(GL_COLOR_MATERIAL);
+        glDisable(GL_LIGHTING);
+        glDisable(GL_DEPTH_TEST);
+
+        set_shot(shot_set);
+
+        glBegin(GL_QUADS);
+        {
+            glColor3f(1.f, 1.f, 1.f);
+
+            glTexCoord2i(0, 1); glVertex2i(shot_x0, shot_y0);
+            glTexCoord2i(1, 1); glVertex2i(shot_x1, shot_y0);
+            glTexCoord2i(1, 0); glVertex2i(shot_x1, shot_y1);
+            glTexCoord2i(0, 0); glVertex2i(shot_x0, shot_y1);
+        }
+        glEnd();
+    }
+    config_pop_matrix();
+    glPopAttrib();
+    glPopAttrib();
+
+    menu_paint();
+}
+
+static int set_point(int x, int y, int dx, int dy)
+{
+    int i;
+
+    if ((i = menu_point(x, y)) >= 0 && shot_set != i - 2)
+    {
+        shot_set = i - 2;
+        set_describe(shot_set);
+    }
+
+    return 1;
+}
+
+static int set_click(int b, int d)
+{
+    return (b < 0 && d == 1) ? set_action(menu_click()) : 1;
+}
+
+static int set_keybd(int c)
+{
+    return (c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+}
+
+static int set_stick(int a, int v)
+{
+    menu_stick(a, v);
+    return 1;
+}
+
+static int set_buttn(int b, int d)
+{
+    if (config_button_a(b) && d == 1) return set_action(menu_buttn());
     if (config_button_b(b) && d == 1) return goto_state(&st_title);
     if (config_button_X(b) && d == 1) return goto_state(&st_title);
     return 1;
@@ -616,19 +839,19 @@ static void highs_menu(int i, int j, int k)
 #define STR_BACK  "Back"
 
 static int shot_level = -1;
-static int shot_x0    =  0;
-static int shot_y0    =  0;
-static int shot_x1    =  0;
-static int shot_y1    =  0;
 
 static int start_action(int i)
 {
     if (i >= 0)
     {
         if (i == START_BACK)
-            return goto_state(&st_title);
+        {
+            back_free();
+            return goto_state(&st_set);
+        }
         else
         {
+            back_free();
             level_goto(0, 0, 2, i);
             return goto_state(&st_level);
         }
@@ -636,8 +859,10 @@ static int start_action(int i)
     return 1;
 }
 
-#define COL0(i) (level_opened(i) ? c_white : c_yellow)
-#define COL1(i) (level_opened(i) ? c_white : c_red)
+#define COL0(i) (level_exists(i) \
+                 ? ((level_opened(i) ? c_white : c_yellow)) : c_black)
+#define COL1(i) (level_exists(i) \
+                 ? ((level_opened(i) ? c_white : c_red))    : c_black)
 #define OPN(i)  (level_opened(i) ? i : -1)
 
 static void start_enter(void)
@@ -645,77 +870,79 @@ static void start_enter(void)
     int i;
     int w;
     int h;
+    int j;
 
     shot_level = 0;
 
-    level_init();
-    audio_music_play("bgm/inter.ogg");
     audio_play(AUD_START, 1.f);
 
     text_size("0", TXT_SML, &w, &h);
+    j = h / 2;
+
     menu_init(47, 29, 0);
+    back_init("png/green_blue.png", config_geom());
 
     /* Text elements */
 
-    menu_text(0,  -8 * h, +33 * h / 4, c_white, c_white, "Back", TXT_SML);
-    menu_text(1,  -9 * h, +27 * h / 4, COL0( 1), COL1( 1), "01", TXT_SML);
-    menu_text(2,  -7 * h, +27 * h / 4, COL0( 2), COL1( 2), "02", TXT_SML);
-    menu_text(3,  -5 * h, +27 * h / 4, COL0( 3), COL1( 3), "03", TXT_SML);
-    menu_text(4,  -3 * h, +27 * h / 4, COL0( 4), COL1( 4), "04", TXT_SML);
-    menu_text(5,  -1 * h, +27 * h / 4, COL0( 5), COL1( 5), "05", TXT_SML);
-    menu_text(6,  -9 * h, +21 * h / 4, COL0( 6), COL1( 6), "06", TXT_SML);
-    menu_text(7,  -7 * h, +21 * h / 4, COL0( 7), COL1( 7), "07", TXT_SML);
-    menu_text(8,  -5 * h, +21 * h / 4, COL0( 8), COL1( 8), "08", TXT_SML);
-    menu_text(9,  -3 * h, +21 * h / 4, COL0( 9), COL1( 9), "09", TXT_SML);
-    menu_text(10, -1 * h, +21 * h / 4, COL0(10), COL1(10), "10", TXT_SML);
-    menu_text(11, -9 * h, +15 * h / 4, COL0(11), COL1(11), "11", TXT_SML);
-    menu_text(12, -7 * h, +15 * h / 4, COL0(12), COL1(12), "12", TXT_SML);
-    menu_text(13, -5 * h, +15 * h / 4, COL0(13), COL1(13), "13", TXT_SML);
-    menu_text(14, -3 * h, +15 * h / 4, COL0(14), COL1(14), "14", TXT_SML);
-    menu_text(15, -1 * h, +15 * h / 4, COL0(15), COL1(15), "15", TXT_SML);
-    menu_text(16, -9 * h,  +9 * h / 4, COL0(16), COL1(16), "16", TXT_SML);
-    menu_text(17, -7 * h,  +9 * h / 4, COL0(17), COL1(17), "17", TXT_SML);
-    menu_text(18, -5 * h,  +9 * h / 4, COL0(18), COL1(18), "18", TXT_SML);
-    menu_text(19, -3 * h,  +9 * h / 4, COL0(19), COL1(19), "19", TXT_SML);
-    menu_text(20, -1 * h,  +9 * h / 4, COL0(20), COL1(20), "20", TXT_SML);
-    menu_text(21, -9 * h,  +3 * h / 4, COL0(21), COL1(21), "21", TXT_SML);
-    menu_text(22, -7 * h,  +3 * h / 4, COL0(22), COL1(22), "22", TXT_SML);
-    menu_text(23, -5 * h,  +3 * h / 4, COL0(23), COL1(23), "23", TXT_SML);
-    menu_text(24, -3 * h,  +3 * h / 4, COL0(24), COL1(24), "24", TXT_SML);
-    menu_text(25, -1 * h,  +3 * h / 4, COL0(25), COL1(25), "25", TXT_SML);
-    menu_text(26, +8 * h, +33 * h / 4, c_yellow, c_red, "Level",      TXT_SML);
+    menu_text(0,  -8 * h, 16 * j, c_white, c_white, "Back", TXT_SML);
+    menu_text(1,  -9 * h, 13 * j, COL0( 1), COL1( 1), "01", TXT_SML);
+    menu_text(2,  -7 * h, 13 * j, COL0( 2), COL1( 2), "02", TXT_SML);
+    menu_text(3,  -5 * h, 13 * j, COL0( 3), COL1( 3), "03", TXT_SML);
+    menu_text(4,  -3 * h, 13 * j, COL0( 4), COL1( 4), "04", TXT_SML);
+    menu_text(5,  -1 * h, 13 * j, COL0( 5), COL1( 5), "05", TXT_SML);
+    menu_text(6,  -9 * h, 10 * j, COL0( 6), COL1( 6), "06", TXT_SML);
+    menu_text(7,  -7 * h, 10 * j, COL0( 7), COL1( 7), "07", TXT_SML);
+    menu_text(8,  -5 * h, 10 * j, COL0( 8), COL1( 8), "08", TXT_SML);
+    menu_text(9,  -3 * h, 10 * j, COL0( 9), COL1( 9), "09", TXT_SML);
+    menu_text(10, -1 * h, 10 * j, COL0(10), COL1(10), "10", TXT_SML);
+    menu_text(11, -9 * h,  7 * j, COL0(11), COL1(11), "11", TXT_SML);
+    menu_text(12, -7 * h,  7 * j, COL0(12), COL1(12), "12", TXT_SML);
+    menu_text(13, -5 * h,  7 * j, COL0(13), COL1(13), "13", TXT_SML);
+    menu_text(14, -3 * h,  7 * j, COL0(14), COL1(14), "14", TXT_SML);
+    menu_text(15, -1 * h,  7 * j, COL0(15), COL1(15), "15", TXT_SML);
+    menu_text(16, -9 * h,  4 * j, COL0(16), COL1(16), "16", TXT_SML);
+    menu_text(17, -7 * h,  4 * j, COL0(17), COL1(17), "17", TXT_SML);
+    menu_text(18, -5 * h,  4 * j, COL0(18), COL1(18), "18", TXT_SML);
+    menu_text(19, -3 * h,  4 * j, COL0(19), COL1(19), "19", TXT_SML);
+    menu_text(20, -1 * h,  4 * j, COL0(20), COL1(20), "20", TXT_SML);
+    menu_text(21, -9 * h,      j, COL0(21), COL1(21), "21", TXT_SML);
+    menu_text(22, -7 * h,      j, COL0(22), COL1(22), "22", TXT_SML);
+    menu_text(23, -5 * h,      j, COL0(23), COL1(23), "23", TXT_SML);
+    menu_text(24, -3 * h,      j, COL0(24), COL1(24), "24", TXT_SML);
+    menu_text(25, -1 * h,      j, COL0(25), COL1(25), "25", TXT_SML);
+    menu_text(26,  8 * h, 16 * j, c_yellow, c_red, "Level", TXT_SML);
 
     highs_menu(0, 27, 27);
 
     /* Active items */
 
-    menu_item(0,  -8 * h, +33 * h / 4, 4 * h, 3 * h / 2);
-    menu_item(1,  -9 * h, +27 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(2,  -7 * h, +27 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(3,  -5 * h, +27 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(4,  -3 * h, +27 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(5,  -1 * h, +27 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(6,  -9 * h, +21 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(7,  -7 * h, +21 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(8,  -5 * h, +21 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(9,  -3 * h, +21 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(10, -1 * h, +21 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(11, -9 * h, +15 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(12, -7 * h, +15 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(13, -5 * h, +15 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(14, -3 * h, +15 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(15, -1 * h, +15 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(16, -9 * h,  +9 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(17, -7 * h,  +9 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(18, -5 * h,  +9 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(19, -3 * h,  +9 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(20, -1 * h,  +9 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(21, -9 * h,  +3 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(22, -7 * h,  +3 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(23, -5 * h,  +3 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(24, -3 * h,  +3 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(25, -1 * h,  +3 * h / 4, 2 * h, 3 * h / 2);
-    menu_item(26, +8 * h, +33 * h / 4,  4 * h - 4,  3 * h / 2); 
+    menu_item(0,  -8 * h, 16 * j, 4 * h, 3 * j);
+    menu_item(1,  -9 * h, 13 * j, 2 * h, 3 * j);
+    menu_item(2,  -7 * h, 13 * j, 2 * h, 3 * j);
+    menu_item(3,  -5 * h, 13 * j, 2 * h, 3 * j);
+    menu_item(4,  -3 * h, 13 * j, 2 * h, 3 * j);
+    menu_item(5,  -1 * h, 13 * j, 2 * h, 3 * j);
+    menu_item(6,  -9 * h, 10 * j, 2 * h, 3 * j);
+    menu_item(7,  -7 * h, 10 * j, 2 * h, 3 * j);
+    menu_item(8,  -5 * h, 10 * j, 2 * h, 3 * j);
+    menu_item(9,  -3 * h, 10 * j, 2 * h, 3 * j);
+    menu_item(10, -1 * h, 10 * j, 2 * h, 3 * j);
+    menu_item(11, -9 * h,  7 * j, 2 * h, 3 * j);
+    menu_item(12, -7 * h,  7 * j, 2 * h, 3 * j);
+    menu_item(13, -5 * h,  7 * j, 2 * h, 3 * j);
+    menu_item(14, -3 * h,  7 * j, 2 * h, 3 * j);
+    menu_item(15, -1 * h,  7 * j, 2 * h, 3 * j);
+    menu_item(16, -9 * h,  4 * j, 2 * h, 3 * j);
+    menu_item(17, -7 * h,  4 * j, 2 * h, 3 * j);
+    menu_item(18, -5 * h,  4 * j, 2 * h, 3 * j);
+    menu_item(19, -3 * h,  4 * j, 2 * h, 3 * j);
+    menu_item(20, -1 * h,  4 * j, 2 * h, 3 * j);
+    menu_item(21, -9 * h,      j, 2 * h, 3 * j);
+    menu_item(22, -7 * h,      j, 2 * h, 3 * j);
+    menu_item(23, -5 * h,      j, 2 * h, 3 * j);
+    menu_item(24, -3 * h,      j, 2 * h, 3 * j);
+    menu_item(25, -1 * h,      j, 2 * h, 3 * j);
+    menu_item(26, +8 * h, 16 * j, 4 * h - 4,  3 * j); 
 
     menu_stat(0, 0);
 
@@ -755,9 +982,9 @@ static void start_enter(void)
     /* Position the level shot. */
 
     shot_x0 = config_w() / 2;
-    shot_y0 = config_h() / 2;
-    shot_x1 = config_w() / 2 +  10 * h;
-    shot_y1 = config_h() / 2 +  15 * h / 2;
+    shot_y0 = config_h() / 2 -      j / 2;
+    shot_x1 = config_w() / 2 + 10 * h;
+    shot_y1 = config_h() / 2 + 29 * j / 2;
 
     SDL_ShowCursor(SDL_ENABLE);
 }
@@ -765,13 +992,18 @@ static void start_enter(void)
 static void start_leave(void)
 {
     SDL_ShowCursor(SDL_DISABLE);
-
     menu_free();
 }
 
 static void start_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    config_push_persp(FOV, 0.1, 300.0);
+    {
+        back_draw();
+    }
+    config_pop_matrix();
 
     glPushAttrib(GL_LIGHTING_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
@@ -805,7 +1037,7 @@ static int start_point(int x, int y, int dx, int dy)
 {
     int i;
 
-    if ((i = menu_point(x, y)) >= 0 && i != shot_level)
+    if ((i = menu_point(x, y)) >= 0 && shot_level != i)
     {
         highs_menu(i, 27, 27);
         shot_level = i;
@@ -854,7 +1086,7 @@ static void level_enter(void)
     int w = 7 * config_w() / 8;
     int i, j, l = curr_level();
 
-    char buf[256], *p = curr_intro();
+    char buf[STRMAX], *p = curr_intro();
 
     sprintf(buf, "Level %02d", l);
     
@@ -870,7 +1102,7 @@ static void level_enter(void)
 
     while (p && i < 7)
     {
-        memset(buf, 0, 256);
+        memset(buf, 0, STRMAX);
         j = 0;
 
         while (p && *p && *p != '\\')
@@ -906,7 +1138,7 @@ static void level_paint(void)
 
 static int level_click(int b, int d)
 {
-    return (b < 0 && d == 1) ? goto_state(&st_ready) : 1;
+    return (b < 0 && d == 1) ? goto_state(&st_two) : 1;
 }
 
 static int level_keybd(int c)
@@ -920,7 +1152,7 @@ static int level_keybd(int c)
 
 static int level_buttn(int b, int d)
 {
-    if (config_button_a(b) && d == 1) return goto_state(&st_ready);
+    if (config_button_a(b) && d == 1) return goto_state(&st_two);
     if (config_button_X(b) && d == 1) return goto_state(&st_over);
     return 1;
 }
@@ -940,7 +1172,7 @@ static int poser_keybd(int c)
 
 /*---------------------------------------------------------------------------*/
 
-static void ready_enter(void)
+static void two_enter(void)
 {
     int y = 1 * config_h() / 6;
     int h = 1 * config_w() / 6;
@@ -954,12 +1186,12 @@ static void ready_enter(void)
     audio_play(AUD_READY, 1.f);
 }
 
-static void ready_leave(void)
+static void two_leave(void)
 {
     menu_free();
 }
 
-static void ready_paint(void)
+static void two_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     game_draw(0);
@@ -967,29 +1199,29 @@ static void ready_paint(void)
     menu_paint();
 }
 
-static int ready_timer(double dt)
+static int two_timer(double dt)
 {
     double t = time_state();
 
     game_set_fly(1.0 - 0.5 * t);
 
     if (dt > 0.0 && t > 1.0)
-        return goto_state(&st_set);
+        return goto_state(&st_one);
 
     return 1;
 }
 
-static int ready_click(int b, int d)
+static int two_click(int b, int d)
 {
     return (b < 0 && d == 1) ? goto_state(&st_play) : 1;
 }
 
-static int ready_keybd(int c)
+static int two_keybd(int c)
 {
     return (c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
 }
 
-static int ready_buttn(int b, int d)
+static int two_buttn(int b, int d)
 {
     if (config_button_a(b) && d == 1) return goto_state(&st_play);
     if (config_button_X(b) && d == 1) return goto_state(&st_over);
@@ -998,7 +1230,7 @@ static int ready_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static void set_enter(void)
+static void one_enter(void)
 {
     int y = 1 * config_h() / 6;
     int h = 1 * config_w() / 6;
@@ -1011,12 +1243,12 @@ static void set_enter(void)
     audio_play(AUD_SET, 1.f);
 }
 
-static void set_leave(void)
+static void one_leave(void)
 {
     menu_free();
 }
 
-static void set_paint(void)
+static void one_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     game_draw(0);
@@ -1024,7 +1256,7 @@ static void set_paint(void)
     menu_paint();
 }
 
-static int set_timer(double dt)
+static int one_timer(double dt)
 {
     double t = time_state();
 
@@ -1036,7 +1268,7 @@ static int set_timer(double dt)
     return 1;
 }
 
-static int set_click(int b, int d)
+static int one_click(int b, int d)
 {
     if (b < 0 && d == 1)
     {
@@ -1046,12 +1278,12 @@ static int set_click(int b, int d)
     return 1;
 }
 
-static int set_keybd(int c)
+static int one_keybd(int c)
 {
     return (c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
 }
 
-static int set_buttn(int b, int d)
+static int one_buttn(int b, int d)
 {
     if (config_button_a(b) && d == 1) return goto_state(&st_play);
     if (config_button_X(b) && d == 1) return goto_state(&st_over);
@@ -1083,6 +1315,7 @@ static void play_enter(void)
     if (config_home(filename, USER_REPLAY_FILE, STRMAX))
         if ((record_fp = fopen(filename, FMODE_WB)))
         {
+            fputc(set_curr(),   record_fp);
             fputc(curr_score(), record_fp);
             fputc(curr_coins(), record_fp);
             fputc(curr_balls(), record_fp);
@@ -1108,24 +1341,25 @@ static void play_paint(void)
 static int play_timer(double dt)
 {
     double g[3] = { 0.0, -9.8, 0.0 };
-    double t = dt;
-    
-    hud_step(dt);
-    game_set_rot(view_rotate);
 
-    switch (game_step(g, dt, 1))
+    if (state_time > 0.1)
     {
-    case GAME_TIME: goto_state(&st_time); break;
-    case GAME_GOAL: goto_state(&st_goal); break;
-    case GAME_FALL: goto_state(&st_fall); break;
-    }
+        hud_step(dt);
+        game_set_rot(view_rotate);
 
-    if (record_fp)
-    {
-        double_put(record_fp, &t);
-        game_put(record_fp);
-    }
+        switch (game_step(g, dt, 1))
+        {
+        case GAME_TIME: goto_state(&st_time); break;
+        case GAME_GOAL: goto_state(&st_goal); break;
+        case GAME_FALL: goto_state(&st_fall); break;
+        }
 
+        if (record_fp)
+        {
+            double_put(record_fp, &dt);
+            game_put(record_fp);
+        }
+    }
     return 1;
 }
 
@@ -1179,9 +1413,6 @@ static int play_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static double global_time;
-static double replay_time;
-
 static void demo_enter(void)
 {
     char filename[STRMAX];
@@ -1197,20 +1428,25 @@ static void demo_enter(void)
     global_time = -1.0;
     replay_time =  0.0;
 
-    level_init();
-
     if (config_home(filename, USER_REPLAY_FILE, STRMAX))
         if ((replay_fp = fopen(filename, FMODE_RB)))
         {
-            int s = fgetc(replay_fp);
-            int c = fgetc(replay_fp);
-            int b = fgetc(replay_fp);
-            int l = fgetc(replay_fp);
+            int n = fgetc(replay_fp);
 
-            if (level_exists(l))
+            if (set_exists(n))
             {
-                level_goto(s, c, b, l);
-                level_song();
+                set_goto(n);
+
+                int s = fgetc(replay_fp);
+                int c = fgetc(replay_fp);
+                int b = fgetc(replay_fp);
+                int l = fgetc(replay_fp);
+
+                if (level_exists(l))
+                {
+                    level_goto(s, c, b, l);
+                    level_song();
+                }
             }
         }
 
@@ -1627,6 +1863,13 @@ static int fall_click(int b, int d)
     return 1;
 }
 
+static int fall_keybd(int c)
+{
+    if (c == SDLK_ESCAPE)
+        goto_state(&st_over);
+    return 1;
+}
+
 static int fall_timer(double dt)
 {
     double g[3] = { 0.0, -9.8, 0.0 };
@@ -1749,7 +1992,7 @@ static void omed_leave(void)
 {
     audio_music_stop();
     menu_free();
-    level_free();
+    set_free();
 }
 
 static void omed_paint(void)
@@ -1805,7 +2048,7 @@ static void over_leave(void)
         record_fp = NULL;
     }
     menu_free();
-    level_free();
+    set_free();
 }
 
 static void over_paint(void)
@@ -1839,9 +2082,9 @@ static int over_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-#define STR_DONE " That's it? "
-#define STR_THNX " Thanks for playing! "
-#define STR_MORE " More levels are on the way "
+#define STR_DONE " Congrats! "
+#define STR_THNX " That's it for this set. "
+#define STR_MORE " Move on to the next one. "
 
 static void done_enter(void)
 {
@@ -1868,7 +2111,7 @@ static void done_enter(void)
 static void done_leave(void)
 {
     menu_free();
-    level_free();
+    set_free();
 }
 
 static void done_paint(void)
@@ -1926,6 +2169,18 @@ struct state st_title = {
     title_buttn,
 };
 
+struct state st_set = {
+    set_enter,
+    set_leave,
+    set_paint,
+    NULL,
+    set_point,
+    set_click,
+    set_keybd,
+    set_stick,
+    set_buttn,
+};
+
 struct state st_start = {
     start_enter,
     start_leave,
@@ -1974,28 +2229,28 @@ struct state st_poser = {
     NULL,
 };
 
-struct state st_ready = {
-    ready_enter,
-    ready_leave,
-    ready_paint,
-    ready_timer,
+struct state st_two = {
+    two_enter,
+    two_leave,
+    two_paint,
+    two_timer,
     NULL,
-    ready_click,
-    ready_keybd,
+    two_click,
+    two_keybd,
     NULL,
-    ready_buttn,
+    two_buttn,
 };
 
-struct state st_set = {
-    set_enter,
-    set_leave,
-    set_paint,
-    set_timer,
+struct state st_one = {
+    one_enter,
+    one_leave,
+    one_paint,
+    one_timer,
     NULL,
-    set_click,
-    set_keybd,
+    one_click,
+    one_keybd,
     NULL,
-    set_buttn,
+    one_buttn,
 };
 
 struct state st_play = {
@@ -2053,7 +2308,7 @@ struct state st_fall = {
     fall_timer,
     NULL,
     fall_click,
-    NULL,
+    fall_keybd,
     NULL,
     fall_buttn,
 };

@@ -6,12 +6,16 @@
 #X11_PATH= -L/usr/X11/lib
 #X11_PATH= -L/usr/X11R6/lib
 
+OGL_LIBS= -lGLU -lGL -lm
+#OGL_LIBS= -lm                                                # Think Different
+
 #------------------------------------------------------------------------------
 
-CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
+CFLAGS= -Wall -O3 -ansi $(shell sdl-config --cflags)
+#CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
 
-X11_LIBS= $(X11_PATH) -lGLU -lGL -lm
 SDL_LIBS= $(shell sdl-config --libs)
+FT2_LIBS= $(shell freetype-config --libs)
 
 MAPC_TARG= mapc
 GAME_TARG= neverball
@@ -33,44 +37,75 @@ GAME_OBJS= \
 	back.o   \
 	game.o   \
 	level.o  \
+	set.o    \
 	menu.o   \
 	state.o  \
 	config.o \
 	glext.o  \
 	main.o
 
-MAPC_DEPS= $(GAME_SRCS:.c=.d)
 GAME_DEPS= $(GAME_OBJS:.o=.d)
+MAPC_DEPS= $(MAPC_OBJS:.o=.d)
 
-MAPC_LIBS= $(SDL_LIBS) -lSDL_image $(X11_LIBS)
-GAME_LIBS= $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer -lfreetype $(X11_LIBS)
+MAPC_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image $(OGL_LIBS)
+GAME_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS) $(OGL_LIBS)
 
 SOLS= \
-	data/sol/00_title.sol   \
-	data/sol/01_easy.sol    \
-	data/sol/02_coin.sol    \
-	data/sol/03_slow.sol    \
-	data/sol/04_fence.sol   \
-	data/sol/05_fall.sol    \
-	data/sol/06_move.sol    \
-	data/sol/07_waka.sol    \
-	data/sol/08_curve.sol   \
-	data/sol/09_maze.sol    \
-	data/sol/10_spiral.sol  \
-	data/sol/11_ramp.sol    \
-	data/sol/12_goal.sol    \
-	data/sol/13_pyramid.sol \
-	data/sol/14_quads.sol   \
-	data/sol/15_frog.sol    \
-	data/sol/16_angle.sol   \
-	data/sol/17_spread.sol  \
-	data/sol/18_four.sol    \
-	data/sol/19_hump.sol    \
-	data/sol/20_movers.sol  \
-	data/sol/21_poke.sol    \
-	data/sol/22_ring.sol    \
-	data/sol/23_tele.sol    \
-	data/sol/24_marble.sol
+	data/sol-rlk/title.sol    \
+	data/sol-rlk/telemaze.sol \
+	data/sol-rlk/islands.sol  \
+	data/sol-rlk/check.sol    \
+	data/sol-rlk/bumps.sol    \
+	data/sol-rlk/corners.sol  \
+	data/sol-rlk/peasy.sol    \
+	data/sol-rlk/timer.sol    \
+	data/sol-rlk/bumper.sol   \
+	data/sol-rlk/stairs.sol   \
+	data/sol-rlk/tilt.sol     \
+	data/sol-rlk/gaps.sol     \
+	data/sol-rlk/spiralin.sol \
+	data/sol-rlk/locks.sol    \
+	data/sol-rlk/easy.sol     \
+	data/sol-rlk/coins.sol    \
+	data/sol-rlk/goslow.sol   \
+	data/sol-rlk/fence.sol    \
+	data/sol-rlk/hole.sol     \
+	data/sol-rlk/zigzag.sol   \
+	data/sol-rlk/mover.sol    \
+	data/sol-rlk/wakka.sol    \
+	data/sol-rlk/curved.sol   \
+	data/sol-rlk/sync.sol     \
+	data/sol-rlk/grid.sol     \
+	data/sol-rlk/maze.sol     \
+	data/sol-rlk/spiraldn.sol \
+	data/sol-rlk/spiralup.sol \
+	data/sol-rlk/ramps.sol    \
+	data/sol-rlk/goals.sol    \
+	data/sol-rlk/risers.sol   \
+	data/sol-rlk/quads.sol    \
+	data/sol-rlk/frogger.sol  \
+	data/sol-rlk/angle.sol    \
+	data/sol-rlk/spread.sol   \
+	data/sol-rlk/four.sol     \
+	data/sol-rlk/hump.sol     \
+	data/sol-rlk/movers.sol   \
+	data/sol-rlk/poker.sol    \
+	data/sol-rlk/ring.sol     \
+	data/sol-rlk/teleport.sol \
+	data/sol-mym/assault_course.sol \
+	data/sol-mym/dance.sol          \
+	data/sol-mym/descent.sol        \
+	data/sol-mym/drive.sol          \
+	data/sol-mym/drive2.sol         \
+	data/sol-mym/earth_quake.sol    \
+	data/sol-mym/free_fall.sol      \
+	data/sol-mym/glass_tower.sol    \
+	data/sol-mym/loop.sol           \
+	data/sol-mym/loop2.sol          \
+	data/sol-mym/narrow.sol         \
+	data/sol-mym/scrambling.sol     \
+	data/sol-mym/trust.sol
+
 
 #------------------------------------------------------------------------------
 
@@ -80,7 +115,10 @@ SOLS= \
 %.o : %.c
 	$(CC) $(CFLAGS) -c $<
 
-data/sol/%.sol : data/map/%.map $(MAPC_TARG)
+data/sol-rlk/%.sol : data/map-rlk/%.map $(MAPC_TARG)
+	./$(MAPC_TARG) $< $@ data
+
+data/sol-mym/%.sol : data/map-mym/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< $@ data
 
 #------------------------------------------------------------------------------

@@ -59,9 +59,10 @@ static char *path = ".";
 #define MAXB	512
 #define MAXC	1024
 #define MAXZ    16
-#define MAXJ	16
+#define MAXJ	32
+#define MAXX	16
 #define MAXU	16
-#define MAXW    16
+#define MAXW    32
 #define MAXA	512
 #define MAXI	16384
 
@@ -80,6 +81,7 @@ static void init_file(struct s_file *fp)
     fp->cc = 0;
     fp->zc = 0;
     fp->jc = 0;
+    fp->xc = 0;
     fp->uc = 0;
     fp->wc = 0;
     fp->ac = 0;
@@ -98,6 +100,7 @@ static void init_file(struct s_file *fp)
     fp->cv = (struct s_coin *) calloc(MAXC, sizeof (struct s_coin));
     fp->zv = (struct s_goal *) calloc(MAXZ, sizeof (struct s_goal));
     fp->jv = (struct s_jump *) calloc(MAXJ, sizeof (struct s_jump));
+    fp->xv = (struct s_swch *) calloc(MAXX, sizeof (struct s_swch));
     fp->uv = (struct s_ball *) calloc(MAXU, sizeof (struct s_ball));
     fp->wv = (struct s_view *) calloc(MAXW, sizeof (struct s_view));
     fp->av = (char          *) calloc(MAXA, sizeof (char));
@@ -138,8 +141,8 @@ static int  valv[MAXSYM];
 static char refv[MAXSYM][MAXSTR];
 static int *pntv[MAXSYM];
 
-static int   strc = 0;
-static int   refc = 0;
+static int  strc = 0;
+static int  refc = 0;
 
 static void make_sym(const char *s, int  v)
 {
@@ -483,6 +486,7 @@ static void make_path(struct s_file *fp,
     pp->p[2] = 0.0;
     pp->t    = 1.0;
     pp->pi   = pi;
+    pp->f    = 1;
 
     for (i = 0; i < c; i++)
     {
@@ -491,6 +495,9 @@ static void make_path(struct s_file *fp,
 
         if (strcmp(k[i], "target") == 0)
             make_ref(v[i], &pp->pi);
+
+        if (strcmp(k[i], "state") == 0)
+            pp->f = atoi(v[i]);
 
         if (strcmp(k[i], "speed") == 0)
             sscanf(v[i], "%lf", &pp->t);
@@ -524,8 +531,12 @@ static void make_body(struct s_file *fp,
 
     for (i = 0; i < c; i++)
     {
+        if (strcmp(k[i], "targetname") == 0)
+            make_sym(v[i], bi);
+
         if (strcmp(k[i], "target") == 0)
             make_ref(v[i], &bp->pi);
+
         if (strcmp(k[i], "message") == 0)
         {
             strcpy(fp->av, v[i]);
@@ -666,6 +677,51 @@ static void make_jump(struct s_file *fp,
     }
 }
 
+static void make_swch(struct s_file *fp,
+                      char k[][MAXSTR],
+                      char v[][MAXSTR], int c)
+{
+    int i, xi = fp->xc++;
+
+    struct s_swch *xp = fp->xv + xi;
+
+    xp->p[0] = 0.0;
+    xp->p[1] = 0.0;
+    xp->p[2] = 0.0;
+    xp->r    = 0.5;
+    xp->pi   = 0;
+    xp->t0   = 0;
+    xp->t    = 0;
+    xp->f0   = 0;
+    xp->f    = 0;
+
+    for (i = 0; i < c; i++)
+    {
+        if (strcmp(k[i], "radius") == 0)
+            sscanf(v[i], "%lf", &xp->r);
+
+        if (strcmp(k[i], "target") == 0)
+            make_ref(v[i], &xp->pi);
+
+        if (strcmp(k[i], "timer") == 0)
+            sscanf(v[i], "%lf", &xp->t0);
+
+        if (strcmp(k[i], "state") == 0)
+            xp->f = atoi(v[i]);
+
+        if (strcmp(k[i], "origin") == 0)
+        {
+            int x = 0, y = 0, z = 0;
+
+            sscanf(v[i], "%d %d %d", &x, &y, &z);
+
+            xp->p[0] = +(double) x / SCALE;
+            xp->p[1] = +(double) z / SCALE;
+            xp->p[2] = -(double) y / SCALE;
+        }
+    }
+}
+
 static void make_targ(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
@@ -771,6 +827,7 @@ static void read_ent(struct s_file *fp, FILE *fin)
     }
 
     if (!strcmp(v[i], "light"))                    make_coin(fp, k, v, c);
+    if (!strcmp(v[i], "info_camp"))                make_swch(fp, k, v, c);
     if (!strcmp(v[i], "path_corner"))              make_path(fp, k, v, c);
     if (!strcmp(v[i], "info_player_start"))        make_ball(fp, k, v, c);
     if (!strcmp(v[i], "info_player_intermission")) make_view(fp, k, v, c);
@@ -1426,6 +1483,159 @@ static void uniq_file(struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
+static int test_lump_side(const struct s_file *fp,
+                          const struct s_lump *lp,
+                          const struct s_side *sp)
+{
+    int si;
+    int vi;
+
+    int f = 0;
+    int b = 0;
+
+    /* If the given side is part of the given lump, then the lump is behind. */
+
+    for (si = 0; si < lp->sc; si++)
+        if (fp->sv + fp->iv[lp->s0 + si] == sp)
+            return -1;
+
+    /* Check if each lump vertex is in front of, behind, on the side. */
+
+    for (vi = 0; vi < lp->vc; vi++)
+    {
+        double d = v_dot(fp->vv[fp->iv[lp->v0 + vi]].p, sp->n) - sp->d;
+
+        if (d > 0) f++;
+        if (d < 0) b++;
+    }
+
+    /* If no verts are behind, the lump is in front, and vice versa. */
+
+    if (f > 0 && b == 0) return +1;
+    if (b > 0 && f == 0) return -1;
+
+    /* Else, the lump crosses the side. */
+
+    return 0;
+}
+
+static int node_node(struct s_file *fp, int l0, int lc)
+{
+    if (lc < 8)
+    {
+        /* Base case.  Dump all given lumps into a leaf node. */
+
+        fp->nv[fp->nc].si = -1;
+        fp->nv[fp->nc].ni = -1;
+        fp->nv[fp->nc].nj = -1;
+        fp->nv[fp->nc].l0 = l0;
+        fp->nv[fp->nc].lc = lc;
+
+/*      printf("leaf %3d %3d\n", l0, l0 + lc); */
+
+        return fp->nc++;
+    }
+    else
+    {
+        int sj  = 0;
+        int sjd = lc;
+        int sjo = lc;
+        int si;
+        int li = 0, lic = 0;
+        int lj = 0, ljc = 0;
+        int lk = 0, lkc = 0;
+        int i;
+
+        /* Find the side that most evenly splits the given lumps. */
+
+        for (si = 0; si < fp->sc; si++)
+        {
+            int o = 0;
+            int d = 0;
+            int k = 0;
+
+            for (li = 0; li < lc; li++)
+                if ((k = test_lump_side(fp, fp->lv + l0 + li, fp->sv + si)))
+                    d += k;
+                else
+                    o++;
+
+            d = abs(d);
+
+            if ((d < sjd) || (d == sjd && o < sjo))
+            {
+                sj  = si;
+                sjd = d;
+                sjo = o;
+            }
+        }
+
+        /* Flag each lump with its position WRT the side. */
+
+        for (li = 0; li < lc; li++)
+            switch (test_lump_side(fp, fp->lv + l0 + li, fp->sv + sj))
+            {
+            case +1: fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x10; break;
+            case  0: fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x20; break;
+            case -1: fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x40; break;
+            }
+
+        /* Sort all lumps in the range by their flag values. */
+        
+        for (li = 1; li < lc; li++)
+            for (lj = 0; lj < li; lj++)
+                if (fp->lv[l0 + li].fl < fp->lv[l0 + lj].fl)
+                {
+                    struct s_lump l;
+
+                    l               = fp->lv[l0 + li];
+                    fp->lv[l0 + li] = fp->lv[l0 + lj];
+                    fp->lv[l0 + lj] =               l;
+                }
+
+        /* Establish the in-front, on, and behind lump ranges. */
+
+        li = lic = 0;
+        lj = ljc = 0;
+        lk = lkc = 0;
+
+        for (i = lc - 1; i >= 0; i--)
+            switch (fp->lv[l0 + i].fl & 0xf0)
+            {
+            case 0x10: li = l0 + i; lic++; break;
+            case 0x20: lj = l0 + i; ljc++; break;
+            case 0x40: lk = l0 + i; lkc++; break;
+            }
+
+        /* Add the lumps on the side to the node. */
+
+        i = fp->nc++;
+
+        fp->nv[i].si = sj;
+        fp->nv[i].ni = node_node(fp, li, lic);
+
+/*      printf("tree %3d %3d\n", lj, lj + ljc); */
+
+        fp->nv[i].nj = node_node(fp, lk, lkc);
+        fp->nv[i].l0 = lj;
+        fp->nv[i].lc = ljc;
+
+        return i;
+    }
+}
+
+static void node_file(struct s_file *fp)
+{
+    int bi;
+
+    /* Sort the lumps of each body into BSP nodes. */
+
+    for (bi = 0; bi < fp->bc; bi++)
+        fp->bv[bi].ni = node_node(fp, fp->bv[bi].l0, fp->bv[bi].lc);
+}
+
+/*---------------------------------------------------------------------------*/
+#ifdef SNIP
 static void sort_file(struct s_file *fp)
 {
     int i, j;
@@ -1469,21 +1679,17 @@ static void sort_file(struct s_file *fp)
             swap_side(fp, -1,  j);
         }
 }
-
+#endif
 /*---------------------------------------------------------------------------*/
 
-static void dump_head(void)
+static void dump_file(struct s_file *p)
 {
-    printf("  mtrl  vert  edge  side  texc  geom  lump  path\n"
-           "  body  coin  goal  view  jump  ball  char  indx\n");
-}
-
-static void dump_file(struct s_file *fp)
-{
-    printf("%6d%6d%6d%6d%6d%6d%6d%6d\n"
-           "%6d%6d%6d%6d%6d%6d%6d%6d\n",
-           fp->mc, fp->vc, fp->ec, fp->sc, fp->tc, fp->gc, fp->lc, fp->pc,
-           fp->bc, fp->cc, fp->zc, fp->wc, fp->jc, fp->uc, fp->ac, fp->ic);
+    printf("  mtrl  vert  edge  side  texc  geom  lump  path  node\n"
+           "%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
+           "  body  coin  goal  view  jump  swch  ball  char  indx\n"
+           "%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
+           p->mc, p->vc, p->ec, p->sc, p->tc, p->gc, p->lc, p->pc, p->nc,
+           p->bc, p->cc, p->zc, p->wc, p->jc, p->xc, p->uc, p->ac, p->ic);
 }
 
 int main(int argc, char *argv[])
@@ -1503,12 +1709,11 @@ int main(int argc, char *argv[])
             resolve();
             targets(&f);
 
-            dump_head();
             move_file(&f);
             clip_file(&f);
-            dump_file(&f);
             uniq_file(&f);
-            sort_file(&f);
+/*          sort_file(&f); */
+            node_file(&f);
             dump_file(&f);
 
             sol_stor(&f, argv[2]);

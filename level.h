@@ -4,13 +4,10 @@
 /*---------------------------------------------------------------------------*/
 
 #define MAXSTR 256
-#define MAXLVL 32
+#define MAXLVL 26
 #define MAXNAM 8
 
 #define DEFAULT_NAME "Player"
-
-#define LEVEL_FILE "levels.txt"
-#define SCORE_FILE "scores.txt"
 
 extern char player[];
 
@@ -22,8 +19,8 @@ const char *level_time_n(int, int);
 const char *level_time_c(int, int);
 const char *level_time_s(int, int);
 
-void level_init(void);
-void level_free(void);
+void level_init(const char *, const char *, const char *);
+void level_free(const char *);
 
 int  level_exists(int);
 int  level_opened(int);
