@@ -21,8 +21,8 @@
 #include "image.h"
 #include "game.h"
 #include "geom.h"
+#include "demo.h"
 #include "hud.h"
-#include "back.h"
 #include "audio.h"
 #include "config.h"
 
@@ -55,6 +55,7 @@ struct level
 static int score;                       /* Current coin total         */
 static int coins;                       /* Current coin count         */
 static int balls;                       /* Current life count         */
+static int goal;                        /* Current goal count         */
 
 static int level;                       /* Current level number       */
 static int count;                       /* Number of levels           */
@@ -71,87 +72,83 @@ static struct score score_v[MAXLVL];
 
 static void level_store_hs(char *filename)
 {
-    char  file[MAXSTR];
     FILE *fout;
 
-    if (config_home(file, filename, MAXSTR))
-        if ((fout = fopen(file, "w")))
-        {
-            int i;
-            int j;
+    if ((fout = fopen(config_user(filename), "w")))
+    {
+        int i;
+        int j;
 
-            for (i = 0; i < limit; i++)
-                for (j = 0; j < 3; j++)
-                {
-                    if (strlen(score_v[i].time_n[j]) == 0)
-                        strcpy(score_v[i].time_n[j], DEFAULT_PLAYER);
-                    if (strlen(score_v[i].coin_n[j]) == 0)
-                        strcpy(score_v[i].coin_n[j], DEFAULT_PLAYER);
+        for (i = 0; i < limit; i++)
+            for (j = 0; j < 3; j++)
+            {
+                if (strlen(score_v[i].time_n[j]) == 0)
+                    strcpy(score_v[i].time_n[j], DEFAULT_PLAYER);
+                if (strlen(score_v[i].coin_n[j]) == 0)
+                    strcpy(score_v[i].coin_n[j], DEFAULT_PLAYER);
 
-                    fprintf(fout, "%d %d %s\n",
-                            score_v[i].time_t[j],
-                            score_v[i].time_c[j],
-                            score_v[i].time_n[j]);
-                    fprintf(fout, "%d %d %s\n",
-                            score_v[i].coin_t[j],
-                            score_v[i].coin_c[j],
-                            score_v[i].coin_n[j]);
-                }
+                fprintf(fout, "%d %d %s\n",
+                        score_v[i].time_t[j],
+                        score_v[i].time_c[j],
+                        score_v[i].time_n[j]);
+                fprintf(fout, "%d %d %s\n",
+                        score_v[i].coin_t[j],
+                        score_v[i].coin_c[j],
+                        score_v[i].coin_n[j]);
+            }
             
-            fclose(fout);
-        }
- }
+        fclose(fout);
+    }
+}
 
 static void level_load_hs(char *filename)
 {
-    char  file[MAXSTR];
     FILE *fin;
 
     limit = 1;
 
-    if (config_home(file, filename, MAXSTR))
-        if ((fin = fopen(file, "r")))
+    if ((fin = fopen(config_user(filename), "r")))
+    {
+        int i;
+
+        for (i = 0; i < count; i++)
         {
-            int i;
-
-            for (i = 0; i < count; i++)
-            {
-                if (fscanf(fin, "%d %d %s",
-                           &score_v[i].time_t[0],
-                           &score_v[i].time_c[0],
-                            score_v[i].time_n[0]) == 3 &&
-                    fscanf(fin, "%d %d %s",
-                           &score_v[i].coin_t[0],
-                           &score_v[i].coin_c[0],
-                            score_v[i].coin_n[0]) == 3 &&
-                    fscanf(fin, "%d %d %s",
-                           &score_v[i].time_t[1],
-                           &score_v[i].time_c[1],
-                            score_v[i].time_n[1]) == 3 &&
-                    fscanf(fin, "%d %d %s",
-                           &score_v[i].coin_t[1],
-                           &score_v[i].coin_c[1],
-                            score_v[i].coin_n[1]) == 3 &&
-                    fscanf(fin, "%d %d %s",
-                           &score_v[i].time_t[2],
-                           &score_v[i].time_c[2],
-                            score_v[i].time_n[2]) == 3 &&
-                    fscanf(fin, "%d %d %s",
-                           &score_v[i].coin_t[2],
-                           &score_v[i].coin_c[2],
-                            score_v[i].coin_n[2]) == 3)
-                    limit = i + 1;
-            }
-
-            fclose(fin);
+            if (fscanf(fin, "%d %d %s",
+                       &score_v[i].time_t[0],
+                       &score_v[i].time_c[0],
+                       score_v[i].time_n[0]) == 3 &&
+                fscanf(fin, "%d %d %s",
+                       &score_v[i].coin_t[0],
+                       &score_v[i].coin_c[0],
+                       score_v[i].coin_n[0]) == 3 &&
+                fscanf(fin, "%d %d %s",
+                       &score_v[i].time_t[1],
+                       &score_v[i].time_c[1],
+                       score_v[i].time_n[1]) == 3 &&
+                fscanf(fin, "%d %d %s",
+                       &score_v[i].coin_t[1],
+                       &score_v[i].coin_c[1],
+                       score_v[i].coin_n[1]) == 3 &&
+                fscanf(fin, "%d %d %s",
+                       &score_v[i].time_t[2],
+                       &score_v[i].time_c[2],
+                       score_v[i].time_n[2]) == 3 &&
+                fscanf(fin, "%d %d %s",
+                       &score_v[i].coin_t[2],
+                       &score_v[i].coin_c[2],
+                       score_v[i].coin_n[2]) == 3)
+                limit = i + 1;
         }
+
+        fclose(fin);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
 
 static void level_init_rc(const char *filename)
 {
-    FILE *fin = fopen(filename, "r");
+    FILE *fin;
     char buf[MAXSTR];
 
     count = 0;
@@ -162,7 +159,7 @@ static void level_init_rc(const char *filename)
 
     /* Load the levels list. */
 
-    if (fin)
+    if ((fin = fopen(config_data(filename), "r")))
     {
         while (count < MAXLVL && fgets(buf, MAXSTR, fin))
         {
@@ -217,7 +214,7 @@ static void level_init_hs(const char *filename)
 
     /* Load the default high scores file. */
 
-    if ((fin = fopen(filename, "r")))
+    if ((fin = fopen(config_data(filename), "r")))
     {
         for (i = 0; i < MAXLVL && fgets(buf, MAXSTR, fin); i++)
             sscanf(buf, "%d %d %d %d %d %d",
@@ -291,6 +288,11 @@ void level_init(char *init_levels,
     level_init_hs(init_scores);
     level_load_hs(user_scores);
 
+    score = 0;
+    coins = 0;
+    balls = 2;
+    level = 0;
+
     level_total = 0;
     coins_total = 0;
     times_total = 0;
@@ -310,9 +312,6 @@ void level_free(char *user_scores)
     for (i = 0; i < count; i++)
         if (glIsTexture(level_v[i].text))
             glDeleteTextures(1, &level_v[i].text);
-
-    game_free();
-    back_free();
 
     count = 0;
 }
@@ -339,14 +338,7 @@ int curr_score(void) { return score; }
 int curr_coins(void) { return coins; }
 int curr_balls(void) { return balls; }
 int curr_level(void) { return level; }
-
-int curr_goal(void)
-{
-    if (level == limit && level_v[level].goal > coins)
-        return level_v[level].goal - coins;
-    else
-        return 0;
-}
+int curr_goal (void) { return goal;  }
 
 /*---------------------------------------------------------------------------*/
 
@@ -416,18 +408,43 @@ static void score_coin_swap(struct score *S, int i, int j)
 
 /*---------------------------------------------------------------------------*/
 
-int level_goto(int s, int c, int b, int l)
+int level_replay(const char *filename)
 {
-    if (s >= 0) score = s;
-    if (c >= 0) coins = c;
-    if (b >= 0) balls = b;
-    if (l >= 0) level = l;
+    return demo_replay_init(filename, &score, &coins, &balls, &goal);
+}
 
-    back_init(level_v[level].grad, config_get(CONFIG_GEOMETRY));
+int level_play(const char *filename, int i)
+{
+    if (i >= 0)
+    {
+        level = i;
+        goal = (level == limit) ? level_v[level].goal : 0;
+    }
+    return demo_play_init(USER_REPLAY_FILE,
+                          level_v[level].file,
+                          level_v[level].back,
+                          level_v[level].grad,
+                          level_v[level].song,
+                          level_v[level].shot,
+                          level_v[level].time,
+                          goal, score, coins, balls);
+}
 
-    return game_init(level_v[level].file,
-                     level_v[level].back,
-                     level_v[level].time);
+void level_exit(void)
+{
+    demo_play_stop(NULL);
+}
+
+/*---------------------------------------------------------------------------*/
+
+void level_stat(void)
+{
+    demo_play_stat(curr_coins(), level_v[level].time - curr_clock());
+}
+
+int level_last(void)
+{
+    return ((level + 1) == count);
 }
 
 int level_sort(int *time_i, int *coin_i)
@@ -464,45 +481,11 @@ int level_sort(int *time_i, int *coin_i)
     return (*time_i < 3 || *coin_i < 3);
 }
 
-int level_goal(void)
-{
-    int clock = level_v[level].time - curr_clock();
-    
-    level_total += 1;
-    times_total += clock;
-    coins_total += coins;
-
-    /* Test the current score against the level high scores. */
-
-    score_v[level].time_c[3] = coins;
-    score_v[level].coin_c[3] = coins;
-
-    score_v[level].time_t[3] = clock;
-    score_v[level].coin_t[3] = clock;
-
-    if (score_time_comp(score_v + level, 3, 2)) return 1;
-    if (score_coin_comp(score_v + level, 3, 2)) return 1;
-
-    /* Test the current score against the global high scores. */
-
-    if (level_total == count - 1)
-    {
-        score_v[0].time_c[3] = coins_total;
-        score_v[0].coin_c[3] = coins_total;
-
-        score_v[0].time_t[3] = times_total;
-        score_v[0].coin_t[3] = times_total;
-
-        if (score_time_comp(score_v, 3, 2)) return 1;
-        if (score_coin_comp(score_v, 3, 2)) return 1;
-    }
-
-    return 0;
-}
-
-int level_pass(void)
+int level_pass(const char *filename)
 {
     int i;
+
+    demo_play_stop(filename);
 
     if (limit < level + 1)
         limit = level + 1;
@@ -511,15 +494,16 @@ int level_pass(void)
 
     if (++level < count)
     {
-        game_free();
-        back_free();
+        goal  = (level == limit) ? level_v[level].goal : 0;
         coins = 0;
-
-        back_init(level_v[level].grad, config_get(CONFIG_GEOMETRY));
-
-        return game_init(level_v[level].file,
-                         level_v[level].back,
-                         level_v[level].time);
+        return demo_play_init(USER_REPLAY_FILE,
+                              level_v[level].file,
+                              level_v[level].back,
+                              level_v[level].grad,
+                              level_v[level].song,
+                              level_v[level].shot,
+                              level_v[level].time,
+                              goal, score, coins, balls);
     }
     else
     {
@@ -538,7 +522,7 @@ int level_pass(void)
             for (i = 2; i >= 0 && score_time_comp(score_v, i + 1, i); i--)
                 score_time_swap(score_v, i + 1, i);
 
-            /* Insert the coin record into the high score list. */
+            /* Insert the coin record into the global high score list. */
 
             strncpy(score_v[0].coin_n[3], player, MAXNAM);
             score_v[0].coin_c[3] = coins_total;
@@ -547,26 +531,29 @@ int level_pass(void)
             for (i = 2; i >= 0 && score_coin_comp(score_v, i + 1, i); i--)
                 score_coin_swap(score_v, i + 1, i);
         }
-    }
 
-    return 0;
+        return 0;
+    }
 }
 
 int level_fail(void)
 {
+    demo_play_stop(NULL);
+
     times_total += level_v[level].time - curr_clock();
 
     if (--balls >= 0)
     {
-        game_free();
-        back_free();
+        goal  = (level == limit) ? level_v[level].goal : 0;
         coins = 0;
-
-        back_init(level_v[level].grad, config_get(CONFIG_GEOMETRY));
-
-        return game_init(level_v[level].file,
-                         level_v[level].back,
-                         level_v[level].time);
+        return demo_play_init(USER_REPLAY_FILE,
+                              level_v[level].file,
+                              level_v[level].back,
+                              level_v[level].grad,
+                              level_v[level].song,
+                              level_v[level].shot,
+                              level_v[level].time,
+                              goal, score, coins, balls);
     }
     return 0;
 }
@@ -578,7 +565,7 @@ int level_score(int n)
 
     coins += n;
 
-    /* Pulse the coin counter based on value of coin grabbed. */
+    /* Pulse the coin counter based on the value of the grabbed coin. */
 
     if      (n >= 10) hud_coin_pulse(2.00f);
     else if (n >=  5) hud_coin_pulse(1.50f);
@@ -586,21 +573,20 @@ int level_score(int n)
 
     /* Check for goal open. */
 
-    if (level == limit)
+    if (goal > 0)
     {
-        if (coins < level_v[level].goal)
-        {
-            if      (n >= 10) hud_goal_pulse(2.00f);
-            else if (n >=  5) hud_goal_pulse(1.50f);
-            else              hud_goal_pulse(1.25f);
-        }
+        if      (n >= 10) hud_goal_pulse(2.00f);
+        else if (n >=  5) hud_goal_pulse(1.50f);
+        else              hud_goal_pulse(1.25f);
 
-        if (coins - n < level_v[level].goal && level_v[level].goal <= coins)
+        if (goal - n <= 0)
         {
             sound = AUD_SWITCH;
             value = 1;
             hud_goal_pulse(2.0f);
         }
+
+        goal = (goal > n) ? (goal - n) : 0;
     }
 
     audio_play(sound, 1.f);
@@ -644,11 +630,7 @@ void level_snap(int i)
 
     /* Initialize the game for a snapshot. */
 
-    back_init(level_v[i].grad, config_get(CONFIG_GEOMETRY));
-    
-    if (game_init(level_v[i].file,
-                  level_v[i].back,
-                  level_v[i].time))
+    if (game_init(level_v[i].file, level_v[i].back, level_v[i].grad, 0, 1))
     {
         /* Render the level and grab the screen. */
 
@@ -658,15 +640,5 @@ void level_snap(int i)
         SDL_GL_SwapBuffers();
 
         image_snap(filename);
-
-        /* Release the posed game. */
-
-        game_free();
     }
-    back_free();
-}
-
-void level_song(void)
-{
-    audio_music_queue(level_v[level].song);
 }

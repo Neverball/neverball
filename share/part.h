@@ -11,6 +11,7 @@
 
 /*---------------------------------------------------------------------------*/
 
+void part_init_goal(float);
 void part_init(float);
 void part_free(void);
 

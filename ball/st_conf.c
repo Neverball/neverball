@@ -16,6 +16,7 @@
 #include "hud.h"
 #include "back.h"
 #include "geom.h"
+#include "part.h"
 #include "audio.h"
 #include "config.h"
 
@@ -56,6 +57,8 @@ static int conf_action(int i)
     int s = config_get(CONFIG_SOUND_VOLUME);
     int m = config_get(CONFIG_MUSIC_VOLUME);
     int r = 1;
+
+    audio_play(AUD_MENU, 1.0f);
 
     switch (i)
     {
@@ -269,33 +272,33 @@ static int conf_enter(void)
             {
                 /* A series of empty buttons forms the sound volume control. */
 
-                sound_id[10] = gui_state(kd, " ", GUI_SML, 110, (s == 10));
-                sound_id[ 9] = gui_state(kd, " ", GUI_SML, 109, (s ==  9));
-                sound_id[ 8] = gui_state(kd, " ", GUI_SML, 108, (s ==  8));
-                sound_id[ 7] = gui_state(kd, " ", GUI_SML, 107, (s ==  7));
-                sound_id[ 6] = gui_state(kd, " ", GUI_SML, 106, (s ==  6));
-                sound_id[ 5] = gui_state(kd, " ", GUI_SML, 105, (s ==  5));
-                sound_id[ 4] = gui_state(kd, " ", GUI_SML, 104, (s ==  4));
-                sound_id[ 3] = gui_state(kd, " ", GUI_SML, 103, (s ==  3));
-                sound_id[ 2] = gui_state(kd, " ", GUI_SML, 102, (s ==  2));
-                sound_id[ 1] = gui_state(kd, " ", GUI_SML, 101, (s ==  1));
-                sound_id[ 0] = gui_state(kd, " ", GUI_SML, 100, (s ==  0));
+                sound_id[10] = gui_state(kd, NULL, GUI_SML, 110, (s == 10));
+                sound_id[ 9] = gui_state(kd, NULL, GUI_SML, 109, (s ==  9));
+                sound_id[ 8] = gui_state(kd, NULL, GUI_SML, 108, (s ==  8));
+                sound_id[ 7] = gui_state(kd, NULL, GUI_SML, 107, (s ==  7));
+                sound_id[ 6] = gui_state(kd, NULL, GUI_SML, 106, (s ==  6));
+                sound_id[ 5] = gui_state(kd, NULL, GUI_SML, 105, (s ==  5));
+                sound_id[ 4] = gui_state(kd, NULL, GUI_SML, 104, (s ==  4));
+                sound_id[ 3] = gui_state(kd, NULL, GUI_SML, 103, (s ==  3));
+                sound_id[ 2] = gui_state(kd, NULL, GUI_SML, 102, (s ==  2));
+                sound_id[ 1] = gui_state(kd, NULL, GUI_SML, 101, (s ==  1));
+                sound_id[ 0] = gui_state(kd, NULL, GUI_SML, 100, (s ==  0));
             }
             if ((kd = gui_harray(jd)))
             {
                 /* A series of empty buttons forms the music volume control. */
-
-                music_id[10] = gui_state(kd, " ", GUI_SML, 210, (m == 10));
-                music_id[ 9] = gui_state(kd, " ", GUI_SML, 209, (m ==  9));
-                music_id[ 8] = gui_state(kd, " ", GUI_SML, 208, (m ==  8));
-                music_id[ 7] = gui_state(kd, " ", GUI_SML, 207, (m ==  7));
-                music_id[ 6] = gui_state(kd, " ", GUI_SML, 206, (m ==  6));
-                music_id[ 5] = gui_state(kd, " ", GUI_SML, 205, (m ==  5));
-                music_id[ 4] = gui_state(kd, " ", GUI_SML, 204, (m ==  4));
-                music_id[ 3] = gui_state(kd, " ", GUI_SML, 203, (m ==  3));
-                music_id[ 2] = gui_state(kd, " ", GUI_SML, 202, (m ==  2));
-                music_id[ 1] = gui_state(kd, " ", GUI_SML, 201, (m ==  1));
-                music_id[ 0] = gui_state(kd, " ", GUI_SML, 200, (m ==  0));
+ 
+                music_id[10] = gui_state(kd, NULL, GUI_SML, 210, (m == 10));
+                music_id[ 9] = gui_state(kd, NULL, GUI_SML, 209, (m ==  9));
+                music_id[ 8] = gui_state(kd, NULL, GUI_SML, 208, (m ==  8));
+                music_id[ 7] = gui_state(kd, NULL, GUI_SML, 207, (m ==  7));
+                music_id[ 6] = gui_state(kd, NULL, GUI_SML, 206, (m ==  6));
+                music_id[ 5] = gui_state(kd, NULL, GUI_SML, 205, (m ==  5));
+                music_id[ 4] = gui_state(kd, NULL, GUI_SML, 204, (m ==  4));
+                music_id[ 3] = gui_state(kd, NULL, GUI_SML, 203, (m ==  3));
+                music_id[ 2] = gui_state(kd, NULL, GUI_SML, 202, (m ==  2));
+                music_id[ 1] = gui_state(kd, NULL, GUI_SML, 201, (m ==  1));
+                music_id[ 0] = gui_state(kd, NULL, GUI_SML, 200, (m ==  0));
             }
         }
         if ((jd = gui_vstack(id)))
@@ -406,6 +409,8 @@ static int null_enter(void)
     goal_free();
     coin_free();
     ball_free();
+    shad_free();
+    part_free();
 
     return 0;
 }
@@ -414,6 +419,8 @@ static void null_leave(int id)
 {
     int g = config_get(CONFIG_GEOMETRY);
 
+    part_init(GOAL_HEIGHT);
+    shad_init();
     ball_init(g);
     coin_init(g);
     goal_init(g);

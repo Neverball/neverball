@@ -50,7 +50,7 @@ static float rnd(float l, float h)
 
 /*---------------------------------------------------------------------------*/
 
-static void part_init_goal(float h)
+void part_init_goal(float h)
 {
     int i;
 

@@ -15,6 +15,7 @@
 #include "gui.h"
 #include "set.h"
 #include "game.h"
+#include "level.h"
 #include "audio.h"
 #include "config.h"
 
@@ -27,7 +28,7 @@ static int over_enter(void)
 {
     int id;
 
-    if ((id = gui_label(0, "GAME OVER", GUI_LRG, GUI_ALL, gui_blk, gui_red)))
+    if ((id = gui_label(0, "GAME OVER", GUI_LRG, GUI_ALL, gui_gry, gui_red)))
     {
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
@@ -36,13 +37,14 @@ static int over_enter(void)
     audio_music_fade_out(2.0f);
     audio_play(AUD_OVER, 1.f);
 
-    SDL_ShowCursor(SDL_ENABLE);
+    config_clr_grab();
 
     return id;
 }
 
 static void over_leave(int id)
 {
+    level_exit();
     gui_delete(id);
     set_free();
 }

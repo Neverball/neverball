@@ -34,6 +34,7 @@ static GLuint      back_text;
 
 void back_init(const char *s, int b)
 {
+    back_free();
     back_text = make_image_from_file(NULL, NULL, NULL, NULL, s);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -61,11 +62,18 @@ void back_init(const char *s, int b)
 
 void back_free(void)
 {
+    if (back_quad)
+        gluDeleteQuadric(back_quad);
+
     if (glIsList(back_list))
         glDeleteLists(back_list, 1);
 
     if (glIsTexture(back_text))
         glDeleteTextures(1, &back_text);
+
+    back_quad = NULL;
+    back_list = 0;
+    back_text = 0;
 }
 
 void back_draw(float t)

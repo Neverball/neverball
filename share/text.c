@@ -20,6 +20,7 @@
 #include "vec3.h"
 #include "text.h"
 #include "image.h"
+#include "config.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,9 +56,9 @@ int text_init(int h)
         {
             radius = h / 56;
 
-            text_font[0] = TTF_OpenFont(TEXT_FACE, h / 24);
-            text_font[1] = TTF_OpenFont(TEXT_FACE, h / 12);
-            text_font[2] = TTF_OpenFont(TEXT_FACE, h /  6);
+            text_font[0] = TTF_OpenFont(config_data(TEXT_FACE), h / 24);
+            text_font[1] = TTF_OpenFont(config_data(TEXT_FACE), h / 12);
+            text_font[2] = TTF_OpenFont(config_data(TEXT_FACE), h /  6);
 
             text_drop[0] = 2;
             text_drop[1] = 4;

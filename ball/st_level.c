@@ -44,8 +44,6 @@ static int level_enter(void)
     }
 
     game_set_fly(1.f);
-    SDL_ShowCursor(SDL_DISABLE);
-    audio_music_fade_out(2.0f);
 
     return id;
 }
@@ -57,6 +55,7 @@ static void level_leave(int id)
 
 static void level_timer(int id, float dt)
 {
+    game_step_fade(dt);
     audio_timer(dt);
 }
 

@@ -5,8 +5,9 @@
 Tilt the  floor to roll a  ball through an obstacle  course within the
 given time.  If the ball falls or time expires, a ball is lost.
 
-Collect 100 coins  to save your progress and earn  an extra ball.  Red
-coins are worth 5.  Blue coins are worth 10.
+Collect coins to unlock the exit  and earn extra balls.  Red coins are
+worth 5.   Blue coins are  worth 10.  A  free ball is awarded  for 100
+coins.
 
 
 Neverball requires:
@@ -39,9 +40,11 @@ Neverball requires:
 
 * BUILDING
 
-    make                     (Unix)
-or
-    nmake /fMakefile-W32     (Windows with MSVC)
+Under Unix, Linux, and OSX, simply run
+
+    make
+
+Under Windows, build using the provided Visual Studio solution.
 
 The executables  will be copied to  the base directory.   Maps will be
 processed and copied into data/sol/.  By default, an uninstalled build
@@ -68,14 +71,48 @@ See below for details.
     F8     Toggle nice mode
     F9     Toggle frame counter
     F10    Snap a screenshot
-    F11    Save the current demo
     F12    Toggle look-around mode
+
+
+
+* INSTALLATION
+
+The game  searches for game assets  in the following  three places, in
+this order.  If the game is  to be installed globally, at least one of
+them must be set.
+
+1) The directory specified on the command line.
+
+2) The directory given by the NEVERBALL_DATA environment variable.
+
+3) The directory given by the CONFIG_DATA variable defined in config.h
+
+A normal Linux installation would  probably copy the data directory to
+"/usr/local/games/neverball/" and  change the CONFIG_DATA  variable to
+match.
+
+A  normal  Windows installation  would  simply  copy  the entire  game
+directory  to "C:\Program Files\Neverball"  and leave  the CONFIG_DATA
+variable to its default value "./data".
+
+
+
+* USER DATA FILES
+
+Neverball creates  a directory called ".neverball" in  which it stores
+user  data  files.  These  files  include  high  scores, replays,  and
+configurations.  Under Unix, Linux,  and OSX this directory is created
+in your home directory.  Under Windows it is assumed that the user has
+permission  to write to  the game  data directory,  and the  user data
+directory is created within.
+
 
 
 * HIGH SCORES
 
 The top three fastest times through each level, and the top three coin
-scores for each level are stored in files named .neverballhs-*.
+scores for each  level are stored in files  named neverballhs-* in the
+user data directory.
 
 The top  three fastest  times and  most coins scores  for each  set of
 levels are also stored.  To achieve  a set score, the player must play
@@ -91,53 +128,30 @@ being collected on levels with more than 100 coins.
 
 
 
-* DEMO REPLAY
+* REPLAYS
 
-Neverball  includes a  simple  mechanism for  recording and  replaying
-games.  Each level played is  recorded to the file .neverballrp.  This
-file may  be found in your home  directory under Unix, or  in the game
-data directory under Windows.
+Neverball  includes a  mechanism for  recording and  replaying levels.
+The player may enter  a name for each replay at the  end of the level.
+By default, the most recent unsaved  level will be saved to the replay
+file named "Last".
 
-The "Demo"  item of  the main  title menu plays  back the  most recent
-recording.  Press F11 to copy  the current recording to a sequentially
-numbered file.  This  allows you to save a  replay without immediately
-overwriting it by playing the next level.  If a recording is preserved
-while it is being created, it will be truncated.
-
-Currently, the only way to  select a numbered recording for demoing is
-to copy it on top of the existing .neverballrp file.
+Replay  files are  stored in  the user  data directory.   They  may be
+copied freely.  To  view a replay you have  downloaded, simply move it
+to  the user  data directory  and it  will appear  in the  Replay menu
+in-game.
 
 Note that replay files are  not currently portable between machines of
 different byte order.
 
 
 
-* INSTALLATION
-
-The game executable may be moved as desired.
-
-However, game  assets are described  using relative path  names.  Thus
-the game must  run within the data directory in  order for asset names
-to resolve correctly.  Upon starting,  the game will attempt to change
-into this directory, as defined in config.h.
-
-If the data directory is to  be renamed or moved for installation, the
-CONFIG_PATH variable in config.h must be changed to match.
-
-Alternatively, the CONFIG_PATH variable may  be set to "." if the game
-is started  from within the data directory.   Even MORE alternatively,
-the data path may be specified as the first command line option.
-
-
-
 * CONFIGURATION
 
-Global settings  are stored  in the file  .neverballrc.  This  file is
-created  when  the  game exits,  and  should  be  found in  your  home
-directory under Unix, or in the game data directory under Windows.  It
-consists of key / value  pairs.  Some of these values are configurable
-using  the in-game options  screen.  Other  meaningful keys  and their
-default values follow.
+Game  settings are stored  in the  file neverballrc  in the  user data
+directory.  This file is created  when the game exits.  It consists of
+key /  value pairs.  Some of  these values are  configurable using the
+in-game  options  screen.  Other  meaningful  keys  and their  default
+values follow.
 
     mouse_sense 300
 
@@ -273,24 +287,4 @@ default values follow.
 
 
 
-* KNOWN ISSUES
-
-At the  time of this writing,  there are known issues  with certain 3D
-accelerater  boards  that  may  impact  or even  preclude  the  game's
-function.  While it is good that the 3D hardware market is very broad,
-it is an  unfortunate fact that OpenGL support  varies in quality from
-one configuration  to another.   It is impossible  for a  developer to
-work around bugs in all  boards, so some configurations must simply be
-declared unsupported.
-
-- The  Intel i8xx  series is  not supported  under Linux.   Its broken
-multi-texturing  and  texture   clamping  make  Neverball  unplayable.
-Windows support is fine.
-
-- Several older Radeons including, but not limited to, the Mobility M5
-and some  models of the  All-In-Wonder series are not  supported under
-Windows.  Note that the Mobility M6 and all tested PCI Radeons down to
-the 7500 are known to be very good.
-
-
-<rlk@snth.net>
+Contact: <rlk@icculus.org>

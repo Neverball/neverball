@@ -1,4 +1,27 @@
 -------------------------------------------------------------------------------
+New in 1.2.9
+
+* Merged set-complete state into goal state, fixing set-complete crash.
+* Fixed a few game state init crashes.
+* Fixed a few pointer grab issues.
+* Added random replay during attract mode.
+* Added scene fade in/out.
+* Fixed a bug causing the texture quality setting to be ignored.
+* Moved shadow handling in with other geometry, where it belongs.
+* Moved particle and shadow init/free out of game init/free and into config.
+
+-------------------------------------------------------------------------------
+New in 1.2.8
+
+* Improved directory handling.  No longer depends on CWD.
+* Moved all config files to ~/.neverball/ directory.
+* Screenshots now go to CWD, which is not changed.
+* Reorganized replay handling.
+* Added replay save / play / delete GUIs.
+* Added auto disabling of stereo and reflection is mode set fails.
+* Changed default pointer state to ungrabbed.
+
+-------------------------------------------------------------------------------
 New in 1.2.7
 
 * Changed policy: Goal opens after a set number of coins are collected.

@@ -6,6 +6,7 @@
 #define IMG_COIN "png/coin.png"
 #define IMG_BALL "png/ball.png"
 #define IMG_DONE "png/eyeball.png"
+#define IMG_SHAD "png/shadow.png"
 
 #define BALL_FUDGE    0.001f
 #define COIN_RADIUS   0.15f
@@ -62,5 +63,14 @@ void flag_free(void);
 void flag_draw(void);
 
 /*---------------------------------------------------------------------------*/
+
+void shad_init(void);
+void shad_free(void);
+void shad_draw_set(const float *, float);
+void shad_draw_clr(void);
+
+/*---------------------------------------------------------------------------*/
+
+void fade_draw(float);
 
 #endif

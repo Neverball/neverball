@@ -13,8 +13,8 @@
  */
 
 #include "gui.h"
-#include "back.h"
 #include "util.h"
+#include "game.h"
 #include "level.h"
 #include "audio.h"
 #include "config.h"
@@ -48,16 +48,14 @@ static void gui_level(int id, char *text, int i)
 
 static int start_action(int i)
 {
+    audio_play(AUD_MENU, 1.0f);
+
     if (i == START_BACK)
-    {
-        back_free();
         return goto_state(&st_set);
-    }
+
     if (level_opened(i))
     {
-        back_free();
-        
-        if (level_goto(0, 0, 2, i))
+        if (level_play(USER_REPLAY_FILE, i))
             return goto_state(&st_level);
         else
             return goto_state(&st_title);
@@ -143,8 +141,6 @@ static int start_enter(void)
         set_best_times(0, 3);
     }
 
-    back_init("png/blues.png", config_get(CONFIG_GEOMETRY));
-
     return id;
 }
 
@@ -155,10 +151,7 @@ static void start_leave(int id)
 
 static void start_paint(int id, float st)
 {
-    config_push_persp((float) config_get(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
-    {
-        back_draw(time_state());
-    }
+    game_draw(0, st);
     config_pop_matrix();
     gui_paint(id);
 }
@@ -225,13 +218,9 @@ static int start_keybd(int c, int d)
 
         /* Iterate over all levels, taking a screenshot of each. */
 
-        back_free();
-        {
-            for (i = 1; i < n; i++)
-                if (level_exists(i))
-                    level_snap(i);
-        }
-        back_init("png/blues.png", config_get(CONFIG_GEOMETRY));
+        for (i = 1; i < n; i++)
+            if (level_exists(i))
+                level_snap(i);
     }
 
     return 1;

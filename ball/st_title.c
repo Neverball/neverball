@@ -13,12 +13,10 @@
  */
 
 #include "gui.h"
-#include "set.h"
 #include "vec3.h"
 #include "back.h"
 #include "demo.h"
 #include "game.h"
-#include "level.h"
 #include "audio.h"
 #include "config.h"
 
@@ -29,6 +27,10 @@
 
 /*---------------------------------------------------------------------------*/
 
+static float real_time = 0.0f;
+static float demo_time = 0.0f;
+static int   mode      = 0;
+
 #define TITLE_PLAY 1
 #define TITLE_HELP 2
 #define TITLE_DEMO 3
@@ -37,12 +39,14 @@
 
 static int title_action(int i)
 {
+    audio_play(AUD_MENU, 1.0f);
+
     switch (i)
     {
-    case TITLE_PLAY: audio_play(AUD_MENU, 1.f); return goto_state(&st_set);
-    case TITLE_HELP: audio_play(AUD_MENU, 1.f); return goto_state(&st_help);
-    case TITLE_DEMO: audio_play(AUD_MENU, 1.f); return goto_state(&st_demo);
-    case TITLE_CONF: audio_play(AUD_MENU, 1.f); return goto_state(&st_conf);
+    case TITLE_PLAY: return goto_state(&st_set);
+    case TITLE_HELP: return goto_state(&st_help);
+    case TITLE_DEMO: return goto_state(&st_demo);
+    case TITLE_CONF: return goto_state(&st_conf);
     case TITLE_EXIT: return 0;
     }
     return 1;
@@ -65,14 +69,11 @@ static int title_enter(void)
 
             if ((kd = gui_varray(jd)))
             {
-                gui_start(kd, "Play",     GUI_MED, TITLE_PLAY, 1);
-                gui_state(kd, "Help",     GUI_MED, TITLE_HELP, 0);
-
-                if (demo_exists())
-                    gui_state(kd, "Demo", GUI_MED, TITLE_DEMO, 0);
-
-                gui_state(kd, "Options",  GUI_MED, TITLE_CONF, 0);
-                gui_state(kd, "Exit",     GUI_MED, TITLE_EXIT, 0);
+                gui_start(kd, "Play",    GUI_MED, TITLE_PLAY, 1);
+                gui_state(kd, "Replay",  GUI_MED, TITLE_DEMO, 0);
+                gui_state(kd, "Help",    GUI_MED, TITLE_HELP, 0);
+                gui_state(kd, "Options", GUI_MED, TITLE_CONF, 0);
+                gui_state(kd, "Exit",    GUI_MED, TITLE_EXIT, 0);
             }
 
             gui_filler(jd);
@@ -86,17 +87,20 @@ static int title_enter(void)
 
     /* Initialize the first level of the first set for display. */
 
-    set_init();
-    set_goto(0);
-    level_goto(0, 0, 0, 0);
+    game_init("map-rlk/title.sol",
+              "map-back/jupiter.sol", "png/space.png", 0, 1);
+
+    real_time = 0.0f;
+    demo_time = 0.0f;
+    mode = 0;
 
     return id;
 }
 
 static void title_leave(int id)
 {
+    demo_replay_stop(0);
     gui_delete(id);
-    set_free();
 }
 
 static void title_paint(int id, float st)
@@ -107,9 +111,74 @@ static void title_paint(int id, float st)
 
 static void title_timer(int id, float dt)
 {
-    game_set_fly(fcosf(time_state() / 10.f));
+    static const char *demo = NULL;
+    float t;
+
+    real_time += dt;
+
+    switch (mode)
+    {
+    case 0: /* Mode 0: Pan across title level. */
+
+        if (real_time <= 20.0f)
+            game_set_fly(fcosf(V_PI * real_time / 20.0f));
+        else
+        {
+            game_fade(+1.0f);
+            real_time = 0.0f;
+            mode = 1;
+        }
+        break;
+
+    case 1: /* Mode 1: Fade out.  Load demo level. */
+
+        if (real_time > 1.0f)
+        {
+            if ((demo = demo_pick()))
+            {
+                demo_replay_init(demo, NULL, NULL, NULL, NULL);
+                demo_time = 0.0f;
+                real_time = 0.0f;
+                mode = 2;
+            }
+            else
+            {
+                game_fade(-1.0f);
+                real_time = 0.0f;
+                mode = 0;
+            }
+        }
+        break;
+
+    case 2: /* Mode 2: Run demo. */
+
+        while (demo_time < real_time)
+            if (demo_replay_step(&t))
+                demo_time += t;
+            else
+            { 
+                demo_replay_stop(0);
+                game_fade(+1.0f);
+                real_time = 0.0f;
+                mode = 3;
+            }
+        break;
+
+    case 3: /* Mode 3: Fade out.  Load title level. */
+
+        if (real_time > 1.0f)
+        {
+            game_init("map-rlk/title.sol",
+                      "map-back/jupiter.sol", "png/space.png", 0, 1);
+            real_time = 0.0f;
+            mode = 0;
+        }
+        break;
+    }
+
     gui_timer(id, dt);
     audio_timer(dt);
+    game_step_fade(dt);
 }
 
 static void title_point(int id, int x, int y, int dx, int dy)
@@ -166,6 +235,7 @@ static int help_enter(void)
     const char *s7 = "Chase View";
     const char *s8 = "Lazy View";
     const char *s9 = "Manual View";
+    const char *sA = "Comments?  Problems?  robert.kooima@gmail.com";
 
     const char *k0 = "Spacebar";
     const char *k1 = "Escape";
@@ -178,7 +248,7 @@ static int help_enter(void)
     if ((id = gui_vstack(0)))
     {
         gui_multi(id, s0, GUI_SML, GUI_ALL, gui_wht, gui_wht);
-        gui_filler(id);
+        gui_space(id);
 
         if ((jd = gui_harray(id)))
         {
@@ -206,31 +276,32 @@ static int help_enter(void)
             gui_label(jd, k4, GUI_SML, GUI_SW, gui_yel, gui_yel);
         }
 
-        gui_filler(id);
+        gui_space(id);
         gui_label(id, s4, GUI_SML, GUI_ALL, gui_wht, gui_wht);
+        gui_space(id);
+        gui_label(id, sA, GUI_SML, GUI_ALL, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);
     }
-
-    back_init("png/blues.png", config_get(CONFIG_GEOMETRY));
-
     return id;
 }
 
 static void help_leave(int id)
 {
-    back_free();
     gui_delete(id);
 }
 
 static void help_paint(int id, float st)
 {
-    config_push_persp((float) config_get(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
-    {
-        back_draw(time_state());
-    }
+    game_draw(0, st);
     config_pop_matrix();
     gui_paint(id);
+}
+
+static void help_timer(int id, float dt)
+{
+    gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static int help_click(int b, int d)
@@ -267,7 +338,7 @@ struct state st_help = {
     help_enter,
     help_leave,
     help_paint,
-    NULL,
+    help_timer,
     NULL,
     NULL,
     help_click,

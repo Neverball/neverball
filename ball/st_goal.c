@@ -30,8 +30,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define HIGH_OK 0
-#define HIGH_BS 1
+#define GOAL_NEXT 1
+#define GOAL_SAVE 2
 
 static int high;
 static int time_i;
@@ -46,20 +46,25 @@ static int goal_action(int i)
     char player[MAXNAM];
     size_t l;
 
+    audio_play(AUD_MENU, 1.0f);
+
     config_get_name(player);
     l = strlen(player);
 
     switch (i)
     {
-    case HIGH_OK:
+    case GOAL_SAVE:
+        return goto_state(&st_save);
+
+    case GOAL_NEXT:
         while (level_count())
             ;
-        if (level_pass())
+        if (level_pass(NULL))
             return goto_state(&st_level);
         else
-            return goto_state(&st_done);
+            return goto_state(&st_title);
 
-    case HIGH_BS:
+    case GUI_BS:
         if (l > 0)
         {
             player[l - 1] = 0;
@@ -88,7 +93,13 @@ static int goal_action(int i)
 
 static int goal_enter(void)
 {
-    int id, jd, kd, ld;
+    const char *s0 = "Set Complete!";
+    const char *s1 = "New Record";
+    const char *s2 = "GOAL";
+
+    int id, jd, kd;
+
+    level_stat();
 
     time_i = 3;
     coin_i = 3;
@@ -96,7 +107,14 @@ static int goal_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        int gid = gui_label(id, "GOAL", GUI_LRG, GUI_ALL, gui_blu, gui_grn);
+        int gid;
+
+        if (level_last())
+            gid = gui_label(id, s0, GUI_MED, GUI_ALL, gui_yel, gui_grn);
+        else if (high)
+            gid = gui_label(id, s1, GUI_MED, GUI_ALL, gui_grn, gui_grn);
+        else
+            gid = gui_label(id, s2, GUI_LRG, GUI_ALL, gui_blu, gui_grn);
 
         gui_space(id);
 
@@ -129,60 +147,17 @@ static int goal_enter(void)
 
         gui_space(id);
 
-        if (high)
+        if ((jd = gui_harray(id)))
         {
-            if ((jd = gui_hstack(id)))
-            {
-                gui_filler(jd);
+            gui_state(jd, "Save Replay", GUI_SML, GOAL_SAVE, 0);
 
-                if ((kd = gui_varray(jd)))
-                {
-                    if ((ld = gui_harray(kd)))
-                    {
-                        gui_state(ld, "G", GUI_SML, 'G', 0);
-                        gui_state(ld, "F", GUI_SML, 'F', 0);
-                        gui_state(ld, "E", GUI_SML, 'E', 0);
-                        gui_state(ld, "D", GUI_SML, 'D', 0);
-                        gui_state(ld, "C", GUI_SML, 'C', 0);
-                        gui_state(ld, "B", GUI_SML, 'B', 0);
-                        gui_state(ld, "A", GUI_SML, 'A', 0);
-                    }
-                    if ((ld = gui_harray(kd)))
-                    {
-                        gui_state(ld, "N", GUI_SML, 'N', 0);
-                        gui_state(ld, "M", GUI_SML, 'M', 0);
-                        gui_state(ld, "L", GUI_SML, 'L', 0);
-                        gui_state(ld, "K", GUI_SML, 'K', 0);
-                        gui_state(ld, "J", GUI_SML, 'J', 0);
-                        gui_state(ld, "I", GUI_SML, 'I', 0);
-                        gui_state(ld, "H", GUI_SML, 'H', 0);
-                    }
-                    if ((ld = gui_harray(kd)))
-                    {
-                        gui_state(ld, "U", GUI_SML, 'U', 0);
-                        gui_state(ld, "T", GUI_SML, 'T', 0);
-                        gui_state(ld, "S", GUI_SML, 'S', 0);
-                        gui_state(ld, "R", GUI_SML, 'R', 0);
-                        gui_state(ld, "Q", GUI_SML, 'Q', 0);
-                        gui_state(ld, "P", GUI_SML, 'P', 0);
-                        gui_state(ld, "O", GUI_SML, 'O', 0);
-                    }
-                    if ((ld = gui_harray(kd)))
-                    {
-                        gui_start(ld, "Ok", GUI_SML, HIGH_OK, 0);
-                        gui_state(ld, "<",  GUI_SML, HIGH_BS, 0);
-
-                        gui_state(ld, "Z", GUI_SML, 'Z', 0);
-                        gui_state(ld, "Y", GUI_SML, 'Y', 0);
-                        gui_state(ld, "X", GUI_SML, 'X', 0);
-                        gui_state(ld, "W", GUI_SML, 'W', 0);
-                        gui_state(ld, "V", GUI_SML, 'V', 0);
-                    }
-                }
-
-                gui_filler(jd);
-            }
+            if (level_last())
+                gui_start(jd, "Main Menu",  GUI_SML, GOAL_NEXT, 0);
+            else
+                gui_start(jd, "Next Level", GUI_SML, GOAL_NEXT, 0);
         }
+
+        if (high) gui_keyboard(id);
 
         gui_layout(id, 0, 0);
         gui_pulse(gid, 1.2f);
@@ -194,12 +169,13 @@ static int goal_enter(void)
     audio_music_fade_out(2.0f);
     audio_play(AUD_GOAL, 1.0f);
 
+    config_clr_grab();
+
     return id;
 }
 
 static void goal_leave(int id)
 {
-    demo_finish();
     gui_delete(id);
 }
 
@@ -256,27 +232,21 @@ static void goal_timer(int id, float dt)
 
 static void goal_point(int id, int x, int y, int dx, int dy)
 {
-    if (high)
-    {
-        gui_pulse(gui_point(id, x, y), 1.2f);
-    }
+    gui_pulse(gui_point(id, x, y), 1.2f);
 }
 
 static void goal_stick(int id, int a, int v)
 {
-    if (high)
-    {
-        if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
-            gui_pulse(gui_stick(id, v, 0), 1.2f);
-        if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
-            gui_pulse(gui_stick(id, 0, v), 1.2f);
-    }
+    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
+        gui_pulse(gui_stick(id, v, 0), 1.2f);
+    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
+        gui_pulse(gui_stick(id, 0, v), 1.2f);
 }
 
 static int goal_click(int b, int d)
 {
     if (b <= 0 && d == 1)
-        return goal_action(high ? gui_token(gui_click()) : HIGH_OK);
+        return goal_action(gui_token(gui_click()));
     return 1;
 }
 
@@ -301,73 +271,130 @@ static int goal_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int done_enter(void)
+#define SAVE_SAVE   1
+#define SAVE_CANCEL 2
+
+static int  file_id;
+static char filename[MAXNAM];
+
+static int save_action(int i)
 {
-    const char *s0 = "Congrats!";
-    const char *s1 = "That's it for this set.";
-    const char *s2 = "Move on to the next one.";
+    size_t l = strlen(filename);
+
+    audio_play(AUD_MENU, 1.0f);
+
+    switch (i)
+    {
+    case SAVE_SAVE:
+        if (level_pass(filename))
+            return goto_state(&st_level);
+        else
+            return goto_state(&st_title);
+
+    case SAVE_CANCEL:
+        if (level_pass(NULL))
+            return goto_state(&st_level);
+        else
+            return goto_state(&st_title);
+
+    case GUI_BS:
+        if (l > 0)
+        {
+            filename[l - 1] = 0;
+            gui_set_label(file_id, filename);
+        }
+        break;
+
+    default:
+        if (l < MAXNAM - 1)
+        {
+            filename[l + 0] = (char) i;
+            filename[l + 1] = 0;
+            gui_set_label(file_id, filename);
+        }
+    }
+    return 1;
+}
+
+static int save_enter(void)
+{
     int id, jd;
+
+    demo_unique(filename);
 
     if ((id = gui_vstack(0)))
     {
-        gui_pulse(gui_label(id, s0, GUI_LRG, GUI_ALL, gui_grn, gui_yel), 1.2f);
+        gui_pulse(gui_label(id, "Save Replay", GUI_MED, GUI_ALL, 0, 0), 1.2f);
+
+        gui_space(id);
+        file_id = gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
         gui_space(id);
 
-        if ((jd = gui_varray(id)))
+        if ((jd = gui_harray(id)))
         {
-            gui_label(jd, s1, GUI_SML, GUI_TOP, gui_wht, gui_wht);
-            gui_label(jd, s2, GUI_SML, GUI_BOT, gui_wht, gui_wht);
+            gui_start(jd, "Cancel", GUI_SML, SAVE_CANCEL, 0);
+            gui_start(jd, "Save",   GUI_SML, SAVE_SAVE,   0);
         }
-
+        gui_keyboard(id);
+        
         gui_layout(id, 0, 0);
     }
-
-    audio_play(AUD_OVER, 1.f);
 
     return id;
 }
 
-static void done_leave(int id)
+static void save_leave(int id)
 {
     gui_delete(id);
-    set_free();
 }
 
-static void done_paint(int id, float st)
+static void save_paint(int id, float st)
 {
     game_draw(0, st);
     gui_paint(id);
 }
 
-static void done_timer(int id, float dt)
+static void save_timer(int id, float dt)
 {
-    if (dt > 0.f && time_state() > 10.f)
-        goto_state(&st_title);
-
     gui_timer(id, dt);
     audio_timer(dt);
 }
 
-static int done_keybd(int c, int d)
+static void save_point(int id, int x, int y, int dx, int dy)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+    gui_pulse(gui_point(id, x, y), 1.2f);
 }
 
-static int done_click(int b, int d)
+static void save_stick(int id, int a, int v)
 {
-    return (b < 0 && d == 1) ? goto_state(&st_title) : 1;
+    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
+        gui_pulse(gui_stick(id, v, 0), 1.2f);
+    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
+        gui_pulse(gui_stick(id, 0, v), 1.2f);
 }
 
-static int done_buttn(int b, int d)
+static int save_click(int b, int d)
+{
+    if (b <= 0 && d == 1)
+        return save_action(gui_token(gui_click()));
+    return 1;
+}
+
+static int save_keybd(int c, int d)
+{
+    if (d && c == SDLK_ESCAPE)
+        goto_state(&st_over);
+    return 1;
+}
+
+static int save_buttn(int b, int d)
 {
     if (d)
     {
         if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
-            return goto_state(&st_title);
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_title);
+            return save_click(0, 1);
         if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_title);
+            return goto_state(&st_over);
     }
     return 1;
 }
@@ -387,15 +414,15 @@ struct state st_goal = {
     1, 0
 };
 
-struct state st_done = {
-    done_enter,
-    done_leave,
-    done_paint,
-    done_timer,
-    NULL,
-    NULL,
-    done_click,
-    done_keybd,
-    done_buttn,
+struct state st_save = {
+    save_enter,
+    save_leave,
+    save_paint,
+    save_timer,
+    save_point,
+    save_stick,
+    save_click,
+    save_keybd,
+    save_buttn,
     1, 0
 };

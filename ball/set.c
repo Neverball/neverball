@@ -45,11 +45,11 @@ static struct set set_v[MAXSET];
 
 void set_init()
 {
-    FILE *fin = fopen(SET_FILE, "r");
+    FILE *fin;
 
     count = 0;
 
-    if (fin)
+    if ((fin = fopen(config_data(SET_FILE), "r")))
     {
         while (fscanf(fin, "%s %s %s %s\n",
                       set_v[count].init_levels,

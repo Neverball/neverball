@@ -14,7 +14,7 @@
 
 #include "gui.h"
 #include "set.h"
-#include "back.h"
+#include "game.h"
 #include "audio.h"
 #include "config.h"
 
@@ -30,14 +30,13 @@ static int desc_id;
 
 static int set_action(int i)
 {
+    audio_play(AUD_MENU, 1.0f);
+    
     if (i == SET_BACK)
-    {
-        back_free();
         return goto_state(&st_title);
-    }
+
     if (0 <= i && i <= 5)
     {
-        back_free();
         set_goto(i);
         return goto_state(&st_start);
     }
@@ -60,7 +59,6 @@ static int set_enter(void)
     int id, jd, kd;
 
     set_init();
-    back_init("png/blues.png", config_get(CONFIG_GEOMETRY));
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
     audio_play(AUD_START, 1.f);
@@ -104,10 +102,7 @@ static void set_leave(int id)
 
 static void set_paint(int id, float st)
 {
-    config_push_persp((float) config_get(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
-    {
-        back_draw(time_state());
-    }
+    game_draw(0, st);
     config_pop_matrix();
     gui_paint(id);
 }

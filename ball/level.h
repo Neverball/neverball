@@ -25,10 +25,14 @@ int  curr_balls(void);
 int  curr_level(void);
 int  curr_goal (void);
 
-int  level_goto(int, int, int, int);
+int  level_replay(const char *);
+int  level_play(const char *, int);
+void level_exit(void);
+
+void level_stat(void);
+int  level_last(void);
 int  level_sort(int *, int *);
-int  level_goal(void);
-int  level_pass(void);
+int  level_pass(const char *);
 int  level_fail(void);
 int  level_score(int);
 int  level_count(void);

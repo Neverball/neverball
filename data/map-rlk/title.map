@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Neverball\\http://icculus.org/neverball\\created by Robert Kooima\rlk@snth.net"
+"message" "Neverball\\http://icculus.org/neverball\\created by Robert Kooima\"
 "classname" "worldspawn"
 // brush 0
 {

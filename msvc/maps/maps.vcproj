@@ -454,14 +454,16 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>

@@ -16,6 +16,7 @@
 
 #ifdef WIN32
 #pragma comment(lib, "SDL_image.lib")
+#pragma comment(lib, "SDL_mixer.lib")
 #pragma comment(lib, "SDL.lib")
 #pragma comment(lib, "SDLmain.lib")
 #pragma comment(lib, "glu32.lib")
@@ -31,18 +32,15 @@
 #include <string.h>
 #include <math.h>
 
-#include "glext.h"
 #include "vec3.h"
+#include "glext.h"
 #include "solid.h"
+#include "config.h"
 
 #define MAXSTR 256
 #define MAXKEY 16
 #define SCALE  64.f
 #define SMALL  0.0005f
-
-static char path[MAXSTR];
-static char  src[MAXSTR];
-static char  dst[MAXSTR];
 
 /*
  * The overall design  of this map converter is  very stupid, but very
@@ -117,22 +115,6 @@ static void init_file(struct s_file *fp)
     fp->wv = (struct s_view *) calloc(MAXW, sizeof (struct s_view));
     fp->av = (char          *) calloc(MAXA, sizeof (char));
     fp->iv = (short         *) calloc(MAXI, sizeof (short));
-}
-
-/*---------------------------------------------------------------------------*/
-
-static void strapp(char *dest,
-                   const char *path,
-                   const char *root,
-                   const char *extn, size_t n)
-{
-    size_t p = strlen(path);
-    size_t r = strlen(path);
-
-    strncpy(dest, path, n - 1);
-    strncat(dest, "/",  n - p - 1);
-    strncat(dest, root, n - p - 2);
-    strncat(dest, extn, n - p - r - 2);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -255,11 +237,13 @@ static void size_image(const char *name, int *w, int *h)
     *w = 0;
     *h = 0;
 
-    strapp(jpg, path, name, ".jpg", MAXSTR);
-    strapp(tga, path, name, ".tga", MAXSTR);
-    strapp(png, path, name, ".png", MAXSTR);
+    strcpy(jpg, name); strcat(jpg, ".jpg");
+    strcpy(tga, name); strcat(tga, ".tga");
+    strcpy(png, name); strcat(png, ".png");
 
-    if (size_load(png, w, h) || size_load(tga, w, h) || size_load(jpg, w, h))
+    if (size_load(config_data(png), w, h) ||
+        size_load(config_data(tga), w, h) ||
+        size_load(config_data(jpg), w, h))
     {
         image_s[image_n] = (char *) calloc(strlen(name) + 1, 1);
         image_w[image_n] = *w;
@@ -278,10 +262,7 @@ static int read_mtrl(struct s_file *fp, const char *name)
 {
     struct s_mtrl *mp;
     FILE *fin;
-    char  file[MAXSTR];
     short mi;
-
-    strapp(file, path, name, "", MAXSTR);
 
     for (mi = 0; mi < fp->mc; mi++)
         if (strncmp(name, fp->mv[mi].f, MAXSTR) == 0)
@@ -298,7 +279,7 @@ static int read_mtrl(struct s_file *fp, const char *name)
     mp->h[0] = 0.0f;
     mp->fl   = 0;
 
-    if ((fin = fopen(file, "r")))
+    if ((fin = fopen(config_data(name), "r")))
     {
         fscanf(fin,
                "%f %f %f %f "
@@ -422,7 +403,6 @@ static void read_f(struct s_file *fp, const char *line,
 
 static void read_obj(struct s_file *fp, const char *name)
 {
-    char file[MAXSTR];
     char line[MAXSTR];
     char mtrl[MAXSTR];
     FILE *fin;
@@ -432,9 +412,7 @@ static void read_obj(struct s_file *fp, const char *name)
     short s0 = fp->sc;
     short mi = 0;
 
-    strapp(file, path, name, "", MAXSTR);
-
-    if ((fin = fopen(file, "r")))
+    if ((fin = fopen(config_data(name), "r")))
     {
         while (fgets(line, MAXSTR, fin))
         {
@@ -1958,42 +1936,46 @@ static void dump_file(struct s_file *p, const char *name)
 
 int main(int argc, char *argv[])
 {
+    char src[MAXSTR];
+    char dst[MAXSTR];
     struct s_file f;
     FILE *fin;
 
     if (argc > 2)
     {
-        strncpy(src,  argv[1], MAXSTR);
-        strncpy(dst,  argv[1], MAXSTR);
-        strncpy(path, argv[2], MAXSTR);
-
-        if (strcmp(dst + strlen(dst) - 4, ".map") == 0)
-            strcpy(dst + strlen(dst) - 4, ".sol");
-        else
-            strcat(dst, ".sol");
-
-        if ((fin = fopen(src, "r")))
+        if (config_data_path(argv[2], NULL))
         {
-            init_file(&f);
-            read_map(&f, fin);
+            strncpy(src,  argv[1], MAXSTR);
+            strncpy(dst,  argv[1], MAXSTR);
 
-            resolve();
-            targets(&f);
+            if (strcmp(dst + strlen(dst) - 4, ".map") == 0)
+                strcpy(dst + strlen(dst) - 4, ".sol");
+            else
+                strcat(dst, ".sol");
 
-            clip_file(&f);
-            move_file(&f);
-            uniq_file(&f);
-            sort_file(&f);
-            node_file(&f);
-            dump_file(&f, dst);
+            if ((fin = fopen(src, "r")))
+            {
+                init_file(&f);
+                read_map(&f, fin);
 
-            sol_stor(&f, dst);
+                resolve();
+                targets(&f);
 
-            fclose(fin);
+                clip_file(&f);
+                move_file(&f);
+                uniq_file(&f);
+                sort_file(&f);
+                node_file(&f);
+                dump_file(&f, dst);
+
+                sol_stor(&f, dst);
+
+                fclose(fin);
+            }
         }
+        else fprintf(stderr, "Failure to establish data directory\n");
     }
-    else
-        fprintf(stderr, "Usage: %s <map> <data>\n", argv[0]);
+    else fprintf(stderr, "Usage: %s <map> [data]\n", argv[0]);
 
     return 0;
 }

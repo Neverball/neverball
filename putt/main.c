@@ -59,141 +59,124 @@ static int shot(void)
 
 /*---------------------------------------------------------------------------*/
 
-static int grabbed = 0;
-
-static void enable_grab(void)
-{
-    SDL_WM_GrabInput(SDL_GRAB_ON);
-    Mix_ResumeMusic();
-    grabbed = 1;
-}
-
-static void disable_grab(void)
-{
-    SDL_WM_GrabInput(SDL_GRAB_OFF);
-    Mix_PauseMusic();
-    grabbed = 0;
-}
-
-static void toggle_grab(void)
-{
-    if (grabbed)
-        disable_grab();
-    else
-        enable_grab();
-}
-
-/*---------------------------------------------------------------------------*/
-
 static int loop(void)
 {
     SDL_Event e;
     int d = 1;
 
     while (d && SDL_PollEvent(&e))
-        switch (e.type)
-        {
+    {
+        if (e.type == SDL_QUIT)
+            return 0;
 
-        case SDL_MOUSEMOTION:
-            if (grabbed)
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
+            config_tgl_pause();
+
+        if (!config_get_pause())
+            switch (e.type)
+            {
+            case SDL_MOUSEMOTION:
                 d = st_point(+e.motion.x,
                              -e.motion.y + config_get(CONFIG_HEIGHT),
                              +e.motion.xrel,
                              -e.motion.yrel);
-              break;
+                break;
 
-        case SDL_MOUSEBUTTONDOWN:
-            if (grabbed)
+            case SDL_MOUSEBUTTONDOWN:
                 d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 1);
-            break;
+                break;
 
-        case SDL_MOUSEBUTTONUP:
-            if (grabbed)
+            case SDL_MOUSEBUTTONUP:
                 d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 0);
-            break;
+                break;
 
-        case SDL_KEYDOWN:
-            if (e.key.keysym.sym == SDLK_SPACE) { toggle_grab();      break; }
-            if (e.key.keysym.sym == SDLK_F10)   { d = shot();         break; }
-            if (e.key.keysym.sym == SDLK_F9)    { config_tgl(CONFIG_FPS);   break; }
-            if (e.key.keysym.sym == SDLK_F8)    { config_tgl(CONFIG_NICE);  break; }
-            
-            if (grabbed)
-                d = st_keybd(e.key.keysym.sym);
-            break;
+            case SDL_KEYDOWN:
+                switch (e.key.keysym.sym)
+                {
+                case SDLK_F10: d = shot();              break;
+                case SDLK_F9:  config_tgl(CONFIG_FPS);  break;
+                case SDLK_F8:  config_tgl(CONFIG_NICE); break;
+                
+                default:
+                    d = st_keybd(e.key.keysym.sym);
+                }
+                break;
 
-        case SDL_ACTIVEEVENT:
-            if (e.active.state == SDL_APPINPUTFOCUS && e.active.gain == 0)
-                disable_grab();
-            break;
-
-        case SDL_QUIT:
-            d = 0;
-        }
-
+            case SDL_ACTIVEEVENT:
+                if (e.active.state == SDL_APPINPUTFOCUS)
+                {
+                    if (e.active.gain == 0)
+                        config_set_pause();
+                }
+                break;
+            }
+    }
     return d;
 }
 
 int main(int argc, char *argv[])
 {
-    char *path = (argc > 1) ? argv[1] : CONFIG_PATH;
-
-    if (config_path(path, HOLE_FILE))
+    if (config_data_path((argc > 1 ? argv[1] : NULL), HOLE_FILE))
     {
-        config_load();
-
-        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0)
+        if (config_user_path(NULL))
         {
-            /* Initialize the audio. */
-
-            audio_init();
-
-            /* Require 16-bit double buffer with 16-bit depth buffer. */
-
-            SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
-            SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
-            SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
-            SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-            SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-            /* Initialize the video. */
-
-            if (config_mode(config_get(CONFIG_FULLSCREEN), config_get(CONFIG_WIDTH), config_get(CONFIG_HEIGHT)))
+            if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0)
             {
-                int t1, t0 = SDL_GetTicks();
+                config_init();
+                config_load();
 
-                SDL_WM_SetCaption(TITLE, TITLE); 
-                toggle_grab();
+                /* Initialize the audio. */
 
-                /* Run the main game loop. */
+                audio_init();
 
-                goto_state(&st_title);
+                /* Require 16-bit double buffer with 16-bit depth buffer. */
 
-                while (loop())
-                    if ((t1 = SDL_GetTicks()) > t0)
-                    {
-                        if (grabbed)
-                            st_timer((t1 - t0) / 1000.f);
+                SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
+                SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
+                SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
+                SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
+                SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-                        st_paint();
-                        SDL_GL_SwapBuffers();
+                /* Initialize the video. */
 
-                        t0 = t1;
+                if (config_mode(config_get(CONFIG_FULLSCREEN),
+                                config_get(CONFIG_WIDTH),
+                                config_get(CONFIG_HEIGHT)))
+                {
+                    int t1, t0 = SDL_GetTicks();
 
-                        if (config_get(CONFIG_NICE))
-                            SDL_Delay(1);
-                    }
+                    SDL_WM_SetCaption(TITLE, TITLE); 
+
+                    /* Run the main game loop. */
+
+                    goto_state(&st_title);
+
+                    while (loop())
+                        if ((t1 = SDL_GetTicks()) > t0)
+                        {
+                            if (!config_get_pause())
+                                st_timer((t1 - t0) / 1000.f);
+
+                            st_paint();
+                            SDL_GL_SwapBuffers();
+
+                            t0 = t1;
+
+                            if (config_get(CONFIG_NICE))
+                                SDL_Delay(1);
+                        }
+                }
+                else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
+
+                config_save();
+
+                SDL_Quit();
             }
             else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
-
-            SDL_Quit();
         }
-        else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
-
-        config_save();
+        else fprintf(stderr, "Failure to establish config directory\n");
     }
-    else fprintf(stderr, "%s: Can't find data directory\n", argv[0]);
-
+    else fprintf(stderr, "Failure to establish game data directory\n");
 
     return 0;
 }

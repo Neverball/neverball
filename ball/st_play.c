@@ -41,9 +41,8 @@ static int play_ready_enter(void)
         gui_pulse(id, 1.2f);
     }
 
-    level_song();
-    audio_music_fade_in(2.0f);
     audio_play(AUD_READY, 1.0f);
+    config_set_grab();
 
     return id;
 }
@@ -68,6 +67,7 @@ static void play_ready_timer(int id, float dt)
     if (dt > 0.0f && t > 1.0f)
         goto_state(&st_play_set);
 
+    game_step_fade(dt);
     gui_timer(id, dt);
     audio_timer(dt);
 }
@@ -131,6 +131,7 @@ static void play_set_timer(int id, float dt)
     if (dt > 0.0f && t > 1.0f)
         goto_state(&st_play_loop);
 
+    game_step_fade(dt);
     gui_timer(id, dt);
 }
 
@@ -178,14 +179,11 @@ static int play_loop_enter(void)
     game_set_fly(0.f);
     view_rotate = 0;
 
-    demo_play_init();
-
     return id;
 }
 
 static void play_loop_leave(int id)
 {
-    SDL_ShowCursor(SDL_ENABLE);
     gui_delete(id);
 }
 
@@ -217,6 +215,7 @@ static void play_loop_timer(int id, float dt)
     case GAME_GOAL: goto_state(&st_goal);     break;
     }
 
+    game_step_fade(dt);
     demo_play_step(at);
     audio_timer(dt);
 }
@@ -309,16 +308,18 @@ static float theta;
 
 static int look_enter(void)
 {
-    SDL_ShowCursor(SDL_DISABLE);
     phi   = 0;
     theta = 0;
     return 0;
 }
 
+static void look_leave(int id)
+{
+}
+
 static void look_paint(int id, float st)
 {
     game_draw(0, st);
-    gui_paint(id);
 }
 
 static void look_point(int id, int x, int y, int dx, int dy)
@@ -386,7 +387,7 @@ struct state st_play_loop = {
 
 struct state st_look = {
     look_enter,
-    NULL,
+    look_leave,
     look_paint,
     NULL,
     look_point,

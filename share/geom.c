@@ -64,10 +64,15 @@ void ball_free(void)
     if (glIsList(ball_list))
         glDeleteLists(ball_list, 1);
 
-    gluDeleteQuadric(ball_quad);
+    if (ball_quad)
+        gluDeleteQuadric(ball_quad);
 
     if (glIsTexture(ball_text))
         glDeleteTextures(1, &ball_text);
+
+    ball_quad = NULL;
+    ball_list = 0;
+    ball_text = 0;
 }
 
 void ball_draw(void)
@@ -163,7 +168,11 @@ void mark_free(void)
     if (glIsList(mark_list))
         glDeleteLists(mark_list, 1);
 
-    gluDeleteQuadric(mark_quad);
+    if (mark_quad)
+        gluDeleteQuadric(mark_quad);
+
+    mark_quad = NULL;
+    mark_list = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -275,6 +284,9 @@ void coin_free(void)
 
     if (glIsTexture(coin_text))
         glDeleteTextures(1, &coin_text);
+
+    coin_list = 0;
+    coin_text = 0;
 }
 
 void coin_push(void)
@@ -356,6 +368,8 @@ void goal_free(void)
 {
     if (glIsList(goal_list))
         glDeleteLists(goal_list, 1);
+
+    goal_list = 0;
 }
 
 void goal_draw(void)
@@ -409,6 +423,8 @@ void jump_free(void)
 {
     if (glIsList(jump_list))
         glDeleteLists(jump_list, 1);
+
+    jump_list = 0;
 }
 
 void jump_draw(void)
@@ -496,7 +512,9 @@ void swch_init(int b)
 void swch_free(void)
 {
     if (glIsList(swch_list))
-        glDeleteLists(swch_list, 1);
+        glDeleteLists(swch_list, 2);
+
+    swch_list = 0;
 }
 
 void swch_draw(int b)
@@ -562,11 +580,118 @@ void flag_free(void)
 {
     if (glIsList(flag_list))
         glDeleteLists(flag_list, 1);
+
+    flag_list = 0;
 }
 
 void flag_draw(void)
 {
     glCallList(flag_list);
+}
+
+/*---------------------------------------------------------------------------*/
+/*
+ * A note about lighting and shadow: technically speaking, it's wrong.
+ * The  light  position  and   shadow  projection  behave  as  if  the
+ * light-source rotates with the  floor.  However, the skybox does not
+ * rotate, thus the light should also remain stationary.
+ *
+ * The  correct behavior  would eliminate  a significant  3D  cue: the
+ * shadow of  the ball indicates  the ball's position relative  to the
+ * floor even  when the ball is  in the air.  This  was the motivating
+ * idea  behind the  shadow  in  the first  place,  so correct  shadow
+ * projection would only magnify the problem.
+ */
+
+static GLuint shad_text;
+
+void shad_init(void)
+{
+    shad_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_SHAD);
+
+    if (config_get(CONFIG_SHADOW) == 2)
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    }
+}
+
+void shad_free(void)
+{
+    if (glIsTexture(shad_text))
+        glDeleteTextures(1, &shad_text);
+}
+
+void shad_draw_set(const float *p, float r)
+{
+    if (config_get(CONFIG_SHADOW))
+    {
+        glActiveTexture(GL_TEXTURE1);
+        glMatrixMode(GL_TEXTURE);
+        {
+            float k = 0.5f / r;
+
+            glEnable(GL_TEXTURE_2D);
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+            glBindTexture(GL_TEXTURE_2D, shad_text);
+
+            glLoadIdentity();
+            glTranslatef(0.5f - p[0] * k,
+                         0.5f - p[2] * k, 0.f);
+            glScalef(k, k, 1.f);
+        }
+        glMatrixMode(GL_MODELVIEW);
+        glActiveTexture(GL_TEXTURE0);
+    }
+}
+
+void shad_draw_clr(void)
+{
+    if (config_get(CONFIG_SHADOW))
+    {
+        glActiveTexture(GL_TEXTURE1);
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
+        glActiveTexture(GL_TEXTURE0);
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+void fade_draw(float k)
+{
+    int w = config_get(CONFIG_WIDTH);
+    int h = config_get(CONFIG_HEIGHT);
+
+    if (k > 0.0f)
+    {
+        config_push_ortho();
+        glPushAttrib(GL_TEXTURE_BIT  |
+                     GL_LIGHTING_BIT |
+                     GL_COLOR_BUFFER_BIT |
+                     GL_DEPTH_BUFFER_BIT);
+        {
+            glEnable(GL_COLOR_MATERIAL);
+            glDisable(GL_LIGHTING);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_TEXTURE_2D);
+            
+            glColor4f(0.0f, 0.0f, 0.0f, k);
+
+            glBegin(GL_QUADS);
+            {
+                glVertex2i(0, 0);
+                glVertex2i(w, 0);
+                glVertex2i(w, h);
+                glVertex2i(0, h);
+            }
+            glEnd();
+        }
+        glPopAttrib();
+        config_pop_matrix();
+    }
 }
 
 /*---------------------------------------------------------------------------*/

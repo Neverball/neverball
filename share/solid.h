@@ -18,7 +18,7 @@
 #include <SDL.h>
 #include "glext.h"
 
-#define PATHMAX 40
+#define PATHMAX 64
 
 /*
  * Some might  be taken  aback at  the terseness of  the names  of the
@@ -108,8 +108,8 @@ struct s_mtrl
 
     short fl;                                  /* material flags             */
 
-    char   f[PATHMAX];                         /* texture file name          */
     GLuint o;                                  /* OpenGL texture object      */
+    char   f[PATHMAX];                         /* texture file name          */
 };
 
 struct s_vert

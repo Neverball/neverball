@@ -485,33 +485,30 @@ static void sol_load_objects(struct s_file *fp, int s)
 
 static SDL_Surface *sol_find_texture(const char *name, GLenum *f0, GLenum *f1)
 {
+    char png[MAXSTR];
+    char tga[MAXSTR];
+    char jpg[MAXSTR];
     SDL_Surface *s;
-    char png[64];
-    char tga[64];
-    char jpg[64];
 
-    strncpy(png, name, PATHMAX);
-    strcat(png, ".png");
-    strncpy(tga, name, PATHMAX);
-    strcat(tga, ".tga");
-    strncpy(jpg, name, PATHMAX);
-    strcat(jpg, ".jpg");
+    strncpy(png, name, PATHMAX); strcat(png, ".png");
+    strncpy(tga, name, PATHMAX); strcat(tga, ".tga");
+    strncpy(jpg, name, PATHMAX); strcat(jpg, ".jpg");
 
     /* Prefer a lossless copy of the texture over a lossy compression. */
 
-    if ((s = IMG_Load(png)))
+    if ((s = IMG_Load(config_data(png))))
     {
         *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
         *f1 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
         return s;
     }
-    if ((s = IMG_Load(tga)))
+    if ((s = IMG_Load(config_data(tga))))
     {
         *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
         *f1 = (s->format->BitsPerPixel == 32) ? GL_BGRA : GL_RGB;  /* swab */
         return s;
     }
-    if ((s = IMG_Load(jpg)))
+    if ((s = IMG_Load(config_data(jpg))))
     {
         *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
         *f1 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
@@ -557,8 +554,8 @@ static void sol_load_textures(struct s_file *fp, int k)
 
                     /* Load the scaled image. */
 
-                    gluBuild2DMipmaps(GL_TEXTURE_2D, f0, s->w, s->h, f1,
-                                    GL_UNSIGNED_BYTE, s->pixels);
+                    gluBuild2DMipmaps(GL_TEXTURE_2D, f0, d->w, d->h, f1,
+                                      GL_UNSIGNED_BYTE, d->pixels);
 
                     SDL_FreeSurface(d);
                 }

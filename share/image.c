@@ -26,8 +26,6 @@
 
 void image_snap(char *filename)
 {
-    static char path[MAXSTR];
-
     int w = config_get(CONFIG_WIDTH);
     int h = config_get(CONFIG_HEIGHT);
     int i;
@@ -43,8 +41,7 @@ void image_snap(char *filename)
         memcpy((GLubyte *) img->pixels + 3 * w * i,
                (GLubyte *) buf->pixels + 3 * w * (h - i), 3 * w);
 
-    if (config_home(path, filename, MAXSTR))
-        SDL_SaveBMP(img,  path);
+    SDL_SaveBMP(img, filename);
 
     SDL_FreeSurface(img);
     SDL_FreeSurface(buf);
@@ -166,7 +163,7 @@ GLuint make_image_from_file(int *W, int *H,
 
     /* Load the file. */
 
-    if ((src = IMG_Load(name)))
+    if ((src = IMG_Load(config_data(name))))
     {
         int w2;
         int h2;

@@ -16,18 +16,12 @@
 #define CONFIG_H
 
 #include <SDL.h>
+#include <stdio.h>
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * Changing the  working directory to CONFIG_PATH must  place the game
- * at  the root of  the game  asset hierarchy.   By default,  the game
- * expects to be run within its build tree, so it simply chdirs to the
- * local data directory.
- *
- * If the game is to be installed globally, change this value.
- */
-#define CONFIG_PATH "./data"
+#define CONFIG_DATA "./data"
+#define CONFIG_USER ".neverball"
 
 /*
  * Global settings are stored in USER_CONFIG_FILE.  Replays are stored
@@ -35,8 +29,8 @@
  * directory as given by the HOME environment var.  If the config file
  * is deleted, it will be recreated using the defaults.
  */
-#define USER_CONFIG_FILE ".neverballrc"
-#define USER_REPLAY_FILE ".neverballrp"
+#define USER_CONFIG_FILE "neverballrc"
+#define USER_REPLAY_FILE "Last"
 
 /*---------------------------------------------------------------------------*/
 
@@ -113,7 +107,7 @@ enum {
 
 /*---------------------------------------------------------------------------*/
 
-#define DEFAULT_FULLSCREEN           1
+#define DEFAULT_FULLSCREEN           0
 #define DEFAULT_WIDTH                800
 #define DEFAULT_HEIGHT               600
 #define DEFAULT_STEREO               0
@@ -158,17 +152,20 @@ enum {
 
 #define MAXSTR 256
 #define MAXLVL 26
-#define MAXNAM 8
+#define MAXNAM 9
 
 /*---------------------------------------------------------------------------*/
 
 void config_init(void);
 void config_load(void);
 void config_save(void);
-
 int  config_mode(int, int, int);
-int  config_home(char *, char *, size_t);
-int  config_path(char *, char *);
+
+const char *config_data(const char *);
+const char *config_user(const char *);
+
+int  config_data_path(const char *, const char *);
+int  config_user_path(const char *);
 
 /*---------------------------------------------------------------------------*/
 
@@ -179,6 +176,16 @@ int  config_get(int);
 
 void config_set_name(char *);
 void config_get_name(char *);
+
+/*---------------------------------------------------------------------------*/
+
+void config_set_grab(void);
+void config_clr_grab(void);
+
+int  config_get_pause(void);
+void config_set_pause(void);
+void config_clr_pause(void);
+void config_tgl_pause(void);
 
 /*---------------------------------------------------------------------------*/
 

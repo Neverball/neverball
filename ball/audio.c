@@ -39,7 +39,7 @@ static int        chan[AUD_COUNT];
 
 static void chunk_load(int i, const char *filename, int channel)
 {
-    buff[i] = Mix_LoadWAV(filename);
+    buff[i] = Mix_LoadWAV(config_data(filename));
     chan[i] = channel;
 }
 
@@ -146,7 +146,7 @@ void audio_music_play(const char *filename)
         audio_music_stop();
 
         if ((config_get(CONFIG_MUSIC_VOLUME) > 0) &&
-            (song = Mix_LoadMUS(filename)))
+            (song = Mix_LoadMUS(config_data(filename))))
         {
             Mix_PlayMusic(song, -1);
             current = filename;
@@ -246,10 +246,18 @@ void audio_music_fade_in(float t)
 
 void audio_music_fade_to(float t, const char *filename)
 {
-    if (!current || strcmp(filename, current) != 0)
+    if (fade_volume > 0)
     {
-        fade_rate = -t;
-        next = filename;
+        if (!current || strcmp(filename, current) != 0)
+        {
+            next = filename;
+            fade_rate = -t;
+        }
+    }
+    else
+    {
+        audio_music_queue(filename);
+        audio_music_fade_in(t);
     }
 }
 

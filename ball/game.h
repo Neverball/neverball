@@ -5,8 +5,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define IMG_SHADOW "png/shadow.png"
-
 #define MAX_DT   0.01666666            /* Maximum physics update cycle       */
 #define MAX_DN  16                     /* Maximum subdivisions of dt         */
 #define RESPONSE 0.05f                 /* Input smoothing time               */
@@ -18,7 +16,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-int   game_init(const char *, const char *, int);
+int   game_init(const char *, const char *, const char *, int, int);
 void  game_free(void);
 
 int   curr_clock(void);
@@ -34,6 +32,9 @@ void  game_set_rot(int);
 void  game_set_fly(float);
 
 void  game_look(float, float);
+
+void  game_step_fade(float);
+void  game_fade(float);
 
 int game_put(FILE *);
 int game_get(FILE *);

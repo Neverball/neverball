@@ -52,7 +52,7 @@ static int        score_v[MAXHOL][MAXPLY];
 
 static void hole_init_rc(void)
 {
-    FILE *fin = fopen(HOLE_FILE, "r");
+    FILE *fin;
 
     hole   = 0;
     player = 0;
@@ -61,7 +61,7 @@ static void hole_init_rc(void)
 
     /* Load the holes list. */
 
-    if (fin)
+    if ((fin = fopen(config_data(HOLE_FILE), "r")))
     {
         while (fscanf(fin, "%s %s %d %s",
                        hole_v[count].file,

@@ -85,7 +85,8 @@ void game_init(const char *s)
     jump_b = 0;
 
     view_init();
-    sol_load(&file, s, config_get(CONFIG_TEXTURES), config_get(CONFIG_SHADOW));
+    sol_load(&file, config_data(s), config_get(CONFIG_TEXTURES),
+                                    config_get(CONFIG_SHADOW));
 
     shadow_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_SHADOW);
 

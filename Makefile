@@ -11,9 +11,9 @@ OGL_LIBS= -lGLU -lGL -lm
 
 #------------------------------------------------------------------------------
 
-CFLAGS= -Wall -O3 -ansi $(shell sdl-config --cflags)
-#CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
-#CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
+#CFLAGS= -Wall -Werror -O3 -ansi $(shell sdl-config --cflags)
+CFLAGS= -Wall -Werror -g -ansi $(shell sdl-config --cflags)
+#CFLAGS= -Wall -Werror -pg -ansi $(shell sdl-config --cflags)
 
 SDL_LIBS= $(shell sdl-config --libs)
 FT2_LIBS= $(shell freetype-config --libs)
@@ -26,6 +26,7 @@ MAPC_OBJS= \
 	share/vec3.o   \
 	share/solid.o  \
 	share/glext.o  \
+	share/config.o \
 	share/mapc.o
 BALL_OBJS= \
 	share/vec3.o    \
@@ -81,9 +82,7 @@ BALL_DEPS= $(BALL_OBJS:.o=.d)
 PUTT_DEPS= $(PUTT_OBJS:.o=.d)
 MAPC_DEPS= $(MAPC_OBJS:.o=.d)
 
-MAPC_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image $(OGL_LIBS)
-BALL_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS) $(OGL_LIBS)
-PUTT_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS) $(OGL_LIBS)
+LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS) $(OGL_LIBS)
 
 SOLS= \
 	data/map-rlk/easy.sol     \
@@ -214,13 +213,13 @@ data/map-misc/%.sol : data/map-misc/%.map $(MAPC_TARG)
 all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS)
 
 $(BALL_TARG) : $(BALL_OBJS)
-	$(CC) $(CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(BALL_LIBS)
+	$(CC) $(CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LIBS)
 
 $(PUTT_TARG) : $(PUTT_OBJS)
-	$(CC) $(CFLAGS) -o $(PUTT_TARG) $(PUTT_OBJS) $(PUTT_LIBS)
+	$(CC) $(CFLAGS) -o $(PUTT_TARG) $(PUTT_OBJS) $(LIBS)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
-	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(MAPC_LIBS)
+	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LIBS)
 
 clean-src :
 	rm -f $(BALL_TARG) $(BALL_OBJS) $(BALL_DEPS)

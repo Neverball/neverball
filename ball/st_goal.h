@@ -4,6 +4,6 @@
 #include "state.h"
 
 extern struct state st_goal;
-extern struct state st_done;
+extern struct state st_save;
 
 #endif

@@ -30,6 +30,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+static int game_state = 0;
+
 static struct s_file file;
 static struct s_file back;
 
@@ -60,8 +62,8 @@ static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
-
-static GLuint shadow_text;              /* Shadow texture object             */
+static float fade_k = 0.0;              /* Fade in/out level                 */
+static float fade_d = 0.0;              /* Fade in/out direction             */
 
 /*---------------------------------------------------------------------------*/
 
@@ -95,49 +97,62 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-int game_init(const char *file_name, const char *back_name, int t)
+int game_init(const char *file_name,
+              const char *back_name,
+              const char *grad_name, int t, int e)
 {
+    clock = (float) t / 100.f;
+
+    if (game_state)
+        game_free();
+
     game_ix = 0.f;
     game_iz = 0.f;
     game_rx = 0.f;
     game_rz = 0.f;
 
+    /* Initialize jump and goal states. */
+
     jump_e = 1;
     jump_b = 0;
 
-    goal_e = level_locked(curr_level()) ? 0    : 1;
-    goal_k = level_locked(curr_level()) ? 0.0f : 1.0f;
+    goal_e = e ? 1    : 0;
+    goal_k = e ? 1.0f : 0.0f;
 
-    view_init();
-    part_init(GOAL_HEIGHT);
+    /* Reset the hud. */
 
     hud_ball_pulse(0.f);
     hud_time_pulse(0.f);
     hud_coin_pulse(0.f);
 
-    clock = (float) t / 100.f;
+    /* Initialise the level, background, particles, fade, and view. */
 
-    shadow_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_SHADOW);
+    fade_k =  1.0f;
+    fade_d = -2.0f;
 
-    if (config_get(CONFIG_SHADOW) == 2)
-    {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    }
+    part_init_goal(GOAL_HEIGHT);
+    view_init();
+    back_init(grad_name, config_get(CONFIG_GEOMETRY));
 
-    return (sol_load(&back, back_name, config_get(CONFIG_TEXTURES), 0) &&
-            sol_load(&file, file_name, config_get(CONFIG_TEXTURES),
-                                       config_get(CONFIG_SHADOW)));
+    if (sol_load(&back, config_data(back_name),
+                 config_get(CONFIG_TEXTURES), 0) &&
+        sol_load(&file, config_data(file_name),
+                 config_get(CONFIG_TEXTURES),
+                 config_get(CONFIG_SHADOW)))
+        return (game_state = 1);
+    else
+        return (game_state = 0);
 }
 
 void game_free(void)
 {
-    if (glIsTexture(shadow_text))
-        glDeleteTextures(1, &shadow_text);
-
-    sol_free(&file);
-    sol_free(&back);
-    part_free();
+    if (game_state)
+    {
+        sol_free(&file);
+        sol_free(&back);
+        back_free();
+    }
+    game_state = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -264,63 +279,10 @@ static void game_draw_swchs(const struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * A note about lighting and shadow: technically speaking, it's wrong.
- * The  light  position  and   shadow  projection  behave  as  if  the
- * light-source rotates with the  floor.  However, the skybox does not
- * rotate, thus the light should also remain stationary.
- *
- * The  correct behavior  would eliminate  a significant  3D  cue: the
- * shadow of  the ball indicates  the ball's position relative  to the
- * floor even  when the ball is  in the air.  This  was the motivating
- * idea  behind the  shadow  in  the first  place,  so correct  shadow
- * projection would only magnify the problem.
- */
-
-static void game_set_shadow(const struct s_file *fp)
-{
-    const float *ball_p = fp->uv->p;
-    const float  ball_r = fp->uv->r;
-
-    if (config_get(CONFIG_SHADOW))
-    {
-        glActiveTexture(GL_TEXTURE1);
-        glMatrixMode(GL_TEXTURE);
-        {
-            float k = 0.5f / ball_r;
-
-            glEnable(GL_TEXTURE_2D);
-
-            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-            glBindTexture(GL_TEXTURE_2D, shadow_text);
-
-            glLoadIdentity();
-            glTranslatef(0.5f - ball_p[0] * k,
-                         0.5f - ball_p[2] * k, 0.f);
-            glScalef(k, k, 1.f);
-        }
-        glMatrixMode(GL_MODELVIEW);
-        glActiveTexture(GL_TEXTURE0);
-    }
-}
-
-static void game_clr_shadow(void)
-{
-    if (config_get(CONFIG_SHADOW))
-    {
-        glActiveTexture(GL_TEXTURE1);
-        {
-            glDisable(GL_TEXTURE_2D);
-        }
-        glActiveTexture(GL_TEXTURE0);
-    }
-}
-
-/*---------------------------------------------------------------------------*/
-
 static void game_refl_all(int s)
 {
     const float *ball_p = file.uv->p;
+    const float  ball_r = file.uv->r;
     
     glPushMatrix();
     {
@@ -335,9 +297,9 @@ static void game_refl_all(int s)
 
         if (s)
         {
-             game_set_shadow(&file);
-             sol_refl(&file, 1);
-             game_clr_shadow();
+            shad_draw_set(ball_p, ball_r);
+            sol_refl(&file, 1);
+            shad_draw_clr();
         }
         else
             sol_refl(&file, 0);
@@ -387,7 +349,7 @@ static void game_draw_back(int pose, int d, const float p[3])
         }
 
         glTranslatef(p[0], p[1], p[2]);
-        game_clr_shadow();
+        shad_draw_clr();
         glColor4fv(c);
 
         if (config_get(CONFIG_BACKGROUND))
@@ -410,9 +372,9 @@ static void game_draw_back(int pose, int d, const float p[3])
 static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3])
 {
     const float *ball_p = file.uv->p;
+    const float  ball_r = file.uv->r;
     
-    glPushAttrib(GL_LIGHTING_BIT |
-                 GL_COLOR_BUFFER_BIT);
+    glPushAttrib(GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
     {
         glPushMatrix();
         {
@@ -442,9 +404,9 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
                 sol_draw(&file, 0);
             else
             {
-                game_set_shadow(&file);
+                shad_draw_set(ball_p, ball_r);
                 sol_draw(&file, config_get(CONFIG_SHADOW));
-                game_clr_shadow();
+                shad_draw_clr();
             }
 
             /* Draw the game elements. */
@@ -475,72 +437,79 @@ void game_draw(int pose, float st)
 
     if (jump_b) fov *= 2.f * fabsf(jump_dt - 0.5);
 
-    config_push_persp(fov, 0.1f, FAR_DIST);
-    glPushMatrix();
+    if (game_state)
     {
-        float v[3], rx, ry;
-        float pup[3];
-        float pdn[3];
-
-        v_cpy(pup, view_p);
-        v_cpy(pdn, view_p);
-        pdn[1] = -pdn[1];
-
-        /* Compute and apply the view. */
-
-        v_sub(v, view_c, view_p);
-
-        rx = V_DEG(fatan2f(-v[1], fsqrtf(v[0] * v[0] + v[2] * v[2])));
-        ry = V_DEG(fatan2f(+v[0], -v[2])) + st;
-
-        glTranslatef(0.f, 0.f, -v_len(v));
-        glRotatef(rx, 1.f, 0.f, 0.f);
-        glRotatef(ry, 0.f, 1.f, 0.f);
-        glTranslatef(-view_c[0], -view_c[1], -view_c[2]);
-
-        if (config_get(CONFIG_REFLECTION))
+        config_push_persp(fov, 0.1f, FAR_DIST);
+        glPushMatrix();
         {
-            /* Draw the mirror only into the stencil buffer. */
+            float v[3], rx, ry;
+            float pup[3];
+            float pdn[3];
 
-            glDisable(GL_DEPTH_TEST);
-            glEnable(GL_STENCIL_TEST);
-            glStencilFunc(GL_ALWAYS, 1, 0xFFFFFFFF);
-            glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
-            glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+            v_cpy(pup, view_p);
+            v_cpy(pdn, view_p);
+            pdn[1] = -pdn[1];
 
-            game_refl_all(0);
+            /* Compute and apply the view. */
 
-            /* Draw the scene reflected into color and depth buffers. */
+            v_sub(v, view_c, view_p);
 
-            glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-            glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-            glStencilFunc(GL_EQUAL, 1, 0xFFFFFFFF);
-            glEnable(GL_DEPTH_TEST);
+            rx = V_DEG(fatan2f(-v[1], fsqrtf(v[0] * v[0] + v[2] * v[2])));
+            ry = V_DEG(fatan2f(+v[0], -v[2])) + st;
 
-            glFrontFace(GL_CW);
-            glPushMatrix();
+            glTranslatef(0.f, 0.f, -v_len(v));
+            glRotatef(rx, 1.f, 0.f, 0.f);
+            glRotatef(ry, 0.f, 1.f, 0.f);
+            glTranslatef(-view_c[0], -view_c[1], -view_c[2]);
+
+            if (config_get(CONFIG_REFLECTION))
             {
-                glScalef(+1.f, -1.f, +1.f);
+                /* Draw the mirror only into the stencil buffer. */
 
-                game_draw_light();
-                game_draw_back(pose,         -1, pdn);
-                game_draw_fore(pose, rx, ry, -1, pdn);
+                glDisable(GL_DEPTH_TEST);
+                glEnable(GL_STENCIL_TEST);
+                glStencilFunc(GL_ALWAYS, 1, 0xFFFFFFFF);
+                glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+                glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+                game_refl_all(0);
+
+                /* Draw the scene reflected into color and depth buffers. */
+
+                glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+                glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+                glStencilFunc(GL_EQUAL, 1, 0xFFFFFFFF);
+                glEnable(GL_DEPTH_TEST);
+
+                glFrontFace(GL_CW);
+                glPushMatrix();
+                {
+                    glScalef(+1.f, -1.f, +1.f);
+
+                    game_draw_light();
+                    game_draw_back(pose,         -1, pdn);
+                    game_draw_fore(pose, rx, ry, -1, pdn);
+                }
+                glPopMatrix();
+                glFrontFace(GL_CCW);
+
+                glDisable(GL_STENCIL_TEST);
             }
-            glPopMatrix();
-            glFrontFace(GL_CCW);
 
-            glDisable(GL_STENCIL_TEST);
+            /* Draw the scene normally. */
+
+            game_draw_light();
+            game_refl_all(pose ? 0 : config_get(CONFIG_SHADOW));
+            game_draw_back(pose,         +1, pup);
+            game_draw_fore(pose, rx, ry, +1, pup);
         }
+        glPopMatrix();
+        config_pop_matrix();
 
-        /* Draw the scene normally. */
+        /* Draw the fade overlay. */
 
-        game_draw_light();
-        game_refl_all(pose ? 0 : config_get(CONFIG_SHADOW));
-        game_draw_back(pose,         +1, pup);
-        game_draw_fore(pose, rx, ry, +1, pup);
+        fade_draw(fade_k);
     }
-    glPopMatrix();
-    config_pop_matrix();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -749,63 +718,68 @@ int game_step(const float g[3], float dt, int bt)
     float t;
     int i, n = 1;
 
-    t = dt;
-
-    /* Smooth jittery or discontinuous input. */
-
-    if (t < RESPONSE)
+    if (game_state)
     {
-        game_rx += (game_ix - game_rx) * t / RESPONSE;
-        game_rz += (game_iz - game_rz) * t / RESPONSE;
-    }
-    else
-    {
-        game_rx = game_ix;
-        game_rz = game_iz;
-    }
+        t = dt;
 
-    game_update_grav(h, g);
-    part_step(h, t);
+        /* Smooth jittery or discontinuous input. */
 
-    if (jump_b)
-    {
-        jump_dt += t;
-
-        /* Handle a jump. */
-
-        if (0.5 < jump_dt)
+        if (t < RESPONSE)
         {
-            fp->uv[0].p[0] = jump_p[0];
-            fp->uv[0].p[1] = jump_p[1];
-            fp->uv[0].p[2] = jump_p[2];
+            game_rx += (game_ix - game_rx) * t / RESPONSE;
+            game_rz += (game_iz - game_rz) * t / RESPONSE;
         }
-        if (1.f < jump_dt)
-            jump_b = 0;
-    }
-    else
-    {
-        /* Run the sim. */
-
-        while (t > MAX_DT && n < MAX_DN)
+        else
         {
-            t /= 2;
-            n *= 2;
+            game_rx = game_ix;
+            game_rz = game_iz;
         }
 
-        for (i = 0; i < n; i++)
-            if (b < (d = sol_step(fp, h, t, 0, NULL)))
-                b = d;
+        game_update_grav(h, g);
+        part_step(h, t);
 
-        /* Mix the sound of a ball bounce. */
+        if (jump_b)
+        {
+            jump_dt += t;
 
-        if (b > 0.5)
-            audio_play(AUD_BUMP, (b - 0.5f) * 2.0f);
+            /* Handle a jump. */
+
+            if (0.5 < jump_dt)
+            {
+                fp->uv[0].p[0] = jump_p[0];
+                fp->uv[0].p[1] = jump_p[1];
+                fp->uv[0].p[2] = jump_p[2];
+            }
+            if (1.f < jump_dt)
+                jump_b = 0;
+        }
+        else
+        {
+            /* Run the sim. */
+
+            while (t > MAX_DT && n < MAX_DN)
+            {
+                t /= 2;
+                n *= 2;
+            }
+
+            for (i = 0; i < n; i++)
+                if (b < (d = sol_step(fp, h, t, 0, NULL)))
+                    b = d;
+
+            /* Mix the sound of a ball bounce. */
+
+            if (b > 0.5)
+                audio_play(AUD_BUMP, (b - 0.5f) * 2.0f);
+        }
+
+        game_step_fade(dt);
+        game_update_view(dt);
+        game_update_time(dt, bt);
+
+        return game_update_state();
     }
-
-    game_update_view(dt);
-    game_update_time(dt, bt);
-
-    return game_update_state();
+    return GAME_NONE;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -911,22 +885,47 @@ void game_look(float phi, float theta)
 
 /*---------------------------------------------------------------------------*/
 
+void game_step_fade(float dt)
+{
+    if ((fade_k < 1.0f && fade_d > 0.0f) ||
+        (fade_k > 0.0f && fade_d < 0.0f))
+        fade_k += fade_d * dt;
+
+    if (fade_k < 0.0f)
+    {
+        fade_k = 0.0f;
+        fade_d = 0.0f;
+    }
+    if (fade_k > 1.0f)
+    {
+        fade_k = 1.0f;
+        fade_d = 0.0f;
+    }
+}
+
+void game_fade(float d)
+{
+    fade_d = d;
+}
+
+/*---------------------------------------------------------------------------*/
+
 int game_put(FILE *fout)
 {
-    return (float_put(fout, &game_rx)  &&
-            float_put(fout, &game_rz)  &&
-            vector_put(fout, view_c)    &&
-            vector_put(fout, view_p)    &&
-            sol_put(fout, &file));
+    return game_state ? (float_put(fout, &game_rx) &&
+                         float_put(fout, &game_rz) &&
+                         vector_put(fout, view_c)  &&
+                         vector_put(fout, view_p)  &&
+                         sol_put(fout, &file)) : 0;
 }
 
 int game_get(FILE *fin)
 {
-    return (float_get(fin, &game_rx)  &&
-            float_get(fin, &game_rz)  &&
-            vector_get(fin, view_c)    &&
-            vector_get(fin, view_p)    &&
-            sol_get(fin, &file));
+    return game_state ? (float_get(fin, &game_rx) &&
+                         float_get(fin, &game_rz) &&
+                         vector_get(fin, view_c)  &&
+                         vector_get(fin, view_p)  &&
+                         sol_get(fin, &file)) : 0;
 }
 
 /*---------------------------------------------------------------------------*/

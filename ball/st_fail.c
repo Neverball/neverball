@@ -29,7 +29,7 @@ static int fall_out_enter(void)
 {
     int id;
 
-    if ((id = gui_label(0, "Fall-out!", GUI_LRG, GUI_ALL, gui_blk, gui_red)))
+    if ((id = gui_label(0, "Fall-out!", GUI_LRG, GUI_ALL, gui_gry, gui_red)))
     {
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
@@ -38,12 +38,13 @@ static int fall_out_enter(void)
     audio_music_fade_out(2.0f);
     audio_play(AUD_FALL, 1.0f);
 
+    config_clr_grab();
+
     return id;
 }
 
 static void fall_out_leave(int id)
 {
-    demo_finish();
     gui_delete(id);
 }
 
@@ -106,7 +107,7 @@ static int time_out_enter(void)
 {
     int id;
 
-    if ((id = gui_label(0, "Time's Up!", GUI_LRG, GUI_ALL,gui_blk, gui_red)))
+    if ((id = gui_label(0, "Time's Up!", GUI_LRG, GUI_ALL,gui_gry, gui_red)))
     {
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
@@ -115,12 +116,13 @@ static int time_out_enter(void)
     audio_music_fade_out(2.0f);
     audio_play(AUD_TIME, 1.0f);
 
+    config_clr_grab();
+
     return id;
 }
 
 static void time_out_leave(int id)
 {
-    demo_finish();
     gui_delete(id);
 }
 

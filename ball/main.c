@@ -27,8 +27,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include <SDL.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -57,53 +55,7 @@ static void shot(void)
     image_snap(filename);
 }
 
-static void demo(void)
-{
-    static char file[MAXSTR];
-    static char src[MAXSTR];
-    static char dst[MAXSTR];
-    static int  num = 0;
-
-    sprintf(file, "demo%02d.dat", num++);
-
-    demo_finish();
-
-    if (config_home(dst, file, MAXSTR) &&
-        config_home(src, USER_REPLAY_FILE, MAXSTR))
-        rename(src, dst);
-}
-
 /*---------------------------------------------------------------------------*/
-
-static int grabbed = 0;
-
-static void enable_grab(void)
-{
-    if (grabbed != 1)
-    {
-        SDL_WM_GrabInput(SDL_GRAB_ON);
-        Mix_ResumeMusic();
-        grabbed = 1;
-    }
-}
-
-static void disable_grab(void)
-{
-    if (grabbed != 0)
-    {
-        grabbed = 0;
-        Mix_PauseMusic();
-        SDL_WM_GrabInput(SDL_GRAB_OFF);
-    }
-}
-
-static void toggle_grab(void)
-{
-    if (grabbed)
-        disable_grab();
-    else
-        enable_grab();
-}
 
 static void toggle_wire(void)
 {
@@ -133,42 +85,41 @@ static int loop(void)
     int d = 1;
 
     while (d && SDL_PollEvent(&e))
-        switch (e.type)
-        {
-        case SDL_MOUSEMOTION:
-            if (grabbed)
+    {
+        if (e.type == SDL_QUIT)
+            return 0;
+
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
+            config_tgl_pause();
+
+        if (!config_get_pause())
+            switch (e.type)
+            {
+            case SDL_MOUSEMOTION:
                 st_point(+e.motion.x,
                          -e.motion.y + config_get(CONFIG_HEIGHT),
                          +e.motion.xrel,
                          config_get(CONFIG_MOUSE_INVERT)
-                         ? +e.motion.yrel
-                         : -e.motion.yrel);
-              break;
+                         ? +e.motion.yrel : -e.motion.yrel);
+                break;
 
-        case SDL_MOUSEBUTTONDOWN:
-            if (grabbed)
+            case SDL_MOUSEBUTTONDOWN:
                 d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 1);
-            break;
-
-        case SDL_MOUSEBUTTONUP:
-            if (grabbed)
+                break;
+                
+            case SDL_MOUSEBUTTONUP:
                 d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 0);
-            break;
+                break;
 
-        case SDL_KEYDOWN:
-
-            if (e.key.keysym.sym == SDLK_SPACE)
-                toggle_grab();
-
-            if (grabbed)
+            case SDL_KEYDOWN:
+                
                 switch (e.key.keysym.sym)
                 {
-                case SDLK_F11:   demo();                  break;
                 case SDLK_F10:   shot();                  break;
                 case SDLK_F9:    config_tgl(CONFIG_FPS);  break;
                 case SDLK_F8:    config_tgl(CONFIG_NICE); break;
                 case SDLK_F7:    toggle_wire();           break;
-
+                
                 case SDLK_RETURN:
                     d = st_buttn(config_get(CONFIG_JOYSTICK_BUTTON_A), 1);
                     break;
@@ -186,15 +137,12 @@ static int loop(void)
                     break;
                              
                 default: 
-                    if (grabbed)
-                        d = st_keybd(e.key.keysym.sym, 1);
+                    d = st_keybd(e.key.keysym.sym, 1);
                 }
+                break;
 
-            break;
+            case SDL_KEYUP:
 
-        case SDL_KEYUP:
-
-            if (grabbed)
                 switch (e.key.keysym.sym)
                 {
                 case SDLK_RETURN:
@@ -210,121 +158,119 @@ static int loop(void)
                     break;
 
                 default:
-                    if (grabbed)
-                        d = st_keybd(e.key.keysym.sym, 0);
+                    d = st_keybd(e.key.keysym.sym, 0);
                 }
 
-            break;
+                break;
 
-        case SDL_ACTIVEEVENT:
-            if (e.active.state == SDL_APPINPUTFOCUS && e.active.gain == 0)
-                disable_grab();
-            break;
+            case SDL_ACTIVEEVENT:
+                if (e.active.state == SDL_APPINPUTFOCUS)
+                    if (e.active.gain == 0)
+                        config_set_pause();
+                break;
 
-        case SDL_JOYAXISMOTION:
-            if (grabbed)
+            case SDL_JOYAXISMOTION:
                 st_stick(e.jaxis.axis, e.jaxis.value);
-            break;
+                break;
 
-        case SDL_JOYBUTTONDOWN:
-            if (grabbed)
+            case SDL_JOYBUTTONDOWN:
                 d = st_buttn(e.jbutton.button, 1);
-            break;
+                break;
 
-        case SDL_JOYBUTTONUP:
-            if (grabbed)
+            case SDL_JOYBUTTONUP:
                 d = st_buttn(e.jbutton.button, 0);
-            break;
-
-        case SDL_QUIT:
-            d = 0;
-        }
-
+                break;
+            }
+    }
     return d;
 }
 
 int main(int argc, char *argv[])
 {
-    char  *path = (argc > 1) ? argv[1] : CONFIG_PATH;
-    SDL_Joystick *joy = NULL;
-
-    if (config_path(path, SET_FILE))
+    if (config_data_path((argc > 1 ? argv[1] : NULL), SET_FILE))
     {
-        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
+        if (config_user_path(NULL))
         {
-            config_init();
-            config_load();
-
-            /* Initialize the joystick. */
-
-            if (SDL_NumJoysticks() > 0)
+            if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK))
             {
-                joy = SDL_JoystickOpen(config_get(CONFIG_JOYSTICK_DEVICE));
+                SDL_Joystick *joy = NULL;
 
-                if (joy)
-                    SDL_JoystickEventState(SDL_ENABLE);
-            }
+                config_init();
+                config_load();
 
-            /* Initialize the audio. */
+                /* Initialize the joystick. */
 
-            audio_init();
+                if (SDL_NumJoysticks() > 0)
+                {
+                    joy = SDL_JoystickOpen(config_get(CONFIG_JOYSTICK_DEVICE));
+                    if (joy)
+                        SDL_JoystickEventState(SDL_ENABLE);
+                }
 
-            /* Require 16-bit double buffer with 16-bit depth buffer. */
+                /* Initialize the audio. */
 
-            SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
-            SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
-            SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
-            SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-            SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+                audio_init();
 
-            /* Initialize the video. */
+                /* Require 16-bit double buffer with 16-bit depth buffer. */
 
-            if (config_mode(config_get(CONFIG_FULLSCREEN),
-                            config_get(CONFIG_WIDTH),
-                            config_get(CONFIG_HEIGHT)))
-            {
-                int t1, t0 = SDL_GetTicks();
+                SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
+                SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
+                SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
+                SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
+                SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-                SDL_WM_SetCaption(TITLE, TITLE); 
-                enable_grab();
+                /* Initialize the video. */
 
-                /* Initialize the run state and the title display. */
+                if (config_mode(config_get(CONFIG_FULLSCREEN),
+                                config_get(CONFIG_WIDTH),
+                                config_get(CONFIG_HEIGHT)))
+                {
+                    int t1, t0 = SDL_GetTicks();
 
-                init_state(&st_null);
-                goto_state(&st_title);
+                    SDL_WM_SetCaption(TITLE, TITLE); 
 
-                /* Run the main game loop. */
+                    /* Initialize the run state and the title display. */
 
-                while (loop())
-                    if ((t1 = SDL_GetTicks()) > t0)
-                    {
-                        if (grabbed)
-                            st_timer((t1 - t0) / 1000.f);
+                    init_state(&st_null);
+                    goto_state(&st_title);
 
-                        st_paint();
+                    /* Run the main game loop. */
 
-                        if (!grabbed)
-                            gui_blank();
+                    while (loop())
+                        if ((t1 = SDL_GetTicks()) > t0)
+                        {
+                            if (config_get_pause())
+                            {
+                                st_paint();
+                                gui_blank();
+                            }
+                            else
+                            {
+                                st_timer((t1 - t0) / 1000.f);
+                                st_paint();
+                            }
+                            SDL_GL_SwapBuffers();
 
-                        SDL_GL_SwapBuffers();
+                            t0 = t1;
 
-                        t0 = t1;
+                            if (config_get(CONFIG_NICE))
+                                SDL_Delay(1);
+                        }
+                }
+                else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
 
-                        if (config_get(CONFIG_NICE))
-                            SDL_Delay(1);
-                    }
+                config_save();
+
+                if (SDL_JoystickOpened(0))
+                    SDL_JoystickClose(joy);
+
+                SDL_Quit();
             }
             else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
-
-            if (SDL_JoystickOpened(0))
-                SDL_JoystickClose(joy);
-
-            SDL_Quit();
         }
-        else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
-
-        config_save();
+        else fprintf(stderr, "Failure to establish config directory\n");
     }
+    else fprintf(stderr, "Failure to establish game data directory\n");
 
     return 0;
 }

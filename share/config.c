@@ -17,18 +17,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <errno.h>
 
 #include "config.h"
 #include "glext.h"
 
 /*---------------------------------------------------------------------------*/
 
-/* Define the chdir symbol. */
+/* Define the mkdir symbol. */
 
 #ifdef _WIN32
 #include <direct.h>
 #else
-#include <unistd.h>
+#include <sys/stat.h>
 #endif
 
 /*---------------------------------------------------------------------------*/
@@ -97,10 +98,9 @@ void config_init(void)
 
 void config_load(void)
 {
-    char  path[MAXSTR];
     FILE *fp;
 
-    if (config_home(path, USER_CONFIG_FILE, MAXSTR) && (fp = fopen(path, "r")))
+    if ((fp = fopen(config_user(USER_CONFIG_FILE), "r")))
     {
         char buf[MAXSTR];
         char key[MAXSTR];
@@ -191,10 +191,9 @@ void config_load(void)
 
 void config_save(void)
 {
-    char  path[MAXSTR];
     FILE *fp;
 
-    if (config_home(path, USER_CONFIG_FILE, MAXSTR) && (fp = fopen(path, "w")))
+    if ((fp = fopen(config_user(USER_CONFIG_FILE), "w")))
     {
         fprintf(fp, "fullscreen           %d\n",
                 option[CONFIG_FULLSCREEN]);
@@ -284,6 +283,8 @@ int config_mode(int f, int w, int h)
     SDL_GL_SetAttribute(SDL_GL_STEREO,       stereo);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, stencil);
 
+    /* Try to set the currently specified mode. */
+
     if (SDL_SetVideoMode(w, h, 0, SDL_OPENGL | (f ? SDL_FULLSCREEN : 0)))
     {
         option[CONFIG_FULLSCREEN] = f;
@@ -292,7 +293,7 @@ int config_mode(int f, int w, int h)
         option[CONFIG_SHADOW]     = (option[CONFIG_SHADOW] & glext_init());
 
         glViewport(0, 0, w, h);
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
 
         glEnable(GL_NORMALIZE);
         glEnable(GL_CULL_FACE);
@@ -302,60 +303,146 @@ int config_mode(int f, int w, int h)
 
         return 1;
     }
+
+    /* If the mode failed, try it without stereo. */
+
+    else if (config_get(CONFIG_STEREO))
+    {
+        config_set(CONFIG_STEREO, 0);
+        return config_mode(f, w, h);
+    }
+
+    /* If that mode failed, try it without reflections. */
+
+    else if (config_get(CONFIG_REFLECTION))
+    {
+        config_set(CONFIG_REFLECTION, 0);
+        return config_mode(f, w, h);
+    }
+
+    /* If THAT mode failed, punt. */
+
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static char data_path[MAXSTR];
+static char user_path[MAXSTR];
+
+/*
+ * Given  a path  and a  file name  relative to  that path,  create an
+ * absolute path name and return a temporary pointer to it.
+ */
+static const char *config_file(const char *path, const char *file)
+{
+    static char absolute[MAXSTR];
+
+    size_t d = strlen(path);
+
+    strncpy(absolute, path, MAXSTR - 1);
+    strncat(absolute, "/",  MAXSTR - d - 1);
+    strncat(absolute, file, MAXSTR - d - 2);
+
+    return absolute;
+}
+
+static int config_test(const char *path, const char *file)
+{
+    if (file)
+    {
+        FILE *fp;
+
+        if ((fp = fopen(config_file(path, file), "r")))
+        {
+            fclose(fp);
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+const char *config_data(const char *file)
+{
+    return config_file(data_path, file);
+}
+
+const char *config_user(const char *file)
+{
+    return config_file(user_path, file);
+}
+
+/*---------------------------------------------------------------------------*/
+
+/*
+ * Attempt to find  the game data directory.  Search  the command line
+ * paramater,  the environment,  and the  hard-coded default,  in that
+ * order.  Confirm it by checking for presense of the named file.
+ */
+int config_data_path(const char *path, const char *file)
+{
+    char *dir;
+
+    if (path && config_test(path, file))
+    {
+        strncpy(data_path, path, MAXSTR);
+        return 1;
+    }
+
+    if ((dir = getenv("NEVERBALL_DATA")) && config_test(dir, file))
+    {
+        strncpy(data_path, dir, MAXSTR);
+        return 1;
+    }
+
+    if (CONFIG_DATA && config_test(CONFIG_DATA, file))
+    {
+        strncpy(data_path, CONFIG_DATA, MAXSTR);
+        return 1;
+    }
+
     return 0;
 }
 
 /*
- * Convert the given file name to  an absolute path name in the user's
- * home  directory.   If the  home  directory  cannot be  established,
- * return false.
+ * Determine the location of  the user's home directory.  Ensure there
+ * is a  directory there for  storing configuration, high  scores, and
+ * replays.
  *
  * HACK: under Windows just assume the user has permission to write to
  * the data  directory.  This is  more reliable than trying  to devine
  * anything reasonable from the environment.
  */
-int config_home(char *dst, char *src, size_t n)
+int config_user_path(const char *file)
 {
 #ifdef _WIN32
+    size_t d = strlen(CONFIG_USER);
 
-    strncpy(dst, src, n);
-    return 1;
+    strncpy(user_path, data_path,   MAXSTR - 1);
+    strncat(user_path, "\\",        MAXSTR - d - 1);
+    strncat(user_path, CONFIG_USER, MAXSTR - d - 2);
 
+    if ((mkdir(user_path) == 0) || (errno = EEXIST))
+        if (config_test(user_path, file))
+            return 1;
 #else
-
     char *dir;
 
     if ((dir = getenv("HOME")))
     {
         size_t d = strlen(dir);
 
-        strncpy(dst, dir, n - 1);
-        strncat(dst, "/", n - d - 1);
-        strncat(dst, src, n - d - 2);
-
-        return 1;
+        strncpy(user_path, getenv("HOME"), MAXSTR - 1);
+        strncat(user_path, "/",            MAXSTR - d - 1);
+        strncat(user_path, CONFIG_USER,    MAXSTR - d - 2);
     }
-    return 0;
 
+    if ((mkdir(user_path, 0777) == 0) || (errno = EEXIST))
+        if (config_test(user_path, file))
+            return 1;
 #endif
-}
 
-/*
- * Game  assets are  accessed  via relative  paths.   Set the  current
- * directory to the root of the asset hierarchy.  Confirm the location
- * by checking for the presence of the named file.
- */
-int config_path(char *path, char *test)
-{
-    FILE *fp;
-
-    chdir(path);
-
-    if ((fp = fopen(test, "r")))
-    {
-        fclose(fp);
-        return 1;
-    }
     return 0;
 }
 
@@ -391,6 +478,61 @@ void config_get_name(char *dst)
     strncpy(dst, player, MAXNAM);
 }
 
+/*---------------------------------------------------------------------------*/
+
+static int grabbed = 0;
+static int paused  = 0;
+
+void config_set_grab(void)
+{
+    SDL_WM_GrabInput(SDL_GRAB_ON);
+    SDL_ShowCursor(SDL_DISABLE);
+    grabbed = 1;
+}
+
+void config_clr_grab(void)
+{
+    SDL_WM_GrabInput(SDL_GRAB_OFF);
+    SDL_ShowCursor(SDL_ENABLE);
+    grabbed = 0;
+}
+
+int  config_get_pause(void)
+{
+    return paused;
+}
+
+void config_set_pause(void)
+{
+    Mix_PauseMusic();
+    paused = 1;
+
+    if (grabbed)
+    {
+        SDL_ShowCursor(SDL_ENABLE);
+        SDL_WM_GrabInput(SDL_GRAB_OFF);
+    }
+}
+
+void config_clr_pause(void)
+{
+    Mix_ResumeMusic();
+    paused = 0;
+
+    if (grabbed)
+    {
+        SDL_WM_GrabInput(SDL_GRAB_ON);
+        SDL_ShowCursor(SDL_DISABLE);
+    }
+}
+
+void config_tgl_pause(void)
+{
+    if (paused)
+        config_clr_pause();
+    else
+        config_set_pause();
+}
 /*---------------------------------------------------------------------------*/
 
 void config_push_persp(float fov, float n, float f)

@@ -13,21 +13,9 @@
  */
 
 #include "gui.h"
+#include "util.h"
 #include "level.h"
 
-/*---------------------------------------------------------------------------*/
-/*
-void gui_curr_score(int id, int i)
-{
-    int jd;
-
-    if ((jd = gui_harray(id)))
-    {
-        gui_count(jd, level_coin_c(i, -1), GUI_MED, GUI_NE | GUI_SE);
-        gui_clock(jd, level_time_t(i, -1), GUI_MED, GUI_NW | GUI_SW);
-    }
-}
-*/
 /*---------------------------------------------------------------------------*/
 
 static int coin_c[4];
@@ -169,6 +157,75 @@ void set_best_times(int level, int n)
         gui_set_clock(time_t[j], level_time_t(level, j));
         gui_set_label(time_n[j], level_time_n(level, j));
         gui_set_count(time_c[j], level_time_c(level, j));
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+void gui_keyboard(int id)
+{
+    int jd, kd, ld;
+
+    if ((jd = gui_hstack(id)))
+    {
+        gui_filler(jd);
+
+        if ((kd = gui_vstack(jd)))
+        {
+            if ((ld = gui_hstack(kd)))
+            {
+                gui_state(ld, "9", GUI_SML, '9', 0);
+                gui_state(ld, "8", GUI_SML, '8', 0);
+                gui_state(ld, "7", GUI_SML, '7', 0);
+                gui_state(ld, "6", GUI_SML, '6', 0);
+                gui_state(ld, "5", GUI_SML, '5', 0);
+                gui_state(ld, "4", GUI_SML, '4', 0);
+                gui_state(ld, "3", GUI_SML, '3', 0);
+                gui_state(ld, "2", GUI_SML, '2', 0);
+                gui_state(ld, "1", GUI_SML, '1', 0);
+                gui_state(ld, "0", GUI_SML, '0', 0);
+            }
+            if ((ld = gui_hstack(kd)))
+            {
+                gui_state(ld, "J", GUI_SML, 'J', 0);
+                gui_state(ld, "I", GUI_SML, 'I', 0);
+                gui_state(ld, "H", GUI_SML, 'H', 0);
+                gui_state(ld, "G", GUI_SML, 'G', 0);
+                gui_state(ld, "F", GUI_SML, 'F', 0);
+                gui_state(ld, "E", GUI_SML, 'E', 0);
+                gui_state(ld, "D", GUI_SML, 'D', 0);
+                gui_state(ld, "C", GUI_SML, 'C', 0);
+                gui_state(ld, "B", GUI_SML, 'B', 0);
+                gui_state(ld, "A", GUI_SML, 'A', 0);
+            }
+            if ((ld = gui_hstack(kd)))
+            {
+                gui_state(ld, "T", GUI_SML, 'T', 0);
+                gui_state(ld, "S", GUI_SML, 'S', 0);
+                gui_state(ld, "R", GUI_SML, 'R', 0);
+                gui_state(ld, "Q", GUI_SML, 'Q', 0);
+                gui_state(ld, "P", GUI_SML, 'P', 0);
+                gui_state(ld, "O", GUI_SML, 'O', 0);
+                gui_state(ld, "N", GUI_SML, 'N', 0);
+                gui_state(ld, "M", GUI_SML, 'M', 0);
+                gui_state(ld, "L", GUI_SML, 'L', 0);
+                gui_state(ld, "K", GUI_SML, 'K', 0);
+            }
+            if ((ld = gui_hstack(kd)))
+            {
+                gui_filler(ld);
+                gui_state(ld, "<", GUI_SML, GUI_BS, 0);
+                gui_state(ld, "Z", GUI_SML, 'Z', 0);
+                gui_state(ld, "Y", GUI_SML, 'Y', 0);
+                gui_state(ld, "X", GUI_SML, 'X', 0);
+                gui_state(ld, "W", GUI_SML, 'W', 0);
+                gui_state(ld, "V", GUI_SML, 'V', 0);
+                gui_state(ld, "U", GUI_SML, 'U', 0);
+                gui_filler(ld);
+            }
+        }
+
+        gui_filler(jd);
     }
 }
 

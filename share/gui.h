@@ -79,6 +79,7 @@ int  gui_pause(int);
 void gui_dump(int, int);
 void gui_layout(int, int, int);
 int  gui_search(int, int, int);
+int  gui_active(int, int, int);
 int  gui_delete(int);
 
 /*---------------------------------------------------------------------------*/
