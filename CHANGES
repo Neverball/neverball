@@ -1,4 +1,12 @@
 -------------------------------------------------------------------------------
+New in 1.2.10
+
+* Added caps lock key to keyboard.
+* Worked around Neverputt overwriting Neverball's camera setting.
+* Added clobber confirmation to replay save.
+* Fixed an audio bug when fading to the currently playing song.
+
+-------------------------------------------------------------------------------
 New in 1.2.9
 
 * Merged set-complete state into goal state, fixing set-complete crash.

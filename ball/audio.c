@@ -253,6 +253,7 @@ void audio_music_fade_to(float t, const char *filename)
             next = filename;
             fade_rate = -t;
         }
+        else fade_rate = t;
     }
     else
     {

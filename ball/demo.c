@@ -158,9 +158,20 @@ int demo_clock(int i)
 
 /*---------------------------------------------------------------------------*/
 
-void demo_unique(char *name)
+int demo_exists(char *name)
 {
     FILE *fp;
+
+    if ((fp = fopen(config_user(name), "r")))
+    {
+        fclose(fp);
+        return 1;
+    }
+    return 0;
+}
+
+void demo_unique(char *name)
+{
     int i;
 
     /* Generate a unique name for a new replay save. */
@@ -169,10 +180,8 @@ void demo_unique(char *name)
     {
         sprintf(name, "replay%02d", i);
 
-        if ((fp = fopen(config_user(name), "r")) == NULL)
+        if (!demo_exists(name))
             return;
-
-        fclose(fp);
     }
 }
 

@@ -116,6 +116,8 @@ static int loop(void)
 
 int main(int argc, char *argv[])
 {
+    int camera = 0;
+
     if (config_data_path((argc > 1 ? argv[1] : NULL), HOLE_FILE))
     {
         if (config_user_path(NULL))
@@ -124,6 +126,10 @@ int main(int argc, char *argv[])
             {
                 config_init();
                 config_load();
+
+                /* Cache Neverball's camera setting. */
+
+                camera = config_get(CONFIG_CAMERA);
 
                 /* Initialize the audio. */
 
@@ -168,6 +174,9 @@ int main(int argc, char *argv[])
                 }
                 else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
 
+                /* Restore Neverball's camera setting. */
+
+                config_set(CONFIG_CAMERA, camera);
                 config_save();
 
                 SDL_Quit();

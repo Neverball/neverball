@@ -12,6 +12,7 @@ const char *demo_shot(int);
 int         demo_coins(int);
 int         demo_clock(int);
 
+int  demo_exists(char *);
 void demo_unique(char *);
 
 /*---------------------------------------------------------------------------*/

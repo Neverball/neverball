@@ -318,7 +318,6 @@ static int demo_end_enter(void)
 
 static void demo_end_leave(int id)
 {
-    audio_music_stop();
     gui_delete(id);
 }
 

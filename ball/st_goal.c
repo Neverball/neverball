@@ -30,8 +30,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define GOAL_NEXT 1
-#define GOAL_SAVE 2
+#define GOAL_NEXT 2
+#define GOAL_SAVE 3
 
 static int high;
 static int time_i;
@@ -64,6 +64,10 @@ static int goal_action(int i)
         else
             return goto_state(&st_title);
 
+    case GUI_CL:
+        gui_keyboard_lock();
+        break;
+
     case GUI_BS:
         if (l > 0)
         {
@@ -79,7 +83,7 @@ static int goal_action(int i)
     default:
         if (l < MAXNAM - 1)
         {
-            player[l + 0] = (char) i;
+            player[l + 0] = gui_keyboard_char((char) i);
             player[l + 1] = 0;
 
             config_set_name(player);
@@ -271,8 +275,8 @@ static int goal_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-#define SAVE_SAVE   1
-#define SAVE_CANCEL 2
+#define SAVE_SAVE   2
+#define SAVE_CANCEL 3
 
 static int  file_id;
 static char filename[MAXNAM];
@@ -286,16 +290,25 @@ static int save_action(int i)
     switch (i)
     {
     case SAVE_SAVE:
-        if (level_pass(filename))
-            return goto_state(&st_level);
+        if (demo_exists(filename))
+            return goto_state(&st_clobber);
         else
-            return goto_state(&st_title);
+        {
+            if (level_pass(filename))
+                return goto_state(&st_level);
+            else
+                return goto_state(&st_title);
+        }
 
     case SAVE_CANCEL:
         if (level_pass(NULL))
             return goto_state(&st_level);
         else
             return goto_state(&st_title);
+
+    case GUI_CL:
+        gui_keyboard_lock();
+        break;
 
     case GUI_BS:
         if (l > 0)
@@ -308,7 +321,7 @@ static int save_action(int i)
     default:
         if (l < MAXNAM - 1)
         {
-            filename[l + 0] = (char) i;
+            filename[l + 0] = gui_keyboard_char((char) i);
             filename[l + 1] = 0;
             gui_set_label(file_id, filename);
         }
@@ -401,6 +414,99 @@ static int save_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
+static int clobber_action(int i)
+{
+    audio_play(AUD_MENU, 1.0f);
+
+    if (i == SAVE_SAVE)
+    {
+            if (level_pass(filename))
+                return goto_state(&st_level);
+            else
+                return goto_state(&st_title);
+    }
+    return goto_state(&st_save);
+}
+
+static int clobber_enter(void)
+{
+    int id, jd, kd;
+
+    if ((id = gui_vstack(0)))
+    {
+        kd = gui_label(id, "Overwrite?", GUI_MED, GUI_ALL, gui_red, gui_red);
+
+        gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
+
+        if ((jd = gui_harray(id)))
+        {
+            gui_state(jd, "Yes", GUI_SML, SAVE_SAVE,   0);
+            gui_start(jd, "No",  GUI_SML, SAVE_CANCEL, 1);
+        }
+
+        gui_pulse(kd, 1.2f);
+        gui_layout(id, 0, 0);
+    }
+
+    return id;
+}
+
+static void clobber_leave(int id)
+{
+    gui_delete(id);
+}
+
+static void clobber_paint(int id, float st)
+{
+    game_draw(0, st);
+    gui_paint(id);
+}
+
+static void clobber_timer(int id, float dt)
+{
+    gui_timer(id, dt);
+    audio_timer(dt);
+}
+
+static int clobber_keybd(int c, int d)
+{
+    return (d && c == SDLK_ESCAPE) ? clobber_action(SAVE_CANCEL) : 1;
+}
+
+static void clobber_point(int id, int x, int y, int dx, int dy)
+{
+    gui_pulse(gui_point(id, x, y), 1.2f);
+}
+
+static void clobber_stick(int id, int a, int v)
+{
+    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
+        gui_pulse(gui_stick(id, v, 0), 1.2f);
+    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
+        gui_pulse(gui_stick(id, 0, v), 1.2f);
+}
+
+static int clobber_click(int b, int d)
+{
+    if (d && b < 0)
+        return clobber_action(gui_token(gui_click()));
+    return 1;
+}
+
+static int clobber_buttn(int b, int d)
+{
+    if (d)
+    {
+        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
+            return clobber_action(gui_token(gui_click()));
+        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+            return clobber_action(SAVE_CANCEL);
+    }
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
 struct state st_goal = {
     goal_enter,
     goal_leave,
@@ -424,5 +530,18 @@ struct state st_save = {
     save_click,
     save_keybd,
     save_buttn,
+    1, 0
+};
+
+struct state st_clobber = {
+    clobber_enter,
+    clobber_leave,
+    clobber_paint,
+    clobber_timer,
+    clobber_point,
+    clobber_stick,
+    clobber_click,
+    clobber_keybd,
+    clobber_buttn,
     1, 0
 };
