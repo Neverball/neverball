@@ -12,6 +12,8 @@
  *   General Public License for more details.
  */
 
+#include <SDL/SDL.h>
+
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
@@ -390,7 +392,7 @@ void goal_draw(GLfloat rx, GLfloat ry, const struct s_goal *zv, int zc)
     static const GLfloat c[3] = { 1.0f, 1.0f, 0.0f };
     GLfloat p[3], a, rz;
 
-    double t = time_state();
+    double t = SDL_GetTicks() / 1000.0;
     int zi, j;
 
     for (zi = 0; zi < zc; zi++)
@@ -429,7 +431,7 @@ static void goal_part(struct s_goal *zv, int zc)
     static const GLfloat c[3] = { 1.0f, 1.0f, 0.0f };
     GLfloat p[3], a, rz;
 
-    double t = time_state();
+    double t = SDL_GetTicks() / 1000.0;
     int zi, j;
 
     for (zi = 0; zi < zc; zi++)
@@ -570,7 +572,7 @@ void coin_free(void)
 
 void coin_draw(const struct s_coin *cv, int cc)
 {
-    double r = 360.0 * fmod(time_state(), 1.0);
+    double r = 360.0 * SDL_GetTicks() / 1000.0;
     int i;
 
     glPushAttrib(GL_ENABLE_BIT);

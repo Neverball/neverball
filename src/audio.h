@@ -1,6 +1,8 @@
 #ifndef AUDIO_H
 #define AUDIO_H
 
+/*---------------------------------------------------------------------------*/
+
 #define AUD_TITLE  0
 #define AUD_MENU   1
 #define AUD_LEVEL  2
@@ -18,8 +20,28 @@
 #define AUD_PAUSE 14
 #define AUD_COUNT 15
 
+/*---------------------------------------------------------------------------*/
+
+/*
+ * Windows requires  a bigger  buffer to prevent  audio discontinuity.
+ * Fortunately the latency penalty for  big buffers is not as high, so
+ * it balances out.
+ */
+
+#ifdef _WIN32
+#define AUD_BUFF_HI 4096
+#define AUD_BUFF_LO 2048
+#else
+#define AUD_BUFF_HI 2048
+#define AUD_BUFF_LO 1024
+#endif
+
+/*---------------------------------------------------------------------------*/
+
 int  audio_init(int, int);
 void audio_play(int, float);
 void audio_free(void);
+
+/*---------------------------------------------------------------------------*/
 
 #endif

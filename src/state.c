@@ -287,12 +287,12 @@ static int conf_click(int d)
         break;
     case CONF_AUD_HI:
         audio_free();
-        audio_init((main_rate = 44100), (main_buff = 2048));
+        audio_init((main_rate = 44100), (main_buff = AUD_BUFF_HI));
         goto_state(&st_conf);
         break;
     case CONF_AUD_LO:
         audio_free();
-        audio_init((main_rate = 22050), (main_buff = 1024));
+        audio_init((main_rate = 22050), (main_buff = AUD_BUFF_LO));
         goto_state(&st_conf);
         break;
     case CONF_BACK:

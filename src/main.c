@@ -29,7 +29,7 @@ int main_width  = 1024;
 int main_height = 768;
 int main_geom   = 1;
 int main_rate   = 44100;
-int main_buff   = 2048;
+int main_buff   = AUD_BUFF_HI;
 
 /*---------------------------------------------------------------------------*/
 
