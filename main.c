@@ -29,7 +29,7 @@
 static int shot(void)
 {
     static char path[STRMAX];
-    static char file[32];
+    static char file[STRMAX];
     static int  num = 0;
 
     int i;
@@ -58,6 +58,30 @@ static int shot(void)
     return 1;
 }
 
+static int demo(void)
+{
+    static char file[STRMAX];
+    static char src[STRMAX];
+    static char dst[STRMAX];
+    static int  num = 0;
+
+    sprintf(file, "demo%02d.dat", num++);
+
+    /* Make sure the recording file is closed before renaming it. */
+
+    if (record_fp)
+    {
+        fclose(record_fp);
+        record_fp = NULL;
+    }
+
+    if (config_home(dst, file, STRMAX) &&
+        config_home(src, USER_REPLAY_FILE, STRMAX))
+        rename(src, dst);
+
+    return 1;
+}
+
 /*---------------------------------------------------------------------------*/
 
 static int grabbed = 0;
@@ -67,9 +91,15 @@ static void toggle_grab(void)
     grabbed = 1 - grabbed;
 
     if (grabbed)
+    {
         SDL_WM_GrabInput(SDL_GRAB_ON);
+        Mix_ResumeMusic();
+    }
     else
+    {
         SDL_WM_GrabInput(SDL_GRAB_OFF);
+        Mix_PauseMusic();
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -102,11 +132,15 @@ static int loop(void)
             break;
 
         case SDL_KEYDOWN:
-            if (e.key.keysym.sym == SDLK_SPACE) { toggle_grab();     break; }
-            if (e.key.keysym.sym == SDLK_F10)   { d = shot();        break; }
-            if (e.key.keysym.sym == SDLK_F9)    { config_tog_fps();  break; }
-            if (e.key.keysym.sym == SDLK_F8)    { config_tog_nice(); break; }
-
+            if (e.key.keysym.sym == SDLK_SPACE) { toggle_grab();      break; }
+            if (e.key.keysym.sym == SDLK_F11)   { d = demo();         break; }
+            if (e.key.keysym.sym == SDLK_F10)   { d = shot();         break; }
+            if (e.key.keysym.sym == SDLK_F9)    { config_tog_fps();   break; }
+            if (e.key.keysym.sym == SDLK_F8)    { config_tog_nice();  break; }
+            if (e.key.keysym.sym == SDLK_F1)    { config_set_view(0); break; }
+            if (e.key.keysym.sym == SDLK_F2)    { config_set_view(1); break; }
+            if (e.key.keysym.sym == SDLK_F3)    { config_set_view(2); break; }
+            
             if (grabbed)
                 d = st_keybd(e.key.keysym.sym);
             break;
@@ -182,12 +216,11 @@ int main(int argc, char *argv[])
                         if ((t1 = SDL_GetTicks()) > t0)
                         {
                             if (grabbed)
-                            {
                                 st_timer((t1 - t0) / 1000.0);
-                                st_paint();
 
-                                SDL_GL_SwapBuffers();
-                            }
+                            st_paint();
+                            SDL_GL_SwapBuffers();
+
                             t0 = t1;
 
                             if (config_nice())

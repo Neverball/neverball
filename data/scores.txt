@@ -18,7 +18,7 @@
 30.0 Hard     50 Hard     60.0 Medium   25 Medium    90.0 Easy     10 Easy
 15.0 Hard     45 Hard     20.0 Medium   20 Medium    30.0 Easy     10 Easy
 25.0 Hard     41 Hard     35.0 Medium   20 Medium    45.0 Easy     10 Easy
-20.0 Hard     40 Hard     45.0 Medium   20 Medium    60.0 Easy     10 Easy
+30.0 Hard     40 Hard     45.0 Medium   20 Medium    60.0 Easy     10 Easy
 25.0 Hard     22 Hard     30.0 Medium   20 Medium    60.0 Easy     10 Easy
 10.0 Hard     63 Hard     30.0 Medium   30 Medium    60.0 Easy     10 Easy
 30.0 Hard     59 Hard     45.0 Medium   30 Medium    60.0 Easy     10 Easy

@@ -13,6 +13,7 @@
  */
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -36,7 +37,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int mode         = SDL_OPENGL;
+static int mode         = SDL_OPENGL | SDL_FULLSCREEN;
 static int width        = CONFIG_DEF_WIDTH;
 static int height       = CONFIG_DEF_HEIGHT;
 static int camera       = CONFIG_DEF_CAMERA;
@@ -46,9 +47,12 @@ static int audio_rate   = CONFIG_DEF_AUDIO_RATE;
 static int audio_buff   = CONFIG_DEF_AUDIO_BUFF;
 static int mouse_sense  = CONFIG_DEF_MOUSE_SENSE;
 static int high_level   = CONFIG_DEF_HIGH_LEVEL;
+static int done         = CONFIG_DEF_DONE;
 static int nice         = CONFIG_DEF_NICE;
 static int fps          = CONFIG_DEF_FPS;
 static int joy          = CONFIG_DEF_JOY;
+static int sound_vol    = CONFIG_DEF_SOUND_VOL;
+static int music_vol    = CONFIG_DEF_MUSIC_VOL;
 
 static int axis_x       = CONFIG_DEF_AXIS_X;
 static int axis_y       = CONFIG_DEF_AXIS_Y;
@@ -64,26 +68,20 @@ static int button_exit  = CONFIG_DEF_BUTTON_EXIT;
  * Convert the given file name to  an absolute path name in the user's
  * home  directory.   If the  home  directory  cannot be  established,
  * return false.
+ *
+ * HACK: under Windows just assume the user has permission to write to
+ * the data  directory.  This is  more reliable than trying  to devine
+ * anything reasonable from the environment.
  */
 int config_home(char *dst, const char *src, size_t n)
 {
 #ifdef _WIN32
-    char *dir;
-    char *vol;
 
-    if ((vol = getenv("HOMEDRIVE")) && (dir = getenv("HOMEPATH")))
-    {
-        size_t v = strlen(vol);
-        size_t d = strlen(dir);
+    strncpy(dst, src, n);
+    return 1;
 
-        strncpy(dst, vol,  n - 1);
-        strncat(dst, dir,  n - v - 1);
-        strncat(dst, "\\", n - v - d - 1);
-        strncat(dst, src,  n - v - d - 2);
-
-        return 1;
-    }
 #else
+
     char *dir;
 
     if ((dir = getenv("HOME")))
@@ -96,9 +94,9 @@ int config_home(char *dst, const char *src, size_t n)
 
         return 1;
     }
-#endif
-
     return 0;
+
+#endif
 }
 
 /*
@@ -120,6 +118,24 @@ int config_path(const char *path)
     return 0;
 }
 
+/*
+ * Confirm the existence of a readable replay file.
+ */
+int config_demo(void)
+{
+    char path[STRMAX];
+    FILE *fp;
+
+    if (config_home(path, USER_REPLAY_FILE, STRMAX))
+        if ((fp = fopen(path, FMODE_RB)))
+        {
+            fclose(fp);
+            return 1;
+        }
+
+    return 0;
+}
+
 /*---------------------------------------------------------------------------*/
 
 void config_load(void)
@@ -129,34 +145,47 @@ void config_load(void)
 
     if (config_home(path, USER_CONFIG_FILE, STRMAX) && (fp = fopen(path, "r")))
     {
+        char buf[STRMAX];
         char key[STRMAX];
+        char str[STRMAX];
         int  val;
 
-        while (fscanf(fp, "%s %d", key, &val) == 2)
+        while (fgets(buf, STRMAX, fp))
         {
-            if (strcmp(key, "fullscreen") == 0)
-                mode = SDL_OPENGL | (val ? SDL_FULLSCREEN : 0);
+            if (sscanf(buf, "%s %d", key, &val) == 2)
+            {
+                if (strcmp(key, "fullscreen") == 0)
+                    mode = SDL_OPENGL | (val ? SDL_FULLSCREEN : 0);
 
-            if (strcmp(key, "width")        == 0) width        = val;
-            if (strcmp(key, "height")       == 0) height       = val;
-            if (strcmp(key, "camera")       == 0) camera       = val;
-            if (strcmp(key, "textures")     == 0) textures     = val;
-            if (strcmp(key, "geometry")     == 0) geometry     = val;
-            if (strcmp(key, "audio_rate")   == 0) audio_rate   = val;
-            if (strcmp(key, "audio_buff")   == 0) audio_buff   = val;
-            if (strcmp(key, "mouse_sense")  == 0) mouse_sense  = val;
-            if (strcmp(key, "high_level")   == 0) high_level   = val;
-            if (strcmp(key, "nice")         == 0) nice         = val;
-            if (strcmp(key, "fps")          == 0) fps          = val;
-            if (strcmp(key, "joy")          == 0) joy          = val;
+                if (strcmp(key, "width")        == 0) width        = val;
+                if (strcmp(key, "height")       == 0) height       = val;
+                if (strcmp(key, "camera")       == 0) camera       = val;
+                if (strcmp(key, "textures")     == 0) textures     = val;
+                if (strcmp(key, "geometry")     == 0) geometry     = val;
+                if (strcmp(key, "audio_rate")   == 0) audio_rate   = val;
+                if (strcmp(key, "audio_buff")   == 0) audio_buff   = val;
+                if (strcmp(key, "mouse_sense")  == 0) mouse_sense  = val;
+                if (strcmp(key, "high_level")   == 0) high_level   = val;
+                if (strcmp(key, "nice")         == 0) nice         = val;
+                if (strcmp(key, "done")         == 0) done         = val;
+                if (strcmp(key, "fps")          == 0) fps          = val;
+                if (strcmp(key, "joy")          == 0) joy          = val;
+                if (strcmp(key, "sound_vol")    == 0) sound_vol    = val;
+                if (strcmp(key, "music_vol")    == 0) music_vol    = val;
 
-            if (strcmp(key, "axis_x")       == 0) axis_x       = val;
-            if (strcmp(key, "axis_y")       == 0) axis_y       = val;
-            if (strcmp(key, "button_a")     == 0) button_a     = val;
-            if (strcmp(key, "button_b")     == 0) button_b     = val;
-            if (strcmp(key, "button_r")     == 0) button_r     = val;
-            if (strcmp(key, "button_l")     == 0) button_l     = val;
-            if (strcmp(key, "button_exit")  == 0) button_exit  = val;
+                if (strcmp(key, "axis_x")       == 0) axis_x       = val;
+                if (strcmp(key, "axis_y")       == 0) axis_y       = val;
+                if (strcmp(key, "button_a")     == 0) button_a     = val;
+                if (strcmp(key, "button_b")     == 0) button_b     = val;
+                if (strcmp(key, "button_r")     == 0) button_r     = val;
+                if (strcmp(key, "button_l")     == 0) button_l     = val;
+                if (strcmp(key, "button_exit")  == 0) button_exit  = val;
+            }
+
+            else if (sscanf(buf, "%s %s", key, str) == 2)
+            {
+                if (strcmp(key, "player") == 0) strncpy(player, str, MAXNAM);
+            }
         }
 
         fclose(fp);
@@ -180,9 +209,13 @@ void config_store(void)
         fprintf(fp, "audio_buff %d\n",   audio_buff);
         fprintf(fp, "mouse_sense %d\n",  mouse_sense);
         fprintf(fp, "high_level %d\n",   high_level);
+        fprintf(fp, "player %s\n",       player);
         fprintf(fp, "nice %d\n",         nice);
+        fprintf(fp, "done %d\n",         done);
         fprintf(fp, "fps %d\n",          fps);
         fprintf(fp, "joy %d\n",          joy);
+        fprintf(fp, "sound_vol %d\n",    sound_vol);
+        fprintf(fp, "music_vol %d\n",    music_vol);
 
         fprintf(fp, "axis_x %d\n",       axis_x);
         fprintf(fp, "axis_y %d\n",       axis_y);
@@ -208,8 +241,11 @@ int config_rate(void) { return audio_rate; }
 int config_buff(void) { return audio_buff; }
 int config_sens(void) { return mouse_sense; }
 int config_high(void) { return high_level; }
+int config_done(void) { return done; }
 int config_nice(void) { return nice; }
 int config_fps (void) { return fps; }
+int config_sound(void) { return sound_vol; }
+int config_music(void) { return music_vol; }
 
 int config_axis_x(int a)   { return (joy && a == axis_x); }
 int config_axis_y(int a)   { return (joy && a == axis_y); }
@@ -296,10 +332,38 @@ int config_set_audio(int r, int b)
     return audio_init(r, b);
 }
 
+void config_set_sound(int n)
+{
+    if (0 <= n && n <= 10)
+    {
+        sound_vol = n;
+        Mix_Volume(-1, sound_vol * MIX_MAX_VOLUME / 10);
+    }
+}
+
+void config_set_music(int n)
+{
+    if (0 <= n && n <= 10)
+    {
+        music_vol = n;
+        Mix_VolumeMusic(music_vol * MIX_MAX_VOLUME / 10);
+    }
+}
+
 void config_set_high(int n)
 {
     if (n > high_level)
         high_level = n;
+}
+
+void config_set_done(int n)
+{
+    done = n;
+}
+
+void config_set_view(int c)
+{
+    camera = c;
 }
 
 void config_tog_nice(void)

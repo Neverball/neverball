@@ -97,4 +97,12 @@ clean :
 	del $(MAPC_TARG) $(MAPC_OBJS)
 	del /q data\sol\*.sol
 
+dist :
+        del $(GAME_OBJS)
+        del $(MAPC_OBJS)
+        del *.c
+        del *.h
+        del *.txt
+        del data\.neverball*
+
 #------------------------------------------------------------------------------

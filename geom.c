@@ -42,7 +42,10 @@ void ball_init(int b)
     static const float  e[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
     static const float  h[1] = { 64.0f };
 
-    ball_text = make_image_from_file(NULL, NULL, IMG_BALL);
+    if (config_done())
+        ball_text = make_image_from_file(NULL, NULL, IMG_DONE);
+    else
+        ball_text = make_image_from_file(NULL, NULL, IMG_BALL);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

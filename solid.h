@@ -142,6 +142,7 @@ struct s_path
     double t;                                  /* travel time                */
 
     int pi;
+    int xx;                                    /* padding                    */
 };
 
 struct s_body
@@ -161,6 +162,7 @@ struct s_coin
 {
     double p[3];                               /* position                   */
     int    n;                                  /* value                      */
+    int   xx;                                  /* padding                    */
 };
 
 struct s_goal
@@ -242,6 +244,17 @@ double sol_step(struct s_file *, const double *, double);
 int    sol_coin_test(struct s_file *, double *, double);
 int    sol_goal_test(struct s_file *, double *);
 int    sol_jump_test(struct s_file *, double *);
+
+/*---------------------------------------------------------------------------*/
+
+int double_put(FILE *, double *);
+int double_get(FILE *, double *);
+
+int vector_put(FILE *, double[3]);
+int vector_get(FILE *, double[3]);
+
+int sol_put(FILE *, struct s_file *);
+int sol_get(FILE *, struct s_file *);
 
 /*---------------------------------------------------------------------------*/
 

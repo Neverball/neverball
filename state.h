@@ -1,6 +1,8 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include <stdio.h>
+
 /*---------------------------------------------------------------------------*/
 
 struct state
@@ -30,6 +32,9 @@ int  st_buttn(int, int);
 
 /*---------------------------------------------------------------------------*/
 
+extern FILE *record_fp;
+extern FILE *replay_fp;
+
 extern struct state st_null;
 extern struct state st_title;
 extern struct state st_start;
@@ -40,10 +45,12 @@ extern struct state st_poser;
 extern struct state st_ready;
 extern struct state st_set;
 extern struct state st_play;
+extern struct state st_demo;
 extern struct state st_goal;
 extern struct state st_score;
 extern struct state st_fall;
 extern struct state st_time;
+extern struct state st_omed;
 extern struct state st_over;
 extern struct state st_done;
 

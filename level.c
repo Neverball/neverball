@@ -21,6 +21,7 @@
 #include "image.h"
 #include "game.h"
 #include "geom.h"
+#include "hud.h"
 #include "back.h"
 #include "audio.h"
 #include "config.h"
@@ -43,6 +44,7 @@ struct level
     char   file[MAXSTR];
     char   back[MAXSTR];
     char   shot[MAXSTR];
+    char   song[MAXSTR];
     int    time;
 
     GLuint text;
@@ -105,11 +107,11 @@ static void level_store_hs(void)
             for (i = 0; i < count; i++)
                 for (j = 0; j < 3; j++)
                 {
-                    fprintf(fout, "%f %d %s\n",
+                    fprintf(fout, "%5.2f %d %s\n",
                             score_v[i].time_s[j],
                             score_v[i].time_c[j],
                             score_v[i].time_n[j]);
-                    fprintf(fout, "%f %d %s\n",
+                    fprintf(fout, "%5.2f %d %s\n",
                             score_v[i].coin_s[j],
                             score_v[i].coin_c[j],
                             score_v[i].coin_n[j]);
@@ -168,17 +170,18 @@ static void level_init_rc(void)
     level = 0;
     coins = 0;
     score = 0;
-    balls = 2;
+    balls = 0;
 
     /* Load the levels list. */
 
     if (fin)
     {
-        while (fscanf(fin, "%s %s %s %d",
+        while (fscanf(fin, "%s %s %s %d %s",
                        level_v[count].file,
                        level_v[count].shot,
                        level_v[count].back,
-                      &level_v[count].time) == 4)
+                      &level_v[count].time,
+                       level_v[count].song) == 5)
             count++;
 
         fclose(fin);
@@ -231,7 +234,11 @@ const char *level_coin_c(int i, int j)
 {
     static char buf[MAXSTR];
 
-    sprintf(buf, "%02d", score_v[i].coin_c[j]);
+    if (j < 0)
+        sprintf(buf, "%02d", score);
+    else
+        sprintf(buf, "%02d", score_v[i].coin_c[j]);
+
     return buf;
 }
 
@@ -262,7 +269,11 @@ const char *level_time_s(int i, int j)
 {
     static char buf[MAXSTR];
 
-    sprintf(buf, "%05.2f", score_v[i].time_s[j]);
+    if (j < 0)
+        sprintf(buf, "%05.2f", level_v[i].time - curr_clock());
+    else
+        sprintf(buf, "%05.2f", score_v[i].time_s[j]);
+
     return buf;
 }
 
@@ -304,10 +315,11 @@ int level_opened(int i)
 
 /*---------------------------------------------------------------------------*/
 
-int curr_level(void) { return level; }
-int curr_balls(void) { return balls; }
-int curr_coins(void) { return coins; }
+int curr_count(void) { return count; }
 int curr_score(void) { return score; }
+int curr_coins(void) { return coins; }
+int curr_balls(void) { return balls; }
+int curr_level(void) { return level; }
 
 /*---------------------------------------------------------------------------*/
 
@@ -377,10 +389,12 @@ static void score_coin_swap(struct score *S, int i, int j)
 
 /*---------------------------------------------------------------------------*/
 
-void level_goto(int i)
+void level_goto(int s, int c, int b, int l)
 {
-    level = i;
-    score = 0;
+    if (s >= 0) score = s;
+    if (c >= 0) coins = c;
+    if (b >= 0) balls = b;
+    if (l >= 0) level = l;
 
     back_init(level_v[level].back);
     game_init(level_v[level].file,
@@ -389,13 +403,14 @@ void level_goto(int i)
 
 int level_goal(void)
 {
-    int    score = curr_score();
-    double clock = level_v[level].time - curr_clock();
+    score_v[level].time_c[3] = curr_score();
+    score_v[level].coin_c[3] = curr_score();
 
-    if (score > score_v[level].coin_c[2])
-        return 1;
-    if (clock < score_v[level].time_s[2])
-        return 1;
+    score_v[level].time_s[3] = level_v[level].time - curr_clock();
+    score_v[level].coin_s[3] = level_v[level].time - curr_clock();
+
+    if (score_time_comp(score_v + level, 3, 2)) return 1;
+    if (score_coin_comp(score_v + level, 3, 2)) return 1;
 
     return 0;
 }
@@ -414,7 +429,7 @@ int level_pass(void)
     score_v[level].time_c[3] = score;
     score_v[level].time_s[3] = clock;
 
-    for (i = 2; i > 0 && score_time_comp(score_v + level, i + 1, i); i--)
+    for (i = 2; i >= 0 && score_time_comp(score_v + level, i + 1, i); i--)
         score_time_swap(score_v + level, i + 1, i);
 
     /* Insert the coin record into the high score list. */
@@ -423,7 +438,7 @@ int level_pass(void)
     score_v[level].coin_c[3] = score;
     score_v[level].coin_s[3] = clock;
 
-    for (i = 2; i > 0 && score_coin_comp(score_v + level, i + 1, i); i--)
+    for (i = 2; i >= 0 && score_coin_comp(score_v + level, i + 1, i); i--)
         score_coin_swap(score_v + level, i + 1, i);
 
     /* Store the new high score list. */
@@ -434,10 +449,6 @@ int level_pass(void)
 
     if (++level < count)
     {
-        /*
-        config_set_high(level);
-        */
-
         game_free();
         back_free();
         score = 0;
@@ -448,6 +459,15 @@ int level_pass(void)
 
         return 1;
     }
+    else
+    {
+        config_set_high(count);
+        config_set_done(1);
+
+        ball_free();
+        ball_init(config_geom());
+    }
+
     return 0;
 }
 
@@ -472,14 +492,22 @@ int level_fail(void)
 
 void level_score(int n)
 {
+    double k = 1.25;
+
     coins += n;
     score += n;
+
+    if (n >=  5) k = 1.5;
+    if (n >= 10) k = 2.0;;
+
+    hud_coin_pulse(k);
 
     if (coins >= 100)
     {
         coins -= 100;
         balls += 1;
         audio_play(AUD_BALL, 1.0f);
+        hud_ball_pulse(2.0);
 
         config_set_high(level);
     }
@@ -497,3 +525,9 @@ void level_shot(int i)
         glBindTexture(GL_TEXTURE_2D, level_v[i].text);
     }
 }
+
+void level_song(void)
+{
+    audio_music_play(level_v[level].song);
+}
+

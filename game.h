@@ -24,13 +24,16 @@ double curr_clock(void);
 char  *curr_intro(void);
 
 void  game_draw(int);
-int   game_step(const double[3], double);
+int   game_step(const double[3], double, int);
 
 void  game_set_pos(int, int);
 void  game_set_x  (int);
 void  game_set_z  (int);
 void  game_set_rot(int);
 void  game_set_fly(double);
+
+int game_put(FILE *);
+int game_get(FILE *);
 
 /*---------------------------------------------------------------------------*/
 

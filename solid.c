@@ -30,13 +30,28 @@
 
 /*---------------------------------------------------------------------------*/
 
-#ifdef _WIN32
-#define FMODE_RB "rb"
-#define FMODE_WB "wb"
-#else
-#define FMODE_RB "r"
-#define FMODE_WB "w"
-#endif
+/*
+static void sol_size(void)
+{
+    printf("%4d", sizeof (struct s_mtrl));
+    printf("%4d", sizeof (struct s_vert));
+    printf("%4d", sizeof (struct s_edge));
+    printf("%4d", sizeof (struct s_side));
+    printf("%4d", sizeof (struct s_texc));
+    printf("%4d", sizeof (struct s_geom));
+    printf("%4d", sizeof (struct s_lump));
+    printf("%4d", sizeof (struct s_node));
+    printf("%4d", sizeof (struct s_path));
+    printf("%4d", sizeof (struct s_body));
+    printf("%4d", sizeof (struct s_coin));
+    printf("%4d", sizeof (struct s_goal));
+    printf("%4d", sizeof (struct s_jump));
+    printf("%4d", sizeof (struct s_ball));
+    printf("%4d", sizeof (struct s_view));
+    printf("%4d", sizeof (struct s_file));
+    printf("\n");
+}
+*/
 
 /*---------------------------------------------------------------------------*/
 
@@ -198,6 +213,7 @@ static void sol_draw_body(const struct s_file *fp,
 static void sol_draw_list(const struct s_file *fp,
                           const struct s_body *bp, int t)
 {
+    GLuint l = (t ? bp->tl : bp->ol);
     double p[3];
 
     sol_body_p(p, fp, bp);
@@ -226,7 +242,8 @@ static void sol_draw_list(const struct s_file *fp,
         
         /* Draw the body. */
 
-        glCallList(t ? bp->tl : bp->ol);
+        if (glIsList(l))
+            glCallList(l);
 
         /* Pop the shadow translation. */
 
@@ -274,13 +291,12 @@ void sol_draw(const struct s_file *fp)
 
 static void sol_load_objects(struct s_file *fp)
 {
-    GLuint n = glGenLists(fp->bc * 2);
     int i;
 
     for (i = 0; i < fp->bc; i++)
     {
-        fp->bv[i].ol = n + i * 2 + 0;
-        fp->bv[i].tl = n + i * 2 + 1;
+        fp->bv[i].ol = glGenLists(1);
+        fp->bv[i].tl = glGenLists(1);
 
         /* Draw all opaque geometry. */
 
@@ -1062,6 +1078,69 @@ int sol_jump_test(struct s_file *fp, double *p)
 
             return 1;
         }
+    }
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+/*
+ * We can afford to drop some  of the precision when recording a game.
+ * This does not affect the fidelity of the playback.  If the sim does
+ * go wrong due to imprecise input, it will be corrected when the next
+ * timestep is read.
+ */
+
+int double_put(FILE *fout, double *d)
+{
+    float f = (float) *d;
+
+    return (fwrite(&f, sizeof (float), 1, fout) == 1) ? 1 : 0;
+}
+
+int double_get(FILE *fin, double *d)
+{
+    float f;
+
+    if (fread(&f, sizeof (float), 1, fin) == 1)
+    {
+        *d = (double) f;
+        return 1;
+    }
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+int vector_put(FILE *fout, double v[3])
+{
+    return (double_put(fout, v + 0) &&
+            double_put(fout, v + 1) &&
+            double_put(fout, v + 2));
+}
+
+int vector_get(FILE *fin, double v[3])
+{
+    return (double_get(fin, v + 0) &&
+            double_get(fin, v + 1) &&
+            double_get(fin, v + 2));
+}
+
+int sol_put(FILE *fout, struct s_file *fp)
+{
+    return (vector_put(fout, fp->uv[0].p)    &&
+            vector_put(fout, fp->uv[0].e[0]) &&
+            vector_put(fout, fp->uv[0].e[1]));
+}
+
+int sol_get(FILE *fin, struct s_file *fp)
+{
+    if (vector_get(fin, fp->uv[0].p)    &&
+        vector_get(fin, fp->uv[0].e[0]) &&
+        vector_get(fin, fp->uv[0].e[1]))
+    {
+        v_crs(fp->uv[0].e[2], fp->uv[0].e[0], fp->uv[0].e[1]);
+        return 1;
     }
     return 0;
 }

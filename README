@@ -39,13 +39,34 @@ pointer.
 
 Spacebar pauses  and resumes.  Escape ends  a game, and  escape at the
 title  screen  exits.   F9  toggles  a frame  counter.   F10  takes  a
-screenshot.
+screenshot.   F11 saves  the current  demo recording.   F1, F2  and F3
+select the camera type (see below).
 
 Pause releases the pointer grab.   I get email about that so I'm gonna
 yell it really loudly here so that I can say "RTFM" from now on.
 
 
               PRESS SPACEBAR TO RELEASE THE POINTER GRAB
+
+
+* DEMO REPLAY
+
+Neverball  includes a  simple  mechanism for  recording and  replaying
+games.  Each level played is  recorded to the file .neverballrp.  This
+file may  be found in your home  directory under Unix, or  in the game
+data directory under Windows.
+
+The "Demo"  item of  the main  title menu plays  back the  most recent
+recording.  Press F11 to copy  the current recording to a sequentially
+numbered file.  This  allows you to save a  replay without immediately
+overwriting it by playing the next level.  If a recording is preserved
+while it is being created, it will be truncated.
+
+Currently, the only way to  select a numbered recording for demoing is
+to copy it on top of the existing .neverballrp file.
+
+Note that replay files are  not currently portable between machines of
+different byte order.
 
 
 
@@ -71,9 +92,10 @@ the data path may be specified as the first command line option.
 
 Global settings  are stored  in the file  .neverballrc.  This  file is
 created  when  the  game exits,  and  should  be  found in  your  home
-directory.  It  consists of key /  value pairs.  Some  of these values
-are configurable  using the in-game options  screen.  Other meaningful
-keys and their default values follow.
+directory under Unix, or in the game data directory under Windows.  It
+consists of key / value  pairs.  Some of these values are configurable
+using  the in-game options  screen.  Other  meaningful keys  and their
+default values follow.
 
     mouse_sense 300
 
@@ -90,12 +112,15 @@ keys and their default values follow.
         claim a majority.
 
         0 - Strict  camera stays behind the ball by  cueing off of the
-        motion of the ball.  Very responsive but sometimes confusing.
+        velocity of the  ball.  It is very  responsive,  but sometimes
+        confusing.  Press F1 to select this camera in-game.
 
         1 - Lazy  camera chases a point a set  distance from the ball.
-        Seldom surprising but sometimes insufficiently responsive.
+        It is seldom  surprising, but at times it  is not sufficiently
+        responsive.  Press F2 to select this camera in-game.
 
-        2 - Rigid camera does not rotate except by user command.
+        2 - Locked camera  does not rotate  except by  player command.
+        Press F3 to select this camera in-game.
 
     fps 0
 
@@ -156,6 +181,26 @@ keys and their default values follow.
 
         Joystick exit button
 
+
+
+* KNOWN ISSUES
+
+At the  time of this writing,  there are known issues  with certain 3D
+accelerater  boards  that  may  impact  or even  preclude  the  game's
+function.  While it is good that the 3D hardware market is very broad,
+it is an  unfortunate fact that OpenGL support  varies in quality from
+one configuration  to another.   It is impossible  for a  developer to
+work around bugs in all  boards, so some configurations must simply be
+declared unsupported.
+
+- The  Intel i8xx  series is  not supported  under Linux.   Its broken
+multi-texturing  and  texture   clamping  make  Neverball  unplayable.
+Windows support is fine.
+
+- Several older Radeons including, but not limited to, the Mobility M5
+and some  models of the  All-In-Wonder series are not  supported under
+Windows.  Note that the Mobility M6 and all tested PCI Radeons down to
+the 7500 are known to be very good.
 
 
 <rlk@snth.net>

@@ -46,6 +46,10 @@ static int    balls_h = 0;
 
 static int    space_w = 0;              /* HUD layout spacing          */
 
+static double ball_k = 1.0;
+static double time_k = 1.0;
+static double coin_k = 1.0;
+
 /*---------------------------------------------------------------------------*/
 
 void hud_init(void)
@@ -230,16 +234,52 @@ void hud_draw(void)
             hud_draw_back();
             hud_draw_labels();
 
-            hud_draw_large((s / 10), tx,           0);
-            hud_draw_large((s % 10), tx + large_w, 0);
-            hud_draw_small((h / 10), tx + large_w + large_w,           hy);
-            hud_draw_small((h % 10), tx + large_w + large_w + small_w, hy);
+            /* Timer. */
 
-            hud_draw_small((balls / 10), bx,           0);
-            hud_draw_small((balls % 10), bx + small_w, 0);
+            glPushMatrix();
+            {
+                glTranslated(tx, 0.0, 0.0);
 
-            hud_draw_small((coins / 10), cx,           0);
-            hud_draw_small((coins % 10), cx + small_w, 0);
+                glTranslated(+large_w + small_w, +large_h / 2, 0.0);
+                glScaled(time_k, time_k, 1.0);
+                glTranslated(-large_w - small_w, -large_h / 2, 0.0);
+
+                hud_draw_large((s / 10), 0,       0);
+                hud_draw_large((s % 10), large_w, 0);
+                hud_draw_small((h / 10), large_w + large_w,           hy);
+                hud_draw_small((h % 10), large_w + large_w + small_w, hy);
+            }
+            glPopMatrix();
+
+            /* Ball count. */
+
+            glPushMatrix();
+            {
+                glTranslated(bx, 0.0, 0.0);
+
+                glTranslated(+small_w, +small_h / 2, 0.0);
+                glScaled(ball_k, ball_k, 1.0);
+                glTranslated(-small_w, -small_h / 2, 0.0);
+
+                hud_draw_small((balls / 10), 0,       0);
+                hud_draw_small((balls % 10), small_w, 0);
+            }
+            glPopMatrix();
+
+            /* Coin count. */
+
+            glPushMatrix();
+            {
+                glTranslated(cx, 0.0, 0.0);
+
+                glTranslated(+small_w, +small_h / 2, 0.0);
+                glScaled(coin_k, coin_k, 1.0);
+                glTranslated(-small_w, -small_h / 2, 0.0);
+
+                hud_draw_small((coins / 10), 0,       0);
+                hud_draw_small((coins % 10), small_w, 0);
+            }
+            glPopMatrix();
 
             if (config_fps()) hud_draw_fps();
         }
@@ -248,5 +288,17 @@ void hud_draw(void)
     }
     config_pop_matrix();
 }
+
+
+void hud_step(double dt)
+{
+    ball_k -= (ball_k - 1.0) * dt * 4;
+    time_k -= (time_k - 1.0) * dt * 4;
+    coin_k -= (coin_k - 1.0) * dt * 4;
+}
+
+void hud_ball_pulse(double k) { ball_k = k; }
+void hud_time_pulse(double k) { time_k = k; }
+void hud_coin_pulse(double k) { coin_k = k; }
 
 /*---------------------------------------------------------------------------*/

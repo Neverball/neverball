@@ -8,7 +8,7 @@
 
 #------------------------------------------------------------------------------
 
-CFLAGS= -Wall -O2 -ansi $(shell sdl-config --cflags)
+CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
 
 X11_LIBS= $(X11_PATH) -lGLU -lGL -lm
 SDL_LIBS= $(shell sdl-config --libs)

@@ -21,6 +21,7 @@
 #include "geom.h"
 #include "back.h"
 #include "part.h"
+#include "hud.h"
 #include "image.h"
 #include "audio.h"
 #include "solid.h"
@@ -382,6 +383,7 @@ static void game_update_view(double dt)
     double k;
     double e[3];
     double d[3];
+    double s = 2.0 * dt;
 
     view_a += view_ry * dt * 90.0;
 
@@ -406,6 +408,7 @@ static void game_update_view(double dt)
         view_e[2][2] = cos(V_RAD(view_a));
 
         dx = 0.0;
+        s  = 8.0 * dt;
         break;
 
     default:
@@ -417,7 +420,7 @@ static void game_update_view(double dt)
         k = v_dot(view_v, view_v);
 
         v_sub(view_e[2], view_p, view_c);
-        v_mad(view_e[2], view_e[2], view_v, k * dt * 0.1);
+        v_mad(view_e[2], view_e[2], view_v, k * dt * 0.25);
 
         break;
     }
@@ -436,8 +439,8 @@ static void game_update_view(double dt)
     dy = v_dot(view_e[1], d);
     dz = v_dot(view_e[2], d);
 
-    dy += (view_dy - dy) * dt * 2.0;
-    dz += (view_dz - dz) * dt * 2.0;
+    dy += (view_dy - dy) * s;
+    dz += (view_dz - dz) * s;
 
     /* Compute the new view position. */
 
@@ -446,21 +449,35 @@ static void game_update_view(double dt)
     v_mad(view_p, view_c, view_e[0], dx);
     v_mad(view_p, view_p, view_e[1], dy);
     v_mad(view_p, view_p, view_e[2], dz);
+
+    view_a = V_DEG(atan2(view_e[2][0], view_e[2][2]));
 }
 
-static void game_update_time(double dt)
+static void game_update_time(double dt, int b)
 {
-    int second = (int) floor(clock);
+    int tick = (int) floor(clock);
+    int tock = (int) floor(clock * 2);
 
    /* The ticking clock. */
 
-    if (clock < 99.0)
-        clock -= dt;
-    if (clock < 0.0)
-        clock = 0.0;
+    if (b)
+    {
+        if (clock < 99.0)
+            clock -= dt;
+        if (clock < 0.0)
+            clock = 0.0;
 
-    if (0 < second && second < 10 && second == (int) ceil(clock))
-        audio_play(AUD_TICK, 1.f);
+        if (0 < tick && tick <= 10 && tick == (int) ceil(clock))
+        {
+            audio_play(AUD_TICK, 1.f);
+            hud_time_pulse(1.50);
+        }
+        else if (0 < tock && tock <= 10 && tock == (int) ceil(clock * 2))
+        {
+            audio_play(AUD_TOCK, 1.f);
+            hud_time_pulse(1.25);
+        }
+    }
 }
 
 static int game_update_state(void)
@@ -525,7 +542,7 @@ static int game_update_state(void)
  * graphics frame rate.
  */
 
-int game_step(const double g[3], double dt)
+int game_step(const double g[3], double dt, int bt)
 {
     struct s_file *fp = &file;
 
@@ -587,7 +604,7 @@ int game_step(const double g[3], double dt)
     }
 
     game_update_view(dt);
-    game_update_time(dt);
+    game_update_time(dt, bt);
 
     return game_update_state();
 }
@@ -687,3 +704,35 @@ void game_set_fly(double k)
 
 /*---------------------------------------------------------------------------*/
 
+int game_put(FILE *fout)
+{
+    return (double_put(fout, &game_rx)  &&
+            double_put(fout, &game_rz)  &&
+            vector_put(fout, view_c)    &&
+            vector_put(fout, view_p)    &&
+            vector_put(fout, view_e[0]) &&
+            vector_put(fout, view_e[1]) &&
+            vector_put(fout, view_e[2]) &&
+            sol_put(fout, &file));
+}
+
+int game_get(FILE *fin)
+{
+    if (double_get(fin, &game_rx)  &&
+        double_get(fin, &game_rz)  &&
+        vector_get(fin, view_c)    &&
+        vector_get(fin, view_p)    &&
+        vector_get(fin, view_e[0]) &&
+        vector_get(fin, view_e[1]) &&
+        vector_get(fin, view_e[2]) &&
+        sol_get(fin, &file));
+    {
+        /*
+        v_crs(view_e[2], view_e[0], view_e[1]);
+        */
+        return 1;
+    }
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/

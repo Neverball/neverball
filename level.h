@@ -28,17 +28,20 @@ void level_free(void);
 int  level_exists(int);
 int  level_opened(int);
 
-int  curr_level(void);
-int  curr_balls(void);
+int  curr_count(void);
+int  curr_score(void);
 int  curr_coins(void);
+int  curr_balls(void);
+int  curr_level(void);
 
-void level_goto(int);
+void level_goto(int, int, int, int);
 int  level_goal(void);
 int  level_pass(void);
 int  level_fail(void);
 
 void level_score(int);
 void level_shot(int);
+void level_song(void);
 
 /*---------------------------------------------------------------------------*/
 

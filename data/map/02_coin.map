@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Collect 100 coins to SAVE progress.\100 coins also buy an extra ball.\Red coins are worth 5, blue coins are worth 10.\Get to the goal before time expires!\\Click to begin"
+"message" "Collect 100 coins to SAVE your progress.\100 coins also buy an extra ball.\Red coins are worth 5, blue coins are worth 10.\Get to the goal before time expires!\\Click to begin"
 // brush 0
 {
 ( 128 256 0 ) ( 0 256 0 ) ( 0 128 0 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

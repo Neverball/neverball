@@ -15,12 +15,14 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 
+#include "config.h"
 #include "audio.h"
 
 /*---------------------------------------------------------------------------*/
 
 static int audio_state = 0;
 
+static Mix_Music *song;
 static Mix_Chunk *buff[AUD_COUNT];
 static int        chan[AUD_COUNT];
 
@@ -29,7 +31,8 @@ static int        chan[AUD_COUNT];
 #define CH_GRAB  2
 #define CH_TICK  3
 #define CH_BUMP  4
-#define CH_COUNT 5
+#define CH_VOICE 5
+#define CH_COUNT 6
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,24 +59,27 @@ int audio_init(int r, int b)
     {
         if (Mix_OpenAudio(r, MIX_DEFAULT_FORMAT, 1, b) == 0)
         {
-            chunk_load(AUD_TITLE, "snd/title.ogg", CH_STATE);
-            chunk_load(AUD_MENU,  "snd/menu.wav",  CH_MENU);
-            chunk_load(AUD_LEVEL, "snd/level.ogg", CH_STATE);
-            chunk_load(AUD_READY, "snd/ready.ogg", CH_STATE);
-            chunk_load(AUD_SET,   "snd/set.ogg",   CH_STATE);
-            chunk_load(AUD_GO,    "snd/go.ogg",    CH_STATE);
-            chunk_load(AUD_BALL,  "snd/ball.ogg",  CH_GRAB);
-            chunk_load(AUD_BUMP,  "snd/bump.ogg",  CH_BUMP);
-            chunk_load(AUD_COIN,  "snd/coin.wav",  CH_GRAB);
-            chunk_load(AUD_TICK,  "snd/tick.wav",  CH_TICK);
-            chunk_load(AUD_JUMP,  "snd/jump.ogg",  CH_STATE);
-            chunk_load(AUD_GOAL,  "snd/goal.ogg",  CH_STATE);
-            chunk_load(AUD_FALL,  "snd/fail.ogg",  CH_STATE);
-            chunk_load(AUD_TIME,  "snd/fail.ogg",  CH_STATE);
-            chunk_load(AUD_OVER,  "snd/over.ogg",  CH_STATE);
-            chunk_load(AUD_PAUSE, "snd/pause.ogg", CH_STATE);
+            chunk_load(AUD_MENU,  "snd/menu.wav",   CH_MENU);
+            chunk_load(AUD_START, "snd/select.ogg", CH_VOICE);
+            chunk_load(AUD_READY, "snd/ready.ogg",  CH_VOICE);
+            chunk_load(AUD_SET,   "snd/set.ogg",    CH_VOICE);
+            chunk_load(AUD_GO,    "snd/go.ogg",     CH_VOICE);
+            chunk_load(AUD_BALL,  "snd/ball.ogg",   CH_GRAB);
+            chunk_load(AUD_BUMP,  "snd/bump.ogg",   CH_BUMP);
+            chunk_load(AUD_COIN,  "snd/coin.wav",   CH_GRAB);
+            chunk_load(AUD_TICK,  "snd/tick.ogg",   CH_TICK);
+            chunk_load(AUD_TOCK,  "snd/tock.ogg",   CH_TICK);
+            chunk_load(AUD_JUMP,  "snd/jump.ogg",   CH_STATE);
+            chunk_load(AUD_GOAL,  "snd/goal.ogg",   CH_STATE);
+            chunk_load(AUD_SCORE, "snd/record.ogg", CH_VOICE);
+            chunk_load(AUD_FALL,  "snd/fall.ogg",   CH_VOICE);
+            chunk_load(AUD_TIME,  "snd/time.ogg",   CH_VOICE);
+            chunk_load(AUD_OVER,  "snd/over.ogg",   CH_VOICE);
 
             audio_state = 1;
+
+            config_set_sound(config_sound());
+            config_set_music(config_music());
         }
         else fprintf(stderr, "Sound disabled\n");
     }
@@ -96,24 +102,57 @@ void audio_free(void)
     {
         Mix_CloseAudio();
 
-        chunk_free(AUD_PAUSE);
         chunk_free(AUD_OVER);
         chunk_free(AUD_TIME);
         chunk_free(AUD_FALL);
+        chunk_free(AUD_SCORE);
         chunk_free(AUD_GOAL);
         chunk_free(AUD_JUMP);
+        chunk_free(AUD_TOCK);
         chunk_free(AUD_TICK);
         chunk_free(AUD_COIN);
         chunk_free(AUD_BUMP);
         chunk_free(AUD_BALL);
         chunk_free(AUD_GO);
         chunk_free(AUD_SET);
-        chunk_free(AUD_LEVEL);
         chunk_free(AUD_READY);
+        chunk_free(AUD_START);
         chunk_free(AUD_MENU);
-        chunk_free(AUD_TITLE);
 
         audio_state = 0;
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+void audio_music_play(const char *filename)
+{
+    if (audio_state)
+    {
+        audio_music_stop();
+
+        if ((song = Mix_LoadMUS(filename)))
+            Mix_PlayMusic(song, -1);
+    }
+}
+
+void audio_music_fade(float t)
+{
+    if (audio_state && song && Mix_PlayingMusic())
+        Mix_FadeOutMusic((int) (t * 1000.0));
+}
+
+void audio_music_stop(void)
+{
+    if (audio_state)
+    {
+        if (Mix_PlayingMusic())
+            Mix_HaltMusic();
+
+        if (song)
+            Mix_FreeMusic(song);
+
+        song = NULL;
     }
 }
 

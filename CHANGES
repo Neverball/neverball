@@ -1,4 +1,42 @@
 -------------------------------------------------------------------------------
+New in 0.25.9
+
+* Demo record and replay.
+
+-------------------------------------------------------------------------------
+New in 0.25.8
+
+* Padded .sol files to make them portable between Linux and Windows.
+* Added pulsing HUD numbers.
+* Changed Windows config file path.
+* Changed pause mode to continue rendering.
+
+-------------------------------------------------------------------------------
+New in 0.25.7
+
+* Added background music.
+* Changed several sounds.
+* Added sound and music volume control to options screen and config file.
+* Fixed discrepancy between reported time and recorded time.
+* Fixed new coin record not triggering name input state.
+* Fixed ESC during goal state.
+
+-------------------------------------------------------------------------------
+New in 0.25.6
+
+* Level score and high score list added to goal screen.
+* Level score added to record screen.
+* Goal screen requires click-through instead of time-out.
+* Fixed level time bug.  Clock was running during goal screen.
+
+-------------------------------------------------------------------------------
+New in 0.25.5
+
+* Player name stored in config.
+* Keyboard camera selection.
+* Tweaked cameras.
+
+-------------------------------------------------------------------------------
 New in 0.25.4
 
 * Changed save game policy: it must be earned by collecting coins.
