@@ -1,4 +1,15 @@
 -------------------------------------------------------------------------------
+New in 1.2.2
+
+* Fixed a sneaky bug in menu memory that allowed unopened levels to be played.
+* Fixed camera rotation joystick button init bug.
+* Changed options menu to make unavailable modes unselectable.
+* Implemented auto-pause when the game loses focus externally.
+* Simplified ARB extension handling.
+* Made another tweak to the level set screenshot loader.
+* Applied Mehdi's tweak to level 5.
+
+-------------------------------------------------------------------------------
 New in 1.2.1
 
 * Fixed the scoring bug for real this time.

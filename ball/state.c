@@ -611,6 +611,19 @@ static void conf_enter(void)
     menu_stat(CONF_MUSUP, 0);
     menu_stat(CONF_BACK,  0);
 
+    /* Disable unsupported modes. */
+
+    if (!SDL_VideoModeOK(1600, 1200, 16, SDL_HWSURFACE))
+        menu_stat(CONF_16x12, -1);
+    if (!SDL_VideoModeOK(1280, 1024, 16, SDL_HWSURFACE))
+        menu_stat(CONF_12x10, -1);
+    if (!SDL_VideoModeOK(1024, 768,  16, SDL_HWSURFACE))
+        menu_stat(CONF_10x7,  -1);
+    if (!SDL_VideoModeOK(800,  600,  16, SDL_HWSURFACE))
+        menu_stat(CONF_8x6,   -1);
+    if (!SDL_VideoModeOK(640,  480,  16, SDL_HWSURFACE))
+        menu_stat(CONF_8x6,   -1);
+
     /* Item linkings for menu traversal */
 
     menu_link(CONF_FULL,  CONF_FULL,  CONF_WIN,   CONF_FULL,  CONF_10x7);
@@ -995,7 +1008,7 @@ static void start_enter(void)
     text_size("0", TXT_SML, &w, &h);
     j = h / 2;
 
-    menu_init(47, 29, start_value);
+    menu_init(47, 29, level_opened(start_value) ? start_value : 0);
     back_init("png/blues.png", config_geom());
 
     /* Text elements */
@@ -1519,20 +1532,15 @@ static int play_stick(int a, int k)
 
 static int play_buttn(int b, int d)
 {
-    if (config_button_r(b))
+    if (d == 1)
     {
-        if (d == 1)
-            view_rotate += 1;
-        else
-            view_rotate -= 1;
+        if (config_button_r(b))
+            view_rotate = +1;
+        if (config_button_l(b))
+            view_rotate = -1;
     }
-    if (config_button_l(b))
-    {
-        if (d == 1)
-            view_rotate -= 1;
-        else
-            view_rotate += 1;
-    }
+    else view_rotate = 0;
+
     if (config_button_X(b) && d == 1)
         return goto_state(&st_over);
 

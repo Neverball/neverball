@@ -84,20 +84,26 @@ static int demo(void)
 
 static int grabbed = 0;
 
+static void enable_grab(void)
+{
+    SDL_WM_GrabInput(SDL_GRAB_ON);
+    Mix_ResumeMusic();
+    grabbed = 1;
+}
+
+static void disable_grab(void)
+{
+    SDL_WM_GrabInput(SDL_GRAB_OFF);
+    Mix_PauseMusic();
+    grabbed = 0;
+}
+
 static void toggle_grab(void)
 {
-    grabbed = 1 - grabbed;
-
     if (grabbed)
-    {
-        SDL_WM_GrabInput(SDL_GRAB_ON);
-        Mix_ResumeMusic();
-    }
+        disable_grab();
     else
-    {
-        SDL_WM_GrabInput(SDL_GRAB_OFF);
-        Mix_PauseMusic();
-    }
+        enable_grab();
 }
 
 static void darken()
@@ -189,6 +195,11 @@ static int loop(void)
                 d = st_keybd(e.key.keysym.sym);
             break;
 
+        case SDL_ACTIVEEVENT:
+            if (e.active.state == SDL_APPINPUTFOCUS && e.active.gain == 0)
+                disable_grab();
+            break;
+
         case SDL_JOYAXISMOTION:
             if (grabbed)
                 d = st_stick(e.jaxis.axis, e.jaxis.value);
@@ -252,7 +263,7 @@ int main(int argc, char *argv[])
 
                 SDL_WM_SetCaption(TITLE, TITLE); 
                 SDL_ShowCursor(SDL_DISABLE);
-                toggle_grab();
+                enable_grab();
 
                 /* Run the main game loop. */
 

@@ -446,8 +446,6 @@ int level_goal(void)
     times_total += clock;
     coins_total += score;
 
-    printf("%d %d\n", coins_total, score);
-
     /* Test the current score against the level high scores. */
 
     score_v[level].time_c[3] = score;

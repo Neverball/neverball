@@ -544,6 +544,19 @@ static void conf_enter(void)
     menu_stat(CONF_MUSUP, 0);
     menu_stat(CONF_BACK,  0);
 
+    /* Disable unsupported modes. */
+
+    if (!SDL_VideoModeOK(1600, 1200, 16, SDL_HWSURFACE))
+        menu_stat(CONF_16x12, -1);
+    if (!SDL_VideoModeOK(1280, 1024, 16, SDL_HWSURFACE))
+        menu_stat(CONF_12x10, -1);
+    if (!SDL_VideoModeOK(1024, 768,  16, SDL_HWSURFACE))
+        menu_stat(CONF_10x7,  -1);
+    if (!SDL_VideoModeOK(800,  600,  16, SDL_HWSURFACE))
+        menu_stat(CONF_8x6,   -1);
+    if (!SDL_VideoModeOK(640,  480,  16, SDL_HWSURFACE))
+        menu_stat(CONF_8x6,   -1);
+
     value = -1;
 }
 

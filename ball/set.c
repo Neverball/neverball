@@ -126,7 +126,12 @@ void set_shot(int i)
         glBindTexture(GL_TEXTURE_2D, set_v[i].text);
     }
     else
+    {
+        if (!glIsTexture(set_v[0].text))
+            set_v[i].text = make_image_from_file(0, 0, set_v[0].shot);
+
         glBindTexture(GL_TEXTURE_2D, set_v[0].text);
+    }
 }
 
 /*---------------------------------------------------------------------------*/

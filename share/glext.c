@@ -18,15 +18,22 @@
 
 #ifdef _WIN32
 
-PFNGLACTIVETEXTUREPROC   glActiveTextureARB   = NULL;
-PFNGLMULTITEXCOORD2DPROC glMultiTexCoord2dARB = NULL;
+PFNGLACTIVETEXTUREPROC   glActiveTexture   = NULL;
+PFNGLMULTITEXCOORD2DPROC glMultiTexCoord2d = NULL;
 
 void glext_init(void)
 {
-    glActiveTextureARB   = (PFNGLACTIVETEXTUREPROC)
-        wglGetProcAddress("glActiveTextureARB");
-    glMultiTexCoord2dARB = (PFNGLMULTITEXCOORD2DPROC)
-        wglGetProcAddress("glMultiTexCoord2dARB");
+    glActiveTexture   = (PFNGLACTIVETEXTUREPROC)
+        wglGetProcAddress("glActiveTexture");
+    glMultiTexCoord2d = (PFNGLMULTITEXCOORD2DPROC)
+        wglGetProcAddress("glMultiTexCoord2d");
+
+    if (glActiveTexture   == NULL)
+        glActiveTexture   = (PFNGLACTIVETEXTUREPROC)
+            wglGetProcAddress("glActiveTextureARB");
+    if (glMultiTexCoord2d == NULL)
+        glMultiTexCoord2d = (PFNGLMULTITEXCOORD2DPROC)
+            wglGetProcAddress("glMultiTexCoord2dARB");
 }
 
 #else

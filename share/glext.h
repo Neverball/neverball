@@ -8,26 +8,21 @@
 #include <windows.h>
 #endif
 
-#define GL_GLEXT_LEGACY
-
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #else
 #include <GL/gl.h>
+/* #include "/usr/share/doc/NVIDIA_GLX-1.0/include/GL/gl.h" */
 #include <GL/glu.h>
 #endif
 
 #ifdef _WIN32
 #include <GL/glext.h>
-extern PFNGLACTIVETEXTUREPROC   glActiveTextureARB;
-extern PFNGLMULTITEXCOORD2DPROC glMultiTexCoord2dARB;
+extern PFNGLACTIVETEXTUREPROC   glActiveTexture;
+extern PFNGLMULTITEXCOORD2DPROC glMultiTexCoord2d;
 #endif
 
-/* Certain buggy drivers don't handle multitexture well.  Comment this in. */
-/*
-#undef GL_ARB_multitexture
-*/
 /*---------------------------------------------------------------------------*/
 
 void glext_init(void);

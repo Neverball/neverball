@@ -124,31 +124,31 @@ static void sol_draw_geom(const struct s_file *fp,
 
         glNormal3dv(fp->sv[gp->si].n);
 
-#ifdef GL_ARB_multitexture
-        if (glMultiTexCoord2dARB)
+        if (glMultiTexCoord2d)
         {
-            glMultiTexCoord2dARB(GL_TEXTURE0_ARB, ui[0], ui[1]);
-            glMultiTexCoord2dARB(GL_TEXTURE1_ARB, vi[0], vi[2]);
+            glMultiTexCoord2d(GL_TEXTURE0, ui[0], ui[1]);
+            glMultiTexCoord2d(GL_TEXTURE1, vi[0], vi[2]);
             glVertex3dv(vi);
 
-            glMultiTexCoord2dARB(GL_TEXTURE0_ARB, uj[0], uj[1]);
-            glMultiTexCoord2dARB(GL_TEXTURE1_ARB, vj[0], vj[2]);
+            glMultiTexCoord2d(GL_TEXTURE0, uj[0], uj[1]);
+            glMultiTexCoord2d(GL_TEXTURE1, vj[0], vj[2]);
             glVertex3dv(vj);
 
-            glMultiTexCoord2dARB(GL_TEXTURE0_ARB, uk[0], uk[1]);
-            glMultiTexCoord2dARB(GL_TEXTURE1_ARB, vk[0], vk[2]);
+            glMultiTexCoord2d(GL_TEXTURE0, uk[0], uk[1]);
+            glMultiTexCoord2d(GL_TEXTURE1, vk[0], vk[2]);
             glVertex3dv(vk);
         }
-#else
-        glTexCoord2d(ui[0], ui[1]);
-        glVertex3dv(vi);
+        else
+        {
+            glTexCoord2d(ui[0], ui[1]);
+            glVertex3dv(vi);
 
-        glTexCoord2d(uj[0], uj[1]);
-        glVertex3dv(vj);
+            glTexCoord2d(uj[0], uj[1]);
+            glVertex3dv(vj);
 
-        glTexCoord2d(uk[0], uk[1]);
-        glVertex3dv(vk);
-#endif
+            glTexCoord2d(uk[0], uk[1]);
+            glVertex3dv(vk);
+        }
     }
 }
 
@@ -208,19 +208,17 @@ static void sol_draw_list(const struct s_file *fp,
 
         /* Translate the shadow on a moving body. */
 
-#ifdef GL_ARB_multitexture
-        if (glActiveTextureARB)
+        if (glActiveTexture)
         {
-            glActiveTextureARB(GL_TEXTURE1_ARB);
+            glActiveTexture(GL_TEXTURE1);
             glMatrixMode(GL_TEXTURE);
             {
                 glPushMatrix();
                 glTranslated(p[0], p[2], 0.0);
             }
             glMatrixMode(GL_MODELVIEW);
-            glActiveTextureARB(GL_TEXTURE0_ARB);
+            glActiveTexture(GL_TEXTURE0);
         }
-#endif
         
         /* Draw the body. */
 
@@ -229,18 +227,16 @@ static void sol_draw_list(const struct s_file *fp,
 
         /* Pop the shadow translation. */
 
-#ifdef GL_ARB_multitexture
-        if (glActiveTextureARB)
+        if (glActiveTexture)
         {
-            glActiveTextureARB(GL_TEXTURE1_ARB);
+            glActiveTexture(GL_TEXTURE1);
             glMatrixMode(GL_TEXTURE);
             {
                 glPopMatrix();
             }
             glMatrixMode(GL_MODELVIEW);
-            glActiveTextureARB(GL_TEXTURE0_ARB);
+            glActiveTexture(GL_TEXTURE0);
         }
-#endif
     }
     glPopMatrix();
 }

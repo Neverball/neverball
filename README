@@ -21,6 +21,7 @@ Neverball requires:
 * THANKS TO
 
     Mehdi Yousfi Monod  (Feature ideas and levels)
+    Derek Arndt         (OSX packaging)
     Max Gilead          (Debian packaging)
     Michael Sterret     (Gentoo ebuild)
     Christoph Frick     (OSX port)

@@ -249,14 +249,12 @@ static void game_draw_swchs(const struct s_file *fp)
 
 static void game_set_shadow(const struct s_file *fp)
 {
-#ifdef GL_ARB_multitexture
-
     const double *ball_p = fp->uv->p;
     const double  ball_r = fp->uv->r;
 
-    if (glActiveTextureARB)
+    if (glActiveTexture)
     {
-        glActiveTextureARB(GL_TEXTURE1_ARB);
+        glActiveTexture(GL_TEXTURE1);
         glMatrixMode(GL_TEXTURE);
         {
             double k = 0.5 / ball_r;
@@ -272,26 +270,20 @@ static void game_set_shadow(const struct s_file *fp)
             glScaled(k, k, 1.0);
         }
         glMatrixMode(GL_MODELVIEW);
-        glActiveTextureARB(GL_TEXTURE0_ARB);
+        glActiveTexture(GL_TEXTURE0);
     }
-
-#endif /* GL_ARB_multitexture */
 }
 
 static void game_clr_shadow(void)
 {
-#ifdef GL_ARB_multitexture
-
-    if (glActiveTextureARB)
+    if (glActiveTexture)
     {
-        glActiveTextureARB(GL_TEXTURE1_ARB);
+        glActiveTexture(GL_TEXTURE1);
         {
             glDisable(GL_TEXTURE_2D);
         }
-        glActiveTextureARB(GL_TEXTURE0_ARB);
+        glActiveTexture(GL_TEXTURE0);
     }
-
-#endif /* GL_ARB_multitexture */
 }
 
 /*---------------------------------------------------------------------------*/
