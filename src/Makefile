@@ -4,12 +4,10 @@ BALL_OBJS= \
 	coin.o  \
 	game.o  \
 	image.o \
+	level.o \
 	main.o  \
-	pause.o \
-	play.o  \
 	solid.o \
-	stop.o  \
-	title.o \
+	state.o \
 	vec3.o
 MAPC_OBJS= \
 	vec3.o  \

@@ -50,6 +50,11 @@ int image_load(struct image *image, const char *filename)
     return 0;
 }
 
+int image_test(struct image *image)
+{
+    return (image->s && glIsTexture(image->o)) ? 1 : 0;
+}
+
 void image_free(struct image *image)
 {
     if (image->o) glDeleteTextures(1, &image->o);

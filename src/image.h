@@ -28,6 +28,7 @@ struct image
 };
 
 int  image_load(struct image *, const char *);
+int  image_test(struct image *);
 void image_free(struct image *);
 void image_bind(struct image *);
 void image_rect(struct image *, double, double, double, double, double);

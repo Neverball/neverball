@@ -18,6 +18,7 @@
 #include "main.h"
 #include "vec3.h"
 #include "solid.h"
+#include "state.h"
 #include "image.h"
 
 #define CR 0.15

@@ -18,71 +18,28 @@
 
 #include "vec3.h"
 #include "game.h"
-#include "play.h"
-#include "title.h"
 #include "solid.h"
+#include "state.h"
+
+/*---------------------------------------------------------------------------*/
 
 #define TITLE "SUPER EMPTY BALL"
 
+int mode   = SDL_OPENGL;
 int width  = 1280;
-int height =  600;
+int height = 600;
 
 /*---------------------------------------------------------------------------*/
 
-static double goto_time    = 0.0;
-static struct state *state = NULL;
-
-void goto_state(struct state *st)
-{
-    if (state && state->leave)
-        state->leave();
-
-    state     = st;
-    goto_time = SDL_GetTicks() / 1000.0;
-
-    if (state && state->enter)
-        state->enter();
-}
-
-double time_state(void)
-{
-    return SDL_GetTicks() / 1000.0 - goto_time;
-}
-
-/*---------------------------------------------------------------------------*/
-
-static void st_paint(void)
-{
-    if (state && state->paint) state->paint();
-}
-
-static int st_shape(int w, int h)
+static int size(int w, int h, int m)
 {
     glViewport(0, 0, w, h);
-    return 1;
-}
 
-static int st_timer(double t)
-{
-    return (state && state->timer) ? state->timer(t) : 1;
-}
+    width  = w;
+    height = h;
 
-static int st_point(int x, int y)
-{
-    return (state && state->point) ? state->point(x, y) : 1;
+    return SDL_SetVideoMode(w, h, 0, m) ? 1 : 0;
 }
-
-static int st_click(int b)
-{
-    return (state && state->click) ? state->click(b) : 1;
-}
-
-static int st_keybd(int c)
-{
-    return (state && state->keybd) ? state->keybd(c) : 1;
-}
-
-/*---------------------------------------------------------------------------*/
 
 static int loop(void)
 {
@@ -92,13 +49,23 @@ static int loop(void)
     while (d && SDL_PollEvent(&e))
         switch (e.type)
         {
-        case SDL_KEYDOWN:         d = st_keybd(e.key.keysym.sym);       break;
-        case SDL_VIDEORESIZE:     d = st_shape(e.resize.w, e.resize.h); break;
-        case SDL_MOUSEMOTION:     d = st_point(e.motion.x, e.motion.y); break;
-        case SDL_MOUSEBUTTONDOWN: d = st_click(1);                      break;
-        case SDL_MOUSEBUTTONUP:   d = st_click(0);                      break;
-
-        case SDL_QUIT: return 0;
+        case SDL_VIDEORESIZE:
+            d = size(e.resize.w, e.resize.h, mode);
+            break;
+        case SDL_MOUSEMOTION:
+            d = st_point(e.motion.x, e.motion.y);
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            d = st_click(1);
+            break;
+        case SDL_MOUSEBUTTONUP:
+            d = st_click(0);
+            break;
+        case SDL_KEYDOWN:
+            d = st_keybd(e.key.keysym.sym);
+            break;
+        case SDL_QUIT:
+            d = 0;
         }
 
     return d;
@@ -106,10 +73,13 @@ static int loop(void)
 
 int main(int argc, char *argv[])
 {
-    int argi, mode = SDL_OPENGL;
+    int argi;
 
     for (argi = 1; argi < argc; argi++)
+    {
         if (strcmp(argv[argi], "-fs") == 0) mode |= SDL_FULLSCREEN;
+        if (strcmp(argv[argi], "-rs") == 0) mode |= SDL_RESIZABLE;
+    }
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0)
     {
@@ -150,3 +120,6 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
+

@@ -267,7 +267,7 @@ int game_update_env(const double g[3], double real_dt)
 
     /* Create the sound of the ball. */
 
-    if (bump > 0.25)
+    if (bump > 0.50)
     {
         Mix_Volume(0, (int) (bump * MIX_MAX_VOLUME));
         Mix_PlayChannel(0, bump_wav, 0);

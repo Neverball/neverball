@@ -4,12 +4,10 @@ BALL_OBJS= \
 	coin.obj  \
 	game.obj  \
 	image.obj \
+	level.obj \
 	main.obj  \
-	pause.obj \
-	play.obj  \
 	solid.obj \
-	stop.obj  \
-	title.obj \
+	state.obj \
 	vec3.obj
 MAPC_OBJS= \
 	vec3.obj  \

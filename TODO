@@ -1,6 +1,9 @@
+Manage overlays and sounds better.
 
-Look into reducing max dt
-Smooth dt
+roll states
+roll objects
+
+Smooth dt?
 Generalize surface coefficients and list in mtrl file
 A ball rolling in a trough rotates funny
 
