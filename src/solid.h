@@ -21,6 +21,55 @@
 
 #define PATHMAX 44
 
+/*
+ * Some might  be taken  aback at  the terseness of  the names  of the
+ * structure  members and  the variables  used by  the  functions that
+ * access them.  Yes,  yes, I know, readability.  I  contend that once
+ * the naming  convention is embraced, the names  become more readable
+ * than any  verbose alternative, and their brevity  and uniformity do
+ * more to augment readability than longVariableNames ever could.
+ *
+ * Members  and variables  are named  XY.   X determines  the type  of
+ * structure to which the variable  refers.  Y determines the usage of
+ * the variable.
+ *
+ * The Xs are as documented by struct s_file:
+ * 
+ *     x  Image         (struct s_imag)
+ *     d  Display list  (struct s_list)
+ *     m  Material      (struct s_mtrl)
+ *     v  Vertex        (struct s_vert)
+ *     e  Edge          (struct s_edge)
+ *     s  Side          (struct s_side)
+ *     t  Texture coord (struct s_texc)
+ *     g  Geometry      (struct s_geom)
+ *     l  Lump          (struct s_lump)
+ *     n  Node          (struct s_node)
+ *     p  Path          (struct s_path)
+ *     b  Body          (struct s_body)
+ *     c  Coin          (struct s_coin)
+ *     z  Goal          (struct s_goal)
+ *     u  User          (struct s_ball)
+ *     i  Index         (int)
+ *     
+ * The Ys are as follows:
+ *
+ *     c  Counter
+ *     p  Pointer
+ *     v  Vector (array)
+ *     0  Index of the first of block
+ *     i  Index
+ *     j  Subindex
+ *     k  Subsubindex
+ *
+ * Thus "vp" is  a pointer to a vertex.  "lc" is  the number of lumps.
+ * "ei" and "ej" are edge indices  into some "ev" edge vector.  And so
+ * on.
+ * 
+ * Those members that do not conform to this convention are explicitly
+ * documented with a comment.
+ */
+
 /*---------------------------------------------------------------------------*/
 
 struct s_imag
@@ -78,7 +127,7 @@ struct s_geom
 
 struct s_lump
 {
-    int fl;
+    int fl;                                    /* lump flags                 */
     int v0;
     int vc;
     int e0;
@@ -156,7 +205,6 @@ struct s_file
 
     struct s_imag *xv;
     struct s_list *dv;
-    struct s_part *qv;
 
     struct s_mtrl *mv;
     struct s_vert *vv;

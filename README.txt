@@ -29,9 +29,11 @@ To run:
     ./ball
 
 Click Play  to begin.  The floor  tilts in the direction  of the mouse
-pointer.  Escape pauses  and resumes.  F1 while paused  returns to the
-title  screen,  and  F1  at  the  title screen  exits.   F10  takes  a
-screenshot.
+pointer.  The left and right  mouse buttons rotate the view point left
+and right about the ball.
+
+Spacebar pauses and resumes.  Escape  returns to the title screen, and
+escape at the title screen exits.  F10 takes a screenshot.
 
 
 (Any resemblance to any other software, game, or simulation related to

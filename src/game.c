@@ -38,6 +38,7 @@ static struct s_file file;
 static double game_rx;
 static double game_rz;
 
+static double view_r;
 static double view_dy;
 static double view_dz;
 
@@ -246,7 +247,8 @@ static void game_update_view(double dt)
 
     view_p[0] = view_p[1] = view_p[2] = 0.0;
 
-    v_mad(view_p, ball_p, view_e[1], dy);
+    v_mad(view_p, ball_p, view_e[0], view_r * dt);
+    v_mad(view_p, view_p, view_e[1], dy);
     v_mad(view_p, view_p, view_e[2], dz);
 }
 
@@ -374,6 +376,14 @@ void game_update_pos(int x, int y)
 }
 
 /*
+ * Update the rotation of the view about the ball.
+ */
+void game_update_rot(int r)
+{
+    view_r = r * 5.0;
+}
+
+/*
  * Update the position of the camera during a level-intro fly-by.
  */
 void game_update_fly(double k)
@@ -404,6 +414,7 @@ static void view_init(void)
     game_rx = 0.0;
     game_rz = 0.0;
 
+    view_r  = 0.0;
     view_dy = 4.0;
     view_dz = 6.0;
 

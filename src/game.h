@@ -14,6 +14,7 @@ void game_render_env(void);
 
 int  game_update_env(const double[3], double);
 void game_update_pos(int, int);
+void game_update_rot(int);
 void game_update_fly(double);
 
 void game_init(const char *, int);

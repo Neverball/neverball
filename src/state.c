@@ -75,9 +75,9 @@ int st_point(int x, int y)
     return (state && state->point) ? state->point(x, y) : 1;
 }
 
-int st_click(int b)
+int st_click(int b, int d)
 {
-    return (state && state->click) ? state->click(b) : 1;
+    return (state && state->click) ? state->click(b, d) : 1;
 }
 
 int st_keybd(int c)
@@ -126,7 +126,7 @@ static int title_point(int x, int y)
     return 1;
 }
 
-static int title_click(int d)
+static int title_click(int b, int d)
 {
     switch (menu_click(&title_menu, d))
     {
@@ -145,7 +145,7 @@ static int title_click(int d)
 
 static int title_keybd(int c)
 {
-    if (c == SDLK_F1)
+    if (c == SDLK_ESCAPE)
         return 0;
 
     return 1;
@@ -223,7 +223,7 @@ static int conf_point(int x, int y)
     return 1;
 }
 
-static int conf_click(int d)
+static int conf_click(int b, int d)
 {
     int s = 1;
     int c = menu_click(&conf_menu, d);
@@ -306,7 +306,7 @@ static int conf_click(int d)
 
 static int conf_keybd(int c)
 {
-    if (c == SDLK_F1)
+    if (c == SDLK_ESCAPE)
         goto_state(&st_title);
 
     return 1;
@@ -362,7 +362,7 @@ static int start_point(int x, int y)
     return 1;
 }
 
-static int start_click(int d)
+static int start_click(int b, int d)
 {
     int c = menu_click(&start_menu, d);
 
@@ -381,7 +381,7 @@ static int start_click(int d)
 
 static int start_keybd(int c)
 {
-    if (c == SDLK_F1)
+    if (c == SDLK_ESCAPE)
         goto_state(&st_title);
 
     return 1;
@@ -420,7 +420,7 @@ static int level_timer(double dt)
     return 1;
 }
 
-static int level_click(int d)
+static int level_click(int b, int d)
 {
     if (d == 0)
     {
@@ -466,7 +466,7 @@ static int ready_timer(double dt)
     return 1;
 }
 
-static int ready_click(int d)
+static int ready_click(int b, int d)
 {
     if (d == 0)
     {
@@ -512,7 +512,7 @@ static int set_timer(double dt)
     return 1;
 }
 
-static int set_click(int d)
+static int set_click(int b, int d)
 {
     if (d == 0)
     {
@@ -525,6 +525,7 @@ static int set_click(int d)
 /*---------------------------------------------------------------------------*/
 
 static struct menu play_menu;
+static int         view_rotate;
 
 static void play_enter(void)
 {
@@ -534,6 +535,8 @@ static void play_enter(void)
     SDL_WM_GrabInput(SDL_GRAB_ON);
     SDL_ShowCursor(SDL_DISABLE);
     SDL_WarpMouse((Uint16) (main_width / 2), (Uint16) (main_height / 2));
+
+    view_rotate = 0;
 }
 
 static void play_leave(void)
@@ -559,6 +562,8 @@ static int play_timer(double dt)
 {
     double g[3] = { 0.0, -9.8, 0.0 };
 
+    game_update_rot(view_rotate);
+
     switch (game_update_env(g, dt))
     {
     case GAME_TIME: goto_state(&st_time); break;
@@ -582,9 +587,21 @@ static int play_point(int x, int y)
     return 1;
 }
 
+static int play_click(int b, int d)
+{
+    if (d)
+        view_rotate = b;
+    else
+        view_rotate = 0;
+
+    return 1;
+}
+
 static int play_keybd(int c)
 {
     if (c == SDLK_ESCAPE)
+        goto_state(&st_title);
+    if (c == SDLK_SPACE)
         goto_state(&st_pause);
 
     return 1;
@@ -613,7 +630,7 @@ static void goal_paint(void)
     menu_paint(&goal_menu, 1.0);
 }
 
-static int goal_click(int d)
+static int goal_click(int b, int d)
 {
     if (d == 0)
     {
@@ -632,7 +649,7 @@ static int goal_timer(double dt)
     if (time_state() < 2.0)
         game_update_env(g, dt);
     else
-        return goal_click(0);
+        return goal_click(0, 0);
 
     return 1;
 }
@@ -661,7 +678,7 @@ static void fall_paint(void)
     menu_paint(&fall_menu, 1.0);
 }
 
-static int fall_click(int d)
+static int fall_click(int b, int d)
 {
     if (d == 0)
     {
@@ -680,7 +697,7 @@ static int fall_timer(double dt)
     if (time_state() < 2.0)
         game_update_env(g, dt);
     else
-        return fall_click(0);
+        return fall_click(0, 0);
 
     return 1;
 }
@@ -709,7 +726,7 @@ static void time_paint(void)
     menu_paint(&time_menu, 1.0);
 }
 
-static int time_click(int d)
+static int time_click(int b, int d)
 {
     if (d == 0)
     {
@@ -728,7 +745,7 @@ static int time_timer(double dt)
     if (time_state() < 2.0)
         game_update_env(g, dt);
     else
-        return time_click(0);
+        return time_click(0, 0);
 
     return 1;
 }
@@ -767,13 +784,13 @@ static int over_timer(double dt)
 
 static int over_keybd(int c)
 {
-    if (c == SDLK_F1)
+    if (c == SDLK_ESCAPE)
         goto_state(&st_title);
 
     return 1;
 }
 
-static int over_click(int d)
+static int over_click(int b, int d)
 {
     if (d == 0)
         goto_state(&st_title);
@@ -806,10 +823,9 @@ static void pause_paint(void)
 
 static int pause_keybd(int c)
 {
-    if (c == SDLK_F1)
-        goto_state(&st_over);
-
     if (c == SDLK_ESCAPE)
+        goto_state(&st_over);
+    if (c == SDLK_SPACE)
         goto_state(&st_play);
 
     return 1;
@@ -893,7 +909,7 @@ struct state st_play = {
     play_paint,
     play_timer,
     play_point,
-    NULL,
+    play_click,
     play_keybd
 };
 

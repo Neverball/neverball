@@ -10,7 +10,7 @@ struct state
     void (*paint)(void);
     int  (*timer)(double);
     int  (*point)(int, int);
-    int  (*click)(int);
+    int  (*click)(int, int);
     int  (*keybd)(int);
 };
 
@@ -20,7 +20,7 @@ double time_state(void);
 void st_paint(void);
 int  st_timer(double);
 int  st_point(int, int);
-int  st_click(int);
+int  st_click(int, int);
 int  st_keybd(int);
 
 /*---------------------------------------------------------------------------*/

@@ -111,10 +111,10 @@ static int loop(void)
             d = st_point(e.motion.x, main_height - e.motion.y);
             break;
         case SDL_MOUSEBUTTONDOWN:
-            d = st_click(1);
+            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : +1, 1);
             break;
         case SDL_MOUSEBUTTONUP:
-            d = st_click(0);
+            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : +1, 0);
             break;
         case SDL_KEYDOWN:
             if (e.key.keysym.sym == SDLK_F10)

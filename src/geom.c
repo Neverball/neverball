@@ -239,17 +239,17 @@ static void particle(const GLfloat p[3], const GLfloat c[3],
         {
             glColor4f(c[0], c[1], c[2], a);
 
-            glTexCoord2f(0.0f, 0.0f);
-            glVertex2f(-PART_SIZE, -PART_SIZE);
+            glTexCoord2d(0.0, 0.0);
+            glVertex2d(-PART_SIZE, -PART_SIZE);
 
-            glTexCoord2f(1.0f, 0.0f);
-            glVertex2f(+PART_SIZE, -PART_SIZE);
+            glTexCoord2d(1.0, 0.0);
+            glVertex2d(+PART_SIZE, -PART_SIZE);
 
-            glTexCoord2f(1.0f, 1.0f);
-            glVertex2f(+PART_SIZE, +PART_SIZE);
+            glTexCoord2d(1.0, 1.0);
+            glVertex2d(+PART_SIZE, +PART_SIZE);
 
-            glTexCoord2f(0.0f, 1.0f);
-            glVertex2f(-PART_SIZE, +PART_SIZE);
+            glTexCoord2d(0.0, 1.0);
+            glVertex2d(-PART_SIZE, +PART_SIZE);
         }
         glEnd();
     }
@@ -335,12 +335,12 @@ static void get_spark(double t, int i, GLfloat p[3], GLfloat *a, GLfloat *rz)
 {
     double k = spark_a[i] + t / 5.0;
 
-    p[0] = 0.9 * cos(k);
-    p[1] = spark_y[i];
-    p[2] = 0.9 * sin(k);
+    p[0] = (GLfloat) (0.9 * cos(k));
+    p[1] = (GLfloat) (spark_y[i]);
+    p[2] = (GLfloat) (0.9 * sin(k));
 
-    *a  = 1.0 - spark_y[i] / GOAL_HEIGHT;
-    *rz = k * 720.0;
+    *a  = (GLfloat) (1.0 - spark_y[i] / GOAL_HEIGHT);
+    *rz = (GLfloat) (k * 720.0);
 }
 
 void goal_init(void)
@@ -440,9 +440,9 @@ static void goal_part(struct s_goal *zv, int zc)
         {
             get_spark(t, j, p, &a, &rz);
         
-            p[0] = p[0] * zv[zi].r + zv[zi].p[0];
-            p[1] = p[1]            + zv[zi].p[1];
-            p[2] = p[2] * zv[zi].r + zv[zi].p[2];
+            p[0] = (GLfloat) (p[0] * zv[zi].r + zv[zi].p[0]);
+            p[1] = (GLfloat) (p[1]            + zv[zi].p[1]);
+            p[2] = (GLfloat) (p[2] * zv[zi].r + zv[zi].p[2]);
 
             part_make(p, v, c, a, rz, 0.0);
         }
@@ -630,7 +630,7 @@ int coin_test(const struct s_ball *up, struct s_coin *cv, int cc)
 
                 k = (cv[i].n < 11) ? cv[i].n : 10;
 
-                part_make(p, v, coin_color[k], 1.0, 0.0, V_DEG(c));
+                part_make(p, v, coin_color[k], 1.f, 0.f, (GLfloat) V_DEG(c));
             }
 
             n += cv[i].n;
