@@ -70,6 +70,7 @@ static char  dst[MAXSTR];
 #define MAXZ    16
 #define MAXJ	32
 #define MAXX	16
+#define MAXR	256
 #define MAXU	16
 #define MAXW    32
 #define MAXA	512
@@ -91,6 +92,7 @@ static void init_file(struct s_file *fp)
     fp->zc = 0;
     fp->jc = 0;
     fp->xc = 0;
+    fp->rc = 0;
     fp->uc = 0;
     fp->wc = 0;
     fp->ac = 0;
@@ -110,6 +112,7 @@ static void init_file(struct s_file *fp)
     fp->zv = (struct s_goal *) calloc(MAXZ, sizeof (struct s_goal));
     fp->jv = (struct s_jump *) calloc(MAXJ, sizeof (struct s_jump));
     fp->xv = (struct s_swch *) calloc(MAXX, sizeof (struct s_swch));
+    fp->rv = (struct s_bill *) calloc(MAXR, sizeof (struct s_bill));
     fp->uv = (struct s_ball *) calloc(MAXU, sizeof (struct s_ball));
     fp->wv = (struct s_view *) calloc(MAXW, sizeof (struct s_view));
     fp->av = (char          *) calloc(MAXA, sizeof (char));
@@ -762,6 +765,44 @@ static void make_coin(struct s_file *fp,
     }
 }
 
+static void make_bill(struct s_file *fp,
+                      char k[][MAXSTR],
+                      char v[][MAXSTR], short c)
+{
+    short i, ri = fp->rc++;
+
+    struct s_bill *rp = fp->rv + ri;
+
+    rp->p[0] = 0.f;
+    rp->p[1] = 0.f;
+    rp->p[2] = 0.f;
+    rp->r    = 1.f;
+    rp->z    = 0.f;
+
+    for (i = 0; i < c; i++)
+    {
+        if (strcmp(k[i], "angle") == 0)
+            sscanf(v[i], "%f", &rp->z);
+
+        if (strcmp(k[i], "radius") == 0)
+            sscanf(v[i], "%f", &rp->r);
+
+        if (strcmp(k[i], "image") == 0)
+            rp->mi = read_mtrl(fp, v[i]);
+
+        if (strcmp(k[i], "origin") == 0)
+        {
+            short x = 0, y = 0, z = 0;
+
+            sscanf(v[i], "%hd %hd %hd", &x, &y, &z);
+
+            rp->p[0] = +(float) x / SCALE;
+            rp->p[1] = +(float) z / SCALE;
+            rp->p[2] = -(float) y / SCALE;
+        }
+    }
+}
+
 static void make_goal(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], short c)
@@ -1012,6 +1053,7 @@ static void read_ent(struct s_file *fp, FILE *fin)
 
     if (!strcmp(v[i], "light"))                    make_coin(fp, k, v, c);
     if (!strcmp(v[i], "info_camp"))                make_swch(fp, k, v, c);
+    if (!strcmp(v[i], "info_null"))                make_bill(fp, k, v, c);
     if (!strcmp(v[i], "path_corner"))              make_path(fp, k, v, c);
     if (!strcmp(v[i], "info_player_start"))        make_ball(fp, k, v, c);
     if (!strcmp(v[i], "info_player_intermission")) make_view(fp, k, v, c);

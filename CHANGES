@@ -14,6 +14,7 @@ New in 1.2.6
 * Replaced Win32 makefile with VS.Net solution.
 * Rewrote HUD to use new GUI handler.
 * Removed obsolete text module and menu module.
+* Added billboard objects to .SOL file.
 * Policy change: .SOL files now go in same directory as .MAP files.
 * Changed mapc to derive .SOL file name from .MAP file name.
 * Changed pause screen to include the word "Paused".

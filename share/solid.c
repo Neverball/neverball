@@ -504,9 +504,9 @@ int sol_load(struct s_file *fp, const char *filename, int k, int s)
 
     if ((fin = fopen(filename, FMODE_RB)))
     {
-        short n[18];
+        short n[19];
 
-        fread(n, sizeof (short), 18, fin);
+        fread(n, sizeof (short), 19, fin);
 
         fp->mc = n[0];
         fp->vc = n[1];
@@ -522,10 +522,11 @@ int sol_load(struct s_file *fp, const char *filename, int k, int s)
         fp->zc = n[11];
         fp->jc = n[12];
         fp->xc = n[13];
-        fp->uc = n[14];
-        fp->wc = n[15];
-        fp->ac = n[16];
-        fp->ic = n[17];
+        fp->rc = n[14];
+        fp->uc = n[15];
+        fp->wc = n[16];
+        fp->ac = n[17];
+        fp->ic = n[18];
 
         fp->mv = (struct s_mtrl *) calloc(n[0],  sizeof (struct s_mtrl));
         fp->vv = (struct s_vert *) calloc(n[1],  sizeof (struct s_vert));
@@ -541,10 +542,11 @@ int sol_load(struct s_file *fp, const char *filename, int k, int s)
         fp->zv = (struct s_goal *) calloc(n[11], sizeof (struct s_goal));
         fp->jv = (struct s_jump *) calloc(n[12], sizeof (struct s_jump));
         fp->xv = (struct s_swch *) calloc(n[13], sizeof (struct s_swch));
-        fp->uv = (struct s_ball *) calloc(n[14], sizeof (struct s_ball));
-        fp->wv = (struct s_view *) calloc(n[15], sizeof (struct s_view));
-        fp->av = (char          *) calloc(n[16], sizeof (char));
-        fp->iv = (short         *) calloc(n[17], sizeof (short));
+        fp->rv = (struct s_bill *) calloc(n[14], sizeof (struct s_bill));
+        fp->uv = (struct s_ball *) calloc(n[15], sizeof (struct s_ball));
+        fp->wv = (struct s_view *) calloc(n[16], sizeof (struct s_view));
+        fp->av = (char          *) calloc(n[17], sizeof (char));
+        fp->iv = (short         *) calloc(n[18], sizeof (short));
 
         fread(fp->mv, sizeof (struct s_mtrl), n[0],  fin);
         fread(fp->vv, sizeof (struct s_vert), n[1],  fin);
@@ -560,10 +562,11 @@ int sol_load(struct s_file *fp, const char *filename, int k, int s)
         fread(fp->zv, sizeof (struct s_goal), n[11], fin);
         fread(fp->jv, sizeof (struct s_jump), n[12], fin);
         fread(fp->xv, sizeof (struct s_swch), n[13], fin);
-        fread(fp->uv, sizeof (struct s_ball), n[14], fin);
-        fread(fp->wv, sizeof (struct s_view), n[15], fin);
-        fread(fp->av, sizeof (char),          n[16], fin);
-        fread(fp->iv, sizeof (short),         n[17], fin);
+        fread(fp->rv, sizeof (struct s_bill), n[14], fin);
+        fread(fp->uv, sizeof (struct s_ball), n[15], fin);
+        fread(fp->wv, sizeof (struct s_view), n[16], fin);
+        fread(fp->av, sizeof (char),          n[17], fin);
+        fread(fp->iv, sizeof (short),         n[18], fin);
 
         fclose(fin);
 
@@ -581,7 +584,7 @@ int sol_stor(struct s_file *fp, const char *filename)
 
     if ((fout = fopen(filename, FMODE_WB)))
     {
-        short n[18];
+        short n[19];
 
         n[0]  = fp->mc;
         n[1]  = fp->vc;
@@ -597,12 +600,13 @@ int sol_stor(struct s_file *fp, const char *filename)
         n[11] = fp->zc;
         n[12] = fp->jc;
         n[13] = fp->xc;
-        n[14] = fp->uc;
-        n[15] = fp->wc;
-        n[16] = fp->ac;
-        n[17] = fp->ic;
+        n[14] = fp->rc;
+        n[15] = fp->uc;
+        n[16] = fp->wc;
+        n[17] = fp->ac;
+        n[18] = fp->ic;
 
-        fwrite(n, sizeof (short), 18, fout);
+        fwrite(n, sizeof (short), 19, fout);
 
         fwrite(fp->mv, sizeof (struct s_mtrl), n[0],  fout);
         fwrite(fp->vv, sizeof (struct s_vert), n[1],  fout);
@@ -618,10 +622,11 @@ int sol_stor(struct s_file *fp, const char *filename)
         fwrite(fp->zv, sizeof (struct s_goal), n[11], fout);
         fwrite(fp->jv, sizeof (struct s_jump), n[12], fout);
         fwrite(fp->xv, sizeof (struct s_swch), n[13], fout);
-        fwrite(fp->uv, sizeof (struct s_ball), n[14], fout);
-        fwrite(fp->wv, sizeof (struct s_view), n[15], fout);
-        fwrite(fp->av, sizeof (char),          n[16], fout);
-        fwrite(fp->iv, sizeof (short),         n[17], fout);
+        fwrite(fp->rv, sizeof (struct s_bill), n[14], fout);
+        fwrite(fp->uv, sizeof (struct s_ball), n[15], fout);
+        fwrite(fp->wv, sizeof (struct s_view), n[16], fout);
+        fwrite(fp->av, sizeof (char),          n[17], fout);
+        fwrite(fp->iv, sizeof (short),         n[18], fout);
 
         fclose(fout);
 
@@ -664,6 +669,7 @@ void sol_free(struct s_file *fp)
     if (fp->zv) free(fp->zv);
     if (fp->jv) free(fp->jv);
     if (fp->xv) free(fp->xv);
+    if (fp->rv) free(fp->rv);
     if (fp->uv) free(fp->uv);
     if (fp->wv) free(fp->wv);
     if (fp->av) free(fp->av);

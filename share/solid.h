@@ -34,6 +34,7 @@
  *
  * The Xs are as documented by struct s_file:
  * 
+ *     f  File          (struct s_file)
  *     m  Material      (struct s_mtrl)
  *     v  Vertex        (struct s_vert)
  *     e  Edge          (struct s_edge)
@@ -48,10 +49,11 @@
  *     z  Goal          (struct s_goal)
  *     j  Jump          (struct s_jump)
  *     x  Switch        (struct s_swch)
+ *     r  Billboard     (struct s_bill)
  *     u  User          (struct s_ball)
  *     a  Text          (char)
  *     i  Index         (short)
- *     
+ *
  * The Ys are as follows:
  *
  *     c  Counter
@@ -69,6 +71,8 @@
  * 
  * Those members that do not conform to this convention are explicitly
  * documented with a comment.
+ *
+ * These prefixes are still available: d h k o q w y.
  */
 
 /*---------------------------------------------------------------------------*/
@@ -191,6 +195,14 @@ struct s_swch
     short f;                                   /* current state              */
 };
 
+struct s_bill
+{
+    float p[3];                                /* position                   */
+    float r;                                   /* radius                     */
+    float z;                                   /* rotation about Z axis      */
+    int   mi;
+};
+
 struct s_jump
 {
     float p[3];                                /* position                   */
@@ -229,6 +241,7 @@ struct s_file
     short zc;
     short jc;
     short xc;
+    short rc;
     short uc;
     short wc;
     short ac;
@@ -248,6 +261,7 @@ struct s_file
     struct s_goal *zv;
     struct s_jump *jv;
     struct s_swch *xv;
+    struct s_bill *rv;
     struct s_ball *uv;
     struct s_view *wv;
     char          *av;
