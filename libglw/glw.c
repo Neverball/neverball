@@ -1,0 +1,274 @@
+#include <stdlib.h>
+#include <GL/glx.h>
+#include <X11/Xutil.h>
+
+#include "glw.h"
+
+/*--------------------------------------------------------------------*/
+
+static Display      *dpy;
+static Window        win;
+static XVisualInfo  *xvi;
+static Atom          del;
+static XSizeHints   *siz;
+static GLXContext    ctx;
+
+static int last_x = 0;
+static int last_y = 0;
+static int height = 0;
+
+/*--------------------------------------------------------------------*/
+
+static int glx_init_dpy(void)
+{
+	if ((dpy = XOpenDisplay(NULL)) == NULL)
+		return 0;
+
+	if (glXQueryExtension(dpy, NULL, NULL) == False)
+		return 0;
+	
+	return 1;
+}
+
+static int glx_init_xvi(int e)
+{
+	int attributes[] = {
+		GLX_STEREO,
+		GLX_RGBA,
+		GLX_DOUBLEBUFFER,
+		GLX_DEPTH_SIZE, 16,
+		None
+	};
+
+	int *p = (e == 2) ? attributes : attributes + 1;
+
+	if ((xvi = glXChooseVisual(dpy, DefaultScreen(dpy), p)) == NULL)
+		return 0;
+
+	if (xvi->class != TrueColor)
+		return 0;
+
+	return 1;
+}
+
+static int glx_init_win(int w, int h)
+{
+	Window root = RootWindow(dpy, xvi->screen);
+	Visual *vis = xvi->visual;
+	XSetWindowAttributes wa;
+
+	unsigned long valuemask = CWBorderPixel
+				| CWColormap
+				| CWEventMask;
+
+	wa.border_pixel = 0;
+	wa.colormap = XCreateColormap(dpy, root, vis, AllocNone);
+	wa.event_mask   = StructureNotifyMask
+			| ExposureMask
+			| KeyPressMask
+			| KeyReleaseMask
+			| PointerMotionMask
+			| ButtonPressMask
+			| ButtonReleaseMask;
+
+	del = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
+	win = XCreateWindow(dpy, root, 0, 0, w, h, 0, xvi->depth,
+				InputOutput, vis, valuemask, &wa);
+
+	XSetWMProtocols(dpy, win, &del, 1);
+
+	return 1;
+}
+
+static int glx_init_hnt(const char *s)
+{
+	int w = DisplayWidth (dpy, DefaultScreen(dpy));
+	int h = DisplayHeight(dpy, DefaultScreen(dpy));
+
+	siz = XAllocSizeHints();
+
+	if (siz)
+	{
+		siz->min_width  = 160;
+		siz->min_height = 120;
+		siz->max_width  = w;
+		siz->max_height = h;
+
+		siz->flags = PMinSize | PMaxSize;
+
+		XmbSetWMProperties(dpy, win, s, s, NULL,
+					0, siz, NULL, NULL);
+		return 1;
+	}
+	return 0;
+}
+
+static int glx_init_ctx(void)
+{
+	if ((ctx = glXCreateContext(dpy, xvi, NULL, True)) == NULL)
+		return 0;
+
+	if (glXMakeCurrent(dpy, win, ctx) == True)
+		return 1;
+	else
+		return 0;
+}
+
+/*--------------------------------------------------------------------*/
+
+static int glx_client(XClientMessageEvent *e)
+{
+	if (e->data.l[0] == del)
+		return GLW_CLOSE;
+	else
+		return 0;
+}
+
+static int glx_render(XExposeEvent *e)
+{
+	if (e->count == 0)
+		return GLW_RENDER;
+	else
+		return 0;
+}
+
+static int glx_resize(XConfigureEvent *e)
+{
+	height = e->height;
+	last_y = e->height;
+	last_x = e->width;
+
+	return GLW_RESIZE;
+}
+
+/*--------------------------------------------------------------------*/
+
+static int glx_point(XMotionEvent *e)
+{
+	last_x =          e->x;
+	last_y = e->y;
+
+	return GLW_MOTION;
+}
+
+static int glx_btn_d(XButtonEvent *e)
+{
+	last_x =          e->x;
+	last_y = e->y;
+
+	switch (e->button)
+	{
+	case 1: return GLW_L_BTN_D;
+	case 2: return GLW_M_BTN_D;
+	case 3: return GLW_R_BTN_D;
+	case 4: return GLW_WHEEL_D;
+	case 5: return GLW_WHEEL_U;
+	}
+	return 0;
+}
+
+static int glx_btn_u(XButtonEvent *e)
+{
+	last_x =          e->x;
+	last_y = e->y;
+
+	switch (e->button)
+	{
+	case 1: return GLW_L_BTN_U;
+	case 2: return GLW_M_BTN_U;
+	case 3: return GLW_R_BTN_U;
+	}
+	return 0;
+}
+
+/*--------------------------------------------------------------------*/
+
+static int glx_key_d(XKeyEvent *e)
+{
+	char c;
+
+	XLookupString(e, &c, 1, NULL, NULL);
+	last_x = (int) c;
+
+	return GLW_KEY_D;
+}
+
+static int glx_key_u(XKeyEvent *e)
+{
+	char c;
+
+	XLookupString(e, &c, 1, NULL, NULL);
+	last_x = (int) c;
+
+	return GLW_KEY_U;
+}
+
+/*--------------------------------------------------------------------*/
+
+int glw_create(const char *s, int w, int h, int e)
+{
+	if (dpy == NULL)
+	{
+		if (!glx_init_dpy())     return 0;
+		if (!glx_init_xvi(e))    return 0;
+		if (!glx_init_win(w, h)) return 0;
+		if (!glx_init_hnt(s))    return 0;
+		if (!glx_init_ctx())     return 0;
+
+		XMapWindow(dpy, win);
+	}
+	return 1;
+}
+
+void glw_delete(void)
+{
+	if (dpy != NULL)
+	{
+		glXMakeCurrent(dpy, None, NULL);
+		glXDestroyContext(dpy, ctx);
+
+		XDestroyWindow(dpy, win);
+		XCloseDisplay(dpy);
+
+		dpy = NULL;
+	}
+}
+
+/*--------------------------------------------------------------------*/
+
+int glw_update(int dirty, int wait)
+{
+	XEvent e;
+
+	if (dirty) glXSwapBuffers(dpy, win);
+
+	if (wait || XPending(dpy) > 0)
+	{
+		XNextEvent(dpy, &e);
+
+		switch (e.type)
+		{
+		case ClientMessage:   return glx_client(&e.xclient);
+		case Expose:          return glx_render(&e.xexpose);
+		case ConfigureNotify: return glx_resize(&e.xconfigure);
+
+		case MotionNotify:    return glx_point(&e.xmotion);
+		case ButtonPress:     return glx_btn_d(&e.xbutton);
+		case ButtonRelease:   return glx_btn_u(&e.xbutton);
+		case KeyPress:        return glx_key_d(&e.xkey);
+		case KeyRelease:      return glx_key_u(&e.xkey);
+		}
+	}
+	return 0;
+}
+
+int glw_x(void)
+{
+	return last_x;
+}
+
+int glw_y(void)
+{
+	return last_y;
+}
+
