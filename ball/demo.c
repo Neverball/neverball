@@ -27,37 +27,19 @@
 #include "audio.h"
 #include "solid.h"
 #include "config.h"
+#include "binary.h"
 
 /*---------------------------------------------------------------------------*/
 
 #define MAGIC 0x4E425250
 
-struct demo_head
-{
-    int magic;
-
-    char shot[PATHMAX];
-    char file[PATHMAX];
-    char back[PATHMAX];
-    char grad[PATHMAX];
-    char song[PATHMAX];
-
-    int clock;
-    int goal;
-    int score;
-    int coins;
-    int balls;
-
-    int total_coins;
-    int total_clock;
-};
-
 static FILE *demo_fp;
 
-static char             name[MAXDEMO][MAXNAM];
-static struct demo_head head[MAXDEMO];
-
-static int count;
+static char  name[MAXDEMO][MAXNAM];
+static char  shot[MAXDEMO][PATHMAX];
+static short score[MAXDEMO];
+static short clock[MAXDEMO];
+static int  count;
 
 /*---------------------------------------------------------------------------*/
 #ifdef _WIN32
@@ -77,14 +59,23 @@ int demo_scan(void)
         do
             if ((fp = fopen(config_user(d.cFileName), FMODE_RB)))
             {
+                int   magic;
+                short t, c;
+
                 /* Note the name and screen shot of each replay file. */
 
-                if (fread(head + count, 1, sizeof (struct demo_head), fp))
-                    if (head[count].magic == MAGIC)
-                    {
-                        strncpy(name[count], d.cFileName, MAXNAM);
-                        count++;
-                    }
+                get_int  (fp, &magic);
+                get_short(fp, &t);
+                get_short(fp, &c);
+
+                if (magic == MAGIC && t)
+                {
+                    fread(shot[count], 1, PATHMAX, fp);
+                    clock[count] = t;
+                    score[count] = c;
+                    strncpy(name[count], d.cFileName, MAXNAM);
+                    count++;
+                }
                 fclose(fp);
             }
         while (count < MAXDEMO && FindNextFile(h, &d));
@@ -112,14 +103,23 @@ int demo_scan(void)
         while (count < MAXDEMO && (ent = readdir(dp)))
             if ((fp = fopen(config_user(ent->d_name), FMODE_RB)))
             {
+                int   magic;
+                short t, c;
+
                 /* Note the name and screen shot of each replay file. */
 
-                if (fread(head + count, 1, sizeof (struct demo_head), fp))
-                    if (head[count].magic == MAGIC)
-                    {
-                        strncpy(name[count], ent->d_name, MAXNAM);
-                        count++;
-                    }
+                get_int  (fp, &magic);
+                get_short(fp, &t);
+                get_short(fp, &c);
+
+                if (magic == MAGIC && t)
+                {
+                    fread(shot[count], 1, PATHMAX, fp);
+                    clock[count] = t;
+                    score[count] = c;
+                    strncpy(name[count], ent->d_name, MAXNAM);
+                    count++;
+                }
                 fclose(fp);
             }
 
@@ -143,17 +143,17 @@ const char *demo_name(int i)
 
 const char *demo_shot(int i)
 {
-    return (0 <= i && i < count) ? head[i].shot : NULL;
+    return (0 <= i && i < count) ? shot[i] : NULL;
 }
 
 int demo_coins(int i)
 {
-    return (0 <= i && i < count) ? head[i].total_coins : 0;
+    return (0 <= i && i < count) ? score[i] : 0;
 }
 
 int demo_clock(int i)
 {
-    return (0 <= i && i < count) ? head[i].total_clock : 0;
+    return (0 <= i && i < count) ? clock[i] : 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -187,8 +187,6 @@ void demo_unique(char *name)
 
 /*---------------------------------------------------------------------------*/
 
-static struct demo_head demo_play_head;
-
 int demo_play_init(const char *name,
                    const char *file,
                    const char *back,
@@ -197,28 +195,34 @@ int demo_play_init(const char *name,
                    const char *shot,
                    int t, int g, int s, int c, int b)
 {
+    int  magic = MAGIC;
+    short zero = 0;
+    short st   = t;
+    short sg   = g;
+    short ss   = s;
+    short sc   = c;
+    short sb   = b;
+
     /* Initialize the replay file.  Write the header. */
 
     if (name && (demo_fp = fopen(config_user(name), FMODE_WB)))
     {
-        demo_play_head.magic = MAGIC;
+        put_int(demo_fp, &magic);
 
-        strncpy(demo_play_head.shot, shot, PATHMAX);
-        strncpy(demo_play_head.file, file, PATHMAX);
-        strncpy(demo_play_head.back, back, PATHMAX);
-        strncpy(demo_play_head.grad, grad, PATHMAX);
-        strncpy(demo_play_head.song, song, PATHMAX);
+        put_short(demo_fp, &zero);
+        put_short(demo_fp, &zero);
 
-        demo_play_head.clock  = t;
-        demo_play_head.goal   = g;
-        demo_play_head.score  = s;
-        demo_play_head.coins  = c;
-        demo_play_head.balls  = b;
+        fwrite(shot, 1, PATHMAX, demo_fp);
+        fwrite(file, 1, PATHMAX, demo_fp);
+        fwrite(back, 1, PATHMAX, demo_fp);
+        fwrite(grad, 1, PATHMAX, demo_fp);
+        fwrite(song, 1, PATHMAX, demo_fp);
 
-        demo_play_head.total_coins = 0;
-        demo_play_head.total_clock = 0;
-
-        fwrite(&demo_play_head, 1, sizeof (struct demo_head), demo_fp);
+        put_short(demo_fp, &st);
+        put_short(demo_fp, &sg);
+        put_short(demo_fp, &ss);
+        put_short(demo_fp, &sc);
+        put_short(demo_fp, &sb);
 
         audio_music_fade_to(2.0f, song);
 
@@ -231,22 +235,25 @@ void demo_play_step(float dt)
 {
     if (demo_fp)
     {
-        float_put(demo_fp, &dt);
-        game_put(demo_fp);
+        put_float(demo_fp, &dt);
+        put_game_state(demo_fp);
     }
 }
 
 void demo_play_stat(int coins, int clock)
 {
+    short c = coins;
+    short t = clock;
+
     if (demo_fp)
     {
         /* Update the demo header using the final score and time. */
 
-        demo_play_head.total_coins = coins;
-        demo_play_head.total_clock = clock;
+        fseek(demo_fp, 4, SEEK_SET);
 
-        fseek(demo_fp, 0, SEEK_SET);
-        fwrite(&demo_play_head, 1, sizeof (struct demo_head), demo_fp);
+        put_short(demo_fp, &t);
+        put_short(demo_fp, &c);
+
         fseek(demo_fp, 0, SEEK_END);
     }
 }
@@ -275,39 +282,59 @@ void demo_play_stop(const char *name)
 
 /*---------------------------------------------------------------------------*/
 
-static char             demo_replay_name[MAXNAM];
-static struct demo_head demo_replay_head;
+static char demo_replay_name[MAXSTR];
 
 int demo_replay_init(const char *name, int *s, int *c, int *b, int *g)
 {
+    char shot[PATHMAX];
+    char file[PATHMAX];
+    char back[PATHMAX];
+    char grad[PATHMAX];
+    char song[PATHMAX];
+
+    int   magic;
+    short zero;
+    short st;
+    short sg;
+    short ss;
+    short sc;
+    short sb;
+    
     if ((demo_fp = fopen(config_user(name), FMODE_RB)))
     {
-        fread(&demo_replay_head, 1, sizeof (struct demo_head), demo_fp);
+        strncpy(demo_replay_name, name, MAXSTR);
 
-        if (demo_replay_head.magic == MAGIC)
+        get_int(demo_fp, &magic);
+
+        if (magic == MAGIC)
         {
-            strncpy(demo_replay_name, name, MAXNAM);
+            get_short(demo_fp, &zero);
+            get_short(demo_fp, &zero);
 
-            if (s) *s = demo_replay_head.score;
-            if (c) *c = demo_replay_head.coins;
-            if (b) *b = demo_replay_head.balls;
-            if (g) *g = demo_replay_head.goal;
+            fread(shot, 1, PATHMAX, demo_fp);
+            fread(file, 1, PATHMAX, demo_fp);
+            fread(back, 1, PATHMAX, demo_fp);
+            fread(grad, 1, PATHMAX, demo_fp);
+            fread(song, 1, PATHMAX, demo_fp);
+
+            get_short(demo_fp, &st);
+            get_short(demo_fp, &sg);
+            get_short(demo_fp, &ss);
+            get_short(demo_fp, &sc);
+            get_short(demo_fp, &sb);
+
+            if (g) *g = (int) sg;
+            if (s) *s = (int) ss;
+            if (c) *c = (int) sc;
+            if (b) *b = (int) sb;
 
             if (g)
             {
-                audio_music_fade_to(0.5f, demo_replay_head.song);
-                return game_init(demo_replay_head.file,
-                                 demo_replay_head.back,
-                                 demo_replay_head.grad,
-                                 demo_replay_head.clock, (*g == 0));
+                audio_music_fade_to(0.5f, song);
+                return game_init(file, back, grad, st, (*g == 0));
             }
             else
-            {
-                return game_init(demo_replay_head.file,
-                                 demo_replay_head.back,
-                                 demo_replay_head.grad,
-                                 demo_replay_head.clock, 1);
-            }
+                return game_init(file, back, grad, st, 1);
         }
         fclose(demo_fp);
     }
@@ -318,16 +345,21 @@ int demo_replay_step(float *dt)
 {
     const float g[3] = { 0.0f, -9.8f, 0.0f };
 
-    if (demo_fp && float_get(demo_fp, dt))
+    if (demo_fp)
     {
-        /* Play out current game state for particles, clock, etc. */
+        get_float(demo_fp, dt);
 
-        game_step(g, *dt, 1);
+        if (feof(demo_fp) == 0)
+        {
+            /* Play out current game state for particles, clock, etc. */
 
-        /* Load real curren game stat from file. */
+            game_step(g, *dt, 1);
 
-        if (game_get(demo_fp))
-            return 1;
+            /* Load real current game state from file. */
+            
+            if (get_game_state(demo_fp))
+                return 1;
+        }
     }
     return 0;
 }

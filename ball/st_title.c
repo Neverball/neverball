@@ -188,9 +188,9 @@ static void title_point(int id, int x, int y, int dx, int dy)
 
 static void title_stick(int id, int a, int v)
 {
-    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
         gui_pulse(gui_stick(id, 0, v), 1.2f);
 }
 
@@ -210,9 +210,9 @@ static int title_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return title_action(gui_token(gui_click()));
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return 0;
     }
     return 1;
@@ -239,9 +239,9 @@ static int help_enter(void)
 
     const char *k0 = "Spacebar";
     const char *k1 = "Escape";
-    const char *k2 = SDL_GetKeyName(config_get(CONFIG_KEY_CAMERA_1));
-    const char *k3 = SDL_GetKeyName(config_get(CONFIG_KEY_CAMERA_2));
-    const char *k4 = SDL_GetKeyName(config_get(CONFIG_KEY_CAMERA_3));
+    const char *k2 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_1));
+    const char *k3 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_2));
+    const char *k4 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_3));
 
     int id, jd;
 

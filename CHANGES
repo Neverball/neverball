@@ -1,4 +1,28 @@
 -------------------------------------------------------------------------------
+New in 1.3.1
+
+* Fixed Save Replay not allowing score count to complete.
+* Fixed bad unlock score in Mehdi 25.
+
+-------------------------------------------------------------------------------
+New in 1.3.0
+
+* Fixed replay header nonportable.
+
+-------------------------------------------------------------------------------
+New in 1.2.11
+
+* Rewrote SOL reader/writer to remove byte-order dependance.
+* Rewrote replay handler to remove byte-order dependance
+* Modified replay selector to ignore partial replays.
+* Added camera mode gamepad control.
+* Applied Mehdi's updates to several levels.
+* Generalized config string handling.  Added coin and ball option strings.
+* Added two new background music tracks.
+* Fixed broken set scoring.
+* Added Set Record screen.
+
+-------------------------------------------------------------------------------
 New in 1.2.10
 
 * Added caps lock key to keyboard.

@@ -221,6 +221,15 @@ values follow.
 
         Press F8 to toggle this flag in-game.
 
+    coin png/coin.png
+    ball png/ball.png
+
+        These keys determine the texture image applied to the coin and
+        ball.  If  you prefer collecting euros  to collecting dollars,
+        set:
+
+            coin png/euro_coin.png
+
     shadow 1
 
         This key determines the technique used when rendering the ball

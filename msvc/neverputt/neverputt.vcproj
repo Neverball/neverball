@@ -121,6 +121,9 @@
 				RelativePath="..\..\share\back.c">
 			</File>
 			<File
+				RelativePath="..\..\share\binary.c">
+			</File>
+			<File
 				RelativePath="..\..\share\config.c">
 			</File>
 			<File
@@ -175,6 +178,9 @@
 			</File>
 			<File
 				RelativePath="..\..\share\back.h">
+			</File>
+			<File
+				RelativePath="..\..\share\binary.h">
 			</File>
 			<File
 				RelativePath="..\..\share\config.h">

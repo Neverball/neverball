@@ -56,8 +56,8 @@ static void chunk_free(int i)
 
 void audio_init(void)
 {
-    int r = config_get(CONFIG_AUDIO_RATE);
-    int b = config_get(CONFIG_AUDIO_BUFF);
+    int r = config_get_d(CONFIG_AUDIO_RATE);
+    int b = config_get_d(CONFIG_AUDIO_BUFF);
 
     if (audio_state == 0)
     {
@@ -83,8 +83,8 @@ void audio_init(void)
 
             audio_state = 1;
 
-            audio_volume(config_get(CONFIG_SOUND_VOLUME),
-                         config_get(CONFIG_MUSIC_VOLUME));
+            audio_volume(config_get_d(CONFIG_SOUND_VOLUME),
+                         config_get_d(CONFIG_MUSIC_VOLUME));
         }
         else
         {
@@ -145,7 +145,7 @@ void audio_music_play(const char *filename)
     {
         audio_music_stop();
 
-        if ((config_get(CONFIG_MUSIC_VOLUME) > 0) &&
+        if ((config_get_d(CONFIG_MUSIC_VOLUME) > 0) &&
             (song = Mix_LoadMUS(config_data(filename))))
         {
             Mix_PlayMusic(song, -1);
@@ -227,7 +227,7 @@ void audio_timer(float dt)
             Mix_ResumeMusic();
             
         if (Mix_PlayingMusic())
-            Mix_VolumeMusic(config_get(CONFIG_MUSIC_VOLUME) *
+            Mix_VolumeMusic(config_get_d(CONFIG_MUSIC_VOLUME) *
                             (int) (fade_volume * MIX_MAX_VOLUME) / 10);
     }
 }

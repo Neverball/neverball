@@ -92,6 +92,9 @@ enum {
     CONFIG_JOYSTICK_BUTTON_R,
     CONFIG_JOYSTICK_BUTTON_L,
     CONFIG_JOYSTICK_BUTTON_EXIT,
+    CONFIG_JOYSTICK_CAMERA_1,
+    CONFIG_JOYSTICK_CAMERA_2,
+    CONFIG_JOYSTICK_CAMERA_3,
     CONFIG_KEY_CAMERA_1,
     CONFIG_KEY_CAMERA_2,
     CONFIG_KEY_CAMERA_3,
@@ -102,7 +105,15 @@ enum {
     CONFIG_VIEW_DC,
     CONFIG_VIEW_DZ,
 
-    CONFIG_OPTION_COUNT
+    CONFIG_OPTION_D_COUNT
+};
+
+enum {
+    CONFIG_PLAYER,
+    CONFIG_BALL,
+    CONFIG_COIN,
+
+    CONFIG_OPTION_S_COUNT
 };
 
 /*---------------------------------------------------------------------------*/
@@ -134,6 +145,9 @@ enum {
 #define DEFAULT_JOYSTICK_BUTTON_R    2
 #define DEFAULT_JOYSTICK_BUTTON_L    3
 #define DEFAULT_JOYSTICK_BUTTON_EXIT 4
+#define DEFAULT_JOYSTICK_CAMERA_1    5
+#define DEFAULT_JOYSTICK_CAMERA_2    6
+#define DEFAULT_JOYSTICK_CAMERA_3    7
 #define DEFAULT_KEY_CAMERA_1         SDLK_F1
 #define DEFAULT_KEY_CAMERA_2         SDLK_F2
 #define DEFAULT_KEY_CAMERA_3         SDLK_F3
@@ -144,6 +158,8 @@ enum {
 #define DEFAULT_VIEW_DC              25
 #define DEFAULT_VIEW_DZ              200
 #define DEFAULT_PLAYER               "Player"
+#define DEFAULT_BALL                 "png/ball.png"
+#define DEFAULT_COIN                 "png/coin.png"
 
 /*---------------------------------------------------------------------------*/
 
@@ -169,13 +185,13 @@ int  config_user_path(const char *);
 
 /*---------------------------------------------------------------------------*/
 
-void config_set(int, int);
-void config_tgl(int);
-int  config_tst(int, int);
-int  config_get(int);
+void config_set_d(int, int);
+void config_tgl_d(int);
+int  config_tst_d(int, int);
+int  config_get_d(int);
 
-void config_set_name(char *);
-void config_get_name(char *);
+void config_set_s(int, char *);
+void config_get_s(int, char *, int);
 
 /*---------------------------------------------------------------------------*/
 

@@ -115,7 +115,7 @@ void hud_paint(void)
     gui_paint(Rhud_id);
     gui_paint(time_id);
 
-    if (config_get(CONFIG_FPS))
+    if (config_get_d(CONFIG_FPS))
         gui_paint(fps_id);
 
     if (view_timer > 0.0f)
@@ -136,7 +136,7 @@ void hud_timer(float dt)
     if (gui_value(coin_id) != coins) gui_set_count(coin_id, coins);
     if (gui_value(goal_id) != goal)  gui_set_count(goal_id, goal);
 
-    if (config_get(CONFIG_FPS))
+    if (config_get_d(CONFIG_FPS))
         hud_fps();
 
     view_timer -= dt;

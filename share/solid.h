@@ -51,8 +51,8 @@
  *     x  Switch        (struct s_swch)
  *     r  Billboard     (struct s_bill)
  *     u  User          (struct s_ball)
- *     a  Text          (char)
  *     i  Index         (short)
+ *     a  Text          (char)
  *
  * The Ys are as follows:
  *
@@ -211,8 +211,8 @@ struct s_swch
 
 struct s_bill
 {
-    int   fl;
-    int   mi;
+    short fl;
+    short mi;
     float t;                                   /* repeat time interval       */
     float d;                                   /* distance                   */
 
@@ -285,8 +285,8 @@ struct s_file
     struct s_bill *rv;
     struct s_ball *uv;
     struct s_view *wv;
-    char          *av;
     short         *iv;
+    char          *av;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -308,14 +308,8 @@ int   sol_swch_test(struct s_file *, int, short);
 
 /*---------------------------------------------------------------------------*/
 
-int float_put(FILE *, float *);
-int float_get(FILE *, float *);
-
-int vector_put(FILE *, float[3]);
-int vector_get(FILE *, float[3]);
-
-int sol_put(FILE *, struct s_file *);
-int sol_get(FILE *, struct s_file *);
+void put_file_state(FILE *, struct s_file *);
+void get_file_state(FILE *, struct s_file *);
 
 /*---------------------------------------------------------------------------*/
 

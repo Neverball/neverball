@@ -36,6 +36,8 @@ struct set
     GLuint text;
 };
 
+static int set_state = 0;
+
 static int set;
 static int count;
 
@@ -46,6 +48,9 @@ static struct set set_v[MAXSET];
 void set_init()
 {
     FILE *fin;
+
+    if (set_state)
+        set_free();
 
     count = 0;
 
@@ -69,6 +74,8 @@ void set_init()
         }
 
         fclose(fin);
+
+        set_state = 1;
     }
 }
 
@@ -101,7 +108,9 @@ void set_free()
             set_v[i].text = 0;
         }
 
-    level_free(set_v[set].user_scores);
+    level_free();
+
+    set_state = 0;
 }
 
 /*---------------------------------------------------------------------------*/

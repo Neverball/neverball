@@ -4,7 +4,5 @@
 #include "state.h"
 
 extern struct state st_goal;
-extern struct state st_save;
-extern struct state st_clobber;
 
 #endif

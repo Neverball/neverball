@@ -26,8 +26,8 @@
 
 void image_snap(char *filename)
 {
-    int w = config_get(CONFIG_WIDTH);
-    int h = config_get(CONFIG_HEIGHT);
+    int w = config_get_d(CONFIG_WIDTH);
+    int h = config_get_d(CONFIG_HEIGHT);
     int i;
 
     SDL_Surface *buf = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
@@ -73,7 +73,7 @@ static const GLenum format[5] = {
  */
 GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
 {
-    int t = config_get(CONFIG_TEXTURES);
+    int t = config_get_d(CONFIG_TEXTURES);
 
     GLuint o = 0;
 

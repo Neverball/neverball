@@ -86,9 +86,9 @@ static int play_ready_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_play_loop);
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_state(&st_over);
     }
     return 1;
@@ -154,9 +154,9 @@ static int play_set_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_play_loop);
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_state(&st_over);
     }
     return 1;
@@ -210,9 +210,9 @@ static void play_loop_timer(int id, float dt)
 
     switch (game_step(g, at, 1))
     {
-    case GAME_TIME: goto_state(&st_time_out); break;
-    case GAME_FALL: goto_state(&st_fall_out); break;
-    case GAME_GOAL: goto_state(&st_goal);     break;
+    case GAME_TIME: level_stat(GAME_TIME); goto_state(&st_time_out); break;
+    case GAME_FALL: level_stat(GAME_FALL); goto_state(&st_fall_out); break;
+    case GAME_GOAL: level_stat(GAME_GOAL); goto_state(&st_goal);     break;
     }
 
     game_step_fade(dt);
@@ -227,9 +227,9 @@ static void play_loop_point(int id, int x, int y, int dx, int dy)
 
 static void play_loop_stick(int id, int a, int k)
 {
-    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         game_set_z(k);
-    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
         game_set_x(k);
 }
 
@@ -243,32 +243,32 @@ static int play_loop_keybd(int c, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_KEY_CAMERA_R, c))
+        if (config_tst_d(CONFIG_KEY_CAMERA_R, c))
             view_rotate = +1;
-        if (config_tst(CONFIG_KEY_CAMERA_L, c))
+        if (config_tst_d(CONFIG_KEY_CAMERA_L, c))
             view_rotate = -1;
 
-        if (config_tst(CONFIG_KEY_CAMERA_1, c))
+        if (config_tst_d(CONFIG_KEY_CAMERA_1, c))
         {
-            config_set(CONFIG_CAMERA, 0);
+            config_set_d(CONFIG_CAMERA, 0);
             hud_view_pulse(0);
         }
-        if (config_tst(CONFIG_KEY_CAMERA_2, c))
+        if (config_tst_d(CONFIG_KEY_CAMERA_2, c))
         {
-            config_set(CONFIG_CAMERA, 1);
+            config_set_d(CONFIG_CAMERA, 1);
             hud_view_pulse(1);
         }
-        if (config_tst(CONFIG_KEY_CAMERA_3, c))
+        if (config_tst_d(CONFIG_KEY_CAMERA_3, c))
         {
-            config_set(CONFIG_CAMERA, 2);
+            config_set_d(CONFIG_CAMERA, 2);
             hud_view_pulse(2);
         }
     }
     else
     {
-        if (config_tst(CONFIG_KEY_CAMERA_R, c))
+        if (config_tst_d(CONFIG_KEY_CAMERA_R, c))
             view_rotate = 0;
-        if (config_tst(CONFIG_KEY_CAMERA_L, c))
+        if (config_tst_d(CONFIG_KEY_CAMERA_L, c))
             view_rotate = 0;
     }
 
@@ -283,19 +283,35 @@ static int play_loop_buttn(int b, int d)
 {
     if (d == 1)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_state(&st_over);
 
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_R, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R, b))
             view_rotate = +1;
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_L, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L, b))
             view_rotate = -1;
+
+        if (config_tst_d(CONFIG_JOYSTICK_CAMERA_1, b))
+        {
+            config_set_d(CONFIG_CAMERA, 0);
+            hud_view_pulse(0);
+        }
+        if (config_tst_d(CONFIG_JOYSTICK_CAMERA_2, b))
+        {
+            config_set_d(CONFIG_CAMERA, 1);
+            hud_view_pulse(1);
+        }
+        if (config_tst_d(CONFIG_JOYSTICK_CAMERA_3, b))
+        {
+            config_set_d(CONFIG_CAMERA, 2);
+            hud_view_pulse(2);
+        }
     }
     else
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_R, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R, b))
             view_rotate = 0;
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_L, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L, b))
             view_rotate = 0;
     }
     return 1;
@@ -324,8 +340,8 @@ static void look_paint(int id, float st)
 
 static void look_point(int id, int x, int y, int dx, int dy)
 {
-    phi   +=  90.0f * dy / config_get(CONFIG_HEIGHT);
-    theta += 180.0f * dx / config_get(CONFIG_WIDTH);
+    phi   +=  90.0f * dy / config_get_d(CONFIG_HEIGHT);
+    theta += 180.0f * dx / config_get_d(CONFIG_WIDTH);
 
     if (phi > +90.0f) phi = +90.0f;
     if (phi < -90.0f) phi = -90.0f;

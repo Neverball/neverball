@@ -27,6 +27,7 @@
 #include "solid.h"
 #include "level.h"
 #include "config.h"
+#include "binary.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -72,10 +73,10 @@ static void view_init(void)
     view_a  = 0.f;
     view_ry = 0.f;
 
-    view_fov = (float) config_get(CONFIG_VIEW_FOV);
-    view_dp  = (float) config_get(CONFIG_VIEW_DP) / 100.0f;
-    view_dc  = (float) config_get(CONFIG_VIEW_DC) / 100.0f;
-    view_dz  = (float) config_get(CONFIG_VIEW_DZ) / 100.0f;
+    view_fov = (float) config_get_d(CONFIG_VIEW_FOV);
+    view_dp  = (float) config_get_d(CONFIG_VIEW_DP) / 100.0f;
+    view_dc  = (float) config_get_d(CONFIG_VIEW_DC) / 100.0f;
+    view_dz  = (float) config_get_d(CONFIG_VIEW_DZ) / 100.0f;
     view_k   = 1.0f;
 
     view_c[0] = 0.f;
@@ -130,15 +131,15 @@ int game_init(const char *file_name,
     fade_k =  1.0f;
     fade_d = -2.0f;
 
-    part_init_goal(GOAL_HEIGHT);
+    part_reset(GOAL_HEIGHT);
     view_init();
-    back_init(grad_name, config_get(CONFIG_GEOMETRY));
+    back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
 
     if (sol_load(&back, config_data(back_name),
-                 config_get(CONFIG_TEXTURES), 0) &&
+                 config_get_d(CONFIG_TEXTURES), 0) &&
         sol_load(&file, config_data(file_name),
-                 config_get(CONFIG_TEXTURES),
-                 config_get(CONFIG_SHADOW)))
+                 config_get_d(CONFIG_TEXTURES),
+                 config_get_d(CONFIG_SHADOW)))
         return (game_state = 1);
     else
         return (game_state = 0);
@@ -171,7 +172,7 @@ char *curr_intro(void)
 
 static void game_draw_balls(const struct s_file *fp)
 {
-    float c[4] = { 1.0f, 1.0f, 1.0f, 0.5f };
+    float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
     float M[16];
 
     m_basis(M, fp->uv[0].e[0], fp->uv[0].e[1], fp->uv[0].e[2]);
@@ -352,7 +353,7 @@ static void game_draw_back(int pose, int d, const float p[3])
         shad_draw_clr();
         glColor4fv(c);
 
-        if (config_get(CONFIG_BACKGROUND))
+        if (config_get_d(CONFIG_BACKGROUND))
         {
             /* Draw all background layers back to front. */
 
@@ -405,7 +406,7 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
             else
             {
                 shad_draw_set(ball_p, ball_r);
-                sol_draw(&file, config_get(CONFIG_SHADOW));
+                sol_draw(&file, config_get_d(CONFIG_SHADOW));
                 shad_draw_clr();
             }
 
@@ -462,7 +463,7 @@ void game_draw(int pose, float st)
             glRotatef(ry, 0.f, 1.f, 0.f);
             glTranslatef(-view_c[0], -view_c[1], -view_c[2]);
 
-            if (config_get(CONFIG_REFLECTION))
+            if (config_get_d(CONFIG_REFLECTION))
             {
                 /* Draw the mirror only into the stencil buffer. */
 
@@ -499,7 +500,7 @@ void game_draw(int pose, float st)
             /* Draw the scene normally. */
 
             game_draw_light();
-            game_refl_all(pose ? 0 : config_get(CONFIG_SHADOW));
+            game_refl_all(pose ? 0 : config_get_d(CONFIG_SHADOW));
             game_draw_back(pose,         +1, pup);
             game_draw_fore(pose, rx, ry, +1, pup);
         }
@@ -552,7 +553,7 @@ static void game_update_view(float dt)
     v_cpy(view_c, file.uv->p);
     v_inv(view_v, file.uv->v);
 
-    switch (config_get(CONFIG_CAMERA))
+    switch (config_get_d(CONFIG_CAMERA))
     {
     case 1: /* Camera 1:  Viewpoint chases the ball position. */
 
@@ -798,8 +799,8 @@ void game_set_pos(int x, int y)
 {
     float bound = 20.f;
 
-    game_ix += 40.f * y / config_get(CONFIG_MOUSE_SENSE);
-    game_iz += 40.f * x / config_get(CONFIG_MOUSE_SENSE);
+    game_ix += 40.f * y / config_get_d(CONFIG_MOUSE_SENSE);
+    game_iz += 40.f * x / config_get_d(CONFIG_MOUSE_SENSE);
 
     if (game_ix > +bound) game_ix = +bound;
     if (game_ix < -bound) game_ix = -bound;
@@ -885,6 +886,12 @@ void game_look(float phi, float theta)
 
 /*---------------------------------------------------------------------------*/
 
+void game_kill_fade(void)
+{
+    fade_k = 0.0f;
+    fade_d = 0.0f;
+}
+
 void game_step_fade(float dt)
 {
     if ((fade_k < 1.0f && fade_d > 0.0f) ||
@@ -910,22 +917,44 @@ void game_fade(float d)
 
 /*---------------------------------------------------------------------------*/
 
-int game_put(FILE *fout)
+int put_game_state(FILE *fout)
 {
-    return game_state ? (float_put(fout, &game_rx) &&
-                         float_put(fout, &game_rz) &&
-                         vector_put(fout, view_c)  &&
-                         vector_put(fout, view_p)  &&
-                         sol_put(fout, &file)) : 0;
+    if (game_state)
+    {
+        /* Write the view and tilt state. */
+
+        put_float(fout, &game_rx);
+        put_float(fout, &game_rz);
+        put_array(fout,  view_c, 3);
+        put_array(fout,  view_p, 3);
+
+        /* Write the game simulation state. */
+
+        put_file_state(fout, &file);
+
+        return 1;
+    }
+    return 0;
 }
 
-int game_get(FILE *fin)
+int get_game_state(FILE *fin)
 {
-    return game_state ? (float_get(fin, &game_rx) &&
-                         float_get(fin, &game_rz) &&
-                         vector_get(fin, view_c)  &&
-                         vector_get(fin, view_p)  &&
-                         sol_get(fin, &file)) : 0;
+    if (game_state)
+    {
+        /* Read the view and tilt state. */
+
+        get_float(fin, &game_rx);
+        get_float(fin, &game_rz);
+        get_array(fin,  view_c, 3);
+        get_array(fin,  view_p, 3);
+
+        /* Read the game simulation state. */
+
+        get_file_state(fin, &file);
+
+        return (feof(fin) ? 0 : 1);
+    }
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -77,7 +77,7 @@ static int loop(void)
             {
             case SDL_MOUSEMOTION:
                 d = st_point(+e.motion.x,
-                             -e.motion.y + config_get(CONFIG_HEIGHT),
+                             -e.motion.y + config_get_d(CONFIG_HEIGHT),
                              +e.motion.xrel,
                              -e.motion.yrel);
                 break;
@@ -93,9 +93,9 @@ static int loop(void)
             case SDL_KEYDOWN:
                 switch (e.key.keysym.sym)
                 {
-                case SDLK_F10: d = shot();              break;
-                case SDLK_F9:  config_tgl(CONFIG_FPS);  break;
-                case SDLK_F8:  config_tgl(CONFIG_NICE); break;
+                case SDLK_F10: d = shot();                break;
+                case SDLK_F9:  config_tgl_d(CONFIG_FPS);  break;
+                case SDLK_F8:  config_tgl_d(CONFIG_NICE); break;
                 
                 default:
                     d = st_keybd(e.key.keysym.sym);
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
 
                 /* Cache Neverball's camera setting. */
 
-                camera = config_get(CONFIG_CAMERA);
+                camera = config_get_d(CONFIG_CAMERA);
 
                 /* Initialize the audio. */
 
@@ -145,9 +145,9 @@ int main(int argc, char *argv[])
 
                 /* Initialize the video. */
 
-                if (config_mode(config_get(CONFIG_FULLSCREEN),
-                                config_get(CONFIG_WIDTH),
-                                config_get(CONFIG_HEIGHT)))
+                if (config_mode(config_get_d(CONFIG_FULLSCREEN),
+                                config_get_d(CONFIG_WIDTH),
+                                config_get_d(CONFIG_HEIGHT)))
                 {
                     int t1, t0 = SDL_GetTicks();
 
@@ -168,7 +168,7 @@ int main(int argc, char *argv[])
 
                             t0 = t1;
 
-                            if (config_get(CONFIG_NICE))
+                            if (config_get_d(CONFIG_NICE))
                                 SDL_Delay(1);
                         }
                 }
@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 
                 /* Restore Neverball's camera setting. */
 
-                config_set(CONFIG_CAMERA, camera);
+                config_set_d(CONFIG_CAMERA, camera);
                 config_save();
 
                 SDL_Quit();

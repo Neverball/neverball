@@ -50,7 +50,7 @@ static float rnd(float l, float h)
 
 /*---------------------------------------------------------------------------*/
 
-void part_init_goal(float h)
+void part_reset(float h)
 {
     int i;
 
@@ -75,6 +75,8 @@ void part_init_goal(float h)
         part_goal[i].v[0] = 0.f;
         part_goal[i].v[1] = 0.f;
         part_goal[i].v[2] = 0.f;
+
+        part_coin[i].t    = 0.0f;
     }
 }
 
@@ -106,7 +108,7 @@ void part_init(float h)
     }
     glEndList();
 
-    part_init_goal(h);
+    part_reset(h);
 }
 
 void part_free(void)

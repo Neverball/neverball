@@ -97,9 +97,9 @@ static int loop(void)
             {
             case SDL_MOUSEMOTION:
                 st_point(+e.motion.x,
-                         -e.motion.y + config_get(CONFIG_HEIGHT),
+                         -e.motion.y + config_get_d(CONFIG_HEIGHT),
                          +e.motion.xrel,
-                         config_get(CONFIG_MOUSE_INVERT)
+                         config_get_d(CONFIG_MOUSE_INVERT)
                          ? +e.motion.yrel : -e.motion.yrel);
                 break;
 
@@ -115,25 +115,25 @@ static int loop(void)
                 
                 switch (e.key.keysym.sym)
                 {
-                case SDLK_F10:   shot();                  break;
-                case SDLK_F9:    config_tgl(CONFIG_FPS);  break;
-                case SDLK_F8:    config_tgl(CONFIG_NICE); break;
-                case SDLK_F7:    toggle_wire();           break;
+                case SDLK_F10:   shot();                    break;
+                case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
+                case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
+                case SDLK_F7:    toggle_wire();             break;
                 
                 case SDLK_RETURN:
-                    d = st_buttn(config_get(CONFIG_JOYSTICK_BUTTON_A), 1);
+                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
                     break;
                 case SDLK_LEFT:
-                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_X), -JOY_MAX);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -JOY_MAX);
                     break;
                 case SDLK_RIGHT:
-                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_X), +JOY_MAX);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +JOY_MAX);
                     break;
                 case SDLK_UP:
-                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_Y), -JOY_MAX);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -JOY_MAX);
                     break;
                 case SDLK_DOWN:
-                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_Y), +JOY_MAX);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +JOY_MAX);
                     break;
                              
                 default: 
@@ -146,15 +146,15 @@ static int loop(void)
                 switch (e.key.keysym.sym)
                 {
                 case SDLK_RETURN:
-                    d = st_buttn(config_get(CONFIG_JOYSTICK_BUTTON_A), 0);
+                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
                     break;
                 case SDLK_LEFT:
                 case SDLK_RIGHT:
-                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_X), 0);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
                     break;
                 case SDLK_DOWN:
                 case SDLK_UP:
-                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_Y), 0);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
                     break;
 
                 default:
@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
 
                 if (SDL_NumJoysticks() > 0)
                 {
-                    joy = SDL_JoystickOpen(config_get(CONFIG_JOYSTICK_DEVICE));
+                    joy=SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
                     if (joy)
                         SDL_JoystickEventState(SDL_ENABLE);
                 }
@@ -221,9 +221,9 @@ int main(int argc, char *argv[])
 
                 /* Initialize the video. */
 
-                if (config_mode(config_get(CONFIG_FULLSCREEN),
-                                config_get(CONFIG_WIDTH),
-                                config_get(CONFIG_HEIGHT)))
+                if (config_mode(config_get_d(CONFIG_FULLSCREEN),
+                                config_get_d(CONFIG_WIDTH),
+                                config_get_d(CONFIG_HEIGHT)))
                 {
                     int t1, t0 = SDL_GetTicks();
 
@@ -253,7 +253,7 @@ int main(int argc, char *argv[])
 
                             t0 = t1;
 
-                            if (config_get(CONFIG_NICE))
+                            if (config_get_d(CONFIG_NICE))
                                 SDL_Delay(1);
                         }
                 }

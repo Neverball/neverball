@@ -33,6 +33,7 @@ void gui_most_coins(int id, int n, int i)
     const float *c0 = gui_yel;
     const float *c1 = gui_grn;
     const float *c2 = gui_wht;
+    const float *c3 = gui_red;
 
     int j, jd, kd, ld, md;
 
@@ -46,29 +47,41 @@ void gui_most_coins(int id, int n, int i)
 
             if ((ld = gui_hstack(kd)))
             {
-                if ((md = gui_varray(ld)))
+                if ((md = gui_vstack(ld)))
                 {
-                    for (j = 0; j < n - 1; j++)
+                    for (j = 0; j < n - 2; j++)
                         coin_c[j] = gui_count(md, 1000, GUI_SML, 0);
 
-                    coin_c[j] = gui_count(md, 1000, GUI_SML, GUI_SE);
+                    coin_c[j++] = gui_count(md, 1000, GUI_SML, GUI_SE);
+                    gui_space(md);
+                    coin_c[j++] = gui_count(md, 1000, GUI_SML, GUI_RGT);
                 }
 
-                if ((md = gui_varray(ld)))
+                if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < n; j++)
-                        if (j == i)
+                        if      (i == j && i < n - 1)
                             coin_n[j] = gui_label(md, s, GUI_SML, 0, c1, c1);
+                        else if (i == j)
+                        {
+                            if (j == n - 1) gui_space(md);
+                            coin_n[j] = gui_label(md, s, GUI_SML, 0, c3, c3);
+                        }
                         else
+                        {
+                            if (j == n - 1) gui_space(md);
                             coin_n[j] = gui_label(md, s, GUI_SML, 0, c0, c2);
+                        }
                 }
 
-                if ((md = gui_varray(ld)))
+                if ((md = gui_vstack(ld)))
                 {
-                    for (j = 0; j < n - 1; j++)
+                    for (j = 0; j < n - 2; j++)
                         coin_t[j] = gui_clock(md, 359999, GUI_SML, 0);
 
-                    coin_t[j] = gui_clock(md, 359999,  GUI_SML, GUI_SW);
+                    coin_t[j++] = gui_clock(md, 359999,  GUI_SML, GUI_SW);
+                    gui_space(md);
+                    coin_t[j++] = gui_clock(md, 359999,  GUI_SML, GUI_LFT);
                 }
             }
         }
@@ -105,6 +118,7 @@ void gui_best_times(int id, int n, int i)
     const float *c0 = gui_yel;
     const float *c1 = gui_grn;
     const float *c2 = gui_wht;
+    const float *c3 = gui_red;
 
     int j, jd, kd, ld, md;
 
@@ -118,29 +132,41 @@ void gui_best_times(int id, int n, int i)
 
             if ((ld = gui_hstack(kd)))
             {
-                if ((md = gui_varray(ld)))
+                if ((md = gui_vstack(ld)))
                 {
-                    for (j = 0; j < n - 1; j++)
+                    for (j = 0; j < n - 2; j++)
                         time_t[j] = gui_clock(md, 359999, GUI_SML, 0);
 
-                    time_t[j] = gui_clock(md, 359999, GUI_SML, GUI_SE);
+                    time_t[j++] = gui_clock(md, 359999, GUI_SML, GUI_SE);
+                    gui_space(md);
+                    time_t[j++] = gui_clock(md, 359999, GUI_SML, GUI_RGT);
                 }
 
-                if ((md = gui_varray(ld)))
+                if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < n; j++)
-                        if (i == j)
+                        if      (i == j && i < n - 1)
                             time_n[j] = gui_label(md, s, GUI_SML, 0, c1, c1);
+                        else if (i == j)
+                        {
+                            if (j == n - 1) gui_space(md);
+                            time_n[j] = gui_label(md, s, GUI_SML, 0, c3, c3);
+                        }
                         else
+                        {
+                            if (j == n - 1) gui_space(md);
                             time_n[j] = gui_label(md, s, GUI_SML, 0, c0, c2);
+                        }
                 }
 
-                if ((md = gui_varray(ld)))
+                if ((md = gui_vstack(ld)))
                 {
-                    for (j = 0; j < n - 1; j++)
+                    for (j = 0; j < n - 2; j++)
                         time_c[j] = gui_count(md, 1000, GUI_SML, 0);
 
-                    time_c[j] = gui_count(md, 1000, GUI_SML, GUI_SW);
+                    time_c[j++] = gui_count(md, 1000, GUI_SML, GUI_SW);
+                    gui_space(md);
+                    time_c[j++] = gui_count(md, 1000, GUI_SML, GUI_LFT);
                 }
             }
         }
@@ -226,7 +252,7 @@ void gui_keyboard(int id)
             if ((ld = gui_hstack(kd)))
             {
                 gui_filler(ld);
-                gui_state(ld, "back", GUI_SML, GUI_BS, 0);
+                gui_state(ld, "<", GUI_SML, GUI_BS, 0);
                 keyd['Z'] = gui_state(ld, "Z", GUI_SML, 'Z', 0);
                 keyd['Y'] = gui_state(ld, "Y", GUI_SML, 'Y', 0);
                 keyd['X'] = gui_state(ld, "X", GUI_SML, 'X', 0);

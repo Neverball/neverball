@@ -48,8 +48,6 @@ static float jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 
-static GLuint shadow_text;              /* Shadow texture object             */
-
 /*---------------------------------------------------------------------------*/
 
 static void view_init(void)
@@ -85,23 +83,12 @@ void game_init(const char *s)
     jump_b = 0;
 
     view_init();
-    sol_load(&file, config_data(s), config_get(CONFIG_TEXTURES),
-                                    config_get(CONFIG_SHADOW));
-
-    shadow_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_SHADOW);
-
-    if (config_get(CONFIG_SHADOW) == 2)
-    {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    }
+    sol_load(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
+                                    config_get_d(CONFIG_SHADOW));
 }
 
 void game_free(void)
 {
-    if (glIsTexture(shadow_text))
-        glDeleteTextures(1, &shadow_text);
-
     sol_free(&file);
 }
 
@@ -273,60 +260,6 @@ static void game_draw_swchs(const struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * A note about lighting and shadow: technically speaking, it's wrong.
- * The  light  position  and   shadow  projection  behave  as  if  the
- * light-source rotates with the  floor.  However, the skybox does not
- * rotate, thus the light should also remain stationary.
- *
- * The  correct behavior  would eliminate  a significant  3D  cue: the
- * shadow of  the ball indicates  the ball's position relative  to the
- * floor even  when the ball is  in the air.  This  was the motivating
- * idea  behind the  shadow  in  the first  place,  so correct  shadow
- * projection would only magnify the problem.
- */
-
-static void game_set_shadow(const struct s_file *fp)
-{
-    const float *ball_p = fp->uv[ball].p;
-    const float  ball_r = fp->uv[ball].r;
-
-    if (glActiveTexture)
-    {
-        glActiveTexture(GL_TEXTURE1);
-        glMatrixMode(GL_TEXTURE);
-        {
-            float k = 0.5f / ball_r;
-
-            glEnable(GL_TEXTURE_2D);
-
-            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-            glBindTexture(GL_TEXTURE_2D, shadow_text);
-
-            glLoadIdentity();
-            glTranslatef(0.5f - ball_p[0] * k,
-                         0.5f - ball_p[2] * k, 0.0f);
-            glScalef(k, k, 1.0f);
-        }
-        glMatrixMode(GL_MODELVIEW);
-        glActiveTexture(GL_TEXTURE0);
-    }
-}
-
-static void game_clr_shadow(void)
-{
-    if (glActiveTexture)
-    {
-        glActiveTexture(GL_TEXTURE1);
-        {
-            glDisable(GL_TEXTURE_2D);
-        }
-        glActiveTexture(GL_TEXTURE0);
-    }
-}
-
-/*---------------------------------------------------------------------------*/
-
 void game_draw(int pose)
 {
     const float light_p[4] = { 8.f, 32.f, 8.f, 1.f };
@@ -368,9 +301,9 @@ void game_draw(int pose)
 
         /* Draw the floor. */
 
-        if (pose == 0) game_set_shadow(fp);
-        sol_draw(fp, config_get(CONFIG_SHADOW));
-        if (pose == 0) game_clr_shadow();
+        if (pose == 0) shad_draw_set(fp->uv[ball].p, fp->uv[ball].r);
+        sol_draw(fp, config_get_d(CONFIG_SHADOW));
+        if (pose == 0) shad_draw_clr();
 
         /* Draw the game elements. */
 
@@ -410,7 +343,7 @@ void game_update_view(float dt)
     v_cpy(view_c, file.uv[ball].p);
     v_inv(view_v, file.uv[ball].v);
 
-    switch (config_get(CONFIG_CAMERA))
+    switch (config_get_d(CONFIG_CAMERA))
     {
     case 2:
         /* Camera 2: View vector is given by view angle. */
@@ -600,7 +533,7 @@ void game_putt(void)
 
 void game_set_rot(int d)
 {
-    view_a += (float) (30.f * d) / config_get(CONFIG_MOUSE_SENSE);
+    view_a += (float) (30.f * d) / config_get_d(CONFIG_MOUSE_SENSE);
 }
 
 void game_clr_mag(void)
@@ -611,7 +544,7 @@ void game_clr_mag(void)
 
 void game_set_mag(int d)
 {
-    view_m -= (float) (1.f * d) / config_get(CONFIG_MOUSE_SENSE);
+    view_m -= (float) (1.f * d) / config_get_d(CONFIG_MOUSE_SENSE);
 
     if (view_m < 0.25)
         view_m = 0.25;

@@ -96,9 +96,9 @@ static void hud_draw_fps(void)
     }
     else count++;
 
-    hud_draw_small((fps / 100),      0,           config_get(CONFIG_HEIGHT) - small_h);
-    hud_draw_small((fps % 100) / 10, small_w,     config_get(CONFIG_HEIGHT) - small_h);
-    hud_draw_small((fps % 100) % 10, small_w * 2, config_get(CONFIG_HEIGHT) - small_h);
+    hud_draw_small((fps / 100),      0,           config_get_d(CONFIG_HEIGHT) - small_h);
+    hud_draw_small((fps % 100) / 10, small_w,     config_get_d(CONFIG_HEIGHT) - small_h);
+    hud_draw_small((fps % 100) % 10, small_w * 2, config_get_d(CONFIG_HEIGHT) - small_h);
 }
 
 void hud_draw(void)
@@ -112,7 +112,7 @@ void hud_draw(void)
             glDisable(GL_DEPTH_TEST);
             glEnable(GL_COLOR_MATERIAL);
 
-            if (config_get(CONFIG_FPS)) hud_draw_fps();
+            if (config_get_d(CONFIG_FPS)) hud_draw_fps();
         }
         glPopAttrib();
         glPopAttrib();

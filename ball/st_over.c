@@ -44,7 +44,7 @@ static int over_enter(void)
 
 static void over_leave(int id)
 {
-    level_exit();
+    level_exit(NULL, 0);
     gui_delete(id);
     set_free();
 }
@@ -78,11 +78,11 @@ static int over_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_title);
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_B, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return goto_state(&st_title);
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_state(&st_title);
     }
     return 1;

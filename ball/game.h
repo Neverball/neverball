@@ -33,11 +33,12 @@ void  game_set_fly(float);
 
 void  game_look(float, float);
 
+void  game_kill_fade(void);
 void  game_step_fade(float);
 void  game_fade(float);
 
-int game_put(FILE *);
-int game_get(FILE *);
+int   put_game_state(FILE *);
+int   get_game_state(FILE *);
 
 /*---------------------------------------------------------------------------*/
 

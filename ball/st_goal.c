@@ -24,14 +24,17 @@
 #include "config.h"
 
 #include "st_goal.h"
+#include "st_save.h"
 #include "st_over.h"
+#include "st_done.h"
 #include "st_title.h"
 #include "st_level.h"
 
 /*---------------------------------------------------------------------------*/
 
 #define GOAL_NEXT 2
-#define GOAL_SAVE 3
+#define GOAL_SAME 3
+#define GOAL_SAVE 4
 
 static int high;
 static int time_i;
@@ -48,21 +51,31 @@ static int goal_action(int i)
 
     audio_play(AUD_MENU, 1.0f);
 
-    config_get_name(player);
+    config_get_s(CONFIG_PLAYER, player, MAXNAM);
     l = strlen(player);
 
     switch (i)
     {
     case GOAL_SAVE:
+        while (level_count())
+            ;
         return goto_state(&st_save);
 
     case GOAL_NEXT:
         while (level_count())
             ;
-        if (level_pass(NULL))
+        if (level_exit(NULL, 1))
             return goto_state(&st_level);
         else
-            return goto_state(&st_title);
+            return goto_state(&st_done);
+
+    case GOAL_SAME:
+        while (level_count())
+            ;
+        if (level_exit(NULL, 0))
+            return goto_state(&st_level);
+        else
+            return goto_state(&st_done);
 
     case GUI_CL:
         gui_keyboard_lock();
@@ -73,10 +86,10 @@ static int goal_action(int i)
         {
             player[l - 1] = 0;
 
-            config_set_name(player);
-            level_name(player, time_i, coin_i);
-            set_most_coins(curr_level(), 3);
-            set_best_times(curr_level(), 3);
+            config_set_s(CONFIG_PLAYER, player);
+            level_name(curr_level(), player, time_i, coin_i);
+            set_most_coins(curr_level(), 4);
+            set_best_times(curr_level(), 4);
         }
         break;
 
@@ -86,10 +99,10 @@ static int goal_action(int i)
             player[l + 0] = gui_keyboard_char((char) i);
             player[l + 1] = 0;
 
-            config_set_name(player);
-            level_name(player, time_i, coin_i);
-            set_most_coins(curr_level(), 3);
-            set_best_times(curr_level(), 3);
+            config_set_s(CONFIG_PLAYER, player);
+            level_name(curr_level(), player, time_i, coin_i);
+            set_most_coins(curr_level(), 4);
+            set_best_times(curr_level(), 4);
         }
     }
     return 1;
@@ -97,13 +110,10 @@ static int goal_action(int i)
 
 static int goal_enter(void)
 {
-    const char *s0 = "Set Complete!";
     const char *s1 = "New Record";
     const char *s2 = "GOAL";
 
     int id, jd, kd;
-
-    level_stat();
 
     time_i = 3;
     coin_i = 3;
@@ -113,9 +123,7 @@ static int goal_enter(void)
     {
         int gid;
 
-        if (level_last())
-            gid = gui_label(id, s0, GUI_MED, GUI_ALL, gui_yel, gui_grn);
-        else if (high)
+        if (high)
             gid = gui_label(id, s1, GUI_MED, GUI_ALL, gui_grn, gui_grn);
         else
             gid = gui_label(id, s2, GUI_LRG, GUI_ALL, gui_blu, gui_grn);
@@ -126,27 +134,31 @@ static int goal_enter(void)
         {
             if ((kd = gui_harray(jd)))
             {
-                balls_id = gui_count(kd, curr_balls(), GUI_MED, GUI_RGT);
+                balls_id = gui_count(kd,  10, GUI_MED, GUI_RGT);
                 gui_label(kd, "Balls", GUI_SML, GUI_LFT, gui_wht, gui_wht);
             }
             if ((kd = gui_harray(jd)))
             {
-                score_id = gui_count(kd, curr_score(), GUI_MED, GUI_RGT);
+                score_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
                 gui_label(kd, "Score", GUI_SML, GUI_LFT, gui_wht, gui_wht);
             }
             if ((kd = gui_harray(jd)))
             {
-                coins_id = gui_count(kd, curr_coins(), GUI_MED, GUI_RGT);
+                coins_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
                 gui_label(kd, "Coins", GUI_SML, GUI_LFT, gui_wht, gui_wht);
             }
+
+            gui_set_count(balls_id, curr_balls());
+            gui_set_count(score_id, curr_score());
+            gui_set_count(coins_id, curr_coins());
         }
 
         gui_space(id);
 
         if ((jd = gui_harray(id)))
         {
-            gui_most_coins(jd, 3, coin_i);
-            gui_best_times(jd, 3, time_i);
+            gui_most_coins(jd, 4, coin_i);
+            gui_best_times(jd, 4, time_i);
         }
 
         gui_space(id);
@@ -154,9 +166,10 @@ static int goal_enter(void)
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, "Save Replay", GUI_SML, GOAL_SAVE, 0);
+            gui_state(jd, "Retry Level", GUI_SML, GOAL_SAME, 0);
 
             if (level_last())
-                gui_start(jd, "Main Menu",  GUI_SML, GOAL_NEXT, 0);
+                gui_start(jd, "Finish",  GUI_SML, GOAL_NEXT, 0);
             else
                 gui_start(jd, "Next Level", GUI_SML, GOAL_NEXT, 0);
         }
@@ -167,8 +180,8 @@ static int goal_enter(void)
         gui_pulse(gid, 1.2f);
     }
 
-    set_most_coins(curr_level(), 3);
-    set_best_times(curr_level(), 3);
+    set_most_coins(curr_level(), 4);
+    set_best_times(curr_level(), 4);
 
     audio_music_fade_out(2.0f);
     audio_play(AUD_GOAL, 1.0f);
@@ -241,9 +254,9 @@ static void goal_point(int id, int x, int y, int dx, int dy)
 
 static void goal_stick(int id, int a, int v)
 {
-    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
         gui_pulse(gui_stick(id, 0, v), 1.2f);
 }
 
@@ -265,242 +278,10 @@ static int goal_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goal_click(0, 1);
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_state(&st_over);
-    }
-    return 1;
-}
-
-/*---------------------------------------------------------------------------*/
-
-#define SAVE_SAVE   2
-#define SAVE_CANCEL 3
-
-static int  file_id;
-static char filename[MAXNAM];
-
-static int save_action(int i)
-{
-    size_t l = strlen(filename);
-
-    audio_play(AUD_MENU, 1.0f);
-
-    switch (i)
-    {
-    case SAVE_SAVE:
-        if (demo_exists(filename))
-            return goto_state(&st_clobber);
-        else
-        {
-            if (level_pass(filename))
-                return goto_state(&st_level);
-            else
-                return goto_state(&st_title);
-        }
-
-    case SAVE_CANCEL:
-        if (level_pass(NULL))
-            return goto_state(&st_level);
-        else
-            return goto_state(&st_title);
-
-    case GUI_CL:
-        gui_keyboard_lock();
-        break;
-
-    case GUI_BS:
-        if (l > 0)
-        {
-            filename[l - 1] = 0;
-            gui_set_label(file_id, filename);
-        }
-        break;
-
-    default:
-        if (l < MAXNAM - 1)
-        {
-            filename[l + 0] = gui_keyboard_char((char) i);
-            filename[l + 1] = 0;
-            gui_set_label(file_id, filename);
-        }
-    }
-    return 1;
-}
-
-static int save_enter(void)
-{
-    int id, jd;
-
-    demo_unique(filename);
-
-    if ((id = gui_vstack(0)))
-    {
-        gui_pulse(gui_label(id, "Save Replay", GUI_MED, GUI_ALL, 0, 0), 1.2f);
-
-        gui_space(id);
-        file_id = gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
-        gui_space(id);
-
-        if ((jd = gui_harray(id)))
-        {
-            gui_start(jd, "Cancel", GUI_SML, SAVE_CANCEL, 0);
-            gui_start(jd, "Save",   GUI_SML, SAVE_SAVE,   0);
-        }
-        gui_keyboard(id);
-        
-        gui_layout(id, 0, 0);
-    }
-
-    return id;
-}
-
-static void save_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void save_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
-static void save_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
-static void save_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void save_stick(int id, int a, int v)
-{
-    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int save_click(int b, int d)
-{
-    if (b <= 0 && d == 1)
-        return save_action(gui_token(gui_click()));
-    return 1;
-}
-
-static int save_keybd(int c, int d)
-{
-    if (d && c == SDLK_ESCAPE)
-        goto_state(&st_over);
-    return 1;
-}
-
-static int save_buttn(int b, int d)
-{
-    if (d)
-    {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
-            return save_click(0, 1);
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_over);
-    }
-    return 1;
-}
-
-/*---------------------------------------------------------------------------*/
-
-static int clobber_action(int i)
-{
-    audio_play(AUD_MENU, 1.0f);
-
-    if (i == SAVE_SAVE)
-    {
-            if (level_pass(filename))
-                return goto_state(&st_level);
-            else
-                return goto_state(&st_title);
-    }
-    return goto_state(&st_save);
-}
-
-static int clobber_enter(void)
-{
-    int id, jd, kd;
-
-    if ((id = gui_vstack(0)))
-    {
-        kd = gui_label(id, "Overwrite?", GUI_MED, GUI_ALL, gui_red, gui_red);
-
-        gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
-
-        if ((jd = gui_harray(id)))
-        {
-            gui_state(jd, "Yes", GUI_SML, SAVE_SAVE,   0);
-            gui_start(jd, "No",  GUI_SML, SAVE_CANCEL, 1);
-        }
-
-        gui_pulse(kd, 1.2f);
-        gui_layout(id, 0, 0);
-    }
-
-    return id;
-}
-
-static void clobber_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void clobber_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
-static void clobber_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
-static int clobber_keybd(int c, int d)
-{
-    return (d && c == SDLK_ESCAPE) ? clobber_action(SAVE_CANCEL) : 1;
-}
-
-static void clobber_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void clobber_stick(int id, int a, int v)
-{
-    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int clobber_click(int b, int d)
-{
-    if (d && b < 0)
-        return clobber_action(gui_token(gui_click()));
-    return 1;
-}
-
-static int clobber_buttn(int b, int d)
-{
-    if (d)
-    {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
-            return clobber_action(gui_token(gui_click()));
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return clobber_action(SAVE_CANCEL);
     }
     return 1;
 }
@@ -520,28 +301,3 @@ struct state st_goal = {
     1, 0
 };
 
-struct state st_save = {
-    save_enter,
-    save_leave,
-    save_paint,
-    save_timer,
-    save_point,
-    save_stick,
-    save_click,
-    save_keybd,
-    save_buttn,
-    1, 0
-};
-
-struct state st_clobber = {
-    clobber_enter,
-    clobber_leave,
-    clobber_paint,
-    clobber_timer,
-    clobber_point,
-    clobber_stick,
-    clobber_click,
-    clobber_keybd,
-    clobber_buttn,
-    1, 0
-};

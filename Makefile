@@ -26,6 +26,7 @@ MAPC_OBJS= \
 	share/vec3.o   \
 	share/solid.o  \
 	share/glext.o  \
+	share/binary.o \
 	share/config.o \
 	share/mapc.o
 BALL_OBJS= \
@@ -40,6 +41,7 @@ BALL_OBJS= \
 	share/menu.o    \
 	share/glext.o   \
 	share/config.o  \
+	share/binary.o  \
 	share/state.o   \
 	ball/audio.o    \
 	ball/hud.o      \
@@ -50,8 +52,10 @@ BALL_OBJS= \
 	ball/util.o     \
 	ball/st_conf.o  \
 	ball/st_demo.o  \
+	ball/st_save.o  \
 	ball/st_fail.o  \
 	ball/st_goal.o  \
+	ball/st_done.o  \
 	ball/st_level.o \
 	ball/st_over.o  \
 	ball/st_play.o  \
@@ -59,7 +63,6 @@ BALL_OBJS= \
 	ball/st_start.o \
 	ball/st_title.o \
 	ball/main.o
-
 PUTT_OBJS= \
 	share/vec3.o   \
 	share/text.o   \
@@ -71,6 +74,7 @@ PUTT_OBJS= \
 	share/menu.o   \
 	share/glext.o  \
 	share/config.o \
+	share/binary.o \
 	putt/audio.o   \
 	putt/hud.o     \
 	putt/game.o    \
@@ -135,31 +139,31 @@ SOLS= \
 	data/map-rlk/ring.sol     \
 	data/map-rlk/pipe.sol     \
 	data/map-rlk/title.sol    \
-	data/map-mym/descent.sol        \
-	data/map-mym/glass_tower.sol    \
-	data/map-mym/scrambling.sol     \
-	data/map-mym/trust.sol          \
-	data/map-mym/maze1.sol          \
-	data/map-mym/turn.sol           \
-	data/map-mym/loop1.sol          \
-	data/map-mym/free_fall.sol      \
-	data/map-mym/earth_quake.sol    \
-	data/map-mym/drive1.sol         \
-	data/map-mym/maze2.sol          \
-	data/map-mym/up.sol             \
-	data/map-mym/circuit2.sol       \
-	data/map-mym/comeback.sol       \
-	data/map-mym/maze3.sol          \
-	data/map-mym/assault_course.sol \
-	data/map-mym/narrow.sol         \
-	data/map-mym/loop2.sol          \
-	data/map-mym/drive2.sol         \
-	data/map-mym/running.sol        \
-	data/map-mym/circuit1.sol       \
-	data/map-mym/bombman.sol        \
-	data/map-mym/climb.sol          \
-	data/map-mym/dance.sol          \
-	data/map-mym/hard.sol           \
+	data/map-mym/assault.sol    \
+	data/map-mym/bombman.sol    \
+	data/map-mym/circuit1.sol   \
+	data/map-mym/circuit2.sol   \
+	data/map-mym/climb.sol      \
+	data/map-mym/comeback.sol   \
+	data/map-mym/dance2.sol     \
+	data/map-mym/dance1.sol     \
+	data/map-mym/descent.sol    \
+	data/map-mym/drive1.sol     \
+	data/map-mym/drive2.sol     \
+	data/map-mym/earthquake.sol \
+	data/map-mym/glasstower.sol \
+	data/map-mym/hard.sol       \
+	data/map-mym/loop1.sol      \
+	data/map-mym/loop2.sol      \
+	data/map-mym/maze1.sol      \
+	data/map-mym/maze2.sol      \
+	data/map-mym/narrow.sol     \
+	data/map-mym/running.sol    \
+	data/map-mym/scrambling.sol \
+	data/map-mym/snow.sol       \
+	data/map-mym/trust.sol      \
+	data/map-mym/turn.sol       \
+	data/map-mym/up.sol         \
 	data/map-putt/01_easy.sol    \
 	data/map-putt/02_uturn.sol   \
 	data/map-putt/03_kink.sol    \

@@ -35,7 +35,11 @@ static GLuint       ball_text;
 
 void ball_init(int b)
 {
-    ball_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_BALL);
+    char name[MAXSTR];
+
+    config_get_s(CONFIG_BALL, name, MAXSTR);
+
+    ball_text = make_image_from_file(NULL, NULL, NULL, NULL, name);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -263,9 +267,12 @@ void coin_color(float *c, int n)
 
 void coin_init(int b)
 {
+    char name[MAXSTR];
     int n = b ? 32 : 8;
 
-    coin_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_COIN);
+    config_get_s(CONFIG_COIN, name, MAXSTR);
+
+    coin_text = make_image_from_file(NULL, NULL, NULL, NULL, name);
     coin_list = glGenLists(1);
 
     glNewList(coin_list, GL_COMPILE);
@@ -609,7 +616,7 @@ void shad_init(void)
 {
     shad_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_SHAD);
 
-    if (config_get(CONFIG_SHADOW) == 2)
+    if (config_get_d(CONFIG_SHADOW) == 2)
     {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -624,7 +631,7 @@ void shad_free(void)
 
 void shad_draw_set(const float *p, float r)
 {
-    if (config_get(CONFIG_SHADOW))
+    if (config_get_d(CONFIG_SHADOW))
     {
         glActiveTexture(GL_TEXTURE1);
         glMatrixMode(GL_TEXTURE);
@@ -648,7 +655,7 @@ void shad_draw_set(const float *p, float r)
 
 void shad_draw_clr(void)
 {
-    if (config_get(CONFIG_SHADOW))
+    if (config_get_d(CONFIG_SHADOW))
     {
         glActiveTexture(GL_TEXTURE1);
         {
@@ -662,8 +669,8 @@ void shad_draw_clr(void)
 
 void fade_draw(float k)
 {
-    int w = config_get(CONFIG_WIDTH);
-    int h = config_get(CONFIG_HEIGHT);
+    int w = config_get_d(CONFIG_WIDTH);
+    int h = config_get_d(CONFIG_HEIGHT);
 
     if (k > 0.0f)
     {

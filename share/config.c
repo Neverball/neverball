@@ -34,8 +34,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int  option[CONFIG_OPTION_COUNT];
-static char player[MAXNAM];
+static int   option_d[CONFIG_OPTION_D_COUNT];
+static char *option_s[CONFIG_OPTION_S_COUNT];
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,12 +43,12 @@ static void config_key(const char *s, int i, int d)
 {
     int c;
 
-    option[i] = d;
+    config_set_d(i, d);
 
     for (c = 0; c < SDLK_LAST; c++)
         if (strcmp(s, SDL_GetKeyName(c)) == 0)
         {
-            option[i] = c;
+            config_set_d(i, c);
             break;
         }
 }
@@ -57,43 +57,51 @@ static void config_key(const char *s, int i, int d)
 
 void config_init(void)
 {
-    option[CONFIG_FULLSCREEN]        = DEFAULT_FULLSCREEN;
-    option[CONFIG_WIDTH]             = DEFAULT_WIDTH;
-    option[CONFIG_HEIGHT]            = DEFAULT_HEIGHT;
-    option[CONFIG_STEREO]            = DEFAULT_STEREO;
-    option[CONFIG_CAMERA]            = DEFAULT_CAMERA;
-    option[CONFIG_TEXTURES]          = DEFAULT_TEXTURES;
-    option[CONFIG_GEOMETRY]          = DEFAULT_GEOMETRY;
-    option[CONFIG_REFLECTION]        = DEFAULT_REFLECTION;
-    option[CONFIG_BACKGROUND]        = DEFAULT_BACKGROUND;
-    option[CONFIG_SHADOW]            = DEFAULT_SHADOW;
-    option[CONFIG_AUDIO_RATE]        = DEFAULT_AUDIO_RATE;
-    option[CONFIG_AUDIO_BUFF]        = DEFAULT_AUDIO_BUFF;
-    option[CONFIG_MOUSE_SENSE]       = DEFAULT_MOUSE_SENSE;
-    option[CONFIG_MOUSE_INVERT]      = DEFAULT_MOUSE_INVERT;
-    option[CONFIG_NICE]              = DEFAULT_NICE;
-    option[CONFIG_FPS]               = DEFAULT_FPS;
-    option[CONFIG_SOUND_VOLUME]      = DEFAULT_SOUND_VOLUME;
-    option[CONFIG_MUSIC_VOLUME]      = DEFAULT_MUSIC_VOLUME;
-    option[CONFIG_JOYSTICK]          = DEFAULT_JOYSTICK;
-    option[CONFIG_JOYSTICK_DEVICE]   = DEFAULT_JOYSTICK_DEVICE;
-    option[CONFIG_JOYSTICK_AXIS_X]   = DEFAULT_JOYSTICK_AXIS_X;
-    option[CONFIG_JOYSTICK_AXIS_Y]   = DEFAULT_JOYSTICK_AXIS_Y;
-    option[CONFIG_JOYSTICK_BUTTON_A] = DEFAULT_JOYSTICK_BUTTON_A;
-    option[CONFIG_JOYSTICK_BUTTON_B] = DEFAULT_JOYSTICK_BUTTON_B;
-    option[CONFIG_JOYSTICK_BUTTON_L] = DEFAULT_JOYSTICK_BUTTON_L;
-    option[CONFIG_JOYSTICK_BUTTON_R] = DEFAULT_JOYSTICK_BUTTON_R;
-    option[CONFIG_KEY_CAMERA_1]      = DEFAULT_KEY_CAMERA_1;
-    option[CONFIG_KEY_CAMERA_2]      = DEFAULT_KEY_CAMERA_2;
-    option[CONFIG_KEY_CAMERA_3]      = DEFAULT_KEY_CAMERA_3;
-    option[CONFIG_KEY_CAMERA_R]      = DEFAULT_KEY_CAMERA_R;
-    option[CONFIG_KEY_CAMERA_L]      = DEFAULT_KEY_CAMERA_L;
-    option[CONFIG_VIEW_FOV]          = DEFAULT_VIEW_FOV;
-    option[CONFIG_VIEW_DP]           = DEFAULT_VIEW_DP;
-    option[CONFIG_VIEW_DC]           = DEFAULT_VIEW_DC;
-    option[CONFIG_VIEW_DZ]           = DEFAULT_VIEW_DZ;
+    memset(option_d, 0, CONFIG_OPTION_D_COUNT * sizeof (int));
+    memset(option_s, 0, CONFIG_OPTION_S_COUNT * sizeof (char *));
 
-    strcpy(player, DEFAULT_PLAYER);
+    config_set_d(CONFIG_FULLSCREEN,           DEFAULT_FULLSCREEN);
+    config_set_d(CONFIG_WIDTH,                DEFAULT_WIDTH);
+    config_set_d(CONFIG_HEIGHT,               DEFAULT_HEIGHT);
+    config_set_d(CONFIG_STEREO,               DEFAULT_STEREO);
+    config_set_d(CONFIG_CAMERA,               DEFAULT_CAMERA);
+    config_set_d(CONFIG_TEXTURES,             DEFAULT_TEXTURES);
+    config_set_d(CONFIG_GEOMETRY,             DEFAULT_GEOMETRY);
+    config_set_d(CONFIG_REFLECTION,           DEFAULT_REFLECTION);
+    config_set_d(CONFIG_BACKGROUND,           DEFAULT_BACKGROUND);
+    config_set_d(CONFIG_SHADOW,               DEFAULT_SHADOW);
+    config_set_d(CONFIG_AUDIO_RATE,           DEFAULT_AUDIO_RATE);
+    config_set_d(CONFIG_AUDIO_BUFF,           DEFAULT_AUDIO_BUFF);
+    config_set_d(CONFIG_MOUSE_SENSE,          DEFAULT_MOUSE_SENSE);
+    config_set_d(CONFIG_MOUSE_INVERT,         DEFAULT_MOUSE_INVERT);
+    config_set_d(CONFIG_NICE,                 DEFAULT_NICE);
+    config_set_d(CONFIG_FPS,                  DEFAULT_FPS);
+    config_set_d(CONFIG_SOUND_VOLUME,         DEFAULT_SOUND_VOLUME);
+    config_set_d(CONFIG_MUSIC_VOLUME,         DEFAULT_MUSIC_VOLUME);
+    config_set_d(CONFIG_JOYSTICK,             DEFAULT_JOYSTICK);
+    config_set_d(CONFIG_JOYSTICK_DEVICE,      DEFAULT_JOYSTICK_DEVICE);
+    config_set_d(CONFIG_JOYSTICK_AXIS_X,      DEFAULT_JOYSTICK_AXIS_X);
+    config_set_d(CONFIG_JOYSTICK_AXIS_Y,      DEFAULT_JOYSTICK_AXIS_Y);
+    config_set_d(CONFIG_JOYSTICK_BUTTON_A,    DEFAULT_JOYSTICK_BUTTON_A);
+    config_set_d(CONFIG_JOYSTICK_BUTTON_B,    DEFAULT_JOYSTICK_BUTTON_B);
+    config_set_d(CONFIG_JOYSTICK_BUTTON_L,    DEFAULT_JOYSTICK_BUTTON_L);
+    config_set_d(CONFIG_JOYSTICK_BUTTON_R,    DEFAULT_JOYSTICK_BUTTON_R);
+    config_set_d(CONFIG_JOYSTICK_BUTTON_EXIT, DEFAULT_JOYSTICK_BUTTON_EXIT);
+    config_set_d(CONFIG_JOYSTICK_CAMERA_1,    DEFAULT_JOYSTICK_CAMERA_1);
+    config_set_d(CONFIG_JOYSTICK_CAMERA_2,    DEFAULT_JOYSTICK_CAMERA_2);
+    config_set_d(CONFIG_JOYSTICK_CAMERA_3,    DEFAULT_JOYSTICK_CAMERA_3);
+    config_set_d(CONFIG_KEY_CAMERA_1,         DEFAULT_KEY_CAMERA_1);
+    config_set_d(CONFIG_KEY_CAMERA_2,         DEFAULT_KEY_CAMERA_2);
+    config_set_d(CONFIG_KEY_CAMERA_3,         DEFAULT_KEY_CAMERA_3);
+    config_set_d(CONFIG_KEY_CAMERA_R,         DEFAULT_KEY_CAMERA_R);
+    config_set_d(CONFIG_KEY_CAMERA_L,         DEFAULT_KEY_CAMERA_L);
+    config_set_d(CONFIG_VIEW_FOV,             DEFAULT_VIEW_FOV);
+    config_set_d(CONFIG_VIEW_DP,              DEFAULT_VIEW_DP);
+    config_set_d(CONFIG_VIEW_DC,              DEFAULT_VIEW_DC);
+    config_set_d(CONFIG_VIEW_DZ,              DEFAULT_VIEW_DZ);
+    config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
+    config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
+    config_set_s(CONFIG_COIN,                 DEFAULT_COIN);
 }
 
 void config_load(void)
@@ -110,67 +118,74 @@ void config_load(void)
             if (sscanf(buf, "%s %s", key, val) == 2)
             {
                 if      (strcmp(key, "fullscreen")            == 0)
-                    option[CONFIG_FULLSCREEN]           = atoi(val);
+                    config_set_d(CONFIG_FULLSCREEN,           atoi(val));
                 else if (strcmp(key, "width")                 == 0)
-                    option[CONFIG_WIDTH]                = atoi(val);
+                    config_set_d(CONFIG_WIDTH,                atoi(val));
                 else if (strcmp(key, "height")                == 0)
-                    option[CONFIG_HEIGHT]               = atoi(val);
+                    config_set_d(CONFIG_HEIGHT,               atoi(val));
                 else if (strcmp(key, "stereo")                == 0)
-                    option[CONFIG_STEREO]               = atoi(val);
+                    config_set_d(CONFIG_STEREO,               atoi(val));
                 else if (strcmp(key, "camera")                == 0)
-                    option[CONFIG_CAMERA]               = atoi(val);
+                    config_set_d(CONFIG_CAMERA,               atoi(val));
                 else if (strcmp(key, "textures")              == 0)
-                    option[CONFIG_TEXTURES]             = atoi(val);
+                    config_set_d(CONFIG_TEXTURES,             atoi(val));
                 else if (strcmp(key, "geometry")              == 0)
-                    option[CONFIG_GEOMETRY]             = atoi(val);
+                    config_set_d(CONFIG_GEOMETRY,             atoi(val));
                 else if (strcmp(key, "reflection")            == 0)
-                    option[CONFIG_REFLECTION]           = atoi(val);
+                    config_set_d(CONFIG_REFLECTION,           atoi(val));
                 else if (strcmp(key, "background")            == 0)
-                    option[CONFIG_BACKGROUND]           = atoi(val);
+                    config_set_d(CONFIG_BACKGROUND,           atoi(val));
                 else if (strcmp(key, "shadow")                == 0)
-                    option[CONFIG_SHADOW]               = atoi(val);
+                    config_set_d(CONFIG_SHADOW,               atoi(val));
                 else if (strcmp(key, "audio_rate")            == 0)
-                    option[CONFIG_AUDIO_RATE]           = atoi(val);
+                    config_set_d(CONFIG_AUDIO_RATE,           atoi(val));
                 else if (strcmp(key, "audio_buff")            == 0)
-                    option[CONFIG_AUDIO_BUFF]           = atoi(val);
+                    config_set_d(CONFIG_AUDIO_BUFF,           atoi(val));
                 else if (strcmp(key, "mouse_sense")           == 0)
-                    option[CONFIG_MOUSE_SENSE]          = atoi(val);
+                    config_set_d(CONFIG_MOUSE_SENSE,          atoi(val));
                 else if (strcmp(key, "mouse_invert")          == 0)
-                    option[CONFIG_MOUSE_INVERT]         = atoi(val);
+                    config_set_d(CONFIG_MOUSE_INVERT,         atoi(val));
                 else if (strcmp(key, "nice")                  == 0)
-                    option[CONFIG_NICE]                 = atoi(val);
+                    config_set_d(CONFIG_NICE,                 atoi(val));
                 else if (strcmp(key, "fps")                   == 0)
-                    option[CONFIG_FPS]                  = atoi(val);
+                    config_set_d(CONFIG_FPS,                  atoi(val));
                 else if (strcmp(key, "sound_volume")          == 0)
-                    option[CONFIG_SOUND_VOLUME]         = atoi(val);
+                    config_set_d(CONFIG_SOUND_VOLUME,         atoi(val));
                 else if (strcmp(key, "music_volume")          == 0)
-                    option[CONFIG_MUSIC_VOLUME]         = atoi(val);
+                    config_set_d(CONFIG_MUSIC_VOLUME,         atoi(val));
                 else if (strcmp(key, "joystick")              == 0)
-                    option[CONFIG_JOYSTICK]             = atoi(val);
+                    config_set_d(CONFIG_JOYSTICK,             atoi(val));
                 else if (strcmp(key, "joystick_device")       == 0)
-                    option[CONFIG_JOYSTICK_DEVICE]      = atoi(val);
+                    config_set_d(CONFIG_JOYSTICK_DEVICE,      atoi(val));
                 else if (strcmp(key, "joystick_axis_x")       == 0)
-                    option[CONFIG_JOYSTICK_AXIS_X]      = atoi(val);
+                    config_set_d(CONFIG_JOYSTICK_AXIS_X,      atoi(val));
                 else if (strcmp(key, "joystick_axis_y")       == 0)
-                    option[CONFIG_JOYSTICK_AXIS_Y]      = atoi(val);
+                    config_set_d(CONFIG_JOYSTICK_AXIS_Y,      atoi(val));
                 else if (strcmp(key, "joystick_button_a")     == 0)
-                    option[CONFIG_JOYSTICK_BUTTON_A]    = atoi(val);
+                    config_set_d(CONFIG_JOYSTICK_BUTTON_A,    atoi(val));
                 else if (strcmp(key, "joystick_button_b")     == 0)
-                    option[CONFIG_JOYSTICK_BUTTON_B]    = atoi(val);
+                    config_set_d(CONFIG_JOYSTICK_BUTTON_B,    atoi(val));
                 else if (strcmp(key, "joystick_button_r")     == 0)
-                    option[CONFIG_JOYSTICK_BUTTON_R]    = atoi(val);
+                    config_set_d(CONFIG_JOYSTICK_BUTTON_R,    atoi(val));
                 else if (strcmp(key, "joystick_button_l")     == 0)
-                    option[CONFIG_JOYSTICK_BUTTON_L]    = atoi(val);
+                    config_set_d(CONFIG_JOYSTICK_BUTTON_L,    atoi(val));
                 else if (strcmp(key, "joystick_button_exit")  == 0)
-                    option[CONFIG_JOYSTICK_BUTTON_EXIT] = atoi(val);
+                    config_set_d(CONFIG_JOYSTICK_BUTTON_EXIT, atoi(val));
+                else if (strcmp(key, "joystick_camera_1")     == 0)
+                    config_set_d(CONFIG_JOYSTICK_CAMERA_1,    atoi(val));
+                else if (strcmp(key, "joystick_camera_2")     == 0)
+                    config_set_d(CONFIG_JOYSTICK_CAMERA_2,    atoi(val));
+                else if (strcmp(key, "joystick_camera_3")     == 0)
+                    config_set_d(CONFIG_JOYSTICK_CAMERA_3,    atoi(val));
                 else if (strcmp(key, "view_fov")              == 0)
-                    option[CONFIG_VIEW_FOV]             = atoi(val);
+                    config_set_d(CONFIG_VIEW_FOV,             atoi(val));
                 else if (strcmp(key, "view_dp")               == 0)
-                    option[CONFIG_VIEW_DP]              = atoi(val);
+                    config_set_d(CONFIG_VIEW_DP,              atoi(val));
                 else if (strcmp(key, "view_dc")               == 0)
-                    option[CONFIG_VIEW_DC]              = atoi(val);
+                    config_set_d(CONFIG_VIEW_DC,              atoi(val));
                 else if (strcmp(key, "view_dz")               == 0)
-                    option[CONFIG_VIEW_DZ]              = atoi(val);
+                    config_set_d(CONFIG_VIEW_DZ,              atoi(val));
+
                 else if (strcmp(key, "key_camera_1")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_1, DEFAULT_KEY_CAMERA_1);
                 else if (strcmp(key, "key_camera_2")  == 0)
@@ -181,8 +196,13 @@ void config_load(void)
                     config_key(val, CONFIG_KEY_CAMERA_R, DEFAULT_KEY_CAMERA_R);
                 else if (strcmp(key, "key_camera_l")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_L, DEFAULT_KEY_CAMERA_L);
+
                 else if (strcmp(key, "player") == 0)
-                    strncpy(player, val, MAXNAM);
+                    config_set_s(CONFIG_PLAYER, val);
+                else if (strcmp(key, "ball")   == 0)
+                    config_set_s(CONFIG_BALL,   val);
+                else if (strcmp(key, "coin")   == 0)
+                    config_set_s(CONFIG_COIN,   val);
             }
 
         fclose(fp);
@@ -196,78 +216,88 @@ void config_save(void)
     if ((fp = fopen(config_user(USER_CONFIG_FILE), "w")))
     {
         fprintf(fp, "fullscreen           %d\n",
-                option[CONFIG_FULLSCREEN]);
+                option_d[CONFIG_FULLSCREEN]);
         fprintf(fp, "width                %d\n",
-                option[CONFIG_WIDTH]);
+                option_d[CONFIG_WIDTH]);
         fprintf(fp, "height               %d\n",
-                option[CONFIG_HEIGHT]);
+                option_d[CONFIG_HEIGHT]);
         fprintf(fp, "stereo               %d\n",
-                option[CONFIG_STEREO]);
+                option_d[CONFIG_STEREO]);
         fprintf(fp, "camera               %d\n",
-                option[CONFIG_CAMERA]);
+                option_d[CONFIG_CAMERA]);
         fprintf(fp, "textures             %d\n",
-                option[CONFIG_TEXTURES]);
+                option_d[CONFIG_TEXTURES]);
         fprintf(fp, "geometry             %d\n",
-                option[CONFIG_GEOMETRY]);
+                option_d[CONFIG_GEOMETRY]);
         fprintf(fp, "reflection           %d\n",
-                option[CONFIG_REFLECTION]);
+                option_d[CONFIG_REFLECTION]);
         fprintf(fp, "background           %d\n",
-                option[CONFIG_BACKGROUND]);
+                option_d[CONFIG_BACKGROUND]);
         fprintf(fp, "shadow               %d\n",
-                option[CONFIG_SHADOW]);
+                option_d[CONFIG_SHADOW]);
         fprintf(fp, "audio_rate           %d\n",
-                option[CONFIG_AUDIO_RATE]);
+                option_d[CONFIG_AUDIO_RATE]);
         fprintf(fp, "audio_buff           %d\n",
-                option[CONFIG_AUDIO_BUFF]);
+                option_d[CONFIG_AUDIO_BUFF]);
         fprintf(fp, "mouse_sense          %d\n",
-                option[CONFIG_MOUSE_SENSE]);
+                option_d[CONFIG_MOUSE_SENSE]);
         fprintf(fp, "mouse_invert         %d\n",
-                option[CONFIG_MOUSE_INVERT]);
+                option_d[CONFIG_MOUSE_INVERT]);
         fprintf(fp, "nice                 %d\n",
-                option[CONFIG_NICE]);
+                option_d[CONFIG_NICE]);
         fprintf(fp, "fps                  %d\n",
-                option[CONFIG_FPS]);
+                option_d[CONFIG_FPS]);
         fprintf(fp, "sound_volume         %d\n",
-                option[CONFIG_SOUND_VOLUME]);
+                option_d[CONFIG_SOUND_VOLUME]);
         fprintf(fp, "music_volume         %d\n",
-                option[CONFIG_MUSIC_VOLUME]);
+                option_d[CONFIG_MUSIC_VOLUME]);
         fprintf(fp, "joystick             %d\n",
-                option[CONFIG_JOYSTICK]);
+                option_d[CONFIG_JOYSTICK]);
         fprintf(fp, "joystick_device      %d\n",
-                option[CONFIG_JOYSTICK_DEVICE]);
+                option_d[CONFIG_JOYSTICK_DEVICE]);
         fprintf(fp, "joystick_axis_x      %d\n",
-                option[CONFIG_JOYSTICK_AXIS_X]);
+                option_d[CONFIG_JOYSTICK_AXIS_X]);
         fprintf(fp, "joystick_axis_y      %d\n",
-                option[CONFIG_JOYSTICK_AXIS_Y]);
-        fprintf(fp, "joystick_button_r    %d\n",
-                option[CONFIG_JOYSTICK_BUTTON_R]);
-        fprintf(fp, "joystick_button_l    %d\n",
-                option[CONFIG_JOYSTICK_BUTTON_L]);
+                option_d[CONFIG_JOYSTICK_AXIS_Y]);
         fprintf(fp, "joystick_button_a    %d\n",
-                option[CONFIG_JOYSTICK_BUTTON_A]);
+                option_d[CONFIG_JOYSTICK_BUTTON_A]);
         fprintf(fp, "joystick_button_b    %d\n",
-                option[CONFIG_JOYSTICK_BUTTON_B]);
+                option_d[CONFIG_JOYSTICK_BUTTON_B]);
+        fprintf(fp, "joystick_button_r    %d\n",
+                option_d[CONFIG_JOYSTICK_BUTTON_R]);
+        fprintf(fp, "joystick_button_l    %d\n",
+                option_d[CONFIG_JOYSTICK_BUTTON_L]);
         fprintf(fp, "joystick_button_exit %d\n",
-                option[CONFIG_JOYSTICK_BUTTON_EXIT]);
+                option_d[CONFIG_JOYSTICK_BUTTON_EXIT]);
+        fprintf(fp, "joystick_camera_1    %d\n",
+                option_d[CONFIG_JOYSTICK_CAMERA_1]);
+        fprintf(fp, "joystick_camera_2    %d\n",
+                option_d[CONFIG_JOYSTICK_CAMERA_2]);
+        fprintf(fp, "joystick_camera_3    %d\n",
+                option_d[CONFIG_JOYSTICK_CAMERA_3]);
         fprintf(fp, "view_fov             %d\n",
-                option[CONFIG_VIEW_FOV]);
+                option_d[CONFIG_VIEW_FOV]);
         fprintf(fp, "view_dp              %d\n",
-                option[CONFIG_VIEW_DP]);
+                option_d[CONFIG_VIEW_DP]);
         fprintf(fp, "view_dc              %d\n",
-                option[CONFIG_VIEW_DC]);
+                option_d[CONFIG_VIEW_DC]);
         fprintf(fp, "view_dz              %d\n",
-                option[CONFIG_VIEW_DZ]);
+                option_d[CONFIG_VIEW_DZ]);
+
         fprintf(fp, "key_camera_1         %s\n",
-                SDL_GetKeyName(option[CONFIG_KEY_CAMERA_1]));
+                SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_1]));
         fprintf(fp, "key_camera_2         %s\n",
-                SDL_GetKeyName(option[CONFIG_KEY_CAMERA_2]));
+                SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_2]));
         fprintf(fp, "key_camera_3         %s\n",
-                SDL_GetKeyName(option[CONFIG_KEY_CAMERA_3]));
+                SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_3]));
         fprintf(fp, "key_camera_r         %s\n",
-                SDL_GetKeyName(option[CONFIG_KEY_CAMERA_R]));
+                SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_R]));
         fprintf(fp, "key_camrea_l         %s\n",
-                SDL_GetKeyName(option[CONFIG_KEY_CAMERA_L]));
-        fprintf(fp, "player               %s\n", player);
+                SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_L]));
+
+        fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
+        fprintf(fp, "ball                 %s\n", option_s[CONFIG_BALL]);
+        fprintf(fp, "coin                 %s\n", option_s[CONFIG_COIN]);
 
         fclose(fp);
     }
@@ -277,8 +307,8 @@ void config_save(void)
 
 int config_mode(int f, int w, int h)
 {
-    int stereo  = config_get(CONFIG_STEREO)     ? 1 : 0;
-    int stencil = config_get(CONFIG_REFLECTION) ? 1 : 0;
+    int stereo  = config_get_d(CONFIG_STEREO)     ? 1 : 0;
+    int stencil = config_get_d(CONFIG_REFLECTION) ? 1 : 0;
 
     SDL_GL_SetAttribute(SDL_GL_STEREO,       stereo);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, stencil);
@@ -287,10 +317,10 @@ int config_mode(int f, int w, int h)
 
     if (SDL_SetVideoMode(w, h, 0, SDL_OPENGL | (f ? SDL_FULLSCREEN : 0)))
     {
-        option[CONFIG_FULLSCREEN] = f;
-        option[CONFIG_WIDTH]      = w;
-        option[CONFIG_HEIGHT]     = h;
-        option[CONFIG_SHADOW]     = (option[CONFIG_SHADOW] & glext_init());
+        option_d[CONFIG_FULLSCREEN] = f;
+        option_d[CONFIG_WIDTH]      = w;
+        option_d[CONFIG_HEIGHT]     = h;
+        option_d[CONFIG_SHADOW]     = (option_d[CONFIG_SHADOW] & glext_init());
 
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
@@ -306,17 +336,17 @@ int config_mode(int f, int w, int h)
 
     /* If the mode failed, try it without stereo. */
 
-    else if (config_get(CONFIG_STEREO))
+    else if (config_get_d(CONFIG_STEREO))
     {
-        config_set(CONFIG_STEREO, 0);
+        config_set_d(CONFIG_STEREO, 0);
         return config_mode(f, w, h);
     }
 
     /* If that mode failed, try it without reflections. */
 
-    else if (config_get(CONFIG_REFLECTION))
+    else if (config_get_d(CONFIG_REFLECTION))
     {
-        config_set(CONFIG_REFLECTION, 0);
+        config_set_d(CONFIG_REFLECTION, 0);
         return config_mode(f, w, h);
     }
 
@@ -448,34 +478,42 @@ int config_user_path(const char *file)
 
 /*---------------------------------------------------------------------------*/
 
-void config_set(int i, int d)
+void config_set_d(int i, int d)
 {
-    option[i] = d;
+    option_d[i] = d;
 }
 
-void config_tgl(int i)
+void config_tgl_d(int i)
 {
-    option[i] = (option[i] ? 0 : 1);
+    option_d[i] = (option_d[i] ? 0 : 1);
 }
 
-int config_tst(int i, int d)
+int config_tst_d(int i, int d)
 {
-    return (option[i] == d) ? 1 : 0;
+    return (option_d[i] == d) ? 1 : 0;
 }
 
-int config_get(int i)
+int config_get_d(int i)
 {
-    return option[i];
+    return option_d[i];
 }
 
-void config_set_name(char *src)
+/*---------------------------------------------------------------------------*/
+
+void config_set_s(int i, char *src)
 {
-    strncpy(player, src, MAXNAM);
+    int len = (int) strlen(src);
+
+    if (option_s[i])
+        free(option_s[i]);
+
+    if ((option_s[i] = (char *) malloc(len + 1)))
+        strncpy(option_s[i], src, len + 1);
 }
 
-void config_get_name(char *dst)
+void config_get_s(int i, char *dst, int len)
 {
-    strncpy(dst, player, MAXNAM);
+    strncpy(dst, option_s[i], len);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -537,8 +575,8 @@ void config_tgl_pause(void)
 
 void config_push_persp(float fov, float n, float f)
 {
-    GLdouble w = (GLdouble) option[CONFIG_WIDTH];
-    GLdouble h = (GLdouble) option[CONFIG_HEIGHT];
+    GLdouble w = (GLdouble) option_d[CONFIG_WIDTH];
+    GLdouble h = (GLdouble) option_d[CONFIG_HEIGHT];
 
     glMatrixMode(GL_PROJECTION);
     {
@@ -551,8 +589,8 @@ void config_push_persp(float fov, float n, float f)
 
 void config_push_ortho(void)
 {
-    GLdouble w = (GLdouble) option[CONFIG_WIDTH];
-    GLdouble h = (GLdouble) option[CONFIG_HEIGHT];
+    GLdouble w = (GLdouble) option_d[CONFIG_WIDTH];
+    GLdouble h = (GLdouble) option_d[CONFIG_HEIGHT];
 
     glMatrixMode(GL_PROJECTION);
     {
@@ -574,7 +612,7 @@ void config_pop_matrix(void)
 
 void config_clear(void)
 {
-    if (option[CONFIG_REFLECTION])
+    if (option_d[CONFIG_REFLECTION])
         glClear(GL_COLOR_BUFFER_BIT |
                 GL_DEPTH_BUFFER_BIT |
                 GL_STENCIL_BUFFER_BIT);

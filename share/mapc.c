@@ -782,7 +782,7 @@ static void make_bill(struct s_file *fp,
         if (strcmp(k[i], "dist") == 0)
             sscanf(v[i], "%f", &rp->d);
         if (strcmp(k[i], "flag") == 0)
-            sscanf(v[i], "%d", &rp->fl);
+            sscanf(v[i], "%hd", &rp->fl);
 
         if (strcmp(k[i], "image") == 0)
         {

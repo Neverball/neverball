@@ -3,9 +3,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define IMG_COIN "png/coin.png"
-#define IMG_BALL "png/ball.png"
-#define IMG_DONE "png/eyeball.png"
 #define IMG_SHAD "png/shadow.png"
 
 #define BALL_FUDGE    0.001f

@@ -430,7 +430,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\data\map-mym\assault_course.map">
+				RelativePath="..\..\data\map-mym\assault.map">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -734,7 +734,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\data\map-mym\dance.map">
+				RelativePath="..\..\data\map-mym\dance1.map">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -749,6 +749,23 @@
 						Name="VCCustomBuildTool"
 						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
 "
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-mym\dance2.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
@@ -829,7 +846,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\data\map-mym\earth_quake.map">
+				RelativePath="..\..\data\map-mym\earthquake.map">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -924,25 +941,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\data\map-mym\free_fall.map">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
-"
-						Outputs="$(InputDir)\$(InputName).sol"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
-"
-						Outputs="$(InputDir)\$(InputName).sol"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\data\map-rlk\frogger.map">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -981,7 +979,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\data\map-mym\glass_tower.map">
+				RelativePath="..\..\data\map-mym\glasstower.map">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -1304,25 +1302,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\data\map-mym\maze3.map">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
-"
-						Outputs="$(InputDir)\$(InputName).sol"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
-"
-						Outputs="$(InputDir)\$(InputName).sol"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\data\map-rlk\mover.map">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1609,6 +1588,25 @@
 			</File>
 			<File
 				RelativePath="..\..\data\map-mym\scrambling.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-mym\snow.map">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool

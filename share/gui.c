@@ -216,7 +216,7 @@ void gui_init(void)
     const float *c0 = gui_yel;
     const float *c1 = gui_red;
 
-    int i, j, h = config_get(CONFIG_HEIGHT);
+    int i, j, h = config_get_d(CONFIG_HEIGHT);
 
     /* Initialize font rendering. */
 
@@ -713,8 +713,8 @@ static void gui_paused_up(int id)
 
     /* The pause widget fills the screen. */
 
-    widget[id].w = config_get(CONFIG_WIDTH);
-    widget[id].h = config_get(CONFIG_HEIGHT);
+    widget[id].w = config_get_d(CONFIG_WIDTH);
+    widget[id].h = config_get_d(CONFIG_HEIGHT);
 }
 
 static void gui_button_up(int id)
@@ -730,9 +730,9 @@ static void gui_button_up(int id)
 
     /* Padded text elements look a little nicer. */
 
-    if (widget[id].w < config_get(CONFIG_WIDTH))
+    if (widget[id].w < config_get_d(CONFIG_WIDTH))
         widget[id].w += radius;
-    if (widget[id].h < config_get(CONFIG_HEIGHT))
+    if (widget[id].h < config_get_d(CONFIG_HEIGHT))
         widget[id].h += radius;
 }
 
@@ -931,8 +931,8 @@ void gui_layout(int id, int xd, int yd)
 {
     int x, y;
 
-    int w, W = config_get(CONFIG_WIDTH);
-    int h, H = config_get(CONFIG_HEIGHT);
+    int w, W = config_get_d(CONFIG_WIDTH);
+    int h, H = config_get_d(CONFIG_HEIGHT);
 
     gui_widget_up(id);
 
@@ -1542,14 +1542,14 @@ int gui_stick(int id, int x, int y)
 
     /* Find a new active widget in the direction of joystick motion. */
 
-    if (-JOY_MID <= x && x <= +JOY_MID)
+    if (x && -JOY_MID <= x && x <= +JOY_MID)
         xflag = 1;
     else if (x < -JOY_MID && xflag && (jd = gui_stick_L(id, active)))
         xflag = 0;
     else if (x > +JOY_MID && xflag && (jd = gui_stick_R(id, active)))
         xflag = 0;
 
-    if (-JOY_MID <= y && y <= +JOY_MID)
+    if (y && -JOY_MID <= y && y <= +JOY_MID)
         yflag = 1;
     else if (y < -JOY_MID && yflag && (jd = gui_stick_U(id, active)))
         yflag = 0;

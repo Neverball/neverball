@@ -13,6 +13,7 @@
  */
 
 #include "gui.h"
+#include "set.h"
 #include "util.h"
 #include "game.h"
 #include "level.h"
@@ -58,15 +59,18 @@ static int start_action(int i)
         if (level_play(USER_REPLAY_FILE, i))
             return goto_state(&st_level);
         else
+        {
+            set_free();
             return goto_state(&st_title);
+        }
     }
     return 1;
 }
 
 static int start_enter(void)
 {
-    int w = config_get(CONFIG_WIDTH);
-    int h = config_get(CONFIG_HEIGHT);
+    int w = config_get_d(CONFIG_WIDTH);
+    int h = config_get_d(CONFIG_HEIGHT);
 
     int id, jd, kd, ld;
 
@@ -183,8 +187,8 @@ static void start_stick(int id, int a, int v)
 {
     int jd;
 
-    int x = (config_tst(CONFIG_JOYSTICK_AXIS_X, a)) ? v : 0;
-    int y = (config_tst(CONFIG_JOYSTICK_AXIS_Y, a)) ? v : 0;
+    int x = (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a)) ? v : 0;
+    int y = (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a)) ? v : 0;
 
     if ((jd = gui_stick(id, x, y)))
     {
@@ -230,11 +234,11 @@ static int start_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return start_action(gui_token(gui_click()));
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_B, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return goto_state(&st_title);
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_state(&st_title);
     }
     return 1;

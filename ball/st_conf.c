@@ -51,11 +51,11 @@ static int sound_id[11];
 
 static int conf_action(int i)
 {
-    int f = config_get(CONFIG_FULLSCREEN);
-    int w = config_get(CONFIG_WIDTH);
-    int h = config_get(CONFIG_HEIGHT);
-    int s = config_get(CONFIG_SOUND_VOLUME);
-    int m = config_get(CONFIG_MUSIC_VOLUME);
+    int f = config_get_d(CONFIG_FULLSCREEN);
+    int w = config_get_d(CONFIG_WIDTH);
+    int h = config_get_d(CONFIG_HEIGHT);
+    int s = config_get_d(CONFIG_SOUND_VOLUME);
+    int m = config_get_d(CONFIG_MUSIC_VOLUME);
     int r = 1;
 
     audio_play(AUD_MENU, 1.0f);
@@ -106,56 +106,56 @@ static int conf_action(int i)
 
     case CONF_TEXHI:
         goto_state(&st_null);
-        config_set(CONFIG_TEXTURES, 1);
+        config_set_d(CONFIG_TEXTURES, 1);
         goto_state(&st_conf);
         break;
 
     case CONF_TEXLO:
         goto_state(&st_null);
-        config_set(CONFIG_TEXTURES, 2);
+        config_set_d(CONFIG_TEXTURES, 2);
         goto_state(&st_conf);
         break;
 
     case CONF_GEOHI:
         goto_state(&st_null);
-        config_set(CONFIG_GEOMETRY, 1);
+        config_set_d(CONFIG_GEOMETRY, 1);
         goto_state(&st_conf);
         break;
 
     case CONF_GEOLO:
         goto_state(&st_null);
-        config_set(CONFIG_GEOMETRY, 0);
+        config_set_d(CONFIG_GEOMETRY, 0);
         goto_state(&st_conf);
         break;
 
     case CONF_REFON:
         goto_state(&st_null);
-        config_set(CONFIG_REFLECTION, 1);
+        config_set_d(CONFIG_REFLECTION, 1);
         goto_state(&st_conf);
         break;
 
     case CONF_REFOF:
         goto_state(&st_null);
-        config_set(CONFIG_REFLECTION, 0);
+        config_set_d(CONFIG_REFLECTION, 0);
         goto_state(&st_conf);
         break;
 
     case CONF_BACON:
         goto_state(&st_null);
-        config_set(CONFIG_BACKGROUND, 1);
+        config_set_d(CONFIG_BACKGROUND, 1);
         goto_state(&st_conf);
         break;
 
     case CONF_BACOF:
         goto_state(&st_null);
-        config_set(CONFIG_BACKGROUND, 0);
+        config_set_d(CONFIG_BACKGROUND, 0);
         goto_state(&st_conf);
         break;
 
     case CONF_AUDHI:
         audio_free();
-        config_set(CONFIG_AUDIO_RATE, 44100);
-        config_set(CONFIG_AUDIO_BUFF, AUDIO_BUFF_HI);
+        config_set_d(CONFIG_AUDIO_RATE, 44100);
+        config_set_d(CONFIG_AUDIO_BUFF, AUDIO_BUFF_HI);
         gui_toggle(audlo_id);
         gui_toggle(audhi_id);
         audio_init();
@@ -163,8 +163,8 @@ static int conf_action(int i)
 
     case CONF_AUDLO:
         audio_free();
-        config_set(CONFIG_AUDIO_RATE, 22050);
-        config_set(CONFIG_AUDIO_BUFF, AUDIO_BUFF_LO);
+        config_set_d(CONFIG_AUDIO_RATE, 22050);
+        config_set_d(CONFIG_AUDIO_BUFF, AUDIO_BUFF_LO);
         gui_toggle(audlo_id);
         gui_toggle(audhi_id);
         audio_init();
@@ -179,7 +179,7 @@ static int conf_action(int i)
         {
             int n = i - 100;
 
-            config_set(CONFIG_SOUND_VOLUME, n);
+            config_set_d(CONFIG_SOUND_VOLUME, n);
             audio_volume(n, m);
             audio_play(AUD_BUMP, 1.f);
 
@@ -190,7 +190,7 @@ static int conf_action(int i)
         {
             int n = i - 200;
 
-            config_set(CONFIG_MUSIC_VOLUME, n);
+            config_set_d(CONFIG_MUSIC_VOLUME, n);
             audio_volume(s, n);
             audio_play(AUD_BUMP, 1.f);
 
@@ -212,14 +212,14 @@ static int conf_enter(void)
     {
         if ((jd = gui_varray(id)))
         {
-            int w = config_get(CONFIG_WIDTH);
-            int t = config_get(CONFIG_TEXTURES);
-            int g = config_get(CONFIG_GEOMETRY);
-            int r = config_get(CONFIG_REFLECTION);
-            int b = config_get(CONFIG_BACKGROUND);
-            int a = config_get(CONFIG_AUDIO_RATE);
-            int s = config_get(CONFIG_SOUND_VOLUME);
-            int m = config_get(CONFIG_MUSIC_VOLUME);
+            int w = config_get_d(CONFIG_WIDTH);
+            int t = config_get_d(CONFIG_TEXTURES);
+            int g = config_get_d(CONFIG_GEOMETRY);
+            int r = config_get_d(CONFIG_REFLECTION);
+            int b = config_get_d(CONFIG_BACKGROUND);
+            int a = config_get_d(CONFIG_AUDIO_RATE);
+            int s = config_get_d(CONFIG_SOUND_VOLUME);
+            int m = config_get_d(CONFIG_MUSIC_VOLUME);
 
             if ((kd = gui_harray(jd)))
             {
@@ -303,7 +303,7 @@ static int conf_enter(void)
         }
         if ((jd = gui_vstack(id)))
         {
-            int f = config_get(CONFIG_FULLSCREEN);
+            int f = config_get_d(CONFIG_FULLSCREEN);
 
             if ((kd = gui_harray(jd)))
             {
@@ -330,7 +330,7 @@ static int conf_enter(void)
 
     /* Initialize the background. */
 
-    back_init("png/blues.png", config_get(CONFIG_GEOMETRY));
+    back_init("png/blues.png", config_get_d(CONFIG_GEOMETRY));
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
@@ -345,9 +345,9 @@ static void conf_leave(int id)
 
 static void conf_paint(int id, float st)
 {
-    config_push_persp((float) config_get(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+    config_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
-        back_draw(time_state());
+        back_draw(0);
     }
     config_pop_matrix();
     gui_paint(id);
@@ -366,9 +366,9 @@ static void conf_point(int id, int x, int y, int dx, int dy)
 
 static void conf_stick(int id, int a, int v)
 {
-    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
         gui_pulse(gui_stick(id, 0, v), 1.2f);
 }
 
@@ -388,11 +388,11 @@ static int conf_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return conf_action(gui_token(gui_click()));
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_B, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return goto_state(&st_title);
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_state(&st_title);
     }
     return 1;
@@ -417,7 +417,7 @@ static int null_enter(void)
 
 static void null_leave(int id)
 {
-    int g = config_get(CONFIG_GEOMETRY);
+    int g = config_get_d(CONFIG_GEOMETRY);
 
     part_init(GOAL_HEIGHT);
     shad_init();

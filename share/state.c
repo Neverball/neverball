@@ -49,7 +49,7 @@ int goto_state(struct state *st)
 
 void st_paint(void)
 {
-    int stereo  = config_get(CONFIG_STEREO);
+    int stereo  = config_get_d(CONFIG_STEREO);
 
     if (state && state->paint)
     {

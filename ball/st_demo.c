@@ -70,8 +70,8 @@ static int demo_action(int i)
 
 static void demo_replay(int id, int i)
 {
-    int w = config_get(CONFIG_WIDTH);
-    int h = config_get(CONFIG_HEIGHT);
+    int w = config_get_d(CONFIG_WIDTH);
+    int h = config_get_d(CONFIG_HEIGHT);
     int jd;
 
     if ((jd = gui_vstack(id)))
@@ -167,9 +167,9 @@ static void demo_point(int id, int x, int y, int dx, int dy)
 
 static void demo_stick(int id, int a, int v)
 {
-    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
         gui_pulse(gui_stick(id, 0, v), 1.2f);
 }
 
@@ -191,9 +191,9 @@ static int demo_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return demo_click(0, 1);
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_state(&st_title);
     }
     return 1;
@@ -269,7 +269,7 @@ static int demo_play_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_state(&st_demo_end);
     }
     return 1;
@@ -345,9 +345,9 @@ static void demo_end_point(int id, int x, int y, int dx, int dy)
 
 static void demo_end_stick(int id, int a, int v)
 {
-    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
         gui_pulse(gui_stick(id, 0, v), 1.2f);
 }
 
@@ -362,9 +362,9 @@ static int demo_end_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return demo_end_action(gui_token(gui_click()));
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return demo_end_action(DEMO_KEEP);
     }
     return 1;
@@ -431,9 +431,9 @@ static void demo_del_point(int id, int x, int y, int dx, int dy)
 
 static void demo_del_stick(int id, int a, int v)
 {
-    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
         gui_pulse(gui_stick(id, 0, v), 1.2f);
 }
 
@@ -448,9 +448,9 @@ static int demo_del_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_A, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return demo_del_action(gui_token(gui_click()));
-        if (config_tst(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return demo_del_action(DEMO_KEEP);
     }
     return 1;

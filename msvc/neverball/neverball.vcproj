@@ -123,6 +123,9 @@
 				RelativePath="..\..\share\back.c">
 			</File>
 			<File
+				RelativePath="..\..\share\binary.c">
+			</File>
+			<File
 				RelativePath="..\..\share\config.c">
 			</File>
 			<File
@@ -174,6 +177,9 @@
 				RelativePath="..\..\ball\st_goal.c">
 			</File>
 			<File
+				RelativePath="..\..\ball\st_done.c">
+			</File>
+			<File
 				RelativePath="..\..\ball\st_level.c">
 			</File>
 			<File
@@ -181,6 +187,9 @@
 			</File>
 			<File
 				RelativePath="..\..\ball\st_play.c">
+			</File>
+			<File
+				RelativePath="..\..\ball\st_save.c">
 			</File>
 			<File
 				RelativePath="..\..\ball\st_set.c">
@@ -210,6 +219,9 @@
 			</File>
 			<File
 				RelativePath="..\..\share\back.h">
+			</File>
+			<File
+				RelativePath="..\..\share\binary.h">
 			</File>
 			<File
 				RelativePath="..\..\share\config.h">
@@ -260,6 +272,9 @@
 				RelativePath="..\..\ball\st_goal.h">
 			</File>
 			<File
+				RelativePath="..\..\ball\st_done.h">
+			</File>
+			<File
 				RelativePath="..\..\ball\st_high.h">
 			</File>
 			<File
@@ -270,6 +285,9 @@
 			</File>
 			<File
 				RelativePath="..\..\ball\st_play.h">
+			</File>
+			<File
+				RelativePath="..\..\ball\st_save.h">
 			</File>
 			<File
 				RelativePath="..\..\ball\st_set.h">
