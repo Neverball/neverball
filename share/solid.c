@@ -166,14 +166,14 @@ static void sol_draw_lump(const struct s_file *fp,
 }
 
 static void sol_draw_body(const struct s_file *fp,
-                          const struct s_body *bp, int t)
+                          const struct s_body *bp, int fl)
 {
     int mi, li;
 
     /* Iterate all materials of the correct opacity. */
 
     for (mi = 0; mi < fp->mc; mi++)
-        if (t == (fp->mv[mi].d[3] < 0.999) ? 1 : 0)
+        if ((fl == 0 && fp->mv[mi].fl == 0) || (fp->mv[mi].fl & fl))
         {
             /* Set the material state. */
 
@@ -193,9 +193,8 @@ static void sol_draw_body(const struct s_file *fp,
 /*---------------------------------------------------------------------------*/
 
 static void sol_draw_list(const struct s_file *fp,
-                          const struct s_body *bp, int t)
+                          const struct s_body *bp, int list)
 {
-    GLuint l = (t ? bp->tl : bp->ol);
     double p[3];
 
     sol_body_p(p, fp, bp);
@@ -222,8 +221,7 @@ static void sol_draw_list(const struct s_file *fp,
         
         /* Draw the body. */
 
-        if (glIsList(l))
-            glCallList(l);
+        glCallList(list);
 
         /* Pop the shadow translation. */
 
@@ -241,7 +239,6 @@ static void sol_draw_list(const struct s_file *fp,
     glPopMatrix();
 }
 
-
 void sol_draw(const struct s_file *fp)
 {
     int i;
@@ -250,23 +247,53 @@ void sol_draw(const struct s_file *fp)
     glPushAttrib(GL_COLOR_BUFFER_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
-        /* Render all obaque geometry into the color and depth buffers. */
+        /* Render all reflective geometry into the color and depth buffers. */
 
-        for (i = 0; i < fp->bc; i++)
-            sol_draw_list(fp, fp->bv + i, 0);
-
-        /* Render all translucent geometry into only the color buffer. */
-
-        glDepthMask(GL_FALSE);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         for (i = 0; i < fp->bc; i++)
-            sol_draw_list(fp, fp->bv + i, 1);
+            sol_draw_list(fp, fp->bv + i, fp->bv[i].rl);
+
+        /* Render all obaque geometry into the color and depth buffers. */
+
+        for (i = 0; i < fp->bc; i++)
+            sol_draw_list(fp, fp->bv + i, fp->bv[i].ol);
+
+        /* Render all translucent geometry into only the color buffer. */
+
+        glDepthMask(GL_FALSE);
+
+        for (i = 0; i < fp->bc; i++)
+            sol_draw_list(fp, fp->bv + i, fp->bv[i].tl);
     }
     glPopAttrib();
     glPopAttrib();
     glPopAttrib();
+}
+
+void sol_refl(const struct s_file *fp)
+{
+    double p[3];
+    int bi;
+
+    glDepthMask(GL_FALSE);
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    {
+        for (bi = 0; bi < fp->bc; bi++)
+        {
+            sol_body_p(p, fp, fp->bv + bi);
+
+            glPushMatrix();
+            {
+                glTranslated(p[0], p[1], p[2]);
+                glCallList(fp->bv[bi].rl);
+            }
+            glPopMatrix();
+        }
+    }
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glDepthMask(GL_TRUE);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -279,6 +306,7 @@ static void sol_load_objects(struct s_file *fp)
     {
         fp->bv[i].ol = glGenLists(1);
         fp->bv[i].tl = glGenLists(1);
+        fp->bv[i].rl = glGenLists(1);
 
         /* Draw all opaque geometry. */
 
@@ -292,7 +320,15 @@ static void sol_load_objects(struct s_file *fp)
 
         glNewList(fp->bv[i].tl, GL_COMPILE);
         {
-            sol_draw_body(fp, fp->bv + i, 1);
+            sol_draw_body(fp, fp->bv + i, M_TRANSPARENT);
+        }
+        glEndList();
+
+        /* Draw all reflective geometry. */
+
+        glNewList(fp->bv[i].rl, GL_COMPILE);
+        {
+            sol_draw_body(fp, fp->bv + i, M_REFLECTIVE);
         }
         glEndList();
     }
@@ -517,6 +553,8 @@ void sol_free(struct s_file *fp)
             glDeleteLists(fp->bv[i].ol, 1);
         if (glIsList(fp->bv[i].tl))
             glDeleteLists(fp->bv[i].tl, 1);
+        if (glIsList(fp->bv[i].rl))
+            glDeleteLists(fp->bv[i].rl, 1);
     }
 
     if (fp->mv) free(fp->mv);
@@ -976,7 +1014,7 @@ static double sol_test_lump(double dt,
 
     /* Short circuit a non-solid lump. */
 
-    if (lp->fl & 1) return t;
+    if (lp->fl & L_DETAIL) return t;
 
     /* Test all verts */
 

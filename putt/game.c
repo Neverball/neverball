@@ -88,6 +88,9 @@ void game_init(const char *s)
     sol_load(&file, s, config_text());
 
     shadow_text = make_image_from_file(NULL, NULL, IMG_SHADOW);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 }
 
 void game_free(void)
@@ -181,7 +184,7 @@ static void game_draw_balls(const struct s_file *fp)
                          fp->uv[ui].r,
                          fp->uv[ui].r);
 
-                glColor3fv(c_play[ui]);
+                glColor4fv(c_play[ui]);
 
                 ball_draw();
             }
@@ -351,7 +354,7 @@ void game_draw(int pose)
         glPushMatrix();
         {
             glTranslated(view_p[0], view_p[1], view_p[2]);
-            back_draw(0);
+            back_draw(0, 0);
         }
         glPopMatrix();
 

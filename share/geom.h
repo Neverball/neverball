@@ -7,7 +7,7 @@
 #define IMG_BALL "png/ball.png"
 #define IMG_DONE "png/eyeball.png"
 
-#define BALL_FUDGE    0.01
+#define BALL_FUDGE    0.001
 #define COIN_RADIUS   0.15
 #define COIN_THICK    0.01
 #define JUMP_HEIGHT   2.00

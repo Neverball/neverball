@@ -250,6 +250,7 @@ void part_draw_goal(double rx, double ry, double radius)
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
         glDisable(GL_LIGHTING);
+
         glEnable(GL_COLOR_MATERIAL);
 
         glDepthMask(GL_FALSE);

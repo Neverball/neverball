@@ -59,9 +59,9 @@ See below for details.
     SPACE  Pause and resume / Release mouse grab
     ESC    End a game / Exit
 
-    F1     Default Camera
-    F2     Lazy Camera
-    F3     Static Camera
+    F1     Default Camera                            (configurable)
+    F2     Lazy Camera                               (configurable)
+    F3     Static Camera                             (configurable)
 
     F9     Toggle frame counter
     F10    Snap a screenshot
@@ -147,23 +147,25 @@ default values follow.
 
         This key inverts the vertical mouse axis if set to 1.
 
-    camera 0
+    key_cam_1 f1
+    key_cam_2 f2
+    key_cam_3 f3
+    key_cam_l left
+    key_cam_r right
 
-        This   key   selects   from   3  different   camera   tracking
-        modes. Throughout development,  a few different camera control
-        strategies were tried.  Each  had its propents, but none could
-        claim a majority.
+        These keys  define keyboard mappings for  camera selection and
+        rotation.  Key  names are specified using  SDL's canonical key
+        naming convention.  The three camera behaviors are as follows:
 
-        0 - Strict  camera stays behind the ball by  cueing off of the
+        1 - Strict  camera stays behind the ball by  cueing off of the
         velocity of the  ball.  It is very  responsive,  but sometimes
-        confusing.  Press F1 to select this camera in-game.
+        confusing.
 
-        1 - Lazy  camera chases a point a set  distance from the ball.
+        2 - Lazy  camera chases a point a set  distance from the ball.
         It is seldom  surprising, but at times it  is not sufficiently
-        responsive.  Press F2 to select this camera in-game.
+        responsive.
 
-        2 - Locked camera  does not rotate  except by  player command.
-        Press F3 to select this camera in-game.
+        3 - Locked camera  does not rotate  except by  player command.
 
     fps 0
 

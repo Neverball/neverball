@@ -617,7 +617,7 @@ void level_snap(int i)
 
     /* Render the level and grab the screen. */
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_set_fly(1.0);
     game_draw(1, 0);
     SDL_GL_SwapBuffers();

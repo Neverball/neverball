@@ -171,28 +171,14 @@ static int loop(void)
             if (e.key.keysym.sym == SDLK_F10)   { d = shot();         break; }
             if (e.key.keysym.sym == SDLK_F9)    { config_tog_fps();   break; }
             if (e.key.keysym.sym == SDLK_F8)    { config_tog_nice();  break; }
-
-            if (e.key.keysym.sym == SDLK_F1)
-            {
-                config_set_view(0);
-                hud_view_pulse(0);
-                break;
-            }
-            if (e.key.keysym.sym == SDLK_F2)
-            {
-                config_set_view(1);
-                hud_view_pulse(1);
-                break;
-            }
-            if (e.key.keysym.sym == SDLK_F3)
-            {
-                config_set_view(2);
-                hud_view_pulse(2);
-                break;
-            }
             
             if (grabbed)
-                d = st_keybd(e.key.keysym.sym);
+                d = st_keybd(e.key.keysym.sym, 1);
+            break;
+
+        case SDL_KEYUP:
+            if (grabbed)
+                d = st_keybd(e.key.keysym.sym, 0);
             break;
 
         case SDL_ACTIVEEVENT:
@@ -229,10 +215,10 @@ int main(int argc, char *argv[])
 
     if (config_path(path, SET_FILE))
     {
-        config_load();
-
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
         {
+            config_load();
+
             /* Initialize the joystick. */
 
             if (SDL_NumJoysticks() > 0)
@@ -252,6 +238,7 @@ int main(int argc, char *argv[])
             SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
             SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
             SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
+            SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 1);
             SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
             SDL_GL_SetAttribute(SDL_GL_STEREO, config_stereo() ? 1 : 0);
 

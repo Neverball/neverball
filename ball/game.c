@@ -107,6 +107,9 @@ void game_init(const char *s, int t)
     clock = t;
 
     shadow_text = make_image_from_file(NULL, NULL, IMG_SHADOW);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 }
 
 void game_free(void)
@@ -288,7 +291,29 @@ static void game_clr_shadow(void)
 
 /*---------------------------------------------------------------------------*/
 
-void game_draw(int pose, double dy)
+static void game_refl_all(void)
+{
+    const double *ball_p = file.uv->p;
+    
+    glPushMatrix();
+    {
+        /* Rotate the environment about the position of the ball. */
+
+        glTranslated(+ball_p[0], +ball_p[1], +ball_p[2]);
+        glRotated(-game_rz, view_e[2][0], view_e[2][1], view_e[2][2]);
+        glRotated(-game_rx, view_e[0][0], view_e[0][1], view_e[0][2]);
+        glTranslated(-ball_p[0], -ball_p[1], -ball_p[2]);
+
+        /* Draw the floor. */
+
+        sol_refl(&file);
+    }
+    glPopMatrix();
+}
+
+/*---------------------------------------------------------------------------*/
+
+static void game_draw_light(void)
 {
     const float light_p[2][4] = {
         { -8.0f, +32.0f, -8.0f, 1.0f },
@@ -299,19 +324,102 @@ void game_draw(int pose, double dy)
         { 0.8f, 1.0f, 0.8f, 1.0f },
     };
 
-    const struct s_file *fp = &file;
+    /* Configure the lighting. */
+
+    glEnable(GL_LIGHTING);
+
+    glEnable(GL_LIGHT0);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_p[0]);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_c[0]);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_c[0]);
+
+    glEnable(GL_LIGHT1);
+    glLightfv(GL_LIGHT1, GL_POSITION, light_p[1]);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE,  light_c[1]);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
+}
+
+static void game_draw_all(int pose, double rx, double ry, int d)
+{
     const double *ball_p = file.uv->p;
     
+    glPushAttrib(GL_LIGHTING_BIT);
+    glPushAttrib(GL_COLOR_BUFFER_BIT);
+    {
+        glPushMatrix();
+        {
+            /* Center the skybox about the position of the camera. */
+            /*
+            glTranslated(view_p[0], view_p[1], view_p[2]);
+            */
+            game_clr_shadow();
+            back_draw(d, 0);
+        }
+        glPopMatrix();
+
+        glPushMatrix();
+        {
+            /* Rotate the environment about the position of the ball. */
+
+            glTranslated(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
+            glRotated(-game_rz * d, view_e[2][0], view_e[2][1], view_e[2][2]);
+            glRotated(-game_rx * d, view_e[0][0], view_e[0][1], view_e[0][2]);
+            glTranslated(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
+
+            if (d < 0)
+            {
+                GLdouble e[4];
+
+                e[0] = +0;
+                e[1] = +1;
+                e[2] = +0;
+                e[3] = -0.001;
+
+                glEnable(GL_CLIP_PLANE0);
+                glClipPlane(GL_CLIP_PLANE0, e);
+            }
+
+            /* Draw the floor. */
+
+            if (pose == 0) game_set_shadow(&file);
+            sol_draw(&file);
+            if (pose == 0) game_clr_shadow();
+
+            /* Draw the game elements. */
+
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+            if (pose == 0)
+            {
+                part_draw_coin(-rx * d, -ry);
+                game_draw_coins(&file);
+                game_draw_balls(&file);
+            }
+            game_draw_goals(&file, -rx * d, -ry);
+            game_draw_jumps(&file);
+            game_draw_swchs(&file);
+
+            glDisable(GL_CLIP_PLANE0);
+        }
+        glPopMatrix();
+    }
+    glPopAttrib();
+    glPopAttrib();
+}
+
+void game_draw(int pose, double dy)
+{
     double fov = FOV;
 
     if (jump_b) fov *= 2.0 * fabs(jump_dt - 0.5);
 
-    config_push_persp(fov, 0.1, 300.0);
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushAttrib(GL_COLOR_BUFFER_BIT);
+    config_push_persp(fov, 0.1, FAR_DIST);
     glPushMatrix();
     {
         double v[3], rx, ry;
+
+        /* Compute and apply the view. */
 
         v_sub(v, view_c, view_p);
 
@@ -323,61 +431,41 @@ void game_draw(int pose, double dy)
         glRotated(ry, 0.0, 1.0, 0.0);
         glTranslated(-view_c[0], -view_c[1], -view_c[2]);
 
-        /* Center the skybox about the position of the camera. */
-
-        glPushMatrix();
+        if (config_refl())
         {
-            glTranslated(view_p[0], view_p[1], view_p[2]);
-            game_clr_shadow();
-            back_draw(0);
+            /* Draw the mirror into the stencil buffer. */
+
+            glEnable(GL_STENCIL_TEST);
+            glStencilFunc(GL_ALWAYS, 1, 0xFFFFFFFF);
+            glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+
+            game_refl_all();
+
+            /* Draw the scene reflected. */
+
+            glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+            glStencilFunc(GL_EQUAL, 1, 0xFFFFFFFF);
+
+            glFrontFace(GL_CW);
+            glPushMatrix();
+            {
+                glScaled(+1.0, -1.0, +1.0);
+
+                game_draw_light();
+                game_draw_all(pose, rx, ry, -1);
+            }
+            glPopMatrix();
+            glFrontFace(GL_CCW);
+
+            glDisable(GL_STENCIL_TEST);
         }
-        glPopMatrix();
 
-        /* Rotate the environment about the position of the ball. */
+        /* Draw the scene normally. */
 
-        glTranslated(+ball_p[0], +ball_p[1], +ball_p[2]);
-        glRotated(-game_rz, view_e[2][0], view_e[2][1], view_e[2][2]);
-        glRotated(-game_rx, view_e[0][0], view_e[0][1], view_e[0][2]);
-        glTranslated(-ball_p[0], -ball_p[1], -ball_p[2]);
-
-        /* Configure the lighting. */
-
-        glEnable(GL_LIGHTING);
-
-        glEnable(GL_LIGHT0);
-        glLightfv(GL_LIGHT0, GL_POSITION, light_p[0]);
-        glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_c[0]);
-        glLightfv(GL_LIGHT0, GL_SPECULAR, light_c[0]);
-
-        glEnable(GL_LIGHT1);
-        glLightfv(GL_LIGHT1, GL_POSITION, light_p[1]);
-        glLightfv(GL_LIGHT1, GL_DIFFUSE,  light_c[1]);
-        glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
-
-        /* Draw the floor. */
-
-        if (pose == 0) game_set_shadow(fp);
-        sol_draw(fp);
-        if (pose == 0) game_clr_shadow();
-
-        /* Draw the game elements. */
-
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        if (pose == 0)
-        {
-            part_draw_coin(-rx, -ry);
-            game_draw_coins(fp);
-            game_draw_balls(fp);
-        }
-        game_draw_goals(fp, -rx, -ry);
-        game_draw_jumps(fp);
-        game_draw_swchs(fp);
+        game_draw_light();
+        game_draw_all(pose, rx, ry, +1);
     }
     glPopMatrix();
-    glPopAttrib();
-    glPopAttrib();
     config_pop_matrix();
 }
 
@@ -645,8 +733,8 @@ int game_step(const double g[3], double dt, int bt)
             audio_play(AUD_BUMP, (float) (b - 0.5) * 2.0f);
     }
 
-    game_update_view(t);
-    game_update_time(t, bt);
+    game_update_view(dt);
+    game_update_time(dt, bt);
 
     return game_update_state();
 }

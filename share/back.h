@@ -3,11 +3,12 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define BACK_DIST 150.0
+#define BACK_DIST  500.0
+#define FAR_DIST  1000.0
 
 void back_init(const char *, int);
 void back_free(void);
-void back_draw(double);
+void back_draw(int, double);
 
 /*---------------------------------------------------------------------------*/
 

@@ -47,6 +47,8 @@
 
 static char *path = ".";
 
+static int mirror = -1;
+
 /*
  * The overall design  of this map converter is  very stupid, but very
  * simple. It  begins by assuming  that every mtrl, vert,  edge, side,
@@ -433,12 +435,12 @@ static void read_mtrl(struct s_file *fp, const char *name)
                "%f %f %f %f "
                "%f %f %f %f "
                "%f %f %f %f "
-               "%f ",
+               "%f %d ",
                mp->d, mp->d + 1, mp->d + 2, mp->d + 3,
                mp->a, mp->a + 1, mp->a + 2, mp->a + 3,
                mp->s, mp->s + 1, mp->s + 2, mp->s + 3,
                mp->e, mp->e + 1, mp->e + 2, mp->e + 3,
-               mp->h);
+               mp->h, &mp->fl);
         fclose(fin);
 
         strncpy(mp->f, name, PATHMAX - 1);
@@ -1053,6 +1055,11 @@ static void clip_geom(struct s_file *fp,
 
     struct s_side *sp = fp->sv + si;
 
+    /* Note the mirror plane. */
+
+    if (fp->mv[si].fl & M_REFLECTIVE)
+        mirror = si;
+
     /* Find em. */
 
     for (i = 0; i < lp->vc; i++)
@@ -1154,7 +1161,8 @@ static void clip_lump(struct s_file *fp, struct s_lump *lp)
                       fp->iv[lp->s0 + i]);
 
     for (i = 0; i < lp->sc; i++)
-        lp->fl |= (plane_f[fp->iv[lp->s0 + i]] ? 1 : 0);
+        if (plane_f[fp->iv[lp->s0 + i]])
+            lp->fl |= L_DETAIL;
 }
 
 static void clip_file(struct s_file *fp)
@@ -1489,6 +1497,24 @@ static void uniq_file(struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
+static void sort_file(struct s_file *fp)
+{
+    struct s_side t;
+
+    /* Ensure that the mirror side, if any, is side 0. */
+
+    if (mirror > 0)
+    {
+        t              = fp->sv[mirror];
+        fp->sv[mirror] = fp->sv[0];
+        fp->sv[0]      =         t;
+
+        swap_side(fp, mirror, 0);
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
 static int test_lump_side(const struct s_file *fp,
                           const struct s_lump *lp,
                           const struct s_side *sp)
@@ -1536,8 +1562,6 @@ static int node_node(struct s_file *fp, int l0, int lc)
         fp->nv[fp->nc].nj = -1;
         fp->nv[fp->nc].l0 = l0;
         fp->nv[fp->nc].lc = lc;
-
-/*      printf("leaf %3d %3d\n", l0, l0 + lc); */
 
         return fp->nc++;
     }
@@ -1620,8 +1644,6 @@ static int node_node(struct s_file *fp, int l0, int lc)
         fp->nv[i].si = sj;
         fp->nv[i].ni = node_node(fp, li, lic);
 
-/*      printf("tree %3d %3d\n", lj, lj + ljc); */
-
         fp->nv[i].nj = node_node(fp, lk, lkc);
         fp->nv[i].l0 = lj;
         fp->nv[i].lc = ljc;
@@ -1677,6 +1699,7 @@ int main(int argc, char *argv[])
 
             clip_file(&f);
             move_file(&f);
+            sort_file(&f);
             uniq_file(&f);
             node_file(&f);
             dump_file(&f);

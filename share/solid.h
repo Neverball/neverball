@@ -18,7 +18,7 @@
 #include <SDL.h>
 #include "glext.h"
 
-#define PATHMAX 44
+#define PATHMAX 40
 
 /*
  * Some might  be taken  aback at  the terseness of  the names  of the
@@ -73,8 +73,15 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define M_TRANSPARENT 1
+#define M_REFLECTIVE  2
+
+#define L_DETAIL     1
+
 struct s_mtrl
 {
+    int fl;                                    /* material flags             */
+
     float a[4];                                /* ambient color              */
     float d[4];                                /* diffuse color              */
     float s[4];                                /* specular color             */
@@ -153,6 +160,7 @@ struct s_body
 
     GLuint ol;                                 /* opaque geometry list       */
     GLuint tl;                                 /* transparent geometry list  */
+    GLuint rl;                                 /* reflective geometry list   */
 
     int pi;
     int ni;
@@ -255,6 +263,7 @@ int    sol_stor(struct s_file *, const char *);
 void   sol_free(struct s_file *);
 
 void   sol_draw(const struct s_file *);
+void   sol_refl(const struct s_file *);
 double sol_step(struct s_file *, const double *, double, int, int *);
 
 int    sol_coin_test(struct s_file *, double *, double);

@@ -92,7 +92,6 @@ void ball_draw(void)
 
         /* Render the ball back to front in case it is translucent. */
 
-        glEnable(GL_CULL_FACE);
         glDepthMask(GL_FALSE);
 
         glCullFace(GL_FRONT);
@@ -102,14 +101,11 @@ void ball_draw(void)
 
         /* Render the ball into the depth buffer. */
 
-        glDisable(GL_CULL_FACE);
         glDepthMask(GL_TRUE);
         glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-
-        glCallList(ball_list);
-
-        /* ATI doesn't seem to Pop the color mask attrib. */
-
+        {
+            glCallList(ball_list);
+        }
         glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
         /* Ensure the ball is visible even when obscured by geometry. */
@@ -118,7 +114,6 @@ void ball_draw(void)
 
         glColor4f(1.0f, 1.0f, 1.0f, 0.1f);
         glCallList(ball_list);
-
     }
     glPopAttrib();
     glPopAttrib();
@@ -286,22 +281,20 @@ void coin_draw(int n)
 {
     double c[3], r = 360.0 * SDL_GetTicks() / 1000.0;
 
+    glPushMatrix();
     glPushAttrib(GL_LIGHTING_BIT);
     {
         glEnable(GL_COLOR_MATERIAL);
         glBindTexture(GL_TEXTURE_2D, coin_text);
 
-        glPushMatrix();
-        {
-            coin_color(c, n);
+        coin_color(c, n);
 
-            glRotated(r, 0.0, 1.0, 0.0);
-            glColor3dv(c);
-            glCallList(coin_list);
-        }
-        glPopMatrix();
+        glRotated(r, 0.0, 1.0, 0.0);
+        glColor3dv(c);
+        glCallList(coin_list);
     }
     glPopAttrib();
+    glPopMatrix();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -343,19 +336,16 @@ void goal_free(void)
 void goal_draw(void)
 {
     glPushAttrib(GL_TEXTURE_BIT);
-    glPushAttrib(GL_POLYGON_BIT);
     glPushAttrib(GL_LIGHTING_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
         glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
-        glDisable(GL_CULL_FACE);
         glDisable(GL_TEXTURE_2D);
         glDepthMask(GL_FALSE);
 
         glCallList(goal_list);
     }
-    glPopAttrib();
     glPopAttrib();
     glPopAttrib();
     glPopAttrib();
@@ -400,19 +390,16 @@ void jump_free(void)
 void jump_draw(void)
 {
     glPushAttrib(GL_TEXTURE_BIT);
-    glPushAttrib(GL_POLYGON_BIT);
     glPushAttrib(GL_LIGHTING_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
         glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
-        glDisable(GL_CULL_FACE);
         glDisable(GL_TEXTURE_2D);
         glDepthMask(GL_FALSE);
 
         glCallList(jump_list);
     }
-    glPopAttrib();
     glPopAttrib();
     glPopAttrib();
     glPopAttrib();
@@ -476,13 +463,11 @@ void swch_free(void)
 void swch_draw(int b)
 {
     glPushAttrib(GL_TEXTURE_BIT);
-    glPushAttrib(GL_POLYGON_BIT);
     glPushAttrib(GL_LIGHTING_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
         glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
-        glDisable(GL_CULL_FACE);
         glDisable(GL_TEXTURE_2D);
         glDepthMask(GL_FALSE);
 
@@ -491,7 +476,6 @@ void swch_draw(int b)
         else
             glCallList(swch_list);
     }
-    glPopAttrib();
     glPopAttrib();
     glPopAttrib();
     glPopAttrib();
@@ -545,17 +529,14 @@ void flag_free(void)
 void flag_draw(void)
 {
     glPushAttrib(GL_TEXTURE_BIT);
-    glPushAttrib(GL_POLYGON_BIT);
     glPushAttrib(GL_LIGHTING_BIT);
     {
         glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
-        glDisable(GL_CULL_FACE);
         glDisable(GL_TEXTURE_2D);
 
         glCallList(flag_list);
     }
-    glPopAttrib();
     glPopAttrib();
     glPopAttrib();
 }

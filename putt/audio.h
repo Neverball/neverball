@@ -40,6 +40,8 @@ void audio_music_play(const char *);
 void audio_music_fade(float);
 void audio_music_stop(void);
 
+void audio_volume(int, int);
+
 /*---------------------------------------------------------------------------*/
 
 #endif

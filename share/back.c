@@ -67,24 +67,33 @@ void back_free(void)
         glDeleteTextures(1, &back_text);
 }
 
-void back_draw(double t)
+void back_draw(int d, double t)
 {
-    glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
+    glPushAttrib(GL_LIGHTING_BIT);
+    glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
         GLfloat dx =  60.0f * (GLfloat) sin(t / 10.0) + 90.0f;
         GLfloat dz = 180.0f * (GLfloat) sin(t / 12.0);
 
         glDisable(GL_LIGHTING);
 
-        glScalef(BACK_DIST, BACK_DIST, BACK_DIST);
+        /*
+         * Being by definition far away, the reflected skysphere likes
+         * to Z-fight  with the normal  skysphere.  So, we  offset the
+         * reflected  sky  inward to  ensure  that  it  wins when  the
+         * stencil test passes.
+         */
+
+        glScalef(BACK_DIST + d, BACK_DIST + d, BACK_DIST + d);
         glRotatef(dz, 0.0f, 0.0f, 1.0f);
         glRotatef(dx, 1.0f, 0.0f, 0.0f);
 
         glCallList(back_list);
     }
-    glPopMatrix();
     glPopAttrib();
+    glPopAttrib();
+    glPopMatrix();
 }
 
 /*---------------------------------------------------------------------------*/

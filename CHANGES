@@ -1,4 +1,22 @@
 -------------------------------------------------------------------------------
+New in 1.2.4
+
+* Added camera control key binding to config file.
+* Fixed some braindead reflection handling code.
+* Fixed broken config menu.
+* Fixed sound volume adjustment crash when sound is disabled.
+* Fixed very stupid game timing bug that had been around far too long.
+
+-------------------------------------------------------------------------------
+New in 1.2.3
+
+* Added reflection material.
+* Added option to disable reflection materials.
+* Updated mapping documentation.
+* Changed shadow CLAMP_TO_EDGE to CLAMP to work around some bad drivers.
+* Added arrow key bindings for camera rotation.
+
+-------------------------------------------------------------------------------
 New in 1.2.2
 
 * Fixed a sneaky bug in menu memory that allowed unopened levels to be played.

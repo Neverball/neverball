@@ -98,9 +98,9 @@ int st_click(int b, int d)
     return (state && state->click) ? state->click(b, d) : 1;
 }
 
-int st_keybd(int c)
+int st_keybd(int c, int d)
 {
-    return (state && state->keybd) ? state->keybd(c) : 1;
+    return (state && state->keybd) ? state->keybd(c, d) : 1;
 }
 
 int st_stick(int a, int k)
@@ -229,7 +229,7 @@ static void title_leave(void)
 
 static void title_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     menu_paint();
 }
@@ -251,9 +251,9 @@ static int title_click(int b, int d)
     return (b < 0 && d == 1) ? title_action(menu_click()) : 1;
 }
 
-static int title_keybd(int c)
+static int title_keybd(int c, int d)
 {
-    return (c == SDLK_ESCAPE) ? 0 : 1;
+    return (d && c == SDLK_ESCAPE) ? 0 : 1;
 }
 
 static int title_stick(int a, int v)
@@ -296,9 +296,9 @@ static void help_enter(void)
 
     menu_text(4, -w / 4, +1 * h, c1, c1, "Spacebar", TXT_SML);
     menu_text(5, -w / 4,  0 * h, c1, c1, "Escape", TXT_SML);
-    menu_text(6, -w / 4, -2 * h, c1, c1, "F1", TXT_SML);
-    menu_text(7, -w / 4, -3 * h, c1, c1, "F2", TXT_SML);
-    menu_text(8, -w / 4, -4 * h, c1, c1, "F3", TXT_SML);
+    menu_text(6, -w / 4, -2 * h, c1, c1, config_get_key_cam_1(), TXT_SML);
+    menu_text(7, -w / 4, -3 * h, c1, c1, config_get_key_cam_2(), TXT_SML);
+    menu_text(8, -w / 4, -4 * h, c1, c1, config_get_key_cam_3(), TXT_SML);
 
     menu_text(9,  w / 8, +1 * h, c0, c0, "Pause / Release Pointer", TXT_SML);
     menu_text(10, w / 8,  0 * h, c0, c0, "Exit / Cancel Menu", TXT_SML);
@@ -321,11 +321,11 @@ static void help_leave(void)
 
 static void help_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    config_push_persp(FOV, 0.1, 300.0);
+    config_push_persp(FOV, 0.1, FAR_DIST);
     {
-        back_draw(time_state());
+        back_draw(0, time_state());
     }
     config_pop_matrix();
 
@@ -337,7 +337,7 @@ static int help_click(int b, int d)
     return d ? goto_state(&st_title) : 1;
 }
 
-static int help_keybd(int c)
+static int help_keybd(int c, int d)
 {
     return goto_state(&st_title);
 }
@@ -360,13 +360,15 @@ static int help_buttn(int b, int d)
 #define CONF_TEXLO 8
 #define CONF_GEOHI 9
 #define CONF_GEOLO 10
-#define CONF_AUDHI 11
-#define CONF_AUDLO 12
-#define CONF_SNDDN 13
-#define CONF_SNDUP 14
-#define CONF_MUSDN 15
-#define CONF_MUSUP 16
-#define CONF_BACK  17
+#define CONF_REFON 11
+#define CONF_REFOF 12
+#define CONF_AUDHI 13
+#define CONF_AUDLO 14
+#define CONF_SNDDN 15
+#define CONF_SNDUP 16
+#define CONF_MUSDN 17
+#define CONF_MUSUP 18
+#define CONF_BACK  19
 
 static int conf_value = CONF_FULL;
 
@@ -448,6 +450,18 @@ static int conf_action(int i)
         goto_state(&st_conf);
         break;
 
+    case CONF_REFON:
+        goto_state(&st_null);
+        config_set_refl(1);
+        goto_state(&st_conf);
+        break;
+
+    case CONF_REFOF:
+        goto_state(&st_null);
+        config_set_refl(0);
+        goto_state(&st_conf);
+        break;
+
     case CONF_AUDHI:
         audio_free();
         config_set_audio(44100, AUD_BUFF_HI);
@@ -465,31 +479,35 @@ static int conf_action(int i)
     case CONF_SNDDN:
         config_set_sound(config_sound() - 1);
         sprintf(str, "%02d", config_sound());
+        audio_volume(config_sound(), config_music());
 
-        menu_text(33, +w2, -3 * h, c_yellow, c_red, str, TXT_SML);
+        menu_text(36, +w2, -4 * h, c_yellow, c_red, str, TXT_SML);
         audio_play(AUD_BUMP, 1.f);
         break;
         
     case CONF_SNDUP:
         config_set_sound(config_sound() + 1);
         sprintf(str, "%02d", config_sound());
+        audio_volume(config_sound(), config_music());
 
-        menu_text(33, +w2, -3 * h, c_yellow, c_red, str, TXT_SML);
+        menu_text(36, +w2, -4 * h, c_yellow, c_red, str, TXT_SML);
         audio_play(AUD_BUMP, 1.f);
         break;
 
     case CONF_MUSDN:
         config_set_music(config_music() - 1);
         sprintf(str, "%02d", config_music());
+        audio_volume(config_sound(), config_music());
 
-        menu_text(34, +w2, -4 * h, c_yellow, c_red, str, TXT_SML);
+        menu_text(37, +w2, -5 * h, c_yellow, c_red, str, TXT_SML);
         break;
         
     case CONF_MUSUP:
         config_set_music(config_music() + 1);
         sprintf(str, "%02d", config_music());
+        audio_volume(config_sound(), config_music());
 
-        menu_text(34, +w2, -4 * h, c_yellow, c_red, str, TXT_SML);
+        menu_text(37, +w2, -5 * h, c_yellow, c_red, str, TXT_SML);
         break;
 
     case CONF_BACK:
@@ -517,7 +535,7 @@ static void conf_enter(void)
     sprintf(snds, "%02d", config_sound());
     sprintf(muss, "%02d", config_music());
 
-    menu_init(36, 25, conf_value);
+    menu_init(39, 28, conf_value);
     back_init("png/blues.png", config_geom());
 
     /* Text elements */
@@ -542,22 +560,25 @@ static void conf_enter(void)
     menu_text(17, +w2 + w4,  1 * h, c_white,  c_white,  "480",       TXT_SML);
     menu_text(18, -w2,       0 * h, c_yellow, c_red,   "Textures",   TXT_SML);
     menu_text(19, -w2,      -1 * h, c_yellow, c_red,   "Geometry",   TXT_SML);
-    menu_text(20, -w2,      -2 * h, c_yellow, c_red,   "Audio",      TXT_SML);
-    menu_text(21, -w2,      -3 * h, c_yellow, c_red,   "Sound Vol",  TXT_SML);
-    menu_text(22, -w2,      -4 * h, c_yellow, c_red,   "Music Vol",  TXT_SML);
-    menu_text(23, +w2 - w4,  0 * h, c_white,  c_white, "High",       TXT_SML);
-    menu_text(24, +w2 - w4, -1 * h, c_white,  c_white, "High",       TXT_SML);
-    menu_text(25, +w2 - w4, -2 * h, c_white,  c_white, "High",       TXT_SML);
-    menu_text(26, +w2 - w4, -3 * h, c_white,  c_white, "<",          TXT_SML);
-    menu_text(27, +w2 - w4, -4 * h, c_white,  c_white, "<",          TXT_SML);
-    menu_text(28, +w2 + w4,  0 * h, c_white,  c_white, "Low",        TXT_SML);
-    menu_text(29, +w2 + w4, -1 * h, c_white,  c_white, "Low",        TXT_SML);
-    menu_text(30, +w2 + w4, -2 * h, c_white,  c_white, "Low",        TXT_SML);
-    menu_text(31, +w2 + w4, -3 * h, c_white,  c_white, ">",          TXT_SML);
-    menu_text(32, +w2 + w4, -4 * h, c_white,  c_white, ">",          TXT_SML);
-    menu_text(33, +w2,      -3 * h, c_yellow, c_red,   snds,         TXT_SML);
-    menu_text(34, +w2,      -4 * h, c_yellow, c_red,   muss,         TXT_SML);
-    menu_text(35, +w2,      -5 * h, c_white,  c_white, "Back",       TXT_SML);
+    menu_text(20, -w2,      -2 * h, c_yellow, c_red,   "Reflection", TXT_SML);
+    menu_text(21, -w2,      -3 * h, c_yellow, c_red,   "Audio",      TXT_SML);
+    menu_text(22, -w2,      -4 * h, c_yellow, c_red,   "Sound Vol",  TXT_SML);
+    menu_text(23, -w2,      -5 * h, c_yellow, c_red,   "Music Vol",  TXT_SML);
+    menu_text(24, +w2 - w4,  0 * h, c_white,  c_white, "High",       TXT_SML);
+    menu_text(25, +w2 - w4, -1 * h, c_white,  c_white, "High",       TXT_SML);
+    menu_text(26, +w2 - w4, -2 * h, c_white,  c_white, "On",         TXT_SML);
+    menu_text(27, +w2 - w4, -3 * h, c_white,  c_white, "High",       TXT_SML);
+    menu_text(28, +w2 - w4, -4 * h, c_white,  c_white, "<",          TXT_SML);
+    menu_text(29, +w2 - w4, -5 * h, c_white,  c_white, "<",          TXT_SML);
+    menu_text(30, +w2 + w4,  0 * h, c_white,  c_white, "Low",        TXT_SML);
+    menu_text(31, +w2 + w4, -1 * h, c_white,  c_white, "Low",        TXT_SML);
+    menu_text(32, +w2 + w4, -2 * h, c_white,  c_white, "Off",        TXT_SML);
+    menu_text(33, +w2 + w4, -3 * h, c_white,  c_white, "Low",        TXT_SML);
+    menu_text(34, +w2 + w4, -4 * h, c_white,  c_white, ">",          TXT_SML);
+    menu_text(35, +w2 + w4, -5 * h, c_white,  c_white, ">",          TXT_SML);
+    menu_text(36, +w2,      -4 * h, c_yellow, c_red,   snds,         TXT_SML);
+    menu_text(37, +w2,      -5 * h, c_yellow, c_red,   muss,         TXT_SML);
+    menu_text(38, +w2,      -6 * h, c_white,  c_white, "Back",       TXT_SML);
 
     /* Active items */
 
@@ -572,23 +593,26 @@ static void conf_enter(void)
     menu_item(CONF_TEXLO, +w2 + w4,  0 * h, w2, h);
     menu_item(CONF_GEOHI, +w2 - w4, -1 * h, w2, h);
     menu_item(CONF_GEOLO, +w2 + w4, -1 * h, w2, h);
-    menu_item(CONF_AUDHI, +w2 - w4, -2 * h, w2, h);
-    menu_item(CONF_AUDLO, +w2 + w4, -2 * h, w2, h);
-    menu_item(CONF_SNDDN, +w2 - w4, -3 * h, w2, h);
-    menu_item(CONF_SNDUP, +w2 + w4, -3 * h, w2, h);
-    menu_item(CONF_MUSDN, +w2 - w4, -4 * h, w2, h);
-    menu_item(CONF_MUSUP, +w2 + w4, -4 * h, w2, h);
-    menu_item(CONF_BACK,  +w2,      -5 * h, w,  h);
+    menu_item(CONF_REFON, +w2 - w4, -2 * h, w2, h);
+    menu_item(CONF_REFOF, +w2 + w4, -2 * h, w2, h);
+    menu_item(CONF_AUDHI, +w2 - w4, -3 * h, w2, h);
+    menu_item(CONF_AUDLO, +w2 + w4, -3 * h, w2, h);
+    menu_item(CONF_SNDDN, +w2 - w4, -4 * h, w2, h);
+    menu_item(CONF_SNDUP, +w2 + w4, -4 * h, w2, h);
+    menu_item(CONF_MUSDN, +w2 - w4, -5 * h, w2, h);
+    menu_item(CONF_MUSUP, +w2 + w4, -5 * h, w2, h);
+    menu_item(CONF_BACK,  +w2,      -6 * h, w,  h);
 
     /* Inactive label padding */
 
-    menu_item(18, -w2, +5 * h, w,  h);
-    menu_item(19, -w2, +4 * h, w,  h);
-    menu_item(20, -w2,  0 * h, w,  h);
-    menu_item(21, -w2, -1 * h, w,  h);
-    menu_item(22, -w2, -2 * h, w,  h);
-    menu_item(23, -w2, -3 * h, w,  h);
-    menu_item(24, -w2, -4 * h, w,  h);
+    menu_item(20, -w2, +5 * h, w,  h);
+    menu_item(21, -w2, +4 * h, w,  h);
+    menu_item(22, -w2,  0 * h, w,  h);
+    menu_item(23, -w2, -1 * h, w,  h);
+    menu_item(24, -w2, -2 * h, w,  h);
+    menu_item(25, -w2, -3 * h, w,  h);
+    menu_item(26, -w2, -4 * h, w,  h);
+    menu_item(27, -w2, -5 * h, w,  h);
 
     /* Item state */
 
@@ -603,6 +627,8 @@ static void conf_enter(void)
     menu_stat(CONF_TEXLO, (config_text() == 2)             ? 1 : 0);
     menu_stat(CONF_GEOHI, (config_geom() == 1)             ? 1 : 0);
     menu_stat(CONF_GEOLO, (config_geom() == 0)             ? 1 : 0);
+    menu_stat(CONF_REFON, (config_refl() == 1)             ? 1 : 0);
+    menu_stat(CONF_REFOF, (config_refl() == 0)             ? 1 : 0);
     menu_stat(CONF_AUDHI, (config_rate() == 44100)         ? 1 : 0);
     menu_stat(CONF_AUDLO, (config_rate() == 22050)         ? 1 : 0);
     menu_stat(CONF_SNDDN, 0);
@@ -635,10 +661,12 @@ static void conf_enter(void)
     menu_link(CONF_6x4,   CONF_8x6,   CONF_TEXHI, CONF_6x4,   CONF_6x4);
     menu_link(CONF_TEXHI, CONF_6x4,   CONF_GEOHI, CONF_TEXHI, CONF_TEXLO);
     menu_link(CONF_TEXLO, CONF_6x4,   CONF_GEOLO, CONF_TEXHI, CONF_TEXLO);
-    menu_link(CONF_GEOHI, CONF_TEXHI, CONF_AUDHI, CONF_GEOHI, CONF_GEOLO);
-    menu_link(CONF_GEOLO, CONF_TEXLO, CONF_AUDLO, CONF_GEOHI, CONF_GEOLO);
-    menu_link(CONF_AUDHI, CONF_GEOHI, CONF_SNDDN, CONF_AUDHI, CONF_AUDLO);
-    menu_link(CONF_AUDLO, CONF_GEOLO, CONF_SNDUP, CONF_AUDHI, CONF_AUDLO);
+    menu_link(CONF_GEOHI, CONF_TEXHI, CONF_REFON, CONF_GEOHI, CONF_GEOLO);
+    menu_link(CONF_GEOLO, CONF_TEXLO, CONF_REFOF, CONF_GEOHI, CONF_GEOLO);
+    menu_link(CONF_REFON, CONF_GEOHI, CONF_AUDHI, CONF_REFON, CONF_REFOF);
+    menu_link(CONF_REFOF, CONF_GEOLO, CONF_AUDLO, CONF_REFON, CONF_REFOF);
+    menu_link(CONF_AUDHI, CONF_REFON, CONF_SNDDN, CONF_AUDHI, CONF_AUDLO);
+    menu_link(CONF_AUDLO, CONF_REFOF, CONF_SNDUP, CONF_AUDHI, CONF_AUDLO);
     menu_link(CONF_SNDDN, CONF_AUDHI, CONF_MUSDN, CONF_SNDDN, CONF_SNDUP);
     menu_link(CONF_SNDUP, CONF_AUDLO, CONF_MUSUP, CONF_SNDDN, CONF_SNDUP);
     menu_link(CONF_MUSDN, CONF_SNDDN, CONF_BACK,  CONF_MUSDN, CONF_MUSUP);
@@ -659,11 +687,11 @@ static void conf_leave(void)
 
 static void conf_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    config_push_persp(FOV, 0.1, 300.0);
+    config_push_persp(FOV, 0.1, FAR_DIST);
     {
-        back_draw(time_state());
+        back_draw(0, time_state());
     }
     config_pop_matrix();
 
@@ -681,9 +709,9 @@ static int conf_click(int b, int d)
     return (b < 0 && d == 1) ? conf_action(menu_click()) : 1;
 }
 
-static int conf_keybd(int c)
+static int conf_keybd(int c, int d)
 {
-    return (c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
 }
 
 static int conf_stick(int a, int v)
@@ -838,11 +866,11 @@ static void set_leave(void)
 
 static void set_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    config_push_persp(FOV, 0.1, 300.0);
+    config_push_persp(FOV, 0.1, FAR_DIST);
     {
-        back_draw(time_state());
+        back_draw(0, time_state());
     }
     config_pop_matrix();
 
@@ -882,9 +910,9 @@ static int set_click(int b, int d)
     return (b < 0 && d == 1) ? set_action(menu_click()) : 1;
 }
 
-static int set_keybd(int c)
+static int set_keybd(int c, int d)
 {
-    return (c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
 }
 
 static int set_stick(int a, int v)
@@ -1129,11 +1157,11 @@ static void start_leave(void)
 
 static void start_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    config_push_persp(FOV, 0.1, 300.0);
+    config_push_persp(FOV, 0.1, FAR_DIST);
     {
-        back_draw(time_state());
+        back_draw(0, time_state());
     }
     config_pop_matrix();
 
@@ -1173,12 +1201,12 @@ static int start_click(int b, int d)
     return (b < 0 && d == 1) ? start_action(menu_click()) : 1;
 }
 
-static int start_keybd(int c)
+static int start_keybd(int c, int d)
 {
-    if (c == SDLK_ESCAPE)
+    if (d && c == SDLK_ESCAPE)
         return goto_state(&st_title);
 
-    if (c == SDLK_F12)
+    if (d && c == SDLK_F12)
     {
         int i, n = curr_count();
 
@@ -1268,7 +1296,7 @@ static void level_leave(void)
 
 static void level_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     hud_draw();
     menu_paint();
@@ -1279,11 +1307,11 @@ static int level_click(int b, int d)
     return (b < 0 && d == 1) ? goto_state(&st_two) : 1;
 }
 
-static int level_keybd(int c)
+static int level_keybd(int c, int d)
 {
-    if (c == SDLK_ESCAPE)
+    if (d && c == SDLK_ESCAPE)
         goto_state(&st_over);
-    if (c == SDLK_F12)
+    if (d && c == SDLK_F12)
         goto_state(&st_poser);
     return 1;
 }
@@ -1299,13 +1327,13 @@ static int level_buttn(int b, int d)
 
 static void poser_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(1, dy);
 }
 
-static int poser_keybd(int c)
+static int poser_keybd(int c, int d)
 {
-    return (c == SDLK_ESCAPE) ? goto_state(&st_level) : 1;
+    return (d && c == SDLK_ESCAPE) ? goto_state(&st_level) : 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1331,7 +1359,7 @@ static void two_leave(void)
 
 static void two_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     hud_draw();
     menu_paint();
@@ -1354,9 +1382,9 @@ static int two_click(int b, int d)
     return (b < 0 && d == 1) ? goto_state(&st_play) : 1;
 }
 
-static int two_keybd(int c)
+static int two_keybd(int c, int d)
 {
-    return (c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
+    return (d && c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
 }
 
 static int two_buttn(int b, int d)
@@ -1388,7 +1416,7 @@ static void one_leave(void)
 
 static void one_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     hud_draw();
     menu_paint();
@@ -1416,9 +1444,9 @@ static int one_click(int b, int d)
     return 1;
 }
 
-static int one_keybd(int c)
+static int one_keybd(int c, int d)
 {
-    return (c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
+    return (d && c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
 }
 
 static int one_buttn(int b, int d)
@@ -1468,7 +1496,7 @@ static void play_leave(void)
 
 static void play_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     game_draw(0, dy);
     hud_draw();
@@ -1516,9 +1544,40 @@ static int play_click(int b, int d)
     return 1;
 }
 
-static int play_keybd(int c)
+static int play_keybd(int c, int d)
 {
-    if (c == SDLK_ESCAPE)
+    if (d)
+    {
+        if (config_key_cam_r(c))
+            view_rotate = +1;
+        if (config_key_cam_l(c))
+            view_rotate = -1;
+
+        if (config_key_cam_1(c))
+        {
+            config_set_view(0);
+            hud_view_pulse(0);
+        }
+        if (config_key_cam_2(c))
+        {
+            config_set_view(1);
+            hud_view_pulse(1);
+        }
+        if (config_key_cam_3(c))
+        {
+            config_set_view(2);
+            hud_view_pulse(2);
+        }
+    }
+    else
+    {
+        if (config_key_cam_r(c))
+            view_rotate = 0;
+        if (config_key_cam_l(c))
+            view_rotate = 0;
+    }
+
+    if (d && c == SDLK_ESCAPE)
         goto_state(&st_over);
     return 1;
 }
@@ -1601,7 +1660,7 @@ static void demo_leave(void)
 
 static void demo_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     game_draw(0, dy);
     hud_draw();
@@ -1643,9 +1702,9 @@ static int demo_timer(double dt)
     return 1;
 }
 
-static int demo_keybd(int c)
+static int demo_keybd(int c, int d)
 {
-    if (c == SDLK_ESCAPE)
+    if (d && c == SDLK_ESCAPE)
         goto_state(&st_omed);
     return 1;
 }
@@ -1690,7 +1749,7 @@ static void goal_leave(void)
 
 static void goal_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     menu_paint();
 }
@@ -1712,9 +1771,9 @@ static int goal_click(int b, int d)
     return 1;
 }
 
-static int goal_keybd(int c)
+static int goal_keybd(int c, int d)
 {
-    if (c == SDLK_ESCAPE)
+    if (d && c == SDLK_ESCAPE)
         goto_state(&st_over);
     return 1;
 }
@@ -1921,7 +1980,7 @@ static void score_leave(void)
 
 static void score_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     menu_paint();
 }
@@ -1937,9 +1996,9 @@ static int score_click(int b, int d)
     return (b < 0 && d == 1) ? score_action(menu_click()) : 1;
 }
 
-static int score_keybd(int c)
+static int score_keybd(int c, int d)
 {
-    if (c == SDLK_ESCAPE)
+    if (d && c == SDLK_ESCAPE)
         goto_state(&st_over);
     return 1;
 }
@@ -1986,7 +2045,7 @@ static void fall_leave(void)
 
 static void fall_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     hud_draw();
     menu_paint();
@@ -2004,9 +2063,9 @@ static int fall_click(int b, int d)
     return 1;
 }
 
-static int fall_keybd(int c)
+static int fall_keybd(int c, int d)
 {
-    if (c == SDLK_ESCAPE)
+    if (d && c == SDLK_ESCAPE)
         goto_state(&st_over);
     return 1;
 }
@@ -2068,7 +2127,7 @@ static void time_leave(void)
 
 static void time_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     hud_draw();
     menu_paint();
@@ -2138,7 +2197,7 @@ static void omed_leave(void)
 
 static void omed_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     menu_paint();
 }
@@ -2148,9 +2207,9 @@ static int omed_timer(double dt)
     return (dt > 0.0 && time_state() > 3.0) ? goto_state(&st_title) : 1;
 }
 
-static int omed_keybd(int c)
+static int omed_keybd(int c, int d)
 {
-    return (c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
 }
 
 static int omed_click(int b, int d)
@@ -2194,7 +2253,7 @@ static void over_leave(void)
 
 static void over_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     menu_paint();
 }
@@ -2204,9 +2263,9 @@ static int over_timer(double dt)
     return (dt > 0.0 && time_state() > 3.0) ? goto_state(&st_title) : 1;
 }
 
-static int over_keybd(int c)
+static int over_keybd(int c, int d)
 {
-    return (c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
 }
 
 static int over_click(int b, int d)
@@ -2257,7 +2316,7 @@ static void done_leave(void)
 
 static void done_paint(double dy)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     menu_paint();
 }
@@ -2267,9 +2326,9 @@ static int done_timer(double dt)
     return (dt > 0.0 && time_state() > 10.0) ? goto_state(&st_title) : 1;
 }
 
-static int done_keybd(int c)
+static int done_keybd(int c, int d)
 {
-    return (c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
 }
 
 static int done_click(int b, int d)

@@ -42,6 +42,7 @@ static int stereo       = CONFIG_DEF_STEREO;
 static int camera       = CONFIG_DEF_CAMERA;
 static int textures     = CONFIG_DEF_TEXTURES;
 static int geometry     = CONFIG_DEF_GEOMETRY;
+static int reflection   = CONFIG_DEF_REFLECTION;
 static int audio_rate   = CONFIG_DEF_AUDIO_RATE;
 static int audio_buff   = CONFIG_DEF_AUDIO_BUFF;
 static int mouse_sense  = CONFIG_DEF_MOUSE_SENSE;
@@ -60,6 +61,12 @@ static int button_b     = CONFIG_DEF_BUTTON_B;
 static int button_r     = CONFIG_DEF_BUTTON_R;
 static int button_l     = CONFIG_DEF_BUTTON_L;
 static int button_exit  = CONFIG_DEF_BUTTON_EXIT;
+
+static int key_cam_1    = CONFIG_DEF_KEY_CAM_1;
+static int key_cam_2    = CONFIG_DEF_KEY_CAM_2;
+static int key_cam_3    = CONFIG_DEF_KEY_CAM_3;
+static int key_cam_r    = CONFIG_DEF_KEY_CAM_R;
+static int key_cam_l    = CONFIG_DEF_KEY_CAM_L;
 
 char player[MAXNAM]     = DEFAULT_NAME;
 
@@ -139,6 +146,19 @@ int config_demo(void)
 
 /*---------------------------------------------------------------------------*/
 
+int config_key(const char *s, int d)
+{
+    int c;
+
+    for (c = 0; c < SDLK_LAST; c++)
+        if (strcmp(s, SDL_GetKeyName(c)) == 0)
+            return c;
+
+    return d;
+}
+
+/*---------------------------------------------------------------------------*/
+
 void config_load(void)
 {
     char  path[MAXSTR];
@@ -164,6 +184,7 @@ void config_load(void)
                 if (strcmp(key, "camera")       == 0) camera       = val;
                 if (strcmp(key, "textures")     == 0) textures     = val;
                 if (strcmp(key, "geometry")     == 0) geometry     = val;
+                if (strcmp(key, "reflection")   == 0) reflection   = val;
                 if (strcmp(key, "audio_rate")   == 0) audio_rate   = val;
                 if (strcmp(key, "audio_buff")   == 0) audio_buff   = val;
                 if (strcmp(key, "mouse_sense")  == 0) mouse_sense  = val;
@@ -186,7 +207,19 @@ void config_load(void)
 
             else if (sscanf(buf, "%s %s", key, str) == 2)
             {
-                if (strcmp(key, "player") == 0) strncpy(player, str, MAXNAM);
+                if (strcmp(key, "player") == 0)
+                    strncpy(player, str, MAXNAM);
+
+                if (strcmp(key, "key_cam_1")  == 0)
+                    key_cam_1 = config_key(str, CONFIG_DEF_KEY_CAM_1);
+                if (strcmp(key, "key_cam_2")  == 0)
+                    key_cam_2 = config_key(str, CONFIG_DEF_KEY_CAM_2);
+                if (strcmp(key, "key_cam_3")  == 0)
+                    key_cam_3 = config_key(str, CONFIG_DEF_KEY_CAM_3);
+                if (strcmp(key, "key_cam_r")  == 0)
+                    key_cam_r = config_key(str, CONFIG_DEF_KEY_CAM_R);
+                if (strcmp(key, "key_cam_l")  == 0)
+                    key_cam_l = config_key(str, CONFIG_DEF_KEY_CAM_L);
             }
         }
 
@@ -208,6 +241,7 @@ void config_store(void)
         fprintf(fp, "camera %d\n",       camera);
         fprintf(fp, "textures %d\n",     textures);
         fprintf(fp, "geometry %d\n",     geometry);
+        fprintf(fp, "reflection %d\n",   reflection);
         fprintf(fp, "audio_rate %d\n",   audio_rate);
         fprintf(fp, "audio_buff %d\n",   audio_buff);
         fprintf(fp, "mouse_sense %d\n",  mouse_sense);
@@ -228,6 +262,12 @@ void config_store(void)
         fprintf(fp, "button_b %d\n",     button_b);
         fprintf(fp, "button_exit %d\n",  button_exit);
 
+        fprintf(fp, "key_cam_1 %s\n",    SDL_GetKeyName(key_cam_1));
+        fprintf(fp, "key_cam_2 %s\n",    SDL_GetKeyName(key_cam_2));
+        fprintf(fp, "key_cam_3 %s\n",    SDL_GetKeyName(key_cam_3));
+        fprintf(fp, "key_cam_r %s\n",    SDL_GetKeyName(key_cam_r));
+        fprintf(fp, "key_cam_l %s\n",    SDL_GetKeyName(key_cam_l));
+
         fclose(fp);
     }
 }
@@ -240,6 +280,7 @@ int config_h   (void) { return height; }
 int config_view(void) { return camera; }
 int config_text(void) { return textures; }
 int config_geom(void) { return geometry; }
+int config_refl(void) { return reflection; }
 int config_rate(void) { return audio_rate; }
 int config_buff(void) { return audio_buff; }
 int config_sens(void) { return mouse_sense; }
@@ -258,6 +299,16 @@ int config_button_b(int b) { return (joy && b == button_b); }
 int config_button_r(int b) { return (joy && b == button_r); }
 int config_button_l(int b) { return (joy && b == button_l); }
 int config_button_X(int b) { return (joy && b == button_exit); }
+
+int config_key_cam_1(int b)    { return (b == key_cam_1); }
+int config_key_cam_2(int b)    { return (b == key_cam_2); }
+int config_key_cam_3(int b)    { return (b == key_cam_3); }
+int config_key_cam_r(int b)    { return (b == key_cam_r); }
+int config_key_cam_l(int b)    { return (b == key_cam_l); }
+
+char *config_get_key_cam_1(void) { return SDL_GetKeyName(key_cam_1); }
+char *config_get_key_cam_2(void) { return SDL_GetKeyName(key_cam_2); }
+char *config_get_key_cam_3(void) { return SDL_GetKeyName(key_cam_3); }
 
 /*---------------------------------------------------------------------------*/
 
@@ -292,6 +343,11 @@ void config_set_geom(int g)
     geometry = g;
 }
 
+void config_set_refl(int r)
+{
+    reflection = r;
+}
+
 void config_set_audio(int r, int b)
 {
     audio_rate = r;
@@ -301,19 +357,13 @@ void config_set_audio(int r, int b)
 void config_set_sound(int n)
 {
     if (0 <= n && n <= 10)
-    {
         sound_vol = n;
-        Mix_Volume(-1, sound_vol * MIX_MAX_VOLUME / 10);
-    }
 }
 
 void config_set_music(int n)
 {
     if (0 <= n && n <= 10)
-    {
         music_vol = n;
-        Mix_VolumeMusic(music_vol * MIX_MAX_VOLUME / 10);
-    }
 }
 
 void config_set_view(int c)

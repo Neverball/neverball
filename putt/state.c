@@ -398,6 +398,7 @@ static int conf_action(int i)
     case CONF_SNDDN:
         config_set_sound(config_sound() - 1);
         sprintf(str, "%02d", config_sound());
+        audio_volume(config_sound(), config_music());
 
         menu_text(33, +w2, -3 * h, c_yellow, c_red, str, TXT_SML);
         audio_play(AUD_BUMP, 1.f);
@@ -406,6 +407,7 @@ static int conf_action(int i)
     case CONF_SNDUP:
         config_set_sound(config_sound() + 1);
         sprintf(str, "%02d", config_sound());
+        audio_volume(config_sound(), config_music());
 
         menu_text(33, +w2, -3 * h, c_yellow, c_red, str, TXT_SML);
         audio_play(AUD_BUMP, 1.f);
@@ -414,6 +416,7 @@ static int conf_action(int i)
     case CONF_MUSDN:
         config_set_music(config_music() - 1);
         sprintf(str, "%02d", config_music());
+        audio_volume(config_sound(), config_music());
 
         menu_text(34, +w2, -4 * h, c_yellow, c_red, str, TXT_SML);
         break;
@@ -421,6 +424,7 @@ static int conf_action(int i)
     case CONF_MUSUP:
         config_set_music(config_music() + 1);
         sprintf(str, "%02d", config_music());
+        audio_volume(config_sound(), config_music());
 
         menu_text(34, +w2, -4 * h, c_yellow, c_red, str, TXT_SML);
         break;

@@ -32,6 +32,7 @@
 #define CONFIG_DEF_CAMERA      0
 #define CONFIG_DEF_TEXTURES    1
 #define CONFIG_DEF_GEOMETRY    1
+#define CONFIG_DEF_REFLECTION  1
 #define CONFIG_DEF_AUDIO_RATE  44100
 #define CONFIG_DEF_MOUSE_SENSE 300
 #define CONFIG_DEF_MOUSE_INV   0
@@ -50,6 +51,12 @@
 #define CONFIG_DEF_BUTTON_R    2
 #define CONFIG_DEF_BUTTON_L    3
 #define CONFIG_DEF_BUTTON_EXIT 4
+
+#define CONFIG_DEF_KEY_CAM_1   SDLK_F1
+#define CONFIG_DEF_KEY_CAM_2   SDLK_F2
+#define CONFIG_DEF_KEY_CAM_3   SDLK_F3
+#define CONFIG_DEF_KEY_CAM_R   SDLK_RIGHT
+#define CONFIG_DEF_KEY_CAM_L   SDLK_LEFT
 
 /*---------------------------------------------------------------------------*/
 
@@ -101,6 +108,7 @@ int  config_h   (void);
 int  config_view(void);
 int  config_text(void);
 int  config_geom(void);
+int  config_refl(void);
 int  config_rate(void);
 int  config_buff(void);
 int  config_sens(void);
@@ -120,9 +128,20 @@ int  config_button_r(int);
 int  config_button_l(int);
 int  config_button_X(int);
 
+int  config_key_cam_1(int);
+int  config_key_cam_2(int);
+int  config_key_cam_3(int);
+int  config_key_cam_r(int);
+int  config_key_cam_l(int);
+
+char *config_get_key_cam_1(void);
+char *config_get_key_cam_2(void);
+char *config_get_key_cam_3(void);
+
 int  config_set_mode(int, int, int);
 void config_set_text(int);
 void config_set_geom(int);
+void config_set_refl(int);
 void config_set_high(int);
 void config_set_view(int);
 void config_set_audio(int, int);

@@ -153,4 +153,13 @@ void audio_music_stop(void)
     }
 }
 
+void audio_volume(int s, int m)
+{
+    if (audio_state)
+    {
+        Mix_Volume(-1, s * MIX_MAX_VOLUME / 10);
+        Mix_VolumeMusic(m * MIX_MAX_VOLUME / 10);
+    }
+}
+
 /*---------------------------------------------------------------------------*/
