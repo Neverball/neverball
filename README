@@ -1,0 +1,150 @@
+
+                             * Neverball *
+
+
+Tilt the  floor to roll a  ball through an obstacle  course within the
+given  time.  If  the ball  falls  or time  expires, a  ball is  lost.
+Collect 100 coins to earn an extra ball.  Red coins are worth 5.  Blue
+coins are worth 10.
+
+Neverball requires:
+
+    SDL               http://www.libsdl.org/download-1.2.php
+    SDL_image         http://www.libsdl.org/projects/SDL_image/
+    SDL_mixer         http://www.libsdl.org/projects/SDL_mixer/
+    SDL_ttf           http://www.libsdl.org/projects/SDL_ttf/
+
+
+
+* BUILDING
+
+    make                     (Unix)
+or
+    nmake /fMakefile-W32     (Windows with MSVC)
+
+The executables  will be copied to  the base directory.   Maps will be
+processed and copied into data/sol/.  By default, an uninstalled build
+may be executed in place.
+
+
+
+* RUNNING
+
+    ./neverball
+
+Click Play  to begin.  The floor  tilts in the direction  of the mouse
+pointer.  The left and right  mouse buttons rotate the view point left
+and right about the ball.
+
+Spacebar pauses  and resumes.  Escape ends  a game, and  escape at the
+title  screen  exits.   F9  toggles  a frame  counter.   F10  takes  a
+screenshot.
+
+
+
+* INSTALLATION
+
+The game executable may be moved as desired.
+
+However, game  assets are described  using relative path  names.  Thus
+the game must  run within the data directory in  order for asset names
+to resolve correctly.  Upon starting,  the game will attempt to change
+into this directory, as defined in config.h.
+
+If the data directory is to  be renamed or moved for installation, the
+CONFIG_PATH variable in config.h must be changed to match.
+
+Alternatively, the CONFIG_PATH variable may  be set to "." if the game
+is started from within the data directory.
+
+
+
+* CONFIGURATION
+
+Global settings  are stored  in the file  .neverballrc.  This  file is
+created  when  the  game exits,  and  should  be  found in  your  home
+directory.  It  consists of key /  value pairs.  Some  of these values
+are configurable  using the in-game options  screen.  Other meaningful
+keys and their default values follow.
+
+    mouse_sense 300
+
+        This  key controls  mouse  sensitivity.  The  value gives  the
+        number of screen pixels the  mouse pointer must move to rotate
+        the floor  through its entire  range.  A smaller  number means
+        more sensitive.
+
+    fps 0
+
+        This key enables an on-screen frames-per-second counter. Press
+        F9 to toggle this flag in-game.
+
+    nice 1
+
+        This  key  enables  a  delay  function  after  each  frame  is
+        rendered, forcing a context  switch and ensuring that the game
+        does not utilize 100% of the CPU.  0 is off, 1 is on.
+
+        If the  frame rate is not  fast enough for you,  or you simply
+        want to  test the  performance of the  game on  your hardware,
+        disable it.
+
+        Press F8 to toggle this flag in-game.
+
+    high_level 1
+
+        This key gives the number  of the highest level you've opened.
+        You  can cheat by  setting this  to a  big number.   It's open
+        source,  so there's  absolutely no  way to  keep  players from
+        cheating.  Might as well just document it.
+
+    joy 0
+
+        This key  enables joystick control.  0  is off, 1  is on.  The
+        game may still be controlled with the mouse even while gamepad
+        control  is enabled.   However,  random noise  from an  analog
+        controller at rest can disrupt normal mouse input.
+
+    axis_x 0
+
+        Joystick horizontal axis number
+
+    axis_y 1
+
+        Joystick vertical axis number
+
+    button_a 0
+
+        Joystick menu select button
+
+    button_b 1
+
+        Joystick menu cancel button
+
+    button_r 2
+
+        Joystick counter-clockwise camera rotation button
+
+    button_l 3
+
+        Joystick clockwise camera rotation button
+
+    button_pause 4
+
+        Joystick pause button
+
+
+
+* KNOWN PROBLEMS
+
+Due to  problems involving pointer grabbing and  relative mouse motion
+in windowed  mode, the floor  may be thrown  off to an angle  when the
+game  returns from  pause.  Just  be sure  the pointer  is  inside the
+window when pause mode is disabled.
+
+Seams are visible in the skybox  on an i845G under Linux.  It seems to
+handle  GL_CLAMP_TO_EDGE incorrectly.   The same  problem  affects the
+ball shadow, but GL_CLAMP is a valid work-around there.
+
+
+<rlk@snth.net>

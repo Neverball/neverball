@@ -1,0 +1,71 @@
+-------------------------------------------------------------------------------
+New in 0.25.0
+
+* Added teleportation.
+* Changed menus to work with relative pointer motion.
+* Changed pointer grab policy to lessen grab motion discontinuity impact.
+* Fixed channel order for TGA textures.
+* Fixed level selector link topology.
+* New levels.
+
+-------------------------------------------------------------------------------
+New in 0.21.0
+
+* Display screen shots in level selector.
+* Cut level selector to 25 to make room for level shot.
+* Generalized flyby representation.
+* Added poser state for capturing level shots.
+* New Levels.
+
+-------------------------------------------------------------------------------
+New in 0.16.2
+
+* Native Windows support returned.
+* Fixed HUD not responding to texture quality setting.
+* Hyper-paranoid ARB_multitexture usage.
+
+-------------------------------------------------------------------------------
+New in 0.16.0
+
+* Fixed input smoothing in game_step causing oscillation at low FPS.
+* Worked around broken shadow CLAMP_TO_EDGE on i845G.
+* Added high_level config and modified level select.  Documented cheat.
+* New levels.
+
+-------------------------------------------------------------------------------
+New in 0.14.0
+
+* New version numbering convention.  Minor number is level count.
+* Broke native Windows support.
+* Reorganized source and Makefiles.
+* Modified mapc to take a materials path.
+* Fixed potential overflow in config_home.
+
+-------------------------------------------------------------------------------
+New in 0805b
+
+* Worked around broken color mask attribute pop in ball_draw on ATI.
+
+-------------------------------------------------------------------------------
+New in 0805a
+
+* Sent screenshots to $HOME rather than CWD, fixing segfault.
+
+-------------------------------------------------------------------------------
+New in 0805
+
+* Removed some initial state assumptions that were wrong for some users.
+* Fixed $HOME determination under Windows.
+
+-------------------------------------------------------------------------------
+New in 0804
+
+* First release as "Neverball".
+* Added joystick control.
+* Added camera control.
+* Added ball shadow.
+* Added level intros.
+* Added config file stored in $HOME.
+* Removed text images and added TTF rendering.
+* New textures.
+* New levels.

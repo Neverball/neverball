@@ -1,15 +1,26 @@
-sol/title.sol  back/flood 99
-sol/curve.sol  back/flood 99
-sol/easy.sol   back/haze  90
-sol/coin.sol   back/snow  45
-sol/slow.sol   back/flood 90
-sol/fall.sol   back/flood 60
-sol/move.sol   back/snow  60
-sol/spiral.sol back/haze  60
-sol/maze.sol   back/flood 90
-sol/angle.sol  back/snow  45
-sol/four.sol   back/haze  30
-sol/quads.sol  back/flood 60
-sol/poke.sol   back/snow  60
-sol/marble.sol back/haze  30
-sol/title.sol  back/flood 99
+sol/00_title.sol    shot/00_title.jpg   back/flood 99
+sol/01_easy.sol     shot/01_easy.jpg    back/flood 90
+sol/02_coin.sol     shot/02_coin.jpg    back/flood 45
+sol/03_slow.sol     shot/03_slow.jpg    back/flood 90
+sol/04_fence.sol    shot/04_fence.jpg   back/flood 45
+sol/05_fall.sol     shot/05_fall.jpg    back/flood 45
+sol/06_move.sol     shot/06_move.jpg    back/haze  60
+sol/07_waka.sol     shot/07_waka.jpg    back/haze  60
+sol/08_curve.sol    shot/08_curve.jpg   back/haze  60
+sol/09_maze.sol     shot/09_maze.jpg    back/haze  90
+sol/10_spiral.sol   shot/10_spiral.jpg  back/haze  60
+sol/11_ramp.sol     shot/11_ramp.jpg    back/snow  60
+sol/12_goal.sol     shot/12_goal.jpg    back/snow  45
+sol/13_pyramid.sol  shot/13_pyramid.jpg back/snow  30
+sol/14_quads.sol    shot/14_quads.jpg   back/snow  60
+sol/15_frog.sol     shot/15_frog.jpg    back/snow  60
+sol/16_angle.sol    shot/16_angle.jpg   back/flood 45
+sol/17_spread.sol   shot/17_spread.jpg  back/flood 90
+sol/18_four.sol     shot/18_four.jpg    back/flood 30
+sol/19_hump.sol     shot/19_hump.jpg    back/flood 45
+sol/20_movers.sol   shot/20_movers.jpg  back/flood 60
+sol/21_poke.sol     shot/21_poke.jpg    back/haze  60
+sol/22_ring.sol     shot/22_ring.jpg    back/snow  60
+sol/23_tele.sol     shot/23_tele.jpg    back/haze  60
+sol/24_marble.sol   shot/24_marble.jpg  back/snow  30
+sol/00_title.sol    shot/00_title.jpg   back/flood 99

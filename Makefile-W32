@@ -1,9 +1,100 @@
 
-all :
-	(cd src  && $(MAKE) /nologo /fMakefile-W32)
-	(cd data && $(MAKE) /nologo /fMakefile-W32)
+#------------------------------------------------------------------------------
+
+# The INCDIR variable will probably need to be changed depending on where
+# you have installed the SDL headers.
+
+INCDIR= /I"C:\Program Files\Microsoft Visual Studio .NET\Vc7\include\SDL"
+
+#------------------------------------------------------------------------------
+
+CFLAGS= /Ox
+
+SYS_LIBS= glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib
+SDL_LIBS= SDL.lib SDLmain.lib
+
+MAPC_TARG= mapc.exe
+GAME_TARG= neverball.exe
+
+MAPC_OBJS= \
+	vec3.obj   \
+	solid.obj  \
+	glext.obj  \
+	mapc.obj
+GAME_OBJS= \
+	vec3.obj   \
+	text.obj   \
+	image.obj  \
+	audio.obj  \
+	solid.obj  \
+	hud.obj    \
+	part.obj   \
+	geom.obj   \
+	back.obj   \
+	game.obj   \
+	level.obj  \
+	menu.obj   \
+	state.obj  \
+	config.obj \
+	glext.obj  \
+	main.obj
+
+MAPC_FLAGS= /nologo /subsystem:console
+GAME_FLAGS= /nologo /subsystem:windows
+
+MAPC_LIBS= SDL_image.lib $(SDL_LIBS) $(SYS_LIBS)
+GAME_LIBS= SDL_ttf.lib SDL_mixer.lib SDL_image.lib $(SDL_LIBS) $(SYS_LIBS)
+
+SOLS= \
+	data/sol/00_title.sol   \
+	data/sol/01_easy.sol    \
+	data/sol/02_coin.sol    \
+	data/sol/03_slow.sol    \
+	data/sol/04_fence.sol   \
+	data/sol/05_fall.sol    \
+	data/sol/06_move.sol    \
+	data/sol/07_waka.sol    \
+	data/sol/08_curve.sol   \
+	data/sol/09_maze.sol    \
+	data/sol/10_spiral.sol  \
+	data/sol/11_ramp.sol    \
+	data/sol/12_goal.sol    \
+	data/sol/13_pyramid.sol \
+	data/sol/14_quads.sol   \
+	data/sol/15_frog.sol    \
+	data/sol/16_angle.sol   \
+	data/sol/17_spread.sol  \
+	data/sol/18_four.sol    \
+	data/sol/19_hump.sol    \
+	data/sol/20_movers.sol  \
+	data/sol/21_poke.sol    \
+	data/sol/22_ring.sol    \
+	data/sol/23_tele.sol    \
+	data/sol/24_marble.sol
+
+#------------------------------------------------------------------------------
+
+.SUFFIXES : .c .obj .map .sol
+
+.c.obj :
+	cl /nologo /MD $(CFLAGS) /c $< $(INCDIR)
+
+{data\map}.map{data\sol}.sol :
+	$(MAPC_TARG) $< $@ data
+
+#------------------------------------------------------------------------------
+
+all : $(GAME_TARG) $(MAPC_TARG) $(SOLS)
+
+$(GAME_TARG) : $(GAME_OBJS)
+	link $(GAME_FLAGS) /out:$(GAME_TARG) $(GAME_OBJS) $(GAME_LIBS)
+
+$(MAPC_TARG) : $(MAPC_OBJS)
+	link $(MAPC_FLAGS) /out:$(MAPC_TARG) $(MAPC_OBJS) $(MAPC_LIBS)
 
 clean :
-	(cd src  && $(MAKE) /nologo /I /fMakefile-W32 clean)
-	(cd data && $(MAKE) /nologo /I /fMakefile-W32 clean)
-	del neverball.exe mapc.exe
+	del $(GAME_TARG) $(GAME_OBJS)
+	del $(MAPC_TARG) $(MAPC_OBJS)
+	del $(SOLS)
+
+#------------------------------------------------------------------------------
