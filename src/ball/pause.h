@@ -3,6 +3,6 @@
 
 #include "main.h"
 
-struct state st_pause;
+extern struct state st_pause;
 
 #endif

@@ -1,3 +1,15 @@
+/*   Copyright (C) 2003  Robert Kooima                                       */
+/*                                                                           */
+/*   SUPER EMPTY BALL  is  free software; you  can redistribute  it and/or   */
+/*   modify  it under  the  terms  of  the  GNU General Public License  as   */
+/*   published by  the Free Software Foundation;  either version 2  of the   */
+/*   License, or (at your option) any later version.                         */
+/*                                                                           */
+/*   This program is  distributed in the hope that it  will be useful, but   */
+/*   WITHOUT  ANY   WARRANTY;  without   even  the  implied   warranty  of   */
+/*   MERCHANTABILITY  or FITNESS FOR  A PARTICULAR  PURPOSE.  See  the GNU   */
+/*   General Public License for more details.                                */
+
 #include <stdlib.h>
 #include <sys/time.h>
 #include <time.h>
@@ -122,7 +134,6 @@ static int loop(int swap)
 
 int main(void)
 {
-    int    d = 0;
     double t = now();
 
     if (glw_create(TITLE, WINIT, HINIT, 1))
@@ -133,7 +144,7 @@ int main(void)
 
             goto_state(&st_title);
 
-            while ((d = loop(1)) >= 0)
+            while (loop(1) >= 0)
             {
                 double s = now();
 

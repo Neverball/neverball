@@ -1,18 +1,28 @@
+/*   Copyright (C) 2003  Robert Kooima                                       */
+/*                                                                           */
+/*   SUPER EMPTY BALL  is  free software; you  can redistribute  it and/or   */
+/*   modify  it under  the  terms  of  the  GNU General Public License  as   */
+/*   published by  the Free Software Foundation;  either version 2  of the   */
+/*   License, or (at your option) any later version.                         */
+/*                                                                           */
+/*   This program is  distributed in the hope that it  will be useful, but   */
+/*   WITHOUT  ANY   WARRANTY;  without   even  the  implied   warranty  of   */
+/*   MERCHANTABILITY  or FITNESS FOR  A PARTICULAR  PURPOSE.  See  the GNU   */
+/*   General Public License for more details.                                */
+
 #include <GL/gl.h>
 #include <stdlib.h>
 
-#include <aux.h>
+#include <etc.h>
 
 #include "main.h"
+#include "title.h"
 #include "play.h"
 #include "game.h"
 
 #define PAUSE_S "data/png/pause.png"
 
 static void  *pause_p = NULL;
-static int    pause_w = 0;
-static int    pause_h = 0;
-static int    pause_b = 0;
 static GLuint pause_o = 0;
 
 /*---------------------------------------------------------------------------*/
@@ -21,13 +31,11 @@ static void pause_enter(void)
 {
     if (pause_p == NULL)
     {
-        pause_p = aux_load_png(PAUSE_S, &pause_w, &pause_h, &pause_b);
-        pause_o = aux_make_tex(pause_p,  pause_w,  pause_h,  pause_b);
-    }
-}
+        int w, h, b;
 
-static void pause_leave(void)
-{
+        pause_p = etc_load_png(PAUSE_S, &w, &h, &b);
+        pause_o = etc_make_tex(pause_p,  w,  h,  b);
+    }
 }
 
 static void pause_paint(void)
@@ -38,29 +46,17 @@ static void pause_paint(void)
 
     game_render_env();
 
-    aux_proj_identity();
-    aux_draw_tex(pause_o, 0.0, 0.33, 1.0, 0.66, 0.5);
-}
-
-static int pause_timer(double dt)
-{
-    return 0;
-}
-
-static int pause_point(int x, int y)
-{
-    return 0;
-}
-
-static int pause_click(int d)
-{
-    return 0;
+    etc_proj_identity();
+    etc_draw_tex(pause_o, 0.0, 0.33, 1.0, 0.66, 0.5);
 }
 
 static int pause_keybd(int c)
 {
-    if (c == 24)
-        return -1;
+    if (c == 17)
+    {
+        goto_state(&st_title);
+        return +1;
+    }
     if (c == 27)
     {
         goto_state(&st_play);
@@ -73,10 +69,10 @@ static int pause_keybd(int c)
 
 struct state st_pause = {
     pause_enter,
-    pause_leave,
+    NULL,
     pause_paint,
-    pause_timer,
-    pause_point,
-    pause_click,
+    NULL,
+    NULL,
+    NULL,
     pause_keybd
 };

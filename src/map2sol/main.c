@@ -1,3 +1,16 @@
+/*   Copyright (C) 2003  Robert Kooima                                       */
+/*                                                                           */
+/*   SUPER EMPTY BALL  is  free software; you  can redistribute  it and/or   */
+/*   modify  it under  the  terms  of  the  GNU General Public License  as   */
+/*   published by  the Free Software Foundation;  either version 2  of the   */
+/*   License, or (at your option) any later version.                         */
+/*                                                                           */
+/*   This program is  distributed in the hope that it  will be useful, but   */
+/*   WITHOUT  ANY   WARRANTY;  without   even  the  implied   warranty  of   */
+/*   MERCHANTABILITY  or FITNESS FOR  A PARTICULAR  PURPOSE.  See  the GNU   */
+/*   General Public License for more details.                                */
+
+
 /* I'm not particularly proud of this chunk of code.  It was not so much     */
 /* designed as it was accumulated.                                           */
 
@@ -9,7 +22,7 @@
 
 #include <sol.h>
 #include <vec.h>
-#include <aux.h>
+#include <etc.h>
 
 #define MAXSTR 256
 #define MAXKEY 16
@@ -134,7 +147,7 @@ static void make_plane(int pi, int x0, int y0, int z0,
                        int tu, int tv, int r,
                        float su, float sv, int fl, const char *s)
 {
-    const static double base[6][3][3] = {
+    static const double base[6][3][3] = {
         {{  0,  0,  1 }, {  1,  0,  0 }, {  0, -1,  0 }},
         {{  0,  0, -1 }, {  1,  0,  0 }, {  0, -1,  0 }},
         {{  1,  0,  0 }, {  0,  0, -1 }, {  0, -1,  0 }},
@@ -153,7 +166,7 @@ static void make_plane(int pi, int x0, int y0, int z0,
     strcpy(filename, s);
     strcat(filename, ".jpg");
 
-    aux_size_jpg(filename, &w, &h);
+    etc_size_jpg(filename, &w, &h);
 
     plane_f[pi] = fl;
 

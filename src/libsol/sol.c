@@ -1,3 +1,15 @@
+/*   Copyright (C) 2003  Robert Kooima                                       */
+/*                                                                           */
+/*   SUPER EMPTY BALL  is  free software; you  can redistribute  it and/or   */
+/*   modify  it under  the  terms  of  the  GNU General Public License  as   */
+/*   published by  the Free Software Foundation;  either version 2  of the   */
+/*   License, or (at your option) any later version.                         */
+/*                                                                           */
+/*   This program is  distributed in the hope that it  will be useful, but   */
+/*   WITHOUT  ANY   WARRANTY;  without   even  the  implied   warranty  of   */
+/*   MERCHANTABILITY  or FITNESS FOR  A PARTICULAR  PURPOSE.  See  the GNU   */
+/*   General Public License for more details.                                */
+
 #include <GL/gl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,14 +17,12 @@
 
 #include <math.h>
 #include <vec.h>
-#include <aux.h>
+#include <etc.h>
 
 #include "sol.h"
 
-#define MINDT 0.02
-
-#define TINY 1.0e-10
-#define HUGE 1.0e+10
+#define SMALL 1.0e-10
+#define LARGE 1.0e+10
 
 /*---------------------------------------------------------------------------*/
 
@@ -215,8 +225,8 @@ static void sol_load_textures(struct s_file *fp)
         struct s_mtrl *mp = fp->mv + i;
         struct s_imag *xp = fp->xv + i;
 
-        if ((xp->p = aux_load_jpg(mp->f, &xp->w, &xp->h, &xp->b)))
-             xp->o = aux_make_tex(xp->p, xp->w, xp->h, xp->b);
+        if ((xp->p = etc_load_jpg(mp->f, &xp->w, &xp->h, &xp->b)))
+             xp->o = etc_make_tex(xp->p, xp->w, xp->h, xp->b);
     }
 }
 
@@ -370,14 +380,14 @@ static double v_sol(const double p[3], const double v[3], double r)
     double d = b * b - 4.0 * a * c;
 
     if (d < 0.0)
-        return HUGE;
+        return LARGE;
     else
     {
         double t0 = 0.5 * (-b - sqrt(d)) / a;
         double t1 = 0.5 * (-b + sqrt(d)) / a;
         double t  = (t0 < t1) ? t0 : t1;
 
-        return (t < 0.0) ? HUGE : t;
+        return (t < 0.0) ? LARGE : t;
     }
 }
 
@@ -391,7 +401,7 @@ static double v_vert(double Q[3],
                      const double v[3], double r)
 {
     double O[3], P[3], V[3];
-    double t = HUGE;
+    double t = LARGE;
 
     v_add(O, o, q);
     v_sub(P, p, O);
@@ -401,7 +411,7 @@ static double v_vert(double Q[3],
     {
         t = v_sol(P, V, r);
 
-        if (t < HUGE)
+        if (t < LARGE)
             v_mad(Q, O, w, t);
     }
     return t;
@@ -433,14 +443,14 @@ static double v_edge(double Q[3],
     t = v_sol(P, V, r);
     s = (du + eu * t) / uu;
 
-    if (0.0 < t && t < HUGE && 0.0 < s && s < 1.0)
+    if (0.0 < t && t < LARGE && 0.0 < s && s < 1.0)
     {
         v_mad(d, o, w, t);
         v_mad(e, q, u, s);
         v_add(Q, e, d);
     }
     else
-        t = HUGE;
+        t = LARGE;
 
     return t;
 }
@@ -456,7 +466,7 @@ static double v_side(double Q[3],
     double pn = v_dot(p, n);
     double vn = v_dot(v, n);
     double wn = v_dot(w, n);
-    double t  = HUGE;
+    double t  = LARGE;
 
     if (vn - wn < 0.0)
     {
@@ -510,7 +520,7 @@ static void sol_body_step(struct s_file *fp, double dt)
 {
     int i;
 
-    if (dt > TINY)
+    if (dt > SMALL)
         for (i = 0; i < fp->bc; i++)
         {
             struct s_body *bp = fp->bv + i;
@@ -532,14 +542,14 @@ static void sol_ball_step(struct s_file *fp, double dt)
 {
     int i;
 
-    if (dt > TINY)
+    if (dt > SMALL)
         for (i = 0; i < fp->uc; i++)
         {
             struct s_ball *up = fp->uv + i;
 
             v_mad(up->p, up->p, up->v, dt);
 
-            if (v_len(up->w) > TINY)
+            if (v_len(up->w) > SMALL)
             {
                 double M[16];
                 double w[3];
@@ -567,7 +577,6 @@ static void sol_ball_step(struct s_file *fp, double dt)
 
 static double sol_test_vert(double T[3],
                             const struct s_ball *up,
-                            const struct s_file *fp,
                             const struct s_vert *vp,
                             const double o[3],
                             const double w[3])
@@ -603,7 +612,7 @@ static double sol_test_side(double T[3],
     double t = v_side(T, o, w, sp->n, sp->d, up->p, up->v, up->r);
     int i;
 
-    if (t < HUGE)
+    if (t < LARGE)
         for (i = 0; i < lp->sc; i++)
         {
             const struct s_side *sq = fp->sv + fp->iv[lp->s0 + i];
@@ -612,7 +621,7 @@ static double sol_test_side(double T[3],
                 v_dot(T, sq->n) -
                 v_dot(o, sq->n) -
                 v_dot(w, sq->n) * t > sq->d)
-                return HUGE;
+                return LARGE;
         }
     return t;
 }
@@ -626,7 +635,7 @@ static double sol_test_lump(double T[3],
                             const double o[3],
                             const double w[3])
 {
-    double U[3], u, t = HUGE;
+    double U[3], u, t = LARGE;
     int i;
 
     /* Short circuit a non-solid lump. */
@@ -639,7 +648,7 @@ static double sol_test_lump(double T[3],
     {
         const struct s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
 
-        if ((u = sol_test_vert(U, up, fp, vp, o, w)) < t)
+        if ((u = sol_test_vert(U, up, vp, o, w)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -679,7 +688,7 @@ static double sol_test_body(double T[3], double V[3],
                             const struct s_file *fp,
                             const struct s_body *bp)
 {
-    double U[3], O[3], W[3], u, t = HUGE;
+    double U[3], O[3], W[3], u, t = LARGE;
     int i;
 
     sol_body_p(O, fp, bp);
@@ -703,7 +712,7 @@ static double sol_test_file(double T[3], double V[3],
                             const struct s_ball *up,
                             const struct s_file *fp)
 {
-    double U[3], W[3], u, t = HUGE;
+    double U[3], W[3], u, t = LARGE;
     int i;
 
     for (i = 0; i < fp->bc; i++)
@@ -756,12 +765,10 @@ static void sol_roll(double *roll, int hit, struct s_ball *up)
 void sol_update(struct s_file *fp, double dt, const double g[3],
                 double *bump, double *roll)
 {
-    double T[3], V[3], nt, tt, d;
+    double T[3], V[3], d, nt, tt = dt;
 
     struct s_ball *up = fp->uv;
     struct s_ball  uu = *up;
-
-    tt = (dt < MINDT) ? dt : MINDT;
 
     v_mad(up->v, up->v, g, tt);
 

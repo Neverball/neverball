@@ -5,8 +5,8 @@
 
 void level_pass(void);
 
-struct state st_gameover;
-struct state st_level;
-struct state st_title;
+extern struct state st_gameover;
+extern struct state st_level;
+extern struct state st_title;
 
 #endif

@@ -1,3 +1,15 @@
+/*   Copyright (C) 2003  Robert Kooima                                       */
+/*                                                                           */
+/*   SUPER EMPTY BALL  is  free software; you  can redistribute  it and/or   */
+/*   modify  it under  the  terms  of  the  GNU General Public License  as   */
+/*   published by  the Free Software Foundation;  either version 2  of the   */
+/*   License, or (at your option) any later version.                         */
+/*                                                                           */
+/*   This program is  distributed in the hope that it  will be useful, but   */
+/*   WITHOUT  ANY   WARRANTY;  without   even  the  implied   warranty  of   */
+/*   MERCHANTABILITY  or FITNESS FOR  A PARTICULAR  PURPOSE.  See  the GNU   */
+/*   General Public License for more details.                                */
+
 #include <GL/gl.h>
 #include <vec.h>
 
@@ -25,7 +37,7 @@ static void section(int d,
     else
     {
         double p01[3], p12[3], p20[3];
-        double c01[3], c12[3], c20[3];
+        double c01[4], c12[4], c20[4];
 
         v_mid(p01, p0, p1);
         v_mid(p12, p1, p2);

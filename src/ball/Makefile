@@ -1,12 +1,15 @@
-OBJS= main.o coin.o ball.o game.o play.o title.o time.o fall.o goal.o pause.o
+OBJS= main.o coin.o ball.o game.o title.o play.o stop.o pause.o
 TARG= ball
-LIBS= -laux -lsol -lglw -lvec -laio $(ALSALIB) -lpng -ljpeg -lGLU -lGL -lX11 -lm
+LIBS= -letc -lsol -lglw -lvec -laio $(ALSALIB) -lpng -ljpeg -lGLU -lGL -lX11 -lm
 
-INCDIR= -I../../include -I/usr/X11R6/include
-LIBDIR= -L../../lib     -L/usr/X11R6/lib
+INCDIR= -I../../include
+LIBDIR= -L../../lib $(X11LIBDIR) $(PNGLIBDIR)
 
 .c.o :
 	$(CC) $(CFLAGS) -c $< $(INCDIR)
+
+all : $(TARG)
+	cp $(TARG) ../../bin
 
 $(TARG) : $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARG) $(OBJS) $(LIBDIR) $(LIBS)
@@ -14,5 +17,3 @@ $(TARG) : $(OBJS)
 clean :
 	rm $(TARG) $(OBJS)
 
-install : $(TARG)
-	cp $(TARG) ../../bin

@@ -1,10 +1,14 @@
-#ifdef ALSA
-#define ALSA_PCM_NEW_HW_PARAMS_API
-#define ALSA_PCM_NEW_SW_PARAMS_API
-#include <alloca.h>
-#include <sys/time.h>
-#include <alsa/asoundlib.h>
-#endif
+/*   Copyright (C) 2003  Robert Kooima                                       */
+/*                                                                           */
+/*   SUPER EMPTY BALL  is  free software; you  can redistribute  it and/or   */
+/*   modify  it under  the  terms  of  the  GNU General Public License  as   */
+/*   published by  the Free Software Foundation;  either version 2  of the   */
+/*   License, or (at your option) any later version.                         */
+/*                                                                           */
+/*   This program is  distributed in the hope that it  will be useful, but   */
+/*   WITHOUT  ANY   WARRANTY;  without   even  the  implied   warranty  of   */
+/*   MERCHANTABILITY  or FITNESS FOR  A PARTICULAR  PURPOSE.  See  the GNU   */
+/*   General Public License for more details.                                */
 
 #include <math.h>
 #include <unistd.h>
@@ -14,6 +18,14 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#ifdef ALSA
+#define ALSA_PCM_NEW_HW_PARAMS_API
+#define ALSA_PCM_NEW_SW_PARAMS_API
+#include <alloca.h>
+#include <sys/time.h>
+#include <alsa/asoundlib.h>
+#endif
+
 /*---------------------------------------------------------------------------*/
 
 #define RATE 44100             /* Sample rate.  44100Hz is CD quality.       */
@@ -21,24 +33,11 @@
 #define MAXV 128               /* Maximum number of simultaneous voices.     */
 #define MAXC 8                 /* Maximum number of simultaneous cycles.     */
 
-static unsigned int period_time = 20000;               /* microseconds       */
-static unsigned int buffer_time = 40000;               /* microseconds       */
+static unsigned int period_time;
+static unsigned int buffer_time;
 
 #define CK(exp) { int err = (exp); if (err) return err;	}
 	
-/*---------------------------------------------------------------------------*/
-
-#ifdef ALSA
-static const char *device = "plughw:0,0";
-
-static snd_pcm_t        *pcm;
-static snd_pcm_access_t  pcm_access = SND_PCM_ACCESS_RW_INTERLEAVED;
-static snd_pcm_format_t  pcm_format = SND_PCM_FORMAT_S16;
-
-static snd_pcm_uframes_t period_size;
-static snd_pcm_uframes_t buffer_size;
-#endif
-
 static short *buffer = NULL;
 
 struct voice
@@ -64,6 +63,15 @@ static struct cycle cycle[MAXC];
 /*---------------------------------------------------------------------------*/
 
 #ifdef ALSA
+
+static const char *device = "plughw:0,0";
+
+static snd_pcm_t        *pcm;
+static snd_pcm_access_t  pcm_access = SND_PCM_ACCESS_RW_INTERLEAVED;
+static snd_pcm_format_t  pcm_format = SND_PCM_FORMAT_S16;
+
+static snd_pcm_uframes_t period_size;
+static snd_pcm_uframes_t buffer_size;
 
 static int set_hw_params(snd_pcm_t *pcm, snd_pcm_hw_params_t *p)
 {
@@ -186,6 +194,9 @@ static void aio_proc(snd_async_handler_t *handler)
 
 int aio_init(void)
 {
+    period_time = 20000;
+    buffer_time = 40000;
+
 #ifdef ALSA
     snd_pcm_hw_params_t *hw_params;
     snd_pcm_sw_params_t *sw_params;

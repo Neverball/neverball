@@ -1,3 +1,15 @@
+/*   Copyright (C) 2003  Robert Kooima                                       */
+/*                                                                           */
+/*   SUPER EMPTY BALL  is  free software; you  can redistribute  it and/or   */
+/*   modify  it under  the  terms  of  the  GNU General Public License  as   */
+/*   published by  the Free Software Foundation;  either version 2  of the   */
+/*   License, or (at your option) any later version.                         */
+/*                                                                           */
+/*   This program is  distributed in the hope that it  will be useful, but   */
+/*   WITHOUT  ANY   WARRANTY;  without   even  the  implied   warranty  of   */
+/*   MERCHANTABILITY  or FITNESS FOR  A PARTICULAR  PURPOSE.  See  the GNU   */
+/*   General Public License for more details.                                */
+
 #include <GL/gl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,7 +19,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-void aux_size_jpg(const char *s, int *w, int *h)
+void etc_size_jpg(const char *s, int *w, int *h)
 {
     FILE *fin;
 
@@ -33,7 +45,7 @@ void aux_size_jpg(const char *s, int *w, int *h)
 
 /*---------------------------------------------------------------------------*/
 
-void *aux_load_jpg(const char *s, int *w, int *h, int *b)
+void *etc_load_jpg(const char *s, int *w, int *h, int *b)
 {
     unsigned char *p = NULL;
     unsigned char *q = NULL;
@@ -81,7 +93,7 @@ void *aux_load_jpg(const char *s, int *w, int *h, int *b)
 
 /*---------------------------------------------------------------------------*/
 
-static void aux_copy_png(png_structp structp, png_infop infop,
+static void etc_copy_png(png_structp structp, png_infop infop,
                          png_bytep p, int w, int h, int b)
 {
     png_bytep *rows;
@@ -97,7 +109,7 @@ static void aux_copy_png(png_structp structp, png_infop infop,
     }
 }
 
-static void *aux_read_png(png_structp structp, png_infop infop,
+static void *etc_read_png(png_structp structp, png_infop infop,
                           FILE *fp, int *w, int *h, int *b)
 {
     void *p = NULL;
@@ -122,13 +134,13 @@ static void *aux_read_png(png_structp structp, png_infop infop,
         }
 
         if ((p = malloc((*w) * (*h) * (*b))) != NULL)
-            aux_copy_png(structp, infop, (png_bytep) p, *w, *h, *b);
+            etc_copy_png(structp, infop, (png_bytep) p, *w, *h, *b);
     }
 
     return p;
 }
 
-static void *aux_png_init(FILE *fp, int *w, int *h, int *b)
+static void *etc_png_init(FILE *fp, int *w, int *h, int *b)
 {
     void *p = NULL;
 
@@ -139,7 +151,7 @@ static void *aux_png_init(FILE *fp, int *w, int *h, int *b)
                                           NULL, NULL, NULL)) != NULL)
     {
         if ((infop = png_create_info_struct(structp)) != NULL)
-            p = aux_read_png(structp, infop, fp, w, h, b);
+            p = etc_read_png(structp, infop, fp, w, h, b);
     }
 
     png_destroy_read_struct(&structp, &infop, NULL);
@@ -147,14 +159,14 @@ static void *aux_png_init(FILE *fp, int *w, int *h, int *b)
     return p;
 }
 
-void *aux_load_png(const char *s, int *w, int *h, int *b)
+void *etc_load_png(const char *s, int *w, int *h, int *b)
 {
     FILE *fp;
     void *p = NULL;
 
     if ((fp = fopen(s, "r")) != NULL)
     {
-        p = aux_png_init(fp, w, h, b);
+        p = etc_png_init(fp, w, h, b);
         fclose(fp);
     }
 
@@ -163,7 +175,7 @@ void *aux_load_png(const char *s, int *w, int *h, int *b)
 
 /*---------------------------------------------------------------------------*/
 
-GLuint aux_make_tex(const void *p, int w, int h, int b)
+GLuint etc_make_tex(const void *p, int w, int h, int b)
 {
     const GLenum f[5] = {
         0, GL_LUMINANCE, GL_LUMINANCE_ALPHA, GL_RGB, GL_RGBA
@@ -183,7 +195,7 @@ GLuint aux_make_tex(const void *p, int w, int h, int b)
 
 /*---------------------------------------------------------------------------*/
 
-void aux_draw_tex(GLuint o,
+void etc_draw_tex(GLuint o,
                   double x0, double y0,
                   double x1, double y1, double a)
 {
@@ -214,7 +226,7 @@ void aux_draw_tex(GLuint o,
 
 /*---------------------------------------------------------------------------*/
 
-void aux_proj_identity(void)
+void etc_proj_identity(void)
 {
     glMatrixMode(GL_PROJECTION);
     {

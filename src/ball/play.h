@@ -3,8 +3,8 @@
 
 #include "main.h"
 
-struct state st_ready;
-struct state st_set;
-struct state st_play;
+extern struct state st_ready;
+extern struct state st_set;
+extern struct state st_play;
 
 #endif

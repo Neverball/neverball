@@ -1,12 +1,12 @@
-OBJS= vec.o
-TARG= libvec.a
+OBJS= etc.o
+TARG= libetc.a
 
 .c.o :
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -c $< $(PNGINCDIR)
 
 all : $(TARG)
 	cp $(TARG) ../../lib
-	cp vec.h   ../../include
+	cp etc.h   ../../include
 
 $(TARG) : $(OBJS)
 	$(AR) rcs $(TARG) $(OBJS)

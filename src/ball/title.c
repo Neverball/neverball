@@ -1,8 +1,20 @@
+/*   Copyright (C) 2003  Robert Kooima                                       */
+/*                                                                           */
+/*   SUPER EMPTY BALL  is  free software; you  can redistribute  it and/or   */
+/*   modify  it under  the  terms  of  the  GNU General Public License  as   */
+/*   published by  the Free Software Foundation;  either version 2  of the   */
+/*   License, or (at your option) any later version.                         */
+/*                                                                           */
+/*   This program is  distributed in the hope that it  will be useful, but   */
+/*   WITHOUT  ANY   WARRANTY;  without   even  the  implied   warranty  of   */
+/*   MERCHANTABILITY  or FITNESS FOR  A PARTICULAR  PURPOSE.  See  the GNU   */
+/*   General Public License for more details.                                */
+
 #include <GL/gl.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <aux.h>
+#include <etc.h>
 
 #include "main.h"
 #include "play.h"
@@ -22,8 +34,8 @@ static void gameover_enter(void)
     {
         int w, h, b;
 
-        gameover_p = aux_load_png(GAMEOVER_S, &w, &h, &b);
-        gameover_o = aux_make_tex(gameover_p,  w,  h,  b);
+        gameover_p = etc_load_png(GAMEOVER_S, &w, &h, &b);
+        gameover_o = etc_make_tex(gameover_p,  w,  h,  b);
     }
 }
 
@@ -31,13 +43,13 @@ static void gameover_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    aux_proj_identity();
-    aux_draw_tex(gameover_o, 0.0, 0.25, 1.0, 0.75, 1.0);
+    etc_proj_identity();
+    etc_draw_tex(gameover_o, 0.0, 0.25, 1.0, 0.75, 1.0);
 }
 
 static int gameover_timer(double dt)
 {
-    if (time_state() > 3.0)
+    if (dt > 0.0 && time_state() > 3.0)
         goto_state(&st_title);
 
     return 0;
@@ -105,17 +117,16 @@ static void level_enter(void)
 #define TITLE_S "data/png/title.png"
 
 static void  *title_p = NULL;
-static int    title_w = 0;
-static int    title_h = 0;
-static int    title_b = 0;
 static GLuint title_o = 0;
 
 static void title_enter(void)
 {
     if (title_p == NULL)
     {
-        title_p = aux_load_png(TITLE_S, &title_w, &title_h, &title_b);
-        title_o = aux_make_tex(title_p,  title_w,  title_h,  title_b);
+        int w, h, b;
+
+        title_p = etc_load_png(TITLE_S, &w, &h, &b);
+        title_o = etc_make_tex(title_p,  w,  h,  b);
     }
 }
 
@@ -129,34 +140,23 @@ static void title_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    aux_proj_identity();
-    aux_draw_tex(title_o, 0.0, 0.25, 1.0, 0.75, 1.0);
-}
-
-static int title_timer(double dt)
-{
-    return 0;
-}
-
-static int title_point(int x, int y)
-{
-    return 0;
+    etc_proj_identity();
+    etc_draw_tex(title_o, 0.0, 0.25, 1.0, 0.75, 1.0);
 }
 
 static int title_click(int d)
 {
-    return 0;
+    if (d == 0)
+        goto_state(&st_level);
+
+    return 1;
 }
 
 static int title_keybd(int c)
 {
     if (c == 27)
         return -1;
-    if (c == 32)
-    {
-        goto_state(&st_level);
-        return +1;
-    }
+
     return 0;
 }
 
@@ -186,8 +186,8 @@ struct state st_title = {
     title_enter,
     title_leave,
     title_paint,
-    title_timer,
-    title_point,
+    NULL,
+    NULL,
     title_click,
     title_keybd
 };

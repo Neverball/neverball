@@ -1,3 +1,15 @@
+/*   Copyright (C) 2003  Robert Kooima                                       */
+/*                                                                           */
+/*   SUPER EMPTY BALL  is  free software; you  can redistribute  it and/or   */
+/*   modify  it under  the  terms  of  the  GNU General Public License  as   */
+/*   published by  the Free Software Foundation;  either version 2  of the   */
+/*   License, or (at your option) any later version.                         */
+/*                                                                           */
+/*   This program is  distributed in the hope that it  will be useful, but   */
+/*   WITHOUT  ANY   WARRANTY;  without   even  the  implied   warranty  of   */
+/*   MERCHANTABILITY  or FITNESS FOR  A PARTICULAR  PURPOSE.  See  the GNU   */
+/*   General Public License for more details.                                */
+
 #include <GL/gl.h>
 #include <math.h>
 
@@ -59,7 +71,7 @@ GLuint coin_init(int n)
     return list;
 }
 
-void coin_draw(GLuint list, const struct s_coin *cv, int cc, int x)
+void coin_draw(GLuint list, const struct s_coin *cv, int cc)
 {
     static const float c1[4] = { 1.0, 1.0, 0.0, 1.0 };
     static const float c2[4] = { 1.0, 0.2, 0.2, 1.0 };

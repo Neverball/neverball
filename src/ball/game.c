@@ -1,3 +1,15 @@
+/*   Copyright (C) 2003  Robert Kooima                                       */
+/*                                                                           */
+/*   SUPER EMPTY BALL  is  free software; you  can redistribute  it and/or   */
+/*   modify  it under  the  terms  of  the  GNU General Public License  as   */
+/*   published by  the Free Software Foundation;  either version 2  of the   */
+/*   License, or (at your option) any later version.                         */
+/*                                                                           */
+/*   This program is  distributed in the hope that it  will be useful, but   */
+/*   WITHOUT  ANY   WARRANTY;  without   even  the  implied   warranty  of   */
+/*   MERCHANTABILITY  or FITNESS FOR  A PARTICULAR  PURPOSE.  See  the GNU   */
+/*   General Public License for more details.                                */
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <stdlib.h>
@@ -6,14 +18,14 @@
 #include <sol.h>
 #include <vec.h>
 #include <aio.h>
-#include <aux.h>
+#include <etc.h>
 
 #include "main.h"
 #include "ball.h"
-#include "menu.h"
 #include "coin.h"
 
-#define REFLECT 1
+#define REFLECT 1                      /* Enable the reflective floor effect */
+#define MIN_DT  0.02                   /* 50Hz minimum physics update cycle  */
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +45,6 @@ int    bump_len =    0;
 
 static GLuint list_ball = 0;
 static GLuint list_coin = 0;
-static GLuint list_sky  = 0;
 
 static struct s_file file;
 
@@ -53,50 +64,6 @@ static double view_e[3][3];
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint sky_init(int n, int m)
-{
-    GLuint list = glGenLists(1);
-
-    glNewList(list, GL_COMPILE);
-    glPushAttrib(GL_LIGHTING_BIT);
-    {
-        int i, j;
-
-        glDisable(GL_LIGHTING);
-        glEnable(GL_COLOR_MATERIAL);
-
-        srand(0);
-
-        for (i = 0; i < n; i++)
-        {
-            glColor4d(1.0, 1.0, 1.0, 1.0);
-            glPointSize((GLfloat) (i + 1));
-
-            glBegin(GL_POINTS);
-            {
-                for (j = 0; j < m; j++)
-                {
-                    double p[4];
-                    
-                    p[0] = (double) rand() / RAND_MAX - 0.5;
-                    p[1] = (double) rand() / RAND_MAX - 0.5;
-                    p[2] = (double) rand() / RAND_MAX - 0.5;
-                    p[3] = 0.005;
-
-                    glVertex4dv(p);
-                }
-            }
-            glEnd();
-        }
-    }
-    glPopAttrib();
-    glEndList();
-
-    return list;
-}
-
-/*---------------------------------------------------------------------------*/
-
 static void  *coin_label_p = NULL;
 static GLuint coin_label_o = 0;
 static void  *time_label_p = NULL;
@@ -106,11 +73,11 @@ static void init_labels(void)
 {
     int w, h, b;
 
-    coin_label_p = aux_load_png("data/png/coin_label.png", &w, &h, &b);
-    coin_label_o = aux_make_tex(coin_label_p, w, h, b);
+    coin_label_p = etc_load_png("data/png/coin_label.png", &w, &h, &b);
+    coin_label_o = etc_make_tex(coin_label_p, w, h, b);
 
-    time_label_p = aux_load_png("data/png/time_label.png", &w, &h, &b);
-    time_label_o = aux_make_tex(time_label_p, w, h, b);
+    time_label_p = etc_load_png("data/png/time_label.png", &w, &h, &b);
+    time_label_o = etc_make_tex(time_label_p, w, h, b);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -123,27 +90,27 @@ static GLuint dig_o[10];
 
 static void init_digits(void)
 {
-    dig_p[0] = aux_load_png("data/png/digit0.png", dig_w+0, dig_h+0, dig_b+0);
-    dig_p[1] = aux_load_png("data/png/digit1.png", dig_w+1, dig_h+1, dig_b+1);
-    dig_p[2] = aux_load_png("data/png/digit2.png", dig_w+2, dig_h+2, dig_b+2);
-    dig_p[3] = aux_load_png("data/png/digit3.png", dig_w+3, dig_h+3, dig_b+3);
-    dig_p[4] = aux_load_png("data/png/digit4.png", dig_w+4, dig_h+4, dig_b+4);
-    dig_p[5] = aux_load_png("data/png/digit5.png", dig_w+5, dig_h+5, dig_b+5);
-    dig_p[6] = aux_load_png("data/png/digit6.png", dig_w+6, dig_h+6, dig_b+6);
-    dig_p[7] = aux_load_png("data/png/digit7.png", dig_w+7, dig_h+7, dig_b+7);
-    dig_p[8] = aux_load_png("data/png/digit8.png", dig_w+8, dig_h+8, dig_b+8);
-    dig_p[9] = aux_load_png("data/png/digit9.png", dig_w+9, dig_h+9, dig_b+9);
+    dig_p[0] = etc_load_png("data/png/digit0.png", dig_w+0, dig_h+0, dig_b+0);
+    dig_p[1] = etc_load_png("data/png/digit1.png", dig_w+1, dig_h+1, dig_b+1);
+    dig_p[2] = etc_load_png("data/png/digit2.png", dig_w+2, dig_h+2, dig_b+2);
+    dig_p[3] = etc_load_png("data/png/digit3.png", dig_w+3, dig_h+3, dig_b+3);
+    dig_p[4] = etc_load_png("data/png/digit4.png", dig_w+4, dig_h+4, dig_b+4);
+    dig_p[5] = etc_load_png("data/png/digit5.png", dig_w+5, dig_h+5, dig_b+5);
+    dig_p[6] = etc_load_png("data/png/digit6.png", dig_w+6, dig_h+6, dig_b+6);
+    dig_p[7] = etc_load_png("data/png/digit7.png", dig_w+7, dig_h+7, dig_b+7);
+    dig_p[8] = etc_load_png("data/png/digit8.png", dig_w+8, dig_h+8, dig_b+8);
+    dig_p[9] = etc_load_png("data/png/digit9.png", dig_w+9, dig_h+9, dig_b+9);
 
-    dig_o[0] = aux_make_tex(dig_p[0], dig_w[0], dig_h[0], dig_b[0]);
-    dig_o[1] = aux_make_tex(dig_p[1], dig_w[1], dig_h[1], dig_b[1]);
-    dig_o[2] = aux_make_tex(dig_p[2], dig_w[2], dig_h[2], dig_b[2]);
-    dig_o[3] = aux_make_tex(dig_p[3], dig_w[3], dig_h[3], dig_b[3]);
-    dig_o[4] = aux_make_tex(dig_p[4], dig_w[4], dig_h[4], dig_b[4]);
-    dig_o[5] = aux_make_tex(dig_p[5], dig_w[5], dig_h[5], dig_b[5]);
-    dig_o[6] = aux_make_tex(dig_p[6], dig_w[6], dig_h[6], dig_b[6]);
-    dig_o[7] = aux_make_tex(dig_p[7], dig_w[7], dig_h[7], dig_b[7]);
-    dig_o[8] = aux_make_tex(dig_p[8], dig_w[8], dig_h[8], dig_b[8]);
-    dig_o[9] = aux_make_tex(dig_p[9], dig_w[9], dig_h[9], dig_b[9]);
+    dig_o[0] = etc_make_tex(dig_p[0], dig_w[0], dig_h[0], dig_b[0]);
+    dig_o[1] = etc_make_tex(dig_p[1], dig_w[1], dig_h[1], dig_b[1]);
+    dig_o[2] = etc_make_tex(dig_p[2], dig_w[2], dig_h[2], dig_b[2]);
+    dig_o[3] = etc_make_tex(dig_p[3], dig_w[3], dig_h[3], dig_b[3]);
+    dig_o[4] = etc_make_tex(dig_p[4], dig_w[4], dig_h[4], dig_b[4]);
+    dig_o[5] = etc_make_tex(dig_p[5], dig_w[5], dig_h[5], dig_b[5]);
+    dig_o[6] = etc_make_tex(dig_p[6], dig_w[6], dig_h[6], dig_b[6]);
+    dig_o[7] = etc_make_tex(dig_p[7], dig_w[7], dig_h[7], dig_b[7]);
+    dig_o[8] = etc_make_tex(dig_p[8], dig_w[8], dig_h[8], dig_b[8]);
+    dig_o[9] = etc_make_tex(dig_p[9], dig_w[9], dig_h[9], dig_b[9]);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -169,7 +136,6 @@ void game_init(void)
 
     list_ball = ball_init(4);
     list_coin = coin_init(32);
-    list_sky  = sky_init(4, 512);
 
     bump_buf = aio_load("data/sw/bump.sw", &bump_len);
     coin_buf = aio_load("data/sw/coin.sw", &coin_len);
@@ -200,16 +166,16 @@ void game_render_hud(void)
 
         glColor4d(1.0, 1.0, 1.0, 1.0);
 
-        aux_draw_tex(dig_o[balls / 10], 0.00, 0.00, 0.09, 0.09, 1.0);
-        aux_draw_tex(dig_o[balls % 10], 0.06, 0.00, 0.15, 0.09, 1.0);
+        etc_draw_tex(dig_o[balls / 10], 0.00, 0.00, 0.09, 0.09, 1.0);
+        etc_draw_tex(dig_o[balls % 10], 0.06, 0.00, 0.15, 0.09, 1.0);
 
-        aux_draw_tex(coin_label_o,      0.75, 0.03, 0.85, 0.06, 1.0);
-        aux_draw_tex(dig_o[score / 10], 0.85, 0.00, 0.94, 0.09, 1.0);
-        aux_draw_tex(dig_o[score % 10], 0.91, 0.00, 1.00, 0.09, 1.0);
+        etc_draw_tex(coin_label_o,      0.75, 0.03, 0.85, 0.06, 1.0);
+        etc_draw_tex(dig_o[score / 10], 0.85, 0.00, 0.94, 0.09, 1.0);
+        etc_draw_tex(dig_o[score % 10], 0.91, 0.00, 1.00, 0.09, 1.0);
 
-        aux_draw_tex(time_label_o,      0.35, 0.03, 0.45, 0.06, 1.0);
-        aux_draw_tex(dig_o[ticks / 10], 0.45, 0.00, 0.57, 0.15, 1.0);
-        aux_draw_tex(dig_o[ticks % 10], 0.53, 0.00, 0.65, 0.15, 1.0);
+        etc_draw_tex(time_label_o,      0.35, 0.03, 0.45, 0.06, 1.0);
+        etc_draw_tex(dig_o[ticks / 10], 0.45, 0.00, 0.57, 0.15, 1.0);
+        etc_draw_tex(dig_o[ticks % 10], 0.53, 0.00, 0.65, 0.15, 1.0);
     }
     glPopAttrib();
 }
@@ -231,7 +197,7 @@ static void game_render_all(const struct s_file *fp,
         {
             glDisable(GL_TEXTURE_2D);
 
-            coin_draw(list_coin, fp->cv, fp->cc, x);
+            coin_draw(list_coin, fp->cv, fp->cc);
             ball_draw(list_ball, up->r, up->p, up->e, x);
         }
         glPopAttrib();
@@ -314,7 +280,7 @@ void game_render_env(void)
     glPopMatrix();
 }
 
-int game_update_env(const double g[3], double dt)
+int game_update_env(const double g[3], double real_dt)
 {
     struct s_file *fp = &file;
 
@@ -322,9 +288,10 @@ int game_update_env(const double g[3], double dt)
     double x[3], y[3] = { 0.0, 1.0, 0.0 }, z[3];
     double a[3], h[3];
     double bump, roll;
-    double ay, az;
+    double ay, az, dt;
     int n;
 
+    dt    = (real_dt > MIN_DT) ? real_dt : MIN_DT;
     time -= dt;
 
     /* Compute the gravity vector from the given world rotations. */
@@ -373,7 +340,7 @@ int game_update_env(const double g[3], double dt)
     v_mad(view_p, fp->uv->p, view_e[1], ay < view_y ? ay : view_y);
     v_mad(view_p,    view_p, view_e[2], az < view_z ? az : view_z);
 
-    /* Tick goes the clock. */
+    /* The clock ticks. */
 
     if ((int) floor(time) < ticks)
     {
@@ -381,7 +348,7 @@ int game_update_env(const double g[3], double dt)
         ticks = (int) floor(time);
     }
 
-    /* Test for a coin grab. */
+    /* Test for a coin grab and a possible 1UP. */
 
     if ((n = coin_test(fp->uv, fp->cv, fp->cc)) > 0)
     {

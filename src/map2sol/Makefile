@@ -1,12 +1,15 @@
 OBJS= main.o
 TARG= map2sol
-LIBS= -laux -lvec -lsol -lpng -ljpeg -lGL
+LIBS= -letc -lvec -lsol -lpng -ljpeg -lGL -lm
 
-INCDIR= -I../../include -I/usr/X11R6/include
-LIBDIR= -L../../lib     -L/usr/X11R6/lib
+INCDIR= -I../../include
+LIBDIR= -L../../lib $(X11LIBDIR) $(PNGLIBDIR)
 
 .c.o :
 	$(CC) $(CFLAGS) -c $< $(INCDIR)
+
+all : $(TARG)
+	cp $(TARG) ../../bin
 
 $(TARG) : $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARG) $(OBJS) $(LIBDIR) $(LIBS)
@@ -14,5 +17,3 @@ $(TARG) : $(OBJS)
 clean :
 	rm $(TARG) $(OBJS)
 
-install : $(TARG)
-	cp $(TARG) ../../bin
