@@ -11,14 +11,14 @@
 
 /*---------------------------------------------------------------------------*/
 
-void part_init(double);
+void part_init(float);
 void part_free(void);
 
-void part_burst(const double *, const double *);
-void part_step(const double *, double);
+void part_burst(const float *, const float *);
+void part_step(const float *, float);
 
-void part_draw_coin(double, double);
-void part_draw_goal(double, double, double);
+void part_draw_coin(float, float);
+void part_draw_goal(float, float, float);
 
 /*---------------------------------------------------------------------------*/
 

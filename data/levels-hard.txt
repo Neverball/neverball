@@ -17,7 +17,7 @@ sol-rlk/frogger.sol  shot-rlk/frogger.jpg  png/greys_blues.png 90 bgm/snow.ogg
 sol-rlk/timer.sol    shot-rlk/timer.jpg    png/green_blue.png  90 bgm/flood.ogg
 sol-rlk/spread.sol   shot-rlk/spread.jpg   png/horiz_two.png   90 bgm/haze.ogg
 sol-rlk/hump.sol     shot-rlk/hump.jpg     png/horiz_two.png   45 bgm/snow.ogg
-sol-rlk/movers.sol   shot-rlk/movers.jpg   png/fire.png       120 bgm/flood.ogg
+sol-rlk/movers.sol   shot-rlk/movers.jpg   png/france.png     120 bgm/flood.ogg
 sol-rlk/teleport.sol shot-rlk/teleport.jpg png/deep_blue.png   60 bgm/haze.ogg
 sol-rlk/poker.sol    shot-rlk/poker.jpg    png/fire_white.png  60 bgm/snow.ogg
 sol-rlk/invis.sol    shot-rlk/invis.jpg    png/skyline.png     90 bgm/flood.ogg

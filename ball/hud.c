@@ -54,11 +54,11 @@ static int    balls_h = 0;
 static int    space_w = 0;              /* HUD layout spacing          */
 static GLuint timer_rect;               /* Timer label background      */
 
-static double ball_k = 1.0;
-static double time_k = 1.0;
-static double coin_k = 1.0;
-static double view_k = 0.0;
-static int    view_c = 0;
+static float ball_k = 1.f;
+static float time_k = 1.f;
+static float coin_k = 1.f;
+static float view_k = 0.f;
+static int   view_c = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -154,7 +154,7 @@ static void hud_draw_small(int d, int x, int y)
 {
     glPushMatrix();
     {
-        glTranslated((GLdouble) x, (GLdouble) y, 0.0);
+        glTranslatef((float) x, (float) y, 0.f);
 
         glBindTexture(GL_TEXTURE_2D, small_text[d]);
         glCallList(small_list[d]);
@@ -166,7 +166,7 @@ static void hud_draw_large(int d, int x, int y)
 {
     glPushMatrix();
     {
-        glTranslated((GLdouble) x, (GLdouble) y, 0.0);
+        glTranslatef((float) x, (float) y, 0.f);
 
         glBindTexture(GL_TEXTURE_2D, large_text[d]);
         glCallList(large_list[d]);
@@ -181,7 +181,7 @@ static void hud_draw_labels(void)
 
     glPushMatrix();
     {
-        glTranslated((GLdouble) space_w, (GLdouble) y, 0.0);
+        glTranslatef((float) space_w, (float) y, 0.f);
 
         glBindTexture(GL_TEXTURE_2D, balls_text);
         glCallList(balls_list);
@@ -190,7 +190,7 @@ static void hud_draw_labels(void)
 
     glPushMatrix();
     {
-        glTranslated((GLdouble) (W - coins_w - space_w), (GLdouble) y, 0.0);
+        glTranslatef((float) (W - coins_w - space_w), (float) y, 0.f);
 
         glBindTexture(GL_TEXTURE_2D, coins_text);
         glCallList(coins_list);
@@ -227,10 +227,10 @@ static void hud_draw_fps(void)
     static int then  = 0;
     static int count = 0;
 
-    if (count > 10)
-    {
-        int now = SDL_GetTicks();
+    int now = SDL_GetTicks();
 
+    if (now - then > 250)
+    {
         fps   = count * 1000 / (now - then);
         then  = now;
         count = 0;
@@ -246,9 +246,9 @@ static void hud_draw_view(void)
 {
     glPushMatrix();
     {
-        GLdouble t = ((view_k > 2.0) ? 2.0 : view_k) - 1.0;
+        GLfloat t = ((view_k > 2.f) ? 2.f : view_k) - 1.f;
 
-        glTranslated(-view_w + view_w * t, config_h() - small_h - view_h, 0.0);
+        glTranslatef(-view_w + view_w * t, config_h() - small_h - view_h, 0.f);
 
         glBindTexture(GL_TEXTURE_2D, view_text[view_c]);
         glCallList(view_list[view_c]);
@@ -263,13 +263,13 @@ void hud_draw(void)
     const int W = config_w();
     const int C = config_w() / 2;
 
-    const double clock = curr_clock();
-    const int    balls = curr_balls();
-    const int    coins = curr_coins();
+    const float clock = curr_clock();
+    const int   balls = curr_balls();
+    const int   coins = curr_coins();
 
     const int m = (int) floor(clock) / 60;
     const int s = (int) floor(clock) % 60;
-    const int h = (int) (100.0 * (clock - m * 60 - s));
+    const int h = (int) (100.f * (clock - m * 60 - s));
 
     config_push_ortho();
     {
@@ -298,11 +298,11 @@ void hud_draw(void)
 
             glPushMatrix();
             {
-                glTranslated(tx, 0.0, 0.0);
+                glTranslatef(tx, 0.f, 0.f);
 
-                glTranslated(+tw / 2, +large_h / 2, 0.0);
-                glScaled(time_k, time_k, 1.0);
-                glTranslated(-tw / 2, -large_h / 2, 0.0);
+                glTranslatef(+tw / 2, +large_h / 2, 0.f);
+                glScalef(time_k, time_k, 1.f);
+                glTranslatef(-tw / 2, -large_h / 2, 0.f);
 
                 hud_draw_large(m,          0,                            0);
                 hud_draw_small(10,         large_w,                     hy);
@@ -317,11 +317,11 @@ void hud_draw(void)
 
             glPushMatrix();
             {
-                glTranslated(bx, 0.0, 0.0);
+                glTranslatef(bx, 0.f, 0.f);
 
-                glTranslated(+small_w, +small_h / 2, 0.0);
-                glScaled(ball_k, ball_k, 1.0);
-                glTranslated(-small_w, -small_h / 2, 0.0);
+                glTranslatef(+small_w, +small_h / 2, 0.f);
+                glScalef(ball_k, ball_k, 1.f);
+                glTranslatef(-small_w, -small_h / 2, 0.f);
 
                 hud_draw_small((balls / 10), 0,       0);
                 hud_draw_small((balls % 10), small_w, 0);
@@ -332,18 +332,18 @@ void hud_draw(void)
 
             glPushMatrix();
             {
-                glTranslated(cx, 0.0, 0.0);
+                glTranslatef(cx, 0.f, 0.f);
 
-                glTranslated(+small_w, +small_h / 2, 0.0);
-                glScaled(coin_k, coin_k, 1.0);
-                glTranslated(-small_w, -small_h / 2, 0.0);
+                glTranslatef(+small_w, +small_h / 2, 0.f);
+                glScalef(coin_k, coin_k, 1.f);
+                glTranslatef(-small_w, -small_h / 2, 0.f);
 
                 hud_draw_small((coins / 10), 0,       0);
                 hud_draw_small((coins % 10), small_w, 0);
             }
             glPopMatrix();
 
-            if (view_k > 1.0) hud_draw_view();
+            if (view_k > 1.f) hud_draw_view();
             if (config_fps()) hud_draw_fps();
         }
         glPopAttrib();
@@ -354,32 +354,32 @@ void hud_draw(void)
 }
 
 
-void hud_step(double dt)
+void hud_step(float dt)
 {
     if (dt < 0.25)
     {
-        ball_k -= (ball_k - 1.0) * dt * 4;
-        time_k -= (time_k - 1.0) * dt * 4;
-        coin_k -= (coin_k - 1.0) * dt * 4;
+        ball_k -= (ball_k - 1.f) * dt * 4;
+        time_k -= (time_k - 1.f) * dt * 4;
+        coin_k -= (coin_k - 1.f) * dt * 4;
         view_k -=  dt;
     }
     else
     {
-        ball_k = 1.0;
-        time_k = 1.0;
-        coin_k = 1.0;
-        view_k = 1.0;
+        ball_k = 1.f;
+        time_k = 1.f;
+        coin_k = 1.f;
+        view_k = 1.f;
     }
 
-    if (ball_k < 0.0) ball_k =  0.0;
-    if (time_k < 0.0) time_k =  0.0;
-    if (coin_k < 0.0) coin_k =  0.0;
-    if (view_k < 0.0) view_k =  0.0;
+    if (ball_k < 0.f) ball_k =  0.f;
+    if (time_k < 0.f) time_k =  0.f;
+    if (coin_k < 0.f) coin_k =  0.f;
+    if (view_k < 0.f) view_k =  0.f;
 }
 
-void hud_ball_pulse(double k) { ball_k = k; }
-void hud_time_pulse(double k) { time_k = k; }
-void hud_coin_pulse(double k) { coin_k = k; }
-void hud_view_pulse(int c)    { view_k = 4.0; view_c = c; }
+void hud_ball_pulse(float k) { ball_k = k; }
+void hud_time_pulse(float k) { time_k = k; }
+void hud_coin_pulse(float k) { coin_k = k; }
+void hud_view_pulse(int c)   { view_k = 4.f; view_c = c; }
 
 /*---------------------------------------------------------------------------*/

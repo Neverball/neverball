@@ -15,13 +15,18 @@
 #ifndef VEC_H
 #define VEC_H
 
-#define V_RAD(d) (d * 3.14159265358979323846 / 180.0)
-#define V_DEG(r) (r * 180.0 / 3.14159265358979323846)
+#define V_RAD(d) (d * 3.1415927f / 180.f)
+#define V_DEG(r) (r * 180.f / 3.1415927f)
+
+#define fsinf(a)      ((float) sin((double) a))
+#define fcosf(a)      ((float) cos((double) a))
+#define fsqrtf(a)     ((float) sqrt((double) a))
+#define fatan2f(x, y) ((float) atan2((double) x, (double) y))
 
 /*---------------------------------------------------------------------------*/
 
 #define v_dot(u, v)  ((u)[0] * (v)[0] + (u)[1] * (v)[1] + (u)[2] * (v)[2])
-#define v_len(u) sqrt((u)[0] * (u)[0] + (u)[1] * (u)[1] + (u)[2] * (u)[2])
+#define v_len(u)     fsqrtf(v_dot(u, u))
 
 #define v_cpy(u, v) { \
     (u)[0] = (v)[0];  \
@@ -54,9 +59,9 @@
 }
 
 #define v_mid(u, v, w) {              \
-    (u)[0] = ((v)[0] + (w)[0]) / 2.0; \
-    (u)[1] = ((v)[1] + (w)[1]) / 2.0; \
-    (u)[2] = ((v)[2] + (w)[2]) / 2.0; \
+    (u)[0] = ((v)[0] + (w)[0]) / 2.f; \
+    (u)[1] = ((v)[1] + (w)[1]) / 2.f; \
+    (u)[2] = ((v)[2] + (w)[2]) / 2.f; \
 }
 
 #define v_mad(u, p, v, t) {         \
@@ -68,24 +73,24 @@
 /*---------------------------------------------------------------------------*/
 
 
-void   v_nrm(double[3], const double[3]);
-void   v_crs(double[3], const double[3], const double[3]);
+void   v_nrm(float *, const float *);
+void   v_crs(float *, const float *, const float *);
 
-void   m_cpy(double[16], const double[16]);
-void   m_xps(double[16], const double[16]);
-int    m_inv(double[16], const double[16]);
+void   m_cpy(float *, const float *);
+void   m_xps(float *, const float *);
+int    m_inv(float *, const float *);
 
-void   m_ident(double[16]);
-void   m_basis(double[16], const double[3],
-                           const double[3],
-                           const double[3]);
+void   m_ident(float *);
+void   m_basis(float *, const float *,
+                        const float *,
+                        const float *);
 
-void   m_xlt(double[16], const double[3]);
-void   m_scl(double[16], const double[3]);
-void   m_rot(double[16], const double[3], double);
+void   m_xlt(float *, const float *);
+void   m_scl(float *, const float *);
+void   m_rot(float *, const float *, float);
 
-void   m_mult(double[16], const double[16], const double[16]);
-void   m_pxfm(double[3],  const double[16], const double[3]);
-void   m_vxfm(double[3],  const double[16], const double[3]);
+void   m_mult(float *, const float *, const float *);
+void   m_pxfm(float *, const float *, const float *);
+void   m_vxfm(float *, const float *, const float *);
 
 #endif

@@ -153,7 +153,7 @@ void config_tog_fps(void);
 
 /*---------------------------------------------------------------------------*/
 
-void config_push_persp(double, double, double);
+void config_push_persp(float, float, float);
 void config_push_ortho(void);
 void config_pop_matrix(void);
 

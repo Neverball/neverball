@@ -30,13 +30,13 @@
 
 struct score
 {
-    char   time_n[4][MAXNAM];
-    double time_s[4];
-    int    time_c[4];
+    char  time_n[4][MAXNAM];
+    float time_s[4];
+    int   time_c[4];
 
-    char   coin_n[4][MAXNAM];
-    double coin_s[4];
-    int    coin_c[4];
+    char  coin_n[4][MAXNAM];
+    float coin_s[4];
+    int   coin_c[4];
 };
 
 struct level
@@ -57,9 +57,9 @@ static int level;                       /* Current level number      */
 static int count;                       /* Number of levels          */
 static int limit;                       /* First unopened level      */
 
-static int    level_total;
-static int    coins_total;
-static double times_total;
+static int   level_total;
+static int   coins_total;
+static float times_total;
 
 static struct level level_v[MAXLVL];
 static struct score score_v[MAXLVL];
@@ -113,27 +113,27 @@ static void level_load_hs(const char *filename)
 
             for (i = 0; i < count; i++)
             {
-                if (fscanf(fin, "%lf %d %s",
+                if (fscanf(fin, "%f %d %s",
                            &score_v[i].time_s[0],
                            &score_v[i].time_c[0],
                             score_v[i].time_n[0]) == 3 &&
-                    fscanf(fin, "%lf %d %s",
+                    fscanf(fin, "%f %d %s",
                            &score_v[i].coin_s[0],
                            &score_v[i].coin_c[0],
                             score_v[i].coin_n[0]) == 3 &&
-                    fscanf(fin, "%lf %d %s",
+                    fscanf(fin, "%f %d %s",
                            &score_v[i].time_s[1],
                            &score_v[i].time_c[1],
                             score_v[i].time_n[1]) == 3 &&
-                    fscanf(fin, "%lf %d %s",
+                    fscanf(fin, "%f %d %s",
                            &score_v[i].coin_s[1],
                            &score_v[i].coin_c[1],
                             score_v[i].coin_n[1]) == 3 &&
-                    fscanf(fin, "%lf %d %s",
+                    fscanf(fin, "%f %d %s",
                            &score_v[i].time_s[2],
                            &score_v[i].time_c[2],
                             score_v[i].time_n[2]) == 3 &&
-                    fscanf(fin, "%lf %d %s",
+                    fscanf(fin, "%f %d %s",
                            &score_v[i].coin_s[2],
                            &score_v[i].coin_c[2],
                             score_v[i].coin_n[2]) == 3)
@@ -189,9 +189,9 @@ static void level_init_hs(const char *filename)
         strcpy(score_v[i].time_n[1], "Medium");
         strcpy(score_v[i].time_n[2], "Easy");
 
-        score_v[i].time_s[0] = i ? 600.00 : 3600.00;
-        score_v[i].time_s[1] = i ? 600.00 : 3600.00;
-        score_v[i].time_s[2] = i ? 600.00 : 3600.00;
+        score_v[i].time_s[0] = i ? 600.f : 3600.f;
+        score_v[i].time_s[1] = i ? 600.f : 3600.f;
+        score_v[i].time_s[2] = i ? 600.f : 3600.f;
 
         score_v[i].time_c[0] = 0;
         score_v[i].time_c[1] = 0;
@@ -201,9 +201,9 @@ static void level_init_hs(const char *filename)
         strcpy(score_v[i].coin_n[1], "Medium");
         strcpy(score_v[i].coin_n[2], "Easy");
 
-        score_v[i].coin_s[0] = i ? 600.00 : 3600.00;
-        score_v[i].coin_s[1] = i ? 600.00 : 3600.00;
-        score_v[i].coin_s[2] = i ? 600.00 : 3600.00;
+        score_v[i].coin_s[0] = i ? 600.f : 3600.f;
+        score_v[i].coin_s[1] = i ? 600.f : 3600.f;
+        score_v[i].coin_s[2] = i ? 600.f : 3600.f;
 
         score_v[i].coin_c[0] = 0;
         score_v[i].coin_c[1] = 0;
@@ -215,7 +215,7 @@ static void level_init_hs(const char *filename)
     if ((fin = fopen(filename, "r")))
     {
         for (i = 0; i < MAXLVL && fgets(buf, MAXSTR, fin); i++)
-            sscanf(buf, "%lf %d %lf %d %lf %d",
+            sscanf(buf, "%f %d %f %d %f %d",
                    &score_v[i].time_s[0], &score_v[i].coin_c[0],
                    &score_v[i].time_s[1], &score_v[i].coin_c[1],
                    &score_v[i].time_s[2], &score_v[i].coin_c[2]);
@@ -226,11 +226,11 @@ static void level_init_hs(const char *filename)
 
 /*---------------------------------------------------------------------------*/
 
-static void sprint_time(char *buf, double t)
+static void sprint_time(char *buf, float t)
 {
     int m = (int) floor(t) / 60;
     int s = (int) floor(t) % 60;
-    int h = (int) (100.0 * (t - m * 60 - s));
+    int h = (int) (100.f * (t - m * 60 - s));
 
     sprintf(buf, "%d:%02d.%02d", m, s, h);
 }
@@ -349,10 +349,10 @@ int curr_level(void) { return level; }
 
 /*---------------------------------------------------------------------------*/
 
-static int time_comp(double t1, double t2)
+static int time_comp(float t1, float t2)
 {
-    int h1 = (int) floor(100.0 * t1);
-    int h2 = (int) floor(100.0 * t2);
+    int h1 = (int) floor(100.f * t1);
+    int h2 = (int) floor(100.f * t2);
 
     if (h1 < h2) return -1;
     if (h1 > h2) return +1;
@@ -388,9 +388,9 @@ static int score_coin_comp(const struct score *S, int i, int j)
 
 static void score_time_swap(struct score *S, int i, int j)
 {
-    char   n[MAXNAM];
-    double s;
-    int    c;
+    char  n[MAXNAM];
+    float s;
+    int   c;
 
     strncpy(n,            S->time_n[i], MAXNAM);
     strncpy(S->time_n[i], S->time_n[j], MAXNAM);
@@ -407,9 +407,9 @@ static void score_time_swap(struct score *S, int i, int j)
 
 static void score_coin_swap(struct score *S, int i, int j)
 {
-    char   n[MAXNAM];
-    double s;
-    int    c;
+    char  n[MAXNAM];
+    float s;
+    int   c;
 
     strncpy(n,            S->coin_n[i], MAXNAM);
     strncpy(S->coin_n[i], S->coin_n[j], MAXNAM);
@@ -440,7 +440,7 @@ void level_goto(int s, int c, int b, int l)
 
 int level_goal(void)
 {
-    double clock = level_v[level].time - curr_clock();
+    float clock = level_v[level].time - curr_clock();
     
     level_total += 1;
     times_total += clock;
@@ -476,7 +476,7 @@ int level_goal(void)
 
 int level_pass(void)
 {
-    double clock = level_v[level].time - curr_clock();
+    float clock = level_v[level].time - curr_clock();
     int i;
 
     if (strlen(player) == 0)
@@ -566,13 +566,13 @@ int level_fail(void)
 
 void level_score(int n)
 {
-    double k = 1.25;
+    float k = 1.25;
 
     coins += n;
     score += n;
 
     if (n >=  5) k = 1.5;
-    if (n >= 10) k = 2.0;
+    if (n >= 10) k = 2.f;
 
     hud_coin_pulse(k);
 
@@ -580,13 +580,13 @@ void level_score(int n)
     {
         coins -= 100;
         balls += 1;
-        audio_play(AUD_BALL, 1.0f);
-        hud_ball_pulse(2.0);
+        audio_play(AUD_BALL, 1.f);
+        hud_ball_pulse(2.f);
 
         limit = (level + 1 > limit) ? level + 1 : limit;
     }
     else
-        audio_play(AUD_COIN, 1.0f);
+        audio_play(AUD_COIN, 1.f);
 }
 
 void level_shot(int i)
@@ -618,7 +618,7 @@ void level_snap(int i)
     /* Render the level and grab the screen. */
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    game_set_fly(1.0);
+    game_set_fly(1.f);
     game_draw(1, 0);
     SDL_GL_SwapBuffers();
 

@@ -1,4 +1,17 @@
 -------------------------------------------------------------------------------
+New in 1.2.5
+
+* Fixed refrected background rotation.
+* Added OBJ loading to mapc.
+* Finally fixed material hack in mapc.
+* A few graphical optimizations.
+* Added shadow config option.
+* Added sphere-map material type.
+* Modified many levels to use detail OBJs.
+* Traded doubles/ints for floats/shorts in the .sol file.  This cuts .sol
+  file size in half, but puts a limit on level complexity.
+
+-------------------------------------------------------------------------------
 New in 1.2.4
 
 * Added camera control key binding to config file.
@@ -11,6 +24,7 @@ New in 1.2.4
 New in 1.2.3
 
 * Added reflection material.
+* Modified several levels to use reflective material.
 * Added option to disable reflection materials.
 * Updated mapping documentation.
 * Changed shadow CLAMP_TO_EDGE to CLAMP to work around some bad drivers.

@@ -7,12 +7,12 @@
 #define IMG_BALL "png/ball.png"
 #define IMG_DONE "png/eyeball.png"
 
-#define BALL_FUDGE    0.001
-#define COIN_RADIUS   0.15
-#define COIN_THICK    0.01
-#define JUMP_HEIGHT   2.00
-#define SWCH_HEIGHT   2.00
-#define GOAL_HEIGHT   3.00
+#define BALL_FUDGE    0.001f
+#define COIN_RADIUS   0.15f
+#define COIN_THICK    0.01f
+#define JUMP_HEIGHT   2.00f
+#define SWCH_HEIGHT   2.00f
+#define GOAL_HEIGHT   3.00f
 #define GOAL_SPARKS  64
 
 /*---------------------------------------------------------------------------*/
@@ -29,10 +29,13 @@ void mark_draw(void);
 
 /*---------------------------------------------------------------------------*/
 
-void coin_color(double *, int);
+void coin_color(float *, int);
 void coin_init(int);
 void coin_free(void);
-void coin_draw(int);
+
+void coin_push(void);
+void coin_draw(int, float);
+void coin_pull(void);
 
 /*---------------------------------------------------------------------------*/
 

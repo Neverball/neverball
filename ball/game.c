@@ -33,28 +33,28 @@
 
 static struct s_file file;
 
-static double clock = 0.0;              /* Clock time                        */
+static float clock = 0.f;               /* Clock time                        */
 
-static double game_ix;                  /* Input rotation about X axis       */
-static double game_iz;                  /* Input rotation about Z axis       */
-static double game_rx;                  /* Floor rotation about X axis       */
-static double game_rz;                  /* Floor rotation about Z axis       */
+static float game_ix;                   /* Input rotation about X axis       */
+static float game_iz;                   /* Input rotation about Z axis       */
+static float game_rx;                   /* Floor rotation about X axis       */
+static float game_rz;                   /* Floor rotation about Z axis       */
 
-static double view_a;                   /* Ideal view rotation about Y axis  */
-static double view_ry;                  /* Angular velocity about Y axis     */
-static double view_dy;                  /* Ideal view distance above ball    */
-static double view_dz;                  /* Ideal view distance behind ball   */
+static float view_a;                    /* Ideal view rotation about Y axis  */
+static float view_ry;                   /* Angular velocity about Y axis     */
+static float view_dy;                   /* Ideal view distance above ball    */
+static float view_dz;                   /* Ideal view distance behind ball   */
 
-static double view_c[3];                /* Current view center               */
-static double view_v[3];                /* Current view vector               */
-static double view_p[3];                /* Current view position             */
-static double view_e[3][3];             /* Current view orientation          */
+static float view_c[3];                 /* Current view center               */
+static float view_v[3];                 /* Current view vector               */
+static float view_p[3];                 /* Current view position             */
+static float view_e[3][3];              /* Current view orientation          */
 
-static int    swch_e = 1;               /* Switching enabled flag            */
-static int    jump_e = 1;               /* Jumping enabled flag              */
-static int    jump_b = 0;               /* Jump-in-progress flag             */
-static double jump_dt;                  /* Jump duration                     */
-static double jump_p[3];                /* Jump destination                  */
+static int   swch_e = 1;                /* Switching enabled flag            */
+static int   jump_e = 1;                /* Jumping enabled flag              */
+static int   jump_b = 0;                /* Jump-in-progress flag             */
+static float jump_dt;                   /* Jump duration                     */
+static float jump_p[3];                 /* Jump destination                  */
 
 static GLuint shadow_text;              /* Shadow texture object             */
 
@@ -62,36 +62,36 @@ static GLuint shadow_text;              /* Shadow texture object             */
 
 static void view_init(void)
 {
-    view_a  = 0.0;
-    view_ry = 0.0;
-    view_dy = 4.0;
-    view_dz = 6.0;
+    view_a  = 0.f;
+    view_ry = 0.f;
+    view_dy = 4.f;
+    view_dz = 6.f;
 
-    view_c[0] = 0.0;
-    view_c[1] = 0.0;
-    view_c[2] = 0.0;
+    view_c[0] = 0.f;
+    view_c[1] = 0.f;
+    view_c[2] = 0.f;
 
-    view_p[0] =     0.0;
+    view_p[0] =     0.f;
     view_p[1] = view_dy;
     view_p[2] = view_dz;
 
-    view_e[0][0] = 1.0;
-    view_e[0][1] = 0.0;
-    view_e[0][2] = 0.0;
-    view_e[1][0] = 0.0;
-    view_e[1][1] = 1.0;
-    view_e[1][2] = 0.0;
-    view_e[2][0] = 0.0;
-    view_e[2][1] = 0.0;
-    view_e[2][2] = 1.0;
+    view_e[0][0] = 1.f;
+    view_e[0][1] = 0.f;
+    view_e[0][2] = 0.f;
+    view_e[1][0] = 0.f;
+    view_e[1][1] = 1.f;
+    view_e[1][2] = 0.f;
+    view_e[2][0] = 0.f;
+    view_e[2][1] = 0.f;
+    view_e[2][2] = 1.f;
 }
 
 void game_init(const char *s, int t)
 {
-    game_ix = 0.0;
-    game_iz = 0.0;
-    game_rx = 0.0;
-    game_rz = 0.0;
+    game_ix = 0.f;
+    game_iz = 0.f;
+    game_rx = 0.f;
+    game_rz = 0.f;
 
     jump_e = 1;
     jump_b = 0;
@@ -99,17 +99,20 @@ void game_init(const char *s, int t)
     view_init();
     part_init(GOAL_HEIGHT);
 
-    hud_ball_pulse(0.0);
-    hud_time_pulse(0.0);
-    hud_coin_pulse(0.0);
+    hud_ball_pulse(0.f);
+    hud_time_pulse(0.f);
+    hud_coin_pulse(0.f);
 
     sol_load(&file, s, config_text());
     clock = t;
 
     shadow_text = make_image_from_file(NULL, NULL, IMG_SHADOW);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    if (glext_shadow() == 2)
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    }
 }
 
 void game_free(void)
@@ -123,9 +126,9 @@ void game_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-double curr_clock(void)
+float curr_clock(void)
 {
-    return floor(clock * 100.0) / 100.0;
+    return floor(clock * 100.f) / 100.f;
 }
 
 char *curr_intro(void)
@@ -137,17 +140,17 @@ char *curr_intro(void)
 
 static void game_draw_balls(const struct s_file *fp)
 {
-    double M[16];
+    float M[16];
 
     m_basis(M, fp->uv[0].e[0], fp->uv[0].e[1], fp->uv[0].e[2]);
 
     glPushMatrix();
     {
-        glTranslated(fp->uv[0].p[0],
+        glTranslatef(fp->uv[0].p[0],
                      fp->uv[0].p[1] + BALL_FUDGE,
                      fp->uv[0].p[2]);
-        glMultMatrixd(M);
-        glScaled(fp->uv[0].r,
+        glMultMatrixf(M);
+        glScalef(fp->uv[0].r,
                  fp->uv[0].r,
                  fp->uv[0].r);
 
@@ -160,23 +163,29 @@ static void game_draw_balls(const struct s_file *fp)
 
 static void game_draw_coins(const struct s_file *fp)
 {
+    float r = 360.f * SDL_GetTicks() / 1000.f;
     int ci;
 
-    for (ci = 0; ci < fp->cc; ci++)
-        if (fp->cv[ci].n > 0)
-        {
-            glPushMatrix();
+    coin_push();
+    {
+        for (ci = 0; ci < fp->cc; ci++)
+            if (fp->cv[ci].n > 0)
             {
-                glTranslated(fp->cv[ci].p[0],
-                             fp->cv[ci].p[1],
-                             fp->cv[ci].p[2]);
-                coin_draw(fp->cv[ci].n);
+                glPushMatrix();
+                {
+                    glTranslatef(fp->cv[ci].p[0],
+                                 fp->cv[ci].p[1],
+                                 fp->cv[ci].p[2]);
+                    glRotatef(r, 0.0f, 1.0f, 0.0f);
+                    coin_draw(fp->cv[ci].n, r);
+                }
+                glPopMatrix();
             }
-            glPopMatrix();
-        }
+    }
+    coin_pull();
 }
 
-static void game_draw_goals(const struct s_file *fp, double rx, double ry)
+static void game_draw_goals(const struct s_file *fp, float rx, float ry)
 {
     int zi;
 
@@ -184,13 +193,13 @@ static void game_draw_goals(const struct s_file *fp, double rx, double ry)
     {
         glPushMatrix();
         {
-            glTranslated(fp->zv[zi].p[0],
+            glTranslatef(fp->zv[zi].p[0],
                          fp->zv[zi].p[1],
                          fp->zv[zi].p[2]);
 
             part_draw_goal(rx, ry, fp->zv[zi].r);
 
-            glScaled(fp->zv[zi].r, 1.0, fp->zv[zi].r);
+            glScalef(fp->zv[zi].r, 1.f, fp->zv[zi].r);
             goal_draw();
         }
         glPopMatrix();
@@ -205,11 +214,11 @@ static void game_draw_jumps(const struct s_file *fp)
     {
         glPushMatrix();
         {
-            glTranslated(fp->jv[ji].p[0],
+            glTranslatef(fp->jv[ji].p[0],
                          fp->jv[ji].p[1],
                          fp->jv[ji].p[2]);
 
-            glScaled(fp->jv[ji].r, 1.0, fp->jv[ji].r);
+            glScalef(fp->jv[ji].r, 1.f, fp->jv[ji].r);
             jump_draw();
         }
         glPopMatrix();
@@ -224,11 +233,11 @@ static void game_draw_swchs(const struct s_file *fp)
     {
         glPushMatrix();
         {
-            glTranslated(fp->xv[xi].p[0],
+            glTranslatef(fp->xv[xi].p[0],
                          fp->xv[xi].p[1],
                          fp->xv[xi].p[2]);
 
-            glScaled(fp->xv[xi].r, 1.0, fp->xv[xi].r);
+            glScalef(fp->xv[xi].r, 1.f, fp->xv[xi].r);
             swch_draw(fp->xv[xi].f);
         }
         glPopMatrix();
@@ -252,15 +261,15 @@ static void game_draw_swchs(const struct s_file *fp)
 
 static void game_set_shadow(const struct s_file *fp)
 {
-    const double *ball_p = fp->uv->p;
-    const double  ball_r = fp->uv->r;
+    const float *ball_p = fp->uv->p;
+    const float  ball_r = fp->uv->r;
 
-    if (glActiveTexture)
+    if (glext_shadow())
     {
         glActiveTexture(GL_TEXTURE1);
         glMatrixMode(GL_TEXTURE);
         {
-            double k = 0.5 / ball_r;
+            float k = 0.5 / ball_r;
 
             glEnable(GL_TEXTURE_2D);
 
@@ -268,9 +277,9 @@ static void game_set_shadow(const struct s_file *fp)
             glBindTexture(GL_TEXTURE_2D, shadow_text);
 
             glLoadIdentity();
-            glTranslated(0.5 - ball_p[0] * k,
-                         0.5 - ball_p[2] * k, 0.0);
-            glScaled(k, k, 1.0);
+            glTranslatef(0.5 - ball_p[0] * k,
+                         0.5 - ball_p[2] * k, 0.f);
+            glScalef(k, k, 1.f);
         }
         glMatrixMode(GL_MODELVIEW);
         glActiveTexture(GL_TEXTURE0);
@@ -279,7 +288,7 @@ static void game_set_shadow(const struct s_file *fp)
 
 static void game_clr_shadow(void)
 {
-    if (glActiveTexture)
+    if (glext_shadow())
     {
         glActiveTexture(GL_TEXTURE1);
         {
@@ -293,16 +302,16 @@ static void game_clr_shadow(void)
 
 static void game_refl_all(void)
 {
-    const double *ball_p = file.uv->p;
+    const float *ball_p = file.uv->p;
     
     glPushMatrix();
     {
         /* Rotate the environment about the position of the ball. */
 
-        glTranslated(+ball_p[0], +ball_p[1], +ball_p[2]);
-        glRotated(-game_rz, view_e[2][0], view_e[2][1], view_e[2][2]);
-        glRotated(-game_rx, view_e[0][0], view_e[0][1], view_e[0][2]);
-        glTranslated(-ball_p[0], -ball_p[1], -ball_p[2]);
+        glTranslatef(+ball_p[0], +ball_p[1], +ball_p[2]);
+        glRotatef(-game_rz, view_e[2][0], view_e[2][1], view_e[2][2]);
+        glRotatef(-game_rx, view_e[0][0], view_e[0][1], view_e[0][2]);
+        glTranslatef(-ball_p[0], -ball_p[1], -ball_p[2]);
 
         /* Draw the floor. */
 
@@ -339,19 +348,21 @@ static void game_draw_light(void)
     glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
 }
 
-static void game_draw_all(int pose, double rx, double ry, int d)
+static void game_draw_all(int pose, float rx, float ry, int d)
 {
-    const double *ball_p = file.uv->p;
+    const float *ball_p = file.uv->p;
     
     glPushAttrib(GL_LIGHTING_BIT);
     glPushAttrib(GL_COLOR_BUFFER_BIT);
     {
         glPushMatrix();
         {
-            /* Center the skybox about the position of the camera. */
-            /*
-            glTranslated(view_p[0], view_p[1], view_p[2]);
-            */
+            if (d < 0)
+            {
+                glRotatef(game_rz, view_e[2][0], view_e[2][1], view_e[2][2]);
+                glRotatef(game_rx, view_e[0][0], view_e[0][1], view_e[0][2]);
+            }
+
             game_clr_shadow();
             back_draw(d, 0);
         }
@@ -361,10 +372,10 @@ static void game_draw_all(int pose, double rx, double ry, int d)
         {
             /* Rotate the environment about the position of the ball. */
 
-            glTranslated(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
-            glRotated(-game_rz * d, view_e[2][0], view_e[2][1], view_e[2][2]);
-            glRotated(-game_rx * d, view_e[0][0], view_e[0][1], view_e[0][2]);
-            glTranslated(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
+            glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
+            glRotatef(-game_rz * d, view_e[2][0], view_e[2][1], view_e[2][2]);
+            glRotatef(-game_rx * d, view_e[0][0], view_e[0][1], view_e[0][2]);
+            glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
 
             if (d < 0)
             {
@@ -408,28 +419,28 @@ static void game_draw_all(int pose, double rx, double ry, int d)
     glPopAttrib();
 }
 
-void game_draw(int pose, double dy)
+void game_draw(int pose, float dy)
 {
-    double fov = FOV;
+    float fov = FOV;
 
-    if (jump_b) fov *= 2.0 * fabs(jump_dt - 0.5);
+    if (jump_b) fov *= 2.f * fabs(jump_dt - 0.5);
 
     config_push_persp(fov, 0.1, FAR_DIST);
     glPushMatrix();
     {
-        double v[3], rx, ry;
+        float v[3], rx, ry;
 
         /* Compute and apply the view. */
 
         v_sub(v, view_c, view_p);
 
-        rx = V_DEG(atan2(-v[1], sqrt(v[0] * v[0] + v[2] * v[2])));
-        ry = V_DEG(atan2(+v[0], -v[2])) + dy;
+        rx = V_DEG(fatan2f(-v[1], fsqrtf(v[0] * v[0] + v[2] * v[2])));
+        ry = V_DEG(fatan2f(+v[0], -v[2])) + dy;
 
-        glTranslated(0.0, 0.0, -v_len(v));
-        glRotated(rx, 1.0, 0.0, 0.0);
-        glRotated(ry, 0.0, 1.0, 0.0);
-        glTranslated(-view_c[0], -view_c[1], -view_c[2]);
+        glTranslatef(0.f, 0.f, -v_len(v));
+        glRotatef(rx, 1.f, 0.f, 0.f);
+        glRotatef(ry, 0.f, 1.f, 0.f);
+        glTranslatef(-view_c[0], -view_c[1], -view_c[2]);
 
         if (config_refl())
         {
@@ -449,7 +460,7 @@ void game_draw(int pose, double dy)
             glFrontFace(GL_CW);
             glPushMatrix();
             {
-                glScaled(+1.0, -1.0, +1.0);
+                glScalef(+1.f, -1.f, +1.f);
 
                 game_draw_light();
                 game_draw_all(pose, rx, ry, -1);
@@ -471,16 +482,16 @@ void game_draw(int pose, double dy)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_update_grav(double h[3], const double g[3])
+static void game_update_grav(float h[3], const float g[3])
 {
     struct s_file *fp = &file;
 
-    double x[3];
-    double y[3] = { 0.0, 1.0, 0.0 };
-    double z[3];
-    double X[16];
-    double Z[16];
-    double M[16];
+    float x[3];
+    float y[3] = { 0.f, 1.f, 0.f };
+    float z[3];
+    float X[16];
+    float Z[16];
+    float M[16];
 
     /* Compute the gravity vector from the given world rotations. */
 
@@ -496,19 +507,19 @@ static void game_update_grav(double h[3], const double g[3])
     m_vxfm(h, M, g);
 }
 
-static void game_update_view(double dt)
+static void game_update_view(float dt)
 {
-    const double y[3] = { 0.0, 1.0, 0.0 };
+    const float y[3] = { 0.f, 1.f, 0.f };
 
-    double dx = view_ry * dt * 10.0;
-    double dy;
-    double dz;
-    double k;
-    double e[3];
-    double d[3];
-    double s = 2.0 * dt;
+    float dx = view_ry * dt * 10.f;
+    float dy;
+    float dz;
+    float k;
+    float e[3];
+    float d[3];
+    float s = 2.f * dt;
 
-    view_a += view_ry * dt * 90.0;
+    view_a += view_ry * dt * 90.f;
 
     /* Center the view about the ball. */
 
@@ -526,12 +537,12 @@ static void game_update_view(double dt)
     case 2:
         /* Camera 2: View vector is given by view angle. */
 
-        view_e[2][0] = sin(V_RAD(view_a));
-        view_e[2][1] = 0.0;
-        view_e[2][2] = cos(V_RAD(view_a));
+        view_e[2][0] = fsinf(V_RAD(view_a));
+        view_e[2][1] = 0.f;
+        view_e[2][2] = fcosf(V_RAD(view_a));
 
-        dx = 0.0;
-        s  = 8.0 * dt;
+        dx = 0.f;
+        s  = 8.f * dt;
         break;
 
     default:
@@ -567,16 +578,16 @@ static void game_update_view(double dt)
 
     /* Compute the new view position. */
 
-    view_p[0] = view_p[1] = view_p[2] = 0.0;
+    view_p[0] = view_p[1] = view_p[2] = 0.f;
 
     v_mad(view_p, view_c, view_e[0], dx);
     v_mad(view_p, view_p, view_e[1], dy);
     v_mad(view_p, view_p, view_e[2], dz);
 
-    view_a = V_DEG(atan2(view_e[2][0], view_e[2][2]));
+    view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
 }
 
-static void game_update_time(double dt, int b)
+static void game_update_time(float dt, int b)
 {
     int tick = (int) floor(clock);
     int tock = (int) floor(clock * 2);
@@ -585,10 +596,10 @@ static void game_update_time(double dt, int b)
 
     if (b)
     {
-        if (clock < 600.0)
+        if (clock < 600.f)
             clock -= dt;
-        if (clock < 0.0)
-            clock = 0.0;
+        if (clock < 0.f)
+            clock = 0.f;
 
         if (0 < tick && tick <= 10 && tick == (int) ceil(clock))
         {
@@ -606,8 +617,8 @@ static void game_update_time(double dt, int b)
 static int game_update_state(void)
 {
     struct s_file *fp = &file;
-    double p[3];
-    double c[3];
+    float p[3];
+    float c[3];
     int n, e = swch_e;
 
     /* Test for a coin grab and a possible 1UP. */
@@ -630,7 +641,7 @@ static int game_update_state(void)
     {
         jump_b  = 1;
         jump_e  = 0;
-        jump_dt = 0.0;
+        jump_dt = 0.f;
         
         audio_play(AUD_JUMP, 1.f);
     }
@@ -644,12 +655,12 @@ static int game_update_state(void)
 
     /* Test for time-out. */
 
-    if (clock <= 0.0)
+    if (clock <= 0.f)
         return GAME_TIME;
 
     /* Test for fall-out. */
 
-    if (fp->uv[0].p[1] < -20.0)
+    if (fp->uv[0].p[1] < -20.f)
         return GAME_FALL;
 
     return GAME_NONE;
@@ -670,14 +681,14 @@ static int game_update_state(void)
  * graphics frame rate.
  */
 
-int game_step(const double g[3], double dt, int bt)
+int game_step(const float g[3], float dt, int bt)
 {
     struct s_file *fp = &file;
 
-    double h[3];
-    double d = 0.0;
-    double b = 0.0;
-    double t;
+    float h[3];
+    float d = 0.f;
+    float b = 0.f;
+    float t;
     int i, n = 1;
 
     t = dt;
@@ -710,7 +721,7 @@ int game_step(const double g[3], double dt, int bt)
             fp->uv[0].p[1] = jump_p[1];
             fp->uv[0].p[2] = jump_p[2];
         }
-        if (1.0 < jump_dt)
+        if (1.f < jump_dt)
             jump_b = 0;
     }
     else
@@ -730,7 +741,7 @@ int game_step(const double g[3], double dt, int bt)
         /* Mix the sound of a ball bounce. */
 
         if (b > 0.5)
-            audio_play(AUD_BUMP, (float) (b - 0.5) * 2.0f);
+            audio_play(AUD_BUMP, (b - 0.5) * 2.0f);
     }
 
     game_update_view(dt);
@@ -743,20 +754,20 @@ int game_step(const double g[3], double dt, int bt)
 
 void game_set_x(int k)
 {
-    game_ix = -20.0 * k / JOY_MAX;
+    game_ix = -20.f * k / JOY_MAX;
 }
 
 void game_set_z(int k)
 {
-    game_iz = +20.0 * k / JOY_MAX;
+    game_iz = +20.f * k / JOY_MAX;
 }
 
 void game_set_pos(int x, int y)
 {
-    double bound = 20.0;
+    float bound = 20.f;
 
-    game_ix += 40.0 * y / config_sens();
-    game_iz += 40.0 * x / config_sens();
+    game_ix += 40.f * y / config_sens();
+    game_iz += 40.f * x / config_sens();
 
     if (game_ix > +bound) game_ix = +bound;
     if (game_ix < -bound) game_ix = -bound;
@@ -766,23 +777,23 @@ void game_set_pos(int x, int y)
 
 void game_set_rot(int r)
 {
-    view_ry = (double) r;
+    view_ry = (float) r;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void game_set_fly(double k)
+void game_set_fly(float k)
 {
     struct s_file *fp = &file;
 
-    double  x[3] = { 1.0, 0.0, 0.0 };
-    double  y[3] = { 0.0, 1.0, 0.0 };
-    double  z[3] = { 0.0, 0.0, 1.0 };
-    double c0[3] = { 0.0, 0.0, 0.0 };
-    double p0[3] = { 0.0, 0.0, 0.0 };
-    double c1[3] = { 0.0, 0.0, 0.0 };
-    double p1[3] = { 0.0, 0.0, 0.0 };
-    double  v[3];
+    float  x[3] = { 1.f, 0.f, 0.f };
+    float  y[3] = { 0.f, 1.f, 0.f };
+    float  z[3] = { 0.f, 0.f, 1.f };
+    float c0[3] = { 0.f, 0.f, 0.f };
+    float p0[3] = { 0.f, 0.f, 0.f };
+    float c1[3] = { 0.f, 0.f, 0.f };
+    float p1[3] = { 0.f, 0.f, 0.f };
+    float  v[3];
 
     v_cpy(view_e[0], x);
     v_cpy(view_e[1], y);
@@ -836,8 +847,8 @@ void game_set_fly(double k)
 
 int game_put(FILE *fout)
 {
-    return (double_put(fout, &game_rx)  &&
-            double_put(fout, &game_rz)  &&
+    return (float_put(fout, &game_rx)  &&
+            float_put(fout, &game_rz)  &&
             vector_put(fout, view_c)    &&
             vector_put(fout, view_p)    &&
             vector_put(fout, view_e[0]) &&
@@ -848,8 +859,8 @@ int game_put(FILE *fout)
 
 int game_get(FILE *fin)
 {
-    return (double_get(fin, &game_rx)  &&
-            double_get(fin, &game_rz)  &&
+    return (float_get(fin, &game_rx)  &&
+            float_get(fin, &game_rz)  &&
             vector_get(fin, view_c)    &&
             vector_get(fin, view_p)    &&
             vector_get(fin, view_e[0]) &&

@@ -24,20 +24,20 @@
 #define E 14
 #define F 15
 
-#define TINY 1e-10
+#define TINY 1e-5
 
 /*---------------------------------------------------------------------------*/
 
-void v_nrm(double n[3], const double v[3])
+void v_nrm(float *n, const float *v)
 {
-    double d = v_len(v);
+    float d = v_len(v);
 
     n[0] = v[0] / d;
     n[1] = v[1] / d;
     n[2] = v[2] / d;
 }
 
-void v_crs(double u[3], const double v[3], const double w[3])
+void v_crs(float *u, const float *v, const float *w)
 {
     u[0] = v[1] * w[2] - v[2] * w[1];
     u[1] = v[2] * w[0] - v[0] * w[2];
@@ -46,7 +46,7 @@ void v_crs(double u[3], const double v[3], const double w[3])
 
 /*---------------------------------------------------------------------------*/
 
-void m_cpy(double M[16], const double N[16])
+void m_cpy(float *M, const float *N)
 {
     M[0] = N[0]; M[1] = N[1]; M[2] = N[2]; M[3] = N[3];
     M[4] = N[4]; M[5] = N[5]; M[6] = N[6]; M[7] = N[7];
@@ -54,7 +54,7 @@ void m_cpy(double M[16], const double N[16])
     M[C] = N[C]; M[D] = N[D]; M[E] = N[E]; M[F] = N[F];
 }
 
-void m_xps(double M[16], const double N[16])
+void m_xps(float *M, const float *N)
 {
     M[0] = N[0]; M[1] = N[4]; M[2] = N[8]; M[3] = N[C];
     M[4] = N[1]; M[5] = N[5]; M[6] = N[9]; M[7] = N[D];
@@ -62,9 +62,10 @@ void m_xps(double M[16], const double N[16])
     M[C] = N[3]; M[D] = N[7]; M[E] = N[B]; M[F] = N[F];
 }
 
-int  m_inv(double I[16], const double M[16])
+int  m_inv(float *I, const float *M)
 {
-    double T[16], d;
+    float T[16];
+    float d;
 
     T[0] = +(M[5] * (M[A] * M[F] - M[B] * M[E]) -
              M[9] * (M[6] * M[F] - M[7] * M[E]) +
@@ -146,49 +147,51 @@ int  m_inv(double I[16], const double M[16])
 
 /*---------------------------------------------------------------------------*/
 
-void m_ident(double M[16])
+void m_ident(float *M)
 {
-    M[0] = 1.0; M[4] = 0.0; M[8] = 0.0; M[C] = 0.0;
-    M[1] = 0.0; M[5] = 1.0; M[9] = 0.0; M[D] = 0.0;
-    M[2] = 0.0; M[6] = 0.0; M[A] = 1.0; M[E] = 0.0;
-    M[3] = 0.0; M[7] = 0.0; M[B] = 0.0; M[F] = 1.0;
+    M[0] = 1.f; M[4] = 0.f; M[8] = 0.f; M[C] = 0.f;
+    M[1] = 0.f; M[5] = 1.f; M[9] = 0.f; M[D] = 0.f;
+    M[2] = 0.f; M[6] = 0.f; M[A] = 1.f; M[E] = 0.f;
+    M[3] = 0.f; M[7] = 0.f; M[B] = 0.f; M[F] = 1.f;
 }
 
-void m_basis(double M[16],
-             const double e0[3],
-             const double e1[3],
-             const double e2[3])
+void m_basis(float *M,
+             const float e0[3],
+             const float e1[3],
+             const float e2[3])
 {
-    M[0] = e0[0]; M[4] = e1[0]; M[8] = e2[0]; M[C] = 0.0;
-    M[1] = e0[1]; M[5] = e1[1]; M[9] = e2[1]; M[D] = 0.0;
-    M[2] = e0[2]; M[6] = e1[2]; M[A] = e2[2]; M[E] = 0.0;
-    M[3] =   0.0; M[7] =   0.0; M[B] =   0.0; M[F] = 1.0;
+    M[0] = e0[0]; M[4] = e1[0]; M[8] = e2[0]; M[C] = 0.f;
+    M[1] = e0[1]; M[5] = e1[1]; M[9] = e2[1]; M[D] = 0.f;
+    M[2] = e0[2]; M[6] = e1[2]; M[A] = e2[2]; M[E] = 0.f;
+    M[3] =   0.f; M[7] =   0.f; M[B] =   0.f; M[F] = 1.f;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void m_xlt(double M[16], const double v[3])
+void m_xlt(float *M, const float *v)
 {
-    M[0] = 1.0; M[4] = 0.0; M[8] = 0.0; M[C] = v[0];
-    M[1] = 0.0; M[5] = 1.0; M[9] = 0.0; M[D] = v[1];
-    M[2] = 0.0; M[6] = 0.0; M[A] = 1.0; M[E] = v[2];
-    M[3] = 0.0; M[7] = 0.0; M[B] = 0.0; M[F] =  1.0;
+    M[0] = 1.f; M[4] = 0.f; M[8] = 0.f; M[C] = v[0];
+    M[1] = 0.f; M[5] = 1.f; M[9] = 0.f; M[D] = v[1];
+    M[2] = 0.f; M[6] = 0.f; M[A] = 1.f; M[E] = v[2];
+    M[3] = 0.f; M[7] = 0.f; M[B] = 0.f; M[F] =  1.f;
 }
 
-void m_scl(double M[16], const double v[3])
+void m_scl(float *M, const float *v)
 {
-    M[0] = v[0]; M[4] =  0.0; M[8] =  0.0; M[C] = 0.0;
-    M[1] =  0.0; M[5] = v[1]; M[9] =  0.0; M[D] = 0.0;
-    M[2] =  0.0; M[6] =  0.0; M[A] = v[2]; M[E] = 0.0;
-    M[3] =  0.0; M[7] =  0.0; M[B] =  0.0; M[F] = 1.0;
+    M[0] = v[0]; M[4] =  0.f; M[8] =  0.f; M[C] = 0.f;
+    M[1] =  0.f; M[5] = v[1]; M[9] =  0.f; M[D] = 0.f;
+    M[2] =  0.f; M[6] =  0.f; M[A] = v[2]; M[E] = 0.f;
+    M[3] =  0.f; M[7] =  0.f; M[B] =  0.f; M[F] = 1.f;
 }
 
-void m_rot(double M[16], const double v[3], double a)
+void m_rot(float *M, const float *v, float a)
 {
-    double u[3], U[16], S[16];
+    float u[3];
+    float U[16];
+    float S[16];
 
-    const double s = sin(a);
-    const double c = cos(a);
+    const float s = fsinf(a);
+    const float c = fcosf(a);
 
     v_nrm(u, v);
 
@@ -196,31 +199,31 @@ void m_rot(double M[16], const double v[3], double a)
     U[1] = u[1] * u[0]; U[5] = u[1] * u[1]; U[9] = u[1] * u[2]; 
     U[2] = u[2] * u[0]; U[6] = u[2] * u[1]; U[A] = u[2] * u[2]; 
 
-    S[0] =   0.0; S[4] = -u[2]; S[8] =  u[1];
-    S[1] =  u[2]; S[5] =   0.0; S[9] = -u[0];
-    S[2] = -u[1]; S[6] =  u[0]; S[A] =   0.0;
+    S[0] =   0.f; S[4] = -u[2]; S[8] =  u[1];
+    S[1] =  u[2]; S[5] =   0.f; S[9] = -u[0];
+    S[2] = -u[1]; S[6] =  u[0]; S[A] =   0.f;
 
-    M[0] = U[0] + c * (1.0 - U[0]) + s * S[0];
-    M[1] = U[1] + c * (0.0 - U[1]) + s * S[1];
-    M[2] = U[2] + c * (0.0 - U[2]) + s * S[2];
-    M[3] = 0.0;
-    M[4] = U[4] + c * (0.0 - U[4]) + s * S[4];
-    M[5] = U[5] + c * (1.0 - U[5]) + s * S[5];
-    M[6] = U[6] + c * (0.0 - U[6]) + s * S[6];
-    M[7] = 0.0;
-    M[8] = U[8] + c * (0.0 - U[8]) + s * S[8];
-    M[9] = U[9] + c * (0.0 - U[9]) + s * S[9];
-    M[A] = U[A] + c * (1.0 - U[A]) + s * S[A];
-    M[B] = 0.0;
-    M[C] = 0.0;
-    M[D] = 0.0;
-    M[E] = 0.0;
-    M[F] = 1.0;
+    M[0] = U[0] + c * (1.f - U[0]) + s * S[0];
+    M[1] = U[1] + c * (0.f - U[1]) + s * S[1];
+    M[2] = U[2] + c * (0.f - U[2]) + s * S[2];
+    M[3] = 0.f;
+    M[4] = U[4] + c * (0.f - U[4]) + s * S[4];
+    M[5] = U[5] + c * (1.f - U[5]) + s * S[5];
+    M[6] = U[6] + c * (0.f - U[6]) + s * S[6];
+    M[7] = 0.f;
+    M[8] = U[8] + c * (0.f - U[8]) + s * S[8];
+    M[9] = U[9] + c * (0.f - U[9]) + s * S[9];
+    M[A] = U[A] + c * (1.f - U[A]) + s * S[A];
+    M[B] = 0.f;
+    M[C] = 0.f;
+    M[D] = 0.f;
+    M[E] = 0.f;
+    M[F] = 1.f;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void m_mult(double M[16], const double N[16], const double O[16])
+void m_mult(float *M, const float *N, const float *O)
 {
     M[0] = N[0] * O[0] + N[4] * O[1] + N[8] * O[2] + N[C] * O[3];
     M[1] = N[1] * O[0] + N[5] * O[1] + N[9] * O[2] + N[D] * O[3];
@@ -243,16 +246,16 @@ void m_mult(double M[16], const double N[16], const double O[16])
     M[F] = N[3] * O[C] + N[7] * O[D] + N[B] * O[E] + N[F] * O[F];
 }
 
-void m_pxfm(double v[3], const double M[16], const double w[3])
+void m_pxfm(float *v, const float *M, const float *w)
 {
-    double d = w[0] * M[3] + w[1] * M[7] + w[2] * M[B] + M[F];
+    float d = w[0] * M[3] + w[1] * M[7] + w[2] * M[B] + M[F];
 
     v[0] = (w[0] * M[0] + w[1] * M[4] + w[2] * M[8] + M[C]) / d;
     v[1] = (w[0] * M[1] + w[1] * M[5] + w[2] * M[9] + M[D]) / d;
     v[2] = (w[0] * M[2] + w[1] * M[6] + w[2] * M[A] + M[E]) / d;
 }
 
-void m_vxfm(double v[3], const double M[16], const double w[3])
+void m_vxfm(float *v, const float *M, const float *w)
 {
     v[0] = (w[0] * M[0] + w[1] * M[4] + w[2] * M[8]);
     v[1] = (w[0] * M[1] + w[1] * M[5] + w[2] * M[9]);

@@ -15,11 +15,11 @@
 void hud_init(void);
 void hud_free(void);
 void hud_draw(void);
-void hud_step(double);
+void hud_step(float);
 
-void hud_ball_pulse(double);
-void hud_time_pulse(double);
-void hud_coin_pulse(double);
+void hud_ball_pulse(float);
+void hud_time_pulse(float);
+void hud_coin_pulse(float);
 void hud_view_pulse(int);
 
 /*---------------------------------------------------------------------------*/

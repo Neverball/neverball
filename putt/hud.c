@@ -65,7 +65,7 @@ static void hud_draw_small(int d, int x, int y)
 {
     glPushMatrix();
     {
-        glTranslated((GLdouble) x, (GLdouble) y, 0.0);
+        glTranslatef((float) x, (float) y, 0.f);
 
         glBindTexture(GL_TEXTURE_2D, small_text[d]);
         glCallList(small_list[d]);

@@ -136,7 +136,7 @@ void audio_music_play(const char *filename)
 void audio_music_fade(float t)
 {
     if (audio_state && song && Mix_PlayingMusic())
-        Mix_FadeOutMusic((int) (t * 1000.0));
+        Mix_FadeOutMusic((int) (t * 1000.f));
 }
 
 void audio_music_stop(void)

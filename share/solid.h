@@ -50,7 +50,7 @@
  *     x  Switch        (struct s_swch)
  *     u  User          (struct s_ball)
  *     a  Text          (char)
- *     i  Index         (int)
+ *     i  Index         (short)
  *     
  * The Ys are as follows:
  *
@@ -73,20 +73,22 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define M_TRANSPARENT 1
-#define M_REFLECTIVE  2
+#define M_OPAQUE      1
+#define M_TRANSPARENT 2
+#define M_REFLECTIVE  4
+#define M_ENVIRONMENT 8
 
 #define L_DETAIL     1
 
 struct s_mtrl
 {
-    int fl;                                    /* material flags             */
-
     float a[4];                                /* ambient color              */
     float d[4];                                /* diffuse color              */
     float s[4];                                /* specular color             */
     float e[4];                                /* emission color             */
     float h[1];                                /* specular exponent          */
+
+    short fl;                                  /* material flags             */
 
     char   f[PATHMAX];                         /* texture file name          */
     GLuint o;                                  /* OpenGL texture object      */
@@ -94,147 +96,143 @@ struct s_mtrl
 
 struct s_vert
 {
-    double p[3];                               /* vertex position            */
+    float p[3];                                /* vertex position            */
 };
 
 struct s_edge
 {
-    int vi;
-    int vj;
+    short vi;
+    short vj;
 };
 
 struct s_side
 {
-    double n[3];                               /* plane normal vector        */
-    double d;                                  /* distance from origin       */
+    float n[3];                                /* plane normal vector        */
+    float d;                                   /* distance from origin       */
 };
 
 struct s_texc
 {
-    double u[2];                               /* texture coordinate         */
+    float u[2];                                /* texture coordinate         */
 };
 
 struct s_geom
 {
-    int si;
-    int mi;
-    int ti, vi;
-    int tj, vj;
-    int tk, vk;
+    short mi;
+    short ti, si, vi;
+    short tj, sj, vj;
+    short tk, sk, vk;
 };
 
 struct s_lump
 {
-    int fl;                                    /* lump flags                 */
-    int v0;
-    int vc;
-    int e0;
-    int ec;
-    int g0;
-    int gc;
-    int s0;
-    int sc;
+    short fl;                                  /* lump flags                 */
+    short v0, vc;
+    short e0, ec;
+    short g0, gc;
+    short s0, sc;
 };
 
 struct s_node
 {
-    int si;
-    int ni;
-    int nj;
-    int l0;
-    int lc;
+    short si;
+    short ni;
+    short nj;
+    short l0;
+    short lc;
 };
 
 struct s_path
 {
-    double p[3];                               /* starting position          */
-    double t;                                  /* travel time                */
+    float p[3];                                /* starting position          */
+    float t;                                   /* travel time                */
 
-    int pi;
-    int f;                                     /* enable flag                */
+    short pi;
+    short f;                                   /* enable flag                */
 };
 
 struct s_body
 {
-    double t;                                  /* time on current path       */
+    float t;                                   /* time on current path       */
 
     GLuint ol;                                 /* opaque geometry list       */
     GLuint tl;                                 /* transparent geometry list  */
     GLuint rl;                                 /* reflective geometry list   */
 
-    int pi;
-    int ni;
-    int l0;
-    int lc;
+    short pi;
+    short ni;
+    short l0;
+    short lc;
+    short g0;
+    short gc;
 };
 
 struct s_coin
 {
-    double p[3];                               /* position                   */
-    int    n;                                  /* value                      */
-    int   xx;                                  /* padding                    */
+    float p[3];                                /* position                   */
+    short n;                                   /* value                      */
 };
 
 struct s_goal
 {
-    double p[3];                               /* position                   */
-    double r;                                  /* radius                     */
+    float p[3];                                /* position                   */
+    float r;                                   /* radius                     */
 };
 
 struct s_swch
 {
-    double p[3];                               /* position                   */
-    double r;                                  /* radius                     */
-    int    pi;
+    float p[3];                                /* position                   */
+    float r;                                   /* radius                     */
+    short pi;
 
-    double t0;                                 /* default timer              */
-    double t;                                  /* current timer              */
-    int    f0;                                 /* default state              */
-    int    f;                                  /* current state              */
+    float t0;                                  /* default timer              */
+    float t;                                   /* current timer              */
+    short f0;                                  /* default state              */
+    short f;                                   /* current state              */
 };
 
 struct s_jump
 {
-    double p[3];                               /* position                   */
-    double q[3];                               /* target position            */
-    double r;                                  /* radius                     */
+    float p[3];                                /* position                   */
+    float q[3];                                /* target position            */
+    float r;                                   /* radius                     */
 };
 
 struct s_ball
 {
-    double e[3][3];                            /* basis of orientation       */
-    double p[3];                               /* position vector            */
-    double v[3];                               /* velocity vector            */
-    double w[3];                               /* angular velocity vector    */
-    double r;                                  /* radius                     */
+    float e[3][3];                             /* basis of orientation       */
+    float p[3];                                /* position vector            */
+    float v[3];                                /* velocity vector            */
+    float w[3];                                /* angular velocity vector    */
+    float r;                                   /* radius                     */
 };
 
 struct s_view
 {
-    double p[3];
-    double q[3];
+    float p[3];
+    float q[3];
 };
 
 struct s_file
 {
-    int mc;
-    int vc;
-    int ec;
-    int sc;
-    int tc;
-    int gc;
-    int lc;
-    int nc;
-    int pc;
-    int bc;
-    int cc;
-    int zc;
-    int jc;
-    int xc;
-    int uc;
-    int wc;
-    int ac;
-    int ic;
+    short mc;
+    short vc;
+    short ec;
+    short sc;
+    short tc;
+    short gc;
+    short lc;
+    short nc;
+    short pc;
+    short bc;
+    short cc;
+    short zc;
+    short jc;
+    short xc;
+    short uc;
+    short wc;
+    short ac;
+    short ic;
 
     struct s_mtrl *mv;
     struct s_vert *vv;
@@ -253,31 +251,31 @@ struct s_file
     struct s_ball *uv;
     struct s_view *wv;
     char          *av;
-    int           *iv;
+    short         *iv;
 };
 
 /*---------------------------------------------------------------------------*/
 
-int    sol_load(struct s_file *, const char *, int);
-int    sol_stor(struct s_file *, const char *);
-void   sol_free(struct s_file *);
+int   sol_load(struct s_file *, const char *, int);
+int   sol_stor(struct s_file *, const char *);
+void  sol_free(struct s_file *);
 
-void   sol_draw(const struct s_file *);
-void   sol_refl(const struct s_file *);
-double sol_step(struct s_file *, const double *, double, int, int *);
+void  sol_draw(const struct s_file *);
+void  sol_refl(const struct s_file *);
+float sol_step(struct s_file *, const float *, float, short, int *);
 
-int    sol_coin_test(struct s_file *, double *, double);
-int    sol_goal_test(struct s_file *, double *, int);
-int    sol_jump_test(struct s_file *, double *, int);
-int    sol_swch_test(struct s_file *, int, int);
+int   sol_coin_test(struct s_file *, float *, float);
+int   sol_goal_test(struct s_file *, float *, short);
+int   sol_jump_test(struct s_file *, float *, short);
+int   sol_swch_test(struct s_file *, int, short);
 
 /*---------------------------------------------------------------------------*/
 
-int double_put(FILE *, double *);
-int double_get(FILE *, double *);
+int float_put(FILE *, float *);
+int float_get(FILE *, float *);
 
-int vector_put(FILE *, double[3]);
-int vector_get(FILE *, double[3]);
+int vector_put(FILE *, float[3]);
+int vector_get(FILE *, float[3]);
 
 int sol_put(FILE *, struct s_file *);
 int sol_get(FILE *, struct s_file *);

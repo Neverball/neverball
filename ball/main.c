@@ -260,7 +260,7 @@ int main(int argc, char *argv[])
                     if ((t1 = SDL_GetTicks()) > t0)
                     {
                         if (grabbed)
-                            st_timer((t1 - t0) / 1000.0);
+                            st_timer((t1 - t0) / 1000.f);
 
                         st_paint();
 

@@ -20,10 +20,13 @@
 #ifdef _WIN32
 #include <GL/glext.h>
 extern PFNGLACTIVETEXTUREPROC   glActiveTexture;
-extern PFNGLMULTITEXCOORD2DPROC glMultiTexCoord2d;
+extern PFNGLMULTITEXCOORD2FPROC glMultiTexCoord2f;
 #endif
 
 /*---------------------------------------------------------------------------*/
+
+int  glext_shadow();
+void glext_set_shadow(int);
 
 void glext_init(void);
 

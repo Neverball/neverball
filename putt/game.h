@@ -7,8 +7,8 @@
 
 #define MAX_DT   0.01666666            /* Maximum physics update cycle       */
 #define MAX_DN  16                     /* Maximum subdivisions of dt         */
-#define FOV     45.0                   /* Field of view                      */
-#define RESPONSE 0.05                  /* Input smoothing time               */
+#define FOV     45.00f                 /* Field of view                      */
+#define RESPONSE 0.05f                 /* Input smoothing time               */
 
 #define GAME_NONE 0
 #define GAME_STOP 1
@@ -22,18 +22,18 @@ void  game_free(void);
 
 void  game_draw(int);
 void  game_putt(void);
-int   game_step(const double[3], double);
+int   game_step(const float[3], float);
 
-void  game_update_view(double);
+void  game_update_view(float);
 
 void  game_set_rot(int);
 void  game_clr_mag(void);
 void  game_set_mag(int);
-void  game_set_fly(double);
+void  game_set_fly(float);
 
 void  game_ball(int);
-void  game_set_pos(double[3], double[3][3]);
-void  game_get_pos(double[3], double[3][3]);
+void  game_set_pos(float[3], float[3][3]);
+void  game_get_pos(float[3], float[3][3]);
 
 /*---------------------------------------------------------------------------*/
 

@@ -17,10 +17,10 @@ sol-rlk/mover.sol    shot-rlk/mover.jpg    png/fire.png        60 bgm/snow.ogg
 sol-rlk/wakka.sol    shot-rlk/wakka.jpg    png/skyline.png    120 bgm/flood.ogg
 sol-rlk/curbs.sol    shot-rlk/curbs.jpg    png/green_blue.png  90 bgm/haze.ogg
 sol-rlk/curved.sol   shot-rlk/curved.jpg   png/deep_blue.png   60 bgm/snow.ogg
-sol-rlk/stairs.sol   shot-rlk/stairs.jpg   png/greys_blues.png 90 bgm/flood.ogg
+sol-rlk/stairs.sol   shot-rlk/stairs.jpg   png/horiz_one.png   90 bgm/flood.ogg
 sol-rlk/rampdn.sol   shot-rlk/rampdn.jpg   png/france.png      90 bgm/haze.ogg
 sol-rlk/sync.sol     shot-rlk/sync.jpg     png/pastel.png     120 bgm/snow.ogg
-sol-rlk/spiralin.sol shot-rlk/spiralin.jpg png/skyline.png     90 bgm/flood.ogg
+sol-rlk/spiralin.sol shot-rlk/spiralin.jpg png/france.png     120 bgm/flood.ogg
 sol-rlk/plinko.sol   shot-rlk/plinko.jpg   png/horiz_two.png  120 bgm/haze.ogg
 sol-rlk/drops.sol    shot-rlk/drops.jpg    png/fire_white.png  90 bgm/snow.ogg
 sol-rlk/locks.sol    shot-rlk/locks.jpg    png/green_blue.png  90 bgm/flood.ogg

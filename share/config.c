@@ -203,6 +203,8 @@ void config_load(void)
                 if (strcmp(key, "button_r")     == 0) button_r     = val;
                 if (strcmp(key, "button_l")     == 0) button_l     = val;
                 if (strcmp(key, "button_exit")  == 0) button_exit  = val;
+
+                if (strcmp(key, "shadow")       == 0) glext_set_shadow(val);
             }
 
             else if (sscanf(buf, "%s %s", key, str) == 2)
@@ -267,6 +269,8 @@ void config_store(void)
         fprintf(fp, "key_cam_3 %s\n",    SDL_GetKeyName(key_cam_3));
         fprintf(fp, "key_cam_r %s\n",    SDL_GetKeyName(key_cam_r));
         fprintf(fp, "key_cam_l %s\n",    SDL_GetKeyName(key_cam_l));
+
+        fprintf(fp, "shadow %d\n",       glext_shadow());
 
         fclose(fp);
     }
@@ -383,7 +387,7 @@ void config_tog_fps(void)
 
 /*---------------------------------------------------------------------------*/
 
-void config_push_persp(double fov, double n, double f)
+void config_push_persp(float fov, float n, float f)
 {
     glMatrixMode(GL_PROJECTION);
     {

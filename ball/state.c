@@ -20,6 +20,7 @@
 
 #include "glext.h"
 #include "hud.h"
+#include "vec3.h"
 #include "geom.h"
 #include "game.h"
 #include "back.h"
@@ -36,15 +37,15 @@
 FILE *record_fp;
 FILE *replay_fp;
 
-static double global_time;
-static double replay_time;
+static float global_time;
+static float replay_time;
 
 /*---------------------------------------------------------------------------*/
 
-static double state_time   = 0.0;
+static float state_time   = 0.f;
 static struct state *state = &st_null;
 
-double time_state(void)
+float time_state(void)
 {
     return state_time;
 }
@@ -82,7 +83,7 @@ void st_paint(void)
     }
 }
 
-int st_timer(double t)
+int st_timer(float t)
 {
     state_time += t;
     return (state && state->timer) ? state->timer(t) : 1;
@@ -227,16 +228,16 @@ static void title_leave(void)
     audio_music_play("bgm/inter.ogg");
 }
 
-static void title_paint(double dy)
+static void title_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     menu_paint();
 }
 
-static int title_timer(double dt)
+static int title_timer(float dt)
 {
-    game_set_fly(cos(time_state() / 10.0));
+    game_set_fly(fcosf(time_state() / 10.f));
     return 1;
 }
 
@@ -319,7 +320,7 @@ static void help_leave(void)
     back_free();
 }
 
-static void help_paint(double dy)
+static void help_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
@@ -685,7 +686,7 @@ static void conf_leave(void)
     back_free();
 }
 
-static void conf_paint(double dy)
+static void conf_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
@@ -767,7 +768,7 @@ static void set_describe(int i)
     y = -2 * h;
     h =  3 * h / 2;
 
-    menu_item(7, 0, -3.33 * h, h * 15, 5 * h);
+    menu_item(7, 0, -10 * h / 3, h * 15, 5 * h);
     menu_stat(7, -1);
 
     while (p && m < 12)
@@ -864,7 +865,7 @@ static void set_leave(void)
     menu_free();
 }
 
-static void set_paint(double dy)
+static void set_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
@@ -1155,7 +1156,7 @@ static void start_leave(void)
     menu_free();
 }
 
-static void start_paint(double dy)
+static void start_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
@@ -1266,7 +1267,7 @@ static void level_enter(void)
     y = 0;
     i = 1;
 
-    menu_item(1, 0, -2.5 * l, w, l * 6);
+    menu_item(1, 0, -5 * l / 2, w, l * 6);
     menu_stat(1, -1);
 
     while (p && i < 7)
@@ -1286,7 +1287,7 @@ static void level_enter(void)
         if (*p) p++;
     }
 
-    game_set_fly(1.0);
+    game_set_fly(1.f);
 }
 
 static void level_leave(void)
@@ -1294,7 +1295,7 @@ static void level_leave(void)
     menu_free();
 }
 
-static void level_paint(double dy)
+static void level_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
@@ -1325,7 +1326,7 @@ static int level_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static void poser_paint(double dy)
+static void poser_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(1, dy);
@@ -1357,7 +1358,7 @@ static void two_leave(void)
     menu_free();
 }
 
-static void two_paint(double dy)
+static void two_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
@@ -1365,13 +1366,13 @@ static void two_paint(double dy)
     menu_paint();
 }
 
-static int two_timer(double dt)
+static int two_timer(float dt)
 {
-    double t = time_state();
+    float t = time_state();
 
-    game_set_fly(1.0 - 0.5 * t);
+    game_set_fly(1.f - 0.5 * t);
 
-    if (dt > 0.0 && t > 1.0)
+    if (dt > 0.f && t > 1.f)
         return goto_state(&st_one);
 
     return 1;
@@ -1414,7 +1415,7 @@ static void one_leave(void)
     menu_free();
 }
 
-static void one_paint(double dy)
+static void one_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
@@ -1422,13 +1423,13 @@ static void one_paint(double dy)
     menu_paint();
 }
 
-static int one_timer(double dt)
+static int one_timer(float dt)
 {
-    double t = time_state();
+    float t = time_state();
 
     game_set_fly(0.5 - 0.5 * t);
 
-    if (dt > 0.0 && t > 1.0)
+    if (dt > 0.f && t > 1.f)
         return goto_state(&st_play);
 
     return 1;
@@ -1438,7 +1439,7 @@ static int one_click(int b, int d)
 {
     if (b < 0 && d == 1)
     {
-        game_set_fly(0.0);
+        game_set_fly(0.f);
         return goto_state(&st_play);
     }
     return 1;
@@ -1475,7 +1476,7 @@ static void play_enter(void)
     level_song();
     audio_play(AUD_GO, 1.f);
 
-    game_set_fly(0.0);
+    game_set_fly(0.f);
     view_rotate = 0;
 
     if (config_home(filename, USER_REPLAY_FILE, MAXSTR))
@@ -1494,22 +1495,22 @@ static void play_leave(void)
     menu_free();
 }
 
-static void play_paint(double dy)
+static void play_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     game_draw(0, dy);
     hud_draw();
 
-    if (time_state() < 1.0)
+    if (time_state() < 1.f)
         menu_paint();
 }
 
-static int play_timer(double dt)
+static int play_timer(float dt)
 {
-    static double at = 0;
+    static float at = 0;
 
-    double g[3] = { 0.0, -9.8, 0.0 };
+    float g[3] = { 0.0f, -9.8f, 0.0f };
 
     at = (7 * at + dt) / 8;
 
@@ -1525,7 +1526,7 @@ static int play_timer(double dt)
 
     if (record_fp)
     {
-        double_put(record_fp, &at);
+        float_put(record_fp, &at);
         game_put(record_fp);
     }
 
@@ -1620,8 +1621,8 @@ static void demo_enter(void)
     menu_text(0, 0, y, c_blue, c_green, "Demo", TXT_LRG);
     menu_item(0, 0, y, w, h);
 
-    global_time = -1.0;
-    replay_time =  0.0;
+    global_time = -1.f;
+    replay_time =  0.f;
 
     if (config_home(filename, USER_REPLAY_FILE, MAXSTR))
         if ((replay_fp = fopen(filename, FMODE_RB)))
@@ -1645,7 +1646,7 @@ static void demo_enter(void)
             }
         }
 
-    game_set_fly(0.0);
+    game_set_fly(0.f);
 }
 
 static void demo_leave(void)
@@ -1658,21 +1659,21 @@ static void demo_leave(void)
     menu_free();
 }
 
-static void demo_paint(double dy)
+static void demo_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     game_draw(0, dy);
     hud_draw();
 
-    if (time_state() < 1.0)
+    if (time_state() < 1.f)
         menu_paint();
 }
 
-static int demo_timer(double dt)
+static int demo_timer(float dt)
 {
-    double g[3] = { 0.0, -9.8, 0.0 };
-    double t;
+    float g[3] = { 0.0f, -9.8f, 0.0f };
+    float t;
     int    b = 1;
 
     global_time += dt;
@@ -1681,7 +1682,7 @@ static int demo_timer(double dt)
     {
         /* Spin or skip depending on how fast the demo wants to run. */
 
-        while (replay_time < global_time && (b = double_get(replay_fp, &t)))
+        while (replay_time < global_time && (b = float_get(replay_fp, &t)))
         {
             /* Play out current game state for particles, clock, etc. */
 
@@ -1747,7 +1748,7 @@ static void goal_leave(void)
     audio_music_play("bgm/inter.ogg");
 }
 
-static void goal_paint(double dy)
+static void goal_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
@@ -1778,18 +1779,18 @@ static int goal_keybd(int c, int d)
     return 1;
 }
 
-static int goal_timer(double dt)
+static int goal_timer(float dt)
 {
-    double g[3] = { 0.0, 9.8, 0.0 };
-    double t = dt;
+    float g[3] = { 0.0f, 9.8f, 0.0f };
+    float t = dt;
 
-    if (time_state() < 1.0)
+    if (time_state() < 1.f)
     {
         game_step(g, dt, 0);
 
         if (record_fp)
         {
-            double_put(record_fp, &t);
+            float_put(record_fp, &t);
             game_put(record_fp);
         }
     }
@@ -1978,7 +1979,7 @@ static void score_leave(void)
     menu_free();
 }
 
-static void score_paint(double dy)
+static void score_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
@@ -2043,7 +2044,7 @@ static void fall_leave(void)
     audio_music_play("bgm/inter.ogg");
 }
 
-static void fall_paint(double dy)
+static void fall_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
@@ -2070,18 +2071,18 @@ static int fall_keybd(int c, int d)
     return 1;
 }
 
-static int fall_timer(double dt)
+static int fall_timer(float dt)
 {
-    double g[3] = { 0.0, -9.8, 0.0 };
-    double t = dt;
+    float g[3] = { 0.0f, -9.8f, 0.0f };
+    float t = dt;
 
-    if (time_state() < 2.0)
+    if (time_state() < 2.f)
     {
         game_step(g, dt, 0);
 
         if (record_fp)
         {
-            double_put(record_fp, &t);
+            float_put(record_fp, &t);
             game_put(record_fp);
         }
     }
@@ -2125,7 +2126,7 @@ static void time_leave(void)
     audio_music_play("bgm/inter.ogg");
 }
 
-static void time_paint(double dy)
+static void time_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
@@ -2145,18 +2146,18 @@ static int time_click(int b, int d)
     return 1;
 }
 
-static int time_timer(double dt)
+static int time_timer(float dt)
 {
-    double g[3] = { 0.0, -9.8, 0.0 };
-    double t = dt;
+    float g[3] = { 0.0f, -9.8f, 0.0f };
+    float t = dt;
 
-    if (time_state() < 2.0)
+    if (time_state() < 2.f)
     {
         game_step(g, dt, 0);
 
         if (record_fp)
         {
-            double_put(record_fp, &t);
+            float_put(record_fp, &t);
             game_put(record_fp);
         }
     }
@@ -2195,16 +2196,16 @@ static void omed_leave(void)
     set_free();
 }
 
-static void omed_paint(double dy)
+static void omed_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     menu_paint();
 }
 
-static int omed_timer(double dt)
+static int omed_timer(float dt)
 {
-    return (dt > 0.0 && time_state() > 3.0) ? goto_state(&st_title) : 1;
+    return (dt > 0.f && time_state() > 3.f) ? goto_state(&st_title) : 1;
 }
 
 static int omed_keybd(int c, int d)
@@ -2251,16 +2252,16 @@ static void over_leave(void)
     set_free();
 }
 
-static void over_paint(double dy)
+static void over_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     menu_paint();
 }
 
-static int over_timer(double dt)
+static int over_timer(float dt)
 {
-    return (dt > 0.0 && time_state() > 3.0) ? goto_state(&st_title) : 1;
+    return (dt > 0.f && time_state() > 3.f) ? goto_state(&st_title) : 1;
 }
 
 static int over_keybd(int c, int d)
@@ -2314,16 +2315,16 @@ static void done_leave(void)
     set_free();
 }
 
-static void done_paint(double dy)
+static void done_paint(float dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     game_draw(0, dy);
     menu_paint();
 }
 
-static int done_timer(double dt)
+static int done_timer(float dt)
 {
-    return (dt > 0.0 && time_state() > 10.0) ? goto_state(&st_title) : 1;
+    return (dt > 0.f && time_state() > 10.f) ? goto_state(&st_title) : 1;
 }
 
 static int done_keybd(int c, int d)

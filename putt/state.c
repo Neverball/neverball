@@ -20,6 +20,7 @@
 
 #include "glext.h"
 #include "hud.h"
+#include "vec3.h"
 #include "geom.h"
 #include "game.h"
 #include "menu.h"
@@ -34,10 +35,10 @@
 
 /*---------------------------------------------------------------------------*/
 
-static double state_time   = 0.0;
+static float state_time   = 0.f;
 static struct state *state = &st_null;
 
-double time_state(void)
+float time_state(void)
 {
     return state_time;
 }
@@ -63,7 +64,7 @@ void st_paint(void)
     if (state && state->paint) state->paint();
 }
 
-int st_timer(double t)
+int st_timer(float t)
 {
     state_time += t;
     return (state && state->timer) ? state->timer(t) : 1;
@@ -258,12 +259,12 @@ static void title_paint(void)
     menu_paint();
 }
 
-static int title_timer(double dt)
+static int title_timer(float dt)
 {
-    double g[3] = { 0.0, 0.0, 0.0 };
+    float g[3] = { 0.f, 0.f, 0.f };
 
     game_step(g, dt);
-    game_set_fly(cos(time_state() / 10.0));
+    game_set_fly(fcosf(time_state() / 10.f));
 
     return 1;
 }
@@ -682,7 +683,7 @@ static void party_paint(void)
     menu_paint();
 }
 
-static int party_timer(double dt)
+static int party_timer(float dt)
 {
     return 1;
 }
@@ -749,7 +750,7 @@ static void next_enter(void)
         case 4: audio_play(AUD_PLAYER4, 1.0f); break;
         }
 
-    game_set_fly(1.0);
+    game_set_fly(1.f);
 }
 
 static void next_leave(void)
@@ -791,14 +792,14 @@ static void flyby_paint(void)
     hud_draw();
 }
 
-static int flyby_timer(double dt)
+static int flyby_timer(float dt)
 {
-    double t = time_state();
+    float t = time_state();
 
-    if (dt > 0.0 && t > 1.0)
+    if (dt > 0.f && t > 1.f)
         return goto_state(&st_stroke);
     else
-        game_set_fly(1.0 - t);
+        game_set_fly(1.f - t);
 
     return 1;
 }
@@ -807,7 +808,7 @@ static int flyby_click(int b, int d)
 {
     if (b < 0 && d == 1)
     {
-        game_set_fly(0.0);
+        game_set_fly(0.f);
         return goto_state(&st_stroke);
     }
     return 1;
@@ -849,9 +850,9 @@ static int stroke_point(int x, int y, int dx, int dy)
     return 1;
 }
 
-static int stroke_timer(double dt)
+static int stroke_timer(float dt)
 {
-    double g[3] = { 0.0, 0.0, 0.0 };
+    float g[3] = { 0.f, 0.f, 0.f };
     
     game_update_view(dt);
     game_step(g, dt);
@@ -889,9 +890,9 @@ static void roll_paint(void)
     hud_draw();
 }
 
-static int roll_timer(double dt)
+static int roll_timer(float dt)
 {
-    double g[3] = { 0.0, -9.8, 0.0 };
+    float g[3] = { 0.0f, -9.8f, 0.0f };
 
     switch (game_step(g, dt))
     {
@@ -1026,7 +1027,7 @@ static int fall_keybd(int c)
 
 static void over_enter(void)
 {
-    audio_music_fade(2.0f);
+    audio_music_fade(2.f);
 
     menu_init(137, 4, 150);
     score_card("Final Score", c_yellow, c_red);

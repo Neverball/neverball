@@ -18,16 +18,17 @@
 
 #include "config.h"
 #include "glext.h"
+#include "vec3.h"
 #include "back.h"
 #include "image.h"
 
 /*---------------------------------------------------------------------------*/
 
-static GLUquadric *back_quad = NULL;
+#define PI 3.1415926535897932
+
+static GLUquadric *back_quad;
 static GLuint      back_list;
 static GLuint      back_text;
-
-#define PI 3.1415926535897932
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,7 +51,7 @@ void back_init(const char *s, int b)
     
         glNewList(back_list, GL_COMPILE);
         {
-            glColor3f(1.0f, 1.0f, 1.0f);
+            glColor3f(1.f, 1.f, 1.f);
             glBindTexture(GL_TEXTURE_2D, back_text);
             gluSphere(back_quad, 1.0, slices, stacks);
         }
@@ -67,14 +68,14 @@ void back_free(void)
         glDeleteTextures(1, &back_text);
 }
 
-void back_draw(int d, double t)
+void back_draw(int d, float t)
 {
     glPushMatrix();
     glPushAttrib(GL_LIGHTING_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
-        GLfloat dx =  60.0f * (GLfloat) sin(t / 10.0) + 90.0f;
-        GLfloat dz = 180.0f * (GLfloat) sin(t / 12.0);
+        GLfloat dx =  60.f * fsinf(t / 10.f) + 90.f;
+        GLfloat dz = 180.f * fsinf(t / 12.f);
 
         glDisable(GL_LIGHTING);
 
@@ -86,8 +87,8 @@ void back_draw(int d, double t)
          */
 
         glScalef(BACK_DIST + d, BACK_DIST + d, BACK_DIST + d);
-        glRotatef(dz, 0.0f, 0.0f, 1.0f);
-        glRotatef(dx, 1.0f, 0.0f, 0.0f);
+        glRotatef(dz, 0.f, 0.f, 1.f);
+        glRotatef(dx, 1.f, 0.f, 0.f);
 
         glCallList(back_list);
     }

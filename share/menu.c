@@ -210,7 +210,7 @@ static void menu_paint_text(struct text *text, int n)
 
         glPushMatrix();
         {
-            glTranslated(text[i].x, text[i].y, 0);
+            glTranslatef(text[i].x, text[i].y, 0);
 
             if (glIsList(text[i].list))
                 glCallList(text[i].list);

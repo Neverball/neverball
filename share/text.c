@@ -17,12 +17,13 @@
 #include <math.h>
 
 #include "glext.h"
+#include "vec3.h"
 #include "text.h"
 #include "image.h"
 
 /*---------------------------------------------------------------------------*/
 
-static int text_state = 0;
+static int text_state;
 
 const GLfloat c_white[4]  = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat c_black[4]  = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -127,7 +128,7 @@ GLuint make_list(const char *text, int i, const float *c0, const float *c1)
     {
         glBegin(GL_QUADS);
         {
-            glColor4f(0.0, 0.0, 0.0, 0.5);
+            glColor4f(0.0f, 0.0f, 0.0f, 0.5f);
             glTexCoord2f(s0, t1); glVertex2i(0 + d, 0 - d);
             glTexCoord2f(s1, t1); glVertex2i(w + d, 0 - d);
             glTexCoord2f(s1, t0); glVertex2i(w + d, h - d);
@@ -169,7 +170,7 @@ GLuint make_text(const char *text, int i)
 
 GLuint make_rect(int x0, int y0, int x1, int y1)
 {
-    double r = (double) radius;
+    float r = (float) radius;
     GLuint list = glGenLists(1);
     int i, n = 8;
 
@@ -179,11 +180,11 @@ GLuint make_rect(int x0, int y0, int x1, int y1)
         {
             for (i = 0; i <= n; i++)
             {
-                double a = 0.5 * PI * (double) i / (double) n;
+                float a = 0.5 * PI * (float) i / (float) n;
 
-                double x  = x0 + r - r * cos(a);
-                double ya = y1 - r + r * sin(a);
-                double yb = y0 + r - r * sin(a);
+                float x  = x0 + r - r * fcosf(a);
+                float ya = y1 - r + r * fsinf(a);
+                float yb = y0 + r - r * fsinf(a);
 
                 glTexCoord2d((x - x0) / (x1 - x0), 1 - (ya - y0) / (y1 - y0));
                 glVertex2d(x, ya);
@@ -194,11 +195,11 @@ GLuint make_rect(int x0, int y0, int x1, int y1)
 
             for (i = 0; i <= n; i++)
             {
-                double a = 0.5 * PI * (double) i / (double) n;
+                float a = 0.5 * PI * (float) i / (float) n;
 
-                double x  = x1 - r + r * sin(a);
-                double ya = y1 - r + r * cos(a);
-                double yb = y0 + r - r * cos(a);
+                float x  = x1 - r + r * fsinf(a);
+                float ya = y1 - r + r * fcosf(a);
+                float yb = y0 + r - r * fcosf(a);
 
                 glTexCoord2d((x - x0) / (x1 - x0), 1 - (ya - y0) / (y1 - y0));
                 glVertex2d(x, ya);

@@ -167,6 +167,7 @@ SOLS= \
 	data/sol-putt/18_hill.sol
 
 
+
 #------------------------------------------------------------------------------
 
 %.d : %.c
@@ -200,10 +201,12 @@ $(PUTT_TARG) : $(PUTT_OBJS)
 $(MAPC_TARG) : $(MAPC_OBJS)
 	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(MAPC_LIBS)
 
-clean :
+clean-src :
 	rm -f $(BALL_TARG) $(BALL_OBJS) $(BALL_DEPS)
 	rm -f $(PUTT_TARG) $(PUTT_OBJS) $(PUTT_DEPS)
 	rm -f $(MAPC_TARG) $(MAPC_OBJS) $(MAPC_DEPS)
+
+clean : clean-src
 	rm -f $(SOLS)
 
 #------------------------------------------------------------------------------

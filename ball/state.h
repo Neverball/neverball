@@ -9,8 +9,8 @@ struct state
 {
     void (*enter)(void);
     void (*leave)(void);
-    void (*paint)(double);
-    int  (*timer)(double);
+    void (*paint)(float);
+    int  (*timer)(float);
     int  (*point)(int, int, int, int);
     int  (*click)(int, int);
     int  (*keybd)(int, int);
@@ -18,11 +18,11 @@ struct state
     int  (*buttn)(int, int);
 };
 
-double time_state(void);
+float time_state(void);
 int    goto_state(struct state *);
 
 void st_paint(void);
-int  st_timer(double);
+int  st_timer(float);
 int  st_point(int, int, int, int);
 int  st_click(int, int);
 int  st_keybd(int, int);

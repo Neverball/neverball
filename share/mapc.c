@@ -24,11 +24,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * I'm not  particularly proud of this  chunk of code.  It  was not so
- * much designed as it was accumulated.
- */
-
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -42,12 +37,10 @@
 
 #define MAXSTR 256
 #define MAXKEY 16
-#define SCALE  64.0
-#define SMALL  0.0000000005
+#define SCALE  64.f
+#define SMALL  0.0005
 
 static char *path = ".";
-
-static int mirror = -1;
 
 /*
  * The overall design  of this map converter is  very stupid, but very
@@ -61,12 +54,12 @@ static int mirror = -1;
 
 /* Ohhhh... arbitrary! */
 
-#define MAXM	8192
-#define MAXV    16384
-#define MAXE	16384
-#define MAXS	8192
-#define MAXT	16384
-#define MAXG	8192
+#define MAXM	256
+#define MAXV    32768
+#define MAXE	32768
+#define MAXS	32768
+#define MAXT	32768
+#define MAXG	32768
 #define MAXL	1024
 #define MAXN	1024
 #define MAXP	512
@@ -118,7 +111,7 @@ static void init_file(struct s_file *fp)
     fp->uv = (struct s_ball *) calloc(MAXU, sizeof (struct s_ball));
     fp->wv = (struct s_view *) calloc(MAXW, sizeof (struct s_view));
     fp->av = (char          *) calloc(MAXA, sizeof (char));
-    fp->iv = (int           *) calloc(MAXI, sizeof (int));
+    fp->iv = (short         *) calloc(MAXI, sizeof (short));
 }
 
 /*---------------------------------------------------------------------------*/
@@ -149,23 +142,23 @@ static void strapp(char *dest,
 
 #define MAXSYM 1024
 
-static char symv[MAXSYM][MAXSTR];
-static int  valv[MAXSYM];
+static char   symv[MAXSYM][MAXSTR];
+static short  valv[MAXSYM];
 
-static char refv[MAXSYM][MAXSTR];
-static int *pntv[MAXSYM];
+static char   refv[MAXSYM][MAXSTR];
+static short *pntv[MAXSYM];
 
-static int  strc = 0;
-static int  refc = 0;
+static int strc;
+static int refc;
 
-static void make_sym(const char *s, int  v)
+static void make_sym(const char *s, short  v)
 {
     strncpy(symv[strc], s, MAXSTR - 1);
     valv[strc] = v;
     strc++;
 }
 
-static void make_ref(const char *r, int *p)
+static void make_ref(const char *r, short *p)
 {
     strncpy(refv[refc], r, MAXSTR - 1);
     pntv[refc] = p;
@@ -192,14 +185,14 @@ static void resolve(void)
  * targeted by various entities and must be resolved in a second pass.
  */
 
-static double targ_p [MAXW][3];
-static int    targ_wi[MAXW];
-static int    targ_ji[MAXW];
-static int    targ_n = 0;
+static float targ_p [MAXW][3];
+static short targ_wi[MAXW];
+static short targ_ji[MAXW];
+static short targ_n;
 
 static void targets(struct s_file *fp)
 {
-    int i;
+    short i;
 
     for (i = 0; i < fp->wc; i++)
         v_cpy(fp->wv[i].q, targ_p[targ_wi[i]]);
@@ -220,7 +213,7 @@ static void targets(struct s_file *fp)
 static char *image_s[MAXM];
 static int   image_w[MAXM];
 static int   image_h[MAXM];
-static int   image_n = 0;
+static int   image_n;
 
 static int size_load(const char *file, int *w, int *h)
 {
@@ -272,20 +265,202 @@ static void size_image(const char *name, int *w, int *h)
 
 /*---------------------------------------------------------------------------*/
 
-static double plane_d[MAXS];
-static double plane_n[MAXS][3];
-static double plane_p[MAXS][3];
-static double plane_u[MAXS][3];
-static double plane_v[MAXS][3];
-static int    plane_f[MAXS];
+/* Read the given material file, adding a new material to the solid.  */
 
-static void make_plane(int pi, int x0, int y0, int z0,
-                       int x1, int y1, int z1,
-                       int x2, int y2, int z2,
-                       int tu, int tv, int r,
+static int read_mtrl(struct s_file *fp, const char *name)
+{
+    struct s_mtrl *mp;
+    FILE *fin;
+    char  file[MAXSTR];
+    short mi;
+
+    strapp(file, path, name, "", MAXSTR);
+
+    for (mi = 0; mi < fp->mc; mi++)
+        if (strncmp(name, fp->mv[mi].f, MAXSTR) == 0)
+            return mi;
+
+    mp = fp->mv + fp->mc++;
+
+    if ((fin = fopen(file, "r")))
+    {
+        fscanf(fin,
+               "%f %f %f %f "
+               "%f %f %f %f "
+               "%f %f %f %f "
+               "%f %f %f %f "
+               "%f %hd ",
+               mp->d, mp->d + 1, mp->d + 2, mp->d + 3,
+               mp->a, mp->a + 1, mp->a + 2, mp->a + 3,
+               mp->s, mp->s + 1, mp->s + 2, mp->s + 3,
+               mp->e, mp->e + 1, mp->e + 2, mp->e + 3,
+               mp->h, &mp->fl);
+        fclose(fin);
+
+        strncpy(mp->f, name, PATHMAX - 1);
+    }
+
+    return mi;
+}
+
+/*---------------------------------------------------------------------------*/
+
+/*
+ * All bodies with an associated  path are assumed to be positioned at
+ * the  beginning of that  path.  These  bodies must  be moved  to the
+ * origin  in order  for their  path transforms  to  behave correctly.
+ * This is  how we get away  with defining func_trains  with no origin
+ * specification.
+ */
+
+static void move_side(struct s_side *sp, const float p[3])
+{
+    sp->d -= v_dot(sp->n, p);
+}
+
+static void move_vert(struct s_vert *vp, const float p[3])
+{
+    v_sub(vp->p, vp->p, p);
+}
+
+static void move_lump(struct s_file *fp,
+                      struct s_lump *lp, const float p[3])
+{
+    short i;
+
+    for (i = 0; i < lp->sc; i++)
+        move_side(fp->sv + fp->iv[lp->s0 + i], p);
+    for (i = 0; i < lp->vc; i++)
+        move_vert(fp->vv + fp->iv[lp->v0 + i], p);
+}
+
+static void move_body(struct s_file *fp,
+                      struct s_body *bp)
+{
+    short i;
+
+    for (i = 0; i < bp->lc; i++)
+        move_lump(fp, fp->lv + bp->l0 + i, fp->pv[bp->pi].p);
+}
+
+static void move_file(struct s_file *fp)
+{
+    short i;
+
+    for (i = 0; i < fp->bc; i++)
+        if (fp->bv[i].pi >= 0)
+            move_body(fp, fp->bv + i);
+}
+
+/*---------------------------------------------------------------------------*/
+
+static void read_vt(struct s_file *fp, const char *line)
+{
+    struct s_texc *tp = fp->tv + fp->tc++;
+
+    sscanf(line, "%f %f", tp->u, tp->u + 1);
+}
+
+static void read_vn(struct s_file *fp, const char *line)
+{
+    struct s_side *sp = fp->sv + fp->sc++;
+
+    sscanf(line, "%f %f %f", sp->n, sp->n + 1, sp->n + 2);
+}
+
+static void read_v(struct s_file *fp, const char *line)
+{
+    struct s_vert *vp = fp->vv + fp->vc++;
+
+    sscanf(line, "%f %f %f", vp->p, vp->p + 1, vp->p + 2);
+}
+
+static void read_f(struct s_file *fp, const char *line,
+                   short v0, short t0, short s0, short mi)
+{
+    struct s_geom *gp = fp->gv + fp->gc++;
+
+    char c1;
+    char c2;
+
+    /*
+     * FIXME: All faces must be triangles and must include a normal
+     * and texture coordinate.
+     */
+
+    sscanf(line, "%hd%c%hd%c%hd %hd%c%hd%c%hd %hd%c%hd%c%hd",
+           &gp->vi, &c1, &gp->ti, &c2, &gp->si,
+           &gp->vj, &c1, &gp->tj, &c2, &gp->sj,
+           &gp->vk, &c1, &gp->tk, &c2, &gp->sk);
+
+    gp->vi += (v0 - 1);
+    gp->vj += (v0 - 1);
+    gp->vk += (v0 - 1);
+    gp->ti += (t0 - 1);
+    gp->tj += (t0 - 1);
+    gp->tk += (t0 - 1);
+    gp->si += (s0 - 1);
+    gp->sj += (s0 - 1);
+    gp->sk += (s0 - 1);
+    
+    gp->mi  = mi;
+}
+
+static void read_obj(struct s_file *fp, const char *name)
+{
+    char file[MAXSTR];
+    char line[MAXSTR];
+    char mtrl[MAXSTR];
+    FILE *fin;
+
+    short v0 = fp->vc;
+    short t0 = fp->tc;
+    short s0 = fp->sc;
+    short mi = 0;
+
+    strapp(file, path, name, "", MAXSTR);
+
+    if ((fin = fopen(file, "r")))
+    {
+        while (fgets(line, MAXSTR, fin))
+        {
+            if (strncmp(line, "usemtl", 6) == 0)
+            {
+                sscanf(line + 6, "%s", mtrl);
+                mi = read_mtrl(fp, mtrl);
+            }
+
+            else if (strncmp(line, "f", 1) == 0)
+            {
+                if (fp->mv[mi].d[3] > 0)
+                    read_f(fp, line + 1, v0, t0, s0, mi);
+            }
+
+            else if (strncmp(line, "vt", 2) == 0) read_vt(fp, line + 2);
+            else if (strncmp(line, "vn", 2) == 0) read_vn(fp, line + 2);
+            else if (strncmp(line, "v",  1) == 0) read_v (fp, line + 1);
+        }
+        fclose(fin);
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+static float plane_d[MAXS];
+static float plane_n[MAXS][3];
+static float plane_p[MAXS][3];
+static float plane_u[MAXS][3];
+static float plane_v[MAXS][3];
+static short plane_f[MAXS];
+static short plane_m[MAXS];
+
+static void make_plane(short pi, short x0, short y0, short z0,
+                       short x1, short y1, short z1,
+                       short x2, short y2, short z2,
+                       short tu, short tv, short r,
                        float su, float sv, int fl, const char *s)
 {
-    static const double base[6][3][3] = {
+    static const float base[6][3][3] = {
         {{  0,  0,  1 }, {  1,  0,  0 }, {  0, -1,  0 }},
         {{  0,  0, -1 }, {  1,  0,  0 }, {  0, -1,  0 }},
         {{  1,  0,  0 }, {  0,  0, -1 }, {  0, -1,  0 }},
@@ -294,27 +469,28 @@ static void make_plane(int pi, int x0, int y0, int z0,
         {{  0, -1,  0 }, {  1,  0,  0 }, {  0,  0,  1 }},
     };
 
-    double R[16];
-    double p0[3], p1[3], p2[3];
-    double  u[3],  v[3],  p[3];
-    double k, d = 0.0;
-    int i, w, h, n = 0;
+    float R[16];
+    float p0[3], p1[3], p2[3];
+    float u[3],  v[3],  p[3];
+    float k, d = 0.f;
+    short i, n = 0;
+    int   w, h;
 
     size_image(s, &w, &h);
 
-    plane_f[pi] = fl;
+    plane_f[pi] = fl ? L_DETAIL : 0;
 
-    p0[0] = +(double) x0 / SCALE;
-    p0[1] = +(double) z0 / SCALE;
-    p0[2] = -(double) y0 / SCALE;
+    p0[0] = +(float) x0 / SCALE;
+    p0[1] = +(float) z0 / SCALE;
+    p0[2] = -(float) y0 / SCALE;
 
-    p1[0] = +(double) x1 / SCALE;
-    p1[1] = +(double) z1 / SCALE;
-    p1[2] = -(double) y1 / SCALE;
+    p1[0] = +(float) x1 / SCALE;
+    p1[1] = +(float) z1 / SCALE;
+    p1[2] = -(float) y1 / SCALE;
 
-    p2[0] = +(double) x2 / SCALE;
-    p2[1] = +(double) z2 / SCALE;
-    p2[2] = -(double) y2 / SCALE;
+    p2[0] = +(float) x2 / SCALE;
+    p2[1] = +(float) z2 / SCALE;
+    p2[2] = -(float) y2 / SCALE;
 
     v_sub(u, p0, p1);
     v_sub(v, p2, p1);
@@ -331,9 +507,9 @@ static void make_plane(int pi, int x0, int y0, int z0,
             n = i;
         }
 
-    p[0] = 0.0;
-    p[1] = 0.0;
-    p[2] = 0.0;
+    p[0] = 0.f;
+    p[1] = 0.f;
+    p[2] = 0.f;
 
     m_rot(R, base[n][0], V_RAD(r));
 
@@ -344,11 +520,11 @@ static void make_plane(int pi, int x0, int y0, int z0,
     m_vxfm(plane_v[pi], R, base[n][2]);
     m_vxfm(plane_p[pi], R, p);
 
-    v_scl(plane_u[pi], plane_u[pi], 64.0 / w);
-    v_scl(plane_v[pi], plane_v[pi], 64.0 / h);
+    v_scl(plane_u[pi], plane_u[pi], 64.f / w);
+    v_scl(plane_v[pi], plane_v[pi], 64.f / h);
 
-    v_scl(plane_u[pi], plane_u[pi], 1.0 / su);
-    v_scl(plane_v[pi], plane_v[pi], 1.0 / sv);
+    v_scl(plane_u[pi], plane_u[pi], 1.f / su);
+    v_scl(plane_v[pi], plane_v[pi], 1.f / sv);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -360,19 +536,19 @@ static void make_plane(int pi, int x0, int y0, int z0,
 #define T_END 4
 #define T_NOP 5
 
-static int map_token(FILE *fin, int pi, char key[MAXSTR],
-                     char val[MAXSTR])
+static int map_token(FILE *fin, short pi, char key[MAXSTR], char val[MAXSTR])
 {
     char buf[MAXSTR];
 
     if (fgets(buf, MAXSTR, fin))
     {
         char c;
-        int x0, y0, z0;
-        int x1, y1, z1;
-        int x2, y2, z2;
-        int tu, tv, r, fl;
+        short x0, y0, z0;
+        short x1, y1, z1;
+        short x2, y2, z2;
+        short tu, tv, r;
         float su, sv;
+        int fl;
 
         /* Scan the beginning or end of a block. */
 
@@ -393,10 +569,10 @@ static int map_token(FILE *fin, int pi, char key[MAXSTR],
         /* Scan a plane. */
 
         if (sscanf(buf,
-                   "%c %d %d %d %c "
-                   "%c %d %d %d %c "
-                   "%c %d %d %d %c "
-                   "%s %d %d %d %f %f %d",
+                   "%c %hd %hd %hd %c "
+                   "%c %hd %hd %hd %c "
+                   "%c %hd %hd %hd %c "
+                   "%s %hd %hd %hd %f %f %d",
                    &c, &x0, &y0, &z0, &c,
                    &c, &x1, &y1, &z1, &c,
                    &c, &x2, &y2, &z2, &c,
@@ -418,42 +594,8 @@ static int map_token(FILE *fin, int pi, char key[MAXSTR],
 
 /*---------------------------------------------------------------------------*/
 
-/* Read the given material file, adding a new material to the solid.  */
+/* Parse a lump from  the given file and add it to  the solid. */
 
-static void read_mtrl(struct s_file *fp, const char *name)
-{
-    struct s_mtrl *mp = fp->mv + fp->mc++;
-    FILE *fin;
-    char  file[MAXSTR];
-
-    strapp(file, path, name, "", MAXSTR);
-
-    if ((fin = fopen(file, "r")))
-    {
-        fscanf(fin,
-               "%f %f %f %f "
-               "%f %f %f %f "
-               "%f %f %f %f "
-               "%f %f %f %f "
-               "%f %d ",
-               mp->d, mp->d + 1, mp->d + 2, mp->d + 3,
-               mp->a, mp->a + 1, mp->a + 2, mp->a + 3,
-               mp->s, mp->s + 1, mp->s + 2, mp->s + 3,
-               mp->e, mp->e + 1, mp->e + 2, mp->e + 3,
-               mp->h, &mp->fl);
-        fclose(fin);
-
-        strncpy(mp->f, name, PATHMAX - 1);
-    }
-}
-
-/*
- * Parse a lump from  the given file and add it to  the solid.  Note a
- * small hack here in  mapping materials onto sides.  Material indices
- * cannot be  assigned until faces are  computed, so for  now there is
- * assumed to be  one material per side, and that  a side index equals
- * that side's material index.  See clip_lump and clip_geom.
- */
 static void read_lump(struct s_file *fp, FILE *fin)
 {
     char k[MAXSTR];
@@ -473,7 +615,7 @@ static void read_lump(struct s_file *fp, FILE *fin)
             fp->sv[fp->sc].n[2] = plane_n[fp->sc][2];
             fp->sv[fp->sc].d    = plane_d[fp->sc];
 
-            read_mtrl(fp, k);
+            plane_m[fp->sc] = read_mtrl(fp, k);
 
             fp->iv[fp->ic] = fp->sc;
             fp->ic++;
@@ -489,16 +631,16 @@ static void read_lump(struct s_file *fp, FILE *fin)
 
 static void make_path(struct s_file *fp,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], short c)
 {
-    int i, pi = fp->pc++;
+    short i, pi = fp->pc++;
 
     struct s_path *pp = fp->pv + pi;
 
-    pp->p[0] = 0.0;
-    pp->p[1] = 0.0;
-    pp->p[2] = 0.0;
-    pp->t    = 1.0;
+    pp->p[0] = 0.f;
+    pp->p[1] = 0.f;
+    pp->p[2] = 0.f;
+    pp->t    = 1.f;
     pp->pi   = pi;
     pp->f    = 1;
 
@@ -514,34 +656,41 @@ static void make_path(struct s_file *fp,
             pp->f = atoi(v[i]);
 
         if (strcmp(k[i], "speed") == 0)
-            sscanf(v[i], "%lf", &pp->t);
+            sscanf(v[i], "%f", &pp->t);
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            short x = 0, y = 0, z = 0;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%hd %hd %hd", &x, &y, &z);
 
-            pp->p[0] = +(double) x / SCALE;
-            pp->p[1] = +(double) z / SCALE;
-            pp->p[2] = -(double) y / SCALE;
+            pp->p[0] = +(float) x / SCALE;
+            pp->p[1] = +(float) z / SCALE;
+            pp->p[2] = -(float) y / SCALE;
         }
     }
 }
 
 static void make_body(struct s_file *fp,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c, int l0)
+                      char v[][MAXSTR], short c, short l0)
 {
-    int i, bi = fp->bc++;
+    short i, bi = fp->bc++;
+
+    short g0 = fp->gc;
+    short v0 = fp->vc;
+
+    float p[3];
+
+    short x = 0;
+    short y = 0;
+    short z = 0;
 
     struct s_body *bp = fp->bv + bi;
 
-    bp->t  = 0.0;
+    bp->t  = 0.f;
     bp->pi = -1;
     bp->ni = -1;
-    bp->l0 = l0;
-    bp->lc = fp->lc - l0;
 
     for (i = 0; i < c; i++)
     {
@@ -551,90 +700,111 @@ static void make_body(struct s_file *fp,
         if (strcmp(k[i], "target") == 0)
             make_ref(v[i], &bp->pi);
 
+        if (strcmp(k[i], "model") == 0)
+            read_obj(fp, v[i]);
+
+        if (strcmp(k[i], "origin") == 0)
+            sscanf(v[i], "%hd %hd %hd", &x, &y, &z);
+
         if (strcmp(k[i], "message") == 0)
         {
             strcpy(fp->av, v[i]);
             fp->ac = strlen(v[i]) + 1;
         }
     }
+
+    bp->l0 = l0;
+    bp->lc = fp->lc - l0;
+    bp->g0 = fp->ic;
+    bp->gc = fp->gc - g0;
+
+    for (i = 0; i < bp->gc; i++)
+        fp->iv[fp->ic++] = g0++;
+
+    p[0] = +(float) x / SCALE;
+    p[1] = +(float) z / SCALE;
+    p[2] = -(float) y / SCALE;
+
+    for (i = v0; i < fp->vc; i++)
+        v_add(fp->vv[i].p, fp->vv[i].p, p);
 }
 
 static void make_coin(struct s_file *fp,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], short c)
 {
-    int i, ci = fp->cc++;
+    short i, ci = fp->cc++;
 
     struct s_coin *cp = fp->cv + ci;
 
-    cp->p[0] = 0.0;
-    cp->p[1] = 0.0;
-    cp->p[2] = 0.0;
+    cp->p[0] = 0.f;
+    cp->p[1] = 0.f;
+    cp->p[2] = 0.f;
     cp->n    = 1;
 
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "light") == 0)
-            sscanf(v[i], "%d", &cp->n);
+            sscanf(v[i], "%hd", &cp->n);
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            short x = 0, y = 0, z = 0;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%hd %hd %hd", &x, &y, &z);
 
-            cp->p[0] = +(double) x / SCALE;
-            cp->p[1] = +(double) z / SCALE;
-            cp->p[2] = -(double) y / SCALE;
+            cp->p[0] = +(float) x / SCALE;
+            cp->p[1] = +(float) z / SCALE;
+            cp->p[2] = -(float) y / SCALE;
         }
     }
 }
 
 static void make_goal(struct s_file *fp,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], short c)
 {
-    int i, zi = fp->zc++;
+    short i, zi = fp->zc++;
 
     struct s_goal *zp = fp->zv + zi;
 
-    zp->p[0] = 0.0;
-    zp->p[1] = 0.0;
-    zp->p[2] = 0.0;
+    zp->p[0] = 0.f;
+    zp->p[1] = 0.f;
+    zp->p[2] = 0.f;
     zp->r    = 0.75;
 
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "radius") == 0)
-            sscanf(v[i], "%lf", &zp->r);
+            sscanf(v[i], "%f", &zp->r);
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            short x = 0, y = 0, z = 0;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%hd %hd %hd", &x, &y, &z);
 
-            zp->p[0] = +(double) (x)      / SCALE;
-            zp->p[1] = +(double) (z - 24) / SCALE;
-            zp->p[2] = -(double) (y)      / SCALE;
+            zp->p[0] = +(float) (x)      / SCALE;
+            zp->p[1] = +(float) (z - 24) / SCALE;
+            zp->p[2] = -(float) (y)      / SCALE;
         }
     }
 }
 
 static void make_view(struct s_file *fp,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], short c)
 {
-    int i, wi = fp->wc++;
+    short i, wi = fp->wc++;
 
     struct s_view *wp = fp->wv + wi;
 
-    wp->p[0] = 0.0;
-    wp->p[1] = 0.0;
-    wp->p[2] = 0.0;
-    wp->q[0] = 0.0;
-    wp->q[1] = 0.0;
-    wp->q[2] = 0.0;
+    wp->p[0] = 0.f;
+    wp->p[1] = 0.f;
+    wp->p[2] = 0.f;
+    wp->q[0] = 0.f;
+    wp->q[1] = 0.f;
+    wp->q[2] = 0.f;
 
     for (i = 0; i < c; i++)
     {
@@ -643,65 +813,65 @@ static void make_view(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            short x = 0, y = 0, z = 0;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%hd %hd %hd", &x, &y, &z);
 
-            wp->p[0] = +(double) x / SCALE;
-            wp->p[1] = +(double) z / SCALE;
-            wp->p[2] = -(double) y / SCALE;
+            wp->p[0] = +(float) x / SCALE;
+            wp->p[1] = +(float) z / SCALE;
+            wp->p[2] = -(float) y / SCALE;
         }
     }
 }
 
 static void make_jump(struct s_file *fp,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], short c)
 {
-    int i, ji = fp->jc++;
+    short i, ji = fp->jc++;
 
     struct s_jump *jp = fp->jv + ji;
 
-    jp->p[0] = 0.0;
-    jp->p[1] = 0.0;
-    jp->p[2] = 0.0;
-    jp->q[0] = 0.0;
-    jp->q[1] = 0.0;
-    jp->q[2] = 0.0;
+    jp->p[0] = 0.f;
+    jp->p[1] = 0.f;
+    jp->p[2] = 0.f;
+    jp->q[0] = 0.f;
+    jp->q[1] = 0.f;
+    jp->q[2] = 0.f;
     jp->r    = 0.5;
 
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "radius") == 0)
-            sscanf(v[i], "%lf", &jp->r);
+            sscanf(v[i], "%f", &jp->r);
 
         if (strcmp(k[i], "target") == 0)
             make_ref(v[i], targ_ji + ji);
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            short x = 0, y = 0, z = 0;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%hd %hd %hd", &x, &y, &z);
 
-            jp->p[0] = +(double) x / SCALE;
-            jp->p[1] = +(double) z / SCALE;
-            jp->p[2] = -(double) y / SCALE;
+            jp->p[0] = +(float) x / SCALE;
+            jp->p[1] = +(float) z / SCALE;
+            jp->p[2] = -(float) y / SCALE;
         }
     }
 }
 
 static void make_swch(struct s_file *fp,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], short c)
 {
-    int i, xi = fp->xc++;
+    short i, xi = fp->xc++;
 
     struct s_swch *xp = fp->xv + xi;
 
-    xp->p[0] = 0.0;
-    xp->p[1] = 0.0;
-    xp->p[2] = 0.0;
+    xp->p[0] = 0.f;
+    xp->p[1] = 0.f;
+    xp->p[2] = 0.f;
     xp->r    = 0.5;
     xp->pi   = 0;
     xp->t0   = 0;
@@ -712,39 +882,39 @@ static void make_swch(struct s_file *fp,
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "radius") == 0)
-            sscanf(v[i], "%lf", &xp->r);
+            sscanf(v[i], "%f", &xp->r);
 
         if (strcmp(k[i], "target") == 0)
             make_ref(v[i], &xp->pi);
 
         if (strcmp(k[i], "timer") == 0)
-            sscanf(v[i], "%lf", &xp->t0);
+            sscanf(v[i], "%f", &xp->t0);
 
         if (strcmp(k[i], "state") == 0)
             xp->f = atoi(v[i]);
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            short x = 0, y = 0, z = 0;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%hd %hd %hd", &x, &y, &z);
 
-            xp->p[0] = +(double) x / SCALE;
-            xp->p[1] = +(double) z / SCALE;
-            xp->p[2] = -(double) y / SCALE;
+            xp->p[0] = +(float) x / SCALE;
+            xp->p[1] = +(float) z / SCALE;
+            xp->p[2] = -(float) y / SCALE;
         }
     }
 }
 
 static void make_targ(struct s_file *fp,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], short c)
 {
-    int i;
+    short i;
 
-    targ_p[targ_n][0] = 0.0;
-    targ_p[targ_n][1] = 0.0;
-    targ_p[targ_n][3] = 0.0;
+    targ_p[targ_n][0] = 0.f;
+    targ_p[targ_n][1] = 0.f;
+    targ_p[targ_n][3] = 0.f;
 
     for (i = 0; i < c; i++)
     {
@@ -753,13 +923,13 @@ static void make_targ(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            short x = 0, y = 0, z = 0;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%hd %hd %hd", &x, &y, &z);
 
-            targ_p[targ_n][0] = +(double) x / SCALE;
-            targ_p[targ_n][1] = +(double) z / SCALE;
-            targ_p[targ_n][2] = -(double) y / SCALE;
+            targ_p[targ_n][0] = +(float) x / SCALE;
+            targ_p[targ_n][1] = +(float) z / SCALE;
+            targ_p[targ_n][2] = -(float) y / SCALE;
         }
     }
 
@@ -768,48 +938,48 @@ static void make_targ(struct s_file *fp,
 
 static void make_ball(struct s_file *fp,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], short c)
 {
-    int i, ui = fp->uc++;
+    short i, ui = fp->uc++;
 
     struct s_ball *up = fp->uv + ui;
 
-    up->p[0] = 0.0;
-    up->p[1] = 0.0;
-    up->p[2] = 0.0;
+    up->p[0] = 0.f;
+    up->p[1] = 0.f;
+    up->p[2] = 0.f;
     up->r    = 0.25;
 
-    up->e[0][0] = 1.0;
-    up->e[0][1] = 0.0;
-    up->e[0][2] = 0.0;
-    up->e[1][0] = 0.0;
-    up->e[1][1] = 1.0;
-    up->e[1][2] = 0.0;
-    up->e[2][0] = 0.0;
-    up->e[2][1] = 0.0;
-    up->e[2][2] = 1.0;
+    up->e[0][0] = 1.f;
+    up->e[0][1] = 0.f;
+    up->e[0][2] = 0.f;
+    up->e[1][0] = 0.f;
+    up->e[1][1] = 1.f;
+    up->e[1][2] = 0.f;
+    up->e[2][0] = 0.f;
+    up->e[2][1] = 0.f;
+    up->e[2][2] = 1.f;
 
-    up->v[0] = 0.0;
-    up->v[1] = 0.0;
-    up->v[2] = 0.0;
-    up->w[0] = 0.0;
-    up->w[1] = 0.0;
-    up->w[2] = 0.0;
+    up->v[0] = 0.f;
+    up->v[1] = 0.f;
+    up->v[2] = 0.f;
+    up->w[0] = 0.f;
+    up->w[1] = 0.f;
+    up->w[2] = 0.f;
 
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "radius") == 0)
-            sscanf(v[i], "%lf", &up->r);
+            sscanf(v[i], "%f", &up->r);
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            short x = 0, y = 0, z = 0;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%hd %hd %hd", &x, &y, &z);
 
-            up->p[0] = +(double) (x)      / SCALE;
-            up->p[1] = +(double) (z - 24) / SCALE;
-            up->p[2] = -(double) (y)      / SCALE;
+            up->p[0] = +(float) (x)      / SCALE;
+            up->p[1] = +(float) (z - 24) / SCALE;
+            up->p[2] = -(float) (y)      / SCALE;
         }
     }
 
@@ -822,9 +992,9 @@ static void read_ent(struct s_file *fp, FILE *fin)
 {
     char k[MAXKEY][MAXSTR];
     char v[MAXKEY][MAXSTR];
-    int t, i = 0, c = 0;
+    short t, i = 0, c = 0;
 
-    int l0 = fp->lc;
+    short l0 = fp->lc;
 
     while ((t = map_token(fin, -1, k[c], v[c])))
     {
@@ -834,10 +1004,8 @@ static void read_ent(struct s_file *fp, FILE *fin)
                 i = c;
             c++;
         }
-        if (t == T_BEG)
-            read_lump(fp, fin);
-        if (t == T_END)
-            break;
+        if (t == T_BEG) read_lump(fp, fin);
+        if (t == T_END) break;
     }
 
     if (!strcmp(v[i], "light"))                    make_coin(fp, k, v, c);
@@ -850,6 +1018,7 @@ static void read_ent(struct s_file *fp, FILE *fin)
     if (!strcmp(v[i], "target_position"))          make_targ(fp, k, v, c);
     if (!strcmp(v[i], "worldspawn"))               make_body(fp, k, v, c, l0);
     if (!strcmp(v[i], "func_train"))               make_body(fp, k, v, c, l0);
+    if (!strcmp(v[i], "misc_model"))               make_body(fp, k, v, c, l0);
 }
 
 static void read_map(struct s_file *fp, FILE *fin)
@@ -865,65 +1034,16 @@ static void read_map(struct s_file *fp, FILE *fin)
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * All bodies with an associated  path are assumed to be positioned at
- * the  beginning of that  path.  These  bodies must  be moved  to the
- * origin  in order  for their  path transforms  to  behave correctly.
- * This is  how we get away  with defining func_trains  with no origin
- * specification.
- */
-
-static void move_side(struct s_side *sp, const double p[3])
-{
-    sp->d -= v_dot(sp->n, p);
-}
-
-static void move_vert(struct s_vert *vp, const double p[3])
-{
-    v_sub(vp->p, vp->p, p);
-}
-
-static void move_lump(struct s_file *fp,
-                      struct s_lump *lp, const double p[3])
-{
-    int i;
-
-    for (i = 0; i < lp->sc; i++)
-        move_side(fp->sv + fp->iv[lp->s0 + i], p);
-    for (i = 0; i < lp->vc; i++)
-        move_vert(fp->vv + fp->iv[lp->v0 + i], p);
-}
-
-static void move_body(struct s_file *fp,
-                      struct s_body *bp)
-{
-    int i;
-
-    for (i = 0; i < bp->lc; i++)
-        move_lump(fp, fp->lv + bp->l0 + i, fp->pv[bp->pi].p);
-}
-
-static void move_file(struct s_file *fp)
-{
-    int i;
-
-    for (i = 0; i < fp->bc; i++)
-        if (fp->bv[i].pi >= 0)
-            move_body(fp, fp->bv + i);
-}
-
-/*---------------------------------------------------------------------------*/
-
 /* Test the location of a point with respect to a side plane. */
 
-static int fore_side(const double p[3], const struct s_side *sp)
+static int fore_side(const float p[3], const struct s_side *sp)
 {
     return (v_dot(p, sp->n) - sp->d > +SMALL) ? 1 : 0;
 }
 
-static int on_side(const double p[3], const struct s_side *sp)
+static int on_side(const float p[3], const struct s_side *sp)
 {
-    double d = v_dot(p, sp->n) - sp->d;
+    float d = v_dot(p, sp->n) - sp->d;
 
     return (-SMALL < d && d < +SMALL) ? 1 : 0;
 }
@@ -935,14 +1055,14 @@ static int on_side(const double p[3], const struct s_side *sp)
  */
 
 static int ok_vert(const struct s_file *fp,
-                   const struct s_lump *lp, const double p[3])
+                   const struct s_lump *lp, const float p[3])
 {
-    double r[3];
-    int i;
+    float r[3];
+    short i;
 
     for (i = 0; i < lp->vc; i++)
     {
-        double *q = fp->vv[fp->iv[lp->v0 + i]].p;
+        float *q = fp->vv[fp->iv[lp->v0 + i]].p;
 
         v_sub(r, p, q);
 
@@ -970,11 +1090,11 @@ static int ok_vert(const struct s_file *fp,
  * is unique.  Add it as a vert of the solid.
  */
 static void clip_vert(struct s_file *fp,
-                      struct s_lump *lp, int si, int sj, int sk)
+                      struct s_lump *lp, short si, short sj, short sk)
 {
-    double M[16], X[16], I[16];
-    double d[3],  p[3];
-    int i;
+    float M[16], X[16], I[16];
+    float d[3],  p[3];
+    short i;
 
     d[0] = fp->sv[si].d;
     d[1] = fp->sv[sj].d;
@@ -989,7 +1109,7 @@ static void clip_vert(struct s_file *fp,
 
         for (i = 0; i < lp->sc; i++)
         {
-            int si = fp->iv[lp->s0 + i];
+            short si = fp->iv[lp->s0 + i];
 
             if (fore_side(p, fp->sv + si))
                 return;
@@ -1013,15 +1133,15 @@ static void clip_vert(struct s_file *fp,
  * solid.
  */
 static void clip_edge(struct s_file *fp,
-                      struct s_lump *lp, int si, int sj)
+                      struct s_lump *lp, short si, short sj)
 {
-    int i, j;
+    short i, j;
 
     for (i = 1; i < lp->vc; i++)
         for (j = 0; j < i; j++)
         {
-            int vi = fp->iv[lp->v0 + i];
-            int vj = fp->iv[lp->v0 + j];
+            short vi = fp->iv[lp->v0 + i];
+            short vj = fp->iv[lp->v0 + j];
 
             if (on_side(fp->vv[vi].p, fp->sv + si) &&
                 on_side(fp->vv[vj].p, fp->sv + si) &&
@@ -1046,25 +1166,20 @@ static void clip_edge(struct s_file *fp,
  * Create geoms to tessalate the resulting convex polygon.
  */
 static void clip_geom(struct s_file *fp,
-                      struct s_lump *lp, int si)
+                      struct s_lump *lp, short si)
 {
-    int    m[256], t[256], d, i, j, n = 0;
-    double u[3];
-    double v[3];
-    double w[3];
+    short   m[256], t[256], d, i, j, n = 0;
+    float u[3];
+    float v[3];
+    float w[3];
 
     struct s_side *sp = fp->sv + si;
-
-    /* Note the mirror plane. */
-
-    if (fp->mv[si].fl & M_REFLECTIVE)
-        mirror = si;
 
     /* Find em. */
 
     for (i = 0; i < lp->vc; i++)
     {
-        int vi = fp->iv[lp->v0 + i];
+        short vi = fp->iv[lp->v0 + i];
 
         if (on_side(fp->vv[vi].p, sp))
         {
@@ -1089,7 +1204,7 @@ static void clip_geom(struct s_file *fp,
             v_sub(v, fp->vv[m[j]].p, fp->vv[m[0]].p);
             v_crs(w, u, v);
 
-            if (v_dot(w, sp->n) < 0.0)
+            if (v_dot(w, sp->n) < 0.f)
             {
                 d     = m[i];
                 m[i]  = m[j];
@@ -1105,12 +1220,15 @@ static void clip_geom(struct s_file *fp,
 
     for (i = 0; i < n - 2; i++)
     {
-        fp->gv[fp->gc].si = si;
-        fp->gv[fp->gc].mi = si;
+        fp->gv[fp->gc].mi = plane_m[si];
 
         fp->gv[fp->gc].ti = t[0];
         fp->gv[fp->gc].tj = t[i + 1];
         fp->gv[fp->gc].tk = t[i + 2];
+
+        fp->gv[fp->gc].si = si;
+        fp->gv[fp->gc].sj = si;
+        fp->gv[fp->gc].sk = si;
 
         fp->gv[fp->gc].vi = m[0];
         fp->gv[fp->gc].vj = m[i + 1];
@@ -1130,7 +1248,7 @@ static void clip_geom(struct s_file *fp,
  */
 static void clip_lump(struct s_file *fp, struct s_lump *lp)
 {
-    int i, j, k;
+    short i, j, k;
 
     lp->v0 = fp->ic;
     lp->vc = 0;
@@ -1156,7 +1274,7 @@ static void clip_lump(struct s_file *fp, struct s_lump *lp)
     lp->gc = 0;
 
     for (i = 0; i < lp->sc; i++)
-        if (fp->mv[fp->iv[lp->s0 + i]].d[3] > 0)
+        if (fp->mv[plane_m[fp->iv[lp->s0 + i]]].d[3] > 0)
             clip_geom(fp, lp,
                       fp->iv[lp->s0 + i]);
 
@@ -1167,7 +1285,7 @@ static void clip_lump(struct s_file *fp, struct s_lump *lp)
 
 static void clip_file(struct s_file *fp)
 {
-    int i;
+    short i;
 
     for (i = 0; i < fp->lc; i++)
         clip_lump(fp, fp->lv + i);
@@ -1231,8 +1349,8 @@ static int comp_edge(const struct s_edge *ep, const struct s_edge *eq)
 
 static int comp_side(const struct s_side *sp, const struct s_side *sq)
 {
-    if  (fabs(sp->d - sq->d) >       SMALL) return 0;
-    if (v_dot(sp->n,  sq->n) < 1.0 - SMALL) return 0;
+    if  (fabs(sp->d - sq->d) >   SMALL) return 0;
+    if (v_dot(sp->n,  sq->n) < 0.99999) return 0;
 
     return 1;
 }
@@ -1247,12 +1365,21 @@ static int comp_texc(const struct s_texc *tp, const struct s_texc *tq)
 
 static int comp_geom(const struct s_geom *gp, const struct s_geom *gq)
 {
-    if (gp->si != gq->si) return 0;
     if (gp->mi != gq->mi) return 0;
 
-    /* FIXME: buh. */
+    if (gp->ti != gq->ti) return 0;
+    if (gp->si != gq->si) return 0;
+    if (gp->vi != gq->vi) return 0;
 
-    return 0;
+    if (gp->tj != gq->tj) return 0;
+    if (gp->sj != gq->sj) return 0;
+    if (gp->vj != gq->vj) return 0;
+
+    if (gp->tk != gq->tk) return 0;
+    if (gp->sk != gq->sk) return 0;
+    if (gp->vk != gq->vk) return 0;
+
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1263,17 +1390,17 @@ static int comp_geom(const struct s_geom *gp, const struct s_geom *gq)
  * and sorting the file.
  */
 
-static void swap_mtrl(struct s_file *fp, int mi, int mj)
+static void swap_mtrl(struct s_file *fp, short mi, short mj)
 {
-    int i;
+    short i;
 
     for (i = 0; i < fp->gc; i++)
         if (fp->gv[i].mi == mi) fp->gv[i].mi = mj;
 }
 
-static void swap_vert(struct s_file *fp, int vi, int vj)
+static void swap_vert(struct s_file *fp, short vi, short vj)
 {
-    int i, j;
+    short i, j;
 
     for (i = 0; i < fp->ec; i++)
     {
@@ -1294,9 +1421,9 @@ static void swap_vert(struct s_file *fp, int vi, int vj)
                 fp->iv[fp->lv[i].v0 + j]  = vj;
 }
 
-static void swap_edge(struct s_file *fp, int ei, int ej)
+static void swap_edge(struct s_file *fp, short ei, short ej)
 {
-    int i, j;
+    short i, j;
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].ec; j++)
@@ -1304,12 +1431,16 @@ static void swap_edge(struct s_file *fp, int ei, int ej)
                 fp->iv[fp->lv[i].e0 + j]  = ej;
 }
 
-static void swap_side(struct s_file *fp, int si, int sj)
+static void swap_side(struct s_file *fp, short si, short sj)
 {
-    int i, j;
+    short i, j;
 
     for (i = 0; i < fp->gc; i++)
+    {
         if (fp->gv[i].si == si) fp->gv[i].si = sj;
+        if (fp->gv[i].sj == si) fp->gv[i].sj = sj;
+        if (fp->gv[i].sk == si) fp->gv[i].sk = sj;
+    }
     for (i = 0; i < fp->nc; i++)
         if (fp->nv[i].si == si) fp->nv[i].si = sj;
 
@@ -1319,9 +1450,9 @@ static void swap_side(struct s_file *fp, int si, int sj)
                 fp->iv[fp->lv[i].s0 + j]  = sj;
 }
 
-static void swap_texc(struct s_file *fp, int ti, int tj)
+static void swap_texc(struct s_file *fp, short ti, short tj)
 {
-    int i;
+    short i;
 
     for (i = 0; i < fp->gc; i++)
     {
@@ -1331,21 +1462,27 @@ static void swap_texc(struct s_file *fp, int ti, int tj)
     }
 }
 
-static void swap_geom(struct s_file *fp, int gi, int gj)
+
+static void swap_geom(struct s_file *fp, short gi, short gj)
 {
-    int i, j;
+    short i, j;
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].gc; j++)
             if (fp->iv[fp->lv[i].g0 + j] == gi)
                 fp->iv[fp->lv[i].g0 + j]  = gj;
+
+    for (i = 0; i < fp->bc; i++)
+        for (j = 0; j < fp->bv[i].gc; j++)
+            if (fp->iv[fp->bv[i].g0 + j] == gi)
+                fp->iv[fp->bv[i].g0 + j]  = gj;
 }
 
 /*---------------------------------------------------------------------------*/
 
 static void uniq_mtrl(struct s_file *fp)
 {
-    int i, j, k = 0;
+    short i, j, k = 0;
 
     for (i = 0; i < fp->mc; i++)
     {
@@ -1369,7 +1506,7 @@ static void uniq_mtrl(struct s_file *fp)
 
 static void uniq_vert(struct s_file *fp)
 {
-    int i, j, k = 0;
+    short i, j, k = 0;
 
     for (i = 0; i < fp->vc; i++)
     {
@@ -1393,7 +1530,7 @@ static void uniq_vert(struct s_file *fp)
 
 static void uniq_edge(struct s_file *fp)
 {
-    int i, j, k = 0;
+    short i, j, k = 0;
 
     for (i = 0; i < fp->ec; i++)
     {
@@ -1417,7 +1554,7 @@ static void uniq_edge(struct s_file *fp)
 
 static void uniq_geom(struct s_file *fp)
 {
-    int i, j, k = 0;
+    short i, j, k = 0;
 
     for (i = 0; i < fp->gc; i++)
     {
@@ -1441,7 +1578,7 @@ static void uniq_geom(struct s_file *fp)
 
 static void uniq_texc(struct s_file *fp)
 {
-    int i, j, k = 0;
+    short i, j, k = 0;
 
     for (i = 0; i < fp->tc; i++)
     {
@@ -1464,7 +1601,7 @@ static void uniq_texc(struct s_file *fp)
 
 static void uniq_side(struct s_file *fp)
 {
-    int i, j, k = 0;
+    short i, j, k = 0;
 
     for (i = 0; i < fp->sc; i++)
     {
@@ -1497,33 +1634,15 @@ static void uniq_file(struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void sort_file(struct s_file *fp)
-{
-    struct s_side t;
-
-    /* Ensure that the mirror side, if any, is side 0. */
-
-    if (mirror > 0)
-    {
-        t              = fp->sv[mirror];
-        fp->sv[mirror] = fp->sv[0];
-        fp->sv[0]      =         t;
-
-        swap_side(fp, mirror, 0);
-    }
-}
-
-/*---------------------------------------------------------------------------*/
-
 static int test_lump_side(const struct s_file *fp,
                           const struct s_lump *lp,
                           const struct s_side *sp)
 {
-    int si;
-    int vi;
+    short si;
+    short vi;
 
-    int f = 0;
-    int b = 0;
+    short f = 0;
+    short b = 0;
 
     /* If the given side is part of the given lump, then the lump is behind. */
 
@@ -1535,7 +1654,7 @@ static int test_lump_side(const struct s_file *fp,
 
     for (vi = 0; vi < lp->vc; vi++)
     {
-        double d = v_dot(fp->vv[fp->iv[lp->v0 + vi]].p, sp->n) - sp->d;
+        float d = v_dot(fp->vv[fp->iv[lp->v0 + vi]].p, sp->n) - sp->d;
 
         if (d > 0) f++;
         if (d < 0) b++;
@@ -1551,7 +1670,7 @@ static int test_lump_side(const struct s_file *fp,
     return 0;
 }
 
-static int node_node(struct s_file *fp, int l0, int lc)
+static int node_node(struct s_file *fp, short l0, short lc)
 {
     if (lc < 8)
     {
@@ -1567,22 +1686,22 @@ static int node_node(struct s_file *fp, int l0, int lc)
     }
     else
     {
-        int sj  = 0;
-        int sjd = lc;
-        int sjo = lc;
-        int si;
-        int li = 0, lic = 0;
-        int lj = 0, ljc = 0;
-        int lk = 0, lkc = 0;
-        int i;
+        short sj  = 0;
+        short sjd = lc;
+        short sjo = lc;
+        short si;
+        short li = 0, lic = 0;
+        short lj = 0, ljc = 0;
+        short lk = 0, lkc = 0;
+        short i;
 
         /* Find the side that most evenly splits the given lumps. */
 
         for (si = 0; si < fp->sc; si++)
         {
-            int o = 0;
-            int d = 0;
-            int k = 0;
+            short o = 0;
+            short d = 0;
+            short k = 0;
 
             for (li = 0; li < lc; li++)
                 if ((k = test_lump_side(fp, fp->lv + l0 + li, fp->sv + si)))
@@ -1654,7 +1773,7 @@ static int node_node(struct s_file *fp, int l0, int lc)
 
 static void node_file(struct s_file *fp)
 {
-    int bi;
+    short bi;
 
     /* Sort the lumps of each body into BSP nodes. */
 
@@ -1666,18 +1785,37 @@ static void node_file(struct s_file *fp)
 
 static void dump_file(struct s_file *p)
 {
-    int i, n = 0;
+    short i, j;
+    int c = 0;
+    int n = 0;
+    int m = p->cc * 128 + (p->zc * p->jc + p->xc) * 32;
+
+    /* Count the number of solid lumps. */
 
     for (i = 0; i < p->lc; i++)
         if ((p->lv[i].fl & 1) == 0)
             n++;
 
+    /* Count the number of visible geoms. */
+
+    for (i = 0; i < p->bc; i++)
+    {
+        for (j = 0; j < p->bv[i].lc; j++)
+            m += p->lv[p->bv[i].l0 + j].gc;
+        m += p->bv[i].gc;
+    }
+
+    /* Count the total value of all coins. */
+
+    for (i = 0; i < p->cc; i++)
+        c += p->cv[i].n;
+
     printf("  mtrl  vert  edge  side  texc  geom  lump  path  node\n"
-           "%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
+           "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
            "  body  coin  goal  view  jump  swch  ball  char  indx\n"
-           "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
-           p->mc, p->vc, p->ec, p->sc, p->tc, p->gc, p->lc, p->pc, p->nc,
-           p->bc, p->cc, p->zc, p->wc, p->jc, p->xc, p->uc, p->ac, p->ic, n);
+           "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d $%d\n",
+           p->mc, p->vc, p->ec, p->sc, p->tc, p->gc, p->lc, p->pc, p->nc, m,
+           p->bc, p->cc, p->zc, p->wc, p->jc, p->xc, p->uc, p->ac, p->ic, n, c);
 }
 
 int main(int argc, char *argv[])
@@ -1699,7 +1837,6 @@ int main(int argc, char *argv[])
 
             clip_file(&f);
             move_file(&f);
-            sort_file(&f);
             uniq_file(&f);
             node_file(&f);
             dump_file(&f);

@@ -43,8 +43,8 @@ static int count;
 static int done;
 
 static int         stat_v[MAXPLY];
-static double      ball_p[MAXPLY][3];
-static double      ball_e[MAXPLY][3][3];
+static float       ball_p[MAXPLY][3];
+static float       ball_e[MAXPLY][3][3];
 static struct hole hole_v[MAXHOL];
 static int        score_v[MAXHOL][MAXPLY];
 
