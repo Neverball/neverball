@@ -56,6 +56,7 @@
 #define MAXP	512
 #define MAXB	512
 #define MAXC	1024
+#define MAXZ    8
 #define MAXU	16
 #define MAXI	16384
 
@@ -72,6 +73,7 @@ static void init_file(struct s_file *fp)
     fp->pc = 0;
     fp->bc = 0;
     fp->cc = 0;
+    fp->zc = 0;
     fp->uc = 0;
     fp->ic = 0;
 
@@ -86,6 +88,7 @@ static void init_file(struct s_file *fp)
     fp->pv = (struct s_path *) calloc(MAXP, sizeof (struct s_path));
     fp->bv = (struct s_body *) calloc(MAXB, sizeof (struct s_body));
     fp->cv = (struct s_coin *) calloc(MAXC, sizeof (struct s_coin));
+    fp->zv = (struct s_goal *) calloc(MAXZ, sizeof (struct s_goal));
     fp->uv = (struct s_ball *) calloc(MAXU, sizeof (struct s_ball));
     fp->iv = (int           *) calloc(MAXI, sizeof (int));
 }
@@ -466,6 +469,37 @@ static void make_coin(struct s_file *fp,
     }
 }
 
+static void make_goal(struct s_file *fp,
+                      char k[][MAXSTR],
+                      char v[][MAXSTR], int c)
+{
+    int i, zi = fp->zc++;
+
+    struct s_goal *zp = fp->zv + zi;
+
+    zp->p[0] = 0.0;
+    zp->p[1] = 0.0;
+    zp->p[2] = 0.0;
+    zp->r    = 0.75;
+
+    for (i = 0; i < c; i++)
+    {
+        if (strcmp(k[i], "radius") == 0)
+            sscanf(v[i], "%lf", &zp->r);
+
+        if (strcmp(k[i], "origin") == 0)
+        {
+            int x = 0, y = 0, z = 0;
+
+            sscanf(v[i], "%d %d %d", &x, &y, &z);
+
+            zp->p[0] = +(double) x / SCALE;
+            zp->p[1] = +(double) z / SCALE;
+            zp->p[2] = -(double) y / SCALE;
+        }
+    }
+}
+
 static void make_ball(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
@@ -546,6 +580,7 @@ static void read_ent(struct s_file *fp, FILE *fin)
     if (!strcmp(v[i], "light"))             make_coin(fp, k, v, c);
     if (!strcmp(v[i], "path_corner"))       make_path(fp, k, v, c);
     if (!strcmp(v[i], "info_player_start")) make_ball(fp, k, v, c);
+    if (!strcmp(v[i], "target_teleporter")) make_goal(fp, k, v, c);
 
     if (!strcmp(v[i], "worldspawn"))  make_body(fp, k, v, c, l0);
     if (!strcmp(v[i], "func_train"))  make_body(fp, k, v, c, l0);
@@ -1254,15 +1289,15 @@ static void sort_file(struct s_file *fp)
 
 static void dump_head(void)
 {
-    printf("  mtrl  vert  edge  side  texc  geom  lump"
-           "  node  path  body  coin  ball  indx\n");
+    printf(" mtrl vert edge side texc geom lump"
+           " node path body coin goal ball indx\n");
 }
 
 static void dump_file(struct s_file *fp)
 {
-    printf("%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
+    printf("%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d\n",
            fp->mc, fp->vc, fp->ec, fp->sc, fp->tc, fp->gc, fp->lc,
-           fp->nc, fp->pc, fp->bc, fp->cc, fp->uc, fp->ic);
+           fp->nc, fp->pc, fp->bc, fp->cc, fp->zc, fp->uc, fp->ic);
 }
 
 int main(int argc, char *argv[])

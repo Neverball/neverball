@@ -32,15 +32,15 @@
 #define OVER_IMG  "data/png/over.png"
 #define PAUSE_IMG "data/png/pause.png"
 
-#define TITLE_WAV "data/wav/title.wav"
-#define READY_WAV "data/wav/ready.wav"
-#define SET_WAV   "data/wav/set.wav"
-#define GO_WAV    "data/wav/go.wav"
-#define GOAL_WAV  "data/wav/goal.wav"
-#define FALL_WAV  "data/wav/fall.wav"
-#define TIME_WAV  "data/wav/time.wav"
-#define OVER_WAV  "data/wav/over.wav"
-#define PAUSE_WAV "data/wav/pause.wav"
+#define TITLE_SND "data/ogg/title.ogg"
+#define READY_SND "data/ogg/ready.ogg"
+#define SET_SND   "data/ogg/set.ogg"
+#define GO_SND    "data/ogg/go.ogg"
+#define GOAL_SND  "data/ogg/goal.ogg"
+#define FALL_SND  "data/ogg/fall.ogg"
+#define TIME_SND  "data/ogg/time.ogg"
+#define OVER_SND  "data/ogg/over.ogg"
+#define PAUSE_SND "data/ogg/pause.ogg"
 
 #define STATE_CH 3
 
@@ -97,10 +97,10 @@ int st_keybd(int c)
 
 static void title_enter(void)
 {
-    static Mix_Chunk *wav = NULL;
+    static Mix_Chunk *snd = NULL;
 
-    if (wav || (wav = Mix_LoadWAV(TITLE_WAV)))
-        Mix_PlayChannel(STATE_CH, wav, 0);
+    if (snd || (snd = Mix_LoadWAV(TITLE_SND)))
+        Mix_PlayChannel(STATE_CH, snd, 0);
 }
 
 static void title_leave(void)
@@ -142,10 +142,10 @@ static int title_keybd(int c)
 
 static void ready_enter(void)
 {
-    static Mix_Chunk *wav = NULL;
+    static Mix_Chunk *snd = NULL;
 
-    if (wav || (wav = Mix_LoadWAV(READY_WAV)))
-        Mix_PlayChannel(STATE_CH, wav, 0);
+    if (snd || (snd = Mix_LoadWAV(READY_SND)))
+        Mix_PlayChannel(STATE_CH, snd, 0);
 
     game_update_fly(1.0);
 }
@@ -180,10 +180,10 @@ static int ready_timer(double dt)
 
 static void set_enter(void)
 {
-    static Mix_Chunk *wav = NULL;
+    static Mix_Chunk *snd = NULL;
 
-    if (wav || (wav = Mix_LoadWAV(SET_WAV)))
-        Mix_PlayChannel(STATE_CH, wav, 0);
+    if (snd || (snd = Mix_LoadWAV(SET_SND)))
+        Mix_PlayChannel(STATE_CH, snd, 0);
 }
 
 static void set_paint(void)
@@ -216,10 +216,10 @@ static int set_timer(double dt)
 
 static void play_enter(void)
 {
-    static Mix_Chunk *wav = NULL;
+    static Mix_Chunk *snd = NULL;
 
-    if (wav || (wav = Mix_LoadWAV(GO_WAV)))
-        Mix_PlayChannel(STATE_CH, wav, 0);
+    if (snd || (snd = Mix_LoadWAV(GO_SND)))
+        Mix_PlayChannel(STATE_CH, snd, 0);
 
     SDL_WM_GrabInput(SDL_GRAB_ON);
     SDL_ShowCursor(SDL_DISABLE);
@@ -290,10 +290,10 @@ static int play_keybd(int c)
 
 static void goal_enter(void)
 {
-    static Mix_Chunk *wav = NULL;
+    static Mix_Chunk *snd = NULL;
 
-    if (wav || (wav = Mix_LoadWAV(GOAL_WAV)))
-        Mix_PlayChannel(STATE_CH, wav, 0);
+    if (snd || (snd = Mix_LoadWAV(GOAL_SND)))
+        Mix_PlayChannel(STATE_CH, snd, 0);
 }
 
 static void goal_paint(void)
@@ -332,10 +332,10 @@ static int goal_timer(double dt)
 
 static void fall_enter(void)
 {
-    static Mix_Chunk *wav = NULL;
+    static Mix_Chunk *snd = NULL;
 
-    if (wav || (wav = Mix_LoadWAV(FALL_WAV)))
-        Mix_PlayChannel(STATE_CH, wav, 0);
+    if (snd || (snd = Mix_LoadWAV(FALL_SND)))
+        Mix_PlayChannel(STATE_CH, snd, 0);
 }
 
 static void fall_paint(void)
@@ -375,10 +375,10 @@ static int fall_timer(double dt)
 
 static void time_enter(void)
 {
-    static Mix_Chunk *wav = NULL;
+    static Mix_Chunk *snd = NULL;
 
-    if (wav || (wav = Mix_LoadWAV(TIME_WAV)))
-        Mix_PlayChannel(STATE_CH, wav, 0);
+    if (snd || (snd = Mix_LoadWAV(TIME_SND)))
+        Mix_PlayChannel(STATE_CH, snd, 0);
 }
 
 static void time_paint(void)
@@ -419,10 +419,10 @@ static int time_timer(double dt)
 
 static void over_enter(void)
 {
-    static Mix_Chunk *wav = NULL;
+    static Mix_Chunk *snd = NULL;
 
-    if (wav || (wav = Mix_LoadWAV(OVER_WAV)))
-        Mix_PlayChannel(STATE_CH, wav, 0);
+    if (snd || (snd = Mix_LoadWAV(OVER_SND)))
+        Mix_PlayChannel(STATE_CH, snd, 0);
 }
 
 static void over_paint(void)
@@ -457,10 +457,10 @@ static int over_keybd(int c)
 
 static void pause_enter(void)
 {
-    static Mix_Chunk *wav = NULL;
+    static Mix_Chunk *snd = NULL;
 
-    if (wav || (wav = Mix_LoadWAV(PAUSE_WAV)))
-        Mix_PlayChannel(STATE_CH, wav, 0);
+    if (snd || (snd = Mix_LoadWAV(PAUSE_SND)))
+        Mix_PlayChannel(STATE_CH, snd, 0);
 }
 
 static void pause_paint(void)

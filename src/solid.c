@@ -239,11 +239,11 @@ int sol_load(struct s_file *fp, const char *filename)
     if ((fin = fopen(filename, "r")))
 #endif
     {
-        int n[13];
+        int n[14];
 
         memset(fp, 0, sizeof (struct s_file));
 
-        fread(n, sizeof (int), 13, fin);
+        fread(n, sizeof (int), 14, fin);
 
         fp->mc = n[0];
         fp->vc = n[1];
@@ -256,8 +256,9 @@ int sol_load(struct s_file *fp, const char *filename)
         fp->pc = n[8];
         fp->bc = n[9];
         fp->cc = n[10];
-        fp->uc = n[11];
-        fp->ic = n[12];
+        fp->zc = n[11];
+        fp->uc = n[12];
+        fp->ic = n[13];
 
         fp->xv = (struct s_imag *) calloc(n[0],  sizeof (struct s_imag));
         fp->dv = (struct s_list *) calloc(n[9],  sizeof (struct s_list));
@@ -273,8 +274,9 @@ int sol_load(struct s_file *fp, const char *filename)
         fp->pv = (struct s_path *) calloc(n[8],  sizeof (struct s_path));
         fp->bv = (struct s_body *) calloc(n[9],  sizeof (struct s_body));
         fp->cv = (struct s_coin *) calloc(n[10], sizeof (struct s_coin));
-        fp->uv = (struct s_ball *) calloc(n[11], sizeof (struct s_ball));
-        fp->iv = (int           *) calloc(n[12], sizeof (int));
+        fp->zv = (struct s_goal *) calloc(n[11], sizeof (struct s_goal));
+        fp->uv = (struct s_ball *) calloc(n[12], sizeof (struct s_ball));
+        fp->iv = (int           *) calloc(n[13], sizeof (int));
 
         fread(fp->mv, sizeof (struct s_mtrl), n[0],  fin);
         fread(fp->vv, sizeof (struct s_vert), n[1],  fin);
@@ -287,8 +289,9 @@ int sol_load(struct s_file *fp, const char *filename)
         fread(fp->pv, sizeof (struct s_path), n[8],  fin);
         fread(fp->bv, sizeof (struct s_body), n[9],  fin);
         fread(fp->cv, sizeof (struct s_coin), n[10], fin);
-        fread(fp->uv, sizeof (struct s_ball), n[11], fin);
-        fread(fp->iv, sizeof (int),           n[12], fin);
+        fread(fp->zv, sizeof (struct s_goal), n[11], fin);
+        fread(fp->uv, sizeof (struct s_ball), n[12], fin);
+        fread(fp->iv, sizeof (int),           n[13], fin);
 
         fclose(fin);
 
@@ -310,7 +313,7 @@ int sol_stor(struct s_file *fp, const char *filename)
     if ((fout = fopen(filename, "w")))
 #endif
     {
-        int n[13];
+        int n[14];
 
         n[0]  = fp->mc;
         n[1]  = fp->vc;
@@ -323,10 +326,11 @@ int sol_stor(struct s_file *fp, const char *filename)
         n[8]  = fp->pc;
         n[9]  = fp->bc;
         n[10] = fp->cc;
-        n[11] = fp->uc;
-        n[12] = fp->ic;
+        n[11] = fp->zc;
+        n[12] = fp->uc;
+        n[13] = fp->ic;
 
-        fwrite(n, sizeof (int), 13, fout);
+        fwrite(n, sizeof (int), 14, fout);
 
         fwrite(fp->mv, sizeof (struct s_mtrl), n[0],  fout);
         fwrite(fp->vv, sizeof (struct s_vert), n[1],  fout);
@@ -339,8 +343,9 @@ int sol_stor(struct s_file *fp, const char *filename)
         fwrite(fp->pv, sizeof (struct s_path), n[8],  fout);
         fwrite(fp->bv, sizeof (struct s_body), n[9],  fout);
         fwrite(fp->cv, sizeof (struct s_coin), n[10], fout);
-        fwrite(fp->uv, sizeof (struct s_ball), n[11], fout);
-        fwrite(fp->iv, sizeof (int),           n[12], fout);
+        fwrite(fp->zv, sizeof (struct s_goal), n[11], fout);
+        fwrite(fp->uv, sizeof (struct s_ball), n[12], fout);
+        fwrite(fp->iv, sizeof (int),           n[13], fout);
 
         fclose(fout);
 
@@ -384,6 +389,7 @@ void sol_free(struct s_file *fp)
     if (fp->pv) free(fp->pv);
     if (fp->bv) free(fp->bv);
     if (fp->cv) free(fp->cv);
+    if (fp->zv) free(fp->zv);
     if (fp->uv) free(fp->uv);
     if (fp->iv) free(fp->iv);
 
@@ -795,42 +801,23 @@ void sol_update(struct s_file *fp, double dt, const double g[3], double *bump)
 
 /*---------------------------------------------------------------------------*/
 
-int  sol_inside(const struct s_file *fp)
+int sol_finish(const struct s_file *fp)
 {
     const struct s_ball *up = fp->uv;
 
-    int i, j, k, n;
-    double p[3];
-    double P[3];
+    int i;
+    double v[3];
 
-    for (i = 0; i < fp->bc; i++)
+    for (i = 0; i < fp->zc; i++)
     {
-        const struct s_body *bp = fp->bv + i;
+        const struct s_goal *zp = fp->zv + i;
 
-        sol_body_p(p, fp, bp);
-        v_sub(P, up->p, p);
+        v[0] = up->p[0] - zp->p[0];
+        v[1] = up->p[1] - zp->p[1];
+        v[2] = 0;
 
-        for (j = 0; j < bp->lc; j++)
-        {
-            const struct s_lump *lp = fp->lv + bp->l0 + j;
-
-            if (lp->fl)
-            {
-                n = 0;
-
-                for (k = 0; n == 0 && k < lp->sc; k++)
-                {
-                    const struct s_side *sp = fp->sv + fp->iv[lp->s0 + k];
-
-                    if (v_dot(sp->n, P) - sp->d > -up->r)
-                        n++;
-                }
-
-                if (n == 0) return bp->l0 + j;
-            }
-        }
+        if (v_len(v) < zp->r - up->r)
+            return 1;
     }
-
-    return -1;
+    return 0;
 }
-

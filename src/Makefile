@@ -13,7 +13,7 @@ MAPC_OBJS= \
 	solid.o \
 	mapc.o
 
-CFLAGS= -Wall -O3 -ffast-math -ansi $(shell sdl-config --cflags)
+CFLAGS= -Wall -g -ffast-math -ansi $(shell sdl-config --cflags)
 
 BALL_LIBS= $(shell sdl-config --libs) -lSDL_image -lSDL_mixer -lGLU -lGL
 MAPC_LIBS= $(shell sdl-config --libs) -lSDL_image -lGL

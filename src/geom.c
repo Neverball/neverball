@@ -13,6 +13,7 @@
  */
 
 #include <math.h>
+#include <stdlib.h>
 
 #include "gl.h"
 #include "main.h"
@@ -30,6 +31,10 @@
 #define COIN_S "data/png/coin.png"
 
 static struct image coin_i, *coin_p = &coin_i;
+
+static GLuint ball_list;
+static GLuint coin_list;
+static GLuint goal_list;
 
 /*---------------------------------------------------------------------------*/
 
@@ -87,7 +92,7 @@ static void section(int d,
     }
 }
 
-GLuint ball_init(int d)
+void ball_init(int d)
 {
     static const float s[3] = { 1.0f, 1.0f, 1.0f };
 
@@ -104,9 +109,9 @@ GLuint ball_init(int d)
         { 1.0, 1.0, 1.0, 0.5 },
     };
 
-    GLuint list = glGenLists(1);
+    ball_list = glGenLists(1);
 
-    glNewList(list, GL_COMPILE);
+    glNewList(ball_list, GL_COMPILE);
     glPushAttrib(GL_LIGHTING_BIT);
     {
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
@@ -130,11 +135,9 @@ GLuint ball_init(int d)
     }
     glPopAttrib();
     glEndList();
-
-    return list;
 }
 
-void ball_draw(GLuint list, double r,
+void ball_draw(double r,
                const double p[3],
                const double e[3][3])
 {
@@ -142,37 +145,160 @@ void ball_draw(GLuint list, double r,
 
     m_basis(M, e[0], e[1], e[2]);
 
+    glPushAttrib(GL_ENABLE_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    glPushAttrib(GL_COLOR_BUFFER_BIT);
     {
-        glDepthMask(GL_FALSE);
-
         glDisable(GL_TEXTURE_2D);
+
         glPushMatrix();
         {
             glTranslated(p[0], p[1], p[2]);
             glMultMatrixd(M);
             glScaled(r, r, r);
 
+            glDepthMask(GL_FALSE);
+
             glCullFace(GL_FRONT);
-            glCallList(list);
+            glCallList(ball_list);
             glCullFace(GL_BACK);
-            glCallList(list);
+            glCallList(ball_list);
+
+            glDepthMask(GL_TRUE);
+            glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+            glCallList(ball_list);
         }
         glPopMatrix();
-        glEnable(GL_TEXTURE_2D);
     }
+    glPopAttrib();
+    glPopAttrib();
     glPopAttrib();
 }
 
 /*---------------------------------------------------------------------------*/
 
-GLuint coin_init(int n)
+#define GH 5.0
+#define SPARKS 128
+
+static double spark_k[SPARKS];
+static double spark_y[SPARKS];
+
+void goal_init(void)
 {
-    GLuint list = glGenLists(1);
+    int i, n = 32;
+
+    for (i = 0; i < SPARKS; i++)
+    {
+        spark_k[i] = (6.2831 * rand()) / RAND_MAX;
+        spark_y[i] = ((double) rand()) / RAND_MAX;
+    }
+
+    goal_list = glGenLists(1);
+
+    glNewList(goal_list, GL_COMPILE);
+    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    glPushAttrib(GL_ENABLE_BIT);
+    {
+        glDepthMask(GL_FALSE);
+
+        glDisable(GL_TEXTURE_2D);
+        glDisable(GL_LIGHTING);
+        glDisable(GL_CULL_FACE);
+
+        glBegin(GL_QUAD_STRIP);
+        {
+            for (i = 0; i <= n; i++)
+            {
+                double x = cos(+2.0 * PI * i / n);
+                double y = sin(+2.0 * PI * i / n);
+            
+                glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
+                glVertex3d(x, 0.0, y);
+                glColor4f(1.0f, 1.0f, 0.0f, 0.0f);
+                glVertex3d(x, 1.0, y);
+            }
+        }
+        glEnd();
+    }
+    glPopAttrib();
+    glPopAttrib();
+    glEndList();
+
+}
+
+void goal_draw(const struct s_goal *zv, int zc)
+{
+    int zi, i;
+
+    glPointSize(3.0);
+
+    for (zi = 0; zi < zc; zi++)
+    {
+        const struct s_goal *zp = zv + zi;
+
+        glPushMatrix();
+        {
+            glTranslatef(zp->p[0], zp->p[1], zp->p[2]);
+            glScaled(zp->r, GH, zp->r);
+
+            glCallList(goal_list);
+
+            glPushAttrib(GL_ENABLE_BIT);
+            {
+                glDisable(GL_LIGHTING);
+                glDisable(GL_TEXTURE_2D);
+
+                glBegin(GL_POINTS);
+                {
+                    for (i = 0; i < SPARKS; i++)
+                    {
+                        double x = 0.9 * cos(10.0 * spark_y[i] + spark_k[i]);
+                        double y = 0.9 * sin(10.0 * spark_y[i] + spark_k[i]);
+
+                        glColor4f(1.0f, 1.0f, 0.0f, 1.0f - spark_y[i]);
+                        glVertex3d(x, spark_y[i], y);
+
+                        spark_y[i] += 0.001;
+                        
+                        if (spark_y[i] > 1.0)
+                            spark_y[i] = 0.0;
+                    }
+                }
+                glEnd();
+            }
+            glPopAttrib();
+        }
+        glPopMatrix();
+    }
+}
+
+int goal_test(const struct s_ball *up, struct s_goal *zv, int zc)
+{
+    int i;
+    double v[3];
+
+    for (i = 0; i < zc; i++)
+    {
+        v[0] = up->p[0] - zv[i].p[0];
+        v[1] = up->p[2] - zv[i].p[2];
+        v[2] = 0;
+
+        if (v_len(v) < zv[i].r - up->r)
+            return 1;
+    }
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+void coin_init(int n)
+{
+    coin_list = glGenLists(1);
 
     image_load(coin_p, COIN_S);
 
-    glNewList(list, GL_COMPILE);
+    glNewList(coin_list, GL_COMPILE);
     {
         double x;
         double y;
@@ -225,11 +351,9 @@ GLuint coin_init(int n)
         glEnd();
     }
     glEndList();
-
-    return list;
 }
 
-void coin_draw(GLuint list, const struct s_coin *cv, int cc)
+void coin_draw(const struct s_coin *cv, int cc)
 {
     static const float c1[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
     static const float c2[4] = { 1.0f, 0.2f, 0.2f, 1.0f };
@@ -260,7 +384,7 @@ void coin_draw(GLuint list, const struct s_coin *cv, int cc)
                              cv[i].p[1],
                              cv[i].p[2]);
                 glRotated(r, 0.0, 1.0, 0.0);
-                glCallList(list);
+                glCallList(coin_list);
             }
             glPopMatrix();
         }

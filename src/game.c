@@ -59,9 +59,6 @@ static Mix_Chunk *coin_wav;
 static Mix_Chunk *tick_wav;
 static Mix_Chunk *bump_wav;
 
-static GLuint list_ball = 0;
-static GLuint list_coin = 0;
-
 static struct s_file file;
 
 static double game_rx = 0.0;
@@ -99,12 +96,13 @@ void game_init(void)
     glEnable(GL_POINT_SMOOTH);
     glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 
-    list_ball = ball_init(4);
-    list_coin = coin_init(32);
+    ball_init(4);
+    goal_init();
+    coin_init(32);
 
-    bump_wav = Mix_LoadWAV("data/wav/bump.wav");
-    coin_wav = Mix_LoadWAV("data/wav/coin.wav");
-    tick_wav = Mix_LoadWAV("data/wav/tick.wav");
+    bump_wav = Mix_LoadWAV("data/ogg/bump.ogg");
+    coin_wav = Mix_LoadWAV("data/ogg/coin.ogg");
+    tick_wav = Mix_LoadWAV("data/ogg/tick.ogg");
 
     image_load(coin_p, COIN_S);
     image_load(time_p, TIME_S);
@@ -203,8 +201,9 @@ void game_render_env(void)
 
         glPushAttrib(GL_ENABLE_BIT);
         {
-            coin_draw(list_coin, fp->cv, fp->cc);
-            ball_draw(list_ball, up->r, ball_p, up->e);
+            coin_draw(fp->cv, fp->cc);
+            ball_draw(up->r, ball_p, up->e);
+            goal_draw(fp->zv, fp->zc);
         }
         glPopAttrib();
     }
@@ -302,9 +301,8 @@ static int game_update_state(void)
 
     /* Test for a goal. */
 
-    if ((n = sol_inside(fp)) >= 0)
-        if (fp->lv[n].gc == 0)
-            return EV_GOAL;
+    if (goal_test(fp->uv, fp->zv, fp->zc))
+        return EV_GOAL;
 
     /* Test for time-out. */
 

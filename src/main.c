@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0)
     {
-        if (!Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024))
+        if (!Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024))
         {
             SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     8);
             SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   8);

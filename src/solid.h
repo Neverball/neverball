@@ -122,6 +122,12 @@ struct s_coin
     int    n;                                  /* value                      */
 };
 
+struct s_goal
+{
+    double p[3];                               /* position                   */
+    double r;                                  /* radius                     */
+};
+
 struct s_ball
 {
     double e[3][3];                            /* basis of orientation       */
@@ -144,6 +150,7 @@ struct s_file
     int pc;
     int bc;
     int cc;
+    int zc;
     int uc;
     int ic;
 
@@ -161,6 +168,7 @@ struct s_file
     struct s_path *pv;
     struct s_body *bv;
     struct s_coin *cv;
+    struct s_goal *zv;
     struct s_ball *uv;
     int           *iv;
 };
@@ -173,7 +181,7 @@ int  sol_load(struct s_file *, const char *);
 int  sol_stor(struct s_file *, const char *);
 void sol_free(struct s_file *);
 
-int  sol_inside(const struct s_file *);
 void sol_update(struct s_file *, double, const double[3], double *);
+int  sol_finish(const struct s_file *);
 
 #endif

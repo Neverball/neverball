@@ -20,7 +20,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define MAXSTR 256
-#define MAXLVL 8
+#define MAXLVL 32
 
 struct level
 {
