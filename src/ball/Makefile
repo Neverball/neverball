@@ -1,9 +1,9 @@
-OBJS= main.o
+OBJS= main.o ball.o
 TARG= ball
-LIBS= -lsol -lglv -lglw -lvec -lGL -lX11 -lm
+LIBS= -lsol -lglw -lvec -ljpeg -lGLU -lGL -lX11 -lm
 
-INCDIR= -I../../include
-LIBDIR= -L../../lib -L/usr/X11R6/lib
+INCDIR= -I../../include -I/usr/X11R6/include
+LIBDIR= -L../../lib     -L/usr/X11R6/lib
 
 .c.o :
 	$(CC) $(CFLAGS) -c $< $(INCDIR)

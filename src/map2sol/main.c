@@ -1,22 +1,25 @@
+/* I'm not particularly proud of this chunk of code.  It was not so   */
+/* much designed as it was accumulated.                               */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <jpeglib.h>
 #include <math.h>
 
 #include <sol.h>
 #include <vec.h>
 
-#define MAXSTR 64
+#define MAXSTR 256
 #define MAXKEY 16
 #define SCALE  64.0
 #define SMALL  0.000005
 
 /* The overall design of this map converter is very stupid, but very  */
-/* simple.  It begins by assuming that every mtrl, vert, edge, quad,  */
+/* simple.  It begins by assuming that every mtrl, vert, edge, geom,  */
 /* and side in the map is unique.  It then makes an optimizing pass   */
 /* which discards all redundant information.  The result is optimal,  */
 /* though the process is terribly inefficient.                        */
-
 
 /*--------------------------------------------------------------------*/
 
@@ -26,7 +29,8 @@
 #define MAXV	4096
 #define MAXE	4096
 #define MAXS	2048
-#define MAXQ	4096
+#define MAXT	4096
+#define MAXG	4096
 #define MAXL	1024
 #define MAXN	1024
 #define MAXP	512
@@ -35,13 +39,14 @@
 #define MAXU	16
 #define MAXI	16384
 
-static void init_sol(struct s_file *fp)
+static void init_file(struct s_file *fp)
 {
 	fp->mc = 0;
 	fp->vc = 0;
 	fp->ec = 0;
 	fp->sc = 0;
-	fp->qc = 0;
+	fp->tc = 0;
+	fp->gc = 0;
 	fp->lc = 0;
 	fp->nc = 0;
 	fp->pc = 0;
@@ -56,7 +61,8 @@ static void init_sol(struct s_file *fp)
 	fp->vv = (struct s_vert *) calloc(MAXV, sizeof (struct s_vert));
 	fp->ev = (struct s_edge *) calloc(MAXE, sizeof (struct s_edge));
 	fp->sv = (struct s_side *) calloc(MAXS, sizeof (struct s_side));
-	fp->qv = (struct s_quad *) calloc(MAXQ, sizeof (struct s_quad));
+	fp->tv = (struct s_texc *) calloc(MAXT, sizeof (struct s_texc));
+	fp->gv = (struct s_geom *) calloc(MAXG, sizeof (struct s_geom));
 	fp->lv = (struct s_lump *) calloc(MAXL, sizeof (struct s_lump));
 	fp->nv = (struct s_node *) calloc(MAXN, sizeof (struct s_node));
 	fp->pv = (struct s_path *) calloc(MAXP, sizeof (struct s_path));
@@ -114,6 +120,114 @@ static void resolve(void)
 
 /*--------------------------------------------------------------------*/
 
+static void size_image(const char *s, int *w, int *h)
+{
+	FILE *fin;
+	char filename[MAXSTR];
+
+	struct jpeg_decompress_struct cinfo;
+	struct jpeg_error_mgr jerr;
+
+	strcpy(filename, s);
+	strcat(filename, ".jpg");
+
+	cinfo.err = jpeg_std_error(&jerr);
+	jpeg_create_decompress(&cinfo);
+
+	if ((fin = fopen(filename, "r")))
+	{
+		jpeg_stdio_src(&cinfo, fin);
+		jpeg_read_header(&cinfo, TRUE);
+
+		*w = cinfo.image_width;
+		*h = cinfo.image_height;
+
+		fclose(fin);
+	}
+
+	jpeg_destroy_decompress(&cinfo);
+}
+
+/*--------------------------------------------------------------------*/
+
+static double plane_d[MAXS];
+static double plane_n[MAXS][3];
+static double plane_p[MAXS][3];
+static double plane_u[MAXS][3];
+static double plane_v[MAXS][3];
+
+static void make_plane(int pi, int x0, int y0, int z0,
+                               int x1, int y1, int z1,
+                               int x2, int y2, int z2,
+                               int tu, int tv, int r,
+                               float su, float sv, const char *s)
+{
+	const static double base[6][3][3] = {
+		{{  0,  0,  1 }, {  1,  0,  0 }, {  0, -1,  0 }},
+		{{  0,  0, -1 }, {  1,  0,  0 }, {  0, -1,  0 }},
+		{{  1,  0,  0 }, {  0,  0, -1 }, {  0, -1,  0 }},
+		{{ -1,  0,  0 }, {  0,  0, -1 }, {  0, -1,  0 }},
+		{{  0,  1,  0 }, {  1,  0,  0 }, {  0,  0,  1 }},
+		{{  0, -1,  0 }, {  1,  0,  0 }, {  0,  0,  1 }},
+	};
+
+	double R[16];
+	double p0[3], p1[3], p2[3];
+	double  u[3],  v[3],  p[3];
+	double k, d = 0.0;
+	int i, w, h, n = 0;
+
+	size_image(s, &w, &h);
+
+	p0[0] = +(double) x0 / SCALE;
+	p0[1] = +(double) z0 / SCALE;
+	p0[2] = -(double) y0 / SCALE;
+
+	p1[0]  = +(double) x1 / SCALE;
+	p1[1]  = +(double) z1 / SCALE;
+	p1[2]  = -(double) y1 / SCALE;
+
+	p2[0] = +(double) x2 / SCALE;
+	p2[1] = +(double) z2 / SCALE;
+	p2[2] = -(double) y2 / SCALE;
+
+	v_sub(u, p0, p1);
+	v_sub(v, p2, p1);
+
+	v_crs(plane_n[pi], u, v);
+	v_nrm(plane_n[pi], plane_n[pi]);
+	
+	plane_d[pi] = v_dot(plane_n[pi], p1);
+
+	for (i = 0; i < 6; i++)
+		if ((k = v_dot(plane_n[pi], base[i][0])) > d)
+		{
+			d = k;
+			n = i;
+		}
+
+	p[0] = 0.0;
+	p[1] = 0.0;
+	p[2] = 0.0;
+
+	m_rot(R, base[n][0], V_RAD(r));
+
+	v_mad(p, p, base[n][1], su * tu / SCALE);
+	v_mad(p, p, base[n][2], sv * tv / SCALE);
+
+	m_vxfm(plane_u[pi], R, base[n][1]);
+	m_vxfm(plane_v[pi], R, base[n][2]);
+	m_vxfm(plane_p[pi], R, p);
+
+	v_scl(plane_u[pi], plane_u[pi], SCALE / w);
+	v_scl(plane_v[pi], plane_v[pi], SCALE / h);
+
+	v_scl(plane_u[pi], plane_u[pi], 1.0 / su);
+	v_scl(plane_v[pi], plane_v[pi], 1.0 / sv);
+}
+
+/*--------------------------------------------------------------------*/
+
 #define T_EOF 0
 #define T_BEG 1
 #define T_CLP 2
@@ -121,8 +235,8 @@ static void resolve(void)
 #define T_END 4
 #define T_NOP 5
 
-static int map_token(FILE *fin, double n[3], double *d,
-                     char key[MAXSTR], char val[MAXSTR])
+static int map_token(FILE *fin, int pi, char key[MAXSTR],
+                                        char val[MAXSTR])
 {
 	char buf[MAXSTR];
 
@@ -132,6 +246,8 @@ static int map_token(FILE *fin, double n[3], double *d,
 		int x0, y0, z0;
 		int x1, y1, z1;
 		int x2, y2, z2;
+		int tu, tv, r;
+		float su, sv;
 
 		/* Scan the beginning or end of a block. */
 
@@ -149,40 +265,21 @@ static int map_token(FILE *fin, double n[3], double *d,
 			return T_KEY;
 		}
 
-		/* Scan a plane, compute its normal and distance. */
+		/* Scan a plane. */
 
 		if (sscanf(buf, "%c %d %d %d %c "
                                 "%c %d %d %d %c "
-                                "%c %d %d %d %c %s",
+                                "%c %d %d %d %c "
+		                "%s %d %d %d %f %f ",
                                 &c, &x0, &y0, &z0, &c,
                                 &c, &x1, &y1, &z1, &c,
-                                &c, &x2, &y2, &z2, &c, key) == 16)
+                                &c, &x2, &y2, &z2, &c,
+		                key, &tu, &tv, &r, &su, &sv) == 21)
 		{
-			double p0[3];
-			double p1[3];
-			double p2[3];
-			double u[3];
-			double v[3];
-
-			p0[0] = +(double) x0 / SCALE;
-			p0[1] = +(double) z0 / SCALE;
-			p0[2] = -(double) y0 / SCALE;
-
-			p1[0] = +(double) x1 / SCALE;
-			p1[1] = +(double) z1 / SCALE;
-			p1[2] = -(double) y1 / SCALE;
-
-			p2[0] = +(double) x2 / SCALE;
-			p2[1] = +(double) z2 / SCALE;
-			p2[2] = -(double) y2 / SCALE;
-
-			v_sub(u, p2, p0);
-			v_sub(v, p1, p0);
-			v_crs(n, u, v);
-			v_nrm(n, n);
-			
-			*d = v_dot(n, p0);
-
+			make_plane(pi, x0, y0, z0,
+			               x1, y1, z1,
+			               x2, y2, z2,
+			               tu, tv, r, su, sv, key);
 			return T_CLP;
 		}
 
@@ -207,12 +304,17 @@ static void read_mtrl(struct s_file *fp, const char *s)
 		fscanf(fin, "%f %f %f %f "
 		            "%f %f %f %f "
 		            "%f %f %f %f "
+		            "%f %f %f %f "
 		            "%f ",
 		            mp->d, mp->d + 1, mp->d + 2, mp->d + 3,
+		            mp->a, mp->a + 1, mp->a + 2, mp->a + 3,
 		            mp->s, mp->s + 1, mp->s + 2, mp->s + 3,
 		            mp->e, mp->e + 1, mp->e + 2, mp->e + 3,
 		            mp->h);
 		fclose(fin);
+
+		strcpy(mp->f, s);
+		strcat(mp->f, ".jpg");
 	}
 }
 
@@ -220,11 +322,10 @@ static void read_mtrl(struct s_file *fp, const char *s)
 /* small hack here in mapping materials onto sides.  Material indices */
 /* cannot be assigned until faces are computed, so for now there is   */
 /* assumed to be exactly one material per side, and that a side index */
-/* equals that side's material index.  See clip_lump and clip_quad.   */
+/* equals that side's material index.  See clip_lump and clip_geom.   */
 
 static void read_lump(struct s_file *fp, FILE *fin)
 {
-	double n[3], d;
 	char k[MAXSTR];
 	char v[MAXSTR];
 	int t;
@@ -233,14 +334,14 @@ static void read_lump(struct s_file *fp, FILE *fin)
 
 	lp->s0 = fp->ic;
 
-	while ((t = map_token(fin, n, &d, k, v)))
+	while ((t = map_token(fin, fp->sc, k, v)))
 	{
 		if (t == T_CLP)
 		{
-			fp->sv[fp->sc].n[0] = n[0];
-			fp->sv[fp->sc].n[1] = n[1];
-			fp->sv[fp->sc].n[2] = n[2];
-			fp->sv[fp->sc].d    = d;
+			fp->sv[fp->sc].n[0] = plane_n[fp->sc][0];
+			fp->sv[fp->sc].n[1] = plane_n[fp->sc][1];
+			fp->sv[fp->sc].n[2] = plane_n[fp->sc][2];
+			fp->sv[fp->sc].d    = plane_d[fp->sc];
 
 			read_mtrl(fp, k);
 
@@ -396,14 +497,13 @@ static void make_ball(struct s_file *fp, char k[][MAXSTR],
 
 static void read_ent(struct s_file *fp, FILE *fin)
 {
-	double n[3], d;
 	char k[MAXKEY][MAXSTR];
 	char v[MAXKEY][MAXSTR];
 	int t, i = 0, c = 0;
 
 	int l0 = fp->lc;
 
-	while ((t = map_token(fin, n, &d, k[c], v[c])))
+	while ((t = map_token(fin, -1, k[c], v[c])))
 	{
 		if (t == T_KEY)
 		{
@@ -427,12 +527,11 @@ static void read_ent(struct s_file *fp, FILE *fin)
 
 static void read_map(struct s_file *fp, FILE *fin)
 {
-	double n[3], d;
 	char k[MAXSTR];
 	char v[MAXSTR];
 	int t;
 
-	while ((t = map_token(fin, n, &d, k, v)))
+	while ((t = map_token(fin, -1, k, v)))
 		if (t == T_BEG)
 			read_ent(fp, fin);
 }
@@ -467,7 +566,7 @@ static void move_body(struct s_file *fp,
 		move_lump(fp, fp->lv + bp->l0 + i, fp->pv[bp->pi].p);
 }
 
-static void move_sol(struct s_file *fp)
+static void move_file(struct s_file *fp)
 {
 	int i;
 
@@ -484,10 +583,12 @@ static int fore_side(const double p[3], const struct s_side *sp)
 	return (v_dot(p, sp->n) - sp->d > +SMALL) ? 1 : 0;
 }
 
+/*
 static int back_side(const double p[3], const struct s_side *sp)
 {
 	return (v_dot(p, sp->n) - sp->d < -SMALL) ? 1 : 0;
 }
+*/
 
 static int on_side(const double p[3], const struct s_side *sp)
 {
@@ -508,7 +609,9 @@ static int ok_vert(const struct s_file *fp,
 
 	for (i = 0; i < lp->vc; i++)
 	{
-		v_sub(r, p, fp->vv[lp->v0 + i].p);
+		double *q = fp->vv[fp->iv[lp->v0 + i]].p;
+
+		v_sub(r, p, q);
 
 		if (v_len(r) < SMALL)
 			return 0;
@@ -519,10 +622,10 @@ static int ok_vert(const struct s_file *fp,
 /*--------------------------------------------------------------------*/
 
 /* The following functions take the set of planes defining a lump and */
-/* compute the verts, edges, and quads that describe its boundaries.  */
+/* compute the verts, edges, and geoms that describe its boundaries.  */
 /* To do this, they first find the verts, and then search these verts */
-/* for valid edges and quads.  It would be more efficient to compute  */
-/* edges and quads directly by clipping down infinite line segments   */
+/* for valid edges and geoms.  It would be more efficient to compute  */
+/* edges and geoms directly by clipping down infinite line segments   */
 /* and planes, but this would be more complex and prone to numerical  */
 /* error.                                                             */
 
@@ -605,12 +708,12 @@ static void clip_edge(struct s_file *fp,
 
 /* Find all verts that lie on the given side of the lump.  Sort these */
 /* verts to have a counter-clockwise winding about the plane normal.  */
-/* Generate quads to tessalate the resulting convex polygon.          */
+/* Generate geoms to tessalate the resulting convex polygon.          */
 
-static void clip_quad(struct s_file *fp,
+static void clip_geom(struct s_file *fp,
                       struct s_lump *lp, int si)
 {
-	int    m[16], i, j, n = 0;
+	int    m[16], t[16], d, i, j, n = 0;
 	double u[3];
 	double v[3];
 	double w[3];
@@ -622,7 +725,17 @@ static void clip_quad(struct s_file *fp,
 		int vi = fp->iv[lp->v0 + i];
 
 		if (on_side(fp->vv[vi].p, sp))
-			m[n++] = vi;
+		{
+			m[n] = vi;
+			t[n] = fp->tc++;
+
+			v_add(v, fp->vv[vi].p, plane_p[si]);
+
+			fp->tv[t[n]].u[0] = v_dot(v, plane_u[si]);
+			fp->tv[t[n]].u[1] = v_dot(v, plane_v[si]);
+
+			n++;
+		}
 	}
 
 	for (i = 1; i < n; i++)
@@ -634,33 +747,39 @@ static void clip_quad(struct s_file *fp,
 
 			if (v_dot(w, sp->n) < 0.0)
 			{
-				int t = m[i];
+				d     = m[i];
 				m[i]  = m[j];
-				m[j]  =    t;
+				m[j]  =    d;
+
+				d     = t[i];
+				t[i]  = t[j];
+				t[j]  =    d;
 			}
 		}
 
-	/* FIXME: does not tessellate oddagons. */
-
-	for (i = 0; i < n - 3; i += 2)
+	for (i = 0; i < n - 2; i++)
 	{
-		fp->qv[fp->qc].si = si;
-		fp->qv[fp->qc].mi = si;
-		fp->qv[fp->qc].vi = m[0];
-		fp->qv[fp->qc].vj = m[i + 1];
-		fp->qv[fp->qc].vk = m[i + 2];
-		fp->qv[fp->qc].vl = m[i + 3];
+		fp->gv[fp->gc].si = si;
+		fp->gv[fp->gc].mi = si;
 
-		fp->iv[fp->ic] = fp->qc;
+		fp->gv[fp->gc].ti = t[0];
+		fp->gv[fp->gc].tj = t[i + 1];
+		fp->gv[fp->gc].tk = t[i + 2];
+
+		fp->gv[fp->gc].vi = m[0];
+		fp->gv[fp->gc].vj = m[i + 1];
+		fp->gv[fp->gc].vk = m[i + 2];
+
+		fp->iv[fp->ic] = fp->gc;
 		fp->ic++;
-		fp->qc++;
-		lp->qc++;
+		fp->gc++;
+		lp->gc++;
 	}
 }
 
 /* Iterate the sides of the lump, attemping to generate a new vert    */
 /* for each trio of planes, a new edge for each pair of planes, and   */
-/* a new set of quads for each visible plane.                         */
+/* a new set of geoms for each visible plane.                         */
 
 static void clip_lump(struct s_file *fp, struct s_lump *lp)
 {
@@ -684,15 +803,15 @@ static void clip_lump(struct s_file *fp, struct s_lump *lp)
 			clip_edge(fp, lp, fp->iv[lp->s0 + i],
 			                  fp->iv[lp->s0 + j]);
 
-	lp->q0 = fp->ic;
-	lp->qc = 0;
+	lp->g0 = fp->ic;
+	lp->gc = 0;
 
 	for (i = 0; i < lp->sc; i++)
 		if (fp->mv[fp->iv[lp->s0 + i]].d[3] > 0)
-			clip_quad(fp, lp, fp->iv[lp->s0 + i]);
+			clip_geom(fp, lp, fp->iv[lp->s0 + i]);
 }
 
-static void clip_sol(struct s_file *fp)
+static void clip_file(struct s_file *fp)
 {
 	int i;
 
@@ -701,458 +820,351 @@ static void clip_sol(struct s_file *fp)
 }
 
 /*--------------------------------------------------------------------*/
-#ifdef SNIP
+/* For each body element type, determine if element 'p' is equivalent */
+/* to element 'q'.  This is more than a simple memory compare.  It    */
+/* effectively snaps mtrls and verts togather, and may reverse the    */
+/* winding of an edge or a geom.  This is done in order to maximize   */
+/* the number of elements than can be eliminated.                     */
 
-static int comp_mtrl(const struct mtrl *M1, const struct mtrl *M2)
+static int comp_mtrl(const struct s_mtrl *mp, const struct s_mtrl *mq)
 {
-	if (fabs(M1->d[0] - M2->d[0]) > SMALL) return 0;
-	if (fabs(M1->d[1] - M2->d[1]) > SMALL) return 0;
-	if (fabs(M1->d[2] - M2->d[2]) > SMALL) return 0;
-	if (fabs(M1->d[3] - M2->d[3]) > SMALL) return 0;
+	if (fabs(mp->d[0] - mq->d[0]) > SMALL) return 0;
+	if (fabs(mp->d[1] - mq->d[1]) > SMALL) return 0;
+	if (fabs(mp->d[2] - mq->d[2]) > SMALL) return 0;
+	if (fabs(mp->d[3] - mq->d[3]) > SMALL) return 0;
 
-	if (fabs(M1->s[0] - M2->s[0]) > SMALL) return 0;
-	if (fabs(M1->s[1] - M2->s[1]) > SMALL) return 0;
-	if (fabs(M1->s[2] - M2->s[2]) > SMALL) return 0;
-	if (fabs(M1->s[3] - M2->s[3]) > SMALL) return 0;
+	if (fabs(mp->a[0] - mq->a[0]) > SMALL) return 0;
+	if (fabs(mp->a[1] - mq->a[1]) > SMALL) return 0;
+	if (fabs(mp->a[2] - mq->a[2]) > SMALL) return 0;
+	if (fabs(mp->a[3] - mq->a[3]) > SMALL) return 0;
 
-	if (fabs(M1->e[0] - M2->e[0]) > SMALL) return 0;
-	if (fabs(M1->e[1] - M2->e[1]) > SMALL) return 0;
-	if (fabs(M1->e[2] - M2->e[2]) > SMALL) return 0;
-	if (fabs(M1->e[3] - M2->e[3]) > SMALL) return 0;
+	if (fabs(mp->s[0] - mq->s[0]) > SMALL) return 0;
+	if (fabs(mp->s[1] - mq->s[1]) > SMALL) return 0;
+	if (fabs(mp->s[2] - mq->s[2]) > SMALL) return 0;
+	if (fabs(mp->s[3] - mq->s[3]) > SMALL) return 0;
 
-	if (fabs(M1->h[0] - M2->h[0]) > SMALL) return 0;
+	if (fabs(mp->e[0] - mq->e[0]) > SMALL) return 0;
+	if (fabs(mp->e[1] - mq->e[1]) > SMALL) return 0;
+	if (fabs(mp->e[2] - mq->e[2]) > SMALL) return 0;
+	if (fabs(mp->e[3] - mq->e[3]) > SMALL) return 0;
+
+	if (fabs(mp->h[0] - mq->h[0]) > SMALL) return 0;
+
+	if (strcmp(mp->f, mq->f)) return 0;
 
 	return 1;
 }
 
-static int comp_vert(const struct vert *V1, const struct vert *V2)
+static int comp_vert(const struct s_vert *vp, const struct s_vert *vq)
 {
-	if (fabs(V1->p[0] - V2->p[0]) > SMALL) return 0;
-	if (fabs(V1->p[1] - V2->p[1]) > SMALL) return 0;
-	if (fabs(V1->p[2] - V2->p[2]) > SMALL) return 0;
+	if (fabs(vp->p[0] - vq->p[0]) > SMALL) return 0;
+	if (fabs(vp->p[1] - vq->p[1]) > SMALL) return 0;
+	if (fabs(vp->p[2] - vq->p[2]) > SMALL) return 0;
 
 	return 1;
 }
 
-static int comp_edge(const struct edge *E1, const struct edge *E2)
+static int comp_edge(const struct s_edge *ep, const struct s_edge *eq)
 {
-	if (E1->vi != E2->vi && E1->vi != E2->vj) return 0;
-	if (E1->vj != E2->vi && E1->vj != E2->vj) return 0;
+	if (ep->vi != eq->vi && ep->vi != eq->vj) return 0;
+	if (ep->vj != eq->vi && ep->vj != eq->vj) return 0;
 
 	return 1;
 }
 
-static int comp_side(const struct s_side *S1, const struct s_side *S2)
+static int comp_side(const struct s_side *sp, const struct s_side *sq)
 {
-	if  (S1->mi != S2->mi) return 0;
-
-	if  (fabs(S1->d - S2->d) >       SMALL) return 0;
-	if (v_dot(S1->n,  S2->n) < 1.0 - SMALL) return 0;
+	if  (fabs(sp->d - sq->d) >       SMALL) return 0;
+	if (v_dot(sp->n,  sq->n) < 1.0 - SMALL) return 0;
 
 	return 1;
 }
 
-static int comp_quad(const struct quad *F1, const struct quad *F2)
+static int comp_texc(const struct s_texc *tp, const struct s_texc *tq)
 {
-	if (F1->si != F2->si)
-		return 0;
-	if (F1->vi != F2->vi && F1->vi != F2->vj && F1->vi != F2->vk)
-		return 0;
-	if (F1->vj != F2->vi && F1->vj != F2->vj && F1->vj != F2->vk)
-		return 0;
-	if (F1->vk != F2->vi && F1->vk != F2->vj && F1->vk != F2->vk)
-		return 0;
+	if (fabs(tp->u[0] - tq->u[0]) > SMALL) return 0;
+	if (fabs(tp->u[1] - tq->u[1]) > SMALL) return 0;
 
 	return 1;
 }
 
-/*--------------------------------------------------------------------*/
-
-static void swap_mtrl(struct s_body *bp, int ma, int mb)
+static int comp_geom(const struct s_geom *gp, const struct s_geom *gq)
 {
-	int i;
+	if (gp->si != gq->si) return 0;
+	if (gp->mi != gq->mi) return 0;
 
-	for (i = 0; i < bp->sn; i++)
-		if (bp->sv[i].mi == ma) bp->sv[i].mi = mb;
-}
-
-static void swap_vert(struct s_body *bp, int va, int vb)
-{
-	int i, j;
-
-	for (i = 0; i < bp->en; i++)
-	{
-		if (bp->ev[i].vi == va) bp->ev[i].vi = vb;
-		if (bp->ev[i].vj == va) bp->ev[i].vj = vb;
-	}
-	for (i = 0; i < bp->fn; i++)
-	{
-		if (bp->fv[i].vi == va) bp->fv[i].vi = vb;
-		if (bp->fv[i].vj == va) bp->fv[i].vj = vb;
-		if (bp->fv[i].vk == va) bp->fv[i].vk = vb;
-	}
-	for (i = 0; i < bp->ln; i++)
-		for (j = 0; j < bp->lv[i].vn; j++)
-			if (bp->iv[bp->lv[i].v0 + j] == va)
-			    bp->iv[bp->lv[i].v0 + j]  = vb;
-}
-
-static void swap_edge(struct s_body *bp, int ea, int eb)
-{
-	int i, j;
-
-	for (i = 0; i < bp->ln; i++)
-		for (j = 0; j < bp->lv[i].en; j++)
-			if (bp->iv[bp->lv[i].e0 + j] == ea)
-			    bp->iv[bp->lv[i].e0 + j]  = eb;
-}
-
-static void swap_side(struct s_body *bp, int sa, int sb)
-{
-	int i, j;
-
-	for (i = 0; i < bp->fn; i++)
-		if (bp->fv[i].si == sa) bp->fv[i].si = sb;
-	for (i = 0; i < bp->nn; i++)
-		if (bp->nv[i].si == sa) bp->nv[i].si = sb;
-
-	for (i = 0; i < bp->ln; i++)
-		for (j = 0; j < bp->lv[i].sn; j++)
-			if (bp->iv[bp->lv[i].s0 + j] == sa)
-			    bp->iv[bp->lv[i].s0 + j]  = sb;
-}
-
-static void swap_quad(struct s_body *bp, int fa, int fb)
-{
-	int i, j;
-
-	for (i = 0; i < bp->ln; i++)
-		for (j = 0; j < bp->lv[i].fn; j++)
-			if (bp->iv[bp->lv[i].f0 + j] == fa)
-			    bp->iv[bp->lv[i].f0 + j]  = fb;
-}
-
-/*--------------------------------------------------------------------*/
-
-static void uniq_mtrl(struct s_body *bp)
-{
-	int i, j, k = 0;
-
-	for (i = 0; i < bp->mn; i++)
-	{
-		for (j = 0; j < i; j++)
-			if (comp_mtrl(bp->mv + i, bp->mv + j))
-			{
-				swap_mtrl(bp, i, j);
-				break;
-			}
-
-		if (i == j)
-		{
-			bp->mv[k] = bp->mv[i];
-			swap_mtrl(bp, i, k);
-			k++;
-		}
-	}
-
-	bp->mn = k;
-}
-
-static void uniq_vert(struct s_body *bp)
-{
-	int i, j, k = 0;
-
-	for (i = 0; i < bp->vn; i++)
-	{
-		for (j = 0; j < i; j++)
-			if (comp_vert(bp->vv + i, bp->vv + j))
-			{
-				swap_vert(bp, i, j);
-				break;
-			}
-
-		if (i == j)
-		{
-			bp->vv[k] = bp->vv[i];
-			swap_vert(bp, i, k);
-			k++;
-		}
-	}
-
-	bp->vn = k;
-}
-
-static void uniq_edge(struct s_body *bp)
-{
-	int i, j, k = 0;
-
-	for (i = 0; i < bp->en; i++)
-	{
-		for (j = 0; j < i; j++)
-			if (comp_edge(bp->ev + i, bp->ev + j))
-			{
-				swap_edge(bp, i, j);
-				break;
-			}
-
-		if (i == j)
-		{
-			bp->ev[k] = bp->ev[i];
-			swap_edge(bp, i, k);
-			k++;
-		}
-	}
-
-	bp->en = k;
-}
-
-static void uniq_quad(struct s_body *bp)
-{
-	int i, j, k = 0;
-
-	for (i = 0; i < bp->fn; i++)
-	{
-		for (j = 0; j < i; j++)
-			if (comp_quad(bp->fv + i, bp->fv + j))
-			{
-				swap_quad(bp, i, j);
-				break;
-			}
-
-		if (i == j)
-		{
-			bp->fv[k] = bp->fv[i];
-			swap_quad(bp, i, k);
-			k++;
-		}
-	}
-
-	bp->fn = k;
-}
-
-static void uniq_side(struct s_body *bp)
-{
-	int i, j, k = 0;
-
-	for (i = 0; i < bp->sn; i++)
-	{
-		for (j = 0; j < i; j++)
-			if (comp_side(bp->sv + i, bp->sv + j))
-			{
-				swap_side(bp, i, j);
-				break;
-			}
-		if (i == j)
-		{
-			bp->sv[k] = bp->sv[i];
-			swap_side(bp, i, k);
-			k++;
-		}
-	}
-
-	bp->sn = k;
-}
-
-static void uniq_body(struct s_body *bp)
-{
-	uniq_mtrl(bp);
-	uniq_vert(bp);
-	uniq_edge(bp);
-	uniq_side(bp);
-	uniq_quad(bp);
-}
-
-/*--------------------------------------------------------------------*/
-
-static void sort_body(struct s_body *bp)
-{
-	int i, j;
-
-	struct quad T;
-
-	for (i = 0; i < bp->fn; i++)
-		for (j = i + 1; j < bp->fn; j++)
-			if (bp->sv[bp->fv[i].si].mi >
-			    bp->sv[bp->fv[j].si].mi)
-			{
-				T        = bp->fv[i];
-				bp->fv[i] = bp->fv[j];
-				bp->fv[j] =        T;
-
-				swap_quad(bp,  i, -1);
-				swap_quad(bp,  j,  i);
-				swap_quad(bp, -1,  j);
-			}
-}
-
-/*--------------------------------------------------------------------*/
-
-static int slump(const struct s_body *bp,
-                     const struct s_side *S,
-                     const struct s_lump *L)
-{
-	int b = 0;
-	int f = 0;
-	int i;
-
-	for (i = 0; i < L->vn; i++)
-	{
-		int vi = bp->iv[L->v0 + i];
-
-		if (fore_side(bp->vv[vi].p, S)) f++;
-		if (back_side(bp->vv[vi].p, S)) b++;
-	}
-
-	if (f == 0) return -1;
-	if (b == 0) return +1;
+	/* FIXME: buh. */
 
 	return 0;
 }
 
-static int tree_side(struct s_body *bp, int ni)
-{
-	int i, mi = 0, j;
-	int f, mf = 0;
-	int b, mb = bp->vn;
-	int o, mo = 0;
+/*--------------------------------------------------------------------*/
+/* For each file element type, replace all references to element 'i'  */
+/* with a reference to element 'j'.  These are used when optimizing   */
+/* and sorting the file.                                              */
 
-	for (i = 0; i < bp->sn; i++)
-	{
-		b = 0;
-		f = 0;
-
-		for (j = 0; j < bp->nv[ni].ln; j++)
-		{
-			int lj = bp->iv[bp->nv[ni].l0 + j];
-			int s  = slump(bp, bp->sv + i, bp->lv + lj);
-
-			if (s <  0) b++;
-			if (s == 0) o++;
-			if (s  > 0) f++;
-		}
-
-		if ((abs(f - b) <  abs(mf - mb)) ||
-		    (abs(f - b) == abs(mf - mb) && o < mo))
-		{
-			mf = f;
-			mb = b;
-			mo = o;
-			mi = i;
-		}
-	}
-
-	return mi;
-}
-
-static void tree_node(struct s_body *bp, int ni)
-{
-	if (bp->nv[ni].ln > 1)
-	{
-		int i, t;
-
-		int o = 0;
-		int b = 0;
-		int f = 0;
-
-		int si = tree_side(bp, ni);
-
-		for (i = 0; i < bp->nv[ni].ln; i++)
-		{
-			int i0 = bp->nv[ni].l0;
-			int li = bp->iv[i0 + i];
-
-			if (slump(bp, bp->sv + si, bp->lv + li) == 0)
-			{
-				t             = bp->iv[i0 + i];
-				bp->iv[i0 + i] = bp->iv[i0 + o];
-				bp->iv[i0 + o] =             t;
-				o++;
-			}
-		}
-
-		b = o;
-
-		for (i = o; i < bp->nv[ni].ln; i++)
-		{
-			int i0 = bp->nv[ni].l0;
-			int li = bp->iv[i0 + i];
-
-			if (slump(bp, bp->sv + si, bp->lv + li) < 0)
-			{
-				t             = bp->iv[i0 + i];
-				bp->iv[i0 + i] = bp->iv[i0 + b];
-				bp->iv[i0 + b] =             t;
-				b++;
-			}
-		}
-
-		f = b;
-
-		for (i = b; i < bp->nv[ni].ln; i++)
-		{
-			int i0 = bp->nv[ni].l0;
-			int li = bp->iv[i0 + i];
-
-			if (slump(bp, bp->sv + si, bp->lv + li) > 0)
-			{
-				t             = bp->iv[i0 + i];
-				bp->iv[i0 + i] = bp->iv[i0 + f];
-				bp->iv[i0 + f] =             t;
-				f++;
-			}
-		}
-
-		if (b - o > 0 && f - b > 0)
-		{
-			int nb = bp->nn++;
-			int nf = bp->nn++;
-
-			bp->nv[ni].si = si;
-			bp->nv[ni].ni = nb;
-			bp->nv[ni].nj = nf;
-			bp->nv[ni].ln = o;
-
-			bp->nv[nb].ni = 0;
-			bp->nv[nb].nj = 0;
-			bp->nv[nb].l0 = bp->nv[ni].l0 + o;
-			bp->nv[nb].ln = b - o;
-
-			bp->nv[nf].ni = 0;
-			bp->nv[nf].nj = 0;
-			bp->nv[nf].l0 = bp->nv[ni].l0 + b;
-			bp->nv[nf].ln = f - b;
-
-			tree_node(bp, nb);
-			tree_node(bp, nf);
-		}
-	}
-}
-
-static void tree_body(struct s_body *bp)
+static void swap_mtrl(struct s_file *fp, int mi, int mj)
 {
 	int i;
 
-	bp->nv[0].ni = 0;
-	bp->nv[0].nj = 0;
-	bp->nv[0].l0 = bp->in;
-	bp->nv[0].ln = bp->ln;
-
-	for (i = 0; i < bp->ln; i++)
-		bp->iv[bp->in++] = i;
-
-	bp->nn++;
-
-	tree_node(bp, 0);
+	for (i = 0; i < fp->gc; i++)
+		if (fp->gv[i].mi == mi) fp->gv[i].mi = mj;
 }
-#endif
+
+static void swap_vert(struct s_file *fp, int vi, int vj)
+{
+	int i, j;
+
+	for (i = 0; i < fp->ec; i++)
+	{
+		if (fp->ev[i].vi == vi) fp->ev[i].vi = vj;
+		if (fp->ev[i].vj == vi) fp->ev[i].vj = vj;
+	}
+
+	for (i = 0; i < fp->gc; i++)
+	{
+		if (fp->gv[i].vi == vi) fp->gv[i].vi = vj;
+		if (fp->gv[i].vj == vi) fp->gv[i].vj = vj;
+		if (fp->gv[i].vk == vi) fp->gv[i].vk = vj;
+	}
+
+	for (i = 0; i < fp->lc; i++)
+		for (j = 0; j < fp->lv[i].vc; j++)
+			if (fp->iv[fp->lv[i].v0 + j] == vi)
+			    fp->iv[fp->lv[i].v0 + j]  = vj;
+}
+
+static void swap_edge(struct s_file *fp, int ei, int ej)
+{
+	int i, j;
+
+	for (i = 0; i < fp->lc; i++)
+		for (j = 0; j < fp->lv[i].ec; j++)
+			if (fp->iv[fp->lv[i].e0 + j] == ei)
+			    fp->iv[fp->lv[i].e0 + j]  = ej;
+}
+
+static void swap_side(struct s_file *fp, int si, int sj)
+{
+	int i, j;
+
+	for (i = 0; i < fp->gc; i++)
+		if (fp->gv[i].si == si) fp->gv[i].si = sj;
+	for (i = 0; i < fp->nc; i++)
+		if (fp->nv[i].si == si) fp->nv[i].si = sj;
+
+	for (i = 0; i < fp->lc; i++)
+		for (j = 0; j < fp->lv[i].sc; j++)
+			if (fp->iv[fp->lv[i].s0 + j] == si)
+			    fp->iv[fp->lv[i].s0 + j]  = sj;
+}
+
+static void swap_texc(struct s_file *fp, int ti, int tj)
+{
+	int i;
+
+	for (i = 0; i < fp->gc; i++)
+	{
+		if (fp->gv[i].ti == ti) fp->gv[i].ti = tj;
+		if (fp->gv[i].tj == ti) fp->gv[i].tj = tj;
+		if (fp->gv[i].tk == ti) fp->gv[i].tk = tj;
+	}
+}
+
+static void swap_geom(struct s_file *fp, int gi, int gj)
+{
+	int i, j;
+
+	for (i = 0; i < fp->lc; i++)
+		for (j = 0; j < fp->lv[i].gc; j++)
+			if (fp->iv[fp->lv[i].g0 + j] == gi)
+			    fp->iv[fp->lv[i].g0 + j]  = gj;
+}
+
 /*--------------------------------------------------------------------*/
 
-static void dump_sol(struct s_file *fp)
+static void uniq_mtrl(struct s_file *fp)
 {
-	printf("  mtrl  vert  edge  side  quad  lump"
+	int i, j, k = 0;
+
+	for (i = 0; i < fp->mc; i++)
+	{
+		for (j = 0; j < i; j++)
+			if (comp_mtrl(fp->mv + i, fp->mv + j))
+			{
+				swap_mtrl(fp, i, j);
+				break;
+			}
+
+		if (i == j)
+		{
+			fp->mv[k] = fp->mv[i];
+			swap_mtrl(fp, i, k);
+			k++;
+		}
+	}
+
+	fp->mc = k;
+}
+
+static void uniq_vert(struct s_file *fp)
+{
+	int i, j, k = 0;
+
+	for (i = 0; i < fp->vc; i++)
+	{
+		for (j = 0; j < i; j++)
+			if (comp_vert(fp->vv + i, fp->vv + j))
+			{
+				swap_vert(fp, i, j);
+				break;
+			}
+
+		if (i == j)
+		{
+			fp->vv[k] = fp->vv[i];
+			swap_vert(fp, i, k);
+			k++;
+		}
+	}
+
+	fp->vc = k;
+}
+
+static void uniq_edge(struct s_file *fp)
+{
+	int i, j, k = 0;
+
+	for (i = 0; i < fp->ec; i++)
+	{
+		for (j = 0; j < i; j++)
+			if (comp_edge(fp->ev + i, fp->ev + j))
+			{
+				swap_edge(fp, i, j);
+				break;
+			}
+
+		if (i == j)
+		{
+			fp->ev[k] = fp->ev[i];
+			swap_edge(fp, i, k);
+			k++;
+		}
+	}
+
+	fp->ec = k;
+}
+
+static void uniq_geom(struct s_file *fp)
+{
+	int i, j, k = 0;
+
+	for (i = 0; i < fp->gc; i++)
+	{
+		for (j = 0; j < i; j++)
+			if (comp_geom(fp->gv + i, fp->gv + j))
+			{
+				swap_geom(fp, i, j);
+				break;
+			}
+
+		if (i == j)
+		{
+			fp->gv[k] = fp->gv[i];
+			swap_geom(fp, i, k);
+			k++;
+		}
+	}
+
+	fp->gc = k;
+}
+
+static void uniq_texc(struct s_file *fp)
+{
+	int i, j, k = 0;
+
+	for (i = 0; i < fp->tc; i++)
+	{
+		for (j = 0; j < i; j++)
+			if (comp_texc(fp->tv + i, fp->tv + j))
+			{
+				swap_texc(fp, i, j);
+				break;
+			}
+		if (i == j)
+		{
+			fp->tv[k] = fp->tv[i];
+			swap_texc(fp, i, k);
+			k++;
+		}
+	}
+
+	fp->tc = k;
+}
+
+static void uniq_side(struct s_file *fp)
+{
+	int i, j, k = 0;
+
+	for (i = 0; i < fp->sc; i++)
+	{
+		for (j = 0; j < i; j++)
+			if (comp_side(fp->sv + i, fp->sv + j))
+			{
+				swap_side(fp, i, j);
+				break;
+			}
+		if (i == j)
+		{
+			fp->sv[k] = fp->sv[i];
+			swap_side(fp, i, k);
+			k++;
+		}
+	}
+
+	fp->sc = k;
+}
+
+static void uniq_file(struct s_file *fp)
+{
+	uniq_mtrl(fp);
+	uniq_vert(fp);
+	uniq_edge(fp);
+	uniq_side(fp);
+	uniq_texc(fp);
+	uniq_geom(fp);
+}
+
+/*--------------------------------------------------------------------*/
+
+static void sort_file(struct s_file *fp)
+{
+	int i, j;
+
+	struct s_geom T;
+
+	for (i = 1; i < fp->gc; i++)
+		for (j = 0; j < i; j++)
+			if (fp->gv[i].mi > fp->gv[j].mi)
+			{
+				T         = fp->gv[i];
+				fp->gv[i] = fp->gv[j];
+				fp->gv[j] =         T;
+
+				swap_geom(fp,  i, -1);
+				swap_geom(fp,  j,  i);
+				swap_geom(fp, -1,  j);
+			}
+}
+
+/*--------------------------------------------------------------------*/
+
+static void dump_file(struct s_file *fp)
+{
+	printf("  mtrl  vert  edge  side  texc  geom  lump"
                "  node  path  body  coin  ball  indx\n");
-	printf("%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
-	       fp->mc, fp->vc, fp->ec, fp->sc, fp->qc, fp->lc,
+	printf("%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
+	       fp->mc, fp->vc, fp->ec, fp->sc, fp->tc, fp->gc, fp->lc,
 	       fp->nc, fp->pc, fp->bc, fp->cc, fp->uc, fp->ic);
 }
 
@@ -1161,33 +1173,27 @@ static void dump_sol(struct s_file *fp)
 int main(int argc, char *argv[])
 {
 	struct s_file f;
-	FILE *ip;
-	FILE *op;
+	FILE *fin;
 
 	if (argc > 2)
 	{
-		if ((ip = fopen(argv[1], "r")) &&
-		    (op = fopen(argv[2], "w")))
+		if ((fin = fopen(argv[1], "r")))
 		{
-			init_sol(&f);
-			read_map(&f, ip);
+			init_file(&f);
+			read_map(&f, fin);
 
 			resolve();
 
-			move_sol(&f);
-			clip_sol(&f);
-			dump_sol(&f);
-/*
-			uniq_body(&bp);
-			sort_body(&bp);
-			tree_body(&bp);
-			dump_body(&bp);
-*/
+			move_file(&f);
+			clip_file(&f);
+			dump_file(&f);
+			uniq_file(&f);
+			sort_file(&f);
+			dump_file(&f);
 
-			sol_stor(&f, op);
+			sol_stor(&f, argv[2]);
 
-			fclose(op);
-			fclose(ip);
+			fclose(fin);
 		}
 	}
 	return 0;

@@ -1,9 +1,9 @@
 OBJS= main.o
 TARG= map2sol
-LIBS= -lvec -lsol -lGL
+LIBS= -lvec -lsol -ljpeg -lGL
 
-INCDIR= -I../../include
-LIBDIR= -L../../lib
+INCDIR= -I../../include -I/usr/X11R6/include
+LIBDIR= -L../../lib     -L/usr/X11R6/lib
 
 .c.o :
 	$(CC) $(CFLAGS) -c $< $(INCDIR)

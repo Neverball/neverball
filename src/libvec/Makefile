@@ -1,11 +1,11 @@
 OBJS= vec.o
-TARG= libvec.so
+TARG= libvec.a
 
 .c.o :
 	$(CC) $(CFLAGS) -c $<
 
 $(TARG) : $(OBJS)
-	$(CC) $(CFLAGS) -shared -o $(TARG) $(OBJS)
+	$(AR) rcs $(TARG) $(OBJS)
 
 clean :
 	rm $(TARG) $(OBJS)

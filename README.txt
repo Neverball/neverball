@@ -1,49 +1,33 @@
 
-                              * PUTTNIK *
+                      * SUPER EMPTY BALL *
 
-Puttnik is a small test program that simulates the physics of a sphere
-interacting with faceted solid geometry.  It has been tested only under
-Linux.
+Super Empty Ball is an simulation of the physics of spheres  interacting
+with  faceted solid geometry.  It has been tested only under  Linux  and
+OSX. It requires libjpeg.
 
 To build:
 
     make install
 
-Libraries and binaires will be copied into puttnik/lib and puttnik/bin.
-To run, puttnik/lib must be included in LD_LIBRARY_PATH.  Specify a .sol
-file as a command line parameter.
+The  executables will be copied into puttnik/bin.  All programs must  be
+run  from within the map/  directory in order for materials and textures
+to resolve correctly.
 
-    export LD_LIBRARY_PATH=lib
-
-    bin/putt map/plinko.sol
-    bin/putt map/u.sol
-
-If the .sol files do not exists, use map2sol to create them.  This must
-be done from the map/ directory in order for the materials to resolve
-correctly.
+Before they can be viewed, .map files must be converted to .sol files.
 
     cd map/
-    ../bin/map2sol plinko.map plinko.sol
+    ../bin/map2sol move.map move.sol
+    ../bin/map2sol flat.map flat.sol
 
-Right drag rotates the view in a Quakish manner.  Left drag hits the
-ball.  The mouse wheel moves the viewpoint forward and back.
+To view, specify a .sol file as a command line parameter to ball.
 
-The flight controls are dvorakish.  This may be changed in putt/main.c
-in the function on_key.
+    ../bin/ball move.sol
+    ../bin/ball flat.sol
 
-    esc 1 2 3 4 5
-    tab    , .
-         a o e u
+The world tilts in the direction of the mouse curser.  Spacebar  redrops
+the ball back at the origin.  Escape exits.
 
-             spacebar
-
-  .  - move forward
-  e  - move backward
-  ,  - move up
-  o  - move down
-  a  - strafe left
-  u  - strafe right
-
-Spacebar redrops the ball back at the origin.  Tab toggles performance
-statistics, numbers 1-5 alter the size of the ball.  Escape exits.
+Any resemblance to any other software,  game,  or simulation related  to
+super  forms of balls possibly non-empty potentially containing  monkeys
+is purely coincidental.
 

@@ -1,0 +1,11 @@
+Fix reset
+Text
+Goal
+Smooth dt
+Fix ugly sky.  Stars?  Whooshies?
+Coins
+Sound
+A ball rolling in a trough rotates funny
+Tweak responsiveness.  Time coefficient?
+Implement multiple ball physics
+Implement ball-ball physics

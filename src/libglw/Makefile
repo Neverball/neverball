@@ -1,11 +1,13 @@
 OBJS= glw.o
-TARG= libglw.so
+TARG= libglw.a
+
+INCDIR= -I/usr/X11R6/include
 
 .c.o :
-	$(CC) $(CFLAGS) -c $< 
+	$(CC) $(CFLAGS) -c $< $(INCDIR)
 
 $(TARG) : $(OBJS)
-	$(CC) $(CFLAGS) -shared -o $(TARG) $(OBJS)
+	$(AR) rcs $(TARG) $(OBJS)
 
 clean :
 	rm $(TARG) $(OBJS)

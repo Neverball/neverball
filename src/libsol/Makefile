@@ -1,5 +1,5 @@
 OBJS= sol.o
-TARG= libsol.so
+TARG= libsol.a
 
 INCDIR= -I../../include
 
@@ -7,7 +7,7 @@ INCDIR= -I../../include
 	$(CC) $(CFLAGS) -c $< $(INCDIR)
 
 $(TARG) : $(OBJS)
-	$(CC) $(CFLAGS) -shared -o $(TARG) $(OBJS)
+	$(AR) rcs $(TARG) $(OBJS)
 
 clean :
 	rm $(TARG) $(OBJS)

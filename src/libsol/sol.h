@@ -1,16 +1,27 @@
 #ifndef SOL_H
 #define SOL_H
 
-#include <stdio.h>
+#define PATHMAX 44
 
 /*--------------------------------------------------------------------*/
 
+struct s_imag
+{
+	unsigned int   o;
+	unsigned int   b;
+	unsigned int   w;
+	unsigned int   h;
+	unsigned char *p;
+};
+
 struct s_mtrl
 {
+	float a[4];			/* ambient color              */
 	float d[4];			/* diffuse color              */
 	float s[4];			/* specular color             */
 	float e[4];			/* emission color             */
 	float h[1];			/* specular exponent          */
+	char  f[PATHMAX];		/* texture file name          */
 };
 
 struct s_vert
@@ -30,14 +41,18 @@ struct s_side
 	double d;			/* distance from origin       */
 };
 
-struct s_quad
+struct s_texc
+{
+	double u[2];			/* Texture coordinate         */
+};
+
+struct s_geom
 {
 	int si;
 	int mi;
-	int vi;
-	int vj;
-	int vk;
-	int vl;
+	int ti, vi;
+	int tj, vj;
+	int tk, vk;
 };
 
 struct s_lump
@@ -46,8 +61,8 @@ struct s_lump
 	int vc;
 	int e0;
 	int ec;
-	int q0;
-	int qc;
+	int g0;
+	int gc;
 	int s0;
 	int sc;
 };
@@ -100,7 +115,8 @@ struct s_file
 	int vc;
 	int ec;
 	int sc;
-	int qc;
+	int tc;
+	int gc;
 	int lc;
 	int nc;
 	int pc;
@@ -109,11 +125,13 @@ struct s_file
 	int uc;
 	int ic;
 
+	struct s_imag *xv;
 	struct s_mtrl *mv;
 	struct s_vert *vv;
 	struct s_edge *ev;
 	struct s_side *sv;
-	struct s_quad *qv;
+	struct s_texc *tv;
+	struct s_geom *gv;
 	struct s_lump *lv;
 	struct s_node *nv;
 	struct s_path *pv;
@@ -125,9 +143,8 @@ struct s_file
 
 /*--------------------------------------------------------------------*/
 
-int    sol_load(struct s_file *, FILE *);
-int    sol_stor(struct s_file *, FILE *);
-void   sol_free(struct s_file *);
+int    sol_load(struct s_file *, const char *);
+int    sol_stor(struct s_file *, const char *);
 
 void   sol_render(const struct s_file *);
 void   sol_update(struct s_file *, double, const double[3]);
