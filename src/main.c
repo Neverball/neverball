@@ -26,8 +26,8 @@
 #define TITLE "SUPER EMPTY BALL"
 
 int mode   = SDL_OPENGL;
-int width  = 1280;
-int height = 600;
+int width  = 1024;
+int height = 768;
 
 /*---------------------------------------------------------------------------*/
 

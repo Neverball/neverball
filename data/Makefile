@@ -1,8 +1,10 @@
 
 MAPC= ../mapc
 
-all : sol/move.sol sol/flat.sol sol/spiral.sol
+all : sol/baby.sol sol/move.sol sol/flat.sol sol/spiral.sol
 
+sol/baby.sol   : $(MAPC) map/baby.map
+	$(MAPC) map/baby.map sol/baby.sol
 sol/move.sol   : $(MAPC) map/move.map
 	$(MAPC) map/move.map sol/move.sol
 sol/flat.sol   : $(MAPC) map/flat.map

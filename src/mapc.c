@@ -477,7 +477,7 @@ static void make_ball(struct s_file *fp,
     up->p[0] = 0.0;
     up->p[1] = 0.0;
     up->p[2] = 0.0;
-    up->r    = 1.0;
+    up->r    = 0.25;
 
     up->e[0][0] = 1.0;
     up->e[0][1] = 0.0;

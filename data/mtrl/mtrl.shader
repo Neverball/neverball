@@ -1,23 +1,11 @@
 
-textures/mtrl/green_floor
+textures/mtrl/green1
 {
 	{
-		map textures/mtrl/green_floor.jpg
-	}
-}
-textures/mtrl/green
-{
-	{
-		map textures/mtrl/green.jpg
+		map textures/mtrl/green1.jpg
 	}
 }
 
-textures/mtrl/brown_floor
-{
-	{
-		map textures/mtrl/brown_floor.jpg
-	}
-}
 textures/mtrl/brown
 {
 	{
@@ -32,10 +20,10 @@ textures/mtrl/concrete
 	}
 }
 
-textures/mtrl/invisible
+textures/mtrl/rail
 {
 	{
-		map textures/mtrl/invisible.jpg
+		map textures/mtrl/rail.jpg
 	}
 }
 
@@ -50,7 +38,15 @@ textures/mtrl/glass
 {
 	qer_trans 0.50
 	{
-		map textures/mtrl/glass.jpg
+		map textures/mtrl/glass.tga
+	}
+}
+
+textures/mtrl/invisible
+{
+	qer_trans 0.50
+	{
+		map textures/mtrl/invisible.tga
 	}
 }
 
