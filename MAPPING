@@ -100,16 +100,15 @@ relative paths in the .map and in the .sol.
 Assume the  map is named funkyball.map.   Process it into  a .sol with
 the following command. Output should be similar.
 
-    ../src/mapc funkyball.map funkyball.sol
+    ../mapc funkyball.map funkyball.sol
 
-    mtrl vert edge side texc geom lump node path body coin ball indx
-      35   45   68   35  136   66    6    0    0    1    0    1  214
-       3   25   48   24   29   66    6    0    0    1    0    1  214
+ mtrl vert edge side texc geom lump node path body coin goal ball indx
+  512  736 1104  512 1392  776   72    0    1    1   14    1    1 3128
+   10  368  754  158  320  776   72    0    1    1   14    1    1 3128
 
 To   test  your   map,  add   the  relative   path  and   filename  to
-data/levels.txt and include the level time in seconds.  Then, run ball
-as normal from the base seb directory.
-
+data/levels.txt.  Include a skybox path and the level time in seconds.
+Then, run ball as normal from the base seb directory.
 
 
 
@@ -122,12 +121,24 @@ applicable entity attributes are documented here.
 info_player_start
 
     The info_player_start entity  defines a ball in a  .sol file.  The
-    "radius" attribute gives the ball radius in meters.  A normal ball
-    radius is "0.25". The default is "1.0".
+    "radius" attribute  gives the ball radius in  meters.  The default
+    radius is "0.25".
 
     The "origin" attribute gives the ball location.  The bottom of the
     entity in the editor will correspond  to the bottom of the ball in
     SEB.
+
+target_teleporter
+
+    The target_teleporter entity  defines a goal in a  .sol file.  The
+    "radius" attribute  gives the goal radius in  meters.  The default
+    radius is "0.75".  The ball  must fall entirely within this radius
+    to trigger a goal.
+
+    The "origin"  attribute gives the goal location.   Unlike the ball
+    entity, the center of the editor's goal entity defines the origin.
+    So to  define a goal  flush with the  floor, embed the  entity box
+    halfway in the floor.
 
 light
 
@@ -207,18 +218,6 @@ worldspawn
 
 
 
-* THE GOAL
-
-Goals are  represented as invisible  detail lumps -- basically  a lump
-that can be neither seen to felt is used to signal a win.  If the ball
-falls ENTIRELY within an invisible  detail lump it will trigger a goal
-event.
-
-You may create  whatever geometry you like to  visually and physically
-represent the goal.  You may even make it move.
-
-
-
 * ADDING MATERIALS
 
 SEB uses the standard OpenGL lighting model rather than a script-based
@@ -227,35 +226,22 @@ important to be able to see  what the textures are going to look like,
 so we must create a simple Quake shader for each SEB material in order
 to fool radiant.  SEB does not use this shader directly.
 
-Creating a material is a 3-step process.
+Creating a material is a 2-step process.
 
     1) Create the texture image.
-    2) Create the bogus shader.
-    3) Create the material file.
+    2) Create the material file.
 
-1)  The texture  must be  an image  in JPEG format.   It may come from
+1)  The texture  must be an  image in JPEG  format.  It may  come from
     anywhere.  Its width and height must both be powers of two.
 
     For  this  discussion, let  us  assume  you  have an  image  named
     wood.jpg.  Place in it seb/data/mtrl/.
 
-2)  Edit the file mtrl.shader, adding an entry for your new image.
-
-    textures/mtrl/wood
-    {
-        {
-            map textures/mtrl/wood.jpg
-        }
-    }
-
-    The shader name  (on the first line) is the  name by which radiant
-    will refer to  the material.  It must match  the texture file name
-    (on  the fourth  line) minus  the ".jpg"  suffix.   Otherwise, SEB
-    won't be able to find it.
-
-3)  Create a  material file in sep/data/mtrl, in  this case mtrl/wood.
-    This name must match the radiant shader name, minus the "texture/"
-    prefix. The file must contain 17 values, explained below.
+2)  Create   a  material   file   in  seb/data/mtrl,   in  this   case
+    mtrl/wood. This name must match  the texture name, minus the image
+    suffix. The file must contain  17 values, explained below.  If you
+    don't  care about  the material  properties, the  following values
+    suffice in most any case.
 
        1.0 1.0 1.0 1.0
        1.0 1.0 1.0 1.0
@@ -263,8 +249,8 @@ Creating a material is a 3-step process.
        0.0 0.0 0.0 1.0
        0.0
 
-After having completed these 3 steps, do a "Flush & Reload Shaders" in
-radiant.  Your new material should appear among the mtrl shaders.
+Do a "Flush & Reload Shaders"  in radiant and your new material should
+appear among the mtrl shaders.
 
 
 Those 17  values define the material  in terms of  the stardard OpenGL

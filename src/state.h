@@ -25,7 +25,12 @@ int  st_keybd(int);
 
 /*---------------------------------------------------------------------------*/
 
+extern struct state st_null;
 extern struct state st_title;
+extern struct state st_start;
+extern struct state st_help;
+extern struct state st_conf;
+extern struct state st_level;
 extern struct state st_ready;
 extern struct state st_set;
 extern struct state st_play;

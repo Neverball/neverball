@@ -27,11 +27,17 @@ struct image
     GLuint       o;
 };
 
+extern int image_scale;
+
+SDL_Surface *image_file(const char *);
+
 int  image_load(struct image *, const char *);
 int  image_test(struct image *);
 void image_free(struct image *);
-void image_bind(struct image *);
-void image_rect(struct image *, double, double, double, double, double);
+
+int image_w(const struct image *);
+int image_h(const struct image *);
+void image_bind(const struct image *);
 
 /*---------------------------------------------------------------------------*/
 

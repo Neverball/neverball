@@ -1,22 +1,26 @@
 
 BALL_OBJS= \
+	audio.o \
 	game.o  \
 	geom.o  \
 	image.o \
 	level.o \
 	main.o  \
+	menu.o  \
 	solid.o \
 	state.o \
+	text.o  \
 	vec3.o
 MAPC_OBJS= \
 	vec3.o  \
+	image.o \
 	solid.o \
 	mapc.o
 
 CFLAGS= -Wall -g -ffast-math -ansi $(shell sdl-config --cflags)
 
 BALL_LIBS= $(shell sdl-config --libs) -lSDL_image -lSDL_mixer -lGLU -lGL
-MAPC_LIBS= $(shell sdl-config --libs) -lSDL_image -lGL
+MAPC_LIBS= $(shell sdl-config --libs) -lSDL_image -lGLU -lGL
 
 all : ../ball ../mapc
 

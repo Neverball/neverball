@@ -12,12 +12,13 @@
  *   General Public License for more details.
  */
 
+#include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
 #include "gl.h"
 #include "image.h"
 
-/*---------------------------------------------------------------------------*/
+int image_scale = 1;
 
 static const GLenum format[5] = {
     0,
@@ -27,9 +28,43 @@ static const GLenum format[5] = {
     GL_RGBA
 };
 
+/*---------------------------------------------------------------------------*/
+
+SDL_Surface *image_file(const char *filename)
+{
+    SDL_Surface *src = IMG_Load(filename);
+    SDL_Surface *dst = src;
+
+    if (src && image_scale > 1)
+    {
+        dst = SDL_CreateRGBSurface(SDL_SWSURFACE,
+                                   src->w / image_scale,
+                                   src->h / image_scale,
+                                   src->format->BitsPerPixel,
+                                   src->format->Rmask,
+                                   src->format->Gmask,
+                                   src->format->Bmask,
+                                   src->format->Amask);
+
+        SDL_LockSurface(src);
+        SDL_LockSurface(dst);
+        {
+            gluScaleImage(format[src->format->BytesPerPixel],
+                          src->w, src->h, GL_UNSIGNED_BYTE, src->pixels,
+                          dst->w, dst->h, GL_UNSIGNED_BYTE, dst->pixels);
+        }
+        SDL_UnlockSurface(dst);
+        SDL_UnlockSurface(src);
+    }
+
+    return dst;
+}
+
+/*---------------------------------------------------------------------------*/
+
 int image_load(struct image *image, const char *filename)
 {
-    if ((image->s = IMG_Load(filename)))
+    if ((image->s = image_file(filename)))
     {
         void *p = image->s->pixels;
         int   w = image->s->w;
@@ -42,9 +77,13 @@ int image_load(struct image *image, const char *filename)
 
         glTexImage2D(GL_TEXTURE_2D, 0, b, w, h, 0, f, GL_UNSIGNED_BYTE, p);
 
+#ifdef GL_CLAMP_TO_EDGE
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
+#else
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+#endif
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
@@ -69,50 +108,19 @@ void image_free(struct image *image)
 
 /*---------------------------------------------------------------------------*/
 
-void image_bind(struct image *image)
+int image_w(const struct image *image)
 {
-    glBindTexture(GL_TEXTURE_2D, image->o);
+    return (image && image->s) ? image->s->w : 0;
 }
 
-void image_rect(struct image *image,
-                double x0, double y0,
-                double x1, double y1, double a)
+int image_h(const struct image *image)
 {
-    glMatrixMode(GL_PROJECTION);
-    {
-        glPushMatrix();
-        glLoadIdentity();
-        glOrtho(0.0, 1.0, 0.0, 1.0, 0.0, 1.0);
-    }
-    glMatrixMode(GL_MODELVIEW);
-
-    glBindTexture(GL_TEXTURE_2D, image->o);
-
-    glPushAttrib(GL_ENABLE_BIT);
-    {
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
-        glEnable(GL_COLOR_MATERIAL);
-
-        glBegin(GL_QUADS);
-        {
-            glColor4d(1.0, 1.0, 1.0, a);
-
-            glTexCoord2d(0.0, 1.0); glVertex2d(x0, y0);
-            glTexCoord2d(1.0, 1.0); glVertex2d(x1, y0);
-            glTexCoord2d(1.0, 0.0); glVertex2d(x1, y1);
-            glTexCoord2d(0.0, 0.0); glVertex2d(x0, y1);
-        }
-        glEnd();
-    }
-    glPopAttrib();
-
-    glMatrixMode(GL_PROJECTION);
-    {
-        glPopMatrix();
-    }
-    glMatrixMode(GL_MODELVIEW);
+    return (image && image->s) ? image->s->h : 0;
 }
 
-/*---------------------------------------------------------------------------*/
+void image_bind(const struct image *image)
+{
+    if (image)
+        glBindTexture(GL_TEXTURE_2D, image->o);
+}
 

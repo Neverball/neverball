@@ -1,15 +1,19 @@
 
 BALL_OBJS= \
+        audio.obj \
 	game.obj  \
 	geom.obj  \
 	image.obj \
 	level.obj \
 	main.obj  \
+	menu.obj  \
 	solid.obj \
 	state.obj \
+	text.obj  \
 	vec3.obj
 MAPC_OBJS= \
 	vec3.obj  \
+	image.obj \
 	solid.obj \
 	mapc.obj
 

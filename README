@@ -1,8 +1,9 @@
 
                           * SUPER EMPTY BALL *
 
-Super  Empty  Ball  is  an   simulation  of  the  physics  of  spheres
-interacting with faceted solid geometry.  It requires:
+Super Empty Ball  is an action/puzzle game where  the player must tilt
+the floor in effort to roll a ball through an obstacle course within a
+limited time.  It requires:
 
     SDL               http://www.libsdl.org/download-1.2.php
     SDL_image         http://www.libsdl.org/projects/SDL_image/
@@ -23,14 +24,10 @@ To run:
 
     ./ball
 
-Click  to  begin.  The  world  tilts in  the  direction  of the  mouse
+Click Play  to begin.  The floor  tilts in the direction  of the mouse
 pointer.  Escape pauses  and resumes.  F1 while paused  returns to the
-title screen, and F1 at the title screen exits.
-
-The  physics system starts  to destablize  at about  50Hz, so  if your
-system cannot  maintain 50  FPS then simulation  time will  run slower
-than realtime.  If your video card  is lacking in power you can shrink
-the window by modifying the constants at the top of src/main.c.
+title  screen,  and  F1  at  the  title screen  exits.   F10  takes  a
+screenshot.
 
 
 Any resemblance to any other  software, game, or simulation related to

@@ -19,6 +19,13 @@
 
 /*---------------------------------------------------------------------------*/
 
+int score;
+int balls;
+int level;
+int count;
+
+/*---------------------------------------------------------------------------*/
+
 #define MAXSTR 256
 #define MAXLVL 32
 
@@ -30,46 +37,57 @@ struct level
 };
 
 static struct level level_v[MAXLVL];
-static int          level_i = 0;
-static int          level_n = 0;
 
 /*---------------------------------------------------------------------------*/
 
 void level_init(void)
 {
-    if (level_n == 0)
+    FILE *fin = fopen("data/levels.txt", "r");
+
+    count = 0;
+    level = 0;
+    score = 0;
+    balls = 2;
+
+    if (fin)
     {
-        FILE *fin = fopen("data/levels.txt", "r");
+        while (fscanf(fin, "%s %s %d",
+                       level_v[count].file,
+                       level_v[count].back,
+                      &level_v[count].time) == 3)
+            count++;
 
-        if (fin)
-        {
-            while (fscanf(fin, "%s %s %d",
-                           level_v[level_n].file,
-                           level_v[level_n].back,
-                          &level_v[level_n].time) == 3)
-                level_n++;
-
-            fclose(fin);
-        }
+        fclose(fin);
     }
-
-    level_i = 0;
-
-    back_init(level_v[level_i].back);
-    game_load(level_v[level_i].file,
-              level_v[level_i].time);
 }
 
-int level_pass(void)
+void level_goto(int i)
+{
+    level = i;
+
+    back_init(level_v[level].back);
+    game_init(level_v[level].file,
+              level_v[level].time);
+}
+
+void level_free(void)
 {
     game_free();
     back_free();
 
-    if (++level_i < level_n)
+    count = 0;
+}
+
+int level_pass(void)
+{
+    if (++level < count)
     {
-        back_init(level_v[level_i].back);
-        game_load(level_v[level_i].file,
-                  level_v[level_i].time);
+        game_free();
+        back_free();
+
+        back_init(level_v[level].back);
+        game_init(level_v[level].file,
+                  level_v[level].time);
 
         return 1;
     }
@@ -78,14 +96,14 @@ int level_pass(void)
 
 int level_fail(void)
 {
-    game_free();
-    back_free();
-
-    if (game_fail())
+    if (--balls >= 0)
     {
-        back_init(level_v[level_i].back);
-        game_load(level_v[level_i].file,
-                  level_v[level_i].time);
+        game_free();
+        back_free();
+
+        back_init(level_v[level].back);
+        game_init(level_v[level].file,
+                  level_v[level].time);
 
         return 1;
     }

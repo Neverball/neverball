@@ -13,52 +13,47 @@
  */
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_mixer.h>
 #include <string.h>
 #include <stdio.h>
 
-#include "vec3.h"
-#include "game.h"
-#include "solid.h"
+#include "gl.h"
 #include "state.h"
+#include "audio.h"
 
 /*---------------------------------------------------------------------------*/
 
 #define TITLE "SUPER EMPTY BALL"
 
-int mode   = SDL_OPENGL;
-int width  = 1024;
-int height = 768;
-int count  = 0;
-
-/*---------------------------------------------------------------------------*/
-
-#define NSMP 32
-
-int fps(void)
-{
-    return 0;
-}
+int main_mode   = SDL_OPENGL;
+int main_width  = 1024;
+int main_height = 768;
+int main_geom   = 1;
+int main_rate   = 44100;
+int main_buff   = 2048;
 
 /*---------------------------------------------------------------------------*/
 
 static int shot(void)
 {
-    char str[32];
+    static char str[32];
+    static int  num = 0;
 
-    SDL_Surface *buf = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 24,
-                                            0x0000FF, 0x00FF00, 0xFF0000, 0);
-    SDL_Surface *img = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 24,
-                                            0x0000FF, 0x00FF00, 0xFF0000, 0);
     int i;
+    int w = main_width;
+    int h = main_height;
 
-    glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buf->pixels);
+    SDL_Surface *buf = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
+                                            0x0000FF, 0x00FF00, 0xFF0000, 0);
+    SDL_Surface *img = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
+                                            0x0000FF, 0x00FF00, 0xFF0000, 0);
 
-    for (i = 0; i < height; i++)
-        memcpy((GLubyte *) img->pixels + 3 * width * i,
-               (GLubyte *) buf->pixels + 3 * width * (height - i), 3 * width);
+    glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, buf->pixels);
 
-    sprintf(str, "screen%02d.bmp", count++);
+    for (i = 0; i < h; i++)
+        memcpy((GLubyte *) img->pixels + 3 * w * i,
+               (GLubyte *) buf->pixels + 3 * w * (h - i), 3 * w);
+
+    sprintf(str, "seb%02d.bmp", num++);
 
     SDL_SaveBMP(img, str);
     SDL_FreeSurface(img);
@@ -67,17 +62,42 @@ static int shot(void)
     return 1;
 }
 
-static int size(int w, int h, int m)
+/*---------------------------------------------------------------------------*/
+
+static void init(void)
 {
-    glViewport(0, 0, w, h);
+    glClearColor(0.0f, 0.8f, 0.0f, 0.0f);
 
-    width  = w;
-    height = h;
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
 
-    return SDL_SetVideoMode(w, h, 0, m) ? 1 : 0;
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    glEnable(GL_POINT_SMOOTH);
+    glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 }
 
-/*---------------------------------------------------------------------------*/
+int set_mode(int w, int h, int m)
+{
+    if (SDL_SetVideoMode(w, h, 0, m))
+    {
+        main_width  = w;
+        main_height = h;
+        main_mode   = m;
+
+        glViewport(0, 0, w, h);
+        init();
+
+        return 1;
+    }
+    return 0;
+}
 
 static int loop(void)
 {
@@ -87,11 +107,8 @@ static int loop(void)
     while (d && SDL_PollEvent(&e))
         switch (e.type)
         {
-        case SDL_VIDEORESIZE:
-            d = size(e.resize.w, e.resize.h, mode);
-            break;
         case SDL_MOUSEMOTION:
-            d = st_point(e.motion.x, e.motion.y);
+            d = st_point(e.motion.x, main_height - e.motion.y);
             break;
         case SDL_MOUSEBUTTONDOWN:
             d = st_click(1);
@@ -114,17 +131,9 @@ static int loop(void)
 
 int main(int argc, char *argv[])
 {
-    int argi;
-
-    for (argi = 1; argi < argc; argi++)
-    {
-        if (strcmp(argv[argi], "-fs") == 0) mode |= SDL_FULLSCREEN;
-        if (strcmp(argv[argi], "-rs") == 0) mode |= SDL_RESIZABLE;
-    }
-
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0)
     {
-        if (!Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024))
+        if (audio_init(main_rate, main_buff))
         {
             SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     8);
             SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   8);
@@ -132,29 +141,29 @@ int main(int argc, char *argv[])
             SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
             SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-            if (SDL_SetVideoMode(width, height, 0, mode))
+            if (SDL_SetVideoMode(main_width, main_height, 0, main_mode))
             {
-                int t0 = SDL_GetTicks();
+                int t1, t0 = SDL_GetTicks();
 
                 SDL_WM_SetCaption(TITLE, TITLE);
 
-                game_init();
+                init();
                 goto_state(&st_title);
 
                 while (loop())
-                {
-                    int t1 = SDL_GetTicks();
+                    if ((t1 = SDL_GetTicks()) > t0)
+                    {
+                        st_timer((t1 - t0) / 1000.0);
+                        st_paint();
 
-                    st_timer((t1 - t0) / 1000.0);
-                    st_paint();
-
-                    SDL_GL_SwapBuffers();
-                    SDL_Delay(1);
+                        SDL_GL_SwapBuffers();
+                        SDL_Delay(1);
                         
-                    t0 = t1;
-                }
+                        t0 = t1;
+                    }
+                    else printf("skip\n");
             }
-            Mix_CloseAudio();
+            audio_free();
         }
         SDL_Quit();
     }

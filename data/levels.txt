@@ -1,9 +1,5 @@
-data/sol/flat.sol data/back/bar 99
-data/sol/flat.sol data/back/bar 20
-data/sol/flat.sol data/back/bar 15
-data/sol/flat.sol data/back/bar 10
-data/sol/flat.sol data/back/bar 5
-data/sol/flat.sol data/back/bar 4
-data/sol/flat.sol data/back/bar 3
-data/sol/flat.sol data/back/bar 2
-data/sol/flat.sol data/back/bar 1
+data/sol/easy.sol data/back/bar 90
+data/sol/fall.sol data/back/bar 60
+data/sol/move.sol data/back/bar 60
+data/sol/maze.sol data/back/bar 90
+data/sol/four.sol data/back/bar 30

@@ -12,114 +12,37 @@
  *   General Public License for more details.
  */
 
-#include <SDL/SDL_mixer.h>
 #include <math.h>
 
 #include "gl.h"
 #include "main.h"
 #include "vec3.h"
 #include "geom.h"
+#include "text.h"
+#include "game.h"
 #include "image.h"
+#include "audio.h"
 #include "solid.h"
+#include "level.h"
 
 #define MAX_DT  0.01                   /* 100Hz maximum physics update cycle */
-
-static double foo_x = 0.0;
-static double foo_y = 0.0;
-
-/*---------------------------------------------------------------------------*/
-
-#define COIN_S "data/png/coin_label.png"
-#define TIME_S "data/png/time_label.png"
-
-#define DIG0_S "data/png/digit0.png"
-#define DIG1_S "data/png/digit1.png"
-#define DIG2_S "data/png/digit2.png"
-#define DIG3_S "data/png/digit3.png"
-#define DIG4_S "data/png/digit4.png"
-#define DIG5_S "data/png/digit5.png"
-#define DIG6_S "data/png/digit6.png"
-#define DIG7_S "data/png/digit7.png"
-#define DIG8_S "data/png/digit8.png"
-#define DIG9_S "data/png/digit9.png"
-
-static struct image coin_i, *coin_p = &coin_i;
-static struct image time_i, *time_p = &time_i;
-
-static struct image dig_i[10];
+#define FOV    60.0
 
 /*---------------------------------------------------------------------------*/
 
 static double time  = 0.0;
-static int    score = 0;
-static int    balls = 0;
 static int    ticks = 0;
-
-static Mix_Chunk *coin_wav;
-static Mix_Chunk *tick_wav;
-static Mix_Chunk *bump_wav;
 
 static struct s_file file;
 
-static double game_rx = 0.0;
-static double game_rz = 0.0;
+static double game_rx;
+static double game_rz;
 
-static const double view_y = 4.0;
-static const double view_z = 6.0;
+static double view_dy;
+static double view_dz;
 
 static double view_p[3];
 static double view_e[3][3];
-
-#define EV_NONE 0
-#define EV_TIME 1
-#define EV_GOAL 2
-#define EV_FALL 3
-
-/*---------------------------------------------------------------------------*/
-
-void game_init(void)
-{
-    glClearColor(0.0f, 0.0f, 0.2f, 1.0f);
-
-    glEnable(GL_NORMALIZE);
-    glEnable(GL_DEPTH_TEST);
-
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_TEXTURE_2D);
-
-    glEnable(GL_POINT_SMOOTH);
-    glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-
-    ball_init(4);
-    goal_init();
-    coin_init(32);
-
-    bump_wav = Mix_LoadWAV("data/ogg/bump.ogg");
-    coin_wav = Mix_LoadWAV("data/ogg/coin.ogg");
-    tick_wav = Mix_LoadWAV("data/ogg/tick.ogg");
-
-    image_load(coin_p, COIN_S);
-    image_load(time_p, TIME_S);
-
-    image_load(dig_i + 0, DIG0_S);
-    image_load(dig_i + 1, DIG1_S);
-    image_load(dig_i + 2, DIG2_S);
-    image_load(dig_i + 3, DIG3_S);
-    image_load(dig_i + 4, DIG4_S);
-    image_load(dig_i + 5, DIG5_S);
-    image_load(dig_i + 6, DIG6_S);
-    image_load(dig_i + 7, DIG7_S);
-    image_load(dig_i + 8, DIG8_S);
-    image_load(dig_i + 9, DIG9_S);
-
-    score = 0;
-}
 
 /*---------------------------------------------------------------------------*/
 
@@ -129,30 +52,78 @@ void game_init(void)
 
 static void game_render_dig(int d, double x, double y, double s)
 {
-    image_rect(dig_i + d,
+    text_digit(d, 
                x - CW * s * 0.5, y - CH * s * 0.5,
-               x + CW * s * 0.5, y + CH * s * 0.5, 1.0);
+               x + CW * s * 0.5, y + CH * s * 0.5);
 }
 
-void game_render_hud(int fps)
+void game_render_hud(void)
 {
-    glColor4d(1.0, 1.0, 1.0, 1.0);
-
-    if (fps > 0)
+    glMatrixMode(GL_PROJECTION);
     {
-        game_render_dig((fps % 1000) / 100, CS * 0.5, 1.0 - CH * 0.5, 0.5);
-        game_render_dig((fps % 100)  / 10,  CS * 1.0, 1.0 - CH * 0.5, 0.5);
-        game_render_dig((fps % 10)   / 1,   CS * 1.5, 1.0 - CH * 0.5, 0.5);
+        glPushMatrix();
+        glLoadIdentity();
+        glOrtho(0.0, 1.0, 0.0, 1.0, 0.0, 1.0);
     }
+    glMatrixMode(GL_MODELVIEW);
 
-    game_render_dig((balls / 10),       CS * 0.5, CH * 0.5, 1.0);
-    game_render_dig((balls % 10),       CS * 1.5, CH * 0.5, 1.0);
+    glPushAttrib(GL_ENABLE_BIT);
+    {
+        glDisable(GL_LIGHTING);
+        glDisable(GL_DEPTH_TEST);
+        glEnable(GL_COLOR_MATERIAL);
 
-    game_render_dig((score / 10), 1.0 - CS * 1.5, CH * 0.5, 1.0);
-    game_render_dig((score % 10), 1.0 - CS * 0.5, CH * 0.5, 1.0);
+        glColor4d(1.0, 1.0, 1.0, 1.0);
 
-    game_render_dig((ticks / 10), 0.5 - CS, CH, 2.0);
-    game_render_dig((ticks % 10), 0.5 + CS, CH, 2.0);
+        text_label(TXT_BALLS, 0.0, 0.01, 0.1, 0.04);
+        text_label(TXT_COINS, 0.9, 0.01, 1.0, 0.04);
+
+        game_render_dig((balls / 10), 0.1 + CS * 0.5, CH * 0.5, 1.0);
+        game_render_dig((balls % 10), 0.1 + CS * 1.5, CH * 0.5, 1.0);
+
+        game_render_dig((score / 10), 0.9 - CS * 1.5, CH * 0.5, 1.0);
+        game_render_dig((score % 10), 0.9 - CS * 0.5, CH * 0.5, 1.0);
+
+        game_render_dig((ticks / 10), 0.5 - CS, CH, 2.0);
+        game_render_dig((ticks % 10), 0.5 + CS, CH, 2.0);
+    }
+    glPopAttrib();
+
+    glMatrixMode(GL_PROJECTION);
+    {
+        glPopMatrix();
+    }
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void game_render_num(int num)
+{
+    glMatrixMode(GL_PROJECTION);
+    {
+        glPushMatrix();
+        glLoadIdentity();
+        glOrtho(0.0, 1.0, 0.0, 1.0, 0.0, 1.0);
+    }
+    glMatrixMode(GL_MODELVIEW);
+
+    glPushAttrib(GL_ENABLE_BIT);
+    {
+        glDisable(GL_LIGHTING);
+        glDisable(GL_DEPTH_TEST);
+        glEnable(GL_COLOR_MATERIAL);
+
+        glColor4d(1.0, 1.0, 1.0, 1.0);
+
+        game_render_dig((num / 10), 0.5 - CS, 0.5, 2.0);
+        game_render_dig((num % 10), 0.5 + CS, 0.5, 2.0);
+    }
+    glPopAttrib();
+
+    glMatrixMode(GL_PROJECTION);
+    {
+        glPopMatrix();
+    }
+    glMatrixMode(GL_MODELVIEW);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -166,16 +137,10 @@ void game_render_env(void)
 
     const double *ball_p = file.uv->p;
     
-    GLint vp[4];
-
     glMatrixMode(GL_PROJECTION);
     {
-        glGetIntegerv(GL_VIEWPORT, vp);
         glLoadIdentity();
-        gluPerspective(60.0, (GLdouble) vp[2] / (GLdouble) vp[3], 0.1, 1000.0);
-        /*
-        gluPerspective(30.0, (GLdouble) vp[2] / (GLdouble) vp[3], 0.1, 1000.0);
-        */
+        gluPerspective(FOV, (GLdouble) main_width / main_height, 0.1, 200.0);
     }
     glMatrixMode(GL_MODELVIEW);
 
@@ -184,7 +149,14 @@ void game_render_env(void)
         gluLookAt(view_p[0], view_p[1], view_p[2],
                   ball_p[0], ball_p[1], ball_p[2], 0, 1, 0);
 
-        back_draw();
+        /* Center the skybox about the position of the camera. */
+
+        glPushMatrix();
+        {
+            glTranslated(view_p[0], view_p[1], view_p[2]);
+            back_draw();
+        }
+        glPopMatrix();
 
         /* Rotate the world about the position of the ball. */
 
@@ -237,13 +209,13 @@ static void game_update_grav(double h[3], const double g[3])
     m_vxfm(h, M, g);
 }
 
-static void game_update_view(void)
+static void game_update_view(double dt)
 {
     double *ball_p = file.uv->p;
 
-    double a[3];
-    double ay;
-    double az;
+    double d[3];
+    double dy;
+    double dz;
 
     /* Orthonormalize the basis of the view of the ball in its new position. */
 
@@ -254,29 +226,37 @@ static void game_update_view(void)
     v_nrm(view_e[0], view_e[0]);
     v_nrm(view_e[2], view_e[2]);
 
-    v_sub(a, view_p, ball_p);
+    /* The current view (dy, dz) approaches the ideal (view_dy, view_dz). */
 
-    ay = v_dot(view_e[1], a);
-    az = v_dot(view_e[2], a);
+    v_sub(d, view_p, ball_p);
+
+    dy = v_dot(view_e[1], d);
+    dz = v_dot(view_e[2], d);
+
+    dy += (view_dy - dy) * dt;
+    dz += (view_dz - dz) * dt;
 
     /* Compute the new view position. */
 
     view_p[0] = view_p[1] = view_p[2] = 0.0;
 
-    v_mad(view_p, ball_p, view_e[1], ay < view_y ? ay : view_y);
-    v_mad(view_p, view_p, view_e[2], az < view_z ? az : view_z);
+    v_mad(view_p, ball_p, view_e[1], dy);
+    v_mad(view_p, view_p, view_e[2], dz);
 }
 
 static void game_update_time(double dt)
 {
+    int seconds;
+
    /* The ticking clock. */
 
     time -= dt;
+    seconds = (int) ceil(time);
 
-    if ((int) floor(time) < ticks)
+    if (0 <= seconds && seconds < ticks && ticks < 99)
     {
-        Mix_PlayChannel(1, tick_wav, 0);
-        ticks = (int) floor(time);
+        audio_play(AUD_TICK, 1.f);
+        ticks = seconds;
     }
 }
 
@@ -289,32 +269,34 @@ static int game_update_state(void)
 
     if ((n = coin_test(fp->uv, fp->cv, fp->cc)) > 0)
     {
-        Mix_PlayChannel(2, coin_wav, 0);
         score += n;
 
         if (score >= 100)
         {
             score -= 100;
             balls++;
+            audio_play(AUD_BALL, 1.f);
         }
+        else
+            audio_play(AUD_COIN, 1.f);
     }
 
     /* Test for a goal. */
 
     if (goal_test(fp->uv, fp->zv, fp->zc))
-        return EV_GOAL;
+        return GAME_GOAL;
 
     /* Test for time-out. */
 
     if (ticks <= 0)
-        return EV_TIME;
+        return GAME_TIME;
 
     /* Test for fall-out. */
 
     if (fp->uv[0].p[1] < -10.0)
-        return EV_FALL;
+        return GAME_FALL;
 
-    return EV_NONE;
+    return GAME_NONE;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -357,13 +339,10 @@ int game_update_env(const double g[3], double dt)
 
     /* Mix the sound of a ball bounce. */
 
-    if (b > 0.50)
-    {
-        Mix_Volume(0, (int) (b * MIX_MAX_VOLUME));
-        Mix_PlayChannel(0, bump_wav, 0);
-    }
+    if (b > 0.5)
+        audio_play(AUD_BUMP, (float) (b - 0.5) * 2.0f);
 
-    game_update_view();
+    game_update_view(dt);
     game_update_time(dt);
 
     return game_update_state();
@@ -376,10 +355,7 @@ void game_update_pos(int x, int y)
 {
     double bound = 20.0;
 
-    foo_x += y;
-    foo_y += x;
-
-    game_rx -= 40.0 * y / 500;
+    game_rx += 40.0 * y / 500;
     game_rz += 40.0 * x / 500;
 
     if (game_rx > +bound) game_rx = +bound;
@@ -404,8 +380,8 @@ void game_update_fly(double k)
 
         v_cpy(p, fp->uv[0].p);
 
-        v_mad(p, p, view_e[1], view_y);
-        v_mad(p, p, view_e[2], view_z);
+        v_mad(p, p, view_e[1], view_dy);
+        v_mad(p, p, view_e[2], view_dz);
 
         v_sub(v, fp->pv[0].p, p);
         v_mad(view_p, p, v, k);
@@ -414,30 +390,17 @@ void game_update_fly(double k)
 
 /*---------------------------------------------------------------------------*/
 
-void game_start(void)
+static void view_init(void)
 {
-    score = 0;
-    balls = 2;
-}
-
-int game_fail(void)
-{
-    return (--balls >= 0);
-}
-
-void game_load(const char *s, int t)
-{
-    sol_load(&file, s);
-
-    time   = t;
-    ticks  = t;
-
     game_rx = 0.0;
     game_rz = 0.0;
 
-    view_p[0] =    0.0;
-    view_p[1] = view_y;
-    view_p[2] = view_z;
+    view_dy = 4.0;
+    view_dz = 6.0;
+
+    view_p[0] =     0.0;
+    view_p[1] = view_dy;
+    view_p[2] = view_dz;
 
     view_e[0][0] = 1.0;
     view_e[0][1] = 0.0;
@@ -450,9 +413,28 @@ void game_load(const char *s, int t)
     view_e[2][2] = 1.0;
 }
 
+void game_init(const char *s, int t)
+{
+    view_init();
+    ball_init();
+    goal_init();
+    coin_init();
+    text_init();
+
+    sol_load(&file, s);
+
+    ticks = t;
+    time  = t;
+}
+
 void game_free(void)
 {
     sol_free(&file);
+
+    text_free();
+    coin_free();
+    goal_free();
+    ball_free();
 }
 
 /*---------------------------------------------------------------------------*/

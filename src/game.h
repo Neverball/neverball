@@ -8,17 +8,15 @@
 #define GAME_GOAL 2
 #define GAME_FALL 3
 
-void game_init(void);
-
-void game_render_hud(int);
+void game_render_hud(void);
+void game_render_num(int);
 void game_render_env(void);
+
 int  game_update_env(const double[3], double);
 void game_update_pos(int, int);
 void game_update_fly(double);
 
-void game_start(void);
-void game_load(const char *, int);
-int  game_fail(void);
+void game_init(const char *, int);
 void game_free(void);
 
 /*---------------------------------------------------------------------------*/

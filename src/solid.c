@@ -22,6 +22,7 @@
 
 #include "gl.h"
 #include "vec3.h"
+#include "image.h"
 #include "solid.h"
 
 #define SMALL 1.0e-10
@@ -211,7 +212,7 @@ static void sol_load_textures(struct s_file *fp)
         struct s_mtrl *mp = fp->mv + i;
         struct s_imag *xp = fp->xv + i;
 
-        if ((xp->S = IMG_Load(mp->f)))
+        if ((xp->S = image_file(mp->f)))
         {
             void *p = xp->S->pixels;
             int   w = xp->S->w;
@@ -516,7 +517,10 @@ static double sol_bounce(struct s_ball *up,
                          const double q[3],
                          const double w[3])
 {
+    /*
     const double ke = 0.80;
+    */
+    const double ke = 0.70;
 
     double n[3], r[3], d[3], e[3], vn, wn;
     double *p = up->p;
