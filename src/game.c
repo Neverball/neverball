@@ -482,8 +482,8 @@ void game_set_pos(int x, int y)
 {
     double bound = 20.0;
 
-    game_ix += 40.0 * y / config_h();
-    game_iz += 40.0 * x / config_h();
+    game_ix += 40.0 * y / config_sens();
+    game_iz += 40.0 * x / config_sens();
 
     if (game_ix > +bound) game_ix = +bound;
     if (game_ix < -bound) game_ix = -bound;

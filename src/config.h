@@ -30,6 +30,7 @@
 #define CONFIG_DEF_GEOMETRY      1
 #define CONFIG_DEF_AUDIO_RATE    44100
 #define CONFIG_DEF_AUDIO_BUFF    AUD_BUFF_HI
+#define CONFIG_DEF_MOUSE_SENSE   300
 #define CONFIG_DEF_NICE          1
 #define CONFIG_DEF_FPS           0
 #define CONFIG_DEF_JOY           0
@@ -76,6 +77,7 @@ int config_text(void);
 int config_geom(void);
 int config_rate(void);
 int config_buff(void);
+int config_sens(void);
 int config_nice(void);
 int config_fps (void);
 

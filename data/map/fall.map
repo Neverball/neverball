@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Stay away from the edges!\When appreaching a drop, begin slowing down\early. You need just as much room to slow\down as you did to speed up."
+"message" "Stay away from the edges!\When approaching a drop, begin slowing down\early. You need just as much room to slow\down as you did to speed up."
 "classname" "worldspawn"
 // brush 0
 {

@@ -59,51 +59,72 @@ is started from within the data directory.
 
 
 
-* PERFORMANCE
+* CONFIGURATION
 
-By  default,  Neverball runs  in  a  "nice"  mode.  A  delay  function
-executes after  each frame is  rendered, forcing a context  switch and
-ensuring that the game does not  utilize 100% of the CPU.  Barring any
-other  bottlenecks, this  causes the  frame-rate on  most  hardware to
-appear to cap at about 90 FPS.
+Global settings  are stored  in the file  .neverballrc.  This  file is
+created  when  the  game exits,  and  should  be  found in  your  home
+directory.  It  consists of key /  value pairs.  Some  of these values
+are configurable  using the in-game options  screen.  Other meaningful
+keys and their default values follow.
 
-If this  is not fast enough  for you, or  you simply want to  test the
-performance of  the game  on your hardware,  press F8 to  disable nice
-mode.  This flag  will be stored in the  persistent configuration when
-the game is exited.
+    mouse_sense 300
 
+        This  key controls  mouse  sensitivity.  The  value gives  the
+        number of screen pixels the  mouse pointer must move to rotate
+        the floor  through its entire  range.  A smaller  number means
+        more sensitive.
 
+    fps 0
 
-* GAME CONTROLLERS
+        This key enables an on-screen frames-per-second counter. Press
+        F9 to toggle this flag in-game.
 
-Gamepad and  joystick input are supported.  However,  gamepad input is
-not currently  configurable in-game.  To enable  gamepad control, edit
-the configuration  file, .neverballrc.  This file is  created when the
-game exits, and should be found in your home directory.
+    nice 1
 
-Set the following keyword / value pair:
+        This  key  enables  a  delay  function  after  each  frame  is
+        rendered, forcing a context  switch and ensuring that the game
+        does not utilize 100% of the CPU.  0 is off, 1 is on.
 
-    joy 1
+        If the  frame rate is not  fast enough for you,  or you simply
+        want to  test the  performance of the  game on  your hardware,
+        disable it.
 
-Note that the  game may still be controlled with  the mouse even while
-gamepad  control is  enabled.  However,  random noise  from  an analog
-controller at rest can disrupt normal mouse input.
+        Press F8 to toggle this flag in-game.
 
-If you wish  to change the defaust axis and  button mappings, you will
-first need to  determine the numbers assigned to  each axis and button
-on  your controller.   You may  do this  via the  game  control panel,
-jstest under Linux, or simply by trial and error.
+    joy 0
 
-The gamepad configuration keyword / value pairs areas follows:
+        This key  enables joystick control.  0  is off, 1  is on.  The
+        game may still be controlled with the mouse even while gamepad
+        control  is enabled.   However,  random noise  from an  analog
+        controller at rest can disrupt normal mouse input.
 
-    axis_x         - Horizontal input axis number
-    axis_y         - Vertical input axis number
+    axis_x 0
 
-    button_a       - Menu selection and activation
-    button_b       - Menu cancel and exit
-    button_r       - Counter-clockwise camera rotation
-    button_l       - Clockwise camera rotation
-    button_pause   - Game pause
+        Joystick horizontal axis number
+
+    axis_y 1
+
+        Joystick vertical axis number
+
+    button_a 0
+
+        Joystick menu select button
+
+    button_b 1
+
+        Joystick menu cancel button
+
+    button_r 2
+
+        Joystick counter-clockwise camera rotation button
+
+    button_l 3
+
+        Joystick clockwise camera rotation button
+
+    button_pause 4
+
+        Joystick pause button
 
 
 

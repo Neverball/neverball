@@ -39,6 +39,7 @@ static int textures     = CONFIG_DEF_TEXTURES;
 static int geometry     = CONFIG_DEF_GEOMETRY;
 static int audio_rate   = CONFIG_DEF_AUDIO_RATE;
 static int audio_buff   = CONFIG_DEF_AUDIO_BUFF;
+static int mouse_sense  = CONFIG_DEF_MOUSE_SENSE;
 static int nice         = CONFIG_DEF_NICE;
 static int fps          = CONFIG_DEF_FPS;
 static int joy          = CONFIG_DEF_JOY;
@@ -100,6 +101,7 @@ void config_load(void)
                 if (strcmp(key, "geometry")     == 0) geometry     = val;
                 if (strcmp(key, "audio_rate")   == 0) audio_rate   = val;
                 if (strcmp(key, "audio_buff")   == 0) audio_buff   = val;
+                if (strcmp(key, "mouse_sense")  == 0) mouse_sense  = val;
                 if (strcmp(key, "nice")         == 0) nice         = val;
                 if (strcmp(key, "fps")          == 0) fps          = val;
                 if (strcmp(key, "joy")          == 0) joy          = val;
@@ -139,6 +141,7 @@ void config_store(void)
             fprintf(fp, "geometry %d\n",     geometry);
             fprintf(fp, "audio_rate %d\n",   audio_rate);
             fprintf(fp, "audio_buff %d\n",   audio_buff);
+            fprintf(fp, "mouse_sense %d\n",  mouse_sense);
             fprintf(fp, "nice %d\n",         nice);
             fprintf(fp, "fps %d\n",          fps);
             fprintf(fp, "joy %d\n",          joy);
@@ -165,6 +168,7 @@ int config_text(void) { return textures; }
 int config_geom(void) { return geometry; }
 int config_rate(void) { return audio_rate; }
 int config_buff(void) { return audio_buff; }
+int config_sens(void) { return mouse_sense; }
 int config_nice(void) { return nice; }
 int config_fps (void) { return fps; }
 
