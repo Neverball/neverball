@@ -18,12 +18,14 @@
 #include "gl.h"
 #include "main.h"
 #include "vec3.h"
-#include "ball.h"
-#include "coin.h"
+#include "geom.h"
 #include "image.h"
 #include "solid.h"
 
 #define MAX_DT  0.01                   /* 100Hz maximum physics update cycle */
+
+static double foo_x = 0.0;
+static double foo_y = 0.0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -172,7 +174,10 @@ void game_render_env(void)
     {
         glGetIntegerv(GL_VIEWPORT, vp);
         glLoadIdentity();
+        gluPerspective(60.0, (GLdouble) vp[2] / (GLdouble) vp[3], 0.1, 1000.0);
+        /*
         gluPerspective(30.0, (GLdouble) vp[2] / (GLdouble) vp[3], 0.1, 1000.0);
+        */
     }
     glMatrixMode(GL_MODELVIEW);
 
@@ -180,6 +185,8 @@ void game_render_env(void)
     {
         gluLookAt(view_p[0], view_p[1], view_p[2],
                   ball_p[0], ball_p[1], ball_p[2], 0, 1, 0);
+
+        back_draw();
 
         /* Rotate the world about the position of the ball. */
 
@@ -370,6 +377,9 @@ int game_update_env(const double g[3], double dt)
 void game_update_pos(int x, int y)
 {
     double bound = 20.0;
+
+    foo_x += y;
+    foo_y += x;
 
     game_rx -= 40.0 * y / 500;
     game_rz += 40.0 * x / 500;

@@ -15,6 +15,7 @@
 #include <stdio.h>
 
 #include "game.h"
+#include "geom.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -24,6 +25,7 @@
 struct level
 {
     char file[MAXSTR];
+    char back[MAXSTR];
     int  time;
 };
 
@@ -41,9 +43,10 @@ void level_init(void)
 
         if (fin)
         {
-            while (fscanf(fin, "%s %d",
+            while (fscanf(fin, "%s %s %d",
                            level_v[level_n].file,
-                          &level_v[level_n].time) == 2)
+                           level_v[level_n].back,
+                          &level_v[level_n].time) == 3)
                 level_n++;
 
             fclose(fin);
@@ -52,6 +55,7 @@ void level_init(void)
 
     level_i = 0;
 
+    back_init(level_v[level_i].back);
     game_load(level_v[level_i].file,
               level_v[level_i].time);
 }
@@ -59,9 +63,11 @@ void level_init(void)
 int level_pass(void)
 {
     game_free();
+    back_free();
 
     if (++level_i < level_n)
     {
+        back_init(level_v[level_i].back);
         game_load(level_v[level_i].file,
                   level_v[level_i].time);
 
@@ -73,9 +79,11 @@ int level_pass(void)
 int level_fail(void)
 {
     game_free();
+    back_free();
 
     if (game_fail())
     {
+        back_init(level_v[level_i].back);
         game_load(level_v[level_i].file,
                   level_v[level_i].time);
 

@@ -1,8 +1,7 @@
 
 BALL_OBJS= \
-	ball.obj  \
-	coin.obj  \
 	game.obj  \
+	geom.obj  \
 	image.obj \
 	level.obj \
 	main.obj  \

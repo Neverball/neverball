@@ -1,4 +1,9 @@
-data/sol/flat.sol    99
-data/sol/move.sol    30
-data/sol/spiral.sol  99
-data/sol/baby.sol    99
+data/sol/flat.sol data/back/bar 99
+data/sol/flat.sol data/back/bar 20
+data/sol/flat.sol data/back/bar 15
+data/sol/flat.sol data/back/bar 10
+data/sol/flat.sol data/back/bar 5
+data/sol/flat.sol data/back/bar 4
+data/sol/flat.sol data/back/bar 3
+data/sol/flat.sol data/back/bar 2
+data/sol/flat.sol data/back/bar 1
