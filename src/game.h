@@ -3,26 +3,34 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define IMG_SHADOW "png/shadow.png"
+
+#define MAX_DT   0.01666666            /* Maximum physics update cycle       */
+#define MAX_DN  16                     /* Maximum subdivisions of dt         */
+#define FOV     45.0                   /* Field of view                      */
+#define RESPONSE 0.05                  /* Input smoothing time               */
+
 #define GAME_NONE 0
 #define GAME_TIME 1
 #define GAME_GOAL 2
 #define GAME_FALL 3
 
-void game_render_hud(void);
-void game_render_num(int);
-void game_render_env(void);
-
-int  game_update_env(const double[3], double);
-void game_update_pos(int, int);
-void game_update_rot(int);
-void game_update_fly(double);
-
-void game_update_x(int);
-void game_update_z(int);
+/*---------------------------------------------------------------------------*/
 
 void  game_init(const char *, int);
 void  game_free(void);
-char *game_note(void);
+
+int   curr_clock(void);
+char *curr_intro(void);
+
+void  game_draw(void);
+int   game_step(const double[3], double);
+
+void  game_set_pos(int, int);
+void  game_set_x  (int);
+void  game_set_z  (int);
+void  game_set_rot(int);
+void  game_set_fly(double);
 
 /*---------------------------------------------------------------------------*/
 

@@ -216,11 +216,16 @@ struct s_file
 
 /*---------------------------------------------------------------------------*/
 
-int  sol_load(struct s_file *, const char *, int);
-int  sol_stor(struct s_file *, const char *);
-void sol_free(struct s_file *);
+int    sol_load(struct s_file *, const char *, int);
+int    sol_stor(struct s_file *, const char *);
+void   sol_free(struct s_file *);
 
-void   sol_render(const struct s_file *);
-double sol_update(struct s_file *, const double[3], double);
+void   sol_draw(const struct s_file *);
+double sol_step(struct s_file *, const double *, double);
+
+int    sol_coin_test(struct s_file *, double *, double);
+int    sol_goal_test(struct s_file *, double *);
+
+/*---------------------------------------------------------------------------*/
 
 #endif

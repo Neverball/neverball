@@ -12,238 +12,168 @@
  * General Public License for more details.
  */
 
+#include <SDL.h>
 #include <math.h>
 
 #include "gl.h"
-#include "main.h"
+#include "game.h"
 #include "vec3.h"
 #include "geom.h"
-#include "text.h"
-#include "game.h"
+#include "back.h"
+#include "part.h"
 #include "image.h"
 #include "audio.h"
 #include "solid.h"
 #include "level.h"
-
-#define MAX_DT  0.01666666             /* Maximum physics update cycle       */
-#define MAX_DN 16                      /* Maximum subdivisions of dt         */
-#define FOV    45.0                    /* Field of view                      */
+#include "config.h"
 
 /*---------------------------------------------------------------------------*/
-
-static double time  = 0.0;
-static int    ticks = 0;
 
 static struct s_file file;
 
-static double game_rx;
-static double game_rz;
+static double time  = 0.0;              /* Simulation time                   */
+static int    clock = 0;                /* Clock time                        */
 
-static double view_r;
-static double view_dy;
-static double view_dz;
+static double game_ix;                  /* Input rotation about X axis       */
+static double game_iz;                  /* Input rotation about Z axis       */
+static double game_rx;                  /* Floor rotation about X axis       */
+static double game_rz;                  /* Floor rotation about Z axis       */
 
-static double view_p[3];
-static double view_e[3][3];
+static double view_r;                   /* Ideal view rotation about Y axis  */
+static double view_dy;                  /* Ideal view distance above ball    */
+static double view_dz;                  /* Ideal view distance behind ball   */
 
-#define IMG_SHADOW "data/png/shadow.png"
+static double view_p[3];                /* Current view position             */
+static double view_e[3][3];             /* Current view orientation          */
 
-static GLuint shadow_text;
+static GLuint shadow_text;              /* Shadow texture object             */
 
 /*---------------------------------------------------------------------------*/
 
-#define STR_BALLS "Balls"
-#define STR_COINS "Coins"
-
-static int large_w, large_h;
-static int small_w, small_h;
-static int coins_w, coins_h;
-static int balls_w, balls_h;
-static int pad_w;
-
-static GLuint large_text[10], large_list[10];
-static GLuint small_text[10], small_list[10];
-
-static GLuint balls_text, balls_list;
-static GLuint coins_text, coins_list;
-
-void hud_init(void)
+static void view_init(void)
 {
-    const GLfloat c0[3] = { 1.0f, 1.0f, 0.0f };
-    const GLfloat c1[3] = { 1.0f, 0.5f, 0.0f };
-    const GLfloat c2[3] = { 1.0f, 1.0f, 1.0f };
+    view_r  = 0.0;
+    view_dy = 4.0;
+    view_dz = 6.0;
 
-    char buf[4];
-    int i;
+    view_p[0] =     0.0;
+    view_p[1] = view_dy;
+    view_p[2] = view_dz;
 
-    text_size("0",       TXT_MED, &small_w, &small_h);
-    text_size("0",       TXT_LRG,  &large_w, &large_h);
-    text_size(STR_BALLS, TXT_SML,  &balls_w, &balls_h);
-    text_size(STR_COINS, TXT_SML,  &coins_w, &coins_h);
-    pad_w = small_w / 2;
-
-    for (i = 0; i < 10; i++)
-    {
-        sprintf(buf, "%d", i);
-
-        small_text[i] = make_text(buf, TXT_MED);
-        small_list[i] = make_list(buf, TXT_MED, c0, c1);
-
-        large_text[i] = make_text(buf, TXT_LRG);
-        large_list[i] = make_list(buf, TXT_LRG, c0, c1);
-    }
-
-    balls_text = make_text(STR_BALLS, TXT_SML);
-    balls_list = make_list(STR_BALLS, TXT_SML, c2, c2);
-
-    coins_text = make_text(STR_COINS, TXT_SML);
-    coins_list = make_list(STR_COINS, TXT_SML, c2, c2);
+    view_e[0][0] = 1.0;
+    view_e[0][1] = 0.0;
+    view_e[0][2] = 0.0;
+    view_e[1][0] = 0.0;
+    view_e[1][1] = 1.0;
+    view_e[1][2] = 0.0;
+    view_e[2][0] = 0.0;
+    view_e[2][1] = 0.0;
+    view_e[2][2] = 1.0;
 }
 
-void hud_free(void)
+void game_init(const char *s, int t)
 {
-    int i;
+    game_ix = 0.0;
+    game_iz = 0.0;
+    game_rx = 0.0;
+    game_rz = 0.0;
 
-    glDeleteTextures(1, &coins_text);
-    glDeleteLists(coins_list, 1);
+    view_init();
+    part_init(GOAL_HEIGHT);
 
-    glDeleteTextures(1, &balls_text);
-    glDeleteLists(balls_list, 1);
+    sol_load(&file, s, config_text());
 
-    for (i = 0; i < 10; i++)
-    {
-        glDeleteTextures(1, large_text + i);
-        glDeleteLists(large_list[i], 1);
+    clock = t;
+    time  = t;
 
-        glDeleteTextures(1, small_text + i);
-        glDeleteLists(small_list[i], 1);
-    }
+    shadow_text = make_image_from_file(NULL, NULL, IMG_SHADOW);
+}
+
+void game_free(void)
+{
+    if (glIsTexture(shadow_text))
+        glDeleteTextures(1, &shadow_text);
+
+    sol_free(&file);
+    part_free();
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void game_render_small(int d, int x, int y)
+int curr_clock(void)
 {
-    glPushMatrix();
-    {
-        glTranslatef(x, y, 0);
-
-        glBindTexture(GL_TEXTURE_2D, small_text[d]);
-        glCallList(small_list[d]);
-    }
-    glPopMatrix();
+    return clock;
 }
 
-static void game_render_large(int d, int x, int y)
+char *curr_intro(void)
 {
-    glPushMatrix();
-    {
-        glTranslatef(x, y, 0);
-
-        glBindTexture(GL_TEXTURE_2D, large_text[d]);
-        glCallList(large_list[d]);
-    }
-    glPopMatrix();
+    return file.av;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void game_render_fps(void)
+static void game_draw_balls(const struct s_file *fp)
 {
-    static int fps   = 0;
-    static int then  = 0;
-    static int count = 0;
+    double M[16];
+    int ui;
 
-    if (count > 10)
+    for (ui = 0; ui < fp->uc; ui++)
     {
-        int now = SDL_GetTicks();
+        m_basis(M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
 
-        fps   = count * 1000 / (now - then);
-        then  = now;
-        count = 0;
-    }
-    else count++;
-
-    if (main_fps)
-    {
-        int a = (fps / 100);
-        int b = (fps % 100) / 10;
-        int c = (fps % 100) % 10;
-
-        game_render_small(a, 0 * small_w, main_height - small_h);
-        game_render_small(b, 1 * small_w, main_height - small_h);
-        game_render_small(c, 2 * small_w, main_height - small_h);
-    }
-}
-
-static void game_render_labels(void)
-{
-    const int C = main_width / 2;
-    const int W = main_width;
-
-    glDisable(GL_TEXTURE_2D);
-    {
-        const int a = 2 * pad_w + 2 * small_w + coins_w;
-        const int b =     pad_w +     large_w;
-
-        glColor4f(0.0f, 0.0f, 0.0f, 0.5f);
-
-        glRecti(C - b, 0, C + b, large_h);
-        glRecti(0,     0, a,     small_h);
-        glRecti(W - a, 0, W,     small_h);
-    }
-    glEnable(GL_TEXTURE_2D);
-
-    glPushMatrix();
-    {
-        glTranslatef(pad_w, (small_h - balls_h) / 2, 0);
-
-        glBindTexture(GL_TEXTURE_2D, balls_text);
-        glCallList(balls_list);
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    {
-        glTranslatef(main_width - coins_w - pad_w, (small_h - coins_h) / 2, 0);
-
-        glBindTexture(GL_TEXTURE_2D, coins_text);
-        glCallList(coins_list);
-    }
-    glPopMatrix();
-}
-
-void game_render_hud(void)
-{
-    const int w = main_width;
-    const int h = main_height;
-
-    push_ortho(w, h);
-    {
-        glPushAttrib(GL_ENABLE_BIT);
+        glPushMatrix();
         {
-            int a = coins_w + pad_w;
+            glTranslated(fp->uv[ui].p[0],
+                         fp->uv[ui].p[1],
+                         fp->uv[ui].p[2]);
+            glMultMatrixd(M);
+            glScaled(fp->uv[ui].r,
+                     fp->uv[ui].r,
+                     fp->uv[ui].r);
 
-            glDisable(GL_LIGHTING);
-            glDisable(GL_DEPTH_TEST);
-            glEnable(GL_COLOR_MATERIAL);
-
-            game_render_labels();
-
-            game_render_small((balls / 10), a,           0);
-            game_render_small((balls % 10), a + small_w, 0);
-
-            game_render_small((coins / 10), w - a - small_w * 2, 0);
-            game_render_small((coins % 10), w - a - small_w * 1, 0);
-
-            game_render_large((ticks / 10), w / 2 - large_w, 0);
-            game_render_large((ticks % 10), w / 2,           0);
-
-            game_render_fps();
+            ball_draw();
         }
-        glPopAttrib();
+        glPopMatrix();
     }
-    pop_ortho();
+}
+
+static void game_draw_coins(const struct s_file *fp)
+{
+    int ci;
+
+    for (ci = 0; ci < fp->cc; ci++)
+        if (fp->cv[ci].n > 0)
+        {
+            glPushMatrix();
+            {
+                glTranslated(fp->cv[ci].p[0],
+                             fp->cv[ci].p[1],
+                             fp->cv[ci].p[2]);
+                coin_draw(fp->cv[ci].n);
+            }
+            glPopMatrix();
+        }
+}
+
+static void game_draw_goals(const struct s_file *fp, double rx, double ry)
+{
+    int zi;
+
+    for (zi = 0; zi < fp->zc; zi++)
+    {
+        glPushMatrix();
+        {
+            glTranslated(fp->zv[zi].p[0],
+                         fp->zv[zi].p[1],
+                         fp->zv[zi].p[2]);
+
+            part_draw_goal(rx, ry);
+
+            glScaled(fp->zv[zi].r, 1.0, fp->zv[zi].r);
+            goal_draw();
+        }
+        glPopMatrix();
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -261,22 +191,53 @@ void game_render_hud(void)
  * projection would only magnify the problem.
  */
 
-void game_render_env(void)
+#ifdef GL_ARB_multitexture
+
+static void game_set_shadow(const struct s_file *fp)
+{
+    const double *ball_p = fp->uv->p;
+    const double  ball_r = fp->uv->r;
+
+    glActiveTextureARB(GL_TEXTURE1_ARB);
+    glMatrixMode(GL_TEXTURE);
+    {
+        double k = 0.5 / ball_r;
+
+        glEnable(GL_TEXTURE_2D);
+
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glBindTexture(GL_TEXTURE_2D, shadow_text);
+
+        glLoadIdentity();
+        glTranslated(0.5 - ball_p[0] * k,
+                     0.5 - ball_p[2] * k, 0.0);
+        glScaled(k, k, 1.0);
+    }
+    glMatrixMode(GL_MODELVIEW);
+    glActiveTextureARB(GL_TEXTURE0_ARB);
+}
+
+static void game_clr_shadow(void)
+{
+    glActiveTextureARB(GL_TEXTURE1_ARB);
+    {
+        glDisable(GL_TEXTURE_2D);
+    }
+    glActiveTextureARB(GL_TEXTURE0_ARB);
+}
+
+#endif /* GL_ARB_multitexture */
+
+/*---------------------------------------------------------------------------*/
+
+void game_draw(void)
 {
     const float light_p[4] = { 8.0, 32.0, 8.0, 1.0 };
 
     const struct s_file *fp = &file;
-    const struct s_ball *up =  file.uv;
-
     const double *ball_p = file.uv->p;
     
-    glMatrixMode(GL_PROJECTION);
-    {
-        glLoadIdentity();
-        gluPerspective(FOV, (GLdouble) main_width / main_height, 0.1, 1000.0);
-    }
-    glMatrixMode(GL_MODELVIEW);
-
+    config_push_persp(FOV, 0.1, 1000.0);
     glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {
@@ -287,10 +248,10 @@ void game_render_env(void)
         rx = V_DEG(atan2(-v[1], sqrt(v[0] * v[0] + v[2] * v[2])));
         ry = V_DEG(atan2(+v[0], -v[2]));
 
-        glTranslatef(0.0f, 0.0f, -v_len(v));
-        glRotatef(rx, 1.0f, 0.0f, 0.0f);
-        glRotatef(ry, 0.0f, 1.0f, 0.0f);
-        glTranslatef(-ball_p[0], -ball_p[1], -ball_p[2]);
+        glTranslated(0.0, 0.0, -v_len(v));
+        glRotated(rx, 1.0, 0.0, 0.0);
+        glRotated(ry, 0.0, 1.0, 0.0);
+        glTranslated(-ball_p[0], -ball_p[1], -ball_p[2]);
 
         /* Center the skybox about the position of the camera. */
 
@@ -314,46 +275,26 @@ void game_render_env(void)
         glEnable(GL_LIGHT0);
         glLightfv(GL_LIGHT0, GL_POSITION, light_p);
 
-        /* Configure the ball shadow. */
-
-        glActiveTextureARB(GL_TEXTURE1_ARB);
-        glMatrixMode(GL_TEXTURE);
-        {
-            double k = 0.5 / up->r;
-
-            glEnable(GL_TEXTURE_2D);
-
-            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-            glBindTexture(GL_TEXTURE_2D, shadow_text);
-
-            glLoadIdentity();
-            glTranslated(0.5 - ball_p[0] * k, 0.5 - ball_p[2] * k, 0.0);
-            glScaled(k, k, 1.0);
-        }
-        glMatrixMode(GL_MODELVIEW);
-        glActiveTextureARB(GL_TEXTURE0_ARB);
-
         /* Draw the floor. */
 
-        sol_render(fp);
-
-        /* Lose the shadow. */
-
-        glActiveTextureARB(GL_TEXTURE1_ARB);
-        {
-            glDisable(GL_TEXTURE_2D);
-        }
-        glActiveTextureARB(GL_TEXTURE0_ARB);
+#ifdef GL_ARB_multitexture
+        game_set_shadow(fp);
+        sol_draw(fp);
+        game_clr_shadow();
+#else
+        sol_draw(fp);
+#endif
 
         /* Draw the game elements. */
 
-        coin_draw(fp->cv, fp->cc);
-        ball_draw(up->r, up->p, up->e);
-        goal_draw(-rx, -ry, fp->zv, fp->zc);
-        part_draw(-rx, -ry);
+        game_draw_coins(fp);
+        game_draw_balls(fp);
+        game_draw_goals(fp, -rx, -ry);
+        part_draw_coin(-rx, -ry);
     }
     glPopMatrix();
     glPopAttrib();
+    config_pop_matrix();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -428,42 +369,37 @@ static void game_update_time(double dt)
     time -= dt;
     seconds = (int) ceil(time);
 
-    if (0 <= seconds && seconds < ticks && ticks < 99)
+    if (0 <= seconds && seconds < clock && clock < 99)
     {
         audio_play(AUD_TICK, 1.f);
-        ticks = seconds;
+        clock = seconds;
     }
 }
 
 static int game_update_state(void)
 {
     struct s_file *fp = &file;
+    double p[3];
+    double c[3];
     int n;
 
     /* Test for a coin grab and a possible 1UP. */
 
-    if ((n = coin_test(fp->uv, fp->cv, fp->cc)) > 0)
+    if ((n = sol_coin_test(fp, p, COIN_RADIUS)) > 0)
     {
-        coins += n;
-
-        if (coins >= 100)
-        {
-            coins -= 100;
-            balls++;
-            audio_play(AUD_BALL, 1.f);
-        }
-        else
-            audio_play(AUD_COIN, 1.f);
+        coin_color(c, n);
+        part_burst(p, c);
+        level_score(n);
     }
 
     /* Test for a goal. */
 
-    if (goal_test(fp->uv, fp->zv, fp->zc))
+    if (sol_goal_test(fp, p))
         return GAME_GOAL;
 
     /* Test for time-out. */
 
-    if (ticks <= 0)
+    if (clock <= 0)
         return GAME_TIME;
 
     /* Test for fall-out. */
@@ -473,8 +409,6 @@ static int game_update_state(void)
 
     return GAME_NONE;
 }
-
-/*---------------------------------------------------------------------------*/
 
 /*
  * On  most  hardware, rendering  requires  much  more  computing power  than
@@ -490,7 +424,8 @@ static int game_update_state(void)
  * seek an optimal update rate independant of, yet in integral sync with, the
  * graphics frame rate.
  */
-int game_update_env(const double g[3], double dt)
+
+int game_step(const double g[3], double dt)
 {
     struct s_file *fp = &file;
 
@@ -500,8 +435,13 @@ int game_update_env(const double g[3], double dt)
     double t = dt;
     int i, n = 1;
 
+    /* Smooth jittery or discontinuous input. */
+
+    game_rx += (game_ix - game_rx) * dt / RESPONSE;
+    game_rz += (game_iz - game_rz) * dt / RESPONSE;
+
     game_update_grav(h, g);
-    part_update_grav(h, dt);
+    part_step(h, dt);
 
     /* Run the sim. */
 
@@ -512,7 +452,7 @@ int game_update_env(const double g[3], double dt)
     }
 
     for (i = 0; i < n; i++)
-        if (b < (d = sol_update(fp, h, t)))
+        if (b < (d = sol_step(fp, h, t)))
             b = d;
 
     /* Mix the sound of a ball bounce. */
@@ -526,44 +466,39 @@ int game_update_env(const double g[3], double dt)
     return game_update_state();
 }
 
-/*
- * Update the tilt of the environment given the current input.
- */
-void game_update_pos(int x, int y)
+/*---------------------------------------------------------------------------*/
+
+void game_set_x(int k)
+{
+    game_ix = -20.0 * k / JOY_MAX;
+}
+
+void game_set_z(int k)
+{
+    game_iz = +20.0 * k / JOY_MAX;
+}
+
+void game_set_pos(int x, int y)
 {
     double bound = 20.0;
 
-    game_rx += 40.0 * y / 500;
-    game_rz += 40.0 * x / 500;
+    game_ix += 40.0 * y / config_h();
+    game_iz += 40.0 * x / config_h();
 
-    if (game_rx > +bound) game_rx = +bound;
-    if (game_rx < -bound) game_rx = -bound;
-    if (game_rz > +bound) game_rz = +bound;
-    if (game_rz < -bound) game_rz = -bound;
+    if (game_ix > +bound) game_ix = +bound;
+    if (game_ix < -bound) game_ix = -bound;
+    if (game_iz > +bound) game_iz = +bound;
+    if (game_iz < -bound) game_iz = -bound;
 }
 
-void game_update_x(int k)
-{
-    game_rx = -20.0 * k / 32768;
-}
-
-void game_update_z(int k)
-{
-    game_rz = +20.0 * k / 32768;
-}
-
-/*
- * Update the rotation of the view about the ball.
- */
-void game_update_rot(int r)
+void game_set_rot(int r)
 {
     view_r = r * 5.0;
 }
 
-/*
- * Update the position of the camera during a level-intro fly-by.
- */
-void game_update_fly(double k)
+/*---------------------------------------------------------------------------*/
+
+void game_set_fly(double k)
 {
     struct s_file *fp = &file;
 
@@ -596,67 +531,6 @@ void game_update_fly(double k)
         v_sub(v, q, p);
         v_mad(view_p, p, v, +(k * k));
     }
-}
-
-/*---------------------------------------------------------------------------*/
-
-static void view_init(void)
-{
-    game_rx = 0.0;
-    game_rz = 0.0;
-
-    view_r  = 0.0;
-    view_dy = 4.0;
-    view_dz = 6.0;
-
-    view_p[0] =     0.0;
-    view_p[1] = view_dy;
-    view_p[2] = view_dz;
-
-    view_e[0][0] = 1.0;
-    view_e[0][1] = 0.0;
-    view_e[0][2] = 0.0;
-    view_e[1][0] = 0.0;
-    view_e[1][1] = 1.0;
-    view_e[1][2] = 0.0;
-    view_e[2][0] = 0.0;
-    view_e[2][1] = 0.0;
-    view_e[2][2] = 1.0;
-}
-
-void game_init(const char *s, int t)
-{
-    view_init();
-    ball_init();
-    goal_init();
-    coin_init();
-    part_init();
-    hud_init();
-
-    shadow_text = make_image_from_file(NULL, NULL, IMG_SHADOW);
-
-    sol_load(&file, s, get_image_scale());
-
-    ticks = t;
-    time  = t;
-}
-
-void game_free(void)
-{
-    sol_free(&file);
-
-    glDeleteTextures(1, &shadow_text);
-
-    hud_free();
-    part_free();
-    coin_free();
-    goal_free();
-    ball_free();
-}
-
-char *game_note(void)
-{
-    return file.av;
 }
 
 /*---------------------------------------------------------------------------*/

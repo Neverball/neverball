@@ -1,19 +1,26 @@
 
 MAPC= ..\mapc.exe
 
-all :   sol\easy.sol \
-        sol\fall.sol \
-        sol\move.sol \
-        sol\maze.sol \
-        sol\four.sol \
-        sol\poke.sol \
-        sol\angle.sol \
-        sol\quads.sol \
-        sol\spiral.sol \
-        sol\marble.sol
+all : 	sol/easy.sol \
+	sol/coin.sol \
+	sol/slow.sol \
+	sol/fall.sol \
+	sol/move.sol \
+	sol/maze.sol \
+	sol/four.sol \
+	sol/poke.sol \
+	sol/angle.sol \
+	sol/quads.sol \
+	sol/spiral.sol \
+	sol/marble.sol \
+	sol/title.sol
 
 sol\easy.sol :  map\easy.map
 	$(MAPC) map\easy.map sol\easy.sol
+sol\coin.sol :  map\coin.map
+	$(MAPC) map\coin.map sol\coin.sol
+sol\slow.sol :  map\slow.map
+	$(MAPC) map\slow.map sol\slow.sol
 sol\fall.sol :  map\fall.map
 	$(MAPC) map\fall.map sol\fall.sol
 sol\move.sol :  map\move.map
@@ -32,6 +39,8 @@ sol\spiral.sol :  map\spiral.map
 	$(MAPC) map\spiral.map sol\spiral.sol
 sol\marble.sol :  map\marble.map
 	$(MAPC) map\marble.map sol\marble.sol
+sol\title.sol :  map\title.map
+	$(MAPC) map\title.map sol\title.sol
 
 clean :
 	del map\*.bak

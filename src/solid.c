@@ -14,19 +14,40 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 
 #include "gl.h"
-#include "main.h"
 #include "vec3.h"
 #include "solid.h"
+#include "config.h"
 
 #define SMALL 1.0e-10
 #define LARGE 1.0e+10
+
+/*---------------------------------------------------------------------------*/
+
+/*
+ * Windows presents a rather hostile environment to OpenGL programmers
+ * coming from a Unix environment.
+ */
+
+#ifdef _WIN32
+
+PFNGLACTIVETEXTUREPROC   glActiveTextureARB;
+PFNGLMULTITEXCOORD2DPROC glMultiTexCoord2dARB;
+
+static void init_ext(void)
+{
+    glActiveTextureARB   = (PFNGLACTIVETEXTUREPROC)
+        wglGetProcAddress("glActiveTextureARB");
+    glMultiTexCoord2dARB = (PFNGLMULTITEXCOORD2DPROC)
+        wglGetProcAddress("glMultiTexCoord2dARB");
+}
+
+#endif /* _WIN32 */
 
 /*---------------------------------------------------------------------------*/
 
@@ -81,7 +102,7 @@ static void sol_body_p(double p[3],
  * stored in display lists.  Thus, it is well worth it.
  */
 
-static void sol_render_mtrl(const struct s_file *fp, int i)
+static void sol_draw_mtrl(const struct s_file *fp, int i)
 {
     const struct s_mtrl *mp = fp->mv + i;
 
@@ -94,8 +115,8 @@ static void sol_render_mtrl(const struct s_file *fp, int i)
     glBindTexture(GL_TEXTURE_2D, mp->o);
 }
 
-static void sol_render_geom(const struct s_file *fp,
-                            const struct s_geom *gp, int mi)
+static void sol_draw_geom(const struct s_file *fp,
+                          const struct s_geom *gp, int mi)
 {
     if (gp->mi == mi)
     {
@@ -109,6 +130,7 @@ static void sol_render_geom(const struct s_file *fp,
 
         glNormal3dv(fp->sv[gp->si].n);
 
+#ifdef GL_ARB_multitexture
         glMultiTexCoord2dARB(GL_TEXTURE0_ARB, ui[0], ui[1]);
         glMultiTexCoord2dARB(GL_TEXTURE1_ARB, vi[0], vi[2]);
         glVertex3dv(vi);
@@ -120,11 +142,21 @@ static void sol_render_geom(const struct s_file *fp,
         glMultiTexCoord2dARB(GL_TEXTURE0_ARB, uk[0], uk[1]);
         glMultiTexCoord2dARB(GL_TEXTURE1_ARB, vk[0], vk[2]);
         glVertex3dv(vk);
+#else
+        glTexCoord2d(ui[0], ui[1]);
+        glVertex3dv(vi);
+
+        glTexCoord2d(uj[0], uj[1]);
+        glVertex3dv(vj);
+
+        glTexCoord2d(uk[0], uk[1]);
+        glVertex3dv(vk);
+#endif
     }
 }
 
-static void sol_render_lump(const struct s_file *fp,
-                            const struct s_lump *lp, int mi)
+static void sol_draw_lump(const struct s_file *fp,
+                          const struct s_lump *lp, int mi)
 {
     int i;
 
@@ -132,12 +164,12 @@ static void sol_render_lump(const struct s_file *fp,
     {
         int gi = fp->iv[lp->g0 + i];
         
-        sol_render_geom(fp, fp->gv + gi, mi);
+        sol_draw_geom(fp, fp->gv + gi, mi);
      }
 }
 
-static void sol_render_body(const struct s_file *fp,
-                            const struct s_body *bp, int t)
+static void sol_draw_body(const struct s_file *fp,
+                          const struct s_body *bp, int t)
 {
     int mi, li;
 
@@ -148,14 +180,14 @@ static void sol_render_body(const struct s_file *fp,
         {
             /* Set the material state. */
 
-            sol_render_mtrl(fp, mi);
+            sol_draw_mtrl(fp, mi);
 
             /* Render all geometry of that material. */
 
             glBegin(GL_TRIANGLES);
             {
                 for (li = 0; li < bp->lc; li++)
-                    sol_render_lump(fp, fp->lv + bp->l0 + li, mi);
+                    sol_draw_lump(fp, fp->lv + bp->l0 + li, mi);
             }
             glEnd();
         }
@@ -163,8 +195,8 @@ static void sol_render_body(const struct s_file *fp,
 
 /*---------------------------------------------------------------------------*/
 
-static void sol_render_list(const struct s_file *fp,
-                            const struct s_body *bp, int t)
+static void sol_draw_list(const struct s_file *fp,
+                          const struct s_body *bp, int t)
 {
     double p[3];
 
@@ -178,6 +210,7 @@ static void sol_render_list(const struct s_file *fp,
 
         /* Translate the shadow on a moving body. */
 
+#ifdef GL_ARB_multitexture
         glActiveTextureARB(GL_TEXTURE1_ARB);
         glMatrixMode(GL_TEXTURE);
         {
@@ -186,6 +219,7 @@ static void sol_render_list(const struct s_file *fp,
         }
         glMatrixMode(GL_MODELVIEW);
         glActiveTextureARB(GL_TEXTURE0_ARB);
+#endif
         
         /* Draw the body. */
 
@@ -193,6 +227,7 @@ static void sol_render_list(const struct s_file *fp,
 
         /* Pop the shadow translation. */
 
+#ifdef GL_ARB_multitexture
         glActiveTextureARB(GL_TEXTURE1_ARB);
         glMatrixMode(GL_TEXTURE);
         {
@@ -200,12 +235,13 @@ static void sol_render_list(const struct s_file *fp,
         }
         glMatrixMode(GL_MODELVIEW);
         glActiveTextureARB(GL_TEXTURE0_ARB);
+#endif
     }
     glPopMatrix();
 }
 
 
-void sol_render(const struct s_file *fp)
+void sol_draw(const struct s_file *fp)
 {
     int i;
 
@@ -215,14 +251,14 @@ void sol_render(const struct s_file *fp)
         /* Render all obaque geometry into the color and depth buffers. */
 
         for (i = 0; i < fp->bc; i++)
-            sol_render_list(fp, fp->bv + i, 0);
+            sol_draw_list(fp, fp->bv + i, 0);
 
         /* Render all translucent geometry into only the color buffer. */
 
         glDepthMask(GL_FALSE);
 
         for (i = 0; i < fp->bc; i++)
-            sol_render_list(fp, fp->bv + i, 1);
+            sol_draw_list(fp, fp->bv + i, 1);
     }
     glPopAttrib();
     glPopAttrib();
@@ -244,7 +280,7 @@ static void sol_load_objects(struct s_file *fp)
 
         glNewList(fp->bv[i].ol, GL_COMPILE);
         {
-            sol_render_body(fp, fp->bv + i, 0);
+            sol_draw_body(fp, fp->bv + i, 0);
         }
         glEndList();
 
@@ -252,7 +288,7 @@ static void sol_load_objects(struct s_file *fp)
 
         glNewList(fp->bv[i].tl, GL_COMPILE);
         {
-            sol_render_body(fp, fp->bv + i, 1);
+            sol_draw_body(fp, fp->bv + i, 1);
         }
         glEndList();
     }
@@ -262,11 +298,21 @@ static void sol_load_textures(struct s_file *fp, int n)
 {
     SDL_Surface *s;
     SDL_Surface *d;
+    char tga[64];
+    char jpg[64];
 
     int i;
 
     for (i = 0; i < fp->mc; i++)
-        if ((s = IMG_Load(fp->mv[i].f)))
+    {
+        strncpy(tga, fp->mv[i].f, PATHMAX);
+        strcat(tga, ".tga");
+        strncpy(jpg, fp->mv[i].f, PATHMAX);
+        strcat(jpg, ".jpg");
+
+        /* Prefer a lossless copy of the texture over a lossy compression. */
+
+        if ((s = IMG_Load(tga)) || (s = IMG_Load(jpg)))
         {
             glGenTextures(1, &fp->mv[i].o);
             glBindTexture(GL_TEXTURE_2D, fp->mv[i].o);
@@ -310,6 +356,7 @@ static void sol_load_textures(struct s_file *fp, int n)
 
             SDL_FreeSurface(s);
         }
+    }
 }
 
 int sol_load(struct s_file *fp, const char *filename, int scale)
@@ -317,6 +364,7 @@ int sol_load(struct s_file *fp, const char *filename, int scale)
     FILE *fin;
 
 #ifdef _WIN32
+    init_ext();
     if ((fin = fopen(filename, "rb")))
 #else
     if ((fin = fopen(filename, "r")))
@@ -873,7 +921,7 @@ static double sol_test_file(double T[3], double V[3],
 
 /*---------------------------------------------------------------------------*/
 
-double sol_update(struct s_file *fp, const double g[3], double dt)
+double sol_step(struct s_file *fp, const double *g, double dt)
 {
     double T[3], V[3], d, nt, b = 0.0, tt = dt;
 
@@ -915,4 +963,63 @@ double sol_update(struct s_file *fp, const double g[3], double dt)
 
     return b;
 }
+
+/*---------------------------------------------------------------------------*/
+
+int sol_coin_test(struct s_file *fp, double *p, double coin_r)
+{
+    const double *ball_p = fp->uv->p;
+    const double  ball_r = fp->uv->r;
+    int ci, n;
+
+    for (ci = 0; ci < fp->cc; ci++)
+    {
+        double r[3];
+
+        r[0] = ball_p[0] - fp->cv[ci].p[0];
+        r[1] = ball_p[1] - fp->cv[ci].p[1];
+        r[2] = ball_p[2] - fp->cv[ci].p[2];
+
+        if (fp->cv[ci].n > 0 && v_len(r) < ball_r + coin_r)
+        {
+            p[0] = fp->cv[ci].p[0];
+            p[1] = fp->cv[ci].p[1];
+            p[2] = fp->cv[ci].p[2];
+
+            n = fp->cv[ci].n;
+            fp->cv[ci].n = 0;
+
+            return n;
+        }
+    }
+    return 0;
+}
+
+int sol_goal_test(struct s_file *fp, double *p)
+{
+    const double *ball_p = fp->uv->p;
+    const double  ball_r = fp->uv->r;
+    int zi;
+
+    for (zi = 0; zi < fp->zc; zi++)
+    {
+        double r[3];
+
+        r[0] = ball_p[0] - fp->zv[zi].p[0];
+        r[1] = ball_p[2] - fp->zv[zi].p[2];
+        r[2] = 0;
+
+        if (v_len(r) < fp->zv[zi].r - ball_r && ball_p[1] > fp->zv[zi].p[1])
+        {
+            p[0] = fp->zv[zi].p[0];
+            p[1] = fp->zv[zi].p[1];
+            p[2] = fp->zv[zi].p[2];
+
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
 

@@ -14,15 +14,11 @@
 
 #include <stdio.h>
 
+#include "level.h"
 #include "game.h"
 #include "geom.h"
-
-/*---------------------------------------------------------------------------*/
-
-int coins;
-int balls;
-int level;
-int count;
+#include "back.h"
+#include "audio.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,13 +32,18 @@ struct level
     int  time;
 };
 
+static int coins;                       /* Current score                */
+static int balls;                       /* Current life count           */
+static int level;                       /* Current level number         */
+static int count;                       /* Number of levels             */
+
 static struct level level_v[MAXLVL];
 
 /*---------------------------------------------------------------------------*/
 
 void level_init(void)
 {
-    FILE *fin = fopen("data/levels.txt", "r");
+    FILE *fin = fopen(LEVEL_FILE, "r");
 
     count = 0;
     level = 0;
@@ -61,6 +62,27 @@ void level_init(void)
     }
 }
 
+void level_free(void)
+{
+    game_free();
+    back_free();
+
+    count = 0;
+}
+
+int level_exists(int i)
+{
+    return (0 < i && i < count);
+}
+
+/*---------------------------------------------------------------------------*/
+
+int curr_level(void) { return level; }
+int curr_balls(void) { return balls; }
+int curr_coins(void) { return coins; }
+
+/*---------------------------------------------------------------------------*/
+
 void level_goto(int i)
 {
     level = i;
@@ -68,14 +90,6 @@ void level_goto(int i)
     back_init(level_v[level].back);
     game_init(level_v[level].file,
               level_v[level].time);
-}
-
-void level_free(void)
-{
-    game_free();
-    back_free();
-
-    count = 0;
 }
 
 int level_pass(void)
@@ -108,4 +122,20 @@ int level_fail(void)
         return 1;
     }
     return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+void level_score(int n)
+{
+    coins += n;
+
+    if (coins >= 100)
+    {
+        coins -= 100;
+        balls += 1;
+        audio_play(AUD_BALL, 1.0f);
+    }
+    else
+        audio_play(AUD_COIN, 1.0f);
 }

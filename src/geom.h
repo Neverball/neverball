@@ -2,40 +2,36 @@
 #define GEOM_H
 
 #include "gl.h"
-#include "solid.h"
 
 /*---------------------------------------------------------------------------*/
 
-void ball_init(void);
+#define IMG_COIN "png/coin.png"
+#define IMG_BALL "png/ball.png"
+
+#define BALL_FUDGE    0.01
+#define COIN_RADIUS   0.15
+#define COIN_THICK    0.01
+#define GOAL_HEIGHT   3.00
+#define GOAL_SPARKS  64
+
+/*---------------------------------------------------------------------------*/
+
+void ball_init(int);
 void ball_free(void);
-void ball_draw(double, const double[3], const double[3][3]);
+void ball_draw(void);
 
 /*---------------------------------------------------------------------------*/
 
-void part_init(void);
-void part_free(void);
-void part_draw(GLfloat, GLfloat);
-void part_update_grav(const double[3], double);
-
-/*---------------------------------------------------------------------------*/
-
-void goal_init(void);
-void goal_free(void);
-void goal_draw(GLfloat, GLfloat, const struct s_goal *, int);
-int  goal_test(const struct s_ball *, struct s_goal *, int);
-
-/*---------------------------------------------------------------------------*/
-
-void coin_init(void);
+void coin_color(double *, int);
+void coin_init(int);
 void coin_free(void);
-void coin_draw(const struct s_coin *, int);
-int  coin_test(const struct s_ball *, struct s_coin *, int);
+void coin_draw(int);
 
 /*---------------------------------------------------------------------------*/
 
-void back_init(const char *);
-void back_free(void);
-void back_draw(void);
+void goal_init(int);
+void goal_free(void);
+void goal_draw(void);
 
 /*---------------------------------------------------------------------------*/
 

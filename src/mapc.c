@@ -46,10 +46,10 @@
 /* Arbitrary limits woo! */
 
 #define MAXM	4096
-#define MAXV	4096
-#define MAXE	4096
-#define MAXS	2048
-#define MAXT	4096
+#define MAXV	8192
+#define MAXE	8192
+#define MAXS	4096
+#define MAXT	8192
 #define MAXG	4096
 #define MAXL	1024
 #define MAXN	1024
@@ -119,14 +119,14 @@ static int   refc = 0;
 
 static void make_sym(const char *s, int  v)
 {
-    strcpy(symv[strc], s);
+    strncpy(symv[strc], s, MAXSTR - 1);
     valv[strc] = v;
     strc++;
 }
 
 static void make_ref(const char *r, int *p)
 {
-    strcpy(refv[refc], r);
+    strncpy(refv[refc], r, MAXSTR - 1);
     pntv[refc] = p;
     refc++;
 }
@@ -137,7 +137,7 @@ static void resolve(void)
 
     for (i = 0; i < refc; i++)
         for (j = 0; j < strc; j++)
-            if (strcmp(refv[i], symv[j]) == 0)
+            if (strncmp(refv[i], symv[j], MAXSTR) == 0)
             {
                 *(pntv[i]) = valv[j];
                 break;
@@ -158,16 +158,30 @@ static int   image_w[MAXM];
 static int   image_h[MAXM];
 static int   image_n = 0;
 
-static void size_image(const char *s, int *w, int *h)
+static int size_load(const char *s, int *w, int *h)
 {
     SDL_Surface *S;
+
+    if ((S = IMG_Load(s)))
+    {
+        *w = S->w;
+        *h = S->h;
+
+        SDL_FreeSurface(S);
+
+        return 1;
+    }
+    return 0;
+}
+
+static void size_image(const char *s, int *w, int *h)
+{
+    char jpg[MAXSTR];
+    char tga[MAXSTR];
     int i;
 
-    *w = 0;
-    *h = 0;
-
     for (i = 0; i < image_n; i++)
-        if (strcmp(image_s[i], s) == 0)
+        if (strncmp(image_s[i], s, MAXSTR) == 0)
         {
             *w = image_w[i];
             *h = image_h[i];
@@ -175,18 +189,22 @@ static void size_image(const char *s, int *w, int *h)
             return;
         }
 
-    if ((S = IMG_Load(s)))
+    *w = 0;
+    *h = 0;
+
+    strncpy(jpg, s, MAXSTR - 5);
+    strcat(jpg, ".jpg");
+    strncpy(tga, s, MAXSTR - 5);
+    strcat(tga, ".tga");
+
+    if (size_load(jpg, w, h) || size_load(tga, w, h))
     {
         image_s[image_n] = (char *) calloc(strlen(s) + 1, 1);
-        image_w[image_n] = S->w;
-        image_h[image_n] = S->h;
+        image_w[image_n] = *w;
+        image_h[image_n] = *h;
 
-        strcpy(image_s[image_n++], s);
-
-        *w = S->w;
-        *h = S->h;
-
-        SDL_FreeSurface(S);
+        strcpy(image_s[image_n], s);
+        image_n++;
     }
 }
 
@@ -221,12 +239,8 @@ static void make_plane(int pi, int x0, int y0, int z0,
     double  u[3],  v[3],  p[3];
     double k, d = 0.0;
     int i, w, h, n = 0;
-    char filename[MAXSTR];
 
-    strcpy(filename, s);
-    strcat(filename, ".jpg");
-
-    size_image(filename, &w, &h);
+    size_image(s, &w, &h);
 
     plane_f[pi] = fl;
 
@@ -318,7 +332,8 @@ static int map_token(FILE *fin, int pi, char key[MAXSTR],
 
         /* Scan a plane. */
 
-        if (sscanf(buf, "%c %d %d %d %c "
+        if (sscanf(buf,
+                   "%c %d %d %d %c "
                    "%c %d %d %d %c "
                    "%c %d %d %d %c "
                    "%s %d %d %d %f %f %d",
@@ -352,7 +367,8 @@ static void read_mtrl(struct s_file *fp, const char *s)
 
     if ((fin = fopen(s, "r")))
     {
-        fscanf(fin, "%f %f %f %f "
+        fscanf(fin,
+               "%f %f %f %f "
                "%f %f %f %f "
                "%f %f %f %f "
                "%f %f %f %f "
@@ -364,9 +380,7 @@ static void read_mtrl(struct s_file *fp, const char *s)
                mp->h);
         fclose(fin);
 
-        strcpy(mp->f, "data/");
-        strcat(mp->f, s);
-        strcat(mp->f, ".jpg");
+        strncpy(mp->f, s, PATHMAX - 1);
     }
 }
 
@@ -964,7 +978,7 @@ static int comp_mtrl(const struct s_mtrl *mp, const struct s_mtrl *mq)
 
     if (fabs(mp->h[0] - mq->h[0]) > SMALL) return 0;
 
-    if (strcmp(mp->f, mq->f)) return 0;
+    if (strncmp(mp->f, mq->f, PATHMAX)) return 0;
 
     return 1;
 }
@@ -1336,7 +1350,7 @@ static void dump_head(void)
 
 static void dump_file(struct s_file *fp)
 {
-    printf("%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d\n",
+    printf("%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%6d\n",
            fp->mc, fp->vc, fp->ec, fp->sc, fp->tc, fp->gc, fp->lc,
            fp->pc, fp->bc, fp->cc, fp->zc, fp->uc, fp->ac, fp->ic);
 }

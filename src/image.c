@@ -19,22 +19,8 @@
 #include <math.h>
 
 #include "gl.h"
-#include "main.h"
 #include "image.h"
-
-/*---------------------------------------------------------------------------*/
-
-static int image_scale = 1;
-
-void set_image_scale(int k)
-{
-    image_scale = k;
-}
-
-int  get_image_scale(void)
-{
-    return image_scale;
-}
+#include "config.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,13 +55,13 @@ GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
     glGenTextures(1, &o);
     glBindTexture(GL_TEXTURE_2D, o);
 
-    if (image_scale > 1)
+    if (config_text() > 1)
     {
         /* Create a new buffer and copy the scaled image to it. */
 
         SDL_Surface *d = SDL_CreateRGBSurface(SDL_SWSURFACE,
-                                              s->w / image_scale,
-                                              s->h / image_scale,
+                                              s->w / config_text(),
+                                              s->h / config_text(),
                                               s->format->BitsPerPixel,
                                               s->format->Rmask,
                                               s->format->Gmask,

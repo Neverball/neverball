@@ -1,15 +1,19 @@
 
 GAME_OBJS= \
-	audio.o \
-	game.o  \
-	geom.o  \
-	image.o \
-	level.o \
-	main.o  \
-	menu.o  \
-	solid.o \
-	state.o \
-	text.o  \
+	config.o \
+	audio.o  \
+	game.o   \
+	geom.o   \
+	back.o   \
+	part.o   \
+	image.o  \
+	level.o  \
+	main.o   \
+	menu.o   \
+	solid.o  \
+	state.o  \
+	text.o   \
+	hud.o    \
 	vec3.o
 MAPC_OBJS= \
 	vec3.o  \

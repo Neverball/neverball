@@ -3,7 +3,8 @@ sol/%.sol : map/%.map
 	../mapc $< $@
 
 all : 	sol/easy.sol \
-	sol/easy2.sol \
+	sol/coin.sol \
+	sol/slow.sol \
 	sol/fall.sol \
 	sol/move.sol \
 	sol/maze.sol \

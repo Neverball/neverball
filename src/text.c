@@ -16,15 +16,21 @@
 #include <SDL_ttf.h>
 
 #include "gl.h"
-#include "main.h"
 #include "text.h"
 #include "image.h"
 
 /*---------------------------------------------------------------------------*/
 
-#define TYPEFACE "data/ttf/VeraBd.ttf"
+const GLfloat c_white[4]  = { 1.0f, 1.0f, 1.0f, 1.0f };
+const GLfloat c_black[4]  = { 0.0f, 0.0f, 0.0f, 1.0f };
+const GLfloat c_red[4]    = { 1.0f, 0.0f, 0.0f, 1.0f };
+const GLfloat c_yellow[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
+const GLfloat c_green[4]  = { 0.0f, 1.0f, 0.0f, 1.0f };
+const GLfloat c_blue[4]   = { 0.0f, 0.0f, 1.0f, 1.0f };
+const GLfloat c_grey[4]   = { 0.0f, 0.0f, 0.0f, 0.5f };
 
-static TTF_Font *text_font[3];
+static TTF_Font *text_font[3] = { NULL, NULL, NULL };
+static int       text_drop[3] = { 0, 0, 0 };
 
 /*---------------------------------------------------------------------------*/
 
@@ -32,9 +38,13 @@ int text_init(int h)
 {
     if (TTF_Init() == 0)
     {
-        text_font[0] = TTF_OpenFont(TYPEFACE, h / 24);
-        text_font[1] = TTF_OpenFont(TYPEFACE, h / 12);
-        text_font[2] = TTF_OpenFont(TYPEFACE, h /  6);
+        text_font[0] = TTF_OpenFont(TEXT_FACE, h / 24);
+        text_font[1] = TTF_OpenFont(TEXT_FACE, h / 12);
+        text_font[2] = TTF_OpenFont(TEXT_FACE, h /  6);
+
+        text_drop[0] = 2;
+        text_drop[1] = 4;
+        text_drop[2] = 8;
 
         return 1;
     }
@@ -43,11 +53,14 @@ int text_init(int h)
 
 void text_free(void)
 {
-    TTF_CloseFont(text_font[2]);
-    TTF_CloseFont(text_font[1]);
-    TTF_CloseFont(text_font[0]);
+    if (TTF_WasInit())
+    {
+        if (text_font[2]) TTF_CloseFont(text_font[2]);
+        if (text_font[1]) TTF_CloseFont(text_font[1]);
+        if (text_font[0]) TTF_CloseFont(text_font[0]);
 
-    TTF_Quit();
+        TTF_Quit();
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -62,7 +75,7 @@ GLuint make_list(const char *text, int i, const float *c0, const float *c1)
     GLuint list = glGenLists(1);
 
     int W, H;
-    int w, h;
+    int w, h, d = text_drop[i];
 
     GLfloat s0, t0;
     GLfloat s1, t1;
@@ -79,11 +92,17 @@ GLuint make_list(const char *text, int i, const float *c0, const float *c1)
     {
         glBegin(GL_QUADS);
         {
-            glColor3fv(c0);
+            glColor4f(0.0, 0.0, 0.0, 0.5);
+            glTexCoord2f(s0, t1); glVertex2i(0 + d, 0 - d);
+            glTexCoord2f(s1, t1); glVertex2i(w + d, 0 - d);
+            glTexCoord2f(s1, t0); glVertex2i(w + d, h - d);
+            glTexCoord2f(s0, t0); glVertex2i(0 + d, h - d);
+
+            glColor4fv(c0);
             glTexCoord2f(s0, t1); glVertex2i(0, 0);
             glTexCoord2f(s1, t1); glVertex2i(w, 0);
 
-            glColor3fv(c1);
+            glColor4fv(c1);
             glTexCoord2f(s1, t0); glVertex2i(w, h);
             glTexCoord2f(s0, t0); glVertex2i(0, h);
         }
@@ -101,24 +120,3 @@ GLuint make_text(const char *text, int i)
 
 /*---------------------------------------------------------------------------*/
 
-void push_ortho(int w, int h)
-{
-    glMatrixMode(GL_PROJECTION);
-    {
-        glPushMatrix();
-        glLoadIdentity();
-        glOrtho(0.0, w, 0.0, h, -1.0, +1.0);
-    }
-    glMatrixMode(GL_MODELVIEW);
-}
-
-void pop_ortho(void)
-{
-    glMatrixMode(GL_PROJECTION);
-    {
-        glPopMatrix();
-    }
-    glMatrixMode(GL_MODELVIEW);
-}
-
-/*---------------------------------------------------------------------------*/

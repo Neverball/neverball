@@ -18,7 +18,8 @@
 #include <string.h>
 #include <math.h>
 
-#include "main.h"
+#include "gl.h"
+#include "hud.h"
 #include "game.h"
 #include "menu.h"
 #include "text.h"
@@ -26,6 +27,7 @@
 #include "level.h"
 #include "image.h"
 #include "audio.h"
+#include "config.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -99,8 +101,6 @@ int st_buttn(int b, int d)
 #define STR_CONF  " Options "
 #define STR_EXIT  " Exit "
 
-static struct menu title_menu;
-
 static int title_action(int i)
 {
     switch (i)
@@ -114,38 +114,34 @@ static int title_action(int i)
 
 static void title_enter(void)
 {
-    struct menu *p = &title_menu;
-
-    const GLfloat c0[3] = { 1.0f, 1.0f, 0.0f };
-    const GLfloat c1[3] = { 1.0f, 0.5f, 0.0f };
-    const GLfloat c2[3] = { 1.0f, 1.0f, 1.0f };
-
-    int lw, lh;
+    int lw, lh, lm;
     int mw, mh;
 
     text_size(STR_TITLE, TXT_LRG, &lw, &lh);
     text_size(STR_CONF,  TXT_MED, &mw, &mh);
 
-    menu_init(p, 4, 4, TITLE_PLAY);
+    lm = lh / 2;
 
-    menu_text(p, 0,          0, mh + lh / 2, c0, c1, STR_TITLE, TXT_LRG);
-    menu_text(p, TITLE_PLAY, 0, -0 * mh,     c2, c2, STR_PLAY,  TXT_MED);
-    menu_text(p, TITLE_CONF, 0, -1 * mh,     c2, c2, STR_CONF,  TXT_MED);
-    menu_text(p, TITLE_EXIT, 0, -2 * mh,     c2, c2, STR_EXIT,  TXT_MED);
+    menu_init(4, 4, TITLE_PLAY);
 
-    menu_item(p, 0,          0, mh + lh / 2, lw, lh);
-    menu_item(p, TITLE_PLAY, 0, -0 * mh,     mw, mh);
-    menu_item(p, TITLE_CONF, 0, -1 * mh,     mw, mh);
-    menu_item(p, TITLE_EXIT, 0, -2 * mh,     mw, mh);
+    menu_text(0,          0, mh + lm, c_yellow, c_red,   STR_TITLE, TXT_LRG);
+    menu_text(TITLE_PLAY, 0, -0 * mh, c_white,  c_white, STR_PLAY,  TXT_MED);
+    menu_text(TITLE_CONF, 0, -1 * mh, c_white,  c_white, STR_CONF,  TXT_MED);
+    menu_text(TITLE_EXIT, 0, -2 * mh, c_white,  c_white, STR_EXIT,  TXT_MED);
 
-    menu_link(p, TITLE_PLAY, TITLE_EXIT, TITLE_CONF, -1, -1);
-    menu_link(p, TITLE_CONF, TITLE_PLAY, TITLE_EXIT, -1, -1);
-    menu_link(p, TITLE_EXIT, TITLE_CONF, TITLE_PLAY, -1, -1);
+    menu_item(0,          0, mh + lm, lw, lh);
+    menu_item(TITLE_PLAY, 0, -0 * mh, mw, mh);
+    menu_item(TITLE_CONF, 0, -1 * mh, mw, mh);
+    menu_item(TITLE_EXIT, 0, -2 * mh, mw, mh);
 
-    menu_stat(p, 0,          -1);
-    menu_stat(p, TITLE_PLAY, +1);
-    menu_stat(p, TITLE_CONF,  0);
-    menu_stat(p, TITLE_EXIT,  0);
+    menu_link(TITLE_PLAY, TITLE_EXIT, TITLE_CONF, -1, -1);
+    menu_link(TITLE_CONF, TITLE_PLAY, TITLE_EXIT, -1, -1);
+    menu_link(TITLE_EXIT, TITLE_CONF, TITLE_PLAY, -1, -1);
+
+    menu_stat(0,          -1);
+    menu_stat(TITLE_PLAY, +1);
+    menu_stat(TITLE_CONF,  0);
+    menu_stat(TITLE_EXIT,  0);
 
     level_init();
     level_goto(0);
@@ -155,54 +151,47 @@ static void title_enter(void)
 static void title_leave(void)
 {
     level_free();
-    menu_free(&title_menu);
+    menu_free();
 }
 
 static void title_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    game_render_env();
-    menu_paint(&title_menu, 1.0);
+    game_draw();
+    menu_paint();
 }
 
 static int title_timer(double dt)
 {
-    game_update_fly(cos(time_state() / 10.0));
+    game_set_fly(cos(time_state() / 10.0));
     return 1;
 }
 
 static int title_point(int x, int y, int dx, int dy)
 {
-    menu_point(&title_menu, x, y);
+    menu_point(x, y);
     return 1;
 }
 
 static int title_click(int b, int d)
 {
-    if (b < 0 && d == 1)
-        return title_action(menu_click(&title_menu));
-    return 1;
+    return (b < 0 && d == 1) ? title_action(menu_click()) : 1;
 }
 
 static int title_keybd(int c)
 {
-    if (c == SDLK_ESCAPE)
-        return 0;
-    return 1;
+    return (c == SDLK_ESCAPE) ? 0 : 1;
 }
 
 static int title_stick(int a, int v)
 {
-    menu_stick(&title_menu, a, v);
+    menu_stick(a, v);
     return 1;
 }
 
 static int title_buttn(int b, int d)
 {
-    if (b == joy_button_a && d == 1)
-        return title_action(menu_buttn(&title_menu));
-    return 1;
+    return (config_button_a(b) && d == 1) ? title_action(menu_buttn()) : 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -222,8 +211,6 @@ static int title_buttn(int b, int d)
 #define CONF_AUDLO 12
 #define CONF_BACK  13
 
-static struct menu conf_menu;
-
 static int conf_action(int i)
 {
     int s = 1;
@@ -232,79 +219,77 @@ static int conf_action(int i)
     {
     case CONF_FULL:
         goto_state(&st_null);
-        s = set_mode(main_width, main_height, SDL_OPENGL | SDL_FULLSCREEN);
+        s = config_set_mode(config_w(), config_h(), SDL_OPENGL|SDL_FULLSCREEN);
         goto_state(&st_conf);
         break;
 
     case CONF_WIN:
         goto_state(&st_null);
-        s = set_mode(main_width, main_height, SDL_OPENGL);
+        s = config_set_mode(config_w(), config_h(), SDL_OPENGL);
         goto_state(&st_conf);
         break;
 
     case CONF_16x12:
         goto_state(&st_null);
-        s = set_mode(1600, 1200, main_mode);
+        s = config_set_mode(1600, 1200, config_mode());
         goto_state(&st_conf);
         break;
 
     case CONF_12x10:
         goto_state(&st_null);
-        s = set_mode(1280, 1024, main_mode);
+        s = config_set_mode(1280, 1024, config_mode());
         goto_state(&st_conf);
         break;
 
     case CONF_10x7:
         goto_state(&st_null);
-        s = set_mode(1024, 768, main_mode);
+        s = config_set_mode(1024, 768, config_mode());
         goto_state(&st_conf);
         break;
             
     case CONF_8x6:
         goto_state(&st_null);
-        s = set_mode(800, 600, main_mode);
+        s = config_set_mode(800, 600, config_mode());
         goto_state(&st_conf);
         break;
 
     case CONF_6x4:
         goto_state(&st_null);
-        s = set_mode(640, 480, main_mode);
+        s = config_set_mode(640, 480, config_mode());
         goto_state(&st_conf);
         break;
 
     case CONF_TEXHI:
         goto_state(&st_null);
-        set_image_scale(1);
+        config_set_text(1);
         goto_state(&st_conf);
         break;
 
     case CONF_TEXLO:
         goto_state(&st_null);
-        set_image_scale(2);
+        config_set_text(2);
         goto_state(&st_conf);
         break;
 
     case CONF_GEOHI:
         goto_state(&st_null);
-        main_geom = 1;
+        config_set_geom(1);
         goto_state(&st_conf);
         break;
 
     case CONF_GEOLO:
         goto_state(&st_null);
-        main_geom = 0;
+        config_set_geom(0);
         goto_state(&st_conf);
         break;
 
     case CONF_AUDHI:
-        audio_free();
-        audio_init((main_rate = 44100), (main_buff = AUD_BUFF_HI));
+        s = config_set_audio(44100, AUD_BUFF_HI);
         goto_state(&st_conf);
         break;
 
     case CONF_AUDLO:
-        audio_free();
-        audio_init((main_rate = 22050), (main_buff = AUD_BUFF_LO));
+        s = config_set_audio(22050, AUD_BUFF_LO);
         goto_state(&st_conf);
         break;
 
@@ -319,12 +304,6 @@ static void conf_enter(void)
 {
     static int value = CONF_FULL;
 
-    struct menu *p = &conf_menu;
-
-    const GLfloat c0[3] = { 1.0f, 1.0f, 1.0f };
-    const GLfloat c1[3] = { 1.0f, 1.0f, 0.0f };
-    const GLfloat c2[3] = { 1.0f, 0.5f, 0.0f };
-
     int w, w2, w4;
     int h, h2;
     
@@ -335,148 +314,141 @@ static void conf_enter(void)
     w4 = w / 4;
     h2 = h / 2;
 
-    menu_init(&conf_menu, 28, 19, value);
+    menu_init(28, 19, value);
 
     /* Text elements */
 
-    menu_text(p,  0, -w2, +h2 + 3 * h, c1, c2, "Options",    TXT_MED);
-    menu_text(p,  1, -w2,      +2 * h, c0, c0, "Fullscreen", TXT_SML);
-    menu_text(p,  2, -w2,      +1 * h, c0, c0, "Window",     TXT_SML);
-    menu_text(p,  3, +w2 - w4, +4 * h, c0, c0, "1600",       TXT_SML);
-    menu_text(p,  4, +w2 - w4, +3 * h, c0, c0, "1280",       TXT_SML);
-    menu_text(p,  5, +w2 - w4, +2 * h, c0, c0, "1024",       TXT_SML);
-    menu_text(p,  6, +w2 - w4, +1 * h, c0, c0,  "800",       TXT_SML);
-    menu_text(p,  7, +w2 - w4,  0 * h, c0, c0,  "640",       TXT_SML);
-    menu_text(p,  8, +w2,      +4 * h, c0, c0,    "x",       TXT_SML);
-    menu_text(p,  9, +w2,      +3 * h, c0, c0,    "x",       TXT_SML);
-    menu_text(p, 10, +w2,      +2 * h, c0, c0,    "x",       TXT_SML);
-    menu_text(p, 11, +w2,      +1 * h, c0, c0,    "x",       TXT_SML);
-    menu_text(p, 12, +w2,       0 * h, c0, c0,    "x",       TXT_SML);
-    menu_text(p, 13, +w2 + w4, +4 * h, c0, c0, "1200",       TXT_SML);
-    menu_text(p, 14, +w2 + w4, +3 * h, c0, c0, "1024",       TXT_SML);
-    menu_text(p, 15, +w2 + w4, +2 * h, c0, c0,  "768",       TXT_SML);
-    menu_text(p, 16, +w2 + w4, +1 * h, c0, c0,  "600",       TXT_SML);
-    menu_text(p, 17, +w2 + w4,  0 * h, c0, c0,  "480",       TXT_SML);
-    menu_text(p, 18, -w2,      -1 * h, c1, c2, "Textures",   TXT_SML);
-    menu_text(p, 19, -w2,      -2 * h, c1, c2, "Geometry",   TXT_SML);
-    menu_text(p, 20, -w2,      -3 * h, c1, c2, "Audio",      TXT_SML);
-    menu_text(p, 21, +w2 - w4, -1 * h, c0, c0, "High",       TXT_SML);
-    menu_text(p, 22, +w2 - w4, -2 * h, c0, c0, "High",       TXT_SML);
-    menu_text(p, 23, +w2 - w4, -3 * h, c0, c0, "High",       TXT_SML);
-    menu_text(p, 24, +w2 + w4, -1 * h, c0, c0, "Low",        TXT_SML);
-    menu_text(p, 25, +w2 + w4, -2 * h, c0, c0, "Low",        TXT_SML);
-    menu_text(p, 26, +w2 + w4, -3 * h, c0, c0, "Low",        TXT_SML);
-    menu_text(p, 27, +w2,      -4 * h, c0, c0, "Back",       TXT_SML);
+    menu_text(0,  -w2, +h2 + 3 * h, c_yellow, c_red,   "Options",    TXT_MED);
+    menu_text(1,  -w2,      +2 * h, c_white,  c_white, "Fullscreen", TXT_SML);
+    menu_text(2,  -w2,      +1 * h, c_white,  c_white, "Window",     TXT_SML);
+    menu_text(3,  +w2 - w4, +4 * h, c_white,  c_white, "1600",       TXT_SML);
+    menu_text(4,  +w2 - w4, +3 * h, c_white,  c_white, "1280",       TXT_SML);
+    menu_text(5,  +w2 - w4, +2 * h, c_white,  c_white, "1024",       TXT_SML);
+    menu_text(6,  +w2 - w4, +1 * h, c_white,  c_white,  "800",       TXT_SML);
+    menu_text(7,  +w2 - w4,  0 * h, c_white,  c_white,  "640",       TXT_SML);
+    menu_text(8,  +w2,      +4 * h, c_white,  c_white,    "x",       TXT_SML);
+    menu_text(9,  +w2,      +3 * h, c_white,  c_white,    "x",       TXT_SML);
+    menu_text(10, +w2,      +2 * h, c_white,  c_white,    "x",       TXT_SML);
+    menu_text(11, +w2,      +1 * h, c_white,  c_white,    "x",       TXT_SML);
+    menu_text(12, +w2,       0 * h, c_white,  c_white,    "x",       TXT_SML);
+    menu_text(13, +w2 + w4, +4 * h, c_white,  c_white, "1200",       TXT_SML);
+    menu_text(14, +w2 + w4, +3 * h, c_white,  c_white, "1024",       TXT_SML);
+    menu_text(15, +w2 + w4, +2 * h, c_white,  c_white,  "768",       TXT_SML);
+    menu_text(16, +w2 + w4, +1 * h, c_white,  c_white,  "600",       TXT_SML);
+    menu_text(17, +w2 + w4,  0 * h, c_white,  c_white,  "480",       TXT_SML);
+    menu_text(18, -w2,      -1 * h, c_yellow, c_red,   "Textures",   TXT_SML);
+    menu_text(19, -w2,      -2 * h, c_yellow, c_red,   "Geometry",   TXT_SML);
+    menu_text(20, -w2,      -3 * h, c_yellow, c_red,   "Audio",      TXT_SML);
+    menu_text(21, +w2 - w4, -1 * h, c_white,  c_white, "High",       TXT_SML);
+    menu_text(22, +w2 - w4, -2 * h, c_white,  c_white, "High",       TXT_SML);
+    menu_text(23, +w2 - w4, -3 * h, c_white,  c_white, "High",       TXT_SML);
+    menu_text(24, +w2 + w4, -1 * h, c_white,  c_white, "Low",        TXT_SML);
+    menu_text(25, +w2 + w4, -2 * h, c_white,  c_white, "Low",        TXT_SML);
+    menu_text(26, +w2 + w4, -3 * h, c_white,  c_white, "Low",        TXT_SML);
+    menu_text(27, +w2,      -4 * h, c_white,  c_white, "Back",       TXT_SML);
 
     /* Active items */
 
-    menu_item(p, CONF_FULL,  -w2,      +2 * h, w,  h);
-    menu_item(p, CONF_WIN,   -w2,      +1 * h, w,  h);
-    menu_item(p, CONF_16x12, +w2,      +4 * h, w,  h);
-    menu_item(p, CONF_12x10, +w2,      +3 * h, w,  h);
-    menu_item(p, CONF_10x7,  +w2,      +2 * h, w,  h);
-    menu_item(p, CONF_8x6,   +w2,      +1 * h, w,  h);
-    menu_item(p, CONF_6x4,   +w2,      +0 * h, w,  h);
-    menu_item(p, CONF_TEXHI, +w2 - w4, -1 * h, w2, h);
-    menu_item(p, CONF_TEXLO, +w2 + w4, -1 * h, w2, h);
-    menu_item(p, CONF_GEOHI, +w2 - w4, -2 * h, w2, h);
-    menu_item(p, CONF_GEOLO, +w2 + w4, -2 * h, w2, h);
-    menu_item(p, CONF_AUDHI, +w2 - w4, -3 * h, w2, h);
-    menu_item(p, CONF_AUDLO, +w2 + w4, -3 * h, w2, h);
-    menu_item(p, CONF_BACK,  +w2,      -4 * h, w,  h);
+    menu_item(CONF_FULL,  -w2,      +2 * h, w,  h);
+    menu_item(CONF_WIN,   -w2,      +1 * h, w,  h);
+    menu_item(CONF_16x12, +w2,      +4 * h, w,  h);
+    menu_item(CONF_12x10, +w2,      +3 * h, w,  h);
+    menu_item(CONF_10x7,  +w2,      +2 * h, w,  h);
+    menu_item(CONF_8x6,   +w2,      +1 * h, w,  h);
+    menu_item(CONF_6x4,   +w2,      +0 * h, w,  h);
+    menu_item(CONF_TEXHI, +w2 - w4, -1 * h, w2, h);
+    menu_item(CONF_TEXLO, +w2 + w4, -1 * h, w2, h);
+    menu_item(CONF_GEOHI, +w2 - w4, -2 * h, w2, h);
+    menu_item(CONF_GEOLO, +w2 + w4, -2 * h, w2, h);
+    menu_item(CONF_AUDHI, +w2 - w4, -3 * h, w2, h);
+    menu_item(CONF_AUDLO, +w2 + w4, -3 * h, w2, h);
+    menu_item(CONF_BACK,  +w2,      -4 * h, w,  h);
 
     /* Inactive label padding */
 
-    menu_item(p, 14, -w2, +4 * h, w,  h);
-    menu_item(p, 15, -w2, +3 * h, w,  h);
-    menu_item(p, 16, -w2, -1 * h, w,  h);
-    menu_item(p, 17, -w2, -2 * h, w,  h);
-    menu_item(p, 18, -w2, -3 * h, w,  h);
+    menu_item(14, -w2, +4 * h, w,  h);
+    menu_item(15, -w2, +3 * h, w,  h);
+    menu_item(16, -w2, -1 * h, w,  h);
+    menu_item(17, -w2, -2 * h, w,  h);
+    menu_item(18, -w2, -3 * h, w,  h);
 
     /* Item state */
 
-    menu_stat(p, CONF_FULL,  (main_mode & SDL_FULLSCREEN) ? 1 : 0);
-    menu_stat(p, CONF_WIN,   (main_mode & SDL_FULLSCREEN) ? 0 : 1);
-    menu_stat(p, CONF_16x12, (main_width == 1600)         ? 1 : 0);
-    menu_stat(p, CONF_12x10, (main_width == 1280)         ? 1 : 0);
-    menu_stat(p, CONF_10x7,  (main_width == 1024)         ? 1 : 0);
-    menu_stat(p, CONF_8x6,   (main_width ==  800)         ? 1 : 0);
-    menu_stat(p, CONF_6x4,   (main_width ==  640)         ? 1 : 0);
-    menu_stat(p, CONF_TEXHI, (get_image_scale() == 1)     ? 1 : 0);
-    menu_stat(p, CONF_TEXLO, (get_image_scale() == 2)     ? 1 : 0);
-    menu_stat(p, CONF_GEOHI, (main_geom == 1)             ? 1 : 0);
-    menu_stat(p, CONF_GEOLO, (main_geom == 0)             ? 1 : 0);
-    menu_stat(p, CONF_AUDHI, (main_rate == 44100)         ? 1 : 0);
-    menu_stat(p, CONF_AUDLO, (main_rate == 22050)         ? 1 : 0);
-    menu_stat(p, CONF_BACK, 0);
+    menu_stat(CONF_FULL,  (config_mode() & SDL_FULLSCREEN) ? 1 : 0);
+    menu_stat(CONF_WIN,   (config_mode() & SDL_FULLSCREEN) ? 0 : 1);
+    menu_stat(CONF_16x12, (config_w() == 1600)             ? 1 : 0);
+    menu_stat(CONF_12x10, (config_w() == 1280)             ? 1 : 0);
+    menu_stat(CONF_10x7,  (config_w() == 1024)             ? 1 : 0);
+    menu_stat(CONF_8x6,   (config_w() ==  800)             ? 1 : 0);
+    menu_stat(CONF_6x4,   (config_w() ==  640)             ? 1 : 0);
+    menu_stat(CONF_TEXHI, (config_text() == 1)             ? 1 : 0);
+    menu_stat(CONF_TEXLO, (config_text() == 2)             ? 1 : 0);
+    menu_stat(CONF_GEOHI, (config_geom() == 1)             ? 1 : 0);
+    menu_stat(CONF_GEOLO, (config_geom() == 0)             ? 1 : 0);
+    menu_stat(CONF_AUDHI, (config_rate() == 44100)         ? 1 : 0);
+    menu_stat(CONF_AUDLO, (config_rate() == 22050)         ? 1 : 0);
+    menu_stat(CONF_BACK, 0);
 
     /* Item linkings for joystick menu traversal */
 
-    menu_link(p, CONF_FULL,  CONF_FULL,  CONF_WIN,   CONF_FULL,  CONF_10x7);
-    menu_link(p, CONF_WIN,   CONF_FULL,  CONF_WIN,   CONF_WIN,   CONF_8x6);
-    menu_link(p, CONF_16x12, CONF_16x12, CONF_12x10, CONF_16x12, CONF_16x12);
-    menu_link(p, CONF_12x10, CONF_16x12, CONF_10x7,  CONF_12x10, CONF_12x10);
-    menu_link(p, CONF_10x7,  CONF_12x10, CONF_8x6,   CONF_FULL,  CONF_10x7);
-    menu_link(p, CONF_8x6,   CONF_10x7,  CONF_6x4,   CONF_WIN,   CONF_8x6);
-    menu_link(p, CONF_6x4,   CONF_8x6,   CONF_TEXHI, CONF_6x4,   CONF_6x4);
-    menu_link(p, CONF_TEXHI, CONF_6x4,   CONF_GEOHI, CONF_TEXHI, CONF_TEXLO);
-    menu_link(p, CONF_TEXLO, CONF_6x4,   CONF_GEOLO, CONF_TEXHI, CONF_TEXLO);
-    menu_link(p, CONF_GEOHI, CONF_TEXHI, CONF_AUDHI, CONF_GEOHI, CONF_GEOLO);
-    menu_link(p, CONF_GEOLO, CONF_TEXLO, CONF_AUDLO, CONF_GEOHI, CONF_GEOLO);
-    menu_link(p, CONF_AUDHI, CONF_GEOHI, CONF_BACK,  CONF_AUDHI, CONF_AUDLO);
-    menu_link(p, CONF_AUDLO, CONF_GEOLO, CONF_BACK,  CONF_AUDHI, CONF_AUDLO);
-    menu_link(p, CONF_BACK,  CONF_AUDHI, CONF_BACK,  CONF_BACK,  CONF_BACK);
+    menu_link(CONF_FULL,  CONF_FULL,  CONF_WIN,   CONF_FULL,  CONF_10x7);
+    menu_link(CONF_WIN,   CONF_FULL,  CONF_WIN,   CONF_WIN,   CONF_8x6);
+    menu_link(CONF_16x12, CONF_16x12, CONF_12x10, CONF_16x12, CONF_16x12);
+    menu_link(CONF_12x10, CONF_16x12, CONF_10x7,  CONF_12x10, CONF_12x10);
+    menu_link(CONF_10x7,  CONF_12x10, CONF_8x6,   CONF_FULL,  CONF_10x7);
+    menu_link(CONF_8x6,   CONF_10x7,  CONF_6x4,   CONF_WIN,   CONF_8x6);
+    menu_link(CONF_6x4,   CONF_8x6,   CONF_TEXHI, CONF_6x4,   CONF_6x4);
+    menu_link(CONF_TEXHI, CONF_6x4,   CONF_GEOHI, CONF_TEXHI, CONF_TEXLO);
+    menu_link(CONF_TEXLO, CONF_6x4,   CONF_GEOLO, CONF_TEXHI, CONF_TEXLO);
+    menu_link(CONF_GEOHI, CONF_TEXHI, CONF_AUDHI, CONF_GEOHI, CONF_GEOLO);
+    menu_link(CONF_GEOLO, CONF_TEXLO, CONF_AUDLO, CONF_GEOHI, CONF_GEOLO);
+    menu_link(CONF_AUDHI, CONF_GEOHI, CONF_BACK,  CONF_AUDHI, CONF_AUDLO);
+    menu_link(CONF_AUDLO, CONF_GEOLO, CONF_BACK,  CONF_AUDHI, CONF_AUDLO);
+    menu_link(CONF_BACK,  CONF_AUDHI, CONF_BACK,  CONF_BACK,  CONF_BACK);
 
     value = -1;
 }
 
 static void conf_leave(void)
 {
-    conf_store();
-    menu_free(&conf_menu);
+    config_store();
+    menu_free();
 }
 
 static void conf_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    menu_paint(&conf_menu, 1.0);
+    menu_paint();
 }
 
 static int conf_point(int x, int y, int dx, int dy)
 {
-    menu_point(&conf_menu, x, y);
+    menu_point(x, y);
     return 1;
 }
 
 static int conf_click(int b, int d)
 {
-    if (b < 0 && d == 1)
-        return conf_action(menu_click(&conf_menu));
-
-    return 1;
+    return (b < 0 && d == 1) ? conf_action(menu_click()) : 1;
 }
 
 static int conf_keybd(int c)
 {
-    if (c == SDLK_ESCAPE)
-        return goto_state(&st_title);
-
-    return 1;
+    return (c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
 }
 
 static int conf_stick(int a, int v)
 {
-    menu_stick(&conf_menu, a, v);
+    menu_stick(a, v);
     return 1;
 }
 
 static int conf_buttn(int b, int d)
 {
-    if (b == joy_button_a && d == 1)
-        return conf_action(menu_buttn(&conf_menu));
-    if (b == joy_button_b && d == 1)
+    if (config_button_a(b) && d == 1)
+        return conf_action(menu_buttn());
+    if (config_button_b(b) && d == 1)
         return goto_state(&st_title);
-
     return 1;
 }
 
@@ -486,8 +458,6 @@ static int conf_buttn(int b, int d)
 
 #define STR_START "Level Select"
 #define STR_BACK  "Back"
-
-static struct menu start_menu;
 
 static int start_action(int i)
 {
@@ -506,131 +476,113 @@ static int start_action(int i)
 
 static void start_enter(void)
 {
-    struct menu *p = &start_menu;
-
-    const GLfloat c0[3] = { 1.0f, 1.0f, 1.0f };
-    const GLfloat c1[3] = { 1.0f, 1.0f, 0.0f };
-    const GLfloat c2[3] = { 1.0f, 0.5f, 0.0f };
-
-    char str[3] = { '0', '0', 0 };
     int x, w, dx;
     int y, h, dy;
     int i = 1;
 
     level_init();
-    menu_init(p, 66, 66, 0);
 
-    text_size("00", TXT_SML, &w,  &h);
+    text_size("00", TXT_SML, &w, &h);
     dx = 3 * w / 2;
     dy = 3 * h / 2;
 
     /* Create level number text and items. */
 
+    menu_init(66, 66, 0);
+
     for (y = -4 * dy; y < +4 * dy; y += dy)
         for (x = -4 * dx; x < +4 * dx; x += dx)
         {
-            int xc = x + dx / 2;
-            int yc = y + dy / 2;
-            int b  = (i < count);
+            char str[3];
+            const float *c0 = level_exists(i) ? c_white : c_yellow;
+            const float *c1 = level_exists(i) ? c_white : c_red;
 
             str[0] = '0' + i / 10;
             str[1] = '0' + i % 10;
+            str[2] =  0;
 
-            menu_text(p, i, xc, yc, b ? c0 : c1, b ? c0 : c2, str, TXT_SML);
-            menu_item(p, i, xc, yc, dx, dy);
-            menu_stat(p, i, i < count ? 0 : -1);
-            menu_link(p, i,
-                      (i + 8) < count ? (i + 8) : i,
-                      (i - 8) >= 0    ? (i - 8) : START_BACK,
-                      (i - 1) >= 0    ? (i - 1) : START_BACK,
-                      (i + 1) < count ? (i + 1) : i);
+            menu_text(i, x + dx / 2, y + dy / 2, c0, c1, str, TXT_SML);
+            menu_item(i, x + dx / 2, y + dy / 2, dx, dy);
+            menu_stat(i, level_exists(i) ? 0 : -1);
+            menu_link(i,
+                      level_exists(i + 8) ? (i + 8) : i,
+                      level_exists(i - 8) ? (i - 8) : START_BACK,
+                      level_exists(i - 1) ? (i - 1) : START_BACK,
+                      level_exists(i + 1) ? (i + 1) : i);
             i++;
         }
 
     /* Create label and back button. */
 
-    menu_text(p, 0,  -3 * dx, -5 * dy + dy / 2, c0, c0, STR_BACK,  TXT_SML);
-    menu_item(p, 0,  -3 * dx, -5 * dy + dy / 2, 2 * dx, dy);
-    menu_stat(p, 0, 0);
-    menu_link(p, 0, 1, START_BACK, START_BACK, START_BACK);
+    menu_text(0,  -3*dx, -5*dy + dy/2, c_white, c_white, STR_BACK, TXT_SML);
+    menu_item(0,  -3*dx, -5*dy + dy/2, +2*dx, dy);
+    menu_stat(0, 0);
+    menu_link(0, 1, START_BACK, START_BACK, START_BACK);
 
-    menu_text(p, 65, +2 * dx, +4 * dy + dy / 2, c1, c2, STR_START, TXT_SML);
-    menu_item(p, 65, +2 * dx, +4 * dy + dy / 2, 4 * dx, dy);
+    menu_text(65, +2*dx, +4*dy + dy/2, c_yellow, c_red, STR_START, TXT_SML);
+    menu_item(65, +2*dx, +4*dy + dy/2, +4*dx, dy);
 }
 
 static void start_leave(void)
 {
-    menu_free(&start_menu);
+    menu_free();
 }
 
 static void start_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    menu_paint(&start_menu, 1.0);
+    menu_paint();
 }
 
 static int start_point(int x, int y, int dx, int dy)
 {
-    menu_point(&start_menu, x, y);
+    menu_point(x, y);
     return 1;
 }
 
 static int start_click(int b, int d)
 {
-    if (b < 0 && d == 1)
-        return start_action(menu_click(&start_menu));
-
-    return 1;
+    return (b < 0 && d == 1) ? start_action(menu_click()) : 1;
 }
 
 static int start_keybd(int c)
 {
-    if (c == SDLK_ESCAPE)
-        return goto_state(&st_title);
-
-    return 1;
+    return (c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
 }
 
 static int start_stick(int a, int v)
 {
-    menu_stick(&start_menu, a, v);
+    menu_stick(a, v);
     return 1;
 }
 
 static int start_buttn(int b, int d)
 {
-    if (b == joy_button_a && d == 1)
-        return start_action(menu_buttn(&start_menu));
-    if (b == joy_button_b && d == 1)
+    if (config_button_a(b) && d == 1)
+        return start_action(menu_buttn());
+    if (config_button_b(b) && d == 1)
         return goto_state(&st_title);
-
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static struct menu level_menu;
-
 static void level_enter(void)
 {
-    const GLfloat c0[3] = { 1.0f, 1.0f, 1.0f };
-    const GLfloat c1[3] = { 1.0f, 1.0f, 0.0f };
-    const GLfloat c2[3] = { 1.0f, 0.5f, 0.0f };
+    int y = 1 * config_h() / 6;
+    int h = 1 * config_w() / 6;
+    int w = 7 * config_w() / 8;
+    int i, j, l = curr_level();
 
-    int y = 1 * main_height / 6;
-    int h = 1 * main_width  / 6;
-    int w = 7 * main_width  / 8;
-    int i, j, l;
+    char buf[256], *p = curr_intro();
 
-    char buf[256], *p = game_note();
-
-    sprintf(buf, "Level %02d", level);
+    sprintf(buf, "Level %02d", l);
     
-    menu_init(&level_menu, 7, 7, 10);
-    menu_text(&level_menu, 0, 0, y, c1, c2, buf, TXT_LRG);
-    menu_item(&level_menu, 0, 0, y, w, h);
+    menu_init(7, 7, 10);
+    menu_text(0, 0, y, c_yellow, c_red, buf, TXT_LRG);
+    menu_item(0, 0, y, w, h);
 
-    /* Position the level message text. */
+    /* Position the level intro message text. */
 
     text_size("M", TXT_SML, NULL, &l);
     y = 0;
@@ -645,175 +597,140 @@ static void level_enter(void)
             buf[j++] = *p++;
 
         if (strlen(buf) > 0)
-            menu_text(&level_menu, i, 0, y, c0, c0, buf, TXT_SML);
+            menu_text(i, 0, y, c_white, c_white, buf, TXT_SML);
 
-        menu_item(&level_menu, i, 0, y, w, l);
-        menu_stat(&level_menu, i, -1);
+        menu_item(i, 0, y, w, l);
+        menu_stat(i, -1);
 
         y -= l;
         i++;
-        p++;
+
+        if (*p) p++;
     }
 
     audio_play(AUD_LEVEL, 1.f);
-    game_update_fly(1.0);
+    game_set_fly(1.0);
 }
 
 static void level_leave(void)
 {
-    menu_free(&level_menu);
+    menu_free();
 }
 
 static void level_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    game_render_env();
-    game_render_hud();
-    menu_paint(&level_menu, 1.0);
+    game_draw();
+    hud_draw();
+    menu_paint();
 }
 
 static int level_click(int b, int d)
 {
-    if (b < 0 && d == 1)
-        goto_state(&st_ready);
-
-    return 1;
+    return (b < 0 && d == 1) ? goto_state(&st_ready) : 1;
 }
 
 static int level_keybd(int c)
 {
-    if (c == SDLK_ESCAPE)
-        goto_state(&st_over);
-
-    return 1;
+    return (c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
 }
 
 static int level_buttn(int b, int d)
 {
-    if (b == joy_button_a && d == 1)
-        goto_state(&st_ready);
-
-    return 1;
+    return (config_button_a(b) && d == 1) ? goto_state(&st_ready) : 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static struct menu ready_menu;
-
 static void ready_enter(void)
 {
-    const GLfloat c0[3] = { 1.0f, 1.0f, 0.0f };
-    const GLfloat c1[3] = { 1.0f, 0.5f, 0.0f };
+    int y = 1 * config_h() / 6;
+    int h = 1 * config_w() / 6;
+    int w = 2 * config_w() / 3;
 
-    int y = 1 * main_height / 6;
-    int h = 1 * main_width  / 6;
-    int w = 2 * main_width  / 3;
-
-    menu_init(&ready_menu, 1, 1, 1);
-    menu_text(&ready_menu, 0, 0, y, c0, c1, "Ready?", TXT_LRG);
-    menu_item(&ready_menu, 0, 0, y, w, h);
+    menu_init(1, 1, 1);
+    menu_text(0, 0, y, c_yellow, c_red, "Ready?", TXT_LRG);
+    menu_item(0, 0, y, w, h);
 
     audio_play(AUD_READY, 1.f);
 }
 
 static void ready_leave(void)
 {
-    menu_free(&ready_menu);
+    menu_free();
 }
 
 static void ready_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    game_render_env();
-    game_render_hud();
-    menu_paint(&ready_menu, 1.0 - time_state());
+    game_draw();
+    hud_draw();
+    menu_paint();
 }
 
 static int ready_timer(double dt)
 {
     double t = time_state();
 
-    game_update_fly(1.0 - 0.5 * t);
+    game_set_fly(1.0 - 0.5 * t);
 
     if (dt > 0.0 && t > 1.0)
-        goto_state(&st_set);
+        return goto_state(&st_set);
 
     return 1;
 }
 
 static int ready_click(int b, int d)
 {
-    if (b < 0 && d == 1)
-    {
-        game_update_fly(0.0);
-        goto_state(&st_play);
-    }
-    return 1;
+    return (b < 0 && d == 1) ? goto_state(&st_play) : 1;
 }
 
 static int ready_keybd(int c)
 {
-    if (c == SDLK_ESCAPE)
-        goto_state(&st_over);
-
-    return 1;
+    return (c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
 }
 
 static int ready_buttn(int b, int d)
 {
-    if (b == joy_button_a && d == 1)
-    {
-        game_update_fly(0.0);
-        goto_state(&st_play);
-    }
-
-    return 1;
+    return (config_button_a(b) && d == 1) ? goto_state(&st_play) : 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static struct menu set_menu;
-
 static void set_enter(void)
 {
-    const GLfloat c0[3] = { 1.0f, 1.0f, 0.0f };
-    const GLfloat c1[3] = { 1.0f, 0.5f, 0.0f };
+    int y = 1 * config_h() / 6;
+    int h = 1 * config_w() / 6;
+    int w = 2 * config_w() / 3;
 
-    int y = 1 * main_height / 6;
-    int h = 1 * main_width  / 6;
-    int w = 2 * main_width  / 3;
-
-    menu_init(&set_menu, 1, 1, 1);
-    menu_text(&set_menu, 0, 0, y, c0, c1, "Set?", TXT_LRG);
-    menu_item(&set_menu, 0, 0, y, w, h);
+    menu_init(1, 1, 1);
+    menu_text(0, 0, y, c_yellow, c_red, "Set?", TXT_LRG);
+    menu_item(0, 0, y, w, h);
 
     audio_play(AUD_SET, 1.f);
 }
 
 static void set_leave(void)
 {
-    menu_free(&set_menu);
+    menu_free();
 }
 
 static void set_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    game_render_env();
-    game_render_hud();
-    menu_paint(&set_menu, 1.0 - time_state());
+    game_draw();
+    hud_draw();
+    menu_paint();
 }
 
 static int set_timer(double dt)
 {
     double t = time_state();
 
-    game_update_fly(0.5 - 0.5 * t);
+    game_set_fly(0.5 - 0.5 * t);
 
     if (dt > 0.0 && t > 1.0)
-        goto_state(&st_play);
+        return goto_state(&st_play);
 
     return 1;
 }
@@ -822,51 +739,39 @@ static int set_click(int b, int d)
 {
     if (b < 0 && d == 1)
     {
-        game_update_fly(0.0);
-        goto_state(&st_play);
+        game_set_fly(0.0);
+        return goto_state(&st_play);
     }
     return 1;
 }
 
 static int set_keybd(int c)
 {
-    if (c == SDLK_ESCAPE)
-        goto_state(&st_over);
-
-    return 1;
+    return (c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
 }
 
 static int set_buttn(int b, int d)
 {
-    if (b == joy_button_a && d == 1)
-    {
-        game_update_fly(0.0);
-        goto_state(&st_play);
-    }
-
-    return 1;
+    return (config_button_a(b) && d == 1) ? goto_state(&st_play) : 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static struct menu play_menu;
-static int         view_rotate = 0;
+static int view_rotate = 0;
 
 static void play_enter(void)
 {
-    const GLfloat c0[3] = { 0.0f, 0.5f, 0.0f };
-    const GLfloat c1[3] = { 0.0f, 1.0f, 0.0f };
+    int y = 1 * config_h() / 6;
+    int h = 1 * config_w() / 6;
+    int w = 2 * config_w() / 3;
 
-    int y = 1 * main_height / 6;
-    int h = 1 * main_width  / 6;
-    int w = 2 * main_width  / 3;
-
-    menu_init(&play_menu, 1, 1, 1);
-    menu_text(&play_menu, 0, 0, y, c0, c1, "GO!", TXT_LRG);
-    menu_item(&play_menu, 0, 0, y, w, h);
+    menu_init(1, 1, 1);
+    menu_text(0, 0, y, c_blue, c_green, "GO!", TXT_LRG);
+    menu_item(0, 0, y, w, h);
 
     audio_play(AUD_GO, 1.f);
 
+    game_set_fly(0.0);
     view_rotate = 0;
 
     SDL_ShowCursor(SDL_DISABLE);
@@ -878,27 +783,27 @@ static void play_leave(void)
     SDL_WM_GrabInput(SDL_GRAB_OFF);
     SDL_ShowCursor(SDL_ENABLE);
 
-    menu_free(&play_menu);
+    menu_free();
 }
 
 static void play_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    game_render_env();
-    game_render_hud();
+    game_draw();
+    hud_draw();
 
     if (time_state() < 1.0)
-        menu_paint(&play_menu, 1.0 - time_state());
+        menu_paint();
 }
 
 static int play_timer(double dt)
 {
     double g[3] = { 0.0, -9.8, 0.0 };
 
-    game_update_rot(view_rotate);
+    game_set_rot(view_rotate);
 
-    switch (game_update_env(g, dt))
+    switch (game_step(g, dt))
     {
     case GAME_TIME: goto_state(&st_time); break;
     case GAME_GOAL: goto_state(&st_goal); break;
@@ -911,26 +816,19 @@ static int play_timer(double dt)
 static int play_point(int x, int y, int dx, int dy)
 {
     /*
-     * HACK: SDL's  relative mouse motion sometimes  makes large jumps
-     * when you fiddle with the  grab while the pointer is outside the
-     * window.  When a level begins, this can suddenly throw the floor
-     * to a random angle.  So, we discard all big jumps.
+     * There's  still a  problem here.   If the  mouse is  outside the
+     * window when  the pointer is grabbed then  the reported relative
+     * mouse  motion can be  very discontinuous.   This can  throw the
+     * floor way off level just as the timer starts.
      */
 
-    if (abs(dx) < 50 && abs(dy) < 50)
-    {
-        game_update_pos(dx, dy);
-    }
+    game_set_pos(dx, dy);
     return 1;
 }
 
 static int play_click(int b, int d)
 {
-    if (d)
-        view_rotate = b;
-    else
-        view_rotate = 0;
-
+    view_rotate = d ? b : 0;
     return 1;
 }
 
@@ -940,71 +838,61 @@ static int play_keybd(int c)
         goto_state(&st_over);
     if (c == SDLK_SPACE)
         goto_state(&st_pause);
-
     return 1;
 }
 
 static int play_stick(int a, int k)
 {
-    if (a == joy_axis_x) game_update_z(k);
-    if (a == joy_axis_y) game_update_x(k);
-
+    if (config_axis_x(a)) game_set_z(k);
+    if (config_axis_y(a)) game_set_x(k);
     return 1;
 }
 
 static int play_buttn(int b, int d)
 {
-    if (b == joy_button_r)
+    if (config_button_r(b))
     {
         if (d == 1)
             view_rotate += 1;
         else
             view_rotate -= 1;
     }
-    if (b == joy_button_l)
+    if (config_button_l(b))
     {
         if (d == 1)
             view_rotate -= 1;
         else
             view_rotate += 1;
     }
-    if (b == joy_button_pause && d == 1)
-        goto_state(&st_pause);
 
-    return 1;
+    return (config_button_P(b) && d == 1) ? goto_state(&st_pause) : 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static struct menu goal_menu;
-
 static void goal_enter(void)
 {
-    const GLfloat c0[3] = { 0.0f, 0.5f, 0.0f };
-    const GLfloat c1[3] = { 0.0f, 1.0f, 0.0f };
+    int y = 1 * config_h() / 6;
+    int h = 1 * config_w() / 6;
+    int w = 2 * config_w() / 3;
 
-    int y = 1 * main_height / 6;
-    int h = 1 * main_width  / 6;
-    int w = 2 * main_width  / 3;
-
-    menu_init(&goal_menu, 1, 1, 1);
-    menu_text(&goal_menu, 0, 0, y, c0, c1, "GOAL!", TXT_LRG);
-    menu_item(&goal_menu, 0, 0, y, w, h);
+    menu_init(1, 1, 1);
+    menu_text(0, 0, y, c_blue, c_green, "GOAL!", TXT_LRG);
+    menu_item(0, 0, y, w, h);
 
     audio_play(AUD_GOAL, 1.f);
 }
 
 static void goal_leave(void)
 {
-    menu_free(&goal_menu);
+    menu_free();
 }
 
 static void goal_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    game_render_env();
-    menu_paint(&goal_menu, 1.0);
+    game_draw();
+    menu_paint();
 }
 
 static int goal_click(int b, int d)
@@ -1014,7 +902,7 @@ static int goal_click(int b, int d)
         if (level_pass())
             goto_state(&st_level);
         else
-            goto_state(&st_over);
+            goto_state(&st_done);
     }
     return 1;
 }
@@ -1024,7 +912,7 @@ static int goal_timer(double dt)
     double g[3] = { 0.0, 9.8, 0.0 };
 
     if (time_state() < 2.0)
-        game_update_env(g, dt);
+        game_step(g, dt);
     else
         return goal_click(0, 1);
 
@@ -1033,44 +921,37 @@ static int goal_timer(double dt)
 
 static int goal_buttn(int b, int d)
 {
-    if (b == joy_button_a && d == 1)
+    if (config_button_a(b) && d == 1)
         return goal_click(0, 1);
-
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static struct menu fall_menu;
-
 static void fall_enter(void)
 {
-    const GLfloat c0[3] = { 0.5f, 0.0f, 0.0f };
-    const GLfloat c1[3] = { 1.0f, 0.0f, 0.0f };
+    int y = 1 * config_h() / 6;
+    int h = 1 * config_w() / 6;
+    int w = 7 * config_w() / 8;
 
-    int y = 1 * main_height / 6;
-    int h = 1 * main_width  / 6;
-    int w = 7 * main_width  / 8;
-
-    menu_init(&fall_menu, 1, 1, 1);
-    menu_text(&fall_menu, 0, 0, y, c0, c1, "Fall-out!", TXT_LRG);
-    menu_item(&fall_menu, 0, 0, y, w, h);
+    menu_init(1, 1, 1);
+    menu_text(0, 0, y, c_black, c_red, "Fall-out!", TXT_LRG);
+    menu_item(0, 0, y, w, h);
 
     audio_play(AUD_FALL, 1.f);
 }
 
 static void fall_leave(void)
 {
-    menu_free(&fall_menu);
+    menu_free();
 }
 
 static void fall_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    game_render_env();
-    game_render_hud();
-    menu_paint(&fall_menu, 1.0);
+    game_draw();
+    hud_draw();
+    menu_paint();
 }
 
 static int fall_click(int b, int d)
@@ -1090,7 +971,7 @@ static int fall_timer(double dt)
     double g[3] = { 0.0, -9.8, 0.0 };
 
     if (time_state() < 2.0)
-        game_update_env(g, dt);
+        game_step(g, dt);
     else
         return fall_click(0, 1);
 
@@ -1099,44 +980,36 @@ static int fall_timer(double dt)
 
 static int fall_buttn(int b, int d)
 {
-    if (b == joy_button_a && d == 1)
-        return fall_click(0, 1);
-
-    return 1;
+    return (config_button_a(b) && d == 1) ? fall_click(0, 1) : 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static struct menu time_menu;
-
 static void time_enter(void)
 {
-    const GLfloat c0[3] = { 0.5f, 0.0f, 0.0f };
-    const GLfloat c1[3] = { 1.0f, 0.0f, 0.0f };
+    int y = 1 * config_h() / 6;
+    int h = 1 * config_w() / 6;
+    int w = 7 * config_w() / 8;
 
-    int y = 1 * main_height / 6;
-    int h = 1 * main_width  / 6;
-    int w = 7 * main_width  / 8;
-
-    menu_init(&time_menu, 1, 1, 1);
-    menu_text(&time_menu, 0, 0, y, c0, c1, "Time's up!", TXT_LRG);
-    menu_item(&time_menu, 0, 0, y, w, h);
+    menu_init(1, 1, 1);
+    menu_text(0, 0, y, c_black, c_red, "Time's up!", TXT_LRG);
+    menu_item(0, 0, y, w, h);
 
     audio_play(AUD_TIME, 1.f);
 }
 
 static void time_leave(void)
 {
-    menu_free(&time_menu);
+    menu_free();
 }
 
 static void time_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    game_render_env();
-    game_render_hud();
-    menu_paint(&time_menu, 1.0);
+    game_draw();
+    hud_draw();
+    menu_paint();
 }
 
 static int time_click(int b, int d)
@@ -1156,7 +1029,7 @@ static int time_timer(double dt)
     double g[3] = { 0.0, -9.8, 0.0 };
 
     if (time_state() < 2.0)
-        game_update_env(g, dt);
+        game_step(g, dt);
     else
         return time_click(0, 1);
 
@@ -1165,125 +1038,161 @@ static int time_timer(double dt)
 
 static int time_buttn(int b, int d)
 {
-    if (b == joy_button_a && d == 1)
-        return time_click(0, 1);
-
-    return 1;
+    return (config_button_a(b) && d == 1) ? time_click(0, 1) : 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static struct menu over_menu;
-
 static void over_enter(void)
 {
-    const GLfloat c0[3] = { 0.5f, 0.0f, 0.0f };
-    const GLfloat c1[3] = { 1.0f, 0.0f, 0.0f };
+    int y = 1 * config_h() / 6;
+    int h = 1 * config_w() / 6;
+    int w = 7 * config_w() / 8;
 
-    int y = 1 * main_height / 6;
-    int h = 1 * main_width  / 6;
-    int w = 7 * main_width  / 8;
-
-    menu_init(&over_menu, 1, 1, 1);
-    menu_text(&over_menu, 0, 0, y, c0, c1, "GAME OVER", TXT_LRG);
-    menu_item(&over_menu, 0, 0, y, w, h);
+    menu_init(1, 1, 1);
+    menu_text(0, 0, y, c_black, c_red, "GAME OVER", TXT_LRG);
+    menu_item(0, 0, y, w, h);
 
     audio_play(AUD_OVER, 1.f);
 }
 
 static void over_leave(void)
 {
-    menu_free(&over_menu);
+    menu_free();
     level_free();
 }
 
 static void over_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    game_render_env();
-    menu_paint(&over_menu, 1.0);
+    game_draw();
+    menu_paint();
 }
 
 static int over_timer(double dt)
 {
-    if (dt > 0.0 && time_state() > 3.0)
-        goto_state(&st_title);
-
-    return 1;
+    return (dt > 0.0 && time_state() > 3.0) ? goto_state(&st_title) : 1;
 }
 
 static int over_keybd(int c)
 {
-    if (c == SDLK_ESCAPE)
-        goto_state(&st_title);
-
-    return 1;
+    return (c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
 }
 
 static int over_click(int b, int d)
 {
-    if (b < 0 && d == 1)
-        goto_state(&st_title);
-
-    return 1;
+    return (b < 0 && d == 1) ? goto_state(&st_title) : 1;
 }
 
 static int over_buttn(int b, int d)
 {
-    if (b == joy_button_a && d == 1) goto_state(&st_title);
-    if (b == joy_button_b && d == 1) goto_state(&st_title);
-
+    if (config_button_a(b) && d == 1) goto_state(&st_title);
+    if (config_button_b(b) && d == 1) goto_state(&st_title);
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static struct menu pause_menu;
+#define STR_DONE " That's it? "
+#define STR_THNX " Thanks for playing! "
+#define STR_MORE " More levels are on the way "
+
+static void done_enter(void)
+{
+    int lw, lh, lm;
+    int sw, sh;
+
+    text_size(STR_DONE, TXT_LRG, &lw, &lh);
+    text_size(STR_MORE, TXT_SML, &sw, &sh);
+
+    lm = lh / 2;
+    
+    menu_init(3, 3, 10);
+    menu_text(0, 0, sh + lm, c_green, c_yellow, STR_DONE, TXT_LRG);
+    menu_text(1, 0, -0 * sh, c_white, c_white,  STR_THNX, TXT_SML);
+    menu_text(2, 0, -1 * sh, c_white, c_white,  STR_MORE, TXT_SML);
+
+    menu_item(0, 0, sh + lm, lw, lh);
+    menu_item(1, 0, -0 * sh, sw, sh);
+    menu_item(2, 0, -1 * sh, sw, sh);
+
+    audio_play(AUD_OVER, 1.f);
+}
+
+static void done_leave(void)
+{
+    menu_free();
+    level_free();
+}
+
+static void done_paint(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    game_draw();
+    menu_paint();
+}
+
+static int done_timer(double dt)
+{
+    return (dt > 0.0 && time_state() > 10.0) ? goto_state(&st_title) : 1;
+}
+
+static int done_keybd(int c)
+{
+    return (c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+}
+
+static int done_click(int b, int d)
+{
+    return (b < 0 && d == 1) ? goto_state(&st_title) : 1;
+}
+
+static int done_buttn(int b, int d)
+{
+    if (config_button_a(b) && d == 1) goto_state(&st_title);
+    if (config_button_b(b) && d == 1) goto_state(&st_title);
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
 
 static void pause_enter(void)
 {
-    const GLfloat c0[3] = { 1.0f, 1.0f, 0.0f };
-    const GLfloat c1[3] = { 1.0f, 0.5f, 0.0f };
+    int y = 1 * config_h() / 6;
+    int h = 1 * config_w() / 6;
+    int w = 2 * config_w() / 3;
 
-    int y = 1 * main_height / 6;
-    int h = 1 * main_width  / 6;
-    int w = 2 * main_width  / 3;
-
-    menu_init(&pause_menu, 1, 1, 1);
-    menu_text(&pause_menu, 0, 0, y, c0, c1, "Paused", TXT_LRG);
-    menu_item(&pause_menu, 0, 0, y, w, h);
+    menu_init(1, 1, 1);
+    menu_text(0, 0, y, c_yellow, c_red, "Paused", TXT_LRG);
+    menu_item(0, 0, y, w, h);
 
     audio_play(AUD_PAUSE, 1.f);
 }
 
 static void pause_leave(void)
 {
-    menu_free(&pause_menu);
+    menu_free();
 }
 
 static void pause_paint(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    game_render_env();
-    game_render_hud();
-    menu_paint(&pause_menu, 0.5);
+    game_draw();
+    hud_draw();
+    menu_paint();
 }
 
 static int pause_keybd(int c)
 {
     if (c == SDLK_ESCAPE) goto_state(&st_over);
     if (c == SDLK_SPACE)  goto_state(&st_play);
-
     return 1;
 }
 
 static int pause_buttn(int b, int d)
 {
-    if (b == joy_button_b     && d == 1) goto_state(&st_over);
-    if (b == joy_button_pause && d == 1) goto_state(&st_play);
-
+    if (config_button_b(b) && d == 1) goto_state(&st_over);
+    if (config_button_P(b) && d == 1) goto_state(&st_play);
     return 1;
 }
 
@@ -1431,6 +1340,18 @@ struct state st_over = {
     over_keybd,
     NULL,
     over_buttn,
+};
+
+struct state st_done = {
+    done_enter,
+    done_leave,
+    done_paint,
+    done_timer,
+    NULL,
+    done_click,
+    done_keybd,
+    NULL,
+    done_buttn,
 };
 
 struct state st_pause = {

@@ -73,9 +73,9 @@ installed, and that it is located in
 
     /usr/local/games/quake3/
 
-We assume that Neverball is installed in
+We assume that Neverball data directory is
 
-    $(HOME)/neverball/
+    ~/neverball/data
 
 We must  first make radiant  aware of the Neverball  materials.  Under
 Linux, we can simply create a symbolic link from within the Quake data
@@ -83,8 +83,8 @@ directory to the within Neverball data directory.
 
     cd /usr/local/quake3/baseq3/
 
-    ln -s $HOME/neverball/data/mtrl             textures/mtrl
-    ln -s $HOME/neverball/data/mtrl/mtrl.shader scripts/mtrl.shader
+    ln -s ~/neverball/data/mtrl             textures/mtrl
+    ln -s ~/neverball/data/mtrl/mtrl.shader scripts/mtrl.shader
 
 Setup under Microsoft  Windows is similar, though it  may be necessary
 to  copy the  mtrl  directory  and mtrl.shader  script  into the  game
@@ -106,13 +106,13 @@ some mtrl shaders down on them, nothing fancy. Forget the entities for
 now, except drop in one  info_player_start.  You can save it anywhere,
 but for simplicity's sake, put it with the others in:
 
-    $HOME/neverball/data/map/
+    ~/neverball/data/map/
 
 When processing and testing a  map, the current directory must contain
 the mtrl directory.   This is because the texture  names are stored as
 relative paths in the .map and in the .sol.
 
-    cd $HOME/neverball/data
+    cd ~/neverball/data
 
 Assume the  map is named funkyball.map.   Process it into  a .sol with
 the following command. Output should be similar.
@@ -234,8 +234,11 @@ func_train
 
 worldspawn
 
-    Of course  Neverball supports the  worldspawn entity, but none  if its
-    attributes have any effect.
+    The worldspawn  entity is  the root of  the world.   The "message"
+    attribute gives the intro text  that appears as a level begins.  A
+    '\' character in the text marks  the end of a line.  Limited space
+    is available.  Wrapping text within  the intro text box is often a
+    process of trial and error.
 
 
 
@@ -250,12 +253,12 @@ specification.
     anywhere.  Its width and height must both be powers of two.
 
     For  this  discussion, let  us  assume  you  have an  image  named
-    wood.jpg.  Place in it data/mtrl/.
+    wood.jpg.  Place in it mtrl/.
 
-2)  Create a material  file in data/mtrl, in this case mtrl/wood. This
-    name must match the texture name, minus the image suffix. The file
-    must contain 17 values, explained  below.  If you don't care about
-    the material properties, the  following values suffice in most any
+2)  Create a material file in mtrl/, in this case mtrl/wood. This name
+    must match the texture name, minus the image suffix. The file must
+    contain 17 values,  explained below.  If you don't  care about the
+    material  properties, the  following  values suffice  in most  any
     case.
 
        1.0 1.0 1.0 1.0

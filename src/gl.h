@@ -9,4 +9,10 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#ifdef _WIN32
+#include <GL/glext.h>
+extern PFNGLACTIVETEXTUREPROC   glActiveTextureARB;
+extern PFNGLMULTITEXCOORD2DPROC glMultiTexCoord2dARB;
+#endif
+
 #endif

@@ -3,16 +3,22 @@
 
 /*---------------------------------------------------------------------------*/
 
-extern int coins;
-extern int balls;
-extern int level;
-extern int count;
+#define LEVEL_FILE "levels.txt"
 
 void level_init(void);
 void level_free(void);
+
+int  level_exists(int);
+
+int  curr_level(void);
+int  curr_balls(void);
+int  curr_coins(void);
+
 void level_goto(int);
 int  level_pass(void);
 int  level_fail(void);
+
+void level_score(int);
 
 /*---------------------------------------------------------------------------*/
 

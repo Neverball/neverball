@@ -23,9 +23,8 @@ or
     nmake /fMakefile-W32     (Windows with MSVC)
 
 The executables  will be copied to  the base directory.   Maps will be
-processed and  copied into  data/sol/.  The program  must be  run from
-within  the base  directory in  order  for materials  and textures  to
-resolve correctly.
+processed and copied into data/sol/.  By default, an uninstalled build
+may be executed in place.
 
 
 
@@ -38,7 +37,25 @@ pointer.  The left and right  mouse buttons rotate the view point left
 and right about the ball.
 
 Spacebar pauses  and resumes.  Escape ends  a game, and  escape at the
-title screen exits.  F9 toggles an FPS meter.  F10 takes a screenshot.
+title  screen  exits.   F9  toggles  a frame  counter.   F10  takes  a
+screenshot.
+
+
+
+* INSTALLATION
+
+The game executable may be moved as desired.
+
+However, game  assets are described  using relative path  names.  Thus
+the game must  run within the data directory in  order for asset names
+to resolve correctly.  Upon starting,  the game will attempt to change
+into this directory, as defined in config.h.
+
+If the data directory is to  be renamed or moved for installation, the
+CONFIG_PATH variable in config.h must be changed to match.
+
+Alternatively, the CONFIG_PATH variable may  be set to "." if the game
+is started from within the data directory.
 
 
 
@@ -59,34 +76,34 @@ the game is exited.
 
 * GAME CONTROLLERS
 
-Gamepad and joystick input are supported.  The game will automatically
-use the  first connected controller,  if any.  Gamepad input  does not
-conflict with mouse  input, so there is no need  to choose between the
-two.
+Gamepad and  joystick input are supported.  However,  gamepad input is
+not currently  configurable in-game.  To enable  gamepad control, edit
+the configuration  file, .neverballrc.  This file is  created when the
+game exits, and should be found in your home directory.
 
-However, gamepad input is  not currently configurable in-game.  If you
-wish to  change the defaust axis  and button mappings,  you will first
-need to determine the numbers assigned to each axis and button on your
-controller.  You may do this  via the game control panel (jstest under
-Linux) or simply by trial and error.
+Set the following keyword / value pair:
 
-Functions are mapped to inputs in the global configuration file:
+    joy 1
 
-    data/config.txt
+Note that the  game may still be controlled with  the mouse even while
+gamepad  control is  enabled.  However,  random noise  from  an analog
+controller at rest can disrupt normal mouse input.
 
-You may edit this  file freely, but keep in mind that  the game is not
-guaranteed to run properly when given bad input.  Most key-value pairs
-in config.txt  should be self-explanatory.  The  gamepad functions are
-as follows:
+If you wish  to change the defaust axis and  button mappings, you will
+first need to  determine the numbers assigned to  each axis and button
+on  your controller.   You may  do this  via the  game  control panel,
+jstest under Linux, or simply by trial and error.
 
-    joy_axis_x         - Horizontal input axis number
-    joy_axis_y         - Vertical input axis number
+The gamepad configuration keyword / value pairs areas follows:
 
-    joy_button_a       - Menu selection and activation
-    joy_button_b       - Menu cancel and exit
-    joy_button_r       - Counter-clockwise camera rotation
-    joy_button_l       - Clockwise camera rotation
-    joy_button_pause   - Game pause
+    axis_x         - Horizontal input axis number
+    axis_y         - Vertical input axis number
+
+    button_a       - Menu selection and activation
+    button_b       - Menu cancel and exit
+    button_r       - Counter-clockwise camera rotation
+    button_l       - Clockwise camera rotation
+    button_pause   - Game pause
 
 
 
