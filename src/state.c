@@ -822,7 +822,9 @@ static int play_point(int x, int y, int dx, int dy)
      * floor way off level just as the timer starts.
      */
 
-    game_set_pos(dx, dy);
+    if (abs(dx) < 50 && abs(dy) < 50)
+        game_set_pos(dx, dy);
+
     return 1;
 }
 

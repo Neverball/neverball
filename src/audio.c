@@ -19,6 +19,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+static int audio_state = 0;
+
 static Mix_Chunk *buff[AUD_COUNT];
 static int        chan[AUD_COUNT];
 
@@ -50,54 +52,68 @@ static void chunk_free(int i)
 
 int audio_init(int r, int b)
 {
-    if (Mix_OpenAudio(r, MIX_DEFAULT_FORMAT, 1, b) == 0)
+    if (audio_state == 0)
     {
-        chunk_load(AUD_TITLE, "snd/title.ogg", CH_STATE);
-        chunk_load(AUD_MENU,  "snd/menu.wav",  CH_MENU);
-        chunk_load(AUD_LEVEL, "snd/level.ogg", CH_STATE);
-        chunk_load(AUD_READY, "snd/ready.ogg", CH_STATE);
-        chunk_load(AUD_SET,   "snd/set.ogg",   CH_STATE);
-        chunk_load(AUD_GO,    "snd/go.ogg",    CH_STATE);
-        chunk_load(AUD_BALL,  "snd/ball.ogg",  CH_GRAB);
-        chunk_load(AUD_BUMP,  "snd/bump.ogg",  CH_BUMP);
-        chunk_load(AUD_COIN,  "snd/coin.wav",  CH_GRAB);
-        chunk_load(AUD_TICK,  "snd/tick.wav",  CH_TICK);
-        chunk_load(AUD_GOAL,  "snd/goal.ogg",  CH_STATE);
-        chunk_load(AUD_FALL,  "snd/fail.ogg",  CH_STATE);
-        chunk_load(AUD_TIME,  "snd/fail.ogg",  CH_STATE);
-        chunk_load(AUD_OVER,  "snd/over.ogg",  CH_STATE);
-        chunk_load(AUD_PAUSE, "snd/pause.ogg", CH_STATE);
+        if (Mix_OpenAudio(r, MIX_DEFAULT_FORMAT, 1, b) == 0)
+        {
+            chunk_load(AUD_TITLE, "snd/title.ogg", CH_STATE);
+            chunk_load(AUD_MENU,  "snd/menu.wav",  CH_MENU);
+            chunk_load(AUD_LEVEL, "snd/level.ogg", CH_STATE);
+            chunk_load(AUD_READY, "snd/ready.ogg", CH_STATE);
+            chunk_load(AUD_SET,   "snd/set.ogg",   CH_STATE);
+            chunk_load(AUD_GO,    "snd/go.ogg",    CH_STATE);
+            chunk_load(AUD_BALL,  "snd/ball.ogg",  CH_GRAB);
+            chunk_load(AUD_BUMP,  "snd/bump.ogg",  CH_BUMP);
+            chunk_load(AUD_COIN,  "snd/coin.wav",  CH_GRAB);
+            chunk_load(AUD_TICK,  "snd/tick.wav",  CH_TICK);
+            chunk_load(AUD_GOAL,  "snd/goal.ogg",  CH_STATE);
+            chunk_load(AUD_FALL,  "snd/fail.ogg",  CH_STATE);
+            chunk_load(AUD_TIME,  "snd/fail.ogg",  CH_STATE);
+            chunk_load(AUD_OVER,  "snd/over.ogg",  CH_STATE);
+            chunk_load(AUD_PAUSE, "snd/pause.ogg", CH_STATE);
 
-        return 1;
+            audio_state = 1;
+
+            return 1;
+        }
+        return 0;
     }
-    return 0;
+    return 1;
 }
 
 void audio_play(int i, float v)
 {
-    Mix_VolumeChunk(buff[i], (int) (v * MIX_MAX_VOLUME));
-    Mix_PlayChannel(chan[i], buff[i], 0);
+    if (audio_state == 1 && buff[i])
+    {
+        Mix_VolumeChunk(buff[i], (int) (v * MIX_MAX_VOLUME));
+        Mix_PlayChannel(chan[i], buff[i], 0);
+    }
 }
 
 void audio_free(void)
 {
-    Mix_CloseAudio();
+    if (audio_state == 1)
+    {
+        Mix_CloseAudio();
 
-    chunk_free(AUD_PAUSE);
-    chunk_free(AUD_OVER);
-    chunk_free(AUD_TIME);
-    chunk_free(AUD_FALL);
-    chunk_free(AUD_GOAL);
-    chunk_free(AUD_TICK);
-    chunk_free(AUD_COIN);
-    chunk_free(AUD_BUMP);
-    chunk_free(AUD_BALL);
-    chunk_free(AUD_GO);
-    chunk_free(AUD_SET);
-    chunk_free(AUD_LEVEL);
-    chunk_free(AUD_READY);
-    chunk_free(AUD_MENU);
-    chunk_free(AUD_TITLE);
+        chunk_free(AUD_PAUSE);
+        chunk_free(AUD_OVER);
+        chunk_free(AUD_TIME);
+        chunk_free(AUD_FALL);
+        chunk_free(AUD_GOAL);
+        chunk_free(AUD_TICK);
+        chunk_free(AUD_COIN);
+        chunk_free(AUD_BUMP);
+        chunk_free(AUD_BALL);
+        chunk_free(AUD_GO);
+        chunk_free(AUD_SET);
+        chunk_free(AUD_LEVEL);
+        chunk_free(AUD_READY);
+        chunk_free(AUD_MENU);
+        chunk_free(AUD_TITLE);
+
+        audio_state = 0;
+    }
 }
 
 /*---------------------------------------------------------------------------*/

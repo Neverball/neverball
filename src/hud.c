@@ -25,25 +25,25 @@
 
 static GLuint large_text[10];           /* Large digit texture objects */
 static GLuint large_list[10];           /* Large digit display lists   */
-static int    large_w;                  /* Large digit layout size     */
-static int    large_h;
+static int    large_w = 0;              /* Large digit layout size     */
+static int    large_h = 0;
 
 static GLuint small_text[10];           /* Small digit texture objects */
 static GLuint small_list[10];           /* Small digit display lists   */
-static int    small_w;                  /* Small digit layout size     */
-static int    small_h;
+static int    small_w = 0;              /* Small digit layout size     */
+static int    small_h = 0;
 
 static GLuint coins_text;               /* Coins label texture object  */
 static GLuint coins_list;               /* Coins label display list    */
-static int    coins_w;                  /* Coins label layout size     */
-static int    coins_h;
+static int    coins_w = 0;              /* Coins label layout size     */
+static int    coins_h = 0;
 
 static GLuint balls_text;               /* Balls label texture object  */
 static GLuint balls_list;               /* Balls label display list    */
-static int    balls_w;                  /* Balls label layout size     */
-static int    balls_h;
+static int    balls_w = 0;              /* Balls label layout size     */
+static int    balls_h = 0;
 
-static int    space_w;                  /* HUD layout spacing          */
+static int    space_w = 0;              /* HUD layout spacing          */
 
 /*---------------------------------------------------------------------------*/
 

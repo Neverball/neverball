@@ -21,6 +21,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+static int text_state = 0;
+
 const GLfloat c_white[4]  = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat c_black[4]  = { 0.0f, 0.0f, 0.0f, 1.0f };
 const GLfloat c_red[4]    = { 1.0f, 0.0f, 0.0f, 1.0f };
@@ -36,30 +38,38 @@ static int       text_drop[3] = { 0, 0, 0 };
 
 int text_init(int h)
 {
-    if (TTF_Init() == 0)
+    if (text_state == 0)
     {
-        text_font[0] = TTF_OpenFont(TEXT_FACE, h / 24);
-        text_font[1] = TTF_OpenFont(TEXT_FACE, h / 12);
-        text_font[2] = TTF_OpenFont(TEXT_FACE, h /  6);
+        if (TTF_Init() == 0)
+        {
+            text_font[0] = TTF_OpenFont(TEXT_FACE, h / 24);
+            text_font[1] = TTF_OpenFont(TEXT_FACE, h / 12);
+            text_font[2] = TTF_OpenFont(TEXT_FACE, h /  6);
 
-        text_drop[0] = 2;
-        text_drop[1] = 4;
-        text_drop[2] = 8;
+            text_drop[0] = 2;
+            text_drop[1] = 4;
+            text_drop[2] = 8;
 
-        return 1;
+            text_state = 1;
+
+            return 1;
+        }
+        return 0;
     }
-    return 0;
+    return 1;
 }
 
 void text_free(void)
 {
-    if (TTF_WasInit())
+    if (text_state == 1)
     {
         if (text_font[2]) TTF_CloseFont(text_font[2]);
         if (text_font[1]) TTF_CloseFont(text_font[1]);
         if (text_font[0]) TTF_CloseFont(text_font[0]);
 
         TTF_Quit();
+
+        text_state = 0;
     }
 }
 
@@ -67,7 +77,8 @@ void text_free(void)
 
 void text_size(const char *text, int i, int *w, int *h)
 {
-    TTF_SizeText(text_font[i], text, w, h);
+    if (text_state == 1 && text_font[i])
+        TTF_SizeText(text_font[i], text, w, h);
 }
 
 GLuint make_list(const char *text, int i, const float *c0, const float *c1)
@@ -75,7 +86,9 @@ GLuint make_list(const char *text, int i, const float *c0, const float *c1)
     GLuint list = glGenLists(1);
 
     int W, H;
-    int w, h, d = text_drop[i];
+    int w = 0;
+    int h = 0;
+    int d = text_drop[i];
 
     GLfloat s0, t0;
     GLfloat s1, t1;
@@ -115,7 +128,11 @@ GLuint make_list(const char *text, int i, const float *c0, const float *c1)
 
 GLuint make_text(const char *text, int i)
 {
-    return make_image_from_font(NULL, NULL, NULL, NULL, text, text_font[i]);
+    if (text_state == 1 && text_font[i])
+        return make_image_from_font(NULL, NULL, NULL, NULL,
+                                    text, text_font[i]);
+    else
+        return 0;
 }
 
 /*---------------------------------------------------------------------------*/

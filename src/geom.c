@@ -30,9 +30,9 @@
 
 /*---------------------------------------------------------------------------*/
 
-static GLUquadric  *ball_quad;
-static GLuint       ball_list;
-static GLuint       ball_text;
+static GLUquadric  *ball_quad = NULL;
+static GLuint       ball_list = 0;
+static GLuint       ball_text = 0;
 
 void ball_init(int b)
 {
@@ -110,8 +110,8 @@ void ball_draw(void)
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint coin_text;
-static GLuint coin_list;
+static GLuint coin_text = 0;
+static GLuint coin_list = 0;
 
 static void coin_face(int n, double radius, double thick)
 {
@@ -239,7 +239,7 @@ void coin_draw(int n)
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint goal_list;
+static GLuint goal_list = 0;
 
 void goal_init(int b)
 {
