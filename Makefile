@@ -203,8 +203,8 @@ data/map-misc/%.sol : data/map-misc/%.map $(MAPC_TARG)
 
 #------------------------------------------------------------------------------
 
-#all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS)
-all : $(BALL_TARG) $(MAPC_TARG) $(SOLS)
+all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS)
+#all : $(BALL_TARG) $(MAPC_TARG) $(SOLS)
 
 $(BALL_TARG) : $(BALL_OBJS)
 	$(CC) $(CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(BALL_LIBS)

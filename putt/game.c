@@ -368,7 +368,7 @@ void game_draw(int pose)
         /* Draw the floor. */
 
         if (pose == 0) game_set_shadow(fp);
-        sol_draw(fp, config_get(CONFIG_SHADOW));
+        sol_draw(fp, config_get(CONFIG_SHADOW), NULL);
         if (pose == 0) game_clr_shadow();
 
         /* Draw the game elements. */

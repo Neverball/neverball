@@ -355,7 +355,7 @@ static void game_draw_light(void)
     glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
 }
 
-static void game_draw_all(int pose, float rx, float ry, int d)
+static void game_draw_all(int pose, float rx, float ry, int d, const float p[3])
 {
     const float *ball_p = file.uv->p;
     
@@ -391,7 +391,7 @@ static void game_draw_all(int pose, float rx, float ry, int d)
                 e[0] = +0;
                 e[1] = +1;
                 e[2] = +0;
-                e[3] = -0.001;
+                e[3] = -0.00001;
 
                 glEnable(GL_CLIP_PLANE0);
                 glClipPlane(GL_CLIP_PLANE0, e);
@@ -400,7 +400,7 @@ static void game_draw_all(int pose, float rx, float ry, int d)
             /* Draw the floor. */
 
             if (pose == 0) game_set_shadow(&file);
-            sol_draw(&file, config_get(CONFIG_SHADOW));
+            sol_draw(&file, config_get(CONFIG_SHADOW), p);
             if (pose == 0) game_clr_shadow();
 
             /* Draw the game elements. */
@@ -436,6 +436,12 @@ void game_draw(int pose, float st)
     glPushMatrix();
     {
         float v[3], rx, ry;
+        float pup[3];
+        float pdn[3];
+
+        v_cpy(pup, view_p);
+        v_cpy(pdn, view_p);
+        pdn[1] = -pdn[1];
 
         /* Compute and apply the view. */
 
@@ -470,7 +476,7 @@ void game_draw(int pose, float st)
                 glScalef(+1.f, -1.f, +1.f);
 
                 game_draw_light();
-                game_draw_all(pose, rx, ry, -1);
+                game_draw_all(pose, rx, ry, -1, pdn);
             }
             glPopMatrix();
             glFrontFace(GL_CCW);
@@ -481,7 +487,7 @@ void game_draw(int pose, float st)
         /* Draw the scene normally. */
 
         game_draw_light();
-        game_draw_all(pose, rx, ry, +1);
+        game_draw_all(pose, rx, ry, +1, pup);
     }
     glPopMatrix();
     config_pop_matrix();

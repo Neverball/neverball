@@ -274,7 +274,7 @@ int   sol_load(struct s_file *, const char *, int, int);
 int   sol_stor(struct s_file *, const char *);
 void  sol_free(struct s_file *);
 
-void  sol_draw(const struct s_file *, int);
+void  sol_draw(const struct s_file *, int, const float[3]);
 void  sol_refl(const struct s_file *);
 float sol_step(struct s_file *, const float *, float, short, int *);
 

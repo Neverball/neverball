@@ -1440,6 +1440,8 @@ static void swap_mtrl(struct s_file *fp, short mi, short mj)
 
     for (i = 0; i < fp->gc; i++)
         if (fp->gv[i].mi == mi) fp->gv[i].mi = mj;
+    for (i = 0; i < fp->rc; i++)
+        if (fp->rv[i].mi == mi) fp->rv[i].mi = mj;
 }
 
 static void swap_vert(struct s_file *fp, short vi, short vj)
@@ -1827,12 +1829,12 @@ static void node_file(struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void dump_file(struct s_file *p)
+static void dump_file(struct s_file *p, const char *name)
 {
     short i, j;
     int c = 0;
     int n = 0;
-    int m = p->cc * 128 + (p->zc * p->jc + p->xc) * 32;
+    int m = p->rc + p->cc * 128 + (p->zc * p->jc + p->xc) * 32;
 
     /* Count the number of solid lumps. */
 
@@ -1854,12 +1856,18 @@ static void dump_file(struct s_file *p)
     for (i = 0; i < p->cc; i++)
         c += p->cv[i].n;
 
-    printf("  mtrl  vert  edge  side  texc  geom  lump  path  node\n"
+    printf("%s (%d/%d/$%d)\n"
+           "  mtrl  vert  edge  side  texc"
+           "  geom  lump  path  node  body\n"
            "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
-           "  body  coin  goal  view  jump  swch  ball  char  indx\n"
-           "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d $%d\n",
-           p->mc, p->vc, p->ec, p->sc, p->tc, p->gc, p->lc, p->pc, p->nc, m,
-           p->bc, p->cc, p->zc, p->wc, p->jc, p->xc, p->uc, p->ac, p->ic, n, c);
+           "  coin  goal  view  jump  swch"
+           "  bill  ball  char  indx\n"
+           "%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
+           name, n, m, c,
+           p->mc, p->vc, p->ec, p->sc, p->tc,
+           p->gc, p->lc, p->pc, p->nc, p->bc,
+           p->cc, p->zc, p->wc, p->jc, p->xc,
+           p->rc, p->uc, p->ac, p->ic);
 }
 
 int main(int argc, char *argv[])
@@ -1890,7 +1898,7 @@ int main(int argc, char *argv[])
             move_file(&f);
             uniq_file(&f);
             node_file(&f);
-            dump_file(&f);
+            dump_file(&f, dst);
 
             sol_stor(&f, dst);
 

@@ -261,6 +261,48 @@ static void sol_draw_body(const struct s_file *fp,
         }
 }
 
+static void sol_draw_bill(const struct s_file *fp,
+                          const struct s_bill *rp, const float p[3])
+{
+    float rx;
+    float ry;
+    float rz = rp->z;
+    float sz = rp->r;
+    float v[3];
+
+    glPushMatrix();
+    {
+        glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
+
+        v_sub(v, p, rp->p);
+
+        /* FIXME: make this not suck. */
+
+        rx = V_DEG(fatan2f(-v[1], fsqrtf(v[0] * v[0] + v[2] * v[2])));
+        ry = V_DEG(fatan2f(+v[0], v[2]));
+
+        glRotatef(ry, 0.f, 1.f, 0.f);
+        glRotatef(rx, 1.f, 0.f, 0.f);
+        glRotatef(rz, 0.f, 0.f, 1.f);
+
+        sol_draw_mtrl(fp, rp->mi);
+
+        glBegin(GL_QUADS);
+        {
+            glTexCoord2f(0.0f, 0.0f);
+            glVertex2f(-sz, -sz);
+            glTexCoord2f(1.0f, 0.0f);
+            glVertex2f(+sz, -sz);
+            glTexCoord2f(1.0f, 1.0f);
+            glVertex2f(+sz, +sz);
+            glTexCoord2f(0.0f, 1.0f);
+            glVertex2f(-sz, +sz);
+        }
+        glEnd();
+    }
+    glPopMatrix();
+}
+
 /*---------------------------------------------------------------------------*/
 
 static void sol_draw_list(const struct s_file *fp,
@@ -310,7 +352,7 @@ static void sol_draw_list(const struct s_file *fp,
     glPopMatrix();
 }
 
-void sol_draw(const struct s_file *fp, int s)
+void sol_draw(const struct s_file *fp, int s, const float p[3])
 {
     short i;
 
@@ -345,6 +387,9 @@ void sol_draw(const struct s_file *fp, int s)
         for (i = 0; i < fp->bc; i++)
             if (fp->bv[i].tl)
                 sol_draw_list(fp, fp->bv + i, fp->bv[i].tl, s);
+
+        for (i = 0; i < fp->rc; i++)
+            sol_draw_bill(fp, fp->rv + i, p);
     }
     glPopAttrib();
     glPopAttrib();
