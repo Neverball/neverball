@@ -45,7 +45,7 @@
 
 /* Arbitrary limits woo! */
 
-#define MAXM	1024
+#define MAXM	4096
 #define MAXV	4096
 #define MAXE	4096
 #define MAXS	2048
@@ -222,7 +222,7 @@ static void make_plane(int pi, int x0, int y0, int z0,
     plane_d[pi] = v_dot(plane_n[pi], p1);
 
     for (i = 0; i < 6; i++)
-        if ((k = v_dot(plane_n[pi], base[i][0])) > d)
+        if ((k = v_dot(plane_n[pi], base[i][0])) >= d)
         {
             d = k;
             n = i;
