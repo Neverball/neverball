@@ -148,7 +148,7 @@ static void game_draw_balls(const struct s_file *fp)
                  fp->uv[0].r,
                  fp->uv[0].r);
 
-        glColor3fv(c_play[0]);
+        glColor4fv(c_play[0]);
 
         ball_draw();
     }

@@ -58,7 +58,6 @@ static int count;                       /* Number of levels          */
 static int limit;                       /* First unopened level      */
 
 static int    level_total;
-static int    score_total;
 static int    coins_total;
 static double times_total;
 
@@ -305,7 +304,6 @@ void level_init(const char *init_levels,
     level_load_hs(user_scores);
 
     level_total = 0;
-    score_total = 0;
     coins_total = 0;
     times_total = 0;
 
@@ -438,8 +436,6 @@ void level_goto(int s, int c, int b, int l)
     back_init(level_v[level].back, config_geom());
     game_init(level_v[level].file,
               level_v[level].time);
-
-    score_total = 0;
 }
 
 int level_goal(void)
@@ -448,12 +444,14 @@ int level_goal(void)
     
     level_total += 1;
     times_total += clock;
-    coins_total += score_total;
+    coins_total += score;
+
+    printf("%d %d\n", coins_total, score);
 
     /* Test the current score against the level high scores. */
 
-    score_v[level].time_c[3] = curr_score();
-    score_v[level].coin_c[3] = curr_score();
+    score_v[level].time_c[3] = score;
+    score_v[level].coin_c[3] = score;
 
     score_v[level].time_s[3] = clock;
     score_v[level].coin_s[3] = clock;
@@ -571,8 +569,6 @@ int level_fail(void)
 void level_score(int n)
 {
     double k = 1.25;
-
-    score_total += n;
 
     coins += n;
     score += n;

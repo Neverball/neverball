@@ -175,16 +175,16 @@ SOLS= \
 %.o : %.c
 	$(CC) $(CFLAGS) -Ishare -o $@ -c $<
 
-data/sol-rlk/%.sol : data/map-rlk/%.map
+data/sol-rlk/%.sol : data/map-rlk/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< $@ data
 
-data/sol-mym/%.sol : data/map-mym/%.map
+data/sol-mym/%.sol : data/map-mym/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< $@ data
 
-data/sol-putt/%.sol : data/map-putt/%.map
+data/sol-putt/%.sol : data/map-putt/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< $@ data
 
-data/sol-misc/%.sol : data/map-misc/%.map
+data/sol-misc/%.sol : data/map-misc/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< $@ data
 
 #------------------------------------------------------------------------------

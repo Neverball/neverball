@@ -33,7 +33,7 @@ const GLfloat c_blue[4]   = { 0.0f, 0.0f, 1.0f, 1.0f };
 const GLfloat c_grey[4]   = { 0.0f, 0.0f, 0.0f, 0.5f };
 
 const GLfloat c_play[5][4] = {
-    { 1.0f, 1.0f, 1.0f, 1.0f },
+    { 1.0f, 1.0f, 1.0f, 0.5f },
     { 1.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 1.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 1.0f, 1.0f },

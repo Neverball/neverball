@@ -111,6 +111,14 @@ void ball_draw(void)
         /* ATI doesn't seem to Pop the color mask attrib. */
 
         glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+        /* Ensure the ball is visible even when obscured by geometry. */
+
+        glDisable(GL_DEPTH_TEST);
+
+        glColor4f(1.0f, 1.0f, 1.0f, 0.1f);
+        glCallList(ball_list);
+
     }
     glPopAttrib();
     glPopAttrib();

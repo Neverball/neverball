@@ -1,4 +1,11 @@
 -------------------------------------------------------------------------------
+New in 1.2.1
+
+* Fixed the scoring bug for real this time.
+* Documented global set scoring.
+* Added a ball "ghost" to ensure the ball remains visible when obscured.
+
+-------------------------------------------------------------------------------
 New in 1.2.0
 
 * Fixed the path timing bug for real this time.

@@ -68,6 +68,25 @@ See below for details.
 
 
 
+* HIGH SCORES
+
+The top three fastest times through each level, and the top three coin
+scores for each level are stored in files named .neverballhs-*.
+
+The top  three fastest  times and  most coins scores  for each  set of
+levels are also stored.  To achieve  a set score, the player must play
+through all 25 levels of a set in one attempt.
+
+The total set time will  include time spent during both successful and
+unsuccesful level  plays, thus  time-outs and fall-outs  count against
+the total time.
+
+The  total  set  coin  count  will include  only  coins  collected  on
+successful  level plays.   This  prevents unbounded  coin scores  from
+being collected on levels with more than 100 coins.
+
+
+
 * DEMO REPLAY
 
 Neverball  includes a  simple  mechanism for  recording and  replaying
