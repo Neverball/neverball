@@ -37,6 +37,7 @@ extern FILE *replay_fp;
 
 extern struct state st_null;
 extern struct state st_title;
+extern struct state st_help;
 extern struct state st_set;
 extern struct state st_start;
 extern struct state st_help;

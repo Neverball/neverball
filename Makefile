@@ -101,7 +101,34 @@ SOLS= \
 	data/sol-rlk/movers.sol   \
 	data/sol-rlk/poker.sol    \
 	data/sol-rlk/ring.sol     \
-	data/sol-rlk/teleport.sol
+	data/sol-rlk/teleport.sol \
+	data/sol-mym/assault_course.sol \
+	data/sol-mym/autosave.sol \
+	data/sol-mym/bigdipper.sol \
+	data/sol-mym/bombman.sol \
+	data/sol-mym/circuit1.sol \
+	data/sol-mym/circuit2.sol \
+	data/sol-mym/climb.sol \
+	data/sol-mym/comeback.sol \
+	data/sol-mym/dance.sol \
+	data/sol-mym/descent.sol \
+	data/sol-mym/drive1.sol \
+	data/sol-mym/drive2.sol \
+	data/sol-mym/earth_quake.sol \
+	data/sol-mym/free_fall.sol \
+	data/sol-mym/glass_tower.sol \
+	data/sol-mym/hard.sol \
+	data/sol-mym/loop1.sol \
+	data/sol-mym/loop2.sol \
+	data/sol-mym/maze1.sol \
+	data/sol-mym/maze2.sol \
+	data/sol-mym/maze3.sol \
+	data/sol-mym/narrow.sol \
+	data/sol-mym/running.sol \
+	data/sol-mym/scrambling.sol \
+	data/sol-mym/trust.sol \
+	data/sol-mym/turn.sol \
+	data/sol-mym/up.sol
 
 #------------------------------------------------------------------------------
 

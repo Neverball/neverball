@@ -123,12 +123,14 @@ int st_buttn(int b, int d)
 /*---------------------------------------------------------------------------*/
 
 #define TITLE_PLAY 1
-#define TITLE_DEMO 2
-#define TITLE_CONF 3
-#define TITLE_EXIT 4
+#define TITLE_HELP 2
+#define TITLE_DEMO 3
+#define TITLE_CONF 4
+#define TITLE_EXIT 5
 
 #define STR_TITLE " Neverball "
 #define STR_PLAY  " Play "
+#define STR_HELP  " Help "
 #define STR_DEMO  " Demo "
 #define STR_CONF  " Options "
 #define STR_EXIT  " Exit "
@@ -138,6 +140,7 @@ static int title_action(int i)
     switch (i)
     {
     case TITLE_PLAY: audio_play(AUD_MENU, 1.f); goto_state(&st_set);   break;
+    case TITLE_HELP: audio_play(AUD_MENU, 1.f); goto_state(&st_help);  break;
     case TITLE_DEMO: audio_play(AUD_MENU, 1.f); goto_state(&st_demo);  break;
     case TITLE_CONF: audio_play(AUD_MENU, 1.f); goto_state(&st_conf);  break;
     case TITLE_EXIT: return 0;
@@ -155,28 +158,31 @@ static void title_enter(void)
 
     lm = lh / 2;
 
-    menu_init(5, 5, TITLE_PLAY);
+    menu_init(6, 6, TITLE_PLAY);
 
-    menu_text(0,          0, mh + lm, c_yellow, c_red,   STR_TITLE, TXT_LRG);
-    menu_text(TITLE_PLAY, 0, -0 * mh, c_white,  c_white, STR_PLAY,  TXT_MED);
+    menu_text(0,      0, lm + 2 * mh, c_yellow, c_red,   STR_TITLE, TXT_LRG);
+    menu_text(TITLE_PLAY, 0, +1 * mh, c_white,  c_white, STR_PLAY,  TXT_MED);
+    menu_text(TITLE_HELP, 0,  0 * mh, c_white,  c_white, STR_HELP,  TXT_MED);
     menu_text(TITLE_DEMO, 0, -1 * mh, c_white,  c_white, STR_DEMO,  TXT_MED);
     menu_text(TITLE_CONF, 0, -2 * mh, c_white,  c_white, STR_CONF,  TXT_MED);
     menu_text(TITLE_EXIT, 0, -3 * mh, c_white,  c_white, STR_EXIT,  TXT_MED);
 
-    menu_item(0,          0, mh + lm, lw, lh);
-    menu_item(TITLE_PLAY, 0, -0 * mh, mw, mh);
+    menu_item(0,      0, lm + 2 * mh, lw, lh);
+    menu_item(TITLE_PLAY, 0, +1 * mh, mw, mh);
+    menu_item(TITLE_HELP, 0,  0 * mh, mw, mh);
     menu_item(TITLE_DEMO, 0, -1 * mh, mw, mh);
     menu_item(TITLE_CONF, 0, -2 * mh, mw, mh);
     menu_item(TITLE_EXIT, 0, -3 * mh, mw, mh);
 
-    menu_link(TITLE_PLAY,         -1, TITLE_DEMO, -1, -1);
-    menu_link(TITLE_DEMO, TITLE_PLAY, TITLE_CONF, -1, -1);
+    menu_link(TITLE_PLAY,         -1, TITLE_HELP, -1, -1);
+    menu_link(TITLE_HELP, TITLE_PLAY, TITLE_DEMO, -1, -1);
+    menu_link(TITLE_DEMO, TITLE_HELP, TITLE_CONF, -1, -1);
     menu_link(TITLE_CONF, TITLE_DEMO, TITLE_EXIT, -1, -1);
     menu_link(TITLE_EXIT, TITLE_CONF,         -1, -1, -1);
 
     menu_stat(0,          -1);
     menu_stat(TITLE_PLAY, +1);
-    menu_stat(TITLE_DEMO, -1);
+    menu_stat(TITLE_HELP,  0);
     menu_stat(TITLE_DEMO,  config_demo() ? 0 : -1);
     menu_stat(TITLE_CONF,  0);
     menu_stat(TITLE_EXIT,  0);
@@ -239,6 +245,84 @@ static int title_buttn(int b, int d)
     if (config_button_a(b) && d == 1) return title_action(menu_buttn());
     if (config_button_X(b) && d == 1) return 0;
     return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static void help_enter(void)
+{
+    const GLfloat *c0 = c_white;
+    const GLfloat *c1 = c_yellow;
+    int w, h;
+
+    text_size("X", TXT_SML, &w, &h);
+    w = config_w();
+
+    menu_init(15, 1, -1);
+    back_init("png/blues.png", config_geom());
+
+    menu_item(0, 0, 0, 7 * w / 8, h * 14);
+
+    menu_text(0, 0, +6 * h, c0, c0,
+              "Move the mouse or joystick to tilt the floor,", TXT_SML);
+    menu_text(1, 0, +5 * h, c0, c0,
+              "causing the ball to roll.  Guide it to the goal", TXT_SML);
+    menu_text(2, 0, +4 * h, c0, c0,
+              "to finish the level.  Collect 100 coins to earn", TXT_SML);
+    menu_text(3, 0, +3 * h, c0, c0,
+              "an extra ball and save your progress.", TXT_SML);
+
+    menu_text(4, -w / 4, +1 * h, c1, c1, "Spacebar", TXT_SML);
+    menu_text(5, -w / 4,  0 * h, c1, c1, "Escape", TXT_SML);
+    menu_text(6, -w / 4, -2 * h, c1, c1, "F1", TXT_SML);
+    menu_text(7, -w / 4, -3 * h, c1, c1, "F2", TXT_SML);
+    menu_text(8, -w / 4, -4 * h, c1, c1, "F3", TXT_SML);
+
+    menu_text(9,  w / 8, +1 * h, c0, c0, "Pause / Release Pointer", TXT_SML);
+    menu_text(10, w / 8,  0 * h, c0, c0, "Exit / Cancel Menu", TXT_SML);
+    menu_text(11, w / 8, -2 * h, c0, c0, "Chase View", TXT_SML);
+    menu_text(12, w / 8, -3 * h, c0, c0, "Lazy View", TXT_SML);
+    menu_text(13, w / 8, -4 * h, c0, c0, "Manual View", TXT_SML);
+
+    menu_text(14, 0, -6 * h, c0, c0,
+              "Left and right mouse buttons rotate the view.", TXT_SML);
+
+    SDL_ShowCursor(SDL_ENABLE);
+}
+
+static void help_leave(void)
+{
+    SDL_ShowCursor(SDL_DISABLE);
+    menu_free();
+    back_free();
+}
+
+static void help_paint(double dy)
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    config_push_persp(FOV, 0.1, 300.0);
+    {
+        back_draw(time_state());
+    }
+    config_pop_matrix();
+
+    menu_paint();
+}
+
+static int help_click(int b, int d)
+{
+    return d ? goto_state(&st_title) : 1;
+}
+
+static int help_keybd(int c)
+{
+    return goto_state(&st_title);
+}
+
+static int help_buttn(int b, int d)
+{
+    return goto_state(&st_title);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -2178,6 +2262,18 @@ struct state st_title = {
     title_keybd,
     title_stick,
     title_buttn,
+};
+
+struct state st_help = {
+    help_enter,
+    help_leave,
+    help_paint,
+    NULL,
+    NULL,
+    help_click,
+    help_keybd,
+    NULL,
+    help_buttn,
 };
 
 struct state st_set = {
