@@ -41,11 +41,11 @@ extern struct state st_ready;
 extern struct state st_set;
 extern struct state st_play;
 extern struct state st_goal;
+extern struct state st_score;
 extern struct state st_fall;
 extern struct state st_time;
 extern struct state st_over;
 extern struct state st_done;
-extern struct state st_pause;
 
 /*---------------------------------------------------------------------------*/
 

@@ -23,4 +23,4 @@ sol/21_poke.sol     shot/21_poke.jpg    back/haze  60
 sol/22_ring.sol     shot/22_ring.jpg    back/snow  60
 sol/23_tele.sol     shot/23_tele.jpg    back/haze  60
 sol/24_marble.sol   shot/24_marble.jpg  back/snow  30
-sol/00_title.sol    shot/00_title.jpg   back/flood 99
+sol/00_title.sol    shot/00_title.jpg   back/flood 60

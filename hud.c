@@ -13,6 +13,7 @@
  */
 
 #include <SDL.h>
+#include <math.h>
 
 #include "glext.h"
 #include "hud.h"
@@ -161,7 +162,7 @@ static void hud_draw_back(void)
     glDisable(GL_TEXTURE_2D);
     {
         const int a = 2 * space_w + 2 * small_w + coins_w;
-        const int b =     space_w +     large_w;
+        const int b =     space_w +     large_w + small_w;
 
         glColor4fv(c_grey);
 
@@ -205,18 +206,22 @@ void hud_draw(void)
     const int W = config_w();
     const int C = config_w() / 2;
 
-    const int clock = curr_clock();
-    const int balls = curr_balls();
-    const int coins = curr_coins();
+    const double clock = curr_clock();
+    const int    balls = curr_balls();
+    const int    coins = curr_coins();
+
+    const int s = (int) floor(clock);
+    const int h = (int) (100.0 * (clock - s));
 
     config_push_ortho();
     {
         glPushAttrib(GL_LIGHTING_BIT);
         glPushAttrib(GL_DEPTH_BUFFER_BIT);
         {
-            const int tx = C - large_w;
+            const int tx = C - large_w - small_w;
             const int bx =     balls_w + space_w;
             const int cx = W - coins_w - space_w - small_w * 2;
+            const int hy = (large_h - small_h) / 2;
 
             glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
@@ -225,8 +230,10 @@ void hud_draw(void)
             hud_draw_back();
             hud_draw_labels();
 
-            hud_draw_large((clock / 10), tx,           0);
-            hud_draw_large((clock % 10), tx + large_w, 0);
+            hud_draw_large((s / 10), tx,           0);
+            hud_draw_large((s % 10), tx + large_w, 0);
+            hud_draw_small((h / 10), tx + large_w + large_w,           hy);
+            hud_draw_small((h % 10), tx + large_w + large_w + small_w, hy);
 
             hud_draw_small((balls / 10), bx,           0);
             hud_draw_small((balls % 10), bx + small_w, 0);

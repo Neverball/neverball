@@ -18,31 +18,34 @@
 #define CONFIG_PATH "./data"
 
 /*
- * Global settings are stored in  CONFIG_FILE.  This file is placed in
- * the user's home directory as given by the HOME environment var.  If
- * this file is deleted, it will be recreated using the defaults.
+ * Global settings  are stored  in USER_CONFIG_FILE.  High  scores are
+ * stored in  USER_SCORES_FILE.  These files are placed  in the user's
+ * home directory as given by  the HOME environment var.  If this file
+ * is deleted, it will be recreated using the defaults.
  */
-#define CONFIG_FILE ".neverballrc"
+#define USER_CONFIG_FILE ".neverballrc"
+#define USER_SCORES_FILE ".neverballhs"
 
-#define CONFIG_DEF_WIDTH         1024
-#define CONFIG_DEF_HEIGHT        768
-#define CONFIG_DEF_TEXTURES      1
-#define CONFIG_DEF_GEOMETRY      1
-#define CONFIG_DEF_AUDIO_RATE    44100
-#define CONFIG_DEF_AUDIO_BUFF    AUD_BUFF_HI
-#define CONFIG_DEF_MOUSE_SENSE   300
-#define CONFIG_DEF_HIGH_LEVEL    1
-#define CONFIG_DEF_NICE          1
-#define CONFIG_DEF_FPS           0
-#define CONFIG_DEF_JOY           0
+#define CONFIG_DEF_WIDTH       1024
+#define CONFIG_DEF_HEIGHT      768
+#define CONFIG_DEF_CAMERA      0
+#define CONFIG_DEF_TEXTURES    1
+#define CONFIG_DEF_GEOMETRY    1
+#define CONFIG_DEF_AUDIO_RATE  44100
+#define CONFIG_DEF_AUDIO_BUFF  AUD_BUFF_HI
+#define CONFIG_DEF_MOUSE_SENSE 300
+#define CONFIG_DEF_HIGH_LEVEL  1
+#define CONFIG_DEF_NICE        1
+#define CONFIG_DEF_FPS         0
+#define CONFIG_DEF_JOY         0
 
-#define CONFIG_DEF_AXIS_X        0
-#define CONFIG_DEF_AXIS_Y        1
-#define CONFIG_DEF_BUTTON_A      0
-#define CONFIG_DEF_BUTTON_B      1
-#define CONFIG_DEF_BUTTON_R      2
-#define CONFIG_DEF_BUTTON_L      3
-#define CONFIG_DEF_BUTTON_PAUSE  4
+#define CONFIG_DEF_AXIS_X      0
+#define CONFIG_DEF_AXIS_Y      1
+#define CONFIG_DEF_BUTTON_A    0
+#define CONFIG_DEF_BUTTON_B    1
+#define CONFIG_DEF_BUTTON_R    2
+#define CONFIG_DEF_BUTTON_L    3
+#define CONFIG_DEF_BUTTON_EXIT 4
 
 /*---------------------------------------------------------------------------*/
 
@@ -66,7 +69,7 @@
 /*---------------------------------------------------------------------------*/
 
 int  config_home(char *, const char *, size_t);
-int  config_path(void);
+int  config_path(const char *);
 void config_load(void);
 void config_store(void);
 
@@ -75,6 +78,7 @@ void config_store(void);
 int  config_mode(void);
 int  config_w   (void);
 int  config_h   (void);
+int  config_view(void);
 int  config_text(void);
 int  config_geom(void);
 int  config_rate(void);
@@ -90,7 +94,7 @@ int  config_button_a(int);
 int  config_button_b(int);
 int  config_button_r(int);
 int  config_button_l(int);
-int  config_button_P(int);
+int  config_button_X(int);
 
 int  config_set_mode(int, int, int);
 int  config_set_text(int);

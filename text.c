@@ -78,7 +78,17 @@ void text_free(void)
 void text_size(const char *text, int i, int *w, int *h)
 {
     if (text_state == 1 && text_font[i])
+    {
         TTF_SizeText(text_font[i], text, w, h);
+
+        /*
+         * Small hack  here: round  up to the  nearest multiple  of 4.
+         * This prevents text-size-based layout from cracking.
+         */
+
+        if (w) *w = ((*w + 3) / 4) * 4;
+        if (h) *h = ((*h + 3) / 4) * 4;
+    }
 }
 
 GLuint make_list(const char *text, int i, const float *c0, const float *c1)

@@ -74,11 +74,10 @@ int audio_init(int r, int b)
             chunk_load(AUD_PAUSE, "snd/pause.ogg", CH_STATE);
 
             audio_state = 1;
-
-            return 1;
         }
-        return 0;
+        else fprintf(stderr, "Sound disabled\n");
     }
+
     return 1;
 }
 

@@ -1,4 +1,37 @@
 -------------------------------------------------------------------------------
+New in 0.25.4
+
+* Changed save game policy: it must be earned by collecting coins.
+* Added camera tracking configuration option.
+* Added coin sub-sort of time records.
+* Added time sub-sort of coin records.
+* Fixed exit-during-teleport bug.
+* Fixed potential infinite loop when ball is crushed.
+* Warn and continue on audio init failure.
+
+-------------------------------------------------------------------------------
+New in 0.25.3
+
+* Modified camera tracking, disabled direct camera control.
+
+-------------------------------------------------------------------------------
+New in 0.25.2
+
+* Added default records.  Something to shoot for.
+
+-------------------------------------------------------------------------------
+New in 0.25.1
+
+* Added record keeping.
+* Reorganized level selector to include records.
+* Added record name input state.
+* Changed shadow clamp back to CLAMP_TO_EDGE.  Screw broken drivers.
+* Changed timer to display hundredths of seconds.
+* Got rid of clock tick until last 10 seconds (it conflicts with music).
+* Returned original menu pointer motion.  Reorganized point hide.
+* Globalized pause state to generalize pointer grab handling.
+
+-------------------------------------------------------------------------------
 New in 0.25.0
 
 * Added teleportation.

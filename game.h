@@ -20,8 +20,8 @@
 void  game_init(const char *, int);
 void  game_free(void);
 
-int   curr_clock(void);
-char *curr_intro(void);
+double curr_clock(void);
+char  *curr_intro(void);
 
 void  game_draw(int);
 int   game_step(const double[3], double);

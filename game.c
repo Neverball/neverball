@@ -31,19 +31,20 @@
 
 static struct s_file file;
 
-static double time  = 0.0;              /* Simulation time                   */
-static int    clock = 0;                /* Clock time                        */
+static double clock = 0.0;              /* Clock time                        */
 
 static double game_ix;                  /* Input rotation about X axis       */
 static double game_iz;                  /* Input rotation about Z axis       */
 static double game_rx;                  /* Floor rotation about X axis       */
 static double game_rz;                  /* Floor rotation about Z axis       */
 
-static double view_r;                   /* Ideal view rotation about Y axis  */
+static double view_a;                   /* Ideal view rotation about Y axis  */
+static double view_ry;                  /* Angular velocity about Y axis     */
 static double view_dy;                  /* Ideal view distance above ball    */
 static double view_dz;                  /* Ideal view distance behind ball   */
 
 static double view_c[3];                /* Current view center               */
+static double view_v[3];                /* Current view vector               */
 static double view_p[3];                /* Current view position             */
 static double view_e[3][3];             /* Current view orientation          */
 
@@ -58,7 +59,8 @@ static GLuint shadow_text;              /* Shadow texture object             */
 
 static void view_init(void)
 {
-    view_r  = 0.0;
+    view_a  = 0.0;
+    view_ry = 0.0;
     view_dy = 4.0;
     view_dz = 6.0;
 
@@ -88,17 +90,16 @@ void game_init(const char *s, int t)
     game_rx = 0.0;
     game_rz = 0.0;
 
+    jump_e = 1;
+    jump_b = 0;
+
     view_init();
     part_init(GOAL_HEIGHT);
 
     sol_load(&file, s, config_text());
     clock = t;
-    time  = t;
 
     shadow_text = make_image_from_file(NULL, NULL, IMG_SHADOW);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 }
 
 void game_free(void)
@@ -112,7 +113,7 @@ void game_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-int curr_clock(void)
+double curr_clock(void)
 {
     return clock;
 }
@@ -373,17 +374,56 @@ static void game_update_grav(double h[3], const double g[3])
 
 static void game_update_view(double dt)
 {
-    double d[3];
+    const double y[3] = { 0.0, 1.0, 0.0 };
+
+    double dx = view_ry * dt * 10.0;
     double dy;
     double dz;
+    double k;
+    double e[3];
+    double d[3];
+
+    view_a += view_ry * dt * 90.0;
 
     /* Center the view about the ball. */
 
     v_cpy(view_c, file.uv->p);
+    v_inv(view_v, file.uv->v);
+
+    switch (config_view())
+    {
+    case 1:
+        /* Camera 1:  Viewpoint chases the ball position. */
+
+        v_sub(view_e[2], view_p, view_c);
+        break;
+
+    case 2:
+        /* Camera 2: View vector is given by view angle. */
+
+        view_e[2][0] = sin(V_RAD(view_a));
+        view_e[2][1] = 0.0;
+        view_e[2][2] = cos(V_RAD(view_a));
+
+        dx = 0.0;
+        break;
+
+    default:
+        /* Default: View vector approaches the ball velocity vector. */
+
+        v_mad(e, view_v, y, v_dot(view_v, y));
+        v_inv(e, e);
+
+        k = v_dot(view_v, view_v);
+
+        v_sub(view_e[2], view_p, view_c);
+        v_mad(view_e[2], view_e[2], view_v, k * dt * 0.1);
+
+        break;
+    }
 
     /* Orthonormalize the basis of the view in its new position. */
 
-    v_sub(view_e[2], view_p, view_c);
     v_crs(view_e[0], view_e[1], view_e[2]);
     v_crs(view_e[2], view_e[0], view_e[1]);
     v_nrm(view_e[0], view_e[0]);
@@ -403,25 +443,24 @@ static void game_update_view(double dt)
 
     view_p[0] = view_p[1] = view_p[2] = 0.0;
 
-    v_mad(view_p, view_c, view_e[0], view_r * dt);
+    v_mad(view_p, view_c, view_e[0], dx);
     v_mad(view_p, view_p, view_e[1], dy);
     v_mad(view_p, view_p, view_e[2], dz);
 }
 
 static void game_update_time(double dt)
 {
-    int seconds;
+    int second = (int) floor(clock);
 
    /* The ticking clock. */
 
-    time -= dt;
-    seconds = (int) ceil(time);
+    if (clock < 99.0)
+        clock -= dt;
+    if (clock < 0.0)
+        clock = 0.0;
 
-    if (0 <= seconds && seconds < clock && clock < 99)
-    {
+    if (0 < second && second < 10 && second == (int) ceil(clock))
         audio_play(AUD_TICK, 1.f);
-        clock = seconds;
-    }
 }
 
 static int game_update_state(void)
@@ -460,7 +499,7 @@ static int game_update_state(void)
 
     /* Test for time-out. */
 
-    if (clock <= 0)
+    if (clock <= 0.0)
         return GAME_TIME;
 
     /* Test for fall-out. */
@@ -580,7 +619,7 @@ void game_set_pos(int x, int y)
 
 void game_set_rot(int r)
 {
-    view_r = r * 5.0;
+    view_ry = (double) r;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -130,11 +130,17 @@ void menu_stat(int i, int state)
 void menu_text(int i, int x, int y, const float *c0, const float *c1,
                const char *text, int s)
 {
-    if (menu.text && text && strlen(text) > 0)
+    if (menu.text && text && strlen(text) >= 0)
     {
         int w, h;
 
         text_size(text, s, &w, &h);
+
+        if (glIsList(menu.text[i].list))
+            glDeleteLists(menu.text[i].list, 1);
+            
+        if (glIsTexture(menu.text[i].text))
+            glDeleteTextures(1, &menu.text[i].text);
         
         menu.text[i].text = make_text(text, s);
         menu.text[i].list = make_list(text, s, c0, c1);
@@ -216,7 +222,7 @@ void menu_paint(void)
 }
 
 /*---------------------------------------------------------------------------*/
-
+/*
 int menu_point(int dx, int dy)
 {
     static int ax = 0;
@@ -248,6 +254,25 @@ int menu_point(int dx, int dy)
         ay = 0;
     }
 
+    return menu.value;
+}
+*/
+
+int menu_point(int x, int y)
+{
+    int i;
+
+    for (i = 0; i < menu.nitem; i++)
+    {
+        struct item *item = menu.item + i;
+        
+        if (item->x0 < x && x < item->x1 &&
+            item->y0 < y && y < item->y1 && item->state >= 0)
+        {
+            menu.value = i;
+            break;
+        }
+    }
     return menu.value;
 }
 

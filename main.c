@@ -14,6 +14,7 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -59,6 +60,20 @@ static int shot(void)
 
 /*---------------------------------------------------------------------------*/
 
+static int grabbed = 0;
+
+static void toggle_grab(void)
+{
+    grabbed = 1 - grabbed;
+
+    if (grabbed)
+        SDL_WM_GrabInput(SDL_GRAB_ON);
+    else
+        SDL_WM_GrabInput(SDL_GRAB_OFF);
+}
+
+/*---------------------------------------------------------------------------*/
+
 static int loop(void)
 {
     SDL_Event e;
@@ -69,38 +84,46 @@ static int loop(void)
         {
 
         case SDL_MOUSEMOTION:
-            d = st_point(+e.motion.x,
-                         -e.motion.y + config_h(),
-                         +e.motion.xrel,
-                         -e.motion.yrel);
+            if (grabbed)
+                d = st_point(+e.motion.x,
+                             -e.motion.y + config_h(),
+                             +e.motion.xrel,
+                             -e.motion.yrel);
               break;
 
         case SDL_MOUSEBUTTONDOWN:
-            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : +1, 1);
+            if (grabbed)
+                d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 1);
             break;
 
         case SDL_MOUSEBUTTONUP:
-            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : +1, 0);
+            if (grabbed)
+                d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 0);
             break;
 
         case SDL_KEYDOWN:
-            if (e.key.keysym.sym == SDLK_F10) { d = shot();        break; }
-            if (e.key.keysym.sym == SDLK_F9)  { config_tog_fps();  break; }
-            if (e.key.keysym.sym == SDLK_F8)  { config_tog_nice(); break; }
+            if (e.key.keysym.sym == SDLK_SPACE) { toggle_grab();     break; }
+            if (e.key.keysym.sym == SDLK_F10)   { d = shot();        break; }
+            if (e.key.keysym.sym == SDLK_F9)    { config_tog_fps();  break; }
+            if (e.key.keysym.sym == SDLK_F8)    { config_tog_nice(); break; }
 
-            d = st_keybd(e.key.keysym.sym);
+            if (grabbed)
+                d = st_keybd(e.key.keysym.sym);
             break;
 
         case SDL_JOYAXISMOTION:
-            d = st_stick(e.jaxis.axis, e.jaxis.value);
+            if (grabbed)
+                d = st_stick(e.jaxis.axis, e.jaxis.value);
             break;
 
         case SDL_JOYBUTTONDOWN:
-            d = st_buttn(e.jbutton.button, 1);
+            if (grabbed)
+                d = st_buttn(e.jbutton.button, 1);
             break;
 
         case SDL_JOYBUTTONUP:
-            d = st_buttn(e.jbutton.button, 0);
+            if (grabbed)
+                d = st_buttn(e.jbutton.button, 0);
             break;
 
         case SDL_QUIT:
@@ -112,9 +135,10 @@ static int loop(void)
 
 int main(int argc, char *argv[])
 {
+    const char  *path = (argc > 1) ? argv[1] : CONFIG_PATH;
     SDL_Joystick *joy = NULL;
 
-    if (config_path())
+    if (config_path(path))
     {
         config_load();
 
@@ -148,7 +172,7 @@ int main(int argc, char *argv[])
 
                     SDL_WM_SetCaption(TITLE, TITLE); 
                     SDL_ShowCursor(SDL_DISABLE);
-                    SDL_WM_GrabInput(SDL_GRAB_ON);
+                    toggle_grab();
 
                     /* Run the main game loop. */
 
@@ -157,21 +181,24 @@ int main(int argc, char *argv[])
                     while (loop())
                         if ((t1 = SDL_GetTicks()) > t0)
                         {
-                            st_timer((t1 - t0) / 1000.0);
-                            st_paint();
+                            if (grabbed)
+                            {
+                                st_timer((t1 - t0) / 1000.0);
+                                st_paint();
 
-                            SDL_GL_SwapBuffers();
+                                SDL_GL_SwapBuffers();
+                            }
+                            t0 = t1;
+
                             if (config_nice())
                                 SDL_Delay(1);
-
-                            t0 = t1;
                         }
 
-                    SDL_WM_GrabInput(SDL_GRAB_OFF);
                     SDL_ShowCursor(SDL_ENABLE);
                 }
                 else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
             }
+            else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
 
             if (SDL_JoystickOpened(0))
                 SDL_JoystickClose(joy);

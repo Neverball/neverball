@@ -3,7 +3,24 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define MAXSTR 256
+#define MAXLVL 32
+#define MAXNAM 8
+
+#define DEFAULT_NAME "Player"
+
 #define LEVEL_FILE "levels.txt"
+#define SCORE_FILE "scores.txt"
+
+extern char player[];
+
+const char *level_coin_n(int, int);
+const char *level_coin_c(int, int);
+const char *level_coin_s(int, int);
+
+const char *level_time_n(int, int);
+const char *level_time_c(int, int);
+const char *level_time_s(int, int);
 
 void level_init(void);
 void level_free(void);
@@ -16,6 +33,7 @@ int  curr_balls(void);
 int  curr_coins(void);
 
 void level_goto(int);
+int  level_goal(void);
 int  level_pass(void);
 int  level_fail(void);
 

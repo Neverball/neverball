@@ -57,11 +57,12 @@ GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
 
     if (config_text() > 1)
     {
+        int w = s->w / config_text();
+        int h = s->h / config_text();
+
         /* Create a new buffer and copy the scaled image to it. */
 
-        SDL_Surface *d = SDL_CreateRGBSurface(SDL_SWSURFACE,
-                                              s->w / config_text(),
-                                              s->h / config_text(),
+        SDL_Surface *d = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h,
                                               s->format->BitsPerPixel,
                                               s->format->Rmask,
                                               s->format->Gmask,

@@ -1,0 +1,26 @@
+ 1.0 BEAT      1 BEAT      2.0 THESE     2 THESE      3.0 SCORES    3 SCORES
+ 5.0 Hard     25 Hard     30.0 Medium   20 Medium    90.0 Easy     10 Easy
+ 5.0 Hard    111 Hard     20.0 Medium   50 Medium    45.0 Easy     10 Easy
+10.0 Hard     49 Hard     30.0 Medium   20 Medium    90.0 Easy     10 Easy
+10.0 Hard     55 Hard     20.0 Medium   20 Medium    45.0 Easy     10 Easy
+ 5.0 Hard     33 Hard     20.0 Medium   20 Medium    45.0 Easy     10 Easy
+ 5.0 Hard     40 Hard     20.0 Medium   20 Medium    60.0 Easy     10 Easy
+ 5.0 Hard    150 Hard     30.0 Medium   50 Medium    60.0 Easy     10 Easy
+10.0 Hard     91 Hard     20.0 Medium   50 Medium    60.0 Easy     10 Easy
+20.0 Hard     39 Hard     40.0 Medium   20 Medium    90.0 Easy     10 Easy
+ 5.0 Hard     45 Hard     45.0 Medium   30 Medium    60.0 Easy     10 Easy
+25.0 Hard     84 Hard     45.0 Medium   50 Medium    60.0 Easy     10 Easy
+ 3.0 Hard     99 Hard     10.0 Medium   50 Medium    45.0 Easy     10 Easy
+10.0 Hard     30 Hard     20.0 Medium   20 Medium    30.0 Easy     10 Easy
+15.0 Hard     50 Hard     30.0 Medium   20 Medium    60.0 Easy     10 Easy
+10.0 Hard     70 Hard     20.0 Medium   30 Medium    60.0 Easy     10 Easy
+15.0 Hard     60 Hard     30.0 Medium   27 Medium    45.0 Easy     10 Easy
+30.0 Hard     50 Hard     60.0 Medium   25 Medium    90.0 Easy     10 Easy
+15.0 Hard     45 Hard     20.0 Medium   20 Medium    30.0 Easy     10 Easy
+25.0 Hard     41 Hard     35.0 Medium   20 Medium    45.0 Easy     10 Easy
+20.0 Hard     40 Hard     45.0 Medium   20 Medium    60.0 Easy     10 Easy
+25.0 Hard     22 Hard     30.0 Medium   20 Medium    60.0 Easy     10 Easy
+10.0 Hard     63 Hard     30.0 Medium   30 Medium    60.0 Easy     10 Easy
+30.0 Hard     59 Hard     45.0 Medium   30 Medium    60.0 Easy     10 Easy
+10.0 Hard      0 Hard     20.0 Medium    0 Medium    30.0 Easy      0 Easy
+15.0 Hard     39 Hard     30.0 Medium   20 Medium    60.0 Easy     10 Easy

@@ -31,7 +31,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-static double goto_time    = 0.0;
+static double state_time   = 0.0;
 static struct state *state = NULL;
 
 void init_state(void)
@@ -44,7 +44,7 @@ void init_state(void)
 
 double time_state(void)
 {
-    return SDL_GetTicks() / 1000.0 - goto_time;
+    return state_time;
 }
 
 int goto_state(struct state *st)
@@ -52,8 +52,8 @@ int goto_state(struct state *st)
     if (state && state->leave)
         state->leave();
 
-    state     = st;
-    goto_time = SDL_GetTicks() / 1000.0;
+    state      = st;
+    state_time =  0;
 
     if (state && state->enter)
         state->enter();
@@ -70,6 +70,7 @@ void st_paint(void)
 
 int st_timer(double t)
 {
+    state_time += t;
     return (state && state->timer) ? state->timer(t) : 1;
 }
 
@@ -154,10 +155,14 @@ static void title_enter(void)
     level_init();
     level_goto(0);
     audio_play(AUD_TITLE, 1.f);
+
+    SDL_ShowCursor(SDL_ENABLE);
 }
 
 static void title_leave(void)
 {
+    SDL_ShowCursor(SDL_DISABLE);
+    
     level_free();
     menu_free();
 }
@@ -177,7 +182,7 @@ static int title_timer(double dt)
 
 static int title_point(int x, int y, int dx, int dy)
 {
-    menu_point(dx, dy);
+    menu_point(x, y);
     return 1;
 }
 
@@ -199,7 +204,9 @@ static int title_stick(int a, int v)
 
 static int title_buttn(int b, int d)
 {
-    return (config_button_a(b) && d == 1) ? title_action(menu_buttn()) : 1;
+    if (config_button_a(b) && d == 1) return title_action(menu_buttn());
+    if (config_button_X(b) && d == 1) return 0;
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -397,7 +404,7 @@ static void conf_enter(void)
     menu_stat(CONF_AUDLO, (config_rate() == 22050)         ? 1 : 0);
     menu_stat(CONF_BACK, 0);
 
-    /* Item linkings for joystick menu traversal */
+    /* Item linkings for menu traversal */
 
     menu_link(CONF_FULL,  CONF_FULL,  CONF_WIN,   CONF_FULL,  CONF_10x7);
     menu_link(CONF_WIN,   CONF_FULL,  CONF_WIN,   CONF_WIN,   CONF_8x6);
@@ -415,10 +422,14 @@ static void conf_enter(void)
     menu_link(CONF_BACK,  CONF_AUDHI, CONF_BACK,  CONF_BACK,  CONF_BACK);
 
     value = -1;
+
+    SDL_ShowCursor(SDL_ENABLE);
 }
 
 static void conf_leave(void)
 {
+    SDL_ShowCursor(SDL_DISABLE);
+
     config_store();
     menu_free();
 }
@@ -431,7 +442,7 @@ static void conf_paint(void)
 
 static int conf_point(int x, int y, int dx, int dy)
 {
-    menu_point(dx, dy);
+    menu_point(x, y);
     return 1;
 }
 
@@ -453,10 +464,9 @@ static int conf_stick(int a, int v)
 
 static int conf_buttn(int b, int d)
 {
-    if (config_button_a(b) && d == 1)
-        return conf_action(menu_buttn());
-    if (config_button_b(b) && d == 1)
-        return goto_state(&st_title);
+    if (config_button_a(b) && d == 1) return conf_action(menu_buttn());
+    if (config_button_b(b) && d == 1) return goto_state(&st_title);
+    if (config_button_X(b) && d == 1) return goto_state(&st_title);
     return 1;
 }
 
@@ -467,11 +477,11 @@ static int conf_buttn(int b, int d)
 #define STR_START "Level Select"
 #define STR_BACK  "Back"
 
-static int shot_level = 0;
-static int shot_x0    = 0;
-static int shot_y0    = 0;
-static int shot_x1    = 0;
-static int shot_y1    = 0;
+static int shot_level = -1;
+static int shot_x0    =  0;
+static int shot_y0    =  0;
+static int shot_x1    =  0;
+static int shot_y1    =  0;
 
 static int start_action(int i)
 {
@@ -488,81 +498,179 @@ static int start_action(int i)
     return 1;
 }
 
+static void start_motion(int i)
+{
+    const GLfloat *c0 = c_yellow;
+    const GLfloat *c1 = c_white;
+    int w, h;
+
+    if (shot_level != i)
+    {
+        shot_level = i;
+
+        text_size("0", TXT_SML, &w, &h);
+
+        menu_text(29, -11 * h, -15 * h/4, c0, c1, level_time_c(i,0), TXT_SML);
+        menu_text(30,  -7 * h, -15 * h/4, c0, c1, level_time_n(i,0), TXT_SML);
+        menu_text(31,  -2 * h, -15 * h/4, c0, c1, level_time_s(i,0), TXT_SML);
+
+        menu_text(32, -11 * h, -21 * h/4, c0, c1, level_time_c(i,1), TXT_SML);
+        menu_text(33,  -7 * h, -21 * h/4, c0, c1, level_time_n(i,1), TXT_SML);
+        menu_text(34,  -2 * h, -21 * h/4, c0, c1, level_time_s(i,1), TXT_SML);
+
+        menu_text(35, -11 * h, -27 * h/4, c0, c1, level_time_c(i,2), TXT_SML);
+        menu_text(36,  -7 * h, -27 * h/4, c0, c1, level_time_n(i,2), TXT_SML);
+        menu_text(37,  -2 * h, -27 * h/4, c0, c1, level_time_s(i,2), TXT_SML);
+
+
+        menu_text(38,  +2 * h, -15 * h/4, c0, c1, level_coin_s(i,0), TXT_SML);
+        menu_text(39,  +7 * h, -15 * h/4, c0, c1, level_coin_n(i,0), TXT_SML);
+        menu_text(40, +11 * h, -15 * h/4, c0, c1, level_coin_c(i,0), TXT_SML);
+
+        menu_text(41,  +2 * h, -21 * h/4, c0, c1, level_coin_s(i,1), TXT_SML);
+        menu_text(42,  +7 * h, -21 * h/4, c0, c1, level_coin_n(i,1), TXT_SML);
+        menu_text(43, +11 * h, -21 * h/4, c0, c1, level_coin_c(i,1), TXT_SML);
+
+        menu_text(44,  +2 * h, -27 * h/4, c0, c1, level_coin_s(i,2), TXT_SML);
+        menu_text(45,  +7 * h, -27 * h/4, c0, c1, level_coin_n(i,2), TXT_SML);
+        menu_text(46, +11 * h, -27 * h/4, c0, c1, level_coin_c(i,2), TXT_SML);
+    }
+}
+
+#define COL0(i) (level_opened(i) ? c_white : c_yellow)
+#define COL1(i) (level_opened(i) ? c_white : c_red)
+#define OPN(i)  (level_opened(i) ? i : -1)
+
 static void start_enter(void)
 {
-    int x, w, sw, dx, cx;
-    int y, h, sh, dy;
-    int i = 1;
+    int i;
+    int w;
+    int h;
+
+    shot_level = -1;
 
     level_init();
 
-    /* Compute the menu layout parameters based on text size. */
+    text_size("0", TXT_SML, &w, &h);
+    menu_init(47, 29, 0);
 
-    text_size("00", TXT_SML, &w, &h);
-    dx = 3 * w / 2;
-    dy = 3 * h / 2;
+    /* Text elements */
 
-    sw = 20 * dy / 3;
-    sh =  5 * dy;
-    cx = (5 * dx - sw) / 2;
+    menu_text(0,  -8 * h, +33 * h / 4, c_white, c_white, "Back", TXT_SML);
+    menu_text(1,  -9 * h, +27 * h / 4, COL0( 1), COL1( 1), "01", TXT_SML);
+    menu_text(2,  -7 * h, +27 * h / 4, COL0( 2), COL1( 2), "02", TXT_SML);
+    menu_text(3,  -5 * h, +27 * h / 4, COL0( 3), COL1( 3), "03", TXT_SML);
+    menu_text(4,  -3 * h, +27 * h / 4, COL0( 4), COL1( 4), "04", TXT_SML);
+    menu_text(5,  -1 * h, +27 * h / 4, COL0( 5), COL1( 5), "05", TXT_SML);
+    menu_text(6,  -9 * h, +21 * h / 4, COL0( 6), COL1( 6), "06", TXT_SML);
+    menu_text(7,  -7 * h, +21 * h / 4, COL0( 7), COL1( 7), "07", TXT_SML);
+    menu_text(8,  -5 * h, +21 * h / 4, COL0( 8), COL1( 8), "08", TXT_SML);
+    menu_text(9,  -3 * h, +21 * h / 4, COL0( 9), COL1( 9), "09", TXT_SML);
+    menu_text(10, -1 * h, +21 * h / 4, COL0(10), COL1(10), "10", TXT_SML);
+    menu_text(11, -9 * h, +15 * h / 4, COL0(11), COL1(11), "11", TXT_SML);
+    menu_text(12, -7 * h, +15 * h / 4, COL0(12), COL1(12), "12", TXT_SML);
+    menu_text(13, -5 * h, +15 * h / 4, COL0(13), COL1(13), "13", TXT_SML);
+    menu_text(14, -3 * h, +15 * h / 4, COL0(14), COL1(14), "14", TXT_SML);
+    menu_text(15, -1 * h, +15 * h / 4, COL0(15), COL1(15), "15", TXT_SML);
+    menu_text(16, -9 * h,  +9 * h / 4, COL0(16), COL1(16), "16", TXT_SML);
+    menu_text(17, -7 * h,  +9 * h / 4, COL0(17), COL1(17), "17", TXT_SML);
+    menu_text(18, -5 * h,  +9 * h / 4, COL0(18), COL1(18), "18", TXT_SML);
+    menu_text(19, -3 * h,  +9 * h / 4, COL0(19), COL1(19), "19", TXT_SML);
+    menu_text(20, -1 * h,  +9 * h / 4, COL0(20), COL1(20), "20", TXT_SML);
+    menu_text(21, -9 * h,  +3 * h / 4, COL0(21), COL1(21), "21", TXT_SML);
+    menu_text(22, -7 * h,  +3 * h / 4, COL0(22), COL1(22), "22", TXT_SML);
+    menu_text(23, -5 * h,  +3 * h / 4, COL0(23), COL1(23), "23", TXT_SML);
+    menu_text(24, -3 * h,  +3 * h / 4, COL0(24), COL1(24), "24", TXT_SML);
+    menu_text(25, -1 * h,  +3 * h / 4, COL0(25), COL1(25), "25", TXT_SML);
 
-    /* Create level number text and items. */
+    menu_text(26, -6 * h,  -9 * h / 4, c_yellow, c_red, "Best Times", TXT_SML);
+    menu_text(27, +6 * h,  -9 * h / 4, c_yellow, c_red, "Most Coins", TXT_SML);
+    menu_text(28, +8 * h, +33 * h / 4, c_yellow, c_red, "Level",      TXT_SML);
 
-    menu_init(27, 27, 0);
+    start_motion(0);
 
-    for (y = -2 * dy; y <= +2 * dy; y += dy)
-        for (x = -9 * dx / 2; x < 0; x += dx)
-        {
-            char str[3];
-            const float *c0 = c_black;
-            const float *c1 = c_black;
+    /* Active items */
 
-            if (level_exists(i))
-            {
-                c0 = c_yellow;
-                c1 = c_red;
-            }
-            if (level_opened(i))
-            {
-                c0 = c_white;
-                c1 = c_white;
-            }
+    menu_item(0,  -8 * h, +33 * h / 4, 4 * h, 3 * h / 2);
+    menu_item(1,  -9 * h, +27 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(2,  -7 * h, +27 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(3,  -5 * h, +27 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(4,  -3 * h, +27 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(5,  -1 * h, +27 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(6,  -9 * h, +21 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(7,  -7 * h, +21 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(8,  -5 * h, +21 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(9,  -3 * h, +21 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(10, -1 * h, +21 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(11, -9 * h, +15 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(12, -7 * h, +15 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(13, -5 * h, +15 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(14, -3 * h, +15 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(15, -1 * h, +15 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(16, -9 * h,  +9 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(17, -7 * h,  +9 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(18, -5 * h,  +9 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(19, -3 * h,  +9 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(20, -1 * h,  +9 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(21, -9 * h,  +3 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(22, -7 * h,  +3 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(23, -5 * h,  +3 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(24, -3 * h,  +3 * h / 4, 2 * h, 3 * h / 2);
+    menu_item(25, -1 * h,  +3 * h / 4, 2 * h, 3 * h / 2);
 
-            str[0] = '0' + i / 10;
-            str[1] = '0' + i % 10;
-            str[2] =  0;
+    menu_item(26, -6 * h, -18 * h / 4, 12 * h - 4, 12 * h / 2);
+    menu_item(27, +6 * h, -18 * h / 4, 12 * h - 4, 12 * h / 2);
+    menu_item(28, +8 * h, +33 * h / 4,  4 * h - 4,  3 * h / 2); 
 
-            menu_text(i, cx + x, y, c0, c1, str, TXT_SML);
-            menu_item(i, cx + x, y, dx, dy);
-            menu_stat(i, level_opened(i) ? 0 : -1);
-            menu_link(i,
-                      level_opened(i + 5) ? (i + 5) : i,
-                      level_opened(i - 5) ? (i - 5) : START_BACK,
-                      level_opened(i - 1) ? (i - 1) : START_BACK,
-                      level_opened(i + 1) ? (i + 1) : i);
-            i++;
-        }
-
-    /* Create label and back button. */
-
-    menu_text(0, cx -4*dx, -3*dy, c_white, c_white, STR_BACK, TXT_SML);
-    menu_item(0, cx -4*dx, -3*dy, +2*dx, dy);
     menu_stat(0, 0);
-    menu_link(0, 1, START_BACK, START_BACK, START_BACK);
 
-    menu_text(26, cx + sw -2*dx, +3*dy, c_yellow, c_red, STR_START, TXT_SML);
-    menu_item(26, cx + sw -2*dx, +3*dy, +4*dx, dy);
+    for (i = 1; i < 26; i++)
+        if (level_opened(i))
+            menu_stat(i, 0);
+
+    /* Item linkings for menu traversal */
+
+    menu_link(0, -1,       OPN(1),  -1,      -1);
+    menu_link(1,  0,       OPN(6),  -1,      OPN(2));
+    menu_link(2,  0,       OPN(7),  OPN(1),  OPN(3));
+    menu_link(3,  0,       OPN(8),  OPN(2),  OPN(4));
+    menu_link(4,  0,       OPN(9),  OPN(3),  OPN(5));
+    menu_link(5,  0,       OPN(10), OPN(4),  OPN(6));
+    menu_link(6,  OPN(1),  OPN(11), OPN(5),  OPN(7));
+    menu_link(7,  OPN(2),  OPN(12), OPN(6),  OPN(8));
+    menu_link(8,  OPN(3),  OPN(13), OPN(7),  OPN(9));
+    menu_link(9,  OPN(4),  OPN(14), OPN(8),  OPN(10));
+    menu_link(10, OPN(5),  OPN(15), OPN(9),  OPN(11));
+    menu_link(11, OPN(6),  OPN(16), OPN(10), OPN(12));
+    menu_link(12, OPN(7),  OPN(17), OPN(11), OPN(13));
+    menu_link(13, OPN(8),  OPN(18), OPN(12), OPN(14));
+    menu_link(14, OPN(9),  OPN(19), OPN(13), OPN(15));
+    menu_link(15, OPN(10), OPN(20), OPN(14), OPN(16));
+    menu_link(16, OPN(11), OPN(21), OPN(15), OPN(17));
+    menu_link(17, OPN(12), OPN(22), OPN(16), OPN(18));
+    menu_link(18, OPN(13), OPN(23), OPN(17), OPN(19));
+    menu_link(19, OPN(14), OPN(24), OPN(18), OPN(20));
+    menu_link(20, OPN(15), OPN(25), OPN(19), OPN(21));
+    menu_link(21, OPN(16), -1,      OPN(20), OPN(22));
+    menu_link(22, OPN(17), -1,      OPN(21), OPN(23));
+    menu_link(23, OPN(18), -1,      OPN(22), OPN(24));
+    menu_link(24, OPN(19), -1,      OPN(23), OPN(25));
+    menu_link(25, OPN(20), -1,      OPN(24), -1);
 
     /* Position the level shot. */
 
-    shot_x0 =  (config_w() / 2) + cx;
-    shot_y0 =  (config_h() / 2) - sh / 2;
-    shot_x1 =  (config_w() / 2) + cx + sw;
-    shot_y1 =  (config_h() / 2) + sh / 2;
+    shot_x0 = config_w() / 2;
+    shot_y0 = config_h() / 2;
+    shot_x1 = config_w() / 2 +  10 * h;
+    shot_y1 = config_h() / 2 +  15 * h / 2;
+
+    SDL_ShowCursor(SDL_ENABLE);
 }
 
 static void start_leave(void)
 {
+    SDL_ShowCursor(SDL_DISABLE);
+
     menu_free();
 }
 
@@ -602,8 +710,8 @@ static int start_point(int x, int y, int dx, int dy)
 {
     int i;
 
-    if ((i = menu_point(dx, dy)) >= 0)
-        shot_level = i;
+    if ((i = menu_point(x, y)) >= 0)
+        start_motion(i);
 
     return 1;
 }
@@ -623,17 +731,16 @@ static int start_stick(int a, int v)
     int i;
 
     if ((i = menu_stick(a, v)) >= 0)
-        shot_level = i;
+        start_motion(i);
 
     return 1;
 }
 
 static int start_buttn(int b, int d)
 {
-    if (config_button_a(b) && d == 1)
-        return start_action(menu_buttn());
-    if (config_button_b(b) && d == 1)
-        return goto_state(&st_title);
+    if (config_button_a(b) && d == 1) return start_action(menu_buttn());
+    if (config_button_b(b) && d == 1) return goto_state(&st_title);
+    if (config_button_X(b) && d == 1) return goto_state(&st_title);
     return 1;
 }
 
@@ -713,7 +820,9 @@ static int level_keybd(int c)
 
 static int level_buttn(int b, int d)
 {
-    return (config_button_a(b) && d == 1) ? goto_state(&st_ready) : 1;
+    if (config_button_a(b) && d == 1) return goto_state(&st_ready);
+    if (config_button_X(b) && d == 1) return goto_state(&st_over);
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -781,7 +890,9 @@ static int ready_keybd(int c)
 
 static int ready_buttn(int b, int d)
 {
-    return (config_button_a(b) && d == 1) ? goto_state(&st_play) : 1;
+    if (config_button_a(b) && d == 1) return goto_state(&st_play);
+    if (config_button_X(b) && d == 1) return goto_state(&st_over);
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -841,7 +952,9 @@ static int set_keybd(int c)
 
 static int set_buttn(int b, int d)
 {
-    return (config_button_a(b) && d == 1) ? goto_state(&st_play) : 1;
+    if (config_button_a(b) && d == 1) return goto_state(&st_play);
+    if (config_button_X(b) && d == 1) return goto_state(&st_over);
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -898,7 +1011,6 @@ static int play_timer(double dt)
 static int play_point(int x, int y, int dx, int dy)
 {
     game_set_pos(dx, dy);
-
     return 1;
 }
 
@@ -912,8 +1024,6 @@ static int play_keybd(int c)
 {
     if (c == SDLK_ESCAPE)
         goto_state(&st_over);
-    if (c == SDLK_SPACE)
-        goto_state(&st_pause);
     return 1;
 }
 
@@ -940,8 +1050,10 @@ static int play_buttn(int b, int d)
         else
             view_rotate += 1;
     }
+    if (config_button_X(b) && d == 1)
+        return goto_state(&st_over);
 
-    return (config_button_P(b) && d == 1) ? goto_state(&st_pause) : 1;
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -975,10 +1087,15 @@ static int goal_click(int b, int d)
 {
     if (b <= 0 && d == 1)
     {
-        if (level_pass())
-            goto_state(&st_level);
+        if (level_goal())
+            goto_state(&st_score);
         else
-            goto_state(&st_done);
+        {
+            if (level_pass())
+                goto_state(&st_level);
+            else
+                goto_state(&st_done);
+        }
     }
     return 1;
 }
@@ -997,8 +1114,215 @@ static int goal_timer(double dt)
 
 static int goal_buttn(int b, int d)
 {
-    if (config_button_a(b) && d == 1)
-        return goal_click(0, 1);
+    if (config_button_a(b) && d == 1) return goal_click(0, 1);
+    if (config_button_X(b) && d == 1) return goto_state(&st_over);
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static int score_action(int i)
+{
+    int w, h, l = strlen(player);
+
+    if (i == 28)
+    {
+        /* Ok selected  */
+
+        if (level_pass())
+            goto_state(&st_level);
+        else
+            goto_state(&st_done);
+
+        return 1;
+    }
+    if (i == 27)
+    {
+        /* Backspace selected */
+
+        if (l > 0)
+            player[l - 1] = 0;
+    }
+    else
+    {
+        /* Letter selected */
+
+        if (l < MAXNAM - 1)
+        {
+            player[l + 0] = i + 'A' - 1;
+            player[l + 1] = 0;
+        }
+    }
+
+    text_size("M", TXT_MED, &w, &h);
+    menu_text(0, 0, h & (~3), c_yellow, c_white, player, TXT_MED);
+
+    return 1;
+}
+
+static void score_enter(void)
+{
+    int i;
+    int sw, mw, lw;
+    int sh, mh, lh;
+
+    text_size("M", TXT_SML, &sw, &sh);
+    text_size("M", TXT_MED, &mw, &mh);
+    text_size("M", TXT_LRG, &lw, &lh);
+    sw *= 2;
+    sh *= 2;
+
+    menu_init(30, 30, 28);
+
+    /* Text elements */
+
+    menu_text(0,  0,     mh, c_yellow, c_white, player,        TXT_MED);
+    menu_text(29, 0, 3 * mh, c_yellow, c_red,   "New Record!", TXT_LRG);
+
+    menu_text(1,  -3 * sw, -1 * sh, c_white, c_white, "A",  TXT_SML);
+    menu_text(2,  -2 * sw, -1 * sh, c_white, c_white, "B",  TXT_SML);
+    menu_text(3,  -1 * sw, -1 * sh, c_white, c_white, "C",  TXT_SML);
+    menu_text(4,   0 * sw, -1 * sh, c_white, c_white, "D",  TXT_SML);
+    menu_text(5,  +1 * sw, -1 * sh, c_white, c_white, "E",  TXT_SML);
+    menu_text(6,  +2 * sw, -1 * sh, c_white, c_white, "F",  TXT_SML);
+    menu_text(7,  +3 * sw, -1 * sh, c_white, c_white, "G",  TXT_SML);
+    menu_text(8,  -3 * sw, -2 * sh, c_white, c_white, "H",  TXT_SML);
+    menu_text(9,  -2 * sw, -2 * sh, c_white, c_white, "I",  TXT_SML);
+    menu_text(10, -1 * sw, -2 * sh, c_white, c_white, "J",  TXT_SML);
+    menu_text(11,  0 * sw, -2 * sh, c_white, c_white, "K",  TXT_SML);
+    menu_text(12, +1 * sw, -2 * sh, c_white, c_white, "L",  TXT_SML);
+    menu_text(13, +2 * sw, -2 * sh, c_white, c_white, "M",  TXT_SML);
+    menu_text(14, +3 * sw, -2 * sh, c_white, c_white, "N",  TXT_SML);
+    menu_text(15, -3 * sw, -3 * sh, c_white, c_white, "O",  TXT_SML);
+    menu_text(16, -2 * sw, -3 * sh, c_white, c_white, "P",  TXT_SML);
+    menu_text(17, -1 * sw, -3 * sh, c_white, c_white, "Q",  TXT_SML);
+    menu_text(18,  0 * sw, -3 * sh, c_white, c_white, "R",  TXT_SML);
+    menu_text(19, +1 * sw, -3 * sh, c_white, c_white, "S",  TXT_SML);
+    menu_text(20, +2 * sw, -3 * sh, c_white, c_white, "T",  TXT_SML);
+    menu_text(21, +3 * sw, -3 * sh, c_white, c_white, "U",  TXT_SML);
+    menu_text(22, -3 * sw, -4 * sh, c_white, c_white, "V",  TXT_SML);
+    menu_text(23, -2 * sw, -4 * sh, c_white, c_white, "W",  TXT_SML);
+    menu_text(24, -1 * sw, -4 * sh, c_white, c_white, "X",  TXT_SML);
+    menu_text(25,  0 * sw, -4 * sh, c_white, c_white, "Y",  TXT_SML);
+    menu_text(26, +1 * sw, -4 * sh, c_white, c_white, "Z",  TXT_SML);
+    menu_text(27, +2 * sw, -4 * sh, c_green, c_white, "<",  TXT_SML);
+    menu_text(28, +3 * sw, -4 * sh, c_green, c_white, "Ok", TXT_SML);
+
+    /* Active elements. */
+
+    menu_item(0,  0,     mh,  mw * MAXNAM,     mh);
+    menu_item(29, 0, 3 * mh, 0.9 * config_w(), lh);
+
+    menu_item(1,  -3 * sw, -1 * sh, sw, sh);
+    menu_item(2,  -2 * sw, -1 * sh, sw, sh);
+    menu_item(3,  -1 * sw, -1 * sh, sw, sh);
+    menu_item(4,   0 * sw, -1 * sh, sw, sh);
+    menu_item(5,  +1 * sw, -1 * sh, sw, sh);
+    menu_item(6,  +2 * sw, -1 * sh, sw, sh);
+    menu_item(7,  +3 * sw, -1 * sh, sw, sh);
+    menu_item(8,  -3 * sw, -2 * sh, sw, sh);
+    menu_item(9,  -2 * sw, -2 * sh, sw, sh);
+    menu_item(10, -1 * sw, -2 * sh, sw, sh);
+    menu_item(11,  0 * sw, -2 * sh, sw, sh);
+    menu_item(12, +1 * sw, -2 * sh, sw, sh);
+    menu_item(13, +2 * sw, -2 * sh, sw, sh);
+    menu_item(14, +3 * sw, -2 * sh, sw, sh);
+    menu_item(15, -3 * sw, -3 * sh, sw, sh);
+    menu_item(16, -2 * sw, -3 * sh, sw, sh);
+    menu_item(17, -1 * sw, -3 * sh, sw, sh);
+    menu_item(18,  0 * sw, -3 * sh, sw, sh);
+    menu_item(19, +1 * sw, -3 * sh, sw, sh);
+    menu_item(20, +2 * sw, -3 * sh, sw, sh);
+    menu_item(21, +3 * sw, -3 * sh, sw, sh);
+    menu_item(22, -3 * sw, -4 * sh, sw, sh);
+    menu_item(23, -2 * sw, -4 * sh, sw, sh);
+    menu_item(24, -1 * sw, -4 * sh, sw, sh);
+    menu_item(25,  0 * sw, -4 * sh, sw, sh);
+    menu_item(26, +1 * sw, -4 * sh, sw, sh);
+    menu_item(27, +2 * sw, -4 * sh, sw, sh);
+    menu_item(28, +3 * sw, -4 * sh, sw, sh);
+
+    for (i = 1; i < 29; i++)
+        menu_stat(i, 0);
+
+    /* Menu traversal linkages. */
+
+    menu_link(1,  -1,  8, -1,  2);
+    menu_link(2,  -1,  9,  1,  3);
+    menu_link(3,  -1, 10,  2,  4);
+    menu_link(4,  -1, 11,  3,  5);
+    menu_link(5,  -1, 12,  4,  6);
+    menu_link(6,  -1, 13,  5,  7);
+    menu_link(7,  -1, 14,  6,  8);
+    menu_link(8,   1, 15,  7,  9);
+    menu_link(9,   2, 16,  8, 10);
+    menu_link(10,  3, 17,  9, 11);
+    menu_link(11,  4, 18, 10, 12);
+    menu_link(12,  5, 19, 11, 13);
+    menu_link(13,  6, 20, 12, 14);
+    menu_link(14,  7, 21, 13, 15);
+    menu_link(15,  8, 22, 14, 16);
+    menu_link(16,  9, 23, 15, 17);
+    menu_link(17, 10, 24, 16, 18);
+    menu_link(18, 11, 25, 17, 19);
+    menu_link(19, 12, 26, 18, 20);
+    menu_link(20, 13, 27, 19, 21);
+    menu_link(21, 14, 28, 20, 22);
+    menu_link(22, 15, -1, 21, 23);
+    menu_link(23, 16, -1, 22, 24);
+    menu_link(24, 17, -1, 23, 25);
+    menu_link(25, 18, -1, 24, 26);
+    menu_link(26, 19, -1, 25, 27);
+    menu_link(27, 20, -1, 26, 28);
+    menu_link(28, 20, -1, 27, -1);
+
+    audio_play(AUD_OVER, 1.f);
+
+    SDL_ShowCursor(SDL_ENABLE);
+}
+
+static void score_leave(void)
+{
+    SDL_ShowCursor(SDL_DISABLE);
+
+    menu_free();
+}
+
+static void score_paint(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    game_draw(0);
+    menu_paint();
+}
+
+static int score_point(int x, int y, int dx, int dy)
+{
+    menu_point(x, y);
+    return 1;
+}
+
+static int score_click(int b, int d)
+{
+    return (b < 0 && d == 1) ? score_action(menu_click()) : 1;
+}
+
+static int score_keybd(int c)
+{
+    if (c == SDLK_ESCAPE)
+        goto_state(&st_over);
+    return 1;
+}
+
+static int score_stick(int a, int v)
+{
+    menu_stick(a, v);
+    return 1;
+}
+
+static int score_buttn(int b, int d)
+{
+    if (config_button_a(b) && d == 1) return score_action(menu_buttn());
+    if (config_button_X(b) && d == 1) return goto_state(&st_over);
     return 1;
 }
 
@@ -1056,7 +1380,9 @@ static int fall_timer(double dt)
 
 static int fall_buttn(int b, int d)
 {
-    return (config_button_a(b) && d == 1) ? fall_click(0, 1) : 1;
+    if (config_button_a(b) && d == 1) return fall_click(0, 1);
+    if (config_button_X(b) && d == 1) return goto_state(&st_over);
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1071,7 +1397,7 @@ static void time_enter(void)
     menu_text(0, 0, y, c_black, c_red, "Time's up!", TXT_LRG);
     menu_item(0, 0, y, w, h);
 
-    audio_play(AUD_TIME, 1.f);
+    audio_play(AUD_TIME,  1.f);
 }
 
 static void time_leave(void)
@@ -1113,7 +1439,9 @@ static int time_timer(double dt)
 
 static int time_buttn(int b, int d)
 {
-    return (config_button_a(b) && d == 1) ? time_click(0, 1) : 1;
+    if (config_button_a(b) && d == 1) return time_click(0, 1);
+    if (config_button_X(b) && d == 1) return goto_state(&st_over);
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1226,54 +1554,6 @@ static int done_buttn(int b, int d)
 {
     if (config_button_a(b) && d == 1) goto_state(&st_title);
     if (config_button_b(b) && d == 1) goto_state(&st_title);
-    return 1;
-}
-
-/*---------------------------------------------------------------------------*/
-
-static void pause_enter(void)
-{
-    int y = 1 * config_h() / 6;
-    int h = 1 * config_w() / 6;
-    int w = 2 * config_w() / 3;
-
-    menu_init(1, 1, 1);
-    menu_text(0, 0, y, c_yellow, c_red, "Paused", TXT_LRG);
-    menu_item(0, 0, y, w, h);
-
-    audio_play(AUD_PAUSE, 1.f);
-
-    SDL_WM_GrabInput(SDL_GRAB_OFF);
-    SDL_ShowCursor(SDL_ENABLE);
-}
-
-static void pause_leave(void)
-{
-    SDL_ShowCursor(SDL_DISABLE);
-    SDL_WM_GrabInput(SDL_GRAB_ON);
-
-    menu_free();
-}
-
-static void pause_paint(void)
-{
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
-    hud_draw();
-    menu_paint();
-}
-
-static int pause_keybd(int c)
-{
-    if (c == SDLK_ESCAPE) goto_state(&st_over);
-    if (c == SDLK_SPACE)  goto_state(&st_play);
-    return 1;
-}
-
-static int pause_buttn(int b, int d)
-{
-    if (config_button_b(b) && d == 1) goto_state(&st_over);
-    if (config_button_P(b) && d == 1) goto_state(&st_play);
     return 1;
 }
 
@@ -1399,6 +1679,18 @@ struct state st_goal = {
     goal_buttn,
 };
 
+struct state st_score = {
+    score_enter,
+    score_leave,
+    score_paint,
+    NULL,
+    score_point,
+    score_click,
+    score_keybd,
+    score_stick,
+    score_buttn,
+};
+
 struct state st_fall = {
     fall_enter,
     fall_leave,
@@ -1445,17 +1737,5 @@ struct state st_done = {
     done_keybd,
     NULL,
     done_buttn,
-};
-
-struct state st_pause = {
-    pause_enter,
-    pause_leave,
-    pause_paint,
-    NULL,
-    NULL,
-    NULL,
-    pause_keybd,
-    NULL,
-    pause_buttn,
 };
 

@@ -39,6 +39,7 @@
 static int mode         = SDL_OPENGL;
 static int width        = CONFIG_DEF_WIDTH;
 static int height       = CONFIG_DEF_HEIGHT;
+static int camera       = CONFIG_DEF_CAMERA;
 static int textures     = CONFIG_DEF_TEXTURES;
 static int geometry     = CONFIG_DEF_GEOMETRY;
 static int audio_rate   = CONFIG_DEF_AUDIO_RATE;
@@ -55,7 +56,7 @@ static int button_a     = CONFIG_DEF_BUTTON_A;
 static int button_b     = CONFIG_DEF_BUTTON_B;
 static int button_r     = CONFIG_DEF_BUTTON_R;
 static int button_l     = CONFIG_DEF_BUTTON_L;
-static int button_pause = CONFIG_DEF_BUTTON_PAUSE;
+static int button_exit  = CONFIG_DEF_BUTTON_EXIT;
 
 /*---------------------------------------------------------------------------*/
 
@@ -105,11 +106,11 @@ int config_home(char *dst, const char *src, size_t n)
  * directory to the root of the asset hierarchy.  Confirm the location
  * by checking for the presence of the level catalog.
  */
-int config_path(void)
+int config_path(const char *path)
 {
     FILE *fp;
 
-    chdir(CONFIG_PATH);
+    chdir(path);
 
     if ((fp = fopen(LEVEL_FILE, "r")))
     {
@@ -126,7 +127,7 @@ void config_load(void)
     char  path[STRMAX];
     FILE *fp;
 
-    if (config_home(path, CONFIG_FILE, STRMAX) && (fp = fopen(path, "r")))
+    if (config_home(path, USER_CONFIG_FILE, STRMAX) && (fp = fopen(path, "r")))
     {
         char key[STRMAX];
         int  val;
@@ -138,6 +139,7 @@ void config_load(void)
 
             if (strcmp(key, "width")        == 0) width        = val;
             if (strcmp(key, "height")       == 0) height       = val;
+            if (strcmp(key, "camera")       == 0) camera       = val;
             if (strcmp(key, "textures")     == 0) textures     = val;
             if (strcmp(key, "geometry")     == 0) geometry     = val;
             if (strcmp(key, "audio_rate")   == 0) audio_rate   = val;
@@ -154,7 +156,7 @@ void config_load(void)
             if (strcmp(key, "button_b")     == 0) button_b     = val;
             if (strcmp(key, "button_r")     == 0) button_r     = val;
             if (strcmp(key, "button_l")     == 0) button_l     = val;
-            if (strcmp(key, "button_pause") == 0) button_pause = val;
+            if (strcmp(key, "button_exit")  == 0) button_exit  = val;
         }
 
         fclose(fp);
@@ -166,11 +168,12 @@ void config_store(void)
     char  path[STRMAX];
     FILE *fp;
 
-    if (config_home(path, CONFIG_FILE, STRMAX) && (fp = fopen(path, "w")))
+    if (config_home(path, USER_CONFIG_FILE, STRMAX) && (fp = fopen(path, "w")))
     {
         fprintf(fp, "fullscreen %d\n",  (mode & SDL_FULLSCREEN) ? 1 : 0);
         fprintf(fp, "width %d\n",        width);
         fprintf(fp, "height %d\n",       height);
+        fprintf(fp, "camera %d\n",       camera);
         fprintf(fp, "textures %d\n",     textures);
         fprintf(fp, "geometry %d\n",     geometry);
         fprintf(fp, "audio_rate %d\n",   audio_rate);
@@ -187,7 +190,7 @@ void config_store(void)
         fprintf(fp, "button_l %d\n",     button_l);
         fprintf(fp, "button_a %d\n",     button_a);
         fprintf(fp, "button_b %d\n",     button_b);
-        fprintf(fp, "button_pause %d\n", button_pause);
+        fprintf(fp, "button_exit %d\n",  button_exit);
 
         fclose(fp);
     }
@@ -198,6 +201,7 @@ void config_store(void)
 int config_mode(void) { return mode; }
 int config_w   (void) { return width;  }
 int config_h   (void) { return height; }
+int config_view(void) { return camera; }
 int config_text(void) { return textures; }
 int config_geom(void) { return geometry; }
 int config_rate(void) { return audio_rate; }
@@ -213,7 +217,7 @@ int config_button_a(int b) { return (joy && b == button_a); }
 int config_button_b(int b) { return (joy && b == button_b); }
 int config_button_r(int b) { return (joy && b == button_r); }
 int config_button_l(int b) { return (joy && b == button_l); }
-int config_button_P(int b) { return (joy && b == button_pause); }
+int config_button_X(int b) { return (joy && b == button_exit); }
 
 /*---------------------------------------------------------------------------*/
 

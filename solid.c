@@ -58,7 +58,11 @@ static void sol_body_v(double v[3],
         v_scl(v, v, 1.0 / pp->t);
     }
     else
-        v[0] = v[1] = v[2] = 0.0;
+    {
+        v[0] = 0.0;
+        v[1] = 0.0;
+        v[2] = 0.0;
+    }
 }
 
 static void sol_body_p(double p[3],
@@ -76,7 +80,11 @@ static void sol_body_p(double p[3],
         v_mad(p, pp->p, v, bp->t);
     }
     else
-        p[0] = p[1] = p[2] = 0.0;
+    {
+        p[0] = 0.0;
+        p[1] = 0.0;
+        p[2] = 0.0;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -936,15 +944,17 @@ double sol_step(struct s_file *fp, const double *g, double dt)
     v_mad(up->v, up->v, g, tt);
 
     while (tt > 0 && tt >= (nt = sol_test_file(T, V, up, fp)))
-    {
-        sol_body_step(fp, nt);
-        sol_ball_step(fp, nt);
+        if (fabs(nt) > SMALL)
+        {
+            sol_body_step(fp, nt);
+            sol_ball_step(fp, nt);
 
-        tt -= nt;
+            tt -= nt;
 
-        if (b < (d = sol_bounce(up, T, V)))
-            b = d;
-    }
+            if (b < (d = sol_bounce(up, T, V)))
+                b = d;
+        }
+        else break;
 
     sol_body_step(fp, tt);
     sol_ball_step(fp, tt);

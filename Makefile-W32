@@ -95,6 +95,6 @@ $(MAPC_TARG) : $(MAPC_OBJS)
 clean :
 	del $(GAME_TARG) $(GAME_OBJS)
 	del $(MAPC_TARG) $(MAPC_OBJS)
-	del $(SOLS)
+	del /q data\sol\*.sol
 
 #------------------------------------------------------------------------------
