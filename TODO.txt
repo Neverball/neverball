@@ -1,10 +1,8 @@
-Fix reset
-Text
+list texture, roll, bump, ke, and kr in mtrl file
 Goal
 Smooth dt
 Fix ugly sky.  Stars?  Whooshies?
 Coins
-Sound
 A ball rolling in a trough rotates funny
 Tweak responsiveness.  Time coefficient?
 Implement multiple ball physics

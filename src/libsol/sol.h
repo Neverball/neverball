@@ -3,7 +3,7 @@
 
 #define PATHMAX 44
 
-/*--------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 struct s_imag
 {
@@ -141,12 +141,12 @@ struct s_file
 	int           *iv;
 };
 
-/*--------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
-int    sol_load(struct s_file *, const char *);
-int    sol_stor(struct s_file *, const char *);
+int  sol_load(struct s_file *, const char *);
+int  sol_stor(struct s_file *, const char *);
 
-void   sol_render(const struct s_file *);
-void   sol_update(struct s_file *, double, const double[3]);
+void sol_render(const struct s_file *);
+void sol_update(struct s_file *, double, const double[3], double *, double *);
 
 #endif

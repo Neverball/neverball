@@ -1,15 +1,16 @@
 
 all :
-	(cd src; $(MAKE))
+	(cd src;  $(MAKE))
+	(cd data; $(MAKE))
 
 install :
-	(cd src; $(MAKE) -i install)
+	(cd src;  $(MAKE) -i install)
+	(cd data; $(MAKE) -i install)
 
 clean :
-	(cd src; $(MAKE) -i clean)
+	(cd src;  $(MAKE) -i clean)
+	(cd data; $(MAKE) -i clean)
 	(rm -f bin/*)
 	(rm -f lib/*)
 	(rm -f include/*)
-	(rm -f map/*.sol)
-	(rm -f map/*.bak)
 

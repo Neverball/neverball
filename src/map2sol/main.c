@@ -13,7 +13,7 @@
 #define MAXSTR 256
 #define MAXKEY 16
 #define SCALE  64.0
-#define SMALL  0.000005
+#define SMALL  0.0000000005
 
 /* The overall design of this map converter is very stupid, but very  */
 /* simple.  It begins by assuming that every mtrl, vert, edge, geom,  */
@@ -313,7 +313,8 @@ static void read_mtrl(struct s_file *fp, const char *s)
 		            mp->h);
 		fclose(fin);
 
-		strcpy(mp->f, s);
+		strcpy(mp->f, "data/");
+		strcat(mp->f, s);
 		strcat(mp->f, ".jpg");
 	}
 }
@@ -490,7 +491,7 @@ static void make_ball(struct s_file *fp, char k[][MAXSTR],
 		}
 	}
 
-	up->p[1] += up->r + 0.00001;
+	up->p[1] += up->r + SMALL;
 }
 
 /*--------------------------------------------------------------------*/

@@ -3,7 +3,7 @@
 
 #include <GL/gl.h>
 
-GLuint make_ball(int);
-GLuint make_sky(int);
+GLuint ball_init(int);
+void   ball_draw(GLuint, double, const double[3], const double[3][3]);
 
 #endif

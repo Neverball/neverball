@@ -9,20 +9,14 @@ To build:
 
     make install
 
-The  executables will be copied into puttnik/bin.  All programs must  be
-run  from within the map/  directory in order for materials and textures
-to resolve correctly.
+The executables will be copied into bin/. Environments will be processed
+and copied into data/sol/. All programs must be run from within the base
+seb directory in order for materials and textures to resolve correctly.
 
-Before they can be viewed, .map files must be converted to .sol files.
+To run, specify a .sol file as a command line parameter to ball.
 
-    cd map/
-    ../bin/map2sol move.map move.sol
-    ../bin/map2sol flat.map flat.sol
-
-To view, specify a .sol file as a command line parameter to ball.
-
-    ../bin/ball move.sol
-    ../bin/ball flat.sol
+    bin/ball data/sol/move.sol
+    bin/ball data/sol/flat.sol
 
 The world tilts in the direction of the mouse curser.  Spacebar  redrops
 the ball back at the origin.  Escape exits.

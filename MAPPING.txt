@@ -72,8 +72,8 @@ We must first make radiant aware of the SEB materials.
 
     cd /usr/local/quake3/baseq3
 
-    ln -s $HOME/seb/map/mtrl             textures/mtrl
-    ln -s $HOME/seb/map/mtrl/mtrl.shader scripts/mtrl.shader
+    ln -s $HOME/seb/data/mtrl             textures/mtrl
+    ln -s $HOME/seb/data/mtrl/mtrl.shader scripts/mtrl.shader
 
 Now,  the mtrl shaders should appear in radiants Texture's menu. You may
 need to set "shaderlist.txt only"  to OFF in the radiant Textures  menu.
@@ -82,13 +82,15 @@ Be sure that ONLY mtrl shaders are used for SEB maps.
 At  this point,  you can go ahead and create a map.  Just toss  in  some
 brushes,  plop some mtrl shaders down on them, nothing fancy. Forget the
 entities for now, except drop in at least one info_player_start. You can
-save it anywhere, but for simplicities sake, put it in $HOME/seb/map/.
+save it anywhere, but for simplicities sake, put it in:
+
+    $HOME/seb/data/map/
 
 When  processing and testing a map,  the current directory must  contain
 the  mtrl  directory.  This is because the texture names are  stored  as
 relative paths in the .map and in the .sol.
 
-    cd $HOME/seb/map
+    cd $HOME/seb/data
 
 Assume the map is named funkyball.map.  Process it into a .sol with  the
 following command. Output should be similar.
@@ -100,9 +102,9 @@ following command. Output should be similar.
     mtrl vert edge side texc geom lump node path body coin ball indx
        3   25   48   24   29   66    6    0    0    1    0    1  214
 
-Now test your map:
+To test your map, run ball as normal, from the base seb directory.
 
-    ../bin/ball funkyball.map
+    bin/ball funkyball.map
 
 
 * ENTITIES
@@ -211,7 +213,7 @@ Creating a material is a 3-step process.
     anywhere.  Its width and height must both be powers of two.
 
     For this discussion, let us assume you have an image named wood.jpg.
-    Place in it sep/map/mtrl/.
+    Place in it sep/data/mtrl/.
 
 2)  Edit the file mtrl.shader, adding an entry for your new image.
 
@@ -227,9 +229,9 @@ Creating a material is a 3-step process.
     the fourth line)  minus the ".jpg" suffix.  Otherwise,  SEB won't be
     able to find it.
 
-3)  Create a material file in sep/map/mtrl, in this case mtrl/wood. This
-    name  must  match  the  radiant shader name,  minus  the  "texture/"
-    prefix.  The file must contain 17 values, explained below.
+3)  Create  a material file in sep/data/mtrl,  in this  case  mtrl/wood.
+    This name must match the radiant shader name,  minus the  "texture/"
+    prefix. The file must contain 17 values, explained below.
 
        1.0 1.0 1.0 1.0
        1.0 1.0 1.0 1.0
