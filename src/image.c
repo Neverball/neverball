@@ -88,6 +88,7 @@ void image_rect(struct image *image,
     glPushAttrib(GL_ENABLE_BIT);
     {
         glDisable(GL_LIGHTING);
+        glDisable(GL_DEPTH_TEST);
         glEnable(GL_COLOR_MATERIAL);
 
         glBegin(GL_QUADS);

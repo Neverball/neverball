@@ -8,6 +8,8 @@
 extern int width;
 extern int height;
 
+int fps(void);
+
 /*---------------------------------------------------------------------------*/
 
 #endif

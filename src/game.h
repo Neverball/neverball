@@ -10,7 +10,7 @@
 
 void game_init(void);
 
-void game_render_hud(void);
+void game_render_hud(int);
 void game_render_env(void);
 int  game_update_env(const double[3], double);
 void game_update_pos(int, int);

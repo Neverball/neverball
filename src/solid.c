@@ -99,7 +99,7 @@ static void sol_render_geom(const struct s_file *fp,
     {
         sol_render_mtrl(fp, gp->mi);
             
-        glBegin(GL_POLYGON);
+        glBegin(GL_TRIANGLES);
         {
             glNormal3dv  (fp->sv[gp->si].n);
             glTexCoord2dv(fp->tv[gp->ti].u);

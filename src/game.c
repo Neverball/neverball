@@ -48,12 +48,10 @@ static struct image dig_i[10];
 
 /*---------------------------------------------------------------------------*/
 
-#define TINY  0.0000000005
-
-static double time   = 0.0;
-static int    score  = 0;
-static int    balls  = 0;
-static int    ticks  = 0;
+static double time  = 0.0;
+static int    score = 0;
+static int    balls = 0;
+static int    ticks = 0;
 
 static Mix_Chunk *coin_wav;
 static Mix_Chunk *tick_wav;
@@ -125,61 +123,48 @@ void game_init(void)
 
 /*---------------------------------------------------------------------------*/
 
-void game_render_hud(void)
+#define CW 0.10
+#define CH 0.10
+#define CS 0.07
+
+static void game_render_dig(int d, double x, double y, double s)
 {
-    glMatrixMode(GL_PROJECTION);
+    image_rect(dig_i + d,
+               x - CW * s * 0.5, y - CH * s * 0.5,
+               x + CW * s * 0.5, y + CH * s * 0.5, 1.0);
+}
+
+void game_render_hud(int fps)
+{
+    glColor4d(1.0, 1.0, 1.0, 1.0);
+
+    if (fps > 0)
     {
-        glLoadIdentity();
-        glOrtho(0.0, 1.0, 0.0, 1.0, 0.0, 1.0);
+        game_render_dig((fps % 1000) / 100, CS * 0.5, 1.0 - CH * 0.5, 0.5);
+        game_render_dig((fps % 100)  / 10,  CS * 1.0, 1.0 - CH * 0.5, 0.5);
+        game_render_dig((fps % 10)   / 1,   CS * 1.5, 1.0 - CH * 0.5, 0.5);
     }
-    glMatrixMode(GL_MODELVIEW);
 
-    glPushAttrib(GL_ENABLE_BIT);
-    {
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
-        glEnable(GL_COLOR_MATERIAL);
+    game_render_dig((balls / 10),       CS * 0.5, CH * 0.5, 1.0);
+    game_render_dig((balls % 10),       CS * 1.5, CH * 0.5, 1.0);
 
-        glColor4d(1.0, 1.0, 1.0, 1.0);
+    game_render_dig((score / 10), 1.0 - CS * 1.5, CH * 0.5, 1.0);
+    game_render_dig((score % 10), 1.0 - CS * 0.5, CH * 0.5, 1.0);
 
-        image_rect(dig_i + (balls / 10), 0.00, 0.00, 0.09, 0.09, 1.0);
-        image_rect(dig_i + (balls % 10), 0.06, 0.00, 0.15, 0.09, 1.0);
-
-        image_rect(dig_i + (score / 10), 0.85, 0.00, 0.94, 0.09, 1.0);
-        image_rect(dig_i + (score % 10), 0.91, 0.00, 1.00, 0.09, 1.0);
-
-        image_rect(dig_i + (ticks / 10), 0.45, 0.00, 0.57, 0.15, 1.0);
-        image_rect(dig_i + (ticks % 10), 0.53, 0.00, 0.65, 0.15, 1.0);
-
-        image_rect(coin_p, 0.75, 0.03, 0.85, 0.06, 1.0);
-        image_rect(time_p, 0.35, 0.03, 0.45, 0.06, 1.0);
-    }
-    glPopAttrib();
+    game_render_dig((ticks / 10), 0.5 - CS, CH, 2.0);
+    game_render_dig((ticks % 10), 0.5 + CS, CH, 2.0);
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void game_render_all(const struct s_file *fp,
-                            const struct s_ball *up)
-{
-    const float light_p[4]  = { 8.0, 32.0, 8.0, 1.0 };
-
-    glLightfv(GL_LIGHT0, GL_POSITION, light_p);
-
-    sol_render(fp);
-
-    glPushAttrib(GL_ENABLE_BIT);
-    {
-        coin_draw(list_coin, fp->cv, fp->cc);
-        ball_draw(list_ball, up->r, up->p, up->e);
-    }
-    glPopAttrib();
-}
-
 void game_render_env(void)
 {
+    const float light_p[4] = { 8.0, 32.0, 8.0, 1.0 };
+    
     const struct s_file *fp = &file;
     const struct s_ball *up =  file.uv;
+
+    const double *ball_p = file.uv->p;
     
     GLint vp[4];
 
@@ -194,32 +179,43 @@ void game_render_env(void)
     glPushMatrix();
     {
         gluLookAt(view_p[0], view_p[1], view_p[2],
-                   up->p[0],  up->p[1],  up->p[2], 0, 1, 0);
+                  ball_p[0], ball_p[1], ball_p[2], 0, 1, 0);
 
         /* Rotate the world about the position of the ball. */
 
-        glTranslated(+up->p[0], +up->p[1], +up->p[2]);
+        glTranslated(+ball_p[0], +ball_p[1], +ball_p[2]);
         glRotated(-game_rz, view_e[2][0], view_e[2][1], view_e[2][2]);
         glRotated(-game_rx, view_e[0][0], view_e[0][1], view_e[0][2]);
-        glTranslated(-up->p[0], -up->p[1], -up->p[2]);
+        glTranslated(-ball_p[0], -ball_p[1], -ball_p[2]);
 
         /* Draw the scene. */
 
-        game_render_all(fp, up);
+        glLightfv(GL_LIGHT0, GL_POSITION, light_p);
+
+        sol_render(fp);
+
+        glPushAttrib(GL_ENABLE_BIT);
+        {
+            coin_draw(list_coin, fp->cv, fp->cc);
+            ball_draw(list_ball, up->r, ball_p, up->e);
+        }
+        glPopAttrib();
     }
     glPopMatrix();
 }
 
-int game_update_env(const double g[3], double real_dt)
+/*---------------------------------------------------------------------------*/
+
+static void game_update_grav(double h[3], const double g[3])
 {
     struct s_file *fp = &file;
 
-    double X[16], Z[16], M[16];
-    double x[3], y[3] = { 0.0, 1.0, 0.0 }, z[3];
-    double a[3], h[3];
-    double ay, az, dt;
-    double bump = 0.0;
-    int i, n;
+    double x[3];
+    double y[3] = { 0.0, 1.0, 0.0 };
+    double z[3];
+    double X[16];
+    double Z[16];
+    double M[16];
 
     /* Compute the gravity vector from the given world rotations. */
 
@@ -233,55 +229,27 @@ int game_update_env(const double g[3], double real_dt)
     m_rot (X, x, V_RAD(game_rx));
     m_mult(M, Z, X);
     m_vxfm(h, M, g);
+}
 
-    /*
-     * Run the sim.  On most  hardware, rendering requires much more computing
-     * power than  physics.  Since physics  takes less time than  graphics, it
-     * make sense  to detach  the physics update  time step from  the graphics
-     * frame rate.  By  performing multiple physics updates  for each graphics
-     * update, we get  away with higher quality physics  with little impact on
-     * overall performance.
-     *
-     * Toward this end, we establish a baseline maximum physics time step.  If
-     * the measured frame  time exceeds this maximum, we cut  the time step in
-     * half, and do two updates.  If THIS time step exceeds the maximum, we do
-     * four updates.  And  so on.  In this way, the  physics system is allowed
-     * to seek  an optimal  update rate independant  of, yet in  integral sync
-     * with, the graphics frame rate.
-     *
-     * If both your CPU and your  graphics card suck in perfect balance, it's
-     * not my problem.
-     */
+static void game_update_view(void)
+{
+    double *ball_p = file.uv->p;
 
-    n  = 1;
-    dt = real_dt;
-
-    while (dt > MAX_DT)
-    {
-        dt /= 2;
-        n  *= 2;
-    }
-
-    for (i = 0; i < n; i++)
-        sol_update(fp, dt, h, &bump);
-
-    /* Create the sound of the ball. */
-
-    if (bump > 0.50)
-    {
-        Mix_Volume(0, (int) (bump * MIX_MAX_VOLUME));
-        Mix_PlayChannel(0, bump_wav, 0);
-    }
+    double a[3];
+    double ay;
+    double az;
 
     /* Orthonormalize the basis of the view of the ball in its new position. */
 
-    v_sub(view_e[2], view_p, fp->uv->p);
+    v_sub(view_e[2], view_p, ball_p);
+
     v_crs(view_e[0], view_e[1], view_e[2]);
     v_crs(view_e[2], view_e[0], view_e[1]);
     v_nrm(view_e[0], view_e[0]);
     v_nrm(view_e[2], view_e[2]);
 
-    v_sub(a, view_p, fp->uv->p);
+    v_sub(a, view_p, ball_p);
+
     ay = v_dot(view_e[1], a);
     az = v_dot(view_e[2], a);
 
@@ -289,18 +257,27 @@ int game_update_env(const double g[3], double real_dt)
 
     view_p[0] = view_p[1] = view_p[2] = 0.0;
 
-    v_mad(view_p, fp->uv->p, view_e[1], ay < view_y ? ay : view_y);
-    v_mad(view_p,    view_p, view_e[2], az < view_z ? az : view_z);
+    v_mad(view_p, ball_p, view_e[1], ay < view_y ? ay : view_y);
+    v_mad(view_p, view_p, view_e[2], az < view_z ? az : view_z);
+}
 
-    /* The clock ticks. */
+static void game_update_time(double dt)
+{
+   /* The ticking clock. */
 
-    time -= real_dt;
+    time -= dt;
 
     if ((int) floor(time) < ticks)
     {
         Mix_PlayChannel(1, tick_wav, 0);
         ticks = (int) floor(time);
     }
+}
+
+static int game_update_state(void)
+{
+    struct s_file *fp = &file;
+    int n;
 
     /* Test for a coin grab and a possible 1UP. */
 
@@ -324,7 +301,7 @@ int game_update_env(const double g[3], double real_dt)
 
     /* Test for time-out. */
 
-    if (time <= 0.0)
+    if (ticks <= 0)
         return EV_TIME;
 
     /* Test for fall-out. */
@@ -335,6 +312,61 @@ int game_update_env(const double g[3], double real_dt)
     return EV_NONE;
 }
 
+/*---------------------------------------------------------------------------*/
+
+/*
+ * On  most  hardware, rendering  requires  much  more  computing power  than
+ * physics.  Since  physics takes less time  than graphics, it  make sense to
+ * detach  the physics update  time step  from the  graphics frame  rate.  By
+ * performing multiple physics updates for  each graphics update, we get away
+ * with higher quality physics with little impact on overall performance.
+ *
+ * Toward this  end, we establish a  baseline maximum physics  time step.  If
+ * the measured  frame time  exceeds this  maximum, we cut  the time  step in
+ * half, and  do two updates.  If THIS  time step exceeds the  maximum, we do
+ * four updates.  And  so on.  In this way, the physics  system is allowed to
+ * seek an optimal update rate independant of, yet in integral sync with, the
+ * graphics frame rate.
+ */
+int game_update_env(const double g[3], double dt)
+{
+    struct s_file *fp = &file;
+
+    double h[3];
+    double b = 0.0;
+    double t = dt;
+    int i, n = 1;
+
+    game_update_grav(h, g);
+
+    /* Run the sim. */
+
+    while (t > MAX_DT)
+    {
+        t /= 2;
+        n *= 2;
+    }
+
+    for (i = 0; i < n; i++)
+        sol_update(fp, t, h, &b);
+
+    /* Mix the sound of a ball bounce. */
+
+    if (b > 0.50)
+    {
+        Mix_Volume(0, (int) (b * MIX_MAX_VOLUME));
+        Mix_PlayChannel(0, bump_wav, 0);
+    }
+
+    game_update_view();
+    game_update_time(dt);
+
+    return game_update_state();
+}
+
+/*
+ * Update the tilt of the environment given the current input.
+ */
 void game_update_pos(int x, int y)
 {
     double bound = 20.0;
@@ -348,6 +380,9 @@ void game_update_pos(int x, int y)
     if (game_rz < -bound) game_rz = -bound;
 }
 
+/*
+ * Update the position of the camera during a level-intro fly-by.
+ */
 void game_update_fly(double k)
 {
     struct s_file *fp = &file;

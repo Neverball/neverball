@@ -15,6 +15,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "vec3.h"
 #include "game.h"
@@ -28,8 +29,43 @@
 int mode   = SDL_OPENGL;
 int width  = 1024;
 int height = 768;
+int count  = 0;
 
 /*---------------------------------------------------------------------------*/
+
+#define NSMP 32
+
+int fps(void)
+{
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static int shot(void)
+{
+    char str[32];
+
+    SDL_Surface *buf = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 24,
+                                            0x0000FF, 0x00FF00, 0xFF0000, 0);
+    SDL_Surface *img = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 24,
+                                            0x0000FF, 0x00FF00, 0xFF0000, 0);
+    int i;
+
+    glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buf->pixels);
+
+    for (i = 0; i < height; i++)
+        memcpy((GLubyte *) img->pixels + 3 * width * i,
+               (GLubyte *) buf->pixels + 3 * width * (height - i), 3 * width);
+
+    sprintf(str, "screen%02d.bmp", count++);
+
+    SDL_SaveBMP(img, str);
+    SDL_FreeSurface(img);
+    SDL_FreeSurface(buf);
+
+    return 1;
+}
 
 static int size(int w, int h, int m)
 {
@@ -40,6 +76,8 @@ static int size(int w, int h, int m)
 
     return SDL_SetVideoMode(w, h, 0, m) ? 1 : 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 static int loop(void)
 {
@@ -62,7 +100,10 @@ static int loop(void)
             d = st_click(0);
             break;
         case SDL_KEYDOWN:
-            d = st_keybd(e.key.keysym.sym);
+            if (e.key.keysym.sym == SDLK_F10)
+                d = shot();
+            else
+                d = st_keybd(e.key.keysym.sym);
             break;
         case SDL_QUIT:
             d = 0;
@@ -93,7 +134,7 @@ int main(int argc, char *argv[])
 
             if (SDL_SetVideoMode(width, height, 0, mode))
             {
-                double t0 = SDL_GetTicks() / 1000.0;
+                int t0 = SDL_GetTicks();
 
                 SDL_WM_SetCaption(TITLE, TITLE);
 
@@ -102,9 +143,9 @@ int main(int argc, char *argv[])
 
                 while (loop())
                 {
-                    double t1 = SDL_GetTicks() / 1000.0;
+                    int t1 = SDL_GetTicks();
 
-                    st_timer(t1 - t0);
+                    st_timer((t1 - t0) / 1000.0);
                     st_paint();
 
                     SDL_GL_SwapBuffers();

@@ -1,4 +1,4 @@
-data/sol/baby.sol    99
-data/sol/flat.sol    30
+data/sol/flat.sol    99
 data/sol/move.sol    30
-data/sol/spiral.sol  90
+data/sol/spiral.sol  99
+data/sol/baby.sol    99
