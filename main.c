@@ -12,6 +12,20 @@
  * General Public License for more details.
  */
 
+/*---------------------------------------------------------------------------*/
+
+#ifdef WIN32
+#pragma comment(lib, "SDL_ttf.lib")
+#pragma comment(lib, "SDL_mixer.lib")
+#pragma comment(lib, "SDL_image.lib")
+#pragma comment(lib, "SDL.lib")
+#pragma comment(lib, "SDLmain.lib")
+#pragma comment(lib, "glu32.lib")
+#pragma comment(lib, "opengl32.lib")
+#endif
+
+/*---------------------------------------------------------------------------*/
+
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
@@ -19,6 +33,7 @@
 #include <string.h>
 
 #include "glext.h"
+#include "image.h"
 #include "state.h"
 #include "config.h"
 
@@ -28,32 +43,12 @@
 
 static int shot(void)
 {
-    static char path[STRMAX];
-    static char file[STRMAX];
+    static char filename[STRMAX];
     static int  num = 0;
 
-    int i;
-    int w = config_w();
-    int h = config_h();
+    sprintf(filename, "screen%02d.bmp", num++);
 
-    SDL_Surface *buf = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
-                                            RMASK, GMASK, BMASK, 0);
-    SDL_Surface *img = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
-                                            RMASK, GMASK, BMASK, 0);
-
-    glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, buf->pixels);
-
-    for (i = 0; i < h; i++)
-        memcpy((GLubyte *) img->pixels + 3 * w * i,
-               (GLubyte *) buf->pixels + 3 * w * (h - i), 3 * w);
-
-    sprintf(file, "screen%02d.bmp", num++);
-
-    if (config_home(path, file, STRMAX))
-        SDL_SaveBMP(img,  path);
-
-    SDL_FreeSurface(img);
-    SDL_FreeSurface(buf);
+    image_snap(filename);
 
     return 1;
 }
@@ -102,6 +97,36 @@ static void toggle_grab(void)
     }
 }
 
+static void darken()
+{
+    int w = config_w();
+    int h = config_h();
+
+    config_push_ortho();
+
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING);
+    glEnable(GL_BLEND);
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glBegin(GL_QUADS);
+    {
+        glColor4f(0.0f, 0.0f, 0.0f, 0.5f);
+        glVertex2i(0, 0);
+        glVertex2i(w, 0);
+        glVertex2i(w, h);
+        glVertex2i(0, h);
+    }
+    glEnd();
+
+    glDisable(GL_BLEND);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
+
+    config_pop_matrix();
+}
+
 /*---------------------------------------------------------------------------*/
 
 static int loop(void)
@@ -118,7 +143,7 @@ static int loop(void)
                 d = st_point(+e.motion.x,
                              -e.motion.y + config_h(),
                              +e.motion.xrel,
-                             -e.motion.yrel);
+                             config_inv() ? e.motion.yrel : -e.motion.yrel);
               break;
 
         case SDL_MOUSEBUTTONDOWN:
@@ -178,11 +203,11 @@ int main(int argc, char *argv[])
 
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
         {
-            /* Initialize the first connected joystick. */
+            /* Initialize the joystick. */
 
             if (SDL_NumJoysticks() > 0)
             {
-                if ((joy = SDL_JoystickOpen(0)))
+                if ((joy = SDL_JoystickOpen(config_joy_device())))
                     SDL_JoystickEventState(SDL_ENABLE);
             }
 
@@ -197,6 +222,7 @@ int main(int argc, char *argv[])
                 SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
                 SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
                 SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+                SDL_GL_SetAttribute(SDL_GL_STEREO, config_stereo() ? 1 : 0);
 
                 /* Initialize the video. */
 
@@ -219,6 +245,10 @@ int main(int argc, char *argv[])
                                 st_timer((t1 - t0) / 1000.0);
 
                             st_paint();
+
+                            if (!grabbed)
+                                darken();
+
                             SDL_GL_SwapBuffers();
 
                             t0 = t1;
@@ -243,7 +273,6 @@ int main(int argc, char *argv[])
         config_store();
     }
     else fprintf(stderr, "%s: Can't find data directory\n", argv[0]);
-
 
     return 0;
 }

@@ -37,6 +37,7 @@ int  level_pass(void);
 int  level_fail(void);
 
 void level_score(int);
+void level_snap(int);
 void level_shot(int);
 void level_song(void);
 

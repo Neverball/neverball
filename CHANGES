@@ -1,4 +1,41 @@
 -------------------------------------------------------------------------------
+New in 1.1.2
+
+* Mouse invert and joystick select patches.
+* Minor level tweaks.
+* Fixed no levels open after reading old high score file.
+* Fixed activation of all switches at the same location.
+* Added camera HUD indicator.
+
+-------------------------------------------------------------------------------
+New in 1.1.1
+
+* Added stereo viewing.
+* Fixed Win32 makefile.
+
+-------------------------------------------------------------------------------
+New in 1.1.0
+
+* Minor tweaks and cleanup for an announced release.
+
+-------------------------------------------------------------------------------
+New in 1.0.5
+
+* Changed default scores file format, removing player names.
+* Adjusted level order and default scores.
+* Reimplemented physics lock punt.
+
+-------------------------------------------------------------------------------
+New in 1.0.4
+
+* New levels
+* Fixed texture positioning bug
+* Darkened screen during pause
+* Modified high scores to keep global highs.  (HIGH SCORE FILE CHANGED)
+* Added new automatic level shot grabber.
+* Tweaked BSP optimizer.
+
+-------------------------------------------------------------------------------
 New in 1.0.3
 
 * Modified some textures.
@@ -9,7 +46,7 @@ New in 1.0.3
 -------------------------------------------------------------------------------
 New in 1.0.2
 
-* Added level set selector.
+* Added level set selector.  (HIGH SCORE FILE CHANGED)
 * Modified demo playback to handle level sets.
 * Added BSP optimization to physics.
 * New textures.

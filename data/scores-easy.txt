@@ -1,19 +1,26 @@
-599.99 BEAT   1 BEAT 599.99 THESE    2 THESE  599.99 SCORES  3 SCORES
-  5.00 Hard  25 Hard  30.00 Medium  20 Medium  90.00 Easy   10 Easy (easy)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (peasy)
-  5.00 Hard 111 Hard  20.00 Medium  50 Medium  45.00 Easy   10 Easy (coins)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (bumps)
- 10.00 Hard  49 Hard  30.00 Medium  20 Medium  90.00 Easy   10 Easy (goslow)
- 10.00 Hard  55 Hard  20.00 Medium  20 Medium  45.00 Easy   10 Easy (fence)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (bumper)
- 20.00 Hard  39 Hard  40.00 Medium  20 Medium  90.00 Easy   10 Easy (maze)
-  3.00 Hard  99 Hard  10.00 Medium  50 Medium  45.00 Easy   10 Easy (goals)
-  5.00 Hard  33 Hard  20.00 Medium  20 Medium  45.00 Easy   10 Easy (hole)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (corners)
-  5.00 Hard  25 Hard  30.00 Medium  20 Medium  90.00 Easy   10 Easy (zigzag)
-  5.00 Hard  40 Hard  20.00 Medium  20 Medium  60.00 Easy   10 Easy (mover)
-  5.00 Hard 150 Hard  30.00 Medium  50 Medium  60.00 Easy   10 Easy (wakka)
- 10.00 Hard  91 Hard  20.00 Medium  50 Medium  60.00 Easy   10 Easy (curved)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (spiralin)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (stairs)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (sync)
+3600.00    0      3600.00    0      3600.00    0       TOTAL
+   3.50   26         5.00   20        10.00   10       easy
+   6.00   50        10.00   30        20.00   15       peasy
+   3.00  112         4.00   50        10.00   10       coins
+   7.00   50        15.00   20        30.00   10       goslow
+   5.00   56        10.00   20        20.00   10       fence
+   3.00   88         8.00   50        20.00   20       bumper
+  16.00   40        25.00   20        45.00   10       maze
+   0.75  100         1.50   50         5.00   10       goals
+   3.50   34         8.00   20        20.00   10       hole
+   5.00  190        10.00   60        30.00   20       bumps
+   4.00  196        15.00  146        30.00   40       corners
+  10.00   92        20.00   52        30.00   20       easytele
+   7.00  178        13.00   58        30.00   30       zigzag
+   5.50  220        10.00  140        30.00   80       greed
+   4.00   41        11.00   20        20.00   10       mover
+   3.50  280        10.00  140        30.00   10       wakka
+   5.00  122        14.00   40        30.00   20       curbs
+   5.00   91        10.00   50        20.00   10       curved
+   6.50  110        30.00   89        45.00   40       stairs
+   6.50  160        26.00  100        45.00   40       rampdn
+  14.00   85        35.00   40        45.00   20       sync
+  13.00   85        25.00   30        40.00   25       spiralin
+  13.00  150        25.00  100        30.00   60       plinko
+   5.00  194        15.00  120        30.00   29       drops
+  17.00   78        30.00   60        45.00   50       locks

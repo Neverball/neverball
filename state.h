@@ -9,7 +9,7 @@ struct state
 {
     void (*enter)(void);
     void (*leave)(void);
-    void (*paint)(void);
+    void (*paint)(double);
     int  (*timer)(double);
     int  (*point)(int, int, int, int);
     int  (*click)(int, int);

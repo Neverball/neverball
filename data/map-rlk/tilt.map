@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "The floor is as flat as you make it."
 // brush 0
 {
 ( 128 128 -16 ) ( 0 128 -16 ) ( 0 0 -16 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

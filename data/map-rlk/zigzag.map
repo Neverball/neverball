@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "There are plenty of coins here if you're\willing to take the time to grab them."
 // brush 0
 {
 ( -64 320 0 ) ( -64 256 0 ) ( -64 256 -16 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

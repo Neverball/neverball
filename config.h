@@ -28,16 +28,19 @@
 
 #define CONFIG_DEF_WIDTH       800
 #define CONFIG_DEF_HEIGHT      600
+#define CONFIG_DEF_STEREO      0
 #define CONFIG_DEF_CAMERA      0
 #define CONFIG_DEF_TEXTURES    1
 #define CONFIG_DEF_GEOMETRY    1
 #define CONFIG_DEF_AUDIO_RATE  44100
 #define CONFIG_DEF_AUDIO_BUFF  AUD_BUFF_HI
 #define CONFIG_DEF_MOUSE_SENSE 300
+#define CONFIG_DEF_MOUSE_INV   0
 #define CONFIG_DEF_NICE        1
 #define CONFIG_DEF_DONE        0
 #define CONFIG_DEF_FPS         0
 #define CONFIG_DEF_JOY         0
+#define CONFIG_DEF_JOY_DEVICE  0
 #define CONFIG_DEF_SOUND_VOL   10
 #define CONFIG_DEF_MUSIC_VOL   6
 
@@ -96,10 +99,13 @@ int  config_geom(void);
 int  config_rate(void);
 int  config_buff(void);
 int  config_sens(void);
+int  config_inv(void);
 int  config_nice(void);
 int  config_fps (void);
 int  config_sound(void);
 int  config_music(void);
+int  config_stereo(void);
+int  config_joy_device(void);
 
 int  config_axis_x(int);
 int  config_axis_y(int);

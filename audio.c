@@ -59,22 +59,23 @@ int audio_init(int r, int b)
     {
         if (Mix_OpenAudio(r, MIX_DEFAULT_FORMAT, 1, b) == 0)
         {
-            chunk_load(AUD_MENU,  "snd/menu.wav",   CH_MENU);
-            chunk_load(AUD_START, "snd/select.ogg", CH_VOICE);
-            chunk_load(AUD_READY, "snd/ready.ogg",  CH_VOICE);
-            chunk_load(AUD_SET,   "snd/set.ogg",    CH_VOICE);
-            chunk_load(AUD_GO,    "snd/go.ogg",     CH_VOICE);
-            chunk_load(AUD_BALL,  "snd/ball.ogg",   CH_GRAB);
-            chunk_load(AUD_BUMP,  "snd/bump.ogg",   CH_BUMP);
-            chunk_load(AUD_COIN,  "snd/coin.wav",   CH_GRAB);
-            chunk_load(AUD_TICK,  "snd/tick.ogg",   CH_TICK);
-            chunk_load(AUD_TOCK,  "snd/tock.ogg",   CH_TICK);
-            chunk_load(AUD_JUMP,  "snd/jump.ogg",   CH_STATE);
-            chunk_load(AUD_GOAL,  "snd/goal.ogg",   CH_STATE);
-            chunk_load(AUD_SCORE, "snd/record.ogg", CH_VOICE);
-            chunk_load(AUD_FALL,  "snd/fall.ogg",   CH_VOICE);
-            chunk_load(AUD_TIME,  "snd/time.ogg",   CH_VOICE);
-            chunk_load(AUD_OVER,  "snd/over.ogg",   CH_VOICE);
+            chunk_load(AUD_MENU,   "snd/menu.wav",   CH_MENU);
+            chunk_load(AUD_START,  "snd/select.ogg", CH_VOICE);
+            chunk_load(AUD_READY,  "snd/ready.ogg",  CH_VOICE);
+            chunk_load(AUD_SET,    "snd/set.ogg",    CH_VOICE);
+            chunk_load(AUD_GO,     "snd/go.ogg",     CH_VOICE);
+            chunk_load(AUD_BALL,   "snd/ball.ogg",   CH_GRAB);
+            chunk_load(AUD_BUMP,   "snd/bump.ogg",   CH_BUMP);
+            chunk_load(AUD_COIN,   "snd/coin.wav",   CH_GRAB);
+            chunk_load(AUD_TICK,   "snd/tick.ogg",   CH_TICK);
+            chunk_load(AUD_TOCK,   "snd/tock.ogg",   CH_TICK);
+            chunk_load(AUD_SWITCH, "snd/switch.wav", CH_STATE);
+            chunk_load(AUD_JUMP,   "snd/jump.ogg",   CH_STATE);
+            chunk_load(AUD_GOAL,   "snd/goal.wav",   CH_STATE);
+            chunk_load(AUD_SCORE,  "snd/record.ogg", CH_VOICE);
+            chunk_load(AUD_FALL,   "snd/fall.ogg",   CH_VOICE);
+            chunk_load(AUD_TIME,   "snd/time.ogg",   CH_VOICE);
+            chunk_load(AUD_OVER,   "snd/over.ogg",   CH_VOICE);
 
             audio_state = 1;
 
@@ -108,6 +109,7 @@ void audio_free(void)
         chunk_free(AUD_SCORE);
         chunk_free(AUD_GOAL);
         chunk_free(AUD_JUMP);
+        chunk_free(AUD_SWITCH);
         chunk_free(AUD_TOCK);
         chunk_free(AUD_TICK);
         chunk_free(AUD_COIN);

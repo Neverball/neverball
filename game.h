@@ -23,7 +23,7 @@ void  game_free(void);
 double curr_clock(void);
 char  *curr_intro(void);
 
-void  game_draw(int);
+void  game_draw(int, double);
 int   game_step(const double[3], double, int);
 
 void  game_set_pos(int, int);

@@ -74,7 +74,19 @@ int goto_state(struct state *st)
 
 void st_paint(void)
 {
-    if (state && state->paint) state->paint();
+    if (state && state->paint)
+    {
+        if (config_stereo())
+        {
+            glDrawBuffer(GL_BACK_LEFT);
+            state->paint(+config_stereo());
+
+            glDrawBuffer(GL_BACK_RIGHT);
+            state->paint(-config_stereo());
+        }
+        else
+            state->paint(0);
+    }
 }
 
 int st_timer(double t)
@@ -187,10 +199,10 @@ static void title_leave(void)
     audio_music_play("bgm/inter.ogg");
 }
 
-static void title_paint(void)
+static void title_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+    game_draw(0, dy);
     menu_paint();
 }
 
@@ -393,7 +405,7 @@ static void conf_enter(void)
     sprintf(muss, "%02d", config_music());
 
     menu_init(36, 25, value);
-    back_init("png/green_blue.png", config_geom());
+    back_init("png/blues.png", config_geom());
 
     /* Text elements */
 
@@ -521,13 +533,13 @@ static void conf_leave(void)
     back_free();
 }
 
-static void conf_paint(void)
+static void conf_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     config_push_persp(FOV, 0.1, 300.0);
     {
-        back_draw();
+        back_draw(time_state());
     }
     config_pop_matrix();
 
@@ -566,12 +578,8 @@ static int conf_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int shot_set = 0;
-
-static int shot_x0  = 0;
-static int shot_y0  = 0;
-static int shot_x1  = 0;
-static int shot_y1  = 0;
+static GLuint shot_rect = 0;
+static int    shot_set  = 0;
 
 static int set_action(int i)
 {
@@ -629,6 +637,8 @@ static void set_enter(void)
     int h;
     int j;
 
+    audio_play(AUD_START, 1.f);
+
     shot_set = 0;
 
     text_size("0", TXT_SML, &w, &h);
@@ -636,7 +646,7 @@ static void set_enter(void)
 
     set_init();
     menu_init(12, 12, 0);
-    back_init("png/green_blue.png", config_geom());
+    back_init("png/blues.png", config_geom());
 
     /* Text elements */
 
@@ -681,27 +691,30 @@ static void set_enter(void)
 
     /* Position the set shot. */
 
-    shot_x0 = config_w() / 2;
-    shot_y0 = config_h() / 2 -      j / 2;
-    shot_x1 = config_w() / 2 + 10 * h;
-    shot_y1 = config_h() / 2 + 29 * j / 2;
+    shot_rect = make_rect(config_w() / 2,
+                          config_h() / 2 -      j / 2,
+                          config_w() / 2 + 10 * h,
+                          config_h() / 2 + 29 * j / 2);
 
     SDL_ShowCursor(SDL_ENABLE);
 }
 
 static void set_leave(void)
 {
+    if (glIsList(shot_rect))
+        glDeleteLists(shot_rect, 1);
+
     SDL_ShowCursor(SDL_DISABLE);
     menu_free();
 }
 
-static void set_paint(void)
+static void set_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     config_push_persp(FOV, 0.1, 300.0);
     {
-        back_draw();
+        back_draw(time_state());
     }
     config_pop_matrix();
 
@@ -714,17 +727,7 @@ static void set_paint(void)
         glDisable(GL_DEPTH_TEST);
 
         set_shot(shot_set);
-
-        glBegin(GL_QUADS);
-        {
-            glColor3f(1.f, 1.f, 1.f);
-
-            glTexCoord2i(0, 1); glVertex2i(shot_x0, shot_y0);
-            glTexCoord2i(1, 1); glVertex2i(shot_x1, shot_y0);
-            glTexCoord2i(1, 0); glVertex2i(shot_x1, shot_y1);
-            glTexCoord2i(0, 0); glVertex2i(shot_x0, shot_y1);
-        }
-        glEnd();
+        glCallList(shot_rect);
     }
     config_pop_matrix();
     glPopAttrib();
@@ -802,30 +805,30 @@ static void highs_menu(int i, int j, int k)
     menu_text(j,      -6*h,   -9*h/4, c0, c2, "Best Times", TXT_SML);
     menu_text(j +  1, +6*h,   -9*h/4, c0, c2, "Most Coins", TXT_SML);
 
-    menu_text(j +  2, -11*h, -15*h/4, c0, c1, level_time_c(i,0), TXT_SML);
-    menu_text(j +  3,  -7*h, -15*h/4, c0, c1, level_time_n(i,0), TXT_SML);
-    menu_text(j +  4,  -2*h, -15*h/4, c0, c1, level_time_s(i,0), TXT_SML);
+    menu_text(j +  2, -21*h/2, -15*h/4, c0, c1, level_time_c(i,0), TXT_SML);
+    menu_text(j +  3, -14*h/2, -15*h/4, c0, c1, level_time_n(i,0), TXT_SML);
+    menu_text(j +  4,  -5*h/2, -15*h/4, c0, c1, level_time_s(i,0), TXT_SML);
 
-    menu_text(j +  5, -11*h, -21*h/4, c0, c1, level_time_c(i,1), TXT_SML);
-    menu_text(j +  6,  -7*h, -21*h/4, c0, c1, level_time_n(i,1), TXT_SML);
-    menu_text(j +  7,  -2*h, -21*h/4, c0, c1, level_time_s(i,1), TXT_SML);
+    menu_text(j +  5, -21*h/2, -21*h/4, c0, c1, level_time_c(i,1), TXT_SML);
+    menu_text(j +  6, -14*h/2, -21*h/4, c0, c1, level_time_n(i,1), TXT_SML);
+    menu_text(j +  7,  -5*h/2, -21*h/4, c0, c1, level_time_s(i,1), TXT_SML);
     
-    menu_text(j +  8, -11*h, -27*h/4, c0, c1, level_time_c(i,2), TXT_SML);
-    menu_text(j +  9,  -7*h, -27*h/4, c0, c1, level_time_n(i,2), TXT_SML);
-    menu_text(j + 10,  -2*h, -27*h/4, c0, c1, level_time_s(i,2), TXT_SML);
+    menu_text(j +  8, -21*h/2, -27*h/4, c0, c1, level_time_c(i,2), TXT_SML);
+    menu_text(j +  9, -14*h/2, -27*h/4, c0, c1, level_time_n(i,2), TXT_SML);
+    menu_text(j + 10,  -5*h/2, -27*h/4, c0, c1, level_time_s(i,2), TXT_SML);
 
 
-    menu_text(j + 11,  +2*h, -15*h/4, c0, c1, level_coin_s(i,0), TXT_SML);
-    menu_text(j + 12,  +7*h, -15*h/4, c0, c1, level_coin_n(i,0), TXT_SML);
-    menu_text(j + 13, +11*h, -15*h/4, c0, c1, level_coin_c(i,0), TXT_SML);
+    menu_text(j + 11,  +5*h/2, -15*h/4, c0, c1, level_coin_s(i,0), TXT_SML);
+    menu_text(j + 12, +14*h/2, -15*h/4, c0, c1, level_coin_n(i,0), TXT_SML);
+    menu_text(j + 13, +21*h/2, -15*h/4, c0, c1, level_coin_c(i,0), TXT_SML);
 
-    menu_text(j + 14,  +2*h, -21*h/4, c0, c1, level_coin_s(i,1), TXT_SML);
-    menu_text(j + 15,  +7*h, -21*h/4, c0, c1, level_coin_n(i,1), TXT_SML);
-    menu_text(j + 16, +11*h, -21*h/4, c0, c1, level_coin_c(i,1), TXT_SML);
+    menu_text(j + 14,  +5*h/2, -21*h/4, c0, c1, level_coin_s(i,1), TXT_SML);
+    menu_text(j + 15, +14*h/2, -21*h/4, c0, c1, level_coin_n(i,1), TXT_SML);
+    menu_text(j + 16, +21*h/2, -21*h/4, c0, c1, level_coin_c(i,1), TXT_SML);
 
-    menu_text(j + 17,  +2*h, -27*h/4, c0, c1, level_coin_s(i,2), TXT_SML);
-    menu_text(j + 18,  +7*h, -27*h/4, c0, c1, level_coin_n(i,2), TXT_SML);
-    menu_text(j + 19, +11*h, -27*h/4, c0, c1, level_coin_c(i,2), TXT_SML);
+    menu_text(j + 17,  +5*h/2, -27*h/4, c0, c1, level_coin_s(i,2), TXT_SML);
+    menu_text(j + 18, +14*h/2, -27*h/4, c0, c1, level_coin_n(i,2), TXT_SML);
+    menu_text(j + 19, +21*h/2, -27*h/4, c0, c1, level_coin_c(i,2), TXT_SML);
 
     menu_item(k,       -6*h, -18*h/4, 12 * h - 4, 12 * h / 2);
     menu_item(k +  1,  +6*h, -18*h/4, 12 * h - 4, 12 * h / 2);
@@ -834,9 +837,6 @@ static void highs_menu(int i, int j, int k)
 /*---------------------------------------------------------------------------*/
 
 #define START_BACK 0
-
-#define STR_START "Level Select"
-#define STR_BACK  "Back"
 
 static int shot_level = -1;
 
@@ -874,17 +874,15 @@ static void start_enter(void)
 
     shot_level = 0;
 
-    audio_play(AUD_START, 1.f);
-
     text_size("0", TXT_SML, &w, &h);
     j = h / 2;
 
     menu_init(47, 29, 0);
-    back_init("png/green_blue.png", config_geom());
+    back_init("png/blues.png", config_geom());
 
     /* Text elements */
 
-    menu_text(0,  -8 * h, 16 * j, c_white, c_white, "Back", TXT_SML);
+    menu_text(0,  -8 * h, 16 * j, c_white, c_white,  "Set", TXT_SML);
     menu_text(1,  -9 * h, 13 * j, COL0( 1), COL1( 1), "01", TXT_SML);
     menu_text(2,  -7 * h, 13 * j, COL0( 2), COL1( 2), "02", TXT_SML);
     menu_text(3,  -5 * h, 13 * j, COL0( 3), COL1( 3), "03", TXT_SML);
@@ -981,27 +979,30 @@ static void start_enter(void)
 
     /* Position the level shot. */
 
-    shot_x0 = config_w() / 2;
-    shot_y0 = config_h() / 2 -      j / 2;
-    shot_x1 = config_w() / 2 + 10 * h;
-    shot_y1 = config_h() / 2 + 29 * j / 2;
+    shot_rect = make_rect(config_w() / 2,
+                          config_h() / 2 -      j / 2,
+                          config_w() / 2 + 10 * h,
+                          config_h() / 2 + 29 * j / 2);
 
     SDL_ShowCursor(SDL_ENABLE);
 }
 
 static void start_leave(void)
 {
+    if (glIsList(shot_rect))
+        glDeleteLists(shot_rect, 1);
+
     SDL_ShowCursor(SDL_DISABLE);
     menu_free();
 }
 
-static void start_paint(void)
+static void start_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     config_push_persp(FOV, 0.1, 300.0);
     {
-        back_draw();
+        back_draw(time_state());
     }
     config_pop_matrix();
 
@@ -1014,17 +1015,7 @@ static void start_paint(void)
         glDisable(GL_DEPTH_TEST);
 
         level_shot(shot_level);
-
-        glBegin(GL_QUADS);
-        {
-            glColor3f(1.f, 1.f, 1.f);
-
-            glTexCoord2i(0, 1); glVertex2i(shot_x0, shot_y0);
-            glTexCoord2i(1, 1); glVertex2i(shot_x1, shot_y0);
-            glTexCoord2i(1, 0); glVertex2i(shot_x1, shot_y1);
-            glTexCoord2i(0, 0); glVertex2i(shot_x0, shot_y1);
-        }
-        glEnd();
+        glCallList(shot_rect);
     }
     config_pop_matrix();
     glPopAttrib();
@@ -1053,7 +1044,23 @@ static int start_click(int b, int d)
 
 static int start_keybd(int c)
 {
-    return (c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+    if (c == SDLK_ESCAPE)
+        return goto_state(&st_title);
+
+    if (c == SDLK_F12)
+    {
+        int i, n = curr_count();
+
+        back_free();
+
+        for (i = 1; i < n; i++)
+            if (level_exists(i))
+                level_snap(i);
+
+        back_init("png/blues.png", config_geom());
+    }
+
+    return 1;
 }
 
 static int start_stick(int a, int v)
@@ -1128,10 +1135,10 @@ static void level_leave(void)
     menu_free();
 }
 
-static void level_paint(void)
+static void level_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+    game_draw(0, dy);
     hud_draw();
     menu_paint();
 }
@@ -1159,10 +1166,10 @@ static int level_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static void poser_paint(void)
+static void poser_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(1);
+    game_draw(1, dy);
 }
 
 static int poser_keybd(int c)
@@ -1191,10 +1198,10 @@ static void two_leave(void)
     menu_free();
 }
 
-static void two_paint(void)
+static void two_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+    game_draw(0, dy);
     hud_draw();
     menu_paint();
 }
@@ -1248,10 +1255,10 @@ static void one_leave(void)
     menu_free();
 }
 
-static void one_paint(void)
+static void one_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+    game_draw(0, dy);
     hud_draw();
     menu_paint();
 }
@@ -1328,10 +1335,11 @@ static void play_leave(void)
     menu_free();
 }
 
-static void play_paint(void)
+static void play_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+
+    game_draw(0, dy);
     hud_draw();
 
     if (time_state() < 1.0)
@@ -1340,26 +1348,28 @@ static void play_paint(void)
 
 static int play_timer(double dt)
 {
+    static double at = 0;
+
     double g[3] = { 0.0, -9.8, 0.0 };
 
-    if (state_time > 0.1)
+    at = (7 * at + dt) / 8;
+
+    hud_step(at);
+    game_set_rot(view_rotate);
+
+    switch (game_step(g, at, 1))
     {
-        hud_step(dt);
-        game_set_rot(view_rotate);
-
-        switch (game_step(g, dt, 1))
-        {
-        case GAME_TIME: goto_state(&st_time); break;
-        case GAME_GOAL: goto_state(&st_goal); break;
-        case GAME_FALL: goto_state(&st_fall); break;
-        }
-
-        if (record_fp)
-        {
-            double_put(record_fp, &dt);
-            game_put(record_fp);
-        }
+    case GAME_TIME: goto_state(&st_time); break;
+    case GAME_GOAL: goto_state(&st_goal); break;
+    case GAME_FALL: goto_state(&st_fall); break;
     }
+
+    if (record_fp)
+    {
+        double_put(record_fp, &at);
+        game_put(record_fp);
+    }
+
     return 1;
 }
 
@@ -1431,16 +1441,16 @@ static void demo_enter(void)
     if (config_home(filename, USER_REPLAY_FILE, STRMAX))
         if ((replay_fp = fopen(filename, FMODE_RB)))
         {
-            int n = fgetc(replay_fp);
+            int l, b, c, s, n = fgetc(replay_fp);
 
             if (set_exists(n))
             {
                 set_goto(n);
 
-                int s = fgetc(replay_fp);
-                int c = fgetc(replay_fp);
-                int b = fgetc(replay_fp);
-                int l = fgetc(replay_fp);
+                s = fgetc(replay_fp);
+                c = fgetc(replay_fp);
+                b = fgetc(replay_fp);
+                l = fgetc(replay_fp);
 
                 if (level_exists(l))
                 {
@@ -1463,10 +1473,11 @@ static void demo_leave(void)
     menu_free();
 }
 
-static void demo_paint(void)
+static void demo_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+
+    game_draw(0, dy);
     hud_draw();
 
     if (time_state() < 1.0)
@@ -1551,10 +1562,10 @@ static void goal_leave(void)
     audio_music_play("bgm/inter.ogg");
 }
 
-static void goal_paint(void)
+static void goal_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+    game_draw(0, dy);
     menu_paint();
 }
 
@@ -1611,7 +1622,7 @@ static int goal_buttn(int b, int d)
 
 static int score_action(int i)
 {
-    int w, h, l = strlen(player);
+    int w, h, l = (int) strlen(player);
 
     if (i == 28)
     {
@@ -1700,8 +1711,8 @@ static void score_enter(void)
 
     /* Active elements. */
 
-    menu_item(0,  0,     mh,  mw * MAXNAM,     mh);
-    menu_item(29, 0, 3 * mh, 0.9 * config_w(), lh);
+    menu_item(0,  0,     mh, mw * MAXNAM,        mh);
+    menu_item(29, 0, 3 * mh, 8 * config_w() / 9, lh);
 
     menu_item(1,  -3 * sw, -1 * sh, sw, sh);
     menu_item(2,  -2 * sw, -1 * sh, sw, sh);
@@ -1778,10 +1789,10 @@ static void score_leave(void)
     menu_free();
 }
 
-static void score_paint(void)
+static void score_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+    game_draw(0, dy);
     menu_paint();
 }
 
@@ -1843,10 +1854,10 @@ static void fall_leave(void)
     audio_music_play("bgm/inter.ogg");
 }
 
-static void fall_paint(void)
+static void fall_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+    game_draw(0, dy);
     hud_draw();
     menu_paint();
 }
@@ -1925,10 +1936,10 @@ static void time_leave(void)
     audio_music_play("bgm/inter.ogg");
 }
 
-static void time_paint(void)
+static void time_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+    game_draw(0, dy);
     hud_draw();
     menu_paint();
 }
@@ -1995,10 +2006,10 @@ static void omed_leave(void)
     set_free();
 }
 
-static void omed_paint(void)
+static void omed_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+    game_draw(0, dy);
     menu_paint();
 }
 
@@ -2051,10 +2062,10 @@ static void over_leave(void)
     set_free();
 }
 
-static void over_paint(void)
+static void over_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+    game_draw(0, dy);
     menu_paint();
 }
 
@@ -2114,10 +2125,10 @@ static void done_leave(void)
     set_free();
 }
 
-static void done_paint(void)
+static void done_paint(double dy)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game_draw(0);
+    game_draw(0, dy);
     menu_paint();
 }
 

@@ -13,6 +13,7 @@
  */
 
 #include <SDL.h>
+#include <math.h>
 #include <string.h>
 
 #include "glext.h"
@@ -25,6 +26,8 @@ static GLUquadric *back_quad = NULL;
 static GLuint      back_list;
 static GLuint      back_text;
 
+#define PI 3.1415926535897932
+
 /*---------------------------------------------------------------------------*/
 
 #define STRMAX 256
@@ -34,7 +37,6 @@ void back_init(const char *s, int b)
     back_text = make_image_from_file(NULL, NULL, s);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     if ((back_quad = gluNewQuadric()))
     {
@@ -66,15 +68,19 @@ void back_free(void)
         glDeleteTextures(1, &back_text);
 }
 
-void back_draw(void)
+void back_draw(double t)
 {
     glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {
+        GLfloat dx =  60.0f * (GLfloat) sin(t / 10.0) + 90.0f;
+        GLfloat dz = 180.0f * (GLfloat) sin(t / 12.0);
+
         glDisable(GL_LIGHTING);
 
         glScalef(BACK_DIST, BACK_DIST, BACK_DIST);
-        glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+        glRotatef(dz, 0.0f, 0.0f, 1.0f);
+        glRotatef(dx, 1.0f, 0.0f, 0.0f);
 
         glCallList(back_list);
     }

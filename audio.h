@@ -12,14 +12,15 @@
 #define AUD_BUMP   7
 #define AUD_COIN   8
 #define AUD_TICK   9
-#define AUD_TOCK  10
-#define AUD_JUMP  11
-#define AUD_GOAL  12
-#define AUD_SCORE 13
-#define AUD_FALL  14
-#define AUD_TIME  15
-#define AUD_OVER  16
-#define AUD_COUNT 17
+#define AUD_TOCK   10
+#define AUD_SWITCH 11
+#define AUD_JUMP   12
+#define AUD_GOAL   13
+#define AUD_SCORE  14
+#define AUD_FALL   15
+#define AUD_TIME   16
+#define AUD_OVER   17
+#define AUD_COUNT  18
 
 /*---------------------------------------------------------------------------*/
 

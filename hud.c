@@ -24,6 +24,11 @@
 
 /*---------------------------------------------------------------------------*/
 
+static GLuint view_text[3];
+static GLuint view_list[3];
+static int    view_w = 0;
+static int    view_h = 0;
+
 static GLuint large_text[10];           /* Large digit texture objects */
 static GLuint large_list[10];           /* Large digit display lists   */
 static int    large_w = 0;              /* Large digit layout size     */
@@ -52,6 +57,8 @@ static GLuint timer_rect;               /* Timer label background      */
 static double ball_k = 1.0;
 static double time_k = 1.0;
 static double coin_k = 1.0;
+static double view_k = 0.0;
+static int    view_c = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -67,6 +74,7 @@ void hud_init(void)
     text_size("0",       TXT_LRG, &large_w, &large_h);
     text_size(STR_BALLS, TXT_SML, &balls_w, &balls_h);
     text_size(STR_COINS, TXT_SML, &coins_w, &coins_h);
+    text_size(STR_VIEW2, TXT_SML, &view_w,  &view_h);
 
     space_w = small_w / 2;
 
@@ -94,14 +102,28 @@ void hud_init(void)
     balls_list = make_list(STR_BALLS, TXT_SML, c_white, c_white);
     coins_list = make_list(STR_COINS, TXT_SML, c_white, c_white);
 
-    balls_rect = make_rect(0,     0, a,     small_h, 16);
-    coins_rect = make_rect(W - a, 0, W,     small_h, 16);
-    timer_rect = make_rect(C - b, 0, C + b, large_h, 16);
+    balls_rect = make_rect(0,     0, a,     small_h);
+    coins_rect = make_rect(W - a, 0, W,     small_h);
+    timer_rect = make_rect(C - b, 0, C + b, large_h);
+
+    view_text[0] = make_text(STR_VIEW0, TXT_SML);
+    view_text[1] = make_text(STR_VIEW1, TXT_SML);
+    view_text[2] = make_text(STR_VIEW2, TXT_SML);
+
+    view_list[0] = make_list(STR_VIEW0, TXT_SML, c_white, c_white);
+    view_list[1] = make_list(STR_VIEW1, TXT_SML, c_white, c_white);
+    view_list[2] = make_list(STR_VIEW2, TXT_SML, c_white, c_white);
 }
 
 void hud_free(void)
 {
     int i;
+
+    for (i = 0; i < 3; i++)
+    {
+        glDeleteLists(view_list[i], 1);
+        glDeleteTextures(1, view_text + i);
+    }
 
     glDeleteLists(timer_rect, 1);
     glDeleteLists(coins_rect, 1);
@@ -220,6 +242,20 @@ static void hud_draw_fps(void)
     hud_draw_small((fps % 100) % 10, small_w * 2, config_h() - small_h);
 }
 
+static void hud_draw_view(void)
+{
+    glPushMatrix();
+    {
+        GLdouble t = ((view_k > 2.0) ? 2.0 : view_k) - 1.0;
+
+        glTranslated(-view_w + view_w * t, config_h() - small_h - view_h, 0.0);
+
+        glBindTexture(GL_TEXTURE_2D, view_text[view_c]);
+        glCallList(view_list[view_c]);
+    }
+    glPopMatrix();
+}
+
 /*---------------------------------------------------------------------------*/
 
 void hud_draw(void)
@@ -238,6 +274,7 @@ void hud_draw(void)
     config_push_ortho();
     {
         glPushAttrib(GL_LIGHTING_BIT);
+        glPushAttrib(GL_COLOR_BUFFER_BIT);
         glPushAttrib(GL_DEPTH_BUFFER_BIT);
         {
             const int tw = 3 * large_w + 2 * small_w + space_w;
@@ -250,6 +287,9 @@ void hud_draw(void)
             glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
             glEnable(GL_COLOR_MATERIAL);
+            glEnable(GL_BLEND);
+
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
             hud_draw_back();
             hud_draw_labels();
@@ -303,8 +343,10 @@ void hud_draw(void)
             }
             glPopMatrix();
 
+            if (view_k > 1.0) hud_draw_view();
             if (config_fps()) hud_draw_fps();
         }
+        glPopAttrib();
         glPopAttrib();
         glPopAttrib();
     }
@@ -314,17 +356,30 @@ void hud_draw(void)
 
 void hud_step(double dt)
 {
-    ball_k -= (ball_k - 1.0) * dt * 4;
-    time_k -= (time_k - 1.0) * dt * 4;
-    coin_k -= (coin_k - 1.0) * dt * 4;
+    if (dt < 0.25)
+    {
+        ball_k -= (ball_k - 1.0) * dt * 4;
+        time_k -= (time_k - 1.0) * dt * 4;
+        coin_k -= (coin_k - 1.0) * dt * 4;
+        view_k -=  dt;
+    }
+    else
+    {
+        ball_k = 1.0;
+        time_k = 1.0;
+        coin_k = 1.0;
+        view_k = 1.0;
+    }
 
-    if (ball_k < 0.0) ball_k = 0.0;
-    if (time_k < 0.0) time_k = 0.0;
-    if (coin_k < 0.0) coin_k = 0.0;
+    if (ball_k < 0.0) ball_k =  0.0;
+    if (time_k < 0.0) time_k =  0.0;
+    if (coin_k < 0.0) coin_k =  0.0;
+    if (view_k < 0.0) view_k =  0.0;
 }
 
 void hud_ball_pulse(double k) { ball_k = k; }
 void hud_time_pulse(double k) { time_k = k; }
 void hud_coin_pulse(double k) { coin_k = k; }
+void hud_view_pulse(int c)    { view_k = 4.0; view_c = c; }
 
 /*---------------------------------------------------------------------------*/

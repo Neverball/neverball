@@ -34,6 +34,7 @@ const GLfloat c_grey[4]   = { 0.0f, 0.0f, 0.0f, 0.5f };
 
 static TTF_Font *text_font[3] = { NULL, NULL, NULL };
 static int       text_drop[3] = { 0, 0, 0 };
+static int       radius = 8;
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,6 +44,8 @@ int text_init(int h)
     {
         if (TTF_Init() == 0)
         {
+            radius = h / 56;
+
             text_font[0] = TTF_OpenFont(TEXT_FACE, h / 24);
             text_font[1] = TTF_OpenFont(TEXT_FACE, h / 12);
             text_font[2] = TTF_OpenFont(TEXT_FACE, h /  6);
@@ -150,8 +153,15 @@ GLuint make_text(const char *text, int i)
 
 #define PI 3.1415926535897932
 
-GLuint make_rect(int x0, int y0, int x1, int y1, int r)
+/*
+ * Draw a rounded  rectangle for text backing and  level shot display.
+ * There's some  sub-obtimal trig  here, but it's  all stuffed  into a
+ * display list so it's all setup cost.
+ */ 
+
+GLuint make_rect(int x0, int y0, int x1, int y1)
 {
+    double r = (double) radius;
     GLuint list = glGenLists(1);
     int i, n = 8;
 
@@ -163,16 +173,30 @@ GLuint make_rect(int x0, int y0, int x1, int y1, int r)
             {
                 double a = 0.5 * PI * (double) i / (double) n;
 
-                glVertex2f(x0 + r - r * cos(a), y1 - r + r * sin(a));
-                glVertex2f(x0 + r - r * cos(a), y0 + r - r * sin(a));
+                double x  = x0 + r - r * cos(a);
+                double ya = y1 - r + r * sin(a);
+                double yb = y0 + r - r * sin(a);
+
+                glTexCoord2d((x - x0) / (x1 - x0), 1 - (ya - y0) / (y1 - y0));
+                glVertex2d(x, ya);
+
+                glTexCoord2d((x - x0) / (x1 - x0), 1 - (yb - y0) / (y1 - y0));
+                glVertex2d(x, yb);
             }
 
             for (i = 0; i <= n; i++)
             {
                 double a = 0.5 * PI * (double) i / (double) n;
 
-                glVertex2f(x1 - r + r * sin(a), y1 - r + r * cos(a));
-                glVertex2f(x1 - r + r * sin(a), y0 + r - r * cos(a));
+                double x  = x1 - r + r * sin(a);
+                double ya = y1 - r + r * cos(a);
+                double yb = y0 + r - r * cos(a);
+
+                glTexCoord2d((x - x0) / (x1 - x0), 1 - (ya - y0) / (y1 - y0));
+                glVertex2d(x, ya);
+
+                glTexCoord2d((x - x0) / (x1 - x0), 1 - (yb - y0) / (y1 - y0));
+                glVertex2d(x, yb);
             }
         }
         glEnd();

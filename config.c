@@ -41,15 +41,18 @@
 static int mode         = SDL_OPENGL | SDL_FULLSCREEN;
 static int width        = CONFIG_DEF_WIDTH;
 static int height       = CONFIG_DEF_HEIGHT;
+static int stereo       = CONFIG_DEF_STEREO;
 static int camera       = CONFIG_DEF_CAMERA;
 static int textures     = CONFIG_DEF_TEXTURES;
 static int geometry     = CONFIG_DEF_GEOMETRY;
 static int audio_rate   = CONFIG_DEF_AUDIO_RATE;
 static int audio_buff   = CONFIG_DEF_AUDIO_BUFF;
 static int mouse_sense  = CONFIG_DEF_MOUSE_SENSE;
+static int mouse_inv    = CONFIG_DEF_MOUSE_INV;
 static int niceness     = CONFIG_DEF_NICE;
 static int fps          = CONFIG_DEF_FPS;
 static int joy          = CONFIG_DEF_JOY;
+static int joy_device   = CONFIG_DEF_JOY_DEVICE;
 static int sound_vol    = CONFIG_DEF_SOUND_VOL;
 static int music_vol    = CONFIG_DEF_MUSIC_VOL;
 
@@ -158,15 +161,18 @@ void config_load(void)
 
                 if (strcmp(key, "width")        == 0) width        = val;
                 if (strcmp(key, "height")       == 0) height       = val;
+                if (strcmp(key, "stereo")       == 0) stereo       = val;
                 if (strcmp(key, "camera")       == 0) camera       = val;
                 if (strcmp(key, "textures")     == 0) textures     = val;
                 if (strcmp(key, "geometry")     == 0) geometry     = val;
                 if (strcmp(key, "audio_rate")   == 0) audio_rate   = val;
                 if (strcmp(key, "audio_buff")   == 0) audio_buff   = val;
                 if (strcmp(key, "mouse_sense")  == 0) mouse_sense  = val;
+                if (strcmp(key, "mouse_inv")    == 0) mouse_inv    = val;
                 if (strcmp(key, "niceness")     == 0) niceness     = val;
                 if (strcmp(key, "fps")          == 0) fps          = val;
                 if (strcmp(key, "joy")          == 0) joy          = val;
+                if (strcmp(key, "joy_device")   == 0) joy_device   = val;
                 if (strcmp(key, "sound_vol")    == 0) sound_vol    = val;
                 if (strcmp(key, "music_vol")    == 0) music_vol    = val;
 
@@ -199,16 +205,19 @@ void config_store(void)
         fprintf(fp, "fullscreen %d\n",  (mode & SDL_FULLSCREEN) ? 1 : 0);
         fprintf(fp, "width %d\n",        width);
         fprintf(fp, "height %d\n",       height);
+        fprintf(fp, "stereo %d\n",       stereo);
         fprintf(fp, "camera %d\n",       camera);
         fprintf(fp, "textures %d\n",     textures);
         fprintf(fp, "geometry %d\n",     geometry);
         fprintf(fp, "audio_rate %d\n",   audio_rate);
         fprintf(fp, "audio_buff %d\n",   audio_buff);
         fprintf(fp, "mouse_sense %d\n",  mouse_sense);
+        fprintf(fp, "mouse_inv %d\n",    mouse_inv);
         fprintf(fp, "player %s\n",       player);
         fprintf(fp, "niceness %d\n",     niceness);
         fprintf(fp, "fps %d\n",          fps);
         fprintf(fp, "joy %d\n",          joy);
+        fprintf(fp, "joy_device %d\n",   joy_device);
         fprintf(fp, "sound_vol %d\n",    sound_vol);
         fprintf(fp, "music_vol %d\n",    music_vol);
 
@@ -235,10 +244,13 @@ int config_geom(void) { return geometry; }
 int config_rate(void) { return audio_rate; }
 int config_buff(void) { return audio_buff; }
 int config_sens(void) { return mouse_sense; }
+int config_inv (void) { return mouse_inv; }
 int config_nice(void) { return niceness; }
 int config_fps (void) { return fps; }
+int config_joy_device(void) { return joy_device; }
 int config_sound(void) { return sound_vol; }
 int config_music(void) { return music_vol; }
+int config_stereo(void) { return stereo; }
 
 int config_axis_x(int a)   { return (joy && a == axis_x); }
 int config_axis_y(int a)   { return (joy && a == axis_y); }
@@ -273,9 +285,6 @@ int config_set_mode(int w, int h, int m)
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
-
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         glext_init();
         text_init(h);
@@ -350,6 +359,7 @@ void config_set_music(int n)
 void config_set_view(int c)
 {
     camera = c;
+    hud_view_pulse(c);
 }
 
 void config_tog_nice(void)

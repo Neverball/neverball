@@ -214,3 +214,33 @@ GLuint make_image_from_font(int *W, int *H,
 
     return o;
 }
+
+/*---------------------------------------------------------------------------*/
+
+void image_snap(const char *filename)
+{
+    static char path[STRMAX];
+
+    int w = config_w();
+    int h = config_h();
+    int i;
+
+    SDL_Surface *buf = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
+                                            RMASK, GMASK, BMASK, 0);
+    SDL_Surface *img = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
+                                            RMASK, GMASK, BMASK, 0);
+
+    glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, buf->pixels);
+
+    for (i = 0; i < h; i++)
+        memcpy((GLubyte *) img->pixels + 3 * w * i,
+               (GLubyte *) buf->pixels + 3 * w * (h - i), 3 * w);
+
+    if (config_home(path, filename, STRMAX))
+        SDL_SaveBMP(img,  path);
+
+    SDL_FreeSurface(img);
+    SDL_FreeSurface(buf);
+}
+
+/*---------------------------------------------------------------------------*/

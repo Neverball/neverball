@@ -22,6 +22,7 @@ GtkRadiant, documentation, and tutorials may be found at
     - Entities          ... Adding active elements to the map
     - Decals            ... Adding visual elements to the map
     - Adding Materials  ... Creating custom textures and materials
+    - Level Shots       ... Snapping screenshots for level selection
     - Caveats           ... Problems and things to avoid
 
 
@@ -386,6 +387,43 @@ view.  Their meaning is a follows:
  
 The five of  these togather determine the base  color of the material.
 This base color is then blended with (added to) the texture color.
+
+
+
+* LEVEL SHOTS
+
+A level shot is a screenshot of  a level without the ball or any coins
+visible.  It is used to preview a level in the level selection screen.
+Level shots are  listed along with their SOL  files, background files,
+etc in  the levels.txt  file. There  are two ways  to acquire  a level
+shot: per level, and per set.
+
+To acquire a single level shot, press F12 at the level's intro screen.
+This will clear  the hud and all entities.  Then, press  F10 to take a
+screenshot normally.   Rename the screenshot as needed  and prepare it
+as described below.
+
+To capture  level shots for an  entire set, go to  the set's selection
+screen  and press  F12.   This  will iterate  through  all levels  and
+automatically take a screenshot of each.  The resulting BMP files will
+have the same name as the  source SOL file as listed in the levels.txt
+file.
+
+NOTE: If  the SOL file has  the name "sol/foo.sol"  then the resulting
+screenshot  will have  the name  "sol/foo.bmp".  Thus, if  your normal
+screenshot  directory is  your home  directory, you  must  ensure that
+$(HOME)/sol exists and that the level shots may be written there.
+
+To be usable  in level selection, a level  shot must have power-of-two
+size.  Screenshots  generally don't,  thus they must  be non-uniformly
+scaled.   256x256 is  usually a  good choice.   JPG is  usally  a good
+format, as it  is compact.  Both the size and format  of the image are
+optional.
+
+The author uses  the following ImageMagick command line  to convert an
+entire set of level shots to JPG.
+
+    mogrify -resize 256x256! -format jpg -quality 90 *.bmp
 
 
 

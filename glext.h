@@ -24,6 +24,10 @@ extern PFNGLACTIVETEXTUREPROC   glActiveTextureARB;
 extern PFNGLMULTITEXCOORD2DPROC glMultiTexCoord2dARB;
 #endif
 
+/* Certain buggy drivers don't handle multitexture well.  Comment this in. */
+/*
+#undef GL_ARB_multitexture
+*/
 /*---------------------------------------------------------------------------*/
 
 void glext_init(void);

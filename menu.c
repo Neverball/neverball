@@ -120,7 +120,7 @@ void menu_item(int i, int x, int y, int w, int h)
         menu.item[i].list = make_rect(menu.item[i].x0,
                                       menu.item[i].y0,
                                       menu.item[i].x1,
-                                      menu.item[i].y1, 16);
+                                      menu.item[i].y1);
     }
 }
 
@@ -173,7 +173,7 @@ static void menu_paint_item(struct item *item, int n, int value)
         { 0.1f, 0.1f, 0.1f, 0.5f },             /* normal               */
         { 0.3f, 0.3f, 0.3f, 0.5f },             /* selected             */
         { 0.7f, 0.3f, 0.0f, 0.5f },             /* hilited              */
-        { 1.0f, 0.6f, 0.3f, 0.5f },             /* selected and hilited */
+        { 1.0f, 0.7f, 0.3f, 0.5f },             /* selected and hilited */
     };
     int i, j;
 
@@ -219,12 +219,16 @@ static void menu_paint_text(struct text *text, int n)
 void menu_paint(void)
 {
     glPushAttrib(GL_LIGHTING_BIT);
+    glPushAttrib(GL_COLOR_BUFFER_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     config_push_ortho();
     {
+        glEnable(GL_BLEND);
         glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
         glDisable(GL_DEPTH_TEST);
+
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         if (menu.item)
             menu_paint_item(menu.item, menu.nitem, menu.value);
@@ -233,6 +237,7 @@ void menu_paint(void)
             menu_paint_text(menu.text, menu.ntext);
     }
     config_pop_matrix();
+    glPopAttrib();
     glPopAttrib();
     glPopAttrib();
 }

@@ -12,6 +12,18 @@
  * General Public License for more details.
  */
 
+/*---------------------------------------------------------------------------*/
+
+#ifdef WIN32
+#pragma comment(lib, "SDL_image.lib")
+#pragma comment(lib, "SDL.lib")
+#pragma comment(lib, "SDLmain.lib")
+#pragma comment(lib, "glu32.lib")
+#pragma comment(lib, "opengl32.lib")
+#endif
+
+/*---------------------------------------------------------------------------*/
+
 /*
  * I'm not  particularly proud of this  chunk of code.  It  was not so
  * much designed as it was accumulated.
@@ -47,12 +59,12 @@ static char *path = ".";
 
 /* Ohhhh... arbitrary! */
 
-#define MAXM	4096
-#define MAXV	8192
-#define MAXE	8192
-#define MAXS	4096
-#define MAXT	8192
-#define MAXG	4096
+#define MAXM	8192
+#define MAXV    16384
+#define MAXE	16384
+#define MAXS	8192
+#define MAXT	16384
+#define MAXG	8192
 #define MAXL	1024
 #define MAXN	1024
 #define MAXP	512
@@ -64,7 +76,7 @@ static char *path = ".";
 #define MAXU	16
 #define MAXW    32
 #define MAXA	512
-#define MAXI	16384
+#define MAXI	32768
 
 static void init_file(struct s_file *fp)
 {
@@ -199,7 +211,7 @@ static void targets(struct s_file *fp)
 /*
  * The following code caches  image sizes.  Textures are referenced by
  * name,  but  their  sizes   are  necessary  when  computing  texture
- * coordinates.   This  code allows  each  file  to  be accessed  once
+ * coordinates.  This code  allows each file to be  accessed only once
  * regardless of the number of surfaces refering to it.
  */
 
@@ -294,9 +306,9 @@ static void make_plane(int pi, int x0, int y0, int z0,
     p0[1] = +(double) z0 / SCALE;
     p0[2] = -(double) y0 / SCALE;
 
-    p1[0]  = +(double) x1 / SCALE;
-    p1[1]  = +(double) z1 / SCALE;
-    p1[2]  = -(double) y1 / SCALE;
+    p1[0] = +(double) x1 / SCALE;
+    p1[1] = +(double) z1 / SCALE;
+    p1[2] = -(double) y1 / SCALE;
 
     p2[0] = +(double) x2 / SCALE;
     p2[1] = +(double) z2 / SCALE;
@@ -330,8 +342,8 @@ static void make_plane(int pi, int x0, int y0, int z0,
     m_vxfm(plane_v[pi], R, base[n][2]);
     m_vxfm(plane_p[pi], R, p);
 
-    v_scl(plane_u[pi], plane_u[pi], SCALE / w);
-    v_scl(plane_v[pi], plane_v[pi], SCALE / h);
+    v_scl(plane_u[pi], plane_u[pi], 64.0 / w);
+    v_scl(plane_v[pi], plane_v[pi], 64.0 / h);
 
     v_scl(plane_u[pi], plane_u[pi], 1.0 / su);
     v_scl(plane_v[pi], plane_v[pi], 1.0 / sv);
@@ -864,6 +876,11 @@ static void move_side(struct s_side *sp, const double p[3])
     sp->d -= v_dot(sp->n, p);
 }
 
+static void move_vert(struct s_vert *vp, const double p[3])
+{
+    v_sub(vp->p, vp->p, p);
+}
+
 static void move_lump(struct s_file *fp,
                       struct s_lump *lp, const double p[3])
 {
@@ -871,6 +888,8 @@ static void move_lump(struct s_file *fp,
 
     for (i = 0; i < lp->sc; i++)
         move_side(fp->sv + fp->iv[lp->s0 + i], p);
+    for (i = 0; i < lp->vc; i++)
+        move_vert(fp->vv + fp->iv[lp->v0 + i], p);
 }
 
 static void move_body(struct s_file *fp,
@@ -1027,7 +1046,7 @@ static void clip_edge(struct s_file *fp,
 static void clip_geom(struct s_file *fp,
                       struct s_lump *lp, int si)
 {
-    int    m[16], t[16], d, i, j, n = 0;
+    int    m[256], t[256], d, i, j, n = 0;
     double u[3];
     double v[3];
     double w[3];
@@ -1313,19 +1332,6 @@ static void swap_geom(struct s_file *fp, int gi, int gj)
             if (fp->iv[fp->lv[i].g0 + j] == gi)
                 fp->iv[fp->lv[i].g0 + j]  = gj;
 }
-
-/*
-static void swap_path(struct s_file *fp, int pi, int pj)
-{
-    int i;
-
-    for (i = 0; i < fp->pc; i++)
-        if (fp->pv[i].pi == pi) fp->pv[i].pi = pj;
-
-    for (i = 0; i < fp->bc; i++)
-        if (fp->bv[i].pi == pi) fp->bv[i].pi = pj;
-}
-*/
 
 /*---------------------------------------------------------------------------*/
 
@@ -1635,61 +1641,21 @@ static void node_file(struct s_file *fp)
 }
 
 /*---------------------------------------------------------------------------*/
-#ifdef SNIP
-static void sort_file(struct s_file *fp)
-{
-    int i, j;
-
-    struct s_geom g;
-    struct s_side s;
-   
-    /*
-     * Sort the geoms in order of material index.  This was originally
-     * an important state transition reduction hack, but is now merely
-     * cute.
-     */
-    for (i = 1; i < fp->gc; i++)
-        for (j = 0; j < i; j++)
-            if (fp->gv[i].mi < fp->gv[j].mi)
-            {
-                g         = fp->gv[i];
-                fp->gv[i] = fp->gv[j];
-                fp->gv[j] =         g;
-
-                swap_geom(fp,  i, -1);
-                swap_geom(fp,  j,  i);
-                swap_geom(fp, -1,  j);
-            }
-
-    /*
-     * Sort the sides so that the most "floorish" side is 0.  Then any
-     * geoms referring  to side  0 may be  given special  treatment as
-     * "floor" geoms.
-     */
-    for (j = 1; j < fp->sc; j++)
-        if (fp->sv[j].n[1]    >= fp->sv[0].n[1] &&
-            fabs(fp->sv[j].d) <= fabs(fp->sv[0].d))
-        {
-            s         = fp->sv[0];
-            fp->sv[0] = fp->sv[j];
-            fp->sv[j] =         s;
-
-            swap_side(fp,  0, -1);
-            swap_side(fp,  j,  0);
-            swap_side(fp, -1,  j);
-        }
-}
-#endif
-/*---------------------------------------------------------------------------*/
 
 static void dump_file(struct s_file *p)
 {
+    int i, n = 0;
+
+    for (i = 0; i < p->lc; i++)
+        if ((p->lv[i].fl & 1) == 0)
+            n++;
+
     printf("  mtrl  vert  edge  side  texc  geom  lump  path  node\n"
            "%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
            "  body  coin  goal  view  jump  swch  ball  char  indx\n"
-           "%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
+           "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
            p->mc, p->vc, p->ec, p->sc, p->tc, p->gc, p->lc, p->pc, p->nc,
-           p->bc, p->cc, p->zc, p->wc, p->jc, p->xc, p->uc, p->ac, p->ic);
+           p->bc, p->cc, p->zc, p->wc, p->jc, p->xc, p->uc, p->ac, p->ic, n);
 }
 
 int main(int argc, char *argv[])
@@ -1709,10 +1675,9 @@ int main(int argc, char *argv[])
             resolve();
             targets(&f);
 
-            move_file(&f);
             clip_file(&f);
+            move_file(&f);
             uniq_file(&f);
-/*          sort_file(&f); */
             node_file(&f);
             dump_file(&f);
 

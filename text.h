@@ -27,7 +27,7 @@ void   text_free(void);
 void   text_size(const char *, int, int *, int *);
 GLuint make_list(const char *, int, const float *, const float *);
 GLuint make_text(const char *, int);
-GLuint make_rect(int, int, int, int, int);
+GLuint make_rect(int, int, int, int);
 
 /*---------------------------------------------------------------------------*/
 

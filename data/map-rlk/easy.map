@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Guide the ball to the target.\Move the mouse to tilt the floor.\Mouse buttons rotate the view.\Press Spacebar to pause, ESC to quit.\\Click to begin.\"
+"message" "Guide the ball to the target.\Move the mouse to tilt the floor.\\\\Click to begin.\"
 "classname" "worldspawn"
 // brush 0
 {

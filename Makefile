@@ -11,8 +11,9 @@ OGL_LIBS= -lGLU -lGL -lm
 
 #------------------------------------------------------------------------------
 
-CFLAGS= -Wall -O3 -ansi $(shell sdl-config --cflags)
-#CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
+#CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
+#CFLAGS= -Wall -O3 -ansi $(shell sdl-config --cflags)
+CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
 
 SDL_LIBS= $(shell sdl-config --libs)
 FT2_LIBS= $(shell freetype-config --libs)
@@ -52,6 +53,15 @@ GAME_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS)
 
 SOLS= \
 	data/sol-rlk/title.sol    \
+	data/sol-rlk/pipe.sol     \
+	data/sol-rlk/pyramid.sol  \
+	data/sol-rlk/greed.sol    \
+	data/sol-rlk/easytele.sol \
+	data/sol-rlk/drops.sol    \
+	data/sol-rlk/curbs.sol    \
+	data/sol-rlk/rampdn.sol   \
+	data/sol-rlk/invis.sol    \
+	data/sol-rlk/plinko.sol   \
 	data/sol-rlk/telemaze.sol \
 	data/sol-rlk/islands.sol  \
 	data/sol-rlk/check.sol    \
@@ -79,7 +89,7 @@ SOLS= \
 	data/sol-rlk/maze.sol     \
 	data/sol-rlk/spiraldn.sol \
 	data/sol-rlk/spiralup.sol \
-	data/sol-rlk/ramps.sol    \
+	data/sol-rlk/rampup.sol   \
 	data/sol-rlk/goals.sol    \
 	data/sol-rlk/risers.sol   \
 	data/sol-rlk/quads.sol    \
@@ -91,21 +101,7 @@ SOLS= \
 	data/sol-rlk/movers.sol   \
 	data/sol-rlk/poker.sol    \
 	data/sol-rlk/ring.sol     \
-	data/sol-rlk/teleport.sol \
-	data/sol-mym/assault_course.sol \
-	data/sol-mym/dance.sol          \
-	data/sol-mym/descent.sol        \
-	data/sol-mym/drive.sol          \
-	data/sol-mym/drive2.sol         \
-	data/sol-mym/earth_quake.sol    \
-	data/sol-mym/free_fall.sol      \
-	data/sol-mym/glass_tower.sol    \
-	data/sol-mym/loop.sol           \
-	data/sol-mym/loop2.sol          \
-	data/sol-mym/narrow.sol         \
-	data/sol-mym/scrambling.sol     \
-	data/sol-mym/trust.sol
-
+	data/sol-rlk/teleport.sol
 
 #------------------------------------------------------------------------------
 

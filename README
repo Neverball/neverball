@@ -25,6 +25,8 @@ Neverball requires:
     Michael Sterret     (Gentoo ebuild)
     Christoph Frick     (OSX port)
     Jeremy Messenger    (FreeBSD port)
+    Erik Auerswald      (Mouse invert)
+    Corey Edwards       (Joystick select)
 
     Countless others for play testing and bug reports.
 
@@ -121,6 +123,10 @@ default values follow.
         the floor  through its entire  range.  A smaller  number means
         more sensitive.
 
+    mouse_inv 0
+
+        This key inverts the vertical mouse axis if set to 1.
+
     camera 0
 
         This   key   selects   from   3  different   camera   tracking
@@ -156,12 +162,26 @@ default values follow.
 
         Press F8 to toggle this flag in-game.
 
+    stereo 0
+
+        This key  enables quad-buffered stereo viewing  for those with
+        the hardware to support it.  It gives an angle in degrees that
+        determines the  interocular distance.  0  is normal non-stereo
+        viewing.  2 gives  a  good  stereo effect.   If  the eyes  are
+        swapped, give a negative value, like -2.
+
     joy 0
 
         This key  enables joystick control.  0  is off, 1  is on.  The
         game may still be controlled with the mouse even while gamepad
         control  is enabled.   However,  random noise  from an  analog
         controller at rest can disrupt normal mouse input.
+
+    joy_device 0
+
+        This  number selects  which joystick  to use if  more than one
+        joystick is  found. 0 is the first  joystick, 1 is the  second
+        and so on.
 
     axis_x 0
 

@@ -18,7 +18,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <sys/time.h>
 
 #include "glext.h"
 #include "vec3.h"
@@ -253,6 +252,7 @@ void sol_draw(const struct s_file *fp)
     int i;
 
     glPushAttrib(GL_LIGHTING_BIT);
+    glPushAttrib(GL_COLOR_BUFFER_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
         /* Render all obaque geometry into the color and depth buffers. */
@@ -263,10 +263,13 @@ void sol_draw(const struct s_file *fp)
         /* Render all translucent geometry into only the color buffer. */
 
         glDepthMask(GL_FALSE);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         for (i = 0; i < fp->bc; i++)
             sol_draw_list(fp, fp->bv + i, 1);
     }
+    glPopAttrib();
     glPopAttrib();
     glPopAttrib();
 }
@@ -663,16 +666,15 @@ static double v_side(double Q[3],
                      const double p[3],
                      const double v[3], double r)
 {
-    double on = v_dot(o, n);
-    double pn = v_dot(p, n);
     double vn = v_dot(v, n);
     double wn = v_dot(w, n);
     double t  = LARGE;
 
-    if (vn - wn > 0.0)
-        return LARGE;
-    else
+    if (vn - wn <= 0.0)
     {
+        double on = v_dot(o, n);
+        double pn = v_dot(p, n);
+
         double u = (r + d + on - pn) / (vn - wn);
         double a = (    d + on - pn) / (vn - wn);
 
@@ -846,7 +848,8 @@ static void sol_ball_step(struct s_file *fp, double dt)
 
 /*---------------------------------------------------------------------------*/
 
-static double sol_test_vert(double T[3],
+static double sol_test_vert(double dt,
+                            double T[3],
                             const struct s_ball *up,
                             const struct s_vert *vp,
                             const double o[3],
@@ -855,7 +858,8 @@ static double sol_test_vert(double T[3],
     return v_vert(T, o, vp->p, w, up->p, up->v, up->r);
 }
 
-static double sol_test_edge(double T[3],
+static double sol_test_edge(double dt,
+                            double T[3],
                             const struct s_ball *up,
                             const struct s_file *fp,
                             const struct s_edge *ep,
@@ -872,7 +876,8 @@ static double sol_test_edge(double T[3],
     return v_edge(T, o, q, u, w, up->p, up->v, up->r);
 }
 
-static double sol_test_side(double T[3],
+static double sol_test_side(double dt,
+                            double T[3],
                             const struct s_ball *up,
                             const struct s_file *fp,
                             const struct s_lump *lp,
@@ -883,7 +888,7 @@ static double sol_test_side(double T[3],
     double t = v_side(T, o, w, sp->n, sp->d, up->p, up->v, up->r);
     int i;
 
-    if (t < LARGE)
+    if (t < dt)
         for (i = 0; i < lp->sc; i++)
         {
             const struct s_side *sq = fp->sv + fp->iv[lp->s0 + i];
@@ -899,9 +904,11 @@ static double sol_test_side(double T[3],
 
 /*---------------------------------------------------------------------------*/
 
-static double sol_test_fore(const struct s_ball *up,
+static double sol_test_fore(double dt,
+                            const struct s_ball *up,
                             const struct s_side *sp,
-                            const double o[3])
+                            const double o[3],
+                            const double w[3])
 {
     double q[3];
 
@@ -912,19 +919,27 @@ static double sol_test_fore(const struct s_ball *up,
     if (v_dot(q, sp->n) - sp->d + up->r >= 0)
         return 1;
 
+    /* if the ball is behind the plane but will hit before dt, test passes. */
+    /*
+    if (v_side(q, o, w, sp->n, sp->d, up->p, up->v, up->r) < dt)
+        return 1;
+    */
     /* If the ball is behind but moving toward the plane, test passes. */
 
     if (v_dot(up->v, sp->n) > 0)
         return 1;
+
 
     /* Else, test fails. */
 
     return 0;
 }
 
-static double sol_test_back(const struct s_ball *up,
+static double sol_test_back(double dt,
+                            const struct s_ball *up,
                             const struct s_side *sp,
-                            const double o[3])
+                            const double o[3],
+                            const double w[3])
 {
     double q[3];
 
@@ -935,10 +950,16 @@ static double sol_test_back(const struct s_ball *up,
     if (v_dot(q, sp->n) - sp->d - up->r <= 0)
         return 1;
 
+    /* if the ball is behind the plane but will hit before dt, test passes. */
+    /*
+    if (v_side(q, o, w, sp->n, sp->d, up->p, up->v, up->r) < dt)
+        return 1;
+    */
     /* If the ball is in front but moving toward the plane, test passes. */
 
     if (v_dot(up->v, sp->n) < 0)
         return 1;
+
 
     /* Else, test fails. */
 
@@ -947,14 +968,15 @@ static double sol_test_back(const struct s_ball *up,
 
 /*---------------------------------------------------------------------------*/
 
-static double sol_test_lump(double T[3],
+static double sol_test_lump(double dt,
+                            double T[3],
                             const struct s_ball *up,
                             const struct s_file *fp,
                             const struct s_lump *lp,
                             const double o[3],
                             const double w[3])
 {
-    double U[3], u, t = LARGE;
+    double U[3], u, t = dt;
     int i;
 
     /* Short circuit a non-solid lump. */
@@ -968,7 +990,7 @@ static double sol_test_lump(double T[3],
         {
             const struct s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
 
-            if ((u = sol_test_vert(U, up, vp, o, w)) < t)
+            if ((u = sol_test_vert(t, U, up, vp, o, w)) < t)
             {
                 v_cpy(T, U);
                 t = u;
@@ -982,7 +1004,7 @@ static double sol_test_lump(double T[3],
         {
             const struct s_edge *ep = fp->ev + fp->iv[lp->e0 + i];
 
-            if ((u = sol_test_edge(U, up, fp, ep, o, w)) < t)
+            if ((u = sol_test_edge(t, U, up, fp, ep, o, w)) < t)
             {
                 v_cpy(T, U);
                 t = u;
@@ -995,7 +1017,7 @@ static double sol_test_lump(double T[3],
     {
         const struct s_side *sp = fp->sv + fp->iv[lp->s0 + i];
 
-        if ((u = sol_test_side(U, up, fp, lp, sp, o, w)) < t)
+        if ((u = sol_test_side(t, U, up, fp, lp, sp, o, w)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1004,14 +1026,15 @@ static double sol_test_lump(double T[3],
     return t;
 }
 
-static double sol_test_node(double T[3],
+static double sol_test_node(double dt,
+                            double T[3],
                             const struct s_ball *up,
                             const struct s_file *fp,
                             const struct s_node *np,
                             const double o[3],
                             const double w[3])
 {
-    double U[3], u, t = LARGE;
+    double U[3], u, t = dt;
     int i;
 
     /* Test all lumps */
@@ -1020,7 +1043,7 @@ static double sol_test_node(double T[3],
     {
         const struct s_lump *lp = fp->lv + np->l0 + i;
 
-        if ((u = sol_test_lump(U, up, fp, lp, o, w)) < t)
+        if ((u = sol_test_lump(t, U, up, fp, lp, o, w)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1029,11 +1052,11 @@ static double sol_test_node(double T[3],
 
     /* Test in front of this node */
 
-    if (np->ni >= 0 && sol_test_fore(up, fp->sv + np->si, o))
+    if (np->ni >= 0 && sol_test_fore(t, up, fp->sv + np->si, o, w))
     {
         const struct s_node *nq = fp->nv + np->ni;
 
-        if ((u = sol_test_node(U, up, fp, nq, o, w)) < t)
+        if ((u = sol_test_node(t, U, up, fp, nq, o, w)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1042,11 +1065,11 @@ static double sol_test_node(double T[3],
 
     /* Test behind this node */
 
-    if (np->nj >= 0 && sol_test_back(up, fp->sv + np->si, o))
+    if (np->nj >= 0 && sol_test_back(t, up, fp->sv + np->si, o, w))
     {
         const struct s_node *nq = fp->nv + np->nj;
 
-        if ((u = sol_test_node(U, up, fp, nq, o, w)) < t)
+        if ((u = sol_test_node(t, U, up, fp, nq, o, w)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1056,19 +1079,20 @@ static double sol_test_node(double T[3],
     return t;
 }
 
-static double sol_test_body(double T[3], double V[3],
+static double sol_test_body(double dt,
+                            double T[3], double V[3],
                             const struct s_ball *up,
                             const struct s_file *fp,
                             const struct s_body *bp)
 {
-    double U[3], O[3], W[3], u, t = LARGE;
+    double U[3], O[3], W[3], u, t = dt;
+
+    const struct s_node *np = fp->nv + bp->ni;
 
     sol_body_p(O, fp, bp);
     sol_body_v(W, fp, bp);
 
-    const struct s_node *np = fp->nv + bp->ni;
-
-    if ((u = sol_test_node(U, up, fp, np, O, W)) < t)
+    if ((u = sol_test_node(t, U, up, fp, np, O, W)) < t)
     {
         v_cpy(T, U);
         v_cpy(V, W);
@@ -1077,18 +1101,19 @@ static double sol_test_body(double T[3], double V[3],
     return t;
 }
 
-static double sol_test_file(double T[3], double V[3],
+static double sol_test_file(double dt,
+                            double T[3], double V[3],
                             const struct s_ball *up,
                             const struct s_file *fp)
 {
-    double U[3], W[3], u, t = LARGE;
+    double U[3], W[3], u, t = dt;
     int i;
 
     for (i = 0; i < fp->bc; i++)
     {
         const struct s_body *bp = fp->bv + i;
 
-        if ((u = sol_test_body(U, W, up, fp, bp)) < t)
+        if ((u = sol_test_body(t, U, W, up, fp, bp)) < t)
         {
             v_cpy(T, U);
             v_cpy(V, W);
@@ -1100,26 +1125,36 @@ static double sol_test_file(double T[3], double V[3],
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Step the physics forward DT  seconds under the influence of gravity
+ * vector G.  If the ball gets pinched between two moving solids, this
+ * loop might not terminate.  It  is better to do something physically
+ * impossible than  to lock up the game.   So, if we make  more than C
+ * iterations, punt it.
+ */
+
 double sol_step(struct s_file *fp, const double *g, double dt)
 {
     double T[3], V[3], d, nt, b = 0.0, tt = dt;
-    
+    int c = 16;
+
     struct s_ball *up = fp->uv;
 
     v_mad(up->v, up->v, g, tt);
 
-    while (tt > 0 && tt >= (nt = sol_test_file(T, V, up, fp)))
-        if (fabs(nt) >= 0)
-        {
-            sol_swch_step(fp, nt);
-            sol_body_step(fp, nt);
-            sol_ball_step(fp, nt);
+    while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, T, V, up, fp)))
+    {
+        sol_swch_step(fp, nt);
+        sol_body_step(fp, nt);
+        sol_ball_step(fp, nt);
 
-            tt -= nt;
+        tt -= nt;
 
-            if (b < (d = sol_bounce(up, T, V, nt)))
-                b = d;
-        }
+        if (b < (d = sol_bounce(up, T, V, nt)))
+            b = d;
+
+        c--;
+    }
 
     sol_swch_step(fp, tt);
     sol_body_step(fp, tt);
@@ -1220,6 +1255,7 @@ int sol_swch_test(struct s_file *fp, int flag)
     const double *ball_p = fp->uv->p;
     const double  ball_r = fp->uv->r;
     int xi;
+    int f = 1;
 
     for (xi = 0; xi < fp->xc; xi++)
     {
@@ -1262,11 +1298,11 @@ int sol_swch_test(struct s_file *fp, int flag)
                     if (xp->f != xp->f0)
                         xp->t  = xp->t0;
                 }
-                return 0;
+                f = 0;
             }
         }
     }
-    return 1;
+    return f;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -4,8 +4,8 @@
 # The INCDIR variable will probably need to be changed depending on where
 # you have installed the SDL headers.
 
-INCDIR= /I"C:\Program Files\Microsoft Visual Studio .NET\Vc7\include\SDL"
-
+INCDIR= /I C:\SDL\include
+LIBDIR= /LIBPATH:C:\SDL\lib
 #------------------------------------------------------------------------------
 
 CFLAGS= /Ox
@@ -33,6 +33,7 @@ GAME_OBJS= \
 	back.obj   \
 	game.obj   \
 	level.obj  \
+	set.obj    \
 	menu.obj   \
 	state.obj  \
 	config.obj \
@@ -46,31 +47,55 @@ MAPC_LIBS= SDL_image.lib $(SDL_LIBS) $(SYS_LIBS)
 GAME_LIBS= SDL_ttf.lib SDL_mixer.lib SDL_image.lib $(SDL_LIBS) $(SYS_LIBS)
 
 SOLS= \
-	data/sol/00_title.sol   \
-	data/sol/01_easy.sol    \
-	data/sol/02_coin.sol    \
-	data/sol/03_slow.sol    \
-	data/sol/04_fence.sol   \
-	data/sol/05_fall.sol    \
-	data/sol/06_move.sol    \
-	data/sol/07_waka.sol    \
-	data/sol/08_curve.sol   \
-	data/sol/09_maze.sol    \
-	data/sol/10_spiral.sol  \
-	data/sol/11_ramp.sol    \
-	data/sol/12_goal.sol    \
-	data/sol/13_pyramid.sol \
-	data/sol/14_quads.sol   \
-	data/sol/15_frog.sol    \
-	data/sol/16_angle.sol   \
-	data/sol/17_spread.sol  \
-	data/sol/18_four.sol    \
-	data/sol/19_hump.sol    \
-	data/sol/20_movers.sol  \
-	data/sol/21_poke.sol    \
-	data/sol/22_ring.sol    \
-	data/sol/23_tele.sol    \
-	data/sol/24_marble.sol
+	data\sol-rlk\title.sol    \
+	data\sol-rlk\pyramid.sol  \
+	data\sol-rlk\greed.sol    \
+	data\sol-rlk\easytele.sol \
+	data\sol-rlk\drops.sol    \
+	data\sol-rlk\curbs.sol    \
+	data\sol-rlk\rampdn.sol   \
+	data\sol-rlk\invis.sol    \
+	data\sol-rlk\plinko.sol   \
+	data\sol-rlk\telemaze.sol \
+	data\sol-rlk\islands.sol  \
+	data\sol-rlk\check.sol    \
+	data\sol-rlk\bumps.sol    \
+	data\sol-rlk\corners.sol  \
+	data\sol-rlk\peasy.sol    \
+	data\sol-rlk\timer.sol    \
+	data\sol-rlk\bumper.sol   \
+	data\sol-rlk\stairs.sol   \
+	data\sol-rlk\tilt.sol     \
+	data\sol-rlk\gaps.sol     \
+	data\sol-rlk\spiralin.sol \
+	data\sol-rlk\locks.sol    \
+	data\sol-rlk\easy.sol     \
+	data\sol-rlk\coins.sol    \
+	data\sol-rlk\goslow.sol   \
+	data\sol-rlk\fence.sol    \
+	data\sol-rlk\hole.sol     \
+	data\sol-rlk\zigzag.sol   \
+	data\sol-rlk\mover.sol    \
+	data\sol-rlk\wakka.sol    \
+	data\sol-rlk\curved.sol   \
+	data\sol-rlk\sync.sol     \
+	data\sol-rlk\grid.sol     \
+	data\sol-rlk\maze.sol     \
+	data\sol-rlk\spiraldn.sol \
+	data\sol-rlk\spiralup.sol \
+	data\sol-rlk\rampup.sol   \
+	data\sol-rlk\goals.sol    \
+	data\sol-rlk\risers.sol   \
+	data\sol-rlk\quads.sol    \
+	data\sol-rlk\frogger.sol  \
+	data\sol-rlk\angle.sol    \
+	data\sol-rlk\spread.sol   \
+	data\sol-rlk\four.sol     \
+	data\sol-rlk\hump.sol     \
+	data\sol-rlk\movers.sol   \
+	data\sol-rlk\poker.sol    \
+	data\sol-rlk\ring.sol     \
+	data\sol-rlk\teleport.sol
 
 #------------------------------------------------------------------------------
 
@@ -79,7 +104,10 @@ SOLS= \
 .c.obj :
 	cl /nologo /MD $(CFLAGS) /c $< $(INCDIR)
 
-{data\map}.map{data\sol}.sol :
+{data\map-rlk}.map{data\sol-rlk}.sol :
+	$(MAPC_TARG) $< $@ data
+
+{data\map-mym}.map{data\sol-mym}.sol :
 	$(MAPC_TARG) $< $@ data
 
 #------------------------------------------------------------------------------
@@ -87,15 +115,17 @@ SOLS= \
 all : $(GAME_TARG) $(MAPC_TARG) $(SOLS)
 
 $(GAME_TARG) : $(GAME_OBJS)
-	link $(GAME_FLAGS) /out:$(GAME_TARG) $(GAME_OBJS) $(GAME_LIBS)
+	link $(GAME_FLAGS) /out:$(GAME_TARG) $(GAME_OBJS) $(GAME_LIBS) $(LIBDIR)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
-	link $(MAPC_FLAGS) /out:$(MAPC_TARG) $(MAPC_OBJS) $(MAPC_LIBS)
+	link $(MAPC_FLAGS) /out:$(MAPC_TARG) $(MAPC_OBJS) $(MAPC_LIBS) $(LIBDIR)
 
 clean :
 	del $(GAME_TARG) $(GAME_OBJS)
 	del $(MAPC_TARG) $(MAPC_OBJS)
-	del /q data\sol\*.sol
+	del /q data\sol-rlk\*.sol
+	del /q data\sol-mym\*.sol
+	del /q *.txt
 
 dist :
         del $(GAME_OBJS)

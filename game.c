@@ -49,9 +49,9 @@ static double view_v[3];                /* Current view vector               */
 static double view_p[3];                /* Current view position             */
 static double view_e[3][3];             /* Current view orientation          */
 
-static double swch_e = 1;               /* Switching enabled flag            */
-static double jump_e = 1;               /* Jumping enabled flag              */
-static double jump_b = 0;               /* Jump-in-progress flag             */
+static int    swch_e = 1;               /* Switching enabled flag            */
+static int    jump_e = 1;               /* Jumping enabled flag              */
+static int    jump_b = 0;               /* Jump-in-progress flag             */
 static double jump_dt;                  /* Jump duration                     */
 static double jump_p[3];                /* Jump destination                  */
 
@@ -297,15 +297,15 @@ static void game_clr_shadow(void)
 
 /*---------------------------------------------------------------------------*/
 
-void game_draw(int pose)
+void game_draw(int pose, double dy)
 {
     const float light_p[2][4] = {
-        { -8.0, +32.0, -8.0, 1.0 },
-        { +8.0, +32.0, +8.0, 1.0 },
+        { -8.0f, +32.0f, -8.0f, 1.0f },
+        { +8.0f, +32.0f, +8.0f, 1.0f },
     };
     const float light_c[2][4] = {
-        { 1.0, 0.8, 0.8, 1.0 },
-        { 0.8, 1.0, 0.8, 1.0 },
+        { 1.0f, 0.8f, 0.8f, 1.0f },
+        { 0.8f, 1.0f, 0.8f, 1.0f },
     };
 
     const struct s_file *fp = &file;
@@ -317,6 +317,7 @@ void game_draw(int pose)
 
     config_push_persp(fov, 0.1, 300.0);
     glPushAttrib(GL_LIGHTING_BIT);
+    glPushAttrib(GL_COLOR_BUFFER_BIT);
     glPushMatrix();
     {
         double v[3], rx, ry;
@@ -324,7 +325,7 @@ void game_draw(int pose)
         v_sub(v, view_c, view_p);
 
         rx = V_DEG(atan2(-v[1], sqrt(v[0] * v[0] + v[2] * v[2])));
-        ry = V_DEG(atan2(+v[0], -v[2]));
+        ry = V_DEG(atan2(+v[0], -v[2])) + dy;
 
         glTranslated(0.0, 0.0, -v_len(v));
         glRotated(rx, 1.0, 0.0, 0.0);
@@ -337,7 +338,7 @@ void game_draw(int pose)
         {
             glTranslated(view_p[0], view_p[1], view_p[2]);
             game_clr_shadow();
-            back_draw();
+            back_draw(0);
         }
         glPopMatrix();
 
@@ -370,6 +371,9 @@ void game_draw(int pose)
 
         /* Draw the game elements. */
 
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         if (pose == 0)
         {
             part_draw_coin(-rx, -ry);
@@ -381,6 +385,7 @@ void game_draw(int pose)
         game_draw_swchs(fp);
     }
     glPopMatrix();
+    glPopAttrib();
     glPopAttrib();
     config_pop_matrix();
 }
@@ -538,7 +543,7 @@ static int game_update_state(void)
     /* Test for a switch. */
 
     if ((swch_e = sol_swch_test(fp, swch_e)) != e && e)
-        audio_play(AUD_COIN, 1.f);
+        audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 

@@ -1,24 +1,26 @@
-599.99 BEAT   1 BEAT  599.99 THESE    2 THESE   599.99 SCORES  3 SCORES
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (locks)
-  5.00 Hard  25 Hard  30.00 Medium  20 Medium  90.00 Easy   10 Easy (grid)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (telemaze)
-  5.00 Hard  45 Hard  45.00 Medium  30 Medium  60.00 Easy   10 Easy (spiraldn)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (islands)
- 30.00 Hard  45 Hard  45.00 Medium  30 Medium  60.00 Easy   10 Easy (spiralup)
- 25.00 Hard  84 Hard  45.00 Medium  50 Medium  60.00 Easy   10 Easy (ramps)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (check)
- 25.00 Hard  63 Hard  35.00 Medium  35 Medium  45.00 Easy   10 Easy (risers)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (tilt)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (gaps)
- 15.00 Hard  50 Hard  30.00 Medium  20 Medium  60.00 Easy   10 Easy (quads)
- 10.00 Hard  70 Hard  20.00 Medium  30 Medium  60.00 Easy   10 Easy (frogger)
- 15.00 Hard  60 Hard  30.00 Medium  27 Medium  45.00 Easy   10 Easy (angle)
-599.99 Hard   1 Hard 599.99 Medium   2 Medium 599.99 Easy    3 Easy (timer)
- 30.00 Hard  50 Hard  60.00 Medium  25 Medium  90.00 Easy   10 Easy (spread)
- 15.00 Hard  45 Hard  20.00 Medium  20 Medium  30.00 Easy   10 Easy (four)
- 25.00 Hard  41 Hard  35.00 Medium  20 Medium  45.00 Easy   10 Easy (hump)
- 30.00 Hard  40 Hard  45.00 Medium  20 Medium  60.00 Easy   10 Easy (movers)
- 25.00 Hard  22 Hard  30.00 Medium  20 Medium  60.00 Easy   10 Easy (poker)
- 10.00 Hard  63 Hard  30.00 Medium  30 Medium  60.00 Easy   10 Easy (ring)
- 30.00 Hard  59 Hard  45.00 Medium  30 Medium  60.00 Easy   10 Easy (teleport)
- 15.00 Hard  39 Hard  30.00 Medium  20 Medium  60.00 Easy   10 Easy (title)
+3600.00    0      3600.00    0      3600.00    0       TOTAL
+   3.50   52        10.00   40        20.00   30       grid
+   6.00  130        11.00   20        20.00   10       four
+  10.00   84        25.00   60        40.00   40       telemaze
+   3.50   46        30.00   30        60.00   10       spiraldn
+  12.00   64        20.00   50        30.00   40       islands
+   6.00   68        12.00   28        20.00   10       angle
+  24.00   46        35.00   40        60.00   35       spiralup
+  20.00   85        35.00   50        60.00   10       rampup
+   9.00   92        16.00   70        30.00   60       check
+  25.00   64        35.00   50        45.00   40       risers
+  12.00   92        24.00   71        45.00   60       tilt
+   4.00  100        32.00   40        45.00   30       gaps
+  30.00  168        40.00   80        60.00   40       pyramid
+   7.00   54        16.00   20        30.00   10       quads
+   6.00   82         9.00   30        20.00   10       frogger
+  10.00  108        11.00   65        20.00   55       timer
+  17.00   58        30.00   25        45.00   10       spread
+  14.00   42        30.00   20        45.00   10       hump
+  30.00   90        45.00   20        60.00   10       movers
+  19.00   60        30.00   30        45.00   10       teleport
+  25.00   23        30.00   20        45.00   10       poker
+  15.00  128        40.00   88        60.00   66       invis
+   3.50   64        16.00   30        30.00   10       ring
+  18.00  129        26.00   80        45.00    3       pipe
+  12.00   40        20.00   20        30.00   10       title

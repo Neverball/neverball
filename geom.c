@@ -195,7 +195,7 @@ void coin_init(int b)
     static const float  e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
     static const float  h[1] = { 32.0f };
 
-    int n = b ? 32 : 16;
+    int n = b ? 32 : 8;
 
     coin_text = make_image_from_file(NULL, NULL, IMG_COIN);
     coin_list = glGenLists(1);
@@ -257,7 +257,7 @@ static GLuint goal_list = 0;
 
 void goal_init(int b)
 {
-    int i, n = b ? 32 : 16;
+    int i, n = b ? 32 : 8;
 
     goal_list = glGenLists(1);
 
@@ -314,7 +314,7 @@ static GLuint jump_list = 0;
 
 void jump_init(int b)
 {
-    int i, n = b ? 32 : 16;
+    int i, n = b ? 32 : 8;
 
     jump_list = glGenLists(1);
 
@@ -371,7 +371,7 @@ static GLuint swch_list = 0;
 
 void swch_init(int b)
 {
-    int i, n = b ? 32 : 16;
+    int i, n = b ? 32 : 8;
 
     swch_list = glGenLists(2);
 
