@@ -92,7 +92,10 @@ static void section(int d,
 
 void ball_init(void)
 {
-    static const float s[3] = { 1.0f, 1.0f, 1.0f };
+    static const float  a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    static const float  s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    static const float  e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    static const float  h[1] = { 64.0f };
 
     static const double p[6][3] = {
         { +1.0,  0.0,  0.0 },
@@ -113,8 +116,10 @@ void ball_init(void)
     glNewList(ball_list, GL_COMPILE);
     glPushAttrib(GL_LIGHTING_BIT);
     {
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
-        glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, 64.0f);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
 
         glEnable(GL_COLOR_MATERIAL);
 
@@ -343,6 +348,11 @@ static void coin_edge(int n, double radius, double thick)
 
 void coin_init(void)
 {
+    static const float  a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    static const float  s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    static const float  e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    static const float  h[1] = { 32.0f };
+
     int n = main_geom ? 32 : 16;
 
     coin_list = glGenLists(1);
@@ -351,6 +361,11 @@ void coin_init(void)
 
     glNewList(coin_list, GL_COMPILE);
     {
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
+
         glPushMatrix();
         {
             image_bind(&coin_img);
@@ -374,35 +389,35 @@ void coin_free(void)
 
 void coin_draw(const struct s_coin *cv, int cc)
 {
-    static const float c1[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
-    static const float c2[4] = { 1.0f, 0.1f, 0.1f, 1.0f };
-    static const float c3[4] = { 0.1f, 0.1f, 1.0f, 1.0f };
-    static const float  s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-
     double r = 360.0 * fmod(time_state(), 1.0);
     int i;
 
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, s);
+    glPushAttrib(GL_ENABLE_BIT);
+    {
+        glEnable(GL_COLOR_MATERIAL);
 
-    for (i = 0; i < cc; i++)
-        if (0 < cv[i].n)
-        {
-            glPushMatrix();
+        for (i = 0; i < cc; i++)
+            if (0 < cv[i].n)
             {
-                if (0 < cv[i].n && cv[i].n <   5)
-                    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, c1);
-                if (4 < cv[i].n && cv[i].n <  10)
-                    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, c2);
-                if (9 < cv[i].n && cv[i].n < 100)
-                    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, c3);
+                glPushMatrix();
+                {
+                    if (0 < cv[i].n && cv[i].n <   5)
+                        glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+                    if (4 < cv[i].n && cv[i].n <  10)
+                        glColor4f(1.0f, 0.1f, 0.1f, 1.0f);
+                    if (9 < cv[i].n && cv[i].n < 100)
+                        glColor4f(0.1f, 0.1f, 1.0f, 1.0f);
 
-                glTranslated(cv[i].p[0], cv[i].p[1], cv[i].p[2]);
-                glRotated(r, 0.0, 1.0, 0.0);
+                    glTranslated(cv[i].p[0], cv[i].p[1], cv[i].p[2]);
+                    glRotated(r, 0.0, 1.0, 0.0);
 
-                glCallList(coin_list);
+                    glCallList(coin_list);
+                }
+                glPopMatrix();
             }
-            glPopMatrix();
-        }
+        
+    }
+    glPopAttrib();
 }
 
 int coin_test(const struct s_ball *up, struct s_coin *cv, int cc)

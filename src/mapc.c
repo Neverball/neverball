@@ -1240,7 +1240,7 @@ static void sort_file(struct s_file *fp)
      */
     for (i = 1; i < fp->gc; i++)
         for (j = 0; j < i; j++)
-            if (fp->gv[i].mi > fp->gv[j].mi)
+            if (fp->gv[i].mi < fp->gv[j].mi)
             {
                 g         = fp->gv[i];
                 fp->gv[i] = fp->gv[j];

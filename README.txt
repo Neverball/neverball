@@ -1,9 +1,13 @@
 
                           * SUPER EMPTY BALL *
 
-Super Empty Ball  is an action/puzzle game where  the player must tilt
-the floor in effort to roll a ball through an obstacle course within a
-limited time.  It requires:
+
+Tilt the  floor to roll a  ball through an obstacle  course within the
+given  time.  If  the ball  falls  or time  expires, a  ball is  lost.
+Collect 100 coins to earn an extra ball.  Red coins are worth 5.  Blue
+coins are worth 10.
+
+Super Empty Ball requires:
 
     SDL               http://www.libsdl.org/download-1.2.php
     SDL_image         http://www.libsdl.org/projects/SDL_image/
@@ -30,6 +34,8 @@ title  screen,  and  F1  at  the  title screen  exits.   F10  takes  a
 screenshot.
 
 
-Any resemblance to any other  software, game, or simulation related to
+(Any resemblance to any other software, game, or simulation related to
 super forms of balls possibly non-empty potentially containing monkeys
-is purely coincidental.
+is purely coincidental.)
+
+<rlk@snth.net>

@@ -29,6 +29,10 @@
 #define LARGE 1.0e+10
 
 /*---------------------------------------------------------------------------*/
+/*
+ * The following compute the position and velocity of a body given the
+ * path that it follows.
+ */
 
 static void sol_body_v(double v[3],
                        const struct s_file *fp,
@@ -65,57 +69,47 @@ static void sol_body_p(double p[3],
 }
 
 /*---------------------------------------------------------------------------*/
-
-static int transparent(const struct s_file *fp, int i)
-{
-    return (fp->mv[i].d[3] < 0.999) ? 1 : 0;
-}
+/*
+ * The  following code  renders a  body in  a  ludicrously inefficient
+ * manner.  It iterates the materials and scans the data structure for
+ * geometry using each.  This  has the effect of absolutely minimizing
+ * material  changes,  texture   bindings,  and  Begin/End  pars,  but
+ * maximizing trips through the data.
+ *
+ * However, this  is only done once  for each level.   The results are
+ * stored in display lists.  Thus, it is well worth it.
+ */
 
 static void sol_render_mtrl(const struct s_file *fp, int i)
 {
-    static int c = -1;
+    const struct s_mtrl *mp = fp->mv + i;
 
-    if (i == c) return;
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mp->a);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mp->d);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mp->s);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  mp->e);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp->h);
 
-    if (i >= 0)
-    {
-        const struct s_mtrl *mp = fp->mv + i;
-
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mp->a);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mp->d);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mp->s);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  mp->e);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp->h);
-
-        glBindTexture(GL_TEXTURE_2D, fp->xv[i].o);
-    }
-
-    c = i;
+    glBindTexture(GL_TEXTURE_2D, fp->xv[i].o);
 }
 
 static void sol_render_geom(const struct s_file *fp,
-                            const struct s_geom *gp, int t)
+                            const struct s_geom *gp, int mi)
 {
-    if (t == transparent(fp, gp->mi))
+    if (gp->mi == mi)
     {
-        sol_render_mtrl(fp, gp->mi);
-            
-        glBegin(GL_TRIANGLES);
-        {
-            glNormal3dv  (fp->sv[gp->si].n);
-            glTexCoord2dv(fp->tv[gp->ti].u);
-            glVertex3dv  (fp->vv[gp->vi].p);
-            glTexCoord2dv(fp->tv[gp->tj].u);
-            glVertex3dv  (fp->vv[gp->vj].p);
-            glTexCoord2dv(fp->tv[gp->tk].u);
-            glVertex3dv  (fp->vv[gp->vk].p);
-        }
-        glEnd();
+        glNormal3dv  (fp->sv[gp->si].n);
+        glTexCoord2dv(fp->tv[gp->ti].u);
+        glVertex3dv  (fp->vv[gp->vi].p);
+        glTexCoord2dv(fp->tv[gp->tj].u);
+        glVertex3dv  (fp->vv[gp->vj].p);
+        glTexCoord2dv(fp->tv[gp->tk].u);
+        glVertex3dv  (fp->vv[gp->vk].p);
     }
 }
 
 static void sol_render_lump(const struct s_file *fp,
-                            const struct s_lump *lp, int t)
+                            const struct s_lump *lp, int mi)
 {
     int i;
 
@@ -123,19 +117,27 @@ static void sol_render_lump(const struct s_file *fp,
     {
         int gi = fp->iv[lp->g0 + i];
 
-        sol_render_geom(fp, fp->gv + gi, t);
+        sol_render_geom(fp, fp->gv + gi, mi);
     }
 }
 
 static void sol_render_body(const struct s_file *fp,
                             const struct s_body *bp, int t)
 {
-    int li;
+    int mi, li;
 
-    sol_render_mtrl(fp, -1);
+    for (mi = 0; mi < fp->mc; mi++)
+        if (t == (fp->mv[mi].d[3] < 0.999) ? 1 : 0)
+        {
+            sol_render_mtrl(fp, mi);
 
-    for (li = 0; li < bp->lc; li++)
-        sol_render_lump(fp, fp->lv + bp->l0 + li, t);
+            glBegin(GL_TRIANGLES);
+            {
+                for (li = 0; li < bp->lc; li++)
+                    sol_render_lump(fp, fp->lv + bp->l0 + li, mi);
+            }
+            glEnd();
+        }
 }
 
 /*---------------------------------------------------------------------------*/

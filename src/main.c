@@ -161,7 +161,6 @@ int main(int argc, char *argv[])
                         
                         t0 = t1;
                     }
-                    else printf("skip\n");
             }
             audio_free();
         }
