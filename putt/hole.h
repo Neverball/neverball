@@ -3,12 +3,10 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define MAXHOL 19
+#define MAXHOL 28
 #define MAXPLY 5
 
-#define HOLE_FILE "holes-putt.txt"
-
-void  hole_init(void);
+void  hole_init(const char *);
 void  hole_free(void);
 int   hole_exists(int);
 
@@ -24,8 +22,12 @@ int  curr_player(void);
 int  curr_stroke(void);
 int  curr_count(void);
 
+const char *curr_scr(void);
+const char *curr_par(void);
+
 void hole_goto(int, int);
 int  hole_next(void);
+int  hole_move(void);
 void hole_goal(void);
 void hole_stop(void);
 void hole_fall(void);

@@ -15,109 +15,78 @@
 #include <SDL.h>
 #include <math.h>
 
-#include "glext.h"
+#include "gui.h"
 #include "hud.h"
-#include "text.h"
-#include "game.h"
 #include "hole.h"
 #include "config.h"
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint small_text[10];           /* Small digit texture objects */
-static GLuint small_list[10];           /* Small digit display lists   */
-static int    small_w = 0;              /* Small digit layout size     */
-static int    small_h = 0;
+static int Lhud_id;
+static int Rhud_id;
+static int fps_id;
 
 /*---------------------------------------------------------------------------*/
 
 void hud_init(void)
 {
-    char buf[2];
-    int i;
+    static const float *color[5] = {
+        gui_wht,
+        gui_red,
+        gui_grn,
+        gui_blu,
+        gui_yel
+    };
+    int i = curr_player();
 
-    text_size("0", TXT_MED, &small_w, &small_h);
-
-    for (i = 0; i < 10; i++)
+    if ((Lhud_id = gui_hstack(0)))
     {
-        buf[0] = '0' + i;
-        buf[1] =  0;
-
-        small_text[i] = make_text(buf, TXT_MED);
-        small_list[i] = make_list(buf, TXT_MED, c_yellow, c_red);
+        gui_label(Lhud_id, curr_scr(), GUI_MED, GUI_NE, color[i], gui_wht);
+        gui_label(Lhud_id, "Score",    GUI_SML, 0,      gui_wht,  gui_wht);
+        gui_layout(Lhud_id, -1, -1);
     }
+    if ((Rhud_id = gui_hstack(0)))
+    {
+        gui_label(Rhud_id, curr_par(), GUI_MED, 0,      color[i], gui_wht);
+        gui_label(Rhud_id, "Par",      GUI_SML, GUI_NW, gui_wht,  gui_wht);
+        gui_layout(Rhud_id, +1, -1);
+    }
+    if ((fps_id = gui_count(0, 1000, GUI_SML, GUI_SE)))
+        gui_layout(fps_id, -1, +1);
 }
 
 void hud_free(void)
 {
-    int i;
-
-    for (i = 0; i < 10; i++)
-    {
-        glDeleteLists(small_list[i], 1);
-        glDeleteTextures(1, small_text + i);
-    }
+    gui_delete(Lhud_id);
+    gui_delete(Rhud_id);
+    gui_delete(fps_id);
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void hud_draw_small(int d, int x, int y)
-{
-    glPushMatrix();
-    {
-        glTranslatef((float) x, (float) y, 0.f);
-
-        glBindTexture(GL_TEXTURE_2D, small_text[d]);
-        glCallList(small_list[d]);
-    }
-    glPopMatrix();
-}
-
-/*---------------------------------------------------------------------------*/
-
-/*
- * Measure  and render  the frames-per-second  counter.  Use  the call
- * frequency to estimate this value.  Average 10 executions to produce
- * a reasonably stable value.
- */
-static void hud_draw_fps(void)
+void hud_paint(void)
 {
     static int fps   = 0;
     static int then  = 0;
     static int count = 0;
 
-    if (count > 10)
-    {
-        int now = SDL_GetTicks();
+    int now = SDL_GetTicks();
 
+    if (now - then > 250)
+    {
         fps   = count * 1000 / (now - then);
         then  = now;
         count = 0;
+
+        gui_set_count(fps_id, fps);
     }
     else count++;
 
-    hud_draw_small((fps / 100),      0,           config_get_d(CONFIG_HEIGHT) - small_h);
-    hud_draw_small((fps % 100) / 10, small_w,     config_get_d(CONFIG_HEIGHT) - small_h);
-    hud_draw_small((fps % 100) % 10, small_w * 2, config_get_d(CONFIG_HEIGHT) - small_h);
-}
+    if (config_get_d(CONFIG_FPS))
+        gui_paint(fps_id);
 
-void hud_draw(void)
-{
-    config_push_ortho();
-    {
-        glPushAttrib(GL_LIGHTING_BIT);
-        glPushAttrib(GL_DEPTH_BUFFER_BIT);
-        {
-            glDisable(GL_LIGHTING);
-            glDisable(GL_DEPTH_TEST);
-            glEnable(GL_COLOR_MATERIAL);
-
-            if (config_get_d(CONFIG_FPS)) hud_draw_fps();
-        }
-        glPopAttrib();
-        glPopAttrib();
-    }
-    config_pop_matrix();
+    gui_paint(Rhud_id);
+    gui_paint(Lhud_id);
 }
 
 /*---------------------------------------------------------------------------*/

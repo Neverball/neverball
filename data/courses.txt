@@ -1,0 +1,6 @@
+holes-putt.txt shot-putt/putt.jpg
+The original 18-hole Neverputt course.\With a gentle learning curve.\ \Difficulty: Easy to Medium\Author: rlk\
+holes-paxed.txt shot-putt/paxed.jpg
+Another 18-hole course\ \ \Difficulty: Medium\Author: paxed\
+holes-abc.txt shot-putt/abc.jpg
+A 26-hole course\following the alphabet\\Difficulty: Hard\Author: paxed\

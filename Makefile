@@ -31,18 +31,16 @@ MAPC_OBJS= \
 	share/mapc.o
 BALL_OBJS= \
 	share/vec3.o    \
-	share/text.o    \
 	share/image.o   \
 	share/solid.o   \
 	share/part.o    \
 	share/back.o    \
 	share/geom.o    \
 	share/gui.o     \
-	share/menu.o    \
 	share/config.o  \
 	share/binary.o  \
 	share/state.o   \
-	ball/audio.o    \
+	share/audio.o   \
 	ball/hud.o      \
 	ball/game.o     \
 	ball/level.o    \
@@ -64,20 +62,22 @@ BALL_OBJS= \
 	ball/main.o
 PUTT_OBJS= \
 	share/vec3.o   \
-	share/text.o   \
 	share/image.o  \
 	share/solid.o  \
 	share/part.o   \
 	share/geom.o   \
 	share/back.o   \
-	share/menu.o   \
 	share/config.o \
 	share/binary.o \
-	putt/audio.o   \
+	share/audio.o  \
+	share/state.o  \
+	share/gui.o    \
 	putt/hud.o     \
 	putt/game.o    \
 	putt/hole.o    \
-	putt/state.o   \
+	putt/course.o  \
+	putt/st_all.o  \
+	putt/st_conf.o \
 	putt/main.o
 
 BALL_DEPS= $(BALL_OBJS:.o=.d)
@@ -180,12 +180,56 @@ SOLS= \
 	data/map-putt/16_pipe.sol    \
 	data/map-putt/17_timing.sol  \
 	data/map-putt/18_hill.sol    \
-	data/map-back/alien.sol  \
-	data/map-back/blank.sol  \
-	data/map-back/city.sol   \
-	data/map-back/clouds.sol \
-	data/map-back/ocean.sol  \
-	data/map-back/jupiter.sol
+	data/map-back/alien.sol   \
+	data/map-back/blank.sol   \
+	data/map-back/city.sol    \
+	data/map-back/clouds.sol  \
+	data/map-back/ocean.sol   \
+	data/map-back/jupiter.sol \
+	data/map-paxed/01_fastpenta.sol  \
+	data/map-paxed/02_bumpy_road.sol \
+	data/map-paxed/03_zigzag.sol     \
+	data/map-paxed/04_u_twist.sol    \
+	data/map-paxed/05_hookey.sol     \
+	data/map-paxed/06_partitions.sol \
+	data/map-paxed/07_a_danger.sol   \
+	data/map-paxed/08_f.sol          \
+	data/map-paxed/09_rampedge.sol   \
+	data/map-paxed/10_pentomino.sol  \
+	data/map-paxed/11_stapler.sol    \
+	data/map-paxed/12_helixramp.sol  \
+	data/map-paxed/13_loch_ness.sol  \
+	data/map-paxed/14_figur8.sol     \
+	data/map-paxed/15_upNdown.sol    \
+	data/map-paxed/16_pyramidian.sol \
+	data/map-paxed/17_oopsydaisy.sol \
+	data/map-paxed/18_3rd_floor.sol  \
+	data/map-paxed/a.sol \
+	data/map-paxed/b.sol \
+	data/map-paxed/c.sol \
+	data/map-paxed/d.sol \
+	data/map-paxed/e.sol \
+	data/map-paxed/f.sol \
+	data/map-paxed/g.sol \
+	data/map-paxed/h.sol \
+	data/map-paxed/i.sol \
+	data/map-paxed/j.sol \
+	data/map-paxed/k.sol \
+	data/map-paxed/l.sol \
+	data/map-paxed/m.sol \
+	data/map-paxed/n.sol \
+	data/map-paxed/o.sol \
+	data/map-paxed/p.sol \
+	data/map-paxed/q.sol \
+	data/map-paxed/r.sol \
+	data/map-paxed/s.sol \
+	data/map-paxed/t.sol \
+	data/map-paxed/u.sol \
+	data/map-paxed/v.sol \
+	data/map-paxed/w.sol \
+	data/map-paxed/x.sol \
+	data/map-paxed/y.sol \
+	data/map-paxed/z.sol
 
 #------------------------------------------------------------------------------
 
@@ -207,7 +251,7 @@ data/map-putt/%.sol : data/map-putt/%.map $(MAPC_TARG)
 data/map-back/%.sol : data/map-back/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< data
 
-data/map-misc/%.sol : data/map-misc/%.map $(MAPC_TARG)
+data/map-paxed/%.sol : data/map-paxed/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< data
 
 #------------------------------------------------------------------------------

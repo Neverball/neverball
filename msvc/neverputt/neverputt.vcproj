@@ -115,7 +115,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="..\..\putt\audio.c">
+				RelativePath="..\..\share\audio.c">
 			</File>
 			<File
 				RelativePath="..\..\share\back.c">
@@ -125,6 +125,9 @@
 			</File>
 			<File
 				RelativePath="..\..\share\config.c">
+			</File>
+			<File
+				RelativePath="..\..\putt\course.c">
 			</File>
 			<File
 				RelativePath="..\..\putt\game.c">
@@ -148,19 +151,19 @@
 				RelativePath="..\..\putt\main.c">
 			</File>
 			<File
-				RelativePath="..\..\share\menu.c">
-			</File>
-			<File
 				RelativePath="..\..\share\part.c">
 			</File>
 			<File
 				RelativePath="..\..\share\solid.c">
 			</File>
 			<File
-				RelativePath="..\..\putt\state.c">
+				RelativePath="..\..\putt\st_all.c">
 			</File>
 			<File
-				RelativePath="..\..\share\text.c">
+				RelativePath="..\..\putt\st_conf.c">
+			</File>
+			<File
+				RelativePath="..\..\share\state.c">
 			</File>
 			<File
 				RelativePath="..\..\share\vec3.c">
@@ -171,7 +174,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath="..\..\putt\audio.h">
+				RelativePath="..\..\share\audio.h">
 			</File>
 			<File
 				RelativePath="..\..\share\back.h">
@@ -181,6 +184,9 @@
 			</File>
 			<File
 				RelativePath="..\..\share\config.h">
+			</File>
+			<File
+				RelativePath="..\..\putt\course.h">
 			</File>
 			<File
 				RelativePath="..\..\putt\game.h">
@@ -204,19 +210,19 @@
 				RelativePath="..\..\share\image.h">
 			</File>
 			<File
-				RelativePath="..\..\share\menu.h">
-			</File>
-			<File
 				RelativePath="..\..\share\part.h">
 			</File>
 			<File
 				RelativePath="..\..\share\solid.h">
 			</File>
 			<File
-				RelativePath="..\..\putt\state.h">
+				RelativePath="..\..\putt\st_all.h">
 			</File>
 			<File
-				RelativePath="..\..\share\text.h">
+				RelativePath="..\..\putt\st_conf.h">
+			</File>
+			<File
+				RelativePath="..\..\share\state.h">
 			</File>
 			<File
 				RelativePath="..\..\share\vec3.h">

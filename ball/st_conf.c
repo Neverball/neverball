@@ -17,6 +17,7 @@
 #include "back.h"
 #include "geom.h"
 #include "part.h"
+#include "game.h"
 #include "audio.h"
 #include "config.h"
 
@@ -220,6 +221,8 @@ static int conf_enter(void)
 {
     int id, jd, kd;
 
+    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+
     /* Initialize the configuration GUI. */
 
     if ((id = gui_harray(0)))
@@ -348,10 +351,6 @@ static int conf_enter(void)
         }
         gui_layout(id, 0, 0);
     }
-
-    /* Initialize the background. */
-
-    back_init("png/blues.png", config_get_d(CONFIG_GEOMETRY));
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 

@@ -50,7 +50,7 @@ static int        score_v[MAXHOL][MAXPLY];
 
 /*---------------------------------------------------------------------------*/
 
-static void hole_init_rc(void)
+static void hole_init_rc(const char *filename)
 {
     FILE *fin;
 
@@ -61,7 +61,7 @@ static void hole_init_rc(void)
 
     /* Load the holes list. */
 
-    if ((fin = fopen(config_data(HOLE_FILE), "r")))
+    if ((fin = fopen(config_data(filename), "r")))
     {
         while (fscanf(fin, "%s %s %d %s",
                        hole_v[count].file,
@@ -76,14 +76,14 @@ static void hole_init_rc(void)
 
 /*---------------------------------------------------------------------------*/
 
-void hole_init(void)
+void hole_init(const char *filename)
 {
     int i;
 
     memset(hole_v,  0, sizeof (struct hole) * MAXHOL);
     memset(score_v, 0, sizeof (int) * MAXPLY * MAXHOL);
 
-    hole_init_rc();
+    hole_init_rc(filename);
 
     for (i = 0; i < count; i++)
         score_v[i][0] = hole_v[i].par;
@@ -187,46 +187,54 @@ int curr_party(void)  { return party;  }
 int curr_player(void) { return player; }
 int curr_count(void)  { return count;  }
 
+const char *curr_scr(void)
+{
+    static char buf[8];
+
+    sprintf(buf, "%d", score_v[hole][player]);
+
+    return buf;
+}
+
+const char *curr_par(void)
+{
+    static char buf[8];
+
+    sprintf(buf, "%d", score_v[hole][0]);
+
+    return buf;
+}
+
 /*---------------------------------------------------------------------------*/
 
 void hole_goto(int h, int p)
 {
     int i;
 
-    if (h >= 0) hole  = h;
-    if (p >= 0) party = p;
-
-    player = (hole - 1) % party + 1;
-    done   = 0;
-
-    back_init(hole_v[hole].back, 1);
-    game_init(hole_v[hole].file);
-
-    for (i = 1; i <= party; i++)
+    if (h < count)
     {
-        game_get_pos(ball_p[i], ball_e[i]);
-        stat_v[i] = 0;
+        if (h >= 0) hole  = h;
+        if (p >= 0) party = p;
+
+        player = (hole - 1) % party + 1;
+        done   = 0;
+
+        back_init(hole_v[hole].back, 1);
+        game_init(hole_v[hole].file);
+
+        for (i = 1; i <= party; i++)
+        {
+            game_get_pos(ball_p[i], ball_e[i]);
+            stat_v[i] = 0;
+        }
+        game_ball(player);
+        hole_song();
     }
-    game_ball(player);
-    hole_song();
 }
 
 int hole_next(void)
 {
-    if (done == party)
-    {
-        if (hole + 1 < count)
-        {
-            hole++;
-
-            game_free();
-            back_free();
-
-            hole_goto(hole, party);
-        }
-        else return 0;
-    }
-    else
+    if (done < party)
     {
         do
         {
@@ -236,8 +244,26 @@ int hole_next(void)
 
         game_ball(player);
         game_get_pos(ball_p[player], ball_e[player]);
+
+        return 1;
     }
-    return 1;
+    return 0;
+}
+
+int hole_move(void)
+{
+    if (hole + 1 < count)
+    {
+        hole++;
+
+        game_free();
+        back_free();
+
+        hole_goto(hole, party);
+
+        return 1;
+    }
+    return 0;
 }
 
 void hole_goal(void)
@@ -264,25 +290,45 @@ void hole_goal(void)
     done++;
 
     if (done == party)
-        audio_music_fade(2.0f);
+        audio_music_fade_out(2.0f);
 }
 
 void hole_stop(void)
 {
     score_v[hole][player]++;
+
+    /* Cap scores at 12. */
+
+    if (score_v[hole][player] >= 12)
+    {
+        score_v[hole][player] = 12;
+        stat_v[player] = 1;
+        done++;
+    }
 }
 
 void hole_fall(void)
 {
     audio_play(AUD_PENALTY, 1.0f);
 
+    /* Reset to the position of the putt, and apply a one-stroke penalty. */
+
     game_set_pos(ball_p[player], ball_e[player]);
     score_v[hole][player] += 2;
+
+    /* Cap scores at 12. */
+
+    if (score_v[hole][player] >= 12)
+    {
+        score_v[hole][player] = 12;
+        stat_v[player] = 1;
+        done++;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
 
 void hole_song(void)
 {
-    audio_music_play(hole_v[hole].song);
+    audio_music_fade_to(0.5f, hole_v[hole].song);
 }

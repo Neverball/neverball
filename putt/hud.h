@@ -5,7 +5,8 @@
 
 void hud_init(void);
 void hud_free(void);
-void hud_draw(void);
+
+void hud_paint(void);
 
 /*---------------------------------------------------------------------------*/
 

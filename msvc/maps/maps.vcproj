@@ -1928,6 +1928,842 @@
 						Outputs="$(InputDir)\$(InputName).sol"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\01_fastpenta.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\02_bumpy_road.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\03_zigzag.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\04_u_twist.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\05_hookey.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\06_partitions.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\07_a_danger.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\08_f.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\09_rampedge.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\10_pentomino.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\11_stapler.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\12_helixramp.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\13_loch_ness.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\14_figur8.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\15_upNdown.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\16_pyramidian.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\17_oopsydaisy.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\18_3rd_floor.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\a.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\b.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\c.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\d.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\e.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\f.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\g.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\h.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\i.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\j.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\k.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\l.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\m.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\n.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\o.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\p.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\q.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\r.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\s.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\t.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\u.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\v.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\w.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\x.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\y.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-paxed\z.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

@@ -158,14 +158,6 @@ SDL_Surface *image_scale(SDL_Surface *src, int n)
 
 /*---------------------------------------------------------------------------*/
 
-static const GLenum format[5] = {
-    0,
-    GL_LUMINANCE,
-    GL_LUMINANCE_ALPHA,
-    GL_RGB,
-    GL_RGBA
-};
-
 /*
  * Create on  OpenGL texture  object using the  given SDL  surface and
  * format,  scaled  using the  current  scale  factor.  When  scaling,
@@ -275,7 +267,7 @@ GLuint make_image_from_file(int *W, int *H,
  * Return an OpenGL texture object.
  */
 GLuint make_image_from_font(int *W, int *H,
-                            int *w, int *h, const char *text, TTF_Font *font)
+                            int *w, int *h, const char *text, TTF_Font *font, int k)
 {
     SDL_Color fg = { 0xFF, 0xFF, 0xFF, 0xFF };
 
@@ -320,6 +312,11 @@ GLuint make_image_from_font(int *W, int *H,
             }
             SDL_FreeSurface(src);
         }
+
+        if (W) *W *= k;
+        if (H) *H *= k;
+        if (w) *w *= k;
+        if (h) *h *= k;
     }
     else
     {
@@ -328,6 +325,7 @@ GLuint make_image_from_font(int *W, int *H,
         if (w) *w = 0;
         if (h) *h = 0;
     }
+
     return o;
 }
 

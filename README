@@ -1,5 +1,5 @@
 
-                             * Neverball *
+                            * Neverball *
 
 
 Tilt the  floor to roll a  ball through an obstacle  course within the
@@ -10,7 +10,7 @@ worth 5.   Blue coins are  worth 10.  A  free ball is awarded  for 100
 coins.
 
 
-Neverball requires:
+Requirements:
 
     SDL               http://www.libsdl.org/download-1.2.php
     SDL_image         http://www.libsdl.org/projects/SDL_image/
@@ -21,7 +21,8 @@ Neverball requires:
 
 * THANKS TO
 
-    Mehdi Yousfi Monod  (Feature ideas and levels)
+    Mehdi Yousfi Monod  (Feature ideas and Neverball levels)
+    Pasi Kallinen       (Neverputt holes)
     Derek Arndt         (OSX packaging)
     Phil Harper         (TheOpenCD packaging, icons)
     Max Gilead          (Debian packaging)
@@ -30,6 +31,7 @@ Neverball requires:
     Jeremy Messenger    (FreeBSD port)
     Erik Auerswald      (Mouse invert)
     Corey Edwards       (Joystick select)
+    Kyle Hoker          (Feature ideas and testing)
 
     Countless others for play testing and bug reports.
 
@@ -290,4 +292,4 @@ values follow.
 
 
 
-Contact: <robert-kooima@gmail.com>
+Contact: <robert.kooima@gmail.com>

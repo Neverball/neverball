@@ -19,8 +19,8 @@
 #include "game.h"
 #include "vec3.h"
 #include "geom.h"
-#include "text.h"
 #include "back.h"
+#include "hole.h"
 #include "hud.h"
 #include "image.h"
 #include "audio.h"
@@ -43,6 +43,7 @@ static float view_v[3];                 /* Current view vector               */
 static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view orientation          */
 
+static int   swch_e = 1;                /* Switching enabled flag            */
 static float jump_e = 1;                /* Jumping enabled flag              */
 static float jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
@@ -156,10 +157,18 @@ static void game_draw_vect(const struct s_file *fp)
 
 static void game_draw_balls(const struct s_file *fp)
 {
+    static const GLfloat color[5][4] = {
+        { 1.0f, 1.0f, 1.0f, 0.7f },
+        { 1.0f, 0.0f, 0.0f, 1.0f },
+        { 0.0f, 1.0f, 0.0f, 1.0f },
+        { 0.0f, 0.0f, 1.0f, 1.0f },
+        { 1.0f, 1.0f, 0.0f, 1.0f },
+    };
+
     float M[16];
     int ui;
 
-    for (ui = fp->uc - 1; ui > 0; ui--)
+    for (ui = curr_party(); ui > 0; ui--)
     {
         if (ui == ball)
         {
@@ -175,7 +184,7 @@ static void game_draw_balls(const struct s_file *fp)
                          fp->uv[ui].r,
                          fp->uv[ui].r);
 
-                glColor4fv(c_play[ui]);
+                glColor4fv(color[ui]);
 
                 ball_draw();
             }
@@ -192,9 +201,9 @@ static void game_draw_balls(const struct s_file *fp)
                          fp->uv[ui].r,
                          fp->uv[ui].r);
 
-                glColor4f(c_play[ui][0],
-                          c_play[ui][1],
-                          c_play[ui][2], 0.5f);
+                glColor4f(color[ui][0],
+                          color[ui][1],
+                          color[ui][2], 0.5f);
 
                 mark_draw();
             }
@@ -295,7 +304,6 @@ void game_draw(int pose)
         }
         glPopMatrix();
 
-        glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
         glLightfv(GL_LIGHT0, GL_POSITION, light_p);
 
@@ -303,7 +311,7 @@ void game_draw(int pose)
 
         sol_draw(fp);
 
-        if (config_get_d(CONFIG_SHADOW))
+        if (config_get_d(CONFIG_SHADOW) && !pose)
         {
             shad_draw_set(fp->uv[ball].p, fp->uv[ball].r);
             sol_shad(fp);
@@ -405,11 +413,17 @@ static int game_update_state(float dt)
 
     struct s_file *fp = &file;
     float p[3];
+    int e = swch_e;
 
     if (dt > 0.f)
         t += dt;
     else
         t = 0.f;
+
+    /* Test for a switch. */
+
+    if ((swch_e = sol_swch_test(fp, swch_e, ball)) != e && e)
+        audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
@@ -543,7 +557,6 @@ void game_set_rot(int d)
 
 void game_clr_mag(void)
 {
-    view_a = 0.f;
     view_m = 1.f;
 }
 
@@ -570,7 +583,16 @@ void game_set_fly(float k)
 
     v_cpy(view_e[0], x);
     v_cpy(view_e[1], y);
-    v_cpy(view_e[2], z);
+    v_sub(view_e[2], fp->uv[ball].p, fp->zv[0].p);
+
+    if (fabs(v_dot(view_e[1], view_e[2])) > 0.999)
+        v_cpy(view_e[2], z);
+
+    v_crs(view_e[0], view_e[1], view_e[2]);
+    v_crs(view_e[2], view_e[0], view_e[1]);
+
+    v_nrm(view_e[0], view_e[0]);
+    v_nrm(view_e[2], view_e[2]);
 
     /* k = 0.0 view is at the ball. */
 
@@ -580,8 +602,8 @@ void game_set_fly(float k)
         v_cpy(p0, fp->uv[ball].p);
     }
 
-    v_mad(p0, p0, y, view_dy);
-    v_mad(p0, p0, z, view_dz);
+    v_mad(p0, p0, view_e[1], view_dy);
+    v_mad(p0, p0, view_e[2], view_dz);
 
     /* k = +1.0 view is s_view 0 */
 
@@ -614,6 +636,8 @@ void game_set_fly(float k)
     v_crs(view_e[2], view_e[0], view_e[1]);
     v_nrm(view_e[0], view_e[0]);
     v_nrm(view_e[2], view_e[2]);
+
+    view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
 }
 
 void game_ball(int i)

@@ -81,6 +81,7 @@ static struct widget widget[MAXWIDGET];
 static int           active;
 static int           radius;
 static TTF_Font     *font[3] = { NULL, NULL, NULL };
+static int           scale[3] = { 1, 1, 1 };
 
 static GLuint digit_text[3][11];
 static GLuint digit_list[3][11];
@@ -224,13 +225,30 @@ void gui_init(void)
 
     if (TTF_Init() == 0)
     {
+        int s0 = s / 24;
+        int s1 = s / 12;
+        int s2 = s /  6;
+        int m;
+
+        /* Make sure text size doesn't exceed the maximum texture size. */
+
+        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &m);
+
+        scale[0] = 1;
+        scale[1] = 1;
+        scale[2] = 1;
+
+        while (s0 > m) { s0 /= 2; scale[0] *= 2; }
+        while (s1 > m) { s1 /= 2; scale[1] *= 2; }
+        while (s2 > m) { s2 /= 2; scale[2] *= 2; }
+
         memset(widget, 0, sizeof (struct widget) * MAXWIDGET);
 
         /* Load small, medium, and large typefaces. */
 
-        font[GUI_SML] = TTF_OpenFont(config_data(GUI_FACE), s / 24);
-        font[GUI_MED] = TTF_OpenFont(config_data(GUI_FACE), s / 12);
-        font[GUI_LRG] = TTF_OpenFont(config_data(GUI_FACE), s /  6);
+        font[GUI_SML] = TTF_OpenFont(config_data(GUI_FACE), s0);
+        font[GUI_MED] = TTF_OpenFont(config_data(GUI_FACE), s1);
+        font[GUI_LRG] = TTF_OpenFont(config_data(GUI_FACE), s2);
         radius = s / 60;
 
         /* Initialize the global pause GUI. */
@@ -254,7 +272,7 @@ void gui_init(void)
                 digit_text[i][j] = make_image_from_font(NULL, NULL,
                                                         &digit_w[i][j],
                                                         &digit_h[i][j],
-                                                        text, font[i]);
+                                                        text, font[i], scale[i]);
                 digit_list[i][j] = gui_list(-digit_w[i][j] / 2,
                                             -digit_h[i][j] / 2,
                                             +digit_w[i][j],
@@ -266,7 +284,7 @@ void gui_init(void)
             digit_text[i][j] = make_image_from_font(NULL, NULL,
                                                     &digit_w[i][10],
                                                     &digit_h[i][10],
-                                                    ":", font[i]);
+                                                    ":", font[i], scale[i]);
             digit_list[i][j] = gui_list(-digit_w[i][10] / 2,
                                         -digit_h[i][10] / 2,
                                         +digit_w[i][10],
@@ -397,7 +415,8 @@ void gui_set_label(int id, const char *text)
         glDeleteLists(widget[id].text_obj, 1);
 
     widget[id].text_img = make_image_from_font(NULL, NULL, &w, &h,
-                                               text, font[widget[id].size]);
+                                               text, font[widget[id].size],
+                                                    scale[widget[id].size]);
     widget[id].text_obj = gui_list(-w / 2, -h / 2, w, h,
                                    widget[id].color0, widget[id].color1);
 }
@@ -410,6 +429,13 @@ void gui_set_count(int id, int value)
 void gui_set_clock(int id, int value)
 {
     widget[id].value = value;
+}
+
+void gui_set_color(int id, const float *c0,
+                           const float *c1)
+{
+    widget[id].color0 = c0 ? c0 : gui_yel;
+    widget[id].color1 = c1 ? c1 : gui_red;
 }
 
 void gui_set_multi(int id, const char *text)
@@ -472,7 +498,8 @@ int gui_state(int pd, const char *text, int size, int token, int value)
         widget[id].text_img = make_image_from_font(NULL, NULL,
                                                    &widget[id].w,
                                                    &widget[id].h,
-                                                   text, font[size]);
+                                                   text, font[size],
+                                                        scale[size]);
         widget[id].size  = size;
         widget[id].token = token;
         widget[id].value = value;
@@ -490,7 +517,8 @@ int gui_label(int pd, const char *text, int size, int rect, const float *c0,
         widget[id].text_img = make_image_from_font(NULL, NULL,
                                                    &widget[id].w,
                                                    &widget[id].h,
-                                                   text, font[size]);
+                                                   text, font[size],
+                                                        scale[size]);
         widget[id].size   = size;
         widget[id].color0 = c0 ? c0 : gui_yel;
         widget[id].color1 = c1 ? c1 : gui_red;
@@ -557,7 +585,8 @@ int gui_pause(int pd)
         widget[id].text_img = make_image_from_font(NULL, NULL,
                                                    &widget[id].w,
                                                    &widget[id].h,
-                                                   text, font[GUI_LRG]);
+                                                   text, font[GUI_LRG],
+                                                        scale[GUI_LRG]);
         widget[id].color0 = gui_wht;
         widget[id].color1 = gui_wht;
         widget[id].value  = 0;
@@ -1024,14 +1053,6 @@ int gui_delete(int id)
 
 static void gui_paint_rect(int id, int st)
 {
-#ifdef SNIP
-    static const GLfloat back[4][4] = {
-        { 0.1f, 0.1f, 0.1f, 0.5f },             /* off and inactive    */
-        { 0.3f, 0.3f, 0.3f, 0.5f },             /* off and   active    */
-        { 0.7f, 0.3f, 0.0f, 0.5f },             /* on  and inactive    */
-        { 1.0f, 0.7f, 0.3f, 0.5f },             /* on  and   active    */
-    };
-#endif
     static const GLfloat back[4][4] = {
         { 0.1f, 0.1f, 0.1f, 0.5f },             /* off and inactive    */
         { 0.5f, 0.5f, 0.5f, 0.8f },             /* off and   active    */
@@ -1549,6 +1570,53 @@ static int gui_stick_U(int id, int dd)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
+static int gui_wrap_L(int id, int dd)
+{
+    int jd, kd;
+
+    if ((jd = gui_stick_L(id, dd)) == 0)
+        for (jd = dd; (kd = gui_stick_R(id, jd)); jd = kd)
+            ;
+
+    return jd;
+}
+
+static int gui_wrap_R(int id, int dd)
+{
+    int jd, kd;
+
+    if ((jd = gui_stick_R(id, dd)) == 0)
+        for (jd = dd; (kd = gui_stick_L(id, jd)); jd = kd)
+            ;
+
+    return jd;
+}
+
+static int gui_wrap_U(int id, int dd)
+{
+    int jd, kd;
+
+    if ((jd = gui_stick_U(id, dd)) == 0)
+        for (jd = dd; (kd = gui_stick_D(id, jd)); jd = kd)
+            ;
+
+    return jd;
+}
+
+static int gui_wrap_D(int id, int dd)
+{
+    int jd, kd;
+
+    if ((jd = gui_stick_D(id, dd)) == 0)
+        for (jd = dd; (kd = gui_stick_U(id, jd)); jd = kd)
+            ;
+
+    return jd;
+}
+
+/*---------------------------------------------------------------------------*/
 
 int gui_stick(int id, int x, int y)
 {
@@ -1563,16 +1631,16 @@ int gui_stick(int id, int x, int y)
 
     if (x && -JOY_MID <= x && x <= +JOY_MID)
         xflag = 1;
-    else if (x < -JOY_MID && xflag && (jd = gui_stick_L(id, active)))
+    else if (x < -JOY_MID && xflag && (jd = gui_wrap_L(id, active)))
         xflag = 0;
-    else if (x > +JOY_MID && xflag && (jd = gui_stick_R(id, active)))
+    else if (x > +JOY_MID && xflag && (jd = gui_wrap_R(id, active)))
         xflag = 0;
 
     if (y && -JOY_MID <= y && y <= +JOY_MID)
         yflag = 1;
-    else if (y < -JOY_MID && yflag && (jd = gui_stick_U(id, active)))
+    else if (y < -JOY_MID && yflag && (jd = gui_wrap_U(id, active)))
         yflag = 0;
-    else if (y > +JOY_MID && yflag && (jd = gui_stick_D(id, active)))
+    else if (y > +JOY_MID && yflag && (jd = gui_wrap_D(id, active)))
         yflag = 0;
 
     /* If the active widget has changed, return the new active id. */

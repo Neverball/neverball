@@ -4,7 +4,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define SET_FILE "sets.txt"
-#define MAXSET 8
+#define MAXSET 16
 
 void set_init();
 void set_free();

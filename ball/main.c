@@ -34,6 +34,7 @@
 #include "image.h"
 #include "audio.h"
 #include "demo.h"
+#include "game.h"
 #include "gui.h"
 #include "set.h"
 
@@ -96,7 +97,11 @@ static int loop(void)
             {
             case SDL_MOUSEMOTION:
                 st_point(+e.motion.x,
+#ifdef __APPLE__
+                         +e.motion.y,
+#else
                          -e.motion.y + config_get_d(CONFIG_HEIGHT),
+#endif
                          +e.motion.xrel,
                          config_get_d(CONFIG_MOUSE_INVERT)
                          ? +e.motion.yrel : -e.motion.yrel);
@@ -149,11 +154,11 @@ static int loop(void)
                     break;
                 case SDLK_LEFT:
                 case SDLK_RIGHT:
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 1);
                     break;
                 case SDLK_DOWN:
                 case SDLK_UP:
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
                     break;
 
                 default:
@@ -207,6 +212,24 @@ int main(int argc, char *argv[])
                 }
 
                 /* Initialize the audio. */
+
+                audio_bind(AUD_MENU,   3, "snd/menu.wav");
+                audio_bind(AUD_START,  1, "snd/select.ogg");
+                audio_bind(AUD_READY,  1, "snd/ready.ogg");
+                audio_bind(AUD_SET,    1, "snd/set.ogg");
+                audio_bind(AUD_GO,     1, "snd/go.ogg");
+                audio_bind(AUD_BALL,   2, "snd/ball.ogg");
+                audio_bind(AUD_BUMP,   3, "snd/bump.ogg");
+                audio_bind(AUD_COIN,   2, "snd/coin.wav");
+                audio_bind(AUD_TICK,   4, "snd/tick.ogg");
+                audio_bind(AUD_TOCK,   4, "snd/tock.ogg");
+                audio_bind(AUD_SWITCH, 5, "snd/switch.wav");
+                audio_bind(AUD_JUMP,   5, "snd/jump.ogg");
+                audio_bind(AUD_GOAL,   5, "snd/goal.wav");
+                audio_bind(AUD_SCORE,  1, "snd/record.ogg");
+                audio_bind(AUD_FALL,   1, "snd/fall.ogg");
+                audio_bind(AUD_TIME,   1, "snd/time.ogg");
+                audio_bind(AUD_OVER,   1, "snd/over.ogg");
 
                 audio_init();
 

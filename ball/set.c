@@ -32,8 +32,6 @@ struct set
     char shot[MAXSTR];
     char name[MAXSTR];
     char desc[MAXSTR];
-
-    GLuint text;
 };
 
 static int set_state = 0;
@@ -97,19 +95,9 @@ int set_curr(void)
     return set;
 }
 
-void set_free()
+void set_free(void)
 {
-    int i;
-
-    for (i = 0; i < count; i++)
-        if (glIsTexture(set_v[i].text))
-        {
-            glDeleteTextures(1, &set_v[i].text);
-            set_v[i].text = 0;
-        }
-
     level_free();
-
     set_state = 0;
 }
 
@@ -117,20 +105,17 @@ void set_free()
 
 const char *set_name(int i)
 {
-    return (0 <= i && i < count) ? set_v[i].name : "";
+    return set_exists(i) ? set_v[i].name : "";
 }
 
 const char *set_desc(int i)
 {
-    return (0 <= i && i < count) ? set_v[i].desc : "";
+    return set_exists(i) ? set_v[i].desc : "";
 }
 
 const char *set_shot(int i)
 {
-    if (0 <= i && i < count)
-        return set_v[i].shot;
-    else
-        return set_v[0].shot;
+    return set_exists(i) ? set_v[i].shot :  set_v[0].shot;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -55,6 +55,7 @@ void gui_set_image(int, const char *);
 void gui_set_multi(int, const char *);
 void gui_set_count(int, int);
 void gui_set_clock(int, int);
+void gui_set_color(int, const float *, const float *);
 
 /*---------------------------------------------------------------------------*/
 

@@ -3,7 +3,25 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define IMG_SHADOW "png/shadow.png"
+#define AUD_BIRDIE   0
+#define AUD_BOGEY    1
+#define AUD_BUMP     2
+#define AUD_DOUBLE   3
+#define AUD_EAGLE    4
+#define AUD_JUMP     5
+#define AUD_MENU     6
+#define AUD_ONE      7
+#define AUD_PAR      8
+#define AUD_PENALTY  9
+#define AUD_PLAYER1 10
+#define AUD_PLAYER2 11
+#define AUD_PLAYER3 12
+#define AUD_PLAYER4 13
+#define AUD_SUCCESS 14
+#define AUD_SWITCH  15
+#define AUD_COUNT   16
+
+/*---------------------------------------------------------------------------*/
 
 #define MAX_DT   0.01666666            /* Maximum physics update cycle       */
 #define MAX_DN  16                     /* Maximum subdivisions of dt         */

@@ -544,6 +544,8 @@ static int paused  = 0;
 
 void config_set_grab(void)
 {
+    SDL_WarpMouse(config_get_d(CONFIG_WIDTH)  / 2,
+                  config_get_d(CONFIG_HEIGHT) / 2);
     SDL_WM_GrabInput(SDL_GRAB_ON);
     SDL_ShowCursor(SDL_DISABLE);
     grabbed = 1;

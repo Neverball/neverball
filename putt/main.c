@@ -38,7 +38,13 @@
 #include "image.h"
 #include "state.h"
 #include "config.h"
+#include "course.h"
 #include "hole.h"
+#include "game.h"
+#include "gui.h"
+
+#include "st_conf.h"
+#include "st_all.h"
 
 #define TITLE "Neverputt"
 
@@ -58,6 +64,27 @@ static int shot(void)
 
 /*---------------------------------------------------------------------------*/
 
+static void toggle_wire(void)
+{
+    static int wire = 0;
+
+    if (wire)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_LIGHTING);
+        wire = 0;
+    }
+    else
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glDisable(GL_TEXTURE_2D);
+        glDisable(GL_LIGHTING);
+        wire = 1;
+    }
+}
+/*---------------------------------------------------------------------------*/
+
 static int loop(void)
 {
     SDL_Event e;
@@ -75,10 +102,14 @@ static int loop(void)
             switch (e.type)
             {
             case SDL_MOUSEMOTION:
-                d = st_point(+e.motion.x,
-                             -e.motion.y + config_get_d(CONFIG_HEIGHT),
-                             +e.motion.xrel,
-                             -e.motion.yrel);
+                st_point(+e.motion.x,
+#ifdef __APPLE__
+                         +e.motion.y,
+#else
+                         -e.motion.y + config_get_d(CONFIG_HEIGHT),
+#endif
+                         +e.motion.xrel,
+                         -e.motion.yrel);
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
@@ -95,9 +126,10 @@ static int loop(void)
                 case SDLK_F10: d = shot();                break;
                 case SDLK_F9:  config_tgl_d(CONFIG_FPS);  break;
                 case SDLK_F8:  config_tgl_d(CONFIG_NICE); break;
+                case SDLK_F7:  toggle_wire();             break;
                 
                 default:
-                    d = st_keybd(e.key.keysym.sym);
+                    d = st_keybd(e.key.keysym.sym, 1);
                 }
                 break;
 
@@ -117,7 +149,9 @@ int main(int argc, char *argv[])
 {
     int camera = 0;
 
-    if (config_data_path((argc > 1 ? argv[1] : NULL), HOLE_FILE))
+    srand((int) time(NULL));
+
+    if (config_data_path((argc > 1 ? argv[1] : NULL), COURSE_FILE))
     {
         if (config_user_path(NULL))
         {
@@ -131,6 +165,23 @@ int main(int argc, char *argv[])
                 camera = config_get_d(CONFIG_CAMERA);
 
                 /* Initialize the audio. */
+
+                audio_bind(AUD_BIRDIE,  1, "snd/birdie.ogg");
+                audio_bind(AUD_BOGEY,   1, "snd/bogey.ogg");
+                audio_bind(AUD_BUMP,    1, "snd/bink.wav");
+                audio_bind(AUD_DOUBLE,  1, "snd/double.ogg");
+                audio_bind(AUD_EAGLE,   1, "snd/eagle.ogg");
+                audio_bind(AUD_JUMP,    2, "snd/jump.ogg");
+                audio_bind(AUD_MENU,    2, "snd/menu.wav");
+                audio_bind(AUD_ONE,     1, "snd/one.ogg");
+                audio_bind(AUD_PAR,     1, "snd/par.ogg");
+                audio_bind(AUD_PENALTY, 1, "snd/penalty.ogg");
+                audio_bind(AUD_PLAYER1, 1, "snd/player1.ogg");
+                audio_bind(AUD_PLAYER2, 1, "snd/player2.ogg");
+                audio_bind(AUD_PLAYER3, 1, "snd/player3.ogg");
+                audio_bind(AUD_PLAYER4, 1, "snd/player4.ogg");
+                audio_bind(AUD_SWITCH,  2, "snd/switch.wav");
+                audio_bind(AUD_SUCCESS, 1, "snd/success.ogg");
 
                 audio_init();
 
@@ -154,15 +205,22 @@ int main(int argc, char *argv[])
 
                     /* Run the main game loop. */
 
+                    init_state(&st_null);
                     goto_state(&st_title);
 
                     while (loop())
                         if ((t1 = SDL_GetTicks()) > t0)
                         {
-                            if (!config_get_pause())
+                           if (config_get_pause())
+                            {
+                                st_paint();
+                                gui_blank();
+                            }
+                            else
+                            {
                                 st_timer((t1 - t0) / 1000.f);
-
-                            st_paint();
+                                st_paint();
+                            }
                             SDL_GL_SwapBuffers();
 
                             t0 = t1;

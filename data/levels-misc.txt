@@ -1,3 +1,0 @@
-map-misc/title.sol    map-back/clouds_stars.sol  shot-rlk/easy.jpg     png/skyline.png        0 bgm/title.ogg
-map-misc/elevator-action.sol     map-back/clouds.sol  shot-rlk/easy.jpg     png/white_blue.png  9000 bgm/flood.ogg
-map-misc/spiral-of-death.sol    map-back/ocean.sol  shot-rlk/easy.jpg    png/ocean.png  12000 bgm/haze.ogg

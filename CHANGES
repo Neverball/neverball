@@ -1,4 +1,51 @@
 -------------------------------------------------------------------------------
+New in 1.4.0
+
+* Fixed font renderer to never exceed maximum texture size.
+
+-------------------------------------------------------------------------------
+New in 1.3.11
+
+* Fixed broken Unix build.
+* Added OSX SDL mouse invert workaround.
+* A few texture tweaks.
+* Fixed broken Ball HUD.
+
+-------------------------------------------------------------------------------
+New in 1.3.10
+
+* Tweaks to pars.
+* Added wireframe view to Putt.
+* Fixed view toward hole when the hole is directly above or below the ball.
+
+-------------------------------------------------------------------------------
+New in 1.3.9
+
+* Made a few minor fixes to paxed's holes.
+* Added score and par to HUD.
+* Show score card only after a hole is finished.
+* Added timeouts to all in-game states except Next Player.
+* Fixed texture ID leak in conf state.
+
+-------------------------------------------------------------------------------
+New in 1.3.8
+
+* Modified joystick traversal of GUIs to wrap top/bottom and left/right.
+* Converted Putt to use Ball's GUI API.
+* Merged Putt's and Ball's audio managers into shared.
+* Added "Paused" screen to Putt.
+* Generalized Putt's scoring to allow courses of length other than 18.
+* Enabled switches in Putt.
+* Added paxed's Putt courses.
+* Changed a few textures on paxed's courses.
+* Capped per-hole scores at 12.
+* Modified several Putt backgrounds.
+* Applied a change to Mehdi 25.
+* Added poser mode to Putt.
+* "Fixed" mouse jump on pointer grab.  SDL is unpredictable here.
+* By popular demand, set initial ball view toward hole.
+
+-------------------------------------------------------------------------------
 New in 1.3.7
 
 * Fixed mapc normal optimization bug.  Resolves the Putt 16 invisible wall.

@@ -117,7 +117,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="..\..\ball\audio.c">
+				RelativePath="..\..\share\audio.c">
 			</File>
 			<File
 				RelativePath="..\..\share\back.c">
@@ -168,13 +168,13 @@
 				RelativePath="..\..\ball\st_demo.c">
 			</File>
 			<File
+				RelativePath="..\..\ball\st_done.c">
+			</File>
+			<File
 				RelativePath="..\..\ball\st_fail.c">
 			</File>
 			<File
 				RelativePath="..\..\ball\st_goal.c">
-			</File>
-			<File
-				RelativePath="..\..\ball\st_done.c">
 			</File>
 			<File
 				RelativePath="..\..\ball\st_level.c">
@@ -212,7 +212,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath="..\..\ball\audio.h">
+				RelativePath="..\..\share\audio.h">
 			</File>
 			<File
 				RelativePath="..\..\share\back.h">
@@ -263,13 +263,13 @@
 				RelativePath="..\..\ball\st_demo.h">
 			</File>
 			<File
+				RelativePath="..\..\ball\st_done.h">
+			</File>
+			<File
 				RelativePath="..\..\ball\st_fail.h">
 			</File>
 			<File
 				RelativePath="..\..\ball\st_goal.h">
-			</File>
-			<File
-				RelativePath="..\..\ball\st_done.h">
 			</File>
 			<File
 				RelativePath="..\..\ball\st_high.h">
