@@ -156,6 +156,7 @@ struct s_file
 
     struct s_imag *xv;
     struct s_list *dv;
+    struct s_part *qv;
 
     struct s_mtrl *mv;
     struct s_vert *vv;
@@ -181,6 +182,6 @@ int  sol_load(struct s_file *, const char *);
 int  sol_stor(struct s_file *, const char *);
 void sol_free(struct s_file *);
 
-void sol_update(struct s_file *, double, const double[3], double *);
+double sol_update(struct s_file *, const double[3], double);
 
 #endif

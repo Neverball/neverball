@@ -131,7 +131,7 @@ void game_render_num(int num)
 void game_render_env(void)
 {
     const float light_p[4] = { 8.0, 32.0, 8.0, 1.0 };
-    
+
     const struct s_file *fp = &file;
     const struct s_ball *up =  file.uv;
 
@@ -146,8 +146,17 @@ void game_render_env(void)
 
     glPushMatrix();
     {
-        gluLookAt(view_p[0], view_p[1], view_p[2],
-                  ball_p[0], ball_p[1], ball_p[2], 0, 1, 0);
+        double v[3], rx, ry;
+
+        v_sub(v, ball_p, view_p);
+
+        rx = V_DEG(atan2(-v[1], sqrt(v[0] * v[0] + v[2] * v[2])));
+        ry = V_DEG(atan2(+v[0], -v[2]));
+
+        glTranslatef(0.0f, 0.0f, -v_len(v));
+        glRotatef(rx, 1.0f, 0.0f, 0.0f);
+        glRotatef(ry, 0.0f, 1.0f, 0.0f);
+        glTranslatef(-ball_p[0], -ball_p[1], -ball_p[2]);
 
         /* Center the skybox about the position of the camera. */
 
@@ -171,13 +180,10 @@ void game_render_env(void)
 
         sol_render(fp);
 
-        glPushAttrib(GL_ENABLE_BIT);
-        {
-            coin_draw(fp->cv, fp->cc);
-            ball_draw(up->r, ball_p, up->e);
-            goal_draw(fp->zv, fp->zc);
-        }
-        glPopAttrib();
+        coin_draw(fp->cv, fp->cc);
+        ball_draw(up->r, up->p, up->e);
+        goal_draw(-rx, -ry, fp->zv, fp->zc);
+        part_draw(-rx, -ry);
     }
     glPopMatrix();
 }
@@ -233,8 +239,8 @@ static void game_update_view(double dt)
     dy = v_dot(view_e[1], d);
     dz = v_dot(view_e[2], d);
 
-    dy += (view_dy - dy) * dt;
-    dz += (view_dz - dz) * dt;
+    dy += (view_dy - dy) * dt * 2.0;
+    dz += (view_dz - dz) * dt * 2.0;
 
     /* Compute the new view position. */
 
@@ -320,11 +326,13 @@ int game_update_env(const double g[3], double dt)
     struct s_file *fp = &file;
 
     double h[3];
+    double d = 0.0;
     double b = 0.0;
     double t = dt;
     int i, n = 1;
 
     game_update_grav(h, g);
+    part_update_grav(h, dt);
 
     /* Run the sim. */
 
@@ -335,7 +343,8 @@ int game_update_env(const double g[3], double dt)
     }
 
     for (i = 0; i < n; i++)
-        sol_update(fp, t, h, &b);
+        if (b < (d = sol_update(fp, h, t)))
+            b = d;
 
     /* Mix the sound of a ball bounce. */
 
@@ -419,6 +428,7 @@ void game_init(const char *s, int t)
     ball_init();
     goal_init();
     coin_init();
+    part_init();
     text_init();
 
     sol_load(&file, s);
@@ -432,6 +442,7 @@ void game_free(void)
     sol_free(&file);
 
     text_free();
+    part_free();
     coin_free();
     goal_free();
     ball_free();

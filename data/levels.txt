@@ -1,7 +1,10 @@
-data/sol/easy.sol   data/back/lake 90
-data/sol/fall.sol   data/back/lake 60
-data/sol/move.sol   data/back/snow 60
-data/sol/marble.sol data/back/lake 30
-data/sol/maze.sol   data/back/lake 90
-data/sol/angle.sol  data/back/lake 45
-data/sol/four.sol   data/back/snow 30
+data/sol/easy.sol   data/back/haze  90
+data/sol/fall.sol   data/back/flood 60
+data/sol/move.sol   data/back/snow  60
+data/sol/spiral.sol data/back/snow  60
+data/sol/marble.sol data/back/haze  30
+data/sol/maze.sol   data/back/flood 90
+data/sol/angle.sol  data/back/snow  45
+data/sol/four.sol   data/back/haze  30
+data/sol/quads.sol  data/back/flood 60
+data/sol/poke.sol   data/back/snow  60

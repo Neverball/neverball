@@ -73,7 +73,7 @@ static void sol_body_p(double p[3],
  * The  following code  renders a  body in  a  ludicrously inefficient
  * manner.  It iterates the materials and scans the data structure for
  * geometry using each.  This  has the effect of absolutely minimizing
- * material  changes,  texture   bindings,  and  Begin/End  pars,  but
+ * material  changes,  texture   bindings,  and Begin/End  pairs,  but
  * maximizing trips through the data.
  *
  * However, this  is only done once  for each level.   The results are
@@ -423,6 +423,14 @@ static double v_sol(const double p[3], const double v[3], double r)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Compute the  earliest time  and position of  the intersection  of a
+ * sphere and a vertex.
+ *
+ * The sphere has radius R and moves along vector V from point P.  The
+ * vertex moves  along vector  W from point  Q in a  coordinate system
+ * based at O.
+ */
 static double v_vert(double Q[3],
                      const double o[3],
                      const double q[3],
@@ -447,6 +455,14 @@ static double v_vert(double Q[3],
     return t;
 }
 
+/*
+ * Compute the  earliest time  and position of  the intersection  of a
+ * sphere and an edge.
+ *
+ * The sphere has radius R and moves along vector V from point P.  The
+ * edge moves along vector W from point Q in a coordinate system based
+ * at O.  The edge extends along the length of vector U.
+ */
 static double v_edge(double Q[3],
                      const double o[3],
                      const double q[3],
@@ -485,6 +501,14 @@ static double v_edge(double Q[3],
     return t;
 }
 
+/*
+ * Compute  the earlist  time and  position of  the intersection  of a
+ * sphere and a plane.
+ *
+ * The sphere has radius R and moves along vector V from point P.  The
+ * plane  oves  along  vector  W.   The  plane has  normal  N  and  is
+ * positioned at distance D from the origin O along that normal.
+ */
 static double v_side(double Q[3],
                      const double o[3],
                      const double w[3],
@@ -515,13 +539,15 @@ static double v_side(double Q[3],
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Compute the new  linear and angular velocities of  a bouncing ball.
+ * Q  gives the  position  of the  point  of impact  and  W gives  the
+ * velocity of the object being impacted.
+ */
 static double sol_bounce(struct s_ball *up,
                          const double q[3],
                          const double w[3])
 {
-    /*
-    const double ke = 0.80;
-    */
     const double ke = 0.70;
 
     double n[3], r[3], d[3], e[3], vn, wn;
@@ -547,6 +573,9 @@ static double sol_bounce(struct s_ball *up,
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Compute the positions of all bodies after DT seconds have passed.
+ */
 static void sol_body_step(struct s_file *fp, double dt)
 {
     int i;
@@ -569,6 +598,9 @@ static void sol_body_step(struct s_file *fp, double dt)
         }
 }
 
+/*
+ * Compute the positions of all balls after DT seconds have passed.
+ */
 static void sol_ball_step(struct s_file *fp, double dt)
 {
     int i;
@@ -675,29 +707,31 @@ static double sol_test_lump(double T[3],
 
     /* Test all verts */
 
-    for (i = 0; i < lp->vc; i++)
-    {
-        const struct s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
-
-        if ((u = sol_test_vert(U, up, vp, o, w)) < t)
+    if (up->r > 0.0)
+        for (i = 0; i < lp->vc; i++)
         {
-            v_cpy(T, U);
-            t = u;
+            const struct s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
+
+            if ((u = sol_test_vert(U, up, vp, o, w)) < t)
+            {
+                v_cpy(T, U);
+                t = u;
+            }
         }
-    }
  
    /* Test all edges */
 
-    for (i = 0; i < lp->ec; i++)
-    {
-        const struct s_edge *ep = fp->ev + fp->iv[lp->e0 + i];
-
-        if ((u = sol_test_edge(U, up, fp, ep, o, w)) < t)
+    if (up->r > 0.0)
+        for (i = 0; i < lp->ec; i++)
         {
-            v_cpy(T, U);
-            t = u;
+            const struct s_edge *ep = fp->ev + fp->iv[lp->e0 + i];
+
+            if ((u = sol_test_edge(U, up, fp, ep, o, w)) < t)
+            {
+                v_cpy(T, U);
+                t = u;
+            }
         }
-    }
 
     /* Test all sides */
 
@@ -762,9 +796,9 @@ static double sol_test_file(double T[3], double V[3],
 
 /*---------------------------------------------------------------------------*/
 
-void sol_update(struct s_file *fp, double dt, const double g[3], double *bump)
+double sol_update(struct s_file *fp, const double g[3], double dt)
 {
-    double T[3], V[3], d, nt, tt = dt;
+    double T[3], V[3], d, nt, b = 0.0, tt = dt;
 
     struct s_ball *up = fp->uv;
     struct s_ball  uu = *up;
@@ -778,10 +812,8 @@ void sol_update(struct s_file *fp, double dt, const double g[3], double *bump)
 
         tt -= nt;
 
-        d = sol_bounce(up, T, V);
-
-        if (*bump < d)
-            *bump = d;
+        if (b < (d = sol_bounce(up, T, V)))
+            b = d;
     }
 
     sol_body_step(fp, tt);
@@ -793,7 +825,7 @@ void sol_update(struct s_file *fp, double dt, const double g[3], double *bump)
      * ball from  jittering while  at rest, but  can produce  a discontinuity
      * during subtle motion.
      */
-                                        
+
     v_sub(V, uu.p, up->p);
 
     if (v_len(V) < 0.001)
@@ -803,5 +835,7 @@ void sol_update(struct s_file *fp, double dt, const double g[3], double *bump)
         v_cpy(up->e[1], uu.e[1]);
         v_cpy(up->e[2], uu.e[2]);
     }
+
+    return b;
 }
 

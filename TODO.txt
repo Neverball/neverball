@@ -1,2 +1,0 @@
-Advance through fall/time/over
-Interrupt ready/set/go

@@ -420,6 +420,16 @@ static int level_timer(double dt)
     return 1;
 }
 
+static int level_click(int d)
+{
+    if (d == 0)
+    {
+        game_update_fly(0.0);
+        goto_state(&st_play);
+    }
+    return 1;
+}
+
 /*---------------------------------------------------------------------------*/
 
 static struct menu ready_menu;
@@ -456,6 +466,16 @@ static int ready_timer(double dt)
     return 1;
 }
 
+static int ready_click(int d)
+{
+    if (d == 0)
+    {
+        game_update_fly(0.0);
+        goto_state(&st_play);
+    }
+    return 1;
+}
+
 /*---------------------------------------------------------------------------*/
 
 static struct menu set_menu;
@@ -489,6 +509,16 @@ static int set_timer(double dt)
     if (dt > 0.0 && t > 1.0)
         goto_state(&st_play);
 
+    return 1;
+}
+
+static int set_click(int d)
+{
+    if (d == 0)
+    {
+        game_update_fly(0.0);
+        goto_state(&st_play);
+    }
     return 1;
 }
 
@@ -583,6 +613,18 @@ static void goal_paint(void)
     menu_paint(&goal_menu, 1.0);
 }
 
+static int goal_click(int d)
+{
+    if (d == 0)
+    {
+        if (level_pass())
+            goto_state(&st_level);
+        else
+            goto_state(&st_over);
+    }
+    return 1;
+}
+
 static int goal_timer(double dt)
 {
     double g[3] = { 0.0, 9.8, 0.0 };
@@ -590,12 +632,8 @@ static int goal_timer(double dt)
     if (time_state() < 2.0)
         game_update_env(g, dt);
     else
-    {
-        if (level_pass())
-            goto_state(&st_level);
-        else
-            goto_state(&st_over);
-    }
+        return goal_click(0);
+
     return 1;
 }
 
@@ -623,6 +661,18 @@ static void fall_paint(void)
     menu_paint(&fall_menu, 1.0);
 }
 
+static int fall_click(int d)
+{
+    if (d == 0)
+    {
+        if (level_fail())
+            goto_state(&st_level);
+        else
+            goto_state(&st_over);
+    }
+    return 1;
+}
+
 static int fall_timer(double dt)
 {
     double g[3] = { 0.0, -9.8, 0.0 };
@@ -630,12 +680,8 @@ static int fall_timer(double dt)
     if (time_state() < 2.0)
         game_update_env(g, dt);
     else
-    {
-        if (level_fail())
-            goto_state(&st_level);
-        else
-            goto_state(&st_over);
-    }
+        return fall_click(0);
+
     return 1;
 }
 
@@ -663,6 +709,18 @@ static void time_paint(void)
     menu_paint(&time_menu, 1.0);
 }
 
+static int time_click(int d)
+{
+    if (d == 0)
+    {
+        if (level_fail())
+            goto_state(&st_level);
+        else
+            goto_state(&st_over);
+    }
+    return 1;
+}
+
 static int time_timer(double dt)
 {
     double g[3] = { 0.0, -9.8, 0.0 };
@@ -670,12 +728,8 @@ static int time_timer(double dt)
     if (time_state() < 2.0)
         game_update_env(g, dt);
     else
-    {
-        if (level_fail())
-            goto_state(&st_level);
-        else
-            goto_state(&st_over);
-    }
+        return time_click(0);
+
     return 1;
 }
 
@@ -714,6 +768,14 @@ static int over_timer(double dt)
 static int over_keybd(int c)
 {
     if (c == SDLK_F1)
+        goto_state(&st_title);
+
+    return 1;
+}
+
+static int over_click(int d)
+{
+    if (d == 0)
         goto_state(&st_title);
 
     return 1;
@@ -801,7 +863,7 @@ struct state st_level = {
     level_paint,
     level_timer,
     NULL,
-    NULL,
+    level_click,
     NULL
 };
 
@@ -811,7 +873,7 @@ struct state st_ready = {
     ready_paint,
     ready_timer,
     NULL,
-    NULL,
+    ready_click,
     NULL
 };
 
@@ -821,7 +883,7 @@ struct state st_set = {
     set_paint,
     set_timer,
     NULL,
-    NULL,
+    set_click,
     NULL
 };
 
@@ -841,7 +903,7 @@ struct state st_goal = {
     goal_paint,
     goal_timer,
     NULL,
-    NULL,
+    goal_click,
     NULL,
 };
 
@@ -851,7 +913,7 @@ struct state st_fall = {
     fall_paint,
     fall_timer,
     NULL,
-    NULL,
+    fall_click,
     NULL
 };
 
@@ -861,7 +923,7 @@ struct state st_time = {
     time_paint,
     time_timer,
     NULL,
-    NULL,
+    time_click,
     NULL,
 };
 
@@ -871,7 +933,7 @@ struct state st_over = {
     over_paint,
     over_timer,
     NULL,
-    NULL,
+    over_click,
     over_keybd
 };
 

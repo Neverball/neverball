@@ -12,9 +12,16 @@ void ball_draw(double, const double[3], const double[3][3]);
 
 /*---------------------------------------------------------------------------*/
 
+void part_init(void);
+void part_free(void);
+void part_draw(GLfloat, GLfloat);
+void part_update_grav(const double[3], double);
+
+/*---------------------------------------------------------------------------*/
+
 void goal_init(void);
 void goal_free(void);
-void goal_draw(const struct s_goal *, int);
+void goal_draw(GLfloat, GLfloat, const struct s_goal *, int);
 int  goal_test(const struct s_ball *, struct s_goal *, int);
 
 /*---------------------------------------------------------------------------*/
