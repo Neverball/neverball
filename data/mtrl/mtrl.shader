@@ -1,4 +1,10 @@
 
+textures/mtrl/green_floor
+{
+	{
+		map textures/mtrl/green_floor.jpg
+	}
+}
 textures/mtrl/green
 {
 	{
@@ -6,6 +12,12 @@ textures/mtrl/green
 	}
 }
 
+textures/mtrl/brown_floor
+{
+	{
+		map textures/mtrl/brown_floor.jpg
+	}
+}
 textures/mtrl/brown
 {
 	{

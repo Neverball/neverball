@@ -1,10 +1,8 @@
-Look into reducing min dt.
+
+Look into reducing max dt
 Smooth dt
-list texture, roll, bump, ke, and kr in mtrl file
+Generalize surface coefficients and list in mtrl file
 A ball rolling in a trough rotates funny
-Tweak responsiveness.  Time coefficient?
-Implement multiple ball physics
-Implement ball-ball physics
 
 Sounds
         Fall out

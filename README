@@ -1,40 +1,38 @@
 
                           * SUPER EMPTY BALL *
 
-Super Empty Ball is an  simulation of the physics of spheres interacting
-with faceted solid geometry.  It requires:
+Super  Empty  Ball  is  an   simulation  of  the  physics  of  spheres
+interacting with faceted solid geometry.  It requires:
 
-    libjpeg
-    libpng
+    SDL               http://www.libsdl.org/download-1.2.php
+    SDL_image         http://www.libsdl.org/projects/SDL_image/
+    SDL_mixer         http://www.libsdl.org/projects/SDL_mixer/
 
-To build, choose one of the following target options and run make:
+To build:
 
-    make linux                      # Linux, no sound
-    make alsa                       # Linux, ALSA sound
-    make irix                       # 32-bit IRIX
+    make                     (Unix)
+or
+    nmake /fMakefile-W32     (Windows with MSVC)
 
-The default  target is linux.  The  alsa target requires  ALSA 0.9.  The
-irix target assumes that libpng is installed in the /usr/freeware/ tree.
-
-The executables will be copied into bin/. Environments will be processed
-and copied into data/sol/.  The program must be run from within the base
-seb directory in order for materials and textures to resolve correctly.
+The executables will  be copied to the base  SEB directory.  Maps will
+be processed and copied into  data/sol/.  The program must be run from
+within the base  SEB directory in order for  materials and textures to
+resolve correctly.
 
 To run:
 
-    bin/ball
+    ./ball
 
-Click to begin.  The world tilts  in the direction of the mouse pointer.
-Escape  pauses.  Control-Q  while paused  returns to  the  title screen.
-Escape at the title screen exits.
+Click  to  begin.  The  world  tilts in  the  direction  of the  mouse
+pointer.  Escape pauses  and resumes.  F1 while paused  returns to the
+title screen, and F1 at the title screen exits.
 
-The physics system starts to destablize at about 50Hz, so if your system
-cannot  maintain  50 FPS  then  simulation  time  will run  slower  than
-realtime.  If  your video card  is lacking in  power you can  shrink the
-window  or  remove  the  definition  of  REFLECT  at  the  beginning  of
-ball/game.c.  If  your processor is  lacking in power, there's  not much
-you can do.
+The  physics system starts  to destablize  at about  50Hz, so  if your
+system cannot  maintain 50  FPS then simulation  time will  run slower
+than realtime.  If your video card  is lacking in power you can shrink
+the window by modifying the constants at the top of src/main.c.
 
-Any resemblance to any other software,  game,  or simulation related  to
-super  forms of balls possibly non-empty potentially containing  monkeys
+
+Any resemblance to any other  software, game, or simulation related to
+super forms of balls possibly non-empty potentially containing monkeys
 is purely coincidental.

@@ -1,19 +1,43 @@
 
-all :
-	(cd libvec;  $(MAKE))
-	(cd libetc;  $(MAKE))
-	(cd libaio;  $(MAKE))
-	(cd libsol;  $(MAKE))
-	(cd libglw;  $(MAKE))
-	(cd ball;    $(MAKE))
-	(cd map2sol; $(MAKE))
+BALL_OBJS= \
+	ball.o  \
+	coin.o  \
+	game.o  \
+	image.o \
+	main.o  \
+	pause.o \
+	play.o  \
+	solid.o \
+	stop.o  \
+	title.o \
+	vec3.o
+MAPC_OBJS= \
+	vec3.o  \
+	solid.o \
+	mapc.o
+
+CFLAGS= -Wall -O3 -ffast-math -ansi $(shell sdl-config --cflags)
+
+BALL_LIBS= $(shell sdl-config --libs) -lSDL_image -lSDL_mixer -lGLU -lGL
+MAPC_LIBS= $(shell sdl-config --libs) -lSDL_image -lGL
+
+all : ../ball ../mapc
+
+.c.o :
+	$(CC) $(CFLAGS) -c $<
+
+../ball : ball
+	cp ball ../ball
+
+../mapc : mapc
+	cp mapc ../mapc
+
+ball : $(BALL_OBJS)
+	$(CC) $(CFLAGS) -o ball $(BALL_OBJS) $(BALL_LIBS)
+
+mapc : $(MAPC_OBJS)
+	$(CC) $(CFLAGS) -o mapc $(MAPC_OBJS) $(MAPC_LIBS)
 
 clean :
-	(cd libvec;  $(MAKE) clean)
-	(cd libetc;  $(MAKE) clean)
-	(cd libaio;  $(MAKE) clean)
-	(cd libsol;  $(MAKE) clean)
-	(cd libglw;  $(MAKE) clean)
-	(cd ball;    $(MAKE) clean)
-	(cd map2sol; $(MAKE) clean)
+	rm -f ball mapc $(BALL_OBJS) $(MAPC_OBJS)
 

@@ -1,0 +1,44 @@
+
+BALL_OBJS= \
+	ball.obj  \
+	coin.obj  \
+	game.obj  \
+	image.obj \
+	main.obj  \
+	pause.obj \
+	play.obj  \
+	solid.obj \
+	stop.obj  \
+	title.obj \
+	vec3.obj
+MAPC_OBJS= \
+	vec3.obj  \
+	solid.obj \
+	mapc.obj
+
+CFLAGS= /W3
+
+SYS_LIBS=  glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib
+BALL_LIBS= SDL_mixer.lib SDL_image.lib SDL.lib SDLmain.lib $(SYS_LIBS)
+MAPC_LIBS=               SDL_image.lib SDL.lib SDLmain.lib $(SYS_LIBS)
+
+all : ..\ball.exe ..\mapc.exe
+
+.c.obj :
+	cl /nologo /MD $(CFLAGS) /c $<
+
+..\ball.exe : ball.exe
+	copy ball.exe ..\ball.exe
+
+..\mapc.exe : mapc.exe
+	copy mapc.exe ..\mapc.exe
+
+ball.exe : $(BALL_OBJS)
+	link /nologo /out:ball.exe /subsystem:windows $(BALL_OBJS) $(BALL_LIBS)
+
+mapc.exe : $(MAPC_OBJS)
+	link /nologo /out:mapc.exe /subsystem:console $(MAPC_OBJS) $(MAPC_LIBS)
+
+clean :
+	del ball.exe mapc.exe $(BALL_OBJS) $(MAPC_OBJS)
+
