@@ -230,21 +230,6 @@ values follow.
 
             coin png/euro_coin.png
 
-    shadow 1
-
-        This key determines the technique used when rendering the ball
-        shadow.  Many video boards  have bad support for multitexture,
-        or  broken texture clamping.   If the  shadow does  not render
-        properly, one of these may help.
-
-        0 - Disable the shadow entirely.
-
-        1 - Clamp to edge.   If the shadow displays correctly, but the
-        floor surround the shadow does not, try this.
-
-        2 - Clamp.  If the shadow repeats across the entire floor, try
-        this.
-
     stereo 0
 
         This key  enables quad-buffered stereo viewing  for those with
@@ -296,4 +281,4 @@ values follow.
 
 
 
-Contact: <rlk@icculus.org>
+Contact: <robert-kooima@gmail.com>

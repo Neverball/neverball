@@ -35,6 +35,12 @@ static int        chan[AUD_COUNT];
 #define CH_VOICE 5
 #define CH_COUNT 6
 
+static char curr_bgm[MAXSTR];
+static char next_bgm[MAXSTR];
+
+static float fade_volume = 1.0f;
+static float fade_rate   = 0.0f;
+
 /*---------------------------------------------------------------------------*/
 
 static void chunk_load(int i, const char *filename, int channel)
@@ -58,6 +64,9 @@ void audio_init(void)
 {
     int r = config_get_d(CONFIG_AUDIO_RATE);
     int b = config_get_d(CONFIG_AUDIO_BUFF);
+
+    memset(curr_bgm, 0, MAXSTR);
+    memset(next_bgm, 0, MAXSTR);
 
     if (audio_state == 0)
     {
@@ -133,12 +142,6 @@ void audio_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-static const char *current = NULL;
-static const char *next    = NULL;
-
-static float fade_volume = 1.0f;
-static float fade_rate   = 0.0f;
-
 void audio_music_play(const char *filename)
 {
     if (audio_state)
@@ -149,7 +152,7 @@ void audio_music_play(const char *filename)
             (song = Mix_LoadMUS(config_data(filename))))
         {
             Mix_PlayMusic(song, -1);
-            current = filename;
+            strcpy(curr_bgm, filename);
         }
     }
 }
@@ -158,13 +161,13 @@ void audio_music_queue(const char *filename)
 {
     if (audio_state)
     {
-        if (!current || strcmp(filename, current) != 0)
+        if (strlen(curr_bgm) == 0 || strcmp(filename, curr_bgm) != 0)
         {
             Mix_VolumeMusic(0);
             fade_volume = 0.0f;
 
             audio_music_play(filename);
-            current = filename;
+            strcpy(curr_bgm, filename);
 
             Mix_PauseMusic();
         }
@@ -203,7 +206,7 @@ void audio_timer(float dt)
         {
             fade_volume = 0.0f;
 
-            if (next == NULL)
+            if (strlen(next_bgm) == 0)
             {
                 fade_rate = 0.0f;
                 if (Mix_PlayingMusic())
@@ -212,9 +215,8 @@ void audio_timer(float dt)
             else
             {
                 fade_rate = -fade_rate;
-                audio_music_queue(next);
+                audio_music_queue(next_bgm);
             }
-
         }
 
         if (fade_volume > 1.0f)
@@ -235,22 +237,22 @@ void audio_timer(float dt)
 void audio_music_fade_out(float t)
 {
     fade_rate = -t;
-    next = NULL;
+    strcpy(next_bgm, "");
 }
 
 void audio_music_fade_in(float t)
 {
     fade_rate = +t;
-    next = NULL;
+    strcpy(next_bgm, "");
 }
 
 void audio_music_fade_to(float t, const char *filename)
 {
     if (fade_volume > 0)
     {
-        if (!current || strcmp(filename, current) != 0)
+        if (strlen(curr_bgm) == 0 || strcmp(filename, curr_bgm) != 0)
         {
-            next = filename;
+            strcpy(next_bgm, filename);
             fade_rate = -t;
         }
         else fade_rate = t;

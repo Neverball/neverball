@@ -40,9 +40,11 @@
 #define CONF_REFOF 13
 #define CONF_BACON 14
 #define CONF_BACOF 15
-#define CONF_AUDHI 16
-#define CONF_AUDLO 17
-#define CONF_BACK  18
+#define CONF_SHDON 16
+#define CONF_SHDOF 17
+#define CONF_AUDHI 18
+#define CONF_AUDLO 19
+#define CONF_BACK  20
 
 static int audlo_id;
 static int audhi_id;
@@ -152,6 +154,18 @@ static int conf_action(int i)
         goto_state(&st_conf);
         break;
 
+    case CONF_SHDON:
+        goto_state(&st_null);
+        config_set_d(CONFIG_SHADOW, 1);
+        goto_state(&st_conf);
+        break;
+
+    case CONF_SHDOF:
+        goto_state(&st_null);
+        config_set_d(CONFIG_SHADOW, 0);
+        goto_state(&st_conf);
+        break;
+
     case CONF_AUDHI:
         audio_free();
         config_set_d(CONFIG_AUDIO_RATE, 44100);
@@ -217,6 +231,7 @@ static int conf_enter(void)
             int g = config_get_d(CONFIG_GEOMETRY);
             int r = config_get_d(CONFIG_REFLECTION);
             int b = config_get_d(CONFIG_BACKGROUND);
+            int h = config_get_d(CONFIG_SHADOW);
             int a = config_get_d(CONFIG_AUDIO_RATE);
             int s = config_get_d(CONFIG_SOUND_VOLUME);
             int m = config_get_d(CONFIG_MUSIC_VOLUME);
@@ -259,6 +274,11 @@ static int conf_enter(void)
             {
                 gui_state(kd, "Off",  GUI_SML, CONF_BACOF, (b == 0));
                 gui_state(kd, "On",   GUI_SML, CONF_BACON, (b == 1));
+            }
+            if ((kd = gui_harray(jd)))
+            {
+                gui_state(kd, "Off",  GUI_SML, CONF_SHDOF, (h == 0));
+                gui_state(kd, "On",   GUI_SML, CONF_SHDON, (h == 1));
             }
             if ((kd = gui_harray(jd)))
             {
@@ -321,6 +341,7 @@ static int conf_enter(void)
             gui_label(jd, "Geometry",     GUI_SML, GUI_ALL, 0, 0);
             gui_label(jd, "Reflection",   GUI_SML, GUI_ALL, 0, 0);
             gui_label(jd, "Background",   GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, "Shadow",       GUI_SML, GUI_ALL, 0, 0);
             gui_label(jd, "Audio",        GUI_SML, GUI_ALL, 0, 0);
             gui_label(jd, "Sound Volume", GUI_SML, GUI_ALL, 0, 0);
             gui_label(jd, "Music Volume", GUI_SML, GUI_ALL, 0, 0);

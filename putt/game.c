@@ -301,9 +301,7 @@ void game_draw(int pose)
 
         /* Draw the floor. */
 
-        if (pose == 0) shad_draw_set(fp->uv[ball].p, fp->uv[ball].r);
-        sol_draw(fp, config_get_d(CONFIG_SHADOW));
-        if (pose == 0) shad_draw_clr();
+        sol_draw(fp);
 
         /* Draw the game elements. */
 

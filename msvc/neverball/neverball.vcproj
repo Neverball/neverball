@@ -138,9 +138,6 @@
 				RelativePath="..\..\share\geom.c">
 			</File>
 			<File
-				RelativePath="..\..\share\glext.c">
-			</File>
-			<File
 				RelativePath="..\..\share\gui.c">
 			</File>
 			<File

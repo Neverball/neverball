@@ -631,38 +631,27 @@ void shad_free(void)
 
 void shad_draw_set(const float *p, float r)
 {
-    if (config_get_d(CONFIG_SHADOW))
+    glMatrixMode(GL_TEXTURE);
     {
-        glActiveTexture(GL_TEXTURE1);
-        glMatrixMode(GL_TEXTURE);
-        {
-            float k = 0.5f / r;
+        float k = 0.25f / r;
 
-            glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, shad_text);
 
-            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-            glBindTexture(GL_TEXTURE_2D, shad_text);
-
-            glLoadIdentity();
-            glTranslatef(0.5f - p[0] * k,
-                         0.5f - p[2] * k, 0.f);
-            glScalef(k, k, 1.f);
-        }
-        glMatrixMode(GL_MODELVIEW);
-        glActiveTexture(GL_TEXTURE0);
+        glLoadIdentity();
+        glTranslatef(0.5f - k * p[0],
+                     0.5f - k * p[2], 0.f);
+        glScalef(k, k, 1.0f);
     }
+    glMatrixMode(GL_MODELVIEW);
 }
 
 void shad_draw_clr(void)
 {
-    if (config_get_d(CONFIG_SHADOW))
+    glMatrixMode(GL_TEXTURE);
     {
-        glActiveTexture(GL_TEXTURE1);
-        {
-            glDisable(GL_TEXTURE_2D);
-        }
-        glActiveTexture(GL_TEXTURE0);
+        glLoadIdentity();
     }
+    glMatrixMode(GL_MODELVIEW);
 }
 
 /*---------------------------------------------------------------------------*/

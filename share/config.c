@@ -320,7 +320,7 @@ int config_mode(int f, int w, int h)
         option_d[CONFIG_FULLSCREEN] = f;
         option_d[CONFIG_WIDTH]      = w;
         option_d[CONFIG_HEIGHT]     = h;
-        option_d[CONFIG_SHADOW]     = (option_d[CONFIG_SHADOW] & glext_init());
+        option_d[CONFIG_SHADOW]     = option_d[CONFIG_SHADOW];
 
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
@@ -336,7 +336,7 @@ int config_mode(int f, int w, int h)
 
     /* If the mode failed, try it without stereo. */
 
-    else if (config_get_d(CONFIG_STEREO))
+    else if (stereo)
     {
         config_set_d(CONFIG_STEREO, 0);
         return config_mode(f, w, h);
@@ -344,7 +344,7 @@ int config_mode(int f, int w, int h)
 
     /* If that mode failed, try it without reflections. */
 
-    else if (config_get_d(CONFIG_REFLECTION))
+    else if (stencil)
     {
         config_set_d(CONFIG_REFLECTION, 0);
         return config_mode(f, w, h);

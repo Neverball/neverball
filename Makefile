@@ -11,9 +11,9 @@ OGL_LIBS= -lGLU -lGL -lm
 
 #------------------------------------------------------------------------------
 
-CFLAGS= -Wall -Werror -O3 -ansi $(shell sdl-config --cflags)
-#CFLAGS= -Wall -Werror -g -ansi $(shell sdl-config --cflags)
-#CFLAGS= -Wall -Werror -pg -ansi $(shell sdl-config --cflags)
+CFLAGS= -Wall -O3 -ansi $(shell sdl-config --cflags)
+#CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
+#CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
 
 SDL_LIBS= $(shell sdl-config --libs)
 FT2_LIBS= $(shell freetype-config --libs)
@@ -25,7 +25,6 @@ PUTT_TARG= neverputt
 MAPC_OBJS= \
 	share/vec3.o   \
 	share/solid.o  \
-	share/glext.o  \
 	share/binary.o \
 	share/config.o \
 	share/mapc.o
@@ -39,7 +38,6 @@ BALL_OBJS= \
 	share/geom.o    \
 	share/gui.o     \
 	share/menu.o    \
-	share/glext.o   \
 	share/config.o  \
 	share/binary.o  \
 	share/state.o   \
@@ -72,7 +70,6 @@ PUTT_OBJS= \
 	share/geom.o   \
 	share/back.o   \
 	share/menu.o   \
-	share/glext.o  \
 	share/config.o \
 	share/binary.o \
 	putt/audio.o   \

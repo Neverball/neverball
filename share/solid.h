@@ -85,6 +85,7 @@
 #define M_ENVIRONMENT  8
 #define M_ADDITIVE    16
 #define M_CLAMPED     32
+#define M_SHADOWED (M_OPAQUE | M_REFLECTIVE | M_ENVIRONMENT)
 
 /* Billboard types. */
 
@@ -176,6 +177,7 @@ struct s_body
     GLuint ol;                                 /* opaque geometry list       */
     GLuint tl;                                 /* transparent geometry list  */
     GLuint rl;                                 /* reflective geometry list   */
+    GLuint sl;                                 /* shadowed geometry list     */
 
     short pi;
     short ni;
@@ -296,8 +298,9 @@ int   sol_stor(struct s_file *, const char *);
 void  sol_free(struct s_file *);
 
 void  sol_back(const struct s_file *, float, float, float);
-void  sol_refl(const struct s_file *, int);
-void  sol_draw(const struct s_file *, int);
+void  sol_refl(const struct s_file *);
+void  sol_draw(const struct s_file *);
+void  sol_shad(const struct s_file *);
 
 float sol_step(struct s_file *, const float *, float, short, int *);
 

@@ -22,5 +22,5 @@ map-mym/drive2.sol	map-back/city.sol	shot-mym/drive2.jpg	png/city.png	5000	55	bg
 map-mym/running.sol	map-back/ocean.sol	shot-mym/running.jpg	png/ocean.png	59900	140	bgm/track2.ogg
 map-mym/bombman.sol	map-back/jupiter.sol	shot-mym/bombman.jpg	png/space.png	12000	60	bgm/track4.ogg
 map-mym/climb.sol	map-back/ocean.sol	shot-mym/climb.jpg	png/ocean.png	12000	100	bgm/track2.ogg
-map-mym/dance1.sol	map-back/alien.sol	shot-mym/dance.jpg	png/alien.png	9000	50	bgm/track5.ogg
+map-mym/dance1.sol	map-back/alien.sol	shot-mym/dance1.jpg     png/alien.png	9000	50	bgm/track5.ogg
 map-mym/hard.sol	map-back/ocean.sol	shot-mym/hard.jpg	png/ocean.png	9000	0	bgm/track2.ogg

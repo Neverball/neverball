@@ -130,16 +130,6 @@ static short sol_enum_body(const struct s_file *fp,
 }
 
 /*---------------------------------------------------------------------------*/
-/*
- * The  following code  renders a  body in  a  ludicrously inefficient
- * manner.  It iterates the materials and scans the data structure for
- * geometry using each.  This  has the effect of absolutely minimizing
- * material  changes,  texture  bindings,  and  Begin/End  pairs,  but
- * maximizing trips through the data.
- *
- * However, this  is only done once  for each level.   The results are
- * stored in display lists.  Thus, it is well worth it.
- */
 
 static void sol_draw_mtrl(const struct s_file *fp, short i)
 {
@@ -174,100 +164,6 @@ static void sol_draw_mtrl(const struct s_file *fp, short i)
     else
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-}
-
-static void sol_draw_geom(const struct s_file *fp,
-                          const struct s_geom *gp, short mi, int s)
-{
-    if (gp->mi == mi)
-    {
-        const float *ui = fp->tv[gp->ti].u;
-        const float *uj = fp->tv[gp->tj].u;
-        const float *uk = fp->tv[gp->tk].u;
-
-        const float *ni = fp->sv[gp->si].n;
-        const float *nj = fp->sv[gp->sj].n;
-        const float *nk = fp->sv[gp->sk].n;
-
-        const float *vi = fp->vv[gp->vi].p;
-        const float *vj = fp->vv[gp->vj].p;
-        const float *vk = fp->vv[gp->vk].p;
-
-        if (s)
-        {
-            glMultiTexCoord2f(GL_TEXTURE0, ui[0], ui[1]);
-            glMultiTexCoord2f(GL_TEXTURE1, vi[0], vi[2]);
-            glNormal3fv(ni);
-            glVertex3fv(vi);
-
-            glMultiTexCoord2f(GL_TEXTURE0, uj[0], uj[1]);
-            glMultiTexCoord2f(GL_TEXTURE1, vj[0], vj[2]);
-            glNormal3fv(nj);
-            glVertex3fv(vj);
-
-            glMultiTexCoord2f(GL_TEXTURE0, uk[0], uk[1]);
-            glMultiTexCoord2f(GL_TEXTURE1, vk[0], vk[2]);
-            glNormal3fv(nk);
-            glVertex3fv(vk);
-        }
-        else
-        {
-            glTexCoord2fv(ui);
-            glNormal3fv(ni);
-            glVertex3fv(vi);
-
-            glTexCoord2fv(uj);
-            glNormal3fv(nj);
-            glVertex3fv(vj);
-
-            glTexCoord2fv(uk);
-            glNormal3fv(nk);
-            glVertex3fv(vk);
-        }
-    }
-}
-
-static void sol_draw_lump(const struct s_file *fp,
-                          const struct s_lump *lp, short mi, int s)
-{
-    short i;
-
-    for (i = 0; i < lp->gc; i++)
-    {
-        short gi = fp->iv[lp->g0 + i];
-        
-        sol_draw_geom(fp, fp->gv + gi, mi, s);
-    }
-}
-
-static void sol_draw_body(const struct s_file *fp,
-                          const struct s_body *bp, short fl, int s)
-{
-    short mi, li, gi;
-
-    /* Iterate all materials of the correct opacity. */
-
-    for (mi = 0; mi < fp->mc; mi++)
-        if (fp->mv[mi].fl & fl)
-        {
-            if (sol_enum_mtrl(fp, bp, mi))
-            {
-                /* Set the material state. */
-
-                sol_draw_mtrl(fp, mi);
-
-                /* Render all geometry of that material. */
-
-                glBegin(GL_TRIANGLES);
-                {
-                    for (li = 0; li < bp->lc; li++)
-                        sol_draw_lump(fp, fp->lv + bp->l0 + li, mi, s);
-                    for (gi = 0; gi < bp->gc; gi++)
-                        sol_draw_geom(fp, fp->gv + fp->iv[bp->g0 + gi], mi, s);
-                }
-                glEnd();
-            }
-        }
 }
 
 static void sol_draw_bill(const struct s_file *fp,
@@ -318,55 +214,6 @@ static void sol_draw_bill(const struct s_file *fp,
     }
 }
 
-static void sol_draw_list(const struct s_file *fp,
-                          const struct s_body *bp, GLuint list, int s)
-{
-    float p[3];
-
-    sol_body_p(p, fp, bp);
-
-    glPushMatrix();
-    {
-        /* Translate a moving body. */
-
-        glTranslatef(p[0], p[1], p[2]);
-
-        /* Translate the shadow on a moving body. */
-
-        if (s)
-        {
-            glActiveTexture(GL_TEXTURE1);
-            glMatrixMode(GL_TEXTURE);
-            {
-                glPushMatrix();
-                glTranslatef(p[0], p[2], 0.0f);
-            }
-            glMatrixMode(GL_MODELVIEW);
-            glActiveTexture(GL_TEXTURE0);
-        }
-        
-        /* Draw the body. */
-
-        glCallList(list);
-
-        /* Pop the shadow translation. */
-
-        if (s)
-        {
-            glActiveTexture(GL_TEXTURE1);
-            glMatrixMode(GL_TEXTURE);
-            {
-                glPopMatrix();
-            }
-            glMatrixMode(GL_MODELVIEW);
-            glActiveTexture(GL_TEXTURE0);
-        }
-    }
-    glPopMatrix();
-}
-
-/*---------------------------------------------------------------------------*/
-
 void sol_back(const struct s_file *fp, float n, float f, float t)
 {
     int ri;
@@ -385,7 +232,138 @@ void sol_back(const struct s_file *fp, float n, float f, float t)
     glPopAttrib();
 }
 
-void sol_refl(const struct s_file *fp, int s)
+/*---------------------------------------------------------------------------*/
+/*
+ * The  following code  renders a  body in  a  ludicrously inefficient
+ * manner.  It iterates the materials and scans the data structure for
+ * geometry using each.  This  has the effect of absolutely minimizing
+ * material  changes,  texture  bindings,  and  Begin/End  pairs,  but
+ * maximizing trips through the data.
+ *
+ * However, this  is only done once  for each level.   The results are
+ * stored in display lists.  Thus, it is well worth it.
+ */
+
+static void sol_draw_geom(const struct s_file *fp,
+                          const struct s_geom *gp, short mi)
+{
+    if (gp->mi == mi)
+    {
+        const float *ui = fp->tv[gp->ti].u;
+        const float *uj = fp->tv[gp->tj].u;
+        const float *uk = fp->tv[gp->tk].u;
+
+        const float *ni = fp->sv[gp->si].n;
+        const float *nj = fp->sv[gp->sj].n;
+        const float *nk = fp->sv[gp->sk].n;
+
+        const float *vi = fp->vv[gp->vi].p;
+        const float *vj = fp->vv[gp->vj].p;
+        const float *vk = fp->vv[gp->vk].p;
+
+        glTexCoord2fv(ui);
+        glNormal3fv(ni);
+        glVertex3fv(vi);
+
+        glTexCoord2fv(uj);
+        glNormal3fv(nj);
+        glVertex3fv(vj);
+
+        glTexCoord2fv(uk);
+        glNormal3fv(nk);
+        glVertex3fv(vk);
+    }
+}
+
+static void sol_draw_lump(const struct s_file *fp,
+                          const struct s_lump *lp, short mi)
+{
+    short i;
+
+    for (i = 0; i < lp->gc; i++)
+        sol_draw_geom(fp, fp->gv + fp->iv[lp->g0 + i], mi);
+}
+
+static void sol_draw_body(const struct s_file *fp,
+                          const struct s_body *bp, short fl)
+{
+    short mi, li, gi;
+
+    /* Iterate all materials of the correct opacity. */
+
+    for (mi = 0; mi < fp->mc; mi++)
+        if (fp->mv[mi].fl & fl)
+        {
+            if (sol_enum_mtrl(fp, bp, mi))
+            {
+                /* Set the material state. */
+
+                sol_draw_mtrl(fp, mi);
+
+                /* Render all geometry of that material. */
+
+                glBegin(GL_TRIANGLES);
+                {
+                    for (li = 0; li < bp->lc; li++)
+                        sol_draw_lump(fp, fp->lv + bp->l0 + li, mi);
+                    for (gi = 0; gi < bp->gc; gi++)
+                        sol_draw_geom(fp, fp->gv + fp->iv[bp->g0 + gi], mi);
+                }
+                glEnd();
+            }
+        }
+}
+
+static void sol_draw_list(const struct s_file *fp,
+                          const struct s_body *bp, GLuint list)
+{
+    float p[3];
+
+    sol_body_p(p, fp, bp);
+
+    glPushMatrix();
+    {
+        /* Translate a moving body. */
+
+        glTranslatef(p[0], p[1], p[2]);
+
+        /* Draw the body. */
+
+        glCallList(list);
+    }
+    glPopMatrix();
+}
+
+void sol_draw(const struct s_file *fp)
+{
+    short bi;
+
+    glPushAttrib(GL_TEXTURE_BIT      |
+                 GL_LIGHTING_BIT     |
+                 GL_COLOR_BUFFER_BIT |
+                 GL_DEPTH_BUFFER_BIT);
+    {
+        /* Render all obaque geometry into the color and depth buffers. */
+
+        for (bi = 0; bi < fp->bc; bi++)
+            if (fp->bv[bi].ol)
+                sol_draw_list(fp, fp->bv + bi, fp->bv[bi].ol);
+
+        /* Render all translucent geometry into only the color buffer. */
+
+        glDepthMask(GL_FALSE);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        for (bi = 0; bi < fp->bc; bi++)
+            if (fp->bv[bi].tl)
+                sol_draw_list(fp, fp->bv + bi, fp->bv[bi].tl);
+    }
+    glPopAttrib();
+}
+
+void sol_refl(const struct s_file *fp)
 {
     short bi;
 
@@ -398,36 +376,115 @@ void sol_refl(const struct s_file *fp, int s)
 
         for (bi = 0; bi < fp->bc; bi++)
             if (fp->bv[bi].rl)
-                sol_draw_list(fp, fp->bv + bi, fp->bv[bi].rl, s);
+                sol_draw_list(fp, fp->bv + bi, fp->bv[bi].rl);
     }
     glPopAttrib();
 }
 
-void sol_draw(const struct s_file *fp, int s)
+/*---------------------------------------------------------------------------*/
+
+static void sol_shad_geom(const struct s_file *fp,
+                          const struct s_geom *gp, short mi)
+{
+    if (gp->mi == mi)
+    {
+        const float *vi = fp->vv[gp->vi].p;
+        const float *vj = fp->vv[gp->vj].p;
+        const float *vk = fp->vv[gp->vk].p;
+
+        glTexCoord2f(vi[0], vi[2]);
+        glVertex3fv(vi);
+
+        glTexCoord2f(vj[0], vj[2]);
+        glVertex3fv(vj);
+
+        glTexCoord2f(vk[0], vk[2]);
+        glVertex3fv(vk);
+    }
+}
+
+static void sol_shad_lump(const struct s_file *fp,
+                          const struct s_lump *lp, short mi)
 {
     short i;
 
-    glPushAttrib(GL_TEXTURE_BIT      |
-                 GL_LIGHTING_BIT     |
-                 GL_COLOR_BUFFER_BIT |
-                 GL_DEPTH_BUFFER_BIT);
+    for (i = 0; i < lp->gc; i++)
+        sol_shad_geom(fp, fp->gv + fp->iv[lp->g0 + i], mi);
+}
+
+static void sol_shad_body(const struct s_file *fp,
+                          const struct s_body *bp, short fl)
+{
+    short mi, li, gi;
+
+    glBegin(GL_TRIANGLES);
     {
-        /* Render all obaque geometry into the color and depth buffers. */
+        for (mi = 0; mi < fp->mc; mi++)
+            if (fp->mv[mi].fl & fl)
+            {
+                for (li = 0; li < bp->lc; li++)
+                    sol_shad_lump(fp, fp->lv + bp->l0 + li, mi);
+                for (gi = 0; gi < bp->gc; gi++)
+                    sol_shad_geom(fp, fp->gv + fp->iv[bp->g0 + gi], mi);
+            }
+    }
+    glEnd();
+}
 
-        for (i = 0; i < fp->bc; i++)
-            if (fp->bv[i].ol)
-                sol_draw_list(fp, fp->bv + i, fp->bv[i].ol, s);
+static void sol_shad_list(const struct s_file *fp,
+                          const struct s_body *bp, GLuint list)
+{
+    float p[3];
 
-        /* Render all translucent geometry into only the color buffer. */
+    sol_body_p(p, fp, bp);
 
-        glDepthMask(GL_FALSE);
+    glPushMatrix();
+    {
+        /* Translate a moving body. */
+
+        glTranslatef(p[0], p[1], p[2]);
+
+        /* Translate the shadow on a moving body. */
+
+        glMatrixMode(GL_TEXTURE);
+        {
+            glPushMatrix();
+            glTranslatef(p[0], p[2], 0.0f);
+        }
+        glMatrixMode(GL_MODELVIEW);
+        
+        /* Draw the body. */
+
+        glCallList(list);
+
+        /* Pop the shadow translation. */
+
+        glMatrixMode(GL_TEXTURE);
+        {
+            glPopMatrix();
+        }
+        glMatrixMode(GL_MODELVIEW);
+    }
+    glPopMatrix();
+}
+
+void sol_shad(const struct s_file *fp)
+{
+    short bi;
+
+    glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_LIGHTING_BIT);
+    {
+        /* Render all shadowed geometry. */
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        for (i = 0; i < fp->bc; i++)
-            if (fp->bv[i].tl)
-                sol_draw_list(fp, fp->bv + i, fp->bv[i].tl, s);
+        glDepthFunc(GL_LEQUAL);
+        glDepthMask(GL_FALSE);
+
+        for (bi = 0; bi < fp->bc; bi++)
+            if (fp->bv[bi].sl)
+                sol_shad_list(fp, fp->bv + bi, fp->bv[bi].sl);
     }
     glPopAttrib();
 }
@@ -450,7 +507,7 @@ static void sol_load_objects(struct s_file *fp, int s)
             
             glNewList(fp->bv[i].ol, GL_COMPILE);
             {
-                sol_draw_body(fp, fp->bv + i, M_OPAQUE | M_ENVIRONMENT, s);
+                sol_draw_body(fp, fp->bv + i, M_OPAQUE | M_ENVIRONMENT);
             }
             glEndList();
         }
@@ -464,7 +521,7 @@ static void sol_load_objects(struct s_file *fp, int s)
 
             glNewList(fp->bv[i].tl, GL_COMPILE);
             {
-                sol_draw_body(fp, fp->bv + i, M_TRANSPARENT, s);
+                sol_draw_body(fp, fp->bv + i, M_TRANSPARENT);
             }
             glEndList();
         }
@@ -478,11 +535,25 @@ static void sol_load_objects(struct s_file *fp, int s)
 
             glNewList(fp->bv[i].rl, GL_COMPILE);
             {
-                sol_draw_body(fp, fp->bv + i, M_REFLECTIVE, s);
+                sol_draw_body(fp, fp->bv + i, M_REFLECTIVE);
             }
             glEndList();
         }
         else fp->bv[i].rl = 0;
+
+        /* Draw all shadowed geometry. */
+
+        if (s && sol_enum_body(fp, bp, M_SHADOWED))
+        {
+            fp->bv[i].sl = glGenLists(1);
+
+            glNewList(fp->bv[i].sl, GL_COMPILE);
+            {
+                sol_shad_body(fp, fp->bv + i, M_SHADOWED);
+            }
+            glEndList();
+        }
+        else fp->bv[i].sl = 0;
     }
 }
 
@@ -507,8 +578,13 @@ static SDL_Surface *sol_find_texture(const char *name, GLenum *f0, GLenum *f1)
     }
     if ((s = IMG_Load(config_data(tga))))
     {
+#ifdef GL_BGRA
         *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
         *f1 = (s->format->BitsPerPixel == 32) ? GL_BGRA : GL_RGB;  /* swab */
+#else
+        *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
+        *f1 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;  /* punt */
+#endif
         return s;
     }
     if ((s = IMG_Load(config_data(jpg))))
@@ -574,10 +650,8 @@ static void sol_load_textures(struct s_file *fp, int k)
 
             if (fp->mv[i].fl & M_CLAMPED)
             {
-                glTexParameteri(GL_TEXTURE_2D,
-                                GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D,
-                                GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
             }
             else
             {

@@ -92,7 +92,15 @@ static int save_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_pulse(gui_label(id, "Save Replay", GUI_MED, GUI_ALL, 0, 0), 1.2f);
+        gui_space(id);
+        if ((jd = gui_hstack(id)))
+        {
+            gui_filler(jd);
+            gui_count(jd, curr_level(), GUI_LRG, GUI_NE | GUI_SE);
+            gui_label(jd, "Level ",     GUI_LRG, GUI_NW | GUI_SW, 0, 0);
+            gui_filler(jd);
+        }
+        gui_space(id);
 
         gui_space(id);
         file_id = gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);

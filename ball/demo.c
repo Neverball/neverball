@@ -38,8 +38,8 @@ static FILE *demo_fp;
 static char  name[MAXDEMO][MAXNAM];
 static char  shot[MAXDEMO][PATHMAX];
 static short score[MAXDEMO];
-static short clock[MAXDEMO];
-static int  count;
+static short timer[MAXDEMO];
+static int   count;
 
 /*---------------------------------------------------------------------------*/
 #ifdef _WIN32
@@ -71,7 +71,7 @@ int demo_scan(void)
                 if (magic == MAGIC && t)
                 {
                     fread(shot[count], 1, PATHMAX, fp);
-                    clock[count] = t;
+                    timer[count] = t;
                     score[count] = c;
                     strncpy(name[count], d.cFileName, MAXNAM);
                     count++;
@@ -115,7 +115,7 @@ int demo_scan(void)
                 if (magic == MAGIC && t)
                 {
                     fread(shot[count], 1, PATHMAX, fp);
-                    clock[count] = t;
+                    timer[count] = t;
                     score[count] = c;
                     strncpy(name[count], ent->d_name, MAXNAM);
                     count++;
@@ -153,7 +153,7 @@ int demo_coins(int i)
 
 int demo_clock(int i)
 {
-    return (0 <= i && i < count) ? clock[i] : 0;
+    return (0 <= i && i < count) ? timer[i] : 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -240,10 +240,10 @@ void demo_play_step(float dt)
     }
 }
 
-void demo_play_stat(int coins, int clock)
+void demo_play_stat(int coins, int timer)
 {
     short c = coins;
-    short t = clock;
+    short t = timer;
 
     if (demo_fp)
     {

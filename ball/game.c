@@ -138,8 +138,7 @@ int game_init(const char *file_name,
     if (sol_load(&back, config_data(back_name),
                  config_get_d(CONFIG_TEXTURES), 0) &&
         sol_load(&file, config_data(file_name),
-                 config_get_d(CONFIG_TEXTURES),
-                 config_get_d(CONFIG_SHADOW)))
+                 config_get_d(CONFIG_TEXTURES), config_get_d(CONFIG_SHADOW)))
         return (game_state = 1);
     else
         return (game_state = 0);
@@ -283,8 +282,7 @@ static void game_draw_swchs(const struct s_file *fp)
 static void game_refl_all(int s)
 {
     const float *ball_p = file.uv->p;
-    const float  ball_r = file.uv->r;
-    
+
     glPushMatrix();
     {
         /* Rotate the environment about the position of the ball. */
@@ -296,14 +294,7 @@ static void game_refl_all(int s)
 
         /* Draw the floor. */
 
-        if (s)
-        {
-            shad_draw_set(ball_p, ball_r);
-            sol_refl(&file, 1);
-            shad_draw_clr();
-        }
-        else
-            sol_refl(&file, 0);
+        sol_refl(&file);
     }
     glPopMatrix();
 }
@@ -334,8 +325,6 @@ static void game_draw_light(void)
     glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
 }
 
-
-
 static void game_draw_back(int pose, int d, const float p[3])
 {
     float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -350,7 +339,6 @@ static void game_draw_back(int pose, int d, const float p[3])
         }
 
         glTranslatef(p[0], p[1], p[2]);
-        shad_draw_clr();
         glColor4fv(c);
 
         if (config_get_d(CONFIG_BACKGROUND))
@@ -363,7 +351,7 @@ static void game_draw_back(int pose, int d, const float p[3])
 
             /* Draw all foreground geometry in the background file. */
 
-            sol_draw(&back, 0);
+            sol_draw(&back);
         }
         else back_draw(0);
     }
@@ -401,12 +389,12 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
 
             /* Draw the floor. */
 
-            if (pose)
-                sol_draw(&file, 0);
-            else
+            sol_draw(&file);
+
+            if (config_get_d(CONFIG_SHADOW))
             {
                 shad_draw_set(ball_p, ball_r);
-                sol_draw(&file, config_get_d(CONFIG_SHADOW));
+                sol_shad(&file);
                 shad_draw_clr();
             }
 

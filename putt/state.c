@@ -186,7 +186,6 @@ static void null_enter(void)
 
 static void null_leave(void)
 {
-    glext_init();
     shad_init();
     text_init(config_get_d(CONFIG_HEIGHT));
     ball_init(config_get_d(CONFIG_GEOMETRY));
