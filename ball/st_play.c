@@ -41,7 +41,8 @@ static int play_ready_enter(void)
         gui_pulse(id, 1.2f);
     }
 
-    audio_music_fade(2.0f);
+    level_song();
+    audio_music_fade_in(2.0f);
     audio_play(AUD_READY, 1.0f);
 
     return id;
@@ -68,6 +69,7 @@ static void play_ready_timer(int id, float dt)
         goto_state(&st_play_set);
 
     gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static int play_ready_click(int b, int d)
@@ -171,7 +173,6 @@ static int play_loop_enter(void)
         gui_pulse(id, 1.2f);
     }
 
-    level_song();
     audio_play(AUD_GO, 1.f);
 
     game_set_fly(0.f);
@@ -217,6 +218,7 @@ static void play_loop_timer(int id, float dt)
     }
 
     demo_play_step(at);
+    audio_timer(dt);
 }
 
 static void play_loop_point(int id, int x, int y, int dx, int dy)

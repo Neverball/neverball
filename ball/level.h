@@ -16,19 +16,24 @@ void level_free(char *);
 
 int  level_exists(int);
 int  level_opened(int);
+int  level_locked(int);
 
 int  curr_count(void);
 int  curr_score(void);
 int  curr_coins(void);
 int  curr_balls(void);
 int  curr_level(void);
+int  curr_goal (void);
 
 int  level_goto(int, int, int, int);
+int  level_sort(int *, int *);
 int  level_goal(void);
 int  level_pass(void);
 int  level_fail(void);
+int  level_score(int);
+int  level_count(void);
 
-void level_score(int);
+void level_name(const char *, int, int);
 void level_snap(int);
 void level_song(void);
 

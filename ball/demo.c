@@ -17,6 +17,7 @@
 #include "set.h"
 #include "game.h"
 #include "level.h"
+#include "audio.h"
 #include "solid.h"
 #include "config.h"
 
@@ -93,6 +94,7 @@ void demo_replay_init(void)
                 {
                     level_goto(s, c, b, l);
                     level_song();
+                    audio_music_fade_in(2.0f);
                 }
             }
         }

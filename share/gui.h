@@ -29,6 +29,8 @@
 #define GUI_NE   4
 #define GUI_SE   8
 
+#define GUI_LFT  (GUI_NW  | GUI_SW)
+#define GUI_RGT  (GUI_NE  | GUI_SE)
 #define GUI_TOP  (GUI_NW  | GUI_NE)
 #define GUI_BOT  (GUI_SW  | GUI_SE)
 #define GUI_ALL  (GUI_TOP | GUI_BOT)

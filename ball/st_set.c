@@ -61,6 +61,8 @@ static int set_enter(void)
 
     set_init();
     back_init("png/blues.png", config_get(CONFIG_GEOMETRY));
+
+    audio_music_fade_to(0.5f, "bgm/inter.ogg");
     audio_play(AUD_START, 1.f);
 
     if ((id = gui_vstack(0)))
@@ -113,6 +115,7 @@ static void set_paint(int id, float st)
 static void set_timer(int id, float dt)
 {
     gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static void set_point(int id, int x, int y, int dx, int dy)

@@ -24,10 +24,14 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int hud_id;
-static int coin_id;
+static int Lhud_id;
+static int Rhud_id;
 static int time_id;
+
+static int coin_id;
 static int ball_id;
+static int scor_id;
+static int goal_id;
 static int view_id;
 static int fps_id;
 
@@ -54,34 +58,40 @@ static void hud_fps(void)
 
 void hud_init(void)
 {
-    int id, jd;
+    int id;
 
-    if ((hud_id = gui_hstack(0)))
+    if ((Rhud_id = gui_hstack(0)))
     {
-        if ((id = gui_vstack(hud_id)))
+        if ((id = gui_vstack(Rhud_id)))
         {
-            if ((jd = gui_hstack(id)))
-            {
-                gui_label(jd, "Coins", GUI_SML, GUI_SE, gui_wht, gui_wht);
-                coin_id = gui_count(jd, 10, GUI_SML, 0);
-            }
-            gui_filler(id);
+            gui_label(id, "Coins", GUI_SML, 0, gui_wht, gui_wht);
+            gui_label(id, "Goal",  GUI_SML, 0, gui_wht, gui_wht);
         }
-
-        time_id = gui_clock(hud_id, 59999, GUI_MED, GUI_BOT);
-
-        if ((id = gui_vstack(hud_id)))
+        if ((id = gui_vstack(Rhud_id)))
         {
-            if ((jd = gui_hstack(id)))
-            {
-                ball_id = gui_count(jd, 10, GUI_SML, 0);
-                gui_label(jd, "Balls", GUI_SML, GUI_SW, gui_wht, gui_wht);
-            }
-            gui_filler(id);
+            coin_id = gui_count(id, 100, GUI_SML, GUI_NW);
+            goal_id = gui_count(id, 10,  GUI_SML, 0);
         }
-
-        gui_layout(hud_id, 0, 1);
+        gui_layout(Rhud_id, +1, -1);
     }
+
+    if ((Lhud_id = gui_hstack(0)))
+    {
+        if ((id = gui_vstack(Lhud_id)))
+        {
+            ball_id = gui_count(id, 10,   GUI_SML, GUI_NE);
+            scor_id = gui_count(id, 1000, GUI_SML, 0);
+        }
+        if ((id = gui_vstack(Lhud_id)))
+        {
+            gui_label(id, "Balls", GUI_SML, 0, gui_wht, gui_wht);
+            gui_label(id, "Score", GUI_SML, 0, gui_wht, gui_wht);
+        }
+        gui_layout(Lhud_id, -1, -1);
+    }
+
+    if ((time_id = gui_clock(0, 59999, GUI_MED, GUI_TOP)))
+        gui_layout(time_id, 0, -1);
 
     if ((view_id = gui_label(0, STR_VIEW2, GUI_SML, GUI_SW, gui_wht, gui_wht)))
         gui_layout(view_id, 1, 1);
@@ -92,14 +102,18 @@ void hud_init(void)
 
 void hud_free(void)
 {
-    gui_delete(fps_id);
+    gui_delete(Rhud_id);
+    gui_delete(Lhud_id);
+    gui_delete(time_id);
     gui_delete(view_id);
-    gui_delete(hud_id);
+    gui_delete(fps_id);
 }
 
 void hud_paint(void)
 {
-    gui_paint(hud_id);
+    gui_paint(Lhud_id);
+    gui_paint(Rhud_id);
+    gui_paint(time_id);
 
     if (config_get(CONFIG_FPS))
         gui_paint(fps_id);
@@ -113,25 +127,30 @@ void hud_timer(float dt)
     const int clock = curr_clock();
     const int balls = curr_balls();
     const int coins = curr_coins();
+    const int score = curr_score();
+    const int goal  = curr_goal();
 
-    if (gui_value(time_id) != clock)
-        gui_set_clock(time_id, clock);
-    if (gui_value(ball_id) != balls)
-        gui_set_clock(ball_id, balls);
-    if (gui_value(coin_id) != coins)
-        gui_set_clock(coin_id, coins);
+    if (gui_value(time_id) != clock) gui_set_clock(time_id, clock);
+    if (gui_value(ball_id) != balls) gui_set_count(ball_id, balls);
+    if (gui_value(scor_id) != score) gui_set_count(scor_id, score);
+    if (gui_value(coin_id) != coins) gui_set_count(coin_id, coins);
+    if (gui_value(goal_id) != goal)  gui_set_count(goal_id, goal);
+
     if (config_get(CONFIG_FPS))
         hud_fps();
 
     view_timer -= dt;
 
-    gui_timer(hud_id, dt);
+    gui_timer(Rhud_id, dt);
+    gui_timer(Lhud_id, dt);
+    gui_timer(time_id, dt);
     gui_timer(view_id, dt);
 }
 
 void hud_ball_pulse(float k) { gui_pulse(ball_id, k); }
 void hud_time_pulse(float k) { gui_pulse(time_id, k); }
 void hud_coin_pulse(float k) { gui_pulse(coin_id, k); }
+void hud_goal_pulse(float k) { gui_pulse(goal_id, k); }
 
 void hud_view_pulse(int c)
 {

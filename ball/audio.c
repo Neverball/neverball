@@ -14,6 +14,7 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include <string.h>
 
 #include "config.h"
 #include "audio.h"
@@ -132,6 +133,12 @@ void audio_free(void)
 
 /*---------------------------------------------------------------------------*/
 
+static const char *current = NULL;
+static const char *next    = NULL;
+
+static float fade_volume = 1.0f;
+static float fade_rate   = 0.0f;
+
 void audio_music_play(const char *filename)
 {
     if (audio_state)
@@ -140,14 +147,28 @@ void audio_music_play(const char *filename)
 
         if ((config_get(CONFIG_MUSIC_VOLUME) > 0) &&
             (song = Mix_LoadMUS(filename)))
+        {
             Mix_PlayMusic(song, -1);
+            current = filename;
+        }
     }
 }
 
-void audio_music_fade(float t)
+void audio_music_queue(const char *filename)
 {
-    if (audio_state && song && Mix_PlayingMusic())
-        Mix_FadeOutMusic((int) (t * 1000.f));
+    if (audio_state)
+    {
+        if (!current || strcmp(filename, current) != 0)
+        {
+            Mix_VolumeMusic(0);
+            fade_volume = 0.0f;
+
+            audio_music_play(filename);
+            current = filename;
+
+            Mix_PauseMusic();
+        }
+    }
 }
 
 void audio_music_stop(void)
@@ -161,6 +182,74 @@ void audio_music_stop(void)
             Mix_FreeMusic(song);
 
         song = NULL;
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+/*
+ * SDL_mixer already provides music fading.  Unfortunately, it halts playback
+ * at the end of a fade.  We need to be able to fade music back in from the
+ * point where it stopped.  So, we reinvent this wheel.
+ */
+
+void audio_timer(float dt)
+{
+    if (audio_state)
+    {
+        if (fade_rate > 0.0f || fade_rate < 0.0f)
+            fade_volume += dt / fade_rate;
+
+        if (fade_volume < 0.0f)
+        {
+            fade_volume = 0.0f;
+
+            if (next == NULL)
+            {
+                fade_rate = 0.0f;
+                if (Mix_PlayingMusic())
+                    Mix_PauseMusic();
+            }
+            else
+            {
+                fade_rate = -fade_rate;
+                audio_music_queue(next);
+            }
+
+        }
+
+        if (fade_volume > 1.0f)
+        {
+            fade_rate   = 0.0f;
+            fade_volume = 1.0f;
+        }   
+
+        if (Mix_PausedMusic() && fade_rate > 0.0f)
+            Mix_ResumeMusic();
+            
+        if (Mix_PlayingMusic())
+            Mix_VolumeMusic(config_get(CONFIG_MUSIC_VOLUME) *
+                            (int) (fade_volume * MIX_MAX_VOLUME) / 10);
+    }
+}
+
+void audio_music_fade_out(float t)
+{
+    fade_rate = -t;
+    next = NULL;
+}
+
+void audio_music_fade_in(float t)
+{
+    fade_rate = +t;
+    next = NULL;
+}
+
+void audio_music_fade_to(float t, const char *filename)
+{
+    if (!current || strcmp(filename, current) != 0)
+    {
+        fade_rate = -t;
+        next = filename;
     }
 }
 

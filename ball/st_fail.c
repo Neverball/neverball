@@ -35,8 +35,8 @@ static int fall_out_enter(void)
         gui_pulse(id, 1.2f);
     }
 
-    audio_music_fade(1.f);
-    audio_play(AUD_FALL, 1.f);
+    audio_music_fade_out(2.0f);
+    audio_play(AUD_FALL, 1.0f);
 
     return id;
 }
@@ -45,7 +45,6 @@ static void fall_out_leave(int id)
 {
     demo_finish();
     gui_delete(id);
-    audio_music_play("bgm/inter.ogg");
 }
 
 static void fall_out_paint(int id, float st)
@@ -79,6 +78,7 @@ static void fall_out_timer(int id, float dt)
         fall_out_click(0, 1);
 
     gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static int fall_out_keybd(int c, int d)
@@ -112,8 +112,8 @@ static int time_out_enter(void)
         gui_pulse(id, 1.2f);
     }
 
-    audio_music_fade(1.f);
-    audio_play(AUD_TIME,  1.f);
+    audio_music_fade_out(2.0f);
+    audio_play(AUD_TIME, 1.0f);
 
     return id;
 }
@@ -122,7 +122,6 @@ static void time_out_leave(int id)
 {
     demo_finish();
     gui_delete(id);
-    audio_music_play("bgm/inter.ogg");
 }
 
 static void time_out_paint(int id, float st)
@@ -156,6 +155,7 @@ static void time_out_timer(int id, float dt)
         time_out_click(0, 1);
 
     gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static int time_out_buttn(int b, int d)

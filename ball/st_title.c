@@ -82,7 +82,7 @@ static int title_enter(void)
 
     /* Start the title screen music. */
 
-    audio_music_play("bgm/title.ogg");
+    audio_music_fade_to(0.5f, "bgm/title.ogg");
 
     /* Initialize the first level of the first set for display. */
 
@@ -95,7 +95,6 @@ static int title_enter(void)
 
 static void title_leave(int id)
 {
-    audio_music_play("bgm/inter.ogg");
     gui_delete(id);
     set_free();
 }
@@ -110,6 +109,7 @@ static void title_timer(int id, float dt)
 {
     game_set_fly(fcosf(time_state() / 10.f));
     gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static void title_point(int id, int x, int y, int dx, int dy)
@@ -154,10 +154,11 @@ static int title_buttn(int b, int d)
 static int help_enter(void)
 {
     const char *s0 =
-        "Move the mouse or joystick to tilt the floor \\"
-        "causing the ball to roll.  Guide it to the goal \\"
-        "to finish the level.  Collect 100 coins to earn \\"
-        "an extra ball and save your progress. \\";
+        "Move the mouse or joystick to tilt the floor\\"
+        "causing the ball to roll.  Roll over coins to\\"
+        "collect them.  Collect coins to unlock the goal\\"
+        "and finish the level.  Earn an extra ball for\\"
+        "each 100 coins collected.\\";
 
     const char *s4 = "Left and right mouse buttons rotate the view.";
     const char *s5 = "Pause / Release Pointer";

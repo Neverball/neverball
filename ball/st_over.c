@@ -33,7 +33,7 @@ static int over_enter(void)
         gui_pulse(id, 1.2f);
     }
 
-    audio_music_stop();
+    audio_music_fade_out(2.0f);
     audio_play(AUD_OVER, 1.f);
 
     SDL_ShowCursor(SDL_ENABLE);
@@ -59,6 +59,7 @@ static void over_timer(int id, float dt)
         goto_state(&st_title);
 
     gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static int over_keybd(int c, int d)

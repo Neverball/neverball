@@ -15,6 +15,7 @@
 #include "gui.h"
 #include "game.h"
 #include "level.h"
+#include "audio.h"
 #include "config.h"
 
 #include "st_level.h"
@@ -44,6 +45,7 @@ static int level_enter(void)
 
     game_set_fly(1.f);
     SDL_ShowCursor(SDL_DISABLE);
+    audio_music_fade_out(2.0f);
 
     return id;
 }
@@ -51,6 +53,11 @@ static int level_enter(void)
 static void level_leave(int id)
 {
     gui_delete(id);
+}
+
+static void level_timer(int id, float dt)
+{
+    audio_timer(dt);
 }
 
 static void level_paint(int id, float st)
@@ -103,7 +110,7 @@ struct state st_level = {
     level_enter,
     level_leave,
     level_paint,
-    NULL,
+    level_timer,
     NULL,
     NULL,
     level_click,

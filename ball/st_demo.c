@@ -70,6 +70,8 @@ static void demo_timer(int id, float dt)
     float t;
 
     gui_timer(id, dt);
+    audio_timer(dt);
+
     global_time += dt;
 
     /* Spin or skip depending on how fast the demo wants to run. */
@@ -115,8 +117,7 @@ static int demo_end_enter(void)
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
     }
-
-    audio_music_fade(3.f);
+    audio_music_fade_out(2.0f);
 
     return id;
 }
@@ -140,6 +141,7 @@ static void demo_end_timer(int id, float dt)
         goto_state(&st_title);
 
     gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static int demo_end_keybd(int c, int d)

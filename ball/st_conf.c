@@ -188,7 +188,7 @@ static int conf_action(int i)
             int n = i - 200;
 
             config_set(CONFIG_MUSIC_VOLUME, n);
-            audio_volume(m, n);
+            audio_volume(s, n);
             audio_play(AUD_BUMP, 1.f);
 
             gui_toggle(music_id[n]);
@@ -329,9 +329,7 @@ static int conf_enter(void)
 
     back_init("png/blues.png", config_get(CONFIG_GEOMETRY));
 
-    /* Start the title screen music. */
-
-    audio_music_play("bgm/title.ogg");
+    audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
     return id;
 }
@@ -355,6 +353,7 @@ static void conf_paint(int id, float st)
 static void conf_timer(int id, float dt)
 {
     gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static void conf_point(int id, int x, int y, int dx, int dy)

@@ -134,13 +134,13 @@ static int start_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_most_coins(jd);
-            gui_best_times(jd);
+            gui_most_coins(jd, 3, 4);
+            gui_best_times(jd, 3, 4);
         }
 
         gui_layout(id, 0, 0);
-        set_most_coins(0);
-        set_best_times(0);
+        set_most_coins(0, 3);
+        set_best_times(0, 3);
     }
 
     back_init("png/blues.png", config_get(CONFIG_GEOMETRY));
@@ -166,6 +166,7 @@ static void start_paint(int id, float st)
 static void start_timer(int id, float dt)
 {
     gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static void start_point(int id, int x, int y, int dx, int dy)
@@ -178,8 +179,8 @@ static void start_point(int id, int x, int y, int dx, int dy)
 
         gui_set_image(shot_id, level_shot(i));
 
-        set_most_coins(i);
-        set_best_times(i);
+        set_most_coins(i, 3);
+        set_best_times(i, 3);
 
         gui_pulse(jd, 1.2f);
     }
@@ -198,8 +199,8 @@ static void start_stick(int id, int a, int v)
 
         gui_set_image(shot_id, level_shot(i));
 
-        set_most_coins(i);
-        set_best_times(i);
+        set_most_coins(i, 3);
+        set_best_times(i, 3);
 
         gui_pulse(jd, 1.2f);
     }

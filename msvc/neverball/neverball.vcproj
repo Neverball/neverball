@@ -174,9 +174,6 @@
 				RelativePath="..\..\ball\st_goal.c">
 			</File>
 			<File
-				RelativePath="..\..\ball\st_high.c">
-			</File>
-			<File
 				RelativePath="..\..\ball\st_level.c">
 			</File>
 			<File

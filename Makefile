@@ -51,7 +51,6 @@ BALL_OBJS= \
 	ball/st_demo.o  \
 	ball/st_fail.o  \
 	ball/st_goal.o  \
-	ball/st_high.o  \
 	ball/st_level.o \
 	ball/st_over.o  \
 	ball/st_play.o  \
@@ -230,5 +229,8 @@ clean-src :
 
 clean : clean-src
 	rm -f $(SOLS)
+
+test : all
+	./neverball
 
 #------------------------------------------------------------------------------

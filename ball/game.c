@@ -51,7 +51,10 @@ static float view_c[3];                 /* Current view center               */
 static float view_v[3];                 /* Current view vector               */
 static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view orientation          */
+static float view_k;
 
+static int   goal_e = 0;                /* Goal enabled flag                 */
+static float goal_k = 0;                /* Goal animation                    */
 static int   swch_e = 1;                /* Switching enabled flag            */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
@@ -71,6 +74,7 @@ static void view_init(void)
     view_dp  = (float) config_get(CONFIG_VIEW_DP) / 100.0f;
     view_dc  = (float) config_get(CONFIG_VIEW_DC) / 100.0f;
     view_dz  = (float) config_get(CONFIG_VIEW_DZ) / 100.0f;
+    view_k   = 1.0f;
 
     view_c[0] = 0.f;
     view_c[1] = view_dc;
@@ -100,6 +104,9 @@ int game_init(const char *file_name, const char *back_name, int t)
 
     jump_e = 1;
     jump_b = 0;
+
+    goal_e = level_locked(curr_level()) ? 0    : 1;
+    goal_k = level_locked(curr_level()) ? 0.0f : 1.0f;
 
     view_init();
     part_init(GOAL_HEIGHT);
@@ -149,7 +156,7 @@ char *curr_intro(void)
 
 static void game_draw_balls(const struct s_file *fp)
 {
-    float c[4] = { 1.0f, 1.0f, 1.0f, 0.7f };
+    float c[4] = { 1.0f, 1.0f, 1.0f, 0.5f };
     float M[16];
 
     m_basis(M, fp->uv[0].e[0], fp->uv[0].e[1], fp->uv[0].e[2]);
@@ -199,21 +206,22 @@ static void game_draw_goals(const struct s_file *fp, float rx, float ry)
 {
     int zi;
 
-    for (zi = 0; zi < fp->zc; zi++)
-    {
-        glPushMatrix();
+    if (goal_e)
+        for (zi = 0; zi < fp->zc; zi++)
         {
-            glTranslatef(fp->zv[zi].p[0],
-                         fp->zv[zi].p[1],
-                         fp->zv[zi].p[2]);
+            glPushMatrix();
+            {
+                glTranslatef(fp->zv[zi].p[0],
+                             fp->zv[zi].p[1],
+                             fp->zv[zi].p[2]);
 
-            part_draw_goal(rx, ry, fp->zv[zi].r);
+                part_draw_goal(rx, ry, fp->zv[zi].r, goal_k);
 
-            glScalef(fp->zv[zi].r, 1.f, fp->zv[zi].r);
-            goal_draw();
+                glScalef(fp->zv[zi].r, goal_k, fp->zv[zi].r);
+                goal_draw();
+            }
+            glPopMatrix();
         }
-        glPopMatrix();
-    }
 }
 
 static void game_draw_jumps(const struct s_file *fp)
@@ -325,9 +333,14 @@ static void game_refl_all(int s)
 
         /* Draw the floor. */
 
-        if (s) game_set_shadow(&file);
-        sol_refl(&file, s);
-        if (s) game_clr_shadow();
+        if (s)
+        {
+             game_set_shadow(&file);
+             sol_refl(&file, 1);
+             game_clr_shadow();
+        }
+        else
+            sol_refl(&file, 0);
     }
     glPopMatrix();
 }
@@ -425,9 +438,14 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
 
             /* Draw the floor. */
 
-            if (pose == 0) game_set_shadow(&file);
-            sol_draw(&file, config_get(CONFIG_SHADOW));
-            if (pose == 0) game_clr_shadow();
+            if (pose)
+                sol_draw(&file, 0);
+            else
+            {
+                game_set_shadow(&file);
+                sol_draw(&file, config_get(CONFIG_SHADOW));
+                game_clr_shadow();
+            }
 
             /* Draw the game elements. */
 
@@ -517,7 +535,7 @@ void game_draw(int pose, float st)
         /* Draw the scene normally. */
 
         game_draw_light();
-        game_refl_all(config_get(CONFIG_SHADOW));
+        game_refl_all(pose ? 0 : config_get(CONFIG_SHADOW));
         game_draw_back(pose,         +1, pup);
         game_draw_fore(pose, rx, ry, +1, pup);
     }
@@ -554,13 +572,9 @@ static void game_update_grav(float h[3], const float g[3])
 
 static void game_update_view(float dt)
 {
-    const float y[3] = { 0.f, 1.f, 0.f };
-
     float dc = view_dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float dx = view_ry * dt * 5.0f;
     float k;
-    float e[3];
-    float s = 4.f * dt;
 
     view_a += view_ry * dt * 90.f;
 
@@ -571,33 +585,27 @@ static void game_update_view(float dt)
 
     switch (config_get(CONFIG_CAMERA))
     {
-    case 1:
-        /* Camera 1:  Viewpoint chases the ball position. */
+    case 1: /* Camera 1:  Viewpoint chases the ball position. */
 
         v_sub(view_e[2], view_p, view_c);
         break;
 
-    case 2:
-        /* Camera 2: View vector is given by view angle. */
+    case 2: /* Camera 2: View vector is given by view angle. */
 
         view_e[2][0] = fsinf(V_RAD(view_a));
         view_e[2][1] = 0.f;
         view_e[2][2] = fcosf(V_RAD(view_a));
 
         dx = 0.0f;
-        s  = 8.0f * dt;
+
         break;
 
-    default:
-        /* Default: View vector approaches the ball velocity vector. */
-
-        v_mad(e, view_v, y, v_dot(view_v, y));
-        v_inv(e, e);
+    default: /* Default: View vector approaches the ball velocity vector. */
 
         k = v_dot(view_v, view_v);
 
         v_sub(view_e[2], view_p, view_c);
-        v_mad(view_e[2], view_e[2], view_v, k * dt * 0.25f);
+        v_mad(view_e[2], view_e[2], view_v, k * dt / 4);
 
         break;
     }
@@ -611,13 +619,23 @@ static void game_update_view(float dt)
 
     /* Compute the new view position. */
 
+    k = 1.0f + v_dot(view_e[2], view_v) / 10.0f;
+
+    view_k = view_k + (k - view_k) * dt;
+
+    if (view_k < 0.5) view_k = 0.5;
+
     v_cpy(view_p, file.uv->p);
-    v_mad(view_p, view_p, view_e[0], dx);
-    v_mad(view_p, view_p, view_e[1], view_dp);
-    v_mad(view_p, view_p, view_e[2], view_dz);
+    v_mad(view_p, view_p, view_e[0], dx      * view_k);
+    v_mad(view_p, view_p, view_e[1], view_dp * view_k);
+    v_mad(view_p, view_p, view_e[2], view_dz * view_k);
+
+    /* Compute the new view center. */
 
     v_cpy(view_c, file.uv->p);
     v_mad(view_c, view_c, view_e[1], dc);
+
+    /* Note the current view angle. */
 
     view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
 }
@@ -626,6 +644,9 @@ static void game_update_time(float dt, int b)
 {
     int tick = (int) floor(clock);
     int tock = (int) floor(clock * 2);
+
+    if (goal_e && goal_k < 1.0f)
+        goal_k += dt;
 
    /* The ticking clock. */
 
@@ -662,7 +683,9 @@ static int game_update_state(void)
     {
         coin_color(c, n);
         part_burst(p, c);
-        level_score(n);
+
+        if (level_score(n))
+            goal_e = 1;
     }
 
     /* Test for a switch. */
@@ -680,12 +703,12 @@ static int game_update_state(void)
         
         audio_play(AUD_JUMP, 1.f);
     }
-    if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, 0) == 0)
+    if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 0)
         jump_e = 1;
 
     /* Test for a goal. */
 
-    if (sol_goal_test(fp, p, 0))
+    if (goal_e && sol_goal_test(fp, p, 0))
         return GAME_GOAL;
 
     /* Test for time-out. */

@@ -238,7 +238,7 @@ void part_draw_coin(float rx, float ry)
     glPopAttrib();
 }
 
-void part_draw_goal(float rx, float ry, float radius)
+void part_draw_goal(float rx, float ry, float radius, float a)
 {
     float r = (float) SDL_GetTicks() / 1000.f;
     int i;
@@ -255,8 +255,7 @@ void part_draw_goal(float rx, float ry, float radius)
         for (i = 0; i < PART_MAX_GOAL; i++)
             if (part_goal[i].t > 0.f)
                 part_draw(part_goal[i].p,
-                          part_goal[i].c,
-                          part_goal[i].t,
+                          part_goal[i].c, a,
                           radius - 0.05f, rx, ry, r * part_goal[i].w);
     }
     glPopAttrib();

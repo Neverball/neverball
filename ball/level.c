@@ -47,16 +47,18 @@ struct level
     char shot[MAXSTR];
     char song[MAXSTR];
     int  time;
+    int  goal;
 
     GLuint text;
 };
 
-static int score;                       /* Current level score       */
-static int coins;                       /* Current coin count        */
-static int balls;                       /* Current life count        */
-static int level;                       /* Current level number      */
-static int count;                       /* Number of levels          */
-static int limit;                       /* First unopened level      */
+static int score;                       /* Current coin total         */
+static int coins;                       /* Current coin count         */
+static int balls;                       /* Current life count         */
+
+static int level;                       /* Current level number       */
+static int count;                       /* Number of levels           */
+static int limit;                       /* Last opened (locked) level */
 
 static int level_total;
 static int coins_total;
@@ -105,7 +107,7 @@ static void level_load_hs(char *filename)
     char  file[MAXSTR];
     FILE *fin;
 
-    limit = 2;
+    limit = 1;
 
     if (config_home(file, filename, MAXSTR))
         if ((fin = fopen(file, "r")))
@@ -164,12 +166,13 @@ static void level_init_rc(const char *filename)
     {
         while (count < MAXLVL && fgets(buf, MAXSTR, fin))
         {
-            sscanf(buf, "%s %s %s %s %d %s",
+            sscanf(buf, "%s %s %s %s %d %d %s",
                     level_v[count].file,
                     level_v[count].back,
                     level_v[count].shot,
                     level_v[count].grad,
                    &level_v[count].time,
+                   &level_v[count].goal,
                     level_v[count].song);
             count++;
         }
@@ -183,7 +186,7 @@ static void level_init_hs(const char *filename)
     FILE *fin;
     int i = 0;
 
-    /* Set some sane value in case the scores file is missing. */
+    /* Set some sane values in case the scores file is missing. */
 
     for (i = 0; i < MAXLVL; i++)
     {
@@ -321,7 +324,12 @@ int level_exists(int i)
 
 int level_opened(int i)
 {
-    return level_exists(i) && (0 < i && i < count && i < limit);
+    return level_exists(i) && (0 < i && i < count && i <= limit);
+}
+
+int level_locked(int i)
+{
+    return level_opened(i) && (i == limit) && (level_v[i].goal > 0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -331,6 +339,14 @@ int curr_score(void) { return score; }
 int curr_coins(void) { return coins; }
 int curr_balls(void) { return balls; }
 int curr_level(void) { return level; }
+
+int curr_goal(void)
+{
+    if (level == limit && level_v[level].goal > coins)
+        return level_v[level].goal - coins;
+    else
+        return 0;
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -414,18 +430,52 @@ int level_goto(int s, int c, int b, int l)
                      level_v[level].time);
 }
 
+int level_sort(int *time_i, int *coin_i)
+{
+    int i, clock = level_v[level].time - curr_clock();
+    char player[MAXNAM];
+
+    config_get_name(player);
+
+    /* Insert the time record into the high score list. */
+
+    strncpy(score_v[level].time_n[3], player, MAXNAM);
+    score_v[level].time_c[3] = coins;
+    score_v[level].time_t[3] = clock;
+
+    for (i = 2; i >= 0 && score_time_comp(score_v + level, i + 1, i); i--)
+    {
+        score_time_swap(score_v + level, i + 1, i);
+        *time_i = i;
+    }
+
+    /* Insert the coin record into the high score list. */
+
+    strncpy(score_v[level].coin_n[3], player, MAXNAM);
+    score_v[level].coin_c[3] = coins;
+    score_v[level].coin_t[3] = clock;
+
+    for (i = 2; i >= 0 && score_coin_comp(score_v + level, i + 1, i); i--)
+    {
+        score_coin_swap(score_v + level, i + 1, i);
+        *coin_i = i;
+    }
+
+    return (*time_i < 3 || *coin_i < 3);
+}
+
 int level_goal(void)
 {
     int clock = level_v[level].time - curr_clock();
     
     level_total += 1;
     times_total += clock;
-    coins_total += score;
+    coins_total += coins;
 
     /* Test the current score against the level high scores. */
 
-    score_v[level].time_c[3] = score;
-    score_v[level].coin_c[3] = score;
+    score_v[level].time_c[3] = coins;
+    score_v[level].coin_c[3] = coins;
 
     score_v[level].time_t[3] = clock;
     score_v[level].coin_t[3] = clock;
@@ -452,29 +502,10 @@ int level_goal(void)
 
 int level_pass(void)
 {
-    char player[MAXNAM];
-    int clock = level_v[level].time - curr_clock();
     int i;
 
-    config_get_name(player);
-
-    /* Insert the time record into the high score list. */
-
-    strncpy(score_v[level].time_n[3], player, MAXNAM);
-    score_v[level].time_c[3] = score;
-    score_v[level].time_t[3] = clock;
-
-    for (i = 2; i >= 0 && score_time_comp(score_v + level, i + 1, i); i--)
-        score_time_swap(score_v + level, i + 1, i);
-
-    /* Insert the coin record into the high score list. */
-
-    strncpy(score_v[level].coin_n[3], player, MAXNAM);
-    score_v[level].coin_c[3] = score;
-    score_v[level].coin_t[3] = clock;
-
-    for (i = 2; i >= 0 && score_coin_comp(score_v + level, i + 1, i); i--)
-        score_coin_swap(score_v + level, i + 1, i);
+    if (limit < level + 1)
+        limit = level + 1;
 
     /* Load the next level. */
 
@@ -482,7 +513,7 @@ int level_pass(void)
     {
         game_free();
         back_free();
-        score = 0;
+        coins = 0;
 
         back_init(level_v[level].grad, config_get(CONFIG_GEOMETRY));
 
@@ -492,7 +523,9 @@ int level_pass(void)
     }
     else
     {
-        limit = count;
+        char player[MAXNAM];
+
+        config_get_name(player);
 
         if (level_total == count - 1)
         {
@@ -527,7 +560,7 @@ int level_fail(void)
     {
         game_free();
         back_free();
-        score = 0;
+        coins = 0;
 
         back_init(level_v[level].grad, config_get(CONFIG_GEOMETRY));
 
@@ -538,31 +571,65 @@ int level_fail(void)
     return 0;
 }
 
-/*---------------------------------------------------------------------------*/
-
-void level_score(int n)
+int level_score(int n)
 {
-    float k = 1.25;
+    int sound = AUD_COIN;
+    int value = 0;
 
     coins += n;
-    score += n;
 
-    if (n >=  5) k = 1.5;
-    if (n >= 10) k = 2.f;
+    /* Pulse the coin counter based on value of coin grabbed. */
 
-    hud_coin_pulse(k);
+    if      (n >= 10) hud_coin_pulse(2.00f);
+    else if (n >=  5) hud_coin_pulse(1.50f);
+    else              hud_coin_pulse(1.25f);
 
-    if (coins >= 100)
+    /* Check for goal open. */
+
+    if (level == limit)
     {
-        coins -= 100;
-        balls += 1;
-        audio_play(AUD_BALL, 1.f);
-        hud_ball_pulse(2.f);
+        if (coins < level_v[level].goal)
+        {
+            if      (n >= 10) hud_goal_pulse(2.00f);
+            else if (n >=  5) hud_goal_pulse(1.50f);
+            else              hud_goal_pulse(1.25f);
+        }
 
-        limit = (level + 1 > limit) ? level + 1 : limit;
+        if (coins - n < level_v[level].goal && level_v[level].goal <= coins)
+        {
+            sound = AUD_SWITCH;
+            value = 1;
+            hud_goal_pulse(2.0f);
+        }
     }
-    else
-        audio_play(AUD_COIN, 1.f);
+
+    audio_play(sound, 1.f);
+    return value;
+}
+
+int level_count(void)
+{
+    if (coins > 0)
+    {
+        score++;
+        coins--;
+
+        if (score % 100 == 0)
+        {
+            balls += 1;
+            audio_play(AUD_BALL, 1.0f);
+        }
+        return 1;
+    }
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+void level_name(const char *name, int time_i, int coin_i)
+{
+    strncpy(score_v[level].time_n[time_i], name, MAXNAM);
+    strncpy(score_v[level].coin_n[coin_i], name, MAXNAM);
 }
 
 void level_snap(int i)
@@ -601,5 +668,5 @@ void level_snap(int i)
 
 void level_song(void)
 {
-    audio_music_play(level_v[level].song);
+    audio_music_queue(level_v[level].song);
 }

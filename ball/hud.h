@@ -18,6 +18,7 @@ void hud_timer(float);
 void hud_ball_pulse(float);
 void hud_time_pulse(float);
 void hud_coin_pulse(float);
+void hud_goal_pulse(float);
 void hud_view_pulse(int);
 
 /*---------------------------------------------------------------------------*/

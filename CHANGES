@@ -1,4 +1,20 @@
 -------------------------------------------------------------------------------
+New in 1.2.7
+
+* Changed policy: Goal opens after a set number of coins are collected.
+* Changed policy: Extra balls are awarded only after a goal.
+* Changed policy: Game is saved after every goal.
+* Changed hud to reflect new scoring policies.
+* Fixed volume set bug.
+* Fixed shadow visible on reflective surfaces in level shots.
+* Fixed music on config screen.
+* Increased ball transparancy to accomodate new view.
+* Added subtle view distance flexibility.
+* Merged Goal and High Score states.
+* Tweaked some levels and scores in line with new scoring policies.
+* Added better fading to make music less repetitious and annoying.
+
+-------------------------------------------------------------------------------
 New in 1.2.6
 
 * Modularized state functions.
