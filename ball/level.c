@@ -26,6 +26,8 @@
 #include "audio.h"
 #include "config.h"
 
+#define CHEATER 1
+
 /*---------------------------------------------------------------------------*/
 
 struct score
@@ -189,9 +191,9 @@ static void level_init_hs(const char *filename)
         strcpy(score_v[i].time_n[1], "Medium");
         strcpy(score_v[i].time_n[2], "Easy");
 
-        score_v[i].time_t[0] = i ? 60000 : 360000;
-        score_v[i].time_t[1] = i ? 60000 : 360000;
-        score_v[i].time_t[2] = i ? 60000 : 360000;
+        score_v[i].time_t[0] = i ? 59999 : 359999;
+        score_v[i].time_t[1] = i ? 59999 : 359999;
+        score_v[i].time_t[2] = i ? 59999 : 359999;
 
         score_v[i].time_c[0] = 0;
         score_v[i].time_c[1] = 0;
@@ -201,9 +203,9 @@ static void level_init_hs(const char *filename)
         strcpy(score_v[i].coin_n[1], "Medium");
         strcpy(score_v[i].coin_n[2], "Easy");
 
-        score_v[i].coin_t[0] = i ? 60000 : 360000;
-        score_v[i].coin_t[1] = i ? 60000 : 360000;
-        score_v[i].coin_t[2] = i ? 60000 : 360000;
+        score_v[i].coin_t[0] = i ? 59999 : 359999;
+        score_v[i].coin_t[1] = i ? 59999 : 359999;
+        score_v[i].coin_t[2] = i ? 59999 : 359999;
 
         score_v[i].coin_c[0] = 0;
         score_v[i].coin_c[1] = 0;
@@ -226,10 +228,23 @@ static void level_init_hs(const char *filename)
 
 /*---------------------------------------------------------------------------*/
 
+const char *level_shot(int i)
+{
+    return level_v[i].shot;
+}
+
+const char *level_time_n(int i, int j)
+{
+    return score_v[i].time_n[j];
+}
+
 const char *level_coin_n(int i, int j)
 {
     return score_v[i].coin_n[j];
 }
+
+/*---------------------------------------------------------------------------*/
+/* Return the coin count for the Most Coins or Best Time score.              */
 
 int level_coin_c(int i, int j)
 {
@@ -239,21 +254,17 @@ int level_coin_c(int i, int j)
         return score_v[i].coin_c[j];
 }
 
-int level_coin_t(int i, int j)
-{
-    return score_v[i].coin_t[j];
-}
-
-/*---------------------------------------------------------------------------*/
-
-const char *level_time_n(int i, int j)
-{
-    return score_v[i].time_n[j];
-}
-
 int level_time_c(int i, int j)
 {
     return score_v[i].time_c[j];
+}
+
+/*---------------------------------------------------------------------------*/
+/* Return the time for the Most Coins or Best Time score.                    */
+
+int level_coin_t(int i, int j)
+{
+    return score_v[i].coin_t[j];
 }
 
 int level_time_t(int i, int j)
@@ -550,18 +561,6 @@ void level_score(int n)
     }
     else
         audio_play(AUD_COIN, 1.f);
-}
-
-void level_shot(int i)
-{
-    if (0 <= i && i < count)
-    {
-        if (!glIsTexture(level_v[i].text))
-            level_v[i].text = make_image_from_file(NULL, NULL, NULL, NULL,
-                                                   level_v[i].shot);
-
-        glBindTexture(GL_TEXTURE_2D, level_v[i].text);
-    }
 }
 
 void level_snap(int i)

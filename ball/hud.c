@@ -81,7 +81,7 @@ void hud_init(void)
 
     for (i = 0; i < 10; i++)
     {
-        buf[0] = '0' + i;
+        buf[0] = '0' + (char) i;
         buf[1] =  0;
 
         small_text[i] = make_text(buf, TXT_MED);

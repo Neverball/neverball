@@ -121,7 +121,7 @@ static short sol_enum_body(const struct s_file *fp,
 
     for (mi = 0; mi < fp->mc; mi++)
         if (fp->mv[mi].fl & fl)
-            c += sol_enum_mtrl(fp, bp, mi);
+            c = c + sol_enum_mtrl(fp, bp, mi);
 
     return c;
 }

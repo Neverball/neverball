@@ -3,12 +3,12 @@
 
 /*---------------------------------------------------------------------------*/
 
+const char *level_shot(int);
 const char *level_coin_n(int, int);
-int         level_coin_c(int, int);
-int         level_coin_t(int, int);
-
 const char *level_time_n(int, int);
+int         level_coin_c(int, int);
 int         level_time_c(int, int);
+int         level_coin_t(int, int);
 int         level_time_t(int, int);
 
 void level_init(char *, char *, char *);
@@ -30,7 +30,6 @@ int  level_fail(void);
 
 void level_score(int);
 void level_snap(int);
-void level_shot(int);
 void level_song(void);
 
 /*---------------------------------------------------------------------------*/

@@ -183,8 +183,8 @@ GLuint make_image_from_file(int *W, int *H,
         {
             /* Copy source pixels to the center of the destination. */
 
-            rect.x = (w2 - src->w) / 2;
-            rect.y = (h2 - src->h) / 2;
+            rect.x = (Sint16) (w2 - src->w) / 2;
+            rect.y = (Sint16) (h2 - src->h) / 2;
 
             SDL_SetAlpha(src, 0, 0);
             SDL_BlitSurface(src, NULL, dst, &rect);
@@ -235,8 +235,8 @@ GLuint make_image_from_font(int *W, int *H,
         {
             /* Copy source pixels to the center of the destination. */
 
-            rect.x = (w2 - src->w) / 2;
-            rect.y = (h2 - src->h) / 2;
+            rect.x = (Sint16) (w2 - src->w) / 2;
+            rect.y = (Sint16) (h2 - src->h) / 2;
 
             SDL_SetAlpha(src, 0, 0);
             SDL_BlitSurface(src, NULL, dst, &rect);

@@ -36,13 +36,14 @@
 #define GUI_LABEL  8
 #define GUI_COUNT  9
 #define GUI_CLOCK  10
-#define GUI_SPACE  10
+#define GUI_SPACE  11
 
 struct widget
 {
     int     type;
     int     token;
     int     value;
+    int     size;
     int     rect;
 
     int     x, y;
@@ -74,59 +75,10 @@ static int           active;
 static int           radius;
 static TTF_Font     *font[3] = { NULL, NULL, NULL };
 
-/*---------------------------------------------------------------------------*/
-
-void gui_init(void)
-{
-    int h = config_get(CONFIG_HEIGHT);
-
-    /* Initialize font rendering. */
-
-    if (TTF_Init() == 0)
-    {
-        /* Load small, medium, and large typefaces. */
-
-        font[GUI_SML] = TTF_OpenFont(GUI_FACE, h / 24);
-        font[GUI_MED] = TTF_OpenFont(GUI_FACE, h / 12);
-        font[GUI_LRG] = TTF_OpenFont(GUI_FACE, h /  6);
-    }
-
-    active = 0;
-    radius = h / 60;
-}
-
-void gui_free(void)
-{
-    int id;
-
-    /* Release any remaining texture and display list indices. */
-
-    for (id = 1; id < MAXWIDGET; id++)
-    {
-        if (glIsTexture(widget[id].text_img))
-            glDeleteTextures(1, &widget[id].text_img);
-
-        if (glIsList(widget[id].text_obj))
-            glDeleteLists(widget[id].text_obj, 1);
-        if (glIsList(widget[id].rect_obj))
-            glDeleteLists(widget[id].rect_obj, 1);
-
-        widget[id].type     = GUI_FREE;
-        widget[id].text_img = 0;
-        widget[id].text_obj = 0;
-        widget[id].rect_obj = 0;
-        widget[id].cdr      = 0;
-        widget[id].car      = 0;
-    }
-
-    /* Release all loaded fonts and finalize font rendering. */
-
-    if (font[GUI_LRG]) TTF_CloseFont(font[GUI_LRG]);
-    if (font[GUI_MED]) TTF_CloseFont(font[GUI_MED]);
-    if (font[GUI_SML]) TTF_CloseFont(font[GUI_SML]);
-
-    TTF_Quit();
-}
+static GLuint digit_text[3][11];
+static GLuint digit_list[3][11];
+static int    digit_w[3][11];
+static int    digit_h[3][11];
 
 /*---------------------------------------------------------------------------*/
 /*
@@ -243,6 +195,110 @@ static GLuint gui_rect(int x, int y, int w, int h, int f)
 
 /*---------------------------------------------------------------------------*/
 
+void gui_init(void)
+{
+    const float *c0 = gui_yel;
+    const float *c1 = gui_red;
+
+    int i, j, h = config_get(CONFIG_HEIGHT);
+
+    /* Initialize font rendering. */
+
+    if (TTF_Init() == 0)
+    {
+        /* Load small, medium, and large typefaces. */
+
+        font[GUI_SML] = TTF_OpenFont(GUI_FACE, h / 24);
+        font[GUI_MED] = TTF_OpenFont(GUI_FACE, h / 12);
+        font[GUI_LRG] = TTF_OpenFont(GUI_FACE, h /  6);
+
+        /* Initialize digit glyphs and lists for counters and clocks. */
+
+        for (i = 0; i < 3; i++)
+        {
+            char text[2];
+
+            /* Draw digits 0 throught 9. */
+
+            for (j = 0; j < 10; j++)
+            {
+                text[0] = '0' + (char) j;
+                text[1] =  0;
+
+                digit_text[i][j] = make_image_from_font(NULL, NULL,
+                                                        &digit_w[i][j],
+                                                        &digit_h[i][j],
+                                                        text, font[i]);
+                digit_list[i][j] = gui_list(-digit_w[i][j] / 2,
+                                            -digit_h[i][j] / 2,
+                                            +digit_w[i][j],
+                                            +digit_h[i][j], c0, c1);
+            }
+
+            /* Draw the colon for the clock. */
+
+            digit_text[i][j] = make_image_from_font(NULL, NULL,
+                                                    &digit_w[i][10],
+                                                    &digit_h[i][10],
+                                                    ":", font[i]);
+            digit_list[i][j] = gui_list(-digit_w[i][10] / 2,
+                                        -digit_h[i][10] / 2,
+                                        +digit_w[i][10],
+                                        +digit_h[i][10], c0, c1);
+        }
+    }
+
+    active = 0;
+    radius = h / 60;
+}
+
+void gui_free(void)
+{
+    int i, j, id;
+
+    /* Release any remaining widget texture and display list indices. */
+
+    for (id = 1; id < MAXWIDGET; id++)
+    {
+        if (glIsTexture(widget[id].text_img))
+            glDeleteTextures(1, &widget[id].text_img);
+
+        if (glIsList(widget[id].text_obj))
+            glDeleteLists(widget[id].text_obj, 1);
+        if (glIsList(widget[id].rect_obj))
+            glDeleteLists(widget[id].rect_obj, 1);
+
+        widget[id].type     = GUI_FREE;
+        widget[id].text_img = 0;
+        widget[id].text_obj = 0;
+        widget[id].rect_obj = 0;
+        widget[id].cdr      = 0;
+        widget[id].car      = 0;
+    }
+
+    /* Release all digit textures and display lists. */
+
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 11; j++)
+        {
+            if (glIsTexture(digit_text[i][j]))
+                glDeleteTextures(1, &digit_text[i][j]);
+
+            if (glIsList(digit_list[i][j]))
+                glDeleteLists(digit_list[i][j], 1);
+        }
+
+    /* Release all loaded fonts and finalize font rendering. */
+
+    if (font[GUI_LRG]) TTF_CloseFont(font[GUI_LRG]);
+    if (font[GUI_MED]) TTF_CloseFont(font[GUI_MED]);
+    if (font[GUI_SML]) TTF_CloseFont(font[GUI_SML]);
+
+    TTF_Quit();
+}
+
+/*---------------------------------------------------------------------------*/
+
 static int gui_widget(int pd, int type)
 {
     int id;
@@ -254,15 +310,19 @@ static int gui_widget(int pd, int type)
         {
             /* Set the type and default properties. */
 
-            widget[id].type   = type;
-            widget[id].token  =    0;
-            widget[id].value  =    0;
-            widget[id].w      =    0;
-            widget[id].h      =    0;
-            widget[id].scale  = 1.0f;
-            widget[id].color0 = gui_wht;
-            widget[id].color1 = gui_wht;
-            widget[id].rect   = GUI_NW | GUI_SW | GUI_NE | GUI_SE;
+            widget[id].type     = type;
+            widget[id].token    = 0;
+            widget[id].value    = 0;
+            widget[id].size     = 0;
+            widget[id].rect     = GUI_NW | GUI_SW | GUI_NE | GUI_SE;
+            widget[id].w        = 0;
+            widget[id].h        = 0;
+            widget[id].text_img = 0;
+            widget[id].text_obj = 0;
+            widget[id].rect_obj = 0;
+            widget[id].color0   = gui_wht;
+            widget[id].color1   = gui_wht;
+            widget[id].scale    = 1.0f;
 
             /* Insert the new widget into the parents's widget list. */
 
@@ -300,23 +360,23 @@ void gui_set_image(int id, const char *file)
     widget[id].text_img = make_image_from_file(NULL, NULL, NULL, NULL, file);
 }
 
-void gui_set_label(int id, const char *text, int size)
+void gui_set_label(int id, const char *text)
 {
     if (glIsTexture(widget[id].text_img))
         glDeleteTextures(1, &widget[id].text_img);
 
     widget[id].text_img = make_image_from_font(NULL, NULL, NULL, NULL,
-                                               text, font[size]);
+                                               text, font[widget[id].size]);
 }
 
-void gui_set_count(int id, int value, int size)
+void gui_set_count(int id, int value)
 {
-    /* FIXME */
+    widget[id].value = value;
 }
 
-void gui_set_clock(int id, int value, int size)
+void gui_set_clock(int id, int value)
 {
-    /* FIXME */
+    widget[id].value = value;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -355,6 +415,7 @@ int gui_state(int pd, const char *text, int size, int token, int value)
                                                    &widget[id].w,
                                                    &widget[id].h,
                                                    text, font[size]);
+        widget[id].size  = size;
         widget[id].token = token;
         widget[id].value = value;
     }
@@ -372,6 +433,7 @@ int gui_label(int pd, const char *text, int size, int rect, const float *c0,
                                                    &widget[id].w,
                                                    &widget[id].h,
                                                    text, font[size]);
+        widget[id].size   = size;
         widget[id].color0 = c0 ? c0 : gui_yel;
         widget[id].color1 = c1 ? c1 : gui_red;
         widget[id].rect   = rect;
@@ -381,14 +443,16 @@ int gui_label(int pd, const char *text, int size, int rect, const float *c0,
 
 int gui_count(int pd, int value, int size, int rect)
 {
-    int id;
+    int i, id;
 
     if ((id = gui_widget(pd, GUI_COUNT)))
     {
-        widget[id].text_img = make_image_from_font(NULL, NULL,
-                                                   &widget[id].w,
-                                                   &widget[id].h,
-                                                   "0000", font[size]);
+        for (i = value; i; i /= 10)
+            widget[id].w += digit_w[size][0];
+
+        widget[id].h      = digit_h[size][0];
+        widget[id].value  = value;
+        widget[id].size   = size;
         widget[id].color0 = gui_yel;
         widget[id].color1 = gui_red;
         widget[id].rect   = rect;
@@ -400,12 +464,12 @@ int gui_clock(int pd, int value, int size, int rect)
 {
     int id;
 
-    if ((id = gui_widget(pd, GUI_COUNT)))
+    if ((id = gui_widget(pd, GUI_CLOCK)))
     {
-        widget[id].text_img = make_image_from_font(NULL, NULL,
-                                                   &widget[id].w,
-                                                   &widget[id].h,
-                                                   "10:00.00", font[size]);
+        widget[id].w      = digit_w[size][0] * 6;
+        widget[id].h      = digit_h[size][0];
+        widget[id].value  = value;
+        widget[id].size   = size;
         widget[id].color0 = gui_yel;
         widget[id].color1 = gui_red;
         widget[id].rect   = rect;
@@ -522,7 +586,7 @@ static void gui_button_up(int id)
     widget[id].x = widget[id].w;
     widget[id].y = widget[id].h;
 
-    /* Pad text elements for better aesthetics. */
+    /* Padded text elements look a little nicer. */
 
     widget[id].w += radius;
     widget[id].h += radius;
@@ -827,7 +891,10 @@ static void gui_paint_rect(int id)
 
         glPushMatrix();
         {
-            int i = (((widget[id].value) ? 2 : 0) +
+            int i = 0;
+
+            if (widget[id].type == GUI_STATE)
+                i = (((widget[id].value) ? 2 : 0) +
                      ((id == active)     ? 1 : 0));
 
             glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
@@ -842,61 +909,189 @@ static void gui_paint_rect(int id)
     }
 }
 
-static void gui_paint_text(int id)
+/*---------------------------------------------------------------------------*/
+
+static void gui_paint_text(int id);
+
+static void gui_paint_array(int id)
 {
     int jd;
 
+    /* Recursively paint all subwidgets. */
+
+    for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+        gui_paint_text(jd);
+}
+
+static void gui_paint_image(int id)
+{
+    /* Draw the widget rect, textured using the image. */
+
+    glPushMatrix();
+    {
+        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
+                     (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+
+        glBindTexture(GL_TEXTURE_2D, widget[id].text_img);
+        glColor4fv(gui_wht);
+        glCallList(widget[id].rect_obj);
+    }
+    glPopMatrix();
+}
+
+static void gui_paint_count(int id)
+{
+    int j, i = widget[id].size;
+
+    glPushMatrix();
+    {
+        glColor4fv(gui_wht);
+
+        /* Translate to the widget center, and apply the pulse scale. */
+
+        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
+                     (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+
+        glScalef(widget[id].scale,
+                 widget[id].scale,
+                 widget[id].scale);
+
+        if (widget[id].value)
+        {
+            /* Translate left by half the total width of the rendered value. */
+
+            for (j = widget[id].value; j; j /= 10)
+                glTranslatef((GLfloat) +digit_w[i][j % 10] / 2.0f, 0.0f, 0.0f);
+
+            /* Render each digit, moving right after each. */
+
+            for (j = widget[id].value; j; j /= 10)
+            {
+                glBindTexture(GL_TEXTURE_2D, digit_text[i][j % 10]);
+                glCallList(digit_list[i][j % 10]);
+                glTranslatef((GLfloat) -digit_w[i][j % 10], 0.0f, 0.0f);
+            }
+        }
+        else
+        {
+            /* If the value is zero, just display a zero in place. */
+
+            glBindTexture(GL_TEXTURE_2D, digit_text[i][0]);
+            glCallList(digit_list[i][0]);
+        }
+    }
+    glPopMatrix();
+}
+
+static void gui_paint_clock(int id)
+{
+    int i  =   widget[id].size;
+    int mt =  (widget[id].value / 6000) / 10;
+    int mo =  (widget[id].value / 6000) % 10;
+    int st = ((widget[id].value % 6000) / 100) / 10;
+    int so = ((widget[id].value % 6000) / 100) % 10;
+    int ht = ((widget[id].value % 6000) % 100) / 10;
+    int ho = ((widget[id].value % 6000) % 100) % 10;
+
+    GLfloat dx_large = (GLfloat) digit_w[i][0];
+    GLfloat dx_small = (GLfloat) digit_w[i][0] * 0.75f;
+
+    glPushMatrix();
+    {
+        glColor4fv(gui_wht);
+
+        /* Translate to the widget center, and apply the pulse scale. */
+
+        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
+                     (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+
+        glScalef(widget[id].scale,
+                 widget[id].scale,
+                 widget[id].scale);
+
+        /* Translate left by half the total width of the rendered value. */
+
+        if (mt > 0)
+            glTranslatef(-2.25f * dx_large, 0.0f, 0.0f);
+        else
+            glTranslatef(-1.75f * dx_large, 0.0f, 0.0f);
+
+        /* Render the minutes counter. */
+
+        if (mt > 0)
+        {
+            glBindTexture(GL_TEXTURE_2D, digit_text[i][mt]);
+            glCallList(digit_list[i][mt]);
+            glTranslatef(dx_large, 0.0f, 0.0f);
+        }
+
+        glBindTexture(GL_TEXTURE_2D, digit_text[i][mo]);
+        glCallList(digit_list[i][mo]);
+        glTranslatef(dx_small, 0.0f, 0.0f);
+
+        /* Render the colon. */
+
+        glBindTexture(GL_TEXTURE_2D, digit_text[i][10]);
+        glCallList(digit_list[i][10]);
+        glTranslatef(dx_small, 0.0f, 0.0f);
+
+        /* Render the seconds counter. */
+
+        glBindTexture(GL_TEXTURE_2D, digit_text[i][st]);
+        glCallList(digit_list[i][st]);
+        glTranslatef(dx_large, 0.0f, 0.0f);
+
+        glBindTexture(GL_TEXTURE_2D, digit_text[i][so]);
+        glCallList(digit_list[i][so]);
+        glTranslatef(dx_small, 0.0f, 0.0f);
+
+        /* Render hundredths counter half size. */
+
+        glScalef(0.5f, 0.5f, 1.0f);
+
+        glBindTexture(GL_TEXTURE_2D, digit_text[i][ht]);
+        glCallList(digit_list[i][ht]);
+        glTranslatef(dx_large, 0.0f, 0.0f);
+
+        glBindTexture(GL_TEXTURE_2D, digit_text[i][ho]);
+        glCallList(digit_list[i][ho]);
+    }
+    glPopMatrix();
+}
+
+static void gui_paint_label(int id)
+{
+    /* Draw the widget text box, textured using the glyph. */
+
+    glPushMatrix();
+    {
+        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
+                     (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+
+        glScalef(widget[id].scale,
+                 widget[id].scale,
+                 widget[id].scale);
+
+        glBindTexture(GL_TEXTURE_2D, widget[id].text_img);
+        glCallList(widget[id].text_obj);
+    }
+    glPopMatrix();
+}
+
+static void gui_paint_text(int id)
+{
     switch (widget[id].type)
     {
-    case GUI_SPACE:
-    case GUI_FILLER:
-        break;
-
-    case GUI_HARRAY:
-    case GUI_VARRAY:
-    case GUI_HSTACK:
-    case GUI_VSTACK:
-
-        /* Recursively paint all subwidgets. */
-
-        for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-            gui_paint_text(jd);
-
-        break;
-
-    case GUI_IMAGE:
-
-        glPushMatrix();
-        {
-            glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
-                         (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
-
-            glBindTexture(GL_TEXTURE_2D, widget[id].text_img);
-            glColor4fv(gui_wht);
-            glCallList(widget[id].rect_obj);
-        }
-        glPopMatrix();
-
-        break;
-
-    default:
-
-        /* Draw a leaf's foreground. */
-
-        glPushMatrix();
-        {
-            glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
-                         (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
-            glScalef(widget[id].scale,
-                     widget[id].scale,
-                     widget[id].scale);
-
-            glBindTexture(GL_TEXTURE_2D, widget[id].text_img);
-            glCallList(widget[id].text_obj);
-        }
-        glPopMatrix();
-
-        break;
+    case GUI_SPACE:  break;
+    case GUI_FILLER: break;
+    case GUI_HARRAY: gui_paint_array(id); break;
+    case GUI_VARRAY: gui_paint_array(id); break;
+    case GUI_HSTACK: gui_paint_array(id); break;
+    case GUI_VSTACK: gui_paint_array(id); break;
+    case GUI_IMAGE:  gui_paint_image(id); break;
+    case GUI_COUNT:  gui_paint_count(id); break;
+    case GUI_CLOCK:  gui_paint_clock(id); break;
+    default:         gui_paint_label(id); break;
     }
 }
 
@@ -934,7 +1129,7 @@ void gui_dump(int id, int d)
 
     if (id)
     {
-        char *type;
+        char *type = "?";
 
         switch (widget[id].type)
         {
@@ -1007,6 +1202,11 @@ int gui_token(int id)
 int gui_value(int id)
 {
     return id ? widget[id].value : 0;
+}
+
+void gui_toggle(int id)
+{
+    widget[id].value = widget[id].value ? 0 : 1;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -6,8 +6,9 @@ New in 1.2.6
 * Fixed Neverputt far clip set closer than background.
 * Fixed an audio init bug.
 * Cleaned up config handling.
-* Cleaned up GUI handling.
+* Heavily modified GUI handling.
 * Changed image loading policy to support non-power-of-two images.
+* Replaced Win32 makefile with VS.Net solution.
 
 -------------------------------------------------------------------------------
 New in 1.2.5

@@ -7,13 +7,13 @@
 <table width=100% bgcolor=#CFCFE5><tr> <td> <font face=arial size=+3>
 Build Log
 </font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>
-<h3>------- Build started: Project: neverball, Configuration: Debug|Win32 -------
+<h3>------- Build started: Project: neverball, Configuration: Release|Win32 -------
 </h3>
 </pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
 Command Lines
-</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Creating temporary file "c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Debug\RSP000021.rsp" with contents
+</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Creating temporary file "c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP000029.rsp" with contents
 [
-/Od /I "..\..\share" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Gm /EHsc /RTC1 /MDd /Fo"Debug/" /Fd"Debug/vc70.pdb" /W3 /WX /c /Wp64 /ZI /TC
+/O2 /I "..\..\share" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /FD /EHsc /MD /GS /Fo"Release/" /Fd"Release/vc70.pdb" /W3 /c /Wp64 /Zi /TC
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\vec3.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\text.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\state.c"
@@ -33,30 +33,30 @@ Command Lines
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\back.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\audio.c"
 ]
-Creating command line "cl.exe @"c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Debug\RSP000021.rsp" /nologo"
-Creating temporary file "c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Debug\RSP000022.rsp" with contents
+Creating command line "cl.exe @"c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP000029.rsp" /nologo"
+Creating temporary file "c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP00002A.rsp" with contents
 [
-/OUT:"Debug/neverball.exe" /INCREMENTAL /NOLOGO /DEBUG /PDB:"Debug/neverball.pdb" /SUBSYSTEM:CONSOLE /MACHINE:X86  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
-".\Debug\audio.obj"
-".\Debug\back.obj"
-".\Debug\config.obj"
-".\Debug\game.obj"
-".\Debug\geom.obj"
-".\Debug\glext.obj"
-".\Debug\gui.obj"
-".\Debug\hud.obj"
-".\Debug\image.obj"
-".\Debug\level.obj"
-".\Debug\main.obj"
-".\Debug\menu.obj"
-".\Debug\part.obj"
-".\Debug\set.obj"
-".\Debug\solid.obj"
-".\Debug\state.obj"
-".\Debug\text.obj"
-".\Debug\vec3.obj"
+/OUT:"Release/neverball.exe" /INCREMENTAL:NO /NOLOGO /DEBUG /PDB:"Release/neverball.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /MACHINE:X86  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
+".\Release\audio.obj"
+".\Release\back.obj"
+".\Release\config.obj"
+".\Release\game.obj"
+".\Release\geom.obj"
+".\Release\glext.obj"
+".\Release\gui.obj"
+".\Release\hud.obj"
+".\Release\image.obj"
+".\Release\level.obj"
+".\Release\main.obj"
+".\Release\menu.obj"
+".\Release\part.obj"
+".\Release\set.obj"
+".\Release\solid.obj"
+".\Release\state.obj"
+".\Release\text.obj"
+".\Release\vec3.obj"
 ]
-Creating command line "link.exe @"c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Debug\RSP000022.rsp""
+Creating command line "link.exe @"c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP00002A.rsp""
 </pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
 Output Window
 </font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Compiling...
@@ -80,10 +80,9 @@ back.c
 audio.c
 Generating Code...
 Linking...
-MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
 </pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
 Results
 </font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>
-Build log was saved at "file://c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Debug\BuildLog.htm"
-neverball - 0 error(s), 1 warning(s)</pre></table><table   width=100% height=20 bgcolor=#CFCFE5><tr><td><font face=arial size=+2>
+Build log was saved at "file://c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\BuildLog.htm"
+neverball - 0 error(s), 0 warning(s)</pre></table><table   width=100% height=20 bgcolor=#CFCFE5><tr><td><font face=arial size=+2>
 </font></table></body></html>

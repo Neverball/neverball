@@ -4,6 +4,7 @@
 	Version="7.10"
 	Name="neverball"
 	ProjectGUID="{039567BB-AE05-432F-8263-D5F075B03FFC}"
+	RootNamespace="neverball"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform

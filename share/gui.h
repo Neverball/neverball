@@ -43,10 +43,10 @@ void gui_free(void);
 
 /*---------------------------------------------------------------------------*/
 
+void gui_set_label(int, const char *);
 void gui_set_image(int, const char *);
-void gui_set_label(int, const char *, int);
-void gui_set_count(int, int, int);
-void gui_set_clock(int, int, int);
+void gui_set_count(int, int);
+void gui_set_clock(int, int);
 
 /*---------------------------------------------------------------------------*/
 
@@ -82,6 +82,7 @@ int  gui_click(void);
 
 int  gui_token(int);
 int  gui_value(int);
+void gui_toggle(int);
 
 /*---------------------------------------------------------------------------*/
 

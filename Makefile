@@ -11,8 +11,8 @@ OGL_LIBS= -lGLU -lGL -lm
 
 #------------------------------------------------------------------------------
 
-#CFLAGS= -Wall -O3 -ansi $(shell sdl-config --cflags)
-CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
+CFLAGS= -Wall -O3 -ansi $(shell sdl-config --cflags)
+#CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
 #CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
 
 SDL_LIBS= $(shell sdl-config --libs)

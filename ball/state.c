@@ -376,68 +376,64 @@ static int help_buttn(int b, int d)
 #define CONF_REFOF 13
 #define CONF_AUDHI 14
 #define CONF_AUDLO 15
-#define CONF_SNDDN 16
-#define CONF_SND   17
-#define CONF_SNDUP 18
-#define CONF_MUSDN 19
-#define CONF_MUS   20
-#define CONF_MUSUP 21
-#define CONF_BACK  22
+#define CONF_BACK  16
 
 static int conf_id;
-static int conf_snd_id;
-static int conf_mus_id;
+static int audlo_id;
+static int audhi_id;
+static int music_id[11];
+static int sound_id[11];
 
 static int conf_action(int i)
 {
-    int f   = config_get(CONFIG_FULLSCREEN);
-    int w   = config_get(CONFIG_WIDTH);
-    int h   = config_get(CONFIG_HEIGHT);
-    int snd = config_get(CONFIG_SOUND_VOLUME);
-    int mus = config_get(CONFIG_MUSIC_VOLUME);
-    int s   = 1;
+    int f = config_get(CONFIG_FULLSCREEN);
+    int w = config_get(CONFIG_WIDTH);
+    int h = config_get(CONFIG_HEIGHT);
+    int s = config_get(CONFIG_SOUND_VOLUME);
+    int m = config_get(CONFIG_MUSIC_VOLUME);
+    int r = 1;
 
     switch (i)
     {
     case CONF_FULL:
         goto_state(&st_null);
-        s = config_mode(1, w, h);
+        r = config_mode(1, w, h);
         goto_state(&st_conf);
         break;
 
     case CONF_WIN:
         goto_state(&st_null);
-        s = config_mode(0, w, h);
+        r = config_mode(0, w, h);
         goto_state(&st_conf);
         break;
         
     case CONF_16x12:
         goto_state(&st_null);
-        s = config_mode(f, 1600, 1200);
+        r = config_mode(f, 1600, 1200);
         goto_state(&st_conf);
         break;
 
     case CONF_12x10:
         goto_state(&st_null);
-        s = config_mode(f, 1280, 1024);
+        r = config_mode(f, 1280, 1024);
         goto_state(&st_conf);
         break;
 
     case CONF_10x7:
         goto_state(&st_null);
-        s = config_mode(f, 1024, 768);
+        r = config_mode(f, 1024, 768);
         goto_state(&st_conf);
         break;
             
     case CONF_8x6:
         goto_state(&st_null);
-        s = config_mode(f, 800, 600);
+        r = config_mode(f, 800, 600);
         goto_state(&st_conf);
         break;
 
     case CONF_6x4:
         goto_state(&st_null);
-        s = config_mode(f, 640, 480);
+        r = config_mode(f, 640, 480);
         goto_state(&st_conf);
         break;
 
@@ -481,190 +477,157 @@ static int conf_action(int i)
         audio_free();
         config_set(CONFIG_AUDIO_RATE, 44100);
         config_set(CONFIG_AUDIO_BUFF, AUDIO_BUFF_HI);
+        gui_toggle(audlo_id);
+        gui_toggle(audhi_id);
         audio_init();
-        goto_state(&st_conf);
         break;
 
     case CONF_AUDLO:
         audio_free();
         config_set(CONFIG_AUDIO_RATE, 22050);
         config_set(CONFIG_AUDIO_BUFF, AUDIO_BUFF_LO);
+        gui_toggle(audlo_id);
+        gui_toggle(audhi_id);
         audio_init();
-        goto_state(&st_conf);
-        break;
-
-    case CONF_SNDDN:
-        if (--snd >= 0)
-        {
-            gui_set_count(conf_snd_id, snd, GUI_SML);
-            config_set(CONFIG_SOUND_VOLUME, snd);
-            audio_volume(snd, mus);
-            audio_play(AUD_BUMP, 1.f);
-        }
-        break;
-        
-    case CONF_SNDUP:
-        if (++snd <= 10)
-        {
-            gui_set_count(conf_snd_id, snd, GUI_SML);
-            config_set(CONFIG_SOUND_VOLUME, snd);
-            audio_volume(snd, mus);
-            audio_play(AUD_BUMP, 1.f);
-        }
-        break;
-
-    case CONF_MUSDN:
-        if (--mus >= 0)
-        {
-            gui_set_count(conf_mus_id, mus, GUI_SML);
-            config_set(CONFIG_MUSIC_VOLUME, mus);
-            audio_volume(snd, mus);
-        }
-        break;
-        
-    case CONF_MUSUP:
-        if (++mus <= 10)
-        {
-            gui_set_count(conf_mus_id, mus, GUI_SML);
-            config_set(CONFIG_MUSIC_VOLUME, mus);
-            audio_volume(snd, mus);
-        }
         break;
 
     case CONF_BACK:
         goto_state(&st_title);
         break;
+
+    default:
+        if (100 <= i && i <= 110)
+        {
+            int n = i - 100;
+
+            config_set(CONFIG_SOUND_VOLUME, n);
+            audio_volume(n, m);
+            audio_play(AUD_BUMP, 1.f);
+
+            gui_toggle(sound_id[n]);
+            gui_toggle(sound_id[s]);
+        }
+        if (200 <= i && i <= 210)
+        {
+            int n = i - 200;
+
+            config_set(CONFIG_MUSIC_VOLUME, n);
+            audio_volume(m, n);
+            audio_play(AUD_BUMP, 1.f);
+
+            gui_toggle(music_id[n]);
+            gui_toggle(music_id[m]);
+        }
     }
 
-    return s;
+    return r;
 }
 
 static void conf_enter(void)
 {
-    int id;
+    int id, jd;
 
-    if ((id = gui_varray(0)))
+    if ((conf_id = gui_harray(0)))
     {
-        int a = config_tst(CONFIG_WIDTH, 1600);
-        int b = config_tst(CONFIG_WIDTH, 1280);
-        int c = config_tst(CONFIG_WIDTH, 1024);
-        int d = config_tst(CONFIG_WIDTH,  800);
-        int e = config_tst(CONFIG_WIDTH,  640);
+        if ((id = gui_varray(conf_id)))
+        {
+            int w = config_get(CONFIG_WIDTH);
+            int t = config_get(CONFIG_TEXTURES);
+            int g = config_get(CONFIG_GEOMETRY);
+            int r = config_get(CONFIG_REFLECTION);
+            int a = config_get(CONFIG_AUDIO_RATE);
+            int s = config_get(CONFIG_SOUND_VOLUME);
+            int m = config_get(CONFIG_MUSIC_VOLUME);
 
-        gui_state(id, "1600 x 1200", GUI_SML, CONF_16x12, a);
-        gui_state(id, "1280 x 1024", GUI_SML, CONF_12x10, b);
-        gui_state(id, "1024 x 768",  GUI_SML, CONF_10x7,  c);
-        gui_state(id, "800 x 600",   GUI_SML, CONF_8x6,   d);
-        gui_state(id, "640 x 480",   GUI_SML, CONF_6x4,   e);
+            if ((jd = gui_harray(id)))
+            {
+                gui_label(jd, "Options", GUI_SML, GUI_ALL, 0, 0);
+                gui_filler(jd);
+            }
+
+            gui_state(id, "1600 x 1200", GUI_SML, CONF_16x12, (w == 1600));
+            gui_state(id, "1280 x 1024", GUI_SML, CONF_12x10, (w == 1280));
+            gui_state(id, "1024 x 768",  GUI_SML, CONF_10x7,  (w == 1024));
+            gui_state(id, "800 x 600",   GUI_SML, CONF_8x6,   (w ==  800));
+            gui_state(id, "640 x 480",   GUI_SML, CONF_6x4,   (w ==  640));
+
+            if ((jd = gui_harray(id)))
+            {
+                gui_state(jd, "Low",  GUI_SML, CONF_TEXLO, (t == 2));
+                gui_state(jd, "High", GUI_SML, CONF_TEXHI, (t == 1));
+            }
+            if ((jd = gui_harray(id)))
+            {
+                gui_state(jd, "Low",  GUI_SML, CONF_GEOLO, (g == 0));
+                gui_state(jd, "High", GUI_SML, CONF_GEOHI, (g == 1));
+            }
+            if ((jd = gui_harray(id)))
+            {
+                gui_state(jd, "Off",  GUI_SML, CONF_REFOF, (r == 0));
+                gui_state(jd, "On",   GUI_SML, CONF_REFON, (r == 1));
+            }
+            if ((jd = gui_harray(id)))
+            {
+                int lo = (a == 22050);
+                int hi = (a == 44100);
+
+                audlo_id = gui_state(jd, "Low",  GUI_SML, CONF_AUDLO, lo);
+                audhi_id = gui_state(jd, "High", GUI_SML, CONF_AUDHI, hi);
+            }
+            if ((jd = gui_harray(id)))
+            {
+                sound_id[ 0] = gui_state(jd, ".", GUI_SML, 100, (s ==  0));
+                sound_id[ 1] = gui_state(jd, ".", GUI_SML, 101, (s ==  1));
+                sound_id[ 2] = gui_state(jd, ".", GUI_SML, 102, (s ==  2));
+                sound_id[ 3] = gui_state(jd, ".", GUI_SML, 103, (s ==  3));
+                sound_id[ 4] = gui_state(jd, ".", GUI_SML, 104, (s ==  4));
+                sound_id[ 5] = gui_state(jd, ".", GUI_SML, 105, (s ==  5));
+                sound_id[ 6] = gui_state(jd, ".", GUI_SML, 106, (s ==  6));
+                sound_id[ 7] = gui_state(jd, ".", GUI_SML, 107, (s ==  7));
+                sound_id[ 8] = gui_state(jd, ".", GUI_SML, 108, (s ==  8));
+                sound_id[ 9] = gui_state(jd, ".", GUI_SML, 109, (s ==  9));
+                sound_id[10] = gui_state(jd, ".", GUI_SML, 110, (s == 10));
+            }
+            if ((jd = gui_harray(id)))
+            {
+                music_id[ 0] = gui_state(jd, ".", GUI_SML, 200, (m ==  0));
+                music_id[ 1] = gui_state(jd, ".", GUI_SML, 201, (m ==  1));
+                music_id[ 2] = gui_state(jd, ".", GUI_SML, 202, (m ==  2));
+                music_id[ 3] = gui_state(jd, ".", GUI_SML, 203, (m ==  3));
+                music_id[ 4] = gui_state(jd, ".", GUI_SML, 204, (m ==  4));
+                music_id[ 5] = gui_state(jd, ".", GUI_SML, 205, (m ==  5));
+                music_id[ 6] = gui_state(jd, ".", GUI_SML, 206, (m ==  6));
+                music_id[ 7] = gui_state(jd, ".", GUI_SML, 207, (m ==  7));
+                music_id[ 8] = gui_state(jd, ".", GUI_SML, 208, (m ==  8));
+                music_id[ 9] = gui_state(jd, ".", GUI_SML, 209, (m ==  9));
+                music_id[10] = gui_state(jd, ".", GUI_SML, 210, (m == 10));
+            }
+        }
+        if ((id = gui_varray(conf_id)))
+        {
+            int f = config_get(CONFIG_FULLSCREEN);
+
+            if ((jd = gui_harray(id)))
+            {
+                gui_filler(jd);
+                gui_start(jd, "Back", GUI_SML, CONF_BACK, 0);
+            }
+
+            gui_state(id, "Fullscreen",   GUI_SML, CONF_FULL, (f == 1));
+            gui_state(id, "Window",       GUI_SML, CONF_FULL, (f == 0));
+            gui_filler(id);
+            gui_filler(id);
+            gui_filler(id);
+            gui_label(id, "Textures",     GUI_SML, GUI_ALL, 0, 0);
+            gui_label(id, "Geometry",     GUI_SML, GUI_ALL, 0, 0);
+            gui_label(id, "Reflection",   GUI_SML, GUI_ALL, 0, 0);
+            gui_label(id, "Audio",        GUI_SML, GUI_ALL, 0, 0);
+            gui_label(id, "Sound Volume", GUI_SML, GUI_ALL, 0, 0);
+            gui_label(id, "Music Volume", GUI_SML, GUI_ALL, 0, 0);
+        }
+        gui_layout(conf_id, 0, 0);
     }
 
-    conf_id = id;
-    gui_layout(id, 0, 0);
-
-
-    /*
-    const float *R = c_red;
-    const float *Y = c_ylw;
-
-    int id;
-    int jd;
-
-    conf_id = gui_harray();
-
-    jd = gui_varray();
-    gui_insert(jd, gui_start("Back", 0, 0, GUI_SML, 0, CONF_BACK));
-    {
-        int a = config_tst(CONFIG_WIDTH, 1600);
-        int b = config_tst(CONFIG_WIDTH, 1280);
-        int c = config_tst(CONFIG_WIDTH, 1024);
-        int d = config_tst(CONFIG_WIDTH,  800);
-        int e = config_tst(CONFIG_WIDTH,  640);
-
-        gui_insert(jd, gui_label("1600 x 1200", 0, 0, GUI_SML, a, CONF_16x12));
-        gui_insert(jd, gui_label("1280 x 1024", 0, 0, GUI_SML, b, CONF_12x10));
-        gui_insert(jd, gui_label("1024 x 768",  0, 0, GUI_SML, c, CONF_10x7));
-        gui_insert(jd, gui_label("800 x 600",   0, 0, GUI_SML, d, CONF_8x6));
-        gui_insert(jd, gui_label("640 x 480",   0, 0, GUI_SML, e, CONF_6x4));
-    }
-
-    id = gui_harray();
-    {
-        int h = config_tst(CONFIG_TEXTURES, 1);
-        int l = config_tst(CONFIG_TEXTURES, 2);
-
-        gui_insert(id, gui_label("Low",  0, 0, GUI_SML, l, CONF_TEXLO));
-        gui_insert(id, gui_label("High", 0, 0, GUI_SML, h, CONF_TEXHI));
-    }
-    gui_insert(jd, id);
-    id = gui_harray();
-    {
-        int h = config_tst(CONFIG_GEOMETRY, 1);
-        int l = config_tst(CONFIG_GEOMETRY, 0);
-
-        gui_insert(id, gui_label("Low",  0, 0, GUI_SML, l, CONF_GEOLO));
-        gui_insert(id, gui_label("High", 0, 0, GUI_SML, h, CONF_GEOHI));
-    }
-    gui_insert(jd, id);
-    id = gui_harray();
-    {
-        int h = config_tst(CONFIG_REFLECTION, 1);
-        int l = config_tst(CONFIG_REFLECTION, 0);
-
-        gui_insert(id, gui_label("Off",  0, 0, GUI_SML, l, CONF_REFOF));
-        gui_insert(id, gui_label("On",   0, 0, GUI_SML, h, CONF_REFON));
-    }
-    gui_insert(jd, id);
-    id = gui_harray();
-    {
-        int h = config_tst(CONFIG_AUDIO_RATE, 44100);
-        int l = config_tst(CONFIG_AUDIO_RATE, 22050);
-
-        gui_insert(id, gui_label("Low",  0, 0, GUI_SML, l, CONF_AUDLO));
-        gui_insert(id, gui_label("High", 0, 0, GUI_SML, h, CONF_AUDHI));
-    }
-    gui_insert(jd, id);
-    id = gui_harray();
-    {
-        int v = config_get(CONFIG_SOUND_VOLUME);
-
-        conf_snd_id  = gui_count(v,   Y, R, GUI_SML, 0, CONF_SND);
-        gui_insert(id, gui_label(">", 0, 0, GUI_SML, 0, CONF_SNDUP));
-        gui_insert(id, conf_snd_id); 
-        gui_insert(id, gui_label("<", 0, 0, GUI_SML, 0, CONF_SNDDN));
-    }
-    gui_insert(jd, id);
-    id = gui_harray();
-    {
-        int v = config_get(CONFIG_MUSIC_VOLUME);
-
-        conf_mus_id  = gui_count(v,   Y, R, GUI_SML, 0, CONF_MUS);
-        gui_insert(id, gui_label(">", 0, 0, GUI_SML, 0, CONF_MUSUP));
-        gui_insert(id, conf_mus_id);
-        gui_insert(id, gui_label("<", 0, 0, GUI_SML, 0, CONF_MUSDN));
-    }
-    gui_insert(jd, id);
-    gui_insert(conf_id, jd);
-
-    id = gui_varray();
-    {
-        int f = config_tst(CONFIG_FULLSCREEN, 1);
-        int w = config_tst(CONFIG_FULLSCREEN, 0);
-
-        gui_insert(id, gui_label("Options",    Y, R, GUI_MED, -1, -1));
-        gui_insert(id, gui_label("Fullscreen", 0, 0, GUI_SML,  f, CONF_FULL));
-        gui_insert(id, gui_label("Window",     0, 0, GUI_SML,  w, CONF_WIN));
-        gui_insert(id, gui_label(" ",          Y, R, GUI_SML, -1, -1));
-        gui_insert(id, gui_label("Textures",   Y, R, GUI_SML, -1, -1));
-        gui_insert(id, gui_label("Geometry",   Y, R, GUI_SML, -1, -1));
-        gui_insert(id, gui_label("Reflection", Y, R, GUI_SML, -1, -1));
-        gui_insert(id, gui_label("Audio",      Y, R, GUI_SML, -1, -1));
-        gui_insert(id, gui_label("Sound",      Y, R, GUI_SML, -1, -1));
-        gui_insert(id, gui_label("Music",      Y, R, GUI_SML, -1, -1));
-        gui_insert(id, gui_label(" ",          Y, R, GUI_SML, -1, -1));
-    }
-    gui_insert(conf_id, id);
-    gui_layout(conf_id, 0, 0);
-    */
     /* Initialize the background. */
 
     back_init("png/blues.png", config_get(CONFIG_GEOMETRY));
@@ -1356,8 +1319,6 @@ static void gui_most_coins(int id)
 
     if ((jd = gui_hstack(id)))
     {
-        gui_filler(jd);
-
         if ((kd = gui_vstack(jd)))
         {
             gui_label(kd, "Most Coins", GUI_SML, GUI_TOP, 0, 0);
@@ -1378,9 +1339,9 @@ static void gui_most_coins(int id)
                 }
                 if ((md = gui_varray(ld)))
                 {
-                    coin_1t = gui_clock(md, 60000,   GUI_SML, 0);
-                    coin_2t = gui_clock(md, 60000,   GUI_SML, 0);
-                    coin_3t = gui_clock(md, 60000,   GUI_SML, GUI_SW);
+                    coin_1t = gui_clock(md, 359999,  GUI_SML, 0);
+                    coin_2t = gui_clock(md, 359999,  GUI_SML, 0);
+                    coin_3t = gui_clock(md, 359999,  GUI_SML, GUI_SW);
                 }
             }
         }
@@ -1392,17 +1353,17 @@ static void gui_most_coins(int id)
 
 static void set_most_coins(int i)
 {
-    gui_set_count(coin_1c, level_coin_c(i, 0), GUI_SML);
-    gui_set_count(coin_2c, level_coin_c(i, 1), GUI_SML);
-    gui_set_count(coin_3c, level_coin_c(i, 2), GUI_SML);
+    gui_set_count(coin_1c, level_coin_c(i, 0));
+    gui_set_count(coin_2c, level_coin_c(i, 1));
+    gui_set_count(coin_3c, level_coin_c(i, 2));
 
-    gui_set_label(coin_1n, level_coin_n(i, 0), GUI_SML);
-    gui_set_label(coin_2n, level_coin_n(i, 1), GUI_SML);
-    gui_set_label(coin_3n, level_coin_n(i, 2), GUI_SML);
+    gui_set_label(coin_1n, level_coin_n(i, 0));
+    gui_set_label(coin_2n, level_coin_n(i, 1));
+    gui_set_label(coin_3n, level_coin_n(i, 2));
 
-    gui_set_clock(coin_1t, level_coin_t(i, 0), GUI_SML);
-    gui_set_clock(coin_2t, level_coin_t(i, 1), GUI_SML);
-    gui_set_clock(coin_3t, level_coin_t(i, 2), GUI_SML);
+    gui_set_clock(coin_1t, level_coin_t(i, 0));
+    gui_set_clock(coin_2t, level_coin_t(i, 1));
+    gui_set_clock(coin_3t, level_coin_t(i, 2));
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1440,9 +1401,9 @@ static void gui_best_times(int id)
             {
                 if ((md = gui_varray(ld)))
                 {
-                    time_1t = gui_clock(md, 1000,    GUI_SML, 0);
-                    time_2t = gui_clock(md, 1000,    GUI_SML, 0);
-                    time_3t = gui_clock(md, 1000,    GUI_SML, GUI_SE);
+                    time_1t = gui_clock(md, 359999,  GUI_SML, 0);
+                    time_2t = gui_clock(md, 359999,  GUI_SML, 0);
+                    time_3t = gui_clock(md, 359999,  GUI_SML, GUI_SE);
                 }
                 if ((md = gui_varray(ld)))
                 {
@@ -1452,13 +1413,12 @@ static void gui_best_times(int id)
                 }
                 if ((md = gui_varray(ld)))
                 {
-                    time_1c = gui_count(md, 60000,   GUI_SML, 0);
-                    time_1c = gui_count(md, 60000,   GUI_SML, 0);
-                    time_1c = gui_count(md, 60000,   GUI_SML, GUI_SW);
+                    time_1c = gui_count(md, 1000,    GUI_SML, 0);
+                    time_2c = gui_count(md, 1000,    GUI_SML, 0);
+                    time_3c = gui_count(md, 1000,    GUI_SML, GUI_SW);
                 }
             }
         }
-        gui_filler(jd);
     }
 }
 
@@ -1466,20 +1426,22 @@ static void gui_best_times(int id)
 
 static void set_best_times(int i)
 {
-    gui_set_clock(time_1t, level_time_t(i, 0), GUI_SML);
-    gui_set_clock(time_2t, level_time_t(i, 1), GUI_SML);
-    gui_set_clock(time_3t, level_time_t(i, 2), GUI_SML);
+    gui_set_clock(time_1t, level_time_t(i, 0));
+    gui_set_clock(time_2t, level_time_t(i, 1));
+    gui_set_clock(time_3t, level_time_t(i, 2));
 
-    gui_set_label(time_1n, level_time_n(i, 0), GUI_SML);
-    gui_set_label(time_2n, level_time_n(i, 1), GUI_SML);
-    gui_set_label(time_3n, level_time_n(i, 2), GUI_SML);
+    gui_set_label(time_1n, level_time_n(i, 0));
+    gui_set_label(time_2n, level_time_n(i, 1));
+    gui_set_label(time_3n, level_time_n(i, 2));
 
-    gui_set_count(time_1c, level_time_c(i, 0), GUI_SML);
-    gui_set_count(time_2c, level_time_c(i, 1), GUI_SML);
-    gui_set_count(time_3c, level_time_c(i, 2), GUI_SML);
+    gui_set_count(time_1c, level_time_c(i, 0));
+    gui_set_count(time_2c, level_time_c(i, 1));
+    gui_set_count(time_3c, level_time_c(i, 2));
 }
 
 /*---------------------------------------------------------------------------*/
+
+static int shot_id;
 
 /* Create a level selector button based upon its existence and status. */
 
@@ -1495,25 +1457,22 @@ static void gui_level(int id, char *text, int i)
 
 /*---------------------------------------------------------------------------*/
 
-#define START_BACK 99
+#define START_BACK 0
 
 static int start_id;
 
 static int start_action(int i)
 {
-    if (i > 0)
+    if (i == START_BACK)
     {
-        if (i == START_BACK)
-        {
-            back_free();
-            return goto_state(&st_set);
-        }
-        else
-        {
-            back_free();
-            level_goto(0, 0, 2, i);
-            return goto_state(&st_level);
-        }
+        back_free();
+        return goto_state(&st_set);
+    }
+    if (level_opened(i))
+    {
+        back_free();
+        level_goto(0, 0, 2, i);
+        return goto_state(&st_level);
     }
     return 1;
 }
@@ -1537,7 +1496,7 @@ static void start_enter(void)
 
         if ((id = gui_harray(start_id)))
         {
-            gui_image(id, "shot-rlk/easy.jpg", 3 * w / 8, 3 * h / 8);
+            shot_id = gui_image(id, "shot-rlk/easy.jpg", 3 * w / 8, 3 * h / 8);
 
             if ((jd = gui_varray(id)))
             {
@@ -1622,7 +1581,19 @@ static void start_timer(float dt)
 
 static void start_point(int x, int y, int dx, int dy)
 {
-    gui_pulse(gui_point(start_id, x, y), 1.2f);
+    int id;
+
+    if ((id = gui_point(start_id, x, y)))
+    {
+        int i = gui_token(id);
+
+        gui_set_image(shot_id, level_shot(i));
+
+        set_most_coins(i);
+        set_best_times(i);
+
+        gui_pulse(id, 1.2f);
+    }
 }
 
 static void start_stick(int a, int v)
@@ -2289,7 +2260,7 @@ static int score_action(int i)
 
         if (l < MAXNAM - 1)
         {
-            player[l + 0] = i + 'A' - 1;
+            player[l + 0] = (char) (i - 1) + 'A';
             player[l + 1] = 0;
         }
 
