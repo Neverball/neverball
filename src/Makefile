@@ -1,5 +1,5 @@
 
-BALL_OBJS= \
+GAME_OBJS= \
 	audio.o \
 	game.o  \
 	geom.o  \
@@ -13,32 +13,34 @@ BALL_OBJS= \
 	vec3.o
 MAPC_OBJS= \
 	vec3.o  \
-	image.o \
 	solid.o \
 	mapc.o
 
 CFLAGS= -Wall -g -ffast-math -ansi $(shell sdl-config --cflags)
 
-BALL_LIBS= $(shell sdl-config --libs) -lSDL_image -lSDL_mixer -lGLU -lGL
-MAPC_LIBS= $(shell sdl-config --libs) -lSDL_image -lGLU -lGL
+X11_LIBS= -L/usr/X11/lib -lGLU -lGL -lm
+SDL_LIBS= $(shell sdl-config --libs)
 
-all : ../ball ../mapc
+GAME_LIBS= $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer -lfreetype $(X11_LIBS)
+MAPC_LIBS= $(SDL_LIBS) -lSDL_image $(X11_LIBS)
+
+all : ../neverball ../mapc
 
 .c.o :
 	$(CC) $(CFLAGS) -c $<
 
-../ball : ball
-	cp ball ../ball
+../neverball : neverball
+	cp neverball ../neverball
 
 ../mapc : mapc
 	cp mapc ../mapc
 
-ball : $(BALL_OBJS)
-	$(CC) $(CFLAGS) -o ball $(BALL_OBJS) $(BALL_LIBS)
+neverball : $(GAME_OBJS)
+	$(CC) $(CFLAGS) -o neverball $(GAME_OBJS) $(GAME_LIBS)
 
 mapc : $(MAPC_OBJS)
 	$(CC) $(CFLAGS) -o mapc $(MAPC_OBJS) $(MAPC_LIBS)
 
 clean :
-	rm -f ball mapc $(BALL_OBJS) $(MAPC_OBJS)
+	rm -f neverball mapc $(GAME_OBJS) $(MAPC_OBJS)
 

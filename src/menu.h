@@ -1,40 +1,55 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "image.h"
+#include "gl.h"
 
 /*---------------------------------------------------------------------------*/
 
+struct text
+{
+    GLuint text;
+    GLuint list;
+
+    int x, y;
+};
+
 struct item
 {
-    int x;
-    int y;
-    int w;
-    int h;
-    int lit;
-    int val;
+    int state;
+
+    int x0, y0;
+    int x1, y1;
+
+    int U, D;
+    int L, R;
 };
 
 struct menu
 {
-    struct image image;
-    struct item  *item;
-    int x;
-    int y;
-    int w;
-    int h;
-    int num;
-    int lit;
+    struct text *text;
+    struct item *item;
+
+    int ntext;
+    int nitem;
+    int value;
 };
 
 /*---------------------------------------------------------------------------*/
 
-void menu_init(struct menu *, const char *, struct item *, int, int);
+void menu_init(struct menu *, int, int, int);
 void menu_free(struct menu *);
+
+void menu_item(struct menu *, int, int, int, int, int);
+void menu_link(struct menu *, int, int, int, int, int);
+void menu_stat(struct menu *, int, int);
+void menu_text(struct menu *, int, int, int,
+               const float *, const float *, const char *, int);
 
 void menu_paint(struct menu *, double);
 void menu_point(struct menu *, int, int);
-int  menu_click(struct menu *, int);
+int  menu_click(struct menu *);
+void menu_stick(struct menu *, int, int);
+int  menu_buttn(struct menu *);
 
 /*---------------------------------------------------------------------------*/
 

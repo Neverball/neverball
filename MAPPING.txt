@@ -1,12 +1,12 @@
 
-                    * SUPER EMPTY BALL MAPPING *
+                        * Neverball Mapping *
 
 
-Super Empty Ball environments  are defined using GtkRadiant. Knowledge
-of GtkRadiant is prerequisite to this document.  Users unfamiliar with
+Neverball  environments are  defined using  GtkRadiant.   Knowledge of
+GtkRadiant is  prerequisite to  this document.  Users  unfamiliar with
 radiant usage  are encouraged to  study the radiant  documentation and
 craft a  few maps  for Quake, Wolf,  or Half-Life before  attemping to
-create content for SEB.
+create content for Neverball.
 
 GtkRadiant, documentation, and tutorials may be found at
 
@@ -17,38 +17,15 @@ GtkRadiant, documentation, and tutorials may be found at
 * OVERVIEW
 
 So now that we all know  everything about Quake engine mapping, we can
-go ahead and  forget most of it.  SEB  mapping has significantly fewer
-restrictions than  Quake mapping.   Some of the  important differences
-are as follows:
-
-  - The scale differs.  In Quake there are 8 units to a foot.  In SEB
-    there are 64 units to a meter.  The default major grid in radiant
-    marks 64 units, so meters are easy to work with.
-
-  - SEB  maps need  not  be closed.   SEB  environments are  generally
-    entirely visible  all of  the time, so  all the attention  paid to
-    visibility by Quake becomes unnecessary.  Maps don't leak.
-
-  - Brushes are refered to as  "lumps". They may overlap.  In fact, it
-    is often advantageous to overlap lumps.
-
-  - Shaders do not modify geometry.  The lumps you place are the lumps
-    that the  ball impacts.  The  textures you apply are  the textures
-    that appear in SEB.
-
-  - No curves.  SEB physics doesn't consider them.
-
-  - Most of  Quake's entities are meaningless  in SEB.  A  few of them
-    are used, but in modified form.  These are documented below.
-
-  - No lights.  All lighting is dynamic.
+go ahead and  forget most of it.  Neverball  mapping has significantly
+fewer restrictions than Quake mapping.
 
 
 Some of what you know from Quake mapping still applies:
 
-  - Geometry should  be "caulked" to  minimize polygon count.  In SEB,
-    the caulking  texture is called "invisible" and  it appears within
-    radiant as a white grid pattern.
+  - Geometry  should  be  "caulked"  to minimize  polygon  count.   In
+    Neverball,  the  caulking texture  is  called  "invisible" and  it
+    appears within radiant as a white grid pattern.
 
   - Detail brushes add  visual complexity without adding computational
     complexity.  If  there is geometry  that the ball will  never hit,
@@ -58,6 +35,32 @@ Some of what you know from Quake mapping still applies:
     displays.
 
   - Coincident faces cause Z-fighting.  This is a shooting offense.
+
+
+Some of the important differences are as follows:
+
+  - The scale  differs.  In  Quake there  are 8 units  to a  foot.  In
+    Neverball there are  64 units to a meter.   The default major grid
+    in radiant marks 64 units, so meters are easy to work with.
+
+  - Neverball  maps need  not be  closed.  Neverball  environments are
+    generally entirely visible  all of the time, so  all the attention
+    paid to visibility by Quake becomes unnecessary.  Maps don't leak.
+
+  - Brushes are refered to as  "lumps". They may overlap.  In fact, it
+    is often advantageous to overlap lumps.
+
+  - Shaders do not modify geometry.  The lumps you place are the lumps
+    that the  ball impacts.  The  textures you apply are  the textures
+    that appear in Neverball.
+
+  - No curves.  Neverball physics doesn't consider them.
+
+  - Most of Quake's  entities are meaningless in Neverball.   A few of
+    them are used, but in modified form.  These are documented below.
+
+  - No lights.  All lighting is dynamic.
+
 
 
 
@@ -70,18 +73,18 @@ installed, and that it is located in
 
     /usr/local/games/quake3/
 
-We assume that SEB is installed in
+We assume that Neverball is installed in
 
-    $(HOME)/seb/
+    $(HOME)/neverball/
 
-We must first  make radiant aware of the  SEB materials.  Under Linux,
-we  can simply  create  a symbolic  link  from within  the Quake  data
-directory to the within SEB data directory.
+We must  first make radiant  aware of the Neverball  materials.  Under
+Linux, we can simply create a symbolic link from within the Quake data
+directory to the within Neverball data directory.
 
     cd /usr/local/quake3/baseq3/
 
-    ln -s $HOME/seb/data/mtrl             textures/mtrl
-    ln -s $HOME/seb/data/mtrl/mtrl.shader scripts/mtrl.shader
+    ln -s $HOME/neverball/data/mtrl             textures/mtrl
+    ln -s $HOME/neverball/data/mtrl/mtrl.shader scripts/mtrl.shader
 
 Setup under Microsoft  Windows is similar, though it  may be necessary
 to  copy the  mtrl  directory  and mtrl.shader  script  into the  game
@@ -89,7 +92,7 @@ directory, rather than use a shortcut.
 
 Now, the  mtrl shaders should  appear in radiants Texture's  menu. You
 may need to  set "shaderlist.txt only" to OFF  in the radiant Textures
-menu.  Be sure that ONLY mtrl shaders are used for SEB maps.
+menu.  Be sure that ONLY mtrl shaders are used for Neverball maps.
 
 
 
@@ -101,15 +104,15 @@ the game a quickly as possible.
 Go ahead  and create a  simple map.  Just  toss in some  brushes, plop
 some mtrl shaders down on them, nothing fancy. Forget the entities for
 now, except drop in one  info_player_start.  You can save it anywhere,
-but for simplicity's sake, put it in:
+but for simplicity's sake, put it with the others in:
 
-    $HOME/seb/data/map/
+    $HOME/neverball/data/map/
 
 When processing and testing a  map, the current directory must contain
 the mtrl directory.   This is because the texture  names are stored as
 relative paths in the .map and in the .sol.
 
-    cd $HOME/seb/data
+    cd $HOME/neverball/data
 
 Assume the  map is named funkyball.map.   Process it into  a .sol with
 the following command. Output should be similar.
@@ -122,8 +125,8 @@ the following command. Output should be similar.
 
 To  test your  map, add  the filename  to data/levels.txt.   Include a
 skybox path  and the  level time  in seconds.  Then,  run the  game as
-normal from  the base seb directory.  If  the level time is  set to 99
-seconds, the clock will not run.
+normal from the base Neverball directory.  If the level time is set to
+99 seconds, the clock will not run.
 
 
 
@@ -131,21 +134,22 @@ seconds, the clock will not run.
 
 Only  a few Quake  entities are  supported, and  all of  the supported
 entities behave differently in some way.  All unsupported entities and
-unsupported  attributes of  supported entities  are ignored.   The SEB
-entities  follow.   All applicable  entity  attributes are  documented
-here.
+unsupported  attributes  of   supported  entities  are  ignored.   The
+Neverball  entities  follow.   All  applicable entity  attributes  are
+documented here.
 
 info_player_start
 
     The info_player_start entity defines a ball in a .sol file.  While
-    multiple balls may be defined, SEB uses only the first of them.
+    multiple balls  may be defined,  Neverball uses only the  first of
+    them.
 
     The  "radius" attribute  gives  the ball  radius  in meters.   The
     default radius is "0.25".
 
     The "origin" attribute gives the ball location.  The bottom of the
     entity in the editor will correspond  to the bottom of the ball in
-    SEB.
+    Neverball.
 
 target_teleporter
 
@@ -162,7 +166,7 @@ target_teleporter
 light
 
     The  light entity  defines a  coin in  a .sol  file.   The "light"
-    attribute  gives  the value  of  the  coin.   SEB draws  coins  in
+    attribute gives the  value of the coin.  Neverball  draws coins in
     denominations of 1, 5, and 10.
 
     The  "origin" attribute  gives  the coin  location.  Consider  the
@@ -185,10 +189,10 @@ path_corner
 
     The "speed"  attribute gives  the duration of  the trip  from this
     point to  the target.   Note that this  attribute has  a different
-    meaning to SEB than it does to Quake. In Quake, it gives the speed
-    in units per second.  In SEB  it gives the travel time in seconds,
-    regardless of  the distance between  one point and the  next.  The
-    default is "1.0".
+    meaning to  Neverball than it does  to Quake.  In  Quake, it gives
+    the speed in  units per second.  In Neverball  it gives the travel
+    time in seconds, regardless of  the distance between one point and
+    the next.  The default is "1.0".
 
     To  create a  pause  in  a path.   Simply  position two  connected
     path_corner entities at  the same point.  The trip  will have zero
@@ -221,37 +225,38 @@ func_train
     the  func_train, and  choose Ungroup  Entities from  the Selection
     menu.
 
-    Note that  func_trains are positioned  differently in SEB  than in
-    Quake.  Quake ignores the placement of the func_train in space and
-    requires an origin specification.  SEB simply uses the location of
-    the  first path_corner  to  define the  origin.   When creating  a
-    moving  object, just place  it at  the beginning  of its  path and
-    everything should work out.
+    Note that func_trains are positioned differently in Neverball than
+    in Quake.  Quake ignores the  placement of the func_train in space
+    and requires  an origin specification.  Neverball  simply uses the
+    location  of the  first path_corner  to define  the  origin.  When
+    creating a  moving object, just place  it at the  beginning of its
+    path and everything should work out.
 
 worldspawn
 
-    Of  course SEB  supports the  worldspawn entity,  but none  if its
+    Of course  Neverball supports the  worldspawn entity, but none  if its
     attributes have any effect.
 
 
 
 * ADDING MATERIALS
 
-SEB uses the standard OpenGL lighting model rather than a script-based
-shading  system like  Quake's.  So,  to add  a new  material  you must
-create both a texture image and an OpenGL material specification.
+Neverball  uses  the standard  OpenGL  lighting  model  rather than  a
+script-based shading system  like Quake's.  So, to add  a new material
+you  must  create  both  a   texture  image  and  an  OpenGL  material
+specification.
 
 1)  The texture  must be an  image in JPEG  format.  It may  come from
     anywhere.  Its width and height must both be powers of two.
 
     For  this  discussion, let  us  assume  you  have an  image  named
-    wood.jpg.  Place in it seb/data/mtrl/.
+    wood.jpg.  Place in it data/mtrl/.
 
-2)  Create   a  material   file   in  seb/data/mtrl,   in  this   case
-    mtrl/wood. This name must match  the texture name, minus the image
-    suffix. The file must contain  17 values, explained below.  If you
-    don't  care about  the material  properties, the  following values
-    suffice in most any case.
+2)  Create a material  file in data/mtrl, in this case mtrl/wood. This
+    name must match the texture name, minus the image suffix. The file
+    must contain 17 values, explained  below.  If you don't care about
+    the material properties, the  following values suffice in most any
+    case.
 
        1.0 1.0 1.0 1.0
        1.0 1.0 1.0 1.0
@@ -300,8 +305,8 @@ This base color is then blended with (added to) the texture color.
 
 * CAVEATS
 
-The SEB physics  engine can take pretty much anything  you throw at it
-without breaking down, but there are a few problem areas.
+The Neverball physics  engine can take pretty much  anything you throw
+at it without breaking down, but there are a few problem areas.
 
 If a  ball gets squished by a  moving object, it will  probably end up
 moving  into  and  through  a  solid, possibly  getting  stuck  there.
@@ -324,8 +329,8 @@ situations in which this unreal behavior is made apparent.
     deep.
 
   - If you have a Quake-ish crusher, delete it.  There's just no place
-    for something like that in  SEB because the ball doesn't "die", it
-    merely falls.
+    for  something like  that in  Neverball because  the  ball doesn't
+    "die", it merely falls.
 
 
 Have fun.  Problems?  Contact <rlk@snth.net>

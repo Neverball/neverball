@@ -1,18 +1,18 @@
 /*   
- *   Copyright (C) 2003 Robert Kooima
+ * Copyright (C) 2003 Robert Kooima
  *
- *   SUPER EMPTY BALL is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by the
- *   Free Software Foundation;  either version 2 of the  License, or (at your
- *   option) any later version.
+ * NEVERBALL is  free software; you can redistribute  it and/or modify
+ * it under the  terms of the GNU General  Public License as published
+ * by the Free  Software Foundation; either version 2  of the License,
+ * or (at your option) any later version.
  *
- *   This program  is distributed  in the  hope that it  will be  useful, but
- *   WITHOUT   ANY   WARRANTY;  without   even   the   implied  warranty   of
- *   MERCHANTABILITY  or  FITNESS FOR  A  PARTICULAR  PURPOSE.   See the  GNU
- *   General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT  ANY  WARRANTY;  without   even  the  implied  warranty  of
+ * MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.   See the GNU
+ * General Public License for more details.
  */
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 #include <math.h>
 #include <stdlib.h>
@@ -32,11 +32,12 @@
 #define GOAL_SPARKS  64
 #define COIN_RADIUS   0.15
 #define COIN_THICK    0.01
-#define BACK_DIST   100.0
+#define BACK_DIST   500.0
 #define PART_COUNT  128
 #define PART_SIZE     0.1
 
 #define IMG_COIN "data/png/coin.png"
+#define IMG_BALL "data/png/ball.png"
 #define IMG_PART "data/png/part.png"
 
 /*---------------------------------------------------------------------------*/
@@ -48,153 +49,80 @@ static double rnd(double l, double h)
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint ball_list;
-
-static void section(int d,
-                    const double p0[3], const double c0[4],
-                    const double p1[3], const double c1[4],
-                    const double p2[3], const double c2[4])
-{
-    if (d == 0)
-    {
-        glColor4dv(c0);
-        glNormal3dv(p0);
-        glVertex3dv(p0);
-
-        glColor4dv(c1);
-        glNormal3dv(p1);
-        glVertex3dv(p1);
-
-        glColor4dv(c2);
-        glNormal3dv(p2);
-        glVertex3dv(p2);
-    }
-    else
-    {
-        double p01[3], p12[3], p20[3];
-        double c01[4], c12[4], c20[4];
-
-        v_mid(p01, p0, p1);
-        v_mid(p12, p1, p2);
-        v_mid(p20, p2, p0);
-
-        v_nrm(p01, p01);
-        v_nrm(p12, p12);
-        v_nrm(p20, p20);
-
-        c01[0] = (c0[0] + c1[0]) / 2.0;
-        c01[1] = (c0[1] + c1[1]) / 2.0;
-        c01[2] = (c0[2] + c1[2]) / 2.0;
-        c01[3] = (c0[3] + c1[3]) / 2.0;
-
-        c12[0] = (c1[0] + c2[0]) / 2.0;
-        c12[1] = (c1[1] + c2[1]) / 2.0;
-        c12[2] = (c1[2] + c2[2]) / 2.0;
-        c12[3] = (c1[3] + c2[3]) / 2.0;
-
-        c20[0] = (c2[0] + c0[0]) / 2.0;
-        c20[1] = (c2[1] + c0[1]) / 2.0;
-        c20[2] = (c2[2] + c0[2]) / 2.0;
-        c20[3] = (c2[3] + c0[3]) / 2.0;
-
-        section(d - 1, p0,  c0,  p01, c01, p20, c20);
-        section(d - 1, p01, c01, p1,  c1,  p12, c12);
-        section(d - 1, p20, c20, p12, c12, p2,  c2);
-        section(d - 1, p01, c01, p12, c12, p20, c20);
-    }
-}
+static GLUquadric  *ball_quad;
+static GLuint       ball_list;
+static GLuint       ball_text;
 
 void ball_init(void)
 {
     static const float  a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    static const float  d[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
     static const float  s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    static const float  e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    static const float  e[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
     static const float  h[1] = { 64.0f };
 
-    static const double p[6][3] = {
-        { +1.0,  0.0,  0.0 },
-        { -1.0,  0.0,  0.0 },
-        {  0.0, +1.0,  0.0 },
-        {  0.0, -1.0,  0.0 },
-        {  0.0,  0.0, +1.0 },
-        {  0.0,  0.0, -1.0 },
-    };
-    static const double c[2][4] = {
-        { 0.0, 0.0, 0.0, 0.5 },
-        { 1.0, 1.0, 1.0, 0.5 },
-    };
-    int d = main_geom ? 4 : 2;
+    ball_text = make_image_from_file(NULL, NULL, IMG_BALL);
 
-    ball_list = glGenLists(1);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    glNewList(ball_list, GL_COMPILE);
-    glPushAttrib(GL_LIGHTING_BIT);
+    if ((ball_quad = gluNewQuadric()))
     {
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
+        gluQuadricOrientation(ball_quad, GLU_OUTSIDE);
+        gluQuadricNormals(ball_quad, GLU_SMOOTH);
+        gluQuadricTexture(ball_quad, GL_TRUE);
 
-        glEnable(GL_COLOR_MATERIAL);
-
-        glBegin(GL_TRIANGLES);
+        ball_list = glGenLists(1);
+    
+        glNewList(ball_list, GL_COMPILE);
         {
-            section(d, p[4], c[0], p[0], c[0], p[2], c[0]);
-            section(d, p[0], c[1], p[5], c[1], p[2], c[1]);
-            section(d, p[5], c[0], p[1], c[0], p[2], c[0]);
-            section(d, p[1], c[1], p[4], c[1], p[2], c[1]);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   d);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
 
-            section(d, p[0], c[1], p[4], c[1], p[3], c[1]);
-            section(d, p[5], c[0], p[0], c[0], p[3], c[0]);
-            section(d, p[1], c[1], p[5], c[1], p[3], c[1]);
-            section(d, p[4], c[0], p[1], c[0], p[3], c[0]);
+            glBindTexture(GL_TEXTURE_2D, ball_text);
+
+            gluSphere(ball_quad, 1.0, main_geom ? 64 : 16, main_geom ? 32 : 8);
         }
-        glEnd();
     }
-    glPopAttrib();
     glEndList();
 }
 
 void ball_free(void)
 {
     glDeleteLists(ball_list, 1);
+    gluDeleteQuadric(ball_quad);
+    glDeleteTextures(1, &ball_text);
 }
 
-void ball_draw(double r,
-               const double p[3],
-               const double e[3][3])
+void ball_draw(double r, const double p[3], const double e[3][3])
 {
     double M[16];
 
     m_basis(M, e[0], e[1], e[2]);
 
-    glPushAttrib(GL_ENABLE_BIT);
-    glPushAttrib(GL_DEPTH_BUFFER_BIT);
-    glPushAttrib(GL_COLOR_BUFFER_BIT);
+    glPushAttrib(GL_POLYGON_BIT);
+    glPushAttrib(GL_LIGHTING_BIT);
+    glPushMatrix();
     {
-        glDisable(GL_TEXTURE_2D);
+        glTranslated(p[0], p[1] + BALL_FUDGE, p[2]);
+        glMultMatrixd(M);
+        glScaled(r, r, r);
 
-        glPushMatrix();
-        {
-            glTranslated(p[0], p[1] + BALL_FUDGE, p[2]);
-            glMultMatrixd(M);
-            glScaled(r, r, r);
+        glColor3f(1.0f, 1.0f, 1.0f);
 
-            glDepthMask(GL_FALSE);
+        /* Render the ball back to front in case it is translucent. */
 
-            glCullFace(GL_FRONT);
-            glCallList(ball_list);
-            glCullFace(GL_BACK);
-            glCallList(ball_list);
+        glEnable(GL_CULL_FACE);
 
-            glDepthMask(GL_TRUE);
-            glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-
-            glCallList(ball_list);
-        }
-        glPopMatrix();
+        glCullFace(GL_FRONT);
+        glCallList(ball_list);
+        glCullFace(GL_BACK);
+        glCallList(ball_list);
     }
-    glPopAttrib();
+    glPopMatrix();
     glPopAttrib();
     glPopAttrib();
 }
@@ -211,18 +139,19 @@ struct s_part
     GLfloat v[3];
 };
 
-static struct image  part_img;
+static GLuint        part_text;
 static struct s_part part[PART_COUNT];
 
 void part_init(void)
 {
     memset(part, 0, PART_COUNT * sizeof (struct s_part));
-    image_load(&part_img, IMG_PART);
+
+    part_text = make_image_from_file(NULL, NULL, IMG_PART);
 }
 
 void part_free(void)
 {
-    image_free(&part_img);
+    glDeleteTextures(1, &part_text);
 }
 
 static void particle(const GLfloat p[3], const GLfloat c[3],
@@ -286,14 +215,14 @@ void part_draw(GLfloat rx, GLfloat ry)
 {
     int i;
 
-    glPushAttrib(GL_ENABLE_BIT);
+    glPushAttrib(GL_LIGHTING_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
         glDisable(GL_LIGHTING);
         glEnable(GL_COLOR_MATERIAL);
 
         glDepthMask(GL_FALSE);
-        image_bind(&part_img);
+        glBindTexture(GL_TEXTURE_2D, part_text);
 
         for (i = 0; i < PART_COUNT; i++)
             if (part[i].t > 0.0)
@@ -358,11 +287,7 @@ void goal_init(void)
     goal_list = glGenLists(1);
 
     glNewList(goal_list, GL_COMPILE);
-    glPushAttrib(GL_ENABLE_BIT);
     {
-        glDisable(GL_TEXTURE_2D);
-        glDisable(GL_CULL_FACE);
-
         glBegin(GL_QUAD_STRIP);
         {
             for (i = 0; i <= n; i++)
@@ -378,7 +303,6 @@ void goal_init(void)
         }
         glEnd();
     }
-    glPopAttrib();
     glEndList();
 }
 
@@ -390,55 +314,76 @@ void goal_free(void)
 void goal_draw(GLfloat rx, GLfloat ry, const struct s_goal *zv, int zc)
 {
     static const GLfloat c[3] = { 1.0f, 1.0f, 0.0f };
-    GLfloat p[3], a, rz;
 
-    double t = SDL_GetTicks() / 1000.0;
     int zi, j;
 
-    for (zi = 0; zi < zc; zi++)
+    glPushAttrib(GL_TEXTURE_BIT);
+    glPushAttrib(GL_POLYGON_BIT);
+    glPushAttrib(GL_LIGHTING_BIT);
+    glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
-        const struct s_goal *zp = zv + zi;
+        glEnable(GL_COLOR_MATERIAL);
+        glDisable(GL_LIGHTING);
+        glDisable(GL_CULL_FACE);
+        glDisable(GL_TEXTURE_2D);
+        glDepthMask(GL_FALSE);
 
-        glPushMatrix();
-        glPushAttrib(GL_ENABLE_BIT);
-        glPushAttrib(GL_DEPTH_BUFFER_BIT);
+        /* Render the shaft of light. */
+
+        for (zi = 0; zi < zc; zi++)
         {
-            glEnable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHTING);
-            glDepthMask(GL_FALSE);
-
-            glTranslated(zp->p[0], zp->p[1], zp->p[2]);
-            glScaled(zp->r, 1.0, zp->r);
-            glCallList(goal_list);
-
-            image_bind(&part_img);
-
-            for (j = 0; j < spark_n; j++)
+            glPushMatrix();
             {
-                get_spark(t, j, p, &a, &rz);
-                particle(p, c, a, rx, ry, rz);
+                glTranslated(zv[zi].p[0], zv[zi].p[1], zv[zi].p[2]);
+                glScaled(zv[zi].r, 1.0, zv[zi].r);
+
+                glCallList(goal_list);
             }
+            glPopMatrix();
         }
-        glPopAttrib();
-        glPopAttrib();
-        glPopMatrix();
+
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, part_text);
+
+        /* Render the spiraling particles. */
+
+        for (zi = 0; zi < zc; zi++)
+        {
+            glPushMatrix();
+            {
+                glTranslated(zv[zi].p[0], zv[zi].p[1], zv[zi].p[2]);
+                glScaled(zv[zi].r, 1.0, zv[zi].r);
+
+                for (j = 0; j < spark_n; j++)
+                {
+                    GLfloat p[3], a, rz;
+
+                    get_spark(SDL_GetTicks() / 1000.0, j, p, &a, &rz);
+                    particle(p, c, a, rx, ry, rz);
+                }
+            }
+            glPopMatrix();
+        }
     }
+    glPopAttrib();
+    glPopAttrib();
+    glPopAttrib();
+    glPopAttrib();
 }
 
 static void goal_part(struct s_goal *zv, int zc)
 {
     static const GLfloat v[3] = { 0.0f, 0.0f, 0.0f };
     static const GLfloat c[3] = { 1.0f, 1.0f, 0.0f };
-    GLfloat p[3], a, rz;
 
-    double t = SDL_GetTicks() / 1000.0;
     int zi, j;
 
     for (zi = 0; zi < zc; zi++)
-    {
         for (j = 0; j < spark_n; j++)
         {
-            get_spark(t, j, p, &a, &rz);
+            GLfloat p[3], a, rz;
+
+            get_spark(SDL_GetTicks() / 1000.0, j, p, &a, &rz);
         
             p[0] = (GLfloat) (p[0] * zv[zi].r + zv[zi].p[0]);
             p[1] = (GLfloat) (p[1]            + zv[zi].p[1]);
@@ -446,7 +391,6 @@ static void goal_part(struct s_goal *zv, int zc)
 
             part_make(p, v, c, a, rz, 0.0);
         }
-    }
 
     spark_n = 0;
 }
@@ -473,8 +417,8 @@ int goal_test(const struct s_ball *up, struct s_goal *zv, int zc)
 
 /*---------------------------------------------------------------------------*/
 
-static struct image coin_img;
-static GLuint       coin_list;
+static GLuint coin_text;
+static GLuint coin_list;
 
 static const GLfloat coin_color[11][3] = {
     { 0.0f, 0.0f, 0.0f },
@@ -538,9 +482,8 @@ void coin_init(void)
 
     int n = main_geom ? 32 : 16;
 
+    coin_text = make_image_from_file(NULL, NULL, IMG_COIN);
     coin_list = glGenLists(1);
-
-    image_load(&coin_img, IMG_COIN);
 
     glNewList(coin_list, GL_COMPILE);
     {
@@ -551,8 +494,6 @@ void coin_init(void)
 
         glPushMatrix();
         {
-            image_bind(&coin_img);
-
             coin_edge(n, COIN_RADIUS, COIN_THICK);
             coin_face(n, COIN_RADIUS, COIN_THICK);
 
@@ -567,7 +508,7 @@ void coin_init(void)
 void coin_free(void)
 {
     glDeleteLists(coin_list, 1);
-    image_free(&coin_img);
+    glDeleteTextures(1, &coin_text);
 }
 
 void coin_draw(const struct s_coin *cv, int cc)
@@ -575,9 +516,11 @@ void coin_draw(const struct s_coin *cv, int cc)
     double r = 360.0 * SDL_GetTicks() / 1000.0;
     int i;
 
-    glPushAttrib(GL_ENABLE_BIT);
+    glPushAttrib(GL_LIGHTING_BIT);
     {
         glEnable(GL_COLOR_MATERIAL);
+
+        glBindTexture(GL_TEXTURE_2D, coin_text);
 
         for (i = 0; i < cc; i++)
             if (0 < cv[i].n)
@@ -594,7 +537,6 @@ void coin_draw(const struct s_coin *cv, int cc)
                 }
                 glPopMatrix();
             }
-        
     }
     glPopAttrib();
 }
@@ -645,45 +587,42 @@ int coin_test(const struct s_ball *up, struct s_coin *cv, int cc)
 
 static GLuint back_list;
 
-static struct image back_u;
-static struct image back_n;
-static struct image back_s;
-static struct image back_w;
-static struct image back_e;
-static struct image back_d;
+static GLuint back_u;
+static GLuint back_n;
+static GLuint back_s;
+static GLuint back_w;
+static GLuint back_e;
+static GLuint back_d;
 
 void back_init(const char *s)
 {
     char filename[256];
 
     sprintf(filename, "%s_u.jpg", s);
-    image_load(&back_u, filename);
+    back_u = make_image_from_file(NULL, NULL, filename);
     
     sprintf(filename, "%s_n.jpg", s);
-    image_load(&back_n, filename);
+    back_n = make_image_from_file(NULL, NULL, filename);
     
     sprintf(filename, "%s_s.jpg", s);
-    image_load(&back_s, filename);
+    back_s = make_image_from_file(NULL, NULL, filename);
     
     sprintf(filename, "%s_w.jpg", s);
-    image_load(&back_w, filename);
+    back_w = make_image_from_file(NULL, NULL, filename);
     
     sprintf(filename, "%s_e.jpg", s);
-    image_load(&back_e, filename);
+    back_e = make_image_from_file(NULL, NULL, filename);
     
     sprintf(filename, "%s_d.jpg", s);
-    image_load(&back_d, filename);
+    back_d = make_image_from_file(NULL, NULL, filename);
 
     back_list = glGenLists(1);
 
     glNewList(back_list, GL_COMPILE);
-    glPushAttrib(GL_ENABLE_BIT);
     { 
-        glDisable(GL_LIGHTING);
-
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-        image_bind(&back_u);
+        glBindTexture(GL_TEXTURE_2D, back_u);
         glBegin(GL_QUADS);
         {
             glTexCoord2i(0, 1); glVertex3i(-1, +1, -1);
@@ -693,7 +632,7 @@ void back_init(const char *s)
         }
         glEnd();
 
-        image_bind(&back_n);
+        glBindTexture(GL_TEXTURE_2D, back_n);
         glBegin(GL_QUADS);
         {
             glTexCoord2i(0, 1); glVertex3i(-1, -1, -1);
@@ -703,7 +642,7 @@ void back_init(const char *s)
         }
         glEnd();
 
-        image_bind(&back_s);
+        glBindTexture(GL_TEXTURE_2D, back_s);
         glBegin(GL_QUADS);
         {
             glTexCoord2i(0, 1); glVertex3i(+1, -1, +1);
@@ -713,7 +652,7 @@ void back_init(const char *s)
         }
         glEnd();
 
-        image_bind(&back_w);
+        glBindTexture(GL_TEXTURE_2D, back_w);
         glBegin(GL_QUADS);
         {
             glTexCoord2i(0, 1); glVertex3i(-1, -1, +1);
@@ -723,7 +662,7 @@ void back_init(const char *s)
         }
         glEnd();
 
-        image_bind(&back_e);
+        glBindTexture(GL_TEXTURE_2D, back_e);
         glBegin(GL_QUADS);
         {
             glTexCoord2i(0, 1); glVertex3i(+1, -1, -1);
@@ -733,7 +672,7 @@ void back_init(const char *s)
         }
         glEnd();
 
-        image_bind(&back_d);
+        glBindTexture(GL_TEXTURE_2D, back_d);
         glBegin(GL_QUADS);
         {
             glTexCoord2i(0, 1); glVertex3i(-1, -1, +1);
@@ -743,30 +682,33 @@ void back_init(const char *s)
         }
         glEnd();
     }
-    glPopAttrib();
     glEndList();
 }
 
 void back_free(void)
 {
     glDeleteLists(back_list, 1);
-
-    image_free(&back_d);
-    image_free(&back_e);
-    image_free(&back_w);
-    image_free(&back_s);
-    image_free(&back_n);
-    image_free(&back_u);
+    glDeleteTextures(1, &back_d);
+    glDeleteTextures(1, &back_e);
+    glDeleteTextures(1, &back_w);
+    glDeleteTextures(1, &back_s);
+    glDeleteTextures(1, &back_n);
+    glDeleteTextures(1, &back_u);
 }
 
 void back_draw(void)
 {
+    glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {
+        glDisable(GL_LIGHTING);
+
         glScalef(BACK_DIST, BACK_DIST, BACK_DIST);
+        glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
         glCallList(back_list);
     }
     glPopMatrix();
+    glPopAttrib();
 }
 
 /*---------------------------------------------------------------------------*/

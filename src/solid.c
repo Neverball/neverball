@@ -1,19 +1,19 @@
 /*   
- *   Copyright (C) 2003 Robert Kooima
+ * Copyright (C) 2003 Robert Kooima
  *
- *   SUPER EMPTY BALL is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by the
- *   Free Software Foundation;  either version 2 of the  License, or (at your
- *   option) any later version.
+ * NEVERBALL is  free software; you can redistribute  it and/or modify
+ * it under the  terms of the GNU General  Public License as published
+ * by the Free  Software Foundation; either version 2  of the License,
+ * or (at your option) any later version.
  *
- *   This program  is distributed  in the  hope that it  will be  useful, but
- *   WITHOUT   ANY   WARRANTY;  without   even   the   implied  warranty   of
- *   MERCHANTABILITY  or  FITNESS FOR  A  PARTICULAR  PURPOSE.   See the  GNU
- *   General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT  ANY  WARRANTY;  without   even  the  implied  warranty  of
+ * MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.   See the GNU
+ * General Public License for more details.
  */
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,14 +21,15 @@
 #include <math.h>
 
 #include "gl.h"
+#include "main.h"
 #include "vec3.h"
-#include "image.h"
 #include "solid.h"
 
 #define SMALL 1.0e-10
 #define LARGE 1.0e+10
 
 /*---------------------------------------------------------------------------*/
+
 /*
  * The following compute the position and velocity of a body given the
  * path that it follows.
@@ -73,7 +74,7 @@ static void sol_body_p(double p[3],
  * The  following code  renders a  body in  a  ludicrously inefficient
  * manner.  It iterates the materials and scans the data structure for
  * geometry using each.  This  has the effect of absolutely minimizing
- * material  changes,  texture   bindings,  and Begin/End  pairs,  but
+ * material  changes,  texture  bindings,  and  Begin/End  pairs,  but
  * maximizing trips through the data.
  *
  * However, this  is only done once  for each level.   The results are
@@ -90,7 +91,7 @@ static void sol_render_mtrl(const struct s_file *fp, int i)
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  mp->e);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp->h);
 
-    glBindTexture(GL_TEXTURE_2D, fp->xv[i].o);
+    glBindTexture(GL_TEXTURE_2D, mp->o);
 }
 
 static void sol_render_geom(const struct s_file *fp,
@@ -98,13 +99,27 @@ static void sol_render_geom(const struct s_file *fp,
 {
     if (gp->mi == mi)
     {
-        glNormal3dv  (fp->sv[gp->si].n);
-        glTexCoord2dv(fp->tv[gp->ti].u);
-        glVertex3dv  (fp->vv[gp->vi].p);
-        glTexCoord2dv(fp->tv[gp->tj].u);
-        glVertex3dv  (fp->vv[gp->vj].p);
-        glTexCoord2dv(fp->tv[gp->tk].u);
-        glVertex3dv  (fp->vv[gp->vk].p);
+        const double *ui = fp->tv[gp->ti].u;
+        const double *uj = fp->tv[gp->tj].u;
+        const double *uk = fp->tv[gp->tk].u;
+
+        const double *vi = fp->vv[gp->vi].p;
+        const double *vj = fp->vv[gp->vj].p;
+        const double *vk = fp->vv[gp->vk].p;
+
+        glNormal3dv(fp->sv[gp->si].n);
+
+        glMultiTexCoord2dARB(GL_TEXTURE0_ARB, ui[0], ui[1]);
+        glMultiTexCoord2dARB(GL_TEXTURE1_ARB, vi[0], vi[2]);
+        glVertex3dv(vi);
+
+        glMultiTexCoord2dARB(GL_TEXTURE0_ARB, uj[0], uj[1]);
+        glMultiTexCoord2dARB(GL_TEXTURE1_ARB, vj[0], vj[2]);
+        glVertex3dv(vj);
+
+        glMultiTexCoord2dARB(GL_TEXTURE0_ARB, uk[0], uk[1]);
+        glMultiTexCoord2dARB(GL_TEXTURE1_ARB, vk[0], vk[2]);
+        glVertex3dv(vk);
     }
 }
 
@@ -116,9 +131,9 @@ static void sol_render_lump(const struct s_file *fp,
     for (i = 0; i < lp->gc; i++)
     {
         int gi = fp->iv[lp->g0 + i];
-
+        
         sol_render_geom(fp, fp->gv + gi, mi);
-    }
+     }
 }
 
 static void sol_render_body(const struct s_file *fp,
@@ -126,10 +141,16 @@ static void sol_render_body(const struct s_file *fp,
 {
     int mi, li;
 
+    /* Iterate all materials of the correct opacity. */
+
     for (mi = 0; mi < fp->mc; mi++)
         if (t == (fp->mv[mi].d[3] < 0.999) ? 1 : 0)
         {
+            /* Set the material state. */
+
             sol_render_mtrl(fp, mi);
+
+            /* Render all geometry of that material. */
 
             glBegin(GL_TRIANGLES);
             {
@@ -143,20 +164,42 @@ static void sol_render_body(const struct s_file *fp,
 /*---------------------------------------------------------------------------*/
 
 static void sol_render_list(const struct s_file *fp,
-                            const struct s_list *dp,
                             const struct s_body *bp, int t)
 {
     double p[3];
 
+    sol_body_p(p, fp, bp);
+
     glPushMatrix();
     {
-        sol_body_p(p, fp, bp);
+        /* Translate a moving body. */
+
         glTranslated(p[0], p[1], p[2]);
 
-        if (t)
-            glCallList(dp->t);
-        else
-            glCallList(dp->o);
+        /* Translate the shadow on a moving body. */
+
+        glActiveTextureARB(GL_TEXTURE1_ARB);
+        glMatrixMode(GL_TEXTURE);
+        {
+            glPushMatrix();
+            glTranslated(p[0], p[2], 0.0);
+        }
+        glMatrixMode(GL_MODELVIEW);
+        glActiveTextureARB(GL_TEXTURE0_ARB);
+        
+        /* Draw the body. */
+
+        glCallList(t ? bp->tl : bp->ol);
+
+        /* Pop the shadow translation. */
+
+        glActiveTextureARB(GL_TEXTURE1_ARB);
+        glMatrixMode(GL_TEXTURE);
+        {
+            glPopMatrix();
+        }
+        glMatrixMode(GL_MODELVIEW);
+        glActiveTextureARB(GL_TEXTURE0_ARB);
     }
     glPopMatrix();
 }
@@ -166,16 +209,22 @@ void sol_render(const struct s_file *fp)
 {
     int i;
 
+    glPushAttrib(GL_LIGHTING_BIT);
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
+        /* Render all obaque geometry into the color and depth buffers. */
+
         for (i = 0; i < fp->bc; i++)
-            sol_render_list(fp, fp->dv + i, fp->bv + i, 0);
+            sol_render_list(fp, fp->bv + i, 0);
+
+        /* Render all translucent geometry into only the color buffer. */
 
         glDepthMask(GL_FALSE);
 
         for (i = 0; i < fp->bc; i++)
-            sol_render_list(fp, fp->dv + i, fp->bv + i, 1);
+            sol_render_list(fp, fp->bv + i, 1);
     }
+    glPopAttrib();
     glPopAttrib();
 }
 
@@ -188,16 +237,20 @@ static void sol_load_objects(struct s_file *fp)
 
     for (i = 0; i < fp->bc; i++)
     {
-        fp->dv[i].o = n + i * 2 + 0;
-        fp->dv[i].t = n + i * 2 + 1;
+        fp->bv[i].ol = n + i * 2 + 0;
+        fp->bv[i].tl = n + i * 2 + 1;
 
-        glNewList(fp->dv[i].o, GL_COMPILE);
+        /* Draw all opaque geometry. */
+
+        glNewList(fp->bv[i].ol, GL_COMPILE);
         {
             sol_render_body(fp, fp->bv + i, 0);
         }
         glEndList();
 
-        glNewList(fp->dv[i].t, GL_COMPILE);
+        /* Draw all translucent geometry. */
+
+        glNewList(fp->bv[i].tl, GL_COMPILE);
         {
             sol_render_body(fp, fp->bv + i, 1);
         }
@@ -205,34 +258,61 @@ static void sol_load_objects(struct s_file *fp)
     }
 }
 
-static void sol_load_textures(struct s_file *fp)
+static void sol_load_textures(struct s_file *fp, int n)
 {
+    SDL_Surface *s;
+    SDL_Surface *d;
+
     int i;
 
     for (i = 0; i < fp->mc; i++)
-    {
-        struct s_mtrl *mp = fp->mv + i;
-        struct s_imag *xp = fp->xv + i;
-
-        if ((xp->S = image_file(mp->f)))
+        if ((s = IMG_Load(fp->mv[i].f)))
         {
-            void *p = xp->S->pixels;
-            int   w = xp->S->w;
-            int   h = xp->S->h;
+            glGenTextures(1, &fp->mv[i].o);
+            glBindTexture(GL_TEXTURE_2D, fp->mv[i].o);
 
-            glGenTextures(1, &xp->o);
-            glBindTexture(GL_TEXTURE_2D, xp->o);
+            if (n > 1)
+            {
+                /* Create a new buffer and copy the scaled image to it. */
 
-            glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
-                         GL_RGB, GL_UNSIGNED_BYTE, p);
+                d = SDL_CreateRGBSurface(SDL_SWSURFACE, s->w / n, s->h / n,
+                                           24, RMASK, GMASK, BMASK, 0);
+                if (d)
+                {
+                    SDL_LockSurface(s);
+                    SDL_LockSurface(d);
+                    {
+                        gluScaleImage(GL_RGB,
+                                      s->w, s->h, GL_UNSIGNED_BYTE, s->pixels,
+                                      d->w, d->h, GL_UNSIGNED_BYTE, d->pixels);
+                    }
+                    SDL_UnlockSurface(d);
+                    SDL_UnlockSurface(s);
+
+                    /* Load the scaled image. */
+
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, d->w, d->h,
+                                 0, GL_RGB, GL_UNSIGNED_BYTE, d->pixels);
+
+                    SDL_FreeSurface(d);
+                }
+            }
+            else
+            {
+                /* Load the unscaled image. */
+
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, s->w, s->h,
+                             0, GL_RGB, GL_UNSIGNED_BYTE, s->pixels);
+            }
 
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+            SDL_FreeSurface(s);
         }
-    }
 }
 
-int sol_load(struct s_file *fp, const char *filename)
+int sol_load(struct s_file *fp, const char *filename, int scale)
 {
     FILE *fin;
 
@@ -242,11 +322,11 @@ int sol_load(struct s_file *fp, const char *filename)
     if ((fin = fopen(filename, "r")))
 #endif
     {
-        int n[14];
+        int n[15];
 
         memset(fp, 0, sizeof (struct s_file));
 
-        fread(n, sizeof (int), 14, fin);
+        fread(n, sizeof (int), 15, fin);
 
         fp->mc = n[0];
         fp->vc = n[1];
@@ -261,10 +341,8 @@ int sol_load(struct s_file *fp, const char *filename)
         fp->cc = n[10];
         fp->zc = n[11];
         fp->uc = n[12];
-        fp->ic = n[13];
-
-        fp->xv = (struct s_imag *) calloc(n[0],  sizeof (struct s_imag));
-        fp->dv = (struct s_list *) calloc(n[9],  sizeof (struct s_list));
+        fp->ac = n[13];
+        fp->ic = n[14];
 
         fp->mv = (struct s_mtrl *) calloc(n[0],  sizeof (struct s_mtrl));
         fp->vv = (struct s_vert *) calloc(n[1],  sizeof (struct s_vert));
@@ -279,7 +357,8 @@ int sol_load(struct s_file *fp, const char *filename)
         fp->cv = (struct s_coin *) calloc(n[10], sizeof (struct s_coin));
         fp->zv = (struct s_goal *) calloc(n[11], sizeof (struct s_goal));
         fp->uv = (struct s_ball *) calloc(n[12], sizeof (struct s_ball));
-        fp->iv = (int           *) calloc(n[13], sizeof (int));
+        fp->av = (char          *) calloc(n[13], sizeof (char));
+        fp->iv = (int           *) calloc(n[14], sizeof (int));
 
         fread(fp->mv, sizeof (struct s_mtrl), n[0],  fin);
         fread(fp->vv, sizeof (struct s_vert), n[1],  fin);
@@ -294,11 +373,12 @@ int sol_load(struct s_file *fp, const char *filename)
         fread(fp->cv, sizeof (struct s_coin), n[10], fin);
         fread(fp->zv, sizeof (struct s_goal), n[11], fin);
         fread(fp->uv, sizeof (struct s_ball), n[12], fin);
-        fread(fp->iv, sizeof (int),           n[13], fin);
+        fread(fp->av, sizeof (char),          n[13], fin);
+        fread(fp->iv, sizeof (int),           n[14], fin);
 
         fclose(fin);
 
-        sol_load_textures(fp);
+        sol_load_textures(fp, scale);
         sol_load_objects(fp);
 
         return 1;
@@ -316,7 +396,7 @@ int sol_stor(struct s_file *fp, const char *filename)
     if ((fout = fopen(filename, "w")))
 #endif
     {
-        int n[14];
+        int n[15];
 
         n[0]  = fp->mc;
         n[1]  = fp->vc;
@@ -331,9 +411,10 @@ int sol_stor(struct s_file *fp, const char *filename)
         n[10] = fp->cc;
         n[11] = fp->zc;
         n[12] = fp->uc;
-        n[13] = fp->ic;
+        n[13] = fp->ac;
+        n[14] = fp->ic;
 
-        fwrite(n, sizeof (int), 14, fout);
+        fwrite(n, sizeof (int), 15, fout);
 
         fwrite(fp->mv, sizeof (struct s_mtrl), n[0],  fout);
         fwrite(fp->vv, sizeof (struct s_vert), n[1],  fout);
@@ -348,7 +429,8 @@ int sol_stor(struct s_file *fp, const char *filename)
         fwrite(fp->cv, sizeof (struct s_coin), n[10], fout);
         fwrite(fp->zv, sizeof (struct s_goal), n[11], fout);
         fwrite(fp->uv, sizeof (struct s_ball), n[12], fout);
-        fwrite(fp->iv, sizeof (int),           n[13], fout);
+        fwrite(fp->av, sizeof (char),          n[13], fout);
+        fwrite(fp->iv, sizeof (int),           n[14], fout);
 
         fclose(fout);
 
@@ -363,23 +445,17 @@ void sol_free(struct s_file *fp)
 
     for (i = 0; i < fp->mc; i++)
     {
-        if (fp->xv[i].S)
-            SDL_FreeSurface(fp->xv[i].S);
-
-        if (glIsTexture(fp->xv[i].o))
-            glDeleteTextures(1, &fp->xv[i].o);
+        if (glIsTexture(fp->mv[i].o))
+            glDeleteTextures(1, &fp->mv[i].o);
     }
 
     for (i = 0; i < fp->bc; i++)
     {
-        if (glIsList(fp->dv[i].o))
-            glDeleteLists(fp->dv[i].o, 1);
-        if (glIsList(fp->dv[i].t))
-            glDeleteLists(fp->dv[i].t, 1);
+        if (glIsList(fp->bv[i].ol))
+            glDeleteLists(fp->bv[i].ol, 1);
+        if (glIsList(fp->bv[i].tl))
+            glDeleteLists(fp->bv[i].tl, 1);
     }
-
-    if (fp->xv) free(fp->xv);
-    if (fp->dv) free(fp->dv);
 
     if (fp->mv) free(fp->mv);
     if (fp->vv) free(fp->vv);
@@ -394,6 +470,7 @@ void sol_free(struct s_file *fp)
     if (fp->cv) free(fp->cv);
     if (fp->zv) free(fp->zv);
     if (fp->uv) free(fp->uv);
+    if (fp->av) free(fp->av);
     if (fp->iv) free(fp->iv);
 
     memset(fp, 0, sizeof (struct s_file));

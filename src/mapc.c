@@ -1,24 +1,24 @@
 /*   
- *   Copyright (C) 2003 Robert Kooima
+ * Copyright (C) 2003 Robert Kooima
  *
- *   SUPER EMPTY BALL is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by the
- *   Free Software Foundation;  either version 2 of the  License, or (at your
- *   option) any later version.
+ * NEVERBALL is  free software; you can redistribute  it and/or modify
+ * it under the  terms of the GNU General  Public License as published
+ * by the Free  Software Foundation; either version 2  of the License,
+ * or (at your option) any later version.
  *
- *   This program  is distributed  in the  hope that it  will be  useful, but
- *   WITHOUT   ANY   WARRANTY;  without   even   the   implied  warranty   of
- *   MERCHANTABILITY  or  FITNESS FOR  A  PARTICULAR  PURPOSE.   See the  GNU
- *   General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT  ANY  WARRANTY;  without   even  the  implied  warranty  of
+ * MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.   See the GNU
+ * General Public License for more details.
  */
 
 /*
- * I'm not  particularly proud  of this chunk  of code.   It was not  so much
- * designed as it was accumulated.
+ * I'm not  particularly proud of this  chunk of code.  It  was not so
+ * much designed as it was accumulated.
  */
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,11 +34,11 @@
 #define SMALL  0.0000000005
 
 /*
- * The overall design  of this map converter is very  stupid, but very simple
- * It begins by  assuming that every mtrl, vert, edge, side,  and texc in the
- * map is unique.   It then makes an optimizing  pass that discards redundant
- * information.   The  result is  optimal,  though  the  process is  terribly
- * inefficient.
+ * The overall design  of this map converter is  very stupid, but very
+ * simple It begins by assuming that every mtrl, vert, edge, side, and
+ * texc in the  map is unique.  It then makes  an optimizing pass that
+ * discards redundant information.  The  result is optimal, though the
+ * process is terribly inefficient.
  */
 
 /*---------------------------------------------------------------------------*/
@@ -58,6 +58,7 @@
 #define MAXC	1024
 #define MAXZ    8
 #define MAXU	16
+#define MAXA	512
 #define MAXI	16384
 
 static void init_file(struct s_file *fp)
@@ -75,6 +76,7 @@ static void init_file(struct s_file *fp)
     fp->cc = 0;
     fp->zc = 0;
     fp->uc = 0;
+    fp->ac = 0;
     fp->ic = 0;
 
     fp->mv = (struct s_mtrl *) calloc(MAXM, sizeof (struct s_mtrl));
@@ -90,17 +92,18 @@ static void init_file(struct s_file *fp)
     fp->cv = (struct s_coin *) calloc(MAXC, sizeof (struct s_coin));
     fp->zv = (struct s_goal *) calloc(MAXZ, sizeof (struct s_goal));
     fp->uv = (struct s_ball *) calloc(MAXU, sizeof (struct s_ball));
+    fp->av = (char          *) calloc(MAXI, sizeof (char));
     fp->iv = (int           *) calloc(MAXI, sizeof (int));
 }
 
 /*---------------------------------------------------------------------------*/
 
 /*
- * The following is  a small symbol table data  structure.  Symbols and their
- * integer values are collected in symv and valv.  References and pointers to
- * their  unsatisfied integer  values are  collected in  refv and  pntv.  The
- * resolve  procedure matches references  to symbols  and fills  waiting ints
- * with the proper values.
+ * The following is a small  symbol table data structure.  Symbols and
+ * their integer  values are collected  in symv and  valv.  References
+ * and pointers  to their unsatisfied integer values  are collected in
+ * refv and pntv.  The resolve procedure matches references to symbols
+ * and fills waiting ints with the proper values.
  */
 
 #define MAXSYM 1024
@@ -143,21 +146,47 @@ static void resolve(void)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * The following code caches  image sizes.  Textures are referenced by
+ * name,  but  their  sizes   are  necessary  when  computing  texture
+ * coordinates.   This  code allows  each  file  to  be accessed  once
+ * regardless of the number of surfaces refering to it.
+ */
+
+static char *image_s[MAXM];
+static int   image_w[MAXM];
+static int   image_h[MAXM];
+static int   image_n = 0;
+
 static void size_image(const char *s, int *w, int *h)
 {
-    SDL_Surface *S = IMG_Load(s);
+    SDL_Surface *S;
+    int i;
 
-    if (S)
+    *w = 0;
+    *h = 0;
+
+    for (i = 0; i < image_n; i++)
+        if (strcmp(image_s[i], s) == 0)
+        {
+            *w = image_w[i];
+            *h = image_h[i];
+
+            return;
+        }
+
+    if ((S = IMG_Load(s)))
     {
+        image_s[image_n] = (char *) calloc(strlen(s) + 1, 1);
+        image_w[image_n] = S->w;
+        image_h[image_n] = S->h;
+
+        strcpy(image_s[image_n++], s);
+
         *w = S->w;
         *h = S->h;
 
         SDL_FreeSurface(S);
-    }
-    else
-    {
-        *w = 0;
-        *h = 0;
     }
 }
 
@@ -342,11 +371,11 @@ static void read_mtrl(struct s_file *fp, const char *s)
 }
 
 /*
- * Parse a lump  from the given file and  add it to the solid.   Note a small
- * hack here  in mapping  materials onto sides.   Material indices  cannot be
- * assigned until faces  are computed, so for now there is  assumed to be one
- * material  per side,  and that  a side  index equals  that  side's material
- * index.  See clip_lump and clip_geom.
+ * Parse a lump from  the given file and add it to  the solid.  Note a
+ * small hack here in  mapping materials onto sides.  Material indices
+ * cannot be  assigned until faces are  computed, so for  now there is
+ * assumed to be  one material per side, and that  a side index equals
+ * that side's material index.  See clip_lump and clip_geom.
  */
 static void read_lump(struct s_file *fp, FILE *fin)
 {
@@ -434,8 +463,15 @@ static void make_body(struct s_file *fp,
     bp->lc = fp->lc - l0;
 
     for (i = 0; i < c; i++)
+    {
         if (strcmp(k[i], "target") == 0)
             make_ref(v[i], &bp->pi);
+        if (strcmp(k[i], "message") == 0)
+        {
+            strcpy(fp->av, v[i]);
+            fp->ac = strlen(v[i]) + 1;
+        }
+    }
 }
 
 static void make_coin(struct s_file *fp,
@@ -600,10 +636,11 @@ static void read_map(struct s_file *fp, FILE *fin)
 /*---------------------------------------------------------------------------*/
 
 /*
- * All bodies  with an associated  path are assumed  to be positioned  at the
- * beginning of that path.  These bodies must be moved to the origin in order
- * for their  path transforms to behave  correctly.  This is how  we get away
- * with defining func_trains with no origin specification.
+ * All bodies with an associated  path are assumed to be positioned at
+ * the  beginning of that  path.  These  bodies must  be moved  to the
+ * origin  in order  for their  path transforms  to  behave correctly.
+ * This is  how we get away  with defining func_trains  with no origin
+ * specification.
  */
 
 static void move_side(struct s_side *sp, const double p[3])
@@ -681,18 +718,19 @@ static int ok_vert(const struct s_file *fp,
 /*---------------------------------------------------------------------------*/
 
 /*
- * The following  functions take the set  of planes defining a  lump and find
- * the verts,  edges, and  geoms that describe  its boundaries.  To  do this,
- * they first find the verts, and then search these verts for valid edges and
- * geoms.  It  may be more efficient  to compute edges and  geoms directly by
- * clipping down  infinite line segments and  planes, but this  would be more
- * complex and prone to numerical error.
+ * The following functions take the  set of planes defining a lump and
+ * find the verts, edges, and  geoms that describe its boundaries.  To
+ * do this, they first find the verts, and then search these verts for
+ * valid edges and  geoms.  It may be more  efficient to compute edges
+ * and  geoms directly  by clipping  down infinite  line  segments and
+ * planes,  but this  would be  more  complex and  prone to  numerical
+ * error.
  */
 
 /*
- * Given 3 side  planes, compute the point of  intersection, if any.  Confirm
- * that this point falls within the current lump, and that it is unique.  Add
- * it as a vert of the solid.
+ * Given 3  side planes,  compute the point  of intersection,  if any.
+ * Confirm that this point falls  within the current lump, and that it
+ * is unique.  Add it as a vert of the solid.
  */
 static void clip_vert(struct s_file *fp,
                       struct s_lump *lp, int si, int sj, int sk)
@@ -733,8 +771,9 @@ static void clip_vert(struct s_file *fp,
 }
 
 /*
- * Given two side planes, find an  edge along their intersection by finding a
- * pair of vertices that fall on both planes.  Add it to the solid.
+ * Given two  side planes,  find an edge  along their  intersection by
+ * finding a pair of vertices that fall on both planes.  Add it to the
+ * solid.
  */
 static void clip_edge(struct s_file *fp,
                       struct s_lump *lp, int si, int sj)
@@ -765,9 +804,9 @@ static void clip_edge(struct s_file *fp,
 }
 
 /*
- * Find all verts that  lie on the given side of the  lump.  Sort these verts
- * to have a counter-clockwise winding  about the plane normal.  Create geoms
- * to tessalate the resulting convex polygon.
+ * Find all verts that lie on  the given side of the lump.  Sort these
+ * verts to  have a counter-clockwise winding about  the plane normal.
+ * Create geoms to tessalate the resulting convex polygon.
  */
 static void clip_geom(struct s_file *fp,
                       struct s_lump *lp, int si)
@@ -843,9 +882,9 @@ static void clip_geom(struct s_file *fp,
 }
 
 /*
- * Iterate the sides  of the lump, attemping to generate a  new vert for each
- * trio of planes, a new edge for each  pair of planes, and a new set of geom
- * for each visible plane.
+ * Iterate the sides of the lump, attemping to generate a new vert for
+ * each trio of planes, a new edge  for each pair of planes, and a new
+ * set of geom for each visible plane.
  */
 static void clip_lump(struct s_file *fp, struct s_lump *lp)
 {
@@ -894,11 +933,11 @@ static void clip_file(struct s_file *fp)
 /*---------------------------------------------------------------------------*/
 
 /*
- * For  each body element  type, determine  if element  'p' is  equivalent to
- * element 'q'.  This  is more than a simple  memory compare.  It effectively
- * snaps mtrls and verts togather, and  may reverse the winding of an edge or
- * a geom.  This is done in order to maximize the number of elements that can
- * be eliminated.
+ * For each body element type,  determine if element 'p' is equivalent
+ * to element  'q'.  This  is more than  a simple memory  compare.  It
+ * effectively  snaps mtrls and  verts togather,  and may  reverse the
+ * winding of  an edge or a geom.   This is done in  order to maximize
+ * the number of elements that can be eliminated.
  */
 
 static int comp_mtrl(const struct s_mtrl *mp, const struct s_mtrl *mq)
@@ -976,9 +1015,9 @@ static int comp_geom(const struct s_geom *gp, const struct s_geom *gq)
 /*---------------------------------------------------------------------------*/
 
 /*
- * For each file  element type, replace all references to  element 'i' with a
- * reference to element 'j'.  These  are used when optimizing and sorting the
- * file.
+ * For each file  element type, replace all references  to element 'i'
+ * with a  reference to element  'j'.  These are used  when optimizing
+ * and sorting the file.
  */
 
 static void swap_mtrl(struct s_file *fp, int mi, int mj)
@@ -1235,8 +1274,9 @@ static void sort_file(struct s_file *fp)
     struct s_path p;
    
     /*
-     * Sort the  geoms in  order of material  index.  This was  originally an
-     * important state transition reduction hack, but is now merely cute.
+     * Sort the geoms in order of material index.  This was originally
+     * an important state transition reduction hack, but is now merely
+     * cute.
      */
     for (i = 1; i < fp->gc; i++)
         for (j = 0; j < i; j++)
@@ -1252,8 +1292,9 @@ static void sort_file(struct s_file *fp)
             }
 
     /*
-     * Sort the sides so that the  most "floorish" side is 0.  Then any geoms
-     * referring to side 0 may be given special treatment as "floor" geoms.
+     * Sort the sides so that the most "floorish" side is 0.  Then any
+     * geoms referring  to side  0 may be  given special  treatment as
+     * "floor" geoms.
      */
     for (j = 1; j < fp->sc; j++)
         if (fp->sv[j].n[1]    >= fp->sv[0].n[1] &&
@@ -1290,14 +1331,14 @@ static void sort_file(struct s_file *fp)
 static void dump_head(void)
 {
     printf(" mtrl vert edge side texc geom lump"
-           " node path body coin goal ball indx\n");
+           " path body coin goal ball char indx\n");
 }
 
 static void dump_file(struct s_file *fp)
 {
     printf("%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d%5d\n",
            fp->mc, fp->vc, fp->ec, fp->sc, fp->tc, fp->gc, fp->lc,
-           fp->nc, fp->pc, fp->bc, fp->cc, fp->zc, fp->uc, fp->ic);
+           fp->pc, fp->bc, fp->cc, fp->zc, fp->uc, fp->ac, fp->ic);
 }
 
 int main(int argc, char *argv[])

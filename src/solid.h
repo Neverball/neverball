@@ -1,21 +1,21 @@
 /*   
- *   Copyright (C) 2003 Robert Kooima
+ * Copyright (C) 2003 Robert Kooima
  *
- *   SUPER EMPTY BALL is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by the
- *   Free Software Foundation;  either version 2 of the  License, or (at your
- *   option) any later version.
+ * NEVERBALL is  free software; you can redistribute  it and/or modify
+ * it under the  terms of the GNU General  Public License as published
+ * by the Free  Software Foundation; either version 2  of the License,
+ * or (at your option) any later version.
  *
- *   This program  is distributed  in the  hope that it  will be  useful, but
- *   WITHOUT   ANY   WARRANTY;  without   even   the   implied  warranty   of
- *   MERCHANTABILITY  or  FITNESS FOR  A  PARTICULAR  PURPOSE.   See the  GNU
- *   General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT  ANY  WARRANTY;  without   even  the  implied  warranty  of
+ * MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.   See the GNU
+ * General Public License for more details.
  */
 
 #ifndef SOL_H
 #define SOL_H
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 #include "gl.h"
 
@@ -24,7 +24,7 @@
 /*
  * Some might  be taken  aback at  the terseness of  the names  of the
  * structure  members and  the variables  used by  the  functions that
- * access them.  Yes,  yes, I know, readability.  I  contend that once
+ * access them.  Yes, yes, I know:  readability.  I  contend that once
  * the naming  convention is embraced, the names  become more readable
  * than any  verbose alternative, and their brevity  and uniformity do
  * more to augment readability than longVariableNames ever could.
@@ -35,8 +35,6 @@
  *
  * The Xs are as documented by struct s_file:
  * 
- *     x  Image         (struct s_imag)
- *     d  Display list  (struct s_list)
  *     m  Material      (struct s_mtrl)
  *     v  Vertex        (struct s_vert)
  *     e  Edge          (struct s_edge)
@@ -50,6 +48,7 @@
  *     c  Coin          (struct s_coin)
  *     z  Goal          (struct s_goal)
  *     u  User          (struct s_ball)
+ *     a  Text          (char)
  *     i  Index         (int)
  *     
  * The Ys are as follows:
@@ -57,32 +56,21 @@
  *     c  Counter
  *     p  Pointer
  *     v  Vector (array)
- *     0  Index of the first of block
+ *     0  Index of the first
  *     i  Index
  *     j  Subindex
  *     k  Subsubindex
  *
- * Thus "vp" is  a pointer to a vertex.  "lc" is  the number of lumps.
- * "ei" and "ej" are edge indices  into some "ev" edge vector.  And so
- * on.
+ * Thus "up" is a pointer to  a user structure.  "lc" is the number of
+ * lumps.  "ei" and "ej" are  edge indices into some "ev" edge vector.
+ * An edge is  defined by two vertices, so  an edge structure consists
+ * of "vi" and "vj".  And so on.
  * 
  * Those members that do not conform to this convention are explicitly
  * documented with a comment.
  */
 
 /*---------------------------------------------------------------------------*/
-
-struct s_imag
-{
-    SDL_Surface *S;
-    GLuint       o;
-};
-
-struct s_list
-{
-    GLuint o;                                  /* opaque geometry list       */
-    GLuint t;                                  /* transparent geometry list  */
-};
 
 struct s_mtrl
 {
@@ -91,7 +79,9 @@ struct s_mtrl
     float s[4];                                /* specular color             */
     float e[4];                                /* emission color             */
     float h[1];                                /* specular exponent          */
-    char  f[PATHMAX];                          /* texture file name          */
+
+    char   f[PATHMAX];                         /* texture file name          */
+    GLuint o;                                  /* OpenGL texture object      */
 };
 
 struct s_vert
@@ -159,6 +149,9 @@ struct s_body
 {
     double t;                                  /* time on current path       */
 
+    GLuint ol;                                 /* opaque geometry list       */
+    GLuint tl;                                 /* transparent geometry list  */
+
     int pi;
     int ni;
     int l0;
@@ -201,10 +194,8 @@ struct s_file
     int cc;
     int zc;
     int uc;
+    int ac;
     int ic;
-
-    struct s_imag *xv;
-    struct s_list *dv;
 
     struct s_mtrl *mv;
     struct s_vert *vv;
@@ -219,17 +210,17 @@ struct s_file
     struct s_coin *cv;
     struct s_goal *zv;
     struct s_ball *uv;
+    char          *av;
     int           *iv;
 };
 
 /*---------------------------------------------------------------------------*/
 
-void sol_render(const struct s_file *);
-
-int  sol_load(struct s_file *, const char *);
+int  sol_load(struct s_file *, const char *, int);
 int  sol_stor(struct s_file *, const char *);
 void sol_free(struct s_file *);
 
+void   sol_render(const struct s_file *);
 double sol_update(struct s_file *, const double[3], double);
 
 #endif

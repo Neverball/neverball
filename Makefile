@@ -6,5 +6,5 @@ all :
 clean :
 	(cd src;  $(MAKE) -i clean)
 	(cd data; $(MAKE) -i clean)
-	rm -f ball mapc
+	rm -f neverball mapc
 

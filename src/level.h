@@ -3,7 +3,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-extern int score;
+extern int coins;
 extern int balls;
 extern int level;
 extern int count;

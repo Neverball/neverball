@@ -1,104 +1,124 @@
 /*   
- *   Copyright (C) 2003 Robert Kooima
+ * Copyright (C) 2003 Robert Kooima
  *
- *   SUPER EMPTY BALL is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by the
- *   Free Software Foundation;  either version 2 of the  License, or (at your
- *   option) any later version.
+ * NEVERBALL is  free software; you can redistribute  it and/or modify
+ * it under the  terms of the GNU General  Public License as published
+ * by the Free  Software Foundation; either version 2  of the License,
+ * or (at your option) any later version.
  *
- *   This program  is distributed  in the  hope that it  will be  useful, but
- *   WITHOUT   ANY   WARRANTY;  without   even   the   implied  warranty   of
- *   MERCHANTABILITY  or  FITNESS FOR  A  PARTICULAR  PURPOSE.   See the  GNU
- *   General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT  ANY  WARRANTY;  without   even  the  implied  warranty  of
+ * MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.   See the GNU
+ * General Public License for more details.
  */
 
+#include <SDL.h>
+#include <SDL_ttf.h>
+
 #include "gl.h"
+#include "main.h"
 #include "text.h"
 #include "image.h"
 
 /*---------------------------------------------------------------------------*/
 
-#define IMG_DIG0 "data/png/digit0.png"
-#define IMG_DIG1 "data/png/digit1.png"
-#define IMG_DIG2 "data/png/digit2.png"
-#define IMG_DIG3 "data/png/digit3.png"
-#define IMG_DIG4 "data/png/digit4.png"
-#define IMG_DIG5 "data/png/digit5.png"
-#define IMG_DIG6 "data/png/digit6.png"
-#define IMG_DIG7 "data/png/digit7.png"
-#define IMG_DIG8 "data/png/digit8.png"
-#define IMG_DIG9 "data/png/digit9.png"
+#define TYPEFACE "data/ttf/VeraBd.ttf"
 
-#define IMG_COINS "data/png/coins.png"
-#define IMG_BALLS "data/png/balls.png"
-
-static struct image digit_img[10];
-static struct image label_img[2];
+static TTF_Font *text_font[3];
 
 /*---------------------------------------------------------------------------*/
 
-void text_init(void)
+int text_init(int h)
 {
-    image_load(digit_img + 0, IMG_DIG0);
-    image_load(digit_img + 1, IMG_DIG1);
-    image_load(digit_img + 2, IMG_DIG2);
-    image_load(digit_img + 3, IMG_DIG3);
-    image_load(digit_img + 4, IMG_DIG4);
-    image_load(digit_img + 5, IMG_DIG5);
-    image_load(digit_img + 6, IMG_DIG6);
-    image_load(digit_img + 7, IMG_DIG7);
-    image_load(digit_img + 8, IMG_DIG8);
-    image_load(digit_img + 9, IMG_DIG9);
+    if (TTF_Init() == 0)
+    {
+        text_font[0] = TTF_OpenFont(TYPEFACE, h / 24);
+        text_font[1] = TTF_OpenFont(TYPEFACE, h / 12);
+        text_font[2] = TTF_OpenFont(TYPEFACE, h /  6);
 
-    image_load(label_img + TXT_COINS, IMG_COINS);
-    image_load(label_img + TXT_BALLS, IMG_BALLS);
+        return 1;
+    }
+    return 0;
 }
 
 void text_free(void)
 {
-    image_free(label_img + TXT_BALLS);
-    image_free(label_img + TXT_COINS);
+    TTF_CloseFont(text_font[2]);
+    TTF_CloseFont(text_font[1]);
+    TTF_CloseFont(text_font[0]);
 
-    image_free(digit_img + 9);
-    image_free(digit_img + 8);
-    image_free(digit_img + 7);
-    image_free(digit_img + 6);
-    image_free(digit_img + 5);
-    image_free(digit_img + 4);
-    image_free(digit_img + 3);
-    image_free(digit_img + 2);
-    image_free(digit_img + 1);
-    image_free(digit_img + 0);
+    TTF_Quit();
 }
 
 /*---------------------------------------------------------------------------*/
 
-void text_digit(int d, double x0, double y0, double x1, double y1)
+void text_size(const char *text, int i, int *w, int *h)
 {
-    image_bind(digit_img + d);
-
-    glBegin(GL_QUADS);
-    {
-        glTexCoord2d(0.0, 1.0); glVertex2d(x0, y0);
-        glTexCoord2d(1.0, 1.0); glVertex2d(x1, y0);
-        glTexCoord2d(1.0, 0.0); glVertex2d(x1, y1);
-        glTexCoord2d(0.0, 0.0); glVertex2d(x0, y1);
-    }
-    glEnd();
+    TTF_SizeText(text_font[i], text, w, h);
 }
 
-void text_label(int l, double x0, double y0, double x1, double y1)
+GLuint make_list(const char *text, int i, const float *c0, const float *c1)
 {
-    image_bind(label_img + l);
+    GLuint list = glGenLists(1);
 
-    glBegin(GL_QUADS);
+    int W, H;
+    int w, h;
+
+    GLfloat s0, t0;
+    GLfloat s1, t1;
+
+    text_size(text, i, &w, &h);
+    image_size(&W, &H, w, h);
+
+    s0 = 0.5f * (W - w) / W;
+    t0 = 0.5f * (H - h) / H;
+    s1 = 1.0f - s0;
+    t1 = 1.0f - t0;
+
+    glNewList(list, GL_COMPILE);
     {
-        glTexCoord2d(0.0, 1.0); glVertex2d(x0, y0);
-        glTexCoord2d(1.0, 1.0); glVertex2d(x1, y0);
-        glTexCoord2d(1.0, 0.0); glVertex2d(x1, y1);
-        glTexCoord2d(0.0, 0.0); glVertex2d(x0, y1);
+        glBegin(GL_QUADS);
+        {
+            glColor3fv(c0);
+            glTexCoord2f(s0, t1); glVertex2i(0, 0);
+            glTexCoord2f(s1, t1); glVertex2i(w, 0);
+
+            glColor3fv(c1);
+            glTexCoord2f(s1, t0); glVertex2i(w, h);
+            glTexCoord2f(s0, t0); glVertex2i(0, h);
+        }
+        glEnd();
     }
-    glEnd();
+    glEndList();
+
+    return list;
+}
+
+GLuint make_text(const char *text, int i)
+{
+    return make_image_from_font(NULL, NULL, NULL, NULL, text, text_font[i]);
+}
+
+/*---------------------------------------------------------------------------*/
+
+void push_ortho(int w, int h)
+{
+    glMatrixMode(GL_PROJECTION);
+    {
+        glPushMatrix();
+        glLoadIdentity();
+        glOrtho(0.0, w, 0.0, h, -1.0, +1.0);
+    }
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void pop_ortho(void)
+{
+    glMatrixMode(GL_PROJECTION);
+    {
+        glPopMatrix();
+    }
+    glMatrixMode(GL_MODELVIEW);
 }
 
 /*---------------------------------------------------------------------------*/

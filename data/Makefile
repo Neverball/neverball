@@ -3,6 +3,7 @@ sol/%.sol : map/%.map
 	../mapc $< $@
 
 all : 	sol/easy.sol \
+	sol/easy2.sol \
 	sol/fall.sol \
 	sol/move.sol \
 	sol/maze.sol \
@@ -11,7 +12,8 @@ all : 	sol/easy.sol \
 	sol/angle.sol \
 	sol/quads.sol \
 	sol/spiral.sol \
-	sol/marble.sol
+	sol/marble.sol \
+	sol/title.sol
 
 clean :
 	rm -f map/*.bak

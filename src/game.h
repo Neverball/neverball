@@ -17,8 +17,12 @@ void game_update_pos(int, int);
 void game_update_rot(int);
 void game_update_fly(double);
 
-void game_init(const char *, int);
-void game_free(void);
+void game_update_x(int);
+void game_update_z(int);
+
+void  game_init(const char *, int);
+void  game_free(void);
+char *game_note(void);
 
 /*---------------------------------------------------------------------------*/
 
