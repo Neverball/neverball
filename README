@@ -22,6 +22,7 @@ Neverball requires:
 
     Mehdi Yousfi Monod  (Feature ideas and levels)
     Derek Arndt         (OSX packaging)
+    Phil Harper         (TheOpenCD packaging, icons)
     Max Gilead          (Debian packaging)
     Michael Sterret     (Gentoo ebuild)
     Christoph Frick     (OSX port)
@@ -143,15 +144,15 @@ default values follow.
         the floor  through its entire  range.  A smaller  number means
         more sensitive.
 
-    mouse_inv 0
+    mouse_invert 0
 
         This key inverts the vertical mouse axis if set to 1.
 
-    key_cam_1 f1
-    key_cam_2 f2
-    key_cam_3 f3
-    key_cam_l left
-    key_cam_r right
+    key_camera_1 f1
+    key_camera_2 f2
+    key_camera_3 f3
+    key_camera_l left
+    key_camera_r right
 
         These keys  define keyboard mappings for  camera selection and
         rotation.  Key  names are specified using  SDL's canonical key
@@ -172,7 +173,7 @@ default values follow.
         This key enables an on-screen frames-per-second counter. Press
         F9 to toggle this flag in-game.
 
-    niceness 1
+    nice 1
 
         This  key  enables  a  delay  function  after  each  frame  is
         rendered, forcing a context  switch and ensuring that the game
@@ -207,44 +208,44 @@ default values follow.
         viewing.  2 gives  a  good  stereo effect.   If  the eyes  are
         swapped, give a negative value, like -2.
 
-    joy 0
+    joystick 0
 
         This key  enables joystick control.  0  is off, 1  is on.  The
         game may still be controlled with the mouse even while gamepad
         control  is enabled.   However,  random noise  from an  analog
         controller at rest can disrupt normal mouse input.
 
-    joy_device 0
+    joystick_device 0
 
         This  number selects  which joystick  to use if  more than one
         joystick is  found. 0 is the first  joystick, 1 is the  second
         and so on.
 
-    axis_x 0
+    joystick_axis_x 0
 
         Joystick horizontal axis number
 
-    axis_y 1
+    joystick_axis_y 1
 
         Joystick vertical axis number
 
-    button_a 0
+    joystick_button_a 0
 
         Joystick menu select button
 
-    button_b 1
+    joystick_button_b 1
 
         Joystick menu cancel button
 
-    button_r 2
+    joystick_button_r 2
 
         Joystick counter-clockwise camera rotation button
 
-    button_l 3
+    joystick_button_l 3
 
         Joystick clockwise camera rotation button
 
-    button_exit 4
+    joystick_button_exit 4
 
         Joystick exit button
 

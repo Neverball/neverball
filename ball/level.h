@@ -3,18 +3,16 @@
 
 /*---------------------------------------------------------------------------*/
 
-extern char player[];
-
 const char *level_coin_n(int, int);
-const char *level_coin_c(int, int);
-const char *level_coin_s(int, int);
+int         level_coin_c(int, int);
+int         level_coin_t(int, int);
 
 const char *level_time_n(int, int);
-const char *level_time_c(int, int);
-const char *level_time_s(int, int);
+int         level_time_c(int, int);
+int         level_time_t(int, int);
 
-void level_init(const char *, const char *, const char *);
-void level_free(const char *);
+void level_init(char *, char *, char *);
+void level_free(char *);
 
 int  level_exists(int);
 int  level_opened(int);

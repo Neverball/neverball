@@ -121,7 +121,8 @@ void set_shot(int i)
     if (0 <= i && i < count)
     {
         if (!glIsTexture(set_v[i].text))
-            set_v[i].text = make_image_from_file(0, 0, set_v[i].shot);
+            set_v[i].text = make_image_from_file(NULL, NULL, NULL, NULL,
+                                                 set_v[i].shot);
 
         glBindTexture(GL_TEXTURE_2D, set_v[i].text);
     }

@@ -105,10 +105,10 @@ void menu_item(int i, int x, int y, int w, int h)
 {
     if (menu.item)
     {
-        menu.item[i].x0 = x + (config_w() - w) / 2;
-        menu.item[i].x1 = x + (config_w() + w) / 2;
-        menu.item[i].y0 = y + (config_h() - h) / 2;
-        menu.item[i].y1 = y + (config_h() + h) / 2;
+        menu.item[i].x0 = x + (config_get(CONFIG_WIDTH)  - w) / 2;
+        menu.item[i].x1 = x + (config_get(CONFIG_WIDTH)  + w) / 2;
+        menu.item[i].y0 = y + (config_get(CONFIG_HEIGHT) - h) / 2;
+        menu.item[i].y1 = y + (config_get(CONFIG_HEIGHT) + h) / 2;
 
         menu.item[i].U = i;
         menu.item[i].D = i;
@@ -162,8 +162,8 @@ void menu_text(int i, int x, int y, const float *c0, const float *c1,
         menu.text[i].text = make_text(text, s);
         menu.text[i].list = make_list(text, s, c0, c1);
 
-        menu.text[i].x = x + (config_w() - w) / 2;
-        menu.text[i].y = y + (config_h() - h) / 2;
+        menu.text[i].x = x + (config_get(CONFIG_WIDTH)  - w) / 2;
+        menu.text[i].y = y + (config_get(CONFIG_HEIGHT) - h) / 2;
     }
 }
 
@@ -210,7 +210,7 @@ static void menu_paint_text(struct text *text, int n)
 
         glPushMatrix();
         {
-            glTranslatef(text[i].x, text[i].y, 0);
+            glTranslatef((GLfloat) text[i].x, (GLfloat) text[i].y, 0.0f);
 
             if (glIsList(text[i].list))
                 glCallList(text[i].list);
@@ -272,7 +272,7 @@ int menu_stick(int a, int v)
 
     if (menu.item)
     {
-        if (config_axis_x(a))
+        if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
         {
             if (v < -JOY_MID && xflag == 0 && menu.item[menu.value].L >= 0)
             {
@@ -288,7 +288,7 @@ int menu_stick(int a, int v)
                 xflag = 0;
         }
 
-        if (config_axis_y(a))
+        if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
         {
             if (v < -JOY_MID && yflag == 0 && menu.item[menu.value].U >= 0)
             {

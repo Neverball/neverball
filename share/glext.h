@@ -4,7 +4,7 @@
 /*---------------------------------------------------------------------------*/
 
 #ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN /* Ha ha. */
 #include <windows.h>
 #endif
 
@@ -25,10 +25,7 @@ extern PFNGLMULTITEXCOORD2FPROC glMultiTexCoord2f;
 
 /*---------------------------------------------------------------------------*/
 
-int  glext_shadow();
-void glext_set_shadow(int);
-
-void glext_init(void);
+int glext_init(void);
 
 /*---------------------------------------------------------------------------*/
 

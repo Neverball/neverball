@@ -30,22 +30,22 @@
 
 struct score
 {
-    char  time_n[4][MAXNAM];
-    float time_s[4];
-    int   time_c[4];
+    char time_n[4][MAXNAM];
+    int  time_t[4];
+    int  time_c[4];
 
-    char  coin_n[4][MAXNAM];
-    float coin_s[4];
-    int   coin_c[4];
+    char coin_n[4][MAXNAM];
+    int  coin_t[4];
+    int  coin_c[4];
 };
 
 struct level
 {
-    char   file[MAXSTR];
-    char   back[MAXSTR];
-    char   shot[MAXSTR];
-    char   song[MAXSTR];
-    int    time;
+    char file[MAXSTR];
+    char back[MAXSTR];
+    char shot[MAXSTR];
+    char song[MAXSTR];
+    int  time;
 
     GLuint text;
 };
@@ -57,16 +57,16 @@ static int level;                       /* Current level number      */
 static int count;                       /* Number of levels          */
 static int limit;                       /* First unopened level      */
 
-static int   level_total;
-static int   coins_total;
-static float times_total;
+static int level_total;
+static int coins_total;
+static int times_total;
 
 static struct level level_v[MAXLVL];
 static struct score score_v[MAXLVL];
 
 /*---------------------------------------------------------------------------*/
 
-static void level_store_hs(const char *filename)
+static void level_store_hs(char *filename)
 {
     char  file[MAXSTR];
     FILE *fout;
@@ -81,16 +81,16 @@ static void level_store_hs(const char *filename)
                 for (j = 0; j < 3; j++)
                 {
                     if (strlen(score_v[i].time_n[j]) == 0)
-                        strcpy(score_v[i].time_n[j], DEFAULT_NAME);
+                        strcpy(score_v[i].time_n[j], DEFAULT_PLAYER);
                     if (strlen(score_v[i].coin_n[j]) == 0)
-                        strcpy(score_v[i].coin_n[j], DEFAULT_NAME);
+                        strcpy(score_v[i].coin_n[j], DEFAULT_PLAYER);
 
-                    fprintf(fout, "%5.2f %d %s\n",
-                            score_v[i].time_s[j],
+                    fprintf(fout, "%d %d %s\n",
+                            score_v[i].time_t[j],
                             score_v[i].time_c[j],
                             score_v[i].time_n[j]);
-                    fprintf(fout, "%5.2f %d %s\n",
-                            score_v[i].coin_s[j],
+                    fprintf(fout, "%d %d %s\n",
+                            score_v[i].coin_t[j],
                             score_v[i].coin_c[j],
                             score_v[i].coin_n[j]);
                 }
@@ -99,7 +99,7 @@ static void level_store_hs(const char *filename)
         }
  }
 
-static void level_load_hs(const char *filename)
+static void level_load_hs(char *filename)
 {
     char  file[MAXSTR];
     FILE *fin;
@@ -113,28 +113,28 @@ static void level_load_hs(const char *filename)
 
             for (i = 0; i < count; i++)
             {
-                if (fscanf(fin, "%f %d %s",
-                           &score_v[i].time_s[0],
+                if (fscanf(fin, "%d %d %s",
+                           &score_v[i].time_t[0],
                            &score_v[i].time_c[0],
                             score_v[i].time_n[0]) == 3 &&
-                    fscanf(fin, "%f %d %s",
-                           &score_v[i].coin_s[0],
+                    fscanf(fin, "%d %d %s",
+                           &score_v[i].coin_t[0],
                            &score_v[i].coin_c[0],
                             score_v[i].coin_n[0]) == 3 &&
-                    fscanf(fin, "%f %d %s",
-                           &score_v[i].time_s[1],
+                    fscanf(fin, "%d %d %s",
+                           &score_v[i].time_t[1],
                            &score_v[i].time_c[1],
                             score_v[i].time_n[1]) == 3 &&
-                    fscanf(fin, "%f %d %s",
-                           &score_v[i].coin_s[1],
+                    fscanf(fin, "%d %d %s",
+                           &score_v[i].coin_t[1],
                            &score_v[i].coin_c[1],
                             score_v[i].coin_n[1]) == 3 &&
-                    fscanf(fin, "%f %d %s",
-                           &score_v[i].time_s[2],
+                    fscanf(fin, "%d %d %s",
+                           &score_v[i].time_t[2],
                            &score_v[i].time_c[2],
                             score_v[i].time_n[2]) == 3 &&
-                    fscanf(fin, "%f %d %s",
-                           &score_v[i].coin_s[2],
+                    fscanf(fin, "%d %d %s",
+                           &score_v[i].coin_t[2],
                            &score_v[i].coin_c[2],
                             score_v[i].coin_n[2]) == 3)
                     limit = i + 1;
@@ -189,9 +189,9 @@ static void level_init_hs(const char *filename)
         strcpy(score_v[i].time_n[1], "Medium");
         strcpy(score_v[i].time_n[2], "Easy");
 
-        score_v[i].time_s[0] = i ? 600.f : 3600.f;
-        score_v[i].time_s[1] = i ? 600.f : 3600.f;
-        score_v[i].time_s[2] = i ? 600.f : 3600.f;
+        score_v[i].time_t[0] = i ? 60000 : 360000;
+        score_v[i].time_t[1] = i ? 60000 : 360000;
+        score_v[i].time_t[2] = i ? 60000 : 360000;
 
         score_v[i].time_c[0] = 0;
         score_v[i].time_c[1] = 0;
@@ -201,9 +201,9 @@ static void level_init_hs(const char *filename)
         strcpy(score_v[i].coin_n[1], "Medium");
         strcpy(score_v[i].coin_n[2], "Easy");
 
-        score_v[i].coin_s[0] = i ? 600.f : 3600.f;
-        score_v[i].coin_s[1] = i ? 600.f : 3600.f;
-        score_v[i].coin_s[2] = i ? 600.f : 3600.f;
+        score_v[i].coin_t[0] = i ? 60000 : 360000;
+        score_v[i].coin_t[1] = i ? 60000 : 360000;
+        score_v[i].coin_t[2] = i ? 60000 : 360000;
 
         score_v[i].coin_c[0] = 0;
         score_v[i].coin_c[1] = 0;
@@ -215,24 +215,13 @@ static void level_init_hs(const char *filename)
     if ((fin = fopen(filename, "r")))
     {
         for (i = 0; i < MAXLVL && fgets(buf, MAXSTR, fin); i++)
-            sscanf(buf, "%f %d %f %d %f %d",
-                   &score_v[i].time_s[0], &score_v[i].coin_c[0],
-                   &score_v[i].time_s[1], &score_v[i].coin_c[1],
-                   &score_v[i].time_s[2], &score_v[i].coin_c[2]);
+            sscanf(buf, "%d %d %d %d %d %d",
+                   &score_v[i].time_t[0], &score_v[i].coin_c[0],
+                   &score_v[i].time_t[1], &score_v[i].coin_c[1],
+                   &score_v[i].time_t[2], &score_v[i].coin_c[2]);
 
         fclose(fin);
     }
-}
-
-/*---------------------------------------------------------------------------*/
-
-static void sprint_time(char *buf, float t)
-{
-    int m = (int) floor(t) / 60;
-    int s = (int) floor(t) % 60;
-    int h = (int) (100.f * (t - m * 60 - s));
-
-    sprintf(buf, "%d:%02d.%02d", m, s, h);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -242,25 +231,17 @@ const char *level_coin_n(int i, int j)
     return score_v[i].coin_n[j];
 }
 
-const char *level_coin_c(int i, int j)
+int level_coin_c(int i, int j)
 {
-    static char buf[MAXSTR];
-
     if (j < 0)
-        sprintf(buf, "%d", score);
+        return score;
     else
-        sprintf(buf, "%d", score_v[i].coin_c[j]);
-
-    return buf;
+        return score_v[i].coin_c[j];
 }
 
-const char *level_coin_s(int i, int j)
+int level_coin_t(int i, int j)
 {
-    static char buf[MAXSTR];
-
-    sprint_time(buf, score_v[i].coin_s[j]);
-
-    return buf;
+    return score_v[i].coin_t[j];
 }
 
 /*---------------------------------------------------------------------------*/
@@ -270,31 +251,24 @@ const char *level_time_n(int i, int j)
     return score_v[i].time_n[j];
 }
 
-const char *level_time_c(int i, int j)
+int level_time_c(int i, int j)
 {
-    static char buf[MAXSTR];
-
-    sprintf(buf, "%d", score_v[i].time_c[j]);
-    return buf;
+    return score_v[i].time_c[j];
 }
 
-const char *level_time_s(int i, int j)
+int level_time_t(int i, int j)
 {
-    static char buf[MAXSTR];
-
     if (j < 0)
-        sprint_time(buf, level_v[i].time - curr_clock());
+        return level_v[i].time - curr_clock();
     else
-        sprint_time(buf, score_v[i].time_s[j]);
-
-    return buf;
+        return score_v[i].time_t[j];
 }
 
 /*---------------------------------------------------------------------------*/
 
-void level_init(const char *init_levels,
-                const char *init_scores,
-                const char *user_scores)
+void level_init(char *init_levels,
+                char *init_scores,
+                char *user_scores)
 {
     memset(level_v, 0, sizeof (struct level) * MAXLVL);
     memset(score_v, 0, sizeof (struct score) * MAXLVL);
@@ -313,7 +287,7 @@ void level_init(const char *init_levels,
 #endif
 }
 
-void level_free(const char *user_scores)
+void level_free(char *user_scores)
 {
     int i;
 
@@ -336,7 +310,7 @@ int level_exists(int i)
 
 int level_opened(int i)
 {
-    return (i == 1) || (0 < i && i < count && i < limit);
+    return level_exists(i) && (0 < i && i < count && i < limit);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -349,23 +323,12 @@ int curr_level(void) { return level; }
 
 /*---------------------------------------------------------------------------*/
 
-static int time_comp(float t1, float t2)
-{
-    int h1 = (int) floor(100.f * t1);
-    int h2 = (int) floor(100.f * t2);
-
-    if (h1 < h2) return -1;
-    if (h1 > h2) return +1;
-
-    return 0;
-}
-
 static int score_time_comp(const struct score *S, int i, int j)
 {
-    if (time_comp(S->time_s[i], S->time_s[j]) <  0)
+    if (S->time_t[i] <  S->time_t[j])
         return 1;
 
-    if (time_comp(S->time_s[i], S->time_s[j]) == 0 &&
+    if (S->time_t[i] == S->time_t[j] &&
         S->time_c[i] >  S->time_c[j])
         return 1;
 
@@ -378,7 +341,7 @@ static int score_coin_comp(const struct score *S, int i, int j)
         return 1;
 
     if (S->coin_c[i] == S->coin_c[j] &&
-        time_comp(S->coin_s[i], S->coin_s[j]) < 0)
+        S->coin_t[i] <  S->coin_t[j])
         return 1;
 
     return 0;
@@ -388,17 +351,17 @@ static int score_coin_comp(const struct score *S, int i, int j)
 
 static void score_time_swap(struct score *S, int i, int j)
 {
-    char  n[MAXNAM];
-    float s;
-    int   c;
+    char n[MAXNAM];
+    int  t;
+    int  c;
 
     strncpy(n,            S->time_n[i], MAXNAM);
     strncpy(S->time_n[i], S->time_n[j], MAXNAM);
     strncpy(S->time_n[j], n,            MAXNAM);
 
-    s            = S->time_s[i];
-    S->time_s[i] = S->time_s[j];
-    S->time_s[j] = s;
+    t            = S->time_t[i];
+    S->time_t[i] = S->time_t[j];
+    S->time_t[j] = t;
 
     c            = S->time_c[i];
     S->time_c[i] = S->time_c[j];
@@ -407,17 +370,17 @@ static void score_time_swap(struct score *S, int i, int j)
 
 static void score_coin_swap(struct score *S, int i, int j)
 {
-    char  n[MAXNAM];
-    float s;
-    int   c;
+    char n[MAXNAM];
+    int  t;
+    int  c;
 
     strncpy(n,            S->coin_n[i], MAXNAM);
     strncpy(S->coin_n[i], S->coin_n[j], MAXNAM);
     strncpy(S->coin_n[j], n,            MAXNAM);
 
-    s            = S->coin_s[i];
-    S->coin_s[i] = S->coin_s[j];
-    S->coin_s[j] = s;
+    t            = S->coin_t[i];
+    S->coin_t[i] = S->coin_t[j];
+    S->coin_t[j] = t;
 
     c            = S->coin_c[i];
     S->coin_c[i] = S->coin_c[j];
@@ -433,14 +396,14 @@ void level_goto(int s, int c, int b, int l)
     if (b >= 0) balls = b;
     if (l >= 0) level = l;
 
-    back_init(level_v[level].back, config_geom());
+    back_init(level_v[level].back, config_get(CONFIG_GEOMETRY));
     game_init(level_v[level].file,
               level_v[level].time);
 }
 
 int level_goal(void)
 {
-    float clock = level_v[level].time - curr_clock();
+    int clock = level_v[level].time - curr_clock();
     
     level_total += 1;
     times_total += clock;
@@ -451,8 +414,8 @@ int level_goal(void)
     score_v[level].time_c[3] = score;
     score_v[level].coin_c[3] = score;
 
-    score_v[level].time_s[3] = clock;
-    score_v[level].coin_s[3] = clock;
+    score_v[level].time_t[3] = clock;
+    score_v[level].coin_t[3] = clock;
 
     if (score_time_comp(score_v + level, 3, 2)) return 1;
     if (score_coin_comp(score_v + level, 3, 2)) return 1;
@@ -464,8 +427,8 @@ int level_goal(void)
         score_v[0].time_c[3] = coins_total;
         score_v[0].coin_c[3] = coins_total;
 
-        score_v[0].time_s[3] = times_total;
-        score_v[0].coin_s[3] = times_total;
+        score_v[0].time_t[3] = times_total;
+        score_v[0].coin_t[3] = times_total;
 
         if (score_time_comp(score_v, 3, 2)) return 1;
         if (score_coin_comp(score_v, 3, 2)) return 1;
@@ -476,17 +439,17 @@ int level_goal(void)
 
 int level_pass(void)
 {
-    float clock = level_v[level].time - curr_clock();
+    char player[MAXNAM];
+    int clock = level_v[level].time - curr_clock();
     int i;
 
-    if (strlen(player) == 0)
-        strcpy(player, DEFAULT_NAME);
+    config_get_name(player);
 
     /* Insert the time record into the high score list. */
 
     strncpy(score_v[level].time_n[3], player, MAXNAM);
     score_v[level].time_c[3] = score;
-    score_v[level].time_s[3] = clock;
+    score_v[level].time_t[3] = clock;
 
     for (i = 2; i >= 0 && score_time_comp(score_v + level, i + 1, i); i--)
         score_time_swap(score_v + level, i + 1, i);
@@ -495,7 +458,7 @@ int level_pass(void)
 
     strncpy(score_v[level].coin_n[3], player, MAXNAM);
     score_v[level].coin_c[3] = score;
-    score_v[level].coin_s[3] = clock;
+    score_v[level].coin_t[3] = clock;
 
     for (i = 2; i >= 0 && score_coin_comp(score_v + level, i + 1, i); i--)
         score_coin_swap(score_v + level, i + 1, i);
@@ -508,7 +471,7 @@ int level_pass(void)
         back_free();
         score = 0;
 
-        back_init(level_v[level].back, config_geom());
+        back_init(level_v[level].back, config_get(CONFIG_GEOMETRY));
         game_init(level_v[level].file,
                   level_v[level].time);
 
@@ -524,7 +487,7 @@ int level_pass(void)
 
             strncpy(score_v[0].time_n[3], player, MAXNAM);
             score_v[0].time_c[3] = coins_total;
-            score_v[0].time_s[3] = times_total;
+            score_v[0].time_t[3] = times_total;
 
             for (i = 2; i >= 0 && score_time_comp(score_v, i + 1, i); i--)
                 score_time_swap(score_v, i + 1, i);
@@ -533,7 +496,7 @@ int level_pass(void)
 
             strncpy(score_v[0].coin_n[3], player, MAXNAM);
             score_v[0].coin_c[3] = coins_total;
-            score_v[0].coin_s[3] = times_total;
+            score_v[0].coin_t[3] = times_total;
 
             for (i = 2; i >= 0 && score_coin_comp(score_v, i + 1, i); i--)
                 score_coin_swap(score_v, i + 1, i);
@@ -553,7 +516,7 @@ int level_fail(void)
         back_free();
         score = 0;
 
-        back_init(level_v[level].back, config_geom());
+        back_init(level_v[level].back, config_get(CONFIG_GEOMETRY));
         game_init(level_v[level].file,
                   level_v[level].time);
 
@@ -594,7 +557,8 @@ void level_shot(int i)
     if (0 <= i && i < count)
     {
         if (!glIsTexture(level_v[i].text))
-            level_v[i].text = make_image_from_file(0, 0, level_v[i].shot);
+            level_v[i].text = make_image_from_file(NULL, NULL, NULL, NULL,
+                                                   level_v[i].shot);
 
         glBindTexture(GL_TEXTURE_2D, level_v[i].text);
     }
@@ -612,7 +576,7 @@ void level_snap(int i)
 
     /* Initialize the game for a snapshot. */
 
-    back_init(level_v[i].back, config_geom());
+    back_init(level_v[i].back, config_get(CONFIG_GEOMETRY));
     game_init(level_v[i].file, level_v[i].time);
 
     /* Render the level and grab the screen. */

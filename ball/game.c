@@ -42,7 +42,8 @@ static float game_rz;                   /* Floor rotation about Z axis       */
 
 static float view_a;                    /* Ideal view rotation about Y axis  */
 static float view_ry;                   /* Angular velocity about Y axis     */
-static float view_dy;                   /* Ideal view distance above ball    */
+static float view_dc;                   /* Ideal view distance above ball    */
+static float view_dp;                   /* Ideal view distance above ball    */
 static float view_dz;                   /* Ideal view distance behind ball   */
 
 static float view_c[3];                 /* Current view center               */
@@ -64,15 +65,17 @@ static void view_init(void)
 {
     view_a  = 0.f;
     view_ry = 0.f;
-    view_dy = 4.f;
-    view_dz = 6.f;
+
+    view_dp = 0.75f;
+    view_dc = 0.25f;
+    view_dz = 2.0f;
 
     view_c[0] = 0.f;
-    view_c[1] = 0.f;
+    view_c[1] = view_dc;
     view_c[2] = 0.f;
 
     view_p[0] =     0.f;
-    view_p[1] = view_dy;
+    view_p[1] = view_dp;
     view_p[2] = view_dz;
 
     view_e[0][0] = 1.f;
@@ -103,12 +106,12 @@ void game_init(const char *s, int t)
     hud_time_pulse(0.f);
     hud_coin_pulse(0.f);
 
-    sol_load(&file, s, config_text());
-    clock = t;
+    sol_load(&file, s, config_get(CONFIG_TEXTURES), config_get(CONFIG_SHADOW));
+    clock = (float) t;
 
-    shadow_text = make_image_from_file(NULL, NULL, IMG_SHADOW);
+    shadow_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_SHADOW);
 
-    if (glext_shadow() == 2)
+    if (config_get(CONFIG_SHADOW) == 2)
     {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -126,14 +129,14 @@ void game_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-float curr_clock(void)
+int curr_clock(void)
 {
-    return floor(clock * 100.f) / 100.f;
+    return (int) (clock * 100.f);
 }
 
 char *curr_intro(void)
 {
-    return file.av;
+    return (file.ac > 0) ? file.av : NULL;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -264,12 +267,12 @@ static void game_set_shadow(const struct s_file *fp)
     const float *ball_p = fp->uv->p;
     const float  ball_r = fp->uv->r;
 
-    if (glext_shadow())
+    if (config_get(CONFIG_SHADOW))
     {
         glActiveTexture(GL_TEXTURE1);
         glMatrixMode(GL_TEXTURE);
         {
-            float k = 0.5 / ball_r;
+            float k = 0.5f / ball_r;
 
             glEnable(GL_TEXTURE_2D);
 
@@ -277,8 +280,8 @@ static void game_set_shadow(const struct s_file *fp)
             glBindTexture(GL_TEXTURE_2D, shadow_text);
 
             glLoadIdentity();
-            glTranslatef(0.5 - ball_p[0] * k,
-                         0.5 - ball_p[2] * k, 0.f);
+            glTranslatef(0.5f - ball_p[0] * k,
+                         0.5f - ball_p[2] * k, 0.f);
             glScalef(k, k, 1.f);
         }
         glMatrixMode(GL_MODELVIEW);
@@ -288,7 +291,7 @@ static void game_set_shadow(const struct s_file *fp)
 
 static void game_clr_shadow(void)
 {
-    if (glext_shadow())
+    if (config_get(CONFIG_SHADOW))
     {
         glActiveTexture(GL_TEXTURE1);
         {
@@ -393,7 +396,7 @@ static void game_draw_all(int pose, float rx, float ry, int d)
             /* Draw the floor. */
 
             if (pose == 0) game_set_shadow(&file);
-            sol_draw(&file);
+            sol_draw(&file, config_get(CONFIG_SHADOW));
             if (pose == 0) game_clr_shadow();
 
             /* Draw the game elements. */
@@ -423,9 +426,9 @@ void game_draw(int pose, float dy)
 {
     float fov = FOV;
 
-    if (jump_b) fov *= 2.f * fabs(jump_dt - 0.5);
+    if (jump_b) fov *= 2.f * fabsf(jump_dt - 0.5);
 
-    config_push_persp(fov, 0.1, FAR_DIST);
+    config_push_persp(fov, 0.1f, FAR_DIST);
     glPushMatrix();
     {
         float v[3], rx, ry;
@@ -437,12 +440,16 @@ void game_draw(int pose, float dy)
         rx = V_DEG(fatan2f(-v[1], fsqrtf(v[0] * v[0] + v[2] * v[2])));
         ry = V_DEG(fatan2f(+v[0], -v[2])) + dy;
 
+        /*
+        if (game_rx > 0 && rx < game_rx) rx = game_rx;
+        */
+
         glTranslatef(0.f, 0.f, -v_len(v));
         glRotatef(rx, 1.f, 0.f, 0.f);
         glRotatef(ry, 0.f, 1.f, 0.f);
         glTranslatef(-view_c[0], -view_c[1], -view_c[2]);
 
-        if (config_refl())
+        if (config_get(CONFIG_REFLECTION))
         {
             /* Draw the mirror into the stencil buffer. */
 
@@ -511,13 +518,10 @@ static void game_update_view(float dt)
 {
     const float y[3] = { 0.f, 1.f, 0.f };
 
-    float dx = view_ry * dt * 10.f;
-    float dy;
-    float dz;
+    float dx = view_ry * dt * 5.f;
     float k;
     float e[3];
-    float d[3];
-    float s = 2.f * dt;
+    float s = 4.f * dt;
 
     view_a += view_ry * dt * 90.f;
 
@@ -526,7 +530,7 @@ static void game_update_view(float dt)
     v_cpy(view_c, file.uv->p);
     v_inv(view_v, file.uv->v);
 
-    switch (config_view())
+    switch (config_get(CONFIG_CAMERA))
     {
     case 1:
         /* Camera 1:  Viewpoint chases the ball position. */
@@ -541,8 +545,8 @@ static void game_update_view(float dt)
         view_e[2][1] = 0.f;
         view_e[2][2] = fcosf(V_RAD(view_a));
 
-        dx = 0.f;
-        s  = 8.f * dt;
+        dx = 0.0f;
+        s  = 8.0f * dt;
         break;
 
     default:
@@ -554,7 +558,7 @@ static void game_update_view(float dt)
         k = v_dot(view_v, view_v);
 
         v_sub(view_e[2], view_p, view_c);
-        v_mad(view_e[2], view_e[2], view_v, k * dt * 0.25);
+        v_mad(view_e[2], view_e[2], view_v, k * dt * 0.25f);
 
         break;
     }
@@ -566,23 +570,15 @@ static void game_update_view(float dt)
     v_nrm(view_e[0], view_e[0]);
     v_nrm(view_e[2], view_e[2]);
 
-    /* The current view (dy, dz) approaches the ideal (view_dy, view_dz). */
-
-    v_sub(d, view_p, view_c);
-
-    dy = v_dot(view_e[1], d);
-    dz = v_dot(view_e[2], d);
-
-    dy += (view_dy - dy) * s;
-    dz += (view_dz - dz) * s;
-
     /* Compute the new view position. */
 
-    view_p[0] = view_p[1] = view_p[2] = 0.f;
+    v_cpy(view_p, file.uv->p);
+    v_mad(view_p, view_p, view_e[0], dx);
+    v_mad(view_p, view_p, view_e[1], view_dp);
+    v_mad(view_p, view_p, view_e[2], view_dz);
 
-    v_mad(view_p, view_c, view_e[0], dx);
-    v_mad(view_p, view_p, view_e[1], dy);
-    v_mad(view_p, view_p, view_e[2], dz);
+    v_cpy(view_c, file.uv->p);
+    v_mad(view_c, view_c, view_e[1], view_dc);
 
     view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
 }
@@ -741,7 +737,7 @@ int game_step(const float g[3], float dt, int bt)
         /* Mix the sound of a ball bounce. */
 
         if (b > 0.5)
-            audio_play(AUD_BUMP, (b - 0.5) * 2.0f);
+            audio_play(AUD_BUMP, (b - 0.5f) * 2.0f);
     }
 
     game_update_view(dt);
@@ -766,8 +762,8 @@ void game_set_pos(int x, int y)
 {
     float bound = 20.f;
 
-    game_ix += 40.f * y / config_sens();
-    game_iz += 40.f * x / config_sens();
+    game_ix += 40.f * y / config_get(CONFIG_MOUSE_SENSE);
+    game_iz += 40.f * x / config_get(CONFIG_MOUSE_SENSE);
 
     if (game_ix > +bound) game_ix = +bound;
     if (game_ix < -bound) game_ix = -bound;
@@ -807,8 +803,9 @@ void game_set_fly(float k)
         v_cpy(p0, fp->uv[0].p);
     }
 
-    v_mad(p0, p0, y, view_dy);
+    v_mad(p0, p0, y, view_dp);
     v_mad(p0, p0, z, view_dz);
+    v_mad(c0, c0, y, view_dc);
 
     /* k = +1.0 view is s_view 0 */
 

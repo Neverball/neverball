@@ -25,19 +25,19 @@
 #include "solid.h"
 #include "config.h"
 
-#define SMALL 1.0e-5
-#define LARGE 1.0e+5
+#define SMALL 1.0e-5f
+#define LARGE 1.0e+5f
 
 /*---------------------------------------------------------------------------*/
 
 static float erp(float t)
 {
-    return 3.f * t * t - 2.f * t * t * t;
+    return 3.0f * t * t - 2.0f * t * t * t;
 }
 
 static float derp(float t)
 {
-    return 6.f * t     - 6.f * t * t;
+    return 6.0f * t     - 6.0f * t * t;
 }
 
 static void sol_body_v(float v[3],
@@ -50,15 +50,15 @@ static void sol_body_v(float v[3],
         const struct s_path *pq = fp->pv + pp->pi;
 
         v_sub(v, pq->p, pp->p);
-        v_scl(v, v, 1.f / pp->t);
+        v_scl(v, v, 1.0f / pp->t);
 
         v_scl(v, v, derp(bp->t / pp->t));
     }
     else
     {
-        v[0] = 0.f;
-        v[1] = 0.f;
-        v[2] = 0.f;
+        v[0] = 0.0f;
+        v[1] = 0.0f;
+        v[2] = 0.0f;
     }
 }
 
@@ -78,9 +78,9 @@ static void sol_body_p(float p[3],
     }
     else
     {
-        p[0] = 0.f;
-        p[1] = 0.f;
-        p[2] = 0.f;
+        p[0] = 0.0f;
+        p[1] = 0.0f;
+        p[2] = 0.0f;
     }
 }
 
@@ -168,7 +168,7 @@ static void sol_draw_mtrl(const struct s_file *fp, short i)
 }
 
 static void sol_draw_geom(const struct s_file *fp,
-                          const struct s_geom *gp, short mi)
+                          const struct s_geom *gp, short mi, int s)
 {
     if (gp->mi == mi)
     {
@@ -184,7 +184,7 @@ static void sol_draw_geom(const struct s_file *fp,
         const float *vj = fp->vv[gp->vj].p;
         const float *vk = fp->vv[gp->vk].p;
 
-        if (glext_shadow())
+        if (s)
         {
             glMultiTexCoord2f(GL_TEXTURE0, ui[0], ui[1]);
             glMultiTexCoord2f(GL_TEXTURE1, vi[0], vi[2]);
@@ -219,7 +219,7 @@ static void sol_draw_geom(const struct s_file *fp,
 }
 
 static void sol_draw_lump(const struct s_file *fp,
-                          const struct s_lump *lp, short mi)
+                          const struct s_lump *lp, short mi, int s)
 {
     short i;
 
@@ -227,12 +227,12 @@ static void sol_draw_lump(const struct s_file *fp,
     {
         short gi = fp->iv[lp->g0 + i];
         
-        sol_draw_geom(fp, fp->gv + gi, mi);
+        sol_draw_geom(fp, fp->gv + gi, mi, s);
     }
 }
 
 static void sol_draw_body(const struct s_file *fp,
-                          const struct s_body *bp, short fl)
+                          const struct s_body *bp, short fl, int s)
 {
     short mi, li, gi;
 
@@ -252,9 +252,9 @@ static void sol_draw_body(const struct s_file *fp,
                 glBegin(GL_TRIANGLES);
                 {
                     for (li = 0; li < bp->lc; li++)
-                        sol_draw_lump(fp, fp->lv + bp->l0 + li, mi);
+                        sol_draw_lump(fp, fp->lv + bp->l0 + li, mi, s);
                     for (gi = 0; gi < bp->gc; gi++)
-                        sol_draw_geom(fp, fp->gv + fp->iv[bp->g0 + gi], mi);
+                        sol_draw_geom(fp, fp->gv + fp->iv[bp->g0 + gi], mi, s);
                 }
                 glEnd();
             }
@@ -264,7 +264,7 @@ static void sol_draw_body(const struct s_file *fp,
 /*---------------------------------------------------------------------------*/
 
 static void sol_draw_list(const struct s_file *fp,
-                          const struct s_body *bp, GLuint list)
+                          const struct s_body *bp, GLuint list, int s)
 {
     float p[3];
 
@@ -278,13 +278,13 @@ static void sol_draw_list(const struct s_file *fp,
 
         /* Translate the shadow on a moving body. */
 
-        if (glext_shadow())
+        if (s)
         {
             glActiveTexture(GL_TEXTURE1);
             glMatrixMode(GL_TEXTURE);
             {
                 glPushMatrix();
-                glTranslatef(p[0], p[2], 0.f);
+                glTranslatef(p[0], p[2], 0.0f);
             }
             glMatrixMode(GL_MODELVIEW);
             glActiveTexture(GL_TEXTURE0);
@@ -296,7 +296,7 @@ static void sol_draw_list(const struct s_file *fp,
 
         /* Pop the shadow translation. */
 
-        if (glext_shadow())
+        if (s)
         {
             glActiveTexture(GL_TEXTURE1);
             glMatrixMode(GL_TEXTURE);
@@ -310,7 +310,7 @@ static void sol_draw_list(const struct s_file *fp,
     glPopMatrix();
 }
 
-void sol_draw(const struct s_file *fp)
+void sol_draw(const struct s_file *fp, int s)
 {
     short i;
 
@@ -326,13 +326,17 @@ void sol_draw(const struct s_file *fp)
 
         for (i = 0; i < fp->bc; i++)
             if (fp->bv[i].rl)
-                sol_draw_list(fp, fp->bv + i, fp->bv[i].rl);
+                sol_draw_list(fp, fp->bv + i, fp->bv[i].rl, s);
 
         /* Render all obaque geometry into the color and depth buffers. */
 
+        glDisable(GL_BLEND);
+
         for (i = 0; i < fp->bc; i++)
             if (fp->bv[i].ol)
-                sol_draw_list(fp, fp->bv + i, fp->bv[i].ol);
+                sol_draw_list(fp, fp->bv + i, fp->bv[i].ol, s);
+
+        glEnable(GL_BLEND);
 
         /* Render all translucent geometry into only the color buffer. */
 
@@ -340,7 +344,7 @@ void sol_draw(const struct s_file *fp)
 
         for (i = 0; i < fp->bc; i++)
             if (fp->bv[i].tl)
-                sol_draw_list(fp, fp->bv + i, fp->bv[i].tl);
+                sol_draw_list(fp, fp->bv + i, fp->bv[i].tl, s);
     }
     glPopAttrib();
     glPopAttrib();
@@ -357,16 +361,17 @@ void sol_refl(const struct s_file *fp)
     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
     {
         for (bi = 0; bi < fp->bc; bi++)
-        {
-            sol_body_p(p, fp, fp->bv + bi);
-
-            glPushMatrix();
+            if (fp->bv[bi].rl)
             {
-                glTranslatef(p[0], p[1], p[2]);
-                glCallList(fp->bv[bi].rl);
+                sol_body_p(p, fp, fp->bv + bi);
+
+                glPushMatrix();
+                {
+                    glTranslatef(p[0], p[1], p[2]);
+                    glCallList(fp->bv[bi].rl);
+                }
+                glPopMatrix();
             }
-            glPopMatrix();
-        }
     }
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glDepthMask(GL_TRUE);
@@ -374,7 +379,7 @@ void sol_refl(const struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void sol_load_objects(struct s_file *fp)
+static void sol_load_objects(struct s_file *fp, int s)
 {
     short i;
 
@@ -390,7 +395,7 @@ static void sol_load_objects(struct s_file *fp)
             
             glNewList(fp->bv[i].ol, GL_COMPILE);
             {
-                sol_draw_body(fp, fp->bv + i, M_OPAQUE | M_ENVIRONMENT);
+                sol_draw_body(fp, fp->bv + i, M_OPAQUE | M_ENVIRONMENT, s);
             }
             glEndList();
         }
@@ -404,7 +409,7 @@ static void sol_load_objects(struct s_file *fp)
 
             glNewList(fp->bv[i].tl, GL_COMPILE);
             {
-                sol_draw_body(fp, fp->bv + i, M_TRANSPARENT);
+                sol_draw_body(fp, fp->bv + i, M_TRANSPARENT, s);
             }
             glEndList();
         }
@@ -418,7 +423,7 @@ static void sol_load_objects(struct s_file *fp)
 
             glNewList(fp->bv[i].rl, GL_COMPILE);
             {
-                sol_draw_body(fp, fp->bv + i, M_REFLECTIVE);
+                sol_draw_body(fp, fp->bv + i, M_REFLECTIVE, s);
             }
             glEndList();
         }
@@ -426,7 +431,7 @@ static void sol_load_objects(struct s_file *fp)
     }
 }
 
-static void sol_load_textures(struct s_file *fp, int n)
+static void sol_load_textures(struct s_file *fp, int k)
 {
     SDL_Surface *s;
     SDL_Surface *d;
@@ -452,11 +457,11 @@ static void sol_load_textures(struct s_file *fp, int n)
             glGenTextures(1, &fp->mv[i].o);
             glBindTexture(GL_TEXTURE_2D, fp->mv[i].o);
 
-            if (n > 1)
+            if (k > 1)
             {
                 /* Create a new buffer and copy the scaled image to it. */
 
-                d = SDL_CreateRGBSurface(SDL_SWSURFACE, s->w / n, s->h / n,
+                d = SDL_CreateRGBSurface(SDL_SWSURFACE, s->w / k, s->h / k,
                                          s->format->BitsPerPixel,
                                          RMASK, GMASK, BMASK, AMASK);
                 if (d)
@@ -491,7 +496,7 @@ static void sol_load_textures(struct s_file *fp, int n)
     }
 }
 
-int sol_load(struct s_file *fp, const char *filename, int scale)
+int sol_load(struct s_file *fp, const char *filename, int k, int s)
 {
     FILE *fin;
 
@@ -562,8 +567,8 @@ int sol_load(struct s_file *fp, const char *filename, int scale)
 
         fclose(fin);
 
-        sol_load_textures(fp, scale);
-        sol_load_objects(fp);
+        sol_load_textures(fp, k);
+        sol_load_objects (fp, s);
 
         return 1;
     }
@@ -673,22 +678,22 @@ void sol_free(struct s_file *fp)
 static float v_sol(const float p[3], const float v[3], float r)
 {
     float a = v_dot(v, v);
-    float b = v_dot(v, p) * 2.f;
+    float b = v_dot(v, p) * 2.0f;
     float c = v_dot(p, p) - r * r;
-    float d = b * b - 4.f * a * c;
+    float d = b * b - 4.0f * a * c;
 
-    if (a == 0.f) return LARGE;
-    if (d <  0.f) return LARGE;
+    if (a == 0.0f) return LARGE;
+    if (d <  0.0f) return LARGE;
 
-    if (d == 0.f)
-        return -b * 0.5 / a;
+    if (d == 0.0f)
+        return -b * 0.5f / a;
     else
     {
-        float t0 = 0.5 * (-b - fsqrtf(d)) / a;
-        float t1 = 0.5 * (-b + fsqrtf(d)) / a;
+        float t0 = 0.5f * (-b - fsqrtf(d)) / a;
+        float t1 = 0.5f * (-b + fsqrtf(d)) / a;
         float t  = (t0 < t1) ? t0 : t1;
 
-        return (t < 0.f) ? LARGE : t;
+        return (t < 0.0f) ? LARGE : t;
     }
 }
 
@@ -716,7 +721,7 @@ static float v_vert(float Q[3],
     v_sub(P, p, O);
     v_sub(V, v, w);
 
-    if (v_dot(P, V) < 0.f)
+    if (v_dot(P, V) < 0.0f)
     {
         t = v_sol(P, V, r);
 
@@ -760,7 +765,7 @@ static float v_edge(float Q[3],
     t = v_sol(P, V, r);
     s = (du + eu * t) / uu;
 
-    if (0.f < t && t < LARGE && 0.f < s && s < 1.f)
+    if (0.0f < t && t < LARGE && 0.0f < s && s < 1.0f)
     {
         v_mad(d, o, w, t);
         v_mad(e, q, u, s);
@@ -791,7 +796,7 @@ static float v_side(float Q[3],
     float wn = v_dot(w, n);
     float t  = LARGE;
 
-    if (vn - wn <= 0.f)
+    if (vn - wn <= 0.0f)
     {
         float on = v_dot(o, n);
         float pn = v_dot(p, n);
@@ -799,14 +804,14 @@ static float v_side(float Q[3],
         float u = (r + d + on - pn) / (vn - wn);
         float a = (    d + on - pn) / (vn - wn);
 
-        if (0.f <= u)
+        if (0.0f <= u)
         {
             t = u;
 
             v_mad(Q, p, v, +t);
             v_mad(Q, Q, n, -r);
         }
-        else if (0.f <= a)
+        else if (0.0f <= a)
         {
             t = 0;
 
@@ -828,9 +833,9 @@ static float sol_bounce(struct s_ball *up,
                         const float q[3],
                         const float w[3], float dt)
 {
-    const float kb = 1.10;
-    const float ke = 0.70;
-    const float km = 0.20;
+    const float kb = 1.10f;
+    const float ke = 0.70f;
+    const float km = 0.20f;
 
     float n[3], r[3], d[3], u[3], vn, wn, xn, yn;
     float *p = up->p;
@@ -845,14 +850,14 @@ static float sol_bounce(struct s_ball *up,
     /* Find the new angular velocity. */
 
     v_crs(up->w, d, r);
-    v_scl(up->w, up->w, -1.f / (up->r * up->r));
+    v_scl(up->w, up->w, -1.0f / (up->r * up->r));
 
     /* Find the new linear velocity. */
 
     vn = v_dot(v, n);
     wn = v_dot(w, n);
-    xn = (vn < 0.f) ? -vn * ke : vn;
-    yn = (wn > 0.f) ?  wn * kb : wn;
+    xn = (vn < 0.0f) ? -vn * ke : vn;
+    yn = (wn > 0.0f) ?  wn * kb : wn;
 
     v_mad(u, w, n, -wn);
     v_mad(v, v, n, -vn);
@@ -863,7 +868,7 @@ static float sol_bounce(struct s_ball *up,
 
     /* Return the "energy" of the impact, to determine the sound amplitude. */
 
-    return fabs(v_dot(n, d));
+    return fabsf(v_dot(n, d));
 }
 
 /*---------------------------------------------------------------------------*/
@@ -943,7 +948,7 @@ static void sol_ball_step(struct s_file *fp, float dt)
 
         v_mad(up->p, up->p, up->v, dt);
 
-        if (v_len(up->w) > 0.f)
+        if (v_len(up->w) > 0.0f)
         {
             float M[16];
             float w[3];
@@ -1106,7 +1111,7 @@ static float sol_test_lump(float dt,
 
     /* Test all verts */
 
-    if (up->r > 0.f)
+    if (up->r > 0.0f)
         for (i = 0; i < lp->vc; i++)
         {
             const struct s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
@@ -1120,7 +1125,7 @@ static float sol_test_lump(float dt,
  
     /* Test all edges */
 
-    if (up->r > 0.f)
+    if (up->r > 0.0f)
         for (i = 0; i < lp->ec; i++)
         {
             const struct s_edge *ep = fp->ev + fp->iv[lp->e0 + i];
@@ -1256,7 +1261,7 @@ static float sol_test_file(float dt,
 
 float sol_step(struct s_file *fp, const float *g, float dt, short ui, int *m)
 {
-    float P[3], V[3], v[3], r[3], d, e, nt, b = 0.f, tt = dt;
+    float P[3], V[3], v[3], r[3], d, e, nt, b = 0.0f, tt = dt;
     int c = 16;
 
     struct s_ball *up = fp->uv + ui;
@@ -1266,14 +1271,14 @@ float sol_step(struct s_file *fp, const float *g, float dt, short ui, int *m)
     v_cpy(v, up->v);
     v_cpy(up->v, g);
 
-    if (m && sol_test_file(tt, P, V, up, fp) < 0.0005)
+    if (m && sol_test_file(tt, P, V, up, fp) < 0.0005f)
     {
         v_cpy(up->v, v);
         v_sub(r, P, up->p);
 
         if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
         {
-            if ((e = (v_len(up->v) - dt)) > 0.f)
+            if ((e = (v_len(up->v) - dt)) > 0.0f)
             {
                 /* Scale the linear velocity. */
 
@@ -1284,15 +1289,15 @@ float sol_step(struct s_file *fp, const float *g, float dt, short ui, int *m)
 
                 v_sub(v, V, up->v);
                 v_crs(up->w, v, r);
-                v_scl(up->w, up->w, -1.f / (up->r * up->r));
+                v_scl(up->w, up->w, -1.0f / (up->r * up->r));
             }
             else
             {
                 /* Friction has brought the ball to a stop. */
 
-                up->v[0] = 0.f;
-                up->v[1] = 0.f;
-                up->v[2] = 0.f;
+                up->v[0] = 0.0f;
+                up->v[1] = 0.0f;
+                up->v[2] = 0.0f;
 
                 (*m)++;
             }

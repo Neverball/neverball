@@ -64,8 +64,9 @@ static int   view_c = 0;
 
 void hud_init(void)
 {
-    const int W = config_w();
-    const int C = config_w() / 2;
+    const int W = config_get(CONFIG_WIDTH);
+    const int H = config_get(CONFIG_HEIGHT);
+    const int C = config_get(CONFIG_WIDTH) / 2;
 
     char buf[2];
     int a, b, i;
@@ -86,15 +87,15 @@ void hud_init(void)
         small_text[i] = make_text(buf, TXT_MED);
         large_text[i] = make_text(buf, TXT_LRG);
 
-        small_list[i] = make_list(buf, TXT_MED, c_yellow, c_red);
-        large_list[i] = make_list(buf, TXT_LRG, c_yellow, c_red);
+        small_list[i] = make_list(buf, TXT_MED, c_ylw, c_red);
+        large_list[i] = make_list(buf, TXT_LRG, c_ylw, c_red);
     }
 
     a =      coins_w + 2 * small_w + 2 * space_w;
     b = (3 * large_w + 2 * small_w + 3 * space_w) / 2;
 
     small_text[10] = make_text(":", TXT_MED);
-    small_list[10] = make_list(":", TXT_MED, c_yellow, c_red);
+    small_list[10] = make_list(":", TXT_MED, c_ylw, c_red);
 
     balls_text = make_text(STR_BALLS, TXT_SML);
     coins_text = make_text(STR_COINS, TXT_SML);
@@ -102,9 +103,9 @@ void hud_init(void)
     balls_list = make_list(STR_BALLS, TXT_SML, c_white, c_white);
     coins_list = make_list(STR_COINS, TXT_SML, c_white, c_white);
 
-    balls_rect = make_rect(0,     0, a,     small_h);
-    coins_rect = make_rect(W - a, 0, W,     small_h);
-    timer_rect = make_rect(C - b, 0, C + b, large_h);
+    balls_rect = make_rect(0,     0,           a,     small_h);
+    coins_rect = make_rect(W - a, 0,           W,     small_h);
+    timer_rect = make_rect(C - b, H - large_h, C + b, H);
 
     view_text[0] = make_text(STR_VIEW0, TXT_SML);
     view_text[1] = make_text(STR_VIEW1, TXT_SML);
@@ -154,7 +155,7 @@ static void hud_draw_small(int d, int x, int y)
 {
     glPushMatrix();
     {
-        glTranslatef((float) x, (float) y, 0.f);
+        glTranslatef((GLfloat) x, (GLfloat) y, 0.0f);
 
         glBindTexture(GL_TEXTURE_2D, small_text[d]);
         glCallList(small_list[d]);
@@ -166,7 +167,7 @@ static void hud_draw_large(int d, int x, int y)
 {
     glPushMatrix();
     {
-        glTranslatef((float) x, (float) y, 0.f);
+        glTranslatef((GLfloat) x, (GLfloat) y, 0.0f);
 
         glBindTexture(GL_TEXTURE_2D, large_text[d]);
         glCallList(large_list[d]);
@@ -176,12 +177,12 @@ static void hud_draw_large(int d, int x, int y)
 
 static void hud_draw_labels(void)
 {
-    int W = config_w();
+    int W = config_get(CONFIG_WIDTH);
     int y = (small_h - coins_h) / 2;
 
     glPushMatrix();
     {
-        glTranslatef((float) space_w, (float) y, 0.f);
+        glTranslatef((GLfloat) space_w, (GLfloat) y, 0.f);
 
         glBindTexture(GL_TEXTURE_2D, balls_text);
         glCallList(balls_list);
@@ -190,7 +191,7 @@ static void hud_draw_labels(void)
 
     glPushMatrix();
     {
-        glTranslatef((float) (W - coins_w - space_w), (float) y, 0.f);
+        glTranslatef((GLfloat) (W - coins_w - space_w), (GLfloat) y, 0.f);
 
         glBindTexture(GL_TEXTURE_2D, coins_text);
         glCallList(coins_list);
@@ -237,9 +238,9 @@ static void hud_draw_fps(void)
     }
     else count++;
 
-    hud_draw_small((fps / 100),      0,           config_h() - small_h);
-    hud_draw_small((fps % 100) / 10, small_w,     config_h() - small_h);
-    hud_draw_small((fps % 100) % 10, small_w * 2, config_h() - small_h);
+    hud_draw_small((fps / 100),      0,           config_get(CONFIG_HEIGHT) - small_h);
+    hud_draw_small((fps % 100) / 10, small_w,     config_get(CONFIG_HEIGHT) - small_h);
+    hud_draw_small((fps % 100) % 10, small_w * 2, config_get(CONFIG_HEIGHT) - small_h);
 }
 
 static void hud_draw_view(void)
@@ -248,7 +249,8 @@ static void hud_draw_view(void)
     {
         GLfloat t = ((view_k > 2.f) ? 2.f : view_k) - 1.f;
 
-        glTranslatef(-view_w + view_w * t, config_h() - small_h - view_h, 0.f);
+        glTranslatef((GLfloat) (-view_w + view_w * t),
+                     (GLfloat) (config_get(CONFIG_HEIGHT) - small_h - view_h), 0.f);
 
         glBindTexture(GL_TEXTURE_2D, view_text[view_c]);
         glCallList(view_list[view_c]);
@@ -260,16 +262,16 @@ static void hud_draw_view(void)
 
 void hud_draw(void)
 {
-    const int W = config_w();
-    const int C = config_w() / 2;
+    const int W = config_get(CONFIG_WIDTH);
+    const int C = config_get(CONFIG_WIDTH) / 2;
 
-    const float clock = curr_clock();
-    const int   balls = curr_balls();
-    const int   coins = curr_coins();
+    const int clock = curr_clock();
+    const int balls = curr_balls();
+    const int coins = curr_coins();
 
-    const int m = (int) floor(clock) / 60;
-    const int s = (int) floor(clock) % 60;
-    const int h = (int) (100.f * (clock - m * 60 - s));
+    const int m = (clock / 6000);
+    const int s = (clock % 6000) / 100;
+    const int h = (clock       ) % 100;
 
     config_push_ortho();
     {
@@ -277,12 +279,12 @@ void hud_draw(void)
         glPushAttrib(GL_COLOR_BUFFER_BIT);
         glPushAttrib(GL_DEPTH_BUFFER_BIT);
         {
-            const int tw = 3 * large_w + 2 * small_w + space_w;
-            const int tx = C - tw / 2;
+            const int tw = (3 * large_w + 2 * small_w + space_w);
+            const int tx = (C - tw / 2);
 
-            const int bx =     balls_w + space_w;
-            const int cx = W - coins_w - space_w - small_w * 2;
-            const int hy = (large_h - small_h) / 2;
+            const int bx = (    balls_w + space_w);
+            const int cx = (W - coins_w - space_w - small_w * 2);
+            const int hy = ((large_h - small_h) / 2);
 
             glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
@@ -298,18 +300,18 @@ void hud_draw(void)
 
             glPushMatrix();
             {
-                glTranslatef(tx, 0.f, 0.f);
+                glTranslatef((GLfloat) tx, (GLfloat) (config_get(CONFIG_HEIGHT) - large_h), 0.f);
 
-                glTranslatef(+tw / 2, +large_h / 2, 0.f);
+                glTranslatef((GLfloat) (+tw / 2), (GLfloat) (+large_h / 2), 0.0f);
                 glScalef(time_k, time_k, 1.f);
-                glTranslatef(-tw / 2, -large_h / 2, 0.f);
+                glTranslatef((GLfloat) (-tw / 2), (GLfloat) (-large_h / 2), 0.0f);
 
-                hud_draw_large(m,          0,                            0);
-                hud_draw_small(10,         large_w,                     hy);
-                hud_draw_large(s / 10,     large_w + space_w,            0);
-                hud_draw_large(s % 10, 2 * large_w + space_w,            0);
-                hud_draw_small(h / 10, 3 * large_w + space_w,           hy);
-                hud_draw_small(h % 10, 3 * large_w + space_w + small_w, hy);
+                hud_draw_large(m,          0,                           0);
+                hud_draw_small(10,         large_w,                    hy);
+                hud_draw_large(s / 10,     large_w + space_w,           0);
+                hud_draw_large(s % 10, 2 * large_w + space_w,           0);
+                hud_draw_small(h / 10, 3 * large_w + space_w,          hy);
+                hud_draw_small(h % 10, 3 * large_w + space_w + small_w,hy);
             }
             glPopMatrix();
 
@@ -317,11 +319,11 @@ void hud_draw(void)
 
             glPushMatrix();
             {
-                glTranslatef(bx, 0.f, 0.f);
+                glTranslatef((GLfloat) bx, 0.0f, 0.0f);
 
-                glTranslatef(+small_w, +small_h / 2, 0.f);
+                glTranslatef((GLfloat) (+small_w), (GLfloat) (+small_h / 2), 0.0f);
                 glScalef(ball_k, ball_k, 1.f);
-                glTranslatef(-small_w, -small_h / 2, 0.f);
+                glTranslatef((GLfloat) (-small_w), (GLfloat) (-small_h / 2), 0.0f);
 
                 hud_draw_small((balls / 10), 0,       0);
                 hud_draw_small((balls % 10), small_w, 0);
@@ -332,11 +334,11 @@ void hud_draw(void)
 
             glPushMatrix();
             {
-                glTranslatef(cx, 0.f, 0.f);
+                glTranslatef((GLfloat) cx, 0.f, 0.f);
 
-                glTranslatef(+small_w, +small_h / 2, 0.f);
+                glTranslatef((GLfloat) (+small_w), (GLfloat) (+small_h / 2), 0.f);
                 glScalef(coin_k, coin_k, 1.f);
-                glTranslatef(-small_w, -small_h / 2, 0.f);
+                glTranslatef((GLfloat) (-small_w), (GLfloat) (-small_h / 2), 0.f);
 
                 hud_draw_small((coins / 10), 0,       0);
                 hud_draw_small((coins % 10), small_w, 0);
@@ -344,7 +346,7 @@ void hud_draw(void)
             glPopMatrix();
 
             if (view_k > 1.f) hud_draw_view();
-            if (config_fps()) hud_draw_fps();
+            if (config_get(CONFIG_FPS)) hud_draw_fps();
         }
         glPopAttrib();
         glPopAttrib();

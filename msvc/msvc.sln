@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "neverball", "neverball\neverball.vcproj", "{039567BB-AE05-432F-8263-D5F075B03FFC}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mapc", "mapc\mapc.vcproj", "{3FD0C71F-EEBB-401E-BA36-01EA73770136}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{039567BB-AE05-432F-8263-D5F075B03FFC}.Debug.ActiveCfg = Debug|Win32
+		{039567BB-AE05-432F-8263-D5F075B03FFC}.Debug.Build.0 = Debug|Win32
+		{039567BB-AE05-432F-8263-D5F075B03FFC}.Release.ActiveCfg = Release|Win32
+		{039567BB-AE05-432F-8263-D5F075B03FFC}.Release.Build.0 = Release|Win32
+		{3FD0C71F-EEBB-401E-BA36-01EA73770136}.Debug.ActiveCfg = Debug|Win32
+		{3FD0C71F-EEBB-401E-BA36-01EA73770136}.Debug.Build.0 = Debug|Win32
+		{3FD0C71F-EEBB-401E-BA36-01EA73770136}.Release.ActiveCfg = Release|Win32
+		{3FD0C71F-EEBB-401E-BA36-01EA73770136}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

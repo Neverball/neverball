@@ -11,8 +11,8 @@ OGL_LIBS= -lGLU -lGL -lm
 
 #------------------------------------------------------------------------------
 
-CFLAGS= -Wall -O3 -ansi $(shell sdl-config --cflags)
-#CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
+#CFLAGS= -Wall -O3 -ansi $(shell sdl-config --cflags)
+CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
 #CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
 
 SDL_LIBS= $(shell sdl-config --libs)
@@ -35,6 +35,7 @@ BALL_OBJS= \
 	share/part.o   \
 	share/geom.o   \
 	share/back.o   \
+	share/gui.o    \
 	share/menu.o   \
 	share/glext.o  \
 	share/config.o \
@@ -190,7 +191,8 @@ data/sol-misc/%.sol : data/map-misc/%.map $(MAPC_TARG)
 
 #------------------------------------------------------------------------------
 
-all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS)
+#all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS)
+all : $(BALL_TARG) $(MAPC_TARG) $(SOLS)
 
 $(BALL_TARG) : $(BALL_OBJS)
 	$(CC) $(CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(BALL_LIBS)

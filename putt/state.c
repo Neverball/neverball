@@ -61,6 +61,7 @@ int goto_state(struct state *st)
 
 void st_paint(void)
 {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (state && state->paint) state->paint();
 }
 
@@ -254,7 +255,6 @@ static void title_leave(void)
 
 static void title_paint(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     game_draw(0);
     menu_paint();
 }
@@ -573,7 +573,6 @@ static void conf_leave(void)
 
 static void conf_paint(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     menu_paint();
 }
 
@@ -679,7 +678,6 @@ static void party_leave(void)
 
 static void party_paint(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     menu_paint();
 }
 
@@ -760,7 +758,6 @@ static void next_leave(void)
 
 static void next_paint(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     game_draw(0);
     menu_paint();
 }
@@ -787,7 +784,6 @@ static void flyby_leave(void)
 
 static void flyby_paint(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     game_draw(0);
     hud_draw();
 }
@@ -838,7 +834,6 @@ static void stroke_leave(void)
 
 static void stroke_paint(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     game_draw(0);
     hud_draw();
 }
@@ -885,7 +880,6 @@ static void roll_leave(void)
 
 static void roll_paint(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     game_draw(0);
     hud_draw();
 }
@@ -925,7 +919,6 @@ static void goal_leave(void)
 
 static void goal_paint(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     game_draw(0);
     menu_paint();
 }
@@ -963,7 +956,6 @@ static void stop_leave(void)
 
 static void stop_paint(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     game_draw(0);
     menu_paint();
 }
@@ -1001,7 +993,6 @@ static void fall_leave(void)
 
 static void fall_paint(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     game_draw(0);
     menu_paint();
 }

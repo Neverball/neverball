@@ -10,23 +10,25 @@ struct state
     void (*enter)(void);
     void (*leave)(void);
     void (*paint)(float);
-    int  (*timer)(float);
-    int  (*point)(int, int, int, int);
+    void (*timer)(float);
+    void (*point)(int, int, int, int);
+    void (*stick)(int, int);
     int  (*click)(int, int);
     int  (*keybd)(int, int);
-    int  (*stick)(int, int);
     int  (*buttn)(int, int);
+
+    int pointer;
 };
 
 float time_state(void);
 int    goto_state(struct state *);
 
 void st_paint(void);
-int  st_timer(float);
-int  st_point(int, int, int, int);
+void st_timer(float);
+void st_point(int, int, int, int);
+void st_stick(int, int);
 int  st_click(int, int);
 int  st_keybd(int, int);
-int  st_stick(int, int);
 int  st_buttn(int, int);
 
 /*---------------------------------------------------------------------------*/

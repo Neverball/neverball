@@ -7,7 +7,7 @@
 
 #define MAX_DT   0.01666666            /* Maximum physics update cycle       */
 #define MAX_DN  16                     /* Maximum subdivisions of dt         */
-#define FOV     45.00f                 /* Field of view                      */
+#define FOV     50.00f                 /* Field of view                      */
 #define RESPONSE 0.05f                 /* Input smoothing time               */
 
 #define GAME_NONE 0
@@ -20,7 +20,7 @@
 void  game_init(const char *, int);
 void  game_free(void);
 
-float curr_clock(void);
+int   curr_clock(void);
 char *curr_intro(void);
 
 void  game_draw(int, float);

@@ -38,7 +38,7 @@
 #define MAXSTR 256
 #define MAXKEY 16
 #define SCALE  64.f
-#define SMALL  0.0005
+#define SMALL  0.0005f
 
 static char *path = ".";
 
@@ -709,7 +709,7 @@ static void make_body(struct s_file *fp,
         if (strcmp(k[i], "message") == 0)
         {
             strcpy(fp->av, v[i]);
-            fp->ac = strlen(v[i]) + 1;
+            fp->ac = (short) (strlen(v[i]) + 1);
         }
     }
 

@@ -20,8 +20,6 @@
 
 #include "config.h"
 #include "glext.h"
-#include "geom.h"
-#include "text.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,42 +33,245 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int mode         = SDL_OPENGL | SDL_FULLSCREEN;
-static int width        = CONFIG_DEF_WIDTH;
-static int height       = CONFIG_DEF_HEIGHT;
-static int stereo       = CONFIG_DEF_STEREO;
-static int camera       = CONFIG_DEF_CAMERA;
-static int textures     = CONFIG_DEF_TEXTURES;
-static int geometry     = CONFIG_DEF_GEOMETRY;
-static int reflection   = CONFIG_DEF_REFLECTION;
-static int audio_rate   = CONFIG_DEF_AUDIO_RATE;
-static int audio_buff   = CONFIG_DEF_AUDIO_BUFF;
-static int mouse_sense  = CONFIG_DEF_MOUSE_SENSE;
-static int mouse_inv    = CONFIG_DEF_MOUSE_INV;
-static int niceness     = CONFIG_DEF_NICE;
-static int fps          = CONFIG_DEF_FPS;
-static int joy          = CONFIG_DEF_JOY;
-static int joy_device   = CONFIG_DEF_JOY_DEVICE;
-static int sound_vol    = CONFIG_DEF_SOUND_VOL;
-static int music_vol    = CONFIG_DEF_MUSIC_VOL;
-
-static int axis_x       = CONFIG_DEF_AXIS_X;
-static int axis_y       = CONFIG_DEF_AXIS_Y;
-static int button_a     = CONFIG_DEF_BUTTON_A;
-static int button_b     = CONFIG_DEF_BUTTON_B;
-static int button_r     = CONFIG_DEF_BUTTON_R;
-static int button_l     = CONFIG_DEF_BUTTON_L;
-static int button_exit  = CONFIG_DEF_BUTTON_EXIT;
-
-static int key_cam_1    = CONFIG_DEF_KEY_CAM_1;
-static int key_cam_2    = CONFIG_DEF_KEY_CAM_2;
-static int key_cam_3    = CONFIG_DEF_KEY_CAM_3;
-static int key_cam_r    = CONFIG_DEF_KEY_CAM_R;
-static int key_cam_l    = CONFIG_DEF_KEY_CAM_L;
-
-char player[MAXNAM]     = DEFAULT_NAME;
+static int  option[CONFIG_OPTION_COUNT];
+static char player[MAXNAM];
 
 /*---------------------------------------------------------------------------*/
+
+static void config_key(const char *s, int i, int d)
+{
+    int c;
+
+    option[i] = d;
+
+    for (c = 0; c < SDLK_LAST; c++)
+        if (strcmp(s, SDL_GetKeyName(c)) == 0)
+        {
+            option[i] = c;
+            break;
+        }
+}
+
+/*---------------------------------------------------------------------------*/
+
+void config_init(void)
+{
+    option[CONFIG_FULLSCREEN]        = DEFAULT_FULLSCREEN;
+    option[CONFIG_WIDTH]             = DEFAULT_WIDTH;
+    option[CONFIG_HEIGHT]            = DEFAULT_HEIGHT;
+    option[CONFIG_STEREO]            = DEFAULT_STEREO;
+    option[CONFIG_CAMERA]            = DEFAULT_CAMERA;
+    option[CONFIG_TEXTURES]          = DEFAULT_TEXTURES;
+    option[CONFIG_GEOMETRY]          = DEFAULT_GEOMETRY;
+    option[CONFIG_REFLECTION]        = DEFAULT_REFLECTION;
+    option[CONFIG_SHADOW]            = DEFAULT_SHADOW;
+    option[CONFIG_AUDIO_RATE]        = DEFAULT_AUDIO_RATE;
+    option[CONFIG_AUDIO_BUFF]        = DEFAULT_AUDIO_BUFF;
+    option[CONFIG_MOUSE_SENSE]       = DEFAULT_MOUSE_SENSE;
+    option[CONFIG_MOUSE_INVERT]      = DEFAULT_MOUSE_INVERT;
+    option[CONFIG_NICE]              = DEFAULT_NICE;
+    option[CONFIG_FPS]               = DEFAULT_FPS;
+    option[CONFIG_SOUND_VOLUME]      = DEFAULT_SOUND_VOLUME;
+    option[CONFIG_MUSIC_VOLUME]      = DEFAULT_MUSIC_VOLUME;
+    option[CONFIG_JOYSTICK]          = DEFAULT_JOYSTICK;
+    option[CONFIG_JOYSTICK_DEVICE]   = DEFAULT_JOYSTICK_DEVICE;
+    option[CONFIG_JOYSTICK_AXIS_X]   = DEFAULT_JOYSTICK_AXIS_X;
+    option[CONFIG_JOYSTICK_AXIS_Y]   = DEFAULT_JOYSTICK_AXIS_Y;
+    option[CONFIG_JOYSTICK_BUTTON_A] = DEFAULT_JOYSTICK_BUTTON_A;
+    option[CONFIG_JOYSTICK_BUTTON_B] = DEFAULT_JOYSTICK_BUTTON_B;
+    option[CONFIG_JOYSTICK_BUTTON_L] = DEFAULT_JOYSTICK_BUTTON_L;
+    option[CONFIG_JOYSTICK_BUTTON_R] = DEFAULT_JOYSTICK_BUTTON_R;
+    option[CONFIG_KEY_CAMERA_1]      = DEFAULT_KEY_CAMERA_1;
+    option[CONFIG_KEY_CAMERA_2]      = DEFAULT_KEY_CAMERA_2;
+    option[CONFIG_KEY_CAMERA_3]      = DEFAULT_KEY_CAMERA_3;
+    option[CONFIG_KEY_CAMERA_R]      = DEFAULT_KEY_CAMERA_R;
+    option[CONFIG_KEY_CAMERA_L]      = DEFAULT_KEY_CAMERA_L;
+
+    strcpy(player, DEFAULT_PLAYER);
+}
+
+void config_load(void)
+{
+    char  path[MAXSTR];
+    FILE *fp;
+
+    if (config_home(path, USER_CONFIG_FILE, MAXSTR) && (fp = fopen(path, "r")))
+    {
+        char buf[MAXSTR];
+        char key[MAXSTR];
+        char val[MAXSTR];
+
+        while (fgets(buf, MAXSTR, fp))
+            if (sscanf(buf, "%s %s", key, val) == 2)
+            {
+                if      (strcmp(key, "fullscreen")            == 0)
+                    option[CONFIG_FULLSCREEN]           = atoi(val);
+                else if (strcmp(key, "width")                 == 0)
+                    option[CONFIG_WIDTH]                = atoi(val);
+                else if (strcmp(key, "height")                == 0)
+                    option[CONFIG_HEIGHT]               = atoi(val);
+                else if (strcmp(key, "stereo")                == 0)
+                    option[CONFIG_STEREO]               = atoi(val);
+                else if (strcmp(key, "camera")                == 0)
+                    option[CONFIG_CAMERA]               = atoi(val);
+                else if (strcmp(key, "textures")              == 0)
+                    option[CONFIG_TEXTURES]             = atoi(val);
+                else if (strcmp(key, "geometry")              == 0)
+                    option[CONFIG_GEOMETRY]             = atoi(val);
+                else if (strcmp(key, "reflection")            == 0)
+                    option[CONFIG_REFLECTION]           = atoi(val);
+                else if (strcmp(key, "shadow")                == 0)
+                    option[CONFIG_SHADOW]               = atoi(val);
+                else if (strcmp(key, "audio_rate")            == 0)
+                    option[CONFIG_AUDIO_RATE]           = atoi(val);
+                else if (strcmp(key, "audio_buff")            == 0)
+                    option[CONFIG_AUDIO_BUFF]           = atoi(val);
+                else if (strcmp(key, "mouse_sense")           == 0)
+                    option[CONFIG_MOUSE_SENSE]          = atoi(val);
+                else if (strcmp(key, "mouse_invert")          == 0)
+                    option[CONFIG_MOUSE_INVERT]         = atoi(val);
+                else if (strcmp(key, "nice")                  == 0)
+                    option[CONFIG_NICE]                 = atoi(val);
+                else if (strcmp(key, "fps")                   == 0)
+                    option[CONFIG_FPS]                  = atoi(val);
+                else if (strcmp(key, "sound_volume")          == 0)
+                    option[CONFIG_SOUND_VOLUME]         = atoi(val);
+                else if (strcmp(key, "music_volume")          == 0)
+                    option[CONFIG_MUSIC_VOLUME]         = atoi(val);
+                else if (strcmp(key, "joystick")              == 0)
+                    option[CONFIG_JOYSTICK]             = atoi(val);
+                else if (strcmp(key, "joystick_device")       == 0)
+                    option[CONFIG_JOYSTICK_DEVICE]      = atoi(val);
+                else if (strcmp(key, "joystick_axis_x")       == 0)
+                    option[CONFIG_JOYSTICK_AXIS_X]      = atoi(val);
+                else if (strcmp(key, "joystick_axis_y")       == 0)
+                    option[CONFIG_JOYSTICK_AXIS_Y]      = atoi(val);
+                else if (strcmp(key, "joystick_button_a")     == 0)
+                    option[CONFIG_JOYSTICK_BUTTON_A]    = atoi(val);
+                else if (strcmp(key, "joystick_button_b")     == 0)
+                    option[CONFIG_JOYSTICK_BUTTON_B]    = atoi(val);
+                else if (strcmp(key, "joystick_button_r")     == 0)
+                    option[CONFIG_JOYSTICK_BUTTON_R]    = atoi(val);
+                else if (strcmp(key, "joystick_button_l")     == 0)
+                    option[CONFIG_JOYSTICK_BUTTON_L]    = atoi(val);
+                else if (strcmp(key, "joystick_button_exit")  == 0)
+                    option[CONFIG_JOYSTICK_BUTTON_EXIT] = atoi(val);
+                else if (strcmp(key, "key_camera_1")  == 0)
+                    config_key(val, CONFIG_KEY_CAMERA_1, DEFAULT_KEY_CAMERA_1);
+                else if (strcmp(key, "key_camera_2")  == 0)
+                    config_key(val, CONFIG_KEY_CAMERA_2, DEFAULT_KEY_CAMERA_2);
+                else if (strcmp(key, "key_camera_3")  == 0)
+                    config_key(val, CONFIG_KEY_CAMERA_3, DEFAULT_KEY_CAMERA_3);
+                else if (strcmp(key, "key_camera_r")  == 0)
+                    config_key(val, CONFIG_KEY_CAMERA_R, DEFAULT_KEY_CAMERA_R);
+                else if (strcmp(key, "key_camera_l")  == 0)
+                    config_key(val, CONFIG_KEY_CAMERA_L, DEFAULT_KEY_CAMERA_L);
+                else if (strcmp(key, "player") == 0)
+                    strncpy(player, val, MAXNAM);
+            }
+
+        fclose(fp);
+    }
+}
+
+void config_save(void)
+{
+    char  path[MAXSTR];
+    FILE *fp;
+
+    if (config_home(path, USER_CONFIG_FILE, MAXSTR) && (fp = fopen(path, "w")))
+    {
+        fprintf(fp, "fullscreen           %d\n",
+                option[CONFIG_FULLSCREEN]);
+        fprintf(fp, "width                %d\n",
+                option[CONFIG_WIDTH]);
+        fprintf(fp, "height               %d\n",
+                option[CONFIG_HEIGHT]);
+        fprintf(fp, "stereo               %d\n",
+                option[CONFIG_STEREO]);
+        fprintf(fp, "camera               %d\n",
+                option[CONFIG_CAMERA]);
+        fprintf(fp, "textures             %d\n",
+                option[CONFIG_TEXTURES]);
+        fprintf(fp, "geometry             %d\n",
+                option[CONFIG_GEOMETRY]);
+        fprintf(fp, "reflection           %d\n",
+                option[CONFIG_REFLECTION]);
+        fprintf(fp, "shadow               %d\n",
+                option[CONFIG_SHADOW]);
+        fprintf(fp, "audio_rate           %d\n",
+                option[CONFIG_AUDIO_RATE]);
+        fprintf(fp, "audio_buff           %d\n",
+                option[CONFIG_AUDIO_BUFF]);
+        fprintf(fp, "mouse_sense          %d\n",
+                option[CONFIG_MOUSE_SENSE]);
+        fprintf(fp, "mouse_invert         %d\n",
+                option[CONFIG_MOUSE_INVERT]);
+        fprintf(fp, "nice                 %d\n",
+                option[CONFIG_NICE]);
+        fprintf(fp, "fps                  %d\n",
+                option[CONFIG_FPS]);
+        fprintf(fp, "sound_volume         %d\n",
+                option[CONFIG_SOUND_VOLUME]);
+        fprintf(fp, "music_volume         %d\n",
+                option[CONFIG_MUSIC_VOLUME]);
+        fprintf(fp, "joystick             %d\n",
+                option[CONFIG_JOYSTICK]);
+        fprintf(fp, "joystick_device      %d\n",
+                option[CONFIG_JOYSTICK_DEVICE]);
+        fprintf(fp, "joystick_axis_x      %d\n",
+                option[CONFIG_JOYSTICK_AXIS_X]);
+        fprintf(fp, "joystick_axis_y      %d\n",
+                option[CONFIG_JOYSTICK_AXIS_Y]);
+        fprintf(fp, "joystick_button_r    %d\n",
+                option[CONFIG_JOYSTICK_BUTTON_R]);
+        fprintf(fp, "joystick_button_l    %d\n",
+                option[CONFIG_JOYSTICK_BUTTON_L]);
+        fprintf(fp, "joystick_button_a    %d\n",
+                option[CONFIG_JOYSTICK_BUTTON_A]);
+        fprintf(fp, "joystick_button_b    %d\n",
+                option[CONFIG_JOYSTICK_BUTTON_B]);
+        fprintf(fp, "joystick_button_exit %d\n",
+                option[CONFIG_JOYSTICK_BUTTON_EXIT]);
+        fprintf(fp, "key_camera_1         %s\n",
+                SDL_GetKeyName(option[CONFIG_KEY_CAMERA_1]));
+        fprintf(fp, "key_camera_2         %s\n",
+                SDL_GetKeyName(option[CONFIG_KEY_CAMERA_2]));
+        fprintf(fp, "key_camera_3         %s\n",
+                SDL_GetKeyName(option[CONFIG_KEY_CAMERA_3]));
+        fprintf(fp, "key_camera_r         %s\n",
+                SDL_GetKeyName(option[CONFIG_KEY_CAMERA_R]));
+        fprintf(fp, "key_camrea_l         %s\n",
+                SDL_GetKeyName(option[CONFIG_KEY_CAMERA_L]));
+        fprintf(fp, "player               %s\n", player);
+
+        fclose(fp);
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+int config_mode(int f, int w, int h)
+{
+    if (SDL_SetVideoMode(w, h, 0, SDL_OPENGL | (f ? SDL_FULLSCREEN : 0)))
+    {
+        option[CONFIG_FULLSCREEN] = f;
+        option[CONFIG_WIDTH]      = w;
+        option[CONFIG_HEIGHT]     = h;
+        option[CONFIG_SHADOW]     = (option[CONFIG_SHADOW] & glext_init());
+
+        glViewport(0, 0, w, h);
+        glClearColor(0.0f, 0.8f, 1.0f, 0.0f);
+
+        glEnable(GL_NORMALIZE);
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_TEXTURE_2D);
+
+        return 1;
+    }
+    return 0;
+}
 
 /*
  * Convert the given file name to  an absolute path name in the user's
@@ -81,7 +282,7 @@ char player[MAXNAM]     = DEFAULT_NAME;
  * the data  directory.  This is  more reliable than trying  to devine
  * anything reasonable from the environment.
  */
-int config_home(char *dst, const char *src, size_t n)
+int config_home(char *dst, char *src, size_t n)
 {
 #ifdef _WIN32
 
@@ -112,7 +313,7 @@ int config_home(char *dst, const char *src, size_t n)
  * directory to the root of the asset hierarchy.  Confirm the location
  * by checking for the presence of the named file.
  */
-int config_path(const char *path, const char *test)
+int config_path(char *path, char *test)
 {
     FILE *fp;
 
@@ -146,265 +347,62 @@ int config_demo(void)
 
 /*---------------------------------------------------------------------------*/
 
-int config_key(const char *s, int d)
+void config_set(int i, int d)
 {
-    int c;
-
-    for (c = 0; c < SDLK_LAST; c++)
-        if (strcmp(s, SDL_GetKeyName(c)) == 0)
-            return c;
-
-    return d;
+    option[i] = d;
 }
 
-/*---------------------------------------------------------------------------*/
-
-void config_load(void)
+void config_tgl(int i)
 {
-    char  path[MAXSTR];
-    FILE *fp;
-
-    if (config_home(path, USER_CONFIG_FILE, MAXSTR) && (fp = fopen(path, "r")))
-    {
-        char buf[MAXSTR];
-        char key[MAXSTR];
-        char str[MAXSTR];
-        int  val;
-
-        while (fgets(buf, MAXSTR, fp))
-        {
-            if (sscanf(buf, "%s %d", key, &val) == 2)
-            {
-                if (strcmp(key, "fullscreen") == 0)
-                    mode = SDL_OPENGL | (val ? SDL_FULLSCREEN : 0);
-
-                if (strcmp(key, "width")        == 0) width        = val;
-                if (strcmp(key, "height")       == 0) height       = val;
-                if (strcmp(key, "stereo")       == 0) stereo       = val;
-                if (strcmp(key, "camera")       == 0) camera       = val;
-                if (strcmp(key, "textures")     == 0) textures     = val;
-                if (strcmp(key, "geometry")     == 0) geometry     = val;
-                if (strcmp(key, "reflection")   == 0) reflection   = val;
-                if (strcmp(key, "audio_rate")   == 0) audio_rate   = val;
-                if (strcmp(key, "audio_buff")   == 0) audio_buff   = val;
-                if (strcmp(key, "mouse_sense")  == 0) mouse_sense  = val;
-                if (strcmp(key, "mouse_inv")    == 0) mouse_inv    = val;
-                if (strcmp(key, "niceness")     == 0) niceness     = val;
-                if (strcmp(key, "fps")          == 0) fps          = val;
-                if (strcmp(key, "joy")          == 0) joy          = val;
-                if (strcmp(key, "joy_device")   == 0) joy_device   = val;
-                if (strcmp(key, "sound_vol")    == 0) sound_vol    = val;
-                if (strcmp(key, "music_vol")    == 0) music_vol    = val;
-
-                if (strcmp(key, "axis_x")       == 0) axis_x       = val;
-                if (strcmp(key, "axis_y")       == 0) axis_y       = val;
-                if (strcmp(key, "button_a")     == 0) button_a     = val;
-                if (strcmp(key, "button_b")     == 0) button_b     = val;
-                if (strcmp(key, "button_r")     == 0) button_r     = val;
-                if (strcmp(key, "button_l")     == 0) button_l     = val;
-                if (strcmp(key, "button_exit")  == 0) button_exit  = val;
-
-                if (strcmp(key, "shadow")       == 0) glext_set_shadow(val);
-            }
-
-            else if (sscanf(buf, "%s %s", key, str) == 2)
-            {
-                if (strcmp(key, "player") == 0)
-                    strncpy(player, str, MAXNAM);
-
-                if (strcmp(key, "key_cam_1")  == 0)
-                    key_cam_1 = config_key(str, CONFIG_DEF_KEY_CAM_1);
-                if (strcmp(key, "key_cam_2")  == 0)
-                    key_cam_2 = config_key(str, CONFIG_DEF_KEY_CAM_2);
-                if (strcmp(key, "key_cam_3")  == 0)
-                    key_cam_3 = config_key(str, CONFIG_DEF_KEY_CAM_3);
-                if (strcmp(key, "key_cam_r")  == 0)
-                    key_cam_r = config_key(str, CONFIG_DEF_KEY_CAM_R);
-                if (strcmp(key, "key_cam_l")  == 0)
-                    key_cam_l = config_key(str, CONFIG_DEF_KEY_CAM_L);
-            }
-        }
-
-        fclose(fp);
-    }
+    option[i] = (option[i] ? 0 : 1);
 }
 
-void config_store(void)
+int config_tst(int i, int d)
 {
-    char  path[MAXSTR];
-    FILE *fp;
-
-    if (config_home(path, USER_CONFIG_FILE, MAXSTR) && (fp = fopen(path, "w")))
-    {
-        fprintf(fp, "fullscreen %d\n",  (mode & SDL_FULLSCREEN) ? 1 : 0);
-        fprintf(fp, "width %d\n",        width);
-        fprintf(fp, "height %d\n",       height);
-        fprintf(fp, "stereo %d\n",       stereo);
-        fprintf(fp, "camera %d\n",       camera);
-        fprintf(fp, "textures %d\n",     textures);
-        fprintf(fp, "geometry %d\n",     geometry);
-        fprintf(fp, "reflection %d\n",   reflection);
-        fprintf(fp, "audio_rate %d\n",   audio_rate);
-        fprintf(fp, "audio_buff %d\n",   audio_buff);
-        fprintf(fp, "mouse_sense %d\n",  mouse_sense);
-        fprintf(fp, "mouse_inv %d\n",    mouse_inv);
-        fprintf(fp, "player %s\n",       player);
-        fprintf(fp, "niceness %d\n",     niceness);
-        fprintf(fp, "fps %d\n",          fps);
-        fprintf(fp, "joy %d\n",          joy);
-        fprintf(fp, "joy_device %d\n",   joy_device);
-        fprintf(fp, "sound_vol %d\n",    sound_vol);
-        fprintf(fp, "music_vol %d\n",    music_vol);
-
-        fprintf(fp, "axis_x %d\n",       axis_x);
-        fprintf(fp, "axis_y %d\n",       axis_y);
-        fprintf(fp, "button_r %d\n",     button_r);
-        fprintf(fp, "button_l %d\n",     button_l);
-        fprintf(fp, "button_a %d\n",     button_a);
-        fprintf(fp, "button_b %d\n",     button_b);
-        fprintf(fp, "button_exit %d\n",  button_exit);
-
-        fprintf(fp, "key_cam_1 %s\n",    SDL_GetKeyName(key_cam_1));
-        fprintf(fp, "key_cam_2 %s\n",    SDL_GetKeyName(key_cam_2));
-        fprintf(fp, "key_cam_3 %s\n",    SDL_GetKeyName(key_cam_3));
-        fprintf(fp, "key_cam_r %s\n",    SDL_GetKeyName(key_cam_r));
-        fprintf(fp, "key_cam_l %s\n",    SDL_GetKeyName(key_cam_l));
-
-        fprintf(fp, "shadow %d\n",       glext_shadow());
-
-        fclose(fp);
-    }
+    return (option[i] == d) ? 1 : 0;
 }
 
-/*---------------------------------------------------------------------------*/
-
-int config_mode(void) { return mode; }
-int config_w   (void) { return width;  }
-int config_h   (void) { return height; }
-int config_view(void) { return camera; }
-int config_text(void) { return textures; }
-int config_geom(void) { return geometry; }
-int config_refl(void) { return reflection; }
-int config_rate(void) { return audio_rate; }
-int config_buff(void) { return audio_buff; }
-int config_sens(void) { return mouse_sense; }
-int config_inv (void) { return mouse_inv; }
-int config_nice(void) { return niceness; }
-int config_fps (void) { return fps; }
-int config_joy_device(void) { return joy_device; }
-int config_sound(void) { return sound_vol; }
-int config_music(void) { return music_vol; }
-int config_stereo(void) { return stereo; }
-
-int config_axis_x(int a)   { return (joy && a == axis_x); }
-int config_axis_y(int a)   { return (joy && a == axis_y); }
-int config_button_a(int b) { return (joy && b == button_a); }
-int config_button_b(int b) { return (joy && b == button_b); }
-int config_button_r(int b) { return (joy && b == button_r); }
-int config_button_l(int b) { return (joy && b == button_l); }
-int config_button_X(int b) { return (joy && b == button_exit); }
-
-int config_key_cam_1(int b)    { return (b == key_cam_1); }
-int config_key_cam_2(int b)    { return (b == key_cam_2); }
-int config_key_cam_3(int b)    { return (b == key_cam_3); }
-int config_key_cam_r(int b)    { return (b == key_cam_r); }
-int config_key_cam_l(int b)    { return (b == key_cam_l); }
-
-char *config_get_key_cam_1(void) { return SDL_GetKeyName(key_cam_1); }
-char *config_get_key_cam_2(void) { return SDL_GetKeyName(key_cam_2); }
-char *config_get_key_cam_3(void) { return SDL_GetKeyName(key_cam_3); }
-
-/*---------------------------------------------------------------------------*/
-
-int config_set_mode(int w, int h, int m)
+int config_get(int i)
 {
-    if (SDL_SetVideoMode(w, h, 0, m))
-    {
-        mode   = m;
-        width  = w;
-        height = h;
-
-        glViewport(0, 0, w, h);
-        glClearColor(0.0f, 0.8f, 1.0f, 0.0f);
-
-        glEnable(GL_NORMALIZE);
-        glEnable(GL_CULL_FACE);
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_TEXTURE_2D);
-
-        return 1;
-    }
-    return 0;
+    return option[i];
 }
 
-void config_set_text(int t)
+void config_set_name(char *src)
 {
-    textures = t;
+    strncpy(player, src, MAXNAM);
 }
 
-void config_set_geom(int g)
+void config_get_name(char *dst)
 {
-    geometry = g;
-}
-
-void config_set_refl(int r)
-{
-    reflection = r;
-}
-
-void config_set_audio(int r, int b)
-{
-    audio_rate = r;
-    audio_buff = b;
-}
-
-void config_set_sound(int n)
-{
-    if (0 <= n && n <= 10)
-        sound_vol = n;
-}
-
-void config_set_music(int n)
-{
-    if (0 <= n && n <= 10)
-        music_vol = n;
-}
-
-void config_set_view(int c)
-{
-    camera = c;
-}
-
-void config_tog_nice(void)
-{
-    niceness = niceness ? 0 : 1;
-}
-
-void config_tog_fps(void)
-{
-    fps = fps ? 0 : 1;
+    strncpy(dst, player, MAXNAM);
 }
 
 /*---------------------------------------------------------------------------*/
 
 void config_push_persp(float fov, float n, float f)
 {
+    GLdouble w = (GLdouble) option[CONFIG_WIDTH];
+    GLdouble h = (GLdouble) option[CONFIG_HEIGHT];
+
     glMatrixMode(GL_PROJECTION);
     {
         glPushMatrix();
         glLoadIdentity();
-        gluPerspective(fov, (double) width / height, n, f);
+        gluPerspective(fov, w / h, n, f);
     }
     glMatrixMode(GL_MODELVIEW);
 }
 
 void config_push_ortho(void)
 {
+    GLdouble w = (GLdouble) option[CONFIG_WIDTH];
+    GLdouble h = (GLdouble) option[CONFIG_HEIGHT];
+
     glMatrixMode(GL_PROJECTION);
     {
         glPushMatrix();
         glLoadIdentity();
-        glOrtho(0.0, width, 0.0, height, -1.0, +1.0);
+        glOrtho(0.0, w, 0.0, h, -1.0, +1.0);
     }
     glMatrixMode(GL_MODELVIEW);
 }

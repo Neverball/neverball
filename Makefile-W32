@@ -9,7 +9,8 @@ LIBDIR= /LIBPATH:C:\SDL\lib
 
 #------------------------------------------------------------------------------
 
-CFLAGS= /Ox
+#CFLAGS= /Ox
+#CFLAGS= /Zi
 
 SYS_LIBS= glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib
 SDL_LIBS= SDL.lib SDLmain.lib
@@ -31,6 +32,7 @@ BALL_OBJS= \
 	share\part.obj   \
 	share\geom.obj   \
 	share\back.obj   \
+	share\gui.obj    \
 	share\menu.obj   \
 	share\glext.obj  \
 	share\config.obj \
@@ -59,9 +61,9 @@ PUTT_OBJS= \
 	putt\state.obj   \
 	putt\main.obj
 
-MAPC_FLAGS= /nologo /subsystem:console
-BALL_FLAGS= /nologo /subsystem:windows
-PUTT_FLAGS= /nologo /subsystem:windows
+MAPC_FLAGS= /nologo /subsystem:console $(LFLAGS)
+BALL_FLAGS= /nologo /subsystem:windows $(LFLAGS)
+PUTT_FLAGS= /nologo /subsystem:windows $(LFLAGS)
 
 MAPC_LIBS= SDL_image.lib $(SDL_LIBS) $(SYS_LIBS)
 BALL_LIBS= SDL_ttf.lib SDL_mixer.lib SDL_image.lib $(SDL_LIBS) $(SYS_LIBS)
@@ -183,7 +185,8 @@ SOLS= \
 
 #------------------------------------------------------------------------------
 
-all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS)
+#all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS)
+all : $(BALL_TARG) $(MAPC_TARG) $(SOLS)
 
 $(BALL_TARG) : $(BALL_OBJS)
 	link $(BALL_FLAGS) /out:$(BALL_TARG) $(BALL_OBJS) $(BALL_LIBS) $(LIBDIR)

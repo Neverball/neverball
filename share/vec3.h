@@ -15,11 +15,16 @@
 #ifndef VEC_H
 #define VEC_H
 
-#define V_RAD(d) (d * 3.1415927f / 180.f)
-#define V_DEG(r) (r * 180.f / 3.1415927f)
+#include <math.h>
+
+#define V_PI 3.1415927f
+
+#define V_RAD(d) (d * V_PI / 180.f)
+#define V_DEG(r) (r * 180.f / V_PI)
 
 #define fsinf(a)      ((float) sin((double) a))
 #define fcosf(a)      ((float) cos((double) a))
+#define fabsf(a)      ((float) fabs((double) a))
 #define fsqrtf(a)     ((float) sqrt((double) a))
 #define fatan2f(x, y) ((float) atan2((double) x, (double) y))
 

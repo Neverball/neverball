@@ -86,14 +86,18 @@ static int grabbed = 0;
 
 static void enable_grab(void)
 {
+    /*
     SDL_WM_GrabInput(SDL_GRAB_ON);
+    */
     Mix_ResumeMusic();
     grabbed = 1;
 }
 
 static void disable_grab(void)
 {
+    /*
     SDL_WM_GrabInput(SDL_GRAB_OFF);
+    */
     Mix_PauseMusic();
     grabbed = 0;
 }
@@ -108,8 +112,8 @@ static void toggle_grab(void)
 
 static void darken()
 {
-    int w = config_w();
-    int h = config_h();
+    int w = config_get(CONFIG_WIDTH);
+    int h = config_get(CONFIG_HEIGHT);
 
     config_push_ortho();
 
@@ -146,13 +150,14 @@ static int loop(void)
     while (d && SDL_PollEvent(&e))
         switch (e.type)
         {
-
         case SDL_MOUSEMOTION:
             if (grabbed)
-                d = st_point(+e.motion.x,
-                             -e.motion.y + config_h(),
-                             +e.motion.xrel,
-                             config_inv() ? e.motion.yrel : -e.motion.yrel);
+                st_point(+e.motion.x,
+                         -e.motion.y + config_get(CONFIG_HEIGHT),
+                         +e.motion.xrel,
+                         config_get(CONFIG_MOUSE_INVERT)
+                         ? +e.motion.yrel
+                         : -e.motion.yrel);
               break;
 
         case SDL_MOUSEBUTTONDOWN:
@@ -169,8 +174,8 @@ static int loop(void)
             if (e.key.keysym.sym == SDLK_SPACE) { toggle_grab();      break; }
             if (e.key.keysym.sym == SDLK_F11)   { d = demo();         break; }
             if (e.key.keysym.sym == SDLK_F10)   { d = shot();         break; }
-            if (e.key.keysym.sym == SDLK_F9)    { config_tog_fps();   break; }
-            if (e.key.keysym.sym == SDLK_F8)    { config_tog_nice();  break; }
+            if (e.key.keysym.sym == SDLK_F9) { config_tgl(CONFIG_FPS);  break; }
+            if (e.key.keysym.sym == SDLK_F8) { config_tgl(CONFIG_NICE); break; }
             
             if (grabbed)
                 d = st_keybd(e.key.keysym.sym, 1);
@@ -188,7 +193,7 @@ static int loop(void)
 
         case SDL_JOYAXISMOTION:
             if (grabbed)
-                d = st_stick(e.jaxis.axis, e.jaxis.value);
+                st_stick(e.jaxis.axis, e.jaxis.value);
             break;
 
         case SDL_JOYBUTTONDOWN:
@@ -210,26 +215,28 @@ static int loop(void)
 
 int main(int argc, char *argv[])
 {
-    const char  *path = (argc > 1) ? argv[1] : CONFIG_PATH;
+    char  *path = (argc > 1) ? argv[1] : CONFIG_PATH;
     SDL_Joystick *joy = NULL;
 
     if (config_path(path, SET_FILE))
     {
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
         {
+            config_init();
             config_load();
 
             /* Initialize the joystick. */
 
             if (SDL_NumJoysticks() > 0)
             {
-                if ((joy = SDL_JoystickOpen(config_joy_device())))
+                joy = SDL_JoystickOpen(config_get(CONFIG_JOYSTICK_DEVICE));
+
+                if (joy)
                     SDL_JoystickEventState(SDL_ENABLE);
             }
 
             /* Initialize the audio. */
 
-            config_set_audio(config_rate(), config_buff());
             audio_init();
 
             /* Require 16-bit double buffer with 16-bit depth buffer. */
@@ -240,16 +247,17 @@ int main(int argc, char *argv[])
             SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
             SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 1);
             SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-            SDL_GL_SetAttribute(SDL_GL_STEREO, config_stereo() ? 1 : 0);
+            SDL_GL_SetAttribute(SDL_GL_STEREO, config_get(CONFIG_STEREO) ? 1 : 0);
 
             /* Initialize the video. */
 
-            if (config_set_mode(config_w(), config_h(), config_mode()))
+            if (config_mode(config_get(CONFIG_FULLSCREEN),
+                            config_get(CONFIG_WIDTH),
+                            config_get(CONFIG_HEIGHT)))
             {
                 int t1, t0 = SDL_GetTicks();
 
                 SDL_WM_SetCaption(TITLE, TITLE); 
-                SDL_ShowCursor(SDL_DISABLE);
                 enable_grab();
 
                 /* Run the main game loop. */
@@ -271,11 +279,9 @@ int main(int argc, char *argv[])
 
                         t0 = t1;
 
-                        if (config_nice())
+                        if (config_get(CONFIG_NICE))
                             SDL_Delay(1);
                     }
-
-                SDL_ShowCursor(SDL_ENABLE);
             }
             else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
 
@@ -286,7 +292,7 @@ int main(int argc, char *argv[])
         }
         else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
 
-        config_store();
+        config_save();
     }
 
     return 0;

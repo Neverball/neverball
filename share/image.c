@@ -24,6 +24,32 @@
 
 /*---------------------------------------------------------------------------*/
 
+void image_snap(char *filename)
+{
+    static char path[MAXSTR];
+
+    int w = config_get(CONFIG_WIDTH);
+    int h = config_get(CONFIG_HEIGHT);
+    int i;
+
+    SDL_Surface *buf = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
+                                            RMASK, GMASK, BMASK, 0);
+    SDL_Surface *img = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
+                                            RMASK, GMASK, BMASK, 0);
+
+    glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, buf->pixels);
+
+    for (i = 0; i < h; i++)
+        memcpy((GLubyte *) img->pixels + 3 * w * i,
+               (GLubyte *) buf->pixels + 3 * w * (h - i), 3 * w);
+
+    if (config_home(path, filename, MAXSTR))
+        SDL_SaveBMP(img,  path);
+
+    SDL_FreeSurface(img);
+    SDL_FreeSurface(buf);
+}
+
 void image_size(int *W, int *H, int w, int h)
 {
     *W = 1;
@@ -50,15 +76,17 @@ static const GLenum format[5] = {
  */
 GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
 {
+    int t = config_get(CONFIG_TEXTURES);
+
     GLuint o = 0;
 
     glGenTextures(1, &o);
     glBindTexture(GL_TEXTURE_2D, o);
 
-    if (config_text() > 1)
+    if (t > 1)
     {
-        int w = s->w / config_text();
-        int h = s->h / config_text();
+        int w = s->w / t;
+        int h = s->h / t;
 
         /* Create a new buffer and copy the scaled image to it. */
 
@@ -73,17 +101,26 @@ GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
             SDL_LockSurface(s);
             SDL_LockSurface(d);
             {
-                gluScaleImage(GL_RGBA,
-                              s->w, s->h, GL_UNSIGNED_BYTE, s->pixels,
-                              d->w, d->h, GL_UNSIGNED_BYTE, d->pixels);
+                if (s->format->BitsPerPixel == 32)
+                    gluScaleImage(GL_RGBA,
+                                  s->w, s->h, GL_UNSIGNED_BYTE, s->pixels,
+                                  d->w, d->h, GL_UNSIGNED_BYTE, d->pixels);
+                else
+                    gluScaleImage(GL_RGB,
+                                  s->w, s->h, GL_UNSIGNED_BYTE, s->pixels,
+                                  d->w, d->h, GL_UNSIGNED_BYTE, d->pixels);
             }
             SDL_UnlockSurface(d);
             SDL_UnlockSurface(s);
 
             /* Load the scaled image. */
 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, d->w, d->h, 0,
-                         GL_RGBA, GL_UNSIGNED_BYTE, d->pixels);
+            if (s->format->BitsPerPixel == 32)
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, d->w, d->h, 0,
+                             GL_RGBA, GL_UNSIGNED_BYTE, d->pixels);
+            else
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,  d->w, d->h, 0,
+                             GL_RGB,  GL_UNSIGNED_BYTE, d->pixels);
 
             SDL_FreeSurface(d);
         }
@@ -92,8 +129,12 @@ GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
     {
         /* Load the unscaled image. */
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, s->w, s->h, 0,
-                     GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
+        if (s->format->BitsPerPixel == 32)
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, s->w, s->h, 0,
+                         GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
+        else
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,  s->w, s->h, 0,
+                         GL_RGB,  GL_UNSIGNED_BYTE, s->pixels);
     }
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -114,37 +155,44 @@ GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
  * Load  an image  from the  named file.   If the  image is  not RGBA,
  * convert it to RGBA.  Return an OpenGL texture object.
  */
-GLuint make_image_from_file(int *w, int *h, const char *name)
+GLuint make_image_from_file(int *W, int *H,
+                            int *w, int *h, const char *name)
 {
     SDL_Surface *src;
     SDL_Surface *dst;
+    SDL_Rect rect;
 
     GLuint o = 0;
 
+    /* Load the file. */
+
     if ((src = IMG_Load(name)))
     {
-        if (src->format->BitsPerPixel != 32)
+        int w2;
+        int h2;
+
+        image_size(&w2, &h2, src->w, src->h);
+
+        if (w) *w = src->w;
+        if (h) *h = src->h;
+
+        /* Create a new destination surface. */
+        
+        if ((dst = SDL_CreateRGBSurface(SDL_SWSURFACE, w2, h2, 32,
+                                        RMASK, GMASK, BMASK, AMASK)))
         {
-            SDL_PixelFormat fmt;
+            /* Copy source pixels to the center of the destination. */
 
-            memset(&fmt, 0, sizeof (SDL_PixelFormat));
+            rect.x = (w2 - src->w) / 2;
+            rect.y = (h2 - src->h) / 2;
 
-            fmt.BitsPerPixel = 32;
-            fmt.BytesPerPixel = 4;
-            fmt.Rmask = RMASK;
-            fmt.Gmask = GMASK;
-            fmt.Bmask = BMASK;
-            fmt.Amask = AMASK;
+            SDL_SetAlpha(src, 0, 0);
+            SDL_BlitSurface(src, NULL, dst, &rect);
 
-            if ((dst = SDL_ConvertSurface(src, &fmt, 0)))
-            {
-                o = make_image_from_surf(w, h, dst);
-                SDL_FreeSurface(dst);
-            }
+            o = make_image_from_surf(W, H, dst);
+
+            SDL_FreeSurface(dst);
         }
-        else
-            o = make_image_from_surf(w, h, src);
-
         SDL_FreeSurface(src);
     }
     return o;
@@ -162,36 +210,36 @@ GLuint make_image_from_font(int *W, int *H,
 {
     SDL_Color fg = { 0xFF, 0xFF, 0xFF, 0xFF };
 
-    SDL_Surface *s;
-    SDL_Surface *d;
-    SDL_Rect  rect;
+    SDL_Surface *src;
+    SDL_Surface *dst;
+    SDL_Rect rect;
 
     GLuint o = 0;
 
     /* Render the text. */
 
-    if ((s = TTF_RenderText_Blended(font, text, fg)))
+    if ((src = TTF_RenderText_Blended(font, text, fg)))
     {
         int w2;
         int h2;
 
-        image_size(&w2, &h2, s->w, s->h);
+        image_size(&w2, &h2, src->w, src->h);
 
-        if (w) *w = s->w;
-        if (h) *h = s->h;
+        if (w) *w = src->w;
+        if (h) *h = src->h;
 
         /* Create a new destination surface. */
         
-        if ((d = SDL_CreateRGBSurface(SDL_SWSURFACE, w2, h2, 32,
-                                      RMASK, GMASK, BMASK, AMASK)))
+        if ((dst = SDL_CreateRGBSurface(SDL_SWSURFACE, w2, h2, 32,
+                                        RMASK, GMASK, BMASK, AMASK)))
         {
             /* Copy source pixels to the center of the destination. */
 
-            rect.x = (w2 - s->w) / 2;
-            rect.y = (h2 - s->h) / 2;
+            rect.x = (w2 - src->w) / 2;
+            rect.y = (h2 - src->h) / 2;
 
-            SDL_SetAlpha(s, 0, 0);
-            SDL_BlitSurface(s, NULL, d, &rect);
+            SDL_SetAlpha(src, 0, 0);
+            SDL_BlitSurface(src, NULL, dst, &rect);
 
             glPushAttrib(GL_PIXEL_MODE_BIT);
             {
@@ -203,44 +251,15 @@ GLuint make_image_from_font(int *W, int *H,
 
                 /* Create the image using the new surface. */
 
-                o = make_image_from_surf(W, H, d);
+                o = make_image_from_surf(W, H, dst);
             }
             glPopAttrib();
 
-            SDL_FreeSurface(d);
+            SDL_FreeSurface(dst);
         }
-        SDL_FreeSurface(s);
+        SDL_FreeSurface(src);
     }
-
     return o;
-}
-
-/*---------------------------------------------------------------------------*/
-
-void image_snap(const char *filename)
-{
-    static char path[MAXSTR];
-
-    int w = config_w();
-    int h = config_h();
-    int i;
-
-    SDL_Surface *buf = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
-                                            RMASK, GMASK, BMASK, 0);
-    SDL_Surface *img = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
-                                            RMASK, GMASK, BMASK, 0);
-
-    glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, buf->pixels);
-
-    for (i = 0; i < h; i++)
-        memcpy((GLubyte *) img->pixels + 3 * w * i,
-               (GLubyte *) buf->pixels + 3 * w * (h - i), 3 * w);
-
-    if (config_home(path, filename, MAXSTR))
-        SDL_SaveBMP(img,  path);
-
-    SDL_FreeSurface(img);
-    SDL_FreeSurface(buf);
 }
 
 /*---------------------------------------------------------------------------*/

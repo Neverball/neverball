@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "That one switch controls all five barriers.\Be quick, because the switch is on a timer.\When it expires, the barriars will rise."
+"message" "That one switch controls all five barriers.\Be quick, because the switch is on a timer.\When it expires, the barriers will rise."
 // brush 0
 {
 ( 128 8 -16 ) ( 0 8 -16 ) ( 0 -120 -16 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

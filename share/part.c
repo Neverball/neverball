@@ -57,17 +57,17 @@ static void part_init_goal(float h)
 
     for (i = 0; i < PART_MAX_GOAL; i++)
     {
-        float t = rnd(0.1, 1.f);
-        float a = rnd(-1.f * PI, +1.f * PI);
-        float w = rnd(-2.f * PI, +2.f * PI);
+        float t = rnd(+0.1f,      +1.0f);
+        float a = rnd(-1.0f * PI, +1.0f * PI);
+        float w = rnd(-2.0f * PI, +2.0f * PI);
 
         part_goal[i].t = t;
         part_goal[i].a = V_DEG(a);
         part_goal[i].w = V_DEG(w);
 
-        part_goal[i].c[0] = c_yellow[0];
-        part_goal[i].c[1] = c_yellow[1];
-        part_goal[i].c[2] = c_yellow[2];
+        part_goal[i].c[0] = c_ylw[0];
+        part_goal[i].c[1] = c_ylw[1];
+        part_goal[i].c[2] = c_ylw[2];
 
         part_goal[i].p[0] = fsinf(a);
         part_goal[i].p[1] = (1.f - t) * h;
@@ -84,7 +84,7 @@ void part_init(float h)
     memset(part_coin, 0, PART_MAX_COIN * sizeof (struct part));
     memset(part_goal, 0, PART_MAX_GOAL * sizeof (struct part));
 
-    part_text = make_image_from_file(NULL, NULL, IMG_PART);
+    part_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_PART);
     part_list = glGenLists(1);
 
     glNewList(part_list, GL_COMPILE);

@@ -28,7 +28,7 @@ static int text_state;
 const GLfloat c_white[4]  = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat c_black[4]  = { 0.0f, 0.0f, 0.0f, 1.0f };
 const GLfloat c_red[4]    = { 1.0f, 0.0f, 0.0f, 1.0f };
-const GLfloat c_yellow[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
+const GLfloat c_ylw[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
 const GLfloat c_green[4]  = { 0.0f, 1.0f, 0.0f, 1.0f };
 const GLfloat c_blue[4]   = { 0.0f, 0.0f, 1.0f, 1.0f };
 const GLfloat c_grey[4]   = { 0.0f, 0.0f, 0.0f, 0.5f };
@@ -160,8 +160,6 @@ GLuint make_text(const char *text, int i)
 
 /*---------------------------------------------------------------------------*/
 
-#define PI 3.1415926535897932
-
 /*
  * Draw a rounded  rectangle for text backing and  level shot display.
  * There's some  sub-obtimal trig  here, but it's  all stuffed  into a
@@ -180,7 +178,7 @@ GLuint make_rect(int x0, int y0, int x1, int y1)
         {
             for (i = 0; i <= n; i++)
             {
-                float a = 0.5 * PI * (float) i / (float) n;
+                float a = 0.5f * V_PI * (float) i / (float) n;
 
                 float x  = x0 + r - r * fcosf(a);
                 float ya = y1 - r + r * fsinf(a);
@@ -195,7 +193,7 @@ GLuint make_rect(int x0, int y0, int x1, int y1)
 
             for (i = 0; i <= n; i++)
             {
-                float a = 0.5 * PI * (float) i / (float) n;
+                float a = 0.5f * V_PI * (float) i / (float) n;
 
                 float x  = x1 - r + r * fsinf(a);
                 float ya = y1 - r + r * fcosf(a);

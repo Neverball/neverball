@@ -35,7 +35,7 @@ static GLuint       ball_text;
 
 void ball_init(int b)
 {
-    ball_text = make_image_from_file(NULL, NULL, IMG_BALL);
+    ball_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_BALL);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -186,7 +186,7 @@ static void coin_head(int n, float radius, float thick)
             float x = fcosf(+2.f * PI * i / n);
             float y = fsinf(+2.f * PI * i / n);
 
-            glTexCoord2f(-x * 0.5 + 0.5, +y * 0.5 + 0.5);
+            glTexCoord2f(-x * 0.5f + 0.5f, +y * 0.5f + 0.5f);
             glVertex3f(radius * x, radius * y, +thick);
         }
     }
@@ -206,7 +206,7 @@ static void coin_tail(int n, float radius, float thick)
             float x = fcosf(-2.f * PI * i / n);
             float y = fsinf(-2.f * PI * i / n);
 
-            glTexCoord2f(+x * 0.5 + 0.5, +y * 0.5 + 0.5);
+            glTexCoord2f(+x * 0.5f + 0.5f, +y * 0.5f + 0.5f);
             glVertex3f(radius * x, radius * y, -thick);
         }
     }
@@ -258,7 +258,7 @@ void coin_init(int b)
 {
     int n = b ? 32 : 8;
 
-    coin_text = make_image_from_file(NULL, NULL, IMG_COIN);
+    coin_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_COIN);
     coin_list = glGenLists(1);
 
     glNewList(coin_list, GL_COMPILE);

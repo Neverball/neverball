@@ -1,11 +1,23 @@
+/*
+ * Copyright (C) 2003 Robert Kooima
+ *
+ * NEVERBALL is  free software; you can redistribute  it and/or modify
+ * it under the  terms of the GNU General  Public License as published
+ * by the Free  Software Foundation; either version 2  of the License,
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT  ANY  WARRANTY;  without   even  the  implied  warranty  of
+ * MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.   See the GNU
+ * General Public License for more details.
+ */
+
 #ifndef CONFIG_H
 #define CONFIG_H
 
 #include <SDL.h>
 
 /*---------------------------------------------------------------------------*/
-
-#define DEFAULT_NAME "Player"
 
 /*
  * Changing the  working directory to CONFIG_PATH must  place the game
@@ -26,38 +38,6 @@
 #define USER_CONFIG_FILE ".neverballrc"
 #define USER_REPLAY_FILE ".neverballrp"
 
-#define CONFIG_DEF_WIDTH       800
-#define CONFIG_DEF_HEIGHT      600
-#define CONFIG_DEF_STEREO      0
-#define CONFIG_DEF_CAMERA      0
-#define CONFIG_DEF_TEXTURES    1
-#define CONFIG_DEF_GEOMETRY    1
-#define CONFIG_DEF_REFLECTION  1
-#define CONFIG_DEF_AUDIO_RATE  44100
-#define CONFIG_DEF_MOUSE_SENSE 300
-#define CONFIG_DEF_MOUSE_INV   0
-#define CONFIG_DEF_NICE        1
-#define CONFIG_DEF_DONE        0
-#define CONFIG_DEF_FPS         0
-#define CONFIG_DEF_JOY         0
-#define CONFIG_DEF_JOY_DEVICE  0
-#define CONFIG_DEF_SOUND_VOL   10
-#define CONFIG_DEF_MUSIC_VOL   6
-
-#define CONFIG_DEF_AXIS_X      0
-#define CONFIG_DEF_AXIS_Y      1
-#define CONFIG_DEF_BUTTON_A    0
-#define CONFIG_DEF_BUTTON_B    1
-#define CONFIG_DEF_BUTTON_R    2
-#define CONFIG_DEF_BUTTON_L    3
-#define CONFIG_DEF_BUTTON_EXIT 4
-
-#define CONFIG_DEF_KEY_CAM_1   SDLK_F1
-#define CONFIG_DEF_KEY_CAM_2   SDLK_F2
-#define CONFIG_DEF_KEY_CAM_3   SDLK_F3
-#define CONFIG_DEF_KEY_CAM_R   SDLK_RIGHT
-#define CONFIG_DEF_KEY_CAM_L   SDLK_LEFT
-
 /*---------------------------------------------------------------------------*/
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -73,14 +53,93 @@
 #endif
 
 #ifdef _WIN32
-#define CONFIG_DEF_AUDIO_BUFF  4096
 #define FMODE_RB "rb"
 #define FMODE_WB "wb"
 #else
-#define CONFIG_DEF_AUDIO_BUFF  2048
 #define FMODE_RB "r"
 #define FMODE_WB "w"
 #endif
+
+#ifdef _WIN32
+#define AUDIO_BUFF_HI 4096
+#define AUDIO_BUFF_LO 2048
+#else
+#define AUDIO_BUFF_HI 2048
+#define AUDIO_BUFF_LO 1024
+#endif
+
+/*---------------------------------------------------------------------------*/
+
+enum {
+    CONFIG_FULLSCREEN,
+    CONFIG_WIDTH,
+    CONFIG_HEIGHT,
+    CONFIG_STEREO,
+    CONFIG_CAMERA,
+    CONFIG_TEXTURES,
+    CONFIG_GEOMETRY,
+    CONFIG_REFLECTION,
+    CONFIG_SHADOW,
+    CONFIG_AUDIO_RATE,
+    CONFIG_AUDIO_BUFF,
+    CONFIG_MOUSE_SENSE,
+    CONFIG_MOUSE_INVERT,
+    CONFIG_NICE,
+    CONFIG_FPS,
+    CONFIG_SOUND_VOLUME,
+    CONFIG_MUSIC_VOLUME,
+    CONFIG_JOYSTICK,
+    CONFIG_JOYSTICK_DEVICE,
+    CONFIG_JOYSTICK_AXIS_X,
+    CONFIG_JOYSTICK_AXIS_Y,
+    CONFIG_JOYSTICK_BUTTON_A,
+    CONFIG_JOYSTICK_BUTTON_B,
+    CONFIG_JOYSTICK_BUTTON_R,
+    CONFIG_JOYSTICK_BUTTON_L,
+    CONFIG_JOYSTICK_BUTTON_EXIT,
+    CONFIG_KEY_CAMERA_1,
+    CONFIG_KEY_CAMERA_2,
+    CONFIG_KEY_CAMERA_3,
+    CONFIG_KEY_CAMERA_R,
+    CONFIG_KEY_CAMERA_L,
+
+    CONFIG_OPTION_COUNT
+};
+
+/*---------------------------------------------------------------------------*/
+
+#define DEFAULT_FULLSCREEN           1
+#define DEFAULT_WIDTH                800
+#define DEFAULT_HEIGHT               600
+#define DEFAULT_STEREO               0
+#define DEFAULT_CAMERA               0
+#define DEFAULT_TEXTURES             1
+#define DEFAULT_GEOMETRY             1
+#define DEFAULT_REFLECTION           1
+#define DEFAULT_SHADOW               1
+#define DEFAULT_AUDIO_RATE           44100
+#define DEFAULT_AUDIO_BUFF           AUDIO_BUFF_HI
+#define DEFAULT_MOUSE_SENSE          300
+#define DEFAULT_MOUSE_INVERT         0
+#define DEFAULT_NICE                 1
+#define DEFAULT_FPS                  0
+#define DEFAULT_SOUND_VOLUME         10
+#define DEFAULT_MUSIC_VOLUME         6
+#define DEFAULT_JOYSTICK             0
+#define DEFAULT_JOYSTICK_DEVICE      0
+#define DEFAULT_JOYSTICK_AXIS_X      0
+#define DEFAULT_JOYSTICK_AXIS_Y      1
+#define DEFAULT_JOYSTICK_BUTTON_A    0
+#define DEFAULT_JOYSTICK_BUTTON_B    1
+#define DEFAULT_JOYSTICK_BUTTON_R    2
+#define DEFAULT_JOYSTICK_BUTTON_L    3
+#define DEFAULT_JOYSTICK_BUTTON_EXIT 4
+#define DEFAULT_KEY_CAMERA_1         SDLK_F1
+#define DEFAULT_KEY_CAMERA_2         SDLK_F2
+#define DEFAULT_KEY_CAMERA_3         SDLK_F3
+#define DEFAULT_KEY_CAMERA_R         SDLK_RIGHT
+#define DEFAULT_KEY_CAMERA_L         SDLK_LEFT
+#define DEFAULT_PLAYER               "Player"
 
 /*---------------------------------------------------------------------------*/
 
@@ -93,63 +152,24 @@
 
 /*---------------------------------------------------------------------------*/
 
-int  config_home(char *, const char *, size_t);
-int  config_path(const char *, const char *);
-int  config_demo(void);
-
+void config_init(void);
 void config_load(void);
-void config_store(void);
+void config_save(void);
+
+int  config_mode(int, int, int);
+int  config_home(char *, char *, size_t);
+int  config_path(char *, char *);
+int  config_demo(void);
 
 /*---------------------------------------------------------------------------*/
 
-int  config_mode(void);
-int  config_w   (void);
-int  config_h   (void);
-int  config_view(void);
-int  config_text(void);
-int  config_geom(void);
-int  config_refl(void);
-int  config_rate(void);
-int  config_buff(void);
-int  config_sens(void);
-int  config_inv(void);
-int  config_nice(void);
-int  config_fps (void);
-int  config_sound(void);
-int  config_music(void);
-int  config_stereo(void);
-int  config_joy_device(void);
+void config_set(int, int);
+void config_tgl(int);
+int  config_tst(int, int);
+int  config_get(int);
 
-int  config_axis_x(int);
-int  config_axis_y(int);
-int  config_button_a(int);
-int  config_button_b(int);
-int  config_button_r(int);
-int  config_button_l(int);
-int  config_button_X(int);
-
-int  config_key_cam_1(int);
-int  config_key_cam_2(int);
-int  config_key_cam_3(int);
-int  config_key_cam_r(int);
-int  config_key_cam_l(int);
-
-char *config_get_key_cam_1(void);
-char *config_get_key_cam_2(void);
-char *config_get_key_cam_3(void);
-
-int  config_set_mode(int, int, int);
-void config_set_text(int);
-void config_set_geom(int);
-void config_set_refl(int);
-void config_set_high(int);
-void config_set_view(int);
-void config_set_audio(int, int);
-void config_set_sound(int);
-void config_set_music(int);
-
-void config_tog_nice(void);
-void config_tog_fps(void);
+void config_set_name(char *);
+void config_get_name(char *);
 
 /*---------------------------------------------------------------------------*/
 

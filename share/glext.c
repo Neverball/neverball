@@ -16,26 +16,12 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int shadow = 1;
-
-int glext_shadow()
-{
-    return shadow;
-}
-
-void glext_set_shadow(int s)
-{
-    shadow = s;
-}
-
-/*---------------------------------------------------------------------------*/
-
 #ifdef _WIN32
 
 PFNGLACTIVETEXTUREPROC   glActiveTexture   = NULL;
 PFNGLMULTITEXCOORD2FPROC glMultiTexCoord2f = NULL;
 
-void glext_init(void)
+int glext_init(void)
 {
     glActiveTexture   = (PFNGLACTIVETEXTUREPROC)
         wglGetProcAddress("glActiveTexture");
@@ -50,16 +36,18 @@ void glext_init(void)
             wglGetProcAddress("glMultiTexCoord2fARB");
 
     if (glActiveTexture == NULL)
-        shadow = 0;
+        return 0;
     if (glMultiTexCoord2f == NULL)
-        shadow = 0;
+        return 0;
+
+    return 1;
 }
 
 #else
 
-void glext_init(void)
+int glext_init(void)
 {
-    /* Nothing to do! */
+    return 1;
 }
 
 #endif /* _WIN32 */
