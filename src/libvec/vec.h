@@ -4,19 +4,58 @@
 #define V_RAD(d) (d * 3.14159265358979323846 / 180.0)
 #define V_DEG(r) (r * 180.0 / 3.14159265358979323846)
 
-double v_dot(const double[3], const double[3]);
-double v_len(const double[3]);
+/*---------------------------------------------------------------------------*/
 
-void   v_cpy(double[3], const double[3]);
-void   v_inv(double[3], const double[3]);
+#define v_dot(u, v)  ((u)[0] * (v)[0] + (u)[1] * (v)[1] + (u)[2] * (v)[2])
+#define v_len(u) sqrt((u)[0] * (u)[0] + (u)[1] * (u)[1] + (u)[2] * (u)[2])
+
+#define v_cpy(u, v) { \
+    (u)[0] = (v)[0];  \
+    (u)[1] = (v)[1];  \
+    (u)[2] = (v)[2];  \
+}
+
+#define v_inv(u, v) { \
+    (u)[0] = -(v)[0]; \
+    (u)[1] = -(v)[1]; \
+    (u)[2] = -(v)[2]; \
+}
+
+#define v_scl(u, v, k) {   \
+    (u)[0] = (v)[0] * (k); \
+    (u)[1] = (v)[1] * (k); \
+    (u)[2] = (v)[2] * (k); \
+}
+
+#define v_add(u, v, w) {      \
+    (u)[0] = (v)[0] + (w)[0]; \
+    (u)[1] = (v)[1] + (w)[1]; \
+    (u)[2] = (v)[2] + (w)[2]; \
+}
+
+#define v_sub(u, v, w) {      \
+    (u)[0] = (v)[0] - (w)[0]; \
+    (u)[1] = (v)[1] - (w)[1]; \
+    (u)[2] = (v)[2] - (w)[2]; \
+}
+
+#define v_mid(u, v, w) {              \
+    (u)[0] = ((v)[0] + (w)[0]) / 2.0; \
+    (u)[1] = ((v)[1] + (w)[1]) / 2.0; \
+    (u)[2] = ((v)[2] + (w)[2]) / 2.0; \
+}
+
+#define v_mad(u, p, v, t) {         \
+    (u)[0] = (p)[0] + (v)[0] * (t); \
+    (u)[1] = (p)[1] + (v)[1] * (t); \
+    (u)[2] = (p)[2] + (v)[2] * (t); \
+}
+
+/*---------------------------------------------------------------------------*/
+
+
 void   v_nrm(double[3], const double[3]);
-
-void   v_scl(double[3], const double[3], double);
-void   v_add(double[3], const double[3], const double[3]);
-void   v_sub(double[3], const double[3], const double[3]);
 void   v_crs(double[3], const double[3], const double[3]);
-void   v_mid(double[3], const double[3], const double[3]);
-void   v_mad(double[3], const double[3], const double[3], double);
 
 void   m_cpy(double[16], const double[16]);
 void   m_xps(double[16], const double[16]);

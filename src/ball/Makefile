@@ -1,6 +1,6 @@
-OBJS= main.o ball.o game.o play.o
+OBJS= main.o coin.o ball.o game.o play.o title.o time.o fall.o goal.o pause.o
 TARG= ball
-LIBS= -lsol -lglw -lvec -laio -lasound -ljpeg -lGLU -lGL -lX11 -lm
+LIBS= -laux -lsol -lglw -lvec -laio $(ALSALIB) -lpng -ljpeg -lGLU -lGL -lX11 -lm
 
 INCDIR= -I../../include -I/usr/X11R6/include
 LIBDIR= -L../../lib     -L/usr/X11R6/lib

@@ -12,32 +12,6 @@
 
 /*--------------------------------------------------------------------*/
 
-double v_dot(const double u[3], const double v[3])
-{
-	return u[0] * v[0] + u[1] * v[1] + u[2] * v[2];
-}
-
-double v_len(const double u[3])
-{
-	return sqrt(v_dot(u, u));
-}
-
-/*--------------------------------------------------------------------*/
-
-void v_cpy(double u[3], const double v[3])
-{
-	u[0] = v[0];
-	u[1] = v[1];
-	u[2] = v[2];
-}
-
-void v_inv(double u[3], const double v[3])
-{
-	u[0] = -v[0];
-	u[1] = -v[1];
-	u[2] = -v[2];
-}
-
 void v_nrm(double n[3], const double v[3])
 {
 	double d = v_len(v);
@@ -47,48 +21,11 @@ void v_nrm(double n[3], const double v[3])
 	n[2] = v[2] / d;
 }
 
-/*--------------------------------------------------------------------*/
-
-void v_scl(double u[3], const double v[3], double k)
-{
-	u[0] = v[0] * k;
-	u[1] = v[1] * k;
-	u[2] = v[2] * k;
-}
-
-void v_add(double u[3], const double v[3], const double w[3])
-{
-	u[0] = v[0] + w[0];
-	u[1] = v[1] + w[1];
-	u[2] = v[2] + w[2];
-}
-
-void v_sub(double u[3], const double v[3], const double w[3])
-{
-	u[0] = v[0] - w[0];
-	u[1] = v[1] - w[1];
-	u[2] = v[2] - w[2];
-}
-
 void v_crs(double u[3], const double v[3], const double w[3])
 {
 	u[0] = v[1] * w[2] - v[2] * w[1];
 	u[1] = v[2] * w[0] - v[0] * w[2];
 	u[2] = v[0] * w[1] - v[1] * w[0];
-}
-
-void v_mid(double u[3], const double v[3], const double w[3])
-{
-	u[0] = (v[0] + w[0]) / 2.0;
-	u[1] = (v[1] + w[1]) / 2.0;
-	u[2] = (v[2] + w[2]) / 2.0;
-}
-
-void v_mad(double u[3], const double p[3], const double v[3], double t)
-{
-	u[0] = p[0] + v[0] * t;
-	u[1] = p[1] + v[1] * t;
-	u[2] = p[2] + v[2] * t;
 }
 
 /*--------------------------------------------------------------------*/

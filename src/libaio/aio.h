@@ -10,6 +10,4 @@ int    aio_loop(short *, int, float);
 void   aio_freq(int, float);
 void   aio_ampl(int, float);
 
-void   aio_dump(int);
-
 #endif

@@ -10,6 +10,7 @@
 #include <GL/glu.h>
 
 #include "game.h"
+#include "title.h"
 #include "play.h"
 
 #define TITLE "SUPER EMPTY BALL"
@@ -40,8 +41,8 @@ void goto_state(struct state *st)
     state     = st;
     goto_time = now();
 
-    if (state && state->leave)
-        state->leave();
+    if (state && state->enter)
+        state->enter();
 }
 
 double time_state(void)
@@ -58,6 +59,14 @@ static void st_paint(void)
 {
     if (state && state->paint)
         state->paint();
+}
+
+static int st_timer(double dt)
+{
+    if (state && state->timer)
+        return state->timer(dt);
+    else
+        return 0;
 }
 
 static int st_point(int x, int y)
@@ -121,13 +130,14 @@ int main(void)
         if (aio_init() == 0)
         {
             game_init();
-            goto_state(&st_play);
+
+            goto_state(&st_title);
 
             while ((d = loop(1)) >= 0)
             {
                 double s = now();
 
-                game_step(s - t);
+                st_timer(s - t);
                 st_paint();
 
                 t = s;

@@ -1,9 +1,21 @@
-list texture, roll, bump, ke, and kr in mtrl file
-Goal
+fix deps
+Look into reducing min dt.
+Profile
 Smooth dt
-Fix ugly sky.  Stars?  Whooshies?
-Coins
+list texture, roll, bump, ke, and kr in mtrl file
 A ball rolling in a trough rotates funny
 Tweak responsiveness.  Time coefficient?
 Implement multiple ball physics
 Implement ball-ball physics
+
+Sounds
+        Fall out
+        Time up
+        Goal
+        Ready
+        Set
+        Go
+        Start
+        1UP
+        Game over
+        Win

@@ -106,7 +106,7 @@ GLuint ball_init(int d)
 
 void ball_draw(GLuint list, double r,
                const double p[3],
-               const double e[3][3])
+               const double e[3][3], int x)
 {
     double M[16];
 
@@ -121,11 +121,21 @@ void ball_draw(GLuint list, double r,
             glTranslated(p[0], p[1], p[2]);
             glMultMatrixd(M);
             glScaled(r, r, r);
-            
-            glCullFace(GL_FRONT);
-            glCallList(list);
-            glCullFace(GL_BACK);
-            glCallList(list);
+
+            if (x)
+            {
+                glCullFace(GL_BACK);
+                glCallList(list);
+                glCullFace(GL_FRONT);
+                glCallList(list);
+            }
+            else
+            {
+                glCullFace(GL_FRONT);
+                glCallList(list);
+                glCullFace(GL_BACK);
+                glCallList(list);
+            }
         }
         glPopMatrix();
     }

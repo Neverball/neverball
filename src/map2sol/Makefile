@@ -1,6 +1,6 @@
 OBJS= main.o
 TARG= map2sol
-LIBS= -lvec -lsol -ljpeg -lGL
+LIBS= -laux -lvec -lsol -lpng -ljpeg -lGL
 
 INCDIR= -I../../include -I/usr/X11R6/include
 LIBDIR= -L../../lib     -L/usr/X11R6/lib

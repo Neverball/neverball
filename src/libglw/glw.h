@@ -26,6 +26,9 @@
 int  glw_create(const char *, int, int, int);
 void glw_delete(void);
 
+void glw_acquire(void);
+void glw_release(void);
+
 int  glw_update(int, int);
 
 int  glw_x(void);

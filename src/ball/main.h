@@ -10,6 +10,7 @@ struct state
     void (*enter)(void);
     void (*leave)(void);
     void (*paint)(void);
+    int  (*timer)(double);
     int  (*point)(int, int);
     int  (*click)(int);
     int  (*keybd)(int);

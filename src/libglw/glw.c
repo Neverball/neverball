@@ -1,10 +1,11 @@
 #include <stdlib.h>
 #include <GL/glx.h>
 #include <X11/Xutil.h>
+#include <X11/cursorfont.h>
 
 #include "glw.h"
 
-/*--------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 static Display      *dpy;
 static Window        win;
@@ -13,14 +14,18 @@ static Atom          del;
 static XSizeHints   *siz;
 static GLXContext    ctx;
 
+static Cursor crs0;
+static Cursor crs1;
+
 static int center_x = 0;
 static int center_y = 0;
 
 static int last_x = 0;
 static int last_y = 0;
 static int height = 0;
+static int warp   = 0;
 
-/*--------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 static int glx_init_dpy(void)
 {
@@ -40,6 +45,7 @@ static int glx_init_xvi(int e)
         GLX_RGBA,
         GLX_DOUBLEBUFFER,
         GLX_DEPTH_SIZE, 16,
+        GLX_STENCIL_SIZE, 1,
         None
     };
 
@@ -55,18 +61,18 @@ static int glx_init_xvi(int e)
 }
 
 
-static GLboolean glx_init_dec(void)
+static int glx_init_dec(void)
 {
     unsigned long hint[5] = { 2, 0, 0, 0, 0 };
     Atom prop;
 
     if (!(prop = XInternAtom(dpy, "_MOTIF_WM_HINTS", True)))
-        return GL_FALSE;
+        return 0;
 
     XChangeProperty(dpy, win, prop, prop, 32, PropModeReplace,
                     (unsigned char *) hint, 5);
 
-    return GL_TRUE;
+    return 1;
 }
 
 static int glx_init_win(int w, int h)
@@ -128,7 +134,6 @@ static int glx_init_crs(void)
 {
     char   bit[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
     Pixmap pix;
-    Cursor crs;
     XColor rgb;
 
     rgb.red   = 0;
@@ -136,9 +141,10 @@ static int glx_init_crs(void)
     rgb.blue  = 0;
 
     pix = XCreateBitmapFromData(dpy, win, bit, 8, 8);
-    crs = XCreatePixmapCursor(dpy, pix, pix, &rgb, &rgb, 0, 0);
 
-    XDefineCursor(dpy, win, crs);
+    crs0 = XCreatePixmapCursor(dpy, pix, pix, &rgb, &rgb, 0, 0);
+    crs1 = XCreateFontCursor(dpy, XC_left_ptr);
+
     XFreePixmap(dpy, pix);
 
     return 1;
@@ -155,7 +161,7 @@ static int glx_init_ctx(void)
         return 0;
 }
 
-/*--------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 static int glx_client(XClientMessageEvent *e)
 {
@@ -185,14 +191,14 @@ static int glx_resize(XConfigureEvent *e)
     return GLW_RESIZE;
 }
 
-/*--------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 static int glx_point(XMotionEvent *e)
 {
     last_x = e->x - center_x;
     last_y = e->y - center_y;
 
-    XWarpPointer(dpy, None, win, 0, 0, 0, 0, center_x, center_y);
+    if (warp) XWarpPointer(dpy, None, win, 0, 0, 0, 0, center_x, center_y);
 
     return GLW_MOTION;
 }
@@ -227,7 +233,7 @@ static int glx_btn_u(XButtonEvent *e)
     return 0;
 }
 
-/*--------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 static int glx_key_d(XKeyEvent *e)
 {
@@ -249,7 +255,7 @@ static int glx_key_u(XKeyEvent *e)
     return GLW_KEY_U;
 }
 
-/*--------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 int glw_create(const char *s, int w, int h, int e)
 {
@@ -281,7 +287,22 @@ void glw_delete(void)
     }
 }
 
-/*--------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+
+void glw_acquire(void)
+{
+   XDefineCursor(dpy, win, crs0);
+   XWarpPointer(dpy, None, win, 0, 0, 0, 0, center_x, center_y);
+   warp = 1;
+}
+
+void glw_release(void)
+{
+   XDefineCursor(dpy, win, crs1);
+   warp = 0;
+}
+
+/*---------------------------------------------------------------------------*/
 
 int glw_update(int dirty, int wait)
 {
@@ -318,4 +339,3 @@ int glw_y(void)
 {
     return last_y;
 }
-

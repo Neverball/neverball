@@ -1,0 +1,2 @@
+data/sol/flat.sol 30
+data/sol/move.sol 30

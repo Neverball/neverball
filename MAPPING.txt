@@ -30,8 +30,7 @@ as follows:
     Quake becomes unnecessary.  Maps don't leak.
 
   - Quake brushes are refered to as "lumps". They may overlap.  In fact,
-    it  is  often  advantageous to overlap lumps.  There  is  no  detail
-    brushing.  All lumps are structural.
+    it  is  often  advantageous to overlap lumps.
 
   - Shaders  do not modify geometry.  The lumps you place are the  lumps
     that the ball impacts.  The textures you apply are the textures that
@@ -52,6 +51,11 @@ Some of what you know from Quake mapping still applies:
     as a white grid pattern.
 
   - T-intersections cause polygon cracks.  Avoid them.
+
+  - Coincident faces cause Z-fighting.  This is a shooting offense.
+
+  - Detail  brushes are  a good  way  to add  visual complexity  without
+    adding computational complexity.
 
 
 
@@ -105,6 +109,7 @@ following command. Output should be similar.
 To test your map, run ball as normal, from the base seb directory.
 
     bin/ball funkyball.map
+
 
 
 * ENTITIES
@@ -195,6 +200,17 @@ worldspawn
 
 
 
+* THE GOAL
+
+Goals are represented as invisible detail lumps -- basically a lump that
+can be neither seen to felt is  used to signal a win.  If the ball falls
+ENTIRELY within an invisible detail lump it will trigger a goal event.
+
+You may  create whatever  geometry you like  to visually  and physically
+represent the goal.  You may even make it move.
+
+
+
 * ADDING MATERIALS
 
 SEB  uses the standard OpenGL lighting model rather than a  script-based
@@ -275,6 +291,7 @@ Their meaning is a follows:
  
 The  five  of these togather determine the base color of  the  material.
 This base color is then blended with (added to) the texture color.
+
 
 
 * CAVEATS
