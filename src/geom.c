@@ -104,6 +104,18 @@ void ball_draw(void)
         glCallList(ball_list);
         glCullFace(GL_BACK);
         glCallList(ball_list);
+
+        /* Render the ball into the depth buffer. */
+
+        glDisable(GL_CULL_FACE);
+        glDepthMask(GL_TRUE);
+        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+        glCallList(ball_list);
+
+        /* ATI doesn't seem to Pop the color mask attrib. */
+
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     }
     glPopAttrib();
     glPopAttrib();

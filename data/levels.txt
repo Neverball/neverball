@@ -1,4 +1,5 @@
 sol/title.sol  back/flood 99
+sol/curve.sol  back/flood 99
 sol/easy.sol   back/haze  90
 sol/coin.sol   back/snow  45
 sol/slow.sol   back/flood 90

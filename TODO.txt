@@ -1,0 +1,4 @@
+config_home
+Build system
+Cygwin?
+Curves

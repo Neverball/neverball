@@ -14,6 +14,7 @@ all : 	sol/easy.sol \
 	sol/quads.sol \
 	sol/spiral.sol \
 	sol/marble.sol \
+	sol/curve.sol \
 	sol/title.sol
 
 clean :

@@ -1,4 +1,15 @@
 
+#------------------------------------------------------------------------------
+
+# Maybe you need one of these.  Maybe you don't.  Maybe you should stop
+# emailing me to tell me you need one of these like I'm a frigging idiot
+# or something.
+
+#X11_PATH= -L/usr/X11/lib
+#X11_PATH= -L/usr/X11R6/lib
+
+#------------------------------------------------------------------------------
+
 GAME_OBJS= \
 	config.o \
 	audio.o  \
@@ -22,7 +33,7 @@ MAPC_OBJS= \
 
 CFLAGS= -Wall -O2 -ffast-math -ansi $(shell sdl-config --cflags)
 
-X11_LIBS= -L/usr/X11/lib -lGLU -lGL -lm
+X11_LIBS= $(X11_PATH) -lGLU -lGL -lm
 SDL_LIBS= $(shell sdl-config --libs)
 
 GAME_LIBS= $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer -lfreetype $(X11_LIBS)
@@ -47,4 +58,6 @@ mapc : $(MAPC_OBJS)
 
 clean :
 	rm -f neverball mapc $(GAME_OBJS) $(MAPC_OBJS)
+
+#------------------------------------------------------------------------------
 
