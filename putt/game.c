@@ -303,6 +303,13 @@ void game_draw(int pose)
 
         sol_draw(fp);
 
+        if (config_get_d(CONFIG_SHADOW))
+        {
+            shad_draw_set(fp->uv[ball].p, fp->uv[ball].r);
+            sol_shad(fp);
+            shad_draw_clr();
+        }
+
         /* Draw the game elements. */
 
         glEnable(GL_BLEND);

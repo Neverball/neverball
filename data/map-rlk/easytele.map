@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Use teleporters to go\where you otherwise couldn't."
+"message" "Use teleporters to go\where you otherwise couldn't.\"
 // brush 0
 {
 ( -64 64 0 ) ( 192 64 0 ) ( 192 64 -16 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

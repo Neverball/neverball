@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Those bridges are angled.\Each is narrower and steeper than the last.\Take the easy cash or\go all the way for a big payoff."
+"message" "Those bridges are angled.\Each is narrower and steeper than the last.\Take the easy cash or\go all the way for a big payoff.\"
 // brush 0
 {
 ( 0 128 -8 ) ( 0 0 -8 ) ( 0 0 -24 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 1 0

@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "As before, but without the training wheels.\Keep the ball on a level floor\and maintain precise control.\Build some momentum to reach the corners."
+"message" "As before, but without the training wheels.\Keep the ball on a level floor\and maintain precise control.\Build some momentum to reach the corners.\"
 // brush 0
 {
 ( 192 -224 -16 ) ( 64 -224 -16 ) ( 64 -512 -16 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

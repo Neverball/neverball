@@ -15,11 +15,11 @@
 /*---------------------------------------------------------------------------*/
 
 #ifdef WIN32
+#pragma comment(lib, "SDL_ttf.lib")
 #pragma comment(lib, "SDL_image.lib")
 #pragma comment(lib, "SDL_mixer.lib")
 #pragma comment(lib, "SDL.lib")
 #pragma comment(lib, "SDLmain.lib")
-#pragma comment(lib, "glu32.lib")
 #pragma comment(lib, "opengl32.lib")
 #endif
 
@@ -55,11 +55,11 @@
 /* Ohhhh... arbitrary! */
 
 #define MAXM	256
-#define MAXV    32768
-#define MAXE	32768
-#define MAXS	32768
-#define MAXT	32768
-#define MAXG	32768
+#define MAXV    32767
+#define MAXE	32767
+#define MAXS	32767
+#define MAXT	32767
+#define MAXG	32767
 #define MAXL	1024
 #define MAXN	1024
 #define MAXP	512
@@ -72,7 +72,104 @@
 #define MAXU	16
 #define MAXW    32
 #define MAXA	512
-#define MAXI	32768
+#define MAXI	32767
+
+static int overflow(const char *s)
+{
+    printf("%s overflow\n", s);
+    exit(1);
+    return 0;
+}
+
+static int incm(struct s_file *fp)
+{
+    return (fp->mc < MAXM) ? fp->mc++ : overflow("mtrl");
+}
+
+static int incv(struct s_file *fp)
+{
+    return (fp->vc < MAXV) ? fp->vc++ : overflow("vert");
+}
+
+static int ince(struct s_file *fp)
+{
+    return (fp->ec < MAXE) ? fp->ec++ : overflow("edge");
+}
+
+static int incs(struct s_file *fp)
+{
+    return (fp->sc < MAXS) ? fp->sc++ : overflow("side");
+}
+
+static int inct(struct s_file *fp)
+{
+    return (fp->tc < MAXT) ? fp->tc++ : overflow("texc");
+}
+
+static int incg(struct s_file *fp)
+{
+    return (fp->gc < MAXG) ? fp->gc++ : overflow("geom");
+}
+
+static int incl(struct s_file *fp)
+{
+    return (fp->lc < MAXL) ? fp->lc++ : overflow("lump");
+}
+
+static int incn(struct s_file *fp)
+{
+    return (fp->nc < MAXN) ? fp->nc++ : overflow("node");
+}
+
+static int incp(struct s_file *fp)
+{
+    return (fp->pc < MAXP) ? fp->pc++ : overflow("path");
+}
+
+static int incb(struct s_file *fp)
+{
+    return (fp->bc < MAXB) ? fp->bc++ : overflow("body");
+}
+
+static int incc(struct s_file *fp)
+{
+    return (fp->cc < MAXC) ? fp->cc++ : overflow("coin");
+}
+
+static int incz(struct s_file *fp)
+{
+    return (fp->zc < MAXZ) ? fp->zc++ : overflow("geol");
+}
+
+static int incj(struct s_file *fp)
+{
+    return (fp->jc < MAXJ) ? fp->jc++ : overflow("jump");
+}
+
+static int incx(struct s_file *fp)
+{
+    return (fp->xc < MAXX) ? fp->xc++ : overflow("swch");
+}
+
+static int incr(struct s_file *fp)
+{
+    return (fp->rc < MAXR) ? fp->rc++ : overflow("bill");
+}
+
+static int incu(struct s_file *fp)
+{
+    return (fp->uc < MAXU) ? fp->uc++ : overflow("ball");
+}
+
+static int incw(struct s_file *fp)
+{
+    return (fp->wc < MAXW) ? fp->wc++ : overflow("view");
+}
+
+static int inci(struct s_file *fp)
+{
+    return (fp->ic < MAXI) ? fp->ic++ : overflow("indx");
+}
 
 static void init_file(struct s_file *fp)
 {
@@ -268,7 +365,7 @@ static int read_mtrl(struct s_file *fp, const char *name)
         if (strncmp(name, fp->mv[mi].f, MAXSTR) == 0)
             return mi;
 
-    mp = fp->mv + fp->mc++;
+    mp = fp->mv + incm(fp);
 
     strncpy(mp->f, name, PATHMAX - 1);
 
@@ -351,21 +448,21 @@ static void move_file(struct s_file *fp)
 
 static void read_vt(struct s_file *fp, const char *line)
 {
-    struct s_texc *tp = fp->tv + fp->tc++;
+    struct s_texc *tp = fp->tv + inct(fp);
 
     sscanf(line, "%f %f", tp->u, tp->u + 1);
 }
 
 static void read_vn(struct s_file *fp, const char *line)
 {
-    struct s_side *sp = fp->sv + fp->sc++;
+    struct s_side *sp = fp->sv + incs(fp);
 
     sscanf(line, "%f %f %f", sp->n, sp->n + 1, sp->n + 2);
 }
 
 static void read_v(struct s_file *fp, const char *line)
 {
-    struct s_vert *vp = fp->vv + fp->vc++;
+    struct s_vert *vp = fp->vv + incv(fp);
 
     sscanf(line, "%f %f %f", vp->p, vp->p + 1, vp->p + 2);
 }
@@ -373,7 +470,7 @@ static void read_v(struct s_file *fp, const char *line)
 static void read_f(struct s_file *fp, const char *line,
                    short v0, short t0, short s0, short mi)
 {
-    struct s_geom *gp = fp->gv + fp->gc++;
+    struct s_geom *gp = fp->gv + incg(fp);
 
     char c1;
     char c2;
@@ -594,7 +691,7 @@ static void read_lump(struct s_file *fp, FILE *fin)
     char v[MAXSTR];
     int t;
 
-    struct s_lump *lp = fp->lv + fp->lc++;
+    struct s_lump *lp = fp->lv + incl(fp);
 
     lp->s0 = fp->ic;
 
@@ -610,8 +707,8 @@ static void read_lump(struct s_file *fp, FILE *fin)
             plane_m[fp->sc] = read_mtrl(fp, k);
 
             fp->iv[fp->ic] = fp->sc;
-            fp->ic++;
-            fp->sc++;
+            inci(fp);
+            incs(fp);
             lp->sc++;
         }
         if (t == T_END)
@@ -625,7 +722,7 @@ static void make_path(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], short c)
 {
-    short i, pi = fp->pc++;
+    short i, pi = incp(fp);
 
     struct s_path *pp = fp->pv + pi;
 
@@ -667,7 +764,7 @@ static void make_body(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], short c, short l0)
 {
-    short i, bi = fp->bc++;
+    short i, bi = incb(fp);
 
     short g0 = fp->gc;
     short v0 = fp->vc;
@@ -711,7 +808,7 @@ static void make_body(struct s_file *fp,
     bp->gc = fp->gc - g0;
 
     for (i = 0; i < bp->gc; i++)
-        fp->iv[fp->ic++] = g0++;
+        fp->iv[inci(fp)] = g0++;
 
     p[0] = +(float) x / SCALE;
     p[1] = +(float) z / SCALE;
@@ -725,7 +822,7 @@ static void make_coin(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], short c)
 {
-    short i, ci = fp->cc++;
+    short i, ci = incc(fp);
 
     struct s_coin *cp = fp->cv + ci;
 
@@ -756,7 +853,7 @@ static void make_bill(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], short c)
 {
-    short i, ri = fp->rc++;
+    short i, ri = incr(fp);
 
     struct s_bill *rp = fp->rv + ri;
 
@@ -815,7 +912,7 @@ static void make_goal(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], short c)
 {
-    short i, zi = fp->zc++;
+    short i, zi = incz(fp);
 
     struct s_goal *zp = fp->zv + zi;
 
@@ -846,7 +943,7 @@ static void make_view(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], short c)
 {
-    short i, wi = fp->wc++;
+    short i, wi = incw(fp);
 
     struct s_view *wp = fp->wv + wi;
 
@@ -879,7 +976,7 @@ static void make_jump(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], short c)
 {
-    short i, ji = fp->jc++;
+    short i, ji = incj(fp);
 
     struct s_jump *jp = fp->jv + ji;
 
@@ -916,7 +1013,7 @@ static void make_swch(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], short c)
 {
-    short i, xi = fp->xc++;
+    short i, xi = incx(fp);
 
     struct s_swch *xp = fp->xv + xi;
 
@@ -991,7 +1088,7 @@ static void make_ball(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], short c)
 {
-    short i, ui = fp->uc++;
+    short i, ui = incu(fp);
 
     struct s_ball *up = fp->uv + ui;
 
@@ -1172,8 +1269,8 @@ static void clip_vert(struct s_file *fp,
             v_cpy(fp->vv[fp->vc].p, p);
 
             fp->iv[fp->ic] = fp->vc;
-            fp->ic++;
-            fp->vc++;
+            inci(fp);
+            incv(fp);
             lp->vc++;
         }
     }
@@ -1205,8 +1302,8 @@ static void clip_edge(struct s_file *fp,
 
                 fp->iv[fp->ic] = fp->ec;
 
-                fp->ic++;
-                fp->ec++;
+                inci(fp);
+                ince(fp);
                 lp->ec++;
             }
         }
@@ -1236,7 +1333,7 @@ static void clip_geom(struct s_file *fp,
         if (on_side(fp->vv[vi].p, sp))
         {
             m[n] = vi;
-            t[n] = fp->tc++;
+            t[n] = inct(fp);
 
             v_add(v, fp->vv[vi].p, plane_p[si]);
 
@@ -1287,8 +1384,8 @@ static void clip_geom(struct s_file *fp,
         fp->gv[fp->gc].vk = m[i + 2];
 
         fp->iv[fp->ic] = fp->gc;
-        fp->ic++;
-        fp->gc++;
+        inci(fp);
+        incg(fp);
         lp->gc++;
     }
 }
@@ -1401,8 +1498,8 @@ static int comp_edge(const struct s_edge *ep, const struct s_edge *eq)
 
 static int comp_side(const struct s_side *sp, const struct s_side *sq)
 {
-    if  (fabs(sp->d - sq->d) >   SMALL) return 0;
-    if (v_dot(sp->n,  sq->n) < 0.99999) return 0;
+    if  (fabs(sp->d - sq->d) > SMALL) return 0;
+    if (v_dot(sp->n,  sq->n) < 0.999) return 0;
 
     return 1;
 }
@@ -1540,14 +1637,14 @@ static void uniq_mtrl(struct s_file *fp)
 
     for (i = 0; i < fp->mc; i++)
     {
-        for (j = 0; j < i; j++)
+        for (j = 0; j < k; j++)
             if (comp_mtrl(fp->mv + i, fp->mv + j))
             {
                 swap_mtrl(fp, i, j);
                 break;
             }
 
-        if (i == j)
+        if (j == k)
         {
             if (i != k)
             {
@@ -1567,14 +1664,14 @@ static void uniq_vert(struct s_file *fp)
 
     for (i = 0; i < fp->vc; i++)
     {
-        for (j = 0; j < i; j++)
+        for (j = 0; j < k; j++)
             if (comp_vert(fp->vv + i, fp->vv + j))
             {
                 swap_vert(fp, i, j);
                 break;
             }
 
-        if (i == j)
+        if (j == k)
         {
             if (i != k)
             {
@@ -1594,14 +1691,14 @@ static void uniq_edge(struct s_file *fp)
 
     for (i = 0; i < fp->ec; i++)
     {
-        for (j = 0; j < i; j++)
+        for (j = 0; j < k; j++)
             if (comp_edge(fp->ev + i, fp->ev + j))
             {
                 swap_edge(fp, i, j);
                 break;
             }
 
-        if (i == j)
+        if (j == k)
         {
             if (i != k)
             {
@@ -1621,14 +1718,14 @@ static void uniq_geom(struct s_file *fp)
 
     for (i = 0; i < fp->gc; i++)
     {
-        for (j = 0; j < i; j++)
+        for (j = 0; j < k; j++)
             if (comp_geom(fp->gv + i, fp->gv + j))
             {
                 swap_geom(fp, i, j);
                 break;
             }
 
-        if (i == j)
+        if (j == k)
         {
             if (i != k)
             {
@@ -1648,14 +1745,14 @@ static void uniq_texc(struct s_file *fp)
 
     for (i = 0; i < fp->tc; i++)
     {
-        for (j = 0; j < i; j++)
+        for (j = 0; j < k; j++)
             if (comp_texc(fp->tv + i, fp->tv + j))
             {
                 swap_texc(fp, i, j);
                 break;
             }
 
-        if (i == j)
+        if (j == k)
         {
             if (i != k)
             {
@@ -1675,14 +1772,14 @@ static void uniq_side(struct s_file *fp)
 
     for (i = 0; i < fp->sc; i++)
     {
-        for (j = 0; j < i; j++)
+        for (j = 0; j < k; j++)
             if (comp_side(fp->sv + i, fp->sv + j))
             {
                 swap_side(fp, i, j);
                 break;
             }
 
-        if (i == j)
+        if (j == k)
         {
             if (i != k)
             {
@@ -1792,7 +1889,7 @@ static int node_node(struct s_file *fp, short l0, short lc)
         fp->nv[fp->nc].l0 = l0;
         fp->nv[fp->nc].lc = lc;
 
-        return fp->nc++;
+        return incn(fp);
     }
     else
     {
@@ -1868,7 +1965,7 @@ static int node_node(struct s_file *fp, short l0, short lc)
 
         /* Add the lumps on the side to the node. */
 
-        i = fp->nc++;
+        i = incn(fp);
 
         fp->nv[i].si = sj;
         fp->nv[i].ni = node_node(fp, li, lic);

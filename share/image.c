@@ -58,6 +58,106 @@ void image_size(int *W, int *H, int w, int h)
 
 /*---------------------------------------------------------------------------*/
 
+void image_swab(SDL_Surface *src)
+{
+    int i, j, b = (src->format->BitsPerPixel == 32) ? 4 : 3;
+    
+    SDL_LockSurface(src);
+    {
+        unsigned char *s = (unsigned char *) src->pixels;
+        unsigned char  t;
+
+        /* Iterate over each pixel of the image. */
+
+        for (i = 0; i < src->h; i++)
+            for (j = 0; j < src->w; j++)
+            {
+                int k = (i * src->w + j) * b;
+
+                /* Swap the red and blue channels of each. */
+
+                t        = s[k + 2];
+                s[k + 2] = s[k + 0];
+                s[k + 0] =        t;
+            }
+    }
+    SDL_UnlockSurface(src);
+}
+
+void image_white(SDL_Surface *src)
+{
+    int i, j, b = (src->format->BitsPerPixel == 32) ? 4 : 3;
+    
+    SDL_LockSurface(src);
+    {
+        unsigned char *s = (unsigned char *) src->pixels;
+
+        /* Iterate over each pixel of the image. */
+
+        for (i = 0; i < src->h; i++)
+            for (j = 0; j < src->w; j++)
+            {
+                int k = (i * src->w + j) * b;
+
+                /* Whiten the RGB channels without touching any Alpha. */
+
+                s[k + 0] = 0xFF;
+                s[k + 1] = 0xFF;
+                s[k + 2] = 0xFF;
+            }
+    }
+    SDL_UnlockSurface(src);
+}
+
+SDL_Surface *image_scale(SDL_Surface *src, int n)
+{
+    int si, di;
+    int sj, dj;
+    int k, b = (src->format->BitsPerPixel == 32) ? 4 : 3;
+
+    SDL_Surface *dst = SDL_CreateRGBSurface(SDL_SWSURFACE,
+                                            src->w / n,
+                                            src->h / n,
+                                            src->format->BitsPerPixel,
+                                            src->format->Rmask,
+                                            src->format->Gmask,
+                                            src->format->Bmask,
+                                            src->format->Amask);
+    if (dst)
+    {
+        SDL_LockSurface(src);
+        SDL_LockSurface(dst);
+        {
+            unsigned char *s = (unsigned char *) src->pixels;
+            unsigned char *d = (unsigned char *) dst->pixels;
+
+            /* Iterate each component of each distination pixel. */
+
+            for (di = 0; di < src->h / n; di++)
+                for (dj = 0; dj < src->w / n; dj++)
+                    for (k = 0; k < b; k++)
+                    {
+                        int c = 0;
+
+                        /* Average the NxN source pixel block for each. */
+
+                        for (si = di * n; si < (di + 1) * n; si++)
+                            for (sj = dj * n; sj < (dj + 1) * n; sj++)
+                                c += s[(si * src->w + sj) * b + k];
+
+                        d[(di * dst->w + dj) * b + k] =
+                            (unsigned char) (c / (n * n));
+                    }
+        }
+        SDL_UnlockSurface(dst);
+        SDL_UnlockSurface(src);
+    }
+
+    return dst;
+}
+
+/*---------------------------------------------------------------------------*/
+
 static const GLenum format[5] = {
     0,
     GL_LUMINANCE,
@@ -73,8 +173,7 @@ static const GLenum format[5] = {
  */
 GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
 {
-    int t = config_get_d(CONFIG_TEXTURES);
-
+    int    t = config_get_d(CONFIG_TEXTURES);
     GLuint o = 0;
 
     glGenTextures(1, &o);
@@ -82,45 +181,18 @@ GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
 
     if (t > 1)
     {
-        int w = s->w / t;
-        int h = s->h / t;
+        SDL_Surface *d = image_scale(s, t);
 
-        /* Create a new buffer and copy the scaled image to it. */
+        /* Load the scaled image. */
 
-        SDL_Surface *d = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h,
-                                              s->format->BitsPerPixel,
-                                              s->format->Rmask,
-                                              s->format->Gmask,
-                                              s->format->Bmask,
-                                              s->format->Amask);
-        if (d)
-        {
-            SDL_LockSurface(s);
-            SDL_LockSurface(d);
-            {
-                if (s->format->BitsPerPixel == 32)
-                    gluScaleImage(GL_RGBA,
-                                  s->w, s->h, GL_UNSIGNED_BYTE, s->pixels,
-                                  d->w, d->h, GL_UNSIGNED_BYTE, d->pixels);
-                else
-                    gluScaleImage(GL_RGB,
-                                  s->w, s->h, GL_UNSIGNED_BYTE, s->pixels,
-                                  d->w, d->h, GL_UNSIGNED_BYTE, d->pixels);
-            }
-            SDL_UnlockSurface(d);
-            SDL_UnlockSurface(s);
+        if (d->format->BitsPerPixel == 32)
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, d->w, d->h, 0,
+                         GL_RGBA, GL_UNSIGNED_BYTE, d->pixels);
+        else
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,  d->w, d->h, 0,
+                         GL_RGB,  GL_UNSIGNED_BYTE, d->pixels);
 
-            /* Load the scaled image. */
-
-            if (s->format->BitsPerPixel == 32)
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, d->w, d->h, 0,
-                             GL_RGBA, GL_UNSIGNED_BYTE, d->pixels);
-            else
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,  d->w, d->h, 0,
-                             GL_RGB,  GL_UNSIGNED_BYTE, d->pixels);
-
-            SDL_FreeSurface(d);
-        }
+        SDL_FreeSurface(d);
     }
     else
     {
@@ -240,19 +312,9 @@ GLuint make_image_from_font(int *W, int *H,
                 SDL_SetAlpha(src, 0, 0);
                 SDL_BlitSurface(src, NULL, dst, &rect);
 
-                glPushAttrib(GL_PIXEL_MODE_BIT);
-                {
-                    /* Clamp RGB to white so glyphs are alpha-blended cleanly. */
+                image_white(dst);
 
-                    glPixelTransferf(GL_RED_BIAS,   1.0f);
-                    glPixelTransferf(GL_GREEN_BIAS, 1.0f);
-                    glPixelTransferf(GL_BLUE_BIAS,  1.0f);
-
-                    /* Create the image using the new surface. */
-
-                    o = make_image_from_surf(W, H, dst);
-                }
-                glPopAttrib();
+                o = make_image_from_surf(W, H, dst);
 
                 SDL_FreeSurface(dst);
             }

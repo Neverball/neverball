@@ -110,7 +110,7 @@ static int done_enter(void)
         }
 
         gui_space(id);
-        gui_state(id, "Main Menu", GUI_SML, DONE_OK, 0);
+        gui_start(id, "Main Menu", GUI_SML, DONE_OK, 0);
 
         if (high) gui_keyboard(id);
 

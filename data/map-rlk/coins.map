@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "This time you must get 50 coins to unlock the goal.\Collect 100 coins to earn an extra ball.\Red coins are worth 5, blue coins are worth 10.\Get to the goal before time expires!\\Click to begin"
+"message" "This time you must get 50 coins to unlock the goal.\Collect 100 coins to earn an extra ball.\Red coins are worth 5, blue coins are worth 10.\Get to the goal before time expires!\\Click to begin.\"
 "classname" "worldspawn"
 // brush 0
 {

@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Tilt the floor as little as possible.\Less tilt means lower speed.\Lower speed means better control.\Watch the clock and use the time wisely.\\Click to begin."
+"message" "Tilt the floor as little as possible.\Less tilt means lower speed.\Lower speed means better control.\Watch the clock and use the time wisely.\\Click to begin.\"
 "classname" "worldspawn"
 // brush 0
 {

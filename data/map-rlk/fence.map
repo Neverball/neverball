@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "''Flat'' is relative.\Learn to hold the floor at an angle\so that a slope remains level.\This way, you maintain full control of the ball.\Use momentum to get up to the big coins."
+"message" "''Flat'' is relative.\Learn to hold the floor at an angle\so that a slope remains level.\This way, you maintain full control of the ball.\Use momentum to get up to the big coins.\"
 // brush 0
 {
 ( 0 224 16 ) ( 0 -64 16 ) ( 0 -64 -16 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

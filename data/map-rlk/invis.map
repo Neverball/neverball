@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Allow your greed to guide you.\For an added challenge,\try to get to all of the coins.\It can be done without guesswork."
+"message" "Allow your greed to guide you.\For an added challenge,\try to get to all of the coins.\It can be done without guesswork.\"
 // brush 0
 {
 ( 144 144 -16 ) ( 0 144 -16 ) ( 0 0 -16 ) mtrl/glass 0 0 0 0.500000 0.500000 0 0 0

@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Have fun picking up those\red and blue coins."
+"message" "Have fun picking up those\red and blue coins.\"
 // brush 0
 {
 ( 0 640 8 ) ( 128 640 8 ) ( 128 640 -8 ) mtrl/rail 0 0 0 0.500000 0.500000 0 0 0

@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Mouse buttons rotate the view.\Press Spacebar to pause, ESC to quit.\\\\Click to begin."
+"message" "Mouse buttons rotate the view.\Press Spacebar to pause, ESC to quit.\\\\Click to begin.\"
 // brush 0
 {
 ( 0 384 0 ) ( 0 256 0 ) ( 0 256 -16 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

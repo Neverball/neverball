@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Here's yet another test of your ability\to control bouncing.  Moving down the\stairs too quickly can be hazardous."
+"message" "Here's yet another test of your ability\to control bouncing.  Moving down the\stairs too quickly can be hazardous.\"
 // brush 0
 {
 ( 384 0 -464 ) ( 377 75 -464 ) ( 384 0 -208 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "There's not enough floor here.\Hopefully that's not a problem."
+"message" "There's not enough floor here.\Hopefully that's not a problem.\"
 // brush 0
 {
 ( -688 192 -8 ) ( 680 192 -8 ) ( -688 0 -8 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

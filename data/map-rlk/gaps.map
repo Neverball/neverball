@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Time the switches carefully to synchronize\the motion of the platforms.\Move quickly across the gaps."
+"message" "Time the switches carefully to synchronize\the motion of the platforms.\Move quickly across the gaps.\"
 "classname" "worldspawn"
 // brush 0
 {

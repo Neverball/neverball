@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "You'll only get about 15 seconds at each step,\so don't delay.  Get the coins and\get to the next switch."
+"message" "You'll only get about 15 seconds at each step,\so don't delay.  Get the coins and\get to the next switch.\"
 // brush 0
 {
 ( 128 16 -16 ) ( 0 16 -16 ) ( 0 0 -16 ) mtrl/wood-check 0 0 0 0.500000 0.500000 0 0 0

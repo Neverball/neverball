@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "To make progress here you'll need to hit the\edges hard and control your bouncing.\It's often easiest to hit the curb at a corner."
+"message" "To make progress here you'll need to hit the\edges hard and control your bouncing.\It's often easiest to hit the curb at a corner.\"
 // brush 0
 {
 ( 0 328 64 ) ( 0 192 64 ) ( 0 192 0 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Momentum may work against you."
+"message" "Momentum may work against you.\"
 "classname" "worldspawn"
 // brush 0
 {

@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "You'll need to exert some control over your\view here.  Press F3 to stop the auto-rotation.\Use the mouse buttons to rotate it manually.\Press F1 to return to the auto-rotating view."
+"message" "You'll need to exert some control over your\view here.  Press F3 to stop the auto-rotation.\Use the mouse buttons to rotate it manually.\Press F1 to return to the auto-rotating view.\"
 "classname" "worldspawn"
 // brush 0
 {

@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Try to avoid being hit by moving objects.\One bump can throw the ball\completely out of control."
+"message" "Try to avoid being hit by moving objects.\One bump can throw the ball\completely out of control.\"
 "classname" "worldspawn"
 // brush 0
 {

@@ -62,6 +62,7 @@ See below for details.
 
     SPACE  Pause and resume / Release mouse grab
     ESC    End a game / Exit
+    SHIFT  Fast camera rotation
 
     F1     Default Camera                            (configurable)
     F2     Lazy Camera                               (configurable)
@@ -203,6 +204,14 @@ values follow.
             view_dp  400
             view_dc  0
             view_dz  600
+
+    rotate_fast 200
+    rotate_slow 100
+
+        These keys control the rate of camera rotation.  Roughly, they
+        give  the rate  of lateral  camera motion  in  centimeters per
+        seconds,  so the  actual rotation  rate depends  upon view_dz,
+        above.  The fast rate is used when the Shift key is held down.
 
     fps 0
 

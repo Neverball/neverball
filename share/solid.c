@@ -24,6 +24,7 @@
 #include "glext.h"
 #include "vec3.h"
 #include "geom.h"
+#include "image.h"
 #include "solid.h"
 #include "config.h"
 #include "binary.h"
@@ -557,42 +558,36 @@ static void sol_load_objects(struct s_file *fp, int s)
     }
 }
 
-static SDL_Surface *sol_find_texture(const char *name, GLenum *f0, GLenum *f1)
+static SDL_Surface *sol_find_texture(const char *name)
 {
     char png[MAXSTR];
     char tga[MAXSTR];
     char jpg[MAXSTR];
     SDL_Surface *s;
 
+    /* Prefer a lossless copy of the texture over a lossy compression. */
+
     strncpy(png, name, PATHMAX); strcat(png, ".png");
     strncpy(tga, name, PATHMAX); strcat(tga, ".tga");
     strncpy(jpg, name, PATHMAX); strcat(jpg, ".jpg");
 
-    /* Prefer a lossless copy of the texture over a lossy compression. */
+    /* Check for a PNG. */
 
     if ((s = IMG_Load(config_data(png))))
-    {
-        *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
-        *f1 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
         return s;
-    }
+
+    /* Check for a TGA, swapping channels if found. */
+
     if ((s = IMG_Load(config_data(tga))))
     {
-#ifdef GL_BGRA
-        *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
-        *f1 = (s->format->BitsPerPixel == 32) ? GL_BGRA : GL_RGB;  /* swab */
-#else
-        *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
-        *f1 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;  /* punt */
-#endif
+        image_swab(s);
         return s;
     }
+
+    /* Check for a JPG. */
+
     if ((s = IMG_Load(config_data(jpg))))
-    {
-        *f0 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
-        *f1 = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
         return s;
-    }
 
     return NULL;
 }
@@ -601,14 +596,14 @@ static void sol_load_textures(struct s_file *fp, int k)
 {
     SDL_Surface *s;
     SDL_Surface *d;
-    GLenum f0;
-    GLenum f1;
 
     int i;
 
     for (i = 0; i < fp->mc; i++)
-        if ((s = sol_find_texture(fp->mv[i].f, &f0, &f1)))
+        if ((s = sol_find_texture(fp->mv[i].f)))
         {
+            GLenum f = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
+
             glGenTextures(1, &fp->mv[i].o);
             glBindTexture(GL_TEXTURE_2D, fp->mv[i].o);
 
@@ -616,37 +611,21 @@ static void sol_load_textures(struct s_file *fp, int k)
             {
                 /* Create a new buffer and copy the scaled image to it. */
 
-                d = SDL_CreateRGBSurface(SDL_SWSURFACE, s->w / k, s->h / k,
-                                         s->format->BitsPerPixel,
-                                         RMASK, GMASK, BMASK, AMASK);
-                if (d)
+                if ((d = image_scale(s, k)))
                 {
-                    SDL_LockSurface(s);
-                    SDL_LockSurface(d);
-                    {
-                        gluScaleImage(f1,
-                                      s->w, s->h, GL_UNSIGNED_BYTE, s->pixels,
-                                      d->w, d->h, GL_UNSIGNED_BYTE, d->pixels);
-                    }
-                    SDL_UnlockSurface(d);
-                    SDL_UnlockSurface(s);
-
-                    /* Load the scaled image. */
-
-                    gluBuild2DMipmaps(GL_TEXTURE_2D, f0, d->w, d->h, f1,
-                                      GL_UNSIGNED_BYTE, d->pixels);
-
+                    glTexImage2D(GL_TEXTURE_2D, 0, f, d->w, d->h, 0, f,
+                                 GL_UNSIGNED_BYTE, d->pixels);
                     SDL_FreeSurface(d);
                 }
             }
             else
-                gluBuild2DMipmaps(GL_TEXTURE_2D, f0, s->w, s->h, f1,
-                                  GL_UNSIGNED_BYTE, s->pixels);
+                glTexImage2D(GL_TEXTURE_2D, 0, f, s->w, s->h, 0, f,
+                             GL_UNSIGNED_BYTE, s->pixels);
 
-            glTexParameteri(GL_TEXTURE_2D,
-                            GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D,
-                            GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+            /* Set the texture to clamp or repeat based on material type. */
 
             if (fp->mv[i].fl & M_CLAMPED)
             {
@@ -655,10 +634,8 @@ static void sol_load_textures(struct s_file *fp, int k)
             }
             else
             {
-                glTexParameteri(GL_TEXTURE_2D,
-                                GL_TEXTURE_WRAP_S, GL_REPEAT);
-                glTexParameteri(GL_TEXTURE_2D,
-                                GL_TEXTURE_WRAP_T, GL_REPEAT);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
             }
 
             SDL_FreeSurface(s);
@@ -837,25 +814,44 @@ static void sol_load_file(FILE *fin, struct s_file *fp)
     get_short(fin, &fp->ic);
     get_short(fin, &fp->ac);
 
-    fp->mv = (struct s_mtrl *) calloc(fp->mc, sizeof (struct s_mtrl));
-    fp->vv = (struct s_vert *) calloc(fp->vc, sizeof (struct s_vert));
-    fp->ev = (struct s_edge *) calloc(fp->ec, sizeof (struct s_edge));
-    fp->sv = (struct s_side *) calloc(fp->sc, sizeof (struct s_side));
-    fp->tv = (struct s_texc *) calloc(fp->tc, sizeof (struct s_texc));
-    fp->gv = (struct s_geom *) calloc(fp->gc, sizeof (struct s_geom));
-    fp->lv = (struct s_lump *) calloc(fp->lc, sizeof (struct s_lump));
-    fp->nv = (struct s_node *) calloc(fp->nc, sizeof (struct s_node));
-    fp->pv = (struct s_path *) calloc(fp->pc, sizeof (struct s_path));
-    fp->bv = (struct s_body *) calloc(fp->bc, sizeof (struct s_body));
-    fp->cv = (struct s_coin *) calloc(fp->cc, sizeof (struct s_coin));
-    fp->zv = (struct s_goal *) calloc(fp->zc, sizeof (struct s_goal));
-    fp->jv = (struct s_jump *) calloc(fp->jc, sizeof (struct s_jump));
-    fp->xv = (struct s_swch *) calloc(fp->xc, sizeof (struct s_swch));
-    fp->rv = (struct s_bill *) calloc(fp->rc, sizeof (struct s_bill));
-    fp->uv = (struct s_ball *) calloc(fp->uc, sizeof (struct s_ball));
-    fp->wv = (struct s_view *) calloc(fp->wc, sizeof (struct s_view));
-    fp->iv = (short         *) calloc(fp->ic, sizeof (short));
-    fp->av = (char          *) calloc(fp->ac, sizeof (char));
+    if (fp->mc)
+        fp->mv = (struct s_mtrl *) calloc(fp->mc, sizeof (struct s_mtrl));
+    if (fp->vc)
+        fp->vv = (struct s_vert *) calloc(fp->vc, sizeof (struct s_vert));
+    if (fp->ec)
+        fp->ev = (struct s_edge *) calloc(fp->ec, sizeof (struct s_edge));
+    if (fp->sc)
+        fp->sv = (struct s_side *) calloc(fp->sc, sizeof (struct s_side));
+    if (fp->tc)
+        fp->tv = (struct s_texc *) calloc(fp->tc, sizeof (struct s_texc));
+    if (fp->gc)
+        fp->gv = (struct s_geom *) calloc(fp->gc, sizeof (struct s_geom));
+    if (fp->lc)
+        fp->lv = (struct s_lump *) calloc(fp->lc, sizeof (struct s_lump));
+    if (fp->nc)
+        fp->nv = (struct s_node *) calloc(fp->nc, sizeof (struct s_node));
+    if (fp->pc)
+        fp->pv = (struct s_path *) calloc(fp->pc, sizeof (struct s_path));
+    if (fp->bc)
+        fp->bv = (struct s_body *) calloc(fp->bc, sizeof (struct s_body));
+    if (fp->cc)
+        fp->cv = (struct s_coin *) calloc(fp->cc, sizeof (struct s_coin));
+    if (fp->zc)
+        fp->zv = (struct s_goal *) calloc(fp->zc, sizeof (struct s_goal));
+    if (fp->jc)
+        fp->jv = (struct s_jump *) calloc(fp->jc, sizeof (struct s_jump));
+    if (fp->xc)
+        fp->xv = (struct s_swch *) calloc(fp->xc, sizeof (struct s_swch));
+    if (fp->rc)
+        fp->rv = (struct s_bill *) calloc(fp->rc, sizeof (struct s_bill));
+    if (fp->uc)
+        fp->uv = (struct s_ball *) calloc(fp->uc, sizeof (struct s_ball));
+    if (fp->wc)
+        fp->wv = (struct s_view *) calloc(fp->wc, sizeof (struct s_view));
+    if (fp->ic)
+        fp->iv = (short         *) calloc(fp->ic, sizeof (short));
+    if (fp->ac)
+        fp->av = (char          *) calloc(fp->ac, sizeof (char));
 
     for (i = 0; i < fp->mc; i++) sol_load_mtrl(fin, fp->mv + i);
     for (i = 0; i < fp->vc; i++) sol_load_vert(fin, fp->vv + i);
@@ -876,7 +872,7 @@ static void sol_load_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->wc; i++) sol_load_view(fin, fp->wv + i);
     for (i = 0; i < fp->ic; i++) get_short(fin, fp->iv + i);
 
-    fread(fp->av, 1, fp->ac, fin);
+    if (fp->ac) fread(fp->av, 1, fp->ac, fin);
 }
 
 int sol_load(struct s_file *fp, const char *filename, int k, int s)

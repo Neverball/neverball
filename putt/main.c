@@ -20,7 +20,6 @@
 #pragma comment(lib, "SDL_image.lib")
 #pragma comment(lib, "SDL.lib")
 #pragma comment(lib, "SDLmain.lib")
-#pragma comment(lib, "glu32.lib")
 #pragma comment(lib, "opengl32.lib")
 #endif
 

@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Just as before, but moving up instead of down.\No cheating this time."
+"message" "Just as before, but moving up instead of down.\No cheating this time.\"
 // brush 0
 {
 ( -8 256 -16 ) ( -8 320 -16 ) ( -504 320 -144 ) mtrl/turf-grey 0 255 90 0.500000 0.500000 0 0 0

@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Each bridge is narrower than the one before.\But each pays better than the last as well!\You get to decide how far you go on this one."
+"message" "Each bridge is narrower than the one before.\But each pays better than the last as well!\You get to decide how far you go on this one.\"
 "classname" "worldspawn"
 // brush 0
 {

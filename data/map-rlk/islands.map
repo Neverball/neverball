@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Catch the train before it leaves the station."
+"message" "Catch the train before it leaves the station.\"
 "classname" "worldspawn"
 // brush 0
 {

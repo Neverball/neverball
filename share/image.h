@@ -11,6 +11,10 @@
 void   image_snap(char *);
 void   image_size(int *, int *, int, int);
 
+void         image_swab (SDL_Surface *);
+void         image_white(SDL_Surface *);
+SDL_Surface *image_scale(SDL_Surface *, int);
+
 GLuint make_image_from_surf(int *, int *, SDL_Surface *);
 GLuint make_image_from_file(int *, int *,
                             int *, int *, const char *);

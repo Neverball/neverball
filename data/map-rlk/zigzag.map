@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "There are plenty of coins here if you're\willing to take the time to grab them."
+"message" "There are plenty of coins here if you're\willing to take the time to grab them.\"
 "classname" "worldspawn"
 // brush 0
 {

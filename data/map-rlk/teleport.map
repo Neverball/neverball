@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "The ball must be entirely within a teleporter\in order to trigger it.\Remember that the ball carries its momentum\through a teleporter, so plan ahead."
+"message" "The ball must be entirely within a teleporter\in order to trigger it.\Remember that the ball carries its momentum\through a teleporter, so plan ahead.\"
 "classname" "worldspawn"
 // brush 0
 {

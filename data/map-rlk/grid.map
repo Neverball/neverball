@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Yes, the ball does fit quite nicely through\those little holes."
+"message" "Yes, the ball does fit quite nicely through\those little holes.\"
 // brush 0
 {
 ( 64 32 0 ) ( 64 -32 0 ) ( 64 -32 -32 ) mtrl/edge-blue 0 0 0 0.500000 0.500000 0 0 0

@@ -104,6 +104,8 @@ enum {
     CONFIG_VIEW_DP,
     CONFIG_VIEW_DC,
     CONFIG_VIEW_DZ,
+    CONFIG_ROTATE_FAST,
+    CONFIG_ROTATE_SLOW,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -157,6 +159,8 @@ enum {
 #define DEFAULT_VIEW_DP              75
 #define DEFAULT_VIEW_DC              25
 #define DEFAULT_VIEW_DZ              200
+#define DEFAULT_ROTATE_SLOW          100
+#define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_PLAYER               "Player"
 #define DEFAULT_BALL                 "png/ball.png"
 #define DEFAULT_COIN                 "png/coin.png"
@@ -197,6 +201,7 @@ void config_get_s(int, char *, int);
 
 void config_set_grab(void);
 void config_clr_grab(void);
+int  config_get_grab(void);
 
 int  config_get_pause(void);
 void config_set_pause(void);

@@ -796,9 +796,9 @@ void game_set_pos(int x, int y)
     if (game_iz < -bound) game_iz = -bound;
 }
 
-void game_set_rot(int r)
+void game_set_rot(float r)
 {
-    view_ry = (float) r;
+    view_ry = r;
 }
 
 /*---------------------------------------------------------------------------*/

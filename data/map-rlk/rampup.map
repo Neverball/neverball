@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "I think I can.\I think I can."
+"message" "I think I can.\I think I can.\"
 // brush 0
 {
 ( 120 0 -656 ) ( 120 768 -656 ) ( 120 0 -640 ) mtrl/red 0 0 0 0.500000 0.500000 0 0 0

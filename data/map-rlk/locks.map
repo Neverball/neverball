@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Hit the switches to move the barriers."
+"message" "Hit the switches to move the barriers.\"
 // brush 0
 {
 ( 0 128 0 ) ( 0 0 0 ) ( 0 0 -16 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

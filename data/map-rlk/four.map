@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Balance risk versus reward."
+"message" "Balance risk versus reward.\"
 // brush 0
 {
 ( 188 1344 48 ) ( 188 1088 48 ) ( 188 1088 -16 ) mtrl/caution 0 0 0 0.500000 0.500000 0 0 0

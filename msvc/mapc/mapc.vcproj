@@ -119,6 +119,9 @@
 				RelativePath="..\..\share\config.c">
 			</File>
 			<File
+				RelativePath="..\..\share\image.c">
+			</File>
+			<File
 				RelativePath="..\..\share\mapc.c">
 			</File>
 			<File
@@ -137,6 +140,9 @@
 			</File>
 			<File
 				RelativePath="..\..\share\config.h">
+			</File>
+			<File
+				RelativePath="..\..\share\image.h">
 			</File>
 			<File
 				RelativePath="..\..\share\glext.h">

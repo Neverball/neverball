@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Ceci n'est pas une pipe."
+"message" "Ceci n'est pas une pipe.\"
 // brush 0
 {
 ( 768 641 -53 ) ( 768 634 -60 ) ( 1024 641 -53 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

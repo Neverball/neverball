@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Here are some more opportunities for you to\fall off into the void. Hit the bump hard to\grab some big coins and score a short time."
+"message" "Here are some more opportunities for you to\fall off into the void. Hit the bump hard to\grab some big coins and score a short time.\"
 "classname" "worldspawn"
 // brush 0
 {

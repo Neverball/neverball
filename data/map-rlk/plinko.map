@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Take it slowly."
+"message" "Take it slowly.\"
 // brush 0
 {
 ( 128 128 -16 ) ( 0 128 -16 ) ( 0 0 -16 ) mtrl/wood 0 0 0 0.500000 0.500000 0 0 0

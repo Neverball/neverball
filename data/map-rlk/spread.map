@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "Don't worry.\The green part isn't going anywhere."
+"message" "Don't worry.\The green part isn't going anywhere.\"
 "classname" "worldspawn"
 // brush 0
 {

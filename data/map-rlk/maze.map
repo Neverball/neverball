@@ -1,6 +1,6 @@
 // entity 0
 {
-"message" "The ball wants to rebound uncontrollably\in a narrow passage. Keep it slow and\off the walls. All the coins are collectable\in the given time."
+"message" "The ball wants to rebound uncontrollably\in a narrow passage. Keep it slow and\off the walls. All the coins are collectable\in the given time.\"
 "classname" "worldspawn"
 // brush 0
 {

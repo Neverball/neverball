@@ -29,13 +29,14 @@
 
 /*---------------------------------------------------------------------------*/
 
-static GLUquadric  *ball_quad;
-static GLuint       ball_list;
-static GLuint       ball_text;
+static GLuint ball_list;
+static GLuint ball_text;
 
 void ball_init(int b)
 {
     char name[MAXSTR];
+    int i, slices = b ? 32 : 16;
+    int j, stacks = b ? 16 :  8;
 
     config_get_s(CONFIG_BALL, name, MAXSTR);
 
@@ -44,23 +45,41 @@ void ball_init(int b)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    if ((ball_quad = gluNewQuadric()))
-    {
-        int slices = b ? 32 : 16;
-        int stacks = b ? 16 :  8;
-
-        gluQuadricOrientation(ball_quad, GLU_OUTSIDE);
-        gluQuadricNormals(ball_quad, GLU_SMOOTH);
-        gluQuadricTexture(ball_quad, GL_TRUE);
-
-        ball_list = glGenLists(1);
+    ball_list = glGenLists(1);
     
-        glNewList(ball_list, GL_COMPILE);
+    glNewList(ball_list, GL_COMPILE);
+    {
+        for (i = 0; i < stacks; i++)
         {
-            gluSphere(ball_quad, 1.f, slices, stacks);
+            float k0 = (float)  i      / stacks;
+            float k1 = (float) (i + 1) / stacks;
+
+            float s0 = fsinf(V_PI * (k0 - 0.5));
+            float c0 = fcosf(V_PI * (k0 - 0.5));
+            float s1 = fsinf(V_PI * (k1 - 0.5));
+            float c1 = fcosf(V_PI * (k1 - 0.5));
+
+            glBegin(GL_QUAD_STRIP);
+            {
+                for (j = 0; j <= slices; j++)
+                {
+                    float k = (float) j / slices;
+                    float s = fsinf(V_PI * k * 2.0);
+                    float c = fcosf(V_PI * k * 2.0);
+
+                    glTexCoord2f(k, k0);
+                    glNormal3f(s * c0, c * c0, s0);
+                    glVertex3f(s * c0, c * c0, s0);
+
+                    glTexCoord2f(k, k1);
+                    glNormal3f(s * c1, c * c1, s1);
+                    glVertex3f(s * c1, c * c1, s1);
+                }
+            }
+            glEnd();
         }
-        glEndList();
     }
+    glEndList();
 }
 
 void ball_free(void)
@@ -68,13 +87,9 @@ void ball_free(void)
     if (glIsList(ball_list))
         glDeleteLists(ball_list, 1);
 
-    if (ball_quad)
-        gluDeleteQuadric(ball_quad);
-
     if (glIsTexture(ball_text))
         glDeleteTextures(1, &ball_text);
 
-    ball_quad = NULL;
     ball_list = 0;
     ball_text = 0;
 }
@@ -127,27 +142,31 @@ void ball_draw(void)
 
 /*---------------------------------------------------------------------------*/
 
-static GLUquadric *mark_quad;
-static GLuint      mark_list;
+static GLuint mark_list;
 
 void mark_init(int b)
 {
-    if ((mark_quad = gluNewQuadric()))
-    {
-        int slices = b ? 32 : 16;
+    int i, slices = b ? 32 : 16;
 
-        gluQuadricOrientation(mark_quad, GLU_OUTSIDE);
-        gluQuadricTexture(mark_quad, GL_TRUE);
-
-        mark_list = glGenLists(1);
+    mark_list = glGenLists(1);
     
-        glNewList(mark_list, GL_COMPILE);
+    glNewList(mark_list, GL_COMPILE);
+    {
+        glBegin(GL_TRIANGLE_FAN);
         {
-            glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-            gluDisk(mark_quad, 0.0, 1.0, slices, 1);
+            glNormal3f(0.f, 1.f, 0.f);
+
+            for (i = 0; i < slices; i++)
+            {
+                float x = fcosf(-2.f * PI * i / slices);
+                float y = fsinf(-2.f * PI * i / slices);
+
+                glVertex3f(x, 0, y);
+            }
         }
-        glEndList();
+        glEnd();
     }
+    glEndList();
 }
 
 void mark_draw(void)
@@ -172,10 +191,6 @@ void mark_free(void)
     if (glIsList(mark_list))
         glDeleteLists(mark_list, 1);
 
-    if (mark_quad)
-        gluDeleteQuadric(mark_quad);
-
-    mark_quad = NULL;
     mark_list = 0;
 }
 

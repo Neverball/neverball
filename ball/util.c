@@ -197,6 +197,8 @@ void gui_keyboard(int id)
 {
     int jd, kd, ld;
 
+    lock = 1;
+
     if ((jd = gui_hstack(id)))
     {
         gui_filler(jd);

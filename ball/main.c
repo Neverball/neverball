@@ -20,7 +20,6 @@
 #pragma comment(lib, "SDL_image.lib")
 #pragma comment(lib, "SDL.lib")
 #pragma comment(lib, "SDLmain.lib")
-#pragma comment(lib, "glu32.lib")
 #pragma comment(lib, "opengl32.lib")
 #endif
 
@@ -165,7 +164,7 @@ static int loop(void)
 
             case SDL_ACTIVEEVENT:
                 if (e.active.state == SDL_APPINPUTFOCUS)
-                    if (e.active.gain == 0)
+                    if (e.active.gain == 0 && config_get_grab())
                         config_set_pause();
                 break;
 

@@ -216,7 +216,9 @@ void gui_init(void)
     const float *c0 = gui_yel;
     const float *c1 = gui_red;
 
-    int i, j, h = config_get_d(CONFIG_HEIGHT);
+    int w = config_get_d(CONFIG_WIDTH);
+    int h = config_get_d(CONFIG_HEIGHT);
+    int i, j, s = (h < w) ? h : w;
 
     /* Initialize font rendering. */
 
@@ -226,10 +228,10 @@ void gui_init(void)
 
         /* Load small, medium, and large typefaces. */
 
-        font[GUI_SML] = TTF_OpenFont(config_data(GUI_FACE), h / 24);
-        font[GUI_MED] = TTF_OpenFont(config_data(GUI_FACE), h / 12);
-        font[GUI_LRG] = TTF_OpenFont(config_data(GUI_FACE), h /  6);
-        radius = h / 60;
+        font[GUI_SML] = TTF_OpenFont(config_data(GUI_FACE), s / 24);
+        font[GUI_MED] = TTF_OpenFont(config_data(GUI_FACE), s / 12);
+        font[GUI_LRG] = TTF_OpenFont(config_data(GUI_FACE), s /  6);
+        radius = s / 60;
 
         /* Initialize the global pause GUI. */
 
@@ -948,6 +950,10 @@ void gui_layout(int id, int xd, int yd)
     else             y = (H - h) / 2;
 
     gui_widget_dn(id, x, y, w, h);
+
+    /* Hilite the widget under the cursor, if any. */
+
+    gui_point(id, -1, -1);
 }
 
 int gui_search(int id, int x, int y)
@@ -1373,9 +1379,22 @@ void gui_timer(int id, float dt)
 
 int gui_point(int id, int x, int y)
 {
+    static int x_cache = 0;
+    static int y_cache = 0;
+
+    int jd;
+
+    /* Reuse the last coordinates if (x,y) == (-1,-1) */
+
+    if (x < 0 && y < 0)
+        return gui_point(id, x_cache, y_cache);
+
+    x_cache = x;
+    y_cache = y;
+
     /* Short-circuit check the current active widget. */
 
-    int jd = gui_search(active, x, y);
+    jd = gui_search(active, x, y);
 
     /* If not still active, search the hierarchy for a new active widget. */
 

@@ -28,7 +28,7 @@ int   game_step(const float[3], float, int);
 void  game_set_pos(int, int);
 void  game_set_x  (int);
 void  game_set_z  (int);
-void  game_set_rot(int);
+void  game_set_rot(float);
 void  game_set_fly(float);
 
 void  game_look(float, float);

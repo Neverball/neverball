@@ -6,7 +6,7 @@
 #X11_PATH= -L/usr/X11/lib
 #X11_PATH= -L/usr/X11R6/lib
 
-OGL_LIBS= -lGLU -lGL -lm
+OGL_LIBS= -lGL -lm
 #OGL_LIBS= -lm                                                # Think Different
 
 #------------------------------------------------------------------------------
@@ -24,6 +24,7 @@ PUTT_TARG= neverputt
 
 MAPC_OBJS= \
 	share/vec3.o   \
+	share/image.o  \
 	share/solid.o  \
 	share/binary.o \
 	share/config.o \

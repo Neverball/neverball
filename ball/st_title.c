@@ -230,12 +230,13 @@ static int help_enter(void)
         "each 100 coins collected.\\";
 
     const char *s4 = "Left and right mouse buttons rotate the view.";
-    const char *s5 = "Pause / Release Pointer";
-    const char *s6 = "Exit / Cancel Menu";
-    const char *s7 = "Chase View";
-    const char *s8 = "Lazy View";
-    const char *s9 = "Manual View";
-    const char *sA = "Comments?  Problems?  robert.kooima@gmail.com";
+    const char *s5 = "Hold Shift for faster view rotation.";
+    const char *s6 = "Pause / Release Pointer";
+    const char *s7 = "Exit / Cancel Menu";
+    const char *s8 = "Chase View";
+    const char *s9 = "Lazy View";
+    const char *sA = "Manual View";
+    const char *sB = "Comments?  Problems?  robert.kooima@gmail.com";
 
     const char *k0 = "Spacebar";
     const char *k1 = "Escape";
@@ -252,34 +253,35 @@ static int help_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_label(jd, s5, GUI_SML, GUI_NE, gui_wht, gui_wht);
+            gui_label(jd, s6, GUI_SML, GUI_NE, gui_wht, gui_wht);
             gui_label(jd, k0, GUI_SML, GUI_NW, gui_yel, gui_yel);
         }
         if ((jd = gui_harray(id)))
         {
-            gui_label(jd, s6, GUI_SML, 0,      gui_wht, gui_wht);
+            gui_label(jd, s7, GUI_SML, 0,      gui_wht, gui_wht);
             gui_label(jd, k1, GUI_SML, 0,      gui_yel, gui_yel);
         }
         if ((jd = gui_harray(id)))
         {
-            gui_label(jd, s7, GUI_SML, 0,      gui_wht, gui_wht);
+            gui_label(jd, s8, GUI_SML, 0,      gui_wht, gui_wht);
             gui_label(jd, k2, GUI_SML, 0,      gui_yel, gui_yel);
         }
         if ((jd = gui_harray(id)))
         {
-            gui_label(jd, s8, GUI_SML, 0,      gui_wht, gui_wht);
+            gui_label(jd, s9, GUI_SML, 0,      gui_wht, gui_wht);
             gui_label(jd, k3, GUI_SML, 0,      gui_yel, gui_yel);
         }
         if ((jd = gui_harray(id)))
         {
-            gui_label(jd, s9, GUI_SML, GUI_SE, gui_wht, gui_wht);
+            gui_label(jd, sA, GUI_SML, GUI_SE, gui_wht, gui_wht);
             gui_label(jd, k4, GUI_SML, GUI_SW, gui_yel, gui_yel);
         }
 
         gui_space(id);
-        gui_label(id, s4, GUI_SML, GUI_ALL, gui_wht, gui_wht);
+        gui_label(id, s4, GUI_SML, GUI_TOP, gui_wht, gui_wht);
+        gui_label(id, s5, GUI_SML, GUI_BOT, gui_wht, gui_wht);
         gui_space(id);
-        gui_label(id, sA, GUI_SML, GUI_ALL, gui_wht, gui_wht);
+        gui_label(id, sB, GUI_SML, GUI_ALL, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);
     }

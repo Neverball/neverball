@@ -18,9 +18,11 @@
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
+#include <math.h>
 
 #include "config.h"
 #include "glext.h"
+#include "vec3.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,6 +38,8 @@
 
 static int   option_d[CONFIG_OPTION_D_COUNT];
 static char *option_s[CONFIG_OPTION_S_COUNT];
+
+static int dirty = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -99,6 +103,8 @@ void config_init(void)
     config_set_d(CONFIG_VIEW_DP,              DEFAULT_VIEW_DP);
     config_set_d(CONFIG_VIEW_DC,              DEFAULT_VIEW_DC);
     config_set_d(CONFIG_VIEW_DZ,              DEFAULT_VIEW_DZ);
+    config_set_d(CONFIG_ROTATE_FAST,          DEFAULT_ROTATE_FAST);
+    config_set_d(CONFIG_ROTATE_SLOW,          DEFAULT_ROTATE_SLOW);
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
     config_set_s(CONFIG_COIN,                 DEFAULT_COIN);
@@ -185,6 +191,10 @@ void config_load(void)
                     config_set_d(CONFIG_VIEW_DC,              atoi(val));
                 else if (strcmp(key, "view_dz")               == 0)
                     config_set_d(CONFIG_VIEW_DZ,              atoi(val));
+                else if (strcmp(key, "rotate_fast")           == 0)
+                    config_set_d(CONFIG_ROTATE_FAST,          atoi(val));
+                else if (strcmp(key, "rotate_slow")           == 0)
+                    config_set_d(CONFIG_ROTATE_SLOW,          atoi(val));
 
                 else if (strcmp(key, "key_camera_1")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_1, DEFAULT_KEY_CAMERA_1);
@@ -206,6 +216,8 @@ void config_load(void)
             }
 
         fclose(fp);
+
+        dirty = 0;
     }
 }
 
@@ -213,7 +225,7 @@ void config_save(void)
 {
     FILE *fp;
 
-    if ((fp = fopen(config_user(USER_CONFIG_FILE), "w")))
+    if (dirty && (fp = fopen(config_user(USER_CONFIG_FILE), "w")))
     {
         fprintf(fp, "fullscreen           %d\n",
                 option_d[CONFIG_FULLSCREEN]);
@@ -283,6 +295,10 @@ void config_save(void)
                 option_d[CONFIG_VIEW_DC]);
         fprintf(fp, "view_dz              %d\n",
                 option_d[CONFIG_VIEW_DZ]);
+        fprintf(fp, "rotate_fast          %d\n",
+                option_d[CONFIG_ROTATE_FAST]);
+        fprintf(fp, "rotate_slow          %d\n",
+                option_d[CONFIG_ROTATE_SLOW]);
 
         fprintf(fp, "key_camera_1         %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_1]));
@@ -292,7 +308,7 @@ void config_save(void)
                 SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_3]));
         fprintf(fp, "key_camera_r         %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_R]));
-        fprintf(fp, "key_camrea_l         %s\n",
+        fprintf(fp, "key_camera_l         %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_L]));
 
         fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
@@ -301,6 +317,8 @@ void config_save(void)
 
         fclose(fp);
     }
+
+    dirty = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -481,6 +499,7 @@ int config_user_path(const char *file)
 void config_set_d(int i, int d)
 {
     option_d[i] = d;
+    dirty = 1;
 }
 
 void config_tgl_d(int i)
@@ -509,6 +528,8 @@ void config_set_s(int i, char *src)
 
     if ((option_s[i] = (char *) malloc(len + 1)))
         strncpy(option_s[i], src, len + 1);
+
+    dirty = 1;
 }
 
 void config_get_s(int i, char *dst, int len)
@@ -533,6 +554,11 @@ void config_clr_grab(void)
     SDL_WM_GrabInput(SDL_GRAB_OFF);
     SDL_ShowCursor(SDL_ENABLE);
     grabbed = 0;
+}
+
+int  config_get_grab(void)
+{
+    return grabbed;
 }
 
 int  config_get_pause(void)
@@ -575,14 +601,38 @@ void config_tgl_pause(void)
 
 void config_push_persp(float fov, float n, float f)
 {
-    GLdouble w = (GLdouble) option_d[CONFIG_WIDTH];
-    GLdouble h = (GLdouble) option_d[CONFIG_HEIGHT];
+    GLdouble m[4][4];
+
+    GLdouble r = fov / 2 * V_PI / 180;
+    GLdouble s = sin(r);
+    GLdouble c = cos(r) / s;
+
+    GLdouble a = ((GLdouble) option_d[CONFIG_WIDTH] / 
+                  (GLdouble) option_d[CONFIG_HEIGHT]);
 
     glMatrixMode(GL_PROJECTION);
     {
         glPushMatrix();
         glLoadIdentity();
-        gluPerspective(fov, w / h, n, f);
+
+        m[0][0] =  c/a;
+        m[0][1] =  0.0;
+        m[0][2] =  0.0;
+        m[0][3] =  0.0;
+        m[1][0] =  0.0;
+        m[1][1] =    c;
+        m[1][2] =  0.0;
+        m[1][3] =  0.0;
+        m[2][0] =  0.0;
+        m[2][1] =  0.0;
+        m[2][2] = -(f + n) / (f - n);
+        m[2][3] = -1.0;
+        m[3][0] =  0.0;
+        m[3][1] =  0.0;
+        m[3][2] = -2.0 * n * f / (f - n);
+        m[3][3] =  0.0;
+
+        glMultMatrixd(&m[0][0]);
     }
     glMatrixMode(GL_MODELVIEW);
 }

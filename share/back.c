@@ -26,52 +26,69 @@
 
 #define PI 3.1415926535897932
 
-static GLUquadric *back_quad;
-static GLuint      back_list;
-static GLuint      back_text;
+static GLuint back_list;
+static GLuint back_text;
 
 /*---------------------------------------------------------------------------*/
 
 void back_init(const char *s, int b)
 {
+    int i, slices = b ? 32 : 16;
+    int j, stacks = b ? 16 :  8;
+
     back_free();
     back_text = make_image_from_file(NULL, NULL, NULL, NULL, s);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 
-    if ((back_quad = gluNewQuadric()))
-    {
-        int slices = b ? 32 : 16;
-        int stacks = b ? 16 :  8;
-
-        gluQuadricOrientation(back_quad, GLU_INSIDE);
-        gluQuadricNormals(back_quad, GLU_SMOOTH);
-        gluQuadricTexture(back_quad, GL_TRUE);
-
-        back_list = glGenLists(1);
+    back_list = glGenLists(1);
     
-        glNewList(back_list, GL_COMPILE);
+    glNewList(back_list, GL_COMPILE);
+    {
+        glColor3f(1.f, 1.f, 1.f);
+        glBindTexture(GL_TEXTURE_2D, back_text);
+
+        for (i = 0; i < stacks; i++)
         {
-            glColor3f(1.f, 1.f, 1.f);
-            glBindTexture(GL_TEXTURE_2D, back_text);
-            gluSphere(back_quad, 1.0, slices, stacks);
+            float k0 = (float)  i      / stacks;
+            float k1 = (float) (i + 1) / stacks;
+
+            float s0 = fsinf(V_PI * (k0 - 0.5));
+            float c0 = fcosf(V_PI * (k0 - 0.5));
+            float s1 = fsinf(V_PI * (k1 - 0.5));
+            float c1 = fcosf(V_PI * (k1 - 0.5));
+
+            glBegin(GL_QUAD_STRIP);
+            {
+                for (j = 0; j <= slices; j++)
+                {
+                    float k = (float) j / slices;
+                    float s = fsinf(V_PI * k * 2.0);
+                    float c = fcosf(V_PI * k * 2.0);
+
+                    glTexCoord2f(k, k1);
+                    glNormal3f(s * c1, c * c1, s1);
+                    glVertex3f(s * c1, c * c1, s1);
+
+                    glTexCoord2f(k, k0);
+                    glNormal3f(s * c0, c * c0, s0);
+                    glVertex3f(s * c0, c * c0, s0);
+                }
+            }
+            glEnd();
         }
-        glEndList();
     }
+    glEndList();
 }
 
 void back_free(void)
 {
-    if (back_quad)
-        gluDeleteQuadric(back_quad);
-
     if (glIsList(back_list))
         glDeleteLists(back_list, 1);
 
     if (glIsTexture(back_text))
         glDeleteTextures(1, &back_text);
 
-    back_quad = NULL;
     back_list = 0;
     back_text = 0;
 }

@@ -198,6 +198,11 @@ static void play_loop_paint(int id, float st)
 
 static void play_loop_timer(int id, float dt)
 {
+    float k = (((SDL_GetModState() & KMOD_LSHIFT) ||
+                (SDL_GetModState() & KMOD_RSHIFT)) ?
+               (float) config_get_d(CONFIG_ROTATE_FAST) / 100.f:
+               (float) config_get_d(CONFIG_ROTATE_SLOW) / 100.f);
+
     static float at = 0;
 
     float g[3] = { 0.0f, -9.8f, 0.0f };
@@ -206,7 +211,7 @@ static void play_loop_timer(int id, float dt)
 
     gui_timer(id, at);
     hud_timer(at);
-    game_set_rot(view_rotate);
+    game_set_rot(view_rotate * k);
 
     switch (game_step(g, at, 1))
     {

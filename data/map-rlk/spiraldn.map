@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Take it slow to keep it away from the edge.\Or, don't.\Either way might work."
+"message" "Take it slow to keep it away from the edge.\Or, don't.\Either way might work.\"
 // brush 0
 {
 ( 0 392 -16 ) ( 64 392 -16 ) ( 64 888 -144 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0
