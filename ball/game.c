@@ -360,12 +360,11 @@ static void game_draw_light(void)
 
 
 
-static void game_draw_back(int pose, float rx, float ry, int d, const float p[3])
+static void game_draw_back(int pose, int d, const float p[3])
 {
-    float o[3] = { 0.0f, 0.0f, 0.0f };
     float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    float t = SDL_GetTicks() / 1000.f + 120.0f;
 
-    glPushAttrib(GL_FOG_BIT);
     glPushMatrix();
     {
         if (d < 0)
@@ -376,33 +375,31 @@ static void game_draw_back(int pose, float rx, float ry, int d, const float p[3]
 
         glTranslatef(p[0], p[1], p[2]);
         game_clr_shadow();
-        glColor3f(1.0f, 1.0f, 1.0f);
+        glColor4fv(c);
 
-        /* Draw all background layers back to front. */
+        if (config_get(CONFIG_BACKGROUND))
+        {
+            /* Draw all background layers back to front. */
 
-        sol_back(&back, o, BACK_DIST, FAR_DIST);
-        back_draw(0);
-        sol_back(&back, o, 0, BACK_DIST);
+            sol_back(&back, BACK_DIST, FAR_DIST, t);
+            back_draw(0);
+            sol_back(&back, 0, BACK_DIST, t);
 
-        /* Draw all foreground geometry in the background file. */
+            /* Draw all foreground geometry in the background file. */
 
-        glEnable(GL_FOG);
-        glFogf(GL_FOG_START, BACK_DIST / 2.0f);
-        glFogf(GL_FOG_END,   BACK_DIST);
-        glFogfv(GL_FOG_COLOR, c);
-
-        sol_draw(&back, 0);
+            sol_draw(&back, 0);
+        }
+        else back_draw(0);
     }
     glPopMatrix();
-    glPopAttrib();
 }
 
 static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3])
 {
     const float *ball_p = file.uv->p;
     
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushAttrib(GL_COLOR_BUFFER_BIT);
+    glPushAttrib(GL_LIGHTING_BIT |
+                 GL_COLOR_BUFFER_BIT);
     {
         glPushMatrix();
         {
@@ -451,7 +448,6 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
         }
         glPopMatrix();
     }
-    glPopAttrib();
     glPopAttrib();
 }
 
@@ -509,7 +505,7 @@ void game_draw(int pose, float st)
                 glScalef(+1.f, -1.f, +1.f);
 
                 game_draw_light();
-                game_draw_back(pose, rx, ry, -1, pdn);
+                game_draw_back(pose,         -1, pdn);
                 game_draw_fore(pose, rx, ry, -1, pdn);
             }
             glPopMatrix();
@@ -522,7 +518,7 @@ void game_draw(int pose, float st)
 
         game_draw_light();
         game_refl_all(config_get(CONFIG_SHADOW));
-        game_draw_back(pose, rx, ry, +1, pup);
+        game_draw_back(pose,         +1, pup);
         game_draw_fore(pose, rx, ry, +1, pup);
     }
     glPopMatrix();
@@ -699,7 +695,7 @@ static int game_update_state(void)
 
     /* Test for fall-out. */
 
-    if (fp->uv[0].p[1] < -20.f)
+    if (fp->uv[0].p[1] < fp->vv[0].p[1])
         return GAME_FALL;
 
     return GAME_NONE;

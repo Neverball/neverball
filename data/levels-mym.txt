@@ -1,26 +1,26 @@
-map-mym/descent.sol        shot-mym/descent.jpg        png/fire.png  4000 bgm/haze.ogg
-map-mym/descent.sol	   shot-mym/descent.jpg        png/fire.png   4000 bgm/haze.ogg
-map-mym/glass_tower.sol    shot-mym/glass_tower.jpg    png/horiz_two.png  10000 bgm/flood.ogg
-map-mym/scrambling.sol     shot-mym/scrambling.jpg     png/green_blue.png  8000 bgm/snow.ogg
-map-mym/trust.sol          shot-mym/trust.jpg          png/deep_blue.png  9000 bgm/flood.ogg
-map-mym/maze1.sol          shot-mym/maze1.jpg          png/horiz_one.png  24000 bgm/snow.ogg
-map-mym/turn.sol	   shot-mym/turn.jpg	       png/horiz_two.png  10000 bgm/flood.ogg
-map-mym/loop1.sol	   shot-mym/loop1.jpg          png/tropic.png  3000 bgm/haze.ogg
-map-mym/free_fall.sol      shot-mym/free_fall.jpg      png/green_blue.png  7000 bgm/flood.ogg
-map-mym/earth_quake.sol    shot-mym/earth_quake.jpg    png/skyline.png  6000  bgm/snow.ogg
-map-mym/drive1.sol         shot-mym/drive1.jpg         png/fire_white.png  3000  bgm/haze.ogg
-map-mym/maze2.sol          shot-mym/maze2.jpg          png/horiz_one.png 24000  bgm/snow.ogg
-map-mym/up.sol		   shot-mym/up.jpg	       png/pastel.png  3000  bgm/haze.ogg
-map-mym/circuit2.sol       shot-mym/circuit2.jpg       png/colorful.png 6000   bgm/snow.ogg
-map-mym/comeback.sol       shot-mym/comeback.jpg       png/france.png 12000  bgm/haze.ogg
-map-mym/maze3.sol          shot-mym/maze3.jpg          png/horiz_one.png 15000  bgm/snow.ogg
-map-mym/assault_course.sol shot-mym/assault_course.jpg png/green_blue.png 12000 bgm/flood.ogg
-map-mym/narrow.sol         shot-mym/narrow.jpg         png/blues.png  6000  bgm/snow.ogg
-map-mym/loop2.sol          shot-mym/loop2.jpg          png/green_blue.png  7000  bgm/flood.ogg
-map-mym/drive2.sol         shot-mym/drive2.jpg         png/fire_white.png  6000  bgm/haze.ogg
-map-mym/running.sol        shot-mym/running.jpg        png/pastel.png 59900  bgm/flood.ogg
-map-mym/circuit1.sol       shot-mym/circuit1.jpg       png/colorful.png 9000   bgm/snow.ogg
-map-mym/bombman.sol        shot-mym/bombman.jpg        png/greys_blues.png  12000 bgm/haze.ogg
-map-mym/climb.sol          shot-mym/climb.jpg          png/fire_white.png  12000 bgm/flood.ogg
-map-mym/dance.sol          shot-mym/dance.jpg          png/pastel.png  9000  bgm/snow.ogg
-map-mym/hard.sol           shot-mym/hard.jpg           png/colorful.png 9000   bgm/haze.ogg
+map-mym/descent.sol        map-back/blank.sol shot-mym/descent.jpg        png/fire.png  4000 bgm/haze.ogg
+map-mym/descent.sol	       map-back/blank.sol shot-mym/descent.jpg        png/fire.png   4000 bgm/haze.ogg
+map-mym/glass_tower.sol    map-back/blank.sol shot-mym/glass_tower.jpg    png/ocean.png  10000 bgm/flood.ogg
+map-mym/scrambling.sol     map-back/blank.sol shot-mym/scrambling.jpg     png/green_blue.png  8000 bgm/snow.ogg
+map-mym/trust.sol          map-back/blank.sol shot-mym/trust.jpg          png/deep_blue.png  9000 bgm/flood.ogg
+map-mym/maze1.sol          map-back/blank.sol shot-mym/maze1.jpg          png/horiz_one.png  24000 bgm/snow.ogg
+map-mym/turn.sol	       map-back/blank.sol shot-mym/turn.jpg	          png/ocean.png  10000 bgm/flood.ogg
+map-mym/loop1.sol	       map-back/blank.sol shot-mym/loop1.jpg          png/tropic.png  3000 bgm/haze.ogg
+map-mym/free_fall.sol      map-back/blank.sol shot-mym/free_fall.jpg      png/green_blue.png  7000 bgm/flood.ogg
+map-mym/earth_quake.sol    map-back/blank.sol shot-mym/earth_quake.jpg    png/skyline.png  6000  bgm/snow.ogg
+map-mym/drive1.sol         map-back/blank.sol shot-mym/drive1.jpg         png/fire_white.png  3000  bgm/haze.ogg
+map-mym/maze2.sol          map-back/blank.sol shot-mym/maze2.jpg          png/horiz_one.png 24000  bgm/snow.ogg
+map-mym/up.sol		       map-back/blank.sol shot-mym/up.jpg	          png/pastel.png  3000  bgm/haze.ogg
+map-mym/circuit2.sol       map-back/blank.sol shot-mym/circuit2.jpg       png/colorful.png 6000   bgm/snow.ogg
+map-mym/comeback.sol       map-back/blank.sol shot-mym/comeback.jpg       png/france.png 12000  bgm/haze.ogg
+map-mym/maze3.sol          map-back/blank.sol shot-mym/maze3.jpg          png/horiz_one.png 15000  bgm/snow.ogg
+map-mym/assault_course.sol map-back/blank.sol shot-mym/assault_course.jpg png/green_blue.png 12000 bgm/flood.ogg
+map-mym/narrow.sol         map-back/blank.sol shot-mym/narrow.jpg         png/blues.png  6000  bgm/snow.ogg
+map-mym/loop2.sol          map-back/blank.sol shot-mym/loop2.jpg          png/green_blue.png  7000  bgm/flood.ogg
+map-mym/drive2.sol         map-back/blank.sol shot-mym/drive2.jpg         png/fire_white.png  6000  bgm/haze.ogg
+map-mym/running.sol        map-back/blank.sol shot-mym/running.jpg        png/pastel.png 59900  bgm/flood.ogg
+map-mym/circuit1.sol       map-back/blank.sol shot-mym/circuit1.jpg       png/colorful.png 9000   bgm/snow.ogg
+map-mym/bombman.sol        map-back/blank.sol shot-mym/bombman.jpg        png/greys_blues.png  12000 bgm/haze.ogg
+map-mym/climb.sol          map-back/blank.sol shot-mym/climb.jpg          png/fire_white.png  12000 bgm/flood.ogg
+map-mym/dance.sol          map-back/blank.sol shot-mym/dance.jpg          png/pastel.png  9000  bgm/snow.ogg
+map-mym/hard.sol           map-back/blank.sol shot-mym/hard.jpg           png/colorful.png 9000   bgm/haze.ogg

@@ -70,7 +70,7 @@ static char  dst[MAXSTR];
 #define MAXZ    16
 #define MAXJ	32
 #define MAXX	16
-#define MAXR	256
+#define MAXR	1024
 #define MAXU	16
 #define MAXW    32
 #define MAXA	512
@@ -289,6 +289,15 @@ static int read_mtrl(struct s_file *fp, const char *name)
 
     mp = fp->mv + fp->mc++;
 
+    strncpy(mp->f, name, PATHMAX - 1);
+
+    mp->a[0] = mp->a[1] = mp->a[2] = mp->a[3] = 1.0f;
+    mp->d[0] = mp->d[1] = mp->d[2] = mp->d[3] = 1.0f;
+    mp->s[0] = mp->s[1] = mp->s[2] = mp->s[3] = 1.0f;
+    mp->e[0] = mp->e[1] = mp->e[2] = mp->e[3] = 1.0f;
+    mp->h[0] = 0.0f;
+    mp->fl   = 0;
+
     if ((fin = fopen(file, "r")))
     {
         fscanf(fin,
@@ -303,8 +312,6 @@ static int read_mtrl(struct s_file *fp, const char *name)
                mp->e, mp->e + 1, mp->e + 2, mp->e + 3,
                mp->h, &mp->fl);
         fclose(fin);
-
-        strncpy(mp->f, name, PATHMAX - 1);
     }
 
     return mi;
@@ -775,44 +782,55 @@ static void make_bill(struct s_file *fp,
 
     struct s_bill *rp = fp->rv + ri;
 
-    rp->p[0] = 0.f;
-    rp->p[1] = 0.f;
-    rp->p[2] = 0.f;
-    rp->w    = 1.f;
-    rp->h    = 1.f;
-    rp->z    = 0.f;
+    memset(rp, 0, sizeof (struct s_bill));
+    rp->t = 1.0f;
 
     for (i = 0; i < c; i++)
     {
-        if (strcmp(k[i], "angle") == 0)
-            sscanf(v[i], "%f", &rp->z);
-
-        if (strcmp(k[i], "radius") == 0)
-        {
-            sscanf(v[i], "%f", &rp->w);
-            sscanf(v[i], "%f", &rp->h);
-        }
-
         if (strcmp(k[i], "width") == 0)
-            sscanf(v[i], "%f", &rp->w);
-
+            sscanf(v[i], "%f %f %f", rp->w, rp->w + 1, rp->w + 2);
         if (strcmp(k[i], "height") == 0)
-            sscanf(v[i], "%f", &rp->h);
+            sscanf(v[i], "%f %f %f", rp->h, rp->h + 1, rp->h + 2);
+
+        if (strcmp(k[i], "xrot") == 0)
+            sscanf(v[i], "%f %f %f", rp->rx, rp->rx + 1, rp->rx + 2);
+        if (strcmp(k[i], "yrot") == 0)
+            sscanf(v[i], "%f %f %f", rp->ry, rp->ry + 1, rp->ry + 2);
+        if (strcmp(k[i], "zrot") == 0)
+            sscanf(v[i], "%f %f %f", rp->rz, rp->rz + 1, rp->rz + 2);
+
+        if (strcmp(k[i], "time") == 0)
+            sscanf(v[i], "%f", &rp->t);
+        if (strcmp(k[i], "dist") == 0)
+            sscanf(v[i], "%f", &rp->d);
+        if (strcmp(k[i], "flag") == 0)
+            sscanf(v[i], "%d", &rp->fl);
 
         if (strcmp(k[i], "image") == 0)
+        {
             rp->mi = read_mtrl(fp, v[i]);
+            fp->mv[rp->mi].fl |= M_CLAMPED;
+        }
 
         if (strcmp(k[i], "origin") == 0)
         {
             short x = 0, y = 0, z = 0;
+            float p[3];
 
             sscanf(v[i], "%hd %hd %hd", &x, &y, &z);
 
-            rp->p[0] = +(float) x / SCALE;
-            rp->p[1] = +(float) z / SCALE;
-            rp->p[2] = -(float) y / SCALE;
+            p[0] = +(float) x / SCALE;
+            p[1] = +(float) z / SCALE;
+            p[2] = -(float) y / SCALE;
+
+            rp->d     = v_len(p);
+            rp->rx[0] = V_DEG(fatan2f(+p[1], rp->d));
+            rp->ry[0] = V_DEG(fatan2f(+p[0], -p[2]));
         }
     }
+
+    if (rp->fl & B_ADDITIVE)
+        fp->mv[rp->mi].fl |= M_ADDITIVE;
 }
 
 static void make_goal(struct s_file *fp,
@@ -1553,8 +1571,11 @@ static void uniq_mtrl(struct s_file *fp)
 
         if (i == j)
         {
-            fp->mv[k] = fp->mv[i];
-            swap_mtrl(fp, i, k);
+            if (i != k)
+            {
+                fp->mv[k] = fp->mv[i];
+                swap_mtrl(fp, i, k);
+            }
             k++;
         }
     }
@@ -1577,8 +1598,11 @@ static void uniq_vert(struct s_file *fp)
 
         if (i == j)
         {
-            fp->vv[k] = fp->vv[i];
-            swap_vert(fp, i, k);
+            if (i != k)
+            {
+                fp->vv[k] = fp->vv[i];
+                swap_vert(fp, i, k);
+            }
             k++;
         }
     }
@@ -1601,8 +1625,11 @@ static void uniq_edge(struct s_file *fp)
 
         if (i == j)
         {
-            fp->ev[k] = fp->ev[i];
-            swap_edge(fp, i, k);
+            if (i != k)
+            {
+                fp->ev[k] = fp->ev[i];
+                swap_edge(fp, i, k);
+            }
             k++;
         }
     }
@@ -1625,8 +1652,11 @@ static void uniq_geom(struct s_file *fp)
 
         if (i == j)
         {
-            fp->gv[k] = fp->gv[i];
-            swap_geom(fp, i, k);
+            if (i != k)
+            {
+                fp->gv[k] = fp->gv[i];
+                swap_geom(fp, i, k);
+            }
             k++;
         }
     }
@@ -1646,10 +1676,14 @@ static void uniq_texc(struct s_file *fp)
                 swap_texc(fp, i, j);
                 break;
             }
+
         if (i == j)
         {
-            fp->tv[k] = fp->tv[i];
-            swap_texc(fp, i, k);
+            if (i != k)
+            {
+                fp->tv[k] = fp->tv[i];
+                swap_texc(fp, i, k);
+            }
             k++;
         }
     }
@@ -1669,10 +1703,14 @@ static void uniq_side(struct s_file *fp)
                 swap_side(fp, i, j);
                 break;
             }
+
         if (i == j)
         {
-            fp->sv[k] = fp->sv[i];
-            swap_side(fp, i, k);
+            if (i != k)
+            {
+                fp->sv[k] = fp->sv[i];
+                swap_side(fp, i, k);
+            }
             k++;
         }
     }
@@ -1688,6 +1726,42 @@ static void uniq_file(struct s_file *fp)
     uniq_side(fp);
     uniq_texc(fp);
     uniq_geom(fp);
+}
+
+/*---------------------------------------------------------------------------*/
+
+static void sort_file(struct s_file *fp)
+{
+    int i, j;
+
+    /* Sort billboards farthest to nearest. */
+
+    for (i = 0; i < fp->rc; i++)
+        for (j = i + 1; j < fp->rc; j++)
+            if (fp->rv[j].d > fp->rv[i].d)
+            {
+                struct s_bill t;
+
+                t         = fp->rv[i];
+                fp->rv[i] = fp->rv[j];
+                fp->rv[j] =         t;
+            }
+
+    /* Ensure the first vertex is the lowest. */
+
+    for (i = 0; i < fp->vc; i++)
+        if (fp->vv[0].p[1] > fp->vv[i].p[1])
+        {
+            struct s_vert t;
+
+            t         = fp->vv[0];
+            fp->vv[0] = fp->vv[i];
+            fp->vv[i] =         t;
+
+            swap_vert(fp,  0, -1);
+            swap_vert(fp,  i,  0);
+            swap_vert(fp, -1,  i);
+        }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1909,6 +1983,7 @@ int main(int argc, char *argv[])
             clip_file(&f);
             move_file(&f);
             uniq_file(&f);
+            sort_file(&f);
             node_file(&f);
             dump_file(&f, dst);
 
@@ -1919,7 +1994,7 @@ int main(int argc, char *argv[])
     }
     else
         fprintf(stderr, "Usage: %s <map> <data>\n", argv[0]);
-        
+
     return 0;
 }
 

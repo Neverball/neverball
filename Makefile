@@ -33,8 +33,8 @@ BALL_OBJS= \
 	share/image.o   \
 	share/solid.o   \
 	share/part.o    \
-	share/geom.o    \
 	share/back.o    \
+	share/geom.o    \
 	share/gui.o     \
 	share/menu.o    \
 	share/glext.o   \
@@ -87,7 +87,6 @@ BALL_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS)
 PUTT_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS) $(OGL_LIBS)
 
 SOLS= \
-	data/map-rlk/back.sol     \
 	data/map-rlk/easy.sol     \
 	data/map-rlk/peasy.sol    \
 	data/map-rlk/coins.sol    \
@@ -180,7 +179,13 @@ SOLS= \
 	data/map-putt/15_hole.sol    \
 	data/map-putt/16_pipe.sol    \
 	data/map-putt/17_timing.sol  \
-	data/map-putt/18_hill.sol
+	data/map-putt/18_hill.sol    \
+	data/map-back/alien.sol  \
+	data/map-back/blank.sol  \
+	data/map-back/city.sol   \
+	data/map-back/clouds.sol \
+	data/map-back/ocean.sol  \
+	data/map-back/jupiter.sol
 
 #------------------------------------------------------------------------------
 
@@ -199,13 +204,15 @@ data/map-mym/%.sol : data/map-mym/%.map $(MAPC_TARG)
 data/map-putt/%.sol : data/map-putt/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< data
 
+data/map-back/%.sol : data/map-back/%.map $(MAPC_TARG)
+	./$(MAPC_TARG) $< data
+
 data/map-misc/%.sol : data/map-misc/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< data
 
 #------------------------------------------------------------------------------
 
 all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS)
-#all : $(BALL_TARG) $(MAPC_TARG) $(SOLS)
 
 $(BALL_TARG) : $(BALL_OBJS)
 	$(CC) $(CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(BALL_LIBS)

@@ -131,7 +131,19 @@ static void set_point(int id, int x, int y, int dx, int dy)
 
 static void set_stick(int id, int a, int v)
 {
-    gui_stick(id, a, v);
+    int jd;
+
+    int x = (config_tst(CONFIG_JOYSTICK_AXIS_X, a)) ? v : 0;
+    int y = (config_tst(CONFIG_JOYSTICK_AXIS_Y, a)) ? v : 0;
+
+    if ((jd = gui_stick(id, x, y)))
+    {
+        int i = gui_token(jd);
+
+        gui_set_image(shot_id, set_shot(i));
+        gui_set_multi(desc_id, set_desc(i));
+        gui_pulse(jd, 1.2f);
+    }
 }
 
 static int set_click(int b, int d)

@@ -71,8 +71,7 @@ void back_free(void)
 void back_draw(float t)
 {
     glPushMatrix();
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    glPushAttrib(GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
     {
         GLfloat dx =  60.f * fsinf(t / 10.f) + 90.f;
         GLfloat dz = 180.f * fsinf(t / 12.f);
@@ -87,7 +86,6 @@ void back_draw(float t)
 
         glCallList(back_list);
     }
-    glPopAttrib();
     glPopAttrib();
     glPopMatrix();
 }

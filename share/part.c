@@ -220,8 +220,7 @@ void part_draw_coin(float rx, float ry)
     float r = (float) SDL_GetTicks() / 1000.f;
     int i;
 
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    glPushAttrib(GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
     {
         glDisable(GL_LIGHTING);
         glEnable(GL_COLOR_MATERIAL);
@@ -237,7 +236,6 @@ void part_draw_coin(float rx, float ry)
                           1.f, rx, ry, r * part_coin[i].w);
     }
     glPopAttrib();
-    glPopAttrib();
 }
 
 void part_draw_goal(float rx, float ry, float radius)
@@ -245,8 +243,7 @@ void part_draw_goal(float rx, float ry, float radius)
     float r = (float) SDL_GetTicks() / 1000.f;
     int i;
 
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    glPushAttrib(GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
     {
         glDisable(GL_LIGHTING);
 
@@ -262,7 +259,6 @@ void part_draw_goal(float rx, float ry, float radius)
                           part_goal[i].t,
                           radius - 0.05f, rx, ry, r * part_goal[i].w);
     }
-    glPopAttrib();
     glPopAttrib();
 }
 

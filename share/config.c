@@ -64,6 +64,7 @@ void config_init(void)
     option[CONFIG_TEXTURES]          = DEFAULT_TEXTURES;
     option[CONFIG_GEOMETRY]          = DEFAULT_GEOMETRY;
     option[CONFIG_REFLECTION]        = DEFAULT_REFLECTION;
+    option[CONFIG_BACKGROUND]        = DEFAULT_BACKGROUND;
     option[CONFIG_SHADOW]            = DEFAULT_SHADOW;
     option[CONFIG_AUDIO_RATE]        = DEFAULT_AUDIO_RATE;
     option[CONFIG_AUDIO_BUFF]        = DEFAULT_AUDIO_BUFF;
@@ -124,6 +125,8 @@ void config_load(void)
                     option[CONFIG_GEOMETRY]             = atoi(val);
                 else if (strcmp(key, "reflection")            == 0)
                     option[CONFIG_REFLECTION]           = atoi(val);
+                else if (strcmp(key, "background")            == 0)
+                    option[CONFIG_BACKGROUND]           = atoi(val);
                 else if (strcmp(key, "shadow")                == 0)
                     option[CONFIG_SHADOW]               = atoi(val);
                 else if (strcmp(key, "audio_rate")            == 0)
@@ -209,6 +212,8 @@ void config_save(void)
                 option[CONFIG_GEOMETRY]);
         fprintf(fp, "reflection           %d\n",
                 option[CONFIG_REFLECTION]);
+        fprintf(fp, "background           %d\n",
+                option[CONFIG_BACKGROUND]);
         fprintf(fp, "shadow               %d\n",
                 option[CONFIG_SHADOW]);
         fprintf(fp, "audio_rate           %d\n",
@@ -273,6 +278,12 @@ void config_save(void)
 
 int config_mode(int f, int w, int h)
 {
+    int stereo  = config_get(CONFIG_STEREO)     ? 1 : 0;
+    int stencil = config_get(CONFIG_REFLECTION) ? 1 : 0;
+
+    SDL_GL_SetAttribute(SDL_GL_STEREO,       stereo);
+    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, stencil);
+
     if (SDL_SetVideoMode(w, h, 0, SDL_OPENGL | (f ? SDL_FULLSCREEN : 0)))
     {
         option[CONFIG_FULLSCREEN] = f;

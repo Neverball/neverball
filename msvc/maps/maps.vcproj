@@ -390,6 +390,27 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\data\map-back\alien.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						AdditionalDependencies=""
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						AdditionalDependencies=""
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\data\map-rlk\angle.map">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -428,24 +449,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\data\map-rlk\bg_clouds.map">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
-						Outputs="$(InputDir)\$(InputName).sol"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;"
-						Outputs="$(InputDir)\$(InputName).sol"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\data\map-rlk\bg_clouds_stars.map">
+				RelativePath="..\..\data\map-back\blank.map">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -576,7 +580,45 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\data\map-back\city.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\data\map-mym\climb.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-back\clouds.map">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -1127,6 +1169,25 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\data\map-back\jupiter.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\data\map-rlk\locks.map">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1299,6 +1360,25 @@
 			</File>
 			<File
 				RelativePath="..\..\data\map-mym\narrow.map">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="&quot;$(SolutionDir)\mapc\$(ConfigurationName)\mapc.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\..&quot;
+"
+						Outputs="$(InputDir)\$(InputName).sol"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\data\map-back\ocean.map">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool

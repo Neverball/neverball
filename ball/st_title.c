@@ -239,12 +239,12 @@ static int help_click(int b, int d)
 
 static int help_keybd(int c, int d)
 {
-    return goto_state(&st_title);
+    return d ? goto_state(&st_title) : 1;
 }
 
 static int help_buttn(int b, int d)
 {
-    return goto_state(&st_title);
+    return d ? goto_state(&st_title) : 1;
 }
 
 /*---------------------------------------------------------------------------*/

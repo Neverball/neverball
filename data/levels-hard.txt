@@ -1,26 +1,26 @@
-map-rlk/title.sol    shot-rlk/grid.jpg     png/skyline.png      000 bgm/title.ogg
-map-rlk/grid.sol     shot-rlk/grid.jpg     png/fire_white.png  4500 bgm/flood.ogg
-map-rlk/four.sol     shot-rlk/four.jpg     png/horiz_two.png   9000 bgm/haze.ogg
-map-rlk/telemaze.sol shot-rlk/telemaze.jpg png/green_blue.png  7500 bgm/snow.ogg
-map-rlk/spiraldn.sol shot-rlk/spiraldn.jpg png/skyline.png     6000 bgm/flood.ogg
-map-rlk/islands.sol  shot-rlk/islands.jpg  png/pastel.png      3000 bgm/haze.ogg
-map-rlk/angle.sol    shot-rlk/angle.jpg    png/horiz_two.png   4500 bgm/snow.ogg
-map-rlk/spiralup.sol shot-rlk/spiralup.jpg png/horiz_one.png   4500 bgm/flood.ogg
-map-rlk/rampup.sol   shot-rlk/rampup.jpg   png/skyline.png     6000 bgm/haze.ogg
-map-rlk/check.sol    shot-rlk/check.jpg    png/fire.png        6000 bgm/snow.ogg
-map-rlk/risers.sol   shot-rlk/risers.jpg   png/horiz_one.png   4500 bgm/flood.ogg
-map-rlk/tilt.sol     shot-rlk/tilt.jpg     png/pastel.png      7500 bgm/haze.ogg
-map-rlk/gaps.sol     shot-rlk/gaps.jpg     png/green_blue.png  9000 bgm/snow.ogg
-map-rlk/pyramid.sol  shot-rlk/pyramid.jpg  png/deep_blue.png   9000 bgm/flood.ogg
-map-rlk/quads.sol    shot-rlk/quads.jpg    png/horiz_one.png   6000 bgm/haze.ogg
-map-rlk/frogger.sol  shot-rlk/frogger.jpg  png/greys_blues.png 9000 bgm/snow.ogg
-map-rlk/timer.sol    shot-rlk/timer.jpg    png/green_blue.png  9000 bgm/flood.ogg
-map-rlk/spread.sol   shot-rlk/spread.jpg   png/horiz_two.png   9000 bgm/haze.ogg
-map-rlk/hump.sol     shot-rlk/hump.jpg     png/horiz_two.png   4500 bgm/snow.ogg
-map-rlk/movers.sol   shot-rlk/movers.jpg   png/france.png     12000 bgm/flood.ogg
-map-rlk/teleport.sol shot-rlk/teleport.jpg png/deep_blue.png   6000 bgm/haze.ogg
-map-rlk/poker.sol    shot-rlk/poker.jpg    png/fire_white.png  6000 bgm/snow.ogg
-map-rlk/invis.sol    shot-rlk/invis.jpg    png/skyline.png     9000 bgm/flood.ogg
-map-rlk/ring.sol     shot-rlk/ring.jpg     png/pastel.png      9000 bgm/haze.ogg
-map-rlk/pipe.sol     shot-rlk/pipe.jpg     png/green_blue.png  9900 bgm/snow.ogg
-map-rlk/title.sol    shot-rlk/title.jpg    png/skyline.png     6000 bgm/title.ogg
+map-rlk/title.sol    map-back/jupiter.sol shot-rlk/grid.jpg     png/space.png          0 bgm/title.ogg
+map-rlk/grid.sol     map-back/clouds.sol  shot-rlk/grid.jpg     png/white_blue.png  4500 bgm/flood.ogg
+map-rlk/four.sol     map-back/clouds.sol  shot-rlk/four.jpg     png/white_blue.png  9000 bgm/flood.ogg
+map-rlk/telemaze.sol map-back/clouds.sol  shot-rlk/telemaze.jpg png/white_blue.png  7500 bgm/flaad.ogg
+map-rlk/spiraldn.sol map-back/clouds.sol  shot-rlk/spiraldn.jpg png/white_blue.png  6000 bgm/flood.ogg
+map-rlk/islands.sol  map-back/clouds.sol  shot-rlk/islands.jpg  png/white_blue.png  3000 bgm/flaad.ogg
+map-rlk/angle.sol    map-back/ocean.sol   shot-rlk/angle.jpg    png/ocean.png       4500 bgm/haze.ogg
+map-rlk/spiralup.sol map-back/ocean.sol   shot-rlk/spiralup.jpg png/ocean.png       4500 bgm/haze.ogg
+map-rlk/rampup.sol   map-back/ocean.sol   shot-rlk/rampup.jpg   png/ocean.png       6000 bgm/haze.ogg
+map-rlk/check.sol    map-back/ocean.sol   shot-rlk/check.jpg    png/ocean.png       6000 bgm/haze.ogg
+map-rlk/risers.sol   map-back/ocean.sol   shot-rlk/risers.jpg   png/ocean.png       4500 bgm/haze.ogg
+map-rlk/tilt.sol     map-back/city.sol    shot-rlk/tilt.jpg     png/city.png        7500 bgm/snow.ogg
+map-rlk/gaps.sol     map-back/city.sol    shot-rlk/gaps.jpg     png/city.png        9000 bgm/snow.ogg
+map-rlk/pyramid.sol  map-back/city.sol    shot-rlk/pyramid.jpg  png/city.png        9000 bgm/snow.ogg
+map-rlk/quads.sol    map-back/city.sol    shot-rlk/quads.jpg    png/city.png        6000 bgm/snow.ogg
+map-rlk/frogger.sol  map-back/city.sol    shot-rlk/frogger.jpg  png/city.png        9000 bgm/snow.ogg
+map-rlk/timer.sol    map-back/alien.sol   shot-rlk/timer.jpg    png/alien.png       9000 bgm/haze.ogg
+map-rlk/spread.sol   map-back/alien.sol   shot-rlk/spread.jpg   png/alien.png       9000 bgm/haze.ogg
+map-rlk/hump.sol     map-back/alien.sol   shot-rlk/hump.jpg     png/alien.png       4500 bgm/haze.ogg
+map-rlk/movers.sol   map-back/alien.sol   shot-rlk/movers.jpg   png/alien.png      12000 bgm/haze.ogg
+map-rlk/teleport.sol map-back/alien.sol   shot-rlk/teleport.jpg png/alien.png       6000 bgm/haze.ogg
+map-rlk/poker.sol    map-back/jupiter.sol shot-rlk/poker.jpg    png/space.png       6000 bgm/flood.ogg
+map-rlk/invis.sol    map-back/jupiter.sol shot-rlk/invis.jpg    png/space.png       9000 bgm/flood.ogg
+map-rlk/ring.sol     map-back/jupiter.sol shot-rlk/ring.jpg     png/space.png       9000 bgm/flood.ogg
+map-rlk/pipe.sol     map-back/jupiter.sol shot-rlk/pipe.jpg     png/space.png       9900 bgm/flood.ogg
+map-rlk/title.sol    map-back/jupiter.sol shot-rlk/title.jpg    png/space.png       6000 bgm/title.ogg

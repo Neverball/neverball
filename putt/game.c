@@ -357,7 +357,7 @@ void game_draw(int pose)
         glPushMatrix();
         {
             glTranslatef(view_p[0], view_p[1], view_p[2]);
-            back_draw(+1, 0);
+            back_draw(0);
         }
         glPopMatrix();
 
@@ -368,7 +368,7 @@ void game_draw(int pose)
         /* Draw the floor. */
 
         if (pose == 0) game_set_shadow(fp);
-        sol_draw(fp, config_get(CONFIG_SHADOW), NULL);
+        sol_draw(fp, config_get(CONFIG_SHADOW));
         if (pose == 0) game_clr_shadow();
 
         /* Draw the game elements. */

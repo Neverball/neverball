@@ -268,46 +268,51 @@ static void sol_draw_body(const struct s_file *fp,
 }
 
 static void sol_draw_bill(const struct s_file *fp,
-                          const struct s_bill *rp, const float p[3])
+                          const struct s_bill *rp, float t)
 {
-    float rx;
-    float ry;
-    float rz = rp->z;
-    float x  = rp->w;
-    float y  = rp->h;
-    float v[3];
+    float T  = fmodf(t, rp->t) - rp->t / 2;
 
-    glPushMatrix();
+    float w  = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
+    float h  = rp->h[0] + rp->h[1] * T + rp->h[2] * T * T;
+
+    if (w > 0 && h > 0)
     {
-        glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
+        float rx = rp->rx[0] + rp->rx[1] * T + rp->rx[2] * T * T;
+        float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
+        float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
 
-        v_sub(v, p, rp->p);
-
-        /* FIXME: make this not suck. */
-
-        rx = V_DEG(fatan2f(-v[1], fsqrtf(v[0] * v[0] + v[2] * v[2])));
-        ry = V_DEG(fatan2f(+v[0], v[2]));
-
-        glRotatef(ry, 0.f, 1.f, 0.f);
-        glRotatef(rx, 1.f, 0.f, 0.f);
-        glRotatef(rz, 0.f, 0.f, 1.f);
-
-        sol_draw_mtrl(fp, rp->mi);
-
-        glBegin(GL_QUADS);
+        glPushMatrix();
         {
-            glTexCoord2f(0.0f, 1.0f);
-            glVertex2f(-x, -y);
-            glTexCoord2f(1.0f, 1.0f);
-            glVertex2f(+x, -y);
-            glTexCoord2f(1.0f, 0.0f);
-            glVertex2f(+x, +y);
-            glTexCoord2f(0.0f, 0.0f);
-            glVertex2f(-x, +y);
+            float y0 = (rp->fl & B_EDGE) ? 0 : -h / 2;
+            float y1 = (rp->fl & B_EDGE) ? h : +h / 2;
+
+            glRotatef(ry, 0.0f, 1.0f, 0.0f);
+            glRotatef(rx, 1.0f, 0.0f, 0.0f);
+            glTranslatef(0.0f, 0.0f, -rp->d);
+
+            if (rp->fl & B_FLAT)
+            {
+                glRotatef(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
+                glRotatef(-ry,         0.0f, 0.0f, 1.0f);
+            }
+            if (rp->fl & B_EDGE)
+                glRotatef(-rx,         1.0f, 0.0f, 0.0f);
+
+            glRotatef(rz, 0.0f, 0.0f, 1.0f);
+
+            sol_draw_mtrl(fp, rp->mi);
+
+            glBegin(GL_QUADS);
+            {
+                glTexCoord2f(0.0f, 1.0f); glVertex2f(-w / 2, y0);
+                glTexCoord2f(1.0f, 1.0f); glVertex2f(+w / 2, y0);
+                glTexCoord2f(1.0f, 0.0f); glVertex2f(+w / 2, y1);
+                glTexCoord2f(0.0f, 0.0f); glVertex2f(-w / 2, y1);
+            }
+            glEnd();
         }
-        glEnd();
+        glPopMatrix();
     }
-    glPopMatrix();
 }
 
 static void sol_draw_list(const struct s_file *fp,
@@ -359,12 +364,11 @@ static void sol_draw_list(const struct s_file *fp,
 
 /*---------------------------------------------------------------------------*/
 
-void sol_back(const struct s_file *fp, const float p[3], float n, float f)
+void sol_back(const struct s_file *fp, float n, float f, float t)
 {
     int ri;
 
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    glPushAttrib(GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
     {
         /* Render all billboards in the given range. */
 
@@ -372,17 +376,9 @@ void sol_back(const struct s_file *fp, const float p[3], float n, float f)
         glDepthMask(GL_FALSE);
 
         for (ri = 0; ri < fp->rc; ri++)
-        {
-            float dx = fp->rv[ri].p[0] - p[0];
-            float dy = fp->rv[ri].p[1] - p[1];
-            float dz = fp->rv[ri].p[2] - p[2];
-            float dd = dx * dx + dy * dy + dz * dz;
-
-            if (n * n <= dd && dd < f * f)
-                sol_draw_bill(fp, fp->rv + ri, p);
-        }
+            if (n <= fp->rv[ri].d && fp->rv[ri].d < f)
+                sol_draw_bill(fp, fp->rv + ri, t);
     }
-    glPopAttrib();
     glPopAttrib();
 }
 
@@ -408,10 +404,10 @@ void sol_draw(const struct s_file *fp, int s)
 {
     short i;
 
-    glPushAttrib(GL_TEXTURE_BIT);
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushAttrib(GL_COLOR_BUFFER_BIT);
-    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    glPushAttrib(GL_TEXTURE_BIT      |
+                 GL_LIGHTING_BIT     |
+                 GL_COLOR_BUFFER_BIT |
+                 GL_DEPTH_BUFFER_BIT);
     {
         /* Render all obaque geometry into the color and depth buffers. */
 
@@ -430,9 +426,6 @@ void sol_draw(const struct s_file *fp, int s)
             if (fp->bv[i].tl)
                 sol_draw_list(fp, fp->bv + i, fp->bv[i].tl, s);
     }
-    glPopAttrib();
-    glPopAttrib();
-    glPopAttrib();
     glPopAttrib();
 }
 
@@ -564,18 +557,35 @@ static void sol_load_textures(struct s_file *fp, int k)
 
                     /* Load the scaled image. */
 
-                    glTexImage2D(GL_TEXTURE_2D, 0, f0, d->w, d->h,
-                                 0, f1, GL_UNSIGNED_BYTE, d->pixels);
+                    gluBuild2DMipmaps(GL_TEXTURE_2D, f0, s->w, s->h, f1,
+                                    GL_UNSIGNED_BYTE, s->pixels);
 
                     SDL_FreeSurface(d);
                 }
             }
             else
-                glTexImage2D(GL_TEXTURE_2D, 0, f0, s->w, s->h,
-                             0, f1, GL_UNSIGNED_BYTE, s->pixels);
+                gluBuild2DMipmaps(GL_TEXTURE_2D, f0, s->w, s->h, f1,
+                                  GL_UNSIGNED_BYTE, s->pixels);
 
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D,
+                            GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D,
+                            GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+            if (fp->mv[i].fl & M_CLAMPED)
+            {
+                glTexParameteri(GL_TEXTURE_2D,
+                                GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D,
+                                GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            }
+            else
+            {
+                glTexParameteri(GL_TEXTURE_2D,
+                                GL_TEXTURE_WRAP_S, GL_REPEAT);
+                glTexParameteri(GL_TEXTURE_2D,
+                                GL_TEXTURE_WRAP_T, GL_REPEAT);
+            }
 
             SDL_FreeSurface(s);
         }
@@ -633,25 +643,25 @@ int sol_load(struct s_file *fp, const char *filename, int k, int s)
         fp->av = (char          *) calloc(n[17], sizeof (char));
         fp->iv = (short         *) calloc(n[18], sizeof (short));
 
-        fread(fp->mv, sizeof (struct s_mtrl), n[0],  fin);
-        fread(fp->vv, sizeof (struct s_vert), n[1],  fin);
-        fread(fp->ev, sizeof (struct s_edge), n[2],  fin);
-        fread(fp->sv, sizeof (struct s_side), n[3],  fin);
-        fread(fp->tv, sizeof (struct s_texc), n[4],  fin);
-        fread(fp->gv, sizeof (struct s_geom), n[5],  fin);
-        fread(fp->lv, sizeof (struct s_lump), n[6],  fin);
-        fread(fp->nv, sizeof (struct s_node), n[7],  fin);
-        fread(fp->pv, sizeof (struct s_path), n[8],  fin);
-        fread(fp->bv, sizeof (struct s_body), n[9],  fin);
-        fread(fp->cv, sizeof (struct s_coin), n[10], fin);
-        fread(fp->zv, sizeof (struct s_goal), n[11], fin);
-        fread(fp->jv, sizeof (struct s_jump), n[12], fin);
-        fread(fp->xv, sizeof (struct s_swch), n[13], fin);
-        fread(fp->rv, sizeof (struct s_bill), n[14], fin);
-        fread(fp->uv, sizeof (struct s_ball), n[15], fin);
-        fread(fp->wv, sizeof (struct s_view), n[16], fin);
-        fread(fp->av, sizeof (char),          n[17], fin);
-        fread(fp->iv, sizeof (short),         n[18], fin);
+        if (n[0])  fread(fp->mv, sizeof (struct s_mtrl), n[0],  fin);
+        if (n[1])  fread(fp->vv, sizeof (struct s_vert), n[1],  fin);
+        if (n[2])  fread(fp->ev, sizeof (struct s_edge), n[2],  fin);
+        if (n[3])  fread(fp->sv, sizeof (struct s_side), n[3],  fin);
+        if (n[4])  fread(fp->tv, sizeof (struct s_texc), n[4],  fin);
+        if (n[5])  fread(fp->gv, sizeof (struct s_geom), n[5],  fin);
+        if (n[6])  fread(fp->lv, sizeof (struct s_lump), n[6],  fin);
+        if (n[7])  fread(fp->nv, sizeof (struct s_node), n[7],  fin);
+        if (n[8])  fread(fp->pv, sizeof (struct s_path), n[8],  fin);
+        if (n[9])  fread(fp->bv, sizeof (struct s_body), n[9],  fin);
+        if (n[10]) fread(fp->cv, sizeof (struct s_coin), n[10], fin);
+        if (n[11]) fread(fp->zv, sizeof (struct s_goal), n[11], fin);
+        if (n[12]) fread(fp->jv, sizeof (struct s_jump), n[12], fin);
+        if (n[13]) fread(fp->xv, sizeof (struct s_swch), n[13], fin);
+        if (n[14]) fread(fp->rv, sizeof (struct s_bill), n[14], fin);
+        if (n[15]) fread(fp->uv, sizeof (struct s_ball), n[15], fin);
+        if (n[16]) fread(fp->wv, sizeof (struct s_view), n[16], fin);
+        if (n[17]) fread(fp->av, sizeof (char),          n[17], fin);
+        if (n[18]) fread(fp->iv, sizeof (short),         n[18], fin);
 
         fclose(fin);
 
@@ -693,25 +703,25 @@ int sol_stor(struct s_file *fp, const char *filename)
 
         fwrite(n, sizeof (short), 19, fout);
 
-        fwrite(fp->mv, sizeof (struct s_mtrl), n[0],  fout);
-        fwrite(fp->vv, sizeof (struct s_vert), n[1],  fout);
-        fwrite(fp->ev, sizeof (struct s_edge), n[2],  fout);
-        fwrite(fp->sv, sizeof (struct s_side), n[3],  fout);
-        fwrite(fp->tv, sizeof (struct s_texc), n[4],  fout);
-        fwrite(fp->gv, sizeof (struct s_geom), n[5],  fout);
-        fwrite(fp->lv, sizeof (struct s_lump), n[6],  fout);
-        fwrite(fp->nv, sizeof (struct s_node), n[7],  fout);
-        fwrite(fp->pv, sizeof (struct s_path), n[8],  fout);
-        fwrite(fp->bv, sizeof (struct s_body), n[9],  fout);
-        fwrite(fp->cv, sizeof (struct s_coin), n[10], fout);
-        fwrite(fp->zv, sizeof (struct s_goal), n[11], fout);
-        fwrite(fp->jv, sizeof (struct s_jump), n[12], fout);
-        fwrite(fp->xv, sizeof (struct s_swch), n[13], fout);
-        fwrite(fp->rv, sizeof (struct s_bill), n[14], fout);
-        fwrite(fp->uv, sizeof (struct s_ball), n[15], fout);
-        fwrite(fp->wv, sizeof (struct s_view), n[16], fout);
-        fwrite(fp->av, sizeof (char),          n[17], fout);
-        fwrite(fp->iv, sizeof (short),         n[18], fout);
+        if (n[0])  fwrite(fp->mv, sizeof (struct s_mtrl), n[0],  fout);
+        if (n[1])  fwrite(fp->vv, sizeof (struct s_vert), n[1],  fout);
+        if (n[2])  fwrite(fp->ev, sizeof (struct s_edge), n[2],  fout);
+        if (n[3])  fwrite(fp->sv, sizeof (struct s_side), n[3],  fout);
+        if (n[4])  fwrite(fp->tv, sizeof (struct s_texc), n[4],  fout);
+        if (n[5])  fwrite(fp->gv, sizeof (struct s_geom), n[5],  fout);
+        if (n[6])  fwrite(fp->lv, sizeof (struct s_lump), n[6],  fout);
+        if (n[7])  fwrite(fp->nv, sizeof (struct s_node), n[7],  fout);
+        if (n[8])  fwrite(fp->pv, sizeof (struct s_path), n[8],  fout);
+        if (n[9])  fwrite(fp->bv, sizeof (struct s_body), n[9],  fout);
+        if (n[10]) fwrite(fp->cv, sizeof (struct s_coin), n[10], fout);
+        if (n[11]) fwrite(fp->zv, sizeof (struct s_goal), n[11], fout);
+        if (n[12]) fwrite(fp->jv, sizeof (struct s_jump), n[12], fout);
+        if (n[13]) fwrite(fp->xv, sizeof (struct s_swch), n[13], fout);
+        if (n[14]) fwrite(fp->rv, sizeof (struct s_bill), n[14], fout);
+        if (n[15]) fwrite(fp->uv, sizeof (struct s_ball), n[15], fout);
+        if (n[16]) fwrite(fp->wv, sizeof (struct s_view), n[16], fout);
+        if (n[17]) fwrite(fp->av, sizeof (char),          n[17], fout);
+        if (n[18]) fwrite(fp->iv, sizeof (short),         n[18], fout);
 
         fclose(fout);
 

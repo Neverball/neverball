@@ -221,9 +221,9 @@ static void menu_paint_text(struct text *text, int n)
 
 void menu_paint(void)
 {
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushAttrib(GL_COLOR_BUFFER_BIT);
-    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    glPushAttrib(GL_LIGHTING_BIT     |
+                 GL_COLOR_BUFFER_BIT |
+                 GL_DEPTH_BUFFER_BIT);
     config_push_ortho();
     {
         glEnable(GL_BLEND);
@@ -240,8 +240,6 @@ void menu_paint(void)
             menu_paint_text(menu.text, menu.ntext);
     }
     config_pop_matrix();
-    glPopAttrib();
-    glPopAttrib();
     glPopAttrib();
 }
 

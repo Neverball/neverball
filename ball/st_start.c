@@ -187,10 +187,22 @@ static void start_point(int id, int x, int y, int dx, int dy)
 
 static void start_stick(int id, int a, int v)
 {
-    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
+    int jd;
+
+    int x = (config_tst(CONFIG_JOYSTICK_AXIS_X, a)) ? v : 0;
+    int y = (config_tst(CONFIG_JOYSTICK_AXIS_Y, a)) ? v : 0;
+
+    if ((jd = gui_stick(id, x, y)))
+    {
+        int i = gui_token(jd);
+
+        gui_set_image(shot_id, level_shot(i));
+
+        set_most_coins(i);
+        set_best_times(i);
+
+        gui_pulse(jd, 1.2f);
+    }
 }
 
 static int start_click(int b, int d)

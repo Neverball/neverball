@@ -47,7 +47,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int shot(void)
+static void shot(void)
 {
     static char filename[MAXSTR];
     static int  num = 0;
@@ -55,11 +55,9 @@ static int shot(void)
     sprintf(filename, "screen%02d.bmp", num++);
 
     image_snap(filename);
-
-    return 1;
 }
 
-static int demo(void)
+static void demo(void)
 {
     static char file[MAXSTR];
     static char src[MAXSTR];
@@ -73,8 +71,6 @@ static int demo(void)
     if (config_home(dst, file, MAXSTR) &&
         config_home(src, USER_REPLAY_FILE, MAXSTR))
         rename(src, dst);
-
-    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -160,20 +156,64 @@ static int loop(void)
             break;
 
         case SDL_KEYDOWN:
-            if (e.key.keysym.sym == SDLK_SPACE) { toggle_grab();        break; }
-            if (e.key.keysym.sym == SDLK_F7)    { toggle_wire();        break; }
-            if (e.key.keysym.sym == SDLK_F11)   { d = demo();           break; }
-            if (e.key.keysym.sym == SDLK_F10)   { d = shot();           break; }
-            if (e.key.keysym.sym == SDLK_F9) { config_tgl(CONFIG_FPS);  break; }
-            if (e.key.keysym.sym == SDLK_F8) { config_tgl(CONFIG_NICE); break; }
-            
+
+            if (e.key.keysym.sym == SDLK_SPACE)
+                toggle_grab();
+
             if (grabbed)
-                d = st_keybd(e.key.keysym.sym, 1);
+                switch (e.key.keysym.sym)
+                {
+                case SDLK_F11:   demo();                  break;
+                case SDLK_F10:   shot();                  break;
+                case SDLK_F9:    config_tgl(CONFIG_FPS);  break;
+                case SDLK_F8:    config_tgl(CONFIG_NICE); break;
+                case SDLK_F7:    toggle_wire();           break;
+
+                case SDLK_RETURN:
+                    d = st_buttn(config_get(CONFIG_JOYSTICK_BUTTON_A), 1);
+                    break;
+                case SDLK_LEFT:
+                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_X), -JOY_MAX);
+                    break;
+                case SDLK_RIGHT:
+                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_X), +JOY_MAX);
+                    break;
+                case SDLK_UP:
+                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_Y), -JOY_MAX);
+                    break;
+                case SDLK_DOWN:
+                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_Y), +JOY_MAX);
+                    break;
+                             
+                default: 
+                    if (grabbed)
+                        d = st_keybd(e.key.keysym.sym, 1);
+                }
+
             break;
 
         case SDL_KEYUP:
+
             if (grabbed)
-                d = st_keybd(e.key.keysym.sym, 0);
+                switch (e.key.keysym.sym)
+                {
+                case SDLK_RETURN:
+                    d = st_buttn(config_get(CONFIG_JOYSTICK_BUTTON_A), 0);
+                    break;
+                case SDLK_LEFT:
+                case SDLK_RIGHT:
+                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_X), 0);
+                    break;
+                case SDLK_DOWN:
+                case SDLK_UP:
+                    st_stick(config_get(CONFIG_JOYSTICK_AXIS_Y), 0);
+                    break;
+
+                default:
+                    if (grabbed)
+                        d = st_keybd(e.key.keysym.sym, 0);
+                }
+
             break;
 
         case SDL_ACTIVEEVENT:
@@ -236,11 +276,6 @@ int main(int argc, char *argv[])
             SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
             SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
             SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-            if (config_get(CONFIG_STEREO))
-                SDL_GL_SetAttribute(SDL_GL_STEREO, 1);
-            if (config_get(CONFIG_REFLECTION))
-                SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 1);
 
             /* Initialize the video. */
 

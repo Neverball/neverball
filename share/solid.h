@@ -77,13 +77,26 @@
 
 /*---------------------------------------------------------------------------*/
 
+/* Material type flags */
+
 #define M_OPAQUE       1
 #define M_TRANSPARENT  2
 #define M_REFLECTIVE   4
 #define M_ENVIRONMENT  8
 #define M_ADDITIVE    16
+#define M_CLAMPED     32
 
-#define L_DETAIL     1
+/* Billboard types. */
+
+#define B_EDGE     1
+#define B_FLAT     2
+#define B_ADDITIVE 4
+
+/* Lump flags. */
+
+#define L_DETAIL       1
+
+/*---------------------------------------------------------------------------*/
 
 struct s_mtrl
 {
@@ -198,11 +211,17 @@ struct s_swch
 
 struct s_bill
 {
-    float p[3];                                /* position                   */
-    float w;                                   /* width                      */
-    float h;                                   /* height                     */
-    float z;                                   /* rotation about Z axis      */
+    int   fl;
     int   mi;
+    float t;                                   /* repeat time interval       */
+    float d;                                   /* distance                   */
+
+    float w[3];                                /* width coefficients         */
+    float h[3];                                /* height coefficients        */
+
+    float rx[3];                               /* X rotation coefficients    */
+    float ry[3];                               /* Y rotation coefficients    */
+    float rz[3];                               /* Z rotation coefficients    */
 };
 
 struct s_jump
@@ -276,7 +295,7 @@ int   sol_load(struct s_file *, const char *, int, int);
 int   sol_stor(struct s_file *, const char *);
 void  sol_free(struct s_file *);
 
-void  sol_back(const struct s_file *, const float[3], float, float);
+void  sol_back(const struct s_file *, float, float, float);
 void  sol_refl(const struct s_file *, int);
 void  sol_draw(const struct s_file *, int);
 

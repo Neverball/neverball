@@ -176,7 +176,10 @@ static void high_point(int id, int x, int y, int dx, int dy)
 
 static void high_stick(int id, int a, int v)
 {
-    gui_pulse(gui_point(id, a, v), 1.2f);
+    if (config_tst(CONFIG_JOYSTICK_AXIS_X, a))
+        gui_pulse(gui_stick(id, v, 0), 1.2f);
+    if (config_tst(CONFIG_JOYSTICK_AXIS_Y, a))
+        gui_pulse(gui_stick(id, 0, v), 1.2f);
 }
 
 static int high_click(int b, int d)

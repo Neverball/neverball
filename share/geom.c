@@ -72,9 +72,9 @@ void ball_free(void)
 
 void ball_draw(void)
 {
-    glPushAttrib(GL_POLYGON_BIT);
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    glPushAttrib(GL_POLYGON_BIT |
+                 GL_LIGHTING_BIT |
+                 GL_DEPTH_BUFFER_BIT);
     {
         static const float  s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
         static const float  e[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
@@ -113,8 +113,6 @@ void ball_draw(void)
         glColor4f(1.0f, 1.0f, 1.0f, 0.1f);
         glCallList(ball_list);
     }
-    glPopAttrib();
-    glPopAttrib();
     glPopAttrib();
 }
 
@@ -324,9 +322,9 @@ void goal_init(int b)
 
     glNewList(goal_list, GL_COMPILE);
     {
-        glPushAttrib(GL_TEXTURE_BIT);
-        glPushAttrib(GL_LIGHTING_BIT);
-        glPushAttrib(GL_DEPTH_BUFFER_BIT);
+        glPushAttrib(GL_TEXTURE_BIT  |
+                     GL_LIGHTING_BIT |
+                     GL_DEPTH_BUFFER_BIT);
         {
             glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
@@ -349,8 +347,6 @@ void goal_init(int b)
             }
             glEnd();
         }
-        glPopAttrib();
-        glPopAttrib();
         glPopAttrib();
     }
     glEndList();
@@ -379,9 +375,9 @@ void jump_init(int b)
 
     glNewList(jump_list, GL_COMPILE);
     {
-        glPushAttrib(GL_TEXTURE_BIT);
-        glPushAttrib(GL_LIGHTING_BIT);
-        glPushAttrib(GL_DEPTH_BUFFER_BIT);
+        glPushAttrib(GL_TEXTURE_BIT  |
+                     GL_LIGHTING_BIT |
+                     GL_DEPTH_BUFFER_BIT);
         {
             glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
@@ -404,8 +400,6 @@ void jump_init(int b)
             }
             glEnd();
         }
-        glPopAttrib();
-        glPopAttrib();
         glPopAttrib();
     }
     glEndList();
@@ -436,9 +430,9 @@ void swch_init(int b)
 
     glNewList(swch_list, GL_COMPILE);
     {
-        glPushAttrib(GL_TEXTURE_BIT);
-        glPushAttrib(GL_LIGHTING_BIT);
-        glPushAttrib(GL_DEPTH_BUFFER_BIT);
+        glPushAttrib(GL_TEXTURE_BIT  |
+                     GL_LIGHTING_BIT |
+                     GL_DEPTH_BUFFER_BIT);
         {
             glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
@@ -462,8 +456,6 @@ void swch_init(int b)
             glEnd();
         }
         glPopAttrib();
-        glPopAttrib();
-        glPopAttrib();
     }
     glEndList();
 
@@ -471,9 +463,9 @@ void swch_init(int b)
 
     glNewList(swch_list + 1, GL_COMPILE);
     {
-        glPushAttrib(GL_TEXTURE_BIT);
-        glPushAttrib(GL_LIGHTING_BIT);
-        glPushAttrib(GL_DEPTH_BUFFER_BIT);
+        glPushAttrib(GL_TEXTURE_BIT  |
+                     GL_LIGHTING_BIT |
+                     GL_DEPTH_BUFFER_BIT);
         {
             glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
@@ -496,8 +488,6 @@ void swch_init(int b)
             }
             glEnd();
         }
-        glPopAttrib();
-        glPopAttrib();
         glPopAttrib();
     }
     glEndList();
@@ -529,8 +519,7 @@ void flag_init(int b)
 
     glNewList(flag_list, GL_COMPILE);
     {
-        glPushAttrib(GL_TEXTURE_BIT);
-        glPushAttrib(GL_LIGHTING_BIT);
+        glPushAttrib(GL_TEXTURE_BIT | GL_LIGHTING_BIT);
         {
             glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
@@ -564,7 +553,6 @@ void flag_init(int b)
             }
             glEnd();
         }
-        glPopAttrib();
         glPopAttrib();
     }
     glEndList();

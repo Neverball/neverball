@@ -23,6 +23,9 @@ New in 1.2.6
 * Added background .SOLs.
 * Added wireframe mode.
 * Added look-around mode.
+* Added keyboard-to-joystick input mapping.
+* Added mipmap generation.
+* Added clamped material type.
 
 -------------------------------------------------------------------------------
 New in 1.2.5
