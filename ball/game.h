@@ -1,13 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <stdio.h>
+
 /*---------------------------------------------------------------------------*/
 
 #define IMG_SHADOW "png/shadow.png"
 
 #define MAX_DT   0.01666666            /* Maximum physics update cycle       */
 #define MAX_DN  16                     /* Maximum subdivisions of dt         */
-#define FOV     50.00f                 /* Field of view                      */
 #define RESPONSE 0.05f                 /* Input smoothing time               */
 
 #define GAME_NONE 0
@@ -17,7 +18,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-void  game_init(const char *, int);
+int   game_init(const char *, int);
 void  game_free(void);
 
 int   curr_clock(void);

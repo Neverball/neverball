@@ -28,24 +28,38 @@ MAPC_OBJS= \
 	share/glext.o  \
 	share/mapc.o
 BALL_OBJS= \
-	share/vec3.o   \
-	share/text.o   \
-	share/image.o  \
-	share/solid.o  \
-	share/part.o   \
-	share/geom.o   \
-	share/back.o   \
-	share/gui.o    \
-	share/menu.o   \
-	share/glext.o  \
-	share/config.o \
-	ball/audio.o   \
-	ball/hud.o     \
-	ball/game.o    \
-	ball/level.o   \
-	ball/set.o     \
-	ball/state.o   \
+	share/vec3.o    \
+	share/text.o    \
+	share/image.o   \
+	share/solid.o   \
+	share/part.o    \
+	share/geom.o    \
+	share/back.o    \
+	share/gui.o     \
+	share/menu.o    \
+	share/glext.o   \
+	share/config.o  \
+	share/state.o   \
+	ball/audio.o    \
+	ball/hud.o      \
+	ball/game.o     \
+	ball/level.o    \
+	ball/set.o      \
+	ball/demo.o     \
+	ball/util.o     \
+	ball/st_conf.o  \
+	ball/st_demo.o  \
+	ball/st_fail.o  \
+	ball/st_goal.o  \
+	ball/st_high.o  \
+	ball/st_level.o \
+	ball/st_over.o  \
+	ball/st_play.o  \
+	ball/st_set.o   \
+	ball/st_start.o \
+	ball/st_title.o \
 	ball/main.o
+
 PUTT_OBJS= \
 	share/vec3.o   \
 	share/text.o   \
@@ -73,101 +87,99 @@ BALL_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS)
 PUTT_LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS) $(OGL_LIBS)
 
 SOLS= \
-	data/sol-rlk/easy.sol     \
-	data/sol-rlk/peasy.sol    \
-	data/sol-rlk/coins.sol    \
-	data/sol-rlk/goslow.sol   \
-	data/sol-rlk/fence.sol    \
-	data/sol-rlk/bumper.sol   \
-	data/sol-rlk/maze.sol     \
-	data/sol-rlk/goals.sol    \
-	data/sol-rlk/hole.sol     \
-	data/sol-rlk/bumps.sol    \
-	data/sol-rlk/corners.sol  \
-	data/sol-rlk/easytele.sol \
-	data/sol-rlk/zigzag.sol   \
-	data/sol-rlk/greed.sol    \
-	data/sol-rlk/mover.sol    \
-	data/sol-rlk/wakka.sol    \
-	data/sol-rlk/curbs.sol    \
-	data/sol-rlk/curved.sol   \
-	data/sol-rlk/stairs.sol   \
-	data/sol-rlk/rampdn.sol   \
-	data/sol-rlk/sync.sol     \
-	data/sol-rlk/spiralin.sol \
-	data/sol-rlk/plinko.sol   \
-	data/sol-rlk/drops.sol    \
-	data/sol-rlk/locks.sol    \
-	data/sol-rlk/grid.sol     \
-	data/sol-rlk/four.sol     \
-	data/sol-rlk/telemaze.sol \
-	data/sol-rlk/spiraldn.sol \
-	data/sol-rlk/islands.sol  \
-	data/sol-rlk/angle.sol    \
-	data/sol-rlk/spiralup.sol \
-	data/sol-rlk/rampup.sol   \
-	data/sol-rlk/check.sol    \
-	data/sol-rlk/risers.sol   \
-	data/sol-rlk/tilt.sol     \
-	data/sol-rlk/gaps.sol     \
-	data/sol-rlk/pyramid.sol  \
-	data/sol-rlk/quads.sol    \
-	data/sol-rlk/frogger.sol  \
-	data/sol-rlk/timer.sol    \
-	data/sol-rlk/spread.sol   \
-	data/sol-rlk/hump.sol     \
-	data/sol-rlk/movers.sol   \
-	data/sol-rlk/teleport.sol \
-	data/sol-rlk/poker.sol    \
-	data/sol-rlk/invis.sol    \
-	data/sol-rlk/ring.sol     \
-	data/sol-rlk/pipe.sol     \
-	data/sol-rlk/title.sol    \
-	data/sol-mym/descent.sol        \
-	data/sol-mym/glass_tower.sol    \
-	data/sol-mym/scrambling.sol     \
-	data/sol-mym/trust.sol          \
-	data/sol-mym/maze1.sol          \
-	data/sol-mym/turn.sol           \
-	data/sol-mym/loop1.sol          \
-	data/sol-mym/free_fall.sol      \
-	data/sol-mym/earth_quake.sol    \
-	data/sol-mym/drive1.sol         \
-	data/sol-mym/maze2.sol          \
-	data/sol-mym/up.sol             \
-	data/sol-mym/circuit2.sol       \
-	data/sol-mym/comeback.sol       \
-	data/sol-mym/maze3.sol          \
-	data/sol-mym/assault_course.sol \
-	data/sol-mym/narrow.sol         \
-	data/sol-mym/loop2.sol          \
-	data/sol-mym/drive2.sol         \
-	data/sol-mym/running.sol        \
-	data/sol-mym/circuit1.sol       \
-	data/sol-mym/bombman.sol        \
-	data/sol-mym/climb.sol          \
-	data/sol-mym/dance.sol          \
-	data/sol-mym/hard.sol           \
-	data/sol-putt/01_easy.sol    \
-	data/sol-putt/02_uturn.sol   \
-	data/sol-putt/03_kink.sol    \
-	data/sol-putt/04_aych.sol    \
-	data/sol-putt/05_ramp.sol    \
-	data/sol-putt/06_cone.sol    \
-	data/sol-putt/07_tele.sol    \
-	data/sol-putt/08_zig.sol     \
-	data/sol-putt/09_vturn.sol   \
-	data/sol-putt/10_diamond.sol \
-	data/sol-putt/11_mover.sol   \
-	data/sol-putt/12_bumpy.sol   \
-	data/sol-putt/13_choose.sol  \
-	data/sol-putt/14_walls.sol   \
-	data/sol-putt/15_hole.sol    \
-	data/sol-putt/16_pipe.sol    \
-	data/sol-putt/17_timing.sol  \
-	data/sol-putt/18_hill.sol
-
-
+	data/map-rlk/easy.sol     \
+	data/map-rlk/peasy.sol    \
+	data/map-rlk/coins.sol    \
+	data/map-rlk/goslow.sol   \
+	data/map-rlk/fence.sol    \
+	data/map-rlk/bumper.sol   \
+	data/map-rlk/maze.sol     \
+	data/map-rlk/goals.sol    \
+	data/map-rlk/hole.sol     \
+	data/map-rlk/bumps.sol    \
+	data/map-rlk/corners.sol  \
+	data/map-rlk/easytele.sol \
+	data/map-rlk/zigzag.sol   \
+	data/map-rlk/greed.sol    \
+	data/map-rlk/mover.sol    \
+	data/map-rlk/wakka.sol    \
+	data/map-rlk/curbs.sol    \
+	data/map-rlk/curved.sol   \
+	data/map-rlk/stairs.sol   \
+	data/map-rlk/rampdn.sol   \
+	data/map-rlk/sync.sol     \
+	data/map-rlk/spiralin.sol \
+	data/map-rlk/plinko.sol   \
+	data/map-rlk/drops.sol    \
+	data/map-rlk/locks.sol    \
+	data/map-rlk/grid.sol     \
+	data/map-rlk/four.sol     \
+	data/map-rlk/telemaze.sol \
+	data/map-rlk/spiraldn.sol \
+	data/map-rlk/islands.sol  \
+	data/map-rlk/angle.sol    \
+	data/map-rlk/spiralup.sol \
+	data/map-rlk/rampup.sol   \
+	data/map-rlk/check.sol    \
+	data/map-rlk/risers.sol   \
+	data/map-rlk/tilt.sol     \
+	data/map-rlk/gaps.sol     \
+	data/map-rlk/pyramid.sol  \
+	data/map-rlk/quads.sol    \
+	data/map-rlk/frogger.sol  \
+	data/map-rlk/timer.sol    \
+	data/map-rlk/spread.sol   \
+	data/map-rlk/hump.sol     \
+	data/map-rlk/movers.sol   \
+	data/map-rlk/teleport.sol \
+	data/map-rlk/poker.sol    \
+	data/map-rlk/invis.sol    \
+	data/map-rlk/ring.sol     \
+	data/map-rlk/pipe.sol     \
+	data/map-rlk/title.sol    \
+	data/map-mym/descent.sol        \
+	data/map-mym/glass_tower.sol    \
+	data/map-mym/scrambling.sol     \
+	data/map-mym/trust.sol          \
+	data/map-mym/maze1.sol          \
+	data/map-mym/turn.sol           \
+	data/map-mym/loop1.sol          \
+	data/map-mym/free_fall.sol      \
+	data/map-mym/earth_quake.sol    \
+	data/map-mym/drive1.sol         \
+	data/map-mym/maze2.sol          \
+	data/map-mym/up.sol             \
+	data/map-mym/circuit2.sol       \
+	data/map-mym/comeback.sol       \
+	data/map-mym/maze3.sol          \
+	data/map-mym/assault_course.sol \
+	data/map-mym/narrow.sol         \
+	data/map-mym/loop2.sol          \
+	data/map-mym/drive2.sol         \
+	data/map-mym/running.sol        \
+	data/map-mym/circuit1.sol       \
+	data/map-mym/bombman.sol        \
+	data/map-mym/climb.sol          \
+	data/map-mym/dance.sol          \
+	data/map-mym/hard.sol           \
+	data/map-putt/01_easy.sol    \
+	data/map-putt/02_uturn.sol   \
+	data/map-putt/03_kink.sol    \
+	data/map-putt/04_aych.sol    \
+	data/map-putt/05_ramp.sol    \
+	data/map-putt/06_cone.sol    \
+	data/map-putt/07_tele.sol    \
+	data/map-putt/08_zig.sol     \
+	data/map-putt/09_vturn.sol   \
+	data/map-putt/10_diamond.sol \
+	data/map-putt/11_mover.sol   \
+	data/map-putt/12_bumpy.sol   \
+	data/map-putt/13_choose.sol  \
+	data/map-putt/14_walls.sol   \
+	data/map-putt/15_hole.sol    \
+	data/map-putt/16_pipe.sol    \
+	data/map-putt/17_timing.sol  \
+	data/map-putt/18_hill.sol
 
 #------------------------------------------------------------------------------
 
@@ -177,17 +189,17 @@ SOLS= \
 %.o : %.c
 	$(CC) $(CFLAGS) -Ishare -o $@ -c $<
 
-data/sol-rlk/%.sol : data/map-rlk/%.map $(MAPC_TARG)
-	./$(MAPC_TARG) $< $@ data
+data/map-rlk/%.sol : data/map-rlk/%.map $(MAPC_TARG)
+	./$(MAPC_TARG) $< data
 
-data/sol-mym/%.sol : data/map-mym/%.map $(MAPC_TARG)
-	./$(MAPC_TARG) $< $@ data
+data/map-mym/%.sol : data/map-mym/%.map $(MAPC_TARG)
+	./$(MAPC_TARG) $< data
 
-data/sol-putt/%.sol : data/map-putt/%.map $(MAPC_TARG)
-	./$(MAPC_TARG) $< $@ data
+data/map-putt/%.sol : data/map-putt/%.map $(MAPC_TARG)
+	./$(MAPC_TARG) $< data
 
-data/sol-misc/%.sol : data/map-misc/%.map $(MAPC_TARG)
-	./$(MAPC_TARG) $< $@ data
+data/map-misc/%.sol : data/map-misc/%.map $(MAPC_TARG)
+	./$(MAPC_TARG) $< data
 
 #------------------------------------------------------------------------------
 

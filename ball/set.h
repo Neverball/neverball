@@ -15,7 +15,7 @@ int  set_curr(void);
 
 const char *set_name(int);
 const char *set_desc(int);
-void        set_shot(int);
+const char *set_shot(int);
 
 /*---------------------------------------------------------------------------*/
 

@@ -13,6 +13,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 
 #include "config.h"
@@ -37,6 +38,7 @@
 #define GUI_COUNT  9
 #define GUI_CLOCK  10
 #define GUI_SPACE  11
+#define GUI_PAUSE  12
 
 struct widget
 {
@@ -66,7 +68,10 @@ struct widget
 const GLfloat gui_wht[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat gui_yel[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
 const GLfloat gui_red[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+const GLfloat gui_grn[4] = { 0.0f, 1.0f, 0.0f, 1.0f };
+const GLfloat gui_blu[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
 const GLfloat gui_blk[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+const GLfloat gui_gry[4] = { 0.0f, 0.0f, 0.0f, 0.5f };
 
 /*---------------------------------------------------------------------------*/
 
@@ -79,6 +84,8 @@ static GLuint digit_text[3][11];
 static GLuint digit_list[3][11];
 static int    digit_w[3][11];
 static int    digit_h[3][11];
+
+static int pause_id;
 
 /*---------------------------------------------------------------------------*/
 /*
@@ -137,7 +144,7 @@ static GLuint gui_list(int x, int y,
  * map to the rectangle as though the corners were not rounded.
  */
 
-static GLuint gui_rect(int x, int y, int w, int h, int f)
+static GLuint gui_rect(int x, int y, int w, int h, int f, int r)
 {
     GLuint list = glGenLists(1);
 
@@ -153,12 +160,12 @@ static GLuint gui_rect(int x, int y, int w, int h, int f)
             for (i = 0; i <= n; i++)
             {
                 float a = 0.5f * V_PI * (float) i / (float) n;
-                float s = radius * fsinf(a);
-                float c = radius * fcosf(a);
+                float s = r * fsinf(a);
+                float c = r * fcosf(a);
 
-                float X  = x     + radius - c;
-                float Ya = y + h + ((f & GUI_NW) ? (s - radius) : 0);
-                float Yb = y     + ((f & GUI_SW) ? (radius - s) : 0);
+                float X  = x     + r - c;
+                float Ya = y + h + ((f & GUI_NW) ? (s - r) : 0);
+                float Yb = y     + ((f & GUI_SW) ? (r - s) : 0);
 
                 glTexCoord2f((X - x) / w, 1 - (Ya - y) / h);
                 glVertex2f(X, Ya);
@@ -172,12 +179,12 @@ static GLuint gui_rect(int x, int y, int w, int h, int f)
             for (i = 0; i <= n; i++)
             {
                 float a = 0.5f * V_PI * (float) i / (float) n;
-                float s = radius * fsinf(a);
-                float c = radius * fcosf(a);
+                float s = r * fsinf(a);
+                float c = r * fcosf(a);
 
-                float X  = x + w - radius + s;
-                float Ya = y + h + ((f & GUI_NE) ? (c - radius) : 0);
-                float Yb = y     + ((f & GUI_SE) ? (radius - c) : 0);
+                float X  = x + w - r + s;
+                float Ya = y + h + ((f & GUI_NE) ? (c - r) : 0);
+                float Yb = y     + ((f & GUI_SE) ? (r - c) : 0);
 
                 glTexCoord2f((X - x) / w, 1 - (Ya - y) / h);
                 glVertex2f(X, Ya);
@@ -211,6 +218,12 @@ void gui_init(void)
         font[GUI_SML] = TTF_OpenFont(GUI_FACE, h / 24);
         font[GUI_MED] = TTF_OpenFont(GUI_FACE, h / 12);
         font[GUI_LRG] = TTF_OpenFont(GUI_FACE, h /  6);
+        radius = h / 60;
+
+        /* Initialize the global pause GUI. */
+
+        if ((pause_id = gui_pause(0)))
+            gui_layout(pause_id, 0, 0);
 
         /* Initialize digit glyphs and lists for counters and clocks. */
 
@@ -249,7 +262,6 @@ void gui_init(void)
     }
 
     active = 0;
-    radius = h / 60;
 }
 
 void gui_free(void)
@@ -362,11 +374,17 @@ void gui_set_image(int id, const char *file)
 
 void gui_set_label(int id, const char *text)
 {
+    int w, h;
+
     if (glIsTexture(widget[id].text_img))
         glDeleteTextures(1, &widget[id].text_img);
+    if (glIsList(widget[id].text_obj))
+        glDeleteLists(widget[id].text_obj, 1);
 
-    widget[id].text_img = make_image_from_font(NULL, NULL, NULL, NULL,
+    widget[id].text_img = make_image_from_font(NULL, NULL, &w, &h,
                                                text, font[widget[id].size]);
+    widget[id].text_obj = gui_list(-w / 2, -h / 2, w, h,
+                                   widget[id].color0, widget[id].color1);
 }
 
 void gui_set_count(int id, int value)
@@ -377,6 +395,31 @@ void gui_set_count(int id, int value)
 void gui_set_clock(int id, int value)
 {
     widget[id].value = value;
+}
+
+void gui_set_multi(int id, const char *text)
+{
+    const char *p;
+
+    char s[8][MAXSTR];
+    int  i, j, jd;
+
+    size_t n = 0;
+
+    /* Copy each delimited string to a line buffer. */
+
+    for (p = text, j = 0; *p && j < 8; j++)
+    {
+        strncpy(s[j], p, (n = strcspn(p, "\\")));
+        s[j][n] = 0;
+
+        if (*(p += n) == '\\') p++;
+    }
+
+    /* Set the label value for each line. */
+
+    for (i = j - 1, jd = widget[id].car; i >= 0 && jd; i--, jd = widget[jd].cdr)
+        gui_set_label(jd, s[i]);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -489,6 +532,75 @@ int gui_space(int pd)
     return id;
 }
 
+int gui_pause(int pd)
+{
+    const char *text = "Paused";
+    int id;
+
+    if ((id = gui_widget(pd, GUI_PAUSE)))
+    {
+        widget[id].text_img = make_image_from_font(NULL, NULL,
+                                                   &widget[id].w,
+                                                   &widget[id].h,
+                                                   text, font[GUI_LRG]);
+        widget[id].color0 = gui_wht;
+        widget[id].color1 = gui_wht;
+        widget[id].value  = 0;
+        widget[id].size   = GUI_LRG;
+        widget[id].rect   = GUI_ALL;
+    }
+    return id;
+}
+
+/*---------------------------------------------------------------------------*/
+/*
+ * Create  a multi-line  text box  using a  vertical array  of labels.
+ * Parse the  text for '\'  characters and treat them  as line-breaks.
+ * Preserve the rect specifation across the entire array.
+ */
+
+int gui_multi(int pd, const char *text, int size, int rect, const float *c0,
+                                                            const float *c1)
+{
+    int id = 0;
+
+    if (text && (id = gui_varray(pd)))
+    {
+        const char *p;
+
+        char s[8][MAXSTR];
+        int  r[8];
+        int  i, j;
+
+        size_t n = 0;
+
+        /* Copy each delimited string to a line buffer. */
+
+        for (p = text, j = 0; *p && j < 8; j++)
+        {
+            strncpy(s[j], p, (n = strcspn(p, "\\")));
+            s[j][n] = 0;
+            r[j]    = 0;
+
+            if (*(p += n) == '\\') p++;
+        }
+
+        /* Set the curves for the first and last lines. */
+
+        if (j > 0)
+        {
+            r[0]     |= rect & (GUI_NW | GUI_NE);
+            r[j - 1] |= rect & (GUI_SW | GUI_SE);
+        }
+
+        /* Create a label widget for each line. */
+
+        for (i = 0; i < j; i++)
+            gui_label(id, s[i], size, r[i], c0, c1);
+    }
+    return id;
+}
+
 /*---------------------------------------------------------------------------*/
 /*
  * The bottom-up pass determines the area of all widgets.  The minimum
@@ -579,6 +691,19 @@ static void gui_vstack_up(int id)
     }
 }
 
+static void gui_paused_up(int id)
+{
+    /* Store width and height for later use in text rendering. */
+
+    widget[id].x = widget[id].w;
+    widget[id].y = widget[id].h;
+
+    /* The pause widget fills the screen. */
+
+    widget[id].w = config_get(CONFIG_WIDTH);
+    widget[id].h = config_get(CONFIG_HEIGHT);
+}
+
 static void gui_button_up(int id)
 {
     /* Store width and height for later use in text rendering. */
@@ -588,8 +713,10 @@ static void gui_button_up(int id)
 
     /* Padded text elements look a little nicer. */
 
-    widget[id].w += radius;
-    widget[id].h += radius;
+    if (widget[id].w < config_get(CONFIG_WIDTH))
+        widget[id].w += radius;
+    if (widget[id].h < config_get(CONFIG_HEIGHT))
+        widget[id].h += radius;
 }
 
 static void gui_widget_up(int id)
@@ -601,6 +728,7 @@ static void gui_widget_up(int id)
         case GUI_VARRAY: gui_varray_up(id); break;
         case GUI_HSTACK: gui_hstack_up(id); break;
         case GUI_VSTACK: gui_vstack_up(id); break;
+        case GUI_PAUSE:  gui_paused_up(id); break;
         default:         gui_button_up(id); break;
         }
 }
@@ -743,6 +871,7 @@ static void gui_button_dn(int id, int x, int y, int w, int h)
     int W = widget[id].x;
     int H = widget[id].y;
     int R = widget[id].rect;
+    int r = (widget[id].type == GUI_PAUSE ? radius * 4 : radius);
 
     const float *c0 = widget[id].color0;
     const float *c1 = widget[id].color1;
@@ -755,7 +884,7 @@ static void gui_button_dn(int id, int x, int y, int w, int h)
     /* Create display lists for the text area and rounded rectangle. */
 
     widget[id].text_obj = gui_list(-W / 2, -H / 2, W, H, c0, c1);
-    widget[id].rect_obj = gui_rect(-w / 2, -h / 2, w, h, R);
+    widget[id].rect_obj = gui_rect(-w / 2, -h / 2, w, h, R, r);
 }
 
 static void gui_widget_dn(int id, int x, int y, int w, int h)
@@ -823,7 +952,7 @@ int gui_search(int id, int x, int y)
     return 0;
 }
 
-void gui_delete(int id)
+int gui_delete(int id)
 {
     if (id)
     {
@@ -851,6 +980,7 @@ void gui_delete(int id)
         widget[id].cdr      = 0;
         widget[id].car      = 0;
     }
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -962,6 +1092,8 @@ static void gui_paint_count(int id)
 
             for (j = widget[id].value; j; j /= 10)
                 glTranslatef((GLfloat) +digit_w[i][j % 10] / 2.0f, 0.0f, 0.0f);
+
+            glTranslatef((GLfloat) -digit_w[i][0] / 2.0f, 0.0f, 0.0f);
 
             /* Render each digit, moving right after each. */
 
@@ -1097,28 +1229,36 @@ static void gui_paint_text(int id)
 
 void gui_paint(int id)
 {
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushAttrib(GL_COLOR_BUFFER_BIT);
-    glPushAttrib(GL_DEPTH_BUFFER_BIT);
-    config_push_ortho();
+    if (id)
     {
-        glEnable(GL_BLEND);
-        glEnable(GL_COLOR_MATERIAL);
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
+        glPushAttrib(GL_LIGHTING_BIT);
+        glPushAttrib(GL_COLOR_BUFFER_BIT);
+        glPushAttrib(GL_DEPTH_BUFFER_BIT);
+        config_push_ortho();
+        {
+            glEnable(GL_BLEND);
+            glEnable(GL_COLOR_MATERIAL);
+            glDisable(GL_LIGHTING);
+            glDisable(GL_DEPTH_TEST);
 
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        glDisable(GL_TEXTURE_2D);
-        gui_paint_rect(id);
+            glDisable(GL_TEXTURE_2D);
+            gui_paint_rect(id);
 
-        glEnable(GL_TEXTURE_2D);
-        gui_paint_text(id);
+            glEnable(GL_TEXTURE_2D);
+            gui_paint_text(id);
+        }
+        config_pop_matrix();
+        glPopAttrib();
+        glPopAttrib();
+        glPopAttrib();
     }
-    config_pop_matrix();
-    glPopAttrib();
-    glPopAttrib();
-    glPopAttrib();
+}
+
+void gui_blank(void)
+{
+    gui_paint(pause_id);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1164,10 +1304,16 @@ void gui_timer(int id, float dt)
 {
     int jd;
 
-    for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-        gui_timer(jd, dt);
+    if (id)
+    {
+        for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+            gui_timer(jd, dt);
 
-    widget[id].scale -= (widget[id].scale - 1.0f) * dt;
+        if (widget[id].scale - 1.0f < dt)
+            widget[id].scale = 1.0f;
+        else
+            widget[id].scale -= dt;
+    }
 }
 
 int gui_point(int id, int x, int y)

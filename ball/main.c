@@ -36,9 +36,12 @@
 #include "config.h"
 #include "image.h"
 #include "audio.h"
-#include "state.h"
-#include "hud.h"
+#include "demo.h"
+#include "gui.h"
 #include "set.h"
+
+#include "st_conf.h"
+#include "st_title.h"
 
 #define TITLE "Neverball"
 
@@ -65,13 +68,7 @@ static int demo(void)
 
     sprintf(file, "demo%02d.dat", num++);
 
-    /* Make sure the recording file is closed before renaming it. */
-
-    if (record_fp)
-    {
-        fclose(record_fp);
-        record_fp = NULL;
-    }
+    demo_finish();
 
     if (config_home(dst, file, MAXSTR) &&
         config_home(src, USER_REPLAY_FILE, MAXSTR))
@@ -86,20 +83,22 @@ static int grabbed = 0;
 
 static void enable_grab(void)
 {
-    /*
-    SDL_WM_GrabInput(SDL_GRAB_ON);
-    */
-    Mix_ResumeMusic();
-    grabbed = 1;
+    if (grabbed != 1)
+    {
+        SDL_WM_GrabInput(SDL_GRAB_ON);
+        Mix_ResumeMusic();
+        grabbed = 1;
+    }
 }
 
 static void disable_grab(void)
 {
-    /*
-    SDL_WM_GrabInput(SDL_GRAB_OFF);
-    */
-    Mix_PauseMusic();
-    grabbed = 0;
+    if (grabbed != 0)
+    {
+        grabbed = 0;
+        Mix_PauseMusic();
+        SDL_WM_GrabInput(SDL_GRAB_OFF);
+    }
 }
 
 static void toggle_grab(void)
@@ -108,36 +107,6 @@ static void toggle_grab(void)
         disable_grab();
     else
         enable_grab();
-}
-
-static void darken()
-{
-    int w = config_get(CONFIG_WIDTH);
-    int h = config_get(CONFIG_HEIGHT);
-
-    config_push_ortho();
-
-    glDisable(GL_TEXTURE_2D);
-    glDisable(GL_LIGHTING);
-    glEnable(GL_BLEND);
-
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    glBegin(GL_QUADS);
-    {
-        glColor4f(0.0f, 0.0f, 0.0f, 0.5f);
-        glVertex2i(0, 0);
-        glVertex2i(w, 0);
-        glVertex2i(w, h);
-        glVertex2i(0, h);
-    }
-    glEnd();
-
-    glDisable(GL_BLEND);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_TEXTURE_2D);
-
-    config_pop_matrix();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -171,9 +140,9 @@ static int loop(void)
             break;
 
         case SDL_KEYDOWN:
-            if (e.key.keysym.sym == SDLK_SPACE) { toggle_grab();      break; }
-            if (e.key.keysym.sym == SDLK_F11)   { d = demo();         break; }
-            if (e.key.keysym.sym == SDLK_F10)   { d = shot();         break; }
+            if (e.key.keysym.sym == SDLK_SPACE) { toggle_grab();        break; }
+            if (e.key.keysym.sym == SDLK_F11)   { d = demo();           break; }
+            if (e.key.keysym.sym == SDLK_F10)   { d = shot();           break; }
             if (e.key.keysym.sym == SDLK_F9) { config_tgl(CONFIG_FPS);  break; }
             if (e.key.keysym.sym == SDLK_F8) { config_tgl(CONFIG_NICE); break; }
             
@@ -245,9 +214,12 @@ int main(int argc, char *argv[])
             SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
             SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
             SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-            SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 1);
             SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-            SDL_GL_SetAttribute(SDL_GL_STEREO, config_get(CONFIG_STEREO) ? 1 : 0);
+
+            if (config_get(CONFIG_STEREO))
+                SDL_GL_SetAttribute(SDL_GL_STEREO, 1);
+            if (config_get(CONFIG_REFLECTION))
+                SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 1);
 
             /* Initialize the video. */
 
@@ -260,9 +232,12 @@ int main(int argc, char *argv[])
                 SDL_WM_SetCaption(TITLE, TITLE); 
                 enable_grab();
 
-                /* Run the main game loop. */
+                /* Initialize the run state and the title display. */
 
+                init_state(&st_null);
                 goto_state(&st_title);
+
+                /* Run the main game loop. */
 
                 while (loop())
                     if ((t1 = SDL_GetTicks()) > t0)
@@ -273,7 +248,7 @@ int main(int argc, char *argv[])
                         st_paint();
 
                         if (!grabbed)
-                            darken();
+                            gui_blank();
 
                         SDL_GL_SwapBuffers();
 

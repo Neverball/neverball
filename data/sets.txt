@@ -3,10 +3,10 @@ Neverball Easy
 Difficulty: Beginner through Intermediate\\25 levels with a smooth learning curve.\Read level introductions for gameplay tips.\ \
 levels-hard.txt scores-hard.txt .neverballhs-hard shot-rlk/grid.jpg
 Neverball Hard
-Difficulty: Intermediate through Expert\\25 levels with more of a challenge for\the experienced player.  Try to claim\Best Times and Most Coins records.\ \
+Difficulty: Intermediate through Expert\\25 levels with more of a challenge for\the experienced player. Try to claim\Best Times and Most Coins records.\ \
 levels-mym.txt scores-mym.txt .neverballhs-mym shot-mym/descent.jpg
 Mehdi's Levels
 Difficulty: Expert through Insane\\25 levels with even greater challenge.\Author: Mehdi Yousfi Monod\ \
 levels-putt.txt scores-putt.txt .neverballhs-putt shot-putt/01_easy.jpg
 Neverputt Holes
-Difficulty: Trivial\Golf becomes pretty easy when you get to\tilt the entire course.  There are no coins here\or records to be broken.  Just take a leisurely\roll through Neverputt's 18-holes.\
+Difficulty: Trivial\Golf is pretty easy when you can tilt the\entire course. There are no coins here or\records to be broken. Just take a leisurely\roll through Neverputt's 18-holes.\

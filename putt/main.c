@@ -12,6 +12,20 @@
  * General Public License for more details.
  */
 
+/*---------------------------------------------------------------------------*/
+
+#ifdef WIN32
+#pragma comment(lib, "SDL_ttf.lib")
+#pragma comment(lib, "SDL_mixer.lib")
+#pragma comment(lib, "SDL_image.lib")
+#pragma comment(lib, "SDL.lib")
+#pragma comment(lib, "SDLmain.lib")
+#pragma comment(lib, "glu32.lib")
+#pragma comment(lib, "opengl32.lib")
+#endif
+
+/*---------------------------------------------------------------------------*/
+
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
@@ -83,7 +97,7 @@ static int loop(void)
         case SDL_MOUSEMOTION:
             if (grabbed)
                 d = st_point(+e.motion.x,
-                             -e.motion.y + config_h(),
+                             -e.motion.y + config_get(CONFIG_HEIGHT),
                              +e.motion.xrel,
                              -e.motion.yrel);
               break;
@@ -101,8 +115,8 @@ static int loop(void)
         case SDL_KEYDOWN:
             if (e.key.keysym.sym == SDLK_SPACE) { toggle_grab();      break; }
             if (e.key.keysym.sym == SDLK_F10)   { d = shot();         break; }
-            if (e.key.keysym.sym == SDLK_F9)    { config_tog_fps();   break; }
-            if (e.key.keysym.sym == SDLK_F8)    { config_tog_nice();  break; }
+            if (e.key.keysym.sym == SDLK_F9)    { config_tgl(CONFIG_FPS);   break; }
+            if (e.key.keysym.sym == SDLK_F8)    { config_tgl(CONFIG_NICE);  break; }
             
             if (grabbed)
                 d = st_keybd(e.key.keysym.sym);
@@ -122,9 +136,7 @@ static int loop(void)
 
 int main(int argc, char *argv[])
 {
-    const char  *path = (argc > 1) ? argv[1] : CONFIG_PATH;
-
-    srand(time(NULL));
+    char *path = (argc > 1) ? argv[1] : CONFIG_PATH;
 
     if (config_path(path, HOLE_FILE))
     {
@@ -134,7 +146,6 @@ int main(int argc, char *argv[])
         {
             /* Initialize the audio. */
 
-            config_set_audio(config_rate(), config_buff());
             audio_init();
 
             /* Require 16-bit double buffer with 16-bit depth buffer. */
@@ -147,7 +158,7 @@ int main(int argc, char *argv[])
 
             /* Initialize the video. */
 
-            if (config_set_mode(config_w(), config_h(), config_mode()))
+            if (config_mode(config_get(CONFIG_FULLSCREEN), config_get(CONFIG_WIDTH), config_get(CONFIG_HEIGHT)))
             {
                 int t1, t0 = SDL_GetTicks();
 
@@ -169,7 +180,7 @@ int main(int argc, char *argv[])
 
                         t0 = t1;
 
-                        if (config_nice())
+                        if (config_get(CONFIG_NICE))
                             SDL_Delay(1);
                     }
             }
@@ -179,7 +190,7 @@ int main(int argc, char *argv[])
         }
         else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
 
-        config_store();
+        config_save();
     }
     else fprintf(stderr, "%s: Can't find data directory\n", argv[0]);
 

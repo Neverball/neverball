@@ -28,7 +28,7 @@ static int text_state;
 const GLfloat c_white[4]  = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat c_black[4]  = { 0.0f, 0.0f, 0.0f, 1.0f };
 const GLfloat c_red[4]    = { 1.0f, 0.0f, 0.0f, 1.0f };
-const GLfloat c_ylw[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
+const GLfloat c_yellow[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
 const GLfloat c_green[4]  = { 0.0f, 1.0f, 0.0f, 1.0f };
 const GLfloat c_blue[4]   = { 0.0f, 0.0f, 1.0f, 1.0f };
 const GLfloat c_grey[4]   = { 0.0f, 0.0f, 0.0f, 0.5f };

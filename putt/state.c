@@ -185,12 +185,12 @@ static void null_enter(void)
 static void null_leave(void)
 {
     glext_init();
-    text_init(config_h());
-    ball_init(config_geom());
-    mark_init(config_geom());
-    flag_init(config_geom());
-    jump_init(config_geom());
-    swch_init(config_geom());
+    text_init(config_get(CONFIG_HEIGHT));
+    ball_init(config_get(CONFIG_GEOMETRY));
+    mark_init(config_get(CONFIG_GEOMETRY));
+    flag_init(config_get(CONFIG_GEOMETRY));
+    jump_init(config_get(CONFIG_GEOMETRY));
+    swch_init(config_get(CONFIG_GEOMETRY));
     hud_init();
 }
 
@@ -308,7 +308,13 @@ static int title_keybd(int c)
 
 static int conf_action(int i)
 {
-    int w, h, w2, s = 1;
+    int f = config_get(CONFIG_FULLSCREEN);
+    int w = config_get(CONFIG_WIDTH);
+    int h = config_get(CONFIG_HEIGHT);
+    int s = config_get(CONFIG_SOUND_VOLUME);
+    int m = config_get(CONFIG_MUSIC_VOLUME);
+    int r = 1;
+    int w2;
     char str[8];
 
     text_size("MMMMMMMMM", TXT_SML, &w, &h);
@@ -318,115 +324,113 @@ static int conf_action(int i)
     {
     case CONF_FULL:
         goto_state(&st_null);
-        s = config_set_mode(config_w(), config_h(), SDL_OPENGL|SDL_FULLSCREEN);
+        r = config_mode(1, w, h);
         goto_state(&st_conf);
         break;
 
     case CONF_WIN:
         goto_state(&st_null);
-        s = config_set_mode(config_w(), config_h(), SDL_OPENGL);
+        r = config_mode(0, w, h);
         goto_state(&st_conf);
         break;
 
     case CONF_16x12:
         goto_state(&st_null);
-        s = config_set_mode(1600, 1200, config_mode());
+        r = config_mode(f, 1600, 1200);
         goto_state(&st_conf);
         break;
 
     case CONF_12x10:
         goto_state(&st_null);
-        s = config_set_mode(1280, 1024, config_mode());
+        r = config_mode(f, 1280, 1024);
         goto_state(&st_conf);
         break;
 
     case CONF_10x7:
         goto_state(&st_null);
-        s = config_set_mode(1024, 768, config_mode());
+        r = config_mode(f, 1024, 768);
         goto_state(&st_conf);
         break;
             
     case CONF_8x6:
         goto_state(&st_null);
-        s = config_set_mode(800, 600, config_mode());
+        r = config_mode(f, 800, 600);
         goto_state(&st_conf);
         break;
 
     case CONF_6x4:
         goto_state(&st_null);
-        s = config_set_mode(640, 480, config_mode());
+        r = config_mode(f, 640, 480);
         goto_state(&st_conf);
         break;
 
     case CONF_TEXHI:
         goto_state(&st_null);
-        config_set_text(1);
+        config_set(CONFIG_TEXTURES, 1);
         goto_state(&st_conf);
         break;
 
     case CONF_TEXLO:
         goto_state(&st_null);
-        config_set_text(2);
+        config_set(CONFIG_TEXTURES, 2);
         goto_state(&st_conf);
         break;
 
     case CONF_GEOHI:
         goto_state(&st_null);
-        config_set_geom(1);
+        config_set(CONFIG_GEOMETRY, 1);
         goto_state(&st_conf);
         break;
 
     case CONF_GEOLO:
         goto_state(&st_null);
-        config_set_geom(0);
+        config_set(CONFIG_GEOMETRY, 0);
         goto_state(&st_conf);
         break;
 
     case CONF_AUDHI:
         audio_free();
-        config_set_audio(44100, AUD_BUFF_HI);
+        config_set(CONFIG_AUDIO_RATE, 44100);
+        config_set(CONFIG_AUDIO_BUFF, AUDIO_BUFF_HI);
         audio_init();
         goto_state(&st_conf);
         break;
 
     case CONF_AUDLO:
         audio_free();
-        config_set_audio(22050, AUD_BUFF_LO);
+        config_set(CONFIG_AUDIO_RATE, 22050);
+        config_set(CONFIG_AUDIO_BUFF, AUDIO_BUFF_LO);
         audio_init();
         goto_state(&st_conf);
         break;
 
     case CONF_SNDDN:
-        config_set_sound(config_sound() - 1);
-        sprintf(str, "%02d", config_sound());
-        audio_volume(config_sound(), config_music());
-
+        config_set(CONFIG_SOUND_VOLUME, s - 1);
+        sprintf(str, "%02d", s - 1);
+        audio_volume(s - 1, m);
         menu_text(33, +w2, -3 * h, c_yellow, c_red, str, TXT_SML);
         audio_play(AUD_BUMP, 1.f);
         break;
         
     case CONF_SNDUP:
-        config_set_sound(config_sound() + 1);
-        sprintf(str, "%02d", config_sound());
-        audio_volume(config_sound(), config_music());
-
+        config_set(CONFIG_SOUND_VOLUME, s + 1);
+        sprintf(str, "%02d", s + 1);
+        audio_volume(s + 1, m);
         menu_text(33, +w2, -3 * h, c_yellow, c_red, str, TXT_SML);
         audio_play(AUD_BUMP, 1.f);
         break;
 
     case CONF_MUSDN:
-        config_set_music(config_music() - 1);
-        sprintf(str, "%02d", config_music());
-        audio_volume(config_sound(), config_music());
-
+        config_set(CONFIG_MUSIC_VOLUME, m - 1);
+        sprintf(str, "%02d", m - 1);
+        audio_volume(s, m - 1);
         menu_text(34, +w2, -4 * h, c_yellow, c_red, str, TXT_SML);
         break;
         
     case CONF_MUSUP:
-        config_set_music(config_music() + 1);
-        sprintf(str, "%02d", config_music());
-        audio_volume(config_sound(), config_music());
-
+        config_set(CONFIG_MUSIC_VOLUME, m + 1);
+        sprintf(str, "%02d", m + 1);
+        audio_volume(s, m + 1);
         menu_text(34, +w2, -4 * h, c_yellow, c_red, str, TXT_SML);
         break;
 
@@ -434,7 +438,7 @@ static int conf_action(int i)
         goto_state(&st_title);
         break;
     }
-    return s;
+    return r;
 }
 
 static void conf_enter(void)
@@ -453,8 +457,8 @@ static void conf_enter(void)
     w4 = w / 4;
     h2 = h / 2;
 
-    sprintf(snds, "%02d", config_sound());
-    sprintf(muss, "%02d", config_music());
+    sprintf(snds, "%02d", config_get(CONFIG_SOUND_VOLUME));
+    sprintf(muss, "%02d", config_get(CONFIG_MUSIC_VOLUME));
 
     menu_init(36, 25, value);
 
@@ -530,19 +534,19 @@ static void conf_enter(void)
 
     /* Item state */
 
-    menu_stat(CONF_FULL,  (config_mode() & SDL_FULLSCREEN) ? 1 : 0);
-    menu_stat(CONF_WIN,   (config_mode() & SDL_FULLSCREEN) ? 0 : 1);
-    menu_stat(CONF_16x12, (config_w() == 1600)             ? 1 : 0);
-    menu_stat(CONF_12x10, (config_w() == 1280)             ? 1 : 0);
-    menu_stat(CONF_10x7,  (config_w() == 1024)             ? 1 : 0);
-    menu_stat(CONF_8x6,   (config_w() ==  800)             ? 1 : 0);
-    menu_stat(CONF_6x4,   (config_w() ==  640)             ? 1 : 0);
-    menu_stat(CONF_TEXHI, (config_text() == 1)             ? 1 : 0);
-    menu_stat(CONF_TEXLO, (config_text() == 2)             ? 1 : 0);
-    menu_stat(CONF_GEOHI, (config_geom() == 1)             ? 1 : 0);
-    menu_stat(CONF_GEOLO, (config_geom() == 0)             ? 1 : 0);
-    menu_stat(CONF_AUDHI, (config_rate() == 44100)         ? 1 : 0);
-    menu_stat(CONF_AUDLO, (config_rate() == 22050)         ? 1 : 0);
+    menu_stat(CONF_FULL,  (config_get(CONFIG_FULLSCREEN)) ? 1 : 0);
+    menu_stat(CONF_WIN,   (config_get(CONFIG_FULLSCREEN)) ? 0 : 1);
+    menu_stat(CONF_16x12, (config_get(CONFIG_WIDTH) == 1600)             ? 1 : 0);
+    menu_stat(CONF_12x10, (config_get(CONFIG_WIDTH) == 1280)             ? 1 : 0);
+    menu_stat(CONF_10x7,  (config_get(CONFIG_WIDTH) == 1024)             ? 1 : 0);
+    menu_stat(CONF_8x6,   (config_get(CONFIG_WIDTH) ==  800)             ? 1 : 0);
+    menu_stat(CONF_6x4,   (config_get(CONFIG_WIDTH) ==  640)             ? 1 : 0);
+    menu_stat(CONF_TEXHI, (config_get(CONFIG_TEXTURES) == 1)             ? 1 : 0);
+    menu_stat(CONF_TEXLO, (config_get(CONFIG_TEXTURES) == 2)             ? 1 : 0);
+    menu_stat(CONF_GEOHI, (config_get(CONFIG_GEOMETRY) == 1)             ? 1 : 0);
+    menu_stat(CONF_GEOLO, (config_get(CONFIG_GEOMETRY) == 0)             ? 1 : 0);
+    menu_stat(CONF_AUDHI, (config_get(CONFIG_AUDIO_RATE) == 44100)         ? 1 : 0);
+    menu_stat(CONF_AUDLO, (config_get(CONFIG_AUDIO_RATE) == 22050)         ? 1 : 0);
     menu_stat(CONF_SNDDN, 0);
     menu_stat(CONF_SNDUP, 0);
     menu_stat(CONF_MUSDN, 0);
@@ -567,7 +571,7 @@ static void conf_enter(void)
 
 static void conf_leave(void)
 {
-    config_store();
+    config_save();
     menu_free();
 }
 
@@ -640,7 +644,7 @@ static int party_action(int i)
 static void party_enter(void)
 {
     int mw, mh;
-    int lw, lh, w = config_w() / 2;
+    int lw, lh, w = config_get(CONFIG_WIDTH) / 2;
 
     text_size("0", TXT_MED, &mw, &mh);
     text_size("0", TXT_LRG, &lw, &lh);
@@ -723,7 +727,7 @@ static void next_enter(void)
     text_size("0", TXT_MED, &mw, &mh);
     text_size("0", TXT_LRG, &lw, &lh);
 
-    w = config_w() / 2;
+    w = config_get(CONFIG_WIDTH) / 2;
     h = -(lh + sh) / 2;
 
     sprintf(str1, "Hole %02d", curr_hole());
@@ -820,7 +824,7 @@ static int flyby_keybd(int c)
 static void stroke_enter(void)
 {
     game_clr_mag();
-    config_set_view(2);
+    config_set(CONFIG_CAMERA, 2);
     SDL_ShowCursor(SDL_DISABLE);
     SDL_WM_GrabInput(SDL_GRAB_ON);
 }
@@ -829,7 +833,7 @@ static void stroke_leave(void)
 {
     SDL_WM_GrabInput(SDL_GRAB_OFF);
     SDL_ShowCursor(SDL_ENABLE);
-    config_set_view(0);
+    config_set(CONFIG_CAMERA, 0);
 }
 
 static void stroke_paint(void)

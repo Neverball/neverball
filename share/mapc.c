@@ -40,7 +40,9 @@
 #define SCALE  64.f
 #define SMALL  0.0005f
 
-static char *path = ".";
+static char path[MAXSTR];
+static char  src[MAXSTR];
+static char  dst[MAXSTR];
 
 /*
  * The overall design  of this map converter is  very stupid, but very
@@ -1823,11 +1825,18 @@ int main(int argc, char *argv[])
     struct s_file f;
     FILE *fin;
 
-    if (argc > 3)
+    if (argc > 2)
     {
-        path = argv[3];
+        strncpy(src,  argv[1], MAXSTR);
+        strncpy(dst,  argv[1], MAXSTR);
+        strncpy(path, argv[2], MAXSTR);
 
-        if ((fin = fopen(argv[1], "r")))
+        if (strcmp(dst + strlen(dst) - 4, ".map") == 0)
+            strcpy(dst + strlen(dst) - 4, ".sol");
+        else
+            strcat(dst, ".sol");
+
+        if ((fin = fopen(src, "r")))
         {
             init_file(&f);
             read_map(&f, fin);
@@ -1841,13 +1850,13 @@ int main(int argc, char *argv[])
             node_file(&f);
             dump_file(&f);
 
-            sol_stor(&f, argv[2]);
+            sol_stor(&f, dst);
 
             fclose(fin);
         }
     }
     else
-        fprintf(stderr, "Usage: %s <map> <sol> <data>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <map> <data>\n", argv[0]);
         
     return 0;
 }

@@ -11,16 +11,26 @@ Build Log
 </h3>
 </pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
 Command Lines
-</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Creating temporary file "c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP000029.rsp" with contents
+</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Creating temporary file "c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP0000D9.rsp" with contents
 [
 /O2 /I "..\..\share" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /FD /EHsc /MD /GS /Fo"Release/" /Fd"Release/vc70.pdb" /W3 /c /Wp64 /Zi /TC
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\vec3.c"
-"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\text.c"
-"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\state.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\util.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\state.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\st_title.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\st_start.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\st_set.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\st_play.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\st_over.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\st_level.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\st_high.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\st_goal.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\st_fail.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\st_demo.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\st_conf.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\solid.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\set.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\part.c"
-"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\menu.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\main.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\level.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\image.c"
@@ -29,17 +39,19 @@ Command Lines
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\glext.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\geom.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\game.c"
+"\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\demo.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\config.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\share\back.c"
 "\Documents and Settings\Rlk\My Documents\neverball-1.2.6\ball\audio.c"
 ]
-Creating command line "cl.exe @"c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP000029.rsp" /nologo"
-Creating temporary file "c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP00002A.rsp" with contents
+Creating command line "cl.exe @"c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP0000D9.rsp" /nologo"
+Creating temporary file "c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP0000DA.rsp" with contents
 [
 /OUT:"Release/neverball.exe" /INCREMENTAL:NO /NOLOGO /DEBUG /PDB:"Release/neverball.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /MACHINE:X86  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
 ".\Release\audio.obj"
 ".\Release\back.obj"
 ".\Release\config.obj"
+".\Release\demo.obj"
 ".\Release\game.obj"
 ".\Release\geom.obj"
 ".\Release\glext.obj"
@@ -48,33 +60,56 @@ Creating temporary file "c:\Documents and Settings\Rlk\My Documents\neverball-1.
 ".\Release\image.obj"
 ".\Release\level.obj"
 ".\Release\main.obj"
-".\Release\menu.obj"
 ".\Release\part.obj"
 ".\Release\set.obj"
 ".\Release\solid.obj"
+".\Release\st_conf.obj"
+".\Release\st_demo.obj"
+".\Release\st_fail.obj"
+".\Release\st_goal.obj"
+".\Release\st_high.obj"
+".\Release\st_level.obj"
+".\Release\st_over.obj"
+".\Release\st_play.obj"
+".\Release\st_set.obj"
+".\Release\st_start.obj"
+".\Release\st_title.obj"
 ".\Release\state.obj"
-".\Release\text.obj"
+".\Release\util.obj"
 ".\Release\vec3.obj"
 ]
-Creating command line "link.exe @"c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP00002A.rsp""
+Creating command line "link.exe @"c:\Documents and Settings\Rlk\My Documents\neverball-1.2.6\msvc\neverball\Release\RSP0000DA.rsp""
 </pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
 Output Window
 </font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Compiling...
 vec3.c
-text.c
+util.c
 state.c
+st_title.c
+st_start.c
+st_set.c
+st_play.c
+st_over.c
+st_level.c
+st_high.c
+st_goal.c
+st_fail.c
+st_demo.c
+st_conf.c
 solid.c
 set.c
 part.c
-menu.c
 main.c
 level.c
 image.c
+Generating Code...
+Compiling...
 hud.c
 gui.c
 glext.c
 geom.c
 game.c
+demo.c
 config.c
 back.c
 audio.c

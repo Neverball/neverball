@@ -86,6 +86,10 @@ void config_init(void)
     option[CONFIG_KEY_CAMERA_3]      = DEFAULT_KEY_CAMERA_3;
     option[CONFIG_KEY_CAMERA_R]      = DEFAULT_KEY_CAMERA_R;
     option[CONFIG_KEY_CAMERA_L]      = DEFAULT_KEY_CAMERA_L;
+    option[CONFIG_VIEW_FOV]          = DEFAULT_VIEW_FOV;
+    option[CONFIG_VIEW_DP]           = DEFAULT_VIEW_DP;
+    option[CONFIG_VIEW_DC]           = DEFAULT_VIEW_DC;
+    option[CONFIG_VIEW_DZ]           = DEFAULT_VIEW_DZ;
 
     strcpy(player, DEFAULT_PLAYER);
 }
@@ -156,6 +160,14 @@ void config_load(void)
                     option[CONFIG_JOYSTICK_BUTTON_L]    = atoi(val);
                 else if (strcmp(key, "joystick_button_exit")  == 0)
                     option[CONFIG_JOYSTICK_BUTTON_EXIT] = atoi(val);
+                else if (strcmp(key, "view_fov")              == 0)
+                    option[CONFIG_VIEW_FOV]             = atoi(val);
+                else if (strcmp(key, "view_dp")               == 0)
+                    option[CONFIG_VIEW_DP]              = atoi(val);
+                else if (strcmp(key, "view_dc")               == 0)
+                    option[CONFIG_VIEW_DC]              = atoi(val);
+                else if (strcmp(key, "view_dz")               == 0)
+                    option[CONFIG_VIEW_DZ]              = atoi(val);
                 else if (strcmp(key, "key_camera_1")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_1, DEFAULT_KEY_CAMERA_1);
                 else if (strcmp(key, "key_camera_2")  == 0)
@@ -233,6 +245,14 @@ void config_save(void)
                 option[CONFIG_JOYSTICK_BUTTON_B]);
         fprintf(fp, "joystick_button_exit %d\n",
                 option[CONFIG_JOYSTICK_BUTTON_EXIT]);
+        fprintf(fp, "view_fov             %d\n",
+                option[CONFIG_VIEW_FOV]);
+        fprintf(fp, "view_dp              %d\n",
+                option[CONFIG_VIEW_DP]);
+        fprintf(fp, "view_dc              %d\n",
+                option[CONFIG_VIEW_DC]);
+        fprintf(fp, "view_dz              %d\n",
+                option[CONFIG_VIEW_DZ]);
         fprintf(fp, "key_camera_1         %s\n",
                 SDL_GetKeyName(option[CONFIG_KEY_CAMERA_1]));
         fprintf(fp, "key_camera_2         %s\n",
@@ -327,24 +347,6 @@ int config_path(char *path, char *test)
     return 0;
 }
 
-/*
- * Confirm the existence of a readable replay file.
- */
-int config_demo(void)
-{
-    char path[MAXSTR];
-    FILE *fp;
-
-    if (config_home(path, USER_REPLAY_FILE, MAXSTR))
-        if ((fp = fopen(path, FMODE_RB)))
-        {
-            fclose(fp);
-            return 1;
-        }
-
-    return 0;
-}
-
 /*---------------------------------------------------------------------------*/
 
 void config_set(int i, int d)
@@ -414,6 +416,17 @@ void config_pop_matrix(void)
         glPopMatrix();
     }
     glMatrixMode(GL_MODELVIEW);
+}
+
+void config_clear(void)
+{
+    if (option[CONFIG_REFLECTION])
+        glClear(GL_COLOR_BUFFER_BIT |
+                GL_DEPTH_BUFFER_BIT |
+                GL_STENCIL_BUFFER_BIT);
+    else
+        glClear(GL_COLOR_BUFFER_BIT |
+                GL_DEPTH_BUFFER_BIT);
 }
 
 /*---------------------------------------------------------------------------*/

@@ -23,7 +23,7 @@ int  curr_coins(void);
 int  curr_balls(void);
 int  curr_level(void);
 
-void level_goto(int, int, int, int);
+int  level_goto(int, int, int, int);
 int  level_goal(void);
 int  level_pass(void);
 int  level_fail(void);

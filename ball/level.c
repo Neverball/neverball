@@ -400,7 +400,7 @@ static void score_coin_swap(struct score *S, int i, int j)
 
 /*---------------------------------------------------------------------------*/
 
-void level_goto(int s, int c, int b, int l)
+int level_goto(int s, int c, int b, int l)
 {
     if (s >= 0) score = s;
     if (c >= 0) coins = c;
@@ -408,8 +408,9 @@ void level_goto(int s, int c, int b, int l)
     if (l >= 0) level = l;
 
     back_init(level_v[level].back, config_get(CONFIG_GEOMETRY));
-    game_init(level_v[level].file,
-              level_v[level].time);
+
+    return game_init(level_v[level].file,
+                     level_v[level].time);
 }
 
 int level_goal(void)
@@ -483,10 +484,9 @@ int level_pass(void)
         score = 0;
 
         back_init(level_v[level].back, config_get(CONFIG_GEOMETRY));
-        game_init(level_v[level].file,
-                  level_v[level].time);
 
-        return 1;
+        return game_init(level_v[level].file,
+                         level_v[level].time);
     }
     else
     {
@@ -528,10 +528,9 @@ int level_fail(void)
         score = 0;
 
         back_init(level_v[level].back, config_get(CONFIG_GEOMETRY));
-        game_init(level_v[level].file,
-                  level_v[level].time);
 
-        return 1;
+        return game_init(level_v[level].file,
+                         level_v[level].time);
     }
     return 0;
 }
@@ -576,20 +575,22 @@ void level_snap(int i)
     /* Initialize the game for a snapshot. */
 
     back_init(level_v[i].back, config_get(CONFIG_GEOMETRY));
-    game_init(level_v[i].file, level_v[i].time);
+    
+    if (game_init(level_v[i].file, level_v[i].time))
+    {
+        /* Render the level and grab the screen. */
 
-    /* Render the level and grab the screen. */
+        config_clear();
+        game_set_fly(1.f);
+        game_draw(1, 0);
+        SDL_GL_SwapBuffers();
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    game_set_fly(1.f);
-    game_draw(1, 0);
-    SDL_GL_SwapBuffers();
+        image_snap(filename);
 
-    image_snap(filename);
+        /* Release the posed game. */
 
-    /* Release the posed game. */
-
-    game_free();
+        game_free();
+    }
     back_free();
 }
 

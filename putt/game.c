@@ -85,11 +85,11 @@ void game_init(const char *s)
     jump_b = 0;
 
     view_init();
-    sol_load(&file, s, config_text());
+    sol_load(&file, s, config_get(CONFIG_TEXTURES), config_get(CONFIG_SHADOW));
 
-    shadow_text = make_image_from_file(NULL, NULL, IMG_SHADOW);
+    shadow_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_SHADOW);
 
-    if (glext_shadow() == 2)
+    if (config_get(CONFIG_SHADOW) == 2)
     {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -295,7 +295,7 @@ static void game_set_shadow(const struct s_file *fp)
         glActiveTexture(GL_TEXTURE1);
         glMatrixMode(GL_TEXTURE);
         {
-            float k = 0.5 / ball_r;
+            float k = 0.5f / ball_r;
 
             glEnable(GL_TEXTURE_2D);
 
@@ -303,9 +303,9 @@ static void game_set_shadow(const struct s_file *fp)
             glBindTexture(GL_TEXTURE_2D, shadow_text);
 
             glLoadIdentity();
-            glTranslatef(0.5 - ball_p[0] * k,
-                         0.5 - ball_p[2] * k, 0.f);
-            glScalef(k, k, 1.f);
+            glTranslatef(0.5f - ball_p[0] * k,
+                         0.5f - ball_p[2] * k, 0.0f);
+            glScalef(k, k, 1.0f);
         }
         glMatrixMode(GL_MODELVIEW);
         glActiveTexture(GL_TEXTURE0);
@@ -334,9 +334,9 @@ void game_draw(int pose)
     
     float fov = FOV;
 
-    if (jump_b) fov *= 2.f * fabs(jump_dt - 0.5);
+    if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
-    config_push_persp(fov, 0.1, FAR_DIST);
+    config_push_persp(fov, 0.1f, FAR_DIST);
     glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {
@@ -368,7 +368,7 @@ void game_draw(int pose)
         /* Draw the floor. */
 
         if (pose == 0) game_set_shadow(fp);
-        sol_draw(fp);
+        sol_draw(fp, config_get(CONFIG_SHADOW));
         if (pose == 0) game_clr_shadow();
 
         /* Draw the game elements. */
@@ -409,7 +409,7 @@ void game_update_view(float dt)
     v_cpy(view_c, file.uv[ball].p);
     v_inv(view_v, file.uv[ball].v);
 
-    switch (config_view())
+    switch (config_get(CONFIG_CAMERA))
     {
     case 2:
         /* Camera 2: View vector is given by view angle. */
@@ -430,7 +430,7 @@ void game_update_view(float dt)
         k = v_dot(view_v, view_v);
 
         v_sub(view_e[2], view_p, view_c);
-        v_mad(view_e[2], view_e[2], view_v, k * dt * 0.1);
+        v_mad(view_e[2], view_e[2], view_v, k * dt * 0.1f);
     }
 
     /* Orthonormalize the basis of the view in its new position. */
@@ -599,7 +599,7 @@ void game_putt(void)
 
 void game_set_rot(int d)
 {
-    view_a += (float) (30.f * d) / config_sens();
+    view_a += (float) (30.f * d) / config_get(CONFIG_MOUSE_SENSE);
 }
 
 void game_clr_mag(void)
@@ -610,7 +610,7 @@ void game_clr_mag(void)
 
 void game_set_mag(int d)
 {
-    view_m -= (float) (1.f * d) / config_sens();
+    view_m -= (float) (1.f * d) / config_get(CONFIG_MOUSE_SENSE);
 
     if (view_m < 0.25)
         view_m = 0.25;

@@ -21,7 +21,6 @@
 #include "geom.h"
 #include "back.h"
 #include "part.h"
-#include "text.h"
 #include "hud.h"
 #include "image.h"
 #include "audio.h"
@@ -45,6 +44,7 @@ static float view_ry;                   /* Angular velocity about Y axis     */
 static float view_dc;                   /* Ideal view distance above ball    */
 static float view_dp;                   /* Ideal view distance above ball    */
 static float view_dz;                   /* Ideal view distance behind ball   */
+static float view_fov;                  /* Field of view                     */
 
 static float view_c[3];                 /* Current view center               */
 static float view_v[3];                 /* Current view vector               */
@@ -66,9 +66,10 @@ static void view_init(void)
     view_a  = 0.f;
     view_ry = 0.f;
 
-    view_dp = 0.75f;
-    view_dc = 0.25f;
-    view_dz = 2.0f;
+    view_fov = (float) config_get(CONFIG_VIEW_FOV);
+    view_dp  = (float) config_get(CONFIG_VIEW_DP) / 100.0f;
+    view_dc  = (float) config_get(CONFIG_VIEW_DC) / 100.0f;
+    view_dz  = (float) config_get(CONFIG_VIEW_DZ) / 100.0f;
 
     view_c[0] = 0.f;
     view_c[1] = view_dc;
@@ -89,7 +90,7 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-void game_init(const char *s, int t)
+int game_init(const char *s, int t)
 {
     game_ix = 0.f;
     game_iz = 0.f;
@@ -106,8 +107,7 @@ void game_init(const char *s, int t)
     hud_time_pulse(0.f);
     hud_coin_pulse(0.f);
 
-    sol_load(&file, s, config_get(CONFIG_TEXTURES), config_get(CONFIG_SHADOW));
-    clock = (float) t;
+    clock = (float) t / 100.f;
 
     shadow_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_SHADOW);
 
@@ -116,6 +116,9 @@ void game_init(const char *s, int t)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     }
+
+    return sol_load(&file, s, config_get(CONFIG_TEXTURES),
+                              config_get(CONFIG_SHADOW));
 }
 
 void game_free(void)
@@ -143,6 +146,7 @@ char *curr_intro(void)
 
 static void game_draw_balls(const struct s_file *fp)
 {
+    float c[4] = { 1.0f, 1.0f, 1.0f, 0.7f };
     float M[16];
 
     m_basis(M, fp->uv[0].e[0], fp->uv[0].e[1], fp->uv[0].e[2]);
@@ -157,7 +161,7 @@ static void game_draw_balls(const struct s_file *fp)
                  fp->uv[0].r,
                  fp->uv[0].r);
 
-        glColor4fv(c_play[0]);
+        glColor4fv(c);
 
         ball_draw();
     }
@@ -422,9 +426,9 @@ static void game_draw_all(int pose, float rx, float ry, int d)
     glPopAttrib();
 }
 
-void game_draw(int pose, float dy)
+void game_draw(int pose, float st)
 {
-    float fov = FOV;
+    float fov = view_fov;
 
     if (jump_b) fov *= 2.f * fabsf(jump_dt - 0.5);
 
@@ -438,11 +442,7 @@ void game_draw(int pose, float dy)
         v_sub(v, view_c, view_p);
 
         rx = V_DEG(fatan2f(-v[1], fsqrtf(v[0] * v[0] + v[2] * v[2])));
-        ry = V_DEG(fatan2f(+v[0], -v[2])) + dy;
-
-        /*
-        if (game_rx > 0 && rx < game_rx) rx = game_rx;
-        */
+        ry = V_DEG(fatan2f(+v[0], -v[2])) + st;
 
         glTranslatef(0.f, 0.f, -v_len(v));
         glRotatef(rx, 1.f, 0.f, 0.f);
@@ -518,7 +518,8 @@ static void game_update_view(float dt)
 {
     const float y[3] = { 0.f, 1.f, 0.f };
 
-    float dx = view_ry * dt * 5.f;
+    float dc = view_dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
+    float dx = view_ry * dt * 5.0f;
     float k;
     float e[3];
     float s = 4.f * dt;
@@ -578,7 +579,7 @@ static void game_update_view(float dt)
     v_mad(view_p, view_p, view_e[2], view_dz);
 
     v_cpy(view_c, file.uv->p);
-    v_mad(view_c, view_c, view_e[1], view_dc);
+    v_mad(view_c, view_c, view_e[1], dc);
 
     view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
 }
@@ -848,9 +849,6 @@ int game_put(FILE *fout)
             float_put(fout, &game_rz)  &&
             vector_put(fout, view_c)    &&
             vector_put(fout, view_p)    &&
-            vector_put(fout, view_e[0]) &&
-            vector_put(fout, view_e[1]) &&
-            vector_put(fout, view_e[2]) &&
             sol_put(fout, &file));
 }
 
@@ -860,9 +858,6 @@ int game_get(FILE *fin)
             float_get(fin, &game_rz)  &&
             vector_get(fin, view_c)    &&
             vector_get(fin, view_p)    &&
-            vector_get(fin, view_e[0]) &&
-            vector_get(fin, view_e[1]) &&
-            vector_get(fin, view_e[2]) &&
             sol_get(fin, &file));
 }
 

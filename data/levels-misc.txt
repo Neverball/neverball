@@ -1,2 +1,0 @@
-sol-misc/test.sol shot-misc/title.jpg png/green_blue.png 599 bgm/title.ogg
-sol-misc/test.sol shot-misc/title.jpg png/green_blue.png 599 bgm/title.ogg

@@ -500,11 +500,11 @@ int sol_load(struct s_file *fp, const char *filename, int k, int s)
 {
     FILE *fin;
 
+    memset(fp, 0, sizeof (struct s_file));
+
     if ((fin = fopen(filename, FMODE_RB)))
     {
         short n[18];
-
-        memset(fp, 0, sizeof (struct s_file));
 
         fread(n, sizeof (short), 18, fin);
 
@@ -1475,32 +1475,25 @@ int sol_swch_test(struct s_file *fp, int flag, short ui)
 
 int float_put(FILE *fout, float *d)
 {
-    return (fwrite(d, sizeof (float), 1, fout) == 1) ? 1 : 0;
+    return (fwrite(d, sizeof (float), 1, fout) == 1);
 }
 
 int float_get(FILE *fin, float *d)
 {
-    if (fread(d, sizeof (float), 1, fin) == 1)
-        return 1;
-    else
-        return 0;
+    return (fread(d, sizeof (float), 1, fin) == 1);
 }
-
-/*---------------------------------------------------------------------------*/
 
 int vector_put(FILE *fout, float v[3])
 {
-    return (float_put(fout, v + 0) &&
-            float_put(fout, v + 1) &&
-            float_put(fout, v + 2));
+    return (fwrite(v, sizeof (float), 3, fout) == 3);
 }
 
 int vector_get(FILE *fin, float v[3])
 {
-    return (float_get(fin, v + 0) &&
-            float_get(fin, v + 1) &&
-            float_get(fin, v + 2));
+    return (fread(v, sizeof (float), 3, fin) == 3);
 }
+
+/*---------------------------------------------------------------------------*/
 
 int sol_put(FILE *fout, struct s_file *fp)
 {

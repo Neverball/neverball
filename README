@@ -168,6 +168,26 @@ default values follow.
 
         3 - Locked camera  does not rotate  except by  player command.
 
+    view_fov 50
+    view_dp  75
+    view_dc  25
+    view_dz  200
+    
+        These keys  define the view of the ball.  They give  the field
+        of view in degrees,  the height of the view point,  the height
+        of the view center,  and the horizontal distance from the ball
+        in centimeters, respectively.  (The ball is  50 centimeters in
+        diameter in most levels.)
+        
+        The default values  for these keys changed with version 1.2.6.
+        Some players may be interested in using the  old values.  They
+        were as follows:
+        
+            view_fov 40
+            view_dp  400
+            view_dc  0
+            view_dz  600
+
     fps 0
 
         This key enables an on-screen frames-per-second counter. Press

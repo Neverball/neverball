@@ -20,7 +20,6 @@
 #include "glext.h"
 #include "part.h"
 #include "vec3.h"
-#include "text.h"
 #include "image.h"
 
 /*---------------------------------------------------------------------------*/
@@ -65,9 +64,9 @@ static void part_init_goal(float h)
         part_goal[i].a = V_DEG(a);
         part_goal[i].w = V_DEG(w);
 
-        part_goal[i].c[0] = c_ylw[0];
-        part_goal[i].c[1] = c_ylw[1];
-        part_goal[i].c[2] = c_ylw[2];
+        part_goal[i].c[0] = 1.0f;
+        part_goal[i].c[1] = 1.0f;
+        part_goal[i].c[2] = 0.0f;
 
         part_goal[i].p[0] = fsinf(a);
         part_goal[i].p[1] = (1.f - t) * h;

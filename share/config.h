@@ -102,6 +102,10 @@ enum {
     CONFIG_KEY_CAMERA_3,
     CONFIG_KEY_CAMERA_R,
     CONFIG_KEY_CAMERA_L,
+    CONFIG_VIEW_FOV,
+    CONFIG_VIEW_DP,
+    CONFIG_VIEW_DC,
+    CONFIG_VIEW_DZ,
 
     CONFIG_OPTION_COUNT
 };
@@ -139,6 +143,10 @@ enum {
 #define DEFAULT_KEY_CAMERA_3         SDLK_F3
 #define DEFAULT_KEY_CAMERA_R         SDLK_RIGHT
 #define DEFAULT_KEY_CAMERA_L         SDLK_LEFT
+#define DEFAULT_VIEW_FOV             50
+#define DEFAULT_VIEW_DP              75
+#define DEFAULT_VIEW_DC              25
+#define DEFAULT_VIEW_DZ              200
 #define DEFAULT_PLAYER               "Player"
 
 /*---------------------------------------------------------------------------*/
@@ -159,7 +167,6 @@ void config_save(void);
 int  config_mode(int, int, int);
 int  config_home(char *, char *, size_t);
 int  config_path(char *, char *);
-int  config_demo(void);
 
 /*---------------------------------------------------------------------------*/
 
@@ -176,6 +183,7 @@ void config_get_name(char *);
 void config_push_persp(float, float, float);
 void config_push_ortho(void);
 void config_pop_matrix(void);
+void config_clear(void);
 
 /*---------------------------------------------------------------------------*/
 

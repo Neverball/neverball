@@ -116,17 +116,12 @@ const char *set_desc(int i)
     return (0 <= i && i < count) ? set_v[i].desc : "";
 }
 
-void set_shot(int i)
+const char *set_shot(int i)
 {
     if (0 <= i && i < count)
-    {
-        if (!glIsTexture(set_v[i].text))
-            set_v[i].text = make_image_from_file(NULL, NULL, NULL, NULL,
-                                                 set_v[i].shot);
-
-        glBindTexture(GL_TEXTURE_2D, set_v[i].text);
-    }
-    else set_shot(0);
+        return set_v[i].shot;
+    else
+        return set_v[0].shot;
 }
 
 /*---------------------------------------------------------------------------*/

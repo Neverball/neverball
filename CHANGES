@@ -1,14 +1,24 @@
 -------------------------------------------------------------------------------
 New in 1.2.6
 
+* Modularized state functions.
 * Changed view to make horizon visible.
+* Added view configuration options for people who whine about the new view.
 * Changed background images to augment horizon.
 * Fixed Neverputt far clip set closer than background.
 * Fixed an audio init bug.
-* Cleaned up config handling.
+* Generalized config handling.
 * Heavily modified GUI handling.
+* Replaced all 2D menus with new GUI code.
 * Changed image loading policy to support non-power-of-two images.
 * Replaced Win32 makefile with VS.Net solution.
+* Rewrote HUD to use new GUI handler.
+* Removed obsolete text module and menu module.
+* Policy change: .SOL files now go in same directory as .MAP files.
+* Changed mapc to derive .SOL file name from .MAP file name.
+* Changed pause screen to include the word "Paused".
+* Changed internal clock to use integer deciseconds instead of float seconds.
+  (HIGH SCORE FILE CHANGED)
 
 -------------------------------------------------------------------------------
 New in 1.2.5

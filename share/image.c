@@ -218,46 +218,56 @@ GLuint make_image_from_font(int *W, int *H,
 
     /* Render the text. */
 
-    if ((src = TTF_RenderText_Blended(font, text, fg)))
+    if (text && strlen(text) > 0)
     {
-        int w2;
-        int h2;
-
-        image_size(&w2, &h2, src->w, src->h);
-
-        if (w) *w = src->w;
-        if (h) *h = src->h;
-
-        /* Create a new destination surface. */
-        
-        if ((dst = SDL_CreateRGBSurface(SDL_SWSURFACE, w2, h2, 32,
-                                        RMASK, GMASK, BMASK, AMASK)))
+        if ((src = TTF_RenderText_Blended(font, text, fg)))
         {
-            /* Copy source pixels to the center of the destination. */
+            int w2;
+            int h2;
 
-            rect.x = (Sint16) (w2 - src->w) / 2;
-            rect.y = (Sint16) (h2 - src->h) / 2;
+            image_size(&w2, &h2, src->w, src->h);
 
-            SDL_SetAlpha(src, 0, 0);
-            SDL_BlitSurface(src, NULL, dst, &rect);
+            if (w) *w = src->w;
+            if (h) *h = src->h;
 
-            glPushAttrib(GL_PIXEL_MODE_BIT);
+            /* Create a new destination surface. */
+            
+            if ((dst = SDL_CreateRGBSurface(SDL_SWSURFACE, w2, h2, 32,
+                                            RMASK, GMASK, BMASK, AMASK)))
             {
-                /* Clamp RGB to white so glyphs are alpha-blended cleanly. */
+                /* Copy source pixels to the center of the destination. */
 
-                glPixelTransferf(GL_RED_BIAS,   1.0f);
-                glPixelTransferf(GL_GREEN_BIAS, 1.0f);
-                glPixelTransferf(GL_BLUE_BIAS,  1.0f);
+                rect.x = (Sint16) (w2 - src->w) / 2;
+                rect.y = (Sint16) (h2 - src->h) / 2;
 
-                /* Create the image using the new surface. */
+                SDL_SetAlpha(src, 0, 0);
+                SDL_BlitSurface(src, NULL, dst, &rect);
 
-                o = make_image_from_surf(W, H, dst);
+                glPushAttrib(GL_PIXEL_MODE_BIT);
+                {
+                    /* Clamp RGB to white so glyphs are alpha-blended cleanly. */
+
+                    glPixelTransferf(GL_RED_BIAS,   1.0f);
+                    glPixelTransferf(GL_GREEN_BIAS, 1.0f);
+                    glPixelTransferf(GL_BLUE_BIAS,  1.0f);
+
+                    /* Create the image using the new surface. */
+
+                    o = make_image_from_surf(W, H, dst);
+                }
+                glPopAttrib();
+
+                SDL_FreeSurface(dst);
             }
-            glPopAttrib();
-
-            SDL_FreeSurface(dst);
+            SDL_FreeSurface(src);
         }
-        SDL_FreeSurface(src);
+    }
+    else
+    {
+        if (W) *W = 0;
+        if (H) *H = 0;
+        if (w) *w = 0;
+        if (h) *h = 0;
     }
     return o;
 }

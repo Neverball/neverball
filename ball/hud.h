@@ -3,19 +3,17 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define STR_BALLS "Balls"
-#define STR_COINS "Coins"
-
-#define STR_VIEW0 "View: Chase"
-#define STR_VIEW1 "View: Lazy"
-#define STR_VIEW2 "View: Manual"
+#define STR_VIEW0 "Chase"
+#define STR_VIEW1 "Lazy"
+#define STR_VIEW2 "Manual"
 
 /*---------------------------------------------------------------------------*/
 
 void hud_init(void);
 void hud_free(void);
-void hud_draw(void);
-void hud_step(float);
+
+void hud_paint(void);
+void hud_timer(float);
 
 void hud_ball_pulse(float);
 void hud_time_pulse(float);

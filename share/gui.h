@@ -15,6 +15,8 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include "glext.h"
+
 /*---------------------------------------------------------------------------*/
 
 #define GUI_FACE "ttf/VeraBd.ttf"
@@ -34,7 +36,10 @@
 extern const GLfloat gui_wht[4];
 extern const GLfloat gui_yel[4];
 extern const GLfloat gui_red[4];
+extern const GLfloat gui_blu[4];
+extern const GLfloat gui_grn[4];
 extern const GLfloat gui_blk[4];
+extern const GLfloat gui_gry[4];
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,6 +50,7 @@ void gui_free(void);
 
 void gui_set_label(int, const char *);
 void gui_set_image(int, const char *);
+void gui_set_multi(int, const char *);
 void gui_set_count(int, int);
 void gui_set_clock(int, int);
 
@@ -60,16 +66,18 @@ int  gui_image(int, const char *, int, int);
 int  gui_start(int, const char *, int, int, int);
 int  gui_state(int, const char *, int, int, int);
 int  gui_label(int, const char *, int, int, const float *, const float *);
+int  gui_multi(int, const char *, int, int, const float *, const float *);
 int  gui_count(int, int, int, int);
 int  gui_clock(int, int, int, int);
 int  gui_space(int);
+int  gui_pause(int);
 
 /*---------------------------------------------------------------------------*/
 
 void gui_dump(int, int);
 void gui_layout(int, int, int);
 int  gui_search(int, int, int);
-void gui_delete(int);
+int  gui_delete(int);
 
 /*---------------------------------------------------------------------------*/
 
@@ -79,6 +87,7 @@ void gui_timer(int, float);
 int  gui_point(int, int, int);
 int  gui_stick(int, int, int);
 int  gui_click(void);
+void gui_blank(void);
 
 int  gui_token(int);
 int  gui_value(int);

@@ -53,8 +53,8 @@ static void chunk_free(int i)
 
 void audio_init(void)
 {
-    int r = config_rate();
-    int b = config_buff();
+    int r = config_get(CONFIG_AUDIO_RATE);
+    int b = config_get(CONFIG_AUDIO_BUFF);
 
     if (audio_state == 0)
     {
@@ -78,8 +78,8 @@ void audio_init(void)
 
             audio_state = 1;
 
-            config_set_sound(config_sound());
-            config_set_music(config_music());
+            audio_volume(config_get(CONFIG_SOUND_VOLUME),
+                         config_get(CONFIG_MUSIC_VOLUME));
         }
         else fprintf(stderr, "Sound disabled\n");
     }
@@ -128,7 +128,7 @@ void audio_music_play(const char *filename)
     {
         audio_music_stop();
 
-        if ((config_music() > 0) && (song = Mix_LoadMUS(filename)))
+        if ((config_get(CONFIG_MUSIC_VOLUME) > 0) && (song = Mix_LoadMUS(filename)))
             Mix_PlayMusic(song, -1);
     }
 }
