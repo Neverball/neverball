@@ -29,6 +29,27 @@
 #include "config.h"
 
 /*---------------------------------------------------------------------------*/
+/*
+#include <sys/time.h>
+
+struct timeval tv;
+struct timeval tu;
+
+static void timer_start(void)
+{
+    gettimeofday(&tv, NULL);
+}
+
+static void timer_end(void)
+{
+    gettimeofday(&tu, NULL);
+
+    printf("%f\n",
+           (double) (tu.tv_sec  - tv.tv_sec) +
+           (double) (tu.tv_usec - tv.tv_usec) / 1000000.0);
+}
+*/
+/*---------------------------------------------------------------------------*/
 
 static struct s_file file;
 
@@ -546,11 +567,16 @@ int game_step(const double g[3], double dt, int bt)
 {
     struct s_file *fp = &file;
 
+    static double s = 0.0;
+
     double h[3];
     double d = 0.0;
     double b = 0.0;
-    double t = dt;
+    double t;
     int i, n = 1;
+
+    s = (7.0 * s + dt) / 8.0;
+    t = s;
 
     /* Smooth jittery or discontinuous input. */
 

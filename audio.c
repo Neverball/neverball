@@ -131,7 +131,7 @@ void audio_music_play(const char *filename)
     {
         audio_music_stop();
 
-        if ((song = Mix_LoadMUS(filename)))
+        if ((config_music() > 0) && (song = Mix_LoadMUS(filename)))
             Mix_PlayMusic(song, -1);
     }
 }

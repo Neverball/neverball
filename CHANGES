@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
+New in 0.25.10
+
+* Fix broken load balancer starving the renderer on early level load.
+* Disabled music playback entirely when music volume is zero.
+
+-------------------------------------------------------------------------------
 New in 0.25.9
 
 * Demo record and replay.

@@ -956,6 +956,7 @@ double sol_step(struct s_file *fp, const double *g, double dt)
 
     struct s_ball *up = fp->uv;
     struct s_ball  uu = *up;
+    int c = 0;
 
     v_mad(up->v, up->v, g, tt);
 
@@ -966,6 +967,7 @@ double sol_step(struct s_file *fp, const double *g, double dt)
             sol_ball_step(fp, nt);
 
             tt -= nt;
+            c++;
 
             if (b < (d = sol_bounce(up, T, V)))
                 b = d;
