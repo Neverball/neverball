@@ -35,6 +35,8 @@ struct text
 
 struct item
 {
+    GLuint list;
+
     int state;
 
     int x0, y0;
@@ -89,7 +91,14 @@ void menu_free(void)
     }
 
     if (menu.item)
+    {
+        for (i = 0; i < menu.nitem; i++)
+        {
+            if (glIsList(menu.item[i].list))
+                glDeleteLists(menu.item[i].list, 1);
+        }
         free(menu.item);
+    }
 }
 
 void menu_item(int i, int x, int y, int w, int h)
@@ -107,6 +116,11 @@ void menu_item(int i, int x, int y, int w, int h)
         menu.item[i].R = i;
 
         menu.item[i].state = -1;
+
+        menu.item[i].list = make_rect(menu.item[i].x0,
+                                      menu.item[i].y0,
+                                      menu.item[i].x1,
+                                      menu.item[i].y1, 16);
     }
 }
 
@@ -174,7 +188,9 @@ static void menu_paint_item(struct item *item, int n, int value)
             if (item[i].state >  0) j += 2;
 
             glColor4fv(back[j]);
-            glRecti(item[i].x0, item[i].y0, item[i].x1, item[i].y1);
+
+            if (glIsList(item[i].list))
+                glCallList(item[i].list);
         }
     }
     glEnable(GL_TEXTURE_2D);

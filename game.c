@@ -299,10 +299,9 @@ static void game_clr_shadow(void)
 
 void game_draw(int pose)
 {
-/*    const float light_p[4] = { 8.0, 32.0, 8.0, 1.0 }; */
     const float light_p[2][4] = {
-        { -8.0, +8.0, -8.0, 1.0 },
-        { +8.0, +8.0, +8.0, 1.0 },
+        { -8.0, +32.0, -8.0, 1.0 },
+        { +8.0, +32.0, +8.0, 1.0 },
     };
     const float light_c[2][4] = {
         { 1.0, 0.8, 0.8, 1.0 },

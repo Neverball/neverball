@@ -206,14 +206,10 @@ path_corner
     seconds,  regardless of  the distance  between one  point  and the
     next.  The default is "1.0".
 
-    The  "state" attribute  determines  whether this  path segment  is
-    enabled.   A  func_train will  only  move  along  an enabled  path
-    segment.  A train may be stopped and started by toggling the state
-    of the  path to  which it  is attached.  "0"  means no,  "1" means
-    yes. The default is 1.  Note that the state attribute only applies
-    to the segment of the path defined by the path_corner in question.
-    A func_train will continue to move along enabled path segments and
-    stop at the beginning of the first disabled segment.
+    The "state"  attribute determines whether the path  is enabled.  A
+    func_train will only  move along an enabled path.   A train may be
+    stopped and started by toggling the  state of the path to which it
+    is attached.  "0" means no, "1" means yes. The default is 1.
 
     To  create a  pause  in  a path.   Simply  position two  connected
     path_corner entities at  the same point.  The trip  will have zero
@@ -275,12 +271,12 @@ info_camp
     have the same initial "state" value as the path_corner it targets.
 
     The "timer" attribute defines a  delay time.  The time begins when
-    a  switch is  toggled to  its non-initial  state.  When  the timer
-    expires, the  switch toggles back  to its initial state.   A timer
-    value  of  zero  indicates  an  untimed switch.   The  default  is
-    zero.  This may be  used to define  a door  that opens only  for a
-    moment before closing,  or a func_train that moves  along its path
-    in discrete activated steps.
+    a switch is toggled to  its non-initial state.  The switch toggles
+    back to its  initial state when the timer  expires.  A timer value
+    of zero indicates  an untimed switch.  The default  is zero.  This
+    may be used  to define a door that opens only  for a moment before
+    closing, or  a func_train  that moves along  its path  in discrete
+    activated steps.
 
 info_player_intermission
 

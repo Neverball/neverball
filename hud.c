@@ -36,15 +36,18 @@ static int    small_h = 0;
 
 static GLuint coins_text;               /* Coins label texture object  */
 static GLuint coins_list;               /* Coins label display list    */
+static GLuint coins_rect;               /* Coins label background      */
 static int    coins_w = 0;              /* Coins label layout size     */
 static int    coins_h = 0;
 
 static GLuint balls_text;               /* Balls label texture object  */
 static GLuint balls_list;               /* Balls label display list    */
+static GLuint balls_rect;               /* Balls label background      */
 static int    balls_w = 0;              /* Balls label layout size     */
 static int    balls_h = 0;
 
 static int    space_w = 0;              /* HUD layout spacing          */
+static GLuint timer_rect;               /* Timer label background      */
 
 static double ball_k = 1.0;
 static double time_k = 1.0;
@@ -54,8 +57,11 @@ static double coin_k = 1.0;
 
 void hud_init(void)
 {
+    const int W = config_w();
+    const int C = config_w() / 2;
+
     char buf[2];
-    int i;
+    int a, b, i;
 
     text_size("0",       TXT_MED, &small_w, &small_h);
     text_size("0",       TXT_LRG, &large_w, &large_h);
@@ -76,6 +82,9 @@ void hud_init(void)
         large_list[i] = make_list(buf, TXT_LRG, c_yellow, c_red);
     }
 
+    a =      coins_w + 2 * small_w + 2 * space_w;
+    b = (3 * large_w + 2 * small_w + 3 * space_w) / 2;
+
     small_text[10] = make_text(":", TXT_MED);
     small_list[10] = make_list(":", TXT_MED, c_yellow, c_red);
 
@@ -84,11 +93,19 @@ void hud_init(void)
 
     balls_list = make_list(STR_BALLS, TXT_SML, c_white, c_white);
     coins_list = make_list(STR_COINS, TXT_SML, c_white, c_white);
+
+    balls_rect = make_rect(0,     0, a,     small_h, 16);
+    coins_rect = make_rect(W - a, 0, W,     small_h, 16);
+    timer_rect = make_rect(C - b, 0, C + b, large_h, 16);
 }
 
 void hud_free(void)
 {
     int i;
+
+    glDeleteLists(timer_rect, 1);
+    glDeleteLists(coins_rect, 1);
+    glDeleteLists(balls_rect, 1);
 
     glDeleteLists(coins_list, 1);
     glDeleteLists(balls_list, 1);
@@ -166,19 +183,13 @@ static void hud_draw_labels(void)
  */
 static void hud_draw_back(void)
 {
-    const int W = config_w();
-    const int C = config_w() / 2;
-
     glDisable(GL_TEXTURE_2D);
     {
-        const int a =      coins_w + 2 * small_w + 2 * space_w;
-        const int b = (3 * large_w + 2 * small_w + 3 * space_w) / 2;
-
         glColor4fv(c_grey);
 
-        glRecti(C - b, 0, C + b, large_h);
-        glRecti(0,     0, a,     small_h);
-        glRecti(W - a, 0, W,     small_h);
+        glCallList(timer_rect);
+        glCallList(balls_rect);
+        glCallList(coins_rect);
     }
     glEnable(GL_TEXTURE_2D);
 }
@@ -306,6 +317,10 @@ void hud_step(double dt)
     ball_k -= (ball_k - 1.0) * dt * 4;
     time_k -= (time_k - 1.0) * dt * 4;
     coin_k -= (coin_k - 1.0) * dt * 4;
+
+    if (ball_k < 0.0) ball_k = 0.0;
+    if (time_k < 0.0) time_k = 0.0;
+    if (coin_k < 0.0) coin_k = 0.0;
 }
 
 void hud_ball_pulse(double k) { ball_k = k; }

@@ -761,7 +761,23 @@ static void sol_swch_step(struct s_file *fp, double dt)
             xp->t -= dt;
 
             if (xp->t <= 0)
-                fp->pv[xp->pi].f = xp->f = xp->f0;
+            {
+                int pi = xp->pi;
+                int pj = xp->pi;
+
+                do  /* Tortoise and hare cycle traverser. */
+                {
+                    fp->pv[pi].f = xp->f0;
+                    fp->pv[pj].f = xp->f0;
+
+                    pi = fp->pv[pi].pi;
+                    pj = fp->pv[pj].pi;
+                    pj = fp->pv[pj].pi;
+                }
+                while (pi != pj);
+
+                xp->f = xp->f0;
+            }
         }
     }
 }
@@ -1207,31 +1223,47 @@ int sol_swch_test(struct s_file *fp, int flag)
 
     for (xi = 0; xi < fp->xc; xi++)
     {
-        double r[3];
+        struct s_swch *xp = fp->xv + xi;
 
-        r[0] = ball_p[0] - fp->xv[xi].p[0];
-        r[1] = ball_p[2] - fp->xv[xi].p[2];
-        r[2] = 0;
-
-        if (v_len(r) < fp->xv[xi].r - ball_r &&
-            ball_p[1] > fp->xv[xi].p[1] &&
-            ball_p[1] < fp->xv[xi].p[1] + SWCH_HEIGHT / 2)
+        if (xp->t0 == 0 || xp->f == xp->f0)
         {
-            if (flag)
+            double r[3];
+
+            r[0] = ball_p[0] - xp->p[0];
+            r[1] = ball_p[2] - xp->p[2];
+            r[2] = 0;
+
+            if (v_len(r)  < xp->r - ball_r &&
+                ball_p[1] > xp->p[1] &&
+                ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
             {
-                int pi = fp->xv[xi].pi;
+                if (flag)
+                {
+                    int pi = xp->pi;
+                    int pj = xp->pi;
 
-                /* Toggle the state, update the path. */
+                    /* Toggle the state, update the path. */
 
-                fp->xv[xi].f = fp->xv[xi].f ? 0 : 1;
-                fp->pv[pi].f = fp->xv[xi].f;
+                    xp->f = xp->f ? 0 : 1;
 
-                /* It toggled to non-default state, start the timer. */
+                    do  /* Tortoise and hare cycle traverser. */
+                    {
+                        fp->pv[pi].f = xp->f;
+                        fp->pv[pj].f = xp->f;
 
-                if (fp->xv[xi].f != fp->xv[xi].f0)
-                    fp->xv[xi].t  = fp->xv[xi].t0;
+                        pi = fp->pv[pi].pi;
+                        pj = fp->pv[pj].pi;
+                        pj = fp->pv[pj].pi;
+                    }
+                    while (pi != pj);
+
+                    /* It toggled to non-default state, start the timer. */
+
+                    if (xp->f != xp->f0)
+                        xp->t  = xp->t0;
+                }
+                return 0;
             }
-            return 0;
         }
     }
     return 1;

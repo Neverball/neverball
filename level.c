@@ -73,34 +73,25 @@ static void level_store_hs(const char *filename)
         if ((fout = fopen(file, "w")))
         {
             int i;
+            int j;
 
             for (i = 1; i < limit; i++)
-            {
-                fprintf(fout, "%5.2f %d %s\n",
-                        score_v[i].time_s[0],
-                        score_v[i].time_c[0],
-                        score_v[i].time_n[0]);
-                fprintf(fout, "%5.2f %d %s\n",
-                        score_v[i].coin_s[0],
-                        score_v[i].coin_c[0],
-                        score_v[i].coin_n[0]);
-                fprintf(fout, "%5.2f %d %s\n",
-                        score_v[i].time_s[1],
-                        score_v[i].time_c[1],
-                        score_v[i].time_n[1]);
-                fprintf(fout, "%5.2f %d %s\n",
-                        score_v[i].coin_s[1],
-                        score_v[i].coin_c[1],
-                        score_v[i].coin_n[1]);
-                fprintf(fout, "%5.2f %d %s\n",
-                        score_v[i].time_s[2],
-                        score_v[i].time_c[2],
-                        score_v[i].time_n[2]);
-                fprintf(fout, "%5.2f %d %s\n",
-                        score_v[i].coin_s[2],
-                        score_v[i].coin_c[2],
-                        score_v[i].coin_n[2]);
-            }
+                for (j = 0; j < 3; j++)
+                {
+                    if (strlen(score_v[i].time_n[j]) == 0)
+                        strcpy(score_v[i].time_n[j], DEFAULT_NAME);
+                    if (strlen(score_v[i].coin_n[j]) == 0)
+                        strcpy(score_v[i].coin_n[j], DEFAULT_NAME);
+
+                    fprintf(fout, "%5.2f %d %s\n",
+                            score_v[i].time_s[j],
+                            score_v[i].time_c[j],
+                            score_v[i].time_n[j]);
+                    fprintf(fout, "%5.2f %d %s\n",
+                            score_v[i].coin_s[j],
+                            score_v[i].coin_c[j],
+                            score_v[i].coin_n[j]);
+                }
             
             fclose(fout);
         }
@@ -119,6 +110,7 @@ static void level_load_hs(const char *filename)
             int i;
 
             for (i = 1; i < count; i++)
+            {
                 if (fscanf(fin, "%lf %d %s",
                            &score_v[i].time_s[0],
                            &score_v[i].time_c[0],
@@ -144,6 +136,7 @@ static void level_load_hs(const char *filename)
                            &score_v[i].coin_c[2],
                             score_v[i].coin_n[2]) == 3)
                     limit = i + 1;
+            }
 
             fclose(fin);
         }

@@ -14,6 +14,7 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <math.h>
 
 #include "glext.h"
 #include "text.h"
@@ -147,3 +148,38 @@ GLuint make_text(const char *text, int i)
 
 /*---------------------------------------------------------------------------*/
 
+#define PI 3.1415926535897932
+
+GLuint make_rect(int x0, int y0, int x1, int y1, int r)
+{
+    GLuint list = glGenLists(1);
+    int i, n = 8;
+
+    glNewList(list, GL_COMPILE);
+    {
+        glBegin(GL_QUAD_STRIP);
+        {
+            for (i = 0; i <= n; i++)
+            {
+                double a = 0.5 * PI * (double) i / (double) n;
+
+                glVertex2f(x0 + r - r * cos(a), y1 - r + r * sin(a));
+                glVertex2f(x0 + r - r * cos(a), y0 + r - r * sin(a));
+            }
+
+            for (i = 0; i <= n; i++)
+            {
+                double a = 0.5 * PI * (double) i / (double) n;
+
+                glVertex2f(x1 - r + r * sin(a), y1 - r + r * cos(a));
+                glVertex2f(x1 - r + r * sin(a), y0 + r - r * cos(a));
+            }
+        }
+        glEnd();
+    }
+    glEndList();
+
+    return list;
+}
+
+/*---------------------------------------------------------------------------*/

@@ -1,4 +1,12 @@
 -------------------------------------------------------------------------------
+New in 1.0.3
+
+* Modified some textures.
+* Modified some levels.
+* Modified switches to switch entire path chains.
+* Disallowed player from toggling timed switches off manually.
+
+-------------------------------------------------------------------------------
 New in 1.0.2
 
 * Added level set selector.
