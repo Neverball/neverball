@@ -1498,8 +1498,8 @@ static int comp_edge(const struct s_edge *ep, const struct s_edge *eq)
 
 static int comp_side(const struct s_side *sp, const struct s_side *sq)
 {
-    if  (fabs(sp->d - sq->d) > SMALL) return 0;
-    if (v_dot(sp->n,  sq->n) < 0.999) return 0;
+    if  (fabs(sp->d - sq->d) > SMALL)  return 0;
+    if (v_dot(sp->n,  sq->n) < 0.9999) return 0;
 
     return 1;
 }
