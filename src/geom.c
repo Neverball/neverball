@@ -89,21 +89,23 @@ void ball_draw(void)
 {
     glPushAttrib(GL_POLYGON_BIT);
     glPushAttrib(GL_LIGHTING_BIT);
-    glPushMatrix();
+    glPushAttrib(GL_DEPTH_BUFFER_BIT);
     {
         glBindTexture(GL_TEXTURE_2D, ball_text);
 
         /* Render the ball back to front in case it is translucent. */
 
-        glColor3f(1.0f, 1.0f, 1.0f);
         glEnable(GL_CULL_FACE);
+        glDepthMask(GL_FALSE);
+
+        glColor3f(1.0f, 1.0f, 1.0f);
 
         glCullFace(GL_FRONT);
         glCallList(ball_list);
         glCullFace(GL_BACK);
         glCallList(ball_list);
     }
-    glPopMatrix();
+    glPopAttrib();
     glPopAttrib();
     glPopAttrib();
 }

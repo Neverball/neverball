@@ -124,7 +124,7 @@ static void game_draw_balls(const struct s_file *fp)
         glPushMatrix();
         {
             glTranslated(fp->uv[ui].p[0],
-                         fp->uv[ui].p[1],
+                         fp->uv[ui].p[1] + BALL_FUDGE,
                          fp->uv[ui].p[2]);
             glMultMatrixd(M);
             glScaled(fp->uv[ui].r,
@@ -237,7 +237,7 @@ void game_draw(void)
     const struct s_file *fp = &file;
     const double *ball_p = file.uv->p;
     
-    config_push_persp(FOV, 0.1, 1000.0);
+    config_push_persp(FOV, 0.1, 300.0);
     glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {

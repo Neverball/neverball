@@ -6,4 +6,4 @@ all :
 clean :
 	(cd src  && $(MAKE) /nologo /I /fMakefile-W32 clean)
 	(cd data && $(MAKE) /nologo /I /fMakefile-W32 clean)
-	del ball.exe mapc.exe
+	del neverball.exe mapc.exe

@@ -820,9 +820,15 @@ static int play_point(int x, int y, int dx, int dy)
      * window when  the pointer is grabbed then  the reported relative
      * mouse  motion can be  very discontinuous.   This can  throw the
      * floor way off level just as the timer starts.
+     *
+     * However, I can't just throw  out all big relative jumps because
+     * Windows often reports them during normal gameplay.  Gah this is
+     * nasty.
      */
 
+#ifndef _WIN32
     if (abs(dx) < 50 && abs(dy) < 50)
+#endif
         game_set_pos(dx, dy);
 
     return 1;

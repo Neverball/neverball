@@ -20,7 +20,7 @@ MAPC_OBJS= \
 	solid.o \
 	mapc.o
 
-CFLAGS= -Wall -g -ffast-math -ansi $(shell sdl-config --cflags)
+CFLAGS= -Wall -O2 -ffast-math -ansi $(shell sdl-config --cflags)
 
 X11_LIBS= -L/usr/X11/lib -lGLU -lGL -lm
 SDL_LIBS= $(shell sdl-config --libs)

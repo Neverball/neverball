@@ -64,6 +64,7 @@
 
 /*---------------------------------------------------------------------------*/
 
+int  config_home(char *, const char *);
 int  config_path(void);
 void config_load(void);
 void config_store(void);

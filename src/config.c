@@ -55,6 +55,36 @@ static int button_pause = CONFIG_DEF_BUTTON_PAUSE;
 /*---------------------------------------------------------------------------*/
 
 /*
+ * Convert the given file name to  an absolute path name in the user's
+ * home  directory.   If the  home  directory  cannot be  established,
+ * return false.
+ */
+int config_home(char *dst, const char *src)
+{
+    char *vol;
+    char *dir;
+
+    if ((dir = getenv("HOME")))
+    {
+        strcpy(dst, dir);
+        strcat(dst, "/");
+        strcat(dst, src);
+        return 1;
+    }
+
+    if ((vol = getenv("HOMEDRIVE")) && (dir = getenv("HOMEPATH")))
+    {
+        strcpy(dst, vol);
+        strcat(dst, dir);
+        strcat(dst, "\\");
+        strcat(dst, src);
+        return 1;
+    }
+
+    return 0;
+}
+
+/*
  * Game  assets are  accessed  via relative  paths.   Set the  current
  * directory to the root of the asset hierarchy.  Confirm the location
  * by checking for the presence of the level catalog.
@@ -73,89 +103,75 @@ int config_path(void)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void config_load(void)
 {
-    char  file[STRMAX];
-    char *home;
+    char  path[STRMAX];
     FILE *fp;
 
-    if ((home = getenv("HOME")))
+    if (config_home(path, CONFIG_FILE) && (fp = fopen(path, "r")))
     {
-        strcpy(file, home);
-        strcat(file, "/");
-        strcat(file, CONFIG_FILE);
+        char key[STRMAX];
+        int  val;
 
-        if ((fp = fopen(file, "r")))
+        while (fscanf(fp, "%s %d", key, &val) == 2)
         {
-            char key[STRMAX];
-            int  val;
+            if (strcmp(key, "fullscreen") == 0)
+                mode = SDL_OPENGL | (val ? SDL_FULLSCREEN : 0);
 
-            while (fscanf(fp, "%s %d", key, &val) == 2)
-            {
-                if (strcmp(key, "fullscreen") == 0)
-                    mode = SDL_OPENGL | (val ? SDL_FULLSCREEN : 0);
+            if (strcmp(key, "width")        == 0) width        = val;
+            if (strcmp(key, "height")       == 0) height       = val;
+            if (strcmp(key, "textures")     == 0) textures     = val;
+            if (strcmp(key, "geometry")     == 0) geometry     = val;
+            if (strcmp(key, "audio_rate")   == 0) audio_rate   = val;
+            if (strcmp(key, "audio_buff")   == 0) audio_buff   = val;
+            if (strcmp(key, "mouse_sense")  == 0) mouse_sense  = val;
+            if (strcmp(key, "nice")         == 0) nice         = val;
+            if (strcmp(key, "fps")          == 0) fps          = val;
+            if (strcmp(key, "joy")          == 0) joy          = val;
 
-                if (strcmp(key, "width")        == 0) width        = val;
-                if (strcmp(key, "height")       == 0) height       = val;
-                if (strcmp(key, "textures")     == 0) textures     = val;
-                if (strcmp(key, "geometry")     == 0) geometry     = val;
-                if (strcmp(key, "audio_rate")   == 0) audio_rate   = val;
-                if (strcmp(key, "audio_buff")   == 0) audio_buff   = val;
-                if (strcmp(key, "mouse_sense")  == 0) mouse_sense  = val;
-                if (strcmp(key, "nice")         == 0) nice         = val;
-                if (strcmp(key, "fps")          == 0) fps          = val;
-                if (strcmp(key, "joy")          == 0) joy          = val;
-
-                if (strcmp(key, "axis_x")       == 0) axis_x       = val;
-                if (strcmp(key, "axis_y")       == 0) axis_y       = val;
-                if (strcmp(key, "button_a")     == 0) button_a     = val;
-                if (strcmp(key, "button_b")     == 0) button_b     = val;
-                if (strcmp(key, "button_r")     == 0) button_r     = val;
-                if (strcmp(key, "button_l")     == 0) button_l     = val;
-                if (strcmp(key, "button_pause") == 0) button_pause = val;
-            }
-
-            fclose(fp);
+            if (strcmp(key, "axis_x")       == 0) axis_x       = val;
+            if (strcmp(key, "axis_y")       == 0) axis_y       = val;
+            if (strcmp(key, "button_a")     == 0) button_a     = val;
+            if (strcmp(key, "button_b")     == 0) button_b     = val;
+            if (strcmp(key, "button_r")     == 0) button_r     = val;
+            if (strcmp(key, "button_l")     == 0) button_l     = val;
+            if (strcmp(key, "button_pause") == 0) button_pause = val;
         }
+
+        fclose(fp);
     }
 }
 
 void config_store(void)
 {
-    char  file[STRMAX];
-    char *home;
+    char  path[STRMAX];
     FILE *fp;
 
-    if ((home = getenv("HOME")))
+    if (config_home(path, CONFIG_FILE) && (fp = fopen(path, "w")))
     {
-        strcpy(file, home);
-        strcat(file, "/");
-        strcat(file, CONFIG_FILE);
+        fprintf(fp, "fullscreen %d\n",  (mode & SDL_FULLSCREEN) ? 1 : 0);
+        fprintf(fp, "width %d\n",        width);
+        fprintf(fp, "height %d\n",       height);
+        fprintf(fp, "textures %d\n",     textures);
+        fprintf(fp, "geometry %d\n",     geometry);
+        fprintf(fp, "audio_rate %d\n",   audio_rate);
+        fprintf(fp, "audio_buff %d\n",   audio_buff);
+        fprintf(fp, "mouse_sense %d\n",  mouse_sense);
+        fprintf(fp, "nice %d\n",         nice);
+        fprintf(fp, "fps %d\n",          fps);
+        fprintf(fp, "joy %d\n",          joy);
 
-        if ((fp = fopen(file, "w")))
-        {
-            fprintf(fp, "fullscreen %d\n",  (mode & SDL_FULLSCREEN) ? 1 : 0);
-            fprintf(fp, "width %d\n",        width);
-            fprintf(fp, "height %d\n",       height);
-            fprintf(fp, "textures %d\n",     textures);
-            fprintf(fp, "geometry %d\n",     geometry);
-            fprintf(fp, "audio_rate %d\n",   audio_rate);
-            fprintf(fp, "audio_buff %d\n",   audio_buff);
-            fprintf(fp, "mouse_sense %d\n",  mouse_sense);
-            fprintf(fp, "nice %d\n",         nice);
-            fprintf(fp, "fps %d\n",          fps);
-            fprintf(fp, "joy %d\n",          joy);
+        fprintf(fp, "axis_x %d\n",       axis_x);
+        fprintf(fp, "axis_y %d\n",       axis_y);
+        fprintf(fp, "button_r %d\n",     button_r);
+        fprintf(fp, "button_l %d\n",     button_l);
+        fprintf(fp, "button_a %d\n",     button_a);
+        fprintf(fp, "button_b %d\n",     button_b);
+        fprintf(fp, "button_pause %d\n", button_pause);
 
-            fprintf(fp, "axis_x %d\n",       axis_x);
-            fprintf(fp, "axis_y %d\n",       axis_y);
-            fprintf(fp, "button_r %d\n",     button_r);
-            fprintf(fp, "button_l %d\n",     button_l);
-            fprintf(fp, "button_a %d\n",     button_a);
-            fprintf(fp, "button_b %d\n",     button_b);
-            fprintf(fp, "button_pause %d\n", button_pause);
-
-            fclose(fp);
-        }
+        fclose(fp);
     }
 }
 

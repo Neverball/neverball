@@ -3,7 +3,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define BACK_DIST 500.0
+#define BACK_DIST 100.0
 
 void back_init(const char *);
 void back_free(void);

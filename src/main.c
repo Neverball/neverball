@@ -27,7 +27,8 @@
 
 static int shot(void)
 {
-    static char str[32];
+    static char path[STRMAX];
+    static char file[32];
     static int  num = 0;
 
     int i;
@@ -45,9 +46,11 @@ static int shot(void)
         memcpy((GLubyte *) img->pixels + 3 * w * i,
                (GLubyte *) buf->pixels + 3 * w * (h - i), 3 * w);
 
-    sprintf(str, "screen%02d.bmp", num++);
+    sprintf(file, "screen%02d.bmp", num++);
 
-    SDL_SaveBMP(img, str);
+    if (config_home(path, file))
+        SDL_SaveBMP(img,  path);
+
     SDL_FreeSurface(img);
     SDL_FreeSurface(buf);
 
