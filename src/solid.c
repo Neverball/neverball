@@ -803,25 +803,3 @@ void sol_update(struct s_file *fp, double dt, const double g[3], double *bump)
     }
 }
 
-/*---------------------------------------------------------------------------*/
-
-int sol_finish(const struct s_file *fp)
-{
-    const struct s_ball *up = fp->uv;
-
-    int i;
-    double v[3];
-
-    for (i = 0; i < fp->zc; i++)
-    {
-        const struct s_goal *zp = fp->zv + i;
-
-        v[0] = up->p[0] - zp->p[0];
-        v[1] = up->p[1] - zp->p[1];
-        v[2] = 0;
-
-        if (v_len(v) < zp->r - up->r)
-            return 1;
-    }
-    return 0;
-}

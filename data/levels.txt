@@ -1,5 +1,5 @@
-data/sol/easy.sol data/back/bar 90
-data/sol/fall.sol data/back/bar 60
-data/sol/move.sol data/back/bar 60
-data/sol/maze.sol data/back/bar 90
-data/sol/four.sol data/back/bar 30
+data/sol/easy.sol data/back/lake 90
+data/sol/fall.sol data/back/lake 60
+data/sol/move.sol data/back/snow 60
+data/sol/maze.sol data/back/lake 90
+data/sol/four.sol data/back/snow 30

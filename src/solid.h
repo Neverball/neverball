@@ -182,6 +182,5 @@ int  sol_stor(struct s_file *, const char *);
 void sol_free(struct s_file *);
 
 void sol_update(struct s_file *, double, const double[3], double *);
-int  sol_finish(const struct s_file *);
 
 #endif
