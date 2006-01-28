@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
+New in 1.4.1
+
+* Added dictionary elements to SOL file in order to allow metadata storage.
+* Reverted short usage in SOL to int.  Was bumping up against the limit.
+
+-------------------------------------------------------------------------------
 New in 1.4.0
 
 * Fixed font renderer to never exceed maximum texture size.

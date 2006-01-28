@@ -26,6 +26,8 @@
 #include "audio.h"
 #include "config.h"
 
+#define CHEATER 1
+
 /*---------------------------------------------------------------------------*/
 
 struct score

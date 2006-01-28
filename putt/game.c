@@ -30,7 +30,7 @@
 /*---------------------------------------------------------------------------*/
 
 static struct s_file file;
-static short         ball;
+static int           ball;
 
 static float view_a;                    /* Ideal view rotation about Y axis  */
 static float view_m;

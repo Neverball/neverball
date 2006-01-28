@@ -51,7 +51,9 @@
  *     x  Switch        (struct s_swch)
  *     r  Billboard     (struct s_bill)
  *     u  User          (struct s_ball)
- *     i  Index         (short)
+ *     w  Viewpoint     (struct s_view)
+ *     d  Dictionary    (struct s_dict)
+ *     i  Index         (int)
  *     a  Text          (char)
  *
  * The Ys are as follows:
@@ -72,7 +74,7 @@
  * Those members that do not conform to this convention are explicitly
  * documented with a comment.
  *
- * These prefixes are still available: d h k o q w y.
+ * These prefixes are still available: h k o q y.
  */
 
 /*---------------------------------------------------------------------------*/
@@ -95,7 +97,7 @@
 
 /* Lump flags. */
 
-#define L_DETAIL       1
+#define L_DETAIL   1
 
 /*---------------------------------------------------------------------------*/
 
@@ -107,7 +109,7 @@ struct s_mtrl
     float e[4];                                /* emission color             */
     float h[1];                                /* specular exponent          */
 
-    short fl;                                  /* material flags             */
+    int fl;                                    /* material flags             */
 
     GLuint o;                                  /* OpenGL texture object      */
     char   f[PATHMAX];                         /* texture file name          */
@@ -120,8 +122,8 @@ struct s_vert
 
 struct s_edge
 {
-    short vi;
-    short vj;
+    int vi;
+    int vj;
 };
 
 struct s_side
@@ -137,28 +139,28 @@ struct s_texc
 
 struct s_geom
 {
-    short mi;
-    short ti, si, vi;
-    short tj, sj, vj;
-    short tk, sk, vk;
+    int mi;
+    int ti, si, vi;
+    int tj, sj, vj;
+    int tk, sk, vk;
 };
 
 struct s_lump
 {
-    short fl;                                  /* lump flags                 */
-    short v0, vc;
-    short e0, ec;
-    short g0, gc;
-    short s0, sc;
+    int fl;                                    /* lump flags                 */
+    int v0, vc;
+    int e0, ec;
+    int g0, gc;
+    int s0, sc;
 };
 
 struct s_node
 {
-    short si;
-    short ni;
-    short nj;
-    short l0;
-    short lc;
+    int si;
+    int ni;
+    int nj;
+    int l0;
+    int lc;
 };
 
 struct s_path
@@ -166,8 +168,8 @@ struct s_path
     float p[3];                                /* starting position          */
     float t;                                   /* travel time                */
 
-    short pi;
-    short f;                                   /* enable flag                */
+    int pi;
+    int f;                                     /* enable flag                */
 };
 
 struct s_body
@@ -179,18 +181,18 @@ struct s_body
     GLuint rl;                                 /* reflective geometry list   */
     GLuint sl;                                 /* shadowed geometry list     */
 
-    short pi;
-    short ni;
-    short l0;
-    short lc;
-    short g0;
-    short gc;
+    int pi;
+    int ni;
+    int l0;
+    int lc;
+    int g0;
+    int gc;
 };
 
 struct s_coin
 {
     float p[3];                                /* position                   */
-    short n;                                   /* value                      */
+    int   n;                                   /* value                      */
 };
 
 struct s_goal
@@ -203,18 +205,18 @@ struct s_swch
 {
     float p[3];                                /* position                   */
     float r;                                   /* radius                     */
-    short pi;
+    int  pi;
 
     float t0;                                  /* default timer              */
     float t;                                   /* current timer              */
-    short f0;                                  /* default state              */
-    short f;                                   /* current state              */
+    int   f0;                                  /* default state              */
+    int   f;                                   /* current state              */
 };
 
 struct s_bill
 {
-    short fl;
-    short mi;
+    int  fl;
+    int  mi;
     float t;                                   /* repeat time interval       */
     float d;                                   /* distance                   */
 
@@ -248,27 +250,34 @@ struct s_view
     float q[3];
 };
 
+struct s_dict
+{
+    int ai;
+    int aj;
+};
+
 struct s_file
 {
-    short mc;
-    short vc;
-    short ec;
-    short sc;
-    short tc;
-    short gc;
-    short lc;
-    short nc;
-    short pc;
-    short bc;
-    short cc;
-    short zc;
-    short jc;
-    short xc;
-    short rc;
-    short uc;
-    short wc;
-    short ac;
-    short ic;
+    int mc;
+    int vc;
+    int ec;
+    int sc;
+    int tc;
+    int gc;
+    int lc;
+    int nc;
+    int pc;
+    int bc;
+    int cc;
+    int zc;
+    int jc;
+    int xc;
+    int rc;
+    int uc;
+    int wc;
+    int dc;
+    int ac;
+    int ic;
 
     struct s_mtrl *mv;
     struct s_vert *vv;
@@ -287,7 +296,7 @@ struct s_file
     struct s_bill *rv;
     struct s_ball *uv;
     struct s_view *wv;
-    short         *iv;
+    int           *iv;
     char          *av;
 };
 
@@ -302,12 +311,12 @@ void  sol_refl(const struct s_file *);
 void  sol_draw(const struct s_file *);
 void  sol_shad(const struct s_file *);
 
-float sol_step(struct s_file *, const float *, float, short, int *);
+float sol_step(struct s_file *, const float *, float, int, int *);
 
 int   sol_coin_test(struct s_file *, float *, float);
-int   sol_goal_test(struct s_file *, float *, short);
-int   sol_jump_test(struct s_file *, float *, short);
-int   sol_swch_test(struct s_file *, int, short);
+int   sol_goal_test(struct s_file *, float *, int);
+int   sol_jump_test(struct s_file *, float *, int);
+int   sol_swch_test(struct s_file *, int, int);
 
 /*---------------------------------------------------------------------------*/
 

@@ -35,11 +35,11 @@
 
 static FILE *demo_fp;
 
-static char  name[MAXDEMO][MAXNAM];
-static char  shot[MAXDEMO][PATHMAX];
-static short score[MAXDEMO];
-static short timer[MAXDEMO];
-static int   count;
+static char name[MAXDEMO][MAXNAM];
+static char shot[MAXDEMO][PATHMAX];
+static int  score[MAXDEMO];
+static int  timer[MAXDEMO];
+static int  count;
 
 /*---------------------------------------------------------------------------*/
 #ifdef _WIN32
@@ -60,13 +60,13 @@ int demo_scan(void)
             if ((fp = fopen(config_user(d.cFileName), FMODE_RB)))
             {
                 int   magic;
-                short t, c;
+                int t, c;
 
                 /* Note the name and screen shot of each replay file. */
 
-                get_int  (fp, &magic);
-                get_short(fp, &t);
-                get_short(fp, &c);
+                get_index(fp, &magic);
+                get_index(fp, &t);
+                get_index(fp, &c);
 
                 if (magic == MAGIC && t)
                 {
@@ -103,14 +103,14 @@ int demo_scan(void)
         while (count < MAXDEMO && (ent = readdir(dp)))
             if ((fp = fopen(config_user(ent->d_name), FMODE_RB)))
             {
-                int   magic;
-                short t, c;
+                int magic;
+                int t, c;
 
                 /* Note the name and screen shot of each replay file. */
 
-                get_int  (fp, &magic);
-                get_short(fp, &t);
-                get_short(fp, &c);
+                get_index(fp, &magic);
+                get_index(fp, &t);
+                get_index(fp, &c);
 
                 if (magic == MAGIC && t)
                 {
@@ -195,22 +195,21 @@ int demo_play_init(const char *name,
                    const char *shot,
                    int t, int g, int s, int c, int b)
 {
-    int  magic = MAGIC;
-    short zero = 0;
-    short st   = t;
-    short sg   = g;
-    short ss   = s;
-    short sc   = c;
-    short sb   = b;
+    int magic = MAGIC;
+    int zero  = 0;
+    int st    = t;
+    int sg    = g;
+    int ss    = s;
+    int sc    = c;
+    int sb    = b;
 
     /* Initialize the replay file.  Write the header. */
 
     if (name && (demo_fp = fopen(config_user(name), FMODE_WB)))
     {
-        put_int(demo_fp, &magic);
-
-        put_short(demo_fp, &zero);
-        put_short(demo_fp, &zero);
+        put_index(demo_fp, &magic);
+        put_index(demo_fp, &zero);
+        put_index(demo_fp, &zero);
 
         fwrite(shot, 1, PATHMAX, demo_fp);
         fwrite(file, 1, PATHMAX, demo_fp);
@@ -218,11 +217,11 @@ int demo_play_init(const char *name,
         fwrite(grad, 1, PATHMAX, demo_fp);
         fwrite(song, 1, PATHMAX, demo_fp);
 
-        put_short(demo_fp, &st);
-        put_short(demo_fp, &sg);
-        put_short(demo_fp, &ss);
-        put_short(demo_fp, &sc);
-        put_short(demo_fp, &sb);
+        put_index(demo_fp, &st);
+        put_index(demo_fp, &sg);
+        put_index(demo_fp, &ss);
+        put_index(demo_fp, &sc);
+        put_index(demo_fp, &sb);
 
         audio_music_fade_to(2.0f, song);
 
@@ -242,8 +241,8 @@ void demo_play_step(float dt)
 
 void demo_play_stat(int coins, int timer)
 {
-    short c = coins;
-    short t = timer;
+    int c = coins;
+    int t = timer;
 
     if (demo_fp)
     {
@@ -251,8 +250,8 @@ void demo_play_stat(int coins, int timer)
 
         fseek(demo_fp, 4, SEEK_SET);
 
-        put_short(demo_fp, &t);
-        put_short(demo_fp, &c);
+        put_index(demo_fp, &t);
+        put_index(demo_fp, &c);
 
         fseek(demo_fp, 0, SEEK_END);
     }
@@ -292,24 +291,24 @@ int demo_replay_init(const char *name, int *s, int *c, int *b, int *g)
     char grad[PATHMAX];
     char song[PATHMAX];
 
-    int   magic;
-    short zero;
-    short st;
-    short sg;
-    short ss;
-    short sc;
-    short sb;
+    int magic;
+    int zero;
+    int st;
+    int sg;
+    int ss;
+    int sc;
+    int sb;
     
     if ((demo_fp = fopen(config_user(name), FMODE_RB)))
     {
         strncpy(demo_replay_name, name, MAXSTR);
 
-        get_int(demo_fp, &magic);
+        get_index(demo_fp, &magic);
 
         if (magic == MAGIC)
         {
-            get_short(demo_fp, &zero);
-            get_short(demo_fp, &zero);
+            get_index(demo_fp, &zero);
+            get_index(demo_fp, &zero);
 
             fread(shot, 1, PATHMAX, demo_fp);
             fread(file, 1, PATHMAX, demo_fp);
@@ -317,11 +316,11 @@ int demo_replay_init(const char *name, int *s, int *c, int *b, int *g)
             fread(grad, 1, PATHMAX, demo_fp);
             fread(song, 1, PATHMAX, demo_fp);
 
-            get_short(demo_fp, &st);
-            get_short(demo_fp, &sg);
-            get_short(demo_fp, &ss);
-            get_short(demo_fp, &sc);
-            get_short(demo_fp, &sb);
+            get_index(demo_fp, &st);
+            get_index(demo_fp, &sg);
+            get_index(demo_fp, &ss);
+            get_index(demo_fp, &sc);
+            get_index(demo_fp, &sb);
 
             if (g) *g = (int) sg;
             if (s) *s = (int) ss;

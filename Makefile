@@ -11,7 +11,7 @@ OGL_LIBS= -lGL -lm
 
 #------------------------------------------------------------------------------
 
-CFLAGS= -Wall -O3 -ansi $(shell sdl-config --cflags)
+CFLAGS= -Wall -O3 -ansi -pedantic $(shell sdl-config --cflags)
 #CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
 #CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
 

@@ -29,7 +29,6 @@
 #include "config.h"
 #include "binary.h"
 
-#define SMALL 1.0e-5f
 #define LARGE 1.0e+5f
 
 /*---------------------------------------------------------------------------*/
@@ -90,17 +89,17 @@ static void sol_body_p(float p[3],
 
 /*---------------------------------------------------------------------------*/
 
-static short sol_enum_mtrl(const struct s_file *fp,
-                           const struct s_body *bp, short mi)
+static int sol_enum_mtrl(const struct s_file *fp,
+                         const struct s_body *bp, int mi)
 {
-    short li, gi, c = 0;
+    int li, gi, c = 0;
 
     /* Count all lump geoms with this material. */
 
     for (li = 0; li < bp->lc; li++)
     {
-        short g0 = fp->lv[bp->l0 + li].g0;
-        short gc = fp->lv[bp->l0 + li].gc;
+        int g0 = fp->lv[bp->l0 + li].g0;
+        int gc = fp->lv[bp->l0 + li].gc;
 
         for (gi = 0; gi < gc; gi++)
             if (fp->gv[fp->iv[g0 + gi]].mi == mi)
@@ -116,10 +115,10 @@ static short sol_enum_mtrl(const struct s_file *fp,
     return c;
 }
 
-static short sol_enum_body(const struct s_file *fp,
-                           const struct s_body *bp, short fl)
+static int sol_enum_body(const struct s_file *fp,
+                           const struct s_body *bp, int fl)
 {
-    short mi, c = 0;
+    int mi, c = 0;
 
     /* Count all geoms with this flag. */
 
@@ -132,7 +131,7 @@ static short sol_enum_body(const struct s_file *fp,
 
 /*---------------------------------------------------------------------------*/
 
-static void sol_draw_mtrl(const struct s_file *fp, short i)
+static void sol_draw_mtrl(const struct s_file *fp, int i)
 {
     const struct s_mtrl *mp = fp->mv + i;
 
@@ -246,7 +245,7 @@ void sol_back(const struct s_file *fp, float n, float f, float t)
  */
 
 static void sol_draw_geom(const struct s_file *fp,
-                          const struct s_geom *gp, short mi)
+                          const struct s_geom *gp, int mi)
 {
     if (gp->mi == mi)
     {
@@ -277,18 +276,18 @@ static void sol_draw_geom(const struct s_file *fp,
 }
 
 static void sol_draw_lump(const struct s_file *fp,
-                          const struct s_lump *lp, short mi)
+                          const struct s_lump *lp, int mi)
 {
-    short i;
+    int i;
 
     for (i = 0; i < lp->gc; i++)
         sol_draw_geom(fp, fp->gv + fp->iv[lp->g0 + i], mi);
 }
 
 static void sol_draw_body(const struct s_file *fp,
-                          const struct s_body *bp, short fl)
+                          const struct s_body *bp, int fl)
 {
-    short mi, li, gi;
+    int mi, li, gi;
 
     /* Iterate all materials of the correct opacity. */
 
@@ -337,7 +336,7 @@ static void sol_draw_list(const struct s_file *fp,
 
 void sol_draw(const struct s_file *fp)
 {
-    short bi;
+    int bi;
 
     glPushAttrib(GL_TEXTURE_BIT      |
                  GL_LIGHTING_BIT     |
@@ -366,7 +365,7 @@ void sol_draw(const struct s_file *fp)
 
 void sol_refl(const struct s_file *fp)
 {
-    short bi;
+    int bi;
 
     glPushAttrib(GL_LIGHTING_BIT);
     {
@@ -385,7 +384,7 @@ void sol_refl(const struct s_file *fp)
 /*---------------------------------------------------------------------------*/
 
 static void sol_shad_geom(const struct s_file *fp,
-                          const struct s_geom *gp, short mi)
+                          const struct s_geom *gp, int mi)
 {
     if (gp->mi == mi)
     {
@@ -405,18 +404,18 @@ static void sol_shad_geom(const struct s_file *fp,
 }
 
 static void sol_shad_lump(const struct s_file *fp,
-                          const struct s_lump *lp, short mi)
+                          const struct s_lump *lp, int mi)
 {
-    short i;
+    int i;
 
     for (i = 0; i < lp->gc; i++)
         sol_shad_geom(fp, fp->gv + fp->iv[lp->g0 + i], mi);
 }
 
 static void sol_shad_body(const struct s_file *fp,
-                          const struct s_body *bp, short fl)
+                          const struct s_body *bp, int fl)
 {
-    short mi, li, gi;
+    int mi, li, gi;
 
     glBegin(GL_TRIANGLES);
     {
@@ -471,7 +470,7 @@ static void sol_shad_list(const struct s_file *fp,
 
 void sol_shad(const struct s_file *fp)
 {
-    short bi;
+    int bi;
 
     glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_LIGHTING_BIT);
     {
@@ -494,7 +493,7 @@ void sol_shad(const struct s_file *fp)
 
 static void sol_load_objects(struct s_file *fp, int s)
 {
-    short i;
+    int i;
 
     for (i = 0; i < fp->bc; i++)
     {
@@ -651,7 +650,7 @@ static void sol_load_mtrl(FILE *fin, struct s_mtrl *mp)
     get_array(fin,  mp->s, 4);
     get_array(fin,  mp->e, 4);
     get_array(fin,  mp->h, 1);
-    get_short(fin, &mp->fl);
+    get_index(fin, &mp->fl);
 
     fread(mp->f, 1, PATHMAX, fin);
 }
@@ -663,8 +662,8 @@ static void sol_load_vert(FILE *fin, struct s_vert *vp)
 
 static void sol_load_edge(FILE *fin, struct s_edge *ep)
 {
-    get_short(fin, &ep->vi);
-    get_short(fin, &ep->vj);
+    get_index(fin, &ep->vi);
+    get_index(fin, &ep->vj);
 }
 
 static void sol_load_side(FILE *fin, struct s_side *sp)
@@ -680,62 +679,62 @@ static void sol_load_texc(FILE *fin, struct s_texc *tp)
 
 static void sol_load_geom(FILE *fin, struct s_geom *gp)
 {
-    get_short(fin, &gp->mi);
-    get_short(fin, &gp->ti);
-    get_short(fin, &gp->si);
-    get_short(fin, &gp->vi);
-    get_short(fin, &gp->tj);
-    get_short(fin, &gp->sj);
-    get_short(fin, &gp->vj);
-    get_short(fin, &gp->tk);
-    get_short(fin, &gp->sk);
-    get_short(fin, &gp->vk);
+    get_index(fin, &gp->mi);
+    get_index(fin, &gp->ti);
+    get_index(fin, &gp->si);
+    get_index(fin, &gp->vi);
+    get_index(fin, &gp->tj);
+    get_index(fin, &gp->sj);
+    get_index(fin, &gp->vj);
+    get_index(fin, &gp->tk);
+    get_index(fin, &gp->sk);
+    get_index(fin, &gp->vk);
 }
 
 static void sol_load_lump(FILE *fin, struct s_lump *lp)
 {
-    get_short(fin, &lp->fl);
-    get_short(fin, &lp->v0);
-    get_short(fin, &lp->vc);
-    get_short(fin, &lp->e0);
-    get_short(fin, &lp->ec);
-    get_short(fin, &lp->g0);
-    get_short(fin, &lp->gc);
-    get_short(fin, &lp->s0);
-    get_short(fin, &lp->sc);
+    get_index(fin, &lp->fl);
+    get_index(fin, &lp->v0);
+    get_index(fin, &lp->vc);
+    get_index(fin, &lp->e0);
+    get_index(fin, &lp->ec);
+    get_index(fin, &lp->g0);
+    get_index(fin, &lp->gc);
+    get_index(fin, &lp->s0);
+    get_index(fin, &lp->sc);
 }
 
 static void sol_load_node(FILE *fin, struct s_node *np)
 {
-    get_short(fin, &np->si);
-    get_short(fin, &np->ni);
-    get_short(fin, &np->nj);
-    get_short(fin, &np->l0);
-    get_short(fin, &np->lc);
+    get_index(fin, &np->si);
+    get_index(fin, &np->ni);
+    get_index(fin, &np->nj);
+    get_index(fin, &np->l0);
+    get_index(fin, &np->lc);
 }
 
 static void sol_load_path(FILE *fin, struct s_path *pp)
 {
     get_array(fin,  pp->p, 3);
     get_float(fin, &pp->t);
-    get_short(fin, &pp->pi);
-    get_short(fin, &pp->f);
+    get_index(fin, &pp->pi);
+    get_index(fin, &pp->f);
 }
 
 static void sol_load_body(FILE *fin, struct s_body *bp)
 {
-    get_short(fin, &bp->pi);
-    get_short(fin, &bp->ni);
-    get_short(fin, &bp->l0);
-    get_short(fin, &bp->lc);
-    get_short(fin, &bp->g0);
-    get_short(fin, &bp->gc);
+    get_index(fin, &bp->pi);
+    get_index(fin, &bp->ni);
+    get_index(fin, &bp->l0);
+    get_index(fin, &bp->lc);
+    get_index(fin, &bp->g0);
+    get_index(fin, &bp->gc);
 }
 
 static void sol_load_coin(FILE *fin, struct s_coin *cp)
 {
     get_array(fin,  cp->p, 3);
-    get_short(fin, &cp->n);
+    get_index(fin, &cp->n);
 }
 
 static void sol_load_goal(FILE *fin, struct s_goal *zp)
@@ -748,17 +747,17 @@ static void sol_load_swch(FILE *fin, struct s_swch *xp)
 {
     get_array(fin,  xp->p, 3);
     get_float(fin, &xp->r);
-    get_short(fin, &xp->pi);
+    get_index(fin, &xp->pi);
     get_float(fin, &xp->t0);
     get_float(fin, &xp->t);
-    get_short(fin, &xp->f0);
-    get_short(fin, &xp->f);
+    get_index(fin, &xp->f0);
+    get_index(fin, &xp->f);
 }
 
 static void sol_load_bill(FILE *fin, struct s_bill *rp)
 {
-    get_short(fin, &rp->fl);
-    get_short(fin, &rp->mi);
+    get_index(fin, &rp->fl);
+    get_index(fin, &rp->mi);
     get_float(fin, &rp->t);
     get_float(fin, &rp->d);
     get_array(fin,  rp->w,  3);
@@ -794,25 +793,25 @@ static void sol_load_file(FILE *fin, struct s_file *fp)
 {
     int i;
 
-    get_short(fin, &fp->mc);
-    get_short(fin, &fp->vc);
-    get_short(fin, &fp->ec);
-    get_short(fin, &fp->sc);
-    get_short(fin, &fp->tc);
-    get_short(fin, &fp->gc);
-    get_short(fin, &fp->lc);
-    get_short(fin, &fp->nc);
-    get_short(fin, &fp->pc);
-    get_short(fin, &fp->bc);
-    get_short(fin, &fp->cc);
-    get_short(fin, &fp->zc);
-    get_short(fin, &fp->jc);
-    get_short(fin, &fp->xc);
-    get_short(fin, &fp->rc);
-    get_short(fin, &fp->uc);
-    get_short(fin, &fp->wc);
-    get_short(fin, &fp->ic);
-    get_short(fin, &fp->ac);
+    get_index(fin, &fp->mc);
+    get_index(fin, &fp->vc);
+    get_index(fin, &fp->ec);
+    get_index(fin, &fp->sc);
+    get_index(fin, &fp->tc);
+    get_index(fin, &fp->gc);
+    get_index(fin, &fp->lc);
+    get_index(fin, &fp->nc);
+    get_index(fin, &fp->pc);
+    get_index(fin, &fp->bc);
+    get_index(fin, &fp->cc);
+    get_index(fin, &fp->zc);
+    get_index(fin, &fp->jc);
+    get_index(fin, &fp->xc);
+    get_index(fin, &fp->rc);
+    get_index(fin, &fp->uc);
+    get_index(fin, &fp->wc);
+    get_index(fin, &fp->ic);
+    get_index(fin, &fp->ac);
 
     if (fp->mc)
         fp->mv = (struct s_mtrl *) calloc(fp->mc, sizeof (struct s_mtrl));
@@ -849,7 +848,7 @@ static void sol_load_file(FILE *fin, struct s_file *fp)
     if (fp->wc)
         fp->wv = (struct s_view *) calloc(fp->wc, sizeof (struct s_view));
     if (fp->ic)
-        fp->iv = (short         *) calloc(fp->ic, sizeof (short));
+        fp->iv = (int           *) calloc(fp->ic, sizeof (int));
     if (fp->ac)
         fp->av = (char          *) calloc(fp->ac, sizeof (char));
 
@@ -870,7 +869,7 @@ static void sol_load_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->rc; i++) sol_load_bill(fin, fp->rv + i);
     for (i = 0; i < fp->uc; i++) sol_load_ball(fin, fp->uv + i);
     for (i = 0; i < fp->wc; i++) sol_load_view(fin, fp->wv + i);
-    for (i = 0; i < fp->ic; i++) get_short(fin, fp->iv + i);
+    for (i = 0; i < fp->ic; i++) get_index(fin, fp->iv + i);
 
     if (fp->ac) fread(fp->av, 1, fp->ac, fin);
 }
@@ -901,7 +900,7 @@ static void sol_stor_mtrl(FILE *fout, struct s_mtrl *mp)
     put_array(fout,  mp->s, 4);
     put_array(fout,  mp->e, 4);
     put_array(fout,  mp->h, 1);
-    put_short(fout, &mp->fl);
+    put_index(fout, &mp->fl);
 
     fwrite(mp->f, 1, PATHMAX, fout);
 }
@@ -913,8 +912,8 @@ static void sol_stor_vert(FILE *fout, struct s_vert *vp)
 
 static void sol_stor_edge(FILE *fout, struct s_edge *ep)
 {
-    put_short(fout, &ep->vi);
-    put_short(fout, &ep->vj);
+    put_index(fout, &ep->vi);
+    put_index(fout, &ep->vj);
 }
 
 static void sol_stor_side(FILE *fout, struct s_side *sp)
@@ -930,62 +929,62 @@ static void sol_stor_texc(FILE *fout, struct s_texc *tp)
 
 static void sol_stor_geom(FILE *fout, struct s_geom *gp)
 {
-    put_short(fout, &gp->mi);
-    put_short(fout, &gp->ti);
-    put_short(fout, &gp->si);
-    put_short(fout, &gp->vi);
-    put_short(fout, &gp->tj);
-    put_short(fout, &gp->sj);
-    put_short(fout, &gp->vj);
-    put_short(fout, &gp->tk);
-    put_short(fout, &gp->sk);
-    put_short(fout, &gp->vk);
+    put_index(fout, &gp->mi);
+    put_index(fout, &gp->ti);
+    put_index(fout, &gp->si);
+    put_index(fout, &gp->vi);
+    put_index(fout, &gp->tj);
+    put_index(fout, &gp->sj);
+    put_index(fout, &gp->vj);
+    put_index(fout, &gp->tk);
+    put_index(fout, &gp->sk);
+    put_index(fout, &gp->vk);
 }
 
 static void sol_stor_lump(FILE *fout, struct s_lump *lp)
 {
-    put_short(fout, &lp->fl);
-    put_short(fout, &lp->v0);
-    put_short(fout, &lp->vc);
-    put_short(fout, &lp->e0);
-    put_short(fout, &lp->ec);
-    put_short(fout, &lp->g0);
-    put_short(fout, &lp->gc);
-    put_short(fout, &lp->s0);
-    put_short(fout, &lp->sc);
+    put_index(fout, &lp->fl);
+    put_index(fout, &lp->v0);
+    put_index(fout, &lp->vc);
+    put_index(fout, &lp->e0);
+    put_index(fout, &lp->ec);
+    put_index(fout, &lp->g0);
+    put_index(fout, &lp->gc);
+    put_index(fout, &lp->s0);
+    put_index(fout, &lp->sc);
 }
 
 static void sol_stor_node(FILE *fout, struct s_node *np)
 {
-    put_short(fout, &np->si);
-    put_short(fout, &np->ni);
-    put_short(fout, &np->nj);
-    put_short(fout, &np->l0);
-    put_short(fout, &np->lc);
+    put_index(fout, &np->si);
+    put_index(fout, &np->ni);
+    put_index(fout, &np->nj);
+    put_index(fout, &np->l0);
+    put_index(fout, &np->lc);
 }
 
 static void sol_stor_path(FILE *fout, struct s_path *pp)
 {
     put_array(fout,  pp->p, 3);
     put_float(fout, &pp->t);
-    put_short(fout, &pp->pi);
-    put_short(fout, &pp->f);
+    put_index(fout, &pp->pi);
+    put_index(fout, &pp->f);
 }
 
 static void sol_stor_body(FILE *fout, struct s_body *bp)
 {
-    put_short(fout, &bp->pi);
-    put_short(fout, &bp->ni);
-    put_short(fout, &bp->l0);
-    put_short(fout, &bp->lc);
-    put_short(fout, &bp->g0);
-    put_short(fout, &bp->gc);
+    put_index(fout, &bp->pi);
+    put_index(fout, &bp->ni);
+    put_index(fout, &bp->l0);
+    put_index(fout, &bp->lc);
+    put_index(fout, &bp->g0);
+    put_index(fout, &bp->gc);
 }
 
 static void sol_stor_coin(FILE *fout, struct s_coin *cp)
 {
     put_array(fout,  cp->p, 3);
-    put_short(fout, &cp->n);
+    put_index(fout, &cp->n);
 }
 
 static void sol_stor_goal(FILE *fout, struct s_goal *zp)
@@ -998,17 +997,17 @@ static void sol_stor_swch(FILE *fout, struct s_swch *xp)
 {
     put_array(fout,  xp->p, 3);
     put_float(fout, &xp->r);
-    put_short(fout, &xp->pi);
+    put_index(fout, &xp->pi);
     put_float(fout, &xp->t0);
     put_float(fout, &xp->t);
-    put_short(fout, &xp->f0);
-    put_short(fout, &xp->f);
+    put_index(fout, &xp->f0);
+    put_index(fout, &xp->f);
 }
 
 static void sol_stor_bill(FILE *fout, struct s_bill *rp)
 {
-    put_short(fout, &rp->fl);
-    put_short(fout, &rp->mi);
+    put_index(fout, &rp->fl);
+    put_index(fout, &rp->mi);
     put_float(fout, &rp->t);
     put_float(fout, &rp->d);
     put_array(fout,  rp->w,  3);
@@ -1044,25 +1043,25 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
 {
     int i;
 
-    put_short(fin, &fp->mc);
-    put_short(fin, &fp->vc);
-    put_short(fin, &fp->ec);
-    put_short(fin, &fp->sc);
-    put_short(fin, &fp->tc);
-    put_short(fin, &fp->gc);
-    put_short(fin, &fp->lc);
-    put_short(fin, &fp->nc);
-    put_short(fin, &fp->pc);
-    put_short(fin, &fp->bc);
-    put_short(fin, &fp->cc);
-    put_short(fin, &fp->zc);
-    put_short(fin, &fp->jc);
-    put_short(fin, &fp->xc);
-    put_short(fin, &fp->rc);
-    put_short(fin, &fp->uc);
-    put_short(fin, &fp->wc);
-    put_short(fin, &fp->ic);
-    put_short(fin, &fp->ac);
+    put_index(fin, &fp->mc);
+    put_index(fin, &fp->vc);
+    put_index(fin, &fp->ec);
+    put_index(fin, &fp->sc);
+    put_index(fin, &fp->tc);
+    put_index(fin, &fp->gc);
+    put_index(fin, &fp->lc);
+    put_index(fin, &fp->nc);
+    put_index(fin, &fp->pc);
+    put_index(fin, &fp->bc);
+    put_index(fin, &fp->cc);
+    put_index(fin, &fp->zc);
+    put_index(fin, &fp->jc);
+    put_index(fin, &fp->xc);
+    put_index(fin, &fp->rc);
+    put_index(fin, &fp->uc);
+    put_index(fin, &fp->wc);
+    put_index(fin, &fp->ic);
+    put_index(fin, &fp->ac);
 
     for (i = 0; i < fp->mc; i++) sol_stor_mtrl(fin, fp->mv + i);
     for (i = 0; i < fp->vc; i++) sol_stor_vert(fin, fp->vv + i);
@@ -1081,7 +1080,7 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->rc; i++) sol_stor_bill(fin, fp->rv + i);
     for (i = 0; i < fp->uc; i++) sol_stor_ball(fin, fp->uv + i);
     for (i = 0; i < fp->wc; i++) sol_stor_view(fin, fp->wv + i);
-    for (i = 0; i < fp->ic; i++) put_short(fin, fp->iv + i);
+    for (i = 0; i < fp->ic; i++) put_index(fin, fp->iv + i);
 
     fwrite(fp->av, 1, fp->ac, fin);
 }
@@ -1104,7 +1103,7 @@ int sol_stor(struct s_file *fp, const char *filename)
 
 void sol_free(struct s_file *fp)
 {
-    short i;
+    int i;
 
     for (i = 0; i < fp->mc; i++)
     {
@@ -1351,7 +1350,7 @@ static float sol_bounce(struct s_ball *up,
  */
 static void sol_swch_step(struct s_file *fp, float dt)
 {
-    short xi;
+    int xi;
 
     for (xi = 0; xi < fp->xc; xi++)
     {
@@ -1363,8 +1362,8 @@ static void sol_swch_step(struct s_file *fp, float dt)
 
             if (xp->t <= 0)
             {
-                short pi = xp->pi;
-                short pj = xp->pi;
+                int pi = xp->pi;
+                int pj = xp->pi;
 
                 do  /* Tortoise and hare cycle traverser. */
                 {
@@ -1388,7 +1387,7 @@ static void sol_swch_step(struct s_file *fp, float dt)
  */
 static void sol_body_step(struct s_file *fp, float dt)
 {
-    short i;
+    int i;
 
     for (i = 0; i < fp->bc; i++)
     {
@@ -1413,7 +1412,7 @@ static void sol_body_step(struct s_file *fp, float dt)
  */
 static void sol_ball_step(struct s_file *fp, float dt)
 {
-    short i;
+    int i;
 
     for (i = 0; i < fp->uc; i++)
     {
@@ -1485,7 +1484,7 @@ static float sol_test_side(float dt,
                            const float w[3])
 {
     float t = v_side(T, o, w, sp->n, sp->d, up->p, up->v, up->r);
-    short i;
+    int i;
 
     if (t < dt)
         for (i = 0; i < lp->sc; i++)
@@ -1576,7 +1575,7 @@ static float sol_test_lump(float dt,
                            const float w[3])
 {
     float U[3], u, t = dt;
-    short i;
+    int i;
 
     /* Short circuit a non-solid lump. */
 
@@ -1634,7 +1633,7 @@ static float sol_test_node(float dt,
                            const float w[3])
 {
     float U[3], u, t = dt;
-    short i;
+    int i;
 
     /* Test all lumps */
 
@@ -1706,7 +1705,7 @@ static float sol_test_file(float dt,
                            const struct s_file *fp)
 {
     float U[3], W[3], u, t = dt;
-    short i;
+    int i;
 
     for (i = 0; i < fp->bc; i++)
     {
@@ -1732,7 +1731,7 @@ static float sol_test_file(float dt,
  * iterations, punt it.
  */
 
-float sol_step(struct s_file *fp, const float *g, float dt, short ui, int *m)
+float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 {
     float P[3], V[3], v[3], r[3], d, e, nt, b = 0.0f, tt = dt;
     int c = 16;
@@ -1810,7 +1809,7 @@ int sol_coin_test(struct s_file *fp, float *p, float coin_r)
 {
     const float *ball_p = fp->uv->p;
     const float  ball_r = fp->uv->r;
-    short ci, n;
+    int ci, n;
 
     for (ci = 0; ci < fp->cc; ci++)
     {
@@ -1835,11 +1834,11 @@ int sol_coin_test(struct s_file *fp, float *p, float coin_r)
     return 0;
 }
 
-int sol_goal_test(struct s_file *fp, float *p, short ui)
+int sol_goal_test(struct s_file *fp, float *p, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
-    short zi;
+    int zi;
 
     for (zi = 0; zi < fp->zc; zi++)
     {
@@ -1863,11 +1862,11 @@ int sol_goal_test(struct s_file *fp, float *p, short ui)
     return 0;
 }
 
-int sol_jump_test(struct s_file *fp, float *p, short ui)
+int sol_jump_test(struct s_file *fp, float *p, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
-    short ji;
+    int ji;
 
     for (ji = 0; ji < fp->jc; ji++)
     {
@@ -1891,11 +1890,11 @@ int sol_jump_test(struct s_file *fp, float *p, short ui)
     return 0;
 }
 
-int sol_swch_test(struct s_file *fp, int flag, short ui)
+int sol_swch_test(struct s_file *fp, int flag, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
-    short xi;
+    int xi;
     int f = 1;
 
     for (xi = 0; xi < fp->xc; xi++)
@@ -1916,8 +1915,8 @@ int sol_swch_test(struct s_file *fp, int flag, short ui)
             {
                 if (flag)
                 {
-                    short pi = xp->pi;
-                    short pj = xp->pi;
+                    int pi = xp->pi;
+                    int pj = xp->pi;
 
                     /* Toggle the state, update the path. */
 
