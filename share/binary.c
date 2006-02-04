@@ -106,4 +106,19 @@ void get_array(FILE *fin, float *v, size_t n)
         get_float(fin, v + i);
 }
 
+/*needed for old-style replay compatability*/
+void get_short(FILE *fin, short *s)
+{
+    unsigned char *p = (unsigned char *) s;
+
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    p[1] = (unsigned char) fgetc(fin);
+    p[0] = (unsigned char) fgetc(fin);
+#else
+    p[0] = (unsigned char) fgetc(fin);
+    p[1] = (unsigned char) fgetc(fin);
+#endif
+}
+
+
 /*---------------------------------------------------------------------------*/

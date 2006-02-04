@@ -14,6 +14,9 @@ void get_float(FILE *, float *);
 void get_index(FILE *, int   *);
 void get_array(FILE *, float *, size_t);
 
+/*needed for old-style replay compatability*/
+void get_short(FILE *, short *);
+
 /*---------------------------------------------------------------------------*/
 
 #endif
