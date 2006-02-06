@@ -31,8 +31,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define MAGIC 0x4E425251
-#define OLDMAGIC 0x4E425250
+#define MAGIC 0x4E425250
 
 static FILE *demo_fp;
 
@@ -60,22 +59,16 @@ int demo_scan(void)
         do
             if ((fp = fopen(config_user(d.cFileName), FMODE_RB)))
             {
-                int   magic;
+                int magic;
                 int t, c;
 
                 /* Note the name and screen shot of each replay file. */
 
                 get_index(fp, &magic);
-				if (magic == MAGIC) {
-					get_index(fp, &t);
-					get_index(fp, &c);
-					}
-				else { /*magic must == OLDMAGIC*/
-					get_short(fp, &t);
-					get_short(fp, &c);
-					}					
+                get_index(fp, &t);
+                get_index(fp, &c);
 
-                if ((magic == MAGIC && t) || (magic == OLDMAGIC && t))
+                if (magic == MAGIC && t)
                 {
                     fread(shot[count], 1, PATHMAX, fp);
                     timer[count] = t;
@@ -313,7 +306,7 @@ int demo_replay_init(const char *name, int *s, int *c, int *b, int *g)
         get_index(demo_fp, &magic);
 
         if (magic == MAGIC)
-			{
+            {
             get_index(demo_fp, &zero);
             get_index(demo_fp, &zero);
 
@@ -342,37 +335,6 @@ int demo_replay_init(const char *name, int *s, int *c, int *b, int *g)
             else
                 return game_init(file, back, grad, st, 1);
         }
-		/*old-style replay loading*/
-		else if (magic == OLDMAGIC) { 
-
-            get_short(demo_fp, &zero);
-            get_short(demo_fp, &zero);
-
-            fread(shot, 1, PATHMAX, demo_fp);
-            fread(file, 1, PATHMAX, demo_fp);
-            fread(back, 1, PATHMAX, demo_fp);
-            fread(grad, 1, PATHMAX, demo_fp);
-            fread(song, 1, PATHMAX, demo_fp);
-
-            get_short(demo_fp, &st);
-            get_short(demo_fp, &sg);
-            get_short(demo_fp, &ss);
-            get_short(demo_fp, &sc);
-            get_short(demo_fp, &sb);
-
-            if (g) *g = (int) sg;
-            if (s) *s = (int) ss;
-            if (c) *c = (int) sc;
-            if (b) *b = (int) sb;
-
-            if (g)
-            {
-                audio_music_fade_to(0.5f, song);
-                return game_init(file, back, grad, st, (*g == 0));
-            }
-            else
-                return game_init(file, back, grad, st, 1);
-			}
         fclose(demo_fp);
     }
     return 0;
