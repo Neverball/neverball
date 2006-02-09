@@ -162,6 +162,31 @@ SOLS= \
 	data/map-mym/trust.sol      \
 	data/map-mym/turn.sol       \
 	data/map-mym/up.sol         \
+	data/map-mym2/backforth.sol \
+	data/map-mym2/basket.sol \
+	data/map-mym2/bigball.sol \
+	data/map-mym2/bigcones.sol \
+	data/map-mym2/bounces.sol \
+	data/map-mym2/fall.sol \
+	data/map-mym2/freefall.sol \
+	data/map-mym2/ghosts.sol \
+	data/map-mym2/grinder.sol \
+	data/map-mym2/littlecones.sol \
+	data/map-mym2/longpipe.sol \
+	data/map-mym2/morenarrow.sol \
+	data/map-mym2/movinglumps.sol \
+	data/map-mym2/movingpath.sol \
+	data/map-mym2/push.sol \
+	data/map-mym2/rainbow.sol \
+	data/map-mym2/rodeo.sol \
+	data/map-mym2/runstop.sol \
+	data/map-mym2/shaker.sol \
+	data/map-mym2/sonic.sol \
+	data/map-mym2/speeddance.sol \
+	data/map-mym2/speed.sol \
+	data/map-mym2/translation.sol \
+	data/map-mym2/updown.sol \
+	data/map-mym2/webs.sol \
 	data/map-putt/01_easy.sol    \
 	data/map-putt/02_uturn.sol   \
 	data/map-putt/03_kink.sol    \
@@ -243,6 +268,9 @@ data/map-rlk/%.sol : data/map-rlk/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< data
 
 data/map-mym/%.sol : data/map-mym/%.map $(MAPC_TARG)
+	./$(MAPC_TARG) $< data
+
+data/map-mym2/%.sol : data/map-mym2/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< data
 
 data/map-putt/%.sol : data/map-putt/%.map $(MAPC_TARG)

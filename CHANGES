@@ -1,6 +1,9 @@
 -------------------------------------------------------------------------------
 New in 1.4.1
 
+* Added the second Mehdi's level set.
+* Applied major and minor fixes to the first Mehdi's levels set.
+* New textures.
 * Added dictionary elements to SOL file in order to allow metadata storage.
 * Reverted short usage in SOL to int.  Was bumping up against the limit.
 
