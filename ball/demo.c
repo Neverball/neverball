@@ -32,6 +32,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define MAGIC 0x4E425251
+#define DEMO_FPS_CAP 200 /* FPS replay limit, keeps size down on monster systems */
 
 static FILE *demo_fp;
 
@@ -232,10 +233,18 @@ int demo_play_init(const char *name,
 
 void demo_play_step(float dt)
 {
+    static float fps_track = 0.0f;
+    static float fps_cap   = 1.0f / (float) DEMO_FPS_CAP;
+
     if (demo_fp)
     {
-        put_float(demo_fp, &dt);
-        put_game_state(demo_fp);
+        fps_track += dt;
+        if (fps_track > fps_cap)
+        {            
+            put_float(demo_fp, &fps_track);
+            put_game_state(demo_fp); 
+            fps_track = 0.0f;
+        }
     }
 }
 
