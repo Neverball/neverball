@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Le petit cross.\Let's go scrambling!\ Stick to the track to optimize speed."
+"message" "Le petit cross.\Let's go scrambling!\Stick to the track to optimize speed."
 // brush 0
 {
 ( 128 224 208 ) ( 128 224 207 ) ( 128 223 208 ) mtrl/chrome 0 0 0 0.5 0.5 0 0 0

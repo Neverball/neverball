@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Un petit échauffement.\Welcome to the new Tuxmym's set!"
+"message" "Un petit échauffement.\Welcome to the new Mehdi's set!"
 // brush 0
 {
 ( 256 1416 -872 ) ( 300 1419 -872 ) ( 256 1416 -616 ) mtrl/chrome 0 0 0 0.5 0.5 0 0 0

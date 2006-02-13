@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Savoir rebondir pour aller plus haut.\The Neverball Arena.\note: reach the 3rd teleport to unlock the goal"
+"message" "Savoir rebondir pour aller plus haut.\The Neverball Arena."
 // brush 0
 {
 ( -304 8 576 ) ( -304 -8 576 ) ( -320 -8 576 ) mtrl/chrome 0 -16 0 0.5 0.5 0 0 0

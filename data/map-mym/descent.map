@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "La descente infernale.\Easy enough to start."
+"message" "La descente infernale.\Easy enough to start?"
 // brush 0
 {
 ( 136 192 -8 ) ( 8 192 -8 ) ( 8 64 -8 ) mtrl/turf-grey -144 0 0 0.5 0.5 0 0 0
