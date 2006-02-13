@@ -9,14 +9,19 @@ Collect coins to unlock the exit  and earn extra balls.  Red coins are
 worth 5.   Blue coins are  worth 10.  A  free ball is awarded  for 100
 coins.
 
+* Some URLs
 
-Requirements:
+    Neverball Official Site
+    http://icculus.org/neverball/
 
-    SDL               http://www.libsdl.org/download-1.2.php
-    SDL_image         http://www.libsdl.org/projects/SDL_image/
-    SDL_mixer         http://www.libsdl.org/projects/SDL_mixer/
-    SDL_ttf           http://www.libsdl.org/projects/SDL_ttf/
+    Neverforum (Comunuty Discussion Forum)
+    http://shinobufan.intuxication.org/neverforum/
 
+    Nevertable (Neverball Highscore and Replay Database)
+    http://shinobufan.intuxication.org/nevertable/
+
+    Neverwiki (Documentation and Level Design)
+    http://shinobufan.intuxication.org/neverwiki/
 
 
 * THANKS TO
@@ -41,6 +46,14 @@ Requirements:
 
 
 * BUILDING
+
+Requirements:
+
+    SDL               http://www.libsdl.org/download-1.2.php
+    SDL_image         http://www.libsdl.org/projects/SDL_image/
+    SDL_mixer         http://www.libsdl.org/projects/SDL_mixer/
+    SDL_ttf           http://www.libsdl.org/projects/SDL_ttf/
+
 
 Under Unix, Linux, and OSX, simply run
 
