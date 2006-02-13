@@ -38,6 +38,7 @@ MAPC_OBJS= \
 BALL_OBJS= \
 	share/i18n.o    \
 	share/st_lang.o \
+	share/st_resol.o \
 	share/vec3.o    \
 	share/image.o   \
 	share/solid.o   \

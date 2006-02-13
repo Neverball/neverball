@@ -24,16 +24,12 @@
 #include "st_conf.h"
 #include "st_title.h"
 #include "st_lang.h"
+#include "st_resol.h"
 
 /*---------------------------------------------------------------------------*/
 
 #define CONF_FULL  1
 #define CONF_WIN   2
-#define CONF_16x12 3
-#define CONF_12x10 4
-#define CONF_10x7  5
-#define CONF_8x6   6
-#define CONF_6x4   7
 #define CONF_TEXHI 8
 #define CONF_TEXLO 9
 #define CONF_GEOHI 10
@@ -48,6 +44,7 @@
 #define CONF_AUDLO 19
 #define CONF_BACK  20
 #define CONF_LANG  21
+#define CONF_RESOL 22
 
 static int audlo_id;
 static int audhi_id;
@@ -56,7 +53,6 @@ static int sound_id[11];
 
 static int conf_action(int i)
 {
-    int f = config_get_d(CONFIG_FULLSCREEN);
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
     int s = config_get_d(CONFIG_SOUND_VOLUME);
@@ -79,36 +75,6 @@ static int conf_action(int i)
         goto_state(&st_conf);
         break;
         
-    case CONF_16x12:
-        goto_state(&st_null);
-        r = config_mode(f, 1600, 1200);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_12x10:
-        goto_state(&st_null);
-        r = config_mode(f, 1280, 1024);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_10x7:
-        goto_state(&st_null);
-        r = config_mode(f, 1024, 768);
-        goto_state(&st_conf);
-        break;
-            
-    case CONF_8x6:
-        goto_state(&st_null);
-        r = config_mode(f, 800, 600);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_6x4:
-        goto_state(&st_null);
-        r = config_mode(f, 640, 480);
-        goto_state(&st_conf);
-        break;
-
     case CONF_TEXHI:
         goto_state(&st_null);
         config_set_d(CONFIG_TEXTURES, 1);
@@ -195,6 +161,10 @@ static int conf_action(int i)
         goto_state(&st_lang);
         break;
 	
+    case CONF_RESOL:
+        goto_state(&st_resol);
+        break;
+
     default:
         if (100 <= i && i <= 110)
         {
@@ -235,7 +205,7 @@ static int conf_enter(void)
     {
         if ((jd = gui_varray(id)))
         {
-            int w = config_get_d(CONFIG_WIDTH);
+            int f = config_get_d(CONFIG_FULLSCREEN);
             int t = config_get_d(CONFIG_TEXTURES);
             int g = config_get_d(CONFIG_GEOMETRY);
             int r = config_get_d(CONFIG_REFLECTION);
@@ -253,16 +223,17 @@ static int conf_enter(void)
 
             /* Add mode selectors only for existing modes. */
 
-            if (SDL_VideoModeOK(1600, 1200, 16, SDL_HWSURFACE))
-                gui_state(jd, "1600 x 1200", GUI_SML, CONF_16x12, (w == 1600));
-            if (SDL_VideoModeOK(1280, 1024, 16, SDL_HWSURFACE))
-                gui_state(jd, "1280 x 1024", GUI_SML, CONF_12x10, (w == 1280));
-            if (SDL_VideoModeOK(1024, 768, 16, SDL_HWSURFACE))
-                gui_state(jd, "1024 x 768",  GUI_SML, CONF_10x7,  (w == 1024));
-            if (SDL_VideoModeOK(800, 600, 16, SDL_HWSURFACE))
-                gui_state(jd, "800 x 600",   GUI_SML, CONF_8x6,   (w ==  800));
-            if (SDL_VideoModeOK(640, 480, 16, SDL_HWSURFACE))
-                gui_state(jd, "640 x 480",   GUI_SML, CONF_6x4,   (w ==  640));
+	    if ((kd = gui_harray(jd)))
+            {
+                gui_state(kd, _("No"), GUI_SML, CONF_WIN, (f == 0));
+                gui_state(kd, _("Yes"),  GUI_SML, CONF_FULL, (f == 1));
+            }
+	    
+	    {
+		static char msg[20];
+		sprintf(msg, "%d x %d", config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT));
+		gui_state(jd, msg, GUI_SML, CONF_RESOL, 0);
+	    }
 
             if ((kd = gui_harray(jd)))
             {
@@ -333,20 +304,15 @@ static int conf_enter(void)
         }
         if ((jd = gui_vstack(id)))
         {
-            int f = config_get_d(CONFIG_FULLSCREEN);
-
             if ((kd = gui_harray(jd)))
             {
                 gui_filler(kd);
                 gui_start(kd, _("Back"), GUI_SML, CONF_BACK, 0);
             }
 
-            gui_state(jd, _("Fullscreen"),   GUI_SML, CONF_FULL, (f == 1));
-            gui_state(jd, _("Window"),       GUI_SML, CONF_WIN,  (f == 0));
+            gui_label(jd, _("Fullscreen"),   GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Resolution"),   GUI_SML, GUI_ALL, 0, 0);
 
-            /* This filler expands to accomodate an unknown number of modes. */
-            gui_filler(jd);
-	    
             gui_label(jd, _("Textures"),     GUI_SML, GUI_ALL, 0, 0);
             gui_label(jd, _("Geometry"),     GUI_SML, GUI_ALL, 0, 0);
             gui_label(jd, _("Reflection"),   GUI_SML, GUI_ALL, 0, 0);

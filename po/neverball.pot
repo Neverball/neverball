@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-12 09:41+0100\n"
+"POT-Creation-Date: 2006-02-13 21:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ball/demo.c:181
+#: ball/demo.c:182
 #, c-format
 msgid "replay%02d"
 msgstr ""
@@ -53,79 +53,87 @@ msgstr ""
 msgid "Neverball"
 msgstr ""
 
-#: ball/st_conf.c:250 ball/st_title.c:75 putt/st_all.c:183 putt/st_conf.c:220
+#: ball/st_conf.c:220 ball/st_title.c:75 putt/st_all.c:183 putt/st_conf.c:220
 msgid "Options"
 msgstr ""
 
-#: ball/st_conf.c:269 ball/st_conf.c:274 ball/st_conf.c:297 putt/st_conf.c:239
+#: ball/st_conf.c:228 ball/st_demo.c:394 ball/st_save.c:207
+msgid "No"
+msgstr ""
+
+#: ball/st_conf.c:229 ball/st_demo.c:393 ball/st_save.c:206
+msgid "Yes"
+msgstr ""
+
+#: ball/st_conf.c:240 ball/st_conf.c:245 ball/st_conf.c:268 putt/st_conf.c:239
 #: putt/st_conf.c:244 putt/st_conf.c:257
 msgid "Low"
 msgstr ""
 
-#: ball/st_conf.c:270 ball/st_conf.c:275 ball/st_conf.c:298 putt/st_conf.c:240
+#: ball/st_conf.c:241 ball/st_conf.c:246 ball/st_conf.c:269 putt/st_conf.c:240
 #: putt/st_conf.c:245 putt/st_conf.c:258
 msgid "High"
 msgstr ""
 
-#: ball/st_conf.c:279 ball/st_conf.c:284 ball/st_conf.c:289 putt/st_conf.c:249
+#: ball/st_conf.c:250 ball/st_conf.c:255 ball/st_conf.c:260 putt/st_conf.c:249
 msgid "Off"
 msgstr ""
 
-#: ball/st_conf.c:280 ball/st_conf.c:285 ball/st_conf.c:290 putt/st_conf.c:250
+#: ball/st_conf.c:251 ball/st_conf.c:256 ball/st_conf.c:261 putt/st_conf.c:250
 msgid "On"
 msgstr ""
 
-#: ball/st_conf.c:341 ball/st_demo.c:108 ball/st_demo.c:121 ball/st_set.c:74
+#: ball/st_conf.c:310 ball/st_demo.c:108 ball/st_demo.c:121 ball/st_set.c:85
 #: ball/st_start.c:84 putt/st_all.c:279 putt/st_all.c:398 putt/st_conf.c:301
-#: share/st_lang.c:80
+#: share/st_lang.c:80 share/st_resol.c:91
 msgid "Back"
 msgstr ""
 
-#: ball/st_conf.c:344 putt/st_conf.c:304
+#: ball/st_conf.c:313 putt/st_conf.c:304
 msgid "Fullscreen"
 msgstr ""
 
-#: ball/st_conf.c:345 putt/st_conf.c:305
-msgid "Window"
+#: ball/st_conf.c:314 share/st_resol.c:89
+msgid "Resolution"
 msgstr ""
 
-#: ball/st_conf.c:350 putt/st_conf.c:310
+#: ball/st_conf.c:316 putt/st_conf.c:310
 msgid "Textures"
 msgstr ""
 
-#: ball/st_conf.c:351 putt/st_conf.c:311
+#: ball/st_conf.c:317 putt/st_conf.c:311
 msgid "Geometry"
 msgstr ""
 
-#: ball/st_conf.c:352
+#: ball/st_conf.c:318
 msgid "Reflection"
 msgstr ""
 
-#: ball/st_conf.c:353
+#: ball/st_conf.c:319
 msgid "Background"
 msgstr ""
 
-#: ball/st_conf.c:354 putt/st_conf.c:312
+#: ball/st_conf.c:320 putt/st_conf.c:312
 msgid "Shadow"
 msgstr ""
 
-#: ball/st_conf.c:355 putt/st_conf.c:313
+#: ball/st_conf.c:321 putt/st_conf.c:313
 msgid "Audio"
 msgstr ""
 
-#: ball/st_conf.c:356 putt/st_conf.c:314
+#: ball/st_conf.c:322 putt/st_conf.c:314
 msgid "Sound Volume"
 msgstr ""
 
-#: ball/st_conf.c:357 putt/st_conf.c:315
+#: ball/st_conf.c:323 putt/st_conf.c:315
 msgid "Music Volume"
 msgstr ""
 
-#: ball/st_conf.c:358 putt/st_conf.c:316 share/st_lang.c:78
+#: ball/st_conf.c:324 putt/st_conf.c:316 share/st_lang.c:78
 msgid "Language"
 msgstr ""
 
-#: ball/st_demo.c:106
+#: ball/st_demo.c:106 ball/st_set.c:106 ball/st_set.c:108
 msgid "Next"
 msgstr ""
 
@@ -133,7 +141,7 @@ msgstr ""
 msgid "Select Replay"
 msgstr ""
 
-#: ball/st_demo.c:119
+#: ball/st_demo.c:119 ball/st_set.c:110 ball/st_set.c:112
 msgid "Prev"
 msgstr ""
 
@@ -155,14 +163,6 @@ msgstr ""
 
 #: ball/st_demo.c:389
 msgid "Delete Replay?"
-msgstr ""
-
-#: ball/st_demo.c:393 ball/st_save.c:206
-msgid "Yes"
-msgstr ""
-
-#: ball/st_demo.c:394 ball/st_save.c:207
-msgid "No"
 msgstr ""
 
 #: ball/st_done.c:86
@@ -237,7 +237,7 @@ msgstr ""
 msgid "Overwrite?"
 msgstr ""
 
-#: ball/st_set.c:71
+#: ball/st_set.c:83
 msgid "Level Set"
 msgstr ""
 
@@ -375,7 +375,7 @@ msgstr ""
 msgid "Hole %02d"
 msgstr ""
 
-#: putt/st_all.c:455 share/config.h:167
+#: putt/st_all.c:455 share/config.h:169
 msgid "Player"
 msgstr ""
 
@@ -395,6 +395,10 @@ msgstr ""
 msgid "Final Scores"
 msgstr ""
 
+#: putt/st_conf.c:305
+msgid "Window"
+msgstr ""
+
 #: share/audio.c:63
 #, c-format
 msgid "Sound disabled\n"
@@ -404,36 +408,36 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
-#: share/config.h:169
+#: share/config.h:171
 msgid "png/coin.png"
 msgstr ""
 
-#: share/config.h:181
+#: share/config.h:183
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr ""
 
-#: share/gui.c:390
+#: share/gui.c:387
 #, c-format
 msgid "Out of widget IDs\n"
 msgstr ""
 
-#: share/gui.c:583
+#: share/gui.c:580
 msgid "Paused"
 msgstr ""
 
-#: share/i18n.c:17
+#: share/i18n.c:18
 msgid "English"
 msgstr ""
 
-#: share/i18n.c:17
+#: share/i18n.c:18
 msgid "French"
 msgstr ""
 
-#: share/i18n.c:17
+#: share/i18n.c:18
 msgid "Latvian"
 msgstr ""
 
-#: share/i18n.c:60
+#: share/i18n.c:65
 msgid "System Default"
 msgstr ""
 
