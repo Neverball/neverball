@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Hé, on pousse pas !\Not too fast, not too slow."
+"message" "HÃ©, on pousse pas !\Not too fast, not too slow."
 // brush 0
 {
 ( -112 -48 -8 ) ( -112 -48 0 ) ( -128 -64 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0

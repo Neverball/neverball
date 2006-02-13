@@ -281,7 +281,7 @@ GLuint make_image_from_font(int *W, int *H,
 
     if (text && strlen(text) > 0)
     {
-        if ((src = TTF_RenderText_Blended(font, text, fg)))
+        if ((src = TTF_RenderUTF8_Blended(font, text, fg)))
         {
             int w2;
             int h2;

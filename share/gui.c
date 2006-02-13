@@ -225,7 +225,7 @@ void gui_init(void)
 
     if (TTF_Init() == 0)
     {
-        int s0 = s / 24;
+        int s0 = s / 26;
         int s1 = s / 12;
         int s2 = s /  6;
         int m;

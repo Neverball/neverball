@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Être patient.\Not too hard."
+"message" "ÃŠtre patient.\Not too hard."
 // brush 0
 {
 ( -64 64 0 ) ( -64 -64 0 ) ( -64 -64 -8 ) mtrl/edge2-orangebig 128 16 0 0.5 0.5 0 0 0

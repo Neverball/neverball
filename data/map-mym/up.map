@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "L'ascension pressée.\Only one piece of advice: don't stop!"
+"message" "L'ascension pressÃ©e.\Only one piece of advice: don't stop!"
 // brush 0
 {
 ( 64 704 -8 ) ( -64 704 -8 ) ( -64 384 -8 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

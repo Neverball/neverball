@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Le contrôle des courbes.\Find the right angle to turn,\to jump, and to land..."
+"message" "Le contrÃ´le des courbes.\Find the right angle to turn,\to jump, and to land..."
 // brush 0
 {
 ( 72 -328 -16 ) ( -56 -328 -16 ) ( -56 -456 -16 ) mtrl/turf-grey -16 0 0 0.5 0.5 0 0 0

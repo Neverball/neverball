@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Les sauts du célèbre plombier.\Follow the coins."
+"message" "Les sauts du cÃ©lÃ¨bre plombier.\Follow the coins."
 // brush 0
 {
 ( 64 64 -4 ) ( -64 64 -4 ) ( -64 -56 -4 ) mtrl/dark-glass 0 0 0 0.5 0.5 0 0 0

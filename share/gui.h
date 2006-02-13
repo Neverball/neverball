@@ -19,7 +19,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define GUI_FACE "ttf/VeraBd.ttf"
+#define GUI_FACE "ttf/DejaVuSans-Bold.ttf"
 #define GUI_SML  0
 #define GUI_MED  1
 #define GUI_LRG  2

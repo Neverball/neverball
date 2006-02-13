@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Les épreuves minutées.\Run baby, run!"
+"message" "Les Ã©preuves minutÃ©es.\Run baby, run!"
 // brush 0
 {
 ( -200 912 8 ) ( -200 896 8 ) ( -200 896 0 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

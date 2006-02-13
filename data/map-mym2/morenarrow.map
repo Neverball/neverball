@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Plus dur que la difficulté.\Good luck."
+"message" "Plus dur que la difficultÃ©.\Good luck."
 // brush 0
 {
 ( -64 -64 0 ) ( -64 -192 0 ) ( -64 -192 -32 ) mtrl/edge-green-grey-offset 128 0 0 0.5 0.5 0 0 0

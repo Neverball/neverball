@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Le chemin dissimulé.\Test your memory."
+"message" "Le chemin dissimulÃ©.\Test your memory."
 // brush 0
 {
 ( 744 232 0 ) ( 16 232 0 ) ( 16 232 -8 ) mtrl/wood -80 0 0 0.5 0.5 0 0 0

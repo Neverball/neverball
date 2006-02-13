@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Ne pas se laisser emporter dans le néant.\Don't go too low."
+"message" "Ne pas se laisser emporter dans le nÃ©ant.\Don't go too low."
 // brush 0
 {
 ( -264 904 -192 ) ( -264 776 -192 ) ( -120 904 -192 ) mtrl/turf-grey 112 0 0 0.5 0.5 0 0 0

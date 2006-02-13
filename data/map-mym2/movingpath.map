@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Le passage éphémère.\Trust the coins."
+"message" "Le passage Ã©phÃ©mÃ¨re.\Trust the coins."
 // brush 0
 {
 ( -700 64 0 ) ( -700 -56 0 ) ( -700 -56 -8 ) mtrl/dark-glass 0 0 0 0.500000 0.500000 0 0 0

@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "La maîtrise de Neverball.\You still think Neverball is too easy?"
+"message" "La maÃ®trise de Neverball.\You still think Neverball is too easy?"
 // brush 0
 {
 ( 1624 8714 -240 ) ( 1624 8906 -240 ) ( 1688 8906 -240 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

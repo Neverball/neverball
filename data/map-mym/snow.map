@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "La descente rafraîchissante.\Not so fast, not so fast."
+"message" "La descente rafraÃ®chissante.\Not so fast, not so fast."
 // brush 0
 {
 ( -384 64 16 ) ( -384 -64 16 ) ( -384 -64 0 ) mtrl/dark-glass 0 0 0 0.5 0.5 0 0 0
