@@ -18,15 +18,22 @@
 #include "audio.h"
 #include "config.h"
 
+#include "st_set.h"
 #include "st_title.h"
 #include "st_start.h"
 
 /*---------------------------------------------------------------------------*/
 
 #define SET_BACK -1
+#define SET_PREV -2
+#define SET_NEXT -3
+
+#define SET_GROUP 4 /* number of sets in one screen */
 
 static int shot_id;
 static int desc_id;
+
+static int last_set; /* TODO: Use config instead of a global variable */
 
 static int set_action(int i)
 {
@@ -34,29 +41,33 @@ static int set_action(int i)
     
     if (i == SET_BACK)
         return goto_state(&st_title);
-
-    if (0 <= i && i <= 5)
+    else if (i == SET_PREV)
     {
+	last_set = ((last_set/SET_GROUP)-1)*SET_GROUP;
+	return goto_state(&st_set);
+    }
+    else if (i == SET_NEXT)
+    {
+	last_set = ((last_set/SET_GROUP)+1)*SET_GROUP;
+	return goto_state(&st_set);
+    }
+    else if (set_exists(i))
+    {
+	last_set = i;
         set_goto(i);
         return goto_state(&st_start);
     }
     return 1;
 }
 
-static void gui_set(int id, int i)
-{
-    if (set_exists(i))
-        gui_state(id, set_name(i), GUI_SML, i, 0);
-    else
-        gui_label(id, "", GUI_SML, GUI_ALL, 0, 0);
-}
-
 static int set_enter(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
+    int b = last_set / SET_GROUP;
+    int i;
 
-    int id, jd, kd;
+    int id, jd, kd, ld;
 
     set_init();
 
@@ -65,26 +76,43 @@ static int set_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        if ((jd = gui_harray(id)))
+        if ((jd = gui_hstack(id)))
         {
             gui_label(jd, "Level Set", GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
-            gui_filler(jd);
-            gui_start(jd, "Back",  GUI_SML, SET_BACK, 0);
+            gui_state(jd, "Back",  GUI_SML, SET_BACK, 0);
         }
 
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, "shot-rlk/easy.jpg", 7 * w / 16, 7 * h / 16);
+            shot_id = gui_image(jd, set_shot(last_set), 7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
-            {
-                gui_set(kd, 0);
-                gui_set(kd, 1);
-                gui_set(kd, 2);
-                gui_set(kd, 3);
-                gui_set(kd, 4);
-            }
+	    {
+		/* Display levels */
+	        for(i=b*SET_GROUP; i<(b+1)*SET_GROUP && set_exists(i); i++)
+		{
+		    if(last_set == i)
+		        gui_start(kd, set_name(i), GUI_SML, i, 0);
+		    else
+		        gui_state(kd, set_name(i), GUI_SML, i, 0);
+		}
+		
+		/* Display Prev/Next buttons */	
+		ld = gui_harray(kd);
+		if (set_exists(i))
+		    gui_state(ld, "Next", GUI_SML, SET_NEXT, 0);
+		else
+		    gui_label(ld, "Next", GUI_SML, GUI_ALL, gui_gry, gui_gry);
+		if (b>0)
+		    gui_state(ld, "Prev", GUI_SML, SET_PREV, 0);
+		else
+		    gui_label(ld, "Prev", GUI_SML, GUI_ALL, gui_gry, gui_gry);
+
+		/* Display empty slots */
+		for(; i<(b+1)*SET_GROUP; i++)
+		    gui_filler(kd);
+	    }	       
         }
 
         gui_space(id);
@@ -120,10 +148,12 @@ static void set_point(int id, int x, int y, int dx, int dy)
     if ((jd = gui_point(id, x, y)))
     {
         int i = gui_token(jd);
-
-        gui_set_image(shot_id, set_shot(i));
-        gui_set_multi(desc_id, set_desc(i));
-        gui_pulse(jd, 1.2f);
+	if (set_exists(i))
+	{
+            gui_set_image(shot_id, set_shot(i));
+	    gui_set_multi(desc_id, set_desc(i));
+	    gui_pulse(jd, 1.2f);
+	}
     }
 }
 
@@ -138,9 +168,12 @@ static void set_stick(int id, int a, int v)
     {
         int i = gui_token(jd);
 
-        gui_set_image(shot_id, set_shot(i));
-        gui_set_multi(desc_id, set_desc(i));
-        gui_pulse(jd, 1.2f);
+	if (set_exists(i))
+	{
+            gui_set_image(shot_id, set_shot(i));
+	    gui_set_multi(desc_id, set_desc(i));
+	    gui_pulse(jd, 1.2f);
+	}
     }
 }
 
