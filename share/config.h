@@ -106,6 +106,7 @@ enum {
     CONFIG_VIEW_DZ,
     CONFIG_ROTATE_FAST,
     CONFIG_ROTATE_SLOW,
+    CONFIG_LAST_SET,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -161,6 +162,7 @@ enum {
 #define DEFAULT_VIEW_DZ              200
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
+#define DEFAULT_LAST_SET             0
 #define DEFAULT_PLAYER               "Player"
 #define DEFAULT_BALL                 "png/ball.png"
 #define DEFAULT_COIN                 "png/coin.png"

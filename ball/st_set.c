@@ -33,29 +33,30 @@
 static int shot_id;
 static int desc_id;
 
-static int last_set; /* TODO: Use config instead of a global variable */
-
 static int set_action(int i)
 {
     audio_play(AUD_MENU, 1.0f);
-    
-    if (i == SET_BACK)
+
+    switch(i)
+    {
+    case SET_BACK:
         return goto_state(&st_title);
-    else if (i == SET_PREV)
-    {
-	last_set = ((last_set/SET_GROUP)-1)*SET_GROUP;
+
+    case SET_PREV:
+	config_set_d(CONFIG_LAST_SET, ((config_get_d(CONFIG_LAST_SET)/SET_GROUP)-1)*SET_GROUP);
 	return goto_state(&st_set);
-    }
-    else if (i == SET_NEXT)
-    {
-	last_set = ((last_set/SET_GROUP)+1)*SET_GROUP;
+    
+    case SET_NEXT:
+	config_set_d(CONFIG_LAST_SET, ((config_get_d(CONFIG_LAST_SET)/SET_GROUP)+1)*SET_GROUP);
 	return goto_state(&st_set);
-    }
-    else if (set_exists(i))
-    {
-	last_set = i;
-        set_goto(i);
-        return goto_state(&st_start);
+    
+    default:
+	if (set_exists(i))
+	{
+	    config_set_d(CONFIG_LAST_SET, i);
+	    set_goto(i);
+	    return goto_state(&st_start);
+	}
     }
     return 1;
 }
@@ -64,6 +65,7 @@ static int set_enter(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
+    int last_set = config_get_d(CONFIG_LAST_SET);
     int b = last_set / SET_GROUP;
     int i;
 
