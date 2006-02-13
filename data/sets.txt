@@ -3,7 +3,7 @@ Neverball Easy
 Difficulty: Beginner through Intermediate\\25 levels with a smooth learning curve.\Read level introductions for gameplay tips.\ \
 levels-hard.txt scores-hard.txt neverballhs-hard shot-rlk/grid.jpg
 Neverball Hard
-Difficulty: Intermediate through Expert\\25 levels with more of a challenge for\the experienced player. Try to claim\Best Times and Most Coins records.\ \
+Difficulty: Intermediate through Expert\\25 levels with more of a challenge for\the experienced player. Try to claim\Best Times and Most Coins records.\
 levels-mym.txt scores-mym.txt neverballhs-mym shot-mym/descent.jpg
 Mehdi's Levels
 Difficulty: Expert through Insane\\25 levels with even greater challenge.\Author: Mehdi Yousfi-Monod alias mym\ \

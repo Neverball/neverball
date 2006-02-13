@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-13 21:20+0100\n"
+"POT-Creation-Date: 2006-02-13 21:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -454,7 +454,7 @@ msgid "Neverball Hard"
 msgstr ""
 
 #: data/sets.txt
-msgid "Difficulty: Intermediate through Expert\\\\25 levels with more of a challenge for\\the experienced player. Try to claim\\Best Times and Most Coins records.\\ \\"
+msgid "Difficulty: Intermediate through Expert\\\\25 levels with more of a challenge for\\the experienced player. Try to claim\\Best Times and Most Coins records.\\"
 msgstr ""
 
 #: data/sets.txt
