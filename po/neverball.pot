@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-13 21:34+0100\n"
+"POT-Creation-Date: 2006-02-13 23:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -462,7 +462,7 @@ msgid "Mehdi's Levels"
 msgstr ""
 
 #: data/sets.txt
-msgid "Difficulty: Expert through Insane\\\\25 levels with even greater challenge.\\Author: Mehdi Yousfi-Monod alias mym\\ \\"
+msgid "Difficulty: Expert through Insane\\\\25 levels with even greater challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
 
 #: data/sets.txt
@@ -470,7 +470,7 @@ msgid "Mehdi's Levels Suite"
 msgstr ""
 
 #: data/sets.txt
-msgid "Difficulty: A little bit harder than my first set\\\\More challenge, particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod alias mym\\ \\"
+msgid "Difficulty: A little bit harder than my first set.\\\\More challenge, particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
 
 #: data/courses.txt
@@ -506,7 +506,7 @@ msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
 msgstr ""
 
 #: data/map-mym2/sonic.map
-msgid "Un petit échauffement.\\Welcome to the new Tuxmym's set!"
+msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
 msgstr ""
 
 #: data/map-mym2/movingpath.map
@@ -522,11 +522,11 @@ msgid "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the las
 msgstr ""
 
 #: data/map-mym2/shaker.map
-msgid "Prépare un petit sac.\\The stomach-tester"
+msgid "Prépare un petit sac.\\The stomach-tester."
 msgstr ""
 
 #: data/map-mym2/fall.map
-msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\note: reach the 3rd teleport to unlock the goal"
+msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
 msgstr ""
 
 #: data/map-mym2/push.map
@@ -586,7 +586,7 @@ msgid "Rainbow Road.\\Make 3 laps to open the goal."
 msgstr ""
 
 #: data/map-mym/scrambling.map
-msgid "Le petit cross.\\Let's go scrambling!\\ Stick to the track to optimize speed."
+msgid "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
 msgstr ""
 
 #: data/map-mym/comeback.map
@@ -642,7 +642,7 @@ msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
 msgstr ""
 
 #: data/map-mym/descent.map
-msgid "La descente infernale.\\Easy enough to start."
+msgid "La descente infernale.\\Easy enough to start?"
 msgstr ""
 
 #: data/map-mym/climb.map
@@ -670,7 +670,7 @@ msgid "La conduite stressante.\\Attention:\\The platform under the ball moves fo
 msgstr ""
 
 #: data/map-mym/loop2.map
-msgid "Le contrôle des courbes.\\Find the right angle to turn,\\to jump, and to land..."
+msgid "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to land..."
 msgstr ""
 
 #: data/map-mym/drive2.map

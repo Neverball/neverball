@@ -514,6 +514,7 @@ void config_set_d(int i, int d)
 void config_tgl_d(int i)
 {
     option_d[i] = (option_d[i] ? 0 : 1);
+    dirty = 1;
 }
 
 int config_tst_d(int i, int d)
