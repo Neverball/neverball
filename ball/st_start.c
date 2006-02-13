@@ -78,10 +78,10 @@ static int start_enter(void)
     {
         if ((jd = gui_harray(id)))
         {
-            gui_label(jd, "Level", GUI_SML, GUI_ALL, gui_yel, gui_red);
+            gui_label(jd, _("Level"), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
             gui_filler(jd);
-            gui_start(jd, "Back",  GUI_SML, START_BACK, 0);
+            gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);
         }
 
         if ((jd = gui_harray(id)))

@@ -51,16 +51,16 @@ static int fall_out_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, "Fall-out!", GUI_LRG, GUI_ALL, gui_gry, gui_red);
+        kd = gui_label(id, _("Fall-out!"), GUI_LRG, GUI_ALL, gui_gry, gui_red);
     
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, "Save Replay", GUI_SML, FAIL_SAVE, 0);
+            gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
 
             if (level_dead())
-                gui_start(jd, "Main Menu",   GUI_SML, FAIL_RETRY, 0);
+                gui_start(jd, _("Main Menu"),   GUI_SML, FAIL_RETRY, 0);
             else
-                gui_start(jd, "Retry Level", GUI_SML, FAIL_RETRY, 0);
+                gui_start(jd, _("Retry Level"), GUI_SML, FAIL_RETRY, 0);
         }
 
         gui_pulse(kd, 1.2f);

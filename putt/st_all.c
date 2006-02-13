@@ -63,7 +63,7 @@ static int score_card(const char  *title,
         {
             if ((kd = gui_varray(jd)))
             { 
-                if (p1) gui_label(kd, "O",         0, GUI_NE, 0, 0);
+                if (p1) gui_label(kd, _("O"),         0, GUI_NE, 0, 0);
                 if (p1) gui_label(kd, hole_out(0), 0, 0,           gui_wht, gui_wht);
                 if (p1) gui_label(kd, hole_out(1), 0, GUI_SE * l1, gui_red, gui_wht);
                 if (p2) gui_label(kd, hole_out(2), 0, GUI_SE * l2, gui_grn, gui_wht);
@@ -85,11 +85,11 @@ static int score_card(const char  *title,
             if ((kd = gui_varray(jd)))
             {
                 gui_filler(kd);
-                if (p1) gui_label(kd, "Par", 0, GUI_NW,      gui_wht, gui_wht);
-                if (p1) gui_label(kd, "P1",  0, GUI_SW * l1, gui_red, gui_wht);
-                if (p2) gui_label(kd, "P2",  0, GUI_SW * l2, gui_grn, gui_wht);
-                if (p3) gui_label(kd, "P3",  0, GUI_SW * l3, gui_blu, gui_wht);
-                if (p4) gui_label(kd, "P4",  0, GUI_SW * l4, gui_yel, gui_wht);
+                if (p1) gui_label(kd, _("Par"), 0, GUI_NW,      gui_wht, gui_wht);
+                if (p1) gui_label(kd, _("P1"),  0, GUI_SW * l1, gui_red, gui_wht);
+                if (p2) gui_label(kd, _("P2"),  0, GUI_SW * l2, gui_grn, gui_wht);
+                if (p3) gui_label(kd, _("P3"),  0, GUI_SW * l3, gui_blu, gui_wht);
+                if (p4) gui_label(kd, _("P4"),  0, GUI_SW * l4, gui_yel, gui_wht);
             }
         }
 
@@ -99,7 +99,7 @@ static int score_card(const char  *title,
         {
             if ((kd = gui_varray(jd)))
             {
-                if (p1) gui_label(kd, "Tot",       0, GUI_TOP, 0, 0);
+                if (p1) gui_label(kd, _("Tot"),    0, GUI_TOP, 0, 0);
                 if (p1) gui_label(kd, hole_tot(0), 0, 0,           gui_wht, gui_wht);
                 if (p1) gui_label(kd, hole_tot(1), 0, GUI_BOT * l1, gui_red, gui_wht);
                 if (p2) gui_label(kd, hole_tot(2), 0, GUI_BOT * l2, gui_grn, gui_wht);
@@ -108,7 +108,7 @@ static int score_card(const char  *title,
             }
             if ((kd = gui_varray(jd)))
             {
-                if (p1) gui_label(kd, "I",        0, GUI_NE, 0, 0);
+                if (p1) gui_label(kd, _("I"),     0, GUI_NE, 0, 0);
                 if (p1) gui_label(kd, hole_in(0), 0, 0,           gui_wht, gui_wht);
                 if (p1) gui_label(kd, hole_in(1), 0, GUI_SE * l1, gui_red, gui_wht);
                 if (p2) gui_label(kd, hole_in(2), 0, GUI_SE * l2, gui_grn, gui_wht);
@@ -129,11 +129,11 @@ static int score_card(const char  *title,
             if ((kd = gui_varray(jd)))
             {
                 gui_filler(kd);
-                if (p1) gui_label(kd, "Par", 0, GUI_NW,      gui_wht, gui_wht);
-                if (p1) gui_label(kd, "P1",  0, GUI_SW * l1, gui_red, gui_wht);
-                if (p2) gui_label(kd, "P2",  0, GUI_SW * l2, gui_grn, gui_wht);
-                if (p3) gui_label(kd, "P3",  0, GUI_SW * l3, gui_blu, gui_wht);
-                if (p4) gui_label(kd, "P4",  0, GUI_SW * l4, gui_yel, gui_wht);
+                if (p1) gui_label(kd, _("Par"), 0, GUI_NW,      gui_wht, gui_wht);
+                if (p1) gui_label(kd, _("P1"),  0, GUI_SW * l1, gui_red, gui_wht);
+                if (p2) gui_label(kd, _("P2"),  0, GUI_SW * l2, gui_grn, gui_wht);
+                if (p3) gui_label(kd, _("P3"),  0, GUI_SW * l3, gui_blu, gui_wht);
+                if (p4) gui_label(kd, _("P4"),  0, GUI_SW * l4, gui_yel, gui_wht);
             }
         }
 
@@ -170,7 +170,7 @@ static int title_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, "Neverputt", GUI_LRG, GUI_ALL, 0, 0);
+        gui_label(id, _("Neverputt"), GUI_LRG, GUI_ALL, 0, 0);
         gui_space(id);
 
         if ((jd = gui_harray(id)))
@@ -179,9 +179,9 @@ static int title_enter(void)
 
             if ((kd = gui_varray(jd)))
             {
-                gui_start(kd, "Play",    GUI_MED, TITLE_PLAY, 1);
-                gui_state(kd, "Options", GUI_MED, TITLE_CONF, 0);
-                gui_state(kd, "Exit",    GUI_MED, TITLE_EXIT, 0);
+                gui_start(kd, _("Play"),    GUI_MED, TITLE_PLAY, 1);
+                gui_state(kd, _("Options"), GUI_MED, TITLE_CONF, 0);
+                gui_state(kd, _("Exit"),    GUI_MED, TITLE_EXIT, 0);
             }
 
             gui_filler(jd);
@@ -258,7 +258,7 @@ static int course_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, "Select Course", GUI_MED, GUI_ALL, 0, 0);
+        gui_label(id, _("Select Course"), GUI_MED, GUI_ALL, 0, 0);
         gui_space(id);
 
         if ((jd = gui_hstack(id)))
@@ -270,13 +270,13 @@ static int course_enter(void)
         }
 
         gui_space(id);
-        desc_id = gui_multi(id, course_desc(0), GUI_SML, GUI_ALL, gui_yel, gui_wht);
+        desc_id = gui_multi(id, _(course_desc(0)), GUI_SML, GUI_ALL, gui_yel, gui_wht);
         gui_space(id);
 
         if ((jd = gui_hstack(id)))
         {
             gui_filler(jd);
-            gui_state(jd, " Back ", GUI_SML, -1, 0);
+            gui_state(jd, _("Back"), GUI_SML, -1, 0);
         }
 
         gui_layout(id, 0, 0);
@@ -311,8 +311,8 @@ static void course_point(int id, int x, int y, int dx, int dy)
     if ((jd = gui_point(id, x, y)))
     {
         int i = gui_token(jd);
-
-        gui_set_multi(desc_id, course_desc(i));
+	if (course_exists(i))
+            gui_set_multi(desc_id, _(course_desc(i)));
         gui_pulse(jd, 1.2f);
     }
 }
@@ -374,7 +374,7 @@ static int party_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, "Players?", GUI_MED, GUI_ALL, 0, 0);
+        gui_label(id, _("Players?"), GUI_MED, GUI_ALL, 0, 0);
         gui_space(id);
 
         if ((jd = gui_harray(id)))
@@ -395,7 +395,7 @@ static int party_enter(void)
         if ((jd = gui_hstack(id)))
         {
             gui_filler(jd);
-            gui_state(jd, " Back ", GUI_SML, PARTY_B, 0);
+            gui_state(jd, _("Back"), GUI_SML, PARTY_B, 0);
         }
 
         gui_layout(id, 0, 0);
@@ -445,14 +445,14 @@ static int next_enter(void)
     int id;
     char str[MAXSTR];
 
-    sprintf(str, "Hole %02d", curr_hole());
+    sprintf(str, _("Hole %02d"), curr_hole());
 
     if ((id = gui_vstack(0)))
     {
         gui_label(id, str, GUI_MED, GUI_ALL, 0, 0);
         gui_space(id);
 
-        gui_label(id, "Player", GUI_SML, GUI_TOP, 0, 0);
+        gui_label(id, _("Player"), GUI_SML, GUI_TOP, 0, 0);
 
         switch (curr_player())
         {
@@ -689,7 +689,7 @@ static int goal_enter(void)
 {
     int id;
     
-    if ((id = gui_label(0, "It's In!", GUI_MED, GUI_ALL, gui_grn, gui_grn)))
+    if ((id = gui_label(0, _("It's In!"), GUI_MED, GUI_ALL, gui_grn, gui_grn)))
         gui_layout(id, 0, 0);
 
     hole_goal();
@@ -800,7 +800,7 @@ static int fall_enter(void)
 {
     int id;
     
-    if ((id = gui_label(0, "1 Stroke Penalty", GUI_MED, GUI_ALL, gui_blk, gui_red)))
+    if ((id = gui_label(0, _("1 Stroke Penalty"), GUI_MED, GUI_ALL, gui_blk, gui_red)))
         gui_layout(id, 0, 0);
 
     hole_fall();
@@ -856,7 +856,7 @@ static int fall_keybd(int c, int d)
 static int score_enter(void)
 {
     audio_music_fade_out(2.f);
-    return score_card("Scores", gui_yel, gui_red);
+    return score_card(_("Scores"), gui_yel, gui_red);
 }
 
 static void score_leave(int id)
@@ -898,7 +898,7 @@ static int score_keybd(int c, int d)
 static int over_enter(void)
 {
     audio_music_fade_out(2.f);
-    return score_card("Final Scores", gui_yel, gui_red);
+    return score_card(_("Final Scores"), gui_yel, gui_red);
 }
 
 static void over_leave(int id)

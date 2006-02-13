@@ -17,6 +17,7 @@
 #include "gui.h"
 #include "util.h"
 #include "level.h"
+#include "config.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,7 +44,7 @@ void gui_most_coins(int id, int n, int i)
 
         if ((kd = gui_vstack(jd)))
         {
-            gui_label(kd, "Most Coins", GUI_SML, GUI_TOP, 0, 0);
+            gui_label(kd, _("Most Coins"), GUI_SML, GUI_TOP, 0, 0);
 
             if ((ld = gui_hstack(kd)))
             {
@@ -128,7 +129,7 @@ void gui_best_times(int id, int n, int i)
 
         if ((kd = gui_vstack(jd)))
         {
-            gui_label(kd, "Best Times", GUI_SML, GUI_TOP, 0, 0);
+            gui_label(kd, _("Best Times"), GUI_SML, GUI_TOP, 0, 0);
 
             if ((ld = gui_hstack(kd)))
             {
@@ -261,7 +262,7 @@ void gui_keyboard(int id)
                 keyd['W'] = gui_state(ld, "W", GUI_SML, 'W', 0);
                 keyd['V'] = gui_state(ld, "V", GUI_SML, 'V', 0);
                 keyd['U'] = gui_state(ld, "U", GUI_SML, 'U', 0);
-                gui_state(ld, "caps", GUI_SML, GUI_CL, 0);
+                gui_state(ld, _("caps"), GUI_SML, GUI_CL, 0);
                 gui_filler(ld);
             }
         }

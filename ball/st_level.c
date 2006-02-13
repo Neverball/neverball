@@ -34,11 +34,11 @@ static int level_enter(void)
         {
             gui_filler(jd);
             gui_count(jd, curr_level(), GUI_LRG, GUI_NE | GUI_SE);
-            gui_label(jd, "Level ",     GUI_LRG, GUI_NW | GUI_SW, 0, 0);
+            gui_label(jd, _("Level "),     GUI_LRG, GUI_NW | GUI_SW, 0, 0);
             gui_filler(jd);
         }
         gui_space(id);
-        gui_multi(id, curr_intro(), GUI_SML, GUI_ALL, gui_wht, gui_wht);
+        gui_multi(id, _(curr_intro()), GUI_SML, GUI_ALL, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);
     }

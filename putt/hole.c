@@ -101,12 +101,12 @@ void hole_free(void)
 
 char *hole_player(int p)
 {
-    if (p == 0)               return "Par";
+    if (p == 0)               return _("Par");
 
-    if (p == 1 && 1 <= party) return "P1";
-    if (p == 2 && 2 <= party) return "P2";
-    if (p == 3 && 3 <= party) return "P3";
-    if (p == 4 && 4 <= party) return "P4";
+    if (p == 1 && 1 <= party) return _("P1");
+    if (p == 2 && 2 <= party) return _("P2");
+    if (p == 3 && 3 <= party) return _("P3");
+    if (p == 4 && 4 <= party) return _("P4");
 
     return NULL;
 }

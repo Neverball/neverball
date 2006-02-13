@@ -384,7 +384,7 @@ static int gui_widget(int pd, int type)
             return id;
         }
 
-    fprintf(stderr, "Out of widget IDs\n");
+    fprintf(stderr, _("Out of widget IDs\n"));
 
     return 0;
 }
@@ -577,7 +577,7 @@ int gui_space(int pd)
 
 int gui_pause(int pd)
 {
-    const char *text = "Paused";
+    const char *text = _("Paused");
     int id;
 
     if ((id = gui_widget(pd, GUI_PAUSE)))

@@ -64,8 +64,8 @@ void hud_init(void)
     {
         if ((id = gui_vstack(Rhud_id)))
         {
-            gui_label(id, "Coins", GUI_SML, 0, gui_wht, gui_wht);
-            gui_label(id, "Goal",  GUI_SML, 0, gui_wht, gui_wht);
+            gui_label(id, _("Coins"), GUI_SML, 0, gui_wht, gui_wht);
+            gui_label(id, _("Goal"),  GUI_SML, 0, gui_wht, gui_wht);
         }
         if ((id = gui_vstack(Rhud_id)))
         {
@@ -84,8 +84,8 @@ void hud_init(void)
         }
         if ((id = gui_vstack(Lhud_id)))
         {
-            gui_label(id, "Balls", GUI_SML, 0, gui_wht, gui_wht);
-            gui_label(id, "Score", GUI_SML, 0, gui_wht, gui_wht);
+            gui_label(id, _("Balls"), GUI_SML, 0, gui_wht, gui_wht);
+            gui_label(id, _("Score"), GUI_SML, 0, gui_wht, gui_wht);
         }
         gui_layout(Lhud_id, -1, -1);
     }

@@ -3,9 +3,9 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define STR_VIEW0 "Chase"
-#define STR_VIEW1 "Lazy"
-#define STR_VIEW2 "Manual"
+#define STR_VIEW0 _("Chase")
+#define STR_VIEW1 _("Lazy")
+#define STR_VIEW2 _("Manual")
 
 /*---------------------------------------------------------------------------*/
 

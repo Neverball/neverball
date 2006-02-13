@@ -109,6 +109,7 @@ void config_init(void)
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
     config_set_s(CONFIG_COIN,                 DEFAULT_COIN);
+    config_set_s(CONFIG_LANG,                 DEFAULT_LANG);
 }
 
 void config_load(void)
@@ -216,6 +217,8 @@ void config_load(void)
                     config_set_s(CONFIG_BALL,   val);
                 else if (strcmp(key, "coin")   == 0)
                     config_set_s(CONFIG_COIN,   val);
+                else if (strcmp(key, "lang")   == 0)
+                    config_set_s(CONFIG_LANG,   val);
             }
 
         fclose(fp);
@@ -319,6 +322,7 @@ void config_save(void)
         fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
         fprintf(fp, "ball                 %s\n", option_s[CONFIG_BALL]);
         fprintf(fp, "coin                 %s\n", option_s[CONFIG_COIN]);
+        fprintf(fp, "lang                 %s\n", option_s[CONFIG_LANG]);
 
         fclose(fp);
     }
@@ -524,7 +528,7 @@ int config_get_d(int i)
 
 /*---------------------------------------------------------------------------*/
 
-void config_set_s(int i, char *src)
+void config_set_s(int i, const char *src)
 {
     int len = (int) strlen(src);
 
@@ -540,6 +544,11 @@ void config_set_s(int i, char *src)
 void config_get_s(int i, char *dst, int len)
 {
     strncpy(dst, option_s[i], len);
+}
+
+const char * config_simple_get_s(int i)
+{
+	return option_s[i];
 }
 
 /*---------------------------------------------------------------------------*/

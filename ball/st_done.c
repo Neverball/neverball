@@ -83,8 +83,8 @@ static int done_action(int i)
 
 static int done_enter(void)
 {
-    const char *s1 = "New Set Record";
-    const char *s2 = "Set Complete";
+    const char *s1 = _("New Set Record");
+    const char *s2 = _("Set Complete");
 
     int id, jd;
 
@@ -110,7 +110,7 @@ static int done_enter(void)
         }
 
         gui_space(id);
-        gui_start(id, "Main Menu", GUI_SML, DONE_OK, 0);
+        gui_start(id, _("Main Menu"), GUI_SML, DONE_OK, 0);
 
         if (high) gui_keyboard(id);
 

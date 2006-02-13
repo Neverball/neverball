@@ -80,9 +80,9 @@ static int set_enter(void)
     {
         if ((jd = gui_hstack(id)))
         {
-            gui_label(jd, "Level Set", GUI_SML, GUI_ALL, gui_yel, gui_red);
+            gui_label(jd, _("Level Set"), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
-            gui_state(jd, "Back",  GUI_SML, SET_BACK, 0);
+            gui_state(jd, _("Back"),  GUI_SML, SET_BACK, 0);
         }
 
         if ((jd = gui_harray(id)))
@@ -95,21 +95,21 @@ static int set_enter(void)
 	        for(i=b*SET_GROUP; i<(b+1)*SET_GROUP && set_exists(i); i++)
 		{
 		    if(last_set == i)
-		        gui_start(kd, set_name(i), GUI_SML, i, 0);
+		        gui_start(kd, _(set_name(i)), GUI_SML, i, 0);
 		    else
-		        gui_state(kd, set_name(i), GUI_SML, i, 0);
+		        gui_state(kd, _(set_name(i)), GUI_SML, i, 0);
 		}
 		
 		/* Display Prev/Next buttons */	
 		ld = gui_harray(kd);
 		if (set_exists(i))
-		    gui_state(ld, "Next", GUI_SML, SET_NEXT, 0);
+		    gui_state(ld, _("Next"), GUI_SML, SET_NEXT, 0);
 		else
-		    gui_label(ld, "Next", GUI_SML, GUI_ALL, gui_gry, gui_gry);
+		    gui_label(ld, _("Next"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
 		if (b>0)
-		    gui_state(ld, "Prev", GUI_SML, SET_PREV, 0);
+		    gui_state(ld, _("Prev"), GUI_SML, SET_PREV, 0);
 		else
-		    gui_label(ld, "Prev", GUI_SML, GUI_ALL, gui_gry, gui_gry);
+		    gui_label(ld, _("Prev"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
 
 		/* Display empty slots */
 		for(; i<(b+1)*SET_GROUP; i++)
@@ -150,10 +150,11 @@ static void set_point(int id, int x, int y, int dx, int dy)
     if ((jd = gui_point(id, x, y)))
     {
         int i = gui_token(jd);
+	
 	if (set_exists(i))
 	{
             gui_set_image(shot_id, set_shot(i));
-	    gui_set_multi(desc_id, set_desc(i));
+	    gui_set_multi(desc_id, _(set_desc(i)));
 	    gui_pulse(jd, 1.2f);
 	}
     }
@@ -173,7 +174,7 @@ static void set_stick(int id, int a, int v)
 	if (set_exists(i))
 	{
             gui_set_image(shot_id, set_shot(i));
-	    gui_set_multi(desc_id, set_desc(i));
+	    gui_set_multi(desc_id, _(set_desc(i)));
 	    gui_pulse(jd, 1.2f);
 	}
     }

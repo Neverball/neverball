@@ -97,7 +97,7 @@ static int save_enter(void)
         {
             gui_filler(jd);
             gui_count(jd, curr_level(), GUI_LRG, GUI_NE | GUI_SE);
-            gui_label(jd, "Level ",     GUI_LRG, GUI_NW | GUI_SW, 0, 0);
+            gui_label(jd, _("Level "),     GUI_LRG, GUI_NW | GUI_SW, 0, 0);
             gui_filler(jd);
         }
         gui_space(id);
@@ -108,8 +108,8 @@ static int save_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_start(jd, "Cancel", GUI_SML, SAVE_CANCEL, 0);
-            gui_start(jd, "Save",   GUI_SML, SAVE_SAVE,   0);
+            gui_start(jd, _("Cancel"), GUI_SML, SAVE_CANCEL, 0);
+            gui_start(jd, _("Save"),   GUI_SML, SAVE_SAVE,   0);
         }
         gui_keyboard(id);
         
@@ -197,14 +197,14 @@ static int clobber_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, "Overwrite?", GUI_MED, GUI_ALL, gui_red, gui_red);
+        kd = gui_label(id, _("Overwrite?"), GUI_MED, GUI_ALL, gui_red, gui_red);
 
         gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
 
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, "Yes", GUI_SML, SAVE_SAVE,   0);
-            gui_start(jd, "No",  GUI_SML, SAVE_CANCEL, 1);
+            gui_state(jd, _("Yes"), GUI_SML, SAVE_SAVE,   0);
+            gui_start(jd, _("No"),  GUI_SML, SAVE_CANCEL, 1);
         }
 
         gui_pulse(kd, 1.2f);

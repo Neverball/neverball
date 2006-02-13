@@ -17,10 +17,12 @@
 
 #include <SDL.h>
 #include <stdio.h>
+#include "i18n.h"
 
 /*---------------------------------------------------------------------------*/
 
 #define CONFIG_DATA "./data"
+#define CONFIG_LOCALE "./locale"
 #define CONFIG_USER ".neverball"
 
 /*
@@ -30,7 +32,7 @@
  * is deleted, it will be recreated using the defaults.
  */
 #define USER_CONFIG_FILE "neverballrc"
-#define USER_REPLAY_FILE "Last"
+#define USER_REPLAY_FILE _("Last")
 
 /*---------------------------------------------------------------------------*/
 
@@ -115,6 +117,7 @@ enum {
     CONFIG_PLAYER,
     CONFIG_BALL,
     CONFIG_COIN,
+    CONFIG_LANG,
 
     CONFIG_OPTION_S_COUNT
 };
@@ -163,9 +166,10 @@ enum {
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_LAST_SET             0
-#define DEFAULT_PLAYER               "Player"
+#define DEFAULT_PLAYER               _("Player")
 #define DEFAULT_BALL                 "png/ball.png"
-#define DEFAULT_COIN                 "png/coin.png"
+#define DEFAULT_COIN                 _("png/coin.png")
+#define DEFAULT_LANG                 ""
 
 /*---------------------------------------------------------------------------*/
 
@@ -175,6 +179,8 @@ enum {
 #define MAXSTR 256
 #define MAXLVL 26
 #define MAXNAM 9
+
+#define GUI_FACE                    _("ttf/DejaVuSans-Bold.ttf")
 
 /*---------------------------------------------------------------------------*/
 
@@ -196,8 +202,10 @@ void config_tgl_d(int);
 int  config_tst_d(int, int);
 int  config_get_d(int);
 
-void config_set_s(int, char *);
+void config_set_s(int, const char *);
 void config_get_s(int, char *, int);
+const char * config_simple_get_s(int i);
+	
 
 /*---------------------------------------------------------------------------*/
 

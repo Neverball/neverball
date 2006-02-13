@@ -35,7 +35,7 @@ static int play_ready_enter(void)
 {
     int id;
 
-    if ((id = gui_label(0, "Ready?", GUI_LRG, GUI_ALL, 0, 0)))
+    if ((id = gui_label(0, _("Ready?"), GUI_LRG, GUI_ALL, 0, 0)))
     {
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
@@ -100,7 +100,7 @@ static int play_set_enter(void)
 {
     int id;
 
-    if ((id = gui_label(0, "Set?", GUI_LRG, GUI_ALL, 0, 0)))
+    if ((id = gui_label(0, _("Set?"), GUI_LRG, GUI_ALL, 0, 0)))
     {
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
@@ -168,7 +168,7 @@ static int play_loop_enter(void)
 {
     int id;
 
-    if ((id = gui_label(0, "GO!", GUI_LRG, GUI_ALL, gui_blu, gui_grn)))
+    if ((id = gui_label(0, _("GO!"), GUI_LRG, GUI_ALL, gui_blu, gui_grn)))
     {
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);

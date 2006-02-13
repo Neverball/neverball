@@ -103,22 +103,22 @@ static int demo_enter(void)
             {
                 gui_filler(kd);
                 if (first + DEMO_STEP < total)
-                    gui_state(kd, "  Next  ", GUI_SML, DEMO_NEXT, 0);
+                    gui_state(kd, _("Next"), GUI_SML, DEMO_NEXT, 0);
                 else
-                    gui_state(kd, "  Back  ", GUI_SML, DEMO_BACK, 0);
+                    gui_state(kd, _("Back"), GUI_SML, DEMO_BACK, 0);
             }
 
             gui_filler(jd);
-            ld = gui_label(jd, "Select Replay", GUI_MED, GUI_ALL, 0,0);
+            ld = gui_label(jd, _("Select Replay"), GUI_MED, GUI_ALL, 0,0);
             gui_filler(jd);
 
             if ((kd = gui_vstack(jd)))
             {
                 gui_filler(kd);
                 if (first > 0)
-                    gui_start(kd, "  Prev  ", GUI_SML, DEMO_PREV, 0);
+                    gui_start(kd, _("Prev"), GUI_SML, DEMO_PREV, 0);
                 else
-                    gui_start(kd, "  Back  ", GUI_SML, DEMO_BACK, 0);
+                    gui_start(kd, _("Back"), GUI_SML, DEMO_BACK, 0);
             }
 
             gui_pulse(ld, 1.2f);
@@ -205,7 +205,7 @@ static int demo_play_enter(void)
 {
     int id;
 
-    if ((id = gui_label(0, "Replay", GUI_LRG, GUI_ALL, gui_blu, gui_grn)))
+    if ((id = gui_label(0, _("Replay"), GUI_LRG, GUI_ALL, gui_blu, gui_grn)))
     {
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
@@ -300,12 +300,12 @@ static int demo_end_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, "Replay Ends", GUI_MED, GUI_ALL, gui_gry, gui_red);
+        kd = gui_label(id, _("Replay Ends"), GUI_MED, GUI_ALL, gui_gry, gui_red);
 
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, "Delete", GUI_SML, DEMO_DEL,  0);
-            gui_start(jd, "Keep",   GUI_SML, DEMO_KEEP, 1);
+            gui_state(jd, _("Delete"), GUI_SML, DEMO_DEL,  0);
+            gui_start(jd, _("Keep"),   GUI_SML, DEMO_KEEP, 1);
         }
 
         gui_pulse(kd, 1.2f);
@@ -386,12 +386,12 @@ static int demo_del_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, "Delete Replay?", GUI_MED, GUI_ALL, gui_red, gui_red);
+        kd = gui_label(id, _("Delete Replay?"), GUI_MED, GUI_ALL, gui_red, gui_red);
 
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, "Yes", GUI_SML, DEMO_DEL,  0);
-            gui_start(jd, "No",  GUI_SML, DEMO_KEEP, 1);
+            gui_state(jd, _("Yes"), GUI_SML, DEMO_DEL,  0);
+            gui_start(jd, _("No"),  GUI_SML, DEMO_KEEP, 1);
         }
 
         gui_pulse(kd, 1.2f);

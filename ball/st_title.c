@@ -60,7 +60,7 @@ static int title_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, "Neverball", GUI_LRG, GUI_ALL, 0, 0);
+        gui_label(id, _("Neverball"), GUI_LRG, GUI_ALL, 0, 0);
         gui_space(id);
 
         if ((jd = gui_harray(id)))
@@ -69,11 +69,11 @@ static int title_enter(void)
 
             if ((kd = gui_varray(jd)))
             {
-                gui_start(kd, "Play",    GUI_MED, TITLE_PLAY, 1);
-                gui_state(kd, "Replay",  GUI_MED, TITLE_DEMO, 0);
-                gui_state(kd, "Help",    GUI_MED, TITLE_HELP, 0);
-                gui_state(kd, "Options", GUI_MED, TITLE_CONF, 0);
-                gui_state(kd, "Exit",    GUI_MED, TITLE_EXIT, 0);
+                gui_start(kd, _("Play"),    GUI_MED, TITLE_PLAY, 1);
+                gui_state(kd, _("Replay"),  GUI_MED, TITLE_DEMO, 0);
+                gui_state(kd, _("Help"),    GUI_MED, TITLE_HELP, 0);
+                gui_state(kd, _("Options"), GUI_MED, TITLE_CONF, 0);
+                gui_state(kd, _("Exit"),    GUI_MED, TITLE_EXIT, 0);
             }
 
             gui_filler(jd);
@@ -223,23 +223,23 @@ static int title_buttn(int b, int d)
 static int help_enter(void)
 {
     const char *s0 =
-        "Move the mouse or joystick to tilt the floor\\"
+        _("Move the mouse or joystick to tilt the floor\\"
         "causing the ball to roll.  Roll over coins to\\"
         "collect them.  Collect coins to unlock the goal\\"
         "and finish the level.  Earn an extra ball for\\"
-        "each 100 coins collected.\\";
+        "each 100 coins collected.\\");
 
-    const char *s4 = "Left and right mouse buttons rotate the view.";
-    const char *s5 = "Hold Shift for faster view rotation.";
-    const char *s6 = "Pause / Release Pointer";
-    const char *s7 = "Exit / Cancel Menu";
-    const char *s8 = "Chase View";
-    const char *s9 = "Lazy View";
-    const char *sA = "Manual View";
-    const char *sB = "Comments?  Problems?  robert.kooima@gmail.com";
+    const char *s4 = _("Left and right mouse buttons rotate the view.");
+    const char *s5 = _("Hold Shift for faster view rotation.");
+    const char *s6 = _("Pause / Release Pointer");
+    const char *s7 = _("Exit / Cancel Menu");
+    const char *s8 = _("Chase View");
+    const char *s9 = _("Lazy View");
+    const char *sA = _("Manual View");
+    const char *sB = _("Comments?  Problems?  robert.kooima@gmail.com");
 
-    const char *k0 = "Spacebar";
-    const char *k1 = "Escape";
+    const char *k0 = _("Spacebar");
+    const char *k1 = _("Escape");
     const char *k2 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_1));
     const char *k3 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_2));
     const char *k4 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_3));

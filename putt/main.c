@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 
 #include "glext.h"
 #include "audio.h"
@@ -46,7 +47,7 @@
 #include "st_conf.h"
 #include "st_all.h"
 
-#define TITLE "Neverputt"
+#define TITLE _("Neverputt")
 
 /*---------------------------------------------------------------------------*/
 
@@ -148,8 +149,10 @@ static int loop(void)
 int main(int argc, char *argv[])
 {
     int camera = 0;
-
+ 
     srand((int) time(NULL));
+
+    language_init("neverball", CONFIG_LOCALE);
 
     if (config_data_path((argc > 1 ? argv[1] : NULL), COURSE_FILE))
     {
@@ -159,6 +162,10 @@ int main(int argc, char *argv[])
             {
                 config_init();
                 config_load();
+
+		/* Initialize the language. */
+		
+		language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
 
                 /* Cache Neverball's camera setting. */
 
@@ -240,9 +247,9 @@ int main(int argc, char *argv[])
             }
             else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
         }
-        else fprintf(stderr, "Failure to establish config directory\n");
+        else fprintf(stderr, _("Failure to establish config directory\n"));
     }
-    else fprintf(stderr, "Failure to establish game data directory\n");
+    else fprintf(stderr, _("Failure to establish game data directory\n"));
 
     return 0;
 }

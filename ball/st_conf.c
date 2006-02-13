@@ -23,6 +23,7 @@
 
 #include "st_conf.h"
 #include "st_title.h"
+#include "st_lang.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,6 +47,7 @@
 #define CONF_AUDHI 18
 #define CONF_AUDLO 19
 #define CONF_BACK  20
+#define CONF_LANG  21
 
 static int audlo_id;
 static int audhi_id;
@@ -188,7 +190,11 @@ static int conf_action(int i)
     case CONF_BACK:
         goto_state(&st_title);
         break;
-
+	
+    case CONF_LANG:
+        goto_state(&st_lang);
+        break;
+	
     default:
         if (100 <= i && i <= 110)
         {
@@ -241,7 +247,7 @@ static int conf_enter(void)
 
             if ((kd = gui_harray(jd)))
             {
-                gui_label(kd, "Options", GUI_SML, GUI_ALL, 0, 0);
+                gui_label(kd, _("Options"), GUI_SML, GUI_ALL, 0, 0);
                 gui_filler(kd);
             }
 
@@ -260,36 +266,36 @@ static int conf_enter(void)
 
             if ((kd = gui_harray(jd)))
             {
-                gui_state(kd, "Low",  GUI_SML, CONF_TEXLO, (t == 2));
-                gui_state(kd, "High", GUI_SML, CONF_TEXHI, (t == 1));
+                gui_state(kd, _("Low"),  GUI_SML, CONF_TEXLO, (t == 2));
+                gui_state(kd, _("High"), GUI_SML, CONF_TEXHI, (t == 1));
             }
             if ((kd = gui_harray(jd)))
             {
-                gui_state(kd, "Low",  GUI_SML, CONF_GEOLO, (g == 0));
-                gui_state(kd, "High", GUI_SML, CONF_GEOHI, (g == 1));
+                gui_state(kd, _("Low"),  GUI_SML, CONF_GEOLO, (g == 0));
+                gui_state(kd, _("High"), GUI_SML, CONF_GEOHI, (g == 1));
             }
             if ((kd = gui_harray(jd)))
             {
-                gui_state(kd, "Off",  GUI_SML, CONF_REFOF, (r == 0));
-                gui_state(kd, "On",   GUI_SML, CONF_REFON, (r == 1));
+                gui_state(kd, _("Off"),  GUI_SML, CONF_REFOF, (r == 0));
+                gui_state(kd, _("On"),   GUI_SML, CONF_REFON, (r == 1));
             }
             if ((kd = gui_harray(jd)))
             {
-                gui_state(kd, "Off",  GUI_SML, CONF_BACOF, (b == 0));
-                gui_state(kd, "On",   GUI_SML, CONF_BACON, (b == 1));
+                gui_state(kd, _("Off"),  GUI_SML, CONF_BACOF, (b == 0));
+                gui_state(kd, _("On"),   GUI_SML, CONF_BACON, (b == 1));
             }
             if ((kd = gui_harray(jd)))
             {
-                gui_state(kd, "Off",  GUI_SML, CONF_SHDOF, (h == 0));
-                gui_state(kd, "On",   GUI_SML, CONF_SHDON, (h == 1));
+                gui_state(kd, _("Off"),  GUI_SML, CONF_SHDOF, (h == 0));
+                gui_state(kd, _("On"),   GUI_SML, CONF_SHDON, (h == 1));
             }
             if ((kd = gui_harray(jd)))
             {
                 int lo = (a == 22050);
                 int hi = (a == 44100);
 
-                audlo_id = gui_state(kd, "Low",  GUI_SML, CONF_AUDLO, lo);
-                audhi_id = gui_state(kd, "High", GUI_SML, CONF_AUDHI, hi);
+                audlo_id = gui_state(kd, _("Low"),  GUI_SML, CONF_AUDLO, lo);
+                audhi_id = gui_state(kd, _("High"), GUI_SML, CONF_AUDHI, hi);
             }
             if ((kd = gui_harray(jd)))
             {
@@ -323,6 +329,7 @@ static int conf_enter(void)
                 music_id[ 1] = gui_state(kd, NULL, GUI_SML, 201, (m ==  1));
                 music_id[ 0] = gui_state(kd, NULL, GUI_SML, 200, (m ==  0));
             }
+	    gui_state(jd, _(language_get_name(language_from_code(config_simple_get_s(CONFIG_LANG)))), GUI_SML, CONF_LANG, 0);
         }
         if ((jd = gui_vstack(id)))
         {
@@ -331,23 +338,24 @@ static int conf_enter(void)
             if ((kd = gui_harray(jd)))
             {
                 gui_filler(kd);
-                gui_start(kd, "Back", GUI_SML, CONF_BACK, 0);
+                gui_start(kd, _("Back"), GUI_SML, CONF_BACK, 0);
             }
 
-            gui_state(jd, "Fullscreen",   GUI_SML, CONF_FULL, (f == 1));
-            gui_state(jd, "Window",       GUI_SML, CONF_WIN,  (f == 0));
+            gui_state(jd, _("Fullscreen"),   GUI_SML, CONF_FULL, (f == 1));
+            gui_state(jd, _("Window"),       GUI_SML, CONF_WIN,  (f == 0));
 
             /* This filler expands to accomodate an unknown number of modes. */
             gui_filler(jd);
-
-            gui_label(jd, "Textures",     GUI_SML, GUI_ALL, 0, 0);
-            gui_label(jd, "Geometry",     GUI_SML, GUI_ALL, 0, 0);
-            gui_label(jd, "Reflection",   GUI_SML, GUI_ALL, 0, 0);
-            gui_label(jd, "Background",   GUI_SML, GUI_ALL, 0, 0);
-            gui_label(jd, "Shadow",       GUI_SML, GUI_ALL, 0, 0);
-            gui_label(jd, "Audio",        GUI_SML, GUI_ALL, 0, 0);
-            gui_label(jd, "Sound Volume", GUI_SML, GUI_ALL, 0, 0);
-            gui_label(jd, "Music Volume", GUI_SML, GUI_ALL, 0, 0);
+	    
+            gui_label(jd, _("Textures"),     GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Geometry"),     GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Reflection"),   GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Background"),   GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Shadow"),       GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Audio"),        GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Sound Volume"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Music Volume"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Language"),     GUI_SML, GUI_ALL, 0, 0);
         }
         gui_layout(id, 0, 0);
     }

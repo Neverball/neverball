@@ -22,6 +22,12 @@ MAPC_TARG= mapc
 BALL_TARG= neverball
 PUTT_TARG= neverputt
 
+LOCALEDIR= locale
+LOCALEDOM= neverball
+
+LINGUAS= fr lv # List of locales to generates
+POTFILE= po/neverball.pot
+
 MAPC_OBJS= \
 	share/vec3.o   \
 	share/image.o  \
@@ -30,6 +36,8 @@ MAPC_OBJS= \
 	share/config.o \
 	share/mapc.o
 BALL_OBJS= \
+	share/i18n.o    \
+	share/st_lang.o \
 	share/vec3.o    \
 	share/image.o   \
 	share/solid.o   \
@@ -61,6 +69,8 @@ BALL_OBJS= \
 	ball/st_title.o \
 	ball/main.o
 PUTT_OBJS= \
+	share/i18n.o    \
+	share/st_lang.o \
 	share/vec3.o   \
 	share/image.o  \
 	share/solid.o  \
@@ -85,6 +95,9 @@ PUTT_DEPS= $(PUTT_OBJS:.o=.d)
 MAPC_DEPS= $(MAPC_OBJS:.o=.d)
 
 LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS) $(OGL_LIBS)
+
+MESSAGEPART= /LC_MESSAGES/$(LOCALEDOM).mo
+MESSAGES= $(LINGUAS:%=$(LOCALEDIR)/%$(MESSAGEPART))
 
 SOLS= \
 	data/map-rlk/easy.sol     \
@@ -264,6 +277,10 @@ SOLS= \
 %.o : %.c
 	$(CC) $(CFLAGS) -Ishare -o $@ -c $<
 
+$(LOCALEDIR)/%$(MESSAGEPART) : po/%.po
+	mkdir -p `dirname $@`
+	msgfmt -c -v -o $@ $<
+	
 data/map-rlk/%.sol : data/map-rlk/%.map $(MAPC_TARG)
 	./$(MAPC_TARG) $< data
 
@@ -284,7 +301,7 @@ data/map-paxed/%.sol : data/map-paxed/%.map $(MAPC_TARG)
 
 #------------------------------------------------------------------------------
 
-all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS)
+all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS) locales
 
 $(BALL_TARG) : $(BALL_OBJS)
 	$(CC) $(CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LIBS)
@@ -295,6 +312,8 @@ $(PUTT_TARG) : $(PUTT_OBJS)
 $(MAPC_TARG) : $(MAPC_OBJS)
 	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LIBS)
 
+locales: $(MESSAGES)
+
 clean-src :
 	rm -f $(BALL_TARG) $(BALL_OBJS) $(BALL_DEPS)
 	rm -f $(PUTT_TARG) $(PUTT_OBJS) $(PUTT_DEPS)
@@ -302,8 +321,22 @@ clean-src :
 
 clean : clean-src
 	rm -f $(SOLS)
+	rm -rf $(LOCALEDIR)
 
 test : all
 	./neverball
+
+#------------------------------------------------------------------------------
+
+po/%.po : $(POTFILE)
+	msgmerge -U $@ $<
+	touch $@
+	
+po-update-extract :
+	bash extractpo.sh $(POTFILE) $(LOCALEDOM)
+
+po-update-merge : $(LINGUAS:%=po/%.po)
+
+po-update : po-update-extract po-update-merge
 
 #------------------------------------------------------------------------------

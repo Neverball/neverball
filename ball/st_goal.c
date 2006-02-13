@@ -110,8 +110,8 @@ static int goal_action(int i)
 
 static int goal_enter(void)
 {
-    const char *s1 = "New Record";
-    const char *s2 = "GOAL";
+    const char *s1 = _("New Record");
+    const char *s2 = _("GOAL");
 
     int id, jd, kd;
 
@@ -135,17 +135,17 @@ static int goal_enter(void)
             if ((kd = gui_harray(jd)))
             {
                 balls_id = gui_count(kd,  10, GUI_MED, GUI_RGT);
-                gui_label(kd, "Balls", GUI_SML, GUI_LFT, gui_wht, gui_wht);
+                gui_label(kd, _("Balls"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
             }
             if ((kd = gui_harray(jd)))
             {
                 score_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
-                gui_label(kd, "Score", GUI_SML, GUI_LFT, gui_wht, gui_wht);
+                gui_label(kd, _("Score"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
             }
             if ((kd = gui_harray(jd)))
             {
                 coins_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
-                gui_label(kd, "Coins", GUI_SML, GUI_LFT, gui_wht, gui_wht);
+                gui_label(kd, _("Coins"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
             }
 
             gui_set_count(balls_id, curr_balls());
@@ -165,13 +165,13 @@ static int goal_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, "Save Replay", GUI_SML, GOAL_SAVE, 0);
-            gui_state(jd, "Retry Level", GUI_SML, GOAL_SAME, 0);
+            gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
+            gui_state(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 
             if (level_last())
-                gui_start(jd, "Finish",  GUI_SML, GOAL_NEXT, 0);
+                gui_start(jd, _("Finish"),  GUI_SML, GOAL_NEXT, 0);
             else
-                gui_start(jd, "Next Level", GUI_SML, GOAL_NEXT, 0);
+                gui_start(jd, _("Next Level"), GUI_SML, GOAL_NEXT, 0);
         }
 
         if (high) gui_keyboard(id);
