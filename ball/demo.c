@@ -315,7 +315,7 @@ int demo_replay_init(const char *name, int *s, int *c, int *b, int *g)
         get_index(demo_fp, &magic);
 
         if (magic == MAGIC)
-            {
+        {
             get_index(demo_fp, &zero);
             get_index(demo_fp, &zero);
 

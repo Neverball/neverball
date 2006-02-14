@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-13 23:02+0100\n"
-"PO-Revision-Date: 2006-02-11 18:36+0100\n"
+"POT-Creation-Date: 2006-02-14 03:24+0200\n"
+"PO-Revision-Date: 2006-02-14 04:04+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: ball/demo.c:182
 #, c-format
 msgid "replay%02d"
-msgstr "ieraksts%02d"
+msgstr "ieraks%02d"
 
 #: ball/hud.c:67 ball/st_goal.c:148
 msgid "Coins"
@@ -36,19 +36,19 @@ msgstr "Bumbas"
 
 #: ball/hud.c:88 ball/st_goal.c:143 putt/hud.c:45
 msgid "Score"
-msgstr "Rezultāts"
+msgstr "Kopā"
 
 #: ball/hud.h:6
 msgid "Chase"
-msgstr "Vajātāj"
+msgstr "Vajājošs"
 
 #: ball/hud.h:7
 msgid "Lazy"
-msgstr "Slinkais"
+msgstr "Slinks"
 
 #: ball/hud.h:8
 msgid "Manual"
-msgstr "Rokas"
+msgstr "Manuāls"
 
 #: ball/main.c:44 ball/st_title.c:63
 msgid "Neverball"
@@ -95,9 +95,8 @@ msgid "Fullscreen"
 msgstr "Pilnekrāns"
 
 #: ball/st_conf.c:314 share/st_resol.c:89
-#, fuzzy
 msgid "Resolution"
-msgstr "Atspulgs"
+msgstr "Izšķirtspēja"
 
 #: ball/st_conf.c:316 putt/st_conf.c:310
 msgid "Textures"
@@ -125,11 +124,11 @@ msgstr "Audio"
 
 #: ball/st_conf.c:322 putt/st_conf.c:314
 msgid "Sound Volume"
-msgstr "Skaņu Skaļums"
+msgstr "Skaņu skaļums"
 
 #: ball/st_conf.c:323 putt/st_conf.c:315
 msgid "Music Volume"
-msgstr "Mūzikas Skaļums"
+msgstr "Mūzikas skaļums"
 
 #: ball/st_conf.c:324 putt/st_conf.c:316 share/st_lang.c:78
 msgid "Language"
@@ -137,23 +136,23 @@ msgstr "Valoda"
 
 #: ball/st_demo.c:106 ball/st_set.c:106 ball/st_set.c:108
 msgid "Next"
-msgstr ""
+msgstr "Nāk."
 
 #: ball/st_demo.c:112
 msgid "Select Replay"
-msgstr "Izvēlies Ierakstu"
+msgstr "Izvēlies ierakstu"
 
 #: ball/st_demo.c:119 ball/st_set.c:110 ball/st_set.c:112
 msgid "Prev"
-msgstr ""
+msgstr "Iep."
 
 #: ball/st_demo.c:208 ball/st_title.c:73
 msgid "Replay"
-msgstr "Ieraksts"
+msgstr "Ieraksti"
 
 #: ball/st_demo.c:303
 msgid "Replay Ends"
-msgstr "Ieraksta Beigas"
+msgstr "Ieraksta beigas"
 
 #: ball/st_demo.c:307
 msgid "Delete"
@@ -165,35 +164,39 @@ msgstr "Paturēt"
 
 #: ball/st_demo.c:389
 msgid "Delete Replay?"
-msgstr "Dzēst Ierakstu?"
+msgstr "Dzēst ierakstu?"
 
 #: ball/st_done.c:86
 msgid "New Set Record"
-msgstr "Jauns Komplekta Rekords"
+msgstr "Jauns komplekta rekords"
 
 #: ball/st_done.c:87
 msgid "Set Complete"
-msgstr "Komplekts Pabeigts"
+msgstr "Komplekts pabeigts"
 
-#: ball/st_done.c:113 ball/st_fail.c:61
+#: ball/st_done.c:113 ball/st_fail.c:61 ball/st_fail.c:157
 msgid "Main Menu"
-msgstr "Galvenā Izvēlne"
+msgstr "Galvenā izvēlne"
 
 #: ball/st_fail.c:54
 msgid "Fall-out!"
 msgstr "Kritiens!"
 
-#: ball/st_fail.c:58 ball/st_goal.c:168
+#: ball/st_fail.c:58 ball/st_fail.c:154 ball/st_goal.c:168
 msgid "Save Replay"
-msgstr "Saglabāt Ierakstu"
+msgstr "Saglabāt ierakstu"
 
-#: ball/st_fail.c:63 ball/st_goal.c:169
+#: ball/st_fail.c:63 ball/st_fail.c:159 ball/st_goal.c:169
 msgid "Retry Level"
-msgstr "Mēģināt Vēlreiz"
+msgstr "Mēģināt vēlreiz"
+
+#: ball/st_fail.c:150
+msgid "Time's Up!"
+msgstr "Laiks cauri!"
 
 #: ball/st_goal.c:113
 msgid "New Record"
-msgstr "Jauns Rekords"
+msgstr "Jauns rekords"
 
 #: ball/st_goal.c:114
 msgid "GOAL"
@@ -205,7 +208,7 @@ msgstr "Beigt"
 
 #: ball/st_goal.c:174
 msgid "Next Level"
-msgstr "Nākošais Līmenis"
+msgstr "Nākošais līmenis"
 
 #: ball/st_level.c:37 ball/st_save.c:100
 msgid "Level "
@@ -213,7 +216,7 @@ msgstr "Līmenis "
 
 #: ball/st_over.c:31
 msgid "GAME OVER"
-msgstr "SPĒLES BEIGAS"
+msgstr "SPĒLE GALĀ"
 
 #: ball/st_play.c:38
 msgid "Ready?"
@@ -241,7 +244,7 @@ msgstr "Pārrakstīt?"
 
 #: ball/st_set.c:83
 msgid "Level Set"
-msgstr "Līmeņu Komplekts"
+msgstr "Līmeņu komplekts"
 
 #: ball/st_start.c:81
 msgid "Level"
@@ -266,8 +269,8 @@ msgid ""
 "finish the level.  Earn an extra ball for\\each 100 coins collected.\\"
 msgstr ""
 "Kustini peli vai vadības sviru, lai liektu grīdu,\\liekot bumbai ripot. "
-"Ripinies pāri monētām,\\lai tās savāktu. Vāc monētas, lai atslēgtu\\mērķi un "
-"pabeigtu līmeni. Nopelni papildus bumbu\\par katrām 100 monētām.\\"
+"Ripinies pāri monētām, lai\\tās savāktu. Vāc monētas, lai atslēgtu mērķi un\\"
+"pabeigtu līmeni. Nopelni papildus bumbu par\\katrām 100 monētām.\\"
 
 #: ball/st_title.c:232
 msgid "Left and right mouse buttons rotate the view."
@@ -279,11 +282,11 @@ msgstr "Pieturi Shift ātrākai skata grozīšanai."
 
 #: ball/st_title.c:234
 msgid "Pause / Release Pointer"
-msgstr "Pauze / Atbrīvot Kursoru"
+msgstr "Pauze / Atbrīvot kursoru"
 
 #: ball/st_title.c:235
 msgid "Exit / Cancel Menu"
-msgstr "Iziet / Atcelt Izvēlni"
+msgstr "Iziet / Atcelt izvēlni"
 
 #: ball/st_title.c:236
 msgid "Chase View"
@@ -291,15 +294,15 @@ msgstr "Vajātājskats"
 
 #: ball/st_title.c:237
 msgid "Lazy View"
-msgstr "Slinkais Skats"
+msgstr "Slinkais skats"
 
 #: ball/st_title.c:238
 msgid "Manual View"
-msgstr "Rokas Skats"
+msgstr "Manuālais skats"
 
 #: ball/st_title.c:239
 msgid "Comments?  Problems?  robert.kooima@gmail.com"
-msgstr "Komentāri? Problēmas? robert.kooima@gmail.com"
+msgstr "Atsauksmes? Problēmas? http://icculus.org/neverball/"
 
 #: ball/st_title.c:241
 msgid "Spacebar"
@@ -311,11 +314,11 @@ msgstr ""
 
 #: ball/util.c:47
 msgid "Most Coins"
-msgstr "Visvairāk Monētu"
+msgstr "Visvairāk monētu"
 
 #: ball/util.c:132
 msgid "Best Times"
-msgstr "Labākie Laiki"
+msgstr "Labākie laiki"
 
 #: ball/util.c:265
 msgid "caps"
@@ -369,7 +372,7 @@ msgstr ""
 
 #: putt/st_all.c:261
 msgid "Select Course"
-msgstr "Izvēlies Kursu"
+msgstr "Izvēlies kursu"
 
 #: putt/st_all.c:377
 msgid "Players?"
@@ -390,7 +393,7 @@ msgstr "Ir!"
 
 #: putt/st_all.c:803
 msgid "1 Stroke Penalty"
-msgstr "1 Sitiena Sods"
+msgstr "1 sitiena sods"
 
 #: putt/st_all.c:859
 msgid "Scores"
@@ -398,7 +401,7 @@ msgstr "Rezultāti"
 
 #: putt/st_all.c:901
 msgid "Final Scores"
-msgstr "Gala Rezultāti"
+msgstr "Gala rezultāti"
 
 #: putt/st_conf.c:305
 msgid "Window"
@@ -444,7 +447,7 @@ msgstr "Latviešu"
 
 #: share/i18n.c:65
 msgid "System Default"
-msgstr "Pēc Noklusējuma"
+msgstr "Pēc noklusējuma"
 
 #: data/sets.txt
 msgid "Neverball Easy"
@@ -500,224 +503,6 @@ msgstr ""
 #: data/courses.txt
 msgid ""
 "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
-msgstr ""
-
-#: data/map-mym2/backforth.map
-msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr ""
-
-#: data/map-mym2/ghosts.map
-msgid "Ghost Valley.\\Make 3 laps to open the goal."
-msgstr ""
-
-#: data/map-mym2/rodeo.map
-msgid "Le rodéo de Neverball.\\You'll fall quickly."
-msgstr ""
-
-#: data/map-mym2/basket.map
-msgid "Street Neverball\\Choose your party and score 3 points."
-msgstr ""
-
-#: data/map-mym2/runstop.map
-msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
-msgstr ""
-
-#: data/map-mym2/sonic.map
-msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
-msgstr ""
-
-#: data/map-mym2/movingpath.map
-msgid "Le passage éphémère.\\Trust the coins."
-msgstr ""
-
-#: data/map-mym2/updown.map
-msgid "Tranquille, mais pas trop.\\Sync yourself to the music."
-msgstr ""
-
-#: data/map-mym2/longpipe.map
-msgid ""
-"Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
-"jump!"
-msgstr ""
-
-#: data/map-mym2/shaker.map
-msgid "Prépare un petit sac.\\The stomach-tester."
-msgstr ""
-
-#: data/map-mym2/fall.map
-msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
-msgstr ""
-
-#: data/map-mym2/push.map
-msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr ""
-
-#: data/map-mym2/movinglumps.map
-msgid "Être patient.\\Not too hard."
-msgstr ""
-
-#: data/map-mym2/freefall.map
-msgid "Savoir chuter.\\Follow the blue markers."
-msgstr ""
-
-#: data/map-mym2/littlecones.map
-msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
-msgstr ""
-
-#: data/map-mym2/bigcones.map
-msgid "Les grands cônes.\\Living in a cone."
-msgstr ""
-
-#: data/map-mym2/grinder.map
-msgid "Le petit moulin.\\The good timing to go in the cabin."
-msgstr ""
-
-#: data/map-mym2/morenarrow.map
-msgid "Plus dur que la difficulté.\\Good luck."
-msgstr ""
-
-#: data/map-mym2/speeddance.map
-msgid "La danse asiatique\\Trust in the arrows."
-msgstr ""
-
-#: data/map-mym2/bigball.map
-msgid ""
-"Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
-"challenge."
-msgstr ""
-
-#: data/map-mym2/bounces.map
-msgid "Les sauts du célèbre plombier.\\Follow the coins."
-msgstr ""
-
-#: data/map-mym2/translation.map
-msgid "Suis le mouvement.\\Warning, the road is moving."
-msgstr ""
-
-#: data/map-mym2/speed.map
-msgid "Plus vite que la vistesse.\\Speedness definition."
-msgstr ""
-
-#: data/map-mym2/webs.map
-msgid "Les toiles attirantes.\\Get out of the webs."
-msgstr ""
-
-#: data/map-mym2/rainbow.map
-msgid "Rainbow Road.\\Make 3 laps to open the goal."
-msgstr ""
-
-#: data/map-mym/scrambling.map
-msgid ""
-"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr ""
-
-#: data/map-mym/comeback.map
-msgid "Le cycle éternel.\\Avoid teleporters..."
-msgstr ""
-
-#: data/map-mym/narrow.map
-msgid ""
-"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
-"slope."
-msgstr ""
-
-#: data/map-mym/bombman.map
-msgid "Les flammes hardantes.\\Do this remind you of something?"
-msgstr ""
-
-#: data/map-mym/assault.map
-msgid "Le parcours du combattant.\\Ready for the assault course?"
-msgstr ""
-
-#: data/map-mym/maze1.map
-msgid "Le chemin dissimulé.\\Test your memory."
-msgstr ""
-
-#: data/map-mym/hard.map
-msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr ""
-
-#: data/map-mym/maze2.map
-msgid ""
-"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
-"another one?"
-msgstr ""
-
-#: data/map-mym/running.map
-msgid "Les épreuves minutées.\\Run baby, run!"
-msgstr ""
-
-#: data/map-mym/glasstower.map
-msgid "La tour de verre.\\Find the way to the exit."
-msgstr ""
-
-#: data/map-mym/trust.map
-msgid "Le chemin de la foi.\\Self-confidence."
-msgstr ""
-
-#: data/map-mym/circuit1.map
-msgid "Les rampes abruptes.\\Control your speed."
-msgstr ""
-
-#: data/map-mym/circuit2.map
-msgid "La course effrénée.\\Let's make some laps."
-msgstr ""
-
-#: data/map-mym/up.map
-msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr ""
-
-#: data/map-mym/descent.map
-msgid "La descente infernale.\\Easy enough to start?"
-msgstr ""
-
-#: data/map-mym/climb.map
-msgid "L'escalade hardue.\\Do you suffer from vertigo?"
-msgstr ""
-
-#: data/map-mym/snow.map
-msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr ""
-
-#: data/map-mym/turn.map
-msgid "Le sens trigonometrique.\\Turn, wait and jump."
-msgstr ""
-
-#: data/map-mym/loop1.map
-msgid "Les boucles renversantes.\\Upside down!"
-msgstr ""
-
-#: data/map-mym/earthquake.map
-msgid "Le passage incertain.\\Isn't too easy?"
-msgstr ""
-
-#: data/map-mym/drive1.map
-msgid ""
-"La conduite stressante.\\Attention:\\The platform under the ball moves "
-"forward."
-msgstr ""
-
-#: data/map-mym/loop2.map
-msgid ""
-"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
-"land..."
-msgstr ""
-
-#: data/map-mym/drive2.map
-msgid ""
-"La conduite dangeureuse.\\The platform under the ball moves quickly forward."
-"\\You would do well to advance."
-msgstr ""
-
-#: data/map-mym/dance1.map
-msgid ""
-"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
-"activating the last moving platform,\\ turn around the Thwomp until the goal "
-"is reachable."
-msgstr ""
-
-#: data/map-mym/dance2.map
-msgid "La ballade tranquile.\\What a quiet walk."
 msgstr ""
 
 #: data/map-rlk/goals.map
@@ -987,4 +772,222 @@ msgstr ""
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgstr ""
+
+#: data/map-mym/scrambling.map
+msgid ""
+"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgstr ""
+
+#: data/map-mym/comeback.map
+msgid "Le cycle éternel.\\Avoid teleporters..."
+msgstr ""
+
+#: data/map-mym/narrow.map
+msgid ""
+"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
+"slope."
+msgstr ""
+
+#: data/map-mym/bombman.map
+msgid "Les flammes hardantes.\\Do this remind you of something?"
+msgstr ""
+
+#: data/map-mym/assault.map
+msgid "Le parcours du combattant.\\Ready for the assault course?"
+msgstr ""
+
+#: data/map-mym/maze1.map
+msgid "Le chemin dissimulé.\\Test your memory."
+msgstr ""
+
+#: data/map-mym/hard.map
+msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
+msgstr ""
+
+#: data/map-mym/maze2.map
+msgid ""
+"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
+"another one?"
+msgstr ""
+
+#: data/map-mym/running.map
+msgid "Les épreuves minutées.\\Run baby, run!"
+msgstr ""
+
+#: data/map-mym/glasstower.map
+msgid "La tour de verre.\\Find the way to the exit."
+msgstr ""
+
+#: data/map-mym/trust.map
+msgid "Le chemin de la foi.\\Self-confidence."
+msgstr ""
+
+#: data/map-mym/circuit1.map
+msgid "Les rampes abruptes.\\Control your speed."
+msgstr ""
+
+#: data/map-mym/circuit2.map
+msgid "La course effrénée.\\Let's make some laps."
+msgstr ""
+
+#: data/map-mym/up.map
+msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
+msgstr ""
+
+#: data/map-mym/descent.map
+msgid "La descente infernale.\\Easy enough to start?"
+msgstr ""
+
+#: data/map-mym/climb.map
+msgid "L'escalade hardue.\\Do you suffer from vertigo?"
+msgstr ""
+
+#: data/map-mym/snow.map
+msgid "La descente rafraîchissante.\\Not so fast, not so fast."
+msgstr ""
+
+#: data/map-mym/turn.map
+msgid "Le sens trigonometrique.\\Turn, wait and jump."
+msgstr ""
+
+#: data/map-mym/loop1.map
+msgid "Les boucles renversantes.\\Upside down!"
+msgstr ""
+
+#: data/map-mym/earthquake.map
+msgid "Le passage incertain.\\Isn't too easy?"
+msgstr ""
+
+#: data/map-mym/drive1.map
+msgid ""
+"La conduite stressante.\\Attention:\\The platform under the ball moves "
+"forward."
+msgstr ""
+
+#: data/map-mym/loop2.map
+msgid ""
+"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
+"land..."
+msgstr ""
+
+#: data/map-mym/drive2.map
+msgid ""
+"La conduite dangeureuse.\\The platform under the ball moves quickly forward."
+"\\You would do well to advance."
+msgstr ""
+
+#: data/map-mym/dance1.map
+msgid ""
+"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
+"activating the last moving platform,\\ turn around the Thwomp until the goal "
+"is reachable."
+msgstr ""
+
+#: data/map-mym/dance2.map
+msgid "La ballade tranquile.\\What a quiet walk."
+msgstr ""
+
+#: data/map-mym2/backforth.map
+msgid "Un va-et-vient frustrant.\\Remember the activation order."
+msgstr ""
+
+#: data/map-mym2/ghosts.map
+msgid "Ghost Valley.\\Make 3 laps to open the goal."
+msgstr ""
+
+#: data/map-mym2/rodeo.map
+msgid "Le rodéo de Neverball.\\You'll fall quickly."
+msgstr ""
+
+#: data/map-mym2/basket.map
+msgid "Street Neverball\\Choose your party and score 3 points."
+msgstr ""
+
+#: data/map-mym2/runstop.map
+msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
+msgstr ""
+
+#: data/map-mym2/sonic.map
+msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
+msgstr ""
+
+#: data/map-mym2/movingpath.map
+msgid "Le passage éphémère.\\Trust the coins."
+msgstr ""
+
+#: data/map-mym2/updown.map
+msgid "Tranquille, mais pas trop.\\Sync yourself to the music."
+msgstr ""
+
+#: data/map-mym2/longpipe.map
+msgid ""
+"Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
+"jump!"
+msgstr ""
+
+#: data/map-mym2/shaker.map
+msgid "Prépare un petit sac.\\The stomach-tester."
+msgstr ""
+
+#: data/map-mym2/fall.map
+msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
+msgstr ""
+
+#: data/map-mym2/push.map
+msgid "Hé, on pousse pas !\\Not too fast, not too slow."
+msgstr ""
+
+#: data/map-mym2/movinglumps.map
+msgid "Être patient.\\Not too hard."
+msgstr ""
+
+#: data/map-mym2/freefall.map
+msgid "Savoir chuter.\\Follow the blue markers."
+msgstr ""
+
+#: data/map-mym2/littlecones.map
+msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
+msgstr ""
+
+#: data/map-mym2/bigcones.map
+msgid "Les grands cônes.\\Living in a cone."
+msgstr ""
+
+#: data/map-mym2/grinder.map
+msgid "Le petit moulin.\\The good timing to go in the cabin."
+msgstr ""
+
+#: data/map-mym2/morenarrow.map
+msgid "Plus dur que la difficulté.\\Good luck."
+msgstr ""
+
+#: data/map-mym2/speeddance.map
+msgid "La danse asiatique\\Trust in the arrows."
+msgstr ""
+
+#: data/map-mym2/bigball.map
+msgid ""
+"Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
+"challenge."
+msgstr ""
+
+#: data/map-mym2/bounces.map
+msgid "Les sauts du célèbre plombier.\\Follow the coins."
+msgstr ""
+
+#: data/map-mym2/translation.map
+msgid "Suis le mouvement.\\Warning, the road is moving."
+msgstr ""
+
+#: data/map-mym2/speed.map
+msgid "Plus vite que la vistesse.\\Speedness definition."
+msgstr ""
+
+#: data/map-mym2/webs.map
+msgid "Les toiles attirantes.\\Get out of the webs."
+msgstr ""
+
+#: data/map-mym2/rainbow.map
+msgid "Rainbow Road.\\Make 3 laps to open the goal."
 msgstr ""
