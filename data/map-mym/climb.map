@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "L'escalade hardue.\Do you suffer from vertigo?"
+"message" "L'escalade ardue.\Do you suffer from vertigo?"
 // brush 0
 {
 ( 64 896 568 ) ( -64 896 568 ) ( -64 512 568 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

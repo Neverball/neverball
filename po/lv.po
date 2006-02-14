@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-14 10:27+0100\n"
+"POT-Creation-Date: 2006-02-14 13:33+0100\n"
 "PO-Revision-Date: 2006-02-14 04:04+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -50,7 +50,7 @@ msgstr "Slinks"
 msgid "Manual"
 msgstr "Manuāls"
 
-#: ball/main.c:47 ball/st_title.c:63
+#: ball/main.c:44 ball/st_title.c:63
 msgid "Neverball"
 msgstr ""
 
@@ -460,6 +460,14 @@ msgid ""
 msgstr ""
 
 #: data/sets.txt
+msgid "Neverball Easy 2"
+msgstr ""
+
+#: data/sets.txt
+msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
+msgstr ""
+
+#: data/sets.txt
 msgid "Neverball Hard"
 msgstr ""
 
@@ -625,7 +633,7 @@ msgid ""
 msgstr ""
 
 #: data/map-mym/bombman.map
-msgid "Les flammes hardantes.\\Do this remind you of something?"
+msgid "Les flammes ardentes.\\Do this remind you of something?"
 msgstr ""
 
 #: data/map-mym/assault.map
@@ -675,7 +683,7 @@ msgid "La descente infernale.\\Easy enough to start?"
 msgstr ""
 
 #: data/map-mym/climb.map
-msgid "L'escalade hardue.\\Do you suffer from vertigo?"
+msgid "L'escalade ardue.\\Do you suffer from vertigo?"
 msgstr ""
 
 #: data/map-mym/snow.map
