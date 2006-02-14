@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Encoding=UTF-8
+Name=Neverputt
+Comment=A 3D mini golf game
+Comment[fr]=Un jeu de minigolf en 3D
+Icon=neverputt.png
+Exec=neverputt
+Terminal=false
+Categories=Application;Game;ArcadeGame;
