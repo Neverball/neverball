@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Le sens trigonometrique.\Turn, wait and jump."
+"message" "Le sens trigonométrique.\Turn, wait and jump."
 // brush 0
 {
 ( 8 216 16 ) ( 8 248 16 ) ( 8 248 0 ) mtrl/wood -16 0 -180 0.5 -0.5 0 0 0

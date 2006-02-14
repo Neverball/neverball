@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "La conduite dangeureuse.\The platform under the ball moves quickly forward.\You would do well to advance."
+"message" "La conduite dangereuse.\The platform under the ball moves quickly forward.\You would do well to advance."
 // brush 0
 {
 ( -192 6080 36 ) ( -192 6076 36 ) ( -192 6076 -20 ) mtrl/chrome 0 0 0 0.5 0.5 0 0 0

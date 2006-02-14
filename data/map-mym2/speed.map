@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Plus vite que la vistesse.\Speedness definition."
+"message" "Plus vite que la vitesse.\Speedness definition."
 // brush 0
 {
 ( 320 576 0 ) ( 319 576 0 ) ( 320 577 0 ) mtrl/turf-shiny 0 -128 0 0.5 0.5 0 0 0

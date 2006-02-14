@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-13 21:34+0100\n"
-"PO-Revision-Date: 2006-02-11 22:32+0100\n"
+"POT-Creation-Date: 2006-02-14 10:27+0100\n"
+"PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgstr "Paresseuse"
 msgid "Manual"
 msgstr "Manuelle"
 
-#: ball/main.c:44 ball/st_title.c:63
+#: ball/main.c:47 ball/st_title.c:63
 msgid "Neverball"
 msgstr "Neverball"
 
@@ -167,13 +167,13 @@ msgstr "Supprimer le film ?"
 
 #: ball/st_done.c:86
 msgid "New Set Record"
-msgstr "Reccord de collection battu"
+msgstr "Record de collection battu"
 
 #: ball/st_done.c:87
 msgid "Set Complete"
 msgstr "Collection complétée"
 
-#: ball/st_done.c:113 ball/st_fail.c:61
+#: ball/st_done.c:113 ball/st_fail.c:61 ball/st_fail.c:157
 msgid "Main Menu"
 msgstr "Menu principal"
 
@@ -181,13 +181,17 @@ msgstr "Menu principal"
 msgid "Fall-out!"
 msgstr "Chute !"
 
-#: ball/st_fail.c:58 ball/st_goal.c:168
+#: ball/st_fail.c:58 ball/st_fail.c:154 ball/st_goal.c:168
 msgid "Save Replay"
 msgstr "Sauver un film"
 
-#: ball/st_fail.c:63 ball/st_goal.c:169
+#: ball/st_fail.c:63 ball/st_fail.c:159 ball/st_goal.c:169
 msgid "Retry Level"
 msgstr "Retenter"
+
+#: ball/st_fail.c:150
+msgid "Time's Up!"
+msgstr "Temps écoulé !"
 
 #: ball/st_goal.c:113
 msgid "New Record"
@@ -467,7 +471,7 @@ msgid ""
 "Coins records.\\"
 msgstr ""
 "Difficulté : Intermédiaire à Expert\\\\25 niveaux et plus de challenge pour "
-"les\\joueurs expérimentés. Essayez d'optenir\\les meilleurs temps et le plus "
+"les\\joueurs expérimentés. Essayez d'obtenir\\les meilleurs temps et le plus "
 "de pièces.\\"
 
 #: data/sets.txt
@@ -492,7 +496,7 @@ msgid ""
 "particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
 "Difficulté : Un petit peu plus dur que ma\\précédente collection. Plus de "
-"défi,\\ tout particulièrement pour rammasser les pièces.\\Auteur : Mehdi "
+"défi,\\ tout particulièrement pour ramasser les pièces.\\Auteur : Mehdi "
 "Yousfi-Monod (mym)\\ \\"
 
 #: data/courses.txt
@@ -506,7 +510,7 @@ msgstr ""
 #: data/courses.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr ""
-"Un autre parcous à 18 trous\\ \\ \\Difficulté : Moyenne\\Auteur : paxed\\"
+"Un autre parcours à 18 trous\\ \\ \\Difficulté : Moyenne\\Auteur : paxed\\"
 
 #: data/courses.txt
 msgid ""
@@ -521,7 +525,7 @@ msgstr "Un va-et-vient frustrant.\\Attention à l'ordre d'activation."
 
 #: data/map-mym2/ghosts.map
 msgid "Ghost Valley.\\Make 3 laps to open the goal."
-msgstr "Ghost Valley.\\Fais 3 tours pour dévérouiller la sortie."
+msgstr "Ghost Valley.\\Fais 3 tours pour déverrouiller la sortie."
 
 #: data/map-mym2/rodeo.map
 msgid "Le rodéo de Neverball.\\You'll fall quickly."
@@ -537,7 +541,8 @@ msgstr "J'y vais, ou j'y vais pas ?\\Ne pas hésiter."
 
 #: data/map-mym2/sonic.map
 msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
-msgstr "Un petit échauffement.\\Bienvenue dans la nouvelle collection de Mehdi !"
+msgstr ""
+"Un petit échauffement.\\Bienvenue dans la nouvelle collection de Mehdi !"
 
 #: data/map-mym2/movingpath.map
 msgid "Le passage éphémère.\\Trust the coins."
@@ -552,17 +557,16 @@ msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
 msgstr ""
-"Si si, ce tuyau a une fin.\\Vivre dans un tuyau.\\Astuce : ralentis au dernier petit saut !"
+"Si si, ce tuyau a une fin.\\Vivre dans un tuyau.\\Astuce : ralentis au "
+"dernier petit saut !"
 
 #: data/map-mym2/shaker.map
 msgid "Prépare un petit sac.\\The stomach-tester."
 msgstr "Prépare un petit sac.\\Le testeur d'estomac."
 
 #: data/map-mym2/fall.map
-msgid ""
-"Savoir rebondir pour aller plus haut.\\The Neverball Arena."
-msgstr ""
-"Savoir rebondir pour aller plus haut.\\L'arène de Neverball."
+msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
+msgstr "Savoir rebondir pour aller plus haut.\\L'arène de Neverball."
 
 #: data/map-mym2/push.map
 msgid "Hé, on pousse pas !\\Not too fast, not too slow."
@@ -601,7 +605,8 @@ msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
 msgstr ""
-"Prisonnier de la boule.\\Vivre dans une sphère.\\Récupérer toutes les pièces bleu est un bon défi."
+"Prisonnier de la boule.\\Vivre dans une sphère.\\Récupérer toutes les pièces "
+"bleu est un bon défi."
 
 #: data/map-mym2/bounces.map
 msgid "Les sauts du célèbre plombier.\\Follow the coins."
@@ -612,8 +617,8 @@ msgid "Suis le mouvement.\\Warning, the road is moving."
 msgstr "Suis le mouvement.\\Attention, la piste se déplace."
 
 #: data/map-mym2/speed.map
-msgid "Plus vite que la vistesse.\\Speedness definition."
-msgstr "Plus vite que la vistesse.\\À fond, à fond, à fond."
+msgid "Plus vite que la vitesse.\\Speedness definition."
+msgstr "Plus vite que la vitesse.\\À fond, à fond, à fond."
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
@@ -621,13 +626,12 @@ msgstr "Les toiles attirantes.\\Ne te laisse pas empêtrer."
 
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Make 3 laps to open the goal."
-msgstr "Rainbow Road.\\Fais 3 tours pour dévérouiller la sortie."
+msgstr "Rainbow Road.\\Fais 3 tours pour déverrouiller la sortie."
 
 #: data/map-mym/scrambling.map
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr ""
-"Le petit cross.\\Adhère à la route pour optimiser ta vitesse."
+msgstr "Le petit cross.\\Adhère à la route pour optimiser ta vitesse."
 
 #: data/map-mym/comeback.map
 msgid "Le cycle éternel.\\Avoid teleporters..."
@@ -638,7 +642,8 @@ msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
 "slope."
 msgstr ""
-"Le sentier étroit.\\Patience et minutage.\\Astuce : maximise ta vitesse dans la 1ère pente."
+"Le sentier étroit.\\Patience et minutage.\\Astuce : maximise ta vitesse dans "
+"la 1ère pente."
 
 #: data/map-mym/bombman.map
 msgid "Les flammes hardantes.\\Do this remind you of something?"
@@ -654,13 +659,16 @@ msgstr "Le chemin dissimulé.\\Teste ta mémoire."
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr "La maîtrise de Neverball.\\Tu crois encore que Neverball c'est facile ?"
+msgstr ""
+"La maîtrise de Neverball.\\Tu crois encore que Neverball c'est facile ?"
 
 #: data/map-mym/maze2.map
 msgid ""
 "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
 "another one?"
-msgstr "Le labyrinthe fou.\\Tu connais le chemin, tu le vois,\\mais alors pourquoi tu en prends un autre ?"
+msgstr ""
+"Le labyrinthe fou.\\Tu connais le chemin, tu le vois,\\mais alors pourquoi "
+"tu en prends un autre ?"
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
@@ -699,8 +707,8 @@ msgid "La descente rafraîchissante.\\Not so fast, not so fast."
 msgstr "La descente rafraîchissante.\\Pas si vite, pas si vite."
 
 #: data/map-mym/turn.map
-msgid "Le sens trigonometrique.\\Turn, wait and jump."
-msgstr "Le sens trigonometrique.\\Tourne, attends et saute."
+msgid "Le sens trigonométrique.\\Turn, wait and jump."
+msgstr "Le sens trigonométrique.\\Tourne, attends et saute."
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
@@ -722,36 +730,45 @@ msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
 msgstr ""
-"Le contrôle des courbes.\\Trouve le bon angle pour tourner,\\sauter et attérir."
+"Le contrôle des courbes.\\Trouve le bon angle pour tourner,\\sauter et "
+"attérir."
 
 #: data/map-mym/drive2.map
 msgid ""
-"La conduite dangeureuse.\\The platform under the ball moves quickly forward."
+"La conduite dangereuse.\\The platform under the ball moves quickly forward."
 "\\You would do well to advance."
-msgstr "La conduite dangeureuse.\\La plate-forme sous la balle avance rapidement.\\Tu ferais mieux de te dépêcher."
+msgstr ""
+"La conduite dangereuse.\\La plate-forme sous la balle avance rapidement.\\Tu "
+"ferais mieux de te dépêcher."
 
 #: data/map-mym/dance1.map
 msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
 "activating the last moving platform,\\ turn around the Thwomp until the goal "
 "is reachable."
-msgstr "La ballade dansante.\\Dansons sur la plate-forme mobile !\\Astuce : à la fin, tourne autour de la grosse pierre\\jusqu'à pouvoir atteindre la sortie."
+msgstr ""
+"La ballade dansante.\\Dansons sur la plate-forme mobile !\\Astuce : à la "
+"fin, tourne autour de la grosse pierre\\jusqu'à pouvoir atteindre la sortie."
 
 #: data/map-mym/dance2.map
-msgid "La ballade tranquile.\\What a quiet walk."
-msgstr "La ballade tranquile.\\Un paisible instant."
+msgid "La ballade tranquille.\\What a quiet walk."
+msgstr "La ballade tranquille.\\Un paisible instant."
 
 #: data/map-rlk/goals.map
 msgid ""
 "This one shouldn't be too difficult.\\There are 100 coins here.\\That's a "
 "save point and a free ball\\if you don't accidentally make a goal first.\\"
 msgstr ""
+"Celui-ci ne devrait pas être top difficile.\\Il y a 100 pièces ici.\\C'est "
+"une zone sûre et une balle gratuite\\sauf si vous sortez accidentellement.\\"
 
 #: data/map-rlk/telemaze.map
 msgid ""
 "This maze has no walls.\\But that doesn't make the solution\\any easier to "
 "find.\\"
 msgstr ""
+"Ce labyrinthe n'a pas de mur.\\Cela ne rend pas pour autant la solution"
+"\\facile à trouver."
 
 #: data/map-rlk/risers.map
 msgid ""
@@ -765,10 +782,14 @@ msgid ""
 "speed means better control.\\Watch the clock and use the time wisely.\\"
 "\\Click to begin.\\"
 msgstr ""
+"Inclinez le sol aussi légèrement que possible.\\Une faible inclinaison "
+"équivaut à une faible vitesse.\\Une faible vitesse permet un meilleur "
+"contrôle.\\Surveillez l'horloge et utilisez intelligemment le temps.\\"
+"\\Cliquez pour commencer.\\"
 
 #: data/map-rlk/movers.map
 msgid "Go for a ride.\\"
-msgstr ""
+msgstr "Faites une promenade.\\"
 
 #: data/map-rlk/coins.map
 msgid ""
@@ -776,16 +797,22 @@ msgid ""
 "earn an extra ball.\\Red coins are worth 5, blue coins are worth 10.\\Get to "
 "the goal before time expires!\\\\Click to begin.\\"
 msgstr ""
+"Cette fois il vous faut 50 pièces pour déverrouillez la sortie.\\Collectez "
+"100 pièces et gagnez une nouvelle balle.\\Les pièces rouges valent 5, les "
+"bleus 10.\\Atteignez la sortie avant que le temps expire !\\\\Cliquez pour "
+"commencer.\\"
 
 #: data/map-rlk/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
 "work.\\"
 msgstr ""
+"Allez-y doucement pour rester loin du bord.\\Ou alors pas.\\Les deux "
+"approches peuvent marcher.\\"
 
 #: data/map-rlk/tilt.map
 msgid "The floor is as flat as you make it.\\"
-msgstr ""
+msgstr "Le sol est plat... si vous le voulez.\\"
 
 #: data/map-rlk/quads.map
 msgid "Don't get bullied.\\"
@@ -799,7 +826,7 @@ msgstr ""
 
 #: data/map-rlk/spread.map
 msgid "Don't worry.\\The green part isn't going anywhere.\\"
-msgstr ""
+msgstr "Pas d'inquiétude.\\La partie verte ne va nulle part.\\"
 
 #: data/map-rlk/fence.map
 msgid ""
@@ -842,6 +869,8 @@ msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the ball"
 "\\completely out of control.\\"
 msgstr ""
+"Essayez d'éviter d'être heurté par un objet.\\Une simple collision peut"
+"rendre la balle incontrôlable.\\"
 
 #: data/map-rlk/gaps.map
 msgid ""
@@ -853,11 +882,11 @@ msgstr ""
 msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
-msgstr ""
+msgstr "Il y a plein de pièces ici si vous\\prenez le temps de les ramasser.\\"
 
 #: data/map-rlk/plinko.map
 msgid "Take it slowly.\\"
-msgstr ""
+msgstr "Allez-y doucement.\\"
 
 #: data/map-rlk/maze.map
 msgid ""
@@ -874,7 +903,7 @@ msgstr ""
 
 #: data/map-rlk/rampup.map
 msgid "I think I can.\\I think I can.\\"
-msgstr ""
+msgstr "Je peux le faire.\\Je peux le faire.\\"
 
 #: data/map-rlk/pyramid.map
 msgid ""
@@ -919,6 +948,7 @@ msgstr ""
 #: data/map-rlk/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
 msgstr ""
+"Il n'y a pas suffisamment de sol ici.\\Heureusement, ce n'est pas un problème.\\"
 
 #: data/map-rlk/poker.map
 msgid "Slow and steady.\\"
@@ -935,6 +965,8 @@ msgid ""
 "Mouse buttons rotate the view.\\Press Spacebar to pause, ESC to quit.\\\\\\"
 "\\Click to begin.\\"
 msgstr ""
+"Les boutons de la souris tournent la vue.\\La barre d'espace met le jeu en "
+"pause.\\Echap quitte.\\\\Cliquez pour commencer.\\"
 
 #: data/map-rlk/rampdn.map
 msgid ""
@@ -982,11 +1014,11 @@ msgstr ""
 
 #: data/map-rlk/pipe.map
 msgid "Ceci n'est pas une pipe.\\"
-msgstr ""
+msgstr "Ceci n'est pas une pipe.\\"
 
 #: data/map-rlk/islands.map
 msgid "Catch the train before it leaves the station.\\"
-msgstr ""
+msgstr "Prenez le train avant qu'il ne quitte la gare.\\"
 
 #: data/map-rlk/teleport.map
 msgid ""
@@ -1009,9 +1041,9 @@ msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
 msgstr ""
-"Déplacez la souris ou le joystick pour pencher le sol.\\Collectez 10 pièces "
-"pour dévérouiller l'arrivée.\\Guidez la balle jusqu'à l'arrivée pour"
-"\\terminer le niveau.\\\\Cliquez pour commencer.\\"
+"Déplacez la souris pour incliner le sol.\\Collectez 10 pièces pour "
+"déverrouiller l'arrivée.\\Guidez la balle jusqu'à l'arrivée pour\\terminer "
+"le niveau.\\\\Cliquez pour commencer.\\"
 
 #~ msgid "Hard"
 #~ msgstr "Difficile"

@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "La ballade tranquile.\What a quiet walk."
+"message" "La ballade tranquille.\What a quiet walk."
 // brush 0
 {
 ( -3976 -64 0 ) ( -4096 -64 0 ) ( -4096 -184 0 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

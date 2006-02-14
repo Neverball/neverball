@@ -226,8 +226,8 @@ void gui_init(void)
     if (TTF_Init() == 0)
     {
         int s0 = s / 26;
-        int s1 = s / 12;
-        int s2 = s /  6;
+        int s1 = s / 13;
+        int s2 = s /  7;
         int m;
 
         /* Make sure text size doesn't exceed the maximum texture size. */
