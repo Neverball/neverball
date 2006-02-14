@@ -1,6 +1,9 @@
 levels-easy.txt scores-easy.txt neverballhs-easy shot-rlk/easy.jpg
 Neverball Easy
 Difficulty: Beginner through Intermediate\\25 levels with a smooth learning curve.\Read level introductions for gameplay tips.\ \
+levels-easy2.txt scores-easy2.txt neverballhs-easy2 shot-easy2/easy2.jpg
+Neverball Easy 2
+Difficulty: A second set of easy levels.\\\Work in progress.\\
 levels-hard.txt scores-hard.txt neverballhs-hard shot-rlk/grid.jpg
 Neverball Hard
 Difficulty: Intermediate through Expert\\25 levels with more of a challenge for\the experienced player. Try to claim\Best Times and Most Coins records.\
