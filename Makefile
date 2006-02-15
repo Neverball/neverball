@@ -106,7 +106,7 @@ MESSAGES= $(LINGUAS:%=$(LOCALEDIR)/%$(MESSAGEPART))
 MAPS= $(shell find data/ -name '*.map')
 SOLS= $(MAPS:%.map=%.sol)
 
-POS= po/*.po
+POS= $(shell echo po/*.po)
 LINGUAS= $(POS:po/%.po=%)
 
 #------------------------------------------------------------------------------
