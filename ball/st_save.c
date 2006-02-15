@@ -45,6 +45,8 @@ static int save_action(int i)
     switch (i)
     {
     case SAVE_SAVE:
+	if (strcmp(filename, "") == 0)
+	    return 1;
         if (demo_exists(filename))
             return goto_state(&st_clobber);
         else
