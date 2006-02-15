@@ -1,4 +1,4 @@
-map-mym/descent.sol		map-back/jupiter.sol	shot-mym/descent.jpg	back/space.png	4000	0	bgm/track4.ogg
+map-mym/turn.sol		map-back/ocean.sol	shot-mym/turn.jpg	back/ocean.png	4000	0	bgm/track2.ogg
 map-mym/descent.sol		map-back/jupiter.sol	shot-mym/descent.jpg	back/space.png	4000	20	bgm/track4.ogg
 map-mym/dance2.sol		map-back/clouds.sol		shot-mym/dance2.jpg		back/land.png 	9000	40	bgm/track1.ogg
 map-mym/snow.sol		map-back/ocean.sol		shot-mym/snow.jpg		back/ocean.png	12000	60	bgm/track2.ogg

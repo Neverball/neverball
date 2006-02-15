@@ -7,7 +7,7 @@ Difficulty: A second set of easy levels.\\\Work in progress.\\
 levels-hard.txt scores-hard.txt neverballhs-hard shot-rlk/grid.jpg
 Neverball Hard
 Difficulty: Intermediate through Expert\\25 levels with more of a challenge for\the experienced player. Try to claim\Best Times and Most Coins records.\
-levels-mym.txt scores-mym.txt neverballhs-mym shot-mym/descent.jpg
+levels-mym.txt scores-mym.txt neverballhs-mym shot-mym/turn.jpg
 Mehdi's Levels
 Difficulty: Expert through Insane\\25 levels with even greater challenge.\Author: Mehdi Yousfi-Monod (mym)\ \
 levels-mym2.txt scores-mym2.txt neverballhs-mym2 shot-mym2/shaker.jpg
