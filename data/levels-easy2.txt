@@ -1,5 +1,5 @@
 map-rlk/title.sol    map-back/jupiter.sol shot-easy2/.jpg     back/space.png      0  0 bgm/title.ogg
 map-easy2/slightcurve-mym.sol     map-back/clouds.sol  shot-easy2/.jpg     back/land.png    9000 10 bgm/track1.ogg
 map-easy2/roundlaby-mym.sol    map-back/clouds.sol  shot-easy2/.jpg    back/land.png   12000 10 bgm/track1.ogg
-map-easy2/roughstripes-mym.sol    map-back/clouds.sol  shot-easy2/.jpg    back/land.png   12000 10 bgm/track1.ogg
+map-easy2/speedbumps-mym.sol    map-back/clouds.sol  shot-easy2/.jpg    back/land.png   12000 10 bgm/track1.ogg
 
