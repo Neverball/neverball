@@ -344,10 +344,9 @@ int config_mode(int f, int w, int h)
 
     if (SDL_SetVideoMode(w, h, 0, SDL_OPENGL | (f ? SDL_FULLSCREEN : 0)))
     {
-        option_d[CONFIG_FULLSCREEN] = f;
-        option_d[CONFIG_WIDTH]      = w;
-        option_d[CONFIG_HEIGHT]     = h;
-        option_d[CONFIG_SHADOW]     = option_d[CONFIG_SHADOW];
+	config_set_d(CONFIG_FULLSCREEN, f);
+	config_set_d(CONFIG_WIDTH, w);
+	config_set_d(CONFIG_HEIGHT, h);
 
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
