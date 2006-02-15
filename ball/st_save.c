@@ -51,13 +51,17 @@ static int save_action(int i)
         {
             if (level_exit(filename, 1))
                 return goto_state(&st_level);
-            else
+	    else if (level_dead())
+                return goto_state(&st_title);
+	    else
                 return goto_state(&st_done);
         }
 
     case SAVE_CANCEL:
         if (level_exit(NULL, 1))
             return goto_state(&st_level);
+	else if (level_dead())
+	    return goto_state(&st_title);
         else
             return goto_state(&st_done);
 

@@ -459,7 +459,7 @@ void level_stat(int s)
 
 int level_dead(void)
 {
-    return (balls == 0);
+    return (balls <= 0);
 }
 
 int level_last(void)
