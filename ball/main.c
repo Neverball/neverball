@@ -26,6 +26,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -254,6 +255,8 @@ int main(int argc, char *argv[])
                 {
                     int t1, t0 = SDL_GetTicks();
 
+		    SDL_Surface *icon = IMG_Load(config_data("icon/neverball.png"));
+		    SDL_WM_SetIcon(icon, NULL);
                     SDL_WM_SetCaption(TITLE, TITLE); 
 
                     /* Initialize the run state and the title display. */

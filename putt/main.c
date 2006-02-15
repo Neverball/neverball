@@ -28,6 +28,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#include <SDL_image.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -208,6 +209,8 @@ int main(int argc, char *argv[])
                 {
                     int t1, t0 = SDL_GetTicks();
 
+		    SDL_Surface *icon = IMG_Load(config_data("icon/neverputt.png"));
+		    SDL_WM_SetIcon(icon, NULL);
                     SDL_WM_SetCaption(TITLE, TITLE); 
 
                     /* Run the main game loop. */
