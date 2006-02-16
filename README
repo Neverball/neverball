@@ -61,9 +61,8 @@ Under Unix, Linux, and OSX, simply run
 
 Under Windows, build using the provided Visual Studio solution.
 
-The executables  will be copied to  the base directory.   Maps will be
-processed and copied into data/sol/.  By default, an uninstalled build
-may be executed in place.
+The executables will be copied to the base directory.  By default,  an
+uninstalled build may be executed in place.
 
 
 
@@ -155,9 +154,6 @@ Replay  files are  stored in  the user  data directory.   They  may be
 copied freely.  To  view a replay you have  downloaded, simply move it
 to  the user  data directory  and it  will appear  in the  Replay menu
 in-game.
-
-Note that replay files are  not currently portable between machines of
-different byte order.
 
 
 
