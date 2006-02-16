@@ -84,17 +84,18 @@ static int start_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        if ((jd = gui_harray(id)))
+        if ((jd = gui_hstack(id)))
         {
-            gui_label(jd, _("Level"), GUI_SML, GUI_ALL, gui_yel, gui_red);
-            gui_filler(jd);
+            /*gui_label(jd, _("Level"), GUI_SML, GUI_ALL, gui_yel, gui_red);*/
+	    gui_label(jd, _(set_name(set_curr())), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
             gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);
         }
 
+	
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, "shot-rlk/easy.jpg", 7 * w / 16, 7 * h / 16);
+            shot_id = gui_image(jd, level_shot(0), 7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
             {

@@ -14,6 +14,7 @@
 
 #include <SDL.h>
 #include <math.h>
+#include <string.h>
 
 #include "glext.h"
 #include "hud.h"
@@ -93,7 +94,7 @@ void hud_init(void)
     if ((time_id = gui_clock(0, 59999, GUI_MED, GUI_TOP)))
         gui_layout(time_id, 0, -1);
 
-    if ((view_id = gui_label(0, STR_VIEW2, GUI_SML, GUI_SW, gui_wht, gui_wht)))
+    if ((view_id = gui_label(0, "xxxxxxxxxxxxxxx", GUI_SML, GUI_SW, gui_wht, gui_wht)))
         gui_layout(view_id, 1, 1);
 
     if ((fps_id = gui_count(0, 1000, GUI_SML, GUI_SE)))
