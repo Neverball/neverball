@@ -60,6 +60,7 @@ static void hud_fps(void)
 void hud_init(void)
 {
     int id;
+    char * str_view;
 
     if ((Rhud_id = gui_hstack(0)))
     {
@@ -94,7 +95,10 @@ void hud_init(void)
     if ((time_id = gui_clock(0, 59999, GUI_MED, GUI_TOP)))
         gui_layout(time_id, 0, -1);
 
-    if ((view_id = gui_label(0, "xxxxxxxxxxxxxxx", GUI_SML, GUI_SW, gui_wht, gui_wht)))
+    str_view = strlen(STR_VIEW0) > strlen(STR_VIEW1) ? STR_VIEW0 : STR_VIEW1;
+    if (strlen(str_view) < strlen(STR_VIEW2))
+	str_view = STR_VIEW2;
+    if ((view_id = gui_label(0, str_view, GUI_SML, GUI_SW, gui_wht, gui_wht)))
         gui_layout(view_id, 1, 1);
 
     if ((fps_id = gui_count(0, 1000, GUI_SML, GUI_SE)))
