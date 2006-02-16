@@ -1,14 +1,14 @@
 # Latvian translations for Neverball package.
 # Copyright (C) 2006 Robert Kooima
 # This file is distributed under the same license as the Neverball package.
-# Jean Privat <jean@localhost.localdomain>, 2006.
+# Jānis Rūcis <parasti@gmail.com>, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-02-16 14:53+0100\n"
-"PO-Revision-Date: 2006-02-14 04:04+0200\n"
+"PO-Revision-Date: 2006-02-16 20:33+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "Manuāls"
 
 #: ball/main.c:45 ball/st_title.c:63
 msgid "Neverball"
-msgstr ""
+msgstr "Neverball"
 
 #: ball/st_conf.c:220 ball/st_title.c:75 putt/st_all.c:183 putt/st_conf.c:220
 msgid "Options"
@@ -136,7 +136,7 @@ msgstr "Valoda"
 
 #: ball/st_demo.c:106 ball/st_set.c:106 ball/st_set.c:108
 msgid "Next"
-msgstr "Nāk."
+msgstr "Tālāk"
 
 #: ball/st_demo.c:112
 msgid "Select Replay"
@@ -144,7 +144,7 @@ msgstr "Izvēlies ierakstu"
 
 #: ball/st_demo.c:119 ball/st_set.c:110 ball/st_set.c:112
 msgid "Prev"
-msgstr "Iep."
+msgstr "Atpakaļ"
 
 #: ball/st_demo.c:208 ball/st_title.c:73
 msgid "Replay"
@@ -310,11 +310,11 @@ msgstr "Atsauksmes? Problēmas? http://icculus.org/neverball/"
 
 #: ball/st_title.c:241
 msgid "Spacebar"
-msgstr ""
+msgstr "Space"
 
 #: ball/st_title.c:242
 msgid "Escape"
-msgstr ""
+msgstr "Esc"
 
 #: ball/util.c:47
 msgid "Most Coins"
@@ -330,7 +330,7 @@ msgstr "lieli"
 
 #: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:88 putt/st_all.c:132
 msgid "Par"
-msgstr ""
+msgstr "Par"
 
 #: putt/hole.c:106 putt/st_all.c:89 putt/st_all.c:133
 msgid "P1"
@@ -350,7 +350,7 @@ msgstr "S4"
 
 #: putt/main.c:51 putt/st_all.c:173
 msgid "Neverputt"
-msgstr ""
+msgstr "Neverputt"
 
 #: putt/main.c:253
 #, c-format
@@ -364,15 +364,15 @@ msgstr ""
 
 #: putt/st_all.c:66
 msgid "O"
-msgstr ""
+msgstr "O"
 
 #: putt/st_all.c:102
 msgid "Tot"
-msgstr ""
+msgstr "Tot"
 
 #: putt/st_all.c:111
 msgid "I"
-msgstr ""
+msgstr "I"
 
 #: putt/st_all.c:261
 msgid "Select Course"
@@ -418,7 +418,7 @@ msgstr ""
 
 #: share/config.h:35
 msgid "Last"
-msgstr "Pēdējais"
+msgstr "Last"
 
 #: share/config.h:171
 msgid "png/coin.png"
@@ -455,7 +455,7 @@ msgstr "Pēc noklusējuma"
 
 #: data/sets.txt
 msgid "Neverball Easy"
-msgstr ""
+msgstr "Neverball Easy"
 
 #: data/sets.txt
 msgid ""
@@ -465,7 +465,7 @@ msgstr ""
 
 #: data/sets.txt
 msgid "Neverball Easy 2"
-msgstr ""
+msgstr "Neverball Easy 2"
 
 #: data/sets.txt
 msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
@@ -473,7 +473,7 @@ msgstr ""
 
 #: data/sets.txt
 msgid "Neverball Hard"
-msgstr ""
+msgstr "Neverball Hard"
 
 #: data/sets.txt
 msgid ""
@@ -484,7 +484,7 @@ msgstr ""
 
 #: data/sets.txt
 msgid "Mehdi's Levels"
-msgstr ""
+msgstr "Mehdi's Levels"
 
 #: data/sets.txt
 msgid ""
@@ -494,7 +494,7 @@ msgstr ""
 
 #: data/sets.txt
 msgid "Mehdi's Levels Suite"
-msgstr ""
+msgstr "Mehdi's Levels Suite"
 
 #: data/sets.txt
 msgid ""
