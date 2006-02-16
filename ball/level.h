@@ -48,6 +48,8 @@ void level_song(void);
 
 int level_mode(void);
 
+void level_cheat(void);
+
 /*---------------------------------------------------------------------------*/
 
 #endif

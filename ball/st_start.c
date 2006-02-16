@@ -23,6 +23,7 @@
 #include "st_set.h"
 #include "st_over.h"
 #include "st_level.h"
+#include "st_start.h"
 #include "st_title.h"
 
 /*---------------------------------------------------------------------------*/
@@ -230,6 +231,12 @@ static int start_keybd(int c, int d)
 {
     if (d && c == SDLK_ESCAPE)
         return goto_state(&st_title);
+    
+    if (d && c == SDLK_c)
+    {
+	level_cheat();
+        return goto_state(&st_start);
+    }
 
     if (d && c == SDLK_F12)
     {

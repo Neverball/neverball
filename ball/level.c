@@ -26,8 +26,6 @@
 #include "audio.h"
 #include "config.h"
 
-/*#define CHEATER 1*/
-
 /*---------------------------------------------------------------------------*/
 
 struct score
@@ -305,11 +303,12 @@ void level_init(const char *init_levels,
     level_total = 0;
     coins_total = 0;
     times_total = 0;
+}
 
-#ifdef CHEATER
+void level_cheat(void)
+/* Open each level of the set */
+{
     limit = count;
-    level_store_hs(user_scores);
-#endif
 }
 
 void level_free(void)
