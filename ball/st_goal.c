@@ -27,7 +27,7 @@
 #include "st_save.h"
 #include "st_over.h"
 #include "st_done.h"
-#include "st_title.h"
+#include "st_start.h"
 #include "st_level.h"
 
 /*---------------------------------------------------------------------------*/
@@ -69,7 +69,7 @@ static int goal_action(int i)
         else if (level_mode() == MODE_CHALLENGE)
             return goto_state(&st_done);
 	else
-	    return goto_state(&st_title);
+	    return goto_state(&st_start);
 
     case GOAL_SAME:
         while (level_count())

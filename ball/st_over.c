@@ -20,7 +20,7 @@
 #include "config.h"
 
 #include "st_over.h"
-#include "st_title.h"
+#include "st_start.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,9 +44,7 @@ static int over_enter(void)
 
 static void over_leave(int id)
 {
-    level_exit(NULL, 0);
     gui_delete(id);
-    set_free();
 }
 
 static void over_paint(int id, float st)
@@ -58,7 +56,7 @@ static void over_paint(int id, float st)
 static void over_timer(int id, float dt)
 {
     if (dt > 0.f && time_state() > 3.f)
-        goto_state(&st_title);
+        goto_state(&st_start);
 
     gui_timer(id, dt);
     audio_timer(dt);
@@ -66,24 +64,22 @@ static void over_timer(int id, float dt)
 
 static int over_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+    return (d && c == SDLK_ESCAPE) ? goto_state(&st_start) : 1;
 }
 
 static int over_click(int b, int d)
 {
-    return (b < 0 && d == 1) ? goto_state(&st_title) : 1;
+    return (b < 0 && d == 1) ? goto_state(&st_start) : 1;
 }
 
 static int over_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return goto_state(&st_title);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_title);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_title);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b) ||
+            config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
+            config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+            return goto_state(&st_start);
     }
     return 1;
 }
