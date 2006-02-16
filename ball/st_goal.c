@@ -172,7 +172,9 @@ static int goal_enter(void)
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
-            gui_state(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
+	    
+	    if (level_mode() != MODE_CHALLENGE)
+                gui_state(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 
             if (level_last())
                 gui_start(jd, _("Finish"),  GUI_SML, GOAL_NEXT, 0);
