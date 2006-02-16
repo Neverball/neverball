@@ -14,6 +14,7 @@
 
 #include "gui.h"
 #include "game.h"
+#include "set.h"
 #include "level.h"
 #include "audio.h"
 #include "config.h"
@@ -26,15 +27,22 @@
 
 static int level_enter(void)
 {
-    int id, jd;
+    int id, jd, kd, ld;
 
     if ((id = gui_vstack(0)))
     {
         if ((jd = gui_hstack(id)))
         {
             gui_filler(jd);
-            gui_count(jd, curr_level(), GUI_LRG, GUI_NE | GUI_SE);
-            gui_label(jd, _("Level "),     GUI_LRG, GUI_NW | GUI_SW, 0, 0);
+	    if ((kd = gui_vstack(jd)))
+	    {
+		if ((ld = gui_hstack(kd)))
+		{
+		    gui_count(ld, curr_level(), GUI_LRG, GUI_NE);
+		    gui_label(ld, _("Level "),  GUI_LRG, GUI_NW, 0, 0);
+		}
+		gui_label(kd, _(set_name(set_curr())),  GUI_SML, GUI_BOT, gui_wht, gui_wht);
+	    }
             gui_filler(jd);
         }
         gui_space(id);
