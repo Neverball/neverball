@@ -27,7 +27,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define START_BACK 0
+#define START_BACK -1
+#define START_CHALLENGE 0
 
 static int shot_id;
 
@@ -49,14 +50,21 @@ static void gui_level(int id, char *text, int i)
 
 static int start_action(int i)
 {
+    int mode = MODE_TRAINING;
     audio_play(AUD_MENU, 1.0f);
 
     if (i == START_BACK)
         return goto_state(&st_set);
+    
+    if (i == START_CHALLENGE)
+    {
+	i = 1;
+	mode = MODE_CHALLENGE;
+    }
 
     if (level_opened(i))
     {
-        if (level_play(USER_REPLAY_FILE, i))
+        if (level_play(USER_REPLAY_FILE, i, mode))
             return goto_state(&st_level);
         else
         {
@@ -90,6 +98,7 @@ static int start_enter(void)
 
             if ((kd = gui_varray(jd)))
             {
+		gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE , 0);
                 if ((ld = gui_harray(kd)))
                 {
                     gui_level(ld, "05",  5);
@@ -174,6 +183,9 @@ static void start_point(int id, int x, int y, int dx, int dy)
     {
         int i = gui_token(jd);
 
+	if (i < 0)
+		return;
+
         gui_set_image(shot_id, level_shot(i));
 
         set_most_coins(i, 3);
@@ -193,6 +205,9 @@ static void start_stick(int id, int a, int v)
     if ((jd = gui_stick(id, x, y)))
     {
         int i = gui_token(jd);
+
+	if (i < 0)
+		return;
 
         gui_set_image(shot_id, level_shot(i));
 

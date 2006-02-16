@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-14 13:33+0100\n"
+"POT-Creation-Date: 2006-02-16 14:53+0100\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "replay%02d"
 msgstr "film%02d"
 
-#: ball/hud.c:67 ball/st_goal.c:148
+#: ball/hud.c:67 ball/st_goal.c:154
 msgid "Coins"
 msgstr "Pièces"
 
@@ -29,11 +29,11 @@ msgstr "Pièces"
 msgid "Goal"
 msgstr "Sortie"
 
-#: ball/hud.c:87 ball/st_goal.c:138
+#: ball/hud.c:87 ball/st_goal.c:144
 msgid "Balls"
 msgstr "Balles"
 
-#: ball/hud.c:88 ball/st_goal.c:143 putt/hud.c:45
+#: ball/hud.c:88 ball/st_goal.c:149 putt/hud.c:45
 msgid "Score"
 msgstr "Score"
 
@@ -49,7 +49,7 @@ msgstr "Paresseuse"
 msgid "Manual"
 msgstr "Manuelle"
 
-#: ball/main.c:44 ball/st_title.c:63
+#: ball/main.c:45 ball/st_title.c:63
 msgid "Neverball"
 msgstr "Neverball"
 
@@ -57,11 +57,11 @@ msgstr "Neverball"
 msgid "Options"
 msgstr "Options"
 
-#: ball/st_conf.c:228 ball/st_demo.c:394 ball/st_save.c:207
+#: ball/st_conf.c:228 ball/st_demo.c:394 ball/st_save.c:213
 msgid "No"
 msgstr "Non"
 
-#: ball/st_conf.c:229 ball/st_demo.c:393 ball/st_save.c:206
+#: ball/st_conf.c:229 ball/st_demo.c:393 ball/st_save.c:212
 msgid "Yes"
 msgstr "Oui"
 
@@ -84,7 +84,7 @@ msgid "On"
 msgstr "Oui"
 
 #: ball/st_conf.c:310 ball/st_demo.c:108 ball/st_demo.c:121 ball/st_set.c:85
-#: ball/st_start.c:84 putt/st_all.c:279 putt/st_all.c:398 putt/st_conf.c:301
+#: ball/st_start.c:92 putt/st_all.c:279 putt/st_all.c:398 putt/st_conf.c:301
 #: share/st_lang.c:80 share/st_resol.c:91
 msgid "Back"
 msgstr "Retour"
@@ -181,11 +181,11 @@ msgstr "Menu principal"
 msgid "Fall-out!"
 msgstr "Chute !"
 
-#: ball/st_fail.c:58 ball/st_fail.c:154 ball/st_goal.c:168
+#: ball/st_fail.c:58 ball/st_fail.c:154 ball/st_goal.c:174
 msgid "Save Replay"
 msgstr "Sauver un film"
 
-#: ball/st_fail.c:63 ball/st_fail.c:159 ball/st_goal.c:169
+#: ball/st_fail.c:63 ball/st_fail.c:159 ball/st_goal.c:175
 msgid "Retry Level"
 msgstr "Retenter"
 
@@ -193,23 +193,23 @@ msgstr "Retenter"
 msgid "Time's Up!"
 msgstr "Temps écoulé !"
 
-#: ball/st_goal.c:113
+#: ball/st_goal.c:117
 msgid "New Record"
 msgstr "Nouveau record"
 
-#: ball/st_goal.c:114
+#: ball/st_goal.c:118
 msgid "GOAL"
 msgstr "VICTOIRE"
 
-#: ball/st_goal.c:172
+#: ball/st_goal.c:178
 msgid "Finish"
 msgstr "Terminé"
 
-#: ball/st_goal.c:174
+#: ball/st_goal.c:180
 msgid "Next Level"
 msgstr "Niveau suivant"
 
-#: ball/st_level.c:37 ball/st_save.c:100
+#: ball/st_level.c:37 ball/st_save.c:106
 msgid "Level "
 msgstr "Niveau "
 
@@ -229,15 +229,15 @@ msgstr "Prêt ?"
 msgid "GO!"
 msgstr "PARTEZ !"
 
-#: ball/st_save.c:111
+#: ball/st_save.c:117
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ball/st_save.c:112
+#: ball/st_save.c:118
 msgid "Save"
 msgstr "Sauver"
 
-#: ball/st_save.c:200
+#: ball/st_save.c:206
 msgid "Overwrite?"
 msgstr "Écraser ?"
 
@@ -245,9 +245,13 @@ msgstr "Écraser ?"
 msgid "Level Set"
 msgstr "Collection"
 
-#: ball/st_start.c:81
+#: ball/st_start.c:89
 msgid "Level"
 msgstr "Niveau"
+
+#: ball/st_start.c:101
+msgid "Challenge"
+msgstr "Challenge"
 
 #: ball/st_title.c:72 putt/st_all.c:182
 msgid "Play"
@@ -343,16 +347,16 @@ msgstr "J3"
 msgid "P4"
 msgstr "J4"
 
-#: putt/main.c:50 putt/st_all.c:173
+#: putt/main.c:51 putt/st_all.c:173
 msgid "Neverputt"
 msgstr "Neverputt"
 
-#: putt/main.c:250
+#: putt/main.c:253
 #, c-format
 msgid "Failure to establish config directory\n"
 msgstr "Impossible d'établir le répertoire de config\n"
 
-#: putt/main.c:252
+#: putt/main.c:255
 #, c-format
 msgid "Failure to establish game data directory\n"
 msgstr "Impossible d'établir le répertoire des données du jeu\n"

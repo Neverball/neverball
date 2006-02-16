@@ -111,7 +111,8 @@ void hud_free(void)
 
 void hud_paint(void)
 {
-    gui_paint(Lhud_id);
+    if (level_mode() == MODE_CHALLENGE)
+        gui_paint(Lhud_id);
     gui_paint(Rhud_id);
     gui_paint(time_id);
 
@@ -131,8 +132,11 @@ void hud_timer(float dt)
     const int goal  = curr_goal();
 
     if (gui_value(time_id) != clock) gui_set_clock(time_id, clock);
-    if (gui_value(ball_id) != balls) gui_set_count(ball_id, balls);
-    if (gui_value(scor_id) != score) gui_set_count(scor_id, score);
+    if (level_mode() == MODE_CHALLENGE)
+    {
+        if (gui_value(ball_id) != balls) gui_set_count(ball_id, balls);
+	if (gui_value(scor_id) != score) gui_set_count(scor_id, score);
+    }
     if (gui_value(coin_id) != coins) gui_set_count(coin_id, coins);
     if (gui_value(goal_id) != goal)  gui_set_count(goal_id, goal);
 

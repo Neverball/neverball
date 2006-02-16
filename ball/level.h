@@ -3,6 +3,9 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define MODE_CHALLENGE	1
+#define MODE_TRAINING	2
+
 const char *level_shot(int);
 const char *level_coin_n(int, int);
 const char *level_time_n(int, int);
@@ -28,7 +31,7 @@ int  curr_level(void);
 int  curr_goal (void);
 
 int  level_replay(const char *);
-int  level_play(const char *, int);
+int  level_play(const char *, int, int);
 
 void level_stat(int);
 int  level_dead(void);
@@ -42,6 +45,8 @@ int  level_count(void);
 void level_name(int, const char *, int, int);
 void level_snap(int);
 void level_song(void);
+
+int level_mode(void);
 
 /*---------------------------------------------------------------------------*/
 

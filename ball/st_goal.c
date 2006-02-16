@@ -66,8 +66,10 @@ static int goal_action(int i)
             ;
         if (level_exit(NULL, 1))
             return goto_state(&st_level);
-        else
+        else if (level_mode() == MODE_CHALLENGE)
             return goto_state(&st_done);
+	else
+	    return goto_state(&st_title);
 
     case GOAL_SAME:
         while (level_count())
@@ -75,7 +77,9 @@ static int goal_action(int i)
         if (level_exit(NULL, 0))
             return goto_state(&st_level);
         else
-            return goto_state(&st_done);
+            /* return goto_state(&st_done); */
+            /* This case can't occurs */
+	    return 0;
 
     case GUI_CL:
         gui_keyboard_lock();
@@ -130,30 +134,32 @@ static int goal_enter(void)
 
         gui_space(id);
 
-        if ((jd = gui_harray(id)))
-        {
-            if ((kd = gui_harray(jd)))
-            {
-                balls_id = gui_count(kd,  10, GUI_MED, GUI_RGT);
-                gui_label(kd, _("Balls"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
-            }
-            if ((kd = gui_harray(jd)))
-            {
-                score_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
-                gui_label(kd, _("Score"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
-            }
-            if ((kd = gui_harray(jd)))
-            {
-                coins_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
-                gui_label(kd, _("Coins"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
-            }
+	if (level_mode() == MODE_CHALLENGE)
+	{
+	    if ((jd = gui_harray(id)))
+	    {
+                if ((kd = gui_harray(jd)))
+                {
+                    balls_id = gui_count(kd,  10, GUI_MED, GUI_RGT);
+		    gui_label(kd, _("Balls"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+		}
+		if ((kd = gui_harray(jd)))
+		{
+                    score_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
+		    gui_label(kd, _("Score"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+		}
+		if ((kd = gui_harray(jd)))
+		{
+		    coins_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
+		    gui_label(kd, _("Coins"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+		}
 
-            gui_set_count(balls_id, curr_balls());
-            gui_set_count(score_id, curr_score());
-            gui_set_count(coins_id, curr_coins());
-        }
-
-        gui_space(id);
+		gui_set_count(balls_id, curr_balls());
+		gui_set_count(score_id, curr_score());
+		gui_set_count(coins_id, curr_coins());
+	    }
+	    gui_space(id);
+	}
 
         if ((jd = gui_harray(id)))
         {

@@ -53,19 +53,19 @@ static int save_action(int i)
         {
             if (level_exit(filename, 1))
                 return goto_state(&st_level);
-	    else if (level_dead())
-                return goto_state(&st_title);
-	    else
+	    else if (!level_dead() && level_mode() == MODE_CHALLENGE)
                 return goto_state(&st_done);
+	    else
+		return goto_state(&st_title);
         }
 
     case SAVE_CANCEL:
         if (level_exit(NULL, 1))
             return goto_state(&st_level);
-	else if (level_dead())
-	    return goto_state(&st_title);
-        else
+	else if (!level_dead() && level_mode() == MODE_CHALLENGE)
             return goto_state(&st_done);
+        else
+	    return goto_state(&st_title);
 
     case GUI_CL:
         gui_keyboard_lock();

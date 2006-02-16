@@ -26,7 +26,7 @@
 #include "audio.h"
 #include "config.h"
 
-#define CHEATER 1
+/*#define CHEATER 1*/
 
 /*---------------------------------------------------------------------------*/
 
@@ -63,6 +63,8 @@ static int level;                       /* Current level number       */
 static int count;                       /* Number of levels           */
 static int limit;                       /* Last opened (locked) level */
 static int status;                      /* Status of current level    */
+
+static int mode;			/* Current play mode          */
 
 static int level_total;
 static int coins_total;
@@ -425,14 +427,18 @@ int level_replay(const char *filename)
     return demo_replay_init(filename, &score, &coins, &balls, &goal);
 }
 
-int level_play(const char *filename, int i)
+int level_play(const char *filename, int i, int m)
 {
     status = GAME_NONE;
+    mode = m;
 
     if (i >= 0)
     {
         level = i;
-        goal = (level == limit) ? level_v[level].goal : 0;
+	if (m == MODE_CHALLENGE)
+		goal =  level_v[level].goal;
+	else
+		goal = (level == limit) ? level_v[level].goal : 0;
     }
     return demo_play_init(USER_REPLAY_FILE,
                           level_v[level].file,
@@ -485,7 +491,8 @@ int level_exit(const char *filename, int next)
 
     case GAME_TIME:
     case GAME_FALL:
-        balls--;
+        if (mode == MODE_CHALLENGE)
+	    balls--;
         break;
     }
     
@@ -493,7 +500,10 @@ int level_exit(const char *filename, int next)
 
     if (status && level < count && balls >= 0)
     {
-        goal   = (level == limit) ? level_v[level].goal : 0;
+	if (mode == MODE_CHALLENGE)
+	    goal = level_v[level].goal;
+	else
+	    goal = (level == limit) ? level_v[level].goal : 0;
         coins  = 0;
         status = GAME_NONE;
 
@@ -620,6 +630,8 @@ int level_score(int n)
 
 int level_count(void)
 {
+    if (mode != MODE_CHALLENGE)
+        return 0;
     if (coins > 0)
     {
         score++;
@@ -668,3 +680,11 @@ void level_snap(int i)
         image_snap(filename);
     }
 }
+
+/*---------------------------------------------------------------------------*/
+
+int level_mode(void)
+{
+    return mode;
+}
+
