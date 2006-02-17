@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-16 14:53+0100\n"
+"POT-Creation-Date: 2006-02-17 16:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,19 +21,19 @@ msgstr ""
 msgid "replay%02d"
 msgstr ""
 
-#: ball/hud.c:67 ball/st_goal.c:154
+#: ball/hud.c:69 ball/st_goal.c:154
 msgid "Coins"
 msgstr ""
 
-#: ball/hud.c:68
+#: ball/hud.c:70
 msgid "Goal"
 msgstr ""
 
-#: ball/hud.c:87 ball/st_goal.c:144
+#: ball/hud.c:89 ball/st_goal.c:144
 msgid "Balls"
 msgstr ""
 
-#: ball/hud.c:88 ball/st_goal.c:149 putt/hud.c:45
+#: ball/hud.c:90 ball/st_goal.c:149 putt/hud.c:45
 msgid "Score"
 msgstr ""
 
@@ -57,11 +57,11 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: ball/st_conf.c:228 ball/st_demo.c:394 ball/st_save.c:213
+#: ball/st_conf.c:228 ball/st_demo.c:394 ball/st_save.c:221
 msgid "No"
 msgstr ""
 
-#: ball/st_conf.c:229 ball/st_demo.c:393 ball/st_save.c:212
+#: ball/st_conf.c:229 ball/st_demo.c:393 ball/st_save.c:220
 msgid "Yes"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgid "On"
 msgstr ""
 
 #: ball/st_conf.c:310 ball/st_demo.c:108 ball/st_demo.c:121 ball/st_set.c:85
-#: ball/st_start.c:92 putt/st_all.c:279 putt/st_all.c:398 putt/st_conf.c:301
+#: ball/st_start.c:93 putt/st_all.c:279 putt/st_all.c:398 putt/st_conf.c:301
 #: share/st_lang.c:80 share/st_resol.c:91
 msgid "Back"
 msgstr ""
@@ -185,7 +185,7 @@ msgstr ""
 msgid "Save Replay"
 msgstr ""
 
-#: ball/st_fail.c:63 ball/st_fail.c:159 ball/st_goal.c:175
+#: ball/st_fail.c:63 ball/st_fail.c:159 ball/st_goal.c:177
 msgid "Retry Level"
 msgstr ""
 
@@ -201,15 +201,15 @@ msgstr ""
 msgid "GOAL"
 msgstr ""
 
-#: ball/st_goal.c:178
+#: ball/st_goal.c:180
 msgid "Finish"
 msgstr ""
 
-#: ball/st_goal.c:180
+#: ball/st_goal.c:182
 msgid "Next Level"
 msgstr ""
 
-#: ball/st_level.c:37 ball/st_save.c:106
+#: ball/st_level.c:42 ball/st_save.c:111
 msgid "Level "
 msgstr ""
 
@@ -229,15 +229,15 @@ msgstr ""
 msgid "GO!"
 msgstr ""
 
-#: ball/st_save.c:117
+#: ball/st_save.c:125
 msgid "Cancel"
 msgstr ""
 
-#: ball/st_save.c:118
+#: ball/st_save.c:126
 msgid "Save"
 msgstr ""
 
-#: ball/st_save.c:206
+#: ball/st_save.c:214
 msgid "Overwrite?"
 msgstr ""
 
@@ -245,11 +245,7 @@ msgstr ""
 msgid "Level Set"
 msgstr ""
 
-#: ball/st_start.c:89
-msgid "Level"
-msgstr ""
-
-#: ball/st_start.c:101
+#: ball/st_start.c:103
 msgid "Challenge"
 msgstr ""
 
@@ -439,6 +435,10 @@ msgstr ""
 
 #: share/i18n.c:18
 msgid "French"
+msgstr ""
+
+#: share/i18n.c:18
+msgid "German"
 msgstr ""
 
 #: share/i18n.c:18

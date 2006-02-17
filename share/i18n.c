@@ -14,9 +14,9 @@ const char * gettextdbg(const char * c)
 
 /*---------------------------------------------------------------------------*/
 
-#define LANG_NUMBER 3
-const char * language_names[] = {N_("English"), N_("French"), N_("Latvian")};
-const char * language_codes[] = {"en", "fr", "lv"};
+#define LANG_NUMBER 4
+const char * language_names[] = {N_("English"), N_("French"), N_("German"), N_("Latvian")};
+const char * language_codes[] = {"en", "fr", "de", "lv"};
 
 /*---------------------------------------------------------------------------*/
 

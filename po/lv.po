@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-16 14:53+0100\n"
+"POT-Creation-Date: 2006-02-17 16:23+0100\n"
 "PO-Revision-Date: 2006-02-17 13:34+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -22,19 +22,19 @@ msgstr ""
 msgid "replay%02d"
 msgstr "ieraks%02d"
 
-#: ball/hud.c:67 ball/st_goal.c:154
+#: ball/hud.c:69 ball/st_goal.c:154
 msgid "Coins"
 msgstr "Monētas"
 
-#: ball/hud.c:68
+#: ball/hud.c:70
 msgid "Goal"
 msgstr "Mērķis"
 
-#: ball/hud.c:87 ball/st_goal.c:144
+#: ball/hud.c:89 ball/st_goal.c:144
 msgid "Balls"
 msgstr "Bumbas"
 
-#: ball/hud.c:88 ball/st_goal.c:149 putt/hud.c:45
+#: ball/hud.c:90 ball/st_goal.c:149 putt/hud.c:45
 msgid "Score"
 msgstr "Kopā"
 
@@ -58,11 +58,11 @@ msgstr "Neverball"
 msgid "Options"
 msgstr "Opcijas"
 
-#: ball/st_conf.c:228 ball/st_demo.c:394 ball/st_save.c:213
+#: ball/st_conf.c:228 ball/st_demo.c:394 ball/st_save.c:221
 msgid "No"
 msgstr "Nē"
 
-#: ball/st_conf.c:229 ball/st_demo.c:393 ball/st_save.c:212
+#: ball/st_conf.c:229 ball/st_demo.c:393 ball/st_save.c:220
 msgid "Yes"
 msgstr "Jā"
 
@@ -85,7 +85,7 @@ msgid "On"
 msgstr "Ar"
 
 #: ball/st_conf.c:310 ball/st_demo.c:108 ball/st_demo.c:121 ball/st_set.c:85
-#: ball/st_start.c:92 putt/st_all.c:279 putt/st_all.c:398 putt/st_conf.c:301
+#: ball/st_start.c:93 putt/st_all.c:279 putt/st_all.c:398 putt/st_conf.c:301
 #: share/st_lang.c:80 share/st_resol.c:91
 msgid "Back"
 msgstr "Atpakaļ"
@@ -186,7 +186,7 @@ msgstr "Kritiens!"
 msgid "Save Replay"
 msgstr "Saglabāt ierakstu"
 
-#: ball/st_fail.c:63 ball/st_fail.c:159 ball/st_goal.c:175
+#: ball/st_fail.c:63 ball/st_fail.c:159 ball/st_goal.c:177
 msgid "Retry Level"
 msgstr "Mēģināt vēlreiz"
 
@@ -202,15 +202,15 @@ msgstr "Jauns rekords"
 msgid "GOAL"
 msgstr "MĒRĶIS"
 
-#: ball/st_goal.c:178
+#: ball/st_goal.c:180
 msgid "Finish"
 msgstr "Beigt"
 
-#: ball/st_goal.c:180
+#: ball/st_goal.c:182
 msgid "Next Level"
 msgstr "Nākošais līmenis"
 
-#: ball/st_level.c:37 ball/st_save.c:106
+#: ball/st_level.c:42 ball/st_save.c:111
 msgid "Level "
 msgstr "Līmenis "
 
@@ -230,15 +230,15 @@ msgstr "Gatavību?"
 msgid "GO!"
 msgstr "AIZIET!"
 
-#: ball/st_save.c:117
+#: ball/st_save.c:125
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: ball/st_save.c:118
+#: ball/st_save.c:126
 msgid "Save"
 msgstr "Saglabāt"
 
-#: ball/st_save.c:206
+#: ball/st_save.c:214
 msgid "Overwrite?"
 msgstr "Pārrakstīt?"
 
@@ -246,11 +246,7 @@ msgstr "Pārrakstīt?"
 msgid "Level Set"
 msgstr "Līmeņu komplekts"
 
-#: ball/st_start.c:89
-msgid "Level"
-msgstr "Līmenis"
-
-#: ball/st_start.c:101
+#: ball/st_start.c:103
 msgid "Challenge"
 msgstr ""
 
@@ -444,6 +440,10 @@ msgstr "Angļu"
 #: share/i18n.c:18
 msgid "French"
 msgstr "Franču"
+
+#: share/i18n.c:18
+msgid "German"
+msgstr ""
 
 #: share/i18n.c:18
 msgid "Latvian"
@@ -1003,3 +1003,6 @@ msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
 msgstr ""
+
+#~ msgid "Level"
+#~ msgstr "Līmenis"
