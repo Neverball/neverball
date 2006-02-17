@@ -1,0 +1,51 @@
+
+                            * Neverball *
+
+
+Requirements:
+
+    SDL               http://www.libsdl.org/download-1.2.php
+    SDL_image         http://www.libsdl.org/projects/SDL_image/
+    SDL_mixer         http://www.libsdl.org/projects/SDL_mixer/
+    SDL_ttf           http://www.libsdl.org/projects/SDL_ttf/
+
+
+Under Unix, Linux, and OSX, simply run
+
+    make
+
+Under Windows, build using the provided Visual Studio solution.
+
+The executables will be copied to the base directory.  By default,  an
+uninstalled build may be executed in place.
+
+
+* INSTALLATION
+
+The game  searches for game assets  in the following  three places, in
+this order.  If the game is  to be installed globally, at least one of
+them must be set.
+
+1) The directory specified on the command line.
+
+2) The directory given by the NEVERBALL_DATA environment variable.
+
+3) The directory given by the CONFIG_DATA variable defined in config.h
+
+A normal Linux installation would  probably copy the data directory to
+"/usr/local/games/neverball/" and  change the CONFIG_DATA  variable to
+match.
+
+A  normal  Windows installation  would  simply  copy  the entire  game
+directory  to "C:\Program Files\Neverball"  and leave  the CONFIG_DATA
+variable to its default value "./data".
+
+
+* DISTRIPUTION STUFF
+
+The dist directory contains some miscelanous files:
+ * manpages
+ * desktop files
+ * icons
+
+Contact: <robert.kooima@gmail.com>
