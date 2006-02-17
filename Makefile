@@ -130,7 +130,7 @@ $(LOCALEDIR)/%$(MESSAGEPART) : po/%.po
 # Main rules
 #------------------------------------------------------------------------------
 
-all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(SOLS) locales
+all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales
 
 $(BALL_TARG) : $(BALL_OBJS)
 	$(CC) $(CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LIBS)
@@ -140,6 +140,8 @@ $(PUTT_TARG) : $(PUTT_OBJS)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
 	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LIBS)
+
+sols : $(SOLS)
 
 locales : $(MESSAGES)
 
