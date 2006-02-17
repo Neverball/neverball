@@ -2,6 +2,8 @@
                             * Neverball *
 
 
+* COMPILATION
+
 Requirements:
 
     SDL               http://www.libsdl.org/download-1.2.php
@@ -41,11 +43,12 @@ directory  to "C:\Program Files\Neverball"  and leave  the CONFIG_DATA
 variable to its default value "./data".
 
 
-* DISTRIPUTION STUFF
+* DISTRIBUTION
 
-The dist directory contains some miscelanous files:
+The dist directory contains some miscellaneous files:
+
  * manpages
- * desktop files
+ * .desktop files
  * icons
 
 Contact: <robert.kooima@gmail.com>
