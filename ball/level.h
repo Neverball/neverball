@@ -36,6 +36,7 @@ int  level_play(const char *, int, int);
 void level_stat(int);
 int  level_dead(void);
 int  level_last(void);
+int  level_auto_opened(void);
 int  level_exit(const char *, int);
 int  level_sort(int *, int *);
 int  level_done(int *, int *);
