@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-02-16 14:53+0100\n"
-"PO-Revision-Date: 2006-02-16 20:33+0200\n"
+"PO-Revision-Date: 2006-02-17 13:34+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -136,7 +136,7 @@ msgstr "Valoda"
 
 #: ball/st_demo.c:106 ball/st_set.c:106 ball/st_set.c:108
 msgid "Next"
-msgstr "Tālāk"
+msgstr "Nāk."
 
 #: ball/st_demo.c:112
 msgid "Select Replay"
@@ -144,7 +144,7 @@ msgstr "Izvēlies ierakstu"
 
 #: ball/st_demo.c:119 ball/st_set.c:110 ball/st_set.c:112
 msgid "Prev"
-msgstr "Atpakaļ"
+msgstr "Iepr."
 
 #: ball/st_demo.c:208 ball/st_title.c:73
 msgid "Replay"
