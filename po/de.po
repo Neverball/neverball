@@ -433,11 +433,11 @@ msgstr "Pause"
 
 #: share/i18n.c:18
 msgid "English"
-msgstr "Englisch (English)"
+msgstr "Englisch"
 
 #: share/i18n.c:18
 msgid "French"
-msgstr "Französisch (French)"
+msgstr "Französisch"
 
 #: share/i18n.c:18
 msgid "German"
@@ -445,7 +445,7 @@ msgstr "Deutsch"
 
 #: share/i18n.c:18
 msgid "Latvian"
-msgstr "Lettisch (Latvian)"
+msgstr "Lettisch"
 
 #: share/i18n.c:65
 msgid "System Default"

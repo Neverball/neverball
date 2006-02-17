@@ -13,8 +13,8 @@ OGL_LIBS= -lGL -lm
 # Configuration constants
 #------------------------------------------------------------------------------
 
-CFLAGS= -Wall -O3 -ansi -pedantic $(shell sdl-config --cflags)
-#CFLAGS= -Wall -g -ansi $(shell sdl-config --cflags)
+#CFLAGS= -Wall -O3 -ansi -pedantic $(shell sdl-config --cflags)
+CFLAGS= -Wall -g -O1 -ansi -pedantic $(shell sdl-config --cflags)
 #CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
 
 SDL_LIBS= $(shell sdl-config --libs)

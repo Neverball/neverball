@@ -54,7 +54,7 @@ int language_count(void)
 int language_from_code(const char * code)
 {
     int i;
-    for(i=0; i<=LANG_NUMBER; i++)
+    for(i=0; i<LANG_NUMBER; i++)
 	    if (strcmp(language_codes[i], code) == 0)
 		    return i+1;
     return 0;

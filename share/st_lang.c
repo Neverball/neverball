@@ -93,7 +93,7 @@ static int lang_enter(void)
 		    ln = ln1;
 		else
 		{
-		    ln = malloc(sizeof(char)*(strlen(ln1)+strlen(ln2)+1));
+		    ln = malloc(sizeof(char)*(strlen(ln1)+strlen(ln2)+4));
 		    lang_names[i-1] = ln;
 		    strcpy(ln, ln1);
 		    strcat(ln, " (");
