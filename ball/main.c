@@ -51,7 +51,7 @@ static void shot(void)
     static char filename[MAXSTR];
     static int  num = 0;
 
-    sprintf(filename, "screen%02d.bmp", num++);
+    sprintf(filename, _("screen%02d.bmp"), num++);
 
     image_snap(filename);
 }
@@ -77,6 +77,15 @@ static void toggle_wire(void)
         wire = 1;
     }
 }
+
+static void toggle_fullscreen(void)
+{
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    config_mode(!config_get_d(CONFIG_FULLSCREEN), config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT));
+    SDL_WarpMouse(x, y);
+}
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -120,6 +129,7 @@ static int loop(void)
                 
                 switch (e.key.keysym.sym)
                 {
+                case SDLK_F11:   toggle_fullscreen();       break;
                 case SDLK_F10:   shot();                    break;
                 case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
                 case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
