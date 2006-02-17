@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-17 16:23+0100\n"
+"POT-Creation-Date: 2006-02-17 16:41+0100\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -519,6 +519,18 @@ msgstr ""
 
 #: data/courses.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr ""
+"Noch ein 18-Loch Kurs\\ \\ \\Schwierigkeitsgrad: Mittel\\Autor: paxed\\"
+
+#: data/courses.txt
+#, fuzzy
+msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr ""
+"Noch ein 18-Loch Kurs\\ \\ \\Schwierigkeitsgrad: Mittel\\Autor: paxed\\"
+
+#: data/courses.txt
+#, fuzzy
+msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr ""
 "Noch ein 18-Loch Kurs\\ \\ \\Schwierigkeitsgrad: Mittel\\Autor: paxed\\"
 
