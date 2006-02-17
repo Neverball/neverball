@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-02-17 16:41+0100\n"
-"PO-Revision-Date: 2006-02-17 13:34+0200\n"
+"PO-Revision-Date: 2006-02-17 20:35+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -351,12 +351,12 @@ msgstr "Neverputt"
 #: putt/main.c:253
 #, c-format
 msgid "Failure to establish config directory\n"
-msgstr ""
+msgstr "Neizdevās noteikt konfigurācijas direktoriju\n"
 
 #: putt/main.c:255
 #, c-format
 msgid "Failure to establish game data directory\n"
-msgstr ""
+msgstr "Neizdevās noteikt spēles datu direktoriju\n"
 
 #: putt/st_all.c:66
 msgid "O"
@@ -410,7 +410,7 @@ msgstr "Logs"
 #: share/audio.c:63
 #, c-format
 msgid "Sound disabled\n"
-msgstr ""
+msgstr "Nav skaņas\n"
 
 #: share/config.h:35
 msgid "Last"
@@ -443,7 +443,7 @@ msgstr "Franču"
 
 #: share/i18n.c:18
 msgid "German"
-msgstr ""
+msgstr "Vācu"
 
 #: share/i18n.c:18
 msgid "Latvian"
