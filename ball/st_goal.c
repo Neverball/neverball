@@ -136,16 +136,16 @@ static int goal_enter(void)
 
 	if (level_mode() == MODE_CHALLENGE)
 	{
-	    if ((jd = gui_harray(id)))
+	    if ((jd = gui_hstack(id)))
 	    {
                 if ((kd = gui_harray(jd)))
                 {
-                    balls_id = gui_count(kd,  10, GUI_MED, GUI_RGT);
+                    balls_id = gui_count(kd,  100, GUI_MED, GUI_RGT);
 		    gui_label(kd, _("Balls"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
 		}
 		if ((kd = gui_harray(jd)))
 		{
-                    score_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
+                    score_id = gui_count(kd, 1000, GUI_MED, GUI_RGT);
 		    gui_label(kd, _("Score"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
 		}
 		if ((kd = gui_harray(jd)))
