@@ -64,7 +64,6 @@ static int status;                      /* Status of current level    */
 
 static int mode;			/* Current play mode          */
 
-static int level_total;
 static int coins_total;
 static int times_total;
 
@@ -295,14 +294,8 @@ void level_init(const char *init_levels,
 
     strncpy(scores_file, user_scores, MAXSTR);
 
-    score = 0;
-    coins = 0;
-    balls = 2;
     level = 0;
 
-    level_total = 0;
-    coins_total = 0;
-    times_total = 0;
 }
 
 void level_cheat(void)
@@ -426,16 +419,13 @@ int level_replay(const char *filename)
     return demo_replay_init(filename, &score, &coins, &balls, &goal);
 }
 
-int level_play(const char *filename, int i, int m)
+static int level_play_go(void)
+/* Start to play the current level */
 {
     status = GAME_NONE;
-    mode = m;
-
-    if (i >= 0)
-    {
-        level = i;
-	goal  = level_v[level].goal;
-    }
+    coins = 0;
+    goal  = level_v[level].goal;
+    
     return demo_play_init(USER_REPLAY_FILE,
                           level_v[level].file,
                           level_v[level].back,
@@ -446,6 +436,20 @@ int level_play(const char *filename, int i, int m)
                           level_auto_opened() ? 0 : goal, score, coins, balls);
 }
 
+int level_play(const char *filename, int i, int m)
+/* Start to play a level sequence from the `i'th level */
+{
+    mode = m;
+    level = i;
+
+    score = 0;
+    balls = 3;
+    coins_total = 0;
+    times_total = 0;
+
+    return level_play_go();
+}
+
 /*---------------------------------------------------------------------------*/
 
 void level_stat(int s)
@@ -453,7 +457,6 @@ void level_stat(int s)
     if ((status = s) == GAME_GOAL)
     {
         coins_total += coins;
-        level_total += 1;
     }
 
     demo_play_stat(curr_coins(), level_v[level].time - curr_clock());
@@ -484,11 +487,12 @@ int level_exit(const char *filename, int next)
     switch (status)
     {
     case GAME_GOAL:
-        if (next) level++;
+        level++;
         if (limit < level)
             limit = level;
 
         level_store_hs(scores_file);
+	if (!next) level--;
         break;
 
     case GAME_TIME:
@@ -501,20 +505,7 @@ int level_exit(const char *filename, int next)
     /* Load the next level. */
 
     if (status && level < count && balls >= 0)
-    {
-        goal   = level_v[level].goal;
-        coins  = 0;
-        status = GAME_NONE;
-
-        return demo_play_init(USER_REPLAY_FILE,
-                              level_v[level].file,
-                              level_v[level].back,
-                              level_v[level].grad,
-                              level_v[level].song,
-                              level_v[level].shot,
-                              level_v[level].time,
-                              level_auto_opened() ? 0 : goal, score, coins, balls);
-    }
+	return level_play_go();
 
     return 0;
 }
@@ -570,7 +561,7 @@ int level_done(int *time_i, int *coin_i)
     score_v[0].coin_c[3] = coins_total;
     score_v[0].coin_t[3] = times_total;
 
-    if (level == count && level_total == count - 1)
+    if (level == count)
     {
         /* Insert the time record into the global high score list. */
 

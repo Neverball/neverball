@@ -281,6 +281,13 @@ static int play_loop_keybd(int c, int d)
         goto_state(&st_over);
     if (d && c == SDLK_F12)
         goto_state(&st_look);
+    
+    /* Cheat */
+    if (d && c == SDLK_c)
+    {
+        level_stat(GAME_GOAL);
+        goto_state(&st_goal);
+    }
     return 1;
 }
 
