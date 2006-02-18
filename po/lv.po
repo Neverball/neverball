@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-02-18 19:39+0100\n"
-"PO-Revision-Date: 2006-02-19 00:09+0200\n"
+"PO-Revision-Date: 2006-02-19 00:47+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -235,7 +235,7 @@ msgstr "SPĒLE GALĀ"
 
 #: ball/st_play.c:38
 msgid "Ready?"
-msgstr "Uzmanību?"
+msgstr "Uzmanību!"
 
 #: ball/st_play.c:103
 msgid "Set?"
