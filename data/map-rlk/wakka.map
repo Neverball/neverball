@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Here's another coin grab.\Use it to earn a game save and a free ball.\Perhaps you already know a good route.\Teleportation might come in handy.\"
+"message" "Here's another coin grab.\Use it to earn a free ball.\Perhaps you already know a good route.\Teleportation might come in handy.\"
 // brush 0
 {
 ( 376 64 -14 ) ( 176 64 -14 ) ( 176 56 -14 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
