@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-18 16:07+0100\n"
+"POT-Creation-Date: 2006-02-18 19:39+0100\n"
 "PO-Revision-Date: 2006-02-17 20:35+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -100,7 +100,7 @@ msgid "On"
 msgstr "Ar"
 
 #: ball/st_conf.c:310 ball/st_demo.c:108 ball/st_demo.c:121 ball/st_set.c:85
-#: ball/st_start.c:93 putt/st_all.c:279 putt/st_all.c:398 putt/st_conf.c:270
+#: ball/st_start.c:93 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
 #: share/st_lang.c:80 share/st_resol.c:91
 msgid "Back"
 msgstr "Atpakaļ"
@@ -375,36 +375,36 @@ msgstr "Tot"
 msgid "I"
 msgstr "I"
 
-#: putt/st_all.c:261
+#: putt/st_all.c:263
 msgid "Select Course"
 msgstr "Izvēlies kursu"
 
-#: putt/st_all.c:377
+#: putt/st_all.c:396
 msgid "Players?"
 msgstr "Spēlētāji?"
 
-#: putt/st_all.c:448
+#: putt/st_all.c:467
 #, c-format
 msgid "Hole %02d"
 msgstr "Bedrīte %02d"
 
-#: putt/st_all.c:455 share/config.h:169
+#: putt/st_all.c:474 share/config.h:169
 msgid "Player"
 msgstr "Spēlētājs"
 
-#: putt/st_all.c:692
+#: putt/st_all.c:711
 msgid "It's In!"
 msgstr "Ir!"
 
-#: putt/st_all.c:803
+#: putt/st_all.c:822
 msgid "1 Stroke Penalty"
 msgstr "1 sitiena sods"
 
-#: putt/st_all.c:859
+#: putt/st_all.c:878
 msgid "Scores"
 msgstr "Rezultāti"
 
-#: putt/st_all.c:901
+#: putt/st_all.c:920
 msgid "Final Scores"
 msgstr "Gala rezultāti"
 
@@ -526,6 +526,10 @@ msgid ""
 "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
 msgstr ""
 
+#: data/courses.txt
+msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
+msgstr ""
+
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
 msgstr ""
@@ -565,7 +569,7 @@ msgid ""
 msgstr ""
 
 #: data/map-mym2/shaker.map
-msgid "Prépare un petit sac.\\The stomach-tester."
+msgid "Préparez un petit sac.\\The stomach-tester."
 msgstr ""
 
 #: data/map-mym2/fall.map
