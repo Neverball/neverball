@@ -8,3 +8,5 @@ holes-paxed3.txt shot-putt/paxed3.jpg
 Even More Holes\ \ \Difficulty: Medium\Author: paxed\
 holes-abc.txt shot-putt/abc.jpg
 A 26-hole course\following the alphabet\\Difficulty: Hard\Author: paxed\
+holes-slippi.txt shot-putt/slippi.jpg
+Crazy Golf\ \\Difficulty: Easy to Medium\Author: slippifishi\
