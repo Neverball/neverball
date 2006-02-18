@@ -308,9 +308,9 @@ int main(int argc, char *argv[])
             }
             else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
         }
-        else fprintf(stderr, "Failure to establish config directory\n");
+        else fprintf(stderr, _("Failure to establish config directory\n"));
     }
-    else fprintf(stderr, "Failure to establish game data directory\n");
+    else fprintf(stderr, _("Failure to establish game data directory\n"));
 
     return 0;
 }

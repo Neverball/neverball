@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-17 16:41+0100\n"
+"POT-Creation-Date: 2006-02-18 16:07+0100\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -20,11 +20,11 @@ msgstr ""
 msgid "replay%02d"
 msgstr "Replay%02d"
 
-#: ball/hud.c:69 ball/st_goal.c:154
+#: ball/hud.c:69 ball/st_goal.c:154 ball/st_goal.c:173
 msgid "Coins"
 msgstr "Münzen"
 
-#: ball/hud.c:70
+#: ball/hud.c:70 ball/st_goal.c:168
 msgid "Goal"
 msgstr "Ziel"
 
@@ -52,55 +52,70 @@ msgstr "Manuell"
 msgid "Neverball"
 msgstr "Neverball"
 
-#: ball/st_conf.c:220 ball/st_title.c:75 putt/st_all.c:183 putt/st_conf.c:220
+#: ball/main.c:54
+#, c-format
+msgid "screen%02d.bmp"
+msgstr ""
+
+#: ball/main.c:311 putt/main.c:253
+#, c-format
+msgid "Failure to establish config directory\n"
+msgstr "Konfigurationsverzeichnis konnte nicht erstellt werden\n"
+
+#: ball/main.c:313 putt/main.c:255
+#, c-format
+msgid "Failure to establish game data directory\n"
+msgstr "Spieldatenverzeichnis konnte nicht erstellt werden\n"
+
+#: ball/st_conf.c:220 ball/st_title.c:75 putt/st_all.c:183 putt/st_conf.c:190
 msgid "Options"
 msgstr "Optionen"
 
-#: ball/st_conf.c:228 ball/st_demo.c:394 ball/st_save.c:221
+#: ball/st_conf.c:228 ball/st_demo.c:394 ball/st_save.c:221 putt/st_conf.c:198
 msgid "No"
 msgstr "Nein"
 
-#: ball/st_conf.c:229 ball/st_demo.c:393 ball/st_save.c:220
+#: ball/st_conf.c:229 ball/st_demo.c:393 ball/st_save.c:220 putt/st_conf.c:199
 msgid "Yes"
 msgstr "Ja"
 
-#: ball/st_conf.c:240 ball/st_conf.c:245 ball/st_conf.c:268 putt/st_conf.c:239
-#: putt/st_conf.c:244 putt/st_conf.c:257
+#: ball/st_conf.c:240 ball/st_conf.c:245 ball/st_conf.c:268 putt/st_conf.c:210
+#: putt/st_conf.c:215 putt/st_conf.c:228
 msgid "Low"
 msgstr "Niedrig"
 
-#: ball/st_conf.c:241 ball/st_conf.c:246 ball/st_conf.c:269 putt/st_conf.c:240
-#: putt/st_conf.c:245 putt/st_conf.c:258
+#: ball/st_conf.c:241 ball/st_conf.c:246 ball/st_conf.c:269 putt/st_conf.c:211
+#: putt/st_conf.c:216 putt/st_conf.c:229
 msgid "High"
 msgstr "Hoch"
 
-#: ball/st_conf.c:250 ball/st_conf.c:255 ball/st_conf.c:260 putt/st_conf.c:249
+#: ball/st_conf.c:250 ball/st_conf.c:255 ball/st_conf.c:260 putt/st_conf.c:220
 msgid "Off"
 msgstr "Aus"
 
-#: ball/st_conf.c:251 ball/st_conf.c:256 ball/st_conf.c:261 putt/st_conf.c:250
+#: ball/st_conf.c:251 ball/st_conf.c:256 ball/st_conf.c:261 putt/st_conf.c:221
 msgid "On"
 msgstr "Ein"
 
 #: ball/st_conf.c:310 ball/st_demo.c:108 ball/st_demo.c:121 ball/st_set.c:85
-#: ball/st_start.c:93 putt/st_all.c:279 putt/st_all.c:398 putt/st_conf.c:301
+#: ball/st_start.c:93 putt/st_all.c:279 putt/st_all.c:398 putt/st_conf.c:270
 #: share/st_lang.c:80 share/st_resol.c:91
 msgid "Back"
 msgstr "Zurück"
 
-#: ball/st_conf.c:313 putt/st_conf.c:304
+#: ball/st_conf.c:313 putt/st_conf.c:273
 msgid "Fullscreen"
 msgstr "Vollbild"
 
-#: ball/st_conf.c:314 share/st_resol.c:89
+#: ball/st_conf.c:314 putt/st_conf.c:274 share/st_resol.c:89
 msgid "Resolution"
 msgstr "Auflösung"
 
-#: ball/st_conf.c:316 putt/st_conf.c:310
+#: ball/st_conf.c:316 putt/st_conf.c:276
 msgid "Textures"
 msgstr "Texturen"
 
-#: ball/st_conf.c:317 putt/st_conf.c:311
+#: ball/st_conf.c:317 putt/st_conf.c:277
 msgid "Geometry"
 msgstr "Geometrie"
 
@@ -112,23 +127,23 @@ msgstr "Spiegelung"
 msgid "Background"
 msgstr "Hintergrund"
 
-#: ball/st_conf.c:320 putt/st_conf.c:312
+#: ball/st_conf.c:320 putt/st_conf.c:278
 msgid "Shadow"
 msgstr "Schatten"
 
-#: ball/st_conf.c:321 putt/st_conf.c:313
+#: ball/st_conf.c:321 putt/st_conf.c:279
 msgid "Audio"
 msgstr "Audio"
 
-#: ball/st_conf.c:322 putt/st_conf.c:314
+#: ball/st_conf.c:322 putt/st_conf.c:280
 msgid "Sound Volume"
 msgstr "Geräuschlautstärke"
 
-#: ball/st_conf.c:323 putt/st_conf.c:315
+#: ball/st_conf.c:323 putt/st_conf.c:281
 msgid "Music Volume"
 msgstr "Musiklautstärke"
 
-#: ball/st_conf.c:324 putt/st_conf.c:316 share/st_lang.c:78
+#: ball/st_conf.c:324 putt/st_conf.c:282 share/st_lang.c:78
 msgid "Language"
 msgstr "Sprache"
 
@@ -180,11 +195,11 @@ msgstr "Hauptmenü"
 msgid "Fall-out!"
 msgstr "Rausgefallen!"
 
-#: ball/st_fail.c:58 ball/st_fail.c:154 ball/st_goal.c:174
+#: ball/st_fail.c:58 ball/st_fail.c:154 ball/st_goal.c:192
 msgid "Save Replay"
 msgstr "Replay Speichern"
 
-#: ball/st_fail.c:63 ball/st_fail.c:159 ball/st_goal.c:177
+#: ball/st_fail.c:63 ball/st_fail.c:159 ball/st_goal.c:195
 msgid "Retry Level"
 msgstr "Level Wiederholen"
 
@@ -200,11 +215,11 @@ msgstr "Neuer Rekord"
 msgid "GOAL"
 msgstr "ZIEL"
 
-#: ball/st_goal.c:180
+#: ball/st_goal.c:198
 msgid "Finish"
 msgstr "Fertig"
 
-#: ball/st_goal.c:182
+#: ball/st_goal.c:200
 msgid "Next Level"
 msgstr "Nächster Level"
 
@@ -346,16 +361,6 @@ msgstr "P4"
 msgid "Neverputt"
 msgstr "Neverputt"
 
-#: putt/main.c:253
-#, c-format
-msgid "Failure to establish config directory\n"
-msgstr "Konfigurationsverzeichnis konnte nicht erstellt werden\n"
-
-#: putt/main.c:255
-#, c-format
-msgid "Failure to establish game data directory\n"
-msgstr "Spieldatenverzeichnis konnte nicht erstellt werden\n"
-
 #: putt/st_all.c:66
 msgid "O"
 msgstr "O"
@@ -400,10 +405,6 @@ msgstr "Punkte"
 #: putt/st_all.c:901
 msgid "Final Scores"
 msgstr "Gesamtpunkte"
-
-#: putt/st_conf.c:305
-msgid "Window"
-msgstr "Fenster"
 
 #: share/audio.c:63
 #, c-format
@@ -651,135 +652,6 @@ msgstr "Les toiles attirantes.\\Flüchte aus den Netzen."
 msgid "Rainbow Road.\\Make 3 laps to open the goal."
 msgstr "Rainbow Road.\\3 Runden öffnen das Ziel."
 
-#: data/map-mym/scrambling.map
-msgid ""
-"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr ""
-"Le petit cross.\\Let's go scrambling!\\Berühre stets den Boden für optimale "
-"Geschwindigkeit."
-
-#: data/map-mym/comeback.map
-msgid "Le cycle éternel.\\Avoid teleporters..."
-msgstr "Le cycle éternel.\\Vermeide Teleporter..."
-
-#: data/map-mym/narrow.map
-msgid ""
-"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
-"slope."
-msgstr ""
-"Le sentier étroit.\\Geduld und Timing.\\Tipp: Anfangs Geschwindigkeit "
-"maximieren!"
-
-#: data/map-mym/bombman.map
-msgid "Les flammes ardentes.\\Do this remind you of something?"
-msgstr "Les flammes ardentes.\\Erinnert dich das an etwas?"
-
-#: data/map-mym/assault.map
-msgid "Le parcours du combattant.\\Ready for the assault course?"
-msgstr "Le parcours du combattant.\\Bereit für den Anschlags-Level?"
-
-#: data/map-mym/maze1.map
-msgid "Le chemin dissimulé.\\Test your memory."
-msgstr "Le chemin dissimulé.\\Teste dein Gedächtnis."
-
-#: data/map-mym/hard.map
-msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr ""
-"La maîtrise de Neverball.\\Glaubst du immer noch Neverball wäre zu einfach?"
-
-#: data/map-mym/maze2.map
-msgid ""
-"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
-"another one?"
-msgstr ""
-"Le labyrinthe fou.\\Du weißt den Weg, du siehst ihn,\\warum also nimmst du "
-"einen anderen?"
-
-#: data/map-mym/running.map
-msgid "Les épreuves minutées.\\Run baby, run!"
-msgstr "Les épreuves minutÃ©es.\\Lauf, Baby, lauf!"
-
-#: data/map-mym/glasstower.map
-msgid "La tour de verre.\\Find the way to the exit."
-msgstr "La tour de verre.\\Finde den Weg zum Ausgang."
-
-#: data/map-mym/trust.map
-msgid "Le chemin de la foi.\\Self-confidence."
-msgstr "Le chemin de la foi.\\Selbstvertrauen."
-
-#: data/map-mym/circuit1.map
-msgid "Les rampes abruptes.\\Control your speed."
-msgstr "Les rampes abruptes.\\Kontrolliere deine Geschwindigkeit."
-
-#: data/map-mym/circuit2.map
-msgid "La course effrénée.\\Let's make some laps."
-msgstr "La course effrénée.\\Lass uns einige Runden drehen."
-
-#: data/map-mym/up.map
-msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr "L'ascension pressée.\\Nur ein Rat: Bleib niemals stehen!"
-
-#: data/map-mym/descent.map
-msgid "La descente infernale.\\Easy enough to start?"
-msgstr "La descente infernale.\\Ein leichter Anfang?"
-
-#: data/map-mym/climb.map
-msgid "L'escalade ardue.\\Do you suffer from vertigo?"
-msgstr "L'escalade ardue.\\Leidest du an Höhenangst?"
-
-#: data/map-mym/snow.map
-msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr "La descente rafraîchissante.\\Nicht so schnell, nicht so schnell."
-
-#: data/map-mym/turn.map
-msgid "Le sens trigonométrique.\\Turn, wait and jump."
-msgstr "Le sens trigonométrique.\\Schwenken, warten und springen."
-
-#: data/map-mym/loop1.map
-msgid "Les boucles renversantes.\\Upside down!"
-msgstr "Les boucles renversantes.\\Runter geht's immer."
-
-#: data/map-mym/earthquake.map
-msgid "Le passage incertain.\\Isn't too easy?"
-msgstr "Le passage incertain.\\Ist das auch nicht zu leicht?"
-
-#: data/map-mym/drive1.map
-msgid ""
-"La conduite stressante.\\Attention:\\The platform under the ball moves "
-"forward."
-msgstr ""
-"La conduite stressante.\\Achtung:\\Die Plattform unter dem Ball bewegt sich!"
-
-#: data/map-mym/loop2.map
-msgid ""
-"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
-"land..."
-msgstr ""
-"Le contrôle des courbes.\\Finde den richtigen Winkel zum schwenken,"
-"\\springen und landen..."
-
-#: data/map-mym/drive2.map
-msgid ""
-"La conduite dangereuse.\\The platform under the ball moves quickly forward."
-"\\You would do well to advance."
-msgstr ""
-"La conduite dangereuse.\\Die Plattform unter dem Ball bewegt sich schnell."
-"\\Weiterkommen überlebenswichtig!"
-
-#: data/map-mym/dance1.map
-msgid ""
-"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
-"activating the last moving platform,\\ turn around the Thwomp until the goal "
-"is reachable."
-msgstr ""
-"La ballade dansante.\\Lass uns auf der Plattform tanzen!\\Tipp: Nach dem du "
-"die letze Plattform aktiviert hast,\\kreise um den Thwomp bis das Ziel "
-"erreichbar ist."
-
-#: data/map-mym/dance2.map
-msgid "La ballade tranquille.\\What a quiet walk."
-msgstr "La ballade tranquille.\\Was für ein ruhiger Spaziergang."
-
 #: data/map-rlk/goals.map
 msgid ""
 "This one shouldn't be too difficult.\\There are 100 coins here.\\That's a "
@@ -942,10 +814,10 @@ msgstr ""
 "\\gegebenen Zeit gesammelt werden.\\"
 
 #: data/map-rlk/wakka.map
+#, fuzzy
 msgid ""
-"Here's another coin grab.\\Use it to earn a game save and a free ball."
-"\\Perhaps you already know a good route.\\Teleportation might come in handy."
-"\\"
+"Here's another coin grab.\\Use it to earn a free ball.\\Perhaps you already "
+"know a good route.\\Teleportation might come in handy.\\"
 msgstr ""
 "Noch ein Münzensammelkurs.\\Nütze ihn für ein sicheres Spiel und einen Extra-"
 "Ball.\\Vielleicht wießt du schon einen guten Weg?\\Die Teleporter könnten "
@@ -1121,6 +993,138 @@ msgstr ""
 "Bewege die Maus um den Boden zu kippen.\\Sammle 10 Münzen um das Ziel zu "
 "öffnen.\\Führe den Ball hindurch\\um den Level zu meistern.\\\\Klicke um zu "
 "beginnen.\\"
+
+#: data/map-mym/scrambling.map
+msgid ""
+"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgstr ""
+"Le petit cross.\\Let's go scrambling!\\Berühre stets den Boden für optimale "
+"Geschwindigkeit."
+
+#: data/map-mym/comeback.map
+msgid "Le cycle éternel.\\Avoid teleporters..."
+msgstr "Le cycle éternel.\\Vermeide Teleporter..."
+
+#: data/map-mym/narrow.map
+msgid ""
+"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
+"slope."
+msgstr ""
+"Le sentier étroit.\\Geduld und Timing.\\Tipp: Anfangs Geschwindigkeit "
+"maximieren!"
+
+#: data/map-mym/bombman.map
+msgid "Les flammes ardentes.\\Do this remind you of something?"
+msgstr "Les flammes ardentes.\\Erinnert dich das an etwas?"
+
+#: data/map-mym/assault.map
+msgid "Le parcours du combattant.\\Ready for the assault course?"
+msgstr "Le parcours du combattant.\\Bereit für den Anschlags-Level?"
+
+#: data/map-mym/maze1.map
+msgid "Le chemin dissimulé.\\Test your memory."
+msgstr "Le chemin dissimulé.\\Teste dein Gedächtnis."
+
+#: data/map-mym/hard.map
+msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
+msgstr ""
+"La maîtrise de Neverball.\\Glaubst du immer noch Neverball wäre zu einfach?"
+
+#: data/map-mym/maze2.map
+msgid ""
+"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
+"another one?"
+msgstr ""
+"Le labyrinthe fou.\\Du weißt den Weg, du siehst ihn,\\warum also nimmst du "
+"einen anderen?"
+
+#: data/map-mym/running.map
+msgid "Les épreuves minutées.\\Run baby, run!"
+msgstr "Les épreuves minutÃ©es.\\Lauf, Baby, lauf!"
+
+#: data/map-mym/glasstower.map
+msgid "La tour de verre.\\Find the way to the exit."
+msgstr "La tour de verre.\\Finde den Weg zum Ausgang."
+
+#: data/map-mym/trust.map
+msgid "Le chemin de la foi.\\Self-confidence."
+msgstr "Le chemin de la foi.\\Selbstvertrauen."
+
+#: data/map-mym/circuit1.map
+msgid "Les rampes abruptes.\\Control your speed."
+msgstr "Les rampes abruptes.\\Kontrolliere deine Geschwindigkeit."
+
+#: data/map-mym/circuit2.map
+msgid "La course effrénée.\\Let's make some laps."
+msgstr "La course effrénée.\\Lass uns einige Runden drehen."
+
+#: data/map-mym/up.map
+msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
+msgstr "L'ascension pressée.\\Nur ein Rat: Bleib niemals stehen!"
+
+#: data/map-mym/descent.map
+msgid "La descente infernale.\\Easy enough to start?"
+msgstr "La descente infernale.\\Ein leichter Anfang?"
+
+#: data/map-mym/climb.map
+msgid "L'escalade ardue.\\Do you suffer from vertigo?"
+msgstr "L'escalade ardue.\\Leidest du an Höhenangst?"
+
+#: data/map-mym/snow.map
+msgid "La descente rafraîchissante.\\Not so fast, not so fast."
+msgstr "La descente rafraîchissante.\\Nicht so schnell, nicht so schnell."
+
+#: data/map-mym/turn.map
+msgid "Le sens trigonométrique.\\Turn, wait and jump."
+msgstr "Le sens trigonométrique.\\Schwenken, warten und springen."
+
+#: data/map-mym/loop1.map
+msgid "Les boucles renversantes.\\Upside down!"
+msgstr "Les boucles renversantes.\\Runter geht's immer."
+
+#: data/map-mym/earthquake.map
+msgid "Le passage incertain.\\Isn't too easy?"
+msgstr "Le passage incertain.\\Ist das auch nicht zu leicht?"
+
+#: data/map-mym/drive1.map
+msgid ""
+"La conduite stressante.\\Attention:\\The platform under the ball moves "
+"forward."
+msgstr ""
+"La conduite stressante.\\Achtung:\\Die Plattform unter dem Ball bewegt sich!"
+
+#: data/map-mym/loop2.map
+msgid ""
+"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
+"land..."
+msgstr ""
+"Le contrôle des courbes.\\Finde den richtigen Winkel zum schwenken,"
+"\\springen und landen..."
+
+#: data/map-mym/drive2.map
+msgid ""
+"La conduite dangereuse.\\The platform under the ball moves quickly forward."
+"\\You would do well to advance."
+msgstr ""
+"La conduite dangereuse.\\Die Plattform unter dem Ball bewegt sich schnell."
+"\\Weiterkommen überlebenswichtig!"
+
+#: data/map-mym/dance1.map
+msgid ""
+"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
+"activating the last moving platform,\\ turn around the Thwomp until the goal "
+"is reachable."
+msgstr ""
+"La ballade dansante.\\Lass uns auf der Plattform tanzen!\\Tipp: Nach dem du "
+"die letze Plattform aktiviert hast,\\kreise um den Thwomp bis das Ziel "
+"erreichbar ist."
+
+#: data/map-mym/dance2.map
+msgid "La ballade tranquille.\\What a quiet walk."
+msgstr "La ballade tranquille.\\Was für ein ruhiger Spaziergang."
+
+#~ msgid "Window"
+#~ msgstr "Fenster"
 
 #~ msgid "Level"
 #~ msgstr "Level"
