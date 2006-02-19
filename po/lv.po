@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-02-19 17:51+0100\n"
-"PO-Revision-Date: 2006-02-19 00:47+0200\n"
+"PO-Revision-Date: 2006-02-19 23:42+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -52,15 +52,15 @@ msgstr "Manuāls"
 
 #: ball/level.c:242 ball/util.c:183
 msgid "Easy"
-msgstr ""
+msgstr "Viegli"
 
 #: ball/level.c:242 ball/util.c:183
 msgid "Hard"
-msgstr ""
+msgstr "Grūti"
 
 #: ball/level.c:242 ball/util.c:183
 msgid "Medium"
-msgstr ""
+msgstr "Vidēji"
 
 #: ball/main.c:45 ball/st_title.c:63
 msgid "Neverball"
@@ -247,7 +247,7 @@ msgstr "SPĒLE GALĀ"
 
 #: ball/st_play.c:38
 msgid "Ready?"
-msgstr "Uzmanību!"
+msgstr "Uzmanību?"
 
 #: ball/st_play.c:103
 msgid "Set?"
@@ -275,7 +275,7 @@ msgstr "Līmeņu komplekts"
 
 #: ball/st_start.c:103
 msgid "Challenge"
-msgstr ""
+msgstr "Spēku pārbaude"
 
 #: ball/st_title.c:72 putt/st_all.c:182
 msgid "Play"
@@ -475,6 +475,8 @@ msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
 msgstr ""
+"Sarežģītība: iesācējiem un spēlētājiem\\ar vidējām iemaņām\\\\25 līmeņi ar "
+"pakāpeniski pieaugošu grūtības pakāpi.\\Lasi priekšvārdus spēles padomiem.\\"
 
 #: data/sets.txt
 msgid "Neverball Easy 2"
