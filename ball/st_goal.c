@@ -210,7 +210,6 @@ static int goal_enter(void)
     set_best_times(curr_level(), 4);
 
     audio_music_fade_out(2.0f);
-    audio_play(AUD_GOAL, 1.0f);
 
     config_clr_grab();
 

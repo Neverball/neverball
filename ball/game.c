@@ -58,6 +58,7 @@ static float view_k;
 
 static int   goal_e = 0;                /* Goal enabled flag                 */
 static float goal_k = 0;                /* Goal animation                    */
+static int   goal_s = 0;                /* Goal reached flag                 */
 static int   swch_e = 1;                /* Switching enabled flag            */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
@@ -119,6 +120,7 @@ int game_init(const char *file_name,
 
     goal_e = e ? 1    : 0;
     goal_k = e ? 1.0f : 0.0f;
+    goal_s = 0;
 
     /* Reset the hud. */
 
@@ -667,7 +669,14 @@ static int game_update_state(void)
     /* Test for a goal. */
 
     if (goal_e && sol_goal_test(fp, p, 0))
+    {
+	if (!goal_s)
+	{
+	    goal_s = 1;
+	    audio_play(AUD_GOAL, 1.0f);
+	}
         return GAME_GOAL;
+    }
 
     /* Test for time-out. */
 
