@@ -92,8 +92,8 @@ static int goal_action(int i)
 
             config_set_s(CONFIG_PLAYER, player);
             level_name(curr_level(), player, time_i, coin_i);
-            set_most_coins(curr_level(), 4);
-            set_best_times(curr_level(), 4);
+            set_most_coins(curr_level(), coin_i);
+            set_best_times(curr_level(), time_i);
         }
         break;
 
@@ -105,8 +105,8 @@ static int goal_action(int i)
 
             config_set_s(CONFIG_PLAYER, player);
             level_name(curr_level(), player, time_i, coin_i);
-            set_most_coins(curr_level(), 4);
-            set_best_times(curr_level(), 4);
+            set_most_coins(curr_level(), coin_i);
+            set_best_times(curr_level(), time_i);
         }
     }
     return 1;
@@ -181,8 +181,8 @@ static int goal_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_most_coins(jd, 4, coin_i);
-            gui_best_times(jd, 4, time_i);
+            gui_most_coins(jd, 3, 1);
+            gui_best_times(jd, 3, 1);
         }
 
         gui_space(id);
@@ -206,8 +206,8 @@ static int goal_enter(void)
         gui_pulse(gid, 1.2f);
     }
 
-    set_most_coins(curr_level(), 4);
-    set_best_times(curr_level(), 4);
+    set_most_coins(curr_level(), coin_i);
+    set_best_times(curr_level(), time_i);
 
     audio_music_fade_out(2.0f);
 

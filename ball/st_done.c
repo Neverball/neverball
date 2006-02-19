@@ -61,8 +61,8 @@ static int done_action(int i)
 
             config_set_s(CONFIG_PLAYER, player);
             level_name(0, player, time_i, coin_i);
-            set_most_coins(0, 4);
-            set_best_times(0, 4);
+            set_most_coins(0, coin_i);
+            set_best_times(0, time_i);
         }
         break;
 
@@ -74,8 +74,8 @@ static int done_action(int i)
 
             config_set_s(CONFIG_PLAYER, player);
             level_name(0, player, time_i, coin_i);
-            set_most_coins(0, 4);
-            set_best_times(0, 4);
+            set_most_coins(0, coin_i);
+            set_best_times(0, time_i);
         }
     }
     return 1;
@@ -105,8 +105,8 @@ static int done_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_most_coins(jd, 4, coin_i);
-            gui_best_times(jd, 4, time_i);
+            gui_most_coins(jd, 3, 1);
+            gui_best_times(jd, 3, 1);
         }
 
         gui_space(id);
@@ -118,8 +118,8 @@ static int done_enter(void)
         gui_pulse(gid, 1.2f);
     }
 
-    set_most_coins(0, 4);
-    set_best_times(0, 4);
+    set_most_coins(0, coin_i);
+    set_best_times(0, time_i);
 
     return id;
 }
