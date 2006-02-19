@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-18 19:39+0100\n"
+"POT-Creation-Date: 2006-02-19 17:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,6 +47,18 @@ msgstr ""
 
 #: ball/hud.h:8
 msgid "Manual"
+msgstr ""
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Easy"
+msgstr ""
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Hard"
+msgstr ""
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Medium"
 msgstr ""
 
 #: ball/main.c:45 ball/st_title.c:63
@@ -323,15 +335,15 @@ msgstr ""
 msgid "Escape"
 msgstr ""
 
-#: ball/util.c:47
+#: ball/util.c:48
 msgid "Most Coins"
 msgstr ""
 
-#: ball/util.c:132
+#: ball/util.c:133
 msgid "Best Times"
 msgstr ""
 
-#: ball/util.c:265
+#: ball/util.c:275
 msgid "caps"
 msgstr ""
 

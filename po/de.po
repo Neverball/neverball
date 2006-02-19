@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-18 19:39+0100\n"
+"POT-Creation-Date: 2006-02-19 17:51+0100\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -47,6 +47,18 @@ msgstr "Faul"
 #: ball/hud.h:8
 msgid "Manual"
 msgstr "Manuell"
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Easy"
+msgstr ""
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Hard"
+msgstr ""
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Medium"
+msgstr ""
 
 #: ball/main.c:45 ball/st_title.c:63
 msgid "Neverball"
@@ -325,15 +337,15 @@ msgstr "Leertaste"
 msgid "Escape"
 msgstr "Escape"
 
-#: ball/util.c:47
+#: ball/util.c:48
 msgid "Most Coins"
 msgstr "Meiste Münzen"
 
-#: ball/util.c:132
+#: ball/util.c:133
 msgid "Best Times"
 msgstr "Bestzeiten"
 
-#: ball/util.c:265
+#: ball/util.c:275
 msgid "caps"
 msgstr "Caps"
 

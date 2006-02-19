@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-18 19:39+0100\n"
+"POT-Creation-Date: 2006-02-19 17:51+0100\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
@@ -48,6 +48,18 @@ msgstr "Paresseuse"
 #: ball/hud.h:8
 msgid "Manual"
 msgstr "Manuelle"
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Easy"
+msgstr "Facile"
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Hard"
+msgstr "Difficile"
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Medium"
+msgstr "Moyen"
 
 #: ball/main.c:45 ball/st_title.c:63
 msgid "Neverball"
@@ -326,15 +338,15 @@ msgstr "Espace"
 msgid "Escape"
 msgstr "Échappe"
 
-#: ball/util.c:47
+#: ball/util.c:48
 msgid "Most Coins"
 msgstr "Le plus de pièces"
 
-#: ball/util.c:132
+#: ball/util.c:133
 msgid "Best Times"
 msgstr "Meilleurs temps"
 
-#: ball/util.c:265
+#: ball/util.c:275
 msgid "caps"
 msgstr "maj"
 
@@ -544,7 +556,8 @@ msgstr ""
 
 #: data/courses.txt
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
-msgstr "Golf Toqué\\ \\ \\Difficulté : De facile à moyenne\\Auteur : slippifishi\\"
+msgstr ""
+"Golf Toqué\\ \\ \\Difficulté : De facile à moyenne\\Auteur : slippifishi\\"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
@@ -1134,12 +1147,3 @@ msgstr "La ballade tranquille.\\Un paisible instant."
 
 #~ msgid "Level"
 #~ msgstr "Niveau"
-
-#~ msgid "Hard"
-#~ msgstr "Difficile"
-
-#~ msgid "Medium"
-#~ msgstr "Moyen"
-
-#~ msgid "Easy"
-#~ msgstr "Facile"

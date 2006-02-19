@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-18 19:39+0100\n"
+"POT-Creation-Date: 2006-02-19 17:51+0100\n"
 "PO-Revision-Date: 2006-02-19 00:47+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -49,6 +49,18 @@ msgstr "Slinks"
 #: ball/hud.h:8
 msgid "Manual"
 msgstr "Manuāls"
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Easy"
+msgstr ""
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Hard"
+msgstr ""
+
+#: ball/level.c:242 ball/util.c:183
+msgid "Medium"
+msgstr ""
 
 #: ball/main.c:45 ball/st_title.c:63
 msgid "Neverball"
@@ -327,15 +339,15 @@ msgstr "Space"
 msgid "Escape"
 msgstr "Esc"
 
-#: ball/util.c:47
+#: ball/util.c:48
 msgid "Most Coins"
 msgstr "Visvairāk monētu"
 
-#: ball/util.c:132
+#: ball/util.c:133
 msgid "Best Times"
 msgstr "Labākie laiki"
 
-#: ball/util.c:265
+#: ball/util.c:275
 msgid "caps"
 msgstr "lieli"
 
@@ -513,13 +525,11 @@ msgstr ""
 
 #: data/courses.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr ""
-"Vēl viens 18 bedrīšu kurss\\ \\ \\Sarežģītība: vidēja\\Autors: paxed\\"
+msgstr "Vēl viens 18 bedrīšu kurss\\ \\ \\Sarežģītība: vidēja\\Autors: paxed\\"
 
 #: data/courses.txt
 msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr ""
-"Kārtējais 18 bedrīšu kurss\\ \\ \\Sarežģītība: vidēja\\Autors: paxed\\"
+msgstr "Kārtējais 18 bedrīšu kurss\\ \\ \\Sarežģītība: vidēja\\Autors: paxed\\"
 
 #: data/courses.txt
 msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"

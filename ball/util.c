@@ -13,11 +13,19 @@
  */
 
 #include <ctype.h>
+#include <string.h>
 
 #include "gui.h"
 #include "util.h"
 #include "level.h"
 #include "config.h"
+
+/*---------------------------------------------------------------------------*/
+
+static int is_special_name(const char * n)
+{
+    return (strcmp(n, N_("Hard"))==0 || strcmp(n, N_("Medium"))==0 || strcmp(n, N_("Easy"))==0);
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -94,12 +102,15 @@ void gui_most_coins(int id, int n, int i)
 
 void set_most_coins(int level, int n)
 {
-    int j;
+    int j, spe;
+    const char * name;
 
     for (j = 0; j < n; j++)
     {
+	name = level_coin_n(level, j);
+	spe = is_special_name(name);
         gui_set_count(coin_c[j], level_coin_c(level, j));
-        gui_set_label(coin_n[j], level_coin_n(level, j));
+        gui_set_label(coin_n[j], spe ? _(name) : name);
         gui_set_clock(coin_t[j], level_coin_t(level, j));
     }
 }
@@ -179,12 +190,15 @@ void gui_best_times(int id, int n, int i)
 
 void set_best_times(int level, int n)
 {
-    int j;
+    int j, spe;
+    const char * name;
 
     for (j = 0; j < n; j++)
     {
+	name = level_time_n(level, j);
+	spe = is_special_name(name);
         gui_set_clock(time_t[j], level_time_t(level, j));
-        gui_set_label(time_n[j], level_time_n(level, j));
+        gui_set_label(time_n[j], spe ? _(name) : name);
         gui_set_count(time_c[j], level_time_c(level, j));
     }
 }
