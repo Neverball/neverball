@@ -29,6 +29,8 @@
 /*---------------------------------------------------------------------------*/
 
 #define START_BACK -1
+#define START_FREE -2
+#define START_TRAINING -3
 #define START_CHALLENGE 0
 
 static int shot_id;
@@ -39,7 +41,8 @@ static int shot_id;
 
 static void gui_level(int id, char *text, int i)
 {
-    int o = level_opened(i);
+    int m = config_get_d(CONFIG_MODE_FREE);
+    int o = level_opened(i) && (!m || level_opened(i+1));
     int e = level_exists(i);
 
     if      (o) gui_state(id, text, GUI_SML, i, 0);
@@ -51,11 +54,21 @@ static void gui_level(int id, char *text, int i)
 
 static int start_action(int i)
 {
-    int mode = MODE_TRAINING;
+    int mode = config_get_d(CONFIG_MODE_FREE) ? MODE_FREE : MODE_TRAINING;
     audio_play(AUD_MENU, 1.0f);
 
     if (i == START_BACK)
         return goto_state(&st_set);
+    else if (i == START_TRAINING)
+    {
+	config_set_d(CONFIG_MODE_FREE, 0);
+	goto_state(&st_start);
+    }
+    else if (i == START_FREE)
+    {
+	config_set_d(CONFIG_MODE_FREE, 1);
+	goto_state(&st_start);
+    }
     
     if (i == START_CHALLENGE)
     {
@@ -80,6 +93,7 @@ static int start_enter(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
+    int m = config_get_d(CONFIG_MODE_FREE);
 
     int id, jd, kd, ld;
 
@@ -101,6 +115,11 @@ static int start_enter(void)
             if ((kd = gui_varray(jd)))
             {
 		gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE , 0);
+                if ((ld = gui_harray(kd)))
+                {
+		    gui_state(ld, _("Free Playing"), GUI_SML, START_FREE , m == 1);
+		    gui_state(ld, _("Training"), GUI_SML, START_TRAINING , m == 0);
+		}
                 if ((ld = gui_harray(kd)))
                 {
                     gui_level(ld, "05",  5);

@@ -206,6 +206,7 @@ static void play_loop_timer(int id, float dt)
     static float at = 0;
 
     float g[3] = { 0.0f, -9.8f, 0.0f };
+    int nmf = level_mode() != MODE_FREE;
 
     at = (7 * at + dt) / 8;
 
@@ -213,9 +214,9 @@ static void play_loop_timer(int id, float dt)
     hud_timer(at);
     game_set_rot(view_rotate * k);
 
-    switch (game_step(g, at, 1))
+    switch (game_step(g, at, nmf ? 1 : 2))
     {
-    case GAME_TIME: level_stat(GAME_TIME); goto_state(&st_time_out); break;
+    case GAME_TIME: if (nmf) {level_stat(GAME_TIME); goto_state(&st_time_out);} break;
     case GAME_FALL: level_stat(GAME_FALL); goto_state(&st_fall_out); break;
     case GAME_GOAL: level_stat(GAME_GOAL); goto_state(&st_goal);     break;
     }

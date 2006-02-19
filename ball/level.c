@@ -423,8 +423,8 @@ static int level_play_go(void)
 /* Start to play the current level */
 {
     status = GAME_NONE;
-    coins = 0;
-    goal  = level_v[level].goal;
+    coins  = 0;
+    goal   = (mode == MODE_FREE) ? 0 : level_v[level].goal;
     
     return demo_play_init(USER_REPLAY_FILE,
                           level_v[level].file,
@@ -433,7 +433,7 @@ static int level_play_go(void)
                           level_v[level].song,
                           level_v[level].shot,
                           level_v[level].time,
-                          level_auto_opened() ? 0 : goal, score, coins, balls);
+                          goal, score, coins, balls);
 }
 
 int level_play(const char *filename, int i, int m)
@@ -470,12 +470,6 @@ int level_dead(void)
 int level_last(void)
 {
     return (level + 1 == count);
-}
-
-int level_auto_opened(void)
-/* Is the level automatically opened */
-{
-    return mode != MODE_CHALLENGE && level != limit;
 }
 
 int level_exit(const char *filename, int next)
@@ -586,7 +580,7 @@ int level_done(int *time_i, int *coin_i)
 int level_score(int n)
 {
     int sound = AUD_COIN;
-    int value = level_auto_opened();
+    int value = 0;
 
     coins += n;
 

@@ -106,6 +106,7 @@ void config_init(void)
     config_set_d(CONFIG_ROTATE_FAST,          DEFAULT_ROTATE_FAST);
     config_set_d(CONFIG_ROTATE_SLOW,          DEFAULT_ROTATE_SLOW);
     config_set_d(CONFIG_LAST_SET,             DEFAULT_LAST_SET);
+    config_set_d(CONFIG_MODE_FREE,            DEFAULT_MODE_FREE);
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
     config_set_s(CONFIG_COIN,                 DEFAULT_COIN);
@@ -199,6 +200,8 @@ void config_load(void)
                     config_set_d(CONFIG_ROTATE_SLOW,          atoi(val));
                 else if (strcmp(key, "last_set")              == 0)
                     config_set_d(CONFIG_LAST_SET,             atoi(val));
+                else if (strcmp(key, "mode")                  == 0)
+                    config_set_d(CONFIG_MODE_FREE,            atoi(val));
 
                 else if (strcmp(key, "key_camera_1")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_1, DEFAULT_KEY_CAMERA_1);
@@ -307,6 +310,8 @@ void config_save(void)
                 option_d[CONFIG_ROTATE_SLOW]);
         fprintf(fp, "last_set             %d\n",
                 option_d[CONFIG_LAST_SET]);
+        fprintf(fp, "mode                 %d\n",
+                option_d[CONFIG_MODE_FREE]);
 
         fprintf(fp, "key_camera_1         %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_1]));

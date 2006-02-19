@@ -194,7 +194,8 @@ static int goal_enter(void)
 	    if (level_mode() != MODE_CHALLENGE)
                 gui_state(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 
-            if (level_last())
+	    if (level_mode() == MODE_FREE) ;
+	    else if (level_last())
                 gui_start(jd, _("Finish"),  GUI_SML, GOAL_NEXT, 0);
             else
                 gui_start(jd, _("Next Level"), GUI_SML, GOAL_NEXT, 0);

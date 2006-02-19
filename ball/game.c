@@ -103,7 +103,10 @@ int game_init(const char *file_name,
               const char *back_name,
               const char *grad_name, int t, int e)
 {
-    clock = (float) t / 100.f;
+    if (level_mode() == MODE_FREE)
+	clock = 0.f;
+    else
+        clock = (float) t / 100.f;
 
     if (game_state)
         game_free();
@@ -610,7 +613,9 @@ static void game_update_time(float dt, int b)
 
    /* The ticking clock. */
 
-    if (b)
+    if (b==2)
+	clock += dt;
+    else if (b)
     {
         if (clock < 600.f)
             clock -= dt;

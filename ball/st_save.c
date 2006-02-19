@@ -40,6 +40,7 @@ static char filename[MAXNAM];
 static int save_action(int i)
 {
     size_t l = strlen(filename);
+    int next = level_mode() == MODE_CHALLENGE;
 
     audio_play(AUD_MENU, 1.0f);
 
@@ -52,7 +53,7 @@ static int save_action(int i)
             return goto_state(&st_clobber);
         else
         {
-            if (level_exit(filename, 1))
+            if (level_exit(filename, next))
                 return goto_state(&st_level);
 	    else if (!level_dead() && level_mode() == MODE_CHALLENGE)
                 return goto_state(&st_done);
@@ -61,7 +62,7 @@ static int save_action(int i)
         }
 
     case SAVE_CANCEL:
-        if (level_exit(NULL, 1))
+        if (level_exit(NULL, next))
             return goto_state(&st_level);
 	else if (!level_dead() && level_mode() == MODE_CHALLENGE)
             return goto_state(&st_done);
@@ -193,11 +194,12 @@ static int save_buttn(int b, int d)
 
 static int clobber_action(int i)
 {
+    int next = level_mode() == MODE_CHALLENGE;
     audio_play(AUD_MENU, 1.0f);
 
     if (i == SAVE_SAVE)
     {
-            if (level_exit(filename, 1))
+            if (level_exit(filename, next))
                 return goto_state(&st_level);
             else
                 return goto_state(&st_title);
