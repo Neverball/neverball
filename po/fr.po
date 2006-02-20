@@ -278,7 +278,7 @@ msgstr "Jouer"
 
 #: ball/st_title.c:73
 msgid "menu^Replay"
-msgstr "Film"
+msgstr "Films"
 
 #: ball/st_title.c:74
 msgid "menu^Help"
