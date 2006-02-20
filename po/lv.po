@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-20 22:03+0200\n"
+"POT-Creation-Date: 2006-02-20 22:09+0100\n"
 "PO-Revision-Date: 2006-02-20 22:04+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -69,7 +69,7 @@ msgstr "Neizdevās noteikt konfigurācijas direktoriju\n"
 msgid "Failure to establish game data directory\n"
 msgstr "Neizdevās noteikt spēles datu direktoriju\n"
 
-#: ball/st_conf.c:220 ball/st_title.c:75 putt/st_all.c:183 putt/st_conf.c:190
+#: ball/st_conf.c:220 putt/st_conf.c:190
 msgid "Options"
 msgstr "Opcijas"
 
@@ -161,7 +161,7 @@ msgstr "Izvēlies ierakstu"
 msgid "Prev"
 msgstr "Iepr."
 
-#: ball/st_demo.c:208 ball/st_title.c:73
+#: ball/st_demo.c:208
 msgid "Replay"
 msgstr "Ieraksti"
 
@@ -266,23 +266,37 @@ msgid "Challenge"
 msgstr "Spēku pārbaude"
 
 #: ball/st_start.c:120
-msgid "Free Playing"
+msgid "Practice"
 msgstr ""
 
 #: ball/st_start.c:121
-msgid "Training"
-msgstr ""
+#, fuzzy
+msgid "Normal"
+msgstr "Mērķis"
 
 #: ball/st_title.c:72 putt/st_all.c:182
-msgid "Play"
+#, fuzzy
+msgid "menu^Play"
 msgstr "Spēlēt"
 
+#: ball/st_title.c:73
+#, fuzzy
+msgid "menu^Replay"
+msgstr "Ieraksti"
+
 #: ball/st_title.c:74
-msgid "Help"
+#, fuzzy
+msgid "menu^Help"
 msgstr "Palīdzība"
 
+#: ball/st_title.c:75 putt/st_all.c:183
+#, fuzzy
+msgid "menu^Options"
+msgstr "Opcijas"
+
 #: ball/st_title.c:76 putt/st_all.c:184
-msgid "Exit"
+#, fuzzy
+msgid "menu^Exit"
 msgstr "Iziet"
 
 #: ball/st_title.c:226
@@ -454,23 +468,23 @@ msgstr "Beigušās widget ID\n"
 msgid "Paused"
 msgstr "Pauze"
 
-#: share/i18n.c:18
+#: share/i18n.c:32
 msgid "English"
 msgstr "Angļu"
 
-#: share/i18n.c:18
+#: share/i18n.c:32
 msgid "French"
 msgstr "Franču"
 
-#: share/i18n.c:18
+#: share/i18n.c:32
 msgid "German"
 msgstr "Vācu"
 
-#: share/i18n.c:18
+#: share/i18n.c:32
 msgid "Latvian"
 msgstr "Latviešu"
 
-#: share/i18n.c:65
+#: share/i18n.c:79
 msgid "System Default"
 msgstr "Pēc noklusējuma"
 
@@ -556,10 +570,6 @@ msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
 msgstr ""
 "Ķertais Golfs\\ \\\\Sarežģītība: no nelielas līdz vidējai\\Autors: "
 "slippifishi\\"
-
-#: data/map-easy2/big-grid-ton.map data/map-rlk/grid.map
-msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
-msgstr ""
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
@@ -667,127 +677,6 @@ msgstr "Les toiles attirantes.\\Tiec ārā no tīkliem."
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Make 3 laps to open the goal."
 msgstr "Varavīkšņu ceļš.\\Veic 3 apļus, lai atvērtu mērķi."
-
-#: data/map-mym/scrambling.map
-msgid ""
-"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr ""
-
-#: data/map-mym/comeback.map
-msgid "Le cycle éternel.\\Avoid teleporters..."
-msgstr "Le cycle éternel.\\Turies tālāk no teleportiem..."
-
-#: data/map-mym/narrow.map
-msgid ""
-"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
-"slope."
-msgstr ""
-"Le sentier étroit.\\Pacietību un precizitāti.\\Padoms: centies kāpināt "
-"ātrumu pirmajā nogāzē."
-
-#: data/map-mym/bombman.map
-msgid "Les flammes ardentes.\\Do this remind you of something?"
-msgstr "Les flammes ardentes.\\Vai kaut ko atgādina?"
-
-#: data/map-mym/assault.map
-msgid "Le parcours du combattant.\\Ready for the assault course?"
-msgstr ""
-
-#: data/map-mym/maze1.map
-msgid "Le chemin dissimulé.\\Test your memory."
-msgstr "Le chemin dissimulé.\\Pārbaudi savu atmiņu."
-
-#: data/map-mym/hard.map
-msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr ""
-"La maîtrise de Neverball.\\Joprojām šķiet, ka Neverball ir pārāk viegla?"
-
-#: data/map-mym/maze2.map
-msgid ""
-"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
-"another one?"
-msgstr ""
-
-#: data/map-mym/running.map
-msgid "Les épreuves minutées.\\Run baby, run!"
-msgstr "Les épreuves minutées.\\Skrien!"
-
-#: data/map-mym/glasstower.map
-msgid "La tour de verre.\\Find the way to the exit."
-msgstr "La tour de verre.\\Atrodi ceļu līdz izejai."
-
-#: data/map-mym/trust.map
-msgid "Le chemin de la foi.\\Self-confidence."
-msgstr "Le chemin de la foi.\\Pašapziņa."
-
-#: data/map-mym/circuit1.map
-msgid "Les rampes abruptes.\\Control your speed."
-msgstr "Les rampes abruptes.\\Pārvaldi savu ātrumu."
-
-#: data/map-mym/circuit2.map
-msgid "La course effrénée.\\Let's make some laps."
-msgstr "La course effrénée.\\Pariņķosim."
-
-#: data/map-mym/up.map
-msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr "L'ascension pressée.\\Tikai viens ieteikums: neapstājies!"
-
-#: data/map-mym/descent.map
-msgid "La descente infernale.\\Easy enough to start?"
-msgstr "La descente infernale.\\Nav pārāk grūti iesākumam?"
-
-#: data/map-mym/climb.map
-msgid "L'escalade ardue.\\Do you suffer from vertigo?"
-msgstr "L'escalade ardue.\\Tev bail no augstuma?"
-
-#: data/map-mym/snow.map
-msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr "La descente rafraîchissante.\\Ne tik ātri, ne tik ātri."
-
-#: data/map-mym/turn.map
-msgid "Le sens trigonométrique.\\Turn, wait and jump."
-msgstr "Le sens trigonométrique.\\Griezies, gaidi, un lec."
-
-#: data/map-mym/loop1.map
-msgid "Les boucles renversantes.\\Upside down!"
-msgstr "Les boucles renversantes.\\Ačgārni."
-
-#: data/map-mym/earthquake.map
-msgid "Le passage incertain.\\Isn't too easy?"
-msgstr "Le passage incertain.\\Izskatās viegli, vai ne?"
-
-#: data/map-mym/drive1.map
-msgid ""
-"La conduite stressante.\\Attention:\\The platform under the ball moves "
-"forward."
-msgstr ""
-"La conduite stressante.\\Uzmanību:\\Platforma zem bumbas pārvietojas uz "
-"priekšu."
-
-#: data/map-mym/loop2.map
-msgid ""
-"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
-"land..."
-msgstr ""
-
-#: data/map-mym/drive2.map
-msgid ""
-"La conduite dangereuse.\\The platform under the ball moves quickly forward."
-"\\You would do well to advance."
-msgstr ""
-"La conduite dangereuse.\\Platforma zem bumbas ātri pārvietojas uz priekšu."
-"\\Tu labi darītu, ja pasteigtos."
-
-#: data/map-mym/dance1.map
-msgid ""
-"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
-"activating the last moving platform,\\ turn around the Thwomp until the goal "
-"is reachable."
-msgstr ""
-
-#: data/map-mym/dance2.map
-msgid "La ballade tranquille.\\What a quiet walk."
-msgstr "La ballade tranquille.\\Kāda klusa pastaiga."
 
 #: data/map-rlk/goals.map
 msgid ""
@@ -994,6 +883,10 @@ msgstr ""
 msgid "Have fun picking up those\\red and blue coins.\\"
 msgstr ""
 
+#: data/map-rlk/grid.map data/map-easy2/big-grid-ton.map
+msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
+msgstr ""
+
 #: data/map-rlk/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
@@ -1052,6 +945,127 @@ msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
 msgstr ""
+
+#: data/map-mym/scrambling.map
+msgid ""
+"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgstr ""
+
+#: data/map-mym/comeback.map
+msgid "Le cycle éternel.\\Avoid teleporters..."
+msgstr "Le cycle éternel.\\Turies tālāk no teleportiem..."
+
+#: data/map-mym/narrow.map
+msgid ""
+"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
+"slope."
+msgstr ""
+"Le sentier étroit.\\Pacietību un precizitāti.\\Padoms: centies kāpināt "
+"ātrumu pirmajā nogāzē."
+
+#: data/map-mym/bombman.map
+msgid "Les flammes ardentes.\\Do this remind you of something?"
+msgstr "Les flammes ardentes.\\Vai kaut ko atgādina?"
+
+#: data/map-mym/assault.map
+msgid "Le parcours du combattant.\\Ready for the assault course?"
+msgstr ""
+
+#: data/map-mym/maze1.map
+msgid "Le chemin dissimulé.\\Test your memory."
+msgstr "Le chemin dissimulé.\\Pārbaudi savu atmiņu."
+
+#: data/map-mym/hard.map
+msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
+msgstr ""
+"La maîtrise de Neverball.\\Joprojām šķiet, ka Neverball ir pārāk viegla?"
+
+#: data/map-mym/maze2.map
+msgid ""
+"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
+"another one?"
+msgstr ""
+
+#: data/map-mym/running.map
+msgid "Les épreuves minutées.\\Run baby, run!"
+msgstr "Les épreuves minutées.\\Skrien!"
+
+#: data/map-mym/glasstower.map
+msgid "La tour de verre.\\Find the way to the exit."
+msgstr "La tour de verre.\\Atrodi ceļu līdz izejai."
+
+#: data/map-mym/trust.map
+msgid "Le chemin de la foi.\\Self-confidence."
+msgstr "Le chemin de la foi.\\Pašapziņa."
+
+#: data/map-mym/circuit1.map
+msgid "Les rampes abruptes.\\Control your speed."
+msgstr "Les rampes abruptes.\\Pārvaldi savu ātrumu."
+
+#: data/map-mym/circuit2.map
+msgid "La course effrénée.\\Let's make some laps."
+msgstr "La course effrénée.\\Pariņķosim."
+
+#: data/map-mym/up.map
+msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
+msgstr "L'ascension pressée.\\Tikai viens ieteikums: neapstājies!"
+
+#: data/map-mym/descent.map
+msgid "La descente infernale.\\Easy enough to start?"
+msgstr "La descente infernale.\\Nav pārāk grūti iesākumam?"
+
+#: data/map-mym/climb.map
+msgid "L'escalade ardue.\\Do you suffer from vertigo?"
+msgstr "L'escalade ardue.\\Tev bail no augstuma?"
+
+#: data/map-mym/snow.map
+msgid "La descente rafraîchissante.\\Not so fast, not so fast."
+msgstr "La descente rafraîchissante.\\Ne tik ātri, ne tik ātri."
+
+#: data/map-mym/turn.map
+msgid "Le sens trigonométrique.\\Turn, wait and jump."
+msgstr "Le sens trigonométrique.\\Griezies, gaidi, un lec."
+
+#: data/map-mym/loop1.map
+msgid "Les boucles renversantes.\\Upside down!"
+msgstr "Les boucles renversantes.\\Ačgārni."
+
+#: data/map-mym/earthquake.map
+msgid "Le passage incertain.\\Isn't too easy?"
+msgstr "Le passage incertain.\\Izskatās viegli, vai ne?"
+
+#: data/map-mym/drive1.map
+msgid ""
+"La conduite stressante.\\Attention:\\The platform under the ball moves "
+"forward."
+msgstr ""
+"La conduite stressante.\\Uzmanību:\\Platforma zem bumbas pārvietojas uz "
+"priekšu."
+
+#: data/map-mym/loop2.map
+msgid ""
+"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
+"land..."
+msgstr ""
+
+#: data/map-mym/drive2.map
+msgid ""
+"La conduite dangereuse.\\The platform under the ball moves quickly forward."
+"\\You would do well to advance."
+msgstr ""
+"La conduite dangereuse.\\Platforma zem bumbas ātri pārvietojas uz priekšu."
+"\\Tu labi darītu, ja pasteigtos."
+
+#: data/map-mym/dance1.map
+msgid ""
+"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
+"activating the last moving platform,\\ turn around the Thwomp until the goal "
+"is reachable."
+msgstr ""
+
+#: data/map-mym/dance2.map
+msgid "La ballade tranquille.\\What a quiet walk."
+msgstr "La ballade tranquille.\\Kāda klusa pastaiga."
 
 #~ msgid "Window"
 #~ msgstr "Logs"
