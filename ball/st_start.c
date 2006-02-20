@@ -42,7 +42,7 @@ static int shot_id;
 static void gui_level(int id, char *text, int i)
 {
     int m = config_get_d(CONFIG_MODE_FREE);
-    int o = level_opened(i) && (!m || level_opened(i+1));
+    int o = level_opened(i) && (!m || !level_locked(i));
     int e = level_exists(i);
 
     if      (o) gui_state(id, text, GUI_SML, i, 0);

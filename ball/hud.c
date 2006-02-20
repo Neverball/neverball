@@ -27,9 +27,11 @@
 
 static int Lhud_id;
 static int Rhud_id;
+static int Rhud2_id;
 static int time_id;
 
 static int coin_id;
+static int coin2_id;
 static int ball_id;
 static int scor_id;
 static int goal_id;
@@ -76,6 +78,13 @@ void hud_init(void)
         }
         gui_layout(Rhud_id, +1, -1);
     }
+    
+    if ((Rhud2_id = gui_hstack(0)))
+    {
+        gui_label(Rhud2_id, _("Coins"), GUI_SML, 0, gui_wht, gui_wht);
+        coin2_id = gui_count(Rhud2_id, 100,   GUI_SML, GUI_NW);
+        gui_layout(Rhud2_id, +1, -1);
+    }
 
     if ((Lhud_id = gui_hstack(0)))
     {
@@ -116,9 +125,13 @@ void hud_free(void)
 
 void hud_paint(void)
 {
-    if (level_mode() == MODE_CHALLENGE)
+    int mode = level_mode();
+    if (mode == MODE_CHALLENGE)
         gui_paint(Lhud_id);
-    gui_paint(Rhud_id);
+    if (mode == MODE_FREE)
+	gui_paint(Rhud2_id);
+    else
+        gui_paint(Rhud_id);
     gui_paint(time_id);
 
     if (config_get_d(CONFIG_FPS))
@@ -135,14 +148,21 @@ void hud_timer(float dt)
     const int coins = curr_coins();
     const int score = curr_score();
     const int goal  = curr_goal();
+    int mode = level_mode();
 
     if (gui_value(time_id) != clock) gui_set_clock(time_id, clock);
-    if (level_mode() == MODE_CHALLENGE)
+    if (mode == MODE_CHALLENGE)
     {
         if (gui_value(ball_id) != balls) gui_set_count(ball_id, balls);
 	if (gui_value(scor_id) != score) gui_set_count(scor_id, score);
     }
-    if (gui_value(coin_id) != coins) gui_set_count(coin_id, coins);
+    if (gui_value(coin_id) != coins)
+    {
+        if (mode == MODE_FREE)
+	    gui_set_count(coin2_id, coins);
+	else
+	    gui_set_count(coin_id, coins);
+    }
     if (gui_value(goal_id) != goal)  gui_set_count(goal_id, goal);
 
     if (config_get_d(CONFIG_FPS))
