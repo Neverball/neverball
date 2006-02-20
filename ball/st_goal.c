@@ -158,23 +158,6 @@ static int goal_enter(void)
 		gui_set_count(score_id, curr_score());
 		gui_set_count(coins_id, curr_coins());
 	    }
-	} else {
-	    if ((jd = gui_harray(id)))
-	    {
-		int ok = curr_goal() == 0;
-		if ((kd = gui_harray(jd)))
-		{
-                    score_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
-		    gui_label(kd, _("Goal"), GUI_SML, GUI_LFT, ok?gui_wht:gui_red, ok?gui_wht:gui_red);
-		}
-		if ((kd = gui_harray(jd)))
-		{
-		    coins_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
-		    gui_label(kd, _("Coins"), GUI_SML, GUI_LFT, ok?gui_wht:gui_red, ok?gui_wht:gui_red);
-		}
-		gui_set_count(score_id, curr_goal());
-		gui_set_count(coins_id, curr_coins());
-	    }
 	}
 	
 	gui_space(id);

@@ -149,20 +149,22 @@ void hud_timer(float dt)
     const int score = curr_score();
     const int goal  = curr_goal();
     int mode = level_mode();
+    int c_id;
 
     if (gui_value(time_id) != clock) gui_set_clock(time_id, clock);
     if (mode == MODE_CHALLENGE)
     {
         if (gui_value(ball_id) != balls) gui_set_count(ball_id, balls);
 	if (gui_value(scor_id) != score) gui_set_count(scor_id, score);
-    }
-    if (gui_value(coin_id) != coins)
-    {
-        if (mode == MODE_FREE)
-	    gui_set_count(coin2_id, coins);
-	else
-	    gui_set_count(coin_id, coins);
-    }
+	c_id = coin_id;
+    } else if (mode == MODE_FREE)
+        c_id = coin2_id;
+    else
+	c_id = coin_id;
+    
+    
+    if (gui_value(c_id) != coins)
+        gui_set_count(c_id, coins);
     if (gui_value(goal_id) != goal)  gui_set_count(goal_id, goal);
 
     if (config_get_d(CONFIG_FPS))

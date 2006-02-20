@@ -506,8 +506,13 @@ int level_exit(const char *filename, int next)
 
 int level_sort(int *time_i, int *coin_i)
 {
-    int i, clock = level_v[level].time - curr_clock();
+    int i, clock;
     char player[MAXNAM];
+     
+    if (mode == MODE_FREE)
+	clock = curr_clock();
+    else
+        clock = level_v[level].time - curr_clock();
 
     config_get_s(CONFIG_PLAYER, player, MAXNAM);
 
