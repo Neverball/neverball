@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-02-20 22:09+0100\n"
-"PO-Revision-Date: 2006-02-20 22:04+0200\n"
+"PO-Revision-Date: 2006-02-20 23:43+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -163,7 +163,7 @@ msgstr "Iepr."
 
 #: ball/st_demo.c:208
 msgid "Replay"
-msgstr "Ieraksti"
+msgstr "Ieraksts"
 
 #: ball/st_demo.c:303
 msgid "Replay Ends"
@@ -270,32 +270,26 @@ msgid "Practice"
 msgstr ""
 
 #: ball/st_start.c:121
-#, fuzzy
 msgid "Normal"
-msgstr "Mērķis"
+msgstr ""
 
 #: ball/st_title.c:72 putt/st_all.c:182
-#, fuzzy
 msgid "menu^Play"
 msgstr "Spēlēt"
 
 #: ball/st_title.c:73
-#, fuzzy
 msgid "menu^Replay"
-msgstr "Ieraksti"
+msgstr "Skatīties"
 
 #: ball/st_title.c:74
-#, fuzzy
 msgid "menu^Help"
 msgstr "Palīdzība"
 
 #: ball/st_title.c:75 putt/st_all.c:183
-#, fuzzy
 msgid "menu^Options"
 msgstr "Opcijas"
 
 #: ball/st_title.c:76 putt/st_all.c:184
-#, fuzzy
 msgid "menu^Exit"
 msgstr "Iziet"
 
