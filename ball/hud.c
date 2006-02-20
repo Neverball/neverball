@@ -128,7 +128,7 @@ void hud_paint(void)
     int mode = level_mode();
     if (mode == MODE_CHALLENGE)
         gui_paint(Lhud_id);
-    if (mode == MODE_FREE)
+    if (mode == MODE_PRACTICE)
 	gui_paint(Rhud2_id);
     else
         gui_paint(Rhud_id);
@@ -157,7 +157,7 @@ void hud_timer(float dt)
         if (gui_value(ball_id) != balls) gui_set_count(ball_id, balls);
 	if (gui_value(scor_id) != score) gui_set_count(scor_id, score);
 	c_id = coin_id;
-    } else if (mode == MODE_FREE)
+    } else if (mode == MODE_PRACTICE)
         c_id = coin2_id;
     else
 	c_id = coin_id;

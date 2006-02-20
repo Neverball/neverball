@@ -103,7 +103,7 @@ int game_init(const char *file_name,
               const char *back_name,
               const char *grad_name, int t, int e)
 {
-    if (level_mode() == MODE_FREE)
+    if (level_mode() == MODE_PRACTICE)
 	clock = 0.f;
     else
         clock = (float) t / 100.f;

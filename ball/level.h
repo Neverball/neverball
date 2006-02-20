@@ -4,8 +4,8 @@
 /*---------------------------------------------------------------------------*/
 
 #define MODE_CHALLENGE	1
-#define MODE_TRAINING	2
-#define MODE_FREE	3
+#define MODE_NORMAL	2
+#define MODE_PRACTICE	3
 
 const char *level_shot(int);
 const char *level_coin_n(int, int);

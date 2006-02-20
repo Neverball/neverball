@@ -109,7 +109,7 @@ enum {
     CONFIG_ROTATE_FAST,
     CONFIG_ROTATE_SLOW,
     CONFIG_LAST_SET,
-    CONFIG_MODE_FREE,
+    CONFIG_MODE,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -167,7 +167,7 @@ enum {
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_LAST_SET             0
-#define DEFAULT_MODE_FREE            0
+#define DEFAULT_MODE                 0
 #define DEFAULT_PLAYER               _("Player")
 #define DEFAULT_BALL                 "png/ball.png"
 #define DEFAULT_COIN                 _("png/coin.png")

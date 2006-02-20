@@ -424,7 +424,7 @@ static int level_play_go(void)
 {
     status = GAME_NONE;
     coins  = 0;
-    goal   = (mode == MODE_FREE) ? 0 : level_v[level].goal;
+    goal   = (mode == MODE_PRACTICE) ? 0 : level_v[level].goal;
     
     return demo_play_init(USER_REPLAY_FILE,
                           level_v[level].file,
@@ -509,7 +509,7 @@ int level_sort(int *time_i, int *coin_i)
     int i, clock;
     char player[MAXNAM];
      
-    if (mode == MODE_FREE)
+    if (mode == MODE_PRACTICE)
 	clock = curr_clock();
     else
         clock = level_v[level].time - curr_clock();

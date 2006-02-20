@@ -206,7 +206,7 @@ static void play_loop_timer(int id, float dt)
     static float at = 0;
 
     float g[3] = { 0.0f, -9.8f, 0.0f };
-    int nmf = level_mode() != MODE_FREE;
+    int nmf = level_mode() != MODE_PRACTICE;
 
     at = (7 * at + dt) / 8;
 
