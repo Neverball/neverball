@@ -12,6 +12,20 @@ const char * gettextdbg(const char * c)
 	return c;
 }
 
+const char * sgettext(const char *msgid)
+{
+    const char *msgval = gettext (msgid);
+    if (msgval == msgid) {
+       msgval = strrchr (msgid, '^');
+           if (msgval == NULL)
+                msgval = msgid;
+	   else
+                msgval++;
+    }
+    return msgval;
+}
+
+
 /*---------------------------------------------------------------------------*/
 
 #define LANG_NUMBER 4

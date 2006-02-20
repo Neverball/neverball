@@ -179,9 +179,9 @@ static int title_enter(void)
 
             if ((kd = gui_varray(jd)))
             {
-                gui_start(kd, _("Play"),    GUI_MED, TITLE_PLAY, 1);
-                gui_state(kd, _("Options"), GUI_MED, TITLE_CONF, 0);
-                gui_state(kd, _("Exit"),    GUI_MED, TITLE_EXIT, 0);
+                gui_start(kd, sgettext("menu^Play"),    GUI_MED, TITLE_PLAY, 1);
+                gui_state(kd, sgettext("menu^Options"), GUI_MED, TITLE_CONF, 0);
+                gui_state(kd, sgettext("menu^Exit"),    GUI_MED, TITLE_EXIT, 0);
             }
 
             gui_filler(jd);

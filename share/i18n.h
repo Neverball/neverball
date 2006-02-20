@@ -28,6 +28,8 @@
 
 const char * gettextdbg(const char *);
 
+const char * sgettext(const char *);
+
 /*---------------------------------------------------------------------------*/
 
 void language_init(const char * domain, const char * locale_dir);

@@ -9,7 +9,7 @@ BUGADDR="robert.kooima@gmail.com"
 # First, extract from source
 echo "# Sources"
 > "$POTFILE"
-xgettext --from-code=UTF-8 --keyword=_ --keyword=N_ -d "$DOMAIN" --copyright-holder="$COPYRIGHT" --msgid-bugs-address="$BUGADDR" -F -o "$POTFILE" ball/*.[ch] putt/*.[ch] share/*.[ch]
+xgettext --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=sgettext -d "$DOMAIN" --copyright-holder="$COPYRIGHT" --msgid-bugs-address="$BUGADDR" -F -o "$POTFILE" ball/*.[ch] putt/*.[ch] share/*.[ch]
 
 # Force encoding to UTF-8
 sed -i "s/charset=CHARSET/charset=UTF-8/" "$POTFILE"
