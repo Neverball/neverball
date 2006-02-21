@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-02-20 22:09+0100\n"
-"PO-Revision-Date: 2006-02-20 23:43+0200\n"
+"PO-Revision-Date: 2006-02-21 22:09+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -267,11 +267,11 @@ msgstr "Spēku pārbaude"
 
 #: ball/st_start.c:120
 msgid "Practice"
-msgstr ""
+msgstr "Treniņš"
 
 #: ball/st_start.c:121
 msgid "Normal"
-msgstr ""
+msgstr "Spēle"
 
 #: ball/st_title.c:72 putt/st_all.c:182
 msgid "menu^Play"
@@ -491,8 +491,6 @@ msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
 msgstr ""
-"Sarežģītība: iesācējiem un spēlētājiem\\ar vidējām iemaņām\\\\25 līmeņi ar "
-"pakāpeniski pieaugošu grūtības pakāpi.\\Lasi priekšvārdus spēles padomiem.\\"
 
 #: data/sets.txt
 msgid "Neverball Easy 2"
@@ -525,7 +523,7 @@ msgstr ""
 
 #: data/sets.txt
 msgid "Mehdi's Levels Suite"
-msgstr "Mehdi līmeņu komplekts"
+msgstr "Mehdi līmeņu kolekcija"
 
 #: data/sets.txt
 msgid ""
@@ -619,7 +617,7 @@ msgstr "Hé, on pousse pas !\\Ne pārāk ātri, ne pārāk lēni."
 
 #: data/map-mym2/movinglumps.map
 msgid "Être patient.\\Not too hard."
-msgstr "Être patient.\\Nav īpaši grūti."
+msgstr "Être patient.\\Nav pārāk grūti."
 
 #: data/map-mym2/freefall.map
 msgid "Savoir chuter.\\Follow the blue markers."
@@ -627,7 +625,7 @@ msgstr "Savoir chuter.\\Seko zilajām atzīmēm."
 
 #: data/map-mym2/littlecones.map
 msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
-msgstr ""
+msgstr "Ne pas se laisser emporter dans le néant.\\Neripinies pārāk zemu."
 
 #: data/map-mym2/bigcones.map
 msgid "Les grands cônes.\\Living in a cone."
@@ -635,15 +633,15 @@ msgstr "Les grands cônes.\\Dzīve konusā."
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
-msgstr ""
+msgstr "Le petit moulin.\\Notver īsto brīdi iekāpšanai kabīnē."
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
-msgstr "Plus dur que la difficulté.\\Lai veicas."
+msgstr "Plus dur que la difficulté.\\Veiksmi."
 
 #: data/map-mym2/speeddance.map
 msgid "La danse asiatique\\Trust in the arrows."
-msgstr "La danse asiatique\\Uzticies rādītājiem."
+msgstr "La danse asiatique\\Uzticies bultām."
 
 #: data/map-mym2/bigball.map
 msgid ""
