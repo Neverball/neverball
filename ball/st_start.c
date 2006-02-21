@@ -117,6 +117,11 @@ static int start_enter(void)
 		gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE , 0);
                 if ((ld = gui_harray(kd)))
                 {
+		    gui_state(ld, _("Practice"), GUI_SML, START_PRACTICE, m == 1);
+		    gui_state(ld, _("Normal"),   GUI_SML, START_NORMAL,   m == 0);
+		}
+                if ((ld = gui_harray(kd)))
+                {
                     gui_level(ld, "05",  5);
                     gui_level(ld, "04",  4);
                     gui_level(ld, "03",  3);
@@ -155,13 +160,6 @@ static int start_enter(void)
                     gui_level(ld, "22", 22);
                     gui_level(ld, "21", 21);
                 }
-                if ((ld = gui_harray(kd)))
-                {
-		    gui_state(ld, _("Practice"), GUI_SML,
-                              START_PRACTICE, m == 1);
-		    gui_state(ld, _("Normal"), GUI_SML,
-                              START_NORMAL, m == 0);
-		}
             }
         }
         gui_space(id);
