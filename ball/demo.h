@@ -26,7 +26,7 @@ void demo_play_stop(const char *);
 
 /*---------------------------------------------------------------------------*/
 
-int  demo_replay_init(const char *, int *, int *, int *, int *);
+int  demo_replay_init(const char *, int *, int *, int *, int *, int *);
 int  demo_replay_step(float *);
 void demo_replay_stop(int);
 

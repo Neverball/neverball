@@ -414,17 +414,25 @@ static void score_coin_swap(struct score *S, int i, int j)
 
 int level_replay(const char *filename)
 {
+    int r, time;
     status = GAME_NONE;
 
-    return demo_replay_init(filename, &score, &coins, &balls, &goal);
+    r = demo_replay_init(filename, &score, &coins, &balls, &goal, &time);
+
+    mode = (time == 0) ? MODE_PRACTICE : MODE_NORMAL;
+
+    return r;
 }
 
 static int level_play_go(void)
 /* Start to play the current level */
 {
+    int time;
+    
     status = GAME_NONE;
     coins  = 0;
     goal   = (mode == MODE_PRACTICE) ? 0 : level_v[level].goal;
+    time   = (mode == MODE_PRACTICE) ? 0 : level_v[level].time;
     
     return demo_play_init(USER_REPLAY_FILE,
                           level_v[level].file,
@@ -432,7 +440,7 @@ static int level_play_go(void)
                           level_v[level].grad,
                           level_v[level].song,
                           level_v[level].shot,
-                          level_v[level].time,
+                          time,
                           goal, score, coins, balls);
 }
 
@@ -454,12 +462,14 @@ int level_play(const char *filename, int i, int m)
 
 void level_stat(int s)
 {
+    int time;
     if ((status = s) == GAME_GOAL)
     {
         coins_total += coins;
     }
 
-    demo_play_stat(curr_coins(), level_v[level].time - curr_clock());
+    time = (mode == MODE_PRACTICE) ? curr_clock() : level_v[level].time - curr_clock();
+    demo_play_stat(curr_coins(), time);
 }
 
 int level_dead(void)

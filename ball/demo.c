@@ -292,7 +292,7 @@ void demo_play_stop(const char *name)
 
 static char demo_replay_name[MAXSTR];
 
-int demo_replay_init(const char *name, int *s, int *c, int *b, int *g)
+int demo_replay_init(const char *name, int *s, int *c, int *b, int *g, int *t)
 {
     char shot[PATHMAX];
     char file[PATHMAX];
@@ -335,6 +335,7 @@ int demo_replay_init(const char *name, int *s, int *c, int *b, int *g)
             if (s) *s = (int) ss;
             if (c) *c = (int) sc;
             if (b) *b = (int) sb;
+            if (t) *t = (int) st;
 
             if (g)
             {

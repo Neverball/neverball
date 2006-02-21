@@ -36,7 +36,8 @@ static int game_state = 0;
 static struct s_file file;
 static struct s_file back;
 
-static float clock = 0.f;               /* Clock time                        */
+static float clock      = 0.f;          /* Clock time                        */
+static int   clock_down = 1;            /* Clock go up or down?              */
 
 static float game_ix;                   /* Input rotation about X axis       */
 static float game_iz;                   /* Input rotation about Z axis       */
@@ -103,10 +104,8 @@ int game_init(const char *file_name,
               const char *back_name,
               const char *grad_name, int t, int e)
 {
-    if (level_mode() == MODE_PRACTICE)
-	clock = 0.f;
-    else
-        clock = (float) t / 100.f;
+    clock      = (float) t / 100.f;
+    clock_down = (t > 0);
 
     if (game_state)
         game_free();
@@ -613,9 +612,7 @@ static void game_update_time(float dt, int b)
 
    /* The ticking clock. */
 
-    if (b==2)
-	clock += dt;
-    else if (b)
+    if (b && clock_down)
     {
         if (clock < 600.f)
             clock -= dt;
@@ -632,6 +629,10 @@ static void game_update_time(float dt, int b)
             audio_play(AUD_TOCK, 1.f);
             hud_time_pulse(1.25);
         }
+    }
+    else if (b)
+    {
+        clock += dt;
     }
 }
 
@@ -685,7 +686,7 @@ static int game_update_state(void)
 
     /* Test for time-out. */
 
-    if (clock <= 0.f)
+    if (clock_down && clock <= 0.f)
         return GAME_TIME;
 
     /* Test for fall-out. */
