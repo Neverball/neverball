@@ -136,7 +136,7 @@ static void title_timer(int id, float dt)
         {
             if ((demo = demo_pick()))
             {
-                demo_replay_init(demo, NULL, NULL, NULL, NULL);
+                demo_replay_init(demo, NULL, NULL, NULL, NULL, NULL);
                 demo_time = 0.0f;
                 real_time = 0.0f;
                 mode = 2;
