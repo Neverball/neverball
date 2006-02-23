@@ -107,11 +107,7 @@ static int loop(void)
             {
             case SDL_MOUSEMOTION:
                 st_point(+e.motion.x,
-#ifdef __APPLE__
-                         +e.motion.y,
-#else
                          -e.motion.y + config_get_d(CONFIG_HEIGHT),
-#endif
                          +e.motion.xrel,
                          config_get_d(CONFIG_MOUSE_INVERT)
                          ? +e.motion.yrel : -e.motion.yrel);
