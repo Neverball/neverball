@@ -118,7 +118,7 @@ static int goal_action(int i)
     return 1;
 }
 
-static int goal_init(int * gidp)
+static int goal_init(int * gidp, int save)
 {
     const char *s1 = _("New Record");
     const char *s2 = _("GOAL");
@@ -174,17 +174,20 @@ static int goal_init(int * gidp)
 
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
+	    if (save)
+                gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
+	    else
+                gui_label(jd, _("Save Replay"), GUI_SML, GUI_ALL, gui_blk, gui_blk);
 	    
 	    if (level_mode() != MODE_CHALLENGE)
                 gui_state(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 	    
 	    if (level_mode() == MODE_CHALLENGE && level_last())
-                gui_start(jd, _("Finish"),  GUI_SML, GOAL_DONE, 0);
+                gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
 	    else if (level_opened(curr_level()+1))
-                gui_start(jd, _("Next Level"), GUI_SML, GOAL_NEXT, 0);
+                gui_start(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
             else
-                gui_label(jd, _("Next Level"), GUI_SML, GUI_ALL, gui_blk, gui_blk);
+                gui_label(jd, _("Next Level"),  GUI_SML, GUI_ALL, gui_blk, gui_blk);
         }
 
         if (high) gui_keyboard(id);
@@ -210,7 +213,7 @@ static int goal_enter(void)
     coin_i = 3;
     high   = level_sort(&time_i, &coin_i);
 
-    r = goal_init(&gid);
+    r = goal_init(&gid, 1);
     
     gui_pulse(gid, 1.2f);
     audio_music_fade_out(2.0f);
@@ -219,7 +222,7 @@ static int goal_enter(void)
 
 static int goal_bis_enter(void)
 {
-    return goal_init(NULL);
+    return goal_init(NULL, 0);
 }
 
 static void goal_leave(int id)
