@@ -278,7 +278,10 @@ static int play_loop_keybd(int c, int d)
     }
 
     if (d && c == SDLK_ESCAPE)
+    {
+        level_stat(GAME_NONE);
         goto_state(&st_over);
+    }
     if (d && c == SDLK_F12)
         goto_state(&st_look);
     
