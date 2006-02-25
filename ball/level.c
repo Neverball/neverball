@@ -60,7 +60,6 @@ static int goal;                        /* Current goal count         */
 static int level;                       /* Current level number       */
 static int count;                       /* Number of levels           */
 static int limit;                       /* Last opened (locked) level */
-static int status;                      /* Status of current level    */
 
 static int mode;			/* Current play mode          */
 
@@ -415,7 +414,6 @@ static void score_coin_swap(struct score *S, int i, int j)
 int level_replay(const char *filename)
 {
     int r, time;
-    status = GAME_NONE;
 
     r = demo_replay_init(filename, &score, &coins, &balls, &goal, &time);
 
@@ -424,12 +422,11 @@ int level_replay(const char *filename)
     return r;
 }
 
-static int level_play_go(void)
+int level_play_go(void)
 /* Start to play the current level */
 {
     int time;
     
-    status = GAME_NONE;
     coins  = 0;
     goal   = (mode == MODE_PRACTICE) ? 0 : level_v[level].goal;
     time   = (mode == MODE_PRACTICE) ? 0 : level_v[level].time;
@@ -444,8 +441,8 @@ static int level_play_go(void)
                           goal, score, coins, balls);
 }
 
-int level_play(const char *filename, int i, int m)
-/* Start to play a level sequence from the `i'th level */
+void level_play(int i, int m)
+/* Prepare to play a level sequence from the `i'th level */
 {
     mode = m;
     level = i;
@@ -454,27 +451,41 @@ int level_play(const char *filename, int i, int m)
     balls = 3;
     coins_total = 0;
     times_total = 0;
-
-    return level_play_go();
 }
 
 /*---------------------------------------------------------------------------*/
 
-void level_stat(int s)
+void level_stop(int state)
+/* Stop the current playing level */
 {
     int time;
-    if ((status = s) == GAME_GOAL)
+    
+    /* open next level */
+    if (state == GAME_GOAL && mode != MODE_PRACTICE && limit < level+1)
+	limit = level + 1;
+    
+    if (mode == MODE_CHALLENGE)
     {
-        coins_total += coins;
+	/* sum time */
+	times_total += level_v[level].time - curr_clock(); 
+	    
+	/* sum coins */
+	if (state == GAME_GOAL)
+	    coins_total += coins;
+
+	/* lose ball */
+        if (state == GAME_TIME || state == GAME_FALL)
+	    balls--;
     }
 
+    /* stop demo recording */	
     time = (mode == MODE_PRACTICE) ? curr_clock() : level_v[level].time - curr_clock();
-    demo_play_stat(curr_coins(), time);
+    demo_play_stop(curr_coins(), time);
 }
 
 int level_dead(void)
 {
-    return (balls <= 0);
+    return (mode == MODE_CHALLENGE) && (balls <= 0);
 }
 
 int level_last(void)
@@ -482,36 +493,9 @@ int level_last(void)
     return (level + 1 == count);
 }
 
-int level_exit(const char *filename, int next)
+void level_next(void)
 {
-    times_total += level_v[level].time - curr_clock();
-
-    demo_play_stop(filename);
-
-    switch (status)
-    {
-    case GAME_GOAL:
-        level++;
-        if (limit < level)
-            limit = level;
-
-        level_store_hs(scores_file);
-	if (!next) level--;
-        break;
-
-    case GAME_TIME:
-    case GAME_FALL:
-        if (mode == MODE_CHALLENGE)
-	    balls--;
-        break;
-    }
-    
-    /* Load the next level. */
-
-    if (status && level < count && balls >= 0)
-	return level_play_go();
-
-    return 0;
+    level++;
 }
 
 int level_sort(int *time_i, int *coin_i)

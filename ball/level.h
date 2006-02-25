@@ -32,13 +32,13 @@ int  curr_level(void);
 int  curr_goal (void);
 
 int  level_replay(const char *);
-int  level_play(const char *, int, int);
+void level_play(int, int);
+int  level_play_go(void);
+void level_next(void);
 
-void level_stat(int);
+void level_stop(int);
 int  level_dead(void);
 int  level_last(void);
-int  level_auto_opened(void);
-int  level_exit(const char *, int);
 int  level_sort(int *, int *);
 int  level_done(int *, int *);
 int  level_score(int);

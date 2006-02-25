@@ -21,8 +21,8 @@ int  demo_play_init(const char *, const char *, const char *,
                     const char *, const char *, const char *,
                     int, int, int, int, int);
 void demo_play_step(float);
-void demo_play_stat(int, int);
-void demo_play_stop(const char *);
+void demo_play_stop(int, int);
+void demo_play_save(const char *);
 
 /*---------------------------------------------------------------------------*/
 

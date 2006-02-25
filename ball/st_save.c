@@ -24,10 +24,22 @@
 #include "config.h"
 
 #include "st_save.h"
-#include "st_over.h"
 #include "st_done.h"
 #include "st_level.h"
 #include "st_title.h"
+
+extern struct state st_save;
+extern struct state st_clobber;
+
+/*---------------------------------------------------------------------------*/
+
+static struct state * next_state;
+
+int goto_save(struct state * nextstate)
+{
+    next_state = nextstate;
+    return goto_state(&st_save);
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,7 +52,6 @@ static char filename[MAXNAM];
 static int save_action(int i)
 {
     size_t l = strlen(filename);
-    int next = level_mode() == MODE_CHALLENGE;
 
     audio_play(AUD_MENU, 1.0f);
 
@@ -53,21 +64,12 @@ static int save_action(int i)
             return goto_state(&st_clobber);
         else
         {
-            if (level_exit(filename, next))
-                return goto_state(&st_level);
-	    else if (!level_dead() && level_mode() == MODE_CHALLENGE)
-                return goto_state(&st_done);
-	    else
-		return goto_state(&st_title);
+	    demo_play_save(filename);
+	    return goto_state(next_state);
         }
 
     case SAVE_CANCEL:
-        if (level_exit(NULL, next))
-            return goto_state(&st_level);
-	else if (!level_dead() && level_mode() == MODE_CHALLENGE)
-            return goto_state(&st_done);
-        else
-	    return goto_state(&st_title);
+	return goto_state(next_state);
 
     case GUI_CL:
         gui_keyboard_lock();
@@ -174,7 +176,7 @@ static int save_click(int b, int d)
 static int save_keybd(int c, int d)
 {
     if (d && c == SDLK_ESCAPE)
-        goto_state(&st_over);
+	save_action(SAVE_CANCEL);
     return 1;
 }
 
@@ -185,7 +187,7 @@ static int save_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return save_click(0, 1);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_over);
+	    save_action(SAVE_CANCEL);
     }
     return 1;
 }
@@ -194,15 +196,12 @@ static int save_buttn(int b, int d)
 
 static int clobber_action(int i)
 {
-    int next = level_mode() == MODE_CHALLENGE;
     audio_play(AUD_MENU, 1.0f);
 
     if (i == SAVE_SAVE)
     {
-            if (level_exit(filename, next))
-                return goto_state(&st_level);
-            else
-                return goto_state(&st_title);
+	demo_play_save(filename);
+	return goto_state(next_state);    
     }
     return goto_state(&st_save);
 }

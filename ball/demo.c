@@ -248,7 +248,7 @@ void demo_play_step(float dt)
     }
 }
 
-void demo_play_stat(int coins, int timer)
+void demo_play_stop(int coins, int timer)
 {
     int c = coins;
     int t = timer;
@@ -262,29 +262,22 @@ void demo_play_stat(int coins, int timer)
         put_index(demo_fp, &t);
         put_index(demo_fp, &c);
 
-        fseek(demo_fp, 0, SEEK_END);
+	fclose(demo_fp);
+	demo_fp = NULL;
     }
 }
 
-void demo_play_stop(const char *name)
+void demo_play_save(const char *name)
 {
     char src[PATHMAX];
     char dst[PATHMAX];
 
-    if (demo_fp)
+    if (name && demo_exists(USER_REPLAY_FILE) && strcmp(name, USER_REPLAY_FILE) != 0)
     {
-        fclose(demo_fp);
-        demo_fp = NULL;
+        strncpy(src, config_user(USER_REPLAY_FILE), PATHMAX);
+	strncpy(dst, config_user(name),             PATHMAX);
 
-        /* Rename the temporary replay file to its given name. */
-
-        if (name)
-        {
-            strncpy(src, config_user(USER_REPLAY_FILE), PATHMAX);
-            strncpy(dst, config_user(name),             PATHMAX);
-
-            rename(src, dst);
-        }
+	rename(src, dst);
     }
 }
 

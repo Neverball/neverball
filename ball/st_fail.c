@@ -26,21 +26,24 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define FAIL_RETRY 0
-#define FAIL_SAVE  1
+#define FAIL_BACK  0
+#define FAIL_OVER  1
+#define FAIL_RETRY 2
+#define FAIL_SAVE  3
 
 static int fail_action(int i)
 {
     switch (i)
     {
+    case FAIL_BACK:
+    case FAIL_OVER:
+        return goto_state(&st_over);
+
     case FAIL_RETRY:
-        if (level_exit(NULL, 0))
-            return goto_state(&st_level);
-        else
-            return goto_state(&st_over);
+        return goto_state(&st_level);
 
     case FAIL_SAVE:
-        return goto_state(&st_save);
+	return goto_save(level_dead() ? &st_over : &st_level);
     }
     return 1;
 }
@@ -55,10 +58,10 @@ static int fall_out_enter(void)
     
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
+            gui_state(jd, _("Save Replay"),     GUI_SML, FAIL_SAVE,  0);
 
             if (level_dead())
-                gui_start(jd, _("Main Menu"),   GUI_SML, FAIL_RETRY, 0);
+                gui_start(jd, _("Game Over"),   GUI_SML, FAIL_OVER,  0);
             else
                 gui_start(jd, _("Retry Level"), GUI_SML, FAIL_RETRY, 0);
         }
@@ -123,7 +126,7 @@ static void fall_out_timer(int id, float dt)
 static int fall_out_keybd(int c, int d)
 {
     if (d && c == SDLK_ESCAPE)
-        goto_state(&st_over);
+	return fail_action(FAIL_BACK);
     return 1;
 }
 
@@ -134,7 +137,7 @@ static int fall_out_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return fall_out_click(0, 1);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_over);
+	    return fail_action(FAIL_BACK);
     }
     return 1;
 }
@@ -151,10 +154,10 @@ static int time_out_enter(void)
     
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
+            gui_state(jd, _("Save Replay"),     GUI_SML, FAIL_SAVE,  0);
 
             if (level_dead())
-                gui_start(jd, _("Main Menu"),   GUI_SML, FAIL_RETRY, 0);
+                gui_start(jd, _("Game Over"),   GUI_SML, FAIL_OVER,  0);
             else
                 gui_start(jd, _("Retry Level"), GUI_SML, FAIL_RETRY, 0);
         }
@@ -211,7 +214,7 @@ static void time_out_timer(int id, float dt)
 static int time_out_keybd(int c, int d)
 {
     if (d && c == SDLK_ESCAPE)
-        goto_state(&st_over);
+	return fail_action(FAIL_BACK);
     return 1;
 }
 
@@ -222,7 +225,7 @@ static int time_out_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return time_out_click(0, 1);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_over);
+	    return fail_action(FAIL_BACK);
     }
     return 1;
 }

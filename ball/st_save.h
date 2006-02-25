@@ -3,7 +3,6 @@
 
 #include "state.h"
 
-extern struct state st_save;
-extern struct state st_clobber;
+int goto_save(struct state * nextstate);
 
 #endif

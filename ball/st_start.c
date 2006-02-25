@@ -41,8 +41,7 @@ static int shot_id;
 
 static void gui_level(int id, char *text, int i)
 {
-    int m = config_get_d(CONFIG_MODE);
-    int o = level_opened(i) && (!m || !level_locked(i));
+    int o = level_opened(i);
     int e = level_exists(i);
 
     if      (o) gui_state(id, text, GUI_SML, i, 0);
@@ -78,13 +77,8 @@ static int start_action(int i)
 
     if (level_opened(i))
     {
-        if (level_play(USER_REPLAY_FILE, i, mode))
-            return goto_state(&st_level);
-        else
-        {
-            set_free();
-            return goto_state(&st_title);
-        }
+        level_play(i, mode);
+        return goto_state(&st_level);
     }
     return 1;
 }
@@ -249,7 +243,7 @@ static int start_click(int b, int d)
 static int start_keybd(int c, int d)
 {
     if (d && c == SDLK_ESCAPE)
-        return goto_state(&st_title);
+        return start_action(START_BACK);
     
     if (d && c == SDLK_c)
     {
@@ -278,10 +272,8 @@ static int start_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return start_action(gui_token(gui_click()));
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_title);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_title);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) || config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+            return start_action(START_BACK);
     }
     return 1;
 }

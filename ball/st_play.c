@@ -215,9 +215,9 @@ static void play_loop_timer(int id, float dt)
 
     switch (game_step(g, at, 1))
     {
-    case GAME_TIME: level_stat(GAME_TIME); goto_state(&st_time_out); break;
-    case GAME_FALL: level_stat(GAME_FALL); goto_state(&st_fall_out); break;
-    case GAME_GOAL: level_stat(GAME_GOAL); goto_state(&st_goal);     break;
+    case GAME_TIME: level_stop(GAME_TIME); goto_state(&st_time_out); break;
+    case GAME_FALL: level_stop(GAME_FALL); goto_state(&st_fall_out); break;
+    case GAME_GOAL: level_stop(GAME_GOAL); goto_state(&st_goal);     break;
     }
 
     game_step_fade(dt);
@@ -279,7 +279,7 @@ static int play_loop_keybd(int c, int d)
 
     if (d && c == SDLK_ESCAPE)
     {
-        level_stat(GAME_NONE);
+        level_stop(GAME_NONE);
         goto_state(&st_over);
     }
     if (d && c == SDLK_F12)
@@ -288,7 +288,7 @@ static int play_loop_keybd(int c, int d)
     /* Cheat */
     if (d && c == SDLK_c)
     {
-        level_stat(GAME_GOAL);
+        level_stop(GAME_GOAL);
         goto_state(&st_goal);
     }
     return 1;

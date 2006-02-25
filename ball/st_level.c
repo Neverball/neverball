@@ -29,6 +29,9 @@ static int level_enter(void)
 {
     int id, jd, kd, ld;
 
+    /* Load the level */
+    level_play_go();
+    
     if ((id = gui_vstack(0)))
     {
         if ((jd = gui_hstack(id)))

@@ -35,6 +35,8 @@
 #define GOAL_NEXT 2
 #define GOAL_SAME 3
 #define GOAL_SAVE 4
+#define GOAL_BACK 5
+#define GOAL_DONE 6
 
 static int high;
 static int time_i;
@@ -43,6 +45,8 @@ static int coin_i;
 static int balls_id;
 static int coins_id;
 static int score_id;
+
+extern struct state st_goal_bis;
 
 static int goal_action(int i)
 {
@@ -56,30 +60,32 @@ static int goal_action(int i)
 
     switch (i)
     {
+    case GOAL_BACK:
+	if (level_mode() == MODE_CHALLENGE)
+	    return goto_state(&st_over);
+	else
+	    return goto_state(&st_start);
+
     case GOAL_SAVE:
         while (level_count())
             ;
-        return goto_state(&st_save);
+        return goto_save(&st_goal_bis);
 
+    case GOAL_DONE:
+	while (level_count())
+	    ;
+	goto_state(&st_done);
+	
     case GOAL_NEXT:
         while (level_count())
             ;
-        if (level_exit(NULL, 1))
-            return goto_state(&st_level);
-        else if (level_mode() == MODE_CHALLENGE)
-            return goto_state(&st_done);
-	else
-	    return goto_state(&st_start);
+	level_next();
+	return goto_state(&st_level);
 
     case GOAL_SAME:
         while (level_count())
             ;
-        if (level_exit(NULL, 0))
-            return goto_state(&st_level);
-        else
-            /* return goto_state(&st_done); */
-            /* This case can't occurs */
-	    return 0;
+	return goto_state(&st_level);
 
     case GUI_CL:
         gui_keyboard_lock();
@@ -112,16 +118,12 @@ static int goal_action(int i)
     return 1;
 }
 
-static int goal_enter(void)
+static int goal_init(int * gidp)
 {
     const char *s1 = _("New Record");
     const char *s2 = _("GOAL");
 
     int id, jd, kd;
-
-    time_i = 3;
-    coin_i = 3;
-    high   = level_sort(&time_i, &coin_i);
 
     if ((id = gui_vstack(0)))
     {
@@ -176,28 +178,48 @@ static int goal_enter(void)
 	    
 	    if (level_mode() != MODE_CHALLENGE)
                 gui_state(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
-
-	    if (level_mode() == MODE_PRACTICE) ;
-	    else if (level_last())
-                gui_start(jd, _("Finish"),  GUI_SML, GOAL_NEXT, 0);
-            else
+	    
+	    if (level_mode() == MODE_CHALLENGE && level_last())
+                gui_start(jd, _("Finish"),  GUI_SML, GOAL_DONE, 0);
+	    else if (level_opened(curr_level()+1))
                 gui_start(jd, _("Next Level"), GUI_SML, GOAL_NEXT, 0);
+            else
+                gui_label(jd, _("Next Level"), GUI_SML, GUI_ALL, gui_blk, gui_blk);
         }
 
         if (high) gui_keyboard(id);
 
         gui_layout(id, 0, 0);
-        gui_pulse(gid, 1.2f);
+	if (gidp) *gidp = gid;
     }
 
     set_most_coins(curr_level(), coin_i);
     set_best_times(curr_level(), time_i);
 
-    audio_music_fade_out(2.0f);
-
     config_clr_grab();
 
     return id;
+}
+
+static int goal_enter(void)
+{
+    int gid;
+    int r;
+    
+    time_i = 3;
+    coin_i = 3;
+    high   = level_sort(&time_i, &coin_i);
+
+    r = goal_init(&gid);
+    
+    gui_pulse(gid, 1.2f);
+    audio_music_fade_out(2.0f);
+    return r; 
+}
+
+static int goal_bis_enter(void)
+{
+    return goal_init(NULL);
 }
 
 static void goal_leave(int id)
@@ -256,6 +278,12 @@ static void goal_timer(int id, float dt)
     audio_timer(dt);
 }
 
+static void goal_bis_timer(int id, float dt)
+{
+    gui_timer(id, dt);
+    audio_timer(dt);
+}
+
 static void goal_point(int id, int x, int y, int dx, int dy)
 {
     gui_pulse(gui_point(id, x, y), 1.2f);
@@ -279,7 +307,7 @@ static int goal_click(int b, int d)
 static int goal_keybd(int c, int d)
 {
     if (d && c == SDLK_ESCAPE)
-        goto_state(&st_over);
+	goal_action(GOAL_BACK);
     return 1;
 }
 
@@ -290,7 +318,7 @@ static int goal_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goal_click(0, 1);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_over);
+	    goal_action(GOAL_BACK);
     }
     return 1;
 }
@@ -310,3 +338,15 @@ struct state st_goal = {
     1, 0
 };
 
+struct state st_goal_bis = {
+    goal_bis_enter,
+    goal_leave,
+    goal_paint,
+    goal_bis_timer,
+    goal_point,
+    goal_stick,
+    goal_click,
+    goal_keybd,
+    goal_buttn,
+    1, 0
+};

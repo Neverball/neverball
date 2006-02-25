@@ -45,8 +45,6 @@ static int over_enter(void)
 
 static void over_leave(int id)
 {
-    /* Save replay in all case */
-    demo_play_stop(NULL);
     gui_delete(id);
 }
 
