@@ -338,7 +338,7 @@ int level_extra_bonus(int i)
 
 int level_extra_bonus_opened(void)
 {
-    return level_locked(21);
+    return level_opened(21);
 }
 
 /*---------------------------------------------------------------------------*/
