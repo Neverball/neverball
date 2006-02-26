@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-02-26 18:06+0100\n"
-"PO-Revision-Date: 2006-02-26 15:40+0200\n"
+"PO-Revision-Date: 2006-02-26 19:38+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -230,9 +230,8 @@ msgid "Next Level"
 msgstr "Nākošais līmenis"
 
 #: ball/st_level.c:46
-#, fuzzy
 msgid "Bonus Level "
-msgstr "Līmenis "
+msgstr "Papildlīmenis "
 
 #: ball/st_level.c:48 ball/st_save.c:114
 msgid "Level "
@@ -275,24 +274,20 @@ msgid "Challenge all levels from the first one"
 msgstr ""
 
 #: ball/st_start.c:97
-#, fuzzy
 msgid "Play this bonus level in practice mode"
-msgstr "Spēlēt līmeni treniņrežīmā"
+msgstr "Spēlēt šo papildlīmeni treniņrežīmā"
 
 #: ball/st_start.c:99
-#, fuzzy
 msgid "Play this level in practice mode"
-msgstr "Spēlēt līmeni treniņrežīmā"
+msgstr "Spēlēt šo līmeni treniņrežīmā"
 
 #: ball/st_start.c:104
-#, fuzzy
 msgid "Play this bonus level in normal mode"
-msgstr "Spēlēt līmeni parastajā režīmā"
+msgstr "Spēlēt šo papildlīmeni parastajā režīmā"
 
 #: ball/st_start.c:106
-#, fuzzy
 msgid "Play this level in normal mode"
-msgstr "Spēlēt līmeni parastajā režīmā"
+msgstr "Spēlēt šo līmeni parastajā režīmā"
 
 #: ball/st_start.c:111
 msgid "Finish challenge mode to unlock extra bonus levels"
@@ -311,9 +306,8 @@ msgid "Train yourself without time nor coin"
 msgstr ""
 
 #: ball/st_start.c:191
-#, fuzzy
 msgid "Set Completed!"
-msgstr "Komplekts pabeigts"
+msgstr "Komplekts pabeigts!"
 
 #: ball/st_start.c:204
 msgid "Challenge"
