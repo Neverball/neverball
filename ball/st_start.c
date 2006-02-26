@@ -66,11 +66,7 @@ static void gui_level(int id, char *text, int i)
 	else
 	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_gry);
     }
-	/*
-    if      (o) jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_wht, gui_wht);
-    else if (e) jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_yel, gui_red);
-    else             gui_label(id, text, GUI_SML, GUI_ALL, gui_blk, gui_blk);
-    */
+    
     if (jd)
 	gui_active(jd, i, 0);
 }
@@ -176,7 +172,7 @@ static int start_enter(void)
 	
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, level_shot(0), 6 * w / 16, 6 * h / 16);
+            shot_id = gui_image(jd, level_shot(0), 7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
             {
