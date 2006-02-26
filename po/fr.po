@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-26 15:34+0200\n"
+"POT-Creation-Date: 2006-02-26 18:06+0100\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
@@ -99,7 +99,7 @@ msgid "On"
 msgstr "Oui"
 
 #: ball/st_conf.c:310 ball/st_demo.c:108 ball/st_demo.c:121 ball/st_set.c:85
-#: ball/st_start.c:177 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
+#: ball/st_start.c:194 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
 #: share/st_lang.c:80 share/st_resol.c:91
 msgid "Back"
 msgstr "Retour"
@@ -228,7 +228,11 @@ msgstr "Terminé"
 msgid "Next Level"
 msgstr "Niveau suivant"
 
-#: ball/st_level.c:45 ball/st_save.c:114
+#: ball/st_level.c:46
+msgid "Bonus Level "
+msgstr "Niveau bonus "
+
+#: ball/st_level.c:48 ball/st_save.c:114
 msgid "Level "
 msgstr "Niveau "
 
@@ -264,47 +268,59 @@ msgstr "Écraser ?"
 msgid "Level Set"
 msgstr "Collection"
 
-#: ball/st_start.c:92
-msgid "Play level in practice mode"
-msgstr "Entrainez-vous à ce niveau "
-
-#: ball/st_start.c:94
-msgid "Play level in normal mode"
-msgstr "Jouez à ce niveau"
-
-#: ball/st_start.c:97
-msgid "Finish challenge mode to unlock extra bonus levels"
-msgstr "Terminez le mode challenge pour les niveaux bonus"
-
-#: ball/st_start.c:99
-msgid "Locked! Finish previous level to unlock"
-msgstr "Terminez le niveau précédent dévérouiller"
-
-#: ball/st_start.c:115
+#: ball/st_start.c:93
 msgid "Challenge all levels from the first one"
 msgstr "Défiez tous les niveaux à partir du premier"
 
-#: ball/st_start.c:118
+#: ball/st_start.c:97
+msgid "Play this bonus level in practice mode"
+msgstr "Entrainez-vous à ce niveau bonus"
+
+#: ball/st_start.c:99
+msgid "Play this level in practice mode"
+msgstr "Entrainez-vous à ce niveau"
+
+#: ball/st_start.c:104
+msgid "Play this bonus level in normal mode"
+msgstr "Jouez à ce niveau bonus"
+
+#: ball/st_start.c:106
+msgid "Play this level in normal mode"
+msgstr "Jouez à ce niveau"
+
+#: ball/st_start.c:111
+msgid "Finish challenge mode to unlock extra bonus levels"
+msgstr "Terminez le mode challenge pour les niveaux bonus"
+
+#: ball/st_start.c:113
+msgid "Finish previous levels to unlock this level"
+msgstr "Terminez les niveaus précédents"
+
+#: ball/st_start.c:129
 msgid "Collect coins and unlock next level"
 msgstr "Collecter les pièces et dévérouillez le niveau suivant"
 
-#: ball/st_start.c:121
+#: ball/st_start.c:132
 msgid "Train yourself without time nor coin"
 msgstr "Entrainez-vous sans chrono ni pièces à collecter"
 
-#: ball/st_start.c:187
+#: ball/st_start.c:191
+msgid "Set Completed!"
+msgstr "Collection complétée !"
+
+#: ball/st_start.c:204
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/st_start.c:190
+#: ball/st_start.c:207
 msgid "Practice"
 msgstr "Entraînement"
 
-#: ball/st_start.c:191
+#: ball/st_start.c:208
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/st_start.c:246
+#: ball/st_start.c:263
 msgid "Choose a level to play"
 msgstr "Choisissez un niveau"
 
@@ -720,132 +736,6 @@ msgstr "Les toiles attirantes.\\Ne vous laissez pas empêtrer."
 msgid "Rainbow Road.\\Make 3 laps to open the goal."
 msgstr "Rainbow Road.\\Faites 3 tours pour déverrouiller la sortie."
 
-#: data/map-mym/scrambling.map
-msgid ""
-"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr "Le petit cross.\\Adhérez à la route pour optimiser votre vitesse."
-
-#: data/map-mym/comeback.map
-msgid "Le cycle éternel.\\Avoid teleporters..."
-msgstr "Le cycle éternel.\\Évitez les téléporteurs."
-
-#: data/map-mym/narrow.map
-msgid ""
-"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
-"slope."
-msgstr ""
-"Le sentier étroit.\\Patience et minutage.\\Astuce : maximisez votre vitesse "
-"dans la 1ère pente."
-
-#: data/map-mym/bombman.map
-msgid "Les flammes ardentes.\\Do this remind you of something?"
-msgstr "Les flammes ardentes.\\Ça ne vous rappelle pas quelque chose ?"
-
-#: data/map-mym/assault.map
-msgid "Le parcours du combattant.\\Ready for the assault course?"
-msgstr "Le parcours du combattant.\\Prêt pour le parcours du combattant ?"
-
-#: data/map-mym/maze1.map
-msgid "Le chemin dissimulé.\\Test your memory."
-msgstr "Le chemin dissimulé.\\Testez votre mémoire."
-
-#: data/map-mym/hard.map
-msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr ""
-"La maîtrise de Neverball.\\Vous croyez encore que Neverball c'est facile ?"
-
-#: data/map-mym/maze2.map
-msgid ""
-"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
-"another one?"
-msgstr ""
-"Le labyrinthe fou.\\Vous connaissez le chemin, vous le voyez,\\mais alors "
-"pourquoi vous en prenez un autre ?"
-
-#: data/map-mym/running.map
-msgid "Les épreuves minutées.\\Run baby, run!"
-msgstr "Les épreuves minutées.\\Run baby, run!"
-
-#: data/map-mym/glasstower.map
-msgid "La tour de verre.\\Find the way to the exit."
-msgstr "La tour de verre.\\Trouvez votre chemin jusqu'à la sortie."
-
-#: data/map-mym/trust.map
-msgid "Le chemin de la foi.\\Self-confidence."
-msgstr "Le chemin de la foi.\\Ayez confiance en vous."
-
-#: data/map-mym/circuit1.map
-msgid "Les rampes abruptes.\\Control your speed."
-msgstr "Les rampes abruptes.\\Contrôlez votre vitesse."
-
-#: data/map-mym/circuit2.map
-msgid "La course effrénée.\\Let's make some laps."
-msgstr "La course effrénée.\\C'est parti pour quelques tours."
-
-#: data/map-mym/up.map
-msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr "L'ascension pressée.\\Juste un conseil : ne vous arrêtez pas !"
-
-#: data/map-mym/descent.map
-msgid "La descente infernale.\\Easy enough to start?"
-msgstr "La descente infernale.\\Assez facile pour commencer ?"
-
-#: data/map-mym/climb.map
-msgid "L'escalade ardue.\\Do you suffer from vertigo?"
-msgstr "L'escalade ardue.\\Souffrez-vous du vertige ?"
-
-#: data/map-mym/snow.map
-msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr "La descente rafraîchissante.\\Pas si vite, pas si vite."
-
-#: data/map-mym/turn.map
-msgid "Le sens trigonométrique.\\Turn, wait and jump."
-msgstr "Le sens trigonométrique.\\Tournez, attendez et sautez."
-
-#: data/map-mym/loop1.map
-msgid "Les boucles renversantes.\\Upside down!"
-msgstr "Les boucles renversantes.\\La tête à l'envers !"
-
-#: data/map-mym/earthquake.map
-msgid "Le passage incertain.\\Isn't too easy?"
-msgstr "Le passage incertain.\\N'est-ce pas trop facile ?"
-
-#: data/map-mym/drive1.map
-msgid ""
-"La conduite stressante.\\Attention:\\The platform under the ball moves "
-"forward."
-msgstr ""
-"La conduite stressante.\\Attention :\\La plate-forme sous la balle avance."
-
-#: data/map-mym/loop2.map
-msgid ""
-"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
-"land..."
-msgstr ""
-"Le contrôle des courbes.\\Trouvez le bon angle pour tourner,\\sauter et "
-"attérir."
-
-#: data/map-mym/drive2.map
-msgid ""
-"La conduite dangereuse.\\The platform under the ball moves quickly forward."
-"\\You would do well to advance."
-msgstr ""
-"La conduite dangereuse.\\La plate-forme sous la balle avance rapidement."
-"\\Vous feriez mieux de vous dépêcher."
-
-#: data/map-mym/dance1.map
-msgid ""
-"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
-"activating the last moving platform,\\ turn around the Thwomp until the goal "
-"is reachable."
-msgstr ""
-"La ballade dansante.\\Dansons sur la plate-forme mobile !\\Astuce : À la "
-"fin, tournez autour de la grosse pierre\\jusqu'à pouvoir atteindre la sortie."
-
-#: data/map-mym/dance2.map
-msgid "La ballade tranquille.\\What a quiet walk."
-msgstr "La ballade tranquille.\\Un paisible instant."
-
 #: data/map-rlk/goals.map
 msgid ""
 "This one shouldn't be too difficult.\\There are 100 coins here.\\That's a "
@@ -930,7 +820,7 @@ msgid ""
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
 msgstr ""
-"Le 'plat' est relatif.\\Apprenez à incliner le sol de telle\\sorte que la "
+"Le « plat » est relatif.\\Apprenez à incliner le sol de telle\\sorte que la "
 "pente devienne horizontale.\\Ainsi vous gardez le contrôle de la balle."
 "\\Utilisez l'élan pour atteindre les grosses pièces.\\"
 
@@ -1128,7 +1018,7 @@ msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing down"
 "\\early. You need just as much room to slow\\down as you did to speed up.\\"
 msgstr ""
-"Restez loin des bords !\\Ralentissez très tôt lorsque vous t'approchez d'un "
+"Restez loin des bords !\\Ralentissez très tôt lorsque vous vous approchez d'un "
 "précipice.\\Il vous faut autant de temps pour ralentir que\\le temps qu'il "
 "vous a fallut pour accélérer."
 
@@ -1141,7 +1031,7 @@ msgstr ""
 "contrôler ses rebonds.\\Et n'oubliez pas de tourner la caméra\\afin de "
 "garder la balle à vue.\\"
 
-#: data/map-rlk/mover.map
+#: data/map-rlk/mover.map data/map-rlk/mover.autosave.map
 msgid ""
 "A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
@@ -1193,6 +1083,132 @@ msgstr ""
 "Déplacez la souris pour incliner le sol.\\Collectez 10 pièces pour "
 "déverrouiller l'arrivée.\\Guidez la balle jusqu'à l'arrivée pour\\terminer "
 "le niveau.\\\\Cliquez pour commencer.\\"
+
+#: data/map-mym/scrambling.map
+msgid ""
+"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgstr "Le petit cross.\\Adhérez à la route pour optimiser votre vitesse."
+
+#: data/map-mym/comeback.map
+msgid "Le cycle éternel.\\Avoid teleporters..."
+msgstr "Le cycle éternel.\\Évitez les téléporteurs."
+
+#: data/map-mym/narrow.map
+msgid ""
+"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
+"slope."
+msgstr ""
+"Le sentier étroit.\\Patience et minutage.\\Astuce : maximisez votre vitesse "
+"dans la 1ère pente."
+
+#: data/map-mym/bombman.map
+msgid "Les flammes ardentes.\\Do this remind you of something?"
+msgstr "Les flammes ardentes.\\Ça ne vous rappelle pas quelque chose ?"
+
+#: data/map-mym/assault.map
+msgid "Le parcours du combattant.\\Ready for the assault course?"
+msgstr "Le parcours du combattant.\\Prêt pour le parcours du combattant ?"
+
+#: data/map-mym/maze1.map
+msgid "Le chemin dissimulé.\\Test your memory."
+msgstr "Le chemin dissimulé.\\Testez votre mémoire."
+
+#: data/map-mym/hard.map
+msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
+msgstr ""
+"La maîtrise de Neverball.\\Vous croyez encore que Neverball c'est facile ?"
+
+#: data/map-mym/maze2.map
+msgid ""
+"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
+"another one?"
+msgstr ""
+"Le labyrinthe fou.\\Vous connaissez le chemin, vous le voyez,\\mais alors "
+"pourquoi vous en prenez un autre ?"
+
+#: data/map-mym/running.map
+msgid "Les épreuves minutées.\\Run baby, run!"
+msgstr "Les épreuves minutées.\\Run baby, run!"
+
+#: data/map-mym/glasstower.map
+msgid "La tour de verre.\\Find the way to the exit."
+msgstr "La tour de verre.\\Trouvez votre chemin jusqu'à la sortie."
+
+#: data/map-mym/trust.map
+msgid "Le chemin de la foi.\\Self-confidence."
+msgstr "Le chemin de la foi.\\Ayez confiance en vous."
+
+#: data/map-mym/circuit1.map
+msgid "Les rampes abruptes.\\Control your speed."
+msgstr "Les rampes abruptes.\\Contrôlez votre vitesse."
+
+#: data/map-mym/circuit2.map
+msgid "La course effrénée.\\Let's make some laps."
+msgstr "La course effrénée.\\C'est parti pour quelques tours."
+
+#: data/map-mym/up.map
+msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
+msgstr "L'ascension pressée.\\Juste un conseil : ne vous arrêtez pas !"
+
+#: data/map-mym/descent.map
+msgid "La descente infernale.\\Easy enough to start?"
+msgstr "La descente infernale.\\Assez facile pour commencer ?"
+
+#: data/map-mym/climb.map
+msgid "L'escalade ardue.\\Do you suffer from vertigo?"
+msgstr "L'escalade ardue.\\Souffrez-vous du vertige ?"
+
+#: data/map-mym/snow.map
+msgid "La descente rafraîchissante.\\Not so fast, not so fast."
+msgstr "La descente rafraîchissante.\\Pas si vite, pas si vite."
+
+#: data/map-mym/turn.map
+msgid "Le sens trigonométrique.\\Turn, wait and jump."
+msgstr "Le sens trigonométrique.\\Tournez, attendez et sautez."
+
+#: data/map-mym/loop1.map
+msgid "Les boucles renversantes.\\Upside down!"
+msgstr "Les boucles renversantes.\\La tête à l'envers !"
+
+#: data/map-mym/earthquake.map
+msgid "Le passage incertain.\\Isn't too easy?"
+msgstr "Le passage incertain.\\N'est-ce pas trop facile ?"
+
+#: data/map-mym/drive1.map
+msgid ""
+"La conduite stressante.\\Attention:\\The platform under the ball moves "
+"forward."
+msgstr ""
+"La conduite stressante.\\Attention :\\La plate-forme sous la balle avance."
+
+#: data/map-mym/loop2.map
+msgid ""
+"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
+"land..."
+msgstr ""
+"Le contrôle des courbes.\\Trouvez le bon angle pour tourner,\\sauter et "
+"attérir."
+
+#: data/map-mym/drive2.map
+msgid ""
+"La conduite dangereuse.\\The platform under the ball moves quickly forward."
+"\\You would do well to advance."
+msgstr ""
+"La conduite dangereuse.\\La plate-forme sous la balle avance rapidement."
+"\\Vous feriez mieux de vous dépêcher."
+
+#: data/map-mym/dance1.map
+msgid ""
+"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
+"activating the last moving platform,\\ turn around the Thwomp until the goal "
+"is reachable."
+msgstr ""
+"La ballade dansante.\\Dansons sur la plate-forme mobile !\\Astuce : À la "
+"fin, tournez autour de la grosse pierre\\jusqu'à pouvoir atteindre la sortie."
+
+#: data/map-mym/dance2.map
+msgid "La ballade tranquille.\\What a quiet walk."
+msgstr "La ballade tranquille.\\Un paisible instant."
 
 #~ msgid "Main Menu"
 #~ msgstr "Menu principal"
