@@ -21,6 +21,8 @@ void level_free(void);
 int  level_exists(int);
 int  level_opened(int);
 int  level_locked(int);
+int  level_extra_bonus(int i);
+int  level_extra_bonus_opened(void);
 
 int  curr_times_total(void);
 int  curr_coins_total(void);

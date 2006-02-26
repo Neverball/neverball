@@ -74,7 +74,7 @@ static int goal_action(int i)
     case GOAL_DONE:
 	while (level_count())
 	    ;
-	goto_state(&st_done);
+	return goto_state(&st_done);
 	
     case GOAL_NEXT:
         while (level_count())

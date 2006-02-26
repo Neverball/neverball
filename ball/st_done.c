@@ -24,7 +24,7 @@
 #include "config.h"
 
 #include "st_done.h"
-#include "st_title.h"
+#include "st_start.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,8 +47,7 @@ static int done_action(int i)
     switch (i)
     {
     case DONE_OK:
-        level_free();
-        return goto_state(&st_title);
+        return goto_state(&st_start);
 
     case GUI_CL:
         gui_keyboard_lock();
@@ -110,7 +109,7 @@ static int done_enter(void)
         }
 
         gui_space(id);
-        gui_start(id, _("Main Menu"), GUI_SML, DONE_OK, 0);
+        gui_start(id, _("OK"), GUI_SML, DONE_OK, 0);
 
         if (high) gui_keyboard(id);
 
@@ -164,7 +163,7 @@ static int done_click(int b, int d)
 static int done_keybd(int c, int d)
 {
     if (d && c == SDLK_ESCAPE)
-        goto_state(&st_title);
+        done_action(DONE_OK);
     return 1;
 }
 
@@ -175,7 +174,7 @@ static int done_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return done_click(0, 1);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_title);
+            return done_action(DONE_OK);
     }
     return 1;
 }

@@ -328,7 +328,17 @@ int level_opened(int i)
 
 int level_locked(int i)
 {
-    return level_opened(i) && (i == limit) && (level_v[i].goal > 0);
+    return level_opened(i) && (i == limit);
+}
+
+int level_extra_bonus(int i)
+{
+    return level_exists(i) && (i > 20);
+}
+
+int level_extra_bonus_opened(void)
+{
+    return level_locked(21);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -462,7 +472,8 @@ void level_stop(int state)
     
     /* open next level */
     if (state == GAME_GOAL && mode != MODE_PRACTICE && limit < level+1)
-	limit = level + 1;
+	if (level_extra_bonus_opened() || !level_extra_bonus(level+1) || mode == MODE_CHALLENGE)
+	    limit = level + 1;
     
     if (mode == MODE_CHALLENGE)
     {
@@ -490,7 +501,7 @@ int level_dead(void)
 
 int level_last(void)
 {
-    return (level + 1 == count);
+    return (level + 1 == count) || (level_extra_bonus(level + 1));
 }
 
 void level_next(void)
@@ -554,23 +565,20 @@ int level_done(int *time_i, int *coin_i)
     score_v[0].coin_c[3] = coins_total;
     score_v[0].coin_t[3] = times_total;
 
-    if (level == count)
+    /* Insert the time record into the global high score list. */
+
+    for (i = 2; i >= 0 && score_time_comp(score_v, i + 1, i); i--)
     {
-        /* Insert the time record into the global high score list. */
+	score_time_swap(score_v, i + 1, i);
+	*time_i = i;
+    }
 
-        for (i = 2; i >= 0 && score_time_comp(score_v, i + 1, i); i--)
-        {
-            score_time_swap(score_v, i + 1, i);
-            *time_i = i;
-        }
+    /* Insert the coin record into the global high score list. */
 
-        /* Insert the coin record into the global high score list. */
-
-        for (i = 2; i >= 0 && score_coin_comp(score_v, i + 1, i); i--)
-        {
-            score_coin_swap(score_v, i + 1, i);
-            *coin_i = i;
-        }
+    for (i = 2; i >= 0 && score_coin_comp(score_v, i + 1, i); i--)
+    {
+	score_coin_swap(score_v, i + 1, i);
+	*coin_i = i;
     }
 
     return (*time_i < 3 || *coin_i < 3);
