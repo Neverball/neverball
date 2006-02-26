@@ -81,22 +81,36 @@ static void gui_level(int id, char *text, int i)
 
 static void start_over_level(i)
 {
-    if (level_opened(i))
+    int b = level_extra_bonus(i);
+    if (i == 0 || level_opened(i))
     {
         gui_set_image(shot_id, level_shot(i));
 
         set_most_coins(i, -1);
         set_best_times(i, -1);
-	
-	if (config_get_d(CONFIG_MODE))
-	    gui_set_label(status_id, _("Play level in practice mode"));
+
+        if (i == 0)
+	    gui_set_label(status_id, _("Challenge all levels from the first one"));
+	else if (config_get_d(CONFIG_MODE))
+	{
+	    if (b)
+	        gui_set_label(status_id, _("Play this bonus level in practice mode"));
+	    else
+	        gui_set_label(status_id, _("Play this level in practice mode"));
+	}
 	else
-	    gui_set_label(status_id, _("Play level in normal mode"));
+	{
+	    if (b)
+	        gui_set_label(status_id, _("Play this bonus level in normal mode"));
+	    else
+	        gui_set_label(status_id, _("Play this level in normal mode"));
+	}
+	return;
     }
-    else if (level_extra_bonus(i) && !level_extra_bonus_opened())
+    else if (b && !level_extra_bonus_opened())
 	gui_set_label(status_id, _("Finish challenge mode to unlock extra bonus levels"));
     else
-	gui_set_label(status_id, _("Locked! Finish previous level to unlock"));
+	gui_set_label(status_id, _("Finish previous levels to unlock this level"));
 }
 
 static void start_over(id)
@@ -111,15 +125,12 @@ static void start_over(id)
 
     switch (i)
     {
-    case START_CHALLENGE:
-	gui_set_label(status_id, _("Challenge all levels from the first one"));
-	return;
     case START_NORMAL:
 	gui_set_label(status_id, _("Collect coins and unlock next level"));
-	return;
+	break;
     case START_PRACTICE:
 	gui_set_label(status_id, _("Train yourself without time nor coin"));
-	return;
+	break;
     }
     
     if (i >= 0)
@@ -172,8 +183,14 @@ static int start_enter(void)
     {
         if ((jd = gui_hstack(id)))
         {
+	    
 	    gui_label(jd, _(set_name(set_curr())), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
+	    if (level_set_completed())
+	    {
+		gui_label(jd, _("Set Completed!"), GUI_SML, GUI_ALL, gui_yel, gui_grn);
+                gui_filler(jd);
+	    }
             gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);
         }
 

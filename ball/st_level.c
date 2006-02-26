@@ -42,7 +42,10 @@ static int level_enter(void)
 		if ((ld = gui_hstack(kd)))
 		{
 		    gui_count(ld, curr_level(), GUI_LRG, GUI_NE);
-		    gui_label(ld, _("Level "),  GUI_LRG, GUI_NW, 0, 0);
+		    if (level_extra_bonus(curr_level()))
+		        gui_label(ld, _("Bonus Level "),  GUI_LRG, GUI_NW, gui_wht, gui_grn);
+		    else
+		        gui_label(ld, _("Level "),  GUI_LRG, GUI_NW, 0, 0);
 		}
 		gui_label(kd, _(set_name(set_curr())),  GUI_SML, GUI_BOT, gui_wht, gui_wht);
 	    }

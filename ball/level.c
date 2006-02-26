@@ -341,6 +341,11 @@ int level_extra_bonus_opened(void)
     return level_opened(21);
 }
 
+int level_set_completed(void)
+{
+    return limit >= count;
+}
+
 /*---------------------------------------------------------------------------*/
 
 int curr_times_total(void) { return times_total; }
