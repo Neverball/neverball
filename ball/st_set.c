@@ -28,7 +28,7 @@
 #define SET_PREV -2
 #define SET_NEXT -3
 
-#define SET_GROUP 4 /* number of sets in one screen */
+#define SET_GROUP 5 /* number of sets in one screen */
 
 static int shot_id;
 static int desc_id;
