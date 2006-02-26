@@ -189,9 +189,8 @@ msgid "Set Complete"
 msgstr "Collection complétée"
 
 #: ball/st_done.c:112
-#, fuzzy
 msgid "OK"
-msgstr "O"
+msgstr "OK"
 
 #: ball/st_fail.c:57
 msgid "Fall-out!"
@@ -203,7 +202,7 @@ msgstr "Sauver un film"
 
 #: ball/st_fail.c:64 ball/st_fail.c:160
 msgid "Game Over"
-msgstr ""
+msgstr "Partie finie"
 
 #: ball/st_fail.c:66 ball/st_fail.c:162 ball/st_goal.c:183
 msgid "Retry Level"
@@ -267,31 +266,31 @@ msgstr "Collection"
 
 #: ball/st_start.c:92
 msgid "Play level in practice mode"
-msgstr ""
+msgstr "Entrainez-vous à ce niveau "
 
 #: ball/st_start.c:94
 msgid "Play level in normal mode"
-msgstr ""
+msgstr "Jouez à ce niveau"
 
 #: ball/st_start.c:97
 msgid "Finish challenge mode to unlock extra bonus levels"
-msgstr ""
+msgstr "Terminez le mode challenge pour les niveaux bonus"
 
 #: ball/st_start.c:99
 msgid "Locked! Finish previous level to unlock"
-msgstr ""
+msgstr "Terminez le niveau précédent dévérouiller"
 
 #: ball/st_start.c:115
 msgid "Challenge all levels from the first one"
-msgstr ""
+msgstr "Défiez tous les niveaux à partir du premier"
 
 #: ball/st_start.c:118
 msgid "Collect coins and unlock next level"
-msgstr ""
+msgstr "Collecter les pièces et dévérouillez le niveau suivant"
 
 #: ball/st_start.c:121
 msgid "Train yourself without time nor coin"
-msgstr ""
+msgstr "Entrainez-vous sans chrono ni pièces à collecter"
 
 #: ball/st_start.c:187
 msgid "Challenge"
@@ -307,7 +306,7 @@ msgstr "Normal"
 
 #: ball/st_start.c:246
 msgid "Choose a level to play"
-msgstr ""
+msgstr "Choisissez un niveau"
 
 #: ball/st_title.c:72 putt/st_all.c:182
 msgid "menu^Play"
