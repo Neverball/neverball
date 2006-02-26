@@ -8,4 +8,4 @@ map-easy2/slalom-jp.sol    map-back/ocean.sol   shot-easy2/.jpg    back/ocean.pn
 map-easy2/easyhalfpipe-mym.sol    map-back/ocean.sol   shot-easy2/.jpg    back/ocean.png  12000 10 bgm/track2.ogg
 map-easy2/hurdles-ton.sol    map-back/ocean.sol   shot-easy2/.jpg    back/ocean.png  12000 10 bgm/track2.ogg
 map-easy2/canals-ton.sol    map-back/ocean.sol   shot-easy2/.jpg    back/ocean.png  12000 10 bgm/track2.ogg
-map-easy2/groundbreak-para.sol     map-back/clouds.sol  shot-easy2/.jpg    back/land.png   12000 10 bgm/track1.ogg
+map-easy2/groundbreak-para.sol     map-back/city.sol  shot-easy2/.jpg    back/city.png   12000 10 bgm/track1.ogg
