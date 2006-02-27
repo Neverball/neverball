@@ -21,6 +21,7 @@
 
 #include "st_level.h"
 #include "st_play.h"
+#include "st_start.h"
 #include "st_over.h"
 
 /*---------------------------------------------------------------------------*/
@@ -108,7 +109,12 @@ static int level_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_play_ready);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_over);
+	{
+	    if (level_mode == MODE_CHALLENGE)
+		return goto_state(&st_over);
+	    else
+		return goto_state(&st_start);
+	}
     }
     return 1;
 }
