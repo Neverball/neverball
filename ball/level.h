@@ -24,6 +24,7 @@ int  level_locked(int);
 int  level_extra_bonus(int i);
 int  level_extra_bonus_opened(void);
 int  level_set_completed(void);
+const char * level_number_name(int);
 
 int  curr_times_total(void);
 int  curr_coins_total(void);

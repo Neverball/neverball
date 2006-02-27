@@ -346,6 +346,18 @@ int level_set_completed(void)
     return limit >= count;
 }
 
+static const char * names[] = {"1", "2", "3", "4", "5",
+       "6", "7", "8", "9", "10",
+       "11", "12", "13", "14", "15",
+       "16", "17", "18", "19", "20",
+       N_("B1"), N_("B2"), N_("B3"), N_("B4"), N_("B5")};
+
+const char * level_number_name(i)
+/* Return the number name of the level i */
+{
+    return names[i-1];
+}
+
 /*---------------------------------------------------------------------------*/
 
 int curr_times_total(void) { return times_total; }

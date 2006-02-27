@@ -40,13 +40,14 @@ static int status_id;
 
 /* Create a level selector button based upon its existence and status. */
 
-static void gui_level(int id, char *text, int i)
+static void gui_level(int id, int i)
 {
     int o = level_opened(i);
     int e = level_exists(i);
     int b = level_extra_bonus(i);
     int bo = level_extra_bonus_opened();
     int jd = 0;
+    const char * text = _(level_number_name(i));
 
     if (!e)
 	gui_label(id, text, GUI_SML, GUI_ALL, gui_blk, gui_blk);
@@ -60,7 +61,7 @@ static void gui_level(int id, char *text, int i)
     else
     {
 	if (!b)
-	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_wht);
+	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_gry);
 	else if (bo)
 	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_grn);
 	else
@@ -168,6 +169,7 @@ static int start_enter(void)
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
     int m = config_get_d(CONFIG_MODE);
+    int i, j;
 
     int id, jd, kd, ld;
 
@@ -199,46 +201,10 @@ static int start_enter(void)
 		    gui_state(ld, _("Practice"), GUI_SML, START_PRACTICE, m == 1);
 		    gui_state(ld, _("Normal"),   GUI_SML, START_NORMAL,   m == 0);
 		}
-                if ((ld = gui_harray(kd)))
-                {
-                    gui_level(ld, "05",  5);
-                    gui_level(ld, "04",  4);
-                    gui_level(ld, "03",  3);
-                    gui_level(ld, "02",  2);
-                    gui_level(ld, "01",  1);
-                }
-                if ((ld = gui_harray(kd)))
-                {
-                    gui_level(ld, "10", 10);
-                    gui_level(ld, "09",  9);
-                    gui_level(ld, "08",  8);
-                    gui_level(ld, "07",  7);
-                    gui_level(ld, "06",  6);
-                }
-                if ((ld = gui_harray(kd)))
-                {
-                    gui_level(ld, "15", 15);
-                    gui_level(ld, "14", 14);
-                    gui_level(ld, "13", 13);
-                    gui_level(ld, "12", 12);
-                    gui_level(ld, "11", 11);
-                }
-                if ((ld = gui_harray(kd)))
-                {
-                    gui_level(ld, "20", 20);
-                    gui_level(ld, "19", 19);
-                    gui_level(ld, "18", 18);
-                    gui_level(ld, "17", 17);
-                    gui_level(ld, "16", 16);
-                }
-                if ((ld = gui_harray(kd)))
-                {
-                    gui_level(ld, "25", 25);
-                    gui_level(ld, "24", 24);
-                    gui_level(ld, "23", 23);
-                    gui_level(ld, "22", 22);
-                    gui_level(ld, "21", 21);
-                }
+		for (i=0; i <5; i++)
+                    if ((ld = gui_harray(kd)))
+                        for (j=4; j>=0; j--)
+                            gui_level(ld, i*5 + j + 1);
             }
         }
         gui_space(id);
