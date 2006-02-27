@@ -185,19 +185,12 @@ static int set_click(int b, int d)
     return (b < 0 && d == 1) ? set_action(gui_token(gui_click())) : 1;
 }
 
-static int set_keybd(int c, int d)
-{
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
-}
-
 static int set_buttn(int b, int d)
 {
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return set_action(gui_token(gui_click()));
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_title);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_state(&st_title);
     }
@@ -214,7 +207,7 @@ struct state st_set = {
     set_point,
     set_stick,
     set_click,
-    set_keybd,
+    NULL,
     set_buttn,
     1, 0
 };

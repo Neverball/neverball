@@ -134,6 +134,9 @@ static int loop(void)
                 case SDLK_RETURN:
                     d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
                     break;
+                case SDLK_ESCAPE:
+                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 1);
+                    break;
                 case SDLK_LEFT:
                     st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -JOY_MAX);
                     break;
@@ -158,6 +161,9 @@ static int loop(void)
                 {
                 case SDLK_RETURN:
                     d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
+                    break;
+                case SDLK_ESCAPE:
+                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 0);
                     break;
                 case SDLK_LEFT:
                 case SDLK_RIGHT:

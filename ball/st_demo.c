@@ -180,13 +180,6 @@ static int demo_click(int b, int d)
     return 1;
 }
 
-static int demo_keybd(int c, int d)
-{
-    if (d && c == SDLK_ESCAPE)
-        goto_state(&st_title);
-    return 1;
-}
-
 static int demo_buttn(int b, int d)
 {
     if (d)
@@ -194,7 +187,7 @@ static int demo_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return demo_click(0, 1);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_title);
+            return demo_action(DEMO_BACK);
     }
     return 1;
 }
@@ -256,13 +249,6 @@ static void demo_play_timer(int id, float dt)
             goto_state(&st_demo_end);
             break;
         }
-}
-
-static int demo_play_keybd(int c, int d)
-{
-    if (d && c == SDLK_ESCAPE)
-        goto_state(&st_demo_end);
-    return 1;
 }
 
 static int demo_play_buttn(int b, int d)
@@ -336,11 +322,6 @@ static void demo_end_timer(int id, float dt)
 		
     gui_timer(id, dt);
     audio_timer(dt);
-}
-
-static int demo_end_keybd(int c, int d)
-{
-    return (d && c == SDLK_ESCAPE) ? demo_end_action(DEMO_KEEP) : 1;
 }
 
 static void demo_end_point(int id, int x, int y, int dx, int dy)
@@ -424,11 +405,6 @@ static void demo_del_timer(int id, float dt)
     audio_timer(dt);
 }
 
-static int demo_del_keybd(int c, int d)
-{
-    return (d && c == SDLK_ESCAPE) ? demo_del_action(DEMO_KEEP) : 1;
-}
-
 static void demo_del_point(int id, int x, int y, int dx, int dy)
 {
     gui_pulse(gui_point(id, x, y), 1.2f);
@@ -471,7 +447,7 @@ struct state st_demo = {
     demo_point,
     demo_stick,
     demo_click,
-    demo_keybd,
+    NULL,
     demo_buttn,
     0
 };
@@ -484,7 +460,7 @@ struct state st_demo_play = {
     NULL,
     NULL,
     NULL,
-    demo_play_keybd,
+    NULL,
     demo_play_buttn,
     0
 };
@@ -497,7 +473,7 @@ struct state st_demo_end = {
     demo_end_point,
     demo_end_stick,
     demo_end_click,
-    demo_end_keybd,
+    NULL,
     demo_end_buttn,
     1, 0
 };
@@ -510,7 +486,7 @@ struct state st_demo_del = {
     demo_del_point,
     demo_del_stick,
     demo_del_click,
-    demo_del_keybd,
+    NULL,
     demo_del_buttn,
     1, 0
 };

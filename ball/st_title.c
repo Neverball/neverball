@@ -201,11 +201,6 @@ static int title_click(int b, int d)
     return 1;
 }
 
-static int title_keybd(int c, int d)
-{
-    return (d && c == SDLK_ESCAPE) ? 0 : 1;
-}
-
 static int title_buttn(int b, int d)
 {
     if (d)
@@ -331,7 +326,7 @@ struct state st_title = {
     title_point,
     title_stick,
     title_click,
-    title_keybd,
+    NULL,
     title_buttn,
     1, 0
 };

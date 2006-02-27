@@ -119,13 +119,6 @@ static void fall_out_timer(int id, float dt)
     audio_timer(dt);
 }
 
-static int fall_out_keybd(int c, int d)
-{
-    if (d && c == SDLK_ESCAPE)
-	return fail_action(FAIL_BACK);
-    return 1;
-}
-
 static int fall_out_buttn(int b, int d)
 {
     if (d)
@@ -207,13 +200,6 @@ static void time_out_timer(int id, float dt)
     audio_timer(dt);
 }
 
-static int time_out_keybd(int c, int d)
-{
-    if (d && c == SDLK_ESCAPE)
-	return fail_action(FAIL_BACK);
-    return 1;
-}
-
 static int time_out_buttn(int b, int d)
 {
     if (d)
@@ -236,7 +222,7 @@ struct state st_fall_out = {
     fall_out_point,
     fall_out_stick,
     fall_out_click,
-    fall_out_keybd,
+    NULL,
     fall_out_buttn,
     1, 0
 };
@@ -249,7 +235,7 @@ struct state st_time_out = {
     time_out_point,
     time_out_stick,
     time_out_click,
-    time_out_keybd,
+    NULL,
     time_out_buttn,
     1, 0
 };

@@ -63,11 +63,6 @@ static void over_timer(int id, float dt)
     audio_timer(dt);
 }
 
-static int over_keybd(int c, int d)
-{
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_start) : 1;
-}
-
 static int over_click(int b, int d)
 {
     return (b < 0 && d == 1) ? goto_state(&st_start) : 1;
@@ -78,7 +73,6 @@ static int over_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b) ||
-            config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_state(&st_start);
     }
@@ -95,7 +89,7 @@ struct state st_over = {
     NULL,
     NULL,
     over_click,
-    over_keybd,
+    NULL,
     over_buttn,
     1, 0
 };

@@ -96,10 +96,8 @@ static int level_click(int b, int d)
 
 static int level_keybd(int c, int d)
 {
-    if (d && c == SDLK_ESCAPE)
-        goto_state(&st_over);
     if (d && c == SDLK_F12)
-        goto_state(&st_poser);
+        return goto_state(&st_poser);
     return 1;
 }
 
@@ -122,9 +120,9 @@ static void poser_paint(int id, float st)
     game_draw(1, st);
 }
 
-static int poser_keybd(int c, int d)
+static int poser_buttn(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_level) : 1;
+    return (d && config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, c)) ? goto_state(&st_level) : 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -150,7 +148,7 @@ struct state st_poser = {
     NULL,
     NULL,
     NULL,
-    poser_keybd,
     NULL,
+    poser_buttn,
     1, 0
 };

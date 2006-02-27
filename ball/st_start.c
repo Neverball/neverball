@@ -273,9 +273,6 @@ static int start_click(int b, int d)
 
 static int start_keybd(int c, int d)
 {
-    if (d && c == SDLK_ESCAPE)
-        return start_action(START_BACK);
-    
     if (d && c == SDLK_c)
     {
 	level_cheat();
@@ -303,7 +300,7 @@ static int start_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return start_action(gui_token(gui_click()));
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) || config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return start_action(START_BACK);
     }
     return 1;

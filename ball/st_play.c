@@ -77,11 +77,6 @@ static int play_ready_click(int b, int d)
     return (b < 0 && d == 1) ? goto_state(&st_play_loop) : 1;
 }
 
-static int play_ready_keybd(int c, int d)
-{
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
-}
-
 static int play_ready_buttn(int b, int d)
 {
     if (d)
@@ -143,11 +138,6 @@ static int play_set_click(int b, int d)
         return goto_state(&st_play_loop);
     }
     return 1;
-}
-
-static int play_set_keybd(int c, int d)
-{
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
 }
 
 static int play_set_buttn(int b, int d)
@@ -277,19 +267,14 @@ static int play_loop_keybd(int c, int d)
             view_rotate = 0;
     }
 
-    if (d && c == SDLK_ESCAPE)
-    {
-        level_stop(GAME_NONE);
-        goto_state(&st_over);
-    }
     if (d && c == SDLK_F12)
-        goto_state(&st_look);
+        return goto_state(&st_look);
     
     /* Cheat */
     if (d && c == SDLK_c)
     {
         level_stop(GAME_GOAL);
-        goto_state(&st_goal);
+        return goto_state(&st_goal);
     }
     return 1;
 }
@@ -299,7 +284,10 @@ static int play_loop_buttn(int b, int d)
     if (d == 1)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+	{
+	    level_stop(GAME_NONE);
             return goto_state(&st_over);
+	}
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R, b))
             view_rotate = +1;
@@ -369,8 +357,16 @@ static void look_point(int id, int x, int y, int dx, int dy)
 
 static int look_keybd(int c, int d)
 {
-    if (d && c == SDLK_ESCAPE) goto_state(&st_play_loop);
-    if (d && c == SDLK_F12)    goto_state(&st_play_loop);
+    if (d && c == SDLK_F12)
+	return goto_state(&st_play_loop);
+
+    return 1;
+}
+
+static int look_buttn(int b, int d)
+{
+    if (d && config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+	return goto_state(&st_play_loop);
 
     return 1;
 }
@@ -385,7 +381,7 @@ struct state st_play_ready = {
     NULL,
     NULL,
     play_ready_click,
-    play_ready_keybd,
+    NULL,
     play_ready_buttn,
     1, 0
 };
@@ -398,7 +394,7 @@ struct state st_play_set = {
     NULL,
     NULL,
     play_set_click,
-    play_set_keybd,
+    NULL,
     play_set_buttn,
     1, 0
 };
@@ -425,6 +421,6 @@ struct state st_look = {
     NULL,
     NULL,
     look_keybd,
-    NULL,
+    look_buttn,
     0, 0
 };

@@ -373,21 +373,14 @@ static int conf_click(int b, int d)
     return 1;
 }
 
-static int conf_keybd(int c, int d)
-{
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
-}
-
 static int conf_buttn(int b, int d)
 {
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return conf_action(gui_token(gui_click()));
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_title);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_title);
+            return conf_action(CONF_BACK);
     }
     return 1;
 }
@@ -434,7 +427,7 @@ struct state st_conf = {
     conf_point,
     conf_stick,
     conf_click,
-    conf_keybd,
+    NULL,
     conf_buttn,
     1, 0
 };

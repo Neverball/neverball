@@ -303,13 +303,6 @@ static int goal_click(int b, int d)
     return 1;
 }
 
-static int goal_keybd(int c, int d)
-{
-    if (d && c == SDLK_ESCAPE)
-	goal_action(GOAL_BACK);
-    return 1;
-}
-
 static int goal_buttn(int b, int d)
 {
     if (d)
@@ -332,7 +325,7 @@ struct state st_goal = {
     goal_point,
     goal_stick,
     goal_click,
-    goal_keybd,
+    NULL,
     goal_buttn,
     1, 0
 };
@@ -345,7 +338,7 @@ struct state st_goal_bis = {
     goal_point,
     goal_stick,
     goal_click,
-    goal_keybd,
+    NULL,
     goal_buttn,
     1, 0
 };

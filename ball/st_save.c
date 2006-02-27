@@ -173,13 +173,6 @@ static int save_click(int b, int d)
     return 1;
 }
 
-static int save_keybd(int c, int d)
-{
-    if (d && c == SDLK_ESCAPE)
-	save_action(SAVE_CANCEL);
-    return 1;
-}
-
 static int save_buttn(int b, int d)
 {
     if (d)
@@ -187,7 +180,7 @@ static int save_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return save_click(0, 1);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-	    save_action(SAVE_CANCEL);
+	    return save_action(SAVE_CANCEL);
     }
     return 1;
 }
@@ -246,11 +239,6 @@ static void clobber_timer(int id, float dt)
     audio_timer(dt);
 }
 
-static int clobber_keybd(int c, int d)
-{
-    return (d && c == SDLK_ESCAPE) ? clobber_action(SAVE_CANCEL) : 1;
-}
-
 static void clobber_point(int id, int x, int y, int dx, int dy)
 {
     gui_pulse(gui_point(id, x, y), 1.2f);
@@ -293,7 +281,7 @@ struct state st_save = {
     save_point,
     save_stick,
     save_click,
-    save_keybd,
+    NULL,
     save_buttn,
     1, 0
 };
@@ -306,7 +294,7 @@ struct state st_clobber = {
     clobber_point,
     clobber_stick,
     clobber_click,
-    clobber_keybd,
+    NULL,
     clobber_buttn,
     1, 0
 };

@@ -160,13 +160,6 @@ static int done_click(int b, int d)
     return 1;
 }
 
-static int done_keybd(int c, int d)
-{
-    if (d && c == SDLK_ESCAPE)
-        done_action(DONE_OK);
-    return 1;
-}
-
 static int done_buttn(int b, int d)
 {
     if (d)
@@ -189,7 +182,7 @@ struct state st_done = {
     done_point,
     done_stick,
     done_click,
-    done_keybd,
+    NULL,
     done_buttn,
     1, 0
 };
