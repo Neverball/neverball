@@ -271,7 +271,7 @@ static int play_loop_keybd(int c, int d)
         return goto_state(&st_look);
     
     /* Cheat */
-    if (d && c == SDLK_c)
+    if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
     {
         level_stop(GAME_GOAL);
         return goto_state(&st_goal);

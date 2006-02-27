@@ -201,6 +201,13 @@ static int title_click(int b, int d)
     return 1;
 }
 
+static int title_keybd(int c, int d)
+{
+    if (d && c == SDLK_c && ALLOW_CHEAT)
+	config_tgl_d(CONFIG_CHEAT);
+    return 1; 
+}
+	
 static int title_buttn(int b, int d)
 {
     if (d)
@@ -326,7 +333,7 @@ struct state st_title = {
     title_point,
     title_stick,
     title_click,
-    NULL,
+    title_keybd,
     title_buttn,
     1, 0
 };

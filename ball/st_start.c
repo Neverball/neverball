@@ -134,29 +134,35 @@ static void start_over(id)
 
 static int start_action(int i)
 {
-    int mode = config_get_d(CONFIG_MODE) ? MODE_PRACTICE : MODE_NORMAL;
+    int mode = config_get_d(CONFIG_MODE);
     audio_play(AUD_MENU, 1.0f);
 
     if (i == START_BACK)
         return goto_state(&st_set);
     else if (i == START_NORMAL)
     {
-	config_set_d(CONFIG_MODE, 0);
-	goto_state(&st_start);
+	config_set_d(CONFIG_MODE, MODE_NORMAL);
+	return goto_state(&st_start);
     }
     else if (i == START_PRACTICE)
     {
-	config_set_d(CONFIG_MODE, 1);
-	goto_state(&st_start);
+	config_set_d(CONFIG_MODE, MODE_PRACTICE);
+	return goto_state(&st_start);
     }
     
     if (i == START_CHALLENGE)
     {
+	/* On cheat, start challenge mode where you want */
+	if (config_get_d(CONFIG_CHEAT))
+	{
+	    config_set_d(CONFIG_MODE, MODE_CHALLENGE);
+	    return goto_state(&st_start);
+	}
 	i = 1;
 	mode = MODE_CHALLENGE;
     }
 
-    if (level_opened(i))
+    if (level_opened(i) || config_get_d(CONFIG_CHEAT))
     {
         level_play(i, mode);
         return goto_state(&st_level);
@@ -173,6 +179,13 @@ static int start_enter(void)
 
     int id, jd, kd, ld;
 
+    /* Desactivate cheat */
+    if (m == MODE_CHALLENGE && !config_get_d(CONFIG_CHEAT))
+    {
+	m = MODE_NORMAL;
+	config_set_d(CONFIG_MODE, m);
+    }
+    
     if ((id = gui_vstack(0)))
     {
         if ((jd = gui_hstack(id)))
@@ -195,11 +208,11 @@ static int start_enter(void)
 
             if ((kd = gui_varray(jd)))
             {
-		gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE , 0);
+		gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE , m == MODE_CHALLENGE);
                 if ((ld = gui_harray(kd)))
                 {
-		    gui_state(ld, _("Practice"), GUI_SML, START_PRACTICE, m == 1);
-		    gui_state(ld, _("Normal"),   GUI_SML, START_NORMAL,   m == 0);
+		    gui_state(ld, _("Practice"), GUI_SML, START_PRACTICE, m == MODE_PRACTICE);
+		    gui_state(ld, _("Normal"),   GUI_SML, START_NORMAL,   m == MODE_NORMAL);
 		}
 		for (i=0; i <5; i++)
                     if ((ld = gui_harray(kd)))
@@ -273,12 +286,12 @@ static int start_click(int b, int d)
 
 static int start_keybd(int c, int d)
 {
-    if (d && c == SDLK_c)
+    if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
     {
 	level_cheat();
-        return goto_state(&st_start);
+	return goto_state(&st_start);
     }
-
+			 
     if (d && c == SDLK_F12)
     {
         int n = curr_count();
