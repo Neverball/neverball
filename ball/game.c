@@ -636,16 +636,16 @@ static void game_update_time(float dt, int b)
     }
 }
 
-static int game_update_state(void)
+static int game_update_state(int bt)
 {
     struct s_file *fp = &file;
     float p[3];
     float c[3];
     int n, e = swch_e;
 
-    /* Test for a coin grab and a possible 1UP. */
-
-    if ((n = sol_coin_test(fp, p, COIN_RADIUS)) > 0)
+    /* Test for a coin grab. */
+    
+    if (bt && (n = sol_coin_test(fp, p, COIN_RADIUS)) > 0)
     {
         coin_color(c, n);
         part_burst(p, c);
@@ -674,7 +674,7 @@ static int game_update_state(void)
 
     /* Test for a goal. */
 
-    if (goal_e && sol_goal_test(fp, p, 0))
+    if (bt && goal_e && sol_goal_test(fp, p, 0))
     {
 	if (!goal_s)
 	{
@@ -686,12 +686,12 @@ static int game_update_state(void)
 
     /* Test for time-out. */
 
-    if (clock_down && clock <= 0.f)
+    if (bt && clock_down && clock <= 0.f)
         return GAME_TIME;
 
     /* Test for fall-out. */
 
-    if (fp->uv[0].p[1] < fp->vv[0].p[1])
+    if (bt && fp->uv[0].p[1] < fp->vv[0].p[1])
         return GAME_FALL;
 
     return GAME_NONE;
@@ -781,7 +781,7 @@ int game_step(const float g[3], float dt, int bt)
         game_update_view(dt);
         game_update_time(dt, bt);
 
-        return game_update_state();
+        return game_update_state(bt);
     }
     return GAME_NONE;
 }
