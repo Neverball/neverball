@@ -56,13 +56,8 @@
 #define FMODE_WB "w"
 #endif
 
-//#ifdef _WIN32
-//#define AUDIO_BUFF_HI 4096
-//#define AUDIO_BUFF_LO 2048
-//#else
 #define AUDIO_BUFF_HI 2048
 #define AUDIO_BUFF_LO 1024
-//#endif
 
 /*---------------------------------------------------------------------------*/
 
