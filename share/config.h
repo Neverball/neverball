@@ -48,13 +48,13 @@
 #define AMASK 0xFF000000
 #endif
 
-#ifdef _WIN32
+/*#ifdef _WIN32
 #define FMODE_RB "rb"
 #define FMODE_WB "wb"
-#else
+#else*/
 #define FMODE_RB "r"
 #define FMODE_WB "w"
-#endif
+/*#endif*/
 
 #define AUDIO_BUFF_HI 2048
 #define AUDIO_BUFF_LO 1024
