@@ -82,8 +82,8 @@ static int done_action(int i)
 
 static int done_enter(void)
 {
-    const char *s1 = _("New Set Record");
-    const char *s2 = _("Set Complete");
+    const char *s1 = _("New Challenge Record");
+    const char *s2 = _("Challenge Complete");
 
     int id, jd;
 

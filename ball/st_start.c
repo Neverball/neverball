@@ -45,19 +45,11 @@ static void gui_level(int id, char *text, int i)
     int o = level_opened(i);
     int e = level_exists(i);
     int b = level_extra_bonus(i);
-    int l = level_locked(i);
     int bo = level_extra_bonus_opened();
     int jd = 0;
 
     if (!e)
 	gui_label(id, text, GUI_SML, GUI_ALL, gui_blk, gui_blk);
-    else if (l)
-    {
-	if (!b)
-	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_yel, gui_wht);
-	else
-	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_yel, gui_grn);
-    }
     else if (o)
     {
 	if (!b)
@@ -188,7 +180,7 @@ static int start_enter(void)
             gui_filler(jd);
 	    if (level_set_completed())
 	    {
-		gui_label(jd, _("Set Completed!"), GUI_SML, GUI_ALL, gui_yel, gui_grn);
+		gui_label(jd, _("Set Complete"), GUI_SML, GUI_ALL, gui_yel, gui_grn);
                 gui_filler(jd);
 	    }
             gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);

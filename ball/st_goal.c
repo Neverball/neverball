@@ -18,7 +18,6 @@
 #include "set.h"
 #include "game.h"
 #include "util.h"
-#include "demo.h"
 #include "level.h"
 #include "audio.h"
 #include "config.h"
@@ -180,12 +179,12 @@ static int goal_init(int * gidp, int save)
                 gui_label(jd, _("Save Replay"), GUI_SML, GUI_ALL, gui_blk, gui_blk);
 	    
 	    if (level_mode() != MODE_CHALLENGE)
-                gui_state(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
+                gui_start(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 	    
 	    if (level_mode() == MODE_CHALLENGE && level_last())
                 gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
 	    else if (level_opened(curr_level()+1))
-                gui_start(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
+                gui_state(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
             else
                 gui_label(jd, _("Next Level"),  GUI_SML, GUI_ALL, gui_blk, gui_blk);
         }
@@ -245,10 +244,7 @@ static void goal_timer(int id, float dt)
     DT += dt;
 
     if (time_state() < 1.f)
-    {
         game_step(g, dt, 0);
-        demo_play_step(dt);
-    }
     else if (DT > 0.05f)
     {
         if (level_count())

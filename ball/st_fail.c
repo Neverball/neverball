@@ -14,7 +14,6 @@
 
 #include "gui.h"
 #include "game.h"
-#include "demo.h"
 #include "level.h"
 #include "audio.h"
 #include "config.h"
@@ -114,10 +113,7 @@ static void fall_out_timer(int id, float dt)
     float g[3] = { 0.0f, -9.8f, 0.0f };
 
     if (time_state() < 2.f)
-    {
         game_step(g, dt, 0);
-        demo_play_step(dt);
-    }
 
     gui_timer(id, dt);
     audio_timer(dt);
