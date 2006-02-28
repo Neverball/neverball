@@ -440,13 +440,8 @@ static void score_coin_swap(struct score *S, int i, int j)
 
 int level_replay(const char *filename)
 {
-    int r, time;
-
-    r = demo_replay_init(filename, &score, &coins, &balls, &goal, &time);
-
-    mode = (time == 0) ? MODE_PRACTICE : MODE_NORMAL;
-
-    return r;
+    coins = 0;
+    return demo_replay_init(filename, &mode, &score, &balls, &goal, &times_total);
 }
 
 int level_play_go(void)
@@ -464,8 +459,9 @@ int level_play_go(void)
                           level_v[level].grad,
                           level_v[level].song,
                           level_v[level].shot,
-                          time,
-                          goal, score, coins, balls);
+			  mode,
+                          time, goal,
+			  score, balls, times_total);
 }
 
 void level_play(int i, int m)
@@ -508,7 +504,7 @@ void level_stop(int state)
 
     /* stop demo recording */	
     time = (mode == MODE_PRACTICE) ? curr_clock() : level_v[level].time - curr_clock();
-    demo_play_stop(curr_coins(), time);
+    demo_play_stop(curr_coins(), time, state);
 }
 
 int level_dead(void)

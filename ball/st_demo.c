@@ -27,9 +27,9 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define DEMO_BACK (MAXDEMO+1)
-#define DEMO_NEXT (MAXDEMO+2)
-#define DEMO_PREV (MAXDEMO+3)
+#define DEMO_BACK -1
+#define DEMO_NEXT -2
+#define DEMO_PREV -3
 
 #define DEMO_LINE 4
 #define DEMO_STEP 8
@@ -81,11 +81,34 @@ static void demo_replay(int id, int i)
         gui_image(jd, demo_shot(i), w / 6, h / 6);
         gui_state(jd, demo_name(i), GUI_SML, i, 0);
 
-        gui_clock(jd, demo_clock(i), GUI_SML, GUI_TOP);
-        gui_count(jd, demo_coins(i), GUI_SML, GUI_BOT);
-
         gui_active(jd, i, 0);
     }
+}
+
+static int name_id;
+static int time_id;
+static int coin_id;
+static int date_id;
+static int mode_id;
+static int player_id;
+
+static void demo_status(int i)
+{
+    int m = demo_mode(i);
+    char * ms;
+    switch (m)
+    {
+	case MODE_CHALLENGE: ms = _("Challenge"); break;
+	case MODE_NORMAL:    ms = _("Normal");    break;
+	case MODE_PRACTICE:  ms = _("Practice");  break;
+	default: ms = "???";
+    }
+    gui_set_label(name_id,   demo_name(i));
+    gui_set_label(date_id,   demo_str_date(i));
+    gui_set_label(player_id, demo_player(i));
+    gui_set_label(mode_id,   ms);
+    gui_set_count(coin_id,   demo_coins(i));
+    gui_set_clock(time_id,   demo_clock(i));
 }
 
 static int demo_enter(void)
@@ -97,42 +120,76 @@ static int demo_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        if ((jd = gui_hstack(id)))
+        if (total == 0)
         {
-            if ((kd = gui_vstack(jd)))
-            {
-                gui_filler(kd);
-                if (first + DEMO_STEP < total)
-                    gui_state(kd, _("Next"), GUI_SML, DEMO_NEXT, 0);
-                else
-                    gui_state(kd, _("Back"), GUI_SML, DEMO_BACK, 0);
-            }
+	    gui_label(id, _("No Replay"), GUI_MED, GUI_ALL, 0,0);
+	    gui_filler(id);
+	    gui_multi(id, _("You can save replay of you games.\\Currently, there is no replay saved."), GUI_SML, GUI_ALL, gui_wht, gui_wht);
+	    gui_filler(id);
+	    gui_start(id, _("Back"), GUI_SML, DEMO_BACK, 0);
+	}
+    else
+    {
+	if ((jd = gui_hstack(id)))
+        {
 
+            ld = gui_label(jd, _("Select Replay"), GUI_SML, GUI_ALL, 0,0);
             gui_filler(jd);
-            ld = gui_label(jd, _("Select Replay"), GUI_MED, GUI_ALL, 0,0);
-            gui_filler(jd);
 
-            if ((kd = gui_vstack(jd)))
-            {
-                gui_filler(kd);
-                if (first > 0)
-                    gui_start(kd, _("Prev"), GUI_SML, DEMO_PREV, 0);
-                else
-                    gui_start(kd, _("Back"), GUI_SML, DEMO_BACK, 0);
-            }
+	    
+	    
+	    if (first + DEMO_STEP < total)
+		gui_state(jd, _("Next"), GUI_SML, DEMO_NEXT, 0);
+            else
+                gui_label(jd, _("Next"), GUI_SML, GUI_ALL,   gui_blk, gui_blk);
 
-            gui_pulse(ld, 1.2f);
+	    if (first > 0)
+                gui_state(jd, _("Prev"), GUI_SML, DEMO_PREV, 0);
+	    else
+                gui_label(jd, _("Prev"), GUI_SML, GUI_ALL,   gui_blk, gui_blk);
+	    
+	    gui_start(jd, _("Back"), GUI_SML, DEMO_BACK, 0);
         }
         if ((jd = gui_varray(id)))
-            for (i = first; i < first + DEMO_STEP && i < total; i += DEMO_LINE)
+            for (i = first; i < first + DEMO_STEP ; i += DEMO_LINE)
                 if ((kd = gui_harray(jd)))
                 {
                     for (j = i + DEMO_LINE - 1; j >= i; j--)
                         if (j < total)
                             demo_replay(kd, j);
                         else
-                            gui_filler(kd);
+                            gui_space(kd);
                 }
+	gui_filler(id);
+	if ((jd = gui_hstack(id)))
+	{
+	    if((kd = gui_vstack(jd)))
+	    {
+		if ((ld = gui_harray(kd)))
+		{
+		    coin_id = gui_count(ld, 100,          GUI_SML, GUI_RGT);
+		    gui_label(ld, _("Coins"),             GUI_SML, GUI_LFT, gui_wht, gui_wht);
+		    time_id = gui_clock(ld, 35000,        GUI_SML, GUI_RGT);
+		    gui_label(ld, _("Time"),              GUI_SML, GUI_LFT, gui_wht, gui_wht);
+		    name_id = gui_label(ld, demo_name(0), GUI_SML, GUI_RGT, 0, 0);
+		}
+		if ((ld = gui_harray(kd)))
+		{
+		    mode_id = gui_label(ld, "..............", GUI_SML, GUI_RGT, 0, 0);
+		    gui_label(ld, _("Mode"),                  GUI_SML, GUI_LFT, gui_wht, gui_wht);
+		    player_id = gui_label(ld, demo_player(0), GUI_SML, GUI_RGT, 0, 0);
+		}
+		date_id = gui_label(kd, demo_str_date(0),     GUI_SML, GUI_RGT, 0, 0);
+	    }
+	    if((kd = gui_vstack(jd)))
+	    {
+		gui_label(kd, _("Name"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+		gui_label(kd, _("Player"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+		gui_label(kd, _("Date"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+	    }
+	}
+	demo_status(0);
+    }
 
         gui_layout(id, 0, 0);
     }
@@ -162,7 +219,11 @@ static void demo_timer(int id, float dt)
 
 static void demo_point(int id, int x, int y, int dx, int dy)
 {
-    gui_pulse(gui_point(id, x, y), 1.2f);
+    int jd = gui_point(id, x, y);
+    int i  = gui_token(jd);
+    gui_pulse(jd, 1.2f);
+    if (jd && i>=0)
+	demo_status(i);
 }
 
 static void demo_stick(int id, int a, int v)
@@ -235,13 +296,13 @@ static void demo_play_timer(int id, float dt)
     audio_timer(dt);
 
     global_time += dt;
+    hud_timer(dt);
 
     /* Spin or skip depending on how fast the demo wants to run. */
 
     while (replay_time < global_time)
         if (demo_replay_step(&t))
         {
-            hud_timer(t);
             replay_time += t;
         }
         else 
