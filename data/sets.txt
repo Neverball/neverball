@@ -13,3 +13,6 @@ Difficulty: Expert through Insane\\25 levels with even greater challenge.\Author
 levels-mym2.txt scores-mym2.txt neverballhs-mym2 shot-mym2/shaker.jpg
 Mehdi's Levels Suite
 Difficulty: A little bit harder than my first set.\\More challenge, particulary for coins grabbing.\Author: Mehdi Yousfi-Monod (mym)\ \
+levels-paul.txt scores-paul.txt neverballhs-paul shot-paul/paths.bmp
+Paul's levels
+Difficulty: ? (probably hard through advanced)\8 levels in beta, for your dining pleasure.\Feel free to give me suggestions.\Author: paul\\
