@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-02-28 17:55+0200\n"
+"POT-Creation-Date: 2006-02-28 19:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "replay%02d"
 msgstr ""
 
-#: ball/hud.c:71 ball/hud.c:84 ball/st_demo.c:167 ball/st_goal.c:155
+#: ball/hud.c:71 ball/hud.c:84 ball/st_demo.c:167 ball/st_goal.c:129
 msgid "Coins"
 msgstr ""
 
@@ -29,11 +29,11 @@ msgstr ""
 msgid "Goal"
 msgstr ""
 
-#: ball/hud.c:98 ball/st_goal.c:145
+#: ball/hud.c:98 ball/st_goal.c:119
 msgid "Balls"
 msgstr ""
 
-#: ball/hud.c:99 ball/st_goal.c:150 putt/hud.c:45
+#: ball/hud.c:99 ball/st_goal.c:124 putt/hud.c:45
 msgid "Score"
 msgstr ""
 
@@ -88,84 +88,88 @@ msgstr ""
 msgid "Failure to establish game data directory\n"
 msgstr ""
 
-#: ball/st_conf.c:220 putt/st_conf.c:190
+#: ball/st_conf.c:226 putt/st_conf.c:190
 msgid "Options"
 msgstr ""
 
-#: ball/st_conf.c:228 ball/st_demo.c:437 ball/st_save.c:215 putt/st_conf.c:198
+#: ball/st_conf.c:234 ball/st_demo.c:437 ball/st_save.c:212 putt/st_conf.c:198
 msgid "No"
 msgstr ""
 
-#: ball/st_conf.c:229 ball/st_demo.c:436 ball/st_save.c:214 putt/st_conf.c:199
+#: ball/st_conf.c:235 ball/st_demo.c:436 ball/st_save.c:211 putt/st_conf.c:199
 msgid "Yes"
 msgstr ""
 
-#: ball/st_conf.c:240 ball/st_conf.c:245 ball/st_conf.c:268 putt/st_conf.c:210
+#: ball/st_conf.c:246 ball/st_conf.c:251 ball/st_conf.c:274 putt/st_conf.c:210
 #: putt/st_conf.c:215 putt/st_conf.c:228
 msgid "Low"
 msgstr ""
 
-#: ball/st_conf.c:241 ball/st_conf.c:246 ball/st_conf.c:269 putt/st_conf.c:211
+#: ball/st_conf.c:247 ball/st_conf.c:252 ball/st_conf.c:275 putt/st_conf.c:211
 #: putt/st_conf.c:216 putt/st_conf.c:229
 msgid "High"
 msgstr ""
 
-#: ball/st_conf.c:250 ball/st_conf.c:255 ball/st_conf.c:260 putt/st_conf.c:220
+#: ball/st_conf.c:256 ball/st_conf.c:261 ball/st_conf.c:266 putt/st_conf.c:220
 msgid "Off"
 msgstr ""
 
-#: ball/st_conf.c:251 ball/st_conf.c:256 ball/st_conf.c:261 putt/st_conf.c:221
+#: ball/st_conf.c:257 ball/st_conf.c:262 ball/st_conf.c:267 putt/st_conf.c:221
 msgid "On"
 msgstr ""
 
-#: ball/st_conf.c:310 ball/st_demo.c:129 ball/st_demo.c:147 ball/st_set.c:89
+#: ball/st_conf.c:317 ball/st_demo.c:129 ball/st_demo.c:147 ball/st_set.c:89
 #: ball/st_start.c:201 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
 #: share/st_lang.c:80 share/st_resol.c:91
 msgid "Back"
 msgstr ""
 
-#: ball/st_conf.c:313 putt/st_conf.c:273
+#: ball/st_conf.c:320 putt/st_conf.c:273
 msgid "Fullscreen"
 msgstr ""
 
-#: ball/st_conf.c:314 putt/st_conf.c:274 share/st_resol.c:89
+#: ball/st_conf.c:321 putt/st_conf.c:274 share/st_resol.c:89
 msgid "Resolution"
 msgstr ""
 
-#: ball/st_conf.c:316 putt/st_conf.c:276
+#: ball/st_conf.c:323 putt/st_conf.c:276
 msgid "Textures"
 msgstr ""
 
-#: ball/st_conf.c:317 putt/st_conf.c:277
+#: ball/st_conf.c:324 putt/st_conf.c:277
 msgid "Geometry"
 msgstr ""
 
-#: ball/st_conf.c:318
+#: ball/st_conf.c:325
 msgid "Reflection"
 msgstr ""
 
-#: ball/st_conf.c:319
+#: ball/st_conf.c:326
 msgid "Background"
 msgstr ""
 
-#: ball/st_conf.c:320 putt/st_conf.c:278
+#: ball/st_conf.c:327 putt/st_conf.c:278
 msgid "Shadow"
 msgstr ""
 
-#: ball/st_conf.c:321 putt/st_conf.c:279
+#: ball/st_conf.c:328 putt/st_conf.c:279
 msgid "Audio"
 msgstr ""
 
-#: ball/st_conf.c:322 putt/st_conf.c:280
+#: ball/st_conf.c:329 putt/st_conf.c:280
 msgid "Sound Volume"
 msgstr ""
 
-#: ball/st_conf.c:323 putt/st_conf.c:281
+#: ball/st_conf.c:330 putt/st_conf.c:281
 msgid "Music Volume"
 msgstr ""
 
-#: ball/st_conf.c:324 putt/st_conf.c:282 share/st_lang.c:78
+#: ball/st_conf.c:331 putt/st_conf.c:282 share/st_lang.c:78
 msgid "Language"
+msgstr ""
+
+#: ball/st_conf.c:332 ball/st_name.c:100
+msgid "Player Name"
 msgstr ""
 
 #: ball/st_demo.c:101 ball/st_start.c:211
@@ -240,15 +244,19 @@ msgstr ""
 msgid "Delete Replay?"
 msgstr ""
 
-#: ball/st_done.c:85
+#: ball/st_done.c:58
 msgid "New Challenge Record"
 msgstr ""
 
-#: ball/st_done.c:86
+#: ball/st_done.c:59
 msgid "Challenge Complete"
 msgstr ""
 
-#: ball/st_done.c:112
+#: ball/st_done.c:88 ball/st_goal.c:167
+msgid "Change Player Name"
+msgstr ""
+
+#: ball/st_done.c:89 ball/st_name.c:112
 msgid "OK"
 msgstr ""
 
@@ -256,7 +264,7 @@ msgstr ""
 msgid "Fall-out!"
 msgstr ""
 
-#: ball/st_fail.c:60 ball/st_fail.c:146 ball/st_goal.c:177 ball/st_goal.c:179
+#: ball/st_fail.c:60 ball/st_fail.c:146 ball/st_goal.c:151 ball/st_goal.c:153
 msgid "Save Replay"
 msgstr ""
 
@@ -264,7 +272,7 @@ msgstr ""
 msgid "Game Over"
 msgstr ""
 
-#: ball/st_fail.c:65 ball/st_fail.c:151 ball/st_goal.c:182
+#: ball/st_fail.c:65 ball/st_fail.c:151 ball/st_goal.c:156
 msgid "Retry Level"
 msgstr ""
 
@@ -272,19 +280,19 @@ msgstr ""
 msgid "Time's Up!"
 msgstr ""
 
-#: ball/st_goal.c:122
+#: ball/st_goal.c:96
 msgid "New Record"
 msgstr ""
 
-#: ball/st_goal.c:123
+#: ball/st_goal.c:97
 msgid "GOAL"
 msgstr ""
 
-#: ball/st_goal.c:185
+#: ball/st_goal.c:159
 msgid "Finish"
 msgstr ""
 
-#: ball/st_goal.c:187 ball/st_goal.c:189
+#: ball/st_goal.c:161 ball/st_goal.c:163
 msgid "Next Level"
 msgstr ""
 
@@ -292,8 +300,12 @@ msgstr ""
 msgid "*** BONUS ***"
 msgstr ""
 
-#: ball/st_level.c:53 ball/st_level.c:58 ball/st_save.c:114
+#: ball/st_level.c:53 ball/st_level.c:58 ball/st_save.c:111
 msgid "Level "
+msgstr ""
+
+#: ball/st_name.c:111 ball/st_save.c:125
+msgid "Cancel"
 msgstr ""
 
 #: ball/st_over.c:32
@@ -312,15 +324,11 @@ msgstr ""
 msgid "GO!"
 msgstr ""
 
-#: ball/st_save.c:128
-msgid "Cancel"
-msgstr ""
-
-#: ball/st_save.c:129
+#: ball/st_save.c:126
 msgid "Save"
 msgstr ""
 
-#: ball/st_save.c:208
+#: ball/st_save.c:205
 msgid "Overwrite?"
 msgstr ""
 
@@ -658,14 +666,6 @@ msgstr ""
 
 #: data/courses.txt
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
-msgstr ""
-
-#: data/map-easy2/elevator-jp.map
-msgid "Calm and meditation may bring you to the Nirvana."
-msgstr ""
-
-#: data/map-easy2/stairs-jp.map
-msgid "Fall down stairs.\\Ough!\\It hurts."
 msgstr ""
 
 #: data/map-mym2/backforth.map
@@ -1154,20 +1154,16 @@ msgid ""
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
 msgstr ""
 
+#: data/map-easy2/elevator-jp.map
+msgid "Calm and meditation may bring you to the Nirvana."
+msgstr ""
+
+#: data/map-easy2/stairs-jp.map
+msgid "Fall down stairs.\\Ough!\\It hurts."
+msgstr ""
+
 #: data/map-paul/billiards.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
-msgstr ""
-
-#: data/map-paul/ocean.map
-msgid ""
-"Let's go for a swim...\\all the coins are fully submerged.\\Hint: Tilt the "
-"floor all the way forward for a quick peek at the sunken treasure."
-msgstr ""
-
-#: data/map-paul/checkers.map
-msgid ""
-"It's a real game of checkers, but no one wins...\\You have to bounce to "
-"reach the blue coins."
 msgstr ""
 
 #: data/map-paul/bounce.map
@@ -1178,6 +1174,18 @@ msgstr ""
 
 #: data/map-paul/bounce2.map
 msgid "Follow the arrows."
+msgstr ""
+
+#: data/map-paul/checkers.map
+msgid ""
+"It's a real game of checkers, but no one wins...\\You have to bounce to "
+"reach the blue coins."
+msgstr ""
+
+#: data/map-paul/ocean.map
+msgid ""
+"Let's go for a swim...\\all the coins are fully submerged.\\Hint: Tilt the "
+"floor all the way forward for a quick peek at the sunken treasure."
 msgstr ""
 
 #: data/map-paul/paths.map
