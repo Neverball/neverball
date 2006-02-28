@@ -141,12 +141,12 @@ static int demo_enter(void)
 	    if (first + DEMO_STEP < total)
 		gui_state(jd, _("Next"), GUI_SML, DEMO_NEXT, 0);
             else
-                gui_label(jd, _("Next"), GUI_SML, GUI_ALL,   gui_blk, gui_blk);
+                gui_label(jd, _("Next"), GUI_SML, GUI_ALL,   gui_gry, gui_gry);
 
 	    if (first > 0)
                 gui_state(jd, _("Prev"), GUI_SML, DEMO_PREV, 0);
 	    else
-                gui_label(jd, _("Prev"), GUI_SML, GUI_ALL,   gui_blk, gui_blk);
+                gui_label(jd, _("Prev"), GUI_SML, GUI_ALL,   gui_gry, gui_gry);
 	    
 	    gui_start(jd, _("Back"), GUI_SML, DEMO_BACK, 0);
         }

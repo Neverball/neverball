@@ -82,6 +82,14 @@ static int set_enter(void)
         {
             gui_label(jd, _("Level Set"), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
+	    if (set_exists((b+1)*SET_GROUP))
+	        gui_state(jd, _("Next"), GUI_SML, SET_NEXT, 0);
+	    else
+	        gui_label(jd, _("Next"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
+	    if (b>0)
+		gui_state(jd, _("Prev"), GUI_SML, SET_PREV, 0);
+	    else
+		gui_label(jd, _("Prev"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
             gui_state(jd, _("Back"),  GUI_SML, SET_BACK, 0);
         }
 
@@ -100,17 +108,6 @@ static int set_enter(void)
 		        gui_state(kd, _(set_name(i)), GUI_SML, i, 0);
 		}
 		
-		/* Display Prev/Next buttons */	
-		ld = gui_harray(kd);
-		if (set_exists(i))
-		    gui_state(ld, _("Next"), GUI_SML, SET_NEXT, 0);
-		else
-		    gui_label(ld, _("Next"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
-		if (b>0)
-		    gui_state(ld, _("Prev"), GUI_SML, SET_PREV, 0);
-		else
-		    gui_label(ld, _("Prev"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
-
 		/* Display empty slots */
 		for(; i<(b+1)*SET_GROUP; i++)
 		    gui_filler(kd);
