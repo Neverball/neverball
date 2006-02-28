@@ -191,8 +191,8 @@ msgstr "Pas de film"
 #: ball/st_demo.c:127
 msgid "You can save replay of you games.\\Currently, there is no replay saved."
 msgstr ""
-"Vou pouvez sauver les films de vos parties.\\Actuellement, il n'y a pas de "
-"film sauvé."
+"Vous pouvez sauvegarder les films de vos parties.\\Actuellement, il n'y a pas de "
+"film sauvegardés."
 
 #: ball/st_demo.c:136
 msgid "Select Replay"
@@ -264,7 +264,7 @@ msgstr "OK"
 
 #: ball/st_fail.c:56
 msgid "Fall-out!"
-msgstr "Chute !"
+msgstr "Balle perdue !"
 
 #: ball/st_fail.c:60 ball/st_fail.c:146 ball/st_goal.c:151 ball/st_goal.c:153
 msgid "Save Replay"
