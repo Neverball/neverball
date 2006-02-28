@@ -1,0 +1,14 @@
+#
+# A simple makefile to compile nvb/nvp on OsX using fink libraries
+# - You must have fink installed and sdl libraries  
+#   	fink install sdl sdl-image sdl-mixer sdl-ttf
+# - To coimpile, just the following command : 
+#   	make -f Makefile.fink-osx 
+#
+# Luc.
+
+include Makefile
+
+CFLAGS := $(CFLAGS) -I/sw/include
+LIBS := $(LIBS) -L/sw/lib -lintl
+
