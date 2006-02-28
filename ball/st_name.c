@@ -93,9 +93,7 @@ static int name_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        int gid;
-
-	gid = gui_label(id, _("Player Name"), GUI_MED, GUI_ALL, 0, 0);
+	gui_label(id, _("Player Name"), GUI_MED, GUI_ALL, 0, 0);
 
 	gui_space(id);
         gui_space(id);

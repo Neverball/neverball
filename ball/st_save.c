@@ -17,11 +17,9 @@
 #include "gui.h"
 #include "game.h"
 #include "util.h"
-#include "demo.h"
-#include "set.h"
-#include "level.h"
 #include "audio.h"
 #include "config.h"
+#include "demo.h"
 
 #include "st_save.h"
 
@@ -93,31 +91,19 @@ static int save_action(int i)
 
 static int save_enter(void)
 {
-    int id, jd, kd, ld;
+    int id, jd;
 
     demo_unique(filename);
 
     if ((id = gui_vstack(0)))
     {
+	gui_label(id, _("Replay Name"), GUI_MED, GUI_ALL, 0, 0);
+        
+	gui_space(id);
         gui_space(id);
-        if ((jd = gui_hstack(id)))
-        {
-            gui_filler(jd);
-	    if ((kd = gui_vstack(jd)))
-	    {
-		if ((ld = gui_hstack(kd)))
-		{
-		    gui_count(ld, curr_level(), GUI_LRG, GUI_NE);
-		    gui_label(ld, _("Level "),  GUI_LRG, GUI_NW, 0, 0);
-		}
-		gui_label(kd, _(set_name(set_curr())),  GUI_SML, GUI_BOT, gui_wht, gui_wht);
-	    }
-	    gui_filler(jd);
-        }
-        gui_space(id);
-
-        gui_space(id);
+	
         file_id = gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
+	
         gui_space(id);
 
         if ((jd = gui_harray(id)))
