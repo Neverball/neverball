@@ -73,6 +73,19 @@ static char scores_file[MAXSTR];
 
 /*---------------------------------------------------------------------------*/
 
+const char * mode_to_str(int m)
+{
+    switch (m)
+    {
+    case MODE_CHALLENGE: return _("Challenge");
+    case MODE_NORMAL:    return _("Normal");
+    case MODE_PRACTICE:  return _("Practice");
+    default:             return "???";
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
 static void level_store_hs(const char *filename)
 {
     FILE *fout;

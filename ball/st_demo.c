@@ -94,19 +94,10 @@ static int player_id;
 
 static void demo_status(int i)
 {
-    int m = demo_mode(i);
-    char * ms;
-    switch (m)
-    {
-	case MODE_CHALLENGE: ms = _("Challenge"); break;
-	case MODE_NORMAL:    ms = _("Normal");    break;
-	case MODE_PRACTICE:  ms = _("Practice");  break;
-	default: ms = "???";
-    }
     gui_set_label(name_id,   demo_name(i));
     gui_set_label(date_id,   demo_str_date(i));
     gui_set_label(player_id, demo_player(i));
-    gui_set_label(mode_id,   ms);
+    gui_set_label(mode_id,   mode_to_str(demo_mode(i)));
     gui_set_count(coin_id,   demo_coins(i));
     gui_set_clock(time_id,   demo_clock(i));
 }

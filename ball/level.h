@@ -7,6 +7,8 @@
 #define MODE_NORMAL	2
 #define MODE_PRACTICE	3
 
+const char *mode_to_str(int);
+
 const char *level_shot(int);
 const char *level_coin_n(int, int);
 const char *level_time_n(int, int);
