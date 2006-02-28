@@ -84,7 +84,7 @@ static void start_over_level(i)
 
         if (i == 0)
 	    gui_set_label(status_id, _("Challenge all levels from the first one"));
-	else if (config_get_d(CONFIG_MODE))
+	else if (config_get_d(CONFIG_MODE) == MODE_PRACTICE)
 	{
 	    if (b)
 	        gui_set_label(status_id, _("Play this bonus level in practice mode"));
