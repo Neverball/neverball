@@ -788,27 +788,46 @@ int game_step(const float g[3], float dt, int bt)
 
 /*---------------------------------------------------------------------------*/
 
+void game_no_aa(void)
+{
+    float max = game_ix * game_ix + game_iz * game_iz;
+    if (max > ANGLE_BOUND * ANGLE_BOUND)
+    {
+	max = ANGLE_BOUND / sqrt(max);
+	game_ix *= max;
+	game_iz *= max;
+    }
+}
+
 void game_set_x(int k)
 {
-    game_ix = -20.f * k / JOY_MAX;
+    game_ix = -(ANGLE_BOUND) * k / JOY_MAX;
+#if NO_AA
+    game_no_aa();
+#endif
 }
 
 void game_set_z(int k)
 {
-    game_iz = +20.f * k / JOY_MAX;
+    game_iz = +ANGLE_BOUND * k / JOY_MAX;
+#if NO_AA
+    game_no_aa();
+#endif
 }
 
 void game_set_pos(int x, int y)
 {
-    float bound = 20.f;
-
     game_ix += 40.f * y / config_get_d(CONFIG_MOUSE_SENSE);
     game_iz += 40.f * x / config_get_d(CONFIG_MOUSE_SENSE);
-
-    if (game_ix > +bound) game_ix = +bound;
-    if (game_ix < -bound) game_ix = -bound;
-    if (game_iz > +bound) game_iz = +bound;
-    if (game_iz < -bound) game_iz = -bound;
+    
+#if NO_AA
+    game_no_aa();
+#else
+    if (game_ix > +ANGLE_BOUND) game_ix = +ANGLE_BOUND;
+    if (game_ix < -ANGLE_BOUND) game_ix = -ANGLE_BOUND;
+    if (game_iz > +ANGLE_BOUND) game_iz = +ANGLE_BOUND;
+    if (game_iz < -ANGLE_BOUND) game_iz = -ANGLE_BOUND;
+#endif
 }
 
 void game_set_rot(float r)
