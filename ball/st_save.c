@@ -24,9 +24,6 @@
 #include "config.h"
 
 #include "st_save.h"
-#include "st_done.h"
-#include "st_level.h"
-#include "st_title.h"
 
 extern struct state st_save;
 extern struct state st_clobber;
@@ -125,7 +122,7 @@ static int save_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_start(jd, _("Cancel"), GUI_SML, SAVE_CANCEL, 0);
+            gui_state(jd, _("Cancel"), GUI_SML, SAVE_CANCEL, 0);
             gui_start(jd, _("Save"),   GUI_SML, SAVE_SAVE,   0);
         }
         gui_keyboard(id);

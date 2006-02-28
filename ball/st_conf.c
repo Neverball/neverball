@@ -25,6 +25,7 @@
 #include "st_title.h"
 #include "st_lang.h"
 #include "st_resol.h"
+#include "st_name.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,6 +46,7 @@
 #define CONF_BACK  20
 #define CONF_LANG  21
 #define CONF_RESOL 22
+#define CONF_PLAYER 23
 
 static int audlo_id;
 static int audhi_id;
@@ -164,6 +166,10 @@ static int conf_action(int i)
     case CONF_RESOL:
         goto_state(&st_resol);
         break;
+
+    case CONF_PLAYER:
+	goto_name(&st_conf);
+	break;
 
     default:
         if (100 <= i && i <= 110)
@@ -301,6 +307,7 @@ static int conf_enter(void)
                 music_id[ 0] = gui_state(kd, NULL, GUI_SML, 200, (m ==  0));
             }
 	    gui_state(jd, _(language_get_name(language_from_code(config_simple_get_s(CONFIG_LANG)))), GUI_SML, CONF_LANG, 0);
+	    gui_state(jd, config_simple_get_s(CONFIG_PLAYER), GUI_SML, CONF_PLAYER, 0);
         }
         if ((jd = gui_vstack(id)))
         {
@@ -322,6 +329,7 @@ static int conf_enter(void)
             gui_label(jd, _("Sound Volume"), GUI_SML, GUI_ALL, 0, 0);
             gui_label(jd, _("Music Volume"), GUI_SML, GUI_ALL, 0, 0);
             gui_label(jd, _("Language"),     GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Player Name"),  GUI_SML, GUI_ALL, 0, 0);
         }
         gui_layout(id, 0, 0);
     }

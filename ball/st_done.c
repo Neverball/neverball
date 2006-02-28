@@ -25,10 +25,14 @@
 
 #include "st_done.h"
 #include "st_start.h"
+#include "st_name.h"
 
 /*---------------------------------------------------------------------------*/
 
-#define DONE_OK 2
+#define DONE_OK   1
+#define DONE_NAME 2
+
+extern struct state st_done_bis;
 
 static int high;
 static int time_i;
@@ -36,60 +40,25 @@ static int coin_i;
 
 static int done_action(int i)
 {
-    char player[MAXNAM];
-    size_t l;
-
     audio_play(AUD_MENU, 1.0f);
-
-    config_get_s(CONFIG_PLAYER, player, MAXNAM);
-    l = strlen(player);
 
     switch (i)
     {
     case DONE_OK:
         return goto_state(&st_start);
 
-    case GUI_CL:
-        gui_keyboard_lock();
-        break;
-
-    case GUI_BS:
-        if (l > 0)
-        {
-            player[l - 1] = 0;
-
-            config_set_s(CONFIG_PLAYER, player);
-            level_name(0, player, time_i, coin_i);
-            set_most_coins(0, coin_i);
-            set_best_times(0, time_i);
-        }
-        break;
-
-    default:
-        if (l < MAXNAM - 1)
-        {
-            player[l + 0] = gui_keyboard_char((char) i);
-            player[l + 1] = 0;
-
-            config_set_s(CONFIG_PLAYER, player);
-            level_name(0, player, time_i, coin_i);
-            set_most_coins(0, coin_i);
-            set_best_times(0, time_i);
-        }
+    case DONE_NAME:
+	return goto_name(&st_done_bis);
     }
     return 1;
 }
 
-static int done_enter(void)
+static int done_init(int * gidp)
 {
     const char *s1 = _("New Challenge Record");
     const char *s2 = _("Challenge Complete");
 
     int id, jd;
-
-    time_i = 3;
-    coin_i = 3;
-    high   = level_done(&time_i, &coin_i);
 
     if ((id = gui_vstack(0)))
     {
@@ -100,6 +69,9 @@ static int done_enter(void)
         else
             gid = gui_label(id, s2, GUI_MED, GUI_ALL, gui_blu, gui_grn);
 
+	if (gidp)
+	    *gidp = gid;
+
         gui_space(id);
 
         if ((jd = gui_harray(id)))
@@ -109,18 +81,42 @@ static int done_enter(void)
         }
 
         gui_space(id);
-        gui_start(id, _("OK"), GUI_SML, DONE_OK, 0);
-
-        if (high) gui_keyboard(id);
+	
+	if ((jd = gui_harray(id)))
+	{
+            if (high)
+	       gui_state(jd, _("Change Player Name"), GUI_SML, DONE_NAME, 0);
+            gui_start(jd, _("OK"), GUI_SML, DONE_OK, 0);
+	}
 
         gui_layout(id, 0, 0);
-        gui_pulse(gid, 1.2f);
     }
 
     set_most_coins(0, coin_i);
     set_best_times(0, time_i);
 
     return id;
+}
+
+static int done_enter(void)
+{
+    int gid, r;
+    
+    time_i = 3;
+    coin_i = 3;
+    high   = level_done(&time_i, &coin_i);
+    
+    r = done_init(&gid);
+    gui_pulse(gid, 1.2f);    
+    return r;
+}
+
+static int done_bis_enter(void)
+{
+    char player[MAXNAM];
+    config_get_s(CONFIG_PLAYER, player, MAXNAM);
+    level_name(0, player, time_i, coin_i);
+    return done_init(NULL);
 }
 
 static void done_leave(int id)
@@ -176,6 +172,19 @@ static int done_buttn(int b, int d)
 
 struct state st_done = {
     done_enter,
+    done_leave,
+    done_paint,
+    done_timer,
+    done_point,
+    done_stick,
+    done_click,
+    NULL,
+    done_buttn,
+    1, 0
+};
+
+struct state st_done_bis = {
+    done_bis_enter,
     done_leave,
     done_paint,
     done_timer,

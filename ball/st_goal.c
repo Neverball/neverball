@@ -28,6 +28,7 @@
 #include "st_done.h"
 #include "st_start.h"
 #include "st_level.h"
+#include "st_name.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,6 +37,7 @@
 #define GOAL_SAVE 4
 #define GOAL_BACK 5
 #define GOAL_DONE 6
+#define GOAL_NAME 7
 
 static int high;
 static int time_i;
@@ -49,13 +51,7 @@ extern struct state st_goal_bis;
 
 static int goal_action(int i)
 {
-    char player[MAXNAM];
-    size_t l;
-
     audio_play(AUD_MENU, 1.0f);
-
-    config_get_s(CONFIG_PLAYER, player, MAXNAM);
-    l = strlen(player);
 
     switch (i)
     {
@@ -70,6 +66,11 @@ static int goal_action(int i)
             ;
         return goto_save(&st_goal_bis);
 
+    case GOAL_NAME:
+        while (level_count())
+            ;
+        return goto_name(&st_goal_bis);
+	
     case GOAL_DONE:
 	while (level_count())
 	    ;
@@ -85,35 +86,8 @@ static int goal_action(int i)
         while (level_count())
             ;
 	return goto_state(&st_level);
-
-    case GUI_CL:
-        gui_keyboard_lock();
-        break;
-
-    case GUI_BS:
-        if (l > 0)
-        {
-            player[l - 1] = 0;
-
-            config_set_s(CONFIG_PLAYER, player);
-            level_name(curr_level(), player, time_i, coin_i);
-            set_most_coins(curr_level(), coin_i);
-            set_best_times(curr_level(), time_i);
-        }
-        break;
-
-    default:
-        if (l < MAXNAM - 1)
-        {
-            player[l + 0] = gui_keyboard_char((char) i);
-            player[l + 1] = 0;
-
-            config_set_s(CONFIG_PLAYER, player);
-            level_name(curr_level(), player, time_i, coin_i);
-            set_most_coins(curr_level(), coin_i);
-            set_best_times(curr_level(), time_i);
-        }
     }
+
     return 1;
 }
 
@@ -189,7 +163,8 @@ static int goal_init(int * gidp, int save)
                 gui_label(jd, _("Next Level"),  GUI_SML, GUI_ALL, gui_blk, gui_blk);
         }
 
-        if (high) gui_keyboard(id);
+        if (high)
+	    gui_state(id, _("Change Player Name"),  GUI_SML, GOAL_NAME, 0);
 
         gui_layout(id, 0, 0);
 	if (gidp) *gidp = gid;
@@ -221,7 +196,10 @@ static int goal_enter(void)
 
 static int goal_bis_enter(void)
 {
-    return goal_init(NULL, 0);
+    char player[MAXNAM];
+    config_get_s(CONFIG_PLAYER, player, MAXNAM);
+    level_name(curr_level(), player, time_i, coin_i);
+    return goal_init(NULL, 1);
 }
 
 static void goal_leave(int id)

@@ -184,7 +184,7 @@ static int demo_enter(void)
 		gui_label(kd, _("Date"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
 	    }
 	}
-	demo_status(0);
+        demo_status(0);
     }
 
         gui_layout(id, 0, 0);
