@@ -15,12 +15,10 @@
 #include <string.h>
 
 #include "gui.h"
-#include "set.h"
-#include "game.h"
 #include "util.h"
-#include "level.h"
 #include "audio.h"
 #include "config.h"
+#include "game.h"
 
 #include "st_name.h"
 
@@ -97,7 +95,7 @@ static int name_enter(void)
     {
         int gid;
 
-	gid = gui_label(id, _("Player Name"), GUI_LRG, GUI_ALL, gui_blu, gui_grn);
+	gid = gui_label(id, _("Player Name"), GUI_MED, GUI_ALL, 0, 0);
 
 	gui_space(id);
         gui_space(id);
