@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "So many different paths to take...\have you tried all of them?
+"message" "So many different paths to take...\have you tried all of them?"
 // brush 0
 {
 ( 1472 48 -192 ) ( 1472 -48 -192 ) ( 832 -48 -64 ) mtrl/turf-green-offset 0 0 -90 0.5 0.5 0 0 0
