@@ -69,7 +69,7 @@ static int set_enter(void)
     int b = last_set / SET_GROUP;
     int i;
 
-    int id, jd, kd, ld;
+    int id, jd, kd;
 
     set_init();
 

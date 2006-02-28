@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include "i18n.h"
 
+/* predeclare the POSIX putenv function, I do not know why but is not declared */
+int putenv(char *string);
 
 const char * gettextdbg(const char * c)
 {

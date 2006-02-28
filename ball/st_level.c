@@ -110,7 +110,7 @@ static int level_buttn(int b, int d)
             return goto_state(&st_play_ready);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
 	{
-	    if (level_mode == MODE_CHALLENGE)
+	    if (level_mode() == MODE_CHALLENGE)
 		return goto_state(&st_over);
 	    else
 		return goto_state(&st_start);
