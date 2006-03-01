@@ -24,6 +24,7 @@
 #include "st_demo.h"
 #include "st_conf.h"
 #include "st_set.h"
+#include "st_name.h"
 
 /*---------------------------------------------------------------------------*/
 

@@ -237,13 +237,11 @@ time_t demo_date(int i)
     return (0 <= i && i < count) ? demos[i].date : 0;
 }
 
-const char * demo_str_date(int i)
+void demo_str_date(int i, char * str, int len)
 {
     time_t d = demo_date(i);
-    char * res = ctime(&d);
-    char * n = strchr(res, '\n');
-    if (n) *n = '\0';
-    return res;
+    struct tm * tm = localtime(&d);
+    strftime (str, len, "%c",tm);
 }
 
 const char * demo_player(int i)

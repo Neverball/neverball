@@ -14,7 +14,7 @@ int         demo_clock(int);
 int         demo_state(int);
 int         demo_mode(int);
 const char *demo_player(int);
-const char *demo_str_date(int);
+void        demo_str_date(int, char *, int);
 
 int  demo_exists(char *);
 void demo_unique(char *);

@@ -94,8 +94,10 @@ static int player_id;
 
 static void demo_status(int i)
 {
+    char ds[MAXSTR];
+    demo_str_date(i, ds, MAXSTR);
     gui_set_label(name_id,   demo_name(i));
-    gui_set_label(date_id,   demo_str_date(i));
+    gui_set_label(date_id,   ds);
     gui_set_label(player_id, demo_player(i));
     gui_set_label(mode_id,   mode_to_str(demo_mode(i)));
     gui_set_count(coin_id,   demo_coins(i));
@@ -109,16 +111,16 @@ static int demo_enter(void)
 
     total = demo_scan();
 
-    if ((id = gui_vstack(0)))
+    id = gui_vstack(0);
+    if (total == 0)
     {
-        if (total == 0)
-        {
 	    gui_label(id, _("No Replay"), GUI_MED, GUI_ALL, 0,0);
 	    gui_filler(id);
 	    gui_multi(id, _("You can save replay of you games.\\Currently, there is no replay saved."), GUI_SML, GUI_ALL, gui_wht, gui_wht);
 	    gui_filler(id);
 	    gui_start(id, _("Back"), GUI_SML, DEMO_BACK, 0);
-	}
+            gui_layout(id, 0, 0);
+    }
     else
     {
 	if ((jd = gui_hstack(id)))
@@ -166,7 +168,7 @@ static int demo_enter(void)
 		    gui_label(ld, _("Mode"),                  GUI_SML, GUI_LFT, gui_wht, gui_wht);
 		    player_id = gui_label(ld, demo_player(0), GUI_SML, GUI_RGT, 0, 0);
 		}
-		date_id = gui_label(kd, demo_str_date(0),     GUI_SML, GUI_RGT, 0, 0);
+		date_id = gui_label(kd, "X",     GUI_SML, GUI_RGT, 0, 0);
 	    }
 	    if((kd = gui_vstack(jd)))
 	    {
@@ -175,10 +177,8 @@ static int demo_enter(void)
 		gui_label(kd, _("Date"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
 	    }
 	}
+	gui_layout(id, 0, 0);
         demo_status(0);
-    }
-
-        gui_layout(id, 0, 0);
     }
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
