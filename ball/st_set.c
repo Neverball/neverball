@@ -17,6 +17,7 @@
 #include "game.h"
 #include "audio.h"
 #include "config.h"
+#include "st_shared.h"
 
 #include "st_set.h"
 #include "st_title.h"
@@ -118,11 +119,6 @@ static int set_enter(void)
     return id;
 }
 
-static void set_leave(int id)
-{
-    gui_delete(id);
-}
-
 static void set_paint(int id, float st)
 {
     game_draw(0, st);
@@ -130,52 +126,26 @@ static void set_paint(int id, float st)
     gui_paint(id);
 }
 
-static void set_timer(int id, float dt)
+static void set_over(int i)
 {
-    gui_timer(id, dt);
-    audio_timer(dt);
+    gui_set_image(shot_id, set_shot(i));
+    gui_set_multi(desc_id, _(set_desc(i)));
 }
 
 static void set_point(int id, int x, int y, int dx, int dy)
 {
-    int jd;
-
-    if ((jd = gui_point(id, x, y)))
-    {
-        int i = gui_token(jd);
-	
-	if (set_exists(i))
-	{
-            gui_set_image(shot_id, set_shot(i));
-	    gui_set_multi(desc_id, _(set_desc(i)));
-	    gui_pulse(jd, 1.2f);
-	}
-    }
+    int jd = shared_point_basic(id, x, y);
+    int i  = gui_token(jd);
+    if (jd && set_exists(i))
+	set_over(i);
 }
 
 static void set_stick(int id, int a, int v)
 {
-    int jd;
-
-    int x = (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a)) ? v : 0;
-    int y = (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a)) ? v : 0;
-
-    if ((jd = gui_stick(id, x, y)))
-    {
-        int i = gui_token(jd);
-
-	if (set_exists(i))
-	{
-            gui_set_image(shot_id, set_shot(i));
-	    gui_set_multi(desc_id, _(set_desc(i)));
-	    gui_pulse(jd, 1.2f);
-	}
-    }
-}
-
-static int set_click(int b, int d)
-{
-    return (b < 0 && d == 1) ? set_action(gui_token(gui_click())) : 1;
+    int jd = shared_stick_basic(id, a, v);
+    int i  = gui_token(jd);
+    if (jd && set_exists(i))
+	set_over(i);
 }
 
 static int set_buttn(int b, int d)
@@ -194,12 +164,12 @@ static int set_buttn(int b, int d)
 
 struct state st_set = {
     set_enter,
-    set_leave,
+    shared_leave,
     set_paint,
-    set_timer,
+    shared_timer,
     set_point,
     set_stick,
-    set_click,
+    shared_click,
     NULL,
     set_buttn,
     1, 0

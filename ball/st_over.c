@@ -19,6 +19,7 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
+#include "st_shared.h"
 
 #include "st_over.h"
 #include "st_start.h"
@@ -41,17 +42,6 @@ static int over_enter(void)
     config_clr_grab();
 
     return id;
-}
-
-static void over_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void over_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
 }
 
 static void over_timer(int id, float dt)
@@ -83,8 +73,8 @@ static int over_buttn(int b, int d)
 
 struct state st_over = {
     over_enter,
-    over_leave,
-    over_paint,
+    shared_leave,
+    shared_paint,
     over_timer,
     NULL,
     NULL,

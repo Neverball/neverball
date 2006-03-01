@@ -20,6 +20,7 @@
 #include "game.h"
 #include "audio.h"
 #include "config.h"
+#include "st_shared.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -355,32 +356,6 @@ static void conf_paint(int id, float st)
     gui_paint(id);
 }
 
-static void conf_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
-static void conf_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void conf_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int conf_click(int b, int d)
-{
-    if (b < 0 && d == 1)
-        return conf_action(gui_token(gui_click()));
-    return 1;
-}
-
 static int conf_buttn(int b, int d)
 {
     if (d)
@@ -431,10 +406,10 @@ struct state st_conf = {
     conf_enter,
     conf_leave,
     conf_paint,
-    conf_timer,
-    conf_point,
-    conf_stick,
-    conf_click,
+    shared_timer,
+    shared_point,
+    shared_stick,
+    shared_click,
     NULL,
     conf_buttn,
     1, 0

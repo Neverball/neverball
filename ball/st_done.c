@@ -22,6 +22,7 @@
 #include "level.h"
 #include "audio.h"
 #include "config.h"
+#include "st_shared.h"
 
 #include "st_done.h"
 #include "st_start.h"
@@ -119,49 +120,12 @@ static int done_bis_enter(void)
     return done_init(NULL);
 }
 
-static void done_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void done_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
-static void done_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
-static void done_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void done_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int done_click(int b, int d)
-{
-    if (b <= 0 && d == 1)
-        return done_action(gui_token(gui_click()));
-    return 1;
-}
-
 static int done_buttn(int b, int d)
 {
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return done_click(0, 1);
+            return done_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return done_action(DONE_OK);
     }
@@ -172,12 +136,12 @@ static int done_buttn(int b, int d)
 
 struct state st_done = {
     done_enter,
-    done_leave,
-    done_paint,
-    done_timer,
-    done_point,
-    done_stick,
-    done_click,
+    shared_leave,
+    shared_paint,
+    shared_timer,
+    shared_point,
+    shared_stick,
+    shared_click,
     NULL,
     done_buttn,
     1, 0
@@ -185,12 +149,12 @@ struct state st_done = {
 
 struct state st_done_bis = {
     done_bis_enter,
-    done_leave,
-    done_paint,
-    done_timer,
-    done_point,
-    done_stick,
-    done_click,
+    shared_leave,
+    shared_paint,
+    shared_timer,
+    shared_point,
+    shared_stick,
+    shared_click,
     NULL,
     done_buttn,
     1, 0

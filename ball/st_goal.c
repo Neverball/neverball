@@ -22,6 +22,7 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
+#include "st_shared.h"
 
 #include "st_goal.h"
 #include "st_save.h"
@@ -196,17 +197,6 @@ static int goal_bis_enter(void)
     return goal_init(NULL);
 }
 
-static void goal_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void goal_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
 static void goal_timer(int id, float dt)
 {
     static float DT = 0.0f;
@@ -245,38 +235,12 @@ static void goal_timer(int id, float dt)
     audio_timer(dt);
 }
 
-static void goal_bis_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
-static void goal_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void goal_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int goal_click(int b, int d)
-{
-    if (b <= 0 && d == 1)
-        return goal_action(gui_token(gui_click()));
-    return 1;
-}
-
 static int goal_buttn(int b, int d)
 {
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return goal_click(0, 1);
+            return goal_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
 	    goal_action(GOAL_BACK);
     }
@@ -287,12 +251,12 @@ static int goal_buttn(int b, int d)
 
 struct state st_goal = {
     goal_enter,
-    goal_leave,
-    goal_paint,
+    shared_leave,
+    shared_paint,
     goal_timer,
-    goal_point,
-    goal_stick,
-    goal_click,
+    shared_point,
+    shared_stick,
+    shared_click,
     NULL,
     goal_buttn,
     1, 0
@@ -300,12 +264,12 @@ struct state st_goal = {
 
 struct state st_goal_bis = {
     goal_bis_enter,
-    goal_leave,
-    goal_paint,
-    goal_bis_timer,
-    goal_point,
-    goal_stick,
-    goal_click,
+    shared_leave,
+    shared_paint,
+    shared_timer,
+    shared_point,
+    shared_stick,
+    shared_click,
     NULL,
     goal_buttn,
     1, 0

@@ -19,6 +19,7 @@
 #include "game.h"
 #include "audio.h"
 #include "config.h"
+#include "st_shared.h"
 
 #include "st_title.h"
 #include "st_demo.h"
@@ -109,12 +110,6 @@ static void title_leave(int id)
     gui_delete(id);
 }
 
-static void title_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
 static void title_timer(int id, float dt)
 {
     static const char *demo = NULL;
@@ -184,26 +179,6 @@ static void title_timer(int id, float dt)
     gui_timer(id, dt);
     audio_timer(dt);
     game_step_fade(dt);
-}
-
-static void title_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void title_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int title_click(int b, int d)
-{
-    if (d && b < 0)
-        return title_action(gui_token(gui_click()));
-    return 1;
 }
 
 static int title_keybd(int c, int d)
@@ -295,22 +270,11 @@ static int help_enter(void)
     return id;
 }
 
-static void help_leave(int id)
-{
-    gui_delete(id);
-}
-
 static void help_paint(int id, float st)
 {
     game_draw(0, st);
     config_pop_matrix();
     gui_paint(id);
-}
-
-static void help_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static int help_click(int b, int d)
@@ -333,11 +297,11 @@ static int help_buttn(int b, int d)
 struct state st_title = {
     title_enter,
     title_leave,
-    title_paint,
+    shared_paint,
     title_timer,
-    title_point,
-    title_stick,
-    title_click,
+    shared_point,
+    shared_stick,
+    shared_click,
     title_keybd,
     title_buttn,
     1, 0
@@ -345,9 +309,9 @@ struct state st_title = {
 
 struct state st_help = {
     help_enter,
-    help_leave,
+    shared_leave,
     help_paint,
-    help_timer,
+    shared_timer,
     NULL,
     NULL,
     help_click,

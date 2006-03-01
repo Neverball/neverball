@@ -20,6 +20,7 @@
 #include "audio.h"
 #include "config.h"
 #include "game.h"
+#include "st_shared.h"
 
 #include "st_name.h"
 
@@ -133,38 +134,6 @@ static void name_leave(int id)
     gui_delete(id);
 }
 
-static void name_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
-static void name_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
-static void name_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void name_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int name_click(int b, int d)
-{
-    if (b <= 0 && d == 1)
-        return name_action(gui_token(gui_click()));
-    return 1;
-}
-
 static int name_keybd(int c, int d)
 {
     if (d)
@@ -184,7 +153,7 @@ static int name_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return name_click(0, 1);
+            return name_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
 	    name_action(NAME_BACK);
     }
@@ -196,11 +165,11 @@ static int name_buttn(int b, int d)
 struct state st_name = {
     name_enter,
     name_leave,
-    name_paint,
-    name_timer,
-    name_point,
-    name_stick,
-    name_click,
+    shared_paint,
+    shared_timer,
+    shared_point,
+    shared_stick,
+    shared_click,
     name_keybd,
     name_buttn,
     1, 0

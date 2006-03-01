@@ -21,6 +21,7 @@
 #include "audio.h"
 #include "solid.h"
 #include "config.h"
+#include "st_shared.h"
 
 #include "st_demo.h"
 #include "st_title.h"
@@ -186,11 +187,6 @@ static int demo_enter(void)
     return id;
 }
 
-static void demo_leave(int id)
-{
-    gui_delete(id);
-}
-
 static void demo_paint(int id, float st)
 {
     game_draw(0, st);
@@ -198,34 +194,20 @@ static void demo_paint(int id, float st)
     gui_paint(id);
 }
 
-static void demo_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
 static void demo_point(int id, int x, int y, int dx, int dy)
 {
-    int jd = gui_point(id, x, y);
+    int jd = shared_point_basic(id, x, y);
     int i  = gui_token(jd);
-    gui_pulse(jd, 1.2f);
     if (jd && i>=0)
 	demo_status(i);
 }
 
 static void demo_stick(int id, int a, int v)
 {
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int demo_click(int b, int d)
-{
-    if (b <= 0 && d == 1)
-        return demo_action(gui_token(gui_click()));
-    return 1;
+    int jd = shared_stick_basic(id, a, v);
+    int i  = gui_token(jd);
+    if (jd && i>=0)
+	demo_status(i);
 }
 
 static int demo_buttn(int b, int d)
@@ -233,7 +215,7 @@ static int demo_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_click(0, 1);
+            return demo_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return demo_action(DEMO_BACK);
     }
@@ -260,11 +242,6 @@ static int demo_play_enter(void)
     game_set_fly(0.f);
 
     return id;
-}
-
-static void demo_play_leave(int id)
-{
-    gui_delete(id);
 }
 
 static void demo_play_paint(int id, float st)
@@ -352,17 +329,6 @@ static int demo_end_enter(void)
     return id;
 }
 
-static void demo_end_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void demo_end_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
 static void demo_end_timer(int id, float dt)
 {
     float g[3] = { 0.0f, -9.8f, 0.0f };
@@ -372,26 +338,6 @@ static void demo_end_timer(int id, float dt)
 		
     gui_timer(id, dt);
     audio_timer(dt);
-}
-
-static void demo_end_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void demo_end_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int demo_end_click(int b, int d)
-{
-    if (d && b < 0)
-        return demo_end_action(gui_token(gui_click()));
-    return 1;
 }
 
 static int demo_end_buttn(int b, int d)
@@ -438,43 +384,6 @@ static int demo_del_enter(void)
     return id;
 }
 
-static void demo_del_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void demo_del_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
-static void demo_del_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
-static void demo_del_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void demo_del_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int demo_del_click(int b, int d)
-{
-    if (d && b < 0)
-        return demo_del_action(gui_token(gui_click()));
-    return 1;
-}
-
 static int demo_del_buttn(int b, int d)
 {
     if (d)
@@ -491,12 +400,12 @@ static int demo_del_buttn(int b, int d)
 
 struct state st_demo = {
     demo_enter,
-    demo_leave,
+    shared_leave,
     demo_paint,
-    demo_timer,
+    shared_timer,
     demo_point,
     demo_stick,
-    demo_click,
+    shared_click,
     NULL,
     demo_buttn,
     0
@@ -504,7 +413,7 @@ struct state st_demo = {
 
 struct state st_demo_play = {
     demo_play_enter,
-    demo_play_leave,
+    shared_leave,
     demo_play_paint,
     demo_play_timer,
     NULL,
@@ -517,12 +426,12 @@ struct state st_demo_play = {
 
 struct state st_demo_end = {
     demo_end_enter,
-    demo_end_leave,
-    demo_end_paint,
+    shared_leave,
+    shared_paint,
     demo_end_timer,
-    demo_end_point,
-    demo_end_stick,
-    demo_end_click,
+    shared_point,
+    shared_stick,
+    shared_click,
     NULL,
     demo_end_buttn,
     1, 0
@@ -530,12 +439,12 @@ struct state st_demo_end = {
 
 struct state st_demo_del = {
     demo_del_enter,
-    demo_del_leave,
-    demo_del_paint,
-    demo_del_timer,
-    demo_del_point,
-    demo_del_stick,
-    demo_del_click,
+    shared_leave,
+    shared_paint,
+    shared_timer,
+    shared_point,
+    shared_stick,
+    shared_click,
     NULL,
     demo_del_buttn,
     1, 0

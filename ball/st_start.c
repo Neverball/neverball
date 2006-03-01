@@ -19,6 +19,7 @@
 #include "level.h"
 #include "audio.h"
 #include "config.h"
+#include "st_shared.h"
 
 #include "st_set.h"
 #include "st_over.h"
@@ -245,24 +246,12 @@ static int start_enter(void)
     return id;
 }
 
-static void start_leave(int id)
-{
-    gui_delete(id);
-}
-
 static void start_paint(int id, float st)
 {
     game_draw(0, st);
     config_pop_matrix();
     gui_paint(id);
 }
-
-static void start_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
 
 static void start_point(int id, int x, int y, int dx, int dy)
 {
@@ -275,13 +264,6 @@ static void start_stick(int id, int a, int v)
     int y = (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a)) ? v : 0;
     
     start_over(gui_stick(id, x, y));
-}
-
-static int start_click(int b, int d)
-{
-    if (d && b < 0)
-        return start_action(gui_token(gui_click()));
-    return 1;
 }
 
 static int start_keybd(int c, int d)
@@ -323,12 +305,12 @@ static int start_buttn(int b, int d)
 
 struct state st_start = {
     start_enter,
-    start_leave,
+    shared_leave,
     start_paint,
-    start_timer,
+    shared_timer,
     start_point,
     start_stick,
-    start_click,
+    shared_click,
     start_keybd,
     start_buttn,
     1, 0

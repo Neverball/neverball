@@ -19,6 +19,7 @@
 #include "level.h"
 #include "audio.h"
 #include "config.h"
+#include "st_shared.h"
 
 #include "st_play.h"
 #include "st_fail.h"
@@ -45,17 +46,6 @@ static int play_ready_enter(void)
     config_set_grab();
 
     return id;
-}
-
-static void play_ready_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void play_ready_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
 }
 
 static void play_ready_timer(int id, float dt)
@@ -104,17 +94,6 @@ static int play_set_enter(void)
     audio_play(AUD_SET, 1.f);
 
     return id;
-}
-
-static void play_set_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void play_set_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
 }
 
 static void play_set_timer(int id, float dt)
@@ -172,11 +151,6 @@ static int play_loop_enter(void)
     hud_update(0);
 
     return id;
-}
-
-static void play_loop_leave(int id)
-{
-    gui_delete(id);
 }
 
 static void play_loop_paint(int id, float st)
@@ -377,8 +351,8 @@ static int look_buttn(int b, int d)
 
 struct state st_play_ready = {
     play_ready_enter,
-    play_ready_leave,
-    play_ready_paint,
+    shared_leave,
+    shared_paint,
     play_ready_timer,
     NULL,
     NULL,
@@ -390,8 +364,8 @@ struct state st_play_ready = {
 
 struct state st_play_set = {
     play_set_enter,
-    play_set_leave,
-    play_set_paint,
+    shared_leave,
+    shared_paint,
     play_set_timer,
     NULL,
     NULL,
@@ -403,7 +377,7 @@ struct state st_play_set = {
 
 struct state st_play_loop = {
     play_loop_enter,
-    play_loop_leave,
+    shared_leave,
     play_loop_paint,
     play_loop_timer,
     play_loop_point,

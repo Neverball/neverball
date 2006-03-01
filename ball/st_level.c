@@ -18,6 +18,7 @@
 #include "level.h"
 #include "audio.h"
 #include "config.h"
+#include "st_shared.h"
 
 #include "st_level.h"
 #include "st_play.h"
@@ -73,21 +74,10 @@ static int level_enter(void)
     return id;
 }
 
-static void level_leave(int id)
-{
-    gui_delete(id);
-}
-
 static void level_timer(int id, float dt)
 {
     game_step_fade(dt);
     audio_timer(dt);
-}
-
-static void level_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
 }
 
 static int level_click(int b, int d)
@@ -135,8 +125,8 @@ static int poser_buttn(int c, int d)
 
 struct state st_level = {
     level_enter,
-    level_leave,
-    level_paint,
+    shared_leave,
+    shared_paint,
     level_timer,
     NULL,
     NULL,

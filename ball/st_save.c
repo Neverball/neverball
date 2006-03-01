@@ -20,6 +20,7 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
+#include "st_shared.h"
 
 #include "st_save.h"
 
@@ -45,7 +46,7 @@ int goto_save(struct state * ok, struct state * cancel)
 #define SAVE_SAVE   2
 #define SAVE_CANCEL 3
 
-static int  file_id;
+static int file_id;
 
 static int save_action(int i)
 {
@@ -124,38 +125,6 @@ static void save_leave(int id)
     gui_delete(id);
 }
 
-static void save_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
-static void save_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
-static void save_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void save_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int save_click(int b, int d)
-{
-    if (b <= 0 && d == 1)
-        return save_action(gui_token(gui_click()));
-    return 1;
-}
-
 static int save_keybd(int c, int d)
 {
     if (d)
@@ -175,7 +144,7 @@ static int save_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return save_click(0, 1);
+            return save_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
 	    return save_action(SAVE_CANCEL);
     }
@@ -219,43 +188,6 @@ static int clobber_enter(void)
     return id;
 }
 
-static void clobber_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void clobber_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
-static void clobber_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
-static void clobber_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void clobber_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int clobber_click(int b, int d)
-{
-    if (d && b < 0)
-        return clobber_action(gui_token(gui_click()));
-    return 1;
-}
-
 static int clobber_buttn(int b, int d)
 {
     if (d)
@@ -273,11 +205,11 @@ static int clobber_buttn(int b, int d)
 struct state st_save = {
     save_enter,
     save_leave,
-    save_paint,
-    save_timer,
-    save_point,
-    save_stick,
-    save_click,
+    shared_paint,
+    shared_timer,
+    shared_point,
+    shared_stick,
+    shared_click,
     save_keybd,
     save_buttn,
     1, 0
@@ -285,12 +217,12 @@ struct state st_save = {
 
 struct state st_clobber = {
     clobber_enter,
-    clobber_leave,
-    clobber_paint,
-    clobber_timer,
-    clobber_point,
-    clobber_stick,
-    clobber_click,
+    shared_leave,
+    shared_paint,
+    shared_timer,
+    shared_point,
+    shared_stick,
+    shared_click,
     NULL,
     clobber_buttn,
     1, 0

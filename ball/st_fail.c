@@ -17,6 +17,7 @@
 #include "level.h"
 #include "audio.h"
 #include "config.h"
+#include "st_shared.h"
 
 #include "st_fail.h"
 #include "st_over.h"
@@ -54,6 +55,18 @@ static int fail_action(int i)
     return 1;
 }
 
+static int fail_buttn(int b, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+            return fail_action(gui_token(gui_click()));
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+	    return fail_action(FAIL_BACK);
+    }
+    return 1;
+}
+
 static int fall_out_enter(void)
 {
     int id, jd, kd;
@@ -84,37 +97,6 @@ static int fall_out_enter(void)
     return id;
 }
 
-static void fall_out_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void fall_out_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
-static void fall_out_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void fall_out_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int fall_out_click(int b, int d)
-{
-    if (b <= 0 && d == 1)
-        return fail_action(gui_token(gui_click()));
-    return 1;
-}
-
 static void fall_out_timer(int id, float dt)
 {
     float g[3] = { 0.0f, -9.8f, 0.0f };
@@ -126,17 +108,6 @@ static void fall_out_timer(int id, float dt)
     audio_timer(dt);
 }
 
-static int fall_out_buttn(int b, int d)
-{
-    if (d)
-    {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return fall_out_click(0, 1);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-	    return fail_action(FAIL_BACK);
-    }
-    return 1;
-}
 
 /*---------------------------------------------------------------------------*/
 
@@ -170,79 +141,30 @@ static int time_out_enter(void)
     return id;
 }
 
-static void time_out_leave(int id)
-{
-    gui_delete(id);
-}
-
-static void time_out_paint(int id, float st)
-{
-    game_draw(0, st);
-    gui_paint(id);
-}
-
-static void time_out_point(int id, int x, int y, int dx, int dy)
-{
-    gui_pulse(gui_point(id, x, y), 1.2f);
-}
-
-static void time_out_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
-}
-
-static int time_out_click(int b, int d)
-{
-    if (b <= 0 && d == 1)
-        return fail_action(gui_token(gui_click()));
-    return 1;
-}
-
-static void time_out_timer(int id, float dt)
-{
-    gui_timer(id, dt);
-    audio_timer(dt);
-}
-
-static int time_out_buttn(int b, int d)
-{
-    if (d)
-    {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return time_out_click(0, 1);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-	    return fail_action(FAIL_BACK);
-    }
-    return 1;
-}
-
 /*---------------------------------------------------------------------------*/
 
 struct state st_fall_out = {
     fall_out_enter,
-    fall_out_leave,
-    fall_out_paint,
+    shared_leave,
+    shared_paint,
     fall_out_timer,
-    fall_out_point,
-    fall_out_stick,
-    fall_out_click,
+    shared_point,
+    shared_stick,
+    shared_click,
     NULL,
-    fall_out_buttn,
+    fail_buttn,
     1, 0
 };
 
 struct state st_time_out = {
     time_out_enter,
-    time_out_leave,
-    time_out_paint,
-    time_out_timer,
-    time_out_point,
-    time_out_stick,
-    time_out_click,
+    shared_leave,
+    shared_paint,
+    shared_timer,
+    shared_point,
+    shared_stick,
+    shared_click,
     NULL,
-    time_out_buttn,
+    fail_buttn,
     1, 0
 };
