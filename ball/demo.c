@@ -24,7 +24,6 @@
 #include "set.h"
 #include "demo.h"
 #include "game.h"
-#include "level.h"
 #include "audio.h"
 #include "solid.h"
 #include "config.h"
@@ -322,7 +321,7 @@ int demo_play_init(const char *name,
 
         audio_music_fade_to(2.0f, song);
 
-        return game_init(file, back, grad, tim, (goal == 0));
+        return game_init(file, back, grad, tim, goal);
     }
     return 0;
 }
@@ -384,7 +383,7 @@ void demo_play_save(const char *name)
 
 static char demo_replay_name[MAXSTR];
 
-int demo_replay_init(const char *name, int *m, int *s, int *c, int *g, int *t)
+int demo_replay_init(const char *name, int *m, int *s, int *c, int *t)
 {
     struct demo d;
 
@@ -393,16 +392,16 @@ int demo_replay_init(const char *name, int *m, int *s, int *c, int *g, int *t)
         strncpy(demo_replay_name, name, MAXSTR);
 	if (m) *m = d.mode;
 	if (s) *s = d.score;
-	if (g) *g = d.goal;
 	if (t) *t = d.total_time;
 
-	if (g)
+	if (m)
 	{
+	    /* A normal replay demo */
 	    audio_music_fade_to(0.5f, d.song);
-	    return game_init(d.file, d.back, d.grad, d.time, (d.goal == 0));
+	    return game_init(d.file, d.back, d.grad, d.time, d.goal);
 	}
-	else
-	    return game_init(d.file, d.back, d.grad, d.time, 1);
+	else /* A title screen demo */
+	    return game_init(d.file, d.back, d.grad, d.time, 0);
     }
     
     return 0;

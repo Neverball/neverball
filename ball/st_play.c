@@ -169,6 +169,8 @@ static int play_loop_enter(void)
     game_set_fly(0.f);
     view_rotate = 0;
 
+    hud_update(0);
+
     return id;
 }
 

@@ -255,6 +255,8 @@ static int demo_play_enter(void)
     global_time = -1.f;
     replay_time =  0.f;
 
+    hud_update(0);
+
     game_set_fly(0.f);
 
     return id;

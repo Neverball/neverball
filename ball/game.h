@@ -45,6 +45,8 @@ int   game_init(const char *, const char *, const char *, int, int);
 void  game_free(void);
 
 int   curr_clock(void);
+int   curr_coins(void);
+int   curr_goal(void);
 char *curr_intro(void);
 
 void  game_draw(int, float);

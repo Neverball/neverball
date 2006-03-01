@@ -21,11 +21,9 @@
 #include "geom.h"
 #include "back.h"
 #include "part.h"
-#include "hud.h"
 #include "image.h"
 #include "audio.h"
 #include "solid.h"
-#include "level.h"
 #include "config.h"
 #include "binary.h"
 
@@ -57,9 +55,9 @@ static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view orientation          */
 static float view_k;
 
-static int   goal_e = 0;                /* Goal enabled flag                 */
+static int   coins  = 0;                /* Collected coins                   */
+static int   goal_c = 0;                /* Goal coins remaining (0 = open)   */
 static float goal_k = 0;                /* Goal animation                    */
-static int   goal_s = 0;                /* Goal reached flag                 */
 static int   swch_e = 1;                /* Switching enabled flag            */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
@@ -102,10 +100,11 @@ static void view_init(void)
 
 int game_init(const char *file_name,
               const char *back_name,
-              const char *grad_name, int t, int e)
+              const char *grad_name, int t, int g)
 {
     clock      = (float) t / 100.f;
     clock_down = (t > 0);
+    coins      = 0;
 
     if (game_state)
         game_free();
@@ -120,15 +119,8 @@ int game_init(const char *file_name,
     jump_e = 1;
     jump_b = 0;
 
-    goal_e = e ? 1    : 0;
-    goal_k = e ? 1.0f : 0.0f;
-    goal_s = 0;
-
-    /* Reset the hud. */
-
-    hud_ball_pulse(0.f);
-    hud_time_pulse(0.f);
-    hud_coin_pulse(0.f);
+    goal_c = g;
+    goal_k = (g == 0) ? 1.0f : 0.0f;
 
     /* Initialise the level, background, particles, fade, and view. */
 
@@ -164,6 +156,16 @@ void game_free(void)
 int curr_clock(void)
 {
     return (int) (clock * 100.f);
+}
+
+int curr_coins(void)
+{
+    return coins;
+}
+
+int curr_goal(void)
+{
+    return goal_c;
 }
 
 char *curr_intro(void)
@@ -225,7 +227,7 @@ static void game_draw_goals(const struct s_file *fp, float rx, float ry)
 {
     int zi;
 
-    if (goal_e)
+    if (goal_c == 0)
         for (zi = 0; zi < fp->zc; zi++)
         {
             glPushMatrix();
@@ -604,10 +606,7 @@ static void game_update_view(float dt)
 
 static void game_update_time(float dt, int b)
 {
-    int tick = (int) floor(clock);
-    int tock = (int) floor(clock * 2);
-
-    if (goal_e && goal_k < 1.0f)
+    if (goal_c == 0 && goal_k < 1.0f)
         goal_k += dt;
 
    /* The ticking clock. */
@@ -618,17 +617,6 @@ static void game_update_time(float dt, int b)
             clock -= dt;
         if (clock < 0.f)
             clock = 0.f;
-
-        if (0 < tick && tick <= 10 && tick == (int) ceil(clock))
-        {
-            audio_play(AUD_TICK, 1.f);
-            hud_time_pulse(1.50);
-        }
-        else if (0 < tock && tock <= 10 && tock == (int) ceil(clock * 2))
-        {
-            audio_play(AUD_TOCK, 1.f);
-            hud_time_pulse(1.25);
-        }
     }
     else if (b)
     {
@@ -650,8 +638,21 @@ static int game_update_state(int bt)
         coin_color(c, n);
         part_burst(p, c);
 
-        if (level_score(n))
-            goal_e = 1;
+	coins += n;
+	/* Check for goal open. */
+	if (goal_c > 0)
+	{
+	    goal_c = goal_c - n;
+	    if (goal_c <= 0)
+	    {
+	        audio_play(AUD_SWITCH, 1.f);
+		goal_c = 0;
+	    }
+	    else
+	        audio_play(AUD_COIN, 1.f);
+	} 
+	else
+	    audio_play(AUD_COIN, 1.f);
     }
 
     /* Test for a switch. */
@@ -674,13 +675,9 @@ static int game_update_state(int bt)
 
     /* Test for a goal. */
 
-    if (bt && goal_e && sol_goal_test(fp, p, 0))
+    if (bt && goal_c == 0 && sol_goal_test(fp, p, 0))
     {
-	if (!goal_s)
-	{
-	    goal_s = 1;
-	    audio_play(AUD_GOAL, 1.0f);
-	}
+	audio_play(AUD_GOAL, 1.0f);
         return GAME_GOAL;
     }
 

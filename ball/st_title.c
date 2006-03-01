@@ -94,8 +94,7 @@ static int title_enter(void)
 
     /* Initialize the first level of the first set for display. */
 
-    game_init("map-rlk/title.sol",
-              "map-back/jupiter.sol", "png/space.png", 0, 1);
+    game_init("map-rlk/title.sol", "map-back/jupiter.sol", "png/space.png", 0, 0);
 
     real_time = 0.0f;
     demo_time = 0.0f;
@@ -143,7 +142,7 @@ static void title_timer(int id, float dt)
         {
             if ((demo = demo_pick()))
             {
-                demo_replay_init(demo, NULL, NULL, NULL, NULL, NULL);
+                demo_replay_init(demo, NULL, NULL, NULL, NULL);
                 demo_time = 0.0f;
                 real_time = 0.0f;
                 mode = 2;
@@ -175,8 +174,7 @@ static void title_timer(int id, float dt)
 
         if (real_time > 1.0f)
         {
-            game_init("map-rlk/title.sol",
-                      "map-back/jupiter.sol", "png/space.png", 0, 1);
+            game_init("map-rlk/title.sol", "map-back/jupiter.sol", "png/space.png", 0, 0);
             real_time = 0.0f;
             mode = 0;
         }

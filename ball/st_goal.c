@@ -63,29 +63,19 @@ static int goal_action(int i)
 	    return goto_state(&st_start);
 
     case GOAL_SAVE:
-        while (level_count())
-            ;
         return goto_save(&st_goal_bis, &st_goal_bis);
 
     case GOAL_NAME:
-        while (level_count())
-            ;
         return goto_name(&st_goal_bis, &st_goal_bis);
 	
     case GOAL_DONE:
-	while (level_count())
-	    ;
 	return goto_state(&st_done);
 	
     case GOAL_NEXT:
-        while (level_count())
-            ;
 	level_next();
 	return goto_state(&st_level);
 
     case GOAL_SAME:
-        while (level_count())
-            ;
 	return goto_state(&st_level);
     }
 
@@ -112,6 +102,9 @@ static int goal_init(int * gidp)
 
 	if (level_mode() == MODE_CHALLENGE)
 	{
+	    int coins = curr_coins();
+	    int score = curr_score() - coins;
+	    int balls = curr_balls() - count_extra_balls(score, coins);
 	    if ((jd = gui_hstack(id)))
 	    {
                 if ((kd = gui_harray(jd)))
@@ -130,9 +123,9 @@ static int goal_init(int * gidp)
 		    gui_label(kd, _("Coins"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
 		}
 
-		gui_set_count(balls_id, curr_balls());
-		gui_set_count(score_id, curr_score());
-		gui_set_count(coins_id, curr_coins());
+		gui_set_count(balls_id, balls);
+		gui_set_count(score_id, score);
+		gui_set_count(coins_id, coins);
 	    }
 	}
 	
@@ -224,29 +217,25 @@ static void goal_timer(int id, float dt)
 
     if (time_state() < 1.f)
         game_step(g, dt, 0);
-    else if (DT > 0.05f)
+    else if (DT > 0.05f && level_mode() == MODE_CHALLENGE)
     {
-        if (level_count())
+	int coins = gui_value(coins_id);
+        if (coins > 0)
         {
-            int coins = curr_coins();
-            int score = curr_score();
-            int balls = curr_balls();
+	    int score = gui_value(score_id);
+	    int balls = gui_value(balls_id);
 
-            if (gui_value(coins_id) != coins)
-            {
-                gui_set_count(coins_id, coins);
-                gui_pulse(coins_id, 1.1f);
-            }
-            if (gui_value(score_id) != score)
-            {
-                gui_set_count(score_id, score);
-                gui_pulse(score_id, 1.1f);
-            }
-            if (gui_value(balls_id) != balls)
-            {
-                gui_set_count(balls_id, balls);
+	    gui_set_count(coins_id, coins - 1);
+	    gui_pulse(coins_id, 1.1f);
+	    
+	    gui_set_count(score_id, score + 1);
+	    gui_pulse(score_id, 1.1f);
+	    if ((score+1) % 100 == 0)
+	    {
+                gui_set_count(balls_id, balls + 1);
                 gui_pulse(balls_id, 2.0f);
-            }
+	        audio_play(AUD_BALL, 1.0f);
+	    }
         }
 
         DT = 0.0f;
