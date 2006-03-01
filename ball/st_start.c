@@ -246,13 +246,6 @@ static int start_enter(void)
     return id;
 }
 
-static void start_paint(int id, float st)
-{
-    game_draw(0, st);
-    config_pop_matrix();
-    gui_paint(id);
-}
-
 static void start_point(int id, int x, int y, int dx, int dy)
 {
     start_over(gui_point(id, x, y));
@@ -306,7 +299,7 @@ static int start_buttn(int b, int d)
 struct state st_start = {
     start_enter,
     shared_leave,
-    start_paint,
+    shared_paint,
     shared_timer,
     start_point,
     start_stick,

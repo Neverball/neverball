@@ -119,13 +119,6 @@ static int set_enter(void)
     return id;
 }
 
-static void set_paint(int id, float st)
-{
-    game_draw(0, st);
-    config_pop_matrix();
-    gui_paint(id);
-}
-
 static void set_over(int i)
 {
     gui_set_image(shot_id, set_shot(i));
@@ -165,7 +158,7 @@ static int set_buttn(int b, int d)
 struct state st_set = {
     set_enter,
     shared_leave,
-    set_paint,
+    shared_paint,
     shared_timer,
     set_point,
     set_stick,

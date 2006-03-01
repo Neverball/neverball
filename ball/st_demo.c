@@ -187,13 +187,6 @@ static int demo_enter(void)
     return id;
 }
 
-static void demo_paint(int id, float st)
-{
-    game_draw(0, st);
-    config_pop_matrix();
-    gui_paint(id);
-}
-
 static void demo_point(int id, int x, int y, int dx, int dy)
 {
     int jd = shared_point_basic(id, x, y);
@@ -401,7 +394,7 @@ static int demo_del_buttn(int b, int d)
 struct state st_demo = {
     demo_enter,
     shared_leave,
-    demo_paint,
+    shared_paint,
     shared_timer,
     demo_point,
     demo_stick,

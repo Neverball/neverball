@@ -270,13 +270,6 @@ static int help_enter(void)
     return id;
 }
 
-static void help_paint(int id, float st)
-{
-    game_draw(0, st);
-    config_pop_matrix();
-    gui_paint(id);
-}
-
 static int help_click(int b, int d)
 {
     return d ? goto_state(&st_title) : 1;
@@ -310,7 +303,7 @@ struct state st_title = {
 struct state st_help = {
     help_enter,
     shared_leave,
-    help_paint,
+    shared_paint,
     shared_timer,
     NULL,
     NULL,
