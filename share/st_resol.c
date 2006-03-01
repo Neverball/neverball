@@ -1,5 +1,6 @@
-/*   
- * Copyright (C) 2003 Robert Kooima
+/*
+ * Copyright (C) 2003 Robert Kooima - 2006 Jean Privat
+ * Part of the Neverball Project http://icculus.org/neverball/
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
  * it under the  terms of the GNU General  Public License as published
@@ -11,6 +12,7 @@
  * MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.   See the GNU
  * General Public License for more details.
  */
+
 
 #include <string.h>
 
