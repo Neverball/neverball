@@ -21,6 +21,7 @@ SDL_LIBS= $(shell sdl-config --libs)
 FT2_LIBS= $(shell freetype-config --libs)
 
 MAPC_TARG= mapc
+MAPC_EXEC = ./$(MAPC_TARG)
 BALL_TARG= neverball
 PUTT_TARG= neverputt
 
@@ -123,7 +124,7 @@ LINGUAS= $(POS:po/%.po=%)
 	$(CC) $(CFLAGS) -Ishare -o $@ -c $<
 
 %.sol : %.map $(MAPC_TARG)
-	./$(MAPC_TARG) $< data
+	$(MAPC_EXEC) $< data
 
 $(LOCALEDIR)/%$(MESSAGEPART) : po/%.po
 	mkdir -p `dirname $@`
