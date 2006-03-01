@@ -52,7 +52,6 @@ struct level
 };
 
 static int score;                       /* Current coin total         */
-static int coins;                       /* Current coin count         */
 static int balls;                       /* Current life count         */
 
 static int level;                       /* Current level number       */
@@ -166,7 +165,6 @@ static void level_init_rc(const char *filename)
 
     count = 0;
     level = 0;
-    coins = 0;
     score = 0;
     balls = 0;
 
@@ -447,7 +445,6 @@ static void score_coin_swap(struct score *S, int i, int j)
 
 int level_replay(const char *filename)
 {
-    coins = 0;
     return demo_replay_init(filename, &mode, &score, &balls, &times_total);
 }
 
@@ -456,7 +453,6 @@ int level_play_go(void)
 {
     int time, goal;
     
-    coins  = 0;
     goal   = (mode == MODE_PRACTICE) ? 0 : level_v[level].goal;
     time   = (mode == MODE_PRACTICE) ? 0 : level_v[level].time;
     
