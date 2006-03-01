@@ -26,6 +26,10 @@
 #include "st_demo.h"
 #include "st_title.h"
 
+extern struct state st_demo_play;
+extern struct state st_demo_end;
+extern struct state st_demo_del;
+
 /*---------------------------------------------------------------------------*/
 
 #define DEMO_BACK -1
@@ -64,7 +68,7 @@ static int demo_action(int i)
 
     default:
         if (level_replay(demo_filename(i)))
-            return goto_state(&st_demo_play);
+            return goto_demo_play(0);
     }
     return 1;
 }
@@ -217,6 +221,13 @@ static int demo_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
+static int simple_play;
+int goto_demo_play(int simple)
+{
+    simple_play = simple;
+    return goto_state(&st_demo_play);
+}
+
 static int demo_play_enter(void)
 {
     int id;
@@ -283,21 +294,26 @@ static int demo_play_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-#define DEMO_KEEP 0
-#define DEMO_DEL  1
+#define DEMO_KEEP  0
+#define DEMO_DEL   1
+#define DEMO_QUIT  2
 
 static int demo_end_action(int i)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    if (i == DEMO_DEL)
-        return goto_state(&st_demo_del);
-
-    else
+    switch (i)
     {
+    case DEMO_DEL: 
+	return goto_state(&st_demo_del);
+    case DEMO_KEEP:
         demo_replay_stop(0);
         return goto_state(&st_demo);
+    case DEMO_QUIT:
+	demo_replay_stop(0);
+	return 0;
     }
+    return 1;
 }
 
 static int demo_end_enter(void)
@@ -310,8 +326,13 @@ static int demo_end_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, _("Delete"), GUI_SML, DEMO_DEL,  0);
-            gui_start(jd, _("Keep"),   GUI_SML, DEMO_KEEP, 1);
+	    if (simple_play)
+                gui_start(jd, _("OK"),   GUI_SML,   DEMO_QUIT, 1);
+	    else
+	    {
+                gui_state(jd, _("Delete"), GUI_SML, DEMO_DEL,  0);
+                gui_start(jd, _("Keep"),   GUI_SML, DEMO_KEEP, 1);
+	    }
         }
 
         gui_pulse(kd, 1.2f);
@@ -340,7 +361,7 @@ static int demo_end_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return demo_end_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return demo_end_action(DEMO_KEEP);
+            return demo_end_action(simple_play ? DEMO_QUIT : DEMO_KEEP);
     }
     return 1;
 }

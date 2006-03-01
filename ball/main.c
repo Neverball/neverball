@@ -325,7 +325,7 @@ int main(int argc, char *argv[])
 	{
 	    level_replay(replay_path);
 	    demo_replay_dump_info();
-	    goto_state(&st_demo_play);
+	    goto_demo_play(1);
 	}
 	else
 	{
