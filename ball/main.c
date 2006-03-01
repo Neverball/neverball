@@ -35,12 +35,14 @@
 #include "image.h"
 #include "audio.h"
 #include "demo.h"
+#include "level.h"
 #include "game.h"
 #include "gui.h"
 #include "set.h"
 
 #include "st_conf.h"
 #include "st_title.h"
+#include "st_demo.h"
 
 #define TITLE _("Neverball")
 
@@ -205,118 +207,163 @@ static int loop(void)
     return d;
 }
 
+static char * data_path   = NULL;
+static char * replay_path = NULL;
+
+static void parse_args(int argc, char ** argv)
+{
+    char * exec = *(argv++);
+    
+    while (*argv != NULL)
+    {
+	if (strcmp(*argv, "-h") == 0 || strcmp(*argv, "-?") == 0 || strcmp(*argv, "--help") == 0)
+	{
+	    printf(_("Usage: %s [--data data_dir] [--replay replay_file]\n"), exec);
+	    exit(0);
+	}
+	else if (strcmp(*argv, "--data") == 0)
+	    data_path = *(++argv);
+	else if (strcmp(*argv, "--replay") == 0)
+	    replay_path = *(++argv);
+	else
+	{
+	    fprintf(stderr, _("Unknown option %s\n"), *argv);
+	    exit(1);
+	}
+	argv++;
+    }
+    return;
+}
+
 int main(int argc, char *argv[])
 {
-    language_init("neverball", CONFIG_LOCALE);
+    SDL_Joystick *joy = NULL;
     
-    if (config_data_path((argc > 1 ? argv[1] : NULL), SET_FILE))
+    language_init("neverball", CONFIG_LOCALE);
+
+    parse_args(argc, argv);
+    
+    if (!config_data_path(data_path, SET_FILE))
     {
-        if (config_user_path(NULL))
-        {
-            if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK))
-            {
-                SDL_Joystick *joy = NULL;
-
-                config_init();
-                config_load();
-
-		/* Initialize the language. */
-		language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
-
-                /* Initialize the joystick. */
-
-                if (SDL_NumJoysticks() > 0)
-                {
-                    joy=SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
-                    if (joy)
-                        SDL_JoystickEventState(SDL_ENABLE);
-                }
-
-                /* Initialize the audio. */
-
-                audio_bind(AUD_MENU,   3, "snd/menu.wav");
-                audio_bind(AUD_START,  1, "snd/select.ogg");
-                audio_bind(AUD_READY,  1, "snd/ready.ogg");
-                audio_bind(AUD_SET,    1, "snd/set.ogg");
-                audio_bind(AUD_GO,     1, "snd/go.ogg");
-                audio_bind(AUD_BALL,   2, "snd/ball.ogg");
-                audio_bind(AUD_BUMP,   3, "snd/bump.ogg");
-                audio_bind(AUD_COIN,   2, "snd/coin.wav");
-                audio_bind(AUD_TICK,   4, "snd/tick.ogg");
-                audio_bind(AUD_TOCK,   4, "snd/tock.ogg");
-                audio_bind(AUD_SWITCH, 5, "snd/switch.wav");
-                audio_bind(AUD_JUMP,   5, "snd/jump.ogg");
-                audio_bind(AUD_GOAL,   5, "snd/goal.wav");
-                audio_bind(AUD_SCORE,  1, "snd/record.ogg");
-                audio_bind(AUD_FALL,   1, "snd/fall.ogg");
-                audio_bind(AUD_TIME,   1, "snd/time.ogg");
-                audio_bind(AUD_OVER,   1, "snd/over.ogg");
-
-                audio_init();
-
-                /* Require 16-bit double buffer with 16-bit depth buffer. */
-
-                SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
-                SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
-                SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
-                SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-                SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-                /* Initialize the video. */
-
-                if (config_mode(config_get_d(CONFIG_FULLSCREEN),
-                                config_get_d(CONFIG_WIDTH),
-                                config_get_d(CONFIG_HEIGHT)))
-                {
-                    int t1, t0 = SDL_GetTicks();
-
-		    SDL_Surface *icon = IMG_Load(config_data("icon/neverball.png"));
-		    SDL_WM_SetIcon(icon, NULL);
-                    SDL_WM_SetCaption(TITLE, TITLE); 
-
-                    /* Initialize the run state and the title display. */
-
-                    init_state(&st_null);
-                    goto_state(&st_title);
-
-                    /* Run the main game loop. */
-
-                    while (loop())
-                        if ((t1 = SDL_GetTicks()) > t0)
-                        {
-                            if (config_get_pause())
-                            {
-                                st_paint();
-                                gui_blank();
-                            }
-                            else
-                            {
-                                st_timer((t1 - t0) / 1000.f);
-                                st_paint();
-                            }
-                            SDL_GL_SwapBuffers();
-
-                            t0 = t1;
-
-                            if (config_get_d(CONFIG_NICE))
-                                SDL_Delay(1);
-                        }
-                }
-                else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
-
-                config_save();
-
-                if (SDL_JoystickOpened(0))
-                    SDL_JoystickClose(joy);
-
-                SDL_Quit();
-            }
-            else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
-        }
-        else fprintf(stderr, _("Failure to establish config directory\n"));
+        fprintf(stderr, _("Failure to establish game data directory\n"));
+	return 1;
     }
-    else fprintf(stderr, _("Failure to establish game data directory\n"));
+    
+    if (!config_user_path(NULL))
+    {
+        fprintf(stderr, _("Failure to establish config directory\n"));
+	return 1;
+    }
+    
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
+    {
+	fprintf(stderr, "%s\n", SDL_GetError());
+	return 1;
+    }
+  
+    config_init();
+    config_load();
 
+    /* Initialize the language. */
+    language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
+
+    /* Initialize the joystick. */
+
+    if (SDL_NumJoysticks() > 0)
+    {
+	joy=SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
+	if (joy)
+		SDL_JoystickEventState(SDL_ENABLE);
+    }
+
+    /* Initialize the audio. */
+
+    audio_bind(AUD_MENU,   3, "snd/menu.wav");
+    audio_bind(AUD_START,  1, "snd/select.ogg");
+    audio_bind(AUD_READY,  1, "snd/ready.ogg");
+    audio_bind(AUD_SET,    1, "snd/set.ogg");
+    audio_bind(AUD_GO,     1, "snd/go.ogg");
+    audio_bind(AUD_BALL,   2, "snd/ball.ogg");
+    audio_bind(AUD_BUMP,   3, "snd/bump.ogg");
+    audio_bind(AUD_COIN,   2, "snd/coin.wav");
+    audio_bind(AUD_TICK,   4, "snd/tick.ogg");
+    audio_bind(AUD_TOCK,   4, "snd/tock.ogg");
+    audio_bind(AUD_SWITCH, 5, "snd/switch.wav");
+    audio_bind(AUD_JUMP,   5, "snd/jump.ogg");
+    audio_bind(AUD_GOAL,   5, "snd/goal.wav");
+    audio_bind(AUD_SCORE,  1, "snd/record.ogg");
+    audio_bind(AUD_FALL,   1, "snd/fall.ogg");
+    audio_bind(AUD_TIME,   1, "snd/time.ogg");
+    audio_bind(AUD_OVER,   1, "snd/over.ogg");
+
+    audio_init();
+
+    /* Require 16-bit double buffer with 16-bit depth buffer. */
+
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+    /* Initialize the video. */
+
+    if (config_mode(config_get_d(CONFIG_FULLSCREEN),
+	            config_get_d(CONFIG_WIDTH),
+		    config_get_d(CONFIG_HEIGHT)))
+    {
+	int t1, t0 = SDL_GetTicks();
+
+	SDL_Surface *icon = IMG_Load(config_data("icon/neverball.png"));
+	SDL_WM_SetIcon(icon, NULL);
+	SDL_WM_SetCaption(TITLE, TITLE); 
+
+	/* Initialize the run state. */
+	init_state(&st_null);
+	
+	if (replay_path != NULL)
+	{
+	    level_replay(replay_path);
+	    demo_replay_dump_info();
+	    goto_state(&st_demo_play);
+	}
+	else
+	{
+	    goto_state(&st_title);
+	}
+
+	/* Run the main game loop. */
+
+	while (loop())
+	    if ((t1 = SDL_GetTicks()) > t0)
+	    {
+		if (config_get_pause())
+		{
+		    st_paint();
+		    gui_blank();
+		}
+		else
+		{
+		    st_timer((t1 - t0) / 1000.f);
+		    st_paint();
+		}
+		SDL_GL_SwapBuffers();
+
+		t0 = t1;
+
+		if (config_get_d(CONFIG_NICE))
+		    SDL_Delay(1);
+	    }
+    }
+    else 
+        fprintf(stderr, "%s\n", SDL_GetError());
+
+    config_save();
+
+    if (SDL_JoystickOpened(0))
+	SDL_JoystickClose(joy);
+
+    SDL_Quit();
     return 0;
 }
 

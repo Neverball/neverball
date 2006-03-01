@@ -8,6 +8,7 @@
 int         demo_scan(void);
 const char *demo_pick(void);
 const char *demo_name(int);
+const char *demo_filename(int);
 const char *demo_shot(int);
 int         demo_coins(int);
 int         demo_clock(int);
@@ -34,6 +35,7 @@ void demo_play_save(const char *);
 int  demo_replay_init(const char *, int *, int *, int *, int *);
 int  demo_replay_step(float *);
 void demo_replay_stop(int);
+void demo_replay_dump_info(void);
 
 /*---------------------------------------------------------------------------*/
 

@@ -63,7 +63,7 @@ static int demo_action(int i)
         break;
 
     default:
-        if (level_replay(demo_name(i)))
+        if (level_replay(demo_filename(i)))
             return goto_state(&st_demo_play);
     }
     return 1;

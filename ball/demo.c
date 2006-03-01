@@ -40,7 +40,8 @@ static FILE *demo_fp;
 /* Demo information structure (header) */
 struct demo
 {
-    char   name[MAXNAM];    /* demo filename */
+    char   name[MAXNAM];      /* demo basename */
+    char   filename[PATHMAX]; /* demo path */
 
     /* magic */
     int    timer;           /* elapsed time */
@@ -71,7 +72,8 @@ static int count; /* number of scanned demos */
 void demo_dump_info(struct demo * d)
 /* This function dump the info of a demo structure*/
 {
-    printf("Filename: %s\n"
+    printf("Name:     %s\n"
+	   "File:     %s\n"
 	   "Time:     %d\n"
 	   "Coins:    %d\n"
 	   "Mode:     %d\n"
@@ -88,7 +90,7 @@ void demo_dump_info(struct demo * d)
 	   "Score:    %d\n"
 	   "Balls:    %d\n"
 	   "Tot Time: %d\n",
-	   d->name,
+	   d->name, d->filename,
 	   d->timer, d->coins, d->mode, d->state, ctime(&d->date),
 	   d->player,
 	   d->shot, d->file, d->back, d->grad, d->song,
@@ -101,7 +103,8 @@ If success, return the file pointer positioned after the header
 If fail, return null */
 {
     FILE *fp;
-    if ((fp = fopen(config_user(filename), FMODE_RB)))
+    char * basename;
+    if ((fp = fopen(filename, FMODE_RB)))
     {
 	int magic;
 	int t;
@@ -111,7 +114,18 @@ If fail, return null */
 
 	if (magic == MAGIC && t)
 	{
-	    strncpy(d->name, filename, MAXNAM);
+#ifdef _WIN32
+	    basename = strrchr(filename, '\\');
+#else
+	    basename = strrchr(filename, '/');
+#endif
+	    if (basename != NULL)
+	        strncpy(d->name, basename+1, MAXNAM);
+	    else
+	        strncpy(d->name, filename, MAXNAM);
+			
+	    strncpy(d->filename, filename, PATHMAX);
+	    
 	    d->timer = t;
 	    get_index(fp, &d->coins);
 	    get_index(fp, &d->state);
@@ -142,7 +156,7 @@ static void demo_scan_file(const char * filename)
 /* Scan a other file (used by demo_scan */
 {
     FILE *fp;
-    if ((fp = demo_header(filename, &demos[count])))
+    if ((fp = demo_header(config_user(filename), &demos[count])))
     {
 	count++;
 	fclose(fp);
@@ -198,7 +212,12 @@ const char *demo_pick(void)
 {
     int n = demo_scan();
 
-    return (n > 0) ? demos[(rand() >> 4) % n].name : NULL;
+    return (n > 0) ? demos[(rand() >> 4) % n].filename : NULL;
+}
+
+const char *demo_filename(int i)
+{
+    return (0 <= i && i < count) ? demos[i].filename : NULL;
 }
 
 const char *demo_name(int i)
@@ -381,27 +400,25 @@ void demo_play_save(const char *name)
 
 /*---------------------------------------------------------------------------*/
 
-static char demo_replay_name[MAXSTR];
+static struct demo demo_replay; /* The current demo */
 
 int demo_replay_init(const char *name, int *m, int *s, int *c, int *t)
 {
-    struct demo d;
 
-    if ((demo_fp = demo_header(name, &d)))
+    if ((demo_fp = demo_header(name, &demo_replay)))
     {
-        strncpy(demo_replay_name, name, MAXSTR);
-	if (m) *m = d.mode;
-	if (s) *s = d.score;
-	if (t) *t = d.total_time;
+	if (m) *m = demo_replay.mode;
+	if (s) *s = demo_replay.score;
+	if (t) *t = demo_replay.total_time;
 
 	if (m)
 	{
 	    /* A normal replay demo */
-	    audio_music_fade_to(0.5f, d.song);
-	    return game_init(d.file, d.back, d.grad, d.time, d.goal);
+	    audio_music_fade_to(0.5f, demo_replay.song);
+	    return game_init(demo_replay.file, demo_replay.back, demo_replay.grad, demo_replay.time, demo_replay.goal);
 	}
 	else /* A title screen demo */
-	    return game_init(d.file, d.back, d.grad, d.time, 0);
+	    return game_init(demo_replay.file, demo_replay.back, demo_replay.grad, demo_replay.time, 0);
     }
     
     return 0;
@@ -437,8 +454,13 @@ void demo_replay_stop(int d)
         fclose(demo_fp);
         demo_fp = NULL;
 
-        if (d) unlink(config_user(demo_replay_name));
+        if (d) unlink(demo_replay.filename);
     }
+}
+
+void demo_replay_dump_info(void)
+{
+    demo_dump_info(&demo_replay);
 }
 
 /*---------------------------------------------------------------------------*/
