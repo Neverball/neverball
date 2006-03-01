@@ -26,7 +26,7 @@
 #include "geom.h"
 #include "image.h"
 #include "solid.h"
-#include "config.h"
+#include "base_config.h"
 #include "binary.h"
 
 #define LARGE 1.0e+5f

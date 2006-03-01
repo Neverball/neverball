@@ -35,7 +35,7 @@
 #include "vec3.h"
 #include "glext.h"
 #include "solid.h"
-#include "config.h"
+#include "base_config.h"
 
 #define MAXSTR 256
 #define MAXKEY 16

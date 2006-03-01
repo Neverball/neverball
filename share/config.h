@@ -15,50 +15,16 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <SDL.h>
-#include <stdio.h>
-#include "i18n.h"
-
-/*---------------------------------------------------------------------------*/
-
-#define CONFIG_DATA "./data"
-#define CONFIG_LOCALE "./locale"
-#define CONFIG_USER ".neverball"
-
 /*
- * Global settings are stored in USER_CONFIG_FILE.  Replays are stored
- * in  USER_REPLAY_FILE.  These files  are placed  in the  user's home
- * directory as given by the HOME environment var.  If the config file
- * is deleted, it will be recreated using the defaults.
+ * This file contains:
+ * 1- some global config methods (stored in a config file)
+ * 2- some SDL based function
+ *
+ * If you look for constants, you should also see base_config.h
  */
-#define USER_CONFIG_FILE "neverballrc"
-#define USER_REPLAY_FILE _("Last")
-#define ALLOW_CHEAT	 1
 
-/*---------------------------------------------------------------------------*/
-
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-#define RMASK 0xFF000000
-#define GMASK 0x00FF0000
-#define BMASK 0x0000FF00
-#define AMASK 0x000000FF
-#else
-#define RMASK 0x000000FF
-#define GMASK 0x0000FF00
-#define BMASK 0x00FF0000
-#define AMASK 0xFF000000
-#endif
-
-#ifdef _WIN32
-#define FMODE_RB "rb"
-#define FMODE_WB "wb"
-#else
-#define FMODE_RB "r"
-#define FMODE_WB "w"
-#endif
-
-#define AUDIO_BUFF_HI 2048
-#define AUDIO_BUFF_LO 1024
+#include <SDL.h>
+#include "base_config.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -173,27 +139,10 @@ enum {
 
 /*---------------------------------------------------------------------------*/
 
-#define JOY_MAX 32767
-#define JOY_MID 16383
-
-#define MAXSTR 256
-#define MAXLVL 26
-#define MAXNAM 9
-
-#define GUI_FACE                    _("ttf/DejaVuSans-Bold.ttf")
-
-/*---------------------------------------------------------------------------*/
-
 void config_init(void);
 void config_load(void);
 void config_save(void);
 int  config_mode(int, int, int);
-
-const char *config_data(const char *);
-const char *config_user(const char *);
-
-int  config_data_path(const char *, const char *);
-int  config_user_path(const char *);
 
 /*---------------------------------------------------------------------------*/
 

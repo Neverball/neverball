@@ -16,7 +16,6 @@
 #include <math.h>
 #include <string.h>
 
-#include "config.h"
 #include "glext.h"
 #include "vec3.h"
 #include "back.h"

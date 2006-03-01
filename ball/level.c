@@ -643,7 +643,7 @@ void level_snap(int i)
         game_draw(1, 0);
         SDL_GL_SwapBuffers();
 
-        image_snap(filename);
+        image_snap(filename, config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT));
     }
 }
 

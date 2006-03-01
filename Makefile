@@ -37,7 +37,7 @@ MAPC_OBJS= \
 	share/image.o  \
 	share/solid.o  \
 	share/binary.o \
-	share/config.o \
+	share/base_config.o \
 	share/mapc.o
 BALL_OBJS= \
 	share/i18n.o    \
@@ -50,6 +50,7 @@ BALL_OBJS= \
 	share/back.o    \
 	share/geom.o    \
 	share/gui.o     \
+	share/base_config.o  \
 	share/config.o  \
 	share/binary.o  \
 	share/state.o   \
@@ -85,6 +86,7 @@ PUTT_OBJS= \
 	share/part.o   \
 	share/geom.o   \
 	share/back.o   \
+	share/base_config.o  \
 	share/config.o \
 	share/binary.o \
 	share/audio.o  \

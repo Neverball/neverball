@@ -8,7 +8,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-void   image_snap(char *);
+void   image_snap(char *, int, int);
 void   image_size(int *, int *, int, int);
 
 void         image_swab (SDL_Surface *);

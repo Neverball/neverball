@@ -59,7 +59,7 @@ static int shot(void)
 
     sprintf(filename, "screen%02d.bmp", num++);
 
-    image_snap(filename);
+    image_snap(filename, config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT));
 
     return 1;
 }

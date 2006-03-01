@@ -20,14 +20,12 @@
 
 #include "glext.h"
 #include "image.h"
-#include "config.h"
+#include "base_config.h"
 
 /*---------------------------------------------------------------------------*/
 
-void image_snap(char *filename)
+void image_snap(char *filename, int w, int h)
 {
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
     int i;
 
     SDL_Surface *buf = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
@@ -165,7 +163,8 @@ SDL_Surface *image_scale(SDL_Surface *src, int n)
  */
 GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
 {
-    int    t = config_get_d(CONFIG_TEXTURES);
+    /*int    t = config_get_d(CONFIG_TEXTURES);*/
+    int    t = 0; /* TODO: Fint a way to revert CONFIG_TEXTURES */
     GLuint o = 0;
 
     glGenTextures(1, &o);
