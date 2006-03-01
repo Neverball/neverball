@@ -39,11 +39,17 @@ static int   mode      = 0;
 
 static int title_action(int i)
 {
+    char player[MAXNAM];
     audio_play(AUD_MENU, 1.0f);
 
     switch (i)
     {
-    case TITLE_PLAY: return goto_state(&st_set);
+    case TITLE_PLAY: 
+	config_get_s(CONFIG_PLAYER, player, MAXNAM);
+	if (player[0] == '\0')
+	    return goto_name(&st_set, &st_title);
+	else
+	    return goto_state(&st_set);
     case TITLE_HELP: return goto_state(&st_help);
     case TITLE_DEMO: return goto_state(&st_demo);
     case TITLE_CONF: return goto_state(&st_conf);

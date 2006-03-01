@@ -48,7 +48,7 @@ static int done_action(int i)
         return goto_state(&st_start);
 
     case DONE_NAME:
-	return goto_name(&st_done_bis);
+	return goto_name(&st_done_bis, &st_done_bis);
     }
     return 1;
 }

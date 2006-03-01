@@ -25,14 +25,18 @@
 
 extern struct state st_save;
 extern struct state st_clobber;
+static char filename[MAXNAM];
 
 /*---------------------------------------------------------------------------*/
 
-static struct state * next_state;
+static struct state * ok_state;
+static struct state * cancel_state;
 
-int goto_save(struct state * nextstate)
+int goto_save(struct state * ok, struct state * cancel)
 {
-    next_state = nextstate;
+    demo_unique(filename);
+    ok_state     = ok;
+    cancel_state = cancel;
     return goto_state(&st_save);
 }
 
@@ -42,7 +46,6 @@ int goto_save(struct state * nextstate)
 #define SAVE_CANCEL 3
 
 static int  file_id;
-static char filename[MAXNAM];
 
 static int save_action(int i)
 {
@@ -60,15 +63,11 @@ static int save_action(int i)
         else
         {
 	    demo_play_save(filename);
-	    return goto_state(next_state);
+	    return goto_state(ok_state);
         }
 
     case SAVE_CANCEL:
-	return goto_state(next_state);
-
-    case GUI_CL:
-        gui_keyboard_lock();
-        break;
+	return goto_state(cancel_state);
 
     case GUI_BS:
         if (l > 0)
@@ -81,7 +80,7 @@ static int save_action(int i)
     default:
         if (l < MAXNAM - 1)
         {
-            filename[l + 0] = gui_keyboard_char((char) i);
+            filename[l + 0] = (char) i;
             filename[l + 1] = 0;
             gui_set_label(file_id, filename);
         }
@@ -92,8 +91,6 @@ static int save_action(int i)
 static int save_enter(void)
 {
     int id, jd;
-
-    demo_unique(filename);
 
     if ((id = gui_vstack(0)))
     {
@@ -106,21 +103,24 @@ static int save_enter(void)
 	
         gui_space(id);
 
+        gui_keyboard(id);
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, _("Cancel"), GUI_SML, SAVE_CANCEL, 0);
             gui_start(jd, _("Save"),   GUI_SML, SAVE_SAVE,   0);
         }
-        gui_keyboard(id);
         
         gui_layout(id, 0, 0);
     }
+    
+    SDL_EnableUNICODE(1);
 
     return id;
 }
 
 static void save_leave(int id)
 {
+    SDL_EnableUNICODE(0);
     gui_delete(id);
 }
 
@@ -156,6 +156,20 @@ static int save_click(int b, int d)
     return 1;
 }
 
+static int save_keybd(int c, int d)
+{
+    if (d)
+	if ((c & 0xFF80) == 0)
+	{
+	    c &= 0x7F;
+	    if (c == '\b')
+		return save_action(GUI_BS);
+	    else if (c > ' ')
+		return save_action(c);
+	}
+    return 1;
+}
+
 static int save_buttn(int b, int d)
 {
     if (d)
@@ -177,7 +191,7 @@ static int clobber_action(int i)
     if (i == SAVE_SAVE)
     {
 	demo_play_save(filename);
-	return goto_state(next_state);    
+	return goto_state(ok_state);    
     }
     return goto_state(&st_save);
 }
@@ -264,7 +278,7 @@ struct state st_save = {
     save_point,
     save_stick,
     save_click,
-    NULL,
+    save_keybd,
     save_buttn,
     1, 0
 };

@@ -21,6 +21,7 @@
 #include "level.h"
 #include "audio.h"
 #include "config.h"
+#include "demo.h"
 
 #include "st_goal.h"
 #include "st_save.h"
@@ -64,12 +65,12 @@ static int goal_action(int i)
     case GOAL_SAVE:
         while (level_count())
             ;
-        return goto_save(&st_goal_bis);
+        return goto_save(&st_goal_bis, &st_goal_bis);
 
     case GOAL_NAME:
         while (level_count())
             ;
-        return goto_name(&st_goal_bis);
+        return goto_name(&st_goal_bis, &st_goal_bis);
 	
     case GOAL_DONE:
 	while (level_count())
@@ -91,7 +92,7 @@ static int goal_action(int i)
     return 1;
 }
 
-static int goal_init(int * gidp, int save)
+static int goal_init(int * gidp)
 {
     const char *s1 = _("New Record");
     const char *s2 = _("GOAL");
@@ -147,7 +148,7 @@ static int goal_init(int * gidp, int save)
 
         if ((jd = gui_harray(id)))
         {
-	    if (save)
+	    if (demo_play_saved())
                 gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
 	    else
                 gui_label(jd, _("Save Replay"), GUI_SML, GUI_ALL, gui_blk, gui_blk);
@@ -187,7 +188,7 @@ static int goal_enter(void)
     coin_i = 3;
     high   = level_sort(&time_i, &coin_i);
 
-    r = goal_init(&gid, 1);
+    r = goal_init(&gid);
     
     gui_pulse(gid, 1.2f);
     audio_music_fade_out(2.0f);
@@ -199,7 +200,7 @@ static int goal_bis_enter(void)
     char player[MAXNAM];
     config_get_s(CONFIG_PLAYER, player, MAXNAM);
     level_name(curr_level(), player, time_i, coin_i);
-    return goal_init(NULL, 1);
+    return goal_init(NULL);
 }
 
 static void goal_leave(int id)

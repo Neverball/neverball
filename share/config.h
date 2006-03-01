@@ -166,7 +166,7 @@ enum {
 #define DEFAULT_LAST_SET             0
 #define DEFAULT_MODE                 1
 #define DEFAULT_CHEAT                0
-#define DEFAULT_PLAYER               _("Player")
+#define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "png/ball.png"
 #define DEFAULT_COIN                 _("png/coin.png")
 #define DEFAULT_LANG                 ""

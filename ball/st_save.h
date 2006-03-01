@@ -3,6 +3,6 @@
 
 #include "state.h"
 
-int goto_save(struct state * nextstate);
+int goto_save(struct state *, struct state *);
 
 #endif

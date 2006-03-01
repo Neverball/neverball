@@ -168,7 +168,7 @@ static int conf_action(int i)
         break;
 
     case CONF_PLAYER:
-	goto_name(&st_conf);
+	goto_name(&st_conf, &st_conf);
 	break;
 
     default:

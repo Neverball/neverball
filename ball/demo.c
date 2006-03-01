@@ -363,6 +363,11 @@ void demo_play_stop(int coins, int timer, int state)
     }
 }
 
+int demo_play_saved(void)
+{
+    return demo_exists(USER_REPLAY_FILE);
+}
+
 void demo_play_save(const char *name)
 {
     char src[PATHMAX];

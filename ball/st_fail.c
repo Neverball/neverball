@@ -22,6 +22,7 @@
 #include "st_over.h"
 #include "st_save.h"
 #include "st_level.h"
+#include "st_start.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -32,9 +33,15 @@
 
 static int fail_action(int i)
 {
+    struct state * next = level_dead() ? &st_over : &st_level;
     switch (i)
     {
     case FAIL_BACK:
+	if (level_mode() == MODE_CHALLENGE)
+            return goto_state(&st_over);
+	else
+            return goto_state(&st_start);
+	    
     case FAIL_OVER:
         return goto_state(&st_over);
 
@@ -42,7 +49,7 @@ static int fail_action(int i)
         return goto_state(&st_level);
 
     case FAIL_SAVE:
-	return goto_save(level_dead() ? &st_over : &st_level);
+	return goto_save(next, next);
     }
     return 1;
 }

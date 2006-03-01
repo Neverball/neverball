@@ -150,8 +150,11 @@ static int loop(void)
                     st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +JOY_MAX);
                     break;
                              
-                default: 
-                    d = st_keybd(e.key.keysym.sym, 1);
+                default:
+		    if (SDL_EnableUNICODE(-1)) 
+                        d = st_keybd(e.key.keysym.unicode, 1);
+		    else
+                        d = st_keybd(e.key.keysym.sym, 1);
                 }
                 break;
 
