@@ -14,7 +14,7 @@
 
 #include "gui.h"
 #include "game.h"
-#include "level.h"
+#include "levels.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"

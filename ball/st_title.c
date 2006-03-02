@@ -62,7 +62,7 @@ static int title_action(int i)
     return 1;
 }
 
-static char title_file[MAXSTR];
+static struct level title_level;
 
 static int title_enter(void)
 {
@@ -98,9 +98,11 @@ static int title_enter(void)
     audio_music_fade_to(0.5f, "bgm/title.ogg");
 
     /* Initialize the first level of the first set for display. */
-    strcpy(title_file, config_data("map-rlk/title.sol"));
+    strcpy(title_level.file, config_data("map-rlk/title.sol"));
+    strcpy(title_level.back, "map-back/jupiter.sol");
+    strcpy(title_level.grad, "png/space.png");
 
-    game_init(title_file, "map-back/jupiter.sol", "png/space.png", 0, 0);
+    game_init(&title_level, 0, 0);
 
     real_time = 0.0f;
     demo_time = 0.0f;
@@ -174,7 +176,7 @@ static void title_timer(int id, float dt)
 
         if (real_time > 1.0f)
         {
-            game_init(title_file, "map-back/jupiter.sol", "png/space.png", 0, 0);
+            game_init(&title_level, 0, 0);
             real_time = 0.0f;
             mode = 0;
         }

@@ -20,7 +20,7 @@
 #include "hud.h"
 #include "gui.h"
 #include "game.h"
-#include "level.h"
+#include "levels.h"
 #include "config.h"
 #include "audio.h"
 

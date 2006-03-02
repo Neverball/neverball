@@ -17,7 +17,7 @@
 #include "set.h"
 #include "game.h"
 #include "demo.h"
-#include "level.h"
+#include "levels.h"
 #include "audio.h"
 #include "solid.h"
 #include "config.h"

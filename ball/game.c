@@ -26,6 +26,7 @@
 #include "solid.h"
 #include "config.h"
 #include "binary.h"
+#include "level.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -98,9 +99,7 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-int game_init(const char *file_name,
-              const char *back_name,
-              const char *grad_name, int t, int g)
+int game_init(const struct level * level, int t, int g)
 {
     clock      = (float) t / 100.f;
     clock_down = (t > 0);
@@ -129,11 +128,11 @@ int game_init(const char *file_name,
 
     part_reset(GOAL_HEIGHT);
     view_init();
-    back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
+    back_init(level->grad, config_get_d(CONFIG_GEOMETRY));
 
-    if (sol_load(&back, config_data(back_name),
+    if (sol_load(&back, config_data(level->back),
                  config_get_d(CONFIG_TEXTURES), 0) &&
-        sol_load(&file, file_name,
+        sol_load(&file, level->file,
                  config_get_d(CONFIG_TEXTURES), config_get_d(CONFIG_SHADOW)))
         return (game_state = 1);
     else

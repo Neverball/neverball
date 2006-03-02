@@ -1,6 +1,8 @@
 #ifndef DEMO_H
 #define DEMO_H
 
+#include "level.h"
+
 /*---------------------------------------------------------------------------*/
 
 #define MAXDEMO 256
@@ -22,8 +24,7 @@ void demo_unique(char *);
 
 /*---------------------------------------------------------------------------*/
 
-int  demo_play_init(const char *, const char *, const char *,
-                    const char *, const char *, const char *,
+int  demo_play_init(const char *, const struct level *,
                     int, int, int, int, int, int);
 void demo_play_step(float);
 void demo_play_stop(int, int, int);

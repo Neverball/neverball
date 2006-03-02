@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 
+#include "level.h"
+
 /*---------------------------------------------------------------------------*/
 
 #define AUD_MENU   1
@@ -41,7 +43,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-int   game_init(const char *, const char *, const char *, int, int);
+int   game_init(const struct level *, int, int);
 void  game_free(void);
 
 int   curr_clock(void);

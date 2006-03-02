@@ -17,7 +17,7 @@
 
 #include "gui.h"
 #include "util.h"
-#include "level.h"
+#include "levels.h"
 #include "config.h"
 
 /*---------------------------------------------------------------------------*/

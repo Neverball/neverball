@@ -74,7 +74,7 @@ static int count; /* number of scanned demos */
 
 /*---------------------------------------------------------------------------*/
 
-void demo_dump_info(struct demo * d)
+void demo_dump_info(const struct demo * d)
 /* This function dump the info of a demo structure*/
 {
     printf("Name:         %s\n"
@@ -359,11 +359,7 @@ void demo_unique(char *name)
 /*---------------------------------------------------------------------------*/
 
 int demo_play_init(const char *name,
-                   const char *file,
-                   const char *back,
-                   const char *grad,
-                   const char *song,
-                   const char *shot,
+		   const struct level * level,
 		   int mode, int tim, int goal, int score, int balls, int total_time)
 {
     struct demo demo;
@@ -375,11 +371,11 @@ int demo_play_init(const char *name,
     demo.mode = mode;
     demo.date = time(NULL);
     config_get_s(CONFIG_PLAYER, demo.player, MAXNAM);
-    strncpy(demo.shot, shot, PATHMAX);
-    strncpy(demo.file, file, PATHMAX);
-    strncpy(demo.back, back, PATHMAX);
-    strncpy(demo.grad, grad, PATHMAX);
-    strncpy(demo.song, song, PATHMAX);
+    strncpy(demo.shot, level->shot, PATHMAX);
+    strncpy(demo.file, level->file, PATHMAX);
+    strncpy(demo.back, level->back, PATHMAX);
+    strncpy(demo.grad, level->grad, PATHMAX);
+    strncpy(demo.song, level->song, PATHMAX);
     demo.time  = tim;
     demo.goal  = goal;
     demo.score = score;
@@ -391,8 +387,8 @@ int demo_play_init(const char *name,
 	return 0;
     else
     {
-        audio_music_fade_to(2.0f, song);
-        return game_init(file, back, grad, tim, goal);
+        audio_music_fade_to(2.0f, level->song);
+        return game_init(level, tim, goal);
     }
 }
 
@@ -445,25 +441,40 @@ void demo_play_save(const char *name)
 
 /*---------------------------------------------------------------------------*/
 
-static struct demo demo_replay; /* The current demo */
+static int demo_load_level(const struct demo * demo, struct level * level)
+/* Load the level of the demo and fill the level structure */
+{
+    strcpy(level->file, demo->file);
+    strcpy(level->back, demo->back);
+    strcpy(level->grad, demo->grad);
+    strcpy(level->shot, demo->shot);
+    strcpy(level->grad, demo->song);
+    level->time = demo->time;
+    level->goal = demo->goal;
+    return 1;
+}
+
+static struct demo  demo_replay;       /* The current demo */
+static struct level demo_level_replay; /* The current level demo-ed*/
 
 int demo_replay_init(const char *name, int *m, int *s, int *c, int *t)
 {
-
     if ((demo_fp = demo_header_read(name, &demo_replay)))
     {
 	if (m) *m = demo_replay.mode;
 	if (s) *s = demo_replay.score;
 	if (t) *t = demo_replay.total_time;
 
+	demo_load_level(&demo_replay, &demo_level_replay);
+
 	if (m)
 	{
 	    /* A normal replay demo */
 	    audio_music_fade_to(0.5f, demo_replay.song);
-	    return game_init(demo_replay.file, demo_replay.back, demo_replay.grad, demo_replay.time, demo_replay.goal);
+	    return game_init(&demo_level_replay, demo_replay.time, demo_replay.goal);
 	}
 	else /* A title screen demo */
-	    return game_init(demo_replay.file, demo_replay.back, demo_replay.grad, demo_replay.time, 0);
+	    return game_init(&demo_level_replay, demo_replay.time, 0);
     }
     
     return 0;

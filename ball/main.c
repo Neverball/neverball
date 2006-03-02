@@ -36,7 +36,7 @@
 #include "image.h"
 #include "audio.h"
 #include "demo.h"
-#include "level.h"
+#include "levels.h"
 #include "game.h"
 #include "gui.h"
 #include "set.h"

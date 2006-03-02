@@ -18,7 +18,7 @@
 #include "glext.h"
 #include "config.h"
 #include "image.h"
-#include "level.h"
+#include "levels.h"
 #include "set.h"
 
 /*---------------------------------------------------------------------------*/

@@ -58,6 +58,7 @@ BALL_OBJS= \
 	ball/hud.o      \
 	ball/game.o     \
 	ball/level.o    \
+	ball/levels.o   \
 	ball/set.o      \
 	ball/demo.o     \
 	ball/util.o     \
