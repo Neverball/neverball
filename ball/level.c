@@ -17,7 +17,6 @@
 #include <math.h>
 
 #include "level.h"
-#include "glext.h"
 #include "image.h"
 #include "game.h"
 #include "geom.h"
@@ -47,8 +46,6 @@ struct level
     char song[MAXSTR];
     int  time;
     int  goal;
-
-    GLuint text;
 };
 
 static int score;                       /* Current coin total         */
@@ -316,14 +313,7 @@ void level_cheat(void)
 
 void level_free(void)
 {
-    int i;
-
     level_store_hs(scores_file);
-
-    for (i = 0; i < count; i++)
-        if (glIsTexture(level_v[i].text))
-            glDeleteTextures(1, &level_v[i].text);
-
     count = 0;
 }
 
