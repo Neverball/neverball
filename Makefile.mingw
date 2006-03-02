@@ -1,0 +1,22 @@
+#
+# A simple makefile to compile Neverball, Neverputt and mapc Windows binaries,
+# with mingw32.  You must have wine installed to compile maps.  You need to use
+# a script which defines the variables of your Linux mingw32 cross-compilation
+# environment (PATH, PREFIX, TARGET, CC, CXX, ...) to run this makefile. This
+# scripts is usually named "cross-make.sh".  Currently you need to have SDL,
+# SDL_ttf, SDL_image and SDL_mixer DLLs in the makefile directory to compile
+# maps.  This is a bug which may be corrected soon.
+#
+# Mehdi.
+
+include Makefile
+
+OGL_LIBS := -lm -lopengl32 -lglu32
+
+MAPC_TARG := mapc.exe
+MAPC_EXEC := wine mapc.exe
+BALL_TARG := neverball.exe
+PUTT_TARG := neverputt.exe
+
+LIBS := $(X11_PATH) -lSDL_mixer $(SDL_LIBS) -lSDL_ttf -lSDL_image \
+	$(FT2_LIBS) $(OGL_LIBS) -lintl -lpng -lz -ljpeg

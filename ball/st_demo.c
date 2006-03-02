@@ -119,12 +119,14 @@ static int demo_enter(void)
     id = gui_vstack(0);
     if (total == 0)
     {
-	    gui_label(id, _("No Replay"), GUI_MED, GUI_ALL, 0,0);
-	    gui_filler(id);
-	    gui_multi(id, _("You can save replay of you games.\\Currently, there is no replay saved."), GUI_SML, GUI_ALL, gui_wht, gui_wht);
-	    gui_filler(id);
-	    gui_start(id, _("Back"), GUI_SML, DEMO_BACK, 0);
-            gui_layout(id, 0, 0);
+        gui_label(id, _("No Replays"), GUI_MED, GUI_ALL, 0,0);
+        gui_filler(id);
+        gui_multi(id, _("You can save replays of your games.\\"
+                        "Currently, there are no replays saved."),
+                  GUI_SML, GUI_ALL, gui_wht, gui_wht);
+        gui_filler(id);
+        gui_start(id, _("Back"), GUI_SML, DEMO_BACK, 0);
+        gui_layout(id, 0, 0);
     }
     else
     {
@@ -134,8 +136,6 @@ static int demo_enter(void)
             ld = gui_label(jd, _("Select Replay"), GUI_SML, GUI_ALL, 0,0);
             gui_filler(jd);
 
-	    
-	    
 	    if (first + DEMO_STEP < total)
 		gui_state(jd, _("Next"), GUI_SML, DEMO_NEXT, 0);
 	    else
