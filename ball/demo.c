@@ -21,7 +21,6 @@
 #include <unistd.h>
 #endif
 
-#include "set.h"
 #include "demo.h"
 #include "game.h"
 #include "audio.h"
@@ -31,7 +30,10 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define MAGIC 0x4E425252
+#define MAGIC     0x4E425251 /* Replay file magic number (should not change) */
+#define OLD_MAGIC 0x4E425250 /* Replay file magic number for neverball 1.4.0 */
+#define REPLAY_VERSION  1    /* Replay file format version (can change)      */
+
 #define DEMO_FPS_CAP 200 /* FPS replay limit, keeps size down on monster systems */
 
 static FILE *demo_fp;
@@ -43,7 +45,9 @@ struct demo
     char   name[MAXNAM];      /* demo basename */
     char   filename[PATHMAX]; /* demo path */
 
-    /* magic */
+    /* The following reflects the file structure */
+    /* magic number */
+    /* replay file version */
     int    timer;           /* elapsed time */
     int    coins;           /* coin number */
     int    state;           /* how the replay end */
@@ -60,6 +64,7 @@ struct demo
     int    score;           /* sum of coins (challenge mode) */
     int    balls;           /* number of balls (challenge mode) */
     int    total_time;      /* total time (challenge mode) */
+    char   nb_version[20]; /* neverball version used */
 };
 
 
@@ -72,47 +77,52 @@ static int count; /* number of scanned demos */
 void demo_dump_info(struct demo * d)
 /* This function dump the info of a demo structure*/
 {
-    printf("Name:     %s\n"
-	   "File:     %s\n"
-	   "Time:     %d\n"
-	   "Coins:    %d\n"
-	   "Mode:     %d\n"
-	   "State:    %d\n"
-	   "Date:     %s"
-	   "Player:   %s\n"
-	   "Shot:     %s\n"
-	   "Level:    %s\n"
-	   "  Back:   %s\n"
-	   "  Grad:   %s\n"
-	   "  Song:   %s\n"
-	   "Time:     %d\n"
-	   "Goal:     %d\n"
-	   "Score:    %d\n"
-	   "Balls:    %d\n"
-	   "Tot Time: %d\n",
+    printf("Name:         %s\n"
+	   "File:         %s\n"
+	   "NB Version:   %s\n"
+	   "Time:         %d\n"
+	   "Coins:        %d\n"
+	   "Mode:         %d\n"
+	   "State:        %d\n"
+	   "Date:         %s"
+	   "Player:       %s\n"
+	   "Shot:         %s\n"
+	   "Level:        %s\n"
+	   "  Back:       %s\n"
+	   "  Grad:       %s\n"
+	   "  Song:       %s\n"
+	   "Time:         %d\n"
+	   "Goal:         %d\n"
+	   "Score:        %d\n"
+	   "Balls:        %d\n"
+	   "Total Time:   %d\n",
 	   d->name, d->filename,
+	   d->nb_version,
 	   d->timer, d->coins, d->mode, d->state, ctime(&d->date),
 	   d->player,
 	   d->shot, d->file, d->back, d->grad, d->song,
 	   d->time, d->goal, d->score, d->balls, d->total_time);
 }
 
-static FILE * demo_header(const char * filename, struct demo * d)
+FILE * demo_header_read(const char * filename, struct demo * d)
 /* Open a demo file, fill the demo information structure
-If success, return the file pointer positioned after the header
-If fail, return null */
+ * If success, return the file pointer positioned after the header
+ * If fail, return null 
+ */
 {
     FILE *fp;
     char * basename;
     if ((fp = fopen(filename, FMODE_RB)))
     {
 	int magic;
+	int version;
 	int t;
 
 	get_index(fp, &magic);
-	get_index(fp, &t);
+	get_index(fp, &version);
+	get_index(fp, &t);  /* if time is 0, it's mean the replay wat not finished */
 
-	if (magic == MAGIC && t)
+	if (magic == MAGIC && version == REPLAY_VERSION && t)
 	{
 #ifdef _WIN32
 	    basename = strrchr(filename, '\\');
@@ -127,21 +137,22 @@ If fail, return null */
 	    strncpy(d->filename, filename, PATHMAX);
 	    
 	    d->timer = t;
-	    get_index(fp, &d->coins);
-	    get_index(fp, &d->state);
-	    get_index(fp, &d->mode);
-	    get_index(fp, (int*)&d->date);
-	    fread(d->player, 1, MAXNAM,  fp);
-	    fread(d->shot,   1, PATHMAX, fp);
-            fread(d->file,   1, PATHMAX, fp);
-            fread(d->back,   1, PATHMAX, fp);
-            fread(d->grad,   1, PATHMAX, fp);
-            fread(d->song,   1, PATHMAX, fp);
-            get_index(fp, &d->time);
-            get_index(fp, &d->goal);
-            get_index(fp, &d->score);
-            get_index(fp, &d->balls);
-            get_index(fp, &d->total_time);
+	    get_index (fp, &d->coins);
+	    get_index (fp, &d->state);
+	    get_index (fp, &d->mode);
+	    get_index (fp, (int*)&d->date);
+	    get_string(fp, d->player, MAXNAM);
+	    get_string(fp, d->shot,   PATHMAX);
+	    get_string(fp, d->file,   PATHMAX);
+	    get_string(fp, d->back,   PATHMAX);
+	    get_string(fp, d->grad,   PATHMAX);
+	    get_string(fp, d->song,   PATHMAX);
+            get_index (fp, &d->time);
+            get_index (fp, &d->goal);
+            get_index (fp, &d->score);
+            get_index (fp, &d->balls);
+            get_index (fp, &d->total_time);
+	    get_string(fp, d->nb_version, 20);
 
 	    return fp;
 	}
@@ -150,13 +161,62 @@ If fail, return null */
     return NULL;
 }
 
+static FILE * demo_header_write(struct demo * d)
+/* Create a new demo file, write the demo information structure
+ * If success, return the file pointer positioned after the header
+ * If fail, return null
+ * */
+{
+    int magic = MAGIC;
+    int version = REPLAY_VERSION;
+    int zero  = 0;
+    FILE *fp;
+    
+    if (d->filename && (fp = fopen(d->filename, FMODE_WB)))
+    {
+        put_index (fp, &magic);
+        put_index (fp, &version);
+        put_index (fp, &zero);
+        put_index (fp, &zero);
+        put_index (fp, &zero);
+	put_index (fp, &d->mode);
+	put_index (fp, (int*)&d->date);
+	put_string(fp, d->player);
+	put_string(fp, d->shot);
+	put_string(fp, d->file);
+	put_string(fp, d->back);
+	put_string(fp, d->grad);
+	put_string(fp, d->song);
+        put_index (fp, &d->time);
+        put_index (fp, &d->goal);
+        put_index (fp, &d->score);
+        put_index (fp, &d->balls);
+        put_index (fp, &d->total_time);
+	put_string(fp, VERSION);
+
+        return fp;
+    }
+    return NULL;
+}
+
+void demo_header_stop(FILE * fp, int coins, int timer, int state)
+    /* Update the demo header using the final coins and time. */
+{
+    long pos = ftell(fp);
+    fseek(fp, 8, SEEK_SET);
+    put_index(fp, &timer);
+    put_index(fp, &coins);
+    put_index(fp, &state);
+    fseek(fp, pos, SEEK_SET);
+}
+	
 /*---------------------------------------------------------------------------*/
 
 static void demo_scan_file(const char * filename)
 /* Scan a other file (used by demo_scan */
 {
     FILE *fp;
-    if ((fp = demo_header(config_user(filename), &demos[count])))
+    if ((fp = demo_header_read(config_user(filename), &demos[count])))
     {
 	count++;
 	fclose(fp);
@@ -306,43 +366,34 @@ int demo_play_init(const char *name,
                    const char *shot,
 		   int mode, int tim, int goal, int score, int balls, int total_time)
 {
-    int magic = MAGIC;
-    int zero  = 0;
-    int date  = time(NULL);
+    struct demo demo;
 
-    char player[MAXNAM];
-    config_get_s(CONFIG_PLAYER, player, MAXNAM);
+    /* file structure */
+    strncpy(demo.name, name, MAXNAM);
+    strncpy(demo.filename, config_user(name), PATHMAX);
+    demo.time = demo.coins = demo.state = 0;
+    demo.mode = mode;
+    demo.date = time(NULL);
+    config_get_s(CONFIG_PLAYER, demo.player, MAXNAM);
+    strncpy(demo.shot, shot, PATHMAX);
+    strncpy(demo.file, file, PATHMAX);
+    strncpy(demo.back, back, PATHMAX);
+    strncpy(demo.grad, grad, PATHMAX);
+    strncpy(demo.song, song, PATHMAX);
+    demo.time  = tim;
+    demo.goal  = goal;
+    demo.score = score;
+    demo.balls = balls;
+    demo.total_time = total_time;
 
-    /* Initialize the replay file.  Write the header. */
-
-    if (name && (demo_fp = fopen(config_user(name), FMODE_WB)))
+    demo_fp = demo_header_write(&demo);
+    if (demo_fp == NULL)
+	return 0;
+    else
     {
-        put_index(demo_fp, &magic);
-        put_index(demo_fp, &zero);
-        put_index(demo_fp, &zero);
-        put_index(demo_fp, &zero);
-	put_index(demo_fp, &mode);
-	put_index(demo_fp, &date);
-
-        fwrite(player, 1, MAXNAM,  demo_fp);
-	
-        fwrite(shot,   1, PATHMAX, demo_fp);
-        fwrite(file,   1, PATHMAX, demo_fp);
-        fwrite(back,   1, PATHMAX, demo_fp);
-        fwrite(grad,   1, PATHMAX, demo_fp);
-        fwrite(song,   1, PATHMAX, demo_fp);
-
-        put_index(demo_fp, &tim);
-        put_index(demo_fp, &goal);
-        put_index(demo_fp, &score);
-        put_index(demo_fp, &balls);
-        put_index(demo_fp, &total_time);
-
         audio_music_fade_to(2.0f, song);
-
         return game_init(file, back, grad, tim, goal);
     }
-    return 0;
 }
 
 void demo_play_step(float dt)
@@ -363,17 +414,11 @@ void demo_play_step(float dt)
 }
 
 void demo_play_stop(int coins, int timer, int state)
+    /* Update the demo header using the final coins and time. */
 {
     if (demo_fp)
     {
-        /* Update the demo header using the final coins and time. */
-
-        fseek(demo_fp, 4, SEEK_SET);
-
-        put_index(demo_fp, &timer);
-        put_index(demo_fp, &coins);
-        put_index(demo_fp, &state);
-
+        demo_header_stop(demo_fp, coins, timer, state);
 	fclose(demo_fp);
 	demo_fp = NULL;
     }
@@ -405,7 +450,7 @@ static struct demo demo_replay; /* The current demo */
 int demo_replay_init(const char *name, int *m, int *s, int *c, int *t)
 {
 
-    if ((demo_fp = demo_header(name, &demo_replay)))
+    if ((demo_fp = demo_header_read(name, &demo_replay)))
     {
 	if (m) *m = demo_replay.mode;
 	if (s) *s = demo_replay.score;

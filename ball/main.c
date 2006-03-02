@@ -383,7 +383,10 @@ int main(int argc, char *argv[])
     
     init_state(&st_null);
     if (replay_path != NULL)
+    {
+	level_replay(replay_path);
 	goto_demo_play(1);
+    }
     else
 	goto_state(&st_title);
 

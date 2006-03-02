@@ -25,6 +25,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define VERSION       "1.4.1svn"      /* Game version */
+
 #define CONFIG_DATA   "./data"        /* Game data directory */
 #define CONFIG_LOCALE "./locale"      /* Game localisation */
 #define CONFIG_USER   ".neverball"    /* User config directory */
