@@ -29,6 +29,7 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 #include "glext.h"
 #include "config.h"
@@ -45,6 +46,7 @@
 #include "st_demo.h"
 
 #define TITLE _("Neverball")
+#define VERSION "1.4.1svn"
 
 /*---------------------------------------------------------------------------*/
 
@@ -207,27 +209,56 @@ static int loop(void)
     return d;
 }
 
+/*---------------------------------------------------------------------------*/
+
+/* Option values */
 static char * data_path   = NULL;
 static char * replay_path = NULL;
 
+/* Option hangling */
+
+#define USAGE  _( \
+	"Usage: %s [options ...]\n" \
+	"Options:\n" \
+	"\t-r, --replay file    play the replay 'file'.\n" \
+	"\t--data dir           use 'dir' as game data directory.\n" \
+	"\t-v, --version        show version.\n" \
+	"\t-h, -?, --help       show this usage message.\n")
+
 static void parse_args(int argc, char ** argv)
 {
+#define CASE(x) (strcmp(*argv, (x)) == 0)        /* Check current option */
+#define MAND    (not_miss = (argv[1] != NULL)) /* Argument is mandatory */
     char * exec = *(argv++);
+    int not_miss; /* argument is not missing */
     
     while (*argv != NULL)
     {
-	if (strcmp(*argv, "-h") == 0 || strcmp(*argv, "-?") == 0 || strcmp(*argv, "--help") == 0)
+	not_miss = 1;
+	if (CASE("-h") || CASE("-?") || CASE("--help"))
 	{
-	    printf(_("Usage: %s [--data data_dir] [--replay replay_file]\n"), exec);
+	    printf(USAGE, exec);
 	    exit(0);
 	}
-	else if (strcmp(*argv, "--data") == 0)
+	else if (CASE("-v") || CASE("--version"))
+	{
+	    printf(_("%s: %s version %s\n"), exec, TITLE, VERSION);
+	    exit(0);
+	}
+	else if (CASE("--data") && MAND)
 	    data_path = *(++argv);
-	else if (strcmp(*argv, "--replay") == 0)
+	else if ((CASE("-r") || CASE("--replay")) && MAND)
 	    replay_path = *(++argv);
+	else if (not_miss)
+	{
+	    fprintf(stderr, _("%s: unknown option %s\n"), exec, *argv);
+	    fprintf(stderr, USAGE, exec);
+	    exit(1);
+	}
 	else
 	{
-	    fprintf(stderr, _("Unknown option %s\n"), *argv);
+	    fprintf(stderr, _("%s: option %s requires an argument\n"), exec, *argv);
+	    fprintf(stderr, USAGE, exec);
 	    exit(1);
 	}
 	argv++;
@@ -238,7 +269,9 @@ static void parse_args(int argc, char ** argv)
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
-    
+    int t1, t0;               /* ticks */
+    SDL_Surface *icon;        /* WM icon */
+   
     language_init("neverball", CONFIG_LOCALE);
 
     parse_args(argc, argv);
@@ -255,17 +288,41 @@ int main(int argc, char *argv[])
 	return 1;
     }
     
+    /* Intitialize the configuration */
+    
+    config_init();
+    config_load();
+    
+    /* Initialize the language */
+    
+    language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
+
+    /* Prepare run without sdl */
+    
+    if (replay_path != NULL)
+    {
+	if (level_replay(replay_path))
+	{
+	    demo_replay_dump_info();
+	}
+	else
+	{
+	    fprintf(stderr, _("Replay file '%s': "), replay_path);
+	    if (errno)
+		perror(NULL);
+	    else
+		fprintf(stderr, _("Not a replay file.\n"));
+	    return 1;
+	}
+    }
+    
+    /* Initialize SDL system and subsystems */
+    
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
     {
 	fprintf(stderr, "%s\n", SDL_GetError());
 	return 1;
     }
-  
-    config_init();
-    config_load();
-
-    /* Initialize the language. */
-    language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
 
     /* Initialize the joystick. */
 
@@ -308,62 +365,61 @@ int main(int argc, char *argv[])
 
     /* Initialize the video. */
 
-    if (config_mode(config_get_d(CONFIG_FULLSCREEN),
+    if (! config_mode(config_get_d(CONFIG_FULLSCREEN),
 	            config_get_d(CONFIG_WIDTH),
 		    config_get_d(CONFIG_HEIGHT)))
     {
-	int t1, t0 = SDL_GetTicks();
-
-	SDL_Surface *icon = IMG_Load(config_data("icon/neverball.png"));
-	SDL_WM_SetIcon(icon, NULL);
-	SDL_WM_SetCaption(TITLE, TITLE); 
-
-	/* Initialize the run state. */
-	init_state(&st_null);
-	
-	if (replay_path != NULL)
-	{
-	    level_replay(replay_path);
-	    demo_replay_dump_info();
-	    goto_demo_play(1);
-	}
-	else
-	{
-	    goto_state(&st_title);
-	}
-
-	/* Run the main game loop. */
-
-	while (loop())
-	    if ((t1 = SDL_GetTicks()) > t0)
-	    {
-		if (config_get_pause())
-		{
-		    st_paint();
-		    gui_blank();
-		}
-		else
-		{
-		    st_timer((t1 - t0) / 1000.f);
-		    st_paint();
-		}
-		SDL_GL_SwapBuffers();
-
-		t0 = t1;
-
-		if (config_get_d(CONFIG_NICE))
-		    SDL_Delay(1);
-	    }
+	fprintf(stderr, "%s\n", SDL_GetError());
+	return 1;
     }
-    else 
-        fprintf(stderr, "%s\n", SDL_GetError());
+   
+    /* Set the WM icon */ 
+    
+    icon = IMG_Load(config_data("icon/neverball.png"));
+    SDL_WM_SetIcon(icon, NULL);
+    SDL_WM_SetCaption(TITLE, TITLE); 
 
-    config_save();
+    /* Initialize the run state. */
+    
+    init_state(&st_null);
+    if (replay_path != NULL)
+	goto_demo_play(1);
+    else
+	goto_state(&st_title);
+
+    /* Run the main game loop. */
+
+    t0 = SDL_GetTicks();
+    while (loop())
+	if ((t1 = SDL_GetTicks()) > t0)
+	{
+	    if (config_get_pause())
+	    {
+		st_paint();
+		gui_blank();
+	    }
+	    else
+	    {
+		st_timer((t1 - t0) / 1000.f);
+		st_paint();
+	    }
+	    SDL_GL_SwapBuffers();
+
+	    t0 = t1;
+
+	    if (config_get_d(CONFIG_NICE))
+		SDL_Delay(1);
+	}
+
+    /* Gracefully close the game */
 
     if (SDL_JoystickOpened(0))
 	SDL_JoystickClose(joy);
 
     SDL_Quit();
+    
+    config_save();
+    
     return 0;
 }
 
