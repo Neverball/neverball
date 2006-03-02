@@ -85,9 +85,15 @@ static int set_enter(void)
             gui_filler(jd);
 	    if (set_exists((b+1)*SET_GROUP))
 	        gui_state(jd, _("Next"), GUI_SML, SET_NEXT, 0);
+	    else
+		gui_label(jd, _("Next"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
+
+            gui_state(jd, _("Back"),  GUI_SML, SET_BACK, 0);
+	    
 	    if (b>0)
 		gui_state(jd, _("Prev"), GUI_SML, SET_PREV, 0);
-            gui_state(jd, _("Back"),  GUI_SML, SET_BACK, 0);
+	    else
+		gui_label(jd, _("Prev"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
         }
 
         if ((jd = gui_harray(id)))
