@@ -76,6 +76,7 @@ const char * mode_to_str(int m)
     case MODE_CHALLENGE: return _("Challenge");
     case MODE_NORMAL:    return _("Normal");
     case MODE_PRACTICE:  return _("Practice");
+    case MODE_SINGLE:    return _("Single");
     default:             return "???";
     }
 }
@@ -162,6 +163,7 @@ static void level_init_rc(const char *filename)
 {
     FILE *fin;
     char buf[MAXSTR];
+    char name[MAXSTR];
 
     count = 0;
     level = 0;
@@ -175,13 +177,14 @@ static void level_init_rc(const char *filename)
         while (count < MAXLVL && fgets(buf, MAXSTR, fin))
         {
             sscanf(buf, "%s %s %s %s %d %d %s",
-                    level_v[count].file,
+                    name,
                     level_v[count].back,
                     level_v[count].shot,
                     level_v[count].grad,
                    &level_v[count].time,
                    &level_v[count].goal,
                     level_v[count].song);
+	    strcpy(level_v[count].file, config_data(name));
             count++;
         }
         fclose(fin);
@@ -302,7 +305,7 @@ void level_init(const char *init_levels,
     strncpy(scores_file, user_scores, MAXSTR);
 
     level = 0;
-
+    mode = 0;
 }
 
 void level_cheat(void)
@@ -448,6 +451,7 @@ int level_replay(const char *filename)
     return demo_replay_init(filename, &mode, &score, &balls, &times_total);
 }
 
+
 int level_play_go(void)
 /* Start to play the current level */
 {
@@ -465,6 +469,22 @@ int level_play_go(void)
 			  mode,
                           time, goal,
 			  score, balls, times_total);
+}
+
+void level_play_single(const char *filename)
+/* Prepare to play a single level */
+{
+    level_init("", "", "");
+    count = 1;
+    mode = MODE_SINGLE;
+    level = 0;
+    strncpy(level_v[0].file, filename, MAXSTR);
+    level_v[level].back[0] = '\0';
+    level_v[level].grad[0] = '\0';
+    level_v[level].song[0] = '\0';
+    level_v[level].shot[0] = '\0';
+    level_v[level].goal    = 0;
+    level_v[level].time    = 0;
 }
 
 void level_play(int i, int m)
@@ -496,7 +516,7 @@ void level_stop(int state)
     coins = curr_coins();
     
     /* open next level */
-    if (state == GAME_GOAL && mode != MODE_PRACTICE && limit < level+1)
+    if (state == GAME_GOAL && mode != MODE_PRACTICE && mode != MODE_SINGLE && limit < level+1)
 	if (level_extra_bonus_opened() || !level_extra_bonus(level+1) || mode == MODE_CHALLENGE)
 	    limit = level + 1;
     
@@ -518,7 +538,7 @@ void level_stop(int state)
     }
 
     /* stop demo recording */	
-    time = (mode == MODE_PRACTICE) ? curr_clock() : level_v[level].time - curr_clock();
+    time = (mode == MODE_PRACTICE || mode == MODE_SINGLE) ? curr_clock() : level_v[level].time - curr_clock();
     demo_play_stop(coins, time, state);
 }
 
@@ -543,7 +563,7 @@ int level_sort(int *time_i, int *coin_i)
     char player[MAXNAM];
      
     coins = curr_coins();
-    if (mode == MODE_PRACTICE)
+    if (mode == MODE_PRACTICE || mode == MODE_SINGLE)
 	clock = curr_clock();
     else
         clock = level_v[level].time - curr_clock();

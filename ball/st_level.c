@@ -23,9 +23,10 @@
 #include "st_level.h"
 #include "st_play.h"
 #include "st_start.h"
-#include "st_over.h"
 
 /*---------------------------------------------------------------------------*/
+
+static int level_ok;
 
 static int level_enter(void)
 {
@@ -33,13 +34,15 @@ static int level_enter(void)
     const char * ln;
 
     /* Load the level */
-    level_play_go();
-    
-    ln = _(level_number_name(curr_level()));
-	    
+    level_ok = level_play_go();
+
     if ((id = gui_vstack(0)))
     {
-        if ((jd = gui_hstack(id)))
+	if (level_mode() == MODE_SINGLE)
+	{
+	    gui_label(id, _("Single Level"),  GUI_LRG, GUI_TOP, 0, 0);
+	}
+	else if ((jd = gui_hstack(id)))
         {
             gui_filler(jd);
 	    if ((kd = gui_vstack(jd)))
@@ -48,23 +51,29 @@ static int level_enter(void)
 		    gui_label(kd, _("*** BONUS ***"),  GUI_MED, GUI_TOP, gui_wht, gui_grn);
 		if ((ld = gui_hstack(kd)))
 		{
+		    ln = _(level_number_name(curr_level()));
 		    if (level_extra_bonus(curr_level()))
 		    {
-		        gui_label(ld, ln,          GUI_LRG, 0, gui_wht, gui_grn);
-		        gui_label(ld, _("Level "), GUI_LRG, 0, gui_wht, gui_grn);
+			gui_label(ld, ln,          GUI_LRG, 0, gui_wht, gui_grn);
+			gui_label(ld, _("Level "), GUI_LRG, 0, gui_wht, gui_grn);
 		    }
 		    else
 		    {
-		        gui_label(ld, ln,          GUI_LRG, GUI_NE, 0, 0);
-		        gui_label(ld, _("Level "), GUI_LRG, GUI_NW, 0, 0);
+			gui_label(ld, ln,          GUI_LRG, GUI_NE, 0, 0);
+			gui_label(ld, _("Level "), GUI_LRG, GUI_NW, 0, 0);
 		    }
 		}
+
 		gui_label(kd, _(set_name(set_curr())),  GUI_SML, GUI_BOT, gui_wht, gui_wht);
 	    }
-            gui_filler(jd);
+	    gui_filler(jd);
         }
         gui_space(id);
-        gui_multi(id, _(curr_intro()), GUI_SML, GUI_ALL, gui_wht, gui_wht);
+	
+	if (level_ok)
+	    gui_multi(id, _(curr_intro()), GUI_SML, GUI_ALL, gui_wht, gui_wht);
+	else
+	    gui_label(id, _("Cannot load the level file."), GUI_SML, GUI_ALL, gui_red, gui_red);
 
         gui_layout(id, 0, 0);
     }
@@ -82,7 +91,15 @@ static void level_timer(int id, float dt)
 
 static int level_click(int b, int d)
 {
-    return (b < 0 && d == 1) ? goto_state(&st_play_ready) : 1;
+    if (b < 0 && d == 1)
+    {
+	if (level_ok)
+	    return goto_state(&st_play_ready);
+	else
+	    return goto_end_level();
+    }
+    else
+       return 1;
 }
 
 static int level_keybd(int c, int d)
@@ -97,14 +114,14 @@ static int level_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return goto_state(&st_play_ready);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
 	{
-	    if (level_mode() == MODE_CHALLENGE)
-		return goto_state(&st_over);
+	    if (level_ok)
+		return goto_state(&st_play_ready);
 	    else
-		return goto_state(&st_start);
+		return goto_end_level();
 	}
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+	    return goto_end_level();
     }
     return 1;
 }

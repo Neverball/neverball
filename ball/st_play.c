@@ -32,6 +32,14 @@ static int view_rotate;
 
 /*---------------------------------------------------------------------------*/
 
+static int abort_play(void)
+{
+   if (level_mode() == MODE_SINGLE)
+       return 0;
+   else
+       return goto_state(&st_over);
+}
+
 static int play_ready_enter(void)
 {
     int id;
@@ -74,7 +82,7 @@ static int play_ready_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_play_loop);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_over);
+            return abort_play();
     }
     return 1;
 }
@@ -126,7 +134,7 @@ static int play_set_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_play_loop);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_over);
+            return abort_play();
     }
     return 1;
 }
@@ -262,7 +270,7 @@ static int play_loop_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
 	{
 	    level_stop(GAME_NONE);
-            return goto_state(&st_over);
+            return abort_play();
 	}
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R, b))

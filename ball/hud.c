@@ -129,7 +129,7 @@ void hud_paint(void)
     int mode = level_mode();
     if (mode == MODE_CHALLENGE)
         gui_paint(Lhud_id);
-    if (mode == MODE_PRACTICE)
+    if (mode == MODE_PRACTICE || mode == MODE_SINGLE)
 	gui_paint(Rhud2_id);
     else
         gui_paint(Rhud_id);
@@ -166,7 +166,7 @@ void hud_update(int pulse)
     if (last != clock)
     {
         gui_set_clock(time_id, clock);
-	if (last > clock && pulse && mode != MODE_PRACTICE)
+	if (last > clock && pulse && mode != MODE_PRACTICE && mode != MODE_SINGLE)
 	{
 	    if (clock <= 1000 && (last / 100) > (clock / 100))
 	    {
@@ -187,10 +187,10 @@ void hud_update(int pulse)
         if (gui_value(ball_id) != balls) gui_set_count(ball_id, balls);
 	if (gui_value(scor_id) != score) gui_set_count(scor_id, score);
 	c_id = coin_id;
-    } else if (mode == MODE_PRACTICE)
-        c_id = coin2_id;
+    } else if (mode == MODE_NORMAL)
+        c_id = coin_id;
     else
-	c_id = coin_id;
+	c_id = coin2_id;
     
     /* coins and pulse */
     last = gui_value(c_id);

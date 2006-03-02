@@ -29,6 +29,20 @@
 
 /*---------------------------------------------------------------------------*/
 
+int goto_end_level(void)
+/* Action once the level sequence is ended (from goal or fail states) */
+{
+    if (level_mode() == MODE_SINGLE)
+	return 0;
+    else if (level_mode() == MODE_CHALLENGE)
+	return goto_state(&st_over);
+    else
+	return goto_state(&st_start);
+}
+
+
+/*---------------------------------------------------------------------------*/
+
 #define START_BACK -1
 #define START_PRACTICE -2
 #define START_NORMAL -3

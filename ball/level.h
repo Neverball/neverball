@@ -6,6 +6,7 @@
 #define MODE_CHALLENGE	1
 #define MODE_NORMAL	2
 #define MODE_PRACTICE	3
+#define MODE_SINGLE	4
 
 const char *mode_to_str(int);
 
@@ -36,6 +37,7 @@ int  curr_balls(void);
 int  curr_level(void);
 
 int  level_replay(const char *);
+void level_play_single(const char *);
 void level_play(int, int);
 int  level_play_go(void);
 void level_next(void);

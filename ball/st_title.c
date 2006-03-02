@@ -12,6 +12,8 @@
  * General Public License for more details.
  */
 
+#include <string.h>
+
 #include "gui.h"
 #include "vec3.h"
 #include "back.h"
@@ -60,6 +62,8 @@ static int title_action(int i)
     return 1;
 }
 
+static char title_file[MAXSTR];
+
 static int title_enter(void)
 {
     int id, jd, kd;
@@ -94,8 +98,9 @@ static int title_enter(void)
     audio_music_fade_to(0.5f, "bgm/title.ogg");
 
     /* Initialize the first level of the first set for display. */
+    strcpy(title_file, config_data("map-rlk/title.sol"));
 
-    game_init("map-rlk/title.sol", "map-back/jupiter.sol", "png/space.png", 0, 0);
+    game_init(title_file, "map-back/jupiter.sol", "png/space.png", 0, 0);
 
     real_time = 0.0f;
     demo_time = 0.0f;
@@ -169,7 +174,7 @@ static void title_timer(int id, float dt)
 
         if (real_time > 1.0f)
         {
-            game_init("map-rlk/title.sol", "map-back/jupiter.sol", "png/space.png", 0, 0);
+            game_init(title_file, "map-back/jupiter.sol", "png/space.png", 0, 0);
             real_time = 0.0f;
             mode = 0;
         }

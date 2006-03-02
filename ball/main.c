@@ -44,6 +44,7 @@
 #include "st_conf.h"
 #include "st_title.h"
 #include "st_demo.h"
+#include "st_level.h"
 
 #define TITLE _("Neverball")
 #define VERSION "1.4.1svn"
@@ -214,16 +215,17 @@ static int loop(void)
 /* Option values */
 static char * data_path   = NULL;
 static char * replay_path = NULL;
+static char * level_path  = NULL;
 
 /* Option hangling */
 
 #define USAGE  _( \
 	"Usage: %s [options ...]\n" \
-	"Options:\n" \
-	"\t-r, --replay file    play the replay 'file'.\n" \
-	"\t--data dir           use 'dir' as game data directory.\n" \
-	"\t-v, --version        show version.\n" \
-	"\t-h, -?, --help       show this usage message.\n")
+	"-r, --replay file         play the replay 'file'.\n" \
+	"-l, --level file.sol      play the level 'file.sol'.\n" \
+	"    --data dir            use 'dir' as game data directory.\n" \
+	"-v, --version             show version.\n" \
+	"-h, -?, --help            show this usage message.\n")
 
 static void parse_args(int argc, char ** argv)
 {
@@ -249,6 +251,8 @@ static void parse_args(int argc, char ** argv)
 	    data_path = *(++argv);
 	else if ((CASE("-r") || CASE("--replay")) && MAND)
 	    replay_path = *(++argv);
+	else if ((CASE("-l")  || CASE("--level")) && MAND)
+	    level_path = *(++argv);
 	else if (not_miss)
 	{
 	    fprintf(stderr, _("%s: unknown option %s\n"), exec, *argv);
@@ -386,6 +390,11 @@ int main(int argc, char *argv[])
     {
 	level_replay(replay_path);
 	goto_demo_play(1);
+    }
+    else if (level_path != NULL)
+    {
+	level_play_single(level_path);
+	goto_state(&st_level);
     }
     else
 	goto_state(&st_title);

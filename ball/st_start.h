@@ -5,4 +5,6 @@
 
 extern struct state st_start;
 
+int goto_end_level(void);
+
 #endif

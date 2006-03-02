@@ -58,10 +58,7 @@ static int goal_action(int i)
     switch (i)
     {
     case GOAL_BACK:
-	if (level_mode() == MODE_CHALLENGE)
-	    return goto_state(&st_over);
-	else
-	    return goto_state(&st_start);
+	return goto_end_level();
 
     case GOAL_SAVE:
         return goto_save(&st_goal_bis, &st_goal_bis);
@@ -154,7 +151,7 @@ static int goal_init(int * gidp)
                 gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
 	    else if (level_opened(curr_level()+1))
                 gui_state(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
-            else
+            else if (level_mode() != MODE_SINGLE)
                 gui_label(jd, _("Next Level"),  GUI_SML, GUI_ALL, gui_blk, gui_blk);
         }
 
@@ -242,7 +239,7 @@ static int goal_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goal_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-	    goal_action(GOAL_BACK);
+	    return goal_action(GOAL_BACK);
     }
     return 1;
 }

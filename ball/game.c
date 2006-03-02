@@ -133,7 +133,7 @@ int game_init(const char *file_name,
 
     if (sol_load(&back, config_data(back_name),
                  config_get_d(CONFIG_TEXTURES), 0) &&
-        sol_load(&file, config_data(file_name),
+        sol_load(&file, file_name,
                  config_get_d(CONFIG_TEXTURES), config_get_d(CONFIG_SHADOW)))
         return (game_state = 1);
     else

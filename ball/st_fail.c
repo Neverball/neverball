@@ -38,10 +38,7 @@ static int fail_action(int i)
     switch (i)
     {
     case FAIL_BACK:
-	if (level_mode() == MODE_CHALLENGE)
-            return goto_state(&st_over);
-	else
-            return goto_state(&st_start);
+        return goto_end_level();
 	    
     case FAIL_OVER:
         return goto_state(&st_over);
