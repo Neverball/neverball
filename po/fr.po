@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-03 13:25+0200\n"
+"POT-Creation-Date: 2006-03-04 00:38+0200\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ball/demo.c:352
+#: ball/demo.c:283
 #, c-format
 msgid "replay%02d"
 msgstr "film%02d"
 
-#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:170 ball/st_goal.c:123
+#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:162 ball/st_goal.c:123
 msgid "Coins"
 msgstr "Pièces"
 
@@ -49,21 +49,40 @@ msgstr "Paresseuse"
 msgid "Manual"
 msgstr "Manuelle"
 
-#: ball/level.c:50 ball/st_start.c:227
+#: ball/level.c:50 ball/st_start.c:231
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/level.c:51 ball/st_start.c:231
+#: ball/level.c:51 ball/st_start.c:235
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/level.c:52 ball/st_start.c:230
+#: ball/level.c:52 ball/st_start.c:234
 msgid "Practice"
 msgstr "Entraînement"
 
 #: ball/level.c:53
 msgid "Single"
 msgstr "Unique"
+
+#: ball/level.c:64
+msgid "Aborted"
+msgstr ""
+
+#: ball/level.c:65
+#, fuzzy
+msgid "Time-out"
+msgstr "Temps"
+
+#: ball/level.c:66
+#, fuzzy
+msgid "Success"
+msgstr "Scores"
+
+#: ball/level.c:67
+#, fuzzy
+msgid "Fall-out"
+msgstr "Balle perdue !"
 
 #: ball/levels.c:313
 msgid "B1"
@@ -84,10 +103,6 @@ msgstr "B4"
 #: ball/levels.c:313
 msgid "B5"
 msgstr "B5"
-
-#: ball/main.c:49 ball/st_title.c:75
-msgid "Neverball"
-msgstr "Neverball"
 
 #: ball/main.c:59
 #, c-format
@@ -144,11 +159,11 @@ msgstr "Pas un fichier de film.\n"
 msgid "Options"
 msgstr "Options"
 
-#: ball/st_conf.c:235 ball/st_demo.c:395 ball/st_save.c:181 putt/st_conf.c:198
+#: ball/st_conf.c:235 ball/st_demo.c:467 ball/st_save.c:181 putt/st_conf.c:198
 msgid "No"
 msgstr "Non"
 
-#: ball/st_conf.c:236 ball/st_demo.c:394 ball/st_save.c:180 putt/st_conf.c:199
+#: ball/st_conf.c:236 ball/st_demo.c:466 ball/st_save.c:180 putt/st_conf.c:199
 msgid "Yes"
 msgstr "Oui"
 
@@ -170,9 +185,9 @@ msgstr "Non"
 msgid "On"
 msgstr "Oui"
 
-#: ball/st_conf.c:318 ball/st_demo.c:128 ball/st_demo.c:144 ball/st_set.c:91
-#: ball/st_start.c:217 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
-#: share/st_lang.c:81 share/st_resol.c:93
+#: ball/st_conf.c:318 ball/st_demo.c:223 ball/st_start.c:221 ball/util.c:329
+#: putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270 share/st_lang.c:81
+#: share/st_resol.c:93
 msgid "Back"
 msgstr "Retour"
 
@@ -224,70 +239,73 @@ msgstr "Langue"
 msgid "Player Name"
 msgstr "Nom du joueur"
 
-#: ball/st_demo.c:122
+#: ball/st_demo.c:161 ball/st_name.c:39 putt/st_all.c:474
+msgid "Player"
+msgstr "Joueur"
+
+#: ball/st_demo.c:163
+#, fuzzy
+msgid "State"
+msgstr "Sauver"
+
+#: ball/st_demo.c:177 ball/st_demo.c:297
+msgid "Replay"
+msgstr "Film"
+
+#: ball/st_demo.c:178
+msgid "Time"
+msgstr "Temps"
+
+#: ball/st_demo.c:179
+msgid "Mode"
+msgstr "Mode"
+
+#: ball/st_demo.c:180
+#, fuzzy
+msgid "Level"
+msgstr "Niveau "
+
+#: ball/st_demo.c:181
+msgid "Date"
+msgstr "Date"
+
+#: ball/st_demo.c:217
 msgid "No Replays"
 msgstr "Pas de film"
 
-#: ball/st_demo.c:124
+#: ball/st_demo.c:219
 msgid ""
 "You can save replays of your games.\\Currently, there are no replays saved."
 msgstr ""
 "Vous pouvez sauvegarder les films de vos parties.\\Actuellement, il n'y a "
 "pas de film sauvegardés."
 
-#: ball/st_demo.c:136
+#: ball/st_demo.c:231
 msgid "Select Replay"
 msgstr "Choisir un film"
 
-#: ball/st_demo.c:140 ball/st_demo.c:142 ball/st_set.c:87 ball/st_set.c:89
-msgid "Next"
-msgstr "Suiv"
-
-#: ball/st_demo.c:147 ball/st_demo.c:149 ball/st_set.c:94 ball/st_set.c:96
-msgid "Prev"
-msgstr "Prec"
-
-#: ball/st_demo.c:172
-msgid "Time"
-msgstr "Temps"
-
-#: ball/st_demo.c:178
-msgid "Mode"
-msgstr "Mode"
-
-#: ball/st_demo.c:185
-msgid "Name"
-msgstr "Nom"
-
-#: ball/st_demo.c:186 ball/st_name.c:39 putt/st_all.c:474
-msgid "Player"
-msgstr "Joueur"
-
-#: ball/st_demo.c:187
-msgid "Date"
-msgstr "Date"
-
-#: ball/st_demo.c:240
-msgid "Replay"
-msgstr "Film"
-
-#: ball/st_demo.c:330
+#: ball/st_demo.c:392
 msgid "Replay Ends"
 msgstr "Fin du film"
 
-#: ball/st_demo.c:335 ball/st_done.c:90 ball/st_name.c:121
+#: ball/st_demo.c:396
+#, fuzzy
+msgid "Replay Again"
+msgstr "Nom du film"
+
+#: ball/st_demo.c:398 ball/st_done.c:90 ball/st_name.c:121
 msgid "OK"
 msgstr "OK"
 
-#: ball/st_demo.c:338
+#: ball/st_demo.c:401
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ball/st_demo.c:339
+#: ball/st_demo.c:402
 msgid "Keep"
 msgstr "Conserver"
 
-#: ball/st_demo.c:390
+#: ball/st_demo.c:462
 msgid "Delete Replay?"
 msgstr "Supprimer le film ?"
 
@@ -387,7 +405,7 @@ msgstr "Sauver"
 msgid "Overwrite?"
 msgstr "Écraser ?"
 
-#: ball/st_set.c:84
+#: ball/st_set.c:89
 msgid "Level Set"
 msgstr "Collection"
 
@@ -411,27 +429,27 @@ msgstr "Jouez à ce niveau bonus"
 msgid "Play this level in normal mode"
 msgstr "Jouez à ce niveau"
 
-#: ball/st_start.c:120
+#: ball/st_start.c:124
 msgid "Finish challenge mode to unlock extra bonus levels"
 msgstr "Terminez le mode challenge pour les niveaux bonus"
 
-#: ball/st_start.c:122
+#: ball/st_start.c:126
 msgid "Finish previous levels to unlock this level"
 msgstr "Terminez les niveaus précédents"
 
-#: ball/st_start.c:138
+#: ball/st_start.c:142
 msgid "Collect coins and unlock next level"
 msgstr "Collecter les pièces et dévérouillez le niveau suivant"
 
-#: ball/st_start.c:141
+#: ball/st_start.c:145
 msgid "Train yourself without time nor coin"
 msgstr "Entrainez-vous sans chrono ni pièces à collecter"
 
-#: ball/st_start.c:214
+#: ball/st_start.c:218
 msgid "Set Complete"
 msgstr "Collection complétée"
 
-#: ball/st_start.c:250
+#: ball/st_start.c:254
 msgid "Choose a level to play"
 msgstr "Choisissez un niveau"
 
@@ -529,6 +547,14 @@ msgstr "Meilleurs temps"
 msgid "del"
 msgstr "del"
 
+#: ball/util.c:316 ball/util.c:319
+msgid "Next"
+msgstr "Suiv"
+
+#: ball/util.c:323 ball/util.c:326
+msgid "Prev"
+msgstr "Prec"
+
 #: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:88 putt/st_all.c:132
 msgid "Par"
 msgstr "Par"
@@ -548,10 +574,6 @@ msgstr "J3"
 #: putt/hole.c:109 putt/st_all.c:92 putt/st_all.c:136
 msgid "P4"
 msgstr "J4"
-
-#: putt/main.c:51 putt/st_all.c:173
-msgid "Neverputt"
-msgstr "Neverputt"
 
 #: putt/st_all.c:66
 msgid "O"
@@ -603,7 +625,7 @@ msgstr "Son désactivé\n"
 msgid "Last"
 msgstr "Dernier"
 
-#: share/base_config.h:76
+#: share/base_config.h:77
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr "ttf/DejaVuSans-Bold.ttf"
 
@@ -1372,3 +1394,12 @@ msgstr ""
 #: data/map-paul/thwomp2.map
 msgid "Grab all the coins...\\but don't get thwomped!"
 msgstr ""
+
+#~ msgid "Name"
+#~ msgstr "Nom"
+
+#~ msgid "Neverball"
+#~ msgstr "Neverball"
+
+#~ msgid "Neverputt"
+#~ msgstr "Neverputt"

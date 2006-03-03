@@ -46,7 +46,7 @@
 #include "st_demo.h"
 #include "st_level.h"
 
-#define TITLE _("Neverball")
+#define TITLE "Neverball"
 #define VERSION "1.4.1svn"
 
 /*---------------------------------------------------------------------------*/

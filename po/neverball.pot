@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-03 13:25+0200\n"
+"POT-Creation-Date: 2006-03-04 00:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ball/demo.c:352
+#: ball/demo.c:283
 #, c-format
 msgid "replay%02d"
 msgstr ""
 
-#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:170 ball/st_goal.c:123
+#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:162 ball/st_goal.c:123
 msgid "Coins"
 msgstr ""
 
@@ -49,20 +49,36 @@ msgstr ""
 msgid "Manual"
 msgstr ""
 
-#: ball/level.c:50 ball/st_start.c:227
+#: ball/level.c:50 ball/st_start.c:231
 msgid "Challenge"
 msgstr ""
 
-#: ball/level.c:51 ball/st_start.c:231
+#: ball/level.c:51 ball/st_start.c:235
 msgid "Normal"
 msgstr ""
 
-#: ball/level.c:52 ball/st_start.c:230
+#: ball/level.c:52 ball/st_start.c:234
 msgid "Practice"
 msgstr ""
 
 #: ball/level.c:53
 msgid "Single"
+msgstr ""
+
+#: ball/level.c:64
+msgid "Aborted"
+msgstr ""
+
+#: ball/level.c:65
+msgid "Time-out"
+msgstr ""
+
+#: ball/level.c:66
+msgid "Success"
+msgstr ""
+
+#: ball/level.c:67
+msgid "Fall-out"
 msgstr ""
 
 #: ball/levels.c:313
@@ -83,10 +99,6 @@ msgstr ""
 
 #: ball/levels.c:313
 msgid "B5"
-msgstr ""
-
-#: ball/main.c:49 ball/st_title.c:75
-msgid "Neverball"
 msgstr ""
 
 #: ball/main.c:59
@@ -144,11 +156,11 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: ball/st_conf.c:235 ball/st_demo.c:395 ball/st_save.c:181 putt/st_conf.c:198
+#: ball/st_conf.c:235 ball/st_demo.c:467 ball/st_save.c:181 putt/st_conf.c:198
 msgid "No"
 msgstr ""
 
-#: ball/st_conf.c:236 ball/st_demo.c:394 ball/st_save.c:180 putt/st_conf.c:199
+#: ball/st_conf.c:236 ball/st_demo.c:466 ball/st_save.c:180 putt/st_conf.c:199
 msgid "Yes"
 msgstr ""
 
@@ -170,9 +182,9 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-#: ball/st_conf.c:318 ball/st_demo.c:128 ball/st_demo.c:144 ball/st_set.c:91
-#: ball/st_start.c:217 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
-#: share/st_lang.c:81 share/st_resol.c:93
+#: ball/st_conf.c:318 ball/st_demo.c:223 ball/st_start.c:221 ball/util.c:329
+#: putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270 share/st_lang.c:81
+#: share/st_resol.c:93
 msgid "Back"
 msgstr ""
 
@@ -224,68 +236,68 @@ msgstr ""
 msgid "Player Name"
 msgstr ""
 
-#: ball/st_demo.c:122
+#: ball/st_demo.c:161 ball/st_name.c:39 putt/st_all.c:474
+msgid "Player"
+msgstr ""
+
+#: ball/st_demo.c:163
+msgid "State"
+msgstr ""
+
+#: ball/st_demo.c:177 ball/st_demo.c:297
+msgid "Replay"
+msgstr ""
+
+#: ball/st_demo.c:178
+msgid "Time"
+msgstr ""
+
+#: ball/st_demo.c:179
+msgid "Mode"
+msgstr ""
+
+#: ball/st_demo.c:180
+msgid "Level"
+msgstr ""
+
+#: ball/st_demo.c:181
+msgid "Date"
+msgstr ""
+
+#: ball/st_demo.c:217
 msgid "No Replays"
 msgstr ""
 
-#: ball/st_demo.c:124
+#: ball/st_demo.c:219
 msgid ""
 "You can save replays of your games.\\Currently, there are no replays saved."
 msgstr ""
 
-#: ball/st_demo.c:136
+#: ball/st_demo.c:231
 msgid "Select Replay"
 msgstr ""
 
-#: ball/st_demo.c:140 ball/st_demo.c:142 ball/st_set.c:87 ball/st_set.c:89
-msgid "Next"
-msgstr ""
-
-#: ball/st_demo.c:147 ball/st_demo.c:149 ball/st_set.c:94 ball/st_set.c:96
-msgid "Prev"
-msgstr ""
-
-#: ball/st_demo.c:172
-msgid "Time"
-msgstr ""
-
-#: ball/st_demo.c:178
-msgid "Mode"
-msgstr ""
-
-#: ball/st_demo.c:185
-msgid "Name"
-msgstr ""
-
-#: ball/st_demo.c:186 ball/st_name.c:39 putt/st_all.c:474
-msgid "Player"
-msgstr ""
-
-#: ball/st_demo.c:187
-msgid "Date"
-msgstr ""
-
-#: ball/st_demo.c:240
-msgid "Replay"
-msgstr ""
-
-#: ball/st_demo.c:330
+#: ball/st_demo.c:392
 msgid "Replay Ends"
 msgstr ""
 
-#: ball/st_demo.c:335 ball/st_done.c:90 ball/st_name.c:121
+#: ball/st_demo.c:396
+msgid "Replay Again"
+msgstr ""
+
+#: ball/st_demo.c:398 ball/st_done.c:90 ball/st_name.c:121
 msgid "OK"
 msgstr ""
 
-#: ball/st_demo.c:338
+#: ball/st_demo.c:401
 msgid "Delete"
 msgstr ""
 
-#: ball/st_demo.c:339
+#: ball/st_demo.c:402
 msgid "Keep"
 msgstr ""
 
-#: ball/st_demo.c:390
+#: ball/st_demo.c:462
 msgid "Delete Replay?"
 msgstr ""
 
@@ -385,7 +397,7 @@ msgstr ""
 msgid "Overwrite?"
 msgstr ""
 
-#: ball/st_set.c:84
+#: ball/st_set.c:89
 msgid "Level Set"
 msgstr ""
 
@@ -409,27 +421,27 @@ msgstr ""
 msgid "Play this level in normal mode"
 msgstr ""
 
-#: ball/st_start.c:120
+#: ball/st_start.c:124
 msgid "Finish challenge mode to unlock extra bonus levels"
 msgstr ""
 
-#: ball/st_start.c:122
+#: ball/st_start.c:126
 msgid "Finish previous levels to unlock this level"
 msgstr ""
 
-#: ball/st_start.c:138
+#: ball/st_start.c:142
 msgid "Collect coins and unlock next level"
 msgstr ""
 
-#: ball/st_start.c:141
+#: ball/st_start.c:145
 msgid "Train yourself without time nor coin"
 msgstr ""
 
-#: ball/st_start.c:214
+#: ball/st_start.c:218
 msgid "Set Complete"
 msgstr ""
 
-#: ball/st_start.c:250
+#: ball/st_start.c:254
 msgid "Choose a level to play"
 msgstr ""
 
@@ -524,6 +536,14 @@ msgstr ""
 msgid "del"
 msgstr ""
 
+#: ball/util.c:316 ball/util.c:319
+msgid "Next"
+msgstr ""
+
+#: ball/util.c:323 ball/util.c:326
+msgid "Prev"
+msgstr ""
+
 #: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:88 putt/st_all.c:132
 msgid "Par"
 msgstr ""
@@ -542,10 +562,6 @@ msgstr ""
 
 #: putt/hole.c:109 putt/st_all.c:92 putt/st_all.c:136
 msgid "P4"
-msgstr ""
-
-#: putt/main.c:51 putt/st_all.c:173
-msgid "Neverputt"
 msgstr ""
 
 #: putt/st_all.c:66
@@ -598,7 +614,7 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
-#: share/base_config.h:76
+#: share/base_config.h:77
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr ""
 

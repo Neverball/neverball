@@ -72,7 +72,7 @@ static int title_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, _("Neverball"), GUI_LRG, GUI_ALL, 0, 0);
+        gui_label(id, "Neverball", GUI_LRG, GUI_ALL, 0, 0);
         gui_space(id);
 
         if ((jd = gui_harray(id)))
