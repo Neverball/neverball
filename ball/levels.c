@@ -207,9 +207,9 @@ static void level_init_hs(const char *filename)
 
 /*---------------------------------------------------------------------------*/
 
-const char *level_shot(int i)
+const struct level *get_level(int i)
 {
-    return level_v[i].shot;
+    return &level_v[i];
 }
 
 const char *level_time_n(int i, int j)

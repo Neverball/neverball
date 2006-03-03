@@ -5,7 +5,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-const char *level_shot(int);
+const struct level *get_level(int);
+
 const char *level_coin_n(int, int);
 const char *level_time_n(int, int);
 int         level_coin_c(int, int);

@@ -93,7 +93,7 @@ static void start_over_level(i)
     int b = level_extra_bonus(i);
     if (i == 0 || level_opened(i))
     {
-        gui_set_image(shot_id, level_shot(i));
+        gui_set_image(shot_id, get_level(i)->shot);
 
         set_most_coins(i, -1);
         set_best_times(i, -1);
@@ -113,6 +113,10 @@ static void start_over_level(i)
 	        gui_set_label(status_id, _("Play this bonus level in normal mode"));
 	    else
 	        gui_set_label(status_id, _("Play this level in normal mode"));
+	}
+	if (config_get_d(CONFIG_CHEAT))
+	{
+	    gui_set_label(status_id, get_level(i)->file);
 	}
 	return;
     }
@@ -220,7 +224,7 @@ static int start_enter(void)
 	
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, level_shot(0), 7 * w / 16, 7 * h / 16);
+            shot_id = gui_image(jd, get_level(0)->shot, 7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
             {
