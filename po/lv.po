@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-03-01 11:17+0100\n"
-"PO-Revision-Date: 2006-03-01 14:07+0200\n"
+"PO-Revision-Date: 2006-03-03 00:06+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -299,7 +299,7 @@ msgstr "Nākošais līmenis"
 
 #: ball/st_level.c:47
 msgid "*** BONUS ***"
-msgstr ""
+msgstr "*** BONUS ***"
 
 #: ball/st_level.c:53 ball/st_level.c:58
 msgid "Level "
@@ -347,19 +347,19 @@ msgstr "Pārbaudi spēkus spēlē no pirmā līdz pēdējam līmenim"
 
 #: ball/st_start.c:90
 msgid "Play this bonus level in practice mode"
-msgstr "Spēlēt šo papildlīmeni treniņrežīmā"
+msgstr "Spēlē šo papildus līmeni treniņrežīmā"
 
 #: ball/st_start.c:92
 msgid "Play this level in practice mode"
-msgstr "Spēlēt šo līmeni treniņrežīmā"
+msgstr "Spēlē šo līmeni treniņrežīmā"
 
 #: ball/st_start.c:97
 msgid "Play this bonus level in normal mode"
-msgstr "Spēlēt šo papildlīmeni parastajā režīmā"
+msgstr "Spēlē šo papildus līmeni parastajā režīmā"
 
 #: ball/st_start.c:99
 msgid "Play this level in normal mode"
-msgstr "Spēlēt šo līmeni parastajā režīmā"
+msgstr "Spēlē šo līmeni parastajā režīmā"
 
 #: ball/st_start.c:104
 msgid "Finish challenge mode to unlock extra bonus levels"
