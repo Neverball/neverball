@@ -70,6 +70,7 @@
 #define JOY_MID 16383
 
 #define MAXSTR 256
+#define PATHMAX 64
 #define MAXLVL 26
 #define MAXNAM 9
 

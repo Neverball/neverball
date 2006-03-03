@@ -55,4 +55,13 @@ struct level_game
 
 const char *mode_to_str(int);
 
+/*---------------------------------------------------------------------------*/
+
+#define GAME_NONE 0
+#define GAME_TIME 1
+#define GAME_GOAL 2
+#define GAME_FALL 3
+
+const char *state_to_str(int);
+
 #endif

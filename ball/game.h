@@ -35,12 +35,6 @@
 #define ANGLE_BOUND 20.f               /* Angle limit of floor tilting       */
 #define NO_AA       0                  /* Disable Angle Acceleration         */
 
-
-#define GAME_NONE 0
-#define GAME_TIME 1
-#define GAME_GOAL 2
-#define GAME_FALL 3
-
 /*---------------------------------------------------------------------------*/
 
 int   game_init(const struct level *, int, int);

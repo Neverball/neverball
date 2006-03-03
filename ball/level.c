@@ -56,3 +56,17 @@ const char * mode_to_str(int m)
 }
 
 /*---------------------------------------------------------------------------*/
+
+const char * state_to_str(int m)
+{
+    switch (m)
+    {
+    case GAME_NONE:    return _("Aborted");
+    case GAME_TIME:    return _("Time-out");
+    case GAME_GOAL:    return _("Success");
+    case GAME_FALL:    return _("Fall-out");
+    default:           return "???";
+    }
+}
+
+/*---------------------------------------------------------------------------*/

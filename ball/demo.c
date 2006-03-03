@@ -38,36 +38,6 @@
 
 static FILE *demo_fp;
 
-
-/* Demo information structure (header) */
-struct demo
-{
-    char   name[MAXNAM];      /* demo basename */
-    char   filename[PATHMAX]; /* demo path */
-
-    /* The following reflects the file structure */
-    /* magic number */
-    /* replay file version */
-    int    timer;           /* elapsed time */
-    int    coins;           /* coin number */
-    int    state;           /* how the replay end */
-    int    mode;            /* game mode */
-    time_t date;            /* date of creation */
-    char   player[MAXNAM];  /* player name */
-    char   shot[PATHMAX];   /* image filename */
-    char   file[PATHMAX];   /* level filename */
-    char   back[PATHMAX];   /* level bg filename */
-    char   grad[PATHMAX];   /* level gradiant filename */
-    char   song[PATHMAX];   /* level song filename */
-    int    time;            /* time limit (! training mode) */
-    int    goal;            /* coin to open the goal (! training mode) */
-    int    score;           /* sum of coins (challenge mode) */
-    int    balls;           /* number of balls (challenge mode) */
-    int    times;           /* total time (challenge mode) */
-    char   nb_version[20]; /* neverball version used */
-};
-
-
 static struct demo demos[MAXDEMO]; /* Array of scanned demos */
 
 static int count; /* number of scanned demos */
@@ -275,56 +245,17 @@ const char *demo_pick(void)
     return (n > 0) ? demos[(rand() >> 4) % n].filename : NULL;
 }
 
-const char *demo_filename(int i)
+const struct demo *get_demo(int i)
 {
-    return (0 <= i && i < count) ? demos[i].filename : NULL;
+    return (0 <= i && i < count) ? &demos[i] : NULL;
 }
 
-const char *demo_name(int i)
+const char * date_to_str(time_t i)
 {
-    return (0 <= i && i < count) ? demos[i].name : NULL;
-}
-
-const char *demo_shot(int i)
-{
-    return (0 <= i && i < count) ? demos[i].shot : NULL;
-}
-
-int demo_coins(int i)
-{
-    return (0 <= i && i < count) ? demos[i].coins : 0;
-}
-
-int demo_state(int i)
-{
-    return (0 <= i && i < count) ? demos[i].state : 0;
-}
-
-int demo_mode(int i)
-{
-    return (0 <= i && i < count) ? demos[i].mode : 0;
-}
-
-int demo_clock(int i)
-{
-    return (0 <= i && i < count) ? demos[i].timer : 0;
-}
-
-time_t demo_date(int i)
-{
-    return (0 <= i && i < count) ? demos[i].date : 0;
-}
-
-void demo_str_date(int i, char * str, int len)
-{
-    time_t d = demo_date(i);
-    struct tm * tm = localtime(&d);
-    strftime (str, len, "%c",tm);
-}
-
-const char * demo_player(int i)
-{
-    return (0 <= i && i < count) ? demos[i].player : "";
+    static char str[MAXSTR];
+    struct tm * tm = localtime(&i);
+    strftime (str, MAXSTR, "%c", tm);
+    return str;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -456,6 +387,12 @@ static int demo_load_level(const struct demo * demo, struct level * level)
 
 static struct demo  demo_replay;       /* The current demo */
 static struct level demo_level_replay; /* The current level demo-ed*/
+
+const struct demo * curr_demo_replay(void)
+{
+    return &demo_replay;
+}
+
 
 int demo_replay_init(const char *name, struct level_game *lg)
 /* Internally load a replay an fill the lg structure (if not NULL) */

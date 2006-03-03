@@ -17,8 +17,7 @@
 
 #include <SDL.h>
 #include "glext.h"
-
-#define PATHMAX 64
+#include "base_config.h"
 
 /*
  * Some might  be taken  aback at  the terseness of  the names  of the
