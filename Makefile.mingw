@@ -4,8 +4,7 @@
 # a script which defines the variables of your Linux mingw32 cross-compilation
 # environment (PATH, PREFIX, TARGET, CC, CXX, ...) to run this makefile. This
 # scripts is usually named "cross-make.sh".  Currently you need to have SDL,
-# SDL_ttf, SDL_image and SDL_mixer DLLs in the makefile directory to compile
-# maps.  This is a bug which may be corrected soon.
+# SDL_ttf and SDL_image DLLs in the makefile directory to compile maps.
 #
 # Mehdi.
 
