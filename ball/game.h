@@ -32,7 +32,7 @@
 #define MAX_DN      16                 /* Maximum subdivisions of dt         */
 #define RESPONSE    0.05f              /* Input smoothing time               */
 
-#define ANGLE_BOUND 22.f               /* Angle limit of floor tilting       */
+#define ANGLE_BOUND 20.f               /* Angle limit of floor tilting       */
 #define NO_AA       0                  /* Disable Angle Acceleration         */
 
 
