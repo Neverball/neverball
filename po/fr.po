@@ -63,7 +63,7 @@ msgstr "Entraînement"
 
 #: ball/level.c:53
 msgid "Single"
-msgstr ""
+msgstr "Unique"
 
 #: ball/levels.c:313
 msgid "B1"
@@ -108,17 +108,17 @@ msgstr ""
 #: ball/main.c:247
 #, c-format
 msgid "%s: %s version %s\n"
-msgstr ""
+msgstr "%s : %s version %s\n"
 
 #: ball/main.c:258
 #, c-format
 msgid "%s: unknown option %s\n"
-msgstr ""
+msgstr "%s : option inconnue %s\n"
 
 #: ball/main.c:264
 #, c-format
 msgid "%s: option %s requires an argument\n"
-msgstr ""
+msgstr "%s : option %s nécessite un argument\n"
 
 #: ball/main.c:285 putt/main.c:251
 #, c-format
@@ -133,12 +133,12 @@ msgstr "Impossible d'établir le répertoire de configuration\n"
 #: ball/main.c:314
 #, c-format
 msgid "Replay file '%s': "
-msgstr ""
+msgstr "Fichier de film « %s » : "
 
 #: ball/main.c:318
 #, c-format
 msgid "Not a replay file.\n"
-msgstr ""
+msgstr "Pas un fichier de film.\n"
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
@@ -225,12 +225,10 @@ msgid "Player Name"
 msgstr "Nom du joueur"
 
 #: ball/st_demo.c:122
-#, fuzzy
 msgid "No Replays"
 msgstr "Pas de film"
 
 #: ball/st_demo.c:124
-#, fuzzy
 msgid ""
 "You can save replays of your games.\\Currently, there are no replays saved."
 msgstr ""
@@ -342,9 +340,8 @@ msgid "Next Level"
 msgstr "Niveau suivant"
 
 #: ball/st_level.c:44
-#, fuzzy
 msgid "Single Level"
-msgstr "Niveau suivant"
+msgstr "Niveau unique"
 
 #: ball/st_level.c:52
 msgid "*** BONUS ***"
@@ -356,7 +353,7 @@ msgstr "Niveau "
 
 #: ball/st_level.c:77
 msgid "Cannot load the level file."
-msgstr ""
+msgstr "Le fichier du niveau ne peut être chargé"
 
 #: ball/st_name.c:120 ball/st_save.c:110
 msgid "Cancel"
@@ -704,7 +701,7 @@ msgstr ""
 
 #: data/sets.txt
 msgid "Paul's levels"
-msgstr ""
+msgstr "Les nivaux de Paul"
 
 #: data/sets.txt
 msgid ""
