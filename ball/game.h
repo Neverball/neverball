@@ -33,7 +33,7 @@
 #define RESPONSE    0.05f              /* Input smoothing time               */
 
 #define ANGLE_BOUND 22.f               /* Angle limit of floor tilting       */
-#define NO_AA       1                  /* Disable Angle Acceleration         */
+#define NO_AA       0                  /* Disable Angle Acceleration         */
 
 
 #define GAME_NONE 0
