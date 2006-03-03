@@ -34,7 +34,7 @@ static int view_rotate;
 
 static int abort_play(void)
 {
-   if (level_mode() == MODE_SINGLE)
+   if (curr_lg()->mode == MODE_SINGLE)
        return 0;
    else
        return goto_state(&st_over);
@@ -181,17 +181,24 @@ static void play_loop_timer(int id, float dt)
 
     float g[3] = { 0.0f, -9.8f, 0.0f };
 
+    int state;
+    
     at = (7 * at + dt) / 8;
 
     gui_timer(id, at);
     hud_timer(at);
     game_set_rot(view_rotate * k);
 
-    switch (game_step(g, at, 1))
+    state = game_step(g, at, 1);
+    if (state)
     {
-    case GAME_TIME: level_stop(GAME_TIME); goto_state(&st_time_out); break;
-    case GAME_FALL: level_stop(GAME_FALL); goto_state(&st_fall_out); break;
-    case GAME_GOAL: level_stop(GAME_GOAL); goto_state(&st_goal);     break;
+	level_stop(state, curr_clock(), curr_coins());
+	switch (state)
+	{
+	case GAME_TIME: goto_state(&st_time_out); break;
+	case GAME_FALL: goto_state(&st_fall_out); break;
+	case GAME_GOAL: goto_state(&st_goal);     break;
+	}
     }
 
     game_step_fade(dt);
@@ -257,7 +264,7 @@ static int play_loop_keybd(int c, int d)
     /* Cheat */
     if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
     {
-        level_stop(GAME_GOAL);
+        level_stop(GAME_GOAL, curr_clock(), curr_coins());
         return goto_state(&st_goal);
     }
     return 1;
@@ -269,7 +276,7 @@ static int play_loop_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
 	{
-	    level_stop(GAME_NONE);
+	    level_stop(GAME_NONE, curr_clock(), curr_coins());
             return abort_play();
 	}
 

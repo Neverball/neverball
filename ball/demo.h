@@ -24,16 +24,17 @@ void demo_unique(char *);
 
 /*---------------------------------------------------------------------------*/
 
-int  demo_play_init(const char *, const struct level *,
-                    int, int, int, int, int, int);
+int  demo_play_init(const char *, const struct level *, 
+		    const struct level_game *);
+/*                    int, int, int, int, int, int);*/
 void demo_play_step(float);
-void demo_play_stop(int, int, int);
+void demo_play_stop(const struct level_game *);
 int  demo_play_saved(void);
 void demo_play_save(const char *);
 
 /*---------------------------------------------------------------------------*/
 
-int  demo_replay_init(const char *, int *, int *, int *, int *);
+int  demo_replay_init(const char *, struct level_game *);
 int  demo_replay_step(float *);
 void demo_replay_stop(int);
 void demo_replay_dump_info(void);

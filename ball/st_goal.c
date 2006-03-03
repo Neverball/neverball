@@ -84,6 +84,8 @@ static int goal_init(int * gidp)
 {
     const char *s1 = _("New Record");
     const char *s2 = _("GOAL");
+    const struct level_game * lg = curr_lg();
+    int mode = curr_lg()->mode;
 
     int id, jd, kd;
 
@@ -98,11 +100,11 @@ static int goal_init(int * gidp)
 
         gui_space(id);
 
-	if (level_mode() == MODE_CHALLENGE)
+	if (mode == MODE_CHALLENGE)
 	{
-	    int coins = curr_coins();
-	    int score = curr_score() - coins;
-	    int balls = curr_balls() - count_extra_balls(score, coins);
+	    int coins = lg->coins;
+	    int score = lg->score - coins;
+	    int balls = lg->balls - count_extra_balls(score, coins);
 	    if ((jd = gui_hstack(id)))
 	    {
                 if ((kd = gui_harray(jd)))
@@ -144,14 +146,14 @@ static int goal_init(int * gidp)
 	    else
                 gui_label(jd, _("Save Replay"), GUI_SML, GUI_ALL, gui_blk, gui_blk);
 	    
-	    if (level_mode() != MODE_CHALLENGE)
+	    if (mode != MODE_CHALLENGE)
                 gui_start(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 	    
-	    if (level_mode() == MODE_CHALLENGE && level_last())
+	    if (mode == MODE_CHALLENGE && level_last())
                 gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
-	    else if (level_opened(curr_level()+1))
+	    else if (level_opened(lg->level+1))
                 gui_state(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
-            else if (level_mode() != MODE_SINGLE)
+            else if (mode != MODE_SINGLE)
                 gui_label(jd, _("Next Level"),  GUI_SML, GUI_ALL, gui_blk, gui_blk);
         }
 
@@ -162,8 +164,8 @@ static int goal_init(int * gidp)
 	if (gidp) *gidp = gid;
     }
 
-    set_most_coins(curr_level(), coin_i);
-    set_best_times(curr_level(), time_i);
+    set_most_coins(lg->level, coin_i);
+    set_best_times(lg->level, time_i);
 
     config_clr_grab();
 
@@ -190,7 +192,7 @@ static int goal_bis_enter(void)
 {
     char player[MAXNAM];
     config_get_s(CONFIG_PLAYER, player, MAXNAM);
-    level_name(curr_level(), player, time_i, coin_i);
+    level_name(curr_lg()->level, player, time_i, coin_i);
     return goal_init(NULL);
 }
 
@@ -204,7 +206,7 @@ static void goal_timer(int id, float dt)
 
     if (time_state() < 1.f)
         game_step(g, dt, 0);
-    else if (DT > 0.05f && level_mode() == MODE_CHALLENGE)
+    else if (DT > 0.05f && curr_lg()->mode == MODE_CHALLENGE)
     {
 	int coins = gui_value(coins_id);
         if (coins > 0)

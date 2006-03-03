@@ -63,7 +63,7 @@ struct demo
     int    goal;            /* coin to open the goal (! training mode) */
     int    score;           /* sum of coins (challenge mode) */
     int    balls;           /* number of balls (challenge mode) */
-    int    total_time;      /* total time (challenge mode) */
+    int    times;           /* total time (challenge mode) */
     char   nb_version[20]; /* neverball version used */
 };
 
@@ -101,7 +101,7 @@ void demo_dump_info(const struct demo * d)
 	   d->timer, d->coins, d->mode, d->state, ctime(&d->date),
 	   d->player,
 	   d->shot, d->file, d->back, d->grad, d->song,
-	   d->time, d->goal, d->score, d->balls, d->total_time);
+	   d->time, d->goal, d->score, d->balls, d->times);
 }
 
 FILE * demo_header_read(const char * filename, struct demo * d)
@@ -151,7 +151,7 @@ FILE * demo_header_read(const char * filename, struct demo * d)
             get_index (fp, &d->goal);
             get_index (fp, &d->score);
             get_index (fp, &d->balls);
-            get_index (fp, &d->total_time);
+            get_index (fp, &d->times);
 	    get_string(fp, d->nb_version, 20);
 
 	    return fp;
@@ -191,7 +191,7 @@ static FILE * demo_header_write(struct demo * d)
         put_index (fp, &d->goal);
         put_index (fp, &d->score);
         put_index (fp, &d->balls);
-        put_index (fp, &d->total_time);
+        put_index (fp, &d->times);
 	put_string(fp, VERSION);
 
         return fp;
@@ -200,7 +200,7 @@ static FILE * demo_header_write(struct demo * d)
 }
 
 void demo_header_stop(FILE * fp, int coins, int timer, int state)
-    /* Update the demo header using the final coins and time. */
+    /* Update the demo header using the final level state. */
 {
     long pos = ftell(fp);
     fseek(fp, 8, SEEK_SET);
@@ -360,7 +360,7 @@ void demo_unique(char *name)
 
 int demo_play_init(const char *name,
 		   const struct level * level,
-		   int mode, int tim, int goal, int score, int balls, int total_time)
+		   const struct level_game * lg)
 {
     struct demo demo;
 
@@ -368,7 +368,7 @@ int demo_play_init(const char *name,
     strncpy(demo.name, name, MAXNAM);
     strncpy(demo.filename, config_user(name), PATHMAX);
     demo.time = demo.coins = demo.state = 0;
-    demo.mode = mode;
+    demo.mode = lg->mode;
     demo.date = time(NULL);
     config_get_s(CONFIG_PLAYER, demo.player, MAXNAM);
     strncpy(demo.shot, level->shot, PATHMAX);
@@ -376,11 +376,11 @@ int demo_play_init(const char *name,
     strncpy(demo.back, level->back, PATHMAX);
     strncpy(demo.grad, level->grad, PATHMAX);
     strncpy(demo.song, level->song, PATHMAX);
-    demo.time  = tim;
-    demo.goal  = goal;
-    demo.score = score;
-    demo.balls = balls;
-    demo.total_time = total_time;
+    demo.time  = lg->time;
+    demo.goal  = lg->goal;
+    demo.score = lg->score;
+    demo.balls = lg->balls;
+    demo.times = lg->times;
 
     demo_fp = demo_header_write(&demo);
     if (demo_fp == NULL)
@@ -388,7 +388,7 @@ int demo_play_init(const char *name,
     else
     {
         audio_music_fade_to(2.0f, level->song);
-        return game_init(level, tim, goal);
+        return game_init(level, lg->time, lg->goal);
     }
 }
 
@@ -409,12 +409,12 @@ void demo_play_step(float dt)
     }
 }
 
-void demo_play_stop(int coins, int timer, int state)
-    /* Update the demo header using the final coins and time. */
+void demo_play_stop(const struct level_game *lg)
+/* Update the demo header using the final level state. */
 {
     if (demo_fp)
     {
-        demo_header_stop(demo_fp, coins, timer, state);
+        demo_header_stop(demo_fp, lg->coins, lg->timer, lg->state);
 	fclose(demo_fp);
 	demo_fp = NULL;
     }
@@ -448,7 +448,7 @@ static int demo_load_level(const struct demo * demo, struct level * level)
     strcpy(level->back, demo->back);
     strcpy(level->grad, demo->grad);
     strcpy(level->shot, demo->shot);
-    strcpy(level->grad, demo->song);
+    strcpy(level->song, demo->song);
     level->time = demo->time;
     level->goal = demo->goal;
     return 1;
@@ -457,18 +457,21 @@ static int demo_load_level(const struct demo * demo, struct level * level)
 static struct demo  demo_replay;       /* The current demo */
 static struct level demo_level_replay; /* The current level demo-ed*/
 
-int demo_replay_init(const char *name, int *m, int *s, int *c, int *t)
+int demo_replay_init(const char *name, struct level_game *lg)
+/* Internally load a replay an fill the lg structure (if not NULL) */
 {
     if ((demo_fp = demo_header_read(name, &demo_replay)))
     {
-	if (m) *m = demo_replay.mode;
-	if (s) *s = demo_replay.score;
-	if (t) *t = demo_replay.total_time;
-
 	demo_load_level(&demo_replay, &demo_level_replay);
-
-	if (m)
+	
+	if (lg)
 	{
+	    lg->mode       = demo_replay.mode;
+	    lg->score      = demo_replay.score;
+	    lg->times      = demo_replay.times;
+	    lg->time       = demo_replay.time;
+	    lg->goal       = demo_replay.goal;
+	    
 	    /* A normal replay demo */
 	    audio_music_fade_to(0.5f, demo_replay.song);
 	    return game_init(&demo_level_replay, demo_replay.time, demo_replay.goal);

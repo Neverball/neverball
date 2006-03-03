@@ -5,6 +5,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+/* A simple level */
+
 struct level
 {
     /* (data) means that the file is relative from the data file */
@@ -22,5 +24,35 @@ int level_load(const char *, struct level *);
 void level_dump_info(const struct level *);
 
 /*---------------------------------------------------------------------------*/
+
+/* A level for the playing */
+
+struct level_game
+{
+    int mode;          /* game mode */
+    int level;         /* level id of the set */
+
+    int goal;          /* coins needed */
+    int time;          /* time limit */
+    
+    /* MODE_CHALLENGE only */
+    int score;         /* coin total */
+    int balls;         /* live count */
+    int times;         /* time total */
+
+    /* Once a level is finished */
+    int state;         /* state ending */
+    int coins;         /* coins collected */
+    int timer;         /* time elapsed */
+};
+
+/*---------------------------------------------------------------------------*/
+
+#define MODE_CHALLENGE  1
+#define MODE_NORMAL     2
+#define MODE_PRACTICE   3
+#define MODE_SINGLE     4
+
+const char *mode_to_str(int);
 
 #endif

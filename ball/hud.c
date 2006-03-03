@@ -126,7 +126,7 @@ void hud_free(void)
 
 void hud_paint(void)
 {
-    int mode = level_mode();
+    int mode = curr_lg()->mode;
     if (mode == MODE_CHALLENGE)
         gui_paint(Lhud_id);
     if (mode == MODE_PRACTICE || mode == MODE_SINGLE)
@@ -144,12 +144,13 @@ void hud_paint(void)
 
 void hud_update(int pulse)
 {
-    const int clock = curr_clock();
-    const int balls = curr_balls();
-    const int coins = curr_coins();
-    const int score = curr_score();
-    const int goal  = curr_goal();
-    int mode = level_mode();
+    const struct level_game * lg = curr_lg();
+    int clock = curr_clock();
+    int coins = curr_coins();
+    int goal  = curr_goal();
+    int balls = lg->balls;
+    int score = lg->score;
+    int mode = lg->mode;
     int c_id;
     int last;
 

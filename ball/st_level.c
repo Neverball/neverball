@@ -32,13 +32,14 @@ static int level_enter(void)
 {
     int id, jd, kd, ld;
     const char * ln;
+    const struct level_game * lg = curr_lg();
 
     /* Load the level */
     level_ok = level_play_go();
 
     if ((id = gui_vstack(0)))
     {
-	if (level_mode() == MODE_SINGLE)
+	if (lg->mode == MODE_SINGLE)
 	{
 	    gui_label(id, _("Single Level"),  GUI_LRG, GUI_TOP, 0, 0);
 	}
@@ -47,12 +48,12 @@ static int level_enter(void)
             gui_filler(jd);
 	    if ((kd = gui_vstack(jd)))
 	    {
-		if (level_extra_bonus(curr_level()))
+		if (level_extra_bonus(lg->level))
 		    gui_label(kd, _("*** BONUS ***"),  GUI_MED, GUI_TOP, gui_wht, gui_grn);
 		if ((ld = gui_hstack(kd)))
 		{
-		    ln = _(level_number_name(curr_level()));
-		    if (level_extra_bonus(curr_level()))
+		    ln = _(level_number_name(lg->level));
+		    if (level_extra_bonus(lg->level))
 		    {
 			gui_label(ld, ln,          GUI_LRG, 0, gui_wht, gui_grn);
 			gui_label(ld, _("Level "), GUI_LRG, 0, gui_wht, gui_grn);
