@@ -22,6 +22,7 @@
 #include "solid.h"
 #include "config.h"
 #include "st_shared.h"
+#include "util.h"
 
 #include "st_demo.h"
 #include "st_title.h"
@@ -31,10 +32,6 @@ extern struct state st_demo_end;
 extern struct state st_demo_del;
 
 /*---------------------------------------------------------------------------*/
-
-#define DEMO_BACK -1
-#define DEMO_NEXT -2
-#define DEMO_PREV -3
 
 #define DEMO_LINE 4
 #define DEMO_STEP 8
@@ -53,15 +50,15 @@ static int demo_action(int i)
 
     switch (i)
     {
-    case DEMO_BACK:
+    case GUI_BACK:
         return goto_state(&st_title);
 
-    case DEMO_NEXT:
+    case GUI_NEXT:
         first += DEMO_STEP;
         return goto_state(&st_demo);
         break;
 
-    case DEMO_PREV:
+    case GUI_PREV:
         first -= DEMO_STEP;
         return goto_state(&st_demo);
         break;
@@ -125,7 +122,7 @@ static int demo_enter(void)
                         "Currently, there are no replays saved."),
                   GUI_SML, GUI_ALL, gui_wht, gui_wht);
         gui_filler(id);
-        gui_start(id, _("Back"), GUI_SML, DEMO_BACK, 0);
+        gui_start(id, _("Back"), GUI_SML, GUI_BACK, 0);
         gui_layout(id, 0, 0);
     }
     else
@@ -135,19 +132,7 @@ static int demo_enter(void)
 
             ld = gui_label(jd, _("Select Replay"), GUI_SML, GUI_ALL, 0,0);
             gui_filler(jd);
-
-	    if (first + DEMO_STEP < total)
-		gui_state(jd, _("Next"), GUI_SML, DEMO_NEXT, 0);
-	    else
-		gui_label(jd, _("Next"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
-	    
-	    gui_start(jd, _("Back"), GUI_SML, DEMO_BACK, 0);
-
-	    if (first > 0)
-                gui_state(jd, _("Prev"), GUI_SML, DEMO_PREV, 0);
-	    else
-		gui_label(jd, _("Prev"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
-	    
+	    gui_back_prev_next(jd, first > 0, first + DEMO_STEP < total);
         }
         if ((jd = gui_varray(id)))
             for (i = first; i < first + DEMO_STEP ; i += DEMO_LINE)
@@ -219,7 +204,7 @@ static int demo_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return demo_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return demo_action(DEMO_BACK);
+            return demo_action(GUI_BACK);
     }
     return 1;
 }

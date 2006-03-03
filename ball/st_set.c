@@ -17,6 +17,7 @@
 #include "game.h"
 #include "audio.h"
 #include "config.h"
+#include "util.h"
 #include "st_shared.h"
 
 #include "st_set.h"
@@ -28,6 +29,7 @@
 #define SET_BACK -1
 #define SET_PREV -2
 #define SET_NEXT -3
+#define SET_NULL -4
 
 #define SET_GROUP 5 /* number of sets in one screen */
 
@@ -40,16 +42,19 @@ static int set_action(int i)
 
     switch(i)
     {
-    case SET_BACK:
+    case GUI_BACK:
         return goto_state(&st_title);
 
-    case SET_PREV:
+    case GUI_PREV:
 	config_set_d(CONFIG_LAST_SET, ((config_get_d(CONFIG_LAST_SET)/SET_GROUP)-1)*SET_GROUP);
 	return goto_state(&st_set);
     
-    case SET_NEXT:
+    case GUI_NEXT:
 	config_set_d(CONFIG_LAST_SET, ((config_get_d(CONFIG_LAST_SET)/SET_GROUP)+1)*SET_GROUP);
 	return goto_state(&st_set);
+
+    case GUI_NULL:
+	return 1;
     
     default:
 	if (set_exists(i))
@@ -83,17 +88,7 @@ static int set_enter(void)
         {
             gui_label(jd, _("Level Set"), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
-	    if (set_exists((b+1)*SET_GROUP))
-	        gui_state(jd, _("Next"), GUI_SML, SET_NEXT, 0);
-	    else
-		gui_label(jd, _("Next"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
-
-            gui_state(jd, _("Back"),  GUI_SML, SET_BACK, 0);
-	    
-	    if (b>0)
-		gui_state(jd, _("Prev"), GUI_SML, SET_PREV, 0);
-	    else
-		gui_label(jd, _("Prev"), GUI_SML, GUI_ALL, gui_gry, gui_gry);
+	    gui_back_prev_next(jd, b>0, set_exists((b+1)*SET_GROUP));
         }
 
         if ((jd = gui_harray(id)))
@@ -154,7 +149,7 @@ static int set_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return set_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_title);
+            return set_action(GUI_BACK);
     }
     return 1;
 }

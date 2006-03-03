@@ -306,3 +306,29 @@ void gui_keyboard(int id)
 }
 
 /*---------------------------------------------------------------------------*/
+
+int gui_back_prev_next(int id, int prev, int next)
+{
+    int jd, bd;
+    if ((jd = gui_hstack(id)))
+    {
+	if (next)
+	    gui_state(jd, _("Next"),  GUI_SML, GUI_NEXT, 0);
+	else
+	{
+	    bd = gui_state(jd, _("Next"),  GUI_SML, GUI_NULL, 0);
+	    gui_set_color(bd, gui_gry, gui_gry);
+	}
+	if (prev)
+	    gui_state(jd, _("Prev"),  GUI_SML, GUI_PREV, 0);
+	else
+	{
+	    bd = gui_state(jd, _("Prev"),  GUI_SML, GUI_NULL, 0);
+	    gui_set_color(bd, gui_gry, gui_gry);
+	}
+	gui_state(jd, _("Back"),  GUI_SML, GUI_BACK, 0);
+    }
+    return jd;
+}
+
+/*---------------------------------------------------------------------------*/

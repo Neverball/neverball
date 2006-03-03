@@ -3,7 +3,11 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define GUI_BS 0
+#define GUI_NULL -100
+#define GUI_BACK -101
+#define GUI_PREV -102
+#define GUI_NEXT -103
+#define GUI_BS   -104
 
 void gui_most_coins(int, int, int);
 void set_most_coins(int, int);
@@ -11,6 +15,7 @@ void gui_best_times(int, int, int);
 void set_best_times(int, int);
 
 void gui_keyboard(int);
+int gui_back_prev_next(int, int, int);
 
 /*---------------------------------------------------------------------------*/
 
