@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-03 13:11+0200\n"
+"POT-Creation-Date: 2006-03-03 13:25+0200\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "replay%02d"
 msgstr "Replay%02d"
 
-#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:170 ball/st_goal.c:121
+#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:170 ball/st_goal.c:123
 msgid "Coins"
 msgstr "Münzen"
 
@@ -28,11 +28,11 @@ msgstr "Münzen"
 msgid "Goal"
 msgstr "Ziel"
 
-#: ball/hud.c:99 ball/st_goal.c:111
+#: ball/hud.c:99 ball/st_goal.c:113
 msgid "Balls"
 msgstr "Bälle"
 
-#: ball/hud.c:100 ball/st_goal.c:116 putt/hud.c:45
+#: ball/hud.c:100 ball/st_goal.c:118 putt/hud.c:45
 msgid "Score"
 msgstr "Punkte"
 
@@ -48,40 +48,40 @@ msgstr "Faul"
 msgid "Manual"
 msgstr "Manuell"
 
-#: ball/levels.c:63 ball/st_start.c:226
+#: ball/level.c:50 ball/st_start.c:227
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/levels.c:64 ball/st_start.c:230
+#: ball/level.c:51 ball/st_start.c:231
 #, fuzzy
 msgid "Normal"
 msgstr "Ziel"
 
-#: ball/levels.c:65 ball/st_start.c:229
+#: ball/level.c:52 ball/st_start.c:230
 msgid "Practice"
 msgstr ""
 
-#: ball/levels.c:66
+#: ball/level.c:53
 msgid "Single"
 msgstr ""
 
-#: ball/levels.c:344
+#: ball/levels.c:313
 msgid "B1"
 msgstr ""
 
-#: ball/levels.c:344
+#: ball/levels.c:313
 msgid "B2"
 msgstr ""
 
-#: ball/levels.c:344
+#: ball/levels.c:313
 msgid "B3"
 msgstr ""
 
-#: ball/levels.c:344
+#: ball/levels.c:313
 msgid "B4"
 msgstr ""
 
-#: ball/levels.c:344
+#: ball/levels.c:313
 msgid "B5"
 msgstr ""
 
@@ -171,7 +171,7 @@ msgid "On"
 msgstr "Ein"
 
 #: ball/st_conf.c:318 ball/st_demo.c:128 ball/st_demo.c:144 ball/st_set.c:91
-#: ball/st_start.c:216 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
+#: ball/st_start.c:217 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
 #: share/st_lang.c:81 share/st_resol.c:93
 msgid "Back"
 msgstr "Zurück"
@@ -303,7 +303,7 @@ msgstr "Neuer Set-Rekord"
 msgid "Challenge Complete"
 msgstr "Challenge"
 
-#: ball/st_done.c:89 ball/st_goal.c:159
+#: ball/st_done.c:89 ball/st_goal.c:161
 msgid "Change Player Name"
 msgstr ""
 
@@ -311,7 +311,7 @@ msgstr ""
 msgid "Fall-out!"
 msgstr "Rausgefallen!"
 
-#: ball/st_fail.c:77 ball/st_fail.c:121 ball/st_goal.c:143 ball/st_goal.c:145
+#: ball/st_fail.c:77 ball/st_fail.c:121 ball/st_goal.c:145 ball/st_goal.c:147
 msgid "Save Replay"
 msgstr "Replay Speichern"
 
@@ -319,7 +319,7 @@ msgstr "Replay Speichern"
 msgid "Game Over"
 msgstr ""
 
-#: ball/st_fail.c:82 ball/st_fail.c:126 ball/st_goal.c:148
+#: ball/st_fail.c:82 ball/st_fail.c:126 ball/st_goal.c:150
 msgid "Retry Level"
 msgstr "Level Wiederholen"
 
@@ -335,28 +335,28 @@ msgstr "Neuer Rekord"
 msgid "GOAL"
 msgstr "ZIEL"
 
-#: ball/st_goal.c:151
+#: ball/st_goal.c:153
 msgid "Finish"
 msgstr "Fertig"
 
-#: ball/st_goal.c:153 ball/st_goal.c:155
+#: ball/st_goal.c:155 ball/st_goal.c:157
 msgid "Next Level"
 msgstr "Nächster Level"
 
-#: ball/st_level.c:43
+#: ball/st_level.c:44
 #, fuzzy
 msgid "Single Level"
 msgstr "Nächster Level"
 
-#: ball/st_level.c:51
+#: ball/st_level.c:52
 msgid "*** BONUS ***"
 msgstr ""
 
-#: ball/st_level.c:58 ball/st_level.c:63
+#: ball/st_level.c:59 ball/st_level.c:64
 msgid "Level "
 msgstr "Level "
 
-#: ball/st_level.c:76
+#: ball/st_level.c:77
 msgid "Cannot load the level file."
 msgstr ""
 
@@ -397,47 +397,47 @@ msgstr "Überschreiben?"
 msgid "Level Set"
 msgstr "Level Set"
 
-#: ball/st_start.c:101
+#: ball/st_start.c:102
 msgid "Challenge all levels from the first one"
 msgstr ""
 
-#: ball/st_start.c:105
+#: ball/st_start.c:106
 msgid "Play this bonus level in practice mode"
 msgstr ""
 
-#: ball/st_start.c:107
+#: ball/st_start.c:108
 msgid "Play this level in practice mode"
 msgstr ""
 
-#: ball/st_start.c:112
+#: ball/st_start.c:113
 msgid "Play this bonus level in normal mode"
 msgstr ""
 
-#: ball/st_start.c:114
+#: ball/st_start.c:115
 msgid "Play this level in normal mode"
 msgstr ""
 
-#: ball/st_start.c:119
+#: ball/st_start.c:120
 msgid "Finish challenge mode to unlock extra bonus levels"
 msgstr ""
 
-#: ball/st_start.c:121
+#: ball/st_start.c:122
 msgid "Finish previous levels to unlock this level"
 msgstr ""
 
-#: ball/st_start.c:137
+#: ball/st_start.c:138
 msgid "Collect coins and unlock next level"
 msgstr ""
 
-#: ball/st_start.c:140
+#: ball/st_start.c:141
 msgid "Train yourself without time nor coin"
 msgstr ""
 
-#: ball/st_start.c:213
+#: ball/st_start.c:214
 msgid "Set Complete"
 msgstr "Set Komplett"
 
-#: ball/st_start.c:249
+#: ball/st_start.c:250
 msgid "Choose a level to play"
 msgstr ""
 
@@ -1373,7 +1373,7 @@ msgstr ""
 msgid "Follow the arrows."
 msgstr ""
 
-#: data/map-paul/paths.map data/map-paul/paths.autosave.map
+#: data/map-paul/paths.map
 msgid "So many different paths to take...\\have you tried all of them?"
 msgstr ""
 

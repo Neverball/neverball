@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-03 13:11+0200\n"
-"PO-Revision-Date: 2006-03-03 00:06+0200\n"
+"POT-Creation-Date: 2006-03-03 13:25+0200\n"
+"PO-Revision-Date: 2006-03-03 13:24+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "replay%02d"
 msgstr "ieraks%02d"
 
-#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:170 ball/st_goal.c:121
+#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:170 ball/st_goal.c:123
 msgid "Coins"
 msgstr "Monētas"
 
@@ -30,11 +30,11 @@ msgstr "Monētas"
 msgid "Goal"
 msgstr "Mērķis"
 
-#: ball/hud.c:99 ball/st_goal.c:111
+#: ball/hud.c:99 ball/st_goal.c:113
 msgid "Balls"
 msgstr "Bumbas"
 
-#: ball/hud.c:100 ball/st_goal.c:116 putt/hud.c:45
+#: ball/hud.c:100 ball/st_goal.c:118 putt/hud.c:45
 msgid "Score"
 msgstr "Kopā"
 
@@ -50,39 +50,39 @@ msgstr "Slinks"
 msgid "Manual"
 msgstr "Manuāls"
 
-#: ball/levels.c:63 ball/st_start.c:226
+#: ball/level.c:50 ball/st_start.c:227
 msgid "Challenge"
 msgstr "Spēku pārbaude"
 
-#: ball/levels.c:64 ball/st_start.c:230
+#: ball/level.c:51 ball/st_start.c:231
 msgid "Normal"
 msgstr "Spēle"
 
-#: ball/levels.c:65 ball/st_start.c:229
+#: ball/level.c:52 ball/st_start.c:230
 msgid "Practice"
 msgstr "Treniņš"
 
-#: ball/levels.c:66
+#: ball/level.c:53
 msgid "Single"
-msgstr ""
+msgstr "Viens"
 
-#: ball/levels.c:344
+#: ball/levels.c:313
 msgid "B1"
 msgstr "P1"
 
-#: ball/levels.c:344
+#: ball/levels.c:313
 msgid "B2"
 msgstr "P2"
 
-#: ball/levels.c:344
+#: ball/levels.c:313
 msgid "B3"
 msgstr "P3"
 
-#: ball/levels.c:344
+#: ball/levels.c:313
 msgid "B4"
 msgstr "P4"
 
-#: ball/levels.c:344
+#: ball/levels.c:313
 msgid "B5"
 msgstr "P5"
 
@@ -172,7 +172,7 @@ msgid "On"
 msgstr "Ar"
 
 #: ball/st_conf.c:318 ball/st_demo.c:128 ball/st_demo.c:144 ball/st_set.c:91
-#: ball/st_start.c:216 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
+#: ball/st_start.c:217 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
 #: share/st_lang.c:81 share/st_resol.c:93
 msgid "Back"
 msgstr "Atpakaļ"
@@ -226,7 +226,6 @@ msgid "Player Name"
 msgstr "Spēlētāja vārds"
 
 #: ball/st_demo.c:122
-#, fuzzy
 msgid "No Replays"
 msgstr "Nav ierakstu"
 
@@ -234,6 +233,8 @@ msgstr "Nav ierakstu"
 msgid ""
 "You can save replays of your games.\\Currently, there are no replays saved."
 msgstr ""
+"Tu vari saglabāt savu spēļu ierakstus.\\Šobrīd neviens ieraksts nav "
+"saglabāts."
 
 #: ball/st_demo.c:136
 msgid "Select Replay"
@@ -299,7 +300,7 @@ msgstr "Jauns spēku pārbaudes rekords"
 msgid "Challenge Complete"
 msgstr "Spēku pārbaude izturēta"
 
-#: ball/st_done.c:89 ball/st_goal.c:159
+#: ball/st_done.c:89 ball/st_goal.c:161
 msgid "Change Player Name"
 msgstr "Mainīt spēlētāja vārdu"
 
@@ -307,7 +308,7 @@ msgstr "Mainīt spēlētāja vārdu"
 msgid "Fall-out!"
 msgstr "Kritiens!"
 
-#: ball/st_fail.c:77 ball/st_fail.c:121 ball/st_goal.c:143 ball/st_goal.c:145
+#: ball/st_fail.c:77 ball/st_fail.c:121 ball/st_goal.c:145 ball/st_goal.c:147
 msgid "Save Replay"
 msgstr "Saglabāt ierakstu"
 
@@ -315,7 +316,7 @@ msgstr "Saglabāt ierakstu"
 msgid "Game Over"
 msgstr "Spēle galā"
 
-#: ball/st_fail.c:82 ball/st_fail.c:126 ball/st_goal.c:148
+#: ball/st_fail.c:82 ball/st_fail.c:126 ball/st_goal.c:150
 msgid "Retry Level"
 msgstr "Mēģināt vēlreiz"
 
@@ -331,28 +332,27 @@ msgstr "Jauns rekords"
 msgid "GOAL"
 msgstr "MĒRĶIS"
 
-#: ball/st_goal.c:151
+#: ball/st_goal.c:153
 msgid "Finish"
 msgstr "Beigt"
 
-#: ball/st_goal.c:153 ball/st_goal.c:155
+#: ball/st_goal.c:155 ball/st_goal.c:157
 msgid "Next Level"
 msgstr "Nākošais līmenis"
 
-#: ball/st_level.c:43
-#, fuzzy
+#: ball/st_level.c:44
 msgid "Single Level"
-msgstr "Nākošais līmenis"
+msgstr "Viens līmenis"
 
-#: ball/st_level.c:51
+#: ball/st_level.c:52
 msgid "*** BONUS ***"
 msgstr "*** BONUS ***"
 
-#: ball/st_level.c:58 ball/st_level.c:63
+#: ball/st_level.c:59 ball/st_level.c:64
 msgid "Level "
 msgstr "Līmenis "
 
-#: ball/st_level.c:76
+#: ball/st_level.c:77
 msgid "Cannot load the level file."
 msgstr ""
 
@@ -392,47 +392,47 @@ msgstr "Pārrakstīt?"
 msgid "Level Set"
 msgstr "Līmeņu komplekts"
 
-#: ball/st_start.c:101
+#: ball/st_start.c:102
 msgid "Challenge all levels from the first one"
 msgstr "Pārbaudi spēkus spēlē no pirmā līdz pēdējam līmenim"
 
-#: ball/st_start.c:105
+#: ball/st_start.c:106
 msgid "Play this bonus level in practice mode"
 msgstr "Spēlē šo papildus līmeni treniņrežīmā"
 
-#: ball/st_start.c:107
+#: ball/st_start.c:108
 msgid "Play this level in practice mode"
 msgstr "Spēlē šo līmeni treniņrežīmā"
 
-#: ball/st_start.c:112
+#: ball/st_start.c:113
 msgid "Play this bonus level in normal mode"
 msgstr "Spēlē šo papildus līmeni parastajā režīmā"
 
-#: ball/st_start.c:114
+#: ball/st_start.c:115
 msgid "Play this level in normal mode"
 msgstr "Spēlē šo līmeni parastajā režīmā"
 
-#: ball/st_start.c:119
+#: ball/st_start.c:120
 msgid "Finish challenge mode to unlock extra bonus levels"
 msgstr "Izturi spēku pārbaudi, lai atslēgtu papildus līmeņus"
 
-#: ball/st_start.c:121
+#: ball/st_start.c:122
 msgid "Finish previous levels to unlock this level"
 msgstr "Pabeidz iepriekšējos līmeņus, lai atslēgtu šo līmeni"
 
-#: ball/st_start.c:137
+#: ball/st_start.c:138
 msgid "Collect coins and unlock next level"
 msgstr "Vāc monētas un atslēdz nākošo līmeni"
 
-#: ball/st_start.c:140
+#: ball/st_start.c:141
 msgid "Train yourself without time nor coin"
 msgstr ""
 
-#: ball/st_start.c:213
+#: ball/st_start.c:214
 msgid "Set Complete"
 msgstr "Komplekts pabeigts"
 
-#: ball/st_start.c:249
+#: ball/st_start.c:250
 msgid "Choose a level to play"
 msgstr "Izvēlies līmeni"
 
@@ -1262,7 +1262,7 @@ msgstr ""
 msgid "Follow the arrows."
 msgstr ""
 
-#: data/map-paul/paths.map data/map-paul/paths.autosave.map
+#: data/map-paul/paths.map
 msgid "So many different paths to take...\\have you tried all of them?"
 msgstr ""
 
