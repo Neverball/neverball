@@ -3,7 +3,7 @@ map-paul/bounce.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000
 map-paul/bounce2.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	0	bgm/track4.ogg
 map-paul/thwomp1.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	0	bgm/track4.ogg
 map-paul/ocean.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	0	bgm/track4.ogg
-map-paul/billiards.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	0	bgm/track4.ogg
+map-paul/billiards.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	52	bgm/track4.ogg
 map-paul/checkers.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	0	bgm/track4.ogg
 map-paul/thwomp2.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	0	bgm/track4.ogg
 map-paul/paths.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	0	bgm/track4.ogg
