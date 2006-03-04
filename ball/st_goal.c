@@ -41,10 +41,6 @@
 #define GOAL_DONE 6
 #define GOAL_NAME 7
 
-static int high;
-static int time_i;
-static int coin_i;
-    
 static int balls_id;
 static int coins_id;
 static int score_id;
@@ -84,10 +80,14 @@ static int goal_init(int * gidp)
 {
     const char *s1 = _("New Record");
     const char *s2 = _("GOAL");
-    const struct level_game * lg = curr_lg();
+    const struct level_game *lg = curr_lg();
     int mode = curr_lg()->mode;
+    const struct set_level *level = &(curr_set()->levels[lg->level]);
 
     int id, jd, kd;
+    int high;
+
+    high = (lg->time_rank < 3) || (lg->goal_rank < 3) || (lg->coin_rank < 3);
 
     if ((id = gui_vstack(0)))
     {
@@ -133,8 +133,8 @@ static int goal_init(int * gidp)
 
         if ((jd = gui_harray(id)))
         {
-            gui_most_coins(jd, 3, 1);
-            gui_best_times(jd, 3, 1);
+            gui_most_coins(jd, 1);
+            gui_best_times(jd, 1);
         }
 
         gui_space(id);
@@ -149,9 +149,9 @@ static int goal_init(int * gidp)
 	    if (mode != MODE_CHALLENGE)
                 gui_start(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 	    
-	    if (mode == MODE_CHALLENGE && level_last())
+	    if (mode == MODE_CHALLENGE && lg->next_level == -1)
                 gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
-	    else if (level_opened(lg->level+1))
+	    else if (lg->next_level != -1)
                 gui_state(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
             else if (mode != MODE_SINGLE)
                 gui_label(jd, _("Next Level"),  GUI_SML, GUI_ALL, gui_blk, gui_blk);
@@ -164,8 +164,11 @@ static int goal_init(int * gidp)
 	if (gidp) *gidp = gid;
     }
 
-    set_most_coins(lg->level, coin_i);
-    set_best_times(lg->level, time_i);
+    set_most_coins(&level->coin_score, lg->coin_rank);
+    if (mode == MODE_CHALLENGE || mode == MODE_NORMAL)
+	set_best_times(&level->goal_score, lg->goal_rank);
+    else
+	set_best_times(&level->time_score, lg->time_rank);
 
     config_clr_grab();
 
@@ -177,10 +180,6 @@ static int goal_enter(void)
     int gid;
     int r;
     
-    time_i = 3;
-    coin_i = 3;
-    high   = level_sort(&time_i, &coin_i);
-
     r = goal_init(&gid);
     
     gui_pulse(gid, 1.2f);
@@ -190,9 +189,7 @@ static int goal_enter(void)
 
 static int goal_bis_enter(void)
 {
-    char player[MAXNAM];
-    config_get_s(CONFIG_PLAYER, player, MAXNAM);
-    level_name(curr_lg()->level, player, time_i, coin_i);
+    level_update_player_name();
     return goal_init(NULL);
 }
 

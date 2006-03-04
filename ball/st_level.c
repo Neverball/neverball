@@ -33,9 +33,11 @@ static int level_enter(void)
     int id, jd, kd, ld;
     const char * ln;
     const struct level_game * lg = curr_lg();
+    int b;
 
     /* Load the level */
     level_ok = level_play_go();
+
 
     if ((id = gui_vstack(0)))
     {
@@ -45,15 +47,17 @@ static int level_enter(void)
 	}
 	else if ((jd = gui_hstack(id)))
         {
+	    ln = _(curr_set()->levels[lg->level].numbername);
+	    b  = set_level_extra_bonus(curr_set(), lg->level);
+
             gui_filler(jd);
 	    if ((kd = gui_vstack(jd)))
 	    {
-		if (level_extra_bonus(lg->level))
+		if (b)
 		    gui_label(kd, _("*** BONUS ***"),  GUI_MED, GUI_TOP, gui_wht, gui_grn);
 		if ((ld = gui_hstack(kd)))
 		{
-		    ln = _(level_number_name(lg->level));
-		    if (level_extra_bonus(lg->level))
+		    if (b)
 		    {
 			gui_label(ld, ln,          GUI_LRG, 0, gui_wht, gui_grn);
 			gui_label(ld, _("Level "), GUI_LRG, 0, gui_wht, gui_grn);
@@ -65,7 +69,7 @@ static int level_enter(void)
 		    }
 		}
 
-		gui_label(kd, _(set_name(set_curr())),  GUI_SML, GUI_BOT, gui_wht, gui_wht);
+		gui_label(kd, _(curr_set()->name),  GUI_SML, GUI_BOT, gui_wht, gui_wht);
 	    }
 	    gui_filler(jd);
         }

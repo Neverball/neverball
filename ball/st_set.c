@@ -14,6 +14,7 @@
 
 #include "gui.h"
 #include "set.h"
+#include "levels.h"
 #include "game.h"
 #include "audio.h"
 #include "config.h"
@@ -93,7 +94,7 @@ static int set_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, set_shot(last_set), 7 * w / 16, 7 * h / 16);
+            shot_id = gui_image(jd, get_set(last_set)->shot, 7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
 	    {
@@ -101,9 +102,9 @@ static int set_enter(void)
 	        for(i=b*SET_GROUP; i<(b+1)*SET_GROUP && set_exists(i); i++)
 		{
 		    if(last_set == i)
-		        gui_start(kd, _(set_name(i)), GUI_SML, i, 0);
+		        gui_start(kd, _(get_set(i)->name), GUI_SML, i, 0);
 		    else
-		        gui_state(kd, _(set_name(i)), GUI_SML, i, 0);
+		        gui_state(kd, _(get_set(i)->name), GUI_SML, i, 0);
 		}
 		
 		/* Display empty slots */
@@ -122,8 +123,8 @@ static int set_enter(void)
 
 static void set_over(int i)
 {
-    gui_set_image(shot_id, set_shot(i));
-    gui_set_multi(desc_id, _(set_desc(i)));
+    gui_set_image(shot_id, get_set(i)->shot);
+    gui_set_multi(desc_id, _(get_set(i)->desc));
 }
 
 static void set_point(int id, int x, int y, int dx, int dy)

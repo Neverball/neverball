@@ -71,7 +71,6 @@
 
 #define MAXSTR 256
 #define PATHMAX 64
-#define MAXLVL 26
 #define MAXNAM 9
 
 #define GUI_FACE                    _("ttf/DejaVuSans-Bold.ttf")

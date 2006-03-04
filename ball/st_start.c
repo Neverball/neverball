@@ -47,7 +47,7 @@ int goto_end_level(void)
 #define START_BACK -1
 #define START_PRACTICE -2
 #define START_NORMAL -3
-#define START_CHALLENGE 0
+#define START_CHALLENGE -4
 
 static int shot_id;
 static int status_id;
@@ -58,16 +58,23 @@ static int status_id;
 
 static void gui_level(int id, int i)
 {
-    int o = level_opened(i);
-    int e = level_exists(i);
-    int b = level_extra_bonus(i);
-    int bo = level_extra_bonus_opened();
+    const struct set *s = curr_set();
+    int o = set_level_opened(s, i);
+    int e = set_level_exists(s, i);
+    int b = set_level_extra_bonus(s, i);
+    int bo = set_extra_bonus_opened(s);
     int jd = 0;
-    const char * text = _(level_number_name(i));
+    const char * text; /*= _(level_number_name(i));*/
 
     if (!e)
-	gui_label(id, text, GUI_SML, GUI_ALL, gui_blk, gui_blk);
-    else if (o)
+    {
+	/*gui_label(id, text, GUI_SML, GUI_ALL, gui_blk, gui_blk);*/
+	gui_space(id);
+	return;
+    }
+    
+    text = _(s->levels[i].numbername);
+    if (o)
     {
 	if (!b)
 	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_wht, gui_wht);
@@ -84,24 +91,22 @@ static void gui_level(int id, int i)
 	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_gry);
     }
     
-    if (jd)
-	gui_active(jd, i, 0);
+    gui_active(jd, i, 0);
 }
 
 static void start_over_level(i)
 {
-    int b = level_extra_bonus(i);
-    if (i == 0 || level_opened(i))
+    const struct set *s = curr_set();
+    int b = set_level_extra_bonus(s, i);
+    if (set_level_opened(s, i))
     {
         gui_set_image(shot_id, get_level(i)->shot);
 
-        set_most_coins(i, -1);
-        set_best_times(i, -1);
+        set_most_coins(&s->levels[i].coin_score, -1);
 
-        if (i == 0)
-	    gui_set_label(status_id, _("Challenge all levels from the first one"));
-	else if (config_get_d(CONFIG_MODE) == MODE_PRACTICE)
+	if (config_get_d(CONFIG_MODE) == MODE_PRACTICE)
 	{
+	    set_best_times(&s->levels[i].time_score, -1);
 	    if (b)
 	        gui_set_label(status_id, _("Play this bonus level in practice mode"));
 	    else
@@ -109,6 +114,7 @@ static void start_over_level(i)
 	}
 	else
 	{
+	    set_best_times(&s->levels[i].goal_score, -1);
 	    if (b)
 	        gui_set_label(status_id, _("Play this bonus level in normal mode"));
 	    else
@@ -120,7 +126,7 @@ static void start_over_level(i)
 	}
 	return;
     }
-    else if (b && !level_extra_bonus_opened())
+    else if (b && !set_extra_bonus_opened(s))
 	gui_set_label(status_id, _("Finish challenge mode to unlock extra bonus levels"));
     else
 	gui_set_label(status_id, _("Finish previous levels to unlock this level"));
@@ -129,18 +135,26 @@ static void start_over_level(i)
 static void start_over(id)
 {
     int i;
+    gui_pulse(id, 1.2f);
     if (id == 0)
 	return;
     
     i = gui_token(id);
     
-    gui_pulse(id, 1.2f);
 
     switch (i)
     {
+    case START_CHALLENGE:
+        gui_set_image(shot_id, curr_set()->shot);
+        set_most_coins(&curr_set()->coin_score, -1);
+	set_best_times(&curr_set()->time_score, -1);
+	gui_set_label(status_id, _("Challenge all levels from the first one"));
+	break;
+	
     case START_NORMAL:
 	gui_set_label(status_id, _("Collect coins and unlock next level"));
 	break;
+	
     case START_PRACTICE:
 	gui_set_label(status_id, _("Train yourself without time nor coin"));
 	break;
@@ -178,11 +192,11 @@ static int start_action(int i)
 	    config_set_d(CONFIG_MODE, MODE_CHALLENGE);
 	    return goto_state(&st_start);
 	}
-	i = 1;
+	i = 0;
 	mode = MODE_CHALLENGE;
     }
 
-    if (level_opened(i) || config_get_d(CONFIG_CHEAT))
+    if (set_level_opened(curr_set(), i) || config_get_d(CONFIG_CHEAT))
     {
         level_play(i, mode);
         return goto_state(&st_level);
@@ -211,9 +225,9 @@ static int start_enter(void)
         if ((jd = gui_hstack(id)))
         {
 	    
-	    gui_label(jd, _(set_name(set_curr())), GUI_SML, GUI_ALL, gui_yel, gui_red);
+	    gui_label(jd, _(curr_set()->name), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
-	    if (level_set_completed())
+	    if (set_completed(curr_set()))
 	    {
 		gui_label(jd, _("Set Complete"), GUI_SML, GUI_ALL, gui_yel, gui_grn);
                 gui_filler(jd);
@@ -224,29 +238,28 @@ static int start_enter(void)
 	
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, get_level(0)->shot, 7 * w / 16, 7 * h / 16);
+            shot_id = gui_image(jd, curr_set()->shot, 7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
             {
-		gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE , m == MODE_CHALLENGE);
                 if ((ld = gui_harray(kd)))
                 {
 		    gui_state(ld, _("Practice"), GUI_SML, START_PRACTICE, m == MODE_PRACTICE);
 		    gui_state(ld, _("Normal"),   GUI_SML, START_NORMAL,   m == MODE_NORMAL);
 		}
+		gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE , m == MODE_CHALLENGE);
 		for (i=0; i <5; i++)
                     if ((ld = gui_harray(kd)))
                         for (j=4; j>=0; j--)
-                            gui_level(ld, i*5 + j + 1);
+                            gui_level(ld, i*5 + j);
             }
         }
         gui_space(id);
 
-
         if ((jd = gui_harray(id)))
         {
-            gui_most_coins(jd, 3, 0);
-            gui_best_times(jd, 3, 0);
+            gui_most_coins(jd, 0);
+            gui_best_times(jd, 0);
         }
         
 	gui_space(id);
@@ -255,8 +268,8 @@ static int start_enter(void)
 	
         gui_layout(id, 0, 0);
 	
-        set_most_coins(0, -1);
-        set_best_times(0, -1);
+        set_most_coins(&curr_set()->coin_score, -1);
+        set_best_times(&curr_set()->time_score, -1);
     }
 
     return id;
@@ -279,19 +292,18 @@ static int start_keybd(int c, int d)
 {
     if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
     {
-	level_cheat();
+	set_cheat();
 	return goto_state(&st_start);
     }
 			 
     if (d && c == SDLK_F12)
     {
-        int n = curr_count();
         int i;
 
         /* Iterate over all levels, taking a screenshot of each. */
 
-        for (i = 1; i < n; i++)
-            if (level_exists(i))
+        for (i = 1; i < MAXLVL; i++)
+            if (set_level_exists(curr_set(), i))
                 level_snap(i);
     }
 

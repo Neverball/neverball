@@ -35,10 +35,6 @@
 
 extern struct state st_done_bis;
 
-static int high;
-static int time_i;
-static int coin_i;
-
 static int done_action(int i)
 {
     audio_play(AUD_MENU, 1.0f);
@@ -61,6 +57,8 @@ static int done_init(int * gidp)
 
     int id, jd;
 
+    int high = (curr_lg()->times_rank < 3) || (curr_lg()->score_rank < 3);
+
     if ((id = gui_vstack(0)))
     {
         int gid;
@@ -77,8 +75,8 @@ static int done_init(int * gidp)
 
         if ((jd = gui_harray(id)))
         {
-            gui_most_coins(jd, 3, 1);
-            gui_best_times(jd, 3, 1);
+            gui_most_coins(jd, 1);
+            gui_best_times(jd, 1);
         }
 
         gui_space(id);
@@ -93,8 +91,8 @@ static int done_init(int * gidp)
         gui_layout(id, 0, 0);
     }
 
-    set_most_coins(0, coin_i);
-    set_best_times(0, time_i);
+    set_best_times(&curr_set()->time_score, curr_lg()->times_rank);
+    set_most_coins(&curr_set()->coin_score, curr_lg()->score_rank);
 
     return id;
 }
@@ -103,10 +101,6 @@ static int done_enter(void)
 {
     int gid, r;
     
-    time_i = 3;
-    coin_i = 3;
-    high   = level_done(&time_i, &coin_i);
-    
     r = done_init(&gid);
     gui_pulse(gid, 1.2f);    
     return r;
@@ -114,9 +108,7 @@ static int done_enter(void)
 
 static int done_bis_enter(void)
 {
-    char player[MAXNAM];
-    config_get_s(CONFIG_PLAYER, player, MAXNAM);
-    level_name(0, player, time_i, coin_i);
+    level_update_player_name();
     return done_init(NULL);
 }
 

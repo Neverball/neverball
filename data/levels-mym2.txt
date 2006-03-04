@@ -1,4 +1,3 @@
-map-mym2/shaker.sol		map-back/alien.sol	shot-mym2/shaker.jpg		back/alien.png	0	0	bgm/track5.ogg
 map-mym2/sonic.sol		map-back/ocean.sol	shot-mym2/sonic.jpg		back/ocean.png	6000	8	bgm/track3.ogg
 map-mym2/movinglumps.sol	map-back/city.sol	shot-mym2/movinglumps.jpg	back/city.png	7500	22	bgm/track1.ogg
 map-mym2/backforth.sol		map-back/city.sol	shot-mym2/backforth.jpg		back/city.png	18000	24	bgm/track3.ogg

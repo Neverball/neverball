@@ -1,4 +1,3 @@
-map-rlk/title.sol    map-back/jupiter.sol shot-rlk/grid.jpg     back/space.png     0  0 bgm/title.ogg
 map-rlk/grid.sol     map-back/clouds.sol  shot-rlk/grid.jpg     back/land.png   4500 30 bgm/track1.ogg
 map-rlk/four.sol     map-back/clouds.sol  shot-rlk/four.jpg     back/land.png   9000 13 bgm/track1.ogg
 map-rlk/telemaze.sol map-back/clouds.sol  shot-rlk/telemaze.jpg back/land.png   7500 50 bgm/track1.ogg

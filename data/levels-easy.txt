@@ -1,4 +1,3 @@
-map-rlk/title.sol    map-back/jupiter.sol shot-rlk/easy.jpg     back/space.png      0  0 bgm/title.ogg
 map-rlk/easy.sol     map-back/clouds.sol  shot-rlk/easy.jpg     back/land.png    9000 10 bgm/track1.ogg
 map-rlk/peasy.sol    map-back/clouds.sol  shot-rlk/peasy.jpg    back/land.png   12000 10 bgm/track1.ogg
 map-rlk/coins.sol    map-back/clouds.sol  shot-rlk/coins.jpg    back/land.png    6000 50 bgm/track1.ogg

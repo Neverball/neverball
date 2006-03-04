@@ -1,4 +1,3 @@
-map-paul/bounce.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	0	0
 map-paul/bounce.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	0	bgm/track4.ogg
 map-paul/bounce2.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	0	bgm/track4.ogg
 map-paul/thwomp1.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	0	bgm/track4.ogg

@@ -30,7 +30,7 @@ void level_dump_info(const struct level *);
 struct level_game
 {
     int mode;          /* game mode */
-    int level;         /* level id of the set */
+    int level;         /* level id in the set */
 
     int goal;          /* coins needed */
     int time;          /* time limit */
@@ -44,6 +44,15 @@ struct level_game
     int state;         /* state ending */
     int coins;         /* coins collected */
     int timer;         /* time elapsed */
+    
+    /* rank = 3  => unclassed */
+    int coin_rank;     /* rank in the level high-scores */
+    int goal_rank;     /* rank in the level high-scores */
+    int time_rank;     /* rank in the level high-scores */
+    int score_rank;    /* rank in the set high-scores */
+    int times_rank;    /* rank in the set high-scores */
+
+    int next_level;    /* next level (-1 in no next level) */
 };
 
 /*---------------------------------------------------------------------------*/
