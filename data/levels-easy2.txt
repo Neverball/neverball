@@ -11,3 +11,5 @@ map-easy2/canals-ton.sol    map-back/ocean.sol   shot-easy2/.jpg    back/ocean.p
 map-easy2/groundbreak-para.sol     map-back/city.sol  shot-easy2/.jpg    back/city.png   12000 10 bgm/track1.ogg
 map-easy2/elevator-jp.sol     map-back/city.sol  shot-easy2/.jpg    back/city.png   12000 10 bgm/track1.ogg
 map-easy2/stairs-jp.sol     map-back/city.sol  shot-easy2/.jpg    back/city.png   12000 10 bgm/track1.ogg
+map-easy2/billiard-paul.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	52	bgm/track4.ogg
+map-easy2/paths-paul.sol	map-back/clouds.sol	shot-paul/paths.bmp	back/land.png 	40000	0	bgm/track4.ogg
