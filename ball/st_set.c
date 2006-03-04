@@ -68,6 +68,21 @@ static int set_action(int i)
     return 1;
 }
 
+static void gui_set(int id, int i, int sel)
+{
+    const struct set *s = get_set(i);
+    int jd;
+    
+    if (set_completed(s)) 
+	jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_yel, gui_wht);
+    else if (set_extra_bonus_opened(s)) 
+	jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_grn, gui_wht);
+    else
+	jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_wht, gui_wht);
+    
+    gui_active(jd, i, sel);
+}
+
 static int set_enter(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
@@ -100,12 +115,7 @@ static int set_enter(void)
 	    {
 		/* Display levels */
 	        for(i=b*SET_GROUP; i<(b+1)*SET_GROUP && set_exists(i); i++)
-		{
-		    if(last_set == i)
-		        gui_start(kd, _(get_set(i)->name), GUI_SML, i, 0);
-		    else
-		        gui_state(kd, _(get_set(i)->name), GUI_SML, i, 0);
-		}
+		    gui_set(kd, i, last_set == i);
 		
 		/* Display empty slots */
 		for(; i<(b+1)*SET_GROUP; i++)

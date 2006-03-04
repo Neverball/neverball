@@ -68,7 +68,6 @@ static void gui_level(int id, int i)
 
     if (!e)
     {
-	/*gui_label(id, text, GUI_SML, GUI_ALL, gui_blk, gui_blk);*/
 	gui_space(id);
 	return;
     }

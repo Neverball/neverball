@@ -48,6 +48,10 @@ static void set_store_hs(const struct set *s)
     FILE *fout;
     int i;
     const struct set_level * sl;
+    int l = s->limit;
+    
+    if (l <= s->count)
+	l = s->count - 1;
 
     if ((fout = fopen(config_user(s->user_scores), "w")))
     {
@@ -56,7 +60,7 @@ static void set_store_hs(const struct set *s)
 	put_score(fout, &s->time_score);
 	put_score(fout, &s->coin_score);
 
-	for (i = 0; i <= s->limit; i++)
+	for (i = 0 ; i <= l ; i++)
 	{
 	    sl = &s->levels[i];
 	    put_score(fout, &sl->time_score);
@@ -88,17 +92,19 @@ static void set_load_hs(struct set *s)
     int res = 0;
     struct set_level * sl;
     const char *fn = config_user(s->user_scores);
-
-    s->limit = 0;
+    int l;
 
     if ((fin = fopen(fn, "r")))
     {
-        res = (fscanf(fin, "%d\n", &s->limit) == 1) &&
-	    s->limit <= s->count &&
+        res = (fscanf(fin, "%d\n", &l) == 1) &&
+	    s->limit == l &&
 	    get_score(fin, &s->time_score) &&
 	    get_score(fin, &s->coin_score);
-	    
-	for (i = 0; i <= s->limit && res; i++)
+	
+        if (l >= s->count)
+	    l = s->count - 1;
+	
+	for (i = 0; i <= l && res; i++)
 	{
 	    sl = &s->levels[i];
 	    res = get_score(fin, &sl->time_score) &&
@@ -111,12 +117,11 @@ static void set_load_hs(struct set *s)
     
     if (!res && errno != ENOENT)
     {
-	fprintf(stderr, _("Error while loading high-score file '%s'"), fn);
+	fprintf(stderr, _("Error while loading user high-score file '%s': "), fn);
 	if (errno)
 	    perror(NULL);
 	else
-	    fprintf(stderr, "\n");
-	s->limit = 0;
+	    fprintf(stderr, _("Incorrect format\n"));
     }
 }
 
@@ -135,9 +140,9 @@ static void set_init_levels(struct set *s)
     char buf[MAXSTR];
     struct set_level * sl;
 
-    s->count = 0;
-
     /* Load the levels list. */
+    
+    s->count = 0;
 
     if ((fin = fopen(config_data(s->init_levels), "r")))
     {
@@ -149,6 +154,19 @@ static void set_init_levels(struct set *s)
 	}
 	fclose(fin);
     }
+
+    /* Load the highscore level limit */
+    
+    s->limit = 0;
+    
+    if ((fin = fopen(config_user(s->user_scores), "r")))
+    {
+	fscanf(fin, "%d\n", &s->limit);
+	if (s->limit > s->count)
+	    s->limit = 0;
+	fclose(fin);
+    }
+    
 }
 
 static void score_init_hs(struct score *s, int timer, int coins)
@@ -170,14 +188,15 @@ static void set_init_hs(struct set *s)
     char buf[MAXSTR];
     FILE *fin;
     int i = 0;
-    int res;
+    int res = 0;
     struct set_level * sl;
+    const char *fn = config_data(s->init_scores);
 
     /* Set some sane values in case the scores file is missing. */
     score_init_hs(&s->time_score, 359999, 0);
     score_init_hs(&s->coin_score, 359999, 0);
 
-    for (i = 0; i < MAXLVL; i++)
+    for (i = 0; i < s->count; i++)
     {
 	    sl = &s->levels[i];
 	    score_init_hs(&sl->time_score, 59999, 0);
@@ -187,7 +206,7 @@ static void set_init_hs(struct set *s)
 
     /* Load the default high scores file. */
 
-    if ((fin = fopen(config_data(s->init_scores), "r")))
+    if ((fin = fopen(fn, "r")))
     {
 	res = fgets(buf, MAXSTR, fin) != NULL;
 	
@@ -199,23 +218,32 @@ static void set_init_hs(struct set *s)
 		    &s->time_score.timer[2],
 		    &s->coin_score.coins[2]) == 6);
 	
-	for (i = 0; i < MAXLVL && res && fgets(buf, MAXSTR, fin); i++)
+	for (i = 0; i < s->count && res; i++)
 	{
 	    sl = &s->levels[i];
-	    /*
-	    res = sscanf(buf, "%d %d %d %d %d %d %d %d %d",
-		    &(sl->time_score[0].timer),
-		    &(sl->goal_score[0].timer),
-		    &(sl->coin_score[0].coins),
-		    &(sl->time_score[1].timer),
-		    &(sl->goal_score[1].timer),
-		    &(sl->coin_score[1].coins),
-		    &(sl->time_score[2].timer),
-		    &(sl->goal_score[2].timer),
-		    &(sl->coin_score[2].coins)) == 9;*/
+	    res = (fgets(buf, MAXSTR, fin) != NULL) &&
+		sscanf(buf, "%d %d %d %d %d %d %d %d %d",
+			&(sl->time_score.timer[0]),
+			&(sl->goal_score.timer[0]),
+			&(sl->coin_score.coins[0]),
+			&(sl->time_score.timer[1]),
+			&(sl->goal_score.timer[1]),
+			&(sl->coin_score.coins[1]),
+			&(sl->time_score.timer[2]),
+			&(sl->goal_score.timer[2]),
+			&(sl->coin_score.coins[2])) == 9;
 	}
 
 	fclose(fin);
+    }
+    
+    if (!res)
+    {
+	fprintf(stderr, _("Error while loading initial high-score file '%s': "), fn);
+	if (errno)
+	    perror(NULL);
+	else
+	    fprintf(stderr, _("Incorrect format\n"));
     }
 }
 
@@ -258,8 +286,6 @@ void set_init()
 		if (*q == '\n') *q = 0;
 
 		set_init_levels(set);
-		set_init_hs(set);
-		set_load_hs(set);
 	   
 		count++;
 	    }
@@ -292,7 +318,7 @@ int  set_extra_bonus_opened(const struct set *s)
 int  set_completed(const struct set *s)
 /* Are all levels (even extra bonus) completed? */
 {
-    return s->limit > s->count;
+    return s->limit >= s->count;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -314,9 +340,6 @@ int  set_level_extra_bonus(const struct set *s, int i)
 {
     return (i >= 20) && (i < s->count);
 }
-
-/*---------------------------------------------------------------------------*/
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -357,6 +380,8 @@ void set_goto(int i)
 {
     assert(set_exists(i));
     current_set = &set_v[i];
+    set_init_hs(current_set);
+    set_load_hs(current_set);
     set_load_levels();
 }
 

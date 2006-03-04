@@ -29,7 +29,7 @@
 
 #define CONFIG_DATA   "./data"        /* Game data directory */
 #define CONFIG_LOCALE "./locale"      /* Game localisation */
-#define CONFIG_USER   ".neverball"    /* User config directory */
+#define CONFIG_USER   ".neverball-svn"    /* User config directory */
 
 /*
  * Global settings are stored in USER_CONFIG_FILE.  Replays are stored
