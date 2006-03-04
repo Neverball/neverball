@@ -38,7 +38,8 @@
  * is deleted, it will be recreated using the defaults.
  */
 #define USER_CONFIG_FILE "neverballrc"
-#define USER_REPLAY_FILE _("Last")
+#define USER_REPLAY_FILE _("Last.nbr")
+#define REPLAY_EXT ".nbr"
 #define ALLOW_CHEAT	 1
 
 /*---------------------------------------------------------------------------*/

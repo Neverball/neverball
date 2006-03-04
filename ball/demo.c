@@ -81,7 +81,9 @@ FILE * demo_header_read(const char * filename, struct demo * d)
  */
 {
     FILE *fp;
-    char * basename;
+    char *basename;
+    char buf[MAXSTR];
+    
     if ((fp = fopen(filename, FMODE_RB)))
     {
 	int magic;
@@ -94,19 +96,28 @@ FILE * demo_header_read(const char * filename, struct demo * d)
 
 	if (magic == MAGIC && version == REPLAY_VERSION && t)
 	{
+	    d->timer = t;
+	    strncpy(d->filename, filename, PATHMAX);
+	    
+	    /* Remove the directory delimiter */
 #ifdef _WIN32
 	    basename = strrchr(filename, '\\');
 #else
 	    basename = strrchr(filename, '/');
 #endif
-	    if (basename != NULL)
-	        strncpy(d->name, basename+1, MAXNAM);
-	    else
-	        strncpy(d->name, filename, MAXNAM);
-			
-	    strncpy(d->filename, filename, PATHMAX);
 	    
-	    d->timer = t;
+	    if (basename != NULL)
+	        strncpy(buf, basename+1, MAXSTR);
+	    else
+	        strncpy(buf, filename, MAXSTR);
+	    
+	    /* Remove the extension */
+	    t = strlen(buf) - strlen(REPLAY_EXT);
+	    if ((t > 1) && (strcmp(buf+t, REPLAY_EXT) == 0))
+		buf[t] = '\0';
+	    strncpy(d->name, buf, MAXNAM);
+	    d->name[MAXNAM-1]= '\0';
+	    
 	    get_index (fp, &d->coins);
 	    get_index (fp, &d->state);
 	    get_index (fp, &d->mode);
@@ -365,6 +376,7 @@ void demo_play_save(const char *name)
     {
         strncpy(src, config_user(USER_REPLAY_FILE), PATHMAX);
 	strncpy(dst, config_user(name),             PATHMAX);
+	strcat(dst, REPLAY_EXT);
 
 	rename(src, dst);
     }
