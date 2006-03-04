@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-04 00:38+0200\n"
+"POT-Creation-Date: 2006-03-04 03:48+0200\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
@@ -15,6 +15,29 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ball/demo.c:50
+#, c-format
+msgid ""
+"Name:         %s\n"
+"File:         %s\n"
+"NB Version:   %s\n"
+"Time:         %d\n"
+"Coins:        %d\n"
+"Mode:         %d\n"
+"State:        %d\n"
+"Date:         %sPlayer:       %s\n"
+"Shot:         %s\n"
+"Level:        %s\n"
+"  Back:       %s\n"
+"  Grad:       %s\n"
+"  Song:       %s\n"
+"Time:         %d\n"
+"Goal:         %d\n"
+"Score:        %d\n"
+"Balls:        %d\n"
+"Total Time:   %d\n"
+msgstr ""
 
 #: ball/demo.c:283
 #, c-format
@@ -120,10 +143,48 @@ msgid ""
 "-h, -?, --help            show this usage message.\n"
 msgstr ""
 
+#: ball/main.c:240
+msgid "--help"
+msgstr ""
+
+#: ball/main.c:240
+msgid "-h"
+msgstr ""
+
+#: ball/main.c:245
+msgid "--version"
+msgstr ""
+
+#: ball/main.c:245
+msgid "-v"
+msgstr ""
+
 #: ball/main.c:247
 #, c-format
 msgid "%s: %s version %s\n"
 msgstr "%s : %s version %s\n"
+
+#: ball/main.c:250
+msgid "--data"
+msgstr ""
+
+#: ball/main.c:252
+#, fuzzy
+msgid "--replay"
+msgstr "Film"
+
+#: ball/main.c:252
+msgid "-r"
+msgstr ""
+
+#: ball/main.c:254
+#, fuzzy
+msgid "--level"
+msgstr "Niveau "
+
+#: ball/main.c:254
+msgid "-l"
+msgstr ""
 
 #: ball/main.c:258
 #, c-format

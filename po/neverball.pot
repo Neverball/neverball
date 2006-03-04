@@ -8,13 +8,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-04 00:38+0200\n"
+"POT-Creation-Date: 2006-03-04 03:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: ball/demo.c:50
+#, c-format
+msgid ""
+"Name:         %s\n"
+"File:         %s\n"
+"NB Version:   %s\n"
+"Time:         %d\n"
+"Coins:        %d\n"
+"Mode:         %d\n"
+"State:        %d\n"
+"Date:         %sPlayer:       %s\n"
+"Shot:         %s\n"
+"Level:        %s\n"
+"  Back:       %s\n"
+"  Grad:       %s\n"
+"  Song:       %s\n"
+"Time:         %d\n"
+"Goal:         %d\n"
+"Score:        %d\n"
+"Balls:        %d\n"
+"Total Time:   %d\n"
+msgstr ""
 
 #: ball/demo.c:283
 #, c-format
@@ -117,9 +140,45 @@ msgid ""
 "-h, -?, --help            show this usage message.\n"
 msgstr ""
 
+#: ball/main.c:240
+msgid "--help"
+msgstr ""
+
+#: ball/main.c:240
+msgid "-h"
+msgstr ""
+
+#: ball/main.c:245
+msgid "--version"
+msgstr ""
+
+#: ball/main.c:245
+msgid "-v"
+msgstr ""
+
 #: ball/main.c:247
 #, c-format
 msgid "%s: %s version %s\n"
+msgstr ""
+
+#: ball/main.c:250
+msgid "--data"
+msgstr ""
+
+#: ball/main.c:252
+msgid "--replay"
+msgstr ""
+
+#: ball/main.c:252
+msgid "-r"
+msgstr ""
+
+#: ball/main.c:254
+msgid "--level"
+msgstr ""
+
+#: ball/main.c:254
+msgid "-l"
 msgstr ""
 
 #: ball/main.c:258

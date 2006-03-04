@@ -47,7 +47,7 @@ static int count; /* number of scanned demos */
 void demo_dump_info(const struct demo * d)
 /* This function dump the info of a demo structure*/
 {
-    printf("Name:         %s\n"
+    printf(_("Name:         %s\n"
 	   "File:         %s\n"
 	   "NB Version:   %s\n"
 	   "Time:         %d\n"
@@ -65,7 +65,7 @@ void demo_dump_info(const struct demo * d)
 	   "Goal:         %d\n"
 	   "Score:        %d\n"
 	   "Balls:        %d\n"
-	   "Total Time:   %d\n",
+	   "Total Time:   %d\n"),
 	   d->name, d->filename,
 	   d->nb_version,
 	   d->timer, d->coins, d->mode, d->state, ctime(&d->date),

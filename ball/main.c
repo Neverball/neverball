@@ -237,21 +237,21 @@ static void parse_args(int argc, char ** argv)
     while (*argv != NULL)
     {
 	not_miss = 1;
-	if (CASE("-h") || CASE("-?") || CASE("--help"))
+	if (CASE(_("-h")) || CASE("-?") || CASE(_("--help")))
 	{
 	    printf(USAGE, exec);
 	    exit(0);
 	}
-	else if (CASE("-v") || CASE("--version"))
+	else if (CASE(_("-v")) || CASE(_("--version")))
 	{
 	    printf(_("%s: %s version %s\n"), exec, TITLE, VERSION);
 	    exit(0);
 	}
-	else if (CASE("--data") && MAND)
+	else if (CASE(_("--data")) && MAND)
 	    data_path = *(++argv);
-	else if ((CASE("-r") || CASE("--replay")) && MAND)
+	else if ((CASE(_("-r")) || CASE(_("--replay"))) && MAND)
 	    replay_path = *(++argv);
-	else if ((CASE("-l")  || CASE("--level")) && MAND)
+	else if ((CASE(_("-l"))  || CASE(_("--level"))) && MAND)
 	    level_path = *(++argv);
 	else if (not_miss)
 	{

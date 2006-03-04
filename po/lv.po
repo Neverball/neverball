@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-04 00:38+0200\n"
-"PO-Revision-Date: 2006-03-03 13:24+0200\n"
+"POT-Creation-Date: 2006-03-04 03:48+0200\n"
+"PO-Revision-Date: 2006-03-04 03:49+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,49 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
+
+#: ball/demo.c:50
+#, c-format
+msgid ""
+"Name:         %s\n"
+"File:         %s\n"
+"NB Version:   %s\n"
+"Time:         %d\n"
+"Coins:        %d\n"
+"Mode:         %d\n"
+"State:        %d\n"
+"Date:         %s"
+"Player:       %s\n"
+"Shot:         %s\n"
+"Level:        %s\n"
+"  Back:       %s\n"
+"  Grad:       %s\n"
+"  Song:       %s\n"
+"Time:         %d\n"
+"Goal:         %d\n"
+"Score:        %d\n"
+"Balls:        %d\n"
+"Total Time:   %d\n"
+msgstr ""
+"Nosaukums:       %s\n"
+"Fails:           %s\n"
+"NB versija:      %s\n"
+"Laiks:           %d\n"
+"Monētas:         %d\n"
+"Režīms:          %d\n"
+"Stāvoklis:       %d\n"
+"Datums:          %s"
+"Spēlētājs:       %s\n"
+"Attēls:          %s\n"
+"Līmenis:         %s\n"
+"  Fons:          %s\n"
+"  Gradients:     %s\n"
+"  Mūzika:        %s\n"
+"Laiks:           %d\n"
+"Mērķis:          %d\n"
+"Rezultāts:       %d\n"
+"Bumbas:          %d\n"
+"Kopējais laiks:  %d\n"
 
 #: ball/demo.c:283
 #, c-format
@@ -68,22 +111,19 @@ msgstr "Viens"
 
 #: ball/level.c:64
 msgid "Aborted"
-msgstr ""
+msgstr "Pārtraukts"
 
 #: ball/level.c:65
-#, fuzzy
 msgid "Time-out"
-msgstr "Laiks"
+msgstr "Laiks cauri"
 
 #: ball/level.c:66
-#, fuzzy
 msgid "Success"
-msgstr "Rezultāti"
+msgstr "Veiksmīgi"
 
 #: ball/level.c:67
-#, fuzzy
 msgid "Fall-out"
-msgstr "Kritiens!"
+msgstr "Kritiens"
 
 #: ball/levels.c:313
 msgid "B1"
@@ -120,21 +160,69 @@ msgid ""
 "-v, --version             show version.\n"
 "-h, -?, --help            show this usage message.\n"
 msgstr ""
+"Lietojums: %s [opcijas ...]\n"
+"-i, --ieraksts fails      parādīt spēles ierakstu 'fails'.\n"
+"-l, --līmenis fails.sol   spēlēt līmeni 'fails.sol'.\n"
+"    --dati dir            izmantot 'dir' par spēles datu direktoriju.\n"
+"-v, --versija             parādīt versiju.\n"
+"-p, -?, --palīgā          parādīt šo lietojuma ziņu.\n"
 
+#: ball/main.c:240
+msgid "--help"
+msgstr "--palīgā"
+
+#: ball/main.c:240
+msgid "-h"
+msgstr "-p"
+
+#: ball/main.c:245
+msgid "--version"
+msgstr "--versija"
+
+#: ball/main.c:245
+msgid "-v"
+msgstr "-v"
+
+# "Lietojums: %s [opcijas ...]\n"
+# "-r, --replay fails        parādīt spēles ierakstu 'fails'.\n"
+# "-l, --level fails.sol     spēlēt līmeni 'fails.sol'.\n"
+# "    --data dir            izmantot 'dir' par spēles datu direktoriju.\n"
+# "-v, --version             parādīt versiju.\n"
+# "-h, -?, --help            parādīt šo lietojuma ziņu.\n"
 #: ball/main.c:247
 #, c-format
 msgid "%s: %s version %s\n"
-msgstr ""
+msgstr "%s: %s versija %s\n"
+
+#: ball/main.c:250
+msgid "--data"
+msgstr "--dati"
+
+#: ball/main.c:252
+msgid "--replay"
+msgstr "--ieraksts"
+
+#: ball/main.c:252
+msgid "-r"
+msgstr "-i"
+
+#: ball/main.c:254
+msgid "--level"
+msgstr "--līmenis"
+
+#: ball/main.c:254
+msgid "-l"
+msgstr "-l"
 
 #: ball/main.c:258
 #, c-format
 msgid "%s: unknown option %s\n"
-msgstr ""
+msgstr "%s: neatpazīta opcija %s\n"
 
 #: ball/main.c:264
 #, c-format
 msgid "%s: option %s requires an argument\n"
-msgstr ""
+msgstr "%s: opcijai %s nepieciešams arguments\n"
 
 #: ball/main.c:285 putt/main.c:251
 #, c-format
@@ -149,12 +237,12 @@ msgstr "Neizdevās noteikt konfigurācijas direktoriju\n"
 #: ball/main.c:314
 #, c-format
 msgid "Replay file '%s': "
-msgstr ""
+msgstr "Ieraksta fails '%s': "
 
 #: ball/main.c:318
 #, c-format
 msgid "Not a replay file.\n"
-msgstr ""
+msgstr "Nav ieraksta fails.\n"
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
@@ -245,9 +333,8 @@ msgid "Player"
 msgstr "Spēlētājs"
 
 #: ball/st_demo.c:163
-#, fuzzy
 msgid "State"
-msgstr "Saglabāt"
+msgstr "Stāvoklis"
 
 #: ball/st_demo.c:177 ball/st_demo.c:297
 msgid "Replay"
@@ -289,9 +376,8 @@ msgid "Replay Ends"
 msgstr "Ieraksta beigas"
 
 #: ball/st_demo.c:396
-#, fuzzy
 msgid "Replay Again"
-msgstr "Ieraksta nosaukums"
+msgstr "Atkārtot vēlreiz"
 
 #: ball/st_demo.c:398 ball/st_done.c:90 ball/st_name.c:121
 msgid "OK"
@@ -371,7 +457,7 @@ msgstr "Līmenis "
 
 #: ball/st_level.c:77
 msgid "Cannot load the level file."
-msgstr ""
+msgstr "Nav iespējams ielādēt līmeņa failu."
 
 #: ball/st_name.c:120 ball/st_save.c:110
 msgid "Cancel"
@@ -443,7 +529,7 @@ msgstr "Vāc monētas un atslēdz nākošo līmeni"
 
 #: ball/st_start.c:145
 msgid "Train yourself without time nor coin"
-msgstr ""
+msgstr "Vingrinies bez laika un monētu ierobežojumiem"
 
 #: ball/st_start.c:218
 msgid "Set Complete"
