@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-03-04 03:48+0200\n"
-"PO-Revision-Date: 2006-03-04 03:49+0200\n"
+"PO-Revision-Date: 2006-03-04 04:13+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -445,7 +445,7 @@ msgstr "Nākošais līmenis"
 
 #: ball/st_level.c:44
 msgid "Single Level"
-msgstr "Viens līmenis"
+msgstr "Atsevišķs līmenis"
 
 #: ball/st_level.c:52
 msgid "*** BONUS ***"
@@ -457,7 +457,7 @@ msgstr "Līmenis "
 
 #: ball/st_level.c:77
 msgid "Cannot load the level file."
-msgstr "Nav iespējams ielādēt līmeņa failu."
+msgstr "Nav iespējams ielādēt līmeņa failu"
 
 #: ball/st_name.c:120 ball/st_save.c:110
 msgid "Cancel"
