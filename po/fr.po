@@ -171,7 +171,7 @@ msgstr "B5"
 #: ball/set.c:219
 #, c-format
 msgid "Error while loading initial high-score file '%s': "
-msgstr "Erreur lors du chargement du fichier de score initian « %s » : "
+msgstr "Erreur lors du chargement du fichier de score initial « %s » : "
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
