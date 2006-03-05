@@ -90,22 +90,19 @@ msgstr "Unique"
 
 #: ball/level.c:64
 msgid "Aborted"
-msgstr ""
+msgstr "Interrompu"
 
 #: ball/level.c:65
-#, fuzzy
 msgid "Time-out"
-msgstr "Temps"
+msgstr "Temps écoulé"
 
 #: ball/level.c:66
-#, fuzzy
 msgid "Success"
-msgstr "Scores"
+msgstr "Succès"
 
 #: ball/level.c:67
-#, fuzzy
 msgid "Fall-out"
-msgstr "Balle perdue !"
+msgstr "Balle perdue"
 
 #: ball/main.c:59
 #, c-format
@@ -122,6 +119,12 @@ msgid ""
 "-v, --version             show version.\n"
 "-h, -?, --help            show this usage message.\n"
 msgstr ""
+"Usage: %s [options ...]\n"
+"-r, --replay fichier      joue le film 'fichier'.\n"
+"-l, --level fichier.sol   jouez le niveau 'fichier.sol'.\n"
+"    --data rep            utilise 'rep' comme dossier de données.\n"
+"-v, --version             affiche la version.\n"
+"-h, -?, --help            affiche ce message d'aide.\n"
 
 #: ball/main.c:240
 msgid "--help"
@@ -194,17 +197,17 @@ msgstr "Fichier de film « %s » : "
 #: ball/main.c:318
 #, c-format
 msgid "Not a replay file.\n"
-msgstr "Pas un fichier de film.\n"
+msgstr "Pas un fichier de film\n"
 
 #: ball/set.c:120
 #, c-format
 msgid "Error while loading user high-score file '%s': "
-msgstr ""
+msgstr "Erreur lors du chargement du fichier de score « %s » :"
 
 #: ball/set.c:124 ball/set.c:246
 #, c-format
 msgid "Incorrect format\n"
-msgstr ""
+msgstr "Format incorrect\n"
 
 #: ball/set.c:133
 msgid "B1"
@@ -229,7 +232,7 @@ msgstr "B5"
 #: ball/set.c:242
 #, c-format
 msgid "Error while loading initial high-score file '%s': "
-msgstr ""
+msgstr "Erreur lors du chargement du fichier de score initian « %s » : "
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
@@ -320,9 +323,8 @@ msgid "Player"
 msgstr "Joueur"
 
 #: ball/st_demo.c:163
-#, fuzzy
 msgid "State"
-msgstr "Sauver"
+msgstr "État"
 
 #: ball/st_demo.c:177 ball/st_demo.c:297
 msgid "Replay"
@@ -337,9 +339,8 @@ msgid "Mode"
 msgstr "Mode"
 
 #: ball/st_demo.c:180
-#, fuzzy
 msgid "Level"
-msgstr "Niveau "
+msgstr "Niveau"
 
 #: ball/st_demo.c:181
 msgid "Date"
@@ -365,9 +366,8 @@ msgid "Replay Ends"
 msgstr "Fin du film"
 
 #: ball/st_demo.c:396
-#, fuzzy
 msgid "Replay Again"
-msgstr "Nom du film"
+msgstr "Rejouer encore"
 
 #: ball/st_demo.c:398 ball/st_done.c:88 ball/st_name.c:121
 msgid "OK"
@@ -698,9 +698,8 @@ msgid "Sound disabled\n"
 msgstr "Son désactivé\n"
 
 #: share/base_config.h:41
-#, fuzzy
 msgid "Last.nbr"
-msgstr "Dernier"
+msgstr "Dernier.nbr"
 
 #: share/base_config.h:77
 msgid "ttf/DejaVuSans-Bold.ttf"
@@ -800,7 +799,7 @@ msgstr ""
 
 #: data/sets.txt
 msgid "Paul's levels"
-msgstr "Les nivaux de Paul"
+msgstr "Les niveaux de Paul"
 
 #: data/sets.txt
 msgid ""
