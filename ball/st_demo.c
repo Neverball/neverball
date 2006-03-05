@@ -183,7 +183,7 @@ static int gui_demo_status(int id, const struct demo * d)
 	if(d && d->state == GAME_GOAL)
 	    gui_set_color(state_id, gui_grn, gui_grn);
     }
-    return id;
+    return jd;
 }
 
 static void gui_demo_update_status(int i)
@@ -294,8 +294,11 @@ static int demo_play_enter(void)
 {
     int id;
 
-    if ((id = gui_label(0, _("Replay"), GUI_LRG, GUI_ALL, gui_blu, gui_grn)))
+    if ((id = gui_vstack(0)))
     {
+        gui_label(id, _("Replay"), GUI_LRG, GUI_ALL, gui_blu, gui_grn);
+	gui_filler(id);
+        gui_demo_status(id, curr_demo_replay());
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
     }
@@ -315,7 +318,7 @@ static void demo_play_paint(int id, float st)
     game_draw(0, st);
     hud_paint();
 
-    if (time_state() < 1.f)
+    if (time_state() < 3.f)
         gui_paint(id);
 }
 
