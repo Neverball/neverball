@@ -9,7 +9,7 @@ const struct level_game * curr_lg(void);
 
 int  level_replay(const char *);
 void level_play_single(const char *);
-void level_play(int, int);
+void level_play(const struct level *, int);
 int  level_play_go(void);
 void level_next(void);
 

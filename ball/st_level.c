@@ -47,8 +47,8 @@ static int level_enter(void)
 	}
 	else if ((jd = gui_hstack(id)))
         {
-	    ln = _(curr_set()->levels[lg->level].numbername);
-	    b  = set_level_extra_bonus(curr_set(), lg->level);
+	    ln = _(lg->level->numbername);
+	    b  = lg->level->is_bonus;
 
             gui_filler(jd);
 	    if ((kd = gui_vstack(jd)))

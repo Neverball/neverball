@@ -42,16 +42,17 @@ static void put_score(FILE *fp, const struct score *s)
        fprintf(fp, "%d %d %s\n", s->timer[j], s->coins[j], s->player[j]);
 }
 
-static void set_store_hs(const struct set *s)
+static void set_store_hs(void)
 /* Store the score of the set */
 {
+    const struct set *s = current_set;
     FILE *fout;
     int i;
-    const struct set_level * sl;
-    int l = s->limit;
+    const struct level *l;
+    int lim = s->limit;
     
-    if (l <= s->count)
-	l = s->count - 1;
+    if (lim <= s->count)
+	lim = s->count - 1;
 
     if ((fout = fopen(config_user(s->user_scores), "w")))
     {
@@ -60,12 +61,12 @@ static void set_store_hs(const struct set *s)
 	put_score(fout, &s->time_score);
 	put_score(fout, &s->coin_score);
 
-	for (i = 0 ; i <= l ; i++)
+	for (i = 0 ; i <= lim ; i++)
 	{
-	    sl = &s->levels[i];
-	    put_score(fout, &sl->time_score);
-	    put_score(fout, &sl->goal_score);
-	    put_score(fout, &sl->coin_score);
+	    l = &level_v[i];
+	    put_score(fout, &l->time_score);
+	    put_score(fout, &l->goal_score);
+	    put_score(fout, &l->coin_score);
 	}
 
 	fclose(fout);
@@ -84,32 +85,33 @@ static int get_score(FILE *fp, struct score *s)
     return res;
 }
 
-static void set_load_hs(struct set *s)
-/* Get the score of the set and set the limit */
+static void set_load_hs(void)
+/* Get the score of the set */
 {
+    struct set *s = current_set;
     FILE *fin;
     int i;
     int res = 0;
-    struct set_level * sl;
+    struct level *l;
     const char *fn = config_user(s->user_scores);
-    int l;
+    int lim;
 
     if ((fin = fopen(fn, "r")))
     {
-        res = (fscanf(fin, "%d\n", &l) == 1) &&
-	    s->limit == l &&
+        res = (fscanf(fin, "%d\n", &lim) == 1) &&
+	    s->limit == lim &&
 	    get_score(fin, &s->time_score) &&
 	    get_score(fin, &s->coin_score);
 	
-        if (l >= s->count)
-	    l = s->count - 1;
+        if (lim >= s->count)
+	    lim = s->count - 1;
 	
-	for (i = 0; i <= l && res; i++)
+	for (i = 0; i <= lim && res; i++)
 	{
-	    sl = &s->levels[i];
-	    res = get_score(fin, &sl->time_score) &&
-	          get_score(fin, &sl->goal_score) &&
-	          get_score(fin, &sl->coin_score);
+	    l = &level_v[i];
+	    res = get_score(fin, &l->time_score) &&
+	          get_score(fin, &l->goal_score) &&
+	          get_score(fin, &l->coin_score);
 	}
 
 	fclose(fin);
@@ -138,7 +140,6 @@ static void set_init_levels(struct set *s)
 {
     FILE *fin;
     char buf[MAXSTR];
-    struct set_level * sl;
 
     /* Load the levels list. */
     
@@ -147,11 +148,7 @@ static void set_init_levels(struct set *s)
     if ((fin = fopen(config_data(s->init_levels), "r")))
     {
 	while (count < MAXLVL && fgets(buf, MAXSTR, fin))
-	{
-	    sl = &s->levels[s->count];
-	    sl->numbername = numbernames[s->count];
 	    s->count++;
-	}
 	fclose(fin);
     }
 
@@ -169,42 +166,22 @@ static void set_init_levels(struct set *s)
     
 }
 
-static void score_init_hs(struct score *s, int timer, int coins)
+static void set_init_hs(void)
+/* Fill set end levels hs with initial values (score-*.txt) */
 {
-    int i;
-    strcpy(s->player[0], "Hard");
-    strcpy(s->player[1], "Medium");
-    strcpy(s->player[2], "Easy");
-    for (i = 0; i < NSCORE; i++)
-    {
-	s->timer[i] = timer;
-	s->coins[i] = coins;
-    }
-    
-}
-
-static void set_init_hs(struct set *s)
-{
+    struct set *s = current_set;
     char buf[MAXSTR];
     FILE *fin;
     int i = 0;
     int res = 0;
-    struct set_level * sl;
+    struct level *l;
     const char *fn = config_data(s->init_scores);
 
     /* Set some sane values in case the scores file is missing. */
     score_init_hs(&s->time_score, 359999, 0);
     score_init_hs(&s->coin_score, 359999, 0);
 
-    for (i = 0; i < s->count; i++)
-    {
-	    sl = &s->levels[i];
-	    score_init_hs(&sl->time_score, 59999, 0);
-	    score_init_hs(&sl->goal_score, 59999, 0);
-	    score_init_hs(&sl->coin_score, 59999, 0);
-    }
-
-    /* Load the default high scores file. */
+    /* Load the initial high scores file. */
 
     if ((fin = fopen(fn, "r")))
     {
@@ -220,18 +197,18 @@ static void set_init_hs(struct set *s)
 	
 	for (i = 0; i < s->count && res; i++)
 	{
-	    sl = &s->levels[i];
+	    l = &level_v[i];
 	    res = (fgets(buf, MAXSTR, fin) != NULL) &&
 		sscanf(buf, "%d %d %d %d %d %d %d %d %d",
-			&(sl->time_score.timer[0]),
-			&(sl->goal_score.timer[0]),
-			&(sl->coin_score.coins[0]),
-			&(sl->time_score.timer[1]),
-			&(sl->goal_score.timer[1]),
-			&(sl->coin_score.coins[1]),
-			&(sl->time_score.timer[2]),
-			&(sl->goal_score.timer[2]),
-			&(sl->coin_score.coins[2])) == 9;
+			&(l->time_score.timer[0]),
+			&(l->goal_score.timer[0]),
+			&(l->coin_score.coins[0]),
+			&(l->time_score.timer[1]),
+			&(l->goal_score.timer[1]),
+			&(l->coin_score.coins[1]),
+			&(l->time_score.timer[2]),
+			&(l->goal_score.timer[2]),
+			&(l->coin_score.coins[2])) == 9;
 	}
 
 	fclose(fin);
@@ -321,24 +298,10 @@ int  set_completed(const struct set *s)
     return s->limit >= s->count;
 }
 
-/*---------------------------------------------------------------------------*/
-
 int  set_level_exists(const struct set *s, int i)
 /* Is the level i of the set exists */
 {
     return (i >= 0) && (i < s->count);
-}
-
-int  set_level_opened(const struct set *s, int i)
-/* Is the level i of the set completed? */
-{
-    return (i >= 0) && (i <= s->limit);
-}
-
-int  set_level_extra_bonus(const struct set *s, int i)
-/* Is the level i of the set a extra-bonus level? */
-{
-    return (i >= 20) && (i < s->count);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -370,6 +333,15 @@ static void set_load_levels(void)
 			l->song) == 7);
 	    assert(res);
 	    level_load(config_data(name), l);
+
+	    /* Initialize set related info */
+	    l->set        = current_set;
+	    l->number     = i;
+	    l->numbername = numbernames[i];
+	    l->is_locked  = i > current_set->limit;
+	    l->is_bonus   = i >= 20;
+
+	    /* hs are done latter */
 	}
 	fclose(fin);
     }
@@ -380,9 +352,9 @@ void set_goto(int i)
 {
     assert(set_exists(i));
     current_set = &set_v[i];
-    set_init_hs(current_set);
-    set_load_hs(current_set);
     set_load_levels();
+    set_init_hs();
+    set_load_hs();
 }
 
 const struct set *curr_set(void)
@@ -470,16 +442,16 @@ static int level_score_update(struct level_game *lg, const char *player)
 {
     int timer = lg->timer;
     int coins = lg->coins;
-    struct set_level * sl = &current_set->levels[lg->level];
+    struct level * l = &level_v[lg->level->number];
 
-    lg->time_rank = score_time_insert(&sl->time_score, player, timer, coins);
+    lg->time_rank = score_time_insert(&l->time_score, player, timer, coins);
 	
     if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
-	lg->goal_rank = score_time_insert(&sl->goal_score, player, timer, coins);
+	lg->goal_rank = score_time_insert(&l->goal_score, player, timer, coins);
     else
 	lg->goal_rank = 3;
 
-    lg->coin_rank = score_coin_insert(&sl->coin_score, player, timer, coins);
+    lg->coin_rank = score_coin_insert(&l->coin_score, player, timer, coins);
 
     return (lg->time_rank < 3 || lg->goal_rank < 3 || lg->coin_rank < 3);
 }
@@ -502,13 +474,13 @@ void score_change_name(struct level_game *lg, const char *player)
 {
 #define UPDATE(i, x) (strncpy((x).player[(i)], player, MAXNAM))
     struct set * s = current_set;
-    struct set_level *l = &s->levels[lg->level];
+    struct level *l = &level_v[lg->level->number];
     UPDATE(lg->time_rank, l->time_score);
     UPDATE(lg->goal_rank, l->goal_score);
     UPDATE(lg->coin_rank, l->coin_score);
     UPDATE(lg->score_rank, s->coin_score);
     UPDATE(lg->times_rank, s->time_score);
-    set_store_hs(s);
+    set_store_hs();
 }
 
 void set_finish_level(struct level_game *lg, const char *player)
@@ -516,7 +488,7 @@ void set_finish_level(struct level_game *lg, const char *player)
  * Update next_level and score rank fields */
 {
     struct set *s = current_set;
-    int level = lg->level;
+    int level = lg->level->number;
     int dirty = 0;
     
     /* Update scores */
@@ -527,7 +499,7 @@ void set_finish_level(struct level_game *lg, const char *player)
     if (s == NULL)
     {
         /* if no set, return */
-	lg->next_level = -1;
+	lg->next_level = NULL;
 	return;
     }
    
@@ -538,21 +510,22 @@ void set_finish_level(struct level_game *lg, const char *player)
         if ((lg->mode == MODE_CHALLENGE) ||
 		(lg->mode == MODE_NORMAL && (level < 20 || level > 20)))
 	{
+	    level_v[level].is_locked = 0;
 	    s->limit = level;
 	    dirty = 1;
 	}      
    
     /* got the next level */ 
     if (lg->mode == MODE_CHALLENGE && level >= 20)
-	lg->next_level = -1; /* End the challenge */
+	lg->next_level = NULL; /* End the challenge */
     else if (level < s->count && level <= s->limit)
-	lg->next_level = level;
+	lg->next_level = &level_v[level];
     else
-	lg->next_level = -1;
+	lg->next_level = NULL;
 
     /* Update file */
     if (dirty)
-	set_store_hs(s);
+	set_store_hs();
 }
 
 /*---------------------------------------------------------------------------*/

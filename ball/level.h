@@ -2,6 +2,20 @@
 #define LEVEL_H
 
 #include "base_config.h"
+#define NSCORE  3
+
+/*---------------------------------------------------------------------------*/
+
+/* A score structure */
+
+struct score
+{
+    char player[NSCORE+1][MAXNAM]; /* player name */
+    int  timer[NSCORE+1];          /* time elapsed */
+    int  coins[NSCORE+1];          /* coins collected */
+};
+
+void score_init_hs(struct score *, int, int);
 
 /*---------------------------------------------------------------------------*/
 
@@ -9,14 +23,33 @@
 
 struct level
 {
-    /* (data) means that the file is relative from the data file */
+    /* Level identity */
+	
     char file[MAXSTR];    /* sol main file */
-    char back[MAXSTR];    /* sol background file (data) */
-    char grad[MAXSTR];    /* gradiant backgound image (data) */
-    char shot[MAXSTR];    /* screenshot image (data)*/
-    char song[MAXSTR];    /* song file (data) */
-    int  time;            /* time limit */
-    int  goal;            /* coins needed */
+    
+    /* Time and goal information */
+    
+    int time;             /* time limit */
+    int goal;             /* coins needed */
+
+    struct score time_score;  /* "best time" score */
+    struct score goal_score;  /* "unlock goal" score */
+    struct score coin_score;  /* "most coin" score */
+
+    /* Regarding set information */
+    
+    struct set * set;       /* set (NULL in single mode) */
+    int number;             /* level number in the set */
+    const char *numbername; /* string representation of the number (eg. B1) */
+    int is_locked;          /* Is the level unplayable */
+    int is_bonus;           /* Is the level an extra-bonus level? */ 
+    
+    /* Other metadata (files are relative the data file) */
+    
+    char back[MAXSTR];    /* sol background file */
+    char grad[MAXSTR];    /* gradiant backgound image */
+    char shot[MAXSTR];    /* screenshot image */
+    char song[MAXSTR];    /* song file */
 };
 
 int level_load(const char *, struct level *);
@@ -30,7 +63,7 @@ void level_dump_info(const struct level *);
 struct level_game
 {
     int mode;          /* game mode */
-    int level;         /* level id in the set */
+    const struct level *level; /* the level played */
 
     int goal;          /* coins needed */
     int time;          /* time limit */
@@ -52,7 +85,7 @@ struct level_game
     int score_rank;    /* rank in the set high-scores */
     int times_rank;    /* rank in the set high-scores */
 
-    int next_level;    /* next level (-1 in no next level) */
+    const struct level *next_level; /* next level (NULL no next level) */
 };
 
 /*---------------------------------------------------------------------------*/

@@ -15,12 +15,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <assert.h>
 
 #include "level.h"
 #include "levels.h"
-#include "image.h"
 #include "game.h"
-#include "geom.h"
 #include "demo.h"
 #include "audio.h"
 #include "config.h"
@@ -44,14 +43,9 @@ int level_play_go(void)
 /* Start to play the current level */
 {
     struct level_game *lg = &current_level_game;
-    int mode  = lg->mode;
-    const struct level *l;
+    const struct level *l = lg->level;
+    int mode = lg->mode;
 
-    if (curr_set())
-	l = get_level(lg->level);
-    else
-        l = &single_level;	    
-    
     lg->goal = (mode == MODE_PRACTICE) ? 0 : l->goal;
     lg->time = (mode == MODE_PRACTICE) ? 0 : l->time;
     
@@ -71,24 +65,24 @@ void level_play_single(const char *filename)
 /* Prepare to play a single level */
 {
     struct level *l = &single_level;
-
-    current_level_game.mode  = MODE_SINGLE;
-    current_level_game.level = 0;
     
-    strncpy(l->file, filename, MAXSTR);
     l->back[0] = '\0';
     l->grad[0] = '\0';
     l->song[0] = '\0';
     l->shot[0] = '\0';
     l->goal    = 0;
     l->time    = 0;
+    
+    level_load(filename, l);
+    
+    level_play(l, MODE_SINGLE);
 }
 
-void level_play(int i, int m)
+void level_play(const struct level *l, int m)
 /* Prepare to play a level sequence from the `i'th level */
 {
     current_level_game.mode = m;
-    current_level_game.level = i;
+    current_level_game.level = l;
 
     current_level_game.score = 0;
     current_level_game.balls = 3;
@@ -142,7 +136,7 @@ void level_stop(int state, int clock, int coins)
     if (state == GAME_GOAL && curr_set())
 	set_finish_level(lg, config_simple_get_s(CONFIG_PLAYER));
     else
-	lg->next_level = -1;
+	lg->next_level = NULL;
 
     /* stop demo recording */	
     demo_play_stop(lg);
@@ -157,7 +151,8 @@ int level_dead(void)
 
 void level_next(void)
 {
-    current_level_game.level = current_level_game.next_level;
+    struct level_game *lg = &current_level_game;
+    lg->level = lg->next_level;
 }
 
 void level_update_player_name(void)

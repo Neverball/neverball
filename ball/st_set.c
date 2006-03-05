@@ -68,7 +68,7 @@ static int set_action(int i)
     return 1;
 }
 
-static void gui_set(int id, int i, int sel)
+static void gui_set(int id, int i)
 {
     const struct set *s = get_set(i);
     int jd;
@@ -80,7 +80,7 @@ static void gui_set(int id, int i, int sel)
     else
 	jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_wht, gui_wht);
     
-    gui_active(jd, i, sel);
+    gui_active(jd, i, 0);
 }
 
 static int set_enter(void)
@@ -115,7 +115,7 @@ static int set_enter(void)
 	    {
 		/* Display levels */
 	        for(i=b*SET_GROUP; i<(b+1)*SET_GROUP && set_exists(i); i++)
-		    gui_set(kd, i, last_set == i);
+		    gui_set(kd, i);
 		
 		/* Display empty slots */
 		for(; i<(b+1)*SET_GROUP; i++)

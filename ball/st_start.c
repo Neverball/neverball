@@ -59,32 +59,31 @@ static int status_id;
 static void gui_level(int id, int i)
 {
     const struct set *s = curr_set();
-    int o = set_level_opened(s, i);
-    int e = set_level_exists(s, i);
-    int b = set_level_extra_bonus(s, i);
-    int bo = set_extra_bonus_opened(s);
+    const struct level *l;
     int jd = 0;
+    
     const char * text; /*= _(level_number_name(i));*/
 
-    if (!e)
+    if (! set_level_exists(s, i))
     {
 	gui_space(id);
 	return;
     }
     
-    text = _(s->levels[i].numbername);
-    if (o)
+    l = get_level(i);
+    text = _(l->numbername);
+    if (! l->is_locked)
     {
-	if (!b)
+	if (! l->is_bonus)
 	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_wht, gui_wht);
 	else
 	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_wht, gui_grn);
     }
     else
     {
-	if (!b)
+	if (! l->is_bonus)
 	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_gry);
-	else if (bo)
+	else if (set_extra_bonus_opened(s))
 	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_grn);
 	else
 	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_gry);
@@ -95,37 +94,37 @@ static void gui_level(int id, int i)
 
 static void start_over_level(i)
 {
-    const struct set *s = curr_set();
-    int b = set_level_extra_bonus(s, i);
-    if (set_level_opened(s, i))
+    const struct set *s   = curr_set();
+    const struct level *l = get_level(i);
+    if (! l->is_locked)
     {
-        gui_set_image(shot_id, get_level(i)->shot);
+        gui_set_image(shot_id, l->shot);
 
-        set_most_coins(&s->levels[i].coin_score, -1);
+        set_most_coins(&l->coin_score, -1);
 
 	if (config_get_d(CONFIG_MODE) == MODE_PRACTICE)
 	{
-	    set_best_times(&s->levels[i].time_score, -1);
-	    if (b)
+	    set_best_times(&l->time_score, -1);
+	    if (l->is_bonus)
 	        gui_set_label(status_id, _("Play this bonus level in practice mode"));
 	    else
 	        gui_set_label(status_id, _("Play this level in practice mode"));
 	}
 	else
 	{
-	    set_best_times(&s->levels[i].goal_score, -1);
-	    if (b)
+	    set_best_times(&l->goal_score, -1);
+	    if (l->is_bonus)
 	        gui_set_label(status_id, _("Play this bonus level in normal mode"));
 	    else
 	        gui_set_label(status_id, _("Play this level in normal mode"));
 	}
 	if (config_get_d(CONFIG_CHEAT))
 	{
-	    gui_set_label(status_id, get_level(i)->file);
+	    gui_set_label(status_id, l->file);
 	}
 	return;
     }
-    else if (b && !set_extra_bonus_opened(s))
+    else if (l->is_bonus && !set_extra_bonus_opened(s))
 	gui_set_label(status_id, _("Finish challenge mode to unlock extra bonus levels"));
     else
 	gui_set_label(status_id, _("Finish previous levels to unlock this level"));
@@ -195,10 +194,14 @@ static int start_action(int i)
 	mode = MODE_CHALLENGE;
     }
 
-    if (set_level_opened(curr_set(), i) || config_get_d(CONFIG_CHEAT))
+    if (i>=0)
     {
-        level_play(i, mode);
-        return goto_state(&st_level);
+        const struct level *l = get_level(i);
+	if (!l->is_locked || config_get_d(CONFIG_CHEAT))
+	{
+            level_play(l, mode);
+            return goto_state(&st_level);
+	}
     }
     return 1;
 }

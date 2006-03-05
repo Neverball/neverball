@@ -20,11 +20,58 @@
 
 /*---------------------------------------------------------------------------*/
 
-int level_load(const char *filename, struct level * level)
-/* Load the level 'filename' and fill the 'level' structure */
-/* return 1 on success, 0 on error */
+void score_init_hs(struct score *s, int timer, int coins)
 {
+    int i;
+    strcpy(s->player[0], "Hard");
+    strcpy(s->player[1], "Medium");
+    strcpy(s->player[2], "Easy");
+    strcpy(s->player[3], "");
+    for (i = 0; i < NSCORE+1; i++)
+    {
+	s->timer[i] = timer;
+	s->coins[i] = coins;
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+int level_load(const char *filename, struct level *level)
+/* Load the sol file 'filename' and fill the 'level' structure
+ * return 1 on success, 0 on error
+ * TODO: Currently this function does nothing since metadata are not stored
+ *       in the sol file.  Therefore the sol file in not loaded */
+{
+    FILE *fp;
+
+    /* Try to load the sol file */
+    fp = fopen(filename, FMODE_RB);
+    if (fp == NULL)
+    {
+	fprintf(stderr, "Error while loading level file '%s': ", filename);
+	perror(NULL);
+	return 0;
+    }
+    fclose(fp);
+    
+    /* Set filename */
     strcpy(level->file, filename);
+    
+    /* Init hs with default values */
+    score_init_hs(&level->time_score, 59999, 0);
+    score_init_hs(&level->goal_score, 59999, 0);
+    score_init_hs(&level->coin_score, 59999, 0);
+    /* Consider that true HS are set latter by the caller */
+
+    /* Raz set info */
+    level->set        = NULL;
+    level->number     = 0;
+    level->numbername = "0";
+    level->is_locked  = 0;
+    level->is_bonus   = 0;
+
+    /* Considers that internal data are set by the caller */
+			    
     return 1;
 }
 

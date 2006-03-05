@@ -82,7 +82,7 @@ static int goal_init(int * gidp)
     const char *s2 = _("GOAL");
     const struct level_game *lg = curr_lg();
     int mode = curr_lg()->mode;
-    const struct set_level *level = &(curr_set()->levels[lg->level]);
+    const struct level *level = lg->level;
 
     int id, jd, kd;
     int high;
@@ -149,9 +149,9 @@ static int goal_init(int * gidp)
 	    if (mode != MODE_CHALLENGE)
                 gui_start(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 	    
-	    if (mode == MODE_CHALLENGE && lg->next_level == -1)
+	    if (mode == MODE_CHALLENGE && lg->next_level == NULL)
                 gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
-	    else if (lg->next_level != -1)
+	    else if (lg->next_level != NULL)
                 gui_state(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
             else if (mode != MODE_SINGLE)
                 gui_label(jd, _("Next Level"),  GUI_SML, GUI_ALL, gui_blk, gui_blk);
