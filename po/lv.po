@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-03-05 10:04+0100\n"
-"PO-Revision-Date: 2006-03-05 04:28+0200\n"
+"PO-Revision-Date: 2006-03-05 11:25+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -98,11 +98,11 @@ msgid ""
 "-h, -?, --help            show this usage message.\n"
 msgstr ""
 "Lietojums: %s [opcijas ...]\n"
-"-i, --ieraksts fails      parādīt spēles ierakstu 'fails'.\n"
-"-l, --līmenis fails.sol   spēlēt līmeni 'fails.sol'.\n"
-"    --dati dir            izmantot 'dir' par spēles datu direktoriju.\n"
-"-v, --versija             parādīt versiju.\n"
-"-p, -?, --palīgā          parādīt šo lietojuma ziņu.\n"
+"-r, --replay fails        parādīt spēles ierakstu 'fails'.\n"
+"-l, --level fails.sol     spēlēt līmeni 'fails.sol'.\n"
+"    --data dir            izmantot 'dir' par spēles datu direktoriju.\n"
+"-v, --version             parādīt versiju.\n"
+"-h, -?, --help            parādīt šo lietojuma ziņojumu.\n"
 
 #: ball/main.c:247
 #, c-format
@@ -135,9 +135,9 @@ msgid "Replay file '%s': "
 msgstr "Ieraksta fails '%s': "
 
 #: ball/main.c:313
-#, fuzzy, c-format
+#, c-format
 msgid "Not a replay file\n"
-msgstr "Nav ieraksta fails.\n"
+msgstr "Nav ieraksta fails\n"
 
 #: ball/set.c:120
 #, c-format
@@ -147,7 +147,7 @@ msgstr "Kļūda, ielādējot lietotāja spēles rezultātu failu '%s': "
 #: ball/set.c:124 ball/set.c:246
 #, c-format
 msgid "Incorrect format\n"
-msgstr "Nepareizais formāts\n"
+msgstr "Nepareizs formāts\n"
 
 #: ball/set.c:133
 msgid "B1"
@@ -294,7 +294,7 @@ msgstr "Nav ierakstu"
 msgid ""
 "You can save replays of your games.\\Currently, there are no replays saved."
 msgstr ""
-"Tu vari saglabāt savu spēļu ierakstus.\\Šobrīd neviens ieraksts nav "
+"Tu vari saglabāt savu spēļu atkārtojumus.\\Šobrīd neviens ieraksts nav "
 "saglabāts."
 
 #: ball/st_demo.c:231
@@ -363,7 +363,7 @@ msgstr "Jauns rekords"
 
 #: ball/st_goal.c:82
 msgid "GOAL"
-msgstr "MĒRĶī"
+msgstr "MĒRĶIS"
 
 #: ball/st_goal.c:153
 msgid "Finish"
@@ -517,7 +517,7 @@ msgstr "Iziet / Atcelt izvēlni"
 
 #: ball/st_title.c:225
 msgid "Chase View"
-msgstr "Vajātājskats"
+msgstr "Vajājošais skats"
 
 #: ball/st_title.c:226
 msgid "Lazy View"
@@ -882,8 +882,8 @@ msgid ""
 "This one shouldn't be too difficult.\\There are 100 coins here.\\That's a "
 "save point and a free ball\\if you don't accidentally make a goal first.\\"
 msgstr ""
-"Šim nevajadzētu būt pārāk sarežģīti.\\Šeit ir tieši 100 monētu.\\Tas nozīmē "
-"papildus bumbu,\\ja vien Tu vispirms netrāpīsi mērķī.\\"
+"Šim te nevajadzētu būt pārāk grūtam.\\Šeit ir tieši 100 monētu.\\Tas nozīmē "
+"papildus bumbu,\\ja vien Tu vispirms netrāpi mērķī.\\"
 
 #: data/map-rlk/telemaze.map
 msgid ""
@@ -899,7 +899,7 @@ msgid ""
 "a bit.\\Be prepared to handle some bouncing.\\"
 msgstr ""
 "Brauc ar pacēlājiem līdz pašai\\augšai. Tie ātri pārvietojas,\\un nedaudz "
-"mētā bumbu.\\Esi gatavs izturēt nelielu palēkāšanu.\\"
+"mētā bumbu.\\Esi gatavs izturēt mērenu palēkāšanu.\\"
 
 #: data/map-rlk/goslow.map
 msgid ""
@@ -941,7 +941,7 @@ msgstr ""
 
 #: data/map-rlk/spread.map
 msgid "Don't worry.\\The green part isn't going anywhere.\\"
-msgstr ""
+msgstr "Neraizējies.\\Zaļā daļa stāv nekustīgi."
 
 #: data/map-rlk/fence.map
 msgid ""
@@ -1052,7 +1052,7 @@ msgstr "Izmanto teleportus, lai\\nokļūtu tur, kur citādi nevarētu.\\"
 
 #: data/map-rlk/four.map
 msgid "Balance risk versus reward.\\"
-msgstr "Līdzsvara saglabāšans risks versus atlīdzība.\\"
+msgstr "Līdzsvara saglabāšanas risks pret atlīdzību.\\"
 
 #: data/map-rlk/sync.map
 msgid ""
@@ -1064,7 +1064,7 @@ msgstr ""
 
 #: data/map-rlk/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
-msgstr "Šeit ir pārāk maz grīdas.\\Cerams, ka tas nav sķērslis.\\"
+msgstr "Šeit ir pārāk maz grīdas.\\Cerams, ka tas nerada problēmas.\\"
 
 #: data/map-rlk/poker.map
 msgid "Slow and steady.\\"
@@ -1095,11 +1095,11 @@ msgstr ""
 
 #: data/map-rlk/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
-msgstr "Izpriecājies, vācot tās\\sarkanās un zilās monētas.\\"
+msgstr "Veiksmi vākt tās\\sarkanās un zilās monētas.\\"
 
 #: data/map-rlk/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
-msgstr "Jā, bumba tiešām visai glīti der cauri\\tiem mazajiem caurumiņiem.\\"
+msgstr "Jā, bumba patiešām pavisam glīti der\\tajos mazajos caurumiņos.\\"
 
 #: data/map-rlk/greed.map
 msgid ""
@@ -1350,92 +1350,3 @@ msgstr ""
 msgid "Grab all the coins...\\but don't get thwomped!"
 msgstr ""
 
-#~ msgid ""
-#~ "Name:         %s\n"
-#~ "File:         %s\n"
-#~ "NB Version:   %s\n"
-#~ "Time:         %d\n"
-#~ "Coins:        %d\n"
-#~ "Mode:         %d\n"
-#~ "State:        %d\n"
-#~ "Date:         %sPlayer:       %s\n"
-#~ "Shot:         %s\n"
-#~ "Level:        %s\n"
-#~ "  Back:       %s\n"
-#~ "  Grad:       %s\n"
-#~ "  Song:       %s\n"
-#~ "Time:         %d\n"
-#~ "Goal:         %d\n"
-#~ "Score:        %d\n"
-#~ "Balls:        %d\n"
-#~ "Total Time:   %d\n"
-#~ msgstr ""
-#~ "Nosaukums:       %s\n"
-#~ "Fails:           %s\n"
-#~ "NB versija:      %s\n"
-#~ "Laiks:           %d\n"
-#~ "Monētas:         %d\n"
-#~ "Režīms:          %d\n"
-#~ "Stāvoklis:       %d\n"
-#~ "Datums:          %sSpēlētājs:       %s\n"
-#~ "Attēls:          %s\n"
-#~ "Līmenis:         %s\n"
-#~ "  Fons:          %s\n"
-#~ "  Gradients:     %s\n"
-#~ "  Mūzika:        %s\n"
-#~ "Laiks:           %d\n"
-#~ "Mērķis:          %d\n"
-#~ "Rezultāts:       %d\n"
-#~ "Bumbas:          %d\n"
-#~ "Kopējais laiks:  %d\n"
-
-#~ msgid "--help"
-#~ msgstr "--palīgā"
-
-#~ msgid "-h"
-#~ msgstr "-p"
-
-#~ msgid "--version"
-#~ msgstr "--versija"
-
-#~ msgid "-v"
-#~ msgstr "-v"
-
-#~ msgid "--data"
-#~ msgstr "--dati"
-
-#~ msgid "--replay"
-#~ msgstr "--ieraksts"
-
-#~ msgid "-r"
-#~ msgstr "-i"
-
-#~ msgid "--level"
-#~ msgstr "--līmenis"
-
-#~ msgid "-l"
-#~ msgstr "-l"
-
-#~ msgid "Name"
-#~ msgstr "Nosaukums"
-
-#~ msgid "Neverball"
-#~ msgstr "Neverball"
-
-#~ msgid "Neverputt"
-#~ msgstr "Neverputt"
-
-#~ msgid "caps"
-#~ msgstr "lielie"
-
-#~ msgid "Bonus Level "
-#~ msgstr "Papildlīmenis "
-
-#~ msgid "Set Completed!"
-#~ msgstr "Komplekts pabeigts!"
-
-#~ msgid "Main Menu"
-#~ msgstr "Galvenā izvēlne"
-
-#~ msgid "Window"
-#~ msgstr "Logs"
