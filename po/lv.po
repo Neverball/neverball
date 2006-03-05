@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-03-05 01:57+0200\n"
-"PO-Revision-Date: 2006-03-05 02:08+0200\n"
+"PO-Revision-Date: 2006-03-05 04:28+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -856,11 +856,11 @@ msgstr "Krītamkāpnes.\\Sāpīgi."
 
 #: data/map-easy2/paths-paul.map
 msgid "So many different paths to take...\\have you tried all of them?"
-msgstr ""
+msgstr "Tik daudz dažādu ceļu, pa kuriem iet...\\vai esi izmēģinājis tos visus?"
 
 #: data/map-easy2/billiard-paul.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
-msgstr ""
+msgstr "Pamēģini savākt visas zilās monētas...\\tas nebūs vienkārši!"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
@@ -1135,18 +1135,24 @@ msgid ""
 "This one shouldn't be too difficult.\\There are 100 coins here.\\That's a "
 "save point and a free ball\\if you don't accidentally make a goal first.\\"
 msgstr ""
+"Šim nevajadzētu būt pārāk sarežģīti.\\Šeit ir tieši 100 monētu.\\Tas nozīmē "
+"papildus bumbu,\\ja vien Tu vispirms netrāpīsi mērķī.\\"
 
 #: data/map-rlk/telemaze.map
 msgid ""
 "This maze has no walls.\\But that doesn't make the solution\\any easier to "
 "find.\\"
 msgstr ""
+"Šim labirintam nav sienu.\\Tas gan nenozīmē, ka risinājumu\\atrast būs daudz "
+"vienkāršāk.\\"
 
 #: data/map-rlk/risers.map
 msgid ""
 "Ride the elevators to the top.\\They move quickly,\\and bat the ball around "
 "a bit.\\Be prepared to handle some bouncing.\\"
 msgstr ""
+"Brauc ar pacēlājiem līdz pašai\\augšai. Tie ātri pārvietojas,\\un nedaudz mētā "
+"bumbu.\\Esi gatavs izturēt nelielu palēkāšanu.\\"
 
 #: data/map-rlk/goslow.map
 msgid ""
@@ -1157,7 +1163,7 @@ msgstr ""
 
 #: data/map-rlk/movers.map
 msgid "Go for a ride.\\"
-msgstr ""
+msgstr "Ej pavizināties."
 
 #: data/map-rlk/coins.map
 msgid ""
@@ -1289,40 +1295,49 @@ msgid ""
 "Here are some more opportunities for you to\\fall off into the void. Hit the "
 "bump hard to\\grab some big coins and score a short time.\\"
 msgstr ""
+"Šeit priekš Tevis ir vēl kādas pāris iespējas\\nogāzties nebūtībā. Triecies "
+"pret paaugstināto\\apmali, lai paķertu lielās monētas un īsā\\laikā pabeigtu "
+"līmeni.\\"
 
 #: data/map-rlk/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
-msgstr ""
+msgstr "Izmanto teleportus, lai\\nokļūtu tur, kur citādi nevarētu.\\"
 
 #: data/map-rlk/four.map
 msgid "Balance risk versus reward.\\"
-msgstr ""
+msgstr "Līdzsvara saglabāšans risks versus atlīdzība.\\"
 
 #: data/map-rlk/sync.map
 msgid ""
 "Use the switches to set the platforms\\in motion.  Time it so they come"
 "\\together in the middle.\\"
 msgstr ""
+"Izmanto slēdžus, lai liktu platformām\\kustēties. Izvēlies īsto brīdi tā,"
+"\\lai tās vidū satiktos.\\"
 
 #: data/map-rlk/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
-msgstr ""
+msgstr "Šeit ir pārāk maz grīdas.\\Cerams, ka tas nav sķērslis.\\"
 
 #: data/map-rlk/poker.map
 msgid "Slow and steady.\\"
-msgstr ""
+msgstr "Lēni un prātīgi.\\"
 
 #: data/map-rlk/timer.map
 msgid ""
 "That one switch controls all five barriers.\\Be quick, because the switch is "
 "on a timer.\\When it expires, the barriers will rise.\\"
 msgstr ""
+"Tas vienīgais slēdzis pārvalda visas piecas\\barjeras. Rīkojies ātri, jo slēdzim "
+"ir laika atskaite.\\Kad laiks beigsies, barjeras atkal pacelsies.\\"
 
 #: data/map-rlk/peasy.map
 msgid ""
 "Mouse buttons rotate the view.\\Press Spacebar to pause, ESC to quit.\\\\\\"
 "\\Click to begin.\\"
 msgstr ""
+"Peles pogas groza skatu.\\Nospied Space pauzei, ESC spēles pamešanai.\\\\\\"
+"\\Klikšķini, lai sāktu.\\"
 
 #: data/map-rlk/rampdn.map
 msgid ""
@@ -1333,29 +1348,36 @@ msgstr ""
 
 #: data/map-rlk/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
-msgstr ""
+msgstr "Izpriecājies, vācot tās\\sarkanās un zilās monētas.\\"
 
 #: data/map-rlk/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
-msgstr ""
+msgstr "Jā, bumba tiešām visai glīti der cauri\\tiem mazajiem caurumiņiem.\\"
 
 #: data/map-rlk/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
 msgstr ""
+"Katrs tilts ir šaurāks par iepriekšējo.\\Taču katrs no tiem arī atmaksājas "
+"labāk!\\Šeit Tev ļauts izlemt, cik tālu esi gatavs iet.\\"
 
 #: data/map-rlk/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing down"
 "\\early. You need just as much room to slow\\down as you did to speed up.\\"
 msgstr ""
+"Turies tālāk no apmalēm!\\Kad tuvojies bīstamajai joslai, sāc samazināt"
+"\\ātrumu laikus. Lai apstātos, Tev vajadzēs\\tieši tik vietas, cik vajadzēja,"
+"\\lai izkustētos.\\"
 
 #: data/map-rlk/drops.map
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And "
 "don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
 msgstr ""
+"Nepiemirsti paturēt acīs ēnu, lai spētu\\vieglāk savaldīt lēkājošu bumbu. Un "
+"atceries,\\ka vari izmantot peles pogas, lai paturētu\\bumbu redzeslokā.\\"
 
 #: data/map-rlk/mover.map
 msgid ""
@@ -1366,15 +1388,15 @@ msgstr ""
 
 #: data/map-rlk/frogger.map
 msgid "Ribbit!\\"
-msgstr ""
+msgstr "Hop!\\"
 
 #: data/map-rlk/pipe.map
 msgid "Ceci n'est pas une pipe.\\"
-msgstr ""
+msgstr "Ceci n'est pas une pipe.\\"
 
 #: data/map-rlk/islands.map
 msgid "Catch the train before it leaves the station.\\"
-msgstr ""
+msgstr "Noķer vilcienu, pirms tas pamet staciju.\\"
 
 #: data/map-rlk/teleport.map
 msgid ""
@@ -1382,21 +1404,27 @@ msgid ""
 "\\Remember that the ball carries its momentum\\through a teleporter, so plan "
 "ahead.\\"
 msgstr ""
+"Bumbai pilnībā jāatrodas teleporta iekšienē,\\lai to iedarbinātu.\\Paturi "
+"prātā, ka bumba saglabā savu inerci\\cauri teleportam, tādēļ plāno jau laikus."
+"\\"
 
 #: data/map-rlk/ring.map
 msgid "So close, yet so very far.\\"
-msgstr ""
+msgstr "Tik tuvu un tomēr tik ļoti tālu.\\"
 
 #: data/map-rlk/spiralup.map
 msgid ""
 "Just as before, but moving up instead of down.\\No cheating this time.\\"
 msgstr ""
+"Tāpat kā iepriekš, tikai uz augšu, nevis lejup.\\Šoreiz nekādas mānīšanās.\\"
 
 #: data/map-rlk/easy.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
 msgstr ""
+"Kustini peli, lai liektu grīdu.\\Savāc 10 monētas, lai atslēgtu mērķi.\\Vadi "
+"bumbu līdz mērķim, lai pabeigtu līmeni.\\\\Klikšķini, lai sāktu.\\"
 
 #~ msgid "Name"
 #~ msgstr "Nosaukums"
