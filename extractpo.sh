@@ -45,11 +45,12 @@ for i in data/sets.txt data/courses.txt; do
 done
 
 # Third, extracts from levels
-echo "# Levels"
-for i in `find data -name "*.map"`; do
+echo -n "# Levels: "
+find data -name "*.map" | sort | tee .map_list | wc -l
+for i in `cat .map_list`; do
 	# Check encoding?
 	# file --mime $i
-	
+	echo -n '.'
 	# Only translatable string is "message"
 	grep -E "^\"message\"" "$i" | while read -r a b; do
 		echo
@@ -58,8 +59,10 @@ for i in `find data -name "*.map"`; do
 		echo "msgstr \"\""
 	done >> $POTFILE
 done
+echo " ok"
+rm .map_list
 
 # Remove duplicates, to keep msgmerge from complaining
-echo "Removing duplicates."
+echo "# Removing duplicates."
 msguniq -o "$POTFILE" -t UTF-8 "$POTFILE"
 
