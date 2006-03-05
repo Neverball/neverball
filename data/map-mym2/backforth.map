@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "backforth-mym"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-mym2/backforth.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "18000"
+"goal"      "24"
+
+"time_hs"   "3300 3500"
+"coin_hs"   "44 10"
 "message" "Un va-et-vient frustrant.\Remember the activation order."
 // brush 0
 {

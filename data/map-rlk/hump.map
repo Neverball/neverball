@@ -2,6 +2,19 @@
 {
 "message" "Momentum may work against you.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "hump-rlk"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-rlk/hump.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "4500"
+"goal"      "20"
+
+"time_hs"   "1400 4500"
+"coin_hs"   "42 30"
 // brush 0
 {
 ( 511 0 -1536 ) ( 511 0 -1535 ) ( 512 0 -1536 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

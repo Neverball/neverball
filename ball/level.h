@@ -26,6 +26,9 @@ struct level
     /* Level identity */
 	
     char file[MAXSTR];    /* sol main file */
+    char name[MAXSTR];    /* the level name */
+    int  version;         /* the level version */
+    char author[MAXSTR];  /* the author */
     
     /* Time and goal information */
     
@@ -46,6 +49,7 @@ struct level
     
     /* Other metadata (files are relative the data file) */
     
+    char message[MAXSTR]; /* intro message */
     char back[MAXSTR];    /* sol background file */
     char grad[MAXSTR];    /* gradiant backgound image */
     char shot[MAXSTR];    /* screenshot image */

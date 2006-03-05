@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "drive2-mym"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-mym/drive2.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "5000"
+"goal"      "50"
+
+"time_hs"   "3300 4500"
+"coin_hs"   "75 55"
 "message" "La conduite dangereuse.\The platform under the ball moves quickly forward.\You would do well to advance."
 // brush 0
 {

@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Jānis Rūcis"
+"levelname" "groundbreak-para"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-easy2/.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "12000"
+"goal"      "10"
+
+"time_hs"   " "
+"coin_hs"   " "
 // brush 0
 {
 ( 128 1032 0 ) ( 120 768 0 ) ( 120 1032 0 ) mtrl/edge-red 0 0 0 0.5 0.5 0 0 0

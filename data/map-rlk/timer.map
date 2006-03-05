@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "timer-rlk"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-rlk/timer.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "9000"
+"goal"      "1"
+
+"time_hs"   "1000 2000"
+"coin_hs"   "108 65"
 "message" "That one switch controls all five barriers.\Be quick, because the switch is on a timer.\When it expires, the barriers will rise.\"
 // brush 0
 {

@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "runstop-mym"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-mym2/runstop.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "9000"
+"goal"      "30"
+
+"time_hs"   "1300 2000"
+"coin_hs"   "107 40"
 "message" "J'y vais, ou j'y vais pas ?\Do not dither."
 // brush 0
 {

@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "climb-mym"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-mym/climb.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "12000"
+"goal"      "100"
+
+"time_hs"   "5300 7000"
+"coin_hs"   "150 130"
 "message" "L'escalade ardue.\Do you suffer from vertigo?"
 // brush 0
 {

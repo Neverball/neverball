@@ -2,6 +2,19 @@
 {
 "message" "Catch the train before it leaves the station.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "islands-rlk"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-rlk/islands.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "3000"
+"goal"      "40"
+
+"time_hs"   "1200 3000"
+"coin_hs"   "64 50"
 // brush 0
 {
 ( 160 160 -16 ) ( -32 160 -16 ) ( -32 -32 -16 ) mtrl/wood-check 0 0 0 0.500000 0.500000 0 0 0

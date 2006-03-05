@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "telemaze-rlk"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-rlk/telemaze.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "7500"
+"goal"      "50"
+
+"time_hs"   "1000 4000"
+"coin_hs"   "84 60"
 "message" "This maze has no walls.\But that doesn't make the solution\any easier to find.\"
 // brush 0
 {

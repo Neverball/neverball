@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "speed-mym"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-mym2/speed.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "2000"
+"goal"      "100"
+
+"time_hs"   "1850 1950"
+"coin_hs"   "152 140"
 "message" "Plus vite que la vitesse.\Speedness definition."
 // brush 0
 {

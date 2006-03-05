@@ -2,6 +2,19 @@
 {
 "message" "Use the switches to set the platforms\in motion.  Time it so they come\together in the middle.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "sync-rlk"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-rlk/sync.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "12000"
+"goal"      "20"
+
+"time_hs"   "1400 4500"
+"coin_hs"   "85 40"
 // brush 0
 {
 ( 80 128 -16 ) ( 0 128 -16 ) ( 0 0 -16 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

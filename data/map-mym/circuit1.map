@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "circuit1-mym"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-mym/circuit1.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "9000"
+"goal"      "48"
+
+"time_hs"   "3000 5000"
+"coin_hs"   "68 58"
 "message" "Les rampes abruptes.\Control your speed."
 // brush 0
 {

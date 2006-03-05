@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Jean Privat"
+"levelname" "stairs-jp"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-easy2/.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "12000"
+"goal"      "10"
+
+"time_hs"   " "
+"coin_hs"   " "
 "message" "Fall down stairs.\Ough!\It hurts."
 // brush 0
 {

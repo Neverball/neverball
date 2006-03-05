@@ -2,6 +2,19 @@
 {
 "message" "Neverball\\http://icculus.org/neverball\\created by Robert Kooima\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "title-rlk"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-rlk/title.jpg"
+"song"      "bgm/title.ogg"
+"time"      "6000"
+"goal"      "25"
+
+"time_hs"   "1200 3000"
+"coin_hs"   "40 28"
 // brush 0
 {
 ( -1272 8 -16 ) ( -1416 8 -16 ) ( -1416 -136 -16 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

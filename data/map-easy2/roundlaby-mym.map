@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "roundlaby-mym"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-easy2/.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "12000"
+"goal"      "10"
+
+"time_hs"   " "
+"coin_hs"   " "
 // brush 0
 {
 ( -384 -544 0 ) ( -384 224 0 ) ( 384 224 0 ) mtrl/turf-shiny 128 75 0 -3 3 0 0 0

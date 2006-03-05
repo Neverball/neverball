@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "descent-mym"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-mym/descent.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "4000"
+"goal"      "20"
+
+"time_hs"   "1000 2000"
+"coin_hs"   "63 15"
 "message" "La descente infernale.\Easy enough to start?"
 // brush 0
 {

@@ -2,6 +2,19 @@
 {
 "message" "A moving platform can be tricky.\Use precise timing to get aboard,\and precise balance to stay there.\Don't let it move out from under you.\Ride the platforms to grab the big coins.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "mover-rlk"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-rlk/mover.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "6000"
+"goal"      "12"
+
+"time_hs"   "400 2000"
+"coin_hs"   "41 25"
 // brush 0
 {
 ( 192 192 -16 ) ( -64 192 -16 ) ( -64 -64 -16 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

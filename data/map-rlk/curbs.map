@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "curbs-rlk"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-rlk/curbs.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "9000"
+"goal"      "30"
+
+"time_hs"   "500 3000"
+"coin_hs"   "122 60"
 "message" "To make progress here you'll need to hit the\edges hard and control your bouncing.\It's often easiest to hit the curb at a corner.\"
 // brush 0
 {

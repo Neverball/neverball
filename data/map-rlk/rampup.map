@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "rampup-rlk"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-rlk/rampup.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "6000"
+"goal"      "40"
+
+"time_hs"   "2000 6000"
+"coin_hs"   "85 60"
 "message" "I think I can.\I think I can.\"
 // brush 0
 {

@@ -2,6 +2,19 @@
 {
 "message" "There are plenty of coins here if you're\willing to take the time to grab them.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "zigzag-rlk"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-rlk/zigzag.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "6000"
+"goal"      "50"
+
+"time_hs"   "700 3000"
+"coin_hs"   "178 58"
 // brush 0
 {
 ( 0 320 -16 ) ( -64 320 -16 ) ( -64 256 -16 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

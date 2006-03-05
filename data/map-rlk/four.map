@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "four-rlk"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-rlk/four.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "9000"
+"goal"      "13"
+
+"time_hs"   "600 2000"
+"coin_hs"   "130 20"
 "message" "Balance risk versus reward.\"
 // brush 0
 {

@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "littlecones-mym"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-mym2/littlecones.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "7500"
+"goal"      "150"
+
+"time_hs"   "400 600"
+"coin_hs"   "334 260"
 "message" "Ne pas se laisser emporter dans le néant.\Don't go too low."
 // brush 0
 {

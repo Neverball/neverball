@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "narrow-mym"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-mym/narrow.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "7000"
+"goal"      "90"
+
+"time_hs"   "4300 5500"
+"coin_hs"   "109 100"
 "message" "Le sentier étroit.\Patience and timing.\Tips: maximise speed at the first slope."
 // brush 0
 {

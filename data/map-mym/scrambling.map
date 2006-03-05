@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "scrambling-mym"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-mym/scrambling.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "6000"
+"goal"      "55"
+
+"time_hs"   "1100 2000"
+"coin_hs"   "147 95"
 "message" "Le petit cross.\Let's go scrambling!\Stick to the track to optimize speed."
 // brush 0
 {

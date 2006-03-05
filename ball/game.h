@@ -43,7 +43,6 @@ void  game_free(void);
 int   curr_clock(void);
 int   curr_coins(void);
 int   curr_goal(void);
-char *curr_intro(void);
 
 void  game_draw(int, float);
 int   game_step(const float[3], float, int);

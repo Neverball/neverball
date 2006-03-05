@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "hole-rlk"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-rlk/hole.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "4500"
+"goal"      "20"
+
+"time_hs"   "350 2000"
+"coin_hs"   "34 28"
 "message" "Stay away from the edges!\When approaching a drop, begin slowing down\early. You need just as much room to slow\down as you did to speed up.\"
 // brush 0
 {

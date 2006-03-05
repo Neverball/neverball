@@ -75,10 +75,10 @@ static int level_enter(void)
         }
         gui_space(id);
 	
-	if (level_ok)
-	    gui_multi(id, _(curr_intro()), GUI_SML, GUI_ALL, gui_wht, gui_wht);
-	else
+	if (! level_ok)
 	    gui_label(id, _("Cannot load the level file."), GUI_SML, GUI_ALL, gui_red, gui_red);
+	else if (lg->level->message[0] != '\0')
+	    gui_multi(id, _(lg->level->message), GUI_SML, GUI_ALL, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);
     }

@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "wakka-rlk"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-rlk/wakka.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "12000"
+"goal"      "80"
+
+"time_hs"   "350 3000"
+"coin_hs"   "280 140"
 "message" "Here's another coin grab.\Use it to earn a free ball.\Perhaps you already know a good route.\Teleportation might come in handy.\"
 // brush 0
 {

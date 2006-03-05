@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "spiralin-rlk"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-rlk/spiralin.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "12000"
+"goal"      "50"
+
+"time_hs"   "1500 4000"
+"coin_hs"   "118 80"
 "message" "Have fun picking up those\red and blue coins.\"
 // brush 0
 {

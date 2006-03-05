@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "earthquake-mym"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-mym/earthquake.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "6000"
+"goal"      "70"
+
+"time_hs"   "1000 2000"
+"coin_hs"   "118 90"
 "message" "Le passage incertain.\Isn't too easy?"
 }
 // entity 1

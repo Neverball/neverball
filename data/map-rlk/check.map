@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "check-rlk"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-rlk/check.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "6000"
+"goal"      "60"
+
+"time_hs"   "900 3000"
+"coin_hs"   "92 70"
 "message" "There's not enough floor here.\Hopefully that's not a problem.\"
 // brush 0
 {

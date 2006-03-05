@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "tilt-rlk"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-rlk/tilt.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "7500"
+"goal"      "50"
+
+"time_hs"   "1200 4500"
+"coin_hs"   "92 71"
 "message" "The floor is as flat as you make it.\"
 // brush 0
 {

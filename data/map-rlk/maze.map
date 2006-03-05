@@ -2,6 +2,19 @@
 {
 "message" "The ball wants to rebound uncontrollably\in a narrow passage. Keep it slow and\off the walls. All the coins are collectable\in the given time.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "maze-rlk"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-rlk/maze.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "9000"
+"goal"      "10"
+
+"time_hs"   "1600 4500"
+"coin_hs"   "40 20"
 // brush 0
 {
 ( -200 520 112 ) ( -184 504 112 ) ( -184 504 64 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 1 0

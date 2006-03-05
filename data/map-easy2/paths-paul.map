@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Paul Tompkins"
+"levelname" "paths-paul"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-paul/paths.bmp"
+"song"      "bgm/track4.ogg"
+"time"      "40000"
+"goal"      "0"
+
+"time_hs"   " "
+"coin_hs"   " "
 "message" "So many different paths to take...\have you tried all of them?"
 // brush 0
 {

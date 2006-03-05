@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "shaker-mym"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-mym2/shaker.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "18000"
+"goal"      "100"
+
+"time_hs"   "6000 12000"
+"coin_hs"   "240 160"
 "message" "Préparez un petit sac.\The stomach-tester."
 // brush 0
 {

@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "running-mym"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-mym/running.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "30000"
+"goal"      "140"
+
+"time_hs"   "3300 7000"
+"coin_hs"   "175 160"
 "message" "Les épreuves minutées.\Run baby, run!"
 // brush 0
 {

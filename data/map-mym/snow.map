@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "snow-mym"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-mym/snow.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "12000"
+"goal"      "60"
+
+"time_hs"   "800 1200"
+"coin_hs"   "100 80"
 "message" "La descente rafraîchissante.\Not so fast, not so fast."
 // brush 0
 {

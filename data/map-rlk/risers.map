@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "risers-rlk"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-rlk/risers.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "4500"
+"goal"      "40"
+
+"time_hs"   "2500 4500"
+"coin_hs"   "64 50"
 "message" "Ride the elevators to the top.\They move quickly,\and bat the ball around a bit.\Be prepared to handle some bouncing.\"
 // brush 0
 {

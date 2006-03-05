@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "bombman-mym"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-mym/bombman.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "12000"
+"goal"      "60"
+
+"time_hs"   "3000 5000"
+"coin_hs"   "117 80"
 "message" "Les flammes ardentes.\Do this remind you of something?"
 // brush 0
 {

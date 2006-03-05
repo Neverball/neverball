@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "pipe-rlk"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-rlk/pipe.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "9900"
+"goal"      "40"
+
+"time_hs"   "1800 4500"
+"coin_hs"   "129 80"
 "message" "Ceci n'est pas une pipe.\"
 // brush 0
 {

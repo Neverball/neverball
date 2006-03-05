@@ -172,9 +172,7 @@ static void set_init_hs(void)
     struct set *s = current_set;
     char buf[MAXSTR];
     FILE *fin;
-    int i = 0;
     int res = 0;
-    struct level *l;
     const char *fn = config_data(s->init_scores);
 
     /* Set some sane values in case the scores file is missing. */
@@ -194,23 +192,6 @@ static void set_init_hs(void)
 		    &s->coin_score.coins[1],
 		    &s->time_score.timer[2],
 		    &s->coin_score.coins[2]) == 6);
-	
-	for (i = 0; i < s->count && res; i++)
-	{
-	    l = &level_v[i];
-	    res = (fgets(buf, MAXSTR, fin) != NULL) &&
-		sscanf(buf, "%d %d %d %d %d %d %d %d %d",
-			&(l->time_score.timer[0]),
-			&(l->goal_score.timer[0]),
-			&(l->coin_score.coins[0]),
-			&(l->time_score.timer[1]),
-			&(l->goal_score.timer[1]),
-			&(l->coin_score.coins[1]),
-			&(l->time_score.timer[2]),
-			&(l->goal_score.timer[2]),
-			&(l->coin_score.coins[2])) == 9;
-	}
-
 	fclose(fin);
     }
     
@@ -323,15 +304,9 @@ static void set_load_levels(void)
 	{
 	    l = &level_v[i];
 	    res = (fgets(buf, MAXSTR, fin) != NULL) &&
-		(sscanf(buf, "%s %s %s %s %d %d %s",
-			name,
-			l->back,
-			l->shot,
-			l->grad,
-			&l->time,
-			&l->goal,
-			l->song) == 7);
+		(sscanf(buf, "%s ", name) == 1);
 	    assert(res);
+	    
 	    level_load(config_data(name), l);
 
 	    /* Initialize set related info */
@@ -340,8 +315,6 @@ static void set_load_levels(void)
 	    l->numbername = numbernames[i];
 	    l->is_locked  = i > current_set->limit;
 	    l->is_bonus   = i >= 20;
-
-	    /* hs are done latter */
 	}
 	fclose(fin);
     }

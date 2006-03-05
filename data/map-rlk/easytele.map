@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "easytele-rlk"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-rlk/easytele.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "9000"
+"goal"      "40"
+
+"time_hs"   "1000 3000"
+"coin_hs"   "92 52"
 "message" "Use teleporters to go\where you otherwise couldn't.\"
 // brush 0
 {

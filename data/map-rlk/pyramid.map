@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "pyramid-rlk"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-rlk/pyramid.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "9000"
+"goal"      "45"
+
+"time_hs"   "3000 6000"
+"coin_hs"   "168 80"
 "message" "You'll only get about 15 seconds at each step,\so don't delay.  Get the coins and\get to the next switch.\"
 // brush 0
 {

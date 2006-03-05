@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "stairs-rlk"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-rlk/stairs.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "9000"
+"goal"      "50"
+
+"time_hs"   "650 4500"
+"coin_hs"   "110 89"
 "message" "Here's yet another test of your ability\to control bouncing.  Moving down the\stairs too quickly can be hazardous.\"
 // brush 0
 {

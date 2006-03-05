@@ -2,6 +2,19 @@
 {
 "message" "Les toiles attirantes.\Get out of the webs."
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "webs-mym"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-mym2/webs.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "18000"
+"goal"      "50"
+
+"time_hs"   "500 1500"
+"coin_hs"   "150 100"
 // brush 0
 {
 ( 320 752 -56 ) ( 256 752 -56 ) ( 256 752 -64 ) mtrl/invisible 0 -48 0 0.500000 0.500000 134217728 0 0

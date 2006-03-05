@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "fall-mym"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-mym2/fall.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "18000"
+"goal"      "150"
+
+"time_hs"   "1500 2500"
+"coin_hs"   "300 200"
 "message" "Savoir rebondir pour aller plus haut.\The Neverball Arena."
 // brush 0
 {

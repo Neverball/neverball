@@ -2,6 +2,19 @@
 {
 "message" "Each bridge is narrower than the one before.\But each pays better than the last as well!\You get to decide how far you go on this one.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "greed-rlk"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-rlk/greed.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "9000"
+"goal"      "24"
+
+"time_hs"   "550 3000"
+"coin_hs"   "220 140"
 // brush 0
 {
 ( 0 128 0 ) ( 0 -16 0 ) ( 0 -16 -16 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

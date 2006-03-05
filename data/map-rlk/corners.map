@@ -2,6 +2,19 @@
 {
 "message" "Here are some more opportunities for you to\fall off into the void. Hit the bump hard to\grab some big coins and score a short time.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "corners-rlk"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-rlk/corners.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "6000"
+"goal"      "50"
+
+"time_hs"   "400 3000"
+"coin_hs"   "196 146"
 // brush 0
 {
 ( 0 256 -16 ) ( -256 256 -16 ) ( -256 0 -16 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

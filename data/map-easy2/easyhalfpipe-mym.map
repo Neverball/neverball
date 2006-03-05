@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "easyhalfpipe-mym"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-easy2/.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "12000"
+"goal"      "10"
+
+"time_hs"   " "
+"coin_hs"   " "
 // brush 0
 {
 ( 72 2080 0 ) ( 72 1952 0 ) ( -56 2080 0 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

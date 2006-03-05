@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "turn-mym"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-mym/turn.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "9000"
+"goal"      "60"
+
+"time_hs"   "4100 6000"
+"coin_hs"   "114 64"
 "message" "Le sens trigonométrique.\Turn, wait and jump."
 // brush 0
 {

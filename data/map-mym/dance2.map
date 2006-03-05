@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "dance2-mym"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-mym/dance2.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "9000"
+"goal"      "40"
+
+"time_hs"   "9000 9000"
+"coin_hs"   "90 70"
 "message" "La ballade tranquille.\What a quiet walk."
 // brush 0
 {

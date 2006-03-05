@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "poker-rlk"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-rlk/poker.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "6000"
+"goal"      "5"
+
+"time_hs"   "2500 4500"
+"coin_hs"   "23 20"
 "message" "Slow and steady.\"
 // brush 0
 {

@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "bigcones-mym"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-mym2/bigcones.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "30000"
+"goal"      "50"
+
+"time_hs"   "5000 9000"
+"coin_hs"   "208 160"
 "message" "Les grands cônes.\Living in a cone."
 // brush 0
 {

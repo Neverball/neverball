@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "grinder-mym"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-mym2/grinder.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "12000"
+"goal"      "20"
+
+"time_hs"   "4000 6000"
+"coin_hs"   "36 12"
 "message" "Le petit moulin.\The good timing to go in the cabin."
 // brush 0
 {

@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "ring-rlk"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-rlk/ring.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "9000"
+"goal"      "30"
+
+"time_hs"   "500 3000"
+"coin_hs"   "64 50"
 "message" "So close, yet so very far.\"
 // brush 0
 {

@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "fence-rlk"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-rlk/fence.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "4500"
+"goal"      "20"
+
+"time_hs"   "500 2000"
+"coin_hs"   "56 35"
 "message" "''Flat'' is relative.\Learn to hold the floor at an angle\so that a slope remains level.\This way, you maintain full control of the ball.\Use momentum to get up to the big coins.\"
 // brush 0
 {

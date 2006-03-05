@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "maze2-mym"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-mym/maze2.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "15000"
+"goal"      "50"
+
+"time_hs"   "4000 6000"
+"coin_hs"   "94 70"
 "message" "Le labyrinthe fou.\You know the way, you see it,\so why are you taking another one?"
 // brush 0
 {

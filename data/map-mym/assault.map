@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "assault-mym"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-mym/assault.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "12000"
+"goal"      "100"
+
+"time_hs"   "3400 5000"
+"coin_hs"   "146 120"
 "message" "Le parcours du combattant.\Ready for the assault course?"
 // brush 0
 {

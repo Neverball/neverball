@@ -2,6 +2,19 @@
 {
 "message" "Time the switches carefully to synchronize\the motion of the platforms.\Move quickly across the gaps.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "gaps-rlk"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-rlk/gaps.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "9000"
+"goal"      "40"
+
+"time_hs"   "400 4500"
+"coin_hs"   "100 80"
 // brush 0
 {
 ( 128 128 -16 ) ( 0 128 -16 ) ( 0 0 -16 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

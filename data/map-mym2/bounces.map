@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "bounces-mym"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-mym2/bounces.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "1500"
+"goal"      "120"
+
+"time_hs"   "600 800"
+"coin_hs"   "177 130"
 "message" "Les sauts du célèbre plombier.\Follow the coins."
 // brush 0
 {

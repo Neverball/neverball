@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "?"
+"levelname" "canals-ton"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-easy2/.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "12000"
+"goal"      "10"
+
+"time_hs"   " "
+"coin_hs"   " "
 // brush 0
 {
 ( 288 1248 -8 ) ( 320 1248 -8 ) ( 320 1280 -8 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

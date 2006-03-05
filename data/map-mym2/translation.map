@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "translation-mym"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-mym2/translation.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "5000"
+"goal"      "15"
+
+"time_hs"   "4300 4500"
+"coin_hs"   "120 80"
 "message" "Suis le mouvement.\Warning, the road is moving."
 // brush 0
 {

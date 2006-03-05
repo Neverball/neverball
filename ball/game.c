@@ -168,11 +168,6 @@ int curr_goal(void)
     return goal_c;
 }
 
-char *curr_intro(void)
-{
-    return (file.ac > 0) ? file.av : NULL;
-}
-
 /*---------------------------------------------------------------------------*/
 
 static void game_draw_balls(const struct s_file *fp)

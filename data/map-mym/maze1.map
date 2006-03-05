@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "maze1-mym"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-mym/maze1.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "24000"
+"goal"      "80"
+
+"time_hs"   "4000 8000"
+"coin_hs"   "129 100"
 "message" "Le chemin dissimulé.\Test your memory."
 // brush 0
 {

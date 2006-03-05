@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "morenarrow-mym"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-mym2/morenarrow.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "7500"
+"goal"      "0"
+
+"time_hs"   "3000 4000"
+"coin_hs"   "80 20"
 "message" "Plus dur que la difficulté.\Good luck."
 // brush 0
 {

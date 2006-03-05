@@ -2,6 +2,19 @@
 {
 "message" "La course effrénée.\Let's make some laps."
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "circuit2-mym"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-mym/circuit2.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "8000"
+"goal"      "110"
+
+"time_hs"   "3700 5000"
+"coin_hs"   "121 119"
 // brush 0
 {
 ( 384 -512 -88 ) ( 256 -512 -88 ) ( 256 -640 -88 ) mtrl/invisible 0 0 0 0.500000 0.500000 134217728 0 0

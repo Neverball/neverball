@@ -72,7 +72,7 @@
 #define MAXU	16
 #define MAXW    32
 #define MAXD    128
-#define MAXA	512
+#define MAXA	8192
 #define MAXI	32767
 
 static int overflow(const char *s)
@@ -790,19 +790,23 @@ static void make_body(struct s_file *fp,
         if (strcmp(k[i], "targetname") == 0)
             make_sym(v[i], bi);
 
-        if (strcmp(k[i], "target") == 0)
+	else if (strcmp(k[i], "target") == 0)
             make_ref(v[i], &bp->pi);
 
-        if (strcmp(k[i], "model") == 0)
+	else if (strcmp(k[i], "model") == 0)
             read_obj(fp, v[i]);
 
-        if (strcmp(k[i], "origin") == 0)
+	else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%d %d %d", &x, &y, &z);
 
-        if (strcmp(k[i], "message") == 0)
+	else if (strcmp(k[i], "classname") != 0)
         {
-            strcpy(fp->av, v[i]);
-            fp->ac = (int) (strlen(v[i]) + 1);
+	    /* Considers other strings as metadata */
+            strcat(fp->av, k[i]);
+            strcat(fp->av, "=");
+            strcat(fp->av, v[i]);
+	    strcat(fp->av, "\n");
+            fp->ac += (int) (strlen(v[i]) + (strlen(k[i])) + 2);
         }
     }
 

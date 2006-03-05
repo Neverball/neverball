@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "bigball-mym"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-mym2/bigball.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "9000"
+"goal"      "60"
+
+"time_hs"   "700 900"
+"coin_hs"   "96 80"
 "message" "Prisonnier de la boule.\Living in a sphere.\Catching all blue coins is a challenge."
 // brush 0
 {

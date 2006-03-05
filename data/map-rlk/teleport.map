@@ -2,6 +2,19 @@
 {
 "message" "The ball must be entirely within a teleporter\in order to trigger it.\Remember that the ball carries its momentum\through a teleporter, so plan ahead.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "teleport-rlk"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-rlk/teleport.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "6000"
+"goal"      "40"
+
+"time_hs"   "1900 4500"
+"coin_hs"   "60 50"
 // brush 0
 {
 ( 128 128 -16 ) ( 0 128 -16 ) ( 0 0 -16 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

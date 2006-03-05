@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "coins-rlk"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-rlk/coins.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "6000"
+"goal"      "50"
+
+"time_hs"   "300 1000"
+"coin_hs"   "112 80"
 "message" "This time you must get 50 coins to unlock the goal.\Collect 100 coins to earn an extra ball.\Red coins are worth 5, blue coins are worth 10.\Get to the goal before time expires!\\Click to begin.\"
 // brush 0
 {

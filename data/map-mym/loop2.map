@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "loop2-mym"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-mym/loop2.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "7000"
+"goal"      "70"
+
+"time_hs"   "2100 4000"
+"coin_hs"   "110 80"
 "message" "Le contrôle des courbes.\Find the right angle to turn,\to jump and to land..."
 // brush 0
 {

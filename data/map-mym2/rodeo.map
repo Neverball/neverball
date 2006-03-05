@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "rodeo-mym"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-mym2/rodeo.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "6000"
+"goal"      "0"
+
+"time_hs"   "210 400"
+"coin_hs"   "80 40"
 "message" "Le rodéo de Neverball.\You'll fall quickly."
 // brush 0
 {

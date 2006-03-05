@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "bumper-rlk"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-rlk/bumper.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "9000"
+"goal"      "30"
+
+"time_hs"   "300 2000"
+"coin_hs"   "88 50"
 "message" "Try to avoid being hit by moving objects.\One bump can throw the ball\completely out of control.\"
 // brush 0
 {

@@ -2,6 +2,19 @@
 {
 "message" "You'll need to exert some control over your\view here.  Press F3 to stop the auto-rotation.\Use the mouse buttons to rotate it manually.\Press F1 to return to the auto-rotating view.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "rampdn-rlk"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-rlk/rampdn.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "9000"
+"goal"      "40"
+
+"time_hs"   "650 4500"
+"coin_hs"   "160 100"
 // brush 0
 {
 ( 0 128 0 ) ( 0 0 0 ) ( 0 0 -16 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

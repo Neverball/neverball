@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "rainbow-mym"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-mym2/rainbow.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "16500"
+"goal"      "40"
+
+"time_hs"   "12000 14000"
+"coin_hs"   "57 50"
 "message" "Rainbow Road.\Make 3 laps to open the goal."
 // brush 0
 {

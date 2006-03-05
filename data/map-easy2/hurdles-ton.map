@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "?"
+"levelname" "hurdles-ton"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-easy2/.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "12000"
+"goal"      "10"
+
+"time_hs"   " "
+"coin_hs"   " "
 // brush 0
 {
 ( -840 288 -16 ) ( -856 288 -16 ) ( -856 288 0 ) mtrl/invisible 80 0 0 0.500000 0.500000 0 1 0

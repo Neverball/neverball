@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Paul Tompkins"
+"levelname" "billiard-paul"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-paul/paths.bmp"
+"song"      "bgm/track4.ogg"
+"time"      "40000"
+"goal"      "52"
+
+"time_hs"   " "
+"coin_hs"   " "
 "message" "Try to grab all of the blue coins...\it won't be easy!"
 // brush 0
 {

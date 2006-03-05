@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "invis-rlk"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-rlk/invis.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "9000"
+"goal"      "60"
+
+"time_hs"   "1500 6000"
+"coin_hs"   "128 88"
 "message" "Allow your greed to guide you.\For an added challenge,\try to get to all of the coins.\It can be done without guesswork.\"
 // brush 0
 {

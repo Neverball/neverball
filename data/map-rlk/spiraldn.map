@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "spiraldn-rlk"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-rlk/spiraldn.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "6000"
+"goal"      "30"
+
+"time_hs"   "350 6000"
+"coin_hs"   "46 40"
 "message" "Take it slow to keep it away from the edge.\Or, don't.\Either way might work.\"
 // brush 0
 {

@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "curved-rlk"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-rlk/curved.jpg"
+"song"      "bgm/track4.ogg"
+"time"      "6000"
+"goal"      "20"
+
+"time_hs"   "500 2000"
+"coin_hs"   "91 50"
 "message" "As before, but without the training wheels.\Keep the ball on a level floor\and maintain precise control.\Build some momentum to reach the corners.\"
 // brush 0
 {

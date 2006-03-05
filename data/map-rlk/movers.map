@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "movers-rlk"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-rlk/movers.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "12000"
+"goal"      "20"
+
+"time_hs"   "3000 6000"
+"coin_hs"   "90 30"
 "message" "Go for a ride.\"
 // brush 0
 {

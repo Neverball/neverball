@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "longpipe-mym"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-mym2/longpipe.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "6000"
+"goal"      "80"
+
+"time_hs"   "3500 4500"
+"coin_hs"   "121 100"
 "message" "Si si, ce tuyau a une fin.\Living in a pipe.\Tip: slow down for the last jump!"
 // brush 0
 {

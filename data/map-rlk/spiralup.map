@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "spiralup-rlk"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-rlk/spiralup.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "4500"
+"goal"      "30"
+
+"time_hs"   "2400 6000"
+"coin_hs"   "46 40"
 "message" "Just as before, but moving up instead of down.\No cheating this time.\"
 // brush 0
 {

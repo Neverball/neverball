@@ -2,6 +2,19 @@
 {
 "message" "La danse asiatique\Trust in the arrows."
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "speeddance-mym"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-mym2/speeddance.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "4500"
+"goal"      "0"
+
+"time_hs"   "4100 4300"
+"coin_hs"   "10 0"
 // brush 0
 {
 ( 64 448 -8 ) ( -64 448 -8 ) ( -64 320 -8 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

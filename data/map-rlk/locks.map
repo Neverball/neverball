@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "locks-rlk"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-rlk/locks.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "9000"
+"goal"      "40"
+
+"time_hs"   "1700 4500"
+"coin_hs"   "78 60"
 "message" "Hit the switches to move the barriers.\"
 // brush 0
 {

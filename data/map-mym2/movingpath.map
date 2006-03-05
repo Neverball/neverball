@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "movingpath-mym"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-mym2/movingpath.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "2500"
+"goal"      "40"
+
+"time_hs"   "2250 2400"
+"coin_hs"   "93 60"
 "message" "Le passage éphémère.\Trust the coins."
 // brush 0
 {

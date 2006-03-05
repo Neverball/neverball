@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "frogger-rlk"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-rlk/frogger.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "9000"
+"goal"      "30"
+
+"time_hs"   "600 2000"
+"coin_hs"   "82 50"
 "message" "Ribbit!\"
 // brush 0
 {

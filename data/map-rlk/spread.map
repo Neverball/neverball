@@ -2,6 +2,19 @@
 {
 "message" "Don't worry.\The green part isn't going anywhere.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "spread-rlk"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-rlk/spread.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "9000"
+"goal"      "15"
+
+"time_hs"   "1700 4500"
+"coin_hs"   "58 25"
 // brush 0
 {
 ( 320 448 0 ) ( 320 320 0 ) ( 320 320 -16 ) mtrl/wood-check 0 0 0 0.500000 0.500000 0 0 0

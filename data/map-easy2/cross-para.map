@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Jānis Rūcis"
+"levelname" "cross-para"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-easy2/.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "12000"
+"goal"      "10"
+
+"time_hs"   " "
+"coin_hs"   " "
 // brush 0
 {
 ( 192 256 16 ) ( 192 -128 16 ) ( -192 -128 16 ) mtrl/edge-green-checked 0 0 0 0.5 0.5 0 0 0

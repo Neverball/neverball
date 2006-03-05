@@ -1,6 +1,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "plinko-rlk"
+"version"   "1"
+
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-rlk/plinko.jpg"
+"song"      "bgm/track5.ogg"
+"time"      "12000"
+"goal"      "60"
+
+"time_hs"   "1300 3000"
+"coin_hs"   "150 100"
 "message" "Take it slowly.\"
 // brush 0
 {

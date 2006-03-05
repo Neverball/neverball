@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "up-mym"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-mym/up.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "3000"
+"goal"      "160"
+
+"time_hs"   "1500 1700"
+"coin_hs"   "182 170"
 "message" "L'ascension pressée.\Only one piece of advice: don't stop!"
 // brush 0
 {

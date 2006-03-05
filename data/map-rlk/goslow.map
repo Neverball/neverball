@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "goslow-rlk"
+"version"   "1"
+
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
+"shot"      "shot-rlk/goslow.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "9000"
+"goal"      "20"
+
+"time_hs"   "700 3000"
+"coin_hs"   "50 40"
 "message" "Tilt the floor as little as possible.\Less tilt means lower speed.\Lower speed means better control.\Watch the clock and use the time wisely.\\Click to begin.\"
 // brush 0
 {

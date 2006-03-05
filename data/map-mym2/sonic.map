@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "sonic-mym"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-mym2/sonic.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "6000"
+"goal"      "8"
+
+"time_hs"   "2600 3000"
+"coin_hs"   "128 48"
 "message" "Un petit échauffement.\Welcome to the new Mehdi's set!"
 // brush 0
 {

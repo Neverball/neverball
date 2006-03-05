@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "movinglumps-mym"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-mym2/movinglumps.jpg"
+"song"      "bgm/track1.ogg"
+"time"      "7500"
+"goal"      "22"
+
+"time_hs"   "3200 3600"
+"coin_hs"   "80 60"
 "message" "Être patient.\Not too hard."
 // brush 0
 {

@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Jean Privat"
+"levelname" "slalom-jp"
+"version"   "1"
+
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
+"shot"      "shot-easy2/.jpg"
+"song"      "bgm/track2.ogg"
+"time"      "12000"
+"goal"      "10"
+
+"time_hs"   " "
+"coin_hs"   " "
 // brush 0
 {
 ( 0 192 48 ) ( 0 -64 48 ) ( 0 -64 -16 ) mtrl/invisible 0 0 0 0.5 0.5 0 1 0

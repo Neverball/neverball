@@ -2,6 +2,19 @@
 {
 "message" "Don't get bullied.\"
 "classname" "worldspawn"
+"author"    "Robert Kooima"
+"levelname" "quads-rlk"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-rlk/quads.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "6000"
+"goal"      "20"
+
+"time_hs"   "700 3000"
+"coin_hs"   "54 30"
 // brush 0
 {
 ( 128 0 0 ) ( 0 0 0 ) ( 0 128 0 ) mtrl/turf-shiny 0 0 0 0.500000 0.500000 0 0 0

@@ -2,6 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"    "Mehdi Yousfi-Monod"
+"levelname" "push-mym"
+"version"   "1"
+
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"shot"      "shot-mym2/push.jpg"
+"song"      "bgm/track3.ogg"
+"time"      "6000"
+"goal"      "50"
+
+"time_hs"   "3500 3500"
+"coin_hs"   "69 60"
 "message" "Hé, on pousse pas !\Not too fast, not too slow."
 // brush 0
 {
