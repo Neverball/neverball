@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-03-05 17:56+0100\n"
-"PO-Revision-Date: 2006-03-05 15:26+0200\n"
+"PO-Revision-Date: 2006-03-05 20:58+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -557,7 +557,7 @@ msgstr "Visvairāk monētu"
 
 #: ball/util.c:221
 msgid "Unlock Goal"
-msgstr ""
+msgstr "Atslēgts mērķis"
 
 #: ball/util.c:223
 msgid "Best Times"
@@ -1071,6 +1071,8 @@ msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the ball"
 "\\completely out of control.\\"
 msgstr ""
+"Centies izvairīties no kustīgiem priekšmetiem.\\Viens vienīgs trieciens "
+"spēj\\padarīt bumbu pavisam nekontrolējamu.\\"
 
 #: data/map-rlk/bumps.map
 msgid ""
@@ -1081,7 +1083,7 @@ msgstr ""
 
 #: data/map-rlk/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
-msgstr "Šeit ir pārāk maz grīdas.\\Cerams, ka tas nerada problēmas.\\"
+msgstr "Šeit ir pārāk maz grīdas.\\Cerams, ka tā nav nekāda problēma.\\"
 
 #: data/map-rlk/coins.map
 msgid ""
@@ -1116,6 +1118,8 @@ msgid ""
 "As before, but without the training wheels.\\Keep the ball on a level floor"
 "\\and maintain precise control.\\Build some momentum to reach the corners.\\"
 msgstr ""
+"Kā iepriekš, taču bez roku pieturēšanas.\\Turi bumbu uz līmeniskas grīdas"
+"\\un saglabā rūpīgu kontroli.\\Izmanto inerci, lai sasniegtu stūrus.\\"
 
 #: data/map-rlk/drops.map
 msgid ""
@@ -1202,13 +1206,15 @@ msgstr ""
 
 #: data/map-rlk/hump.map
 msgid "Momentum may work against you.\\"
-msgstr ""
+msgstr "Inerce var izrādīties kaitīga.\\"
 
 #: data/map-rlk/invis.map
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
 msgstr ""
+"Ļauj savai alkatībai sevi vadīt.\\Papildus izaicinājumam\\pamēģini savākt visas "
+"monētas.\\To iespējams paveikt bez liekas minēšanas.\\"
 
 #: data/map-rlk/islands.map
 msgid "Catch the train before it leaves the station.\\"
@@ -1216,7 +1222,7 @@ msgstr "Noķer vilcienu, pirms tas pamet staciju.\\"
 
 #: data/map-rlk/locks.map
 msgid "Hit the switches to move the barriers.\\"
-msgstr ""
+msgstr "Trāpi slēdžiem, lai izkustinātu barjeras.\\"
 
 #: data/map-rlk/maze.map
 msgid ""
@@ -1249,7 +1255,7 @@ msgstr "Ceci n'est pas une pipe.\\"
 
 #: data/map-rlk/plinko.map
 msgid "Take it slowly.\\"
-msgstr ""
+msgstr "Nesteidzies.\\"
 
 #: data/map-rlk/poker.map
 msgid "Slow and steady.\\"
@@ -1260,6 +1266,8 @@ msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
 msgstr ""
+"Tev tiek apmēram 15 sekundes katrā posmā,\\tāpēc nekavējies. Savāc monētas "
+"un dodies\\pie nākamā slēdža.\\"
 
 #: data/map-rlk/quads.map
 msgid "Don't get bullied.\\"
@@ -1274,7 +1282,7 @@ msgstr ""
 
 #: data/map-rlk/rampup.map
 msgid "I think I can.\\I think I can.\\"
-msgstr ""
+msgstr "Es to varu,\\es to varu.\\"
 
 #: data/map-rlk/ring.map
 msgid "So close, yet so very far.\\"
@@ -1370,3 +1378,6 @@ msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
 msgstr ""
+"Šeit ir pa pilnam monētu, ja vien Tu esi\\ar mieru atvēlēt kādu laiciņu to "
+"savākšanai.\\"
+
