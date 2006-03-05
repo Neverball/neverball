@@ -275,8 +275,11 @@ const char * date_to_str(time_t i)
 int demo_exists(char *name)
 {
     FILE *fp;
+    char buf[MAXSTR];
 
-    if ((fp = fopen(config_user(name), "r")))
+    strcpy(buf, config_user(name));
+    strcat(buf, REPLAY_EXT);
+    if ((fp = fopen(buf, "r")))
     {
         fclose(fp);
         return 1;
@@ -310,6 +313,7 @@ int demo_play_init(const char *name,
     /* file structure */
     strncpy(demo.name, name, MAXNAM);
     strncpy(demo.filename, config_user(name), PATHMAX);
+    strcat(demo.filename, REPLAY_EXT);
     demo.time = demo.coins = demo.state = 0;
     demo.mode = lg->mode;
     demo.date = time(NULL);
@@ -376,6 +380,7 @@ void demo_play_save(const char *name)
     if (name && demo_exists(USER_REPLAY_FILE) && strcmp(name, USER_REPLAY_FILE) != 0)
     {
         strncpy(src, config_user(USER_REPLAY_FILE), PATHMAX);
+	strcat(src, REPLAY_EXT);
 	strncpy(dst, config_user(name),             PATHMAX);
 	strcat(dst, REPLAY_EXT);
 

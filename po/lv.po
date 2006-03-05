@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-05 15:07+0100\n"
+"POT-Creation-Date: 2006-03-05 17:56+0100\n"
 "PO-Revision-Date: 2006-03-05 15:26+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
-#: ball/demo.c:295
+#: ball/demo.c:298
 #, c-format
 msgid "replay%02d"
 msgstr "ieraks%02d"
@@ -642,8 +642,8 @@ msgid "Sound disabled\n"
 msgstr "Nav skaņas\n"
 
 #: share/base_config.h:41
-msgid "Last.nbr"
-msgstr "Last.nbr"
+msgid "Last"
+msgstr "Last"
 
 #: share/base_config.h:77
 msgid "ttf/DejaVuSans-Bold.ttf"
@@ -777,7 +777,7 @@ msgstr ""
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
 msgstr "Pamēģini savākt visas zilās monētas...\\tas nebūs vienkārši!"
 
-#: data/map-easy2/elevator-jp.autosave.map data/map-easy2/elevator-jp.map
+#: data/map-easy2/elevator-jp.map
 msgid "Calm and meditation may bring you to the Nirvana."
 msgstr "Ar mierīgu prātu un meditāciju Tu vari sasniegt Nirvānu."
 
@@ -1224,7 +1224,7 @@ msgid ""
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
 msgstr ""
 
-#: data/map-rlk/mover.autosave.map data/map-rlk/mover.map
+#: data/map-rlk/mover.map
 msgid ""
 "A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "

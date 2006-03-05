@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-05 15:29+0100\n"
+"POT-Creation-Date: 2006-03-05 17:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ball/demo.c:295
+#: ball/demo.c:298
 #, c-format
 msgid "replay%02d"
 msgstr ""
@@ -630,7 +630,7 @@ msgid "Sound disabled\n"
 msgstr ""
 
 #: share/base_config.h:41
-msgid "Last.nbr"
+msgid "Last"
 msgstr ""
 
 #: share/base_config.h:77
@@ -760,7 +760,7 @@ msgstr ""
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
 msgstr ""
 
-#: data/map-easy2/elevator-jp.autosave.map data/map-easy2/elevator-jp.map
+#: data/map-easy2/elevator-jp.map
 msgid "Calm and meditation may bring you to the Nirvana."
 msgstr ""
 
@@ -1158,7 +1158,7 @@ msgid ""
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
 msgstr ""
 
-#: data/map-rlk/mover.autosave.map data/map-rlk/mover.map
+#: data/map-rlk/mover.map
 msgid ""
 "A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
