@@ -306,6 +306,7 @@ int main(int argc, char *argv[])
     if (replay_path != NULL)
     {
 	if (! level_replay(replay_path))
+	{
 	    fprintf(stderr, _("Replay file '%s': "), replay_path);
 	    if (errno)
 		perror(NULL);
