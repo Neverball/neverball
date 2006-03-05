@@ -91,7 +91,7 @@ static int done_init(int * gidp)
         gui_layout(id, 0, 0);
     }
 
-    set_best_times(&curr_set()->time_score, curr_lg()->times_rank);
+    set_best_times(&curr_set()->time_score, curr_lg()->times_rank, 0);
     set_most_coins(&curr_set()->coin_score, curr_lg()->score_rank);
 
     return id;

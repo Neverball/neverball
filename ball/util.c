@@ -105,28 +105,41 @@ void set_most_coins(const struct score *s, int hilight)
     int j, spe;
     const char * name;
 
-    for (j = 0; j < NSCORE + coin_extrarow; j++)
+    if (s == NULL)
     {
-	name = s->player[j];
-	spe = is_special_name(name);
+	for (j = 0; j < NSCORE + coin_extrarow ; j++)
+	{
+	    gui_set_count(coin_c[j], -1);
+	    gui_set_label(coin_n[j], "");
+	    gui_set_clock(coin_t[j], -1);
+	}
+    }
+    else
+    {
+	for (j = 0; j < NSCORE + coin_extrarow; j++)
+	{
+	    name = s->player[j];
+	    spe = is_special_name(name);
 
-	if (spe)
-	   gui_set_color(coin_n[j], 0, 0);
-	else if (j != hilight)
-	   gui_set_color(coin_n[j], gui_yel, gui_wht);
-	else if (j>= NSCORE)
-	   gui_set_color(coin_n[j], gui_red, gui_red);
-	else
-	   gui_set_color(coin_n[j], gui_grn, gui_grn);
-	
-        gui_set_count(coin_c[j], s->coins[j]);
-        gui_set_label(coin_n[j], spe ? _(name) : name);
-        gui_set_clock(coin_t[j], s->timer[j]);
+	    if (spe)
+		gui_set_color(coin_n[j], 0, 0);
+	    else if (j != hilight)
+		gui_set_color(coin_n[j], gui_yel, gui_wht);
+	    else if (j>= NSCORE)
+		gui_set_color(coin_n[j], gui_red, gui_red);
+	    else
+		gui_set_color(coin_n[j], gui_grn, gui_grn);
+
+	    gui_set_count(coin_c[j], s->coins[j]);
+	    gui_set_label(coin_n[j], spe ? _(name) : name);
+	    gui_set_clock(coin_t[j], s->timer[j]);
+	}
     }
 }
 
 /*---------------------------------------------------------------------------*/
 
+static int time_l;
 static int time_c[4];
 static int time_n[4];
 static int time_t[4];
@@ -148,7 +161,7 @@ void gui_best_times(int id, int e)
 
         if ((kd = gui_vstack(jd)))
         {
-            gui_label(kd, _("Best Times"), GUI_SML, GUI_TOP, 0, 0);
+            time_l = gui_label(kd, "XXX", GUI_SML, GUI_TOP, 0, 0);
 
             if ((ld = gui_hstack(kd)))
             {
@@ -199,28 +212,45 @@ void gui_best_times(int id, int e)
 
 /* Set the Best Times top three list values for level i. */
 
-void set_best_times(const struct score *s, int hilight)
+void set_best_times(const struct score *s, int hilight, int goal)
 {
     int j, spe;
     const char * name;
 
-    for (j = 0; j < NSCORE + time_extrarow ; j++)
+    if (goal)
+	gui_set_label(time_l, _("Unlock Goal"));
+    else
+	gui_set_label(time_l, _("Best Times"));
+
+    if (s == NULL)
     {
-	name = s->player[j];
-	spe = is_special_name(name);
-	
-	if (spe)
-	   gui_set_color(time_n[j], 0, 0);
-	else if (j != hilight)
-	   gui_set_color(time_n[j], gui_yel, gui_wht);
-	else if (j>= NSCORE)
-	   gui_set_color(time_n[j], gui_red, gui_red);
-	else
-	   gui_set_color(time_n[j], gui_grn, gui_grn);
-	
-        gui_set_clock(time_t[j], s->timer[j]);
-        gui_set_label(time_n[j], spe ? _(name) : name);
-        gui_set_count(time_c[j], s->coins[j]);
+	for (j = 0; j < NSCORE + time_extrarow ; j++)
+	{
+	    gui_set_clock(time_t[j], -1);
+	    gui_set_label(time_n[j], "");
+	    gui_set_count(time_c[j], -1);
+	}
+    }
+    else
+    {
+	for (j = 0; j < NSCORE + time_extrarow ; j++)
+	{
+	    name = s->player[j];
+	    spe = is_special_name(name);
+
+	    if (spe)
+		gui_set_color(time_n[j], 0, 0);
+	    else if (j != hilight)
+		gui_set_color(time_n[j], gui_yel, gui_wht);
+	    else if (j>= NSCORE)
+		gui_set_color(time_n[j], gui_red, gui_red);
+	    else
+		gui_set_color(time_n[j], gui_grn, gui_grn);
+
+	    gui_set_clock(time_t[j], s->timer[j]);
+	    gui_set_label(time_n[j], spe ? _(name) : name);
+	    gui_set_count(time_c[j], s->coins[j]);
+	}
     }
 }
 

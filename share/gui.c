@@ -1168,7 +1168,7 @@ static void gui_paint_count(int id)
                  widget[id].scale,
                  widget[id].scale);
 
-        if (widget[id].value)
+        if (widget[id].value > 0)
         {
             /* Translate left by half the total width of the rendered value. */
 
@@ -1186,7 +1186,7 @@ static void gui_paint_count(int id)
                 glTranslatef((GLfloat) -digit_w[i][j % 10], 0.0f, 0.0f);
             }
         }
-        else
+        else if (widget[id].value == 0)
         {
             /* If the value is zero, just display a zero in place. */
 
@@ -1209,6 +1209,9 @@ static void gui_paint_clock(int id)
 
     GLfloat dx_large = (GLfloat) digit_w[i][0];
     GLfloat dx_small = (GLfloat) digit_w[i][0] * 0.75f;
+    
+    if (widget[id].value < 0)
+        return;
 
     glPushMatrix();
     {

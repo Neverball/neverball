@@ -104,7 +104,7 @@ static void start_over_level(i)
 
 	if (config_get_d(CONFIG_MODE) == MODE_PRACTICE)
 	{
-	    set_best_times(&l->time_score, -1);
+	    set_best_times(&l->time_score, -1, 0);
 	    if (l->is_bonus)
 	        gui_set_label(status_id, _("Play this bonus level in practice mode"));
 	    else
@@ -112,7 +112,7 @@ static void start_over_level(i)
 	}
 	else
 	{
-	    set_best_times(&l->goal_score, -1);
+	    set_best_times(&l->goal_score, -1, 1);
 	    if (l->is_bonus)
 	        gui_set_label(status_id, _("Play this bonus level in normal mode"));
 	    else
@@ -145,7 +145,7 @@ static void start_over(id)
     case START_CHALLENGE:
         gui_set_image(shot_id, curr_set()->shot);
         set_most_coins(&curr_set()->coin_score, -1);
-	set_best_times(&curr_set()->time_score, -1);
+	set_best_times(&curr_set()->time_score, -1, 0);
 	gui_set_label(status_id, _("Challenge all levels from the first one"));
 	break;
 	
@@ -270,8 +270,8 @@ static int start_enter(void)
 	
         gui_layout(id, 0, 0);
 	
-        set_most_coins(&curr_set()->coin_score, -1);
-        set_best_times(&curr_set()->time_score, -1);
+        set_most_coins(NULL, -1);
+        set_best_times(NULL, -1, m != MODE_PRACTICE);
     }
 
     return id;

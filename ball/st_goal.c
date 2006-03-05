@@ -166,9 +166,9 @@ static int goal_init(int * gidp)
 
     set_most_coins(&level->coin_score, lg->coin_rank);
     if (mode == MODE_CHALLENGE || mode == MODE_NORMAL)
-	set_best_times(&level->goal_score, lg->goal_rank);
+	set_best_times(&level->goal_score, lg->goal_rank, 1);
     else
-	set_best_times(&level->time_score, lg->time_rank);
+	set_best_times(&level->time_score, lg->time_rank, 0);
 
     config_clr_grab();
 
