@@ -130,9 +130,10 @@ int game_init(const struct level * level, int t, int g)
     view_init();
     back_init(level->grad, config_get_d(CONFIG_GEOMETRY));
 
-    if (sol_load(&back, config_data(level->back),
-                 config_get_d(CONFIG_TEXTURES), 0) &&
-        sol_load(&file, level->file,
+    sol_load(&back, config_data(level->back),
+		    config_get_d(CONFIG_TEXTURES), 0);
+
+    if (sol_load(&file, level->file,
                  config_get_d(CONFIG_TEXTURES), config_get_d(CONFIG_SHADOW)))
         return (game_state = 1);
     else

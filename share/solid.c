@@ -29,6 +29,9 @@
 #include "base_config.h"
 #include "binary.h"
 
+#define MAGIC 0x4F425251  /* Neverball sol file magic number (should not change) */
+#define SOL_VERSION  1 /* Neverball sol file format version (can change)      */
+
 #define LARGE 1.0e+5f
 
 /*---------------------------------------------------------------------------*/
@@ -789,9 +792,16 @@ static void sol_load_view(FILE *fin, struct s_view *wp)
     get_array(fin,  wp->q, 3);
 }
 
-static void sol_load_file(FILE *fin, struct s_file *fp)
+static int sol_load_file(FILE *fin, struct s_file *fp)
 {
     int i;
+    int magic;
+    int version;
+
+    get_index(fin, &magic);
+    get_index(fin, &version);
+    if (magic != MAGIC || version != SOL_VERSION)
+        return 0;
 
     get_index(fin, &fp->mc);
     get_index(fin, &fp->vc);
@@ -872,23 +882,40 @@ static void sol_load_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->ic; i++) get_index(fin, fp->iv + i);
 
     if (fp->ac) fread(fp->av, 1, fp->ac, fin);
+    
+    return 1;
+}
+
+int sol_load_only_file(struct s_file *fp, const char *filename)
+{
+    FILE *fin;
+    int res = 0;
+
+    if ((fin = fopen(filename, FMODE_RB)))
+    {
+        res = sol_load_file(fin, fp);
+        fclose(fin);
+    }
+    return res;
 }
 
 int sol_load(struct s_file *fp, const char *filename, int k, int s)
 {
     FILE *fin;
+    int res = 0;
 
     if ((fin = fopen(filename, FMODE_RB)))
     {
-        sol_load_file(fin, fp);
-        sol_load_textures(fp, k);
-        sol_load_objects (fp, s);
+        if (sol_load_file(fin, fp))
+	{
+	    res = 1;
+	    sol_load_textures(fp, k);
+            sol_load_objects (fp, s);
+	}
 
         fclose(fin);
-
-        return 1;
     }
-    return 0;
+    return res;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1042,7 +1069,12 @@ static void sol_stor_view(FILE *fout, struct s_view *wp)
 static void sol_stor_file(FILE *fin, struct s_file *fp)
 {
     int i;
+    int magic   = MAGIC;
+    int version = SOL_VERSION;
 
+    put_index(fin, &magic);
+    put_index(fin, &version);
+    
     put_index(fin, &fp->mc);
     put_index(fin, &fp->vc);
     put_index(fin, &fp->ec);

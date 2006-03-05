@@ -301,6 +301,7 @@ struct s_file
 
 /*---------------------------------------------------------------------------*/
 
+int   sol_load_only_file(struct s_file *, const char *);
 int   sol_load(struct s_file *, const char *, int, int);
 int   sol_stor(struct s_file *, const char *);
 void  sol_free(struct s_file *);

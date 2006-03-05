@@ -15,8 +15,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <errno.h>
 
 #include "level.h"
+#include "solid.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,16 +45,21 @@ int level_load(const char *filename, struct level *level)
  *       in the sol file.  Therefore the sol file in not loaded */
 {
     FILE *fp;
+    struct s_file sol;
+    memset(&sol, 0, sizeof(sol));
 
     /* Try to load the sol file */
-    fp = fopen(filename, FMODE_RB);
-    if (fp == NULL)
+    if (!sol_load_only_file(&sol, filename))
     {
 	fprintf(stderr, "Error while loading level file '%s': ", filename);
-	perror(NULL);
+        if (errno)
+	   perror(NULL);
+	else
+	   fprintf(stderr, _("Not a valid level file\n"));
 	return 0;
     }
-    fclose(fp);
+
+    sol_free(&sol);
     
     /* Set filename */
     strcpy(level->file, filename);
