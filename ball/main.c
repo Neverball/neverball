@@ -230,28 +230,28 @@ static char * level_path  = NULL;
 static void parse_args(int argc, char ** argv)
 {
 #define CASE(x) (strcmp(*argv, (x)) == 0)        /* Check current option */
-#define MAND    (not_miss = (argv[1] != NULL)) /* Argument is mandatory */
+#define MAND    (not_miss = (argv[1] != NULL))   /* Argument is mandatory */
     char * exec = *(argv++);
     int not_miss; /* argument is not missing */
     
     while (*argv != NULL)
     {
 	not_miss = 1;
-	if (CASE(_("-h")) || CASE("-?") || CASE(_("--help")))
+	if (CASE("-h") || CASE("-?") || CASE("--help"))
 	{
 	    printf(USAGE, exec);
 	    exit(0);
 	}
-	else if (CASE(_("-v")) || CASE(_("--version")))
+	else if (CASE("-v") || CASE("--version"))
 	{
 	    printf(_("%s: %s version %s\n"), exec, TITLE, VERSION);
 	    exit(0);
 	}
-	else if (CASE(_("--data")) && MAND)
+	else if (CASE("--data") && MAND)
 	    data_path = *(++argv);
-	else if ((CASE(_("-r")) || CASE(_("--replay"))) && MAND)
+	else if ((CASE("-r") || CASE("--replay")) && MAND)
 	    replay_path = *(++argv);
-	else if ((CASE(_("-l"))  || CASE(_("--level"))) && MAND)
+	else if ((CASE("-l")  || CASE("--level")) && MAND)
 	    level_path = *(++argv);
 	else if (not_miss)
 	{
@@ -305,17 +305,12 @@ int main(int argc, char *argv[])
     
     if (replay_path != NULL)
     {
-	if (level_replay(replay_path))
-	{
-	    demo_replay_dump_info();
-	}
-	else
-	{
+	if (! level_replay(replay_path))
 	    fprintf(stderr, _("Replay file '%s': "), replay_path);
 	    if (errno)
 		perror(NULL);
 	    else
-		fprintf(stderr, _("Not a replay file.\n"));
+		fprintf(stderr, _("Not a replay file\n"));
 	    return 1;
 	}
     }
