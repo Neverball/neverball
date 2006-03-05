@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-04 03:51+0200\n"
+"POT-Creation-Date: 2006-03-05 01:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgid ""
 "Total Time:   %d\n"
 msgstr ""
 
-#: ball/demo.c:283
+#: ball/demo.c:294
 #, c-format
 msgid "replay%02d"
 msgstr ""
@@ -72,15 +72,15 @@ msgstr ""
 msgid "Manual"
 msgstr ""
 
-#: ball/level.c:50 ball/st_start.c:231
+#: ball/level.c:50 ball/st_start.c:249
 msgid "Challenge"
 msgstr ""
 
-#: ball/level.c:51 ball/st_start.c:235
+#: ball/level.c:51 ball/st_start.c:247
 msgid "Normal"
 msgstr ""
 
-#: ball/level.c:52 ball/st_start.c:234
+#: ball/level.c:52 ball/st_start.c:246
 msgid "Practice"
 msgstr ""
 
@@ -102,26 +102,6 @@ msgstr ""
 
 #: ball/level.c:67
 msgid "Fall-out"
-msgstr ""
-
-#: ball/levels.c:313
-msgid "B1"
-msgstr ""
-
-#: ball/levels.c:313
-msgid "B2"
-msgstr ""
-
-#: ball/levels.c:313
-msgid "B3"
-msgstr ""
-
-#: ball/levels.c:313
-msgid "B4"
-msgstr ""
-
-#: ball/levels.c:313
-msgid "B5"
 msgstr ""
 
 #: ball/main.c:59
@@ -211,6 +191,41 @@ msgstr ""
 msgid "Not a replay file.\n"
 msgstr ""
 
+#: ball/set.c:120
+#, c-format
+msgid "Error while loading user high-score file '%s': "
+msgstr ""
+
+#: ball/set.c:124 ball/set.c:246
+#, c-format
+msgid "Incorrect format\n"
+msgstr ""
+
+#: ball/set.c:133
+msgid "B1"
+msgstr ""
+
+#: ball/set.c:133
+msgid "B2"
+msgstr ""
+
+#: ball/set.c:133
+msgid "B3"
+msgstr ""
+
+#: ball/set.c:133
+msgid "B4"
+msgstr ""
+
+#: ball/set.c:133
+msgid "B5"
+msgstr ""
+
+#: ball/set.c:242
+#, c-format
+msgid "Error while loading initial high-score file '%s': "
+msgstr ""
+
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
 msgstr ""
@@ -241,7 +256,7 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-#: ball/st_conf.c:318 ball/st_demo.c:223 ball/st_start.c:221 ball/util.c:329
+#: ball/st_conf.c:318 ball/st_demo.c:223 ball/st_start.c:234 ball/util.c:328
 #: putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270 share/st_lang.c:81
 #: share/st_resol.c:93
 msgid "Back"
@@ -344,7 +359,7 @@ msgstr ""
 msgid "Replay Again"
 msgstr ""
 
-#: ball/st_demo.c:398 ball/st_done.c:90 ball/st_name.c:121
+#: ball/st_demo.c:398 ball/st_done.c:88 ball/st_name.c:121
 msgid "OK"
 msgstr ""
 
@@ -360,15 +375,15 @@ msgstr ""
 msgid "Delete Replay?"
 msgstr ""
 
-#: ball/st_done.c:59
+#: ball/st_done.c:55
 msgid "New Challenge Record"
 msgstr ""
 
-#: ball/st_done.c:60
+#: ball/st_done.c:56
 msgid "Challenge Complete"
 msgstr ""
 
-#: ball/st_done.c:89 ball/st_goal.c:161
+#: ball/st_done.c:87 ball/st_goal.c:161
 msgid "Change Player Name"
 msgstr ""
 
@@ -392,11 +407,11 @@ msgstr ""
 msgid "Time's Up!"
 msgstr ""
 
-#: ball/st_goal.c:85
+#: ball/st_goal.c:81
 msgid "New Record"
 msgstr ""
 
-#: ball/st_goal.c:86
+#: ball/st_goal.c:82
 msgid "GOAL"
 msgstr ""
 
@@ -408,19 +423,19 @@ msgstr ""
 msgid "Next Level"
 msgstr ""
 
-#: ball/st_level.c:44
+#: ball/st_level.c:46
 msgid "Single Level"
 msgstr ""
 
-#: ball/st_level.c:52
+#: ball/st_level.c:57
 msgid "*** BONUS ***"
 msgstr ""
 
-#: ball/st_level.c:59 ball/st_level.c:64
+#: ball/st_level.c:63 ball/st_level.c:68
 msgid "Level "
 msgstr ""
 
-#: ball/st_level.c:77
+#: ball/st_level.c:81
 msgid "Cannot load the level file."
 msgstr ""
 
@@ -456,51 +471,51 @@ msgstr ""
 msgid "Overwrite?"
 msgstr ""
 
-#: ball/st_set.c:89
+#: ball/st_set.c:105
 msgid "Level Set"
 msgstr ""
 
-#: ball/st_start.c:102
-msgid "Challenge all levels from the first one"
-msgstr ""
-
-#: ball/st_start.c:106
+#: ball/st_start.c:110
 msgid "Play this bonus level in practice mode"
 msgstr ""
 
-#: ball/st_start.c:108
+#: ball/st_start.c:112
 msgid "Play this level in practice mode"
 msgstr ""
 
-#: ball/st_start.c:113
+#: ball/st_start.c:118
 msgid "Play this bonus level in normal mode"
 msgstr ""
 
-#: ball/st_start.c:115
+#: ball/st_start.c:120
 msgid "Play this level in normal mode"
 msgstr ""
 
-#: ball/st_start.c:124
+#: ball/st_start.c:129
 msgid "Finish challenge mode to unlock extra bonus levels"
 msgstr ""
 
-#: ball/st_start.c:126
+#: ball/st_start.c:131
 msgid "Finish previous levels to unlock this level"
 msgstr ""
 
-#: ball/st_start.c:142
+#: ball/st_start.c:150
+msgid "Challenge all levels from the first one"
+msgstr ""
+
+#: ball/st_start.c:154
 msgid "Collect coins and unlock next level"
 msgstr ""
 
-#: ball/st_start.c:145
+#: ball/st_start.c:158
 msgid "Train yourself without time nor coin"
 msgstr ""
 
-#: ball/st_start.c:218
+#: ball/st_start.c:231
 msgid "Set Complete"
 msgstr ""
 
-#: ball/st_start.c:254
+#: ball/st_start.c:266
 msgid "Choose a level to play"
 msgstr ""
 
@@ -571,35 +586,35 @@ msgstr ""
 msgid "Escape"
 msgstr ""
 
-#: ball/util.c:27
+#: ball/util.c:26
 msgid "Easy"
 msgstr ""
 
-#: ball/util.c:27
+#: ball/util.c:26
 msgid "Hard"
 msgstr ""
 
-#: ball/util.c:27
+#: ball/util.c:26
 msgid "Medium"
 msgstr ""
 
-#: ball/util.c:55
+#: ball/util.c:52
 msgid "Most Coins"
 msgstr ""
 
-#: ball/util.c:156
+#: ball/util.c:151
 msgid "Best Times"
 msgstr ""
 
-#: ball/util.c:299
+#: ball/util.c:294
 msgid "del"
 msgstr ""
 
-#: ball/util.c:316 ball/util.c:319
+#: ball/util.c:313 ball/util.c:316
 msgid "Next"
 msgstr ""
 
-#: ball/util.c:323 ball/util.c:326
+#: ball/util.c:320 ball/util.c:323
 msgid "Prev"
 msgstr ""
 
@@ -670,7 +685,7 @@ msgid "Sound disabled\n"
 msgstr ""
 
 #: share/base_config.h:41
-msgid "Last"
+msgid "Last.nbr"
 msgstr ""
 
 #: share/base_config.h:77
@@ -804,6 +819,14 @@ msgstr ""
 msgid "Fall down stairs.\\Ough!\\It hurts."
 msgstr ""
 
+#: data/map-easy2/paths-paul.map
+msgid "So many different paths to take...\\have you tried all of them?"
+msgstr ""
+
+#: data/map-easy2/billiard-paul.map
+msgid "Try to grab all of the blue coins...\\it won't be easy!"
+msgstr ""
+
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
 msgstr ""
@@ -906,6 +929,36 @@ msgstr ""
 
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Make 3 laps to open the goal."
+msgstr ""
+
+#: data/map-paul/ocean.map
+msgid ""
+"Let's go for a swim...\\all the coins are fully submerged.\\Hint: Tilt the "
+"floor all the way forward for a quick peek at the sunken treasure."
+msgstr ""
+
+#: data/map-paul/checkers.map
+msgid ""
+"It's a real game of checkers, but no one wins...\\You have to bounce to "
+"reach the blue coins."
+msgstr ""
+
+#: data/map-paul/bounce.map
+msgid ""
+"Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
+"'chase' camera mode."
+msgstr ""
+
+#: data/map-paul/bounce2.map
+msgid "Follow the arrows."
+msgstr ""
+
+#: data/map-paul/thwomp1.map
+msgid "Just let it happen...\\then start to worry!"
+msgstr ""
+
+#: data/map-paul/thwomp2.map
+msgid "Grab all the coins...\\but don't get thwomped!"
 msgstr ""
 
 #: data/map-mym/scrambling.map
@@ -1288,42 +1341,4 @@ msgstr ""
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr ""
-
-#: data/map-paul/billiards.map
-msgid "Try to grab all of the blue coins...\\it won't be easy!"
-msgstr ""
-
-#: data/map-paul/ocean.map
-msgid ""
-"Let's go for a swim...\\all the coins are fully submerged.\\Hint: Tilt the "
-"floor all the way forward for a quick peek at the sunken treasure."
-msgstr ""
-
-#: data/map-paul/checkers.map
-msgid ""
-"It's a real game of checkers, but no one wins...\\You have to bounce to "
-"reach the blue coins."
-msgstr ""
-
-#: data/map-paul/bounce.map
-msgid ""
-"Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
-"'chase' camera mode."
-msgstr ""
-
-#: data/map-paul/bounce2.map
-msgid "Follow the arrows."
-msgstr ""
-
-#: data/map-paul/paths.map
-msgid "So many different paths to take...\\have you tried all of them?"
-msgstr ""
-
-#: data/map-paul/thwomp1.map
-msgid "Just let it happen...\\then start to worry!"
-msgstr ""
-
-#: data/map-paul/thwomp2.map
-msgid "Grab all the coins...\\but don't get thwomped!"
 msgstr ""
