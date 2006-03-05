@@ -98,10 +98,7 @@ static int title_enter(void)
     audio_music_fade_to(0.5f, "bgm/title.ogg");
 
     /* Initialize the first level of the first set for display. */
-    strcpy(title_level.file, config_data("map-rlk/title.sol"));
-    strcpy(title_level.back, "map-back/jupiter.sol");
-    strcpy(title_level.grad, "png/space.png");
-
+    level_load(config_data("map-rlk/title.sol"), &title_level);
     game_init(&title_level, 0, 0);
 
     real_time = 0.0f;
