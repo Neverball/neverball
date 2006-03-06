@@ -93,6 +93,12 @@ static int set_enter(void)
 
     int id, jd, kd;
 
+    if (!set_exists(last_set))
+    {
+	b = 0;
+	last_set = 0;
+    }
+
     set_init();
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");

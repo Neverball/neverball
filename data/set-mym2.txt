@@ -1,0 +1,30 @@
+Mehdi's Levels Suite
+Difficulty: A little bit harder than my first set.\\More challenge, particulary for coins grabbing.\Author: Mehdi Yousfi-Monod (mym)\ \
+mym2
+shot-mym2/shaker.jpg
+
+map-mym2/sonic.sol
+map-mym2/movinglumps.sol
+map-mym2/backforth.sol
+map-mym2/webs.sol
+map-mym2/ghosts.sol
+map-mym2/translation.sol
+map-mym2/movingpath.sol	
+map-mym2/bounces.sol
+map-mym2/runstop.sol
+map-mym2/fall.sol
+map-mym2/longpipe.sol
+map-mym2/bigcones.sol
+map-mym2/shaker.sol
+map-mym2/littlecones.sol
+map-mym2/rodeo.sol
+map-mym2/push.sol
+map-mym2/updown.sol
+map-mym2/grinder.sol
+map-mym2/speed.sol
+map-mym2/morenarrow.sol
+map-mym2/speeddance.sol
+map-mym2/bigball.sol
+map-mym2/rainbow.sol
+map-mym2/basket.sol
+map-mym2/freefall.sol

@@ -1,0 +1,30 @@
+Mehdi's Levels
+Difficulty: Expert through Insane\\25 levels with even greater challenge.\Author: Mehdi Yousfi-Monod (mym)\ \
+mym
+shot-mym/turn.jpg
+
+map-mym/descent.sol
+map-mym/dance2.sol
+map-mym/drive1.sol
+map-mym/glasstower.sol
+map-mym/scrambling.sol
+map-mym/trust.sol
+map-mym/loop1.sol
+map-mym/maze1.sol
+map-mym/circuit2.sol
+map-mym/comeback.sol
+map-mym/maze2.sol
+map-mym/circuit1.sol
+map-mym/turn.sol
+map-mym/assault.sol
+map-mym/narrow.sol
+map-mym/loop2.sol
+map-mym/drive2.sol
+map-mym/running.sol
+map-mym/climb.sol
+map-mym/hard.sol
+map-mym/earthquake.sol
+map-mym/snow.sol
+map-mym/up.sol
+map-mym/bombman.sol
+map-mym/dance1.sol

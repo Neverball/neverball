@@ -1,18 +1,6 @@
-levels-easy.txt scores-easy.txt neverballhs-easy shot-rlk/easy.jpg
-Neverball Easy
-Difficulty: Beginner through Intermediate\\25 levels with a smooth learning curve.\Read level introductions for gameplay tips.\ \
-levels-easy2.txt scores-easy2.txt neverballhs-easy2 shot-easy2/easy2.jpg
-Neverball Easy 2
-Difficulty: A second set of easy levels.\\\Work in progress.\\
-levels-hard.txt scores-hard.txt neverballhs-hard shot-rlk/grid.jpg
-Neverball Hard
-Difficulty: Intermediate through Expert\\25 levels with more of a challenge for\the experienced player. Try to claim\Best Times and Most Coins records.\
-levels-mym.txt scores-mym.txt neverballhs-mym shot-mym/turn.jpg
-Mehdi's Levels
-Difficulty: Expert through Insane\\25 levels with even greater challenge.\Author: Mehdi Yousfi-Monod (mym)\ \
-levels-mym2.txt scores-mym2.txt neverballhs-mym2 shot-mym2/shaker.jpg
-Mehdi's Levels Suite
-Difficulty: A little bit harder than my first set.\\More challenge, particulary for coins grabbing.\Author: Mehdi Yousfi-Monod (mym)\ \
-levels-paul.txt scores-paul.txt neverballhs-paul shot-paul/paths.bmp
-Paul's levels
-Difficulty: ? (probably hard through advanced)\8 levels in beta, for your dining pleasure.\Feel free to give me suggestions.\Author: paul\\
+set-easy.txt
+set-easy2.txt
+set-hard.txt
+set-mym.txt
+set-mym2.txt
+set-paul.txt

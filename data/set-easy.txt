@@ -1,0 +1,31 @@
+Neverball Easy
+Difficulty: Beginner through Intermediate\\25 levels with a smooth learning curve.\Read level introductions for gameplay tips.\ \
+easy
+shot-rlk/easy.jpg
+60000 120000 180000  1000 500 10
+map-rlk/easy.sol
+map-rlk/peasy.sol
+map-rlk/coins.sol
+map-rlk/goslow.sol
+map-rlk/fence.sol
+map-rlk/bumper.sol
+map-rlk/maze.sol
+map-rlk/goals.sol
+map-rlk/hole.sol
+map-rlk/bumps.sol
+map-rlk/corners.sol
+map-rlk/easytele.sol
+map-rlk/zigzag.sol
+map-rlk/greed.sol
+map-rlk/mover.sol
+map-rlk/wakka.sol
+map-rlk/curbs.sol
+map-rlk/curved.sol
+map-rlk/stairs.sol
+map-rlk/rampdn.sol
+map-rlk/sync.sol
+map-rlk/plinko.sol
+map-rlk/drops.sol
+map-rlk/locks.sol
+map-rlk/spiralin.sol
+

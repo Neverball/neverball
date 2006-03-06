@@ -1,0 +1,30 @@
+Neverball Hard
+Difficulty: Intermediate through Expert\\25 levels with more of a challenge for\the experienced player. Try to claim\Best Times and Most Coins records.\
+hard
+shot-rlk/grid.jpg
+
+map-rlk/grid.sol
+map-rlk/four.sol
+map-rlk/telemaze.sol
+map-rlk/spiraldn.sol
+map-rlk/islands.sol
+map-rlk/angle.sol
+map-rlk/spiralup.sol
+map-rlk/rampup.sol
+map-rlk/check.sol
+map-rlk/risers.sol
+map-rlk/tilt.sol
+map-rlk/gaps.sol
+map-rlk/pyramid.sol
+map-rlk/quads.sol
+map-rlk/frogger.sol
+map-rlk/timer.sol
+map-rlk/spread.sol
+map-rlk/hump.sol
+map-rlk/movers.sol
+map-rlk/teleport.sol
+map-rlk/poker.sol
+map-rlk/invis.sol
+map-rlk/ring.sol
+map-rlk/pipe.sol
+map-rlk/title.sol

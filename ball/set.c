@@ -135,24 +135,74 @@ static const char * numbernames[] = {
 	N_("B1"), N_("B2"), N_("B3"), N_("B4"), N_("B5")};
 
 
-static void set_init_levels(struct set *s)
+static char* chomp(char *str)
+/* Remove trailing \n if any */
+{
+    char *p = str + strlen(str) - 1;
+    if (p >= str && *p == '\n') *p = 0;
+    return str;
+}
+
+static int set_load(struct set *s, const char *filename)
 /* Count levels */
 {
     FILE *fin;
     char buf[MAXSTR];
+    int res = 0;
+    
+    /* Open the datafile */
 
-    /* Load the levels list. */
+    fin = fopen(filename, "r");
+    if (fin == NULL)
+    {
+	fprintf(stderr, _("Cannot load the set file '%s':"), filename);
+	perror(NULL);
+	return 0;
+    }
+
+    /* Raz the set structure */
+
+    memset(s, 0, sizeof(struct set));
+
+    /* Set some sane values in case the scores hs is missing. */
+    
+    score_init_hs(&s->time_score, 359999, 0);
+    score_init_hs(&s->coin_score, 359999, 0);
+    
+    /* Load set metadata */
+    
+    strcpy(s->file, filename);
+    if ((res = fgets(buf, MAXSTR, fin) != NULL))
+	strcpy(s->name, chomp(buf));
+    if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
+	strcpy(s->desc, chomp(buf));
+    if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
+	strcpy(s->setname, chomp(buf));
+    if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
+	strcpy(s->shot, chomp(buf));
+    if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
+	sscanf(buf, "%d %d %d %d %d %d", 
+		&s->time_score.timer[0],
+	       	&s->time_score.timer[1],
+	       	&s->time_score.timer[2],
+		&s->coin_score.coins[0],
+	       	&s->coin_score.coins[1],
+	       	&s->coin_score.coins[2]);
+    strcpy(s->user_scores, "neverballhs-");
+    strcat(s->user_scores, s->setname);
+
+    /* Count levels levels. */
     
     s->count = 0;
 
-    if ((fin = fopen(config_data(s->init_levels), "r")))
-    {
-	while (count < MAXLVL && fgets(buf, MAXSTR, fin))
-	    s->count++;
-	fclose(fin);
-    }
+    while (s->count < MAXLVL && fgets(buf, MAXSTR, fin))
+	s->count++;
+    
+    /* Close the file, since it's no more needed */
+    
+    fclose(fin);
 
-    /* Load the highscore level limit */
+    /* Load the level limit (stored in the user highscore file) */
     
     s->limit = 0;
     
@@ -163,46 +213,8 @@ static void set_init_levels(struct set *s)
 	    s->limit = 0;
 	fclose(fin);
     }
-    
-}
 
-static void set_init_hs(void)
-/* Fill set end levels hs with initial values (score-*.txt) */
-{
-    struct set *s = current_set;
-    char buf[MAXSTR];
-    FILE *fin;
-    int res = 0;
-    const char *fn = config_data(s->init_scores);
-
-    /* Set some sane values in case the scores file is missing. */
-    score_init_hs(&s->time_score, 359999, 0);
-    score_init_hs(&s->coin_score, 359999, 0);
-
-    /* Load the initial high scores file. */
-
-    if ((fin = fopen(fn, "r")))
-    {
-	res = fgets(buf, MAXSTR, fin) != NULL;
-	
-	res = res && (sscanf(buf, "%d %d %d %d %d %d",
-		    &s->time_score.timer[0],
-		    &s->coin_score.coins[0],
-		    &s->time_score.timer[1],
-		    &s->coin_score.coins[1],
-		    &s->time_score.timer[2],
-		    &s->coin_score.coins[2]) == 6);
-	fclose(fin);
-    }
-    
-    if (!res)
-    {
-	fprintf(stderr, _("Error while loading initial high-score file '%s': "), fn);
-	if (errno)
-	    perror(NULL);
-	else
-	    fprintf(stderr, _("Incorrect format\n"));
-    }
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -211,6 +223,7 @@ void set_init()
 {
     FILE *fin;
     struct set * set;
+    char filename[MAXSTR];
     int res;
 
     current_set = NULL;
@@ -225,27 +238,18 @@ void set_init()
 	    set = &(set_v[count]);
 
 	    /* clean the set data */
-	    memset(set, 0, sizeof(struct set));
 	    
-	    res = fscanf(fin, "%s %s %s %s\n",
-                      set->init_levels,
-                      set->init_scores,
-                      set->user_scores,
-                      set->shot) == 4 &&
-               fgets(set->name, MAXSTR, fin) &&
-               fgets(set->desc, MAXSTR, fin);
+	    res = (fgets(filename, MAXSTR, fin) != NULL);
 	    if (res)
 	    {
-                char *p = set->name + strlen(set->name) - 1;
-		char *q = set->desc + strlen(set->desc) - 1;
-		set->number = count;
+		chomp(filename);
 
-		if (*p == '\n') *p = 0;
-		if (*q == '\n') *q = 0;
-
-		set_init_levels(set);
-	   
-		count++;
+		res = set_load(set, config_data(filename));
+		if (res)
+		{
+		    set->number = count;
+		    count++;
+		}
 	    }
         }
 
@@ -297,27 +301,30 @@ static void set_load_levels(void)
 
     int i=0, res;
     
-    if ((fin = fopen(config_data(current_set->init_levels), "r")))
+    fin = fopen(current_set->file, "r");
+    assert(fin != NULL);
+    
+    res = 1;
+    /* Skip the five first lines */
+    for(i=0; i<5; i++)
+	fgets(buf, MAXSTR, fin);
+    for(i=0; i<current_set->count && res; i++)
     {
-	res = 1;
-	for(i=0; i<current_set->count && res; i++)
-	{
-	    l = &level_v[i];
-	    res = (fgets(buf, MAXSTR, fin) != NULL) &&
-		(sscanf(buf, "%s ", name) == 1);
-	    assert(res);
-	    
-	    level_load(config_data(name), l);
+	l = &level_v[i];
+	res = (fgets(buf, MAXSTR, fin) != NULL) &&
+	    (sscanf(buf, "%s", name) == 1);
+	assert(res);
 
-	    /* Initialize set related info */
-	    l->set        = current_set;
-	    l->number     = i;
-	    l->numbername = numbernames[i];
-	    l->is_locked  = i > current_set->limit;
-	    l->is_bonus   = i >= 20;
-	}
-	fclose(fin);
-    }
+	level_load(config_data(name), l);
+
+	/* Initialize set related info */
+	l->set        = current_set;
+	l->number     = i;
+	l->numbername = numbernames[i];
+	l->is_locked  = i > current_set->limit;
+	l->is_bonus   = i >= 20;
+    }	
+    fclose(fin);
     assert(i == current_set->count);
 }
 
@@ -326,7 +333,6 @@ void set_goto(int i)
     assert(set_exists(i));
     current_set = &set_v[i];
     set_load_levels();
-    set_init_hs();
     set_load_hs();
 }
 

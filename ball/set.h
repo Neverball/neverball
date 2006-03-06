@@ -15,14 +15,14 @@ struct set
 {
     /* set global info */
     int number;               /* number of the set */
-	
-    char init_levels[MAXSTR]; /* levels list file */
-    char init_scores[MAXSTR]; /* levels intals score file */
-    char user_scores[MAXSTR]; /* lever user highscore file */
 
-    char shot[MAXSTR];        /* screenshot image file*/
+    char file[MAXSTR];        /* set file description */
+    char user_scores[MAXSTR]; /* user highscore file */
+    char setname[MAXSTR];     /* internal set name */
+
     char name[MAXSTR];        /* set name */
     char desc[MAXSTR];        /* set description */
+    char shot[MAXSTR];        /* screenshot image file*/
 
     struct score time_score;  /* challenge score */
     struct score coin_score;  /* challenge score */
