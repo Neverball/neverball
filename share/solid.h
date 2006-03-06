@@ -210,6 +210,7 @@ struct s_swch
     float t;                                   /* current timer              */
     int   f0;                                  /* default state              */
     int   f;                                   /* current state              */
+    int   i;                                   /* is invisible?              */
 };
 
 struct s_bill

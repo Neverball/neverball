@@ -30,7 +30,7 @@
 #include "binary.h"
 
 #define MAGIC 0x4F425251  /* Neverball sol file magic number (should not change) */
-#define SOL_VERSION  1 /* Neverball sol file format version (can change)      */
+#define SOL_VERSION  2 /* Neverball sol file format version (can change)      */
 
 #define LARGE 1.0e+5f
 
@@ -755,6 +755,7 @@ static void sol_load_swch(FILE *fin, struct s_swch *xp)
     get_float(fin, &xp->t);
     get_index(fin, &xp->f0);
     get_index(fin, &xp->f);
+    get_index(fin, &xp->i);
 }
 
 static void sol_load_bill(FILE *fin, struct s_bill *rp)
@@ -1029,6 +1030,7 @@ static void sol_stor_swch(FILE *fout, struct s_swch *xp)
     put_float(fout, &xp->t);
     put_index(fout, &xp->f0);
     put_index(fout, &xp->f);
+    put_index(fout, &xp->i);
 }
 
 static void sol_stor_bill(FILE *fout, struct s_bill *rp)

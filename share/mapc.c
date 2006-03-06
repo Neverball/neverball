@@ -1034,6 +1034,7 @@ static void make_swch(struct s_file *fp,
     xp->t    = 0;
     xp->f0   = 0;
     xp->f    = 0;
+    xp->i    = 0;
 
     for (i = 0; i < c; i++)
     {
@@ -1048,6 +1049,9 @@ static void make_swch(struct s_file *fp,
 
         if (strcmp(k[i], "state") == 0)
             xp->f = atoi(v[i]);
+	
+        if (strcmp(k[i], "invisible") == 0)
+            xp->i = atoi(v[i]);
 
         if (strcmp(k[i], "origin") == 0)
         {
