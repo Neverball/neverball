@@ -297,8 +297,6 @@ static int demo_play_enter(void)
     if ((id = gui_vstack(0)))
     {
         gui_label(id, _("Replay"), GUI_LRG, GUI_ALL, gui_blu, gui_grn);
-	gui_filler(id);
-        gui_demo_status(id, curr_demo_replay());
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
     }
@@ -318,7 +316,7 @@ static void demo_play_paint(int id, float st)
     game_draw(0, st);
     hud_paint();
 
-    if (time_state() < 3.f)
+    if (time_state() < 1.f)
         gui_paint(id);
 }
 
