@@ -30,7 +30,17 @@ sed -i "s/charset=CHARSET/charset=UTF-8/" "$POTFILE"
 
 # Second, extract from neverball sets and neverputt courses
 echo "# Sets and courses"
-for i in data/sets.txt data/courses.txt; do
+for i in data/set-*.txt; do
+	# Only translate the two first lines
+	head -2 $i | while read -r d; do
+		echo
+		echo "#: $i"
+		# Convert \ to \\ 
+		echo "msgid \"${d//\\/\\\\}\""
+		echo "msgstr \"\""
+	done >> $POTFILE
+done
+for i in data/courses.txt; do
 	# the "echo | cat x -" forces the end of the last line
 	echo | cat "$i" - | while read -r d; do
 		# Heuristic: description is non empty line without .txt inside

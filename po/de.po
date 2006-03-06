@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-05 17:56+0100\n"
+"POT-Creation-Date: 2006-03-06 15:51+0100\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -48,37 +48,42 @@ msgstr "Faul"
 msgid "Manual"
 msgstr "Manuell"
 
-#: ball/level.c:97 ball/st_start.c:252
+#: ball/level.c:132
+#, c-format
+msgid "Not a valid level file\n"
+msgstr ""
+
+#: ball/level.c:185 ball/st_start.c:252
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/level.c:98 ball/st_start.c:250
+#: ball/level.c:186 ball/st_start.c:250
 #, fuzzy
 msgid "Normal"
 msgstr "Ziel"
 
-#: ball/level.c:99 ball/st_start.c:249
+#: ball/level.c:187 ball/st_start.c:249
 msgid "Practice"
 msgstr ""
 
-#: ball/level.c:100
+#: ball/level.c:188
 msgid "Single"
 msgstr ""
 
-#: ball/level.c:111
+#: ball/level.c:199
 msgid "Aborted"
 msgstr ""
 
-#: ball/level.c:112
+#: ball/level.c:200
 msgid "Time-out"
 msgstr ""
 
-#: ball/level.c:113
+#: ball/level.c:201
 #, fuzzy
 msgid "Success"
 msgstr "Punkte"
 
-#: ball/level.c:114
+#: ball/level.c:202
 #, fuzzy
 msgid "Fall-out"
 msgstr "Rausgefallen!"
@@ -139,7 +144,7 @@ msgstr ""
 msgid "Error while loading user high-score file '%s': "
 msgstr ""
 
-#: ball/set.c:126 ball/set.c:223
+#: ball/set.c:126
 #, c-format
 msgid "Incorrect format\n"
 msgstr ""
@@ -164,20 +169,20 @@ msgstr ""
 msgid "B5"
 msgstr ""
 
-#: ball/set.c:219
+#: ball/set.c:158
 #, c-format
-msgid "Error while loading initial high-score file '%s': "
+msgid "Cannot load the set file '%s':"
 msgstr ""
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
 msgstr "Optionen"
 
-#: ball/st_conf.c:235 ball/st_demo.c:470 ball/st_save.c:181 putt/st_conf.c:198
+#: ball/st_conf.c:235 ball/st_demo.c:468 ball/st_save.c:181 putt/st_conf.c:198
 msgid "No"
 msgstr "Nein"
 
-#: ball/st_conf.c:236 ball/st_demo.c:469 ball/st_save.c:180 putt/st_conf.c:199
+#: ball/st_conf.c:236 ball/st_demo.c:467 ball/st_save.c:180 putt/st_conf.c:199
 msgid "Yes"
 msgstr "Ja"
 
@@ -298,29 +303,29 @@ msgstr ""
 msgid "Select Replay"
 msgstr "Replay Auswählen"
 
-#: ball/st_demo.c:395
+#: ball/st_demo.c:393
 msgid "Replay Ends"
 msgstr "Replay Endet"
 
-#: ball/st_demo.c:399
+#: ball/st_demo.c:397
 #, fuzzy
 msgid "Replay Again"
 msgstr "Spieler"
 
-#: ball/st_demo.c:401 ball/st_done.c:88 ball/st_name.c:121
+#: ball/st_demo.c:399 ball/st_done.c:88 ball/st_name.c:121
 #, fuzzy
 msgid "OK"
 msgstr "O"
 
-#: ball/st_demo.c:404
+#: ball/st_demo.c:402
 msgid "Delete"
 msgstr "Löschen"
 
-#: ball/st_demo.c:405
+#: ball/st_demo.c:403
 msgid "Keep"
 msgstr "Behalten"
 
-#: ball/st_demo.c:465
+#: ball/st_demo.c:463
 msgid "Delete Replay?"
 msgstr "Replay Löschen?"
 
@@ -387,7 +392,7 @@ msgstr ""
 msgid "Level "
 msgstr "Level "
 
-#: ball/st_level.c:81
+#: ball/st_level.c:79
 msgid "Cannot load the level file."
 msgstr ""
 
@@ -424,7 +429,7 @@ msgstr "Speichern"
 msgid "Overwrite?"
 msgstr "Überschreiben?"
 
-#: ball/st_set.c:105
+#: ball/st_set.c:111
 msgid "Level Set"
 msgstr "Level Set"
 
@@ -497,7 +502,7 @@ msgstr "Optionen"
 msgid "menu^Exit"
 msgstr "Beenden"
 
-#: ball/st_title.c:215
+#: ball/st_title.c:212
 msgid ""
 "Move the mouse or joystick to tilt the floor\\causing the ball to roll.  "
 "Roll over coins to\\collect them.  Collect coins to unlock the goal\\and "
@@ -507,43 +512,43 @@ msgstr ""
 "bewegen. Rolle über   \\Münzen, um sie aufzusammeln, das Ziel zu öffnen\\und "
 "den Level zu meistern. Für 100 Münzen gibt\\es einen Extra-Ball!\\"
 
-#: ball/st_title.c:221
+#: ball/st_title.c:218
 msgid "Left and right mouse buttons rotate the view."
 msgstr "Die Maustasten lassen die Kamera rotieren."
 
-#: ball/st_title.c:222
+#: ball/st_title.c:219
 msgid "Hold Shift for faster view rotation."
 msgstr "Shift beschleunigt die Rotation."
 
-#: ball/st_title.c:223
+#: ball/st_title.c:220
 msgid "Pause / Release Pointer"
 msgstr "Pause / Mauszeiger freigeben"
 
-#: ball/st_title.c:224
+#: ball/st_title.c:221
 msgid "Exit / Cancel Menu"
 msgstr "Menü Verlassen / Beenden"
 
-#: ball/st_title.c:225
+#: ball/st_title.c:222
 msgid "Chase View"
 msgstr "Verfolgerperspektive"
 
-#: ball/st_title.c:226
+#: ball/st_title.c:223
 msgid "Lazy View"
 msgstr "Faule Perspektive"
 
-#: ball/st_title.c:227
+#: ball/st_title.c:224
 msgid "Manual View"
 msgstr "Manuelle Perspektive"
 
-#: ball/st_title.c:228
+#: ball/st_title.c:225
 msgid "Comments?  Problems?  robert.kooima@gmail.com"
 msgstr "Kommentare?  Probleme?  robert.kooima@gmail.com"
 
-#: ball/st_title.c:230
+#: ball/st_title.c:227
 msgid "Spacebar"
 msgstr "Leertaste"
 
-#: ball/st_title.c:231
+#: ball/st_title.c:228
 msgid "Escape"
 msgstr "Escape"
 
@@ -691,11 +696,20 @@ msgstr "Lettisch"
 msgid "System Default"
 msgstr "Systemeinstellung"
 
-#: data/sets.txt
+#: data/set-easy2.txt
+msgid "Neverball Easy 2"
+msgstr "Neverball Leicht 2"
+
+#: data/set-easy2.txt
+msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
+msgstr ""
+"Schwierigkeitsgrad: Ein zweites leichtes Set.\\\\\\Wird entwickelt.\\\\"
+
+#: data/set-easy.txt
 msgid "Neverball Easy"
 msgstr "Neverball Leicht"
 
-#: data/sets.txt
+#: data/set-easy.txt
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
@@ -703,20 +717,11 @@ msgstr ""
 "Schwierigkeitsgrad: Leicht bis Mittel\\\\25 Levels mit flacher Lernkurve."
 "\\Startbildschirme geben Tipps!\\ \\"
 
-#: data/sets.txt
-msgid "Neverball Easy 2"
-msgstr "Neverball Leicht 2"
-
-#: data/sets.txt
-msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
-msgstr ""
-"Schwierigkeitsgrad: Ein zweites leichtes Set.\\\\\\Wird entwickelt.\\\\"
-
-#: data/sets.txt
+#: data/set-hard.txt
 msgid "Neverball Hard"
 msgstr "Neverball Schwer"
 
-#: data/sets.txt
+#: data/set-hard.txt
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times and Most "
@@ -725,23 +730,11 @@ msgstr ""
 "Schwierigkeitsgrad: Mittel bis Schwer\\\\25 herausfordernde Levels für "
 "erfahrene\\ Spieler. Versuche die Rekorde zu brechen!\\\\"
 
-#: data/sets.txt
-msgid "Mehdi's Levels"
-msgstr "Mehdis Levels"
-
-#: data/sets.txt
-msgid ""
-"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
-"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr ""
-"Schwierigkeitsgrad: Schwer bis Verrückt\\\\25 noch herausforderndere Levels."
-"\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
-
-#: data/sets.txt
+#: data/set-mym2.txt
 msgid "Mehdi's Levels Suite"
 msgstr "Mehdis Levels 2"
 
-#: data/sets.txt
+#: data/set-mym2.txt
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
@@ -749,11 +742,23 @@ msgstr ""
 "Schwierigkeitsgrad: Noch schwerer als Mehdi...\\\\ Mehr Herausforderung, vor "
 "allem im Münzen sammeln.\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
 
-#: data/sets.txt
+#: data/set-mym.txt
+msgid "Mehdi's Levels"
+msgstr "Mehdis Levels"
+
+#: data/set-mym.txt
+msgid ""
+"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
+"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+"Schwierigkeitsgrad: Schwer bis Verrückt\\\\25 noch herausforderndere Levels."
+"\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
+
+#: data/set-paul.txt
 msgid "Paul's levels"
 msgstr ""
 
-#: data/sets.txt
+#: data/set-paul.txt
 msgid ""
 "Difficulty: ? (probably hard through advanced)\\8 levels in beta, for your "
 "dining pleasure.\\Feel free to give me suggestions.\\Author: paul\\\\"

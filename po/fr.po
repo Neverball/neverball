@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-05 17:56+0100\n"
+"POT-Creation-Date: 2006-03-06 15:51+0100\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
@@ -49,35 +49,40 @@ msgstr "Paresseuse"
 msgid "Manual"
 msgstr "Manuelle"
 
-#: ball/level.c:97 ball/st_start.c:252
+#: ball/level.c:132
+#, fuzzy, c-format
+msgid "Not a valid level file\n"
+msgstr "Pas un fichier de film\n"
+
+#: ball/level.c:185 ball/st_start.c:252
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/level.c:98 ball/st_start.c:250
+#: ball/level.c:186 ball/st_start.c:250
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/level.c:99 ball/st_start.c:249
+#: ball/level.c:187 ball/st_start.c:249
 msgid "Practice"
 msgstr "Entraînement"
 
-#: ball/level.c:100
+#: ball/level.c:188
 msgid "Single"
 msgstr "Unique"
 
-#: ball/level.c:111
+#: ball/level.c:199
 msgid "Aborted"
 msgstr "Interrompu"
 
-#: ball/level.c:112
+#: ball/level.c:200
 msgid "Time-out"
 msgstr "Temps écoulé"
 
-#: ball/level.c:113
+#: ball/level.c:201
 msgid "Success"
 msgstr "Succès"
 
-#: ball/level.c:114
+#: ball/level.c:202
 msgid "Fall-out"
 msgstr "Balle perdue"
 
@@ -143,7 +148,7 @@ msgstr "Pas un fichier de film\n"
 msgid "Error while loading user high-score file '%s': "
 msgstr "Erreur lors du chargement du fichier de score « %s » :"
 
-#: ball/set.c:126 ball/set.c:223
+#: ball/set.c:126
 #, c-format
 msgid "Incorrect format\n"
 msgstr "Format incorrect\n"
@@ -168,20 +173,20 @@ msgstr "B4"
 msgid "B5"
 msgstr "B5"
 
-#: ball/set.c:219
-#, c-format
-msgid "Error while loading initial high-score file '%s': "
-msgstr "Erreur lors du chargement du fichier de score initial « %s » : "
+#: ball/set.c:158
+#, fuzzy, c-format
+msgid "Cannot load the set file '%s':"
+msgstr "Le fichier du niveau ne peut être chargé"
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
 msgstr "Options"
 
-#: ball/st_conf.c:235 ball/st_demo.c:470 ball/st_save.c:181 putt/st_conf.c:198
+#: ball/st_conf.c:235 ball/st_demo.c:468 ball/st_save.c:181 putt/st_conf.c:198
 msgid "No"
 msgstr "Non"
 
-#: ball/st_conf.c:236 ball/st_demo.c:469 ball/st_save.c:180 putt/st_conf.c:199
+#: ball/st_conf.c:236 ball/st_demo.c:467 ball/st_save.c:180 putt/st_conf.c:199
 msgid "Yes"
 msgstr "Oui"
 
@@ -300,27 +305,27 @@ msgstr ""
 msgid "Select Replay"
 msgstr "Choisir un film"
 
-#: ball/st_demo.c:395
+#: ball/st_demo.c:393
 msgid "Replay Ends"
 msgstr "Fin du film"
 
-#: ball/st_demo.c:399
+#: ball/st_demo.c:397
 msgid "Replay Again"
 msgstr "Rejouer encore"
 
-#: ball/st_demo.c:401 ball/st_done.c:88 ball/st_name.c:121
+#: ball/st_demo.c:399 ball/st_done.c:88 ball/st_name.c:121
 msgid "OK"
 msgstr "OK"
 
-#: ball/st_demo.c:404
+#: ball/st_demo.c:402
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ball/st_demo.c:405
+#: ball/st_demo.c:403
 msgid "Keep"
 msgstr "Conserver"
 
-#: ball/st_demo.c:465
+#: ball/st_demo.c:463
 msgid "Delete Replay?"
 msgstr "Supprimer le film ?"
 
@@ -384,7 +389,7 @@ msgstr "*** BONUS ***"
 msgid "Level "
 msgstr "Niveau "
 
-#: ball/st_level.c:81
+#: ball/st_level.c:79
 msgid "Cannot load the level file."
 msgstr "Le fichier du niveau ne peut être chargé"
 
@@ -420,7 +425,7 @@ msgstr "Sauver"
 msgid "Overwrite?"
 msgstr "Écraser ?"
 
-#: ball/st_set.c:105
+#: ball/st_set.c:111
 msgid "Level Set"
 msgstr "Collection"
 
@@ -488,7 +493,7 @@ msgstr "Options"
 msgid "menu^Exit"
 msgstr "Quitter"
 
-#: ball/st_title.c:215
+#: ball/st_title.c:212
 msgid ""
 "Move the mouse or joystick to tilt the floor\\causing the ball to roll.  "
 "Roll over coins to\\collect them.  Collect coins to unlock the goal\\and "
@@ -498,43 +503,43 @@ msgstr ""
 "balle de rouler. Récupérez les\\pièces pour débloquer la sortie et finir le "
 "niveau.\\Chaque 100 pièces, vous gagnez une nouvelle balle.\\"
 
-#: ball/st_title.c:221
+#: ball/st_title.c:218
 msgid "Left and right mouse buttons rotate the view."
 msgstr "Les boutons de la souris tournent la vue."
 
-#: ball/st_title.c:222
+#: ball/st_title.c:219
 msgid "Hold Shift for faster view rotation."
 msgstr "Maintenez Shift pour une rotation plus rapide."
 
-#: ball/st_title.c:223
+#: ball/st_title.c:220
 msgid "Pause / Release Pointer"
 msgstr "Pause / Libérer le curseur"
 
-#: ball/st_title.c:224
+#: ball/st_title.c:221
 msgid "Exit / Cancel Menu"
 msgstr "Quitte / Annule"
 
-#: ball/st_title.c:225
+#: ball/st_title.c:222
 msgid "Chase View"
 msgstr "Vue type poursuite"
 
-#: ball/st_title.c:226
+#: ball/st_title.c:223
 msgid "Lazy View"
 msgstr "Vue paresseuse"
 
-#: ball/st_title.c:227
+#: ball/st_title.c:224
 msgid "Manual View"
 msgstr "Vue manuelle"
 
-#: ball/st_title.c:228
+#: ball/st_title.c:225
 msgid "Comments?  Problems?  robert.kooima@gmail.com"
 msgstr "Commentaire ? Problème ? robert.kooima@gmail.com"
 
-#: ball/st_title.c:230
+#: ball/st_title.c:227
 msgid "Spacebar"
 msgstr "Espace"
 
-#: ball/st_title.c:231
+#: ball/st_title.c:228
 msgid "Escape"
 msgstr "Échappe"
 
@@ -681,11 +686,19 @@ msgstr "Letton"
 msgid "System Default"
 msgstr "Défaut du système"
 
-#: data/sets.txt
+#: data/set-easy2.txt
+msgid "Neverball Easy 2"
+msgstr "Neverball Facile 2"
+
+#: data/set-easy2.txt
+msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
+msgstr "Une deuxième fournée de niveau faciles.\\\\\\En travaux.\\\\"
+
+#: data/set-easy.txt
 msgid "Neverball Easy"
 msgstr "Neverball Facile"
 
-#: data/sets.txt
+#: data/set-easy.txt
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
@@ -693,19 +706,11 @@ msgstr ""
 "Difficulté : Débutant à Intermédiaire\\\\25 niveaux pour un apprentissage "
 "progressif.\\Lisez les astuces de jeu de chaque niveau.\\ \\"
 
-#: data/sets.txt
-msgid "Neverball Easy 2"
-msgstr "Neverball Facile 2"
-
-#: data/sets.txt
-msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
-msgstr "Une deuxième fournée de niveau faciles.\\\\\\En travaux.\\\\"
-
-#: data/sets.txt
+#: data/set-hard.txt
 msgid "Neverball Hard"
 msgstr "Neverball Difficile"
 
-#: data/sets.txt
+#: data/set-hard.txt
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times and Most "
@@ -715,23 +720,11 @@ msgstr ""
 "les\\joueurs expérimentés. Essayez d'obtenir\\les meilleurs temps et le plus "
 "de pièces.\\"
 
-#: data/sets.txt
-msgid "Mehdi's Levels"
-msgstr "Les niveaux de Mehdi"
-
-#: data/sets.txt
-msgid ""
-"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
-"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr ""
-"Difficulté : Expert à Dément\\\\25 niveaux et toujours plus de défi."
-"\\Auteur : Mehdi Yousfi-Monod (mym)\\ \\"
-
-#: data/sets.txt
+#: data/set-mym2.txt
 msgid "Mehdi's Levels Suite"
 msgstr "Plus de niveaux de Mehdi"
 
-#: data/sets.txt
+#: data/set-mym2.txt
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
@@ -740,11 +733,23 @@ msgstr ""
 "défi,\\ tout particulièrement pour ramasser les pièces.\\Auteur : Mehdi "
 "Yousfi-Monod (mym)\\ \\"
 
-#: data/sets.txt
+#: data/set-mym.txt
+msgid "Mehdi's Levels"
+msgstr "Les niveaux de Mehdi"
+
+#: data/set-mym.txt
+msgid ""
+"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
+"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+"Difficulté : Expert à Dément\\\\25 niveaux et toujours plus de défi."
+"\\Auteur : Mehdi Yousfi-Monod (mym)\\ \\"
+
+#: data/set-paul.txt
 msgid "Paul's levels"
 msgstr "Les niveaux de Paul"
 
-#: data/sets.txt
+#: data/set-paul.txt
 msgid ""
 "Difficulty: ? (probably hard through advanced)\\8 levels in beta, for your "
 "dining pleasure.\\Feel free to give me suggestions.\\Author: paul\\\\"
@@ -1413,3 +1418,6 @@ msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
 msgstr "Il y a plein de pièces ici si vous\\prenez le temps de les ramasser.\\"
+
+#~ msgid "Error while loading initial high-score file '%s': "
+#~ msgstr "Erreur lors du chargement du fichier de score initial « %s » : "
