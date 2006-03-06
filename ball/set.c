@@ -538,7 +538,10 @@ void level_snap(int i)
 void set_cheat(void)
 /* Open each level of the current set */
 {
+    int i;
     current_set->limit = current_set->count;
+    for (i=0; i < current_set->count; i++)
+	level_v[i].is_locked = 0;
 }
 
 
