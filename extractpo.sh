@@ -50,7 +50,7 @@ echo | cat data/courses.txt - | while read -r d; do
 	# Heuristic: description is non empty line without .txt inside
 	if test -n "$d" && echo "$d" | grep -v ".txt" &> /dev/null; then
 		echo
-		echo "#: $i"
+		echo "#: data/courses.txt"
 		# Convert \ to \\ 
 		echo "msgid \"${d//\\/\\\\}\""
 		echo "msgstr \"\""
@@ -79,4 +79,3 @@ rm .map_list
 echo "# Removing duplicates."
 msguniq -o "$POTFILE" -t UTF-8 "$POTFILE"
 
-# vim:noet:sts=8:
