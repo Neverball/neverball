@@ -25,14 +25,16 @@ export LC_ALL=C
 # First, extract from source
 echo "# Sources"
 > "$POTFILE"
-xgettext --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=sgettext -d "$DOMAIN" --copyright-holder="$COPYRIGHT" --msgid-bugs-address="$BUGADDR" -F -o "$POTFILE" ball/*.[ch] putt/*.[ch] share/*.[ch]
+xgettext --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=sgettext -d "$DOMAIN" --copyright-holder="$COPYRIGHT" --msgid-bugs-address="$BUGADDR" -F -o "$POTFILE" {ball,putt,share}/*.[ch]
 
 # Force encoding to UTF-8
-sed -i "s/charset=CHARSET/charset=UTF-8/" "$POTFILE"
+sed -i "0,/^$/ s/charset=CHARSET/charset=UTF-8/" "$POTFILE"
 
 # Second, extract from neverball sets and neverputt courses
 echo "# Sets and courses"
-for i in data/set-*.txt; do
+for i in $(< data/sets.txt); do
+	i=${i/#/data/}
+
 	# Only translate the two first lines
 	head -2 $i | while read -r d; do
 		echo
@@ -42,19 +44,18 @@ for i in data/set-*.txt; do
 		echo "msgstr \"\""
 	done >> $POTFILE
 done
-for i in data/courses.txt; do
-	# the "echo | cat x -" forces the end of the last line
-	echo | cat "$i" - | while read -r d; do
-		# Heuristic: description is non empty line without .txt inside
-		if test -n "$d" && echo "$d" | grep -v ".txt" > /dev/null 2> /dev/null; then
-			echo
-			echo "#: $i"
-			# Convert \ to \\ 
-			echo "msgid \"${d//\\/\\\\}\""
-			echo "msgstr \"\""
-		fi
-	done >> $POTFILE
-done
+
+# the "echo | cat x -" forces the end of the last line
+echo | cat data/courses.txt - | while read -r d; do
+	# Heuristic: description is non empty line without .txt inside
+	if test -n "$d" && echo "$d" | grep -v ".txt" &> /dev/null; then
+		echo
+		echo "#: $i"
+		# Convert \ to \\ 
+		echo "msgid \"${d//\\/\\\\}\""
+		echo "msgstr \"\""
+	fi
+done >> $POTFILE
 
 # Third, extracts from levels
 echo -n "# Levels: "
@@ -78,3 +79,4 @@ rm .map_list
 echo "# Removing duplicates."
 msguniq -o "$POTFILE" -t UTF-8 "$POTFILE"
 
+# vim:noet:sts=8:
