@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-03-06 15:51+0100\n"
-"PO-Revision-Date: 2006-03-05 20:58+0200\n"
+"PO-Revision-Date: 2006-03-07 05:09+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -51,9 +51,9 @@ msgid "Manual"
 msgstr "Manuāls"
 
 #: ball/level.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "Not a valid level file\n"
-msgstr "Nav ieraksta fails\n"
+msgstr "Nederīgs ieraksta fails\n"
 
 #: ball/level.c:185 ball/st_start.c:252
 msgid "Challenge"
@@ -175,9 +175,9 @@ msgid "B5"
 msgstr "P5"
 
 #: ball/set.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot load the set file '%s':"
-msgstr "Nav iespējams ielādēt līmeņa failu"
+msgstr "Nav iespējams ielādēt komplekta failu"
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
