@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-06 15:51+0100\n"
+"POT-Creation-Date: 2006-03-07 05:10+0200\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -1295,14 +1295,6 @@ msgstr ""
 msgid "Ceci n'est pas une pipe.\\"
 msgstr "Ceci n'est pas une pipe.\\"
 
-#: data/map-rlk/plinko.map
-msgid "Take it slowly.\\"
-msgstr "Eile mit Weile.\\"
-
-#: data/map-rlk/poker.map
-msgid "Slow and steady.\\"
-msgstr "Langsam aber sicher.\\"
-
 #: data/map-rlk/pyramid.map
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
@@ -1310,6 +1302,14 @@ msgid ""
 msgstr ""
 "Du hast pro Stufe nur etwa 15 Sekunden, also\\spute dich. Sammle die Münzen "
 "und\\erreiche den nächsten Schalter.\\"
+
+#: data/map-rlk/plinko.map
+msgid "Take it slowly.\\"
+msgstr "Eile mit Weile.\\"
+
+#: data/map-rlk/poker.map
+msgid "Slow and steady.\\"
+msgstr "Langsam aber sicher.\\"
 
 #: data/map-rlk/quads.map
 msgid "Don't get bullied.\\"
@@ -1341,6 +1341,14 @@ msgstr ""
 "Nimm die Lifte nach oben.\\Sie bewegen sich schnell,\\und werfen den Ball "
 "aus der Bahn.\\Sei vorbereitet zu hüpfen!"
 
+#: data/map-rlk/sync.map
+msgid ""
+"Use the switches to set the platforms\\in motion.  Time it so they come"
+"\\together in the middle.\\"
+msgstr ""
+"Benütze die Schalter um die Plattformen\\ in Bewegung zu versetzen. Achte "
+"auf das Timing,\\so dass sie sich in der Mitte treffen.\\"
+
 #: data/map-rlk/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
@@ -1369,14 +1377,6 @@ msgid ""
 msgstr ""
 "Noch ein Test deiner Hüpfkunst!\\Zu schnelles Hinabsteigen kann fatal enden."
 "\\"
-
-#: data/map-rlk/sync.map
-msgid ""
-"Use the switches to set the platforms\\in motion.  Time it so they come"
-"\\together in the middle.\\"
-msgstr ""
-"Benütze die Schalter um die Plattformen\\ in Bewegung zu versetzen. Achte "
-"auf das Timing,\\so dass sie sich in der Mitte treffen.\\"
 
 #: data/map-rlk/telemaze.map
 msgid ""

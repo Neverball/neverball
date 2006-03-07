@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-06 15:51+0100\n"
-"PO-Revision-Date: 2006-03-07 05:09+0200\n"
+"POT-Creation-Date: 2006-03-07 05:10+0200\n"
+"PO-Revision-Date: 2006-03-07 05:11+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -177,7 +177,7 @@ msgstr "P5"
 #: ball/set.c:158
 #, c-format
 msgid "Cannot load the set file '%s':"
-msgstr "Nav iespējams ielādēt komplekta failu"
+msgstr "Nav iespējams ielādēt komplekta failu '%s':"
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
@@ -1258,14 +1258,6 @@ msgstr ""
 msgid "Ceci n'est pas une pipe.\\"
 msgstr "Ceci n'est pas une pipe.\\"
 
-#: data/map-rlk/plinko.map
-msgid "Take it slowly.\\"
-msgstr "Nesteidzies.\\"
-
-#: data/map-rlk/poker.map
-msgid "Slow and steady.\\"
-msgstr "Lēni un prātīgi.\\"
-
 #: data/map-rlk/pyramid.map
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
@@ -1273,6 +1265,14 @@ msgid ""
 msgstr ""
 "Tev tiek apmēram 15 sekundes katrā posmā,\\tāpēc nekavējies. Savāc monētas "
 "un dodies\\pie nākamā slēdža.\\"
+
+#: data/map-rlk/plinko.map
+msgid "Take it slowly.\\"
+msgstr "Nesteidzies.\\"
+
+#: data/map-rlk/poker.map
+msgid "Slow and steady.\\"
+msgstr "Lēni un prātīgi.\\"
 
 #: data/map-rlk/quads.map
 msgid "Don't get bullied.\\"
@@ -1301,6 +1301,14 @@ msgstr ""
 "Brauc ar pacēlājiem līdz pašai\\augšai. Tie ātri pārvietojas,\\un nedaudz "
 "mētā bumbu.\\Esi gatavs izturēt mērenu palēkāšanu.\\"
 
+#: data/map-rlk/sync.map
+msgid ""
+"Use the switches to set the platforms\\in motion.  Time it so they come"
+"\\together in the middle.\\"
+msgstr ""
+"Izmanto slēdžus, lai liktu platformām\\kustēties. Izvēlies īsto brīdi tā,"
+"\\lai tās vidū satiktos.\\"
+
 #: data/map-rlk/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
@@ -1328,14 +1336,6 @@ msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
 msgstr ""
-
-#: data/map-rlk/sync.map
-msgid ""
-"Use the switches to set the platforms\\in motion.  Time it so they come"
-"\\together in the middle.\\"
-msgstr ""
-"Izmanto slēdžus, lai liktu platformām\\kustēties. Izvēlies īsto brīdi tā,"
-"\\lai tās vidū satiktos.\\"
 
 #: data/map-rlk/telemaze.map
 msgid ""

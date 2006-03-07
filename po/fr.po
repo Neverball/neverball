@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-06 15:51+0100\n"
+"POT-Creation-Date: 2006-03-07 05:10+0200\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
@@ -1285,14 +1285,6 @@ msgstr ""
 msgid "Ceci n'est pas une pipe.\\"
 msgstr "Ceci n'est pas une pipe*.\\\\(*) ndt : en français dans le texte."
 
-#: data/map-rlk/plinko.map
-msgid "Take it slowly.\\"
-msgstr "Vas-y doucement.\\"
-
-#: data/map-rlk/poker.map
-msgid "Slow and steady.\\"
-msgstr "Lent mais ferme.\\"
-
 #: data/map-rlk/pyramid.map
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
@@ -1300,6 +1292,14 @@ msgid ""
 msgstr ""
 "Vous avez environ 15 secondes par étage,\\ne vous retardez donc pas. "
 "Récupérez les pièces et\\accèdez au prochain interrupteur.\\"
+
+#: data/map-rlk/plinko.map
+msgid "Take it slowly.\\"
+msgstr "Vas-y doucement.\\"
+
+#: data/map-rlk/poker.map
+msgid "Slow and steady.\\"
+msgstr "Lent mais ferme.\\"
 
 #: data/map-rlk/quads.map
 msgid "Don't get bullied.\\"
@@ -1331,6 +1331,14 @@ msgstr ""
 "Accédez au sommet grâce aux élévateurs.\\Ils bougent vite,\\et bousculent un "
 "peu la balle.\\Soyez prêt à gérer quelques rebonds."
 
+#: data/map-rlk/sync.map
+msgid ""
+"Use the switches to set the platforms\\in motion.  Time it so they come"
+"\\together in the middle.\\"
+msgstr ""
+"Utilisez les interrupteurs pour synchroniser\\les plate-formes en mouvement. "
+"Débrouillez-vous\\pour qu'elles arrivent au milieu en même temps.\\"
+
 #: data/map-rlk/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
@@ -1361,14 +1369,6 @@ msgid ""
 msgstr ""
 "Encore un test de votre dextérité au rebond.\\Descendre rapidement les "
 "marches \\peut rendre le comportement de la balle hasardeux."
-
-#: data/map-rlk/sync.map
-msgid ""
-"Use the switches to set the platforms\\in motion.  Time it so they come"
-"\\together in the middle.\\"
-msgstr ""
-"Utilisez les interrupteurs pour synchroniser\\les plate-formes en mouvement. "
-"Débrouillez-vous\\pour qu'elles arrivent au milieu en même temps.\\"
 
 #: data/map-rlk/telemaze.map
 msgid ""

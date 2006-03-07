@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-06 15:51+0100\n"
+"POT-Creation-Date: 2006-03-07 05:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1184,18 +1184,18 @@ msgstr ""
 msgid "Ceci n'est pas une pipe.\\"
 msgstr ""
 
+#: data/map-rlk/pyramid.map
+msgid ""
+"You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
+"coins and\\get to the next switch.\\"
+msgstr ""
+
 #: data/map-rlk/plinko.map
 msgid "Take it slowly.\\"
 msgstr ""
 
 #: data/map-rlk/poker.map
 msgid "Slow and steady.\\"
-msgstr ""
-
-#: data/map-rlk/pyramid.map
-msgid ""
-"You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
-"coins and\\get to the next switch.\\"
 msgstr ""
 
 #: data/map-rlk/quads.map
@@ -1223,6 +1223,12 @@ msgid ""
 "a bit.\\Be prepared to handle some bouncing.\\"
 msgstr ""
 
+#: data/map-rlk/sync.map
+msgid ""
+"Use the switches to set the platforms\\in motion.  Time it so they come"
+"\\together in the middle.\\"
+msgstr ""
+
 #: data/map-rlk/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
@@ -1246,12 +1252,6 @@ msgstr ""
 msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
-msgstr ""
-
-#: data/map-rlk/sync.map
-msgid ""
-"Use the switches to set the platforms\\in motion.  Time it so they come"
-"\\together in the middle.\\"
 msgstr ""
 
 #: data/map-rlk/telemaze.map
