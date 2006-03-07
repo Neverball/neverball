@@ -20,6 +20,8 @@ DOMAIN="$2"
 COPYRIGHT="Robert Kooima"
 BUGADDR="robert.kooima@gmail.com"
 
+export LC_ALL=C
+
 # First, extract from source
 echo "# Sources"
 > "$POTFILE"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-07 05:10+0200\n"
+"POT-Creation-Date: 2006-03-07 05:30+0200\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
@@ -686,14 +686,6 @@ msgstr "Letton"
 msgid "System Default"
 msgstr "Défaut du système"
 
-#: data/set-easy2.txt
-msgid "Neverball Easy 2"
-msgstr "Neverball Facile 2"
-
-#: data/set-easy2.txt
-msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
-msgstr "Une deuxième fournée de niveau faciles.\\\\\\En travaux.\\\\"
-
 #: data/set-easy.txt
 msgid "Neverball Easy"
 msgstr "Neverball Facile"
@@ -705,6 +697,14 @@ msgid ""
 msgstr ""
 "Difficulté : Débutant à Intermédiaire\\\\25 niveaux pour un apprentissage "
 "progressif.\\Lisez les astuces de jeu de chaque niveau.\\ \\"
+
+#: data/set-easy2.txt
+msgid "Neverball Easy 2"
+msgstr "Neverball Facile 2"
+
+#: data/set-easy2.txt
+msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
+msgstr "Une deuxième fournée de niveau faciles.\\\\\\En travaux.\\\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -720,6 +720,18 @@ msgstr ""
 "les\\joueurs expérimentés. Essayez d'obtenir\\les meilleurs temps et le plus "
 "de pièces.\\"
 
+#: data/set-mym.txt
+msgid "Mehdi's Levels"
+msgstr "Les niveaux de Mehdi"
+
+#: data/set-mym.txt
+msgid ""
+"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
+"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+"Difficulté : Expert à Dément\\\\25 niveaux et toujours plus de défi."
+"\\Auteur : Mehdi Yousfi-Monod (mym)\\ \\"
+
 #: data/set-mym2.txt
 msgid "Mehdi's Levels Suite"
 msgstr "Plus de niveaux de Mehdi"
@@ -732,18 +744,6 @@ msgstr ""
 "Difficulté : Un petit peu plus dur que ma\\précédente collection. Plus de "
 "défi,\\ tout particulièrement pour ramasser les pièces.\\Auteur : Mehdi "
 "Yousfi-Monod (mym)\\ \\"
-
-#: data/set-mym.txt
-msgid "Mehdi's Levels"
-msgstr "Les niveaux de Mehdi"
-
-#: data/set-mym.txt
-msgid ""
-"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
-"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr ""
-"Difficulté : Expert à Dément\\\\25 niveaux et toujours plus de défi."
-"\\Auteur : Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-paul.txt
 msgid "Paul's levels"
@@ -805,115 +805,6 @@ msgstr ""
 #: data/map-easy2/stairs-jp.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
 msgstr ""
-
-#: data/map-mym2/backforth.map
-msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr "Un va-et-vient frustrant.\\Attention à l'ordre d'activation."
-
-#: data/map-mym2/basket.map
-msgid "Street Neverball\\Choose your party and score 3 points."
-msgstr "Street Neverball\\Choisissez votre camp et alignez 3 points."
-
-#: data/map-mym2/bigball.map
-msgid ""
-"Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
-"challenge."
-msgstr ""
-"Prisonnier de la boule.\\Vivre dans une sphère.\\Récupérer toutes les pièces "
-"bleu est un bon défi."
-
-#: data/map-mym2/bigcones.map
-msgid "Les grands cônes.\\Living in a cone."
-msgstr "Les grands cônes.\\Vivre dans un cône."
-
-#: data/map-mym2/bounces.map
-msgid "Les sauts du célèbre plombier.\\Follow the coins."
-msgstr "Les sauts du célèbre plombier.\\Suivez les pièces."
-
-#: data/map-mym2/fall.map
-msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
-msgstr "Savoir rebondir pour aller plus haut.\\L'arène de Neverball."
-
-#: data/map-mym2/freefall.map
-msgid "Savoir chuter.\\Follow the blue markers."
-msgstr "Savoir chuter.\\Suivez les marques bleues."
-
-#: data/map-mym2/ghosts.map
-msgid "Ghost Valley.\\Make 3 laps to open the goal."
-msgstr "Ghost Valley.\\Faites 3 tours pour déverrouiller la sortie."
-
-#: data/map-mym2/grinder.map
-msgid "Le petit moulin.\\The good timing to go in the cabin."
-msgstr "Le petit moulin.\\Grimpez dans la cabine au bon moment."
-
-#: data/map-mym2/littlecones.map
-msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
-msgstr "Ne pas se laisser emporter dans le néant.\\Ne descendez pas trop bas."
-
-#: data/map-mym2/longpipe.map
-msgid ""
-"Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
-"jump!"
-msgstr ""
-"Si si, ce tuyau a une fin.\\Vivre dans un tuyau.\\Astuce : ralentissez au "
-"dernier petit saut !"
-
-#: data/map-mym2/morenarrow.map
-msgid "Plus dur que la difficulté.\\Good luck."
-msgstr "Plus dur que la difficulté.\\Bonne chance."
-
-#: data/map-mym2/movinglumps.map
-msgid "Être patient.\\Not too hard."
-msgstr "Être patient.\\Pas si dur que ça."
-
-#: data/map-mym2/movingpath.map
-msgid "Le passage éphémère.\\Trust the coins."
-msgstr "Le passage éphémère.\\Faites confiance aux pièces."
-
-#: data/map-mym2/push.map
-msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr "Hé, on pousse pas !\\Pas trop vite, pas trop lentement."
-
-#: data/map-mym2/rainbow.map
-msgid "Rainbow Road.\\Make 3 laps to open the goal."
-msgstr "Rainbow Road.\\Faites 3 tours pour déverrouiller la sortie."
-
-#: data/map-mym2/rodeo.map
-msgid "Le rodéo de Neverball.\\You'll fall quickly."
-msgstr "Le rodéo de Neverball.\\Vous ne tiendrez pas longtemps."
-
-#: data/map-mym2/runstop.map
-msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
-msgstr "J'y vais, ou j'y vais pas ?\\Ne pas hésiter."
-
-#: data/map-mym2/shaker.map
-msgid "Préparez un petit sac.\\The stomach-tester."
-msgstr "Préparez un petit sac.\\Le testeur d'estomac."
-
-#: data/map-mym2/sonic.map
-msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
-msgstr ""
-"Un petit échauffement.\\Bienvenue dans la nouvelle collection de Mehdi !"
-
-#: data/map-mym2/speeddance.map
-msgid "La danse asiatique\\Trust in the arrows."
-msgstr "La danse asiatique\\Faites confiance aux flèches."
-
-#: data/map-mym2/speed.map
-msgid "Plus vite que la vitesse.\\Speedness definition."
-msgstr "Plus vite que la vitesse.\\À fond, à fond, à fond."
-
-#: data/map-mym2/translation.map
-msgid "Suis le mouvement.\\Warning, the road is moving."
-msgstr "Suis le mouvement.\\Attention, la piste se déplace."
-
-#: data/map-mym2/updown.map
-msgid "Tranquille, mais pas trop.\\Sync yourself to the music."
-msgstr "Tranquille, mais pas trop.\\Que la musique guide vos pas."
-
-#: data/map-mym2/webs.map
-msgid "Les toiles attirantes.\\Get out of the webs."
-msgstr "Les toiles attirantes.\\Ne vous laissez pas empêtrer."
 
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
@@ -1041,14 +932,123 @@ msgstr "Le sens trigonométrique.\\Tournez, attendez et sautez."
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
 msgstr "L'ascension pressée.\\Juste un conseil : ne vous arrêtez pas !"
 
-#: data/map-paul/bounce2.map
-msgid "Follow the arrows."
+#: data/map-mym2/backforth.map
+msgid "Un va-et-vient frustrant.\\Remember the activation order."
+msgstr "Un va-et-vient frustrant.\\Attention à l'ordre d'activation."
+
+#: data/map-mym2/basket.map
+msgid "Street Neverball\\Choose your party and score 3 points."
+msgstr "Street Neverball\\Choisissez votre camp et alignez 3 points."
+
+#: data/map-mym2/bigball.map
+msgid ""
+"Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
+"challenge."
 msgstr ""
+"Prisonnier de la boule.\\Vivre dans une sphère.\\Récupérer toutes les pièces "
+"bleu est un bon défi."
+
+#: data/map-mym2/bigcones.map
+msgid "Les grands cônes.\\Living in a cone."
+msgstr "Les grands cônes.\\Vivre dans un cône."
+
+#: data/map-mym2/bounces.map
+msgid "Les sauts du célèbre plombier.\\Follow the coins."
+msgstr "Les sauts du célèbre plombier.\\Suivez les pièces."
+
+#: data/map-mym2/fall.map
+msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
+msgstr "Savoir rebondir pour aller plus haut.\\L'arène de Neverball."
+
+#: data/map-mym2/freefall.map
+msgid "Savoir chuter.\\Follow the blue markers."
+msgstr "Savoir chuter.\\Suivez les marques bleues."
+
+#: data/map-mym2/ghosts.map
+msgid "Ghost Valley.\\Make 3 laps to open the goal."
+msgstr "Ghost Valley.\\Faites 3 tours pour déverrouiller la sortie."
+
+#: data/map-mym2/grinder.map
+msgid "Le petit moulin.\\The good timing to go in the cabin."
+msgstr "Le petit moulin.\\Grimpez dans la cabine au bon moment."
+
+#: data/map-mym2/littlecones.map
+msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
+msgstr "Ne pas se laisser emporter dans le néant.\\Ne descendez pas trop bas."
+
+#: data/map-mym2/longpipe.map
+msgid ""
+"Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
+"jump!"
+msgstr ""
+"Si si, ce tuyau a une fin.\\Vivre dans un tuyau.\\Astuce : ralentissez au "
+"dernier petit saut !"
+
+#: data/map-mym2/morenarrow.map
+msgid "Plus dur que la difficulté.\\Good luck."
+msgstr "Plus dur que la difficulté.\\Bonne chance."
+
+#: data/map-mym2/movinglumps.map
+msgid "Être patient.\\Not too hard."
+msgstr "Être patient.\\Pas si dur que ça."
+
+#: data/map-mym2/movingpath.map
+msgid "Le passage éphémère.\\Trust the coins."
+msgstr "Le passage éphémère.\\Faites confiance aux pièces."
+
+#: data/map-mym2/push.map
+msgid "Hé, on pousse pas !\\Not too fast, not too slow."
+msgstr "Hé, on pousse pas !\\Pas trop vite, pas trop lentement."
+
+#: data/map-mym2/rainbow.map
+msgid "Rainbow Road.\\Make 3 laps to open the goal."
+msgstr "Rainbow Road.\\Faites 3 tours pour déverrouiller la sortie."
+
+#: data/map-mym2/rodeo.map
+msgid "Le rodéo de Neverball.\\You'll fall quickly."
+msgstr "Le rodéo de Neverball.\\Vous ne tiendrez pas longtemps."
+
+#: data/map-mym2/runstop.map
+msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
+msgstr "J'y vais, ou j'y vais pas ?\\Ne pas hésiter."
+
+#: data/map-mym2/shaker.map
+msgid "Préparez un petit sac.\\The stomach-tester."
+msgstr "Préparez un petit sac.\\Le testeur d'estomac."
+
+#: data/map-mym2/sonic.map
+msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
+msgstr ""
+"Un petit échauffement.\\Bienvenue dans la nouvelle collection de Mehdi !"
+
+#: data/map-mym2/speed.map
+msgid "Plus vite que la vitesse.\\Speedness definition."
+msgstr "Plus vite que la vitesse.\\À fond, à fond, à fond."
+
+#: data/map-mym2/speeddance.map
+msgid "La danse asiatique\\Trust in the arrows."
+msgstr "La danse asiatique\\Faites confiance aux flèches."
+
+#: data/map-mym2/translation.map
+msgid "Suis le mouvement.\\Warning, the road is moving."
+msgstr "Suis le mouvement.\\Attention, la piste se déplace."
+
+#: data/map-mym2/updown.map
+msgid "Tranquille, mais pas trop.\\Sync yourself to the music."
+msgstr "Tranquille, mais pas trop.\\Que la musique guide vos pas."
+
+#: data/map-mym2/webs.map
+msgid "Les toiles attirantes.\\Get out of the webs."
+msgstr "Les toiles attirantes.\\Ne vous laissez pas empêtrer."
 
 #: data/map-paul/bounce.map
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
+msgstr ""
+
+#: data/map-paul/bounce2.map
+msgid "Follow the arrows."
 msgstr ""
 
 #: data/map-paul/checkers.map
@@ -1285,14 +1285,6 @@ msgstr ""
 msgid "Ceci n'est pas une pipe.\\"
 msgstr "Ceci n'est pas une pipe*.\\\\(*) ndt : en français dans le texte."
 
-#: data/map-rlk/pyramid.map
-msgid ""
-"You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
-"coins and\\get to the next switch.\\"
-msgstr ""
-"Vous avez environ 15 secondes par étage,\\ne vous retardez donc pas. "
-"Récupérez les pièces et\\accèdez au prochain interrupteur.\\"
-
 #: data/map-rlk/plinko.map
 msgid "Take it slowly.\\"
 msgstr "Vas-y doucement.\\"
@@ -1300,6 +1292,14 @@ msgstr "Vas-y doucement.\\"
 #: data/map-rlk/poker.map
 msgid "Slow and steady.\\"
 msgstr "Lent mais ferme.\\"
+
+#: data/map-rlk/pyramid.map
+msgid ""
+"You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
+"coins and\\get to the next switch.\\"
+msgstr ""
+"Vous avez environ 15 secondes par étage,\\ne vous retardez donc pas. "
+"Récupérez les pièces et\\accèdez au prochain interrupteur.\\"
 
 #: data/map-rlk/quads.map
 msgid "Don't get bullied.\\"
@@ -1331,14 +1331,6 @@ msgstr ""
 "Accédez au sommet grâce aux élévateurs.\\Ils bougent vite,\\et bousculent un "
 "peu la balle.\\Soyez prêt à gérer quelques rebonds."
 
-#: data/map-rlk/sync.map
-msgid ""
-"Use the switches to set the platforms\\in motion.  Time it so they come"
-"\\together in the middle.\\"
-msgstr ""
-"Utilisez les interrupteurs pour synchroniser\\les plate-formes en mouvement. "
-"Débrouillez-vous\\pour qu'elles arrivent au milieu en même temps.\\"
-
 #: data/map-rlk/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
@@ -1369,6 +1361,14 @@ msgid ""
 msgstr ""
 "Encore un test de votre dextérité au rebond.\\Descendre rapidement les "
 "marches \\peut rendre le comportement de la balle hasardeux."
+
+#: data/map-rlk/sync.map
+msgid ""
+"Use the switches to set the platforms\\in motion.  Time it so they come"
+"\\together in the middle.\\"
+msgstr ""
+"Utilisez les interrupteurs pour synchroniser\\les plate-formes en mouvement. "
+"Débrouillez-vous\\pour qu'elles arrivent au milieu en même temps.\\"
 
 #: data/map-rlk/telemaze.map
 msgid ""

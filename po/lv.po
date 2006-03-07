@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-07 05:10+0200\n"
+"POT-Creation-Date: 2006-03-07 05:30+0200\n"
 "PO-Revision-Date: 2006-03-07 05:11+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -687,14 +687,6 @@ msgstr "Latviešu"
 msgid "System Default"
 msgstr "Sistēmas valoda"
 
-#: data/set-easy2.txt
-msgid "Neverball Easy 2"
-msgstr "Vieglie līmeņi 2"
-
-#: data/set-easy2.txt
-msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
-msgstr "Otrais vieglo līmeņu komplekts.\\\\\\Pagaidām tikai top.\\\\"
-
 #: data/set-easy.txt
 msgid "Neverball Easy"
 msgstr "Vieglie līmeņi"
@@ -704,6 +696,14 @@ msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
 msgstr ""
+
+#: data/set-easy2.txt
+msgid "Neverball Easy 2"
+msgstr "Vieglie līmeņi 2"
+
+#: data/set-easy2.txt
+msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
+msgstr "Otrais vieglo līmeņu komplekts.\\\\\\Pagaidām tikai top.\\\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -716,16 +716,6 @@ msgid ""
 "Coins records.\\"
 msgstr ""
 
-#: data/set-mym2.txt
-msgid "Mehdi's Levels Suite"
-msgstr "Mehdi kolekcija"
-
-#: data/set-mym2.txt
-msgid ""
-"Difficulty: A little bit harder than my first set.\\\\More challenge, "
-"particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr ""
-
 #: data/set-mym.txt
 msgid "Mehdi's Levels"
 msgstr "Mehdi līmeņi"
@@ -734,6 +724,16 @@ msgstr "Mehdi līmeņi"
 msgid ""
 "Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
 "\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+
+#: data/set-mym2.txt
+msgid "Mehdi's Levels Suite"
+msgstr "Mehdi kolekcija"
+
+#: data/set-mym2.txt
+msgid ""
+"Difficulty: A little bit harder than my first set.\\\\More challenge, "
+"particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
 
 #: data/set-paul.txt
@@ -794,114 +794,6 @@ msgstr ""
 #: data/map-easy2/stairs-jp.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
 msgstr "Krītamkāpnes.\\Sāpīgi."
-
-#: data/map-mym2/backforth.map
-msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr "Un va-et-vient frustrant.\\Paturi prātā secību."
-
-#: data/map-mym2/basket.map
-msgid "Street Neverball\\Choose your party and score 3 points."
-msgstr "Street Neverball\\Izvēlies komandu un gūsti 3 punktus."
-
-#: data/map-mym2/bigball.map
-msgid ""
-"Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
-"challenge."
-msgstr ""
-"Prisonnier de la boule.\\Dzīve lodē.\\Zilo monētu savākšana ir īsts "
-"izaicinājums."
-
-#: data/map-mym2/bigcones.map
-msgid "Les grands cônes.\\Living in a cone."
-msgstr "Les grands cônes.\\Dzīve konusā."
-
-#: data/map-mym2/bounces.map
-msgid "Les sauts du célèbre plombier.\\Follow the coins."
-msgstr "Les sauts du célèbre plombier.\\Seko monētām."
-
-#: data/map-mym2/fall.map
-msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
-msgstr "Savoir rebondir pour aller plus haut.\\Neverball Arēna."
-
-#: data/map-mym2/freefall.map
-msgid "Savoir chuter.\\Follow the blue markers."
-msgstr "Savoir chuter.\\Seko zilajām atzīmēm."
-
-#: data/map-mym2/ghosts.map
-msgid "Ghost Valley.\\Make 3 laps to open the goal."
-msgstr "Spoku ieleja.\\Veic 3 apļus, lai atvērtu mērķi."
-
-#: data/map-mym2/grinder.map
-msgid "Le petit moulin.\\The good timing to go in the cabin."
-msgstr "Le petit moulin.\\Notver īsto brīdi iekāpšanai kabīnē."
-
-#: data/map-mym2/littlecones.map
-msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
-msgstr "Ne pas se laisser emporter dans le néant.\\Nenolaidies pārāk zemu."
-
-#: data/map-mym2/longpipe.map
-msgid ""
-"Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
-"jump!"
-msgstr ""
-"Si si, ce tuyau a une fin.\\Dzīve caurulē.\\Padoms: samazini ātrumu pēdējam "
-"lēcienam."
-
-#: data/map-mym2/morenarrow.map
-msgid "Plus dur que la difficulté.\\Good luck."
-msgstr "Plus dur que la difficulté.\\Lai veicas."
-
-#: data/map-mym2/movinglumps.map
-msgid "Être patient.\\Not too hard."
-msgstr "Être patient.\\Nav pārāk grūti."
-
-#: data/map-mym2/movingpath.map
-msgid "Le passage éphémère.\\Trust the coins."
-msgstr "Le passage éphémère.\\Uzticies monētām."
-
-#: data/map-mym2/push.map
-msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr "Hé, on pousse pas !\\Ne pārāk ātri, ne pārāk lēni."
-
-#: data/map-mym2/rainbow.map
-msgid "Rainbow Road.\\Make 3 laps to open the goal."
-msgstr "Varavīkšņu ceļš.\\Veic 3 apļus, lai atvērtu mērķi."
-
-#: data/map-mym2/rodeo.map
-msgid "Le rodéo de Neverball.\\You'll fall quickly."
-msgstr "Le rodéo de Neverball.\\Tu ātri kritīsi."
-
-#: data/map-mym2/runstop.map
-msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
-msgstr "J'y vais, ou j'y vais pas ?\\Neuztraucies."
-
-#: data/map-mym2/shaker.map
-msgid "Préparez un petit sac.\\The stomach-tester."
-msgstr "Préparez un petit sac.\\Vēderbaude."
-
-#: data/map-mym2/sonic.map
-msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
-msgstr "Un petit échauffement.\\Lūgtum jaunajā Mehdi komplektā!"
-
-#: data/map-mym2/speeddance.map
-msgid "La danse asiatique\\Trust in the arrows."
-msgstr "La danse asiatique\\Uzticies bultām."
-
-#: data/map-mym2/speed.map
-msgid "Plus vite que la vitesse.\\Speedness definition."
-msgstr "Plus vite que la vitesse.\\Ātruma definīcija."
-
-#: data/map-mym2/translation.map
-msgid "Suis le mouvement.\\Warning, the road is moving."
-msgstr "Suis le mouvement.\\Uzmanību, kustīgs ceļš."
-
-#: data/map-mym2/updown.map
-msgid "Tranquille, mais pas trop.\\Sync yourself to the music."
-msgstr "Tranquille, mais pas trop.\\Pieskaņojies mūzikas ritmam."
-
-#: data/map-mym2/webs.map
-msgid "Les toiles attirantes.\\Get out of the webs."
-msgstr "Les toiles attirantes.\\Tiec ārā no tīkliem."
 
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
@@ -1033,14 +925,122 @@ msgstr "Le sens trigonométrique.\\Griezies, gaidi, un lec."
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
 msgstr "L'ascension pressée.\\Tikai viens ieteikums: neapstājies!"
 
-#: data/map-paul/bounce2.map
-msgid "Follow the arrows."
+#: data/map-mym2/backforth.map
+msgid "Un va-et-vient frustrant.\\Remember the activation order."
+msgstr "Un va-et-vient frustrant.\\Paturi prātā secību."
+
+#: data/map-mym2/basket.map
+msgid "Street Neverball\\Choose your party and score 3 points."
+msgstr "Street Neverball\\Izvēlies komandu un gūsti 3 punktus."
+
+#: data/map-mym2/bigball.map
+msgid ""
+"Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
+"challenge."
 msgstr ""
+"Prisonnier de la boule.\\Dzīve lodē.\\Zilo monētu savākšana ir īsts "
+"izaicinājums."
+
+#: data/map-mym2/bigcones.map
+msgid "Les grands cônes.\\Living in a cone."
+msgstr "Les grands cônes.\\Dzīve konusā."
+
+#: data/map-mym2/bounces.map
+msgid "Les sauts du célèbre plombier.\\Follow the coins."
+msgstr "Les sauts du célèbre plombier.\\Seko monētām."
+
+#: data/map-mym2/fall.map
+msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
+msgstr "Savoir rebondir pour aller plus haut.\\Neverball Arēna."
+
+#: data/map-mym2/freefall.map
+msgid "Savoir chuter.\\Follow the blue markers."
+msgstr "Savoir chuter.\\Seko zilajām atzīmēm."
+
+#: data/map-mym2/ghosts.map
+msgid "Ghost Valley.\\Make 3 laps to open the goal."
+msgstr "Spoku ieleja.\\Veic 3 apļus, lai atvērtu mērķi."
+
+#: data/map-mym2/grinder.map
+msgid "Le petit moulin.\\The good timing to go in the cabin."
+msgstr "Le petit moulin.\\Notver īsto brīdi iekāpšanai kabīnē."
+
+#: data/map-mym2/littlecones.map
+msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
+msgstr "Ne pas se laisser emporter dans le néant.\\Nenolaidies pārāk zemu."
+
+#: data/map-mym2/longpipe.map
+msgid ""
+"Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
+"jump!"
+msgstr ""
+"Si si, ce tuyau a une fin.\\Dzīve caurulē.\\Padoms: samazini ātrumu pēdējam "
+"lēcienam."
+
+#: data/map-mym2/morenarrow.map
+msgid "Plus dur que la difficulté.\\Good luck."
+msgstr "Plus dur que la difficulté.\\Lai veicas."
+
+#: data/map-mym2/movinglumps.map
+msgid "Être patient.\\Not too hard."
+msgstr "Être patient.\\Nav pārāk grūti."
+
+#: data/map-mym2/movingpath.map
+msgid "Le passage éphémère.\\Trust the coins."
+msgstr "Le passage éphémère.\\Uzticies monētām."
+
+#: data/map-mym2/push.map
+msgid "Hé, on pousse pas !\\Not too fast, not too slow."
+msgstr "Hé, on pousse pas !\\Ne pārāk ātri, ne pārāk lēni."
+
+#: data/map-mym2/rainbow.map
+msgid "Rainbow Road.\\Make 3 laps to open the goal."
+msgstr "Varavīkšņu ceļš.\\Veic 3 apļus, lai atvērtu mērķi."
+
+#: data/map-mym2/rodeo.map
+msgid "Le rodéo de Neverball.\\You'll fall quickly."
+msgstr "Le rodéo de Neverball.\\Tu ātri kritīsi."
+
+#: data/map-mym2/runstop.map
+msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
+msgstr "J'y vais, ou j'y vais pas ?\\Neuztraucies."
+
+#: data/map-mym2/shaker.map
+msgid "Préparez un petit sac.\\The stomach-tester."
+msgstr "Préparez un petit sac.\\Vēderbaude."
+
+#: data/map-mym2/sonic.map
+msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
+msgstr "Un petit échauffement.\\Lūgtum jaunajā Mehdi komplektā!"
+
+#: data/map-mym2/speed.map
+msgid "Plus vite que la vitesse.\\Speedness definition."
+msgstr "Plus vite que la vitesse.\\Ātruma definīcija."
+
+#: data/map-mym2/speeddance.map
+msgid "La danse asiatique\\Trust in the arrows."
+msgstr "La danse asiatique\\Uzticies bultām."
+
+#: data/map-mym2/translation.map
+msgid "Suis le mouvement.\\Warning, the road is moving."
+msgstr "Suis le mouvement.\\Uzmanību, kustīgs ceļš."
+
+#: data/map-mym2/updown.map
+msgid "Tranquille, mais pas trop.\\Sync yourself to the music."
+msgstr "Tranquille, mais pas trop.\\Pieskaņojies mūzikas ritmam."
+
+#: data/map-mym2/webs.map
+msgid "Les toiles attirantes.\\Get out of the webs."
+msgstr "Les toiles attirantes.\\Tiec ārā no tīkliem."
 
 #: data/map-paul/bounce.map
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
+msgstr ""
+
+#: data/map-paul/bounce2.map
+msgid "Follow the arrows."
 msgstr ""
 
 #: data/map-paul/checkers.map
@@ -1258,14 +1258,6 @@ msgstr ""
 msgid "Ceci n'est pas une pipe.\\"
 msgstr "Ceci n'est pas une pipe.\\"
 
-#: data/map-rlk/pyramid.map
-msgid ""
-"You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
-"coins and\\get to the next switch.\\"
-msgstr ""
-"Tev tiek apmēram 15 sekundes katrā posmā,\\tāpēc nekavējies. Savāc monētas "
-"un dodies\\pie nākamā slēdža.\\"
-
 #: data/map-rlk/plinko.map
 msgid "Take it slowly.\\"
 msgstr "Nesteidzies.\\"
@@ -1273,6 +1265,14 @@ msgstr "Nesteidzies.\\"
 #: data/map-rlk/poker.map
 msgid "Slow and steady.\\"
 msgstr "Lēni un prātīgi.\\"
+
+#: data/map-rlk/pyramid.map
+msgid ""
+"You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
+"coins and\\get to the next switch.\\"
+msgstr ""
+"Tev tiek apmēram 15 sekundes katrā posmā,\\tāpēc nekavējies. Savāc monētas "
+"un dodies\\pie nākamā slēdža.\\"
 
 #: data/map-rlk/quads.map
 msgid "Don't get bullied.\\"
@@ -1301,14 +1301,6 @@ msgstr ""
 "Brauc ar pacēlājiem līdz pašai\\augšai. Tie ātri pārvietojas,\\un nedaudz "
 "mētā bumbu.\\Esi gatavs izturēt mērenu palēkāšanu.\\"
 
-#: data/map-rlk/sync.map
-msgid ""
-"Use the switches to set the platforms\\in motion.  Time it so they come"
-"\\together in the middle.\\"
-msgstr ""
-"Izmanto slēdžus, lai liktu platformām\\kustēties. Izvēlies īsto brīdi tā,"
-"\\lai tās vidū satiktos.\\"
-
 #: data/map-rlk/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
@@ -1336,6 +1328,14 @@ msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
 msgstr ""
+
+#: data/map-rlk/sync.map
+msgid ""
+"Use the switches to set the platforms\\in motion.  Time it so they come"
+"\\together in the middle.\\"
+msgstr ""
+"Izmanto slēdžus, lai liktu platformām\\kustēties. Izvēlies īsto brīdi tā,"
+"\\lai tās vidū satiktos.\\"
 
 #: data/map-rlk/telemaze.map
 msgid ""
