@@ -101,6 +101,8 @@ static int level_scan_metadata(struct level *l, char * av)
 	    l->version = atoi(v);
 	else if (CASE("author"))
 	    strcpy(l->author, v);
+	else if (CASE("special"))
+	    l->is_bonus = atoi(v);
 	/*else
 	    fprintf(stderr, "File %s, ignore %s metadata.\n", l->file, c);*/
 

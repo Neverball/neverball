@@ -80,21 +80,13 @@ static void gui_level(int id, int i)
 	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_wht, gui_grn);
     }
     else
-    {
-	if (! l->is_bonus)
-	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_gry);
-	else if (set_extra_bonus_opened(s))
-	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_grn);
-	else
-	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_gry);
-    }
+	jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_gry);
     
     gui_active(jd, i, 0);
 }
 
 static void start_over_level(i)
 {
-    const struct set *s   = curr_set();
     const struct level *l = get_level(i);
     if (! l->is_locked)
     {
@@ -124,8 +116,8 @@ static void start_over_level(i)
 	}
 	return;
     }
-    else if (l->is_bonus && !set_extra_bonus_opened(s))
-	gui_set_label(status_id, _("Finish challenge mode to unlock extra bonus levels"));
+    else if (l->is_bonus)
+	gui_set_label(status_id, _("Play in challenge mode to unlock extra bonus levels"));
     else
 	gui_set_label(status_id, _("Finish previous levels to unlock this level"));
 }

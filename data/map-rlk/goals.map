@@ -5,6 +5,8 @@
 "levelname" "goals-rlk"
 "version"   "1"
 
+"special"   "1"
+
 "back"      "map-back/ocean.sol"
 "grad"      "back/ocean.png"
 "shot"      "shot-rlk/goals.jpg"

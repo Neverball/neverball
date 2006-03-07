@@ -49,19 +49,22 @@ static void set_store_hs(void)
     FILE *fout;
     int i;
     const struct level *l;
-    int lim = s->limit;
     
-    if (lim <= s->count)
-	lim = s->count - 1;
-
     if ((fout = fopen(config_user(s->user_scores), "w")))
     {
-	fprintf(fout, "%d\n", s->limit);
+	int code = 0;
+	for (i = s->count - 1 ; i >=0 ; i--)
+	{
+	    code <<= 1;
+	    if (!level_v[i].is_locked)
+	         code |= 1;
+	}
+	fprintf(fout, "%d\n", code);
 	
 	put_score(fout, &s->time_score);
 	put_score(fout, &s->coin_score);
 
-	for (i = 0 ; i <= lim ; i++)
+	for (i = 0 ; i < s->count ; i++)
 	{
 	    l = &level_v[i];
 	    put_score(fout, &l->time_score);
@@ -94,19 +97,22 @@ static void set_load_hs(void)
     int res = 0;
     struct level *l;
     const char *fn = config_user(s->user_scores);
-    int lim;
 
     if ((fin = fopen(fn, "r")))
     {
-        res = (fscanf(fin, "%d\n", &lim) == 1) &&
-	    s->limit == lim &&
+	int code = 0;
+        res = (fscanf(fin, "%d\n", &code) == 1);
+	for (i = 0 ; i < s->count ; i++)
+	{
+	    if (code & 1)
+	        level_v[i].is_locked = 0;
+	    code >>= 1;
+	}
+        res = res && (code != 0) &&
 	    get_score(fin, &s->time_score) &&
 	    get_score(fin, &s->coin_score);
 	
-        if (lim >= s->count)
-	    lim = s->count - 1;
-	
-	for (i = 0; i <= lim && res; i++)
+	for (i = 0; i <= s->count && res; i++)
 	{
 	    l = &level_v[i];
 	    res = get_score(fin, &l->time_score) &&
@@ -126,14 +132,6 @@ static void set_load_hs(void)
 	    fprintf(stderr, _("Incorrect format\n"));
     }
 }
-
-static const char * numbernames[] = {
-	"01", "02", "03", "04", "05",
-	"06", "07", "08", "09", "10",
-	"11", "12", "13", "14", "15",
-	"16", "17", "18", "19", "20",
-	N_("B1"), N_("B2"), N_("B3"), N_("B4"), N_("B5")};
-
 
 static char* chomp(char *str)
 /* Remove trailing \n if any */
@@ -203,7 +201,7 @@ static int set_load(struct set *s, const char *filename)
     fclose(fin);
 
     /* Load the level limit (stored in the user highscore file) */
-    
+   /* 
     s->limit = 0;
     
     if ((fin = fopen(config_user(s->user_scores), "r")))
@@ -212,7 +210,7 @@ static int set_load(struct set *s, const char *filename)
 	if (s->limit > s->count)
 	    s->limit = 0;
 	fclose(fin);
-    }
+    }*/
 
     return 1;
 }
@@ -271,16 +269,10 @@ const struct set *get_set(int i)
 
 /*---------------------------------------------------------------------------*/
 
-int  set_extra_bonus_opened(const struct set *s)
-/* Are extra bonus openned (ie challenge completed)? */
-{
-    return s->limit >= 20;
-}
-
 int  set_completed(const struct set *s)
 /* Are all levels (even extra bonus) completed? */
 {
-    return s->limit >= s->count;
+    return 0; /*s->limit >= s->count;*/
 }
 
 int  set_level_exists(const struct set *s, int i)
@@ -300,6 +292,7 @@ static void set_load_levels(void)
     struct level * l;
 
     int i=0, res;
+    int nb=1, bnb=1;
     
     fin = fopen(current_set->file, "r");
     assert(fin != NULL);
@@ -320,9 +313,11 @@ static void set_load_levels(void)
 	/* Initialize set related info */
 	l->set        = current_set;
 	l->number     = i;
-	l->numbername = numbernames[i];
-	l->is_locked  = i > current_set->limit;
-	l->is_bonus   = i >= 20;
+	if (l->is_bonus)
+	    sprintf(l->numbername, "B%d", bnb++);
+	else
+	    sprintf(l->numbername, "%02d", nb++);
+	l->is_locked  = 1; /*i > current_set->limit;*/
     }	
     fclose(fin);
     assert(i == current_set->count);
@@ -485,7 +480,7 @@ void set_finish_level(struct level_game *lg, const char *player)
     level++; /* level is the next level */
     
     /* if the next level is not oppened */
-    if (s->limit < level)
+    if (level_v[level].is_locked)
         if ((lg->mode == MODE_CHALLENGE) ||
 		(lg->mode == MODE_NORMAL && (level < 20 || level > 20)))
 	{
@@ -497,7 +492,7 @@ void set_finish_level(struct level_game *lg, const char *player)
     /* got the next level */ 
     if (lg->mode == MODE_CHALLENGE && level >= 20)
 	lg->next_level = NULL; /* End the challenge */
-    else if (level < s->count && level <= s->limit)
+    else if (level < s->count && !level_v[level].is_locked)
 	lg->next_level = &level_v[level];
     else
 	lg->next_level = NULL;
@@ -539,7 +534,6 @@ void set_cheat(void)
 /* Open each level of the current set */
 {
     int i;
-    current_set->limit = current_set->count;
     for (i=0; i < current_set->count; i++)
 	level_v[i].is_locked = 0;
 }

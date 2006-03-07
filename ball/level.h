@@ -43,7 +43,7 @@ struct level
     
     struct set * set;       /* set (NULL in single mode) */
     int number;             /* level number in the set */
-    const char *numbername; /* string representation of the number (eg. B1) */
+    char numbername[3];     /* string representation of the number (eg. B1) */
     int is_locked;          /* Is the level unplayable */
     int is_bonus;           /* Is the level an extra-bonus level? */ 
     

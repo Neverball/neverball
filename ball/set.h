@@ -30,7 +30,6 @@ struct set
     /* levels info */
     
     int count;	              /* number of levels */
-    int limit;	              /* last opened level */
 };
 
 /*---------------------------------------------------------------------------*/
@@ -42,7 +41,6 @@ const struct set *get_set(int);
 
 /*---------------------------------------------------------------------------*/
 
-int  set_extra_bonus_opened(const struct set *);
 int  set_completed(const struct set *);
 
 int  set_level_exists(const struct set *, int);
