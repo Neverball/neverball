@@ -73,11 +73,11 @@ static void gui_set(int id, int i)
     const struct set *s = get_set(i);
     int jd;
     
-/*    if (set_completed(s)) 
+    if (set_completed(s)) 
 	jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_yel, gui_wht);
-    else if (set_extra_bonus_opened(s)) 
+    else if (set_unlocked(s)) 
 	jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_grn, gui_wht);
-    else*/
+    else
 	jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_wht, gui_wht);
     
     gui_active(jd, i, 0);

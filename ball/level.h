@@ -46,6 +46,8 @@ struct level
     char numbername[3];     /* string representation of the number (eg. B1) */
     int is_locked;          /* Is the level unplayable */
     int is_bonus;           /* Is the level an extra-bonus level? */ 
+    int is_completed;       /* Is the level goal terminated? */ 
+    int is_last;            /* Is the level the last of the set? */ 
     
     /* Other metadata (files are relative the data file) */
     
