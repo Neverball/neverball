@@ -16,6 +16,8 @@
 "time_hs"   "700 900"
 "coin_hs"   "96 80"
 "message" "Prisonnier de la boule.\Living in a sphere.\Catching all blue coins is a challenge."
+
+"special" "1"
 // brush 0
 {
 ( -32 32 0 ) ( -32 0 0 ) ( -32 0 -8 ) mtrl/dark-glass 0 -16 0 0.5 0.5 0 0 0

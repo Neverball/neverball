@@ -16,6 +16,8 @@
 "time_hs"   "1800 4000"
 "coin_hs"   "20 10"
 "message" "Savoir chuter.\Follow the blue markers."
+
+"special" "1"
 // brush 0
 {
 ( 548 992 1284 ) ( 548 984 1284 ) ( 540 992 1284 ) mtrl/blue 0 0 0 0.5 0.5 134217728 0 0

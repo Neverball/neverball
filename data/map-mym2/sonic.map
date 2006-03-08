@@ -2,19 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "sonic-mym"
-"version"   "1"
-
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
-"shot"      "shot-mym2/sonic.jpg"
-"song"      "bgm/track3.ogg"
-"time"      "6000"
-"goal"      "8"
-
-"time_hs"   "2600 3000"
-"coin_hs"   "128 48"
+"version" "1"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
+"shot" "shot-mym2/sonic.jpg"
+"song" "bgm/track3.ogg"
+"time" "6000"
+"goal" "8"
+"time_hs" "2600 3000"
+"coin_hs" "128 48"
 "message" "Un petit échauffement.\Welcome to the new Mehdi's set!"
 // brush 0
 {
@@ -4608,6 +4606,24 @@
 ( 1120 1488 -584 ) ( 1120 1456 -584 ) ( 1248 1488 -584 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( 1120 1536 -640 ) ( 1248 1536 -640 ) ( 1120 1536 -512 ) mtrl/edge-green-grey-offset 128 0 0 0.25 0.5 0 0 0
 }
+// brush 507
+{
+( 7232 1344 -576 ) ( 7232 1216 -576 ) ( 7104 1344 -576 ) mtrl/turf-small-green 0 0 0 0.5 0.5 0 0 0
+( 7232 1344 -576 ) ( 7104 1344 -576 ) ( 7232 1344 -584 ) mtrl/edge2-green-small 0 16 0 0.5 0.5 0 0 0
+( 7232 1344 -576 ) ( 7232 1344 -584 ) ( 7232 1216 -576 ) mtrl/edge2-green-small 0 16 0 0.5 0.5 0 0 0
+( 7104 1216 -584 ) ( 7232 1216 -584 ) ( 7104 1344 -584 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+( 7104 1216 -584 ) ( 7104 1216 -576 ) ( 7232 1216 -584 ) mtrl/edge2-green-small 0 16 0 0.5 0.5 0 0 0
+( 7104 1216 -584 ) ( 7104 1344 -584 ) ( 7104 1216 -576 ) mtrl/edge2-green-small 0 16 0 0.5 0.5 0 0 0
+}
+// brush 508
+{
+( 7231 1344 -575 ) ( 7231 1224 -575 ) ( 7103 1344 -575 ) mtrl/goal 128 128 0 -0.5 0.5 134217728 0 0
+( 7232 1344 -568 ) ( 7104 1344 -568 ) ( 7232 1344 -576 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 7232 1344 -568 ) ( 7232 1344 -576 ) ( 7232 1224 -568 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 7104 1224 -576 ) ( 7232 1224 -576 ) ( 7104 1344 -576 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 7104 1216 -576 ) ( 7104 1216 -568 ) ( 7232 1216 -576 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 7104 1224 -576 ) ( 7104 1344 -576 ) ( 7104 1224 -568 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+}
 }
 // entity 1
 {
@@ -4996,6 +5012,7 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "-768 2112 1120"
+"skip" "1"
 }
 // entity 57
 {
@@ -5008,4 +5025,9 @@
 "classname" "info_player_intermission"
 "origin" "528 -496 -1328"
 "target" "t4"
+}
+// entity 59
+{
+"classname" "info_player_deathmatch"
+"origin" "7168 1280 -552"
 }

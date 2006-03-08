@@ -16,6 +16,8 @@
 "time_hs"   "210 400"
 "coin_hs"   "80 40"
 "message" "Le rodéo de Neverball.\You'll fall quickly."
+
+"special" "1"
 // brush 0
 {
 ( 513 512 -287 ) ( 513 -512 -287 ) ( -511 512 -287 ) mtrl/goal 128 128 0 -7.5 7.5 134217728 0 0
