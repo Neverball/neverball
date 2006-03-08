@@ -16,6 +16,8 @@
 "time_hs"   "800 1200"
 "coin_hs"   "100 80"
 "message" "La descente rafraîchissante.\Not so fast, not so fast."
+
+"special" "1"
 // brush 0
 {
 ( -384 64 16 ) ( -384 -64 16 ) ( -384 -64 0 ) mtrl/dark-glass 0 0 0 0.5 0.5 0 0 0

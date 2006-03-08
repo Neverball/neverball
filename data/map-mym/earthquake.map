@@ -16,6 +16,8 @@
 "time_hs"   "1000 2000"
 "coin_hs"   "118 90"
 "message" "Le passage incertain.\Isn't too easy?"
+
+"special" "1"
 }
 // entity 1
 {

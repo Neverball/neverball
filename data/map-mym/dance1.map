@@ -16,6 +16,8 @@
 "time_hs"   "9000 9000"
 "coin_hs"   "90 70"
 "message" "La ballade dansante.\Let's dance on the moving platform!\Tip: After activating the last moving platform,\ turn around the Thwomp until the goal is reachable."
+
+"special" "1"
 // brush 0
 {
 ( 8 448 -16 ) ( -8 448 -16 ) ( -8 -8 -16 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0

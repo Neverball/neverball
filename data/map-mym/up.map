@@ -16,6 +16,8 @@
 "time_hs"   "1500 1700"
 "coin_hs"   "182 170"
 "message" "L'ascension pressée.\Only one piece of advice: don't stop!"
+
+"special" "1"
 // brush 0
 {
 ( 64 704 -8 ) ( -64 704 -8 ) ( -64 384 -8 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

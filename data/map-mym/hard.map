@@ -2,19 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "hard-mym"
-"version"   "1"
-
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
-"shot"      "shot-mym/hard.jpg"
-"song"      "bgm/track2.ogg"
-"time"      "9000"
-"goal"      "0"
-
-"time_hs"   "4600 5000"
-"coin_hs"   "0 0"
+"version" "1"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
+"shot" "shot-mym/hard.jpg"
+"song" "bgm/track2.ogg"
+"time" "9000"
+"goal" "0"
+"time_hs" "4600 5000"
+"coin_hs" "0 0"
 "message" "La maîtrise de Neverball.\You still think Neverball is too easy?"
 // brush 0
 {
@@ -2286,12 +2284,12 @@
 }
 // brush 252
 {
-( 8768 8730 1120 ) ( 8768 8874 1120 ) ( 8624 8874 1120 ) mtrl/invisible -9 95 -90 0.5 0.5 0 0 0
-( 8625 8874 1121 ) ( 8769 8874 1121 ) ( 8769 8730 1121 ) mtrl/goal -52 129 90 0.5 -0.5 0 0 0
-( 8640 8874 1136 ) ( 8640 8730 1136 ) ( 8640 8730 1120 ) mtrl/invisible -12 0 -180 0.5 -0.5 0 0 0
-( 8624 8730 1136 ) ( 8768 8730 1136 ) ( 8768 8730 1120 ) mtrl/invisible -96 0 0 0.5 0.5 0 0 0
-( 8768 8730 1136 ) ( 8768 8874 1136 ) ( 8768 8874 1120 ) mtrl/invisible -12 0 -180 0.5 -0.5 0 0 0
-( 8768 8858 1136 ) ( 8624 8858 1136 ) ( 8624 8858 1120 ) mtrl/invisible -97 0 0 0.5 0.5 0 0 0
+( 8768 8730 1120 ) ( 8768 8874 1120 ) ( 8624 8874 1120 ) mtrl/invisible -9 95 -90 0.5 0.5 134217728 0 0
+( 8625 8874 1121 ) ( 8769 8874 1121 ) ( 8769 8730 1121 ) mtrl/goal -52 129 90 0.5 -0.5 134217728 0 0
+( 8640 8874 1136 ) ( 8640 8730 1136 ) ( 8640 8730 1120 ) mtrl/invisible -12 0 -180 0.5 -0.5 134217728 0 0
+( 8624 8730 1136 ) ( 8768 8730 1136 ) ( 8768 8730 1120 ) mtrl/invisible -96 0 0 0.5 0.5 134217728 0 0
+( 8768 8730 1136 ) ( 8768 8874 1136 ) ( 8768 8874 1120 ) mtrl/invisible -12 0 -180 0.5 -0.5 134217728 0 0
+( 8768 8858 1136 ) ( 8624 8858 1136 ) ( 8624 8858 1120 ) mtrl/invisible -97 0 0 0.5 0.5 134217728 0 0
 }
 // brush 253
 {

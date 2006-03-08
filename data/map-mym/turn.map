@@ -2,19 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "turn-mym"
-"version"   "1"
-
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
-"shot"      "shot-mym/turn.jpg"
-"song"      "bgm/track2.ogg"
-"time"      "9000"
-"goal"      "60"
-
-"time_hs"   "4100 6000"
-"coin_hs"   "114 64"
+"version" "1"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
+"shot" "shot-mym/turn.jpg"
+"song" "bgm/track2.ogg"
+"time" "9000"
+"goal" "60"
+"time_hs" "4100 6000"
+"coin_hs" "114 64"
 "message" "Le sens trigonométrique.\Turn, wait and jump."
 // brush 0
 {
@@ -2545,6 +2543,15 @@
 ( -183 359 832 ) ( -183 359 736 ) ( -165 347 736 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( -121 271 832 ) ( -121 271 736 ) ( -120 248 736 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 }
+// brush 291
+{
+( -192 -896 736 ) ( -192 -1024 736 ) ( -320 -896 736 ) mtrl/goal 128 0 0 -0.5 0.5 134217728 0 0
+( -192 -896 736 ) ( -320 -896 736 ) ( -192 -896 704 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -192 -896 736 ) ( -192 -896 704 ) ( -192 -1024 736 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -324 -1024 735 ) ( -196 -1024 735 ) ( -324 -896 735 ) mtrl/goal 128 0 0 -0.5 0.5 134217728 0 0
+( -320 -1024 704 ) ( -320 -1024 736 ) ( -192 -1024 704 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -320 -1024 704 ) ( -320 -896 704 ) ( -320 -1024 736 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+}
 }
 // entity 1
 {
@@ -2555,6 +2562,7 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "-248 184 920"
+"skip" "1"
 }
 // entity 3
 {
@@ -2861,4 +2869,9 @@
 "classname" "light"
 "origin" "-248 96 824"
 "light" "10"
+}
+// entity 50
+{
+"classname" "info_player_deathmatch"
+"origin" "-256 -960 760"
 }
