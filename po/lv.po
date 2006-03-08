@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-07 05:30+0200\n"
+"POT-Creation-Date: 2006-03-08 10:19+0100\n"
 "PO-Revision-Date: 2006-03-07 05:11+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -50,40 +50,40 @@ msgstr "Slinks"
 msgid "Manual"
 msgstr "Manuāls"
 
-#: ball/level.c:132
+#: ball/level.c:134
 #, c-format
 msgid "Not a valid level file\n"
 msgstr "Nederīgs ieraksta fails\n"
 
-#: ball/level.c:185 ball/st_start.c:252
+#: ball/level.c:187 ball/st_start.c:244
 msgid "Challenge"
 msgstr "Spēku pārbaude"
 
-#: ball/level.c:186 ball/st_start.c:250
+#: ball/level.c:188 ball/st_start.c:242
 msgid "Normal"
 msgstr "Spēle"
 
-#: ball/level.c:187 ball/st_start.c:249
+#: ball/level.c:189 ball/st_start.c:241
 msgid "Practice"
 msgstr "Treniņš"
 
-#: ball/level.c:188
+#: ball/level.c:190
 msgid "Single"
 msgstr "Atsevišķs"
 
-#: ball/level.c:199
+#: ball/level.c:201
 msgid "Aborted"
 msgstr "Pārtraukts"
 
-#: ball/level.c:200
+#: ball/level.c:202
 msgid "Time-out"
 msgstr "Laiks cauri"
 
-#: ball/level.c:201
+#: ball/level.c:203
 msgid "Success"
 msgstr "Veiksmīgs"
 
-#: ball/level.c:202
+#: ball/level.c:204
 msgid "Fall-out"
 msgstr "Kritiens"
 
@@ -144,40 +144,25 @@ msgstr "Ieraksta fails '%s': "
 msgid "Not a replay file\n"
 msgstr "Nav ieraksta fails\n"
 
-#: ball/set.c:122
+#: ball/set.c:148
 #, c-format
 msgid "Error while loading user high-score file '%s': "
 msgstr "Kļūda, ielādējot lietotāja spēles rezultātu failu '%s': "
 
-#: ball/set.c:126
+#: ball/set.c:152
 #, c-format
 msgid "Incorrect format\n"
 msgstr "Nepareizs formāts\n"
 
-#: ball/set.c:135
-msgid "B1"
-msgstr "P1"
-
-#: ball/set.c:135
-msgid "B2"
-msgstr "P2"
-
-#: ball/set.c:135
-msgid "B3"
-msgstr "P3"
-
-#: ball/set.c:135
-msgid "B4"
-msgstr "P4"
-
-#: ball/set.c:135
-msgid "B5"
-msgstr "P5"
-
-#: ball/set.c:158
+#: ball/set.c:176
 #, c-format
 msgid "Cannot load the set file '%s':"
 msgstr "Nav iespējams ielādēt komplekta failu '%s':"
+
+#: ball/set.c:353
+#, c-format
+msgid "B%d"
+msgstr ""
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
@@ -209,7 +194,7 @@ msgstr "Bez"
 msgid "On"
 msgstr "Ar"
 
-#: ball/st_conf.c:318 ball/st_demo.c:223 ball/st_start.c:237 ball/util.c:358
+#: ball/st_conf.c:318 ball/st_demo.c:223 ball/st_start.c:229 ball/util.c:358
 #: putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270 share/st_lang.c:81
 #: share/st_resol.c:93
 msgid "Back"
@@ -430,47 +415,48 @@ msgstr "Pārrakstīt?"
 msgid "Level Set"
 msgstr "Līmeņu komplekts"
 
-#: ball/st_start.c:109
+#: ball/st_start.c:101
 msgid "Play this bonus level in practice mode"
 msgstr "Spēlē šo papildus līmeni treniņrežīmā"
 
-#: ball/st_start.c:111
+#: ball/st_start.c:103
 msgid "Play this level in practice mode"
 msgstr "Spēlē šo līmeni treniņrežīmā"
 
-#: ball/st_start.c:117
+#: ball/st_start.c:109
 msgid "Play this bonus level in normal mode"
 msgstr "Spēlē šo papildus līmeni parastajā režīmā"
 
-#: ball/st_start.c:119
+#: ball/st_start.c:111
 msgid "Play this level in normal mode"
 msgstr "Spēlē šo līmeni parastajā režīmā"
 
-#: ball/st_start.c:128
-msgid "Finish challenge mode to unlock extra bonus levels"
+#: ball/st_start.c:120
+#, fuzzy
+msgid "Play in challenge mode to unlock extra bonus levels"
 msgstr "Izturi spēku pārbaudi, lai atslēgtu papildus līmeņus"
 
-#: ball/st_start.c:130
+#: ball/st_start.c:122
 msgid "Finish previous levels to unlock this level"
 msgstr "Pabeidz iepriekšējos līmeņus, lai atslēgtu šo līmeni"
 
-#: ball/st_start.c:149
+#: ball/st_start.c:141
 msgid "Challenge all levels from the first one"
 msgstr "Pārbaudi spēkus spēlē no pirmā līdz pēdējam līmenim"
 
-#: ball/st_start.c:153
+#: ball/st_start.c:145
 msgid "Collect coins and unlock next level"
 msgstr "Vāc monētas un atslēdz nākošo līmeni"
 
-#: ball/st_start.c:157
+#: ball/st_start.c:149
 msgid "Train yourself without time nor coin"
 msgstr "Vingrinies bez laika un monētu ierobežojumiem"
 
-#: ball/st_start.c:234
+#: ball/st_start.c:226
 msgid "Set Complete"
 msgstr "Komplekts pabeigts"
 
-#: ball/st_start.c:269
+#: ball/st_start.c:261
 msgid "Choose a level to play"
 msgstr "Izvēlies līmeni"
 
@@ -1385,6 +1371,21 @@ msgid ""
 msgstr ""
 "Šeit ir pa pilnam monētu, ja vien Tu esi\\ar mieru atvēlēt kādu laiciņu to "
 "savākšanai.\\"
+
+#~ msgid "B1"
+#~ msgstr "P1"
+
+#~ msgid "B2"
+#~ msgstr "P2"
+
+#~ msgid "B3"
+#~ msgstr "P3"
+
+#~ msgid "B4"
+#~ msgstr "P4"
+
+#~ msgid "B5"
+#~ msgstr "P5"
 
 #~ msgid "Error while loading initial high-score file '%s': "
 #~ msgstr "Kļūda, ielādējot spēles rezultātu sākotnējo failu '%s': "

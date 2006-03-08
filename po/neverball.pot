@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-08 01:40+0200\n"
+"POT-Creation-Date: 2006-03-08 10:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,40 +49,40 @@ msgstr ""
 msgid "Manual"
 msgstr ""
 
-#: ball/level.c:132
+#: ball/level.c:134
 #, c-format
 msgid "Not a valid level file\n"
 msgstr ""
 
-#: ball/level.c:185 ball/st_start.c:252
+#: ball/level.c:187 ball/st_start.c:244
 msgid "Challenge"
 msgstr ""
 
-#: ball/level.c:186 ball/st_start.c:250
+#: ball/level.c:188 ball/st_start.c:242
 msgid "Normal"
 msgstr ""
 
-#: ball/level.c:187 ball/st_start.c:249
+#: ball/level.c:189 ball/st_start.c:241
 msgid "Practice"
 msgstr ""
 
-#: ball/level.c:188
+#: ball/level.c:190
 msgid "Single"
 msgstr ""
 
-#: ball/level.c:199
+#: ball/level.c:201
 msgid "Aborted"
 msgstr ""
 
-#: ball/level.c:200
+#: ball/level.c:202
 msgid "Time-out"
 msgstr ""
 
-#: ball/level.c:201
+#: ball/level.c:203
 msgid "Success"
 msgstr ""
 
-#: ball/level.c:202
+#: ball/level.c:204
 msgid "Fall-out"
 msgstr ""
 
@@ -137,39 +137,24 @@ msgstr ""
 msgid "Not a replay file\n"
 msgstr ""
 
-#: ball/set.c:122
+#: ball/set.c:148
 #, c-format
 msgid "Error while loading user high-score file '%s': "
 msgstr ""
 
-#: ball/set.c:126
+#: ball/set.c:152
 #, c-format
 msgid "Incorrect format\n"
 msgstr ""
 
-#: ball/set.c:135
-msgid "B1"
-msgstr ""
-
-#: ball/set.c:135
-msgid "B2"
-msgstr ""
-
-#: ball/set.c:135
-msgid "B3"
-msgstr ""
-
-#: ball/set.c:135
-msgid "B4"
-msgstr ""
-
-#: ball/set.c:135
-msgid "B5"
-msgstr ""
-
-#: ball/set.c:158
+#: ball/set.c:176
 #, c-format
 msgid "Cannot load the set file '%s':"
+msgstr ""
+
+#: ball/set.c:353
+#, c-format
+msgid "B%d"
 msgstr ""
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
@@ -202,7 +187,7 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-#: ball/st_conf.c:318 ball/st_demo.c:223 ball/st_start.c:237 ball/util.c:358
+#: ball/st_conf.c:318 ball/st_demo.c:223 ball/st_start.c:229 ball/util.c:358
 #: putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270 share/st_lang.c:81
 #: share/st_resol.c:93
 msgid "Back"
@@ -421,47 +406,47 @@ msgstr ""
 msgid "Level Set"
 msgstr ""
 
-#: ball/st_start.c:109
+#: ball/st_start.c:101
 msgid "Play this bonus level in practice mode"
 msgstr ""
 
-#: ball/st_start.c:111
+#: ball/st_start.c:103
 msgid "Play this level in practice mode"
 msgstr ""
 
-#: ball/st_start.c:117
+#: ball/st_start.c:109
 msgid "Play this bonus level in normal mode"
 msgstr ""
 
-#: ball/st_start.c:119
+#: ball/st_start.c:111
 msgid "Play this level in normal mode"
 msgstr ""
 
-#: ball/st_start.c:128
-msgid "Finish challenge mode to unlock extra bonus levels"
+#: ball/st_start.c:120
+msgid "Play in challenge mode to unlock extra bonus levels"
 msgstr ""
 
-#: ball/st_start.c:130
+#: ball/st_start.c:122
 msgid "Finish previous levels to unlock this level"
 msgstr ""
 
-#: ball/st_start.c:149
+#: ball/st_start.c:141
 msgid "Challenge all levels from the first one"
 msgstr ""
 
-#: ball/st_start.c:153
+#: ball/st_start.c:145
 msgid "Collect coins and unlock next level"
 msgstr ""
 
-#: ball/st_start.c:157
+#: ball/st_start.c:149
 msgid "Train yourself without time nor coin"
 msgstr ""
 
-#: ball/st_start.c:234
+#: ball/st_start.c:226
 msgid "Set Complete"
 msgstr ""
 
-#: ball/st_start.c:269
+#: ball/st_start.c:261
 msgid "Choose a level to play"
 msgstr ""
 

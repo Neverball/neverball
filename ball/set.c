@@ -350,7 +350,7 @@ static void set_load_levels(void)
 	l->set        = current_set;
 	l->number     = i;
 	if (l->is_bonus)
-	    sprintf(l->numbername, "B%d", bnb++);
+	    sprintf(l->numbername, _("B%d"), bnb++);
 	else
 	    sprintf(l->numbername, "%02d", nb++);
 	l->is_locked    = 1;
