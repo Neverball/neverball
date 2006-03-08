@@ -198,6 +198,7 @@ struct s_goal
 {
     float p[3];                                /* position                   */
     float r;                                   /* radius                     */
+    int   s;                                   /* level skiped               */
 };
 
 struct s_swch

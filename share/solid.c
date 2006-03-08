@@ -30,7 +30,7 @@
 #include "binary.h"
 
 #define MAGIC 0x4F425251  /* Neverball sol file magic number (should not change) */
-#define SOL_VERSION  2 /* Neverball sol file format version (can change)      */
+#define SOL_VERSION  3 /* Neverball sol file format version (can change)      */
 
 #define LARGE 1.0e+5f
 
@@ -744,6 +744,7 @@ static void sol_load_goal(FILE *fin, struct s_goal *zp)
 {
     get_array(fin,  zp->p, 3);
     get_float(fin, &zp->r);
+    get_index(fin, &zp->s);
 }
 
 static void sol_load_swch(FILE *fin, struct s_swch *xp)
@@ -1019,6 +1020,7 @@ static void sol_stor_goal(FILE *fout, struct s_goal *zp)
 {
     put_array(fout,  zp->p, 3);
     put_float(fout, &zp->r);
+    put_index(fout, &zp->s);
 }
 
 static void sol_stor_swch(FILE *fout, struct s_swch *xp)
@@ -1890,7 +1892,7 @@ int sol_goal_test(struct s_file *fp, float *p, int ui)
             p[1] = fp->zv[zi].p[1];
             p[2] = fp->zv[zi].p[2];
 
-            return 1;
+            return 1 + fp->zv[zi].s;
         }
     }
     return 0;
