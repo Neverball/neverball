@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-03-08 10:19+0100\n"
-"PO-Revision-Date: 2006-03-07 05:11+0200\n"
+"PO-Revision-Date: 2006-03-08 13:58+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "Nav iespējams ielādēt komplekta failu '%s':"
 #: ball/set.c:353
 #, c-format
 msgid "B%d"
-msgstr ""
+msgstr "P%d"
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
@@ -432,9 +432,8 @@ msgid "Play this level in normal mode"
 msgstr "Spēlē šo līmeni parastajā režīmā"
 
 #: ball/st_start.c:120
-#, fuzzy
 msgid "Play in challenge mode to unlock extra bonus levels"
-msgstr "Izturi spēku pārbaudi, lai atslēgtu papildus līmeņus"
+msgstr "Pārbaudi spēkus, lai atslēgtu papildus līmeņus"
 
 #: ball/st_start.c:122
 msgid "Finish previous levels to unlock this level"
@@ -1062,8 +1061,9 @@ msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the ball"
 "\\completely out of control.\\"
 msgstr ""
-"Centies izvairīties no kustīgiem priekšmetiem.\\Viens vienīgs trieciens spēj"
-"\\padarīt bumbu pavisam nekontrolējamu.\\"
+"Centies izvairīties no kustīgiem priekšmetiem.\\"
+"Viens vienīgs trieciens spēj padarīt\\"
+"bumbu pavisam nekontrolējamu.\\"
 
 #: data/map-rlk/bumps.map
 msgid ""
@@ -1071,6 +1071,9 @@ msgid ""
 "\\ball will land.  If you're feeling confident in\\your mastery of bouncing, "
 "take a risk\\for a big payoff.\\"
 msgstr ""
+"Iemācies pārvaldīt lēkājošu bumbu.\\Paturi acīs ēnu, lai zinātu, kur\\"
+"bumba piezemēsies. Ja jūties pietiekoši pārliecināts\\par savām lēkāšanas "
+"iemaņām,\\pamēģini tikt klāt lielajai naudai.\\"
 
 #: data/map-rlk/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
@@ -1082,7 +1085,7 @@ msgid ""
 "earn an extra ball.\\Red coins are worth 5, blue coins are worth 10.\\Get to "
 "the goal before time expires!\\\\Click to begin.\\"
 msgstr ""
-"Šajā reizē Tev jāiegūst 50 monētas mērķa atslēgšanai.\\Savāc 100 monētas, "
+"Šoreiz Tev mērķa atslēgšanai jāiegūst 50 monētas.\\Savāc 100 monētas, "
 "lai nopelnītu papildus bumbu.\\Sarkano monētu vērtība ir 5, zilo - 10.\\Tiec "
 "līdz mērķim pirms beidzas laiks!\\\\Klikšķini, lai sāktu.\\"
 
@@ -1138,9 +1141,12 @@ msgid ""
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
 msgstr ""
-"''Līdzens'' ir relatīvs jēdziens.\\Apgūsti grīdas turēšanu leņķī\\tā lai "
-"slīpums turētos līmeniski.\\Šādi Tu saglabā pilnu kontroli pār bumbu."
-"\\Izmanto ieskrējienu, lai tiktu augšā pie lielajām monētām.\\"
+"''Līmenisks'' ir relatīvs jēdziens.\\"
+"Apgūsti grīdas turēšanu leņķī tā, lai\\"
+"slīpums turētos līmeniski. Šādi Tu\\"
+"saglabāsi pilnu kontroli pār bumbu.\\"
+"Izmanto ieskrējienu, lai tiktu augšā\\"
+"pie lielajām monētām.\\"
 
 #: data/map-rlk/four.map
 msgid "Balance risk versus reward.\\"
@@ -1155,13 +1161,15 @@ msgid ""
 "Time the switches carefully to synchronize\\the motion of the platforms."
 "\\Move quickly across the gaps.\\"
 msgstr ""
+"Rūpīgi izvēlies brīdi slēdžu iedarbināšanai,\\lai saskaņotu platformu kustību."
+"\\Centies ātri šķērsot plaisas.\\"
 
 #: data/map-rlk/goals.map
 msgid ""
 "This one shouldn't be too difficult.\\There are 100 coins here.\\That's a "
 "save point and a free ball\\if you don't accidentally make a goal first.\\"
 msgstr ""
-"Šim te nevajadzētu būt pārāk grūtam.\\Šeit ir tieši 100 monētu.\\Tas nozīmē "
+"Šim te nevajadzētu būt pārāk grūti.\\Šeit ir tieši 100 monētu.\\Tas nozīmē "
 "papildus bumbu,\\ja vien Tu vispirms netrāpi mērķī.\\"
 
 #: data/map-rlk/goslow.map
@@ -1184,15 +1192,15 @@ msgstr ""
 
 #: data/map-rlk/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
-msgstr "Jā, bumba patiešām pavisam glīti der\\tajos mazajos caurumiņos.\\"
+msgstr "Jā, bumba patiešām visai glīti der\\tajos mazajos caurumiņos.\\"
 
 #: data/map-rlk/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing down"
 "\\early. You need just as much room to slow\\down as you did to speed up.\\"
 msgstr ""
-"Turies tālāk no apmalēm!\\Kad tuvojies bīstamajai joslai, sāc samazināt"
-"\\ātrumu laikus. Lai apstātos, Tev vajadzēs\\tieši tik vietas, cik vajadzēja,"
+"Turies tālāk no malām!\\Kad tuvojies bīstamajai joslai, sāc samazināt"
+"\\ātrumu jau laikus. Lai apstātos, Tev vajadzēs\\tieši tik vietas, cik vajadzēja,"
 "\\lai izkustētos.\\"
 
 #: data/map-rlk/hump.map
@@ -1220,6 +1228,8 @@ msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
 msgstr ""
+"Bumbu šaurā ejā interesē tikai nevaldāma\\atlēkšana. Pārvietojies "
+"lēnām un\\turies tālāk no sienām. Visas monētas ir\\savācamas dotajā laikā.\\"
 
 #: data/map-rlk/mover.map
 msgid ""
@@ -1237,7 +1247,7 @@ msgid ""
 "Mouse buttons rotate the view.\\Press Spacebar to pause, ESC to quit.\\\\\\"
 "\\Click to begin.\\"
 msgstr ""
-"Peles pogas groza skatu.\\Nospied Space pauzei, ESC spēles pamešanai.\\\\\\"
+"Peles pogas groza skatu.\\Nospied Space pauzei,\\ESC spēles pamešanai.\\\\"
 "\\Klikšķini, lai sāktu.\\"
 
 #: data/map-rlk/pipe.map
