@@ -141,7 +141,7 @@ static int name_keybd(int c, int d)
 	if ((c & 0xFF80) == 0)
 	{
 	    c &= 0x7F;
-	    if (c == '\b')
+	    if (c == '\b' || c == 0x7F)
 		return name_action(GUI_BS);
 	    else if (c > ' ')
 	        return name_action(c);
