@@ -2,7 +2,24 @@
 // entity 0
 {
 "classname" "worldspawn"
+
+"author"    "Paul Tompkins"
+"levelname" "ocean-paul"
+"version"   "1"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"shot"      "shot-mym/narrow.jpg"
+"song"      "bgm/track4.ogg"
+"shot"      "shot-paul/paths.bmp"
+"time"      "40000"
+"goal"      "52"
+
+"time_hs"   " "
+"coin_hs"   " "
+
 "message" "Let's go for a swim...\all the coins are fully submerged.\Hint: Tilt the floor all the way forward for a quick peek at the sunken treasure."
+
 // brush 0
 {
 ( 184 -104 -12 ) ( 184 -328 -12 ) ( -128 -104 -12 ) mtrl/turf-green-dark 0 0 0 0.5 0.5 0 0 0
