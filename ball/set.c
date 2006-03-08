@@ -559,12 +559,18 @@ void set_finish_level(struct level_game *lg, const char *player)
 		if(nl->is_bonus && nl->is_locked && lg->mode != MODE_CHALLENGE)
 		    nl = next_normal_level(nl->number);
 	    }
-	    else if (lg->mode == MODE_CHALLENGE)
-		/* Win! */
-		lg->win = 1;
 	}
     } else if (cl->is_bonus)
 	nl = next_normal_level(ln);
+
+    /* Win ! */
+    if (nl == NULL && lg->mode == MODE_CHALLENGE)
+    {
+	lg->win = 1;
+	/* unlock all levels */
+	set_cheat();
+	dirty = 1;
+    }
    
     /* unlock the next level if needed */
     if(nl != NULL && nl->is_locked)
