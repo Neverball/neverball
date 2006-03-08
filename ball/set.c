@@ -559,6 +559,9 @@ void set_finish_level(struct level_game *lg, const char *player)
 		if(nl->is_bonus && nl->is_locked && lg->mode != MODE_CHALLENGE)
 		    nl = next_normal_level(nl->number);
 	    }
+	    else if (lg->mode == MODE_CHALLENGE)
+		/* Win! */
+		lg->win = 1;
 	}
     } else if (cl->is_bonus)
 	nl = next_normal_level(ln);
@@ -566,9 +569,14 @@ void set_finish_level(struct level_game *lg, const char *player)
     /* unlock the next level if needed */
     if(nl != NULL && nl->is_locked)
     {
-	nl->is_locked = 0;
-	s->locked -= 1;
-	dirty = 1;
+	if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
+	{
+	    nl->is_locked = 0;
+	    s->locked -= 1;
+	    dirty = 1;
+	}
+	else
+	    nl = NULL;
     }
     
     /* got the next level */ 

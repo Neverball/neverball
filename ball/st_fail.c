@@ -21,6 +21,7 @@
 
 #include "st_fail.h"
 #include "st_over.h"
+#include "st_done.h"
 #include "st_save.h"
 #include "st_level.h"
 #include "st_start.h"
@@ -31,10 +32,13 @@
 #define FAIL_OVER  1
 #define FAIL_RETRY 2
 #define FAIL_SAVE  3
+#define FAIL_NEXT  4
+#define FAIL_DONE  5
 
 static int fail_action(int i)
 {
-    struct state * next = level_dead() ? &st_over : &st_level;
+    struct state *next;
+    const struct level_game *lg = curr_lg();
     switch (i)
     {
     case FAIL_BACK:
@@ -45,8 +49,27 @@ static int fail_action(int i)
 
     case FAIL_RETRY:
         return goto_state(&st_level);
+	
+    case FAIL_DONE:
+        return goto_state(&st_over);
+	
+    case FAIL_NEXT:
+	level_next();
+        return goto_state(&st_level);
 
     case FAIL_SAVE:
+	if (lg->next_level)
+	{
+	    level_next();
+	    next = &st_level;
+	}
+	else if (lg->dead)
+	    next = &st_over;
+	else if (lg->win)
+	    next = &st_done;
+	else
+	    next = &st_level;
+		
 	return goto_save(next, next);
     }
     return 1;
@@ -64,27 +87,44 @@ static int fail_buttn(int b, int d)
     return 1;
 }
 
-static int fall_out_enter(void)
+static int gui_fail(const char *title)
 {
     int id, jd, kd;
+    const struct level_game *lg = curr_lg();
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, _("Fall-out!"), GUI_LRG, GUI_ALL, gui_gry, gui_red);
+        kd = gui_label(id, title, GUI_LRG, GUI_ALL, gui_gry, gui_red);
     
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, _("Save Replay"),     GUI_SML, FAIL_SAVE,  0);
 
-            if (level_dead())
+	    if (lg->next_level != NULL && lg->mode != MODE_CHALLENGE)
+                gui_state(jd, _("Retry Level"), GUI_SML, FAIL_RETRY, 0);
+	    
+            if (lg->dead)
                 gui_start(jd, _("Game Over"),   GUI_SML, FAIL_OVER,  0);
-            else
+	    else if (lg->win)
+                gui_start(jd, _("Finish"),        GUI_SML, FAIL_DONE,  0);
+	    else if (lg->next_level != NULL)
+                gui_start(jd, _("Next Level"),  GUI_SML, FAIL_NEXT,  0);
+	    else
                 gui_start(jd, _("Retry Level"), GUI_SML, FAIL_RETRY, 0);
         }
 
         gui_pulse(kd, 1.2f);
         gui_layout(id, 0, 0);
     }
+
+    return id;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static int fall_out_enter(void)
+{
+    int id = gui_fail(_("Fall-out!"));
 
     audio_music_fade_out(2.0f);
     audio_play(AUD_FALL, 1.0f);
@@ -110,30 +150,7 @@ static void fall_out_timer(int id, float dt)
 
 static int time_out_enter(void)
 {
-    int id, jd, kd;
-
-    if ((id = gui_vstack(0)))
-    {
-        kd = gui_label(id, _("Time's Up!"), GUI_LRG, GUI_ALL, gui_gry, gui_red);
-    
-        if ((jd = gui_harray(id)))
-        {
-            gui_state(jd, _("Save Replay"),     GUI_SML, FAIL_SAVE,  0);
-
-	    if (curr_lg()->level->is_bonus)
-	    {
-		
-	    }
-	    
-            if (level_dead())
-                gui_start(jd, _("Game Over"),   GUI_SML, FAIL_OVER,  0);
-            else
-                gui_start(jd, _("Retry Level"), GUI_SML, FAIL_RETRY, 0);
-        }
-
-        gui_pulse(kd, 1.2f);
-        gui_layout(id, 0, 0);
-    }
+    int id = gui_fail(_("Time's Up!"));
 
     audio_music_fade_out(2.0f);
     audio_play(AUD_TIME, 1.0f);

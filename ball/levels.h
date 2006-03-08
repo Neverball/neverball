@@ -14,13 +14,9 @@ int  level_play_go(void);
 void level_next(void);
 
 void level_stop(int, int, int, int);
-int  level_dead(void);
 
 int  count_extra_balls(int, int);
 
-int  level_sort(int *, int *);
-int  level_done(int *, int *);
-	
 void level_update_player_name(void);
 
 /*---------------------------------------------------------------------------*/

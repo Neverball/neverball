@@ -46,6 +46,8 @@ int level_play_go(void)
     const struct level *l = lg->level;
     int mode = lg->mode;
 
+    assert(l != NULL);
+
     lg->goal = (mode == MODE_PRACTICE) ? 0 : l->goal;
     lg->time = (mode == MODE_PRACTICE) ? 0 : l->time;
     
@@ -55,7 +57,8 @@ int level_play_go(void)
     lg->timer = lg->time;
     lg->coin_rank = lg->goal_rank = lg->time_rank = 
 	    lg->score_rank = lg-> times_rank = 3;
-    lg->next_level = 0;
+    lg->win = lg->dead = 0;
+    lg->next_level = NULL;
     
     return demo_play_init(USER_REPLAY_FILE, l, lg);
 }
@@ -65,28 +68,18 @@ void level_play_single(const char *filename)
 /* Prepare to play a single level */
 {
     struct level *l = &single_level;
-    
-    l->back[0] = '\0';
-    l->grad[0] = '\0';
-    l->song[0] = '\0';
-    l->shot[0] = '\0';
-    l->goal    = 0;
-    l->time    = 0;
-    
     level_load(filename, l);
-    
     level_play(l, MODE_SINGLE);
 }
 
 void level_play(const struct level *l, int m)
 /* Prepare to play a level sequence from the `i'th level */
 {
-    current_level_game.mode = m;
-    current_level_game.level = l;
-
-    current_level_game.score = 0;
-    current_level_game.balls = 3;
-    current_level_game.times = 0;
+    struct level_game *lg = &current_level_game; 
+    memset(lg, 0, sizeof(struct level_game));
+    lg->mode  = m;
+    lg->level = l;
+    lg->balls = 3;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -128,9 +121,12 @@ void level_stop(int state, int state_value, int clock, int coins)
 	    lg->score += coins;
 	}
 
-	/* lose ball */
+	/* lose ball and game */
         if ((state == GAME_TIME || state == GAME_FALL) && !lg->level->is_bonus)
+	{
 	    lg->balls--;
+	    lg->dead = (lg->balls <= 0);
+	}
     }
     
     /* Update high-scores and next level */
@@ -138,13 +134,6 @@ void level_stop(int state, int state_value, int clock, int coins)
 
     /* stop demo recording */	
     demo_play_stop(lg);
-}
-
-int level_dead(void)
-{
-    int mode = current_level_game.mode;
-    int balls = current_level_game.balls;
-    return (mode == MODE_CHALLENGE) && (balls <= 0);
 }
 
 void level_next(void)

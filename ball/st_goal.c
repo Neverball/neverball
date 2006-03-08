@@ -149,7 +149,7 @@ static int goal_init(int * gidp)
 	    if (mode != MODE_CHALLENGE)
                 gui_start(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 	    
-	    if (mode == MODE_CHALLENGE && lg->next_level == NULL)
+	    if (lg->win)
                 gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
 	    else if (lg->next_level != NULL)
                 gui_state(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
