@@ -213,7 +213,7 @@ static int set_load(struct set *s, const char *filename)
     
     s->count = 0;
 
-    while (s->count < MAXLVL && fgets(buf, MAXSTR, fin))
+    while (s->count < MAXLVL && (fscanf(fin, "%s", buf) == 1))
 	s->count++;
     
     /* Close the file, since it's no more needed */
@@ -343,8 +343,7 @@ static void set_load_levels(void)
     for(i=0; i<current_set->count && res; i++)
     {
 	l = &level_v[i];
-	res = (fgets(buf, MAXSTR, fin) != NULL) &&
-	    (sscanf(buf, "%s", name) == 1);
+	res = (fscanf(fin, "%s", name) == 1);
 	assert(res);
 
 	level_load(config_data(name), l);
