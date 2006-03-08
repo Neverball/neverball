@@ -181,7 +181,7 @@ static void play_loop_timer(int id, float dt)
 
     float g[3] = { 0.0f, -9.8f, 0.0f };
 
-    int state;
+    int state, state_value;
     
     at = (7 * at + dt) / 8;
 
@@ -189,10 +189,10 @@ static void play_loop_timer(int id, float dt)
     hud_timer(at);
     game_set_rot(view_rotate * k);
 
-    state = game_step(g, at, 1);
+    state = game_step(g, at, &state_value);
     if (state)
     {
-	level_stop(state, curr_clock(), curr_coins());
+	level_stop(state, state_value, curr_clock(), curr_coins());
 	switch (state)
 	{
 	case GAME_TIME: goto_state(&st_time_out); break;
@@ -264,7 +264,7 @@ static int play_loop_keybd(int c, int d)
     /* Cheat */
     if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
     {
-        level_stop(GAME_GOAL, curr_clock(), curr_coins());
+        level_stop(GAME_GOAL, 0, curr_clock(), curr_coins());
         return goto_state(&st_goal);
     }
     return 1;
@@ -276,7 +276,7 @@ static int play_loop_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
 	{
-	    level_stop(GAME_NONE, curr_clock(), curr_coins());
+	    level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
             return abort_play();
 	}
 

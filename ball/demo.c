@@ -441,6 +441,7 @@ int demo_replay_init(const char *name, struct level_game *lg)
 int demo_replay_step(float *dt)
 {
     const float g[3] = { 0.0f, -9.8f, 0.0f };
+    int sv;
 
     if (demo_fp)
     {
@@ -450,7 +451,7 @@ int demo_replay_step(float *dt)
         {
             /* Play out current game state for particles, clock, etc. */
 
-            game_step(g, *dt, 1);
+            game_step(g, *dt, &sv);
 
             /* Load real current game state from file. */
             

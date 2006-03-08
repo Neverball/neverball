@@ -13,7 +13,7 @@ void level_play(const struct level *, int);
 int  level_play_go(void);
 void level_next(void);
 
-void level_stop(int, int, int);
+void level_stop(int, int, int, int);
 int  level_dead(void);
 
 int  count_extra_balls(int, int);

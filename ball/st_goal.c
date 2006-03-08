@@ -202,7 +202,7 @@ static void goal_timer(int id, float dt)
     DT += dt;
 
     if (time_state() < 1.f)
-        game_step(g, dt, 0);
+        game_step(g, dt, NULL);
     else if (DT > 0.05f && curr_lg()->mode == MODE_CHALLENGE)
     {
 	int coins = gui_value(coins_id);

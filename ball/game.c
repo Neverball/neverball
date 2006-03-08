@@ -621,11 +621,12 @@ static void game_update_time(float dt, int b)
     }
 }
 
-static int game_update_state(int bt)
+static int game_update_state(int *state_value)
 {
     struct s_file *fp = &file;
     float p[3];
     float c[3];
+    int bt = state_value != NULL;
     int n, e = swch_e;
 
     /* Test for a coin grab. */
@@ -672,8 +673,9 @@ static int game_update_state(int bt)
 
     /* Test for a goal. */
 
-    if (bt && goal_c == 0 && sol_goal_test(fp, p, 0))
+    if (bt && goal_c == 0 && (n = sol_goal_test(fp, p, 0)))
     {
+	*state_value = n - 1;
 	audio_play(AUD_GOAL, 1.0f);
         return GAME_GOAL;
     }
@@ -706,7 +708,7 @@ static int game_update_state(int bt)
  * graphics frame rate.
  */
 
-int game_step(const float g[3], float dt, int bt)
+int game_step(const float g[3], float dt, int *state_value)
 {
     struct s_file *fp = &file;
 
@@ -773,9 +775,9 @@ int game_step(const float g[3], float dt, int bt)
 
         game_step_fade(dt);
         game_update_view(dt);
-        game_update_time(dt, bt);
+        game_update_time(dt, state_value != NULL);
 
-        return game_update_state(bt);
+        return game_update_state(state_value);
     }
     return GAME_NONE;
 }

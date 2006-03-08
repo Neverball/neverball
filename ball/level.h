@@ -83,6 +83,7 @@ struct level_game
     int state;         /* state ending */
     int coins;         /* coins collected */
     int timer;         /* time elapsed */
+    int state_value;   /* more precision about the state: skip for goal */
     
     /* rank = 3  => unclassed */
     int coin_rank;     /* rank in the level high-scores */

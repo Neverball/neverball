@@ -498,49 +498,81 @@ void score_change_name(struct level_game *lg, const char *player)
     set_store_hs();
 }
 
+static struct level *next_level(int i)
+{
+/* Return the ith level, or NULL */
+    return set_level_exists(current_set, i) ? &level_v[i] : NULL;
+}
+
+static struct level *next_normal_level(int i)
+/* Return the next notmal level (starting for i) 
+ * Return NULL if there is not a such level */
+{
+    for (; i < current_set->count; i++)
+	if (!level_v[i].is_bonus)
+	    return &level_v[i];
+    return NULL;
+}
+
 void set_finish_level(struct level_game *lg, const char *player)
 /* Inform the set that a level is finished. 
  * Update next_level and score rank fields */
 {
     struct set *s = current_set;
-    int level = lg->level->number;
-    int dirty = 0;
+    int ln = lg->level->number;     /* curent level number */
+    struct level *cl = &level_v[ln]; /* current level */
+    struct level *nl = NULL;        /* next level*/
+    int dirty = 0;                  /* HS should be saved? */
 
-    /* Complete the level */
-    if (!lg->level->is_completed)
-    {
-	level_v[level].is_completed = 1;
-	s->completed += 1;
-    }
-    
-    /* Update scores */
-    dirty = level_score_update(lg, player);
-    dirty = set_score_update(lg, player) || dirty;
-    
-    /* compute the next level */    
-    if (s == NULL)
-    {
-        /* if no set, return */
-	lg->next_level = NULL;
-	return;
-    }
-   
-    level++; /* level is the next level */
-    
-    /* if the next level is not oppened */
-    if (level < s->count && level_v[level].is_locked)
-        if ((lg->mode == MODE_CHALLENGE) || (lg->mode == MODE_NORMAL))
+    assert(s == cl->set);
+
+    /* On success */
+    if (lg->state == GAME_GOAL)
+    {	    
+	/* Update scores */
+	dirty = level_score_update(lg, player);
+	dirty = set_score_update(lg, player) || dirty;
+	
+	/* if no set, no next level */    
+	if (s == NULL)
 	{
-	    level_v[level].is_locked = 0;
-	    s->locked -= 1;
-	    dirty = 1;
-	}      
+	    /* if no set, return */
+	    lg->next_level = NULL;
+	    return;
+	}
+
+	if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
+	{
+	    /* Complete the level */
+	    if (!cl->is_completed)
+	    {
+		cl->is_completed = 1;
+		s->completed += 1;
+		dirty = 1;
+	    }
+
+	    /* Identify the follwing level */
+	    nl = next_level(ln + lg->state_value + 1);
+	    if (nl != NULL)
+	    {
+		/* skip bonuses if unlocked in non challenge mode*/
+		if(nl->is_bonus && nl->is_locked && lg->mode != MODE_CHALLENGE)
+		    nl = next_normal_level(nl->number);
+	    }
+	}
+    } else if (cl->is_bonus)
+	nl = next_normal_level(ln);
    
+    /* unlock the next level if needed */
+    if(nl != NULL && nl->is_locked)
+    {
+	nl->is_locked = 0;
+	s->locked -= 1;
+	dirty = 1;
+    }
+    
     /* got the next level */ 
-    if (level < s->count && !level_v[level].is_locked)
-	lg->next_level = &level_v[level];
-    else
-	lg->next_level = NULL;
+    lg->next_level = nl;
 
     /* Update file */
     if (dirty)

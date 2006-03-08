@@ -99,7 +99,7 @@ static void fall_out_timer(int id, float dt)
     float g[3] = { 0.0f, -9.8f, 0.0f };
 
     if (time_state() < 2.f)
-        game_step(g, dt, 0);
+        game_step(g, dt, NULL);
 
     gui_timer(id, dt);
     audio_timer(dt);
@@ -120,6 +120,11 @@ static int time_out_enter(void)
         {
             gui_state(jd, _("Save Replay"),     GUI_SML, FAIL_SAVE,  0);
 
+	    if (curr_lg()->level->is_bonus)
+	    {
+		
+	    }
+	    
             if (level_dead())
                 gui_start(jd, _("Game Over"),   GUI_SML, FAIL_OVER,  0);
             else
