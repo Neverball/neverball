@@ -43,7 +43,6 @@ static float view_v[3];                 /* Current view vector               */
 static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view orientation          */
 
-static int   swch_e = 1;                /* Switching enabled flag            */
 static float jump_e = 1;                /* Jumping enabled flag              */
 static float jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
@@ -261,7 +260,7 @@ static void game_draw_swchs(const struct s_file *fp)
                          fp->xv[xi].p[2]);
 
             glScalef(fp->xv[xi].r, 1.f, fp->xv[xi].r);
-            swch_draw(fp->xv[xi].f);
+            swch_draw(fp->xv[xi].f, fp->xv[xi].e);
         }
         glPopMatrix();
     }
@@ -413,7 +412,6 @@ static int game_update_state(float dt)
 
     struct s_file *fp = &file;
     float p[3];
-    int e = swch_e;
 
     if (dt > 0.f)
         t += dt;
@@ -422,7 +420,7 @@ static int game_update_state(float dt)
 
     /* Test for a switch. */
 
-    if ((swch_e = sol_swch_test(fp, swch_e, ball)) != e && e)
+    if (sol_swch_test(fp, ball))
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */

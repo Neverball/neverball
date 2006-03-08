@@ -51,7 +51,7 @@ void jump_draw(void);
 
 void swch_init(int);
 void swch_free(void);
-void swch_draw(int);
+void swch_draw(int, int);
 
 /*---------------------------------------------------------------------------*/
 

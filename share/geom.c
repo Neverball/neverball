@@ -458,77 +458,57 @@ void jump_draw(void)
 
 static GLuint swch_list;
 
+static GLfloat swch_colors[8][4] = {
+    {1.0f, 0.0f, 0.0f, 0.5f}, /* red out */
+    {1.0f, 0.0f, 0.0f, 0.0f},
+    {1.0f, 0.0f, 0.0f, 0.8f}, /* red in */
+    {1.0f, 0.0f, 0.0f, 0.0f},
+    {0.0f, 1.0f, 0.0f, 0.5f}, /* green out */
+    {0.0f, 1.0f, 0.0f, 0.0f},
+    {0.0f, 1.0f, 0.0f, 0.8f}, /* green in */
+    {0.0f, 1.0f, 0.0f, 0.0f}};
+
 void swch_init(int b)
 {
-    int i, n = b ? 32 : 8;
+    int k, i, n = b ? 32 : 8;
 
-    swch_list = glGenLists(2);
+    swch_list = glGenLists(4);
 
-    /* Create the ON display list. */
+    /* Create the display lists. */
 
-    glNewList(swch_list, GL_COMPILE);
+    for (k = 0; k < 4; k++)
     {
-        glPushAttrib(GL_TEXTURE_BIT  |
-                     GL_LIGHTING_BIT |
-                     GL_DEPTH_BUFFER_BIT);
-        {
-            glEnable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHTING);
-            glDisable(GL_TEXTURE_2D);
-            glDepthMask(GL_FALSE);
+	glNewList(swch_list + k, GL_COMPILE);
+	{
+	    glPushAttrib(GL_TEXTURE_BIT  |
+		    GL_LIGHTING_BIT |
+		    GL_DEPTH_BUFFER_BIT);
+	    {
+		glEnable(GL_COLOR_MATERIAL);
+		glDisable(GL_LIGHTING);
+		glDisable(GL_TEXTURE_2D);
+		glDepthMask(GL_FALSE);
 
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n);
-                    float y = fsinf(2.f * PI * i / n);
-            
-                    glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
-                    glVertex3f(x, 0.0f, y);
+		glBegin(GL_QUAD_STRIP);
+		{
+		    for (i = 0; i <= n; i++)
+		    {
+			float x = fcosf(2.f * PI * i / n);
+			float y = fsinf(2.f * PI * i / n);
 
-                    glColor4f(1.0f, 0.0f, 0.0f, 0.0f);
-                    glVertex3f(x, SWCH_HEIGHT, y);
-                }
-            }
-            glEnd();
-        }
-        glPopAttrib();
+			glColor4fv(swch_colors[2*k]);
+			glVertex3f(x, 0.0f, y);
+
+			glColor4fv(swch_colors[2*k+1]);
+			glVertex3f(x, SWCH_HEIGHT, y);
+		    }
+		}
+		glEnd();
+	    }
+	    glPopAttrib();
+	}
+	glEndList();
     }
-    glEndList();
-
-    /* Create the OFF display list. */
-
-    glNewList(swch_list + 1, GL_COMPILE);
-    {
-        glPushAttrib(GL_TEXTURE_BIT  |
-                     GL_LIGHTING_BIT |
-                     GL_DEPTH_BUFFER_BIT);
-        {
-            glEnable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHTING);
-            glDisable(GL_TEXTURE_2D);
-            glDepthMask(GL_FALSE);
-
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n);
-                    float y = fsinf(2.f * PI * i / n);
-            
-                    glColor4f(0.0f, 1.0f, 0.0f, 0.5f);
-                    glVertex3f(x, 0.0f, y);
-
-                    glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
-                    glVertex3f(x, SWCH_HEIGHT, y);
-                }
-            }
-            glEnd();
-        }
-        glPopAttrib();
-    }
-    glEndList();
 }
 
 void swch_free(void)
@@ -539,12 +519,9 @@ void swch_free(void)
     swch_list = 0;
 }
 
-void swch_draw(int b)
+void swch_draw(int b, int e)
 {
-    if (b)
-        glCallList(swch_list + 1);
-    else
-        glCallList(swch_list);
+    glCallList(swch_list + b*2 + e);
 }
 
 /*---------------------------------------------------------------------------*/

@@ -1926,12 +1926,15 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
     return 0;
 }
 
-int sol_swch_test(struct s_file *fp, int flag, int ui)
+int sol_swch_test(struct s_file *fp, int ui)
+/* In the sol fp, test and process the event the ball ui enters a switch
+ * return 1 if a visibla switch is activated 
+ * return 0 else (no switch is activated or only invisible switchs) */
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
     int xi;
-    int f = 1;
+    int res = 0; /* result */
 
     for (xi = 0; xi < fp->xc; xi++)
     {
@@ -1945,15 +1948,19 @@ int sol_swch_test(struct s_file *fp, int flag, int ui)
             r[1] = ball_p[2] - xp->p[2];
             r[2] = 0;
 
-            if (v_len(r)  < xp->r - ball_r &&
+            if (v_len(r)  < xp->r + ball_r &&
                 ball_p[1] > xp->p[1] &&
                 ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
             {
-                if (flag)
+                if (!xp->e && v_len(r)  < xp->r - ball_r)
                 {
                     int pi = xp->pi;
                     int pj = xp->pi;
 
+		    /* The ball enter */
+		    
+		    xp->e = 1;
+		    
                     /* Toggle the state, update the path. */
 
                     xp->f = xp->f ? 0 : 1;
@@ -1973,12 +1980,18 @@ int sol_swch_test(struct s_file *fp, int flag, int ui)
 
                     if (xp->f != xp->f0)
                         xp->t  = xp->t0;
+
+		    /* If visible, set the result */
+		    if (!xp->i)
+			res = 1;
                 }
-                f = 0;
             }
+	    else if (xp->e)
+		/* A ball go out */
+		xp->e = 0;
         }
     }
-    return f;
+    return res;
 }
 
 /*---------------------------------------------------------------------------*/

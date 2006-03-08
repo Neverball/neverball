@@ -205,13 +205,14 @@ struct s_swch
 {
     float p[3];                                /* position                   */
     float r;                                   /* radius                     */
-    int  pi;
+    int  pi;                                   /* the linked path            */
 
     float t0;                                  /* default timer              */
     float t;                                   /* current timer              */
     int   f0;                                  /* default state              */
     int   f;                                   /* current state              */
     int   i;                                   /* is invisible?              */
+    int   e;                                   /* is a ball inside it?       */
 };
 
 struct s_bill
@@ -318,7 +319,7 @@ float sol_step(struct s_file *, const float *, float, int, int *);
 int   sol_coin_test(struct s_file *, float *, float);
 int   sol_goal_test(struct s_file *, float *, int);
 int   sol_jump_test(struct s_file *, float *, int);
-int   sol_swch_test(struct s_file *, int, int);
+int   sol_swch_test(struct s_file *, int);
 
 /*---------------------------------------------------------------------------*/
 

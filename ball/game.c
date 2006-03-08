@@ -59,7 +59,6 @@ static float view_k;
 static int   coins  = 0;                /* Collected coins                   */
 static int   goal_c = 0;                /* Goal coins remaining (0 = open)   */
 static float goal_k = 0;                /* Goal animation                    */
-static int   swch_e = 1;                /* Switching enabled flag            */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
@@ -274,7 +273,7 @@ static void game_draw_swchs(const struct s_file *fp)
                          fp->xv[xi].p[2]);
 
             glScalef(fp->xv[xi].r, 1.f, fp->xv[xi].r);
-            swch_draw(fp->xv[xi].f);
+            swch_draw(fp->xv[xi].f, fp->xv[xi].e);
         }
         glPopMatrix();
     }
@@ -627,7 +626,7 @@ static int game_update_state(int *state_value)
     float p[3];
     float c[3];
     int bt = state_value != NULL;
-    int n, e = swch_e;
+    int n;
 
     /* Test for a coin grab. */
     
@@ -654,8 +653,7 @@ static int game_update_state(int *state_value)
     }
 
     /* Test for a switch. */
-
-    if ((swch_e = sol_swch_test(fp, swch_e, 0)) != e && e)
+    if (sol_swch_test(fp, 0))
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
