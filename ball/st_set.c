@@ -93,13 +93,16 @@ static int set_enter(void)
 
     int id, jd, kd;
 
+
+    set_init();
+    
+    /* Reset last set if it do not exists */
     if (!set_exists(last_set))
     {
 	b = 0;
 	last_set = 0;
+	config_set_d(CONFIG_LAST_SET, 0);
     }
-
-    set_init();
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
     audio_play(AUD_START, 1.f);
