@@ -234,7 +234,10 @@ static int set_load(struct set *s, const char *filename)
 		if (states[i] == 'O')
 		    s->locked -= 1;
 		else if (states[i] == 'C')
+		{
 		    s->completed += 1;
+		    s->locked -= 1;
+		}
 	    }
 	}
 	fclose(fin);

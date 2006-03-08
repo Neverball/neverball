@@ -61,6 +61,7 @@ static void gui_level(int id, int i)
     const struct set *s = curr_set();
     const struct level *l;
     int jd = 0;
+    const GLfloat *fore, *back;
     
     const char * text; /*= _(level_number_name(i));*/
 
@@ -72,16 +73,15 @@ static void gui_level(int id, int i)
     
     l = get_level(i);
     text = _(l->numbername);
+    
     if (! l->is_locked)
     {
-	if (! l->is_bonus)
-	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_wht, gui_wht);
-	else
-	    jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_wht, gui_grn);
+	fore =  l->is_bonus ? gui_grn : gui_wht;
+	back = l->is_completed ? gui_wht : gui_yel;
     }
     else
-	jd = gui_label(id, text, GUI_SML, GUI_ALL, gui_gry, gui_gry);
-    
+        fore = back = gui_gry;
+    jd = gui_label(id, text, GUI_SML, GUI_ALL, back, fore);
     gui_active(jd, i, 0);
 }
 
