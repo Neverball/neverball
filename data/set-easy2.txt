@@ -17,3 +17,4 @@ map-easy2/elevator-jp.sol
 map-easy2/stairs-jp.sol
 map-easy2/billiard-paul.sol
 map-easy2/paths-paul.sol
+map-easy2/ocean-paul.sol
