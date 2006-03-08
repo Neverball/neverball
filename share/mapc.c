@@ -929,6 +929,7 @@ static void make_goal(struct s_file *fp,
     zp->p[2] = 0.f;
     zp->r    = 0.75;
     zp->s    = 0;
+    zp->c    = 0;
 
     for (i = 0; i < c; i++)
     {
@@ -936,6 +937,8 @@ static void make_goal(struct s_file *fp,
             sscanf(v[i], "%f", &zp->r);
         if (strcmp(k[i], "skip") == 0)
             sscanf(v[i], "%d", &zp->s);
+        if (strcmp(k[i], "special") == 0)
+            sscanf(v[i], "%d", &zp->c);
 
         if (strcmp(k[i], "origin") == 0)
         {

@@ -2192,4 +2192,5 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "736 168 476"
+"special" "1"
 }

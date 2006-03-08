@@ -5030,4 +5030,5 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "7168 1280 -552"
+"special" "1"
 }

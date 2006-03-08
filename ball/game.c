@@ -230,7 +230,7 @@ static void game_draw_goals(const struct s_file *fp, float rx, float ry)
                              fp->zv[zi].p[1],
                              fp->zv[zi].p[2]);
 
-                part_draw_goal(rx, ry, fp->zv[zi].r, goal_k);
+                part_draw_goal(rx, ry, fp->zv[zi].r, goal_k, fp->zv[zi].c);
 
                 glScalef(fp->zv[zi].r, goal_k, fp->zv[zi].r);
                 goal_draw();

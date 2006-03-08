@@ -198,7 +198,8 @@ struct s_goal
 {
     float p[3];                                /* position                   */
     float r;                                   /* radius                     */
-    int   s;                                   /* level skiped               */
+    int   s;                                   /* levels skiped              */
+    int   c;                                   /* special coloration?        */
 };
 
 struct s_swch
