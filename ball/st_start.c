@@ -63,8 +63,6 @@ static void gui_level(int id, int i)
     int jd = 0;
     const GLfloat *fore, *back;
     
-    const char * text; /*= _(level_number_name(i));*/
-
     if (! set_level_exists(s, i))
     {
 	gui_space(id);
@@ -72,7 +70,6 @@ static void gui_level(int id, int i)
     }
     
     l = get_level(i);
-    text = _(l->numbername);
     
     if (! l->is_locked)
     {
@@ -81,7 +78,7 @@ static void gui_level(int id, int i)
     }
     else
         fore = back = gui_gry;
-    jd = gui_label(id, text, GUI_SML, GUI_ALL, back, fore);
+    jd = gui_label(id, l->numbername, GUI_SML, GUI_ALL, back, fore);
     gui_active(jd, i, 0);
 }
 

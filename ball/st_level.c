@@ -47,7 +47,7 @@ static int level_enter(void)
 	}
 	else if ((jd = gui_hstack(id)))
         {
-	    ln = _(lg->level->numbername);
+	    ln = lg->level->numbername;
 	    b  = lg->level->is_bonus;
 
             gui_filler(jd);
