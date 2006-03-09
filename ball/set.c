@@ -500,14 +500,14 @@ void score_change_name(struct level_game *lg, const char *player)
 static struct level *next_level(int i)
 {
 /* Return the ith level, or NULL */
-    return set_level_exists(current_set, i) ? &level_v[i] : NULL;
+    return set_level_exists(current_set, i+1) ? &level_v[i+1] : NULL;
 }
 
 static struct level *next_normal_level(int i)
 /* Return the next notmal level (starting for i) 
  * Return NULL if there is not a such level */
 {
-    for (; i < current_set->count; i++)
+    for (i++; i < current_set->count; i++)
 	if (!level_v[i].is_bonus)
 	    return &level_v[i];
     return NULL;
@@ -540,6 +540,7 @@ void set_finish_level(struct level_game *lg, const char *player)
 	    return;
 	}
 
+	/* Complete the level */
 	if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
 	{
 	    /* Complete the level */
@@ -549,22 +550,24 @@ void set_finish_level(struct level_game *lg, const char *player)
 		s->completed += 1;
 		dirty = 1;
 	    }
-
-	    /* Identify the follwing level */
-	    nl = next_level(ln + lg->state_value + 1);
-	    if (nl != NULL)
-	    {
-		/* skip bonuses if unlocked in non challenge mode*/
-		if(nl->is_bonus && nl->is_locked && lg->mode != MODE_CHALLENGE)
-		    nl = next_normal_level(nl->number);
-	    }
-	    else if (lg->mode == MODE_CHALLENGE)
-	        lg->win = 1;
 	}
+	
+	/* Identify the follwing level */
+	nl = next_level(ln + lg->state_value);
+	if (nl != NULL)
+	{
+	    /* skip bonuses if unlocked in non challenge mode*/
+	    if(nl->is_bonus && nl->is_locked && lg->mode != MODE_CHALLENGE)
+		nl = next_normal_level(nl->number);
+	}
+	else if (lg->mode == MODE_CHALLENGE)
+	    lg->win = 1;
     }
-    else if (cl->is_bonus)
+    else if (cl->is_bonus || lg->mode != MODE_CHALLENGE)
     {
+	/* On fail, identify the next level (only in bonus for challenge) */
 	nl = next_normal_level(ln);
+	/* Fail a bonus level but win the set! */
         if (nl == NULL && lg->mode == MODE_CHALLENGE)
 	    lg->win = 1;
     }
