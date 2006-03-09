@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-08 19:42+0200\n"
+"POT-Creation-Date: 2006-03-10 00:13+0200\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
@@ -54,15 +54,15 @@ msgstr "Manuelle"
 msgid "Not a valid level file\n"
 msgstr "Pas un fichier de niveau valide\n"
 
-#: ball/level.c:187 ball/st_start.c:244
+#: ball/level.c:187 ball/st_start.c:241
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/level.c:188 ball/st_start.c:242
+#: ball/level.c:188 ball/st_start.c:239
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/level.c:189 ball/st_start.c:241
+#: ball/level.c:189 ball/st_start.c:238
 msgid "Practice"
 msgstr "Entraînement"
 
@@ -91,7 +91,7 @@ msgstr "Balle perdue"
 msgid "screen%02d.bmp"
 msgstr "capture%02d.bmp"
 
-#: ball/main.c:223
+#: ball/main.c:227
 #, c-format
 msgid ""
 "Usage: %s [options ...]\n"
@@ -108,37 +108,37 @@ msgstr ""
 "-v, --version             affiche la version.\n"
 "-h, -?, --help            affiche ce message d'aide.\n"
 
-#: ball/main.c:247
+#: ball/main.c:251
 #, c-format
 msgid "%s: %s version %s\n"
 msgstr "%s : %s version %s\n"
 
-#: ball/main.c:258
+#: ball/main.c:262
 #, c-format
 msgid "%s: unknown option %s\n"
 msgstr "%s : option inconnue %s\n"
 
-#: ball/main.c:264
+#: ball/main.c:268
 #, c-format
 msgid "%s: option %s requires an argument\n"
 msgstr "%s : option %s nécessite un argument\n"
 
-#: ball/main.c:285 putt/main.c:251
+#: ball/main.c:289 putt/main.c:251
 #, c-format
 msgid "Failure to establish game data directory\n"
 msgstr "Impossible d'établir le répertoire des données du jeu\n"
 
-#: ball/main.c:291 putt/main.c:249
+#: ball/main.c:295 putt/main.c:249
 #, c-format
 msgid "Failure to establish config directory\n"
 msgstr "Impossible d'établir le répertoire de configuration\n"
 
-#: ball/main.c:310
+#: ball/main.c:314
 #, c-format
 msgid "Replay file '%s': "
 msgstr "Fichier de film « %s » : "
 
-#: ball/main.c:314
+#: ball/main.c:318
 #, c-format
 msgid "Not a replay file\n"
 msgstr "Pas un fichier de film\n"
@@ -193,7 +193,7 @@ msgstr "Non"
 msgid "On"
 msgstr "Oui"
 
-#: ball/st_conf.c:318 ball/st_demo.c:223 ball/st_start.c:229 ball/util.c:358
+#: ball/st_conf.c:318 ball/st_demo.c:223 ball/st_start.c:226 ball/util.c:358
 #: putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270 share/st_lang.c:81
 #: share/st_resol.c:93
 msgid "Back"
@@ -414,47 +414,47 @@ msgstr "Écraser ?"
 msgid "Level Set"
 msgstr "Collection de nivaux"
 
-#: ball/st_start.c:101
+#: ball/st_start.c:98
 msgid "Play this bonus level in practice mode"
 msgstr "Entrainez-vous à ce niveau bonus"
 
-#: ball/st_start.c:103
+#: ball/st_start.c:100
 msgid "Play this level in practice mode"
 msgstr "Entrainez-vous à ce niveau"
 
-#: ball/st_start.c:109
+#: ball/st_start.c:106
 msgid "Play this bonus level in normal mode"
 msgstr "Jouez à ce niveau bonus"
 
-#: ball/st_start.c:111
+#: ball/st_start.c:108
 msgid "Play this level in normal mode"
 msgstr "Jouez à ce niveau"
 
-#: ball/st_start.c:120
+#: ball/st_start.c:117
 msgid "Play in challenge mode to unlock extra bonus levels"
 msgstr "Jouez en mode challenge pour acceder aux niveaux bonus"
 
-#: ball/st_start.c:122
+#: ball/st_start.c:119
 msgid "Finish previous levels to unlock this level"
 msgstr "Terminez les niveaus précédents"
 
-#: ball/st_start.c:141
+#: ball/st_start.c:138
 msgid "Challenge all levels from the first one"
 msgstr "Défiez tous les niveaux à partir du premier"
 
-#: ball/st_start.c:145
+#: ball/st_start.c:142
 msgid "Collect coins and unlock next level"
 msgstr "Collecter les pièces et dévérouillez le niveau suivant"
 
-#: ball/st_start.c:149
+#: ball/st_start.c:146
 msgid "Train yourself without time nor coin"
 msgstr "Entrainez-vous sans chrono ni pièces à collecter"
 
-#: ball/st_start.c:226
+#: ball/st_start.c:223
 msgid "Set Complete"
 msgstr "Collection complétée"
 
-#: ball/st_start.c:261
+#: ball/st_start.c:258
 msgid "Choose a level to play"
 msgstr "Choisissez un niveau"
 
