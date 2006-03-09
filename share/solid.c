@@ -1901,10 +1901,16 @@ int sol_goal_test(struct s_file *fp, float *p, int ui)
 }
 
 int sol_jump_test(struct s_file *fp, float *p, int ui)
+/* Test if the ball ui in inside a jump */
+/* Return 1 if yes and fill p with the destination position */
+/* Return 0 if no */
+/* Return 2 if the ball is on the border of a jump */
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
     int ji;
+    float l;
+    int res = 0;
 
     for (ji = 0; ji < fp->jc; ji++)
     {
@@ -1914,18 +1920,24 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
         r[1] = ball_p[2] - fp->jv[ji].p[2];
         r[2] = 0;
 
-        if (v_len(r) < fp->jv[ji].r - ball_r &&
+	l = v_len(r) - fp->jv[ji].r;
+        if (l < 0 &&
             ball_p[1] > fp->jv[ji].p[1] &&
             ball_p[1] < fp->jv[ji].p[1] + JUMP_HEIGHT / 2)
         {
-            p[0] = fp->jv[ji].q[0] + (ball_p[0] - fp->jv[ji].p[0]);
-            p[1] = fp->jv[ji].q[1] + (ball_p[1] - fp->jv[ji].p[1]);
-            p[2] = fp->jv[ji].q[2] + (ball_p[2] - fp->jv[ji].p[2]);
+	    if (l < - ball_r )
+	    {
+		p[0] = fp->jv[ji].q[0] + (ball_p[0] - fp->jv[ji].p[0]);
+		p[1] = fp->jv[ji].q[1] + (ball_p[1] - fp->jv[ji].p[1]);
+		p[2] = fp->jv[ji].q[2] + (ball_p[2] - fp->jv[ji].p[2]);
 
-            return 1;
+		return 1;
+	    }
+	    else
+		res = 2;
         }
     }
-    return 0;
+    return res;
 }
 
 int sol_swch_test(struct s_file *fp, int ui)
@@ -1936,6 +1948,7 @@ int sol_swch_test(struct s_file *fp, int ui)
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
     int xi;
+    float l;
     int res = 0; /* result */
 
     for (xi = 0; xi < fp->xc; xi++)
@@ -1950,11 +1963,12 @@ int sol_swch_test(struct s_file *fp, int ui)
             r[1] = ball_p[2] - xp->p[2];
             r[2] = 0;
 
-            if (v_len(r)  < xp->r + ball_r &&
+	    l = v_len(r) - xp->r;
+            if (l < ball_r &&
                 ball_p[1] > xp->p[1] &&
                 ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
             {
-                if (!xp->e && v_len(r)  < xp->r - ball_r)
+                if (!xp->e && l < - ball_r)
                 {
                     int pi = xp->pi;
                     int pj = xp->pi;

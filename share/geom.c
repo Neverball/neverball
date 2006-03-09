@@ -405,40 +405,43 @@ static GLuint jump_list;
 
 void jump_init(int b)
 {
-    int i, n = b ? 32 : 8;
+    int k, i, n = b ? 32 : 8;
 
-    jump_list = glGenLists(1);
+    jump_list = glGenLists(2);
 
-    glNewList(jump_list, GL_COMPILE);
+    for (k=0; k<12; k++)
     {
-        glPushAttrib(GL_TEXTURE_BIT  |
-                     GL_LIGHTING_BIT |
-                     GL_DEPTH_BUFFER_BIT);
-        {
-            glEnable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHTING);
-            glDisable(GL_TEXTURE_2D);
-            glDepthMask(GL_FALSE);
+	glNewList(jump_list + k, GL_COMPILE);
+	{
+	    glPushAttrib(GL_TEXTURE_BIT  |
+		    GL_LIGHTING_BIT |
+		    GL_DEPTH_BUFFER_BIT);
+	    {
+		glEnable(GL_COLOR_MATERIAL);
+		glDisable(GL_LIGHTING);
+		glDisable(GL_TEXTURE_2D);
+		glDepthMask(GL_FALSE);
 
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n);
-                    float y = fsinf(2.f * PI * i / n);
-            
-                    glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
-                    glVertex3f(x, 0.0f, y);
+		glBegin(GL_QUAD_STRIP);
+		{
+		    for (i = 0; i <= n; i++)
+		    {
+			float x = fcosf(2.f * PI * i / n);
+			float y = fsinf(2.f * PI * i / n);
 
-                    glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
-                    glVertex3f(x, JUMP_HEIGHT, y);
-                }
-            }
-            glEnd();
-        }
-        glPopAttrib();
+			glColor4f(1.0f, 1.0f, 1.0f, (k==0 ? 0.5f : 0.8f));
+			glVertex3f(x, 0.0f, y);
+
+			glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
+			glVertex3f(x, JUMP_HEIGHT, y);
+		    }
+		}
+		glEnd();
+	    }
+	    glPopAttrib();
+	}
+	glEndList();
     }
-    glEndList();
 }
 
 void jump_free(void)
@@ -449,9 +452,9 @@ void jump_free(void)
     jump_list = 0;
 }
 
-void jump_draw(void)
+void jump_draw(int highlight)
 {
-    glCallList(jump_list);
+    glCallList(jump_list + highlight);
 }
 
 /*---------------------------------------------------------------------------*/

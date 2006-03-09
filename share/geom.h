@@ -45,7 +45,7 @@ void goal_draw(void);
 
 void jump_init(int);
 void jump_free(void);
-void jump_draw(void);
+void jump_draw(int);
 
 /*---------------------------------------------------------------------------*/
 

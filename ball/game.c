@@ -252,7 +252,7 @@ static void game_draw_jumps(const struct s_file *fp)
                          fp->jv[ji].p[2]);
 
             glScalef(fp->jv[ji].r, 1.f, fp->jv[ji].r);
-            jump_draw();
+            jump_draw(!jump_e);
         }
         glPopMatrix();
     }
