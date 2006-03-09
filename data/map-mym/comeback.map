@@ -2146,4 +2146,5 @@
 "classname" "info_player_deathmatch"
 "origin" "-224 160 -232"
 "radius" "1.2"
+"special" "1"
 }

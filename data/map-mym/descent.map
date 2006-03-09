@@ -1103,6 +1103,7 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "2816 6144 -328"
+"special" "1"
 }
 // entity 3
 {
