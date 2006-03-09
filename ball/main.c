@@ -409,6 +409,7 @@ int main(int argc, char *argv[])
 	    {
 		st_paint();
 		gui_blank();
+		SDL_Delay(10); /* Be nice! */
 	    }
 	    else
 	    {
