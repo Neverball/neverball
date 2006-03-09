@@ -2,21 +2,18 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "ghosts-mym"
-"version"   "1"
-
-"back"      "map-back/jupiter.sol"
-"grad"      "back/space.png"
-"shot"      "shot-mym2/ghosts.jpg"
-"song"      "bgm/track5.ogg"
-"time"      "10000"
-"goal"      "30"
-
-"time_hs"   "7000 8000"
-"coin_hs"   "58 54"
+"version" "1"
+"back" "map-back/jupiter.sol"
+"grad" "back/space.png"
+"shot" "shot-mym2/ghosts.jpg"
+"song" "bgm/track5.ogg"
+"time" "10000"
+"goal" "30"
+"time_hs" "7000 8000"
+"coin_hs" "58 54"
 "message" "Ghost Valley.\Make 3 laps to open the goal."
-
 "special" "1"
 // brush 0
 {
@@ -2599,6 +2596,7 @@
 "radius" "1.6"
 "origin" "-32 -720 0"
 "timer" "2"
+"invisible" "1"
 }
 // entity 14
 {

@@ -2,19 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "marblecurves-mym"
-"version"   "1"
-
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
-"shot"      "shot-easy2/.jpg"
-"song"      "bgm/track2.ogg"
-"time"      "12000"
-"goal"      "10"
-
-"time_hs"   " "
-"coin_hs"   " "
+"version" "1"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
+"shot" "shot-easy2/.jpg"
+"song" "bgm/track2.ogg"
+"time" "12000"
+"goal" "10"
+"time_hs" " "
+"coin_hs" " "
 // brush 0
 {
 ( 63 -124 292 ) ( 63 -252 292 ) ( -73 -124 292 ) mtrl/marble-purple 0 0 0 0.5 0.5 0 0 0
@@ -5376,6 +5374,7 @@
 "origin" "-384 1928 232"
 "target" "path_corner7"
 "timer" "8.5"
+"invisible" "1"
 }
 // entity 95
 {
@@ -5398,6 +5397,7 @@
 "classname" "info_camp"
 "origin" "-384 -252 408"
 "target" "path_corner9"
+"invisible" "1"
 }
 // entity 98
 {
@@ -6203,6 +6203,7 @@
 "origin" "768 1928 232"
 "timer" "360"
 "target" "path_corner13"
+"invisible" "1"
 }
 // entity 107
 {
@@ -6225,6 +6226,7 @@
 "origin" "768 1928 232"
 "target" "path_corner15"
 "timer" "360"
+"invisible" "1"
 }
 // entity 110
 {

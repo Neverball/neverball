@@ -5707,6 +5707,7 @@
 "target" "t18"
 "timer" "2"
 "origin" "0 -904 0"
+"invisible" "1"
 }
 // entity 92
 {

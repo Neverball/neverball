@@ -2,21 +2,18 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "basket-mym"
-"version"   "1"
-
-"back"      "map-back/city.sol"
-"grad"      "back/city.png"
-"shot"      "shot-mym2/basket.jpg"
-"song"      "bgm/track2.ogg"
-"time"      "18000"
-"goal"      "15"
-
-"time_hs"   "3200 5000"
-"coin_hs"   "50 30"
+"version" "1"
+"back" "map-back/city.sol"
+"grad" "back/city.png"
+"shot" "shot-mym2/basket.jpg"
+"song" "bgm/track2.ogg"
+"time" "18000"
+"goal" "15"
+"time_hs" "3200 5000"
+"coin_hs" "50 30"
 "message" "Street Neverball\Choose your party and score 3 points."
-
 "special" "1"
 // brush 0
 {
@@ -4871,6 +4868,7 @@
 "timer" "1"
 "target" "t31"
 "radius" ".4"
+"invisible" "1"
 }
 // entity 95
 {
@@ -5515,6 +5513,7 @@
 "timer" "1"
 "radius" ".4"
 "target" "t29"
+"invisible" "1"
 }
 // entity 119
 {
