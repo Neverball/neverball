@@ -104,10 +104,19 @@ static int loop(void)
         if (e.type == SDL_QUIT)
             return 0;
 
-        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
-            config_tgl_pause();
+	if (e.type == SDL_KEYDOWN)
+	    switch (e.key.keysym.sym)
+	    {
+	    case SDLK_SPACE: config_tgl_pause();        break;
+	    case SDLK_F11:   toggle_fullscreen();       break;
+	    case SDLK_F10:   shot();                    break;
+	    case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
+	    case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
+	    case SDLK_F7:    toggle_wire();             break;
+	    default: break;
+	    }
 
-        if (!config_get_pause())
+	if (!config_get_pause())
             switch (e.type)
             {
             case SDL_MOUSEMOTION:
@@ -130,11 +139,6 @@ static int loop(void)
                 
                 switch (e.key.keysym.sym)
                 {
-                case SDLK_F11:   toggle_fullscreen();       break;
-                case SDLK_F10:   shot();                    break;
-                case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
-                case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
-                case SDLK_F7:    toggle_wire();             break;
                 
                 case SDLK_RETURN:
                     d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
