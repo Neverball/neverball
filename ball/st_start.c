@@ -77,7 +77,7 @@ static void gui_level(int id, int i)
     if (! l->is_locked)
     {
 	fore =  l->is_bonus ? gui_grn : gui_wht;
-	back = l->is_completed ? gui_wht : gui_yel;
+	back = l->is_completed ? fore : gui_yel;
     }
     else
         fore = back = gui_gry;
@@ -88,7 +88,7 @@ static void gui_level(int id, int i)
 static void start_over_level(i)
 {
     const struct level *l = get_level(i);
-    if (! l->is_locked)
+    if (! l->is_locked || config_get_d(CONFIG_CHEAT))
     {
         gui_set_image(shot_id, l->shot);
 
