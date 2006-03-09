@@ -1960,8 +1960,8 @@ int sol_swch_test(struct s_file *fp, int ui)
                     int pj = xp->pi;
 
 		    /* The ball enter */
-		    
-		    xp->e = 1;
+		    if (xp->t0 == 0)
+		        xp->e = 1;
 		    
                     /* Toggle the state, update the path. */
 
