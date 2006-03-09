@@ -3,6 +3,7 @@
 {
 "classname" "worldspawn"
 "author"    "Paul Tompkins"
+"contributor" "Mehdi Yousfi-Monod"
 "levelname" "billiard-paul"
 "version"   "1"
 

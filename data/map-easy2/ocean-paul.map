@@ -3,6 +3,7 @@
 {
 "classname" "worldspawn"
 "author" "Paul Tompkins"
+"contributor" "Mehdi Yousfi-Monod"
 "levelname" "ocean-paul"
 "version" "1"
 "back" "map-back/jupiter.sol"
