@@ -15,7 +15,7 @@
 # General Public License for more details.
 
 set -B
-	       
+
 POTFILE="$1"
 DOMAIN="$2"
 COPYRIGHT="Robert Kooima"
@@ -38,14 +38,13 @@ sed -i "0,/^$/ s/charset=CHARSET/charset=UTF-8/" "$POTFILE"
 # Second, extract from neverball sets and neverputt courses
 echo "# Sets and courses"
 for i in $(< "$SETS"); do
-	# The file names in sets.txt don't have the prefix
-	i=${i/#/"$DATA"/}
+	i="$DATA"/"$i"
 
 	# Only translate the two first lines
 	head -2 $i | while read -r d; do
 		echo
 		echo "#: $i"
-		# Convert \ to \\ 
+		# Convert \ to \\
 		echo "msgid \"${d//\\/\\\\}\""
 		echo "msgstr \"\""
 	done >> $POTFILE
@@ -57,7 +56,7 @@ echo | cat "$COURSES" - | while read -r d; do
 	if test -n "$d" && echo "$d" | grep -v ".txt" &> /dev/null; then
 		echo
 		echo "#: $COURSES"
-		# Convert \ to \\ 
+		# Convert \ to \\
 		echo "msgid \"${d//\\/\\\\}\""
 		echo "msgstr \"\""
 	fi

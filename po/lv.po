@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-03-10 00:13+0200\n"
-"PO-Revision-Date: 2006-03-10 00:14+0200\n"
+"PO-Revision-Date: 2006-03-10 22:09+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -1070,8 +1070,10 @@ msgid ""
 "\\ball will land.  If you're feeling confident in\\your mastery of bouncing, "
 "take a risk\\for a big payoff.\\"
 msgstr ""
-"Iemācies pārvaldīt lēkājošu bumbu.\\Paturi acīs ēnu, lai zinātu, kur\\bumba "
-"piezemēsies. Ja jūties pietiekoši pārliecināts\\par savām lēkāšanas iemaņām,"
+"Iemācies pārvaldīt lēkājošu bumbu.\\"
+"Paturi acīs ēnu, lai zinātu, kur bumba\\"
+"piezemēsies. Ja jūties pietiekoši pārliecināts\\"
+"par savām lēkāšanas iemaņām,"
 "\\pamēģini tikt klāt lielajai naudai.\\"
 
 #: data/map-rlk/check.map
@@ -1131,7 +1133,7 @@ msgstr ""
 
 #: data/map-rlk/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
-msgstr "Izmanto teleportus, lai\\nokļūtu tur, kur citādi nevarētu.\\"
+msgstr "Izmanto portālus, lai nokļūtu\\tur, kur citādi nevarētu.\\"
 
 #: data/map-rlk/fence.map
 msgid ""
@@ -1342,8 +1344,8 @@ msgid ""
 "\\Remember that the ball carries its momentum\\through a teleporter, so plan "
 "ahead.\\"
 msgstr ""
-"Bumbai pilnībā jāatrodas teleporta iekšienē,\\lai to iedarbinātu.\\Paturi "
-"prātā, ka bumba saglabā savu inerci\\cauri teleportam, tādēļ plāno jau "
+"Bumbai pilnībā jāatrodas portāla iekšienē,\\lai to iedarbinātu.\\Paturi "
+"prātā, ka bumba saglabā savu inerci\\cauri portālam, tādēļ plāno jau "
 "laikus.\\"
 
 #: data/map-rlk/tilt.map
