@@ -2,19 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "roundlaby-mym"
-"version"   "1"
-
-"back"      "map-back/clouds.sol"
-"grad"      "back/land.png"
-"shot"      "shot-easy2/.jpg"
-"song"      "bgm/track1.ogg"
-"time"      "12000"
-"goal"      "10"
-
-"time_hs"   " "
-"coin_hs"   " "
+"version" "1"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"shot" "shot-easy2/.jpg"
+"song" "bgm/track1.ogg"
+"time" "12000"
+"goal" "10"
+"time_hs" " "
+"coin_hs" " "
 // brush 0
 {
 ( -384 -544 0 ) ( -384 224 0 ) ( 384 224 0 ) mtrl/turf-shiny 128 75 0 -3 3 0 0 0
@@ -2517,34 +2515,28 @@
 // entity 63
 {
 "classname" "light"
-"origin" "248 -296 16"
-"light" "1"
-}
-// entity 64
-{
-"classname" "light"
 "origin" "96 40 16"
 "light" "5"
 }
-// entity 65
+// entity 64
 {
 "classname" "light"
 "origin" "344 -208 16"
 "light" "1"
 }
-// entity 66
+// entity 65
 {
 "classname" "light"
 "origin" "272 -216 16"
 "light" "1"
 }
-// entity 67
+// entity 66
 {
 "classname" "light"
 "origin" "264 -256 16"
 "light" "1"
 }
-// entity 68
+// entity 67
 {
 "classname" "light"
 "origin" "248 -296 16"
