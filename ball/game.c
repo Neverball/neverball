@@ -23,7 +23,7 @@
 #include "part.h"
 #include "image.h"
 #include "audio.h"
-#include "solid.h"
+#include "solid_gl.h"
 #include "config.h"
 #include "binary.h"
 #include "level.h"
@@ -129,10 +129,10 @@ int game_init(const struct level * level, int t, int g)
     view_init();
     back_init(level->grad, config_get_d(CONFIG_GEOMETRY));
 
-    sol_load(&back, config_data(level->back),
+    sol_load_gl(&back, config_data(level->back),
 		    config_get_d(CONFIG_TEXTURES), 0);
 
-    if (sol_load(&file, level->file,
+    if (sol_load_gl(&file, level->file,
                  config_get_d(CONFIG_TEXTURES), config_get_d(CONFIG_SHADOW)))
         return (game_state = 1);
     else
@@ -143,8 +143,8 @@ void game_free(void)
 {
     if (game_state)
     {
-        sol_free(&file);
-        sol_free(&back);
+        sol_free_gl(&file);
+        sol_free_gl(&back);
         back_free();
     }
     game_state = 0;

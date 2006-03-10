@@ -304,15 +304,13 @@ struct s_file
 
 /*---------------------------------------------------------------------------*/
 
+void sol_body_p(float p[3], const struct s_file *, const struct s_body *);
+
+/*---------------------------------------------------------------------------*/
+
 int   sol_load_only_file(struct s_file *, const char *);
-int   sol_load(struct s_file *, const char *, int, int);
 int   sol_stor(struct s_file *, const char *);
 void  sol_free(struct s_file *);
-
-void  sol_back(const struct s_file *, float, float, float);
-void  sol_refl(const struct s_file *);
-void  sol_draw(const struct s_file *);
-void  sol_shad(const struct s_file *);
 
 float sol_step(struct s_file *, const float *, float, int, int *);
 

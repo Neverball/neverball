@@ -24,7 +24,7 @@
 #include "hud.h"
 #include "image.h"
 #include "audio.h"
-#include "solid.h"
+#include "solid_gl.h"
 #include "config.h"
 
 /*---------------------------------------------------------------------------*/
@@ -83,13 +83,13 @@ void game_init(const char *s)
     jump_b = 0;
 
     view_init();
-    sol_load(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
+    sol_load_gl(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
                                     config_get_d(CONFIG_SHADOW));
 }
 
 void game_free(void)
 {
-    sol_free(&file);
+    sol_free_gl(&file);
 }
 
 /*---------------------------------------------------------------------------*/

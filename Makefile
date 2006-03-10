@@ -47,6 +47,7 @@ BALL_OBJS= \
 	share/base_image.o   \
 	share/image.o   \
 	share/solid.o   \
+	share/solid_gl.o\
 	share/part.o    \
 	share/back.o    \
 	share/geom.o    \
@@ -86,6 +87,7 @@ PUTT_OBJS= \
 	share/base_image.o  \
 	share/image.o  \
 	share/solid.o  \
+	share/solid_gl.o  \
 	share/part.o   \
 	share/geom.o   \
 	share/back.o   \
@@ -107,8 +109,8 @@ BALL_DEPS= $(BALL_OBJS:.o=.d)
 PUTT_DEPS= $(PUTT_OBJS:.o=.d)
 MAPC_DEPS= $(MAPC_OBJS:.o=.d)
 
-LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS) $(OGL_LIBS)
-LIBS_MAPC= -lSDL_image $(OGL_LIBS)
+BASE_LIBS= $(SDL_LIBS) -lSDL_image
+LIBS= $(X11_PATH) $(BASE_LIBS) -lSDL_ttf -lSDL_mixer $(FT2_LIBS) $(OGL_LIBS)
 
 MESSAGEPART= /LC_MESSAGES/$(LOCALEDOM).mo
 MESSAGES= $(LINGUAS:%=$(LOCALEDIR)/%$(MESSAGEPART))
@@ -149,7 +151,7 @@ $(PUTT_TARG) : $(PUTT_OBJS)
 	$(CC) $(CFLAGS) -o $(PUTT_TARG) $(PUTT_OBJS) $(LIBS)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
-	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LIBS_MAPC)
+	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(BASE_LIBS)
 
 sols : $(SOLS)
 
