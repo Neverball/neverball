@@ -399,8 +399,8 @@ static int demo_end_enter(void)
                 gui_start(jd, _("OK"),       GUI_SML, DEMO_QUIT,   1);
 	    else
 	    {
-                gui_state(jd, _("Delete"),   GUI_SML, DEMO_DEL,    0);
                 gui_start(jd, _("Keep"),     GUI_SML, DEMO_KEEP,   1);
+                gui_state(jd, _("Delete"),   GUI_SML, DEMO_DEL,    0);
 	    }
         }
 
@@ -464,8 +464,8 @@ static int demo_del_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, _("Yes"), GUI_SML, DEMO_DEL,  0);
             gui_start(jd, _("No"),  GUI_SML, DEMO_KEEP, 1);
+            gui_state(jd, _("Yes"), GUI_SML, DEMO_DEL,  0);
         }
 
         gui_pulse(kd, 1.2f);

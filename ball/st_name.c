@@ -119,8 +119,8 @@ static int name_enter(void)
 	gui_keyboard(id);
 	if ((jd = gui_harray(id)))
 	{
-	    gui_state(jd, _("Cancel"), GUI_SML, NAME_CANCEL, 0);
 	    enter_id = gui_start(jd, _("OK"),     GUI_SML, NAME_OK,     0);
+	    gui_state(jd, _("Cancel"), GUI_SML, NAME_CANCEL, 0);
 	}
 
 	gui_layout(id, 0, 0);
