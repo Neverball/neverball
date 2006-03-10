@@ -238,11 +238,11 @@ static int start_enter(void)
 		    gui_state(ld, _("Practice"), GUI_SML, START_PRACTICE, m == MODE_PRACTICE);
 		    gui_state(ld, _("Normal"),   GUI_SML, START_NORMAL,   m == MODE_NORMAL);
 		}
-		gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE , m == MODE_CHALLENGE);
 		for (i=0; i <5; i++)
                     if ((ld = gui_harray(kd)))
                         for (j=4; j>=0; j--)
                             gui_level(ld, i*5 + j);
+		gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE , m == MODE_CHALLENGE);
             }
         }
         gui_space(id);
