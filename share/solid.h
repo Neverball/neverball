@@ -15,7 +15,6 @@
 #ifndef SOL_H
 #define SOL_H
 
-#include <SDL.h>
 #include "glext.h"
 #include "base_config.h"
 

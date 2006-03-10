@@ -23,8 +23,8 @@
 
 #include "glext.h"
 #include "vec3.h"
-#include "geom.h"
-#include "image.h"
+#include "geom.h" /* Only for height constants! */
+#include "base_image.h"
 #include "solid.h"
 #include "base_config.h"
 #include "binary.h"

@@ -34,7 +34,7 @@ POTFILE= po/neverball.pot
 
 MAPC_OBJS= \
 	share/vec3.o   \
-	share/image.o  \
+	share/base_image.o  \
 	share/solid.o  \
 	share/binary.o \
 	share/base_config.o \
@@ -44,6 +44,7 @@ BALL_OBJS= \
 	share/st_lang.o \
 	share/st_resol.o \
 	share/vec3.o    \
+	share/base_image.o   \
 	share/image.o   \
 	share/solid.o   \
 	share/part.o    \
@@ -82,6 +83,7 @@ PUTT_OBJS= \
 	share/st_lang.o \
 	share/st_resol.o \
 	share/vec3.o   \
+	share/base_image.o  \
 	share/image.o  \
 	share/solid.o  \
 	share/part.o   \
@@ -106,6 +108,7 @@ PUTT_DEPS= $(PUTT_OBJS:.o=.d)
 MAPC_DEPS= $(MAPC_OBJS:.o=.d)
 
 LIBS= $(X11_PATH) $(SDL_LIBS) -lSDL_image -lSDL_ttf -lSDL_mixer $(FT2_LIBS) $(OGL_LIBS)
+LIBS_MAPC= -lSDL_image $(OGL_LIBS)
 
 MESSAGEPART= /LC_MESSAGES/$(LOCALEDOM).mo
 MESSAGES= $(LINGUAS:%=$(LOCALEDIR)/%$(MESSAGEPART))
@@ -146,7 +149,7 @@ $(PUTT_TARG) : $(PUTT_OBJS)
 	$(CC) $(CFLAGS) -o $(PUTT_TARG) $(PUTT_OBJS) $(LIBS)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
-	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LIBS)
+	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LIBS_MAPC)
 
 sols : $(SOLS)
 

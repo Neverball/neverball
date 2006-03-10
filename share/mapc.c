@@ -33,7 +33,6 @@
 #include <math.h>
 
 #include "vec3.h"
-#include "glext.h"
 #include "solid.h"
 #include "base_config.h"
 
