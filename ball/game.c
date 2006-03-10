@@ -627,6 +627,7 @@ static int game_update_state(int *state_value)
     float c[3];
     int bt = state_value != NULL;
     int n;
+    struct s_goal *g;
 
     /* Test for a coin grab. */
     
@@ -671,11 +672,11 @@ static int game_update_state(int *state_value)
 
     /* Test for a goal. */
 
-    if (bt && goal_c == 0 && (n = sol_goal_test(fp, p, 0)))
+    if (bt && goal_c == 0 && (g = sol_goal_test(fp, p, 0)))
     {
-	*state_value = n - 1;
+	*state_value = g->s;
 	audio_play(AUD_GOAL, 1.0f);
-        return GAME_GOAL;
+        return g->c ? GAME_SPEC : GAME_GOAL;
     }
 
     /* Test for time-out. */

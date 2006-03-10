@@ -193,12 +193,14 @@ static void play_loop_timer(int id, float dt)
     if (state)
     {
 	level_stop(state, state_value, curr_clock(), curr_coins());
-	switch (state)
+	goto_state(&st_goal);
+/*	switch (state)
 	{
 	case GAME_TIME: goto_state(&st_time_out); break;
 	case GAME_FALL: goto_state(&st_fall_out); break;
+	case GAME_SPEC:
 	case GAME_GOAL: goto_state(&st_goal);     break;
-	}
+	}*/
     }
 
     game_step_fade(dt);

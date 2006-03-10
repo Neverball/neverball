@@ -115,14 +115,14 @@ void level_stop(int state, int state_value, int clock, int coins)
 	lg->times += timer; 
 	    
 	/* sum coins an earn extra balls */
-	if (state == GAME_GOAL)
+	if (state == GAME_GOAL || state == GAME_SPEC || lg->level->is_bonus)
 	{
 	    lg->balls += count_extra_balls(lg->score, coins);
 	    lg->score += coins;
 	}
 
 	/* lose ball and game */
-        if ((state == GAME_TIME || state == GAME_FALL) && !lg->level->is_bonus)
+	else /* if ((state == GAME_TIME || state == GAME_FALL) && !lg->level->is_bonus) */
 	{
 	    lg->balls--;
 	    lg->dead = (lg->balls <= 0);

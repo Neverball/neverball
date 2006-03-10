@@ -1281,7 +1281,7 @@ int sol_coin_test(struct s_file *fp, float *p, float coin_r)
     return 0;
 }
 
-int sol_goal_test(struct s_file *fp, float *p, int ui)
+struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
@@ -1303,10 +1303,10 @@ int sol_goal_test(struct s_file *fp, float *p, int ui)
             p[1] = fp->zv[zi].p[1];
             p[2] = fp->zv[zi].p[2];
 
-            return 1 + fp->zv[zi].s;
+            return &fp->zv[zi];
         }
     }
-    return 0;
+    return NULL;
 }
 
 int sol_jump_test(struct s_file *fp, float *p, int ui)

@@ -78,10 +78,9 @@ static int goal_action(int i)
 
 static int goal_init(int * gidp)
 {
-    const char *s1 = _("New Record");
-    const char *s2 = _("GOAL");
     const struct level_game *lg = curr_lg();
-    int mode = curr_lg()->mode;
+    int mode  = lg->mode;
+    int state = lg->state;
     const struct level *level = lg->level;
 
     int id, jd, kd;
@@ -93,14 +92,20 @@ static int goal_init(int * gidp)
     {
         int gid;
 
-        if (high)
-            gid = gui_label(id, s1, GUI_MED, GUI_ALL, gui_grn, gui_grn);
+	if      (state == GAME_SPEC)
+	    gid = gui_label(id, _("Special Goal"), GUI_MED, GUI_ALL, gui_yel, gui_yel);
+	else if (state == GAME_FALL)
+	    gid = gui_label(id, _("Fall-out!"),    GUI_MED, GUI_ALL, gui_yel, gui_yel);
+	else if (state == GAME_TIME)
+	    gid = gui_label(id, _("Time's Up!"),   GUI_MED, GUI_ALL, gui_yel, gui_yel);
+	else if (high)
+            gid = gui_label(id, _("New Record"),   GUI_MED, GUI_ALL, gui_grn, gui_grn);
         else
-            gid = gui_label(id, s2, GUI_LRG, GUI_ALL, gui_blu, gui_grn);
+            gid = gui_label(id, _("GOAL"),         GUI_LRG, GUI_ALL, gui_blu, gui_grn);
 
         gui_space(id);
 
-	if (mode == MODE_CHALLENGE)
+	if (mode == MODE_CHALLENGE && (lg->state == GAME_GOAL || lg->state == GAME_SPEC || lg->level->is_bonus))
 	{
 	    int coins = lg->coins;
 	    int score = lg->score - coins;
@@ -128,13 +133,19 @@ static int goal_init(int * gidp)
 		gui_set_count(coins_id, coins);
 	    }
 	}
+	else
+	{
+	    balls_id = score_id = coins_id = 0;
+	}
 	
-	gui_space(id);
-
-        if ((jd = gui_harray(id)))
-        {
-            gui_most_coins(jd, 1);
-            gui_best_times(jd, 1);
+	if (lg->state == GAME_GOAL)
+	{
+	    gui_space(id);
+	    if ((jd = gui_harray(id)))
+	    {
+                gui_most_coins(jd, 1);
+		gui_best_times(jd, 1);
+	    }
         }
 
         gui_space(id);
@@ -148,6 +159,8 @@ static int goal_init(int * gidp)
 	    
 	    if (mode != MODE_CHALLENGE)
                 gui_start(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
+	    else
+                gui_label(jd, _("Retry Level"), GUI_SML, GUI_ALL, gui_blk, gui_blk);
 	    
 	    if (lg->win)
                 gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
