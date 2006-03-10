@@ -99,6 +99,8 @@ static int name_action(int i)
     return 1;
 }
 
+static int enter_id;
+
 static int name_enter(void)
 {
     int id, jd;
@@ -118,7 +120,7 @@ static int name_enter(void)
 	if ((jd = gui_harray(id)))
 	{
 	    gui_state(jd, _("Cancel"), GUI_SML, NAME_CANCEL, 0);
-	    gui_start(jd, _("OK"),     GUI_SML, NAME_OK,     0);
+	    enter_id = gui_start(jd, _("OK"),     GUI_SML, NAME_OK,     0);
 	}
 
 	gui_layout(id, 0, 0);
@@ -140,6 +142,7 @@ static int name_keybd(int c, int d)
     if (d)
 	if ((c & 0xFF80) == 0)
 	{
+	    gui_focus(enter_id);
 	    c &= 0x7F;
 	    if (c == '\b' || c == 0x7F)
 		return name_action(GUI_BS);

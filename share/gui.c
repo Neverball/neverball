@@ -1433,6 +1433,11 @@ int gui_point(int id, int x, int y)
         return active = jd;
 }
 
+void gui_focus(int i)
+{
+    active = i;
+}
+
 int gui_click(void)
 {
     return active;

@@ -89,6 +89,8 @@ static int save_action(int i)
     return 1;
 }
 
+static int enter_id;
+
 static int save_enter(void)
 {
     int id, jd;
@@ -108,7 +110,7 @@ static int save_enter(void)
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, _("Cancel"), GUI_SML, SAVE_CANCEL, 0);
-            gui_start(jd, _("Save"),   GUI_SML, SAVE_SAVE,   0);
+            enter_id = gui_start(jd, _("Save"),   GUI_SML, SAVE_SAVE,   0);
         }
         
         gui_layout(id, 0, 0);
@@ -130,6 +132,7 @@ static int save_keybd(int c, int d)
     if (d)
 	if ((c & 0xFF80) == 0)
 	{
+	    gui_focus(enter_id);
 	    c &= 0x7F;
 	    if (c == '\b')
 		return save_action(GUI_BS);

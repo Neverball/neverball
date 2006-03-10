@@ -91,6 +91,7 @@ int  gui_point(int, int, int);
 int  gui_stick(int, int, int);
 int  gui_click(void);
 void gui_blank(void);
+void gui_focus(int);
 
 int  gui_token(int);
 int  gui_value(int);
