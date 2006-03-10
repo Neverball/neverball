@@ -2048,6 +2048,12 @@ static void dump_file(struct s_file *p, const char *name)
            p->rc, p->uc, p->ac, p->ic);
 }
 
+/* Skip the ugly SDL main substitution */
+/* Since we only need sdl_image */
+#ifdef main
+#    undef main
+#endif
+
 int main(int argc, char *argv[])
 {
     char src[MAXSTR];
