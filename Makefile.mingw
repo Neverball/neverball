@@ -17,5 +17,6 @@ MAPC_EXEC := wine mapc.exe
 BALL_TARG := neverball.exe
 PUTT_TARG := neverputt.exe
 
+BASE_LIBS := $(SDL_LIBS) -lSDL_image -lintl
 LIBS := $(X11_PATH) -lSDL_mixer $(SDL_LIBS) -lSDL_ttf -lSDL_image \
 	$(FT2_LIBS) $(OGL_LIBS) -lintl -lpng -lz -ljpeg
