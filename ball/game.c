@@ -364,6 +364,7 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
 {
     const float *ball_p = file.uv->p;
     const float  ball_r = file.uv->r;
+    int drawball = (!clock_down || clock > 0.0f); /* Draw ball unless timeout*/
     
     glPushAttrib(GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
     {
@@ -393,7 +394,7 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
 
             sol_draw(&file);
 
-            if (config_get_d(CONFIG_SHADOW))
+            if (config_get_d(CONFIG_SHADOW) && drawball)
             {
                 shad_draw_set(ball_p, ball_r);
                 sol_shad(&file);
@@ -409,7 +410,8 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
             {
                 part_draw_coin(-rx * d, -ry);
                 game_draw_coins(&file);
-                game_draw_balls(&file);
+		if (drawball)
+                    game_draw_balls(&file);
             }
             game_draw_goals(&file, -rx * d, -ry);
             game_draw_jumps(&file);
@@ -682,12 +684,26 @@ static int game_update_state(int *state_value)
     /* Test for time-out. */
 
     if (bt && clock_down && clock <= 0.f)
+    {
+	const GLfloat *p = fp->uv[0].p;
+	const GLfloat c[5] = {1.0f, 1.0f, 0.0f, 0.0f, 1.0f};
+        part_burst(p, c);
+        part_burst(p, c+1);
+        part_burst(p, c+2);
+        part_burst(p, c);
+        part_burst(p, c+1);
+        part_burst(p, c+2);
+	audio_play(AUD_TIME, 1.0f);
         return GAME_TIME;
+    }
 
     /* Test for fall-out. */
 
     if (bt && fp->uv[0].p[1] < fp->vv[0].p[1])
+    {
+	audio_play(AUD_FALL, 1.0f);
         return GAME_FALL;
+    }
 
     return GAME_NONE;
 }
