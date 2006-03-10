@@ -568,7 +568,7 @@ void set_finish_level(struct level_game *lg, const char *player)
 	/* On fail, identify the next level (only in bonus for challenge) */
 	nl = next_normal_level(ln);
 	/* Next level may be unavailable */
-	if (!cl->is_bonus && nl->is_locked)
+	if (!cl->is_bonus && nl != NULL && nl->is_locked)
 	    nl = NULL;
 	/* Fail a bonus level but win the set! */
 	else if (nl == NULL && lg->mode == MODE_CHALLENGE)
