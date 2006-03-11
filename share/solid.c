@@ -1021,7 +1021,8 @@ static float sol_test_lump(float dt,
                            const float o[3],
                            const float w[3])
 {
-    float U[3], u, t = dt;
+    float U[3] = {0.0f, 0.0f, 0.0f}; /* set some init value only for avoid gcc warnings */
+    float u, t = dt;
     int i;
 
     /* Short circuit a non-solid lump. */
