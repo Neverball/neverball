@@ -65,6 +65,7 @@ static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
+static int   drawball = 1;              /* Should the ball be drawed         */
 
 /*---------------------------------------------------------------------------*/
 
@@ -111,6 +112,8 @@ int game_init(const struct level * level, int t, int g)
     game_iz = 0.f;
     game_rx = 0.f;
     game_rz = 0.f;
+
+    drawball = 1;
 
     /* Initialize jump and goal states. */
 
@@ -364,7 +367,6 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
 {
     const float *ball_p = file.uv->p;
     const float  ball_r = file.uv->r;
-    int drawball = (!clock_down || clock > 0.0f); /* Draw ball unless timeout*/
     
     glPushAttrib(GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
     {
@@ -685,7 +687,7 @@ static int game_update_state(int *state_value)
 
     if (bt && clock_down && clock <= 0.f)
     {
-	const GLfloat *p = fp->uv[0].p;
+	const GLfloat *p = fp->uv->p;
 	const GLfloat c[5] = {1.0f, 1.0f, 0.0f, 0.0f, 1.0f};
         part_burst(p, c);
         part_burst(p, c+1);
@@ -693,6 +695,7 @@ static int game_update_state(int *state_value)
         part_burst(p, c);
         part_burst(p, c+1);
         part_burst(p, c+2);
+	drawball = 0;
 	audio_play(AUD_TIME, 1.0f);
         return GAME_TIME;
     }
@@ -753,7 +756,9 @@ int game_step(const float g[3], float dt, int *state_value)
         game_update_grav(h, g);
         part_step(h, t);
 
-        if (jump_b)
+	if (!drawball)
+		/* nothing */;
+	else if (jump_b)
         {
             jump_dt += t;
 
