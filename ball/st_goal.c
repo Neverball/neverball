@@ -154,23 +154,17 @@ static int goal_init(int * gidp)
         if ((jd = gui_harray(id)))
         {
 	    int nlid = 0;
+	    int b = 0;
 	    if (lg->win)
                 gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
-	    else if (lg->next_level != NULL)
-                nlid = gui_start(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
-            else if (mode != MODE_SINGLE)
-                gui_label(jd, _("Next Level"),  GUI_SML, GUI_ALL, gui_blk, gui_blk);
-	    
-	    if (mode != MODE_CHALLENGE || 
-		    ((state == GAME_FALL || state == GAME_TIME) && !lg->dead && !l->is_bonus) )
-                gui_start(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 	    else
-                gui_label(jd, _("Retry Level"), GUI_SML, GUI_ALL, gui_blk, gui_blk);
+                nlid = gui_maybe(jd, _("Next Level"),  GOAL_NEXT, lg->next_level != NULL);
 	    
-	    if (demo_play_saved())
-                gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
-	    else
-                gui_label(jd, _("Save Replay"), GUI_SML, GUI_ALL, gui_blk, gui_blk);
+	    b = mode != MODE_CHALLENGE || 
+		    ((state == GAME_FALL || state == GAME_TIME) && !lg->dead && !l->is_bonus);
+	    gui_maybe(jd, _("Retry Level"), GOAL_SAME, b);
+	   
+	    gui_maybe(jd, _("Save Replay"), GOAL_SAVE, demo_play_saved());
 
 	    /* default is next if the next level is newly unkocked */
 	    if (nlid != 0 && lg->unlock)

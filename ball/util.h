@@ -17,7 +17,8 @@ void gui_best_times(int, int);
 void set_best_times(const struct score *, int, int);
 
 void gui_keyboard(int);
-int gui_back_prev_next(int, int, int);
+int  gui_back_prev_next(int, int, int);
+int  gui_maybe(int, const char *, int, int);
 
 /*---------------------------------------------------------------------------*/
 
