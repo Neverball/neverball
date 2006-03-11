@@ -591,6 +591,7 @@ void set_finish_level(struct level_game *lg, const char *player)
     {
 	if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
 	{
+	    lg->unlock = 1;
 	    nl->is_locked = 0;
 	    s->locked -= 1;
 	    dirty = 1;

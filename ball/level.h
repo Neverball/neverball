@@ -85,9 +85,6 @@ struct level_game
     int timer;         /* time elapsed */
     int state_value;   /* more precision about the state: skip for goal */
 
-    int dead;          /* Is the game over and lost? */
-    int win;           /* Is the game over and win? */
-    
     /* rank = 3  => unclassed */
     int coin_rank;     /* rank in the level high-scores */
     int goal_rank;     /* rank in the level high-scores */
@@ -95,6 +92,10 @@ struct level_game
     int score_rank;    /* rank in the set high-scores */
     int times_rank;    /* rank in the set high-scores */
 
+    /* What about the game and the set? */
+    int dead;          /* Is the game over and lost? */
+    int win;           /* Is the game over and win? */
+    int unlock;        /* Is the next level newly unlocked */
     const struct level *next_level; /* next level (NULL no next level) */
 };
 

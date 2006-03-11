@@ -153,10 +153,11 @@ static int goal_init(int * gidp)
 
         if ((jd = gui_harray(id)))
         {
+	    int nlid = 0;
 	    if (lg->win)
                 gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
 	    else if (lg->next_level != NULL)
-                gui_state(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
+                nlid = gui_start(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
             else if (mode != MODE_SINGLE)
                 gui_label(jd, _("Next Level"),  GUI_SML, GUI_ALL, gui_blk, gui_blk);
 	    
@@ -170,7 +171,10 @@ static int goal_init(int * gidp)
                 gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
 	    else
                 gui_label(jd, _("Save Replay"), GUI_SML, GUI_ALL, gui_blk, gui_blk);
-	    
+
+	    /* default is next if the next level is newly unkocked */
+	    if (nlid != 0 && lg->unlock)
+		 gui_focus(nlid);
         }
 
         if (high)

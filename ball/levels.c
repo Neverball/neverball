@@ -57,7 +57,7 @@ int level_play_go(void)
     lg->timer = lg->time;
     lg->coin_rank = lg->goal_rank = lg->time_rank = 
 	    lg->score_rank = lg-> times_rank = 3;
-    lg->win = lg->dead = 0;
+    lg->win = lg->dead = lg->unlock = 0;
     lg->next_level = NULL;
     
     return demo_play_init(USER_REPLAY_FILE, l, lg);
