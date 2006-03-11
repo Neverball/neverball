@@ -21,7 +21,7 @@
 #include "glext.h"
 #include "image.h"
 #include "base_image.h"
-#include "base_config.h"
+#include "config.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,8 +64,7 @@ void image_size(int *W, int *H, int w, int h)
  */
 GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
 {
-    /*int    t = config_get_d(CONFIG_TEXTURES);*/
-    int    t = 0; /* TODO: Fint a way to revert CONFIG_TEXTURES */
+    int    t = config_get_d(CONFIG_TEXTURES);
     GLuint o = 0;
 
     glGenTextures(1, &o);
