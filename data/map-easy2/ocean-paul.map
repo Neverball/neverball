@@ -440,3 +440,15 @@
 "origin" "-64 0 -16"
 "light" "1"
 }
+// entity 40
+{
+"classname" "target_position"
+"origin" "864 -896 256"
+"targetname" "target_position1"
+}
+// entity 41
+{
+"classname" "info_player_intermission"
+"origin" "1056 -1248 384"
+"target" "target_position1"
+}
