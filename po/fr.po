@@ -416,11 +416,11 @@ msgstr "Collection de nivaux"
 
 #: ball/st_start.c:98
 msgid "Play this bonus level in practice mode"
-msgstr "Entrainez-vous à ce niveau bonus"
+msgstr "Entraînez-vous à ce niveau bonus"
 
 #: ball/st_start.c:100
 msgid "Play this level in practice mode"
-msgstr "Entrainez-vous à ce niveau"
+msgstr "Entraînez-vous à ce niveau"
 
 #: ball/st_start.c:106
 msgid "Play this bonus level in normal mode"
@@ -448,7 +448,7 @@ msgstr "Collecter les pièces et dévérouillez le niveau suivant"
 
 #: ball/st_start.c:146
 msgid "Train yourself without time nor coin"
-msgstr "Entrainez-vous sans chrono ni pièces à collecter"
+msgstr "Entraînez-vous sans chrono ni pièce à collecter"
 
 #: ball/st_start.c:223
 msgid "Set Complete"
@@ -777,25 +777,26 @@ msgstr ""
 
 #: data/map-easy2/billiard-paul.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
-msgstr ""
+msgstr "Essayez de récupérer toutes les pièces bleues...\\ça ne sera pas facile !"
 
 #: data/map-easy2/elevator-jp.map
 msgid "Calm and meditation may bring you to the Nirvana."
-msgstr ""
+msgstr "Un peu de calme et de méditation pourrait vous\\emmener au Nirvana."
 
 #: data/map-easy2/ocean-paul.map
 msgid ""
 "Let's go for a swim...\\all the coins are fully submerged.\\Hint: Tilt the "
 "floor all the way forward for a quick peek at the sunken treasure."
 msgstr ""
+"Faisons quelques longueurs...\\toutes les pièces sont immergées."
 
 #: data/map-easy2/paths-paul.map
 msgid "So many different paths to take...\\have you tried all of them?"
-msgstr ""
+msgstr "Tant de chemins à prendre...\\Les avez-vous tous essayés ?"
 
 #: data/map-easy2/stairs-jp.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
-msgstr ""
+msgstr "Descendez les escaliers.\\Aïe !\\Ça fait mal."
 
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
