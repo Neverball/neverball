@@ -77,13 +77,23 @@ static void demo_replay(int id, int i)
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
     int jd;
+    char nam[MAXNAM+3];
 
     if ((jd = gui_vstack(id)))
     {
         gui_space(jd);
 
         gui_image(jd, get_demo(i)->shot, w / 6, h / 6);
-        gui_state(jd, get_demo(i)->name, GUI_SML, i, 0);
+	nam[MAXNAM-1] = '\0';
+	strncpy(nam, get_demo(i)->name, MAXNAM);
+	if (nam[MAXNAM-1] != '\0')
+	{
+	    nam[MAXNAM-2] = '.';
+	    nam[MAXNAM-1] = '.';
+	    nam[MAXNAM+0] = '.';
+	    nam[MAXNAM+1] = '\0';
+	}
+        gui_state(jd, nam, GUI_SML, i, 0);
 
         gui_active(jd, i, 0);
     }

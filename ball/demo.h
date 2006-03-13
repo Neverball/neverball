@@ -9,7 +9,7 @@
 /* Demo information structure (header) */
 struct demo
 {
-    char   name[MAXNAM];      /* demo basename */
+    char   name[PATHMAX];      /* demo basename */
     char   filename[PATHMAX]; /* demo path */
 
     /* The following reflects the file structure */

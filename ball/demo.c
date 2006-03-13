@@ -116,8 +116,8 @@ FILE * demo_header_read(const char * filename, struct demo * d)
 	    t = strlen(buf) - strlen(REPLAY_EXT);
 	    if ((t > 1) && (strcmp(buf+t, REPLAY_EXT) == 0))
 		buf[t] = '\0';
-	    strncpy(d->name, buf, MAXNAM);
-	    d->name[MAXNAM-1]= '\0';
+	    strncpy(d->name, buf, PATHMAX);
+	    d->name[PATHMAX-1]= '\0';
 	    
 	    get_index (fp, &d->coins);
 	    get_index (fp, &d->state);
