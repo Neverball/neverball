@@ -393,14 +393,14 @@ void demo_play_save(const char *name)
 static int demo_load_level(const struct demo * demo, struct level * level)
 /* Load the level of the demo and fill the level structure */
 {
-    strcpy(level->file, demo->file);
-    strcpy(level->back, demo->back);
-    strcpy(level->grad, demo->grad);
-    strcpy(level->shot, demo->shot);
-    strcpy(level->song, demo->song);
-    level->time = demo->time;
-    level->goal = demo->goal;
-    return 1;
+    if (level_load(demo->file, level))
+    {
+        level->time = demo->time;
+        level->goal = demo->goal;
+        return 1;
+    }
+    else
+	return 0;
 }
 
 static struct demo  demo_replay;       /* The current demo */
@@ -417,7 +417,8 @@ int demo_replay_init(const char *name, struct level_game *lg)
 {
     if ((demo_fp = demo_header_read(name, &demo_replay)))
     {
-	demo_load_level(&demo_replay, &demo_level_replay);
+	if (! demo_load_level(&demo_replay, &demo_level_replay))
+	    return 0;
 	
 	if (lg)
 	{
