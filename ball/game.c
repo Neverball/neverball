@@ -66,6 +66,7 @@ static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
 static int   drawball = 1;              /* Should the ball be drawed         */
+static int   ball_b = 0;                /* Is the ball a bonus ball?         */
 
 /*---------------------------------------------------------------------------*/
 
@@ -122,6 +123,8 @@ int game_init(const struct level * level, int t, int g)
 
     goal_c = g;
     goal_k = (g == 0) ? 1.0f : 0.0f;
+
+    ball_b = level->is_bonus;
 
     /* Initialise the level, background, particles, fade, and view. */
 
@@ -191,7 +194,7 @@ static void game_draw_balls(const struct s_file *fp)
 
         glColor4fv(c);
 
-        ball_draw();
+        ball_draw(ball_b);
     }
     glPopMatrix();
 }

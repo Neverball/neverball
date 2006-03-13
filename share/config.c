@@ -110,6 +110,7 @@ void config_init(void)
     config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
+    config_set_s(CONFIG_BALL_BONUS,           DEFAULT_BALL_BONUS);
     config_set_s(CONFIG_COIN,                 DEFAULT_COIN);
     config_set_s(CONFIG_LANG,                 DEFAULT_LANG);
 }
@@ -221,6 +222,8 @@ void config_load(void)
                     config_set_s(CONFIG_PLAYER, val);
                 else if (strcmp(key, "ball")   == 0)
                     config_set_s(CONFIG_BALL,   val);
+                else if (strcmp(key, "ball_bonus")   == 0)
+                    config_set_s(CONFIG_BALL_BONUS,   val);
                 else if (strcmp(key, "coin")   == 0)
                     config_set_s(CONFIG_COIN,   val);
                 else if (strcmp(key, "lang")   == 0)
@@ -332,6 +335,7 @@ void config_save(void)
 
         fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
         fprintf(fp, "ball                 %s\n", option_s[CONFIG_BALL]);
+        fprintf(fp, "ball_bonus           %s\n", option_s[CONFIG_BALL_BONUS]);
         fprintf(fp, "coin                 %s\n", option_s[CONFIG_COIN]);
         fprintf(fp, "lang                 %s\n", option_s[CONFIG_LANG]);
 

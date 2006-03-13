@@ -80,6 +80,7 @@ enum {
 enum {
     CONFIG_PLAYER,
     CONFIG_BALL,
+    CONFIG_BALL_BONUS,
     CONFIG_COIN,
     CONFIG_LANG,
 
@@ -134,6 +135,7 @@ enum {
 #define DEFAULT_CHEAT                0
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "png/ball.png"
+#define DEFAULT_BALL_BONUS           "png/ball-bonus.png"
 #define DEFAULT_COIN                 _("png/coin.png")
 #define DEFAULT_LANG                 ""
 

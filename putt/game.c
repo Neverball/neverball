@@ -185,7 +185,7 @@ static void game_draw_balls(const struct s_file *fp)
 
                 glColor4fv(color[ui]);
 
-                ball_draw();
+                ball_draw(0);
             }
             glPopMatrix();
         }
