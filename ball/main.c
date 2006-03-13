@@ -217,9 +217,10 @@ static int loop(void)
 /*---------------------------------------------------------------------------*/
 
 /* Option values */
-static char * data_path   = NULL;
-static char * replay_path = NULL;
-static char * level_path  = NULL;
+static char *data_path    = NULL;
+static char *replay_path  = NULL;
+static char *level_path   = NULL;
+static int   display_info = 0;
 
 /* Option hangling */
 
@@ -227,6 +228,7 @@ static char * level_path  = NULL;
 	"Usage: %s [options ...]\n" \
 	"-r, --replay file         play the replay 'file'.\n" \
 	"-l, --level file.sol      play the level 'file.sol'.\n" \
+	"-i, --info                display info about level or replay.\n" \
 	"    --data dir            use 'dir' as game data directory.\n" \
 	"-v, --version             show version.\n" \
 	"-h, -?, --help            show this usage message.\n")
@@ -257,6 +259,8 @@ static void parse_args(int argc, char ** argv)
 	    replay_path = *(++argv);
 	else if ((CASE("-l")  || CASE("--level")) && MAND)
 	    level_path = *(++argv);
+	else if ((CASE("-i")  || CASE("--info")))
+	    display_info = 1;
 	else if (not_miss)
 	{
 	    fprintf(stderr, _("%s: unknown option %s\n"), exec, *argv);
@@ -318,6 +322,28 @@ int main(int argc, char *argv[])
 		fprintf(stderr, _("Not a replay file\n"));
 	    return 1;
 	}
+	else if (display_info)
+	    demo_replay_dump_info();
+    }
+    
+    if (level_path != NULL)
+    {
+	struct level l;
+	if (! level_load(level_path, &l))
+	    return 1;
+	else if (display_info)
+	    level_dump_info(&l);
+    }
+
+    if(display_info)
+    {
+	if (replay_path == NULL && level_path == NULL)
+	{
+	    fprintf(stderr, _("%s: --info requires --replay or --level\n"), argv[0]);
+	    return 1;
+	}
+	else
+	   return 0;
     }
     
     /* Initialize SDL system and subsystems */

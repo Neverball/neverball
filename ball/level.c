@@ -165,17 +165,38 @@ int level_load(const char *filename, struct level *level)
     return 1;
 }
 
-void level_dump_info(const struct level * level)
+/*---------------------------------------------------------------------------*/
+
+void level_dump_info(const struct level *l)
+/* This function dump the info of a demo structure
+ * It's only a function for debugging, no need of I18N */
 {
     printf("filename:        %s\n"
+	   "name:            %s\n"
+	   "version:         %d\n"
+	   "author:          %s\n"
+	   "time limit:      %d\n"
+	   "goal count:      %d\n"
+	   "time hs:         %d %d %d\n"
+	   "goal hs:         %d %d %d\n"
+	   "coin hs:         %d %d %d\n"
+	   "message:         %s\n"
            "background:      %s\n"
 	   "gradiant:        %s\n"
 	   "screenshot:      %s\n"
-	   "song:            %s\n"
-	   "time limit:      %d\n"
-	   "goal count:      %d\n",
-	   level->file, level->back, level->grad, level->shot, level->song,
-	   level->time, level->goal);
+	   "song:            %s\n",
+	   l->file, l->name, l->version, l->author,
+	   l->time, l->goal,
+	   l->time_score.timer[0],
+	   l->time_score.timer[1],
+	   l->time_score.timer[2],
+	   l->goal_score.timer[0],
+	   l->goal_score.timer[1],
+	   l->goal_score.timer[2],
+	   l->coin_score.coins[0],
+	   l->coin_score.coins[1],
+	   l->coin_score.coins[2],
+	   l->message, l->back, l->grad, l->shot, l->song);
 }
 
 /*---------------------------------------------------------------------------*/
