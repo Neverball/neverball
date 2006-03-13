@@ -153,7 +153,7 @@ static int goal_init(int * gidp)
 
         if ((jd = gui_harray(id)))
         {
-	    int nlid = 0;
+	    int nlid = 0, rlid = 0;
 	    int b = 0;
 	    if (lg->win)
                 gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
@@ -162,13 +162,15 @@ static int goal_init(int * gidp)
 	    
 	    b = mode != MODE_CHALLENGE || 
 		    ((state == GAME_FALL || state == GAME_TIME) && !lg->dead && !l->is_bonus);
-	    gui_maybe(jd, _("Retry Level"), GOAL_SAME, b);
+	    rlid = gui_maybe(jd, _("Retry Level"), GOAL_SAME, b);
 	   
 	    gui_maybe(jd, _("Save Replay"), GOAL_SAVE, demo_play_saved());
 
 	    /* default is next if the next level is newly unkocked */
 	    if (nlid != 0 && lg->unlock)
 		 gui_focus(nlid);
+	    else if(b)
+		 gui_focus(rlid);
         }
 
         if (high)
