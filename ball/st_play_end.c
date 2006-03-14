@@ -24,7 +24,7 @@
 #include "demo.h"
 #include "st_shared.h"
 
-#include "st_goal.h"
+#include "st_play_end.h"
 #include "st_save.h"
 #include "st_over.h"
 #include "st_done.h"
@@ -34,49 +34,49 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define GOAL_NEXT 2
-#define GOAL_SAME 3
-#define GOAL_SAVE 4
-#define GOAL_BACK 5
-#define GOAL_DONE 6
-#define GOAL_NAME 7
+#define PLAY_END_NEXT 2
+#define PLAY_END_SAME 3
+#define PLAY_END_SAVE 4
+#define PLAY_END_BACK 5
+#define PLAY_END_DONE 6
+#define PLAY_END_NAME 7
 
 static int balls_id;
 static int coins_id;
 static int score_id;
 
-extern struct state st_goal_bis;
+extern struct state st_play_end_bis;
 
-static int goal_action(int i)
+static int play_end_action(int i)
 {
     audio_play(AUD_MENU, 1.0f);
 
     switch (i)
     {
-    case GOAL_BACK:
+    case PLAY_END_BACK:
 	return goto_end_level();
 
-    case GOAL_SAVE:
-        return goto_save(&st_goal_bis, &st_goal_bis);
+    case PLAY_END_SAVE:
+        return goto_save(&st_play_end_bis, &st_play_end_bis);
 
-    case GOAL_NAME:
-        return goto_name(&st_goal_bis, &st_goal_bis);
+    case PLAY_END_NAME:
+        return goto_name(&st_play_end_bis, &st_play_end_bis);
 	
-    case GOAL_DONE:
+    case PLAY_END_DONE:
 	return goto_state(&st_done);
 	
-    case GOAL_NEXT:
+    case PLAY_END_NEXT:
 	level_next();
 	return goto_state(&st_level);
 
-    case GOAL_SAME:
+    case PLAY_END_SAME:
 	return goto_state(&st_level);
     }
 
     return 1;
 }
 
-static int goal_init(int * gidp)
+static int play_end_init(int * gidp)
 {
     const struct level_game *lg = curr_lg();
     int mode  = lg->mode;
@@ -156,15 +156,15 @@ static int goal_init(int * gidp)
 	    int nlid = 0, rlid = 0;
 	    int b = 0;
 	    if (lg->win)
-                gui_start(jd, _("Finish"),      GUI_SML, GOAL_DONE, 0);
+                gui_start(jd, _("Finish"),      GUI_SML, PLAY_END_DONE, 0);
 	    else
-                nlid = gui_maybe(jd, _("Next Level"),  GOAL_NEXT, lg->next_level != NULL);
+                nlid = gui_maybe(jd, _("Next Level"),  PLAY_END_NEXT, lg->next_level != NULL);
 	    
 	    b = mode != MODE_CHALLENGE || 
 		    ((state == GAME_FALL || state == GAME_TIME) && !lg->dead && !l->is_bonus);
-	    rlid = gui_maybe(jd, _("Retry Level"), GOAL_SAME, b);
+	    rlid = gui_maybe(jd, _("Retry Level"), PLAY_END_SAME, b);
 	   
-	    gui_maybe(jd, _("Save Replay"), GOAL_SAVE, demo_play_saved());
+	    gui_maybe(jd, _("Save Replay"), PLAY_END_SAVE, demo_play_saved());
 
 	    /* default is next if the next level is newly unkocked */
 	    if (nlid != 0 && lg->unlock)
@@ -174,7 +174,7 @@ static int goal_init(int * gidp)
         }
 
         if (high)
-	    gui_state(id, _("Change Player Name"),  GUI_SML, GOAL_NAME, 0);
+	    gui_state(id, _("Change Player Name"),  GUI_SML, PLAY_END_NAME, 0);
 
         gui_layout(id, 0, 0);
 	if (gidp) *gidp = gid;
@@ -194,25 +194,25 @@ static int goal_init(int * gidp)
     return id;
 }
 
-static int goal_enter(void)
+static int play_end_enter(void)
 {
     int gid;
     int r;
     
-    r = goal_init(&gid);
+    r = play_end_init(&gid);
     
     gui_pulse(gid, 1.2f);
     audio_music_fade_out(2.0f);
     return r; 
 }
 
-static int goal_bis_enter(void)
+static int play_end_bis_enter(void)
 {
     level_update_player_name();
-    return goal_init(NULL);
+    return play_end_init(NULL);
 }
 
-static void goal_timer(int id, float dt)
+static void play_end_timer(int id, float dt)
 {
     static float DT = 0.0f;
 
@@ -253,35 +253,35 @@ static void goal_timer(int id, float dt)
     audio_timer(dt);
 }
 
-static int goal_buttn(int b, int d)
+static int play_end_buttn(int b, int d)
 {
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return goal_action(gui_token(gui_click()));
+            return play_end_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-	    return goal_action(GOAL_BACK);
+	    return play_end_action(PLAY_END_BACK);
     }
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-struct state st_goal = {
-    goal_enter,
+struct state st_play_end = {
+    play_end_enter,
     shared_leave,
     shared_paint,
-    goal_timer,
+    play_end_timer,
     shared_point,
     shared_stick,
     shared_click,
     NULL,
-    goal_buttn,
+    play_end_buttn,
     1, 0
 };
 
-struct state st_goal_bis = {
-    goal_bis_enter,
+struct state st_play_end_bis = {
+    play_end_bis_enter,
     shared_leave,
     shared_paint,
     shared_timer,
@@ -289,6 +289,6 @@ struct state st_goal_bis = {
     shared_stick,
     shared_click,
     NULL,
-    goal_buttn,
+    play_end_buttn,
     1, 0
 };

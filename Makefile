@@ -67,8 +67,7 @@ BALL_OBJS= \
 	ball/st_conf.o  \
 	ball/st_demo.o  \
 	ball/st_save.o  \
-	ball/st_fail.o  \
-	ball/st_goal.o  \
+	ball/st_play_end.o  \
 	ball/st_done.o  \
 	ball/st_level.o \
 	ball/st_over.o  \

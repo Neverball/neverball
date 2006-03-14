@@ -3,6 +3,6 @@
 
 #include "state.h"
 
-extern struct state st_goal;
+extern struct state st_play_end;
 
 #endif

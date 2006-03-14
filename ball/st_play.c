@@ -22,8 +22,7 @@
 #include "st_shared.h"
 
 #include "st_play.h"
-#include "st_fail.h"
-#include "st_goal.h"
+#include "st_play_end.h"
 #include "st_over.h"
 
 /*---------------------------------------------------------------------------*/
@@ -200,14 +199,7 @@ static void play_loop_timer(int id, float dt)
     if (state)
     {
 	level_stop(state, state_value, curr_clock(), curr_coins());
-	goto_state(&st_goal);
-/*	switch (state)
-	{
-	case GAME_TIME: goto_state(&st_time_out); break;
-	case GAME_FALL: goto_state(&st_fall_out); break;
-	case GAME_SPEC:
-	case GAME_GOAL: goto_state(&st_goal);     break;
-	}*/
+	goto_state(&st_play_end);
     }
 
     game_step_fade(dt);
@@ -277,7 +269,7 @@ static int play_loop_keybd(int c, int d)
     if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
     {
         level_stop(GAME_GOAL, 0, curr_clock(), curr_coins());
-        return goto_state(&st_goal);
+        return goto_state(&st_play_end);
     }
     return 1;
 }
