@@ -40,6 +40,7 @@
 #define PLAY_END_BACK 5
 #define PLAY_END_DONE 6
 #define PLAY_END_NAME 7
+#define PLAY_END_OVER 8
 
 static int balls_id;
 static int coins_id;
@@ -54,6 +55,7 @@ static int play_end_action(int i)
     switch (i)
     {
     case PLAY_END_BACK:
+    case PLAY_END_OVER:
 	return goto_end_level();
 
     case PLAY_END_SAVE:
@@ -160,10 +162,15 @@ static int play_end_init(int * gidp)
 	    else
                 nlid = gui_maybe(jd, _("Next Level"),  PLAY_END_NEXT, lg->next_level != NULL);
 	    
-	    b = mode != MODE_CHALLENGE || 
+	    if (lg->dead)
+		gui_start(jd, _("Game Over"), GUI_SML, PLAY_END_OVER, 0);
+	    else
+	    {
+		b = mode != MODE_CHALLENGE || 
 		    ((state == GAME_FALL || state == GAME_TIME) && !lg->dead && !l->is_bonus);
-	    rlid = gui_maybe(jd, _("Retry Level"), PLAY_END_SAME, b);
-	   
+		rlid = gui_maybe(jd, _("Retry Level"), PLAY_END_SAME, b);
+	    }
+	    
 	    gui_maybe(jd, _("Save Replay"), PLAY_END_SAVE, demo_play_saved());
 
 	    /* default is next if the next level is newly unkocked */

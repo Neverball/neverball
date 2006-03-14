@@ -124,8 +124,8 @@ void level_stop(int state, int state_value, int clock, int coins)
 	/* lose ball and game */
 	else /* if ((state == GAME_TIME || state == GAME_FALL) && !lg->level->is_bonus) */
 	{
-	    lg->balls--;
 	    lg->dead = (lg->balls <= 0);
+	    lg->balls--;
 	}
     }
     
