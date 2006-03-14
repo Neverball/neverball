@@ -81,7 +81,6 @@ enum {
     CONFIG_PLAYER,
     CONFIG_BALL,
     CONFIG_BALL_BONUS,
-    CONFIG_COIN,
     CONFIG_LANG,
 
     CONFIG_OPTION_S_COUNT
@@ -136,7 +135,6 @@ enum {
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "png/ball.png"
 #define DEFAULT_BALL_BONUS           "png/ball-bonus.png"
-#define DEFAULT_COIN                 _("png/coin.png")
 #define DEFAULT_LANG                 ""
 
 /*---------------------------------------------------------------------------*/

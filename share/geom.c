@@ -288,12 +288,9 @@ void coin_color(float *c, int n)
 
 void coin_init(int b)
 {
-    char name[MAXSTR];
     int n = b ? 32 : 8;
 
-    config_get_s(CONFIG_COIN, name, MAXSTR);
-
-    coin_text = make_image_from_file(NULL, NULL, NULL, NULL, name);
+    coin_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_COIN);
     coin_list = glGenLists(1);
 
     glNewList(coin_list, GL_COMPILE);
