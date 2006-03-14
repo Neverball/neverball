@@ -157,6 +157,8 @@ static int play_loop_enter(void)
 
     game_set_fly(0.f);
     view_rotate = 0;
+    
+    hud_view_pulse(config_get_d(CONFIG_CAMERA));
 
     nohud = 0;
 
