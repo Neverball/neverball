@@ -141,6 +141,8 @@ static int play_set_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
+static int nohud = 0;
+
 static int play_loop_enter(void)
 {
     int id;
@@ -156,6 +158,8 @@ static int play_loop_enter(void)
     game_set_fly(0.f);
     view_rotate = 0;
 
+    nohud = 0;
+
     hud_update(0);
 
     return id;
@@ -164,7 +168,8 @@ static int play_loop_enter(void)
 static void play_loop_paint(int id, float st)
 {
     game_draw(0, st);
-    hud_paint();
+    if (!nohud)
+        hud_paint();
 
     if (time_state() < 1.f)
         gui_paint(id);
@@ -262,6 +267,9 @@ static int play_loop_keybd(int c, int d)
 
     if (d && c == SDLK_F12)
         return goto_state(&st_look);
+    
+    if (d && c == SDLK_F6)
+        nohud = !nohud;
     
     /* Cheat */
     if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
