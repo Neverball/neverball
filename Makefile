@@ -76,6 +76,7 @@ BALL_OBJS= \
 	ball/st_set.o   \
 	ball/st_start.o \
 	ball/st_title.o \
+	ball/st_help.o  \
 	ball/st_name.o  \
 	ball/st_shared.o  \
 	ball/main.o

@@ -12,11 +12,8 @@
  * General Public License for more details.
  */
 
-#include <string.h>
-
 #include "gui.h"
 #include "vec3.h"
-#include "back.h"
 #include "demo.h"
 #include "game.h"
 #include "audio.h"
@@ -24,6 +21,7 @@
 #include "st_shared.h"
 
 #include "st_title.h"
+#include "st_help.h"
 #include "st_demo.h"
 #include "st_conf.h"
 #include "st_set.h"
@@ -206,91 +204,6 @@ static int title_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int help_enter(void)
-{
-    const char *s0 =
-        _("Move the mouse or joystick to tilt the floor\\"
-        "causing the ball to roll.  Roll over coins to\\"
-        "collect them.  Collect coins to unlock the goal\\"
-        "and finish the level.  Earn an extra ball for\\"
-        "each 100 coins collected.\\");
-
-    const char *s4 = _("Left and right mouse buttons rotate the view.");
-    const char *s5 = _("Hold Shift for faster view rotation.");
-    const char *s6 = _("Pause / Release Pointer");
-    const char *s7 = _("Exit / Cancel Menu");
-    const char *s8 = _("Chase View");
-    const char *s9 = _("Lazy View");
-    const char *sA = _("Manual View");
-    const char *sB = _("Comments?  Problems?  robert.kooima@gmail.com");
-
-    const char *k0 = _("Spacebar");
-    const char *k1 = _("Escape");
-    const char *k2 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_1));
-    const char *k3 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_2));
-    const char *k4 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_3));
-
-    int id, jd;
-
-    if ((id = gui_vstack(0)))
-    {
-        gui_multi(id, s0, GUI_SML, GUI_ALL, gui_wht, gui_wht);
-        gui_space(id);
-
-        if ((jd = gui_harray(id)))
-        {
-            gui_label(jd, s6, GUI_SML, GUI_NE, gui_wht, gui_wht);
-            gui_label(jd, k0, GUI_SML, GUI_NW, gui_yel, gui_yel);
-        }
-        if ((jd = gui_harray(id)))
-        {
-            gui_label(jd, s7, GUI_SML, 0,      gui_wht, gui_wht);
-            gui_label(jd, k1, GUI_SML, 0,      gui_yel, gui_yel);
-        }
-        if ((jd = gui_harray(id)))
-        {
-            gui_label(jd, s8, GUI_SML, 0,      gui_wht, gui_wht);
-            gui_label(jd, k2, GUI_SML, 0,      gui_yel, gui_yel);
-        }
-        if ((jd = gui_harray(id)))
-        {
-            gui_label(jd, s9, GUI_SML, 0,      gui_wht, gui_wht);
-            gui_label(jd, k3, GUI_SML, 0,      gui_yel, gui_yel);
-        }
-        if ((jd = gui_harray(id)))
-        {
-            gui_label(jd, sA, GUI_SML, GUI_SE, gui_wht, gui_wht);
-            gui_label(jd, k4, GUI_SML, GUI_SW, gui_yel, gui_yel);
-        }
-
-        gui_space(id);
-        gui_label(id, s4, GUI_SML, GUI_TOP, gui_wht, gui_wht);
-        gui_label(id, s5, GUI_SML, GUI_BOT, gui_wht, gui_wht);
-        gui_space(id);
-        gui_label(id, sB, GUI_SML, GUI_ALL, gui_wht, gui_wht);
-
-        gui_layout(id, 0, 0);
-    }
-    return id;
-}
-
-static int help_click(int b, int d)
-{
-    return d ? goto_state(&st_title) : 1;
-}
-
-static int help_keybd(int c, int d)
-{
-    return d ? goto_state(&st_title) : 1;
-}
-
-static int help_buttn(int b, int d)
-{
-    return d ? goto_state(&st_title) : 1;
-}
-
-/*---------------------------------------------------------------------------*/
-
 struct state st_title = {
     title_enter,
     title_leave,
@@ -304,15 +217,3 @@ struct state st_title = {
     1, 0
 };
 
-struct state st_help = {
-    help_enter,
-    shared_leave,
-    shared_paint,
-    shared_timer,
-    NULL,
-    NULL,
-    help_click,
-    help_keybd,
-    help_buttn,
-    1, 0
-};

@@ -4,6 +4,5 @@
 #include "state.h"
 
 extern struct state st_title;
-extern struct state st_help;
 
 #endif
