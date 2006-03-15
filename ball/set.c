@@ -528,9 +528,8 @@ void set_finish_level(struct level_game *lg, const char *player)
     /* On level completed */
     if (lg->state == GAME_GOAL)
     {	    
-	/* Update scores */
+	/* Update level scores */
 	dirty = level_score_update(lg, player);
-	dirty = set_score_update(lg, player) || dirty;
 	
 	/* if no set, no next level */    
 	if (s == NULL)
@@ -579,9 +578,12 @@ void set_finish_level(struct level_game *lg, const char *player)
 	    lg->win = 1;
     }
 
-    /* Win ! => unlock all levels */
+    /* Win ! */
     if (lg->win)
     {
+	/* update set score */
+	set_score_update(lg, player);
+	/* unlock all levels */
 	set_cheat();
 	dirty = 1;
     }
