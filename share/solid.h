@@ -244,6 +244,7 @@ struct s_ball
     float v[3];                                /* velocity vector            */
     float w[3];                                /* angular velocity vector    */
     float r;                                   /* radius                     */
+    float a;                                   /* initial orientation (deg)  */
 };
 
 struct s_view

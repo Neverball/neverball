@@ -72,7 +72,12 @@ static int   ball_b = 0;                /* Is the ball a bonus ball?         */
 
 static void view_init(void)
 {
-    view_a  = 0.f;
+    /* Get the initial orientation angle */
+    if (file.uc > 0)
+        view_a  = file.uv->a - 90.f; /* angle is in the sol */
+    else
+        view_a  = 0.f; /* default is north :) */
+
     view_ry = 0.f;
 
     view_fov = (float) config_get_d(CONFIG_VIEW_FOV);
@@ -109,6 +114,12 @@ int game_init(const struct level * level, int t, int g)
     if (game_state)
         game_free();
 
+    if (!sol_load_gl(&file, level->file,
+                 config_get_d(CONFIG_TEXTURES), config_get_d(CONFIG_SHADOW)))
+        return (game_state = 0);
+
+    game_state = 1;
+
     game_ix = 0.f;
     game_iz = 0.f;
     game_rx = 0.f;
@@ -138,11 +149,7 @@ int game_init(const struct level * level, int t, int g)
     sol_load_gl(&back, config_data(level->back),
 		    config_get_d(CONFIG_TEXTURES), 0);
 
-    if (sol_load_gl(&file, level->file,
-                 config_get_d(CONFIG_TEXTURES), config_get_d(CONFIG_SHADOW)))
-        return (game_state = 1);
-    else
-        return (game_state = 0);
+    return game_state;
 }
 
 void game_free(void)
@@ -868,6 +875,9 @@ void game_set_fly(float k)
     float c1[3] = { 0.f, 0.f, 0.f };
     float p1[3] = { 0.f, 0.f, 0.f };
     float  v[3];
+
+    z[0] = fsinf(V_RAD(view_a));
+    z[2] = fcosf(V_RAD(view_a));
 
     v_cpy(view_e[0], x);
     v_cpy(view_e[1], y);
