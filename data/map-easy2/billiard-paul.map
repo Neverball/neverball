@@ -3598,22 +3598,3 @@
 "origin" "-33 -32 -20"
 "radius" ".37"
 }
-// entity 45
-{
-"classname" "info_player_deathmatch"
-"origin" "256 704 88"
-}
-// entity 46
-{
-"classname" "info_null"
-"origin" "256 704 88"
-"image" "mtrl/goal-special6"
-//"width" "128"
-//"height" "128"
-//"xrot" "256"
-//"yrot" "704"
-//"zrot" "70 1 0"
-//"dist" "0"
-//"time" "10"
-"flag" "2"
-}
