@@ -433,11 +433,6 @@ static int demo_end_enter(void)
 
 static void demo_end_timer(int id, float dt)
 {
-    float g[3] = { 0.0f, -9.8f, 0.0f };
-
-    if (time_state() < 2.f)
-	game_step(g, dt, NULL);
-		
     gui_timer(id, dt);
     audio_timer(dt);
 }
