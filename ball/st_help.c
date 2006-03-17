@@ -61,7 +61,7 @@ static int help_button(int id, const char *text, int token, int atoken)
 
 static int help_menu(int id, int i)
 {
-    int jd, kd;
+    int jd;
     gui_filler(id);
     if ((jd = gui_harray(id)))
     {
