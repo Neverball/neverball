@@ -13,13 +13,15 @@
  * General Public License for more details.
  */
 
+/* The following declaration is needed to have the putenv function 
+ * http://www.gnu.org/software/libc/manual/html_node/Environment-Access.html 
+ */
+#define _XOPEN_SOURCE 1
+
 #include <string.h>
 #include <locale.h>
 #include <stdlib.h>
 #include "i18n.h"
-
-/* predeclare the POSIX putenv function, I do not know why but is not declared */
-int putenv(char *string);
 
 const char * gettextdbg(const char * c)
 {
