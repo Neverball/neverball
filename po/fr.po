@@ -412,7 +412,7 @@ msgstr "Écraser ?"
 
 #: ball/st_set.c:114
 msgid "Level Set"
-msgstr "Collection de nivaux"
+msgstr "Collection de niveaux"
 
 #: ball/st_start.c:98
 msgid "Play this bonus level in practice mode"
