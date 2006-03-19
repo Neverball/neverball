@@ -8,13 +8,13 @@ map-mym2/basket.sol
 map-mym2/movinglumps.sol
 map-mym2/backforth.sol
 map-mym2/webs.sol
-map-mym2/ghosts.sol
 map-mym2/translation.sol
+map-mym2/bombman.sol
+map-mym2/bigball.sol
 map-mym2/movingpath.sol	
 map-mym2/bounces.sol
 map-mym2/speeddance.sol
 map-mym2/runstop.sol
-map-mym2/bigball.sol
 map-mym2/fall.sol
 map-mym2/rainbow.sol
 map-mym2/freefall.sol

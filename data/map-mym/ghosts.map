@@ -7,7 +7,7 @@
 "version" "1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
-"shot" "shot-mym2/ghosts.jpg"
+"shot" "shot-mym/ghosts.jpg"
 "song" "bgm/track5.ogg"
 "time" "10000"
 "goal" "30"

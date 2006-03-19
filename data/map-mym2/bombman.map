@@ -8,7 +8,7 @@
 
 "back"      "map-back/jupiter.sol"
 "grad"      "back/space.png"
-"shot"      "shot-mym/bombman.jpg"
+"shot"      "shot-mym2/bombman.jpg"
 "song"      "bgm/track4.ogg"
 "time"      "12000"
 "goal"      "60"
@@ -17,7 +17,6 @@
 "coin_hs"   "117 80"
 "message" "Les flammes ardentes.\Do this remind you of something?"
 
-"special" "1"
 // brush 0
 {
 ( -1024 -32 -8 ) ( -1024 -544 -8 ) ( -512 -544 -8 ) mtrl/turf-grey 64 -255 90 0.5 0.5 0 0 0
