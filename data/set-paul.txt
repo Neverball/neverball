@@ -6,5 +6,4 @@ shot-paul/paths.bmp
 map-paul/bounce.sol
 map-paul/bounce2.sol
 map-paul/thwomp1.sol
-map-paul/checkers.sol
 map-paul/thwomp2.sol

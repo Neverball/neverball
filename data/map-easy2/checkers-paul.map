@@ -2,6 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author" "Paul Tompkins"
+"levelname" "checkers-paul"
+"version" "1"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"shot" "shot-easy2/.jpg"
+"song" "bgm/track4.ogg"
+"time" "40000"
+"goal" "0"
+"time_hs" " "
+"coin_hs" " "
 "message" "It's a real game of checkers, but no one wins...\You have to bounce to reach the blue coins."
 // brush 0
 {
