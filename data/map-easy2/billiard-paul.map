@@ -15,6 +15,7 @@
 "time_hs" " "
 "coin_hs" " "
 "message" "Try to grab all of the blue coins...\it won't be easy!"
+"special" "1"
 // brush 0
 {
 ( 132 -412 64 ) ( 132 -420 64 ) ( 125 -412 64 ) mtrl/turf-green-dark 0 0 0 0.5 0.5 0 0 0

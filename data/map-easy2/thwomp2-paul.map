@@ -14,6 +14,7 @@
 "time_hs" " "
 "coin_hs" " "
 "message" "Grab all the coins...\but don't get thwomped!"
+"special" "1"
 // brush 0
 {
 ( 832 1088 -128 ) ( 832 960 -128 ) ( 704 1088 -128 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

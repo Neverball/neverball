@@ -14,6 +14,7 @@
 "time_hs" " "
 "coin_hs" " "
 "message" "It's a real game of checkers, but no one wins...\You have to bounce to reach the blue coins."
+"special" "1"
 // brush 0
 {
 ( -64 -192 64 ) ( 320 -192 64 ) ( -64 -640 64 ) mtrl/back-red 0 0 90 0.5 0.5 0 0 0

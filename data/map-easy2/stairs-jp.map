@@ -14,6 +14,7 @@
 "time_hs" " "
 "coin_hs" " "
 "message" "Fall down stairs.\Ough!\It hurts."
+"special" "1"
 // brush 0
 {
 ( -128 2752 -1048 ) ( -128 2176 -1048 ) ( -512 2752 -1048 ) mtrl/invisible 0 128 0 0.5 0.5 0 0 0
