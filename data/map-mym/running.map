@@ -2,20 +2,18 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "running-mym"
-"version"   "1"
-
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
-"shot"      "shot-mym/running.jpg"
-"song"      "bgm/track2.ogg"
-"time"      "30000"
-"goal"      "140"
-
-"time_hs"   "3300 7000"
-"coin_hs"   "175 160"
-"message" "Les épreuves minutées.\Run baby, run!"
+"version" "1"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
+"shot" "shot-mym/running.jpg"
+"song" "bgm/track2.ogg"
+"time" "30000"
+"goal" "140"
+"time_hs" "3300 7000"
+"coin_hs" "175 160"
+"message" "Les epreuves minutees.\Run baby, run!"
 // brush 0
 {
 ( -200 912 8 ) ( -200 896 8 ) ( -200 896 0 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
@@ -252,9 +250,9 @@
 }
 // brush 26
 {
-( 264 2192 184 ) ( 256 2192 184 ) ( 256 1680 184 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( 256 2200 192 ) ( 264 2200 192 ) ( 264 1680 192 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( 256 1680 184 ) ( 256 1680 192 ) ( 264 1680 192 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 264 2192 184 ) ( 256 2192 184 ) ( 256 1680 184 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
+( 256 2200 192 ) ( 264 2200 192 ) ( 264 1680 192 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
+( 256 1680 184 ) ( 256 1680 192 ) ( 264 1680 192 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
 ( 264 2432 192 ) ( 264 2432 184 ) ( 264 1904 184 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
 ( 256 2192 184 ) ( 264 2192 184 ) ( 264 2192 192 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
 ( 256 1680 192 ) ( 256 1680 184 ) ( 256 2464 184 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
@@ -559,8 +557,8 @@
 ( 256 1808 208 ) ( 128 1808 208 ) ( 128 1808 192 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
 ( 256 1680 208 ) ( 256 1808 208 ) ( 256 1808 192 ) mtrl/invisible 96 0 0 0.5 0.5 134217728 0 0
 ( 128 1680 208 ) ( 256 1680 208 ) ( 256 1680 192 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
-( 130 1680 193 ) ( 130 1808 193 ) ( 258 1808 193 ) mtrl/timer -147 -197 0 0.6999999881 0.6999999881 134217728 0 0
-( 256 1808 192 ) ( 128 1808 192 ) ( 128 1680 192 ) mtrl/invisible 0 -96 0 0.5 0.5 134217728 0 0
+( 130 1680 193 ) ( 130 1808 193 ) ( 258 1808 193 ) mtrl/timer -108 60 0 -0.6999999881 0.6999999881 134217728 0 0
+( 256 1808 192 ) ( 128 1808 192 ) ( 128 1680 192 ) mtrl/timer -108 60 0 -0.6999999881 0.6999999881 134217728 0 0
 }
 // brush 61
 {
