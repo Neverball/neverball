@@ -2,6 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author" "Paul Tompkins"
+"contributor" "Mehdi Yousfi-Monod"
+"levelname" "billiard-paul"
+"version" "1"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"shot" "shot-paul/paths.bmp"
+"song" "bgm/track4.ogg"
+"time" "40000"
+"time_hs" " "
+"coin_hs" " "
 "message" "Grab all the coins...\but don't get thwomped!"
 // brush 0
 {
@@ -2130,4 +2141,16 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "-256 1152 -104"
+}
+// entity 62
+{
+"classname" "target_position"
+"origin" "1192 -304 -32"
+"targetname" "target_position1"
+}
+// entity 63
+{
+"classname" "info_player_intermission"
+"origin" "1392 -528 0"
+"target" "target_position1"
 }
