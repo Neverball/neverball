@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-03-27 15:38+0300\n"
-"PO-Revision-Date: 2006-03-10 22:09+0200\n"
+"PO-Revision-Date: 2006-03-27 15:47+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -93,7 +93,7 @@ msgid "screen%02d.bmp"
 msgstr "attēls%02d.bmp"
 
 #: ball/main.c:228
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [options ...]\n"
 "-r, --replay file         play the replay 'file'.\n"
@@ -103,12 +103,13 @@ msgid ""
 "-v, --version             show version.\n"
 "-h, -?, --help            show this usage message.\n"
 msgstr ""
-"Lietojums: %s [opcijas ...]\n"
+"Pielietojums: %s [opcijas ...]\n"
 "-r, --replay fails        parādīt spēles ierakstu 'fails'.\n"
 "-l, --level fails.sol     spēlēt līmeni 'fails.sol'.\n"
+"-i, --info                parādīt informāciju par līmeni vai ierakstu.\n"
 "    --data dir            izmantot 'dir' par spēles datu direktoriju.\n"
 "-v, --version             parādīt versiju.\n"
-"-h, -?, --help            parādīt šo lietojuma ziņojumu.\n"
+"-h, -?, --help            parādīt šo ziņojumu.\n"
 
 #: ball/main.c:253
 #, c-format
@@ -148,7 +149,7 @@ msgstr "Nav ieraksta fails\n"
 #: ball/main.c:342
 #, c-format
 msgid "%s: --info requires --replay or --level\n"
-msgstr ""
+msgstr "%s: --info nepieciešams --replay vai --level\n"
 
 #: ball/set.c:148
 #, c-format
@@ -323,7 +324,7 @@ msgstr "Dzēst ierakstu?"
 
 #: ball/st_done.c:55
 msgid "New Challenge Record"
-msgstr ""
+msgstr "Jauns spēka rekords"
 
 #: ball/st_done.c:56
 msgid "Challenge Complete"
@@ -343,9 +344,8 @@ msgid "Secrets"
 msgstr "Rezultāti"
 
 #: ball/st_help.c:70
-#, fuzzy
 msgid "Modes"
-msgstr "Režīms"
+msgstr "Režīmi"
 
 #: ball/st_help.c:71
 #, fuzzy
@@ -479,7 +479,7 @@ msgstr "AIZIET!"
 
 #: ball/st_play_end.c:98
 msgid "SPECIAL GOAL"
-msgstr ""
+msgstr "ĪPAŠAIS MĒRĶIS"
 
 #: ball/st_play_end.c:101
 msgid "Fall-out!"
@@ -840,6 +840,8 @@ msgid ""
 "It's a real game of checkers, but no one wins...\\You have to bounce to "
 "reach the blue coins."
 msgstr ""
+"Tā ir īsta dambretes spēle, taču nav uzvarētāja...\\Tev vajadzēs palēkāt, "
+"lai tiktu pie zilajām monētām."
 
 #: data/map-easy2/elevator-jp.map
 msgid "Calm and meditation may bring you to the Nirvana."
