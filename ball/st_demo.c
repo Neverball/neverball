@@ -108,7 +108,7 @@ static int mode_id;
 static int state_id;
 static int player_id;
 
-static int gui_demo_status(int id, const struct demo * d)
+static int gui_demo_status(int id, const struct demo *d)
 /* Create a layout for some demo info, if d is NULL, try to reserve enought space */
 {
     char noname[MAXNAM];
@@ -118,100 +118,117 @@ static int gui_demo_status(int id, const struct demo * d)
 
     if (d == NULL)
     {
-	/* Build a long name */
-	memset(noname, 'M', MAXNAM-1);
-	noname[MAXNAM-1] = '\0';
+        /* Build a long name */
+        memset(noname, 'M', MAXNAM - 1);
+        noname[MAXNAM - 1] = '\0';
 
-	/* Get a long mode */
-	mode = mode_to_str(0);
-	j = strlen(mode);
-	for(i=1; i<=MODE_SINGLE; i++)
-	{
-	    k = strlen(mode_to_str(i));
-	    if (k > j)
-	    {
-		j = k;
-		mode = mode_to_str(i);
-	    }
-	}
+        /* Get a long mode */
+        mode = mode_to_str(0);
+        j = strlen(mode);
+        for (i = 1; i <= MODE_SINGLE; i++)
+        {
+            k = strlen(mode_to_str(i));
+            if (k > j)
+            {
+                j = k;
+                mode = mode_to_str(i);
+            }
+        }
 
-	/* Get a long state */
-	state = state_to_str(0);
-	j = strlen(state);
-	for(i=1; i<=GAME_FALL; i++)
-	{
-	    k = strlen(state_to_str(i));
-	    if (k > j)
-	    {
-		j = k;
-		state = state_to_str(i);
-	    }
-	}
+        /* Get a long state */
+        state = state_to_str(0);
+        j = strlen(state);
+        for (i = 1; i <= GAME_FALL; i++)
+        {
+            k = strlen(state_to_str(i));
+            if (k > j)
+            {
+                j = k;
+                state = state_to_str(i);
+            }
+        }
     }
     else
     {
-	mode  = mode_to_str(d->mode);
-	state = state_to_str(d->state);
+        mode = mode_to_str(d->mode);
+        state = state_to_str(d->state);
     }
-    
+
     if ((jd = gui_hstack(id)))
     {
-	if((kd = gui_vstack(jd)))
-	{
-	    if ((ld = gui_harray(kd)))
-	    {
-		if ((md = gui_vstack(ld)))
-		{
-		    player_id = gui_label(md, (d?d->player:noname), GUI_SML, GUI_RGT, 0, 0);
-		    coin_id = gui_count(md, (d?d->coins:100),       GUI_SML, GUI_RGT);
-		    state_id = gui_label(md, state,                 GUI_SML, GUI_RGT, gui_red, gui_red);
-		}
-		if ((md = gui_vstack(ld)))
-		{
-		    gui_label(md, _("Player"),                      GUI_SML, GUI_LFT, gui_wht, gui_wht);
-		    gui_label(md, _("Coins"),                       GUI_SML, GUI_LFT, gui_wht, gui_wht);
-		    gui_label(md, _("State"),                       GUI_SML, GUI_LFT, gui_wht, gui_wht);
-		}
-		if ((md = gui_vstack(ld)))
-		{
-		    name_id = gui_label(md, (d?d->name:noname),     GUI_SML, GUI_RGT, 0, 0);
-		    time_id = gui_clock(md, (d?d->timer:35000),     GUI_SML, GUI_RGT);
-		    mode_id = gui_label(md, mode,                   GUI_SML, GUI_RGT, 0, 0);
-		}
-	    }
-	    level_id = gui_label(kd, (d?d->file:"M"),             GUI_SML, GUI_RGT, gui_wht, gui_wht);
-	    date_id = gui_label(kd, (d?date_to_str(d->date):"M"), GUI_SML, GUI_RGT, 0, 0);
-	}
-	if((kd = gui_vstack(jd)))
-	{
-	    gui_label(kd, _("Replay"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
-	    gui_label(kd, _("Time"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
-	    gui_label(kd, _("Mode"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
-	    gui_label(kd, _("Level"),  GUI_SML, GUI_LFT, gui_wht, gui_wht);
-	    gui_label(kd, _("Date"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
-	}
-	if(d && d->state == GAME_GOAL)
-	    gui_set_color(state_id, gui_grn, gui_grn);
+        if ((kd = gui_vstack(jd)))
+        {
+            if ((ld = gui_harray(kd)))
+            {
+                if ((md = gui_vstack(ld)))
+                {
+                    player_id =
+                        gui_label(md, (d ? d->player : noname), GUI_SML,
+                                  GUI_RGT, 0, 0);
+                    coin_id =
+                        gui_count(md, (d ? d->coins : 100), GUI_SML, GUI_RGT);
+                    state_id =
+                        gui_label(md, state, GUI_SML, GUI_RGT, gui_red,
+                                  gui_red);
+                }
+                if ((md = gui_vstack(ld)))
+                {
+                    gui_label(md, _("Player"), GUI_SML, GUI_LFT, gui_wht,
+                              gui_wht);
+                    gui_label(md, _("Coins"), GUI_SML, GUI_LFT, gui_wht,
+                              gui_wht);
+                    gui_label(md, _("State"), GUI_SML, GUI_LFT, gui_wht,
+                              gui_wht);
+                }
+                if ((md = gui_vstack(ld)))
+                {
+                    name_id =
+                        gui_label(md, (d ? d->name : noname), GUI_SML, GUI_RGT,
+                                  0, 0);
+                    time_id =
+                        gui_clock(md, (d ? d->timer : 35000), GUI_SML, GUI_RGT);
+                    mode_id = gui_label(md, mode, GUI_SML, GUI_RGT, 0, 0);
+                }
+            }
+            level_id =
+                gui_label(kd, (d ? d->file : "M"), GUI_SML, GUI_RGT, gui_wht,
+                          gui_wht);
+            date_id =
+                gui_label(kd, (d ? date_to_str(d->date) : "M"), GUI_SML,
+                          GUI_RGT, 0, 0);
+        }
+        if ((kd = gui_vstack(jd)))
+        {
+            gui_label(kd, _("Replay"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+            gui_label(kd, _("Time"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+            gui_label(kd, _("Mode"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+            gui_label(kd, _("Level"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+            gui_label(kd, _("Date"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+        }
+        if (d && (d->state == GAME_GOAL || d->state == GAME_SPEC))
+            gui_set_color(state_id, gui_grn, gui_grn);
     }
     return jd;
 }
 
 static void gui_demo_update_status(int i)
 {
-    const struct demo * d = get_demo(i);
+    const struct demo *d = get_demo(i);
 
     gui_set_label(name_id,   d->name);
     gui_set_label(date_id,   date_to_str(d->date));
-    gui_set_label(level_id,   d->file);
+    gui_set_label(level_id,  d->file);
     gui_set_label(player_id, d->player);
     gui_set_label(mode_id,   mode_to_str(d->mode));
-    if (d->state == GAME_GOAL)
-	gui_set_color(state_id, gui_grn, gui_grn);
+    
+    if (d->state == GAME_GOAL || d->state == GAME_SPEC)
+        gui_set_color(state_id, gui_grn, gui_grn);
     else
-	gui_set_color(state_id, gui_red, gui_red);
-    gui_set_label(state_id,  state_to_str(d->state));
-    gui_set_count(coin_id,   d->coins);
-    gui_set_clock(time_id,   d->timer);
+        gui_set_color(state_id, gui_red, gui_red);
+    
+    gui_set_label(state_id, state_to_str(d->state));
+    gui_set_count(coin_id, d->coins);
+    gui_set_clock(time_id, d->timer);
 }
 
 static int demo_enter(void)
