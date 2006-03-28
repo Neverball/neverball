@@ -127,6 +127,7 @@ LINGUAS= $(POS:po/%.po=%)
 
 %.d : %.c
 	$(CC) $(CFLAGS) -Ishare -MM -MF $@ $<
+	sed -i 's+^[^:]*:+$*.o $@ :+' $@
 
 %.o : %.c
 	$(CC) $(CFLAGS) -Ishare -o $@ -c $<
@@ -185,3 +186,8 @@ po-update-merge : $(POS)
 po-update : po-update-extract po-update-merge
 
 #------------------------------------------------------------------------------
+
+.PHONY : all sols locales clean-src clean test \
+	po-update-extract po-update-merge po-update
+
+-include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS)
