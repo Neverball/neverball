@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-03-27 15:38+0300\n"
-"PO-Revision-Date: 2006-04-01 15:37+0300\n"
+"PO-Revision-Date: 2006-04-01 16:10+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -1181,7 +1181,7 @@ msgid ""
 "\\and maintain precise control.\\Build some momentum to reach the corners.\\"
 msgstr ""
 "Kā iepriekš, taču bez roku pieturēšanas.\\Turi bumbu uz līmeniskas grīdas"
-"\\un saglabā rūpīgu kontroli.\\Izmanto inerci, lai sasniegtu stūrus.\\"
+"\\un saglabā rūpīgu kontroli.\\Izmanto ieskrējienu, lai sasniegtu stūrus.\\"
 
 #: data/map-rlk/drops.map
 msgid ""
@@ -1306,7 +1306,8 @@ msgstr ""
 "Izvēlies īsto brīdi nokļūšanai uz klāja,\\"
 "un rūpīgi saglabā līdzsvaru, lai paliktu tur.\\"
 "Neļauj tai zem Tevis izslīdēt.\\"
-"Izmanto platformas, lai piekļūtu lielajām monētām.\\"
+"Izmanto platformas, lai piekļūtu\\"
+"lielajām monētām.\\"
 
 #: data/map-rlk/movers.map
 msgid "Go for a ride.\\"
@@ -1381,7 +1382,7 @@ msgstr ""
 
 #: data/map-rlk/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
-msgstr "Veiksmi vākt tās\\sarkanās un zilās monētas.\\"
+msgstr "Lai veicas, vācot tas\\sarkanās un zilās monētas.\\"
 
 #: data/map-rlk/spiralup.map
 msgid ""
