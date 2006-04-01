@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-03-27 15:38+0300\n"
-"PO-Revision-Date: 2006-03-27 15:47+0300\n"
+"PO-Revision-Date: 2006-04-01 15:37+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -401,7 +401,7 @@ msgstr "Manuālais skats"
 
 #: ball/st_help.c:128
 msgid "Show FPS"
-msgstr ""
+msgstr "Rādīt FPS"
 
 #: ball/st_help.c:129
 #, fuzzy
@@ -551,7 +551,7 @@ msgstr "Spēlē šo līmeni parastajā režīmā"
 
 #: ball/st_start.c:117
 msgid "Play in challenge mode to unlock extra bonus levels"
-msgstr "Spēlē spēka pārbaudes režīmā, lai atslēgtu papildus līmeņus"
+msgstr "Pārbaudi spēkus, lai atslēgtu papildus līmeņus"
 
 #: ball/st_start.c:119
 msgid "Finish previous levels to unlock this level"
@@ -1142,7 +1142,7 @@ msgid ""
 msgstr ""
 "Iemācies pārvaldīt lēkājošu bumbu.\\Paturi acīs ēnu, lai zinātu, kur bumba"
 "\\piezemēsies. Ja jūties pietiekoši pārliecināts\\par savām lēkāšanas "
-"iemaņām,\\pamēģini tikt klāt lielajai naudai.\\"
+"iemaņām,\\vari mēģināt tikt klāt lielajai naudai.\\"
 
 #: data/map-rlk/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
@@ -1264,7 +1264,7 @@ msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing down"
 "\\early. You need just as much room to slow\\down as you did to speed up.\\"
 msgstr ""
-"Turies tālāk no malām!\\Kad tuvojies bīstamajai joslai, sāc samazināt"
+"Turies tālāk no apmalēm!\\Kad tuvojies bīstamajai joslai, sāc samazināt"
 "\\ātrumu jau laikus. Lai apstātos, Tev vajadzēs\\tieši tik vietas, cik "
 "vajadzēja,\\lai izkustētos.\\"
 
@@ -1302,6 +1302,11 @@ msgid ""
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
 msgstr ""
+"Kustīga platforma var būt mānīga.\\"
+"Izvēlies īsto brīdi nokļūšanai uz klāja,\\"
+"un rūpīgi saglabā līdzsvaru, lai paliktu tur.\\"
+"Neļauj tai zem Tevis izslīdēt.\\"
+"Izmanto platformas, lai piekļūtu lielajām monētām.\\"
 
 #: data/map-rlk/movers.map
 msgid "Go for a ride.\\"
@@ -1345,6 +1350,10 @@ msgid ""
 "the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press F1 "
 "to return to the auto-rotating view.\\"
 msgstr ""
+"Šeit Tev vajadzēs pielietot zināmu kontroli pār savu\\"
+"skatu. Nospied F3, lai apturētu autorotāciju.\\"
+"Izmanto peles pogas, lai pašrocīgi grozītu skatu.\\"
+"Nospied F1, lai nokļūtu atpakaļ autorotējošajā skatā.\\"
 
 #: data/map-rlk/rampup.map
 msgid "I think I can.\\I think I can.\\"
@@ -1389,6 +1398,9 @@ msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
 msgstr ""
+"Lūk, vēl viena pārbaude Tavai spējai\\"
+"pārvaldīt bumbas lēkāšanu. Kāpšana lejup\\"
+"pa kāpnēm pārāk ātri var kļūt bīstama.\\"
 
 #: data/map-rlk/sync.map
 msgid ""
@@ -1438,6 +1450,10 @@ msgid ""
 "Here's another coin grab.\\Use it to earn a free ball.\\Perhaps you already "
 "know a good route.\\Teleportation might come in handy.\\"
 msgstr ""
+"Vēl viena monētu grābtuve.\\"
+"Izmanto to, lai nopelnītu papildus bumbu.\\"
+"Iespējams, ka Tu jau zini labu ceļu.\\"
+"Teleportācija var izrādīties noderīga.\\"
 
 #: data/map-rlk/zigzag.map
 msgid ""
