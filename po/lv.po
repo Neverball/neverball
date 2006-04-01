@@ -977,7 +977,7 @@ msgstr "Les épreuves minutées.\\Skrien!"
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
 msgstr ""
-"Le petit cross.\\Dodamies parāpelēt!\\Turies tuvāk ceļam, lai uzlabotu "
+"Le petit cross.\\Dodamies kāpelēt!\\Turies tuvāk ceļam, lai uzlabotu "
 "ātrumu."
 
 #: data/map-mym/snow.map
