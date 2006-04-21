@@ -2,19 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "push-mym"
-"version"   "1"
-
-"back"      "map-back/city.sol"
-"grad"      "back/city.png"
-"shot"      "shot-mym2/push.jpg"
-"song"      "bgm/track3.ogg"
-"time"      "6000"
-"goal"      "50"
-
-"time_hs"   "3500 3500"
-"coin_hs"   "69 60"
+"version" "1"
+"back" "map-back/city.sol"
+"grad" "back/city.png"
+"shot" "shot-mym2/push.jpg"
+"song" "bgm/track3.ogg"
+"time" "6000"
+"goal" "50"
+"time_hs" "3500 3500"
+"coin_hs" "69 60"
 "message" "Hé, on pousse pas !\Not too fast, not too slow."
 // brush 0
 {
@@ -185,7 +183,7 @@
 ( -136 192 0 ) ( -136 1448 0 ) ( 168 1448 0 ) mtrl/wood-check 0 0 0 0.5 0.5 0 0 0
 ( -64 2176 -8 ) ( -64 2176 0 ) ( -64 2432 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 ( -96 2176 0 ) ( -96 2176 -8 ) ( -96 2432 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( -64 2176 0 ) ( -64 2176 -8 ) ( -96 2176 -8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( -64 2176 0 ) ( -64 2176 -8 ) ( -96 2176 -8 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
 }
 // brush 19
 {
@@ -2696,7 +2694,7 @@
 ( -8 192 0 ) ( -8 1448 0 ) ( 296 1448 0 ) mtrl/wood-check 0 0 0 0.5 0.5 0 0 0
 ( 96 2432 0 ) ( 96 2432 -8 ) ( 80 2176 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 ( 64 2176 0 ) ( 64 2176 -8 ) ( 64 2432 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( 64 2176 -8 ) ( 64 2176 0 ) ( 80 2176 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 64 2176 -8 ) ( 64 2176 0 ) ( 80 2176 0 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
 }
 // brush 297
 {
@@ -2705,7 +2703,7 @@
 ( -40 192 0 ) ( -40 1448 0 ) ( 264 1448 0 ) mtrl/wood-check 0 0 0 0.5 0.5 0 0 0
 ( 64 2176 -8 ) ( 64 2176 0 ) ( 64 2432 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 ( 16 2176 0 ) ( 16 2176 -8 ) ( 16 2432 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( 16 2176 -8 ) ( 16 2176 0 ) ( 64 2176 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 16 2176 -8 ) ( 16 2176 0 ) ( 64 2176 0 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
 }
 // brush 298
 {
@@ -2714,7 +2712,7 @@
 ( -72 192 0 ) ( -72 1448 0 ) ( 232 1448 0 ) mtrl/wood-check 0 0 0 0.5 0.5 0 0 0
 ( 16 2176 -8 ) ( 16 2176 0 ) ( 16 2432 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 ( -16 2176 0 ) ( -16 2176 -8 ) ( -16 2432 -8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( -16 2176 -8 ) ( -16 2176 0 ) ( 16 2176 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( -16 2176 -8 ) ( -16 2176 0 ) ( 16 2176 0 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
 }
 // brush 299
 {
@@ -2723,7 +2721,7 @@
 ( -104 192 0 ) ( -104 1448 0 ) ( 200 1448 0 ) mtrl/wood-check 0 0 0 0.5 0.5 0 0 0
 ( -16 2176 -8 ) ( -16 2176 0 ) ( -16 2432 -8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 ( -64 2176 0 ) ( -64 2176 -8 ) ( -64 2432 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( -64 2176 -8 ) ( -64 2176 0 ) ( -16 2176 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( -64 2176 -8 ) ( -64 2176 0 ) ( -16 2176 0 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
 }
 // brush 300
 {
