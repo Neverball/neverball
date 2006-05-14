@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-03-27 15:38+0300\n"
+"POT-Creation-Date: 2006-05-14 18:53+0300\n"
 "PO-Revision-Date: 2006-04-01 16:13+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "replay%02d"
 msgstr "ieraks%02d"
 
-#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:172 ball/st_play_end.c:136
+#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:178 ball/st_play_end.c:136
 msgid "Coins"
 msgstr "Monētas"
 
@@ -49,6 +49,11 @@ msgstr "Slinks"
 #: ball/hud.h:8
 msgid "Manual"
 msgstr "Manuāls"
+
+#: ball/level.c:130
+#, fuzzy, c-format
+msgid "Error while loading level file '%s': "
+msgstr "Kļūda, ielādējot lietotāja spēles rezultātu failu '%s': "
 
 #: ball/level.c:134
 #, c-format
@@ -175,11 +180,11 @@ msgstr "P%d"
 msgid "Options"
 msgstr "Opcijas"
 
-#: ball/st_conf.c:235 ball/st_demo.c:479 ball/st_save.c:183 putt/st_conf.c:198
+#: ball/st_conf.c:235 ball/st_demo.c:496 ball/st_save.c:183 putt/st_conf.c:198
 msgid "No"
 msgstr "Nē"
 
-#: ball/st_conf.c:236 ball/st_demo.c:480 ball/st_save.c:184 putt/st_conf.c:199
+#: ball/st_conf.c:236 ball/st_demo.c:497 ball/st_save.c:184 putt/st_conf.c:199
 msgid "Yes"
 msgstr "Jā"
 
@@ -201,7 +206,7 @@ msgstr "Bez"
 msgid "On"
 msgstr "Ar"
 
-#: ball/st_conf.c:318 ball/st_demo.c:233 ball/st_help.c:73 ball/st_start.c:226
+#: ball/st_conf.c:318 ball/st_demo.c:250 ball/st_help.c:73 ball/st_start.c:226
 #: ball/util.c:346 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
 #: share/st_lang.c:81 share/st_resol.c:93
 msgid "Back"
@@ -255,70 +260,70 @@ msgstr "Valoda"
 msgid "Player Name"
 msgstr "Spēlētāja vārds"
 
-#: ball/st_demo.c:171 ball/st_name.c:39 putt/st_all.c:474
+#: ball/st_demo.c:176 ball/st_name.c:39 putt/st_all.c:474
 msgid "Player"
 msgstr "Spēlētājs"
 
-#: ball/st_demo.c:173
+#: ball/st_demo.c:180
 msgid "State"
 msgstr "Stāvoklis"
 
-#: ball/st_demo.c:187 ball/st_demo.c:309
+#: ball/st_demo.c:202 ball/st_demo.c:326
 msgid "Replay"
 msgstr "Ieraksts"
 
-#: ball/st_demo.c:188
+#: ball/st_demo.c:203
 msgid "Time"
 msgstr "Laiks"
 
-#: ball/st_demo.c:189
+#: ball/st_demo.c:204
 msgid "Mode"
 msgstr "Režīms"
 
-#: ball/st_demo.c:190
+#: ball/st_demo.c:205
 msgid "Level"
 msgstr "Līmenis"
 
-#: ball/st_demo.c:191
+#: ball/st_demo.c:206
 msgid "Date"
 msgstr "Datums"
 
-#: ball/st_demo.c:227
+#: ball/st_demo.c:244
 msgid "No Replays"
 msgstr "Nav ierakstu"
 
-#: ball/st_demo.c:229
+#: ball/st_demo.c:246
 msgid ""
 "You can save replays of your games.\\Currently, there are no replays saved."
 msgstr ""
 "Tu vari saglabāt savu spēļu ierakstus.\\Šobrīd neviens ieraksts nav "
 "saglabāts."
 
-#: ball/st_demo.c:241
+#: ball/st_demo.c:258
 msgid "Select Replay"
 msgstr "Izvēlies ierakstu"
 
-#: ball/st_demo.c:403
+#: ball/st_demo.c:420
 msgid "Replay Ends"
 msgstr "Ieraksta beigas"
 
-#: ball/st_demo.c:407
+#: ball/st_demo.c:424
 msgid "Replay Again"
 msgstr "Parādīt vēlreiz"
 
-#: ball/st_demo.c:409 ball/st_done.c:88 ball/st_name.c:122
+#: ball/st_demo.c:426 ball/st_done.c:88 ball/st_name.c:122
 msgid "OK"
 msgstr "OK"
 
-#: ball/st_demo.c:412
+#: ball/st_demo.c:429
 msgid "Keep"
 msgstr "Paturēt"
 
-#: ball/st_demo.c:413
+#: ball/st_demo.c:430
 msgid "Delete"
 msgstr "Dzēst"
 
-#: ball/st_demo.c:475
+#: ball/st_demo.c:492
 msgid "Delete Replay?"
 msgstr "Dzēst ierakstu?"
 
@@ -909,18 +914,16 @@ msgid ""
 "La conduite stressante.\\Attention:\\The platform under the ball moves "
 "forward."
 msgstr ""
-"La conduite stressante.\\"
-"Uzmanību: platforma zem bumbas\\"
-"pārvietojas uz priekšu."
+"La conduite stressante.\\Uzmanību: platforma zem bumbas\\pārvietojas uz "
+"priekšu."
 
 #: data/map-mym/drive2.map
 msgid ""
 "La conduite dangereuse.\\The platform under the ball moves quickly forward."
 "\\You would do well to advance."
 msgstr ""
-"La conduite dangereuse.\\"
-"Platforma zem bumbas ātri pārvietojas\\"
-"uz priekšu. Tu labi darītu, ja pasteigtos."
+"La conduite dangereuse.\\Platforma zem bumbas ātri pārvietojas\\uz priekšu. "
+"Tu labi darītu, ja pasteigtos."
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
@@ -960,18 +963,16 @@ msgid ""
 "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
 "another one?"
 msgstr ""
-"Le labyrinthe fou.\\"
-"Tu zini ceļu, Tu redzi to,\\"
-"tad kādēļ Tu dodies citā virzienā?"
+"Le labyrinthe fou.\\Tu zini ceļu, Tu redzi to,\\tad kādēļ Tu dodies citā "
+"virzienā?"
 
 #: data/map-mym/narrow.map
 msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
 "slope."
 msgstr ""
-"Le sentier étroit.\\"
-"Pacietība un precizitāte. Padoms:\\"
-"kāpini ātrumu pirmajā nobraucienā."
+"Le sentier étroit.\\Pacietība un precizitāte. Padoms:\\kāpini ātrumu pirmajā "
+"nobraucienā."
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
@@ -981,8 +982,7 @@ msgstr "Les épreuves minutées.\\Skrien!"
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
 msgstr ""
-"Le petit cross.\\Dodamies kāpelēt!\\Turies tuvāk ceļam, lai uzlabotu "
-"ātrumu."
+"Le petit cross.\\Dodamies kāpelēt!\\Turies tuvāk ceļam, lai uzlabotu ātrumu."
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
@@ -1049,9 +1049,8 @@ msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
 msgstr ""
-"Si si, ce tuyau a une fin.\\"
-"Dzīve caurulē. Padoms: samazini\\"
-"ātrumu pēdējam lēcienam."
+"Si si, ce tuyau a une fin.\\Dzīve caurulē. Padoms: samazini\\ātrumu pēdējam "
+"lēcienam."
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
@@ -1307,12 +1306,9 @@ msgid ""
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
 msgstr ""
-"Kustīga platforma var būt mānīga.\\"
-"Izvēlies īsto brīdi nokļūšanai uz klāja,\\"
-"un rūpīgi saglabā līdzsvaru, lai paliktu tur.\\"
-"Neļauj tai zem Tevis izslīdēt.\\"
-"Izmanto platformas, lai piekļūtu\\"
-"lielajām monētām.\\"
+"Kustīga platforma var būt mānīga.\\Izvēlies īsto brīdi nokļūšanai uz klāja,"
+"\\un rūpīgi saglabā līdzsvaru, lai paliktu tur.\\Neļauj tai zem Tevis "
+"izslīdēt.\\Izmanto platformas, lai piekļūtu\\lielajām monētām.\\"
 
 #: data/map-rlk/movers.map
 msgid "Go for a ride.\\"
@@ -1356,10 +1352,9 @@ msgid ""
 "the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press F1 "
 "to return to the auto-rotating view.\\"
 msgstr ""
-"Šeit Tev vajadzēs pielietot zināmu kontroli pār savu\\"
-"skatu. Nospied F3, lai apturētu autorotāciju.\\"
-"Izmanto peles pogas, lai pašrocīgi grozītu skatu.\\"
-"Nospied F1, lai nokļūtu atpakaļ autorotējošajā skatā.\\"
+"Šeit Tev vajadzēs pielietot zināmu kontroli pār savu\\skatu. Nospied F3, lai "
+"apturētu autorotāciju.\\Izmanto peles pogas, lai pašrocīgi grozītu skatu."
+"\\Nospied F1, lai nokļūtu atpakaļ autorotējošajā skatā.\\"
 
 #: data/map-rlk/rampup.map
 msgid "I think I can.\\I think I can.\\"
@@ -1387,9 +1382,7 @@ msgstr ""
 
 #: data/map-rlk/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
-msgstr ""
-"Patīkamu izklaidi, vācot tās\\"
-"sarkanās un zilās monētas.\\"
+msgstr "Patīkamu izklaidi, vācot tās\\sarkanās un zilās monētas.\\"
 
 #: data/map-rlk/spiralup.map
 msgid ""
@@ -1406,9 +1399,8 @@ msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
 msgstr ""
-"Lūk, vēl viena pārbaude Tavai spējai\\"
-"pārvaldīt bumbas lēkāšanu. Kāpšana lejup\\"
-"pa kāpnēm pārāk ātri var kļūt bīstama.\\"
+"Lūk, vēl viena pārbaude Tavai spējai\\pārvaldīt bumbas lēkāšanu. Kāpšana "
+"lejup\\pa kāpnēm pārāk ātri var kļūt bīstama.\\"
 
 #: data/map-rlk/sync.map
 msgid ""
@@ -1458,10 +1450,9 @@ msgid ""
 "Here's another coin grab.\\Use it to earn a free ball.\\Perhaps you already "
 "know a good route.\\Teleportation might come in handy.\\"
 msgstr ""
-"Vēl viena monētu grābtuve.\\"
-"Izmanto to, lai nopelnītu papildus bumbu.\\"
-"Iespējams, ka Tu jau zini labu ceļu.\\"
-"Teleportācija var izrādīties noderīga.\\"
+"Vēl viena monētu grābtuve.\\Izmanto to, lai nopelnītu papildus bumbu."
+"\\Iespējams, ka Tu jau zini labu ceļu.\\Teleportācija var izrādīties "
+"noderīga.\\"
 
 #: data/map-rlk/zigzag.map
 msgid ""

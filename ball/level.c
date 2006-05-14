@@ -127,7 +127,7 @@ int level_load(const char *filename, struct level *level)
     /* Try to load the sol file */
     if (!sol_load_only_file(&sol, filename))
     {
-	fprintf(stderr, "Error while loading level file '%s': ", filename);
+	fprintf(stderr, _("Error while loading level file '%s': "), filename);
         if (errno)
 	   perror(NULL);
 	else
