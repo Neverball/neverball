@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "author"    "Mehdi Yousfi-Monod"
-"levelname" "slightcurve-mym-mym"
+"levelname" "slightcurve-mym"
 "version"   "1"
 
 "back"      "map-back/clouds.sol"

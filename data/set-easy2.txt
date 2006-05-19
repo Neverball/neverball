@@ -20,3 +20,4 @@ map-easy2/paths-paul.sol
 map-easy2/ocean-paul.sol
 map-easy2/checkers-paul.sol
 map-easy2/thwomp2-paul.sol
+map-easy2/sparselines-mym.sol
