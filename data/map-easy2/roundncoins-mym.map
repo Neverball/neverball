@@ -3528,7 +3528,7 @@
 {
 "classname" "light"
 "origin" "0 0 48"
-"light" "5"
+"light" "1"
 }
 // entity 31
 {
@@ -3540,7 +3540,7 @@
 {
 "classname" "light"
 "origin" "0 0 112"
-"light" "5"
+"light" "1"
 }
 // entity 33
 {
@@ -3782,7 +3782,7 @@
 {
 "classname" "light"
 "origin" "32 352 16"
-"light" "1"
+"light" "5"
 }
 // entity 57
 {
@@ -3830,7 +3830,7 @@
 {
 "classname" "light"
 "origin" "-32 288 16"
-"light" "1"
+"light" "5"
 }
 // entity 65
 {
