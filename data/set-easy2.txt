@@ -22,3 +22,4 @@ map-easy2/checkers-paul.sol
 map-easy2/thwomp2-paul.sol
 map-easy2/sparselines-mym.sol
 map-easy2/roundncoins-mym.sol
+map-easy2/roundfloors-mym.sol
