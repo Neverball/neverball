@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-05-14 18:53+0300\n"
-"PO-Revision-Date: 2006-04-01 16:13+0300\n"
+"PO-Revision-Date: 2006-05-26 00:55+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -51,14 +51,14 @@ msgid "Manual"
 msgstr "Manuāls"
 
 #: ball/level.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Error while loading level file '%s': "
-msgstr "Kļūda, ielādējot lietotāja spēles rezultātu failu '%s': "
+msgstr "Kļūda, ielādējot līmeņa failu '%s': "
 
 #: ball/level.c:134
 #, c-format
 msgid "Not a valid level file\n"
-msgstr "Nederīgs ieraksta fails\n"
+msgstr "Nederīgs līmeņa fails\n"
 
 #: ball/level.c:208 ball/st_help.c:220 ball/st_start.c:245
 msgid "Challenge"
@@ -112,9 +112,9 @@ msgstr ""
 "-r, --replay fails        parādīt spēles ierakstu 'fails'.\n"
 "-l, --level fails.sol     spēlēt līmeni 'fails.sol'.\n"
 "-i, --info                parādīt informāciju par līmeni vai ierakstu.\n"
-"    --data dir            izmantot 'dir' par spēles datu direktoriju.\n"
+"    --data dir            izmantot 'dir' kā spēles datu katalogu.\n"
 "-v, --version             parādīt versiju.\n"
-"-h, -?, --help            parādīt šo ziņojumu.\n"
+"-h, -?, --help            parādīt šo lietojuma ziņojumu.\n"
 
 #: ball/main.c:253
 #, c-format
@@ -134,12 +134,12 @@ msgstr "%s: opcijai %s nepieciešams arguments\n"
 #: ball/main.c:293 putt/main.c:251
 #, c-format
 msgid "Failure to establish game data directory\n"
-msgstr "Neizdevās noteikt spēles datu direktoriju\n"
+msgstr "Neizdevās noteikt spēles datu katalogu\n"
 
 #: ball/main.c:299 putt/main.c:249
 #, c-format
 msgid "Failure to establish config directory\n"
-msgstr "Neizdevās noteikt konfigurācijas direktoriju\n"
+msgstr "Neizdevās noteikt konfigurācijas katalogu\n"
 
 #: ball/main.c:318
 #, c-format
@@ -154,7 +154,7 @@ msgstr "Nav ieraksta fails\n"
 #: ball/main.c:342
 #, c-format
 msgid "%s: --info requires --replay or --level\n"
-msgstr "%s: --info nepieciešams --replay vai --level\n"
+msgstr "%s: priekš --info nepieciešams --replay vai --level\n"
 
 #: ball/set.c:148
 #, c-format
@@ -309,7 +309,7 @@ msgstr "Ieraksta beigas"
 
 #: ball/st_demo.c:424
 msgid "Replay Again"
-msgstr "Parādīt vēlreiz"
+msgstr "Atkārtot"
 
 #: ball/st_demo.c:426 ball/st_done.c:88 ball/st_name.c:122
 msgid "OK"
@@ -448,7 +448,7 @@ msgstr ""
 
 #: ball/st_level.c:46
 msgid "Single Level"
-msgstr "Atsevišķs līmenis"
+msgstr "Vienīgais līmenis"
 
 #: ball/st_level.c:57
 msgid "*** BONUS ***"
@@ -620,7 +620,7 @@ msgstr "Visvairāk monētu"
 
 #: ball/util.c:221
 msgid "Unlock Goal"
-msgstr "Mērķis atslēgts"
+msgstr "Atslēgts mērķis"
 
 #: ball/util.c:223
 msgid "Best Times"
@@ -632,11 +632,11 @@ msgstr "dzēst"
 
 #: ball/util.c:342
 msgid "Next"
-msgstr "Nākamie"
+msgstr "Nāk"
 
 #: ball/util.c:343
 msgid "Prev"
-msgstr "Iepriekšējie"
+msgstr "Iepr"
 
 #: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:88 putt/st_all.c:132
 msgid "Par"
@@ -706,7 +706,7 @@ msgstr "Nav skaņas\n"
 
 #: share/base_config.h:41
 msgid "Last"
-msgstr "Last"
+msgstr ""
 
 #: share/base_config.h:77
 msgid "ttf/DejaVuSans-Bold.ttf"
@@ -793,6 +793,10 @@ msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
+"Grūtības pakāpe: nedaudz grūtāks par\\"
+"viņa pirmo komplektu.\\\\"
+"Vairāk izaicinājuma, it īpaši monētu vākšanā.\\"
+"Autors: Mehdi Yousfi-Monod (mym)\\"
 
 #: data/set-paul.txt
 msgid "Paul's levels"
@@ -809,31 +813,31 @@ msgid ""
 "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
 msgstr ""
-"Sākotnējais 18 bedrīšu kurss.\\Ar pakāpeniski augošu grūtības pakāpi.\\ "
-"\\Sarežģītība: no nelielas līdz vidējai\\Autors: rlk\\"
+"Sākotnējais 18 bedrīšu kurss.\\Ar vienmērīgi pieaugošu grūtības pakāpi.\\ "
+"\\Grūtības pakāpe: no vieglas līdz vidējai\\Autors: rlk\\"
 
 #: data/courses.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr "Vēl viens 18 bedrīšu kurss\\ \\ \\Sarežģītība: vidēja\\Autors: paxed\\"
+msgstr "Vēl viens 18 bedrīšu kurss\\ \\ \\Grūtības pakāpe: vidēja\\Autors: paxed\\"
 
 #: data/courses.txt
 msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr "Kārtējais 18 bedrīšu kurss\\ \\ \\Sarežģītība: vidēja\\Autors: paxed\\"
+msgstr "Kārtējais 18 bedrīšu kurss\\ \\ \\Grūtības pakāpe: vidēja\\Autors: paxed\\"
 
 #: data/courses.txt
 msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr "Un vēl vairāk bedrīšu\\ \\ \\Sarežģītība: vidēja\\Autors: paxed\\"
+msgstr "Vēl vairāk bedrīšu\\ \\ \\Grūtības pakāpe: vidēja\\Autors: paxed\\"
 
 #: data/courses.txt
 msgid ""
 "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
 msgstr ""
-"26 bedrīšu kurss\\alfabēta secībā\\\\Sarežģītība: ievērojama\\Autors: paxed\\"
+"26 bedrīšu kurss\\alfabēta secībā\\\\Grūtības pakāpe: ievērojama\\Autors: paxed\\"
 
 #: data/courses.txt
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
 msgstr ""
-"Ķertais Golfs\\ \\\\Sarežģītība: no nelielas līdz vidējai\\Autors: "
+"Ķertais Golfs\\ \\\\Grūtības pakāpe: no vieglas līdz vidējai\\Autors: "
 "slippifishi\\"
 
 #: data/map-easy2/billiard-paul.map
