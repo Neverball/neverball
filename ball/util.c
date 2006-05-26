@@ -142,7 +142,7 @@ void set_most_coins(const struct score *s, int hilight)
 static int time_l;
 static int time_c[4];
 static int time_n[4];
-static int time_t[4];
+static int time_t2[4]; /* Renamed to time_t2 to avoid multiple declaration (in sys/types.h) */
 static int time_extrarow;
 
 /* Build a Best Times top three list with default values. */
@@ -168,14 +168,14 @@ void gui_best_times(int id, int e)
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < NSCORE - 1; j++)
-                        time_t[j] = gui_clock(md, 359999, GUI_SML, 0);
+                        time_t2[j] = gui_clock(md, 359999, GUI_SML, 0);
 
-                    time_t[j++] = gui_clock(md, 359999, GUI_SML, GUI_SE);
+                    time_t2[j++] = gui_clock(md, 359999, GUI_SML, GUI_SE);
 		    
 		    if (e)
 		    {
                         gui_space(md);
-			time_t[j++] = gui_clock(md, 359999, GUI_SML, GUI_RGT);
+			time_t2[j++] = gui_clock(md, 359999, GUI_SML, GUI_RGT);
 		    }
                 }
 
@@ -226,7 +226,7 @@ void set_best_times(const struct score *s, int hilight, int goal)
     {
 	for (j = 0; j < NSCORE + time_extrarow ; j++)
 	{
-	    gui_set_clock(time_t[j], -1);
+	    gui_set_clock(time_t2[j], -1);
 	    gui_set_label(time_n[j], "");
 	    gui_set_count(time_c[j], -1);
 	}
@@ -247,7 +247,7 @@ void set_best_times(const struct score *s, int hilight, int goal)
 	    else
 		gui_set_color(time_n[j], gui_grn, gui_grn);
 
-	    gui_set_clock(time_t[j], s->timer[j]);
+	    gui_set_clock(time_t2[j], s->timer[j]);
 	    gui_set_label(time_n[j], spe ? _(name) : name);
 	    gui_set_count(time_c[j], s->coins[j]);
 	}
