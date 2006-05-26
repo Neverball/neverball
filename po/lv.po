@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-05-14 18:53+0300\n"
-"PO-Revision-Date: 2006-05-26 17:10+0300\n"
+"PO-Revision-Date: 2006-05-26 17:45+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -1131,8 +1131,11 @@ msgid ""
 "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
 "the easy cash or\\go all the way for a big payoff.\\"
 msgstr ""
-"Šie tilti ir slīpi.\\Katrs no tiem ir šaurāks un stāvāks par iepriekšējo."
-"\\Savāc sīknaudu, vai arī\\ej visu ceļu pēc lielās naudas.\\"
+"Šie tilti ir slīpi.\\"
+"Katrs no tiem ir šaurāks\\"
+"un stāvāks par iepriekšējo.\\"
+"Savāc sīknaudu, vai arī mēro\\"
+"visu ceļu pie lielās naudas.\\"
 
 #: data/map-rlk/bumper.map
 msgid ""
@@ -1234,8 +1237,8 @@ msgid ""
 "Time the switches carefully to synchronize\\the motion of the platforms."
 "\\Move quickly across the gaps.\\"
 msgstr ""
-"Rūpīgi izvēlies brīdi slēdžu iedarbināšanai,\\lai saskaņotu platformu "
-"kustību.\\Centies ātri šķērsot plaisas.\\"
+"Rūpīgi izvēlies brīdi slēdžu\\ieslēgšanai, lai saskaņotu platformu "
+"kustību.\\Centies veicīgi šķērsot plaisas.\\"
 
 #: data/map-rlk/goals.map
 msgid ""
@@ -1343,7 +1346,7 @@ msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
 msgstr ""
-"Tev tiek apmēram 15 sekundes katrā posmā,\\tāpēc nekavējies. Savāc monētas "
+"Tev dotas apmēram 15 sekundes katrā posmā,\\tāpēc nekavējies. Savāc monētas "
 "un dodies\\pie nākamā slēdža.\\"
 
 #: data/map-rlk/quads.map
@@ -1373,15 +1376,16 @@ msgid ""
 "Ride the elevators to the top.\\They move quickly,\\and bat the ball around "
 "a bit.\\Be prepared to handle some bouncing.\\"
 msgstr ""
-"Brauc ar pacēlājiem līdz pašai\\augšai. Tie ātri pārvietojas,\\un nedaudz "
-"mētā bumbu.\\Esi gatavs izturēt mērenu palēkāšanu.\\"
+"Brauc ar pacēlājiem līdz pašai augšai.\\"
+"Tie ātri pārvietojas, un nedaudz "
+"mētā bumbu.\\Esi gatavs paciest mērenu palēkāšanu.\\"
 
 #: data/map-rlk/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
 "work.\\"
 msgstr ""
-"Ripinies lēnām, lai nenokļūtu pārāk tuvu malai.\\Vai arī nē.\\Abējādi var "
+"Ripinies lēnām, lai turētos tālāk no malām.\\Vai arī nē.\\Abējādi var "
 "izdoties.\\"
 
 #: data/map-rlk/spiralin.map
@@ -1434,7 +1438,7 @@ msgstr ""
 
 #: data/map-rlk/tilt.map
 msgid "The floor is as flat as you make it.\\"
-msgstr "Grīda ir tieši tik līdzena, cik Tu tai liec būt.\\"
+msgstr "Grīda ir tieši tik līdzena, cik\\līdzenu Tu to padari.\\"
 
 #: data/map-rlk/timer.map
 msgid ""
