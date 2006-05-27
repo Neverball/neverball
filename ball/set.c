@@ -525,13 +525,13 @@ void set_finish_level(struct level_game *lg, const char *player)
 
     assert(s == cl->set);
 
-	/* if no set, no next level */    
-	if (s == NULL)
-	{
-	    /* if no set, return */
-	    lg->next_level = NULL;
-	    return;
-	}
+    /* if no set, no next level */    
+    if (s == NULL)
+    {
+        /* if no set, return */
+        lg->next_level = NULL;
+        return;
+    }
 
     /* On level completed */
     if (lg->state == GAME_GOAL)
