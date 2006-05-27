@@ -56,7 +56,7 @@ static void shot(void)
     static char filename[MAXSTR];
     static int  num = 0;
 
-    sprintf(filename, _("screen%02d.bmp"), num++);
+    sprintf(filename, _("screen%02d.png"), num++);
 
     image_snap(filename, config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT));
 }

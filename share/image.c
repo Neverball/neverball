@@ -17,6 +17,8 @@
 #include <SDL_image.h>
 #include <string.h>
 #include <math.h>
+#include <png.h>
+#include <stdlib.h>
 
 #include "glext.h"
 #include "image.h"
@@ -27,23 +29,67 @@
 
 void image_snap(char *filename, int w, int h)
 {
+    FILE       *filep  = NULL;
+    png_structp writep = NULL;
+    png_infop   infop  = NULL;
+    png_bytep  *bytep  = NULL;
+
     int i;
 
-    SDL_Surface *buf = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
-                                            RMASK, GMASK, BMASK, 0);
-    SDL_Surface *img = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 24,
-                                            RMASK, GMASK, BMASK, 0);
+    unsigned char *p = NULL;
 
-    glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, buf->pixels);
+    /* Initialize all PNG export data structures. */
 
-    for (i = 0; i < h; i++)
-        memcpy((GLubyte *) img->pixels + 3 * w * i,
-               (GLubyte *) buf->pixels + 3 * w * (h - i), 3 * w);
+    if (!(filep = fopen(filename, FMODE_WB)))
+        return;
+    if (!(writep = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0)))
+        return;
+    if (!(infop = png_create_info_struct(writep)))
+        return;
 
-    SDL_SaveBMP(img, filename);
+    /* Enable the default PNG error handler. */
 
-    SDL_FreeSurface(img);
-    SDL_FreeSurface(buf);
+    if (setjmp(png_jmpbuf(writep)) == 0)
+    {
+        /* Initialize the PNG header. */
+
+        png_init_io (writep, filep);
+        png_set_IHDR(writep, infop, w, h, 8,
+                     PNG_COLOR_TYPE_RGB,
+                     PNG_INTERLACE_NONE,
+                     PNG_COMPRESSION_TYPE_DEFAULT,
+                     PNG_FILTER_TYPE_DEFAULT);
+
+        /* Allocate the pixel buffer and copy pixels there. */
+
+        if ((p = (unsigned char *) malloc(w * h * 4)))
+        {
+            glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, p);
+
+            /* Allocate and initialize the row pointers. */
+
+            if ((bytep = png_malloc(writep, h * sizeof (png_bytep))))
+            {
+                for (i = 0; i < h; ++i)
+                    bytep[h - i - 1] = (png_bytep) (p + i * w * 3);
+
+                png_set_rows (writep, infop, bytep);
+
+                /* Write the PNG image file. */
+
+                png_write_info(writep, infop);
+                png_write_png (writep, infop, 0, NULL);
+
+                free(bytep);
+            }
+            free(p);
+        }
+    }
+
+    /* Release all resources. */
+
+    png_destroy_write_struct(&writep, &infop);
+    fclose(filep);
 }
 
 void image_size(int *W, int *H, int w, int h)

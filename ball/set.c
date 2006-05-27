@@ -616,11 +616,11 @@ void level_snap(int i)
 {
     char filename[MAXSTR];
 
-    /* Convert the level name to a BMP filename. */
+    /* Convert the level name to a PNG filename. */
 
     memset(filename, 0, MAXSTR);
     strncpy(filename, level_v[i].file, strcspn(level_v[i].file, "."));
-    strcat(filename, ".bmp");
+    strcat(filename, ".png");
 
     /* Initialize the game for a snapshot. */
 
