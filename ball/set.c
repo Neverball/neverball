@@ -525,12 +525,6 @@ void set_finish_level(struct level_game *lg, const char *player)
 
     assert(s == cl->set);
 
-    /* On level completed */
-    if (lg->state == GAME_GOAL)
-    {	    
-	/* Update level scores */
-	dirty = level_score_update(lg, player);
-	
 	/* if no set, no next level */    
 	if (s == NULL)
 	{
@@ -539,6 +533,12 @@ void set_finish_level(struct level_game *lg, const char *player)
 	    return;
 	}
 
+    /* On level completed */
+    if (lg->state == GAME_GOAL)
+    {	    
+	/* Update level scores */
+	dirty = level_score_update(lg, player);
+	
 	/* Complete the level */
 	if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
 	{
@@ -555,7 +555,7 @@ void set_finish_level(struct level_game *lg, const char *player)
     /* On goal reached */
     if (lg->state == GAME_GOAL || lg->state == GAME_SPEC)
     {
-	/* Identify the follwing level */
+	/* Identify the following level */
 	nl = next_level(ln + lg->state_value);
 	if (nl != NULL)
 	{
