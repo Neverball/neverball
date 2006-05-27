@@ -1,5 +1,5 @@
 
-                            * Neverball *
+                            * Neverball and Neverputt *
 
 * LEAD MAINTAINER
 
@@ -12,15 +12,16 @@
 
 * LEVEL CONTRIBUTIONS
 
-    Robert Kooima	(rlk)
-    Pasi Kallinen       (paxed)
-    Mehdi Yousfi-Monod  (mym)
-    Michael Middleton   (slippifishi)
+    Pasi Kallinen       (paxed): Neverputt
+    Robert Kooima	(rlk): Neverball and Neverputt
+    Mehdi Yousfi-Monod  (mym): Neverball
+    Michael Middleton   (slippifishi): Neverputt
 
 * TRANSLATION
 
     French:
-        Jean Privat & Mehdi Yousfi-Monod
+        Jean Privat
+        Mehdi Yousfi-Monod
 
     German:
         Georg Wachter
@@ -30,16 +31,18 @@
 
 * THANKS TO
 
+    Derek Arndt         (OSX packaging)
     Erik Auerswald      (Mouse invert)
     Corey Edwards       (Joystick select)
-    Kyle Hoker          (Feature ideas and testing)
-    Derek Arndt         (OSX packaging)
-    Phil Harper         (TheOpenCD packaging, icons)
-    Max Gilead          (Debian packaging)
-    Michael Sterret     (Gentoo ebuild)
     Christoph Frick     (OSX port)
+    Max Gilead          (Debian packaging)
+    François Guillet    (the Neverball Hall of Fame, Neverforum, Neverwiki)
+    Phil Harper         (TheOpenCD packaging, icons)
+    Kyle Hoker          (Feature ideas and testing)
     Jeremy Messenger    (FreeBSD port)
-
+    Michael Sterret     (Gentoo ebuild)
+    Mehdi Yousfi-Monod  (Windows packaging)
+   
     Countless others for play testing and bug reports.
 
     http://www.happypenguin.org
