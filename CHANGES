@@ -1,13 +1,14 @@
 -------------------------------------------------------------------------------
 New in 1.4.1
 
-* New levels (neverball & neverputt).
-* New textures.
-* Add internationalisation (I18N).
-* Improved interface.
-* Many buxfixes.
 * Added dictionary elements to SOL file in order to allow metadata storage.
 * Reverted short usage in SOL to int.  Was bumping up against the limit.
+* Added internationalization.
+* New levels.
+* New textures.
+* New Putt courses.
+* Improved interface.
+* Many bugfixes.
 
 -------------------------------------------------------------------------------
 New in 1.4.0
