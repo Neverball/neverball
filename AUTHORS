@@ -31,17 +31,19 @@
 
 * THANKS TO
 
-    Derek Arndt         (OSX packaging)
-    Erik Auerswald      (Mouse invert)
-    Corey Edwards       (Joystick select)
-    Christoph Frick     (OSX port)
-    Max Gilead          (Debian packaging)
-    François Guillet    (the Neverball Hall of Fame, Neverforum, Neverwiki)
-    Phil Harper         (TheOpenCD packaging, icons)
-    Kyle Hoker          (Feature ideas and testing)
-    Jeremy Messenger    (FreeBSD port)
-    Michael Sterret     (Gentoo ebuild)
-    Mehdi Yousfi-Monod  (Windows packaging)
+    Derek Arndt               (OSX packaging)
+    Erik Auerswald            (Mouse invert)
+    Corey Edwards             (Joystick select)
+    Christoph Frick           (OSX port)
+    Max Gilead                (Debian packaging)
+    François Guillet (shino)  (Neverball Hall of Fame development and hosting
+                               Neverforum and Neverwiki installation and hosting)
+    Phil Harper               (TheOpenCD packaging, icons)
+    Kyle Hoker                (Feature ideas and testing)
+    Jeremy Messenger          (FreeBSD port)
+    Michael Sterret           (Gentoo ebuild)
+    Mehdi Yousfi-Monod        (Neverball Hall of Fame management
+                               Windows packaging)
    
     Countless others for play testing and bug reports.
 
