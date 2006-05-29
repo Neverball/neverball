@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "author"    "Mehdi Yousfi-Monod"
 "levelname" "bombman-mym"
-"version"   "1"
+"version"   "2"
 
 "back"      "map-back/jupiter.sol"
 "grad"      "back/space.png"

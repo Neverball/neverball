@@ -1,10 +1,9 @@
-
 // entity 0
 {
 "classname" "worldspawn"
 "author"    "Mehdi Yousfi-Monod"
 "levelname" "climb-mym"
-"version"   "1"
+"version"   "2"
 
 "back"      "map-back/ocean.sol"
 "grad"      "back/ocean.png"
