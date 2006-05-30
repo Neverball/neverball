@@ -293,7 +293,7 @@ static int start_keybd(int c, int d)
 
         /* Iterate over all levels, taking a screenshot of each. */
 
-        for (i = 1; i < MAXLVL; i++)
+        for (i = 0; i < MAXLVL; i++)
             if (set_level_exists(curr_set(), i))
                 level_snap(i);
     }
