@@ -619,8 +619,8 @@ void level_snap(int i)
     /* Convert the level name to a PNG filename. */
 
     memset(filename, 0, MAXSTR);
-    strncpy(filename, level_v[i].file, strcspn(level_v[i].file, "."));
-    strcat(filename, ".png");
+    strcpy(filename, strstr(level_v[i].file, "map-"));
+    strcpy(strstr(filename, "."), ".png");
 
     /* Initialize the game for a snapshot. */
 
