@@ -1,7 +1,7 @@
 Neverball Easy 2
 Difficulty: A second set of easy levels.\\\Work in progress.\\
 easy2
-shot-easy2/easy2.jpg
+shot-easy2/roundlaby-mym.jpg
 
 map-easy2/slightcurve-mym.sol
 map-easy2/roundlaby-mym.sol
