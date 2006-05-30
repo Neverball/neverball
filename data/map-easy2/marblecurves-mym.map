@@ -5,12 +5,14 @@
 "author" "Mehdi Yousfi-Monod"
 "levelname" "marblecurves-mym"
 "version" "1"
+
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
-"shot" "shot-easy2/.jpg"
+"shot" "shot-easy2/marblecurves-mym.jpg"
 "song" "bgm/track2.ogg"
 "time" "12000"
 "goal" "10"
+
 "time_hs" " "
 "coin_hs" " "
 // brush 0

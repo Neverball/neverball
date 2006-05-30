@@ -1,13 +1,13 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "?"
+"author"    "tonesfrommars"
 "levelname" "hurdles-ton"
 "version"   "1"
 
 "back"      "map-back/ocean.sol"
 "grad"      "back/ocean.png"
-"shot"      "shot-easy2/.jpg"
+"shot"      "shot-easy2/hurdles-ton.jpg"
 "song"      "bgm/track2.ogg"
 "time"      "12000"
 "goal"      "10"

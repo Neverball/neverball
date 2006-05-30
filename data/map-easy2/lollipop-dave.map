@@ -2,14 +2,15 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Follow the yellow lick road..."
 "author" "David Olsen"
-"back" "map-back/ocean"
-"grad" "back/ocean.png"
 "levelname" "lollipop-dave"
-"shot" "shot-easy2/lollipop.jpg"
-"song" "bgm/track3.ogg"
 "version" "2"
+"message" "Follow the yellow lick road..."
+
+"back" "map-back/ocean.png"
+"grad" "back/ocean.png"
+"shot" "shot-easy2/lollipop-dave.jpg"
+"song" "bgm/track3.ogg"
 // brush 0
 {
 ( 128 704 0 ) ( 128 384 0 ) ( 0 704 0 ) mtrl/white 0 0 0 0.5 0.5 0 0 0

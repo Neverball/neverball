@@ -8,7 +8,7 @@
 "version" "1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
-"shot" "shot-paul/paths.bmp"
+"shot" "shot-easy2/billiard-paul.jpg"
 "song" "bgm/track4.ogg"
 "time" "40000"
 "goal" "52"

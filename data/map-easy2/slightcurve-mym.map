@@ -1,16 +1,17 @@
-
 // entity 0
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
 "levelname" "slightcurve-mym"
 "version" "1"
+
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
-"shot" "shot-easy2/.jpg"
+"shot" "shot-easy2/slightcurve-mym.jpg"
 "song" "bgm/track1.ogg"
 "time" "9000"
 "goal" "10"
+
 "time_hs" " "
 "coin_hs" " "
 // brush 0

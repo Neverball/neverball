@@ -2,15 +2,18 @@
 // entity 0
 {
 "classname" "worldspawn"
+"author"  "Jean Privat"
+"levelname" "elevator-jp"
+"version" "1"
+
 "message" "Calm and meditation may bring you to the Nirvana."
 "back"    "map-back/clouds.sol"
-"shot"    "shot-rlk/hole.jpg"
+"shot"    "shot-easy2/elevator-jp.jpg"
 "song"    "bgm/track1.ogg"
 "grad"    "back/land.png"
 "goal"    "5"
 "time"    "12000"
-"author"  "Jean Privat"
-"version" "1"
+
 "goal_hs" "6000"
 "time_hs" "1000 3000 4000"
 

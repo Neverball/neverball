@@ -5,13 +5,15 @@
 "author" "Mehdi Yousfi-Monod"
 "levelname" "roundncoins-mym"
 "version" "1"
+
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
-"shot" "shot-easy2/.jpg"
+"shot" "shot-easy2/roundncoins-mym.jpg"
 "song" "bgm/track1.ogg"
 "time" "12000"
 "goal" "0"
 "special" "1"
+
 "time_hs" " "
 "coin_hs" " "
 // brush 0

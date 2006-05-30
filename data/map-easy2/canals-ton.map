@@ -2,12 +2,12 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author" "?"
+"author" "tonesfrommars"
 "levelname" "canals-ton"
 "version" "1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
-"shot" "shot-easy2/.jpg"
+"shot" "shot-easy2/canals-ton.jpg"
 "song" "bgm/track2.ogg"
 "time" "12000"
 "goal" "10"

@@ -3,12 +3,13 @@
 {
 "classname" "worldspawn"
 "author"    "Jean Privat"
+"contributor" "Mehdi Yousfi-Monod"
 "levelname" "slalom-jp"
 "version"   "1"
 
 "back"      "map-back/ocean.sol"
 "grad"      "back/ocean.png"
-"shot"      "shot-easy2/.jpg"
+"shot"      "shot-easy2/slalom-jp.jpg"
 "song"      "bgm/track2.ogg"
 "time"      "12000"
 "goal"      "10"
