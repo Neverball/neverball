@@ -25,3 +25,4 @@ map-easy2/roundncoins-mym.sol
 map-easy2/roundfloors-mym.sol
 map-easy2/coneskeleton-mym.sol
 map-easy2/lollipop-dave.sol
+map-easy2/nostairs-para.sol
