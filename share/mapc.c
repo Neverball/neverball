@@ -294,10 +294,31 @@ static void targets(struct s_file *fp)
  * regardless of the number of surfaces refering to it.
  */
 
-static char *image_s[MAXM];
-static int   image_w[MAXM];
-static int   image_h[MAXM];
-static int   image_n;
+struct _imagedata
+{
+    char *s;
+    int w, h;
+};
+
+static struct _imagedata *imagedata = NULL;
+static int image_n = 0;
+static int image_alloc = 0;
+
+#define IMAGE_REALLOC 32
+
+static void free_imagedata()
+{
+    int i;
+
+    if (imagedata)
+    {
+        for (i = 0; i < image_n; i++)
+            free(imagedata[i].s);
+        free(imagedata);
+    }
+
+    image_n = image_alloc = 0;
+}
 
 static int size_load(const char *file, int *w, int *h)
 {
@@ -322,14 +343,15 @@ static void size_image(const char *name, int *w, int *h)
     char png[MAXSTR];
     int i;
 
-    for (i = 0; i < image_n; i++)
-        if (strncmp(image_s[i], name, MAXSTR) == 0)
-        {
-            *w = image_w[i];
-            *h = image_h[i];
+    if (imagedata)
+        for (i = 0; i < image_n; i++)
+            if (strncmp(imagedata[i].s, name, MAXSTR) == 0)
+            {
+                *w = imagedata[i].w;
+                *h = imagedata[i].h;
 
-            return;
-        }
+                return;
+            }
 
     *w = 0;
     *h = 0;
@@ -342,11 +364,30 @@ static void size_image(const char *name, int *w, int *h)
         size_load(config_data(tga), w, h) ||
         size_load(config_data(jpg), w, h))
     {
-        image_s[image_n] = (char *) calloc(strlen(name) + 1, 1);
-        image_w[image_n] = *w;
-        image_h[image_n] = *h;
 
-        strcpy(image_s[image_n], name);
+        if (image_n + 1 >= image_alloc)
+        {
+            struct _imagedata *tmp =
+                (struct _imagedata *) malloc(sizeof(struct _imagedata) * (image_alloc + IMAGE_REALLOC));
+            if (!tmp)
+            {
+                printf("malloc error\n");
+                exit(1);
+            }
+            if (imagedata)
+            {
+                (void) memcpy(tmp, imagedata, sizeof(struct _imagedata) * image_alloc);
+                free(imagedata);
+            }
+            imagedata = tmp;
+            image_alloc += IMAGE_REALLOC;
+        }
+
+        imagedata[image_n].s = (char *) calloc(strlen(name) + 1, 1);
+        imagedata[image_n].w = *w;
+        imagedata[image_n].h = *h;
+        strcpy(imagedata[image_n].s, name);
+
         image_n++;
     }
 }
@@ -2096,6 +2137,8 @@ int main(int argc, char *argv[])
                 sol_stor(&f, dst);
 
                 fclose(fin);
+
+                free_imagedata();
             }
         }
         else fprintf(stderr, "Failure to establish data directory\n");
