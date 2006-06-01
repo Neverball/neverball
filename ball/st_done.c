@@ -45,12 +45,12 @@ static int done_action(int i)
         return goto_state(&st_start);
 
     case DONE_NAME:
-	return goto_name(&st_done_bis, &st_done_bis);
+        return goto_name(&st_done_bis, &st_done_bis);
     }
     return 1;
 }
 
-static int done_init(int * gidp)
+static int done_init(int *gidp)
 {
     const char *s1 = _("New Challenge Record");
     const char *s2 = _("Challenge Complete");
@@ -68,8 +68,8 @@ static int done_init(int * gidp)
         else
             gid = gui_label(id, s2, GUI_MED, GUI_ALL, gui_blu, gui_grn);
 
-	if (gidp)
-	    *gidp = gid;
+        if (gidp)
+            *gidp = gid;
 
         gui_space(id);
 
@@ -80,13 +80,13 @@ static int done_init(int * gidp)
         }
 
         gui_space(id);
-	
-	if ((jd = gui_harray(id)))
-	{
+        
+        if ((jd = gui_harray(id)))
+        {
             if (high)
-	       gui_state(jd, _("Change Player Name"), GUI_SML, DONE_NAME, 0);
+               gui_state(jd, _("Change Player Name"), GUI_SML, DONE_NAME, 0);
             gui_start(jd, _("OK"), GUI_SML, DONE_OK, 0);
-	}
+        }
 
         gui_layout(id, 0, 0);
     }

@@ -77,22 +77,22 @@ static void demo_replay(int id, int i)
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
     int jd;
-    char nam[MAXNAM+3];
+    char nam[MAXNAM + 3];
 
     if ((jd = gui_vstack(id)))
     {
         gui_space(jd);
 
         gui_image(jd, get_demo(i)->shot, w / 6, h / 6);
-	nam[MAXNAM-1] = '\0';
-	strncpy(nam, get_demo(i)->name, MAXNAM);
-	if (nam[MAXNAM-1] != '\0')
-	{
-	    nam[MAXNAM-2] = '.';
-	    nam[MAXNAM-1] = '.';
-	    nam[MAXNAM+0] = '.';
-	    nam[MAXNAM+1] = '\0';
-	}
+        nam[MAXNAM - 1] = '\0';
+        strncpy(nam, get_demo(i)->name, MAXNAM);
+        if (nam[MAXNAM - 1] != '\0')
+        {
+            nam[MAXNAM - 2] = '.';
+            nam[MAXNAM - 1] = '.';
+            nam[MAXNAM + 0] = '.';
+            nam[MAXNAM + 1] = '\0';
+        }
         gui_state(jd, nam, GUI_SML, i, 0);
 
         gui_active(jd, i, 0);
@@ -109,7 +109,8 @@ static int state_id;
 static int player_id;
 
 static int gui_demo_status(int id, const struct demo *d)
-/* Create a layout for some demo info, if d is NULL, try to reserve enought space */
+/* Create a layout for some demo info, if d is NULL, try to reserve enough
+ * space */
 {
     char noname[MAXNAM];
     const char *mode, *state;
@@ -252,12 +253,12 @@ static int demo_enter(void)
     }
     else
     {
-	if ((jd = gui_hstack(id)))
+        if ((jd = gui_hstack(id)))
         {
 
             ld = gui_label(jd, _("Select Replay"), GUI_SML, GUI_ALL, 0,0);
             gui_filler(jd);
-	    gui_back_prev_next(jd, first > 0, first + DEMO_STEP < total);
+            gui_back_prev_next(jd, first > 0, first + DEMO_STEP < total);
         }
         if ((jd = gui_varray(id)))
             for (i = first; i < first + DEMO_STEP ; i += DEMO_LINE)
@@ -269,9 +270,9 @@ static int demo_enter(void)
                         else
                             gui_space(kd);
                 }
-	gui_filler(id);
-	gui_demo_status(id, NULL);
-	gui_layout(id, 0, 0);
+        gui_filler(id);
+        gui_demo_status(id, NULL);
+        gui_layout(id, 0, 0);
         gui_demo_update_status(0);
     }
 
@@ -284,16 +285,16 @@ static void demo_point(int id, int x, int y, int dx, int dy)
 {
     int jd = shared_point_basic(id, x, y);
     int i  = gui_token(jd);
-    if (jd && i>=0)
-	gui_demo_update_status(i);
+    if (jd && i >= 0)
+        gui_demo_update_status(i);
 }
 
 static void demo_stick(int id, int a, int v)
 {
     int jd = shared_stick_basic(id, a, v);
     int i  = gui_token(jd);
-    if (jd && i>=0)
-	gui_demo_update_status(i);
+    if (jd && i >= 0)
+        gui_demo_update_status(i);
 }
 
 static int demo_buttn(int b, int d)
@@ -311,6 +312,7 @@ static int demo_buttn(int b, int d)
 /*---------------------------------------------------------------------------*/
 
 static int simple_play;
+
 int goto_demo_play(int simple)
 {
     simple_play = simple;
@@ -396,16 +398,16 @@ static int demo_end_action(int i)
     switch (i)
     {
     case DEMO_DEL: 
-	return goto_state(&st_demo_del);
+        return goto_state(&st_demo_del);
     case DEMO_KEEP:
         demo_replay_stop(0);
         return goto_state(&st_demo);
     case DEMO_QUIT:
-	demo_replay_stop(0);
-	return 0;
+        demo_replay_stop(0);
+        return 0;
     case DEMO_REPLAY:
-	demo_replay_stop(0);
-	level_replay(curr_demo_replay()->filename);
+        demo_replay_stop(0);
+        level_replay(curr_demo_replay()->filename);
         return goto_state(&st_demo_play);
     }
     return 1;
@@ -421,24 +423,24 @@ static int demo_end_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-	    gui_start(jd, _("Replay Again"), GUI_SML, DEMO_REPLAY, 0);
-	    if (simple_play)
+            gui_start(jd, _("Replay Again"), GUI_SML, DEMO_REPLAY, 0);
+            if (simple_play)
                 gui_start(jd, _("OK"),       GUI_SML, DEMO_QUIT,   1);
-	    else
-	    {
+            else
+            {
                 gui_start(jd, _("Keep"),     GUI_SML, DEMO_KEEP,   1);
                 gui_state(jd, _("Delete"),   GUI_SML, DEMO_DEL,    0);
-	    }
+            }
         }
 
-	gui_filler(id);
+        gui_filler(id);
 
         if ((jd = gui_hstack(id)))
-	{
-	    gui_filler(jd);
-	    gui_demo_status(jd, curr_demo_replay());
-	    gui_filler(jd);
-	}
+        {
+            gui_filler(jd);
+            gui_demo_status(jd, curr_demo_replay());
+            gui_filler(jd);
+        }
 
         gui_pulse(kd, 1.2f);
         gui_layout(id, 0, 0);
@@ -455,8 +457,8 @@ static void demo_end_timer(int id, float dt)
     int state = curr_demo_replay()->state;
 
     if (time_state() < 2.f && state != GAME_NONE)
-	game_step((state == GAME_GOAL || state == GAME_SPEC) ? gg : gf, dt, NULL);
-		
+        game_step((state == GAME_GOAL || state == GAME_SPEC) ? gg : gf, dt, NULL);
+                
     gui_timer(id, dt);
     audio_timer(dt);
 }

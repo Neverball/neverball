@@ -58,7 +58,8 @@ static void shot(void)
 
     sprintf(filename, _("screen%02d.png"), num++);
 
-    image_snap(filename, config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT));
+    image_snap(filename, config_get_d(CONFIG_WIDTH),
+               config_get_d(CONFIG_HEIGHT));
 }
 
 /*---------------------------------------------------------------------------*/
@@ -86,11 +87,12 @@ static void toggle_wire(void)
 static void toggle_fullscreen(void)
 {
     int x, y;
+
     SDL_GetMouseState(&x, &y);
-    config_mode(!config_get_d(CONFIG_FULLSCREEN), config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT));
+    config_mode(!config_get_d(CONFIG_FULLSCREEN), config_get_d(CONFIG_WIDTH),
+                config_get_d(CONFIG_HEIGHT));
     SDL_WarpMouse(x, y);
 }
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -104,19 +106,19 @@ static int loop(void)
         if (e.type == SDL_QUIT)
             return 0;
 
-	if (e.type == SDL_KEYDOWN)
-	    switch (e.key.keysym.sym)
-	    {
-	    case SDLK_SPACE: config_tgl_pause();        break;
-	    case SDLK_F11:   toggle_fullscreen();       break;
-	    case SDLK_F10:   shot();                    break;
-	    case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
-	    case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
-	    case SDLK_F7:    toggle_wire();             break;
-	    default: break;
-	    }
+        if (e.type == SDL_KEYDOWN)
+            switch (e.key.keysym.sym)
+            {
+            case SDLK_SPACE: config_tgl_pause();        break;
+            case SDLK_F11:   toggle_fullscreen();       break;
+            case SDLK_F10:   shot();                    break;
+            case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
+            case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
+            case SDLK_F7:    toggle_wire();             break;
+            default: break;
+            }
 
-	if (!config_get_pause())
+        if (!config_get_pause())
             switch (e.type)
             {
             case SDL_MOUSEMOTION:
@@ -160,9 +162,9 @@ static int loop(void)
                     break;
                              
                 default:
-		    if (SDL_EnableUNICODE(-1)) 
+                    if (SDL_EnableUNICODE(-1)) 
                         d = st_keybd(e.key.keysym.unicode, 1);
-		    else
+                    else
                         d = st_keybd(e.key.keysym.sym, 1);
                 }
                 break;
@@ -222,58 +224,59 @@ static char *replay_path  = NULL;
 static char *level_path   = NULL;
 static int   display_info = 0;
 
-/* Option hangling */
+/* Option handling */
 
 #define USAGE  _( \
-	"Usage: %s [options ...]\n" \
-	"-r, --replay file         play the replay 'file'.\n" \
-	"-l, --level file.sol      play the level 'file.sol'.\n" \
-	"-i, --info                display info about level or replay.\n" \
-	"    --data dir            use 'dir' as game data directory.\n" \
-	"-v, --version             show version.\n" \
-	"-h, -?, --help            show this usage message.\n")
+        "Usage: %s [options ...]\n" \
+        "-r, --replay file         play the replay 'file'.\n" \
+        "-l, --level file.sol      play the level 'file.sol'.\n" \
+        "-i, --info                display info about level or replay.\n" \
+        "    --data dir            use 'dir' as game data directory.\n" \
+        "-v, --version             show version.\n" \
+        "-h, -?, --help            show this usage message.\n")
 
-static void parse_args(int argc, char ** argv)
+static void parse_args(int argc, char **argv)
 {
-#define CASE(x) (strcmp(*argv, (x)) == 0)        /* Check current option */
-#define MAND    (not_miss = (argv[1] != NULL))   /* Argument is mandatory */
-    char * exec = *(argv++);
-    int not_miss; /* argument is not missing */
-    
+#define CASE(x) (strcmp(*argv, (x)) == 0)       /* Check current option */
+#define MAND    (not_miss = (argv[1] != NULL))  /* Argument is mandatory */
+    char *exec = *(argv++);
+    int not_miss;               /* argument is not missing */
+
     while (*argv != NULL)
     {
-	not_miss = 1;
-	if (CASE("-h") || CASE("-?") || CASE("--help"))
-	{
-	    printf(USAGE, exec);
-	    exit(0);
-	}
-	else if (CASE("-v") || CASE("--version"))
-	{
-	    printf(_("%s: %s version %s\n"), exec, TITLE, VERSION);
-	    exit(0);
-	}
-	else if (CASE("--data") && MAND)
-	    data_path = *(++argv);
-	else if ((CASE("-r") || CASE("--replay")) && MAND)
-	    replay_path = *(++argv);
-	else if ((CASE("-l")  || CASE("--level")) && MAND)
-	    level_path = *(++argv);
-	else if ((CASE("-i")  || CASE("--info")))
-	    display_info = 1;
-	else if (not_miss)
-	{
-	    fprintf(stderr, _("%s: unknown option %s\n"), exec, *argv);
-	    fprintf(stderr, USAGE, exec);
-	    exit(1);
-	}
-	else
-	{
-	    fprintf(stderr, _("%s: option %s requires an argument\n"), exec, *argv);
-	    fprintf(stderr, USAGE, exec);
-	    exit(1);
-	}
-	argv++;
+        not_miss = 1;
+        if (CASE("-h") || CASE("-?") || CASE("--help"))
+        {
+            printf(USAGE, exec);
+            exit(0);
+        }
+        else if (CASE("-v") || CASE("--version"))
+        {
+            printf(_("%s: %s version %s\n"), exec, TITLE, VERSION);
+            exit(0);
+        }
+        else if (CASE("--data") && MAND)
+            data_path = *(++argv);
+        else if ((CASE("-r") || CASE("--replay")) && MAND)
+            replay_path = *(++argv);
+        else if ((CASE("-l") || CASE("--level")) && MAND)
+            level_path = *(++argv);
+        else if ((CASE("-i") || CASE("--info")))
+            display_info = 1;
+        else if (not_miss)
+        {
+            fprintf(stderr, _("%s: unknown option %s\n"), exec, *argv);
+            fprintf(stderr, USAGE, exec);
+            exit(1);
+        }
+        else
+        {
+            fprintf(stderr, _("%s: option %s requires an argument\n"), exec,
+                    *argv);
+            fprintf(stderr, USAGE, exec);
+            exit(1);
+        }
+        argv++;
     }
     return;
 }
@@ -291,13 +294,13 @@ int main(int argc, char *argv[])
     if (!config_data_path(data_path, SET_FILE))
     {
         fprintf(stderr, _("Failure to establish game data directory\n"));
-	return 1;
+        return 1;
     }
     
     if (!config_user_path(NULL))
     {
         fprintf(stderr, _("Failure to establish config directory\n"));
-	return 1;
+        return 1;
     }
     
     /* Intitialize the configuration */
@@ -313,54 +316,54 @@ int main(int argc, char *argv[])
     
     if (replay_path != NULL)
     {
-	if (! level_replay(replay_path))
-	{
-	    fprintf(stderr, _("Replay file '%s': "), replay_path);
-	    if (errno)
-		perror(NULL);
-	    else
-		fprintf(stderr, _("Not a replay file\n"));
-	    return 1;
-	}
-	else if (display_info)
-	    demo_replay_dump_info();
+        if (!level_replay(replay_path))
+        {
+            fprintf(stderr, _("Replay file '%s': "), replay_path);
+            if (errno)
+                perror(NULL);
+            else
+                fprintf(stderr, _("Not a replay file\n"));
+            return 1;
+        }
+        else if (display_info)
+            demo_replay_dump_info();
     }
     
     if (level_path != NULL)
     {
-	struct level l;
-	if (! level_load(level_path, &l))
-	    return 1;
-	else if (display_info)
-	    level_dump_info(&l);
+        struct level l;
+        if (!level_load(level_path, &l))
+            return 1;
+        else if (display_info)
+            level_dump_info(&l);
     }
 
-    if(display_info)
+    if (display_info)
     {
-	if (replay_path == NULL && level_path == NULL)
-	{
-	    fprintf(stderr, _("%s: --info requires --replay or --level\n"), argv[0]);
-	    return 1;
-	}
-	else
-	   return 0;
+        if (replay_path == NULL && level_path == NULL)
+        {
+            fprintf(stderr, _("%s: --info requires --replay or --level\n"),
+                    argv[0]);
+            return 1;
+        }
+        return 0;
     }
     
     /* Initialize SDL system and subsystems */
     
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
     {
-	fprintf(stderr, "%s\n", SDL_GetError());
-	return 1;
+        fprintf(stderr, "%s\n", SDL_GetError());
+        return 1;
     }
 
     /* Initialize the joystick. */
 
     if (SDL_NumJoysticks() > 0)
     {
-	joy=SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
-	if (joy)
-		SDL_JoystickEventState(SDL_ENABLE);
+        joy = SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
+        if (joy)
+            SDL_JoystickEventState(SDL_ENABLE);
     }
 
     /* Initialize the audio. */
@@ -395,12 +398,11 @@ int main(int argc, char *argv[])
 
     /* Initialize the video. */
 
-    if (! config_mode(config_get_d(CONFIG_FULLSCREEN),
-	            config_get_d(CONFIG_WIDTH),
-		    config_get_d(CONFIG_HEIGHT)))
+    if (!config_mode(config_get_d(CONFIG_FULLSCREEN),
+                     config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT)))
     {
-	fprintf(stderr, "%s\n", SDL_GetError());
-	return 1;
+        fprintf(stderr, "%s\n", SDL_GetError());
+        return 1;
     }
    
     /* Set the WM icon */ 
@@ -414,46 +416,46 @@ int main(int argc, char *argv[])
     init_state(&st_null);
     if (replay_path != NULL)
     {
-	level_replay(replay_path);
-	goto_demo_play(1);
+        level_replay(replay_path);
+        goto_demo_play(1);
     }
     else if (level_path != NULL)
     {
-	level_play_single(level_path);
-	goto_state(&st_level);
+        level_play_single(level_path);
+        goto_state(&st_level);
     }
     else
-	goto_state(&st_title);
+        goto_state(&st_title);
 
     /* Run the main game loop. */
 
     t0 = SDL_GetTicks();
     while (loop())
-	if ((t1 = SDL_GetTicks()) > t0)
-	{
-	    if (config_get_pause())
-	    {
-		st_paint();
-		gui_blank();
-		SDL_Delay(10); /* Be nice! */
-	    }
-	    else
-	    {
-		st_timer((t1 - t0) / 1000.f);
-		st_paint();
-	    }
-	    SDL_GL_SwapBuffers();
+        if ((t1 = SDL_GetTicks()) > t0)
+        {
+            if (config_get_pause())
+            {
+                st_paint();
+                gui_blank();
+                SDL_Delay(10); /* Be nice! */
+            }
+            else
+            {
+                st_timer((t1 - t0) / 1000.f);
+                st_paint();
+            }
+            SDL_GL_SwapBuffers();
 
-	    t0 = t1;
+            t0 = t1;
 
-	    if (config_get_d(CONFIG_NICE))
-		SDL_Delay(1);
-	}
+            if (config_get_d(CONFIG_NICE))
+                SDL_Delay(1);
+        }
 
     /* Gracefully close the game */
 
     if (SDL_JoystickOpened(0))
-	SDL_JoystickClose(joy);
+        SDL_JoystickClose(joy);
 
     SDL_Quit();
     

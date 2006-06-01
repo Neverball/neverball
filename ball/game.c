@@ -65,7 +65,7 @@ static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
-static int   drawball = 1;              /* Should the ball be drawed         */
+static int   drawball = 1;              /* Should the ball be drawn?         */
 static int   ball_b = 0;                /* Is the ball a bonus ball?         */
 
 /*---------------------------------------------------------------------------*/
@@ -105,7 +105,7 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-int game_init(const struct level * level, int t, int g)
+int game_init(const struct level *level, int t, int g)
 {
     clock      = (float) t / 100.f;
     clock_down = (t > 0);
@@ -114,8 +114,8 @@ int game_init(const struct level * level, int t, int g)
     if (game_state)
         game_free();
 
-    if (!sol_load_gl(&file, level->file,
-                 config_get_d(CONFIG_TEXTURES), config_get_d(CONFIG_SHADOW)))
+    if (!sol_load_gl(&file, level->file, config_get_d(CONFIG_TEXTURES),
+                     config_get_d(CONFIG_SHADOW)))
         return (game_state = 0);
 
     game_state = 1;
@@ -147,7 +147,7 @@ int game_init(const struct level * level, int t, int g)
     back_init(level->grad, config_get_d(CONFIG_GEOMETRY));
 
     sol_load_gl(&back, config_data(level->back),
-		    config_get_d(CONFIG_TEXTURES), 0);
+                config_get_d(CONFIG_TEXTURES), 0);
 
     return game_state;
 }
@@ -277,8 +277,8 @@ static void game_draw_swchs(const struct s_file *fp)
 
     for (xi = 0; xi < fp->xc; xi++)
     {
-	if (fp->xv[xi].i)
-	    continue;
+        if (fp->xv[xi].i)
+            continue;
         glPushMatrix();
         {
             glTranslatef(fp->xv[xi].p[0],
@@ -422,7 +422,7 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
             {
                 part_draw_coin(-rx * d, -ry);
                 game_draw_coins(&file);
-		if (drawball)
+                if (drawball)
                     game_draw_balls(&file);
             }
             game_draw_goals(&file, -rx * d, -ry);
@@ -650,21 +650,21 @@ static int game_update_state(int *state_value)
         coin_color(c, n);
         part_burst(p, c);
 
-	coins += n;
-	/* Check for goal open. */
-	if (goal_c > 0)
-	{
-	    goal_c = goal_c - n;
-	    if (goal_c <= 0)
-	    {
-	        audio_play(AUD_SWITCH, 1.f);
-		goal_c = 0;
-	    }
-	    else
-	        audio_play(AUD_COIN, 1.f);
-	} 
-	else
-	    audio_play(AUD_COIN, 1.f);
+        coins += n;
+        /* Check for goal open. */
+        if (goal_c > 0)
+        {
+            goal_c = goal_c - n;
+            if (goal_c <= 0)
+            {
+                audio_play(AUD_SWITCH, 1.f);
+                goal_c = 0;
+            }
+            else
+                audio_play(AUD_COIN, 1.f);
+        } 
+        else
+            audio_play(AUD_COIN, 1.f);
     }
 
     /* Test for a switch. */
@@ -688,8 +688,8 @@ static int game_update_state(int *state_value)
 
     if (bt && goal_c == 0 && (g = sol_goal_test(fp, p, 0)))
     {
-	*state_value = g->s;
-	audio_play(AUD_GOAL, 1.0f);
+        *state_value = g->s;
+        audio_play(AUD_GOAL, 1.0f);
         return g->c ? GAME_SPEC : GAME_GOAL;
     }
 
@@ -697,16 +697,16 @@ static int game_update_state(int *state_value)
 
     if (bt && clock_down && clock <= 0.f)
     {
-	const GLfloat *p = fp->uv->p;
-	const GLfloat c[5] = {1.0f, 1.0f, 0.0f, 0.0f, 1.0f};
+        const GLfloat *p = fp->uv->p;
+        const GLfloat c[5] = {1.0f, 1.0f, 0.0f, 0.0f, 1.0f};
         part_burst(p, c);
         part_burst(p, c+1);
         part_burst(p, c+2);
         part_burst(p, c);
         part_burst(p, c+1);
         part_burst(p, c+2);
-	drawball = 0;
-	audio_play(AUD_TIME, 1.0f);
+        drawball = 0;
+        audio_play(AUD_TIME, 1.0f);
         return GAME_TIME;
     }
 
@@ -714,7 +714,7 @@ static int game_update_state(int *state_value)
 
     if (bt && fp->uv[0].p[1] < fp->vv[0].p[1])
     {
-	audio_play(AUD_FALL, 1.0f);
+        audio_play(AUD_FALL, 1.0f);
         return GAME_FALL;
     }
 
@@ -766,9 +766,9 @@ int game_step(const float g[3], float dt, int *state_value)
         game_update_grav(h, g);
         part_step(h, t);
 
-	if (!drawball)
-		/* nothing */;
-	else if (jump_b)
+        if (!drawball)
+                /* nothing */;
+        else if (jump_b)
         {
             jump_dt += t;
 
@@ -819,9 +819,9 @@ void game_no_aa(void)
     float max = game_ix * game_ix + game_iz * game_iz;
     if (max > ANGLE_BOUND * ANGLE_BOUND)
     {
-	max = ANGLE_BOUND / sqrt(max);
-	game_ix *= max;
-	game_iz *= max;
+        max = ANGLE_BOUND / sqrt(max);
+        game_ix *= max;
+        game_iz *= max;
     }
 }
 

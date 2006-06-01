@@ -159,18 +159,18 @@ static int conf_action(int i)
     case CONF_BACK:
         goto_state(&st_title);
         break;
-	
+        
     case CONF_LANG:
         goto_state(&st_lang);
         break;
-	
+        
     case CONF_RESOL:
         goto_state(&st_resol);
         break;
 
     case CONF_PLAYER:
-	goto_name(&st_conf, &st_conf);
-	break;
+        goto_name(&st_conf, &st_conf);
+        break;
 
     default:
         if (100 <= i && i <= 110)
@@ -230,17 +230,18 @@ static int conf_enter(void)
 
             /* Add mode selectors only for existing modes. */
 
-	    if ((kd = gui_harray(jd)))
+            if ((kd = gui_harray(jd)))
             {
                 gui_state(kd, _("No"), GUI_SML, CONF_WIN, (f == 0));
                 gui_state(kd, _("Yes"),  GUI_SML, CONF_FULL, (f == 1));
             }
-	    
-	    {
-		static char msg[20];
-		sprintf(msg, "%d x %d", config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT));
-		gui_state(jd, msg, GUI_SML, CONF_RESOL, 0);
-	    }
+            
+            {
+                static char msg[20];
+                sprintf(msg, "%d x %d", config_get_d(CONFIG_WIDTH),
+                        config_get_d(CONFIG_HEIGHT));
+                gui_state(jd, msg, GUI_SML, CONF_RESOL, 0);
+            }
 
             if ((kd = gui_harray(jd)))
             {
@@ -307,8 +308,9 @@ static int conf_enter(void)
                 music_id[ 1] = gui_state(kd, NULL, GUI_SML, 201, (m ==  1));
                 music_id[ 0] = gui_state(kd, NULL, GUI_SML, 200, (m ==  0));
             }
-	    gui_state(jd, _(language_get_name(language_from_code(config_simple_get_s(CONFIG_LANG)))), GUI_SML, CONF_LANG, 0);
-	    gui_state(jd, config_simple_get_s(CONFIG_PLAYER), GUI_SML, CONF_PLAYER, 0);
+            gui_state(jd, _(language_get_name(language_from_code(config_simple_get_s(CONFIG_LANG)))), GUI_SML, CONF_LANG, 0);
+            gui_state(jd, config_simple_get_s(CONFIG_PLAYER), GUI_SML,
+                      CONF_PLAYER, 0);
         }
         if ((jd = gui_vstack(id)))
         {
