@@ -41,29 +41,31 @@ static int set_action(int i)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch(i)
+    switch (i)
     {
     case GUI_BACK:
         return goto_state(&st_title);
 
     case GUI_PREV:
-	config_set_d(CONFIG_LAST_SET, ((config_get_d(CONFIG_LAST_SET)/SET_GROUP)-1)*SET_GROUP);
-	return goto_state(&st_set);
+        config_set_d(CONFIG_LAST_SET,
+                     ((config_get_d(CONFIG_LAST_SET) / SET_GROUP) - 1) * SET_GROUP);
+        return goto_state(&st_set);
     
     case GUI_NEXT:
-	config_set_d(CONFIG_LAST_SET, ((config_get_d(CONFIG_LAST_SET)/SET_GROUP)+1)*SET_GROUP);
-	return goto_state(&st_set);
+        config_set_d(CONFIG_LAST_SET,
+                     ((config_get_d(CONFIG_LAST_SET) / SET_GROUP) + 1) * SET_GROUP);
+        return goto_state(&st_set);
 
     case GUI_NULL:
-	return 1;
+        return 1;
     
     default:
-	if (set_exists(i))
-	{
-	    config_set_d(CONFIG_LAST_SET, i);
-	    set_goto(i);
-	    return goto_state(&st_start);
-	}
+        if (set_exists(i))
+        {
+            config_set_d(CONFIG_LAST_SET, i);
+            set_goto(i);
+            return goto_state(&st_start);
+        }
     }
     return 1;
 }
@@ -74,11 +76,11 @@ static void gui_set(int id, int i)
     int jd;
     
     if (set_completed(s)) 
-	jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_yel, gui_wht);
+        jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_yel, gui_wht);
     else if (set_unlocked(s)) 
-	jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_grn, gui_wht);
+        jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_grn, gui_wht);
     else
-	jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_wht, gui_wht);
+        jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_wht, gui_wht);
     
     gui_active(jd, i, 0);
 }
@@ -99,9 +101,9 @@ static int set_enter(void)
     /* Reset last set if it do not exists */
     if (!set_exists(last_set))
     {
-	b = 0;
-	last_set = 0;
-	config_set_d(CONFIG_LAST_SET, 0);
+        b = 0;
+        last_set = 0;
+        config_set_d(CONFIG_LAST_SET, 0);
     }
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
@@ -113,23 +115,24 @@ static int set_enter(void)
         {
             gui_label(jd, _("Level Set"), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
-	    gui_back_prev_next(jd, b>0, set_exists((b+1)*SET_GROUP));
+            gui_back_prev_next(jd, b > 0, set_exists((b + 1) * SET_GROUP));
         }
 
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, get_set(last_set)->shot, 7 * w / 16, 7 * h / 16);
+            shot_id = gui_image(jd, get_set(last_set)->shot, 7 * w / 16,
+                                7 * h / 16);
 
             if ((kd = gui_varray(jd)))
-	    {
-		/* Display levels */
-	        for(i=b*SET_GROUP; i<(b+1)*SET_GROUP && set_exists(i); i++)
-		    gui_set(kd, i);
-		
-		/* Display empty slots */
-		for(; i<(b+1)*SET_GROUP; i++)
-		    gui_filler(kd);
-	    }	       
+            {
+                /* Display levels */
+                for (i = b * SET_GROUP; i < (b + 1) * SET_GROUP && set_exists(i); i++)
+                    gui_set(kd, i);
+                
+                /* Display empty slots */
+                for(; i < (b + 1) * SET_GROUP; i++)
+                    gui_filler(kd);
+            }          
         }
 
         gui_space(id);
@@ -151,7 +154,7 @@ static void set_point(int id, int x, int y, int dx, int dy)
     int jd = shared_point_basic(id, x, y);
     int i  = gui_token(jd);
     if (jd && set_exists(i))
-	set_over(i);
+        set_over(i);
 }
 
 static void set_stick(int id, int a, int v)
@@ -159,7 +162,7 @@ static void set_stick(int id, int a, int v)
     int jd = shared_stick_basic(id, a, v);
     int i  = gui_token(jd);
     if (jd && set_exists(i))
-	set_over(i);
+        set_over(i);
 }
 
 static int set_buttn(int b, int d)

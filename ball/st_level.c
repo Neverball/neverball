@@ -31,8 +31,8 @@ static int level_ok;
 static int level_enter(void)
 {
     int id, jd, kd, ld;
-    const char * ln;
-    const struct level_game * lg = curr_lg();
+    const char *ln;
+    const struct level_game *lg = curr_lg();
     int b;
 
     /* Load the level */
@@ -41,44 +41,49 @@ static int level_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-	if (lg->mode == MODE_SINGLE)
-	{
-	    gui_label(id, _("Single Level"),  GUI_LRG, GUI_TOP, 0, 0);
-	}
-	else if ((jd = gui_hstack(id)))
+        if (lg->mode == MODE_SINGLE)
         {
-	    ln = lg->level->numbername;
-	    b  = lg->level->is_bonus;
+            gui_label(id, _("Single Level"), GUI_LRG, GUI_TOP, 0, 0);
+        }
+        else if ((jd = gui_hstack(id)))
+        {
+            ln = lg->level->numbername;
+            b = lg->level->is_bonus;
 
             gui_filler(jd);
-	    if ((kd = gui_vstack(jd)))
-	    {
-		if (b)
-		    gui_label(kd, _("*** BONUS ***"),  GUI_MED, GUI_TOP, gui_wht, gui_grn);
-		if ((ld = gui_hstack(kd)))
-		{
-		    if (b)
-		    {
-			gui_label(ld, ln,          GUI_LRG, 0, gui_wht, gui_grn);
-			gui_label(ld, _("Level "), GUI_LRG, 0, gui_wht, gui_grn);
-		    }
-		    else
-		    {
-			gui_label(ld, ln,          GUI_LRG, GUI_NE, 0, 0);
-			gui_label(ld, _("Level "), GUI_LRG, GUI_NW, 0, 0);
-		    }
-		}
+            if ((kd = gui_vstack(jd)))
+            {
+                if (b)
+                    gui_label(kd, _("*** BONUS ***"), GUI_MED, GUI_TOP, gui_wht,
+                              gui_grn);
+                if ((ld = gui_hstack(kd)))
+                {
+                    if (b)
+                    {
+                        gui_label(ld, ln, GUI_LRG, 0, gui_wht, gui_grn);
+                        gui_label(ld, _("Level "), GUI_LRG, 0, gui_wht,
+                                  gui_grn);
+                    }
+                    else
+                    {
+                        gui_label(ld, ln, GUI_LRG, GUI_NE, 0, 0);
+                        gui_label(ld, _("Level "), GUI_LRG, GUI_NW, 0, 0);
+                    }
+                }
 
-		gui_label(kd, _(curr_set()->name),  GUI_SML, GUI_BOT, gui_wht, gui_wht);
-	    }
-	    gui_filler(jd);
+                gui_label(kd, _(curr_set()->name), GUI_SML, GUI_BOT, gui_wht,
+                          gui_wht);
+            }
+            gui_filler(jd);
         }
         gui_space(id);
-	
-	if (! level_ok)
-	    gui_label(id, _("Cannot load the level file."), GUI_SML, GUI_ALL, gui_red, gui_red);
-	else if (lg->level->message[0] != '\0')
-	    gui_multi(id, _(lg->level->message), GUI_SML, GUI_ALL, gui_wht, gui_wht);
+
+        if (!level_ok)
+            gui_label(id, _("Cannot load the level file."), GUI_SML, GUI_ALL,
+                      gui_red, gui_red);
+        else if (lg->level->message[0] != '\0')
+            gui_multi(id, _(lg->level->message), GUI_SML, GUI_ALL, gui_wht,
+                      gui_wht);
 
         gui_layout(id, 0, 0);
     }
@@ -98,10 +103,10 @@ static int level_click(int b, int d)
 {
     if (b < 0 && d == 1)
     {
-	if (level_ok)
-	    return goto_state(&st_play_ready);
-	else
-	    return goto_end_level();
+        if (level_ok)
+            return goto_state(&st_play_ready);
+        else
+            return goto_end_level();
     }
     else
        return 1;
@@ -119,14 +124,14 @@ static int level_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-	{
-	    if (level_ok)
-		return goto_state(&st_play_ready);
-	    else
-		return goto_end_level();
-	}
+        {
+            if (level_ok)
+                return goto_state(&st_play_ready);
+            else
+                return goto_end_level();
+        }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-	    return goto_end_level();
+            return goto_end_level();
     }
     return 1;
 }

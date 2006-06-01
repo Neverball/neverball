@@ -198,8 +198,8 @@ static void play_loop_timer(int id, float dt)
     state = game_step(g, at, &state_value);
     if (state)
     {
-	level_stop(state, state_value, curr_clock(), curr_coins());
-	goto_state(&st_play_end);
+        level_stop(state, state_value, curr_clock(), curr_coins());
+        goto_state(&st_play_end);
     }
 
     game_step_fade(dt);
@@ -279,10 +279,10 @@ static int play_loop_buttn(int b, int d)
     if (d == 1)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-	{
-	    level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
+        {
+            level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
             return abort_play();
-	}
+        }
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R, b))
             view_rotate = +1;
@@ -353,7 +353,7 @@ static void look_point(int id, int x, int y, int dx, int dy)
 static int look_keybd(int c, int d)
 {
     if (d && c == SDLK_F12)
-	return goto_state(&st_play_loop);
+        return goto_state(&st_play_loop);
 
     return 1;
 }
@@ -361,7 +361,7 @@ static int look_keybd(int c, int d)
 static int look_buttn(int b, int d)
 {
     if (d && config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-	return goto_state(&st_play_loop);
+        return goto_state(&st_play_loop);
 
     return 1;
 }

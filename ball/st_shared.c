@@ -73,8 +73,8 @@ void shared_stick(int id, int a, int v)
 int shared_click(int b, int d)
 {
     if (b < 0 && d == 1)
-	return st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
+        return st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
     else 
-	return 1;
+        return 1;
 }
 

@@ -47,11 +47,13 @@ static int title_action(int i)
     switch (i)
     {
     case TITLE_PLAY: 
-	config_get_s(CONFIG_PLAYER, player, MAXNAM);
-	if (player[0] == '\0')
-	    return goto_name(&st_set, &st_title);
-	else
-	    return goto_state(&st_set);
+        config_get_s(CONFIG_PLAYER, player, MAXNAM);
+
+        if (player[0] == '\0')
+            return goto_name(&st_set, &st_title);
+        else
+            return goto_state(&st_set);
+
     case TITLE_HELP: return goto_state(&st_help);
     case TITLE_DEMO: return goto_state(&st_demo);
     case TITLE_CONF: return goto_state(&st_conf);
@@ -186,10 +188,10 @@ static void title_timer(int id, float dt)
 static int title_keybd(int c, int d)
 {
     if (d && c == SDLK_c && ALLOW_CHEAT)
-	config_tgl_d(CONFIG_CHEAT);
+        config_tgl_d(CONFIG_CHEAT);
     return 1; 
 }
-	
+        
 static int title_buttn(int b, int d)
 {
     if (d)

@@ -30,10 +30,10 @@ static char filename[MAXNAM];
 
 /*---------------------------------------------------------------------------*/
 
-static struct state * ok_state;
-static struct state * cancel_state;
+static struct state *ok_state;
+static struct state *cancel_state;
 
-int goto_save(struct state * ok, struct state * cancel)
+int goto_save(struct state *ok, struct state *cancel)
 {
     demo_unique(filename);
     ok_state     = ok;
@@ -57,18 +57,18 @@ static int save_action(int i)
     switch (i)
     {
     case SAVE_SAVE:
-	if (strcmp(filename, "") == 0)
-	    return 1;
+        if (strcmp(filename, "") == 0)
+            return 1;
         if (demo_exists(filename))
             return goto_state(&st_clobber);
         else
         {
-	    demo_play_save(filename);
-	    return goto_state(ok_state);
+            demo_play_save(filename);
+            return goto_state(ok_state);
         }
 
     case SAVE_CANCEL:
-	return goto_state(cancel_state);
+        return goto_state(cancel_state);
 
     case GUI_BS:
         if (l > 0)
@@ -97,19 +97,19 @@ static int save_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-	gui_label(id, _("Replay Name"), GUI_MED, GUI_ALL, 0, 0);
+        gui_label(id, _("Replay Name"), GUI_MED, GUI_ALL, 0, 0);
         
-	gui_space(id);
         gui_space(id);
-	
+        gui_space(id);
+        
         file_id = gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
-	
+        
         gui_space(id);
 
         gui_keyboard(id);
         if ((jd = gui_harray(id)))
         {
-            enter_id = gui_start(jd, _("Save"),   GUI_SML, SAVE_SAVE,   0);
+            enter_id = gui_start(jd, _("Save"), GUI_SML, SAVE_SAVE, 0);
             gui_state(jd, _("Cancel"), GUI_SML, SAVE_CANCEL, 0);
         }
         
@@ -130,15 +130,15 @@ static void save_leave(int id)
 static int save_keybd(int c, int d)
 {
     if (d)
-	if ((c & 0xFF80) == 0)
-	{
-	    gui_focus(enter_id);
-	    c &= 0x7F;
-	    if (c == '\b')
-		return save_action(GUI_BS);
-	    else if (c > ' ')
-		return save_action(c);
-	}
+        if ((c & 0xFF80) == 0)
+        {
+            gui_focus(enter_id);
+            c &= 0x7F;
+            if (c == '\b')
+                return save_action(GUI_BS);
+            else if (c > ' ')
+                return save_action(c);
+        }
     return 1;
 }
 
@@ -149,7 +149,7 @@ static int save_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return save_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-	    return save_action(SAVE_CANCEL);
+            return save_action(SAVE_CANCEL);
     }
     return 1;
 }
@@ -162,8 +162,8 @@ static int clobber_action(int i)
 
     if (i == SAVE_SAVE)
     {
-	demo_play_save(filename);
-	return goto_state(ok_state);    
+        demo_play_save(filename);
+        return goto_state(ok_state);    
     }
     return goto_state(&st_save);
 }

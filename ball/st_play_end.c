@@ -78,7 +78,7 @@ static int play_end_action(int i)
     return 1;
 }
 
-static int play_end_init(int * gidp)
+static int play_end_init(int *gidp)
 {
     const struct level_game *lg = curr_lg();
     int mode  = lg->mode;
@@ -113,7 +113,7 @@ static int play_end_init(int * gidp)
         gui_space(id);
 
         if (mode == MODE_CHALLENGE && 
-                (lg->state == GAME_GOAL || lg->state == GAME_SPEC || l->is_bonus))
+            (lg->state == GAME_GOAL || lg->state == GAME_SPEC || l->is_bonus))
         {
             int coins = lg->coins;
             int score = lg->score - coins;
@@ -162,17 +162,18 @@ static int play_end_init(int * gidp)
         {
             int nlid = 0, rlid = 0;
             int b = 0;
+
             if (lg->win)
-                gui_start(jd, _("Finish"),      GUI_SML, PLAY_END_DONE, 0);
+                gui_start(jd, _("Finish"), GUI_SML, PLAY_END_DONE, 0);
             else
-                nlid = gui_maybe(jd, _("Next Level"),  PLAY_END_NEXT, lg->next_level != NULL);
-            
+                nlid = gui_maybe(jd, _("Next Level"),  PLAY_END_NEXT,
+                                 lg->next_level != NULL);
+
             if (lg->dead)
                 gui_start(jd, _("Game Over"), GUI_SML, PLAY_END_OVER, 0);
             else
             {
-                b = mode != MODE_CHALLENGE || 
-                    ((state == GAME_FALL || state == GAME_TIME) && !lg->dead && !l->is_bonus);
+                b = mode != MODE_CHALLENGE || ((state == GAME_FALL || state == GAME_TIME) && !lg->dead && !l->is_bonus);
                 rlid = gui_maybe(jd, _("Retry Level"), PLAY_END_SAME, b);
             }
             
@@ -181,7 +182,7 @@ static int play_end_init(int * gidp)
             /* default is next if the next level is newly unkocked */
             if (nlid != 0 && lg->unlock)
                  gui_focus(nlid);
-            else if(b)
+            else if (b)
                  gui_focus(rlid);
         }
 
@@ -250,7 +251,8 @@ static void play_end_timer(int id, float dt)
             
             gui_set_count(score_id, score + 1);
             gui_pulse(score_id, 1.1f);
-            if ((score+1) % 100 == 0)
+
+            if ((score + 1) % 100 == 0)
             {
                 gui_set_count(balls_id, balls + 1);
                 gui_pulse(balls_id, 2.0f);

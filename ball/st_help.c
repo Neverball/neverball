@@ -39,14 +39,14 @@ static int help_action(int i)
 {
     audio_play(AUD_MENU, 1.0f);
     
-    switch(i)
+    switch (i)
     {
-	case HELP_BACK: return goto_state(&st_title);
-	case HELP_RULE: return goto_state(&st_help);
-	case HELP_CONT: return goto_state(&st_help2);
-	case HELP_MODE: return goto_state(&st_help3);
-	case HELP_SECR: return goto_state(&st_help4);
-	case HELP_CRED: return goto_state(&st_help5);
+        case HELP_BACK: return goto_state(&st_title);
+        case HELP_RULE: return goto_state(&st_help);
+        case HELP_CONT: return goto_state(&st_help2);
+        case HELP_MODE: return goto_state(&st_help3);
+        case HELP_SECR: return goto_state(&st_help4);
+        case HELP_CRED: return goto_state(&st_help5);
     }
     return 1;
 }
@@ -55,7 +55,7 @@ static int help_button(int id, const char *text, int token, int atoken)
 {
     int kd = gui_state(id, text, GUI_SML, token, token == atoken);
     if (token == atoken)
-	gui_focus(kd);
+        gui_focus(kd);
     return kd;
 }
 
@@ -65,12 +65,12 @@ static int help_menu(int id, int i)
     gui_filler(id);
     if ((jd = gui_harray(id)))
     {
-	help_button(jd, _("Credits"),     HELP_CRED, i);
-	help_button(jd, _("Secrets"),     HELP_SECR, i);
-	help_button(jd, _("Modes"),       HELP_MODE, i);
-	help_button(jd, _("Controls"),    HELP_CONT, i);
-	help_button(jd, _("Rules"),       HELP_RULE, i);
-	help_button(jd, _("Back"),        HELP_BACK, i);
+        help_button(jd, _("Credits"),     HELP_CRED, i);
+        help_button(jd, _("Secrets"),     HELP_SECR, i);
+        help_button(jd, _("Modes"),       HELP_MODE, i);
+        help_button(jd, _("Controls"),    HELP_CONT, i);
+        help_button(jd, _("Rules"),       HELP_RULE, i);
+        help_button(jd, _("Back"),        HELP_BACK, i);
     }
     gui_filler(id);
     return jd;
@@ -79,15 +79,15 @@ static int help_menu(int id, int i)
 static int help1_enter(void)
 {
     const char *s0 = _(
-	    "Move the mouse or joystick\\"
-	    "or use keyboard arrows to\\"
-	    "tilt the floor causing the\\"
-	    "ball to roll.\\ ");
+            "Move the mouse or joystick\\"
+            "or use keyboard arrows to\\"
+            "tilt the floor causing the\\"
+            "ball to roll.\\ ");
     const char *s1 = _(
-	    "Roll over coins to collect\\"
-	    "them.  Collect coins to\\"
-	    "unlock the goal and finish\\"
-	    "the level.\\ ");
+            "Roll over coins to collect\\"
+            "them.  Collect coins to\\"
+            "unlock the goal and finish\\"
+            "the level.\\ ");
 
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
@@ -96,21 +96,21 @@ static int help1_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-	help_menu(id, HELP_RULE);
-	
-	if ((jd = gui_hstack(id)))
-	{
-	    gui_image(jd, "gui/help1.jpg", 6 * w / 16, 6 * h / 16);
+        help_menu(id, HELP_RULE);
+        
+        if ((jd = gui_hstack(id)))
+        {
+            gui_image(jd, "gui/help1.jpg", 6 * w / 16, 6 * h / 16);
             gui_multi(jd, s0, GUI_SML, GUI_ALL, gui_wht, gui_wht);
-	    gui_filler(jd);
-	}
-	gui_space(id);
-	if ((jd = gui_hstack(id)))
-	{
-	    gui_filler(jd);
+            gui_filler(jd);
+        }
+        gui_space(id);
+        if ((jd = gui_hstack(id)))
+        {
+            gui_filler(jd);
             gui_multi(jd, s1, GUI_SML, GUI_ALL, gui_wht, gui_wht);
-	    gui_image(jd, "gui/help2.jpg", 6 * w / 16, 6 * h / 16);
-	}
+            gui_image(jd, "gui/help2.jpg", 6 * w / 16, 6 * h / 16);
+        }
         gui_layout(id, 0, +1);
     }
     return id;
@@ -142,8 +142,8 @@ static int help2_enter(void)
     
     if ((id = gui_vstack(0)))
     {
-	help_menu(id, HELP_CONT);
-	
+        help_menu(id, HELP_CONT);
+        
         if ((jd = gui_harray(id)))
         {
             gui_label(jd, s6, GUI_SML, GUI_NE, gui_wht, gui_wht);
@@ -200,29 +200,28 @@ static int help3_enter(void)
     
     if ((id = gui_vstack(0)))
     {
-	help_menu(id, HELP_MODE);
-	
-	gui_label(id, _("Normal"), GUI_SML, GUI_TOP, 0, 0);
-	gui_multi(id, 
-	"Finish a level before the time run out.\\"
-	"You need to collect coins in order to open the goal.",
-	GUI_SML, GUI_BOT, gui_wht, gui_wht);
-	
+        help_menu(id, HELP_MODE);
+        
+        gui_label(id, _("Normal"), GUI_SML, GUI_TOP, 0, 0);
+        gui_multi(id, 
+                  "Finish a level before the time run out.\\"
+                  "You need to collect coins in order to open the goal.",
+                  GUI_SML, GUI_BOT, gui_wht, gui_wht);
+        
         gui_space(id);
-	
-	gui_label(id, _("Practice"), GUI_SML, GUI_TOP, 0, 0);
-	gui_multi(id, 
-	"Play a level without time or coin constraint.",
-	GUI_SML, GUI_BOT, gui_wht, gui_wht);
-	
+        
+        gui_label(id, _("Practice"), GUI_SML, GUI_TOP, 0, 0);
+        gui_multi(id, "Play a level without time or coin constraint.",
+                  GUI_SML, GUI_BOT, gui_wht, gui_wht);
+        
         gui_space(id);
-	
-	gui_label(id, _("Challenge"), GUI_SML, GUI_TOP, 0, 0);
-	gui_multi(id, 
-	"Start playing from the first level of the level set.\\"
-	"You start with only four balls, do not lose them.\\"
-        "Earn an extra ball for each 100 coins collected.",
-	GUI_SML, GUI_BOT, gui_wht, gui_wht);
+        
+        gui_label(id, _("Challenge"), GUI_SML, GUI_TOP, 0, 0);
+        gui_multi(id, 
+                  "Start playing from the first level of the level set.\\"
+                  "You start with only four balls, do not lose them.\\"
+                  "Earn an extra ball for each 100 coins collected.",
+                  GUI_SML, GUI_BOT, gui_wht, gui_wht);
 
         gui_layout(id, 0, +1);
     }
@@ -233,15 +232,15 @@ static int help3_enter(void)
 static int help4_enter(void)
 {
     const char *s0 = _(
-	    " \\"
-	    " \\"
-	    " \\"
-	    " \\ ");
+            " \\"
+            " \\"
+            " \\"
+            " \\ ");
     const char *s1 = _(
-	    " \\"
-	    " \\"
-	    " \\"
-	    " \\ ");
+            " \\"
+            " \\"
+            " \\"
+            " \\ ");
 
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
@@ -250,21 +249,21 @@ static int help4_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-	help_menu(id, HELP_SECR);
-	
-	if ((jd = gui_hstack(id)))
-	{
-	    gui_filler(jd);
+        help_menu(id, HELP_SECR);
+        
+        if ((jd = gui_hstack(id)))
+        {
+            gui_filler(jd);
             gui_multi(jd, s0, GUI_SML, GUI_ALL, gui_wht, gui_wht);
-	    gui_image(jd, "gui/help3.jpg", 6 * w / 16, 6 * h / 16);
-	}
-	gui_space(id);
-	if ((jd = gui_hstack(id)))
-	{
-	    gui_image(jd, "gui/help4.jpg", 6 * w / 16, 6 * h / 16);
+            gui_image(jd, "gui/help3.jpg", 6 * w / 16, 6 * h / 16);
+        }
+        gui_space(id);
+        if ((jd = gui_hstack(id)))
+        {
+            gui_image(jd, "gui/help4.jpg", 6 * w / 16, 6 * h / 16);
             gui_multi(jd, s1, GUI_SML, GUI_ALL, gui_wht, gui_wht);
-	    gui_filler(jd);
-	}
+            gui_filler(jd);
+        }
         gui_layout(id, 0, +1);
     }
     return id;
@@ -276,27 +275,34 @@ static int help5_enter(void)
     
     if ((id = gui_vstack(0)))
     {
-	help_menu(id, HELP_CRED);
-	
-	gui_label(id, _("Lead Maintainer"), GUI_SML, GUI_TOP, 0, 0);
-	gui_label(id, "Robert Kooima <robert.kooima@gmail.com>", GUI_SML, GUI_BOT , gui_wht, gui_wht);
-	
+        help_menu(id, HELP_CRED);
+        
+        gui_label(id, _("Lead Maintainer"), GUI_SML, GUI_TOP, 0, 0);
+        gui_label(id, "Robert Kooima <robert.kooima@gmail.com>",
+                  GUI_SML, GUI_BOT , gui_wht, gui_wht);
+        
         gui_space(id);
-	
-	gui_label(id, _("Developers"), GUI_SML, GUI_TOP, 0, 0);
-	gui_label(id, "Robert Kooima, Jean Privat", GUI_SML, GUI_BOT , gui_wht, gui_wht);
-	
+        
+        gui_label(id, _("Developers"), GUI_SML, GUI_TOP, 0, 0);
+        gui_label(id, "Robert Kooima, Jean Privat",
+                  GUI_SML, GUI_BOT , gui_wht, gui_wht);
+        
         gui_space(id);
-	
-	gui_label(id, _("Level Contribution"), GUI_SML, GUI_TOP, 0, 0);
-	gui_multi(id, "Robert Kooima, Jean Privat, Jānis Rūcis,\\Paul Tompkins, Mehdi Yousfi-Monod", GUI_SML, GUI_BOT , gui_wht, gui_wht);
-	
+        
+        gui_label(id, _("Level Contribution"), GUI_SML, GUI_TOP, 0, 0);
+        gui_multi(id,
+                  "Robert Kooima, Jean Privat, Jānis Rūcis,\\"
+                  "Paul Tompkins, Mehdi Yousfi-Monod",
+                  GUI_SML, GUI_BOT , gui_wht, gui_wht);
+        
         gui_space(id);
-	
-	gui_label(id, _("Translation"), GUI_SML, GUI_TOP, 0, 0);
-	gui_multi(id, "French: Jean Privat, Mehdi Yousfi-Monod;\\"
-		"German: Georg Wachter; Latvian: Jānis Rūcis", GUI_SML, GUI_BOT , gui_wht, gui_wht);
-	
+        
+        gui_label(id, _("Translation"), GUI_SML, GUI_TOP, 0, 0);
+        gui_multi(id,
+                  "French: Jean Privat, Mehdi Yousfi-Monod;\\"
+                  "German: Georg Wachter; Latvian: Jānis Rūcis",
+                  GUI_SML, GUI_BOT , gui_wht, gui_wht);
+        
         gui_layout(id, 0, +1);
     }
     return id;
