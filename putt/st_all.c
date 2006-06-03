@@ -265,24 +265,26 @@ static int course_enter(void)
 
         if ((jd = gui_hstack(id)))
         {
-	    shot_id = gui_image(jd, course_shot(0), w / 3, h / 3);
+            shot_id = gui_image(jd, course_shot(0), w / 3, h / 3);
             gui_filler(jd);
-	    if ((kd = gui_varray(jd)))
-	    {
+            if ((kd = gui_varray(jd)))
+            {
                 for(i = 0; i < n; i += m)
-		{
-		    if ((ld = gui_harray(kd)))
-		    {
-	                for (j = (m-1); j >= 0; j--)
-			{
-			    if (i+j < n)
-				gui_active(gui_image(ld, course_shot(i+j), w / 3 / m, h / 3 / m), i+j, 0);
-			    else
-				gui_space(ld);
-			}
-		    }
-		}
-	    }
+                {
+                    if ((ld = gui_harray(kd)))
+                    {
+                        for (j = (m - 1); j >= 0; j--)
+                        {
+                            if (i + j < n)
+                                gui_active(gui_image(ld, course_shot(i + j),
+                                                     w / 3 / m, h / 3 / m),
+                                           i + j, 0);
+                            else
+                                gui_space(ld);
+                        }
+                    }
+                }
+            }
         }
 
         gui_space(id);
@@ -327,11 +329,11 @@ static void course_point(int id, int x, int y, int dx, int dy)
     if ((jd = gui_point(id, x, y)))
     {
         int i = gui_token(jd);
-	if (course_exists(i))
-	{
-	    gui_set_image(shot_id, course_shot(i));
+        if (course_exists(i))
+        {
+            gui_set_image(shot_id, course_shot(i));
             gui_set_multi(desc_id, _(course_desc(i)));
-	}
+        }
         gui_pulse(jd, 1.2f);
     }
 }
