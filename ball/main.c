@@ -238,13 +238,13 @@ static int   display_info = 0;
 static void parse_args(int argc, char **argv)
 {
 #define CASE(x) (strcmp(*argv, (x)) == 0)       /* Check current option */
-#define MAND    (not_miss = (argv[1] != NULL))  /* Argument is mandatory */
+#define MAND    !(missing = (argv[1] == NULL))  /* Argument is mandatory */
     char *exec = *(argv++);
-    int not_miss;               /* argument is not missing */
+    int missing; /* Argument is missing. */
 
     while (*argv != NULL)
     {
-        not_miss = 1;
+        missing = 0;
         if (CASE("-h") || CASE("-?") || CASE("--help"))
         {
             printf(USAGE, exec);
@@ -263,7 +263,7 @@ static void parse_args(int argc, char **argv)
             level_path = *(++argv);
         else if ((CASE("-i") || CASE("--info")))
             display_info = 1;
-        else if (not_miss)
+        else if (!missing)
         {
             fprintf(stderr, _("%s: unknown option %s\n"), exec, *argv);
             fprintf(stderr, USAGE, exec);
