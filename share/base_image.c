@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -19,7 +19,7 @@
 void image_swab(SDL_Surface *src)
 {
     int i, j, b = (src->format->BitsPerPixel == 32) ? 4 : 3;
-    
+
     SDL_LockSurface(src);
     {
         unsigned char *s = (unsigned char *) src->pixels;
@@ -45,7 +45,7 @@ void image_swab(SDL_Surface *src)
 void image_white(SDL_Surface *src)
 {
     int i, j, b = (src->format->BitsPerPixel == 32) ? 4 : 3;
-    
+
     SDL_LockSurface(src);
     {
         unsigned char *s = (unsigned char *) src->pixels;

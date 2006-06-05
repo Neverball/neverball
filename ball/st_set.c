@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -50,7 +50,7 @@ static int set_action(int i)
         config_set_d(CONFIG_LAST_SET,
                      ((config_get_d(CONFIG_LAST_SET) / SET_GROUP) - 1) * SET_GROUP);
         return goto_state(&st_set);
-    
+
     case GUI_NEXT:
         config_set_d(CONFIG_LAST_SET,
                      ((config_get_d(CONFIG_LAST_SET) / SET_GROUP) + 1) * SET_GROUP);
@@ -58,7 +58,7 @@ static int set_action(int i)
 
     case GUI_NULL:
         return 1;
-    
+
     default:
         if (set_exists(i))
         {
@@ -74,14 +74,14 @@ static void gui_set(int id, int i)
 {
     const struct set *s = get_set(i);
     int jd;
-    
-    if (set_completed(s)) 
+
+    if (set_completed(s))
         jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_yel, gui_wht);
-    else if (set_unlocked(s)) 
+    else if (set_unlocked(s))
         jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_grn, gui_wht);
     else
         jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_wht, gui_wht);
-    
+
     gui_active(jd, i, 0);
 }
 
@@ -97,7 +97,7 @@ static int set_enter(void)
 
 
     set_init();
-    
+
     /* Reset last set if it do not exists */
     if (!set_exists(last_set))
     {
@@ -128,11 +128,11 @@ static int set_enter(void)
                 /* Display levels */
                 for (i = b * SET_GROUP; i < (b + 1) * SET_GROUP && set_exists(i); i++)
                     gui_set(kd, i);
-                
+
                 /* Display empty slots */
                 for(; i < (b + 1) * SET_GROUP; i++)
                     gui_filler(kd);
-            }          
+            }
         }
 
         gui_space(id);

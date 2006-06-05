@@ -515,7 +515,7 @@ void config_push_persp(float fov, float n, float f)
     GLdouble s = sin(r);
     GLdouble c = cos(r) / s;
 
-    GLdouble a = ((GLdouble) option_d[CONFIG_WIDTH] / 
+    GLdouble a = ((GLdouble) option_d[CONFIG_WIDTH] /
                   (GLdouble) option_d[CONFIG_HEIGHT]);
 
     glMatrixMode(GL_PROJECTION);

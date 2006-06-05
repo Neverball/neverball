@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -183,7 +183,7 @@ GLuint make_image_from_file(int *W, int *H,
         if (h) *h = src->h;
 
         /* Create a new destination surface. */
-        
+
         if ((dst = SDL_CreateRGBSurface(SDL_SWSURFACE, w2, h2, 32,
                                         RMASK, GMASK, BMASK, AMASK)))
         {
@@ -237,7 +237,7 @@ GLuint make_image_from_font(int *W, int *H,
             if (h) *h = src->h;
 
             /* Create a new destination surface. */
-            
+
             if ((dst = SDL_CreateRGBSurface(SDL_SWSURFACE, w2, h2, 32,
                                             RMASK, GMASK, BMASK, AMASK)))
             {

@@ -26,9 +26,9 @@ struct set
 
     struct score time_score;  /* challenge score */
     struct score coin_score;  /* challenge score */
-    
+
     /* levels info */
-    
+
     int count;	              /* number of levels */
     int locked;               /* number of locked levels */
     int completed;            /* number of completed levels */

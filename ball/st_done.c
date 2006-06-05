@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -80,7 +80,7 @@ static int done_init(int *gidp)
         }
 
         gui_space(id);
-        
+
         if ((jd = gui_harray(id)))
         {
             if (high)
@@ -100,9 +100,9 @@ static int done_init(int *gidp)
 static int done_enter(void)
 {
     int gid, r;
-    
+
     r = done_init(&gid);
-    gui_pulse(gid, 1.2f);    
+    gui_pulse(gid, 1.2f);
     return r;
 }
 

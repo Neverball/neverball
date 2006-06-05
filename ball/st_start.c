@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -62,15 +62,15 @@ static void gui_level(int id, int i)
     const struct level *l;
     int jd = 0;
     const GLfloat *fore, *back;
-    
+
     if (!set_level_exists(s, i))
     {
         gui_space(id);
         return;
     }
-    
+
     l = get_level(i);
-    
+
     if (!l->is_locked)
     {
         fore =  l->is_bonus ? gui_grn : gui_wht;
@@ -131,9 +131,9 @@ static void start_over(id)
     gui_pulse(id, 1.2f);
     if (id == 0)
         return;
-    
+
     i = gui_token(id);
-    
+
 
     switch (i)
     {
@@ -143,16 +143,16 @@ static void start_over(id)
         set_best_times(&curr_set()->time_score, -1, 0);
         gui_set_label(status_id, _("Challenge all levels from the first one"));
         break;
-        
+
     case START_NORMAL:
         gui_set_label(status_id, _("Collect coins and unlock next level"));
         break;
-        
+
     case START_PRACTICE:
         gui_set_label(status_id, _("Train yourself without time nor coin"));
         break;
     }
-    
+
     if (i >= 0)
         start_over_level(i);
 }
@@ -176,7 +176,7 @@ static int start_action(int i)
         config_set_d(CONFIG_MODE, MODE_PRACTICE);
         return goto_state(&st_start);
     }
-    
+
     if (i == START_CHALLENGE)
     {
         /* On cheat, start challenge mode where you want */
@@ -216,12 +216,12 @@ static int start_enter(void)
         m = MODE_NORMAL;
         config_set_d(CONFIG_MODE, m);
     }
-    
+
     if ((id = gui_vstack(0)))
     {
         if ((jd = gui_hstack(id)))
         {
-            
+
             gui_label(jd, _(curr_set()->name), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
             if (set_completed(curr_set()))
@@ -232,7 +232,7 @@ static int start_enter(void)
             gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);
         }
 
-        
+
         if ((jd = gui_harray(id)))
         {
             shot_id = gui_image(jd, curr_set()->shot, 7 * w / 16, 7 * h / 16);
@@ -262,14 +262,14 @@ static int start_enter(void)
             gui_most_coins(jd, 0);
             gui_best_times(jd, 0);
         }
-        
+
         gui_space(id);
-        
+
         status_id = gui_label(id, _("Choose a level to play"), GUI_SML, GUI_ALL,
                               gui_yel, gui_wht);
-        
+
         gui_layout(id, 0, 0);
-        
+
         set_most_coins(NULL, -1);
         set_best_times(NULL, -1, m != MODE_PRACTICE);
     }
@@ -286,7 +286,7 @@ static void start_stick(int id, int a, int v)
 {
     int x = (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a)) ? v : 0;
     int y = (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a)) ? v : 0;
-    
+
     start_over(gui_stick(id, x, y));
 }
 
@@ -297,7 +297,7 @@ static int start_keybd(int c, int d)
         set_cheat();
         return goto_state(&st_start);
     }
-                         
+
     if (d && c == SDLK_F12)
     {
         int i;

@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -79,7 +79,7 @@ void hud_init(void)
         }
         gui_layout(Rhud_id, +1, -1);
     }
-    
+
     if ((Rhud2_id = gui_hstack(0)))
     {
         gui_label(Rhud2_id, _("Coins"), GUI_SML, 0, gui_wht, gui_wht);
@@ -179,10 +179,10 @@ void hud_update(int pulse)
             {
                 audio_play(AUD_TOCK, 1.f);
                 gui_pulse(time_id, 1.25);
-            }           
+            }
         }
     }
-    
+
     /* balls and score + select coin widget */
     if (mode == MODE_CHALLENGE)
     {
@@ -194,7 +194,7 @@ void hud_update(int pulse)
         c_id = coin_id;
     else
         c_id = coin2_id;
-    
+
     /* coins and pulse */
     last = gui_value(c_id);
     if (last != coins)
@@ -232,8 +232,8 @@ void hud_update(int pulse)
 
 void hud_timer(float dt)
 {
-   
-    hud_update(1);      
+
+    hud_update(1);
 
     view_timer -= dt;
 
@@ -246,7 +246,7 @@ void hud_timer(float dt)
 void hud_view_pulse(int c)
 {
     switch (c)
-    {   
+    {
     case 0: gui_set_label(view_id, STR_VIEW0); break;
     case 1: gui_set_label(view_id, STR_VIEW1); break;
     case 2: gui_set_label(view_id, STR_VIEW2); break;

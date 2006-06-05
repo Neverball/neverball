@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -77,7 +77,7 @@ static int conf_action(int i)
         r = config_mode(0, w, h);
         goto_state(&st_conf);
         break;
-        
+
     case CONF_TEXHI:
         goto_state(&st_null);
         config_set_d(CONFIG_TEXTURES, 1);
@@ -159,11 +159,11 @@ static int conf_action(int i)
     case CONF_BACK:
         goto_state(&st_title);
         break;
-        
+
     case CONF_LANG:
         goto_state(&st_lang);
         break;
-        
+
     case CONF_RESOL:
         goto_state(&st_resol);
         break;
@@ -235,7 +235,7 @@ static int conf_enter(void)
                 gui_state(kd, _("No"), GUI_SML, CONF_WIN, (f == 0));
                 gui_state(kd, _("Yes"),  GUI_SML, CONF_FULL, (f == 1));
             }
-            
+
             {
                 static char msg[20];
                 sprintf(msg, "%d x %d", config_get_d(CONFIG_WIDTH),
@@ -295,7 +295,7 @@ static int conf_enter(void)
             if ((kd = gui_harray(jd)))
             {
                 /* A series of empty buttons forms the music volume control. */
- 
+
                 music_id[10] = gui_state(kd, NULL, GUI_SML, 210, (m == 10));
                 music_id[ 9] = gui_state(kd, NULL, GUI_SML, 209, (m ==  9));
                 music_id[ 8] = gui_state(kd, NULL, GUI_SML, 208, (m ==  8));

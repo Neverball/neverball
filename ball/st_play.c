@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -156,7 +156,7 @@ static int play_loop_enter(void)
 
     game_set_fly(0.f);
     view_rotate = 0;
-    
+
     hud_view_pulse(config_get_d(CONFIG_CAMERA));
 
     nohud = 0;
@@ -188,7 +188,7 @@ static void play_loop_timer(int id, float dt)
     float g[3] = { 0.0f, -9.8f, 0.0f };
 
     int state, state_value;
-    
+
     at = (7 * at + dt) / 8;
 
     gui_timer(id, at);
@@ -261,10 +261,10 @@ static int play_loop_keybd(int c, int d)
 
     if (d && c == SDLK_F12)
         return goto_state(&st_look);
-    
+
     if (d && c == SDLK_F6)
         nohud = !nohud;
-    
+
     /* Cheat */
     if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
     {

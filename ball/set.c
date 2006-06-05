@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -50,7 +50,7 @@ static void set_store_hs(void)
     int i;
     const struct level *l;
     char states[MAXLVL + 1];
-    
+
     if ((fout = fopen(config_user(s->user_scores), "w")))
     {
         for (i = 0; i < s->count; i++)
@@ -64,7 +64,7 @@ static void set_store_hs(void)
         }
         states[s->count] = '\0';
         fprintf(fout, "%s\n",states);
-        
+
         put_score(fout, &s->time_score);
         put_score(fout, &s->coin_score);
 
@@ -105,7 +105,7 @@ static void set_load_hs(void)
 
     if ((fin = fopen(fn, "r")))
     {
-        res = ((fscanf(fin, "%s\n", states) == 1) && 
+        res = ((fscanf(fin, "%s\n", states) == 1) &&
                (strlen(states) == s->count));
         for (i = 0; i < s->count && res; i++)
         {
@@ -118,7 +118,7 @@ static void set_load_hs(void)
             {
                 level_v[i].is_locked = 0;
                 level_v[i].is_completed = 1;
-            } 
+            }
             else if (states[i] == 'O')
             {
                 level_v[i].is_locked = 0;
@@ -127,11 +127,11 @@ static void set_load_hs(void)
             else
                 res = 0;
         }
-        
+
         res = res &&
             get_score(fin, &s->time_score) &&
             get_score(fin, &s->coin_score);
-        
+
         for (i = 0; i < s->count && res; i++)
         {
             l = &level_v[i];
@@ -142,7 +142,7 @@ static void set_load_hs(void)
 
         fclose(fin);
     }
-    
+
     if (!res && errno != ENOENT)
     {
         fprintf(stderr, _("Error while loading user high-score file '%s': "),
@@ -168,7 +168,7 @@ static int set_load(struct set *s, const char *filename)
     FILE *fin;
     char buf[MAXSTR];
     int res = 0;
-    
+
     /* Open the datafile */
 
     fin = fopen(filename, "r");
@@ -184,12 +184,12 @@ static int set_load(struct set *s, const char *filename)
     memset(s, 0, sizeof(struct set));
 
     /* Set some sane values in case the scores hs is missing. */
-    
+
     score_init_hs(&s->time_score, 359999, 0);
     score_init_hs(&s->coin_score, 359999, 0);
-    
+
     /* Load set metadata */
-    
+
     strcpy(s->file, filename);
     if ((res = fgets(buf, MAXSTR, fin) != NULL))
         strcpy(s->name, chomp(buf));
@@ -200,7 +200,7 @@ static int set_load(struct set *s, const char *filename)
     if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
         strcpy(s->shot, chomp(buf));
     if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
-        sscanf(buf, "%d %d %d %d %d %d", 
+        sscanf(buf, "%d %d %d %d %d %d",
                 &s->time_score.timer[0],
                 &s->time_score.timer[1],
                 &s->time_score.timer[2],
@@ -211,14 +211,14 @@ static int set_load(struct set *s, const char *filename)
     strcat(s->user_scores, s->setname);
 
     /* Count levels levels. */
-    
+
     s->count = 0;
 
     while (s->count < MAXLVL && (fscanf(fin, "%s", buf) == 1))
         s->count++;
-    
+
     /* Close the file, since it's no more needed */
-    
+
     fclose(fin);
 
     /* Load the levels states (stored in the user highscore file) */
@@ -259,7 +259,7 @@ void set_init()
     int res;
 
     current_set = NULL;
-    
+
     count = 0;
 
     if ((fin = fopen(config_data(SET_FILE), "r")))
@@ -270,7 +270,7 @@ void set_init()
             set = &(set_v[count]);
 
             /* clean the set data */
-            
+
             res = (fgets(filename, MAXSTR, fin) != NULL);
             if (res)
             {
@@ -333,10 +333,10 @@ static void set_load_levels(void)
 
     int i = 0, res;
     int nb = 1, bnb = 1;
-    
+
     fin = fopen(current_set->file, "r");
     assert(fin != NULL);
-    
+
     res = 1;
 
     /* Skip the five first lines */
@@ -464,7 +464,7 @@ static int level_score_update(struct level_game *lg, const char *player)
     struct level *l = &level_v[lg->level->number];
 
     lg->time_rank = score_time_insert(&l->time_score, player, timer, coins);
-        
+
     if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
         lg->goal_rank = score_time_insert(&l->goal_score, player, timer, coins);
     else
@@ -509,7 +509,7 @@ static struct level *next_level(int i)
 }
 
 static struct level *next_normal_level(int i)
-/* Return the next normal level (starting for i) 
+/* Return the next normal level (starting for i)
  * Return NULL if there is not a such level */
 {
     for (i++; i < current_set->count; i++)
@@ -519,7 +519,7 @@ static struct level *next_normal_level(int i)
 }
 
 void set_finish_level(struct level_game *lg, const char *player)
-/* Inform the set that a level is finished. 
+/* Inform the set that a level is finished.
  * Update next_level and score rank fields */
 {
     struct set *s = current_set;

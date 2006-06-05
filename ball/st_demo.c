@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -221,12 +221,12 @@ static void gui_demo_update_status(int i)
     gui_set_label(level_id,  d->file);
     gui_set_label(player_id, d->player);
     gui_set_label(mode_id,   mode_to_str(d->mode));
-    
+
     if (d->state == GAME_GOAL || d->state == GAME_SPEC)
         gui_set_color(state_id, gui_grn, gui_grn);
     else
         gui_set_color(state_id, gui_red, gui_red);
-    
+
     gui_set_label(state_id, state_to_str(d->state));
     gui_set_count(coin_id, d->coins);
     gui_set_clock(time_id, d->timer);
@@ -367,7 +367,7 @@ static void demo_play_timer(int id, float dt)
         {
             replay_time += t;
         }
-        else 
+        else
         {
             goto_state(&st_demo_end);
             break;
@@ -397,7 +397,7 @@ static int demo_end_action(int i)
 
     switch (i)
     {
-    case DEMO_DEL: 
+    case DEMO_DEL:
         return goto_state(&st_demo_del);
     case DEMO_KEEP:
         demo_replay_stop(0);
@@ -458,7 +458,7 @@ static void demo_end_timer(int id, float dt)
 
     if (time_state() < 2.f && state != GAME_NONE)
         game_step((state == GAME_GOAL || state == GAME_SPEC) ? gg : gf, dt, NULL);
-                
+
     gui_timer(id, dt);
     audio_timer(dt);
 }

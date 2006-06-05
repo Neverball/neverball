@@ -74,7 +74,7 @@ int shared_click(int b, int d)
 {
     if (b < 0 && d == 1)
         return st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
-    else 
+    else
         return 1;
 }
 

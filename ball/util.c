@@ -60,7 +60,7 @@ void gui_most_coins(int id, int e)
                         coin_c[j] = gui_count(md, 1000, GUI_SML, 0);
 
                     coin_c[j++] = gui_count(md, 1000, GUI_SML, GUI_SE);
-                    
+
                     if (e)
                     {
                        gui_space(md);
@@ -72,7 +72,7 @@ void gui_most_coins(int id, int e)
                 {
                     for (j = 0; j < NSCORE ; j++)
                         coin_n[j] = gui_label(md, s, GUI_SML, 0, gui_yel, gui_wht);
-                    
+
                     if (e)
                     {
                         gui_space(md);
@@ -172,7 +172,7 @@ void gui_best_times(int id, int e)
                         time_t2[j] = gui_clock(md, 359999, GUI_SML, 0);
 
                     time_t2[j++] = gui_clock(md, 359999, GUI_SML, GUI_SE);
-                    
+
                     if (e)
                     {
                         gui_space(md);
@@ -198,7 +198,7 @@ void gui_best_times(int id, int e)
                         time_c[j] = gui_count(md, 1000, GUI_SML, 0);
 
                     time_c[j++] = gui_count(md, 1000, GUI_SML, GUI_SW);
-                    
+
                     if (e)
                     {
                         gui_space(md);
@@ -258,7 +258,7 @@ void set_best_times(const struct score *s, int hilight, int goal)
 /*---------------------------------------------------------------------------*/
 
 static int lock = 1;
-static int keyd[127]; 
+static int keyd[127];
 
 static void gui_fill(int id, char *line)
 {
@@ -344,7 +344,7 @@ int gui_back_prev_next(int id, int prev, int next)
             gui_maybe(jd, _("Next"), GUI_NEXT, next);
             gui_maybe(jd, _("Prev"), GUI_PREV, prev);
         }
-        
+
         gui_start(jd, _("Back"),  GUI_SML, GUI_BACK, 0);
     }
     return jd;

@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -38,7 +38,7 @@ extern struct state st_help5;
 static int help_action(int i)
 {
     audio_play(AUD_MENU, 1.0f);
-    
+
     switch (i)
     {
         case HELP_BACK: return goto_state(&st_title);
@@ -91,13 +91,13 @@ static int help1_enter(void)
 
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
-    
+
     int id, jd;
 
     if ((id = gui_vstack(0)))
     {
         help_menu(id, HELP_RULE);
-        
+
         if ((jd = gui_hstack(id)))
         {
             gui_image(jd, "gui/help1.jpg", 6 * w / 16, 6 * h / 16);
@@ -139,11 +139,11 @@ static int help2_enter(void)
     const char *k7 = SDL_GetKeyName(SDLK_F11);
 
     int id, jd;
-    
+
     if ((id = gui_vstack(0)))
     {
         help_menu(id, HELP_CONT);
-        
+
         if ((jd = gui_harray(id)))
         {
             gui_label(jd, s6, GUI_SML, GUI_NE, gui_wht, gui_wht);
@@ -197,27 +197,27 @@ static int help2_enter(void)
 static int help3_enter(void)
 {
     int id;
-    
+
     if ((id = gui_vstack(0)))
     {
         help_menu(id, HELP_MODE);
-        
+
         gui_label(id, _("Normal"), GUI_SML, GUI_TOP, 0, 0);
-        gui_multi(id, 
+        gui_multi(id,
                   "Finish a level before the time run out.\\"
                   "You need to collect coins in order to open the goal.",
                   GUI_SML, GUI_BOT, gui_wht, gui_wht);
-        
+
         gui_space(id);
-        
+
         gui_label(id, _("Practice"), GUI_SML, GUI_TOP, 0, 0);
         gui_multi(id, "Play a level without time or coin constraint.",
                   GUI_SML, GUI_BOT, gui_wht, gui_wht);
-        
+
         gui_space(id);
-        
+
         gui_label(id, _("Challenge"), GUI_SML, GUI_TOP, 0, 0);
-        gui_multi(id, 
+        gui_multi(id,
                   "Start playing from the first level of the level set.\\"
                   "You start with only four balls, do not lose them.\\"
                   "Earn an extra ball for each 100 coins collected.",
@@ -226,7 +226,7 @@ static int help3_enter(void)
         gui_layout(id, 0, +1);
     }
     return id;
-    
+
 }
 
 static int help4_enter(void)
@@ -244,13 +244,13 @@ static int help4_enter(void)
 
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
-    
+
     int id, jd;
 
     if ((id = gui_vstack(0)))
     {
         help_menu(id, HELP_SECR);
-        
+
         if ((jd = gui_hstack(id)))
         {
             gui_filler(jd);
@@ -272,37 +272,37 @@ static int help4_enter(void)
 static int help5_enter(void)
 {
     int id;
-    
+
     if ((id = gui_vstack(0)))
     {
         help_menu(id, HELP_CRED);
-        
+
         gui_label(id, _("Lead Maintainer"), GUI_SML, GUI_TOP, 0, 0);
         gui_label(id, "Robert Kooima <robert.kooima@gmail.com>",
                   GUI_SML, GUI_BOT , gui_wht, gui_wht);
-        
+
         gui_space(id);
-        
+
         gui_label(id, _("Developers"), GUI_SML, GUI_TOP, 0, 0);
         gui_label(id, "Robert Kooima, Jean Privat",
                   GUI_SML, GUI_BOT , gui_wht, gui_wht);
-        
+
         gui_space(id);
-        
+
         gui_label(id, _("Level Contribution"), GUI_SML, GUI_TOP, 0, 0);
         gui_multi(id,
                   "Robert Kooima, Jean Privat, Jānis Rūcis,\\"
                   "Paul Tompkins, Mehdi Yousfi-Monod",
                   GUI_SML, GUI_BOT , gui_wht, gui_wht);
-        
+
         gui_space(id);
-        
+
         gui_label(id, _("Translation"), GUI_SML, GUI_TOP, 0, 0);
         gui_multi(id,
                   "French: Jean Privat, Mehdi Yousfi-Monod;\\"
                   "German: Georg Wachter; Latvian: Jānis Rūcis",
                   GUI_SML, GUI_BOT , gui_wht, gui_wht);
-        
+
         gui_layout(id, 0, +1);
     }
     return id;

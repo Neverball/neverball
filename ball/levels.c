@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -34,7 +34,7 @@ static struct level_game current_level_game;
 
 int level_replay(const char *filename)
 {
-    return demo_replay_init(filename, &current_level_game); 
+    return demo_replay_init(filename, &current_level_game);
 }
 
 static struct level single_level; /* a level without set */
@@ -75,7 +75,7 @@ void level_play_single(const char *filename)
 void level_play(const struct level *l, int m)
 /* Prepare to play a level sequence from the `i'th level */
 {
-    struct level_game *lg = &current_level_game; 
+    struct level_game *lg = &current_level_game;
     memset(lg, 0, sizeof(struct level_game));
     lg->mode  = m;
     lg->level = l;

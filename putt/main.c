@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERPUTT is  free software; you can redistribute  it and/or modify
@@ -125,7 +125,7 @@ static int loop(void)
                 case SDLK_F9:  config_tgl_d(CONFIG_FPS);  break;
                 case SDLK_F8:  config_tgl_d(CONFIG_NICE); break;
                 case SDLK_F7:  toggle_wire();             break;
-                
+
                 default:
                     d = st_keybd(e.key.keysym.sym, 1);
                 }
@@ -146,7 +146,7 @@ static int loop(void)
 int main(int argc, char *argv[])
 {
     int camera = 0;
- 
+
     srand((int) time(NULL));
 
     language_init("neverball", CONFIG_LOCALE);
@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
                 config_load();
 
                 /* Initialize the language. */
-                
+
                 language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
 
                 /* Cache Neverball's camera setting. */
@@ -207,7 +207,7 @@ int main(int argc, char *argv[])
 
                     SDL_Surface *icon = IMG_Load(config_data("icon/neverputt.png"));
                     SDL_WM_SetIcon(icon, NULL);
-                    SDL_WM_SetCaption(TITLE, TITLE); 
+                    SDL_WM_SetCaption(TITLE, TITLE);
 
                     /* Run the main game loop. */
 

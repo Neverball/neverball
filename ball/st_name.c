@@ -38,7 +38,7 @@ void name_default(void)
 
     if (login == NULL || login[0] == '\0')
         login = _("Player");
-    
+
     strncpy(player, login, MAXNAM);
     player[MAXNAM-1] = '\0';
     player[0] = toupper(player[0]);
@@ -49,7 +49,7 @@ int goto_name(struct state *ok, struct state *cancel)
     config_get_s(CONFIG_PLAYER, player, MAXNAM);
     if (player[0] == '\0')
         name_default();
-    
+
     ok_state     = ok;
     cancel_state = cancel;
     return goto_state(&st_name);
@@ -76,11 +76,11 @@ static int name_action(int i)
            return 1;
         config_set_s(CONFIG_PLAYER, player);
         return goto_state(ok_state);
-        
+
     case NAME_BACK:
     case NAME_CANCEL:
         return goto_state(cancel_state);
-        
+
     case GUI_BS:
         if (l > 0)
         {
@@ -112,7 +112,7 @@ static int name_enter(void)
 
         gui_space(id);
         gui_space(id);
-        
+
         name_id = gui_label(id, player, GUI_MED, GUI_ALL, gui_yel, gui_yel);
 
         gui_space(id);
@@ -126,7 +126,7 @@ static int name_enter(void)
 
         gui_layout(id, 0, 0);
     }
-    
+
     SDL_EnableUNICODE(1);
 
     return id;

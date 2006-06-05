@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -185,11 +185,11 @@ void audio_timer(float dt)
         {
             fade_rate   = 0.0f;
             fade_volume = 1.0f;
-        }   
+        }
 
         if (Mix_PausedMusic() && fade_rate > 0.0f)
             Mix_ResumeMusic();
-            
+
         if (Mix_PlayingMusic())
             Mix_VolumeMusic(config_get_d(CONFIG_MUSIC_VOLUME) *
                             (int) (fade_volume * MIX_MAX_VOLUME) / 10);

@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -538,7 +538,7 @@ static void read_f(struct s_file *fp, const char *line,
     gp->si += (s0 - 1);
     gp->sj += (s0 - 1);
     gp->sk += (s0 - 1);
-    
+
     gp->mi  = mi;
 }
 
@@ -630,7 +630,7 @@ static void make_plane(int pi, int x0, int y0, int z0,
 
     v_crs(plane_n[pi], u, v);
     v_nrm(plane_n[pi], plane_n[pi]);
-        
+
     plane_d[pi] = v_dot(plane_n[pi], p1);
 
     for (i = 0; i < 6; i++)
@@ -1095,7 +1095,7 @@ static void make_swch(struct s_file *fp,
 
         if (strcmp(k[i], "state") == 0)
             xp->f = atoi(v[i]);
-        
+
         if (strcmp(k[i], "invisible") == 0)
             xp->i = atoi(v[i]);
 
@@ -1314,7 +1314,7 @@ static void clip_vert(struct s_file *fp,
 
     m_basis(M, fp->sv[si].n, fp->sv[sj].n, fp->sv[sk].n);
     m_xps(X, M);
-        
+
     if (m_inv(I, X))
     {
         m_vxfm(p, I, d);
@@ -2000,7 +2000,7 @@ static int node_node(struct s_file *fp, int l0, int lc)
             }
 
         /* Sort all lumps in the range by their flag values. */
-        
+
         for (li = 1; li < lc; li++)
             for (lj = 0; lj < li; lj++)
                 if (fp->lv[l0 + li].fl < fp->lv[l0 + lj].fl)

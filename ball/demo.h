@@ -50,7 +50,7 @@ void demo_unique(char *);
 
 /*---------------------------------------------------------------------------*/
 
-int  demo_play_init(const char *, const struct level *, 
+int  demo_play_init(const char *, const struct level *,
 		    const struct level_game *);
 /*                    int, int, int, int, int, int);*/
 void demo_play_step(float);
@@ -65,7 +65,7 @@ int  demo_replay_step(float *);
 void demo_replay_stop(int);
 void demo_replay_dump_info(void);
 const struct demo *curr_demo_replay(void);
-		
+
 /*---------------------------------------------------------------------------*/
 
 #endif

@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -54,7 +54,7 @@ static int level_scan_metadata(struct level *l, char *av)
             return 0;
         *v = '\0';
         v++;
-        
+
         /* look the end of the value */
         e = strchr(v, '\n');
         if (e == NULL)
@@ -119,10 +119,10 @@ int level_load(const char *filename, struct level *level)
     struct s_file sol; /* The solid file data */
     int i;
     int money; /* sum of coin value */
-   
+
     /* raz level */
     memset(level, 0, sizeof(struct level));
-    
+
     memset(&sol, 0, sizeof(sol));
 
     /* Try to load the sol file */
@@ -138,7 +138,7 @@ int level_load(const char *filename, struct level *level)
 
     /* Set filename */
     strcpy(level->file, filename);
-    
+
     /* Init hs with default values */
     score_init_hs(&level->time_score, 59999, 0);
     score_init_hs(&level->goal_score, 59999, 0);
@@ -149,7 +149,7 @@ int level_load(const char *filename, struct level *level)
     for (i = 0; i < sol.cc; i++)
         money += sol.cv[i].n;
     level->coin_score.coins[0] = money;
-    
+
     /* Scan sol metadata */
     if (sol.ac > 0)
         level_scan_metadata(level, sol.av);
@@ -166,7 +166,7 @@ int level_load(const char *filename, struct level *level)
     HOP(level->goal_score.timer, <=);
     HOP(level->coin_score.coins, >=);
 
-    /* Free the sol structure, no more needed */    
+    /* Free the sol structure, no more needed */
     sol_free(&sol);
 
     return 1;

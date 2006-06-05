@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -78,13 +78,13 @@ void demo_dump_info(const struct demo *d)
 FILE *demo_header_read(const char *filename, struct demo *d)
 /* Open a demo file, fill the demo information structure
  * If success, return the file pointer positioned after the header
- * If fail, return null 
+ * If fail, return null
  */
 {
     FILE *fp;
     char *basename;
     char buf[MAXSTR];
-    
+
     if ((fp = fopen(filename, FMODE_RB)))
     {
         int magic;
@@ -101,22 +101,22 @@ FILE *demo_header_read(const char *filename, struct demo *d)
         {
             d->timer = t;
             strncpy(d->filename, filename, PATHMAX);
-            
+
             /* Remove the directory delimiter */
             basename = strrchr(filename, '/');
-            
+
             if (basename != NULL)
                 strncpy(buf, basename + 1, MAXSTR);
             else
                 strncpy(buf, filename, MAXSTR);
-            
+
             /* Remove the extension */
             t = strlen(buf) - strlen(REPLAY_EXT);
             if ((t > 1) && (strcmp(buf + t, REPLAY_EXT) == 0))
                 buf[t] = '\0';
             strncpy(d->name, buf, PATHMAX);
             d->name[PATHMAX - 1] = '\0';
-            
+
             get_index (fp, &d->coins);
             get_index (fp, &d->state);
             get_index (fp, &d->mode);
@@ -151,7 +151,7 @@ static FILE *demo_header_write(struct demo *d)
     int version = REPLAY_VERSION;
     int zero  = 0;
     FILE *fp;
-    
+
     if (d->filename && (fp = fopen(d->filename, FMODE_WB)))
     {
         put_index (fp, &magic);
@@ -189,7 +189,7 @@ void demo_header_stop(FILE *fp, int coins, int timer, int state)
     put_index(fp, &state);
     fseek(fp, pos, SEEK_SET);
 }
-        
+
 /*---------------------------------------------------------------------------*/
 
 static void demo_scan_file(const char *filename)
@@ -346,9 +346,9 @@ void demo_play_step(float dt)
     {
         fps_track += dt;
         if (fps_track > fps_cap)
-        {            
+        {
             put_float(demo_fp, &fps_track);
-            put_game_state(demo_fp); 
+            put_game_state(demo_fp);
             fps_track = 0.0f;
         }
     }
@@ -455,7 +455,7 @@ int demo_replay_step(float *dt)
             game_step(g, *dt, &sv);
 
             /* Load real current game state from file. */
-            
+
             if (get_game_state(demo_fp))
                 return 1;
         }

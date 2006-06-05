@@ -13,8 +13,8 @@
  * General Public License for more details.
  */
 
-/* The following declaration is needed to have the putenv function 
- * http://www.gnu.org/software/libc/manual/html_node/Environment-Access.html 
+/* The following declaration is needed to have the putenv function
+ * http://www.gnu.org/software/libc/manual/html_node/Environment-Access.html
  */
 
 #define _XOPEN_SOURCE 1

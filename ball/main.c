@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -132,16 +132,16 @@ static int loop(void)
             case SDL_MOUSEBUTTONDOWN:
                 d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 1);
                 break;
-                
+
             case SDL_MOUSEBUTTONUP:
                 d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 0);
                 break;
 
             case SDL_KEYDOWN:
-                
+
                 switch (e.key.keysym.sym)
                 {
-                
+
                 case SDLK_RETURN:
                     d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
                     break;
@@ -160,9 +160,9 @@ static int loop(void)
                 case SDLK_DOWN:
                     st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +JOY_MAX);
                     break;
-                             
+
                 default:
-                    if (SDL_EnableUNICODE(-1)) 
+                    if (SDL_EnableUNICODE(-1))
                         d = st_keybd(e.key.keysym.unicode, 1);
                     else
                         d = st_keybd(e.key.keysym.sym, 1);
@@ -286,34 +286,34 @@ int main(int argc, char *argv[])
     SDL_Joystick *joy = NULL;
     int t1, t0;               /* ticks */
     SDL_Surface *icon;        /* WM icon */
-   
+
     language_init("neverball", CONFIG_LOCALE);
 
     parse_args(argc, argv);
-    
+
     if (!config_data_path(data_path, SET_FILE))
     {
         fprintf(stderr, _("Failure to establish game data directory\n"));
         return 1;
     }
-    
+
     if (!config_user_path(NULL))
     {
         fprintf(stderr, _("Failure to establish config directory\n"));
         return 1;
     }
-    
+
     /* Intitialize the configuration */
-    
+
     config_init();
     config_load();
-    
+
     /* Initialize the language */
-    
+
     language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
 
     /* Prepare run without sdl */
-    
+
     if (replay_path != NULL)
     {
         if (!level_replay(replay_path))
@@ -328,7 +328,7 @@ int main(int argc, char *argv[])
         else if (display_info)
             demo_replay_dump_info();
     }
-    
+
     if (level_path != NULL)
     {
         struct level l;
@@ -348,9 +348,9 @@ int main(int argc, char *argv[])
         }
         return 0;
     }
-    
+
     /* Initialize SDL system and subsystems */
-    
+
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
     {
         fprintf(stderr, "%s\n", SDL_GetError());
@@ -404,15 +404,15 @@ int main(int argc, char *argv[])
         fprintf(stderr, "%s\n", SDL_GetError());
         return 1;
     }
-   
-    /* Set the WM icon */ 
-    
+
+    /* Set the WM icon */
+
     icon = IMG_Load(config_data("icon/neverball.png"));
     SDL_WM_SetIcon(icon, NULL);
-    SDL_WM_SetCaption(TITLE, TITLE); 
+    SDL_WM_SetCaption(TITLE, TITLE);
 
     /* Initialize the run state. */
-    
+
     init_state(&st_null);
     if (replay_path != NULL)
     {
@@ -458,9 +458,9 @@ int main(int argc, char *argv[])
         SDL_JoystickClose(joy);
 
     SDL_Quit();
-    
+
     config_save();
-    
+
     return 0;
 }
 

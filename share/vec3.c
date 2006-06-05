@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -195,9 +195,9 @@ void m_rot(float *M, const float *v, float a)
 
     v_nrm(u, v);
 
-    U[0] = u[0] * u[0]; U[4] = u[0] * u[1]; U[8] = u[0] * u[2]; 
-    U[1] = u[1] * u[0]; U[5] = u[1] * u[1]; U[9] = u[1] * u[2]; 
-    U[2] = u[2] * u[0]; U[6] = u[2] * u[1]; U[A] = u[2] * u[2]; 
+    U[0] = u[0] * u[0]; U[4] = u[0] * u[1]; U[8] = u[0] * u[2];
+    U[1] = u[1] * u[0]; U[5] = u[1] * u[1]; U[9] = u[1] * u[2];
+    U[2] = u[2] * u[0]; U[6] = u[2] * u[1]; U[A] = u[2] * u[2];
 
     S[0] =   0.f; S[4] = -u[2]; S[8] =  u[1];
     S[1] =  u[2]; S[5] =   0.f; S[9] = -u[0];

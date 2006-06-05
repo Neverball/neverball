@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -40,7 +40,7 @@ void ball_init(int b)
 
     config_get_s(CONFIG_BALL, name, MAXSTR);
     ball_text[0] = make_image_from_file(NULL, NULL, NULL, NULL, name);
-    
+
     config_get_s(CONFIG_BALL_BONUS, name, MAXSTR);
     ball_text[1] = make_image_from_file(NULL, NULL, NULL, NULL, name);
 
@@ -48,7 +48,7 @@ void ball_init(int b)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     ball_list = glGenLists(1);
-    
+
     glNewList(ball_list, GL_COMPILE);
     {
         for (i = 0; i < stacks; i++)
@@ -155,7 +155,7 @@ void mark_init(int b)
     int i, slices = b ? 32 : 16;
 
     mark_list = glGenLists(1);
-    
+
     glNewList(mark_list, GL_COMPILE);
     {
         glBegin(GL_TRIANGLE_FAN);
@@ -374,7 +374,7 @@ void goal_init(int b)
                 {
                     float x = fcosf(2.f * PI * i / n);
                     float y = fsinf(2.f * PI * i / n);
-            
+
                     glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
                     glVertex3f(x, 0.0f, y);
 
@@ -550,7 +550,7 @@ void flag_init(int b)
                 {
                     float x = fcosf(2.f * PI * i / n) * 0.01f;
                     float y = fsinf(2.f * PI * i / n) * 0.01f;
-            
+
                     glColor3f(1.0f, 1.0f, 1.0f);
                     glVertex3f(x, 0.0f,        y);
                     glVertex3f(x, GOAL_HEIGHT, y);
@@ -667,7 +667,7 @@ void fade_draw(float k)
             glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
             glDisable(GL_TEXTURE_2D);
-            
+
             glColor4f(0.0f, 0.0f, 0.0f, k);
 
             glBegin(GL_QUADS);

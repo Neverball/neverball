@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERPUTT is  free software; you can redistribute  it and/or modify
@@ -62,7 +62,7 @@ static int score_card(const char  *title,
         if ((jd = gui_hstack(id)))
         {
             if ((kd = gui_varray(jd)))
-            { 
+            {
                 if (p1) gui_label(kd, _("O"),         0, GUI_NE, 0, 0);
                 if (p1) gui_label(kd, hole_out(0), 0, 0,           gui_wht, gui_wht);
                 if (p1) gui_label(kd, hole_out(1), 0, GUI_SE * l1, gui_red, gui_wht);
@@ -709,7 +709,7 @@ static int roll_keybd(int c, int d)
 static int goal_enter(void)
 {
     int id;
-    
+
     if ((id = gui_label(0, _("It's In!"), GUI_MED, GUI_ALL, gui_grn, gui_grn)))
         gui_layout(id, 0, 0);
 
@@ -820,7 +820,7 @@ static int stop_keybd(int c, int d)
 static int fall_enter(void)
 {
     int id;
-    
+
     if ((id = gui_label(0, _("1 Stroke Penalty"), GUI_MED, GUI_ALL, gui_blk, gui_red)))
         gui_layout(id, 0, 0);
 

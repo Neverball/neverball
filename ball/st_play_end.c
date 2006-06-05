@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -63,10 +63,10 @@ static int play_end_action(int i)
 
     case PLAY_END_NAME:
         return goto_name(&st_play_end_bis, &st_play_end_bis);
-        
+
     case PLAY_END_DONE:
         return goto_state(&st_done);
-        
+
     case PLAY_END_NEXT:
         level_next();
         return goto_state(&st_level);
@@ -112,7 +112,7 @@ static int play_end_init(int *gidp)
 
         gui_space(id);
 
-        if (mode == MODE_CHALLENGE && 
+        if (mode == MODE_CHALLENGE &&
             (lg->state == GAME_GOAL || lg->state == GAME_SPEC || l->is_bonus))
         {
             int coins = lg->coins;
@@ -145,7 +145,7 @@ static int play_end_init(int *gidp)
         {
             balls_id = score_id = coins_id = 0;
         }
-        
+
         if (state == GAME_GOAL)
         {
             gui_space(id);
@@ -176,7 +176,7 @@ static int play_end_init(int *gidp)
                 b = mode != MODE_CHALLENGE || ((state == GAME_FALL || state == GAME_TIME) && !lg->dead && !l->is_bonus);
                 rlid = gui_maybe(jd, _("Retry Level"), PLAY_END_SAME, b);
             }
-            
+
             gui_maybe(jd, _("Save Replay"), PLAY_END_SAVE, demo_play_saved());
 
             /* default is next if the next level is newly unkocked */
@@ -211,12 +211,12 @@ static int play_end_enter(void)
 {
     int gid;
     int r;
-    
+
     r = play_end_init(&gid);
-    
+
     gui_pulse(gid, 1.2f);
     audio_music_fade_out(2.0f);
-    return r; 
+    return r;
 }
 
 static int play_end_bis_enter(void)
@@ -237,7 +237,7 @@ static void play_end_timer(int id, float dt)
 
     if (time_state() < 2.f)
         game_step((state == GAME_GOAL || state == GAME_SPEC) ? gg : gf, dt, NULL);
-    
+
     if (time_state() > 1.f && DT > 0.05f && coins_id != 0)
     {
         int coins = gui_value(coins_id);
@@ -248,7 +248,7 @@ static void play_end_timer(int id, float dt)
 
             gui_set_count(coins_id, coins - 1);
             gui_pulse(coins_id, 1.1f);
-            
+
             gui_set_count(score_id, score + 1);
             gui_pulse(score_id, 1.1f);
 

@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -46,7 +46,7 @@ static int title_action(int i)
 
     switch (i)
     {
-    case TITLE_PLAY: 
+    case TITLE_PLAY:
         config_get_s(CONFIG_PLAYER, player, MAXNAM);
 
         if (player[0] == '\0')
@@ -161,7 +161,7 @@ static void title_timer(int id, float dt)
             if (demo_replay_step(&t))
                 demo_time += t;
             else
-            { 
+            {
                 demo_replay_stop(0);
                 game_fade(+1.0f);
                 real_time = 0.0f;
@@ -189,9 +189,9 @@ static int title_keybd(int c, int d)
 {
     if (d && c == SDLK_c && ALLOW_CHEAT)
         config_tgl_d(CONFIG_CHEAT);
-    return 1; 
+    return 1;
 }
-        
+
 static int title_buttn(int b, int d)
 {
     if (d)

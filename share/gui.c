@@ -1209,7 +1209,7 @@ static void gui_paint_clock(int id)
 
     GLfloat dx_large = (GLfloat) digit_w[i][0];
     GLfloat dx_small = (GLfloat) digit_w[i][0] * 0.75f;
-    
+
     if (widget[id].value < 0)
         return;
 

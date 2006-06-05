@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERPUTT is  free software; you can redistribute  it and/or modify
@@ -106,7 +106,7 @@ static void game_draw_vect_prim(const struct s_file *fp, GLenum mode)
     v_cpy(z, view_e[2]);
 
     r = fp->uv[ball].r;
-    
+
     glBegin(mode);
     {
         glColor4f(1.0f, 1.0f, 0.5f, 0.5f);
@@ -273,7 +273,7 @@ void game_draw(int pose)
     const float light_p[4] = { 8.f, 32.f, 8.f, 1.f };
 
     const struct s_file *fp = &file;
-    
+
     float fov = FOV;
 
     if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
@@ -430,7 +430,7 @@ static int game_update_state(float dt)
         jump_b  = 1;
         jump_e  = 0;
         jump_dt = 0.f;
-        
+
         audio_play(AUD_JUMP, 1.f);
     }
     if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, ball) == 0)
@@ -514,7 +514,7 @@ int game_step(const float g[3], float dt)
         for (i = 0; i < n; i++)
         {
             d = sol_step(fp, g, t, ball, &m);
-            
+
             if (b < d)
                 b = d;
             if (m)

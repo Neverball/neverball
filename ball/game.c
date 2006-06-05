@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -377,7 +377,7 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
 {
     const float *ball_p = file.uv->p;
     const float  ball_r = file.uv->r;
-    
+
     glPushAttrib(GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
     {
         glPushMatrix();
@@ -644,7 +644,7 @@ static int game_update_state(int *state_value)
     struct s_goal *g;
 
     /* Test for a coin grab. */
-    
+
     if (bt && (n = sol_coin_test(fp, p, COIN_RADIUS)) > 0)
     {
         coin_color(c, n);
@@ -662,7 +662,7 @@ static int game_update_state(int *state_value)
             }
             else
                 audio_play(AUD_COIN, 1.f);
-        } 
+        }
         else
             audio_play(AUD_COIN, 1.f);
     }
@@ -678,7 +678,7 @@ static int game_update_state(int *state_value)
         jump_b  = 1;
         jump_e  = 0;
         jump_dt = 0.f;
-        
+
         audio_play(AUD_JUMP, 1.f);
     }
     if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 0)
@@ -845,7 +845,7 @@ void game_set_pos(int x, int y)
 {
     game_ix += 40.f * y / config_get_d(CONFIG_MOUSE_SENSE);
     game_iz += 40.f * x / config_get_d(CONFIG_MOUSE_SENSE);
-    
+
 #if NO_AA
     game_no_aa();
 #else

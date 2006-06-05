@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -31,7 +31,7 @@
  * the variable.
  *
  * The Xs are as documented by struct s_file:
- * 
+ *
  *     f  File          (struct s_file)
  *     m  Material      (struct s_mtrl)
  *     v  Vertex        (struct s_vert)
@@ -68,7 +68,7 @@
  * lumps.  "ei" and "ej" are  edge indices into some "ev" edge vector.
  * An edge is  defined by two vertices, so  an edge structure consists
  * of "vi" and "vj".  And so on.
- * 
+ *
  * Those members that do not conform to this convention are explicitly
  * documented with a comment.
  *

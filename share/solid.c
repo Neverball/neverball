@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -333,7 +333,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->ic; i++) get_index(fin, fp->iv + i);
 
     if (fp->ac) fread(fp->av, 1, fp->ac, fin);
-    
+
     return 1;
 }
 
@@ -510,7 +510,7 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
 
     put_index(fin, &magic);
     put_index(fin, &version);
-    
+
     put_index(fin, &fp->mc);
     put_index(fin, &fp->vc);
     put_index(fin, &fp->ec);
@@ -784,7 +784,7 @@ static float sol_bounce(struct s_ball *up,
     v_mad(u, w, n, -wn);
     v_mad(v, v, n, -vn);
     v_mad(v, v, u, +km * dt);
-    v_mad(v, v, n, xn + yn); 
+    v_mad(v, v, n, xn + yn);
 
     v_mad(p, q, n, up->r);
 
@@ -1045,7 +1045,7 @@ static float sol_test_lump(float dt,
                 t = u;
             }
         }
- 
+
     /* Test all edges */
 
     if (up->r > 0.0f)
@@ -1389,7 +1389,7 @@ int sol_swch_test(struct s_file *fp, int ui)
                     /* The ball enter */
                     if (xp->t0 == 0)
                         xp->e = 1;
-                    
+
                     /* Toggle the state, update the path. */
 
                     xp->f = xp->f ? 0 : 1;

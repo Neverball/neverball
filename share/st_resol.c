@@ -38,7 +38,7 @@ static int resol_action(int i)
 {
     int f = config_get_d(CONFIG_FULLSCREEN);
     int r = 1;
-    
+
     switch (i)
     {
     case LANG_BACK:
@@ -68,7 +68,7 @@ static int resol_enter(void)
     /* Get the current resolution. */
     w = config_get_d(CONFIG_WIDTH);
     h = config_get_d(CONFIG_HEIGHT);
-    
+
     /* Get the resolution list. */
     resolutions = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
 
@@ -92,7 +92,7 @@ static int resol_enter(void)
                 gui_filler(kd);
                 gui_start(kd, _("Back"), GUI_SML, LANG_BACK, 0);
             }
-            
+
             if (resolutions != NULL)
             {
                 hp = wp = -1;
@@ -114,7 +114,7 @@ static int resol_enter(void)
                         c++;
                     }
                 }
-                
+
                 for(; c % 4 != 0; c++)
                         gui_filler(kd);
             }

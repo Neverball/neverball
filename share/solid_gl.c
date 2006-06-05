@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -45,7 +45,7 @@ static int sol_enum_mtrl(const struct s_file *fp,
             if (fp->gv[fp->iv[g0 + gi]].mi == mi)
                 c++;
     }
-                    
+
     /* Count all body geoms with this material. */
 
     for (gi = 0; gi < bp->gc; gi++)
@@ -392,7 +392,7 @@ static void sol_shad_list(const struct s_file *fp,
             glTranslatef(p[0], p[2], 0.0f);
         }
         glMatrixMode(GL_MODELVIEW);
-        
+
         /* Draw the body. */
 
         glCallList(list);
@@ -444,7 +444,7 @@ static void sol_load_objects(struct s_file *fp, int s)
         if (sol_enum_body(fp, bp, M_OPAQUE | M_ENVIRONMENT))
         {
             fp->bv[i].ol = glGenLists(1);
-            
+
             glNewList(fp->bv[i].ol, GL_COMPILE);
             {
                 sol_draw_body(fp, fp->bv + i, M_OPAQUE | M_ENVIRONMENT);

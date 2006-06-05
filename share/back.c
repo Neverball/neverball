@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -41,7 +41,7 @@ void back_init(const char *s, int b)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 
     back_list = glGenLists(1);
-    
+
     glNewList(back_list, GL_COMPILE);
     {
         glColor3f(1.f, 1.f, 1.f);
@@ -102,7 +102,7 @@ void back_draw(float t)
 
         glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
-        
+
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glScalef(BACK_DIST, BACK_DIST, BACK_DIST);
         glRotatef(dz, 0.f, 0.f, 1.f);

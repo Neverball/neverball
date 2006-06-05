@@ -1,4 +1,4 @@
-/*   
+/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -98,12 +98,12 @@ static int save_enter(void)
     if ((id = gui_vstack(0)))
     {
         gui_label(id, _("Replay Name"), GUI_MED, GUI_ALL, 0, 0);
-        
+
         gui_space(id);
         gui_space(id);
-        
+
         file_id = gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
-        
+
         gui_space(id);
 
         gui_keyboard(id);
@@ -112,10 +112,10 @@ static int save_enter(void)
             enter_id = gui_start(jd, _("Save"), GUI_SML, SAVE_SAVE, 0);
             gui_state(jd, _("Cancel"), GUI_SML, SAVE_CANCEL, 0);
         }
-        
+
         gui_layout(id, 0, 0);
     }
-    
+
     SDL_EnableUNICODE(1);
 
     return id;
@@ -163,7 +163,7 @@ static int clobber_action(int i)
     if (i == SAVE_SAVE)
     {
         demo_play_save(filename);
-        return goto_state(ok_state);    
+        return goto_state(ok_state);
     }
     return goto_state(&st_save);
 }
