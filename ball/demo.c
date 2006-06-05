@@ -103,11 +103,7 @@ FILE *demo_header_read(const char *filename, struct demo *d)
             strncpy(d->filename, filename, PATHMAX);
             
             /* Remove the directory delimiter */
-#ifdef _WIN32
-            basename = strrchr(filename, '\\');
-#else
             basename = strrchr(filename, '/');
-#endif
             
             if (basename != NULL)
                 strncpy(buf, basename + 1, MAXSTR);
