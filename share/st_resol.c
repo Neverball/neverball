@@ -28,7 +28,7 @@
 extern struct state st_conf;
 extern struct state st_null;
 
-SDL_Rect ** resolutions;
+static SDL_Rect **resolutions;
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,9 +46,9 @@ static int resol_action(int i)
         break;
 
     default:
-	goto_state(&st_null);
-	r = config_mode(f, resolutions[i-1]->w, resolutions[i-1]->h);
-	goto_state(&st_conf);
+        goto_state(&st_null);
+        r = config_mode(f, resolutions[i - 1]->w, resolutions[i - 1]->h);
+        goto_state(&st_conf);
         break;
     }
 
@@ -74,12 +74,12 @@ static int resol_enter(void)
 
     if ((int)resolutions == -1)
     {
-	resolutions = NULL;
-	printf("Any resolution\n");
+        resolutions = NULL;
+        printf("Any resolution\n");
     }
     else if (resolutions == NULL)
     {
-	printf("No resolution\n");
+        printf("No resolution\n");
     }
 
     if ((id = gui_harray(0)))
@@ -89,32 +89,35 @@ static int resol_enter(void)
             if ((kd = gui_harray(jd)))
             {
                 gui_label(kd, _("Resolution"), GUI_SML, GUI_ALL, 0, 0);
-		gui_filler(kd);
-                gui_start(kd, _("Back"),     GUI_SML, LANG_BACK, 0);
+                gui_filler(kd);
+                gui_start(kd, _("Back"), GUI_SML, LANG_BACK, 0);
             }
-	    
-	    if (resolutions != NULL)
-	    {
-		hp = wp = -1;
-		c = 0;
-		for(i=0; resolutions[i]; i++)
-		{
-		    if (wp!=resolutions[i]->w || hp!=resolutions[i]->h)
-		    {
-			static char st[100];
-			wp = resolutions[i]->w;
-			hp = resolutions[i]->h;
-			sprintf(st, "%d x %d", wp, hp);
-			if (c % 4 == 0)
-				kd = gui_harray(jd);
-			gui_state(kd, st,   GUI_SML, i+1, (w==wp) && (h==hp));
-			c++;
-		    }
-		}
-		
-		for(; c%4!=0; c++)
-			gui_filler(kd);
-	    }
+            
+            if (resolutions != NULL)
+            {
+                hp = wp = -1;
+                c = 0;
+                for(i = 0; resolutions[i]; i++)
+                {
+                    if (wp != resolutions[i]->w || hp != resolutions[i]->h)
+                    {
+                        static char st[100];
+                        wp = resolutions[i]->w;
+                        hp = resolutions[i]->h;
+                        sprintf(st, "%d x %d", wp, hp);
+
+                        if (c % 4 == 0)
+                                kd = gui_harray(jd);
+
+                        gui_state(kd, st, GUI_SML, i + 1,
+                                  (w == wp) && (h == hp));
+                        c++;
+                    }
+                }
+                
+                for(; c % 4 != 0; c++)
+                        gui_filler(kd);
+            }
         }
         gui_layout(id, 0, 0);
     }

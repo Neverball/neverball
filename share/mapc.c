@@ -53,26 +53,26 @@
 
 /* Ohhhh... arbitrary! */
 
-#define MAXM	256
+#define MAXM    256
 #define MAXV    32767
-#define MAXE	32767
-#define MAXS	32767
-#define MAXT	32767
-#define MAXG	32767
-#define MAXL	1024
-#define MAXN	1024
-#define MAXP	512
-#define MAXB	512
-#define MAXC	1024
+#define MAXE    32767
+#define MAXS    32767
+#define MAXT    32767
+#define MAXG    32767
+#define MAXL    1024
+#define MAXN    1024
+#define MAXP    512
+#define MAXB    512
+#define MAXC    1024
 #define MAXZ    16
-#define MAXJ	32
-#define MAXX	16
-#define MAXR	1024
-#define MAXU	16
+#define MAXJ    32
+#define MAXX    16
+#define MAXR    1024
+#define MAXU    16
 #define MAXW    32
 #define MAXD    128
-#define MAXA	8192
-#define MAXI	32767
+#define MAXA    8192
+#define MAXI    32767
 
 static int overflow(const char *s)
 {
@@ -630,7 +630,7 @@ static void make_plane(int pi, int x0, int y0, int z0,
 
     v_crs(plane_n[pi], u, v);
     v_nrm(plane_n[pi], plane_n[pi]);
-	
+        
     plane_d[pi] = v_dot(plane_n[pi], p1);
 
     for (i = 0; i < 6; i++)
@@ -830,22 +830,22 @@ static void make_body(struct s_file *fp,
         if (strcmp(k[i], "targetname") == 0)
             make_sym(v[i], bi);
 
-	else if (strcmp(k[i], "target") == 0)
+        else if (strcmp(k[i], "target") == 0)
             make_ref(v[i], &bp->pi);
 
-	else if (strcmp(k[i], "model") == 0)
+        else if (strcmp(k[i], "model") == 0)
             read_obj(fp, v[i]);
 
-	else if (strcmp(k[i], "origin") == 0)
+        else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%d %d %d", &x, &y, &z);
 
-	else if (strcmp(k[i], "classname") != 0)
+        else if (strcmp(k[i], "classname") != 0)
         {
-	    /* Considers other strings as metadata */
+            /* Considers other strings as metadata */
             strcat(fp->av, k[i]);
             strcat(fp->av, "=");
             strcat(fp->av, v[i]);
-	    strcat(fp->av, "\n");
+            strcat(fp->av, "\n");
             fp->ac += (int) (strlen(v[i]) + (strlen(k[i])) + 2);
         }
     }
@@ -1095,7 +1095,7 @@ static void make_swch(struct s_file *fp,
 
         if (strcmp(k[i], "state") == 0)
             xp->f = atoi(v[i]);
-	
+        
         if (strcmp(k[i], "invisible") == 0)
             xp->i = atoi(v[i]);
 
@@ -1314,7 +1314,7 @@ static void clip_vert(struct s_file *fp,
 
     m_basis(M, fp->sv[si].n, fp->sv[sj].n, fp->sv[sk].n);
     m_xps(X, M);
-	
+        
     if (m_inv(I, X))
     {
         m_vxfm(p, I, d);
@@ -2094,8 +2094,7 @@ static void dump_file(struct s_file *p, const char *name)
            p->rc, p->uc, p->ac, p->ic);
 }
 
-/* Skip the ugly SDL main substitution */
-/* Since we only need sdl_image */
+/* Skip the ugly SDL main substitution since we only need sdl_image. */
 #ifdef main
 #    undef main
 #endif

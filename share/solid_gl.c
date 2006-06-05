@@ -587,12 +587,12 @@ int sol_load_gl(struct s_file *fp, const char *filename, int k, int s)
 {
     if (sol_load_only_file(fp, filename))
     {
-	sol_load_textures(fp, k);
-	sol_load_objects (fp, s);
-	return 1;
+        sol_load_textures(fp, k);
+        sol_load_objects (fp, s);
+        return 1;
     }
     else
-	return 0;
+        return 0;
 }
 
 /*---------------------------------------------------------------------------*/

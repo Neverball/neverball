@@ -412,38 +412,36 @@ void jump_init(int b)
 
     jump_list = glGenLists(2);
 
-    for (k=0; k<12; k++)
+    for (k = 0; k < 12; k++)
     {
-	glNewList(jump_list + k, GL_COMPILE);
-	{
-	    glPushAttrib(GL_TEXTURE_BIT  |
-		    GL_LIGHTING_BIT |
-		    GL_DEPTH_BUFFER_BIT);
-	    {
-		glEnable(GL_COLOR_MATERIAL);
-		glDisable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
-		glDepthMask(GL_FALSE);
+        glNewList(jump_list + k, GL_COMPILE);
+        {
+            glPushAttrib(GL_TEXTURE_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
+            {
+                glEnable(GL_COLOR_MATERIAL);
+                glDisable(GL_LIGHTING);
+                glDisable(GL_TEXTURE_2D);
+                glDepthMask(GL_FALSE);
 
-		glBegin(GL_QUAD_STRIP);
-		{
-		    for (i = 0; i <= n; i++)
-		    {
-			float x = fcosf(2.f * PI * i / n);
-			float y = fsinf(2.f * PI * i / n);
+                glBegin(GL_QUAD_STRIP);
+                {
+                    for (i = 0; i <= n; i++)
+                    {
+                        float x = fcosf(2.f * PI * i / n);
+                        float y = fsinf(2.f * PI * i / n);
 
-			glColor4f(1.0f, 1.0f, 1.0f, (k==0 ? 0.5f : 0.8f));
-			glVertex3f(x, 0.0f, y);
+                        glColor4f(1.0f, 1.0f, 1.0f, (k == 0 ? 0.5f : 0.8f));
+                        glVertex3f(x, 0.0f, y);
 
-			glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
-			glVertex3f(x, JUMP_HEIGHT, y);
-		    }
-		}
-		glEnd();
-	    }
-	    glPopAttrib();
-	}
-	glEndList();
+                        glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
+                        glVertex3f(x, JUMP_HEIGHT, y);
+                    }
+                }
+                glEnd();
+            }
+            glPopAttrib();
+        }
+        glEndList();
     }
 }
 
@@ -484,36 +482,34 @@ void swch_init(int b)
 
     for (k = 0; k < 4; k++)
     {
-	glNewList(swch_list + k, GL_COMPILE);
-	{
-	    glPushAttrib(GL_TEXTURE_BIT  |
-		    GL_LIGHTING_BIT |
-		    GL_DEPTH_BUFFER_BIT);
-	    {
-		glEnable(GL_COLOR_MATERIAL);
-		glDisable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
-		glDepthMask(GL_FALSE);
+        glNewList(swch_list + k, GL_COMPILE);
+        {
+            glPushAttrib(GL_TEXTURE_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
+            {
+                glEnable(GL_COLOR_MATERIAL);
+                glDisable(GL_LIGHTING);
+                glDisable(GL_TEXTURE_2D);
+                glDepthMask(GL_FALSE);
 
-		glBegin(GL_QUAD_STRIP);
-		{
-		    for (i = 0; i <= n; i++)
-		    {
-			float x = fcosf(2.f * PI * i / n);
-			float y = fsinf(2.f * PI * i / n);
+                glBegin(GL_QUAD_STRIP);
+                {
+                    for (i = 0; i <= n; i++)
+                    {
+                        float x = fcosf(2.f * PI * i / n);
+                        float y = fsinf(2.f * PI * i / n);
 
-			glColor4fv(swch_colors[2*k]);
-			glVertex3f(x, 0.0f, y);
+                        glColor4fv(swch_colors[2 * k]);
+                        glVertex3f(x, 0.0f, y);
 
-			glColor4fv(swch_colors[2*k+1]);
-			glVertex3f(x, SWCH_HEIGHT, y);
-		    }
-		}
-		glEnd();
-	    }
-	    glPopAttrib();
-	}
-	glEndList();
+                        glColor4fv(swch_colors[2 * k + 1]);
+                        glVertex3f(x, SWCH_HEIGHT, y);
+                    }
+                }
+                glEnd();
+            }
+            glPopAttrib();
+        }
+        glEndList();
     }
 }
 
@@ -527,7 +523,7 @@ void swch_free(void)
 
 void swch_draw(int b, int e)
 {
-    glCallList(swch_list + b*2 + e);
+    glCallList(swch_list + b * 2 + e);
 }
 
 /*---------------------------------------------------------------------------*/

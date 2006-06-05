@@ -203,7 +203,7 @@ void config_load(void)
                     config_set_d(CONFIG_LAST_SET,             atoi(val));
                 else if (strcmp(key, "mode")                  == 0)
                     config_set_d(CONFIG_MODE,                 atoi(val));
-                else if (strcmp(key, "cheat")                 == 0 && ALLOW_CHEAT)
+                else if (strcmp(key, "cheat") == 0 && ALLOW_CHEAT)
                     config_set_d(CONFIG_CHEAT,                atoi(val));
 
                 else if (strcmp(key, "key_camera_1")  == 0)
@@ -315,9 +315,11 @@ void config_save(void)
                 option_d[CONFIG_LAST_SET]);
         fprintf(fp, "mode                 %d\n",
                 option_d[CONFIG_MODE]);
-	if (option_d[CONFIG_CHEAT])
-        fprintf(fp, "cheat                %d\n",
-                option_d[CONFIG_CHEAT]);
+
+        if (option_d[CONFIG_CHEAT])
+            fprintf(fp,
+                    "cheat                %d\n",
+                    option_d[CONFIG_CHEAT]);
 
         fprintf(fp, "key_camera_1         %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_1]));
@@ -355,9 +357,9 @@ int config_mode(int f, int w, int h)
 
     if (SDL_SetVideoMode(w, h, 0, SDL_OPENGL | (f ? SDL_FULLSCREEN : 0)))
     {
-	config_set_d(CONFIG_FULLSCREEN, f);
-	config_set_d(CONFIG_WIDTH, w);
-	config_set_d(CONFIG_HEIGHT, h);
+        config_set_d(CONFIG_FULLSCREEN, f);
+        config_set_d(CONFIG_WIDTH, w);
+        config_set_d(CONFIG_HEIGHT, h);
 
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
@@ -436,9 +438,9 @@ void config_get_s(int i, char *dst, int len)
     strncpy(dst, option_s[i], len);
 }
 
-const char * config_simple_get_s(int i)
+const char *config_simple_get_s(int i)
 {
-	return option_s[i];
+        return option_s[i];
 }
 
 /*---------------------------------------------------------------------------*/

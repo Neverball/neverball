@@ -61,7 +61,7 @@ void part_reset(float h)
         float t = rnd(+0.1f,      +1.0f);
         float a = rnd(-1.0f * PI, +1.0f * PI);
         float w = rnd(-2.0f * PI, +2.0f * PI);
-	int k = i % 6;
+        int k = i % 6;
 
         part_goal[i].t = t;
         part_goal[i].a = V_DEG(a);
@@ -262,7 +262,7 @@ void part_draw_goal(float rx, float ry, float radius, float a, int spe)
             if (part_goal[i].t > 0.f)
                 part_draw(part_goal[i].p,
                           spe ? part_goal[i].c : yel,
-			  a,
+                          a,
                           radius - 0.05f, rx, ry, r * part_goal[i].w);
     }
     glPopAttrib();

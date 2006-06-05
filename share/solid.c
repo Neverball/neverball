@@ -29,8 +29,8 @@
 #include "base_config.h"
 #include "binary.h"
 
-#define MAGIC 0x4F425251  /* Neverball sol file magic number (should not change) */
-#define SOL_VERSION  5    /* Neverball sol file format version (can change)      */
+#define MAGIC 0x4F425251        /* SOL file magic number (should not change). */
+#define SOL_VERSION  5          /* SOL file format version (can change).      */
 
 #define LARGE 1.0e+5f
 
@@ -69,8 +69,8 @@ static void sol_body_v(float v[3],
 }
 
 void sol_body_p(float p[3],
-                       const struct s_file *fp,
-                       const struct s_body *bp)
+                const struct s_file *fp,
+                const struct s_body *bp)
 {
     float v[3];
 
@@ -250,6 +250,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
 
     get_index(fin, &magic);
     get_index(fin, &version);
+
     if (magic != MAGIC || version != SOL_VERSION)
         return 0;
 
@@ -1023,7 +1024,7 @@ static float sol_test_lump(float dt,
                            const float o[3],
                            const float w[3])
 {
-    float U[3] = {0.0f, 0.0f, 0.0f}; /* set some init value only for avoid gcc warnings */
+    float U[3] = {0.0f, 0.0f, 0.0f}; /* init value only to avoid gcc warnings */
     float u, t = dt;
     int i;
 
@@ -1313,10 +1314,10 @@ struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
 }
 
 int sol_jump_test(struct s_file *fp, float *p, int ui)
-/* Test if the ball ui in inside a jump */
-/* Return 1 if yes and fill p with the destination position */
-/* Return 0 if no */
-/* Return 2 if the ball is on the border of a jump */
+/* Test if the ball ui is inside a jump. */
+/* Return 1 if yes and fill p with the destination position. */
+/* Return 0 if no. */
+/* Return 2 if the ball is on the border of a jump. */
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
@@ -1332,30 +1333,30 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
         r[1] = ball_p[2] - fp->jv[ji].p[2];
         r[2] = 0;
 
-	l = v_len(r) - fp->jv[ji].r;
+        l = v_len(r) - fp->jv[ji].r;
         if (l < 0 &&
             ball_p[1] > fp->jv[ji].p[1] &&
             ball_p[1] < fp->jv[ji].p[1] + JUMP_HEIGHT / 2)
         {
-	    if (l < - ball_r )
-	    {
-		p[0] = fp->jv[ji].q[0] + (ball_p[0] - fp->jv[ji].p[0]);
-		p[1] = fp->jv[ji].q[1] + (ball_p[1] - fp->jv[ji].p[1]);
-		p[2] = fp->jv[ji].q[2] + (ball_p[2] - fp->jv[ji].p[2]);
+            if (l < - ball_r )
+            {
+                p[0] = fp->jv[ji].q[0] + (ball_p[0] - fp->jv[ji].p[0]);
+                p[1] = fp->jv[ji].q[1] + (ball_p[1] - fp->jv[ji].p[1]);
+                p[2] = fp->jv[ji].q[2] + (ball_p[2] - fp->jv[ji].p[2]);
 
-		return 1;
-	    }
-	    else
-		res = 2;
+                return 1;
+            }
+            else
+                res = 2;
         }
     }
     return res;
 }
 
 int sol_swch_test(struct s_file *fp, int ui)
-/* In the sol fp, test and process the event the ball ui enters a switch
- * return 1 if a visibla switch is activated 
- * return 0 else (no switch is activated or only invisible switchs) */
+/* In the SOL fp, test and process the event the ball ui enters a switch.
+ * Return 1 if a visible switch is activated, return 0 otherwise (no switch is
+ * activated or only invisible switchs) */
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
@@ -1375,7 +1376,7 @@ int sol_swch_test(struct s_file *fp, int ui)
             r[1] = ball_p[2] - xp->p[2];
             r[2] = 0;
 
-	    l = v_len(r) - xp->r;
+            l = v_len(r) - xp->r;
             if (l < ball_r &&
                 ball_p[1] > xp->p[1] &&
                 ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
@@ -1385,10 +1386,10 @@ int sol_swch_test(struct s_file *fp, int ui)
                     int pi = xp->pi;
                     int pj = xp->pi;
 
-		    /* The ball enter */
-		    if (xp->t0 == 0)
-		        xp->e = 1;
-		    
+                    /* The ball enter */
+                    if (xp->t0 == 0)
+                        xp->e = 1;
+                    
                     /* Toggle the state, update the path. */
 
                     xp->f = xp->f ? 0 : 1;
@@ -1409,14 +1410,14 @@ int sol_swch_test(struct s_file *fp, int ui)
                     if (xp->f != xp->f0)
                         xp->t  = xp->t0;
 
-		    /* If visible, set the result */
-		    if (!xp->i)
-			res = 1;
+                    /* If visible, set the result */
+                    if (!xp->i)
+                        res = 1;
                 }
             }
-	    else if (xp->e)
-		/* A ball go out */
-		xp->e = 0;
+            else if (xp->e)
+                /* A ball go out */
+                xp->e = 0;
         }
     }
     return res;

@@ -25,11 +25,10 @@
 #include "st_lang.h"
 #include "i18n.h"
 
-
 extern struct state st_conf;
 extern struct state st_null;
 
-char ** lang_names;
+static char **lang_names;
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,9 +46,9 @@ static int lang_action(int i)
 
     default:
         goto_state(&st_null);
-	language_set(i-1);
-	config_set_s(CONFIG_LANG, language_get_code(i-1));
-	gui_init();
+        language_set(i - 1);
+        config_set_s(CONFIG_LANG, language_get_code(i - 1));
+        gui_init();
 
         goto_state(&st_conf);
         break;
@@ -63,7 +62,7 @@ static int lang_enter(void)
     int id, jd, kd;
     int i;
     int l;
-    char * ln, * ln1, * ln2;
+    char *ln, *ln1, *ln2;
 
     back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
 
@@ -77,33 +76,33 @@ static int lang_enter(void)
             if ((kd = gui_harray(jd)))
             {
                 gui_label(kd, _("Language"), GUI_SML, GUI_ALL, 0, 0);
-		gui_filler(kd);
-                gui_start(kd, _("Back"),     GUI_SML, LANG_BACK, 0);
+                gui_filler(kd);
+                gui_start(kd, _("Back"), GUI_SML, LANG_BACK, 0);
             }
-	    
-	    lang_names = calloc(language_count(), sizeof(char*));
 
-	    gui_state(jd, _(language_get_name(0)),   GUI_SML, 1,    (l==0));
-	    for(i=1; i<=language_count(); i++)
-	    {
-		language_set(i);
-		ln1 = _(language_get_name(i));
-		language_set(l);
-		ln2 = _(language_get_name(i));
-		if (strcmp(ln1, ln2) == 0)
-		    ln = ln1;
-		else
-		{
-		    ln = malloc(sizeof(char)*(strlen(ln1)+strlen(ln2)+4));
-		    lang_names[i-1] = ln;
-		    strcpy(ln, ln1);
-		    strcat(ln, " (");
-		    strcat(ln, ln2);
-		    strcat(ln, ")");
-		}
+            lang_names = calloc(language_count(), sizeof(char *));
 
-		gui_state(jd, ln,   GUI_SML, i+1,    (l==i));
-	    }
+            gui_state(jd, _(language_get_name(0)), GUI_SML, 1, (l == 0));
+            for (i = 1; i <= language_count(); i++)
+            {
+                language_set(i);
+                ln1 = _(language_get_name(i));
+                language_set(l);
+                ln2 = _(language_get_name(i));
+                if (strcmp(ln1, ln2) == 0)
+                    ln = ln1;
+                else
+                {
+                    ln = malloc(sizeof(char) * (strlen(ln1) + strlen(ln2) + 4));
+                    lang_names[i - 1] = ln;
+                    strcpy(ln, ln1);
+                    strcat(ln, " (");
+                    strcat(ln, ln2);
+                    strcat(ln, ")");
+                }
+
+                gui_state(jd, ln, GUI_SML, i + 1, (l == i));
+            }
         }
         gui_layout(id, 0, 0);
     }
@@ -116,9 +115,10 @@ static int lang_enter(void)
 static void lang_leave(int id)
 {
     int i;
-    for(i=0;i<language_count();i++)
-	    if (lang_names[i] != NULL)
-		    free(lang_names[i]);
+
+    for (i = 0; i < language_count(); i++)
+        if (lang_names[i] != NULL)
+            free(lang_names[i]);
     free(lang_names);
     back_free();
     gui_delete(id);
