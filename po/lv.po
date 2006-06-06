@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-06-02 12:12+0300\n"
-"PO-Revision-Date: 2006-05-26 17:45+0300\n"
+"PO-Revision-Date: 2006-06-06 02:57+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: ball/demo.c:300
 #, c-format
 msgid "replay%02d"
-msgstr "ieraks%02d"
+msgstr "ieraksts%02d"
 
 #: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:179 ball/st_play_end.c:136
 msgid "Coins"
@@ -58,7 +58,7 @@ msgstr "Kļūda, ielādējot līmeņa failu '%s': "
 #: ball/level.c:135
 #, c-format
 msgid "Not a valid level file\n"
-msgstr "Nederīgs līmeņa fails\n"
+msgstr "nederīgs līmeņa fails\n"
 
 #: ball/level.c:215 ball/st_help.c:219 ball/st_start.c:254
 msgid "Challenge"
@@ -66,7 +66,7 @@ msgstr "Spēku pārbaude"
 
 #: ball/level.c:216 ball/st_help.c:205 ball/st_start.c:246
 msgid "Normal"
-msgstr "Spēle"
+msgstr "Normāli"
 
 #: ball/level.c:217 ball/st_help.c:213 ball/st_start.c:244
 msgid "Practice"
@@ -93,9 +93,9 @@ msgid "Fall-out"
 msgstr "Kritiens"
 
 #: ball/main.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "screen%02d.png"
-msgstr "attēls%02d.bmp"
+msgstr "attēls%02d.png"
 
 #: ball/main.c:230
 #, c-format
@@ -149,12 +149,12 @@ msgstr "Ieraksta fails '%s': "
 #: ball/main.c:325
 #, c-format
 msgid "Not a replay file\n"
-msgstr "Nav ieraksta fails\n"
+msgstr "nav ieraksta fails\n"
 
 #: ball/main.c:345
 #, c-format
 msgid "%s: --info requires --replay or --level\n"
-msgstr "%s: priekš --info nepieciešams --replay vai --level\n"
+msgstr "%s: --info nepieciešams --replay vai --level\n"
 
 #: ball/set.c:148
 #, c-format
@@ -164,7 +164,7 @@ msgstr "Kļūda, ielādējot lietotāja spēles rezultātu failu '%s': "
 #: ball/set.c:153
 #, c-format
 msgid "Incorrect format\n"
-msgstr "Nepareizs formāts\n"
+msgstr "nepareizs formāts\n"
 
 #: ball/set.c:177
 #, c-format
@@ -174,7 +174,7 @@ msgstr "Nav iespējams ielādēt komplekta failu '%s':"
 #: ball/set.c:358
 #, c-format
 msgid "B%d"
-msgstr "P%d"
+msgstr "B%d"
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
@@ -344,18 +344,16 @@ msgid "Credits"
 msgstr ""
 
 #: ball/st_help.c:69
-#, fuzzy
 msgid "Secrets"
-msgstr "Rezultāti"
+msgstr ""
 
 #: ball/st_help.c:70
 msgid "Modes"
-msgstr "Režīmi"
+msgstr ""
 
 #: ball/st_help.c:71
-#, fuzzy
 msgid "Controls"
-msgstr "Monētas"
+msgstr ""
 
 #: ball/st_help.c:72
 msgid "Rules"
@@ -368,13 +366,10 @@ msgid ""
 msgstr ""
 
 #: ball/st_help.c:87
-#, fuzzy
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\ "
 msgstr ""
-"Kustini peli, lai liektu grīdu.\\Savāc 10 monētas, lai atslēgtu mērķi.\\Vadi "
-"bumbu līdz mērķim, lai pabeigtu līmeni.\\\\Klikšķini, lai sāktu.\\"
 
 #: ball/st_help.c:121
 msgid "Left and right mouse buttons rotate the view."
@@ -409,14 +404,12 @@ msgid "Show FPS"
 msgstr "Rādīt FPS"
 
 #: ball/st_help.c:129
-#, fuzzy
 msgid "Screenshot"
-msgstr "Rezultāti"
+msgstr ""
 
 #: ball/st_help.c:130
-#, fuzzy
 msgid "Toggle Fullscreen"
-msgstr "Pilnekrāns"
+msgstr ""
 
 #: ball/st_help.c:132
 msgid "Spacebar"
@@ -448,7 +441,7 @@ msgstr ""
 
 #: ball/st_level.c:46
 msgid "Single Level"
-msgstr "Vienīgais līmenis"
+msgstr "Viens līmenis"
 
 #: ball/st_level.c:57
 msgid "*** BONUS ***"
@@ -460,7 +453,7 @@ msgstr "Līmenis "
 
 #: ball/st_level.c:82
 msgid "Cannot load the level file."
-msgstr "Nav iespējams ielādēt līmeņa failu"
+msgstr "Nav iespējams ielādēt līmeņa failu."
 
 #: ball/st_name.c:124 ball/st_save.c:113
 msgid "Cancel"
@@ -706,7 +699,7 @@ msgstr "Nav skaņas\n"
 
 #: share/base_config.h:41
 msgid "Last"
-msgstr ""
+msgstr "Pēdējais"
 
 #: share/base_config.h:77
 msgid "ttf/DejaVuSans-Bold.ttf"
