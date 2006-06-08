@@ -128,7 +128,6 @@ enum {
 #define DEFAULT_VIEW_DZ              200
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
-#define DEFAULT_LAST_SET             0
 #define DEFAULT_MODE                 1
 #define DEFAULT_CHEAT                0
 #define DEFAULT_PLAYER               ""
