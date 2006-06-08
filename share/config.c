@@ -435,7 +435,7 @@ void config_get_s(int i, char *dst, int len)
 
 const char *config_simple_get_s(int i)
 {
-        return option_s[i];
+    return option_s[i];
 }
 
 /*---------------------------------------------------------------------------*/
