@@ -631,6 +631,11 @@ void level_snap(int i)
 
     if (game_init(&level_v[i], 0, 0))
     {
+        int shadow;
+
+        if ((shadow = config_get_d(CONFIG_SHADOW)))
+            config_set_d(CONFIG_SHADOW, 0);
+
         /* Render the level and grab the screen. */
 
         config_clear();
@@ -641,6 +646,9 @@ void level_snap(int i)
 
         image_snap(filename, config_get_d(CONFIG_WIDTH),
                    config_get_d(CONFIG_HEIGHT));
+
+        if (shadow)
+            config_set_d(CONFIG_SHADOW, 1);
     }
 }
 
