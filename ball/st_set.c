@@ -34,6 +34,8 @@
 
 #define SET_GROUP 5 /* number of sets in one screen */
 
+static int last_set = 0;
+
 static int shot_id;
 static int desc_id;
 
@@ -47,13 +49,11 @@ static int set_action(int i)
         return goto_state(&st_title);
 
     case GUI_PREV:
-        config_set_d(CONFIG_LAST_SET,
-                     ((config_get_d(CONFIG_LAST_SET) / SET_GROUP) - 1) * SET_GROUP);
+        last_set = (last_set / SET_GROUP - 1) * SET_GROUP;
         return goto_state(&st_set);
 
     case GUI_NEXT:
-        config_set_d(CONFIG_LAST_SET,
-                     ((config_get_d(CONFIG_LAST_SET) / SET_GROUP) + 1) * SET_GROUP);
+        last_set = (last_set / SET_GROUP + 1) * SET_GROUP;
         return goto_state(&st_set);
 
     case GUI_NULL:
@@ -62,7 +62,7 @@ static int set_action(int i)
     default:
         if (set_exists(i))
         {
-            config_set_d(CONFIG_LAST_SET, i);
+            last_set = i;
             set_goto(i);
             return goto_state(&st_start);
         }
@@ -89,7 +89,6 @@ static int set_enter(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
-    int last_set = config_get_d(CONFIG_LAST_SET);
     int b = last_set / SET_GROUP;
     int i;
 
@@ -103,7 +102,6 @@ static int set_enter(void)
     {
         b = 0;
         last_set = 0;
-        config_set_d(CONFIG_LAST_SET, 0);
     }
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
