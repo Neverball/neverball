@@ -74,6 +74,8 @@ static float grow_goal = 0;             /* how big or small to get!          */
 const  float grow_time = 0.5f;          /* sec for the ball to get to size.  */
 static float grow_t = 0.0;              /* timer for the ball to grow...     */
 static float grow_strt = 0;             /* starting value for growth         */
+const  float grow_big  = 1.5f;          /* large factor                      */
+const  float grow_small= 0.5f;          /* small factor                      */
 
 
 
@@ -92,29 +94,29 @@ static void grow_set(const struct s_file *fp, int size)
 
     if (size == 50)
     {
-        if (grow_goal == grow_orig * 0.5f) return; /*already small!*/
-        else if (grow_goal == grow_orig * 1.5f) /* big, let's set it to normal.*/
+        if (grow_goal == grow_orig * grow_small) return; /*already small!*/
+        else if (grow_goal == grow_orig * grow_big) /* big, let's set it to normal.*/
         {
             grow = 1;
             grow_goal = grow_orig;
         }
         else /*must be normal sized.*/
         {
-            grow_goal = grow_orig * 0.5f;
+            grow_goal = grow_orig * grow_small;
             grow = 1;
         }        
     }/* done with 50% size coin */
     if (size == 150)
     {
-        if (grow_goal == grow_orig * 1.5f) return; /*already big!*/
-        else if (grow_goal == grow_orig * 0.5f) /* small, let's set it to normal.*/
+        if (grow_goal == grow_orig * grow_big) return; /*already big!*/
+        else if (grow_goal == grow_orig * grow_small) /* small, let's set it to normal.*/
         {
             grow = 1;
             grow_goal = grow_orig;
         }
         else /*must be normal sized.*/
         {
-            grow_goal = grow_orig * 1.5f;
+            grow_goal = grow_orig * grow_big;
             grow = 1;
         }
     }/* done with 150% size coin */
@@ -816,6 +818,7 @@ static int game_update_state(int *state_value)
     {
         *state_value = g->s;
         audio_play(AUD_GOAL, 1.0f);
+        grow_goal = grow_orig;
         return g->c ? GAME_SPEC : GAME_GOAL;
     }
 
@@ -888,8 +891,6 @@ int game_step(const float g[3], float dt, int *state_value)
             game_rx = game_ix;
             game_rz = game_iz;
         }
-
-        /*might need to put the call to grow_ball here.*/
 
         if (grow) grow_ball(fp,dt);
 
