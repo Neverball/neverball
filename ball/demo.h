@@ -10,9 +10,10 @@
 struct demo
 {
     char   name[PATHMAX];      /* demo basename */
-    char   filename[PATHMAX]; /* demo path */
+    char   filename[PATHMAX];  /* demo path */
 
-    /* The following reflects the file structure */
+    /* The following reflects the file structure. */
+
     /* magic number */
     /* replay file version */
     int    timer;           /* elapsed time */
@@ -31,7 +32,7 @@ struct demo
     int    score;           /* sum of coins (challenge mode) */
     int    balls;           /* number of balls (challenge mode) */
     int    times;           /* total time (challenge mode) */
-    char   nb_version[20]; /* neverball version used */
+    char   nb_version[20];  /* neverball version used */
 };
 
 
@@ -39,11 +40,11 @@ struct demo
 
 #define MAXDEMO 256
 
-int               demo_scan(void);
+int                demo_scan(void);
 const char        *demo_pick(void);
 const struct demo *get_demo(int);
 
-const char * date_to_str(time_t);
+const char *date_to_str(time_t);
 
 int  demo_exists(char *);
 void demo_unique(char *);
@@ -51,8 +52,7 @@ void demo_unique(char *);
 /*---------------------------------------------------------------------------*/
 
 int  demo_play_init(const char *, const struct level *,
-		    const struct level_game *);
-/*                    int, int, int, int, int, int);*/
+                    const struct level_game *);
 void demo_play_step(float);
 void demo_play_stop(const struct level_game *);
 int  demo_play_saved(void);

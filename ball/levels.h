@@ -5,7 +5,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-const struct level_game * curr_lg(void);
+const struct level_game *curr_lg(void);
 
 int  level_replay(const char *);
 void level_play_single(const char *);

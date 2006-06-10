@@ -10,9 +10,9 @@
 
 struct score
 {
-    char player[NSCORE+1][MAXNAM]; /* player name */
-    int  timer[NSCORE+1];          /* time elapsed */
-    int  coins[NSCORE+1];          /* coins collected */
+    char player[NSCORE + 1][MAXNAM]; /* player name */
+    int  timer[NSCORE + 1];          /* time elapsed */
+    int  coins[NSCORE + 1];          /* coins collected */
 };
 
 void score_init_hs(struct score *, int, int);
@@ -41,7 +41,7 @@ struct level
 
     /* Regarding set information */
 
-    struct set * set;       /* set (NULL in single mode) */
+    struct set *set;        /* set (NULL in single mode) */
     int number;             /* level number in the set */
     char numbername[3];     /* string representation of the number (eg. B1) */
     int is_locked;          /* Is the level unplayable */

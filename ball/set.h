@@ -29,7 +29,7 @@ struct set
 
     /* levels info */
 
-    int count;	              /* number of levels */
+    int count;                /* number of levels */
     int locked;               /* number of locked levels */
     int completed;            /* number of completed levels */
 };
