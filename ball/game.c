@@ -84,7 +84,7 @@ const  float grow_small= 0.5f;          /* small factor                      */
 static void grow_set(const struct s_file *fp, int size)
 {
     static int got_orig = 0;
-    if (!got_orig) 
+    if (!got_orig)
     {
         grow_orig = fp->uv->r;
         grow_goal = grow_orig;
@@ -104,7 +104,7 @@ static void grow_set(const struct s_file *fp, int size)
         {
             grow_goal = grow_orig * grow_small;
             grow = 1;
-        }        
+        }
     }/* done with 50% size coin */
     if (size == 150)
     {
@@ -125,22 +125,22 @@ static void grow_set(const struct s_file *fp, int size)
     {
         grow_t = 0.0;
         grow_strt = fp->uv->r;
-    }    
+    }
 }
 
 static void grow_ball(const struct s_file *fp, float dt)
-{    
+{
     float dr;
-            
+
     /*calculate new size based on how long since you touched the coin...*/
     grow_t += dt;
     if (grow_t >= grow_time)
     {
         grow = 0;
         grow_t = grow_time;
-    } 
+    }
 
-    dr = grow_strt + ((grow_goal-grow_strt) * (1.0f / (grow_time / grow_t)));    
+    dr = grow_strt + ((grow_goal-grow_strt) * (1.0f / (grow_time / grow_t)));
 
     fp->uv->p[1] += (dr - fp->uv->r); /*No sinking through the floor! keeps ball's bottom constant.*/
     fp->uv->r = dr;
@@ -285,13 +285,13 @@ static void game_draw_balls(const struct s_file *fp)
 static void game_draw_coins(const struct s_file *fp)
 {
     float r = 360.f * SDL_GetTicks() / 1000.f;
-    int ci;    
+    int ci;
 
     coin_push();
     coin_push_text(0); /*regular coins*/
     {
         for (ci = 0; ci < fp->cc; ci++)
-            
+
             if (fp->cv[ci].n > 0 && fp->cv[ci].n < 50)
             {
                 glPushMatrix();
@@ -313,7 +313,7 @@ static void game_draw_coins(const struct s_file *fp)
     coin_push_text(50); /*any shrink coins?*/
     {
         for (ci = 0; ci < fp->cc; ci++)
-            
+
             if (fp->cv[ci].n == 50)
             {
                 glPushMatrix();
@@ -333,7 +333,7 @@ static void game_draw_coins(const struct s_file *fp)
     coin_push_text(150); /*any grow coins?*/
     {
         for (ci = 0; ci < fp->cc; ci++)
-            
+
             if (fp->cv[ci].n == 150)
             {
                 glPushMatrix();
@@ -771,13 +771,13 @@ static int game_update_state(int *state_value)
         part_burst(p, c);
 
         /*add coins if regular, change radius if not.*/
-        if (n <= 10) 
+        if (n <= 10)
             coins += n;
         else
-        { 
+        {
             grow_set(fp, n); /*only 50 and 150 will produce results.*/
             n = 0;
-        }     
+        }
 
         /* Check for goal open. */
         if (goal_c > 0)

@@ -350,7 +350,7 @@ void coin_push(void)
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);    
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
 }
 
 void coin_push_text(int n)
@@ -360,7 +360,7 @@ void coin_push_text(int n)
         glBindTexture(GL_TEXTURE_2D, coin_grdn);
     else if (n == 150)
         glBindTexture(GL_TEXTURE_2D, coin_grup);
-    else 
+    else
         glBindTexture(GL_TEXTURE_2D, coin_text);
 }
 
