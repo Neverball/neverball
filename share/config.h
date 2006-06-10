@@ -18,9 +18,9 @@
 /*
  * This file contains:
  * 1- some global config methods (stored in a config file)
- * 2- some SDL based function
+ * 2- some SDL based functions
  *
- * If you look for constants, you should also see base_config.h
+ * If you're looking for constants, you should also see base_config.h
  */
 
 #include <SDL.h>
@@ -151,7 +151,7 @@ int  config_get_d(int);
 
 void config_set_s(int, const char *);
 void config_get_s(int, char *, int);
-const char * config_simple_get_s(int i);
+const char *config_simple_get_s(int i);
 
 
 /*---------------------------------------------------------------------------*/

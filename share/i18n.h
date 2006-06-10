@@ -16,31 +16,31 @@
 #define LANGUAGE_H
 
 #ifndef POSIX
-#	include <libintl.h>
-#	define _(String)            gettext(String)
+#   include <libintl.h>
+#   define _(String)        gettext(String)
 #else
-#	define _(String)            (String)
+#   define _(String)        (String)
 #endif
 
-#define N_(String)           (String)
+#define N_(String)          (String)
 
 /*---------------------------------------------------------------------------*/
 
-const char * gettextdbg(const char *);
+const char *gettextdbg(const char *);
 
-const char * sgettext(const char *);
+const char *sgettext(const char *);
 
 /*---------------------------------------------------------------------------*/
 
-void language_init(const char * domain, const char * locale_dir);
+void language_init(const char *domain, const char *locale_dir);
 void language_set(int id);
 
 /*---------------------------------------------------------------------------*/
 
 int language_count();
-int language_from_code(const char * code);
-const char * language_get_name(int id);
-const char * language_get_code(int id);
+int language_from_code(const char *code);
+const char *language_get_name(int id);
+const char *language_get_code(int id);
 
 /*---------------------------------------------------------------------------*/
 

@@ -37,10 +37,11 @@
  * directory as given by the HOME environment var.  If the config file
  * is deleted, it will be recreated using the defaults.
  */
-#define USER_CONFIG_FILE "neverballrc"
-#define USER_REPLAY_FILE _("Last")
-#define REPLAY_EXT ".nbr"
-#define ALLOW_CHEAT	 1
+
+#define USER_CONFIG_FILE    "neverballrc"
+#define USER_REPLAY_FILE    _("Last")
+#define REPLAY_EXT          ".nbr"
+#define ALLOW_CHEAT         1
 
 /*---------------------------------------------------------------------------*/
 
