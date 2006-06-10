@@ -76,14 +76,13 @@ static float grow_t = 0.0;              /* timer for the ball to grow...     */
 static float grow_strt = 0;             /* starting value for growth         */
 const  float grow_big  = 1.5f;          /* large factor                      */
 const  float grow_small= 0.5f;          /* small factor                      */
-
+static int   got_orig = 0;              /* Do we know original ball size?    */
 
 
 /*---------------------------------------------------------------------------*/
 
 static void grow_set(const struct s_file *fp, int size)
-{
-    static int got_orig = 0;
+{    
     if (!got_orig)
     {
         grow_orig = fp->uv->r;
@@ -224,6 +223,10 @@ int game_init(const struct level *level, int t, int g)
 
     sol_load_gl(&back, config_data(level->back),
                 config_get_d(CONFIG_TEXTURES), 0);
+
+    /* Initialize ball size tracking... */
+
+    got_orig = 0;
 
     return game_state;
 }
