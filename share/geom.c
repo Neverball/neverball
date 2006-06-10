@@ -203,6 +203,8 @@ void mark_free(void)
 /*---------------------------------------------------------------------------*/
 
 static GLuint coin_text;
+static GLuint coin_grup;
+static GLuint coin_grdn;
 static GLuint coin_list;
 
 static void coin_head(int n, float radius, float thick)
@@ -284,6 +286,18 @@ void coin_color(float *c, int n)
         c[1] = 0.2f;
         c[2] = 1.0f;
     }
+    if (n == 50) //white's kind of boring, but you can do a colored png that way.
+    {
+        c[0] = 1.0f;
+        c[1] = 1.0f;
+        c[2] = 1.0f;
+    }
+    if (n == 150)
+    {
+        c[0] = 1.0f;
+        c[1] = 1.0f;
+        c[2] = 1.0f;
+    }
 }
 
 void coin_init(int b)
@@ -291,6 +305,8 @@ void coin_init(int b)
     int n = b ? 32 : 8;
 
     coin_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_COIN);
+    coin_grup = make_image_from_file(NULL, NULL, NULL, NULL, IMG_COIN_GRUP);
+    coin_grdn = make_image_from_file(NULL, NULL, NULL, NULL, IMG_COIN_GRDN);
     coin_list = glGenLists(1);
 
     glNewList(coin_list, GL_COMPILE);
@@ -310,8 +326,16 @@ void coin_free(void)
     if (glIsTexture(coin_text))
         glDeleteTextures(1, &coin_text);
 
+    if (glIsTexture(coin_grup))
+        glDeleteTextures(1, &coin_grup);
+
+    if (glIsTexture(coin_grdn))
+        glDeleteTextures(1, &coin_grdn);
+
     coin_list = 0;
     coin_text = 0;
+    coin_grup = 0;
+    coin_grdn = 0;
 }
 
 void coin_push(void)
@@ -326,10 +350,18 @@ void coin_push(void)
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);    
+}
 
+void coin_push_text(int n)
+{
     glEnable(GL_COLOR_MATERIAL);
-    glBindTexture(GL_TEXTURE_2D, coin_text);
+    if (n == 50)
+        glBindTexture(GL_TEXTURE_2D, coin_grdn);
+    else if (n == 150)
+        glBindTexture(GL_TEXTURE_2D, coin_grup);
+    else 
+        glBindTexture(GL_TEXTURE_2D, coin_text);
 }
 
 void coin_draw(int n, float r)
