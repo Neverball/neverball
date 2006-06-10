@@ -835,6 +835,7 @@ static int game_update_state(int *state_value)
         part_burst(p, c+1);
         part_burst(p, c+2);
         drawball = 0;
+        grow_goal = grow_orig;
         audio_play(AUD_TIME, 1.0f);
         return GAME_TIME;
     }
@@ -844,6 +845,7 @@ static int game_update_state(int *state_value)
     if (bt && fp->uv[0].p[1] < fp->vv[0].p[1])
     {
         audio_play(AUD_FALL, 1.0f);
+        grow_goal = grow_orig;
         return GAME_FALL;
     }
 
