@@ -92,32 +92,32 @@ static void grow_set(const struct s_file *fp, int size)
 
     if (size == 50)
     {
-        if (grow_goal == grow_orig * 0.5f) return; //already small!
-        else if (grow_goal == grow_orig * 1.5f) // big, let's set it to normal.
+        if (grow_goal == grow_orig * 0.5f) return; /*already small!*/
+        else if (grow_goal == grow_orig * 1.5f) /* big, let's set it to normal.*/
         {
             grow = 1;
             grow_goal = grow_orig;
         }
-        else //must be normal sized.
+        else /*must be normal sized.*/
         {
             grow_goal = grow_orig * 0.5f;
             grow = 1;
         }        
-    }// done with 50% size coin
+    }/* done with 50% size coin */
     if (size == 150)
     {
-        if (grow_goal == grow_orig * 1.5f) return; //already big!
-        else if (grow_goal == grow_orig * 0.5f) // small, let's set it to normal.
+        if (grow_goal == grow_orig * 1.5f) return; /*already big!*/
+        else if (grow_goal == grow_orig * 0.5f) /* small, let's set it to normal.*/
         {
             grow = 1;
             grow_goal = grow_orig;
         }
-        else //must be normal sized.
+        else /*must be normal sized.*/
         {
             grow_goal = grow_orig * 1.5f;
             grow = 1;
         }
-    }// done with 150% size coin
+    }/* done with 150% size coin */
 
     if (grow)
     {
@@ -130,7 +130,7 @@ static void grow_ball(const struct s_file *fp, float dt)
 {    
     float dr;
             
-    //calculate new size based on how long since you touched the coin...
+    /*calculate new size based on how long since you touched the coin...*/
     grow_t += dt;
     if (grow_t >= grow_time)
     {
@@ -140,7 +140,7 @@ static void grow_ball(const struct s_file *fp, float dt)
 
     dr = grow_strt + ((grow_goal-grow_strt) * (1.0f / (grow_time / grow_t)));    
 
-    fp->uv->p[1] += (dr - fp->uv->r); //No sinking through the floor! keeps ball's bottom constant.
+    fp->uv->p[1] += (dr - fp->uv->r); /*No sinking through the floor! keeps ball's bottom constant.*/
     fp->uv->r = dr;
 }
 
@@ -286,7 +286,7 @@ static void game_draw_coins(const struct s_file *fp)
     int ci;    
 
     coin_push();
-    coin_push_text(0); //regular coins
+    coin_push_text(0); /*regular coins*/
     {
         for (ci = 0; ci < fp->cc; ci++)
             
@@ -305,10 +305,10 @@ static void game_draw_coins(const struct s_file *fp)
     }
     coin_pull();
 
-    //there has got to be a better way than three seperate loops,
-    //once for each texture, but someone else is going to have to do it!
+    /*there has got to be a better way than three seperate loops,*/
+    /*once for each texture, but someone else is going to have to do it!*/
     coin_push();
-    coin_push_text(50); //any shrink coins?
+    coin_push_text(50); /*any shrink coins?*/
     {
         for (ci = 0; ci < fp->cc; ci++)
             
@@ -328,7 +328,7 @@ static void game_draw_coins(const struct s_file *fp)
     coin_pull();
 
     coin_push();
-    coin_push_text(150); //any grow coins?
+    coin_push_text(150); /*any grow coins?*/
     {
         for (ci = 0; ci < fp->cc; ci++)
             
@@ -768,12 +768,12 @@ static int game_update_state(int *state_value)
         coin_color(c, n);
         part_burst(p, c);
 
-        //add coins if regular, change radius if not.
+        /*add coins if regular, change radius if not.*/
         if (n <= 10) 
             coins += n;
         else
         { 
-            grow_set(fp, n); //only 50 and 150 will produce results.            
+            grow_set(fp, n); /*only 50 and 150 will produce results.*/
             n = 0;
         }     
 
@@ -889,7 +889,7 @@ int game_step(const float g[3], float dt, int *state_value)
             game_rz = game_iz;
         }
 
-        //might need to put the call to grow_ball here.
+        /*might need to put the call to grow_ball here.*/
 
         if (grow) grow_ball(fp,dt);
 

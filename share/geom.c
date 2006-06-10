@@ -286,7 +286,7 @@ void coin_color(float *c, int n)
         c[1] = 0.2f;
         c[2] = 1.0f;
     }
-    if (n == 50) //white's kind of boring, but you can do a colored png that way.
+    if (n == 50) /*white's kind of boring, but you can do a colored png that way.*/
     {
         c[0] = 1.0f;
         c[1] = 1.0f;
