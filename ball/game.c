@@ -71,13 +71,13 @@ static int   ball_b = 0;                /* Is the ball a bonus ball?         */
 static int   grow = 0;                  /* Should the ball be changing size? */
 static float grow_orig = 0;             /* the original ball size            */
 static float grow_goal = 0;             /* how big or small to get!          */
-const  float grow_time = 0.5f;          /* sec for the ball to get to size.  */
 static float grow_t = 0.0;              /* timer for the ball to grow...     */
 static float grow_strt = 0;             /* starting value for growth         */
-const  float grow_big  = 1.5f;          /* large factor                      */
-const  float grow_small= 0.5f;          /* small factor                      */
 static int   got_orig = 0;              /* Do we know original ball size?    */
 
+#define GROW_TIME  0.5f                 /* sec for the ball to get to size.  */
+#define GROW_BIG   1.5f                 /* large factor                      */
+#define GROW_SMALL 0.5f                 /* small factor                      */
 
 /*---------------------------------------------------------------------------*/
 
@@ -93,32 +93,34 @@ static void grow_set(const struct s_file *fp, int size)
 
     if (size == 50)
     {
-        if (grow_goal == grow_orig * grow_small) return; /*already small!*/
-        else if (grow_goal == grow_orig * grow_big) /* big, let's set it to normal.*/
+        if (grow_goal == grow_orig * GROW_SMALL)
+            return;
+        else if (grow_goal == grow_orig * GROW_BIG)
         {
             grow = 1;
             grow_goal = grow_orig;
         }
-        else /*must be normal sized.*/
+        else
         {
-            grow_goal = grow_orig * grow_small;
+            grow_goal = grow_orig * GROW_SMALL;
             grow = 1;
         }
-    }/* done with 50% size coin */
+    }
     if (size == 150)
     {
-        if (grow_goal == grow_orig * grow_big) return; /*already big!*/
-        else if (grow_goal == grow_orig * grow_small) /* small, let's set it to normal.*/
+        if (grow_goal == grow_orig * GROW_BIG)
+            return;
+        else if (grow_goal == grow_orig * GROW_SMALL)
         {
             grow = 1;
             grow_goal = grow_orig;
         }
-        else /*must be normal sized.*/
+        else
         {
-            grow_goal = grow_orig * grow_big;
+            grow_goal = grow_orig * GROW_BIG;
             grow = 1;
         }
-    }/* done with 150% size coin */
+    }
 
     if (grow)
     {
@@ -131,17 +133,20 @@ static void grow_ball(const struct s_file *fp, float dt)
 {
     float dr;
 
-    /*calculate new size based on how long since you touched the coin...*/
+    /* Calculate new size based on how long since you touched the coin... */
+
     grow_t += dt;
-    if (grow_t >= grow_time)
+
+    if (grow_t >= GROW_TIME)
     {
         grow = 0;
-        grow_t = grow_time;
+        grow_t = GROW_TIME;
     }
 
-    dr = grow_strt + ((grow_goal-grow_strt) * (1.0f / (grow_time / grow_t)));
+    dr = grow_strt + ((grow_goal-grow_strt) * (1.0f / (GROW_TIME / grow_t)));
 
-    fp->uv->p[1] += (dr - fp->uv->r); /*No sinking through the floor! keeps ball's bottom constant.*/
+    /* No sinking through the floor! Keeps ball's bottom constant. */
+    fp->uv->p[1] += (dr - fp->uv->r); 
     fp->uv->r = dr;
 }
 
@@ -291,7 +296,7 @@ static void game_draw_coins(const struct s_file *fp)
     int ci;
 
     coin_push();
-    coin_push_text(0); /*regular coins*/
+    coin_push_text(0); /* Regular coins. */
     {
         for (ci = 0; ci < fp->cc; ci++)
 
@@ -310,10 +315,11 @@ static void game_draw_coins(const struct s_file *fp)
     }
     coin_pull();
 
-    /*there has got to be a better way than three seperate loops,*/
-    /*once for each texture, but someone else is going to have to do it!*/
+    /* FIXME: there has got to be a better way than three seperate loops,  once
+     * for each texture, but someone else is going to have to do it! */
+
     coin_push();
-    coin_push_text(50); /*any shrink coins?*/
+    coin_push_text(50); /* Any shrink coins? */
     {
         for (ci = 0; ci < fp->cc; ci++)
 
@@ -333,7 +339,7 @@ static void game_draw_coins(const struct s_file *fp)
     coin_pull();
 
     coin_push();
-    coin_push_text(150); /*any grow coins?*/
+    coin_push_text(150); /* Any grow coins? */
     {
         for (ci = 0; ci < fp->cc; ci++)
 
@@ -773,12 +779,13 @@ static int game_update_state(int *state_value)
         coin_color(c, n);
         part_burst(p, c);
 
-        /*add coins if regular, change radius if not.*/
+        /* Add coins if regular, change radius if not. */
+
         if (n <= 10)
             coins += n;
         else
         {
-            grow_set(fp, n); /*only 50 and 150 will produce results.*/
+            grow_set(fp, n);
             n = 0;
         }
 
@@ -894,7 +901,8 @@ int game_step(const float g[3], float dt, int *state_value)
             game_rz = game_iz;
         }
 
-        if (grow) grow_ball(fp,dt);
+        if (grow)
+            grow_ball(fp,dt);
 
         game_update_grav(h, g);
         part_step(h, t);
