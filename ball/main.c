@@ -47,7 +47,6 @@
 #include "st_level.h"
 
 #define TITLE "Neverball"
-#define VERSION "1.4.1svn"
 
 /*---------------------------------------------------------------------------*/
 
