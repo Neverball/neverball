@@ -218,6 +218,7 @@ static int loop(void)
 /*---------------------------------------------------------------------------*/
 
 /* Option values */
+
 static char *data_path    = NULL;
 static char *replay_path  = NULL;
 static char *level_path   = NULL;
@@ -225,28 +226,30 @@ static int   display_info = 0;
 
 /* Option handling */
 
-#define USAGE  _( \
-        "Usage: %s [options ...]\n" \
-        "-r, --replay file         play the replay 'file'.\n" \
-        "-l, --level file.sol      play the level 'file.sol'.\n" \
-        "-i, --info                display info about level or replay.\n" \
-        "    --data dir            use 'dir' as game data directory.\n" \
-        "-v, --version             show version.\n" \
-        "-h, -?, --help            show this usage message.\n")
-
 static void parse_args(int argc, char **argv)
 {
-#define CASE(x) (strcmp(*argv, (x)) == 0)       /* Check current option */
-#define MAND    !(missing = (argv[1] == NULL))  /* Argument is mandatory */
     char *exec = *(argv++);
     int missing; /* Argument is missing. */
+
+    const char *usage = _(
+        "Usage: %s [options ...]\n"
+        "-r, --replay file         play the replay 'file'.\n"
+        "-l, --level file.sol      play the level 'file.sol'.\n"
+        "-i, --info                display info about level or replay.\n"
+        "    --data dir            use 'dir' as game data directory.\n"
+        "-v, --version             show version.\n"
+        "-h, -?, --help            show this usage message.\n"
+    );
+
+#define CASE(x) (strcmp(*argv, (x)) == 0)       /* Check current option */
+#define MAND    !(missing = (argv[1] == NULL))  /* Argument is mandatory */
 
     while (*argv != NULL)
     {
         missing = 0;
         if (CASE("-h") || CASE("-?") || CASE("--help"))
         {
-            printf(USAGE, exec);
+            printf(usage, exec);
             exit(0);
         }
         else if (CASE("-v") || CASE("--version"))
@@ -265,14 +268,14 @@ static void parse_args(int argc, char **argv)
         else if (!missing)
         {
             fprintf(stderr, _("%s: unknown option %s\n"), exec, *argv);
-            fprintf(stderr, USAGE, exec);
+            fprintf(stderr, usage, exec);
             exit(1);
         }
         else
         {
             fprintf(stderr, _("%s: option %s requires an argument\n"), exec,
                     *argv);
-            fprintf(stderr, USAGE, exec);
+            fprintf(stderr, usage, exec);
             exit(1);
         }
         argv++;
