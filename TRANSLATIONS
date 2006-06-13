@@ -1,9 +1,9 @@
 This file contains some information for people who are interested in
 translating Neverball and Neverputt in their language of choice.
 
-This file is mostly a reformatted version of Jean's post on the forum.
-See http://www.nevercorner.net/forum/viewtopic.php?id=422 (the info
-here is probably more up-to-date, though).
+This is mostly a reformatted version of Jean's post on the forum.  See
+http://www.nevercorner.net/forum/viewtopic.php?id=422 (the info here is
+probably more up-to-date, though).
 
 ----------------------------------------------------------------------
 
@@ -27,8 +27,8 @@ Some important remarks:
   - The encoding must be UTF-8.
 
   - Never edit an English string.  If you think that some English
-    strings are bogus, please write a small bug report (or post a
-    message on the forum if you're lazy).
+    strings are bogus, please write a bug report (or post a message on
+    the forum if you're lazy).
 
   - Some strings are contextualized.  They are in the form of
     "xxx^yyy", where "xxx" is the context and "yyy" is the string to
