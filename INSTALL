@@ -11,15 +11,13 @@ Requirements:
     SDL_mixer         http://www.libsdl.org/projects/SDL_mixer/
     SDL_ttf           http://www.libsdl.org/projects/SDL_ttf/
 
-
 Under Unix, Linux, and OSX, simply run
 
     make
 
 Under Windows, build using the provided Visual Studio solution.
 
-The executables will be copied to the base directory.  By default,  an
-uninstalled build may be executed in place.
+By default, an uninstalled build may be executed in place.
 
 
 * INSTALLATION
@@ -47,8 +45,8 @@ variable to its default value "./data".
 
 The dist directory contains some miscellaneous files:
 
- * manpages
- * .desktop files
- * icons
+  * manual pages
+  * .desktop files
+  * icons
 
 Contact: <robert.kooima@gmail.com>
