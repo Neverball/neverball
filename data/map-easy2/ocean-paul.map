@@ -14,7 +14,7 @@
 "goal" "10"
 "time_hs" " "
 "coin_hs" " "
-"message" "Let's go for a swim...\all the coins are fully submerged."
+"message" "Let's go for a swim...\all the coins are fully submerged.\"
 "special" "1"
 // brush 0
 {
