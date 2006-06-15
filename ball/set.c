@@ -620,12 +620,16 @@ void set_finish_level(struct level_game *lg, const char *player)
 void level_snap(int i)
 {
     char filename[MAXSTR];
+    char *ext;
 
     /* Convert the level name to a PNG filename. */
 
     memset(filename, 0, MAXSTR);
-    strcpy(filename, strstr(level_v[i].file, "map-"));
-    strcpy(strstr(filename, "."), ".png");
+
+    ext = strrchr(level_v[i].file, '.');
+    strncpy(filename, level_v[i].file,
+            ext ? ext - level_v[i].file : strlen(level_v[i].file));
+    strcat(filename, ".png");
 
     /* Initialize the game for a snapshot. */
 
