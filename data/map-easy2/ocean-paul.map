@@ -14,7 +14,7 @@
 "goal" "10"
 "time_hs" " "
 "coin_hs" " "
-"message" "Let's go for a swim...\all the coins are fully submerged.\Hint: Tilt the floor all the way forward for a quick peek at the sunken treasure."
+"message" "Let's go for a swim...\all the coins are fully submerged."
 "special" "1"
 // brush 0
 {
