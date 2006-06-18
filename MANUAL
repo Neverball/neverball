@@ -35,12 +35,13 @@ See below for details.
 
 * USER DATA FILES
 
-Neverball creates  a directory called ".neverball" in  which it stores
-user  data  files.  These  files  include  high  scores, replays,  and
-configurations.  Under Unix, Linux,  and OSX this directory is created
-in your home directory.  Under Windows it is assumed that the user has
-permission  to write to  the game  data directory,  and the  user data
-directory is created within.
+Neverball creates a directory called ".neverball" in which  it  stores
+user data files.   These  files  include  high  scores,  replays,  and
+configurations.  Under Unix, Linux, and OSX this directory is  created
+in your home directory (specifically, the directory set  in  the  HOME
+environment variable).  Under Windows it is assumed that the user  has
+permission to write to the game data  directory,  and  the  user  data
+directory   is   created   within.
 
 
 
@@ -69,7 +70,7 @@ being collected on levels with more than 100 coins.
 Neverball  includes a  mechanism for  recording and  replaying levels.
 The player may enter  a name for each replay at the  end of the level.
 By default, the most recent unsaved  level will be saved to the replay
-file named "Last".
+file named "Last.nbr".
 
 Replay  files are  stored in  the user  data directory.   They  may be
 copied freely.  To  view a replay you have  downloaded, simply move it
@@ -121,17 +122,17 @@ values follow.
     view_dp  75
     view_dc  25
     view_dz  200
-    
+
         These keys  define the view of the ball.  They give  the field
         of view in degrees,  the height of the view point,  the height
         of the view center,  and the horizontal distance from the ball
         in centimeters, respectively.  (The ball is  50 centimeters in
         diameter in most levels.)
-        
+
         The default values  for these keys changed with version 1.2.6.
         Some players may be interested in using the  old values.  They
         were as follows:
-        
+
             view_fov 40
             view_dp  400
             view_dc  0

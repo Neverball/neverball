@@ -142,9 +142,9 @@ int config_user_path(const char *file)
     {
         size_t d = strlen(dir);
 
-        strncpy(user_path, getenv("HOME"), MAXSTR - 1);
-        strncat(user_path, "/",            MAXSTR - d - 1);
-        strncat(user_path, CONFIG_USER,    MAXSTR - d - 2);
+        strncpy(user_path, dir,         MAXSTR - 1);
+        strncat(user_path, "/",         MAXSTR - d - 1);
+        strncat(user_path, CONFIG_USER, MAXSTR - d - 2);
     }
 
     if ((mkdir(user_path, 0777) == 0) || (errno = EEXIST))
