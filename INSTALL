@@ -26,11 +26,14 @@ The game  searches for game assets  in the following  three places, in
 this order.  If the game is  to be installed globally, at least one of
 them must be set.
 
-1) The directory specified on the command line.
+ 1. The directory specified as argument to '--data' (or '-d') option
+    on the command line.
 
-2) The directory given by the NEVERBALL_DATA environment variable.
+ 2. The directory given by the NEVERBALL_DATA environment variable.
 
-3) The directory given by the CONFIG_DATA variable defined in config.h
+ 3. The directory given by the CONFIG_DATA variable defined in
+    base_config.h
+
 
 A normal Linux installation would  probably copy the data directory to
 "/usr/local/games/neverball/" and  change the CONFIG_DATA  variable to
@@ -45,8 +48,8 @@ variable to its default value "./data".
 
 The dist directory contains some miscellaneous files:
 
-  * manual pages
-  * .desktop files
-  * icons
+  * manual pages;
+  * .desktop files;
+  * icons.
 
 Contact: <robert.kooima@gmail.com>
