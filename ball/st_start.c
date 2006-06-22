@@ -222,13 +222,9 @@ static int start_enter(void)
         if ((jd = gui_hstack(id)))
         {
 
-            gui_label(jd, _(curr_set()->name), GUI_SML, GUI_ALL, gui_yel, gui_red);
+            gui_label(jd, _(curr_set()->name), GUI_SML, GUI_ALL,
+                      gui_yel, gui_red);
             gui_filler(jd);
-            if (set_completed(curr_set()))
-            {
-                gui_label(jd, _("Set Complete"), GUI_SML, GUI_ALL, gui_yel, gui_grn);
-                gui_filler(jd);
-            }
             gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);
         }
 
