@@ -1,5 +1,6 @@
 set-easy.txt
 set-easy2.txt
+set-easy3.txt
 set-hard.txt
 set-mym.txt
 set-mym2.txt
