@@ -5732,3 +5732,15 @@
 "model" "obj/xrail2.obj"
 "origin" "1024 -316 28"
 }
+// entity 205
+{
+"classname" "target_position"
+"origin" "160 -192 112"
+"targetname" "target_position7"
+}
+// entity 206
+{
+"classname" "info_player_intermission"
+"origin" "256 -320 160"
+"target" "target_position7"
+}
