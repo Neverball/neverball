@@ -6012,7 +6012,7 @@
 {
 "classname" "misc_model"
 "model" "obj/zrail4.obj"
-"origin" "1536 -512 14"
+"origin" "1532 -512 14"
 }
 // entity 54
 {
@@ -7465,5 +7465,5 @@
 {
 "classname" "misc_model"
 "model" "obj/zrail4.obj"
-"origin" "1408 -512 14"
+"origin" "1412 -512 14"
 }
