@@ -132,18 +132,22 @@ FILE *demo_header_read(const char *filename, struct demo *d)
             get_index (fp, &d->state);
             get_index (fp, &d->mode);
             get_index (fp, (int *)&d->date);
-            get_string(fp, d->player, MAXNAM);
-            get_string(fp, d->shot,   PATHMAX);
-            get_string(fp, d->file,   PATHMAX);
-            get_string(fp, d->back,   PATHMAX);
-            get_string(fp, d->grad,   PATHMAX);
-            get_string(fp, d->song,   PATHMAX);
+
+            fread(d->player, 1, MAXNAM, fp);
+
+            fread(d->shot, 1, PATHMAX, fp);
+            fread(d->file, 1, PATHMAX, fp);
+            fread(d->back, 1, PATHMAX, fp);
+            fread(d->grad, 1, PATHMAX, fp);
+            fread(d->song, 1, PATHMAX, fp);
+
             get_index (fp, &d->time);
             get_index (fp, &d->goal);
             get_index (fp, &d->score);
             get_index (fp, &d->balls);
             get_index (fp, &d->times);
-            get_string(fp, d->nb_version, 20);
+
+            fread(d->nb_version, 1, 20, fp);
 
             return fp;
         }
@@ -153,37 +157,42 @@ FILE *demo_header_read(const char *filename, struct demo *d)
 }
 
 static FILE *demo_header_write(struct demo *d)
-/* Create a new demo file, write the demo information structure
- * If success, return the file pointer positioned after the header
- * If fail, return null
- * */
+/* Create a new demo file, write the demo information structure. If
+ * success, return the file pointer positioned after the header. If
+ * fail, return null.
+ */
 {
     int magic = MAGIC;
     int version = REPLAY_VERSION;
     int zero  = 0;
+
     FILE *fp;
 
     if (d->filename && (fp = fopen(d->filename, FMODE_WB)))
     {
-        put_index (fp, &magic);
-        put_index (fp, &version);
-        put_index (fp, &zero);
-        put_index (fp, &zero);
-        put_index (fp, &zero);
-        put_index (fp, &d->mode);
-        put_index (fp, (int *)&d->date);
-        put_string(fp, d->player);
-        put_string(fp, d->shot);
-        put_string(fp, d->file);
-        put_string(fp, d->back);
-        put_string(fp, d->grad);
-        put_string(fp, d->song);
-        put_index (fp, &d->time);
-        put_index (fp, &d->goal);
-        put_index (fp, &d->score);
-        put_index (fp, &d->balls);
-        put_index (fp, &d->times);
-        put_string(fp, VERSION);
+        put_index(fp, &magic);
+        put_index(fp, &version);
+        put_index(fp, &zero);
+        put_index(fp, &zero);
+        put_index(fp, &zero);
+        put_index(fp, &d->mode);
+        put_index(fp, (int *) &d->date);
+
+        fwrite(d->player, 1, MAXNAM, fp);
+
+        fwrite(d->shot, 1, PATHMAX, fp);
+        fwrite(d->file, 1, PATHMAX, fp);
+        fwrite(d->back, 1, PATHMAX, fp);
+        fwrite(d->grad, 1, PATHMAX, fp);
+        fwrite(d->song, 1, PATHMAX, fp);
+
+        put_index(fp, &d->time);
+        put_index(fp, &d->goal);
+        put_index(fp, &d->score);
+        put_index(fp, &d->balls);
+        put_index(fp, &d->times);
+
+        fwrite(d->nb_version, 1, 20, fp);
 
         return fp;
     }
@@ -319,26 +328,32 @@ int demo_play_init(const char *name,
 {
     struct demo demo;
 
-    /* file structure */
-    strncpy(demo.name, name, MAXNAM);
+    memset(&demo, 0, sizeof(demo));
+
     strncpy(demo.filename, config_user(name), PATHMAX);
     strcat(demo.filename, REPLAY_EXT);
-    demo.time = demo.coins = demo.state = 0;
+
     demo.mode = lg->mode;
     demo.date = time(NULL);
+
     config_get_s(CONFIG_PLAYER, demo.player, MAXNAM);
+
     strncpy(demo.shot, level->shot, PATHMAX);
     strncpy(demo.file, level->file, PATHMAX);
     strncpy(demo.back, level->back, PATHMAX);
     strncpy(demo.grad, level->grad, PATHMAX);
     strncpy(demo.song, level->song, PATHMAX);
+
     demo.time  = lg->time;
     demo.goal  = lg->goal;
     demo.score = lg->score;
     demo.balls = lg->balls;
     demo.times = lg->times;
 
+    strncpy(demo.nb_version, VERSION, 20);
+
     demo_fp = demo_header_write(&demo);
+
     if (demo_fp == NULL)
         return 0;
     else
