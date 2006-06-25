@@ -902,7 +902,7 @@ int game_step(const float g[3], float dt, int *state_value)
         }
 
         if (grow)
-            grow_ball(fp,dt);
+            grow_ball(fp, dt);
 
         game_update_grav(h, g);
         part_step(h, t);
