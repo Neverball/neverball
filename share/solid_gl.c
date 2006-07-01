@@ -591,8 +591,7 @@ int sol_load_gl(struct s_file *fp, const char *filename, int k, int s)
         sol_load_objects (fp, s);
         return 1;
     }
-    else
-        return 0;
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/
