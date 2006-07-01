@@ -146,6 +146,7 @@ static int loop(void)
 int main(int argc, char *argv[])
 {
     int camera = 0;
+    SDL_Surface *icon;
 
     srand((int) time(NULL));
 
@@ -197,6 +198,14 @@ int main(int argc, char *argv[])
                 SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
                 SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+                icon = IMG_Load(config_data("icon/neverputt.png"));
+
+                if (icon)
+                {
+                    SDL_WM_SetIcon(icon, NULL);
+                    SDL_FreeSurface(icon);
+                }
+
                 /* Initialize the video. */
 
                 if (config_mode(config_get_d(CONFIG_FULLSCREEN),
@@ -205,8 +214,6 @@ int main(int argc, char *argv[])
                 {
                     int t1, t0 = SDL_GetTicks();
 
-                    SDL_Surface *icon = IMG_Load(config_data("icon/neverputt.png"));
-                    SDL_WM_SetIcon(icon, NULL);
                     SDL_WM_SetCaption(TITLE, TITLE);
 
                     /* Run the main game loop. */

@@ -398,6 +398,16 @@ int main(int argc, char *argv[])
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+    /* Set the WM icon */
+
+    icon = IMG_Load(config_data("icon/neverball.png"));
+
+    if (icon)
+    {
+        SDL_WM_SetIcon(icon, NULL);
+        SDL_FreeSurface(icon);
+    }
+
     /* Initialize the video. */
 
     if (!config_mode(config_get_d(CONFIG_FULLSCREEN),
@@ -407,10 +417,6 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    /* Set the WM icon */
-
-    icon = IMG_Load(config_data("icon/neverball.png"));
-    SDL_WM_SetIcon(icon, NULL);
     SDL_WM_SetCaption(TITLE, TITLE);
 
     /* Initialize the run state. */
