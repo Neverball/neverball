@@ -233,7 +233,6 @@ static void sol_load_ball(FILE *fin, struct s_ball *bp)
     get_array(fin,  bp->e[2], 3);
     get_array(fin,  bp->p,    3);
     get_float(fin, &bp->r);
-    get_float(fin, &bp->a);
 }
 
 static void sol_load_view(FILE *fin, struct s_view *wp)
@@ -493,7 +492,6 @@ static void sol_stor_ball(FILE *fout, struct s_ball *bp)
     put_array(fout,  bp->e[2], 3);
     put_array(fout,  bp->p,    3);
     put_float(fout, &bp->r);
-    put_float(fout, &bp->a);
 }
 
 static void sol_stor_view(FILE *fout, struct s_view *wp)

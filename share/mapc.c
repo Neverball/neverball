@@ -1172,15 +1172,10 @@ static void make_ball(struct s_file *fp,
     up->w[1] = 0.f;
     up->w[2] = 0.f;
 
-    up->a = 90.f;
-
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "radius") == 0)
             sscanf(v[i], "%f", &up->r);
-
-        if (strcmp(k[i], "angle") == 0)
-            sscanf(v[i], "%f", &up->a);
 
         if (strcmp(k[i], "origin") == 0)
         {

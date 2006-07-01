@@ -152,12 +152,7 @@ static void grow_ball(const struct s_file *fp, float dt)
 
 static void view_init(void)
 {
-    /* Get the initial orientation angle */
-    if (file.uc > 0)
-        view_a  = file.uv->a - 90.f; /* angle is in the sol */
-    else
-        view_a  = 0.f; /* default is north :) */
-
+    view_a  = 0.f;
     view_ry = 0.f;
 
     view_fov = (float) config_get_d(CONFIG_VIEW_FOV);
