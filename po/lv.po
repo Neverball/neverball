@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-06-02 12:12+0300\n"
+"POT-Creation-Date: 2006-07-02 03:55+0300\n"
 "PO-Revision-Date: 2006-06-06 02:57+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
-#: ball/demo.c:300
+#: ball/demo.c:316
 #, c-format
 msgid "replay%02d"
 msgstr "ieraksts%02d"
@@ -60,15 +60,15 @@ msgstr "Kļūda, ielādējot līmeņa failu '%s': "
 msgid "Not a valid level file\n"
 msgstr "nederīgs līmeņa fails\n"
 
-#: ball/level.c:215 ball/st_help.c:219 ball/st_start.c:254
+#: ball/level.c:215 ball/st_help.c:219 ball/st_start.c:250
 msgid "Challenge"
 msgstr "Spēku pārbaude"
 
-#: ball/level.c:216 ball/st_help.c:205 ball/st_start.c:246
+#: ball/level.c:216 ball/st_help.c:205 ball/st_start.c:242
 msgid "Normal"
 msgstr "Normāli"
 
-#: ball/level.c:217 ball/st_help.c:213 ball/st_start.c:244
+#: ball/level.c:217 ball/st_help.c:213 ball/st_start.c:240
 msgid "Practice"
 msgstr "Treniņš"
 
@@ -92,12 +92,12 @@ msgstr "Veiksmīgs"
 msgid "Fall-out"
 msgstr "Kritiens"
 
-#: ball/main.c:59
+#: ball/main.c:58
 #, c-format
 msgid "screen%02d.png"
 msgstr "attēls%02d.png"
 
-#: ball/main.c:230
+#: ball/main.c:235
 #, c-format
 msgid ""
 "Usage: %s [options ...]\n"
@@ -116,42 +116,42 @@ msgstr ""
 "-v, --version             parādīt versiju.\n"
 "-h, -?, --help            parādīt šo lietojuma ziņojumu.\n"
 
-#: ball/main.c:255
+#: ball/main.c:257
 #, c-format
 msgid "%s: %s version %s\n"
 msgstr "%s: %s versija %s\n"
 
-#: ball/main.c:268
+#: ball/main.c:270
 #, c-format
 msgid "%s: unknown option %s\n"
 msgstr "%s: neatpazīta opcija %s\n"
 
-#: ball/main.c:274
+#: ball/main.c:276
 #, c-format
 msgid "%s: option %s requires an argument\n"
 msgstr "%s: opcijai %s nepieciešams arguments\n"
 
-#: ball/main.c:296 putt/main.c:251
+#: ball/main.c:298 putt/main.c:258
 #, c-format
 msgid "Failure to establish game data directory\n"
 msgstr "Neizdevās noteikt spēles datu katalogu\n"
 
-#: ball/main.c:302 putt/main.c:249
+#: ball/main.c:304 putt/main.c:256
 #, c-format
 msgid "Failure to establish config directory\n"
 msgstr "Neizdevās noteikt konfigurācijas katalogu\n"
 
-#: ball/main.c:321
+#: ball/main.c:323
 #, c-format
 msgid "Replay file '%s': "
 msgstr "Ieraksta fails '%s': "
 
-#: ball/main.c:325
+#: ball/main.c:327
 #, c-format
 msgid "Not a replay file\n"
 msgstr "nav ieraksta fails\n"
 
-#: ball/main.c:345
+#: ball/main.c:347
 #, c-format
 msgid "%s: --info requires --replay or --level\n"
 msgstr "%s: --info nepieciešams --replay vai --level\n"
@@ -188,43 +188,43 @@ msgstr "Nē"
 msgid "Yes"
 msgstr "Jā"
 
-#: ball/st_conf.c:248 ball/st_conf.c:253 ball/st_conf.c:276 putt/st_conf.c:210
-#: putt/st_conf.c:215 putt/st_conf.c:228
+#: ball/st_conf.c:248 ball/st_conf.c:253 ball/st_conf.c:276 putt/st_conf.c:211
+#: putt/st_conf.c:216 putt/st_conf.c:229
 msgid "Low"
 msgstr "Slikti"
 
-#: ball/st_conf.c:249 ball/st_conf.c:254 ball/st_conf.c:277 putt/st_conf.c:211
-#: putt/st_conf.c:216 putt/st_conf.c:229
+#: ball/st_conf.c:249 ball/st_conf.c:254 ball/st_conf.c:277 putt/st_conf.c:212
+#: putt/st_conf.c:217 putt/st_conf.c:230
 msgid "High"
 msgstr "Labi"
 
-#: ball/st_conf.c:258 ball/st_conf.c:263 ball/st_conf.c:268 putt/st_conf.c:220
+#: ball/st_conf.c:258 ball/st_conf.c:263 ball/st_conf.c:268 putt/st_conf.c:221
 msgid "Off"
 msgstr "Bez"
 
-#: ball/st_conf.c:259 ball/st_conf.c:264 ball/st_conf.c:269 putt/st_conf.c:221
+#: ball/st_conf.c:259 ball/st_conf.c:264 ball/st_conf.c:269 putt/st_conf.c:222
 msgid "On"
 msgstr "Ar"
 
-#: ball/st_conf.c:320 ball/st_demo.c:251 ball/st_help.c:73 ball/st_start.c:232
-#: ball/util.c:348 putt/st_all.c:295 putt/st_all.c:417 putt/st_conf.c:270
-#: share/st_lang.c:81 share/st_resol.c:93
+#: ball/st_conf.c:320 ball/st_demo.c:251 ball/st_help.c:73 ball/st_start.c:228
+#: ball/util.c:348 putt/st_all.c:297 putt/st_all.c:419 putt/st_conf.c:271
+#: share/st_lang.c:80 share/st_resol.c:93
 msgid "Back"
 msgstr "Atpakaļ"
 
-#: ball/st_conf.c:323 putt/st_conf.c:273
+#: ball/st_conf.c:323 putt/st_conf.c:274
 msgid "Fullscreen"
 msgstr "Pilnekrāns"
 
-#: ball/st_conf.c:324 putt/st_conf.c:274 share/st_resol.c:91
+#: ball/st_conf.c:324 putt/st_conf.c:275 share/st_resol.c:91
 msgid "Resolution"
 msgstr "Izšķirtspēja"
 
-#: ball/st_conf.c:326 putt/st_conf.c:276
+#: ball/st_conf.c:326 putt/st_conf.c:277
 msgid "Textures"
 msgstr "Tekstūras"
 
-#: ball/st_conf.c:327 putt/st_conf.c:277
+#: ball/st_conf.c:327 putt/st_conf.c:278
 msgid "Geometry"
 msgstr "Ģeometrija"
 
@@ -236,23 +236,23 @@ msgstr "Atspulgs"
 msgid "Background"
 msgstr "Fons"
 
-#: ball/st_conf.c:330 putt/st_conf.c:278
+#: ball/st_conf.c:330 putt/st_conf.c:279
 msgid "Shadow"
 msgstr "Ēna"
 
-#: ball/st_conf.c:331 putt/st_conf.c:279
+#: ball/st_conf.c:331 putt/st_conf.c:280
 msgid "Audio"
 msgstr "Audio"
 
-#: ball/st_conf.c:332 putt/st_conf.c:280
+#: ball/st_conf.c:332 putt/st_conf.c:281
 msgid "Sound Volume"
 msgstr "Skaņu skaļums"
 
-#: ball/st_conf.c:333 putt/st_conf.c:281
+#: ball/st_conf.c:333 putt/st_conf.c:282
 msgid "Music Volume"
 msgstr "Mūzikas skaļums"
 
-#: ball/st_conf.c:334 putt/st_conf.c:282 share/st_lang.c:79
+#: ball/st_conf.c:334 putt/st_conf.c:283 share/st_lang.c:78
 msgid "Language"
 msgstr "Valoda"
 
@@ -260,7 +260,7 @@ msgstr "Valoda"
 msgid "Player Name"
 msgstr "Spēlētāja vārds"
 
-#: ball/st_demo.c:177 ball/st_name.c:40 putt/st_all.c:474
+#: ball/st_demo.c:177 ball/st_name.c:40 putt/st_all.c:476
 msgid "Player"
 msgstr "Spēlētājs"
 
@@ -527,7 +527,7 @@ msgstr "Saglabāt"
 msgid "Overwrite?"
 msgstr "Pārrakstīt?"
 
-#: ball/st_set.c:116
+#: ball/st_set.c:114
 msgid "Level Set"
 msgstr "Līmeņu komplekts"
 
@@ -567,11 +567,7 @@ msgstr "Vāc monētas un atslēdz nākošo līmeni"
 msgid "Train yourself without time nor coin"
 msgstr "Vingrinies bez laika un monētu ierobežojumiem"
 
-#: ball/st_start.c:229
-msgid "Set Complete"
-msgstr "Komplekts pabeigts"
-
-#: ball/st_start.c:268
+#: ball/st_start.c:264
 msgid "Choose a level to play"
 msgstr "Izvēlies līmeni"
 
@@ -667,28 +663,28 @@ msgstr "I"
 msgid "Select Course"
 msgstr "Izvēlies kursu"
 
-#: putt/st_all.c:396
+#: putt/st_all.c:398
 msgid "Players?"
 msgstr "Spēlētāji?"
 
-#: putt/st_all.c:467
+#: putt/st_all.c:469
 #, c-format
 msgid "Hole %02d"
 msgstr "Bedrīte %02d"
 
-#: putt/st_all.c:711
+#: putt/st_all.c:713
 msgid "It's In!"
 msgstr "Ir!"
 
-#: putt/st_all.c:822
+#: putt/st_all.c:824
 msgid "1 Stroke Penalty"
 msgstr "1 sitiena sods"
 
-#: putt/st_all.c:878
+#: putt/st_all.c:880
 msgid "Scores"
 msgstr "Rezultāti"
 
-#: putt/st_all.c:920
+#: putt/st_all.c:922
 msgid "Final Scores"
 msgstr "Gala rezultāti"
 
@@ -697,11 +693,11 @@ msgstr "Gala rezultāti"
 msgid "Sound disabled\n"
 msgstr "Nav skaņas\n"
 
-#: share/base_config.h:41
+#: share/base_config.h:42
 msgid "Last"
 msgstr "Pēdējais"
 
-#: share/base_config.h:77
+#: share/base_config.h:78
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr "ttf/DejaVuSans-Bold.ttf"
 
@@ -718,23 +714,23 @@ msgstr "Beigušās widget ID\n"
 msgid "Paused"
 msgstr "Pauze"
 
-#: share/i18n.c:50
+#: share/i18n.c:55
 msgid "English"
 msgstr "Angļu"
 
-#: share/i18n.c:50
+#: share/i18n.c:56
 msgid "French"
 msgstr "Franču"
 
-#: share/i18n.c:50
+#: share/i18n.c:57
 msgid "German"
 msgstr "Vācu"
 
-#: share/i18n.c:50
+#: share/i18n.c:58
 msgid "Latvian"
 msgstr "Latviešu"
 
-#: share/i18n.c:97
+#: share/i18n.c:106
 msgid "System Default"
 msgstr "Sistēmas valoda"
 
@@ -754,6 +750,16 @@ msgstr "Neverball Easy 2"
 
 #: data/set-easy2.txt
 msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
+msgstr "Otrais vieglo līmeņu komplekts.\\\\\\Pagaidām tikai top.\\\\"
+
+#: data/set-easy3.txt
+#, fuzzy
+msgid "Neverball Easy 3"
+msgstr "Neverball Easy 2"
+
+#: data/set-easy3.txt
+#, fuzzy
+msgid "Difficulty: A third set of easy levels.\\\\\\Work in progress.\\\\"
 msgstr "Otrais vieglo līmeņu komplekts.\\\\\\Pagaidām tikai top.\\\\"
 
 #: data/set-hard.txt
@@ -850,14 +856,20 @@ msgstr ""
 msgid "Calm and meditation may bring you to the Nirvana."
 msgstr "Ar mierīgu prātu un meditāciju Tu vari sasniegt Nirvānu."
 
+#: data/map-easy2/grow_demo-dave.map
+msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
+msgstr ""
+
+#: data/map-easy2/groweasy-dave.map
+msgid "There are special coins which can make your\\ball larger or smaller."
+msgstr ""
+
 #: data/map-easy2/lollipop-dave.map
 msgid "Follow the yellow lick road..."
 msgstr ""
 
 #: data/map-easy2/ocean-paul.map
-msgid ""
-"Let's go for a swim...\\all the coins are fully submerged.\\Hint: Tilt the "
-"floor all the way forward for a quick peek at the sunken treasure."
+msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
 msgstr ""
 
 #: data/map-easy2/paths-paul.map
@@ -1463,6 +1475,9 @@ msgid ""
 msgstr ""
 "Šeit ir pa pilnam monētu, ja vien Tu esi\\ar mieru atvēlēt kādu laiciņu to "
 "savākšanai.\\"
+
+#~ msgid "Set Complete"
+#~ msgstr "Komplekts pabeigts"
 
 #~ msgid ""
 #~ "Move the mouse or joystick to tilt the floor\\causing the ball to roll.  "
