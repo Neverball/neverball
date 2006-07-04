@@ -32,7 +32,7 @@
 
 #define MAGIC     0x4E425251 /* Replay file magic number (should not change) */
 #define OLD_MAGIC 0x4E425250 /* Replay file magic number for neverball 1.4.0 */
-#define REPLAY_VERSION  1    /* Replay file format version (can change)      */
+#define DEMO_VERSION  1    /* Replay file format version (can change)      */
 
 #define DEMO_FPS_CAP 200 /* FPS replay limit, keeps size down on monster systems */
 
@@ -96,7 +96,7 @@ FILE *demo_header_read(const char *filename, struct demo *d)
 
         get_index(fp, &t);
 
-        if (magic == MAGIC && version == REPLAY_VERSION && t)
+        if (magic == MAGIC && version == DEMO_VERSION && t)
         {
             d->timer = t;
             strncpy(d->filename, filename, PATHMAX);
@@ -152,14 +152,14 @@ FILE *demo_header_read(const char *filename, struct demo *d)
     return NULL;
 }
 
+/* Create a new demo file, write the demo information structure.  If success,
+ * return the file pointer positioned after the header.  If fail, return NULL.
+ * */
+
 static FILE *demo_header_write(struct demo *d)
-/* Create a new demo file, write the demo information structure. If
- * success, return the file pointer positioned after the header. If
- * fail, return null.
- */
 {
     int magic = MAGIC;
-    int version = REPLAY_VERSION;
+    int version = DEMO_VERSION;
     int zero  = 0;
 
     FILE *fp;
@@ -195,10 +195,12 @@ static FILE *demo_header_write(struct demo *d)
     return NULL;
 }
 
-void demo_header_stop(FILE *fp, int coins, int timer, int state)
 /* Update the demo header using the final level state. */
+
+void demo_header_stop(FILE *fp, int coins, int timer, int state)
 {
     long pos = ftell(fp);
+
     fseek(fp, 8, SEEK_SET);
     put_index(fp, &timer);
     put_index(fp, &coins);
@@ -208,8 +210,9 @@ void demo_header_stop(FILE *fp, int coins, int timer, int state)
 
 /*---------------------------------------------------------------------------*/
 
+/* Scan another file (used by demo_scan). */
+
 static void demo_scan_file(const char *filename)
-/* Scan another file (used by demo_scan */
 {
     FILE *fp;
     if ((fp = demo_header_read(config_user(filename), &demos[count])))
