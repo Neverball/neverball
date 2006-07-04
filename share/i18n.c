@@ -24,14 +24,6 @@
 #include <stdlib.h>
 #include "i18n.h"
 
-const char *gettextdbg(const char *c)
-{
-    char *c2 = gettext(c);
-
-    if (strcmp(c, c2));
-    return c;
-}
-
 const char *sgettext(const char *msgid)
 {
     const char *msgval = gettext(msgid);
@@ -79,6 +71,7 @@ void language_set(int l)
     else
     {
         static char e[25];
+
         /* set the LANGUAGE env variable */
         strcpy(e, "LANGUAGE=");
         strncat(e, language_codes[l - 1], 25 - 9);
@@ -95,9 +88,11 @@ int language_count(void)
 int language_from_code(const char *code)
 {
     int i;
+
     for(i = 0; i < LANG_NUMBER; i++)
-            if (strcmp(language_codes[i], code) == 0)
-                    return i + 1;
+        if (strcmp(language_codes[i], code) == 0)
+            return i + 1;
+
     return 0;
 }
 

@@ -286,8 +286,9 @@ static void parse_args(int argc, char **argv)
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
-    int t1, t0;               /* ticks */
-    SDL_Surface *icon;        /* WM icon */
+    SDL_Surface *icon;
+
+    int t1, t0;
 
     language_init("neverball", CONFIG_LOCALE);
 
@@ -314,9 +315,9 @@ int main(int argc, char *argv[])
 
     language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
 
-    /* Prepare run without sdl */
+    /* Prepare run without SDL */
 
-    if (replay_path != NULL)
+    if (replay_path)
     {
         if (!level_replay(replay_path))
         {

@@ -75,13 +75,13 @@ void demo_dump_info(const struct demo *d)
            d->time, d->goal, d->score, d->balls, d->times);
 }
 
+/* Open a demo file, fill the demo information structure.  If success, return
+ * the file pointer positioned after the header.  If fail, return NULL. */
+
 FILE *demo_header_read(const char *filename, struct demo *d)
-/* Open a demo file, fill the demo information structure
- * If success, return the file pointer positioned after the header
- * If fail, return null
- */
 {
     FILE *fp;
+
     char *basename;
     char buf[MAXSTR];
 
@@ -94,7 +94,6 @@ FILE *demo_header_read(const char *filename, struct demo *d)
         get_index(fp, &magic);
         get_index(fp, &version);
 
-        /* if time is 0, it means the replay was not finished */
         get_index(fp, &t);
 
         if (magic == MAGIC && version == REPLAY_VERSION && t)
@@ -105,6 +104,7 @@ FILE *demo_header_read(const char *filename, struct demo *d)
             /* Remove the directory delimiter */
 
             basename = strrchr(filename, '/');
+
 #ifdef _WIN32
             if (!basename)
                 basename = strrchr(filename, '\\');
@@ -115,11 +115,7 @@ FILE *demo_header_read(const char *filename, struct demo *d)
                     basename = tmp;
             }
 #endif
-
-            if (basename != NULL)
-                strncpy(buf, basename + 1, MAXSTR);
-            else
-                strncpy(buf, filename, MAXSTR);
+            strncpy(buf, basename ? basename + 1 : filename, MAXSTR);
 
             /* Remove the extension */
             t = strlen(buf) - strlen(REPLAY_EXT);
@@ -436,9 +432,9 @@ const struct demo *curr_demo_replay(void)
     return &demo_replay;
 }
 
+/* Internally load a replay and fill the lg structure (if not NULL) */
 
 int demo_replay_init(const char *name, struct level_game *lg)
-/* Internally load a replay an fill the lg structure (if not NULL) */
 {
     if ((demo_fp = demo_header_read(name, &demo_replay)))
     {
