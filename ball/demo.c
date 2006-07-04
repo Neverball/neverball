@@ -283,7 +283,7 @@ const char *date_to_str(time_t i)
 {
     static char str[MAXSTR];
     struct tm *tm = localtime(&i);
-    strftime (str, MAXSTR, "%c", tm);
+    strftime(str, MAXSTR, "%c", tm);
     return str;
 }
 
@@ -353,13 +353,12 @@ int demo_play_init(const char *name,
 
     demo_fp = demo_header_write(&demo);
 
-    if (demo_fp == NULL)
-        return 0;
-    else
+    if (demo_fp)
     {
         audio_music_fade_to(2.0f, level->song);
         return game_init(level, lg->time, lg->goal);
     }
+    return 0;
 }
 
 void demo_play_step(float dt)
@@ -379,8 +378,9 @@ void demo_play_step(float dt)
     }
 }
 
-void demo_play_stop(const struct level_game *lg)
 /* Update the demo header using the final level state. */
+
+void demo_play_stop(const struct level_game *lg)
 {
     if (demo_fp)
     {
