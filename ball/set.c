@@ -163,34 +163,31 @@ static char *chomp(char *str)
 }
 
 static int set_load(struct set *s, const char *filename)
-/* Count levels */
 {
     FILE *fin;
+
     char buf[MAXSTR];
-    int res = 0;
+    int res;
 
-    /* Open the datafile */
-
-    fin = fopen(filename, "r");
-    if (fin == NULL)
+    fin = fopen(config_data(filename), "r");
+    if (!fin)
     {
         fprintf(stderr, _("Cannot load the set file '%s':"), filename);
         perror(NULL);
         return 0;
     }
 
-    /* Raz the set structure */
-
-    memset(s, 0, sizeof(struct set));
+    memset(s, 0, sizeof (struct set));
 
     /* Set some sane values in case the scores hs is missing. */
 
     score_init_hs(&s->time_score, 359999, 0);
     score_init_hs(&s->coin_score, 359999, 0);
 
-    /* Load set metadata */
+    /* Load set metadata. */
 
-    strcpy(s->file, filename);
+    strcpy(s->file, config_data(filename));
+
     if ((res = fgets(buf, MAXSTR, fin) != NULL))
         strcpy(s->name, chomp(buf));
     if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
@@ -207,23 +204,24 @@ static int set_load(struct set *s, const char *filename)
                 &s->coin_score.coins[0],
                 &s->coin_score.coins[1],
                 &s->coin_score.coins[2]);
+
     strcpy(s->user_scores, "neverballhs-");
     strcat(s->user_scores, s->setname);
 
-    /* Count levels levels. */
+    /* Count levels. */
 
     s->count = 0;
 
     while (s->count < MAXLVL && (fscanf(fin, "%s", buf) == 1))
         s->count++;
 
-    /* Close the file, since it's no more needed */
-
     fclose(fin);
 
     /* Load the levels states (stored in the user highscore file) */
+
     s->locked = s->count;
     s->completed = 0;
+
     if ((fin = fopen(config_user(s->user_scores), "r")))
     {
         char states[MAXLVL + 1];
@@ -253,8 +251,9 @@ static int set_load(struct set *s, const char *filename)
 
 void set_init()
 {
-    FILE *fin;
     struct set *set;
+    FILE *fin;
+
     char filename[MAXSTR];
     int res;
 
@@ -268,15 +267,13 @@ void set_init()
         while (count < MAXSET && res)
         {
             set = &(set_v[count]);
-
-            /* clean the set data */
-
             res = (fgets(filename, MAXSTR, fin) != NULL);
+
             if (res)
             {
                 chomp(filename);
 
-                res = set_load(set, config_data(filename));
+                res = set_load(set, filename);
                 if (res)
                 {
                     set->number = count;
@@ -324,51 +321,52 @@ int  set_level_exists(const struct set *s, int i)
 /*---------------------------------------------------------------------------*/
 
 static void set_load_levels(void)
-/* Load more the levels of the current set */
 {
     FILE *fin;
+    struct level *l;
+
     char buf[MAXSTR];
     char name[MAXSTR];
-    struct level *l;
 
     int i = 0, res;
     int nb = 1, bnb = 1;
 
-    fin = fopen(current_set->file, "r");
-    assert(fin != NULL);
-
-    res = 1;
-
-    /* Skip the five first lines */
-    for(i = 0; i < 5; i++)
-        fgets(buf, MAXSTR, fin);
-
-    for(i = 0; i < current_set->count && res; i++)
+    if ((fin = fopen(current_set->file, "r")))
     {
-        l = &level_v[i];
-        res = (fscanf(fin, "%s", name) == 1);
-        assert(res);
+        res = 1;
 
-        level_load(config_data(name), l);
+        /* Skip the five first lines */
+        for (i = 0; i < 5; i++)
+            fgets(buf, MAXSTR, fin);
 
-        /* Initialize set related info */
-        l->set        = current_set;
-        l->number     = i;
-        if (l->is_bonus)
-            sprintf(l->numbername, _("B%d"), bnb++);
-        else
-            sprintf(l->numbername, "%02d", nb++);
-        l->is_locked    = 1;
-        l->is_completed = 0;
+        for (i = 0; i < current_set->count && res; i++)
+        {
+            l = &level_v[i];
+
+            res = (fscanf(fin, "%s", name) == 1);
+            assert(res);
+
+            level_load(config_data(name), l);
+
+            /* Initialize set related info */
+            l->set        = current_set;
+            l->number     = i;
+            if (l->is_bonus)
+                sprintf(l->numbername, _("B%d"), bnb++);
+            else
+                sprintf(l->numbername, "%02d", nb++);
+            l->is_locked    = 1;
+            l->is_completed = 0;
+        }
+        level_v[0].is_locked = 0; /* unlock the first level */
+        fclose(fin);
     }
-    level_v[0].is_locked = 0; /* unlock the first level */
-    fclose(fin);
+
     assert(i == current_set->count);
 }
 
 void set_goto(int i)
 {
-    assert(set_exists(i));
     current_set = &set_v[i];
     set_load_levels();
     set_load_hs();

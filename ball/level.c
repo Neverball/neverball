@@ -104,26 +104,24 @@ static int level_scan_metadata(struct level *l, char *av)
             strcpy(l->author, v);
         else if (CASE("special"))
             l->is_bonus = atoi(v);
-        /*else
-            fprintf(stderr, "File %s, ignore %s metadata.\n", l->file, c);*/
 
         c = e;
     }
     return 1;
 }
 
+/* Load the sol file 'filename' and fill the 'level' structure.  Return 1 on
+ * success, 0 on error. */
+
 int level_load(const char *filename, struct level *level)
-/* Load the sol file 'filename' and fill the 'level' structure
- * return 1 on success, 0 on error */
 {
-    struct s_file sol; /* The solid file data */
+    struct s_file sol;
+
+    int money;
     int i;
-    int money; /* sum of coin value */
 
-    /* raz level */
-    memset(level, 0, sizeof(struct level));
-
-    memset(&sol, 0, sizeof(sol));
+    memset(level, 0, sizeof (struct level));
+    memset(&sol,  0, sizeof (sol));
 
     /* Try to load the sol file */
     if (!sol_load_only_file(&sol, filename))
