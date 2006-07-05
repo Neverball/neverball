@@ -27,13 +27,15 @@
 
 /*---------------------------------------------------------------------------*/
 
-void image_snap(char *filename, int w, int h)
+void image_snap(char *filename)
 {
     FILE       *filep  = NULL;
     png_structp writep = NULL;
     png_infop   infop  = NULL;
     png_bytep  *bytep  = NULL;
 
+    int w = config_get_d(CONFIG_WIDTH);
+    int h = config_get_d(CONFIG_HEIGHT);
     int i;
 
     unsigned char *p = NULL;
