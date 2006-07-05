@@ -29,8 +29,8 @@
 #include "base_config.h"
 #include "binary.h"
 
-#define MAGIC 0x4F425251        /* SOL file magic number (should not change). */
-#define SOL_VERSION  5          /* SOL file format version (can change).      */
+#define MAGIC       0x4c4f53af
+#define SOL_VERSION 5
 
 #define LARGE 1.0e+5f
 
