@@ -420,10 +420,12 @@ int main(int argc, char *argv[])
     /* Initialize the run state. */
 
     init_state(&st_null);
-    if (replay_path != NULL)
+
+    if (replay_path)
     {
         level_replay(replay_path);
-        goto_demo_play(1);
+        demo_play_goto(1);
+        goto_state(&st_demo_play);
     }
     else if (level_path != NULL)
     {

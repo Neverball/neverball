@@ -29,7 +29,6 @@
 #include "st_demo.h"
 #include "st_title.h"
 
-extern struct state st_demo_play;
 extern struct state st_demo_end;
 extern struct state st_demo_del;
 
@@ -67,7 +66,8 @@ static int demo_action(int i)
 
     default:
         if (level_replay(get_demo(i)->filename))
-            return goto_demo_play(0);
+            demo_play_goto(0);
+            return goto_state(&st_demo_play);
     }
     return 1;
 }
@@ -244,10 +244,6 @@ static int demo_enter(void)
     {
         gui_label(id, _("No Replays"), GUI_MED, GUI_ALL, 0,0);
         gui_filler(id);
-        gui_multi(id, _("You can save replays of your games.\\"
-                        "Currently, there are no replays saved."),
-                  GUI_SML, GUI_ALL, gui_wht, gui_wht);
-        gui_filler(id);
         gui_start(id, _("Back"), GUI_SML, GUI_BACK, 0);
         gui_layout(id, 0, 0);
     }
@@ -313,10 +309,9 @@ static int demo_buttn(int b, int d)
 
 static int simple_play;
 
-int goto_demo_play(int simple)
+void demo_play_goto(int simple)
 {
     simple_play = simple;
-    return goto_state(&st_demo_play);
 }
 
 static int demo_play_enter(void)
@@ -424,6 +419,7 @@ static int demo_end_enter(void)
         if ((jd = gui_harray(id)))
         {
             gui_start(jd, _("Replay Again"), GUI_SML, DEMO_REPLAY, 0);
+
             if (simple_play)
                 gui_start(jd, _("OK"),       GUI_SML, DEMO_QUIT,   1);
             else

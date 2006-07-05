@@ -4,7 +4,8 @@
 #include "state.h"
 
 extern struct state st_demo;
+extern struct state st_demo_play;
 
-int goto_demo_play(int);
+void demo_play_goto(int);
 
 #endif
