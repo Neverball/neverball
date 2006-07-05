@@ -63,13 +63,6 @@ void put_array(FILE *fout, const float *v, size_t n)
         put_float(fout, v + i);
 }
 
-void put_string(FILE *fp, char *str)
-{
-    int len = strlen(str) + 1;
-    fwrite(str, 1, len,  fp);
-}
-
-
 /*---------------------------------------------------------------------------*/
 
 void get_float(FILE *fin, float *f)
@@ -113,24 +106,5 @@ void get_array(FILE *fin, float *v, size_t n)
     for (i = 0; i < n; i++)
         get_float(fin, v + i);
 }
-
-void get_string(FILE *fp, char *str, int len)
-/* len includes room for '\0'.  If len is too small, the string is truncated. */
-{
-    char b;
-
-    while (1)
-    {
-        fread(&b, 1, 1, fp);
-        if (len > 0)
-        {
-            *(str++) = (len > 1 ? b : '\0');
-            len--;
-        }
-        if (b == '\0')
-            return;
-    }
-}
-
 
 /*---------------------------------------------------------------------------*/
