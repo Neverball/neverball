@@ -321,11 +321,8 @@ int main(int argc, char *argv[])
     {
         if (!level_replay(replay_path))
         {
-            fprintf(stderr, _("Replay file '%s': "), replay_path);
-            if (errno)
-                perror(NULL);
-            else
-                fprintf(stderr, _("Not a replay file\n"));
+            fprintf(stderr, _("Replay file '%s':  %s\n"), replay_path,
+                    errno ? strerror(errno) : _("Not a replay file"));
             return 1;
         }
         else if (display_info)

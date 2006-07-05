@@ -30,9 +30,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define MAGIC     0x4E425251 /* Replay file magic number (should not change) */
-#define OLD_MAGIC 0x4E425250 /* Replay file magic number for neverball 1.4.0 */
-#define DEMO_VERSION  1    /* Replay file format version (can change)      */
+#define MAGIC           0x52424EAF
+#define DEMO_VERSION    1
 
 #define DEMO_FPS_CAP 200 /* FPS replay limit, keeps size down on monster systems */
 
@@ -45,8 +44,6 @@ static int count; /* number of scanned demos */
 /*---------------------------------------------------------------------------*/
 
 void demo_dump_info(const struct demo *d)
-/* This function dump the info of a demo structure
- * It's only a function for debugging, no need of I18N */
 {
     printf("Name:         %s\n"
            "File:         %s\n"
@@ -154,7 +151,7 @@ FILE *demo_header_read(const char *filename, struct demo *d)
 
 /* Create a new demo file, write the demo information structure.  If success,
  * return the file pointer positioned after the header.  If fail, return NULL.
- * */
+ */
 
 static FILE *demo_header_write(struct demo *d)
 {
