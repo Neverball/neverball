@@ -38,7 +38,6 @@ static int level_enter(void)
     /* Load the level */
     level_ok = level_play_go();
 
-
     if ((id = gui_vstack(0)))
     {
         if (lg->mode == MODE_SINGLE)
@@ -102,14 +101,8 @@ static void level_timer(int id, float dt)
 static int level_click(int b, int d)
 {
     if (b < 0 && d == 1)
-    {
-        if (level_ok)
-            return goto_state(&st_play_ready);
-        else
-            return goto_end_level();
-    }
-    else
-       return 1;
+        return level_ok ? goto_state(&st_play_ready) : goto_end_level();
+    return 1;
 }
 
 static int level_keybd(int c, int d)

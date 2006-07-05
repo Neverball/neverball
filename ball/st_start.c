@@ -30,15 +30,16 @@
 /*---------------------------------------------------------------------------*/
 
 int goto_end_level(void)
-/* Action once the level sequence is ended (from goal or fail states) */
 {
-    int mode = curr_lg()->mode;
-    if (mode == MODE_SINGLE)
+    switch (curr_lg()->mode)
+    {
+    case MODE_SINGLE:
         return 0;
-    else if (mode == MODE_CHALLENGE)
+    case MODE_CHALLENGE:
         return goto_state(&st_over);
-    else
+    default:
         return goto_state(&st_start);
+    }
 }
 
 
