@@ -29,9 +29,6 @@
 #include "st_demo.h"
 #include "st_title.h"
 
-extern struct state st_demo_end;
-extern struct state st_demo_del;
-
 /*---------------------------------------------------------------------------*/
 
 #define DEMO_LINE 4
@@ -77,6 +74,7 @@ static void demo_replay(int id, int i)
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
     int jd;
+
     char nam[MAXNAM + 3];
 
     if ((jd = gui_vstack(id)))

@@ -5,6 +5,8 @@
 
 extern struct state st_demo;
 extern struct state st_demo_play;
+extern struct state st_demo_end;
+extern struct state st_demo_del;
 
 void demo_play_goto(int);
 
