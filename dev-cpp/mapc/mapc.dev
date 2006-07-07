@@ -10,9 +10,9 @@ Libs=
 PrivateResource=
 ResourceIncludes=
 MakeIncludes=
-Compiler=-Wall_@@_-g_@@_
+Compiler=-Wall_@@_-g_@@_-D_GNU_SOURCE=1_@@_
 CppCompiler=
-Linker=-lmingw32_@@_-lSDLmain_@@_-lSDL_@@_-lSDL_image_@@_
+Linker=-lmingw32_@@_-lSDLmain_@@_-lSDL_@@_-lSDL_image_@@_-lintl_@@_
 IsCpp=0
 Icon=
 ExeOutput=..\..\
