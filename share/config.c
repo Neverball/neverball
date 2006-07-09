@@ -61,8 +61,8 @@ static void config_key(const char *s, int i, int d)
 
 void config_init(void)
 {
-    memset(option_d, 0, CONFIG_OPTION_D_COUNT * sizeof (int));
-    memset(option_s, 0, CONFIG_OPTION_S_COUNT * sizeof (char *));
+    memset(option_d, 0, sizeof (option_d));
+    memset(option_s, 0, sizeof (option_s));
 
     config_set_d(CONFIG_FULLSCREEN,           DEFAULT_FULLSCREEN);
     config_set_d(CONFIG_WIDTH,                DEFAULT_WIDTH);
@@ -214,14 +214,14 @@ void config_load(void)
                 else if (strcmp(key, "key_camera_l")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_L, DEFAULT_KEY_CAMERA_L);
 
-                else if (strcmp(key, "player") == 0)
-                    config_set_s(CONFIG_PLAYER, val);
-                else if (strcmp(key, "ball")   == 0)
-                    config_set_s(CONFIG_BALL,   val);
-                else if (strcmp(key, "ball_bonus")   == 0)
-                    config_set_s(CONFIG_BALL_BONUS,   val);
-                else if (strcmp(key, "lang")   == 0)
-                    config_set_s(CONFIG_LANG,   val);
+                else if (strcmp(key, "player")     == 0)
+                    config_set_s(CONFIG_PLAYER,     val);
+                else if (strcmp(key, "ball")       == 0)
+                    config_set_s(CONFIG_BALL,       val);
+                else if (strcmp(key, "ball_bonus") == 0)
+                    config_set_s(CONFIG_BALL_BONUS, val);
+                else if (strcmp(key, "lang")       == 0)
+                    config_set_s(CONFIG_LANG,       val);
             }
 
         fclose(fp);
