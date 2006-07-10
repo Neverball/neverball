@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-07-10 13:35+0300\n"
-"PO-Revision-Date: 2006-06-06 02:57+0300\n"
+"POT-Creation-Date: 2006-07-10 13:37+0300\n"
+"PO-Revision-Date: 2006-07-10 13:37+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -20,82 +20,82 @@ msgstr ""
 #: ball/demo.c:312
 #, c-format
 msgid "replay%02d"
-msgstr "ieraksts%02d"
+msgstr ""
 
 #: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:177 ball/st_play_end.c:136
 msgid "Coins"
-msgstr "Monētas"
+msgstr ""
 
 #: ball/hud.c:73
 msgid "Goal"
-msgstr "Mērķis"
+msgstr ""
 
 #: ball/hud.c:99 ball/st_play_end.c:126
 msgid "Balls"
-msgstr "Bumbas"
+msgstr ""
 
 #: ball/hud.c:100 ball/st_play_end.c:131 putt/hud.c:45
 msgid "Score"
-msgstr "Kopā"
+msgstr ""
 
 #: ball/hud.h:6
 msgid "Chase"
-msgstr "Vajājošs"
+msgstr ""
 
 #: ball/hud.h:7
 msgid "Lazy"
-msgstr "Slinks"
+msgstr ""
 
 #: ball/hud.h:8
 msgid "Manual"
-msgstr "Manuāls"
+msgstr ""
 
 #: ball/level.c:129
 #, c-format
 msgid "Error while loading level file '%s': "
-msgstr "Kļūda, ielādējot līmeņa failu '%s': "
+msgstr ""
 
 #: ball/level.c:133
 #, c-format
 msgid "Not a valid level file\n"
-msgstr "nederīgs līmeņa fails\n"
+msgstr ""
 
 #: ball/level.c:213 ball/st_help.c:219 ball/st_start.c:251
 msgid "Challenge"
-msgstr "Spēku pārbaude"
+msgstr ""
 
 #: ball/level.c:214 ball/st_help.c:205 ball/st_start.c:243
 msgid "Normal"
-msgstr "Normāli"
+msgstr ""
 
 #: ball/level.c:215 ball/st_help.c:213 ball/st_start.c:241
 msgid "Practice"
-msgstr "Treniņš"
+msgstr ""
 
 #: ball/level.c:216
 msgid "Single"
-msgstr "Vienīgais"
+msgstr ""
 
 #: ball/level.c:227
 msgid "Aborted"
-msgstr "Pārtraukts"
+msgstr ""
 
 #: ball/level.c:228
 msgid "Time-out"
-msgstr "Laiks cauri"
+msgstr ""
 
 #: ball/level.c:230
 msgid "Success"
-msgstr "Veiksmīgs"
+msgstr ""
 
 #: ball/level.c:231
 msgid "Fall-out"
-msgstr "Kritiens"
+msgstr ""
 
 #: ball/main.c:58
 #, c-format
 msgid "screen%02d.png"
-msgstr "attēls%02d.png"
+msgstr ""
 
 #: ball/main.c:234
 #, c-format
@@ -108,229 +108,221 @@ msgid ""
 "-v, --version             show version.\n"
 "-h, -?, --help            show this usage message.\n"
 msgstr ""
-"Pielietojums: %s [opcijas ...]\n"
-"-r, --replay fails        parādīt spēles ierakstu 'fails'.\n"
-"-l, --level fails.sol     spēlēt līmeni 'fails.sol'.\n"
-"-i, --info                parādīt informāciju par līmeni vai ierakstu.\n"
-"    --data dir            izmantot 'dir' kā spēles datu katalogu.\n"
-"-v, --version             parādīt versiju.\n"
-"-h, -?, --help            parādīt šo lietojuma ziņojumu.\n"
 
 #: ball/main.c:256
 #, c-format
 msgid "%s: %s version %s\n"
-msgstr "%s: %s versija %s\n"
+msgstr ""
 
 #: ball/main.c:269
 #, c-format
 msgid "%s: unknown option %s\n"
-msgstr "%s: neatpazīta opcija %s\n"
+msgstr ""
 
 #: ball/main.c:275
 #, c-format
 msgid "%s: option %s requires an argument\n"
-msgstr "%s: opcijai %s nepieciešams arguments\n"
+msgstr ""
 
 #: ball/main.c:298 putt/main.c:258
 #, c-format
 msgid "Failure to establish game data directory\n"
-msgstr "Neizdevās noteikt spēles datu katalogu\n"
+msgstr ""
 
 #: ball/main.c:304 putt/main.c:256
 #, c-format
 msgid "Failure to establish config directory\n"
-msgstr "Neizdevās noteikt konfigurācijas katalogu\n"
+msgstr ""
 
 #: ball/main.c:323
-#, fuzzy, c-format
+#, c-format
 msgid "Replay file '%s':  %s\n"
-msgstr "Ieraksta fails '%s': "
+msgstr ""
 
 #: ball/main.c:324
-#, fuzzy
 msgid "Not a replay file"
-msgstr "nav ieraksta fails\n"
+msgstr ""
 
 #: ball/main.c:344
 #, c-format
 msgid "%s: --info requires --replay or --level\n"
-msgstr "%s: --info nepieciešams --replay vai --level\n"
+msgstr ""
 
 #: ball/set.c:148
 #, c-format
 msgid "Error while loading user high-score file '%s': "
-msgstr "Kļūda, ielādējot lietotāja spēles rezultātu failu '%s': "
+msgstr ""
 
 #: ball/set.c:153
 #, c-format
 msgid "Incorrect format\n"
-msgstr "nepareizs formāts\n"
+msgstr ""
 
 #: ball/set.c:175
 #, c-format
 msgid "Cannot load the set file '%s':"
-msgstr "Nav iespējams ielādēt komplekta failu '%s':"
+msgstr ""
 
 #: ball/set.c:355
 #, c-format
 msgid "B%d"
-msgstr "B%d"
+msgstr ""
 
 #: ball/st_conf.c:227 putt/st_conf.c:190
 msgid "Options"
-msgstr "Opcijas"
+msgstr ""
 
 #: ball/st_conf.c:235 ball/st_demo.c:492 ball/st_save.c:183 putt/st_conf.c:198
 msgid "No"
-msgstr "Nē"
+msgstr ""
 
 #: ball/st_conf.c:236 ball/st_demo.c:493 ball/st_save.c:184 putt/st_conf.c:199
 msgid "Yes"
-msgstr "Jā"
+msgstr ""
 
 #: ball/st_conf.c:248 ball/st_conf.c:253 ball/st_conf.c:276 putt/st_conf.c:211
 #: putt/st_conf.c:216 putt/st_conf.c:229
 msgid "Low"
-msgstr "Slikti"
+msgstr ""
 
 #: ball/st_conf.c:249 ball/st_conf.c:254 ball/st_conf.c:277 putt/st_conf.c:212
 #: putt/st_conf.c:217 putt/st_conf.c:230
 msgid "High"
-msgstr "Labi"
+msgstr ""
 
 #: ball/st_conf.c:258 ball/st_conf.c:263 ball/st_conf.c:268 putt/st_conf.c:221
 msgid "Off"
-msgstr "Bez"
+msgstr ""
 
 #: ball/st_conf.c:259 ball/st_conf.c:264 ball/st_conf.c:269 putt/st_conf.c:222
 msgid "On"
-msgstr "Ar"
+msgstr ""
 
 #: ball/st_conf.c:320 ball/st_demo.c:245 ball/st_help.c:73 ball/st_start.c:229
 #: ball/util.c:348 putt/st_all.c:297 putt/st_all.c:419 putt/st_conf.c:271
 #: share/st_lang.c:80 share/st_resol.c:93
 msgid "Back"
-msgstr "Atpakaļ"
+msgstr ""
 
 #: ball/st_conf.c:323 putt/st_conf.c:274
 msgid "Fullscreen"
-msgstr "Pilnekrāns"
+msgstr ""
 
 #: ball/st_conf.c:324 putt/st_conf.c:275 share/st_resol.c:91
 msgid "Resolution"
-msgstr "Izšķirtspēja"
+msgstr ""
 
 #: ball/st_conf.c:326 putt/st_conf.c:277
 msgid "Textures"
-msgstr "Tekstūras"
+msgstr ""
 
 #: ball/st_conf.c:327 putt/st_conf.c:278
 msgid "Geometry"
-msgstr "Ģeometrija"
+msgstr ""
 
 #: ball/st_conf.c:328
 msgid "Reflection"
-msgstr "Atspulgs"
+msgstr ""
 
 #: ball/st_conf.c:329
 msgid "Background"
-msgstr "Fons"
+msgstr ""
 
 #: ball/st_conf.c:330 putt/st_conf.c:279
 msgid "Shadow"
-msgstr "Ēna"
+msgstr ""
 
 #: ball/st_conf.c:331 putt/st_conf.c:280
 msgid "Audio"
-msgstr "Audio"
+msgstr ""
 
 #: ball/st_conf.c:332 putt/st_conf.c:281
 msgid "Sound Volume"
-msgstr "Skaņu skaļums"
+msgstr ""
 
 #: ball/st_conf.c:333 putt/st_conf.c:282
 msgid "Music Volume"
-msgstr "Mūzikas skaļums"
+msgstr ""
 
 #: ball/st_conf.c:334 putt/st_conf.c:283 share/st_lang.c:78
 msgid "Language"
-msgstr "Valoda"
+msgstr ""
 
 #: ball/st_conf.c:335 ball/st_name.c:111
 msgid "Player Name"
-msgstr "Spēlētāja vārds"
+msgstr ""
 
 #: ball/st_demo.c:175 ball/st_name.c:40 putt/st_all.c:476
 msgid "Player"
-msgstr "Spēlētājs"
+msgstr ""
 
 #: ball/st_demo.c:179
 msgid "State"
-msgstr "Stāvoklis"
+msgstr ""
 
 #: ball/st_demo.c:201 ball/st_demo.c:321
 msgid "Replay"
-msgstr "Ieraksts"
+msgstr ""
 
 #: ball/st_demo.c:202
 msgid "Time"
-msgstr "Laiks"
+msgstr ""
 
 #: ball/st_demo.c:203
 msgid "Mode"
-msgstr "Režīms"
+msgstr ""
 
 #: ball/st_demo.c:204
 msgid "Level"
-msgstr "Līmenis"
+msgstr ""
 
 #: ball/st_demo.c:205
 msgid "Date"
-msgstr "Datums"
+msgstr ""
 
 #: ball/st_demo.c:243
 msgid "No Replays"
-msgstr "Nav ierakstu"
+msgstr ""
 
 #: ball/st_demo.c:253
 msgid "Select Replay"
-msgstr "Izvēlies ierakstu"
+msgstr ""
 
 #: ball/st_demo.c:415
 msgid "Replay Ends"
-msgstr "Ieraksta beigas"
+msgstr ""
 
 #: ball/st_demo.c:419
 msgid "Replay Again"
-msgstr "Atkārtot"
+msgstr ""
 
 #: ball/st_demo.c:422 ball/st_done.c:88 ball/st_name.c:123
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: ball/st_demo.c:425
 msgid "Keep"
-msgstr "Paturēt"
+msgstr ""
 
 #: ball/st_demo.c:426
 msgid "Delete"
-msgstr "Dzēst"
+msgstr ""
 
 #: ball/st_demo.c:488
 msgid "Delete Replay?"
-msgstr "Dzēst ierakstu?"
+msgstr ""
 
 #: ball/st_done.c:55
 msgid "New Challenge Record"
-msgstr "Jauns spēka rekords"
+msgstr ""
 
 #: ball/st_done.c:56
 msgid "Challenge Complete"
-msgstr "Spēku pārbaude izturēta"
+msgstr ""
 
 #: ball/st_done.c:87 ball/st_play_end.c:190
 msgid "Change Player Name"
-msgstr "Mainīt spēlētāja vārdu"
+msgstr ""
 
 #: ball/st_help.c:68
 msgid "Credits"
@@ -366,35 +358,35 @@ msgstr ""
 
 #: ball/st_help.c:121
 msgid "Left and right mouse buttons rotate the view."
-msgstr "Kreisā un labā peles poga groza skatu."
+msgstr ""
 
 #: ball/st_help.c:122
 msgid "Hold Shift for faster view rotation."
-msgstr "Pieturi Shift ātrākai skata grozīšanai."
+msgstr ""
 
 #: ball/st_help.c:123
 msgid "Pause / Release Pointer"
-msgstr "Pauze / Atbrīvot kursoru"
+msgstr ""
 
 #: ball/st_help.c:124
 msgid "Exit / Cancel Menu"
-msgstr "Iziet / Atcelt izvēlni"
+msgstr ""
 
 #: ball/st_help.c:125
 msgid "Chase View"
-msgstr "Vajājošais skats"
+msgstr ""
 
 #: ball/st_help.c:126
 msgid "Lazy View"
-msgstr "Slinkais skats"
+msgstr ""
 
 #: ball/st_help.c:127
 msgid "Manual View"
-msgstr "Manuālais skats"
+msgstr ""
 
 #: ball/st_help.c:128
 msgid "Show FPS"
-msgstr "Rādīt FPS"
+msgstr ""
 
 #: ball/st_help.c:129
 msgid "Screenshot"
@@ -406,11 +398,11 @@ msgstr ""
 
 #: ball/st_help.c:132
 msgid "Spacebar"
-msgstr "Space"
+msgstr ""
 
 #: ball/st_help.c:133
 msgid "Escape"
-msgstr "Esc"
+msgstr ""
 
 #: ball/st_help.c:235 ball/st_help.c:240
 msgid " \\ \\ \\ \\ "
@@ -434,265 +426,265 @@ msgstr ""
 
 #: ball/st_level.c:45
 msgid "Single Level"
-msgstr "Viens līmenis"
+msgstr ""
 
 #: ball/st_level.c:56
 msgid "*** BONUS ***"
-msgstr "*** BONUS ***"
+msgstr ""
 
 #: ball/st_level.c:63 ball/st_level.c:69
 msgid "Level "
-msgstr "Līmenis "
+msgstr ""
 
 #: ball/st_level.c:81
 msgid "Cannot load the level file."
-msgstr "Nav iespējams ielādēt līmeņa failu."
+msgstr ""
 
 #: ball/st_name.c:124 ball/st_save.c:113
 msgid "Cancel"
-msgstr "Atcelt"
+msgstr ""
 
 #: ball/st_over.c:33
 msgid "GAME OVER"
-msgstr "SPĒLE GALĀ"
+msgstr ""
 
 #: ball/st_play.c:46
 msgid "Ready?"
-msgstr "Uzmanību!"
+msgstr ""
 
 #: ball/st_play.c:95
 msgid "Set?"
-msgstr "Gatavību!"
+msgstr ""
 
 #: ball/st_play.c:149
 msgid "GO!"
-msgstr "AIZIET!"
+msgstr ""
 
 #: ball/st_play_end.c:98
 msgid "SPECIAL GOAL"
-msgstr "ĪPAŠAIS MĒRĶIS"
+msgstr ""
 
 #: ball/st_play_end.c:101
 msgid "Fall-out!"
-msgstr "Kritiens!"
+msgstr ""
 
 #: ball/st_play_end.c:104
 msgid "Time's Up!"
-msgstr "Laiks cauri!"
+msgstr ""
 
 #: ball/st_play_end.c:107
 msgid "New Record"
-msgstr "Jauns rekords"
+msgstr ""
 
 #: ball/st_play_end.c:110
 msgid "GOAL"
-msgstr "MĒRĶIS"
+msgstr ""
 
 #: ball/st_play_end.c:167
 msgid "Finish"
-msgstr "Beigt"
+msgstr ""
 
 #: ball/st_play_end.c:169
 msgid "Next Level"
-msgstr "Nākošais līmenis"
+msgstr ""
 
 #: ball/st_play_end.c:173
 msgid "Game Over"
-msgstr "Spēle galā"
+msgstr ""
 
 #: ball/st_play_end.c:177
 msgid "Retry Level"
-msgstr "Mēģināt vēlreiz"
+msgstr ""
 
 #: ball/st_play_end.c:180
 msgid "Save Replay"
-msgstr "Saglabāt ierakstu"
+msgstr ""
 
 #: ball/st_save.c:100
 msgid "Replay Name"
-msgstr "Ieraksta nosaukums"
+msgstr ""
 
 #: ball/st_save.c:112
 msgid "Save"
-msgstr "Saglabāt"
+msgstr ""
 
 #: ball/st_save.c:177
 msgid "Overwrite?"
-msgstr "Pārrakstīt?"
+msgstr ""
 
 #: ball/st_set.c:114
 msgid "Level Set"
-msgstr "Līmeņu komplekts"
+msgstr ""
 
 #: ball/st_start.c:100
 msgid "Play this bonus level in practice mode"
-msgstr "Spēlē šo papildus līmeni treniņrežīmā"
+msgstr ""
 
 #: ball/st_start.c:103
 msgid "Play this level in practice mode"
-msgstr "Spēlē šo līmeni treniņrežīmā"
+msgstr ""
 
 #: ball/st_start.c:110
 msgid "Play this bonus level in normal mode"
-msgstr "Spēlē šo papildus līmeni parastajā režīmā"
+msgstr ""
 
 #: ball/st_start.c:112
 msgid "Play this level in normal mode"
-msgstr "Spēlē šo līmeni parastajā režīmā"
+msgstr ""
 
 #: ball/st_start.c:122
 msgid "Play in challenge mode to unlock extra bonus levels"
-msgstr "Pārbaudi spēkus, lai atslēgtu papildus līmeņus"
+msgstr ""
 
 #: ball/st_start.c:125
 msgid "Finish previous levels to unlock this level"
-msgstr "Pabeidz iepriekšējos līmeņus, lai atslēgtu šo līmeni"
+msgstr ""
 
 #: ball/st_start.c:145
 msgid "Challenge all levels from the first one"
-msgstr "Pārbaudi spēkus spēlē no pirmā līdz pēdējam līmenim"
+msgstr ""
 
 #: ball/st_start.c:149
 msgid "Collect coins and unlock next level"
-msgstr "Vāc monētas un atslēdz nākošo līmeni"
+msgstr ""
 
 #: ball/st_start.c:153
 msgid "Train yourself without time nor coin"
-msgstr "Vingrinies bez laika un monētu ierobežojumiem"
+msgstr ""
 
 #: ball/st_start.c:265
 msgid "Choose a level to play"
-msgstr "Izvēlies līmeni"
+msgstr ""
 
 #: ball/st_title.c:84 putt/st_all.c:182
 msgid "menu^Play"
-msgstr "Spēlēt"
+msgstr ""
 
 #: ball/st_title.c:85
 msgid "menu^Replay"
-msgstr "Skatīties"
+msgstr ""
 
 #: ball/st_title.c:86
 msgid "menu^Help"
-msgstr "Palīdzība"
+msgstr ""
 
 #: ball/st_title.c:87 putt/st_all.c:183
 msgid "menu^Options"
-msgstr "Opcijas"
+msgstr ""
 
 #: ball/st_title.c:88 putt/st_all.c:184
 msgid "menu^Exit"
-msgstr "Iziet"
+msgstr ""
 
 #: ball/util.c:26
 msgid "Hard"
-msgstr "Grūti"
+msgstr ""
 
 #: ball/util.c:26
 msgid "Medium"
-msgstr "Vidēji"
+msgstr ""
 
 #: ball/util.c:27
 msgid "Easy"
-msgstr "Viegli"
+msgstr ""
 
 #: ball/util.c:53
 msgid "Most Coins"
-msgstr "Visvairāk monētu"
+msgstr ""
 
 #: ball/util.c:222
 msgid "Unlock Goal"
-msgstr "Atslēgts mērķis"
+msgstr ""
 
 #: ball/util.c:224
 msgid "Best Times"
-msgstr "Labākie laiki"
+msgstr ""
 
 #: ball/util.c:326
 msgid "del"
-msgstr "dzēst"
+msgstr ""
 
 #: ball/util.c:344
 msgid "Next"
-msgstr "Nāk"
+msgstr ""
 
 #: ball/util.c:345
 msgid "Prev"
-msgstr "Iepr"
+msgstr ""
 
 #: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:88 putt/st_all.c:132
 msgid "Par"
-msgstr "Par"
+msgstr ""
 
 #: putt/hole.c:106 putt/st_all.c:89 putt/st_all.c:133
 msgid "P1"
-msgstr "S1"
+msgstr ""
 
 #: putt/hole.c:107 putt/st_all.c:90 putt/st_all.c:134
 msgid "P2"
-msgstr "S2"
+msgstr ""
 
 #: putt/hole.c:108 putt/st_all.c:91 putt/st_all.c:135
 msgid "P3"
-msgstr "S3"
+msgstr ""
 
 #: putt/hole.c:109 putt/st_all.c:92 putt/st_all.c:136
 msgid "P4"
-msgstr "S4"
+msgstr ""
 
 #: putt/st_all.c:66
 msgid "O"
-msgstr "O"
+msgstr ""
 
 #: putt/st_all.c:102
 msgid "Tot"
-msgstr "Tot"
+msgstr ""
 
 #: putt/st_all.c:111
 msgid "I"
-msgstr "I"
+msgstr ""
 
 #: putt/st_all.c:263
 msgid "Select Course"
-msgstr "Izvēlies kursu"
+msgstr ""
 
 #: putt/st_all.c:398
 msgid "Players?"
-msgstr "Spēlētāji?"
+msgstr ""
 
 #: putt/st_all.c:469
 #, c-format
 msgid "Hole %02d"
-msgstr "Bedrīte %02d"
+msgstr ""
 
 #: putt/st_all.c:713
 msgid "It's In!"
-msgstr "Ir!"
+msgstr ""
 
 #: putt/st_all.c:824
 msgid "1 Stroke Penalty"
-msgstr "1 sitiena sods"
+msgstr ""
 
 #: putt/st_all.c:880
 msgid "Scores"
-msgstr "Rezultāti"
+msgstr ""
 
 #: putt/st_all.c:922
 msgid "Final Scores"
-msgstr "Gala rezultāti"
+msgstr ""
 
 #: share/audio.c:63
 #, c-format
 msgid "Sound disabled\n"
-msgstr "Nav skaņas\n"
+msgstr ""
 
 #: share/base_config.h:42
 msgid "Last"
-msgstr "Pēdējais"
+msgstr ""
 
 #: share/base_config.h:78
 msgid "ttf/DejaVuSans-Bold.ttf"
-msgstr "ttf/DejaVuSans-Bold.ttf"
+msgstr ""
 
 #: share/geom.h:7
 msgid "png/coin.png"
@@ -701,35 +693,35 @@ msgstr ""
 #: share/gui.c:387
 #, c-format
 msgid "Out of widget IDs\n"
-msgstr "Beigušās widget ID\n"
+msgstr ""
 
 #: share/gui.c:580
 msgid "Paused"
-msgstr "Pauze"
+msgstr ""
 
 #: share/i18n.c:47
 msgid "English"
-msgstr "Angļu"
+msgstr ""
 
 #: share/i18n.c:48
 msgid "French"
-msgstr "Franču"
+msgstr ""
 
 #: share/i18n.c:49
 msgid "German"
-msgstr "Vācu"
+msgstr ""
 
 #: share/i18n.c:50
 msgid "Latvian"
-msgstr "Latviešu"
+msgstr ""
 
 #: share/i18n.c:101
 msgid "System Default"
-msgstr "Sistēmas valoda"
+msgstr ""
 
 #: data/set-easy.txt
 msgid "Neverball Easy"
-msgstr "Neverball Easy"
+msgstr ""
 
 #: data/set-easy.txt
 msgid ""
@@ -739,25 +731,23 @@ msgstr ""
 
 #: data/set-easy2.txt
 msgid "Neverball Easy 2"
-msgstr "Neverball Easy 2"
+msgstr ""
 
 #: data/set-easy2.txt
 msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
-msgstr "Otrais vieglo līmeņu komplekts.\\\\\\Pagaidām tikai top.\\\\"
+msgstr ""
 
 #: data/set-easy3.txt
-#, fuzzy
 msgid "Neverball Easy 3"
-msgstr "Neverball Easy 2"
+msgstr ""
 
 #: data/set-easy3.txt
-#, fuzzy
 msgid "Difficulty: A third set of easy levels.\\\\\\Work in progress.\\\\"
-msgstr "Otrais vieglo līmeņu komplekts.\\\\\\Pagaidām tikai top.\\\\"
+msgstr ""
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
-msgstr "Neverball Hard"
+msgstr ""
 
 #: data/set-hard.txt
 msgid ""
@@ -768,7 +758,7 @@ msgstr ""
 
 #: data/set-mym.txt
 msgid "Mehdi's Levels"
-msgstr "Mehdi's Levels"
+msgstr ""
 
 #: data/set-mym.txt
 msgid ""
@@ -778,19 +768,17 @@ msgstr ""
 
 #: data/set-mym2.txt
 msgid "Mehdi's Levels Suite"
-msgstr "Mehdi's Levels Suite"
+msgstr ""
 
 #: data/set-mym2.txt
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
-"Grūtības pakāpe: nedaudz grūtāks par\\viņa pirmo komplektu.\\\\Vairāk "
-"izaicinājuma, it īpaši monētu vākšanā.\\Autors: Mehdi Yousfi-Monod (mym)\\"
 
 #: data/set-paul.txt
 msgid "Paul's levels"
-msgstr "Paul's levels"
+msgstr ""
 
 #: data/set-paul.txt
 msgid ""
@@ -803,51 +791,41 @@ msgid ""
 "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
 msgstr ""
-"Sākotnējais 18 bedrīšu kurss.\\Ar vienmērīgi pieaugošu grūtības pakāpi.\\ "
-"\\Grūtības pakāpe: no vieglas līdz vidējai\\Autors: rlk\\"
 
 #: data/courses.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr ""
-"Vēl viens 18 bedrīšu kurss\\ \\ \\Grūtības pakāpe: vidēja\\Autors: paxed\\"
 
 #: data/courses.txt
 msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr ""
-"Kārtējais 18 bedrīšu kurss\\ \\ \\Grūtības pakāpe: vidēja\\Autors: paxed\\"
 
 #: data/courses.txt
 msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr "Vēl vairāk bedrīšu\\ \\ \\Grūtības pakāpe: vidēja\\Autors: paxed\\"
+msgstr ""
 
 #: data/courses.txt
 msgid ""
 "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
 msgstr ""
-"26 bedrīšu kurss\\alfabēta secībā\\\\Grūtības pakāpe: ievērojama\\Autors: "
-"paxed\\"
 
 #: data/courses.txt
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
 msgstr ""
-"Ķertais Golfs\\ \\\\Grūtības pakāpe: no vieglas līdz vidējai\\Autors: "
-"slippifishi\\"
 
 #: data/map-easy2/billiard-paul.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
-msgstr "Pamēģini savākt visas zilās monētas...\\tas nebūs vienkārši!"
+msgstr ""
 
 #: data/map-easy2/checkers-paul.map
 msgid ""
 "It's a real game of checkers, but no one wins...\\You have to bounce to "
 "reach the blue coins."
 msgstr ""
-"Tā ir īsta dambretes spēle, taču nav uzvarētāja...\\Tev vajadzēs palēkāt, "
-"lai tiktu pie zilajām monētām."
 
 #: data/map-easy2/elevator-jp.map
 msgid "Calm and meditation may bring you to the Nirvana."
-msgstr "Ar mierīgu prātu un meditāciju Tu vari sasniegt Nirvānu."
+msgstr ""
 
 #: data/map-easy2/grow_demo-dave.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
@@ -868,11 +846,10 @@ msgstr ""
 #: data/map-easy2/paths-paul.map
 msgid "So many different paths to take...\\have you tried all of them?"
 msgstr ""
-"Tik daudz dažādu ceļu, pa kuriem iet...\\vai esi izmēģinājis tos visus?"
 
 #: data/map-easy2/stairs-jp.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
-msgstr "Krītamkāpnes.\\Sāpīgi."
+msgstr ""
 
 #: data/map-easy2/thwomp2-paul.map
 msgid "Grab all the coins...\\but don't get thwomped!"
@@ -880,23 +857,23 @@ msgstr ""
 
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
-msgstr "Le parcours du combattant.\\Esi gatavs šķēršļu joslai?"
+msgstr ""
 
 #: data/map-mym/circuit1.map
 msgid "Les rampes abruptes.\\Control your speed."
-msgstr "Les rampes abruptes.\\Kontrolē savu ātrumu."
+msgstr ""
 
 #: data/map-mym/circuit2.map
 msgid "La course effrénée.\\Let's make some laps."
-msgstr "La course effrénée.\\Pariņķosim."
+msgstr ""
 
 #: data/map-mym/climb.map
 msgid "L'escalade ardue.\\Do you suffer from vertigo?"
-msgstr "L'escalade ardue.\\Vai Tev bail no augstuma?"
+msgstr ""
 
 #: data/map-mym/comeback.map
 msgid "Le cycle éternel.\\Avoid teleporters..."
-msgstr "Le cycle éternel.\\Turies tālāk no portāliem..."
+msgstr ""
 
 #: data/map-mym/dance1.map
 msgid ""
@@ -904,217 +881,197 @@ msgid ""
 "activating the last moving platform,\\ turn around the Thwomp until the goal "
 "is reachable."
 msgstr ""
-"La ballade dansante.\\Padancosim uz kustīgās platformas!\\Padoms: Pēc "
-"pēdējās platformas iedarbināšanas\\ riņķo ap sejaini līdz mērķis kļūst "
-"sasniedzams."
 
 #: data/map-mym/dance2.map
 msgid "La ballade tranquille.\\What a quiet walk."
-msgstr "La ballade tranquille.\\Kāda klusa pastaiga."
+msgstr ""
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
-msgstr "La descente infernale.\\Pietiekoši viegli iesākumam?"
+msgstr ""
 
 #: data/map-mym/drive1.map
 msgid ""
 "La conduite stressante.\\Attention:\\The platform under the ball moves "
 "forward."
 msgstr ""
-"La conduite stressante.\\Uzmanību: platforma zem bumbas\\pārvietojas uz "
-"priekšu."
 
 #: data/map-mym/drive2.map
 msgid ""
 "La conduite dangereuse.\\The platform under the ball moves quickly forward."
 "\\You would do well to advance."
 msgstr ""
-"La conduite dangereuse.\\Platforma zem bumbas ātri pārvietojas\\uz priekšu. "
-"Tu labi darītu, ja pasteigtos."
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
-msgstr "Le passage incertain.\\Nav pārāk vienkārši?"
+msgstr ""
 
 #: data/map-mym/ghosts.map
 msgid "Ghost Valley.\\Make 3 laps to open the goal."
-msgstr "Spoku ieleja.\\Veic 3 apļus, lai atvērtu mērķi."
+msgstr ""
 
 #: data/map-mym/glasstower.map
 msgid "La tour de verre.\\Find the way to the exit."
-msgstr "La tour de verre.\\Atrodi ceļu līdz izejai."
+msgstr ""
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
 msgstr ""
-"La maîtrise de Neverball.\\Joprojām šķiet, ka Neverball ir pārāk viegla?"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
-msgstr "Les boucles renversantes.\\Ačgārni!"
+msgstr ""
 
 #: data/map-mym/loop2.map
 msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
 msgstr ""
-"Le contrôle des courbes.\\Atrodi īsto leņķi, lai grieztos,\\lektu, un "
-"piezemētos..."
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
-msgstr "Le chemin dissimulé.\\Pārbaudi savu atmiņu."
+msgstr ""
 
 #: data/map-mym/maze2.map
 msgid ""
 "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
 "another one?"
 msgstr ""
-"Le labyrinthe fou.\\Tu zini ceļu, Tu redzi to,\\tad kādēļ Tu dodies citā "
-"virzienā?"
 
 #: data/map-mym/narrow.map
 msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
 "slope."
 msgstr ""
-"Le sentier étroit.\\Pacietība un precizitāte. Padoms:\\kāpini ātrumu pirmajā "
-"nobraucienā."
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
-msgstr "Les épreuves minutées.\\Skrien!"
+msgstr ""
 
 #: data/map-mym/scrambling.map
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
 msgstr ""
-"Le petit cross.\\Dodamies kāpelēt!\\Turies tuvāk ceļam, lai uzlabotu ātrumu."
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr "La descente rafraîchissante.\\Ne tik ātri, ne tik ātri."
+msgstr ""
 
 #: data/map-mym/trust.map
 msgid "Le chemin de la foi.\\Self-confidence."
-msgstr "Le chemin de la foi.\\Pašpaļāvība."
+msgstr ""
 
 #: data/map-mym/turn.map
-#, fuzzy
 msgid "Le sens trigonometrique.\\Turn, wait and jump."
-msgstr "Le sens trigonométrique.\\Griezies, gaidi, un lec."
+msgstr ""
 
 #: data/map-mym/up.map
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr "L'ascension pressée.\\Tikai viens ieteikums: neapstājies!"
+msgstr ""
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr "Un va-et-vient frustrant.\\Atceries ieslēgšanas secību."
+msgstr ""
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
-msgstr "Street Neverball\\Izvēlies savu komandu un gūsti 3 punktus."
+msgstr ""
 
 #: data/map-mym2/bigball.map
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
 msgstr ""
-"Prisonnier de la boule.\\Dzīve lodē.\\Zilo monētu savākšana ir īsts "
-"izaicinājums."
 
 #: data/map-mym2/bigcones.map
 msgid "Les grands cônes.\\Living in a cone."
-msgstr "Les grands cônes.\\Dzīve konusā."
+msgstr ""
 
 #: data/map-mym2/bombman.map
 msgid "Les flammes ardentes.\\Do this remind you of something?"
-msgstr "Les flammes ardentes.\\Vai šis Tev kaut ko atgādina?"
+msgstr ""
 
 #: data/map-mym2/bounces.map
 msgid "Les sauts du célèbre plombier.\\Follow the coins."
-msgstr "Les sauts du célèbre plombier.\\Seko monētām."
+msgstr ""
 
 #: data/map-mym2/fall.map
 msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
-msgstr "Savoir rebondir pour aller plus haut.\\Neverball Arēna."
+msgstr ""
 
 #: data/map-mym2/freefall.map
 msgid "Savoir chuter.\\Follow the blue markers."
-msgstr "Savoir chuter.\\Seko zilajām atzīmēm."
+msgstr ""
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
-msgstr "Le petit moulin.\\Notver īsto brīdi iekāpšanai kabīnē."
+msgstr ""
 
 #: data/map-mym2/littlecones.map
 msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
-msgstr "Ne pas se laisser emporter dans le néant.\\Nenolaidies pārāk zemu."
+msgstr ""
 
 #: data/map-mym2/longpipe.map
 msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
 msgstr ""
-"Si si, ce tuyau a une fin.\\Dzīve caurulē. Padoms: samazini\\ātrumu pēdējam "
-"lēcienam."
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
-msgstr "Plus dur que la difficulté.\\Labu veiksmi."
+msgstr ""
 
 #: data/map-mym2/movinglumps.map
 msgid "Être patient.\\Not too hard."
-msgstr "Être patient.\\Nav pārāk grūti."
+msgstr ""
 
 #: data/map-mym2/movingpath.map
 msgid "Le passage éphémère.\\Trust the coins."
-msgstr "Le passage éphémère.\\Uzticies monētām."
+msgstr ""
 
 #: data/map-mym2/push.map
 msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr "Hé, on pousse pas !\\Ne pārāk ātri, ne pārāk lēni."
+msgstr ""
 
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Make 3 laps to open the goal."
-msgstr "Varavīkšņu ceļš.\\Veic 3 apļus, lai atvērtu mērķi."
+msgstr ""
 
 #: data/map-mym2/rodeo.map
 msgid "Le rodéo de Neverball.\\You'll fall quickly."
-msgstr "Le rodéo de Neverball.\\Tu ātri kritīsi."
+msgstr ""
 
 #: data/map-mym2/runstop.map
 msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
-msgstr "J'y vais, ou j'y vais pas ?\\Nerausties."
+msgstr ""
 
 #: data/map-mym2/shaker.map
 msgid "Préparez un petit sac.\\The stomach-tester."
-msgstr "Préparez un petit sac.\\Vēderpārbaude."
+msgstr ""
 
 #: data/map-mym2/sonic.map
 msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
-msgstr "Un petit échauffement.\\Laipni lūgti jaunajā Mehdi komplektā!"
+msgstr ""
 
 #: data/map-mym2/speed.map
 msgid "Plus vite que la vitesse.\\Speedness definition."
-msgstr "Plus vite que la vitesse.\\Ātruma definīcija."
+msgstr ""
 
 #: data/map-mym2/speeddance.map
 msgid "La danse asiatique\\Trust in the arrows."
-msgstr "La danse asiatique\\Uzticies bultām."
+msgstr ""
 
 #: data/map-mym2/translation.map
 msgid "Suis le mouvement.\\Warning, the road is moving."
-msgstr "Suis le mouvement.\\Uzmanību, kustīgs ceļš."
+msgstr ""
 
 #: data/map-mym2/updown.map
 msgid "Tranquille, mais pas trop.\\Sync yourself to the music."
-msgstr "Tranquille, mais pas trop.\\Pieskaņojies mūzikas ritmam."
+msgstr ""
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
-msgstr "Les toiles attirantes.\\Tiec ārā no tīkliem."
+msgstr ""
 
 #: data/map-paul/bounce.map
 msgid ""
@@ -1135,16 +1092,12 @@ msgid ""
 "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
 "the easy cash or\\go all the way for a big payoff.\\"
 msgstr ""
-"Šie tilti ir slīpi.\\Katrs no tiem ir šaurāks\\un stāvāks par iepriekšējo."
-"\\Savāc sīknaudu, vai arī mēro\\visu ceļu pie lielās naudas.\\"
 
 #: data/map-rlk/bumper.map
 msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the ball"
 "\\completely out of control.\\"
 msgstr ""
-"Centies izvairīties no kustīgiem priekšmetiem.\\Viens vienīgs trieciens spēj "
-"padarīt\\bumbu pavisam nevadāmu.\\"
 
 #: data/map-rlk/bumps.map
 msgid ""
@@ -1152,13 +1105,10 @@ msgid ""
 "\\ball will land.  If you're feeling confident in\\your mastery of bouncing, "
 "take a risk\\for a big payoff.\\"
 msgstr ""
-"Iemācies pārvaldīt lēkājošu bumbu.\\Paturi acīs ēnu, lai zinātu, kur bumba"
-"\\piezemēsies. Ja jūties pietiekoši pārliecināts\\par savām lēkāšanas "
-"iemaņām,\\vari mēģināt tikt klāt lielajai naudai.\\"
 
 #: data/map-rlk/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
-msgstr "Šeit ir pārāk maz grīdas.\\Cerams, ka tā nav nekāda problēma.\\"
+msgstr ""
 
 #: data/map-rlk/coins.map
 msgid ""
@@ -1166,54 +1116,40 @@ msgid ""
 "earn an extra ball.\\Red coins are worth 5, blue coins are worth 10.\\Get to "
 "the goal before time expires!\\\\Click to begin.\\"
 msgstr ""
-"Šoreiz Tev mērķa atslēgšanai jāiegūst 50 monētas.\\Savāc 100 monētas, lai "
-"nopelnītu papildus bumbu.\\Sarkano monētu vērtība ir 5, zilo - 10.\\Tiec "
-"līdz mērķim pirms beidzas laiks!\\\\Klikšķini, lai sāktu.\\"
 
 #: data/map-rlk/corners.map
 msgid ""
 "Here are some more opportunities for you to\\fall off into the void. Hit the "
 "bump hard to\\grab some big coins and score a short time.\\"
 msgstr ""
-"Šeit priekš Tevis ir vēl pāris iespējas\\nogāzties nebūtībā. Triecies pret "
-"paaugstināto\\apmali, lai paķertu lielās monētas un īsā\\laikā pabeigtu "
-"līmeni.\\"
 
 #: data/map-rlk/curbs.map
 msgid ""
 "To make progress here you'll need to hit the\\edges hard and control your "
 "bouncing.\\It's often easiest to hit the curb at a corner.\\"
 msgstr ""
-"Šeit, lai tiktu uz priekšu, Tev vajadzēs spēji\\triekties apmalēs un "
-"kontrolēt savu lēkāšanu.\\Reizēm visvienkāršāk ir ieskriet apmales stūrī.\\"
 
 #: data/map-rlk/curved.map
 msgid ""
 "As before, but without the training wheels.\\Keep the ball on a level floor"
 "\\and maintain precise control.\\Build some momentum to reach the corners.\\"
 msgstr ""
-"Kā iepriekš, taču bez roku pieturēšanas.\\Turi bumbu uz līmeniskas grīdas"
-"\\un saglabā rūpīgu kontroli.\\Izmanto ieskrējienu, lai sasniegtu stūrus.\\"
 
 #: data/map-rlk/drops.map
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And "
 "don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
 msgstr ""
-"Nepiemirsti paturēt acīs ēnu, lai spētu\\vieglāk savaldīt lēkājošu bumbu. Un "
-"atceries,\\ka vari izmantot peles pogas, lai paturētu\\bumbu redzeslokā.\\"
 
 #: data/map-rlk/easy.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
 msgstr ""
-"Kustini peli, lai liektu grīdu.\\Savāc 10 monētas, lai atslēgtu mērķi.\\Vadi "
-"bumbu līdz mērķim, lai pabeigtu līmeni.\\\\Klikšķini, lai sāktu.\\"
 
 #: data/map-rlk/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
-msgstr "Izmanto portālus, lai nokļūtu\\tur, kur citādi nevarētu.\\"
+msgstr ""
 
 #: data/map-rlk/fence.map
 msgid ""
@@ -1221,33 +1157,26 @@ msgid ""
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
 msgstr ""
-"''Līmenisks'' ir relatīvs jēdziens.\\Apgūsti grīdas turēšanu leņķī tā, lai"
-"\\slīpums turētos līmeniski. Šādi Tu\\saglabāsi pilnu kontroli pār bumbu."
-"\\Izmanto ieskrējienu, lai tiktu augšā\\pie lielajām monētām.\\"
 
 #: data/map-rlk/four.map
 msgid "Balance risk versus reward.\\"
-msgstr "Balansēšanas risks pret atlīdzību.\\"
+msgstr ""
 
 #: data/map-rlk/frogger.map
 msgid "Ribbit!\\"
-msgstr "Hop!\\"
+msgstr ""
 
 #: data/map-rlk/gaps.map
 msgid ""
 "Time the switches carefully to synchronize\\the motion of the platforms."
 "\\Move quickly across the gaps.\\"
 msgstr ""
-"Rūpīgi izvēlies brīdi slēdžu\\ieslēgšanai, lai saskaņotu platformu kustību."
-"\\Centies veicīgi šķērsot plaisas.\\"
 
 #: data/map-rlk/goals.map
 msgid ""
 "This one shouldn't be too difficult.\\There are 100 coins here.\\That's a "
 "save point and a free ball\\if you don't accidentally make a goal first.\\"
 msgstr ""
-"Šim te nevajadzētu būt pārāk grūti.\\Šeit ir tieši 100 monētu.\\Tas nozīmē "
-"papildus bumbu,\\ja vien Tu vispirms netrāpi mērķī.\\"
 
 #: data/map-rlk/goslow.map
 msgid ""
@@ -1255,58 +1184,46 @@ msgid ""
 "speed means better control.\\Watch the clock and use the time wisely.\\"
 "\\Click to begin.\\"
 msgstr ""
-"Liec grīdu cik maz vien iespējams.\\Mazāks slīpums nozīmē mazāku ātrumu."
-"\\Mazāks ātrums nozīmē labāku kontroli.\\Skaties pulkstenī un velti netērē "
-"laiku.\\\\Klikšķini, lai sāktu.\\"
 
 #: data/map-rlk/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
 msgstr ""
-"Katrs tilts ir šaurāks par iepriekšējo.\\Taču katrs no tiem arī atmaksājas "
-"labāk!\\Šeit Tev ļauts izlemt, cik tālu esi gatavs iet.\\"
 
 #: data/map-rlk/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
-msgstr "Jā, bumba patiešām visai glīti der\\tajos mazajos caurumiņos.\\"
+msgstr ""
 
 #: data/map-rlk/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing down"
 "\\early. You need just as much room to slow\\down as you did to speed up.\\"
 msgstr ""
-"Turies tālāk no apmalēm!\\Kad tuvojies bīstamajai joslai, sāc samazināt"
-"\\ātrumu jau laikus. Lai apstātos, Tev vajadzēs\\tieši tik vietas, cik "
-"vajadzēja,\\lai izkustētos.\\"
 
 #: data/map-rlk/hump.map
 msgid "Momentum may work against you.\\"
-msgstr "Inerce var izrādīties kaitīga.\\"
+msgstr ""
 
 #: data/map-rlk/invis.map
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
 msgstr ""
-"Ļauj savai alkatībai sevi vadīt.\\Papildus izaicinājumam\\pamēģini savākt "
-"visas monētas.\\To iespējams paveikt bez liekas minēšanas.\\"
 
 #: data/map-rlk/islands.map
 msgid "Catch the train before it leaves the station.\\"
-msgstr "Noķer vilcienu, pirms tas pamet staciju.\\"
+msgstr ""
 
 #: data/map-rlk/locks.map
 msgid "Hit the switches to move the barriers.\\"
-msgstr "Trāpi slēdžiem, lai izkustinātu barjeras.\\"
+msgstr ""
 
 #: data/map-rlk/maze.map
 msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
 msgstr ""
-"Bumbu šaurā ejā interesē tikai nevaldāma\\atlēkšana. Pārvietojies lēnām un"
-"\\turies tālāk no sienām. Visas monētas ir\\savācamas dotajā laikā.\\"
 
 #: data/map-rlk/mover.map
 msgid ""
@@ -1314,45 +1231,38 @@ msgid ""
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
 msgstr ""
-"Kustīga platforma var būt mānīga.\\Izvēlies īsto brīdi nokļūšanai uz klāja,"
-"\\un rūpīgi saglabā līdzsvaru, lai paliktu tur.\\Neļauj tai zem Tevis "
-"izslīdēt.\\Izmanto platformas, lai piekļūtu\\lielajām monētām.\\"
 
 #: data/map-rlk/movers.map
 msgid "Go for a ride.\\"
-msgstr "Ej pavizināties."
+msgstr ""
 
 #: data/map-rlk/peasy.map
 msgid ""
 "Mouse buttons rotate the view.\\Press Spacebar to pause, ESC to quit.\\\\\\"
 "\\Click to begin.\\"
 msgstr ""
-"Peles pogas groza skatu.\\Nospied Space pauzei,\\ESC spēles pamešanai.\\\\"
-"\\Klikšķini, lai sāktu.\\"
 
 #: data/map-rlk/pipe.map
 msgid "Ceci n'est pas une pipe.\\"
-msgstr "Ceci n'est pas une pipe.\\"
+msgstr ""
 
 #: data/map-rlk/plinko.map
 msgid "Take it slowly.\\"
-msgstr "Nesteidzies.\\"
+msgstr ""
 
 #: data/map-rlk/poker.map
 msgid "Slow and steady.\\"
-msgstr "Lēni un prātīgi.\\"
+msgstr ""
 
 #: data/map-rlk/pyramid.map
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
 msgstr ""
-"Tev dotas apmēram 15 sekundes katrā posmā,\\tāpēc nekavējies. Savāc monētas "
-"un dodies\\pie nākamā slēdža.\\"
 
 #: data/map-rlk/quads.map
 msgid "Don't get bullied.\\"
-msgstr "Skaties, ka netiec pagrūsts.\\"
+msgstr ""
 
 #: data/map-rlk/rampdn.map
 msgid ""
@@ -1360,71 +1270,57 @@ msgid ""
 "the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press F1 "
 "to return to the auto-rotating view.\\"
 msgstr ""
-"Šeit Tev vajadzēs pielietot zināmu kontroli pār savu\\skatu. Nospied F3, lai "
-"apturētu autorotāciju.\\Izmanto peles pogas, lai pašrocīgi grozītu skatu."
-"\\Nospied F1, lai nokļūtu atpakaļ autorotējošajā skatā.\\"
 
 #: data/map-rlk/rampup.map
 msgid "I think I can.\\I think I can.\\"
-msgstr "Es to varu,\\es to varu.\\"
+msgstr ""
 
 #: data/map-rlk/ring.map
 msgid "So close, yet so very far.\\"
-msgstr "Tik tuvu un tomēr tik ļoti tālu.\\"
+msgstr ""
 
 #: data/map-rlk/risers.map
 msgid ""
 "Ride the elevators to the top.\\They move quickly,\\and bat the ball around "
 "a bit.\\Be prepared to handle some bouncing.\\"
 msgstr ""
-"Brauc ar pacēlājiem līdz pašai augšai.\\Tie ātri pārvietojas, un nedaudz "
-"mētā bumbu.\\Esi gatavs paciest mērenu palēkāšanu.\\"
 
 #: data/map-rlk/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
 "work.\\"
 msgstr ""
-"Ripinies lēnām, lai turētos tālāk no malām.\\Vai arī nē.\\Abējādi var "
-"izdoties.\\"
 
 #: data/map-rlk/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
-msgstr "Patīkamu izklaidi, vācot tās\\sarkanās un zilās monētas.\\"
+msgstr ""
 
 #: data/map-rlk/spiralup.map
 msgid ""
 "Just as before, but moving up instead of down.\\No cheating this time.\\"
 msgstr ""
-"Tāpat kā iepriekš, tikai uz augšu, nevis lejup.\\Šoreiz nekādas mānīšanās.\\"
 
 #: data/map-rlk/spread.map
 msgid "Don't worry.\\The green part isn't going anywhere.\\"
-msgstr "Neraizējies.\\Zaļā daļa nekur nepazudīs."
+msgstr ""
 
 #: data/map-rlk/stairs.map
 msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
 msgstr ""
-"Lūk, vēl viena pārbaude Tavai spējai\\pārvaldīt bumbas lēkāšanu. Kāpšana "
-"lejup\\pa kāpnēm pārāk ātri var kļūt bīstama.\\"
 
 #: data/map-rlk/sync.map
 msgid ""
 "Use the switches to set the platforms\\in motion.  Time it so they come"
 "\\together in the middle.\\"
 msgstr ""
-"Izmanto slēdžus, lai liktu platformām\\kustēties. Izvēlies īsto brīdi tā,"
-"\\lai tās vidū satiktos.\\"
 
 #: data/map-rlk/telemaze.map
 msgid ""
 "This maze has no walls.\\But that doesn't make the solution\\any easier to "
 "find.\\"
 msgstr ""
-"Šim labirintam nav sienu.\\Tas gan nenozīmē, ka risinājumu\\atrast būs daudz "
-"vienkāršāk.\\"
 
 #: data/map-rlk/teleport.map
 msgid ""
@@ -1432,80 +1328,29 @@ msgid ""
 "\\Remember that the ball carries its momentum\\through a teleporter, so plan "
 "ahead.\\"
 msgstr ""
-"Bumbai pilnībā jāatrodas portāla iekšienē,\\lai to iedarbinātu.\\Paturi "
-"prātā, ka bumba saglabā savu inerci\\cauri portālam, tādēļ plāno jau laikus."
-"\\"
 
 #: data/map-rlk/tilt.map
 msgid "The floor is as flat as you make it.\\"
-msgstr "Grīda ir tieši tik līdzena, cik\\līdzenu Tu to padari.\\"
+msgstr ""
 
 #: data/map-rlk/timer.map
 msgid ""
 "That one switch controls all five barriers.\\Be quick, because the switch is "
 "on a timer.\\When it expires, the barriers will rise.\\"
 msgstr ""
-"Tas vienīgais slēdzis pārvalda visas piecas\\barjeras. Rīkojies ātri, jo "
-"slēdzim ir laika atskaite.\\Kad laiks beigsies, barjeras atkal pacelsies.\\"
 
 #: data/map-rlk/title.map
 msgid "Neverball\\\\http://icculus.org/neverball\\\\created by Robert Kooima\\"
 msgstr ""
-"Neverball\\\\http://icculus.org/neverball\\\\izveidojis Robert Kooima\\"
 
 #: data/map-rlk/wakka.map
 msgid ""
 "Here's another coin grab.\\Use it to earn a free ball.\\Perhaps you already "
 "know a good route.\\Teleportation might come in handy.\\"
 msgstr ""
-"Vēl viena monētu grābtuve.\\Izmanto to, lai nopelnītu papildus bumbu."
-"\\Iespējams, ka Tu jau zini labu ceļu.\\Teleportācija var izrādīties "
-"noderīga.\\"
 
 #: data/map-rlk/zigzag.map
 msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
 msgstr ""
-"Šeit ir pa pilnam monētu, ja vien Tu esi\\ar mieru atvēlēt kādu laiciņu to "
-"savākšanai.\\"
-
-#~ msgid ""
-#~ "You can save replays of your games.\\Currently, there are no replays "
-#~ "saved."
-#~ msgstr ""
-#~ "Tu vari saglabāt savu spēļu ierakstus.\\Šobrīd neviens ieraksts nav "
-#~ "saglabāts."
-
-#~ msgid "Set Complete"
-#~ msgstr "Komplekts pabeigts"
-
-#~ msgid ""
-#~ "Move the mouse or joystick to tilt the floor\\causing the ball to roll.  "
-#~ "Roll over coins to\\collect them.  Collect coins to unlock the goal\\and "
-#~ "finish the level.  Earn an extra ball for\\each 100 coins collected.\\"
-#~ msgstr ""
-#~ "Kustini peli vai vadības sviru, lai liektu grīdu,\\liekot bumbai ripot. "
-#~ "Ripinies pāri monētām, lai\\tās savāktu. Vāc monētas, lai atslēgtu mērķi "
-#~ "un\\pabeigtu līmeni. Nopelni papildus bumbu par\\katrām 100 monētām.\\"
-
-#~ msgid "Comments?  Problems?  robert.kooima@gmail.com"
-#~ msgstr "Atsauksmes? Problēmas? http://icculus.org/neverball/"
-
-#~ msgid "B1"
-#~ msgstr "P1"
-
-#~ msgid "B2"
-#~ msgstr "P2"
-
-#~ msgid "B3"
-#~ msgstr "P3"
-
-#~ msgid "B4"
-#~ msgstr "P4"
-
-#~ msgid "B5"
-#~ msgstr "P5"
-
-#~ msgid "Error while loading initial high-score file '%s': "
-#~ msgstr "Kļūda, ielādējot spēles rezultātu sākotnējo failu '%s': "
