@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-07-10 13:37+0300\n"
-"PO-Revision-Date: 2006-07-10 15:14+0300\n"
+"PO-Revision-Date: 2006-07-11 15:27+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -441,7 +441,7 @@ msgstr ""
 
 #: ball/st_level.c:63 ball/st_level.c:69
 msgid "Level "
-msgstr "Līmenis"
+msgstr "Līmenis "
 
 #: ball/st_level.c:81
 msgid "Cannot load the level file."
@@ -453,7 +453,7 @@ msgstr "Atcelt"
 
 #: ball/st_over.c:33
 msgid "GAME OVER"
-msgstr ""
+msgstr "SPĒLE GALĀ"
 
 #: ball/st_play.c:46
 msgid "Ready?"
@@ -469,7 +469,7 @@ msgstr "AIZIET!"
 
 #: ball/st_play_end.c:98
 msgid "SPECIAL GOAL"
-msgstr ""
+msgstr "ĪPAŠAIS MĒRĶIS"
 
 #: ball/st_play_end.c:101
 msgid "Fall-out!"
@@ -477,7 +477,7 @@ msgstr "Kritiens!"
 
 #: ball/st_play_end.c:104
 msgid "Time's Up!"
-msgstr ""
+msgstr "Laiks cauri!"
 
 #: ball/st_play_end.c:107
 msgid "New Record"
@@ -485,11 +485,11 @@ msgstr "Jauns rekords"
 
 #: ball/st_play_end.c:110
 msgid "GOAL"
-msgstr ""
+msgstr "MĒRĶIS"
 
 #: ball/st_play_end.c:167
 msgid "Finish"
-msgstr ""
+msgstr "Beigt"
 
 #: ball/st_play_end.c:169
 msgid "Next Level"
@@ -497,7 +497,7 @@ msgstr "Nākošais līmenis"
 
 #: ball/st_play_end.c:173
 msgid "Game Over"
-msgstr ""
+msgstr "Spēle galā"
 
 #: ball/st_play_end.c:177
 msgid "Retry Level"
@@ -517,7 +517,7 @@ msgstr "Saglabāt"
 
 #: ball/st_save.c:177
 msgid "Overwrite?"
-msgstr ""
+msgstr "Pārrakstīt?"
 
 #: ball/st_set.c:114
 msgid "Level Set"
@@ -529,23 +529,23 @@ msgstr ""
 
 #: ball/st_start.c:103
 msgid "Play this level in practice mode"
-msgstr ""
+msgstr "Spēlē šo līmeni treniņrežīmā"
 
 #: ball/st_start.c:110
 msgid "Play this bonus level in normal mode"
-msgstr "Spēlē šo papildlīmeni parastajā režīmā"
+msgstr "Spēlē šo papildlīmeni normālajā režīmā"
 
 #: ball/st_start.c:112
 msgid "Play this level in normal mode"
-msgstr "Spēlē šo līmeni parastajā režīmā"
+msgstr "Spēlē šo līmeni normālajā režīmā"
 
 #: ball/st_start.c:122
 msgid "Play in challenge mode to unlock extra bonus levels"
-msgstr ""
+msgstr "Pārbaudi spēkus, lai atslēgtu papildus līmeņus"
 
 #: ball/st_start.c:125
 msgid "Finish previous levels to unlock this level"
-msgstr ""
+msgstr "Pabeidz iepriekšējos līmeņus, lai atslēgtu šo līmeni"
 
 #: ball/st_start.c:145
 msgid "Challenge all levels from the first one"
@@ -625,19 +625,19 @@ msgstr ""
 
 #: putt/hole.c:106 putt/st_all.c:89 putt/st_all.c:133
 msgid "P1"
-msgstr ""
+msgstr "S1"
 
 #: putt/hole.c:107 putt/st_all.c:90 putt/st_all.c:134
 msgid "P2"
-msgstr ""
+msgstr "S2"
 
 #: putt/hole.c:108 putt/st_all.c:91 putt/st_all.c:135
 msgid "P3"
-msgstr ""
+msgstr "S3"
 
 #: putt/hole.c:109 putt/st_all.c:92 putt/st_all.c:136
 msgid "P4"
-msgstr ""
+msgstr "S4"
 
 #: putt/st_all.c:66
 msgid "O"
@@ -653,37 +653,37 @@ msgstr ""
 
 #: putt/st_all.c:263
 msgid "Select Course"
-msgstr ""
+msgstr "Izvēlies apli"
 
 #: putt/st_all.c:398
 msgid "Players?"
-msgstr ""
+msgstr "Spēlētāji?"
 
 #: putt/st_all.c:469
 #, c-format
 msgid "Hole %02d"
-msgstr ""
+msgstr "Bedrīte %02d"
 
 #: putt/st_all.c:713
 msgid "It's In!"
-msgstr ""
+msgstr "Ir!"
 
 #: putt/st_all.c:824
 msgid "1 Stroke Penalty"
-msgstr ""
+msgstr "1 sitiena sods"
 
 #: putt/st_all.c:880
 msgid "Scores"
-msgstr ""
+msgstr "Rezultāti"
 
 #: putt/st_all.c:922
 msgid "Final Scores"
-msgstr ""
+msgstr "Gala rezultāti"
 
 #: share/audio.c:63
 #, c-format
 msgid "Sound disabled\n"
-msgstr ""
+msgstr "Nav skaņas\n"
 
 #: share/base_config.h:42
 msgid "Last"
@@ -708,19 +708,19 @@ msgstr "Pauze"
 
 #: share/i18n.c:47
 msgid "English"
-msgstr ""
+msgstr "Angļu"
 
 #: share/i18n.c:48
 msgid "French"
-msgstr ""
+msgstr "Franču"
 
 #: share/i18n.c:49
 msgid "German"
-msgstr ""
+msgstr "Vācu"
 
 #: share/i18n.c:50
 msgid "Latvian"
-msgstr ""
+msgstr "Latviešu"
 
 #: share/i18n.c:101
 msgid "System Default"
