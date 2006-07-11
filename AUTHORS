@@ -36,7 +36,7 @@
     Corey Edwards             (Joystick select)
     Christoph Frick           (OSX port)
     Max Gilead                (Debian packaging)
-    François Guillet (shino)  (Neverball Hall of Fame development and hosting
+    François Guillet (shino) (Neverball Hall of Fame development and hosting
                                Neverforum and Neverwiki installation and hosting)
     Phil Harper               (TheOpenCD packaging, icons)
     Kyle Hoker                (Feature ideas and testing)
@@ -44,7 +44,8 @@
     Michael Sterret           (Gentoo ebuild)
     Mehdi Yousfi-Monod        (Neverball Hall of Fame management
                                Windows packaging)
-   
+    Jānis Rūcis (parasti)   (Code contributions and cleanup)
+
     Countless others for play testing and bug reports.
 
     http://www.happypenguin.org
