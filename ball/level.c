@@ -126,15 +126,11 @@ int level_load(const char *filename, struct level *level)
     /* Try to load the sol file */
     if (!sol_load_only_file(&sol, filename))
     {
-        fprintf(stderr, _("Error while loading level file '%s': "), filename);
-        if (errno)
-           perror(NULL);
-        else
-           fprintf(stderr, _("Not a valid level file\n"));
+        fprintf(stderr, _("Error while loading level file '%s': \n"), filename,
+                errno ? strerror(errno) : _("Not a valid level file\n"));
         return 0;
     }
 
-    /* Set filename */
     strcpy(level->file, filename);
 
     /* Init hs with default values */
@@ -164,7 +160,6 @@ int level_load(const char *filename, struct level *level)
     HOP(level->goal_score.timer, <=);
     HOP(level->coin_score.coins, >=);
 
-    /* Free the sol structure, no more needed */
     sol_free(&sol);
 
     return 1;
@@ -214,7 +209,7 @@ const char *mode_to_str(int m)
     case MODE_NORMAL:    return _("Normal");
     case MODE_PRACTICE:  return _("Practice");
     case MODE_SINGLE:    return _("Single");
-    default:             return "???";
+    default:             return _("Unknown");
     }
 }
 
@@ -229,7 +224,7 @@ const char *state_to_str(int m)
     case GAME_SPEC:
     case GAME_GOAL:    return _("Success");
     case GAME_FALL:    return _("Fall-out");
-    default:           return "???";
+    default:           return _("Unknown");
     }
 }
 

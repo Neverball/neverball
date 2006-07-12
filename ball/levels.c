@@ -63,20 +63,24 @@ int level_play_go(void)
     return demo_play_init(USER_REPLAY_FILE, l, lg);
 }
 
+/* Prepare to play a single level */
 
 void level_play_single(const char *filename)
-/* Prepare to play a single level */
 {
     struct level *l = &single_level;
+
     level_load(filename, l);
     level_play(l, MODE_SINGLE);
 }
 
-void level_play(const struct level *l, int m)
 /* Prepare to play a level sequence from the `i'th level */
+
+void level_play(const struct level *l, int m)
 {
     struct level_game *lg = &current_level_game;
-    memset(lg, 0, sizeof(struct level_game));
+
+    memset(lg, 0, sizeof (struct level_game));
+
     lg->mode  = m;
     lg->level = l;
     lg->balls = 3;
@@ -96,8 +100,9 @@ int count_extra_balls(int old_score, int coins)
     return sum / 100;
 }
 
-void level_stop(int state, int state_value, int clock, int coins)
 /* Stop the current playing level */
+
+void level_stop(int state, int state_value, int clock, int coins)
 {
     struct level_game *lg = &current_level_game;
     int mode = lg->mode;

@@ -253,7 +253,7 @@ static void parse_args(int argc, char **argv)
         }
         else if (CASE("-v") || CASE("--version"))
         {
-            printf(_("%s: %s version %s\n"), exec, TITLE, VERSION);
+            printf("%s %s\n", TITLE, VERSION);
             exit(0);
         }
         else if (CASE("--data") && MAND)
@@ -320,7 +320,7 @@ int main(int argc, char *argv[])
     {
         if (!level_replay(replay_path))
         {
-            fprintf(stderr, _("Replay file '%s':  %s\n"), replay_path,
+            fprintf(stderr, _("Replay file '%s': %s\n"), replay_path,
                     errno ? strerror(errno) : _("Not a replay file"));
             return 1;
         }
@@ -444,7 +444,7 @@ int main(int argc, char *argv[])
             {
                 st_paint();
                 gui_blank();
-                SDL_Delay(10); /* Be nice! */
+                SDL_Delay(10);
             }
             else
             {
