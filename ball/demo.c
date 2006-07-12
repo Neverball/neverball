@@ -33,8 +33,6 @@
 #define MAGIC           0x52424EAF
 #define DEMO_VERSION    1
 
-#define DEMO_FPS_CAP 200 /* FPS replay limit, keeps size down on monster systems */
-
 static FILE *demo_fp;
 
 static struct demo demos[MAXDEMO]; /* Array of scanned demos */
@@ -124,7 +122,7 @@ FILE *demo_header_read(const char *filename, struct demo *d)
             get_index (fp, &d->coins);
             get_index (fp, &d->state);
             get_index (fp, &d->mode);
-            get_index (fp, (int *)&d->date);
+            get_index (fp, (int *) &d->date);
 
             fread(d->player, 1, MAXNAM, fp);
 
@@ -324,7 +322,7 @@ int demo_play_init(const char *name,
 {
     struct demo demo;
 
-    memset(&demo, 0, sizeof(demo));
+    memset(&demo, 0, sizeof (demo));
 
     strncpy(demo.filename, config_user(name), PATHMAX);
     strcat(demo.filename, REPLAY_EXT);
@@ -360,18 +358,10 @@ int demo_play_init(const char *name,
 
 void demo_play_step(float dt)
 {
-    static float fps_track = 0.0f;
-    static float fps_cap   = 1.0f / (float) DEMO_FPS_CAP;
-
     if (demo_fp)
     {
-        fps_track += dt;
-        if (fps_track > fps_cap)
-        {
-            put_float(demo_fp, &fps_track);
-            put_game_state(demo_fp);
-            fps_track = 0.0f;
-        }
+        put_float(demo_fp, &dt);
+        put_game_state(demo_fp);
     }
 }
 
