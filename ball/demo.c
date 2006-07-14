@@ -17,10 +17,6 @@
 #include <string.h>
 #include <time.h>
 
-#ifndef _WIN32
-#include <unistd.h>
-#endif
-
 #include "demo.h"
 #include "game.h"
 #include "audio.h"
@@ -482,7 +478,7 @@ void demo_replay_stop(int d)
         fclose(demo_fp);
         demo_fp = NULL;
 
-        if (d) unlink(demo_replay.filename);
+        if (d) remove(demo_replay.filename);
     }
 }
 
