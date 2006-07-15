@@ -66,81 +66,45 @@ void demo_dump_info(const struct demo *d)
            d->time, d->goal, d->score, d->balls, d->times);
 }
 
-/* Open a demo file, fill the demo information structure.  If success, return
- * the file pointer positioned after the header.  If fail, return NULL. */
-
-FILE *demo_header_read(const char *filename, struct demo *d)
+static int demo_header_read(FILE *fp, struct demo *d)
 {
-    FILE *fp;
+    int magic;
+    int version;
+    int t;
 
-    char *basename;
-    char buf[MAXSTR];
+    get_index(fp, &magic);
+    get_index(fp, &version);
 
-    if ((fp = fopen(filename, FMODE_RB)))
+    get_index(fp, &t);
+
+    if (magic == MAGIC && version == DEMO_VERSION && t)
     {
-        int magic;
-        int version;
-        int t;
+        d->timer = t;
 
-        get_index(fp, &magic);
-        get_index(fp, &version);
+        get_index (fp, &d->coins);
+        get_index (fp, &d->state);
+        get_index (fp, &d->mode);
+        get_index (fp, (int *) &d->date);
 
-        get_index(fp, &t);
+        fread(d->player, 1, MAXNAM, fp);
 
-        if (magic == MAGIC && version == DEMO_VERSION && t)
-        {
-            d->timer = t;
-            strncpy(d->filename, filename, PATHMAX);
+        fread(d->shot, 1, PATHMAX, fp);
+        fread(d->file, 1, PATHMAX, fp);
+        fread(d->back, 1, PATHMAX, fp);
+        fread(d->grad, 1, PATHMAX, fp);
+        fread(d->song, 1, PATHMAX, fp);
 
-            /* Remove the directory delimiter */
+        get_index(fp, &d->time);
+        get_index(fp, &d->goal);
+        get_index(fp, &d->score);
+        get_index(fp, &d->balls);
+        get_index(fp, &d->times);
 
-            basename = strrchr(filename, '/');
+        fread(d->nb_version, 1, 20, fp);
 
-#ifdef _WIN32
-            if (!basename)
-                basename = strrchr(filename, '\\');
-            else
-            {
-                char *tmp;
-                if ((tmp = strrchr(basename, '\\')))
-                    basename = tmp;
-            }
-#endif
-            strncpy(buf, basename ? basename + 1 : filename, MAXSTR);
-
-            /* Remove the extension */
-            t = strlen(buf) - strlen(REPLAY_EXT);
-            if ((t > 1) && (strcmp(buf + t, REPLAY_EXT) == 0))
-                buf[t] = '\0';
-            strncpy(d->name, buf, PATHMAX);
-            d->name[PATHMAX - 1] = '\0';
-
-            get_index (fp, &d->coins);
-            get_index (fp, &d->state);
-            get_index (fp, &d->mode);
-            get_index (fp, (int *) &d->date);
-
-            fread(d->player, 1, MAXNAM, fp);
-
-            fread(d->shot, 1, PATHMAX, fp);
-            fread(d->file, 1, PATHMAX, fp);
-            fread(d->back, 1, PATHMAX, fp);
-            fread(d->grad, 1, PATHMAX, fp);
-            fread(d->song, 1, PATHMAX, fp);
-
-            get_index (fp, &d->time);
-            get_index (fp, &d->goal);
-            get_index (fp, &d->score);
-            get_index (fp, &d->balls);
-            get_index (fp, &d->times);
-
-            fread(d->nb_version, 1, 20, fp);
-
-            return fp;
-        }
-        fclose(fp);
+        return 1;
     }
-    return NULL;
+    return 0;
 }
 
 /* Create a new demo file, write the demo information structure.  If success,
@@ -206,9 +170,28 @@ void demo_header_stop(FILE *fp, int coins, int timer, int state)
 static void demo_scan_file(const char *filename)
 {
     FILE *fp;
-    if ((fp = demo_header_read(config_user(filename), &demos[count])))
+    struct demo *d = &demos[count];
+
+    if ((fp = fopen(config_user(filename), FMODE_RB)))
     {
-        count++;
+        if (demo_header_read(fp, d))
+        {
+            char buf[PATHMAX];
+            int l;
+
+            strncpy(d->filename, config_user(filename), MAXSTR);
+
+            strncpy(buf, filename, PATHMAX);
+            l = strlen(buf) - strlen(REPLAY_EXT);
+
+            if ((l > 1) && (strcmp(buf + l, REPLAY_EXT) == 0))
+                buf[l] = '\0';
+
+            strncpy(d->name, buf, PATHMAX);
+            d->name[PATHMAX - 1] = '\0';
+
+            count++;
+        }
         fclose(fp);
     }
 }
@@ -265,7 +248,7 @@ const char *demo_pick(void)
     return (n > 0) ? demos[(rand() >> 4) % n].filename : NULL;
 }
 
-const struct demo *get_demo(int i)
+const struct demo *demo_get(int i)
 {
     return (0 <= i && i < count) ? &demos[i] : NULL;
 }
@@ -320,7 +303,7 @@ int demo_play_init(const char *name,
 
     memset(&demo, 0, sizeof (demo));
 
-    strncpy(demo.filename, config_user(name), PATHMAX);
+    strncpy(demo.filename, config_user(name), MAXSTR);
     strcat(demo.filename, REPLAY_EXT);
 
     demo.mode = lg->mode;
@@ -398,7 +381,6 @@ void demo_play_save(const char *name)
 /*---------------------------------------------------------------------------*/
 
 static int demo_load_level(const struct demo *demo, struct level *level)
-/* Load the level of the demo and fill the level structure */
 {
     if (level_load(demo->file, level))
     {
@@ -406,8 +388,7 @@ static int demo_load_level(const struct demo *demo, struct level *level)
         level->goal = demo->goal;
         return 1;
     }
-    else
-        return 0;
+    return 0;
 }
 
 static struct demo  demo_replay;       /* The current demo */
@@ -422,8 +403,12 @@ const struct demo *curr_demo_replay(void)
 
 int demo_replay_init(const char *name, struct level_game *lg)
 {
-    if ((demo_fp = demo_header_read(name, &demo_replay)))
+    demo_fp = fopen(name, FMODE_RB);
+
+    if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
+        strncpy(demo_replay.filename, name, MAXSTR);
+
         if (!demo_load_level(&demo_replay, &demo_level_replay))
             return 0;
 
@@ -440,10 +425,9 @@ int demo_replay_init(const char *name, struct level_game *lg)
             return game_init(&demo_level_replay, demo_replay.time,
                              demo_replay.goal);
         }
-        else                    /* A title screen demo */
+        else /* A title screen demo */
             return game_init(&demo_level_replay, demo_replay.time, 0);
     }
-
     return 0;
 }
 

@@ -10,7 +10,7 @@
 struct demo
 {
     char   name[PATHMAX];      /* demo basename */
-    char   filename[PATHMAX];  /* demo path */
+    char   filename[MAXSTR];  /* demo path */
 
     /* The following reflects the file structure. */
 
@@ -42,7 +42,7 @@ struct demo
 
 int                demo_scan(void);
 const char        *demo_pick(void);
-const struct demo *get_demo(int);
+const struct demo *demo_get(int);
 
 const char *date_to_str(time_t);
 
