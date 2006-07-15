@@ -97,9 +97,7 @@ static void demo_replay(int id, int i)
     }
 }
 
-#if 0
 static int name_id;
-#endif
 static int time_id;
 static int coin_id;
 static int date_id;
@@ -182,10 +180,8 @@ static int gui_demo_status(int id, const struct demo *d)
                 }
                 if ((md = gui_vstack(ld)))
                 {
-#if 0
                     name_id = gui_label(md, (d ? d->name : noname),
                                         GUI_SML, GUI_RGT, 0, 0);
-#endif
                     time_id = gui_clock(md, (d ? d->timer : 35000),
                                         GUI_SML, GUI_RGT);
                     mode_id = gui_label(md, mode, GUI_SML, GUI_RGT, 0, 0);
@@ -198,9 +194,7 @@ static int gui_demo_status(int id, const struct demo *d)
         }
         if ((kd = gui_vstack(jd)))
         {
-#if 0
             gui_label(kd, _("Replay"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
-#endif
             gui_label(kd, _("Time"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
             gui_label(kd, _("Mode"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
             gui_label(kd, _("Level"),  GUI_SML, GUI_LFT, gui_wht, gui_wht);
@@ -216,9 +210,7 @@ static void gui_demo_update_status(int i)
 {
     const struct demo *d = demo_get(i);
 
-#if 0
     gui_set_label(name_id,   d->name);
-#endif
     gui_set_label(date_id,   date_to_str(d->date));
     gui_set_label(level_id,  d->file);
     gui_set_label(player_id, d->player);
