@@ -337,6 +337,7 @@ void gui_keyboard(int id)
 int gui_back_prev_next(int id, int prev, int next)
 {
     int jd;
+
     if ((jd = gui_hstack(id)))
     {
         if (next || prev)

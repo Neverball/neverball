@@ -106,9 +106,10 @@ static int mode_id;
 static int state_id;
 static int player_id;
 
+/* Create a layout for some demo info.  If d is NULL, try to reserve enough
+ * space. */
+
 static int gui_demo_status(int id, const struct demo *d)
-/* Create a layout for some demo info, if d is NULL, try to reserve enough
- * space */
 {
     char noname[MAXNAM];
     const char *mode, *state;
@@ -161,48 +162,43 @@ static int gui_demo_status(int id, const struct demo *d)
             {
                 if ((md = gui_vstack(ld)))
                 {
-                    player_id =
-                        gui_label(md, (d ? d->player : noname), GUI_SML,
-                                  GUI_RGT, 0, 0);
-                    coin_id =
-                        gui_count(md, (d ? d->coins : 100), GUI_SML, GUI_RGT);
-                    state_id =
-                        gui_label(md, state, GUI_SML, GUI_RGT, gui_red,
-                                  gui_red);
+                    player_id = gui_label(md, (d ? d->player : noname),
+                                          GUI_SML, GUI_RGT, 0, 0);
+                    coin_id = gui_count(md, (d ? d->coins : 100),
+                                        GUI_SML, GUI_RGT);
+                    state_id = gui_label(md, state, GUI_SML, GUI_RGT,
+                                         gui_red, gui_red);
                 }
                 if ((md = gui_vstack(ld)))
                 {
-                    gui_label(md, _("Player"), GUI_SML, GUI_LFT, gui_wht,
-                              gui_wht);
-                    gui_label(md, _("Coins"), GUI_SML, GUI_LFT, gui_wht,
-                              gui_wht);
-                    gui_label(md, _("State"), GUI_SML, GUI_LFT, gui_wht,
-                              gui_wht);
+                    gui_label(md, _("Player"), GUI_SML, GUI_LFT,
+                              gui_wht, gui_wht);
+                    gui_label(md, _("Coins"), GUI_SML, GUI_LFT,
+                              gui_wht, gui_wht);
+                    gui_label(md, _("State"), GUI_SML, GUI_LFT,
+                              gui_wht, gui_wht);
                 }
                 if ((md = gui_vstack(ld)))
                 {
-                    name_id =
-                        gui_label(md, (d ? d->name : noname), GUI_SML, GUI_RGT,
-                                  0, 0);
-                    time_id =
-                        gui_clock(md, (d ? d->timer : 35000), GUI_SML, GUI_RGT);
+                    name_id = gui_label(md, (d ? d->name : noname),
+                                        GUI_SML, GUI_RGT, 0, 0);
+                    time_id = gui_clock(md, (d ? d->timer : 35000),
+                                        GUI_SML, GUI_RGT);
                     mode_id = gui_label(md, mode, GUI_SML, GUI_RGT, 0, 0);
                 }
             }
-            level_id =
-                gui_label(kd, (d ? d->file : "M"), GUI_SML, GUI_RGT, gui_wht,
-                          gui_wht);
-            date_id =
-                gui_label(kd, (d ? date_to_str(d->date) : "M"), GUI_SML,
-                          GUI_RGT, 0, 0);
+            level_id = gui_label(kd, (d ? d->file : "M"), GUI_SML, GUI_RGT,
+                                 gui_wht, gui_wht);
+            date_id = gui_label(kd, (d ? date_to_str(d->date) : "M"),
+                                GUI_SML, GUI_RGT, 0, 0);
         }
         if ((kd = gui_vstack(jd)))
         {
             gui_label(kd, _("Replay"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
-            gui_label(kd, _("Time"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
-            gui_label(kd, _("Mode"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
-            gui_label(kd, _("Level"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
-            gui_label(kd, _("Date"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+            gui_label(kd, _("Time"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
+            gui_label(kd, _("Mode"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
+            gui_label(kd, _("Level"),  GUI_SML, GUI_LFT, gui_wht, gui_wht);
+            gui_label(kd, _("Date"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
         }
         if (d && (d->state == GAME_GOAL || d->state == GAME_SPEC))
             gui_set_color(state_id, gui_grn, gui_grn);
@@ -233,27 +229,20 @@ static void gui_demo_update_status(int i)
 static int demo_enter(void)
 {
     int i, j;
-    int id, jd, kd, ld;
-
-    total = demo_scan();
+    int id, jd, kd;
 
     id = gui_vstack(0);
-    if (total == 0)
-    {
-        gui_label(id, _("No Replays"), GUI_MED, GUI_ALL, 0,0);
-        gui_filler(id);
-        gui_start(id, _("Back"), GUI_SML, GUI_BACK, 0);
-        gui_layout(id, 0, 0);
-    }
-    else
+
+    if ((total = demo_scan()))
     {
         if ((jd = gui_hstack(id)))
         {
 
-            ld = gui_label(jd, _("Select Replay"), GUI_SML, GUI_ALL, 0,0);
+            gui_label(jd, _("Select Replay"), GUI_SML, GUI_ALL, 0,0);
             gui_filler(jd);
             gui_back_prev_next(jd, first > 0, first + DEMO_STEP < total);
         }
+
         if ((jd = gui_varray(id)))
             for (i = first; i < first + DEMO_STEP ; i += DEMO_LINE)
                 if ((kd = gui_harray(jd)))
@@ -269,6 +258,13 @@ static int demo_enter(void)
         gui_layout(id, 0, 0);
         gui_demo_update_status(0);
     }
+    else
+    {
+        gui_label(id, _("No Replays"), GUI_MED, GUI_ALL, 0,0);
+        gui_filler(id);
+        gui_start(id, _("Back"), GUI_SML, GUI_BACK, 0);
+        gui_layout(id, 0, 0);
+    }
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
@@ -279,6 +275,7 @@ static void demo_point(int id, int x, int y, int dx, int dy)
 {
     int jd = shared_point_basic(id, x, y);
     int i  = gui_token(jd);
+
     if (jd && i >= 0)
         gui_demo_update_status(i);
 }
