@@ -31,9 +31,8 @@
 
 static FILE *demo_fp;
 
-static struct demo demos[MAXDEMO]; /* Array of scanned demos */
-
-static int count; /* number of scanned demos */
+static struct demo demos[MAXDEMO]; /* Array of scanned demos  */
+static int         count;          /* Number of scanned demos */
 
 /*---------------------------------------------------------------------------*/
 
@@ -81,10 +80,10 @@ static int demo_header_read(FILE *fp, struct demo *d)
     {
         d->timer = t;
 
-        get_index (fp, &d->coins);
-        get_index (fp, &d->state);
-        get_index (fp, &d->mode);
-        get_index (fp, (int *) &d->date);
+        get_index(fp, &d->coins);
+        get_index(fp, &d->state);
+        get_index(fp, &d->mode);
+        get_index(fp, (int *) &d->date);
 
         fread(d->player, 1, MAXNAM, fp);
 
@@ -107,47 +106,35 @@ static int demo_header_read(FILE *fp, struct demo *d)
     return 0;
 }
 
-/* Create a new demo file, write the demo information structure.  If success,
- * return the file pointer positioned after the header.  If fail, return NULL.
- */
-
-static FILE *demo_header_write(struct demo *d)
+static void demo_header_write(FILE *fp, struct demo *d)
 {
     int magic = MAGIC;
     int version = DEMO_VERSION;
     int zero  = 0;
 
-    FILE *fp;
+    put_index(fp, &magic);
+    put_index(fp, &version);
+    put_index(fp, &zero);
+    put_index(fp, &zero);
+    put_index(fp, &zero);
+    put_index(fp, &d->mode);
+    put_index(fp, (int *) &d->date);
 
-    if (d->filename && (fp = fopen(d->filename, FMODE_WB)))
-    {
-        put_index(fp, &magic);
-        put_index(fp, &version);
-        put_index(fp, &zero);
-        put_index(fp, &zero);
-        put_index(fp, &zero);
-        put_index(fp, &d->mode);
-        put_index(fp, (int *) &d->date);
+    fwrite(d->player, 1, MAXNAM, fp);
 
-        fwrite(d->player, 1, MAXNAM, fp);
+    fwrite(d->shot, 1, PATHMAX, fp);
+    fwrite(d->file, 1, PATHMAX, fp);
+    fwrite(d->back, 1, PATHMAX, fp);
+    fwrite(d->grad, 1, PATHMAX, fp);
+    fwrite(d->song, 1, PATHMAX, fp);
 
-        fwrite(d->shot, 1, PATHMAX, fp);
-        fwrite(d->file, 1, PATHMAX, fp);
-        fwrite(d->back, 1, PATHMAX, fp);
-        fwrite(d->grad, 1, PATHMAX, fp);
-        fwrite(d->song, 1, PATHMAX, fp);
+    put_index(fp, &d->time);
+    put_index(fp, &d->goal);
+    put_index(fp, &d->score);
+    put_index(fp, &d->balls);
+    put_index(fp, &d->times);
 
-        put_index(fp, &d->time);
-        put_index(fp, &d->goal);
-        put_index(fp, &d->score);
-        put_index(fp, &d->balls);
-        put_index(fp, &d->times);
-
-        fwrite(d->nb_version, 1, 20, fp);
-
-        return fp;
-    }
-    return NULL;
+    fwrite(d->nb_version, 1, 20, fp);
 }
 
 /* Update the demo header using the final level state. */
@@ -325,10 +312,9 @@ int demo_play_init(const char *name,
 
     strncpy(demo.nb_version, VERSION, 20);
 
-    demo_fp = demo_header_write(&demo);
-
-    if (demo_fp)
+    if (demo.filename && (demo_fp = fopen(demo.filename, FMODE_WB)))
     {
+        demo_header_write(demo_fp, &demo);
         audio_music_fade_to(2.0f, level->song);
         return game_init(level, lg->time, lg->goal);
     }
