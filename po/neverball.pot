@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-07-16 19:36+0300\n"
+"POT-Creation-Date: 2006-07-16 20:04+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,48 +49,48 @@ msgstr ""
 msgid "Manual"
 msgstr ""
 
-#: ball/level.c:129
-#, c-format
-msgid "Error while loading level file '%s': \n"
-msgstr ""
-
 #: ball/level.c:130
-msgid "Not a valid level file\n"
+#, c-format
+msgid "Error while loading level file '%s': %s\n"
 msgstr ""
 
-#: ball/level.c:208 ball/st_help.c:219 ball/st_start.c:251
+#: ball/level.c:131
+msgid "Not a valid level file"
+msgstr ""
+
+#: ball/level.c:209 ball/st_help.c:219 ball/st_start.c:251
 msgid "Challenge"
 msgstr ""
 
-#: ball/level.c:209 ball/st_help.c:205 ball/st_start.c:243
+#: ball/level.c:210 ball/st_help.c:205 ball/st_start.c:243
 msgid "Normal"
 msgstr ""
 
-#: ball/level.c:210 ball/st_help.c:213 ball/st_start.c:241
+#: ball/level.c:211 ball/st_help.c:213 ball/st_start.c:241
 msgid "Practice"
 msgstr ""
 
-#: ball/level.c:211
+#: ball/level.c:212
 msgid "Single"
 msgstr ""
 
-#: ball/level.c:212 ball/level.c:227
+#: ball/level.c:213 ball/level.c:228
 msgid "Unknown"
 msgstr ""
 
-#: ball/level.c:222
+#: ball/level.c:223
 msgid "Aborted"
 msgstr ""
 
-#: ball/level.c:223
+#: ball/level.c:224
 msgid "Time-out"
 msgstr ""
 
-#: ball/level.c:225
+#: ball/level.c:226
 msgid "Success"
 msgstr ""
 
-#: ball/level.c:226
+#: ball/level.c:227
 msgid "Fall-out"
 msgstr ""
 

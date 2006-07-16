@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-07-16 19:36+0300\n"
+"POT-Creation-Date: 2006-07-16 20:04+0300\n"
 "PO-Revision-Date: 2006-07-11 15:27+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -50,48 +50,49 @@ msgstr "Slinkais"
 msgid "Manual"
 msgstr "Manuālais"
 
-#: ball/level.c:129
+#: ball/level.c:130
 #, fuzzy, c-format
-msgid "Error while loading level file '%s': \n"
+msgid "Error while loading level file '%s': %s\n"
 msgstr "Kļūda, ielādējot līmeņa failu '%s': "
 
-#: ball/level.c:130
-msgid "Not a valid level file\n"
+#: ball/level.c:131
+#, fuzzy
+msgid "Not a valid level file"
 msgstr "nederīgs līmeņa fails.\n"
 
-#: ball/level.c:208 ball/st_help.c:219 ball/st_start.c:251
+#: ball/level.c:209 ball/st_help.c:219 ball/st_start.c:251
 msgid "Challenge"
 msgstr "Spēku pārbaude"
 
-#: ball/level.c:209 ball/st_help.c:205 ball/st_start.c:243
+#: ball/level.c:210 ball/st_help.c:205 ball/st_start.c:243
 msgid "Normal"
 msgstr "Normāls"
 
-#: ball/level.c:210 ball/st_help.c:213 ball/st_start.c:241
+#: ball/level.c:211 ball/st_help.c:213 ball/st_start.c:241
 msgid "Practice"
 msgstr "Treniņš"
 
-#: ball/level.c:211
+#: ball/level.c:212
 msgid "Single"
 msgstr "Viens"
 
-#: ball/level.c:212 ball/level.c:227
+#: ball/level.c:213 ball/level.c:228
 msgid "Unknown"
 msgstr ""
 
-#: ball/level.c:222
+#: ball/level.c:223
 msgid "Aborted"
 msgstr "Pārtraukts"
 
-#: ball/level.c:223
+#: ball/level.c:224
 msgid "Time-out"
 msgstr "Laiks cauri"
 
-#: ball/level.c:225
+#: ball/level.c:226
 msgid "Success"
 msgstr "Veiksmīgs"
 
-#: ball/level.c:226
+#: ball/level.c:227
 msgid "Fall-out"
 msgstr "Kritiens"
 
