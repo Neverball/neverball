@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-07-10 13:37+0300\n"
+"POT-Creation-Date: 2006-07-16 19:36+0300\n"
 "PO-Revision-Date: 2006-07-11 15:27+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
-#: ball/demo.c:312
+#: ball/demo.c:276
 #, c-format
 msgid "replay%02d"
 msgstr "ieraksts%02d"
 
-#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:177 ball/st_play_end.c:136
+#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:176 ball/st_play_end.c:136
 msgid "Coins"
 msgstr "Monētas"
 
@@ -51,44 +51,47 @@ msgid "Manual"
 msgstr "Manuālais"
 
 #: ball/level.c:129
-#, c-format
-msgid "Error while loading level file '%s': "
+#, fuzzy, c-format
+msgid "Error while loading level file '%s': \n"
 msgstr "Kļūda, ielādējot līmeņa failu '%s': "
 
-#: ball/level.c:133
-#, c-format
+#: ball/level.c:130
 msgid "Not a valid level file\n"
 msgstr "nederīgs līmeņa fails.\n"
 
-#: ball/level.c:213 ball/st_help.c:219 ball/st_start.c:251
+#: ball/level.c:208 ball/st_help.c:219 ball/st_start.c:251
 msgid "Challenge"
 msgstr "Spēku pārbaude"
 
-#: ball/level.c:214 ball/st_help.c:205 ball/st_start.c:243
+#: ball/level.c:209 ball/st_help.c:205 ball/st_start.c:243
 msgid "Normal"
 msgstr "Normāls"
 
-#: ball/level.c:215 ball/st_help.c:213 ball/st_start.c:241
+#: ball/level.c:210 ball/st_help.c:213 ball/st_start.c:241
 msgid "Practice"
 msgstr "Treniņš"
 
-#: ball/level.c:216
+#: ball/level.c:211
 msgid "Single"
 msgstr "Viens"
 
-#: ball/level.c:227
+#: ball/level.c:212 ball/level.c:227
+msgid "Unknown"
+msgstr ""
+
+#: ball/level.c:222
 msgid "Aborted"
 msgstr "Pārtraukts"
 
-#: ball/level.c:228
+#: ball/level.c:223
 msgid "Time-out"
 msgstr "Laiks cauri"
 
-#: ball/level.c:230
+#: ball/level.c:225
 msgid "Success"
 msgstr "Veiksmīgs"
 
-#: ball/level.c:231
+#: ball/level.c:226
 msgid "Fall-out"
 msgstr "Kritiens"
 
@@ -116,11 +119,6 @@ msgstr ""
 "-v, --version             parādīt versiju.\n"
 "-h, -?, --help            parādīt šo ziņu.\n"
 
-#: ball/main.c:256
-#, c-format
-msgid "%s: %s version %s\n"
-msgstr ""
-
 #: ball/main.c:269
 #, c-format
 msgid "%s: unknown option %s\n"
@@ -142,8 +140,8 @@ msgid "Failure to establish config directory\n"
 msgstr "Neizdevās noteikt iestatījumu katalogu\n"
 
 #: ball/main.c:323
-#, c-format
-msgid "Replay file '%s':  %s\n"
+#, fuzzy, c-format
+msgid "Replay file '%s': %s\n"
 msgstr "Ieraksta fails '%s':  %s\n"
 
 #: ball/main.c:324
@@ -179,11 +177,11 @@ msgstr "B%d"
 msgid "Options"
 msgstr "Opcijas"
 
-#: ball/st_conf.c:235 ball/st_demo.c:492 ball/st_save.c:183 putt/st_conf.c:198
+#: ball/st_conf.c:235 ball/st_demo.c:490 ball/st_save.c:183 putt/st_conf.c:198
 msgid "No"
 msgstr "Nē"
 
-#: ball/st_conf.c:236 ball/st_demo.c:493 ball/st_save.c:184 putt/st_conf.c:199
+#: ball/st_conf.c:236 ball/st_demo.c:491 ball/st_save.c:184 putt/st_conf.c:199
 msgid "Yes"
 msgstr "Jā"
 
@@ -205,8 +203,8 @@ msgstr "Bez"
 msgid "On"
 msgstr "Ar"
 
-#: ball/st_conf.c:320 ball/st_demo.c:245 ball/st_help.c:73 ball/st_start.c:229
-#: ball/util.c:348 putt/st_all.c:297 putt/st_all.c:419 putt/st_conf.c:271
+#: ball/st_conf.c:320 ball/st_demo.c:265 ball/st_help.c:73 ball/st_start.c:229
+#: ball/util.c:349 putt/st_all.c:297 putt/st_all.c:419 putt/st_conf.c:271
 #: share/st_lang.c:80 share/st_resol.c:93
 msgid "Back"
 msgstr "Atpakaļ"
@@ -259,63 +257,63 @@ msgstr "Valoda"
 msgid "Player Name"
 msgstr "Spēlētāja vārds"
 
-#: ball/st_demo.c:175 ball/st_name.c:40 putt/st_all.c:476
+#: ball/st_demo.c:174 ball/st_name.c:40 putt/st_all.c:476
 msgid "Player"
 msgstr ""
 
-#: ball/st_demo.c:179
+#: ball/st_demo.c:178
 msgid "State"
 msgstr "Stāvoklis"
 
-#: ball/st_demo.c:201 ball/st_demo.c:321
+#: ball/st_demo.c:197 ball/st_demo.c:319
 msgid "Replay"
 msgstr "Ieraksts"
 
-#: ball/st_demo.c:202
+#: ball/st_demo.c:198
 msgid "Time"
 msgstr "Laiks"
 
-#: ball/st_demo.c:203
+#: ball/st_demo.c:199
 msgid "Mode"
 msgstr "Režīms"
 
-#: ball/st_demo.c:204
+#: ball/st_demo.c:200
 msgid "Level"
 msgstr "Līmenis"
 
-#: ball/st_demo.c:205
+#: ball/st_demo.c:201
 msgid "Date"
 msgstr "Datums"
 
-#: ball/st_demo.c:243
-msgid "No Replays"
-msgstr "Nav ierakstu"
-
-#: ball/st_demo.c:253
+#: ball/st_demo.c:241
 msgid "Select Replay"
 msgstr "Izvēlies ierakstu"
 
-#: ball/st_demo.c:415
+#: ball/st_demo.c:263
+msgid "No Replays"
+msgstr "Nav ierakstu"
+
+#: ball/st_demo.c:413
 msgid "Replay Ends"
 msgstr "Ieraksta beigas"
 
-#: ball/st_demo.c:419
+#: ball/st_demo.c:417
 msgid "Replay Again"
 msgstr "Atkārtot"
 
-#: ball/st_demo.c:422 ball/st_done.c:88 ball/st_name.c:123
+#: ball/st_demo.c:420 ball/st_done.c:88 ball/st_name.c:123
 msgid "OK"
 msgstr "Labi"
 
-#: ball/st_demo.c:425
+#: ball/st_demo.c:423
 msgid "Keep"
 msgstr "Paturēt"
 
-#: ball/st_demo.c:426
+#: ball/st_demo.c:424
 msgid "Delete"
 msgstr "Izdzēst"
 
-#: ball/st_demo.c:488
+#: ball/st_demo.c:486
 msgid "Delete Replay?"
 msgstr "Dzēst ierakstu?"
 
@@ -611,11 +609,11 @@ msgstr "Labākie laiki"
 msgid "del"
 msgstr "dzēst"
 
-#: ball/util.c:344
+#: ball/util.c:345
 msgid "Next"
 msgstr ""
 
-#: ball/util.c:345
+#: ball/util.c:346
 msgid "Prev"
 msgstr ""
 
@@ -722,7 +720,7 @@ msgstr "Vācu"
 msgid "Latvian"
 msgstr "Latviešu"
 
-#: share/i18n.c:101
+#: share/i18n.c:103
 msgid "System Default"
 msgstr "Sistēmas valoda"
 
