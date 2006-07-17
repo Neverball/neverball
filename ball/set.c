@@ -109,23 +109,26 @@ static void set_load_hs(void)
                (strlen(states) == s->count));
         for (i = 0; i < s->count && res; i++)
         {
-            if (states[i] == 'L')
+            switch (states[i])
             {
+            case 'L':
                 level_v[i].is_locked = 1;
                 level_v[i].is_completed = 0;
-            }
-            else if (states[i] == 'C')
-            {
+                break;
+
+            case 'C':
                 level_v[i].is_locked = 0;
                 level_v[i].is_completed = 1;
-            }
-            else if (states[i] == 'O')
-            {
+                break;
+
+            case 'O':
                 level_v[i].is_locked = 0;
                 level_v[i].is_completed = 0;
-            }
-            else
+                break;
+
+            default:
                 res = 0;
+            }
         }
 
         res = res &&
@@ -145,35 +148,34 @@ static void set_load_hs(void)
 
     if (!res && errno != ENOENT)
     {
-        fprintf(stderr, _("Error while loading user high-score file '%s': "),
-                fn);
-        if (errno)
-            perror(NULL);
-        else
-            fprintf(stderr, _("Incorrect format\n"));
+        fprintf(stderr,
+                _("Error while loading user high-score file '%s': %s\n"),
+                fn, errno ? strerror(errno) : _("Incorrect format"));
     }
 }
 
-static char *chomp(char *str)
 /* Remove trailing \n if any */
+
+static char *chomp(char *str)
 {
     char *p = str + strlen(str) - 1;
-    if (p >= str && *p == '\n') *p = 0;
+    if (p >= str && *p == '\n')
+        *p = 0;
     return str;
 }
 
 static int set_load(struct set *s, const char *filename)
 {
     FILE *fin;
-
     char buf[MAXSTR];
     int res;
 
     fin = fopen(config_data(filename), "r");
+
     if (!fin)
     {
-        fprintf(stderr, _("Cannot load the set file '%s':"), filename);
-        perror(NULL);
+        fprintf(stderr, _("Cannot load the set file '%s': %s\n"),
+                filename, strerror(errno));
         return 0;
     }
 
@@ -186,7 +188,7 @@ static int set_load(struct set *s, const char *filename)
 
     /* Load set metadata. */
 
-    strcpy(s->file, config_data(filename));
+    strcpy(s->file, filename);
 
     if ((res = fgets(buf, MAXSTR, fin) != NULL))
         strcpy(s->name, chomp(buf));
@@ -251,37 +253,26 @@ static int set_load(struct set *s, const char *filename)
 
 void set_init()
 {
-    struct set *set;
     FILE *fin;
-
+    struct set *set;
     char filename[MAXSTR];
-    int res;
 
     current_set = NULL;
-
     count = 0;
 
     if ((fin = fopen(config_data(SET_FILE), "r")))
     {
-        res = 1;
-        while (count < MAXSET && res)
+        while (count < MAXSET && fgets(filename, MAXSTR, fin))
         {
+            chomp(filename);
             set = &(set_v[count]);
-            res = (fgets(filename, MAXSTR, fin) != NULL);
 
-            if (res)
+            if (set_load(set, filename))
             {
-                chomp(filename);
-
-                res = set_load(set, filename);
-                if (res)
-                {
-                    set->number = count;
-                    count++;
-                }
+                set->number = count;
+                count++;
             }
         }
-
         fclose(fin);
     }
 }
@@ -331,7 +322,7 @@ static void set_load_levels(void)
     int i = 0, res;
     int nb = 1, bnb = 1;
 
-    if ((fin = fopen(current_set->file, "r")))
+    if ((fin = fopen(config_data(current_set->file), "r")))
     {
         res = 1;
 

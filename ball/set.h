@@ -16,7 +16,8 @@ struct set
     /* set global info */
     int number;               /* number of the set */
 
-    char file[MAXSTR];        /* set file description */
+    char file[PATHMAX];
+
     char user_scores[MAXSTR]; /* user highscore file */
     char setname[MAXSTR];     /* internal set name */
 

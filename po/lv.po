@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-07-16 20:04+0300\n"
-"PO-Revision-Date: 2006-07-11 15:27+0300\n"
+"PO-Revision-Date: 2006-07-16 20:08+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -51,14 +51,13 @@ msgid "Manual"
 msgstr "Manuālais"
 
 #: ball/level.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Error while loading level file '%s': %s\n"
-msgstr "Kļūda, ielādējot līmeņa failu '%s': "
+msgstr "Kļūda, ielādējot līmeņa failu '%s': %s\n"
 
 #: ball/level.c:131
-#, fuzzy
 msgid "Not a valid level file"
-msgstr "nederīgs līmeņa fails.\n"
+msgstr "nederīgs līmeņa fails"
 
 #: ball/level.c:209 ball/st_help.c:219 ball/st_start.c:251
 msgid "Challenge"
@@ -78,7 +77,7 @@ msgstr "Viens"
 
 #: ball/level.c:213 ball/level.c:228
 msgid "Unknown"
-msgstr ""
+msgstr "Nezināms"
 
 #: ball/level.c:223
 msgid "Aborted"
@@ -141,9 +140,9 @@ msgid "Failure to establish config directory\n"
 msgstr "Neizdevās noteikt iestatījumu katalogu\n"
 
 #: ball/main.c:323
-#, fuzzy, c-format
+#, c-format
 msgid "Replay file '%s': %s\n"
-msgstr "Ieraksta fails '%s':  %s\n"
+msgstr "Ieraksta fails '%s': %s\n"
 
 #: ball/main.c:324
 msgid "Not a replay file"
@@ -167,7 +166,7 @@ msgstr "nepareizs formāts\n"
 #: ball/set.c:175
 #, c-format
 msgid "Cannot load the set file '%s':"
-msgstr ""
+msgstr "Nav iespējams ielādēt komplekta failu '%s':"
 
 #: ball/set.c:355
 #, c-format
@@ -260,7 +259,7 @@ msgstr "Spēlētāja vārds"
 
 #: ball/st_demo.c:174 ball/st_name.c:40 putt/st_all.c:476
 msgid "Player"
-msgstr ""
+msgstr "Spēlētājs"
 
 #: ball/st_demo.c:178
 msgid "State"
@@ -524,7 +523,7 @@ msgstr "Līmeņu komplekts"
 
 #: ball/st_start.c:100
 msgid "Play this bonus level in practice mode"
-msgstr ""
+msgstr "Spēlē šo papildus līmeni treniņrežīmā"
 
 #: ball/st_start.c:103
 msgid "Play this level in practice mode"
@@ -532,7 +531,7 @@ msgstr "Spēlē šo līmeni treniņrežīmā"
 
 #: ball/st_start.c:110
 msgid "Play this bonus level in normal mode"
-msgstr "Spēlē šo papildlīmeni normālajā režīmā"
+msgstr "Spēlē šo papildus līmeni normālajā režīmā"
 
 #: ball/st_start.c:112
 msgid "Play this level in normal mode"

@@ -94,10 +94,9 @@ static int set_enter(void)
 
     int id, jd, kd;
 
-
     set_init();
 
-    /* Reset last set if it do not exists */
+    /* Reset last set if it does not exist */
     if (!set_exists(last_set))
     {
         b = 0;
@@ -118,12 +117,12 @@ static int set_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, get_set(last_set)->shot, 7 * w / 16,
-                                7 * h / 16);
+            shot_id = gui_image(jd, get_set(last_set)->shot,
+                                7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
             {
-                /* Display levels */
+                /* Display sets */
                 for (i = b * SET_GROUP; i < (b + 1) * SET_GROUP && set_exists(i); i++)
                     gui_set(kd, i);
 
@@ -134,7 +133,8 @@ static int set_enter(void)
         }
 
         gui_space(id);
-        desc_id = gui_multi(id, " \\ \\ \\ \\ \\", GUI_SML, GUI_ALL, gui_yel, gui_wht);
+        desc_id = gui_multi(id, " \\ \\ \\ \\ \\", GUI_SML, GUI_ALL,
+                            gui_yel, gui_wht);
 
         gui_layout(id, 0, 0);
     }
