@@ -59,10 +59,12 @@ static int status_id;
 
 static void gui_level(int id, int i)
 {
+    const GLfloat *fore, *back;
+
     const struct set *s = curr_set();
     const struct level *l;
-    int jd = 0;
-    const GLfloat *fore, *back;
+
+    int jd;
 
     if (!set_level_exists(s, i))
     {
@@ -74,12 +76,14 @@ static void gui_level(int id, int i)
 
     if (!l->is_locked)
     {
-        fore =  l->is_bonus ? gui_grn : gui_wht;
-        back = l->is_completed ? fore : gui_yel;
+        fore = l->is_bonus     ? gui_grn : gui_wht;
+        back = l->is_completed ? fore    : gui_yel;
     }
     else
         fore = back = gui_gry;
+
     jd = gui_label(id, l->numbername, GUI_SML, GUI_ALL, back, fore);
+
     gui_active(jd, i, 0);
 }
 
@@ -163,17 +167,17 @@ static void start_over(id)
 static int start_action(int i)
 {
     int mode = config_get_d(CONFIG_MODE);
+
     audio_play(AUD_MENU, 1.0f);
 
-    if (i == START_BACK)
-        return goto_state(&st_set);
-    else if (i == START_NORMAL)
+    switch (i)
     {
+    case START_BACK:
+        return goto_state(&st_set);
+    case START_NORMAL:
         config_set_d(CONFIG_MODE, MODE_NORMAL);
         return goto_state(&st_start);
-    }
-    else if (i == START_PRACTICE)
-    {
+    case START_PRACTICE:
         config_set_d(CONFIG_MODE, MODE_PRACTICE);
         return goto_state(&st_start);
     }
@@ -193,6 +197,7 @@ static int start_action(int i)
     if (i >= 0)
     {
         const struct level *l = get_level(i);
+
         if (!l->is_locked || config_get_d(CONFIG_CHEAT))
         {
             level_play(l, mode);
@@ -211,7 +216,7 @@ static int start_enter(void)
 
     int id, jd, kd, ld;
 
-    /* Desactivate cheat */
+    /* Deactivate cheat */
     if (m == MODE_CHALLENGE && !config_get_d(CONFIG_CHEAT))
     {
         m = MODE_NORMAL;
@@ -248,7 +253,7 @@ static int start_enter(void)
                         for (j = 4; j >= 0; j--)
                             gui_level(ld, i * 5 + j);
 
-                gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE ,
+                gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE,
                           m == MODE_CHALLENGE);
             }
         }
@@ -259,7 +264,6 @@ static int start_enter(void)
             gui_most_coins(jd, 0);
             gui_best_times(jd, 0);
         }
-
         gui_space(id);
 
         status_id = gui_label(id, _("Choose a level to play"), GUI_SML, GUI_ALL,

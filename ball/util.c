@@ -71,12 +71,14 @@ void gui_most_coins(int id, int e)
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < NSCORE ; j++)
-                        coin_n[j] = gui_label(md, s, GUI_SML, 0, gui_yel, gui_wht);
+                        coin_n[j] = gui_label(md, s, GUI_SML, 0,
+                                              gui_yel, gui_wht);
 
                     if (e)
                     {
                         gui_space(md);
-                        coin_n[j++] = gui_label(md, s, GUI_SML, 0, gui_yel, gui_wht);
+                        coin_n[j++] = gui_label(md, s, GUI_SML, 0,
+                                                gui_yel, gui_wht);
                     }
                 }
 
@@ -183,12 +185,14 @@ void gui_best_times(int id, int e)
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < NSCORE; j++)
-                        time_n[j] = gui_label(md, s, GUI_SML, 0, gui_yel, gui_wht);
+                        time_n[j] = gui_label(md, s, GUI_SML, 0,
+                                              gui_yel, gui_wht);
 
                     if (e)
                     {
                         gui_space(md);
-                        time_n[j++] = gui_label(md, s, GUI_SML, 0, gui_yel, gui_wht);
+                        time_n[j++] = gui_label(md, s, GUI_SML, 0,
+                                                gui_yel, gui_wht);
                     }
                 }
 
