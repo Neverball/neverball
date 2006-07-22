@@ -368,10 +368,10 @@ int main(int argc, char *argv[])
     /* Initialize the audio. */
 
     audio_bind(AUD_MENU,   3, "snd/menu.wav");
-    audio_bind(AUD_START,  1, "snd/select.ogg");
-    audio_bind(AUD_READY,  1, "snd/ready.ogg");
-    audio_bind(AUD_SET,    1, "snd/set.ogg");
-    audio_bind(AUD_GO,     1, "snd/go.ogg");
+    audio_bind(AUD_START,  1, _("snd/select.ogg"));
+    audio_bind(AUD_READY,  1, _("snd/ready.ogg"));
+    audio_bind(AUD_SET,    1, _("snd/set.ogg"));
+    audio_bind(AUD_GO,     1, _("snd/go.ogg"));
     audio_bind(AUD_BALL,   2, "snd/ball.ogg");
     audio_bind(AUD_BUMP,   3, "snd/bump.ogg");
     audio_bind(AUD_COIN,   2, "snd/coin.wav");
@@ -380,10 +380,10 @@ int main(int argc, char *argv[])
     audio_bind(AUD_SWITCH, 5, "snd/switch.wav");
     audio_bind(AUD_JUMP,   5, "snd/jump.ogg");
     audio_bind(AUD_GOAL,   5, "snd/goal.wav");
-    audio_bind(AUD_SCORE,  1, "snd/record.ogg");
-    audio_bind(AUD_FALL,   1, "snd/fall.ogg");
-    audio_bind(AUD_TIME,   1, "snd/time.ogg");
-    audio_bind(AUD_OVER,   1, "snd/over.ogg");
+    audio_bind(AUD_SCORE,  1, _("snd/record.ogg"));
+    audio_bind(AUD_FALL,   1, _("snd/fall.ogg"));
+    audio_bind(AUD_TIME,   1, _("snd/time.ogg"));
+    audio_bind(AUD_OVER,   1, _("snd/over.ogg"));
 
     audio_init();
 
