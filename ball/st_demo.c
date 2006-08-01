@@ -303,7 +303,7 @@ static int demo_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int simple_play;
+static int simple_play; /* play demo from command line */
 
 void demo_play_goto(int simple)
 {
@@ -444,12 +444,35 @@ static int demo_end_enter(void)
 
 static void demo_end_timer(int id, float dt)
 {
+    float t;
     float gg[3] = { 0.0f,  9.8f, 0.0f };
     float gf[3] = { 0.0f, -9.8f, 0.0f };
     int state = curr_demo_replay()->state;
 
-    if (time_state() < 2.f && state != GAME_NONE)
-        game_step((state == GAME_GOAL || state == GAME_SPEC) ? gg : gf, dt, NULL);
+    if (time_state() < 2.f)
+    {
+        /* Continue demo in background for 2 seconds */
+        if (replay_time < global_time)
+        {
+            /* The demo is finished, let the ball go */
+            if (state != GAME_NONE)
+            {
+                game_step((state == GAME_GOAL || state == GAME_SPEC) ? gg : gf, dt, NULL);
+            }
+        }
+        else
+        {
+            /* The demo is not finished, play it */
+            global_time += dt;
+            while (replay_time < global_time)
+                if (demo_replay_step(&t))
+                {
+                    replay_time += t;
+                }
+                else
+                    break;
+        }
+    }
 
     gui_timer(id, dt);
     audio_timer(dt);
