@@ -34,6 +34,7 @@ static int level_enter(void)
     const char *ln;
     const struct level_game *lg = curr_lg();
     int b;
+    const float *textcol1, *textcol2;
 
     /* Load the level */
     level_ok = level_play_go();
@@ -48,26 +49,21 @@ static int level_enter(void)
         {
             ln = lg->level->numbername;
             b = lg->level->is_bonus;
+	    textcol1 = b ? gui_wht : 0;
+	    textcol2 = b ? gui_grn : 0;
 
             gui_filler(jd);
             if ((kd = gui_vstack(jd)))
             {
+		gui_label(kd, mode_to_str(lg->mode), GUI_SML, GUI_TOP,
+			  gui_wht, gui_wht);
                 if (b)
-                    gui_label(kd, _("*** BONUS ***"), GUI_MED, GUI_TOP, gui_wht,
+                    gui_label(kd, _("*** BONUS ***"), GUI_MED, 0, gui_wht,
                               gui_grn);
                 if ((ld = gui_hstack(kd)))
                 {
-                    if (b)
-                    {
-                        gui_label(ld, ln, GUI_LRG, 0, gui_wht, gui_grn);
-                        gui_label(ld, _("Level "), GUI_LRG, 0, gui_wht,
-                                  gui_grn);
-                    }
-                    else
-                    {
-                        gui_label(ld, ln, GUI_LRG, GUI_NE, 0, 0);
-                        gui_label(ld, _("Level "), GUI_LRG, GUI_NW, 0, 0);
-                    }
+		    gui_label(ld, ln, GUI_LRG, 0, textcol1, textcol2);
+		    gui_label(ld, _("Level "), GUI_LRG, 0, textcol1, textcol2);
                 }
 
                 gui_label(kd, _(curr_set()->name), GUI_SML, GUI_BOT, gui_wht,
