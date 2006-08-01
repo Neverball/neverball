@@ -30,7 +30,7 @@
 #include "binary.h"
 
 #define MAGIC       0x4c4f53af
-#define SOL_VERSION 5
+#define SOL_VERSION 6
 
 #define LARGE 1.0e+5f
 
@@ -253,6 +253,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     if (magic != MAGIC || version != SOL_VERSION)
         return 0;
 
+    get_index(fin, &fp->ac);
     get_index(fin, &fp->mc);
     get_index(fin, &fp->vc);
     get_index(fin, &fp->ec);
@@ -271,8 +272,9 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->uc);
     get_index(fin, &fp->wc);
     get_index(fin, &fp->ic);
-    get_index(fin, &fp->ac);
 
+    if (fp->ac)
+        fp->av = (char          *) calloc(fp->ac, sizeof (char));
     if (fp->mc)
         fp->mv = (struct s_mtrl *) calloc(fp->mc, sizeof (struct s_mtrl));
     if (fp->vc)
@@ -309,9 +311,8 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
         fp->wv = (struct s_view *) calloc(fp->wc, sizeof (struct s_view));
     if (fp->ic)
         fp->iv = (int           *) calloc(fp->ic, sizeof (int));
-    if (fp->ac)
-        fp->av = (char          *) calloc(fp->ac, sizeof (char));
 
+    if (fp->ac) fread(fp->av, 1, fp->ac, fin);
     for (i = 0; i < fp->mc; i++) sol_load_mtrl(fin, fp->mv + i);
     for (i = 0; i < fp->vc; i++) sol_load_vert(fin, fp->vv + i);
     for (i = 0; i < fp->ec; i++) sol_load_edge(fin, fp->ev + i);
@@ -331,6 +332,44 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->wc; i++) sol_load_view(fin, fp->wv + i);
     for (i = 0; i < fp->ic; i++) get_index(fin, fp->iv + i);
 
+    return 1;
+}
+
+static int sol_load_head(FILE *fin, struct s_file *fp)
+{
+    int i;
+    int magic;
+    int version;
+
+    get_index(fin, &magic);
+    get_index(fin, &version);
+
+    if (magic != MAGIC || version != SOL_VERSION)
+        return 0;
+
+    get_index(fin, &fp->ac);
+    get_index(fin, &i); /* fp->mc); */
+    get_index(fin, &i); /* fp->vc); */
+    get_index(fin, &i); /* fp->ec); */
+    get_index(fin, &i); /* fp->sc); */
+    get_index(fin, &i); /* fp->tc); */
+    get_index(fin, &i); /* fp->gc); */
+    get_index(fin, &i); /* fp->lc); */
+    get_index(fin, &i); /* fp->nc); */
+    get_index(fin, &i); /* fp->pc); */
+    get_index(fin, &i); /* fp->bc); */
+    get_index(fin, &i); /* fp->cc); */
+    get_index(fin, &i); /* fp->zc); */
+    get_index(fin, &i); /* fp->jc); */
+    get_index(fin, &i); /* fp->xc); */
+    get_index(fin, &i); /* fp->rc); */
+    get_index(fin, &i); /* fp->uc); */
+    get_index(fin, &i); /* fp->wc); */
+    get_index(fin, &i); /* fp->ic); */
+
+    if (fp->ac)
+        fp->av = (char          *) calloc(fp->ac, sizeof (char));
+
     if (fp->ac) fread(fp->av, 1, fp->ac, fin);
 
     return 1;
@@ -344,6 +383,19 @@ int sol_load_only_file(struct s_file *fp, const char *filename)
     if ((fin = fopen(filename, FMODE_RB)))
     {
         res = sol_load_file(fin, fp);
+        fclose(fin);
+    }
+    return res;
+}
+
+int sol_load_only_head(struct s_file *fp, const char *filename)
+{
+    FILE *fin;
+    int res = 0;
+
+    if ((fin = fopen(filename, FMODE_RB)))
+    {
+        res = sol_load_head(fin, fp);
         fclose(fin);
     }
     return res;
@@ -509,6 +561,7 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     put_index(fin, &magic);
     put_index(fin, &version);
 
+    put_index(fin, &fp->ac);
     put_index(fin, &fp->mc);
     put_index(fin, &fp->vc);
     put_index(fin, &fp->ec);
@@ -527,8 +580,8 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     put_index(fin, &fp->uc);
     put_index(fin, &fp->wc);
     put_index(fin, &fp->ic);
-    put_index(fin, &fp->ac);
 
+    fwrite(fp->av, 1, fp->ac, fin);
     for (i = 0; i < fp->mc; i++) sol_stor_mtrl(fin, fp->mv + i);
     for (i = 0; i < fp->vc; i++) sol_stor_vert(fin, fp->vv + i);
     for (i = 0; i < fp->ec; i++) sol_stor_edge(fin, fp->ev + i);
@@ -547,8 +600,6 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->uc; i++) sol_stor_ball(fin, fp->uv + i);
     for (i = 0; i < fp->wc; i++) sol_stor_view(fin, fp->wv + i);
     for (i = 0; i < fp->ic; i++) put_index(fin, fp->iv + i);
-
-    fwrite(fp->av, 1, fp->ac, fin);
 }
 
 /*---------------------------------------------------------------------------*/

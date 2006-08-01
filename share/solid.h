@@ -309,6 +309,7 @@ void sol_body_p(float p[3], const struct s_file *, const struct s_body *);
 /*---------------------------------------------------------------------------*/
 
 int   sol_load_only_file(struct s_file *, const char *);
+int   sol_load_only_head(struct s_file *, const char *);
 int   sol_stor(struct s_file *, const char *);
 void  sol_free(struct s_file *);
 
