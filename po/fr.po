@@ -50,14 +50,13 @@ msgid "Manual"
 msgstr "Manuelle"
 
 #: ball/level.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Error while loading level file '%s': %s\n"
-msgstr "Erreur lors du chargement du fichier de score « %s » :"
+msgstr "Erreur lors du chargement du fichier de score « %s » : %s\n"
 
 #: ball/level.c:131
-#, fuzzy
 msgid "Not a valid level file"
-msgstr "Pas un fichier de niveau valide\n"
+msgstr "Pas un fichier de niveau valide"
 
 #: ball/level.c:209 ball/st_help.c:219 ball/st_start.c:251
 msgid "Challenge"
@@ -77,7 +76,7 @@ msgstr "Unique"
 
 #: ball/level.c:213 ball/level.c:228
 msgid "Unknown"
-msgstr ""
+msgstr "Inconnu"
 
 #: ball/level.c:223
 msgid "Aborted"
@@ -96,12 +95,12 @@ msgid "Fall-out"
 msgstr "Balle perdue"
 
 #: ball/main.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "screen%02d.png"
-msgstr "capture%02d.bmp"
+msgstr "capture%02d.png"
 
 #: ball/main.c:234
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [options ...]\n"
 "-r, --replay file         play the replay 'file'.\n"
@@ -114,6 +113,7 @@ msgstr ""
 "Usage: %s [options ...]\n"
 "-r, --replay fichier      joue le film 'fichier'.\n"
 "-l, --level fichier.sol   jouez le niveau 'fichier.sol'.\n"
+"-i, --info                affiche des infos à propos d'un niveau ou d'un film.\n"
 "    --data rep            utilise 'rep' comme dossier de données.\n"
 "-v, --version             affiche la version.\n"
 "-h, -?, --help            affiche ce message d'aide.\n"
@@ -139,19 +139,18 @@ msgid "Failure to establish config directory\n"
 msgstr "Impossible d'établir le répertoire de configuration\n"
 
 #: ball/main.c:323
-#, fuzzy, c-format
+#, c-format
 msgid "Replay file '%s': %s\n"
-msgstr "Fichier de film « %s » : "
+msgstr "Fichier de film « %s » : %s\n"
 
 #: ball/main.c:324
-#, fuzzy
 msgid "Not a replay file"
-msgstr "Pas un fichier de film\n"
+msgstr "Pas un fichier de film"
 
 #: ball/main.c:344
 #, c-format
 msgid "%s: --info requires --replay or --level\n"
-msgstr ""
+msgstr "%s: --info nécessite --replay ou --level\n"
 
 #: ball/set.c:148
 #, c-format
@@ -331,42 +330,39 @@ msgstr "Changer le nom du joueur"
 
 #: ball/st_help.c:68
 msgid "Credits"
-msgstr ""
+msgstr "Crédits"
 
 #: ball/st_help.c:69
-#, fuzzy
 msgid "Secrets"
-msgstr "Scores"
+msgstr "Secrets"
 
 #: ball/st_help.c:70
-#, fuzzy
 msgid "Modes"
-msgstr "Mode"
+msgstr "Modes"
 
 #: ball/st_help.c:71
-#, fuzzy
 msgid "Controls"
-msgstr "Pièces"
+msgstr "Contrôles"
 
 #: ball/st_help.c:72
 msgid "Rules"
-msgstr ""
+msgstr "Règles"
 
 #: ball/st_help.c:82
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\ "
 msgstr ""
+"Déplacez la souris ou le\\joystick ou utilisez le clavier\\pour incliner "
+"le sol et\\faire rouler la balle.\\ "
 
 #: ball/st_help.c:87
-#, fuzzy
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\ "
 msgstr ""
-"Déplacez la souris pour incliner le sol.\\Collectez 10 pièces pour "
-"déverrouiller l'arrivée.\\Guidez la balle jusqu'à l'arrivée pour\\terminer "
-"le niveau.\\\\Cliquez pour commencer.\\"
+"Collectez des pièces pour\\déverrouiller l'arrivée\\et terminer le "
+" niveau.\\ \\"
 
 #: ball/st_help.c:121
 msgid "Left and right mouse buttons rotate the view."
@@ -398,17 +394,15 @@ msgstr "Vue manuelle"
 
 #: ball/st_help.c:128
 msgid "Show FPS"
-msgstr ""
+msgstr "Afficher FPS"
 
 #: ball/st_help.c:129
-#, fuzzy
 msgid "Screenshot"
-msgstr "Scores"
+msgstr "Captures"
 
 #: ball/st_help.c:130
-#, fuzzy
 msgid "Toggle Fullscreen"
-msgstr "Plein écran"
+msgstr "Plein écran/fenétré"
 
 #: ball/st_help.c:132
 msgid "Spacebar"
@@ -420,23 +414,23 @@ msgstr "Échappe"
 
 #: ball/st_help.c:235 ball/st_help.c:240
 msgid " \\ \\ \\ \\ "
-msgstr ""
+msgstr " \\ \\ \\ \\ "
 
 #: ball/st_help.c:280
 msgid "Lead Maintainer"
-msgstr ""
+msgstr "Mainteneur principal"
 
 #: ball/st_help.c:286
 msgid "Developers"
-msgstr ""
+msgstr "Développeurs"
 
 #: ball/st_help.c:292
 msgid "Level Contribution"
-msgstr ""
+msgstr "Contribition des niveaux"
 
 #: ball/st_help.c:300
 msgid "Translation"
-msgstr ""
+msgstr "Traductions"
 
 #: ball/st_level.c:45
 msgid "Single Level"
@@ -476,7 +470,7 @@ msgstr "PARTEZ !"
 
 #: ball/st_play_end.c:98
 msgid "SPECIAL GOAL"
-msgstr ""
+msgstr "SORTIE SPÉCIALE"
 
 #: ball/st_play_end.c:101
 msgid "Fall-out!"
@@ -754,14 +748,12 @@ msgid "Difficulty: A second set of easy levels.\\\\\\Work in progress.\\\\"
 msgstr "Une deuxième fournée de niveau faciles.\\\\\\En travaux.\\\\"
 
 #: data/set-easy3.txt
-#, fuzzy
 msgid "Neverball Easy 3"
-msgstr "Neverball Facile 2"
+msgstr "Neverball Facile 3"
 
 #: data/set-easy3.txt
-#, fuzzy
 msgid "Difficulty: A third set of easy levels.\\\\\\Work in progress.\\\\"
-msgstr "Une deuxième fournée de niveau faciles.\\\\\\En travaux.\\\\"
+msgstr "Une troisième fournée de niveau faciles.\\\\\\En travaux.\\\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -811,6 +803,8 @@ msgid ""
 "Difficulty: ? (probably hard through advanced)\\8 levels in beta, for your "
 "dining pleasure.\\Feel free to give me suggestions.\\Author: paul\\\\"
 msgstr ""
+"Difficluté : ? (probablement difficile à avancé)\\8 niveaux béta, pour votre "
+"plaisir.\\N'hésitez pas à m'envoyer vos suggestions.\\Auteur : Paul\\\\"
 
 #: data/courses.txt
 msgid ""
@@ -857,6 +851,8 @@ msgid ""
 "It's a real game of checkers, but no one wins...\\You have to bounce to "
 "reach the blue coins."
 msgstr ""
+"C'est une vraie partie de dames, mais sans vainqueur...\\Vouz devez "
+"rebondir pour attrapper les pièces bleues."
 
 #: data/map-easy2/elevator-jp.map
 msgid "Calm and meditation may bring you to the Nirvana."
@@ -865,18 +861,20 @@ msgstr "Un peu de calme et de méditation pourrait vous\\emmener au Nirvana."
 #: data/map-easy2/grow_demo-dave.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
 msgstr ""
+"Utilisez les nouvelles pièces pour\\changer la taille de la balle !\\"
+"J'espère que vous appréciez !\\-Dave"
 
 #: data/map-easy2/groweasy-dave.map
 msgid "There are special coins which can make your\\ball larger or smaller."
-msgstr ""
+msgstr "Il y a des pièces spéciales qui font\\grandir ou rétrécir votre balle."
 
 #: data/map-easy2/lollipop-dave.map
 msgid "Follow the yellow lick road..."
-msgstr ""
+msgstr "Suivez la piste jaune..."
 
 #: data/map-easy2/ocean-paul.map
 msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
-msgstr ""
+msgstr "Ensemble pour un bain...\\toutes les pièces sont sous l'eau.\\"
 
 #: data/map-easy2/paths-paul.map
 msgid "So many different paths to take...\\have you tried all of them?"
@@ -888,7 +886,7 @@ msgstr "Descendez les escaliers.\\Aïe !\\Ça fait mal."
 
 #: data/map-easy2/thwomp2-paul.map
 msgid "Grab all the coins...\\but don't get thwomped!"
-msgstr ""
+msgstr "Collectez toutes les pièces...\\mais attention au gardien !"
 
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
@@ -1009,7 +1007,6 @@ msgid "Le chemin de la foi.\\Self-confidence."
 msgstr "Le chemin de la foi.\\Ayez confiance en vous."
 
 #: data/map-mym/turn.map
-#, fuzzy
 msgid "Le sens trigonometrique.\\Turn, wait and jump."
 msgstr "Le sens trigonométrique.\\Tournez, attendez et sautez."
 
@@ -1130,15 +1127,16 @@ msgstr "Les toiles attirantes.\\Ne vous laissez pas empêtrer."
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
-msgstr ""
+msgstr "Suivez les pièces bleus...\\et apprenez à controler votre rebond !\\"
+"Astuce : utilisez le mode de caméra 'poursuite'."
 
 #: data/map-paul/bounce2.map
 msgid "Follow the arrows."
-msgstr ""
+msgstr "Suivez les flèches"
 
 #: data/map-paul/thwomp1.map
 msgid "Just let it happen...\\then start to worry!"
-msgstr ""
+msgstr "Laissez les choses venir...\\puis commencez à vous inquiéter !"
 
 #: data/map-rlk/angle.map
 msgid ""
