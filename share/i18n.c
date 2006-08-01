@@ -30,11 +30,10 @@ const char *sgettext(const char *msgid)
 
     if (msgval == msgid)
     {
-        msgval = strrchr(msgid, '^');
-        if (msgval == NULL)
-            msgval = msgid;
-        else
+        if ((msgval = strrchr(msgid, '^')))
             msgval++;
+        else
+            msgval = msgid;
     }
     return msgval;
 }
@@ -106,9 +105,6 @@ const char *language_get_name(int id)
 
 const char *language_get_code(int id)
 {
-        if (id > 0)
-                return language_codes[id - 1];
-        else
-                return "";
+    return id > 0 ? language_codes[id - 1] : "";
 }
 
