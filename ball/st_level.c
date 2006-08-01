@@ -49,21 +49,21 @@ static int level_enter(void)
         {
             ln = lg->level->numbername;
             b = lg->level->is_bonus;
-	    textcol1 = b ? gui_wht : 0;
-	    textcol2 = b ? gui_grn : 0;
+            textcol1 = b ? gui_wht : 0;
+            textcol2 = b ? gui_grn : 0;
 
             gui_filler(jd);
             if ((kd = gui_vstack(jd)))
             {
-		gui_label(kd, mode_to_str(lg->mode), GUI_SML, GUI_TOP,
-			  gui_wht, gui_wht);
+                gui_label(kd, mode_to_str(lg->mode), GUI_SML, GUI_TOP,
+                          gui_wht, gui_wht);
                 if (b)
                     gui_label(kd, _("*** BONUS ***"), GUI_MED, 0, gui_wht,
                               gui_grn);
                 if ((ld = gui_hstack(kd)))
                 {
-		    gui_label(ld, ln, GUI_LRG, 0, textcol1, textcol2);
-		    gui_label(ld, _("Level "), GUI_LRG, 0, textcol1, textcol2);
+                    gui_label(ld, ln, GUI_LRG, 0, textcol1, textcol2);
+                    gui_label(ld, _("Level "), GUI_LRG, 0, textcol1, textcol2);
                 }
 
                 gui_label(kd, _(curr_set()->name), GUI_SML, GUI_BOT, gui_wht,
