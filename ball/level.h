@@ -112,9 +112,9 @@ const char *mode_to_str(int);
 
 #define GAME_NONE 0     /* No event (or aborted) */
 #define GAME_TIME 1     /* Time's up */
-#define GAME_GOAL 2	/* Goal reached */
-#define GAME_FALL 3	/* Fall out */
-#define GAME_SPEC 4	/* Special goal reached */
+#define GAME_GOAL 2     /* Goal reached */
+#define GAME_FALL 3     /* Fall out */
+#define GAME_SPEC 4     /* Special goal reached */
 
 const char *state_to_str(int);
 
