@@ -189,22 +189,23 @@ static void play_loop_timer(int id, float dt)
 
     int state, state_value;
 
-    at = (7 * at + dt) / 8;
+    at = (7 * at + dt) / 8; /* JEAN: What's this? */
 
     gui_timer(id, at);
     hud_timer(at);
     game_set_rot(view_rotate * k);
 
     state = game_step(g, at, &state_value);
+
+    game_step_fade(dt);
+    demo_play_step(at);
+    audio_timer(dt);
+
     if (state)
     {
         level_stop(state, state_value, curr_clock(), curr_coins());
         goto_state(&st_play_end);
     }
-
-    game_step_fade(dt);
-    demo_play_step(at);
-    audio_timer(dt);
 }
 
 static void play_loop_point(int id, int x, int y, int dx, int dy)
