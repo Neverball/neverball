@@ -114,26 +114,36 @@ static FILE *demo_header_open(const char *filename, struct demo *d)
     {
         if (demo_header_read(fp, d))
         {
-            char buf[PATHMAX];
-            char *c;
+            char buf[MAXSTR];
+            char *basename;
             int l;
 
             strncpy(d->filename, filename, MAXSTR);
 
-            strncpy(buf, filename, PATHMAX);
-            l = strlen(buf) - strlen(REPLAY_EXT);
+            /* Remove the directory delimiter */
 
+            basename = strrchr(filename, '/');
+#ifdef _WIN32
+            if (!basename)
+                basename = strrchr(filename, '\\');
+            else
+            {
+                char *tmp;
+                if ((tmp = strrchr(basename, '\\')))
+                    basename = tmp;
+            }
+#endif
+            strncpy(buf, basename ? basename + 1 : filename, MAXSTR);
+
+            /* Remove the extension */
+
+            l = strlen(buf) - strlen(REPLAY_EXT);
             if ((l > 1) && (strcmp(buf + l, REPLAY_EXT) == 0))
                 buf[l] = '\0';
-            
-            c = strrchr(buf, '/');
-            if (c)
-                c++;
-            else
-                c = buf;
 
-            strncpy(d->name, c, PATHMAX);
+            strncpy(d->name, buf, PATHMAX);
             d->name[PATHMAX - 1] = '\0';
+
             return fp;
         }
         fclose(fp);
