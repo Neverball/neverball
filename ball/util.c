@@ -222,10 +222,7 @@ void set_best_times(const struct score *s, int hilight, int goal)
     int j, spe;
     const char *name;
 
-    if (goal)
-        gui_set_label(time_l, _("Unlock Goal"));
-    else
-        gui_set_label(time_l, _("Best Times"));
+    gui_set_label(time_l, goal ? _("Unlock Goal") : _("Best Times"));
 
     if (s == NULL)
     {
@@ -269,10 +266,10 @@ static void gui_fill(int id, char *line)
     char l[2];
     l[1] = '\0';
 
-    while(*line)
+    while (*line)
     {
         *l = *(line++);
-        keyd[(int)*l] = gui_state(id, l, GUI_SML, *l, 0);
+        keyd[(int) *l] = gui_state(id, l, GUI_SML, *l, 0);
     }
 }
 
