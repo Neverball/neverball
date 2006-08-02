@@ -359,7 +359,7 @@ int gui_maybe(int id, const char *label, int token, int enabled)
         bd = gui_state(id, label, GUI_SML, token,    0);
     else
     {
-        bd = gui_state(id, label, GUI_SML, GUI_NULL, 0);
+        bd = gui_state(id, label, GUI_SML, token >= 0 ? token | GUI_NULL_MASK : GUI_NULL, 0);
         gui_set_color(bd, gui_gry, gui_gry);
     }
     return bd;

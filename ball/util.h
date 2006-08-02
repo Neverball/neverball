@@ -5,6 +5,7 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define GUI_NULL_MASK 0x1000
 #define GUI_NULL -100
 #define GUI_BACK -101
 #define GUI_PREV -102

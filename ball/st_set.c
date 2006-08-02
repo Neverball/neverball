@@ -27,11 +27,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define SET_BACK -1
-#define SET_PREV -2
-#define SET_NEXT -3
-#define SET_NULL -4
-
 #define SET_GROUP 5 /* number of sets in one screen */
 
 static int last_set = 0;

@@ -45,6 +45,7 @@
 static int balls_id;
 static int coins_id;
 static int score_id;
+static int status_id;
 
 extern struct state st_play_end_bis;
 
@@ -77,6 +78,59 @@ static int play_end_action(int i)
 
     return 1;
 }
+
+static void play_end_over(int id)
+{
+    if (id == 0)
+        return;
+
+    switch (gui_token(id))
+    {
+        case 0:
+            break;
+
+        case PLAY_END_SAVE:
+            gui_set_label(status_id, _("Save a replay file"));
+            break;
+
+        case PLAY_END_SAVE | GUI_NULL_MASK:
+            gui_set_label(status_id, _("Replay file already saved"));
+            break;
+
+        case PLAY_END_NAME:
+            gui_set_label(status_id, _("Change the player's name"));
+            break;
+
+        case PLAY_END_DONE:
+            gui_set_label(status_id, _("You complete the set"));
+            break;
+
+        case PLAY_END_NEXT:
+            gui_set_label(status_id, _("Play the next level"));
+            break;
+
+        case PLAY_END_NEXT | GUI_NULL_MASK:
+            if (curr_lg()->mode == MODE_PRACTICE)
+                gui_set_label(status_id, 
+                        _("Cannot unlock in practice mode"));
+            else
+                gui_set_label(status_id, 
+                        _("Finish this level to unlock the next one"));
+            break;
+
+        case PLAY_END_SAME:
+            gui_set_label(status_id, _("Replay this level"));
+            break;
+
+        case PLAY_END_SAME | GUI_NULL_MASK:
+            gui_set_label(status_id, _("You cannot replay in challenge mode"));
+            break;
+
+        default:
+            gui_set_label(status_id, "");
+    }
+}
+
 
 static int play_end_init(int *gidp)
 {
@@ -189,6 +243,9 @@ static int play_end_init(int *gidp)
         if (high)
             gui_state(id, _("Change Player Name"),  GUI_SML, PLAY_END_NAME, 0);
 
+        gui_space(id);
+        status_id = gui_label(id, "Neverball", GUI_SML, GUI_ALL, 0, 0);
+
         gui_layout(id, 0, 0);
         if (gidp) *gidp = gid;
     }
@@ -267,6 +324,16 @@ static void play_end_timer(int id, float dt)
     audio_timer(dt);
 }
 
+void play_end_stick(int id, int a, int v)
+{
+        play_end_over(shared_stick_basic(id, a, v));
+}
+
+void play_end_point(int id, int x, int y, int dx, int dy)
+{
+        play_end_over(shared_point_basic(id, x, y));
+}
+
 static int play_end_buttn(int b, int d)
 {
     if (d)
@@ -286,8 +353,8 @@ struct state st_play_end = {
     shared_leave,
     shared_paint,
     play_end_timer,
-    shared_point,
-    shared_stick,
+    play_end_point,
+    play_end_stick,
     shared_click,
     NULL,
     play_end_buttn,
@@ -299,8 +366,8 @@ struct state st_play_end_bis = {
     shared_leave,
     shared_paint,
     shared_timer,
-    shared_point,
-    shared_stick,
+    play_end_point,
+    play_end_stick,
     shared_click,
     NULL,
     play_end_buttn,
