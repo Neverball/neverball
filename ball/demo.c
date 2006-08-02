@@ -106,6 +106,41 @@ static int demo_header_read(FILE *fp, struct demo *d)
     return 0;
 }
 
+static FILE *demo_header_open(const char *filename, struct demo *d)
+{
+    FILE *fp;
+
+    if ((fp = fopen(filename, FMODE_RB)))
+    {
+        if (demo_header_read(fp, d))
+        {
+            char buf[PATHMAX];
+            char *c;
+            int l;
+
+            strncpy(d->filename, filename, MAXSTR);
+
+            strncpy(buf, filename, PATHMAX);
+            l = strlen(buf) - strlen(REPLAY_EXT);
+
+            if ((l > 1) && (strcmp(buf + l, REPLAY_EXT) == 0))
+                buf[l] = '\0';
+            
+            c = strrchr(buf, '/');
+            if (c)
+                c++;
+            else
+                c = buf;
+
+            strncpy(d->name, c, PATHMAX);
+            d->name[PATHMAX - 1] = '\0';
+            return fp;
+        }
+        fclose(fp);
+    }
+    return NULL;
+}
+
 static void demo_header_write(FILE *fp, struct demo *d)
 {
     int magic = MAGIC;
@@ -159,26 +194,9 @@ static void demo_scan_file(const char *filename)
     FILE *fp;
     struct demo *d = &demos[count];
 
-    if ((fp = fopen(config_user(filename), FMODE_RB)))
+    if ((fp = demo_header_open(config_user(filename), d)))
     {
-        if (demo_header_read(fp, d))
-        {
-            char buf[PATHMAX];
-            int l;
-
-            strncpy(d->filename, config_user(filename), MAXSTR);
-
-            strncpy(buf, filename, PATHMAX);
-            l = strlen(buf) - strlen(REPLAY_EXT);
-
-            if ((l > 1) && (strcmp(buf + l, REPLAY_EXT) == 0))
-                buf[l] = '\0';
-
-            strncpy(d->name, buf, PATHMAX);
-            d->name[PATHMAX - 1] = '\0';
-
-            count++;
-        }
+        count++;
         fclose(fp);
     }
 }
@@ -389,12 +407,10 @@ const struct demo *curr_demo_replay(void)
 
 int demo_replay_init(const char *name, struct level_game *lg)
 {
-    demo_fp = fopen(name, FMODE_RB);
+    demo_fp = demo_header_open(name, &demo_replay);
 
-    if (demo_fp && demo_header_read(demo_fp, &demo_replay))
+    if (demo_fp)
     {
-        strncpy(demo_replay.filename, name, MAXSTR);
-
         if (!demo_load_level(&demo_replay, &demo_level_replay))
             return 0;
 
