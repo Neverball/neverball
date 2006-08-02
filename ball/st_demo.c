@@ -456,19 +456,17 @@ static void demo_end_timer(int id, float dt)
         {
             /* The demo is finished, let the ball go */
             if (state != GAME_NONE)
-            {
-                game_step((state == GAME_GOAL || state == GAME_SPEC) ? gg : gf, dt, NULL);
-            }
+                game_step((state == GAME_GOAL || state == GAME_SPEC) ? gg : gf,
+                          dt, NULL);
         }
         else
         {
             /* The demo is not finished, play it */
             global_time += dt;
+
             while (replay_time < global_time)
                 if (demo_replay_step(&t))
-                {
                     replay_time += t;
-                }
                 else
                     break;
         }

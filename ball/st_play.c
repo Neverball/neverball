@@ -189,7 +189,7 @@ static void play_loop_timer(int id, float dt)
 
     int state, state_value;
 
-    at = (7 * at + dt) / 8; /* JEAN: What's this? */
+    at = (7 * at + dt) / 8;
 
     gui_timer(id, at);
     hud_timer(at);
