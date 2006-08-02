@@ -255,7 +255,7 @@ static int play_loop_keybd(int c, int d)
         {
             level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
             level_play_go();
-            goto_state(&st_play_loop);
+            goto_state(&st_play_set);
         }
     }
     else
