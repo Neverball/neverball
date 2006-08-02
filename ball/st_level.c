@@ -47,7 +47,7 @@ static int level_enter(void)
         }
         else if ((jd = gui_hstack(id)))
         {
-            ln = lg->level->numbername;
+            ln = lg->level->repr;
             b = lg->level->is_bonus;
             textcol1 = b ? gui_wht : 0;
             textcol2 = b ? gui_grn : 0;

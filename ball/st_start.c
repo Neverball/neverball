@@ -82,7 +82,7 @@ static void gui_level(int id, int i)
     else
         fore = back = gui_gry;
 
-    jd = gui_label(id, l->numbername, GUI_SML, GUI_ALL, back, fore);
+    jd = gui_label(id, l->repr, GUI_SML, GUI_ALL, back, fore);
 
     gui_active(jd, i, 0);
 }
@@ -94,11 +94,11 @@ static void start_over_level(i)
     {
         gui_set_image(shot_id, l->shot);
 
-        set_most_coins(&l->coin_score, -1);
+        set_most_coins(&l->score.most_coins, -1);
 
         if (config_get_d(CONFIG_MODE) == MODE_PRACTICE)
         {
-            set_best_times(&l->time_score, -1, 0);
+            set_best_times(&l->score.best_times, -1, 0);
             if (l->is_bonus)
                 gui_set_label(status_id,
                               _("Play this bonus level in practice mode"));
@@ -108,7 +108,7 @@ static void start_over_level(i)
         }
         else
         {
-            set_best_times(&l->goal_score, -1, 1);
+            set_best_times(&l->score.unlock_goal, -1, 1);
             if (l->is_bonus)
                 gui_set_label(status_id,
                               _("Play this bonus level in normal mode"));

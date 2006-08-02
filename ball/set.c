@@ -71,9 +71,9 @@ static void set_store_hs(void)
         for (i = 0; i < s->count; i++)
         {
             l = &level_v[i];
-            put_score(fout, &l->time_score);
-            put_score(fout, &l->goal_score);
-            put_score(fout, &l->coin_score);
+            put_score(fout, &l->score.best_times);
+            put_score(fout, &l->score.unlock_goal);
+            put_score(fout, &l->score.most_coins);
         }
 
         fclose(fout);
@@ -138,9 +138,9 @@ static void set_load_hs(void)
         for (i = 0; i < s->count && res; i++)
         {
             l = &level_v[i];
-            res = get_score(fin, &l->time_score) &&
-                  get_score(fin, &l->goal_score) &&
-                  get_score(fin, &l->coin_score);
+            res = get_score(fin, &l->score.best_times) &&
+                  get_score(fin, &l->score.unlock_goal) &&
+                  get_score(fin, &l->score.most_coins);
         }
 
         fclose(fin);
@@ -343,9 +343,9 @@ static void set_load_levels(void)
             l->set        = current_set;
             l->number     = i;
             if (l->is_bonus)
-                sprintf(l->numbername, _("B%d"), bnb++);
+                sprintf(l->repr, _("B%d"), bnb++);
             else
-                sprintf(l->numbername, "%02d", nb++);
+                sprintf(l->repr, "%02d", nb++);
             l->is_locked    = 1;
             l->is_completed = 0;
         }
@@ -452,14 +452,17 @@ static int level_score_update(struct level_game *lg, const char *player)
     int coins = lg->coins;
     struct level *l = &level_v[lg->level->number];
 
-    lg->time_rank = score_time_insert(&l->time_score, player, timer, coins);
+    lg->time_rank = score_time_insert(&l->score.best_times,
+                                      player, timer, coins);
 
     if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
-        lg->goal_rank = score_time_insert(&l->goal_score, player, timer, coins);
+        lg->goal_rank = score_time_insert(&l->score.unlock_goal,
+                                          player, timer, coins);
     else
         lg->goal_rank = 3;
 
-    lg->coin_rank = score_coin_insert(&l->coin_score, player, timer, coins);
+    lg->coin_rank = score_coin_insert(&l->score.most_coins,
+                                      player, timer, coins);
 
     return (lg->time_rank < 3 || lg->goal_rank < 3 || lg->coin_rank < 3);
 }
@@ -483,9 +486,9 @@ void score_change_name(struct level_game *lg, const char *player)
 #define UPDATE(i, x) (strncpy((x).player[(i)], player, MAXNAM))
     struct set *s = current_set;
     struct level *l = &level_v[lg->level->number];
-    UPDATE(lg->time_rank, l->time_score);
-    UPDATE(lg->goal_rank, l->goal_score);
-    UPDATE(lg->coin_rank, l->coin_score);
+    UPDATE(lg->time_rank, l->score.best_times);
+    UPDATE(lg->goal_rank, l->score.unlock_goal);
+    UPDATE(lg->coin_rank, l->score.most_coins);
     UPDATE(lg->score_rank, s->coin_score);
     UPDATE(lg->times_rank, s->time_score);
     set_store_hs();

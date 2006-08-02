@@ -195,11 +195,11 @@ static int play_end_init(int *gidp)
 
     if (state == GAME_GOAL)
     {
-        set_most_coins(&l->coin_score, lg->coin_rank);
+        set_most_coins(&l->score.most_coins, lg->coin_rank);
         if (mode == MODE_CHALLENGE || mode == MODE_NORMAL)
-            set_best_times(&l->goal_score, lg->goal_rank, 1);
+            set_best_times(&l->score.unlock_goal, lg->goal_rank, 1);
         else
-            set_best_times(&l->time_score, lg->time_rank, 0);
+            set_best_times(&l->score.best_times, lg->time_rank, 0);
     }
 
     config_clr_grab();

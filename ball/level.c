@@ -78,30 +78,28 @@ static int level_scan_metadata(struct level *l, char *av)
         else if (CASE("goal"))
         {
             l->goal = atoi(v);
-            l->coin_score.coins[2] = l->goal;
+            l->score.most_coins.coins[2] = l->goal;
         }
         else if (CASE("time"))
         {
             l->time = atoi(v);
-            l->time_score.timer[2] = l->time;
-            l->goal_score.timer[2] = l->time;
+            l->score.best_times.timer[2] = l->time;
+            l->score.unlock_goal.timer[2] = l->time;
         }
         else if (CASE("time_hs"))
             sscanf(v, "%d %d",
-                   &l->time_score.timer[0],
-                   &l->time_score.timer[1]);
+                   &l->score.best_times.timer[0],
+                   &l->score.best_times.timer[1]);
         else if (CASE("goal_hs"))
             sscanf(v, "%d %d",
-                   &l->goal_score.timer[0],
-                   &l->goal_score.timer[1]);
+                   &l->score.unlock_goal.timer[0],
+                   &l->score.unlock_goal.timer[1]);
         else if (CASE("coin_hs"))
             sscanf(v, "%d %d",
-                   &l->coin_score.coins[0],
-                   &l->coin_score.coins[1]);
-        else if (CASE("levelname"))
-            strcpy(l->name, v);
+                   &l->score.most_coins.coins[0],
+                   &l->score.most_coins.coins[1]);
         else if (CASE("version"))
-            l->version = atoi(v);
+            strcpy(l->version, v);
         else if (CASE("author"))
             strcpy(l->author, v);
         else if (CASE("special"))
@@ -137,15 +135,15 @@ int level_load(const char *filename, struct level *level)
     strcpy(level->file, filename);
 
     /* Init hs with default values */
-    score_init_hs(&level->time_score, 59999, 0);
-    score_init_hs(&level->goal_score, 59999, 0);
-    score_init_hs(&level->coin_score, 59999, 0);
+    score_init_hs(&level->score.best_times, 59999, 0);
+    score_init_hs(&level->score.unlock_goal, 59999, 0);
+    score_init_hs(&level->score.most_coins, 59999, 0);
 
     /* Compute money and default max money */
     money = 0;
     for (i = 0; i < sol.cc; i++)
         money += sol.cv[i].n;
-    level->coin_score.coins[0] = money;
+    level->score.most_coins.coins[0] = money;
 
     /* Scan sol metadata */
     if (sol.ac > 0)
@@ -159,9 +157,9 @@ int level_load(const char *filename, struct level *level)
     else if (t[2] c t[1]) \
         t[1] = (t[0] + t[2]) / 2
 
-    HOP(level->time_score.timer, <=);
-    HOP(level->goal_score.timer, <=);
-    HOP(level->coin_score.coins, >=);
+    HOP(level->score.best_times.timer, <=);
+    HOP(level->score.unlock_goal.timer, <=);
+    HOP(level->score.most_coins.coins, >=);
 
     sol_free(&sol);
 
@@ -171,12 +169,9 @@ int level_load(const char *filename, struct level *level)
 /*---------------------------------------------------------------------------*/
 
 void level_dump_info(const struct level *l)
-/* This function dumps the info of a demo structure
- * It's only a function for debugging, no need of I18N */
 {
     printf("filename:        %s\n"
-           "name:            %s\n"
-           "version:         %d\n"
+           "version:         %s\n"
            "author:          %s\n"
            "time limit:      %d\n"
            "goal count:      %d\n"
@@ -188,18 +183,25 @@ void level_dump_info(const struct level *l)
            "gradiant:        %s\n"
            "screenshot:      %s\n"
            "song:            %s\n",
-           l->file, l->name, l->version, l->author,
-           l->time, l->goal,
-           l->time_score.timer[0],
-           l->time_score.timer[1],
-           l->time_score.timer[2],
-           l->goal_score.timer[0],
-           l->goal_score.timer[1],
-           l->goal_score.timer[2],
-           l->coin_score.coins[0],
-           l->coin_score.coins[1],
-           l->coin_score.coins[2],
-           l->message, l->back, l->grad, l->shot, l->song);
+           l->file,
+           l->version,
+           l->author,
+           l->time,
+           l->goal,
+           l->score.best_times.timer[0],
+           l->score.best_times.timer[1],
+           l->score.best_times.timer[2],
+           l->score.unlock_goal.timer[0],
+           l->score.unlock_goal.timer[1],
+           l->score.unlock_goal.timer[2],
+           l->score.most_coins.coins[0],
+           l->score.most_coins.coins[1],
+           l->score.most_coins.coins[2],
+           l->message,
+           l->back,
+           l->grad,
+           l->shot,
+           l->song);
 }
 
 /*---------------------------------------------------------------------------*/

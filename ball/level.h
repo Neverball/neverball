@@ -6,56 +6,52 @@
 
 /*---------------------------------------------------------------------------*/
 
-/* A score structure */
-
 struct score
 {
-    char player[NSCORE + 1][MAXNAM]; /* player name */
-    int  timer[NSCORE + 1];          /* time elapsed */
-    int  coins[NSCORE + 1];          /* coins collected */
+    char player[NSCORE + 1][MAXNAM];
+
+    int  timer [NSCORE + 1]; /* Time elapsed    */
+    int  coins [NSCORE + 1]; /* Coins collected */
 };
 
 void score_init_hs(struct score *, int, int);
 
 /*---------------------------------------------------------------------------*/
 
-/* A simple level */
-
 struct level
 {
-    /* Level identity */
+    char file[PATHMAX];
+    char back[PATHMAX];
+    char grad[PATHMAX];
+    char shot[PATHMAX];
+    char song[PATHMAX];
 
-    char file[MAXSTR];    /* sol main file */
-    char name[MAXSTR];    /* the level name */
-    int  version;         /* the level version */
-    char author[MAXSTR];  /* the author */
+    char message[MAXSTR];
 
-    /* Time and goal information */
+    char version[MAXSTR];
+    char author[MAXSTR];
 
-    int time;             /* time limit */
-    int goal;             /* coins needed */
+    int time; /* Time limit   */
+    int goal; /* Coins needed */
 
-    struct score time_score;  /* "best time" score */
-    struct score goal_score;  /* "unlock goal" score */
-    struct score coin_score;  /* "most coin" score */
+    struct
+    {
+        struct score best_times;
+        struct score unlock_goal;
+        struct score most_coins;
+    }
+    score;
 
-    /* Regarding set information */
+    /* Set information. */
 
-    struct set *set;        /* set (NULL in single mode) */
-    int number;             /* level number in the set */
-    char numbername[3];     /* string representation of the number (eg. B1) */
-    int is_locked;          /* Is the level unplayable */
-    int is_bonus;           /* Is the level an extra-bonus level? */
-    int is_completed;       /* Is the level goal terminated? */
-    int is_last;            /* Is the level the last of the set? */
+    struct set *set;
 
-    /* Other metadata (files are relative the data file) */
+    int  number;
+    char repr[3]; /* String representation of the number (eg. "B1") */
 
-    char message[MAXSTR]; /* intro message */
-    char back[MAXSTR];    /* sol background file */
-    char grad[MAXSTR];    /* gradiant backgound image */
-    char shot[MAXSTR];    /* screenshot image */
-    char song[MAXSTR];    /* song file */
+    int is_locked;
+    int is_bonus;
+    int is_completed;
 };
 
 int level_load(const char *, struct level *);
