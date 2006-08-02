@@ -98,6 +98,8 @@ static int level_scan_metadata(struct level *l, char *av)
             sscanf(v, "%d %d",
                    &l->score.most_coins.coins[0],
                    &l->score.most_coins.coins[1]);
+        else if (CASE("levelname"))
+            strcpy(l->levelname, v);
         else if (CASE("version"))
             strcpy(l->version, v);
         else if (CASE("author"))

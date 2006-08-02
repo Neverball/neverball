@@ -28,6 +28,7 @@ struct level
 
     char message[MAXSTR];
 
+    char levelname[MAXSTR];
     char version[MAXSTR];
     char author[MAXSTR];
 

@@ -10,7 +10,8 @@
 struct demo
 {
     char   name[PATHMAX];      /* demo basename */
-    char   filename[MAXSTR];  /* demo path */
+    char   filename[MAXSTR];   /* demo path */
+    const struct level *level; /* the level played by the demo */
 
     /* The following reflects the file structure. */
 
@@ -22,11 +23,8 @@ struct demo
     int    mode;            /* game mode */
     time_t date;            /* date of creation */
     char   player[MAXNAM];  /* player name */
-    char   shot[PATHMAX];   /* image filename */
-    char   file[PATHMAX];   /* level filename */
-    char   back[PATHMAX];   /* level bg filename */
-    char   grad[PATHMAX];   /* level gradiant filename */
-    char   song[PATHMAX];   /* level song filename */
+    char   l_name[MAXSTR];  /* internal level name */
+    char   l_ver[MAXSTR];   /* internal level version */
     int    time;            /* time limit (! training mode) */
     int    goal;            /* coin to open the goal (! training mode) */
     int    score;           /* sum of coins (challenge mode) */

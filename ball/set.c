@@ -331,6 +331,16 @@ const struct level *get_level(int i)
     return (i >= 0 && i < current_set->count) ? &current_set->level_v[i] : NULL;
 }
 
+const struct level *search_level(const char *levelname)
+{
+    int s, l;
+    for (s=0 ; s < count ; s++)
+        for (l=0 ; l < set_v[s].count ; l++)
+            if (strcmp(set_v[s].level_v[l].levelname, levelname) == 0)
+                return &set_v[s].level_v[l];
+    return NULL;
+}
+
 /*---------------------------------------------------------------------------*/
 
 static int score_time_comp(const struct score *S, int i, int j)
