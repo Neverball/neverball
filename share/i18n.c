@@ -40,15 +40,16 @@ const char *sgettext(const char *msgid)
 
 /*---------------------------------------------------------------------------*/
 
-#define LANG_NUMBER 4
+#define LANG_NUMBER 5
 
 const char *language_names[] = {
     N_("English"),
     N_("French"),
     N_("German"),
-    N_("Latvian")
+    N_("Latvian"),
+    N_("Spanish"),
 };
-const char *language_codes[] = {"en", "fr", "de", "lv"};
+const char *language_codes[] = {"en", "fr", "de", "lv", "es"};
 
 /*---------------------------------------------------------------------------*/
 
