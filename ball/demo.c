@@ -19,7 +19,6 @@
 
 #include "demo.h"
 #include "game.h"
-#include "set.h"
 #include "audio.h"
 #include "solid.h"
 #include "config.h"
@@ -28,7 +27,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define MAGIC           0x52424EAF
-#define DEMO_VERSION    2
+#define DEMO_VERSION    1
 
 static FILE *demo_fp;
 
@@ -48,7 +47,11 @@ void demo_dump_info(const struct demo *d)
            "State:        %d\n"
            "Date:         %s"
            "Player:       %s\n"
-           "Level:        %s (%s)\n"
+           "Shot:         %s\n"
+           "Level:        %s\n"
+           "  Back:       %s\n"
+           "  Grad:       %s\n"
+           "  Song:       %s\n"
            "Time:         %d\n"
            "Goal:         %d\n"
            "Score:        %d\n"
@@ -58,7 +61,7 @@ void demo_dump_info(const struct demo *d)
            d->nb_version,
            d->timer, d->coins, d->mode, d->state, ctime(&d->date),
            d->player,
-           d->l_name, d->l_ver,
+           d->shot, d->file, d->back, d->grad, d->song,
            d->time, d->goal, d->score, d->balls, d->times);
 }
 
@@ -84,8 +87,11 @@ static int demo_header_read(FILE *fp, struct demo *d)
 
         fread(d->player, 1, MAXNAM, fp);
 
-        fread(d->l_name, 1, MAXSTR, fp);
-        fread(d->l_ver, 1, MAXSTR, fp);
+        fread(d->shot, 1, PATHMAX, fp);
+        fread(d->file, 1, PATHMAX, fp);
+        fread(d->back, 1, PATHMAX, fp);
+        fread(d->grad, 1, PATHMAX, fp);
+        fread(d->song, 1, PATHMAX, fp);
 
         get_index(fp, &d->time);
         get_index(fp, &d->goal);
@@ -95,9 +101,7 @@ static int demo_header_read(FILE *fp, struct demo *d)
 
         fread(d->nb_version, 1, 20, fp);
 
-        d->level = search_level(d->l_name);
-
-        return d->level ? 1 : 0;
+        return 1;
     }
     return 0;
 }
@@ -163,8 +167,11 @@ static void demo_header_write(FILE *fp, struct demo *d)
 
     fwrite(d->player, 1, MAXNAM, fp);
 
-    fwrite(d->l_name, 1, MAXSTR, fp);
-    fwrite(d->l_ver, 1, MAXSTR, fp);
+    fwrite(d->shot, 1, PATHMAX, fp);
+    fwrite(d->file, 1, PATHMAX, fp);
+    fwrite(d->back, 1, PATHMAX, fp);
+    fwrite(d->grad, 1, PATHMAX, fp);
+    fwrite(d->song, 1, PATHMAX, fp);
 
     put_index(fp, &d->time);
     put_index(fp, &d->goal);
@@ -314,15 +321,16 @@ int demo_play_init(const char *name,
     strncpy(demo.filename, config_user(name), MAXSTR);
     strcat(demo.filename, REPLAY_EXT);
 
-    demo.level = level;
-
     demo.mode = lg->mode;
     demo.date = time(NULL);
 
     config_get_s(CONFIG_PLAYER, demo.player, MAXNAM);
 
-    strncpy(demo.l_name, level->levelname, MAXSTR);
-    strncpy(demo.l_ver, level->version, MAXSTR);
+    strncpy(demo.shot, level->shot, PATHMAX);
+    strncpy(demo.file, level->file, PATHMAX);
+    strncpy(demo.back, level->back, PATHMAX);
+    strncpy(demo.grad, level->grad, PATHMAX);
+    strncpy(demo.song, level->song, PATHMAX);
 
     demo.time  = lg->time;
     demo.goal  = lg->goal;
@@ -386,7 +394,19 @@ void demo_play_save(const char *name)
 
 /*---------------------------------------------------------------------------*/
 
+static int demo_load_level(const struct demo *demo, struct level *level)
+{
+    if (level_load(demo->file, level))
+    {
+        level->time = demo->time;
+        level->goal = demo->goal;
+        return 1;
+    }
+    return 0;
+}
+
 static struct demo  demo_replay;       /* The current demo */
+static struct level demo_level_replay; /* The current level demo-ed*/
 
 const struct demo *curr_demo_replay(void)
 {
@@ -401,6 +421,9 @@ int demo_replay_init(const char *name, struct level_game *lg)
 
     if (demo_fp)
     {
+        if (!demo_load_level(&demo_replay, &demo_level_replay))
+            return 0;
+
         if (lg)
         {
             lg->mode = demo_replay.mode;
@@ -410,12 +433,12 @@ int demo_replay_init(const char *name, struct level_game *lg)
             lg->goal = demo_replay.goal;
 
             /* A normal replay demo */
-            audio_music_fade_to(0.5f, demo_replay.level->song);
-            return game_init(demo_replay.level, demo_replay.time,
+            audio_music_fade_to(0.5f, demo_replay.song);
+            return game_init(&demo_level_replay, demo_replay.time,
                              demo_replay.goal);
         }
         else /* A title screen demo */
-            return game_init(demo_replay.level, demo_replay.time, 0);
+            return game_init(&demo_level_replay, demo_replay.time, 0);
     }
     return 0;
 }

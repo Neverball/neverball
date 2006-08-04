@@ -60,8 +60,6 @@ const struct set *curr_set(void);
 
 const struct level *get_level(int);
 
-const struct level *search_level(const char *);
-
 /*---------------------------------------------------------------------------*/
 
 void set_finish_level(struct level_game *, const char *);
