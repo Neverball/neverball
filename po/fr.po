@@ -186,19 +186,16 @@ msgid "snd/over.ogg"
 msgstr ""
 
 #: ball/set.c:162
-#, fuzzy, c-format
 msgid "Error while loading user high-score file '%s': %s\n"
-msgstr "Erreur lors du chargement du fichier de score « %s » :"
+msgstr "Erreur lors du chargement du fichier de score « %s » : %s\n"
 
 #: ball/set.c:163
-#, fuzzy
 msgid "Incorrect format"
-msgstr "Format incorrect\n"
+msgstr "Format incorrect"
 
 #: ball/set.c:191
-#, fuzzy, c-format
 msgid "Cannot load the set file '%s': %s\n"
-msgstr "Le fichier de collection de niveaux « %s » ne peut être chargé : "
+msgstr "Le fichier de collection de niveaux « %s » ne peut être chargé : %s\n"
 
 #: ball/set.c:239
 #, c-format
@@ -502,45 +499,40 @@ msgid "GO!"
 msgstr "PARTEZ !"
 
 #: ball/st_play_end.c:93
-#, fuzzy
 msgid "Save a replay file"
-msgstr "Pas un fichier de film"
+msgstr "Sauver le film dans un fichier"
 
 #: ball/st_play_end.c:97
-#, fuzzy
 msgid "Replay file already saved"
-msgstr "Fichier de film « %s » : %s\n"
+msgstr "Film déjà sauvé"
 
 #: ball/st_play_end.c:101
-#, fuzzy
 msgid "Change the player's name"
 msgstr "Changer le nom du joueur"
 
 #: ball/st_play_end.c:105
 msgid "You complete the set"
-msgstr ""
+msgstr "Vous avez achevé la collection de niveaux"
 
 #: ball/st_play_end.c:109
 msgid "Play the next level"
-msgstr ""
+msgstr "Jouer au prochain niveau"
 
 #: ball/st_play_end.c:115
-#, fuzzy
 msgid "Cannot unlock in practice mode"
-msgstr "Entraînez-vous à ce niveau"
+msgstr "Déverrouillage impossible en mode entraînement"
 
 #: ball/st_play_end.c:118
-#, fuzzy
 msgid "Finish this level to unlock the next one"
-msgstr "Terminez les niveaus précédents"
+msgstr "Finissez ce niveau pour déverrouiller le prochain"
 
 #: ball/st_play_end.c:122
 msgid "Replay this level"
-msgstr ""
+msgstr "Rejouer ce niveau"
 
 #: ball/st_play_end.c:126
 msgid "You cannot replay in challenge mode"
-msgstr ""
+msgstr "Vous ne pouvez pas retenter en mode challenge"
 
 #: ball/st_play_end.c:152
 msgid "SPECIAL GOAL"
@@ -798,9 +790,8 @@ msgid "Latvian"
 msgstr "Letton"
 
 #: share/i18n.c:50
-#, fuzzy
 msgid "Spanish"
-msgstr "Terminé"
+msgstr "Espagniol"
 
 #: share/i18n.c:103
 msgid "System Default"
