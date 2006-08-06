@@ -33,10 +33,6 @@ struct set
     int count;                /* number of levels */
     int locked;               /* number of locked levels */
     int completed;            /* number of completed levels */
-
-    /* levels */
-    
-    struct level level_v[MAXLVL];
 };
 
 /*---------------------------------------------------------------------------*/

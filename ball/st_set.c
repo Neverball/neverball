@@ -89,6 +89,8 @@ static int set_enter(void)
 
     int id, jd, kd;
 
+    set_init();
+
     /* Reset last set if it does not exist */
     if (!set_exists(last_set))
     {

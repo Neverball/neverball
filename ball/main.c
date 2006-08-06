@@ -416,10 +416,6 @@ int main(int argc, char *argv[])
 
     SDL_WM_SetCaption(TITLE, TITLE);
 
-    /* Load levels and sets. */
-
-    set_init();
-    
     /* Initialize the run state. */
 
     init_state(&st_null);
