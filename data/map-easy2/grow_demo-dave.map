@@ -8,6 +8,7 @@
 "version" "1"
 "back" "map-back/jupiter.sol"
 "song" "bgm/track3.ogg"
+"shot" "shot-easy2/grow_demo-dave.jpg"
 "time" "18000"
 "goal" "5"
 "grad" "back/space.png"
