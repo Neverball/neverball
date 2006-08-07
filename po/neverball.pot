@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-08-03 20:46+0300\n"
+"POT-Creation-Date: 2006-08-07 20:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ball/demo.c:297
+#: ball/demo.c:304
 #, c-format
 msgid "replay%02d"
 msgstr ""
 
-#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:182 ball/st_play_end.c:190
+#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:176 ball/st_play_end.c:190
 msgid "Coins"
 msgstr ""
 
@@ -49,48 +49,48 @@ msgstr ""
 msgid "Manual"
 msgstr ""
 
-#: ball/level.c:132
+#: ball/level.c:130
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr ""
 
-#: ball/level.c:133
+#: ball/level.c:131
 msgid "Not a valid level file"
 msgstr ""
 
-#: ball/level.c:215 ball/st_help.c:219 ball/st_start.c:256
+#: ball/level.c:213 ball/st_help.c:219 ball/st_start.c:256
 msgid "Challenge"
 msgstr ""
 
-#: ball/level.c:216 ball/st_help.c:205 ball/st_start.c:248
+#: ball/level.c:214 ball/st_help.c:205 ball/st_start.c:248
 msgid "Normal"
 msgstr ""
 
-#: ball/level.c:217 ball/st_help.c:213 ball/st_start.c:246
+#: ball/level.c:215 ball/st_help.c:213 ball/st_start.c:246
 msgid "Practice"
 msgstr ""
 
-#: ball/level.c:218
+#: ball/level.c:216
 msgid "Single"
 msgstr ""
 
-#: ball/level.c:219 ball/level.c:234
+#: ball/level.c:217 ball/level.c:232
 msgid "Unknown"
 msgstr ""
 
-#: ball/level.c:229
+#: ball/level.c:227
 msgid "Aborted"
 msgstr ""
 
-#: ball/level.c:230
+#: ball/level.c:228
 msgid "Time-out"
 msgstr ""
 
-#: ball/level.c:232
+#: ball/level.c:230
 msgid "Success"
 msgstr ""
 
-#: ball/level.c:233
+#: ball/level.c:231
 msgid "Fall-out"
 msgstr ""
 
@@ -177,21 +177,21 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/set.c:162
+#: ball/set.c:152
 #, c-format
 msgid "Error while loading user high-score file '%s': %s\n"
 msgstr ""
 
-#: ball/set.c:163
+#: ball/set.c:153
 msgid "Incorrect format"
 msgstr ""
 
-#: ball/set.c:191
+#: ball/set.c:177
 #, c-format
 msgid "Cannot load the set file '%s': %s\n"
 msgstr ""
 
-#: ball/set.c:239
+#: ball/set.c:346
 #, c-format
 msgid "B%d"
 msgstr ""
@@ -200,11 +200,11 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: ball/st_conf.c:235 ball/st_demo.c:521 ball/st_save.c:183 putt/st_conf.c:198
+#: ball/st_conf.c:235 ball/st_demo.c:511 ball/st_save.c:183 putt/st_conf.c:198
 msgid "No"
 msgstr ""
 
-#: ball/st_conf.c:236 ball/st_demo.c:522 ball/st_save.c:184 putt/st_conf.c:199
+#: ball/st_conf.c:236 ball/st_demo.c:512 ball/st_save.c:184 putt/st_conf.c:199
 msgid "Yes"
 msgstr ""
 
@@ -226,7 +226,7 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-#: ball/st_conf.c:320 ball/st_demo.c:275 ball/st_help.c:73 ball/st_start.c:234
+#: ball/st_conf.c:320 ball/st_demo.c:265 ball/st_help.c:73 ball/st_start.c:234
 #: ball/util.c:350 putt/st_all.c:297 putt/st_all.c:419 putt/st_conf.c:271
 #: share/st_lang.c:80 share/st_resol.c:93
 msgid "Back"
@@ -280,63 +280,63 @@ msgstr ""
 msgid "Player Name"
 msgstr ""
 
-#: ball/st_demo.c:180 ball/st_name.c:40 putt/st_all.c:476
+#: ball/st_demo.c:174 ball/st_name.c:40 putt/st_all.c:476
 msgid "Player"
 msgstr ""
 
-#: ball/st_demo.c:184
+#: ball/st_demo.c:178
 msgid "State"
 msgstr ""
 
-#: ball/st_demo.c:202 ball/st_demo.c:329
+#: ball/st_demo.c:197 ball/st_demo.c:319
 msgid "Replay"
 msgstr ""
 
-#: ball/st_demo.c:203
+#: ball/st_demo.c:198
 msgid "Time"
 msgstr ""
 
-#: ball/st_demo.c:204
+#: ball/st_demo.c:199
 msgid "Mode"
 msgstr ""
 
-#: ball/st_demo.c:205
+#: ball/st_demo.c:200
 msgid "Level"
 msgstr ""
 
-#: ball/st_demo.c:206
+#: ball/st_demo.c:201
 msgid "Date"
 msgstr ""
 
-#: ball/st_demo.c:251
+#: ball/st_demo.c:241
 msgid "Select Replay"
 msgstr ""
 
-#: ball/st_demo.c:273
+#: ball/st_demo.c:263
 msgid "No Replays"
 msgstr ""
 
-#: ball/st_demo.c:423
+#: ball/st_demo.c:413
 msgid "Replay Ends"
 msgstr ""
 
-#: ball/st_demo.c:427
+#: ball/st_demo.c:417
 msgid "Replay Again"
 msgstr ""
 
-#: ball/st_demo.c:430 ball/st_done.c:88 ball/st_name.c:123
+#: ball/st_demo.c:420 ball/st_done.c:88 ball/st_name.c:123
 msgid "OK"
 msgstr ""
 
-#: ball/st_demo.c:433
+#: ball/st_demo.c:423
 msgid "Keep"
 msgstr ""
 
-#: ball/st_demo.c:434
+#: ball/st_demo.c:424
 msgid "Delete"
 msgstr ""
 
-#: ball/st_demo.c:517
+#: ball/st_demo.c:507
 msgid "Delete Replay?"
 msgstr ""
 
@@ -576,7 +576,7 @@ msgstr ""
 msgid "Overwrite?"
 msgstr ""
 
-#: ball/st_set.c:106
+#: ball/st_set.c:108
 msgid "Level Set"
 msgstr ""
 
