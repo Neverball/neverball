@@ -4,3 +4,4 @@ easy3
 shot-easy2/.jpg
 
 map-easy2/learngrow-mym.sol
+map-easy2/pyramid-ton.sol
