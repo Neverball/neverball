@@ -189,7 +189,8 @@ int game_init(const struct level *level, int t, int g)
     if (game_state)
         game_free();
 
-    if (!sol_load_gl(&file, level->file, config_get_d(CONFIG_TEXTURES),
+    if (!sol_load_gl(&file, config_data(level->file),
+                     config_get_d(CONFIG_TEXTURES),
                      config_get_d(CONFIG_SHADOW)))
         return (game_state = 0);
 

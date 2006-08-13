@@ -37,8 +37,6 @@ int level_replay(const char *filename)
     return demo_replay_init(filename, &current_level_game);
 }
 
-static struct level single_level; /* a level without set */
-
 int level_play_go(void)
 /* Start to play the current level */
 {
@@ -61,16 +59,6 @@ int level_play_go(void)
     lg->next_level = NULL;
 
     return demo_play_init(USER_REPLAY_FILE, l, lg);
-}
-
-/* Prepare to play a single level */
-
-void level_play_single(const char *filename)
-{
-    struct level *l = &single_level;
-
-    level_load(filename, l);
-    level_play(l, MODE_SINGLE);
 }
 
 /* Prepare to play a level sequence from the `i'th level */

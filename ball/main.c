@@ -220,7 +220,6 @@ static int loop(void)
 
 static char *data_path    = NULL;
 static char *replay_path  = NULL;
-static char *level_path   = NULL;
 static int   display_info = 0;
 
 /* Option handling */
@@ -233,7 +232,6 @@ static void parse_args(int argc, char **argv)
     const char *usage = _(
         "Usage: %s [options ...]\n"
         "-r, --replay file         play the replay 'file'.\n"
-        "-l, --level file.sol      play the level 'file.sol'.\n"
         "-i, --info                display info about level or replay.\n"
         "    --data dir            use 'dir' as game data directory.\n"
         "-v, --version             show version.\n"
@@ -260,8 +258,6 @@ static void parse_args(int argc, char **argv)
             data_path = *(++argv);
         else if ((CASE("-r") || CASE("--replay")) && MAND)
             replay_path = *(++argv);
-        else if ((CASE("-l") || CASE("--level")) && MAND)
-            level_path = *(++argv);
         else if ((CASE("-i") || CASE("--info")))
             display_info = 1;
         else if (!missing)
@@ -328,20 +324,11 @@ int main(int argc, char *argv[])
             demo_replay_dump_info();
     }
 
-    if (level_path != NULL)
-    {
-        struct level l;
-        if (!level_load(level_path, &l))
-            return 1;
-        else if (display_info)
-            level_dump_info(&l);
-    }
-
     if (display_info)
     {
-        if (replay_path == NULL && level_path == NULL)
+        if (replay_path == NULL)
         {
-            fprintf(stderr, _("%s: --info requires --replay or --level\n"),
+            fprintf(stderr, _("%s: --info requires --replay\n"),
                     argv[0]);
             return 1;
         }
@@ -425,11 +412,6 @@ int main(int argc, char *argv[])
         level_replay(replay_path);
         demo_play_goto(1);
         goto_state(&st_demo_play);
-    }
-    else if (level_path != NULL)
-    {
-        level_play_single(level_path);
-        goto_state(&st_level);
     }
     else
         goto_state(&st_title);

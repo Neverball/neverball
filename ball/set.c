@@ -337,7 +337,7 @@ static void set_load_levels(void)
             res = (fscanf(fin, "%s", name) == 1);
             assert(res);
 
-            level_load(config_data(name), l);
+            level_load(name, l);
 
             /* Initialize set related info */
             l->set        = current_set;

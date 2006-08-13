@@ -124,7 +124,7 @@ int level_load(const char *filename, struct level *level)
     memset(&sol,  0, sizeof (sol));
 
     /* Try to load the sol file */
-    if (!sol_load_only_head(&sol, filename))
+    if (!sol_load_only_head(&sol, config_data(filename)))
     {
         fprintf(stderr,
                 _("Error while loading level file '%s': %s\n"), filename,
