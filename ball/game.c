@@ -81,7 +81,7 @@ static int   got_orig = 0;              /* Do we know original ball size?    */
 
 /*---------------------------------------------------------------------------*/
 
-static void grow_set(const struct s_file *fp, int size)
+static void grow_set(const struct s_file *fp, int type)
 {    
     if (!got_orig)
     {
@@ -91,7 +91,7 @@ static void grow_set(const struct s_file *fp, int size)
         got_orig  = 1;
     }
 
-    if (size == 50)
+    if (type == ITEM_SHRINK)
     {
         if (grow_goal == grow_orig * GROW_SMALL)
             return;
@@ -106,7 +106,7 @@ static void grow_set(const struct s_file *fp, int size)
             grow = 1;
         }
     }
-    if (size == 150)
+    if (type == ITEM_GROW)
     {
         if (grow_goal == grow_orig * GROW_BIG)
             return;
@@ -292,11 +292,10 @@ static void game_draw_coins(const struct s_file *fp)
     int ci;
 
     coin_push();
-    coin_push_text(0); /* Regular coins. */
     {
         for (ci = 0; ci < fp->cc; ci++)
 
-            if (fp->cv[ci].n > 0 && fp->cv[ci].n < 50)
+            if (fp->cv[ci].n > 0)
             {
                 glPushMatrix();
                 {
@@ -311,48 +310,56 @@ static void game_draw_coins(const struct s_file *fp)
     }
     coin_pull();
 
-    /* FIXME: there has got to be a better way than three seperate loops,  once
-     * for each texture, but someone else is going to have to do it! */
+}
 
-    coin_push();
-    coin_push_text(50); /* Any shrink coins? */
+static void game_draw_items(const struct s_file *fp)
+{
+    float r = 360.f * SDL_GetTicks() / 1000.f;
+    int hi;
+
+    item_push();
+    item_push_text(ITEM_SHRINK);
     {
-        for (ci = 0; ci < fp->cc; ci++)
+        for (hi = 0; hi < fp->hc; hi++)
 
-            if (fp->cv[ci].n == 50)
+            if (fp->hv[hi].t == ITEM_SHRINK)
             {
                 glPushMatrix();
                 {
-                    glTranslatef(fp->cv[ci].p[0],
-                                 fp->cv[ci].p[1],
-                                 fp->cv[ci].p[2]);
+                    glTranslatef(fp->hv[hi].p[0],
+                                 fp->hv[hi].p[1],
+                                 fp->hv[hi].p[2]);
                     glRotatef(r, 0.0f, 1.0f, 0.0f);
-                    coin_draw(fp->cv[ci].n, r);
+                    item_draw(fp->hv[hi].t, r);
                 }
                 glPopMatrix();
             }
     }
-    coin_pull();
+    item_pull();
 
-    coin_push();
-    coin_push_text(150); /* Any grow coins? */
+    /* FIXME: there has got to be a better way than two seperate loops,
+     * once for each texture, but someone else is going to have to do
+     * it! */
+
+    item_push();
+    item_push_text(ITEM_GROW);
     {
-        for (ci = 0; ci < fp->cc; ci++)
+        for (hi = 0; hi < fp->hc; hi++)
 
-            if (fp->cv[ci].n == 150)
+            if (fp->hv[hi].t == ITEM_GROW)
             {
                 glPushMatrix();
                 {
-                    glTranslatef(fp->cv[ci].p[0],
-                                 fp->cv[ci].p[1],
-                                 fp->cv[ci].p[2]);
+                    glTranslatef(fp->hv[hi].p[0],
+                                 fp->hv[hi].p[1],
+                                 fp->hv[hi].p[2]);
                     glRotatef(r, 0.0f, 1.0f, 0.0f);
-                    coin_draw(fp->cv[ci].n, r);
+                    item_draw(fp->hv[hi].t, r);
                 }
                 glPopMatrix();
             }
     }
-    coin_pull();
+    item_pull();
 }
 
 static void game_draw_goals(const struct s_file *fp, float rx, float ry)
@@ -547,6 +554,7 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
             {
                 part_draw_coin(-rx * d, -ry);
                 game_draw_coins(&file);
+                game_draw_items(&file);
                 if (drawball)
                     game_draw_balls(&file);
             }
@@ -765,7 +773,7 @@ static int game_update_state(int *state_value)
     float p[3];
     float c[3];
     int bt = state_value != NULL;
-    int n;
+    int n, t;
     struct s_goal *g;
 
     /* Test for a coin grab. */
@@ -799,6 +807,17 @@ static int game_update_state(int *state_value)
         }
         else
             audio_play(AUD_COIN, 1.f);
+    }
+
+    /* Test for an item. */
+    if (bt && (t = sol_item_test(fp, p, COIN_RADIUS)) != ITEM_NONE)
+    {
+        item_color(c, t);
+        part_burst(p, c);
+
+        grow_set(fp, t);
+
+        audio_play(AUD_COIN, 1.f);
     }
 
     /* Test for a switch. */

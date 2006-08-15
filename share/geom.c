@@ -203,8 +203,6 @@ void mark_free(void)
 /*---------------------------------------------------------------------------*/
 
 static GLuint coin_text;
-static GLuint coin_grup;
-static GLuint coin_grdn;
 static GLuint coin_list;
 
 static void coin_head(int n, float radius, float thick)
@@ -286,18 +284,6 @@ void coin_color(float *c, int n)
         c[1] = 0.2f;
         c[2] = 1.0f;
     }
-    if (n == 50) /*white's kind of boring, but you can do a colored png that way.*/
-    {
-        c[0] = 1.0f;
-        c[1] = 1.0f;
-        c[2] = 1.0f;
-    }
-    if (n == 150)
-    {
-        c[0] = 1.0f;
-        c[1] = 1.0f;
-        c[2] = 1.0f;
-    }
 }
 
 void coin_init(int b)
@@ -305,8 +291,6 @@ void coin_init(int b)
     int n = b ? 32 : 8;
 
     coin_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_COIN);
-    coin_grup = make_image_from_file(NULL, NULL, NULL, NULL, IMG_COIN_GRUP);
-    coin_grdn = make_image_from_file(NULL, NULL, NULL, NULL, IMG_COIN_GRDN);
     coin_list = glGenLists(1);
 
     glNewList(coin_list, GL_COMPILE);
@@ -326,16 +310,8 @@ void coin_free(void)
     if (glIsTexture(coin_text))
         glDeleteTextures(1, &coin_text);
 
-    if (glIsTexture(coin_grup))
-        glDeleteTextures(1, &coin_grup);
-
-    if (glIsTexture(coin_grdn))
-        glDeleteTextures(1, &coin_grdn);
-
     coin_list = 0;
     coin_text = 0;
-    coin_grup = 0;
-    coin_grdn = 0;
 }
 
 void coin_push(void)
@@ -351,17 +327,9 @@ void coin_push(void)
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
-}
 
-void coin_push_text(int n)
-{
     glEnable(GL_COLOR_MATERIAL);
-    if (n == 50)
-        glBindTexture(GL_TEXTURE_2D, coin_grdn);
-    else if (n == 150)
-        glBindTexture(GL_TEXTURE_2D, coin_grup);
-    else
-        glBindTexture(GL_TEXTURE_2D, coin_text);
+    glBindTexture(GL_TEXTURE_2D, coin_text);
 }
 
 void coin_draw(int n, float r)
@@ -375,6 +343,109 @@ void coin_draw(int n, float r)
 }
 
 void coin_pull(void)
+{
+    glPopAttrib();
+}
+
+/*---------------------------------------------------------------------------*/
+
+static GLuint item_grow_text;
+static GLuint item_shrink_text;
+static GLuint item_list;
+
+void item_color(float *c, int t)
+{
+    switch (t)
+    {
+    case ITEM_GROW:
+    case ITEM_SHRINK:
+
+    default:
+        c[0] = 1.0f;
+        c[1] = 1.0f;
+        c[2] = 1.0f;
+
+        break;
+    }
+}
+
+void item_init(int b)
+{
+    int n = b ? 32 : 8;
+
+    item_grow_text = make_image_from_file(NULL, NULL, NULL, NULL,
+                                          IMG_ITEM_GROW);
+    item_shrink_text = make_image_from_file(NULL, NULL, NULL, NULL,
+                                            IMG_ITEM_SHRINK);
+    item_list = glGenLists(1);
+
+    glNewList(item_list, GL_COMPILE);
+    {
+        coin_edge(n, COIN_RADIUS, COIN_THICK);
+        coin_head(n, COIN_RADIUS, COIN_THICK);
+        coin_tail(n, COIN_RADIUS, COIN_THICK);
+    }
+    glEndList();
+}
+
+void item_free(void)
+{
+    if (glIsList(item_list))
+        glDeleteLists(item_list, 1);
+
+    if (glIsTexture(item_grow_text))
+        glDeleteTextures(1, &item_grow_text);
+
+    if (glIsTexture(item_shrink_text))
+        glDeleteTextures(1, &item_shrink_text);
+
+    item_list = 0;
+    item_grow_text = 0;
+    item_shrink_text = 0;
+}
+
+void item_push(void)
+{
+    static const float  a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    static const float  s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    static const float  e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    static const float  h[1] = { 32.0f };
+
+    glPushAttrib(GL_LIGHTING_BIT);
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
+}
+
+void item_push_text(int t)
+{
+    glEnable(GL_COLOR_MATERIAL);
+
+    switch (t)
+    {
+    case ITEM_GROW:
+        glBindTexture(GL_TEXTURE_2D, item_grow_text);
+        break;
+
+    case ITEM_SHRINK:
+        glBindTexture(GL_TEXTURE_2D, item_shrink_text);
+        break;
+    }
+}
+
+void item_draw(int t, float r)
+{
+    float c[3];
+
+    item_color(c, t);
+
+    glColor3fv(c);
+    glCallList(item_list);
+}
+
+void item_pull(void)
 {
     glPopAttrib();
 }

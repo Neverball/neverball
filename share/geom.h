@@ -5,8 +5,9 @@
 
 #define IMG_SHAD "png/shadow.png"
 #define IMG_COIN _("png/coin.png")
-#define IMG_COIN_GRUP "png/growup.png"
-#define IMG_COIN_GRDN "png/growdn.png"
+
+#define IMG_ITEM_GROW   "png/growup.png"
+#define IMG_ITEM_SHRINK "png/growdn.png"
 
 #define BALL_FUDGE    0.001f
 #define COIN_RADIUS   0.15f
@@ -38,6 +39,17 @@ void coin_push(void);
 void coin_push_text(int n);
 void coin_draw(int, float);
 void coin_pull(void);
+
+/*---------------------------------------------------------------------------*/
+
+void item_color(float *, int);
+void item_init(int);
+void item_free(void);
+
+void item_push(void);
+void item_push_text(int n);
+void item_draw(int, float);
+void item_pull(void);
 
 /*---------------------------------------------------------------------------*/
 
