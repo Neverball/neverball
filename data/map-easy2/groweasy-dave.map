@@ -1039,9 +1039,8 @@
 }
 // entity 4
 {
-"classname" "light"
+"classname" "item_health_small"
 "origin" "-32 272 16"
-"light" "50"
 }
 // entity 5
 {
@@ -1346,15 +1345,13 @@
 }
 // entity 55
 {
-"classname" "light"
+"classname" "item_health_large"
 "origin" "96 640 16"
-"light" "150"
 }
 // entity 56
 {
-"classname" "light"
+"classname" "item_health_large"
 "origin" "224 704 16"
-"light" "150"
 }
 // entity 57
 {

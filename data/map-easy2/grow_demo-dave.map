@@ -367,15 +367,13 @@
 }
 // entity 2
 {
-"classname" "light"
+"classname" "item_health_small"
 "origin" "-32 8 128"
-"light" "50"
 }
 // entity 3
 {
-"classname" "light"
+"classname" "item_health_small"
 "origin" "-32 544 64"
-"light" "50"
 }
 // entity 4
 {
@@ -384,21 +382,18 @@
 }
 // entity 5
 {
-"classname" "light"
+"classname" "item_health_large"
 "origin" "-32 136 16"
-"light" "150"
 }
 // entity 6
 {
-"classname" "light"
+"classname" "item_health_large"
 "origin" "-72 704 16"
-"light" "150"
 }
 // entity 7
 {
-"classname" "light"
+"classname" "item_health_large"
 "origin" "0 704 16"
-"light" "150"
 }
 // entity 8
 {
