@@ -186,6 +186,12 @@ static void sol_load_coin(FILE *fin, struct s_coin *cp)
     get_index(fin, &cp->n);
 }
 
+static void sol_load_item(FILE *fin, struct s_item *hp)
+{
+    get_array(fin,  hp->p, 3);
+    get_index(fin, &hp->t);
+}
+
 static void sol_load_goal(FILE *fin, struct s_goal *zp)
 {
     get_array(fin,  zp->p, 3);
@@ -265,6 +271,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->pc);
     get_index(fin, &fp->bc);
     get_index(fin, &fp->cc);
+    get_index(fin, &fp->hc);
     get_index(fin, &fp->zc);
     get_index(fin, &fp->jc);
     get_index(fin, &fp->xc);
@@ -297,6 +304,8 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
         fp->bv = (struct s_body *) calloc(fp->bc, sizeof (struct s_body));
     if (fp->cc)
         fp->cv = (struct s_coin *) calloc(fp->cc, sizeof (struct s_coin));
+    if (fp->hc)
+        fp->hv = (struct s_item *) calloc(fp->hc, sizeof (struct s_item));
     if (fp->zc)
         fp->zv = (struct s_goal *) calloc(fp->zc, sizeof (struct s_goal));
     if (fp->jc)
@@ -326,6 +335,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->pc; i++) sol_load_path(fin, fp->pv + i);
     for (i = 0; i < fp->bc; i++) sol_load_body(fin, fp->bv + i);
     for (i = 0; i < fp->cc; i++) sol_load_coin(fin, fp->cv + i);
+    for (i = 0; i < fp->hc; i++) sol_load_item(fin, fp->hv + i);
     for (i = 0; i < fp->zc; i++) sol_load_goal(fin, fp->zv + i);
     for (i = 0; i < fp->jc; i++) sol_load_jump(fin, fp->jv + i);
     for (i = 0; i < fp->xc; i++) sol_load_swch(fin, fp->xv + i);
@@ -362,6 +372,7 @@ static int sol_load_head(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->pc);
     get_index(fin, &fp->bc);
     get_index(fin, &fp->cc);
+    get_index(fin, &fp->hc);
     get_index(fin, &fp->zc);
     get_index(fin, &fp->jc);
     get_index(fin, &fp->xc);
@@ -370,7 +381,7 @@ static int sol_load_head(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->wc);
     get_index(fin, &fp->ic);
 #endif
-    fseek(fin, 18 * 4, SEEK_CUR);
+    fseek(fin, 19 * 4, SEEK_CUR);
 
     if (fp->ac)
     {
@@ -503,6 +514,12 @@ static void sol_stor_coin(FILE *fout, struct s_coin *cp)
     put_index(fout, &cp->n);
 }
 
+static void sol_stor_item(FILE *fout, struct s_item *hp)
+{
+    put_array(fout,  hp->p, 3);
+    put_index(fout, &hp->t);
+}
+
 static void sol_stor_goal(FILE *fout, struct s_goal *zp)
 {
     put_array(fout,  zp->p, 3);
@@ -579,6 +596,7 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     put_index(fin, &fp->pc);
     put_index(fin, &fp->bc);
     put_index(fin, &fp->cc);
+    put_index(fin, &fp->hc);
     put_index(fin, &fp->zc);
     put_index(fin, &fp->jc);
     put_index(fin, &fp->xc);
@@ -599,6 +617,7 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->pc; i++) sol_stor_path(fin, fp->pv + i);
     for (i = 0; i < fp->bc; i++) sol_stor_body(fin, fp->bv + i);
     for (i = 0; i < fp->cc; i++) sol_stor_coin(fin, fp->cv + i);
+    for (i = 0; i < fp->hc; i++) sol_stor_item(fin, fp->hv + i);
     for (i = 0; i < fp->zc; i++) sol_stor_goal(fin, fp->zv + i);
     for (i = 0; i < fp->jc; i++) sol_stor_jump(fin, fp->jv + i);
     for (i = 0; i < fp->xc; i++) sol_stor_swch(fin, fp->xv + i);
@@ -637,6 +656,7 @@ void sol_free(struct s_file *fp)
     if (fp->pv) free(fp->pv);
     if (fp->bv) free(fp->bv);
     if (fp->cv) free(fp->cv);
+    if (fp->hc) free(fp->hv);
     if (fp->zv) free(fp->zv);
     if (fp->jv) free(fp->jv);
     if (fp->xv) free(fp->xv);
@@ -1338,6 +1358,35 @@ int sol_coin_test(struct s_file *fp, float *p, float coin_r)
         }
     }
     return 0;
+}
+
+int sol_item_test(struct s_file *fp, float *p, float item_r)
+{
+    const float *ball_p = fp->uv->p;
+    const float  ball_r = fp->uv->r;
+    int hi, t;
+
+    for (hi = 0; hi < fp->hc; hi++)
+    {
+        float r[3];
+
+        r[0] = ball_p[0] - fp->hv[hi].p[0];
+        r[1] = ball_p[1] - fp->hv[hi].p[1];
+        r[2] = ball_p[2] - fp->hv[hi].p[2];
+
+        if (fp->hv[hi].t != ITEM_NONE && v_len(r) < ball_r + item_r)
+        {
+            p[0] = fp->hv[hi].p[0];
+            p[1] = fp->hv[hi].p[1];
+            p[2] = fp->hv[hi].p[2];
+
+            t = fp->hv[hi].t;
+            fp->hv[hi].t = ITEM_NONE;
+
+            return t;
+        }
+    }
+    return ITEM_NONE;
 }
 
 struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)

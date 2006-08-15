@@ -44,6 +44,7 @@
  *     p  Path          (struct s_path)
  *     b  Body          (struct s_body)
  *     c  Coin          (struct s_coin)
+ *     h  Item          (struct s_item)
  *     z  Goal          (struct s_goal)
  *     j  Jump          (struct s_jump)
  *     x  Switch        (struct s_swch)
@@ -72,7 +73,7 @@
  * Those members that do not conform to this convention are explicitly
  * documented with a comment.
  *
- * These prefixes are still available: h k o q y.
+ * These prefixes are still available: k o q y.
  */
 
 /*---------------------------------------------------------------------------*/
@@ -96,6 +97,12 @@
 /* Lump flags. */
 
 #define L_DETAIL   1
+
+/* Item types. */
+
+#define ITEM_NONE       0
+#define ITEM_GROW       1
+#define ITEM_SHRINK     2
 
 /*---------------------------------------------------------------------------*/
 
@@ -193,6 +200,12 @@ struct s_coin
     int   n;                                   /* value                      */
 };
 
+struct s_item
+{
+    float p[3];                                /* position                   */
+    int   t;                                   /* type                       */
+};
+
 struct s_goal
 {
     float p[3];                                /* position                   */
@@ -271,6 +284,7 @@ struct s_file
     int pc;
     int bc;
     int cc;
+    int hc;
     int zc;
     int jc;
     int xc;
@@ -292,6 +306,7 @@ struct s_file
     struct s_path *pv;
     struct s_body *bv;
     struct s_coin *cv;
+    struct s_item *hv;
     struct s_goal *zv;
     struct s_jump *jv;
     struct s_swch *xv;
@@ -316,9 +331,11 @@ void  sol_free(struct s_file *);
 float sol_step(struct s_file *, const float *, float, int, int *);
 
 int   sol_coin_test(struct s_file *, float *, float);
-struct s_goal *sol_goal_test(struct s_file *, float *, int);
+int   sol_item_test(struct s_file *, float *, float);
 int   sol_jump_test(struct s_file *, float *, int);
 int   sol_swch_test(struct s_file *, int);
+
+struct s_goal *sol_goal_test(struct s_file *, float *, int);
 
 /*---------------------------------------------------------------------------*/
 

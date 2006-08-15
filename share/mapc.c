@@ -64,6 +64,7 @@
 #define MAXP    512
 #define MAXB    512
 #define MAXC    1024
+#define MAXH    1024
 #define MAXZ    16
 #define MAXJ    32
 #define MAXX    16
@@ -136,6 +137,11 @@ static int incc(struct s_file *fp)
     return (fp->cc < MAXC) ? fp->cc++ : overflow("coin");
 }
 
+static int inch(struct s_file *fp)
+{
+    return (fp->hc < MAXH) ? fp->hc++ : overflow("item");
+}
+
 static int incz(struct s_file *fp)
 {
     return (fp->zc < MAXZ) ? fp->zc++ : overflow("geol");
@@ -184,6 +190,7 @@ static void init_file(struct s_file *fp)
     fp->pc = 0;
     fp->bc = 0;
     fp->cc = 0;
+    fp->hc = 0;
     fp->zc = 0;
     fp->jc = 0;
     fp->xc = 0;
@@ -204,6 +211,7 @@ static void init_file(struct s_file *fp)
     fp->pv = (struct s_path *) calloc(MAXP, sizeof (struct s_path));
     fp->bv = (struct s_body *) calloc(MAXB, sizeof (struct s_body));
     fp->cv = (struct s_coin *) calloc(MAXC, sizeof (struct s_coin));
+    fp->hv = (struct s_item *) calloc(MAXH, sizeof (struct s_item));
     fp->zv = (struct s_goal *) calloc(MAXZ, sizeof (struct s_goal));
     fp->jv = (struct s_jump *) calloc(MAXJ, sizeof (struct s_jump));
     fp->xv = (struct s_swch *) calloc(MAXX, sizeof (struct s_swch));
@@ -897,6 +905,43 @@ static void make_coin(struct s_file *fp,
     }
 }
 
+static void make_item(struct s_file *fp,
+                      char k[][MAXSTR],
+                      char v[][MAXSTR], int c)
+{
+    int i, hi = inch(fp);
+
+    struct s_item *hp = fp->hv + hi;
+
+    hp->p[0] = 0.f;
+    hp->p[1] = 0.f;
+    hp->p[2] = 0.f;
+
+    hp->t = ITEM_NONE;
+
+    for (i = 0; i < c; i++)
+    {
+        if (strcmp(k[i], "classname") == 0)
+        {
+            if (strcmp(v[i], "item_health_large") == 0)
+                hp->t = ITEM_GROW;
+            else if (strcmp(v[i], "item_health_small") == 0)
+                hp->t = ITEM_SHRINK;
+        }
+
+        if (strcmp(k[i], "origin") == 0)
+        {
+            int x = 0, y = 0, z = 0;
+
+            sscanf(v[i], "%d %d %d", &x, &y, &z);
+
+            hp->p[0] = +(float) x / SCALE;
+            hp->p[1] = +(float) z / SCALE;
+            hp->p[2] = -(float) y / SCALE;
+        }
+    }
+}
+
 static void make_bill(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
@@ -1215,6 +1260,8 @@ static void read_ent(struct s_file *fp, FILE *fin)
     }
 
     if (!strcmp(v[i], "light"))                    make_coin(fp, k, v, c);
+    if (!strcmp(v[i], "item_health_large"))        make_item(fp, k, v, c);
+    if (!strcmp(v[i], "item_health_small"))        make_item(fp, k, v, c);
     if (!strcmp(v[i], "info_camp"))                make_swch(fp, k, v, c);
     if (!strcmp(v[i], "info_null"))                make_bill(fp, k, v, c);
     if (!strcmp(v[i], "path_corner"))              make_path(fp, k, v, c);
@@ -2079,14 +2126,14 @@ static void dump_file(struct s_file *p, const char *name)
            "  mtrl  vert  edge  side  texc"
            "  geom  lump  path  node  body\n"
            "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
-           "  coin  goal  view  jump  swch"
-           "  bill  ball  char  indx\n"
-           "%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
+           "  coin  item  goal  view  jump"
+           "  swch  bill  ball  char  indx\n"
+           "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
            name, n, m, c,
            p->mc, p->vc, p->ec, p->sc, p->tc,
            p->gc, p->lc, p->pc, p->nc, p->bc,
-           p->cc, p->zc, p->wc, p->jc, p->xc,
-           p->rc, p->uc, p->ac, p->ic);
+           p->cc, p->hc, p->zc, p->wc, p->jc,
+           p->xc, p->rc, p->uc, p->ac, p->ic);
 }
 
 /* Skip the ugly SDL main substitution since we only need sdl_image. */
