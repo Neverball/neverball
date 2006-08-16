@@ -783,15 +783,7 @@ static int game_update_state(int *state_value)
         coin_color(c, n);
         part_burst(p, c);
 
-        /* Add coins if regular, change radius if not. */
-
-        if (n <= 10)
-            coins += n;
-        else
-        {
-            grow_set(fp, n);
-            n = 0;
-        }
+        coins += n;
 
         /* Check for goal open. */
         if (goal_c > 0)
