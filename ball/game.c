@@ -761,36 +761,40 @@ static void game_update_time(float dt, int b)
 static int game_update_state(int *state_value)
 {
     struct s_file *fp = &file;
+    struct s_goal *zp;
+    struct s_item *hp;
+
     float p[3];
     float c[3];
+
     int bt = state_value != NULL;
-    struct s_goal *g;
-    struct s_item *hp;
 
     /* Test for an item. */
     if (bt && (hp = sol_item_test(fp, p, COIN_RADIUS)))
     {
+        int sound = AUD_COIN;
+
         item_color(hp, c);
         part_burst(p, c);
+
         grow_set(fp, hp->t);
 
         if (hp->t == ITEM_COIN)
+        {
             coins += hp->n;
 
-        /* Check for goal open. */
-        if (goal_c > 0)
-        {
-            goal_c = goal_c - hp->n;
-            if (goal_c <= 0)
+            /* Check for goal open. */
+            if (goal_c > 0)
             {
-                audio_play(AUD_SWITCH, 1.f);
-                goal_c = 0;
+                goal_c -= hp->n;
+                if (goal_c <= 0)
+                {
+                    sound = AUD_SWITCH;
+                    goal_c = 0;
+                }
             }
-            else
-                audio_play(AUD_COIN, 1.f);
         }
-        else
-            audio_play(AUD_COIN, 1.f);
+        audio_play(sound, 1.f);
 
         /* Reset item type. */
         hp->t = ITEM_NONE;
@@ -815,11 +819,11 @@ static int game_update_state(int *state_value)
 
     /* Test for a goal. */
 
-    if (bt && goal_c == 0 && (g = sol_goal_test(fp, p, 0)))
+    if (bt && goal_c == 0 && (zp = sol_goal_test(fp, p, 0)))
     {
-        *state_value = g->s;
+        *state_value = zp->s;
         audio_play(AUD_GOAL, 1.0f);
-        return g->c ? GAME_SPEC : GAME_GOAL;
+        return zp->c ? GAME_SPEC : GAME_GOAL;
     }
 
     /* Test for time-out. */
