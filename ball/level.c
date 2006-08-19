@@ -141,8 +141,9 @@ int level_load(const char *filename, struct level *level)
 
     /* Compute money and default max money */
     money = 0;
-    for (i = 0; i < sol.cc; i++)
-        money += sol.cv[i].n;
+    for (i = 0; i < sol.hc; i++)
+        if (sol.hv[i].t == ITEM_COIN)
+            money += sol.hv[i].n;
     level->score.most_coins.coins[0] = money;
 
     /* Scan sol metadata */

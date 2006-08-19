@@ -379,7 +379,6 @@ static int null_enter(void)
     swch_free();
     jump_free();
     goal_free();
-    coin_free();
     item_free();
     ball_free();
     shad_free();
@@ -395,7 +394,6 @@ static void null_leave(int id)
     part_init(GOAL_HEIGHT);
     shad_init();
     ball_init(g);
-    coin_init(g);
     item_init(g);
     goal_init(g);
     jump_init(g);

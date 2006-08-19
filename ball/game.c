@@ -286,36 +286,32 @@ static void game_draw_balls(const struct s_file *fp)
     glPopMatrix();
 }
 
-static void game_draw_coins(const struct s_file *fp)
-{
-    float r = 360.f * SDL_GetTicks() / 1000.f;
-    int ci;
-
-    coin_push();
-    {
-        for (ci = 0; ci < fp->cc; ci++)
-
-            if (fp->cv[ci].n > 0)
-            {
-                glPushMatrix();
-                {
-                    glTranslatef(fp->cv[ci].p[0],
-                                 fp->cv[ci].p[1],
-                                 fp->cv[ci].p[2]);
-                    glRotatef(r, 0.0f, 1.0f, 0.0f);
-                    coin_draw(fp->cv[ci].n, r);
-                }
-                glPopMatrix();
-            }
-    }
-    coin_pull();
-
-}
-
 static void game_draw_items(const struct s_file *fp)
 {
     float r = 360.f * SDL_GetTicks() / 1000.f;
     int hi;
+
+    /* FIXME:  Draw items of different types in one pass. */
+
+    item_push();
+    item_push_text(ITEM_COIN);
+    {
+        for (hi = 0; hi < fp->hc; hi++)
+
+            if (fp->hv[hi].t == ITEM_COIN && fp->hv[hi].n > 0)
+            {
+                glPushMatrix();
+                {
+                    glTranslatef(fp->hv[hi].p[0],
+                                 fp->hv[hi].p[1],
+                                 fp->hv[hi].p[2]);
+                    glRotatef(r, 0.0f, 1.0f, 0.0f);
+                    item_draw(&fp->hv[hi], r);
+                }
+                glPopMatrix();
+            }
+    }
+    item_pull();
 
     item_push();
     item_push_text(ITEM_SHRINK);
@@ -330,16 +326,12 @@ static void game_draw_items(const struct s_file *fp)
                                  fp->hv[hi].p[1],
                                  fp->hv[hi].p[2]);
                     glRotatef(r, 0.0f, 1.0f, 0.0f);
-                    item_draw(fp->hv[hi].t, r);
+                    item_draw(&fp->hv[hi], r);
                 }
                 glPopMatrix();
             }
     }
     item_pull();
-
-    /* FIXME: there has got to be a better way than two seperate loops,
-     * once for each texture, but someone else is going to have to do
-     * it! */
 
     item_push();
     item_push_text(ITEM_GROW);
@@ -354,7 +346,7 @@ static void game_draw_items(const struct s_file *fp)
                                  fp->hv[hi].p[1],
                                  fp->hv[hi].p[2]);
                     glRotatef(r, 0.0f, 1.0f, 0.0f);
-                    item_draw(fp->hv[hi].t, r);
+                    item_draw(&fp->hv[hi], r);
                 }
                 glPopMatrix();
             }
@@ -553,7 +545,6 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
             if (pose == 0)
             {
                 part_draw_coin(-rx * d, -ry);
-                game_draw_coins(&file);
                 game_draw_items(&file);
                 if (drawball)
                     game_draw_balls(&file);
@@ -773,22 +764,23 @@ static int game_update_state(int *state_value)
     float p[3];
     float c[3];
     int bt = state_value != NULL;
-    int n, t;
     struct s_goal *g;
+    struct s_item *hp;
 
-    /* Test for a coin grab. */
-
-    if (bt && (n = sol_coin_test(fp, p, COIN_RADIUS)) > 0)
+    /* Test for an item. */
+    if (bt && (hp = sol_item_test(fp, p, COIN_RADIUS)))
     {
-        coin_color(c, n);
+        item_color(hp, c);
         part_burst(p, c);
+        grow_set(fp, hp->t);
 
-        coins += n;
+        if (hp->t == ITEM_COIN)
+            coins += hp->n;
 
         /* Check for goal open. */
         if (goal_c > 0)
         {
-            goal_c = goal_c - n;
+            goal_c = goal_c - hp->n;
             if (goal_c <= 0)
             {
                 audio_play(AUD_SWITCH, 1.f);
@@ -799,17 +791,9 @@ static int game_update_state(int *state_value)
         }
         else
             audio_play(AUD_COIN, 1.f);
-    }
 
-    /* Test for an item. */
-    if (bt && (t = sol_item_test(fp, p, COIN_RADIUS)) != ITEM_NONE)
-    {
-        item_color(c, t);
-        part_burst(p, c);
-
-        grow_set(fp, t);
-
-        audio_play(AUD_COIN, 1.f);
+        /* Reset item type. */
+        hp->t = ITEM_NONE;
     }
 
     /* Test for a switch. */
