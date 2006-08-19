@@ -43,7 +43,6 @@
  *     n  Node          (struct s_node)
  *     p  Path          (struct s_path)
  *     b  Body          (struct s_body)
- *     c  Coin          (struct s_coin)
  *     h  Item          (struct s_item)
  *     z  Goal          (struct s_goal)
  *     j  Jump          (struct s_jump)
@@ -73,7 +72,7 @@
  * Those members that do not conform to this convention are explicitly
  * documented with a comment.
  *
- * These prefixes are still available: k o q y.
+ * These prefixes are still available: c k o q y.
  */
 
 /*---------------------------------------------------------------------------*/
@@ -101,8 +100,9 @@
 /* Item types. */
 
 #define ITEM_NONE       0
-#define ITEM_GROW       1
-#define ITEM_SHRINK     2
+#define ITEM_COIN       1
+#define ITEM_GROW       2
+#define ITEM_SHRINK     3
 
 /*---------------------------------------------------------------------------*/
 
@@ -194,16 +194,11 @@ struct s_body
     int gc;
 };
 
-struct s_coin
-{
-    float p[3];                                /* position                   */
-    int   n;                                   /* value                      */
-};
-
 struct s_item
 {
     float p[3];                                /* position                   */
     int   t;                                   /* type                       */
+    int   n;                                   /* value                      */
 };
 
 struct s_goal
@@ -283,7 +278,6 @@ struct s_file
     int nc;
     int pc;
     int bc;
-    int cc;
     int hc;
     int zc;
     int jc;
@@ -305,7 +299,6 @@ struct s_file
     struct s_node *nv;
     struct s_path *pv;
     struct s_body *bv;
-    struct s_coin *cv;
     struct s_item *hv;
     struct s_goal *zv;
     struct s_jump *jv;
@@ -330,12 +323,11 @@ void  sol_free(struct s_file *);
 
 float sol_step(struct s_file *, const float *, float, int, int *);
 
-int   sol_coin_test(struct s_file *, float *, float);
-int   sol_item_test(struct s_file *, float *, float);
 int   sol_jump_test(struct s_file *, float *, int);
 int   sol_swch_test(struct s_file *, int);
 
 struct s_goal *sol_goal_test(struct s_file *, float *, int);
+struct s_item *sol_item_test(struct s_file *, float *, float);
 
 /*---------------------------------------------------------------------------*/
 
