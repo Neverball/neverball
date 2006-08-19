@@ -202,9 +202,6 @@ void mark_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint coin_text;
-static GLuint coin_list;
-
 static void coin_head(int n, float radius, float thick)
 {
     int i;
@@ -264,103 +261,45 @@ static void coin_edge(int n, float radius, float thick)
     glEnd();
 }
 
-void coin_color(float *c, int n)
-{
-    if (n >= 1)
-    {
-        c[0] = 1.0f;
-        c[1] = 1.0f;
-        c[2] = 0.2f;
-    }
-    if (n >= 5)
-    {
-        c[0] = 1.0f;
-        c[1] = 0.2f;
-        c[2] = 0.2f;
-    }
-    if (n >= 10)
-    {
-        c[0] = 0.2f;
-        c[1] = 0.2f;
-        c[2] = 1.0f;
-    }
-}
-
-void coin_init(int b)
-{
-    int n = b ? 32 : 8;
-
-    coin_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_COIN);
-    coin_list = glGenLists(1);
-
-    glNewList(coin_list, GL_COMPILE);
-    {
-        coin_edge(n, COIN_RADIUS, COIN_THICK);
-        coin_head(n, COIN_RADIUS, COIN_THICK);
-        coin_tail(n, COIN_RADIUS, COIN_THICK);
-    }
-    glEndList();
-}
-
-void coin_free(void)
-{
-    if (glIsList(coin_list))
-        glDeleteLists(coin_list, 1);
-
-    if (glIsTexture(coin_text))
-        glDeleteTextures(1, &coin_text);
-
-    coin_list = 0;
-    coin_text = 0;
-}
-
-void coin_push(void)
-{
-    static const float  a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-    static const float  s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    static const float  e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    static const float  h[1] = { 32.0f };
-
-    glPushAttrib(GL_LIGHTING_BIT);
-
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
-
-    glEnable(GL_COLOR_MATERIAL);
-    glBindTexture(GL_TEXTURE_2D, coin_text);
-}
-
-void coin_draw(int n, float r)
-{
-    float c[3];
-
-    coin_color(c, n);
-
-    glColor3fv(c);
-    glCallList(coin_list);
-}
-
-void coin_pull(void)
-{
-    glPopAttrib();
-}
-
 /*---------------------------------------------------------------------------*/
 
+static GLuint item_coin_text;
 static GLuint item_grow_text;
 static GLuint item_shrink_text;
 static GLuint item_list;
 
-void item_color(float *c, int t)
+void item_color(const struct s_item *hp, float *c)
 {
-    switch (t)
+    switch (hp->t)
     {
+
+    case ITEM_COIN:
+
+        if (hp->n >= 1)
+        {
+            c[0] = 1.0f;
+            c[1] = 1.0f;
+            c[2] = 0.2f;
+        }
+        if (hp->n >= 5)
+        {
+            c[0] = 1.0f;
+            c[1] = 0.2f;
+            c[2] = 0.2f;
+        }
+        if (hp->n >= 10)
+        {
+            c[0] = 0.2f;
+            c[1] = 0.2f;
+            c[2] = 1.0f;
+        }
+        break;
+
     case ITEM_GROW:
     case ITEM_SHRINK:
 
     default:
+
         c[0] = 1.0f;
         c[1] = 1.0f;
         c[2] = 1.0f;
@@ -373,6 +312,8 @@ void item_init(int b)
 {
     int n = b ? 32 : 8;
 
+    item_coin_text = make_image_from_file(NULL, NULL, NULL, NULL,
+                                          IMG_ITEM_COIN);
     item_grow_text = make_image_from_file(NULL, NULL, NULL, NULL,
                                           IMG_ITEM_GROW);
     item_shrink_text = make_image_from_file(NULL, NULL, NULL, NULL,
@@ -393,6 +334,9 @@ void item_free(void)
     if (glIsList(item_list))
         glDeleteLists(item_list, 1);
 
+    if (glIsTexture(item_coin_text))
+        glDeleteTextures(1, &item_coin_text);
+
     if (glIsTexture(item_grow_text))
         glDeleteTextures(1, &item_grow_text);
 
@@ -400,6 +344,7 @@ void item_free(void)
         glDeleteTextures(1, &item_shrink_text);
 
     item_list = 0;
+    item_coin_text = 0;
     item_grow_text = 0;
     item_shrink_text = 0;
 }
@@ -425,6 +370,10 @@ void item_push_text(int t)
 
     switch (t)
     {
+    case ITEM_COIN:
+        glBindTexture(GL_TEXTURE_2D, item_coin_text);
+        break;
+
     case ITEM_GROW:
         glBindTexture(GL_TEXTURE_2D, item_grow_text);
         break;
@@ -435,11 +384,11 @@ void item_push_text(int t)
     }
 }
 
-void item_draw(int t, float r)
+void item_draw(const struct s_item *hp, float r)
 {
     float c[3];
 
-    item_color(c, t);
+    item_color(hp, c);
 
     glColor3fv(c);
     glCallList(item_list);
