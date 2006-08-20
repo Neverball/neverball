@@ -10,8 +10,8 @@
 #define IMG_SHAD "png/shadow.png"
 
 #define IMG_ITEM_COIN   _("png/coin.png")
-#define IMG_ITEM_GROW     "png/growup.png"
-#define IMG_ITEM_SHRINK   "png/growdn.png"
+#define IMG_ITEM_GROW    "png/grow.png"
+#define IMG_ITEM_SHRINK  "png/shrink.png"
 
 #define BALL_FUDGE    0.001f
 #define COIN_RADIUS   0.15f
