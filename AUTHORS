@@ -10,44 +10,57 @@
     Robert Kooima
     Jean Privat
 
-* LEVEL CONTRIBUTIONS
+* MAPPERS
 
-    Pasi Kallinen       (paxed): Neverputt
-    Robert Kooima	(rlk): Neverball and Neverputt
-    Mehdi Yousfi-Monod  (mym): Neverball
-    Michael Middleton   (slippifishi): Neverputt
+    Pasi Kallinen       (paxed)
+    Robert Kooima	(rlk)
+    Mehdi Yousfi-Monod  (mym)
+    Michael Middleton   (slippifishi)
 
-* TRANSLATION
+* TRANSLATORS
 
     French:
-        Jean Privat
-        Mehdi Yousfi-Monod
+      - Jean Privat
+      - Mehdi Yousfi-Monod
 
     German:
-        Georg Wachter
+      - Georg Wachter
 
     Latvian:
-        Jānis Rūcis
+      - Jānis Rūcis
 
     Spanish:
-        Miguel Diago
+      - Miguel Diago
 
 * THANKS TO
 
-    Derek Arndt               (OSX packaging)
-    Erik Auerswald            (Mouse invert)
-    Corey Edwards             (Joystick select)
-    Christoph Frick           (OSX port)
-    Max Gilead                (Debian packaging)
-    François Guillet (shino) (Neverball Hall of Fame development and hosting
-                               Neverforum and Neverwiki installation and hosting)
-    Phil Harper               (TheOpenCD packaging, icons)
-    Kyle Hoker                (Feature ideas and testing)
-    Jeremy Messenger          (FreeBSD port)
-    Michael Sterret           (Gentoo ebuild)
-    Mehdi Yousfi-Monod        (Neverball Hall of Fame management
-                               Windows packaging)
-    Jānis Rūcis (parasti)   (Code contributions and cleanup)
+    Derek Arndt
+      - OSX packaging
+    Erik Auerswald
+      - Mouse invert
+    Corey Edwards
+      - Joystick select
+    Christoph Frick
+      - OSX port
+    Max Gilead
+      - Debian packaging
+    François Guillet
+      - Neverball Hall of Fame development and hosting
+      - Neverforum and Neverwiki installation and hosting
+    Phil Harper
+      - TheOpenCD packaging
+      - Icons
+    Kyle Hoker
+      - Feature ideas and testing
+    Jeremy Messenger
+      - FreeBSD port
+    Jānis Rūcis
+      - Code contributions and clean-up
+    Michael Sterret
+      - Gentoo ebuild
+    Mehdi Yousfi-Monod
+      - Neverball Hall of Fame management
+      - Windows packaging
 
     Countless others for play testing and bug reports.
 
