@@ -71,6 +71,9 @@ static int demo_header_read(FILE *fp, struct demo *d)
     int version;
     int t;
 
+    struct tm date;
+    char datestr[20];
+
     get_index(fp, &magic);
     get_index(fp, &version);
 
@@ -83,7 +86,26 @@ static int demo_header_read(FILE *fp, struct demo *d)
         get_index(fp, &d->coins);
         get_index(fp, &d->state);
         get_index(fp, &d->mode);
+
+#if 0
         get_index(fp, (int *) &d->date);
+#endif
+        fread(datestr, 1, 20, fp);
+        sscanf(datestr,
+               "%d-%d-%dT%d:%d:%d",
+               &date.tm_year,
+               &date.tm_mon,
+               &date.tm_mday,
+               &date.tm_hour,
+               &date.tm_min,
+               &date.tm_sec);
+
+        /* Convert some values to valid structure member values. */
+
+        date.tm_year -= 1900;
+        date.tm_mon  -= 1;
+
+        d->date = mktime(&date);
 
         fread(d->player, 1, MAXNAM, fp);
 
@@ -157,13 +179,20 @@ static void demo_header_write(FILE *fp, struct demo *d)
     int version = DEMO_VERSION;
     int zero  = 0;
 
+    char datestr[20];
+
+    strftime(datestr, 20, "%Y-%m-%dT%H:%M:%S", gmtime(&d->date));
+
     put_index(fp, &magic);
     put_index(fp, &version);
     put_index(fp, &zero);
     put_index(fp, &zero);
     put_index(fp, &zero);
     put_index(fp, &d->mode);
+#if 0
     put_index(fp, (int *) &d->date);
+#endif
+    fwrite(datestr, 1, 20, fp);
 
     fwrite(d->player, 1, MAXNAM, fp);
 
@@ -271,8 +300,25 @@ const struct demo *demo_get(int i)
 const char *date_to_str(time_t i)
 {
     static char str[MAXSTR];
-    struct tm *tm = localtime(&i);
-    strftime(str, MAXSTR, "%c", tm);
+    struct tm local, *utc;
+
+    /* Replay date/time is stored as UTC.  The code below computes the actual
+     * local time.  Needless to say, this is an ugly hack...
+     */
+
+
+    local = *localtime(&i);
+    utc   =  gmtime(&i);
+
+    local.tm_year = local.tm_year + (local.tm_year - utc->tm_year);
+    local.tm_mon  = local.tm_mon  + (local.tm_mon  - utc->tm_mon );
+    local.tm_mday = local.tm_mday + (local.tm_mday - utc->tm_mday);
+    local.tm_hour = local.tm_hour + (local.tm_hour - utc->tm_hour);
+    local.tm_min  = local.tm_min  + (local.tm_min  - utc->tm_min );
+    local.tm_sec  = local.tm_sec  + (local.tm_sec  - utc->tm_sec );
+
+    strftime(str, MAXSTR, "%c", &local);
+
     return str;
 }
 
