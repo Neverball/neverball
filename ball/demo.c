@@ -301,11 +301,11 @@ const char *date_to_str(time_t i)
 {
     static char str[MAXSTR];
     struct tm local, *utc;
+    time_t t;
 
     /* Replay date/time is stored as UTC.  The code below computes the actual
      * local time.  Needless to say, this is an ugly hack...
      */
-
 
     local = *localtime(&i);
     utc   =  gmtime(&i);
@@ -317,8 +317,11 @@ const char *date_to_str(time_t i)
     local.tm_min  += local.tm_min  - utc->tm_min ;
     local.tm_sec  += local.tm_sec  - utc->tm_sec ;
 
-    strftime(str, MAXSTR, "%c", &local);
+    /* Normalize the values if they've gotten out of range. */
 
+    t = mktime(&local);
+
+    strftime(str, MAXSTR, "%c", localtime(&t));
     return str;
 }
 
