@@ -310,12 +310,12 @@ const char *date_to_str(time_t i)
     local = *localtime(&i);
     utc   =  gmtime(&i);
 
-    local.tm_year = local.tm_year + (local.tm_year - utc->tm_year);
-    local.tm_mon  = local.tm_mon  + (local.tm_mon  - utc->tm_mon );
-    local.tm_mday = local.tm_mday + (local.tm_mday - utc->tm_mday);
-    local.tm_hour = local.tm_hour + (local.tm_hour - utc->tm_hour);
-    local.tm_min  = local.tm_min  + (local.tm_min  - utc->tm_min );
-    local.tm_sec  = local.tm_sec  + (local.tm_sec  - utc->tm_sec );
+    local.tm_year += local.tm_year - utc->tm_year;
+    local.tm_mon  += local.tm_mon  - utc->tm_mon ;
+    local.tm_mday += local.tm_mday - utc->tm_mday;
+    local.tm_hour += local.tm_hour - utc->tm_hour;
+    local.tm_min  += local.tm_min  - utc->tm_min ;
+    local.tm_sec  += local.tm_sec  - utc->tm_sec ;
 
     strftime(str, MAXSTR, "%c", &local);
 
