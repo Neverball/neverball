@@ -125,7 +125,7 @@ int config_data_path(const char *path, const char *file)
 int config_user_path(const char *file)
 {
 #ifdef _WIN32
-    size_t d = strlen(CONFIG_USER);
+    size_t d = strlen(data_path);
 
     strncpy(user_path, data_path,   MAXSTR - 1);
     strncat(user_path, "\\",        MAXSTR - d - 1);
