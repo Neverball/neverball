@@ -438,6 +438,10 @@ void demo_play_save(const char *name)
         strncpy(dst, config_user(name), PATHMAX);
         strcat(dst, REPLAY_EXT);
 
+#ifdef _WIN32
+        if (demo_exists(name))
+            remove(dst);
+#endif
         rename(src, dst);
     }
 }
