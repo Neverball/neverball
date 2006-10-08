@@ -148,49 +148,35 @@ static int demo_header_read(FILE *fp, struct demo *d)
     return 0;
 }
 
-static FILE *demo_header_open(const char *filename, struct demo *d)
+static char *bname(const char *name, const char *suffix)
 {
-    FILE *fp;
+    static char buf[MAXSTR];
 
-    if ((fp = fopen(filename, FMODE_RB)))
-    {
-        if (demo_header_read(fp, d))
-        {
-            char buf[MAXSTR];
-            char *basename;
-            int l;
+    char *base;
+    size_t l;
 
-            strncpy(d->filename, filename, MAXSTR);
+    /* Remove the directory delimiter */
 
-            /* Remove the directory delimiter */
-
-            basename = strrchr(filename, '/');
+    base = strrchr(name, '/');
 #ifdef _WIN32
-            if (!basename)
-                basename = strrchr(filename, '\\');
-            else
-            {
-                char *tmp;
-                if ((tmp = strrchr(basename, '\\')))
-                    basename = tmp;
-            }
-#endif
-            strncpy(buf, basename ? basename + 1 : filename, MAXSTR);
-
-            /* Remove the extension */
-
-            l = strlen(buf) - strlen(REPLAY_EXT);
-            if ((l > 1) && (strcmp(buf + l, REPLAY_EXT) == 0))
-                buf[l] = '\0';
-
-            strncpy(d->name, buf, PATHMAX);
-            d->name[PATHMAX - 1] = '\0';
-
-            return fp;
-        }
-        fclose(fp);
+    if (!base)
+        base = strrchr(name, '\\');
+    else
+    {
+        char *tmp;
+        if ((tmp = strrchr(base, '\\')))
+            base = tmp;
     }
-    return NULL;
+#endif
+    strncpy(buf, base ? base + 1 : name, MAXSTR);
+
+    /* Remove the extension */
+
+    l = strlen(buf) - strlen(suffix);
+    if ((l > 1) && (strcmp(buf + l, suffix) == 0))
+        buf[l] = '\0';
+
+    return buf;
 }
 
 static void demo_header_write(FILE *fp, struct demo *d)
@@ -254,9 +240,16 @@ static void demo_scan_file(const char *filename)
     FILE *fp;
     struct demo *d = &demos[count];
 
-    if ((fp = demo_header_open(config_user(filename), d)))
+    if ((fp = fopen(config_user(filename), FMODE_RB)))
     {
-        count++;
+        if (demo_header_read(fp, d))
+        {
+            strncpy(d->filename, config_user(filename),       MAXSTR);
+            strncpy(d->name,     bname(filename, REPLAY_EXT), PATHMAX);
+            d->name[PATHMAX - 1] = '\0';
+
+            count++;
+        }
         fclose(fp);
     }
 }
@@ -471,10 +464,13 @@ const struct demo *curr_demo_replay(void)
 
 int demo_replay_init(const char *name, struct level_game *lg)
 {
-    demo_fp = demo_header_open(name, &demo_replay);
+    demo_fp = fopen(name, FMODE_RB);
 
-    if (demo_fp)
+    if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
+        strncpy(demo_replay.filename, name,                    MAXSTR);
+        strncpy(demo_replay.name,     bname(name, REPLAY_EXT), PATHMAX);
+
         if (!demo_load_level(&demo_replay, &demo_level_replay))
             return 0;
 
