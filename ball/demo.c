@@ -27,7 +27,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define MAGIC           0x52424EAF
-#define DEMO_VERSION    2
+#define DEMO_VERSION    3
 
 #define DATELEN 20         
 
@@ -107,9 +107,8 @@ static int demo_header_read(FILE *fp, struct demo *d)
         get_index(fp, &d->state);
         get_index(fp, &d->mode);
 
-#if 0
-        get_index(fp, (int *) &d->date);
-#endif
+        fread(d->player, 1, MAXNAM, fp);
+
         fread(datestr, 1, DATELEN, fp);
         sscanf(datestr,
                "%d-%d-%dT%d:%d:%d",
@@ -127,13 +126,8 @@ static int demo_header_read(FILE *fp, struct demo *d)
 
         d->date = make_time_from_utc(&date);
 
-        fread(d->player, 1, MAXNAM, fp);
-
         fread(d->shot, 1, PATHMAX, fp);
         fread(d->file, 1, PATHMAX, fp);
-        fread(d->back, 1, PATHMAX, fp);
-        fread(d->grad, 1, PATHMAX, fp);
-        fread(d->song, 1, PATHMAX, fp);
 
         get_index(fp, &d->time);
         get_index(fp, &d->goal);
@@ -194,18 +188,11 @@ static void demo_header_write(FILE *fp, struct demo *d)
     put_index(fp, &zero);
     put_index(fp, &d->mode);
 
-#if 0
-    put_index(fp, (int *) &d->date);
-#endif
-    fwrite(datestr, 1, DATELEN, fp);
-
     fwrite(d->player, 1, MAXNAM, fp);
+    fwrite(datestr, 1, DATELEN, fp);
 
     fwrite(d->shot, 1, PATHMAX, fp);
     fwrite(d->file, 1, PATHMAX, fp);
-    fwrite(d->back, 1, PATHMAX, fp);
-    fwrite(d->grad, 1, PATHMAX, fp);
-    fwrite(d->song, 1, PATHMAX, fp);
 
     put_index(fp, &d->time);
     put_index(fp, &d->goal);
