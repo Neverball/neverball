@@ -101,7 +101,6 @@ static int name_id;
 static int time_id;
 static int coin_id;
 static int date_id;
-static int level_id;
 static int mode_id;
 static int state_id;
 static int player_id;
@@ -187,8 +186,6 @@ static int gui_demo_status(int id, const struct demo *d)
                     mode_id = gui_label(md, mode, GUI_SML, GUI_RGT, 0, 0);
                 }
             }
-            level_id = gui_label(kd, (d ? d->file : "M"), GUI_SML, GUI_RGT,
-                                 gui_wht, gui_wht);
             date_id = gui_label(kd, (d ? date_to_str(d->date) : "M"),
                                 GUI_SML, GUI_RGT, 0, 0);
         }
@@ -197,7 +194,6 @@ static int gui_demo_status(int id, const struct demo *d)
             gui_label(kd, _("Replay"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
             gui_label(kd, _("Time"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
             gui_label(kd, _("Mode"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
-            gui_label(kd, _("Level"),  GUI_SML, GUI_LFT, gui_wht, gui_wht);
             gui_label(kd, _("Date"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
         }
         if (d && (d->state == GAME_GOAL || d->state == GAME_SPEC))
@@ -212,7 +208,6 @@ static void gui_demo_update_status(int i)
 
     gui_set_label(name_id,   d->name);
     gui_set_label(date_id,   date_to_str(d->date));
-    gui_set_label(level_id,  d->file);
     gui_set_label(player_id, d->player);
     gui_set_label(mode_id,   mode_to_str(d->mode));
 
