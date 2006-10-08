@@ -32,7 +32,6 @@ struct demo
     int    score;           /* sum of coins (challenge mode) */
     int    balls;           /* number of balls (challenge mode) */
     int    times;           /* total time (challenge mode) */
-    char   nb_version[20];  /* neverball version used */
 };
 
 

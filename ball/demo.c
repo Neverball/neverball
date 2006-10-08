@@ -27,7 +27,9 @@
 /*---------------------------------------------------------------------------*/
 
 #define MAGIC           0x52424EAF
-#define DEMO_VERSION    1
+#define DEMO_VERSION    2
+
+#define DATELEN 20         
 
 static FILE *demo_fp;
 
@@ -40,7 +42,6 @@ void demo_dump_info(const struct demo *d)
 {
     printf("Name:         %s\n"
            "File:         %s\n"
-           "NB Version:   %s\n"
            "Time:         %d\n"
            "Coins:        %d\n"
            "Mode:         %d\n"
@@ -58,7 +59,6 @@ void demo_dump_info(const struct demo *d)
            "Balls:        %d\n"
            "Total Time:   %d\n",
            d->name, d->filename,
-           d->nb_version,
            d->timer, d->coins, d->mode, d->state, ctime(&d->date),
            d->player,
            d->shot, d->file, d->back, d->grad, d->song,
@@ -92,7 +92,7 @@ static int demo_header_read(FILE *fp, struct demo *d)
     int t;
 
     struct tm date;
-    char datestr[20];
+    char datestr[DATELEN];
 
     get_index(fp, &magic);
     get_index(fp, &version);
@@ -110,7 +110,7 @@ static int demo_header_read(FILE *fp, struct demo *d)
 #if 0
         get_index(fp, (int *) &d->date);
 #endif
-        fread(datestr, 1, 20, fp);
+        fread(datestr, 1, DATELEN, fp);
         sscanf(datestr,
                "%d-%d-%dT%d:%d:%d",
                &date.tm_year,
@@ -140,8 +140,6 @@ static int demo_header_read(FILE *fp, struct demo *d)
         get_index(fp, &d->score);
         get_index(fp, &d->balls);
         get_index(fp, &d->times);
-
-        fread(d->nb_version, 1, 20, fp);
 
         return 1;
     }
@@ -185,9 +183,9 @@ static void demo_header_write(FILE *fp, struct demo *d)
     int version = DEMO_VERSION;
     int zero  = 0;
 
-    char datestr[20];
+    char datestr[DATELEN];
 
-    strftime(datestr, 20, "%Y-%m-%dT%H:%M:%S", gmtime(&d->date));
+    strftime(datestr, DATELEN, "%Y-%m-%dT%H:%M:%S", gmtime(&d->date));
 
     put_index(fp, &magic);
     put_index(fp, &version);
@@ -199,7 +197,7 @@ static void demo_header_write(FILE *fp, struct demo *d)
 #if 0
     put_index(fp, (int *) &d->date);
 #endif
-    fwrite(datestr, 1, 20, fp);
+    fwrite(datestr, 1, DATELEN, fp);
 
     fwrite(d->player, 1, MAXNAM, fp);
 
@@ -214,8 +212,6 @@ static void demo_header_write(FILE *fp, struct demo *d)
     put_index(fp, &d->score);
     put_index(fp, &d->balls);
     put_index(fp, &d->times);
-
-    fwrite(d->nb_version, 1, 20, fp);
 }
 
 /* Update the demo header using the final level state. */
@@ -380,8 +376,6 @@ int demo_play_init(const char *name,
     demo.score = lg->score;
     demo.balls = lg->balls;
     demo.times = lg->times;
-
-    strncpy(demo.nb_version, VERSION, 20);
 
     if (demo.filename && (demo_fp = fopen(demo.filename, FMODE_WB)))
     {
