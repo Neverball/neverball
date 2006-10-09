@@ -33,7 +33,7 @@
 
 #define DATELEN 20
 
-void get_short(FILE *fin, short *s)
+static void get_short(FILE *fin, short *s)
 {
     unsigned char *p = (unsigned char *) s;
 
@@ -55,9 +55,9 @@ void get_short(FILE *fin, short *s)
 
 /*---------------------------------------------------------------------------*/
 
-int read_demo(FILE *fin, int *timer, int *coins,
-              int *time, int *goal, int *score, int *balls,
-              char *file, char *shot)
+static int read_demo(FILE *fin, int *timer, int *coins,
+                     int *time, int *goal, int *score, int *balls,
+                     char *file, char *shot)
 {
     short t, c;
     short zero;
@@ -96,11 +96,11 @@ int read_demo(FILE *fin, int *timer, int *coins,
     return 0;
 }
 
-void parse_args(int argc, char *argv[],
-                int  *state,
-                int  *mode,
-                char *player,
-                char *date)
+static void parse_args(int argc, char *argv[],
+                       int  *state,
+                       int  *mode,
+                       char *player,
+                       char *date)
 {
     int i;
 
