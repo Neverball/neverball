@@ -165,6 +165,9 @@ int main(int argc, char *argv[])
                       &time, &goal, &score, &balls,
                       file, shot))
         {
+            char step[MAXSTR];
+            size_t c;
+
             magic = MAG_NEW;
 
             put_index(fout, &magic);
@@ -187,8 +190,8 @@ int main(int argc, char *argv[])
             put_index(fout, &balls);
             put_index(fout, &zero);
 
-            while (!feof(fin))
-                fputc(fgetc(fin), fout);
+            while ((c = fread(step, 1, sizeof (step), fin)) > 0)
+                fwrite(step, 1, c, fout);
 
             return 0;
         }
