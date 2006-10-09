@@ -304,7 +304,7 @@ const char *date_to_str(time_t i)
 
 /*---------------------------------------------------------------------------*/
 
-int demo_exists(char *name)
+int demo_exists(const char *name)
 {
     FILE *fp;
     char buf[MAXSTR];

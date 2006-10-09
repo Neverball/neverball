@@ -45,7 +45,7 @@ const struct demo *demo_get(int);
 
 const char *date_to_str(time_t);
 
-int  demo_exists(char *);
+int  demo_exists(const char *);
 void demo_unique(char *);
 
 /*---------------------------------------------------------------------------*/
