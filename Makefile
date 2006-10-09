@@ -168,6 +168,9 @@ clean : clean-src
 test : all
 	./neverball
 
+tools :
+	cd tools && $(MAKE)
+
 #------------------------------------------------------------------------------
 # PO update rules
 #------------------------------------------------------------------------------
@@ -186,6 +189,7 @@ po-update : po-update-extract po-update-merge
 #------------------------------------------------------------------------------
 
 .PHONY : all sols locales clean-src clean test \
-	po-update-extract po-update-merge po-update
+	po-update-extract po-update-merge po-update \
+	tools
 
 -include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS)
