@@ -1,7 +1,7 @@
 @echo off
 
 setlocal enableextensions
-setlocal disabledelayedexpansion
+setlocal enabledelayedexpansion
 
     rem XXX Usage messages really should be democonv's business.
     if (%1) == () goto usage
@@ -11,22 +11,22 @@ setlocal disabledelayedexpansion
     rem do .. while ..
     :args
         if (%1) == (--goal) (
-            set DCEXEC=%DCEXEC% --goal
+            set DCEXEC=!DCEXEC! --goal
         ) else if (%1) == (--fall-out) (
-            set DCEXEC=%DCEXEC% --fall-out
+            set DCEXEC=!DCEXEC! --fall-out
         ) else if (%1) == (--time-out) (
-            set DCEXEC=%DCEXEC% --time-out
+            set DCEXEC=!DCEXEC! --time-out
         ) else if (%1) == (--best-time) (
-            set DCEXEC=%DCEXEC% --best-time
+            set DCEXEC=!DCEXEC! --best-time
         ) else if (%1) == (--most-coins) (
-            set DCEXEC=%DCEXEC% --most-coins
+            set DCEXEC=!DCEXEC! --most-coins
         ) else if (%1) == (--freestyle) (
-            set DCEXEC=%DCEXEC% --freestyle
+            set DCEXEC=!DCEXEC! --freestyle
         ) else if (%1) == (--player) (
-            set DCEXEC=%DCEXEC% --player %2
+            set DCEXEC=!DCEXEC! --player %2
             shift
         ) else if (%1) == (--date) (
-            set DCEXEC=%DCEXEC% --date %2
+            set DCEXEC=!DCEXEC! --date %2
             shift
         )
         shift
@@ -44,8 +44,7 @@ setlocal disabledelayedexpansion
 
         echo %0 [options] [file-list]
         echo Options:
-        echo   --help
-        echo                Usage message.
+        echo                Invoked with no options, outputs this usage message.
         echo   --goal
         echo   --fall-out
         echo   --time-out
