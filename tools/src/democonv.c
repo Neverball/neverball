@@ -24,7 +24,7 @@
 #include <string.h>
 
 #ifdef _WIN32
-#include <io.h>	    /* _setmode() */
+#include <io.h>     /* _setmode() */
 #include <fcntl.h>  /* _O_BINARY  */
 #endif /* _WIN32 */
 
