@@ -23,6 +23,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef _WIN32
+#include <io.h>	    /* _setmode() */
+#include <fcntl.h>  /* _O_BINARY  */
+#endif /* _WIN32 */
+
 #include <SDL_byteorder.h>
 
 #include "base_config.h"
@@ -143,6 +148,11 @@ int main(int argc, char *argv[])
     char date[DATELEN]  = "2003-07-16T00:00:00";
 
     parse_args(argc, argv, &state, &mode, player, date);
+
+#ifdef _WIN32
+    _setmode(_fileno(stdin),  _O_BINARY);
+    _setmode(_fileno(stdout), _O_BINARY);
+#endif /* _WIN32 */
 
     fin  = stdin;
     fout = stdout;
