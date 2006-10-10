@@ -1,6 +1,5 @@
 
 CFLAGS+= -Wall -g -ansi -pedantic $(shell sdl-config --cflags)
-SDL_LIBS= $(shell sdl-config --libs)
 
 DEMOCONV= democonv
 
@@ -14,7 +13,7 @@ DEMOCONV_OBJS= \
 all: $(DEMOCONV)
 
 $(DEMOCONV): $(DEMOCONV_OBJS)
-	$(CC) $(CFLAGS) -o $(DEMOCONV) $(DEMOCONV_OBJS) $(SDL_LIBS)
+	$(CC) $(CFLAGS) -o $(DEMOCONV) $(DEMOCONV_OBJS)
 
 clean :
 	$(RM) $(DEMOCONV) $(DEMOCONV_OBJS)
