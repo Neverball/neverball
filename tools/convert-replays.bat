@@ -50,8 +50,8 @@ setlocal enableextensions
         rem This ugly test tries to make sure we're not processing command
         rem line options and directories (weird errors pop up).
         if exist %%d if not exist %%dnul (
-                %DCEXEC% < %%d > %PREFIX%%%~nxd.nbr
-                if errorlevel 1 del %PREFIX%%%~nxd.nbr
+            %DCEXEC% < %%d > %PREFIX%%%~nxd.nbr
+            if errorlevel 1 del %PREFIX%%%~nxd.nbr
         )
     )
     exit /b 0
