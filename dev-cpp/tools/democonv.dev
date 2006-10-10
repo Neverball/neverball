@@ -12,7 +12,7 @@ ResourceIncludes=
 MakeIncludes=
 Compiler=-Wall_@@_-g_@@_-D_GNU_SOURCE=1_@@_
 CppCompiler=
-Linker=-lmingw32_@@_-lSDLmain_@@_-lSDL_@@_
+Linker=-lmingw32_@@_
 IsCpp=0
 Icon=
 ExeOutput=..\..\tools
@@ -27,7 +27,7 @@ CustomMakefile=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=1000000000000000000100
+CompilerSettings=1000000000000000000000
 
 [Unit2]
 FileName=..\..\tools\src\democonv.c

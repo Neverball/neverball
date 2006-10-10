@@ -30,6 +30,9 @@
 
 #include <SDL_byteorder.h>
 
+/* HACK:  prevent including i18n. */
+#define LANGUAGE_H
+
 #include "base_config.h"
 #include "binary.h"
 #include "level.h"
