@@ -6,8 +6,8 @@ setlocal enableextensions
 
     if (%1) == () (
     :usage
-        echo Usage: %0 [options] [file-list] >&2
-        %DCEXEC% --help 2>&1 | more +1 >&2
+        echo Usage: %0 [options] [file-list]
+        %DCEXEC% --help 2>&1 | more +1
         exit /b 1
     )
 
