@@ -26,7 +26,7 @@
 #ifdef _WIN32
 #include <io.h>     /* _setmode() */
 #include <fcntl.h>  /* _O_BINARY  */
-#endif /* _WIN32 */
+#endif
 
 #include <SDL_byteorder.h>
 
@@ -109,9 +109,31 @@ static void parse_args(int argc, char *argv[],
 {
     int i;
 
+    const char *usage =
+        "Usage:  %s [options]\n"
+        "Options:\n"
+        "  --help   Print this message.\n"
+        "  --goal, --time-out, --fall-out\n"
+        "           Outcome of the replay.  Default:  none.\n"
+        "  --best-time, --most-coins, --freestyle\n"
+        "           Type of record.  Default:  unknown.\n"
+        "  --player <name>\n"
+        "           Player name.  Max 8 characters.  Default:  \"Player\".\n"
+        "  --date <datetime>\n"
+        "           Date/time (UTC) when the replay was made.  Format is\n"
+        "           YYYY-mm-ddTHH:MM:SS.  \"T\" is literally T.  Default:\n"
+        "           \"2003-07-16T00:00:00\".\n";
+
     for (i = 1; i < argc; i++)
     {
-        if (strcmp(argv[i],      "--goal") == 0)
+        if (strcmp(argv[i], "-h") == 0 ||
+            strcmp(argv[i], "--help") == 0)
+        {
+            fprintf(stderr, usage, argv[0]);
+            exit(EXIT_FAILURE);
+        }
+
+        else if (strcmp(argv[i], "--goal") == 0)
             *state = GAME_GOAL;
         else if (strcmp(argv[i], "--time-out") == 0)
             *state = GAME_TIME;
@@ -128,6 +150,7 @@ static void parse_args(int argc, char *argv[],
         else if (strcmp(argv[i], "--player") == 0)
             strncpy(player, argv[++i], MAXNAM);
         else if (strcmp(argv[i], "--date") == 0)
+            /* TODO:  error checking */
             strncpy(date, argv[++i], DATELEN);
     }
     return;
@@ -152,7 +175,7 @@ int main(int argc, char *argv[])
 #ifdef _WIN32
     _setmode(_fileno(stdin),  _O_BINARY);
     _setmode(_fileno(stdout), _O_BINARY);
-#endif /* _WIN32 */
+#endif
 
     fin  = stdin;
     fout = stdout;
