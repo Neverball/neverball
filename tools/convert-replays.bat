@@ -8,6 +8,10 @@ setlocal enableextensions
     :usage
         echo Usage: %0 [options] [file-list]
         %DCEXEC% --help 2>&1 | more +1
+        echo   --prefix ^<pref^>
+        echo            Add this prefix before filenames of converted
+        echo            replays.  Useful for saving replays to a different
+        echo            directory instead of CWD.
         exit /b 1
     )
 
@@ -35,14 +39,19 @@ setlocal enableextensions
         ) else if (%1) == (--date) (
             set DCEXEC=%DCEXEC% %1 %2
             shift
+        ) else if (%1) == (--prefix) (
+            set PREFIX=%2
+            shift
         )
         shift
     if not (%1) == () goto args
 
     for %%d in (%*) do (
-        if exist %%d (
-            %DCEXEC% < %%d > %%d.nbr
-            if errorlevel 1 del %%d.nbr
+        rem This ugly test tries to make sure we're not processing command
+        rem line options and directories (weird errors pop up).
+        if exist %%d if not exist %%dnul (
+                %DCEXEC% < %%d > %PREFIX%%%~nxd.nbr
+                if errorlevel 1 del %PREFIX%%%~nxd.nbr
         )
     )
     exit /b 0
