@@ -1,0 +1,96 @@
+
+The tools subdirectory contains various Neverball-related utilities.
+Currently it only contains the replay converter and a wrapper Windows NT
+command shell script.
+
+  * democonv
+
+    A bare-bones Neverball 1.4.0 to v3 (Neverball 1.5.0) format replay
+    converter.  Reads a replay from standard input and writes a
+    converted replay to standard output.  See below for examples.
+
+    democonv recognizes several command line options.  Default values
+    are used when an option is not present (these are noted below).
+    Unrecognized options are silently ignored.  Multiple options of the
+    same kind may be given, but only the last one will be used.  These
+    options are recognized:
+
+        --help
+
+            Request a usage message.  A short list of options and their
+            meanings is printed to standard error and democonv exits
+            with a non-zero exit code.
+
+        --goal
+        --time-out
+        --fall-out
+            
+            Specify the outcome of the replay.  By default none of these
+            values is used, resulting in a "status:  aborted" message at
+            the replay selection screen.
+
+        --best-time
+        --most-coins
+        --freestyle
+
+            Specify the type of the record.  Although promising, these
+            options only influence what game mode to set for the replay.
+            The practice mode is used for Best Time replays and the
+            normal mode is used for Most Coins replays.  A custom value
+            is used for Freestyle replays which is also the default when
+            none of these options is present.  This results in an "mode:
+            unknown" message at the replay selection screen.
+
+        --player <name>
+
+            Specify name of the player.  Name of any length may be used
+            here, but only the first 8 bytes are meaningful.  Using
+            characters not in ASCII is discouraged.  It will work but it
+            won't make sense.  The default value is "Player".
+
+        --date <datetime>
+
+            Specify the date and time of creation.  These are treated as
+            local date/time and are used to calculate the actual UTC
+            time to store in the replay.  datetime should be in the
+            following format:  YYYY:mm:ddTHH:MM:SS.  "T" is literally
+            the character T.  The default value is 2003-07-16T00:00:00
+            (UTC).  (Trivia:  it is the date of posting of Super Empty
+            Ball on flipcode.)
+
+    A few examples:
+
+        $ democonv --goal --most-coins --player parasti \
+          --date 2006-10-10T15:30:00 < cE01para > cE01para.nbr
+
+        $ wget -O - http://lots.of.replays.org/fM25mym | democonv \
+          --fall-out --player mym > fM25mym.nbr
+
+    Windows users, note that cmd.exe supports input redirection and
+    pipes the same way Unix shells do, so these examples should work in
+    Windows NT command shell.  Substitute '>' for the prompt sign and
+    '^' for the line continuation symbol.
+
+  * convert-replays.bat
+
+    A convenience wrapper script around democonv for Windows users.
+    This script takes a list of files on its command line and saves
+    sucessfully converted files to the current working directory.
+    Wildcards are supported.  Original filenames with the '.nbr'
+    extension appened are used for converted files.
+
+    convert-replays.bat recognizes all of democonv's command line
+    options.  In addition, a --prefix option is recognized.
+
+        --prefix <pref>
+
+            Specify a prefix to use for filenames of converted files.
+            Useful if you want to save converted files to a directory
+            other than CWD.
+
+    Examples:
+
+        > convert-replays --player Dave --most-coins c*dav
+        > convert-replays --goal --player parasti ^
+          --prefix ..\new-replays\ ..\old-replays\*
+
