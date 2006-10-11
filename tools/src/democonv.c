@@ -22,6 +22,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #ifdef _WIN32
 #include <io.h>     /* _setmode() */
@@ -104,11 +105,11 @@ static int read_demo(FILE *fin, int *timer, int *coins,
     return 0;
 }
 
-static void parse_args(int argc, char *argv[],
-                       int  *state,
-                       int  *mode,
-                       char *player,
-                       char *date)
+static int parse_args(int argc, char *argv[],
+                      int  *state,
+                      int  *mode,
+                      char *player,
+                      char *date)
 {
     int i;
 
@@ -123,9 +124,9 @@ static void parse_args(int argc, char *argv[],
         "  --player <name>\n"
         "           Player name.  Max 8 characters.  Default:  \"Player\".\n"
         "  --date <datetime>\n"
-        "           Date/time (UTC) when the replay was made.  Format is\n"
+        "           Date/time (local) when the replay was made.  Format is\n"
         "           YYYY-mm-ddTHH:MM:SS.  \"T\" is literally T.  Default:\n"
-        "           \"2003-07-16T00:00:00\".\n";
+        "           \"2003-07-16T00:00:00\" (UTC).\n";
 
     for (i = 1; i < argc; i++)
     {
@@ -133,7 +134,7 @@ static void parse_args(int argc, char *argv[],
             strcmp(argv[i], "--help") == 0)
         {
             fprintf(stderr, usage, argv[0]);
-            exit(EXIT_FAILURE);
+            return 0;
         }
 
         else if (strcmp(argv[i], "--goal") == 0)
@@ -153,10 +154,36 @@ static void parse_args(int argc, char *argv[],
         else if (strcmp(argv[i], "--player") == 0)
             strncpy(player, argv[++i], MAXNAM);
         else if (strcmp(argv[i], "--date") == 0)
-            /* TODO:  error checking */
-            strncpy(date, argv[++i], DATELEN);
+        {
+            struct tm dt;
+
+            if (sscanf(argv[++i], "%4d-%2d-%2dT%2d:%2d:%2d",
+                       &dt.tm_year,
+                       &dt.tm_mon,
+                       &dt.tm_mday,
+                       &dt.tm_hour,
+                       &dt.tm_min,
+                       &dt.tm_sec) == 6)
+            {
+                time_t t;
+
+                dt.tm_year -= 1900;
+                dt.tm_mon  -= 1;
+                dt.tm_isdst = -1;
+
+                t = mktime(&dt);
+
+                strftime(date, DATELEN, "%Y-%m-%dT%H:%M:%S", gmtime(&t));
+            }
+            else
+            {
+                fprintf(stderr, "ERROR:  incorrect date format.  "
+                                "Try '%s --help'.\n", argv[0]);
+                return 0;
+            }
+        }
     }
-    return;
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -173,7 +200,8 @@ int main(int argc, char *argv[])
     char player[MAXNAM] = "Player";
     char date[DATELEN]  = "2003-07-16T00:00:00";
 
-    parse_args(argc, argv, &state, &mode, player, date);
+    if (!parse_args(argc, argv, &state, &mode, player, date))
+        return 1;
 
 #ifdef _WIN32
     _setmode(_fileno(stdin),  _O_BINARY);
