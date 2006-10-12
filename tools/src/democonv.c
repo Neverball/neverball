@@ -29,7 +29,7 @@
 #include <fcntl.h>  /* _O_BINARY  */
 #endif
 
-#include <SDL_byteorder.h>
+#include <SDL_endian.h>
 
 /* HACK:  prevent including i18n. */
 #define LANGUAGE_H
@@ -187,6 +187,10 @@ static int parse_args(int argc, char *argv[],
 }
 
 /*---------------------------------------------------------------------------*/
+
+#ifdef main
+#undef main
+#endif
 
 int main(int argc, char *argv[])
 {
