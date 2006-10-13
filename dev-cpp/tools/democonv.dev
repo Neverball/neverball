@@ -10,9 +10,9 @@ Libs=
 PrivateResource=
 ResourceIncludes=
 MakeIncludes=
-Compiler=-Wall_@@_-g_@@_-D_GNU_SOURCE=1_@@_
+Compiler=-Wall_@@_-D_GNU_SOURCE=1_@@_
 CppCompiler=
-Linker=-lmingw32_@@_
+Linker=
 IsCpp=0
 Icon=
 ExeOutput=..\..\tools
@@ -22,14 +22,14 @@ OverrideOutputName=democonv.exe
 HostApplication=
 Folders=share,tools,tools/src
 CommandLine=
-UseCustomMakefile=0
-CustomMakefile=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=1000000000000000000000
+CompilerSettings=1000000000000000000100
+UseCustomMakefile=0
+CustomMakefile=
 
-[Unit2]
+[Unit1]
 FileName=..\..\tools\src\democonv.c
 CompileCpp=0
 Folder=tools/src
@@ -39,27 +39,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit3]
-FileName=..\..\share\vec3.c
-CompileCpp=0
-Folder=share
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit5]
-FileName=..\..\share\base_image.c
-CompileCpp=0
-Folder=share
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit6]
+[Unit2]
 FileName=..\..\share\binary.c
 CompileCpp=0
 Folder=share
@@ -86,14 +66,4 @@ OriginalFilename=
 ProductName=
 ProductVersion=
 AutoIncBuildNr=0
-
-[Unit1]
-FileName=..\..\share\binary.c
-CompileCpp=0
-Folder=share
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
 
