@@ -1,7 +1,0 @@
-include Makefile
-
-DEMOCONV= democonv.exe
-
-SDL_LIBS= $(shell sdl-config --libs)
-
-LIBS := $(SDL_LIBS) 
