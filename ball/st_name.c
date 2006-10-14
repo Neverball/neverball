@@ -37,21 +37,22 @@ void name_default(void)
     char *login = getenv("LOGNAME");
 
     if (login == NULL || login[0] == '\0')
-        login = _("Player");
+        login = "Player";
 
     strncpy(player, login, MAXNAM);
-    player[MAXNAM-1] = '\0';
-    player[0] = toupper(player[0]);
+    player[MAXNAM - 1] = '\0';
 }
 
 int goto_name(struct state *ok, struct state *cancel)
 {
     config_get_s(CONFIG_PLAYER, player, MAXNAM);
+
     if (player[0] == '\0')
         name_default();
 
     ok_state     = ok;
     cancel_state = cancel;
+
     return goto_state(&st_name);
 }
 
@@ -94,6 +95,7 @@ static int name_action(int i)
         {
             player[l + 0] = (char) i;
             player[l + 1] = '\0';
+
             gui_set_label(name_id, player);
         }
     }
