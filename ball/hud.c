@@ -145,30 +145,35 @@ void hud_paint(void)
 void hud_update(int pulse)
 {
     const struct level_game *lg = curr_lg();
+
     int clock = curr_clock();
     int coins = curr_coins();
     int goal  = curr_goal();
     int balls = lg->balls;
     int score = lg->score;
-    int mode = lg->mode;
+    int mode  = lg->mode;
+
     int c_id;
     int last;
 
     if (!pulse)
     {
-    /* reset the hud */
+        /* reset the hud */
+
         gui_pulse(ball_id, 0.f);
         gui_pulse(time_id, 0.f);
         gui_pulse(coin_id, 0.f);
     }
 
     /* time and tick-tock */
-    last = gui_value(time_id);
-    if (last != clock)
+
+    if (clock != (last = gui_value(time_id)))
     {
         gui_set_clock(time_id, clock);
-        if (last > clock && pulse && mode != MODE_PRACTICE
-            && mode != MODE_SINGLE)
+
+        if (last > clock && pulse &&
+            mode != MODE_PRACTICE &&
+            mode != MODE_SINGLE)
         {
             if (clock <= 1000 && (last / 100) > (clock / 100))
             {
@@ -184,6 +189,8 @@ void hud_update(int pulse)
     }
 
     /* balls and score + select coin widget */
+
+#if 0
     if (mode == MODE_CHALLENGE)
     {
         if (gui_value(ball_id) != balls) gui_set_count(ball_id, balls);
@@ -194,13 +201,35 @@ void hud_update(int pulse)
         c_id = coin_id;
     else
         c_id = coin2_id;
+#endif
+
+    switch (mode)
+    {
+    case MODE_CHALLENGE:
+        if (gui_value(ball_id) != balls) gui_set_count(ball_id, balls);
+        if (gui_value(scor_id) != score) gui_set_count(scor_id, score);
+
+        c_id = coin_id;
+        break;
+
+    case MODE_NORMAL:
+        c_id = coin_id;
+        break;
+
+    default:
+        c_id = coin2_id;
+        break;
+    }
+
 
     /* coins and pulse */
-    last = gui_value(c_id);
-    if (last != coins)
+
+    if (coins != (last = gui_value(c_id)))
     {
         last = coins - last;
+
         gui_set_count(c_id, coins);
+
         if (pulse && last > 0)
         {
             if      (last >= 10) gui_pulse(coin_id, 2.00f);
@@ -217,15 +246,15 @@ void hud_update(int pulse)
     }
 
     /* goal and pulse */
-    last = gui_value(goal_id);
-    if (last != goal)
+
+    if (goal != (last = gui_value(goal_id)))
     {
         gui_set_count(goal_id, goal);
+
         if (pulse && goal == 0 && last > 0)
             gui_pulse(goal_id, 2.00f);
     }
 
-    /* fps */
     if (config_get_d(CONFIG_FPS))
         hud_fps();
 }
