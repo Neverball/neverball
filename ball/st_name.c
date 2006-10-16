@@ -32,23 +32,12 @@ extern struct state st_name;
 static struct state *ok_state, *cancel_state;
 static char player[MAXNAM];
 
-void name_default(void)
-{
-    char *login = getenv("LOGNAME");
-
-    if (login == NULL || login[0] == '\0')
-        login = "Player";
-
-    strncpy(player, login, MAXNAM);
-    player[MAXNAM - 1] = '\0';
-}
-
 int goto_name(struct state *ok, struct state *cancel)
 {
     config_get_s(CONFIG_PLAYER, player, MAXNAM);
 
     if (player[0] == '\0')
-        name_default();
+        strcpy(player, " ");
 
     ok_state     = ok;
     cancel_state = cancel;
@@ -64,17 +53,16 @@ static int name_id;
 
 static int name_action(int i)
 {
-    size_t l;
+    size_t l = strlen(player);
 
     audio_play(AUD_MENU, 1.0f);
-
-    l = strlen(player);
 
     switch (i)
     {
     case NAME_OK:
         if (l == 0)
            return 1;
+
         config_set_s(CONFIG_PLAYER, player);
         return goto_state(ok_state);
 
@@ -116,6 +104,11 @@ static int name_enter(void)
         gui_space(id);
 
         name_id = gui_label(id, player, GUI_MED, GUI_ALL, gui_yel, gui_yel);
+
+        /* Clear dummy text. */
+
+        if (strcmp(player, " ") == 0)
+            strcpy(player, "");
 
         gui_space(id);
 
