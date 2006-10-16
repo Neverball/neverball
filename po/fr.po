@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-08-07 20:39+0300\n"
+"POT-Creation-Date: 2006-10-16 23:27+0300\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ball/demo.c:304
+#: ball/demo.c:330
 #, c-format
 msgid "replay%02d"
 msgstr "film%02d"
 
-#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:176 ball/st_play_end.c:190
+#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:175 ball/st_play_end.c:190
 msgid "Coins"
 msgstr "Pièces"
 
@@ -58,39 +58,39 @@ msgstr "Erreur lors du chargement du fichier de score « %s » : %s\n"
 msgid "Not a valid level file"
 msgstr "Pas un fichier de niveau valide"
 
-#: ball/level.c:213 ball/st_help.c:219 ball/st_start.c:256
+#: ball/level.c:214 ball/st_help.c:219 ball/st_start.c:256
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/level.c:214 ball/st_help.c:205 ball/st_start.c:248
+#: ball/level.c:215 ball/st_help.c:205 ball/st_start.c:248
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/level.c:215 ball/st_help.c:213 ball/st_start.c:246
+#: ball/level.c:216 ball/st_help.c:213 ball/st_start.c:246
 msgid "Practice"
 msgstr "Entraînement"
 
-#: ball/level.c:216
+#: ball/level.c:217
 msgid "Single"
 msgstr "Unique"
 
-#: ball/level.c:217 ball/level.c:232
+#: ball/level.c:218 ball/level.c:233
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: ball/level.c:227
+#: ball/level.c:228
 msgid "Aborted"
 msgstr "Interrompu"
 
-#: ball/level.c:228
+#: ball/level.c:229
 msgid "Time-out"
 msgstr "Temps écoulé"
 
-#: ball/level.c:230
+#: ball/level.c:231
 msgid "Success"
 msgstr "Succès"
 
-#: ball/level.c:231
+#: ball/level.c:232
 msgid "Fall-out"
 msgstr "Balle perdue"
 
@@ -99,12 +99,11 @@ msgstr "Balle perdue"
 msgid "screen%02d.png"
 msgstr "capture%02d.png"
 
-#: ball/main.c:234
-#, c-format
+#: ball/main.c:233
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [options ...]\n"
 "-r, --replay file         play the replay 'file'.\n"
-"-l, --level file.sol      play the level 'file.sol'.\n"
 "-i, --info                display info about level or replay.\n"
 "    --data dir            use 'dir' as game data directory.\n"
 "-v, --version             show version.\n"
@@ -119,69 +118,69 @@ msgstr ""
 "-v, --version             affiche la version.\n"
 "-h, -?, --help            affiche ce message d'aide.\n"
 
-#: ball/main.c:269
+#: ball/main.c:265
 #, c-format
 msgid "%s: unknown option %s\n"
 msgstr "%s : option inconnue %s\n"
 
-#: ball/main.c:275
+#: ball/main.c:271
 #, c-format
 msgid "%s: option %s requires an argument\n"
 msgstr "%s : option %s nécessite un argument\n"
 
-#: ball/main.c:298 putt/main.c:258
+#: ball/main.c:294 putt/main.c:258
 #, c-format
 msgid "Failure to establish game data directory\n"
 msgstr "Impossible d'établir le répertoire des données du jeu\n"
 
-#: ball/main.c:304 putt/main.c:256
+#: ball/main.c:300 putt/main.c:256
 #, c-format
 msgid "Failure to establish config directory\n"
 msgstr "Impossible d'établir le répertoire de configuration\n"
 
-#: ball/main.c:323
+#: ball/main.c:319
 #, c-format
 msgid "Replay file '%s': %s\n"
 msgstr "Fichier de film « %s » : %s\n"
 
-#: ball/main.c:324
+#: ball/main.c:320
 msgid "Not a replay file"
 msgstr "Pas un fichier de film"
 
-#: ball/main.c:344
-#, c-format
-msgid "%s: --info requires --replay or --level\n"
+#: ball/main.c:331
+#, fuzzy, c-format
+msgid "%s: --info requires --replay\n"
 msgstr "%s: --info nécessite --replay ou --level\n"
 
-#: ball/main.c:371
+#: ball/main.c:358
 msgid "snd/select.ogg"
 msgstr ""
 
-#: ball/main.c:372
+#: ball/main.c:359
 msgid "snd/ready.ogg"
 msgstr ""
 
-#: ball/main.c:373
+#: ball/main.c:360
 msgid "snd/set.ogg"
 msgstr ""
 
-#: ball/main.c:374
+#: ball/main.c:361
 msgid "snd/go.ogg"
 msgstr ""
 
-#: ball/main.c:383
+#: ball/main.c:370
 msgid "snd/record.ogg"
 msgstr ""
 
-#: ball/main.c:384
+#: ball/main.c:371
 msgid "snd/fall.ogg"
 msgstr ""
 
-#: ball/main.c:385
+#: ball/main.c:372
 msgid "snd/time.ogg"
 msgstr ""
 
-#: ball/main.c:386
+#: ball/main.c:373
 msgid "snd/over.ogg"
 msgstr ""
 
@@ -208,11 +207,11 @@ msgstr "B%d"
 msgid "Options"
 msgstr "Options"
 
-#: ball/st_conf.c:235 ball/st_demo.c:511 ball/st_save.c:183 putt/st_conf.c:198
+#: ball/st_conf.c:235 ball/st_demo.c:506 ball/st_save.c:183 putt/st_conf.c:198
 msgid "No"
 msgstr "Non"
 
-#: ball/st_conf.c:236 ball/st_demo.c:512 ball/st_save.c:184 putt/st_conf.c:199
+#: ball/st_conf.c:236 ball/st_demo.c:507 ball/st_save.c:184 putt/st_conf.c:199
 msgid "Yes"
 msgstr "Oui"
 
@@ -234,7 +233,7 @@ msgstr "Non"
 msgid "On"
 msgstr "Oui"
 
-#: ball/st_conf.c:320 ball/st_demo.c:265 ball/st_help.c:73 ball/st_start.c:234
+#: ball/st_conf.c:320 ball/st_demo.c:260 ball/st_help.c:73 ball/st_start.c:234
 #: ball/util.c:350 putt/st_all.c:297 putt/st_all.c:419 putt/st_conf.c:271
 #: share/st_lang.c:80 share/st_resol.c:93
 msgid "Back"
@@ -284,67 +283,63 @@ msgstr "Volume musique"
 msgid "Language"
 msgstr "Langue"
 
-#: ball/st_conf.c:335 ball/st_name.c:111
+#: ball/st_conf.c:335 ball/st_name.c:101
 msgid "Player Name"
 msgstr "Nom du joueur"
 
-#: ball/st_demo.c:174 ball/st_name.c:40 putt/st_all.c:476
+#: ball/st_demo.c:173 putt/st_all.c:476
 msgid "Player"
 msgstr "Joueur"
 
-#: ball/st_demo.c:178
+#: ball/st_demo.c:177
 msgid "State"
 msgstr "État"
 
-#: ball/st_demo.c:197 ball/st_demo.c:319
+#: ball/st_demo.c:194 ball/st_demo.c:314
 msgid "Replay"
 msgstr "Film"
 
-#: ball/st_demo.c:198
+#: ball/st_demo.c:195
 msgid "Time"
 msgstr "Temps"
 
-#: ball/st_demo.c:199
+#: ball/st_demo.c:196
 msgid "Mode"
 msgstr "Mode"
 
-#: ball/st_demo.c:200
-msgid "Level"
-msgstr "Niveau"
-
-#: ball/st_demo.c:201
+#: ball/st_demo.c:197
 msgid "Date"
 msgstr "Date"
 
-#: ball/st_demo.c:241
+#: ball/st_demo.c:236
 msgid "Select Replay"
 msgstr "Choisir un film"
 
-#: ball/st_demo.c:263
+#: ball/st_demo.c:258
 msgid "No Replays"
 msgstr "Pas de film"
 
-#: ball/st_demo.c:413
+#: ball/st_demo.c:408
 msgid "Replay Ends"
 msgstr "Fin du film"
 
-#: ball/st_demo.c:417
+#: ball/st_demo.c:412
 msgid "Replay Again"
 msgstr "Rejouer encore"
 
-#: ball/st_demo.c:420 ball/st_done.c:88 ball/st_name.c:123
+#: ball/st_demo.c:415 ball/st_done.c:88 ball/st_name.c:118
 msgid "OK"
 msgstr "OK"
 
-#: ball/st_demo.c:423
+#: ball/st_demo.c:418
 msgid "Keep"
 msgstr "Conserver"
 
-#: ball/st_demo.c:424
+#: ball/st_demo.c:419
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ball/st_demo.c:507
+#: ball/st_demo.c:502
 msgid "Delete Replay?"
 msgstr "Supprimer le film ?"
 
@@ -480,7 +475,7 @@ msgstr "Niveau "
 msgid "Cannot load the level file."
 msgstr "Le fichier du niveau ne peut être chargé"
 
-#: ball/st_name.c:124 ball/st_save.c:113
+#: ball/st_name.c:119 ball/st_save.c:113
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -762,7 +757,7 @@ msgstr "Dernier"
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr "ttf/DejaVuSans-Bold.ttf"
 
-#: share/geom.h:7
+#: share/geom.h:12
 msgid "png/coin.png"
 msgstr "png/euro_coin.png"
 
@@ -1558,6 +1553,9 @@ msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
 msgstr "Il y a plein de pièces ici si vous\\prenez le temps de les ramasser.\\"
+
+#~ msgid "Level"
+#~ msgstr "Niveau"
 
 #~ msgid "%s: %s version %s\n"
 #~ msgstr "%s : %s version %s\n"
