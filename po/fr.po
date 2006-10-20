@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-10-16 23:27+0300\n"
+"POT-Creation-Date: 2006-10-20 18:32+0300\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Jean Privat <jean.privat@gmail.com>\n"
 "Language-Team: French\n"
@@ -58,15 +58,15 @@ msgstr "Erreur lors du chargement du fichier de score « %s » : %s\n"
 msgid "Not a valid level file"
 msgstr "Pas un fichier de niveau valide"
 
-#: ball/level.c:214 ball/st_help.c:219 ball/st_start.c:256
+#: ball/level.c:214 ball/st_help.c:225 ball/st_start.c:256
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/level.c:215 ball/st_help.c:205 ball/st_start.c:248
+#: ball/level.c:215 ball/st_help.c:211 ball/st_start.c:248
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/level.c:216 ball/st_help.c:213 ball/st_start.c:246
+#: ball/level.c:216 ball/st_help.c:219 ball/st_start.c:246
 msgid "Practice"
 msgstr "Entraînement"
 
@@ -355,10 +355,6 @@ msgstr "Challenge complété"
 msgid "Change Player Name"
 msgstr "Changer le nom du joueur"
 
-#: ball/st_help.c:68
-msgid "Credits"
-msgstr "Crédits"
-
 #: ball/st_help.c:69
 msgid "Secrets"
 msgstr "Secrets"
@@ -375,7 +371,7 @@ msgstr "Contrôles"
 msgid "Rules"
 msgstr "Règles"
 
-#: ball/st_help.c:82
+#: ball/st_help.c:88
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\ "
@@ -383,7 +379,7 @@ msgstr ""
 "Déplacez la souris ou le\\joystick ou utilisez le clavier\\pour incliner le "
 "sol et\\faire rouler la balle.\\ "
 
-#: ball/st_help.c:87
+#: ball/st_help.c:93
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\ "
@@ -391,73 +387,65 @@ msgstr ""
 "Collectez des pièces pour\\déverrouiller l'arrivée\\et terminer le  niveau."
 "\\ \\"
 
-#: ball/st_help.c:121
+#: ball/st_help.c:127
 msgid "Left and right mouse buttons rotate the view."
 msgstr "Les boutons de la souris tournent la vue."
 
-#: ball/st_help.c:122
+#: ball/st_help.c:128
 msgid "Hold Shift for faster view rotation."
 msgstr "Maintenez Shift pour une rotation plus rapide."
 
-#: ball/st_help.c:123
+#: ball/st_help.c:129
 msgid "Pause / Release Pointer"
 msgstr "Pause / Libérer le curseur"
 
-#: ball/st_help.c:124
+#: ball/st_help.c:130
 msgid "Exit / Cancel Menu"
 msgstr "Quitte / Annule"
 
-#: ball/st_help.c:125
+#: ball/st_help.c:131
 msgid "Chase View"
 msgstr "Vue type poursuite"
 
-#: ball/st_help.c:126
+#: ball/st_help.c:132
 msgid "Lazy View"
 msgstr "Vue paresseuse"
 
-#: ball/st_help.c:127
+#: ball/st_help.c:133
 msgid "Manual View"
 msgstr "Vue manuelle"
 
-#: ball/st_help.c:128
+#: ball/st_help.c:134
 msgid "Show FPS"
 msgstr "Afficher FPS"
 
-#: ball/st_help.c:129
+#: ball/st_help.c:135
 msgid "Screenshot"
 msgstr "Captures"
 
-#: ball/st_help.c:130
+#: ball/st_help.c:136
 msgid "Toggle Fullscreen"
 msgstr "Plein écran/fenétré"
 
-#: ball/st_help.c:132
+#: ball/st_help.c:138
 msgid "Spacebar"
 msgstr "Espace"
 
-#: ball/st_help.c:133
+#: ball/st_help.c:139
 msgid "Escape"
 msgstr "Échappe"
 
-#: ball/st_help.c:235 ball/st_help.c:240
-msgid " \\ \\ \\ \\ "
-msgstr " \\ \\ \\ \\ "
+#: ball/st_help.c:241
+msgid ""
+"Such goals will transport\\you to either a secret level\\or a level further "
+"in the set.\\You'll have to find them.\\"
+msgstr ""
 
-#: ball/st_help.c:280
-msgid "Lead Maintainer"
-msgstr "Mainteneur principal"
-
-#: ball/st_help.c:286
-msgid "Developers"
-msgstr "Développeurs"
-
-#: ball/st_help.c:292
-msgid "Level Contribution"
-msgstr "Contribition des niveaux"
-
-#: ball/st_help.c:300
-msgid "Translation"
-msgstr "Traductions"
+#: ball/st_help.c:246
+msgid ""
+"Angled acceleration works \\in Neverball like in\\some Doom-like games."
+"\\Best use with the manual view.\\ "
+msgstr ""
 
 #: ball/st_level.c:46
 msgid "Single Level"
@@ -1553,6 +1541,24 @@ msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
 msgstr "Il y a plein de pièces ici si vous\\prenez le temps de les ramasser.\\"
+
+#~ msgid "Credits"
+#~ msgstr "Crédits"
+
+#~ msgid " \\ \\ \\ \\ "
+#~ msgstr " \\ \\ \\ \\ "
+
+#~ msgid "Lead Maintainer"
+#~ msgstr "Mainteneur principal"
+
+#~ msgid "Developers"
+#~ msgstr "Développeurs"
+
+#~ msgid "Level Contribution"
+#~ msgstr "Contribition des niveaux"
+
+#~ msgid "Translation"
+#~ msgstr "Traductions"
 
 #~ msgid "Level"
 #~ msgstr "Niveau"
