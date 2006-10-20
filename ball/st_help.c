@@ -232,15 +232,15 @@ static int help3_enter(void)
 static int help4_enter(void)
 {
     const char *s0 = _(
-            " \\"
-            " \\"
-            " \\"
-            " \\ ");
+            "Such goals will transport\\"
+            "you to either a secret level\\"
+            "or a level further in the set.\\"
+	    "You'll have to find them.\\");
     const char *s1 = _(
-            " \\"
-            " \\"
-            " \\"
-            " \\ ");
+            "Angled acceleration works \\"
+            "in Neverball like in\\"
+            "some Doom-like games.\\"
+            "Best use with the manual view.\\ ");
 
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
