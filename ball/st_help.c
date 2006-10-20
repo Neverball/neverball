@@ -28,12 +28,11 @@
 #define HELP_CONT   3
 #define HELP_MODE   4
 #define HELP_SECR   5
-#define HELP_CRED   6
 
-extern struct state st_help2;
-extern struct state st_help3;
-extern struct state st_help4;
-extern struct state st_help5;
+struct state st_help_rules;
+struct state st_help_controls;
+struct state st_help_modes;
+struct state st_help_secrets;
 
 static int help_action(int i)
 {
@@ -42,11 +41,10 @@ static int help_action(int i)
     switch (i)
     {
         case HELP_BACK: return goto_state(&st_title);
-        case HELP_RULE: return goto_state(&st_help);
-        case HELP_CONT: return goto_state(&st_help2);
-        case HELP_MODE: return goto_state(&st_help3);
-        case HELP_SECR: return goto_state(&st_help4);
-        case HELP_CRED: return goto_state(&st_help5);
+        case HELP_RULE: return goto_state(&st_help_rules);
+        case HELP_CONT: return goto_state(&st_help_controls);
+        case HELP_MODE: return goto_state(&st_help_modes);
+        case HELP_SECR: return goto_state(&st_help_secrets);
     }
     return 1;
 }
@@ -54,29 +52,37 @@ static int help_action(int i)
 static int help_button(int id, const char *text, int token, int atoken)
 {
     int kd = gui_state(id, text, GUI_SML, token, token == atoken);
+
     if (token == atoken)
         gui_focus(kd);
+
     return kd;
 }
 
 static int help_menu(int id, int i)
 {
     int jd;
+
     gui_filler(id);
     if ((jd = gui_harray(id)))
     {
-        help_button(jd, _("Credits"),     HELP_CRED, i);
-        help_button(jd, _("Secrets"),     HELP_SECR, i);
-        help_button(jd, _("Modes"),       HELP_MODE, i);
-        help_button(jd, _("Controls"),    HELP_CONT, i);
-        help_button(jd, _("Rules"),       HELP_RULE, i);
-        help_button(jd, _("Back"),        HELP_BACK, i);
+        help_button(jd, _("Secrets"),  HELP_SECR, i);
+        help_button(jd, _("Modes"),    HELP_MODE, i);
+        help_button(jd, _("Controls"), HELP_CONT, i);
+        help_button(jd, _("Rules"),    HELP_RULE, i);
+        help_button(jd, _("Back"),     HELP_BACK, i);
     }
     gui_filler(id);
     return jd;
 }
 
-static int help1_enter(void)
+static int help_enter(void)
+{
+    goto_state(&st_help_rules);
+    return 0;
+}
+
+static int help_rules_enter(void)
 {
     const char *s0 = _(
             "Move the mouse or joystick\\"
@@ -116,7 +122,7 @@ static int help1_enter(void)
     return id;
 }
 
-static int help2_enter(void)
+static int help_controls_enter(void)
 {
     const char *s4 = _("Left and right mouse buttons rotate the view.");
     const char *s5 = _("Hold Shift for faster view rotation.");
@@ -194,7 +200,7 @@ static int help2_enter(void)
     return id;
 }
 
-static int help3_enter(void)
+static int help_modes_enter(void)
 {
     int id;
 
@@ -229,13 +235,13 @@ static int help3_enter(void)
 
 }
 
-static int help4_enter(void)
+static int help_secrets_enter(void)
 {
     const char *s0 = _(
             "Such goals will transport\\"
             "you to either a secret level\\"
             "or a level further in the set.\\"
-	    "You'll have to find them.\\");
+            "You'll have to find them.\\");
     const char *s1 = _(
             "Angled acceleration works \\"
             "in Neverball like in\\"
@@ -269,45 +275,6 @@ static int help4_enter(void)
     return id;
 }
 
-static int help5_enter(void)
-{
-    int id;
-
-    if ((id = gui_vstack(0)))
-    {
-        help_menu(id, HELP_CRED);
-
-        gui_label(id, _("Lead Maintainer"), GUI_SML, GUI_TOP, 0, 0);
-        gui_label(id, "Robert Kooima <robert.kooima@gmail.com>",
-                  GUI_SML, GUI_BOT , gui_wht, gui_wht);
-
-        gui_space(id);
-
-        gui_label(id, _("Developers"), GUI_SML, GUI_TOP, 0, 0);
-        gui_label(id, "Robert Kooima, Jean Privat",
-                  GUI_SML, GUI_BOT , gui_wht, gui_wht);
-
-        gui_space(id);
-
-        gui_label(id, _("Level Contribution"), GUI_SML, GUI_TOP, 0, 0);
-        gui_multi(id,
-                  "Robert Kooima, Jean Privat, Jānis Rūcis,\\"
-                  "Paul Tompkins, Mehdi Yousfi-Monod",
-                  GUI_SML, GUI_BOT , gui_wht, gui_wht);
-
-        gui_space(id);
-
-        gui_label(id, _("Translation"), GUI_SML, GUI_TOP, 0, 0);
-        gui_multi(id,
-                  "French: Jean Privat, Mehdi Yousfi-Monod;\\"
-                  "German: Georg Wachter; Latvian: Jānis Rūcis",
-                  GUI_SML, GUI_BOT , gui_wht, gui_wht);
-
-        gui_layout(id, 0, +1);
-    }
-    return id;
-}
-
 static int help_buttn(int b, int d)
 {
     if (d)
@@ -323,7 +290,20 @@ static int help_buttn(int b, int d)
 /*---------------------------------------------------------------------------*/
 
 struct state st_help = {
-    help1_enter,
+    help_enter,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    1, 0
+};
+
+struct state st_help_rules = {
+    help_rules_enter,
     shared_leave,
     shared_paint,
     shared_timer,
@@ -335,8 +315,8 @@ struct state st_help = {
     1, 0
 };
 
-struct state st_help2 = {
-    help2_enter,
+struct state st_help_controls = {
+    help_controls_enter,
     shared_leave,
     shared_paint,
     shared_timer,
@@ -348,8 +328,8 @@ struct state st_help2 = {
     1, 0
 };
 
-struct state st_help3 = {
-    help3_enter,
+struct state st_help_modes = {
+    help_modes_enter,
     shared_leave,
     shared_paint,
     shared_timer,
@@ -361,8 +341,8 @@ struct state st_help3 = {
     1, 0
 };
 
-struct state st_help4 = {
-    help4_enter,
+struct state st_help_secrets = {
+    help_secrets_enter,
     shared_leave,
     shared_paint,
     shared_timer,
@@ -374,15 +354,3 @@ struct state st_help4 = {
     1, 0
 };
 
-struct state st_help5 = {
-    help5_enter,
-    shared_leave,
-    shared_paint,
-    shared_timer,
-    shared_point,
-    shared_stick,
-    shared_click,
-    NULL,
-    help_buttn,
-    1, 0
-};
