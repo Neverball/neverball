@@ -327,7 +327,7 @@ void demo_unique(char *name)
 
     for (i = 1; i < 100; i++)
     {
-        sprintf(name, _("replay%02d"), i);
+        sprintf(name, "replay%02d", i);
 
         if (!demo_exists(name))
             return;
