@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-10-20 18:32+0300\n"
+"POT-Creation-Date: 2006-10-21 15:38+0300\n"
 "PO-Revision-Date: 2006-07-16 20:08+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -16,11 +16,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-
-#: ball/demo.c:330
-#, c-format
-msgid "replay%02d"
-msgstr "ieraksts%02d"
 
 #: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:175 ball/st_play_end.c:190
 msgid "Coins"
@@ -1420,6 +1415,9 @@ msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
 msgstr ""
+
+#~ msgid "replay%02d"
+#~ msgstr "ieraksts%02d"
 
 #~ msgid "Level"
 #~ msgstr "Līmenis"
