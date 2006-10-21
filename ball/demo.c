@@ -401,15 +401,16 @@ int demo_play_saved(void)
 
 void demo_play_save(const char *name)
 {
-    char src[PATHMAX];
-    char dst[PATHMAX];
+    char src[MAXSTR];
+    char dst[MAXSTR];
 
-    if (name && demo_exists(USER_REPLAY_FILE)
-        && strcmp(name, USER_REPLAY_FILE) != 0)
+    if (name &&
+        demo_exists(USER_REPLAY_FILE) &&
+        strcmp(name, USER_REPLAY_FILE) != 0)
     {
-        strncpy(src, config_user(USER_REPLAY_FILE), PATHMAX);
+        strcpy(src, config_user(USER_REPLAY_FILE));
         strcat(src, REPLAY_EXT);
-        strncpy(dst, config_user(name), PATHMAX);
+        strcpy(dst, config_user(name));
         strcat(dst, REPLAY_EXT);
 
 #ifdef _WIN32
