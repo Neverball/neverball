@@ -217,7 +217,8 @@ static int help_modes_enter(void)
         gui_space(id);
 
         gui_label(id, _("Practice"), GUI_SML, GUI_TOP, 0, 0);
-        gui_multi(id, "Play a level without time or coin constraint.",
+        gui_multi(id, "Play a level without time or coin constraint.\\"
+			"Levels cannot be unlocked in this mode.",
                   GUI_SML, GUI_BOT, gui_wht, gui_wht);
 
         gui_space(id);
@@ -238,9 +239,9 @@ static int help_modes_enter(void)
 static int help_secrets_enter(void)
 {
     const char *s0 = _(
-            "Such goals will transport\\"
-            "you to either a secret level\\"
-            "or a level further in the set.\\"
+            "In challenge mode, such goals\\"
+	    "will transport you to\\"
+	    "somewhere... unusual.\\"
             "You'll have to find them.\\");
     const char *s1 = _(
             "Angled acceleration works \\"
