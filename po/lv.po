@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-10-21 15:38+0300\n"
-"PO-Revision-Date: 2006-07-16 20:08+0300\n"
+"PO-Revision-Date: 2006-10-22 14:49+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Spēku pārbaude"
 
 #: ball/level.c:215 ball/st_help.c:211 ball/st_start.c:248
 msgid "Normal"
-msgstr "Normāls"
+msgstr "Normālais"
 
 #: ball/level.c:216 ball/st_help.c:219 ball/st_start.c:246
 msgid "Practice"
@@ -353,43 +353,51 @@ msgstr "Mainīt spēlētāja vārdu"
 
 #: ball/st_help.c:69
 msgid "Secrets"
-msgstr ""
+msgstr "Noslēpumi"
 
 #: ball/st_help.c:70
 msgid "Modes"
-msgstr ""
+msgstr "Režīmi"
 
 #: ball/st_help.c:71
 msgid "Controls"
-msgstr ""
+msgstr "Vadība"
 
 #: ball/st_help.c:72
 msgid "Rules"
-msgstr ""
+msgstr "Noteikumi"
 
 #: ball/st_help.c:88
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\ "
 msgstr ""
+"Kustini peli vai vadības sviru,\\"
+"vai izmanto bultiņas uz\\"
+"tastatūras, lai liektu grīdu,\\"
+"liekot bumbai ripot.\\ "
 
 #: ball/st_help.c:93
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\ "
 msgstr ""
+"Ripinies pāri monētām, lai\\"
+"savāktu tās. Vāc monētas,\\"
+"lai atslēgtu mērķi un\\"
+"pabeigtu līmeni.\\ "
 
 #: ball/st_help.c:127
 msgid "Left and right mouse buttons rotate the view."
-msgstr ""
+msgstr "Kreisā un labā peles poga groza skatu."
 
 #: ball/st_help.c:128
 msgid "Hold Shift for faster view rotation."
-msgstr ""
+msgstr "Pieturi Shift ātrākai skata grozīšanai."
 
 #: ball/st_help.c:129
 msgid "Pause / Release Pointer"
-msgstr ""
+msgstr "Pauze / Atbrīvot kursoru"
 
 #: ball/st_help.c:130
 msgid "Exit / Cancel Menu"
