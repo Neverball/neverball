@@ -27,9 +27,17 @@
 
 #define VERSION       "1.4.1svn"      /* Game version */
 
+#ifndef CONFIG_DATA
 #define CONFIG_DATA   "./data"        /* Game data directory */
+#endif
+
+#ifndef CONFIG_LOCALE
 #define CONFIG_LOCALE "./locale"      /* Game localisation */
+#endif
+
+#ifndef CONFIG_USER
 #define CONFIG_USER   ".neverball-dev"    /* User config directory */
+#endif
 
 /*
  * Global settings are stored in USER_CONFIG_FILE.  Replays are stored
