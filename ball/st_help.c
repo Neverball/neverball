@@ -66,7 +66,7 @@ static int help_menu(int id, int i)
     gui_filler(id);
     if ((jd = gui_harray(id)))
     {
-        help_button(jd, _("Secrets"),  HELP_SECR, i);
+        help_button(jd, _("Techniques"),  HELP_SECR, i);
         help_button(jd, _("Modes"),    HELP_MODE, i);
         help_button(jd, _("Controls"), HELP_CONT, i);
         help_button(jd, _("Rules"),    HELP_RULE, i);
@@ -239,15 +239,15 @@ static int help_modes_enter(void)
 static int help_secrets_enter(void)
 {
     const char *s0 = _(
-            "In challenge mode, such goals\\"
-	    "will transport you to\\"
-	    "somewhere... unusual.\\"
-            "You'll have to find them.\\");
+            "Corners can be used to jump.\\"
+	    "Take a spring and take aim\\"
+	    "at the angle. You may be able\\"
+            "to reach new places.\\");
     const char *s1 = _(
-            "Angled acceleration works \\"
-            "in Neverball like in\\"
-            "some Doom-like games.\\"
-            "Best use with the manual view.\\ ");
+            "Tiliting in 2 directions increases\\"
+	    "the slope. Use the manual view\\"
+            "and turn the camera by 45°\\"
+            "for best use.\\ ");
 
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
