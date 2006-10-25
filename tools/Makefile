@@ -17,3 +17,6 @@ $(DEMOCONV): $(DEMOCONV_OBJS)
 
 clean :
 	$(RM) $(DEMOCONV) $(DEMOCONV_OBJS)
+
+win :
+	$(MAKE) DEMOCONV=democonv.exe
