@@ -2565,7 +2565,6 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "-248 184 920"
-"skip" "1"
 }
 // entity 3
 {

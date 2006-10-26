@@ -1373,5 +1373,4 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "2816 4608 -328"
-"skip" "1"
 }

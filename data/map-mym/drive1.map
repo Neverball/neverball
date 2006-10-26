@@ -1226,5 +1226,4 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "0 4864 76"
-"skip" "1"
 }
