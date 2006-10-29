@@ -218,7 +218,7 @@ static int help_modes_enter(void)
 
         gui_label(id, _("Practice"), GUI_SML, GUI_TOP, 0, 0);
         gui_multi(id, "Play without time limit or coin constraint.\\"
-			"Levels cannot be unlocked in this mode.",
+                        "Levels cannot be unlocked in this mode.",
                   GUI_SML, GUI_BOT, gui_wht, gui_wht);
 
         gui_space(id);
@@ -240,13 +240,13 @@ static int help_secrets_enter(void)
 {
     const char *s0 = _(
             "Corners can be used to jump.\\"
-	    "Get rolling and take aim\\"
-	    "at the angle. You may be able\\"
+            "Get rolling and take aim\\"
+            "at the angle. You may be able\\"
             "to reach new places.\\");
     const char *s1 = _(
-            "Tiliting in 2 directions increases\\"
-	    "the slope. Use the manual view\\"
-            "and turn the camera by 45°\\"
+            "Tilting in 2 directions increases\\"
+            "the slope. Use the manual view\\"
+            "and turn the camera by 45 degrees\\"
             "for best results.\\ ");
 
     int w = config_get_d(CONFIG_WIDTH);
