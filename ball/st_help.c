@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2003 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
@@ -210,14 +210,14 @@ static int help_modes_enter(void)
 
         gui_label(id, _("Normal"), GUI_SML, GUI_TOP, 0, 0);
         gui_multi(id,
-                  "Finish a level before the time run out.\\"
+                  "Finish a level before the time runs out.\\"
                   "You need to collect coins in order to open the goal.",
                   GUI_SML, GUI_BOT, gui_wht, gui_wht);
 
         gui_space(id);
 
         gui_label(id, _("Practice"), GUI_SML, GUI_TOP, 0, 0);
-        gui_multi(id, "Play a level without time or coin constraint.\\"
+        gui_multi(id, "Play without time limit or coin constraint.\\"
 			"Levels cannot be unlocked in this mode.",
                   GUI_SML, GUI_BOT, gui_wht, gui_wht);
 
@@ -225,7 +225,7 @@ static int help_modes_enter(void)
 
         gui_label(id, _("Challenge"), GUI_SML, GUI_TOP, 0, 0);
         gui_multi(id,
-                  "Start playing from the first level of the level set.\\"
+                  "Start playing from the first level of the set.\\"
                   "You start with only four balls, do not lose them.\\"
                   "Earn an extra ball for each 100 coins collected.",
                   GUI_SML, GUI_BOT, gui_wht, gui_wht);
@@ -240,14 +240,14 @@ static int help_secrets_enter(void)
 {
     const char *s0 = _(
             "Corners can be used to jump.\\"
-	    "Take a spring and take aim\\"
+	    "Get rolling and take aim\\"
 	    "at the angle. You may be able\\"
             "to reach new places.\\");
     const char *s1 = _(
             "Tiliting in 2 directions increases\\"
 	    "the slope. Use the manual view\\"
             "and turn the camera by 45°\\"
-            "for best use.\\ ");
+            "for best results.\\ ");
 
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
