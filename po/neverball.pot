@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-10-21 15:38+0300\n"
+"POT-Creation-Date: 2006-11-03 00:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Not a valid level file"
 msgstr ""
 
-#: ball/level.c:214 ball/st_help.c:225 ball/st_start.c:256
+#: ball/level.c:214 ball/st_help.c:226 ball/st_start.c:256
 msgid "Challenge"
 msgstr ""
 
@@ -87,11 +87,6 @@ msgstr ""
 
 #: ball/level.c:232
 msgid "Fall-out"
-msgstr ""
-
-#: ball/main.c:58
-#, c-format
-msgid "screen%02d.png"
 msgstr ""
 
 #: ball/main.c:233
@@ -343,7 +338,7 @@ msgid "Change Player Name"
 msgstr ""
 
 #: ball/st_help.c:69
-msgid "Secrets"
+msgid "Techniques"
 msgstr ""
 
 #: ball/st_help.c:70
@@ -418,16 +413,16 @@ msgstr ""
 msgid "Escape"
 msgstr ""
 
-#: ball/st_help.c:241
+#: ball/st_help.c:242
 msgid ""
-"Such goals will transport\\you to either a secret level\\or a level further "
-"in the set.\\You'll have to find them.\\"
+"Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
+"may be able\\to reach new places.\\"
 msgstr ""
 
-#: ball/st_help.c:246
+#: ball/st_help.c:247
 msgid ""
-"Angled acceleration works \\in Neverball like in\\some Doom-like games."
-"\\Best use with the manual view.\\ "
+"Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
+"the camera by 45 degrees\\for best results.\\ "
 msgstr ""
 
 #: ball/st_level.c:46
@@ -720,11 +715,11 @@ msgstr ""
 msgid "Sound disabled\n"
 msgstr ""
 
-#: share/base_config.h:42
+#: share/base_config.h:50
 msgid "Last"
 msgstr ""
 
-#: share/base_config.h:78
+#: share/base_config.h:86
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr ""
 

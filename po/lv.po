@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-10-21 15:38+0300\n"
+"POT-Creation-Date: 2006-11-03 00:56+0200\n"
 "PO-Revision-Date: 2006-10-22 14:49+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -54,7 +54,7 @@ msgstr "Kļūda, ielādējot līmeņa failu '%s': %s\n"
 msgid "Not a valid level file"
 msgstr "nederīgs līmeņa fails"
 
-#: ball/level.c:214 ball/st_help.c:225 ball/st_start.c:256
+#: ball/level.c:214 ball/st_help.c:226 ball/st_start.c:256
 msgid "Challenge"
 msgstr "Spēku pārbaude"
 
@@ -89,11 +89,6 @@ msgstr "Veiksmīgs"
 #: ball/level.c:232
 msgid "Fall-out"
 msgstr "Kritiens"
-
-#: ball/main.c:58
-#, c-format
-msgid "screen%02d.png"
-msgstr "attēls%02d.png"
 
 #: ball/main.c:233
 #, fuzzy, c-format
@@ -352,8 +347,8 @@ msgid "Change Player Name"
 msgstr "Mainīt spēlētāja vārdu"
 
 #: ball/st_help.c:69
-msgid "Secrets"
-msgstr "Noslēpumi"
+msgid "Techniques"
+msgstr ""
 
 #: ball/st_help.c:70
 msgid "Modes"
@@ -372,20 +367,16 @@ msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\ "
 msgstr ""
-"Kustini peli vai vadības sviru,\\"
-"vai izmanto bultiņas uz\\"
-"tastatūras, lai liektu grīdu,\\"
-"liekot bumbai ripot.\\ "
+"Kustini peli vai vadības sviru,\\vai izmanto bultiņas uz\\tastatūras, lai "
+"liektu grīdu,\\liekot bumbai ripot.\\ "
 
 #: ball/st_help.c:93
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\ "
 msgstr ""
-"Ripinies pāri monētām, lai\\"
-"savāktu tās. Vāc monētas,\\"
-"lai atslēgtu mērķi un\\"
-"pabeigtu līmeni.\\ "
+"Ripinies pāri monētām, lai\\savāktu tās. Vāc monētas,\\lai atslēgtu mērķi un"
+"\\pabeigtu līmeni.\\ "
 
 #: ball/st_help.c:127
 msgid "Left and right mouse buttons rotate the view."
@@ -435,16 +426,16 @@ msgstr ""
 msgid "Escape"
 msgstr ""
 
-#: ball/st_help.c:241
+#: ball/st_help.c:242
 msgid ""
-"Such goals will transport\\you to either a secret level\\or a level further "
-"in the set.\\You'll have to find them.\\"
+"Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
+"may be able\\to reach new places.\\"
 msgstr ""
 
-#: ball/st_help.c:246
+#: ball/st_help.c:247
 msgid ""
-"Angled acceleration works \\in Neverball like in\\some Doom-like games."
-"\\Best use with the manual view.\\ "
+"Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
+"the camera by 45 degrees\\for best results.\\ "
 msgstr ""
 
 #: ball/st_level.c:46
@@ -742,11 +733,11 @@ msgstr "Gala rezultāti"
 msgid "Sound disabled\n"
 msgstr "Nav skaņas\n"
 
-#: share/base_config.h:42
+#: share/base_config.h:50
 msgid "Last"
 msgstr "Pēdējais"
 
-#: share/base_config.h:78
+#: share/base_config.h:86
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr "ttf/DejaVuSans-Bold.ttf"
 
@@ -1423,6 +1414,12 @@ msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
 msgstr ""
+
+#~ msgid "screen%02d.png"
+#~ msgstr "attēls%02d.png"
+
+#~ msgid "Secrets"
+#~ msgstr "Noslēpumi"
 
 #~ msgid "replay%02d"
 #~ msgstr "ieraksts%02d"
