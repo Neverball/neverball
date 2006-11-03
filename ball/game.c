@@ -65,7 +65,6 @@ static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
-static int   drawball = 1;              /* Should the ball be drawn?         */
 static int   ball_b = 0;                /* Is the ball a bonus ball?         */
 
 static int   grow = 0;                  /* Should the ball be changing size? */
@@ -544,6 +543,7 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
             {
                 part_draw_coin(-rx * d, -ry);
                 game_draw_items(&file);
+                game_draw_balls(&file);
             }
             game_draw_goals(&file, -rx * d, -ry);
             game_draw_jumps(&file);
