@@ -465,7 +465,7 @@ int demo_replay_init(const char *name, struct level_game *lg)
             lg->goal = demo_replay.goal;
 
             /* A normal replay demo */
-            audio_music_fade_to(0.5f, demo_replay.song);
+            audio_music_fade_to(0.5f, demo_level_replay.song);
             return game_init(&demo_level_replay, demo_replay.time,
                              demo_replay.goal);
         }

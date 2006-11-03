@@ -450,9 +450,8 @@ static void demo_end_timer(int id, float dt)
         if (replay_time < global_time)
         {
             /* The demo is finished, let the ball go */
-            if (state != GAME_NONE)
-                game_step((state == GAME_GOAL || state == GAME_SPEC) ? gg : gf,
-                          dt, NULL);
+            if (state != GAME_NONE && state != GAME_TIME)
+                game_step(state == GAME_GOAL ? gg : gf, dt, NULL);
         }
         else
         {

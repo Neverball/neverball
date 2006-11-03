@@ -292,8 +292,11 @@ static void play_end_timer(int id, float dt)
 
     DT += dt;
 
-    if (time_state() < 2.f)
-        game_step((state == GAME_GOAL || state == GAME_SPEC) ? gg : gf, dt, NULL);
+    if (state != GAME_TIME)
+    {
+        if (time_state() < 2.f)
+            game_step(state == GAME_GOAL ? gg : gf, dt, NULL);
+    }
 
     if (time_state() > 1.f && DT > 0.05f && coins_id != 0)
     {
