@@ -66,7 +66,7 @@
 #define MAXH    1024
 #define MAXZ    16
 #define MAXJ    32
-#define MAXX    16
+#define MAXX    256
 #define MAXR    1024
 #define MAXU    16
 #define MAXW    32
