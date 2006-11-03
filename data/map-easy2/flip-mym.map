@@ -11,7 +11,7 @@
 "song" "bgm/track2.ogg"
 "time" "59999"
 "goal" "0"
-"message" "Thus Neverball is a puzzle game ?\Remove the red to unloack the goal.\Each trigger switches colors in direct contact."
+"message" "Thus Neverball is a puzzle game ?\Remove the red to unlock the goal.\Each trigger switches colors in direct contact."
 // brush 0
 {
 ( 192 320 0 ) ( 192 192 0 ) ( 64 192 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
