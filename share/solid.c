@@ -907,7 +907,9 @@ static void sol_body_step(struct s_file *fp, float dt)
 
             if (bp->t >= pp->t)
             {
-                bp->t -= pp->t;
+/* TODO: Confirm that this fixes the repeated path inaccuracy.               */
+/*              bp->t -= pp->t;                                              */
+                bp->t  = 0;
                 bp->pi = pp->pi;
             }
         }
