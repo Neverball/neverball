@@ -67,17 +67,12 @@ static int set_action(int i)
 
 static void gui_set(int id, int i)
 {
-    const struct set *s = get_set(i);
-    int jd;
+    const struct set *s;
 
-    if (set_completed(s))
-        jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_yel, gui_wht);
-    else if (set_unlocked(s))
-        jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_grn, gui_wht);
+    if ((s = get_set(i)))
+        gui_state(id, _(s->name), GUI_SML, i, 0);
     else
-        jd = gui_label(id, _(s->name), GUI_SML, GUI_ALL, gui_wht, gui_wht);
-
-    gui_active(jd, i, 0);
+        gui_label(id, "", GUI_SML, GUI_ALL, 0, 0);
 }
 
 static int set_enter(void)
@@ -117,13 +112,8 @@ static int set_enter(void)
 
             if ((kd = gui_varray(jd)))
             {
-                /* Display sets */
-                for (i = b * SET_GROUP; i < (b + 1) * SET_GROUP && set_exists(i); i++)
+                for (i = b * SET_GROUP; i < (b + 1) * SET_GROUP; i++)
                     gui_set(kd, i);
-
-                /* Display empty slots */
-                for(; i < (b + 1) * SET_GROUP; i++)
-                    gui_filler(kd);
             }
         }
 
