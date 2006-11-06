@@ -154,13 +154,13 @@ static void set_load_hs(void)
     }
 }
 
-/* Remove trailing \n if any */
-
-static char *chomp(char *str)
+static char *strip_eol(char *str)
 {
-    char *p = str + strlen(str) - 1;
-    if (p >= str && *p == '\n')
-        *p = 0;
+    char *c = str + strlen(str) - 1;
+
+    while (c >= str && (*c == '\n' || *c =='\r'))
+        *c-- = '\0';
+
     return str;
 }
 
@@ -191,13 +191,13 @@ static int set_load(struct set *s, const char *filename)
     strcpy(s->file, filename);
 
     if ((res = fgets(buf, MAXSTR, fin) != NULL))
-        strcpy(s->name, chomp(buf));
+        strcpy(s->name, strip_eol(buf));
     if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
-        strcpy(s->desc, chomp(buf));
+        strcpy(s->desc, strip_eol(buf));
     if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
-        strcpy(s->setname, chomp(buf));
+        strcpy(s->setname, strip_eol(buf));
     if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
-        strcpy(s->shot, chomp(buf));
+        strcpy(s->shot, strip_eol(buf));
     if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
         sscanf(buf, "%d %d %d %d %d %d",
                 &s->time_score.timer[0],
@@ -264,7 +264,7 @@ void set_init()
     {
         while (count < MAXSET && fgets(filename, MAXSTR, fin))
         {
-            chomp(filename);
+            strip_eol(filename);
             set = &(set_v[count]);
 
             if (set_load(set, filename))
