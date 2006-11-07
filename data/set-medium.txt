@@ -21,9 +21,9 @@ map-medium/coneskeleton-mym.sol
 map-medium/spiraldn.sol
 map-medium/zigzag.sol
 map-medium/timer.sol
-map-medium/angle.sol
-map-medium/woodmaze-mym.sol
 map-medium/spiralup.sol
+map-medium/woodmaze-mym.sol
+map-medium/angle.sol
 map-medium/rampdn.sol
 map-medium/islands.sol
 map-medium/plinko.sol
