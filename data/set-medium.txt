@@ -1,30 +1,30 @@
-Neverball Easy 2
-Difficulty: A second set of easy levels.\\\Work in progress.\\
-easy2
-shot-easy2/roundlaby-mym.jpg
+Neverball Medium
+Difficulty: A set of levels for intermediate players.\\\Work in progress.\\
+medium
+shot-easy2/marblecurves-mym.jpg
 
-map-easy2/slightcurve-mym.sol
-map-easy2/roundlaby-mym.sol
-map-easy2/speedbumps-mym.sol
-map-easy2/cross-para.sol
-map-easy2/marblecurves-mym.sol
-map-easy2/slalom-jp.sol
-map-easy2/easyhalfpipe-mym.sol
-map-easy2/hurdles-ton.sol
-map-easy2/canals-ton.sol
-map-easy2/groundbreak-para.sol
-map-easy2/elevator-jp.sol
-map-easy2/stairs-jp.sol
-map-easy2/billiard-paul.sol
-map-easy2/paths-paul.sol
-map-easy2/ocean-paul.sol
-map-easy2/checkers-paul.sol
-map-easy2/thwomp2-paul.sol
-map-easy2/sparselines-mym.sol
-map-easy2/roundncoins-mym.sol
-map-easy2/roundfloors-mym.sol
-map-easy2/coneskeleton-mym.sol
-map-easy2/lollipop-dave.sol
-map-easy2/nostairs-para.sol
-map-easy2/groweasy-dave.sol
-map-easy2/grow_demo-dave.sol
+map-medium/marblecurves-mym.sol
+map-medium/elevator-jp.sol
+map-medium/telemaze.sol
+map-medium/locks.sol
+map-medium/roundfloors-mym.sol
+map-medium/bumps.sol
+map-medium/pyramid-ton.sol
+map-medium/easytele.sol
+map-medium/cross-para.sol
+map-medium/learngrow-mym.sol
+map-medium/sparselines-mym.sol
+map-medium/four.sol
+map-medium/stairs.sol
+map-medium/drops.sol
+map-medium/coneskeleton-mym.sol
+map-medium/spiraldn.sol
+map-medium/zigzag.sol
+map-medium/timer.sol
+map-medium/angle.sol
+map-medium/woodmaze-mym.sol
+map-medium/spiralup.sol
+map-medium/rampdn.sol
+map-medium/islands.sol
+map-medium/plinko.sol
+map-medium/title.sol
