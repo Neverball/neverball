@@ -1,6 +1,13 @@
 // entity 0
 {
+"version" "1"
+"goal" "10"
+"time" "10000"
+"song" "bgm/track2.ogg"
+"shot" "shot-easy2/hurdles-ton.jpg"
 "classname" "worldspawn"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
 // brush 0
 {
 ( -584 -328 0 ) ( -584 -328 8 ) ( 72 -328 8 ) mtrl/invisible 0 0 -180 0.500000 -0.500000 0 1 0

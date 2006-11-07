@@ -10,14 +10,14 @@ map-easy/fence.sol
 map-easy/goals.sol
 map-easy/slightcurve-mym.sol
 map-easy/slalom-jp.sol
-map-easy/goslow.sol
 map-easy/hurdles-ton.sol
-map-easy/groundbreak-para.sol
+map-easy/goslow.sol
+map-easy/thwomp2-paul.sol
 map-easy/roundlaby-mym.sol
 map-easy/speedbumps-mym.sol
 map-easy/maze.sol
 map-easy/canals-ton.sol
-map-easy/thwomp2-paul.sol
+map-easy/groundbreak-para.sol
 map-easy/easyhalfpipe-mym.sol
 map-easy/bumper.sol
 map-easy/hole.sol
