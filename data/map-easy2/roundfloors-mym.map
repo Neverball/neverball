@@ -12,7 +12,7 @@
 "song" "bgm/track2.ogg"
 "time" "12000"
 "goal" "0"
-"special" "1"
+"bonus" "1"
 
 "time_hs" " "
 "coin_hs" " "

@@ -15,7 +15,7 @@
 "time_hs" " "
 "coin_hs" " "
 "message" "Let's go for a swim...\all the coins are fully submerged.\"
-"special" "1"
+"bonus" "1"
 // brush 0
 {
 ( 184 -104 -12 ) ( 184 -328 -12 ) ( -128 -104 -12 ) mtrl/turf-green-dark 0 0 0 0.5 0.5 0 0 0

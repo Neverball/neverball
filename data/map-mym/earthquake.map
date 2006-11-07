@@ -16,7 +16,7 @@
 "coin_hs"   "118 90"
 "message" "Le passage incertain.\Isn't too easy?"
 
-"special" "1"
+"bonus" "1"
 }
 // entity 1
 {

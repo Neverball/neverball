@@ -17,7 +17,7 @@
 "coin_hs"   "240 160"
 "message" "Préparez un petit sac.\The stomach-tester."
 
-"special" "1"
+"bonus" "1"
 
 // brush 0
 {

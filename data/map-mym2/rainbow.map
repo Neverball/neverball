@@ -14,7 +14,7 @@
 "time_hs" "12000 14000"
 "coin_hs" "57 50"
 "message" "Rainbow Road.\Make 3 laps to open the goal."
-"special" "1"
+"bonus" "1"
 // brush 0
 {
 ( -128 1472 31 ) ( -128 1408 31 ) ( -128 1408 -1 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0

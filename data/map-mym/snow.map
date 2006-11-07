@@ -1,6 +1,6 @@
 // entity 0
 {
-"special" "1"
+"bonus" "1"
 "message" "La descente rafraîchissante.\Not so fast, not so fast."
 "coin_hs" "100 80"
 "time_hs" "800 1200"

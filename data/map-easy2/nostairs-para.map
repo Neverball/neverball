@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "shot" "shot-easy2/nostairs-para.jpg"
 "levelname" "nostairs-para"
-"special" "1"
+"bonus" "1"
 "song" "bgm/track1.ogg"
 "version" "0.1"
 "back" "map-back/ocean.sol"

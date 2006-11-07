@@ -15,7 +15,7 @@
 "time_hs" "7000 8000"
 "coin_hs" "58 54"
 "message" "Ghost Valley.\Make 3 laps to open the goal."
-"special" "1"
+"bonus" "1"
 // brush 0
 {
 ( -192 4000 -8 ) ( -192 4000 0 ) ( -192 1952 0 ) mtrl/wood-plank 0 0 0 0.5 0.5 0 0 0

@@ -102,7 +102,7 @@ static int level_scan_metadata(struct level *l, char *av)
             strcpy(l->version, v);
         else if (CASE("author"))
             strcpy(l->author, v);
-        else if (CASE("special"))
+        else if (CASE("bonus"))
             l->is_bonus = atoi(v);
 
         c = e;

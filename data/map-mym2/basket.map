@@ -14,7 +14,7 @@
 "time_hs" "3200 5000"
 "coin_hs" "50 30"
 "message" "Street Neverball\Choose your party and score 3 points."
-"special" "1"
+"bonus" "1"
 // brush 0
 {
 ( 480 512 0 ) ( 480 -512 0 ) ( -32 512 0 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
