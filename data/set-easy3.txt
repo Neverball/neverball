@@ -1,8 +1,0 @@
-Neverball Easy 3
-Difficulty: A third set of easy levels.\\\Work in progress.\\
-easy3
-shot-easy2/.jpg
-
-map-easy2/learngrow-mym.sol
-map-easy2/pyramid-ton.sol
-map-easy2/flip-mym.sol
