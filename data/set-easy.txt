@@ -24,7 +24,7 @@ map-easy/hole.sol
 map-easy/corners.sol
 map-easy/roundcoins-mym.sol
 map-easy/greed.sol
-map-easy/lollipop-dave.sol
 map-easy/curved.sol
+map-easy/lollipop-dave.sol
 map-easy/mover.sol
 map-easy/wakka.sol
