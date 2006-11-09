@@ -27,12 +27,12 @@
 #define HELP_RULE   2
 #define HELP_CONT   3
 #define HELP_MODE   4
-#define HELP_SECR   5
+#define HELP_TECH   5
 
 struct state st_help_rules;
 struct state st_help_controls;
 struct state st_help_modes;
-struct state st_help_secrets;
+struct state st_help_techniques;
 
 static int help_action(int i)
 {
@@ -44,7 +44,7 @@ static int help_action(int i)
         case HELP_RULE: return goto_state(&st_help_rules);
         case HELP_CONT: return goto_state(&st_help_controls);
         case HELP_MODE: return goto_state(&st_help_modes);
-        case HELP_SECR: return goto_state(&st_help_secrets);
+        case HELP_TECH: return goto_state(&st_help_techniques);
     }
     return 1;
 }
@@ -66,7 +66,7 @@ static int help_menu(int id, int i)
     gui_filler(id);
     if ((jd = gui_harray(id)))
     {
-        help_button(jd, _("Techniques"),  HELP_SECR, i);
+        help_button(jd, _("Techniques"),  HELP_TECH, i);
         help_button(jd, _("Modes"),    HELP_MODE, i);
         help_button(jd, _("Controls"), HELP_CONT, i);
         help_button(jd, _("Rules"),    HELP_RULE, i);
@@ -236,7 +236,7 @@ static int help_modes_enter(void)
 
 }
 
-static int help_secrets_enter(void)
+static int help_techniques_enter(void)
 {
     const char *s0 = _(
             "Corners can be used to jump.\\"
@@ -256,7 +256,7 @@ static int help_secrets_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        help_menu(id, HELP_SECR);
+        help_menu(id, HELP_TECH);
 
         if ((jd = gui_hstack(id)))
         {
@@ -342,8 +342,8 @@ struct state st_help_modes = {
     1, 0
 };
 
-struct state st_help_secrets = {
-    help_secrets_enter,
+struct state st_help_techniques = {
+    help_techniques_enter,
     shared_leave,
     shared_paint,
     shared_timer,
