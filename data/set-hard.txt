@@ -27,4 +27,4 @@ map-hard/movers.sol
 map-hard/pipe.sol
 map-hard/paths-paul.sol
 map-hard/poker.sol
-map-hard/threeways-mym.sol
+map-hard/hallways-mym.sol
