@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-11-03 00:56+0200\n"
+"POT-Creation-Date: 2006-11-11 23:07+0200\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -56,37 +56,51 @@ msgstr ""
 msgid "Challenge"
 msgstr "Challenge"
 
+#: ball/level.c:214
+#, fuzzy
+msgid "Challenge Mode"
+msgstr "Challenge"
+
 #: ball/level.c:215 ball/st_help.c:211 ball/st_start.c:248
 #, fuzzy
 msgid "Normal"
+msgstr "Ziel"
+
+#: ball/level.c:215
+#, fuzzy
+msgid "Normal Mode"
 msgstr "Ziel"
 
 #: ball/level.c:216 ball/st_help.c:219 ball/st_start.c:246
 msgid "Practice"
 msgstr ""
 
-#: ball/level.c:217
-msgid "Single"
+#: ball/level.c:216
+msgid "Practice Mode"
 msgstr ""
 
-#: ball/level.c:218 ball/level.c:233
+#: ball/level.c:217 ball/level.c:232
 msgid "Unknown"
 msgstr ""
 
-#: ball/level.c:228
+#: ball/level.c:217
+msgid "Unknown Mode"
+msgstr ""
+
+#: ball/level.c:227
 msgid "Aborted"
 msgstr ""
 
-#: ball/level.c:229
+#: ball/level.c:228
 msgid "Time-out"
 msgstr ""
 
-#: ball/level.c:231
+#: ball/level.c:230
 #, fuzzy
 msgid "Success"
 msgstr "Punkte"
 
-#: ball/level.c:232
+#: ball/level.c:231
 #, fuzzy
 msgid "Fall-out"
 msgstr "Rausgefallen!"
@@ -191,11 +205,11 @@ msgstr ""
 msgid "Options"
 msgstr "Optionen"
 
-#: ball/st_conf.c:235 ball/st_demo.c:506 ball/st_save.c:183 putt/st_conf.c:198
+#: ball/st_conf.c:235 ball/st_demo.c:505 ball/st_save.c:183 putt/st_conf.c:198
 msgid "No"
 msgstr "Nein"
 
-#: ball/st_conf.c:236 ball/st_demo.c:507 ball/st_save.c:184 putt/st_conf.c:199
+#: ball/st_conf.c:236 ball/st_demo.c:506 ball/st_save.c:184 putt/st_conf.c:199
 msgid "Yes"
 msgstr "Ja"
 
@@ -329,7 +343,7 @@ msgstr "Behalten"
 msgid "Delete"
 msgstr "Löschen"
 
-#: ball/st_demo.c:502
+#: ball/st_demo.c:501
 msgid "Delete Replay?"
 msgstr "Replay Löschen?"
 
@@ -447,15 +461,11 @@ msgstr ""
 msgid "Single Level"
 msgstr "Nächster Level"
 
-#: ball/st_level.c:61
-msgid "*** BONUS ***"
-msgstr ""
-
-#: ball/st_level.c:66
+#: ball/st_level.c:67
 msgid "Level "
 msgstr "Level "
 
-#: ball/st_level.c:77
+#: ball/st_level.c:80
 msgid "Cannot load the level file."
 msgstr ""
 
@@ -569,7 +579,7 @@ msgstr "Speichern"
 msgid "Overwrite?"
 msgstr "Überschreiben?"
 
-#: ball/st_set.c:108
+#: ball/st_set.c:103
 msgid "Level Set"
 msgstr "Level Set"
 
@@ -739,11 +749,6 @@ msgstr "Gesamtpunkte"
 #, c-format
 msgid "Sound disabled\n"
 msgstr "Sound aus\n"
-
-#: share/base_config.h:50
-#, fuzzy
-msgid "Last"
-msgstr "Letzte"
 
 #: share/base_config.h:86
 msgid "ttf/DejaVuSans-Bold.ttf"
@@ -916,6 +921,12 @@ msgstr ""
 
 #: data/map-easy2/elevator-jp.map
 msgid "Calm and meditation may bring you to the Nirvana."
+msgstr ""
+
+#: data/map-easy2/flip-mym.map
+msgid ""
+"Thus Neverball is a puzzle game ?\\Remove the red to unlock the goal.\\Each "
+"trigger switches colors in direct contact."
 msgstr ""
 
 #: data/map-easy2/grow_demo-dave.map
@@ -1542,6 +1553,10 @@ msgid ""
 "them.\\"
 msgstr ""
 "Hier gibt es mehr als genug Münzen,\\falls du dir die Zeit nehmen willst.\\"
+
+#, fuzzy
+#~ msgid "Last"
+#~ msgstr "Letzte"
 
 #, fuzzy
 #~ msgid "Secrets"
