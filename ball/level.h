@@ -102,7 +102,7 @@ struct level_game
 #define MODE_PRACTICE   3
 #define MODE_SINGLE     4
 
-const char *mode_to_str(int);
+const char *mode_to_str(int, int);
 
 /*---------------------------------------------------------------------------*/
 

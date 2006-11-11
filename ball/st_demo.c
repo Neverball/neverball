@@ -122,15 +122,15 @@ static int gui_demo_status(int id, const struct demo *d)
         noname[MAXNAM - 1] = '\0';
 
         /* Get a long mode */
-        mode = mode_to_str(0);
+        mode = mode_to_str(0, 0);
         j = strlen(mode);
         for (i = 1; i <= MODE_SINGLE; i++)
         {
-            k = strlen(mode_to_str(i));
+            k = strlen(mode_to_str(i, 0));
             if (k > j)
             {
                 j = k;
-                mode = mode_to_str(i);
+                mode = mode_to_str(i, 0);
             }
         }
 
@@ -149,7 +149,7 @@ static int gui_demo_status(int id, const struct demo *d)
     }
     else
     {
-        mode = mode_to_str(d->mode);
+        mode = mode_to_str(d->mode, 0);
         state = state_to_str(d->state);
     }
 
@@ -209,7 +209,7 @@ static void gui_demo_update_status(int i)
     gui_set_label(name_id,   d->name);
     gui_set_label(date_id,   date_to_str(d->date));
     gui_set_label(player_id, d->player);
-    gui_set_label(mode_id,   mode_to_str(d->mode));
+    gui_set_label(mode_id,   mode_to_str(d->mode, 0));
 
     if (d->state == GAME_GOAL || d->state == GAME_SPEC)
         gui_set_color(state_id, gui_grn, gui_grn);

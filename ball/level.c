@@ -207,15 +207,14 @@ void level_dump_info(const struct level *l)
 
 /*---------------------------------------------------------------------------*/
 
-const char *mode_to_str(int m)
+const char *mode_to_str(int m, int l)
 {
     switch (m)
     {
-    case MODE_CHALLENGE: return _("Challenge");
-    case MODE_NORMAL:    return _("Normal");
-    case MODE_PRACTICE:  return _("Practice");
-    case MODE_SINGLE:    return _("Single");
-    default:             return _("Unknown");
+    case MODE_CHALLENGE: return l ? _("Challenge Mode") : _("Challenge");
+    case MODE_NORMAL:    return l ? _("Normal Mode")    : _("Normal");
+    case MODE_PRACTICE:  return l ? _("Practice Mode")  : _("Practice");
+    default:             return l ? _("Unknown Mode")   : _("Unknown");
     }
 }
 
