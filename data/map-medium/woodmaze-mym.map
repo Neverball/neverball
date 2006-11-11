@@ -1,20 +1,20 @@
 // entity 0
 {
+"classname" "worldspawn"
+"author" "Mehdi Yousfi-Monod"
+"contributor" "Craig Cooper"
+"levelname" "woodmaze-mym"
 "bonus" "1"
-"message" ""
-"coin_hs" "60 59 58"
-"time_hs" "3000 6000"
+"message" "lalala"
+"song" "bgm/track4.ogg"
+"shot" "shot-medium/woodmaze-mym.jpg"
+"grad" "back/alien.png"
+"back" "map-back/boxwoodmaze-mym.sol"
 "goal" "0"
 "time" "9000"
-"song" "bgm/track4.ogg"
-"shot" ""
-"grad" "back/land.png"
-"back" "map-back/boxwoodmaze-mym.sol"
+"coin_hs" "60 58"
+"time_hs" "3000 6000"
 "version" "1"
-"levelname" "woodmaze-mym"
-"contributor" "Craig Cooper"
-"author" "Mehdi Yousfi-Monod"
-"classname" "worldspawn"
 // brush 0
 {
 ( -172 -150 8 ) ( -173 -150 8 ) ( -172 -149 8 ) mtrl/wood 0 0 0 0.500000 0.500000 0 0 0
