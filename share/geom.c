@@ -464,11 +464,13 @@ void jump_init(int b)
 
     jump_list = glGenLists(2);
 
-    for (k = 0; k < 12; k++)
+    for (k = 0; k < 2; k++)
     {
         glNewList(jump_list + k, GL_COMPILE);
         {
-            glPushAttrib(GL_TEXTURE_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
+            glPushAttrib(GL_TEXTURE_BIT  |
+                         GL_LIGHTING_BIT |
+                         GL_DEPTH_BUFFER_BIT);
             {
                 glEnable(GL_COLOR_MATERIAL);
                 glDisable(GL_LIGHTING);
@@ -499,9 +501,7 @@ void jump_init(int b)
 
 void jump_free(void)
 {
-    if (glIsList(jump_list))
-        glDeleteLists(jump_list, 1);
-
+    glDeleteLists(jump_list, 2);
     jump_list = 0;
 }
 
