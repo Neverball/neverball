@@ -101,7 +101,7 @@ static int gui_hot(int id)
 /*
  * Initialize a  display list  containing a  rectangle (x, y, w, h) to
  * which a  rendered-font texture  may be applied.   Colors  c0 and c1
- * determine the top-to-bottom color gradiant of the text.
+ * determine the top-to-bottom color gradient of the text.
  */
 
 static GLuint gui_list(int x, int y,
@@ -262,7 +262,7 @@ void gui_init(void)
         {
             char text[2];
 
-            /* Draw digits 0 throught 9. */
+            /* Draw digits 0 through 9. */
 
             for (j = 0; j < 10; j++)
             {
@@ -367,7 +367,7 @@ static int gui_widget(int pd, int type)
             widget[id].color1   = gui_wht;
             widget[id].scale    = 1.0f;
 
-            /* Insert the new widget into the parents's widget list. */
+            /* Insert the new widget into the parent's widget list. */
 
             if (pd)
             {
@@ -600,7 +600,7 @@ int gui_pause(int pd)
 /*
  * Create  a multi-line  text box  using a  vertical array  of labels.
  * Parse the  text for '\'  characters and treat them  as line-breaks.
- * Preserve the rect specifation across the entire array.
+ * Preserve the rect specification across the entire array.
  */
 
 int gui_multi(int pd, const char *text, int size, int rect, const float *c0,

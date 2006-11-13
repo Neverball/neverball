@@ -467,7 +467,7 @@ static int game_update_state(float dt)
  * the measured  frame time  exceeds this  maximum, we cut  the time  step in
  * half, and  do two updates.  If THIS  time step exceeds the  maximum, we do
  * four updates.  And  so on.  In this way, the physics  system is allowed to
- * seek an optimal update rate independant of, yet in integral sync with, the
+ * seek an optimal update rate independent of, yet in integral sync with, the
  * graphics frame rate.
  */
 

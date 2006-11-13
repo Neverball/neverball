@@ -89,7 +89,7 @@ SDL_Surface *image_scale(SDL_Surface *src, int n)
             unsigned char *s = (unsigned char *) src->pixels;
             unsigned char *d = (unsigned char *) dst->pixels;
 
-            /* Iterate each component of each distination pixel. */
+            /* Iterate each component of each destination pixel. */
 
             for (di = 0; di < src->h / n; di++)
                 for (dj = 0; dj < src->w / n; dj++)

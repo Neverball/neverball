@@ -283,7 +283,7 @@ void sol_draw(const struct s_file *fp)
                  GL_COLOR_BUFFER_BIT |
                  GL_DEPTH_BUFFER_BIT);
     {
-        /* Render all obaque geometry into the color and depth buffers. */
+        /* Render all opaque geometry into the color and depth buffers. */
 
         for (bi = 0; bi < fp->bc; bi++)
             if (fp->bv[bi].ol)

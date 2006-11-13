@@ -85,8 +85,8 @@ const char *config_user(const char *file)
 
 /*
  * Attempt to find  the game data directory.  Search  the command line
- * paramater,  the environment,  and the  hard-coded default,  in that
- * order.  Confirm it by checking for presense of the named file.
+ * parameter,  the environment,  and the  hard-coded default,  in that
+ * order.  Confirm it by checking for presence of the named file.
  */
 int config_data_path(const char *path, const char *file)
 {
@@ -119,7 +119,7 @@ int config_data_path(const char *path, const char *file)
  * replays.
  *
  * HACK: under Windows just assume the user has permission to write to
- * the data  directory.  This is  more reliable than trying  to devine
+ * the data  directory.  This is  more reliable than trying  to divine
  * anything reasonable from the environment.
  */
 int config_user_path(const char *file)

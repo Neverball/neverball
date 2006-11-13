@@ -102,7 +102,7 @@ void level_stop(int state, int state_value, int clock, int coins)
     lg->timer = timer;
     lg->state_value = state_value;
 
-    /* Performs challenge mode opperations */
+    /* Performs challenge mode operations */
     if (mode == MODE_CHALLENGE)
     {
         /* sum time */

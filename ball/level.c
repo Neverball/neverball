@@ -181,7 +181,7 @@ void level_dump_info(const struct level *l)
            "coin hs:         %d %d %d\n"
            "message:         %s\n"
            "background:      %s\n"
-           "gradiant:        %s\n"
+           "gradient:        %s\n"
            "screenshot:      %s\n"
            "song:            %s\n",
            l->file,

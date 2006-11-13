@@ -219,7 +219,7 @@ static int set_load(struct set *s, const char *filename)
 
     fclose(fin);
 
-    /* Load the levels states (stored in the user highscore file) */
+    /* Load the levels states (stored in the user high score file) */
 
     s->locked = s->count;
     s->completed = 0;
@@ -515,7 +515,7 @@ void set_finish_level(struct level_game *lg, const char *player)
  * Update next_level and score rank fields */
 {
     struct set *s = current_set;
-    int ln = lg->level->number; /* curent level number */
+    int ln = lg->level->number; /* current level number */
     struct level *cl = &level_v[ln];    /* current level */
     struct level *nl = NULL;    /* next level */
     int dirty = 0;              /* HS should be saved? */

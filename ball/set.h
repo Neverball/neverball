@@ -18,7 +18,7 @@ struct set
 
     char file[PATHMAX];
 
-    char user_scores[PATHMAX]; /* user highscore file */
+    char user_scores[PATHMAX]; /* user high score file */
     char setname[MAXSTR];     /* internal set name */
 
     char name[MAXSTR];        /* set name */

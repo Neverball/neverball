@@ -757,11 +757,11 @@ static float v_edge(float Q[3],
 }
 
 /*
- * Compute  the earlist  time and  position of  the intersection  of a
+ * Compute  the earliest  time and  position of  the intersection  of a
  * sphere and a plane.
  *
  * The sphere has radius R and moves along vector V from point P.  The
- * plane  oves  along  vector  W.   The  plane has  normal  N  and  is
+ * plane  moves  along  vector  W.   The  plane has  normal  N  and  is
  * positioned at distance D from the origin O along that normal.
  */
 static float v_side(float Q[3],
@@ -1413,7 +1413,7 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
 int sol_swch_test(struct s_file *fp, int ui)
 /* In the SOL fp, test and process the event the ball ui enters a switch.
  * Return 1 if a visible switch is activated, return 0 otherwise (no switch is
- * activated or only invisible switchs) */
+ * activated or only invisible switches) */
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
@@ -1499,7 +1499,7 @@ void get_file_state(FILE *fin, struct s_file *fp)
     get_array(fin, fp->uv[0].e[0], 3);
     get_array(fin, fp->uv[0].e[1], 3);
 
-    /* Compute the 3rd vector of the ball orientatian basis. */
+    /* Compute the 3rd vector of the ball orientation basis. */
 
     v_crs(fp->uv[0].e[2], fp->uv[0].e[0], fp->uv[0].e[1]);
 }

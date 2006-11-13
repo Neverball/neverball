@@ -233,7 +233,7 @@ static int play_end_init(int *gidp)
 
             gui_maybe(jd, _("Save Replay"), PLAY_END_SAVE, demo_play_saved());
 
-            /* default is next if the next level is newly unkocked */
+            /* default is next if the next level is newly unlocked */
             if (nlid != 0 && lg->unlock)
                  gui_focus(nlid);
             else if (b)

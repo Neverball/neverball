@@ -25,7 +25,7 @@ struct demo
     char   shot[PATHMAX];   /* image filename */
     char   file[PATHMAX];   /* level filename */
     char   back[PATHMAX];   /* level bg filename */
-    char   grad[PATHMAX];   /* level gradiant filename */
+    char   grad[PATHMAX];   /* level gradient filename */
     char   song[PATHMAX];   /* level song filename */
     int    time;            /* time limit (! training mode) */
     int    goal;            /* coin to open the goal (! training mode) */
