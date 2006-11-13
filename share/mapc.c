@@ -138,7 +138,7 @@ static int inch(struct s_file *fp)
 
 static int incz(struct s_file *fp)
 {
-    return (fp->zc < MAXZ) ? fp->zc++ : overflow("geol");
+    return (fp->zc < MAXZ) ? fp->zc++ : overflow("goal");
 }
 
 static int incj(struct s_file *fp)
@@ -291,7 +291,7 @@ static void targets(struct s_file *fp)
  * The following code caches  image sizes.  Textures are referenced by
  * name,  but  their  sizes   are  necessary  when  computing  texture
  * coordinates.  This code  allows each file to be  accessed only once
- * regardless of the number of surfaces refering to it.
+ * regardless of the number of surfaces referring to it.
  */
 
 struct _imagedata
@@ -690,7 +690,7 @@ static int map_token(FILE *fin, int pi, char key[MAXSTR], char val[MAXSTR])
 
         /* Scan a key-value pair. */
 
-        if (buf[0] == '"')
+        if (buf[0] == '\"')
         {
             strcpy(key, strtok(buf,  "\""));
             (void)      strtok(NULL, "\"");
@@ -1384,7 +1384,7 @@ static void clip_edge(struct s_file *fp,
 /*
  * Find all verts that lie on  the given side of the lump.  Sort these
  * verts to  have a counter-clockwise winding about  the plane normal.
- * Create geoms to tessalate the resulting convex polygon.
+ * Create geoms to tessellate the resulting convex polygon.
  */
 static void clip_geom(struct s_file *fp,
                       struct s_lump *lp, int si)
@@ -1463,7 +1463,7 @@ static void clip_geom(struct s_file *fp,
 }
 
 /*
- * Iterate the sides of the lump, attemping to generate a new vert for
+ * Iterate the sides of the lump, attempting to generate a new vert for
  * each trio of planes, a new edge  for each pair of planes, and a new
  * set of geom for each visible plane.
  */
@@ -1517,7 +1517,7 @@ static void clip_file(struct s_file *fp)
 /*
  * For each body element type,  determine if element 'p' is equivalent
  * to element  'q'.  This  is more than  a simple memory  compare.  It
- * effectively  snaps mtrls and  verts togather,  and may  reverse the
+ * effectively  snaps mtrls and  verts together,  and may  reverse the
  * winding of  an edge or a geom.   This is done in  order to maximize
  * the number of elements that can be eliminated.
  */
