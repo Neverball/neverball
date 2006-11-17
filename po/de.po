@@ -7,13 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-11-11 23:07+0200\n"
+"POT-Creation-Date: 2006-11-17 17:49+0200\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#. TRANSLATORS:  here is the format of the date shown at the
+#. replay selection screen.  The default will work in most cases, so
+#. you should only change it if something's horribly wrong, like,
+#. for instance, the GUI layout is broken.  See strftime(3) for
+#. details on the format.
+#.
+#: ball/demo.c:308
+#, no-c-format
+msgid "%c"
+msgstr ""
 
 #: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:175 ball/st_play_end.c:190
 msgid "Coins"
