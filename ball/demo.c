@@ -298,7 +298,15 @@ const char *date_to_str(time_t i)
 {
     static char str[MAXSTR];
 
-    strftime(str, MAXSTR, "%c", localtime(&i));
+    /* TRANSLATORS:  here is the format of the date shown at the
+       replay selection screen.  The default will work in most cases, so
+       you should only change it if something's horribly wrong, like,
+       for instance, the GUI layout is broken.  See strftime(3) for
+       details on the format.
+     */
+
+    strftime(str, MAXSTR, /* xgettext:no-c-format */ _("%c"), localtime(&i));
+
     return str;
 }
 
