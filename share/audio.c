@@ -47,7 +47,7 @@ void audio_init(void)
 
     if (audio_state == 0)
     {
-        if (Mix_OpenAudio(r, MIX_DEFAULT_FORMAT, 1, b) == 0)
+        if (Mix_OpenAudio(r, MIX_DEFAULT_FORMAT, 2, b) == 0)
         {
             for (i = 0; i < MAXSND; i++)
                 if (chan[i])
