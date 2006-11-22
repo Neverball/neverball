@@ -297,25 +297,6 @@ static int help_techniques(int id)
             if ((ld = gui_vstack(kd)))
             {
                 gui_space(ld);
-                gui_multi(ld, s0, GUI_SML, GUI_ALL, gui_wht, gui_wht);
-                gui_filler(ld);
-            }
-
-            if ((ld = gui_vstack(kd)))
-            {
-                gui_space(ld);
-                gui_multi(ld, s1, GUI_SML, GUI_ALL, gui_wht, gui_wht);
-                gui_filler(ld);
-            }
-        }
-
-        gui_space(jd);
-
-        if ((kd = gui_varray(jd)))
-        {
-            if ((ld = gui_vstack(kd)))
-            {
-                gui_space(ld);
                 gui_image(ld, "gui/help3.jpg", w / 4, h / 4);
                 gui_state(ld, _("Watch demo"), GUI_SML, 0, 0);
                 gui_filler(ld);
@@ -333,7 +314,26 @@ static int help_techniques(int id)
                 gui_active(ld, HELP_DEMO_2, 0);
             }
         }
-        
+
+        gui_space(jd);
+
+        if ((kd = gui_varray(jd)))
+        {
+            if ((ld = gui_vstack(kd)))
+            {
+                gui_space(ld);
+                gui_multi(ld, s0, GUI_SML, GUI_ALL, gui_wht, gui_wht);
+                gui_filler(ld);
+            }
+
+            if ((ld = gui_vstack(kd)))
+            {
+                gui_space(ld);
+                gui_multi(ld, s1, GUI_SML, GUI_ALL, gui_wht, gui_wht);
+                gui_filler(ld);
+            }
+        }
+
         gui_filler(jd);
     }
     return id;
