@@ -30,23 +30,23 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define CONF_FULL  1
-#define CONF_WIN   2
-#define CONF_TEXHI 8
-#define CONF_TEXLO 9
-#define CONF_GEOHI 10
-#define CONF_GEOLO 11
-#define CONF_REFON 12
-#define CONF_REFOF 13
-#define CONF_BACON 14
-#define CONF_BACOF 15
-#define CONF_SHDON 16
-#define CONF_SHDOF 17
-#define CONF_AUDHI 18
-#define CONF_AUDLO 19
-#define CONF_BACK  20
-#define CONF_LANG  21
-#define CONF_RESOL 22
+#define CONF_FULL   1
+#define CONF_WIN    2
+#define CONF_TEXHI  8
+#define CONF_TEXLO  9
+#define CONF_GEOHI  10
+#define CONF_GEOLO  11
+#define CONF_REFON  12
+#define CONF_REFOF  13
+#define CONF_BACON  14
+#define CONF_BACOF  15
+#define CONF_SHDON  16
+#define CONF_SHDOF  17
+#define CONF_AUDHI  18
+#define CONF_AUDLO  19
+#define CONF_BACK   20
+#define CONF_LANG   21
+#define CONF_RES    22
 #define CONF_PLAYER 23
 
 static int audlo_id;
@@ -164,7 +164,7 @@ static int conf_action(int i)
         goto_state(&st_lang);
         break;
 
-    case CONF_RESOL:
+    case CONF_RES:
         goto_state(&st_resol);
         break;
 
@@ -210,9 +210,10 @@ static int conf_enter(void)
 
     if ((id = gui_harray(0)))
     {
+        int f = config_get_d(CONFIG_FULLSCREEN);
+
         if ((jd = gui_varray(id)))
         {
-            int f = config_get_d(CONFIG_FULLSCREEN);
             int t = config_get_d(CONFIG_TEXTURES);
             int g = config_get_d(CONFIG_GEOMETRY);
             int r = config_get_d(CONFIG_REFLECTION);
@@ -222,26 +223,19 @@ static int conf_enter(void)
             int s = config_get_d(CONFIG_SOUND_VOLUME);
             int m = config_get_d(CONFIG_MUSIC_VOLUME);
 
+            char res[20];
+
+            sprintf(res, "%d x %d", config_get_d(CONFIG_WIDTH),
+                    config_get_d(CONFIG_HEIGHT));
+
             if ((kd = gui_harray(jd)))
             {
                 gui_label(kd, _("Options"), GUI_SML, GUI_ALL, 0, 0);
                 gui_filler(kd);
             }
 
-            /* Add mode selectors only for existing modes. */
-
-            if ((kd = gui_harray(jd)))
-            {
-                gui_state(kd, _("No"), GUI_SML, CONF_WIN, (f == 0));
-                gui_state(kd, _("Yes"),  GUI_SML, CONF_FULL, (f == 1));
-            }
-
-            {
-                static char msg[20];
-                sprintf(msg, "%d x %d", config_get_d(CONFIG_WIDTH),
-                        config_get_d(CONFIG_HEIGHT));
-                gui_state(jd, msg, GUI_SML, CONF_RESOL, 0);
-            }
+            gui_state(jd, _("Window"),   GUI_SML, CONF_WIN, (f == 0));
+            gui_state(jd, res,           GUI_SML, CONF_RES, 0);
 
             if ((kd = gui_harray(jd)))
             {
@@ -312,16 +306,19 @@ static int conf_enter(void)
             gui_state(jd, config_simple_get_s(CONFIG_PLAYER), GUI_SML,
                       CONF_PLAYER, 0);
         }
+
         if ((jd = gui_vstack(id)))
         {
+
             if ((kd = gui_harray(jd)))
             {
                 gui_filler(kd);
                 gui_start(kd, _("Back"), GUI_SML, CONF_BACK, 0);
             }
 
-            gui_label(jd, _("Fullscreen"),   GUI_SML, GUI_ALL, 0, 0);
-            gui_label(jd, _("Resolution"),   GUI_SML, GUI_ALL, 0, 0);
+            gui_state(jd, _("Fullscreen"),   GUI_SML, CONF_FULL, (f == 1));
+
+            gui_filler(jd);
 
             gui_label(jd, _("Textures"),     GUI_SML, GUI_ALL, 0, 0);
             gui_label(jd, _("Geometry"),     GUI_SML, GUI_ALL, 0, 0);
