@@ -80,7 +80,6 @@ void audio_free(void)
                 Mix_FreeChunk(buff[i]);
 
                 buff[i] = NULL;
-                chan[i] = 0;
             }
 
         audio_state = 0;
