@@ -57,68 +57,45 @@ static int resol_action(int i)
 
 static int resol_enter(void)
 {
-    int id, jd, kd;
+    int id, jd;
     int i;
-    int w, h;
-    int wp, hp;
-    int c;
 
     back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
 
-    /* Get the current resolution. */
-    w = config_get_d(CONFIG_WIDTH);
-    h = config_get_d(CONFIG_HEIGHT);
-
-    /* Get the resolution list. */
     modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
 
-    if ((int)modes == -1)
-    {
+    if ((int) modes == -1)
         modes = NULL;
-        printf("Any resolution\n");
-    }
-    else if (modes == NULL)
-    {
-        printf("No resolution\n");
-    }
 
-    if ((id = gui_harray(0)))
+    if ((id = gui_vstack(0)))
     {
-        if ((jd = gui_varray(id)))
+        if ((jd = gui_harray(id)))
         {
-            if ((kd = gui_harray(jd)))
-            {
-                gui_label(kd, _("Resolution"), GUI_SML, GUI_ALL, 0, 0);
-                gui_filler(kd);
-                gui_start(kd, _("Back"), GUI_SML, LANG_BACK, 0);
-            }
-
-            if (modes != NULL)
-            {
-                hp = wp = -1;
-                c = 0;
-                for(i = 0; modes[i]; i++)
-                {
-                    if (wp != modes[i]->w || hp != modes[i]->h)
-                    {
-                        static char st[100];
-                        wp = modes[i]->w;
-                        hp = modes[i]->h;
-                        sprintf(st, "%d x %d", wp, hp);
-
-                        if (c % 4 == 0)
-                                kd = gui_harray(jd);
-
-                        gui_state(kd, st, GUI_SML, i + 1,
-                                  (w == wp) && (h == hp));
-                        c++;
-                    }
-                }
-
-                for(; c % 4 != 0; c++)
-                        gui_filler(kd);
-            }
+            gui_label(jd, _("Resolution"), GUI_SML, GUI_ALL, 0, 0);
+            gui_filler(jd);
+            gui_start(jd, _("Back"), GUI_SML, LANG_BACK, 0);
         }
+
+        if (modes)
+        {
+            for(i = 0; modes[i]; i++)
+            {
+                char s[20];
+
+                sprintf(s, "%d x %d", modes[i]->w, modes[i]->h);
+
+                if (i % 4 == 0)
+                    jd = gui_harray(id);
+
+                gui_state(jd, s, GUI_SML, i + 1,
+                          config_get_d(CONFIG_WIDTH)  == modes[i]->w &&
+                          config_get_d(CONFIG_HEIGHT) == modes[i]->h);
+            }
+
+            for(; i % 4 != 0; i++)
+                gui_space(jd);
+        }
+
         gui_layout(id, 0, 0);
     }
 
