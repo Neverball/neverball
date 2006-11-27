@@ -28,7 +28,7 @@
 extern struct state st_conf;
 extern struct state st_null;
 
-static SDL_Rect **resolutions;
+static SDL_Rect **modes;
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,7 +47,7 @@ static int resol_action(int i)
 
     default:
         goto_state(&st_null);
-        r = config_mode(f, resolutions[i - 1]->w, resolutions[i - 1]->h);
+        r = config_mode(f, modes[i - 1]->w, modes[i - 1]->h);
         goto_state(&st_conf);
         break;
     }
@@ -70,14 +70,14 @@ static int resol_enter(void)
     h = config_get_d(CONFIG_HEIGHT);
 
     /* Get the resolution list. */
-    resolutions = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
+    modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
 
-    if ((int)resolutions == -1)
+    if ((int)modes == -1)
     {
-        resolutions = NULL;
+        modes = NULL;
         printf("Any resolution\n");
     }
-    else if (resolutions == NULL)
+    else if (modes == NULL)
     {
         printf("No resolution\n");
     }
@@ -93,17 +93,17 @@ static int resol_enter(void)
                 gui_start(kd, _("Back"), GUI_SML, LANG_BACK, 0);
             }
 
-            if (resolutions != NULL)
+            if (modes != NULL)
             {
                 hp = wp = -1;
                 c = 0;
-                for(i = 0; resolutions[i]; i++)
+                for(i = 0; modes[i]; i++)
                 {
-                    if (wp != resolutions[i]->w || hp != resolutions[i]->h)
+                    if (wp != modes[i]->w || hp != modes[i]->h)
                     {
                         static char st[100];
-                        wp = resolutions[i]->w;
-                        hp = resolutions[i]->h;
+                        wp = modes[i]->w;
+                        hp = modes[i]->h;
                         sprintf(st, "%d x %d", wp, hp);
 
                         if (c % 4 == 0)
