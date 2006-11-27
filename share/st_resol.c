@@ -32,23 +32,23 @@ static SDL_Rect **modes;
 
 /*---------------------------------------------------------------------------*/
 
-#define LANG_BACK 100
+#define RESOL_BACK -1
 
 static int resol_action(int i)
 {
-    int f = config_get_d(CONFIG_FULLSCREEN);
     int r = 1;
 
     switch (i)
     {
-    case LANG_BACK:
+    case RESOL_BACK:
         goto_state(&st_conf);
         break;
 
     default:
         goto_state(&st_null);
-        r = config_mode(f, modes[i - 1]->w, modes[i - 1]->h);
-        goto_state(&st_conf);
+        r = config_mode(config_get_d(CONFIG_FULLSCREEN),
+                        modes[i]->w, modes[i]->h);
+        goto_state(&st_resol);
         break;
     }
 
@@ -73,7 +73,7 @@ static int resol_enter(void)
         {
             gui_label(jd, _("Resolution"), GUI_SML, GUI_ALL, 0, 0);
             gui_filler(jd);
-            gui_start(jd, _("Back"), GUI_SML, LANG_BACK, 0);
+            gui_start(jd, _("Back"), GUI_SML, RESOL_BACK, 0);
         }
 
         if (modes)
@@ -87,7 +87,7 @@ static int resol_enter(void)
                 if (i % 4 == 0)
                     jd = gui_harray(id);
 
-                gui_state(jd, s, GUI_SML, i + 1,
+                gui_state(jd, s, GUI_SML, i,
                           config_get_d(CONFIG_WIDTH)  == modes[i]->w &&
                           config_get_d(CONFIG_HEIGHT) == modes[i]->h);
             }
