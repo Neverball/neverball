@@ -251,30 +251,24 @@ static int set_load(struct set *s, const char *filename)
 
 /*---------------------------------------------------------------------------*/
 
-void set_init()
+int set_init()
 {
     FILE *fin;
-    struct set *set;
-    char filename[MAXSTR];
+    char  name[MAXSTR];
 
     current_set = NULL;
-    count = 0;
+    count       = 0;
 
     if ((fin = fopen(config_data(SET_FILE), "r")))
     {
-        while (count < MAXSET && fgets(filename, MAXSTR, fin))
-        {
-            strip_eol(filename);
-            set = &(set_v[count]);
-
-            if (set_load(set, filename))
-            {
-                set->number = count;
+        while (count < MAXSET && fgets(name, MAXSTR, fin))
+            if (set_load(&set_v[count], strip_eol(name)))
                 count++;
-            }
-        }
+
         fclose(fin);
     }
+
+    return count;
 }
 
 /*---------------------------------------------------------------------------*/

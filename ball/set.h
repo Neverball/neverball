@@ -37,7 +37,7 @@ struct set
 
 /*---------------------------------------------------------------------------*/
 
-void set_init();
+int set_init();
 
 int  set_exists(int);
 const struct set *get_set(int);

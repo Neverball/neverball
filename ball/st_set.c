@@ -27,9 +27,10 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define SET_GROUP 5 /* number of sets in one screen */
+#define SET_STEP    5
 
-static int last_set = 0;
+static int total = 0;
+static int first = 0;
 
 static int shot_id;
 static int desc_id;
@@ -42,26 +43,30 @@ static int set_action(int i)
     {
     case GUI_BACK:
         return goto_state(&st_title);
+        break;
 
     case GUI_PREV:
-        last_set = (last_set / SET_GROUP - 1) * SET_GROUP;
+        first -= SET_STEP;
         return goto_state(&st_set);
+        break;
 
     case GUI_NEXT:
-        last_set = (last_set / SET_GROUP + 1) * SET_GROUP;
+        first += SET_STEP;
         return goto_state(&st_set);
+        break;
 
     case GUI_NULL:
         return 1;
+        break;
 
     default:
         if (set_exists(i))
         {
-            last_set = i;
             set_goto(i);
             return goto_state(&st_start);
         }
     }
+
     return 1;
 }
 
@@ -79,19 +84,12 @@ static int set_enter(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
-    int b = last_set / SET_GROUP;
-    int i;
 
     int id, jd, kd;
 
-    set_init();
+    int i;
 
-    /* Reset last set if it does not exist */
-    if (!set_exists(last_set))
-    {
-        b = 0;
-        last_set = 0;
-    }
+    total = set_init();
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
     audio_play(AUD_START, 1.f);
@@ -102,17 +100,17 @@ static int set_enter(void)
         {
             gui_label(jd, _("Level Set"), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
-            gui_back_prev_next(jd, b > 0, set_exists((b + 1) * SET_GROUP));
+            gui_back_prev_next(jd, first > 0, first + SET_STEP < total);
         }
 
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, get_set(last_set)->shot,
+            shot_id = gui_image(jd, get_set(first)->shot,
                                 7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
             {
-                for (i = b * SET_GROUP; i < (b + 1) * SET_GROUP; i++)
+                for (i = first; i < first + SET_STEP; i++)
                     gui_set(kd, i);
             }
         }
