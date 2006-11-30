@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2006-11-17 17:49+0200\n"
-"PO-Revision-Date: 2006-11-18 20:55+0200\n"
+"PO-Revision-Date: 2006-11-30 22:19+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 #: ball/demo.c:308
 #, no-c-format
 msgid "%c"
-msgstr "%Y. gada %e. %B, %H:%M"
+msgstr "%Y. gada %d. %B, %H:%M"
 
 #: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:175 ball/st_play_end.c:190
 msgid "Coins"
