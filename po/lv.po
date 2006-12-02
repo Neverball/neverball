@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-11-17 17:49+0200\n"
+"POT-Creation-Date: 2006-12-02 14:01+0200\n"
 "PO-Revision-Date: 2006-11-30 22:19+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -65,29 +65,29 @@ msgstr "Kļūda, ielādējot līmeņa failu '%s': %s\n"
 msgid "Not a valid level file"
 msgstr "nederīgs līmeņa fails"
 
-#: ball/level.c:214 ball/st_help.c:226 ball/st_start.c:256
+#: ball/level.c:214 ball/st_start.c:256
 msgid "Challenge"
 msgstr "Spēku pārbaude"
 
-#: ball/level.c:214
+#: ball/level.c:214 ball/st_help.c:260
 #, fuzzy
 msgid "Challenge Mode"
 msgstr "Spēku pārbaude"
 
-#: ball/level.c:215 ball/st_help.c:211 ball/st_start.c:248
+#: ball/level.c:215 ball/st_start.c:248
 msgid "Normal"
 msgstr "Normālais"
 
-#: ball/level.c:215
+#: ball/level.c:215 ball/st_help.c:244
 #, fuzzy
 msgid "Normal Mode"
 msgstr "Normālais"
 
-#: ball/level.c:216 ball/st_help.c:219 ball/st_start.c:246
+#: ball/level.c:216 ball/st_start.c:246
 msgid "Practice"
 msgstr "Treniņš"
 
-#: ball/level.c:216
+#: ball/level.c:216 ball/st_help.c:252
 #, fuzzy
 msgid "Practice Mode"
 msgstr "Treniņš"
@@ -216,92 +216,84 @@ msgstr "nepareizs formāts\n"
 msgid "Cannot load the set file '%s': %s\n"
 msgstr "Nav iespējams ielādēt komplekta failu '%s':"
 
-#: ball/set.c:346
+#: ball/set.c:340
 #, c-format
 msgid "B%d"
 msgstr "B%d"
 
-#: ball/st_conf.c:227 putt/st_conf.c:190
+#: ball/st_conf.c:233 putt/st_conf.c:190
 msgid "Options"
 msgstr "Opcijas"
 
-#: ball/st_conf.c:235 ball/st_demo.c:505 ball/st_save.c:183 putt/st_conf.c:198
-msgid "No"
-msgstr "Nē"
+#: ball/st_conf.c:237
+msgid "Window"
+msgstr ""
 
-#: ball/st_conf.c:236 ball/st_demo.c:506 ball/st_save.c:184 putt/st_conf.c:199
-msgid "Yes"
-msgstr "Jā"
-
-#: ball/st_conf.c:248 ball/st_conf.c:253 ball/st_conf.c:276 putt/st_conf.c:211
+#: ball/st_conf.c:242 ball/st_conf.c:247 ball/st_conf.c:270 putt/st_conf.c:211
 #: putt/st_conf.c:216 putt/st_conf.c:229
 msgid "Low"
 msgstr "Slikti"
 
-#: ball/st_conf.c:249 ball/st_conf.c:254 ball/st_conf.c:277 putt/st_conf.c:212
+#: ball/st_conf.c:243 ball/st_conf.c:248 ball/st_conf.c:271 putt/st_conf.c:212
 #: putt/st_conf.c:217 putt/st_conf.c:230
 msgid "High"
 msgstr "Labi"
 
-#: ball/st_conf.c:258 ball/st_conf.c:263 ball/st_conf.c:268 putt/st_conf.c:221
+#: ball/st_conf.c:252 ball/st_conf.c:257 ball/st_conf.c:262 putt/st_conf.c:221
 msgid "Off"
 msgstr "Bez"
 
-#: ball/st_conf.c:259 ball/st_conf.c:264 ball/st_conf.c:269 putt/st_conf.c:222
+#: ball/st_conf.c:253 ball/st_conf.c:258 ball/st_conf.c:263 putt/st_conf.c:222
 msgid "On"
 msgstr "Ar"
 
-#: ball/st_conf.c:320 ball/st_demo.c:260 ball/st_help.c:73 ball/st_start.c:234
+#: ball/st_conf.c:316 ball/st_demo.c:260 ball/st_help.c:94 ball/st_start.c:234
 #: ball/util.c:350 putt/st_all.c:297 putt/st_all.c:419 putt/st_conf.c:271
-#: share/st_lang.c:80 share/st_resol.c:93
+#: share/st_lang.c:80 share/st_resol.c:76
 msgid "Back"
 msgstr "Atpakaļ"
 
-#: ball/st_conf.c:323 putt/st_conf.c:274
+#: ball/st_conf.c:319 putt/st_conf.c:274
 msgid "Fullscreen"
 msgstr "Pilns ekrāns"
 
-#: ball/st_conf.c:324 putt/st_conf.c:275 share/st_resol.c:91
-msgid "Resolution"
-msgstr "Izšķirtspēja"
-
-#: ball/st_conf.c:326 putt/st_conf.c:277
+#: ball/st_conf.c:323 putt/st_conf.c:277
 msgid "Textures"
 msgstr "Tekstūras"
 
-#: ball/st_conf.c:327 putt/st_conf.c:278
+#: ball/st_conf.c:324 putt/st_conf.c:278
 msgid "Geometry"
 msgstr "Ģeometrija"
 
-#: ball/st_conf.c:328
+#: ball/st_conf.c:325
 msgid "Reflection"
 msgstr "Atspulgs"
 
-#: ball/st_conf.c:329
+#: ball/st_conf.c:326
 msgid "Background"
 msgstr "Fons"
 
-#: ball/st_conf.c:330 putt/st_conf.c:279
+#: ball/st_conf.c:327 putt/st_conf.c:279
 msgid "Shadow"
 msgstr "Ēna"
 
-#: ball/st_conf.c:331 putt/st_conf.c:280
+#: ball/st_conf.c:328 putt/st_conf.c:280
 msgid "Audio"
 msgstr "Audio"
 
-#: ball/st_conf.c:332 putt/st_conf.c:281
+#: ball/st_conf.c:329 putt/st_conf.c:281
 msgid "Sound Volume"
 msgstr "Skaņu skaļums"
 
-#: ball/st_conf.c:333 putt/st_conf.c:282
+#: ball/st_conf.c:330 putt/st_conf.c:282
 msgid "Music Volume"
 msgstr "Mūzikas skaļums"
 
-#: ball/st_conf.c:334 putt/st_conf.c:283 share/st_lang.c:78
+#: ball/st_conf.c:331 putt/st_conf.c:283 share/st_lang.c:78
 msgid "Language"
 msgstr "Valoda"
 
-#: ball/st_conf.c:335 ball/st_name.c:101
+#: ball/st_conf.c:332 ball/st_name.c:101
 msgid "Player Name"
 msgstr "Spēlētāja vārds"
 
@@ -361,6 +353,14 @@ msgstr "Izdzēst"
 msgid "Delete Replay?"
 msgstr "Dzēst ierakstu?"
 
+#: ball/st_demo.c:505 ball/st_save.c:183 putt/st_conf.c:198
+msgid "No"
+msgstr "Nē"
+
+#: ball/st_demo.c:506 ball/st_save.c:184 putt/st_conf.c:199
+msgid "Yes"
+msgstr "Jā"
+
 #: ball/st_done.c:55
 msgid "New Challenge Record"
 msgstr "Jauns spēka rekords"
@@ -373,96 +373,116 @@ msgstr "Spēku pārbaude izturēta"
 msgid "Change Player Name"
 msgstr "Mainīt spēlētāja vārdu"
 
-#: ball/st_help.c:69
+#: ball/st_help.c:90
 msgid "Techniques"
 msgstr ""
 
-#: ball/st_help.c:70
+#: ball/st_help.c:91
 msgid "Modes"
 msgstr "Režīmi"
 
-#: ball/st_help.c:71
+#: ball/st_help.c:92
 msgid "Controls"
 msgstr "Vadība"
 
-#: ball/st_help.c:72
+#: ball/st_help.c:93
 msgid "Rules"
 msgstr "Noteikumi"
 
-#: ball/st_help.c:88
+#: ball/st_help.c:104
+#, fuzzy
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
-"causing the\\ball to roll.\\ "
+"causing the\\ball to roll.\\"
 msgstr ""
 "Kustini peli vai vadības sviru,\\vai izmanto bultiņas uz\\tastatūras, lai "
 "liektu grīdu,\\liekot bumbai ripot.\\ "
 
-#: ball/st_help.c:93
+#: ball/st_help.c:109
+#, fuzzy
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
-"finish\\the level.\\ "
+"finish\\the level.\\"
 msgstr ""
 "Ripinies pāri monētām, lai\\savāktu tās. Vāc monētas,\\lai atslēgtu mērķi un"
 "\\pabeigtu līmeni.\\ "
 
-#: ball/st_help.c:127
+#: ball/st_help.c:166
 msgid "Left and right mouse buttons rotate the view."
 msgstr "Kreisā un labā peles poga groza skatu."
 
-#: ball/st_help.c:128
+#: ball/st_help.c:167
 msgid "Hold Shift for faster view rotation."
 msgstr "Pieturi Shift ātrākai skata grozīšanai."
 
-#: ball/st_help.c:129
+#: ball/st_help.c:168
 msgid "Pause / Release Pointer"
 msgstr "Pauze / Atbrīvot kursoru"
 
-#: ball/st_help.c:130
+#: ball/st_help.c:169
 msgid "Exit / Cancel Menu"
 msgstr ""
 
-#: ball/st_help.c:131
+#: ball/st_help.c:170
 msgid "Chase View"
 msgstr ""
 
-#: ball/st_help.c:132
+#: ball/st_help.c:171
 msgid "Lazy View"
 msgstr ""
 
-#: ball/st_help.c:133
+#: ball/st_help.c:172
 msgid "Manual View"
 msgstr ""
 
-#: ball/st_help.c:134
-msgid "Show FPS"
-msgstr ""
-
-#: ball/st_help.c:135
+#: ball/st_help.c:173
 msgid "Screenshot"
 msgstr ""
 
-#: ball/st_help.c:136
+#: ball/st_help.c:174
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: ball/st_help.c:138
+#: ball/st_help.c:176
 msgid "Spacebar"
 msgstr ""
 
-#: ball/st_help.c:139
+#: ball/st_help.c:177
 msgid "Escape"
 msgstr ""
 
-#: ball/st_help.c:242
+#: ball/st_help.c:246
+msgid ""
+"Finish a level before the time runs out.\\You need to collect coins in order "
+"to open the goal."
+msgstr ""
+
+#: ball/st_help.c:254
+msgid ""
+"Play without time limit or coin constraint.\\Levels cannot be unlocked in "
+"this mode."
+msgstr ""
+
+#: ball/st_help.c:262
+msgid ""
+"Start playing from the first level of the set.\\You start with only four "
+"balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
+msgstr ""
+
+#: ball/st_help.c:276
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
 msgstr ""
 
-#: ball/st_help.c:247
+#: ball/st_help.c:281
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
-"the camera by 45 degrees\\for best results.\\ "
+"the camera by 45\\degrees for best results.\\"
+msgstr ""
+
+#: ball/st_help.c:301 ball/st_help.c:311
+msgid "Watch demo"
 msgstr ""
 
 #: ball/st_level.c:46
@@ -590,7 +610,7 @@ msgstr "Saglabāt"
 msgid "Overwrite?"
 msgstr "Pārrakstīt?"
 
-#: ball/st_set.c:103
+#: ball/st_set.c:101
 msgid "Level Set"
 msgstr "Līmeņu komplekts"
 
@@ -750,6 +770,10 @@ msgstr "Rezultāti"
 #: putt/st_all.c:922
 msgid "Final Scores"
 msgstr "Gala rezultāti"
+
+#: putt/st_conf.c:275 share/st_resol.c:74
+msgid "Resolution"
+msgstr "Izšķirtspēja"
 
 #: share/audio.c:63
 #, c-format
