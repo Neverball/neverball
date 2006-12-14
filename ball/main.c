@@ -227,19 +227,19 @@ static int   display_info = 0;
 static void parse_args(int argc, char **argv)
 {
     char *exec = *(argv++);
-    int missing; /* Argument is missing. */
+    int missing;
 
     const char *usage = _(
         "Usage: %s [options ...]\n"
         "-r, --replay file         play the replay 'file'.\n"
-        "-i, --info                display info about level or replay.\n"
+        "-i, --info                display info about a replay.\n"
         "    --data dir            use 'dir' as game data directory.\n"
         "-v, --version             show version.\n"
         "-h, -?, --help            show this usage message.\n"
     );
 
-#define CASE(x) (strcmp(*argv, (x)) == 0)       /* Check current option */
-#define MAND    !(missing = (argv[1] == NULL))  /* Argument is mandatory */
+#   define CASE(x) (strcmp(*argv, (x)) == 0)       /* Check current option */
+#   define MAND    !(missing = (argv[1] == NULL))  /* Argument is mandatory */
 
     while (*argv != NULL)
     {
@@ -275,6 +275,10 @@ static void parse_args(int argc, char **argv)
         }
         argv++;
     }
+
+#   undef CASE
+#   undef MAND
+
     return;
 }
 
