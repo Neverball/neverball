@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2006-12-02 14:01+0200\n"
+"POT-Creation-Date: 2006-12-14 23:14+0200\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -121,7 +121,7 @@ msgstr "Rausgefallen!"
 msgid ""
 "Usage: %s [options ...]\n"
 "-r, --replay file         play the replay 'file'.\n"
-"-i, --info                display info about level or replay.\n"
+"-i, --info                display info about a replay.\n"
 "    --data dir            use 'dir' as game data directory.\n"
 "-v, --version             show version.\n"
 "-h, -?, --help            show this usage message.\n"
@@ -137,59 +137,59 @@ msgstr ""
 msgid "%s: option %s requires an argument\n"
 msgstr ""
 
-#: ball/main.c:294 putt/main.c:258
+#: ball/main.c:298 putt/main.c:258
 #, c-format
 msgid "Failure to establish game data directory\n"
 msgstr "Spieldatenverzeichnis konnte nicht erstellt werden\n"
 
-#: ball/main.c:300 putt/main.c:256
+#: ball/main.c:304 putt/main.c:256
 #, c-format
 msgid "Failure to establish config directory\n"
 msgstr "Konfigurationsverzeichnis konnte nicht erstellt werden\n"
 
-#: ball/main.c:319
+#: ball/main.c:323
 #, c-format
 msgid "Replay file '%s': %s\n"
 msgstr ""
 
-#: ball/main.c:320
+#: ball/main.c:324
 msgid "Not a replay file"
 msgstr ""
 
-#: ball/main.c:331
+#: ball/main.c:335
 #, c-format
 msgid "%s: --info requires --replay\n"
 msgstr ""
 
-#: ball/main.c:358
+#: ball/main.c:362
 msgid "snd/select.ogg"
 msgstr ""
 
-#: ball/main.c:359
+#: ball/main.c:363
 msgid "snd/ready.ogg"
 msgstr ""
 
-#: ball/main.c:360
+#: ball/main.c:364
 msgid "snd/set.ogg"
 msgstr ""
 
-#: ball/main.c:361
+#: ball/main.c:365
 msgid "snd/go.ogg"
 msgstr ""
 
-#: ball/main.c:370
+#: ball/main.c:374
 msgid "snd/record.ogg"
 msgstr ""
 
-#: ball/main.c:371
+#: ball/main.c:375
 msgid "snd/fall.ogg"
 msgstr ""
 
-#: ball/main.c:372
+#: ball/main.c:376
 msgid "snd/time.ogg"
 msgstr ""
 
-#: ball/main.c:373
+#: ball/main.c:377
 msgid "snd/over.ogg"
 msgstr ""
 
