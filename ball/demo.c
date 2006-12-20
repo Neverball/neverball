@@ -29,7 +29,7 @@
 #define MAGIC           0x52424EAF
 #define DEMO_VERSION    3
 
-#define DATELEN 20         
+#define DATELEN 20
 
 static FILE *demo_fp;
 
@@ -372,7 +372,7 @@ int demo_play_init(const char *name,
     demo.balls = lg->balls;
     demo.times = lg->times;
 
-    if (demo.filename && (demo_fp = fopen(demo.filename, FMODE_WB)))
+    if ((demo_fp = fopen(demo.filename, FMODE_WB)))
     {
         demo_header_write(demo_fp, &demo);
         audio_music_fade_to(2.0f, level->song);

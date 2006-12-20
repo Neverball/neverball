@@ -6,16 +6,11 @@
 
 /*---------------------------------------------------------------------------*/
 
-/* Demo information structure (header) */
 struct demo
 {
     char   name[PATHMAX];      /* demo basename */
     char   filename[MAXSTR];  /* demo path */
 
-    /* The following reflects the file structure. */
-
-    /* magic number */
-    /* replay file version */
     int    timer;           /* elapsed time */
     int    coins;           /* coin number */
     int    state;           /* how the replay end */
