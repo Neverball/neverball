@@ -66,7 +66,7 @@ static int help_action(int t)
         return goto_state(&st_help);
         break;
     }
-    return 0;
+    return 1;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -347,6 +347,8 @@ static int help_enter(void)
 
     if ((id = gui_vstack(0)))
     {
+        gui_space(id);
+
         help_menu(id);
 
         switch (tab)
