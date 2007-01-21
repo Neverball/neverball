@@ -302,7 +302,7 @@ static int conf_enter(void)
                 music_id[ 1] = gui_state(kd, NULL, GUI_SML, 201, (m ==  1));
                 music_id[ 0] = gui_state(kd, NULL, GUI_SML, 200, (m ==  0));
             }
-            gui_state(jd, _(language_get_name(language_from_code(config_simple_get_s(CONFIG_LANG)))), GUI_SML, CONF_LANG, 0);
+            gui_state(jd, _(language_name(language_from_code(config_simple_get_s(CONFIG_LANG)))), GUI_SML, CONF_LANG, 0);
             gui_state(jd, config_simple_get_s(CONFIG_PLAYER), GUI_SML,
                       CONF_PLAYER, 0);
         }

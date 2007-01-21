@@ -47,8 +47,7 @@ static int lang_action(int i)
     default:
         goto_state(&st_null);
         language_set(i - 1);
-        config_set_s(CONFIG_LANG, language_get_code(i - 1));
-        gui_init();
+        config_set_s(CONFIG_LANG, language_code(i - 1));
 
         goto_state(&st_conf);
         break;
@@ -82,13 +81,13 @@ static int lang_enter(void)
 
             lang_names = calloc(language_count(), sizeof(char *));
 
-            gui_state(jd, _(language_get_name(0)), GUI_SML, 1, (l == 0));
+            gui_state(jd, _(language_name(0)), GUI_SML, 1, (l == 0));
             for (i = 1; i <= language_count(); i++)
             {
                 language_set(i);
-                ln1 = _(language_get_name(i));
+                ln1 = _(language_name(i));
                 language_set(l);
-                ln2 = _(language_get_name(i));
+                ln2 = _(language_name(i));
                 if (strcmp(ln1, ln2) == 0)
                     ln = ln1;
                 else

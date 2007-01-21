@@ -16,17 +16,14 @@
 #define LANGUAGE_H
 
 #ifndef POSIX
-#   include <libintl.h>
-#   define _(String)        gettext(String)
+#include <libintl.h>
+#define _(String)   gettext(String)
 #else
-#   define _(String)        (String)
+#define _(String)   (String)
 #endif
 
-#define N_(String)          (String)
-
-/*---------------------------------------------------------------------------*/
-
-const char *sgettext(const char *);
+/* No-op, useful for marking up strings for extraction-only. */
+#define N_(String)  (String)
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,10 +32,14 @@ void language_set(int id);
 
 /*---------------------------------------------------------------------------*/
 
-int language_count();
-int language_from_code(const char *code);
-const char *language_get_name(int id);
-const char *language_get_code(int id);
+int         language_count();
+int         language_from_code(const char *code);
+const char *language_name(int id);
+const char *language_code(int id);
+
+/*---------------------------------------------------------------------------*/
+
+const char *sgettext(const char *);
 
 /*---------------------------------------------------------------------------*/
 
