@@ -53,7 +53,7 @@ command shell script.
             Specify the date and time of creation.  These are treated as
             local date/time and are used to calculate the actual UTC
             time to store in the replay.  datetime should be in the
-            following format:  YYYY:mm:ddTHH:MM:SS.  "T" is literally
+            following format:  YYYY-mm-ddTHH:MM:SS.  "T" is literally
             the character T.  The default value is 2003-07-16T00:00:00
             (UTC).  (Trivia:  it is the date of posting of Super Empty
             Ball on flipcode.)
