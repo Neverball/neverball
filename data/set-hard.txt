@@ -17,7 +17,7 @@ map-hard/tilt.sol
 map-hard/frogger.sol
 map-hard/quads.sol
 map-hard/sync.sol
-map-hard/groweasy-dave.sol
+map-hard/airways-mym.sol
 map-hard/spiralin.sol
 map-hard/spread.sol
 map-hard/invis.sol
