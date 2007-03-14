@@ -17,7 +17,7 @@ map-hard/tilt.sol
 map-hard/frogger.sol
 map-hard/quads.sol
 map-hard/sync.sol
-map-hard/airways-mym.sol
+map-hard/hallways-mym.sol
 map-hard/spiralin.sol
 map-hard/spread.sol
 map-hard/invis.sol
@@ -27,4 +27,4 @@ map-hard/movers.sol
 map-hard/pipe.sol
 map-hard/paths-paul.sol
 map-hard/poker.sol
-map-hard/hallways-mym.sol
+map-hard/airways-mym.sol
