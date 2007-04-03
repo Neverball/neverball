@@ -4,7 +4,7 @@ medium
 shot-easy2/marblecurves-mym.jpg
 
 map-medium/marblecurves-mym.sol
-map-medium/elevator-jp.sol
+map-medium/qbert-mym.sol
 map-medium/telemaze.sol
 map-medium/locks.sol
 map-medium/roundfloors-mym.sol
@@ -13,13 +13,13 @@ map-medium/pyramid-ton.sol
 map-medium/easytele.sol
 map-medium/cross-para.sol
 map-medium/learngrow-mym.sol
+map-medium/zigzag.sol
 map-medium/sparselines-mym.sol
 map-medium/four.sol
 map-medium/stairs.sol
-map-medium/drops.sol
 map-medium/coneskeleton-mym.sol
+map-medium/drops.sol
 map-medium/spiraldn.sol
-map-medium/zigzag.sol
 map-medium/timer.sol
 map-medium/spiralup.sol
 map-medium/woodmaze-mym.sol
