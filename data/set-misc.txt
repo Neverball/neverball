@@ -8,4 +8,5 @@ map-misc/checkers-paul.sol
 map-misc/ocean-paul.sol
 map-misc/grow_demo-dave.sol
 map-misc/stairs-jp.sol
+map-misc/elevator-jp.sol
 
