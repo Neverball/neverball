@@ -21,10 +21,10 @@ map-easy/lollipop-dave.sol
 map-easy/canals-ton.sol
 map-easy/roundlaby-mym.sol
 map-easy/hole.sol
+map-easy/roundcoins-mym.sol
+map-easy/thwomp2-paul.sol
 map-easy/corners.sol
-map-easy/wakka.sol
 map-easy/greed.sol
 map-easy/curved.sol
-map-easy/roundcoins-mym.sol
 map-easy/mover.sol
-map-easy/thwomp2-paul.sol
+map-easy/wakka.sol
