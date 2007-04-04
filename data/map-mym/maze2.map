@@ -5,10 +5,10 @@
 "levelname" "maze2-mym"
 "version"   "1.1"
 
-"back"      "map-back/alien.sol"
-"grad"      "back/alien.png"
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
 "shot"      "shot-mym/maze2.jpg"
-"song"      "bgm/track5.ogg"
+"song"      "bgm/track3.ogg"
 "time"      "15000"
 "goal"      "50"
 

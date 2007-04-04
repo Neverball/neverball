@@ -5,10 +5,10 @@
 "levelname" "climb-mym"
 "version"   "2"
 
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
 "shot"      "shot-mym/climb.jpg"
-"song"      "bgm/track2.ogg"
+"song"      "bgm/track5.ogg"
 "time"      "12000"
 "goal"      "100"
 
