@@ -12,9 +12,9 @@ map-medium/bumps.sol
 map-medium/pyramid-ton.sol
 map-medium/zigzag.sol
 map-medium/four.sol
+map-medium/learngrow-mym.sol
 map-medium/easytele.sol
 map-medium/cross-para.sol
-map-medium/learngrow-mym.sol
 map-medium/sparselines-mym.sol
 map-medium/stairs.sol
 map-medium/coneskeleton-mym.sol
