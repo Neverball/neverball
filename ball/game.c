@@ -208,8 +208,6 @@ int game_init(const struct level *level, int t, int g)
     goal_c = g;
     goal_k = (g == 0) ? 1.0f : 0.0f;
 
-    ball_b = level->is_bonus;
-
     /* Initialise the level, background, particles, fade, and view. */
 
     fade_k =  1.0f;
