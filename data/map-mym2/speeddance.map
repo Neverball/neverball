@@ -6,10 +6,10 @@
 "levelname" "speeddance-mym"
 "version"   "1"
 
-"back"      "map-back/alien.sol"
-"grad"      "back/alien.png"
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
 "shot"      "shot-mym2/speeddance.jpg"
-"song"      "bgm/track5.ogg"
+"song"      "bgm/track1.ogg"
 "time"      "4500"
 "goal"      "0"
 

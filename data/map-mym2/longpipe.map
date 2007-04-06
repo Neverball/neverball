@@ -6,8 +6,8 @@
 "levelname" "longpipe-mym"
 "version"   "1"
 
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
 "shot"      "shot-mym2/longpipe.jpg"
 "song"      "bgm/track3.ogg"
 "time"      "6000"

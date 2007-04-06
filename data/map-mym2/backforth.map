@@ -6,10 +6,10 @@
 "levelname" "backforth-mym"
 "version"   "1"
 
-"back"      "map-back/city.sol"
-"grad"      "back/city.png"
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
 "shot"      "shot-mym2/backforth.jpg"
-"song"      "bgm/track3.ogg"
+"song"      "bgm/track1.ogg"
 "time"      "18000"
 "goal"      "24"
 

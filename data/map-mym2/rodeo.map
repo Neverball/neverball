@@ -6,10 +6,10 @@
 "levelname" "rodeo-mym"
 "version"   "1"
 
-"back"      "map-back/alien.sol"
-"grad"      "back/alien.png"
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
 "shot"      "shot-mym2/rodeo.jpg"
-"song"      "bgm/track5.ogg"
+"song"      "bgm/track4.ogg"
 "time"      "6000"
 "goal"      "0"
 

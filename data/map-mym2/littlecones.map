@@ -6,10 +6,10 @@
 "levelname" "littlecones-mym"
 "version"   "1"
 
-"back"      "map-back/city.sol"
-"grad"      "back/city.png"
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
 "shot"      "shot-mym2/littlecones.jpg"
-"song"      "bgm/track3.ogg"
+"song"      "bgm/track4.ogg"
 "time"      "7500"
 "goal"      "150"
 
