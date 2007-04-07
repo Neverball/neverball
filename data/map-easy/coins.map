@@ -8,7 +8,7 @@
 
 "back"      "map-back/clouds.sol"
 "grad"      "back/land.png"
-"shot"      "shot-rlk/coins.jpg"
+"shot"      "shot-easy/coins.jpg"
 "song"      "bgm/track1.ogg"
 "time"      "6000"
 "goal"      "50"

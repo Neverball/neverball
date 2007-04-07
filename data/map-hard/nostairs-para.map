@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"shot" "shot-easy2/nostairs-para.jpg"
+"shot" "shot-hard/nostairs-para.jpg"
 "levelname" "nostairs-para"
 "bonus" "1"
 "song" "bgm/track2.ogg"

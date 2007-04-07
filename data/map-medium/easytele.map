@@ -6,7 +6,7 @@
 "version" "1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"
-"shot" "shot-rlk/easytele.jpg"
+"shot" "shot-medium/easytele.jpg"
 "song" "bgm/track3.ogg"
 "time" "9000"
 "goal" "40"

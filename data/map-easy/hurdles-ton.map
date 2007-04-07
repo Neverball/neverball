@@ -4,7 +4,7 @@
 "goal" "10"
 "time" "10000"
 "song" "bgm/track2.ogg"
-"shot" "shot-easy2/hurdles-ton.jpg"
+"shot" "shot-easy/hurdles-ton.jpg"
 "classname" "worldspawn"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"

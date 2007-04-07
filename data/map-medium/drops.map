@@ -7,7 +7,7 @@
 "version" "1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
-"shot" "shot-rlk/drops.jpg"
+"shot" "shot-medium/drops.jpg"
 "song" "bgm/track4.ogg"
 "time" "9000"
 "goal" "20"

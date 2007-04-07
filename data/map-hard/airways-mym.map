@@ -7,7 +7,7 @@
 "version" "1"
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
-"shot" "shot-mym/airways-mym.jpg"
+"shot" "shot-hard/airways-mym.jpg"
 "song" "bgm/track5.ogg"
 "time" "30000"
 "goal" "10"

@@ -6,7 +6,7 @@
 "version" "1"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
-"shot" "shot-rlk/four.jpg"
+"shot" "shot-medium/four.jpg"
 "song" "bgm/track2.ogg"
 "time" "9000"
 "goal" "13"

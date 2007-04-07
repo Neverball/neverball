@@ -6,7 +6,7 @@
 "version" "1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"
-"shot" "shot-rlk/bumper.jpg"
+"shot" "shot-easy/bumper.jpg"
 "song" "bgm/track3.ogg"
 "time" "9000"
 "goal" "30"

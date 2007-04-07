@@ -3,7 +3,7 @@
 "version" "1"
 "goal" "26"
 "song" "bgm/track2.ogg"
-"shot" "shot-easy2/pyramid-ton.jpg"
+"shot" "shot-medium/pyramid-ton.jpg"
 "time" "9000"
 "grad" "back/ocean.png"
 "back" "map-back/ocean.sol"

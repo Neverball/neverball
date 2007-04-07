@@ -5,7 +5,7 @@
 "goal" "40"
 "time" "6000"
 "song" "bgm/track2.ogg"
-"shot" "shot-rlk/teleport.jpg"
+"shot" "shot-hard/teleport.jpg"
 "grad" "back/ocean.png"
 "back" "map-back/ocean.sol"
 "version" "1"

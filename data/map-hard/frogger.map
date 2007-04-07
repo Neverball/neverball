@@ -7,7 +7,7 @@
 
 "back"      "map-back/city.sol"
 "grad"      "back/city.png"
-"shot"      "shot-rlk/frogger.jpg"
+"shot"      "shot-hard/frogger.jpg"
 "song"      "bgm/track3.ogg"
 "time"      "9000"
 "goal"      "30"

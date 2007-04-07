@@ -7,7 +7,7 @@
 
 "back"      "map-back/ocean.sol"
 "grad"      "back/ocean.png"
-"shot"      "shot-rlk/bumps.jpg"
+"shot"      "shot-medium/bumps.jpg"
 "song"      "bgm/track2.ogg"
 "time"      "12000"
 "goal"      "30"

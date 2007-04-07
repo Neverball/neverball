@@ -6,7 +6,7 @@
 "version" "1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
-"shot" "shot-rlk/spiralup.jpg"
+"shot" "shot-medium/spiralup.jpg"
 "song" "bgm/track4.ogg"
 "time" "4500"
 "goal" "30"

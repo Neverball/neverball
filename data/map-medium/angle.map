@@ -6,7 +6,7 @@
 "version" "1"
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
-"shot" "shot-rlk/angle.jpg"
+"shot" "shot-medium/angle.jpg"
 "song" "bgm/track5.ogg"
 "time" "4500"
 "goal" "25"
