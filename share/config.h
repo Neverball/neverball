@@ -37,6 +37,7 @@ enum {
     CONFIG_TEXTURES,
     CONFIG_GEOMETRY,
     CONFIG_REFLECTION,
+    CONFIG_MULTISAMPLE,
     CONFIG_BACKGROUND,
     CONFIG_SHADOW,
     CONFIG_AUDIO_RATE,
@@ -95,6 +96,7 @@ enum {
 #define DEFAULT_TEXTURES             1
 #define DEFAULT_GEOMETRY             1
 #define DEFAULT_REFLECTION           1
+#define DEFAULT_MULTISAMPLE          0
 #define DEFAULT_BACKGROUND           1
 #define DEFAULT_SHADOW               1
 #define DEFAULT_AUDIO_RATE           44100

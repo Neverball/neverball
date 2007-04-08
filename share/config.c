@@ -72,6 +72,7 @@ void config_init(void)
     config_set_d(CONFIG_TEXTURES,             DEFAULT_TEXTURES);
     config_set_d(CONFIG_GEOMETRY,             DEFAULT_GEOMETRY);
     config_set_d(CONFIG_REFLECTION,           DEFAULT_REFLECTION);
+    config_set_d(CONFIG_MULTISAMPLE,          DEFAULT_MULTISAMPLE);
     config_set_d(CONFIG_BACKGROUND,           DEFAULT_BACKGROUND);
     config_set_d(CONFIG_SHADOW,               DEFAULT_SHADOW);
     config_set_d(CONFIG_AUDIO_RATE,           DEFAULT_AUDIO_RATE);
@@ -142,6 +143,8 @@ void config_load(void)
                     config_set_d(CONFIG_GEOMETRY,             atoi(val));
                 else if (strcmp(key, "reflection")            == 0)
                     config_set_d(CONFIG_REFLECTION,           atoi(val));
+                else if (strcmp(key, "multisample")           == 0)
+                    config_set_d(CONFIG_MULTISAMPLE,          atoi(val));
                 else if (strcmp(key, "background")            == 0)
                     config_set_d(CONFIG_BACKGROUND,           atoi(val));
                 else if (strcmp(key, "shadow")                == 0)
@@ -252,6 +255,8 @@ void config_save(void)
                 option_d[CONFIG_GEOMETRY]);
         fprintf(fp, "reflection           %d\n",
                 option_d[CONFIG_REFLECTION]);
+        fprintf(fp, "multisample          %d\n",
+                option_d[CONFIG_MULTISAMPLE]);
         fprintf(fp, "background           %d\n",
                 option_d[CONFIG_BACKGROUND]);
         fprintf(fp, "shadow               %d\n",
@@ -340,13 +345,36 @@ void config_save(void)
 
 /*---------------------------------------------------------------------------*/
 
+int check_extension(const char *needle)
+{
+    const GLubyte *haystack, *c;
+
+    /* Search for the given string in the OpenGL extension strings. */
+
+    for (haystack = glGetString(GL_EXTENSIONS); *haystack; haystack++)
+    {
+        for (c = (const GLubyte *) needle; *c && *haystack; c++, haystack++)
+            if (*c != *haystack)
+                break;
+
+        if ((*c == 0) && (*haystack == ' ' || *haystack == '\0'))
+            return 1;
+    }
+
+    return 0;
+}
+
 int config_mode(int f, int w, int h)
 {
-    int stereo  = config_get_d(CONFIG_STEREO)     ? 1 : 0;
-    int stencil = config_get_d(CONFIG_REFLECTION) ? 1 : 0;
+    int stereo  = config_get_d(CONFIG_STEREO)      ? 1 : 0;
+    int stencil = config_get_d(CONFIG_REFLECTION)  ? 1 : 0;
+    int buffers = config_get_d(CONFIG_MULTISAMPLE) ? 1 : 0;
+    int samples = config_get_d(CONFIG_MULTISAMPLE);
 
-    SDL_GL_SetAttribute(SDL_GL_STEREO,       stereo);
-    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, stencil);
+    SDL_GL_SetAttribute(SDL_GL_STEREO,             stereo);
+    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE,       stencil);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, buffers);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, samples);
 
     /* Try to set the currently specified mode. */
 
@@ -365,6 +393,17 @@ int config_mode(int f, int w, int h)
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_LIGHTING);
 
+        /* If GL supports multisample, and SDL got a multisample buffer... */
+
+#ifdef GL_ARB_multisample
+        if (check_extension("ARB_multisample"))
+        {
+            SDL_GL_GetAttribute(SDL_GL_MULTISAMPLEBUFFERS, &buffers);
+            if (buffers)
+                glEnable(GL_MULTISAMPLE_ARB);
+        }
+#endif
+
         return 1;
     }
 
@@ -373,6 +412,14 @@ int config_mode(int f, int w, int h)
     else if (stereo)
     {
         config_set_d(CONFIG_STEREO, 0);
+        return config_mode(f, w, h);
+    }
+
+    /* If the mode failed, try decreasing the level of multisampling. */
+
+    else if (buffers)
+    {
+        config_set_d(CONFIG_MULTISAMPLE, samples / 2);
         return config_mode(f, w, h);
     }
 
