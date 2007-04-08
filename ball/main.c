@@ -364,7 +364,9 @@ int main(int argc, char *argv[])
     audio_bind(AUD_SET,    1, _("snd/set.ogg"));
     audio_bind(AUD_GO,     1, _("snd/go.ogg"));
     audio_bind(AUD_BALL,   2, "snd/ball.ogg");
-    audio_bind(AUD_BUMP,   3, "snd/bump.ogg");
+    audio_bind(AUD_BUMPS,  3, "snd/bumplil.ogg");
+    audio_bind(AUD_BUMPM,  3, "snd/bump.ogg");
+    audio_bind(AUD_BUMPL,  3, "snd/bumpbig.ogg");
     audio_bind(AUD_COIN,   2, "snd/coin.wav");
     audio_bind(AUD_TICK,   4, "snd/tick.ogg");
     audio_bind(AUD_TOCK,   4, "snd/tock.ogg");
@@ -375,6 +377,8 @@ int main(int argc, char *argv[])
     audio_bind(AUD_FALL,   1, _("snd/fall.ogg"));
     audio_bind(AUD_TIME,   1, _("snd/time.ogg"));
     audio_bind(AUD_OVER,   1, _("snd/over.ogg"));
+    audio_bind(AUD_GROW,   5, "snd/grow.ogg");
+    audio_bind(AUD_SHRINK, 5, "snd/shrink.ogg");
 
     audio_init();
 

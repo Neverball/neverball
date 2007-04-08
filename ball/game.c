@@ -92,6 +92,8 @@ static void grow_set(const struct s_file *fp, int type)
 
     if (type == ITEM_SHRINK)
     {
+        audio_play(AUD_SHRINK, 1.f);
+
         if (grow_goal == grow_orig * GROW_SMALL)
             return;
         else if (grow_goal == grow_orig * GROW_BIG)
@@ -107,6 +109,8 @@ static void grow_set(const struct s_file *fp, int type)
     }
     if (type == ITEM_GROW)
     {
+        audio_play(AUD_GROW, 1.f);
+
         if (grow_goal == grow_orig * GROW_BIG)
             return;
         else if (grow_goal == grow_orig * GROW_SMALL)
@@ -919,7 +923,17 @@ int game_step(const float g[3], float dt, int *state_value)
             /* Mix the sound of a ball bounce. */
 
             if (b > 0.5)
-                audio_play(AUD_BUMP, (b - 0.5f) * 2.0f);
+            {
+                float k = (b - 0.5f) * 2.0f;
+                
+                if (got_orig)
+                {
+                    if      (fp->uv->r > grow_orig) audio_play(AUD_BUMPL, k);
+                    else if (fp->uv->r < grow_orig) audio_play(AUD_BUMPS, k);
+                    else                            audio_play(AUD_BUMPM, k);
+                }
+                else audio_play(AUD_BUMPM, k);
+            }
         }
 
         game_step_fade(dt);

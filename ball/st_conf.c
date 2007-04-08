@@ -179,7 +179,7 @@ static int conf_action(int i)
 
             config_set_d(CONFIG_SOUND_VOLUME, n);
             audio_volume(n, m);
-            audio_play(AUD_BUMP, 1.f);
+            audio_play(AUD_BUMPM, 1.f);
 
             gui_toggle(sound_id[n]);
             gui_toggle(sound_id[s]);
@@ -190,7 +190,7 @@ static int conf_action(int i)
 
             config_set_d(CONFIG_MUSIC_VOLUME, n);
             audio_volume(s, n);
-            audio_play(AUD_BUMP, 1.f);
+            audio_play(AUD_BUMPM, 1.f);
 
             gui_toggle(music_id[n]);
             gui_toggle(music_id[m]);
