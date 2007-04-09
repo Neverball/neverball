@@ -3,11 +3,14 @@ For Testing purposes\\\remaining levels\\
 misc
 shot-easy2/.jpg
 
-map-misc/billiard-paul.sol
-map-misc/checkers-paul.sol
-map-misc/ocean-paul.sol
-map-misc/grow_demo-dave.sol
-map-misc/stairs-jp.sol
-map-misc/elevator-jp.sol
-map-misc/bigball-mym.sol
+map-misc/billiard.sol
+map-misc/checkers.sol
+map-misc/ocean.sol
+map-misc/grow_demo.sol
+map-misc/stairs.sol
+map-misc/elevator.sol
+map-misc/bigball.sol
+map-misc/thwomp1.sol
+map-misc/bounce.sol
+map-misc/bounce2.sol
 
