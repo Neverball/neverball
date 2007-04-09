@@ -5,10 +5,10 @@
 "levelname" "earthquake-mym"
 "version"   "1"
 
-"back"      "map-back/jupiter.sol"
-"grad"      "back/space.png"
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
 "shot"      "shot-mym/earthquake.jpg"
-"song"      "bgm/track4.ogg"
+"song"      "bgm/track1.ogg"
 "time"      "6000"
 "goal"      "70"
 

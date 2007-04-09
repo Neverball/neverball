@@ -5,10 +5,10 @@
 "levelname" "running-mym"
 "version" "2"
 
-"back" "map-back/ocean.sol"
-"grad" "back/ocean.png"
+"back" "map-back/alien.sol"
+"grad" "back/alien.png"
 "shot" "shot-mym/running.jpg"
-"song" "bgm/track2.ogg"
+"song" "bgm/track5.ogg"
 "time" "30000"
 "goal" "140"
 

@@ -6,10 +6,10 @@
 "levelname" "speed-mym"
 "version"   "1"
 
-"back"      "map-back/city.sol"
-"grad"      "back/city.png"
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
 "shot"      "shot-mym2/speed.jpg"
-"song"      "bgm/track3.ogg"
+"song"      "bgm/track5.ogg"
 "time"      "2200"
 "goal"      "100"
 

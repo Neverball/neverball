@@ -1,0 +1,30 @@
+Neverball Medium
+Difficulty: A set of levels for intermediate players.\\\Work in progress.\\
+medium
+shot-medium/marblecurves-mym.jpg
+
+map-medium/marblecurves-mym.sol
+map-medium/qbert-mym.sol
+map-medium/telemaze.sol
+map-medium/locks.sol
+map-medium/roundfloors-mym.sol
+map-medium/bumps.sol
+map-medium/pyramid-ton.sol
+map-medium/zigzag.sol
+map-medium/four.sol
+map-medium/learngrow-mym.sol
+map-medium/easytele.sol
+map-medium/cross-para.sol
+map-medium/sparselines-mym.sol
+map-medium/stairs.sol
+map-medium/coneskeleton-mym.sol
+map-medium/drops.sol
+map-medium/spiraldn.sol
+map-medium/timer.sol
+map-medium/spiralup.sol
+map-medium/woodmaze-mym.sol
+map-medium/angle.sol
+map-medium/rampdn.sol
+map-medium/islands.sol
+map-medium/plinko.sol
+map-medium/title.sol

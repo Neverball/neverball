@@ -5,10 +5,10 @@
 "levelname" "ghosts-mym"
 "version" "1"
 
-"back" "map-back/jupiter.sol"
-"grad" "back/space.png"
+"back" "map-back/city.sol"
+"grad" "back/city.png"
 "shot" "shot-mym/ghosts.jpg"
-"song" "bgm/track5.ogg"
+"song" "bgm/track3.ogg"
 "time" "10000"
 "goal" "30"
 

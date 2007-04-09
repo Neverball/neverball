@@ -1,19 +1,18 @@
+
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "loop2-mym"
-"version"   "2"
-
-"back"      "map-back/alien.sol"
-"grad"      "back/alien.png"
-"shot"      "shot-mym/loop2.jpg"
-"song"      "bgm/track5.ogg"
-"time"      "7000"
-"goal"      "70"
-
-"time_hs"   "2100 4000"
-"coin_hs"   "110 80"
+"version" "2"
+"back" "map-back/jupiter.sol"
+"grad" "back/space.png"
+"shot" "shot-mym/loop2.jpg"
+"song" "bgm/track4.ogg"
+"time" "7000"
+"goal" "70"
+"time_hs" "2100 4000"
+"coin_hs" "110 80"
 "message" "Le contrôle des courbes.\Find the right angle to turn,\to jump and to land..."
 // brush 0
 {
@@ -3075,7 +3074,7 @@
 // entity 6
 {
 "classname" "light"
-"origin" "-864 1728 16"
+"origin" "-864 1664 16"
 "light" "5"
 }
 // entity 7
@@ -3148,4 +3147,10 @@
 "classname" "light"
 "light" "5"
 "origin" "-448 1328 16"
+}
+// entity 19
+{
+"classname" "light"
+"origin" "-864 1728 16"
+"light" "5"
 }
