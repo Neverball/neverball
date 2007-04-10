@@ -14,7 +14,7 @@ map-medium/zigzag.sol
 map-medium/four.sol
 map-medium/learngrow.sol
 map-medium/easytele.sol
-map-medium/cross-para.sol
+map-medium/cross.sol
 map-medium/sparselines.sol
 map-medium/stairs.sol
 map-medium/coneskeleton.sol
