@@ -85,6 +85,8 @@ static int help_menu(int id)
 {
     int jd;
 
+    gui_space(id);
+
     if ((jd = gui_harray(id)))
     {
         help_button(jd, _("Techniques"), HELP_TECH);
@@ -347,31 +349,19 @@ static int help_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_space(id);
-
         help_menu(id);
 
         switch (tab)
         {
-        case HELP_RULE:
-            help_rules(id);
-            break;
-
-        case HELP_CONT:
-            help_controls(id);
-            break;
-
-        case HELP_MODE:
-            help_modes(id);
-            break;
-
-        case HELP_TECH:
-            help_techniques(id);
-            break;
+        case HELP_RULE: help_rules(id);      break;
+        case HELP_CONT: help_controls(id);   break;
+        case HELP_MODE: help_modes(id);      break;
+        case HELP_TECH: help_techniques(id); break;
 
         default:
             break;
         }
+
         gui_layout(id, 0, +1);
     }
     return id;

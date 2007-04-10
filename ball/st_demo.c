@@ -61,6 +61,10 @@ static int demo_action(int i)
         return goto_state(&st_demo);
         break;
 
+    case GUI_NULL:
+        return 1;
+        break;
+
     default:
         if (level_replay(demo_get(i)->filename))
             demo_play_goto(0);

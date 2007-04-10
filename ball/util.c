@@ -335,6 +335,11 @@ void gui_keyboard(int id)
 
 /*---------------------------------------------------------------------------*/
 
+/* XXX Watch out when using these functions.  Be sure to check for
+ * GUI_NULL in addition to GUI_NEXT and GUI_PREV when using the latter
+ * two as labels for a switch with a default label.
+ */
+
 int gui_back_prev_next(int id, int prev, int next)
 {
     int jd;
@@ -355,13 +360,19 @@ int gui_back_prev_next(int id, int prev, int next)
 int gui_maybe(int id, const char *label, int token, int enabled)
 {
     int bd;
-    if (enabled)
-        bd = gui_state(id, label, GUI_SML, token,    0);
-    else
+
+    if (!enabled)
     {
-        bd = gui_state(id, label, GUI_SML, token >= 0 ? token | GUI_NULL_MASK : GUI_NULL, 0);
+        bd = gui_state(id,
+                       label,
+                       GUI_SML,
+                       token >= 0 ? token | GUI_NULL_MASK : GUI_NULL,
+                       0);
+
         gui_set_color(bd, gui_gry, gui_gry);
     }
+    else bd = gui_state(id, label, GUI_SML, token, 0);
+
     return bd;
 }
 
