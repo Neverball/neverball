@@ -275,6 +275,8 @@ static int start_enter(void)
         set_best_times(NULL, -1, m != MODE_PRACTICE);
     }
 
+    audio_music_fade_to(0.5f, "bgm/inter.ogg");
+
     return id;
 }
 
