@@ -6,10 +6,10 @@
 "levelname" "translation-mym"
 "version"   "1"
 
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"song"      "bgm/track4.ogg"
 "shot"      "shot-mym2/translation.jpg"
-"song"      "bgm/track2.ogg"
 "time"      "5000"
 "goal"      "15"
 

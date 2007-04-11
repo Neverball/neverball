@@ -2,19 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "bounces-mym"
-"version"   "1"
-
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
-"shot"      "shot-mym2/bounces.jpg"
-"song"      "bgm/track2.ogg"
-"time"      "1500"
-"goal"      "120"
-
-"time_hs"   "600 800"
-"coin_hs"   "177 130"
+"version" "1"
+"back" "map-back/jupiter.sol"
+"grad" "back/space.png"
+"song" "bgm/track4.ogg"
+"shot" "shot-mym2/bounces.jpg"
+"time" "1500"
+"goal" "120"
+"time_hs" "600 800"
+"coin_hs" "177 130"
 "message" "Les sauts du célèbre plombier.\Follow the coins."
 // brush 0
 {
@@ -937,13 +935,13 @@
 {
 "classname" "target_position"
 "targetname" "t1"
-"origin" "-544 -192 192"
+"origin" "-448 -32 224"
 }
 // entity 47
 {
 "classname" "info_player_intermission"
 "target" "t1"
-"origin" "-664 -320 320"
+"origin" "-600 -160 320"
 }
 // entity 48
 {

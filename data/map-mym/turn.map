@@ -2678,13 +2678,13 @@
 {
 "classname" "info_player_intermission"
 "target" "t5"
-"origin" "200 696 1472"
+"origin" "456 -584 1088"
 }
 // entity 18
 {
 "classname" "target_position"
 "targetname" "t5"
-"origin" "-440 120 128"
+"origin" "-56 -72 640"
 }
 // entity 19
 {

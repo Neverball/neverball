@@ -5,10 +5,10 @@
 "levelname" "movingpath-mym"
 "version"   "1"
 
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"song"      "bgm/track4.ogg"
 "shot"      "shot-mym2/movingpath.jpg"
-"song"      "bgm/track2.ogg"
 "time"      "2500"
 "goal"      "40"
 

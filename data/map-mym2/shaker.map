@@ -6,10 +6,10 @@
 "levelname" "shaker-mym"
 "version"   "1"
 
-"back"      "map-back/jupiter.sol"
-"grad"      "back/space.png"
+"back" "map-back/alien.sol"
+"grad" "back/alien.png"
+"song" "bgm/track5.ogg"
 "shot"      "shot-mym2/shaker.jpg"
-"song"      "bgm/track4.ogg"
 "time"      "18000"
 "goal"      "100"
 

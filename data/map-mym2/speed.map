@@ -2,19 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "speed-mym"
-"version"   "1"
-
-"back"      "map-back/alien.sol"
-"grad"      "back/alien.png"
-"shot"      "shot-mym2/speed.jpg"
-"song"      "bgm/track5.ogg"
-"time"      "2200"
-"goal"      "100"
-
-"time_hs"   "1850 1950"
-"coin_hs"   "152 140"
+"version" "1"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"song" "bgm/track1.ogg"
+"shot" "shot-mym2/speed.jpg"
+"time" "2200"
+"goal" "100"
+"time_hs" "1850 1950"
+"coin_hs" "152 140"
 "message" "Plus vite que la vitesse.\Speedness definition."
 // brush 0
 {
@@ -5215,13 +5213,13 @@
 // entity 3
 {
 "classname" "target_position"
-"origin" "-1088 -1024 640"
+"origin" "-832 -1088 576"
 "targetname" "t1"
 }
 // entity 4
 {
 "classname" "info_player_intermission"
-"origin" "-1376 -1280 832"
+"origin" "-1120 -1376 704"
 "target" "t1"
 }
 // entity 5

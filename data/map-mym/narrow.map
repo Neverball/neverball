@@ -1626,13 +1626,13 @@
 // entity 41
 {
 "classname" "info_player_intermission"
-"origin" "1408 -324 2376"
+"origin" "-960 -388 1096"
 "target" "t12"
 }
 // entity 42
 {
 "classname" "target_position"
-"origin" "960 1216 256"
+"origin" "-384 320 512"
 "targetname" "t12"
 }
 // entity 43

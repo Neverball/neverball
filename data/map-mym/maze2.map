@@ -829,7 +829,7 @@
 {
 "classname" "info_player_intermission"
 "targetname" "t3"
-"origin" "-220 -816 1028"
+"origin" "-476 -1136 516"
 }
 // entity 3
 {

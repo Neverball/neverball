@@ -7,8 +7,8 @@
 "version" "1"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
-"shot" "shot-mym2/basket.jpg"
 "song" "bgm/track2.ogg"
+"shot" "shot-mym2/basket.jpg"
 "time" "18000"
 "goal" "15"
 "time_hs" "3200 5000"
@@ -5640,13 +5640,13 @@
 // entity 121
 {
 "classname" "target_position"
-"origin" "896 -896 704"
+"origin" "992 -992 704"
 "targetname" "t32"
 }
 // entity 122
 {
 "classname" "info_player_intermission"
-"origin" "1152 -1104 896"
+"origin" "1248 -1200 864"
 "target" "t32"
 }
 // entity 123

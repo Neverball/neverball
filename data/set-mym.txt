@@ -6,9 +6,9 @@ shot-mym/turn.jpg
 map-mym/descent.sol
 map-mym/dance2.sol
 map-mym/drive1.sol
-map-mym/glasstower.sol
-map-mym/earthquake.sol
 map-mym/scrambling.sol
+map-mym/earthquake.sol
+map-mym/glasstower.sol
 map-mym/trust.sol
 map-mym/loop1.sol
 map-mym/maze1.sol

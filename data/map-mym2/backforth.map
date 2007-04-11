@@ -2,19 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "backforth-mym"
-"version"   "1"
-
-"back"      "map-back/clouds.sol"
-"grad"      "back/land.png"
-"shot"      "shot-mym2/backforth.jpg"
-"song"      "bgm/track1.ogg"
-"time"      "18000"
-"goal"      "24"
-
-"time_hs"   "3300 3500"
-"coin_hs"   "44 10"
+"version" "1"
+"back" "map-back/city.sol"
+"grad" "back/city.png"
+"song" "bgm/track3.ogg"
+"shot" "shot-mym2/backforth.jpg"
+"time" "18000"
+"goal" "24"
+"time_hs" "3300 3500"
+"coin_hs" "44 10"
 "message" "Un va-et-vient frustrant.\Remember the activation order."
 // brush 0
 {
@@ -1882,7 +1880,7 @@
 {
 "classname" "info_player_intermission"
 "target" "t68"
-"origin" "544 -960 448"
+"origin" "544 -960 384"
 }
 // entity 46
 {

@@ -2,21 +2,18 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "up-mym"
-"version"   "1.1"
-
-"back"      "map-back/alien.sol"
-"grad"      "back/alien.png"
-"shot"      "shot-mym/up.jpg"
-"song"      "bgm/track5.ogg"
-"time"      "3000"
-"goal"      "160"
-
-"time_hs"   "1500 1700"
-"coin_hs"   "182 170"
+"version" "1.1"
+"back" "map-back/alien.sol"
+"grad" "back/alien.png"
+"shot" "shot-mym/up.jpg"
+"song" "bgm/track5.ogg"
+"time" "3000"
+"goal" "160"
+"time_hs" "1500 1700"
+"coin_hs" "182 170"
 "message" "L'ascension pressée.\Only one piece of advice: don't stop!"
-
 "bonus" "1"
 // brush 0
 {
@@ -1080,13 +1077,13 @@
 {
 "classname" "info_player_intermission"
 "targetname" "t1"
-"origin" "1016 -480 2732"
+"origin" "1784 -480 2028"
 }
 // entity 4
 {
 "classname" "target_position"
 "target" "t1"
-"origin" "-52 224 964"
+"origin" "76 224 836"
 }
 // entity 5
 {

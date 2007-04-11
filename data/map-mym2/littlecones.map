@@ -2,19 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "littlecones-mym"
-"version"   "1"
-
-"back"      "map-back/jupiter.sol"
-"grad"      "back/space.png"
-"shot"      "shot-mym2/littlecones.jpg"
-"song"      "bgm/track4.ogg"
-"time"      "7500"
-"goal"      "150"
-
-"time_hs"   "400 600"
-"coin_hs"   "334 260"
+"version" "1"
+"back" "map-back/alien.sol"
+"grad" "back/alien.png"
+"song" "bgm/track5.ogg"
+"shot" "shot-mym2/littlecones.jpg"
+"time" "7500"
+"goal" "150"
+"time_hs" "400 600"
+"coin_hs" "334 260"
 "message" "Ne pas se laisser emporter dans le néant.\Don't go too low."
 // brush 0
 {
@@ -2215,13 +2213,13 @@
 // entity 3
 {
 "classname" "target_position"
-"origin" "-128 448 24"
+"origin" "32 384 24"
 "targetname" "t1"
 }
 // entity 4
 {
 "classname" "info_player_intermission"
-"origin" "-640 64 1024"
+"origin" "-544 -384 384"
 "target" "t1"
 }
 // entity 5

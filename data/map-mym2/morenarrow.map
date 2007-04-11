@@ -2,19 +2,17 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "morenarrow-mym"
-"version"   "1"
-
-"back"      "map-back/alien.sol"
-"grad"      "back/alien.png"
-"shot"      "shot-mym2/morenarrow.jpg"
-"song"      "bgm/track5.ogg"
-"time"      "7500"
-"goal"      "0"
-
-"time_hs"   "3000 4000"
-"coin_hs"   "80 20"
+"version" "1"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"song" "bgm/track1.ogg"
+"shot" "shot-mym2/morenarrow.jpg"
+"time" "7500"
+"goal" "0"
+"time_hs" "3000 4000"
+"coin_hs" "80 20"
 "message" "Plus dur que la difficulté.\Good luck."
 // brush 0
 {
@@ -1663,13 +1661,13 @@
 {
 "classname" "target_position"
 "targetname" "t1"
-"origin" "64 384 0"
+"origin" "128 384 0"
 }
 // entity 4
 {
 "classname" "info_player_intermission"
 "target" "t1"
-"origin" "704 -640 704"
+"origin" "704 -640 448"
 }
 // entity 5
 {

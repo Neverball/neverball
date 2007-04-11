@@ -5,10 +5,11 @@
 "author" "Mehdi Yousfi-Monod"
 "levelname" "bigball-mym"
 "version" "1"
-"back" "map-back/ocean.sol"
-"grad" "back/ocean.png"
+
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"song"      "bgm/track4.ogg"
 "shot" "shot-mym2/bigball.jpg"
-"song" "bgm/track2.ogg"
 "time" "9000"
 "goal" "80"
 // brush 0

@@ -2,21 +2,18 @@
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "rodeo-mym"
-"version"   "1"
-
-"back"      "map-back/jupiter.sol"
-"grad"      "back/space.png"
-"shot"      "shot-mym2/rodeo.jpg"
-"song"      "bgm/track4.ogg"
-"time"      "6000"
-"goal"      "0"
-
-"time_hs"   "210 400"
-"coin_hs"   "80 40"
+"version" "1"
+"back" "map-back/alien.sol"
+"grad" "back/alien.png"
+"song" "bgm/track5.ogg"
+"shot" "shot-mym2/rodeo.jpg"
+"time" "6000"
+"goal" "0"
+"time_hs" "210 400"
+"coin_hs" "80 40"
 "message" "Le rodéo de Neverball.\You'll fall quickly."
-
 // brush 0
 {
 ( 513 512 -287 ) ( 513 -512 -287 ) ( -511 512 -287 ) mtrl/goal 128 128 0 -7.5 7.5 134217728 0 0
@@ -679,12 +676,12 @@
 // entity 74
 {
 "classname" "target_position"
-"origin" "-480 -608 704"
+"origin" "-416 -352 384"
 "targetname" "t20"
 }
 // entity 75
 {
 "classname" "info_player_intermission"
-"origin" "-576 -704 896"
+"origin" "-512 -480 480"
 "target" "t20"
 }

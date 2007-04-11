@@ -6,10 +6,10 @@
 "levelname" "movinglumps-mym"
 "version"   "1"
 
-"back"      "map-back/clouds.sol"
-"grad"      "back/land.png"
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
+"song"      "bgm/track3.ogg"
 "shot"      "shot-mym2/movinglumps.jpg"
-"song"      "bgm/track1.ogg"
 "time"      "7500"
 "goal"      "22"
 

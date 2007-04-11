@@ -1,19 +1,18 @@
+
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "glasstower-mym"
-"version"   "1.1"
-
-"back"      "map-back/jupiter.sol"
-"grad"      "back/space.png"
-"shot"      "shot-mym/glasstower.jpg"
-"song"      "bgm/track4.ogg"
-"time"      "10000"
-"goal"      "70"
-
-"time_hs"   "3700 5500"
-"coin_hs"   "127 90"
+"version" "1.1"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"shot" "shot-mym/glasstower.jpg"
+"song" "bgm/track1.ogg"
+"time" "10000"
+"goal" "70"
+"time_hs" "3700 5500"
+"coin_hs" "127 90"
 "message" "La tour de verre.\Find the way to the exit."
 // brush 0
 {
@@ -2836,7 +2835,7 @@
 // entity 31
 {
 "classname" "info_player_intermission"
-"origin" "1344 -380 1600"
+"origin" "1344 -380 1152"
 "target" "t3"
 }
 // entity 32

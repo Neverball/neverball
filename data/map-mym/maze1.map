@@ -893,7 +893,7 @@
 // entity 3
 {
 "classname" "info_player_intermission"
-"origin" "-344 -776 640"
+"origin" "-344 -776 352"
 "targetname" "t3"
 }
 // entity 4

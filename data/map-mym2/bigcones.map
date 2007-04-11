@@ -5,10 +5,10 @@
 "author" "Mehdi Yousfi-Monod"
 "levelname" "bigcones-mym"
 "version" "1"
-"back" "map-back/jupiter.sol"
-"grad" "back/space.png"
+"back" "map-back/alien.sol"
+"grad" "back/alien.png"
+"song" "bgm/track5.ogg"
 "shot" "shot-mym2/bigcones.jpg"
-"song" "bgm/track4.ogg"
 "time" "30000"
 "goal" "50"
 "time_hs" "5000 9000"
@@ -3183,7 +3183,7 @@
 {
 "classname" "info_player_intermission"
 "target" "t3"
-"origin" "-688 -1600 1856"
+"origin" "-688 -1920 1152"
 }
 // entity 2
 {
