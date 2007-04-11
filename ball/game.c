@@ -81,7 +81,7 @@ static int   got_orig = 0;              /* Do we know original ball size?    */
 /*---------------------------------------------------------------------------*/
 
 static void grow_set(const struct s_file *fp, int type)
-{    
+{
     if (!got_orig)
     {
         grow_orig = fp->uv->r;
@@ -90,25 +90,27 @@ static void grow_set(const struct s_file *fp, int type)
         got_orig  = 1;
     }
 
-    if (type == ITEM_SHRINK)
+    switch (type)
     {
+    case ITEM_SHRINK:
         audio_play(AUD_SHRINK, 1.f);
 
         if (grow_goal == grow_orig * GROW_SMALL)
             return;
         else if (grow_goal == grow_orig * GROW_BIG)
         {
-            grow = 1;
             grow_goal = grow_orig;
+            grow = 1;
         }
         else
         {
             grow_goal = grow_orig * GROW_SMALL;
             grow = 1;
         }
-    }
-    if (type == ITEM_GROW)
-    {
+
+        break;
+
+    case ITEM_GROW:
         audio_play(AUD_GROW, 1.f);
 
         if (grow_goal == grow_orig * GROW_BIG)
@@ -123,6 +125,11 @@ static void grow_set(const struct s_file *fp, int type)
             grow_goal = grow_orig * GROW_BIG;
             grow = 1;
         }
+
+        break;
+
+    default:
+        break;
     }
 
     if (grow)
