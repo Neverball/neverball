@@ -5,10 +5,10 @@
 "levelname" "hard-mym"
 "version" "2"
 
-"back" "map-back/alien.sol"
-"grad" "back/alien.png"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
 "shot" "shot-mym/hard.jpg"
-"song" "bgm/track5.ogg"
+"song" "bgm/track2.ogg"
 "time" "9000"
 "goal" "0"
 

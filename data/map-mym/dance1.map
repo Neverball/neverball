@@ -5,10 +5,10 @@
 "levelname" "dance1-mym"
 "version"   "1.1"
 
-"back"      "map-back/alien.sol"
-"grad"      "back/alien.png"
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
 "shot"      "shot-mym/dance1.jpg"
-"song"      "bgm/track5.ogg"
+"song"      "bgm/track2.ogg"
 "time"      "9000"
 "goal"      "50"
 

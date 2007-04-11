@@ -5,10 +5,10 @@
 "levelname" "loop1-mym"
 "version"   "2"
 
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
 "shot"      "shot-mym/loop1.jpg"
-"song"      "bgm/track2.ogg"
+"song"      "bgm/track1.ogg"
 "time"      "3000"
 "goal"      "60"
 

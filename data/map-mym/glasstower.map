@@ -5,10 +5,10 @@
 "levelname" "glasstower-mym"
 "version"   "1.1"
 
-"back"      "map-back/clouds.sol"
-"grad"      "back/land.png"
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
 "shot"      "shot-mym/glasstower.jpg"
-"song"      "bgm/track1.ogg"
+"song"      "bgm/track4.ogg"
 "time"      "10000"
 "goal"      "70"
 
