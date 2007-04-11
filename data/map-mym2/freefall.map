@@ -13,7 +13,7 @@
 "goal" "1"
 "time_hs" "1800 4000"
 "coin_hs" "20 10"
-"message" "Savoir chuter.\Follow the blue-gas markers."
+"message" "Savoir chuter.\Follow the blue markers."
 "bonus" "1"
 // brush 0
 {
