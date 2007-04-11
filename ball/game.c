@@ -297,10 +297,9 @@ static void game_draw_items(const struct s_file *fp)
     float r = 360.f * SDL_GetTicks() / 1000.f;
     int hi;
 
-    /* FIXME:  Draw items of different types in one pass. */
+    /* FIXME:  Draw items of different types in one pass? */
 
-    item_push();
-    item_push_text(ITEM_COIN);
+    item_push(ITEM_COIN);
     {
         for (hi = 0; hi < fp->hc; hi++)
 
@@ -319,8 +318,7 @@ static void game_draw_items(const struct s_file *fp)
     }
     item_pull();
 
-    item_push();
-    item_push_text(ITEM_SHRINK);
+    item_push(ITEM_SHRINK);
     {
         for (hi = 0; hi < fp->hc; hi++)
 
@@ -339,8 +337,7 @@ static void game_draw_items(const struct s_file *fp)
     }
     item_pull();
 
-    item_push();
-    item_push_text(ITEM_GROW);
+    item_push(ITEM_GROW);
     {
         for (hi = 0; hi < fp->hc; hi++)
 

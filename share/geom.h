@@ -39,8 +39,7 @@ void item_color(const struct s_item *, float *);
 void item_init(int);
 void item_free(void);
 
-void item_push(void);
-void item_push_text(int);
+void item_push(int);
 void item_draw(const struct s_item *, float);
 void item_pull(void);
 

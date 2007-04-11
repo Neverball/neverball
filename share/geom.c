@@ -349,7 +349,7 @@ void item_free(void)
     item_shrink_text = 0;
 }
 
-void item_push(void)
+void item_push(int type)
 {
     static const float  a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
     static const float  s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -362,13 +362,10 @@ void item_push(void)
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
-}
 
-void item_push_text(int t)
-{
     glEnable(GL_COLOR_MATERIAL);
 
-    switch (t)
+    switch (type)
     {
     case ITEM_COIN:
         glBindTexture(GL_TEXTURE_2D, item_coin_text);
