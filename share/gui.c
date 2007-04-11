@@ -982,7 +982,7 @@ void gui_layout(int id, int xd, int yd)
 
     /* Hilite the widget under the cursor, if any. */
 
-    /* gui_point(id, -1, -1); */
+    gui_point(id, -1, -1);
 }
 
 int gui_search(int id, int x, int y)
