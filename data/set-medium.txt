@@ -1,7 +1,7 @@
 Neverball Medium
 Difficulty: A set of levels for intermediate players.\\\Work in progress.\\
 medium
-shot-medium/marblecurves-mym.jpg
+shot-medium/marblecurves.jpg
 
 map-medium/marblecurves.sol
 map-medium/qbert.sol
