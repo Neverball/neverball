@@ -1,7 +1,7 @@
 Neverball Misc
 For Testing purposes\\\remaining levels\\
 misc
-shot-easy2/.jpg
+shot-misc/paths.jpg
 
 map-misc/billiard.sol
 map-misc/checkers.sol
