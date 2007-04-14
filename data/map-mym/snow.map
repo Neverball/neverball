@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "bonus" "1"
-"message" "La descente rafraichissante.\Not so fast, not so fast."
+"message" "La descente rafraichîssante.\Not so fast, not so fast."
 "coin_hs" "100 80"
 "time_hs" "800 1200"
 "goal" "60"
