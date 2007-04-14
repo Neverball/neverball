@@ -1800,7 +1800,7 @@
 // entity 1
 {
 "classname" "info_player_start"
-"origin" "1728 1856 96"
+"origin" "0 0 32"
 }
 // entity 2
 {
