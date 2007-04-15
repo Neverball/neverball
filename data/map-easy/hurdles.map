@@ -8,7 +8,7 @@
 "goal" "10"
 "time" "10000"
 "song" "bgm/track1.ogg"
-"shot" "shot-easy/hurdles-ton.jpg"
+"shot" "shot-easy/hurdles.jpg"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "message" "You must leap to the goal.\Build speed on the final runway and aim for the ramp!"
