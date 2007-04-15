@@ -2,11 +2,11 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "easyhalfpipe-mym"
+"levelname" "easyhalfpipe"
 "version" "1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"
-"shot" "shot-easy/easyhalfpipe-mym.jpg"
+"shot" "shot-easy/easyhalfpipe.jpg"
 "song" "bgm/track3.ogg"
 "time" "12000"
 "goal" "10"
