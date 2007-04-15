@@ -13,10 +13,10 @@ map-easy/goslow.sol
 map-easy/slalom.sol
 map-easy/slightcurve.sol
 map-easy/groundbreak.sol
-map-easy/speedbumps.sol
 map-easy/maze.sol
-map-easy/easyhalfpipe.sol
 map-easy/bumper.sol
+map-easy/easyhalfpipe.sol
+map-easy/speedbumps.sol
 map-easy/lollipop.sol
 map-easy/hole.sol
 map-easy/roundlaby.sol
