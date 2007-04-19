@@ -41,6 +41,9 @@ void ball_init(int b)
     config_get_s(CONFIG_BALL, name, MAXSTR);
     ball_text[0] = make_image_from_file(NULL, NULL, NULL, NULL, name);
 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
     config_get_s(CONFIG_BALL_BONUS, name, MAXSTR);
     ball_text[1] = make_image_from_file(NULL, NULL, NULL, NULL, name);
 
