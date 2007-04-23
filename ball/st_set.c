@@ -35,6 +35,8 @@ static int first = 0;
 static int shot_id;
 static int desc_id;
 
+static int should_prompt = 1;
+
 static int set_action(int i)
 {
     audio_play(AUD_MENU, 1.0f);
@@ -46,13 +48,21 @@ static int set_action(int i)
         break;
 
     case GUI_PREV:
+
         first -= SET_STEP;
+
+        should_prompt = 0;
         return goto_state(&st_set);
+
         break;
 
     case GUI_NEXT:
+
         first += SET_STEP;
+
+        should_prompt = 0;
         return goto_state(&st_set);
+
         break;
 
     case GUI_NULL:
@@ -92,7 +102,10 @@ static int set_enter(void)
     total = set_init();
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
-    audio_play(AUD_START, 1.f);
+
+    if (should_prompt)
+        audio_play(AUD_START, 1.f);
+    else should_prompt = 1;
 
     if ((id = gui_vstack(0)))
     {
