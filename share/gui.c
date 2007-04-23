@@ -112,14 +112,17 @@ static GLuint gui_list(int x, int y,
     GLfloat s0, t0;
     GLfloat s1, t1;
 
-    int W, H, d = h / 16;
+    int W, H, ww, hh, d = h / 16;
 
     /* Assume the applied texture size is rect size rounded to power-of-two. */
 
     image_size(&W, &H, w, h);
 
-    s0 = 0.5f * (W - w) / W;
-    t0 = 0.5f * (H - h) / H;
+    ww = ((W - w) % 2) ? w + 1 : w;
+    hh = ((H - h) % 2) ? h + 1 : h;
+
+    s0 = 0.5f * (W - ww) / W;
+    t0 = 0.5f * (H - hh) / H;
     s1 = 1.0f - s0;
     t1 = 1.0f - t0;
 
@@ -128,18 +131,18 @@ static GLuint gui_list(int x, int y,
         glBegin(GL_QUADS);
         {
             glColor4f(0.0f, 0.0f, 0.0f, 0.5f);
-            glTexCoord2f(s0, t1); glVertex2i(x     + d, y     - d);
-            glTexCoord2f(s1, t1); glVertex2i(x + w + d, y     - d);
-            glTexCoord2f(s1, t0); glVertex2i(x + w + d, y + h - d);
-            glTexCoord2f(s0, t0); glVertex2i(x     + d, y + h - d);
+            glTexCoord2f(s0, t1); glVertex2i(x      + d, y      - d);
+            glTexCoord2f(s1, t1); glVertex2i(x + ww + d, y      - d);
+            glTexCoord2f(s1, t0); glVertex2i(x + ww + d, y + hh - d);
+            glTexCoord2f(s0, t0); glVertex2i(x      + d, y + hh - d);
 
             glColor4fv(c0);
-            glTexCoord2f(s0, t1); glVertex2i(x,     y);
-            glTexCoord2f(s1, t1); glVertex2i(x + w, y);
+            glTexCoord2f(s0, t1); glVertex2i(x,      y);
+            glTexCoord2f(s1, t1); glVertex2i(x + ww, y);
 
             glColor4fv(c1);
-            glTexCoord2f(s1, t0); glVertex2i(x + w, y + h);
-            glTexCoord2f(s0, t0); glVertex2i(x,     y + h);
+            glTexCoord2f(s1, t0); glVertex2i(x + ww, y + hh);
+            glTexCoord2f(s0, t0); glVertex2i(x,      y + hh);
         }
         glEnd();
     }
