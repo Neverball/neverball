@@ -316,6 +316,15 @@ static void set_load_levels(void)
     int i = 0, res;
     int nb = 1, bnb = 1;
 
+    const char *roman[] = {
+        NULL,
+        "I", "II", "III", "IV", "V",
+        "VI", "VII", "VIII", "IX", "X",
+        "XI", "XII", "XIII", "XIV", "XV",
+        "XVI", "XVII", "XVIII", "XIX", "XX",
+        "XXI", "XXII", "XXIII", "XXIV", "XXV"
+    };
+
     if ((fin = fopen(config_data(current_set->file), "r")))
     {
         res = 1;
@@ -336,10 +345,12 @@ static void set_load_levels(void)
             /* Initialize set related info */
             l->set        = current_set;
             l->number     = i;
+
             if (l->is_bonus)
-                sprintf(l->repr, _("B%d"), bnb++);
+                sprintf(l->repr, "%s", roman[bnb++]);
             else
                 sprintf(l->repr, "%02d", nb++);
+
             l->is_locked    = 1;
             l->is_completed = 0;
         }

@@ -47,7 +47,9 @@ struct level
     struct set *set;
 
     int  number;
-    char repr[3]; /* String representation of the number (eg. "B1") */
+
+    /* String representation of the number (eg. "IV") */
+    char repr[MAXSTR];
 
     int is_locked;
     int is_bonus;
