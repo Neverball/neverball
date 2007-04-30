@@ -1,0 +1,241 @@
+// !$*UTF8*$!
+{
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Deployment;
+		activeExecutable = B485B8BF0B46914000A6103A /* Neverball */;
+		activeTarget = 81D0B4070AEE70150041CE19 /* Compressed Disk Image */;
+		addToTargets = (
+			81D0B4070AEE70150041CE19 /* Compressed Disk Image */,
+		);
+		breakpointsGroup = B42DE6DF0B46940700091033 /* XCBreakpointsBucket */;
+		codeSenseManager = B485B8D20B46916000A6103A /* Code sense */;
+		executables = (
+			B485B8BF0B46914000A6103A /* Neverball */,
+			B485B8C00B46914000A6103A /* Neverputt */,
+			B485B8C10B46914000A6103A /* mapc */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXErrorsWarningsDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXErrorsWarningsDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					300,
+					327,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXErrorsWarningsDataSource_TypeID,
+					PBXErrorsWarningsDataSource_MessageID,
+					PBXErrorsWarningsDataSource_LocationID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXExecutablesDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					22,
+					300,
+					325,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXExecutablesDataSource_ActiveFlagID,
+					PBXExecutablesDataSource_NameID,
+					PBXExecutablesDataSource_CommentsID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					542,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					200,
+					257,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 197794450;
+			PBXWorkspaceStateSaveDate = 197794450;
+		};
+		sourceControlManager = B485B8D10B46916000A6103A /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	8137FC010AEB71F7009172EC /* Translations */ = {
+		activeExec = 0;
+	};
+	815FFB720AEA2E0300AFD07F /* audio.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {977, 3332}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {977, 597}}";
+			sepNavWindowFrame = "{{15, 297}, {1016, 726}}";
+		};
+	};
+	815FFC630AEA2F4900AFD07F /* Maps */ = {
+		activeExec = 0;
+	};
+	815FFC680AEA2FB000AFD07F /* Sparse Disk Image */ = {
+		activeExec = 0;
+	};
+	815FFC930AEA305100AFD07F /* Neverputt */ = {
+		activeExec = 0;
+		executables = (
+			B485B8C00B46914000A6103A /* Neverputt */,
+		);
+	};
+	815FFCB40AEA310700AFD07F /* mapc */ = {
+		activeExec = 0;
+		executables = (
+			B485B8C10B46914000A6103A /* mapc */,
+		);
+	};
+	815FFCD50AEA319B00AFD07F /* Neverball */ = {
+		activeExec = 0;
+		executables = (
+			B485B8BF0B46914000A6103A /* Neverball */,
+		);
+	};
+	815FFCD80AEA319C00AFD07F /* Neverball-Info.plist */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1017, 647}}";
+			sepNavSelRange = "{354, 0}";
+			sepNavVisRect = "{{0, 0}, {1017, 647}}";
+			sepNavWindowFrame = "{{69, 247}, {1056, 776}}";
+		};
+	};
+	81D0B4070AEE70150041CE19 /* Compressed Disk Image */ = {
+		activeExec = 0;
+	};
+	B42DE6DF0B46940700091033 /* XCBreakpointsBucket */ = {
+		isa = XCBreakpointsBucket;
+		name = "Project Breakpoints";
+		objects = (
+		);
+	};
+	B47DDD3E0BCA1BF200915326 /* neverball-new.icns */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{92, 226}, {1056, 776}}";
+		};
+	};
+	B47DDD400BCA1BF200915326 /* neverputt-new.icns */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{134, 92}, {1247, 868}}";
+		};
+	};
+	B485B8BF0B46914000A6103A /* Neverball */ = {
+		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = Neverball;
+		sourceDirectories = (
+		);
+	};
+	B485B8C00B46914000A6103A /* Neverputt */ = {
+		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = Neverputt;
+		sourceDirectories = (
+		);
+	};
+	B485B8C10B46914000A6103A /* mapc */ = {
+		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = mapc;
+		sourceDirectories = (
+		);
+	};
+	B485B8D10B46916000A6103A /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+		scmType = "";
+	};
+	B485B8D20B46916000A6103A /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+}
