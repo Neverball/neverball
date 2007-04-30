@@ -97,7 +97,7 @@ static int title_enter(void)
 
     audio_music_fade_to(0.5f, "bgm/title.ogg");
 
-    /* Initialize the first level of the first set for display. */
+    /* Initialize the title level for display. */
     level_load("map-rlk/title.sol", &title_level);
     game_init(&title_level, 0, 0);
 
