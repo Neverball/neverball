@@ -13,7 +13,7 @@
 "goal" "50"
 "time_hs" "5000 9000"
 "coin_hs" "208 160"
-"message" "Les grands cônes.\Living in a cone."
+"message" "Les grands cones.\Living in a cone."
 // brush 0
 {
 ( -928 0 2 ) ( -929 5 2 ) ( -929 5 0 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
