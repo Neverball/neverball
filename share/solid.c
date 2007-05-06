@@ -814,9 +814,8 @@ static float sol_bounce(struct s_ball *up,
 {
     const float kb = 1.10f;
     const float ke = 0.70f;
-    const float km = 0.20f;
 
-    float n[3], r[3], d[3], u[3], vn, wn, xn, yn;
+    float n[3], r[3], d[3], vn, wn, xn, yn;
     float *p = up->p;
     float *v = up->v;
 
@@ -838,10 +837,7 @@ static float sol_bounce(struct s_ball *up,
     xn = (vn < 0.0f) ? -vn * ke : vn;
     yn = (wn > 0.0f) ?  wn * kb : wn;
 
-    v_mad(u, w, n, -wn);
-    v_mad(v, v, n, -vn);
-    v_mad(v, v, u, +km * dt);
-    v_mad(v, v, n, xn + yn);
+    v_mad(v, v, n, 1.7 * (wn - vn));
 
     v_mad(p, q, n, up->r);
 
