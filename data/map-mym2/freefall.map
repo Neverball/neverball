@@ -2956,7 +2956,7 @@
 "origin" "-456 -32 0"
 "radius" ".4"
 "target" "t10"
-"timer" "1"
+"timer" ".9"
 }
 // entity 2
 {
@@ -3379,7 +3379,7 @@
 {
 "classname" "info_camp"
 "origin" "520 416 0"
-"timer" "1"
+"timer" ".9"
 "target" "t9"
 "radius" ".4"
 }
@@ -4423,7 +4423,7 @@
 {
 "classname" "info_camp"
 "origin" "-456 992 0"
-"timer" "1"
+"timer" ".9"
 "target" "t5"
 "radius" ".4"
 }
