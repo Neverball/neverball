@@ -13,7 +13,7 @@
 "goal" "0"
 "time_hs" "210 400"
 "coin_hs" "80 40"
-"message" "Le rodéo de Neverball.\You'll fall quickly."
+"message" "Le rodeo de Neverball.\You'll fall quickly."
 // brush 0
 {
 ( 513 512 -287 ) ( 513 -512 -287 ) ( -511 512 -287 ) mtrl/goal 128 128 0 -7.5 7.5 134217728 0 0
@@ -63,6 +63,51 @@
 ( 665 -384 -296 ) ( 665 -384 -168 ) ( 1049 281 -168 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( 722 -263 -296 ) ( 722 -263 -168 ) ( 985 459 -168 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( 756 -133 -296 ) ( 756 -133 -168 ) ( 889 623 -168 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+}
+// brush 2
+{
+( 128 128 -128 ) ( 128 -128 -128 ) ( -128 128 -128 ) mtrl/jump 128 128 0 2 2.0000002384 134217728 0 0
+( 128 256 -128 ) ( -128 256 -128 ) ( 128 256 -160 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 256 128 -128 ) ( 256 128 -160 ) ( 256 -128 -128 ) mtrl/invisible -0 0 0 0.5 0.5 134217728 0 0
+( -128 -128 -129 ) ( 128 -128 -129 ) ( -128 128 -129 ) mtrl/jump 128 128 0 2 2.0000002384 134217728 0 0
+( -128 -256 -160 ) ( -128 -256 -128 ) ( 128 -256 -160 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -256 -128 -160 ) ( -256 128 -160 ) ( -256 -128 -128 ) mtrl/invisible -0 0 0 0.5 0.5 134217728 0 0
+}
+// brush 3
+{
+( -320 128 -128 ) ( -320 -128 -128 ) ( -576 128 -128 ) mtrl/jump 96 128 0 2 2.0000002384 134217728 0 0
+( -320 256 -128 ) ( -576 256 -128 ) ( -320 256 -160 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -192 128 -128 ) ( -192 128 -160 ) ( -192 -128 -128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -576 -128 -129 ) ( -320 -128 -129 ) ( -576 128 -129 ) mtrl/jump 96 128 0 2 2.0000002384 134217728 0 0
+( -576 -256 -160 ) ( -576 -256 -128 ) ( -320 -256 -160 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -704 -128 -160 ) ( -704 128 -160 ) ( -704 -128 -128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+}
+// brush 4
+{
+( 128 576 -128 ) ( 128 320 -128 ) ( -128 576 -128 ) mtrl/jump 128 96 0 2 2 134217728 0 0
+( 128 704 -128 ) ( -128 704 -128 ) ( 128 704 -160 ) mtrl/invisible -0 0 0 0.5 0.5 134217728 0 0
+( 256 576 -128 ) ( 256 576 -160 ) ( 256 320 -128 ) mtrl/invisible -0 0 0 0.5 0.5 134217728 0 0
+( -128 320 -129 ) ( 128 320 -129 ) ( -128 576 -129 ) mtrl/jump 128 96 0 2 2 134217728 0 0
+( -128 192 -160 ) ( -128 192 -128 ) ( 128 192 -160 ) mtrl/invisible -0 0 0 0.5 0.5 134217728 0 0
+( -256 320 -160 ) ( -256 576 -160 ) ( -256 320 -128 ) mtrl/invisible -0 0 0 0.5 0.5 134217728 0 0
+}
+// brush 5
+{
+( 576 128 -128 ) ( 576 -128 -128 ) ( 320 128 -128 ) mtrl/jump 160 128 0 2 2.0000002384 134217728 0 0
+( 576 256 -128 ) ( 320 256 -128 ) ( 576 256 -160 ) mtrl/invisible -0 0 0 0.5 0.5 134217728 0 0
+( 704 128 -128 ) ( 704 128 -160 ) ( 704 -128 -128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 320 -128 -129 ) ( 576 -128 -129 ) ( 320 128 -129 ) mtrl/jump 160 128 0 2 2.0000002384 134217728 0 0
+( 320 -256 -160 ) ( 320 -256 -128 ) ( 576 -256 -160 ) mtrl/invisible -0 0 0 0.5 0.5 134217728 0 0
+( 192 -128 -160 ) ( 192 128 -160 ) ( 192 -128 -128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+}
+// brush 6
+{
+( 128 -320 -128 ) ( 128 -576 -128 ) ( -128 -320 -128 ) mtrl/jump 128 160 0 2 2 134217728 0 0
+( 128 -192 -128 ) ( -128 -192 -128 ) ( 128 -192 -160 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 256 -320 -128 ) ( 256 -320 -160 ) ( 256 -576 -128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -128 -576 -129 ) ( 128 -576 -129 ) ( -128 -320 -129 ) mtrl/jump 128 160 0 2 2 134217728 0 0
+( -128 -704 -160 ) ( -128 -704 -128 ) ( 128 -704 -160 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -256 -576 -160 ) ( -256 -320 -160 ) ( -256 -576 -128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
 }
 }
 // entity 1
@@ -240,7 +285,7 @@
 // entity 3
 {
 "classname" "path_corner"
-"origin" "-104 -128 24"
+"origin" "-80 -104 -40"
 "targetname" "t1"
 "target" "t9"
 "speed" "1"
@@ -248,7 +293,7 @@
 // entity 4
 {
 "classname" "path_corner"
-"origin" "0 152 24"
+"origin" "0 120 -40"
 "targetname" "t9"
 "target" "t5"
 "speed" "1"
@@ -256,7 +301,7 @@
 // entity 5
 {
 "classname" "path_corner"
-"origin" "-144 48 24"
+"origin" "-120 40 -40"
 "targetname" "t6"
 "target" "t7"
 "speed" "1"
@@ -264,7 +309,7 @@
 // entity 6
 {
 "classname" "path_corner"
-"origin" "144 48 24"
+"origin" "120 40 -40"
 "targetname" "t7"
 "target" "t1"
 "speed" "1"
@@ -272,7 +317,7 @@
 // entity 7
 {
 "classname" "path_corner"
-"origin" "104 -128 24"
+"origin" "80 -104 -40"
 "targetname" "t5"
 "target" "t6"
 "speed" "1"
@@ -684,4 +729,45 @@
 "classname" "info_player_intermission"
 "origin" "-512 -480 480"
 "target" "t20"
+}
+// entity 76
+{
+"classname" "target_teleporter"
+"origin" "0 -448 -128"
+"radius" "2"
+"target" "target_position1"
+}
+// entity 77
+{
+"classname" "target_position"
+"origin" "0 0 224"
+"targetname" "target_position1"
+}
+// entity 78
+{
+"classname" "target_teleporter"
+"origin" "0 0 -128"
+"radius" "2"
+"target" "target_position1"
+}
+// entity 79
+{
+"classname" "target_teleporter"
+"origin" "0 448 -128"
+"radius" "2"
+"target" "target_position1"
+}
+// entity 80
+{
+"classname" "target_teleporter"
+"origin" "448 0 -128"
+"radius" "2"
+"target" "target_position1"
+}
+// entity 81
+{
+"classname" "target_teleporter"
+"origin" "-448 0 -128"
+"radius" "2"
+"target" "target_position1"
 }

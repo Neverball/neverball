@@ -2973,7 +2973,7 @@
 "target" "t4"
 "targetname" "t10"
 "state" "0"
-"speed" ".5"
+"speed" ".4"
 }
 // entity 4
 {
@@ -2990,7 +2990,7 @@
 "targetname" "t9"
 "target" "t7"
 "state" "0"
-"speed" ".5"
+"speed" ".4"
 }
 // entity 6
 {
@@ -4195,7 +4195,7 @@
 "origin" "-544 992 0"
 "target" "t1"
 "targetname" "t5"
-"speed" ".5"
+"speed" ".4"
 "state" "0"
 }
 // entity 13
