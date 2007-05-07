@@ -443,30 +443,16 @@ static int demo_end_enter(void)
 
 static void demo_end_timer(int id, float dt)
 {
-    float t;
     float gg[3] = { 0.0f,  9.8f, 0.0f };
     float gf[3] = { 0.0f, -9.8f, 0.0f };
     int state = curr_demo_replay()->state;
 
     if (time_state() < 2.f)
     {
-        /* Continue demo in background for 2 seconds */
         if (replay_time < global_time)
         {
-            /* The demo is finished, let the ball go */
             if (state != GAME_NONE && state != GAME_TIME)
                 game_step(state == GAME_GOAL ? gg : gf, dt, NULL);
-        }
-        else
-        {
-            /* The demo is not finished, play it */
-            global_time += dt;
-
-            while (replay_time < global_time)
-                if (demo_replay_step(&t))
-                    replay_time += t;
-                else
-                    break;
         }
     }
 
