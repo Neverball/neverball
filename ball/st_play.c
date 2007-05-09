@@ -266,7 +266,7 @@ static int play_loop_keybd(int c, int d)
             view_rotate = 0;
     }
 
-    if (d && c == SDLK_F12)
+    if (d && c == SDLK_F12 && config_get_d(CONFIG_CHEAT))
         return goto_state(&st_look);
 
     if (d && c == SDLK_F6)
