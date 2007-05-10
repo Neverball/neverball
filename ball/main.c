@@ -112,7 +112,12 @@ static int loop(void)
             case SDLK_F10:   shot();                    break;
             case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
             case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
-            case SDLK_F7:    toggle_wire();             break;
+
+            case SDLK_F7:
+                if (config_get_d(CONFIG_CHEAT))
+                    toggle_wire();
+                break;
+
             default: break;
             }
 
