@@ -1687,7 +1687,7 @@
 // entity 1
 {
 "classname" "info_player_start"
-"origin" "-448 1216 -872"
+"origin" "-256 -128 -1000"
 }
 // entity 2
 {
