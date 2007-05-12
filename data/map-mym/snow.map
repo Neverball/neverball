@@ -2269,7 +2269,7 @@
 "classname" "info_camp"
 "timer" "20"
 "target" "t4"
-"origin" "464 3648 -1344"
+"origin" "464 3616 -1344"
 "radius" "1.3"
 "invisible" "1"
 }
