@@ -5,15 +5,15 @@
 "author" "Mehdi Yousfi-Monod"
 "levelname" "updown-mym"
 "version" "1"
-"back" "map-back/clouds.sol"
-"grad" "back/land.png"
-"song" "bgm/track1.ogg"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
+"song" "bgm/track2.ogg"
 "shot" "shot-mym2/updown.jpg"
 "time" "9000"
 "goal" "40"
 "time_hs" "1200 2100"
 "coin_hs" "82 60"
-"message" "Tranquille, mais pas trop.\Sync yourself to the music."
+"message" "Tranquille, mais pas trop.\Sync yourself to the elevators."
 // brush 0
 {
 ( -248 -128 128 ) ( -248 -192 128 ) ( -248 -192 120 ) mtrl/edge-blue 0 0 0 0.5 0.5 0 0 0

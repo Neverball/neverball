@@ -1205,8 +1205,8 @@ msgid "Suis le mouvement.\\Warning, the road is moving."
 msgstr "Suis le mouvement.\\Attention, la piste se déplace."
 
 #: data/map-mym2/updown.map
-msgid "Tranquille, mais pas trop.\\Sync yourself to the music."
-msgstr "Tranquille, mais pas trop.\\Que la musique guide vos pas."
+msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
+msgstr "Tranquille, mais pas trop.\\Soyez synchrones avec les élévateurs."
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."

@@ -6,9 +6,9 @@
 "levelname" "longpipe-mym"
 "version"   "1"
 
-"back" "map-back/ocean.sol"
-"grad" "back/ocean.png"
-"song" "bgm/track2.ogg"
+"back" "map-back/alien.sol"
+"grad" "back/alien.png"
+"song" "bgm/track5.ogg"
 "shot"      "shot-mym2/longpipe.jpg"
 "time"      "6000"
 "goal"      "80"
