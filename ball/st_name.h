@@ -3,6 +3,8 @@
 
 #include "state.h"
 
+extern struct state st_name;
+
 int goto_name(struct state *, struct state *);
 
 #endif
