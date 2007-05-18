@@ -13,6 +13,7 @@
  */
 
 #include <string.h>
+#include <ctype.h>
 
 #include "gui.h"
 #include "game.h"
@@ -20,12 +21,13 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
-#include "st_shared.h"
 
+#include "st_shared.h"
 #include "st_save.h"
 
 extern struct state st_save;
 extern struct state st_clobber;
+
 static char filename[MAXNAM];
 
 /*---------------------------------------------------------------------------*/
@@ -36,17 +38,19 @@ static struct state *cancel_state;
 int goto_save(struct state *ok, struct state *cancel)
 {
     demo_unique(filename);
+
     ok_state     = ok;
     cancel_state = cancel;
+
     return goto_state(&st_save);
 }
 
 /*---------------------------------------------------------------------------*/
 
-#define SAVE_SAVE   2
-#define SAVE_CANCEL 3
-
 static int file_id;
+
+#define SAVE_SAVE   1
+#define SAVE_CANCEL 2
 
 static int save_action(int i)
 {
@@ -57,7 +61,7 @@ static int save_action(int i)
     switch (i)
     {
     case SAVE_SAVE:
-        if (strcmp(filename, "") == 0)
+        if (strlen(filename) == 0)
             return 1;
         if (demo_exists(filename))
             return goto_state(&st_clobber);
@@ -69,6 +73,10 @@ static int save_action(int i)
 
     case SAVE_CANCEL:
         return goto_state(cancel_state);
+
+    case GUI_CL:
+        gui_keyboard_lock();
+        break;
 
     case GUI_BS:
         if (l > 0)
@@ -100,13 +108,13 @@ static int save_enter(void)
         gui_label(id, _("Replay Name"), GUI_MED, GUI_ALL, 0, 0);
 
         gui_space(id);
-        gui_space(id);
 
         file_id = gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
 
         gui_space(id);
 
         gui_keyboard(id);
+
         if ((jd = gui_harray(id)))
         {
             enter_id = gui_start(jd, _("Save"), GUI_SML, SAVE_SAVE, 0);
@@ -129,16 +137,15 @@ static void save_leave(int id)
 
 static int save_keybd(int c, int d)
 {
-    if (d)
-        if ((c & 0xFF80) == 0)
-        {
-            gui_focus(enter_id);
-            c &= 0x7F;
-            if (c == '\b')
-                return save_action(GUI_BS);
-            else if (c > ' ')
-                return save_action(c);
-        }
+    if (d && isascii(c))
+    {
+        gui_focus(enter_id);
+
+        if (c == '\b' || c == 0x7F)
+            return save_action(GUI_BS);
+        if (c > ' ')
+            return save_action(c);
+    }
     return 1;
 }
 
@@ -147,7 +154,13 @@ static int save_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return save_action(gui_token(gui_click()));
+        {
+            int c = gui_token(gui_click());
+
+            /* Ugh.  This is such a hack. */
+
+            return save_action(isupper(c) ? gui_keyboard_char(c) : c);
+        }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return save_action(SAVE_CANCEL);
     }

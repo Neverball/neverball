@@ -13,6 +13,7 @@
  */
 
 #include <string.h>
+#include <ctype.h>
 
 #include "gui.h"
 #include "util.h"
@@ -66,6 +67,10 @@ static int name_action(int i)
 
     case NAME_CANCEL:
         return goto_state(cancel_state);
+
+    case GUI_CL:
+        gui_keyboard_lock();
+        break;
 
     case GUI_BS:
         if (l > 0)
@@ -126,7 +131,7 @@ static void name_leave(int id)
 
 static int name_keybd(int c, int d)
 {
-    if (d && (c & 0xFF80) == 0)
+    if (d && isascii(c))
     {
         gui_focus(enter_id);
 
@@ -143,7 +148,13 @@ static int name_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return name_action(gui_token(gui_click()));
+        {
+            int c = gui_token(gui_click());
+
+            /* Ugh.  This is such a hack. */
+
+            return name_action(isupper(c) ? gui_keyboard_char(c) : c);
+        }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             name_action(NAME_CANCEL);
     }
