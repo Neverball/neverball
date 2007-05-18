@@ -137,7 +137,7 @@ static void save_leave(int id)
 
 static int save_keybd(int c, int d)
 {
-    if (d && isascii(c))
+    if (d && (c & 0xFF80) == 0)
     {
         gui_focus(enter_id);
 
