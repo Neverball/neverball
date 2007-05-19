@@ -1,5 +1,5 @@
 
-CFLAGS+= -Wall -g -ansi -pedantic $(shell sdl-config --cflags)
+CFLAGS= -Wall -g -ansi -pedantic $(shell sdl-config --cflags) -Umain
 
 DEMOCONV= democonv
 

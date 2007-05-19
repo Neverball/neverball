@@ -188,10 +188,6 @@ static int parse_args(int argc, char *argv[],
 
 /*---------------------------------------------------------------------------*/
 
-#ifdef main
-#undef main
-#endif
-
 int main(int argc, char *argv[])
 {
     FILE *fin, *fout;
