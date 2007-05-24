@@ -11,7 +11,8 @@
 "shot" "shot-mym2/freefall.jpg"
 "time" "59999"
 "goal" "500"
-"message" "This level is full of challenges:\understand the level's functioning,\learn to fly and to survive,\grab enough coins,\find and reach the goal,\and more..."
+"message" "This level is full of challenges:\understand the level's functioning,\learn to fly and to survive,\grab half of all coins to open the goal,\find and reach the goal,\and more..."
+"bonus" "1"
 // brush 0
 {
 ( 2432 -192 256 ) ( 2048 -192 256 ) ( 2432 192 256 ) mtrl/turf-small-green 0 128 -90 0.5 0.5 0 0 0
@@ -10963,13 +10964,13 @@
 // entity 487
 {
 "classname" "target_position"
-"origin" "-608 -2952 448"
+"origin" "-564 -2908 704"
 "targetname" "target_position2"
 }
 // entity 488
 {
 "classname" "info_player_intermission"
-"origin" "-704 -3168 512"
+"origin" "-656 -3120 768"
 "target" "target_position2"
 }
 // entity 489
