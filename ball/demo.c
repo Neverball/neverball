@@ -418,13 +418,10 @@ void demo_play_save(const char *name)
     {
         strcpy(src, config_user(USER_REPLAY_FILE));
         strcat(src, REPLAY_EXT);
+
         strcpy(dst, config_user(name));
         strcat(dst, REPLAY_EXT);
 
-#ifdef _WIN32
-        if (demo_exists(name))
-            remove(dst);
-#endif
         rename(src, dst);
     }
 }
