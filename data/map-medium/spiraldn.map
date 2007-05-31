@@ -1,18 +1,22 @@
 // entity 0
 {
-"message" "Take it slow to keep it away from the edge.\Or, don't.\Either way might work.\"
+"classname" "worldspawn"
+"author" "Robert Kooima"
+"levelname" "spiraldn"
+"version" "1"
+
+"shot" "shot-medium/spiraldn.jpg"
+"back" "map-back/alien.sol"
+"grad" "back/alien.png"
+"song" "bgm/track5.ogg"
+
 "coin_hs" "46 40"
 "time_hs" "350 6000"
 "goal" "30"
 "time" "6000"
-"song" "bgm/track4.ogg"
-"shot" "shot-medium/spiraldn.jpg"
-"grad" "back/space.png"
-"back" "map-back/jupiter.sol"
-"version" "1"
-"levelname" "spiraldn-rlk"
-"author" "Robert Kooima"
-"classname" "worldspawn"
+
+"message" "Take it slow to keep it away from the edge.\Or, don't.\Either way might work.\"
+
 // brush 0
 {
 ( 0 512 0 ) ( 0 384 0 ) ( 0 384 -16 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

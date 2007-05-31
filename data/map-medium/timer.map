@@ -1,18 +1,22 @@
 // entity 0
 {
-"message" "That one switch controls all five barriers.\Be quick, because the switch is on a timer.\When it expires, the barriers will rise.\"
+"classname" "worldspawn"
+"author" "Robert Kooima"
+"levelname" "timer"
+"version" "1"
+
+"shot" "shot-medium/timer.jpg"
+"back" "map-back/alien.sol"
+"grad" "back/alien.png"
+"song" "bgm/track5.ogg"
+
 "coin_hs" "108 65"
 "time_hs" "1000 2000"
 "goal" "1"
 "time" "9000"
-"song" "bgm/track4.ogg"
-"shot" "shot-medium/timer.jpg"
-"grad" "back/space.png"
-"back" "map-back/jupiter.sol"
-"version" "1"
-"levelname" "timer-rlk"
-"author" "Robert Kooima"
-"classname" "worldspawn"
+
+"message" "That one switch controls all five barriers.\Be quick, because the switch is on a timer.\When it expires, the barriers will rise.\"
+
 // brush 0
 {
 ( 0 192 0 ) ( 0 64 0 ) ( 0 64 -16 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

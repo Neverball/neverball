@@ -1,18 +1,22 @@
 // entity 0
 {
-"message" "Remember to keep an eye on the shadow to\help control a bouncing ball.  And don't\forget to use the mouse buttons to keep the\ball in view.\"
 "classname" "worldspawn"
 "author" "Robert Kooima"
 "levelname" "drops-rlk"
 "version" "1"
-"back" "map-back/jupiter.sol"
-"grad" "back/space.png"
+
 "shot" "shot-medium/drops.jpg"
-"song" "bgm/track4.ogg"
+"back" "map-back/city.sol"
+"grad" "back/city.png"
+"song" "bgm/track3.ogg"
+
 "time" "9000"
 "goal" "20"
 "time_hs" "500 3000"
 "coin_hs" "194 120"
+
+"message" "Remember to keep an eye on the shadow to\help control a bouncing ball.  And don't\forget to use the mouse buttons to keep the\ball in view.\"
+
 // brush 0
 {
 ( 256 256 -16 ) ( 0 256 -16 ) ( 0 0 -16 ) mtrl/turf-grey 0 0 0 0.500000 0.500000 0 0 0

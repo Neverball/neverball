@@ -1,18 +1,23 @@
 // entity 0
 {
+
+"classname" "worldspawn"
+"author" "Robert Kooima"
+"levelname" "islands"
+"version" "1"
+
+"shot" "shot-medium/islands.jpg"
+"back" "map-back/jupiter.sol"
+"grad" "back/space.png"
+"song" "bgm/track4.ogg"
+
 "coin_hs" "64 50"
 "time_hs" "1200 3000"
 "goal" "40"
 "time" "3000"
-"song" "bgm/track5.ogg"
-"shot" "shot-medium/islands.jpg"
-"grad" "back/alien.png"
-"back" "map-back/alien.sol"
-"version" "1"
-"levelname" "islands-rlk"
-"author" "Robert Kooima"
-"classname" "worldspawn"
+
 "message" "Catch the train before it leaves the station.\"
+
 // brush 0
 {
 ( -128 160 0 ) ( -128 -32 0 ) ( -128 -32 -32 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0

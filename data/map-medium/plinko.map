@@ -1,20 +1,23 @@
 // entity 0
 {
+
 "classname" "worldspawn"
 "author"    "Robert Kooima"
-"levelname" "plinko-rlk"
+"levelname" "plinko"
 "version"   "1"
 
-"back"      "map-back/alien.sol"
-"grad"      "back/alien.png"
 "shot"      "shot-medium/plinko.jpg"
-"song"      "bgm/track5.ogg"
+"back"      "map-back/jupiter.sol"
+"grad"      "back/space.png"
+"song"      "bgm/track4.ogg"
+
 "time"      "12000"
 "goal"      "60"
-
 "time_hs"   "1300 3000"
 "coin_hs"   "150 100"
+
 "message" "Take it slowly.\"
+
 // brush 0
 {
 ( 128 128 -16 ) ( 0 128 -16 ) ( 0 0 -16 ) mtrl/wood 0 0 0 0.500000 0.500000 0 0 0

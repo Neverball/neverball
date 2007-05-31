@@ -1,17 +1,21 @@
 // entity 0
 {
+
+"classname" "worldspawn"
+"author" "Robert Kooima"
+"levelname" "rampdn"
+
+"shot" "shot-medium/rampdn.jpg"
+"back" "map-back/jupiter.sol"
+"grad" "back/space.png"
+"song" "bgm/track4.ogg"
+
 "coin_hs" "160 100"
 "time_hs" "650 4500"
 "goal" "40"
 "time" "9000"
-"song" "bgm/track5.ogg"
-"shot" "shot-medium/rampdn.jpg"
-"grad" "back/alien.png"
-"back" "map-back/alien.sol"
 "version" "1"
-"levelname" "rampdn-rlk"
-"author" "Robert Kooima"
-"classname" "worldspawn"
+
 "message" "You'll need to exert some control over your\view here.  Press F3 to stop the auto-rotation.\Use the mouse buttons to rotate it manually.\Press F1 to return to the auto-rotating view.\"
 // brush 0
 {

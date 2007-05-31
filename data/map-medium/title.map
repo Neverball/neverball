@@ -1,19 +1,22 @@
 // entity 0
 {
-"bonus" "1"
+"classname" "worldspawn"
+"author" "Robert Kooima"
+"levelname" "title-rlk"
+"version" "1"
+
+"shot" "shot-medium/title.jpg"
+"song" "bgm/title.ogg"
+"back" "map-back/jupiter.sol"
+"grad" "back/space.png"
+
 "coin_hs" "40 28"
 "time_hs" "1200 3000"
 "goal" "25"
 "time" "6000"
-"song" "bgm/title.ogg"
-"shot" "shot-medium/title.jpg"
-"grad" "back/alien.png"
-"back" "map-back/alien.sol"
-"version" "1"
-"levelname" "title-rlk"
-"author" "Robert Kooima"
-"classname" "worldspawn"
+
 "message" "Neverball\\http://icculus.org/neverball\\created by Robert Kooima\"
+
 // brush 0
 {
 ( -1416 -128 -16 ) ( -1416 0 -16 ) ( -1408 0 0 ) mtrl/chrome 0 0 0 0.500000 0.500000 0 0 0
