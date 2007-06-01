@@ -2,13 +2,13 @@
 {
 "classname" "worldspawn"
 "author"    "Robert Kooima"
-"levelname" "telemaze-rlk"
+"levelname" "telemaze"
 "version"   "1"
 
-"back"      "map-back/clouds.sol"
-"grad"      "back/land.png"
+"back"      "map-back/city.sol"
+"grad"      "back/city.png"
 "shot"      "shot-medium/telemaze.jpg"
-"song"      "bgm/track1.ogg"
+"song"      "bgm/track3.ogg"
 "time"      "7500"
 "goal"      "50"
 

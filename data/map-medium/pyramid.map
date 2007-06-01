@@ -1,13 +1,17 @@
 // entity 0
 {
-"version" "1"
-"goal" "26"
-"song" "bgm/track2.ogg"
-"shot" "shot-medium/pyramid.jpg"
-"time" "9000"
-"grad" "back/ocean.png"
-"back" "map-back/ocean.sol"
 "classname" "worldspawn"
+"levelname" "pyramid"
+"version" "1"
+
+"shot" "shot-medium/pyramid.jpg"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"song" "bgm/track1.ogg"
+
+"goal" "26"
+"time" "9000"
+
 // brush 0
 {
 ( 320 -320 0 ) ( 320 -216 0 ) ( 320 -216 -64 ) mtrl/wood-lighter 0 0 -180 0.500000 -0.500000 0 0 0

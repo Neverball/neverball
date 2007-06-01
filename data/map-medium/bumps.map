@@ -2,13 +2,13 @@
 {
 "classname" "worldspawn"
 "author"    "Robert Kooima"
-"levelname" "bumps-rlk"
+"levelname" "bumps"
 "version"   "1"
 
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
+"back"      "map-back/clouds.sol"
+"grad"      "back/land.png"
 "shot"      "shot-medium/bumps.jpg"
-"song"      "bgm/track2.ogg"
+"song"      "bgm/track1.ogg"
 "time"      "12000"
 "goal"      "30"
 

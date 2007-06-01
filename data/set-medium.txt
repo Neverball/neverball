@@ -3,17 +3,17 @@ Difficulty: A set of levels for intermediate players.\\\Work in progress.\\
 medium
 shot-medium/marblecurves.jpg
 
-map-medium/telemaze.sol
-map-medium/qbert.sol
 map-medium/locks.sol
 map-medium/marblecurves.sol
-map-medium/roundfloors.sol
 map-medium/bumps.sol
 map-medium/pyramid.sol
+map-medium/roundfloors.sol
 map-medium/zigzag.sol
 map-medium/four.sol
-map-medium/sparselines.sol
 map-medium/easytele.sol
+map-medium/qbert.sol
+map-medium/sparselines.sol
+map-medium/telemaze.sol
 map-medium/cross.sol
 map-medium/stairs.sol
 map-medium/drops.sol

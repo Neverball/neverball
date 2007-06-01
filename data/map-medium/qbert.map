@@ -1,16 +1,18 @@
-
 // entity 0
 {
 "classname" "worldspawn"
+"author" "Mehdi Yousfi-Monod"
+"version" "1"
+"levelname" "qbert"
+
+"shot" "shot-medium/qbert.jpg"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
+"song" "bgm/track2.ogg"
+
 "goal" "20"
 "time" "18000"
-"song" "bgm/track1.ogg"
-"shot" "shot-medium/qbert.jpg"
-"grad" "back/land.png"
-"back" "map-back/clouds.sol"
-"version" "1"
-"levelname" "qbert-mym"
-"author" "Mehdi Yousfi-Monod"
+
 // brush 0
 {
 ( -576 960 -256 ) ( -640 960 -256 ) ( -576 960 -128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
