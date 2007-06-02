@@ -6,7 +6,7 @@ shot-medium/marblecurves.jpg
 map-medium/locks.sol
 map-medium/marblecurves.sol
 map-medium/bumps.sol
-map-medium/pyramid.sol
+map-medium/accordian.sol
 map-medium/roundfloors.sol
 map-medium/zigzag.sol
 map-medium/four.sol
