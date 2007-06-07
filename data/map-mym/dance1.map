@@ -1,20 +1,23 @@
-
 // entity 0
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "dance1-mym"
+"levelname" "dance1"
 "version" "1.1"
+
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
 "shot" "shot-mym/dance1.jpg"
 "song" "bgm/track2.ogg"
+
 "time" "9000"
 "goal" "50"
 "time_hs" "9000 9000"
 "coin_hs" "90 70"
+
 "message" "La ballade dansante.\Let's dance on the moving platform!\Tip: After activating the last moving platform,\ turn around the Thwomp until the goal is reachable."
 "bonus" "1"
+
 // brush 0
 {
 ( 8 448 -16 ) ( -8 448 -16 ) ( -8 -8 -16 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
