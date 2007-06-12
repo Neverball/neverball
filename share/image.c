@@ -96,8 +96,8 @@ void image_snap(char *filename)
 
 void image_size(int *W, int *H, int w, int h)
 {
-    *W = 1;
-    *H = 1;
+    *W = w ? 1 : 0;
+    *H = h ? 1 : 0;
 
     while (*W < w) *W *= 2;
     while (*H < h) *H *= 2;
