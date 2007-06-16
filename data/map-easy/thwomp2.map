@@ -1,20 +1,22 @@
-
 // entity 0
 {
 "classname" "worldspawn"
-"bonus" "1"
-"message" "Grab all the coins...\but don't get thwomped!"
+"author" "Paul Tompkins"
+"contributor" "Mehdi Yousfi-Monod"
+"levelname" "thwomp2"
+"version" "1"
+
+"back" "map-back/city.sol"
+"grad" "back/city.png"
+"shot" "shot-easy/thwomp2.jpg"
+"song" "bgm/track3.ogg"
+
 "coin_hs" " "
 "time_hs" " "
 "time" "40000"
-"song" "bgm/track4.ogg"
-"shot" "shot-easy/thwomp2.jpg"
-"grad" "back/space.png"
-"back" "map-back/jupiter.sol"
-"version" "1"
-"levelname" "thwomp2"
-"contributor" "Mehdi Yousfi-Monod"
-"author" "Paul Tompkins"
+"bonus" "1"
+"message" "Grab all the coins...\but don't get thwomped!"
+
 // brush 0
 {
 ( -192 -64 -240 ) ( -192 64 -240 ) ( -192 -64 -112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0

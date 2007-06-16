@@ -14,4 +14,4 @@ map-misc/thwomp1.sol
 map-misc/bounce.sol
 map-misc/bounce2.sol
 map-misc/freefall-old.sol
-map-misc/mazebump.sol
+map-misc/hurdles.sol

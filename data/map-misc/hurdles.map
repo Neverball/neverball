@@ -4,7 +4,7 @@
 "grad" "back/land.png"
 "back" "map-back/clouds.sol"
 "classname" "worldspawn"
-"shot" "shot-easy/hurdles.jpg"
+"shot" "shot-misc/hurdles.jpg"
 "song" "bgm/track1.ogg"
 "time" "10000"
 "goal" "10"

@@ -5,10 +5,10 @@
 "levelname" "lollipop"
 "version" "2"
 "message" "Follow the yellow lick road..."
-"back" "map-back/city.sol"
-"grad" "back/city.png"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
 "shot" "shot-easy/lollipop.jpg"
-"song" "bgm/track3.ogg"
+"song" "bgm/track2.ogg"
 "bonus" "1"
 // brush 0
 {
