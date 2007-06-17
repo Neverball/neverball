@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "spiralin-rlk"
+"levelname" "spiralin"
 "version" "1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"

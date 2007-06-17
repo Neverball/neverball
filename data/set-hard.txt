@@ -11,12 +11,12 @@ map-hard/pyramid.sol
 map-hard/rampup.sol
 map-hard/check.sol
 map-hard/tilt.sol
-map-hard/frogger.sol
-map-hard/nostairs.sol
-map-hard/quads.sol 
 map-hard/sync.sol
-map-hard/gaps.sol
+map-hard/nostairs.sol
+map-hard/frogger.sol
+map-hard/quads.sol 
 map-hard/teleport.sol
+map-hard/gaps.sol
 map-hard/hallways.sol
 map-hard/spiralin.sol
 map-hard/spread.sol

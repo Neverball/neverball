@@ -5,10 +5,10 @@
 "levelname" "tilt-rlk"
 "version"   "1"
 
-"back"      "map-back/city.sol"
-"grad"      "back/city.png"
+"back"      "map-back/ocean.sol"
+"grad"      "back/ocean.png"
 "shot"      "shot-hard/tilt.jpg"
-"song"      "bgm/track3.ogg"
+"song"      "bgm/track2.ogg"
 "time"      "7500"
 "goal"      "50"
 

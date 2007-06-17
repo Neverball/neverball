@@ -11,12 +11,12 @@ map-medium/roundfloors.sol
 map-medium/zigzag.sol
 map-medium/four.sol
 map-medium/easytele.sol
-map-medium/qbert.sol
-map-medium/sparselines.sol
-map-medium/telemaze.sol
 map-medium/cross.sol
+map-medium/sparselines.sol
+map-medium/qbert.sol
 map-medium/stairs.sol
 map-medium/drops.sol
+map-medium/telemaze.sol
 map-medium/learngrow.sol
 map-medium/spiraldn.sol
 map-medium/timer.sol

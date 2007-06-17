@@ -6,9 +6,9 @@
 "levelname" "qbert"
 
 "shot" "shot-medium/qbert.jpg"
-"back" "map-back/ocean.sol"
-"grad" "back/ocean.png"
-"song" "bgm/track2.ogg"
+"back" "map-back/city.sol"
+"grad" "back/city.png"
+"song" "bgm/track3.ogg"
 
 "goal" "20"
 "time" "18000"
