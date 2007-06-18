@@ -1463,121 +1463,168 @@ void gui_toggle(int id)
 
 /*---------------------------------------------------------------------------*/
 
-static int gui_vert_test(int id, int jd)
+static int gui_vert_offset(int id, int jd)
 {
-    /* Determine whether widget id is in vertical contact with widget jd. */
+    /* Vertical offset between bottom of id and top of jd */
 
-    if (id && gui_hot(id) && jd && gui_hot(jd))
-    {
-        int i0 = widget[id].x;
-        int i1 = widget[id].x + widget[id].w;
-        int j0 = widget[jd].x;
-        int j1 = widget[jd].x + widget[jd].w;
-
-        /* Is widget id's top edge is in contact with jd's bottom edge? */
-
-        if (widget[id].y + widget[id].h == widget[jd].y)
-        {
-            /* Do widgets id and jd overlap horizontally? */
-
-            if (j0 <= i0 && i0 <  j1) return 1;
-            if (j0 <  i1 && i1 <= j1) return 1;
-            if (i0 <= j0 && j0 <  i1) return 1;
-            if (i0 <  j1 && j1 <= i1) return 1;
-        }
-    }
-    return 0;
+    return  widget[id].y - (widget[jd].y + widget[jd].h);
 }
 
-static int gui_horz_test(int id, int jd)
+static int gui_horz_offset(int id, int jd)
 {
-    /* Determine whether widget id is in horizontal contact with widget jd. */
+    /* Horizontal offset between left of id and right of jd */
 
-    if (id && gui_hot(id) && jd && gui_hot(jd))
-    {
-        int i0 = widget[id].y;
-        int i1 = widget[id].y + widget[id].h;
-        int j0 = widget[jd].y;
-        int j1 = widget[jd].y + widget[jd].h;
+    return  widget[id].x - (widget[jd].x + widget[jd].w);
+}
 
-        /* Is widget id's right edge in contact with jd's left edge? */
+static int gui_vert_dist(int id, int jd)
+{
+    /* Vertical distance between the centers of id and jd */
 
-        if (widget[id].x + widget[id].w == widget[jd].x)
-        {
-            /* Do widgets id and jd overlap vertically? */
+    int im = widget[id].y + widget[id].h / 2;
+    int jm = widget[jd].y + widget[jd].h / 2;
+    return abs(jm - im);
+}
 
-            if (j0 <= i0 && i0 <  j1) return 1;
-            if (j0 <  i1 && i1 <= j1) return 1;
-            if (i0 <= j0 && j0 <  i1) return 1;
-            if (i0 <  j1 && j1 <= i1) return 1;
-        }
-    }
-    return 0;
+static int gui_horz_dist(int id, int jd)
+{
+    /* Horizontal distance between the centers of id and jd */
+
+    int im = widget[id].x + widget[id].w / 2;
+    int jm = widget[jd].x + widget[jd].w / 2;
+    return abs(jm - im);
 }
 
 /*---------------------------------------------------------------------------*/
 
 static int gui_stick_L(int id, int dd)
 {
-    int jd, kd;
+    int jd, kd, hd;
+    int d, dmin, o, omin;
 
-    /* Find a widget to the left of widget dd. */
-
-    if (gui_horz_test(id, dd))
+    if (id && gui_hot(id))
         return id;
 
+    hd = 0;
+    dmin = widget[dd].x - widget[id].x + 1;
+    omin = widget[dd].y + widget[dd].h + widget[id].y + widget[id].h;
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-        if ((kd = gui_stick_L(jd, dd)))
-            return kd;
+    {
+        kd = gui_stick_L(jd, dd);
+        if (kd && kd != dd)
+        {
+            d = gui_horz_offset(dd, kd);
+            o = gui_vert_dist(dd, kd);
+            if ((0 <= d && d < dmin)
+                || (d == dmin && o < omin-1))
+            {
+                hd = kd;
+                dmin = d;
+                omin = o;
+            }
+        }
+    }
 
+    if (hd)
+        return hd;
     return 0;
 }
 
 static int gui_stick_R(int id, int dd)
 {
-    int jd, kd;
+    int jd, kd, hd;
+    int d, dmin, o, omin;
 
-    /* Find a widget to the right of widget dd. */
-
-    if (gui_horz_test(dd, id))
+    if (id && gui_hot(id))
         return id;
 
+    hd = 0;
+    dmin = (widget[id].x + widget[id].w) - (widget[dd].x + widget[dd].w) + 1;
+    omin = widget[dd].y + widget[dd].h + widget[id].y + widget[id].h;
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-        if ((kd = gui_stick_R(jd, dd)))
-            return kd;
+    {
+        kd = gui_stick_R(jd, dd);
+        if (kd && kd != dd)
+        {
+            d = gui_horz_offset(kd, dd);
+            o = gui_vert_dist(dd, kd);
+            if ((0 <= d && d < dmin)
+                || (d == dmin && o < omin-1))
+            {
+                hd = kd;
+                dmin = d;
+                omin = o;
+            }
+        }
+    }
 
+    if (hd)
+        return hd;
     return 0;
 }
-
 static int gui_stick_D(int id, int dd)
 {
-    int jd, kd;
+    int jd, kd, hd;
+    int d, dmin, o, omin;
 
-    /* Find a widget below widget dd. */
-
-    if (gui_vert_test(id, dd))
+    if (id && gui_hot(id))
         return id;
 
+    hd = 0;
+    dmin = widget[dd].y - widget[id].y + 1;
+    omin = widget[dd].x + widget[dd].w + widget[id].x + widget[id].w;
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-        if ((kd = gui_stick_D(jd, dd)))
-            return kd;
+    {
+        kd = gui_stick_D(jd, dd);
+        if (kd && kd != dd)
+        {
+            d = gui_vert_offset(dd, kd);
+            o = gui_horz_dist(dd, kd);
+            if ((0 <= d && d < dmin)
+                || (d == dmin && o < omin-1))
+            {
+                hd = kd;
+                dmin = d;
+                omin = o;
+            }
+        }
+    }
 
+    if (hd)
+        return hd;
     return 0;
 }
 
 static int gui_stick_U(int id, int dd)
 {
-    int jd, kd;
+    int jd, kd, hd;
+    int d, dmin, o, omin;
 
-    /* Find a widget above widget dd. */
-
-    if (gui_vert_test(dd, id))
+    if (id && gui_hot(id))
         return id;
 
+    hd = 0;
+    dmin = (widget[id].y + widget[id].h) - (widget[dd].y + widget[dd].h) + 1;
+    omin = widget[dd].x + widget[dd].w + widget[id].x + widget[id].w;
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-        if ((kd = gui_stick_U(jd, dd)))
-            return kd;
+    {
+        kd = gui_stick_U(jd, dd);
+        if (kd && kd != dd)
+        {
+            d = gui_vert_offset(kd, dd);
+            o = gui_horz_dist(dd, kd);
+            if ((0 <= d && d < dmin)
+                || (d == dmin && o < omin-1))
+            {
+                hd = kd;
+                dmin = d;
+                omin = o;
+            }
+        }
+    }
 
+    if (hd)
+        return hd;
     return 0;
 }
 
