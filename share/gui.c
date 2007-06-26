@@ -1479,22 +1479,16 @@ static int gui_horz_offset(int id, int jd)
 
 static int gui_vert_dist(int id, int jd)
 {
-    /* Vertical distance between the centers of id and jd */
+    /* Vertical distance between the tops of id and jd */
 
-    int im = widget[id].y + widget[id].h / 2;
-    int jm = widget[jd].y + widget[jd].h / 2;
-
-    return abs(jm - im);
+    return abs((widget[id].y + widget[id].h) - (widget[jd].y + widget[jd].h));
 }
 
 static int gui_horz_dist(int id, int jd)
 {
-    /* Horizontal distance between the centers of id and jd */
+    /* Horizontal distance between the left sides of id and jd */
 
-    int im = widget[id].x + widget[id].w / 2;
-    int jm = widget[jd].x + widget[jd].w / 2;
-
-    return abs(jm - im);
+    return abs(widget[id].x - widget[jd].x);
 }
 
 /*---------------------------------------------------------------------------*/
