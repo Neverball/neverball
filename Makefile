@@ -181,7 +181,7 @@ po/%.po : $(POTFILE)
 	touch $@
 	
 po-update-extract :
-	bash extractpo.sh $(POTFILE) $(LOCALEDOM)
+	sh extractpo.sh $(POTFILE) $(LOCALEDOM)
 
 po-update-merge : $(POS)
 
