@@ -19,13 +19,13 @@
 #include <stdio.h>
 #include "i18n.h"
 
-
 static const char *languages[][2] = {
     { "de", N_("German")  },
     { "en", N_("English") },
     { "es", N_("Spanish") },
     { "fr", N_("French")  },
     { "lv", N_("Latvian") },
+    { "nn", N_("Norwegian Nynorsk") },
 };
 
 /*---------------------------------------------------------------------------*/
