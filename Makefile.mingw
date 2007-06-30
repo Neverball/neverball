@@ -9,7 +9,7 @@ PNG_LIBS := $(shell libpng-config --libs)
 BASE_LIBS := -lSDL -lSDL_image -lintl
 
 LIBS := $(SDL_LIBS) -lSDL_image -lSDL_mixer -lSDL_ttf \
-	$(OGL_LIBS) $(PNG_LIBS) -lintl
+	$(OGL_LIBS) $(PNG_LIBS) -lintl -liconv
 
 cross:
 	$(MAKE) -f Makefile.mingw MAPC_EXEC="wine mapc.exe"
