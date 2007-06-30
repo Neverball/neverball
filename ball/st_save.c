@@ -54,8 +54,6 @@ static int file_id;
 
 static int save_action(int i)
 {
-    size_t l = strlen(filename);
-
     audio_play(AUD_MENU, 1.0f);
 
     switch (i)
@@ -79,20 +77,13 @@ static int save_action(int i)
         break;
 
     case GUI_BS:
-        if (l > 0)
-        {
-            filename[l - 1] = 0;
+        if (del_unicode_char(filename))
             gui_set_label(file_id, filename);
-        }
         break;
 
     default:
-        if (l < MAXNAM - 1)
-        {
-            filename[l + 0] = (char) i;
-            filename[l + 1] = 0;
+        if (add_unicode_char(i, filename, MAXNAM))
             gui_set_label(file_id, filename);
-        }
     }
     return 1;
 }
@@ -137,7 +128,7 @@ static void save_leave(int id)
 
 static int save_keybd(int c, int d)
 {
-    if (d && (c & 0xFF80) == 0)
+    if (d)
     {
         gui_focus(enter_id);
 

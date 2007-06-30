@@ -1,6 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#include <SDL.h>
+
 #include "set.h"
 
 /*---------------------------------------------------------------------------*/
@@ -24,6 +26,9 @@ char gui_keyboard_char(char);
 
 int  gui_back_prev_next(int, int, int);
 int  gui_maybe(int, const char *, int, int);
+
+int add_unicode_char (Uint32, char *, int);
+int del_unicode_char (char *);
 
 /*---------------------------------------------------------------------------*/
 
