@@ -295,6 +295,7 @@ int main(int argc, char *argv[])
     int t1, t0;
 
     language_init("neverball", CONFIG_LOCALE);
+    iconv_init();
 
     parse_args(argc, argv);
 
@@ -462,6 +463,8 @@ int main(int argc, char *argv[])
     SDL_Quit();
 
     config_save();
+
+    iconv_quit();
 
     return 0;
 }

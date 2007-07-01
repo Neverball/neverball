@@ -299,14 +299,6 @@ const char *date_to_str(time_t i)
 {
     static char str0[MAXSTR];
     static char str1[MAXSTR];
-    static iconv_t conv = 0;
-    char *str0p = str0;
-    char *str1p = str1;
-    size_t n0, n1;
-
-    if (conv == 0)
-        conv = iconv_open("UTF-8", "");
-    /*** TODO: descriptor is not closed at exit ***/
 
     /* TRANSLATORS:  here is the format of the date shown at the
        replay selection screen.  The default will work in most cases, so
@@ -317,13 +309,7 @@ const char *date_to_str(time_t i)
 
     strftime(str0, MAXSTR, /* xgettext:no-c-format */ _("%c"), localtime(&i));
 
-    if (conv == (iconv_t) -1)
-        return str0;
-
-    n0 = n1 = MAXSTR;
-    iconv(conv, &str0p, &n0, &str1p, &n1);
-
-    return str1;
+    return iconv_trans(str0, MAXSTR, str1, MAXSTR);
 }
 
 /*---------------------------------------------------------------------------*/

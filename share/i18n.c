@@ -17,6 +17,8 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <iconv.h>
+
 #include "i18n.h"
 
 
@@ -101,3 +103,33 @@ const char *sgettext(const char *msgid)
 }
 
 /*---------------------------------------------------------------------------*/
+
+static iconv_t conv = 0;
+
+int iconv_init(void)
+{
+    if ((conv = iconv_open("UTF-8", "")) == (iconv_t)-1)
+        return 0;
+
+    return 1;
+
+}
+
+char *iconv_trans(char *str0, size_t max0, char *str1, size_t max1)
+{
+    char *str0p = str0;
+    char *str1p = str1;
+
+    if (conv == (iconv_t) -1)
+        return str0;
+
+    iconv(conv, &str0p, &max0, &str1p, &max1);
+
+    return str1;
+}
+
+void iconv_quit(void)
+{
+    if(conv != (iconv_t) -1)
+        iconv_close(conv);
+}
