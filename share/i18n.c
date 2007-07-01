@@ -18,6 +18,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iconv.h>
+#include <errno.h>
+
+#include "base_config.h"
 
 #include "i18n.h"
 
@@ -104,32 +107,59 @@ const char *sgettext(const char *msgid)
 
 /*---------------------------------------------------------------------------*/
 
-static iconv_t conv = 0;
+static iconv_t conv_to = 0;
+static iconv_t conv_from = 0;
 
-int iconv_init(void)
+void iconv_init(void)
 {
-    if ((conv = iconv_open("UTF-8", "")) == (iconv_t)-1)
-        return 0;
+    if ((conv_to = iconv_open("UTF-8", "")) == (iconv_t)-1)
+        fprintf(stderr, "Error: %s\n", strerror(errno));
 
-    return 1;
-
+    if ((conv_from = iconv_open("", "UTF-8")) == (iconv_t)-1)
+        fprintf(stderr, "Error: %s\n", strerror(errno));
 }
 
-char *iconv_trans(char *str0, size_t max0, char *str1, size_t max1)
+char *to_utf8(char *str0, char *str1, size_t max1)
 {
     char *str0p = str0;
     char *str1p = str1;
+    size_t l = strlen(str0);
 
-    if (conv == (iconv_t) -1)
+    if (conv_to == (iconv_t) -1)
         return str0;
 
-    iconv(conv, &str0p, &max0, &str1p, &max1);
+    if (iconv(conv_to, &str0p, &l, &str1p, &max1) == (size_t)-1)
+        fprintf(stderr, "Error while converting to UTF-8: %s\n",
+                strerror(errno));
+
+    *str1p = '\0';
+
+    return str1;
+}
+
+char *from_utf8(char *str0, char *str1, size_t max1)
+{
+    char *str0p = str0;
+    char *str1p = str1;
+    size_t l = strlen(str0);
+
+    if (conv_from == (iconv_t) -1)
+        return str0;
+
+    if (iconv(conv_from, &str0p, &l, &str1p, &max1) == (size_t)-1)
+        fprintf(stderr, "Error while converting from UTF-8: %s\n",
+                strerror(errno));
+
+    *str1p = '\0';
 
     return str1;
 }
 
 void iconv_quit(void)
 {
-    if(conv != (iconv_t) -1)
-        iconv_close(conv);
+    if (conv_to != (iconv_t) -1)
+        iconv_close(conv_to);
+
+    if (conv_from != (iconv_t) -1)
+        iconv_close(conv_from);
 }

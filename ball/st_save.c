@@ -54,18 +54,22 @@ static int file_id;
 
 static int save_action(int i)
 {
+    char buffer[MAXSTR];
+    char *filenameconv;
+
     audio_play(AUD_MENU, 1.0f);
 
     switch (i)
     {
     case SAVE_SAVE:
-        if (strlen(filename) == 0)
+        filenameconv = from_utf8(filename, buffer, MAXSTR);
+        if (strlen(filenameconv) == 0)
             return 1;
-        if (demo_exists(filename))
+        if (demo_exists(filenameconv))
             return goto_state(&st_clobber);
         else
         {
-            demo_play_save(filename);
+            demo_play_save(filenameconv);
             return goto_state(ok_state);
         }
 
@@ -162,11 +166,13 @@ static int save_buttn(int b, int d)
 
 static int clobber_action(int i)
 {
+    char buffer[MAXSTR];
+
     audio_play(AUD_MENU, 1.0f);
 
     if (i == SAVE_SAVE)
     {
-        demo_play_save(filename);
+        demo_play_save(from_utf8(filename, buffer, MAXSTR));
         return goto_state(ok_state);
     }
     return goto_state(&st_save);

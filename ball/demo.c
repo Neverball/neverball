@@ -223,13 +223,18 @@ static void demo_scan_file(const char *filename)
 {
     FILE *fp;
     struct demo *d = &demos[count];
+    char buffer[MAXSTR];
+    char *filenameconv;
 
     if ((fp = fopen(config_user(filename), FMODE_RB)))
     {
         if (demo_header_read(fp, d))
         {
             strncpy(d->filename, config_user(filename),       MAXSTR);
-            strncpy(d->name,     bname(filename, REPLAY_EXT), PATHMAX);
+
+            filenameconv = to_utf8(d->filename, buffer, MAXSTR);
+            strncpy(d->name,     bname(filenameconv, REPLAY_EXT), PATHMAX);
+
             d->name[PATHMAX - 1] = '\0';
 
             count++;
@@ -309,7 +314,7 @@ const char *date_to_str(time_t i)
 
     strftime(str0, MAXSTR, /* xgettext:no-c-format */ _("%c"), localtime(&i));
 
-    return iconv_trans(str0, MAXSTR, str1, MAXSTR);
+    return to_utf8(str0, str1, MAXSTR);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -453,12 +458,18 @@ const struct demo *curr_demo_replay(void)
 
 int demo_replay_init(const char *name, struct level_game *lg)
 {
+    char buffer[MAXSTR];
+    char *nameconv;
+
     demo_fp = fopen(name, FMODE_RB);
 
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
         strncpy(demo_replay.filename, name,                    MAXSTR);
-        strncpy(demo_replay.name,     bname(name, REPLAY_EXT), PATHMAX);
+
+        nameconv = to_utf8(demo_replay.filename, buffer, MAXSTR);
+
+        strncpy(demo_replay.name,     bname(nameconv, REPLAY_EXT), PATHMAX);
 
         if (!demo_load_level(&demo_replay, &demo_level_replay))
             return 0;
