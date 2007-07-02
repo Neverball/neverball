@@ -306,7 +306,8 @@ const char *date_to_str(time_t i)
        details on the format.
      */
 
-    strftime(str, MAXSTR, /* xgettext:no-c-format */ _("%c"), localtime(&i));
+    strftime(str, MAXSTR, /* xgettext:no-c-format */ _("%Y-%m-%d %H:%M:%S"),
+             localtime(&i));
 
     return to_utf8(str);
 }
