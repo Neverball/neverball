@@ -119,40 +119,46 @@ void iconv_init(void)
         fprintf(stderr, "Error: %s\n", strerror(errno));
 }
 
-char *to_utf8(char *str0, char *str1, size_t max1)
+char *to_utf8(char *str0)
 {
     char *str0p = str0;
-    char *str1p = str1;
-    size_t l = strlen(str0);
+    static char buffer[MAXSTR];
+    char *str1p = buffer;
+
+    size_t l0 = strlen(str0);
+    size_t l1 = MAXSTR;
 
     if (conv_to == (iconv_t) -1)
         return str0;
 
-    if (iconv(conv_to, &str0p, &l, &str1p, &max1) == (size_t)-1)
+    if (iconv(conv_to, &str0p, &l0, &str1p, &l1) == (size_t)-1)
         fprintf(stderr, "Error while converting to UTF-8: %s\n",
                 strerror(errno));
 
     *str1p = '\0';
 
-    return str1;
+    return buffer;
 }
 
-char *from_utf8(char *str0, char *str1, size_t max1)
+char *from_utf8(char *str0)
 {
     char *str0p = str0;
-    char *str1p = str1;
-    size_t l = strlen(str0);
+    static char buffer[2*MAXSTR];
+    char *str1p = buffer;
+
+    size_t l0 = strlen(str0);
+    size_t l1 = 2*MAXSTR;
 
     if (conv_from == (iconv_t) -1)
         return str0;
 
-    if (iconv(conv_from, &str0p, &l, &str1p, &max1) == (size_t)-1)
+    if (iconv(conv_from, &str0p, &l0, &str1p, &l1) == (size_t)-1)
         fprintf(stderr, "Error while converting from UTF-8: %s\n",
                 strerror(errno));
 
     *str1p = '\0';
 
-    return str1;
+    return buffer;
 }
 
 void iconv_quit(void)

@@ -60,7 +60,7 @@ void audio_init(void)
         }
         else
         {
-            fprintf(stderr, _("Sound disabled\n"));
+            fprintf(stderr, from_utf8(_("Sound disabled\n")));
             audio_state = 0;
         }
     }

@@ -44,8 +44,8 @@ const char *sgettext(const char *);
 /*---------------------------------------------------------------------------*/
 
 void iconv_init(void);
-char *to_utf8(char *, char *, size_t);
-char *from_utf8(char *, char *, size_t);
+char *to_utf8(char *);
+char *from_utf8(char *);
 void iconv_quit(void);
 
 /*---------------------------------------------------------------------------*/

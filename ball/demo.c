@@ -41,24 +41,24 @@ static int         count;          /* Number of scanned demos */
 
 void demo_dump_info(const struct demo *d)
 {
-    printf("Name:         %s\n"
-           "File:         %s\n"
-           "Time:         %d\n"
-           "Coins:        %d\n"
-           "Mode:         %d\n"
-           "State:        %d\n"
-           "Date:         %s"
-           "Player:       %s\n"
-           "Shot:         %s\n"
-           "Level:        %s\n"
-           "  Back:       %s\n"
-           "  Grad:       %s\n"
-           "  Song:       %s\n"
-           "Time:         %d\n"
-           "Goal:         %d\n"
-           "Score:        %d\n"
-           "Balls:        %d\n"
-           "Total Time:   %d\n",
+    printf(from_utf8("Name:         %s\n"
+                     "File:         %s\n"
+                     "Time:         %d\n"
+                     "Coins:        %d\n"
+                     "Mode:         %d\n"
+                     "State:        %d\n"
+                     "Date:         %s"
+                     "Player:       %s\n"
+                     "Shot:         %s\n"
+                     "Level:        %s\n"
+                     "  Back:       %s\n"
+                     "  Grad:       %s\n"
+                     "  Song:       %s\n"
+                     "Time:         %d\n"
+                     "Goal:         %d\n"
+                     "Score:        %d\n"
+                     "Balls:        %d\n"
+                     "Total Time:   %d\n"),
            d->name, d->filename,
            d->timer, d->coins, d->mode, d->state, ctime(&d->date),
            d->player,
@@ -223,18 +223,13 @@ static void demo_scan_file(const char *filename)
 {
     FILE *fp;
     struct demo *d = &demos[count];
-    char buffer[MAXSTR];
-    char *filenameconv;
 
     if ((fp = fopen(config_user(filename), FMODE_RB)))
     {
         if (demo_header_read(fp, d))
         {
             strncpy(d->filename, config_user(filename),       MAXSTR);
-
-            filenameconv = to_utf8(d->filename, buffer, MAXSTR);
-            strncpy(d->name,     bname(filenameconv, REPLAY_EXT), PATHMAX);
-
+            strncpy(d->name, bname(to_utf8(d->filename), REPLAY_EXT), PATHMAX);
             d->name[PATHMAX - 1] = '\0';
 
             count++;
@@ -302,8 +297,7 @@ const struct demo *demo_get(int i)
 
 const char *date_to_str(time_t i)
 {
-    static char str0[MAXSTR];
-    static char str1[MAXSTR];
+    static char str[MAXSTR];
 
     /* TRANSLATORS:  here is the format of the date shown at the
        replay selection screen.  The default will work in most cases, so
@@ -312,9 +306,9 @@ const char *date_to_str(time_t i)
        details on the format.
      */
 
-    strftime(str0, MAXSTR, /* xgettext:no-c-format */ _("%c"), localtime(&i));
+    strftime(str, MAXSTR, /* xgettext:no-c-format */ _("%c"), localtime(&i));
 
-    return to_utf8(str0, str1, MAXSTR);
+    return to_utf8(str);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -458,18 +452,13 @@ const struct demo *curr_demo_replay(void)
 
 int demo_replay_init(const char *name, struct level_game *lg)
 {
-    char buffer[MAXSTR];
-    char *nameconv;
-
     demo_fp = fopen(name, FMODE_RB);
 
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
         strncpy(demo_replay.filename, name,                    MAXSTR);
-
-        nameconv = to_utf8(demo_replay.filename, buffer, MAXSTR);
-
-        strncpy(demo_replay.name,     bname(nameconv, REPLAY_EXT), PATHMAX);
+        strncpy(demo_replay.name, bname(to_utf8(demo_replay.filename),
+                REPLAY_EXT), PATHMAX);
 
         if (!demo_load_level(&demo_replay, &demo_level_replay))
             return 0;

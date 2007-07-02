@@ -149,8 +149,8 @@ static void set_load_hs(void)
     if (!res && errno != ENOENT)
     {
         fprintf(stderr,
-                _("Error while loading user high-score file '%s': %s\n"),
-                fn, errno ? strerror(errno) : _("Incorrect format"));
+                from_utf8(_("Error while loading user high-score file '%s': %s\n")),
+                fn, errno ? strerror(errno) : from_utf8(_("Incorrect format")));
     }
 }
 
@@ -174,7 +174,7 @@ static int set_load(struct set *s, const char *filename)
 
     if (!fin)
     {
-        fprintf(stderr, _("Cannot load the set file '%s': %s\n"),
+        fprintf(stderr, from_utf8(_("Cannot load the set file '%s': %s\n")),
                 filename, strerror(errno));
         return 0;
     }
