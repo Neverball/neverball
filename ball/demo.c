@@ -28,7 +28,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define MAGIC           0x52424EAF
-#define DEMO_VERSION    3
+#define DEMO_VERSION    4
 
 #define DATELEN 20
 
@@ -108,9 +108,9 @@ static int demo_header_read(FILE *fp, struct demo *d)
         get_index(fp, &d->state);
         get_index(fp, &d->mode);
 
-        fread(d->player, 1, MAXNAM, fp);
+        get_string(fp, d->player, MAXNAM);
 
-        fread(datestr, 1, DATELEN, fp);
+        get_string(fp, datestr, DATELEN);
         sscanf(datestr,
                "%d-%d-%dT%d:%d:%d",
                &date.tm_year,
@@ -127,8 +127,8 @@ static int demo_header_read(FILE *fp, struct demo *d)
 
         d->date = make_time_from_utc(&date);
 
-        fread(d->shot, 1, PATHMAX, fp);
-        fread(d->file, 1, PATHMAX, fp);
+        get_string(fp, d->shot, PATHMAX);
+        get_string(fp, d->file, PATHMAX);
 
         get_index(fp, &d->time);
         get_index(fp, &d->goal);
@@ -189,11 +189,11 @@ static void demo_header_write(FILE *fp, struct demo *d)
     put_index(fp, &zero);
     put_index(fp, &d->mode);
 
-    fwrite(d->player, 1, MAXNAM, fp);
-    fwrite(datestr, 1, DATELEN, fp);
+    put_string(fp, d->player);
+    put_string(fp, datestr);
 
-    fwrite(d->shot, 1, PATHMAX, fp);
-    fwrite(d->file, 1, PATHMAX, fp);
+    put_string(fp, d->shot);
+    put_string(fp, d->file);
 
     put_index(fp, &d->time);
     put_index(fp, &d->goal);
