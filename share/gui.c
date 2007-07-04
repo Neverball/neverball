@@ -20,6 +20,7 @@
 #include "glext.h"
 #include "image.h"
 #include "vec3.h"
+#include "text.h"
 #include "gui.h"
 
 /*---------------------------------------------------------------------------*/
@@ -387,7 +388,7 @@ static int gui_widget(int pd, int type)
             return id;
         }
 
-    fprintf(stderr, from_utf8(_("Out of widget IDs\n")));
+    fprintf(stderr, text_to_locale(_("Out of widget IDs\n")));
 
     return 0;
 }

@@ -57,6 +57,7 @@ BALL_OBJS= \
 	share/binary.o  \
 	share/state.o   \
 	share/audio.o   \
+	share/text.o    \
 	ball/hud.o      \
 	ball/game.o     \
 	ball/level.o    \
@@ -97,6 +98,7 @@ PUTT_OBJS= \
 	share/audio.o  \
 	share/state.o  \
 	share/gui.o    \
+	share/text.o    \
 	putt/hud.o     \
 	putt/game.o    \
 	putt/hole.o    \
@@ -179,7 +181,7 @@ tools :
 po/%.po : $(POTFILE)
 	msgmerge -U $@ $<
 	touch $@
-	
+
 po-update-extract :
 	sh extractpo.sh $(POTFILE) $(LOCALEDOM)
 

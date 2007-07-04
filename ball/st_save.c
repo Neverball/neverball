@@ -21,6 +21,7 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
+#include "text.h"
 
 #include "st_shared.h"
 #include "st_save.h"
@@ -61,7 +62,7 @@ static int save_action(int i)
     switch (i)
     {
     case SAVE_SAVE:
-        n = from_utf8(filename);
+        n = text_to_locale(filename);
         if (strlen(n) == 0)
             return 1;
         if (demo_exists(n))
@@ -80,12 +81,12 @@ static int save_action(int i)
         break;
 
     case GUI_BS:
-        if (del_unicode_char(filename))
+        if (text_del_char(filename))
             gui_set_label(file_id, filename);
         break;
 
     default:
-        if (add_unicode_char(i, filename, MAXNAM))
+        if (text_add_char(i, filename, MAXNAM, 17))
             gui_set_label(file_id, filename);
     }
     return 1;
@@ -169,7 +170,7 @@ static int clobber_action(int i)
 
     if (i == SAVE_SAVE)
     {
-        demo_play_save(from_utf8(filename));
+        demo_play_save(text_to_locale(filename));
         return goto_state(ok_state);
     }
     return goto_state(&st_save);

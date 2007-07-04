@@ -24,6 +24,7 @@
 #include "solid.h"
 #include "config.h"
 #include "binary.h"
+#include "text.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,24 +42,24 @@ static int         count;          /* Number of scanned demos */
 
 void demo_dump_info(const struct demo *d)
 {
-    printf(from_utf8("Name:         %s\n"
-                     "File:         %s\n"
-                     "Time:         %d\n"
-                     "Coins:        %d\n"
-                     "Mode:         %d\n"
-                     "State:        %d\n"
-                     "Date:         %s"
-                     "Player:       %s\n"
-                     "Shot:         %s\n"
-                     "Level:        %s\n"
-                     "  Back:       %s\n"
-                     "  Grad:       %s\n"
-                     "  Song:       %s\n"
-                     "Time:         %d\n"
-                     "Goal:         %d\n"
-                     "Score:        %d\n"
-                     "Balls:        %d\n"
-                     "Total Time:   %d\n"),
+    printf(text_to_locale("Name:         %s\n"
+                          "File:         %s\n"
+                          "Time:         %d\n"
+                          "Coins:        %d\n"
+                          "Mode:         %d\n"
+                          "State:        %d\n"
+                          "Date:         %s"
+                          "Player:       %s\n"
+                          "Shot:         %s\n"
+                          "Level:        %s\n"
+                          "  Back:       %s\n"
+                          "  Grad:       %s\n"
+                          "  Song:       %s\n"
+                          "Time:         %d\n"
+                          "Goal:         %d\n"
+                          "Score:        %d\n"
+                          "Balls:        %d\n"
+                          "Total Time:   %d\n"),
            d->name, d->filename,
            d->timer, d->coins, d->mode, d->state, ctime(&d->date),
            d->player,
@@ -229,7 +230,8 @@ static void demo_scan_file(const char *filename)
         if (demo_header_read(fp, d))
         {
             strncpy(d->filename, config_user(filename),       MAXSTR);
-            strncpy(d->name, bname(to_utf8(d->filename), REPLAY_EXT), PATHMAX);
+            strncpy(d->name, bname(text_from_locale(d->filename), REPLAY_EXT),
+                    PATHMAX);
             d->name[PATHMAX - 1] = '\0';
 
             count++;
@@ -309,7 +311,7 @@ const char *date_to_str(time_t i)
     strftime(str, MAXSTR, /* xgettext:no-c-format */ _("%Y-%m-%d %H:%M:%S"),
              localtime(&i));
 
-    return to_utf8(str);
+    return text_from_locale(str);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -458,7 +460,7 @@ int demo_replay_init(const char *name, struct level_game *lg)
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
         strncpy(demo_replay.filename, name,                    MAXSTR);
-        strncpy(demo_replay.name, bname(to_utf8(demo_replay.filename),
+        strncpy(demo_replay.name, bname(text_from_locale(demo_replay.filename),
                 REPLAY_EXT), PATHMAX);
 
         if (!demo_load_level(&demo_replay, &demo_level_replay))

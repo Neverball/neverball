@@ -18,6 +18,7 @@
 #include <math.h>
 #include <errno.h>
 
+#include "text.h"
 #include "level.h"
 #include "solid.h"
 
@@ -127,7 +128,7 @@ int level_load(const char *filename, struct level *level)
     if (!sol_load_only_head(&sol, config_data(filename)))
     {
         fprintf(stderr,
-                from_utf8(_("Error while loading level file '%s': %s\n")),
+                text_to_locale(_("Error while loading level file '%s': %s\n")),
                 filename,
                 errno ? strerror(errno) : _("Not a valid level file"));
         return 0;
@@ -172,19 +173,19 @@ int level_load(const char *filename, struct level *level)
 
 void level_dump_info(const struct level *l)
 {
-    printf(from_utf8("filename:        %s\n"
-                     "version:         %s\n"
-                     "author:          %s\n"
-                     "time limit:      %d\n"
-                     "goal count:      %d\n"
-                     "time hs:         %d %d %d\n"
-                     "goal hs:         %d %d %d\n"
-                     "coin hs:         %d %d %d\n"
-                     "message:         %s\n"
-                     "background:      %s\n"
-                     "gradient:        %s\n"
-                     "screenshot:      %s\n"
-                     "song:            %s\n"),
+    printf(text_to_locale("filename:        %s\n"
+                          "version:         %s\n"
+                          "author:          %s\n"
+                          "time limit:      %d\n"
+                          "goal count:      %d\n"
+                          "time hs:         %d %d %d\n"
+                          "goal hs:         %d %d %d\n"
+                          "coin hs:         %d %d %d\n"
+                          "message:         %s\n"
+                          "background:      %s\n"
+                          "gradient:        %s\n"
+                          "screenshot:      %s\n"
+                          "song:            %s\n"),
            l->file,
            l->version,
            l->author,

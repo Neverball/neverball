@@ -40,6 +40,7 @@
 #include "game.h"
 #include "gui.h"
 #include "set.h"
+#include "text.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -251,7 +252,7 @@ static void parse_args(int argc, char **argv)
         missing = 0;
         if (CASE("-h") || CASE("-?") || CASE("--help"))
         {
-            printf(from_utf8(usage), exec);
+            printf(text_to_locale(usage), exec);
             exit(0);
         }
         else if (CASE("-v") || CASE("--version"))
@@ -267,15 +268,15 @@ static void parse_args(int argc, char **argv)
             display_info = 1;
         else if (!missing)
         {
-            fprintf(stderr, from_utf8(_("%s: unknown option %s\n")), exec, *argv);
+            fprintf(stderr, text_to_locale(_("%s: unknown option %s\n")), exec, *argv);
             fprintf(stderr, usage, exec);
             exit(1);
         }
         else
         {
-            fprintf(stderr, from_utf8(_("%s: option %s requires an argument\n")),
+            fprintf(stderr, text_to_locale(_("%s: option %s requires an argument\n")),
                     exec, *argv);
-            fprintf(stderr, from_utf8(usage), exec);
+            fprintf(stderr, text_to_locale(usage), exec);
             exit(1);
         }
         argv++;
@@ -295,19 +296,19 @@ int main(int argc, char *argv[])
     int t1, t0;
 
     language_init("neverball", CONFIG_LOCALE);
-    iconv_init();
+    text_init();
 
     parse_args(argc, argv);
 
     if (!config_data_path(data_path, SET_FILE))
     {
-        fprintf(stderr, from_utf8(_("Failure to establish game data directory\n")));
+        fprintf(stderr, text_to_locale(_("Failure to establish game data directory\n")));
         return 1;
     }
 
     if (!config_user_path(NULL))
     {
-        fprintf(stderr, from_utf8(_("Failure to establish config directory\n")));
+        fprintf(stderr, text_to_locale(_("Failure to establish config directory\n")));
         return 1;
     }
 
@@ -326,8 +327,8 @@ int main(int argc, char *argv[])
     {
         if (!level_replay(replay_path))
         {
-            fprintf(stderr, from_utf8(_("Replay file '%s': %s\n")), replay_path,
-                    errno ? strerror(errno) : from_utf8(_("Not a replay file")));
+            fprintf(stderr, text_to_locale(_("Replay file '%s': %s\n")), replay_path,
+                    errno ? strerror(errno) : text_to_locale(_("Not a replay file")));
             return 1;
         }
         else if (display_info)
@@ -338,7 +339,7 @@ int main(int argc, char *argv[])
     {
         if (replay_path == NULL)
         {
-            fprintf(stderr, from_utf8(_("%s: --info requires --replay\n")),
+            fprintf(stderr, text_to_locale(_("%s: --info requires --replay\n")),
                     argv[0]);
             return 1;
         }
@@ -464,7 +465,7 @@ int main(int argc, char *argv[])
 
     config_save();
 
-    iconv_quit();
+    text_quit();
 
     return 0;
 }

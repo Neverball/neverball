@@ -20,6 +20,7 @@
 #include "glext.h"
 #include "config.h"
 #include "image.h"
+#include "text.h"
 #include "set.h"
 #include "game.h"
 
@@ -149,8 +150,8 @@ static void set_load_hs(void)
     if (!res && errno != ENOENT)
     {
         fprintf(stderr,
-                from_utf8(_("Error while loading user high-score file '%s': %s\n")),
-                fn, errno ? strerror(errno) : from_utf8(_("Incorrect format")));
+                text_to_locale(_("Error while loading user high-score file '%s': %s\n")),
+                fn, errno ? strerror(errno) : text_to_locale(_("Incorrect format")));
     }
 }
 
@@ -174,7 +175,7 @@ static int set_load(struct set *s, const char *filename)
 
     if (!fin)
     {
-        fprintf(stderr, from_utf8(_("Cannot load the set file '%s': %s\n")),
+        fprintf(stderr, text_to_locale(_("Cannot load the set file '%s': %s\n")),
                 filename, strerror(errno));
         return 0;
     }

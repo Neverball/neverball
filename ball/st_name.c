@@ -20,6 +20,7 @@
 #include "audio.h"
 #include "config.h"
 #include "game.h"
+#include "text.h"
 
 #include "st_name.h"
 #include "st_shared.h"
@@ -71,12 +72,12 @@ static int name_action(int i)
         break;
 
     case GUI_BS:
-        if (del_unicode_char(player))
+        if (text_del_char(player))
             gui_set_label(name_id, player);
         break;
 
     default:
-        if (add_unicode_char(i, player, MAXNAM))
+        if (text_add_char(i, player, MAXNAM, 17))
             gui_set_label(name_id, player);
     }
     return 1;
