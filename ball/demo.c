@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <iconv.h>
 
 #include "demo.h"
 #include "game.h"

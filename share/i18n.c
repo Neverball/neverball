@@ -17,10 +17,6 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <iconv.h>
-#include <errno.h>
-
-#include "base_config.h"
 
 #include "i18n.h"
 
