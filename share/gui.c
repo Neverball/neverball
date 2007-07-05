@@ -1496,7 +1496,7 @@ static int gui_horz_dist(int id, int jd)
 static int gui_stick_L(int id, int dd)
 {
     int jd, kd, hd;
-    int d, dmin, o, omin;
+    int o, omin, d, dmin;
 
     /* Find the closest "hot" widget to the left of dd (and inside id) */
 
@@ -1504,23 +1504,22 @@ static int gui_stick_L(int id, int dd)
         return id;
 
     hd = 0;
-    dmin = widget[dd].x - widget[id].x + 1;
-    omin = widget[dd].y + widget[dd].h + widget[id].y + widget[id].h;
+    omin = widget[dd].x - widget[id].x + 1;
+    dmin = widget[dd].y + widget[dd].h + widget[id].y + widget[id].h;
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
     {
         kd = gui_stick_L(jd, dd);
 
         if (kd && kd != dd)
         {
-            d = gui_horz_offset(dd, kd);
-            o = gui_vert_dist(dd, kd);
+            o = gui_horz_offset(dd, kd);
+            d = gui_vert_dist(dd, kd);
 
-            if ((0 <= d && d < dmin)
-                || (d == dmin && o < omin-1))
+            if (0 <= o && o <= omin && d <= dmin)
             {
                 hd = kd;
-                dmin = d;
                 omin = o;
+                dmin = d;
             }
         }
     }
@@ -1533,7 +1532,7 @@ static int gui_stick_L(int id, int dd)
 static int gui_stick_R(int id, int dd)
 {
     int jd, kd, hd;
-    int d, dmin, o, omin;
+    int o, omin, d, dmin;
 
     /* Find the closest "hot" widget to the right of dd (and inside id) */
 
@@ -1541,23 +1540,22 @@ static int gui_stick_R(int id, int dd)
         return id;
 
     hd = 0;
-    dmin = (widget[id].x + widget[id].w) - (widget[dd].x + widget[dd].w) + 1;
-    omin = widget[dd].y + widget[dd].h + widget[id].y + widget[id].h;
+    omin = (widget[id].x + widget[id].w) - (widget[dd].x + widget[dd].w) + 1;
+    dmin = widget[dd].y + widget[dd].h + widget[id].y + widget[id].h;
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
     {
         kd = gui_stick_R(jd, dd);
 
         if (kd && kd != dd)
         {
-            d = gui_horz_offset(kd, dd);
-            o = gui_vert_dist(dd, kd);
+            o = gui_horz_offset(kd, dd);
+            d = gui_vert_dist(dd, kd);
 
-            if ((0 <= d && d < dmin)
-                || (d == dmin && o < omin-1))
+            if (0 <= o && o <= omin && d <= dmin)
             {
                 hd = kd;
-                dmin = d;
                 omin = o;
+                dmin = d;
             }
         }
     }
@@ -1570,7 +1568,7 @@ static int gui_stick_R(int id, int dd)
 static int gui_stick_D(int id, int dd)
 {
     int jd, kd, hd;
-    int d, dmin, o, omin;
+    int o, omin, d, dmin;
 
     /* Find the closest "hot" widget below dd (and inside id) */
 
@@ -1578,23 +1576,22 @@ static int gui_stick_D(int id, int dd)
         return id;
 
     hd = 0;
-    dmin = widget[dd].y - widget[id].y + 1;
-    omin = widget[dd].x + widget[dd].w + widget[id].x + widget[id].w;
+    omin = widget[dd].y - widget[id].y + 1;
+    dmin = widget[dd].x + widget[dd].w + widget[id].x + widget[id].w;
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
     {
         kd = gui_stick_D(jd, dd);
 
         if (kd && kd != dd)
         {
-            d = gui_vert_offset(dd, kd);
-            o = gui_horz_dist(dd, kd);
+            o = gui_vert_offset(dd, kd);
+            d = gui_horz_dist(dd, kd);
 
-            if ((0 <= d && d < dmin)
-                || (d == dmin && o < omin-1))
+            if (0 <= o && o <= omin && d <= dmin)
             {
                 hd = kd;
-                dmin = d;
                 omin = o;
+                dmin = d;
             }
         }
     }
@@ -1607,7 +1604,7 @@ static int gui_stick_D(int id, int dd)
 static int gui_stick_U(int id, int dd)
 {
     int jd, kd, hd;
-    int d, dmin, o, omin;
+    int o, omin, d, dmin;
 
     /* Find the closest "hot" widget above dd (and inside id) */
 
@@ -1615,23 +1612,22 @@ static int gui_stick_U(int id, int dd)
         return id;
 
     hd = 0;
-    dmin = (widget[id].y + widget[id].h) - (widget[dd].y + widget[dd].h) + 1;
-    omin = widget[dd].x + widget[dd].w + widget[id].x + widget[id].w;
+    omin = (widget[id].y + widget[id].h) - (widget[dd].y + widget[dd].h) + 1;
+    dmin = widget[dd].x + widget[dd].w + widget[id].x + widget[id].w;
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
     {
         kd = gui_stick_U(jd, dd);
 
         if (kd && kd != dd)
         {
-            d = gui_vert_offset(kd, dd);
-            o = gui_horz_dist(dd, kd);
+            o = gui_vert_offset(kd, dd);
+            d = gui_horz_dist(dd, kd);
 
-            if ((0 <= d && d < dmin)
-                || (d == dmin && o < omin-1))
+            if (0 <= o && o <= omin && d <= dmin)
             {
                 hd = kd;
-                dmin = d;
                 omin = o;
+                dmin = d;
             }
         }
     }
