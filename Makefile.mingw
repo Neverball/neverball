@@ -5,8 +5,7 @@ BALL_TARG= neverball.exe
 PUTT_TARG= neverputt.exe
 
 OGL_LIBS := -lm -lopengl32
-PNG_LIBS := $(shell libpng-config --libs)
-BASE_LIBS := -lSDL -lSDL_image -lintl
+BASE_LIBS := $(LDFLAGS) -lSDL -lSDL_image -lintl
 
 LIBS := $(SDL_LIBS) -lSDL_image -lSDL_mixer -lSDL_ttf \
 	$(OGL_LIBS) $(PNG_LIBS) -lintl

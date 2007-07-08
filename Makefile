@@ -18,6 +18,7 @@ CFLAGS= -Wall -g -O3 -ansi -pedantic $(shell sdl-config --cflags)
 #CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
 
 SDL_LIBS= $(shell sdl-config --libs)
+PNG_LIBS= $(shell libpng-config --libs)
 
 MAPC_TARG= mapc
 BALL_TARG= neverball
@@ -110,7 +111,7 @@ PUTT_DEPS= $(PUTT_OBJS:.o=.d)
 MAPC_DEPS= $(MAPC_OBJS:.o=.d)
 
 BASE_LIBS= $(SDL_LIBS) -lSDL_image
-LIBS= $(X11_PATH) $(BASE_LIBS) -lpng -lSDL_ttf -lSDL_mixer $(OGL_LIBS)
+LIBS= $(X11_PATH) $(BASE_LIBS) $(PNG_LIBS) -lSDL_ttf -lSDL_mixer $(OGL_LIBS)
 
 MESSAGEPART= /LC_MESSAGES/$(LOCALEDOM).mo
 MESSAGES= $(LINGUAS:%=$(LOCALEDIR)/%$(MESSAGEPART))
