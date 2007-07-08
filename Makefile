@@ -17,6 +17,8 @@ CFLAGS= -Wall -g -O3 -ansi -pedantic $(shell sdl-config --cflags)
 #CFLAGS= -Wall -g -O1 -ansi -pedantic $(shell sdl-config --cflags)
 #CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
 
+CPPFLAGS := -Ishare $(CPPFLAGS)
+
 SDL_LIBS= $(shell sdl-config --libs)
 PNG_LIBS= $(shell libpng-config --libs)
 
@@ -127,10 +129,10 @@ LINGUAS= $(POS:po/%.po=%)
 #------------------------------------------------------------------------------
 
 %.d : %.c
-	$(CC) $(CFLAGS) -Ishare -MM -MF $@ -MT '$*.o $@' $<
+	$(CC) $(CFLAGS) $(CPPFLAGS) -MM -MF $@ -MT '$*.o $@' $<
 
 %.o : %.c
-	$(CC) $(CFLAGS) -Ishare -o $@ -c $<
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 
 %.sol : %.map $(MAPC_TARG)
 	$(MAPC_EXEC) $< data
