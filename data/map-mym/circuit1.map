@@ -5563,6 +5563,7 @@
 "target" "t11"
 "origin" "96 -832 16"
 "targetname" "t8"
+"speed" ".5"
 }
 // entity 11
 {
@@ -5571,6 +5572,7 @@
 "target" "t8"
 "state" "0"
 "targetname" "t9"
+"speed" ".5"
 }
 // entity 12
 {
@@ -5663,6 +5665,7 @@
 "target" "t12"
 "targetname" "t11"
 "origin" "96 -832 0"
+"speed" ".5"
 }
 // entity 27
 {
@@ -5671,6 +5674,7 @@
 "target" "t13"
 "targetname" "t12"
 "origin" "96 -832 -16"
+"speed" ".5"
 }
 // entity 28
 {
@@ -5679,6 +5683,7 @@
 "origin" "96 -832 -32"
 "target" "t20"
 "state" "0"
+"speed" ".5"
 }
 // entity 29
 {
@@ -6007,6 +6012,7 @@
 "targetname" "t20"
 "target" "t21"
 "state" "0"
+"speed" ".5"
 }
 // entity 48
 {
