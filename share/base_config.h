@@ -35,8 +35,13 @@
 #define CONFIG_LOCALE "./locale"      /* Game localisation */
 #endif
 
+/* User config directory */
 #ifndef CONFIG_USER
-#define CONFIG_USER   ".neverball-dev"    /* User config directory */
+#ifdef _WIN32
+#define CONFIG_USER   "Neverball-dev"
+#else
+#define CONFIG_USER   ".neverball-dev"
+#endif
 #endif
 
 /*

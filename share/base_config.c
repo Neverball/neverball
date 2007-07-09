@@ -118,18 +118,23 @@ int config_data_path(const char *path, const char *file)
  * is a  directory there for  storing configuration, high  scores, and
  * replays.
  *
- * HACK: under Windows just assume the user has permission to write to
- * the data  directory.  This is  more reliable than trying  to divine
- * anything reasonable from the environment.
+ * Under Windows check the APPDATA environment variable and if that's
+ * not set, just assume the user has permission to write to the data
+ * directory.
  */
 int config_user_path(const char *file)
 {
 #ifdef _WIN32
-    size_t d = strlen(data_path);
+    char *dir;
 
-    strncpy(user_path, data_path,   MAXSTR - 1);
-    strncat(user_path, "\\",        MAXSTR - d - 1);
-    strncat(user_path, CONFIG_USER, MAXSTR - d - 2);
+    if ((dir = getenv("APPDATA")) || (dir = data_path))
+    {
+        size_t d = strlen(dir);
+
+        strncpy(user_path, dir,         MAXSTR - 1);
+        strncat(user_path, "\\",        MAXSTR - d - 1);
+        strncat(user_path, CONFIG_USER, MAXSTR - d - 2);
+    }
 
     if ((mkdir(user_path) == 0) || (errno == EEXIST))
         if (config_test(user_path, file))
