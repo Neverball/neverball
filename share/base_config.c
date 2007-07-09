@@ -131,7 +131,7 @@ int config_user_path(const char *file)
     strncat(user_path, "\\",        MAXSTR - d - 1);
     strncat(user_path, CONFIG_USER, MAXSTR - d - 2);
 
-    if ((mkdir(user_path) == 0) || (errno = EEXIST))
+    if ((mkdir(user_path) == 0) || (errno == EEXIST))
         if (config_test(user_path, file))
             return 1;
 #else
@@ -146,7 +146,7 @@ int config_user_path(const char *file)
         strncat(user_path, CONFIG_USER, MAXSTR - d - 2);
     }
 
-    if ((mkdir(user_path, 0777) == 0) || (errno = EEXIST))
+    if ((mkdir(user_path, 0777) == 0) || (errno == EEXIST))
         if (config_test(user_path, file))
             return 1;
 #endif
