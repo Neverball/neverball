@@ -5,7 +5,7 @@
 VERSION= $(shell sh scripts/version.sh)
 
 ifeq ($(VERSION),)
-    $(error Failed to obtain version for this build.)
+    $(error Failed to obtain version for this build)
 endif
 
 #------------------------------------------------------------------------------
