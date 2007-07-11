@@ -1,18 +1,17 @@
-include Makefile
-
 #-----------------------------------------------------------------------------
 
-MAPC_TARG= mapc.exe
-BALL_TARG= neverball.exe
-PUTT_TARG= neverputt.exe
+EXT=.exe
+
+include Makefile
 
 MAPC_EXEC= wine $(MAPC_TARG)
 
 OGL_LIBS= -lm -lopengl32
 BASE_LIBS= $(LDFLAGS) -lSDL -lSDL_image -lintl
-LIBS := $(LDFLAGS) $(SDL_LIBS) -lSDL_image -lSDL_mixer -lSDL_ttf \
+LIBS= $(LDFLAGS) $(SDL_LIBS) -lSDL_image -lSDL_mixer -lSDL_ttf \
 	$(OGL_LIBS) $(PNG_LIBS) -lintl
 
+.PHONY: native
 native:
 	$(MAKE) -f Makefile.mingw MAPC_EXEC=$(MAPC_TARG)
 
@@ -67,3 +66,4 @@ convert-text-files: $(TXT_DOCS)
 	$(TODOS) $@
 
 #-----------------------------------------------------------------------------
+

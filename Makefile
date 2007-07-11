@@ -27,9 +27,9 @@ CPPFLAGS := -DVERSION=\"$(VERSION)\" -Ishare $(CPPFLAGS)
 SDL_LIBS= $(shell sdl-config --libs)
 PNG_LIBS= $(shell libpng-config --libs)
 
-MAPC_TARG= mapc
-BALL_TARG= neverball
-PUTT_TARG= neverputt
+MAPC_TARG= mapc$(EXT)
+BALL_TARG= neverball$(EXT)
+PUTT_TARG= neverputt$(EXT)
 
 MAPC_EXEC= ./$(MAPC_TARG)
 
