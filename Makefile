@@ -1,4 +1,13 @@
 
+#-------------------------------------------------------------------------------
+
+#VERSION=1.5.0
+VERSION= $(shell sh scripts/version.sh)
+
+ifeq ($(VERSION),)
+    $(error Failed to obtain version for this build.)
+endif
+
 #------------------------------------------------------------------------------
 
 # Maybe you need one of these.  Maybe you don't.
@@ -9,15 +18,11 @@
 OGL_LIBS= -lGL -lm
 #OGL_LIBS= -lm                                                # Think Different
 
-#------------------------------------------------------------------------------
-# Configuration constants
-#------------------------------------------------------------------------------
-
 CFLAGS= -Wall -g -O3 -ansi -pedantic $(shell sdl-config --cflags)
 #CFLAGS= -Wall -g -O1 -ansi -pedantic $(shell sdl-config --cflags)
 #CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
 
-CPPFLAGS := -Ishare $(CPPFLAGS)
+CPPFLAGS := -DVERSION=\"$(VERSION)\" -Ishare $(CPPFLAGS)
 
 SDL_LIBS= $(shell sdl-config --libs)
 PNG_LIBS= $(shell libpng-config --libs)

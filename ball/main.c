@@ -256,7 +256,7 @@ static void parse_args(int argc, char **argv)
         }
         else if (CASE("-v") || CASE("--version"))
         {
-            printf("%s %s\n", TITLE, VERSION);
+            printf("%s\n", VERSION);
             exit(0);
         }
         else if (CASE("--data") && MAND)

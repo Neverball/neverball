@@ -25,8 +25,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define VERSION       "1.4.1svn"      /* Game version */
-
 #ifndef CONFIG_DATA
 #define CONFIG_DATA   "./data"        /* Game data directory */
 #endif
