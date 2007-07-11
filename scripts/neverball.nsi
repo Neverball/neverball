@@ -17,8 +17,8 @@ Section
     SetOutPath $INSTDIR
 
     File *.txt
-    File /oname=AUTHORS.txt doc/AUTHORS.txt
-    File /oname=MANUAL.txt doc/MANUAL.txt
+    File /oname=AUTHORS.txt doc\AUTHORS.txt
+    File /oname=MANUAL.txt doc\MANUAL.txt
 
     #File /r /x ".svn" /x "*.map" data
     File /r /x ".svn" data

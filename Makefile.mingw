@@ -1,10 +1,9 @@
 #-----------------------------------------------------------------------------
 
-EXT=.exe
+EXT= .exe
+WINE= wine
 
 include Makefile
-
-MAPC_EXEC= wine $(MAPC_TARG)
 
 OGL_LIBS= -lm -lopengl32
 BASE_LIBS= $(LDFLAGS) -lSDL -lSDL_image -lintl

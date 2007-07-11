@@ -31,7 +31,7 @@ MAPC_TARG= mapc$(EXT)
 BALL_TARG= neverball$(EXT)
 PUTT_TARG= neverputt$(EXT)
 
-MAPC_EXEC= ./$(MAPC_TARG)
+MAPC_EXEC= $(WINE) ./$(MAPC_TARG)
 
 LOCALEDIR= locale
 LOCALEDOM= neverball
