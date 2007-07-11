@@ -1,10 +1,6 @@
-#  NOTE:  this script doesn't do anything useful yet.  it will, some day.
-
-OutFile "neverball-${VERSION}-setup.exe"
-
+OutFile "../neverball-${VERSION}-setup.exe"
 Name "Neverball ${VERSION}"
 LicenseData "COPYING.txt"
-
 InstallDir "$PROGRAMFILES\Neverball"
 
 XPStyle on
@@ -21,11 +17,16 @@ Section
     SetOutPath $INSTDIR
 
     File *.txt
-    File /r /x ".svn" /x "*.map" data
-    File /r /x ".svn" locale
-    File /r *.exe *.dll
+    File /oname=AUTHORS.txt doc/AUTHORS.txt
+    File /oname=MANUAL.txt doc/MANUAL.txt
 
-    WriteUninstaller $INSTDIR\uninstaller.exe
+    #File /r /x ".svn" /x "*.map" data
+    File /r /x ".svn" data
+    File /r /x ".svn" locale
+
+    File *.exe *.dll
+
+    WriteUninstaller $INSTDIR\uninstall.exe
 SectionEnd
 
 Section "Uninstall"

@@ -1,16 +1,69 @@
 include Makefile
 
+#-----------------------------------------------------------------------------
+
 MAPC_TARG= mapc.exe
 BALL_TARG= neverball.exe
 PUTT_TARG= neverputt.exe
 
 MAPC_EXEC= wine $(MAPC_TARG)
 
-OGL_LIBS := -lm -lopengl32
-BASE_LIBS := $(LDFLAGS) -lSDL -lSDL_image -lintl
-
-LIBS := $(SDL_LIBS) -lSDL_image -lSDL_mixer -lSDL_ttf \
+OGL_LIBS= -lm -lopengl32
+BASE_LIBS= $(LDFLAGS) -lSDL -lSDL_image -lintl
+LIBS := $(LDFLAGS) $(SDL_LIBS) -lSDL_image -lSDL_mixer -lSDL_ttf \
 	$(OGL_LIBS) $(PNG_LIBS) -lintl
 
 native:
 	$(MAKE) -f Makefile.mingw MAPC_EXEC=$(MAPC_TARG)
+
+#-----------------------------------------------------------------------------
+# NSIS setup stuff
+#-----------------------------------------------------------------------------
+
+MAKENSIS= makensis
+TODOS= todos
+CP= cp
+
+TEXT_DOCS= \
+	doc/AUTHORS \
+	doc/MANUAL  \
+	CHANGES     \
+	COPYING     \
+	README
+
+TXT_DOCS= $(TEXT_DOCS:%=%.txt)
+
+#-----------------------------------------------------------------------------
+
+.PHONY: setup
+setup: install-dlls convert-text-files all
+	$(MAKENSIS) -DVERSION=$(VERSION) -nocd scripts/neverball.nsi
+
+#-----------------------------------------------------------------------------
+
+.PHONY: install-dlls
+install-dlls: install-dlls.sh
+	sh $<
+
+install-dlls.sh:
+	if ! sh scripts/gen-install-dlls.sh > $@; then \
+	    $(RM) $@; \
+	    exit 1; \
+	fi
+	@echo --------------------------------------------------------
+	@echo You can probably ignore any file-not-found errors above.
+	@echo Now edit $@ to your needs before restarting make.
+	@echo --------------------------------------------------------
+	@exit 1
+
+#-----------------------------------------------------------------------------
+
+.PHONY: convert-text-files
+convert-text-files: $(TXT_DOCS)
+	find data -name "*.txt" -exec $(TODOS) {} \;
+
+%.txt: %
+	$(CP) $< $@
+	$(TODOS) $@
+
+#-----------------------------------------------------------------------------
