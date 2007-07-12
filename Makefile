@@ -151,13 +151,13 @@ $(LOCALEDIR)/%$(MESSAGEPART) : po/%.po
 all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales
 
 $(BALL_TARG) : $(BALL_OBJS)
-	$(CC) $(CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LIBS)
+	$(CC) $(CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LDFLAGS) $(LIBS)
 
 $(PUTT_TARG) : $(PUTT_OBJS)
-	$(CC) $(CFLAGS) -o $(PUTT_TARG) $(PUTT_OBJS) $(LIBS)
+	$(CC) $(CFLAGS) -o $(PUTT_TARG) $(PUTT_OBJS) $(LDFLAGS) $(LIBS)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
-	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(BASE_LIBS)
+	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LDFLAGS) $(BASE_LIBS)
 
 sols : $(SOLS)
 

@@ -1,13 +1,17 @@
 #-----------------------------------------------------------------------------
 
 EXT= .exe
-WINE= wine
-
 include Makefile
 
+#-----------------------------------------------------------------------------
+
+WINE= wine
+
 OGL_LIBS= -lm -lopengl32
-BASE_LIBS= $(LDFLAGS) -lSDL -lSDL_image -lintl
-LIBS= $(LDFLAGS) $(SDL_LIBS) -lSDL_image -lSDL_mixer -lSDL_ttf \
+BASE_LIBS= -lSDL -lSDL_image -lintl
+
+LIBS= \
+	$(SDL_LIBS) -lSDL_image -lSDL_mixer -lSDL_ttf \
 	$(OGL_LIBS) $(PNG_LIBS) -lintl
 
 #-----------------------------------------------------------------------------

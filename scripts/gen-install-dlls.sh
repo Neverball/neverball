@@ -1,17 +1,17 @@
 #!/bin/sh
 
-if test -z "$PREFIX"; then
+if test -z "$MINGW_PREFIX"; then
     cat >&2 <<EOF
-PREFIX not set.  Set the PREFIX environment variable to your MinGW path,
-such as /mingw, /usr/i586-mingw32msvc or ~/mingw.
+MINGW_PREFIX not set.  Set the MINGW_PREFIX environment variable to your
+MinGW path, such as /mingw, /usr/i586-mingw32msvc or ~/mingw.
 EOF
     exit 1
 fi
 
-if ! test -d "$PREFIX"; then
+if ! test -d "$MINGW_PREFIX"; then
     cat >&2 <<EOF
-PREFIX not valid.  Make sure the PREFIX environment variable is set to a
-valid location.
+MINGW_PREFIX not valid.  Make sure the MINGW_PREFIX environment variable
+is set to a valid location.
 EOF
     exit 1
 fi
@@ -22,7 +22,7 @@ cat <<EOF
 # Edit the list below to suit your needs.
 
 install \\
-$(ls "$PREFIX"/{bin,lib}/*.dll | sed -e 's/^/    /' -e 's/$/ \\/')
+$(ls "$MINGW_PREFIX"/{bin,lib}/*.dll | sed -e 's/^/    /' -e 's/$/ \\/')
     .
 EOF
 
