@@ -10,16 +10,15 @@ BASE_LIBS= $(LDFLAGS) -lSDL -lSDL_image -lintl
 LIBS= $(LDFLAGS) $(SDL_LIBS) -lSDL_image -lSDL_mixer -lSDL_ttf \
 	$(OGL_LIBS) $(PNG_LIBS) -lintl
 
-.PHONY: native
-native:
-	$(MAKE) -f Makefile.mingw MAPC_EXEC=$(MAPC_TARG)
-
 #-----------------------------------------------------------------------------
-# NSIS setup stuff
+
+$(SOLS) : install-dlls
+
 #-----------------------------------------------------------------------------
 
 MAKENSIS= makensis
 TODOS= todos
+FROMDOS= fromdos
 CP= cp
 
 TEXT_DOCS= \
@@ -36,6 +35,11 @@ TXT_DOCS= $(TEXT_DOCS:%=%.txt)
 .PHONY: setup
 setup: install-dlls convert-text-files all
 	$(MAKENSIS) -DVERSION=$(VERSION) -nocd scripts/neverball.nsi
+
+.PHONY: clean-setup
+clean-setup: clean
+	$(RM) install-dlls.sh *.dll $(TXT_DOCS)
+	find data -name "*.txt" -exec $(FROMDOS) {} \;
 
 #-----------------------------------------------------------------------------
 

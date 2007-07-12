@@ -31,8 +31,6 @@ MAPC_TARG= mapc$(EXT)
 BALL_TARG= neverball$(EXT)
 PUTT_TARG= neverputt$(EXT)
 
-MAPC_EXEC= $(WINE) ./$(MAPC_TARG)
-
 LOCALEDIR= locale
 LOCALEDOM= neverball
 
@@ -140,7 +138,7 @@ LINGUAS= $(POS:po/%.po=%)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 
 %.sol : %.map $(MAPC_TARG)
-	$(MAPC_EXEC) $< data
+	$(WINE) ./$(MAPC_TARG) $< data
 
 $(LOCALEDIR)/%$(MESSAGEPART) : po/%.po
 	mkdir -p `dirname $@`
