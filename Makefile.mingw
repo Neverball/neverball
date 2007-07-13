@@ -16,10 +16,6 @@ LIBS= \
 
 #-----------------------------------------------------------------------------
 
-$(SOLS) : install-dlls
-
-#-----------------------------------------------------------------------------
-
 MAKENSIS= makensis
 TODOS= todos
 FROMDOS= fromdos
@@ -39,6 +35,11 @@ TXT_DOCS= $(TEXT_DOCS:%=%.txt)
 .PHONY: setup
 setup: install-dlls convert-text-files all
 	$(MAKENSIS) -DVERSION=$(VERSION) -nocd scripts/neverball.nsi
+
+# Fails on MSYS due to a bug in the shipped version of make.
+# setup: LDFLAGS += -s
+
+setup: LDFLAGS := $(LDFLAGS) -s
 
 .PHONY: clean-setup
 clean-setup: clean

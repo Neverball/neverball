@@ -22,7 +22,7 @@ CFLAGS= -Wall -g -O3 -ansi -pedantic $(shell sdl-config --cflags)
 #CFLAGS= -Wall -g -O1 -ansi -pedantic $(shell sdl-config --cflags)
 #CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
 
-CPPFLAGS := -DVERSION=\"$(VERSION)\" -Ishare $(CPPFLAGS)
+CPPFLAGS += -DVERSION=\"$(VERSION)\" -Ishare
 
 SDL_LIBS= $(shell sdl-config --libs)
 PNG_LIBS= $(shell libpng-config --libs)
