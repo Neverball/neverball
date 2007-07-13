@@ -13,7 +13,7 @@ Page instfiles
 UninstPage uninstConfirm
 UninstPage instfiles
 
-Section "Neverball"
+Section "Neverball/Neverputt"
     SectionIn RO
 
     SetOutPath $INSTDIR
