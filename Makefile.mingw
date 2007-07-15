@@ -16,7 +16,11 @@ LIBS= \
 
 #-----------------------------------------------------------------------------
 
+INSTALLER= ../neverball-$(VERSION)-setup.exe
+
 MAKENSIS= makensis
+MAKENSIS_FLAGS= -DVERSION=$(VERSION) -DOUTFILE=$(INSTALLER)
+
 TODOS= todos
 FROMDOS= fromdos
 CP= cp
@@ -33,16 +37,18 @@ TXT_DOCS= $(TEXT_DOCS:%=%.txt)
 #-----------------------------------------------------------------------------
 
 .PHONY: setup
-setup: install-dlls convert-text-files all
-	$(MAKENSIS) -DVERSION=$(VERSION) -nocd scripts/neverball.nsi
+setup: $(INSTALLER)
 
-# Fails on MSYS due to a bug in the shipped version of make.
-# setup: LDFLAGS += -s
+$(INSTALLER): install-dlls convert-text-files all
+	$(MAKENSIS) $(MAKENSIS_FLAGS) -nocd scripts/neverball.nsi
 
-setup: LDFLAGS := $(LDFLAGS) -s
+# This fails on MSYS due to a bug in the shipped version of make (3.79.1).
+# $(INSTALLER): LDFLAGS += -s
+$(INSTALLER): LDFLAGS := $(LDFLAGS) -s
 
 .PHONY: clean-setup
 clean-setup: clean
+	# $(RM) $(INSTALLER)
 	$(RM) install-dlls.sh *.dll $(TXT_DOCS)
 	find data -name "*.txt" -exec $(FROMDOS) {} \;
 

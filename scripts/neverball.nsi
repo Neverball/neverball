@@ -2,12 +2,22 @@
 
 !include "LogicLib.nsh"
 
+#------------------------------------------------------------------------------
+
+!ifndef VERSION
+!define VERSION "unknown"
+!endif
+
+!ifndef OUTFILE
+!define OUTFILE "../neverball-${VERSION}-setup.exe"
+!endif
+
 !define UNINSTALL_REG_ROOT \
     "Software\Microsoft\Windows\CurrentVersion\Uninstall\Neverball"
 
 #------------------------------------------------------------------------------
 
-OutFile "../neverball-${VERSION}-setup.exe"
+OutFile ${OUTFILE}
 Name "Neverball ${VERSION}"
 LicenseData "COPYING.txt"
 InstallDir "$PROGRAMFILES\Neverball"
@@ -24,6 +34,7 @@ Page instfiles
 Function .onInit
     Call IsUserAdmin
     Pop $R0
+
     ${If} $R0 == "true"
         SetShellVarContext all
     ${EndIf}
@@ -124,6 +135,7 @@ UninstPage instfiles
 Function un.onInit
     Call un.IsUserAdmin
     Pop $R0
+
     ${If} $R0 == "true"
         SetShellVarContext all
     ${EndIf}
