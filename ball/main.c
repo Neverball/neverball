@@ -310,6 +310,14 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    /* Initialize SDL system and subsystems */
+
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
+    {
+        fprintf(stderr, "%s\n", SDL_GetError());
+        return 1;
+    }
+
     /* Intitialize the configuration */
 
     config_init();
@@ -319,7 +327,7 @@ int main(int argc, char *argv[])
 
     language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
 
-    /* Prepare run without SDL */
+    /* Prepare run without GUI */
 
     if (replay_path)
     {
@@ -342,14 +350,6 @@ int main(int argc, char *argv[])
             return 1;
         }
         return 0;
-    }
-
-    /* Initialize SDL system and subsystems */
-
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
-    {
-        fprintf(stderr, "%s\n", SDL_GetError());
-        return 1;
     }
 
     /* Initialize the joystick. */
