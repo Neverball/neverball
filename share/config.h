@@ -76,6 +76,8 @@ enum {
     CONFIG_KEY_BACKWARD,
     CONFIG_KEY_LEFT,
     CONFIG_KEY_RIGHT,
+    CONFIG_KEY_PAUSE,
+    CONFIG_KEY_RESTART,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -142,6 +144,8 @@ enum {
 #define DEFAULT_KEY_BACKWARD         SDLK_DOWN
 #define DEFAULT_KEY_LEFT             SDLK_LEFT
 #define DEFAULT_KEY_RIGHT            SDLK_RIGHT
+#define DEFAULT_KEY_PAUSE            SDLK_SPACE
+#define DEFAULT_KEY_RESTART          SDLK_r
 
 /*---------------------------------------------------------------------------*/
 
@@ -164,14 +168,9 @@ const char *config_simple_get_s(int i);
 
 /*---------------------------------------------------------------------------*/
 
-void config_set_grab(void);
+void config_set_grab(int w);
 void config_clr_grab(void);
 int  config_get_grab(void);
-
-int  config_get_pause(void);
-void config_set_pause(void);
-void config_clr_pause(void);
-void config_tgl_pause(void);
 
 /*---------------------------------------------------------------------------*/
 

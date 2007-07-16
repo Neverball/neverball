@@ -23,21 +23,26 @@
 
 #include "st_play.h"
 #include "st_play_end.h"
-#include "st_over.h"
+#include "st_start.h"
+#include "st_pause.h"
 
 /*---------------------------------------------------------------------------*/
 
 static int view_rotate;
 
-/*---------------------------------------------------------------------------*/
-
-static int abort_play(void)
+static int pause_or_exit(void)
 {
-   if (curr_lg()->mode == MODE_SINGLE)
-       return 0;
-   else
-       return goto_state(&st_over);
+    if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META))
+    {
+        level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
+        config_clr_grab();
+        return curr_lg()->mode == MODE_SINGLE ? 0 : goto_state(&st_start);
+    }
+    else
+        return goto_pause();
 }
+
+/*---------------------------------------------------------------------------*/
 
 static int play_ready_enter(void)
 {
@@ -50,7 +55,7 @@ static int play_ready_enter(void)
     }
 
     audio_play(AUD_READY, 1.0f);
-    config_set_grab();
+    config_set_grab(1);
 
     return id;
 }
@@ -74,6 +79,14 @@ static int play_ready_click(int b, int d)
     return (b < 0 && d == 1) ? goto_state(&st_play_loop) : 1;
 }
 
+static int play_ready_keybd(int c, int d)
+{
+    if (d)
+        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+            goto_pause();
+    return 1;
+}
+
 static int play_ready_buttn(int b, int d)
 {
     if (d)
@@ -81,7 +94,7 @@ static int play_ready_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_play_loop);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return abort_play();
+            return pause_or_exit();
     }
     return 1;
 }
@@ -99,6 +112,8 @@ static int play_set_enter(void)
     }
 
     audio_play(AUD_SET, 1.f);
+
+    clear_pause();
 
     return id;
 }
@@ -126,6 +141,14 @@ static int play_set_click(int b, int d)
     return 1;
 }
 
+static int play_set_keybd(int c, int d)
+{
+    if (d)
+        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+            goto_pause();
+    return 1;
+}
+
 static int play_set_buttn(int b, int d)
 {
     if (d)
@@ -133,7 +156,7 @@ static int play_set_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_play_loop);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return abort_play();
+            return pause_or_exit();
     }
     return 1;
 }
@@ -145,6 +168,13 @@ static int nohud = 0;
 static int play_loop_enter(void)
 {
     int id;
+
+    if (is_paused())
+    {
+        clear_pause();
+        view_rotate = 0;
+        return 0;
+    }
 
     if ((id = gui_label(0, _("GO!"), GUI_LRG, GUI_ALL, gui_blu, gui_grn)))
     {
@@ -252,12 +282,15 @@ static int play_loop_keybd(int c, int d)
             config_set_d(CONFIG_CAMERA, 2);
             hud_view_pulse(2);
         }
-        if (c == SDLK_r && curr_lg()->mode != MODE_CHALLENGE)
+        if (config_tst_d(CONFIG_KEY_RESTART, c)
+            && curr_lg()->mode != MODE_CHALLENGE)
         {
             level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
             level_play_go();
             goto_state(&st_play_set);
         }
+        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+            goto_pause();
     }
     else
     {
@@ -287,10 +320,7 @@ static int play_loop_buttn(int b, int d)
     if (d == 1)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-        {
-            level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
-            return abort_play();
-        }
+            pause_or_exit();
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R, b))
             view_rotate = +1;
@@ -384,7 +414,7 @@ struct state st_play_ready = {
     NULL,
     NULL,
     play_ready_click,
-    NULL,
+    play_ready_keybd,
     play_ready_buttn,
     1, 0
 };
@@ -397,7 +427,7 @@ struct state st_play_set = {
     NULL,
     NULL,
     play_set_click,
-    NULL,
+    play_set_keybd,
     play_set_buttn,
     1, 0
 };

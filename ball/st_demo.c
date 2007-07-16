@@ -304,6 +304,8 @@ static int demo_buttn(int b, int d)
 
 static int simple_play; /* play demo from command line */
 
+static int demo_paused;
+
 void demo_play_goto(int simple)
 {
     simple_play = simple;
@@ -312,6 +314,13 @@ void demo_play_goto(int simple)
 static int demo_play_enter(void)
 {
     int id;
+
+    if (demo_paused)
+    {
+        demo_paused = 0;
+        audio_music_fade_in(0.5f);
+        return 0;
+    }
 
     if ((id = gui_vstack(0)))
     {
@@ -359,9 +368,23 @@ static void demo_play_timer(int id, float dt)
         }
         else
         {
+            demo_paused = 0;
             goto_state(&st_demo_end);
             break;
         }
+}
+
+static int demo_play_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+        {
+            demo_paused = 1;
+            return goto_state(&st_demo_end);
+        }
+    }
+    return 1;
 }
 
 static int demo_play_buttn(int b, int d)
@@ -369,7 +392,10 @@ static int demo_play_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        {
+            demo_paused = 1;
             return goto_state(&st_demo_end);
+        }
     }
     return 1;
 }
@@ -380,6 +406,7 @@ static int demo_play_buttn(int b, int d)
 #define DEMO_DEL     1
 #define DEMO_QUIT    2
 #define DEMO_REPLAY  3
+#define DEMO_CONTINUE  4
 
 static int demo_end_action(int i)
 {
@@ -399,6 +426,8 @@ static int demo_end_action(int i)
         demo_replay_stop(0);
         level_replay(curr_demo_replay()->filename);
         return goto_state(&st_demo_play);
+    case DEMO_CONTINUE:
+        return goto_state(&st_demo_play);
     }
     return 1;
 }
@@ -409,11 +438,19 @@ static int demo_end_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, _("Replay Ends"), GUI_LRG, GUI_ALL, gui_gry, gui_red);
+        if (demo_paused)
+            kd = gui_label(id, _("Replay Paused"), GUI_LRG, GUI_ALL,
+                           gui_gry, gui_red);
+        else
+            kd = gui_label(id, _("Replay Ends"), GUI_LRG, GUI_ALL,
+                           gui_gry, gui_red);
 
         if ((jd = gui_harray(id)))
         {
-            gui_start(jd, _("Replay Again"), GUI_SML, DEMO_REPLAY, 0);
+            if (demo_paused)
+                gui_start(jd, _("Continue"), GUI_SML, DEMO_CONTINUE, 0);
+            else
+                gui_start(jd, _("Replay Again"), GUI_SML, DEMO_REPLAY, 0);
 
             if (simple_play)
                 gui_start(jd, _("OK"),       GUI_SML, DEMO_QUIT,   1);
@@ -436,9 +473,19 @@ static int demo_end_enter(void)
         gui_pulse(kd, 1.2f);
         gui_layout(id, 0, 0);
     }
-    audio_music_fade_out(2.0f);
+
+    audio_music_fade_out(demo_paused ? 0.2f : 2.0f);
 
     return id;
+}
+
+void demo_end_paint(int id, float st)
+{
+    game_draw(0, st);
+    gui_paint(id);
+
+    if (demo_paused)
+        hud_paint();
 }
 
 static void demo_end_timer(int id, float dt)
@@ -460,6 +507,16 @@ static void demo_end_timer(int id, float dt)
     audio_timer(dt);
 }
 
+static int demo_end_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (demo_paused && config_tst_d(CONFIG_KEY_PAUSE, c))
+            return demo_end_action(DEMO_CONTINUE);
+    }
+    return 1;
+}
+
 static int demo_end_buttn(int b, int d)
 {
     if (d)
@@ -467,7 +524,9 @@ static int demo_end_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return demo_end_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return demo_end_action(simple_play ? DEMO_QUIT : DEMO_KEEP);
+            return demo_end_action(demo_paused
+                                   ? DEMO_CONTINUE
+                                   : (simple_play ? DEMO_QUIT : DEMO_KEEP));
     }
     return 1;
 }
@@ -539,7 +598,7 @@ struct state st_demo_play = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    demo_play_keybd,
     demo_play_buttn,
     0
 };
@@ -547,12 +606,12 @@ struct state st_demo_play = {
 struct state st_demo_end = {
     demo_end_enter,
     shared_leave,
-    shared_paint,
+    demo_end_paint,
     demo_end_timer,
     shared_point,
     shared_stick,
     shared_click,
-    NULL,
+    demo_end_keybd,
     demo_end_buttn,
     1, 0
 };

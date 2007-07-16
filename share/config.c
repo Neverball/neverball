@@ -115,6 +115,8 @@ void config_init(void)
     config_set_d(CONFIG_KEY_BACKWARD,         DEFAULT_KEY_BACKWARD);
     config_set_d(CONFIG_KEY_LEFT,             DEFAULT_KEY_LEFT);
     config_set_d(CONFIG_KEY_RIGHT,            DEFAULT_KEY_RIGHT);
+    config_set_d(CONFIG_KEY_PAUSE,            DEFAULT_KEY_PAUSE);
+    config_set_d(CONFIG_KEY_RESTART,          DEFAULT_KEY_RESTART);
 }
 
 void config_load(void)
@@ -226,6 +228,11 @@ void config_load(void)
                     config_key(val, CONFIG_KEY_CAMERA_R, DEFAULT_KEY_CAMERA_R);
                 else if (strcmp(key, "key_camera_l")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_L, DEFAULT_KEY_CAMERA_L);
+
+                else if (strcmp(key, "key_pause")  == 0)
+                    config_key(val, CONFIG_KEY_PAUSE,    DEFAULT_KEY_PAUSE);
+                else if (strcmp(key, "key_restart")  == 0)
+                    config_key(val, CONFIG_KEY_RESTART,    DEFAULT_KEY_RESTART);
 
                 else if (strcmp(key, "player")     == 0)
                     config_set_s(CONFIG_PLAYER,     val);
@@ -345,6 +352,11 @@ void config_save(void)
                 SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_R]));
         fprintf(fp, "key_camera_l         %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_L]));
+
+        fprintf(fp, "key_pause            %s\n",
+                SDL_GetKeyName(option_d[CONFIG_KEY_PAUSE]));
+        fprintf(fp, "key_restart          %s\n",
+                SDL_GetKeyName(option_d[CONFIG_KEY_RESTART]));
 
         fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
         fprintf(fp, "ball                 %s\n", option_s[CONFIG_BALL]);
@@ -502,12 +514,12 @@ const char *config_simple_get_s(int i)
 /*---------------------------------------------------------------------------*/
 
 static int grabbed = 0;
-static int paused  = 0;
 
-void config_set_grab(void)
+void config_set_grab(int w)
 {
-    SDL_WarpMouse(config_get_d(CONFIG_WIDTH)  / 2,
-                  config_get_d(CONFIG_HEIGHT) / 2);
+    if (w)
+        SDL_WarpMouse(config_get_d(CONFIG_WIDTH)  / 2,
+                      config_get_d(CONFIG_HEIGHT) / 2);
     SDL_WM_GrabInput(SDL_GRAB_ON);
     SDL_ShowCursor(SDL_DISABLE);
     grabbed = 1;
@@ -525,42 +537,6 @@ int  config_get_grab(void)
     return grabbed;
 }
 
-int  config_get_pause(void)
-{
-    return paused;
-}
-
-void config_set_pause(void)
-{
-    Mix_PauseMusic();
-    paused = 1;
-
-    if (grabbed)
-    {
-        SDL_ShowCursor(SDL_ENABLE);
-        SDL_WM_GrabInput(SDL_GRAB_OFF);
-    }
-}
-
-void config_clr_pause(void)
-{
-    Mix_ResumeMusic();
-    paused = 0;
-
-    if (grabbed)
-    {
-        SDL_WM_GrabInput(SDL_GRAB_ON);
-        SDL_ShowCursor(SDL_DISABLE);
-    }
-}
-
-void config_tgl_pause(void)
-{
-    if (paused)
-        config_clr_pause();
-    else
-        config_set_pause();
-}
 /*---------------------------------------------------------------------------*/
 
 void config_push_persp(float fov, float n, float f)

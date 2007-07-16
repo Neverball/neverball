@@ -97,48 +97,44 @@ static int loop(void)
         if (e.type == SDL_QUIT)
             return 0;
 
-        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
-            config_tgl_pause();
+        switch (e.type)
+        {
+        case SDL_MOUSEMOTION:
+            st_point(+e.motion.x,
+                     -e.motion.y + config_get_d(CONFIG_HEIGHT),
+                     +e.motion.xrel,
+                     -e.motion.yrel);
+            break;
 
-        if (!config_get_pause())
-            switch (e.type)
+        case SDL_MOUSEBUTTONDOWN:
+            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 1);
+            break;
+
+        case SDL_MOUSEBUTTONUP:
+            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 0);
+            break;
+
+        case SDL_KEYDOWN:
+            switch (e.key.keysym.sym)
             {
-            case SDL_MOUSEMOTION:
-                st_point(+e.motion.x,
-                         -e.motion.y + config_get_d(CONFIG_HEIGHT),
-                         +e.motion.xrel,
-                         -e.motion.yrel);
-                break;
+            case SDLK_F10: d = shot();                break;
+            case SDLK_F9:  config_tgl_d(CONFIG_FPS);  break;
+            case SDLK_F8:  config_tgl_d(CONFIG_NICE); break;
+            case SDLK_F7:  toggle_wire();             break;
 
-            case SDL_MOUSEBUTTONDOWN:
-                d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 1);
-                break;
-
-            case SDL_MOUSEBUTTONUP:
-                d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 0);
-                break;
-
-            case SDL_KEYDOWN:
-                switch (e.key.keysym.sym)
-                {
-                case SDLK_F10: d = shot();                break;
-                case SDLK_F9:  config_tgl_d(CONFIG_FPS);  break;
-                case SDLK_F8:  config_tgl_d(CONFIG_NICE); break;
-                case SDLK_F7:  toggle_wire();             break;
-
-                default:
-                    d = st_keybd(e.key.keysym.sym, 1);
-                }
-                break;
-
-            case SDL_ACTIVEEVENT:
-                if (e.active.state == SDL_APPINPUTFOCUS)
-                {
-                    if (e.active.gain == 0)
-                        config_set_pause();
-                }
-                break;
+            default:
+                d = st_keybd(e.key.keysym.sym, 1);
             }
+            break;
+
+        case SDL_ACTIVEEVENT:
+            if (e.active.state == SDL_APPINPUTFOCUS)
+            {
+                if (e.active.gain == 0)
+                    goto_pause();
+            }
+            break;
+        }
     }
     return d;
 }
@@ -224,16 +220,8 @@ int main(int argc, char *argv[])
                     while (loop())
                         if ((t1 = SDL_GetTicks()) > t0)
                         {
-                           if (config_get_pause())
-                            {
-                                st_paint();
-                                gui_blank();
-                            }
-                            else
-                            {
-                                st_timer((t1 - t0) / 1000.f);
-                                st_paint();
-                            }
+                            st_timer((t1 - t0) / 1000.f);
+                            st_paint();
                             SDL_GL_SwapBuffers();
 
                             t0 = t1;

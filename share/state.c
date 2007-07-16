@@ -21,6 +21,11 @@
 static float  state_time;
 static struct state *state;
 
+struct state *curr_state(void)
+{
+    return state;
+}
+
 float time_state(void)
 {
     return state_time;

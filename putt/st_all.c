@@ -459,6 +459,99 @@ static int party_keybd(int c, int d)
 
 /*---------------------------------------------------------------------------*/
 
+static int paused = 0;
+
+static struct state *st_continue;
+
+#define PAUSE_CONTINUE 1
+#define PAUSE_QUIT     2
+
+int goto_pause(void)
+{
+    st_continue = curr_state();
+    paused = 1;
+    return goto_state(&st_pause);
+}
+
+static int pause_action(int i)
+{
+    audio_play(AUD_MENU, 1.0f);
+
+    switch(i)
+    {
+    case PAUSE_CONTINUE:
+        return goto_state(st_continue ? st_continue : &st_title);
+
+    case PAUSE_QUIT:
+        return goto_state(&st_over);
+    }
+    return 1;
+}
+
+static int pause_enter(void)
+{
+    int id, jd, td;
+
+    audio_music_fade_out(0.2f);
+
+    if ((id = gui_vstack(0)))
+    {
+        td = gui_label(id, _("Paused"), GUI_LRG, GUI_ALL, 0, 0);
+        gui_space(id);
+
+        if ((jd = gui_harray(id)))
+        {
+            gui_state(jd, _("Quit"), GUI_SML, PAUSE_QUIT, 0);
+            gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 1);
+        }
+
+        gui_pulse(td, 1.2f);
+        gui_layout(id, 0, 0);
+    }
+
+    hud_init();
+    return id;
+}
+
+static void pause_leave(int id)
+{
+    gui_delete(id);
+    hud_free();
+    audio_music_fade_in(0.5f);
+}
+
+static void pause_paint(int id, float st)
+{
+    game_draw(0);
+    gui_paint(id);
+    hud_paint();
+}
+
+static void pause_timer(int id, float dt)
+{
+    gui_timer(id, dt);
+    audio_timer(dt);
+}
+
+static void pause_point(int id, int x, int y, int dx, int dy)
+{
+    gui_pulse(gui_point(id, x, y), 1.2f);
+}
+
+static int pause_click(int b, int d)
+{
+    return (d && b < 0) ? pause_action(gui_token(gui_click())) : 1;
+}
+
+static int pause_keybd(int c, int d)
+{
+    if (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c)))
+        return pause_action(PAUSE_CONTINUE);
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
 static int num = 0;
 
 static int next_enter(void)
@@ -500,6 +593,9 @@ static int next_enter(void)
     hud_init();
     game_set_fly(1.f);
 
+    if (paused)
+        paused = 0;
+
     return id;
 }
 
@@ -538,8 +634,8 @@ static int next_keybd(int c, int d)
     {
         if (c == SDLK_F12)
             return goto_state(&st_poser);
-        if (c == SDLK_ESCAPE)
-            return goto_state(&st_over);
+        if (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))
+            return goto_pause();
         if (c == SDLK_RETURN)
         {
             hole_goto(num, -1);
@@ -574,7 +670,11 @@ static int poser_keybd(int c, int d)
 
 static int flyby_enter(void)
 {
-    hud_init();
+    if (paused)
+        paused = 0;
+    else
+        hud_init();
+
     return 0;
 }
 
@@ -614,7 +714,7 @@ static int flyby_click(int b, int d)
 
 static int flyby_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
+    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -624,7 +724,11 @@ static int stroke_enter(void)
     hud_init();
     game_clr_mag();
     config_set_d(CONFIG_CAMERA, 2);
-    config_set_grab();
+    config_set_grab(!paused);
+
+    if (paused)
+        paused = 0;
+
     return 0;
 }
 
@@ -663,7 +767,7 @@ static int stroke_click(int b, int d)
 
 static int stroke_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
+    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -671,7 +775,12 @@ static int stroke_keybd(int c, int d)
 static int roll_enter(void)
 {
     hud_init();
-    game_putt();
+
+    if (paused)
+        paused = 0;
+    else
+        game_putt();
+
     return 0;
 }
 
@@ -701,7 +810,7 @@ static void roll_timer(int id, float dt)
 
 static int roll_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
+    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -713,7 +822,11 @@ static int goal_enter(void)
     if ((id = gui_label(0, _("It's In!"), GUI_MED, GUI_ALL, gui_grn, gui_grn)))
         gui_layout(id, 0, 0);
 
-    hole_goal();
+    if (paused)
+        paused = 0;
+    else
+        hole_goal();
+
     hud_init();
 
     return id;
@@ -758,15 +871,20 @@ static int goal_click(int b, int d)
 
 static int goal_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
+    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
 static int stop_enter(void)
 {
-    hole_stop();
+    if (paused)
+        paused = 0;
+    else
+        hole_stop();
+
     hud_init();
+
     return 0;
 }
 
@@ -812,7 +930,7 @@ static int stop_click(int b, int d)
 
 static int stop_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
+    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -824,7 +942,14 @@ static int fall_enter(void)
     if ((id = gui_label(0, _("1 Stroke Penalty"), GUI_MED, GUI_ALL, gui_blk, gui_red)))
         gui_layout(id, 0, 0);
 
-    hole_fall();
+    if (paused)
+        paused = 0;
+    else
+    {
+        hole_fall();
+        game_draw(0); /*TODO: is this call ok? */
+    }
+
     hud_init();
 
     return id;
@@ -869,7 +994,7 @@ static int fall_click(int b, int d)
 
 static int fall_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_over) : 1;
+    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -877,6 +1002,10 @@ static int fall_keybd(int c, int d)
 static int score_enter(void)
 {
     audio_music_fade_out(2.f);
+
+    if (paused)
+        paused = 0;
+
     return score_card(_("Scores"), gui_yel, gui_red);
 }
 
@@ -911,7 +1040,7 @@ static int score_click(int b, int d)
 
 static int score_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1116,6 +1245,19 @@ struct state st_over = {
     NULL,
     over_click,
     over_keybd,
+    NULL,
+    1, 0
+};
+
+struct state st_pause = {
+    pause_enter,
+    pause_leave,
+    pause_paint,
+    pause_timer,
+    pause_point,
+    NULL,
+    pause_click,
+    pause_keybd,
     NULL,
     1, 0
 };

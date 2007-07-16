@@ -84,6 +84,7 @@ BALL_OBJS= \
 	ball/st_help.o  \
 	ball/st_name.o  \
 	ball/st_shared.o  \
+	ball/st_pause.o \
 	ball/main.o
 PUTT_OBJS= \
 	share/i18n.o    \

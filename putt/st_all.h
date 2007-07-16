@@ -16,5 +16,8 @@ extern struct state st_stop;
 extern struct state st_fall;
 extern struct state st_score;
 extern struct state st_over;
+extern struct state st_pause;
+
+int goto_pause(void);
 
 #endif

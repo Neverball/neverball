@@ -45,6 +45,7 @@
 #include "st_title.h"
 #include "st_demo.h"
 #include "st_level.h"
+#include "st_pause.h"
 
 #define TITLE "Neverball"
 
@@ -102,13 +103,45 @@ static int loop(void)
 
     while (d && SDL_PollEvent(&e))
     {
-        if (e.type == SDL_QUIT)
+        switch (e.type)
+        {
+        case SDL_QUIT:
             return 0;
 
-        if (e.type == SDL_KEYDOWN)
-            switch (e.key.keysym.sym)
+        case SDL_MOUSEMOTION:
+            st_point(+e.motion.x,
+                     -e.motion.y + config_get_d(CONFIG_HEIGHT),
+                     +e.motion.xrel,
+                     config_get_d(CONFIG_MOUSE_INVERT)
+                     ? +e.motion.yrel : -e.motion.yrel);
+            break;
+
+        case SDL_MOUSEBUTTONDOWN:
+            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 1);
+            break;
+
+        case SDL_MOUSEBUTTONUP:
+            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 0);
+            break;
+
+        case SDL_KEYDOWN:
+
+            c = e.key.keysym.sym;
+
+            if (config_tst_d(CONFIG_KEY_FORWARD, c))
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -JOY_MAX);
+
+            else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +JOY_MAX);
+
+            else if (config_tst_d(CONFIG_KEY_LEFT, c))
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -JOY_MAX);
+
+            else if (config_tst_d(CONFIG_KEY_RIGHT, c))
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +JOY_MAX);
+
+            else switch (c)
             {
-            case SDLK_SPACE: config_tgl_pause();        break;
             case SDLK_F11:   toggle_fullscreen();       break;
             case SDLK_F10:   shot();                    break;
             case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
@@ -119,111 +152,69 @@ static int loop(void)
                     toggle_wire();
                 break;
 
-            default: break;
+            case SDLK_RETURN:
+                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
+                break;
+            case SDLK_ESCAPE:
+                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 1);
+                break;
+
+            default:
+                if (SDL_EnableUNICODE(-1))
+                    d = st_keybd(e.key.keysym.unicode, 1);
+                else
+                    d = st_keybd(e.key.keysym.sym, 1);
             }
 
-        if (!config_get_pause())
-            switch (e.type)
+            break;
+
+        case SDL_KEYUP:
+
+            c = e.key.keysym.sym;
+
+            if (config_tst_d(CONFIG_KEY_FORWARD, c))
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
+
+            else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
+
+            else if (config_tst_d(CONFIG_KEY_LEFT, c))
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 1);
+
+            else if (config_tst_d(CONFIG_KEY_RIGHT, c))
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 1);
+
+            else switch (c)
             {
-            case SDL_MOUSEMOTION:
-                st_point(+e.motion.x,
-                         -e.motion.y + config_get_d(CONFIG_HEIGHT),
-                         +e.motion.xrel,
-                         config_get_d(CONFIG_MOUSE_INVERT)
-                         ? +e.motion.yrel : -e.motion.yrel);
+            case SDLK_RETURN:
+                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
+                break;
+            case SDLK_ESCAPE:
+                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 0);
                 break;
 
-            case SDL_MOUSEBUTTONDOWN:
-                d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 1);
-                break;
-
-            case SDL_MOUSEBUTTONUP:
-                d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 0);
-                break;
-
-            case SDL_KEYDOWN:
-
-                c = e.key.keysym.sym;
-
-                if (config_tst_d(CONFIG_KEY_FORWARD, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -JOY_MAX);
-
-                else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +JOY_MAX);
-
-                else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -JOY_MAX);
-
-                else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +JOY_MAX);
-
-                else switch (c)
-                {
-
-                case SDLK_RETURN:
-                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
-                    break;
-                case SDLK_ESCAPE:
-                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 1);
-                    break;
-
-                default:
-                    if (SDL_EnableUNICODE(-1))
-                        d = st_keybd(e.key.keysym.unicode, 1);
-                    else
-                        d = st_keybd(e.key.keysym.sym, 1);
-                }
-                break;
-
-            case SDL_KEYUP:
-
-                c = e.key.keysym.sym;
-
-                if (config_tst_d(CONFIG_KEY_FORWARD, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
-
-                else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
-
-                else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 1);
-
-                else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 1);
-
-                else switch (c)
-                {
-                case SDLK_RETURN:
-                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
-                    break;
-                case SDLK_ESCAPE:
-                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 0);
-                    break;
-
-                default:
-                    d = st_keybd(e.key.keysym.sym, 0);
-                }
-
-                break;
-
-            case SDL_ACTIVEEVENT:
-                if (e.active.state == SDL_APPINPUTFOCUS)
-                    if (e.active.gain == 0 && config_get_grab())
-                        config_set_pause();
-                break;
-
-            case SDL_JOYAXISMOTION:
-                st_stick(e.jaxis.axis, e.jaxis.value);
-                break;
-
-            case SDL_JOYBUTTONDOWN:
-                d = st_buttn(e.jbutton.button, 1);
-                break;
-
-            case SDL_JOYBUTTONUP:
-                d = st_buttn(e.jbutton.button, 0);
-                break;
+            default:
+                d = st_keybd(e.key.keysym.sym, 0);
             }
+
+        case SDL_ACTIVEEVENT:
+            if (e.active.state == SDL_APPINPUTFOCUS)
+                if (e.active.gain == 0 && config_get_grab())
+                    goto_pause();
+            break;
+
+        case SDL_JOYAXISMOTION:
+            st_stick(e.jaxis.axis, e.jaxis.value);
+            break;
+
+        case SDL_JOYBUTTONDOWN:
+            d = st_buttn(e.jbutton.button, 1);
+            break;
+
+        case SDL_JOYBUTTONUP:
+            d = st_buttn(e.jbutton.button, 0);
+            break;
+        }
     }
     return d;
 }
@@ -444,17 +435,8 @@ int main(int argc, char *argv[])
     while (loop())
         if ((t1 = SDL_GetTicks()) > t0)
         {
-            if (config_get_pause())
-            {
-                st_paint();
-                gui_blank();
-                SDL_Delay(10);
-            }
-            else
-            {
-                st_timer((t1 - t0) / 1000.f);
-                st_paint();
-            }
+            st_timer((t1 - t0) / 1000.f);
+            st_paint();
             SDL_GL_SwapBuffers();
 
             t0 = t1;
