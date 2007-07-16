@@ -176,10 +176,11 @@ static void play_loop_paint(int id, float st)
         gui_paint(id);
 }
 
+#define CAMERA_MODIFIERS (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META)
+
 static void play_loop_timer(int id, float dt)
 {
-    float k = (((SDL_GetModState() & KMOD_LSHIFT) ||
-                (SDL_GetModState() & KMOD_RSHIFT)) ?
+    float k = ((SDL_GetModState() & CAMERA_MODIFIERS) ?
                (float) config_get_d(CONFIG_ROTATE_FAST) / 100.f:
                (float) config_get_d(CONFIG_ROTATE_SLOW) / 100.f);
 
