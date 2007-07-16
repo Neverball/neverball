@@ -114,7 +114,7 @@ static int loop(void)
             case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
 
             case SDLK_F7:
-                if (config_get_d(CONFIG_CHEAT))
+                if (config_get_cheat())
                     toggle_wire();
                 break;
 

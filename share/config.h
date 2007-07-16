@@ -72,7 +72,6 @@ enum {
     CONFIG_ROTATE_FAST,
     CONFIG_ROTATE_SLOW,
     CONFIG_MODE,
-    CONFIG_CHEAT,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -122,8 +121,8 @@ enum {
 #define DEFAULT_KEY_CAMERA_1         SDLK_F1
 #define DEFAULT_KEY_CAMERA_2         SDLK_F2
 #define DEFAULT_KEY_CAMERA_3         SDLK_F3
-#define DEFAULT_KEY_CAMERA_R         SDLK_RIGHT
-#define DEFAULT_KEY_CAMERA_L         SDLK_LEFT
+#define DEFAULT_KEY_CAMERA_R         SDLK_d
+#define DEFAULT_KEY_CAMERA_L         SDLK_s
 #define DEFAULT_VIEW_FOV             50
 #define DEFAULT_VIEW_DP              75
 #define DEFAULT_VIEW_DC              25
@@ -131,7 +130,6 @@ enum {
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_MODE                 1
-#define DEFAULT_CHEAT                0
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "png/ball.png"
 #define DEFAULT_BALL_BONUS           "png/ball-bonus.png"
@@ -173,6 +171,11 @@ void config_push_persp(float, float, float);
 void config_push_ortho(void);
 void config_pop_matrix(void);
 void config_clear(void);
+
+/*---------------------------------------------------------------------------*/
+
+int config_get_cheat(void);
+void config_tgl_cheat();
 
 /*---------------------------------------------------------------------------*/
 

@@ -90,7 +90,7 @@ static void gui_level(int id, int i)
 static void start_over_level(i)
 {
     const struct level *l = get_level(i);
-    if (!l->is_locked || config_get_d(CONFIG_CHEAT))
+    if (!l->is_locked || config_get_cheat())
     {
         gui_set_image(shot_id, l->shot);
 
@@ -115,7 +115,7 @@ static void start_over_level(i)
             else
                 gui_set_label(status_id, _("Play this level in normal mode"));
         }
-        if (config_get_d(CONFIG_CHEAT))
+        if (config_get_cheat())
         {
             gui_set_label(status_id, l->file);
         }
@@ -185,7 +185,7 @@ static int start_action(int i)
     if (i == START_CHALLENGE)
     {
         /* On cheat, start challenge mode where you want */
-        if (config_get_d(CONFIG_CHEAT))
+        if (config_get_cheat())
         {
             config_set_d(CONFIG_MODE, MODE_CHALLENGE);
             return goto_state(&st_start);
@@ -198,7 +198,7 @@ static int start_action(int i)
     {
         const struct level *l = get_level(i);
 
-        if (!l->is_locked || config_get_d(CONFIG_CHEAT))
+        if (!l->is_locked || config_get_cheat())
         {
             level_play(l, mode);
             return goto_state(&st_level);
@@ -217,7 +217,7 @@ static int start_enter(void)
     int id, jd, kd, ld;
 
     /* Deactivate cheat */
-    if (m == MODE_CHALLENGE && !config_get_d(CONFIG_CHEAT))
+    if (m == MODE_CHALLENGE && !config_get_cheat())
     {
         m = MODE_NORMAL;
         config_set_d(CONFIG_MODE, m);
@@ -295,7 +295,7 @@ static void start_stick(int id, int a, int v)
 
 static int start_keybd(int c, int d)
 {
-    if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
+    if (d && c == SDLK_c && config_get_cheat())
     {
         set_cheat();
         return goto_state(&st_start);
