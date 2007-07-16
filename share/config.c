@@ -111,6 +111,10 @@ void config_init(void)
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
     config_set_s(CONFIG_BALL_BONUS,           DEFAULT_BALL_BONUS);
     config_set_s(CONFIG_LANG,                 DEFAULT_LANG);
+    config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
+    config_set_d(CONFIG_KEY_BACKWARD,         DEFAULT_KEY_BACKWARD);
+    config_set_d(CONFIG_KEY_LEFT,             DEFAULT_KEY_LEFT);
+    config_set_d(CONFIG_KEY_RIGHT,            DEFAULT_KEY_RIGHT);
 }
 
 void config_load(void)
@@ -202,6 +206,15 @@ void config_load(void)
                     config_set_d(CONFIG_ROTATE_SLOW,          atoi(val));
                 else if (strcmp(key, "mode")                  == 0)
                     config_set_d(CONFIG_MODE,                 atoi(val));
+
+                else if (strcmp(key, "key_forward")  == 0)
+                    config_key(val, CONFIG_KEY_FORWARD, DEFAULT_KEY_FORWARD);
+                else if (strcmp(key, "key_backward")  == 0)
+                    config_key(val, CONFIG_KEY_BACKWARD, DEFAULT_KEY_BACKWARD);
+                else if (strcmp(key, "key_left")  == 0)
+                    config_key(val, CONFIG_KEY_LEFT, DEFAULT_KEY_LEFT);
+                else if (strcmp(key, "key_right")  == 0)
+                    config_key(val, CONFIG_KEY_RIGHT, DEFAULT_KEY_RIGHT);
 
                 else if (strcmp(key, "key_camera_1")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_1, DEFAULT_KEY_CAMERA_1);
@@ -312,6 +325,15 @@ void config_save(void)
                 option_d[CONFIG_ROTATE_SLOW]);
         fprintf(fp, "mode                 %d\n",
                 option_d[CONFIG_MODE]);
+
+        fprintf(fp, "key_forward          %s\n",
+                SDL_GetKeyName(option_d[CONFIG_KEY_FORWARD]));
+        fprintf(fp, "key_backward         %s\n",
+                SDL_GetKeyName(option_d[CONFIG_KEY_BACKWARD]));
+        fprintf(fp, "key_left             %s\n",
+                SDL_GetKeyName(option_d[CONFIG_KEY_LEFT]));
+        fprintf(fp, "key_right            %s\n",
+                SDL_GetKeyName(option_d[CONFIG_KEY_RIGHT]));
 
         fprintf(fp, "key_camera_1         %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_1]));

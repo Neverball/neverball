@@ -98,6 +98,7 @@ static int loop(void)
 {
     SDL_Event e;
     int d = 1;
+    int c;
 
     while (d && SDL_PollEvent(&e))
     {
@@ -142,7 +143,21 @@ static int loop(void)
 
             case SDL_KEYDOWN:
 
-                switch (e.key.keysym.sym)
+                c = e.key.keysym.sym;
+
+                if (config_tst_d(CONFIG_KEY_FORWARD, c))
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -JOY_MAX);
+
+                else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +JOY_MAX);
+
+                else if (config_tst_d(CONFIG_KEY_LEFT, c))
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -JOY_MAX);
+
+                else if (config_tst_d(CONFIG_KEY_RIGHT, c))
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +JOY_MAX);
+
+                else switch (c)
                 {
 
                 case SDLK_RETURN:
@@ -150,18 +165,6 @@ static int loop(void)
                     break;
                 case SDLK_ESCAPE:
                     d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 1);
-                    break;
-                case SDLK_LEFT:
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -JOY_MAX);
-                    break;
-                case SDLK_RIGHT:
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +JOY_MAX);
-                    break;
-                case SDLK_UP:
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -JOY_MAX);
-                    break;
-                case SDLK_DOWN:
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +JOY_MAX);
                     break;
 
                 default:
@@ -174,21 +177,27 @@ static int loop(void)
 
             case SDL_KEYUP:
 
-                switch (e.key.keysym.sym)
+                c = e.key.keysym.sym;
+
+                if (config_tst_d(CONFIG_KEY_FORWARD, c))
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
+
+                else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
+
+                else if (config_tst_d(CONFIG_KEY_LEFT, c))
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 1);
+
+                else if (config_tst_d(CONFIG_KEY_RIGHT, c))
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 1);
+
+                else switch (c)
                 {
                 case SDLK_RETURN:
                     d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
                     break;
                 case SDLK_ESCAPE:
                     d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 0);
-                    break;
-                case SDLK_LEFT:
-                case SDLK_RIGHT:
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 1);
-                    break;
-                case SDLK_DOWN:
-                case SDLK_UP:
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
                     break;
 
                 default:

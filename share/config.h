@@ -72,6 +72,10 @@ enum {
     CONFIG_ROTATE_FAST,
     CONFIG_ROTATE_SLOW,
     CONFIG_MODE,
+    CONFIG_KEY_FORWARD,
+    CONFIG_KEY_BACKWARD,
+    CONFIG_KEY_LEFT,
+    CONFIG_KEY_RIGHT,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -134,6 +138,10 @@ enum {
 #define DEFAULT_BALL                 "png/ball.png"
 #define DEFAULT_BALL_BONUS           "png/ball-bonus.png"
 #define DEFAULT_LANG                 ""
+#define DEFAULT_KEY_FORWARD          SDLK_UP
+#define DEFAULT_KEY_BACKWARD         SDLK_DOWN
+#define DEFAULT_KEY_LEFT             SDLK_LEFT
+#define DEFAULT_KEY_RIGHT            SDLK_RIGHT
 
 /*---------------------------------------------------------------------------*/
 
