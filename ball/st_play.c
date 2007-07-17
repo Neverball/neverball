@@ -129,6 +129,7 @@ static void play_set_timer(int id, float dt)
 
     game_step_fade(dt);
     gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static int play_set_click(int b, int d)

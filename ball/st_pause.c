@@ -12,6 +12,7 @@
  * General Public License for more details.
  */
 
+#include <SDL_mixer.h>
 #include "gui.h"
 #include "config.h"
 #include "game.h"
@@ -60,7 +61,7 @@ static int pause_action(int i)
     switch(i)
     {
     case PAUSE_CONTINUE:
-        audio_music_fade_in(0.5f);
+        Mix_ResumeMusic();
         config_set_grab(0);
         return goto_state(st_continue);
 
@@ -68,7 +69,7 @@ static int pause_action(int i)
         level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
         clear_pause();
         level_play_go();
-        audio_music_fade_in (2.0f);
+        Mix_ResumeMusic();
         config_set_grab(1);
         return goto_state(&st_play_set);
 
@@ -88,7 +89,7 @@ static int pause_enter(void)
 
     config_clr_grab();
 
-    audio_music_fade_out(0.2f);
+    Mix_PauseMusic();
 
     /* Build the pause GUI. */
 
@@ -130,7 +131,7 @@ void pause_paint(int id, float st)
 
 void pause_timer(int id, float dt)
 {
-    shared_timer (id, dt);
+    gui_timer(id, dt);
     hud_timer (dt);
 }
 
