@@ -393,7 +393,8 @@ static int demo_play_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
-            demo_paused = 1;
+            if (! (SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META)))
+                demo_paused = 1;
             return goto_state(&st_demo_end);
         }
     }

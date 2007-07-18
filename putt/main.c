@@ -131,7 +131,7 @@ static int loop(void)
             if (e.active.state == SDL_APPINPUTFOCUS)
             {
                 if (e.active.gain == 0)
-                    goto_pause();
+                    goto_pause(&st_over, 0);
             }
             break;
         }

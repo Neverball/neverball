@@ -462,13 +462,17 @@ static int party_keybd(int c, int d)
 static int paused = 0;
 
 static struct state *st_continue;
+static struct state *st_quit;
 
 #define PAUSE_CONTINUE 1
 #define PAUSE_QUIT     2
 
-int goto_pause(void)
+int goto_pause(struct state *s, int e)
 {
+    if (e && (SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META)))
+        return goto_state(s);
     st_continue = curr_state();
+    st_quit = s;
     paused = 1;
     return goto_state(&st_pause);
 }
@@ -483,7 +487,7 @@ static int pause_action(int i)
         return goto_state(st_continue ? st_continue : &st_title);
 
     case PAUSE_QUIT:
-        return goto_state(&st_over);
+        return goto_state(st_quit);
     }
     return 1;
 }
@@ -547,6 +551,20 @@ static int pause_keybd(int c, int d)
 {
     if (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c)))
         return pause_action(PAUSE_CONTINUE);
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static int shared_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == SDLK_ESCAPE)
+            return goto_pause(&st_over, 1);
+        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+            return goto_pause(&st_over, 0);
+    }
     return 1;
 }
 
@@ -634,8 +652,10 @@ static int next_keybd(int c, int d)
     {
         if (c == SDLK_F12)
             return goto_state(&st_poser);
-        if (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))
-            return goto_pause();
+        if (c == SDLK_ESCAPE)
+            return goto_pause(&st_over, 1);
+        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+            return goto_pause(&st_over, 0);
         if (c == SDLK_RETURN)
         {
             hole_goto(num, -1);
@@ -712,11 +732,6 @@ static int flyby_click(int b, int d)
     return 1;
 }
 
-static int flyby_keybd(int c, int d)
-{
-    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
-}
-
 /*---------------------------------------------------------------------------*/
 
 static int stroke_enter(void)
@@ -765,11 +780,6 @@ static int stroke_click(int b, int d)
     return (d && b < 0) ? goto_state(&st_roll) : 1;
 }
 
-static int stroke_keybd(int c, int d)
-{
-    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
-}
-
 /*---------------------------------------------------------------------------*/
 
 static int roll_enter(void)
@@ -806,11 +816,6 @@ static void roll_timer(int id, float dt)
     case GAME_FALL: goto_state(&st_fall); break;
     }
     audio_timer(dt);
-}
-
-static int roll_keybd(int c, int d)
-{
-    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -869,11 +874,6 @@ static int goal_click(int b, int d)
     return 1;
 }
 
-static int goal_keybd(int c, int d)
-{
-    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
-}
-
 /*---------------------------------------------------------------------------*/
 
 static int stop_enter(void)
@@ -926,11 +926,6 @@ static int stop_click(int b, int d)
             goto_state(&st_score);
     }
     return 1;
-}
-
-static int stop_keybd(int c, int d)
-{
-    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -992,11 +987,6 @@ static int fall_click(int b, int d)
     return 1;
 }
 
-static int fall_keybd(int c, int d)
-{
-    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
-}
-
 /*---------------------------------------------------------------------------*/
 
 static int score_enter(void)
@@ -1040,7 +1030,14 @@ static int score_click(int b, int d)
 
 static int score_keybd(int c, int d)
 {
-    return (d && (c == SDLK_ESCAPE || config_tst_d(CONFIG_KEY_PAUSE, c))) ? goto_pause() : 1;
+    if (d)
+    {
+        if (c == SDLK_ESCAPE)
+            return goto_pause(&st_title, 1);
+        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+            return goto_pause(&st_title, 0);
+    }
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1153,7 +1150,7 @@ struct state st_flyby = {
     NULL,
     NULL,
     flyby_click,
-    flyby_keybd,
+    shared_keybd,
     NULL,
     1, 0
 };
@@ -1166,7 +1163,7 @@ struct state st_stroke = {
     stroke_point,
     NULL,
     stroke_click,
-    stroke_keybd,
+    shared_keybd,
     NULL,
     0, 0
 };
@@ -1179,7 +1176,7 @@ struct state st_roll = {
     NULL,
     NULL,
     NULL,
-    roll_keybd,
+    shared_keybd,
     NULL,
     0, 0
 };
@@ -1192,7 +1189,7 @@ struct state st_goal = {
     NULL,
     NULL,
     goal_click,
-    goal_keybd,
+    shared_keybd,
     NULL,
     0, 0
 };
@@ -1205,7 +1202,7 @@ struct state st_stop = {
     NULL,
     NULL,
     stop_click,
-    stop_keybd,
+    shared_keybd,
     NULL,
     0, 0
 };
@@ -1218,7 +1215,7 @@ struct state st_fall = {
     NULL,
     NULL,
     fall_click,
-    fall_keybd,
+    shared_keybd,
     NULL,
     0, 0
 };
