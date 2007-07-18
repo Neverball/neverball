@@ -288,7 +288,7 @@ static int play_loop_keybd(int c, int d)
         {
             level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
             level_play_go();
-            goto_state(&st_play_set);
+            goto_state(&st_play_ready);
         }
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
             goto_pause();
