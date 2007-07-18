@@ -72,6 +72,7 @@ enum {
     CONFIG_ROTATE_FAST,
     CONFIG_ROTATE_SLOW,
     CONFIG_MODE,
+    CONFIG_CHEAT,
     CONFIG_KEY_FORWARD,
     CONFIG_KEY_BACKWARD,
     CONFIG_KEY_LEFT,
@@ -136,6 +137,7 @@ enum {
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_MODE                 1
+#define DEFAULT_CHEAT                0
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "png/ball.png"
 #define DEFAULT_BALL_BONUS           "png/ball-bonus.png"
@@ -178,11 +180,6 @@ void config_push_persp(float, float, float);
 void config_push_ortho(void);
 void config_pop_matrix(void);
 void config_clear(void);
-
-/*---------------------------------------------------------------------------*/
-
-int config_get_cheat(void);
-void config_tgl_cheat();
 
 /*---------------------------------------------------------------------------*/
 

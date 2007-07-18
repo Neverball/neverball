@@ -187,8 +187,8 @@ static void title_timer(int id, float dt)
 
 static int title_keybd(int c, int d)
 {
-    if (d && c == SDLK_c)
-        config_tgl_cheat();
+    if (d && c == SDLK_c && ALLOW_CHEAT)
+        config_tgl_d(CONFIG_CHEAT);
     return 1;
 }
 

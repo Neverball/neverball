@@ -107,6 +107,7 @@ void config_init(void)
     config_set_d(CONFIG_ROTATE_FAST,          DEFAULT_ROTATE_FAST);
     config_set_d(CONFIG_ROTATE_SLOW,          DEFAULT_ROTATE_SLOW);
     config_set_d(CONFIG_MODE,                 DEFAULT_MODE);
+    config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
     config_set_s(CONFIG_BALL_BONUS,           DEFAULT_BALL_BONUS);
@@ -208,6 +209,8 @@ void config_load(void)
                     config_set_d(CONFIG_ROTATE_SLOW,          atoi(val));
                 else if (strcmp(key, "mode")                  == 0)
                     config_set_d(CONFIG_MODE,                 atoi(val));
+                else if (strcmp(key, "cheat") == 0 && ALLOW_CHEAT)
+                    config_set_d(CONFIG_CHEAT,                atoi(val));
 
                 else if (strcmp(key, "key_forward")  == 0)
                     config_key(val, CONFIG_KEY_FORWARD, DEFAULT_KEY_FORWARD);
@@ -341,6 +344,11 @@ void config_save(void)
                 SDL_GetKeyName(option_d[CONFIG_KEY_LEFT]));
         fprintf(fp, "key_right            %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_RIGHT]));
+
+        if (option_d[CONFIG_CHEAT])
+            fprintf(fp,
+                    "cheat                %d\n",
+                    option_d[CONFIG_CHEAT]);
 
         fprintf(fp, "key_camera_1         %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_1]));
@@ -609,23 +617,6 @@ void config_clear(void)
     else
         glClear(GL_COLOR_BUFFER_BIT |
                 GL_DEPTH_BUFFER_BIT);
-}
-
-/*---------------------------------------------------------------------------*/
-
-static int cheat = 0;
-
-int config_get_cheat(void)
-{
-    return cheat;
-}
-
-void config_tgl_cheat()
-{
-    if (ALLOW_CHEAT && !cheat)
-        cheat = 1;
-    else
-        cheat = 0;
 }
 
 /*---------------------------------------------------------------------------*/
