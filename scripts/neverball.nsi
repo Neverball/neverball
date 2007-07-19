@@ -54,8 +54,8 @@ Section "Neverball/Neverputt"
 
     File neverball.exe neverputt.exe *.dll
 
-    File /oname=data\icon\neverball.ico dist\newneverball.ico
-    File /oname=data\icon\neverputt.ico dist\newneverputt.ico
+    File /oname=data\icon\neverball.ico dist\ico\neverball_basic_sizes.ico
+    File /oname=data\icon\neverputt.ico dist\ico\neverputt_basic_sizes.ico
 
     WriteUninstaller $INSTDIR\uninstall.exe
 
