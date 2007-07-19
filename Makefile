@@ -176,9 +176,6 @@ clean : clean-src
 test : all
 	./neverball
 
-tools :
-	cd tools && $(MAKE)
-
 mingw-%:
 	$(MAKE) -f Makefile.mingw $*
 
