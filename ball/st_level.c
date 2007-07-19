@@ -100,7 +100,17 @@ static void level_timer(int id, float dt)
 static int level_click(int b, int d)
 {
     if (b < 0 && d == 1)
-        return level_ok ? goto_state(&st_play_ready) : goto_end_level();
+    {
+        if (level_ok)
+        {
+            return goto_state(&st_play_ready);
+        }
+        else
+        {
+            level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
+            return goto_end_level();
+        }
+    }
     return 1;
 }
 
@@ -118,12 +128,20 @@ static int level_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
             if (level_ok)
+            {
                 return goto_state(&st_play_ready);
+            }
             else
+            {
+                level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
                 return goto_end_level();
+            }
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        {
+            level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
             return goto_end_level();
+        }
     }
     return 1;
 }
