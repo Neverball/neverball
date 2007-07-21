@@ -93,7 +93,7 @@ Section "Mapping tools (compiler, maps, ...)"
     File /r /x ".svn" data\obj
 SectionEnd
 
-SectionGroup "Create shortcuts"
+SectionGroup "Shortcuts"
     Section "In Start menu"
         # Reset to get a proper working directory for short-cuts
         SetOutPath $INSTDIR
