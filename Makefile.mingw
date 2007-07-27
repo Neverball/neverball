@@ -1,6 +1,7 @@
+export EXT= .exe
+
 #-----------------------------------------------------------------------------
 
-EXT= .exe
 include Makefile
 
 #-----------------------------------------------------------------------------
@@ -39,7 +40,7 @@ TXT_DOCS= $(TEXT_DOCS:%=%.txt)
 .PHONY: setup
 setup: $(INSTALLER)
 
-$(INSTALLER): install-dlls convert-text-files all
+$(INSTALLER): install-dlls convert-text-files all tools
 	$(MAKENSIS) $(MAKENSIS_FLAGS) -nocd scripts/neverball.nsi
 
 # This fails on MSYS due to a bug in the shipped version of make (3.79.1).
@@ -51,6 +52,7 @@ clean-setup: clean
 	# $(RM) $(INSTALLER)
 	$(RM) install-dlls.sh *.dll $(TXT_DOCS)
 	find data -name "*.txt" -exec $(FROMDOS) {} \;
+	cd tools && $(MAKE) clean
 
 #-----------------------------------------------------------------------------
 
@@ -81,3 +83,7 @@ convert-text-files: $(TXT_DOCS)
 
 #-----------------------------------------------------------------------------
 
+tools:
+	cd tools && $(MAKE)
+
+#-----------------------------------------------------------------------------

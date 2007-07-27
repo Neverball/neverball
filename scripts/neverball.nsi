@@ -43,12 +43,9 @@ FunctionEnd
 Section "Neverball/Neverputt"
     SectionIn RO
 
-    SetOutPath $INSTDIR
+    SetOutPath "$INSTDIR"
 
-    File *.txt
-    File /oname=AUTHORS.txt doc\AUTHORS.txt
-    File /oname=MANUAL.txt doc\MANUAL.txt
-
+    File *.txt doc\*.txt
     File /r /x .svn /x *.map /x obj data
     File /r locale
 
@@ -57,10 +54,17 @@ Section "Neverball/Neverputt"
     File /oname=data\icon\neverball.ico dist\ico\neverball_basic_sizes.ico
     File /oname=data\icon\neverputt.ico dist\ico\neverputt_basic_sizes.ico
 
-    WriteUninstaller $INSTDIR\uninstall.exe
+    CreateDirectory "$INSTDIR\bin"
 
+    SetOutPath "$INSTDIR\bin"
 
-    # http://nsis.sourceforge.net/Add_uninstall_information_to_Add/Remove_Programs
+    File scripts\neverball.bat
+    File scripts\neverputt.bat
+    File tools\democonv.exe
+    File tools\convert-replays.bat
+
+    # http://nsis.sourceforge.net/\
+    # Add_uninstall_information_to_Add/Remove_Programs
 
     WriteRegStr SHELL_CONTEXT ${UNINSTALL_REG_ROOT} \
         "DisplayName" "Neverball ${VERSION}"
@@ -80,12 +84,15 @@ Section "Neverball/Neverputt"
         "NoModify" 1
     WriteRegDWORD SHELL_CONTEXT ${UNINSTALL_REG_ROOT} \
         "NoRepair" 1
+
+    WriteUninstaller "$INSTDIR\uninstall.exe"
 SectionEnd
 
 Section "Mapping tools (compiler, maps, ...)"
-    SetOutPath $INSTDIR
+    SetOutPath "$INSTDIR"
 
     File mapc.exe
+    File /oname=bin\mapc.bat scripts\mapc.bat
 
     SetOutPath "$INSTDIR\data"
 
@@ -95,25 +102,25 @@ SectionEnd
 
 SectionGroup "Shortcuts"
     Section "In Start menu"
-        # Reset to get a proper working directory for short-cuts
-        SetOutPath $INSTDIR
+        # Reset to get a proper working directory
+        SetOutPath "$INSTDIR"
     
-        CreateDirectory "$SMPROGRAMS\Games"
+        CreateDirectory "$SMPROGRAMS\Neverball"
     
         CreateShortcut \
-            "$SMPROGRAMS\Games\Neverball.lnk" \
+            "$SMPROGRAMS\Neverball\Neverball.lnk" \
             "$INSTDIR\neverball.exe" ""       \
             "$INSTDIR\data\icon\neverball.ico"
     
         CreateShortcut \
-            "$SMPROGRAMS\Games\Neverputt.lnk" \
+            "$SMPROGRAMS\Neverball\Neverputt.lnk" \
             "$INSTDIR\neverputt.exe" ""       \
             "$INSTDIR\data\icon\neverputt.ico"
     SectionEnd
 
     Section "On desktop"
-        # Reset to get a proper working directory for short-cuts
-        SetOutPath $INSTDIR
+        # Reset to get a proper working directory
+        SetOutPath "$INSTDIR"
     
         CreateShortcut \
             "$DESKTOP\Neverball.lnk"          \
@@ -142,9 +149,9 @@ Function un.onInit
 FunctionEnd
 
 Section "Uninstall"
-    Delete "$SMPROGRAMS\Games\Neverball.lnk"
-    Delete "$SMPROGRAMS\Games\Neverputt.lnk"
-    RMDir  "$SMPROGRAMS\Games"
+    Delete "$SMPROGRAMS\Neverball\Neverball.lnk"
+    Delete "$SMPROGRAMS\Neverball\Neverputt.lnk"
+    RMDir  "$SMPROGRAMS\Neverball"
     Delete "$DESKTOP\Neverball.lnk"
     Delete "$DESKTOP\Neverputt.lnk"
 
@@ -197,4 +204,4 @@ FunctionEnd
 
 #------------------------------------------------------------------------------
 
-# vim:sts=4:sw=4:et:nowrap:
+# vim:sts=4:sw=4:et:
