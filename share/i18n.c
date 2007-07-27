@@ -32,11 +32,12 @@ static const char *languages[][2] = {
 
 void language_init(const char *domain, const char *locale_dir)
 {
-    setlocale(LC_ALL, "");
-    bindtextdomain(domain, locale_dir);
-    textdomain(domain);
+    char *dir = getenv("NEVERBALL_LOCALE");
 
+    setlocale(LC_ALL, "");
+    bindtextdomain(domain, dir ? dir : locale_dir);
     bind_textdomain_codeset(domain, "UTF-8");
+    textdomain(domain);
 }
 
 void language_set(int l)
