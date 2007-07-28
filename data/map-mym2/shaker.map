@@ -13,7 +13,7 @@
 "goal" "100"
 "time_hs" "6000 12000"
 "coin_hs" "240 160"
-"message" "Préparez un petit sac.\The stomach-tester."
+"message" "Preparez un petit sac.\The stomach-tester."
 "bonus" "1"
 // brush 0
 {
@@ -4222,7 +4222,7 @@
 // entity 108
 {
 "classname" "info_player_deathmatch"
-"origin" "32 1068 224"
+"origin" "32 1064 224"
 }
 // entity 109
 {

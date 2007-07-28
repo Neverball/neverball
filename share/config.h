@@ -73,6 +73,12 @@ enum {
     CONFIG_ROTATE_SLOW,
     CONFIG_MODE,
     CONFIG_CHEAT,
+    CONFIG_KEY_FORWARD,
+    CONFIG_KEY_BACKWARD,
+    CONFIG_KEY_LEFT,
+    CONFIG_KEY_RIGHT,
+    CONFIG_KEY_PAUSE,
+    CONFIG_KEY_RESTART,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -122,8 +128,8 @@ enum {
 #define DEFAULT_KEY_CAMERA_1         SDLK_F1
 #define DEFAULT_KEY_CAMERA_2         SDLK_F2
 #define DEFAULT_KEY_CAMERA_3         SDLK_F3
-#define DEFAULT_KEY_CAMERA_R         SDLK_RIGHT
-#define DEFAULT_KEY_CAMERA_L         SDLK_LEFT
+#define DEFAULT_KEY_CAMERA_R         SDLK_d
+#define DEFAULT_KEY_CAMERA_L         SDLK_s
 #define DEFAULT_VIEW_FOV             50
 #define DEFAULT_VIEW_DP              75
 #define DEFAULT_VIEW_DC              25
@@ -136,6 +142,12 @@ enum {
 #define DEFAULT_BALL                 "png/ball.png"
 #define DEFAULT_BALL_BONUS           "png/ball-bonus.png"
 #define DEFAULT_LANG                 ""
+#define DEFAULT_KEY_FORWARD          SDLK_UP
+#define DEFAULT_KEY_BACKWARD         SDLK_DOWN
+#define DEFAULT_KEY_LEFT             SDLK_LEFT
+#define DEFAULT_KEY_RIGHT            SDLK_RIGHT
+#define DEFAULT_KEY_PAUSE            SDLK_SPACE
+#define DEFAULT_KEY_RESTART          SDLK_r
 
 /*---------------------------------------------------------------------------*/
 
@@ -158,14 +170,9 @@ const char *config_simple_get_s(int i);
 
 /*---------------------------------------------------------------------------*/
 
-void config_set_grab(void);
+void config_set_grab(int w);
 void config_clr_grab(void);
 int  config_get_grab(void);
-
-int  config_get_pause(void);
-void config_set_pause(void);
-void config_clr_pause(void);
-void config_tgl_pause(void);
 
 /*---------------------------------------------------------------------------*/
 

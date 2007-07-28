@@ -22,6 +22,7 @@ struct state
     int gui_id;
 };
 
+struct state *curr_state(void);
 float time_state(void);
 void  init_state(struct state *);
 int   goto_state(struct state *);

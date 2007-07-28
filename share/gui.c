@@ -40,7 +40,6 @@
 #define GUI_COUNT  16
 #define GUI_CLOCK  18
 #define GUI_SPACE  20
-#define GUI_PAUSE  22
 
 struct widget
 {
@@ -87,8 +86,6 @@ static GLuint digit_text[3][11];
 static GLuint digit_list[3][11];
 static int    digit_w[3][11];
 static int    digit_h[3][11];
-
-static int pause_id;
 
 /*---------------------------------------------------------------------------*/
 
@@ -253,11 +250,6 @@ void gui_init(void)
         font[GUI_MED] = TTF_OpenFont(config_data(GUI_FACE), s1);
         font[GUI_LRG] = TTF_OpenFont(config_data(GUI_FACE), s2);
         radius = s / 60;
-
-        /* Initialize the global pause GUI. */
-
-        if ((pause_id = gui_pause(0)))
-            gui_layout(pause_id, 0, 0);
 
         /* Initialize digit glyphs and lists for counters and clocks. */
 
@@ -578,27 +570,6 @@ int gui_space(int pd)
     return id;
 }
 
-int gui_pause(int pd)
-{
-    const char *text = _("Paused");
-    int id;
-
-    if ((id = gui_widget(pd, GUI_PAUSE)))
-    {
-        widget[id].text_img = make_image_from_font(NULL, NULL,
-                                                   &widget[id].w,
-                                                   &widget[id].h,
-                                                   text, font[GUI_LRG],
-                                                        scale[GUI_LRG]);
-        widget[id].color0 = gui_wht;
-        widget[id].color1 = gui_wht;
-        widget[id].value  = 0;
-        widget[id].size   = GUI_LRG;
-        widget[id].rect   = GUI_ALL;
-    }
-    return id;
-}
-
 /*---------------------------------------------------------------------------*/
 /*
  * Create  a multi-line  text box  using a  vertical array  of labels.
@@ -738,19 +709,6 @@ static void gui_vstack_up(int id)
     }
 }
 
-static void gui_paused_up(int id)
-{
-    /* Store width and height for later use in text rendering. */
-
-    widget[id].x = widget[id].w;
-    widget[id].y = widget[id].h;
-
-    /* The pause widget fills the screen. */
-
-    widget[id].w = config_get_d(CONFIG_WIDTH);
-    widget[id].h = config_get_d(CONFIG_HEIGHT);
-}
-
 static void gui_button_up(int id)
 {
     /* Store width and height for later use in text rendering. */
@@ -779,7 +737,6 @@ static void gui_widget_up(int id)
         case GUI_VARRAY: gui_varray_up(id); break;
         case GUI_HSTACK: gui_hstack_up(id); break;
         case GUI_VSTACK: gui_vstack_up(id); break;
-        case GUI_PAUSE:  gui_paused_up(id); break;
         default:         gui_button_up(id); break;
         }
 }
@@ -922,7 +879,6 @@ static void gui_button_dn(int id, int x, int y, int w, int h)
     int W = widget[id].x;
     int H = widget[id].y;
     int R = widget[id].rect;
-    int r = ((widget[id].type & GUI_TYPE) == GUI_PAUSE ? radius * 4 : radius);
 
     const float *c0 = widget[id].color0;
     const float *c1 = widget[id].color1;
@@ -935,7 +891,7 @@ static void gui_button_dn(int id, int x, int y, int w, int h)
     /* Create display lists for the text area and rounded rectangle. */
 
     widget[id].text_obj = gui_list(-W / 2, -H / 2, W, H, c0, c1);
-    widget[id].rect_obj = gui_rect(-w / 2, -h / 2, w, h, R, r);
+    widget[id].rect_obj = gui_rect(-w / 2, -h / 2, w, h, R, radius);
 }
 
 static void gui_widget_dn(int id, int x, int y, int w, int h)
@@ -1343,11 +1299,6 @@ void gui_paint(int id)
         config_pop_matrix();
         glPopAttrib();
     }
-}
-
-void gui_blank(void)
-{
-    gui_paint(pause_id);
 }
 
 /*---------------------------------------------------------------------------*/

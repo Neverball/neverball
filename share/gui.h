@@ -72,7 +72,6 @@ int  gui_multi(int, const char *, int, int, const float *, const float *);
 int  gui_count(int, int, int, int);
 int  gui_clock(int, int, int, int);
 int  gui_space(int);
-int  gui_pause(int);
 
 /*---------------------------------------------------------------------------*/
 
@@ -90,7 +89,6 @@ void gui_timer(int, float);
 int  gui_point(int, int, int);
 int  gui_stick(int, int, int);
 int  gui_click(void);
-void gui_blank(void);
 void gui_focus(int);
 
 int  gui_token(int);

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2007-05-19 22:55+0300\n"
+"POT-Creation-Date: 2007-06-30 21:51+0300\n"
 "PO-Revision-Date: 2006-11-30 22:19+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -792,26 +792,30 @@ msgstr ""
 msgid "Paused"
 msgstr "Pauze"
 
-#: share/i18n.c:24
+#: share/i18n.c:23
 msgid "German"
 msgstr "Vācu"
 
-#: share/i18n.c:25
+#: share/i18n.c:24
 msgid "English"
 msgstr "Angļu"
 
-#: share/i18n.c:26
+#: share/i18n.c:25
 #, fuzzy
 msgid "Spanish"
 msgstr "Beigt"
 
-#: share/i18n.c:27
+#: share/i18n.c:26
 msgid "French"
 msgstr "Franču"
 
-#: share/i18n.c:28
+#: share/i18n.c:27
 msgid "Latvian"
 msgstr "Latviešu"
+
+#: share/i18n.c:28
+msgid "Norwegian Nynorsk"
+msgstr ""
 
 #: share/i18n.c:78
 msgid "System Default"
@@ -964,12 +968,6 @@ msgstr ""
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing down"
 "\\early. You need just as much room to slow\\down as you did to speed up.\\"
-msgstr ""
-
-#: data/map-easy/hurdles.map
-msgid ""
-"You must leap to the goal.\\Build speed on the final runway and aim for the "
-"ramp!"
 msgstr ""
 
 #: data/map-easy/lollipop.map
@@ -1239,8 +1237,18 @@ msgstr ""
 msgid "Calm and meditation may bring you to the Nirvana."
 msgstr ""
 
+#: data/map-misc/freefall-old.map
+msgid "Savoir chuter.\\Follow the blue markers."
+msgstr ""
+
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
+msgstr ""
+
+#: data/map-misc/hurdles.map
+msgid ""
+"You must leap to the goal.\\Build speed on the final runway and aim for the "
+"ramp!"
 msgstr ""
 
 #: data/map-misc/ocean.map
@@ -1366,7 +1374,7 @@ msgid "Le sens trigonometrique.\\Turn, wait and jump."
 msgstr ""
 
 #: data/map-mym/up.map
-msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
+msgid "L'ascension pressee.\\Only one piece of advice: don't stop!"
 msgstr ""
 
 #: data/map-mym2/backforth.map
@@ -1394,7 +1402,10 @@ msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
 msgstr ""
 
 #: data/map-mym2/freefall.map
-msgid "Savoir chuter.\\Follow the blue markers."
+msgid ""
+"This level is full of challenges:\\understand the level's functioning,"
+"\\learn to fly and to survive,\\grab half of all coins to open the goal,"
+"\\find and reach the goal,\\and more..."
 msgstr ""
 
 #: data/map-mym2/grinder.map

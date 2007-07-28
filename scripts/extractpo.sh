@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # This program creates the neverball.pot file from source code and level files.
 
 # Copyright (C) 2006 Jean Privat
@@ -33,11 +33,12 @@ echo "# Sources"
 xgettext --add-comments=TRANSLATORS --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=sgettext -d "$DOMAIN" --copyright-holder="$COPYRIGHT" --msgid-bugs-address="$BUGADDR" -F -o "$POTFILE" {ball,putt,share}/*.[ch]
 
 # Force encoding to UTF-8
-sed -i "0,/^$/ s/charset=CHARSET/charset=UTF-8/" "$POTFILE"
+sed "1,/^$/ s/charset=CHARSET/charset=UTF-8/" < "$POTFILE" > "$POTFILE".utf8
+mv "$POTFILE".utf8 "$POTFILE"
 
 # Second, extract from neverball sets and neverputt courses
 echo "# Sets and courses"
-for i in $(< "$SETS"); do
+for i in $(cat "$SETS"); do
 	i="$DATA"/"$i"
 
 	# Only translate the two first lines
@@ -45,7 +46,7 @@ for i in $(< "$SETS"); do
 		echo
 		echo "#: $i"
 		# Convert \ to \\
-		echo "msgid \"${d//\\/\\\\}\""
+		echo "msgid \"$(echo "$d" | sed 's/\\/\\\\/g')\""
 		echo "msgstr \"\""
 	done >> $POTFILE
 done
@@ -57,7 +58,7 @@ echo | cat "$COURSES" - | while read -r d; do
 		echo
 		echo "#: $COURSES"
 		# Convert \ to \\
-		echo "msgid \"${d//\\/\\\\}\""
+		echo "msgid \"$(echo "$d" | sed 's/\\/\\\\/g')\""
 		echo "msgstr \"\""
 	fi
 done >> $POTFILE
@@ -65,7 +66,7 @@ done >> $POTFILE
 # Third, extracts from levels
 echo -n "# Levels: "
 find "$DATA" -name "*.map" | sort | tee .map_list | wc -l
-for i in `cat .map_list`; do
+for i in $(cat .map_list); do
 	# Check encoding?
 	# file --mime $i
 	echo -n '.'
@@ -73,7 +74,7 @@ for i in `cat .map_list`; do
 	grep -E "^\"message\"" "$i" | while read -r a b; do
 		echo
 		echo "#: $i"
-		echo "msgid ${b//\\/\\\\}"
+		echo "msgid $(echo "$b" | sed 's/\\/\\\\/g')"
 		echo "msgstr \"\""
 	done >> $POTFILE
 done

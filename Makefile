@@ -1,4 +1,13 @@
 
+#-------------------------------------------------------------------------------
+
+#VERSION=1.5.0
+VERSION= $(shell sh scripts/version.sh)
+
+ifeq ($(VERSION),)
+    $(error Failed to obtain version for this build)
+endif
+
 #------------------------------------------------------------------------------
 
 # Maybe you need one of these.  Maybe you don't.
@@ -9,20 +18,18 @@
 OGL_LIBS= -lGL -lm
 #OGL_LIBS= -lm                                                # Think Different
 
-#------------------------------------------------------------------------------
-# Configuration constants
-#------------------------------------------------------------------------------
-
 CFLAGS= -Wall -g -O3 -ansi -pedantic $(shell sdl-config --cflags)
 #CFLAGS= -Wall -g -O1 -ansi -pedantic $(shell sdl-config --cflags)
 #CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
 
-SDL_LIBS= $(shell sdl-config --libs)
+CPPFLAGS += -DVERSION=\"$(VERSION)\" -Ishare
 
-MAPC_TARG= mapc
-MAPC_EXEC = ./$(MAPC_TARG)
-BALL_TARG= neverball
-PUTT_TARG= neverputt
+SDL_LIBS= $(shell sdl-config --libs)
+PNG_LIBS= $(shell libpng-config --libs)
+
+MAPC_TARG= mapc$(EXT)
+BALL_TARG= neverball$(EXT)
+PUTT_TARG= neverputt$(EXT)
 
 LOCALEDIR= locale
 LOCALEDOM= neverball
@@ -77,6 +84,7 @@ BALL_OBJS= \
 	ball/st_help.o  \
 	ball/st_name.o  \
 	ball/st_shared.o  \
+	ball/st_pause.o \
 	ball/main.o
 PUTT_OBJS= \
 	share/i18n.o    \
@@ -109,7 +117,7 @@ PUTT_DEPS= $(PUTT_OBJS:.o=.d)
 MAPC_DEPS= $(MAPC_OBJS:.o=.d)
 
 BASE_LIBS= $(SDL_LIBS) -lSDL_image
-LIBS= $(X11_PATH) $(BASE_LIBS) -lpng -lSDL_ttf -lSDL_mixer $(OGL_LIBS)
+LIBS= $(X11_PATH) $(BASE_LIBS) $(PNG_LIBS) -lSDL_ttf -lSDL_mixer $(OGL_LIBS)
 
 MESSAGEPART= /LC_MESSAGES/$(LOCALEDOM).mo
 MESSAGES= $(LINGUAS:%=$(LOCALEDIR)/%$(MESSAGEPART))
@@ -125,13 +133,13 @@ LINGUAS= $(POS:po/%.po=%)
 #------------------------------------------------------------------------------
 
 %.d : %.c
-	$(CC) $(CFLAGS) -Ishare -MM -MF $@ -MT '$*.o $@' $<
+	$(CC) $(CFLAGS) $(CPPFLAGS) -MM -MF $@ -MT '$*.o $@' $<
 
 %.o : %.c
-	$(CC) $(CFLAGS) -Ishare -o $@ -c $<
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 
 %.sol : %.map $(MAPC_TARG)
-	$(MAPC_EXEC) $< data
+	$(WINE) ./$(MAPC_TARG) $< data
 
 $(LOCALEDIR)/%$(MESSAGEPART) : po/%.po
 	mkdir -p `dirname $@`
@@ -144,13 +152,13 @@ $(LOCALEDIR)/%$(MESSAGEPART) : po/%.po
 all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales
 
 $(BALL_TARG) : $(BALL_OBJS)
-	$(CC) $(CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LIBS)
+	$(CC) $(CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LDFLAGS) $(LIBS)
 
 $(PUTT_TARG) : $(PUTT_OBJS)
-	$(CC) $(CFLAGS) -o $(PUTT_TARG) $(PUTT_OBJS) $(LIBS)
+	$(CC) $(CFLAGS) -o $(PUTT_TARG) $(PUTT_OBJS) $(LDFLAGS) $(LIBS)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
-	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(BASE_LIBS)
+	$(CC) $(CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LDFLAGS) $(BASE_LIBS)
 
 sols : $(SOLS)
 
@@ -168,8 +176,8 @@ clean : clean-src
 test : all
 	./neverball
 
-tools :
-	cd tools && $(MAKE)
+mingw-%:
+	$(MAKE) -f Makefile.mingw $*
 
 #------------------------------------------------------------------------------
 # PO update rules
@@ -180,7 +188,7 @@ po/%.po : $(POTFILE)
 	touch $@
 	
 po-update-extract :
-	bash extractpo.sh $(POTFILE) $(LOCALEDOM)
+	sh scripts/extractpo.sh $(POTFILE) $(LOCALEDOM)
 
 po-update-merge : $(POS)
 

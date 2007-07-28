@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2007-05-19 22:55+0300\n"
+"POT-Creation-Date: 2007-06-30 21:51+0300\n"
 "PO-Revision-Date: 2006-12-04 22:07+0100\n"
 "Last-Translator: Miguel Diago <mdiagom@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -802,25 +802,29 @@ msgstr ""
 msgid "Paused"
 msgstr "Pausa"
 
-#: share/i18n.c:24
+#: share/i18n.c:23
 msgid "German"
 msgstr "Alemán"
 
-#: share/i18n.c:25
+#: share/i18n.c:24
 msgid "English"
 msgstr "Inglés"
 
-#: share/i18n.c:26
+#: share/i18n.c:25
 msgid "Spanish"
 msgstr "Español"
 
-#: share/i18n.c:27
+#: share/i18n.c:26
 msgid "French"
 msgstr "Francés"
 
-#: share/i18n.c:28
+#: share/i18n.c:27
 msgid "Latvian"
 msgstr "Letón"
+
+#: share/i18n.c:28
+msgid "Norwegian Nynorsk"
+msgstr ""
 
 #: share/i18n.c:78
 msgid "System Default"
@@ -1019,12 +1023,6 @@ msgid ""
 msgstr ""
 "¡No te acerques a los bordes!\\Frena pronto cuando te acerques a un límite."
 "\\Para frenar necesitarás tanto espacio como\\el que usaste para acelerar.\\"
-
-#: data/map-easy/hurdles.map
-msgid ""
-"You must leap to the goal.\\Build speed on the final runway and aim for the "
-"ramp!"
-msgstr ""
 
 #: data/map-easy/lollipop.map
 msgid "Follow the yellow lick road..."
@@ -1340,11 +1338,21 @@ msgstr ""
 msgid "Calm and meditation may bring you to the Nirvana."
 msgstr "La tranquilidad y la meditación te llevarán al Nirvana."
 
+#: data/map-misc/freefall-old.map
+msgid "Savoir chuter.\\Follow the blue markers."
+msgstr "Savoir chuter.\\Siga las marcas azules."
+
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
 msgstr ""
 "Utiliza las nuevas monedas para cambiar\\el tamaño de la bola.\\¡Espero que "
 "te guste!\\-Dave"
+
+#: data/map-misc/hurdles.map
+msgid ""
+"You must leap to the goal.\\Build speed on the final runway and aim for the "
+"ramp!"
+msgstr ""
 
 #: data/map-misc/ocean.map
 msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
@@ -1483,7 +1491,8 @@ msgid "Le sens trigonometrique.\\Turn, wait and jump."
 msgstr "Le sens trigonometrique.\\Gira, espera y salta."
 
 #: data/map-mym/up.map
-msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
+#, fuzzy
+msgid "L'ascension pressee.\\Only one piece of advice: don't stop!"
 msgstr "L'ascension pressée.\\Sólo un consejo: ¡movimiento!"
 
 #: data/map-mym2/backforth.map
@@ -1512,8 +1521,11 @@ msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
 msgstr ""
 
 #: data/map-mym2/freefall.map
-msgid "Savoir chuter.\\Follow the blue markers."
-msgstr "Savoir chuter.\\Siga las marcas azules."
+msgid ""
+"This level is full of challenges:\\understand the level's functioning,"
+"\\learn to fly and to survive,\\grab half of all coins to open the goal,"
+"\\find and reach the goal,\\and more..."
+msgstr ""
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."

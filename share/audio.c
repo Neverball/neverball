@@ -72,8 +72,6 @@ void audio_free(void)
 
     if (audio_state == 1)
     {
-        Mix_CloseAudio();
-
         for (i = 0; i < MAXSND; i++)
             if (buff[i])
             {
@@ -82,6 +80,7 @@ void audio_free(void)
                 buff[i] = NULL;
             }
 
+        Mix_CloseAudio();
         audio_state = 0;
     }
 }
