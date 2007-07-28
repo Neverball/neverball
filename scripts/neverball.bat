@@ -20,5 +20,5 @@ setlocal
 
     type "%~dp0\..\stdout.txt"      2>NUL
     type "%~dp0\..\stderr.txt" 1>&2 2>NUL
-setlocal
+endlocal
 
