@@ -188,6 +188,18 @@ static int loop(void)
                     goto_pause(&st_over, 0);
             }
             break;
+
+        case SDL_JOYAXISMOTION:
+            st_stick(e.jaxis.axis, e.jaxis.value);
+            break;
+
+        case SDL_JOYBUTTONDOWN:
+            d = st_buttn(e.jbutton.button, 1);
+            break;
+
+        case SDL_JOYBUTTONUP:
+            d = st_buttn(e.jbutton.button, 0);
+            break;
         }
     }
     return d;
@@ -197,6 +209,7 @@ int main(int argc, char *argv[])
 {
     int camera = 0;
     SDL_Surface *icon;
+    SDL_Joystick *joy = NULL;
 
     srand((int) time(NULL));
 
@@ -206,7 +219,7 @@ int main(int argc, char *argv[])
     {
         if (config_user_path(NULL))
         {
-            if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0)
+            if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
             {
                 config_init();
                 config_load();
@@ -218,6 +231,18 @@ int main(int argc, char *argv[])
                 /* Cache Neverball's camera setting. */
 
                 camera = config_get_d(CONFIG_CAMERA);
+
+                /* Initialize the joystick. */
+
+                if (SDL_NumJoysticks() > 0)
+                {
+                    joy = SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
+                    if (joy)
+                    {
+                        SDL_JoystickEventState(SDL_ENABLE);
+                        set_joystick(joy);
+                    }
+                }
 
                 /* Initialize the audio. */
 

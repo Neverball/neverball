@@ -30,6 +30,15 @@
 
 /*---------------------------------------------------------------------------*/
 
+static SDL_Joystick *joystick = NULL;
+
+void set_joystick(SDL_Joystick* j)
+{
+    joystick = j;
+}
+
+/*---------------------------------------------------------------------------*/
+
 static char *number(int i)
 {
     static char str[MAXSTR];
@@ -855,7 +864,8 @@ static void stroke_timer(int id, float dt)
 {
     float g[3] = { 0.f, 0.f, 0.f };
 
-    float k = ((SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META)) ?
+    float k = (((SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META))
+                || (joystick && SDL_JoystickGetButton(joystick, config_get_d(CONFIG_JOYSTICK_BUTTON_B)))) ?
                0.25 :
                1.0);
 
