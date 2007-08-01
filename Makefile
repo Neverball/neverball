@@ -18,11 +18,11 @@ endif
 OGL_LIBS= -lGL -lm
 #OGL_LIBS= -lm                                                # Think Different
 
-CFLAGS= -Wall -g -O3 -ansi -pedantic $(shell sdl-config --cflags)
-#CFLAGS= -Wall -g -O1 -ansi -pedantic $(shell sdl-config --cflags)
-#CFLAGS= -Wall -pg -ansi $(shell sdl-config --cflags)
+CFLAGS += -Wall -g -O3 -ansi -pedantic
+#CFLAGS += -Wall -g -O1 -ansi -pedantic
+#CFLAGS += -Wall -pg -ansi
 
-CPPFLAGS += -DVERSION=\"$(VERSION)\" -Ishare
+CPPFLAGS += $(shell sdl-config --cflags) -DVERSION=\"$(VERSION)\" -Ishare
 
 SDL_LIBS= $(shell sdl-config --libs)
 PNG_LIBS= $(shell libpng-config --libs)

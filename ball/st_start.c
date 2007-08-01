@@ -87,7 +87,7 @@ static void gui_level(int id, int i)
     gui_active(jd, i, 0);
 }
 
-static void start_over_level(i)
+static void start_over_level(int i)
 {
     const struct level *l = get_level(i);
     if (!l->is_locked || config_get_d(CONFIG_CHEAT))
@@ -129,7 +129,7 @@ static void start_over_level(i)
                       _("Finish previous levels to unlock this level"));
 }
 
-static void start_over(id)
+static void start_over(int id)
 {
     int i;
 
