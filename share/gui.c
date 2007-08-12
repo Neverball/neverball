@@ -388,7 +388,7 @@ static int gui_widget(int pd, int type)
             return id;
         }
 
-    fprintf(stderr, text_to_locale(_("Out of widget IDs\n")));
+    fprintf(stderr, "Out of widget IDs\n");
 
     return 0;
 }

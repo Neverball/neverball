@@ -222,37 +222,37 @@ static int loop(void)
 
 /*---------------------------------------------------------------------------*/
 
-/* Option values */
+static char *data_path;
+static char *replay_path;
+static int   display_info;
 
-static char *data_path    = NULL;
-static char *replay_path  = NULL;
-static int   display_info = 0;
+#define USAGE \
+    L_(                                                                 \
+        "Usage: %s [options ...]\n"                                     \
+        "-r, --replay file         play the replay 'file'.\n"           \
+        "-i, --info                display info about a replay.\n"      \
+        "    --data dir            use 'dir' as game data directory.\n" \
+        "-v, --version             show version.\n"                     \
+        "-h, -?, --help            show this usage message.\n"          \
+    )
 
-/* Option handling */
+#define CASE(x)   (strcmp(*argv, (x)) == 0)
+#define MANDATORY !(missing = (argv[1] == NULL))
 
 static void parse_args(int argc, char **argv)
 {
-    char *exec = *(argv++);
+    char *exec;
     int missing;
 
-    char *usage = _(
-        "Usage: %s [options ...]\n"
-        "-r, --replay file         play the replay 'file'.\n"
-        "-i, --info                display info about a replay.\n"
-        "    --data dir            use 'dir' as game data directory.\n"
-        "-v, --version             show version.\n"
-        "-h, -?, --help            show this usage message.\n"
-    );
-
-#   define CASE(x) (strcmp(*argv, (x)) == 0)       /* Check current option */
-#   define MAND    !(missing = (argv[1] == NULL))  /* Argument is mandatory */
+    exec = *(argv++);
 
     while (*argv != NULL)
     {
         missing = 0;
+
         if (CASE("-h") || CASE("-?") || CASE("--help"))
         {
-            printf(text_to_locale(usage), exec);
+            printf(USAGE, exec);
             exit(0);
         }
         else if (CASE("-v") || CASE("--version"))
@@ -260,33 +260,36 @@ static void parse_args(int argc, char **argv)
             printf("%s %s\n", TITLE, VERSION);
             exit(0);
         }
-        else if (CASE("--data") && MAND)
+        else if (CASE("--data") && MANDATORY)
             data_path = *(++argv);
-        else if ((CASE("-r") || CASE("--replay")) && MAND)
+        else if ((CASE("-r") || CASE("--replay")) && MANDATORY)
             replay_path = *(++argv);
         else if ((CASE("-i") || CASE("--info")))
             display_info = 1;
         else if (!missing)
         {
-            fprintf(stderr, text_to_locale(_("%s: unknown option %s\n")), exec, *argv);
-            fprintf(stderr, usage, exec);
+            fprintf(stderr, L_("%s: unknown option %s\n"), exec, *argv);
+            fprintf(stderr, USAGE, exec);
             exit(1);
         }
         else
         {
-            fprintf(stderr, text_to_locale(_("%s: option %s requires an argument\n")),
+            fprintf(stderr, L_("%s: option %s requires an argument"),
                     exec, *argv);
-            fprintf(stderr, text_to_locale(usage), exec);
+            fprintf(stderr, USAGE, exec);
             exit(1);
         }
         argv++;
     }
-
-#   undef CASE
-#   undef MAND
-
     return;
 }
+
+#undef USAGE
+
+#undef CASE
+#undef MANDATORY
+
+/*---------------------------------------------------------------------------*/
 
 int main(int argc, char *argv[])
 {
@@ -302,13 +305,13 @@ int main(int argc, char *argv[])
 
     if (!config_data_path(data_path, SET_FILE))
     {
-        fprintf(stderr, text_to_locale(_("Failure to establish game data directory\n")));
+        fputs(L_("Failure to establish game data directory\n"), stderr);
         return 1;
     }
 
     if (!config_user_path(NULL))
     {
-        fprintf(stderr, text_to_locale(_("Failure to establish config directory\n")));
+        fputs(L_("Failure to establish config directory\n"), stderr);
         return 1;
     }
 
@@ -327,8 +330,8 @@ int main(int argc, char *argv[])
     {
         if (!level_replay(replay_path))
         {
-            fprintf(stderr, text_to_locale(_("Replay file '%s': %s\n")), replay_path,
-                    errno ? strerror(errno) : text_to_locale(_("Not a replay file")));
+            fprintf(stderr, L_("Replay file '%s': %s\n"), replay_path,
+                    errno ? strerror(errno) : L_("Not a replay file"));
             return 1;
         }
         else if (display_info)
@@ -339,8 +342,7 @@ int main(int argc, char *argv[])
     {
         if (replay_path == NULL)
         {
-            fprintf(stderr, text_to_locale(_("%s: --info requires --replay\n")),
-                    argv[0]);
+            fprintf(stderr, L_("%s: --info requires --replay\n"), argv[0]);
             return 1;
         }
         return 0;

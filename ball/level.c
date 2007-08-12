@@ -124,15 +124,20 @@ int level_load(const char *filename, struct level *level)
     memset(level, 0, sizeof (struct level));
     memset(&sol,  0, sizeof (sol));
 
-    /* Try to load the sol file */
+#define format \
+    L_("Error while loading level file '%s': %s\n")
+#define default_error \
+    L_("Not a valid level file")
+
     if (!sol_load_only_head(&sol, config_data(filename)))
     {
-        fprintf(stderr,
-                text_to_locale(_("Error while loading level file '%s': %s\n")),
-                filename,
-                errno ? strerror(errno) : _("Not a valid level file"));
+        const char *error = errno ? strerror(errno) : default_error;
+        fprintf(stderr, format, filename, error);
         return 0;
     }
+
+#undef format
+#undef default_error
 
     strcpy(level->file, filename);
 
@@ -173,19 +178,19 @@ int level_load(const char *filename, struct level *level)
 
 void level_dump_info(const struct level *l)
 {
-    printf(text_to_locale("filename:        %s\n"
-                          "version:         %s\n"
-                          "author:          %s\n"
-                          "time limit:      %d\n"
-                          "goal count:      %d\n"
-                          "time hs:         %d %d %d\n"
-                          "goal hs:         %d %d %d\n"
-                          "coin hs:         %d %d %d\n"
-                          "message:         %s\n"
-                          "background:      %s\n"
-                          "gradient:        %s\n"
-                          "screenshot:      %s\n"
-                          "song:            %s\n"),
+    printf("filename:        %s\n"
+           "version:         %s\n"
+           "author:          %s\n"
+           "time limit:      %d\n"
+           "goal count:      %d\n"
+           "time hs:         %d %d %d\n"
+           "goal hs:         %d %d %d\n"
+           "coin hs:         %d %d %d\n"
+           "message:         %s\n"
+           "background:      %s\n"
+           "gradient:        %s\n"
+           "screenshot:      %s\n"
+           "song:            %s\n",
            l->file,
            l->version,
            l->author,

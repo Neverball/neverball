@@ -30,7 +30,13 @@ export LC_ALL=C
 # First, extract from source
 echo "# Sources"
 > "$POTFILE"
-xgettext --add-comments=TRANSLATORS --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=sgettext -d "$DOMAIN" --copyright-holder="$COPYRIGHT" --msgid-bugs-address="$BUGADDR" -F -o "$POTFILE" {ball,putt,share}/*.[ch]
+
+xgettext \
+    --default-domain "$DOMAIN" --copyright-holder="$COPYRIGHT" \
+    --msgid-bugs-address="$BUGADDR" --from-code=UTF-8          \
+    --keyword=_ --keyword=N_ --keyword=sgettext --keyword=L_   \
+    --add-comments=TRANSLATORS --sort-by-file                  \
+    -o "$POTFILE" {ball,putt,share}/*.[ch]
 
 # Force encoding to UTF-8
 sed "1,/^$/ s/charset=CHARSET/charset=UTF-8/" < "$POTFILE" > "$POTFILE".utf8

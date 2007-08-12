@@ -41,24 +41,24 @@ static int         count;          /* Number of scanned demos */
 
 void demo_dump_info(const struct demo *d)
 {
-    printf(text_to_locale("Name:         %s\n"
-                          "File:         %s\n"
-                          "Time:         %d\n"
-                          "Coins:        %d\n"
-                          "Mode:         %d\n"
-                          "State:        %d\n"
-                          "Date:         %s"
-                          "Player:       %s\n"
-                          "Shot:         %s\n"
-                          "Level:        %s\n"
-                          "  Back:       %s\n"
-                          "  Grad:       %s\n"
-                          "  Song:       %s\n"
-                          "Time:         %d\n"
-                          "Goal:         %d\n"
-                          "Score:        %d\n"
-                          "Balls:        %d\n"
-                          "Total Time:   %d\n"),
+    printf("Name:         %s\n"
+           "File:         %s\n"
+           "Time:         %d\n"
+           "Coins:        %d\n"
+           "Mode:         %d\n"
+           "State:        %d\n"
+           "Date:         %s"
+           "Player:       %s\n"
+           "Shot:         %s\n"
+           "Level:        %s\n"
+           "  Back:       %s\n"
+           "  Grad:       %s\n"
+           "  Song:       %s\n"
+           "Time:         %d\n"
+           "Goal:         %d\n"
+           "Score:        %d\n"
+           "Balls:        %d\n"
+           "Total Time:   %d\n",
            d->name, d->filename,
            d->timer, d->coins, d->mode, d->state, ctime(&d->date),
            d->player,
@@ -228,7 +228,7 @@ static void demo_scan_file(const char *filename)
     {
         if (demo_header_read(fp, d))
         {
-            strncpy(d->filename, config_user(filename),       MAXSTR);
+            strncpy(d->filename, config_user(filename), MAXSTR);
             strncpy(d->name, bname(text_from_locale(d->filename), REPLAY_EXT),
                     PATHMAX);
             d->name[PATHMAX - 1] = '\0';
@@ -299,17 +299,16 @@ const struct demo *demo_get(int i)
 const char *date_to_str(time_t i)
 {
     static char str[MAXSTR];
+    const char *fmt;
 
     /* TRANSLATORS:  here is the format of the date shown at the
-       replay selection screen.  The default will work in most cases, so
-       you should only change it if something's horribly wrong, like,
-       for instance, the GUI layout is broken.  See strftime(3) for
+       replay selection screen (and possibly elsewhere).  The default
+       format is necessarily locale-independent.  See strftime(3) for
        details on the format.
      */
 
-    strftime(str, MAXSTR, /* xgettext:no-c-format */ _("%Y-%m-%d %H:%M:%S"),
-             localtime(&i));
-
+    fmt = /* xgettext:no-c-format */ L_("%Y-%m-%d %H:%M:%S");
+    strftime(str, MAXSTR, fmt, localtime(&i));
     return text_from_locale(str);
 }
 
@@ -458,7 +457,7 @@ int demo_replay_init(const char *name, struct level_game *lg)
 
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
-        strncpy(demo_replay.filename, name,                    MAXSTR);
+        strncpy(demo_replay.filename, name, MAXSTR);
         strncpy(demo_replay.name, bname(text_from_locale(demo_replay.filename),
                 REPLAY_EXT), PATHMAX);
 

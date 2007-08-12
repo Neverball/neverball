@@ -17,9 +17,9 @@
 #include <errno.h>
 #include <iconv.h>
 
-#include "base_config.h"
-
 #include "text.h"
+
+#define MAXSTR 256
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,12 +39,13 @@ void text_init(void)
 
 char *text_from_locale(char *str0)
 {
+    static char buffer[MAXSTR * 2];
+
     char *str0p = str0;
-    static char buffer[MAXSTR];
     char *str1p = buffer;
 
     size_t l0 = strlen(str0);
-    size_t l1 = MAXSTR;
+    size_t l1 = sizeof (buffer);
 
     if (conv_from_locale == (iconv_t) -1)
         return str0;
@@ -60,12 +61,13 @@ char *text_from_locale(char *str0)
 
 char *text_to_locale(char *str0)
 {
+    static char buffer[MAXSTR * 2];
+
     char *str0p = str0;
-    static char buffer[2*MAXSTR];
     char *str1p = buffer;
 
     size_t l0 = strlen(str0);
-    size_t l1 = 2*MAXSTR;
+    size_t l1 = sizeof (buffer);
 
     if (conv_to_locale == (iconv_t) -1)
         return str0;

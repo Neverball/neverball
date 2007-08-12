@@ -150,8 +150,8 @@ static void set_load_hs(void)
     if (!res && errno != ENOENT)
     {
         fprintf(stderr,
-                text_to_locale(_("Error while loading user high-score file '%s': %s\n")),
-                fn, errno ? strerror(errno) : text_to_locale(_("Incorrect format")));
+                L_("Error while loading user high-score file '%s': %s\n"),
+                fn, errno ? strerror(errno) : L_("Incorrect format"));
     }
 }
 
@@ -175,7 +175,8 @@ static int set_load(struct set *s, const char *filename)
 
     if (!fin)
     {
-        fprintf(stderr, text_to_locale(_("Cannot load the set file '%s': %s\n")),
+        fprintf(stderr,
+                L_("Cannot load the set file '%s': %s\n"),
                 filename, strerror(errno));
         return 0;
     }

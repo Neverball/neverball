@@ -19,7 +19,7 @@
 #include <stdio.h>
 
 #include "i18n.h"
-
+#include "text.h"
 
 static const char *languages[][2] = {
     { "de", N_("German")  },
@@ -99,6 +99,14 @@ const char *sgettext(const char *msgid)
             msgval = msgid;
     }
     return msgval;
+}
+
+/* Return a locale-encoded translation of MSGID.  The returned string is
+ * allocated statically. */
+
+const char *L_(const char *msgid)
+{
+    return text_to_locale(gettext(msgid));
 }
 
 /*---------------------------------------------------------------------------*/
