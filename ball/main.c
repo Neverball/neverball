@@ -323,10 +323,6 @@ int main(int argc, char *argv[])
     config_init();
     config_load();
 
-    /* Initialize the language */
-
-    language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
-
     /* Prepare run without GUI */
 
     if (replay_path)

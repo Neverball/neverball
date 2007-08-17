@@ -14,78 +14,23 @@
  */
 
 #include <string.h>
-#include <locale.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include "i18n.h"
+#include <locale.h>
 
-static const char *languages[][2] = {
-    { "de", N_("German")  },
-    { "en", N_("English") },
-    { "es", N_("Spanish") },
-    { "fr", N_("French")  },
-    { "lv", N_("Latvian") },
-    { "nn", N_("Norwegian Nynorsk") },
-};
+#include "i18n.h"
 
 /*---------------------------------------------------------------------------*/
 
-void language_init(const char *domain, const char *locale_dir)
+void language_init(const char *domain, const char *default_dir)
 {
     char *dir = getenv("NEVERBALL_LOCALE");
 
     setlocale(LC_ALL, "");
-    bindtextdomain(domain, dir ? dir : locale_dir);
+
+    bindtextdomain(domain, dir ? dir : default_dir);
     bind_textdomain_codeset(domain, "UTF-8");
     textdomain(domain);
 }
-
-void language_set(int l)
-{
-    if (l == 0)
-        putenv("LANGUAGE");
-    else
-    {
-        static char e[25];
-
-        strcpy(e, "LANGUAGE=");
-        strncat(e, languages[l - 1][0], 25 - 9);
-
-        putenv(e);
-    }
-
-    /* Force to update gettext. */
-    setlocale(LC_ALL, "");
-}
-
-int language_count(void)
-{
-    return sizeof (languages) / sizeof (languages[0]);
-}
-
-int language_from_code(const char *code)
-{
-    int i;
-
-    for (i = 0; i < language_count(); i++)
-        if (strcmp(languages[i][0], code) == 0)
-            return i + 1;
-
-    return 0;
-}
-
-const char *language_name(int id)
-{
-    return id == 0 ? N_("System Default") : languages[id - 1][1];
-}
-
-
-const char *language_code(int id)
-{
-    return id > 0  ? languages[id - 1][0] : "";
-}
-
-/*---------------------------------------------------------------------------*/
 
 const char *sgettext(const char *msgid)
 {
@@ -95,8 +40,7 @@ const char *sgettext(const char *msgid)
     {
         if ((msgval = strrchr(msgid, '^')))
             msgval++;
-        else
-            msgval = msgid;
+        else msgval = msgid;
     }
     return msgval;
 }

@@ -157,10 +157,6 @@ int main(int argc, char *argv[])
                 config_init();
                 config_load();
 
-                /* Initialize the language. */
-
-                language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
-
                 /* Cache Neverball's camera setting. */
 
                 camera = config_get_d(CONFIG_CAMERA);

@@ -28,16 +28,6 @@
 /*---------------------------------------------------------------------------*/
 
 void language_init(const char *domain, const char *locale_dir);
-void language_set(int id);
-
-/*---------------------------------------------------------------------------*/
-
-int         language_count();
-int         language_from_code(const char *code);
-const char *language_name(int id);
-const char *language_code(int id);
-
-/*---------------------------------------------------------------------------*/
 
 const char *sgettext(const char *);
 

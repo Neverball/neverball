@@ -47,7 +47,6 @@ MAPC_OBJS= \
 	share/mapc.o
 BALL_OBJS= \
 	share/i18n.o    \
-	share/st_lang.o \
 	share/st_resol.o \
 	share/vec3.o    \
 	share/base_image.o   \
@@ -88,7 +87,6 @@ BALL_OBJS= \
 	ball/main.o
 PUTT_OBJS= \
 	share/i18n.o    \
-	share/st_lang.o \
 	share/st_resol.o \
 	share/vec3.o   \
 	share/base_image.o  \
