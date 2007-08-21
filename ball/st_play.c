@@ -283,8 +283,8 @@ static int play_loop_keybd(int c, int d)
             config_set_d(CONFIG_CAMERA, 2);
             hud_view_pulse(2);
         }
-        if (config_tst_d(CONFIG_KEY_RESTART, c)
-            && curr_lg()->mode != MODE_CHALLENGE)
+        if (config_tst_d(CONFIG_KEY_RESTART, c) &&
+            curr_lg()->mode != MODE_CHALLENGE)
         {
             level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
             level_play_go();

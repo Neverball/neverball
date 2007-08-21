@@ -234,6 +234,7 @@ int game_init(const struct level *level, int t, int g)
     /* Initialize ball size tracking... */
 
     got_orig = 0;
+    grow = 0;
 
     return game_state;
 }
