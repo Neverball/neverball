@@ -63,8 +63,10 @@ static int save_action(int i)
     {
     case SAVE_SAVE:
         n = text_to_locale(filename);
+
         if (strlen(n) == 0)
             return 1;
+
         if (demo_exists(n))
             return goto_state(&st_clobber);
         else

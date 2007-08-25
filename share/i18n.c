@@ -95,16 +95,13 @@ const char *sgettext(const char *msgid)
     {
         if ((msgval = strrchr(msgid, '^')))
             msgval++;
-        else
-            msgval = msgid;
+        else msgval = msgid;
     }
+
     return msgval;
 }
 
-/* Return a locale-encoded translation of MSGID.  The returned string is
- * allocated statically. */
-
-const char *L_(const char *msgid)
+const char *get_local_text(const char *msgid)
 {
     return text_to_locale(gettext(msgid));
 }

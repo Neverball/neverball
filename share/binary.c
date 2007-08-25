@@ -111,9 +111,8 @@ void get_array(FILE *fin, float *v, size_t n)
 
 void put_string(FILE *fout, const char *s)
 {
-    while(*s != '\0')
-        fputc((int) *s++, fout);
-    fputc(0, fout);
+    fputs(s, fout);
+    fputc('\0', fout);
 }
 
 void get_string(FILE *fin, char *s, int max)

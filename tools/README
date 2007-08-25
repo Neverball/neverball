@@ -5,7 +5,7 @@ command shell script.
 
   * democonv
 
-    A bare-bones Neverball 1.4.0 to v3 (Neverball 1.5.0) format replay
+    A bare-bones Neverball 1.4.0 to v4 (Neverball 1.5.0) format replay
     converter.  Reads a replay from standard input and writes a
     converted replay to standard output.  See below for examples.
 

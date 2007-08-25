@@ -16,11 +16,18 @@
 #define LANGUAGE_H
 
 #ifndef POSIX
+
 #include <libintl.h>
+
 #define _(String)   gettext(String)
+#define L_(String)  get_local_text(String)
+
 #else
+
 #define _(String)   (String)
-#endif
+#define L_(String)  (String)
+
+#endif /* !POSIX */
 
 /* No-op, useful for marking up strings for extraction-only. */
 #define N_(String)  (String)
@@ -40,7 +47,7 @@ const char *language_code(int id);
 /*---------------------------------------------------------------------------*/
 
 const char *sgettext(const char *);
-const char *L_(const char *);
+const char *get_local_text(const char *);
 
 /*---------------------------------------------------------------------------*/
 

@@ -19,6 +19,8 @@
 
 #include "text.h"
 
+/*---------------------------------------------------------------------------*/
+
 #define MAXSTR 256
 
 /*---------------------------------------------------------------------------*/
@@ -28,10 +30,10 @@ static iconv_t conv_to_locale = 0;
 
 void text_init(void)
 {
-    if ((conv_from_locale = iconv_open("UTF-8", "")) == (iconv_t)-1)
+    if ((conv_from_locale = iconv_open("UTF-8", "")) == (iconv_t) -1)
         fprintf(stderr, "Error: %s\n", strerror(errno));
 
-    if ((conv_to_locale = iconv_open("", "UTF-8")) == (iconv_t)-1)
+    if ((conv_to_locale = iconv_open("", "UTF-8")) == (iconv_t) -1)
         fprintf(stderr, "Error: %s\n", strerror(errno));
 }
 
@@ -50,7 +52,7 @@ char *text_from_locale(char *str0)
     if (conv_from_locale == (iconv_t) -1)
         return str0;
 
-    if (iconv(conv_from_locale, &str0p, &l0, &str1p, &l1) == (size_t)-1)
+    if (iconv(conv_from_locale, &str0p, &l0, &str1p, &l1) == (size_t) -1)
         fprintf(stderr, "Error while converting to UTF-8: %s\n",
                 strerror(errno));
 
@@ -72,7 +74,7 @@ char *text_to_locale(char *str0)
     if (conv_to_locale == (iconv_t) -1)
         return str0;
 
-    if (iconv(conv_to_locale, &str0p, &l0, &str1p, &l1) == (size_t)-1)
+    if (iconv(conv_to_locale, &str0p, &l0, &str1p, &l1) == (size_t) -1)
         fprintf(stderr, "Error while converting from UTF-8: %s\n",
                 strerror(errno));
 
@@ -88,15 +90,15 @@ int text_add_char(Uint32 unicode, char *string, int maxbytes, int maxchars)
     size_t pos = strlen(string);
     int l;
 
-    if (unicode < 0x80) l = 1;
-    else if (unicode < 0x0800) l = 2;
+    if      (unicode < 0x80)    l = 1;
+    else if (unicode < 0x0800)  l = 2;
     else if (unicode < 0x10000) l = 3;
-    else l = 4;
+    else                        l = 4;
 
     if ((pos + l >= maxbytes) || (text_length(string) + 1 >= maxchars))
         return 0;
 
-    if(unicode < 0x80)
+    if (unicode < 0x80)
         string[pos++] = (char) unicode;
     else if (unicode < 0x0800)
     {
@@ -125,15 +127,17 @@ int text_add_char(Uint32 unicode, char *string, int maxbytes, int maxchars)
 int text_del_char(char *string)
 {
     size_t pos = strlen(string) - 1;
+
     while (pos >= 0 && ((string[pos] & 0xC0) == 0x80))
         string[pos--] = 0;
+
     if (pos >= 0)
     {
         string[pos] = 0;
         return 1;
     }
-    else
-        return 0;
+    
+    return 0;
 }
 
 int text_length(const char *string)
