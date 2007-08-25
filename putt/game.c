@@ -406,7 +406,7 @@ void game_update_view(float dt)
     view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
 }
 
-static int game_update_state(float dt)
+static int game_update_state(float dt, int day_the_earth_stood_still)
 {
     static float t = 0.f;
 
@@ -414,9 +414,14 @@ static int game_update_state(float dt)
     float p[3];
 
     if (dt > 0.f)
+    {
         t += dt;
+    }
     else
-        t = 0.f;
+    {
+        if (!day_the_earth_stood_still)
+            t = 0.f;
+    }
 
     /* Test for a switch. */
 
@@ -457,18 +462,17 @@ static int game_update_state(float dt)
 }
 
 /*
- * On  most  hardware, rendering  requires  much  more  computing power  than
- * physics.  Since  physics takes less time  than graphics, it  make sense to
- * detach  the physics update  time step  from the  graphics frame  rate.  By
- * performing multiple physics updates for  each graphics update, we get away
- * with higher quality physics with little impact on overall performance.
- *
- * Toward this  end, we establish a  baseline maximum physics  time step.  If
- * the measured  frame time  exceeds this  maximum, we cut  the time  step in
- * half, and  do two updates.  If THIS  time step exceeds the  maximum, we do
- * four updates.  And  so on.  In this way, the physics  system is allowed to
- * seek an optimal update rate independent of, yet in integral sync with, the
- * graphics frame rate.
+ * By performing multiple physics updates or skipping an update for  a  given
+ * graphics update, we get away  with  higher  quality  physics  with  little
+ * impact on overall performance.  Toward this end, we establish  a  baseline
+ * maximum and minimum physics time step.  If the measured frame time exceeds
+ * the maximum time step, we cut the time step in half, and do  two  updates.
+ * If THIS time step exceeds the maximum, we do four updates.  And so on.  On
+ * the other hand, if the frame time is lower than the minimum time step,  we
+ * skip an update and do so until the accumulated frame time has reached this
+ * minimum.  In this way, the physics system is allowed to  seek  an  optimal
+ * update rate independent of, yet in integral sync with, the graphics  frame
+ * rate.
  */
 
 int game_step(const float g[3], float dt)
@@ -503,7 +507,21 @@ int game_step(const float g[3], float dt)
     }
     else
     {
+        static float accumulated_t = 0.f;
+
         /* Run the sim. */
+
+        accumulated_t += t;
+
+        if (accumulated_t < MIN_DT)
+        {
+            n = 0;
+        }
+        else
+        {
+            t = accumulated_t;
+            accumulated_t = 0.f;
+        }
 
         while (t > MAX_DT && n < MAX_DN)
         {
@@ -528,7 +546,7 @@ int game_step(const float g[3], float dt)
     }
 
     game_update_view(dt);
-    return game_update_state(st);
+    return game_update_state(st, (n == 0));
 }
 
 void game_putt(void)
