@@ -1,7 +1,7 @@
 [Project]
 FileName=neverputt.dev
 Name=neverputt
-UnitCount=24
+UnitCount=23
 Type=0
 Ver=1
 ObjFiles=
@@ -140,16 +140,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit14]
-FileName=..\..\share\st_lang.c
-CompileCpp=0
-Folder=share
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit15]
 FileName=..\..\share\st_resol.c
 CompileCpp=0
 Folder=share
@@ -159,7 +149,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit16]
+[Unit15]
 FileName=..\..\share\state.c
 CompileCpp=0
 Folder=share
@@ -169,7 +159,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit17]
+[Unit16]
 FileName=..\..\share\vec3.c
 CompileCpp=0
 Folder=share
@@ -179,7 +169,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit18]
+[Unit17]
 FileName=..\..\share\audio.c
 CompileCpp=0
 Folder=share
@@ -189,7 +179,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit19]
+[Unit18]
 FileName=..\..\share\back.c
 CompileCpp=0
 Folder=share
@@ -199,7 +189,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit20]
+[Unit19]
 FileName=..\..\share\base_config.c
 CompileCpp=0
 Folder=share
@@ -209,7 +199,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit21]
+[Unit20]
 FileName=..\..\share\base_image.c
 CompileCpp=0
 Folder=share
@@ -219,7 +209,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit22]
+[Unit21]
 FileName=..\..\share\binary.c
 CompileCpp=0
 Folder=share
@@ -229,8 +219,18 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit23]
+[Unit22]
 FileName=..\..\share\config.c
+CompileCpp=0
+Folder=share
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit23]
+FileName=..\..\share\geom.c
 CompileCpp=0
 Folder=share
 Compile=1

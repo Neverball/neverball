@@ -380,16 +380,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit36]
-FileName=..\..\share\st_lang.c
-CompileCpp=0
-Folder=share
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit37]
 FileName=..\..\share\st_resol.c
 CompileCpp=0
 Folder=share
@@ -399,7 +389,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit38]
+[Unit37]
 FileName=..\..\share\state.c
 CompileCpp=0
 Folder=share
@@ -409,10 +399,20 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit39]
+[Unit38]
 FileName=..\..\share\vec3.c
 CompileCpp=0
 Folder=share
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit39]
+FileName=..\..\ball\st_pause.c
+CompileCpp=0
+Folder=ball
 Compile=1
 Link=1
 Priority=1000
