@@ -838,16 +838,25 @@ static void make_dict(struct s_file *fp,
                       const char *k,
                       const char *v)
 {
-    int di = incd(fp);
+    int space_left, space_needed, di = incd(fp);
 
     struct s_dict *dp = fp->dv + di;
+
+    space_left   = MAXA - fp->ac;
+    space_needed = strlen(k) + 1 + strlen(v) + 1;
+
+    if (space_needed > space_left)
+    {
+        fp->dc--;
+        return;
+    }
 
     dp->ai = fp->ac;
     dp->aj = dp->ai + strlen(k) + 1;
     fp->ac = dp->aj + strlen(v) + 1;
 
-    strcpy(fp->av + dp->ai, k);
-    strcpy(fp->av + dp->aj, v);
+    strncpy(fp->av + dp->ai, k, space_left);
+    strncpy(fp->av + dp->aj, v, space_left - strlen(k) - 1);
 }
 
 static void make_body(struct s_file *fp,
@@ -2149,8 +2158,8 @@ static void dump_file(struct s_file *p, const char *name)
            "  geom  lump  path  node  body\n"
            "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
            "  item  goal  view  jump  swch"
-           "  bill  ball  char  indx\n"
-           "%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
+           "  bill  ball  char  dict  indx\n"
+           "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
 #if 0
            name, n, m, c,
 #endif
@@ -2158,7 +2167,7 @@ static void dump_file(struct s_file *p, const char *name)
            p->mc, p->vc, p->ec, p->sc, p->tc,
            p->gc, p->lc, p->pc, p->nc, p->bc,
            p->hc, p->zc, p->wc, p->jc, p->xc,
-           p->rc, p->uc, p->ac, p->ic);
+           p->rc, p->uc, p->ac, p->dc, p->ic);
 }
 
 /* Skip the ugly SDL main substitution since we only need sdl_image. */
