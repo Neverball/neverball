@@ -12,8 +12,8 @@
  * General Public License for more details.
  */
 
-#ifndef LANGUAGE_H
-#define LANGUAGE_H
+#ifndef LANG_H
+#define LANG_H
 
 #ifndef POSIX
 #include <libintl.h>
@@ -27,7 +27,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-void language_init(const char *domain, const char *locale_dir);
+void lang_init(const char *domain, const char *locale_dir);
 
 const char *sgettext(const char *);
 

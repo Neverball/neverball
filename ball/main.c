@@ -294,7 +294,7 @@ int main(int argc, char *argv[])
 
     int t1, t0;
 
-    language_init("neverball", CONFIG_LOCALE);
+    lang_init("neverball", CONFIG_LOCALE);
 
     parse_args(argc, argv);
 

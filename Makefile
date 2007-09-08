@@ -46,7 +46,7 @@ MAPC_OBJS= \
 	share/base_config.o \
 	share/mapc.o
 BALL_OBJS= \
-	share/i18n.o    \
+	share/lang.o    \
 	share/st_resol.o \
 	share/vec3.o    \
 	share/base_image.o   \
@@ -86,7 +86,7 @@ BALL_OBJS= \
 	ball/st_pause.o \
 	ball/main.o
 PUTT_OBJS= \
-	share/i18n.o    \
+	share/lang.o    \
 	share/st_resol.o \
 	share/vec3.o   \
 	share/base_image.o  \

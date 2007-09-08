@@ -17,11 +17,11 @@
 #include <stdlib.h>
 #include <locale.h>
 
-#include "i18n.h"
+#include "lang.h"
 
 /*---------------------------------------------------------------------------*/
 
-void language_init(const char *domain, const char *default_dir)
+void lang_init(const char *domain, const char *default_dir)
 {
     char *dir = getenv("NEVERBALL_LOCALE");
 
