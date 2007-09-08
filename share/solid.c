@@ -242,6 +242,12 @@ static void sol_load_view(FILE *fin, struct s_view *wp)
     get_array(fin,  wp->q, 3);
 }
 
+static void sol_load_dict(FILE *fin, struct s_dict *dp)
+{
+    get_index(fin, &dp->ai);
+    get_index(fin, &dp->aj);
+}
+
 static int sol_load_file(FILE *fin, struct s_file *fp)
 {
     int i;
@@ -272,6 +278,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->rc);
     get_index(fin, &fp->uc);
     get_index(fin, &fp->wc);
+    get_index(fin, &fp->dc);
     get_index(fin, &fp->ic);
 
     if (fp->ac)
@@ -310,6 +317,8 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
         fp->uv = (struct s_ball *) calloc(fp->uc, sizeof (struct s_ball));
     if (fp->wc)
         fp->wv = (struct s_view *) calloc(fp->wc, sizeof (struct s_view));
+    if (fp->dc)
+        fp->dv = (struct s_dict *) calloc(fp->dc, sizeof (struct s_dict));
     if (fp->ic)
         fp->iv = (int           *) calloc(fp->ic, sizeof (int));
 
@@ -333,6 +342,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->rc; i++) sol_load_bill(fin, fp->rv + i);
     for (i = 0; i < fp->uc; i++) sol_load_ball(fin, fp->uv + i);
     for (i = 0; i < fp->wc; i++) sol_load_view(fin, fp->wv + i);
+    for (i = 0; i < fp->dc; i++) sol_load_dict(fin, fp->dv + i);
     for (i = 0; i < fp->ic; i++) get_index(fin, fp->iv + i);
 
     return 1;
@@ -369,9 +379,10 @@ static int sol_load_head(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->rc);
     get_index(fin, &fp->uc);
     get_index(fin, &fp->wc);
+    get_index(fin, &fp->dc);
     get_index(fin, &fp->ic);
 #endif
-    fseek(fin, 18 * 4, SEEK_CUR);
+    fseek(fin, 19 * 4, SEEK_CUR);
 
     if (fp->ac)
     {
@@ -560,6 +571,12 @@ static void sol_stor_view(FILE *fout, struct s_view *wp)
     put_array(fout,  wp->q, 3);
 }
 
+static void sol_stor_dict(FILE *fout, struct s_dict *dp)
+{
+    put_index(fout, &dp->ai);
+    put_index(fout, &dp->aj);
+}
+
 static void sol_stor_file(FILE *fin, struct s_file *fp)
 {
     int i;
@@ -587,9 +604,11 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     put_index(fin, &fp->rc);
     put_index(fin, &fp->uc);
     put_index(fin, &fp->wc);
+    put_index(fin, &fp->dc);
     put_index(fin, &fp->ic);
 
     fwrite(fp->av, 1, fp->ac, fin);
+
     for (i = 0; i < fp->mc; i++) sol_stor_mtrl(fin, fp->mv + i);
     for (i = 0; i < fp->vc; i++) sol_stor_vert(fin, fp->vv + i);
     for (i = 0; i < fp->ec; i++) sol_stor_edge(fin, fp->ev + i);
@@ -607,6 +626,7 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->rc; i++) sol_stor_bill(fin, fp->rv + i);
     for (i = 0; i < fp->uc; i++) sol_stor_ball(fin, fp->uv + i);
     for (i = 0; i < fp->wc; i++) sol_stor_view(fin, fp->wv + i);
+    for (i = 0; i < fp->dc; i++) sol_stor_dict(fin, fp->dv + i);
     for (i = 0; i < fp->ic; i++) put_index(fin, fp->iv + i);
 }
 
@@ -628,6 +648,7 @@ int sol_stor(struct s_file *fp, const char *filename)
 
 void sol_free(struct s_file *fp)
 {
+    if (fp->av) free(fp->av);
     if (fp->mv) free(fp->mv);
     if (fp->vv) free(fp->vv);
     if (fp->ev) free(fp->ev);
@@ -645,7 +666,7 @@ void sol_free(struct s_file *fp)
     if (fp->rv) free(fp->rv);
     if (fp->uv) free(fp->uv);
     if (fp->wv) free(fp->wv);
-    if (fp->av) free(fp->av);
+    if (fp->dv) free(fp->dv);
     if (fp->iv) free(fp->iv);
 
     memset(fp, 0, sizeof (struct s_file));

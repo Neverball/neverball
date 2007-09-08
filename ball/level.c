@@ -41,73 +41,55 @@ void score_init_hs(struct score *s, int timer, int coins)
 
 /*---------------------------------------------------------------------------*/
 
-static int level_scan_metadata(struct level *l, char *av)
+static void level_scan_metadata(struct level *l, const struct s_file *fp)
 {
-#define CASE(x) (strcmp((x), c) == 0)
-    char *c    = av;
-    char *stop = av + strlen(av);
-    char *v, *e;
+    int i;
 
-    while (c < stop)
+    for (i = 0; i < fp->dc; i++)
     {
-        /* look for the start of the value */
-        v = strchr(c, '=');
-        if (v == NULL)
-            return 0;
-        *v = '\0';
-        v++;
+        char *k = fp->av + fp->dv[i].ai;
+        char *v = fp->av + fp->dv[i].aj;
 
-        /* look the end of the value */
-        e = strchr(v, '\n');
-        if (e == NULL)
-            return 0;
-        *e = '\0';
-        e++;
-
-        /* test metadata */
-        if (CASE("message"))
-            strcpy(l->message, v);
-        else if (CASE("back"))
-            strcpy(l->back, v);
-        else if (CASE("song"))
-            strcpy(l->song, v);
-        else if (CASE("grad"))
-            strcpy(l->grad, v);
-        else if (CASE("shot"))
-            strcpy(l->shot, v);
-        else if (CASE("goal"))
+        if (strcmp(k, "message") == 0)
+            strncpy(l->message, v, MAXSTR);
+        else if (strcmp(k, "back") == 0)
+            strncpy(l->back, v, PATHMAX);
+        else if (strcmp(k, "song") == 0)
+            strncpy(l->song, v, PATHMAX);
+        else if (strcmp(k, "grad") == 0)
+            strncpy(l->grad, v, PATHMAX);
+        else if (strcmp(k, "shot") == 0)
+            strncpy(l->shot, v, PATHMAX);
+        else if (strcmp(k, "goal") == 0)
         {
             l->goal = atoi(v);
             l->score.most_coins.coins[2] = l->goal;
         }
-        else if (CASE("time"))
+        else if (strcmp(k, "time") == 0)
         {
             l->time = atoi(v);
             l->score.best_times.timer[2] = l->time;
             l->score.unlock_goal.timer[2] = l->time;
         }
-        else if (CASE("time_hs"))
+        else if (strcmp(k, "time_hs") == 0)
             sscanf(v, "%d %d",
                    &l->score.best_times.timer[0],
                    &l->score.best_times.timer[1]);
-        else if (CASE("goal_hs"))
+        else if (strcmp(k, "goal_hs") == 0)
             sscanf(v, "%d %d",
                    &l->score.unlock_goal.timer[0],
                    &l->score.unlock_goal.timer[1]);
-        else if (CASE("coin_hs"))
+        else if (strcmp(k, "coin_hs") == 0)
             sscanf(v, "%d %d",
                    &l->score.most_coins.coins[0],
                    &l->score.most_coins.coins[1]);
-        else if (CASE("version"))
-            strcpy(l->version, v);
-        else if (CASE("author"))
-            strcpy(l->author, v);
-        else if (CASE("bonus"))
+        else if (strcmp(k, "version") == 0)
+            strncpy(l->version, v, MAXSTR);
+        else if (strcmp(k, "author") == 0)
+            strncpy(l->author, v, MAXSTR);
+        else if (strcmp(k, "bonus") == 0)
             l->is_bonus = atoi(v);
-
-        c = e;
     }
-    return 1;
 }
 
 /* Load the sol file 'filename' and fill the 'level' structure.  Return 1 on
@@ -124,7 +106,7 @@ int level_load(const char *filename, struct level *level)
     memset(&sol,  0, sizeof (sol));
 
     /* Try to load the sol file */
-    if (!sol_load_only_head(&sol, config_data(filename)))
+    if (!sol_load_only_file(&sol, config_data(filename)))
     {
         fprintf(stderr,
                 _("Error while loading level file '%s': %s\n"), filename,
@@ -147,8 +129,8 @@ int level_load(const char *filename, struct level *level)
     level->score.most_coins.coins[0] = money;
 
     /* Scan sol metadata */
-    if (sol.ac > 0)
-        level_scan_metadata(level, sol.av);
+    if (sol.dc > 0)
+        level_scan_metadata(level, &sol);
 
     /* Compute initial hs default values */
 

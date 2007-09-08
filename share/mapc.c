@@ -189,6 +189,11 @@ static int incw(struct s_file *fp)
     return (fp->wc < MAXW) ? fp->wc++ : overflow("view");
 }
 
+static int incd(struct s_file *fp)
+{
+    return (fp->dc < MAXD) ? fp->dc++ : overflow("dict");
+}
+
 static int inci(struct s_file *fp)
 {
     return (fp->ic < MAXI) ? fp->ic++ : overflow("indx");
@@ -213,6 +218,7 @@ static void init_file(struct s_file *fp)
     fp->rc = 0;
     fp->uc = 0;
     fp->wc = 0;
+    fp->dc = 0;
     fp->ac = 0;
     fp->ic = 0;
 
@@ -233,6 +239,7 @@ static void init_file(struct s_file *fp)
     fp->rv = (struct s_bill *) calloc(MAXR, sizeof (struct s_bill));
     fp->uv = (struct s_ball *) calloc(MAXU, sizeof (struct s_ball));
     fp->wv = (struct s_view *) calloc(MAXW, sizeof (struct s_view));
+    fp->dv = (struct s_dict *) calloc(MAXD, sizeof (struct s_dict));
     fp->av = (char          *) calloc(MAXA, sizeof (char));
     fp->iv = (int           *) calloc(MAXI, sizeof (int));
 }
@@ -827,6 +834,22 @@ static void make_path(struct s_file *fp,
     }
 }
 
+static void make_dict(struct s_file *fp,
+                      const char *k,
+                      const char *v)
+{
+    int di = incd(fp);
+
+    struct s_dict *dp = fp->dv + di;
+
+    dp->ai = fp->ac;
+    dp->aj = dp->ai + strlen(k) + 1;
+    fp->ac = dp->aj + strlen(v) + 1;
+
+    strcpy(fp->av + dp->ai, k);
+    strcpy(fp->av + dp->aj, v);
+}
+
 static void make_body(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c, int l0)
@@ -863,14 +886,7 @@ static void make_body(struct s_file *fp,
             sscanf(v[i], "%d %d %d", &x, &y, &z);
 
         else if (strcmp(k[i], "classname") != 0)
-        {
-            /* Considers other strings as metadata */
-            strcat(fp->av, k[i]);
-            strcat(fp->av, "=");
-            strcat(fp->av, v[i]);
-            strcat(fp->av, "\n");
-            fp->ac += (int) (strlen(v[i]) + (strlen(k[i])) + 2);
-        }
+            make_dict(fp, k[i], v[i]);
     }
 
     bp->l0 = l0;
