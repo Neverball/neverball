@@ -106,7 +106,7 @@ BALL_OBJS := \
 	ball/st_shared.o    \
 	ball/st_pause.o     \
 	ball/main.o
-PUTT_OBJS= \
+PUTT_OBJS := \
 	share/lang.o        \
 	share/st_resol.o    \
 	share/vec3.o        \
