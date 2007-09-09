@@ -53,9 +53,9 @@ LOCALEDIR   := locale
 LOCALEDOM   := neverball
 POTFILE     := po/neverball.pot
 MESSAGEPART := /LC_MESSAGES/$(LOCALEDOM).mo
+POS         := $(shell echo po/*.po)
 LINGUAS     := $(POS:po/%.po=%)
 MESSAGES    := $(LINGUAS:%=$(LOCALEDIR)/%$(MESSAGEPART))
-POS         := $(shell echo po/*.po)
 
 #-------------------------------------------------------------------------------
 
