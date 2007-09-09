@@ -90,16 +90,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit9]
-FileName=..\..\share\i18n.c
-CompileCpp=0
-Folder=share
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit10]
 FileName=..\..\share\image.c
 CompileCpp=0
 Folder=share
@@ -109,7 +99,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit11]
+[Unit10]
 FileName=..\..\share\part.c
 CompileCpp=0
 Folder=share
@@ -119,7 +109,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit12]
+[Unit11]
 FileName=..\..\share\solid.c
 CompileCpp=0
 Folder=share
@@ -129,7 +119,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit13]
+[Unit12]
 FileName=..\..\share\solid_gl.c
 CompileCpp=0
 Folder=share
@@ -139,7 +129,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit14]
+[Unit13]
 FileName=..\..\share\st_resol.c
 CompileCpp=0
 Folder=share
@@ -149,7 +139,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit15]
+[Unit14]
 FileName=..\..\share\state.c
 CompileCpp=0
 Folder=share
@@ -159,7 +149,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit16]
+[Unit15]
 FileName=..\..\share\vec3.c
 CompileCpp=0
 Folder=share
@@ -169,7 +159,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit17]
+[Unit16]
 FileName=..\..\share\audio.c
 CompileCpp=0
 Folder=share
@@ -179,7 +169,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit18]
+[Unit17]
 FileName=..\..\share\back.c
 CompileCpp=0
 Folder=share
@@ -189,7 +179,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit19]
+[Unit18]
 FileName=..\..\share\base_config.c
 CompileCpp=0
 Folder=share
@@ -199,7 +189,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit20]
+[Unit19]
 FileName=..\..\share\base_image.c
 CompileCpp=0
 Folder=share
@@ -209,7 +199,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit21]
+[Unit20]
 FileName=..\..\share\binary.c
 CompileCpp=0
 Folder=share
@@ -219,7 +209,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit22]
+[Unit21]
 FileName=..\..\share\config.c
 CompileCpp=0
 Folder=share
@@ -229,8 +219,18 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit23]
+[Unit22]
 FileName=..\..\share\geom.c
+CompileCpp=0
+Folder=share
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit23]
+FileName=..\..\share\lang.c
 CompileCpp=0
 Folder=share
 Compile=1

@@ -330,16 +330,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit31]
-FileName=..\..\share\i18n.c
-CompileCpp=0
-Folder=share
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit32]
 FileName=..\..\share\image.c
 CompileCpp=0
 Folder=share
@@ -349,7 +339,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit33]
+[Unit32]
 FileName=..\..\share\part.c
 CompileCpp=0
 Folder=share
@@ -359,7 +349,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit34]
+[Unit33]
 FileName=..\..\share\solid.c
 CompileCpp=0
 Folder=share
@@ -369,7 +359,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit35]
+[Unit34]
 FileName=..\..\share\solid_gl.c
 CompileCpp=0
 Folder=share
@@ -379,7 +369,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit36]
+[Unit35]
 FileName=..\..\share\st_resol.c
 CompileCpp=0
 Folder=share
@@ -389,7 +379,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit37]
+[Unit36]
 FileName=..\..\share\state.c
 CompileCpp=0
 Folder=share
@@ -399,7 +389,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit38]
+[Unit37]
 FileName=..\..\share\vec3.c
 CompileCpp=0
 Folder=share
@@ -409,10 +399,20 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit39]
+[Unit38]
 FileName=..\..\ball\st_pause.c
 CompileCpp=0
 Folder=ball
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit39]
+FileName=..\..\share\lang.c
+CompileCpp=0
+Folder=share
 Compile=1
 Link=1
 Priority=1000
