@@ -16,7 +16,13 @@ PNG_CPPFLAGS := $(shell libpng-config --cflags)
 
 ALL_CFLAGS   := $(CFLAGS)
 ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare \
-    -DVERSION=\"$(VERSION)\" $(CPPFLAGS)
+    -DVERSION=\"$(VERSION)\"
+
+ifdef DISABLE_NLS
+    ALL_CPPFLAGS += -DDISABLE_NLS=1
+endif
+
+ALL_CPPFLAGS += $(CPPFLAGS)
 
 #------------------------------------------------------------------------------
 
@@ -24,9 +30,15 @@ SDL_LIBS := $(shell sdl-config --libs)
 PNG_LIBS := $(shell libpng-config --libs)
 
 ifdef MINGW
+ifndef DISABLE_NLS
+    INTL_LIBS := -lintl
+endif
+endif
+
+ifdef MINGW
     OGL_LIBS  := -lopengl32 -lm
-    BASE_LIBS := -lSDL -lSDL_image -lintl
-    ALL_LIBS  := $(SDL_LIBS) -lSDL_image -lintl \
+    BASE_LIBS := -lSDL -lSDL_image $(INTL_LIBS)
+    ALL_LIBS  := $(SDL_LIBS) -lSDL_image $(INTL_LIBS) \
 	$(PNG_LIBS) -lSDL_ttf -lSDL_mixer $(OGL_LIBS)
 else
     OGL_LIBS  := -lGL -lm
@@ -48,16 +60,6 @@ BALL_TARG := neverball$(EXT)
 PUTT_TARG := neverputt$(EXT)
 
 #------------------------------------------------------------------------------
-
-LOCALEDIR   := locale
-LOCALEDOM   := neverball
-POTFILE     := po/neverball.pot
-MESSAGEPART := /LC_MESSAGES/$(LOCALEDOM).mo
-POS         := $(shell echo po/*.po)
-LINGUAS     := $(POS:po/%.po=%)
-MESSAGES    := $(LINGUAS:%=$(LOCALEDIR)/%$(MESSAGEPART))
-
-#-------------------------------------------------------------------------------
 
 MAPC_OBJS := \
 	share/vec3.o        \
@@ -149,10 +151,6 @@ SOLS := $(MAPS:%.map=%.sol)
 %.sol : %.map $(MAPC_TARG)
 	$(WINE) ./$(MAPC_TARG) $< data
 
-$(LOCALEDIR)/%$(MESSAGEPART) : po/%.po
-	mkdir -p `dirname $@`
-	msgfmt -c -v -o $@ $<
-
 #------------------------------------------------------------------------------
 
 all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales
@@ -168,7 +166,10 @@ $(MAPC_TARG) : $(MAPC_OBJS)
 
 sols : $(SOLS)
 
-locales : $(MESSAGES)
+locales :
+ifndef DISABLE_NLS
+	$(MAKE) -C po
+endif
 
 clean-src :
 	$(RM) $(BALL_TARG) $(BALL_OBJS) $(BALL_DEPS)
@@ -177,29 +178,14 @@ clean-src :
 
 clean : clean-src
 	$(RM) $(SOLS)
-	rm -rf $(LOCALEDIR)
+	$(MAKE) -C po clean
 
 test : all
 	./neverball
 
 #------------------------------------------------------------------------------
 
-po/%.po : $(POTFILE)
-	msgmerge -U $@ $<
-	touch $@
-	
-po-update-extract :
-	sh scripts/extractpo.sh $(POTFILE) $(LOCALEDOM)
-
-po-update-merge : $(POS)
-
-po-update : po-update-extract po-update-merge
-
-#------------------------------------------------------------------------------
-
-.PHONY : all sols locales clean-src clean test \
-	po-update-extract po-update-merge po-update \
-
+.PHONY : all sols locales clean-src clean test
 
 -include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS)
 

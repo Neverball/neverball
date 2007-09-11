@@ -1,0 +1,79 @@
+#-------------------------------------------------------------------------------
+
+# Basic LINGUAS environment variable support
+
+ALL_LINGUAS := $(basename $(wildcard *.po))
+
+ifneq ($(LINGUAS),)
+    LINGUAS := $(filter $(ALL_LINGUAS), $(LINGUAS))
+else
+    LINGUAS := $(ALL_LINGUAS)
+endif
+
+#-------------------------------------------------------------------------------
+
+ROOT := ..
+
+DOMAIN    := neverball
+LOCALEDIR := $(ROOT)/locale
+POFILES   := $(LINGUAS:%=%.po)
+MOFILES   := $(LINGUAS:%=$(LOCALEDIR)/%/LC_MESSAGES/$(DOMAIN).mo)
+SOURCES   := \
+    $(wildcard $(ROOT)/ball/*.[ch])  \
+    $(wildcard $(ROOT)/share/*.[ch]) \
+    $(wildcard $(ROOT)/putt/*.[ch])
+
+#------------------------------------------------------------------------------
+
+COPYRIGHT := Robert Kooima
+BUGADDR   := robert.kooima@gmail.com
+
+XGETTEXT := xgettext
+XGETTEXT_FLAGS := \
+    --add-comments=TRANSLATORS --from-code=UTF-8 \
+    --keyword=_ --keyword=N_ --keyword=sgettext  \
+    --default-domain="$(DOMAIN)"                 \
+    --copyright-holder="$(COPYRIGHT)"            \
+    --msgid-bugs-address="$(BUGADDR)"
+
+#------------------------------------------------------------------------------
+
+all: $(MOFILES)
+
+clean:
+	rm -rf $(LOCALEDIR)
+
+#------------------------------------------------------------------------------
+
+# Here it gets somewhat convoluted.  Basic idea is:  we want the
+# update-po target which is widely supported in autotools-based
+# internationalised packages.  update-po unconditionally updates the POT
+# file, and thus forces PO and MO files to be updated as well.  The
+# logic is loosely based on Makefile.in.in distributed with GNU gettext.
+
+update-po: $(DOMAIN).pot-update $(POFILES) $(MOFILES)
+
+$(LOCALEDIR)/%/LC_MESSAGES/$(DOMAIN).mo: %.po
+	mkdir -p $$(dirname $@)
+	msgfmt -c --statistics -o $@ $<
+
+%.po: $(DOMAIN).pot
+	msgmerge -U $@ $<
+	touch $@
+
+$(DOMAIN).pot:
+	$(MAKE) $(DOMAIN).pot-update
+
+$(DOMAIN).pot-update:
+	$(XGETTEXT) $(XGETTEXT_FLAGS) -o $(DOMAIN).pot \
+	    --directory="$(ROOT)" $(SOURCES:$(ROOT)/%=%)
+	
+	# Force encoding to UTF-8
+	sed "1,/^$$/ s/CHARSET/UTF-8/" < $(DOMAIN).pot > $(DOMAIN).pot.utf8
+	mv -f $(DOMAIN).pot.utf8 $(DOMAIN).pot
+	
+	sh $(ROOT)/scripts/extractpo.sh $(ROOT) >> $(DOMAIN).pot
+	msguniq -o $(DOMAIN).pot $(DOMAIN).pot
+
+#------------------------------------------------------------------------------
+
