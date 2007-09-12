@@ -23,8 +23,6 @@ SOURCES   := \
     $(wildcard $(ROOT)/share/*.[ch]) \
     $(wildcard $(ROOT)/putt/*.[ch])
 
-#------------------------------------------------------------------------------
-
 COPYRIGHT := Robert Kooima
 BUGADDR   := robert.kooima@gmail.com
 
@@ -54,17 +52,14 @@ clean:
 update-po: $(DOMAIN).pot-update $(POFILES) $(MOFILES)
 
 $(LOCALEDIR)/%/LC_MESSAGES/$(DOMAIN).mo: %.po
-	mkdir -p $$(dirname $@)
+	mkdir -p $(dir $@)
 	msgfmt -c --statistics -o $@ $<
 
 %.po: $(DOMAIN).pot
 	msgmerge -U $@ $<
 	touch $@
 
-$(DOMAIN).pot:
-	$(MAKE) $(DOMAIN).pot-update
-
-$(DOMAIN).pot-update:
+$(DOMAIN).pot $(DOMAIN).pot-update:
 	$(XGETTEXT) $(XGETTEXT_FLAGS) -o $(DOMAIN).pot \
 	    --directory="$(ROOT)" $(SOURCES:$(ROOT)/%=%)
 	
@@ -73,7 +68,8 @@ $(DOMAIN).pot-update:
 	mv -f $(DOMAIN).pot.utf8 $(DOMAIN).pot
 	
 	sh $(ROOT)/scripts/extractpo.sh $(ROOT) >> $(DOMAIN).pot
-	msguniq -o $(DOMAIN).pot $(DOMAIN).pot
+	msguniq -o $(DOMAIN).pot.uniq $(DOMAIN).pot
+	mv -f $(DOMAIN).pot.uniq $(DOMAIN).pot
 
 #------------------------------------------------------------------------------
 
