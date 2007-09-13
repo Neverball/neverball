@@ -401,7 +401,7 @@ int main(int argc, char *argv[])
         SDL_WM_SetIcon(icon, NULL);
         SDL_FreeSurface(icon);
     }
-#endif // __APPLE__
+#endif /* __APPLE__ */
 
     /* Initialize the video. */
 
