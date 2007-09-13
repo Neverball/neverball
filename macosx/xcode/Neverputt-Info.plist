@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>Neverputt</string>
 	<key>CFBundleIconFile</key>
-	<string>neverputt-new</string>
+	<string>neverputt</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.neverball</string>
 	<key>CFBundleInfoDictionaryVersion</key>

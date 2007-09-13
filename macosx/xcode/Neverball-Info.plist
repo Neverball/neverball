@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>Neverball</string>
 	<key>CFBundleIconFile</key>
-	<string>neverball-new</string>
+	<string>neverball</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.neverball</string>
 	<key>CFBundleInfoDictionaryVersion</key>
