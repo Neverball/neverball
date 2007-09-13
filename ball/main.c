@@ -391,6 +391,7 @@ int main(int argc, char *argv[])
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+#ifndef __APPLE__
     /* Set the WM icon */
 
     icon = IMG_Load(config_data("icon/neverball.png"));
@@ -400,6 +401,7 @@ int main(int argc, char *argv[])
         SDL_WM_SetIcon(icon, NULL);
         SDL_FreeSurface(icon);
     }
+#endif // __APPLE__
 
     /* Initialize the video. */
 
