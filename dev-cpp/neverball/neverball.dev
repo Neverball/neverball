@@ -1,7 +1,7 @@
 [Project]
 FileName=neverball.dev
 Name=neverball
-UnitCount=39
+UnitCount=40
 Type=0
 Ver=1
 ObjFiles=
@@ -436,4 +436,14 @@ OriginalFilename=
 ProductName=
 ProductVersion=
 AutoIncBuildNr=0
+
+[Unit40]
+FileName=..\..\ball\mode.c
+CompileCpp=0
+Folder=ball
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
 
