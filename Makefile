@@ -86,6 +86,7 @@ BALL_OBJS := \
 	share/state.o       \
 	share/audio.o       \
 	ball/hud.o          \
+	ball/mode.o         \
 	ball/game.o         \
 	ball/level.o        \
 	ball/levels.o       \

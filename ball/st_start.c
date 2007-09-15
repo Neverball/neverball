@@ -96,7 +96,7 @@ static void start_over_level(int i)
 
         set_most_coins(&l->score.most_coins, -1);
 
-        if (config_get_d(CONFIG_MODE) == MODE_PRACTICE)
+        if (curr_mode() == MODE_PRACTICE)
         {
             set_best_times(&l->score.best_times, -1, 0);
             if (l->is_bonus)
@@ -166,7 +166,7 @@ static void start_over(int id)
 
 static int start_action(int i)
 {
-    int mode = config_get_d(CONFIG_MODE);
+    int mode = curr_mode();
 
     audio_play(AUD_MENU, 1.0f);
 
@@ -175,10 +175,10 @@ static int start_action(int i)
     case START_BACK:
         return goto_state(&st_set);
     case START_NORMAL:
-        config_set_d(CONFIG_MODE, MODE_NORMAL);
+        mode_set(MODE_NORMAL);
         return goto_state(&st_start);
     case START_PRACTICE:
-        config_set_d(CONFIG_MODE, MODE_PRACTICE);
+        mode_set(MODE_PRACTICE);
         return goto_state(&st_start);
     }
 
@@ -187,7 +187,7 @@ static int start_action(int i)
         /* On cheat, start challenge mode where you want */
         if (config_get_d(CONFIG_CHEAT))
         {
-            config_set_d(CONFIG_MODE, MODE_CHALLENGE);
+            mode_set(MODE_CHALLENGE);
             return goto_state(&st_start);
         }
         i = 0;
@@ -211,16 +211,17 @@ static int start_enter(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
-    int m = config_get_d(CONFIG_MODE);
+    int m = curr_mode();
     int i, j;
 
     int id, jd, kd, ld;
 
     /* Deactivate cheat */
+
     if (m == MODE_CHALLENGE && !config_get_d(CONFIG_CHEAT))
     {
+        mode_set(MODE_NORMAL);
         m = MODE_NORMAL;
-        config_set_d(CONFIG_MODE, m);
     }
 
     if ((id = gui_vstack(0)))

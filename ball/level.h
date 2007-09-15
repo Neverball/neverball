@@ -2,9 +2,10 @@
 #define LEVEL_H
 
 #include "base_config.h"
-#define NSCORE  3
 
 /*---------------------------------------------------------------------------*/
+
+#define NSCORE  3
 
 struct score
 {
@@ -96,15 +97,6 @@ struct level_game
     int unlock;        /* Is the next level newly unlocked */
     const struct level *next_level; /* next level (NULL no next level) */
 };
-
-/*---------------------------------------------------------------------------*/
-
-#define MODE_CHALLENGE  1
-#define MODE_NORMAL     2
-#define MODE_PRACTICE   3
-#define MODE_SINGLE     4
-
-const char *mode_to_str(int, int);
 
 /*---------------------------------------------------------------------------*/
 

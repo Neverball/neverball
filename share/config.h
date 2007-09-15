@@ -71,7 +71,6 @@ enum {
     CONFIG_VIEW_DZ,
     CONFIG_ROTATE_FAST,
     CONFIG_ROTATE_SLOW,
-    CONFIG_MODE,
     CONFIG_CHEAT,
     CONFIG_KEY_FORWARD,
     CONFIG_KEY_BACKWARD,
@@ -135,7 +134,6 @@ enum {
 #define DEFAULT_VIEW_DZ              200
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
-#define DEFAULT_MODE                 1
 #define DEFAULT_CHEAT                0
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "png/ball.png"

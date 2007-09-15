@@ -134,6 +134,7 @@ static int level_buttn(int b, int d)
             else
             {
                 level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
+
                 return goto_end_level();
             }
         }

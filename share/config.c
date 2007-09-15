@@ -106,7 +106,6 @@ void config_init(void)
     config_set_d(CONFIG_VIEW_DZ,              DEFAULT_VIEW_DZ);
     config_set_d(CONFIG_ROTATE_FAST,          DEFAULT_ROTATE_FAST);
     config_set_d(CONFIG_ROTATE_SLOW,          DEFAULT_ROTATE_SLOW);
-    config_set_d(CONFIG_MODE,                 DEFAULT_MODE);
     config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
@@ -206,8 +205,6 @@ void config_load(void)
                     config_set_d(CONFIG_ROTATE_FAST,          atoi(val));
                 else if (strcmp(key, "rotate_slow")           == 0)
                     config_set_d(CONFIG_ROTATE_SLOW,          atoi(val));
-                else if (strcmp(key, "mode")                  == 0)
-                    config_set_d(CONFIG_MODE,                 atoi(val));
                 else if (strcmp(key, "cheat") == 0 && ALLOW_CHEAT)
                     config_set_d(CONFIG_CHEAT,                atoi(val));
 
@@ -330,8 +327,6 @@ void config_save(void)
                 option_d[CONFIG_ROTATE_FAST]);
         fprintf(fp, "rotate_slow          %d\n",
                 option_d[CONFIG_ROTATE_SLOW]);
-        fprintf(fp, "mode                 %d\n",
-                option_d[CONFIG_MODE]);
 
         fprintf(fp, "key_forward          %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_FORWARD]));

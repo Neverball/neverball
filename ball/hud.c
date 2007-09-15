@@ -127,6 +127,7 @@ void hud_free(void)
 void hud_paint(void)
 {
     int mode = curr_lg()->mode;
+
     if (mode == MODE_CHALLENGE)
         gui_paint(Lhud_id);
     if (mode == MODE_PRACTICE || mode == MODE_SINGLE)
@@ -189,19 +190,6 @@ void hud_update(int pulse)
     }
 
     /* balls and score + select coin widget */
-
-#if 0
-    if (mode == MODE_CHALLENGE)
-    {
-        if (gui_value(ball_id) != balls) gui_set_count(ball_id, balls);
-        if (gui_value(scor_id) != score) gui_set_count(scor_id, score);
-        c_id = coin_id;
-    }
-    else if (mode == MODE_NORMAL)
-        c_id = coin_id;
-    else
-        c_id = coin2_id;
-#endif
 
     switch (mode)
     {
