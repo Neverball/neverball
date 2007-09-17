@@ -51,6 +51,10 @@
 
 /*---------------------------------------------------------------------------*/
 
+static int debug_output = 0;
+
+/*---------------------------------------------------------------------------*/
+
 /* Ohhhh... arbitrary! */
 
 /* Old Limits:
@@ -1915,6 +1919,9 @@ static void uniq_side(struct s_file *fp)
 
 static void uniq_file(struct s_file *fp)
 {
+    if (debug_output)
+        return;
+
     uniq_mtrl(fp);
     uniq_vert(fp);
     uniq_edge(fp);
@@ -2049,11 +2056,26 @@ static int node_node(struct s_file *fp, int l0, int lc)
         /* Flag each lump with its position WRT the side. */
 
         for (li = 0; li < lc; li++)
-            switch (test_lump_side(fp, fp->lv + l0 + li, fp->sv + sj))
+            if (debug_output)
             {
-            case +1: fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x10; break;
-            case  0: fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x20; break;
-            case -1: fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x40; break;
+                fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x20;
+            }
+            else
+            {
+                switch (test_lump_side(fp, fp->lv + l0 + li, fp->sv + sj))
+                {
+                case +1:
+                    fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x10;
+                    break;
+
+                case  0:
+                    fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x20;
+                    break;
+
+                case -1:
+                    fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x40;
+                    break;
+                }
             }
 
         /* Sort all lumps in the range by their flag values. */
@@ -2184,6 +2206,9 @@ int main(int argc, char *argv[])
 
     if (argc > 2)
     {
+        if (argc > 3 && strcmp(argv[3], "--debug") == 0)
+            debug_output = 1;
+        
         if (config_data_path(argv[2], NULL))
         {
             strncpy(src,  argv[1], MAXSTR);
@@ -2218,7 +2243,7 @@ int main(int argc, char *argv[])
         }
         else fprintf(stderr, "Failure to establish data directory\n");
     }
-    else fprintf(stderr, "Usage: %s <map> [data]\n", argv[0]);
+    else fprintf(stderr, "Usage: %s <map> <data> [--debug]\n", argv[0]);
 
     return 0;
 }
