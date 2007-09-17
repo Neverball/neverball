@@ -23,24 +23,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-void score_init_hs(struct score *s, int timer, int coins)
-{
-    int i;
-
-    strcpy(s->player[0], "Hard");
-    strcpy(s->player[1], "Medium");
-    strcpy(s->player[2], "Easy");
-    strcpy(s->player[3], "");
-
-    for (i = 0; i < NSCORE + 1; i++)
-    {
-        s->timer[i] = timer;
-        s->coins[i] = coins;
-    }
-}
-
-/*---------------------------------------------------------------------------*/
-
 static void level_scan_metadata(struct level *l, const struct s_file *fp)
 {
     int i;

@@ -88,6 +88,7 @@ BALL_OBJS := \
 	ball/hud.o          \
 	ball/mode.o         \
 	ball/game.o         \
+	ball/score.o        \
 	ball/level.o        \
 	ball/levels.o       \
 	ball/set.o          \
