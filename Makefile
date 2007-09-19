@@ -144,10 +144,8 @@ SOLS := $(MAPS:%.map=%.sol)
 
 #------------------------------------------------------------------------------
 
-%.d : %.c
-	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MF $@ -MT '$*.o $@' $<
-
 %.o : %.c
+	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d $<
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
 %.sol : %.map $(MAPC_TARG)
