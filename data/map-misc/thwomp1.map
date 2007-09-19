@@ -1404,13 +1404,13 @@
 {
 "classname" "misc_model"
 "origin" "264 2880 97"
-"model" "obj\post.obj"
+"model" "obj/post.obj"
 }
 // entity 15
 {
 "classname" "misc_model"
 "origin" "184 2880 97"
-"model" "obj\post.obj"
+"model" "obj/post.obj"
 }
 // entity 16
 {
