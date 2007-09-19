@@ -14,17 +14,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#ifdef WIN32
-#pragma comment(lib, "SDL_ttf.lib")
-#pragma comment(lib, "SDL_mixer.lib")
-#pragma comment(lib, "SDL_image.lib")
-#pragma comment(lib, "SDL.lib")
-#pragma comment(lib, "SDLmain.lib")
-#pragma comment(lib, "opengl32.lib")
-#endif
-
-/*---------------------------------------------------------------------------*/
-
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
