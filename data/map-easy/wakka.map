@@ -4035,25 +4035,25 @@
 // entity 5
 {
 "classname" "target_teleporter"
-"origin" "1088 704 4"
+"origin" "1088 704 0"
 "target" "t2"
 }
 // entity 6
 {
 "classname" "target_position"
-"origin" "-448 704 4"
+"origin" "-448 704 0"
 "targetname" "t2"
 }
 // entity 7
 {
 "classname" "target_teleporter"
-"origin" "-448 704 4"
+"origin" "-448 704 0"
 "target" "t3"
 }
 // entity 8
 {
 "classname" "target_position"
-"origin" "1088 704 4"
+"origin" "1088 704 0"
 "targetname" "t3"
 }
 // entity 9
