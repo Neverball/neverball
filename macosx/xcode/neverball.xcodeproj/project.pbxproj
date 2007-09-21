@@ -1139,8 +1139,6 @@
 		B5412EA70CA36A6700C9A9F7 /* turf-red */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "turf-red"; sourceTree = "<group>"; };
 		B5412EA80CA36A6700C9A9F7 /* turf-red.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "turf-red.jpg"; sourceTree = "<group>"; };
 		B5412EA90CA36A6700C9A9F7 /* turf-shiny */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "turf-shiny"; sourceTree = "<group>"; };
-		B5412EAA0CA36A6700C9A9F7 /* turf-shiny-bright */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "turf-shiny-bright"; sourceTree = "<group>"; };
-		B5412EAB0CA36A6700C9A9F7 /* turf-shiny-bright.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "turf-shiny-bright.jpg"; sourceTree = "<group>"; };
 		B5412EAC0CA36A6700C9A9F7 /* turf-shiny-light */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "turf-shiny-light"; sourceTree = "<group>"; };
 		B5412EAD0CA36A6700C9A9F7 /* turf-shiny-light.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "turf-shiny-light.jpg"; sourceTree = "<group>"; };
 		B5412EAE0CA36A6700C9A9F7 /* turf-shiny.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "turf-shiny.jpg"; sourceTree = "<group>"; };
@@ -2094,8 +2092,6 @@
 				B5412EA70CA36A6700C9A9F7 /* turf-red */,
 				B5412EA80CA36A6700C9A9F7 /* turf-red.jpg */,
 				B5412EA90CA36A6700C9A9F7 /* turf-shiny */,
-				B5412EAA0CA36A6700C9A9F7 /* turf-shiny-bright */,
-				B5412EAB0CA36A6700C9A9F7 /* turf-shiny-bright.jpg */,
 				B5412EAC0CA36A6700C9A9F7 /* turf-shiny-light */,
 				B5412EAD0CA36A6700C9A9F7 /* turf-shiny-light.jpg */,
 				B5412EAE0CA36A6700C9A9F7 /* turf-shiny.jpg */,
