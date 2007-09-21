@@ -598,8 +598,8 @@ f 71/17/39 69/49/37 17/18/1
 f 71/17/39 70/48/38 69/49/37
 f 72/80/40 69/49/37 70/48/38
 f 72/80/40 70/48/38 19/79/3
-g cube1_mtrl/turf-shiny-bright
-usemtl mtrl/turf-shiny-bright
+g cube1_mtrl/turf-shiny-light
+usemtl mtrl/turf-shiny-light
 f 2/13/61 18/16/2 56/14/170
 f 6/15/78 17/18/1 60/50/197
 f 6/15/81 56/14/175 17/18/1
