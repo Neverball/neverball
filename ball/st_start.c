@@ -43,9 +43,9 @@ int goto_end_level(void)
 
 /*---------------------------------------------------------------------------*/
 
-#define START_BACK -1
-#define START_PRACTICE -2
-#define START_NORMAL -3
+#define START_BACK      -1
+#define START_PRACTICE  -2
+#define START_NORMAL    -3
 #define START_CHALLENGE -4
 
 static int shot_id;
