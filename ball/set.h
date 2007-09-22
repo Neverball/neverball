@@ -7,53 +7,44 @@
 /*---------------------------------------------------------------------------*/
 
 #define SET_FILE "sets.txt"
+
 #define MAXSET 16
 #define MAXLVL 25
 
-/* A pack of levels */
 struct set
 {
-    /* set global info */
-    int number;               /* number of the set */
-
     char file[PATHMAX];
 
-    char user_scores[PATHMAX]; /* user high score file */
-    char setname[MAXSTR];     /* internal set name */
+    char id[MAXSTR];           /* Internal set identifier    */
+    char name[MAXSTR];         /* Set name                   */
+    char desc[MAXSTR];         /* Set description            */
+    char shot[MAXSTR];         /* Set screen-shot            */
 
-    char name[MAXSTR];        /* set name */
-    char desc[MAXSTR];        /* set description */
-    char shot[MAXSTR];        /* screenshot image file*/
+    char user_scores[PATHMAX]; /* User high-score file       */
 
-    struct score time_score;  /* challenge score */
-    struct score coin_score;  /* challenge score */
+    struct score time_score;   /* Challenge score            */
+    struct score coin_score;   /* Challenge score            */
 
-    /* levels info */
+    /* Level stats */
 
-    int count;                /* number of levels */
-    int locked;               /* number of locked levels */
-    int completed;            /* number of completed levels */
+    int count;                 /* Number of levels           */
+    int locked;                /* Number of locked levels    */
+    int completed;             /* Number of completed levels */
 };
 
 /*---------------------------------------------------------------------------*/
 
 int set_init();
+int set_exists(int);
 
-int  set_exists(int);
 const struct set *get_set(int);
 
-/*---------------------------------------------------------------------------*/
+int set_unlocked(const struct set *);
+int set_completed(const struct set *);
+int set_level_exists(const struct set *, int);
 
-int  set_unlocked(const struct set *);
-int  set_completed(const struct set *);
-
-int  set_level_exists(const struct set *, int);
-
-/*---------------------------------------------------------------------------*/
-
-void set_goto(int i);
-const struct set *curr_set(void);
-
+void                set_goto(int i);
+const struct set *  curr_set(void);
 const struct level *get_level(int);
 
 /*---------------------------------------------------------------------------*/
@@ -64,7 +55,6 @@ void score_change_name(struct level_game *, const char *);
 /*---------------------------------------------------------------------------*/
 
 void level_snap(int);
-
 void set_cheat(void);
 
 /*---------------------------------------------------------------------------*/

@@ -70,7 +70,7 @@ static void level_scan_metadata(struct level *l, const struct s_file *fp)
         else if (strcmp(k, "author") == 0)
             strncpy(l->author, v, MAXSTR);
         else if (strcmp(k, "bonus") == 0)
-            l->is_bonus = atoi(v);
+            l->is_bonus = atoi(v) ? 1 : 0;
     }
 }
 

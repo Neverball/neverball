@@ -25,25 +25,24 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int count;                    /* number of sets */
 
-static struct set set_v[MAXSET];     /* array of sets */
-
-static struct set *current_set;      /* currently selected set */
-
-static struct level level_v[MAXLVL]; /* levels of the current set  */
+static struct set   set_v[MAXSET];
+static int          set_count;
+static struct set  *current_set;
+static struct level level_v[MAXLVL];
 
 /*---------------------------------------------------------------------------*/
 
 static void put_score(FILE *fp, const struct score *s)
 {
     int j;
+
     for (j = 0; j < NSCORE; j++)
        fprintf(fp, "%d %d %s\n", s->timer[j], s->coins[j], s->player[j]);
 }
 
+/* Store the score of the set. */
 static void set_store_hs(void)
-/* Store the score of the set */
 {
     const struct set *s = current_set;
     FILE *fout;
@@ -71,6 +70,7 @@ static void set_store_hs(void)
         for (i = 0; i < s->count; i++)
         {
             l = &level_v[i];
+
             put_score(fout, &l->score.best_times);
             put_score(fout, &l->score.unlock_goal);
             put_score(fout, &l->score.most_coins);
@@ -84,16 +84,19 @@ static int get_score(FILE *fp, struct score *s)
 {
     int j;
     int res = 1;
+
     for (j = 0; j < NSCORE && res; j++)
     {
-       res = (fscanf(fp, "%d %d %s\n",
-                     &s->timer[j], &s->coins[j], s->player[j])) == 3;
+        res = fscanf(fp, "%d %d %s\n",
+                     &s->timer[j],
+                     &s->coins[j],
+                     s->player[j]) == 3;
     }
     return res;
 }
 
+/* Get the score of the set. */
 static void set_load_hs(void)
-/* Get the score of the set */
 {
     struct set *s = current_set;
     FILE *fin;
@@ -105,8 +108,8 @@ static void set_load_hs(void)
 
     if ((fin = fopen(fn, "r")))
     {
-        res = ((fscanf(fin, "%s\n", states) == 1) &&
-               (strlen(states) == s->count));
+        res = fscanf(fin, "%s\n", states) == 1 && strlen(states) == s->count;
+
         for (i = 0; i < s->count && res; i++)
         {
             switch (states[i])
@@ -195,7 +198,7 @@ static int set_load(struct set *s, const char *filename)
     if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
         strcpy(s->desc, strip_eol(buf));
     if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
-        strcpy(s->setname, strip_eol(buf));
+        strcpy(s->id, strip_eol(buf));
     if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
         strcpy(s->shot, strip_eol(buf));
     if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
@@ -208,7 +211,7 @@ static int set_load(struct set *s, const char *filename)
                 &s->coin_score.coins[2]);
 
     strcpy(s->user_scores, "neverballhs-");
-    strcat(s->user_scores, s->setname);
+    strcat(s->user_scores, s->id);
 
     /* Count levels. */
 
@@ -257,25 +260,25 @@ int set_init()
     char  name[MAXSTR];
 
     current_set = NULL;
-    count       = 0;
+    set_count   = 0;
 
     if ((fin = fopen(config_data(SET_FILE), "r")))
     {
-        while (count < MAXSET && fgets(name, MAXSTR, fin))
-            if (set_load(&set_v[count], strip_eol(name)))
-                count++;
+        while (set_count < MAXSET && fgets(name, MAXSTR, fin))
+            if (set_load(&set_v[set_count], strip_eol(name)))
+                set_count++;
 
         fclose(fin);
     }
 
-    return count;
+    return set_count;
 }
 
 /*---------------------------------------------------------------------------*/
 
 int  set_exists(int i)
 {
-    return (0 <= i && i < count);
+    return (0 <= i && i < set_count);
 }
 
 const struct set *get_set(int i)
