@@ -76,7 +76,7 @@ static int pause_action(int i)
     case PAUSE_EXIT:
         level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
         clear_pause();
-        return curr_lg()->mode == MODE_SINGLE ? 0 : goto_state(&st_start);
+        return goto_state(&st_start);
     }
 
     return 1;

@@ -128,7 +128,14 @@ static int gui_demo_status(int id, const struct demo *d)
         /* Get a long mode */
         mode = mode_to_str(0, 0);
         j = strlen(mode);
-        for (i = 1; i <= MODE_SINGLE; i++)
+
+        /* FIXME
+         *
+         * This stuff should not require changes each time a mode is
+         * added or removed.
+         */
+
+        for (i = 1; i <= MODE_PRACTICE; i++)
         {
             k = strlen(mode_to_str(i, 0));
             if (k > j)

@@ -94,8 +94,7 @@ void level_stop(int state, int state_value, int clock, int coins)
 {
     struct level_game *lg = &current_level_game;
     int mode = lg->mode;
-    int timer = (mode == MODE_PRACTICE ||
-                 mode == MODE_SINGLE) ? clock : lg->time - clock;
+    int timer = (mode == MODE_PRACTICE) ? clock : lg->time - clock;
 
     lg->state = state;
     lg->coins = coins;

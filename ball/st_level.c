@@ -41,11 +41,7 @@ static int level_enter(void)
 
     if ((id = gui_vstack(0)))
     {
-        if (lg->mode == MODE_SINGLE)
-        {
-            gui_label(id, _("Single Level"), GUI_LRG, GUI_TOP, 0, 0);
-        }
-        else if ((jd = gui_hstack(id)))
+        if ((jd = gui_hstack(id)))
         {
             ln = lg->level->repr;
             b = lg->level->is_bonus;

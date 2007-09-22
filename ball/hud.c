@@ -130,7 +130,7 @@ void hud_paint(void)
 
     if (mode == MODE_CHALLENGE)
         gui_paint(Lhud_id);
-    if (mode == MODE_PRACTICE || mode == MODE_SINGLE)
+    if (mode == MODE_PRACTICE)
         gui_paint(Rhud2_id);
     else
         gui_paint(Rhud_id);
@@ -172,9 +172,7 @@ void hud_update(int pulse)
     {
         gui_set_clock(time_id, clock);
 
-        if (last > clock && pulse &&
-            mode != MODE_PRACTICE &&
-            mode != MODE_SINGLE)
+        if (last > clock && pulse && mode != MODE_PRACTICE)
         {
             if (clock <= 1000 && (last / 100) > (clock / 100))
             {

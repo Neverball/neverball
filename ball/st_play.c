@@ -36,7 +36,7 @@ static int pause_or_exit(void)
     {
         level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
         config_clr_grab();
-        return curr_lg()->mode == MODE_SINGLE ? 0 : goto_state(&st_start);
+        return goto_state(&st_start);
     }
     else
         return goto_pause();

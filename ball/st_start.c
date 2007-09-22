@@ -33,8 +33,6 @@ int goto_end_level(void)
 {
     switch (curr_lg()->mode)
     {
-    case MODE_SINGLE:
-        return 0;
     case MODE_CHALLENGE:
         return goto_state(&st_over);
     default:
