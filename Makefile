@@ -2,7 +2,7 @@
 
 VERSION := $(shell sh scripts/version.sh)
 ifeq ($(VERSION),unknown)
-    $(warning Failed to obtain sane version for this build)
+    $(warning Failed to obtain sane version for this build.)
 endif
 
 #------------------------------------------------------------------------------
