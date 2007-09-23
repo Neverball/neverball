@@ -27,7 +27,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-/* The level currently playing */
+/* Currently playing level. */
 static struct level_game current_level_game;
 
 /*---------------------------------------------------------------------------*/
@@ -37,28 +37,29 @@ int level_replay(const char *filename)
     return demo_replay_init(filename, &current_level_game);
 }
 
-int level_play_go(void)
 /* Start to play the current level */
+
+int level_play_go(void)
 {
     struct level_game *lg = &current_level_game;
-    const struct level *l = lg->level;
-    int mode = lg->mode;
 
-    assert(l != NULL);
+    assert(lg->level != NULL);
 
-    lg->goal = (mode == MODE_PRACTICE) ? 0 : l->goal;
-    lg->time = (mode == MODE_PRACTICE) ? 0 : l->time;
+    lg->goal = (lg->mode == MODE_PRACTICE) ? 0 : lg->level->goal;
+    lg->time = (lg->mode == MODE_PRACTICE) ? 0 : lg->level->time;
 
-    /* clear other fields */
+    /* Clear other fields. */
+
     lg->state = GAME_NONE;
     lg->coins = 0;
     lg->timer = lg->time;
     lg->coin_rank = lg->goal_rank = lg->time_rank =
         lg->score_rank = lg->times_rank = 3;
+
     lg->win = lg->dead = lg->unlock = 0;
     lg->next_level = NULL;
 
-    return demo_play_init(USER_REPLAY_FILE, l, lg);
+    return demo_play_init(USER_REPLAY_FILE, lg->level, lg);
 }
 
 /* Prepare to play a level sequence from the `i'th level */
@@ -83,9 +84,7 @@ const struct level_game *curr_lg(void)
 
 int count_extra_balls(int old_score, int coins)
 {
-    int modulo = old_score % 100;
-    int sum    = modulo + coins;
-    return sum / 100;
+    return ((old_score % 100) + coins) / 100;
 }
 
 /* Stop the current playing level */
