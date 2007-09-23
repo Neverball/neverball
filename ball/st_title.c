@@ -49,15 +49,17 @@ static int title_action(int i)
     case TITLE_PLAY:
         config_get_s(CONFIG_PLAYER, player, MAXNAM);
 
-        if (player[0] == '\0')
+        if (strlen(player) == 0)
             return goto_name(&st_set, &st_title);
         else
             return goto_state(&st_set);
 
-    case TITLE_HELP: return goto_state(&st_help);
-    case TITLE_DEMO: return goto_state(&st_demo);
-    case TITLE_CONF: return goto_state(&st_conf);
-    case TITLE_EXIT: return 0;
+        break;
+
+    case TITLE_HELP: return goto_state(&st_help); break;
+    case TITLE_DEMO: return goto_state(&st_demo); break;
+    case TITLE_CONF: return goto_state(&st_conf); break;
+    case TITLE_EXIT: return 0;                    break;
     }
     return 1;
 }
