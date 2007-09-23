@@ -191,8 +191,6 @@ static void sol_load_goal(FILE *fin, struct s_goal *zp)
 {
     get_array(fin,  zp->p, 3);
     get_float(fin, &zp->r);
-    get_index(fin, &zp->s);
-    get_index(fin, &zp->c);
 }
 
 static void sol_load_swch(FILE *fin, struct s_swch *xp)
@@ -520,8 +518,6 @@ static void sol_stor_goal(FILE *fout, struct s_goal *zp)
 {
     put_array(fout,  zp->p, 3);
     put_float(fout, &zp->r);
-    put_index(fout, &zp->s);
-    put_index(fout, &zp->c);
 }
 
 static void sol_stor_swch(FILE *fout, struct s_swch *xp)

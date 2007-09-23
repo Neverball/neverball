@@ -148,10 +148,7 @@ static int play_end_init(int *gidp)
     {
         int gid;
 
-        if (state == GAME_SPEC)
-            gid = gui_label(id, _("SPECIAL GOAL"), GUI_MED, GUI_ALL,
-                            gui_blu, gui_grn);
-        else if (state == GAME_FALL)
+        if (state == GAME_FALL)
             gid = gui_label(id, _("Fall-out!"), GUI_MED, GUI_ALL,
                             gui_gry, gui_red);
         else if (state == GAME_TIME)
@@ -167,7 +164,7 @@ static int play_end_init(int *gidp)
         gui_space(id);
 
         if (mode == MODE_CHALLENGE &&
-            (lg->state == GAME_GOAL || lg->state == GAME_SPEC || l->is_bonus))
+            (lg->state == GAME_GOAL || l->is_bonus))
         {
             int coins = lg->coins;
             int score = lg->score - coins;
@@ -295,7 +292,7 @@ static void play_end_timer(int id, float dt)
     if (state != GAME_TIME)
     {
         if (time_state() < 2.f)
-            game_step(state == GAME_GOAL ? gg : gf, dt, NULL);
+            game_step(state == GAME_GOAL ? gg : gf, dt, 0);
     }
 
     if (time_state() > 1.f && DT > 0.05f && coins_id != 0)

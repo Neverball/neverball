@@ -103,7 +103,7 @@ static int level_click(int b, int d)
         }
         else
         {
-            level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
+            level_stop(GAME_NONE, curr_clock(), curr_coins());
             return goto_end_level();
         }
     }
@@ -129,14 +129,13 @@ static int level_buttn(int b, int d)
             }
             else
             {
-                level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
-
+                level_stop(GAME_NONE, curr_clock(), curr_coins());
                 return goto_end_level();
             }
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
-            level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
+            level_stop(GAME_NONE, curr_clock(), curr_coins());
             return goto_end_level();
         }
     }

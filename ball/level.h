@@ -69,7 +69,6 @@ struct level_game
     int state;         /* state ending */
     int coins;         /* coins collected */
     int timer;         /* time elapsed */
-    int state_value;   /* more precision about the state: skip for goal */
 
     /* rank = 3  => unclassed */
     int coin_rank;     /* rank in the level high-scores */
@@ -91,7 +90,6 @@ struct level_game
 #define GAME_TIME 1     /* Time's up */
 #define GAME_GOAL 2     /* Goal reached */
 #define GAME_FALL 3     /* Fall out */
-#define GAME_SPEC 4     /* Special goal reached */
 
 const char *state_to_str(int);
 

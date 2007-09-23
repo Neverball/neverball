@@ -207,7 +207,7 @@ static int gui_demo_status(int id, const struct demo *d)
             gui_label(kd, _("Mode"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
             gui_label(kd, _("Date"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
         }
-        if (d && (d->state == GAME_GOAL || d->state == GAME_SPEC))
+        if (d && d->state == GAME_GOAL)
             gui_set_color(state_id, gui_grn, gui_grn);
     }
     return jd;
@@ -222,7 +222,7 @@ static void gui_demo_update_status(int i)
     gui_set_label(player_id, d->player);
     gui_set_label(mode_id,   mode_to_str(d->mode, 0));
 
-    if (d->state == GAME_GOAL || d->state == GAME_SPEC)
+    if (d->state == GAME_GOAL)
         gui_set_color(state_id, gui_grn, gui_grn);
     else
         gui_set_color(state_id, gui_red, gui_red);
@@ -507,7 +507,7 @@ static void demo_end_timer(int id, float dt)
         if (replay_time < global_time)
         {
             if (state != GAME_NONE && state != GAME_TIME)
-                game_step(state == GAME_GOAL ? gg : gf, dt, NULL);
+                game_step(state == GAME_GOAL ? gg : gf, dt, 0);
         }
     }
 

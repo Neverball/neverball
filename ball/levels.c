@@ -89,7 +89,7 @@ int count_extra_balls(int old_score, int coins)
 
 /* Stop the current playing level */
 
-void level_stop(int state, int state_value, int clock, int coins)
+void level_stop(int state, int clock, int coins)
 {
     struct level_game *lg = &current_level_game;
     int mode = lg->mode;
@@ -98,7 +98,6 @@ void level_stop(int state, int state_value, int clock, int coins)
     lg->state = state;
     lg->coins = coins;
     lg->timer = timer;
-    lg->state_value = state_value;
 
     /* Performs challenge mode operations */
     if (mode == MODE_CHALLENGE)
@@ -107,7 +106,7 @@ void level_stop(int state, int state_value, int clock, int coins)
         lg->times += timer;
 
         /* sum coins an earn extra balls */
-        if (state == GAME_GOAL || state == GAME_SPEC || lg->level->is_bonus)
+        if (state == GAME_GOAL || lg->level->is_bonus)
         {
             lg->balls += count_extra_balls(lg->score, coins);
             lg->score += coins;

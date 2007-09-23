@@ -485,10 +485,10 @@ void set_finish_level(struct level_game *lg, const char *player)
     }
 
     /* On goal reached */
-    if (lg->state == GAME_GOAL || lg->state == GAME_SPEC)
+    if (lg->state == GAME_GOAL)
     {
         /* Identify the following level */
-        nl = next_level(ln + lg->state_value);
+        nl = next_level(ln);
         if (nl != NULL)
         {
             /* skip bonuses if unlocked in non challenge mode */

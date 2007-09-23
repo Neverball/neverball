@@ -371,7 +371,7 @@ static void game_draw_goals(const struct s_file *fp, float rx, float ry)
                              fp->zv[zi].p[1],
                              fp->zv[zi].p[2]);
 
-                part_draw_goal(rx, ry, fp->zv[zi].r, goal_k, fp->zv[zi].c);
+                part_draw_goal(rx, ry, fp->zv[zi].r, goal_k);
 
                 glScalef(fp->zv[zi].r, goal_k, fp->zv[zi].r);
                 goal_draw();
@@ -762,7 +762,7 @@ static void game_update_time(float dt, int b)
     }
 }
 
-static int game_update_state(int *state_value)
+static int game_update_state(int bt)
 {
     struct s_file *fp = &file;
     struct s_goal *zp;
@@ -770,8 +770,6 @@ static int game_update_state(int *state_value)
 
     float p[3];
     float c[3];
-
-    int bt = state_value != NULL;
 
     /* Test for an item. */
     if (bt && (hp = sol_item_test(fp, p, COIN_RADIUS)))
@@ -825,9 +823,8 @@ static int game_update_state(int *state_value)
 
     if (bt && goal_c == 0 && (zp = sol_goal_test(fp, p, 0)))
     {
-        *state_value = zp->s;
         audio_play(AUD_GOAL, 1.0f);
-        return zp->c ? GAME_SPEC : GAME_GOAL;
+        return GAME_GOAL;
     }
 
     /* Test for time-out. */
@@ -864,7 +861,7 @@ static int game_update_state(int *state_value)
  * graphics frame rate.
  */
 
-int game_step(const float g[3], float dt, int *state_value)
+int game_step(const float g[3], float dt, int bt)
 {
     struct s_file *fp = &file;
 
@@ -944,9 +941,9 @@ int game_step(const float g[3], float dt, int *state_value)
 
         game_step_fade(dt);
         game_update_view(dt);
-        game_update_time(dt, state_value != NULL);
+        game_update_time(dt, bt);
 
-        return game_update_state(state_value);
+        return game_update_state(bt);
     }
     return GAME_NONE;
 }

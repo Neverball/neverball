@@ -177,7 +177,6 @@ const char *state_to_str(int m)
     {
     case GAME_NONE:    return _("Aborted");
     case GAME_TIME:    return _("Time-out");
-    case GAME_SPEC:
     case GAME_GOAL:    return _("Success");
     case GAME_FALL:    return _("Fall-out");
     default:           return _("Unknown");
