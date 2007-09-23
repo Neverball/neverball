@@ -25,10 +25,10 @@
 
 /*---------------------------------------------------------------------------*/
 
+static int set;
+static int count;
 
-static struct set   set_v[MAXSET];
-static int          set_count;
-static struct set  *current_set;
+static struct set set_v[MAXSET];
 static struct level level_v[MAXLVL];
 
 /*---------------------------------------------------------------------------*/
@@ -44,7 +44,7 @@ static void put_score(FILE *fp, const struct score *s)
 /* Store the score of the set. */
 static void set_store_hs(void)
 {
-    const struct set *s = current_set;
+    const struct set *s = &set_v[set];
     FILE *fout;
     int i;
     const struct level *l;
@@ -98,7 +98,7 @@ static int get_score(FILE *fp, struct score *s)
 /* Get the score of the set. */
 static void set_load_hs(void)
 {
-    struct set *s = current_set;
+    struct set *s = &set_v[set];
     FILE *fin;
     int i;
     int res = 0;
@@ -259,26 +259,26 @@ int set_init()
     FILE *fin;
     char  name[MAXSTR];
 
-    current_set = NULL;
-    set_count   = 0;
+    set   = 0;
+    count = 0;
 
     if ((fin = fopen(config_data(SET_FILE), "r")))
     {
-        while (set_count < MAXSET && fgets(name, MAXSTR, fin))
-            if (set_load(&set_v[set_count], strip_eol(name)))
-                set_count++;
+        while (count < MAXSET && fgets(name, MAXSTR, fin))
+            if (set_load(&set_v[count], strip_eol(name)))
+                count++;
 
         fclose(fin);
     }
 
-    return set_count;
+    return count;
 }
 
 /*---------------------------------------------------------------------------*/
 
 int  set_exists(int i)
 {
-    return (0 <= i && i < set_count);
+    return (0 <= i && i < count);
 }
 
 const struct set *get_set(int i)
@@ -288,20 +288,17 @@ const struct set *get_set(int i)
 
 /*---------------------------------------------------------------------------*/
 
-int  set_unlocked(const struct set *s)
-/* Are all levels (even extra bonus) unlocked? */
+int set_unlocked(const struct set *s)
 {
     return s->locked == 0;
 }
 
-int  set_completed(const struct set *s)
-/* Are all levels (even extra bonus) completed? */
+int set_completed(const struct set *s)
 {
     return s->completed == s->count;
 }
 
-int  set_level_exists(const struct set *s, int i)
-/* Does the level i of the set exist? */
+int set_level_exists(const struct set *s, int i)
 {
     return (i >= 0) && (i < s->count);
 }
@@ -320,15 +317,15 @@ static void set_load_levels(void)
     int nb = 1, bnb = 1;
 
     const char *roman[] = {
-        NULL,
-        "I", "II", "III", "IV", "V",
-        "VI", "VII", "VIII", "IX", "X",
-        "XI", "XII", "XIII", "XIV", "XV",
-        "XVI", "XVII", "XVIII", "XIX", "XX",
+        "",
+        "I",   "II",   "III",   "IV",   "V",
+        "VI",  "VII",  "VIII",  "IX",   "X",
+        "XI",  "XII",  "XIII",  "XIV",  "XV",
+        "XVI", "XVII", "XVIII", "XIX",  "XX",
         "XXI", "XXII", "XXIII", "XXIV", "XXV"
     };
 
-    if ((fin = fopen(config_data(current_set->file), "r")))
+    if ((fin = fopen(config_data(set_v[set].file), "r")))
     {
         res = 1;
 
@@ -336,7 +333,7 @@ static void set_load_levels(void)
         for (i = 0; i < 5; i++)
             fgets(buf, MAXSTR, fin);
 
-        for (i = 0; i < current_set->count && res; i++)
+        for (i = 0; i < set_v[set].count && res; i++)
         {
             l = &level_v[i];
 
@@ -346,8 +343,8 @@ static void set_load_levels(void)
             level_load(name, l);
 
             /* Initialize set related info */
-            l->set        = current_set;
-            l->number     = i;
+            l->set    = &set_v[set];
+            l->number = i;
 
             if (l->is_bonus)
                 sprintf(l->repr, "%s", roman[bnb++]);
@@ -361,24 +358,23 @@ static void set_load_levels(void)
         fclose(fin);
     }
 
-    assert(i == current_set->count);
+    assert(i == set_v[set].count);
 }
 
 void set_goto(int i)
 {
-    current_set = &set_v[i];
     set_load_levels();
     set_load_hs();
 }
 
 const struct set *curr_set(void)
 {
-    return current_set;
+    return &set_v[set];
 }
 
 const struct level *get_level(int i)
 {
-    return (i >= 0 && i < current_set->count) ? &level_v[i] : NULL;
+    return (i >= 0 && i < set_v[set].count) ? &level_v[i] : NULL;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -410,7 +406,7 @@ static int set_score_update(struct level_game *lg, const char *player)
 {
     int timer = lg->times;
     int coins = lg->score;
-    struct set *s = current_set;
+    struct set *s = &set_v[set];
 
     lg->score_rank = score_time_insert(&s->time_score, player, timer, coins);
     lg->times_rank = score_time_insert(&s->coin_score, player, timer, coins);
@@ -422,7 +418,7 @@ void score_change_name(struct level_game *lg, const char *player)
 /* Update the player name for set and level high-score */
 {
 #define UPDATE(i, x) (strncpy((x).player[(i)], player, MAXNAM))
-    struct set *s = current_set;
+    struct set *s = &set_v[set];
     struct level *l = &level_v[lg->level->number];
     UPDATE(lg->time_rank, l->score.best_times);
     UPDATE(lg->goal_rank, l->score.unlock_goal);
@@ -434,15 +430,14 @@ void score_change_name(struct level_game *lg, const char *player)
 
 static struct level *next_level(int i)
 {
-/* Return the ith level, or NULL */
-    return set_level_exists(current_set, i + 1) ? &level_v[i + 1] : NULL;
+    return set_level_exists(&set_v[set], i + 1) ? &level_v[i + 1] : NULL;
 }
 
 static struct level *next_normal_level(int i)
 /* Return the next normal level (starting for i)
  * Return NULL if there is not a such level */
 {
-    for (i++; i < current_set->count; i++)
+    for (i++; i < set_v[set].count; i++)
         if (!level_v[i].is_bonus)
             return &level_v[i];
     return NULL;
@@ -452,7 +447,7 @@ void set_finish_level(struct level_game *lg, const char *player)
 /* Inform the set that a level is finished.
  * Update next_level and score rank fields */
 {
-    struct set *s = current_set;
+    struct set *s = &set_v[set];
     int ln = lg->level->number; /* current level number */
     struct level *cl = &level_v[ln];    /* current level */
     struct level *nl = NULL;    /* next level */
@@ -589,8 +584,10 @@ void set_cheat(void)
 /* Open each level of the current set */
 {
     int i;
-    current_set->locked = 0;
-    for (i = 0; i < current_set->count; i++)
+
+    set_v[set].locked = 0;
+
+    for (i = 0; i < set_v[set].count; i++)
         level_v[i].is_locked = 0;
 }
 
