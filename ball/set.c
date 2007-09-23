@@ -363,6 +363,8 @@ static void set_load_levels(void)
 
 void set_goto(int i)
 {
+    set = i;
+
     set_load_levels();
     set_load_hs();
 }
