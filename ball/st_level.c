@@ -151,7 +151,10 @@ static void poser_paint(int id, float st)
 
 static int poser_buttn(int c, int d)
 {
-    return (d && config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, c)) ? goto_state(&st_level) : 1;
+    if (d && config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, c))
+        return goto_state(&st_level);
+    
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
