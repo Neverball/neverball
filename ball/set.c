@@ -381,8 +381,8 @@ const struct level *get_level(int i)
 
 /*---------------------------------------------------------------------------*/
 
+/* Update the level score rank according to coins and timer. */
 static int level_score_update(struct level_game *lg, const char *player)
-/* Update the level score rank according to coins and timer */
 {
     int timer = lg->timer;
     int coins = lg->coins;
@@ -403,8 +403,8 @@ static int level_score_update(struct level_game *lg, const char *player)
     return (lg->time_rank < 3 || lg->goal_rank < 3 || lg->coin_rank < 3);
 }
 
+/* Update the set score rank according to score and times. */
 static int set_score_update(struct level_game *lg, const char *player)
-/* Update the set score rank according to score and times */
 {
     int timer = lg->times;
     int coins = lg->score;
@@ -416,19 +416,24 @@ static int set_score_update(struct level_game *lg, const char *player)
 }
 
 
-void score_change_name(struct level_game *lg, const char *player)
-/* Update the player name for set and level high-score */
-{
 #define UPDATE(i, x) (strncpy((x).player[(i)], player, MAXNAM))
-    struct set *s = &set_v[set];
+
+/* Update the player name for set and level high-score. */
+void score_change_name(struct level_game *lg, const char *player)
+{
+    struct set   *s = &set_v[set];
     struct level *l = &level_v[lg->level->number];
+
     UPDATE(lg->time_rank, l->score.best_times);
     UPDATE(lg->goal_rank, l->score.unlock_goal);
     UPDATE(lg->coin_rank, l->score.most_coins);
     UPDATE(lg->score_rank, s->coin_score);
     UPDATE(lg->times_rank, s->time_score);
+
     set_store_hs();
 }
+
+#undef UPDATE
 
 static struct level *next_level(int i)
 {
@@ -436,24 +441,24 @@ static struct level *next_level(int i)
 }
 
 static struct level *next_normal_level(int i)
-/* Return the next normal level (starting for i)
- * Return NULL if there is not a such level */
 {
     for (i++; i < set_v[set].count; i++)
         if (!level_v[i].is_bonus)
             return &level_v[i];
+
     return NULL;
 }
 
+/* Inform the set that a level is finished.  Update next level and score
+ * rank fields. */
+
 void set_finish_level(struct level_game *lg, const char *player)
-/* Inform the set that a level is finished.
- * Update next_level and score rank fields */
 {
     struct set *s = &set_v[set];
-    int ln = lg->level->number; /* current level number */
-    struct level *cl = &level_v[ln];    /* current level */
-    struct level *nl = NULL;    /* next level */
-    int dirty = 0;              /* HS should be saved? */
+    int ln = lg->level->number;      /* Current level number       */
+    struct level *cl = &level_v[ln]; /* Current level              */
+    struct level *nl = NULL;         /* Next level                 */
+    int dirty = 0;                   /* Should the score be saved? */
 
     assert(s == cl->set);
 
