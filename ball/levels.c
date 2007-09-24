@@ -62,8 +62,6 @@ int level_play_go(void)
     return demo_play_init(USER_REPLAY_FILE, lg->level, lg);
 }
 
-/* Prepare to play a level sequence from the `i'th level */
-
 void level_play(const struct level *l, int m)
 {
     struct level_game *lg = &current_level_game;
