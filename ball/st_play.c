@@ -287,7 +287,7 @@ static int play_loop_keybd(int c, int d)
             curr_lg()->mode != MODE_CHALLENGE)
         {
             level_stop(GAME_NONE, curr_clock(), curr_coins());
-            level_play_go();
+            level_play(curr_lg()->level, curr_lg()->mode);
             goto_state(&st_play_ready);
         }
         if (config_tst_d(CONFIG_KEY_PAUSE, c))

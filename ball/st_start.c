@@ -198,8 +198,13 @@ static int start_action(int i)
 
         if (!l->is_locked || config_get_d(CONFIG_CHEAT))
         {
-            level_play(l, mode);
-            return goto_state(&st_level);
+            if (level_play(l, mode))
+                return goto_state(&st_level);
+            else
+            {
+                level_stop(GAME_NONE, curr_clock(), curr_coins());
+                return 1;
+            }
         }
     }
     return 1;

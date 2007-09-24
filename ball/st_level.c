@@ -26,8 +26,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int level_ok;
-
 static int level_enter(void)
 {
     int id, jd, kd, ld;
@@ -35,9 +33,6 @@ static int level_enter(void)
     const struct level_game *lg = curr_lg();
     int b;
     const float *textcol1, *textcol2;
-
-    /* Load the level */
-    level_ok = level_play_go();
 
     if ((id = gui_vstack(0)))
     {
@@ -72,10 +67,7 @@ static int level_enter(void)
         }
         gui_space(id);
 
-        if (!level_ok)
-            gui_label(id, _("Cannot load the level file."), GUI_SML, GUI_ALL,
-                      gui_red, gui_red);
-        else if (lg->level->message[0] != '\0')
+        if (strlen(lg->level->message) != 0)
             gui_multi(id, _(lg->level->message), GUI_SML, GUI_ALL, gui_wht,
                       gui_wht);
 
@@ -95,19 +87,7 @@ static void level_timer(int id, float dt)
 
 static int level_click(int b, int d)
 {
-    if (b < 0 && d == 1)
-    {
-        if (level_ok)
-        {
-            return goto_state(&st_play_ready);
-        }
-        else
-        {
-            level_stop(GAME_NONE, curr_clock(), curr_coins());
-            return goto_end_level();
-        }
-    }
-    return 1;
+    return (b < 0 && d == 1) ? goto_state(&st_play_ready) : 1;
 }
 
 static int level_keybd(int c, int d)
@@ -123,15 +103,7 @@ static int level_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
-            if (level_ok)
-            {
-                return goto_state(&st_play_ready);
-            }
-            else
-            {
-                level_stop(GAME_NONE, curr_clock(), curr_coins());
-                return goto_end_level();
-            }
+            return goto_state(&st_play_ready);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {

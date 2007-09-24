@@ -68,7 +68,7 @@ static int pause_action(int i)
     case PAUSE_RESTART:
         level_stop(GAME_NONE, curr_clock(), curr_coins());
         clear_pause();
-        level_play_go();
+        level_play(curr_lg()->level, curr_lg()->mode);
         Mix_ResumeMusic();
         config_set_grab(1);
         return goto_state(&st_play_ready);
