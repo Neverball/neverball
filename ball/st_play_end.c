@@ -70,9 +70,11 @@ static int play_end_action(int i)
 
     case PLAY_END_NEXT:
         level_next();
+        level_play(curr_lg()->level, curr_lg()->mode);
         return goto_state(&st_level);
 
     case PLAY_END_SAME:
+        level_play(curr_lg()->level, curr_lg()->mode);
         return goto_state(&st_level);
     }
 
