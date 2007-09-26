@@ -1,5 +1,5 @@
-#ifndef ST_GOAL_H
-#define ST_GOAL_H
+#ifndef ST_PLAY_END_H
+#define ST_PLAY_END_H
 
 #include "state.h"
 
