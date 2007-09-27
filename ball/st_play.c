@@ -22,7 +22,9 @@
 #include "st_shared.h"
 
 #include "st_play.h"
-#include "st_play_end.h"
+#include "st_goal.h"
+#include "st_fall_out.h"
+#include "st_time_out.h"
 #include "st_start.h"
 #include "st_pause.h"
 
@@ -200,6 +202,7 @@ static int play_loop_enter(void)
 static void play_loop_paint(int id, float st)
 {
     game_draw(0, st);
+
     if (!nohud)
         hud_paint();
 
@@ -219,25 +222,36 @@ static void play_loop_timer(int id, float dt)
 
     float g[3] = { 0.0f, -9.8f, 0.0f };
 
-    int state;
-
     at = (7 * at + dt) / 8;
 
     gui_timer(id, at);
     hud_timer(at);
     game_set_rot(view_rotate * k);
 
-    state = game_step(g, at, 1);
+    switch (game_step(g, at, 1))
+    {
+    case GAME_GOAL:
+        level_stop(GAME_GOAL, curr_clock(), curr_coins());
+        goto_state(&st_goal);
+        break;
+
+    case GAME_FALL:
+        level_stop(GAME_FALL, curr_clock(), curr_coins());
+        goto_state(&st_fall_out);
+        break;
+
+    case GAME_TIME:
+        level_stop(GAME_TIME, curr_clock(), curr_coins());
+        goto_state(&st_time_out);
+        break;
+
+    default:
+        break;
+    }
 
     game_step_fade(dt);
     demo_play_step(at);
     audio_timer(dt);
-
-    if (state)
-    {
-        level_stop(state, curr_clock(), curr_coins());
-        goto_state(&st_play_end);
-    }
 }
 
 static void play_loop_point(int id, int x, int y, int dx, int dy)
@@ -311,7 +325,7 @@ static int play_loop_keybd(int c, int d)
     if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
     {
         level_stop(GAME_GOAL, curr_clock(), curr_coins());
-        return goto_state(&st_play_end);
+        return goto_state(&st_goal);
     }
     return 1;
 }
