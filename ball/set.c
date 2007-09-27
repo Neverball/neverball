@@ -412,11 +412,10 @@ static int set_score_update(struct level_game *lg, const char *player)
 
     lg->score_rank = score_time_insert(&s->time_score, player, timer, coins);
     lg->times_rank = score_time_insert(&s->coin_score, player, timer, coins);
+
     return (lg->score_rank < 3 || lg->times_rank < 3);
 }
 
-
-#define UPDATE(i, x) (strncpy((x).player[(i)], player, MAXNAM))
 
 /* Update the player name for set and level high-score. */
 void score_change_name(struct level_game *lg, const char *player)
@@ -424,16 +423,15 @@ void score_change_name(struct level_game *lg, const char *player)
     struct set   *s = &set_v[set];
     struct level *l = &level_v[lg->level->number];
 
-    UPDATE(lg->time_rank, l->score.best_times);
-    UPDATE(lg->goal_rank, l->score.unlock_goal);
-    UPDATE(lg->coin_rank, l->score.most_coins);
-    UPDATE(lg->score_rank, s->coin_score);
-    UPDATE(lg->times_rank, s->time_score);
+    strncpy(l->score.best_times.player [lg->time_rank], player, MAXNAM);
+    strncpy(l->score.unlock_goal.player[lg->goal_rank], player, MAXNAM);
+    strncpy(l->score.most_coins.player [lg->coin_rank], player, MAXNAM);
+
+    strncpy(s->coin_score.player[lg->score_rank], player, MAXNAM);
+    strncpy(s->time_score.player[lg->times_rank], player, MAXNAM);
 
     set_store_hs();
 }
-
-#undef UPDATE
 
 static struct level *next_level(int i)
 {
