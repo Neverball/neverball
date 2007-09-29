@@ -142,8 +142,6 @@
 		815F01740AEA7C3400AFD07F /* st_set.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC2E0AEA2EF600AFD07F /* st_set.c */; };
 		815F01750AEA7C3400AFD07F /* st_save.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC2D0AEA2EF600AFD07F /* st_save.h */; };
 		815F01760AEA7C3400AFD07F /* st_save.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC2C0AEA2EF600AFD07F /* st_save.c */; };
-		815F01770AEA7C3400AFD07F /* st_play_end.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC2B0AEA2EF600AFD07F /* st_play_end.h */; };
-		815F01780AEA7C3400AFD07F /* st_play_end.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC2A0AEA2EF600AFD07F /* st_play_end.c */; };
 		815F01790AEA7C3400AFD07F /* st_play.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC290AEA2EF600AFD07F /* st_play.h */; };
 		815F017A0AEA7C3400AFD07F /* st_play.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC280AEA2EF600AFD07F /* st_play.c */; };
 		815F017B0AEA7C3400AFD07F /* st_over.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC270AEA2EF600AFD07F /* st_over.h */; };
@@ -204,6 +202,12 @@
 		B549682A0C964EBF004309DA /* lang.h in Headers */ = {isa = PBXBuildFile; fileRef = B54968290C964EBF004309DA /* lang.h */; };
 		B549682C0C964ED3004309DA /* lang.c in Sources */ = {isa = PBXBuildFile; fileRef = B549682B0C964ED3004309DA /* lang.c */; };
 		B56171BB0C96BABD00FE88EE /* lang.c in Sources */ = {isa = PBXBuildFile; fileRef = B549682B0C964ED3004309DA /* lang.c */; };
+		B57D63D10CAE8138005DE710 /* st_goal.c in Sources */ = {isa = PBXBuildFile; fileRef = B57D63CB0CAE8138005DE710 /* st_goal.c */; };
+		B57D63D20CAE8138005DE710 /* st_fall_out.h in Headers */ = {isa = PBXBuildFile; fileRef = B57D63CC0CAE8138005DE710 /* st_fall_out.h */; };
+		B57D63D30CAE8138005DE710 /* st_time_out.h in Headers */ = {isa = PBXBuildFile; fileRef = B57D63CD0CAE8138005DE710 /* st_time_out.h */; };
+		B57D63D40CAE8138005DE710 /* st_time_out.c in Sources */ = {isa = PBXBuildFile; fileRef = B57D63CE0CAE8138005DE710 /* st_time_out.c */; };
+		B57D63D50CAE8138005DE710 /* st_goal.h in Headers */ = {isa = PBXBuildFile; fileRef = B57D63CF0CAE8138005DE710 /* st_goal.h */; };
+		B57D63D60CAE8138005DE710 /* st_fall_out.c in Sources */ = {isa = PBXBuildFile; fileRef = B57D63D00CAE8138005DE710 /* st_fall_out.c */; };
 		B59445470C9641CB00EC3F09 /* neverball.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD3F0BCA1BF200915326 /* neverball.icns */; };
 		B59445480C9641D000EC3F09 /* neverputt.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD410BCA1BF200915326 /* neverputt.icns */; };
 		B5C41BFF0C905AC400C19E20 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C41BFE0C905AC400C19E20 /* libiconv.a */; };
@@ -377,8 +381,6 @@
 		815FFC270AEA2EF600AFD07F /* st_over.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = st_over.h; sourceTree = "<group>"; };
 		815FFC280AEA2EF600AFD07F /* st_play.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = st_play.c; sourceTree = "<group>"; };
 		815FFC290AEA2EF600AFD07F /* st_play.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = st_play.h; sourceTree = "<group>"; };
-		815FFC2A0AEA2EF600AFD07F /* st_play_end.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = st_play_end.c; sourceTree = "<group>"; };
-		815FFC2B0AEA2EF600AFD07F /* st_play_end.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = st_play_end.h; sourceTree = "<group>"; };
 		815FFC2C0AEA2EF600AFD07F /* st_save.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = st_save.c; sourceTree = "<group>"; };
 		815FFC2D0AEA2EF600AFD07F /* st_save.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = st_save.h; sourceTree = "<group>"; };
 		815FFC2E0AEA2EF600AFD07F /* st_set.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = st_set.c; sourceTree = "<group>"; };
@@ -1159,6 +1161,12 @@
 		B54968290C964EBF004309DA /* lang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lang.h; sourceTree = "<group>"; };
 		B549682B0C964ED3004309DA /* lang.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lang.c; sourceTree = "<group>"; };
 		B568EAF50C96BE83006D5E93 /* dmg-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "dmg-background.jpg"; sourceTree = "<group>"; };
+		B57D63CB0CAE8138005DE710 /* st_goal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_goal.c; sourceTree = "<group>"; };
+		B57D63CC0CAE8138005DE710 /* st_fall_out.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = st_fall_out.h; sourceTree = "<group>"; };
+		B57D63CD0CAE8138005DE710 /* st_time_out.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = st_time_out.h; sourceTree = "<group>"; };
+		B57D63CE0CAE8138005DE710 /* st_time_out.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_time_out.c; sourceTree = "<group>"; };
+		B57D63CF0CAE8138005DE710 /* st_goal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = st_goal.h; sourceTree = "<group>"; };
+		B57D63D00CAE8138005DE710 /* st_fall_out.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_fall_out.c; sourceTree = "<group>"; };
 		B5C41BFE0C905AC400C19E20 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiconv.a; sourceTree = "<group>"; };
 		B5C41C040C905BB800C19E20 /* iconv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iconv.h; sourceTree = "<group>"; };
 		F5A47A9D01A0482F01D3D55B /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = SOURCE_ROOT; };
@@ -1365,6 +1373,12 @@
 		815FFC0C0AEA2EF600AFD07F /* ball */ = {
 			isa = PBXGroup;
 			children = (
+				B57D63CB0CAE8138005DE710 /* st_goal.c */,
+				B57D63CC0CAE8138005DE710 /* st_fall_out.h */,
+				B57D63CD0CAE8138005DE710 /* st_time_out.h */,
+				B57D63CE0CAE8138005DE710 /* st_time_out.c */,
+				B57D63CF0CAE8138005DE710 /* st_goal.h */,
+				B57D63D00CAE8138005DE710 /* st_fall_out.c */,
 				B5412EBE0CA36C3C00C9A9F7 /* score.c */,
 				B5412EBF0CA36C3C00C9A9F7 /* score.h */,
 				B5412EC00CA36C3C00C9A9F7 /* mode.c */,
@@ -1400,8 +1414,6 @@
 				B5117CE70C9060CB005837F9 /* st_pause.h */,
 				815FFC280AEA2EF600AFD07F /* st_play.c */,
 				815FFC290AEA2EF600AFD07F /* st_play.h */,
-				815FFC2A0AEA2EF600AFD07F /* st_play_end.c */,
-				815FFC2B0AEA2EF600AFD07F /* st_play_end.h */,
 				815FFC2C0AEA2EF600AFD07F /* st_save.c */,
 				815FFC2D0AEA2EF600AFD07F /* st_save.h */,
 				815FFC2E0AEA2EF600AFD07F /* st_set.c */,
@@ -2435,7 +2447,6 @@
 				815F01710AEA7C3400AFD07F /* st_shared.h in Headers */,
 				815F01730AEA7C3400AFD07F /* st_set.h in Headers */,
 				815F01750AEA7C3400AFD07F /* st_save.h in Headers */,
-				815F01770AEA7C3400AFD07F /* st_play_end.h in Headers */,
 				815F01790AEA7C3400AFD07F /* st_play.h in Headers */,
 				815F017B0AEA7C3400AFD07F /* st_over.h in Headers */,
 				815F017D0AEA7C3400AFD07F /* st_name.h in Headers */,
@@ -2458,6 +2469,9 @@
 				B549682A0C964EBF004309DA /* lang.h in Headers */,
 				B5412EC30CA36C3C00C9A9F7 /* score.h in Headers */,
 				B5412EC50CA36C3C00C9A9F7 /* mode.h in Headers */,
+				B57D63D20CAE8138005DE710 /* st_fall_out.h in Headers */,
+				B57D63D30CAE8138005DE710 /* st_time_out.h in Headers */,
+				B57D63D50CAE8138005DE710 /* st_goal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2732,7 +2746,6 @@
 				815F01720AEA7C3400AFD07F /* st_shared.c in Sources */,
 				815F01740AEA7C3400AFD07F /* st_set.c in Sources */,
 				815F01760AEA7C3400AFD07F /* st_save.c in Sources */,
-				815F01780AEA7C3400AFD07F /* st_play_end.c in Sources */,
 				815F017A0AEA7C3400AFD07F /* st_play.c in Sources */,
 				815F017C0AEA7C3400AFD07F /* st_over.c in Sources */,
 				815F017E0AEA7C3400AFD07F /* st_name.c in Sources */,
@@ -2752,6 +2765,9 @@
 				B549682C0C964ED3004309DA /* lang.c in Sources */,
 				B5412EC20CA36C3C00C9A9F7 /* score.c in Sources */,
 				B5412EC40CA36C3C00C9A9F7 /* mode.c in Sources */,
+				B57D63D10CAE8138005DE710 /* st_goal.c in Sources */,
+				B57D63D40CAE8138005DE710 /* st_time_out.c in Sources */,
+				B57D63D60CAE8138005DE710 /* st_fall_out.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
