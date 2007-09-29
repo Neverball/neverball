@@ -33,9 +33,6 @@ ifdef MINGW
 ifndef DISABLE_NLS
     INTL_LIBS := -lintl
 endif
-endif
-
-ifdef MINGW
     OGL_LIBS  := -lopengl32 -lm
     BASE_LIBS := -lSDL -lSDL_image $(INTL_LIBS)
     ALL_LIBS  := $(SDL_LIBS) -lSDL_image $(INTL_LIBS) \
