@@ -46,29 +46,6 @@ static int debug_output = 0;
 
 /* Ohhhh... arbitrary! */
 
-/* Old Limits:
-#define MAXM    256
-#define MAXV    32767
-#define MAXE    32767
-#define MAXS    32767
-#define MAXT    32767
-#define MAXG    32767
-#define MAXL    1024
-#define MAXN    1024
-#define MAXP    512
-#define MAXB    512
-#define MAXH    1024
-#define MAXZ    16
-#define MAXJ    32
-#define MAXX    256
-#define MAXR    1024
-#define MAXU    16
-#define MAXW    32
-#define MAXD    128
-#define MAXA    8192
-#define MAXI    32767
-*/
-
 #define MAXM    1024
 #define MAXV    65534
 #define MAXE    65534
