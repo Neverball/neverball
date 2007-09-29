@@ -37,6 +37,7 @@
 #include "base_config.h"
 #include "binary.h"
 #include "level.h"
+#include "mode.h"
 
 /*----------------------------------------------------------------------------*/
 
