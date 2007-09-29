@@ -315,14 +315,13 @@ static int play_loop_keybd(int c, int d)
             view_rotate = 0;
     }
 
-    if (d && c == SDLK_F12 && config_get_d(CONFIG_CHEAT))
+    if (d && c == SDLK_F12 && config_cheat())
         return goto_state(&st_look);
 
     if (d && c == SDLK_F6)
         nohud = !nohud;
 
-    /* Cheat */
-    if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
+    if (d && c == SDLK_c && config_cheat())
     {
         level_stop(GAME_GOAL, curr_clock(), curr_coins());
         return goto_state(&st_goal);

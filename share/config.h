@@ -71,7 +71,6 @@ enum {
     CONFIG_VIEW_DZ,
     CONFIG_ROTATE_FAST,
     CONFIG_ROTATE_SLOW,
-    CONFIG_CHEAT,
     CONFIG_KEY_FORWARD,
     CONFIG_KEY_BACKWARD,
     CONFIG_KEY_LEFT,
@@ -134,7 +133,6 @@ enum {
 #define DEFAULT_VIEW_DZ              200
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
-#define DEFAULT_CHEAT                0
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "png/ball.png"
 #define DEFAULT_BALL_BONUS           "png/ball-bonus.png"
@@ -169,6 +167,10 @@ const char *config_simple_get_s(int i);
 void config_set_grab(int w);
 void config_clr_grab(void);
 int  config_get_grab(void);
+
+/*---------------------------------------------------------------------------*/
+
+int  config_cheat(void);
 
 /*---------------------------------------------------------------------------*/
 

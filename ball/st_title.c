@@ -189,9 +189,7 @@ static void title_timer(int id, float dt)
 
 static int title_keybd(int c, int d)
 {
-    if (d && c == SDLK_c && ALLOW_CHEAT)
-        config_tgl_d(CONFIG_CHEAT);
-    return 1;
+    return (d && c == SDLK_ESCAPE) ? 0 : 1;
 }
 
 static int title_buttn(int b, int d)
