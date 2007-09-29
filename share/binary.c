@@ -23,7 +23,7 @@
 
 void put_float(FILE *fout, const float *f)
 {
-    unsigned char *p = (unsigned char *) f;
+    const unsigned char *p = (const unsigned char *) f;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     fputc((int) p[3], fout);
@@ -40,7 +40,7 @@ void put_float(FILE *fout, const float *f)
 
 void put_index(FILE *fout, const int *i)
 {
-    unsigned char *p = (unsigned char *) i;
+    const unsigned char *p = (const unsigned char *) i;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     fputc((int) p[3], fout);

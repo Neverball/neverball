@@ -27,9 +27,9 @@ struct set
 
     /* Level stats */
 
-    int count;                 /* Number of levels           */
-    int locked;                /* Number of locked levels    */
-    int completed;             /* Number of completed levels */
+    unsigned int count;        /* Number of levels           */
+    unsigned int locked;       /* Number of locked levels    */
+    unsigned int completed;    /* Number of completed levels */
 };
 
 /*---------------------------------------------------------------------------*/

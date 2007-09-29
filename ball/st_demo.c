@@ -595,7 +595,7 @@ struct state st_demo = {
     shared_click,
     NULL,
     demo_buttn,
-    0
+    1, 0
 };
 
 struct state st_demo_play = {
@@ -608,7 +608,7 @@ struct state st_demo_play = {
     NULL,
     demo_play_keybd,
     demo_play_buttn,
-    0
+    1, 0
 };
 
 struct state st_demo_end = {
