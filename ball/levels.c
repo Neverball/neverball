@@ -81,8 +81,13 @@ int count_extra_balls(int old_score, int coins)
 void level_stop(int state, int clock, int coins)
 {
     struct level_game *lg = &current_level_game;
+
     int mode = lg->mode;
     int timer = (mode == MODE_PRACTICE) ? clock : lg->time - clock;
+
+    char player[MAXNAM];
+
+    config_get_s(CONFIG_PLAYER, player, MAXNAM);
 
     lg->state = state;
     lg->coins = coins;
@@ -110,7 +115,7 @@ void level_stop(int state, int clock, int coins)
     }
 
     /* Update high-scores and next level */
-    set_finish_level(lg, config_simple_get_s(CONFIG_PLAYER));
+    set_finish_level(lg, player);
 
     /* stop demo recording */
     demo_play_stop(lg);
@@ -124,7 +129,11 @@ void level_next(void)
 
 void level_update_player_name(void)
 {
-    score_change_name(&current_level_game, config_simple_get_s(CONFIG_PLAYER));
+    char player[MAXNAM];
+
+    config_get_s(CONFIG_PLAYER, player, MAXNAM);
+
+    score_change_name(&current_level_game, player);
 }
 
 /*---------------------------------------------------------------------------*/

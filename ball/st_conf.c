@@ -217,10 +217,11 @@ static int conf_enter(void)
             int s = config_get_d(CONFIG_SOUND_VOLUME);
             int m = config_get_d(CONFIG_MUSIC_VOLUME);
 
-            char res[20];
+            char res[20], player[MAXNAM];
 
             sprintf(res, "%d x %d", config_get_d(CONFIG_WIDTH),
                     config_get_d(CONFIG_HEIGHT));
+            config_get_s(CONFIG_PLAYER, player, MAXNAM);
 
             if ((kd = gui_harray(jd)))
             {
@@ -296,8 +297,7 @@ static int conf_enter(void)
                 music_id[ 1] = gui_state(kd, NULL, GUI_SML, 201, (m ==  1));
                 music_id[ 0] = gui_state(kd, NULL, GUI_SML, 200, (m ==  0));
             }
-            gui_state(jd, config_simple_get_s(CONFIG_PLAYER), GUI_SML,
-                      CONF_PLAYER, 0);
+            gui_state(jd, player, GUI_SML, CONF_PLAYER, 0);
         }
 
         if ((jd = gui_vstack(id)))

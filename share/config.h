@@ -159,8 +159,6 @@ int  config_get_d(int);
 
 void config_set_s(int, const char *);
 void config_get_s(int, char *, int);
-const char *config_simple_get_s(int i);
-
 
 /*---------------------------------------------------------------------------*/
 

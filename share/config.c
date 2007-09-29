@@ -497,11 +497,6 @@ void config_get_s(int i, char *dst, int len)
     strncpy(dst, option_s[i], len);
 }
 
-const char *config_simple_get_s(int i)
-{
-    return option_s[i];
-}
-
 /*---------------------------------------------------------------------------*/
 
 static int grabbed = 0;
