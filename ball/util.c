@@ -23,8 +23,9 @@
 
 static int is_special_name(const char *n)
 {
-    return (strcmp(n, N_("Hard")) == 0 || strcmp(n, N_("Medium")) == 0
-            || strcmp(n, N_("Easy")) == 0);
+    return (strcmp(n, N_("Hard"))   == 0 ||
+            strcmp(n, N_("Medium")) == 0 ||
+            strcmp(n, N_("Easy"))   == 0);
 }
 
 /*---------------------------------------------------------------------------*/
