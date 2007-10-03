@@ -294,7 +294,7 @@ static void conf_paint(int id, float st)
         back_draw(0);
     }
     config_pop_matrix();
-    gui_paint(id);
+    gui_paint(id, 0);
 }
 
 static void conf_timer(int id, float dt)

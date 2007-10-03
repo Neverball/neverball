@@ -128,18 +128,18 @@ void hud_paint(void)
 {
     switch (curr_lg()->mode)
     {
-    case MODE_CHALLENGE: gui_paint(Lhud_id);  break;
-    case MODE_PRACTICE:  gui_paint(Rhud2_id); break;
-    default:             gui_paint(Rhud_id);  break;
+    case MODE_CHALLENGE: gui_paint(Lhud_id,  config_cheat()); break;
+    case MODE_PRACTICE:  gui_paint(Rhud2_id, config_cheat()); break;
+    default:             gui_paint(Rhud_id,  config_cheat()); break;
     }
 
-    gui_paint(time_id);
+    gui_paint(time_id, config_cheat());
 
     if (config_get_d(CONFIG_FPS))
-        gui_paint(fps_id);
+        gui_paint(fps_id, config_cheat());
 
     if (view_timer > 0.0f)
-        gui_paint(view_id);
+        gui_paint(view_id, config_cheat());
 }
 
 void hud_update(int pulse)

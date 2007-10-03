@@ -1010,14 +1010,23 @@ int gui_delete(int id)
 
 /*---------------------------------------------------------------------------*/
 
-static void gui_paint_rect(int id, int st)
+static void gui_paint_rect(int id, int st, int alt)
 {
-    static const GLfloat back[4][4] = {
+    static const GLfloat default_back[4][4] = {
         { 0.1f, 0.1f, 0.1f, 0.5f },             /* off and inactive    */
         { 0.5f, 0.5f, 0.5f, 0.8f },             /* off and   active    */
         { 1.0f, 0.7f, 0.3f, 0.5f },             /* on  and inactive    */
         { 1.0f, 0.7f, 0.3f, 0.8f },             /* on  and   active    */
     };
+
+    static const GLfloat alt_back[4][4] = {
+        { 1.0f, 0.0f, 0.0f, 0.3f },             /* off and inactive    */
+        { 0.5f, 0.5f, 0.5f, 0.8f },             /* off and   active    */
+        { 1.0f, 0.7f, 0.3f, 0.5f },             /* on  and inactive    */
+        { 1.0f, 0.7f, 0.3f, 0.8f },             /* on  and   active    */
+    };
+
+    const GLfloat (*back)[4] = alt ? alt_back : default_back;
 
     int jd, i = 0;
 
@@ -1042,7 +1051,7 @@ static void gui_paint_rect(int id, int st)
         /* Recursively paint all subwidgets. */
 
         for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-            gui_paint_rect(jd, i);
+            gui_paint_rect(jd, i, alt);
 
         break;
 
@@ -1271,7 +1280,7 @@ static void gui_paint_text(int id)
     }
 }
 
-void gui_paint(int id)
+void gui_paint(int id, int alt)
 {
     if (id)
     {
@@ -1290,7 +1299,7 @@ void gui_paint(int id)
             glPushAttrib(GL_TEXTURE_BIT);
             {
                 glDisable(GL_TEXTURE_2D);
-                gui_paint_rect(id, 0);
+                gui_paint_rect(id, 0, alt);
             }
             glPopAttrib();
 

@@ -83,10 +83,10 @@ void hud_paint(void)
     else count++;
 
     if (config_get_d(CONFIG_FPS))
-        gui_paint(fps_id);
+        gui_paint(fps_id, 0);
 
-    gui_paint(Rhud_id);
-    gui_paint(Lhud_id);
+    gui_paint(Rhud_id, 0);
+    gui_paint(Lhud_id, 0);
 }
 
 /*---------------------------------------------------------------------------*/

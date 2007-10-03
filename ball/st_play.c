@@ -207,7 +207,7 @@ static void play_loop_paint(int id, float st)
         hud_paint();
 
     if (time_state() < 1.f)
-        gui_paint(id);
+        gui_paint(id, 0);
 }
 
 #define CAMERA_MODIFIERS (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META)
