@@ -357,7 +357,7 @@ static void demo_play_paint(int id, float st)
     hud_paint();
 
     if (time_state() < 1.f)
-        gui_paint(id, 0);
+        gui_paint(id);
 }
 
 static void demo_play_timer(int id, float dt)
@@ -495,7 +495,7 @@ static int demo_end_enter(void)
 static void demo_end_paint(int id, float st)
 {
     game_draw(0, st);
-    gui_paint(id, 0);
+    gui_paint(id);
 
     if (demo_paused)
         hud_paint();

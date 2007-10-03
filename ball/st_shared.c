@@ -29,7 +29,7 @@ void shared_leave(int id)
 void shared_paint(int id, float st)
 {
     game_draw(0, st);
-    gui_paint(id, 0);
+    gui_paint(id);
 }
 
 void shared_timer(int id, float dt)

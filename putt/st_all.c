@@ -203,7 +203,7 @@ static void title_leave(int id)
 static void title_paint(int id, float st)
 {
     game_draw(0);
-    gui_paint(id, 0);
+    gui_paint(id);
 }
 
 static void title_timer(int id, float dt)
@@ -313,7 +313,7 @@ static void course_leave(int id)
 static void course_paint(int id, float st)
 {
     game_draw(0);
-    gui_paint(id, 0);
+    gui_paint(id);
 }
 
 static void course_timer(int id, float dt)
@@ -433,7 +433,7 @@ static void party_leave(int id)
 static void party_paint(int id, float st)
 {
     game_draw(0);
-    gui_paint(id, 0);
+    gui_paint(id);
 }
 
 static void party_timer(int id, float dt)
@@ -527,7 +527,7 @@ static void pause_leave(int id)
 static void pause_paint(int id, float st)
 {
     game_draw(0);
-    gui_paint(id, 0);
+    gui_paint(id);
     hud_paint();
 }
 
@@ -627,7 +627,7 @@ static void next_paint(int id, float st)
 {
     game_draw(0);
     hud_paint();
-    gui_paint(id, 0);
+    gui_paint(id);
 }
 
 static void next_timer(int id, float dt)
@@ -846,7 +846,7 @@ static void goal_leave(int id)
 static void goal_paint(int id, float st)
 {
     game_draw(0);
-    gui_paint(id, 0);
+    gui_paint(id);
     hud_paint();
 }
 
@@ -959,7 +959,7 @@ static void fall_leave(int id)
 static void fall_paint(int id, float st)
 {
     game_draw(0);
-    gui_paint(id, 0);
+    gui_paint(id);
     hud_paint();
 }
 
@@ -1007,7 +1007,7 @@ static void score_leave(int id)
 static void score_paint(int id, float st)
 {
     game_draw(0);
-    gui_paint(id, 0);
+    gui_paint(id);
 }
 
 static void score_timer(int id, float dt)
@@ -1056,7 +1056,7 @@ static void over_leave(int id)
 static void over_paint(int id, float st)
 {
     game_draw(0);
-    gui_paint(id, 0);
+    gui_paint(id);
 }
 
 static void over_timer(int id, float dt)
