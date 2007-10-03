@@ -25,7 +25,7 @@
 
 void ball_init(int);
 void ball_free(void);
-void ball_draw(int);
+void ball_draw(void);
 
 /*---------------------------------------------------------------------------*/
 

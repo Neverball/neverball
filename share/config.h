@@ -84,7 +84,6 @@ enum {
 enum {
     CONFIG_PLAYER,
     CONFIG_BALL,
-    CONFIG_BALL_BONUS,
 
     CONFIG_OPTION_S_COUNT
 };
@@ -135,7 +134,6 @@ enum {
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "png/ball.png"
-#define DEFAULT_BALL_BONUS           "png/ball-bonus.png"
 #define DEFAULT_KEY_FORWARD          SDLK_UP
 #define DEFAULT_KEY_BACKWARD         SDLK_DOWN
 #define DEFAULT_KEY_LEFT             SDLK_LEFT

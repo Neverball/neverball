@@ -30,7 +30,7 @@
 /*---------------------------------------------------------------------------*/
 
 static GLuint ball_list;
-static GLuint ball_text[2];
+static GLuint ball_text;
 
 void ball_init(int b)
 {
@@ -39,13 +39,8 @@ void ball_init(int b)
     int j, stacks = b ? 16 :  8;
 
     config_get_s(CONFIG_BALL, name, MAXSTR);
-    ball_text[0] = make_image_from_file(NULL, NULL, NULL, NULL, name);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    config_get_s(CONFIG_BALL_BONUS, name, MAXSTR);
-    ball_text[1] = make_image_from_file(NULL, NULL, NULL, NULL, name);
+    ball_text = make_image_from_file(NULL, NULL, NULL, NULL, name);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -92,18 +87,14 @@ void ball_free(void)
     if (glIsList(ball_list))
         glDeleteLists(ball_list, 1);
 
-    if (glIsTexture(ball_text[0]))
-        glDeleteTextures(1, &ball_text[0]);
+    if (glIsTexture(ball_text))
+        glDeleteTextures(1, &ball_text);
 
-    if (glIsTexture(ball_text[1]))
-        glDeleteTextures(1, &ball_text[1]);
-
-    ball_list    = 0;
-    ball_text[0] = 0;
-    ball_text[1] = 0;
+    ball_list = 0;
+    ball_text = 0;
 }
 
-void ball_draw(int i)
+void ball_draw(void)
 {
     glPushAttrib(GL_POLYGON_BIT |
                  GL_LIGHTING_BIT |
@@ -119,7 +110,7 @@ void ball_draw(int i)
 
         glEnable(GL_COLOR_MATERIAL);
 
-        glBindTexture(GL_TEXTURE_2D, ball_text[i]);
+        glBindTexture(GL_TEXTURE_2D, ball_text);
 
         /* Render the ball back to front in case it is translucent. */
 

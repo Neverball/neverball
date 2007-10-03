@@ -108,7 +108,6 @@ void config_init(void)
     config_set_d(CONFIG_ROTATE_SLOW,          DEFAULT_ROTATE_SLOW);
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
-    config_set_s(CONFIG_BALL_BONUS,           DEFAULT_BALL_BONUS);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
     config_set_d(CONFIG_KEY_BACKWARD,         DEFAULT_KEY_BACKWARD);
     config_set_d(CONFIG_KEY_LEFT,             DEFAULT_KEY_LEFT);
@@ -234,8 +233,6 @@ void config_load(void)
                     config_set_s(CONFIG_PLAYER,     val);
                 else if (strcmp(key, "ball")       == 0)
                     config_set_s(CONFIG_BALL,       val);
-                else if (strcmp(key, "ball_bonus") == 0)
-                    config_set_s(CONFIG_BALL_BONUS, val);
             }
 
         fclose(fp);
@@ -352,7 +349,6 @@ void config_save(void)
 
         fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
         fprintf(fp, "ball                 %s\n", option_s[CONFIG_BALL]);
-        fprintf(fp, "ball_bonus           %s\n", option_s[CONFIG_BALL_BONUS]);
 
         fclose(fp);
     }

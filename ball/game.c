@@ -65,7 +65,6 @@ static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
-static int   ball_b = 0;                /* Is the ball a bonus ball?         */
 
 static int   grow = 0;                  /* Should the ball be changing size? */
 static float grow_orig = 0;             /* the original ball size            */
@@ -287,8 +286,7 @@ static void game_draw_balls(const struct s_file *fp)
                  fp->uv[0].r);
 
         glColor4fv(c);
-
-        ball_draw(ball_b);
+        ball_draw();
     }
     glPopMatrix();
 }
