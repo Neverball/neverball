@@ -13,7 +13,7 @@ struct demo
 
     int    timer;           /* elapsed time */
     int    coins;           /* coin number */
-    int    state;           /* how the replay end */
+    int    status;          /* how the replay end */
     int    mode;            /* game mode */
     time_t date;            /* date of creation */
     char   player[MAXNAM];  /* player name */

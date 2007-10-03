@@ -469,7 +469,7 @@ void set_finish_level(struct level_game *lg, const char *player)
     }
 
     /* On level completed */
-    if (lg->state == GAME_GOAL)
+    if (lg->status == GAME_GOAL)
     {
         /* Update level scores */
         dirty = level_score_update(lg, player);
@@ -488,7 +488,7 @@ void set_finish_level(struct level_game *lg, const char *player)
     }
 
     /* On goal reached */
-    if (lg->state == GAME_GOAL)
+    if (lg->status == GAME_GOAL)
     {
         /* Identify the following level */
         nl = next_level(ln);

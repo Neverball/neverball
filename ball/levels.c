@@ -52,7 +52,7 @@ int level_play(const struct level *l, int m)
 
     /* Clear other fields. */
 
-    lg->state = GAME_NONE;
+    lg->status = GAME_NONE;
     lg->coins = 0;
     lg->timer = lg->time;
     lg->coin_rank = lg->goal_rank = lg->time_rank =
@@ -76,9 +76,7 @@ int count_extra_balls(int old_score, int coins)
     return ((old_score % 100) + coins) / 100;
 }
 
-/* Stop the current playing level */
-
-void level_stop(int state, int clock, int coins)
+void level_stop(int status, int clock, int coins)
 {
     struct level_game *lg = &current_level_game;
 
@@ -89,7 +87,7 @@ void level_stop(int state, int clock, int coins)
 
     config_get_s(CONFIG_PLAYER, player, MAXNAM);
 
-    lg->state = state;
+    lg->status = status;
     lg->coins = coins;
     lg->timer = timer;
 
@@ -100,7 +98,7 @@ void level_stop(int state, int clock, int coins)
         lg->times += timer;
 
         /* sum coins an earn extra balls */
-        if (state == GAME_GOAL || lg->level->is_bonus)
+        if (status == GAME_GOAL || lg->level->is_bonus)
         {
             lg->balls += count_extra_balls(lg->score, coins);
             lg->score += coins;

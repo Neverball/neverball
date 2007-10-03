@@ -171,7 +171,7 @@ void level_dump_info(const struct level *l)
 
 /*---------------------------------------------------------------------------*/
 
-const char *state_to_str(int m)
+const char *status_to_str(int m)
 {
     switch (m)
     {

@@ -59,7 +59,7 @@ void demo_dump_info(const struct demo *d)
            "Balls:        %d\n"
            "Total Time:   %d\n",
            d->name, d->filename,
-           d->timer, d->coins, d->mode, d->state, ctime(&d->date),
+           d->timer, d->coins, d->mode, d->status, ctime(&d->date),
            d->player,
            d->shot, d->file, d->back, d->grad, d->song,
            d->time, d->goal, d->score, d->balls, d->times);
@@ -104,7 +104,7 @@ static int demo_header_read(FILE *fp, struct demo *d)
         d->timer = t;
 
         get_index(fp, &d->coins);
-        get_index(fp, &d->state);
+        get_index(fp, &d->status);
         get_index(fp, &d->mode);
 
         fread(d->player, 1, MAXNAM, fp);
@@ -201,16 +201,14 @@ static void demo_header_write(FILE *fp, struct demo *d)
     put_index(fp, &d->times);
 }
 
-/* Update the demo header using the final level state. */
-
-void demo_header_stop(FILE *fp, int coins, int timer, int state)
+void demo_header_stop(FILE *fp, int coins, int timer, int status)
 {
     long pos = ftell(fp);
 
     fseek(fp, 8, SEEK_SET);
     put_index(fp, &timer);
     put_index(fp, &coins);
-    put_index(fp, &state);
+    put_index(fp, &status);
     fseek(fp, pos, SEEK_SET);
 }
 
@@ -390,13 +388,11 @@ void demo_play_step(float dt)
     }
 }
 
-/* Update the demo header using the final level state. */
-
 void demo_play_stop(const struct level_game *lg)
 {
     if (demo_fp)
     {
-        demo_header_stop(demo_fp, lg->coins, lg->timer, lg->state);
+        demo_header_stop(demo_fp, lg->coins, lg->timer, lg->status);
         fclose(demo_fp);
         demo_fp = NULL;
     }

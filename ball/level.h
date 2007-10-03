@@ -66,7 +66,7 @@ struct level_game
     int times;         /* time total */
 
     /* Once a level is finished */
-    int state;         /* state ending */
+    int status;        /* status ending */
     int coins;         /* coins collected */
     int timer;         /* time elapsed */
 
@@ -91,6 +91,6 @@ struct level_game
 #define GAME_GOAL 2     /* Goal reached */
 #define GAME_FALL 3     /* Fall out */
 
-const char *state_to_str(int);
+const char *status_to_str(int);
 
 #endif
