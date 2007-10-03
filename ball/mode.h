@@ -7,6 +7,8 @@
 #define MODE_NORMAL     2
 #define MODE_PRACTICE   3
 
+#define MODE_COUNT 3
+
 void mode_set(int);
 int  curr_mode(void);
 

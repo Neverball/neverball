@@ -83,6 +83,7 @@ static int pause_action(int i)
     return 1;
 }
 
+/*---------------------------------------------------------------------------*/
 
 static int pause_enter(void)
 {
@@ -124,13 +125,13 @@ static int pause_enter(void)
     return id;
 }
 
-void pause_paint(int id, float st)
+static void pause_paint(int id, float st)
 {
     shared_paint(id, st);
     hud_paint();
 }
 
-void pause_timer(int id, float dt)
+static void pause_timer(int id, float dt)
 {
     gui_timer(id, dt);
     hud_timer (dt);

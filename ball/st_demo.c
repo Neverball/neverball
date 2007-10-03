@@ -131,15 +131,10 @@ static int gui_demo_status(int id, const struct demo *d)
         mode = mode_to_str(0, 0);
         j = strlen(mode);
 
-        /* FIXME
-         *
-         * This stuff should not require changes each time a mode is
-         * added or removed.
-         */
-
-        for (i = 1; i <= MODE_PRACTICE; i++)
+        for (i = 1; i <= MODE_COUNT; i++)
         {
             k = strlen(mode_to_str(i, 0));
+
             if (k > j)
             {
                 j = k;

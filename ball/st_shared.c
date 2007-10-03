@@ -38,8 +38,9 @@ void shared_timer(int id, float dt)
     audio_timer(dt);
 }
 
-int shared_point_basic(int id, int x, int y)
 /* Pulse, activate and return the active id (if changed)*/
+
+int shared_point_basic(int id, int x, int y)
 {
     int jd = gui_point(id, x, y);
     if (jd)

@@ -43,6 +43,8 @@ static int balls_id;
 static int coins_id;
 static int score_id;
 
+/* Bread crumbs. */
+
 static int new_name;
 static int be_back_soon;
 
@@ -90,6 +92,9 @@ static int goal_action(int i)
 
 static int goal_enter(void)
 {
+    const char *s1 = _("New Record");
+    const char *s2 = _("GOAL");
+
     int id, jd, kd;
 
     const struct level_game *lg = curr_lg();
@@ -113,9 +118,9 @@ static int goal_enter(void)
         int gid;
 
         if (high)
-            gid = gui_label(id, _("New Record"), GUI_MED, GUI_ALL, gui_grn, gui_grn);
+            gid = gui_label(id, s1, GUI_MED, GUI_ALL, gui_grn, gui_grn);
         else
-            gid = gui_label(id, _("GOAL"), GUI_LRG, GUI_ALL, gui_blu, gui_grn);
+            gid = gui_label(id, s2, GUI_LRG, GUI_ALL, gui_blu, gui_grn);
 
         gui_space(id);
 

@@ -136,6 +136,8 @@ int level_same(void)
     return level_play(curr_lg()->level, curr_lg()->mode);
 }
 
+/*---------------------------------------------------------------------------*/
+
 void level_update_player_name(void)
 {
     char player[MAXNAM];
@@ -146,4 +148,3 @@ void level_update_player_name(void)
 }
 
 /*---------------------------------------------------------------------------*/
-
