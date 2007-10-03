@@ -56,30 +56,32 @@ static int goal_action(int i)
         /* Fall through. */
 
     case GOAL_OVER:
-        if (curr_lg()->mode == MODE_CHALLENGE)
-            return goto_state(&st_over);
-        else
-            return goto_state(&st_start);
+        level_stop();
+        return goto_state(&st_over);
 
     case GOAL_SAVE:
         be_back_soon = 1;
+
+        level_stop();
         return goto_save(&st_goal, &st_goal);
 
     case GOAL_NAME:
         new_name = 1;
         be_back_soon = 1;
+
+        level_stop();
         return goto_name(&st_goal, &st_goal);
 
     case GOAL_DONE:
+        level_stop();
         return goto_state(&st_done);
 
     case GOAL_NEXT:
         level_next();
-        level_play(curr_lg()->level, curr_lg()->mode);
         return goto_state(&st_level);
 
     case GOAL_SAME:
-        level_play(curr_lg()->level, curr_lg()->mode);
+        level_same();
         return goto_state(&st_level);
     }
 
@@ -179,7 +181,7 @@ static int goal_enter(void)
                                      lg->mode != MODE_CHALLENGE);
             }
 
-            gui_maybe(jd, _("Save Replay"), GOAL_SAVE, demo_play_saved());
+            gui_maybe(jd, _("Save Replay"), GOAL_SAVE, demo_saved());
 
             /* Default is next if the next level is newly unlocked. */
 
@@ -224,7 +226,7 @@ static void goal_timer(int id, float dt)
     if (time_state() < 1.f)
     {
         game_step(g, dt, 0);
-        /* demo_play_step(dt); */
+        demo_play_step(dt);
     }
     else if (DT > 0.05f && coins_id)
     {
@@ -267,15 +269,13 @@ static int goal_buttn(int b, int d)
     return 1;
 }
 
-
-void goal_leave(int id)
+static void goal_leave(int id)
 {
     /* HACK:  don't run animation if only "visiting" a state. */
     st_goal.timer = be_back_soon ? shared_timer : goal_timer;
 
     gui_delete(id);
 }
-
 
 /*---------------------------------------------------------------------------*/
 

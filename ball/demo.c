@@ -402,12 +402,12 @@ void demo_play_stop(void)
     }
 }
 
-int demo_play_saved(void)
+int demo_saved(void)
 {
     return demo_exists(USER_REPLAY_FILE);
 }
 
-void demo_play_save(const char *name)
+void demo_rename(const char *name)
 {
     char src[MAXSTR];
     char dst[MAXSTR];
@@ -447,11 +447,12 @@ const struct demo *curr_demo_replay(void)
     return &demo_replay;
 }
 
-/* Internally load a replay and fill the lg structure (if not NULL) */
+static int demo_status = GAME_NONE;
 
 int demo_replay_init(const char *name, struct level_game *lg)
 {
-    demo_fp = fopen(name, FMODE_RB);
+    demo_status = GAME_NONE;
+    demo_fp     = fopen(name, FMODE_RB);
 
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
@@ -492,7 +493,10 @@ int demo_replay_step(float *dt)
         {
             /* Play out current game state for particles, clock, etc. */
 
-            game_step(g, *dt, 1);
+            if (demo_status == GAME_NONE)
+                demo_status = game_step(g, *dt, 1);
+            else
+                game_step(g, *dt, 0);
 
             /* Load real current game state from file. */
 

@@ -29,20 +29,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-int goto_end_level(void)
-{
-    switch (curr_lg()->mode)
-    {
-    case MODE_CHALLENGE:
-        return goto_state(&st_over);
-    default:
-        return goto_state(&st_start);
-    }
-}
-
-
-/*---------------------------------------------------------------------------*/
-
 #define START_BACK      -1
 #define START_PRACTICE  -2
 #define START_NORMAL    -3
@@ -199,10 +185,11 @@ static int start_action(int i)
         if (!l->is_locked || config_cheat())
         {
             if (level_play(l, mode))
+            {
                 return goto_state(&st_level);
+            }
             else
             {
-                level_stat(GAME_NONE, curr_clock(), curr_coins());
                 level_stop();
                 return 1;
             }

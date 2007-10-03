@@ -21,6 +21,7 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
+#include "levels.h"
 
 #include "st_shared.h"
 #include "st_save.h"
@@ -63,11 +64,12 @@ static int save_action(int i)
     case SAVE_SAVE:
         if (strlen(filename) == 0)
             return 1;
+
         if (demo_exists(filename))
             return goto_state(&st_clobber);
         else
         {
-            demo_play_save(filename);
+            demo_rename(filename);
             return goto_state(ok_state);
         }
 
@@ -175,7 +177,7 @@ static int clobber_action(int i)
 
     if (i == SAVE_SAVE)
     {
-        demo_play_save(filename);
+        demo_rename(filename);
         return goto_state(ok_state);
     }
     return goto_state(&st_save);

@@ -23,6 +23,7 @@
 #include "st_level.h"
 #include "st_play.h"
 #include "st_start.h"
+#include "st_over.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -109,7 +110,7 @@ static int level_buttn(int b, int d)
         {
             level_stat(GAME_NONE, curr_clock(), curr_coins());
             level_stop();
-            return goto_end_level();
+            return goto_state(&st_over);
         }
     }
     return 1;

@@ -121,10 +121,19 @@ void level_stop(void)
     demo_play_stop();
 }
 
-void level_next(void)
+int level_next(void)
 {
     struct level_game *lg = &current_level_game;
+
+    level_stop();
     lg->level = lg->next_level;
+    return level_play(lg->level, lg->mode);
+}
+
+int level_same(void)
+{
+    level_stop();
+    return level_play(curr_lg()->level, curr_lg()->mode);
 }
 
 void level_update_player_name(void)

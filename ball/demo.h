@@ -50,8 +50,9 @@ int  demo_play_init(const char *, const struct level *,
 void demo_play_step(float);
 void demo_play_stat(const struct level_game *);
 void demo_play_stop(void);
-int  demo_play_saved(void);
-void demo_play_save(const char *);
+
+int  demo_saved (void);
+void demo_rename(const char *);
 
 /*---------------------------------------------------------------------------*/
 

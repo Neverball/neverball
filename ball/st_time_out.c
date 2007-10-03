@@ -45,21 +45,19 @@ static int time_out_action(int i)
         /* Fall through. */
 
     case TIME_OUT_OVER:
-        if (curr_lg()->mode == MODE_CHALLENGE)
-            return goto_state(&st_over);
-        else
-            return goto_state(&st_start);
+        level_stop();
+        return goto_state(&st_over);
 
     case TIME_OUT_SAVE:
+        level_stop();
         return goto_save(&st_time_out, &st_time_out);
 
     case TIME_OUT_NEXT:
         level_next();
-        level_play(curr_lg()->level, curr_lg()->mode);
         return goto_state(&st_level);
 
     case TIME_OUT_SAME:
-        level_play(curr_lg()->level, curr_lg()->mode);
+        level_same();
         return goto_state(&st_level);
     }
 
@@ -93,7 +91,7 @@ static int time_out_enter(void)
                                      lg->mode != MODE_CHALLENGE);
             }
 
-            gui_maybe(jd, _("Save Replay"), TIME_OUT_SAVE, demo_play_saved());
+            gui_maybe(jd, _("Save Replay"), TIME_OUT_SAVE, demo_saved());
 
             /* Default is next if the next level is newly unlocked. */
 

@@ -25,7 +25,7 @@
 #include "st_goal.h"
 #include "st_fall_out.h"
 #include "st_time_out.h"
-#include "st_start.h"
+#include "st_over.h"
 #include "st_pause.h"
 
 /*---------------------------------------------------------------------------*/
@@ -39,10 +39,10 @@ static int pause_or_exit(void)
         level_stat(GAME_NONE, curr_clock(), curr_coins());
         level_stop();
         config_clr_grab();
-        return goto_state(&st_start);
+        
+        return goto_state(&st_over);
     }
-    else
-        return goto_pause();
+    return goto_pause();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -233,19 +233,16 @@ static void play_loop_timer(int id, float dt)
     {
     case GAME_GOAL:
         level_stat(GAME_GOAL, curr_clock(), curr_coins());
-        level_stop();
         goto_state(&st_goal);
         break;
 
     case GAME_FALL:
         level_stat(GAME_FALL, curr_clock(), curr_coins());
-        level_stop();
         goto_state(&st_fall_out);
         break;
 
     case GAME_TIME:
         level_stat(GAME_TIME, curr_clock(), curr_coins());
-        level_stop();
         goto_state(&st_time_out);
         break;
 
@@ -304,9 +301,7 @@ static int play_loop_keybd(int c, int d)
         if (config_tst_d(CONFIG_KEY_RESTART, c) &&
             curr_lg()->mode != MODE_CHALLENGE)
         {
-            level_stat(GAME_NONE, curr_clock(), curr_coins());
-            level_stop();
-            level_play(curr_lg()->level, curr_lg()->mode);
+            level_same();
             goto_state(&st_play_ready);
         }
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
@@ -329,7 +324,6 @@ static int play_loop_keybd(int c, int d)
     if (d && c == SDLK_c && config_cheat())
     {
         level_stat(GAME_GOAL, curr_clock(), curr_coins());
-        level_stop();
         return goto_state(&st_goal);
     }
     return 1;

@@ -73,6 +73,8 @@ static int demo_action(int i)
     return 1;
 }
 
+/*---------------------------------------------------------------------------*/
+
 static void demo_replay(int id, int i)
 {
     int w = config_get_d(CONFIG_WIDTH);
@@ -232,6 +234,8 @@ static void gui_demo_update_status(int i)
     gui_set_clock(time_id, d->timer);
 }
 
+/*---------------------------------------------------------------------------*/
+
 static int demo_enter(void)
 {
     int i, j;
@@ -309,7 +313,8 @@ static int demo_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int simple_play; /* play demo from command line */
+/* Play demo from command line. */
+static int simple_play;
 
 static int demo_paused;
 
@@ -487,32 +492,13 @@ static int demo_end_enter(void)
     return id;
 }
 
-void demo_end_paint(int id, float st)
+static void demo_end_paint(int id, float st)
 {
     game_draw(0, st);
     gui_paint(id, 0);
 
     if (demo_paused)
         hud_paint();
-}
-
-static void demo_end_timer(int id, float dt)
-{
-    float gg[3] = { 0.0f,  9.8f, 0.0f };
-    float gf[3] = { 0.0f, -9.8f, 0.0f };
-    int status = curr_demo_replay()->status;
-
-    if (time_state() < 2.f)
-    {
-        if (replay_time < global_time)
-        {
-            if (status != GAME_NONE && status != GAME_TIME)
-                game_step(status == GAME_GOAL ? gg : gf, dt, 0);
-        }
-    }
-
-    gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static int demo_end_keybd(int c, int d)
@@ -615,7 +601,7 @@ struct state st_demo_end = {
     demo_end_enter,
     shared_leave,
     demo_end_paint,
-    demo_end_timer,
+    shared_timer,
     shared_point,
     shared_stick,
     shared_click,

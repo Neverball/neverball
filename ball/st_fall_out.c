@@ -47,22 +47,21 @@ static int fall_out_action(int i)
         /* Fall through. */
 
     case FALL_OUT_OVER:
-        if (curr_lg()->mode == MODE_CHALLENGE)
-            return goto_state(&st_over);
-        else
-            return goto_state(&st_start);
+        level_stop();
+        return goto_state(&st_over);
 
     case FALL_OUT_SAVE:
         be_back_soon = 1;
+
+        level_stop();
         return goto_save(&st_fall_out, &st_fall_out);
 
     case FALL_OUT_NEXT:
         level_next();
-        level_play(curr_lg()->level, curr_lg()->mode);
         return goto_state(&st_level);
 
     case FALL_OUT_SAME:
-        level_play(curr_lg()->level, curr_lg()->mode);
+        level_same();
         return goto_state(&st_level);
     }
 
@@ -101,7 +100,7 @@ static int fall_out_enter(void)
                                      lg->mode != MODE_CHALLENGE);
             }
 
-            gui_maybe(jd, _("Save Replay"), FALL_OUT_SAVE, demo_play_saved());
+            gui_maybe(jd, _("Save Replay"), FALL_OUT_SAVE, demo_saved());
 
             /* Default is next if the next level is newly unlocked. */
 
@@ -132,7 +131,7 @@ static void fall_out_timer(int id, float dt)
     if (time_state() < 2.f)
     {
         game_step(g, dt, 0);
-        /* demo_play_step(dt); */
+        demo_play_step(dt);
     }
 
     gui_timer(id, dt);
@@ -151,7 +150,7 @@ static int fall_out_buttn(int b, int d)
     return 1;
 }
 
-void fall_out_leave(int id)
+static void fall_out_leave(int id)
 {
     /* HACK:  don't run animation if only "visiting" a state. */
     st_fall_out.timer = be_back_soon ? shared_timer : fall_out_timer;

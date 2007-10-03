@@ -11,8 +11,8 @@ int  level_replay(const char *);
 int  level_play(const struct level *, int);
 void level_stat(int, int, int);
 void level_stop(void);
-void level_next(void);
-
+int  level_next(void);
+int  level_same(void);
 
 int  count_extra_balls(int, int);
 
