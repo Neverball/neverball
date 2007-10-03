@@ -76,7 +76,7 @@ int count_extra_balls(int old_score, int coins)
     return ((old_score % 100) + coins) / 100;
 }
 
-void level_stop(int status, int clock, int coins)
+void level_stat(int status, int clock, int coins)
 {
     struct level_game *lg = &current_level_game;
 
@@ -91,7 +91,6 @@ void level_stop(int status, int clock, int coins)
     lg->coins = coins;
     lg->timer = timer;
 
-    /* Performs challenge mode operations */
     if (mode == MODE_CHALLENGE)
     {
         /* sum time */
@@ -112,11 +111,14 @@ void level_stop(int status, int clock, int coins)
         }
     }
 
-    /* Update high-scores and next level */
     set_finish_level(lg, player);
 
-    /* stop demo recording */
-    demo_play_stop(lg);
+    demo_play_stat(lg);
+}
+
+void level_stop(void)
+{
+    demo_play_stop();
 }
 
 void level_next(void)

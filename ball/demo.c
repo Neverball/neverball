@@ -201,17 +201,6 @@ static void demo_header_write(FILE *fp, struct demo *d)
     put_index(fp, &d->times);
 }
 
-void demo_header_stop(FILE *fp, int coins, int timer, int status)
-{
-    long pos = ftell(fp);
-
-    fseek(fp, 8, SEEK_SET);
-    put_index(fp, &timer);
-    put_index(fp, &coins);
-    put_index(fp, &status);
-    fseek(fp, pos, SEEK_SET);
-}
-
 /*---------------------------------------------------------------------------*/
 
 /* Scan another file (used by demo_scan). */
@@ -388,11 +377,26 @@ void demo_play_step(float dt)
     }
 }
 
-void demo_play_stop(const struct level_game *lg)
+void demo_play_stat(const struct level_game *lg)
 {
     if (demo_fp)
     {
-        demo_header_stop(demo_fp, lg->coins, lg->timer, lg->status);
+        long pos = ftell(demo_fp);
+
+        fseek(demo_fp, 8, SEEK_SET);
+
+        put_index(demo_fp, &lg->timer);
+        put_index(demo_fp, &lg->coins);
+        put_index(demo_fp, &lg->status);
+
+        fseek(demo_fp, pos, SEEK_SET);
+    }
+}
+
+void demo_play_stop(void)
+{
+    if (demo_fp)
+    {
         fclose(demo_fp);
         demo_fp = NULL;
     }

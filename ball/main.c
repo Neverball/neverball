@@ -276,6 +276,8 @@ static void parse_args(int argc, char **argv)
     return;
 }
 
+/*---------------------------------------------------------------------------*/
+
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;

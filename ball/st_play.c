@@ -36,7 +36,8 @@ static int pause_or_exit(void)
 {
     if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META))
     {
-        level_stop(GAME_NONE, curr_clock(), curr_coins());
+        level_stat(GAME_NONE, curr_clock(), curr_coins());
+        level_stop();
         config_clr_grab();
         return goto_state(&st_start);
     }
@@ -231,17 +232,20 @@ static void play_loop_timer(int id, float dt)
     switch (game_step(g, at, 1))
     {
     case GAME_GOAL:
-        level_stop(GAME_GOAL, curr_clock(), curr_coins());
+        level_stat(GAME_GOAL, curr_clock(), curr_coins());
+        level_stop();
         goto_state(&st_goal);
         break;
 
     case GAME_FALL:
-        level_stop(GAME_FALL, curr_clock(), curr_coins());
+        level_stat(GAME_FALL, curr_clock(), curr_coins());
+        level_stop();
         goto_state(&st_fall_out);
         break;
 
     case GAME_TIME:
-        level_stop(GAME_TIME, curr_clock(), curr_coins());
+        level_stat(GAME_TIME, curr_clock(), curr_coins());
+        level_stop();
         goto_state(&st_time_out);
         break;
 
@@ -300,7 +304,8 @@ static int play_loop_keybd(int c, int d)
         if (config_tst_d(CONFIG_KEY_RESTART, c) &&
             curr_lg()->mode != MODE_CHALLENGE)
         {
-            level_stop(GAME_NONE, curr_clock(), curr_coins());
+            level_stat(GAME_NONE, curr_clock(), curr_coins());
+            level_stop();
             level_play(curr_lg()->level, curr_lg()->mode);
             goto_state(&st_play_ready);
         }
@@ -323,7 +328,8 @@ static int play_loop_keybd(int c, int d)
 
     if (d && c == SDLK_c && config_cheat())
     {
-        level_stop(GAME_GOAL, curr_clock(), curr_coins());
+        level_stat(GAME_GOAL, curr_clock(), curr_coins());
+        level_stop();
         return goto_state(&st_goal);
     }
     return 1;

@@ -107,7 +107,8 @@ static int level_buttn(int b, int d)
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
-            level_stop(GAME_NONE, curr_clock(), curr_coins());
+            level_stat(GAME_NONE, curr_clock(), curr_coins());
+            level_stop();
             return goto_end_level();
         }
     }

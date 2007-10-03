@@ -202,7 +202,8 @@ static int start_action(int i)
                 return goto_state(&st_level);
             else
             {
-                level_stop(GAME_NONE, curr_clock(), curr_coins());
+                level_stat(GAME_NONE, curr_clock(), curr_coins());
+                level_stop();
                 return 1;
             }
         }
