@@ -33,6 +33,8 @@ static float real_time = 0.0f;
 static float demo_time = 0.0f;
 static int   mode      = 0;
 
+static int play_id = 0;
+
 #define TITLE_PLAY 1
 #define TITLE_HELP 2
 #define TITLE_DEMO 3
@@ -41,7 +43,13 @@ static int   mode      = 0;
 
 static int title_action(int i)
 {
+    static const char keyphrase[] = "CHEATER";
+    static char queue[sizeof (keyphrase)] = "";
+
+    size_t queue_len = strlen(queue);
+
     char player[MAXNAM];
+
     audio_play(AUD_MENU, 1.0f);
 
     switch (i)
@@ -60,6 +68,43 @@ static int title_action(int i)
     case TITLE_DEMO: return goto_state(&st_demo); break;
     case TITLE_CONF: return goto_state(&st_conf); break;
     case TITLE_EXIT: return 0;                    break;
+
+    default:
+
+        /* Let the queue fill up. */
+
+        if (queue_len < sizeof (queue) - 1)
+        {
+            queue[queue_len]     = (char) i;
+            queue[queue_len + 1] = '\0';
+        }
+
+        /* Advance the queue before adding the new element. */
+
+        else
+        {
+            int k;
+
+            for (k = 1; k < queue_len; k++)
+                queue[k - 1] = queue[k];
+
+            queue[queue_len - 1] = (char) i;
+        }
+
+        if (strcmp(queue, keyphrase) == 0)
+        {
+            config_set_cheat();
+            gui_set_label(play_id, sgettext("menu^Cheat"));
+            gui_pulse(play_id, 1.2f);
+        }
+        else if (config_cheat())
+        {
+            config_clr_cheat();
+            gui_set_label(play_id, sgettext("menu^Play"));
+            gui_pulse(play_id, 1.2f);
+        }
+
+        break;
     }
     return 1;
 }
@@ -85,11 +130,11 @@ static int title_enter(void)
             if ((kd = gui_varray(jd)))
             {
                 if (config_cheat())
-                    gui_start(kd, sgettext("menu^Cheat"),
-                              GUI_MED, TITLE_PLAY, 1);
+                    play_id = gui_start(kd, sgettext("menu^Cheat"),
+                                        GUI_MED, TITLE_PLAY, 1);
                 else
-                    gui_start(kd, sgettext("menu^Play"),
-                              GUI_MED, TITLE_PLAY, 1);
+                    play_id = gui_start(kd, sgettext("menu^Play"),
+                                        GUI_MED, TITLE_PLAY, 1);
 
                 gui_state(kd, sgettext("menu^Replay"),  GUI_MED, TITLE_DEMO, 0);
                 gui_state(kd, sgettext("menu^Help"),    GUI_MED, TITLE_HELP, 0);
@@ -114,11 +159,14 @@ static int title_enter(void)
     demo_time = 0.0f;
     mode = 0;
 
+    SDL_EnableUNICODE(1);
+
     return id;
 }
 
 static void title_leave(int id)
 {
+    SDL_EnableUNICODE(0);
     demo_replay_stop(0);
     gui_delete(id);
 }
@@ -196,7 +244,9 @@ static void title_timer(int id, float dt)
 
 static int title_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? 0 : 1;
+    if (d && (c & 0xFF80) == 0 && c > ' ')
+        return title_action(c);
+    return 1;
 }
 
 static int title_buttn(int b, int d)

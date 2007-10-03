@@ -57,8 +57,6 @@
 #define USER_REPLAY_FILE    "Last"
 #define REPLAY_EXT          ".nbr"
 
-#define CHEATER 1
-
 /*---------------------------------------------------------------------------*/
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN

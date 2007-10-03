@@ -108,6 +108,7 @@ void config_init(void)
     config_set_d(CONFIG_ROTATE_SLOW,          DEFAULT_ROTATE_SLOW);
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
+    config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
     config_set_d(CONFIG_KEY_BACKWARD,         DEFAULT_KEY_BACKWARD);
     config_set_d(CONFIG_KEY_LEFT,             DEFAULT_KEY_LEFT);
@@ -224,15 +225,18 @@ void config_load(void)
                 else if (strcmp(key, "key_camera_l")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_L, DEFAULT_KEY_CAMERA_L);
 
-                else if (strcmp(key, "key_pause")  == 0)
-                    config_key(val, CONFIG_KEY_PAUSE,    DEFAULT_KEY_PAUSE);
+                else if (strcmp(key, "key_pause")    == 0)
+                    config_key(val, CONFIG_KEY_PAUSE,   DEFAULT_KEY_PAUSE);
                 else if (strcmp(key, "key_restart")  == 0)
-                    config_key(val, CONFIG_KEY_RESTART,    DEFAULT_KEY_RESTART);
+                    config_key(val, CONFIG_KEY_RESTART, DEFAULT_KEY_RESTART);
 
-                else if (strcmp(key, "player")     == 0)
-                    config_set_s(CONFIG_PLAYER,     val);
-                else if (strcmp(key, "ball")       == 0)
-                    config_set_s(CONFIG_BALL,       val);
+                else if (strcmp(key, "player") == 0)
+                    config_set_s(CONFIG_PLAYER, val);
+                else if (strcmp(key, "ball") == 0)
+                    config_set_s(CONFIG_BALL, val);
+
+                else if (strcmp(key, "cheat") == 0)
+                    config_set_d(CONFIG_CHEAT, atoi(val));
             }
 
         fclose(fp);
@@ -349,6 +353,9 @@ void config_save(void)
 
         fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
         fprintf(fp, "ball                 %s\n", option_s[CONFIG_BALL]);
+
+        if (config_cheat())
+            fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
 
         fclose(fp);
     }
@@ -523,11 +530,17 @@ int  config_get_grab(void)
 
 int config_cheat(void)
 {
-#if CHEATER
-    return strcmp(option_s[CONFIG_PLAYER], "CHEATER") == 0;
-#else
-    return 0;
-#endif
+    return config_get_d(CONFIG_CHEAT);
+}
+
+void config_set_cheat(void)
+{
+    config_set_d(CONFIG_CHEAT, 1);
+}
+
+void config_clr_cheat(void)
+{
+    config_set_d(CONFIG_CHEAT, 0);
 }
 
 /*---------------------------------------------------------------------------*/

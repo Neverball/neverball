@@ -77,6 +77,7 @@ enum {
     CONFIG_KEY_RIGHT,
     CONFIG_KEY_PAUSE,
     CONFIG_KEY_RESTART,
+    CONFIG_CHEAT,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -134,6 +135,7 @@ enum {
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "png/ball.png"
+#define DEFAULT_CHEAT                0
 #define DEFAULT_KEY_FORWARD          SDLK_UP
 #define DEFAULT_KEY_BACKWARD         SDLK_DOWN
 #define DEFAULT_KEY_LEFT             SDLK_LEFT
@@ -167,6 +169,8 @@ int  config_get_grab(void);
 /*---------------------------------------------------------------------------*/
 
 int  config_cheat(void);
+void config_set_cheat(void);
+void config_clr_cheat(void);
 
 /*---------------------------------------------------------------------------*/
 
