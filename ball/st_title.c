@@ -75,6 +75,7 @@ static int title_enter(void)
     if ((id = gui_vstack(0)))
     {
         gui_label(id, "Neverball", GUI_LRG, GUI_ALL, 0, 0);
+
         gui_space(id);
 
         if ((jd = gui_harray(id)))
@@ -83,7 +84,13 @@ static int title_enter(void)
 
             if ((kd = gui_varray(jd)))
             {
-                gui_start(kd, sgettext("menu^Play"),    GUI_MED, TITLE_PLAY, 1);
+                if (config_cheat())
+                    gui_start(kd, sgettext("menu^Cheat"),
+                              GUI_MED, TITLE_PLAY, 1);
+                else
+                    gui_start(kd, sgettext("menu^Play"),
+                              GUI_MED, TITLE_PLAY, 1);
+
                 gui_state(kd, sgettext("menu^Replay"),  GUI_MED, TITLE_DEMO, 0);
                 gui_state(kd, sgettext("menu^Help"),    GUI_MED, TITLE_HELP, 0);
                 gui_state(kd, sgettext("menu^Options"), GUI_MED, TITLE_CONF, 0);
