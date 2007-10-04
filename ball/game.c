@@ -446,8 +446,8 @@ static void game_refl_all(int s)
 static void game_draw_light(void)
 {
     const float light_p[2][4] = {
-        { -8.0f, +32.0f, -8.0f, 1.0f },
-        { +8.0f, +32.0f, +8.0f, 1.0f },
+        { -8.0f, +32.0f, -8.0f, 0.0f },
+        { +8.0f, +32.0f, +8.0f, 0.0f },
     };
     const float light_c[2][4] = {
         { 1.0f, 0.8f, 0.8f, 1.0f },
