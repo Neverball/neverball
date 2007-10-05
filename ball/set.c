@@ -416,7 +416,6 @@ static int set_score_update(struct level_game *lg, const char *player)
     return (lg->score_rank < 3 || lg->times_rank < 3);
 }
 
-
 /* Update the player name for set and level high-score. */
 void score_change_name(struct level_game *lg, const char *player)
 {
@@ -447,8 +446,7 @@ static struct level *next_normal_level(int i)
     return NULL;
 }
 
-/* Inform the set that a level is finished.  Update next level and score
- * rank fields. */
+/*---------------------------------------------------------------------------*/
 
 void set_finish_level(struct level_game *lg, const char *player)
 {
