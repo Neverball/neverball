@@ -33,7 +33,9 @@
 #define DONE_OK   1
 #define DONE_NAME 2
 
-extern struct state st_done_bis;
+/* Bread crumbs. */
+
+static int new_name;
 
 static int done_action(int i)
 {
@@ -45,19 +47,26 @@ static int done_action(int i)
         return goto_state(&st_start);
 
     case DONE_NAME:
-        return goto_name(&st_done_bis, &st_done_bis);
+        new_name = 1;
+        return goto_name(&st_done, &st_done);
     }
     return 1;
 }
 
-static int done_init(int *gidp)
+static int done_enter(void)
 {
-    const char *s1 = _("New Challenge Record");
-    const char *s2 = _("Challenge Complete");
+    const char *s1 = _("New Set Record");
+    const char *s2 = _("Set Complete");
 
     int id, jd;
 
     int high = (curr_lg()->times_rank < 3) || (curr_lg()->score_rank < 3);
+
+    if (new_name)
+    {
+        level_update_player_name();
+        new_name = 0;
+    }
 
     if ((id = gui_vstack(0)))
     {
@@ -67,9 +76,6 @@ static int done_init(int *gidp)
             gid = gui_label(id, s1, GUI_MED, GUI_ALL, gui_grn, gui_grn);
         else
             gid = gui_label(id, s2, GUI_MED, GUI_ALL, gui_blu, gui_grn);
-
-        if (gidp)
-            *gidp = gid;
 
         gui_space(id);
 
@@ -83,33 +89,22 @@ static int done_init(int *gidp)
 
         if ((jd = gui_harray(id)))
         {
+            /* FIXME, I'm ugly. */
+
             if (high)
                gui_state(jd, _("Change Player Name"), GUI_SML, DONE_NAME, 0);
+
             gui_start(jd, _("OK"), GUI_SML, DONE_OK, 0);
         }
 
         gui_layout(id, 0, 0);
+        gui_pulse(gid, 1.2f);
     }
 
     set_best_times(&curr_set()->time_score, curr_lg()->times_rank, 0);
     set_most_coins(&curr_set()->coin_score, curr_lg()->score_rank);
 
     return id;
-}
-
-static int done_enter(void)
-{
-    int gid, r;
-
-    r = done_init(&gid);
-    gui_pulse(gid, 1.2f);
-    return r;
-}
-
-static int done_bis_enter(void)
-{
-    level_update_player_name();
-    return done_init(NULL);
 }
 
 static int done_buttn(int b, int d)
@@ -138,17 +133,3 @@ struct state st_done = {
     done_buttn,
     1, 0
 };
-
-struct state st_done_bis = {
-    done_bis_enter,
-    shared_leave,
-    shared_paint,
-    shared_timer,
-    shared_point,
-    shared_stick,
-    shared_click,
-    NULL,
-    done_buttn,
-    1, 0
-};
-
