@@ -4,6 +4,8 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "glext.h"
+
 /*---------------------------------------------------------------------------*/
 
 void   image_snap(char *);
