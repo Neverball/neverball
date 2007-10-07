@@ -3,6 +3,7 @@
 
 #include "base_config.h"
 #include "score.h"
+#include "levels.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,45 +45,21 @@ struct level
     int is_completed;
 };
 
-int level_load(const char *, struct level *);
+int  level_load(const char *, struct level *);
+void level_dump(const struct level *);
 
-void level_dump_info(const struct level *);
+int  level_replay(const char *);
+int  level_play(const struct level *, int);
+void level_stat(int, int, int);
+void level_stop(void);
+int  level_next(void);
+int  level_same(void);
 
 /*---------------------------------------------------------------------------*/
 
-/* A level for the playing */
+int count_extra_balls(int, int);
 
-struct level_game
-{
-    int mode;          /* game mode */
-    const struct level *level; /* the level played */
-
-    int goal;          /* coins needed */
-    int time;          /* time limit */
-
-    /* MODE_CHALLENGE only */
-    int score;         /* coin total */
-    int balls;         /* live count */
-    int times;         /* time total */
-
-    /* Once a level is finished */
-    int status;        /* status ending */
-    int coins;         /* coins collected */
-    int timer;         /* time elapsed */
-
-    /* rank = 3  => unclassed */
-    int coin_rank;     /* rank in the level high-scores */
-    int goal_rank;     /* rank in the level high-scores */
-    int time_rank;     /* rank in the level high-scores */
-    int score_rank;    /* rank in the set high-scores */
-    int times_rank;    /* rank in the set high-scores */
-
-    /* What about the game and the set? */
-    int dead;          /* Is the game over and lost? */
-    int win;           /* Is the game over and win? */
-    int unlock;        /* Is the next level newly unlocked */
-    const struct level *next_level; /* next level (NULL no next level) */
-};
+void level_update_player_name(void);
 
 /*---------------------------------------------------------------------------*/
 

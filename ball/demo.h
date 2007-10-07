@@ -2,6 +2,7 @@
 #define DEMO_H
 
 #include <time.h>
+
 #include "level.h"
 
 /*---------------------------------------------------------------------------*/
@@ -28,7 +29,6 @@ struct demo
     int    balls;           /* number of balls (challenge mode) */
     int    times;           /* total time (challenge mode) */
 };
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -60,6 +60,7 @@ int  demo_replay_init(const char *, struct level_game *);
 int  demo_replay_step(float *);
 void demo_replay_stop(int);
 void demo_replay_dump_info(void);
+
 const struct demo *curr_demo_replay(void);
 
 /*---------------------------------------------------------------------------*/
