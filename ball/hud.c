@@ -126,12 +126,15 @@ void hud_free(void)
 
 void hud_paint(void)
 {
-    switch (curr_lg()->mode)
-    {
-    case MODE_CHALLENGE: gui_paint(Lhud_id);  break;
-    case MODE_PRACTICE:  gui_paint(Rhud2_id); break;
-    default:             gui_paint(Rhud_id);  break;
-    }
+    int mode = curr_lg()->mode;
+
+    if (mode == MODE_CHALLENGE)
+        gui_paint(Lhud_id);
+
+    if (mode == MODE_PRACTICE)
+        gui_paint(Rhud2_id);
+    else
+        gui_paint(Rhud_id);
 
     gui_paint(time_id);
 
