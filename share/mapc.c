@@ -1122,7 +1122,10 @@ static void make_swch(struct s_file *fp,
             sscanf(v[i], "%f", &xp->t0);
 
         if (strcmp(k[i], "state") == 0)
-            xp->f = atoi(v[i]);
+        {
+            xp->f  = atoi(v[i]);
+            xp->f0 = atoi(v[i]);
+        }
 
         if (strcmp(k[i], "invisible") == 0)
             xp->i = atoi(v[i]);
