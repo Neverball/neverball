@@ -259,6 +259,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
         return 0;
 
     get_index(fin, &fp->ac);
+    get_index(fin, &fp->dc);
     get_index(fin, &fp->mc);
     get_index(fin, &fp->vc);
     get_index(fin, &fp->ec);
@@ -276,7 +277,6 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->rc);
     get_index(fin, &fp->uc);
     get_index(fin, &fp->wc);
-    get_index(fin, &fp->dc);
     get_index(fin, &fp->ic);
 
     if (fp->ac)
@@ -323,6 +323,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     if (fp->ac)
         fread(fp->av, 1, fp->ac, fin);
 
+    for (i = 0; i < fp->dc; i++) sol_load_dict(fin, fp->dv + i);
     for (i = 0; i < fp->mc; i++) sol_load_mtrl(fin, fp->mv + i);
     for (i = 0; i < fp->vc; i++) sol_load_vert(fin, fp->vv + i);
     for (i = 0; i < fp->ec; i++) sol_load_edge(fin, fp->ev + i);
@@ -340,7 +341,6 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->rc; i++) sol_load_bill(fin, fp->rv + i);
     for (i = 0; i < fp->uc; i++) sol_load_ball(fin, fp->uv + i);
     for (i = 0; i < fp->wc; i++) sol_load_view(fin, fp->wv + i);
-    for (i = 0; i < fp->dc; i++) sol_load_dict(fin, fp->dv + i);
     for (i = 0; i < fp->ic; i++) get_index(fin, fp->iv + i);
 
     return 1;
@@ -358,6 +358,7 @@ static int sol_load_head(FILE *fin, struct s_file *fp)
         return 0;
 
     get_index(fin, &fp->ac);
+    get_index(fin, &fp->dc);
 
 #if 0
     get_index(fin, &fp->mc);
@@ -377,15 +378,24 @@ static int sol_load_head(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->rc);
     get_index(fin, &fp->uc);
     get_index(fin, &fp->wc);
-    get_index(fin, &fp->dc);
     get_index(fin, &fp->ic);
 #endif
-    fseek(fin, 19 * 4, SEEK_CUR);
+    fseek(fin, 18 * 4, SEEK_CUR);
 
     if (fp->ac)
     {
         fp->av = (char *) calloc(fp->ac, sizeof (char));
         fread(fp->av, 1, fp->ac, fin);
+    }
+
+    if (fp->dc)
+    {
+        int i;
+
+        fp->dv = (struct s_dict *) calloc(fp->dc, sizeof (struct s_dict));
+
+        for (i = 0; i < fp->dc; i++)
+            sol_load_dict(fin, fp->dv + i);
     }
 
     return 1;
@@ -583,6 +593,7 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     put_index(fin, &version);
 
     put_index(fin, &fp->ac);
+    put_index(fin, &fp->dc);
     put_index(fin, &fp->mc);
     put_index(fin, &fp->vc);
     put_index(fin, &fp->ec);
@@ -600,11 +611,11 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     put_index(fin, &fp->rc);
     put_index(fin, &fp->uc);
     put_index(fin, &fp->wc);
-    put_index(fin, &fp->dc);
     put_index(fin, &fp->ic);
 
     fwrite(fp->av, 1, fp->ac, fin);
 
+    for (i = 0; i < fp->dc; i++) sol_stor_dict(fin, fp->dv + i);
     for (i = 0; i < fp->mc; i++) sol_stor_mtrl(fin, fp->mv + i);
     for (i = 0; i < fp->vc; i++) sol_stor_vert(fin, fp->vv + i);
     for (i = 0; i < fp->ec; i++) sol_stor_edge(fin, fp->ev + i);
@@ -622,7 +633,6 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->rc; i++) sol_stor_bill(fin, fp->rv + i);
     for (i = 0; i < fp->uc; i++) sol_stor_ball(fin, fp->uv + i);
     for (i = 0; i < fp->wc; i++) sol_stor_view(fin, fp->wv + i);
-    for (i = 0; i < fp->dc; i++) sol_stor_dict(fin, fp->dv + i);
     for (i = 0; i < fp->ic; i++) put_index(fin, fp->iv + i);
 }
 
@@ -1378,11 +1388,12 @@ struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
     return NULL;
 }
 
+/*
+ * Test if the  ball UI is inside a  jump. Return 1 if yes  and fill P
+ * with the destination position, return 0 if not, and return 2 if the
+ * ball is on the border of a jump.
+ */
 int sol_jump_test(struct s_file *fp, float *p, int ui)
-/* Test if the ball ui is inside a jump. */
-/* Return 1 if yes and fill p with the destination position. */
-/* Return 0 if no. */
-/* Return 2 if the ball is on the border of a jump. */
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
@@ -1418,16 +1429,17 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
     return res;
 }
 
+/*
+ * Test and process the event the ball UI enters a switch. Return 1 if
+ * a visible  switch is  activated, return 0  otherwise (no  switch is
+ * activated or only invisible switches).
+ */
 int sol_swch_test(struct s_file *fp, int ui)
-/* In the SOL fp, test and process the event the ball ui enters a switch.
- * Return 1 if a visible switch is activated, return 0 otherwise (no switch is
- * activated or only invisible switches) */
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
     int xi;
-    float l;
-    int res = 0; /* result */
+    int res = 0;
 
     for (xi = 0; xi < fp->xc; xi++)
     {
@@ -1435,6 +1447,7 @@ int sol_swch_test(struct s_file *fp, int ui)
 
         if (xp->t0 == 0 || xp->f == xp->f0)
         {
+            float l;
             float r[3];
 
             r[0] = ball_p[0] - xp->p[0];
@@ -1442,6 +1455,7 @@ int sol_swch_test(struct s_file *fp, int ui)
             r[2] = 0;
 
             l = v_len(r) - xp->r;
+
             if (l < ball_r &&
                 ball_p[1] > xp->p[1] &&
                 ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
@@ -1451,7 +1465,8 @@ int sol_swch_test(struct s_file *fp, int ui)
                     int pi = xp->pi;
                     int pj = xp->pi;
 
-                    /* The ball enter */
+                    /* The ball enters. */
+
                     if (xp->t0 == 0)
                         xp->e = 1;
 
@@ -1475,13 +1490,16 @@ int sol_swch_test(struct s_file *fp, int ui)
                     if (xp->f != xp->f0)
                         xp->t  = xp->t0;
 
-                    /* If visible, set the result */
+                    /* If visible, set the result. */
+
                     if (!xp->i)
                         res = 1;
                 }
             }
+
+            /* The ball exits. */
+
             else if (xp->e)
-                /* A ball go out */
                 xp->e = 0;
         }
     }
