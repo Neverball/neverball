@@ -829,6 +829,8 @@ static void make_dict(struct s_file *fp,
     strncpy(fp->av + dp->aj, v, space_left - strlen(k) - 1);
 }
 
+static int read_dict_entries = 0;
+
 static void make_body(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c, int l0)
@@ -864,7 +866,7 @@ static void make_body(struct s_file *fp,
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%d %d %d", &x, &y, &z);
 
-        else if (strcmp(k[i], "classname") != 0)
+        else if (read_dict_entries && strcmp(k[i], "classname") != 0)
             make_dict(fp, k[i], v[i]);
     }
 
@@ -882,6 +884,8 @@ static void make_body(struct s_file *fp,
 
     for (i = v0; i < fp->vc; i++)
         v_add(fp->vv[i].p, fp->vv[i].p, p);
+
+    read_dict_entries = 0;
 }
 
 static void make_item(struct s_file *fp,
@@ -1249,7 +1253,11 @@ static void read_ent(struct s_file *fp, FILE *fin)
     if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(fp, k, v, c);
     if (!strcmp(v[i], "target_teleporter"))        make_jump(fp, k, v, c);
     if (!strcmp(v[i], "target_position"))          make_targ(fp, k, v, c);
-    if (!strcmp(v[i], "worldspawn"))               make_body(fp, k, v, c, l0);
+    if (!strcmp(v[i], "worldspawn"))
+    {
+        read_dict_entries = 1;
+        make_body(fp, k, v, c, l0);
+    }
     if (!strcmp(v[i], "func_train"))               make_body(fp, k, v, c, l0);
     if (!strcmp(v[i], "misc_model"))               make_body(fp, k, v, c, l0);
 }
