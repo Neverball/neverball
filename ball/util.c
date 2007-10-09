@@ -30,10 +30,11 @@ static int is_special_name(const char *n)
 
 /*---------------------------------------------------------------------------*/
 
-static int coin_c[4];
-static int coin_n[4];
-static int coin_t[4];
-static int coin_extrarow;
+static int coin_coin[4];
+static int coin_name[4];
+static int coin_time[4];
+
+static int coin_extra_row;
 
 /* Build a Most Coins top three list with default values. */
 
@@ -43,7 +44,7 @@ void gui_most_coins(int id, int e)
 
     int j, jd, kd, ld, md;
 
-    coin_extrarow = e;
+    coin_extra_row = e;
 
     if ((jd = gui_hstack(id)))
     {
@@ -58,42 +59,42 @@ void gui_most_coins(int id, int e)
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < NSCORE - 1; j++)
-                        coin_c[j] = gui_count(md, 1000, GUI_SML, 0);
+                        coin_coin[j] = gui_count(md, 1000, GUI_SML, 0);
 
-                    coin_c[j++] = gui_count(md, 1000, GUI_SML, GUI_SE);
+                    coin_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_SE);
 
                     if (e)
                     {
-                       gui_space(md);
-                       coin_c[j++] = gui_count(md, 1000, GUI_SML, GUI_RGT);
+                        gui_space(md);
+                        coin_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_RGT);
                     }
                 }
 
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < NSCORE ; j++)
-                        coin_n[j] = gui_label(md, s, GUI_SML, 0,
-                                              gui_yel, gui_wht);
+                        coin_name[j] = gui_label(md, s, GUI_SML, 0,
+                                                 gui_yel, gui_wht);
 
                     if (e)
                     {
                         gui_space(md);
-                        coin_n[j++] = gui_label(md, s, GUI_SML, 0,
-                                                gui_yel, gui_wht);
+                        coin_name[j++] = gui_label(md, s, GUI_SML, 0,
+                                                   gui_yel, gui_wht);
                     }
                 }
 
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < NSCORE - 1; j++)
-                        coin_t[j] = gui_clock(md, 359999, GUI_SML, 0);
+                        coin_time[j] = gui_clock(md, 359999, GUI_SML, 0);
 
-                    coin_t[j++] = gui_clock(md, 359999,  GUI_SML, GUI_SW);
+                    coin_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_SW);
 
                     if (e)
                     {
-                       gui_space(md);
-                       coin_t[j++] = gui_clock(md, 359999,  GUI_SML, GUI_LFT);
+                        gui_space(md);
+                        coin_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_LFT);
                     }
                 }
             }
@@ -111,43 +112,45 @@ void set_most_coins(const struct score *s, int hilight)
 
     if (s == NULL)
     {
-        for (j = 0; j < NSCORE + coin_extrarow ; j++)
+        for (j = 0; j < NSCORE + coin_extra_row ; j++)
         {
-            gui_set_count(coin_c[j], -1);
-            gui_set_label(coin_n[j], "");
-            gui_set_clock(coin_t[j], -1);
+            gui_set_count(coin_coin[j], -1);
+            gui_set_label(coin_name[j], "");
+            gui_set_clock(coin_time[j], -1);
         }
     }
     else
     {
-        for (j = 0; j < NSCORE + coin_extrarow; j++)
+        for (j = 0; j < NSCORE + coin_extra_row; j++)
         {
             name = s->player[j];
             spe = is_special_name(name);
 
             if (spe)
-                gui_set_color(coin_n[j], 0, 0);
+                gui_set_color(coin_name[j], 0, 0);
             else if (j != hilight)
-                gui_set_color(coin_n[j], gui_yel, gui_wht);
+                gui_set_color(coin_name[j], gui_yel, gui_wht);
             else if (j>= NSCORE)
-                gui_set_color(coin_n[j], gui_red, gui_red);
+                gui_set_color(coin_name[j], gui_red, gui_red);
             else
-                gui_set_color(coin_n[j], gui_grn, gui_grn);
+                gui_set_color(coin_name[j], gui_grn, gui_grn);
 
-            gui_set_count(coin_c[j], s->coins[j]);
-            gui_set_label(coin_n[j], spe ? _(name) : name);
-            gui_set_clock(coin_t[j], s->timer[j]);
+            gui_set_count(coin_coin[j], s->coins[j]);
+            gui_set_label(coin_name[j], spe ? _(name) : name);
+            gui_set_clock(coin_time[j], s->timer[j]);
         }
     }
 }
 
 /*---------------------------------------------------------------------------*/
 
-static int time_l;
-static int time_c[4];
-static int time_n[4];
-static int time_t2[4]; /* Renamed to time_t2 to avoid multiple declaration (in sys/types.h) */
-static int time_extrarow;
+static int time_label;
+
+static int time_coin[4];
+static int time_name[4];
+static int time_time[4];
+
+static int time_extra_row;
 
 /* Build a Best Times top three list with default values. */
 
@@ -157,7 +160,7 @@ void gui_best_times(int id, int e)
 
     int j, jd, kd, ld, md;
 
-    time_extrarow = e;
+    time_extra_row = e;
 
     if ((jd = gui_hstack(id)))
     {
@@ -165,49 +168,49 @@ void gui_best_times(int id, int e)
 
         if ((kd = gui_vstack(jd)))
         {
-            time_l = gui_label(kd, "XXX", GUI_SML, GUI_TOP, 0, 0);
+            time_label = gui_label(kd, "XXX", GUI_SML, GUI_TOP, 0, 0);
 
             if ((ld = gui_hstack(kd)))
             {
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < NSCORE - 1; j++)
-                        time_t2[j] = gui_clock(md, 359999, GUI_SML, 0);
+                        time_time[j] = gui_clock(md, 359999, GUI_SML, 0);
 
-                    time_t2[j++] = gui_clock(md, 359999, GUI_SML, GUI_SE);
+                    time_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_SE);
 
                     if (e)
                     {
                         gui_space(md);
-                        time_t2[j++] = gui_clock(md, 359999, GUI_SML, GUI_RGT);
+                        time_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_RGT);
                     }
                 }
 
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < NSCORE; j++)
-                        time_n[j] = gui_label(md, s, GUI_SML, 0,
-                                              gui_yel, gui_wht);
+                        time_name[j] = gui_label(md, s, GUI_SML, 0,
+                                                 gui_yel, gui_wht);
 
                     if (e)
                     {
                         gui_space(md);
-                        time_n[j++] = gui_label(md, s, GUI_SML, 0,
-                                                gui_yel, gui_wht);
+                        time_name[j++] = gui_label(md, s, GUI_SML, 0,
+                                                   gui_yel, gui_wht);
                     }
                 }
 
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < NSCORE - 1; j++)
-                        time_c[j] = gui_count(md, 1000, GUI_SML, 0);
+                        time_coin[j] = gui_count(md, 1000, GUI_SML, 0);
 
-                    time_c[j++] = gui_count(md, 1000, GUI_SML, GUI_SW);
+                    time_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_SW);
 
                     if (e)
                     {
                         gui_space(md);
-                        time_c[j++] = gui_count(md, 1000, GUI_SML, GUI_LFT);
+                        time_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_LFT);
                     }
                 }
             }
@@ -223,36 +226,36 @@ void set_best_times(const struct score *s, int hilight, int goal)
     int j, spe;
     const char *name;
 
-    gui_set_label(time_l, goal ? _("Unlock Goal") : _("Best Times"));
+    gui_set_label(time_label, goal ? _("Unlock Goal") : _("Best Times"));
 
     if (s == NULL)
     {
-        for (j = 0; j < NSCORE + time_extrarow ; j++)
+        for (j = 0; j < NSCORE + time_extra_row ; j++)
         {
-            gui_set_clock(time_t2[j], -1);
-            gui_set_label(time_n[j], "");
-            gui_set_count(time_c[j], -1);
+            gui_set_clock(time_time[j], -1);
+            gui_set_label(time_name[j], "");
+            gui_set_count(time_coin[j], -1);
         }
     }
     else
     {
-        for (j = 0; j < NSCORE + time_extrarow; j++)
+        for (j = 0; j < NSCORE + time_extra_row; j++)
         {
             name = s->player[j];
             spe = is_special_name(name);
 
             if (spe)
-                gui_set_color(time_n[j], 0, 0);
+                gui_set_color(time_name[j], 0, 0);
             else if (j != hilight)
-                gui_set_color(time_n[j], gui_yel, gui_wht);
+                gui_set_color(time_name[j], gui_yel, gui_wht);
             else if (j>= NSCORE)
-                gui_set_color(time_n[j], gui_red, gui_red);
+                gui_set_color(time_name[j], gui_red, gui_red);
             else
-                gui_set_color(time_n[j], gui_grn, gui_grn);
+                gui_set_color(time_name[j], gui_grn, gui_grn);
 
-            gui_set_clock(time_t2[j], s->timer[j]);
-            gui_set_label(time_n[j], spe ? _(name) : name);
-            gui_set_count(time_c[j], s->coins[j]);
+            gui_set_clock(time_time[j], s->timer[j]);
+            gui_set_label(time_name[j], spe ? _(name) : name);
+            gui_set_count(time_coin[j], s->coins[j]);
         }
     }
 }
@@ -375,10 +378,10 @@ char gui_keyboard_char(char c)
     return lock ? toupper(c) : tolower(c);
 }
 
-
 /*---------------------------------------------------------------------------*/
 
-/* XXX Watch out when using these functions.  Be sure to check for
+/*
+ * XXX Watch  out when  using these  functions. Be  sure to  check for
  * GUI_NULL in addition to GUI_NEXT and GUI_PREV when using the latter
  * two as labels for a switch with a default label.
  */
@@ -395,7 +398,7 @@ int gui_back_prev_next(int id, int prev, int next)
             gui_maybe(jd, _("Prev"), GUI_PREV, prev);
         }
 
-        gui_start(jd, _("Back"),  GUI_SML, GUI_BACK, 0);
+        gui_start(jd, _("Back"), GUI_SML, GUI_BACK, 0);
     }
     return jd;
 }
