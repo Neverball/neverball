@@ -13,7 +13,7 @@
 "goal" "120"
 "time_hs" "600 800"
 "coin_hs" "177 130"
-"message" "Les sauts du célèbre plombier.\Follow the coins."
+"message" "Les sauts du celebre plombier.\Follow the coins."
 // brush 0
 {
 ( 64 64 -4 ) ( -64 64 -4 ) ( -64 -56 -4 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
@@ -107,7 +107,7 @@
 // brush 10
 {
 ( 64 640 -324 ) ( -64 640 -324 ) ( -64 520 -324 ) mtrl/turf-grey 0 0 0 0.25 0.25 0 0 0
-( -64 520 -320 ) ( -64 640 -320 ) ( 64 640 -320 ) mtrl/turf-green-small 0 0 0 0.25 0.25 0 0 0
+( -64 520 -320 ) ( -64 640 -320 ) ( 64 640 -320 ) mtrl/turf-green-small 128 148 0 0.3700000048 0.3700000048 0 0 0
 ( -64 528 -320 ) ( 64 528 -320 ) ( 64 528 -328 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
 ( 48 520 -316 ) ( 48 640 -316 ) ( 48 640 -324 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
 ( 60 624 -320 ) ( -68 624 -320 ) ( -68 624 -328 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
