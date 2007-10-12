@@ -1,19 +1,18 @@
+
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "climb-mym"
-"version"   "2"
-
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
-"shot"      "shot-mym/climb.jpg"
-"song"      "bgm/track2.ogg"
-"time"      "12000"
-"goal"      "100"
-
-"time_hs"   "5300 7000"
-"coin_hs"   "150 130"
+"version" "2"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
+"shot" "shot-mym/climb.jpg"
+"song" "bgm/track2.ogg"
+"time" "12000"
+"goal" "100"
+"time_hs" "5300 7000"
+"coin_hs" "150 130"
 "message" "L'escalade ardue.\Do you suffer from vertigo?"
 // brush 0
 {
@@ -869,7 +868,7 @@
 "targetname" "t10"
 "target" "t9"
 "speed" ".3"
-"origin" "-24 1080 584"
+"origin" "-24 1080 576"
 }
 // entity 7
 {
@@ -877,7 +876,7 @@
 "target" "t10"
 "targetname" "t9"
 "speed" ".3"
-"origin" "24 1080 584"
+"origin" "24 1080 576"
 }
 // entity 8
 {
@@ -885,7 +884,7 @@
 "speed" ".6"
 "targetname" "t12"
 "target" "t11"
-"origin" "-56 1248 584"
+"origin" "-56 1248 576"
 }
 // entity 9
 {
@@ -893,7 +892,7 @@
 "speed" ".6"
 "target" "t12"
 "targetname" "t11"
-"origin" "-24 1248 584"
+"origin" "-24 1248 576"
 }
 // entity 10
 {
@@ -1328,7 +1327,7 @@
 // entity 61
 {
 "classname" "path_corner"
-"origin" "24 1248 584"
+"origin" "24 1248 576"
 "target" "t30"
 "targetname" "t31"
 "speed" ".6"
@@ -1336,7 +1335,7 @@
 // entity 62
 {
 "classname" "path_corner"
-"origin" "56 1248 584"
+"origin" "56 1248 576"
 "targetname" "t30"
 "target" "t31"
 "speed" ".6"
@@ -1344,7 +1343,7 @@
 // entity 63
 {
 "classname" "path_corner"
-"origin" "-24 1416 584"
+"origin" "-24 1416 576"
 "speed" ".3"
 "target" "t32"
 "targetname" "t33"
@@ -1352,7 +1351,7 @@
 // entity 64
 {
 "classname" "path_corner"
-"origin" "24 1416 584"
+"origin" "24 1416 576"
 "speed" ".3"
 "targetname" "t32"
 "target" "t33"
