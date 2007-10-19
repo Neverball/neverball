@@ -22,8 +22,10 @@
 #include "st_shared.h"
 
 #include "st_play.h"
-#include "st_play_end.h"
-#include "st_start.h"
+#include "st_goal.h"
+#include "st_fall_out.h"
+#include "st_time_out.h"
+#include "st_over.h"
 #include "st_pause.h"
 
 /*---------------------------------------------------------------------------*/
@@ -34,12 +36,13 @@ static int pause_or_exit(void)
 {
     if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META))
     {
-        level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
+        level_stat(GAME_NONE, curr_clock(), curr_coins());
+        level_stop();
         config_clr_grab();
-        return curr_lg()->mode == MODE_SINGLE ? 0 : goto_state(&st_start);
+        
+        return goto_state(&st_over);
     }
-    else
-        return goto_pause();
+    return goto_pause();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -200,6 +203,7 @@ static int play_loop_enter(void)
 static void play_loop_paint(int id, float st)
 {
     game_draw(0, st);
+
     if (!nohud)
         hud_paint();
 
@@ -219,25 +223,36 @@ static void play_loop_timer(int id, float dt)
 
     float g[3] = { 0.0f, -9.8f, 0.0f };
 
-    int state, state_value;
-
     at = (7 * at + dt) / 8;
 
     gui_timer(id, at);
     hud_timer(at);
     game_set_rot(view_rotate * k);
 
-    state = game_step(g, at, &state_value);
+    switch (game_step(g, at, 1))
+    {
+    case GAME_GOAL:
+        level_stat(GAME_GOAL, curr_clock(), curr_coins());
+        goto_state(&st_goal);
+        break;
+
+    case GAME_FALL:
+        level_stat(GAME_FALL, curr_clock(), curr_coins());
+        goto_state(&st_fall_out);
+        break;
+
+    case GAME_TIME:
+        level_stat(GAME_TIME, curr_clock(), curr_coins());
+        goto_state(&st_time_out);
+        break;
+
+    default:
+        break;
+    }
 
     game_step_fade(dt);
     demo_play_step(at);
     audio_timer(dt);
-
-    if (state)
-    {
-        level_stop(state, state_value, curr_clock(), curr_coins());
-        goto_state(&st_play_end);
-    }
 }
 
 static void play_loop_point(int id, int x, int y, int dx, int dy)
@@ -283,11 +298,10 @@ static int play_loop_keybd(int c, int d)
             config_set_d(CONFIG_CAMERA, 2);
             hud_view_pulse(2);
         }
-        if (config_tst_d(CONFIG_KEY_RESTART, c)
-            && curr_lg()->mode != MODE_CHALLENGE)
+        if (config_tst_d(CONFIG_KEY_RESTART, c) &&
+            curr_lg()->mode != MODE_CHALLENGE)
         {
-            level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
-            level_play_go();
+            level_same();
             goto_state(&st_play_ready);
         }
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
@@ -301,17 +315,16 @@ static int play_loop_keybd(int c, int d)
             view_rotate = 0;
     }
 
-    if (d && c == SDLK_F12 && config_get_d(CONFIG_CHEAT))
+    if (d && c == SDLK_F12 && config_cheat())
         return goto_state(&st_look);
 
     if (d && c == SDLK_F6)
         nohud = !nohud;
 
-    /* Cheat */
-    if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
+    if (d && c == SDLK_c && config_cheat())
     {
-        level_stop(GAME_GOAL, 0, curr_clock(), curr_coins());
-        return goto_state(&st_play_end);
+        level_stat(GAME_GOAL, curr_clock(), curr_coins());
+        return goto_state(&st_goal);
     }
     return 1;
 }

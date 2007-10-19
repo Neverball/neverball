@@ -2,6 +2,7 @@
 #define DEMO_H
 
 #include <time.h>
+
 #include "level.h"
 
 /*---------------------------------------------------------------------------*/
@@ -13,7 +14,7 @@ struct demo
 
     int    timer;           /* elapsed time */
     int    coins;           /* coin number */
-    int    state;           /* how the replay end */
+    int    status;          /* how the replay end */
     int    mode;            /* game mode */
     time_t date;            /* date of creation */
     char   player[MAXNAM];  /* player name */
@@ -28,7 +29,6 @@ struct demo
     int    balls;           /* number of balls (challenge mode) */
     int    times;           /* total time (challenge mode) */
 };
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,9 +48,11 @@ void demo_unique(char *);
 int  demo_play_init(const char *, const struct level *,
                     const struct level_game *);
 void demo_play_step(float);
-void demo_play_stop(const struct level_game *);
-int  demo_play_saved(void);
-void demo_play_save(const char *);
+void demo_play_stat(const struct level_game *);
+void demo_play_stop(void);
+
+int  demo_saved (void);
+void demo_rename(const char *);
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,6 +60,7 @@ int  demo_replay_init(const char *, struct level_game *);
 int  demo_replay_step(float *);
 void demo_replay_stop(int);
 void demo_replay_dump_info(void);
+
 const struct demo *curr_demo_replay(void);
 
 /*---------------------------------------------------------------------------*/

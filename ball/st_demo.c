@@ -73,6 +73,8 @@ static int demo_action(int i)
     return 1;
 }
 
+/*---------------------------------------------------------------------------*/
+
 static void demo_replay(int id, int i)
 {
     int w = config_get_d(CONFIG_WIDTH);
@@ -106,7 +108,7 @@ static int time_id;
 static int coin_id;
 static int date_id;
 static int mode_id;
-static int state_id;
+static int status_id;
 static int player_id;
 
 /* Create a layout for some demo info.  If d is NULL, try to reserve enough
@@ -115,7 +117,7 @@ static int player_id;
 static int gui_demo_status(int id, const struct demo *d)
 {
     char noname[MAXNAM];
-    const char *mode, *state;
+    const char *mode, *status;
     int i, j, k;
     int jd, kd, ld, md;
 
@@ -128,9 +130,11 @@ static int gui_demo_status(int id, const struct demo *d)
         /* Get a long mode */
         mode = mode_to_str(0, 0);
         j = strlen(mode);
-        for (i = 1; i <= MODE_SINGLE; i++)
+
+        for (i = 1; i <= MODE_COUNT; i++)
         {
             k = strlen(mode_to_str(i, 0));
+
             if (k > j)
             {
                 j = k;
@@ -138,23 +142,23 @@ static int gui_demo_status(int id, const struct demo *d)
             }
         }
 
-        /* Get a long state */
-        state = state_to_str(0);
-        j = strlen(state);
+        /* Get a long status */
+        status = status_to_str(0);
+        j = strlen(status);
         for (i = 1; i <= GAME_FALL; i++)
         {
-            k = strlen(state_to_str(i));
+            k = strlen(status_to_str(i));
             if (k > j)
             {
                 j = k;
-                state = state_to_str(i);
+                status = status_to_str(i);
             }
         }
     }
     else
     {
         mode = mode_to_str(d->mode, 0);
-        state = state_to_str(d->state);
+        status = status_to_str(d->status);
     }
 
     if ((jd = gui_hstack(id)))
@@ -169,7 +173,7 @@ static int gui_demo_status(int id, const struct demo *d)
                                           GUI_SML, GUI_RGT, 0, 0);
                     coin_id = gui_count(md, (d ? d->coins : 100),
                                         GUI_SML, GUI_RGT);
-                    state_id = gui_label(md, state, GUI_SML, GUI_RGT,
+                    status_id = gui_label(md, status, GUI_SML, GUI_RGT,
                                          gui_red, gui_red);
                 }
                 if ((md = gui_vstack(ld)))
@@ -200,8 +204,8 @@ static int gui_demo_status(int id, const struct demo *d)
             gui_label(kd, _("Mode"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
             gui_label(kd, _("Date"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
         }
-        if (d && (d->state == GAME_GOAL || d->state == GAME_SPEC))
-            gui_set_color(state_id, gui_grn, gui_grn);
+        if (d && d->status == GAME_GOAL)
+            gui_set_color(status_id, gui_grn, gui_grn);
     }
     return jd;
 }
@@ -215,15 +219,17 @@ static void gui_demo_update_status(int i)
     gui_set_label(player_id, d->player);
     gui_set_label(mode_id,   mode_to_str(d->mode, 0));
 
-    if (d->state == GAME_GOAL || d->state == GAME_SPEC)
-        gui_set_color(state_id, gui_grn, gui_grn);
+    if (d->status == GAME_GOAL)
+        gui_set_color(status_id, gui_grn, gui_grn);
     else
-        gui_set_color(state_id, gui_red, gui_red);
+        gui_set_color(status_id, gui_red, gui_red);
 
-    gui_set_label(state_id, state_to_str(d->state));
+    gui_set_label(status_id, status_to_str(d->status));
     gui_set_count(coin_id, d->coins);
     gui_set_clock(time_id, d->timer);
 }
+
+/*---------------------------------------------------------------------------*/
 
 static int demo_enter(void)
 {
@@ -302,7 +308,8 @@ static int demo_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int simple_play; /* play demo from command line */
+/* Play demo from command line. */
+static int simple_play;
 
 static int demo_paused;
 
@@ -480,32 +487,13 @@ static int demo_end_enter(void)
     return id;
 }
 
-void demo_end_paint(int id, float st)
+static void demo_end_paint(int id, float st)
 {
     game_draw(0, st);
     gui_paint(id);
 
     if (demo_paused)
         hud_paint();
-}
-
-static void demo_end_timer(int id, float dt)
-{
-    float gg[3] = { 0.0f,  9.8f, 0.0f };
-    float gf[3] = { 0.0f, -9.8f, 0.0f };
-    int state = curr_demo_replay()->state;
-
-    if (time_state() < 2.f)
-    {
-        if (replay_time < global_time)
-        {
-            if (state != GAME_NONE && state != GAME_TIME)
-                game_step(state == GAME_GOAL ? gg : gf, dt, NULL);
-        }
-    }
-
-    gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static int demo_end_keybd(int c, int d)
@@ -588,7 +576,7 @@ struct state st_demo = {
     shared_click,
     NULL,
     demo_buttn,
-    0
+    1, 0
 };
 
 struct state st_demo_play = {
@@ -601,14 +589,14 @@ struct state st_demo_play = {
     NULL,
     demo_play_keybd,
     demo_play_buttn,
-    0
+    1, 0
 };
 
 struct state st_demo_end = {
     demo_end_enter,
     shared_leave,
     demo_end_paint,
-    demo_end_timer,
+    shared_timer,
     shared_point,
     shared_stick,
     shared_click,

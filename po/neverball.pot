@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2007-06-30 21:51+0300\n"
+"POT-Creation-Date: 2007-09-12 23:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,60 +55,60 @@ msgstr ""
 msgid "Manual"
 msgstr ""
 
-#: ball/level.c:130
+#: ball/level.c:112
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr ""
 
-#: ball/level.c:131
+#: ball/level.c:113
 msgid "Not a valid level file"
 msgstr ""
 
-#: ball/level.c:214 ball/st_start.c:256
-msgid "Challenge"
-msgstr ""
-
-#: ball/level.c:214 ball/st_help.c:262
+#: ball/level.c:196 ball/st_help.c:262
 msgid "Challenge Mode"
 msgstr ""
 
-#: ball/level.c:215 ball/st_start.c:248
-msgid "Normal"
+#: ball/level.c:196 ball/st_start.c:256
+msgid "Challenge"
 msgstr ""
 
-#: ball/level.c:215 ball/st_help.c:246
+#: ball/level.c:197 ball/st_help.c:246
 msgid "Normal Mode"
 msgstr ""
 
-#: ball/level.c:216 ball/st_start.c:246
-msgid "Practice"
+#: ball/level.c:197 ball/st_start.c:248
+msgid "Normal"
 msgstr ""
 
-#: ball/level.c:216 ball/st_help.c:254
+#: ball/level.c:198 ball/st_help.c:254
 msgid "Practice Mode"
 msgstr ""
 
-#: ball/level.c:217 ball/level.c:232
-msgid "Unknown"
+#: ball/level.c:198 ball/st_start.c:246
+msgid "Practice"
 msgstr ""
 
-#: ball/level.c:217
+#: ball/level.c:199
 msgid "Unknown Mode"
 msgstr ""
 
-#: ball/level.c:227
+#: ball/level.c:199 ball/level.c:214
+msgid "Unknown"
+msgstr ""
+
+#: ball/level.c:209
 msgid "Aborted"
 msgstr ""
 
-#: ball/level.c:228
+#: ball/level.c:210
 msgid "Time-out"
 msgstr ""
 
-#: ball/level.c:230
+#: ball/level.c:212
 msgid "Success"
 msgstr ""
 
-#: ball/level.c:231
+#: ball/level.c:213
 msgid "Fall-out"
 msgstr ""
 
@@ -133,59 +133,59 @@ msgstr ""
 msgid "%s: option %s requires an argument\n"
 msgstr ""
 
-#: ball/main.c:303 putt/main.c:258
+#: ball/main.c:303 putt/main.c:242
 #, c-format
 msgid "Failure to establish game data directory\n"
 msgstr ""
 
-#: ball/main.c:309 putt/main.c:256
+#: ball/main.c:309 putt/main.c:240
 #, c-format
 msgid "Failure to establish config directory\n"
 msgstr ""
 
-#: ball/main.c:328
+#: ball/main.c:332
 #, c-format
 msgid "Replay file '%s': %s\n"
 msgstr ""
 
-#: ball/main.c:329
+#: ball/main.c:333
 msgid "Not a replay file"
 msgstr ""
 
-#: ball/main.c:340
+#: ball/main.c:344
 #, c-format
 msgid "%s: --info requires --replay\n"
 msgstr ""
 
-#: ball/main.c:367
+#: ball/main.c:363
 msgid "snd/select.ogg"
 msgstr ""
 
-#: ball/main.c:368
+#: ball/main.c:364
 msgid "snd/ready.ogg"
 msgstr ""
 
-#: ball/main.c:369
+#: ball/main.c:365
 msgid "snd/set.ogg"
 msgstr ""
 
-#: ball/main.c:370
+#: ball/main.c:366
 msgid "snd/go.ogg"
 msgstr ""
 
-#: ball/main.c:381
+#: ball/main.c:377
 msgid "snd/record.ogg"
 msgstr ""
 
-#: ball/main.c:382
+#: ball/main.c:378
 msgid "snd/fall.ogg"
 msgstr ""
 
-#: ball/main.c:383
+#: ball/main.c:379
 msgid "snd/time.ogg"
 msgstr ""
 
-#: ball/main.c:384
+#: ball/main.c:380
 msgid "snd/over.ogg"
 msgstr ""
 
@@ -203,83 +203,79 @@ msgstr ""
 msgid "Cannot load the set file '%s': %s\n"
 msgstr ""
 
-#: ball/st_conf.c:233 putt/st_conf.c:190
+#: ball/st_conf.c:227 putt/st_conf.c:184
 msgid "Options"
 msgstr ""
 
-#: ball/st_conf.c:237
+#: ball/st_conf.c:231
 msgid "Window"
 msgstr ""
 
-#: ball/st_conf.c:242 ball/st_conf.c:247 ball/st_conf.c:270 putt/st_conf.c:211
-#: putt/st_conf.c:216 putt/st_conf.c:229
+#: ball/st_conf.c:236 ball/st_conf.c:241 ball/st_conf.c:264 putt/st_conf.c:205
+#: putt/st_conf.c:210 putt/st_conf.c:223
 msgid "Low"
 msgstr ""
 
-#: ball/st_conf.c:243 ball/st_conf.c:248 ball/st_conf.c:271 putt/st_conf.c:212
-#: putt/st_conf.c:217 putt/st_conf.c:230
+#: ball/st_conf.c:237 ball/st_conf.c:242 ball/st_conf.c:265 putt/st_conf.c:206
+#: putt/st_conf.c:211 putt/st_conf.c:224
 msgid "High"
 msgstr ""
 
-#: ball/st_conf.c:252 ball/st_conf.c:257 ball/st_conf.c:262 putt/st_conf.c:221
+#: ball/st_conf.c:246 ball/st_conf.c:251 ball/st_conf.c:256 putt/st_conf.c:215
 msgid "Off"
 msgstr ""
 
-#: ball/st_conf.c:253 ball/st_conf.c:258 ball/st_conf.c:263 putt/st_conf.c:222
+#: ball/st_conf.c:247 ball/st_conf.c:252 ball/st_conf.c:257 putt/st_conf.c:216
 msgid "On"
 msgstr ""
 
-#: ball/st_conf.c:316 ball/st_demo.c:264 ball/st_help.c:96 ball/st_start.c:234
-#: ball/util.c:397 putt/st_all.c:297 putt/st_all.c:419 putt/st_conf.c:271
-#: share/st_lang.c:79 share/st_resol.c:76
+#: ball/st_conf.c:309 ball/st_demo.c:264 ball/st_help.c:96 ball/st_start.c:234
+#: ball/util.c:397 share/st_resol.c:76 putt/st_all.c:297 putt/st_all.c:419
+#: putt/st_conf.c:264
 msgid "Back"
 msgstr ""
 
-#: ball/st_conf.c:319 putt/st_conf.c:274
+#: ball/st_conf.c:312 putt/st_conf.c:267
 msgid "Fullscreen"
 msgstr ""
 
-#: ball/st_conf.c:323 putt/st_conf.c:277
+#: ball/st_conf.c:316 putt/st_conf.c:270
 msgid "Textures"
 msgstr ""
 
-#: ball/st_conf.c:324 putt/st_conf.c:278
+#: ball/st_conf.c:317 putt/st_conf.c:271
 msgid "Geometry"
 msgstr ""
 
-#: ball/st_conf.c:325
+#: ball/st_conf.c:318
 msgid "Reflection"
 msgstr ""
 
-#: ball/st_conf.c:326
+#: ball/st_conf.c:319
 msgid "Background"
 msgstr ""
 
-#: ball/st_conf.c:327 putt/st_conf.c:279
+#: ball/st_conf.c:320 putt/st_conf.c:272
 msgid "Shadow"
 msgstr ""
 
-#: ball/st_conf.c:328 putt/st_conf.c:280
+#: ball/st_conf.c:321 putt/st_conf.c:273
 msgid "Audio"
 msgstr ""
 
-#: ball/st_conf.c:329 putt/st_conf.c:281
+#: ball/st_conf.c:322 putt/st_conf.c:274
 msgid "Sound Volume"
 msgstr ""
 
-#: ball/st_conf.c:330 putt/st_conf.c:282
+#: ball/st_conf.c:323 putt/st_conf.c:275
 msgid "Music Volume"
 msgstr ""
 
-#: ball/st_conf.c:331 putt/st_conf.c:283 share/st_lang.c:77
-msgid "Language"
-msgstr ""
-
-#: ball/st_conf.c:332 ball/st_name.c:103
+#: ball/st_conf.c:324 ball/st_name.c:103
 msgid "Player Name"
 msgstr ""
 
-#: ball/st_demo.c:177 putt/st_all.c:476
+#: ball/st_demo.c:177 putt/st_all.c:587
 msgid "Player"
 msgstr ""
 
@@ -287,7 +283,7 @@ msgstr ""
 msgid "State"
 msgstr ""
 
-#: ball/st_demo.c:198 ball/st_demo.c:318
+#: ball/st_demo.c:198 ball/st_demo.c:327
 msgid "Replay"
 msgstr ""
 
@@ -311,35 +307,43 @@ msgstr ""
 msgid "No Replays"
 msgstr ""
 
-#: ball/st_demo.c:412
+#: ball/st_demo.c:443
+msgid "Replay Paused"
+msgstr ""
+
+#: ball/st_demo.c:446
 msgid "Replay Ends"
 msgstr ""
 
-#: ball/st_demo.c:416
+#: ball/st_demo.c:452 ball/st_pause.c:114 putt/st_all.c:509
+msgid "Continue"
+msgstr ""
+
+#: ball/st_demo.c:454
 msgid "Replay Again"
 msgstr ""
 
-#: ball/st_demo.c:419 ball/st_done.c:88 ball/st_name.c:114
+#: ball/st_demo.c:457 ball/st_done.c:88 ball/st_name.c:114
 msgid "OK"
 msgstr ""
 
-#: ball/st_demo.c:422
+#: ball/st_demo.c:460
 msgid "Keep"
 msgstr ""
 
-#: ball/st_demo.c:423
+#: ball/st_demo.c:461
 msgid "Delete"
 msgstr ""
 
-#: ball/st_demo.c:491
+#: ball/st_demo.c:551
 msgid "Delete Replay?"
 msgstr ""
 
-#: ball/st_demo.c:495 ball/st_save.c:196 putt/st_conf.c:198
+#: ball/st_demo.c:555 ball/st_save.c:196 putt/st_conf.c:192
 msgid "No"
 msgstr ""
 
-#: ball/st_demo.c:496 ball/st_save.c:197 putt/st_conf.c:199
+#: ball/st_demo.c:556 ball/st_save.c:197 putt/st_conf.c:193
 msgid "Yes"
 msgstr ""
 
@@ -419,10 +423,6 @@ msgstr ""
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: ball/st_help.c:178
-msgid "Spacebar"
-msgstr ""
-
 #: ball/st_help.c:179
 msgid "Escape"
 msgstr ""
@@ -481,15 +481,27 @@ msgstr ""
 msgid "GAME OVER"
 msgstr ""
 
-#: ball/st_play.c:46
+#: ball/st_pause.c:98 putt/st_all.c:503
+msgid "Paused"
+msgstr ""
+
+#: ball/st_pause.c:104 putt/st_all.c:508
+msgid "Quit"
+msgstr ""
+
+#: ball/st_pause.c:107 ball/st_pause.c:110
+msgid "Restart"
+msgstr ""
+
+#: ball/st_play.c:51
 msgid "Ready?"
 msgstr ""
 
-#: ball/st_play.c:95
+#: ball/st_play.c:108
 msgid "Set?"
 msgstr ""
 
-#: ball/st_play.c:149
+#: ball/st_play.c:180
 msgid "GO!"
 msgstr ""
 
@@ -662,11 +674,11 @@ msgid "Most Coins"
 msgstr ""
 
 #: ball/util.c:225
-msgid "Best Times"
+msgid "Unlock Goal"
 msgstr ""
 
 #: ball/util.c:225
-msgid "Unlock Goal"
+msgid "Best Times"
 msgstr ""
 
 #: ball/util.c:332
@@ -679,6 +691,28 @@ msgstr ""
 
 #: ball/util.c:394
 msgid "Prev"
+msgstr ""
+
+#: share/audio.c:63
+#, c-format
+msgid "Sound disabled\n"
+msgstr ""
+
+#: share/base_config.h:93
+msgid "ttf/DejaVuSans-Bold.ttf"
+msgstr ""
+
+#: share/geom.h:12
+msgid "png/coin.png"
+msgstr ""
+
+#: share/gui.c:382
+#, c-format
+msgid "Out of widget IDs\n"
+msgstr ""
+
+#: share/st_resol.c:74 putt/st_conf.c:268
+msgid "Resolution"
 msgstr ""
 
 #: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:88 putt/st_all.c:132
@@ -721,79 +755,25 @@ msgstr ""
 msgid "Players?"
 msgstr ""
 
-#: putt/st_all.c:469
+#: putt/st_all.c:580
 #, c-format
 msgid "Hole %02d"
 msgstr ""
 
-#: putt/st_all.c:713
+#: putt/st_all.c:827
 msgid "It's In!"
 msgstr ""
 
-#: putt/st_all.c:824
+#: putt/st_all.c:937
 msgid "1 Stroke Penalty"
 msgstr ""
 
-#: putt/st_all.c:880
+#: putt/st_all.c:999
 msgid "Scores"
 msgstr ""
 
-#: putt/st_all.c:922
+#: putt/st_all.c:1048
 msgid "Final Scores"
-msgstr ""
-
-#: putt/st_conf.c:275 share/st_resol.c:74
-msgid "Resolution"
-msgstr ""
-
-#: share/audio.c:63
-#, c-format
-msgid "Sound disabled\n"
-msgstr ""
-
-#: share/base_config.h:86
-msgid "ttf/DejaVuSans-Bold.ttf"
-msgstr ""
-
-#: share/geom.h:12
-msgid "png/coin.png"
-msgstr ""
-
-#: share/gui.c:390
-#, c-format
-msgid "Out of widget IDs\n"
-msgstr ""
-
-#: share/gui.c:583
-msgid "Paused"
-msgstr ""
-
-#: share/i18n.c:23
-msgid "German"
-msgstr ""
-
-#: share/i18n.c:24
-msgid "English"
-msgstr ""
-
-#: share/i18n.c:25
-msgid "Spanish"
-msgstr ""
-
-#: share/i18n.c:26
-msgid "French"
-msgstr ""
-
-#: share/i18n.c:27
-msgid "Latvian"
-msgstr ""
-
-#: share/i18n.c:28
-msgid "Norwegian Nynorsk"
-msgstr ""
-
-#: share/i18n.c:78
-msgid "System Default"
 msgstr ""
 
 #: data/set-easy.txt
@@ -1168,7 +1148,7 @@ msgid ""
 "on a timer.\\When it expires, the barriers will rise.\\"
 msgstr ""
 
-#: data/map-medium/title.map data/map-rlk/title.map
+#: data/map-medium/title.map
 msgid "Neverball\\\\http://icculus.org/neverball\\\\created by Robert Kooima\\"
 msgstr ""
 
@@ -1426,7 +1406,7 @@ msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
 msgstr ""
 
 #: data/map-mym2/shaker.map
-msgid "Préparez un petit sac.\\The stomach-tester."
+msgid "Preparez un petit sac.\\The stomach-tester."
 msgstr ""
 
 #: data/map-mym2/sonic.map

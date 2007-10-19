@@ -71,14 +71,13 @@ enum {
     CONFIG_VIEW_DZ,
     CONFIG_ROTATE_FAST,
     CONFIG_ROTATE_SLOW,
-    CONFIG_MODE,
-    CONFIG_CHEAT,
     CONFIG_KEY_FORWARD,
     CONFIG_KEY_BACKWARD,
     CONFIG_KEY_LEFT,
     CONFIG_KEY_RIGHT,
     CONFIG_KEY_PAUSE,
     CONFIG_KEY_RESTART,
+    CONFIG_CHEAT,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -86,8 +85,6 @@ enum {
 enum {
     CONFIG_PLAYER,
     CONFIG_BALL,
-    CONFIG_BALL_BONUS,
-    CONFIG_LANG,
 
     CONFIG_OPTION_S_COUNT
 };
@@ -136,12 +133,9 @@ enum {
 #define DEFAULT_VIEW_DZ              200
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
-#define DEFAULT_MODE                 1
-#define DEFAULT_CHEAT                0
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "png/ball.png"
-#define DEFAULT_BALL_BONUS           "png/ball-bonus.png"
-#define DEFAULT_LANG                 ""
+#define DEFAULT_CHEAT                0
 #define DEFAULT_KEY_FORWARD          SDLK_UP
 #define DEFAULT_KEY_BACKWARD         SDLK_DOWN
 #define DEFAULT_KEY_LEFT             SDLK_LEFT
@@ -165,14 +159,18 @@ int  config_get_d(int);
 
 void config_set_s(int, const char *);
 void config_get_s(int, char *, int);
-const char *config_simple_get_s(int i);
-
 
 /*---------------------------------------------------------------------------*/
 
 void config_set_grab(int w);
 void config_clr_grab(void);
 int  config_get_grab(void);
+
+/*---------------------------------------------------------------------------*/
+
+int  config_cheat(void);
+void config_set_cheat(void);
+void config_clr_cheat(void);
 
 /*---------------------------------------------------------------------------*/
 

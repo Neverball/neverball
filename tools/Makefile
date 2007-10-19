@@ -1,25 +1,25 @@
+#------------------------------------------------------------------------------
 
-# Common compiler flags
-CFLAGS += -Wall -g -pedantic
+CFLAGS := -Wall -g -pedantic
 
 #------------------------------------------------------------------------------
 
 DEMOCONV := democonv$(EXT)
-DEMOCONV_OBJS := \
-	../share/binary.o \
-	src/democonv.o
+DEMOCONV_CPPFLAGS := \
+    -I../ball -I../share $(shell sdl-config --cflags) -Umain
+DEMOCONV_OBJS := ../share/binary.o src/democonv.o
 
 #------------------------------------------------------------------------------
 
 all: $(DEMOCONV)
 
 $(DEMOCONV): $(DEMOCONV_OBJS)
-	$(CC) $(CFLAGS) -o $(DEMOCONV) $(DEMOCONV_OBJS) $(LDFLAGS)
+	$(CC) $(CFLAGS) $(DEMOCONV_OBJS) $(LDFLAGS) -o $(DEMOCONV)
 
-$(DEMOCONV): CPPFLAGS := -I../ball -I../share \
-    $(shell sdl-config --cflags) -Umain $(CPPFLAGS)
+$(DEMOCONV): CPPFLAGS := $(DEMOCONV_CPPFLAGS) $(CPPFLAGS)
 
-clean :
+clean:
 	$(RM) $(DEMOCONV) $(DEMOCONV_OBJS)
 
 #------------------------------------------------------------------------------
+

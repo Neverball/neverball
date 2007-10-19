@@ -14,17 +14,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#ifdef WIN32
-#pragma comment(lib, "SDL_ttf.lib")
-#pragma comment(lib, "SDL_mixer.lib")
-#pragma comment(lib, "SDL_image.lib")
-#pragma comment(lib, "SDL.lib")
-#pragma comment(lib, "SDLmain.lib")
-#pragma comment(lib, "opengl32.lib")
-#endif
-
-/*---------------------------------------------------------------------------*/
-
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -148,7 +137,7 @@ static int loop(void)
             case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
 
             case SDLK_F7:
-                if (config_get_d(CONFIG_CHEAT))
+                if (config_cheat())
                     toggle_wire();
                 break;
 
@@ -287,6 +276,8 @@ static void parse_args(int argc, char **argv)
     return;
 }
 
+/*---------------------------------------------------------------------------*/
+
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
@@ -294,7 +285,7 @@ int main(int argc, char *argv[])
 
     int t1, t0;
 
-    language_init("neverball", CONFIG_LOCALE);
+    lang_init("neverball", CONFIG_LOCALE);
 
     parse_args(argc, argv);
 
@@ -322,10 +313,6 @@ int main(int argc, char *argv[])
 
     config_init();
     config_load();
-
-    /* Initialize the language */
-
-    language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
 
     /* Prepare run without GUI */
 
@@ -395,6 +382,7 @@ int main(int argc, char *argv[])
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+#ifndef __APPLE__
     /* Set the WM icon */
 
     icon = IMG_Load(config_data("icon/neverball.png"));
@@ -404,6 +392,7 @@ int main(int argc, char *argv[])
         SDL_WM_SetIcon(icon, NULL);
         SDL_FreeSurface(icon);
     }
+#endif /* __APPLE__ */
 
     /* Initialize the video. */
 

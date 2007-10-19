@@ -13,6 +13,7 @@
  */
 
 #include <SDL_mixer.h>
+
 #include "gui.h"
 #include "config.h"
 #include "game.h"
@@ -22,7 +23,7 @@
 #include "hud.h"
 
 #include "st_play.h"
-#include "st_start.h"
+#include "st_over.h"
 #include "st_shared.h"
 #include "st_pause.h"
 
@@ -66,22 +67,23 @@ static int pause_action(int i)
         return goto_state(st_continue);
 
     case PAUSE_RESTART:
-        level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
+        level_same();
         clear_pause();
-        level_play_go();
         Mix_ResumeMusic();
         config_set_grab(1);
         return goto_state(&st_play_ready);
 
     case PAUSE_EXIT:
-        level_stop(GAME_NONE, 0, curr_clock(), curr_coins());
+        level_stat(GAME_NONE, curr_clock(), curr_coins());
+        level_stop();
         clear_pause();
-        return curr_lg()->mode == MODE_SINGLE ? 0 : goto_state(&st_start);
+        return goto_state(&st_over);
     }
 
     return 1;
 }
 
+/*---------------------------------------------------------------------------*/
 
 static int pause_enter(void)
 {
@@ -123,13 +125,13 @@ static int pause_enter(void)
     return id;
 }
 
-void pause_paint(int id, float st)
+static void pause_paint(int id, float st)
 {
     shared_paint(id, st);
     hud_paint();
 }
 
-void pause_timer(int id, float dt)
+static void pause_timer(int id, float dt)
 {
     gui_timer(id, dt);
     hud_timer (dt);

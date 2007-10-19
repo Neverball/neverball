@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "level.h"
+#include "mode.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,7 +50,7 @@ int   curr_coins(void);
 int   curr_goal(void);
 
 void  game_draw(int, float);
-int   game_step(const float[3], float, int *);
+int   game_step(const float[3], float, int);
 
 void  game_set_pos(int, int);
 void  game_set_x  (int);

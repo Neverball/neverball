@@ -50,8 +50,6 @@ static float rnd(float l, float h)
 
 /*---------------------------------------------------------------------------*/
 
-static GLfloat gcoltab[] = {0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f};
-
 void part_reset(float h)
 {
     int i;
@@ -61,15 +59,14 @@ void part_reset(float h)
         float t = rnd(+0.1f,      +1.0f);
         float a = rnd(-1.0f * PI, +1.0f * PI);
         float w = rnd(-2.0f * PI, +2.0f * PI);
-        int k = i % 6;
 
         part_goal[i].t = t;
         part_goal[i].a = V_DEG(a);
         part_goal[i].w = V_DEG(w);
 
-        part_goal[i].c[0] = gcoltab[k];
-        part_goal[i].c[1] = gcoltab[k+1];
-        part_goal[i].c[2] = gcoltab[k+2];
+        part_goal[i].c[0] = 1.0f;
+        part_goal[i].c[1] = 1.0f;
+        part_goal[i].c[2] = 0.0f;
 
         part_goal[i].p[0] = fsinf(a);
         part_goal[i].p[1] = (1.f - t) * h;
@@ -243,11 +240,10 @@ void part_draw_coin(float rx, float ry)
     glPopAttrib();
 }
 
-void part_draw_goal(float rx, float ry, float radius, float a, int spe)
+void part_draw_goal(float rx, float ry, float radius, float a)
 {
     float r = (float) SDL_GetTicks() / 1000.f;
     int i;
-    GLfloat yel[3] = {1.0f, 1.0f, 0.0f};
 
     glPushAttrib(GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
     {
@@ -261,8 +257,7 @@ void part_draw_goal(float rx, float ry, float radius, float a, int spe)
         for (i = 0; i < PART_MAX_GOAL; i++)
             if (part_goal[i].t > 0.f)
                 part_draw(part_goal[i].p,
-                          spe ? part_goal[i].c : yel,
-                          a,
+                          part_goal[i].c, a,
                           radius - 0.05f, rx, ry, r * part_goal[i].w);
     }
     glPopAttrib();

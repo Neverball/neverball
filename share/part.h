@@ -19,7 +19,7 @@ void part_burst(const float *, const float *);
 void part_step(const float *, float);
 
 void part_draw_coin(float, float);
-void part_draw_goal(float, float, float, float, int);
+void part_draw_goal(float, float, float, float);
 
 /*---------------------------------------------------------------------------*/
 

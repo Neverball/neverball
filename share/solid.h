@@ -205,8 +205,6 @@ struct s_goal
 {
     float p[3];                                /* position                   */
     float r;                                   /* radius                     */
-    int   s;                                   /* levels skiped              */
-    int   c;                                   /* special coloration?        */
 };
 
 struct s_swch
@@ -268,6 +266,7 @@ struct s_dict
 
 struct s_file
 {
+    int ac;
     int mc;
     int vc;
     int ec;
@@ -286,9 +285,9 @@ struct s_file
     int uc;
     int wc;
     int dc;
-    int ac;
     int ic;
 
+    char          *av;
     struct s_mtrl *mv;
     struct s_vert *vv;
     struct s_edge *ev;
@@ -306,8 +305,8 @@ struct s_file
     struct s_bill *rv;
     struct s_ball *uv;
     struct s_view *wv;
+    struct s_dict *dv;
     int           *iv;
-    char          *av;
 };
 
 /*---------------------------------------------------------------------------*/

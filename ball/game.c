@@ -65,7 +65,6 @@ static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
-static int   ball_b = 0;                /* Is the ball a bonus ball?         */
 
 static int   grow = 0;                  /* Should the ball be changing size? */
 static float grow_orig = 0;             /* the original ball size            */
@@ -234,6 +233,7 @@ int game_init(const struct level *level, int t, int g)
     /* Initialize ball size tracking... */
 
     got_orig = 0;
+    grow = 0;
 
     return game_state;
 }
@@ -286,8 +286,7 @@ static void game_draw_balls(const struct s_file *fp)
                  fp->uv[0].r);
 
         glColor4fv(c);
-
-        ball_draw(ball_b);
+        ball_draw();
     }
     glPopMatrix();
 }
@@ -370,7 +369,7 @@ static void game_draw_goals(const struct s_file *fp, float rx, float ry)
                              fp->zv[zi].p[1],
                              fp->zv[zi].p[2]);
 
-                part_draw_goal(rx, ry, fp->zv[zi].r, goal_k, fp->zv[zi].c);
+                part_draw_goal(rx, ry, fp->zv[zi].r, goal_k);
 
                 glScalef(fp->zv[zi].r, goal_k, fp->zv[zi].r);
                 goal_draw();
@@ -447,8 +446,8 @@ static void game_refl_all(int s)
 static void game_draw_light(void)
 {
     const float light_p[2][4] = {
-        { -8.0f, +32.0f, -8.0f, 1.0f },
-        { +8.0f, +32.0f, +8.0f, 1.0f },
+        { -8.0f, +32.0f, -8.0f, 0.0f },
+        { +8.0f, +32.0f, +8.0f, 0.0f },
     };
     const float light_c[2][4] = {
         { 1.0f, 0.8f, 0.8f, 1.0f },
@@ -761,7 +760,7 @@ static void game_update_time(float dt, int b)
     }
 }
 
-static int game_update_state(int *state_value)
+static int game_update_state(int bt)
 {
     struct s_file *fp = &file;
     struct s_goal *zp;
@@ -769,8 +768,6 @@ static int game_update_state(int *state_value)
 
     float p[3];
     float c[3];
-
-    int bt = state_value != NULL;
 
     /* Test for an item. */
     if (bt && (hp = sol_item_test(fp, p, COIN_RADIUS)))
@@ -824,9 +821,8 @@ static int game_update_state(int *state_value)
 
     if (bt && goal_c == 0 && (zp = sol_goal_test(fp, p, 0)))
     {
-        *state_value = zp->s;
         audio_play(AUD_GOAL, 1.0f);
-        return zp->c ? GAME_SPEC : GAME_GOAL;
+        return GAME_GOAL;
     }
 
     /* Test for time-out. */
@@ -863,7 +859,7 @@ static int game_update_state(int *state_value)
  * graphics frame rate.
  */
 
-int game_step(const float g[3], float dt, int *state_value)
+int game_step(const float g[3], float dt, int bt)
 {
     struct s_file *fp = &file;
 
@@ -943,9 +939,9 @@ int game_step(const float g[3], float dt, int *state_value)
 
         game_step_fade(dt);
         game_update_view(dt);
-        game_update_time(dt, state_value != NULL);
+        game_update_time(dt, bt);
 
-        return game_update_state(state_value);
+        return game_update_state(bt);
     }
     return GAME_NONE;
 }

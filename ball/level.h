@@ -2,19 +2,8 @@
 #define LEVEL_H
 
 #include "base_config.h"
-#define NSCORE  3
-
-/*---------------------------------------------------------------------------*/
-
-struct score
-{
-    char player[NSCORE + 1][MAXNAM];
-
-    int  timer [NSCORE + 1]; /* Time elapsed    */
-    int  coins [NSCORE + 1]; /* Coins collected */
-};
-
-void score_init_hs(struct score *, int, int);
+#include "score.h"
+#include "levels.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,55 +45,21 @@ struct level
     int is_completed;
 };
 
-int level_load(const char *, struct level *);
+int  level_load(const char *, struct level *);
+void level_dump(const struct level *);
 
-void level_dump_info(const struct level *);
-
-/*---------------------------------------------------------------------------*/
-
-/* A level for the playing */
-
-struct level_game
-{
-    int mode;          /* game mode */
-    const struct level *level; /* the level played */
-
-    int goal;          /* coins needed */
-    int time;          /* time limit */
-
-    /* MODE_CHALLENGE only */
-    int score;         /* coin total */
-    int balls;         /* live count */
-    int times;         /* time total */
-
-    /* Once a level is finished */
-    int state;         /* state ending */
-    int coins;         /* coins collected */
-    int timer;         /* time elapsed */
-    int state_value;   /* more precision about the state: skip for goal */
-
-    /* rank = 3  => unclassed */
-    int coin_rank;     /* rank in the level high-scores */
-    int goal_rank;     /* rank in the level high-scores */
-    int time_rank;     /* rank in the level high-scores */
-    int score_rank;    /* rank in the set high-scores */
-    int times_rank;    /* rank in the set high-scores */
-
-    /* What about the game and the set? */
-    int dead;          /* Is the game over and lost? */
-    int win;           /* Is the game over and win? */
-    int unlock;        /* Is the next level newly unlocked */
-    const struct level *next_level; /* next level (NULL no next level) */
-};
+int  level_replay(const char *);
+int  level_play(const struct level *, int);
+void level_stat(int, int, int);
+void level_stop(void);
+int  level_next(void);
+int  level_same(void);
 
 /*---------------------------------------------------------------------------*/
 
-#define MODE_CHALLENGE  1
-#define MODE_NORMAL     2
-#define MODE_PRACTICE   3
-#define MODE_SINGLE     4
+int count_extra_balls(int, int);
 
-const char *mode_to_str(int, int);
+void level_update_player_name(void);
 
 /*---------------------------------------------------------------------------*/
 
@@ -112,8 +67,7 @@ const char *mode_to_str(int, int);
 #define GAME_TIME 1     /* Time's up */
 #define GAME_GOAL 2     /* Goal reached */
 #define GAME_FALL 3     /* Fall out */
-#define GAME_SPEC 4     /* Special goal reached */
 
-const char *state_to_str(int);
+const char *status_to_str(int);
 
 #endif

@@ -59,7 +59,7 @@ void demo_dump_info(const struct demo *d)
            "Balls:        %d\n"
            "Total Time:   %d\n",
            d->name, d->filename,
-           d->timer, d->coins, d->mode, d->state, ctime(&d->date),
+           d->timer, d->coins, d->mode, d->status, ctime(&d->date),
            d->player,
            d->shot, d->file, d->back, d->grad, d->song,
            d->time, d->goal, d->score, d->balls, d->times);
@@ -104,7 +104,7 @@ static int demo_header_read(FILE *fp, struct demo *d)
         d->timer = t;
 
         get_index(fp, &d->coins);
-        get_index(fp, &d->state);
+        get_index(fp, &d->status);
         get_index(fp, &d->mode);
 
         fread(d->player, 1, MAXNAM, fp);
@@ -199,19 +199,6 @@ static void demo_header_write(FILE *fp, struct demo *d)
     put_index(fp, &d->score);
     put_index(fp, &d->balls);
     put_index(fp, &d->times);
-}
-
-/* Update the demo header using the final level state. */
-
-void demo_header_stop(FILE *fp, int coins, int timer, int state)
-{
-    long pos = ftell(fp);
-
-    fseek(fp, 8, SEEK_SET);
-    put_index(fp, &timer);
-    put_index(fp, &coins);
-    put_index(fp, &state);
-    fseek(fp, pos, SEEK_SET);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -390,24 +377,37 @@ void demo_play_step(float dt)
     }
 }
 
-/* Update the demo header using the final level state. */
-
-void demo_play_stop(const struct level_game *lg)
+void demo_play_stat(const struct level_game *lg)
 {
     if (demo_fp)
     {
-        demo_header_stop(demo_fp, lg->coins, lg->timer, lg->state);
+        long pos = ftell(demo_fp);
+
+        fseek(demo_fp, 8, SEEK_SET);
+
+        put_index(demo_fp, &lg->timer);
+        put_index(demo_fp, &lg->coins);
+        put_index(demo_fp, &lg->status);
+
+        fseek(demo_fp, pos, SEEK_SET);
+    }
+}
+
+void demo_play_stop(void)
+{
+    if (demo_fp)
+    {
         fclose(demo_fp);
         demo_fp = NULL;
     }
 }
 
-int demo_play_saved(void)
+int demo_saved(void)
 {
     return demo_exists(USER_REPLAY_FILE);
 }
 
-void demo_play_save(const char *name)
+void demo_rename(const char *name)
 {
     char src[MAXSTR];
     char dst[MAXSTR];
@@ -447,11 +447,12 @@ const struct demo *curr_demo_replay(void)
     return &demo_replay;
 }
 
-/* Internally load a replay and fill the lg structure (if not NULL) */
+static int demo_status = GAME_NONE;
 
 int demo_replay_init(const char *name, struct level_game *lg)
 {
-    demo_fp = fopen(name, FMODE_RB);
+    demo_status = GAME_NONE;
+    demo_fp     = fopen(name, FMODE_RB);
 
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
@@ -483,7 +484,6 @@ int demo_replay_init(const char *name, struct level_game *lg)
 int demo_replay_step(float *dt)
 {
     const float g[3] = { 0.0f, -9.8f, 0.0f };
-    int sv;
 
     if (demo_fp)
     {
@@ -493,7 +493,10 @@ int demo_replay_step(float *dt)
         {
             /* Play out current game state for particles, clock, etc. */
 
-            game_step(g, *dt, &sv);
+            if (demo_status == GAME_NONE)
+                demo_status = game_step(g, *dt, 1);
+            else
+                game_step(g, *dt, 0);
 
             /* Load real current game state from file. */
 

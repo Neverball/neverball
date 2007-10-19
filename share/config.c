@@ -106,12 +106,9 @@ void config_init(void)
     config_set_d(CONFIG_VIEW_DZ,              DEFAULT_VIEW_DZ);
     config_set_d(CONFIG_ROTATE_FAST,          DEFAULT_ROTATE_FAST);
     config_set_d(CONFIG_ROTATE_SLOW,          DEFAULT_ROTATE_SLOW);
-    config_set_d(CONFIG_MODE,                 DEFAULT_MODE);
-    config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
-    config_set_s(CONFIG_BALL_BONUS,           DEFAULT_BALL_BONUS);
-    config_set_s(CONFIG_LANG,                 DEFAULT_LANG);
+    config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
     config_set_d(CONFIG_KEY_BACKWARD,         DEFAULT_KEY_BACKWARD);
     config_set_d(CONFIG_KEY_LEFT,             DEFAULT_KEY_LEFT);
@@ -207,10 +204,6 @@ void config_load(void)
                     config_set_d(CONFIG_ROTATE_FAST,          atoi(val));
                 else if (strcmp(key, "rotate_slow")           == 0)
                     config_set_d(CONFIG_ROTATE_SLOW,          atoi(val));
-                else if (strcmp(key, "mode")                  == 0)
-                    config_set_d(CONFIG_MODE,                 atoi(val));
-                else if (strcmp(key, "cheat") == 0 && ALLOW_CHEAT)
-                    config_set_d(CONFIG_CHEAT,                atoi(val));
 
                 else if (strcmp(key, "key_forward")  == 0)
                     config_key(val, CONFIG_KEY_FORWARD, DEFAULT_KEY_FORWARD);
@@ -232,19 +225,18 @@ void config_load(void)
                 else if (strcmp(key, "key_camera_l")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_L, DEFAULT_KEY_CAMERA_L);
 
-                else if (strcmp(key, "key_pause")  == 0)
-                    config_key(val, CONFIG_KEY_PAUSE,    DEFAULT_KEY_PAUSE);
+                else if (strcmp(key, "key_pause")    == 0)
+                    config_key(val, CONFIG_KEY_PAUSE,   DEFAULT_KEY_PAUSE);
                 else if (strcmp(key, "key_restart")  == 0)
-                    config_key(val, CONFIG_KEY_RESTART,    DEFAULT_KEY_RESTART);
+                    config_key(val, CONFIG_KEY_RESTART, DEFAULT_KEY_RESTART);
 
-                else if (strcmp(key, "player")     == 0)
-                    config_set_s(CONFIG_PLAYER,     val);
-                else if (strcmp(key, "ball")       == 0)
-                    config_set_s(CONFIG_BALL,       val);
-                else if (strcmp(key, "ball_bonus") == 0)
-                    config_set_s(CONFIG_BALL_BONUS, val);
-                else if (strcmp(key, "lang")       == 0)
-                    config_set_s(CONFIG_LANG,       val);
+                else if (strcmp(key, "player") == 0)
+                    config_set_s(CONFIG_PLAYER, val);
+                else if (strcmp(key, "ball") == 0)
+                    config_set_s(CONFIG_BALL, val);
+
+                else if (strcmp(key, "cheat") == 0)
+                    config_set_d(CONFIG_CHEAT, atoi(val));
             }
 
         fclose(fp);
@@ -333,8 +325,6 @@ void config_save(void)
                 option_d[CONFIG_ROTATE_FAST]);
         fprintf(fp, "rotate_slow          %d\n",
                 option_d[CONFIG_ROTATE_SLOW]);
-        fprintf(fp, "mode                 %d\n",
-                option_d[CONFIG_MODE]);
 
         fprintf(fp, "key_forward          %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_FORWARD]));
@@ -344,11 +334,6 @@ void config_save(void)
                 SDL_GetKeyName(option_d[CONFIG_KEY_LEFT]));
         fprintf(fp, "key_right            %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_RIGHT]));
-
-        if (option_d[CONFIG_CHEAT])
-            fprintf(fp,
-                    "cheat                %d\n",
-                    option_d[CONFIG_CHEAT]);
 
         fprintf(fp, "key_camera_1         %s\n",
                 SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_1]));
@@ -368,8 +353,9 @@ void config_save(void)
 
         fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
         fprintf(fp, "ball                 %s\n", option_s[CONFIG_BALL]);
-        fprintf(fp, "ball_bonus           %s\n", option_s[CONFIG_BALL_BONUS]);
-        fprintf(fp, "lang                 %s\n", option_s[CONFIG_LANG]);
+
+        if (config_cheat())
+            fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
 
         fclose(fp);
     }
@@ -514,11 +500,6 @@ void config_get_s(int i, char *dst, int len)
     strncpy(dst, option_s[i], len);
 }
 
-const char *config_simple_get_s(int i)
-{
-    return option_s[i];
-}
-
 /*---------------------------------------------------------------------------*/
 
 static int grabbed = 0;
@@ -543,6 +524,23 @@ void config_clr_grab(void)
 int  config_get_grab(void)
 {
     return grabbed;
+}
+
+/*---------------------------------------------------------------------------*/
+
+int config_cheat(void)
+{
+    return config_get_d(CONFIG_CHEAT);
+}
+
+void config_set_cheat(void)
+{
+    config_set_d(CONFIG_CHEAT, 1);
+}
+
+void config_clr_cheat(void)
+{
+    config_set_d(CONFIG_CHEAT, 0);
 }
 
 /*---------------------------------------------------------------------------*/

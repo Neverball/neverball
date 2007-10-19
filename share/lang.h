@@ -12,10 +12,10 @@
  * General Public License for more details.
  */
 
-#ifndef LANGUAGE_H
-#define LANGUAGE_H
+#ifndef LANG_H
+#define LANG_H
 
-#ifndef POSIX
+#ifndef DISABLE_NLS
 #include <libintl.h>
 #define _(String)   gettext(String)
 #else
@@ -27,17 +27,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-void language_init(const char *domain, const char *locale_dir);
-void language_set(int id);
-
-/*---------------------------------------------------------------------------*/
-
-int         language_count();
-int         language_from_code(const char *code);
-const char *language_name(int id);
-const char *language_code(int id);
-
-/*---------------------------------------------------------------------------*/
+void lang_init(const char *domain, const char *locale_dir);
 
 const char *sgettext(const char *);
 

@@ -191,8 +191,6 @@ static void sol_load_goal(FILE *fin, struct s_goal *zp)
 {
     get_array(fin,  zp->p, 3);
     get_float(fin, &zp->r);
-    get_index(fin, &zp->s);
-    get_index(fin, &zp->c);
 }
 
 static void sol_load_swch(FILE *fin, struct s_swch *xp)
@@ -242,6 +240,12 @@ static void sol_load_view(FILE *fin, struct s_view *wp)
     get_array(fin,  wp->q, 3);
 }
 
+static void sol_load_dict(FILE *fin, struct s_dict *dp)
+{
+    get_index(fin, &dp->ai);
+    get_index(fin, &dp->aj);
+}
+
 static int sol_load_file(FILE *fin, struct s_file *fp)
 {
     int i;
@@ -255,6 +259,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
         return 0;
 
     get_index(fin, &fp->ac);
+    get_index(fin, &fp->dc);
     get_index(fin, &fp->mc);
     get_index(fin, &fp->vc);
     get_index(fin, &fp->ec);
@@ -310,12 +315,15 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
         fp->uv = (struct s_ball *) calloc(fp->uc, sizeof (struct s_ball));
     if (fp->wc)
         fp->wv = (struct s_view *) calloc(fp->wc, sizeof (struct s_view));
+    if (fp->dc)
+        fp->dv = (struct s_dict *) calloc(fp->dc, sizeof (struct s_dict));
     if (fp->ic)
         fp->iv = (int           *) calloc(fp->ic, sizeof (int));
 
     if (fp->ac)
         fread(fp->av, 1, fp->ac, fin);
 
+    for (i = 0; i < fp->dc; i++) sol_load_dict(fin, fp->dv + i);
     for (i = 0; i < fp->mc; i++) sol_load_mtrl(fin, fp->mv + i);
     for (i = 0; i < fp->vc; i++) sol_load_vert(fin, fp->vv + i);
     for (i = 0; i < fp->ec; i++) sol_load_edge(fin, fp->ev + i);
@@ -350,6 +358,7 @@ static int sol_load_head(FILE *fin, struct s_file *fp)
         return 0;
 
     get_index(fin, &fp->ac);
+    get_index(fin, &fp->dc);
 
 #if 0
     get_index(fin, &fp->mc);
@@ -377,6 +386,16 @@ static int sol_load_head(FILE *fin, struct s_file *fp)
     {
         fp->av = (char *) calloc(fp->ac, sizeof (char));
         fread(fp->av, 1, fp->ac, fin);
+    }
+
+    if (fp->dc)
+    {
+        int i;
+
+        fp->dv = (struct s_dict *) calloc(fp->dc, sizeof (struct s_dict));
+
+        for (i = 0; i < fp->dc; i++)
+            sol_load_dict(fin, fp->dv + i);
     }
 
     return 1;
@@ -509,8 +528,6 @@ static void sol_stor_goal(FILE *fout, struct s_goal *zp)
 {
     put_array(fout,  zp->p, 3);
     put_float(fout, &zp->r);
-    put_index(fout, &zp->s);
-    put_index(fout, &zp->c);
 }
 
 static void sol_stor_swch(FILE *fout, struct s_swch *xp)
@@ -560,6 +577,12 @@ static void sol_stor_view(FILE *fout, struct s_view *wp)
     put_array(fout,  wp->q, 3);
 }
 
+static void sol_stor_dict(FILE *fout, struct s_dict *dp)
+{
+    put_index(fout, &dp->ai);
+    put_index(fout, &dp->aj);
+}
+
 static void sol_stor_file(FILE *fin, struct s_file *fp)
 {
     int i;
@@ -570,6 +593,7 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     put_index(fin, &version);
 
     put_index(fin, &fp->ac);
+    put_index(fin, &fp->dc);
     put_index(fin, &fp->mc);
     put_index(fin, &fp->vc);
     put_index(fin, &fp->ec);
@@ -590,6 +614,8 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     put_index(fin, &fp->ic);
 
     fwrite(fp->av, 1, fp->ac, fin);
+
+    for (i = 0; i < fp->dc; i++) sol_stor_dict(fin, fp->dv + i);
     for (i = 0; i < fp->mc; i++) sol_stor_mtrl(fin, fp->mv + i);
     for (i = 0; i < fp->vc; i++) sol_stor_vert(fin, fp->vv + i);
     for (i = 0; i < fp->ec; i++) sol_stor_edge(fin, fp->ev + i);
@@ -628,6 +654,7 @@ int sol_stor(struct s_file *fp, const char *filename)
 
 void sol_free(struct s_file *fp)
 {
+    if (fp->av) free(fp->av);
     if (fp->mv) free(fp->mv);
     if (fp->vv) free(fp->vv);
     if (fp->ev) free(fp->ev);
@@ -645,7 +672,7 @@ void sol_free(struct s_file *fp)
     if (fp->rv) free(fp->rv);
     if (fp->uv) free(fp->uv);
     if (fp->wv) free(fp->wv);
-    if (fp->av) free(fp->av);
+    if (fp->dv) free(fp->dv);
     if (fp->iv) free(fp->iv);
 
     memset(fp, 0, sizeof (struct s_file));
@@ -1361,11 +1388,12 @@ struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
     return NULL;
 }
 
+/*
+ * Test if the  ball UI is inside a  jump. Return 1 if yes  and fill P
+ * with the destination position, return 0 if not, and return 2 if the
+ * ball is on the border of a jump.
+ */
 int sol_jump_test(struct s_file *fp, float *p, int ui)
-/* Test if the ball ui is inside a jump. */
-/* Return 1 if yes and fill p with the destination position. */
-/* Return 0 if no. */
-/* Return 2 if the ball is on the border of a jump. */
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
@@ -1401,16 +1429,17 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
     return res;
 }
 
+/*
+ * Test and process the event the ball UI enters a switch. Return 1 if
+ * a visible  switch is  activated, return 0  otherwise (no  switch is
+ * activated or only invisible switches).
+ */
 int sol_swch_test(struct s_file *fp, int ui)
-/* In the SOL fp, test and process the event the ball ui enters a switch.
- * Return 1 if a visible switch is activated, return 0 otherwise (no switch is
- * activated or only invisible switches) */
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
     int xi;
-    float l;
-    int res = 0; /* result */
+    int res = 0;
 
     for (xi = 0; xi < fp->xc; xi++)
     {
@@ -1418,6 +1447,7 @@ int sol_swch_test(struct s_file *fp, int ui)
 
         if (xp->t0 == 0 || xp->f == xp->f0)
         {
+            float l;
             float r[3];
 
             r[0] = ball_p[0] - xp->p[0];
@@ -1425,6 +1455,7 @@ int sol_swch_test(struct s_file *fp, int ui)
             r[2] = 0;
 
             l = v_len(r) - xp->r;
+
             if (l < ball_r &&
                 ball_p[1] > xp->p[1] &&
                 ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
@@ -1434,7 +1465,8 @@ int sol_swch_test(struct s_file *fp, int ui)
                     int pi = xp->pi;
                     int pj = xp->pi;
 
-                    /* The ball enter */
+                    /* The ball enters. */
+
                     if (xp->t0 == 0)
                         xp->e = 1;
 
@@ -1458,13 +1490,16 @@ int sol_swch_test(struct s_file *fp, int ui)
                     if (xp->f != xp->f0)
                         xp->t  = xp->t0;
 
-                    /* If visible, set the result */
+                    /* If visible, set the result. */
+
                     if (!xp->i)
                         res = 1;
                 }
             }
+
+            /* The ball exits. */
+
             else if (xp->e)
-                /* A ball go out */
                 xp->e = 0;
         }
     }

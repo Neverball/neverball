@@ -1,23 +1,41 @@
 #ifndef LEVELS_H
 #define LEVELS_H
 
-#include "game.h"
-
 /*---------------------------------------------------------------------------*/
 
-const struct level_game *curr_lg(void);
+struct level_game
+{
+    int mode;          /* game mode */
+    const struct level *level; /* the level played */
 
-int  level_replay(const char *);
-void level_play_single(const char *);
-void level_play(const struct level *, int);
-int  level_play_go(void);
-void level_next(void);
+    int goal;          /* coins needed */
+    int time;          /* time limit */
 
-void level_stop(int, int, int, int);
+    /* MODE_CHALLENGE only */
+    int score;         /* coin total */
+    int balls;         /* live count */
+    int times;         /* time total */
 
-int  count_extra_balls(int, int);
+    /* Once a level is finished */
+    int status;        /* status ending */
+    int coins;         /* coins collected */
+    int timer;         /* time elapsed */
 
-void level_update_player_name(void);
+    /* rank = 3  => unclassed */
+    int coin_rank;     /* rank in the level high-scores */
+    int goal_rank;     /* rank in the level high-scores */
+    int time_rank;     /* rank in the level high-scores */
+    int score_rank;    /* rank in the set high-scores */
+    int times_rank;    /* rank in the set high-scores */
+
+    /* What about the game and the set? */
+    int dead;          /* Is the game over and lost? */
+    int win;           /* Is the game over and win? */
+    int unlock;        /* Is the next level newly unlocked */
+    const struct level *next_level; /* next level (NULL no next level) */
+};
+
+struct level_game *curr_lg(void);
 
 /*---------------------------------------------------------------------------*/
 

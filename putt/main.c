@@ -14,17 +14,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#ifdef WIN32
-#pragma comment(lib, "SDL_ttf.lib")
-#pragma comment(lib, "SDL_mixer.lib")
-#pragma comment(lib, "SDL_image.lib")
-#pragma comment(lib, "SDL.lib")
-#pragma comment(lib, "SDLmain.lib")
-#pragma comment(lib, "opengl32.lib")
-#endif
-
-/*---------------------------------------------------------------------------*/
-
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
@@ -213,7 +202,7 @@ int main(int argc, char *argv[])
 
     srand((int) time(NULL));
 
-    language_init("neverball", CONFIG_LOCALE);
+    lang_init("neverball", CONFIG_LOCALE);
 
     if (config_data_path((argc > 1 ? argv[1] : NULL), COURSE_FILE))
     {
@@ -223,10 +212,6 @@ int main(int argc, char *argv[])
             {
                 config_init();
                 config_load();
-
-                /* Initialize the language. */
-
-                language_set(language_from_code(config_simple_get_s(CONFIG_LANG)));
 
                 /* Cache Neverball's camera setting. */
 
@@ -273,6 +258,7 @@ int main(int argc, char *argv[])
                 SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
                 SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+#ifndef __APPLE__
                 icon = IMG_Load(config_data("icon/neverputt.png"));
 
                 if (icon)
@@ -280,6 +266,7 @@ int main(int argc, char *argv[])
                     SDL_WM_SetIcon(icon, NULL);
                     SDL_FreeSurface(icon);
                 }
+#endif /* __APPLE__ */
 
                 /* Initialize the video. */
 

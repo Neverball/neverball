@@ -63,6 +63,8 @@
       - Code contributions and clean-up
     Michael Sterret
       - Gentoo ebuild
+    Lars Stoltenow
+      - Map compiler speed-ups for debugging large maps
     Uoti Urpala
       - Bounces with moving objects
     Mehdi Yousfi-Monod

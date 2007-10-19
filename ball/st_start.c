@@ -29,25 +29,9 @@
 
 /*---------------------------------------------------------------------------*/
 
-int goto_end_level(void)
-{
-    switch (curr_lg()->mode)
-    {
-    case MODE_SINGLE:
-        return 0;
-    case MODE_CHALLENGE:
-        return goto_state(&st_over);
-    default:
-        return goto_state(&st_start);
-    }
-}
-
-
-/*---------------------------------------------------------------------------*/
-
-#define START_BACK -1
-#define START_PRACTICE -2
-#define START_NORMAL -3
+#define START_BACK      -1
+#define START_PRACTICE  -2
+#define START_NORMAL    -3
 #define START_CHALLENGE -4
 
 static int shot_id;
@@ -87,16 +71,16 @@ static void gui_level(int id, int i)
     gui_active(jd, i, 0);
 }
 
-static void start_over_level(i)
+static void start_over_level(int i)
 {
     const struct level *l = get_level(i);
-    if (!l->is_locked || config_get_d(CONFIG_CHEAT))
+    if (!l->is_locked || config_cheat())
     {
         gui_set_image(shot_id, l->shot);
 
         set_most_coins(&l->score.most_coins, -1);
 
-        if (config_get_d(CONFIG_MODE) == MODE_PRACTICE)
+        if (curr_mode() == MODE_PRACTICE)
         {
             set_best_times(&l->score.best_times, -1, 0);
             if (l->is_bonus)
@@ -115,7 +99,7 @@ static void start_over_level(i)
             else
                 gui_set_label(status_id, _("Play this level in normal mode"));
         }
-        if (config_get_d(CONFIG_CHEAT))
+        if (config_cheat())
         {
             gui_set_label(status_id, l->file);
         }
@@ -129,7 +113,7 @@ static void start_over_level(i)
                       _("Finish previous levels to unlock this level"));
 }
 
-static void start_over(id)
+static void start_over(int id)
 {
     int i;
 
@@ -166,7 +150,7 @@ static void start_over(id)
 
 static int start_action(int i)
 {
-    int mode = config_get_d(CONFIG_MODE);
+    int mode = curr_mode();
 
     audio_play(AUD_MENU, 1.0f);
 
@@ -175,19 +159,19 @@ static int start_action(int i)
     case START_BACK:
         return goto_state(&st_set);
     case START_NORMAL:
-        config_set_d(CONFIG_MODE, MODE_NORMAL);
+        mode_set(MODE_NORMAL);
         return goto_state(&st_start);
     case START_PRACTICE:
-        config_set_d(CONFIG_MODE, MODE_PRACTICE);
+        mode_set(MODE_PRACTICE);
         return goto_state(&st_start);
     }
 
     if (i == START_CHALLENGE)
     {
         /* On cheat, start challenge mode where you want */
-        if (config_get_d(CONFIG_CHEAT))
+        if (config_cheat())
         {
-            config_set_d(CONFIG_MODE, MODE_CHALLENGE);
+            mode_set(MODE_CHALLENGE);
             return goto_state(&st_start);
         }
         i = 0;
@@ -198,10 +182,17 @@ static int start_action(int i)
     {
         const struct level *l = get_level(i);
 
-        if (!l->is_locked || config_get_d(CONFIG_CHEAT))
+        if (!l->is_locked || config_cheat())
         {
-            level_play(l, mode);
-            return goto_state(&st_level);
+            if (level_play(l, mode))
+            {
+                return goto_state(&st_level);
+            }
+            else
+            {
+                level_stop();
+                return 1;
+            }
         }
     }
     return 1;
@@ -211,16 +202,17 @@ static int start_enter(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
-    int m = config_get_d(CONFIG_MODE);
+    int m = curr_mode();
     int i, j;
 
     int id, jd, kd, ld;
 
     /* Deactivate cheat */
-    if (m == MODE_CHALLENGE && !config_get_d(CONFIG_CHEAT))
+
+    if (m == MODE_CHALLENGE && !config_cheat())
     {
+        mode_set(MODE_NORMAL);
         m = MODE_NORMAL;
-        config_set_d(CONFIG_MODE, m);
     }
 
     if ((id = gui_vstack(0)))
@@ -295,7 +287,7 @@ static void start_stick(int id, int a, int v)
 
 static int start_keybd(int c, int d)
 {
-    if (d && c == SDLK_c && config_get_d(CONFIG_CHEAT))
+    if (d && c == SDLK_c && config_cheat())
     {
         set_cheat();
         return goto_state(&st_start);

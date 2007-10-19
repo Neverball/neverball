@@ -14,17 +14,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#ifdef WIN32
-#pragma comment(lib, "SDL_ttf.lib")
-#pragma comment(lib, "SDL_image.lib")
-#pragma comment(lib, "SDL_mixer.lib")
-#pragma comment(lib, "SDL.lib")
-#pragma comment(lib, "SDLmain.lib")
-#pragma comment(lib, "opengl32.lib")
-#endif
-
-/*---------------------------------------------------------------------------*/
-
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -51,30 +40,11 @@
 
 /*---------------------------------------------------------------------------*/
 
-/* Ohhhh... arbitrary! */
+static int debug_output = 0;
 
-/* Old Limits:
-#define MAXM    256
-#define MAXV    32767
-#define MAXE    32767
-#define MAXS    32767
-#define MAXT    32767
-#define MAXG    32767
-#define MAXL    1024
-#define MAXN    1024
-#define MAXP    512
-#define MAXB    512
-#define MAXH    1024
-#define MAXZ    16
-#define MAXJ    32
-#define MAXX    256
-#define MAXR    1024
-#define MAXU    16
-#define MAXW    32
-#define MAXD    128
-#define MAXA    8192
-#define MAXI    32767
-*/
+/*---------------------------------------------------------------------------*/
+
+/* Ohhhh... arbitrary! */
 
 #define MAXM    1024
 #define MAXV    65534
@@ -189,6 +159,11 @@ static int incw(struct s_file *fp)
     return (fp->wc < MAXW) ? fp->wc++ : overflow("view");
 }
 
+static int incd(struct s_file *fp)
+{
+    return (fp->dc < MAXD) ? fp->dc++ : overflow("dict");
+}
+
 static int inci(struct s_file *fp)
 {
     return (fp->ic < MAXI) ? fp->ic++ : overflow("indx");
@@ -213,6 +188,7 @@ static void init_file(struct s_file *fp)
     fp->rc = 0;
     fp->uc = 0;
     fp->wc = 0;
+    fp->dc = 0;
     fp->ac = 0;
     fp->ic = 0;
 
@@ -233,6 +209,7 @@ static void init_file(struct s_file *fp)
     fp->rv = (struct s_bill *) calloc(MAXR, sizeof (struct s_bill));
     fp->uv = (struct s_ball *) calloc(MAXU, sizeof (struct s_ball));
     fp->wv = (struct s_view *) calloc(MAXW, sizeof (struct s_view));
+    fp->dv = (struct s_dict *) calloc(MAXD, sizeof (struct s_dict));
     fp->av = (char          *) calloc(MAXA, sizeof (char));
     fp->iv = (int           *) calloc(MAXI, sizeof (int));
 }
@@ -827,6 +804,33 @@ static void make_path(struct s_file *fp,
     }
 }
 
+static void make_dict(struct s_file *fp,
+                      const char *k,
+                      const char *v)
+{
+    int space_left, space_needed, di = incd(fp);
+
+    struct s_dict *dp = fp->dv + di;
+
+    space_left   = MAXA - fp->ac;
+    space_needed = strlen(k) + 1 + strlen(v) + 1;
+
+    if (space_needed > space_left)
+    {
+        fp->dc--;
+        return;
+    }
+
+    dp->ai = fp->ac;
+    dp->aj = dp->ai + strlen(k) + 1;
+    fp->ac = dp->aj + strlen(v) + 1;
+
+    strncpy(fp->av + dp->ai, k, space_left);
+    strncpy(fp->av + dp->aj, v, space_left - strlen(k) - 1);
+}
+
+static int read_dict_entries = 0;
+
 static void make_body(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c, int l0)
@@ -862,15 +866,8 @@ static void make_body(struct s_file *fp,
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%d %d %d", &x, &y, &z);
 
-        else if (strcmp(k[i], "classname") != 0)
-        {
-            /* Considers other strings as metadata */
-            strcat(fp->av, k[i]);
-            strcat(fp->av, "=");
-            strcat(fp->av, v[i]);
-            strcat(fp->av, "\n");
-            fp->ac += (int) (strlen(v[i]) + (strlen(k[i])) + 2);
-        }
+        else if (read_dict_entries && strcmp(k[i], "classname") != 0)
+            make_dict(fp, k[i], v[i]);
     }
 
     bp->l0 = l0;
@@ -887,6 +884,8 @@ static void make_body(struct s_file *fp,
 
     for (i = v0; i < fp->vc; i++)
         v_add(fp->vv[i].p, fp->vv[i].p, p);
+
+    read_dict_entries = 0;
 }
 
 static void make_item(struct s_file *fp,
@@ -1003,17 +1002,11 @@ static void make_goal(struct s_file *fp,
     zp->p[1] = 0.f;
     zp->p[2] = 0.f;
     zp->r    = 0.75;
-    zp->s    = 0;
-    zp->c    = 0;
 
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "radius") == 0)
             sscanf(v[i], "%f", &zp->r);
-        if (strcmp(k[i], "skip") == 0)
-            sscanf(v[i], "%d", &zp->s);
-        if (strcmp(k[i], "special") == 0)
-            sscanf(v[i], "%d", &zp->c);
 
         if (strcmp(k[i], "origin") == 0)
         {
@@ -1129,7 +1122,10 @@ static void make_swch(struct s_file *fp,
             sscanf(v[i], "%f", &xp->t0);
 
         if (strcmp(k[i], "state") == 0)
-            xp->f = atoi(v[i]);
+        {
+            xp->f  = atoi(v[i]);
+            xp->f0 = atoi(v[i]);
+        }
 
         if (strcmp(k[i], "invisible") == 0)
             xp->i = atoi(v[i]);
@@ -1260,7 +1256,11 @@ static void read_ent(struct s_file *fp, FILE *fin)
     if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(fp, k, v, c);
     if (!strcmp(v[i], "target_teleporter"))        make_jump(fp, k, v, c);
     if (!strcmp(v[i], "target_position"))          make_targ(fp, k, v, c);
-    if (!strcmp(v[i], "worldspawn"))               make_body(fp, k, v, c, l0);
+    if (!strcmp(v[i], "worldspawn"))
+    {
+        read_dict_entries = 1;
+        make_body(fp, k, v, c, l0);
+    }
     if (!strcmp(v[i], "func_train"))               make_body(fp, k, v, c, l0);
     if (!strcmp(v[i], "misc_model"))               make_body(fp, k, v, c, l0);
 }
@@ -1890,6 +1890,9 @@ static void uniq_side(struct s_file *fp)
 
 static void uniq_file(struct s_file *fp)
 {
+    if (debug_output)
+        return;
+
     uniq_mtrl(fp);
     uniq_vert(fp);
     uniq_edge(fp);
@@ -2024,11 +2027,26 @@ static int node_node(struct s_file *fp, int l0, int lc)
         /* Flag each lump with its position WRT the side. */
 
         for (li = 0; li < lc; li++)
-            switch (test_lump_side(fp, fp->lv + l0 + li, fp->sv + sj))
+            if (debug_output)
             {
-            case +1: fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x10; break;
-            case  0: fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x20; break;
-            case -1: fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x40; break;
+                fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x20;
+            }
+            else
+            {
+                switch (test_lump_side(fp, fp->lv + l0 + li, fp->sv + sj))
+                {
+                case +1:
+                    fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x10;
+                    break;
+
+                case  0:
+                    fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x20;
+                    break;
+
+                case -1:
+                    fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x40;
+                    break;
+                }
             }
 
         /* Sort all lumps in the range by their flag values. */
@@ -2133,8 +2151,8 @@ static void dump_file(struct s_file *p, const char *name)
            "  geom  lump  path  node  body\n"
            "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
            "  item  goal  view  jump  swch"
-           "  bill  ball  char  indx\n"
-           "%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
+           "  bill  ball  char  dict  indx\n"
+           "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
 #if 0
            name, n, m, c,
 #endif
@@ -2142,7 +2160,7 @@ static void dump_file(struct s_file *p, const char *name)
            p->mc, p->vc, p->ec, p->sc, p->tc,
            p->gc, p->lc, p->pc, p->nc, p->bc,
            p->hc, p->zc, p->wc, p->jc, p->xc,
-           p->rc, p->uc, p->ac, p->ic);
+           p->rc, p->uc, p->ac, p->dc, p->ic);
 }
 
 /* Skip the ugly SDL main substitution since we only need sdl_image. */
@@ -2159,6 +2177,9 @@ int main(int argc, char *argv[])
 
     if (argc > 2)
     {
+        if (argc > 3 && strcmp(argv[3], "--debug") == 0)
+            debug_output = 1;
+        
         if (config_data_path(argv[2], NULL))
         {
             strncpy(src,  argv[1], MAXSTR);
@@ -2193,7 +2214,7 @@ int main(int argc, char *argv[])
         }
         else fprintf(stderr, "Failure to establish data directory\n");
     }
-    else fprintf(stderr, "Usage: %s <map> [data]\n", argv[0]);
+    else fprintf(stderr, "Usage: %s <map> <data> [--debug]\n", argv[0]);
 
     return 0;
 }

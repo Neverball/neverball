@@ -32,11 +32,12 @@
 #include <SDL_endian.h>
 
 /* HACK:  prevent including i18n. */
-#define LANGUAGE_H
+#define LANG_H
 
 #include "base_config.h"
 #include "binary.h"
 #include "level.h"
+#include "mode.h"
 
 /*----------------------------------------------------------------------------*/
 

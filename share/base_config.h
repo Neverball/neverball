@@ -21,9 +21,13 @@
  */
 
 #include <stdio.h>
-#include "i18n.h"
+#include "lang.h"
 
 /*---------------------------------------------------------------------------*/
+
+#ifndef VERSION
+#define VERSION "unknown"
+#endif
 
 #ifndef CONFIG_DATA
 #define CONFIG_DATA   "./data"        /* Game data directory */
@@ -52,7 +56,6 @@
 #define USER_CONFIG_FILE    "neverballrc"
 #define USER_REPLAY_FILE    "Last"
 #define REPLAY_EXT          ".nbr"
-#define ALLOW_CHEAT         1
 
 /*---------------------------------------------------------------------------*/
 
