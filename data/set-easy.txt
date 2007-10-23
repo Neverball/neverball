@@ -20,7 +20,7 @@ map-easy/speedbumps.sol
 map-easy/thwomp2.sol
 map-easy/hole.sol
 map-easy/roundlaby.sol
-map-easy/canals.sol
+map-easy/hardrise.sol
 map-easy/roundcoins.sol
 map-easy/wakka.sol
 map-easy/corners.sol
