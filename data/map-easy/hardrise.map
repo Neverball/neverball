@@ -6,7 +6,7 @@
 "version" "1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"
-"shot" "shot-misc/.jpg"
+"shot" "shot-easy/hardrise.jpg"
 "song" "bgm/track3.ogg"
 "time" "15000"
 "goal" "40"
