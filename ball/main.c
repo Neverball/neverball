@@ -210,71 +210,88 @@ static int loop(void)
 
 /*---------------------------------------------------------------------------*/
 
-/* Option values */
+static char *data_path = NULL;
+static char *demo_path = NULL;
 
-static char *data_path    = NULL;
-static char *replay_path  = NULL;
-static int   display_info = 0;
+static unsigned int display_info = 0;
+static unsigned int replay_demo  = 0;
 
-/* Option handling */
+#define argument_error(option) { \
+    fprintf(stderr, _("Option '%s' requires an argument.\n"), option); \
+}
 
 static void parse_args(int argc, char **argv)
 {
-    char *exec = *(argv++);
-    int missing;
+    int i;
 
     const char *usage = _(
         "Usage: %s [options ...]\n"
-        "-r, --replay file         play the replay 'file'.\n"
-        "-i, --info                display info about a replay.\n"
-        "    --data dir            use 'dir' as game data directory.\n"
+        "-h, --help                show this usage message.\n"
         "-v, --version             show version.\n"
-        "-h, -?, --help            show this usage message.\n"
+        "-d, --data <dir>          use 'dir' as game data directory.\n"
+        "-r, --replay <file>       play the replay 'file'.\n"
+        "-i, --info                display info about a replay.\n"
     );
 
-#   define CASE(x) (strcmp(*argv, (x)) == 0)       /* Check current option */
-#   define MAND    !(missing = (argv[1] == NULL))  /* Argument is mandatory */
+    /* Scan argument list. */
 
-    while (*argv != NULL)
+    for (i = 1; i < argc; i++)
     {
-        missing = 0;
-        if (CASE("-h") || CASE("-?") || CASE("--help"))
+        if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help")    == 0)
         {
-            printf(usage, exec);
-            exit(0);
+            printf(usage, argv[0]);
+            exit(EXIT_SUCCESS);
         }
-        else if (CASE("-v") || CASE("--version"))
+
+        if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0)
         {
             printf("%s\n", VERSION);
-            exit(0);
+            exit(EXIT_SUCCESS);
         }
-        else if (CASE("--data") && MAND)
-            data_path = *(++argv);
-        else if ((CASE("-r") || CASE("--replay")) && MAND)
-            replay_path = *(++argv);
-        else if ((CASE("-i") || CASE("--info")))
+
+        if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--data")    == 0)
+        {
+            if (i + 1 == argc)
+            {
+                argument_error(argv[i]);
+                exit(EXIT_FAILURE);
+            }
+            data_path = argv[++i];
+            continue;
+        }
+
+        if (strcmp(argv[i], "-r") == 0 || strcmp(argv[i], "--replay")  == 0)
+        {
+            if (i + 1 == argc)
+            {
+                argument_error(argv[i]);
+                exit(EXIT_FAILURE);
+            }
+            demo_path = argv[++i];
+            continue;
+        }
+
+        if (strcmp(argv[i], "-i") == 0 || strcmp(argv[i], "--info")    == 0)
+        {
             display_info = 1;
-        else if (!missing)
-        {
-            fprintf(stderr, _("%s: unknown option %s\n"), exec, *argv);
-            fprintf(stderr, usage, exec);
-            exit(1);
+            continue;
         }
-        else
-        {
-            fprintf(stderr, _("%s: option %s requires an argument\n"), exec,
-                    *argv);
-            fprintf(stderr, usage, exec);
-            exit(1);
-        }
-        argv++;
     }
 
-#   undef CASE
-#   undef MAND
+    /* Resolve conflicts. */
 
-    return;
+    if (demo_path)
+        replay_demo = display_info ? 0 : 1;
+    else
+        if (display_info)
+        {
+            /* FIXME, I'm a required option. */
+            fputs(_("Option '--info' requires '--replay'.\n"), stderr);
+            exit(EXIT_FAILURE);
+        }
 }
+
+#undef argument_error
 
 /*---------------------------------------------------------------------------*/
 
@@ -314,28 +331,17 @@ int main(int argc, char *argv[])
     config_init();
     config_load();
 
-    /* Prepare run without GUI */
-
-    if (replay_path)
-    {
-        if (!level_replay(replay_path))
-        {
-            fprintf(stderr, _("Replay file '%s': %s\n"), replay_path,
-                    errno ? strerror(errno) : _("Not a replay file"));
-            return 1;
-        }
-        else if (display_info)
-            demo_replay_dump_info();
-    }
+    /* Dump replay information and exit. */
 
     if (display_info)
     {
-        if (replay_path == NULL)
+        if (!level_replay(demo_path))
         {
-            fprintf(stderr, _("%s: --info requires --replay\n"),
-                    argv[0]);
+            fprintf(stderr, _("Replay file '%s': %s\n"), demo_path,
+                    errno ? strerror(errno) : _("Not a replay file"));
             return 1;
         }
+        demo_replay_dump_info();
         return 0;
     }
 
@@ -405,13 +411,13 @@ int main(int argc, char *argv[])
 
     SDL_WM_SetCaption(TITLE, TITLE);
 
-    /* Initialize the run state. */
-
     init_state(&st_null);
 
-    if (replay_path)
+    /* Initialise demo playback. */
+
+    if (replay_demo)
     {
-        level_replay(replay_path);
+        level_replay(demo_path);
         demo_play_goto(1);
         goto_state(&st_demo_play);
     }
