@@ -23,7 +23,7 @@
 
 void lang_init(const char *domain, const char *default_dir)
 {
-#ifndef DISABLE_NLS
+#if ENABLE_NLS
     char *dir = getenv("NEVERBALL_LOCALE");
 
     setlocale(LC_ALL, "");
@@ -31,12 +31,14 @@ void lang_init(const char *domain, const char *default_dir)
     bindtextdomain(domain, dir ? dir : default_dir);
     bind_textdomain_codeset(domain, "UTF-8");
     textdomain(domain);
+#else
+    return;
 #endif
 }
 
 const char *sgettext(const char *msgid)
 {
-#ifndef DISABLE_NLS
+#if ENABLE_NLS
     const char *msgval = gettext(msgid);
 #else
     const char *msgval = msgid;

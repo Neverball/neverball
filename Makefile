@@ -18,8 +18,10 @@ ALL_CFLAGS   := $(CFLAGS)
 ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare \
     -DVERSION=\"$(VERSION)\"
 
-ifdef DISABLE_NLS
-    ALL_CPPFLAGS += -DDISABLE_NLS=1
+ifeq ($(ENABLE_NLS),0)
+    ALL_CPPFLAGS += -DENABLE_NLS=0
+else
+    ALL_CPPFLAGS += -DENABLE_NLS=1
 endif
 
 ALL_CPPFLAGS += $(CPPFLAGS)
@@ -30,7 +32,7 @@ SDL_LIBS := $(shell sdl-config --libs)
 PNG_LIBS := $(shell libpng-config --libs)
 
 ifdef MINGW
-ifndef DISABLE_NLS
+ifneq ($(ENABLE_NLS),0)
     INTL_LIBS := -lintl
 endif
     OGL_LIBS  := -lopengl32 -lm
@@ -166,7 +168,7 @@ $(MAPC_TARG) : $(MAPC_OBJS)
 sols : $(SOLS)
 
 locales :
-ifndef DISABLE_NLS
+ifneq ($(ENABLE_NLS),0)
 	$(MAKE) -C po
 endif
 

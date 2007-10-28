@@ -15,7 +15,7 @@
 #ifndef LANG_H
 #define LANG_H
 
-#ifndef DISABLE_NLS
+#if ENABLE_NLS
 #include <libintl.h>
 #define _(String)   gettext(String)
 #else
