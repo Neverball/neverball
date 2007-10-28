@@ -226,11 +226,12 @@ static void parse_args(int argc, char **argv)
 
     const char *usage = _(
         "Usage: %s [options ...]\n"
-        "-h, --help                show this usage message.\n"
-        "-v, --version             show version.\n"
-        "-d, --data <dir>          use 'dir' as game data directory.\n"
-        "-r, --replay <file>       play the replay 'file'.\n"
-        "-i, --info                display info about a replay.\n"
+        "Options:\n"
+        "  -h, --help                show this usage message.\n"
+        "  -v, --version             show version.\n"
+        "  -d, --data <dir>          use 'dir' as game data directory.\n"
+        "  -r, --replay <file>       play the replay 'file'.\n"
+        "  -i, --info                display info about a replay.\n"
     );
 
     /* Scan argument list. */
