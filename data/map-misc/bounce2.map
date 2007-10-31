@@ -3,6 +3,10 @@
 {
 "classname" "worldspawn"
 "message" "Follow the arrows."
+"shot" "shot-misc/bounce2.jpg"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"song" "bgm/track1.ogg"
 // brush 0
 {
 ( 0 64 16 ) ( 0 -64 16 ) ( -128 64 16 ) mtrl/turf-brown 0 0 0 0.5 0.5 0 0 0

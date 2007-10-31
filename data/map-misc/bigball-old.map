@@ -3,12 +3,12 @@
 {
 "classname" "worldspawn"
 "author"    "Mehdi Yousfi-Monod"
-"levelname" "bigball-mym"
+"levelname" "bigball-old-mym"
 "version"   "1"
 
 "back"      "map-back/ocean.sol"
 "grad"      "back/ocean.png"
-"shot"      "shot-misc/bigball-mym.jpg"
+"shot"      "shot-misc/bigball-old.jpg"
 "song"      "bgm/track2.ogg"
 "time"      "9000"
 "goal"      "60"

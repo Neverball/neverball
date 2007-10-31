@@ -3,6 +3,10 @@
 {
 "classname" "worldspawn"
 "message" "Follow the blue coins...\and learn to control your bounce!\Hint: Use the 'chase' camera mode."
+"shot" "shot-misc/bounce.jpg"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"song" "bgm/track1.ogg"
 // brush 0
 {
 ( 26 3264 -392 ) ( 202 3264 -392 ) ( 26 3104 -392 ) mtrl/turf-green -81 1 90 0.5 0.5 0 0 0

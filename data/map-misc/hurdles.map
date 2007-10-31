@@ -9,8 +9,8 @@
 "time" "10000"
 "goal" "10"
 "version" "1"
-"bonus" "1"
 "author" "Ian Walker"
+"levelname" "hurdles"
 // brush 0
 {
 ( -444 64 24 ) ( -444 64 0 ) ( -444 -320 0 ) mtrl/invisible 16 0 -180 0.500000 -0.500000 0 1 0

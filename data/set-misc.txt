@@ -1,7 +1,7 @@
 Neverball Misc
-For Testing purposes\\\remaining levels\\
+Unsorted levels\For testing purposes\\\\
 misc
-shot-misc/paths.jpg
+shot-misc/billiard.jpg
 
 map-misc/billiard.sol
 map-misc/checkers.sol
@@ -9,7 +9,7 @@ map-misc/ocean.sol
 map-misc/grow_demo.sol
 map-misc/stairs.sol
 map-misc/elevator.sol
-map-misc/bigball.sol
+map-misc/bigball-old.sol
 map-misc/thwomp1.sol
 map-misc/bounce.sol
 map-misc/bounce2.sol

@@ -3,12 +3,12 @@
 {
 "classname" "worldspawn"
 "author"  "Jean Privat"
-"levelname" "elevator-jp"
+"levelname" "elevator"
 "version" "1"
 
 "message" "Calm and meditation may bring you to the Nirvana."
 "back"    "map-back/clouds.sol"
-"shot"    "shot-easy2/elevator-jp.jpg"
+"shot"    "shot-misc/elevator.jpg"
 "song"    "bgm/track1.ogg"
 "grad"    "back/land.png"
 "goal"    "5"
