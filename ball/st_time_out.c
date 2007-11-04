@@ -87,8 +87,8 @@ static int time_out_enter(void)
                 gui_start(jd, _("Game Over"), GUI_SML, TIME_OUT_OVER, 0);
             else
             {
-                retry_id = gui_maybe(jd, _("Retry Level"), TIME_OUT_SAME,
-                                     lg->mode != MODE_CHALLENGE);
+                retry_id = gui_state(jd, _("Retry Level"), GUI_SML,
+                                     TIME_OUT_SAME, 0);
             }
 
             gui_maybe(jd, _("Save Replay"), TIME_OUT_SAVE, demo_saved());

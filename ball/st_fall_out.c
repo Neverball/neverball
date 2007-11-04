@@ -96,8 +96,8 @@ static int fall_out_enter(void)
             }
             else
             {
-                retry_id = gui_maybe(jd, _("Retry Level"), FALL_OUT_SAME,
-                                     lg->mode != MODE_CHALLENGE);
+                retry_id = gui_state(jd, _("Retry Level"), GUI_SML,
+                                     FALL_OUT_SAME, 0);
             }
 
             gui_maybe(jd, _("Save Replay"), FALL_OUT_SAVE, demo_saved());
