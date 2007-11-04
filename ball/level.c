@@ -168,6 +168,8 @@ void level_dump(const struct level *l)
 
 /*---------------------------------------------------------------------------*/
 
+static unsigned int same_level = 0;
+
 int level_replay(const char *filename)
 {
     return demo_replay_init(filename, curr_lg());
@@ -177,11 +179,14 @@ int level_play(const struct level *l, int m)
 {
     struct level_game *lg = curr_lg();
 
-    memset(lg, 0, sizeof (struct level_game));
+    if (!same_level)
+    {
+        memset(lg, 0, sizeof (struct level_game));
 
-    lg->mode  = m;
-    lg->level = l;
-    lg->balls = 3;
+        lg->mode  = m;
+        lg->level = l;
+        lg->balls = 3;
+    }
 
     lg->goal = (lg->mode == MODE_PRACTICE) ? 0 : lg->level->goal;
     lg->time = (lg->mode == MODE_PRACTICE) ? 0 : lg->level->time;
@@ -196,6 +201,8 @@ int level_play(const struct level *l, int m)
 
     lg->win = lg->dead = lg->unlock = 0;
     lg->next_level = NULL;
+
+    same_level = 0;
 
     return demo_play_init(USER_REPLAY_FILE, lg->level, lg);
 }
@@ -256,6 +263,7 @@ int level_next(void)
 
 int level_same(void)
 {
+    same_level = 1;
     level_stop();
     return level_play(curr_lg()->level, curr_lg()->mode);
 }
