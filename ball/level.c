@@ -168,7 +168,7 @@ void level_dump(const struct level *l)
 
 /*---------------------------------------------------------------------------*/
 
-static unsigned int same_level = 0;
+static unsigned int do_level_init = 1;
 
 int level_replay(const char *filename)
 {
@@ -179,7 +179,7 @@ int level_play(const struct level *l, int m)
 {
     struct level_game *lg = curr_lg();
 
-    if (!same_level)
+    if (do_level_init)
     {
         memset(lg, 0, sizeof (struct level_game));
 
@@ -201,8 +201,6 @@ int level_play(const struct level *l, int m)
 
     lg->win = lg->dead = lg->unlock = 0;
     lg->next_level = NULL;
-
-    same_level = 0;
 
     return demo_play_init(USER_REPLAY_FILE, lg->level, lg);
 }
@@ -250,6 +248,7 @@ void level_stat(int status, int clock, int coins)
 void level_stop(void)
 {
     demo_play_stop();
+    do_level_init = 1;
 }
 
 int level_next(void)
@@ -258,13 +257,15 @@ int level_next(void)
 
     level_stop();
     lg->level = lg->next_level;
+    do_level_init = 0;
+
     return level_play(lg->level, lg->mode);
 }
 
 int level_same(void)
 {
-    same_level = 1;
     level_stop();
+    do_level_init = 0;
     return level_play(curr_lg()->level, curr_lg()->mode);
 }
 
