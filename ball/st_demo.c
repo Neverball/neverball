@@ -265,15 +265,22 @@ static int demo_enter(void)
     }
     else
     {
-        gui_label(id, _("No Replays"), GUI_MED, GUI_ALL, 0,0);
-        gui_filler(id);
-        gui_start(id, _("Back"), GUI_SML, GUI_BACK, 0);
+        gui_label(id, _("No Replays"), GUI_MED, GUI_ALL, 0, 0);
         gui_layout(id, 0, 0);
     }
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
     return id;
+}
+
+static void demo_timer(int id, float dt)
+{
+    if (total == 0 && time_state() > 4.0f)
+        goto_state(&st_title);
+
+    gui_timer(id, dt);
+    audio_timer(dt);
 }
 
 static void demo_point(int id, int x, int y, int dx, int dy)
@@ -299,7 +306,7 @@ static int demo_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_action(gui_token(gui_click()));
+            return demo_action(total ? gui_token(gui_click()) : GUI_BACK);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return demo_action(GUI_BACK);
     }
@@ -570,7 +577,7 @@ struct state st_demo = {
     demo_enter,
     shared_leave,
     shared_paint,
-    shared_timer,
+    demo_timer,
     demo_point,
     demo_stick,
     shared_click,
