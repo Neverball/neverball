@@ -79,8 +79,16 @@ void sol_body_p(float p[3],
         const struct s_path *pp = fp->pv + bp->pi;
         const struct s_path *pq = fp->pv + pp->pi;
 
-        v_sub(v, pq->p, pp->p);
-        v_mad(p, pp->p, v, erp(bp->t / pp->t));
+        if (pp->s)
+        {
+            v_sub(v, pq->p, pp->p);
+            v_mad(p, pp->p, v, erp(bp->t / pp->t));
+        }
+        else
+        {
+            v_sub(v, pq->p, pp->p);
+            v_mad(p, pp->p, v, bp->t / pp->t);
+        }
     }
     else
     {
@@ -168,6 +176,7 @@ static void sol_load_path(FILE *fin, struct s_path *pp)
     get_float(fin, &pp->t);
     get_index(fin, &pp->pi);
     get_index(fin, &pp->f);
+    get_index(fin, &pp->s);
 }
 
 static void sol_load_body(FILE *fin, struct s_body *bp)
@@ -505,6 +514,7 @@ static void sol_stor_path(FILE *fout, struct s_path *pp)
     put_float(fout, &pp->t);
     put_index(fout, &pp->pi);
     put_index(fout, &pp->f);
+    put_index(fout, &pp->s);
 }
 
 static void sol_stor_body(FILE *fout, struct s_body *bp)

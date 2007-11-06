@@ -175,6 +175,7 @@ struct s_path
 
     int pi;
     int f;                                     /* enable flag                */
+    int s;                                     /* smooth flag                */
 };
 
 struct s_body

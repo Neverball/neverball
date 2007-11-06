@@ -776,6 +776,7 @@ static void make_path(struct s_file *fp,
     pp->t    = 1.f;
     pp->pi   = pi;
     pp->f    = 1;
+    pp->s    = 1;
 
     for (i = 0; i < c; i++)
     {
@@ -790,6 +791,9 @@ static void make_path(struct s_file *fp,
 
         if (strcmp(k[i], "speed") == 0)
             sscanf(v[i], "%f", &pp->t);
+
+        if (strcmp(k[i], "smooth") == 0)
+            pp->s = atoi(v[i]);
 
         if (strcmp(k[i], "origin") == 0)
         {
