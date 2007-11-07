@@ -43,7 +43,7 @@ static int play_id = 0;
 
 static int title_action(int i)
 {
-    static const char keyphrase[] = "CHEATER";
+    static const char keyphrase[] = "CHEAT";
     static char queue[sizeof (keyphrase)] = "";
 
     size_t queue_len = strlen(queue);
