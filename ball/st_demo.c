@@ -430,8 +430,10 @@ static int demo_end_action(int i)
     switch (i)
     {
     case DEMO_DEL:
+        demo_paused = 0;
         return goto_state(&st_demo_del);
     case DEMO_KEEP:
+        demo_paused = 0;
         demo_replay_stop(0);
         return goto_state(&st_demo);
     case DEMO_QUIT:
