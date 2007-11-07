@@ -111,9 +111,6 @@ static int mode_id;
 static int status_id;
 static int player_id;
 
-/* Create a layout for some demo info.  If d is NULL, try to reserve enough
- * space. */
-
 static int gui_demo_status(int id, const struct demo *d)
 {
     char noname[MAXNAM];
@@ -315,14 +312,12 @@ static int demo_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-/* Play demo from command line. */
-static int simple_play;
-
+static int standalone;
 static int demo_paused;
 
-void demo_play_goto(int simple)
+void demo_play_goto(int s)
 {
-    simple_play = simple;
+    standalone = s;
 }
 
 static int demo_play_enter(void)
@@ -417,10 +412,10 @@ static int demo_play_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-#define DEMO_KEEP    0
-#define DEMO_DEL     1
-#define DEMO_QUIT    2
-#define DEMO_REPLAY  3
+#define DEMO_KEEP      0
+#define DEMO_DEL       1
+#define DEMO_QUIT      2
+#define DEMO_REPLAY    3
 #define DEMO_CONTINUE  4
 
 static int demo_end_action(int i)
@@ -459,14 +454,14 @@ static int demo_end_enter(void)
             kd = gui_label(id, _("Replay Paused"), GUI_LRG, GUI_ALL,
                            gui_gry, gui_red);
         else
-            kd = gui_label(id, _("Replay Ends"), GUI_LRG, GUI_ALL,
+            kd = gui_label(id, _("Replay Ends"),   GUI_LRG, GUI_ALL,
                            gui_gry, gui_red);
 
         if ((jd = gui_harray(id)))
         {
             int start_id = 0;
 
-            if (simple_play)
+            if (standalone)
             {
                 start_id = gui_start(jd, _("Quit"), GUI_SML, DEMO_QUIT, 1);
             }
@@ -520,9 +515,12 @@ static int demo_end_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return demo_end_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return demo_end_action(demo_paused
-                                   ? DEMO_CONTINUE
-                                   : (simple_play ? DEMO_QUIT : DEMO_KEEP));
+        {
+            if (demo_paused)
+                return demo_end_action(DEMO_CONTINUE);
+            else
+                return demo_end_action(standalone ? DEMO_QUIT : DEMO_KEEP);
+        }
     }
     return 1;
 }
