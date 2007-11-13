@@ -34,7 +34,7 @@ static int view_rotate;
 
 static int pause_or_exit(void)
 {
-    if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META))
+    if (SDL_GetModState() & KMOD_SHIFT)
     {
         level_stat(GAME_NONE, curr_clock(), curr_coins());
         level_stop();
@@ -211,11 +211,9 @@ static void play_loop_paint(int id, float st)
         gui_paint(id);
 }
 
-#define CAMERA_MODIFIERS (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META)
-
 static void play_loop_timer(int id, float dt)
 {
-    float k = ((SDL_GetModState() & CAMERA_MODIFIERS) ?
+    float k = ((SDL_GetModState() & KMOD_SHIFT) ?
                (float) config_get_d(CONFIG_ROTATE_FAST) / 100.f:
                (float) config_get_d(CONFIG_ROTATE_SLOW) / 100.f);
 

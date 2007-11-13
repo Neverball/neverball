@@ -525,11 +525,13 @@ static struct state *st_quit;
 
 int goto_pause(struct state *s, int e)
 {
-    if (e && (SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META)))
+    if (e && (SDL_GetModState() & KMOD_SHIFT))
         return goto_state(s);
+
     st_continue = curr_state();
     st_quit = s;
     paused = 1;
+
     return goto_state(&st_pause);
 }
 
@@ -869,9 +871,9 @@ static void stroke_timer(int id, float dt)
 
     float k;
 
-    if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META) ||
-        joystick &&
-        SDL_JoystickGetButton(joystick, config_get_d(CONFIG_JOYSTICK_BUTTON_B)))
+    if (SDL_GetModState() & KMOD_SHIFT ||
+        (joystick && SDL_JoystickGetButton(joystick,
+                                           config_get_d(CONFIG_JOYSTICK_BUTTON_B))))
         k = 0.25;
     else
         k = 1.0;

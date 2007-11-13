@@ -160,7 +160,7 @@ static int pause_buttn(int b, int d)
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
-            if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL | KMOD_ALT | KMOD_META))
+            if (SDL_GetModState() & KMOD_SHIFT)
                 return pause_action(PAUSE_EXIT);
             else
                 return pause_action(PAUSE_CONTINUE);
