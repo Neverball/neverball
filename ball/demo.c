@@ -422,6 +422,10 @@ void demo_rename(const char *name)
         strcpy(dst, config_user(name));
         strcat(dst, REPLAY_EXT);
 
+#ifdef _WIN32
+        if (demo_exists(name))
+            remove(dst);
+#endif
         rename(src, dst);
     }
 }
