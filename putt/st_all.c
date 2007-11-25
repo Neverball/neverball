@@ -525,6 +525,9 @@ static struct state *st_quit;
 
 int goto_pause(struct state *s, int e)
 {
+    if (curr_state() == &st_pause)
+        return 1;
+
     if (e && (SDL_GetModState() & KMOD_SHIFT))
         return goto_state(s);
 
