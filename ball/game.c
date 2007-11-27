@@ -81,7 +81,7 @@ static int   got_orig = 0;              /* Do we know original ball size?    */
 
 static int   grow_state = 0;            /* Current state (values -1, 0, +1)  */
 
-static void grow_set(const struct s_file *fp, int type)
+static void grow_init(const struct s_file *fp, int type)
 {
     if (!got_orig)
     {
@@ -146,9 +146,12 @@ static void grow_set(const struct s_file *fp, int type)
     }
 }
 
-static void grow_ball(const struct s_file *fp, float dt)
+static void grow_step(const struct s_file *fp, float dt)
 {
     float dr;
+
+    if (!grow)
+        return;
 
     /* Calculate new size based on how long since you touched the coin... */
 
@@ -787,7 +790,7 @@ static int game_update_state(int bt)
         item_color(hp, c);
         part_burst(p, c);
 
-        grow_set(fp, hp->t);
+        grow_init(fp, hp->t);
 
         if (hp->t == ITEM_COIN)
         {
@@ -896,8 +899,7 @@ int game_step(const float g[3], float dt, int bt)
             game_rz = game_iz;
         }
 
-        if (grow)
-            grow_ball(fp, dt);
+        grow_step(fp, dt);
 
         game_update_grav(h, g);
         part_step(h, t);
