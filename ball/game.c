@@ -66,6 +66,8 @@ static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
 
+/*---------------------------------------------------------------------------*/
+
 static int   grow = 0;                  /* Should the ball be changing size? */
 static float grow_orig = 0;             /* the original ball size            */
 static float grow_goal = 0;             /* how big or small to get!          */
@@ -77,58 +79,64 @@ static int   got_orig = 0;              /* Do we know original ball size?    */
 #define GROW_BIG   1.5f                 /* large factor                      */
 #define GROW_SMALL 0.5f                 /* small factor                      */
 
-/*---------------------------------------------------------------------------*/
+static int   grow_state = 0;            /* Current state (values -1, 0, +1)  */
 
 static void grow_set(const struct s_file *fp, int type)
 {
     if (!got_orig)
     {
-        grow_orig = fp->uv->r;
-        grow_goal = grow_orig;
-        grow_strt = grow_orig;
-        got_orig  = 1;
+        grow_orig  = fp->uv->r;
+        grow_goal  = grow_orig;
+        grow_strt  = grow_orig;
+
+        grow_state = 0;
+
+        got_orig   = 1;
     }
 
-    switch (type)
+    if (type == ITEM_SHRINK)
     {
-    case ITEM_SHRINK:
         audio_play(AUD_SHRINK, 1.f);
 
-        if (grow_goal == grow_orig * GROW_SMALL)
-            return;
-        else if (grow_goal == grow_orig * GROW_BIG)
+        switch (grow_state)
         {
-            grow_goal = grow_orig;
-            grow = 1;
-        }
-        else
-        {
+        case -1:
+            break;
+
+        case  0:
             grow_goal = grow_orig * GROW_SMALL;
+            grow_state = -1;
             grow = 1;
+            break;
+
+        case +1:
+            grow_goal = grow_orig;
+            grow_state = 0;
+            grow = 1;
+            break;
         }
-
-        break;
-
-    case ITEM_GROW:
+    }
+    else if (type == ITEM_GROW)
+    {
         audio_play(AUD_GROW, 1.f);
 
-        if (grow_goal == grow_orig * GROW_BIG)
-            return;
-        else if (grow_goal == grow_orig * GROW_SMALL)
+        switch (grow_state)
         {
-            grow = 1;
+        case -1:
             grow_goal = grow_orig;
-        }
-        else
-        {
-            grow_goal = grow_orig * GROW_BIG;
+            grow_state = 0;
             grow = 1;
+            break;
+
+        case  0:
+            grow_goal = grow_orig * GROW_BIG;
+            grow_state = +1;
+            grow = 1;
+            break;
+
+        case +1:
+            break;
         }
-
-        break;
-
-    default:
-        break;
     }
 
     if (grow)
@@ -158,6 +166,8 @@ static void grow_ball(const struct s_file *fp, float dt)
     fp->uv->p[1] += (dr - fp->uv->r); 
     fp->uv->r = dr;
 }
+
+/*---------------------------------------------------------------------------*/
 
 static void view_init(void)
 {
