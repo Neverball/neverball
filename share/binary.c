@@ -108,3 +108,21 @@ void get_array(FILE *fin, float *v, size_t n)
 }
 
 /*---------------------------------------------------------------------------*/
+
+void put_string(FILE *fout, const char *s)
+{
+    fputs(s, fout);
+    fputc('\0', fout);
+}
+
+void get_string(FILE *fin, char *s, int max)
+{
+    do
+        *s = (char) fgetc(fin);
+    while (*s++ != '\0' && max-- > 0);
+
+    if(*(s - 1) != '\0')
+        *(s - 1) = '\0';
+}
+
+/*---------------------------------------------------------------------------*/

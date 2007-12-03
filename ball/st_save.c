@@ -22,6 +22,7 @@
 #include "config.h"
 #include "demo.h"
 #include "levels.h"
+#include "text.h"
 
 #include "st_shared.h"
 #include "st_save.h"
@@ -55,21 +56,23 @@ static int file_id;
 
 static int save_action(int i)
 {
-    size_t l = strlen(filename);
+    char *n;
 
     audio_play(AUD_MENU, 1.0f);
 
     switch (i)
     {
     case SAVE_SAVE:
-        if (strlen(filename) == 0)
+        n = text_to_locale(filename);
+
+        if (strlen(n) == 0)
             return 1;
 
-        if (demo_exists(filename))
+        if (demo_exists(n))
             return goto_state(&st_clobber);
         else
         {
-            demo_rename(filename);
+            demo_rename(n);
             return goto_state(ok_state);
         }
 
@@ -81,20 +84,13 @@ static int save_action(int i)
         break;
 
     case GUI_BS:
-        if (l > 0)
-        {
-            filename[l - 1] = 0;
+        if (text_del_char(filename))
             gui_set_label(file_id, filename);
-        }
         break;
 
     default:
-        if (l < MAXNAM - 1)
-        {
-            filename[l + 0] = (char) i;
-            filename[l + 1] = 0;
+        if (text_add_char(i, filename, MAXNAM, 17))
             gui_set_label(file_id, filename);
-        }
     }
     return 1;
 }
@@ -139,7 +135,7 @@ static void save_leave(int id)
 
 static int save_keybd(int c, int d)
 {
-    if (d && (c & 0xFF80) == 0)
+    if (d)
     {
         gui_focus(enter_id);
 
@@ -177,7 +173,7 @@ static int clobber_action(int i)
 
     if (i == SAVE_SAVE)
     {
-        demo_rename(filename);
+        demo_rename(text_to_locale(filename));
         return goto_state(ok_state);
     }
     return goto_state(&st_save);

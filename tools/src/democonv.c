@@ -1,5 +1,5 @@
 /*
- * democonv -- Neverball 1.4.0 to v3 format replay converter.
+ * democonv -- Neverball 1.4.0 to v4 format replay converter.
  *
  * Copyright (C) 2006 Jānis Rūcis
  *
@@ -61,7 +61,7 @@ static void get_short(FILE *fin, short *s)
 #define MAG_OLD     0x4E425250
 
 #define MAG_NEW     0x52424EAF
-#define VER_NEW     3
+#define VER_NEW     4
 
 /*---------------------------------------------------------------------------*/
 
@@ -100,7 +100,7 @@ static int read_demo(FILE *fin, int *timer, int *coins,
         *goal  = (int) sg;
         *score = (int) ss;
         *balls = (int) sb;
-        
+
         return 1;
     }
     return 0;
@@ -243,11 +243,11 @@ int main(int argc, char *argv[])
             put_index(fout, &state);
             put_index(fout, &mode);
 
-            fwrite(player, 1, MAXNAM,  fout);
-            fwrite(date,   1, DATELEN, fout);
+            put_string(fout, player);
+            put_string(fout, date);
 
-            fwrite(shot, 1, PATHMAX, fout);
-            fwrite(file, 1, PATHMAX, fout);
+            put_string(fout, shot);
+            put_string(fout, file);
 
             put_index(fout, &time);
             put_index(fout, &goal);

@@ -23,11 +23,12 @@
 #include "solid.h"
 #include "config.h"
 #include "binary.h"
+#include "text.h"
 
 /*---------------------------------------------------------------------------*/
 
 #define MAGIC           0x52424EAF
-#define DEMO_VERSION    3
+#define DEMO_VERSION    4
 
 #define DATELEN 20
 
@@ -107,9 +108,9 @@ static int demo_header_read(FILE *fp, struct demo *d)
         get_index(fp, &d->status);
         get_index(fp, &d->mode);
 
-        fread(d->player, 1, MAXNAM, fp);
+        get_string(fp, d->player, MAXNAM);
 
-        fread(datestr, 1, DATELEN, fp);
+        get_string(fp, datestr, DATELEN);
         sscanf(datestr,
                "%d-%d-%dT%d:%d:%d",
                &date.tm_year,
@@ -126,8 +127,8 @@ static int demo_header_read(FILE *fp, struct demo *d)
 
         d->date = make_time_from_utc(&date);
 
-        fread(d->shot, 1, PATHMAX, fp);
-        fread(d->file, 1, PATHMAX, fp);
+        get_string(fp, d->shot, PATHMAX);
+        get_string(fp, d->file, PATHMAX);
 
         get_index(fp, &d->time);
         get_index(fp, &d->goal);
@@ -188,11 +189,11 @@ static void demo_header_write(FILE *fp, struct demo *d)
     put_index(fp, &zero);
     put_index(fp, &d->mode);
 
-    fwrite(d->player, 1, MAXNAM, fp);
-    fwrite(datestr, 1, DATELEN, fp);
+    put_string(fp, d->player);
+    put_string(fp, datestr);
 
-    fwrite(d->shot, 1, PATHMAX, fp);
-    fwrite(d->file, 1, PATHMAX, fp);
+    put_string(fp, d->shot);
+    put_string(fp, d->file);
 
     put_index(fp, &d->time);
     put_index(fp, &d->goal);
@@ -214,8 +215,9 @@ static void demo_scan_file(const char *filename)
     {
         if (demo_header_read(fp, d))
         {
-            strncpy(d->filename, config_user(filename),       MAXSTR);
-            strncpy(d->name,     bname(filename, REPLAY_EXT), PATHMAX);
+            strncpy(d->filename, config_user(filename), MAXSTR);
+            strncpy(d->name, bname(text_from_locale(d->filename), REPLAY_EXT),
+                    PATHMAX);
             d->name[PATHMAX - 1] = '\0';
 
             count++;
@@ -284,17 +286,17 @@ const struct demo *demo_get(int i)
 const char *date_to_str(time_t i)
 {
     static char str[MAXSTR];
+    const char *fmt;
 
     /* TRANSLATORS:  here is the format of the date shown at the
-       replay selection screen.  The default will work in most cases, so
-       you should only change it if something's horribly wrong, like,
-       for instance, the GUI layout is broken.  See strftime(3) for
+       replay selection screen (and possibly elsewhere).  The default
+       format is necessarily locale-independent.  See strftime(3) for
        details on the format.
      */
 
-    strftime(str, MAXSTR, /* xgettext:no-c-format */ _("%c"), localtime(&i));
-
-    return str;
+    fmt = /* xgettext:no-c-format */ L_("%Y-%m-%d %H:%M:%S");
+    strftime(str, MAXSTR, fmt, localtime(&i));
+    return text_from_locale(str);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -460,8 +462,9 @@ int demo_replay_init(const char *name, struct level_game *lg)
 
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
-        strncpy(demo_replay.filename, name,                    MAXSTR);
-        strncpy(demo_replay.name,     bname(name, REPLAY_EXT), PATHMAX);
+        strncpy(demo_replay.filename, name, MAXSTR);
+        strncpy(demo_replay.name, bname(text_from_locale(demo_replay.filename),
+                REPLAY_EXT), PATHMAX);
 
         if (!demo_load_level(&demo_replay, &demo_level_replay))
             return 0;

@@ -14,10 +14,12 @@
  */
 
 #include <string.h>
-#include <stdlib.h>
 #include <locale.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "lang.h"
+#include "text.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -51,6 +53,15 @@ const char *sgettext(const char *msgid)
         else msgval = msgid;
     }
     return msgval;
+}
+
+const char *get_local_text(const char *msgid)
+{
+#if ENABLE_NLS
+    return text_to_locale(gettext(msgid));
+#else
+    return msgid;
+#endif
 }
 
 /*---------------------------------------------------------------------------*/

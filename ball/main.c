@@ -29,6 +29,7 @@
 #include "game.h"
 #include "gui.h"
 #include "set.h"
+#include "text.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -216,23 +217,24 @@ static char *demo_path = NULL;
 static unsigned int display_info = 0;
 static unsigned int replay_demo  = 0;
 
+#define usage \
+    L_(                                                                   \
+        "Usage: %s [options ...]\n"                                       \
+        "Options:\n"                                                      \
+        "  -h, --help                show this usage message.\n"          \
+        "  -v, --version             show version.\n"                     \
+        "  -d, --data <dir>          use 'dir' as game data directory.\n" \
+        "  -r, --replay <file>       play the replay 'file'.\n"           \
+        "  -i, --info                display info about a replay.\n"      \
+    )
+
 #define argument_error(option) { \
-    fprintf(stderr, _("Option '%s' requires an argument.\n"), option); \
+    fprintf(stderr, L_("Option '%s' requires an argument.\n"),  option); \
 }
 
 static void parse_args(int argc, char **argv)
 {
     int i;
-
-    const char *usage = _(
-        "Usage: %s [options ...]\n"
-        "Options:\n"
-        "  -h, --help                show this usage message.\n"
-        "  -v, --version             show version.\n"
-        "  -d, --data <dir>          use 'dir' as game data directory.\n"
-        "  -r, --replay <file>       play the replay 'file'.\n"
-        "  -i, --info                display info about a replay.\n"
-    );
 
     /* Scan argument list. */
 
@@ -287,11 +289,12 @@ static void parse_args(int argc, char **argv)
         if (display_info)
         {
             /* FIXME, I'm a required option. */
-            fputs(_("Option '--info' requires '--replay'.\n"), stderr);
+            fputs(L_("Option '--info' requires '--replay'.\n"), stderr);
             exit(EXIT_FAILURE);
         }
 }
 
+#undef usage
 #undef argument_error
 
 /*---------------------------------------------------------------------------*/
@@ -305,17 +308,19 @@ int main(int argc, char *argv[])
 
     lang_init("neverball", CONFIG_LOCALE);
 
+    text_init();
+
     parse_args(argc, argv);
 
     if (!config_data_path(data_path, SET_FILE))
     {
-        fprintf(stderr, _("Failure to establish game data directory\n"));
+        fputs(L_("Failure to establish game data directory\n"), stderr);
         return 1;
     }
 
     if (!config_user_path(NULL))
     {
-        fprintf(stderr, _("Failure to establish config directory\n"));
+        fputs(L_("Failure to establish config directory\n"), stderr);
         return 1;
     }
 
@@ -338,8 +343,8 @@ int main(int argc, char *argv[])
     {
         if (!level_replay(demo_path))
         {
-            fprintf(stderr, _("Replay file '%s': %s\n"), demo_path,
-                    errno ? strerror(errno) : _("Not a replay file"));
+            fprintf(stderr, L_("Replay file '%s': %s\n"), demo_path,
+                    errno ?  strerror(errno) : L_("Not a replay file"));
             return 1;
         }
         demo_replay_dump_info();
@@ -449,6 +454,8 @@ int main(int argc, char *argv[])
     SDL_Quit();
 
     config_save();
+
+    text_quit();
 
     return 0;
 }

@@ -20,6 +20,7 @@
 #include "audio.h"
 #include "config.h"
 #include "game.h"
+#include "text.h"
 
 #include "st_name.h"
 #include "st_shared.h"
@@ -51,14 +52,12 @@ static int name_id;
 
 static int name_action(int i)
 {
-    size_t l = strlen(player);
-
     audio_play(AUD_MENU, 1.0f);
 
     switch (i)
     {
     case NAME_OK:
-        if (l == 0)
+        if (strlen(player) == 0)
            return 1;
 
         config_set_s(CONFIG_PLAYER, player);
@@ -73,21 +72,13 @@ static int name_action(int i)
         break;
 
     case GUI_BS:
-        if (l > 0)
-        {
-            player[l - 1] = '\0';
+        if (text_del_char(player))
             gui_set_label(name_id, player);
-        }
         break;
 
     default:
-        if (l < MAXNAM - 1)
-        {
-            player[l + 0] = (char) i;
-            player[l + 1] = '\0';
-
+        if (text_add_char(i, player, MAXNAM, 17))
             gui_set_label(name_id, player);
-        }
     }
     return 1;
 }
@@ -131,7 +122,7 @@ static void name_leave(int id)
 
 static int name_keybd(int c, int d)
 {
-    if (d && (c & 0xFF80) == 0)
+    if (d)
     {
         gui_focus(enter_id);
 

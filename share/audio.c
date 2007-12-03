@@ -16,6 +16,7 @@
 #include <SDL_mixer.h>
 #include <string.h>
 
+#include "text.h"
 #include "config.h"
 #include "audio.h"
 
@@ -60,7 +61,7 @@ void audio_init(void)
         }
         else
         {
-            fprintf(stderr, _("Sound disabled\n"));
+            fprintf(stderr, L_("Sound disabled\n"));
             audio_state = 0;
         }
     }

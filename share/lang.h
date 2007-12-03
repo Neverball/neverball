@@ -17,10 +17,16 @@
 
 #if ENABLE_NLS
 #include <libintl.h>
+
 #define _(String)   gettext(String)
+#define L_(String)  get_local_text(String)
+
 #else
+
 #define _(String)   (String)
-#endif
+#define L_(String)  (String)
+
+#endif /* ENABLE_NLS */
 
 /* No-op, useful for marking up strings for extraction-only. */
 #define N_(String)  (String)
@@ -30,6 +36,7 @@
 void lang_init(const char *domain, const char *locale_dir);
 
 const char *sgettext(const char *);
+const char *get_local_text(const char *);
 
 /*---------------------------------------------------------------------------*/
 

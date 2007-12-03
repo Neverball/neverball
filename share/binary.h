@@ -14,6 +14,9 @@ void get_float(FILE *, float *);
 void get_index(FILE *, int   *);
 void get_array(FILE *, float *, size_t);
 
+void put_string(FILE *fout, const char *);
+void get_string(FILE *fin, char *, int );
+
 /*---------------------------------------------------------------------------*/
 
 #endif

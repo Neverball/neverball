@@ -33,7 +33,7 @@ PNG_LIBS := $(shell libpng-config --libs)
 
 ifdef MINGW
 ifneq ($(ENABLE_NLS),0)
-    INTL_LIBS := -lintl
+    INTL_LIBS := -lintl -liconv
 endif
     OGL_LIBS  := -lopengl32 -lm
     BASE_LIBS := -lSDL -lSDL_image $(INTL_LIBS)
@@ -84,6 +84,7 @@ BALL_OBJS := \
 	share/binary.o      \
 	share/state.o       \
 	share/audio.o       \
+	share/text.o        \
 	ball/hud.o          \
 	ball/mode.o         \
 	ball/game.o         \
@@ -128,6 +129,7 @@ PUTT_OBJS := \
 	share/audio.o       \
 	share/state.o       \
 	share/gui.o         \
+	share/text.o        \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \
