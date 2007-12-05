@@ -19,7 +19,10 @@
 #include <stdio.h>
 
 #include "lang.h"
-#include "text.h"
+
+/*---------------------------------------------------------------------------*/
+
+#define DEFAULT_CODESET "UTF-8"
 
 /*---------------------------------------------------------------------------*/
 
@@ -31,7 +34,7 @@ void lang_init(const char *domain, const char *default_dir)
     setlocale(LC_ALL, "");
 
     bindtextdomain(domain, dir ? dir : default_dir);
-    bind_textdomain_codeset(domain, "UTF-8");
+    bind_textdomain_codeset(domain, DEFAULT_CODESET);
     textdomain(domain);
 #else
     return;
@@ -58,7 +61,13 @@ const char *sgettext(const char *msgid)
 const char *get_local_text(const char *msgid)
 {
 #if ENABLE_NLS
-    return text_to_locale(gettext(msgid));
+    char *msgstr, *domain = textdomain(NULL);
+
+    bind_textdomain_codeset(domain, "");
+    msgstr = gettext(msgid);
+    bind_textdomain_codeset(domain, DEFAULT_CODESET);
+
+    return msgstr;
 #else
     return msgid;
 #endif
