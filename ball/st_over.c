@@ -53,7 +53,6 @@ static void over_timer(int id, float dt)
         goto_state(&st_start);
 
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static int over_click(int b, int d)

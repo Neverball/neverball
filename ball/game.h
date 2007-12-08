@@ -8,28 +8,27 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define AUD_MENU   1
-#define AUD_START  2
-#define AUD_READY  3
-#define AUD_SET    4
-#define AUD_GO     5
-#define AUD_BALL   6
-#define AUD_BUMPS  7
-#define AUD_BUMPM  8
-#define AUD_BUMPL  9
-#define AUD_COIN   10
-#define AUD_TICK   11
-#define AUD_TOCK   12
-#define AUD_SWITCH 13
-#define AUD_JUMP   14
-#define AUD_GOAL   15
-#define AUD_SCORE  16
-#define AUD_FALL   17
-#define AUD_TIME   18
-#define AUD_OVER   19
-#define AUD_GROW   20
-#define AUD_SHRINK 21
-#define AUD_COUNT  22
+#define AUD_MENU    "snd/menu.ogg"
+#define AUD_START _("snd/select.ogg")
+#define AUD_READY _("snd/ready.ogg")
+#define AUD_SET   _("snd/set.ogg")
+#define AUD_GO    _("snd/go.ogg")
+#define AUD_BALL    "snd/ball.ogg"
+#define AUD_BUMPS   "snd/bumplil.ogg"
+#define AUD_BUMPM   "snd/bump.ogg"
+#define AUD_BUMPL   "snd/bumpbig.ogg"
+#define AUD_COIN    "snd/coin.ogg"
+#define AUD_TICK    "snd/tick.ogg"
+#define AUD_TOCK    "snd/tock.ogg"
+#define AUD_SWITCH  "snd/switch.ogg"
+#define AUD_JUMP    "snd/jump.ogg"
+#define AUD_GOAL    "snd/goal.ogg"
+#define AUD_SCORE _("snd/record.ogg")
+#define AUD_FALL  _("snd/fall.ogg")
+#define AUD_TIME  _("snd/time.ogg")
+#define AUD_OVER  _("snd/over.ogg")
+#define AUD_GROW    "snd/grow.ogg"
+#define AUD_SHRINK  "snd/shrink.ogg"
 
 /*---------------------------------------------------------------------------*/
 

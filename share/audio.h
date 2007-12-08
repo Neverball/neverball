@@ -3,12 +3,9 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define MAXSND 32
-
 void audio_init(void);
 void audio_free(void);
-void audio_bind(int, int, const char *);
-void audio_play(int, float);
+void audio_play(const char *, float);
 
 void audio_music_queue(const char *);
 void audio_music_play(const char *);

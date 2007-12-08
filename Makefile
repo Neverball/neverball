@@ -38,11 +38,11 @@ endif
     OGL_LIBS  := -lopengl32 -lm
     BASE_LIBS := -lSDL -lSDL_image $(INTL_LIBS)
     ALL_LIBS  := $(SDL_LIBS) -lSDL_image $(INTL_LIBS) \
-	$(PNG_LIBS) -lSDL_ttf -lSDL_mixer $(OGL_LIBS)
+	$(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
 else
     OGL_LIBS  := -lGL -lm
     BASE_LIBS := $(SDL_LIBS) -lSDL_image
-    ALL_LIBS  := $(BASE_LIBS) $(PNG_LIBS) -lSDL_ttf -lSDL_mixer $(OGL_LIBS)
+    ALL_LIBS  := $(BASE_LIBS) $(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
 endif
 
 #------------------------------------------------------------------------------

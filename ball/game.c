@@ -785,7 +785,7 @@ static int game_update_state(int bt)
     /* Test for an item. */
     if (bt && (hp = sol_item_test(fp, p, COIN_RADIUS)))
     {
-        int sound = AUD_COIN;
+        const char *sound = AUD_COIN;
 
         item_color(hp, c);
         part_burst(p, c);
