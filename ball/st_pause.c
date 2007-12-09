@@ -78,6 +78,7 @@ static int pause_action(int i)
         level_stop();
         clear_pause();
         SDL_PauseAudio(0);
+        audio_music_stop();
         return goto_state(&st_over);
     }
 

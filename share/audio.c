@@ -153,7 +153,7 @@ static struct voice *voice_init(const char *filename, float a)
 
         /* Attempt to open the named Ogg stream. */
 
-        if ((fp = fopen(config_data(filename), "r")))
+        if ((fp = fopen(config_data(filename), FMODE_RB)))
         {
             if (ov_open(fp, &V->vf, NULL, 0) == 0)
             {
@@ -269,27 +269,15 @@ void audio_init(void)
         }
         else fprintf(stderr, "%s\n", SDL_GetError());
     }
+
+    /* Set the initial volumes. */
+
+    audio_volume(config_get_d(CONFIG_SOUND_VOLUME),
+                 config_get_d(CONFIG_MUSIC_VOLUME));
 }
 
 void audio_free(void)
 {
-    /* Release all open Ogg streams and voice structures. */
-
-    SDL_LockAudio();
-    {
-        while (voices)
-        {
-            struct voice *T = voices;
-
-            voices = voices->next;
-            voice_free(T);
-        }
-
-        if (music) voice_free(music);
-        if (queue) voice_free(queue);
-    }
-    SDL_UnlockAudio();
-
     /* Halt the audio thread. */
 
     SDL_CloseAudio();
@@ -297,6 +285,8 @@ void audio_free(void)
     /* Release the input buffer. */
 
     free(buffer);
+
+    /* Ogg streams and voice structure remain open to allow quality setting. */
 }
 
 void audio_play(const char *filename, float a)
