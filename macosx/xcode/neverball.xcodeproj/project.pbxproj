@@ -193,6 +193,10 @@
 		81D0B3F60AEE6C710041CE19 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815FFCFD0AEA340300AFD07F /* SDL.framework */; };
 		B5117CE80C9060CB005837F9 /* st_pause.c in Sources */ = {isa = PBXBuildFile; fileRef = B5117CE60C9060CB005837F9 /* st_pause.c */; };
 		B5117CE90C9060CB005837F9 /* st_pause.h in Headers */ = {isa = PBXBuildFile; fileRef = B5117CE70C9060CB005837F9 /* st_pause.h */; };
+		B511CD210D0E3A7300E99AE0 /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = B511CD1F0D0E3A7300E99AE0 /* text.c */; };
+		B511CD220D0E3A7300E99AE0 /* text.h in Headers */ = {isa = PBXBuildFile; fileRef = B511CD200D0E3A7300E99AE0 /* text.h */; };
+		B511CD230D0E3A7300E99AE0 /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = B511CD1F0D0E3A7300E99AE0 /* text.c */; };
+		B511CD240D0E3A7300E99AE0 /* text.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B511CD200D0E3A7300E99AE0 /* text.h */; };
 		B5412EB90CA36ACD00C9A9F7 /* demo.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC0E0AEA2EF600AFD07F /* demo.h */; };
 		B5412EBA0CA36AE000C9A9F7 /* demo.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC0D0AEA2EF600AFD07F /* demo.c */; };
 		B5412EC20CA36C3C00C9A9F7 /* score.c in Sources */ = {isa = PBXBuildFile; fileRef = B5412EBE0CA36C3C00C9A9F7 /* score.c */; };
@@ -291,6 +295,7 @@
 				81D0B3F30AEE6C710041CE19 /* SDL_ttf.framework in CopyFiles */,
 				81D0B3F40AEE6C710041CE19 /* SDL_mixer.framework in CopyFiles */,
 				81D0B3F50AEE6C710041CE19 /* SDL_image.framework in CopyFiles */,
+				B511CD240D0E3A7300E99AE0 /* text.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -931,6 +936,8 @@
 		B5117CDE0C906001005837F9 /* VeraBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = VeraBd.ttf; sourceTree = "<group>"; };
 		B5117CE60C9060CB005837F9 /* st_pause.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_pause.c; sourceTree = "<group>"; };
 		B5117CE70C9060CB005837F9 /* st_pause.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = st_pause.h; sourceTree = "<group>"; };
+		B511CD1F0D0E3A7300E99AE0 /* text.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = text.c; sourceTree = "<group>"; };
+		B511CD200D0E3A7300E99AE0 /* text.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		B5412DD80CA36A6700C9A9F7 /* arrow */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow; sourceTree = "<group>"; };
 		B5412DD90CA36A6700C9A9F7 /* arrow-dark */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "arrow-dark"; sourceTree = "<group>"; };
 		B5412DDA0CA36A6700C9A9F7 /* arrow-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-dark.png"; sourceTree = "<group>"; };
@@ -1331,6 +1338,8 @@
 		815FFB710AEA2E0300AFD07F /* share */ = {
 			isa = PBXGroup;
 			children = (
+				B511CD1F0D0E3A7300E99AE0 /* text.c */,
+				B511CD200D0E3A7300E99AE0 /* text.h */,
 				815FFB720AEA2E0300AFD07F /* audio.c */,
 				815FFB740AEA2E0300AFD07F /* audio.h */,
 				815FFB760AEA2E0300AFD07F /* back.c */,
@@ -2472,6 +2481,7 @@
 				B57D63D20CAE8138005DE710 /* st_fall_out.h in Headers */,
 				B57D63D30CAE8138005DE710 /* st_time_out.h in Headers */,
 				B57D63D50CAE8138005DE710 /* st_goal.h in Headers */,
+				B511CD220D0E3A7300E99AE0 /* text.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2704,6 +2714,7 @@
 				8137FD690AEBE54F009172EC /* main.c in Sources */,
 				8137FD6A0AEBE54F009172EC /* st_all.c in Sources */,
 				8137FD6B0AEBE54F009172EC /* st_conf.c in Sources */,
+				B511CD230D0E3A7300E99AE0 /* text.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2768,6 +2779,7 @@
 				B57D63D10CAE8138005DE710 /* st_goal.c in Sources */,
 				B57D63D40CAE8138005DE710 /* st_time_out.c in Sources */,
 				B57D63D60CAE8138005DE710 /* st_fall_out.c in Sources */,
+				B511CD210D0E3A7300E99AE0 /* text.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
