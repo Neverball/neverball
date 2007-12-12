@@ -106,7 +106,7 @@ static int fall_out_enter(void)
 
             if (next_id && lg->unlock)
                 gui_focus(next_id);
-            else if (lg->mode != MODE_CHALLENGE)
+            else if (retry_id)
                 gui_focus(retry_id);
         }
 
