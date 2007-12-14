@@ -5,10 +5,10 @@
 "levelname" "bumps"
 "version"   "1"
 
-"back"      "map-back/clouds.sol"
-"grad"      "back/land.png"
-"shot"      "shot-medium/bumps.jpg"
-"song"      "bgm/track1.ogg"
+"back"      "map-back/alien.sol"
+"grad"      "back/alien.png"
+"shot"      "shot-easy/bumps.jpg"
+"song"      "bgm/track5.ogg"
 "time"      "12000"
 "goal"      "30"
 
