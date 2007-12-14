@@ -5,11 +5,11 @@ shot-medium/marblecurves.jpg
 
 map-medium/locks.sol
 map-medium/marblecurves.sol
-map-medium/bumps.sol
 map-medium/accordian.sol
-map-medium/roundfloors.sol
 map-medium/zigzag.sol
+map-medium/roundfloors.sol
 map-medium/four.sol
+map-medium/hardrise.sol
 map-medium/easytele.sol
 map-medium/cross.sol
 map-medium/sparselines.sol
