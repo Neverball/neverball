@@ -104,6 +104,13 @@ static void sol_draw_mtrl(const struct s_file *fp, int i)
     else
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    if (mp->fl & M_DECAL)
+    {
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(-1.0f, -1.0f);
+    }
+    else
+        glDisable(GL_POLYGON_OFFSET_FILL);
 }
 
 static void sol_draw_bill(const struct s_file *fp,
@@ -278,7 +285,8 @@ void sol_draw(const struct s_file *fp)
 {
     int bi;
 
-    glPushAttrib(GL_TEXTURE_BIT      |
+    glPushAttrib(GL_ENABLE_BIT       |
+                 GL_TEXTURE_BIT      |
                  GL_LIGHTING_BIT     |
                  GL_COLOR_BUFFER_BIT |
                  GL_DEPTH_BUFFER_BIT);
