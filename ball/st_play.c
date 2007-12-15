@@ -231,16 +231,19 @@ static void play_loop_timer(int id, float dt)
     {
     case GAME_GOAL:
         level_stat(GAME_GOAL, curr_clock(), curr_coins());
+        gui_stuck();
         goto_state(&st_goal);
         break;
 
     case GAME_FALL:
         level_stat(GAME_FALL, curr_clock(), curr_coins());
+        gui_stuck();
         goto_state(&st_fall_out);
         break;
 
     case GAME_TIME:
         level_stat(GAME_TIME, curr_clock(), curr_coins());
+        gui_stuck();
         goto_state(&st_time_out);
         break;
 

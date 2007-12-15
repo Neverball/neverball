@@ -1633,13 +1633,21 @@ static int gui_wrap_D(int id, int dd)
 
 /*---------------------------------------------------------------------------*/
 
+/* Flag the axes to prevent uncontrolled scrolling. */
+
+static int xflag = 1;
+static int yflag = 1;
+
+void gui_stuck()
+{
+    /* Force the user to recenter the joystick before the next GUI action. */
+
+    xflag = 0;
+    yflag = 0;
+}
+
 int gui_stick(int id, int x, int y)
 {
-    /* Flag the axes to prevent uncontrolled scrolling. */
-
-    static int xflag = 1;
-    static int yflag = 1;
-
     int jd = 0;
 
     /* Find a new active widget in the direction of joystick motion. */

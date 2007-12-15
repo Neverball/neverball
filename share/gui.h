@@ -88,6 +88,7 @@ void gui_pulse(int, float);
 void gui_timer(int, float);
 int  gui_point(int, int, int);
 int  gui_stick(int, int, int);
+void gui_stuck(void);
 int  gui_click(void);
 void gui_focus(int);
 
