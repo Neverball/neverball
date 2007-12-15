@@ -159,7 +159,7 @@ static struct voice *voice_init(const char *filename, float a)
             {
                 vorbis_info *info = ov_info(&V->vf, -1);
             
-                /* On success, add the voice to the list. */
+                /* On success, configure the voice. */
 
                 V->amp  = a;
                 V->damp = 0;
@@ -293,9 +293,26 @@ void audio_play(const char *filename, float a)
 {
     if (audio_state)
     {
+        struct voice *V;
+
+        /* If we're already playing this sound, preempt the running copy. */
+
+        for (V = voices; V; V = V->next)
+            if (strcmp(V->name, filename) == 0)
+            {
+                ov_raw_seek(&V->vf, 0);
+
+                V->amp = a;
+
+                if (V->amp > 1.0) V->amp = 1.0;
+                if (V->amp < 0.0) V->amp = 0.0;
+
+                return;
+            }
+
         /* Create a new voice structure. */
 
-        struct voice *V = voice_init(filename, a);
+        V = voice_init(filename, a);
 
         /* Add it to the list of sounding voices. */
 
