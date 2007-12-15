@@ -216,7 +216,7 @@ msgstr "Options"
 
 #: ball/st_conf.c:231
 msgid "Window"
-msgstr ""
+msgstr "Fenêtre"
 
 #: ball/st_conf.c:236 ball/st_conf.c:241 ball/st_conf.c:264 putt/st_conf.c:205
 #: putt/st_conf.c:210 putt/st_conf.c:223
@@ -385,7 +385,6 @@ msgid "Rules"
 msgstr "Règles"
 
 #: ball/st_help.c:106
-#, fuzzy
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
@@ -394,12 +393,11 @@ msgstr ""
 "sol et\\faire rouler la balle.\\ "
 
 #: ball/st_help.c:111
-#, fuzzy
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
 msgstr ""
-"Collectez des pièces pour\\déverrouiller l'arrivée\\et terminer le  niveau."
+"Collectez des pièces pour\\déverrouiller la sortie\\et terminer le  niveau."
 "\\ \\"
 
 #: ball/st_help.c:168
@@ -447,34 +445,45 @@ msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
 "to open the goal."
 msgstr ""
+"Finissez le niveau avant que le temps soit écoulé.\\Vous devez récupérer des pièces "
+"pour ouvrir la sortie."
 
 #: ball/st_help.c:256
 msgid ""
 "Play without time limit or coin constraint.\\Levels cannot be unlocked in "
 "this mode."
 msgstr ""
+"Jouez sans contrainte de temps ou de pièce.\\Les niveaux ne peuvent être "
+"déverrouillés dans ce mode."
 
 #: ball/st_help.c:264
 msgid ""
 "Start playing from the first level of the set.\\You start with only four "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr ""
+"Jouez à partir du premier niveau de la collection.\\Vous commencez avec seulement "
+"4 balles,\\ne les perdez pas. Gagnez une nouvelle balle\\toutes les 100 pièces récupérées."
 
 #: ball/st_help.c:278
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
 msgstr ""
+"Les angles peuvent être utilisés\\pour sauter. Prenez de l'élan et visez\\l'angle."
+" Vous devriez être capable\\d'atteindre de nouveaux endroits.\\"
 
 #: ball/st_help.c:283
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
 "the camera by 45\\degrees for best results.\\"
 msgstr ""
+"Incliner le plateau dans 2 directions\\simultanément "
+"accroît la pente.\\Utilisez la vue manuelle et tournez\\la caméra de 45 degrés pour\\"
+"des résultats optimaux.\\"
 
 #: ball/st_help.c:303 ball/st_help.c:313
 msgid "Watch demo"
-msgstr ""
+msgstr "Regardez la démo"
 
 #: ball/st_level.c:46
 msgid "Single Level"
