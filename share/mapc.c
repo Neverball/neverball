@@ -470,10 +470,34 @@ static void move_lump(struct s_file *fp,
 static void move_body(struct s_file *fp,
                       struct s_body *bp)
 {
-    int i;
+    int i, *b;
+
+    /* Move the lumps. */
 
     for (i = 0; i < bp->lc; i++)
         move_lump(fp, fp->lv + bp->l0 + i, fp->pv[bp->pi].p);
+
+    /* Create an array to mark any verts referenced by moved geoms. */
+
+    if (bp->gc > 0 && (b = (int *) calloc(fp->vc, sizeof (int))))
+    {
+        /* Mark the verts. */
+
+        for (i = 0; i < bp->gc; i++)
+        {
+            b[fp->gv[fp->iv[bp->g0 + i]].vi] = 1;
+            b[fp->gv[fp->iv[bp->g0 + i]].vj] = 1;
+            b[fp->gv[fp->iv[bp->g0 + i]].vk] = 1;
+        }
+
+        /* Apply the motion to the marked vertices. */
+
+        for (i = 0; i < fp->vc; ++i)
+            if (b[i])
+                move_vert(fp->vv + i, fp->pv[bp->pi].p);
+
+        free(b);
+    }
 }
 
 static void move_file(struct s_file *fp)
