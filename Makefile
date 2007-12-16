@@ -144,7 +144,6 @@ PUTT_DEPS := $(PUTT_OBJS:.o=.d)
 MAPC_DEPS := $(MAPC_OBJS:.o=.d)
 
 MAPS := $(shell find data -name "*.map" \! -name "*.autosave.map")
-MAPS := data/map-misc/test.map data/map-easy/bumper.map
 SOLS := $(MAPS:%.map=%.sol)
 
 #------------------------------------------------------------------------------
