@@ -4376,7 +4376,6 @@
 // entity 13
 {
 "classname" "func_train"
-"model" "obj/pin.obj"
 "target" "path_corner1"
 // brush 0
 {
@@ -4399,7 +4398,7 @@
 // entity 14
 {
 "classname" "path_corner"
-"origin" "-64 288 0"
+"origin" "-64 288 -64"
 "targetname" "path_corner1"
 "target" "path_corner5"
 "speed" "2"
@@ -4407,7 +4406,7 @@
 // entity 15
 {
 "classname" "path_corner"
-"origin" "320 288 0"
+"origin" "320 288 -64"
 "targetname" "path_corner2"
 "target" "path_corner7"
 "speed" "2"
@@ -4415,7 +4414,7 @@
 // entity 16
 {
 "classname" "path_corner"
-"origin" "32 -288 0"
+"origin" "32 -288 -64"
 "targetname" "path_corner3"
 "target" "path_corner9"
 "speed" "2.6"
@@ -4423,7 +4422,7 @@
 // entity 17
 {
 "classname" "path_corner"
-"origin" "224 -288 0"
+"origin" "224 -288 -64"
 "targetname" "path_corner4"
 "target" "path_corner12"
 "speed" "2"
@@ -4449,7 +4448,7 @@
 // entity 21
 {
 "classname" "path_corner"
-"origin" "-64 608 0"
+"origin" "-64 608 -64"
 "targetname" "path_corner5"
 "target" "path_corner1"
 "speed" "2"
@@ -4463,7 +4462,7 @@
 // entity 23
 {
 "classname" "path_corner"
-"origin" "320 608 0"
+"origin" "320 608 -64"
 "targetname" "path_corner7"
 "target" "path_corner2"
 "speed" "2"
@@ -4747,7 +4746,6 @@
 // entity 70
 {
 "classname" "func_train"
-"model" "obj/pin.obj"
 "target" "path_corner8"
 // brush 0
 {
@@ -4770,7 +4768,6 @@
 // entity 71
 {
 "classname" "func_train"
-"model" "obj/pin.obj"
 "target" "path_corner6"
 // brush 0
 {
@@ -4793,7 +4790,6 @@
 // entity 72
 {
 "classname" "func_train"
-"model" "obj/pin.obj"
 "target" "path_corner4"
 // brush 0
 {
@@ -4816,7 +4812,7 @@
 // entity 73
 {
 "classname" "path_corner"
-"origin" "160 -288 0"
+"origin" "160 -288 -64"
 "targetname" "path_corner6"
 "target" "path_corner11"
 "speed" "2.2"
@@ -4824,7 +4820,7 @@
 // entity 74
 {
 "classname" "path_corner"
-"origin" "96 -288 0"
+"origin" "96 -288 -64"
 "targetname" "path_corner8"
 "target" "path_corner10"
 "speed" "2.4"
@@ -4832,7 +4828,7 @@
 // entity 75
 {
 "classname" "path_corner"
-"origin" "32 -608 0"
+"origin" "32 -608 -64"
 "targetname" "path_corner9"
 "target" "path_corner3"
 "speed" "2.6"
@@ -4840,7 +4836,7 @@
 // entity 76
 {
 "classname" "path_corner"
-"origin" "96 -608 0"
+"origin" "96 -608 -64"
 "targetname" "path_corner10"
 "target" "path_corner8"
 "speed" "2.4"
@@ -4848,7 +4844,7 @@
 // entity 77
 {
 "classname" "path_corner"
-"origin" "224 -608 0"
+"origin" "224 -608 -64"
 "targetname" "path_corner12"
 "target" "path_corner4"
 "speed" "2"
@@ -4856,7 +4852,7 @@
 // entity 78
 {
 "classname" "path_corner"
-"origin" "160 -608 0"
+"origin" "160 -608 -64"
 "targetname" "path_corner11"
 "target" "path_corner6"
 "speed" "2.2"
@@ -5002,7 +4998,7 @@
 // entity 102
 {
 "classname" "path_corner"
-"origin" "732 228 0"
+"origin" "732 228 -64"
 "target" "path_corner13"
 "targetname" "path_corner16"
 "speed" "2"
@@ -5010,7 +5006,7 @@
 // entity 103
 {
 "classname" "path_corner"
-"origin" "420 228 0"
+"origin" "420 228 -64"
 "targetname" "path_corner13"
 "target" "path_corner14"
 "speed" "2"
@@ -5018,7 +5014,7 @@
 // entity 104
 {
 "classname" "path_corner"
-"origin" "420 -92 0"
+"origin" "420 -92 -64"
 "targetname" "path_corner14"
 "target" "path_corner15"
 "speed" "2"
@@ -5026,7 +5022,7 @@
 // entity 105
 {
 "classname" "path_corner"
-"origin" "732 -92 0"
+"origin" "732 -92 -64"
 "targetname" "path_corner15"
 "target" "path_corner16"
 "speed" "2"
@@ -5035,7 +5031,6 @@
 {
 "classname" "func_train"
 "target" "path_corner13"
-"model" "obj/pin.obj"
 // brush 0
 {
 ( 434 220 0 ) ( 434 220 24 ) ( 442 234 24 ) mtrl/invisible 0 0 0 0.5 0.5 0 1 0
@@ -5058,7 +5053,6 @@
 {
 "classname" "func_train"
 "target" "path_corner16"
-"model" "obj/pin.obj"
 // brush 0
 {
 ( 746 220 0 ) ( 746 220 24 ) ( 754 234 24 ) mtrl/invisible 0 0 0 0.5 0.5 0 1 0
@@ -5081,7 +5075,6 @@
 {
 "classname" "func_train"
 "target" "path_corner14"
-"model" "obj/pin.obj"
 // brush 0
 {
 ( 434 -100 0 ) ( 434 -100 24 ) ( 442 -86 24 ) mtrl/invisible 0 0 0 0.5 0.5 0 1 0
@@ -5104,7 +5097,6 @@
 {
 "classname" "func_train"
 "target" "path_corner15"
-"model" "obj/pin.obj"
 // brush 0
 {
 ( 746 -100 0 ) ( 746 -100 24 ) ( 754 -86 24 ) mtrl/invisible 0 0 0 0.5 0.5 0 1 0
@@ -5127,7 +5119,6 @@
 {
 "classname" "func_train"
 "target" "path_corner2"
-"model" "obj/pin.obj"
 // brush 0
 {
 ( 334 280 0 ) ( 334 280 24 ) ( 342 294 24 ) mtrl/invisible 0 0 0 0.5 0.5 0 1 0
@@ -5683,7 +5674,6 @@
 {
 "classname" "func_train"
 "target" "path_corner3"
-"model" "obj/pin.obj"
 // brush 0
 {
 ( 46 -296 0 ) ( 46 -296 24 ) ( 54 -282 24 ) mtrl/invisible 0 0 0 0.5 0.5 0 1 0
@@ -5705,7 +5695,7 @@
 // entity 201
 {
 "classname" "path_corner"
-"origin" "-476 -32 0"
+"origin" "-476 -32 -64"
 "target" "path_corner17"
 "targetname" "path_corner18"
 "speed" "1"
@@ -5713,7 +5703,7 @@
 // entity 202
 {
 "classname" "path_corner"
-"origin" "-476 -224 0"
+"origin" "-476 -224 -64"
 "targetname" "path_corner17"
 "target" "path_corner18"
 "speed" "2"
@@ -5739,7 +5729,6 @@
 // entity 206
 {
 "classname" "func_train"
-"model" "obj/pin.obj"
 "target" "path_corner60"
 "speed" "1"
 // brush 0
@@ -5763,7 +5752,6 @@
 // entity 207
 {
 "classname" "func_train"
-"model" "obj/pin.obj"
 "target" "path_corner20"
 // brush 0
 {
@@ -5786,7 +5774,7 @@
 // entity 208
 {
 "classname" "path_corner"
-"origin" "-416 -352 0"
+"origin" "-416 -352 -64"
 "targetname" "path_corner19"
 "target" "path_corner20"
 "speed" "2"
@@ -5794,7 +5782,7 @@
 // entity 209
 {
 "classname" "path_corner"
-"origin" "-416 -544 0"
+"origin" "-416 -544 -64"
 "target" "path_corner19"
 "targetname" "path_corner20"
 "speed" "1"
@@ -5844,7 +5832,6 @@
 // entity 217
 {
 "classname" "func_train"
-"model" "obj/pin.obj"
 "target" "path_corner26"
 // brush 0
 {
@@ -5867,7 +5854,6 @@
 // entity 218
 {
 "classname" "func_train"
-"model" "obj/pin.obj"
 "target" "path_corner24"
 // brush 0
 {
@@ -5890,7 +5876,6 @@
 // entity 219
 {
 "classname" "func_train"
-"model" "obj/pin.obj"
 "target" "path_corner21"
 // brush 0
 {
@@ -5913,7 +5898,7 @@
 // entity 220
 {
 "classname" "path_corner"
-"origin" "-288 -288 0"
+"origin" "-288 -288 -64"
 "speed" "1"
 "targetname" "path_corner25"
 "target" "path_corner26"
@@ -5921,7 +5906,7 @@
 // entity 221
 {
 "classname" "path_corner"
-"origin" "-288 -160 0"
+"origin" "-288 -160 -64"
 "speed" "1"
 "target" "path_corner21"
 "targetname" "path_corner22"
@@ -5929,7 +5914,7 @@
 // entity 222
 {
 "classname" "path_corner"
-"origin" "-224 -160 0"
+"origin" "-224 -160 -64"
 "speed" "1"
 "targetname" "path_corner21"
 "target" "path_corner22"
@@ -5937,7 +5922,7 @@
 // entity 223
 {
 "classname" "path_corner"
-"origin" "-224 -224 0"
+"origin" "-224 -224 -64"
 "speed" "1"
 "targetname" "path_corner23"
 "target" "path_corner24"
@@ -5945,7 +5930,7 @@
 // entity 224
 {
 "classname" "path_corner"
-"origin" "-288 -224 0"
+"origin" "-288 -224 -64"
 "speed" "1"
 "target" "path_corner23"
 "targetname" "path_corner24"
@@ -5953,7 +5938,7 @@
 // entity 225
 {
 "classname" "path_corner"
-"origin" "-224 -288 0"
+"origin" "-224 -288 -64"
 "speed" "1"
 "target" "path_corner25"
 "targetname" "path_corner26"
@@ -5961,7 +5946,6 @@
 // entity 226
 {
 "classname" "func_train"
-"model" "obj/pin.obj"
 "target" "path_corner31"
 // brush 0
 {
@@ -5984,7 +5968,7 @@
 // entity 227
 {
 "classname" "path_corner"
-"origin" "-448 320 0"
+"origin" "-448 320 -64"
 "targetname" "path_corner31"
 "target" "path_corner32"
 "speed" "2"
@@ -5992,7 +5976,7 @@
 // entity 228
 {
 "classname" "path_corner"
-"origin" "-192 320 0"
+"origin" "-192 320 -64"
 "target" "path_corner29"
 "targetname" "path_corner32"
 "speed" "2"
@@ -6000,7 +5984,7 @@
 // entity 229
 {
 "classname" "path_corner"
-"origin" "-192 64 0"
+"origin" "-192 64 -64"
 "targetname" "path_corner29"
 "target" "path_corner30"
 "speed" "2"
@@ -6008,7 +5992,7 @@
 // entity 230
 {
 "classname" "path_corner"
-"origin" "-448 64 0"
+"origin" "-448 64 -64"
 "targetname" "path_corner30"
 "target" "path_corner31"
 "speed" "2"
@@ -6016,7 +6000,6 @@
 // entity 231
 {
 "classname" "func_train"
-"model" "obj/pin.obj"
 "target" "path_corner38"
 // brush 0
 {
@@ -6039,7 +6022,7 @@
 // entity 232
 {
 "classname" "path_corner"
-"origin" "-320 448 0"
+"origin" "-320 448 -64"
 "target" "path_corner33"
 "targetname" "path_corner38"
 "speed" "1"
@@ -6047,7 +6030,7 @@
 // entity 233
 {
 "classname" "path_corner"
-"origin" "-448 576 0"
+"origin" "-448 576 -64"
 "targetname" "path_corner34"
 "target" "path_corner35"
 "speed" "2"
@@ -6055,7 +6038,7 @@
 // entity 234
 {
 "classname" "path_corner"
-"origin" "-448 448 0"
+"origin" "-448 448 -64"
 "targetname" "path_corner37"
 "target" "path_corner38"
 "speed" "1"
@@ -6063,7 +6046,7 @@
 // entity 235
 {
 "classname" "path_corner"
-"origin" "-448 448 0"
+"origin" "-448 448 -64"
 "targetname" "path_corner33"
 "target" "path_corner34"
 "speed" "1"
@@ -6071,7 +6054,7 @@
 // entity 236
 {
 "classname" "path_corner"
-"origin" "-192 576 0"
+"origin" "-192 576 -64"
 "targetname" "path_corner35"
 "target" "path_corner36"
 "speed" "2"
@@ -6079,7 +6062,7 @@
 // entity 237
 {
 "classname" "path_corner"
-"origin" "-448 576 0"
+"origin" "-448 576 -64"
 "targetname" "path_corner36"
 "target" "path_corner37"
 "speed" "1"
@@ -6621,8 +6604,127 @@
 // entity 327
 {
 "classname" "path_corner"
-"origin" "-476 -128 0"
+"origin" "-476 -128 -64"
 "target" "path_corner18"
 "targetname" "path_corner60"
 "speed" "1"
+}
+// entity 328
+{
+"classname" "misc_model"
+"origin" "32 -288 0"
+"model" "obj/pin.obj"
+"target" "path_corner3"
+}
+// entity 329
+{
+"classname" "misc_model"
+"origin" "-416 -544 0"
+"model" "obj/pin.obj"
+"target" "path_corner20"
+}
+// entity 330
+{
+"classname" "misc_model"
+"origin" "-224 -288 0"
+"model" "obj/pin.obj"
+"target" "path_corner26"
+}
+// entity 331
+{
+"classname" "misc_model"
+"origin" "-288 -224 0"
+"model" "obj/pin.obj"
+"target" "path_corner24"
+}
+// entity 332
+{
+"classname" "misc_model"
+"origin" "-224 -160 0"
+"model" "obj/pin.obj"
+"target" "path_corner21"
+}
+// entity 333
+{
+"classname" "misc_model"
+"origin" "-476 -128 0"
+"model" "obj/pin.obj"
+"target" "path_corner60"
+}
+// entity 334
+{
+"classname" "misc_model"
+"origin" "-64 288 0"
+"model" "obj/pin.obj"
+"target" "path_corner1"
+}
+// entity 335
+{
+"classname" "misc_model"
+"origin" "-448 320 0"
+"model" "obj/pin.obj"
+"target" "path_corner31"
+}
+// entity 336
+{
+"classname" "misc_model"
+"origin" "-320 448 0"
+"model" "obj/pin.obj"
+"target" "path_corner38"
+}
+// entity 337
+{
+"classname" "misc_model"
+"origin" "320 288 0"
+"model" "obj/pin.obj"
+"target" "path_corner2"
+}
+// entity 338
+{
+"classname" "misc_model"
+"origin" "420 228 0"
+"model" "obj/pin.obj"
+"target" "path_corner13"
+}
+// entity 339
+{
+"classname" "misc_model"
+"origin" "732 228 0"
+"model" "obj/pin.obj"
+"target" "path_corner16"
+}
+// entity 340
+{
+"classname" "misc_model"
+"origin" "732 -92 0"
+"model" "obj/pin.obj"
+"target" "path_corner15"
+}
+// entity 341
+{
+"classname" "misc_model"
+"origin" "420 -92 0"
+"model" "obj/pin.obj"
+"target" "path_corner14"
+}
+// entity 342
+{
+"classname" "misc_model"
+"origin" "224 -288 0"
+"model" "obj/pin.obj"
+"target" "path_corner4"
+}
+// entity 343
+{
+"classname" "misc_model"
+"origin" "160 -288 0"
+"model" "obj/pin.obj"
+"target" "path_corner6"
+}
+// entity 344
+{
+"classname" "misc_model"
+"origin" "96 -288 0"
+"model" "obj/pin.obj"
+"target" "path_corner8"
 }
