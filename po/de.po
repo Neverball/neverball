@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2007-09-12 23:55+0300\n"
+"POT-Creation-Date: 2007-12-16 14:45+0200\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -16,17 +16,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. TRANSLATORS:  here is the format of the date shown at the
-#. replay selection screen.  The default will work in most cases, so
-#. you should only change it if something's horribly wrong, like,
-#. for instance, the GUI layout is broken.  See strftime(3) for
+#. replay selection screen (and possibly elsewhere).  The default
+#. format is necessarily locale-independent.  See strftime(3) for
 #. details on the format.
 #.
-#: ball/demo.c:308
+#: ball/demo.c:297
 #, no-c-format
-msgid "%c"
+msgid "%Y-%m-%d %H:%M:%S"
 msgstr ""
 
-#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:179 ball/st_play_end.c:190
+#: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:180 ball/st_goal.c:148
 msgid "Coins"
 msgstr "Münzen"
 
@@ -34,11 +33,11 @@ msgstr "Münzen"
 msgid "Goal"
 msgstr "Ziel"
 
-#: ball/hud.c:99 ball/st_play_end.c:180
+#: ball/hud.c:99 ball/st_goal.c:138
 msgid "Balls"
 msgstr "Bälle"
 
-#: ball/hud.c:100 ball/st_play_end.c:185 putt/hud.c:45
+#: ball/hud.c:100 ball/st_goal.c:143 putt/hud.c:45
 msgid "Score"
 msgstr "Punkte"
 
@@ -54,188 +53,180 @@ msgstr "Faul"
 msgid "Manual"
 msgstr "Manuell"
 
-#: ball/level.c:112
+#: ball/level.c:93
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr ""
 
-#: ball/level.c:113
+#: ball/level.c:95
 msgid "Not a valid level file"
 msgstr ""
 
-#: ball/level.c:196 ball/st_help.c:262
-#, fuzzy
-msgid "Challenge Mode"
-msgstr "Challenge"
-
-#: ball/level.c:196 ball/st_start.c:256
-msgid "Challenge"
-msgstr "Challenge"
-
-#: ball/level.c:197 ball/st_help.c:246
-#, fuzzy
-msgid "Normal Mode"
-msgstr "Ziel"
-
-#: ball/level.c:197 ball/st_start.c:248
-#, fuzzy
-msgid "Normal"
-msgstr "Ziel"
-
-#: ball/level.c:198 ball/st_help.c:254
-msgid "Practice Mode"
-msgstr ""
-
-#: ball/level.c:198 ball/st_start.c:246
-msgid "Practice"
-msgstr ""
-
-#: ball/level.c:199
-msgid "Unknown Mode"
-msgstr ""
-
-#: ball/level.c:199 ball/level.c:214
-msgid "Unknown"
-msgstr ""
-
-#: ball/level.c:209
+#: ball/level.c:302
 msgid "Aborted"
 msgstr ""
 
-#: ball/level.c:210
+#: ball/level.c:303
 msgid "Time-out"
 msgstr ""
 
-#: ball/level.c:212
+#: ball/level.c:304
 #, fuzzy
 msgid "Success"
 msgstr "Punkte"
 
-#: ball/level.c:213
+#: ball/level.c:305
 #, fuzzy
 msgid "Fall-out"
 msgstr "Rausgefallen!"
 
-#: ball/main.c:238
+#: ball/level.c:306 ball/mode.c:41
+msgid "Unknown"
+msgstr ""
+
+#: ball/main.c:222
 #, c-format
 msgid ""
 "Usage: %s [options ...]\n"
-"-r, --replay file         play the replay 'file'.\n"
-"-i, --info                display info about a replay.\n"
-"    --data dir            use 'dir' as game data directory.\n"
-"-v, --version             show version.\n"
-"-h, -?, --help            show this usage message.\n"
+"Options:\n"
+"  -h, --help                show this usage message.\n"
+"  -v, --version             show version.\n"
+"  -d, --data <dir>          use 'dir' as game data directory.\n"
+"  -r, --replay <file>       play the replay 'file'.\n"
+"  -i, --info                display info about a replay.\n"
 msgstr ""
 
-#: ball/main.c:270
+#: ball/main.c:232
 #, c-format
-msgid "%s: unknown option %s\n"
+msgid "Option '%s' requires an argument.\n"
 msgstr ""
 
-#: ball/main.c:276
-#, c-format
-msgid "%s: option %s requires an argument\n"
+#: ball/main.c:292
+msgid "Option '--info' requires '--replay'.\n"
 msgstr ""
 
-#: ball/main.c:303 putt/main.c:242
-#, c-format
+#: ball/main.c:317 putt/main.c:313
 msgid "Failure to establish game data directory\n"
 msgstr "Spieldatenverzeichnis konnte nicht erstellt werden\n"
 
-#: ball/main.c:309 putt/main.c:240
-#, c-format
+#: ball/main.c:323 putt/main.c:311
 msgid "Failure to establish config directory\n"
 msgstr "Konfigurationsverzeichnis konnte nicht erstellt werden\n"
 
-#: ball/main.c:332
+#: ball/main.c:346
 #, c-format
 msgid "Replay file '%s': %s\n"
 msgstr ""
 
-#: ball/main.c:333
+#: ball/main.c:347
 msgid "Not a replay file"
 msgstr ""
 
-#: ball/main.c:344
-#, c-format
-msgid "%s: --info requires --replay\n"
-msgstr ""
-
-#: ball/main.c:363
+#: ball/main.c:366
 msgid "snd/select.ogg"
 msgstr ""
 
-#: ball/main.c:364
+#: ball/main.c:367
 msgid "snd/ready.ogg"
 msgstr ""
 
-#: ball/main.c:365
+#: ball/main.c:368
 msgid "snd/set.ogg"
 msgstr ""
 
-#: ball/main.c:366
+#: ball/main.c:369
 msgid "snd/go.ogg"
 msgstr ""
 
-#: ball/main.c:377
+#: ball/main.c:380
 msgid "snd/record.ogg"
 msgstr ""
 
-#: ball/main.c:378
+#: ball/main.c:381
 msgid "snd/fall.ogg"
 msgstr ""
 
-#: ball/main.c:379
+#: ball/main.c:382
 msgid "snd/time.ogg"
 msgstr ""
 
-#: ball/main.c:380
+#: ball/main.c:383
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/set.c:152
+#: ball/mode.c:38 ball/st_help.c:262
+#, fuzzy
+msgid "Challenge Mode"
+msgstr "Challenge"
+
+#: ball/mode.c:38 ball/st_start.c:248
+msgid "Challenge"
+msgstr "Challenge"
+
+#: ball/mode.c:39 ball/st_help.c:246
+#, fuzzy
+msgid "Normal Mode"
+msgstr "Ziel"
+
+#: ball/mode.c:39 ball/st_start.c:240
+#, fuzzy
+msgid "Normal"
+msgstr "Ziel"
+
+#: ball/mode.c:40 ball/st_help.c:254
+msgid "Practice Mode"
+msgstr ""
+
+#: ball/mode.c:40 ball/st_start.c:238
+msgid "Practice"
+msgstr ""
+
+#: ball/mode.c:41
+msgid "Unknown Mode"
+msgstr ""
+
+#: ball/set.c:156
 #, c-format
 msgid "Error while loading user high-score file '%s': %s\n"
 msgstr ""
 
-#: ball/set.c:153
+#: ball/set.c:157
 msgid "Incorrect format"
 msgstr ""
 
-#: ball/set.c:177
+#: ball/set.c:181
 #, c-format
 msgid "Cannot load the set file '%s': %s\n"
 msgstr ""
 
-#: ball/st_conf.c:227 putt/st_conf.c:184
+#: ball/st_conf.c:228 putt/st_conf.c:184
 msgid "Options"
 msgstr "Optionen"
 
-#: ball/st_conf.c:231
+#: ball/st_conf.c:232
 msgid "Window"
 msgstr "Fenster"
 
-#: ball/st_conf.c:236 ball/st_conf.c:241 ball/st_conf.c:264 putt/st_conf.c:205
+#: ball/st_conf.c:237 ball/st_conf.c:242 ball/st_conf.c:265 putt/st_conf.c:205
 #: putt/st_conf.c:210 putt/st_conf.c:223
 msgid "Low"
 msgstr "Niedrig"
 
-#: ball/st_conf.c:237 ball/st_conf.c:242 ball/st_conf.c:265 putt/st_conf.c:206
+#: ball/st_conf.c:238 ball/st_conf.c:243 ball/st_conf.c:266 putt/st_conf.c:206
 #: putt/st_conf.c:211 putt/st_conf.c:224
 msgid "High"
 msgstr "Hoch"
 
-#: ball/st_conf.c:246 ball/st_conf.c:251 ball/st_conf.c:256 putt/st_conf.c:215
+#: ball/st_conf.c:247 ball/st_conf.c:252 ball/st_conf.c:257 putt/st_conf.c:215
 msgid "Off"
 msgstr "Aus"
 
-#: ball/st_conf.c:247 ball/st_conf.c:252 ball/st_conf.c:257 putt/st_conf.c:216
+#: ball/st_conf.c:248 ball/st_conf.c:253 ball/st_conf.c:258 putt/st_conf.c:216
 msgid "On"
 msgstr "Ein"
 
-#: ball/st_conf.c:309 ball/st_demo.c:264 ball/st_help.c:96 ball/st_start.c:234
-#: ball/util.c:397 share/st_resol.c:76 putt/st_all.c:297 putt/st_all.c:419
-#: putt/st_conf.c:264
+#: ball/st_conf.c:309 ball/st_help.c:96 ball/st_start.c:226 ball/util.c:401
+#: share/st_resol.c:76 putt/st_all.c:337 putt/st_all.c:468 putt/st_conf.c:264
 msgid "Back"
 msgstr "Zurück"
 
@@ -275,103 +266,138 @@ msgstr "Geräuschlautstärke"
 msgid "Music Volume"
 msgstr "Musiklautstärke"
 
-#: ball/st_conf.c:324 ball/st_name.c:103
+#: ball/st_conf.c:324 ball/st_name.c:94
 #, fuzzy
 msgid "Player Name"
 msgstr "Spieler"
 
-#: ball/st_demo.c:177 putt/st_all.c:587
+#: ball/st_demo.c:178 putt/st_all.c:660
 msgid "Player"
 msgstr "Spieler"
 
-#: ball/st_demo.c:181
+#: ball/st_demo.c:182
 #, fuzzy
 msgid "State"
 msgstr "Speichern"
 
-#: ball/st_demo.c:198 ball/st_demo.c:327
+#: ball/st_demo.c:199 ball/st_demo.c:336
 msgid "Replay"
 msgstr "Replay"
 
-#: ball/st_demo.c:199
+#: ball/st_demo.c:200
 msgid "Time"
 msgstr ""
 
-#: ball/st_demo.c:200
+#: ball/st_demo.c:201
 msgid "Mode"
 msgstr ""
 
-#: ball/st_demo.c:201
+#: ball/st_demo.c:202
 #, fuzzy
 msgid "Date"
 msgstr "Löschen"
 
-#: ball/st_demo.c:240
+#: ball/st_demo.c:243
 msgid "Select Replay"
 msgstr "Replay Auswählen"
 
-#: ball/st_demo.c:262
+#: ball/st_demo.c:265
 #, fuzzy
 msgid "No Replays"
 msgstr "Replay"
 
-#: ball/st_demo.c:443
+#: ball/st_demo.c:454
 #, fuzzy
 msgid "Replay Paused"
 msgstr "Spieler"
 
-#: ball/st_demo.c:446
+#: ball/st_demo.c:457
 msgid "Replay Ends"
 msgstr "Replay Endet"
 
-#: ball/st_demo.c:452 ball/st_pause.c:114 putt/st_all.c:509
+#: ball/st_demo.c:466 ball/st_pause.c:106 putt/st_all.c:569
+msgid "Quit"
+msgstr ""
+
+#: ball/st_demo.c:470
+msgid "Keep"
+msgstr "Behalten"
+
+#: ball/st_demo.c:471
+msgid "Delete"
+msgstr "Löschen"
+
+#: ball/st_demo.c:476 ball/st_pause.c:116 putt/st_all.c:570
 #, fuzzy
 msgid "Continue"
 msgstr "Münzen"
 
-#: ball/st_demo.c:454
+#: ball/st_demo.c:480
 #, fuzzy
-msgid "Replay Again"
-msgstr "Spieler"
+msgid "Repeat"
+msgstr "Replay"
 
-#: ball/st_demo.c:457 ball/st_done.c:88 ball/st_name.c:114
+#: ball/st_demo.c:544
+msgid "Delete Replay?"
+msgstr "Replay Löschen?"
+
+#: ball/st_demo.c:548 ball/st_save.c:194 putt/st_conf.c:192
+msgid "No"
+msgstr "Nein"
+
+#: ball/st_demo.c:549 ball/st_save.c:195 putt/st_conf.c:193
+msgid "Yes"
+msgstr "Ja"
+
+#: ball/st_done.c:58
+#, fuzzy
+msgid "New Set Record"
+msgstr "Neuer Rekord"
+
+#: ball/st_done.c:59
+msgid "Set Complete"
+msgstr "Set Komplett"
+
+#: ball/st_done.c:95 ball/st_goal.c:202
+msgid "Change Player Name"
+msgstr ""
+
+#: ball/st_done.c:97 ball/st_name.c:105
 #, fuzzy
 msgid "OK"
 msgstr "O"
 
-#: ball/st_demo.c:460
-msgid "Keep"
-msgstr "Behalten"
+#: ball/st_fall_out.c:82
+msgid "Fall-out!"
+msgstr "Rausgefallen!"
 
-#: ball/st_demo.c:461
-msgid "Delete"
-msgstr "Löschen"
+#: ball/st_fall_out.c:90 ball/st_goal.c:178 ball/st_time_out.c:83
+msgid "Next Level"
+msgstr "Nächster Level"
 
-#: ball/st_demo.c:551
-msgid "Delete Replay?"
-msgstr "Replay Löschen?"
-
-#: ball/st_demo.c:555 ball/st_save.c:196 putt/st_conf.c:192
-msgid "No"
-msgstr "Nein"
-
-#: ball/st_demo.c:556 ball/st_save.c:197 putt/st_conf.c:193
-msgid "Yes"
-msgstr "Ja"
-
-#: ball/st_done.c:55
-#, fuzzy
-msgid "New Challenge Record"
-msgstr "Neuer Set-Rekord"
-
-#: ball/st_done.c:56
-#, fuzzy
-msgid "Challenge Complete"
-msgstr "Challenge"
-
-#: ball/st_done.c:87 ball/st_play_end.c:244
-msgid "Change Player Name"
+#: ball/st_fall_out.c:95 ball/st_goal.c:182 ball/st_time_out.c:87
+msgid "Game Over"
 msgstr ""
+
+#: ball/st_fall_out.c:99 ball/st_goal.c:185 ball/st_time_out.c:90
+msgid "Retry Level"
+msgstr "Level Wiederholen"
+
+#: ball/st_fall_out.c:103 ball/st_goal.c:189 ball/st_time_out.c:94
+msgid "Save Replay"
+msgstr "Replay Speichern"
+
+#: ball/st_goal.c:95
+msgid "New Record"
+msgstr "Neuer Rekord"
+
+#: ball/st_goal.c:96
+msgid "GOAL"
+msgstr "ZIEL"
+
+#: ball/st_goal.c:176
+msgid "Finish"
+msgstr "Fertig"
 
 #: ball/st_help.c:92
 msgid "Techniques"
@@ -482,138 +508,48 @@ msgstr ""
 msgid "Watch demo"
 msgstr ""
 
-#: ball/st_level.c:46
-#, fuzzy
-msgid "Single Level"
-msgstr "Nächster Level"
-
-#: ball/st_level.c:67
+#: ball/st_level.c:59
 msgid "Level "
 msgstr "Level "
 
-#: ball/st_level.c:80
-msgid "Cannot load the level file."
-msgstr ""
-
-#: ball/st_name.c:115 ball/st_save.c:121
+#: ball/st_name.c:106 ball/st_save.c:119
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: ball/st_over.c:33
+#: ball/st_over.c:36
 msgid "GAME OVER"
 msgstr "GAME OVER"
 
-#: ball/st_pause.c:98 putt/st_all.c:503
+#: ball/st_pause.c:100 putt/st_all.c:564
 msgid "Paused"
 msgstr "Pause"
 
-#: ball/st_pause.c:104 putt/st_all.c:508
-msgid "Quit"
-msgstr ""
-
-#: ball/st_pause.c:107 ball/st_pause.c:110
+#: ball/st_pause.c:109 ball/st_pause.c:112
 msgid "Restart"
 msgstr ""
 
-#: ball/st_play.c:51
+#: ball/st_play.c:54
 msgid "Ready?"
 msgstr "Auf die Plätze!"
 
-#: ball/st_play.c:108
+#: ball/st_play.c:111
 msgid "Set?"
 msgstr "Fertig?"
 
-#: ball/st_play.c:180
+#: ball/st_play.c:183
 msgid "GO!"
 msgstr "LOS!"
 
-#: ball/st_play_end.c:93
-#, fuzzy
-msgid "Save a replay file"
-msgstr "Replay Speichern"
-
-#: ball/st_play_end.c:97
-msgid "Replay file already saved"
-msgstr ""
-
-#: ball/st_play_end.c:101
-msgid "Change the player's name"
-msgstr ""
-
-#: ball/st_play_end.c:105
-msgid "You complete the set"
-msgstr ""
-
-#: ball/st_play_end.c:109
-msgid "Play the next level"
-msgstr ""
-
-#: ball/st_play_end.c:115
-msgid "Cannot unlock in practice mode"
-msgstr ""
-
-#: ball/st_play_end.c:118
-msgid "Finish this level to unlock the next one"
-msgstr ""
-
-#: ball/st_play_end.c:122
-msgid "Replay this level"
-msgstr ""
-
-#: ball/st_play_end.c:126
-msgid "You cannot replay in challenge mode"
-msgstr ""
-
-#: ball/st_play_end.c:152
-msgid "SPECIAL GOAL"
-msgstr ""
-
-#: ball/st_play_end.c:155
-msgid "Fall-out!"
-msgstr "Rausgefallen!"
-
-#: ball/st_play_end.c:158
-msgid "Time's Up!"
-msgstr "Zeit Aus!"
-
-#: ball/st_play_end.c:161
-msgid "New Record"
-msgstr "Neuer Rekord"
-
-#: ball/st_play_end.c:164
-msgid "GOAL"
-msgstr "ZIEL"
-
-#: ball/st_play_end.c:221
-msgid "Finish"
-msgstr "Fertig"
-
-#: ball/st_play_end.c:223
-msgid "Next Level"
-msgstr "Nächster Level"
-
-#: ball/st_play_end.c:227
-msgid "Game Over"
-msgstr ""
-
-#: ball/st_play_end.c:231
-msgid "Retry Level"
-msgstr "Level Wiederholen"
-
-#: ball/st_play_end.c:234
-msgid "Save Replay"
-msgstr "Replay Speichern"
-
-#: ball/st_save.c:108
+#: ball/st_save.c:106
 #, fuzzy
 msgid "Replay Name"
 msgstr "Spieler"
 
-#: ball/st_save.c:120
+#: ball/st_save.c:118
 msgid "Save"
 msgstr "Speichern"
 
-#: ball/st_save.c:190
+#: ball/st_save.c:188
 msgid "Overwrite?"
 msgstr "Überschreiben?"
 
@@ -621,67 +557,76 @@ msgstr "Überschreiben?"
 msgid "Level Set"
 msgstr "Level Set"
 
-#: ball/st_start.c:104
+#: ball/st_start.c:88
 msgid "Play this bonus level in practice mode"
 msgstr ""
 
-#: ball/st_start.c:107
+#: ball/st_start.c:91
 msgid "Play this level in practice mode"
 msgstr ""
 
-#: ball/st_start.c:114
+#: ball/st_start.c:98
 msgid "Play this bonus level in normal mode"
 msgstr ""
 
-#: ball/st_start.c:116
+#: ball/st_start.c:100
 msgid "Play this level in normal mode"
 msgstr ""
 
-#: ball/st_start.c:126
+#: ball/st_start.c:110
 msgid "Play in challenge mode to unlock extra bonus levels"
 msgstr ""
 
-#: ball/st_start.c:129
+#: ball/st_start.c:113
 msgid "Finish previous levels to unlock this level"
 msgstr ""
 
-#: ball/st_start.c:149
+#: ball/st_start.c:133
 msgid "Challenge all levels from the first one"
 msgstr ""
 
-#: ball/st_start.c:153
+#: ball/st_start.c:137
 msgid "Collect coins and unlock next level"
 msgstr ""
 
-#: ball/st_start.c:157
+#: ball/st_start.c:141
 msgid "Train yourself without time nor coin"
 msgstr ""
 
-#: ball/st_start.c:269
+#: ball/st_start.c:261
 msgid "Choose a level to play"
 msgstr ""
 
-#: ball/st_title.c:84 putt/st_all.c:182
+#: ball/st_time_out.c:75
+msgid "Time's Up!"
+msgstr "Zeit Aus!"
+
+#: ball/st_title.c:97 ball/st_title.c:133
+#, fuzzy
+msgid "menu^Cheat"
+msgstr "Replay"
+
+#: ball/st_title.c:103 ball/st_title.c:136 putt/st_all.c:206
 #, fuzzy
 msgid "menu^Play"
 msgstr "Spielen"
 
-#: ball/st_title.c:85
+#: ball/st_title.c:139
 #, fuzzy
 msgid "menu^Replay"
 msgstr "Replay"
 
-#: ball/st_title.c:86
+#: ball/st_title.c:140
 #, fuzzy
 msgid "menu^Help"
 msgstr "Hilfe"
 
-#: ball/st_title.c:87 putt/st_all.c:183
+#: ball/st_title.c:141 putt/st_all.c:207
 #, fuzzy
 msgid "menu^Options"
 msgstr "Optionen"
 
-#: ball/st_title.c:88 putt/st_all.c:184
+#: ball/st_title.c:142 putt/st_all.c:208
 #, fuzzy
 msgid "menu^Exit"
 msgstr "Beenden"
@@ -690,44 +635,43 @@ msgstr "Beenden"
 msgid "Hard"
 msgstr ""
 
-#: ball/util.c:26
+#: ball/util.c:27
 msgid "Medium"
 msgstr ""
 
-#: ball/util.c:27
+#: ball/util.c:28
 msgid "Easy"
 msgstr ""
 
-#: ball/util.c:53
+#: ball/util.c:55
 msgid "Most Coins"
 msgstr "Meiste Münzen"
 
-#: ball/util.c:225
+#: ball/util.c:229
 msgid "Unlock Goal"
 msgstr ""
 
-#: ball/util.c:225
+#: ball/util.c:229
 msgid "Best Times"
 msgstr "Bestzeiten"
 
-#: ball/util.c:332
+#: ball/util.c:336
 msgid "caps"
 msgstr "Caps"
 
-#: ball/util.c:393
+#: ball/util.c:397
 msgid "Next"
 msgstr "Nächste"
 
-#: ball/util.c:394
+#: ball/util.c:398
 msgid "Prev"
 msgstr "Vorige"
 
-#: share/audio.c:63
-#, c-format
+#: share/audio.c:64
 msgid "Sound disabled\n"
 msgstr "Sound aus\n"
 
-#: share/base_config.h:93
+#: share/base_config.h:92
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr "ttf/DejaVuSans-Bold.ttf"
 
@@ -735,73 +679,68 @@ msgstr "ttf/DejaVuSans-Bold.ttf"
 msgid "png/coin.png"
 msgstr "png/euro_coin.png"
 
-#: share/gui.c:382
-#, c-format
-msgid "Out of widget IDs\n"
-msgstr "Keine Widget-IDs mehr\n"
-
 #: share/st_resol.c:74 putt/st_conf.c:268
 msgid "Resolution"
 msgstr "Auflösung"
 
-#: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:88 putt/st_all.c:132
+#: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:97 putt/st_all.c:141
 msgid "Par"
 msgstr "Par"
 
-#: putt/hole.c:106 putt/st_all.c:89 putt/st_all.c:133
+#: putt/hole.c:106 putt/st_all.c:98 putt/st_all.c:142
 msgid "P1"
 msgstr "P1"
 
-#: putt/hole.c:107 putt/st_all.c:90 putt/st_all.c:134
+#: putt/hole.c:107 putt/st_all.c:99 putt/st_all.c:143
 msgid "P2"
 msgstr "P2"
 
-#: putt/hole.c:108 putt/st_all.c:91 putt/st_all.c:135
+#: putt/hole.c:108 putt/st_all.c:100 putt/st_all.c:144
 msgid "P3"
 msgstr "P3"
 
-#: putt/hole.c:109 putt/st_all.c:92 putt/st_all.c:136
+#: putt/hole.c:109 putt/st_all.c:101 putt/st_all.c:145
 msgid "P4"
 msgstr "P4"
 
-#: putt/st_all.c:66
+#: putt/st_all.c:75
 msgid "O"
 msgstr "O"
 
-#: putt/st_all.c:102
+#: putt/st_all.c:111
 msgid "Tot"
 msgstr "Tot"
 
-#: putt/st_all.c:111
+#: putt/st_all.c:120
 msgid "I"
 msgstr "I"
 
-#: putt/st_all.c:263
+#: putt/st_all.c:296
 msgid "Select Course"
 msgstr "Kurs auswählen"
 
-#: putt/st_all.c:398
+#: putt/st_all.c:445
 msgid "Players?"
 msgstr "Spieler?"
 
-#: putt/st_all.c:580
+#: putt/st_all.c:653
 #, c-format
 msgid "Hole %02d"
 msgstr "Loch %02d"
 
-#: putt/st_all.c:827
+#: putt/st_all.c:980
 msgid "It's In!"
 msgstr "Eingelocht!"
 
-#: putt/st_all.c:937
+#: putt/st_all.c:1124
 msgid "1 Stroke Penalty"
 msgstr "1 Strafschlag!"
 
-#: putt/st_all.c:999
+#: putt/st_all.c:1203
 msgid "Scores"
 msgstr "Punkte"
 
-#: putt/st_all.c:1048
+#: putt/st_all.c:1257
 msgid "Final Scores"
 msgstr "Gesamtpunkte"
 
@@ -873,7 +812,7 @@ msgid "Neverball Misc"
 msgstr "Neverball Leicht"
 
 #: data/set-misc.txt
-msgid "For Testing purposes\\\\\\remaining levels\\\\"
+msgid "Unsorted levels\\For testing purposes\\\\\\\\"
 msgstr ""
 
 #: data/courses.txt
@@ -921,6 +860,16 @@ msgid ""
 msgstr ""
 "Versuche, nicht von bewegten Objekten getroffen zu werden.\\Ein einziger "
 "Zusammenstoß kann den\\Ball ganz aus deiner Kontrolle reißen.\\"
+
+#: data/map-easy/bumps.map
+msgid ""
+"Learn to control a bouncing ball.\\Look at the shadow to know where the"
+"\\ball will land.  If you're feeling confident in\\your mastery of bouncing, "
+"take a risk\\for a big payoff.\\"
+msgstr ""
+"Lerne, einen hüpfenden Ball zu kontrollieren.\\Der Schatten verrät, wo der "
+"Ball\\landen wird. Wenn du deinen Hüpfkünsten\\vertraust, nimm etwas Risiko "
+"für eine\\große Belohnung.\\"
 
 #: data/map-easy/coins.map
 msgid ""
@@ -1185,16 +1134,6 @@ msgstr ""
 "Diese Brücken sind schräg.\\Jede ist enger und steiler als die vorherige."
 "\\Nimm das schnelle Geld oder\\geh den ganzen Weg für die volle Belohnung.\\"
 
-#: data/map-medium/bumps.map
-msgid ""
-"Learn to control a bouncing ball.\\Look at the shadow to know where the"
-"\\ball will land.  If you're feeling confident in\\your mastery of bouncing, "
-"take a risk\\for a big payoff.\\"
-msgstr ""
-"Lerne, einen hüpfenden Ball zu kontrollieren.\\Der Schatten verrät, wo der "
-"Ball\\landen wird. Wenn du deinen Hüpfkünsten\\vertraust, nimm etwas Risiko "
-"für eine\\große Belohnung.\\"
-
 #: data/map-medium/drops.map
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And "
@@ -1288,7 +1227,7 @@ msgid ""
 msgstr ""
 "Hier gibt es mehr als genug Münzen,\\falls du dir die Zeit nehmen willst.\\"
 
-#: data/map-misc/bigball.map
+#: data/map-misc/bigball-old.map
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
@@ -1432,7 +1371,8 @@ msgstr ""
 "\\springen und landen..."
 
 #: data/map-mym/maze1.map
-msgid "Le chemin dissimulé.\\Test your memory."
+#, fuzzy
+msgid "Le chemin dissimule.\\Test your memory."
 msgstr "Le chemin dissimulé.\\Teste dein Gedächtnis."
 
 #: data/map-mym/maze2.map
@@ -1444,8 +1384,9 @@ msgstr ""
 "einen anderen?"
 
 #: data/map-mym/narrow.map
+#, fuzzy
 msgid ""
-"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
+"Le sentier etroit.\\Patience and timing.\\Tips: maximise speed at the first "
 "slope."
 msgstr ""
 "Le sentier étroit.\\Geduld und Timing.\\Tipp: Anfangs Geschwindigkeit "
@@ -1465,7 +1406,7 @@ msgstr ""
 
 #: data/map-mym/snow.map
 #, fuzzy
-msgid "La descente rafraichîssante.\\Not so fast, not so fast."
+msgid "La descente rafraichissante.\\Not so fast, not so fast."
 msgstr "La descente rafraîchissante.\\Nicht so schnell, nicht so schnell."
 
 #: data/map-mym/trust.map
@@ -1500,7 +1441,8 @@ msgid "Les flammes ardentes.\\Do this remind you of something?"
 msgstr "Les flammes ardentes.\\Erinnert dich das an etwas?"
 
 #: data/map-mym2/bounces.map
-msgid "Les sauts du célèbre plombier.\\Follow the coins."
+#, fuzzy
+msgid "Les sauts du celebre plombier.\\Follow the coins."
 msgstr "Les sauts du célèbre plombier.\\Folge den Münzen."
 
 #: data/map-mym2/fall.map
@@ -1547,7 +1489,8 @@ msgid "Le passage éphémère.\\Trust the coins."
 msgstr "Le passage éphémère.\\Münzen lügen nicht."
 
 #: data/map-mym2/push.map
-msgid "Hé, on pousse pas !\\Not too fast, not too slow."
+#, fuzzy
+msgid "He, on pousse pas !\\Not too fast, not too slow."
 msgstr "Hé, on pousse pas !\\Nicht zu langsam, nicht zu schnell."
 
 #: data/map-mym2/rainbow.map
@@ -1593,6 +1536,29 @@ msgstr "Tranquille, mais pas trop.\\Die Musik gibt den Takt an."
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
 msgstr "Les toiles attirantes.\\Flüchte aus den Netzen."
+
+#, fuzzy
+#~ msgid "Replay Again"
+#~ msgstr "Spieler"
+
+#, fuzzy
+#~ msgid "New Challenge Record"
+#~ msgstr "Neuer Set-Rekord"
+
+#, fuzzy
+#~ msgid "Challenge Complete"
+#~ msgstr "Challenge"
+
+#, fuzzy
+#~ msgid "Single Level"
+#~ msgstr "Nächster Level"
+
+#, fuzzy
+#~ msgid "Save a replay file"
+#~ msgstr "Replay Speichern"
+
+#~ msgid "Out of widget IDs\n"
+#~ msgstr "Keine Widget-IDs mehr\n"
 
 #~ msgid "Language"
 #~ msgstr "Sprache"
@@ -1643,9 +1609,6 @@ msgstr "Les toiles attirantes.\\Flüchte aus den Netzen."
 
 #~ msgid "Level"
 #~ msgstr "Level"
-
-#~ msgid "Set Complete"
-#~ msgstr "Set Komplett"
 
 #~ msgid ""
 #~ "Move the mouse or joystick to tilt the floor\\causing the ball to roll.  "
