@@ -609,9 +609,8 @@ msgid "Time's Up!"
 msgstr "Temps écoulé !"
 
 #: ball/st_title.c:97 ball/st_title.c:133
-#, fuzzy
 msgid "menu^Cheat"
-msgstr "Films"
+msgstr "Tricher"
 
 #: ball/st_title.c:103 ball/st_title.c:136 putt/st_all.c:206
 msgid "menu^Play"
