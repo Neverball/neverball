@@ -7,7 +7,7 @@
 "version" "1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
-"shot" "shot-medium/marblecurves.jpg"
+"shot" "shot-medium/multicurves.jpg"
 "song" "bgm/track1.ogg"
 "time" "12000"
 "goal" "10"
