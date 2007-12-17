@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Neverball 1.4.1\n"
+"Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2007-12-16 14:45+0200\n"
-"PO-Revision-Date: 2006-11-30 22:19+0200\n"
+"PO-Revision-Date: 2007-12-17 03:30+0200\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr ""
 #: ball/demo.c:297
 #, no-c-format
 msgid "%Y-%m-%d %H:%M:%S"
-msgstr ""
+msgstr "%Y-%m-%d %H:%M:%S"
 
 #: ball/hud.c:72 ball/hud.c:85 ball/st_demo.c:180 ball/st_goal.c:148
 msgid "Coins"
@@ -41,7 +41,7 @@ msgstr "Bumbas"
 
 #: ball/hud.c:100 ball/st_goal.c:143 putt/hud.c:45
 msgid "Score"
-msgstr "Kopā"
+msgstr "Rezultāts"
 
 #: ball/hud.h:6
 msgid "Chase"
@@ -85,7 +85,7 @@ msgid "Unknown"
 msgstr "Nezināms"
 
 #: ball/main.c:222
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [options ...]\n"
 "Options:\n"
@@ -96,30 +96,29 @@ msgid ""
 "  -i, --info                display info about a replay.\n"
 msgstr ""
 "Lietošana: %s [opcijas ...]\n"
-"-r, --replay fails        rādīt ieraksta failu 'fails'.\n"
-"-l, --level fails.sol     spēlēt līmeņa failu 'fails.sol'.\n"
-"-i, --info                parādīt informāciju par līmeni vai ierakstu.\n"
-"    --data dir            izmantot 'dir' par spēles datu katalogu.\n"
-"-v, --version             parādīt versiju.\n"
-"-h, -?, --help            parādīt šo ziņu.\n"
+"Opcijas:\n"
+"  -h, --help                parādīt šo ziņu.\n"
+"  -v, --version             parādīt versiju.\n"
+"  -d, --data <dir>          lietot 'dir' kā spēles datu mapi.\n"
+"  -r, --replay <fails>      parādīt ierakstu 'fails'.\n"
+"  -i, --info                parādīt informāciju par ierakstu.\n"
 
 #: ball/main.c:232
-#, fuzzy, c-format
+#, c-format
 msgid "Option '%s' requires an argument.\n"
-msgstr "%s: opcijai %s jānorāda arguments\n"
+msgstr "Opcijai '%s' jānorāda arguments.\n"
 
 #: ball/main.c:292
-#, fuzzy
 msgid "Option '--info' requires '--replay'.\n"
-msgstr "%s: opcijai --info jānorāda --replay vai --level\n"
+msgstr "Opcijai '--info' jānorāda '--replay'.\n"
 
 #: ball/main.c:317 putt/main.c:313
 msgid "Failure to establish game data directory\n"
-msgstr "Neizdevās noteikt spēles datu katalogu\n"
+msgstr "Neizdevās noteikt spēles datu mapi\n"
 
 #: ball/main.c:323 putt/main.c:311
 msgid "Failure to establish config directory\n"
-msgstr "Neizdevās noteikt iestatījumu katalogu\n"
+msgstr "Neizdevās noteikt iestatījumu mapi\n"
 
 #: ball/main.c:346
 #, c-format
@@ -163,7 +162,6 @@ msgid "snd/over.ogg"
 msgstr ""
 
 #: ball/mode.c:38 ball/st_help.c:262
-#, fuzzy
 msgid "Challenge Mode"
 msgstr "Spēku pārbaude"
 
@@ -172,42 +170,38 @@ msgid "Challenge"
 msgstr "Spēku pārbaude"
 
 #: ball/mode.c:39 ball/st_help.c:246
-#, fuzzy
 msgid "Normal Mode"
-msgstr "Normālais"
+msgstr "Normālais režīms"
 
 #: ball/mode.c:39 ball/st_start.c:240
 msgid "Normal"
 msgstr "Normālais"
 
 #: ball/mode.c:40 ball/st_help.c:254
-#, fuzzy
 msgid "Practice Mode"
-msgstr "Treniņš"
+msgstr "Treniņa režīms"
 
 #: ball/mode.c:40 ball/st_start.c:238
 msgid "Practice"
 msgstr "Treniņš"
 
 #: ball/mode.c:41
-#, fuzzy
 msgid "Unknown Mode"
-msgstr "Nezināms"
+msgstr "Nezināms režīms"
 
 #: ball/set.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "Error while loading user high-score file '%s': %s\n"
-msgstr "Kļūda, ielādējot lietotāja spēļu rezultātu failu '%s': "
+msgstr "Kļūda, ielādējot lietotāja rekordu failu '%s': %s\n"
 
 #: ball/set.c:157
-#, fuzzy
 msgid "Incorrect format"
-msgstr "nepareizs formāts\n"
+msgstr "nepareizs formāts"
 
 #: ball/set.c:181
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot load the set file '%s': %s\n"
-msgstr "Nav iespējams ielādēt komplekta failu '%s':"
+msgstr "Nav iespējams ielādēt komplekta failu '%s': %s\n"
 
 #: ball/st_conf.c:228 putt/st_conf.c:184
 msgid "Options"
@@ -215,7 +209,7 @@ msgstr "Opcijas"
 
 #: ball/st_conf.c:232
 msgid "Window"
-msgstr ""
+msgstr "Logs"
 
 #: ball/st_conf.c:237 ball/st_conf.c:242 ball/st_conf.c:265 putt/st_conf.c:205
 #: putt/st_conf.c:210 putt/st_conf.c:223
@@ -313,9 +307,8 @@ msgid "No Replays"
 msgstr "Nav ierakstu"
 
 #: ball/st_demo.c:454
-#, fuzzy
 msgid "Replay Paused"
-msgstr "Ieraksta nosaukums"
+msgstr "Ieraksta pauze"
 
 #: ball/st_demo.c:457
 msgid "Replay Ends"
@@ -323,7 +316,7 @@ msgstr "Ieraksta beigas"
 
 #: ball/st_demo.c:466 ball/st_pause.c:106 putt/st_all.c:569
 msgid "Quit"
-msgstr ""
+msgstr "Iziet"
 
 #: ball/st_demo.c:470
 msgid "Keep"
@@ -334,14 +327,12 @@ msgid "Delete"
 msgstr "Izdzēst"
 
 #: ball/st_demo.c:476 ball/st_pause.c:116 putt/st_all.c:570
-#, fuzzy
 msgid "Continue"
-msgstr "Monētas"
+msgstr "Turpināt"
 
 #: ball/st_demo.c:480
-#, fuzzy
 msgid "Repeat"
-msgstr "Ieraksts"
+msgstr "Atkārtot"
 
 #: ball/st_demo.c:544
 msgid "Delete Replay?"
@@ -356,14 +347,12 @@ msgid "Yes"
 msgstr "Jā"
 
 #: ball/st_done.c:58
-#, fuzzy
 msgid "New Set Record"
-msgstr "Jauns rekords"
+msgstr "Jauns komplekta rekords"
 
 #: ball/st_done.c:59
-#, fuzzy
 msgid "Set Complete"
-msgstr "Spēku pārbaude izturēta"
+msgstr "Komplekts pabeigts"
 
 #: ball/st_done.c:95 ball/st_goal.c:202
 msgid "Change Player Name"
@@ -407,7 +396,7 @@ msgstr "Beigt"
 
 #: ball/st_help.c:92
 msgid "Techniques"
-msgstr ""
+msgstr "Triki"
 
 #: ball/st_help.c:93
 msgid "Modes"
@@ -449,35 +438,35 @@ msgstr "Pieturi Shift ātrākai skata grozīšanai."
 
 #: ball/st_help.c:170
 msgid "Pause / Release Pointer"
-msgstr "Pauze / Atbrīvot kursoru"
+msgstr "Pauze / atbrīvot kursoru"
 
 #: ball/st_help.c:171
 msgid "Exit / Cancel Menu"
-msgstr ""
+msgstr "Iziet / atcelt izvēlni"
 
 #: ball/st_help.c:172
 msgid "Chase View"
-msgstr ""
+msgstr "Vajājošais skats"
 
 #: ball/st_help.c:173
 msgid "Lazy View"
-msgstr ""
+msgstr "Slinkais skats"
 
 #: ball/st_help.c:174
 msgid "Manual View"
-msgstr ""
+msgstr "Manuālais skats"
 
 #: ball/st_help.c:175
 msgid "Screenshot"
-msgstr ""
+msgstr "Ekrāna attēls"
 
 #: ball/st_help.c:176
 msgid "Toggle Fullscreen"
-msgstr ""
+msgstr "Rādīt logā / pa visu ekrānu"
 
 #: ball/st_help.c:179
 msgid "Escape"
-msgstr ""
+msgstr "Esc"
 
 #: ball/st_help.c:248
 msgid ""
@@ -511,7 +500,7 @@ msgstr ""
 
 #: ball/st_help.c:303 ball/st_help.c:313
 msgid "Watch demo"
-msgstr ""
+msgstr "Skatīties piemēru"
 
 #: ball/st_level.c:59
 msgid "Level "
@@ -531,7 +520,7 @@ msgstr "Pauze"
 
 #: ball/st_pause.c:109 ball/st_pause.c:112
 msgid "Restart"
-msgstr ""
+msgstr "Sākt vēlreiz"
 
 #: ball/st_play.c:54
 msgid "Ready?"
@@ -606,9 +595,8 @@ msgid "Time's Up!"
 msgstr "Laiks cauri!"
 
 #: ball/st_title.c:97 ball/st_title.c:133
-#, fuzzy
 msgid "menu^Cheat"
-msgstr "Skatīties"
+msgstr "Krāpties"
 
 #: ball/st_title.c:103 ball/st_title.c:136 putt/st_all.c:206
 msgid "menu^Play"
@@ -656,15 +644,15 @@ msgstr "Labākie laiki"
 
 #: ball/util.c:336
 msgid "caps"
-msgstr ""
+msgstr "lielie"
 
 #: ball/util.c:397
 msgid "Next"
-msgstr ""
+msgstr "Tālāk"
 
 #: ball/util.c:398
 msgid "Prev"
-msgstr ""
+msgstr "Iepriekš"
 
 #: share/audio.c:64
 msgid "Sound disabled\n"
