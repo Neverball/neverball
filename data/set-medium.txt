@@ -4,7 +4,7 @@ medium
 shot-medium/marblecurves.jpg
 
 map-medium/locks.sol
-map-medium/marblecurves.sol
+map-medium/multicurves.sol
 map-medium/accordian.sol
 map-medium/zigzag.sol
 map-medium/roundfloors.sol
