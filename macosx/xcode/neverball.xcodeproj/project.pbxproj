@@ -64,15 +64,12 @@
 		8137FA130AEAE74D009172EC /* libintl.h in Headers */ = {isa = PBXBuildFile; fileRef = 8137F99D0AEAE105009172EC /* libintl.h */; };
 		8137FA140AEAE74E009172EC /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137F99C0AEAE105009172EC /* libintl.a */; };
 		8137FA150AEAE75C009172EC /* SDL_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F03F60AEAC72600AFD07F /* SDL_ttf.framework */; };
-		8137FA160AEAE762009172EC /* SDL_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */; };
 		8137FA1B0AEAE77D009172EC /* SDL_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815F03F60AEAC72600AFD07F /* SDL_ttf.framework */; };
-		8137FA1C0AEAE77D009172EC /* SDL_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */; };
 		8137FA280AEAE7E6009172EC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		8137FA440AEAE909009172EC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F67ED704C74A3F00A80002 /* OpenGL.framework */; };
 		8137FB120AEB07D4009172EC /* SDLMain.h in Headers */ = {isa = PBXBuildFile; fileRef = F5A47A9D01A0482F01D3D55B /* SDLMain.h */; };
 		8137FB130AEB07D7009172EC /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A47A9E01A0483001D3D55B /* SDLMain.m */; };
 		8137FD0F0AEBE491009172EC /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137F99C0AEAE105009172EC /* libintl.a */; };
-		8137FD100AEBE49A009172EC /* SDL_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */; };
 		8137FD110AEBE4A3009172EC /* SDL_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F03F60AEAC72600AFD07F /* SDL_ttf.framework */; };
 		8137FD120AEBE4A8009172EC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		8137FD3B0AEBE4AD009172EC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F67ED704C74A3F00A80002 /* OpenGL.framework */; };
@@ -188,7 +185,6 @@
 		815FFD150AEA356800AFD07F /* solid.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFBA30AEA2E0300AFD07F /* solid.h */; };
 		815FFD170AEA357600AFD07F /* binary.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFB840AEA2E0300AFD07F /* binary.h */; };
 		81D0B3F30AEE6C710041CE19 /* SDL_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815F03F60AEAC72600AFD07F /* SDL_ttf.framework */; };
-		81D0B3F40AEE6C710041CE19 /* SDL_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */; };
 		81D0B3F50AEE6C710041CE19 /* SDL_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815FFD030AEA341500AFD07F /* SDL_image.framework */; };
 		81D0B3F60AEE6C710041CE19 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815FFCFD0AEA340300AFD07F /* SDL.framework */; };
 		B5117CE80C9060CB005837F9 /* st_pause.c in Sources */ = {isa = PBXBuildFile; fileRef = B5117CE60C9060CB005837F9 /* st_pause.c */; };
@@ -299,7 +295,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8137FA1B0AEAE77D009172EC /* SDL_ttf.framework in CopyFiles */,
-				8137FA1C0AEAE77D009172EC /* SDL_mixer.framework in CopyFiles */,
 				815F02EE0AEA8B8100AFD07F /* SDL_image.framework in CopyFiles */,
 				815F02EF0AEA8B8100AFD07F /* SDL.framework in CopyFiles */,
 			);
@@ -313,7 +308,6 @@
 			files = (
 				81D0B3F60AEE6C710041CE19 /* SDL.framework in CopyFiles */,
 				81D0B3F30AEE6C710041CE19 /* SDL_ttf.framework in CopyFiles */,
-				81D0B3F40AEE6C710041CE19 /* SDL_mixer.framework in CopyFiles */,
 				81D0B3F50AEE6C710041CE19 /* SDL_image.framework in CopyFiles */,
 				B5452B860D19C959000F8933 /* text.h in CopyFiles */,
 				B5452B960D19CAFB000F8933 /* codec.h in CopyFiles */,
@@ -349,7 +343,6 @@
 		8137FD630AEBE54F009172EC /* st_conf.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = st_conf.c; sourceTree = "<group>"; };
 		8137FD640AEBE54F009172EC /* st_conf.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = st_conf.h; sourceTree = "<group>"; };
 		815F03A70AEA8CB400AFD07F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = /Library/Frameworks/SDL_mixer.framework; sourceTree = "<absolute>"; };
 		815F03F60AEAC72600AFD07F /* SDL_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_ttf.framework; path = /Library/Frameworks/SDL_ttf.framework; sourceTree = "<absolute>"; };
 		815FFB720AEA2E0300AFD07F /* audio.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = audio.c; sourceTree = "<group>"; };
 		815FFB740AEA2E0300AFD07F /* audio.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = audio.h; sourceTree = "<group>"; };
@@ -427,7 +420,7 @@
 		815FFC940AEA305100AFD07F /* Neverputt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neverputt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		815FFC960AEA305100AFD07F /* Neverputt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Neverputt-Info.plist"; sourceTree = "<group>"; };
 		815FFCB50AEA310700AFD07F /* mapc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mapc; sourceTree = BUILT_PRODUCTS_DIR; };
-		815FFCD60AEA319C00AFD07F /* Neverball.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Neverball.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		815FFCD60AEA319C00AFD07F /* Neverball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neverball.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		815FFCD80AEA319C00AFD07F /* Neverball-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Neverball-Info.plist"; sourceTree = "<group>"; };
 		815FFCFD0AEA340300AFD07F /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		815FFD030AEA341500AFD07F /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = /Library/Frameworks/SDL_image.framework; sourceTree = "<absolute>"; };
@@ -1226,7 +1219,6 @@
 				8137FD0F0AEBE491009172EC /* libintl.a in Frameworks */,
 				815FFD000AEA340300AFD07F /* SDL.framework in Frameworks */,
 				815FFD060AEA341500AFD07F /* SDL_image.framework in Frameworks */,
-				8137FD100AEBE49A009172EC /* SDL_mixer.framework in Frameworks */,
 				8137FD110AEBE4A3009172EC /* SDL_ttf.framework in Frameworks */,
 				8137FD120AEBE4A8009172EC /* Cocoa.framework in Frameworks */,
 				8137FD3B0AEBE4AD009172EC /* OpenGL.framework in Frameworks */,
@@ -1255,7 +1247,6 @@
 				8137FA140AEAE74E009172EC /* libintl.a in Frameworks */,
 				815FFCFF0AEA340300AFD07F /* SDL.framework in Frameworks */,
 				815FFD050AEA341500AFD07F /* SDL_image.framework in Frameworks */,
-				8137FA160AEAE762009172EC /* SDL_mixer.framework in Frameworks */,
 				8137FA150AEAE75C009172EC /* SDL_ttf.framework in Frameworks */,
 				8137FA280AEAE7E6009172EC /* Cocoa.framework in Frameworks */,
 				8137FA440AEAE909009172EC /* OpenGL.framework in Frameworks */,
@@ -1323,7 +1314,6 @@
 			isa = PBXGroup;
 			children = (
 				815F03F60AEAC72600AFD07F /* SDL_ttf.framework */,
-				815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */,
 				815F03A70AEA8CB400AFD07F /* AppKit.framework */,
 				815FFDE70AEA3B8A00AFD07F /* CoreFoundation.framework */,
 				815FFD030AEA341500AFD07F /* SDL_image.framework */,
