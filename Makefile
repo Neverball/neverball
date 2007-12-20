@@ -5,17 +5,30 @@ ifeq ($(VERSION),unknown)
     $(warning Failed to obtain sane version for this build.)
 endif
 
-#------------------------------------------------------------------------------
+# Provide a target system hint for the Makefile.
 
-# Optional flags
+ifeq ($(shell uname), Darwin)
+    DARWIN := 1
+endif
+
+#------------------------------------------------------------------------------
+# Optional flags (CFLAGS, CPPFLAGS, ...)
+
 #CFLAGS := -Wall -g -ansi -pedantic
 CFLAGS := -Wall -O2 -ansi -pedantic
 
+#------------------------------------------------------------------------------
 # Mandatory flags
+
+# Compiler...
+
+ALL_CFLAGS := $(CFLAGS)
+
+# Preprocessor...
+
 SDL_CPPFLAGS := $(shell sdl-config --cflags)
 PNG_CPPFLAGS := $(shell libpng-config --cflags)
 
-ALL_CFLAGS   := $(CFLAGS)
 ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare \
     -DVERSION=\"$(VERSION)\"
 
@@ -25,34 +38,42 @@ else
     ALL_CPPFLAGS += -DENABLE_NLS=1
 endif
 
+ifdef DARWIN
+    ALL_CPPFLAGS += -I/opt/local/include
+endif
+
 ALL_CPPFLAGS += $(CPPFLAGS)
 
 #------------------------------------------------------------------------------
+# Libraries
 
 SDL_LIBS := $(shell sdl-config --libs)
 PNG_LIBS := $(shell libpng-config --libs)
 
 ifdef MINGW
-ifneq ($(ENABLE_NLS),0)
-	INTL_LIBS := -lintl -liconv
-endif
-	OGL_LIBS  := -lopengl32 -lm
-	BASE_LIBS := -lSDL -lSDL_image $(INTL_LIBS)
-	ALL_LIBS  := $(SDL_LIBS) -lSDL_image $(INTL_LIBS) \
-		$(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
+    ifneq ($(ENABLE_NLS),0)
+        INTL_LIBS := -lintl -liconv
+    endif
+
+    OGL_LIBS  := -lopengl32 -lm
+    BASE_LIBS := -lSDL -lSDL_image $(INTL_LIBS)
+    ALL_LIBS  := $(SDL_LIBS) -lSDL_image $(INTL_LIBS) \
+        $(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
+
+else ifdef DARWIN
+    ifneq ($(ENABLE_NLS),0)
+        INTL_LIBS := -lintl -liconv
+    endif
+
+    OGL_LIBS  := -framework OpenGL
+    BASE_LIBS := $(SDL_LIBS) -lSDL_image
+    ALL_LIBS  := $(BASE_LIBS) $(INTL_LIBS) $(PNG_LIBS) -lSDL_ttf \
+        -lvorbisfile $(OGL_LIBS)
+
 else
-	OGL_LIBS  := -lGL -lm
-	BASE_LIBS := $(SDL_LIBS) -lSDL_image
-	ALL_LIBS  := $(BASE_LIBS) $(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
-endif
-
-#------------------------------------------------------------------------------
-# Quick hack by rlk to enable command-line building using macports
-
-ifeq ($(shell uname), Darwin)
-        ALL_CFLAGS += -I/opt/local/include
-        OGL_LIBS = -framework OpenGL
-	ALL_LIBS  := -lintl -liconv $(BASE_LIBS) $(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
+    OGL_LIBS  := -lGL -lm
+    BASE_LIBS := $(SDL_LIBS) -lSDL_image
+    ALL_LIBS  := $(BASE_LIBS) $(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
 endif
 
 #------------------------------------------------------------------------------

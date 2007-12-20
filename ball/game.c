@@ -166,7 +166,7 @@ static void grow_step(const struct s_file *fp, float dt)
     dr = grow_strt + ((grow_goal-grow_strt) * (1.0f / (GROW_TIME / grow_t)));
 
     /* No sinking through the floor! Keeps ball's bottom constant. */
-    fp->uv->p[1] += (dr - fp->uv->r); 
+    fp->uv->p[1] += (dr - fp->uv->r);
     fp->uv->r = dr;
 }
 
@@ -938,7 +938,7 @@ int game_step(const float g[3], float dt, int bt)
             if (b > 0.5)
             {
                 float k = (b - 0.5f) * 2.0f;
-                
+
                 if (got_orig)
                 {
                     if      (fp->uv->r > grow_orig) audio_play(AUD_BUMPL, k);

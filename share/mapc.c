@@ -2207,7 +2207,7 @@ int main(int argc, char *argv[])
     {
         if (argc > 3 && strcmp(argv[3], "--debug") == 0)
             debug_output = 1;
-        
+
         if (config_data_path(argv[2], NULL))
         {
             strncpy(src,  argv[1], MAXSTR);

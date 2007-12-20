@@ -158,7 +158,7 @@ static struct voice *voice_init(const char *filename, float a)
             if (ov_open(fp, &V->vf, NULL, 0) == 0)
             {
                 vorbis_info *info = ov_info(&V->vf, -1);
-            
+
                 /* On success, configure the voice. */
 
                 V->amp  = a;

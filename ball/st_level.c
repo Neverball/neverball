@@ -126,7 +126,7 @@ static int poser_buttn(int c, int d)
 {
     if (d && config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, c))
         return goto_state(&st_level);
-    
+
     return 1;
 }
 

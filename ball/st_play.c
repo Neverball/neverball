@@ -39,7 +39,7 @@ static int pause_or_exit(void)
         level_stat(GAME_NONE, curr_clock(), curr_coins());
         level_stop();
         config_clr_grab();
-        
+
         return goto_state(&st_over);
     }
     return goto_pause();
