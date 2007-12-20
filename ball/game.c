@@ -546,7 +546,7 @@ static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3]
 
             sol_draw(&file);
 
-            if (config_get_d(CONFIG_SHADOW))
+            if (pose == 0 && config_get_d(CONFIG_SHADOW))
             {
                 shad_draw_set(ball_p, ball_r);
                 sol_shad(&file);
