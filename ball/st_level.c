@@ -83,7 +83,6 @@ static int level_enter(void)
 static void level_timer(int id, float dt)
 {
     game_step_fade(dt);
-    audio_timer(dt);
 }
 
 static int level_click(int b, int d)

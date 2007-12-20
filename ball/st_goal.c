@@ -259,7 +259,6 @@ static void goal_timer(int id, float dt)
     }
 
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static int goal_buttn(int b, int d)

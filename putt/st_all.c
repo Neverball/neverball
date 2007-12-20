@@ -238,7 +238,6 @@ static void title_timer(int id, float dt)
     game_set_fly(fcosf(time_state() / 10.f));
 
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static void title_point(int id, int x, int y, int dx, int dy)
@@ -359,7 +358,6 @@ static void course_paint(int id, float st)
 static void course_timer(int id, float dt)
 {
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static void course_point(int id, int x, int y, int dx, int dy)
@@ -488,7 +486,6 @@ static void party_paint(int id, float st)
 static void party_timer(int id, float dt)
 {
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static void party_point(int id, int x, int y, int dx, int dy)
@@ -595,7 +592,6 @@ static void pause_paint(int id, float st)
 static void pause_timer(int id, float dt)
 {
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static void pause_point(int id, int x, int y, int dx, int dy)
@@ -706,7 +702,6 @@ static void next_paint(int id, float st)
 static void next_timer(int id, float dt)
 {
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static void next_point(int id, int x, int y, int dx, int dy)
@@ -809,7 +804,6 @@ static void flyby_timer(int id, float dt)
         game_set_fly(1.f - t);
 
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static int flyby_click(int b, int d)
@@ -886,7 +880,6 @@ static void stroke_timer(int id, float dt)
 
     game_update_view(dt);
     game_step(g, dt);
-    audio_timer(dt);
 }
 
 static void stroke_point(int id, int x, int y, int dx, int dy)
@@ -958,7 +951,6 @@ static void roll_timer(int id, float dt)
     case GAME_GOAL: goto_state(&st_goal); break;
     case GAME_FALL: goto_state(&st_fall); break;
     }
-    audio_timer(dt);
 }
 
 static int roll_buttn(int b, int d)
@@ -1012,7 +1004,6 @@ static void goal_timer(int id, float dt)
         else
             goto_state(&st_score);
     }
-    audio_timer(dt);
 }
 
 static int goal_click(int b, int d)
@@ -1075,7 +1066,6 @@ static void stop_timer(int id, float dt)
 
     game_update_view(dt);
     game_step(g, dt);
-    audio_timer(dt);
 
     if (time_state() > 1)
     {
@@ -1159,7 +1149,6 @@ static void fall_timer(int id, float dt)
         else
             goto_state(&st_score);
     }
-    audio_timer(dt);
 }
 
 static int fall_click(int b, int d)
@@ -1217,7 +1206,6 @@ static void score_paint(int id, float st)
 static void score_timer(int id, float dt)
 {
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static int score_click(int b, int d)
@@ -1271,7 +1259,6 @@ static void over_paint(int id, float st)
 static void over_timer(int id, float dt)
 {
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static int over_click(int b, int d)

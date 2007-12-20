@@ -277,7 +277,6 @@ static void demo_timer(int id, float dt)
         goto_state(&st_title);
 
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static void demo_point(int id, int x, int y, int dx, int dy)
@@ -363,7 +362,6 @@ static void demo_play_timer(int id, float dt)
 
     game_step_fade(dt);
     gui_timer(id, dt);
-    audio_timer(dt);
 
     global_time += dt;
     hud_timer(dt);

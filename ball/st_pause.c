@@ -62,14 +62,14 @@ static int pause_action(int i)
     switch(i)
     {
     case PAUSE_CONTINUE:
-        Mix_ResumeMusic();
+        SDL_PauseAudio(0);
         config_set_grab(0);
         return goto_state(st_continue);
 
     case PAUSE_RESTART:
         level_same();
         clear_pause();
-        Mix_ResumeMusic();
+        SDL_PauseAudio(0);
         config_set_grab(1);
         return goto_state(&st_play_ready);
 
@@ -77,6 +77,8 @@ static int pause_action(int i)
         level_stat(GAME_NONE, curr_clock(), curr_coins());
         level_stop();
         clear_pause();
+        SDL_PauseAudio(0);
+        audio_music_stop();
         return goto_state(&st_over);
     }
 
@@ -90,8 +92,7 @@ static int pause_enter(void)
     int id, jd, title_id;
 
     config_clr_grab();
-
-    Mix_PauseMusic();
+    SDL_PauseAudio(1);
 
     /* Build the pause GUI. */
 

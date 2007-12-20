@@ -13,7 +13,10 @@
  */
 
 #include <SDL.h>
-#include <SDL_mixer.h>
+
+#include <vorbis/codec.h>
+#include <vorbis/vorbisfile.h>
+
 #include <string.h>
 
 #include "text.h"
@@ -22,82 +25,303 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int audio_state = 0;
+#define AUDIO_RATE 44100
+#define AUDIO_CHAN 2
 
-static char       name[MAXSND][MAXSTR];
-static int        chan[MAXSND];
-static Mix_Chunk *buff[MAXSND];
-static Mix_Music *song;
+struct voice
+{
+    OggVorbis_File  vf;
+    float          amp;
+    float         damp;
+    int           chan;
+    int           play;
+    int           loop;
+    char         *name;
+    struct voice *next;
+};
 
-static char  curr_bgm[MAXSTR];
-static char  next_bgm[MAXSTR];
+static int   audio_state = 0;
+static float sound_vol   = 1.0f;
+static float music_vol   = 1.0f;
 
-static float fade_volume = 1.0f;
-static float fade_rate   = 0.0f;
+static SDL_AudioSpec spec;
+
+static struct voice *music  = NULL;
+static struct voice *queue  = NULL;
+static struct voice *voices = NULL;
+static short        *buffer = NULL;
+
+/*---------------------------------------------------------------------------*/
+
+#define MIX(d, s) {                           \
+        int n = (int) (d) + (int) (s);        \
+        if      (n >  32767) (d) =  32767;    \
+        else if (n < -32768) (d) = -32768;    \
+        else                 (d) = (short) n; \
+    }
+
+static int voice_step(struct voice *V, float volume, Uint8 *stream, int length)
+{
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    int order = 1;
+#else
+    int order = 0;
+#endif
+
+    short *obuf = (short *) stream;
+    char  *ibuf = (char  *) buffer;
+
+    int i, b = 0, n = 1, c = 0, r = 0;
+
+    /* Compute the total request size for the current stream. */
+
+    if (V->chan == 1) r = length / 2;
+    if (V->chan == 2) r = length    ;
+
+    /* While data is coming in and data is still needed... */
+
+    while (n > 0 && r > 0)
+    {
+        /* Read audio from the stream. */
+
+        if ((n = (int) ov_read(&V->vf, ibuf, r, order, 2, 1, &b)) > 0)
+        {
+            /* Mix mono audio. */
+
+            if (V->chan == 1)
+                for (i = 0; i < n / 2; i += 1)
+                {
+                    short M = (short) (V->amp * volume * buffer[i]);
+
+                    MIX(obuf[c], M); c++;
+                    MIX(obuf[c], M); c++;
+
+                    V->amp += V->damp;
+
+                    if (V->amp < 0.0) V->amp = 0.0;
+                    if (V->amp > 1.0) V->amp = 1.0;
+                }
+
+            /* Mix stereo audio. */
+
+            if (V->chan == 2)
+                for (i = 0; i < n / 2; i += 2)
+                {
+                    short L = (short) (V->amp * volume * buffer[i + 0]);
+                    short R = (short) (V->amp * volume * buffer[i + 1]);
+
+                    MIX(obuf[c], L); c++;
+                    MIX(obuf[c], R); c++;
+
+                    V->amp += V->damp;
+
+                    if (V->amp < 0.0) V->amp = 0.0;
+                    if (V->amp > 1.0) V->amp = 1.0;
+                }
+
+            r -= n;
+        }
+        else
+        {
+            /* We're at EOF.  Loop or end the voice. */
+
+            if (V->loop)
+            {
+                ov_raw_seek(&V->vf, 0);
+                n = 1;
+            }
+            else return 1;
+        }
+    }
+    return 0;
+}
+
+static struct voice *voice_init(const char *filename, float a)
+{
+    struct voice *V;
+    FILE        *fp;
+
+    /* Allocate and initialize a new voice structure. */
+
+    if ((V = (struct voice *) calloc(1, sizeof (struct voice))))
+    {
+        /* Note the name. */
+
+        V->name = (char *) malloc(strlen(filename) + 1);
+
+        strcpy(V->name, filename);
+
+        /* Attempt to open the named Ogg stream. */
+
+        if ((fp = fopen(config_data(filename), FMODE_RB)))
+        {
+            if (ov_open(fp, &V->vf, NULL, 0) == 0)
+            {
+                vorbis_info *info = ov_info(&V->vf, -1);
+            
+                /* On success, configure the voice. */
+
+                V->amp  = a;
+                V->damp = 0;
+                V->chan = info->channels;
+                V->play = 1;
+                V->loop = 0;
+
+                if (V->amp > 1.0) V->amp = 1.0;
+                if (V->amp < 0.0) V->amp = 0.0;
+
+                /* The file will be closed when the Ogg is cleared. */
+            }
+            else fclose(fp);
+        }
+    }
+    return V;
+}
+
+static void voice_free(struct voice *V)
+{
+    ov_clear(&V->vf);
+
+    free(V->name);
+    free(V);
+}
+
+/*---------------------------------------------------------------------------*/
+
+static void audio_step(void *data, Uint8 *stream, int length)
+{
+    struct voice *V = voices;
+    struct voice *P = NULL;
+
+    /* Zero the output buffer. */
+
+    memset(stream, 0, length);
+
+    /* Mix the background music. */
+
+    if (music)
+    {
+        voice_step(music, music_vol, stream, length);
+
+        /* If the track has faded out, move to a queued track. */
+
+        if (music->amp <= 0.0f && music->damp < 0.0f && queue)
+        {
+            voice_free(music);
+            music = queue;
+            queue = NULL;
+        }
+    }
+
+    /* Iterate over all active voices. */
+
+    while (V)
+    {
+        /* Mix this voice. */
+
+        if (V->play && voice_step(V, sound_vol, stream, length))
+        {
+            /* Delete a finished voice... */
+
+            struct voice *T = V;
+
+            if (P)
+                V = P->next = V->next;
+            else
+                V = voices  = V->next;
+
+            voice_free(T);
+        }
+        else
+        {
+            /* ... or continue to the next. */
+
+            P = V;
+            V = V->next;
+        }
+    }
+}
 
 /*---------------------------------------------------------------------------*/
 
 void audio_init(void)
 {
-    int r = config_get_d(CONFIG_AUDIO_RATE);
-    int b = config_get_d(CONFIG_AUDIO_BUFF);
-    int i;
+    audio_state = 0;
 
-    memset(curr_bgm, 0, MAXSTR);
-    memset(next_bgm, 0, MAXSTR);
+    /* Configure the audio. */
 
-    if (audio_state == 0)
+    spec.format   = AUDIO_S16SYS;
+    spec.channels = AUDIO_CHAN;
+    spec.samples  = config_get_d(CONFIG_AUDIO_BUFF);
+    spec.freq     = AUDIO_RATE;
+    spec.callback = audio_step;
+
+    /* Allocate an input buffer. */
+
+    if ((buffer = (short *) malloc(spec.samples * 4)))
     {
-        if (Mix_OpenAudio(r, MIX_DEFAULT_FORMAT, 2, b) == 0)
-        {
-            for (i = 0; i < MAXSND; i++)
-                if (chan[i])
-                    buff[i] = Mix_LoadWAV(config_data(name[i]));
+        /* Start the audio thread. */
 
+        if (SDL_OpenAudio(&spec, NULL) == 0)
+        {
             audio_state = 1;
-
-            audio_volume(config_get_d(CONFIG_SOUND_VOLUME),
-                         config_get_d(CONFIG_MUSIC_VOLUME));
+            SDL_PauseAudio(0);
         }
-        else
-        {
-            fprintf(stderr, L_("Sound disabled\n"));
-            audio_state = 0;
-        }
+        else fprintf(stderr, "%s\n", SDL_GetError());
     }
+
+    /* Set the initial volumes. */
+
+    audio_volume(config_get_d(CONFIG_SOUND_VOLUME),
+                 config_get_d(CONFIG_MUSIC_VOLUME));
 }
 
 void audio_free(void)
 {
-    int i;
+    /* Halt the audio thread. */
 
-    if (audio_state == 1)
+    SDL_CloseAudio();
+
+    /* Release the input buffer. */
+
+    free(buffer);
+
+    /* Ogg streams and voice structure remain open to allow quality setting. */
+}
+
+void audio_play(const char *filename, float a)
+{
+    if (audio_state)
     {
-        for (i = 0; i < MAXSND; i++)
-            if (buff[i])
-            {
-                Mix_FreeChunk(buff[i]);
+        struct voice *V;
 
-                buff[i] = NULL;
+        /* If we're already playing this sound, preempt the running copy. */
+
+        for (V = voices; V; V = V->next)
+            if (strcmp(V->name, filename) == 0)
+            {
+                ov_raw_seek(&V->vf, 0);
+
+                V->amp = a;
+
+                if (V->amp > 1.0) V->amp = 1.0;
+                if (V->amp < 0.0) V->amp = 0.0;
+
+                return;
             }
 
-        Mix_CloseAudio();
-        audio_state = 0;
-    }
-}
+        /* Create a new voice structure. */
 
-void audio_bind(int i, int c, const char *filename)
-{
-    strncpy(name[i], filename, MAXSTR);
-    chan[i] = c;
-}
+        V = voice_init(filename, a);
 
-void audio_play(int i, float v)
-{
-    if (audio_state == 1 && buff[i])
-    {
-        Mix_VolumeChunk(buff[i], (int) (v * MIX_MAX_VOLUME));
-        Mix_PlayChannel(chan[i], buff[i], 0);
+        /* Add it to the list of sounding voices. */
+
+        SDL_LockAudio();
+        {
+            V->next = voices;
+            voices  = V;
+        }
+        SDL_UnlockAudio();
     }
 }
 
@@ -109,12 +333,14 @@ void audio_music_play(const char *filename)
     {
         audio_music_stop();
 
-        if ((config_get_d(CONFIG_MUSIC_VOLUME) > 0) &&
-            (song = Mix_LoadMUS(config_data(filename))))
+        SDL_LockAudio();
         {
-            Mix_PlayMusic(song, -1);
-            strcpy(curr_bgm, filename);
+            if ((music = voice_init(filename, 0.0f)))
+            {
+                music->loop = 1;
+            }
         }
+        SDL_UnlockAudio();
     }
 }
 
@@ -122,16 +348,14 @@ void audio_music_queue(const char *filename)
 {
     if (audio_state)
     {
-        if (strlen(curr_bgm) == 0 || strcmp(filename, curr_bgm) != 0)
+        SDL_LockAudio();
         {
-            Mix_VolumeMusic(0);
-            fade_volume = 0.0f;
-
-            audio_music_play(filename);
-            strcpy(curr_bgm, filename);
-
-            Mix_PauseMusic();
+            if ((queue = voice_init(filename, 0.0f)))
+            {
+                queue->loop = 1;
+            }
         }
+        SDL_UnlockAudio();
     }
 }
 
@@ -139,99 +363,62 @@ void audio_music_stop(void)
 {
     if (audio_state)
     {
-        if (Mix_PlayingMusic())
-            Mix_HaltMusic();
-
-        if (song)
-            Mix_FreeMusic(song);
-
-        song = NULL;
+        SDL_LockAudio();
+        {
+            if (music)
+            {
+                voice_free(music);
+            }
+            music = NULL;
+        }
+        SDL_UnlockAudio();
     }
 }
 
 /*---------------------------------------------------------------------------*/
-/*
- * SDL_mixer already provides music fading.  Unfortunately, it halts playback
- * at the end of a fade.  We need to be able to fade music back in from the
- * point where it stopped.  So, we reinvent this wheel.
- */
-
-void audio_timer(float dt)
-{
-    if (audio_state)
-    {
-        if (fade_rate > 0.0f || fade_rate < 0.0f)
-            fade_volume += dt / fade_rate;
-
-        if (fade_volume < 0.0f)
-        {
-            fade_volume = 0.0f;
-
-            if (strlen(next_bgm) == 0)
-            {
-                fade_rate = 0.0f;
-                if (Mix_PlayingMusic())
-                    Mix_PauseMusic();
-            }
-            else
-            {
-                fade_rate = -fade_rate;
-                audio_music_queue(next_bgm);
-            }
-        }
-
-        if (fade_volume > 1.0f)
-        {
-            fade_rate   = 0.0f;
-            fade_volume = 1.0f;
-        }
-
-        if (Mix_PausedMusic() && fade_rate > 0.0f)
-            Mix_ResumeMusic();
-
-        if (Mix_PlayingMusic())
-            Mix_VolumeMusic(config_get_d(CONFIG_MUSIC_VOLUME) *
-                            (int) (fade_volume * MIX_MAX_VOLUME) / 10);
-    }
-}
 
 void audio_music_fade_out(float t)
 {
-    fade_rate = -t;
-    strcpy(next_bgm, "");
+    SDL_LockAudio();
+    {
+        if (music) music->damp = -1.0f / (AUDIO_RATE * t);
+    }
+    SDL_UnlockAudio();
 }
 
 void audio_music_fade_in(float t)
 {
-    fade_rate = +t;
-    strcpy(next_bgm, "");
+    SDL_LockAudio();
+    {
+        if (music) music->damp = +1.0f / (AUDIO_RATE * t);
+    }
+    SDL_UnlockAudio();
 }
 
 void audio_music_fade_to(float t, const char *filename)
 {
-    if (fade_volume > 0)
+    if (music)
     {
-        if (strlen(curr_bgm) == 0 || strcmp(filename, curr_bgm) != 0)
+        if (strcmp(filename, music->name))
         {
-            strcpy(next_bgm, filename);
-            fade_rate = -t;
+            audio_music_queue(filename);
+            audio_music_fade_out(t);
+
+            if (queue) queue->damp = +1.0f / (AUDIO_RATE * t);
         }
-        else fade_rate = t;
+        else audio_music_fade_in(t);
     }
     else
     {
-        audio_music_queue(filename);
+        audio_music_play(filename);
         audio_music_fade_in(t);
     }
 }
 
 void audio_volume(int s, int m)
 {
-    if (audio_state)
-    {
-        Mix_Volume(-1, s * MIX_MAX_VOLUME / 10);
-        Mix_VolumeMusic(m * MIX_MAX_VOLUME / 10);
-    }
+    sound_vol = (float) s / 10.0f;
+    music_vol = (float) m / 10.0f;
 }
 
 /*---------------------------------------------------------------------------*/

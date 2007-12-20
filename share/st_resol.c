@@ -123,7 +123,6 @@ static void resol_paint(int id, float st)
 static void resol_timer(int id, float dt)
 {
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static void resol_point(int id, int x, int y, int dx, int dy)

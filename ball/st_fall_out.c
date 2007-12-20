@@ -135,7 +135,6 @@ static void fall_out_timer(int id, float dt)
     }
 
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static int fall_out_buttn(int b, int d)

@@ -232,23 +232,6 @@ int main(int argc, char *argv[])
 
                 /* Initialize the audio. */
 
-                audio_bind(AUD_BIRDIE,  1, "snd/birdie.ogg");
-                audio_bind(AUD_BOGEY,   1, "snd/bogey.ogg");
-                audio_bind(AUD_BUMP,    1, "snd/bink.wav");
-                audio_bind(AUD_DOUBLE,  1, "snd/double.ogg");
-                audio_bind(AUD_EAGLE,   1, "snd/eagle.ogg");
-                audio_bind(AUD_JUMP,    2, "snd/jump.ogg");
-                audio_bind(AUD_MENU,    2, "snd/menu.wav");
-                audio_bind(AUD_ONE,     1, "snd/one.ogg");
-                audio_bind(AUD_PAR,     1, "snd/par.ogg");
-                audio_bind(AUD_PENALTY, 1, "snd/penalty.ogg");
-                audio_bind(AUD_PLAYER1, 1, "snd/player1.ogg");
-                audio_bind(AUD_PLAYER2, 1, "snd/player2.ogg");
-                audio_bind(AUD_PLAYER3, 1, "snd/player3.ogg");
-                audio_bind(AUD_PLAYER4, 1, "snd/player4.ogg");
-                audio_bind(AUD_SWITCH,  2, "snd/switch.wav");
-                audio_bind(AUD_SUCCESS, 1, "snd/success.ogg");
-
                 audio_init();
 
                 /* Require 16-bit double buffer with 16-bit depth buffer. */

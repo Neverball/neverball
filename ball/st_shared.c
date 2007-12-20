@@ -35,7 +35,6 @@ void shared_paint(int id, float st)
 void shared_timer(int id, float dt)
 {
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 /* Pulse, activate and return the active id (if changed)*/

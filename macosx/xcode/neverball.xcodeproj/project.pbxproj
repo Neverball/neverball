@@ -64,15 +64,12 @@
 		8137FA130AEAE74D009172EC /* libintl.h in Headers */ = {isa = PBXBuildFile; fileRef = 8137F99D0AEAE105009172EC /* libintl.h */; };
 		8137FA140AEAE74E009172EC /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137F99C0AEAE105009172EC /* libintl.a */; };
 		8137FA150AEAE75C009172EC /* SDL_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F03F60AEAC72600AFD07F /* SDL_ttf.framework */; };
-		8137FA160AEAE762009172EC /* SDL_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */; };
 		8137FA1B0AEAE77D009172EC /* SDL_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815F03F60AEAC72600AFD07F /* SDL_ttf.framework */; };
-		8137FA1C0AEAE77D009172EC /* SDL_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */; };
 		8137FA280AEAE7E6009172EC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		8137FA440AEAE909009172EC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F67ED704C74A3F00A80002 /* OpenGL.framework */; };
 		8137FB120AEB07D4009172EC /* SDLMain.h in Headers */ = {isa = PBXBuildFile; fileRef = F5A47A9D01A0482F01D3D55B /* SDLMain.h */; };
 		8137FB130AEB07D7009172EC /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A47A9E01A0483001D3D55B /* SDLMain.m */; };
 		8137FD0F0AEBE491009172EC /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137F99C0AEAE105009172EC /* libintl.a */; };
-		8137FD100AEBE49A009172EC /* SDL_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */; };
 		8137FD110AEBE4A3009172EC /* SDL_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F03F60AEAC72600AFD07F /* SDL_ttf.framework */; };
 		8137FD120AEBE4A8009172EC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		8137FD3B0AEBE4AD009172EC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F67ED704C74A3F00A80002 /* OpenGL.framework */; };
@@ -188,21 +185,40 @@
 		815FFD150AEA356800AFD07F /* solid.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFBA30AEA2E0300AFD07F /* solid.h */; };
 		815FFD170AEA357600AFD07F /* binary.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFB840AEA2E0300AFD07F /* binary.h */; };
 		81D0B3F30AEE6C710041CE19 /* SDL_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815F03F60AEAC72600AFD07F /* SDL_ttf.framework */; };
-		81D0B3F40AEE6C710041CE19 /* SDL_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */; };
 		81D0B3F50AEE6C710041CE19 /* SDL_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815FFD030AEA341500AFD07F /* SDL_image.framework */; };
 		81D0B3F60AEE6C710041CE19 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815FFCFD0AEA340300AFD07F /* SDL.framework */; };
 		B5117CE80C9060CB005837F9 /* st_pause.c in Sources */ = {isa = PBXBuildFile; fileRef = B5117CE60C9060CB005837F9 /* st_pause.c */; };
 		B5117CE90C9060CB005837F9 /* st_pause.h in Headers */ = {isa = PBXBuildFile; fileRef = B5117CE70C9060CB005837F9 /* st_pause.h */; };
-		B511CD210D0E3A7300E99AE0 /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = B511CD1F0D0E3A7300E99AE0 /* text.c */; };
-		B511CD220D0E3A7300E99AE0 /* text.h in Headers */ = {isa = PBXBuildFile; fileRef = B511CD200D0E3A7300E99AE0 /* text.h */; };
-		B511CD230D0E3A7300E99AE0 /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = B511CD1F0D0E3A7300E99AE0 /* text.c */; };
-		B511CD240D0E3A7300E99AE0 /* text.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B511CD200D0E3A7300E99AE0 /* text.h */; };
 		B5412EB90CA36ACD00C9A9F7 /* demo.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC0E0AEA2EF600AFD07F /* demo.h */; };
 		B5412EBA0CA36AE000C9A9F7 /* demo.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC0D0AEA2EF600AFD07F /* demo.c */; };
 		B5412EC20CA36C3C00C9A9F7 /* score.c in Sources */ = {isa = PBXBuildFile; fileRef = B5412EBE0CA36C3C00C9A9F7 /* score.c */; };
 		B5412EC30CA36C3C00C9A9F7 /* score.h in Headers */ = {isa = PBXBuildFile; fileRef = B5412EBF0CA36C3C00C9A9F7 /* score.h */; };
 		B5412EC40CA36C3C00C9A9F7 /* mode.c in Sources */ = {isa = PBXBuildFile; fileRef = B5412EC00CA36C3C00C9A9F7 /* mode.c */; };
 		B5412EC50CA36C3C00C9A9F7 /* mode.h in Headers */ = {isa = PBXBuildFile; fileRef = B5412EC10CA36C3C00C9A9F7 /* mode.h */; };
+		B5452B830D19C959000F8933 /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = B5452B810D19C959000F8933 /* text.c */; };
+		B5452B840D19C959000F8933 /* text.h in Headers */ = {isa = PBXBuildFile; fileRef = B5452B820D19C959000F8933 /* text.h */; };
+		B5452B850D19C959000F8933 /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = B5452B810D19C959000F8933 /* text.c */; };
+		B5452B860D19C959000F8933 /* text.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5452B820D19C959000F8933 /* text.h */; };
+		B5452B8D0D19CA83000F8933 /* libvorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5452B8C0D19CA83000F8933 /* libvorbis.a */; };
+		B5452B8E0D19CA83000F8933 /* libvorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5452B8C0D19CA83000F8933 /* libvorbis.a */; };
+		B5452B930D19CAFB000F8933 /* codec.h in Headers */ = {isa = PBXBuildFile; fileRef = B5452B900D19CAFB000F8933 /* codec.h */; };
+		B5452B940D19CAFB000F8933 /* vorbisenc.h in Headers */ = {isa = PBXBuildFile; fileRef = B5452B910D19CAFB000F8933 /* vorbisenc.h */; };
+		B5452B950D19CAFB000F8933 /* vorbisfile.h in Headers */ = {isa = PBXBuildFile; fileRef = B5452B920D19CAFB000F8933 /* vorbisfile.h */; };
+		B5452B960D19CAFB000F8933 /* codec.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5452B900D19CAFB000F8933 /* codec.h */; };
+		B5452B970D19CAFB000F8933 /* vorbisenc.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5452B910D19CAFB000F8933 /* vorbisenc.h */; };
+		B5452B980D19CAFB000F8933 /* vorbisfile.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5452B920D19CAFB000F8933 /* vorbisfile.h */; };
+		B5452B9E0D19CB9F000F8933 /* libvorbisenc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5452B9C0D19CB9F000F8933 /* libvorbisenc.a */; };
+		B5452B9F0D19CB9F000F8933 /* libvorbisfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5452B9D0D19CB9F000F8933 /* libvorbisfile.a */; };
+		B5452BA00D19CB9F000F8933 /* libvorbisenc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5452B9C0D19CB9F000F8933 /* libvorbisenc.a */; };
+		B5452BA10D19CB9F000F8933 /* libvorbisfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5452B9D0D19CB9F000F8933 /* libvorbisfile.a */; };
+		B5452BA70D19CBDC000F8933 /* config_types.h in Headers */ = {isa = PBXBuildFile; fileRef = B5452BA30D19CBDC000F8933 /* config_types.h */; };
+		B5452BA80D19CBDC000F8933 /* libogg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5452BA40D19CBDC000F8933 /* libogg.a */; };
+		B5452BA90D19CBDC000F8933 /* ogg.h in Headers */ = {isa = PBXBuildFile; fileRef = B5452BA50D19CBDC000F8933 /* ogg.h */; };
+		B5452BAA0D19CBDC000F8933 /* os_types.h in Headers */ = {isa = PBXBuildFile; fileRef = B5452BA60D19CBDC000F8933 /* os_types.h */; };
+		B5452BAB0D19CBDC000F8933 /* config_types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5452BA30D19CBDC000F8933 /* config_types.h */; };
+		B5452BAC0D19CBDC000F8933 /* libogg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5452BA40D19CBDC000F8933 /* libogg.a */; };
+		B5452BAD0D19CBDC000F8933 /* ogg.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5452BA50D19CBDC000F8933 /* ogg.h */; };
+		B5452BAE0D19CBDC000F8933 /* os_types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5452BA60D19CBDC000F8933 /* os_types.h */; };
 		B549682A0C964EBF004309DA /* lang.h in Headers */ = {isa = PBXBuildFile; fileRef = B54968290C964EBF004309DA /* lang.h */; };
 		B549682C0C964ED3004309DA /* lang.c in Sources */ = {isa = PBXBuildFile; fileRef = B549682B0C964ED3004309DA /* lang.c */; };
 		B56171BB0C96BABD00FE88EE /* lang.c in Sources */ = {isa = PBXBuildFile; fileRef = B549682B0C964ED3004309DA /* lang.c */; };
@@ -279,7 +295,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8137FA1B0AEAE77D009172EC /* SDL_ttf.framework in CopyFiles */,
-				8137FA1C0AEAE77D009172EC /* SDL_mixer.framework in CopyFiles */,
 				815F02EE0AEA8B8100AFD07F /* SDL_image.framework in CopyFiles */,
 				815F02EF0AEA8B8100AFD07F /* SDL.framework in CopyFiles */,
 			);
@@ -293,9 +308,14 @@
 			files = (
 				81D0B3F60AEE6C710041CE19 /* SDL.framework in CopyFiles */,
 				81D0B3F30AEE6C710041CE19 /* SDL_ttf.framework in CopyFiles */,
-				81D0B3F40AEE6C710041CE19 /* SDL_mixer.framework in CopyFiles */,
 				81D0B3F50AEE6C710041CE19 /* SDL_image.framework in CopyFiles */,
-				B511CD240D0E3A7300E99AE0 /* text.h in CopyFiles */,
+				B5452B860D19C959000F8933 /* text.h in CopyFiles */,
+				B5452B960D19CAFB000F8933 /* codec.h in CopyFiles */,
+				B5452B970D19CAFB000F8933 /* vorbisenc.h in CopyFiles */,
+				B5452B980D19CAFB000F8933 /* vorbisfile.h in CopyFiles */,
+				B5452BAB0D19CBDC000F8933 /* config_types.h in CopyFiles */,
+				B5452BAD0D19CBDC000F8933 /* ogg.h in CopyFiles */,
+				B5452BAE0D19CBDC000F8933 /* os_types.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,7 +343,6 @@
 		8137FD630AEBE54F009172EC /* st_conf.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = st_conf.c; sourceTree = "<group>"; };
 		8137FD640AEBE54F009172EC /* st_conf.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = st_conf.h; sourceTree = "<group>"; };
 		815F03A70AEA8CB400AFD07F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = /Library/Frameworks/SDL_mixer.framework; sourceTree = "<absolute>"; };
 		815F03F60AEAC72600AFD07F /* SDL_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_ttf.framework; path = /Library/Frameworks/SDL_ttf.framework; sourceTree = "<absolute>"; };
 		815FFB720AEA2E0300AFD07F /* audio.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = audio.c; sourceTree = "<group>"; };
 		815FFB740AEA2E0300AFD07F /* audio.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = audio.h; sourceTree = "<group>"; };
@@ -936,8 +955,6 @@
 		B5117CDE0C906001005837F9 /* VeraBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = VeraBd.ttf; sourceTree = "<group>"; };
 		B5117CE60C9060CB005837F9 /* st_pause.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_pause.c; sourceTree = "<group>"; };
 		B5117CE70C9060CB005837F9 /* st_pause.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = st_pause.h; sourceTree = "<group>"; };
-		B511CD1F0D0E3A7300E99AE0 /* text.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = text.c; sourceTree = "<group>"; };
-		B511CD200D0E3A7300E99AE0 /* text.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		B5412DD80CA36A6700C9A9F7 /* arrow */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow; sourceTree = "<group>"; };
 		B5412DD90CA36A6700C9A9F7 /* arrow-dark */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "arrow-dark"; sourceTree = "<group>"; };
 		B5412DDA0CA36A6700C9A9F7 /* arrow-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-dark.png"; sourceTree = "<group>"; };
@@ -1165,6 +1182,18 @@
 		B5412EBF0CA36C3C00C9A9F7 /* score.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = score.h; sourceTree = "<group>"; };
 		B5412EC00CA36C3C00C9A9F7 /* mode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mode.c; sourceTree = "<group>"; };
 		B5412EC10CA36C3C00C9A9F7 /* mode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mode.h; sourceTree = "<group>"; };
+		B5452B810D19C959000F8933 /* text.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = text.c; sourceTree = "<group>"; };
+		B5452B820D19C959000F8933 /* text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
+		B5452B8C0D19CA83000F8933 /* libvorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libvorbis.a; sourceTree = "<group>"; };
+		B5452B900D19CAFB000F8933 /* codec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = codec.h; sourceTree = "<group>"; };
+		B5452B910D19CAFB000F8933 /* vorbisenc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vorbisenc.h; sourceTree = "<group>"; };
+		B5452B920D19CAFB000F8933 /* vorbisfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vorbisfile.h; sourceTree = "<group>"; };
+		B5452B9C0D19CB9F000F8933 /* libvorbisenc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libvorbisenc.a; sourceTree = "<group>"; };
+		B5452B9D0D19CB9F000F8933 /* libvorbisfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libvorbisfile.a; sourceTree = "<group>"; };
+		B5452BA30D19CBDC000F8933 /* config_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config_types.h; sourceTree = "<group>"; };
+		B5452BA40D19CBDC000F8933 /* libogg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libogg.a; sourceTree = "<group>"; };
+		B5452BA50D19CBDC000F8933 /* ogg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ogg.h; sourceTree = "<group>"; };
+		B5452BA60D19CBDC000F8933 /* os_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_types.h; sourceTree = "<group>"; };
 		B54968290C964EBF004309DA /* lang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lang.h; sourceTree = "<group>"; };
 		B549682B0C964ED3004309DA /* lang.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lang.c; sourceTree = "<group>"; };
 		B568EAF50C96BE83006D5E93 /* dmg-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "dmg-background.jpg"; sourceTree = "<group>"; };
@@ -1190,10 +1219,13 @@
 				8137FD0F0AEBE491009172EC /* libintl.a in Frameworks */,
 				815FFD000AEA340300AFD07F /* SDL.framework in Frameworks */,
 				815FFD060AEA341500AFD07F /* SDL_image.framework in Frameworks */,
-				8137FD100AEBE49A009172EC /* SDL_mixer.framework in Frameworks */,
 				8137FD110AEBE4A3009172EC /* SDL_ttf.framework in Frameworks */,
 				8137FD120AEBE4A8009172EC /* Cocoa.framework in Frameworks */,
 				8137FD3B0AEBE4AD009172EC /* OpenGL.framework in Frameworks */,
+				B5452B8E0D19CA83000F8933 /* libvorbis.a in Frameworks */,
+				B5452BA00D19CB9F000F8933 /* libvorbisenc.a in Frameworks */,
+				B5452BA10D19CB9F000F8933 /* libvorbisfile.a in Frameworks */,
+				B5452BAC0D19CBDC000F8933 /* libogg.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1215,10 +1247,13 @@
 				8137FA140AEAE74E009172EC /* libintl.a in Frameworks */,
 				815FFCFF0AEA340300AFD07F /* SDL.framework in Frameworks */,
 				815FFD050AEA341500AFD07F /* SDL_image.framework in Frameworks */,
-				8137FA160AEAE762009172EC /* SDL_mixer.framework in Frameworks */,
 				8137FA150AEAE75C009172EC /* SDL_ttf.framework in Frameworks */,
 				8137FA280AEAE7E6009172EC /* Cocoa.framework in Frameworks */,
 				8137FA440AEAE909009172EC /* OpenGL.framework in Frameworks */,
+				B5452B8D0D19CA83000F8933 /* libvorbis.a in Frameworks */,
+				B5452B9E0D19CB9F000F8933 /* libvorbisenc.a in Frameworks */,
+				B5452B9F0D19CB9F000F8933 /* libvorbisfile.a in Frameworks */,
+				B5452BA80D19CBDC000F8933 /* libogg.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1279,7 +1314,6 @@
 			isa = PBXGroup;
 			children = (
 				815F03F60AEAC72600AFD07F /* SDL_ttf.framework */,
-				815F03F20AEAC70A00AFD07F /* SDL_mixer.framework */,
 				815F03A70AEA8CB400AFD07F /* AppKit.framework */,
 				815FFDE70AEA3B8A00AFD07F /* CoreFoundation.framework */,
 				815FFD030AEA341500AFD07F /* SDL_image.framework */,
@@ -1293,6 +1327,16 @@
 		8137F99B0AEAE105009172EC /* external_libs */ = {
 			isa = PBXGroup;
 			children = (
+				B5452BA30D19CBDC000F8933 /* config_types.h */,
+				B5452BA40D19CBDC000F8933 /* libogg.a */,
+				B5452BA50D19CBDC000F8933 /* ogg.h */,
+				B5452BA60D19CBDC000F8933 /* os_types.h */,
+				B5452B9C0D19CB9F000F8933 /* libvorbisenc.a */,
+				B5452B9D0D19CB9F000F8933 /* libvorbisfile.a */,
+				B5452B900D19CAFB000F8933 /* codec.h */,
+				B5452B910D19CAFB000F8933 /* vorbisenc.h */,
+				B5452B920D19CAFB000F8933 /* vorbisfile.h */,
+				B5452B8C0D19CA83000F8933 /* libvorbis.a */,
 				B5C41C040C905BB800C19E20 /* iconv.h */,
 				B5C41BFE0C905AC400C19E20 /* libiconv.a */,
 				8137F99D0AEAE105009172EC /* libintl.h */,
@@ -1338,8 +1382,8 @@
 		815FFB710AEA2E0300AFD07F /* share */ = {
 			isa = PBXGroup;
 			children = (
-				B511CD1F0D0E3A7300E99AE0 /* text.c */,
-				B511CD200D0E3A7300E99AE0 /* text.h */,
+				B5452B810D19C959000F8933 /* text.c */,
+				B5452B820D19C959000F8933 /* text.h */,
 				815FFB720AEA2E0300AFD07F /* audio.c */,
 				815FFB740AEA2E0300AFD07F /* audio.h */,
 				815FFB760AEA2E0300AFD07F /* back.c */,
@@ -2481,7 +2525,13 @@
 				B57D63D20CAE8138005DE710 /* st_fall_out.h in Headers */,
 				B57D63D30CAE8138005DE710 /* st_time_out.h in Headers */,
 				B57D63D50CAE8138005DE710 /* st_goal.h in Headers */,
-				B511CD220D0E3A7300E99AE0 /* text.h in Headers */,
+				B5452B840D19C959000F8933 /* text.h in Headers */,
+				B5452B930D19CAFB000F8933 /* codec.h in Headers */,
+				B5452B940D19CAFB000F8933 /* vorbisenc.h in Headers */,
+				B5452B950D19CAFB000F8933 /* vorbisfile.h in Headers */,
+				B5452BA70D19CBDC000F8933 /* config_types.h in Headers */,
+				B5452BA90D19CBDC000F8933 /* ogg.h in Headers */,
+				B5452BAA0D19CBDC000F8933 /* os_types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2714,7 +2764,7 @@
 				8137FD690AEBE54F009172EC /* main.c in Sources */,
 				8137FD6A0AEBE54F009172EC /* st_all.c in Sources */,
 				8137FD6B0AEBE54F009172EC /* st_conf.c in Sources */,
-				B511CD230D0E3A7300E99AE0 /* text.c in Sources */,
+				B5452B850D19C959000F8933 /* text.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2779,7 +2829,7 @@
 				B57D63D10CAE8138005DE710 /* st_goal.c in Sources */,
 				B57D63D40CAE8138005DE710 /* st_time_out.c in Sources */,
 				B57D63D60CAE8138005DE710 /* st_fall_out.c in Sources */,
-				B511CD210D0E3A7300E99AE0 /* text.c in Sources */,
+				B5452B830D19C959000F8933 /* text.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2864,8 +2914,13 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/SDL_mixer.framework/Versions/A/Headers",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/SDL_ttf.framework/Versions/A/Headers",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					"$(inherited)",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				USER_HEADER_SEARCH_PATHS = "/opt/local/include $(inherited)";
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-pedantic",
@@ -2889,8 +2944,13 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					"$(inherited)",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				USER_HEADER_SEARCH_PATHS = "/opt/local/include $(inherited)";
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-pedantic",

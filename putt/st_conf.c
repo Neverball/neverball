@@ -300,7 +300,6 @@ static void conf_paint(int id, float st)
 static void conf_timer(int id, float dt)
 {
     gui_timer(id, dt);
-    audio_timer(dt);
 }
 
 static void conf_point(int id, int x, int y, int dx, int dy)

@@ -238,7 +238,6 @@ static void title_timer(int id, float dt)
     }
 
     gui_timer(id, dt);
-    audio_timer(dt);
     game_step_fade(dt);
 }
 

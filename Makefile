@@ -34,16 +34,25 @@ PNG_LIBS := $(shell libpng-config --libs)
 
 ifdef MINGW
 ifneq ($(ENABLE_NLS),0)
-    INTL_LIBS := -lintl -liconv
+	INTL_LIBS := -lintl -liconv
 endif
-    OGL_LIBS  := -lopengl32 -lm
-    BASE_LIBS := -lSDL -lSDL_image $(INTL_LIBS)
-    ALL_LIBS  := $(SDL_LIBS) -lSDL_image $(INTL_LIBS) \
-	$(PNG_LIBS) -lSDL_ttf -lSDL_mixer $(OGL_LIBS)
+	OGL_LIBS  := -lopengl32 -lm
+	BASE_LIBS := -lSDL -lSDL_image $(INTL_LIBS)
+	ALL_LIBS  := $(SDL_LIBS) -lSDL_image $(INTL_LIBS) \
+		$(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
 else
-    OGL_LIBS  := -lGL -lm
-    BASE_LIBS := $(SDL_LIBS) -lSDL_image
-    ALL_LIBS  := $(BASE_LIBS) $(PNG_LIBS) -lSDL_ttf -lSDL_mixer $(OGL_LIBS)
+	OGL_LIBS  := -lGL -lm
+	BASE_LIBS := $(SDL_LIBS) -lSDL_image
+	ALL_LIBS  := $(BASE_LIBS) $(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
+endif
+
+#------------------------------------------------------------------------------
+# Quick hack by rlk to enable command-line building using macports
+
+ifeq ($(shell uname), Darwin)
+        ALL_CFLAGS += -I/opt/local/include
+        OGL_LIBS = -framework OpenGL
+	ALL_LIBS  := -lintl -liconv $(BASE_LIBS) $(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
 endif
 
 #------------------------------------------------------------------------------
