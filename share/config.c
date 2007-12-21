@@ -74,7 +74,6 @@ void config_init(void)
     config_set_d(CONFIG_MULTISAMPLE,          DEFAULT_MULTISAMPLE);
     config_set_d(CONFIG_BACKGROUND,           DEFAULT_BACKGROUND);
     config_set_d(CONFIG_SHADOW,               DEFAULT_SHADOW);
-    config_set_d(CONFIG_AUDIO_RATE,           DEFAULT_AUDIO_RATE);
     config_set_d(CONFIG_AUDIO_BUFF,           DEFAULT_AUDIO_BUFF);
     config_set_d(CONFIG_MOUSE_SENSE,          DEFAULT_MOUSE_SENSE);
     config_set_d(CONFIG_MOUSE_INVERT,         DEFAULT_MOUSE_INVERT);
@@ -151,8 +150,6 @@ void config_load(void)
                     config_set_d(CONFIG_BACKGROUND,           atoi(val));
                 else if (strcmp(key, "shadow")                == 0)
                     config_set_d(CONFIG_SHADOW,               atoi(val));
-                else if (strcmp(key, "audio_rate")            == 0)
-                    config_set_d(CONFIG_AUDIO_RATE,           atoi(val));
                 else if (strcmp(key, "audio_buff")            == 0)
                     config_set_d(CONFIG_AUDIO_BUFF,           atoi(val));
                 else if (strcmp(key, "mouse_sense")           == 0)
@@ -272,8 +269,6 @@ void config_save(void)
                 option_d[CONFIG_BACKGROUND]);
         fprintf(fp, "shadow               %d\n",
                 option_d[CONFIG_SHADOW]);
-        fprintf(fp, "audio_rate           %d\n",
-                option_d[CONFIG_AUDIO_RATE]);
         fprintf(fp, "audio_buff           %d\n",
                 option_d[CONFIG_AUDIO_BUFF]);
         fprintf(fp, "mouse_sense          %d\n",
