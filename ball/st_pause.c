@@ -12,8 +12,6 @@
  * General Public License for more details.
  */
 
-#include <SDL_mixer.h>
-
 #include "gui.h"
 #include "config.h"
 #include "game.h"
