@@ -29,21 +29,23 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define CONF_FULL   1
-#define CONF_WIN    2
-#define CONF_TEXHI  8
-#define CONF_TEXLO  9
-#define CONF_GEOHI  10
-#define CONF_GEOLO  11
-#define CONF_REFON  12
-#define CONF_REFOF  13
-#define CONF_BACON  14
-#define CONF_BACOF  15
-#define CONF_SHDON  16
-#define CONF_SHDOF  17
-#define CONF_BACK   20
-#define CONF_RES    21
-#define CONF_PLAYER 22
+enum {
+    CONF_FULL = 1,
+    CONF_WIN,
+    CONF_TEXHI,
+    CONF_TEXLO,
+    CONF_GEOHI,
+    CONF_GEOLO,
+    CONF_REFON,
+    CONF_REFOF,
+    CONF_BACON,
+    CONF_BACOF,
+    CONF_SHDON,
+    CONF_SHDOF,
+    CONF_BACK,
+    CONF_RES,
+    CONF_PLAYER
+};
 
 static int music_id[11];
 static int sound_id[11];
