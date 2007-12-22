@@ -15,7 +15,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include <SDL.h>
-#include <SDL_image.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -373,13 +372,10 @@ int main(int argc, char *argv[])
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 #ifndef __APPLE__
-    /* Set the WM icon */
-
-    icon = IMG_Load(config_data("icon/neverball.png"));
-
-    if (icon)
+    if ((icon = load_surface("icon/neverball.png")))
     {
         SDL_WM_SetIcon(icon, NULL);
+        free(icon->pixels);
         SDL_FreeSurface(icon);
     }
 #endif /* __APPLE__ */

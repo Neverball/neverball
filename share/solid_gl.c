@@ -14,7 +14,6 @@
 
 #include <SDL.h>
 #include <SDL_rwops.h>
-#include <SDL_image.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +22,7 @@
 
 #include "glext.h"
 #include "vec3.h"
+#include "image.h"
 #include "base_image.h"
 #include "solid_gl.h"
 #include "base_config.h"
@@ -505,73 +505,40 @@ static void sol_load_objects(struct s_file *fp, int s)
     }
 }
 
-static SDL_Surface *sol_find_texture(const char *name)
+static GLuint sol_find_texture(const char *name)
 {
     char png[MAXSTR];
-    char tga[MAXSTR];
     char jpg[MAXSTR];
-    SDL_Surface *s;
+
+    GLuint o;
 
     /* Prefer a lossless copy of the texture over a lossy compression. */
 
     strncpy(png, name, PATHMAX); strcat(png, ".png");
-    strncpy(tga, name, PATHMAX); strcat(tga, ".tga");
     strncpy(jpg, name, PATHMAX); strcat(jpg, ".jpg");
 
     /* Check for a PNG. */
 
-    if ((s = IMG_Load(config_data(png))))
-        return s;
-
-    /* Check for a TGA, swapping channels if found. */
-
-    if ((s = IMG_Load(config_data(tga))))
-    {
-        image_swab(s);
-        return s;
-    }
+    if ((o = make_image_from_file(png)))
+        return o;
 
     /* Check for a JPG. */
 
-    if ((s = IMG_Load(config_data(jpg))))
-        return s;
+    if ((o = make_image_from_file(jpg)))
+        return o;
 
-    return NULL;
+    return 0;
 }
 
 static void sol_load_textures(struct s_file *fp, int k)
 {
-    SDL_Surface *s;
-    SDL_Surface *d;
-
     int i;
 
+    /* Load the image referenced by each material. */
+
     for (i = 0; i < fp->mc; i++)
-        if ((s = sol_find_texture(fp->mv[i].f)))
+        if ((fp->mv[i].o = sol_find_texture(fp->mv[i].f)))
         {
-            GLenum f = (s->format->BitsPerPixel == 32) ? GL_RGBA : GL_RGB;
-
-            glGenTextures(1, &fp->mv[i].o);
-            glBindTexture(GL_TEXTURE_2D, fp->mv[i].o);
-
-            if (k > 1)
-            {
-                /* Create a new buffer and copy the scaled image to it. */
-
-                if ((d = image_scale(s, k)))
-                {
-                    glTexImage2D(GL_TEXTURE_2D, 0, f, d->w, d->h, 0, f,
-                                 GL_UNSIGNED_BYTE, d->pixels);
-                    SDL_FreeSurface(d);
-                }
-            }
-            else
-                glTexImage2D(GL_TEXTURE_2D, 0, f, s->w, s->h, 0, f,
-                             GL_UNSIGNED_BYTE, s->pixels);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
             /* Set the texture to clamp or repeat based on material type. */
 
             if (fp->mv[i].fl & M_CLAMPED)
@@ -584,8 +551,6 @@ static void sol_load_textures(struct s_file *fp, int k)
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
             }
-
-            SDL_FreeSurface(s);
         }
 }
 

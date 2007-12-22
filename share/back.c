@@ -36,7 +36,7 @@ void back_init(const char *s, int b)
     int j, stacks = b ? 16 :  8;
 
     back_free();
-    back_text = make_image_from_file(NULL, NULL, NULL, NULL, s);
+    back_text = make_image_from_file(s);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 

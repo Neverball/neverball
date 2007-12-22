@@ -81,7 +81,6 @@ static struct widget widget[MAXWIDGET];
 static int           active;
 static int           radius;
 static TTF_Font     *font[3] = { NULL, NULL, NULL };
-static int           scale[3] = { 1, 1, 1 };
 
 static GLuint digit_text[3][11];
 static GLuint digit_list[3][11];
@@ -229,19 +228,6 @@ void gui_init(void)
         int s0 = s / 26;
         int s1 = s / 13;
         int s2 = s /  7;
-        int m;
-
-        /* Make sure text size doesn't exceed the maximum texture size. */
-
-        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &m);
-
-        scale[0] = 1;
-        scale[1] = 1;
-        scale[2] = 1;
-
-        while (s0 > m) { s0 /= 2; scale[0] *= 2; }
-        while (s1 > m) { s1 /= 2; scale[1] *= 2; }
-        while (s2 > m) { s2 /= 2; scale[2] *= 2; }
 
         memset(widget, 0, sizeof (struct widget) * MAXWIDGET);
 
@@ -268,7 +254,7 @@ void gui_init(void)
                 digit_text[i][j] = make_image_from_font(NULL, NULL,
                                                         &digit_w[i][j],
                                                         &digit_h[i][j],
-                                                        text, font[i], scale[i]);
+                                                        text, font[i]);
                 digit_list[i][j] = gui_list(-digit_w[i][j] / 2,
                                             -digit_h[i][j] / 2,
                                             +digit_w[i][j],
@@ -280,7 +266,7 @@ void gui_init(void)
             digit_text[i][j] = make_image_from_font(NULL, NULL,
                                                     &digit_w[i][10],
                                                     &digit_h[i][10],
-                                                    ":", font[i], scale[i]);
+                                                    ":", font[i]);
             digit_list[i][j] = gui_list(-digit_w[i][10] / 2,
                                         -digit_h[i][10] / 2,
                                         +digit_w[i][10],
@@ -398,7 +384,7 @@ void gui_set_image(int id, const char *file)
     if (glIsTexture(widget[id].text_img))
         glDeleteTextures(1, &widget[id].text_img);
 
-    widget[id].text_img = make_image_from_file(NULL, NULL, NULL, NULL, file);
+    widget[id].text_img = make_image_from_file(file);
 }
 
 void gui_set_label(int id, const char *text)
@@ -411,8 +397,7 @@ void gui_set_label(int id, const char *text)
         glDeleteLists(widget[id].text_obj, 1);
 
     widget[id].text_img = make_image_from_font(NULL, NULL, &w, &h,
-                                               text, font[widget[id].size],
-                                                    scale[widget[id].size]);
+                                               text, font[widget[id].size]);
     widget[id].text_obj = gui_list(-w / 2, -h / 2, w, h,
                                    widget[id].color0, widget[id].color1);
 }
@@ -467,10 +452,9 @@ int gui_image(int pd, const char *file, int w, int h)
 
     if ((id = gui_widget(pd, GUI_IMAGE)))
     {
-        widget[id].text_img = make_image_from_file(NULL, NULL,
-                                                   NULL, NULL, file);
-        widget[id].w     = w;
-        widget[id].h     = h;
+        widget[id].text_img = make_image_from_file(file);
+        widget[id].w = w;
+        widget[id].h = h;
     }
     return id;
 }
@@ -494,8 +478,7 @@ int gui_state(int pd, const char *text, int size, int token, int value)
         widget[id].text_img = make_image_from_font(NULL, NULL,
                                                    &widget[id].w,
                                                    &widget[id].h,
-                                                   text, font[size],
-                                                        scale[size]);
+                                                   text, font[size]);
         widget[id].size  = size;
         widget[id].token = token;
         widget[id].value = value;
@@ -513,8 +496,7 @@ int gui_label(int pd, const char *text, int size, int rect, const float *c0,
         widget[id].text_img = make_image_from_font(NULL, NULL,
                                                    &widget[id].w,
                                                    &widget[id].h,
-                                                   text, font[size],
-                                                        scale[size]);
+                                                   text, font[size]);
         widget[id].size   = size;
         widget[id].color0 = c0 ? c0 : gui_yel;
         widget[id].color1 = c1 ? c1 : gui_red;

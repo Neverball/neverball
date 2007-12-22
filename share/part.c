@@ -85,7 +85,7 @@ void part_init(float h)
     memset(part_coin, 0, PART_MAX_COIN * sizeof (struct part));
     memset(part_goal, 0, PART_MAX_GOAL * sizeof (struct part));
 
-    part_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_PART);
+    part_text = make_image_from_file(IMG_PART);
     part_list = glGenLists(1);
 
     glNewList(part_list, GL_COMPILE);

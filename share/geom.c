@@ -40,7 +40,7 @@ void ball_init(int b)
 
     config_get_s(CONFIG_BALL, name, MAXSTR);
 
-    ball_text = make_image_from_file(NULL, NULL, NULL, NULL, name);
+    ball_text = make_image_from_file(name);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -306,12 +306,9 @@ void item_init(int b)
 {
     int n = b ? 32 : 8;
 
-    item_coin_text = make_image_from_file(NULL, NULL, NULL, NULL,
-                                          IMG_ITEM_COIN);
-    item_grow_text = make_image_from_file(NULL, NULL, NULL, NULL,
-                                          IMG_ITEM_GROW);
-    item_shrink_text = make_image_from_file(NULL, NULL, NULL, NULL,
-                                            IMG_ITEM_SHRINK);
+    item_coin_text   = make_image_from_file(IMG_ITEM_COIN);
+    item_grow_text   = make_image_from_file(IMG_ITEM_GROW);
+    item_shrink_text = make_image_from_file(IMG_ITEM_SHRINK);
     item_list = glGenLists(1);
 
     glNewList(item_list, GL_COMPILE);
@@ -651,7 +648,7 @@ static GLuint shad_text;
 
 void shad_init(void)
 {
-    shad_text = make_image_from_file(NULL, NULL, NULL, NULL, IMG_SHAD);
+    shad_text = make_image_from_file(IMG_SHAD);
 
     if (config_get_d(CONFIG_SHADOW) == 2)
     {

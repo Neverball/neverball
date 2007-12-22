@@ -15,8 +15,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include <SDL.h>
-#include <SDL_image.h>
-
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -242,11 +240,10 @@ int main(int argc, char *argv[])
                 SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 #ifndef __APPLE__
-                icon = IMG_Load(config_data("icon/neverputt.png"));
-
-                if (icon)
+                if ((icon = load_surface("icon/neverputt.png")))
                 {
                     SDL_WM_SetIcon(icon, NULL);
+                    free(icon->pixels);
                     SDL_FreeSurface(icon);
                 }
 #endif /* __APPLE__ */

@@ -14,8 +14,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include <SDL.h>
-#include <SDL_image.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,6 +21,7 @@
 
 #include "vec3.h"
 #include "solid.h"
+#include "base_image.h"
 #include "base_config.h"
 
 #define MAXSTR 256
@@ -322,15 +321,11 @@ static void free_imagedata()
 
 static int size_load(const char *file, int *w, int *h)
 {
-    SDL_Surface *S;
+    void *p;
 
-    if ((S = IMG_Load(file)))
+    if ((p = image_load(file, w, h, NULL)))
     {
-        *w = S->w;
-        *h = S->h;
-
-        SDL_FreeSurface(S);
-
+        free(p);
         return 1;
     }
     return 0;

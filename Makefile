@@ -14,8 +14,8 @@ endif
 #------------------------------------------------------------------------------
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
-#CFLAGS := -Wall -g -ansi -pedantic
-CFLAGS := -Wall -O2 -ansi -pedantic
+CFLAGS := -Wall -g -ansi -pedantic
+#CFLAGS := -Wall -O2 -ansi -pedantic
 
 #------------------------------------------------------------------------------
 # Mandatory flags
@@ -51,30 +51,19 @@ SDL_LIBS := $(shell sdl-config --libs)
 PNG_LIBS := $(shell libpng-config --libs)
 
 ifdef MINGW
-    ifneq ($(ENABLE_NLS),0)
-        INTL_LIBS := -lintl -liconv
-    endif
-
-    OGL_LIBS  := -lopengl32 -lm
-    BASE_LIBS := -lSDL -lSDL_image $(INTL_LIBS)
-    ALL_LIBS  := $(SDL_LIBS) -lSDL_image $(INTL_LIBS) \
-        $(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
-
+    OGL_LIBS := -lopengl32 -lm
 else ifdef DARWIN
-    ifneq ($(ENABLE_NLS),0)
-        INTL_LIBS := -lintl -liconv
-    endif
-
-    OGL_LIBS  := -framework OpenGL
-    BASE_LIBS := $(SDL_LIBS) -lSDL_image
-    ALL_LIBS  := $(BASE_LIBS) $(INTL_LIBS) $(PNG_LIBS) -lSDL_ttf \
-        -lvorbisfile $(OGL_LIBS)
-
+    OGL_LIBS := -framework OpenGL
 else
-    OGL_LIBS  := -lGL -lm
-    BASE_LIBS := $(SDL_LIBS) -lSDL_image
-    ALL_LIBS  := $(BASE_LIBS) $(PNG_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
+    OGL_LIBS := -lGL -lm
 endif
+
+ifneq ($(ENABLE_NLS),0)
+	INTL_LIBS := -lintl -liconv
+endif
+
+BASE_LIBS := -ljpeg $(PNG_LIBS)
+ALL_LIBS  := $(SDL_LIBS) $(BASE_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
 
 #------------------------------------------------------------------------------
 

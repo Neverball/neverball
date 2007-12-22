@@ -14,7 +14,6 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <SDL_image.h>
 #include <string.h>
 #include <math.h>
 #include <png.h>
@@ -64,7 +63,7 @@ void image_snap(char *filename)
 
         /* Allocate the pixel buffer and copy pixels there. */
 
-        if ((p = (unsigned char *) malloc(w * h * 4)))
+        if ((p = (unsigned char *) malloc(w * h * 3)))
         {
             glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, p);
 
@@ -94,115 +93,87 @@ void image_snap(char *filename)
     fclose(filep);
 }
 
-void image_size(int *W, int *H, int w, int h)
-{
-    *W = w ? 1 : 0;
-    *H = h ? 1 : 0;
-
-    while (*W < w) *W *= 2;
-    while (*H < h) *H *= 2;
-}
-
 /*---------------------------------------------------------------------------*/
 
 /*
- * Create on  OpenGL texture  object using the  given SDL  surface and
- * format,  scaled  using the  current  scale  factor.  When  scaling,
- * assume dimensions are used only for layout and lie about the size.
+ * Create an OpenGL texture object using the given image buffer.
  */
-GLuint make_image_from_surf(int *w, int *h, SDL_Surface *s)
+static GLuint make_texture(const void *p, int w, int h, int b)
 {
-    int    t = config_get_d(CONFIG_TEXTURES);
+    static const GLenum format[] =
+        { 0, GL_LUMINANCE, GL_LUMINANCE_ALPHA, GL_RGB, GL_RGBA };
+
     GLuint o = 0;
+
+    /* Scale the image as configured, or to fit the OpenGL limitations. */
+
+    int a = 8;
+    int m = config_get_d(CONFIG_MIPMAP);
+    int k = config_get_d(CONFIG_TEXTURES);
+    int W = w;
+    int H = h;
+    int max;
+
+    void *q = NULL;
+
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max);
+
+    while (w / k > max || h / k > max)
+        k *= 2;
+
+    if (k > 1)
+        q = image_scale(p, w, h, b, &W, &H, k);
+
+    /* Generate and configure a new OpenGL texture. */
 
     glGenTextures(1, &o);
     glBindTexture(GL_TEXTURE_2D, o);
 
-    if (t > 1)
-    {
-        SDL_Surface *d = image_scale(s, t);
-
-        /* Load the scaled image. */
-
-        if (d->format->BitsPerPixel == 32)
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, d->w, d->h, 0,
-                         GL_RGBA, GL_UNSIGNED_BYTE, d->pixels);
-        else
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,  d->w, d->h, 0,
-                         GL_RGB,  GL_UNSIGNED_BYTE, d->pixels);
-
-        SDL_FreeSurface(d);
-    }
-    else
-    {
-        /* Load the unscaled image. */
-
-        if (s->format->BitsPerPixel == 32)
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, s->w, s->h, 0,
-                         GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
-        else
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,  s->w, s->h, 0,
-                         GL_RGB,  GL_UNSIGNED_BYTE, s->pixels);
-    }
-
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                    m ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
 
-    if (w) *w = s->w;
-    if (h) *h = s->h;
+#ifdef GL_GENERATE_MIPMAP_SGIS
+    if (m) glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
+#endif
+#ifdef GL_TEXTURE_MAX_ANISOTROPY_EXT
+    if (m) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, a);
+#endif
+
+    /* Copy the image to an OpenGL texture. */
+
+    glTexImage2D(GL_TEXTURE_2D, 0,
+                 format[b], W, H, 0,
+                 format[b], GL_UNSIGNED_BYTE, q ? q : p);
+
+    if (q) free(q);
+
 
     return o;
 }
 
-/*---------------------------------------------------------------------------*/
-
 /*
- * Load  an image  from the  named file.   If the  image is  not RGBA,
- * convert it to RGBA.  Return an OpenGL texture object.
+ * Load an image from the named file.  Return an OpenGL texture object.
  */
-GLuint make_image_from_file(int *W, int *H,
-                            int *w, int *h, const char *name)
+GLuint make_image_from_file(const char *filename)
 {
-    SDL_Surface *src;
-    SDL_Surface *dst;
-    SDL_Rect rect;
-
+    void  *p;
+    int    w;
+    int    h;
+    int    b;
     GLuint o = 0;
 
-    /* Load the file. */
+    /* Load the image. */
 
-    if ((src = IMG_Load(config_data(name))))
+    if ((p = image_load(config_data(filename), &w, &h, &b)))
     {
-        int w2;
-        int h2;
-
-        image_size(&w2, &h2, src->w, src->h);
-
-        if (w) *w = src->w;
-        if (h) *h = src->h;
-
-        /* Create a new destination surface. */
-
-        if ((dst = SDL_CreateRGBSurface(SDL_SWSURFACE, w2, h2, 32,
-                                        RMASK, GMASK, BMASK, AMASK)))
-        {
-            /* Copy source pixels to the center of the destination. */
-
-            rect.x = (Sint16) (w2 - src->w) / 2;
-            rect.y = (Sint16) (h2 - src->h) / 2;
-
-            SDL_SetAlpha(src, 0, 0);
-            SDL_BlitSurface(src, NULL, dst, &rect);
-
-            o = make_image_from_surf(W, H, dst);
-
-            SDL_FreeSurface(dst);
-        }
-        SDL_FreeSurface(src);
+        o = make_texture(p, w, h, b);
+        free(p);
     }
+
     return o;
 }
 
@@ -214,66 +185,93 @@ GLuint make_image_from_file(int *W, int *H,
  * Return an OpenGL texture object.
  */
 GLuint make_image_from_font(int *W, int *H,
-                            int *w, int *h, const char *text, TTF_Font *font, int k)
+                            int *w, int *h,
+                            const char *text, TTF_Font *font)
 {
-    SDL_Color fg = { 0xFF, 0xFF, 0xFF, 0xFF };
-
-    SDL_Surface *src;
-    SDL_Surface *dst;
-    SDL_Rect rect;
-
     GLuint o = 0;
 
     /* Render the text. */
 
     if (text && strlen(text) > 0)
     {
-        if ((src = TTF_RenderUTF8_Blended(font, text, fg)))
-        {
-            int w2;
-            int h2;
+        SDL_Color    col = { 0xFF, 0xFF, 0xFF, 0xFF };
+        SDL_Surface *src;
 
-            image_size(&w2, &h2, src->w, src->h);
+        if ((src = TTF_RenderUTF8_Blended(font, text, col)))
+        {
+            void *p;
+            int  w2;
+            int  h2;
+            int   b = src->format->BitsPerPixel / 8;
+
+            /* Pad the text to power-of-two. */
+
+            p = image_next2(src->pixels, src->w, src->h, b, &w2, &h2);
 
             if (w) *w = src->w;
             if (h) *h = src->h;
+            if (W) *W = w2;
+            if (H) *H = h2;
 
-            /* Create a new destination surface. */
+            /* Saturate the color channels.  Modulate ONLY in alpha. */
 
-            if ((dst = SDL_CreateRGBSurface(SDL_SWSURFACE, w2, h2, 32,
-                                            RMASK, GMASK, BMASK, AMASK)))
-            {
-                /* Copy source pixels to the center of the destination. */
+            image_white(p, w2, h2, b);
 
-                rect.x = (Sint16) (w2 - src->w) / 2;
-                rect.y = (Sint16) (h2 - src->h) / 2;
+            /* Create the OpenGL texture object. */
 
-                SDL_SetAlpha(src, 0, 0);
-                SDL_BlitSurface(src, NULL, dst, &rect);
+            o = make_texture(p, w2, h2, b);
 
-                image_white(dst);
-
-                o = make_image_from_surf(W, H, dst);
-
-                SDL_FreeSurface(dst);
-            }
+            free(p);
             SDL_FreeSurface(src);
         }
-
-        if (W) *W *= k;
-        if (H) *H *= k;
-        if (w) *w *= k;
-        if (h) *h *= k;
     }
     else
     {
-        if (W) *W = 0;
-        if (H) *H = 0;
+        /* Empty string. */
+
         if (w) *w = 0;
         if (h) *h = 0;
+        if (W) *W = 0;
+        if (H) *H = 0;
     }
 
     return o;
+}
+
+/*---------------------------------------------------------------------------*/
+
+/*
+ * Load an image from the named file.  Return an SDL surface.
+ */
+SDL_Surface *load_surface(const char *filename)
+{
+    void  *p;
+    int    w;
+    int    h;
+    int    b;
+
+    Uint32 rmask;
+    Uint32 gmask;
+    Uint32 bmask;
+    Uint32 amask;
+
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    rmask = 0xFF000000;
+    gmask = 0x00FF0000;
+    bmask = 0x0000FF00;
+    amask = 0x000000FF;
+#else
+    rmask = 0x000000FF;
+    gmask = 0x0000FF00;
+    bmask = 0x00FF0000;
+    amask = 0xFF000000;
+#endif
+
+    if ((p = image_load(config_data(filename), &w, &h, &b)))
+        return SDL_CreateRGBSurfaceFrom(p, w, h, b * 8, w * b,
+                                        rmask, gmask, bmask, amask);
+    else
+        return NULL;
 }
 
 /*---------------------------------------------------------------------------*/

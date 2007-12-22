@@ -5,9 +5,13 @@
 
 /*---------------------------------------------------------------------------*/
 
-void         image_swab (SDL_Surface *);
-void         image_white(SDL_Surface *);
-SDL_Surface *image_scale(SDL_Surface *, int);
+void  image_size(int *, int *, int, int);
+
+void *image_load(const char *, int *, int *, int *);
+
+void *image_next2(const void *, int, int, int, int *, int *);
+void *image_scale(const void *, int, int, int, int *, int *, int);
+void  image_white(      void *, int, int, int);
 
 /*---------------------------------------------------------------------------*/
 

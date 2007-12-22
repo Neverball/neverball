@@ -72,6 +72,8 @@ void config_init(void)
     config_set_d(CONFIG_GEOMETRY,             DEFAULT_GEOMETRY);
     config_set_d(CONFIG_REFLECTION,           DEFAULT_REFLECTION);
     config_set_d(CONFIG_MULTISAMPLE,          DEFAULT_MULTISAMPLE);
+    config_set_d(CONFIG_MIPMAP,               DEFAULT_MIPMAP);
+    config_set_d(CONFIG_ANISO,                DEFAULT_ANISO);
     config_set_d(CONFIG_BACKGROUND,           DEFAULT_BACKGROUND);
     config_set_d(CONFIG_SHADOW,               DEFAULT_SHADOW);
     config_set_d(CONFIG_AUDIO_BUFF,           DEFAULT_AUDIO_BUFF);
@@ -146,6 +148,10 @@ void config_load(void)
                     config_set_d(CONFIG_REFLECTION,           atoi(val));
                 else if (strcmp(key, "multisample")           == 0)
                     config_set_d(CONFIG_MULTISAMPLE,          atoi(val));
+                else if (strcmp(key, "mipmap")                == 0)
+                    config_set_d(CONFIG_MIPMAP,               atoi(val));
+                else if (strcmp(key, "aniso")                 == 0)
+                    config_set_d(CONFIG_ANISO,                atoi(val));
                 else if (strcmp(key, "background")            == 0)
                     config_set_d(CONFIG_BACKGROUND,           atoi(val));
                 else if (strcmp(key, "shadow")                == 0)
@@ -265,6 +271,10 @@ void config_save(void)
                 option_d[CONFIG_REFLECTION]);
         fprintf(fp, "multisample          %d\n",
                 option_d[CONFIG_MULTISAMPLE]);
+        fprintf(fp, "mipmap               %d\n",
+                option_d[CONFIG_MIPMAP]);
+        fprintf(fp, "aniso                %d\n",
+                option_d[CONFIG_ANISO]);
         fprintf(fp, "background           %d\n",
                 option_d[CONFIG_BACKGROUND]);
         fprintf(fp, "shadow               %d\n",
