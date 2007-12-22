@@ -14,8 +14,8 @@ endif
 #------------------------------------------------------------------------------
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
-CFLAGS := -Wall -g -ansi -pedantic
-#CFLAGS := -Wall -O2 -ansi -pedantic
+#CFLAGS := -Wall -g -ansi -pedantic
+CFLAGS := -Wall -O2 -ansi -pedantic
 
 #------------------------------------------------------------------------------
 # Mandatory flags
@@ -63,7 +63,12 @@ ifneq ($(ENABLE_NLS),0)
 endif
 
 BASE_LIBS := -ljpeg $(PNG_LIBS)
-ALL_LIBS  := $(SDL_LIBS) $(BASE_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
+
+ifdef DARWIN
+    BASE_LIBS += -L/opt/local/lib
+endif
+
+ALL_LIBS  := $(SDL_LIBS) $(BASE_LIBS) $(INTL_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
 
 #------------------------------------------------------------------------------
 
