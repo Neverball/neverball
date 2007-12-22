@@ -277,9 +277,9 @@ void image_white(void *p, int w, int h, int b)
         {
             int k = (r * w + c) * b;
 
-            if (b <= 2)
-                s[k + 0] = 0xFF;
-            if (b <= 4)
+            s[k + 0] = 0xFF;
+
+            if (b > 2)
             {
                 s[k + 1] = 0xFF;
                 s[k + 2] = 0xFF;

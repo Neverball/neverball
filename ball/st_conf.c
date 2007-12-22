@@ -178,6 +178,7 @@ static int conf_enter(void)
 {
     int id, jd, kd;
 
+    game_free();
     back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
 
     /* Initialize the configuration GUI. */
@@ -342,6 +343,8 @@ static int null_enter(void)
     ball_free();
     shad_free();
     part_free();
+
+    glGetError();
 
     return 0;
 }
