@@ -103,14 +103,6 @@ static void sol_draw_mtrl(const struct s_file *fp, int i)
         glBlendFunc(GL_ONE, GL_ONE);
     else
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    if (mp->fl & M_DECAL)
-    {
-        glEnable(GL_POLYGON_OFFSET_FILL);
-        glPolygonOffset(-1.0f, -1.0f);
-    }
-    else
-        glDisable(GL_POLYGON_OFFSET_FILL);
 }
 
 static void sol_draw_bill(const struct s_file *fp,
@@ -232,14 +224,20 @@ static void sol_draw_lump(const struct s_file *fp,
 }
 
 static void sol_draw_body(const struct s_file *fp,
-                          const struct s_body *bp, int fl)
+                          const struct s_body *bp, int fl, int decal)
 {
     int mi, li, gi;
+
+    if (decal)
+    {
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(-1.0f, -2.0f);
+    }
 
     /* Iterate all materials of the correct opacity. */
 
     for (mi = 0; mi < fp->mc; mi++)
-        if (fp->mv[mi].fl & fl)
+        if ((fp->mv[mi].fl & fl) && (fp->mv[mi].fl & M_DECAL) == decal)
         {
             if (sol_enum_mtrl(fp, bp, mi))
             {
@@ -259,6 +257,9 @@ static void sol_draw_body(const struct s_file *fp,
                 glEnd();
             }
         }
+
+    if (decal)
+        glDisable(GL_POLYGON_OFFSET_FILL);
 }
 
 static void sol_draw_list(const struct s_file *fp,
@@ -361,9 +362,15 @@ static void sol_shad_lump(const struct s_file *fp,
 }
 
 static void sol_shad_body(const struct s_file *fp,
-                          const struct s_body *bp, int fl)
+                          const struct s_body *bp, int fl, int decal)
 {
     int mi, li, gi;
+
+    if (decal)
+    {
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(-1.0f, -2.0f);
+    }
 
     glBegin(GL_TRIANGLES);
     {
@@ -377,6 +384,9 @@ static void sol_shad_body(const struct s_file *fp,
             }
     }
     glEnd();
+
+    if (decal)
+        glDisable(GL_POLYGON_OFFSET_FILL);
 }
 
 static void sol_shad_list(const struct s_file *fp,
@@ -443,11 +453,13 @@ static void sol_load_objects(struct s_file *fp, int s)
 {
     int i;
 
+    /* Here we sort geometry into display lists by material type. */
+
     for (i = 0; i < fp->bc; i++)
     {
         struct s_body *bp = fp->bv + i;
 
-        /* Draw all opaque geometry. */
+        /* Draw all opaque geometry, decals last. */
 
         if (sol_enum_body(fp, bp, M_OPAQUE | M_ENVIRONMENT))
         {
@@ -455,13 +467,14 @@ static void sol_load_objects(struct s_file *fp, int s)
 
             glNewList(fp->bv[i].ol, GL_COMPILE);
             {
-                sol_draw_body(fp, fp->bv + i, M_OPAQUE | M_ENVIRONMENT);
+                sol_draw_body(fp, fp->bv+i, M_OPAQUE | M_ENVIRONMENT, 0);
+                sol_draw_body(fp, fp->bv+i, M_OPAQUE | M_ENVIRONMENT, M_DECAL);
             }
             glEndList();
         }
         else fp->bv[i].ol = 0;
 
-        /* Draw all translucent geometry. */
+        /* Draw all translucent geometry, decals first. */
 
         if (sol_enum_body(fp, bp, M_TRANSPARENT))
         {
@@ -469,7 +482,8 @@ static void sol_load_objects(struct s_file *fp, int s)
 
             glNewList(fp->bv[i].tl, GL_COMPILE);
             {
-                sol_draw_body(fp, fp->bv + i, M_TRANSPARENT);
+                sol_draw_body(fp, fp->bv+i, M_TRANSPARENT, M_DECAL);
+                sol_draw_body(fp, fp->bv+i, M_TRANSPARENT, 0);
             }
             glEndList();
         }
@@ -483,7 +497,7 @@ static void sol_load_objects(struct s_file *fp, int s)
 
             glNewList(fp->bv[i].rl, GL_COMPILE);
             {
-                sol_draw_body(fp, fp->bv + i, M_REFLECTIVE);
+                sol_draw_body(fp, fp->bv+i, M_REFLECTIVE, 0);
             }
             glEndList();
         }
@@ -497,7 +511,8 @@ static void sol_load_objects(struct s_file *fp, int s)
 
             glNewList(fp->bv[i].sl, GL_COMPILE);
             {
-                sol_shad_body(fp, fp->bv + i, M_SHADOWED);
+                sol_shad_body(fp, fp->bv+i, M_SHADOWED, 0);
+                sol_shad_body(fp, fp->bv+i, M_SHADOWED, M_DECAL);
             }
             glEndList();
         }

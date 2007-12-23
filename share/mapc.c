@@ -334,7 +334,6 @@ static int size_load(const char *file, int *w, int *h)
 static void size_image(const char *name, int *w, int *h)
 {
     char jpg[MAXSTR];
-    char tga[MAXSTR];
     char png[MAXSTR];
     int i;
 
@@ -352,11 +351,9 @@ static void size_image(const char *name, int *w, int *h)
     *h = 0;
 
     strcpy(jpg, name); strcat(jpg, ".jpg");
-    strcpy(tga, name); strcat(tga, ".tga");
     strcpy(png, name); strcat(png, ".png");
 
     if (size_load(config_data(png), w, h) ||
-        size_load(config_data(tga), w, h) ||
         size_load(config_data(jpg), w, h))
     {
 
@@ -1913,15 +1910,17 @@ static void uniq_side(struct s_file *fp)
 
 static void uniq_file(struct s_file *fp)
 {
-    if (debug_output)
-        return;
+    /* Debug mode skips optimization, producing oversized output files. */
 
-    uniq_mtrl(fp);
-    uniq_vert(fp);
-    uniq_edge(fp);
-    uniq_side(fp);
-    uniq_texc(fp);
-    uniq_geom(fp);
+    if (debug_output == 0)
+    {
+        uniq_mtrl(fp);
+        uniq_vert(fp);
+        uniq_edge(fp);
+        uniq_side(fp);
+        uniq_texc(fp);
+        uniq_geom(fp);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -2185,11 +2184,6 @@ static void dump_file(struct s_file *p, const char *name)
            p->hc, p->zc, p->wc, p->jc, p->xc,
            p->rc, p->uc, p->ac, p->dc, p->ic);
 }
-
-/* Skip the ugly SDL main substitution since we only need sdl_image. */
-#ifdef main
-#    undef main
-#endif
 
 int main(int argc, char *argv[])
 {
