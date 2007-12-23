@@ -197,6 +197,12 @@ $(PUTT_TARG) : $(PUTT_OBJS)
 $(MAPC_TARG) : $(MAPC_OBJS)
 	$(CC) $(ALL_CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LDFLAGS) $(BASE_LIBS)
 
+# Work around some extremely helpful sdl-config scripts.
+
+ifdef MINGW
+$(MAPC_TARG) : ALL_CPPFLAGS := $(ALL_CPPFLAGS) -Umain
+endif
+
 sols : $(SOLS)
 
 locales :

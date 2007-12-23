@@ -12,12 +12,12 @@
  * General Public License for more details.
  */
 
-#include <SDL.h>
 #include <png.h>
 #include <jpeglib.h>
 
 #include "glext.h"
 #include "base_config.h"
+#include "base_image.h"
 
 /*---------------------------------------------------------------------------*/
 

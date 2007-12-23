@@ -1,8 +1,6 @@
 #ifndef BASE_IMAGE_H
 #define BASE_IMAGE_H
 
-#include <SDL.h>
-
 /*---------------------------------------------------------------------------*/
 
 void  image_size(int *, int *, int, int);

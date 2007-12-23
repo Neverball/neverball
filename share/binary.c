@@ -16,8 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <SDL.h>
-#include <SDL_byteorder.h>
+#include <SDL_endian.h>
 
 /*---------------------------------------------------------------------------*/
 

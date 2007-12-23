@@ -12,9 +12,6 @@
  * General Public License for more details.
  */
 
-#include <SDL.h>
-#include <SDL_rwops.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
