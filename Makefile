@@ -51,15 +51,19 @@ SDL_LIBS := $(shell sdl-config --libs)
 PNG_LIBS := $(shell libpng-config --libs)
 
 ifdef MINGW
+    ifneq ($(ENABLE_NLS),0)
+        INTL_LIBS := -lintl -liconv
+    endif
+
     OGL_LIBS := -lopengl32 -lm
 else ifdef DARWIN
+    ifneq ($(ENABLE_NLS),0)
+        INTL_LIBS := -lintl -liconv
+    endif
+
     OGL_LIBS := -framework OpenGL
 else
     OGL_LIBS := -lGL -lm
-endif
-
-ifneq ($(ENABLE_NLS),0)
-	INTL_LIBS := -lintl -liconv
 endif
 
 BASE_LIBS := -ljpeg $(PNG_LIBS)
@@ -68,7 +72,8 @@ ifdef DARWIN
     BASE_LIBS += -L/opt/local/lib
 endif
 
-ALL_LIBS  := $(SDL_LIBS) $(BASE_LIBS) $(INTL_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
+ALL_LIBS := $(SDL_LIBS) $(BASE_LIBS) $(INTL_LIBS) -lSDL_ttf \
+    -lvorbisfile $(OGL_LIBS)
 
 #------------------------------------------------------------------------------
 
