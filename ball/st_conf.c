@@ -344,8 +344,6 @@ static int null_enter(void)
     shad_free();
     part_free();
 
-    glGetError();
-
     return 0;
 }
 

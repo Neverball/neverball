@@ -173,7 +173,6 @@ static int help_controls(int id)
     const char *s9 = _("Lazy View");
     const char *sA = _("Manual View");
     const char *sC = _("Screenshot");
-    const char *sD = _("Toggle Fullscreen");
 
     const char *k0 = _(SDL_GetKeyName(config_get_d(CONFIG_KEY_PAUSE)));
     const char *k1 = _("Escape");
@@ -181,7 +180,6 @@ static int help_controls(int id)
     const char *k3 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_2));
     const char *k4 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_3));
     const char *k6 = SDL_GetKeyName(SDLK_F10);
-    const char *k7 = SDL_GetKeyName(SDLK_F11);
 
     int jd;
 
@@ -216,11 +214,6 @@ static int help_controls(int id)
     {
         gui_label(jd, sC, GUI_SML, 0,      gui_wht, gui_wht);
         gui_label(jd, k6, GUI_SML, 0,      gui_yel, gui_yel);
-    }
-    if ((jd = gui_harray(id)))
-    {
-        gui_label(jd, sD, GUI_SML, GUI_SE, gui_wht, gui_wht);
-        gui_label(jd, k7, GUI_SML, GUI_SW, gui_yel, gui_yel);
     }
 
     gui_space(id);

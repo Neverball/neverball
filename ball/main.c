@@ -72,16 +72,6 @@ static void toggle_wire(void)
     }
 }
 
-static void toggle_fullscreen(void)
-{
-    int x, y;
-
-    SDL_GetMouseState(&x, &y);
-    config_mode(!config_get_d(CONFIG_FULLSCREEN), config_get_d(CONFIG_WIDTH),
-                config_get_d(CONFIG_HEIGHT));
-    SDL_WarpMouse(x, y);
-}
-
 /*---------------------------------------------------------------------------*/
 
 static int loop(void)
@@ -131,7 +121,6 @@ static int loop(void)
 
             else switch (c)
             {
-            case SDLK_F11:   toggle_fullscreen();       break;
             case SDLK_F10:   shot();                    break;
             case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
             case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
