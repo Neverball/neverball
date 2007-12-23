@@ -19,6 +19,13 @@
 #include <string.h>
 #include <math.h>
 
+/* HACK ALERT! */
+
+#if ENABLE_NLS
+#undef ENABLE_NLS
+#define ENABLE_NLS 0
+#endif
+
 #include "vec3.h"
 #include "solid.h"
 #include "base_image.h"
