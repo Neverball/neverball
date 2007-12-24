@@ -107,7 +107,9 @@ static GLuint make_texture(const void *p, int w, int h, int b)
 
     /* Scale the image as configured, or to fit the OpenGL limitations. */
 
-    int a = 8;
+#ifdef GL_TEXTURE_MAX_ANISOTROPY_EXT
+    int a = config_get_d(CONFIG_ANISO);
+#endif
     int m = config_get_d(CONFIG_MIPMAP);
     int k = config_get_d(CONFIG_TEXTURES);
     int W = w;
@@ -133,14 +135,18 @@ static GLuint make_texture(const void *p, int w, int h, int b)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    m ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 #ifdef GL_GENERATE_MIPMAP_SGIS
-    if (m) glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
+    if (m)
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                        GL_LINEAR_MIPMAP_LINEAR);
+    }
 #endif
 #ifdef GL_TEXTURE_MAX_ANISOTROPY_EXT
-    if (m) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, a);
+    if (a) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, a);
 #endif
 
     /* Copy the image to an OpenGL texture. */
