@@ -461,14 +461,14 @@ static void sol_load_objects(struct s_file *fp, int s)
 
         /* Draw all opaque geometry, decals last. */
 
-        if (sol_enum_body(fp, bp, M_OPAQUE | M_ENVIRONMENT))
+        if (sol_enum_body(fp, bp, M_OPAQUE))
         {
             fp->bv[i].ol = glGenLists(1);
 
             glNewList(fp->bv[i].ol, GL_COMPILE);
             {
-                sol_draw_body(fp, fp->bv+i, M_OPAQUE | M_ENVIRONMENT, 0);
-                sol_draw_body(fp, fp->bv+i, M_OPAQUE | M_ENVIRONMENT, M_DECAL);
+                sol_draw_body(fp, fp->bv+i, M_OPAQUE, 0);
+                sol_draw_body(fp, fp->bv+i, M_OPAQUE, M_DECAL);
             }
             glEndList();
         }

@@ -86,7 +86,7 @@
 #define M_ADDITIVE    16
 #define M_CLAMPED     32
 #define M_DECAL       64
-#define M_SHADOWED (M_OPAQUE | M_REFLECTIVE | M_ENVIRONMENT)
+#define M_SHADOWED (M_OPAQUE | M_REFLECTIVE)
 
 /* Billboard types. */
 
