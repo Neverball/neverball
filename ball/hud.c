@@ -51,7 +51,7 @@ static void hud_fps(void)
 
     if (now - then > 250)
     {
-        if (count)
+        if (count && config_get_d(CONFIG_STATS))
             fprintf(stdout, "%f\n", (float) (now - then) / count);
 
         fps   = count * 1000 / (now - then);
