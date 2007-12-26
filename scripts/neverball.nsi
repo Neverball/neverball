@@ -23,6 +23,8 @@ LicenseData "COPYING.txt"
 InstallDir "$PROGRAMFILES\Neverball"
 
 XPStyle on
+SetCompressor /solid lzma
+RequestExecutionLevel user
 
 #------------------------------------------------------------------------------
 
