@@ -14,6 +14,10 @@
 #include <GL/gl.h>
 #endif
 
+#ifdef _WIN32
+#include <GL/glext.h>
+#endif
+
 /*---------------------------------------------------------------------------*/
 
 #endif
