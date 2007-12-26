@@ -280,14 +280,15 @@ static void sol_draw_lump(const struct s_file *fp,
 
 static const struct s_mtrl *sol_draw_body(const struct s_file *fp,
                                           const struct s_body *bp,
-                                          const struct s_mtrl *mp, int fl)
+                                          const struct s_mtrl *mp,
+                                          int fl, int decal)
 {
     int mi, li, gi;
 
     /* Iterate all materials of the correct opacity. */
 
     for (mi = 0; mi < fp->mc; mi++)
-        if ((fp->mv[mi].fl & fl) == fl)
+        if ((fp->mv[mi].fl & fl) && (fp->mv[mi].fl & M_DECAL) == decal)
         {
             if (sol_enum_mtrl(fp, bp, mi))
             {
@@ -395,7 +396,8 @@ static void sol_shad_lump(const struct s_file *fp,
 }
 
 static void sol_shad_body(const struct s_file *fp,
-                          const struct s_body *bp, int fl)
+                          const struct s_body *bp,
+                          int fl, int decal)
 {
     int mi, li, gi;
 
@@ -408,7 +410,7 @@ static void sol_shad_body(const struct s_file *fp,
     glBegin(GL_TRIANGLES);
     {
         for (mi = 0; mi < fp->mc; mi++)
-            if ((fp->mv[mi].fl & fl) == fl)
+            if ((fp->mv[mi].fl & fl) && (fp->mv[mi].fl & M_DECAL) == decal)
             {
                 for (li = 0; li < bp->lc; li++)
                     sol_shad_lump(fp, fp->lv + bp->l0 + li, mi);
@@ -501,8 +503,8 @@ static void sol_load_objects(struct s_file *fp, int s)
             {
                 const struct s_mtrl *mp = &default_mtrl;
 
-                mp = sol_draw_body(fp, fp->bv + i, mp, M_OPAQUE);
-                mp = sol_draw_body(fp, fp->bv + i, mp, M_OPAQUE | M_DECAL);
+                mp = sol_draw_body(fp, fp->bv + i, mp, M_OPAQUE, 0);
+                mp = sol_draw_body(fp, fp->bv + i, mp, M_OPAQUE, M_DECAL);
                 mp = sol_draw_mtrl(fp, &default_mtrl, mp);
             }
             glEndList();
@@ -519,8 +521,8 @@ static void sol_load_objects(struct s_file *fp, int s)
             {
                 const struct s_mtrl *mp = &default_mtrl;
 
-                mp = sol_draw_body(fp, fp->bv + i, mp, M_TRANSPARENT | M_DECAL);
-                mp = sol_draw_body(fp, fp->bv + i, mp, M_TRANSPARENT);
+                mp = sol_draw_body(fp, fp->bv + i, mp, M_TRANSPARENT, M_DECAL);
+                mp = sol_draw_body(fp, fp->bv + i, mp, M_TRANSPARENT, 0);
                 mp = sol_draw_mtrl(fp, &default_mtrl, mp);
             }
             glEndList();
@@ -537,7 +539,7 @@ static void sol_load_objects(struct s_file *fp, int s)
             {
                 const struct s_mtrl *mp = &default_mtrl;
 
-                mp = sol_draw_body(fp, fp->bv + i, mp, M_REFLECTIVE);
+                mp = sol_draw_body(fp, fp->bv + i, mp, M_REFLECTIVE, 0);
                 mp = sol_draw_mtrl(fp, &default_mtrl, mp);
             }
             glEndList();
@@ -552,9 +554,9 @@ static void sol_load_objects(struct s_file *fp, int s)
 
             glNewList(fp->bv[i].sl, GL_COMPILE);
             {
-                if (on) sol_shad_body(fp, fp->bv + i, M_OPAQUE);
-                if (rn) sol_shad_body(fp, fp->bv + i, M_REFLECTIVE);
-                if (dn) sol_shad_body(fp, fp->bv + i, M_OPAQUE | M_DECAL);
+                if (on) sol_shad_body(fp, fp->bv + i, M_OPAQUE, 0);
+                if (rn) sol_shad_body(fp, fp->bv + i, M_REFLECTIVE, 0);
+                if (dn) sol_shad_body(fp, fp->bv + i, M_OPAQUE, M_DECAL);
             }
             glEndList();
         }
