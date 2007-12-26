@@ -109,6 +109,7 @@ void config_init(void)
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
     config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
+    config_set_d(CONFIG_STATS,                DEFAULT_STATS);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
     config_set_d(CONFIG_KEY_BACKWARD,         DEFAULT_KEY_BACKWARD);
     config_set_d(CONFIG_KEY_LEFT,             DEFAULT_KEY_LEFT);
@@ -239,6 +240,8 @@ void config_load(void)
 
                 else if (strcmp(key, "cheat") == 0)
                     config_set_d(CONFIG_CHEAT, atoi(val));
+                else if (strcmp(key, "stats") == 0)
+                    config_set_d(CONFIG_STATS, atoi(val));
             }
 
         fclose(fp);
@@ -358,6 +361,8 @@ void config_save(void)
         fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
         fprintf(fp, "ball                 %s\n", option_s[CONFIG_BALL]);
 
+        fprintf(fp, "stats                %d\n",
+                option_d[CONFIG_STATS]);
         if (config_cheat())
             fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
 
@@ -416,6 +421,10 @@ int config_mode(int f, int w, int h)
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_LIGHTING);
+        glEnable(GL_BLEND);
+
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDepthFunc(GL_LEQUAL);
 
         /* If GL supports multisample, and SDL got a multisample buffer... */
 

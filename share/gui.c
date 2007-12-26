@@ -1258,29 +1258,23 @@ void gui_paint(int id)
 {
     if (id)
     {
-        glPushAttrib(GL_LIGHTING_BIT     |
-                     GL_COLOR_BUFFER_BIT |
-                     GL_DEPTH_BUFFER_BIT);
         config_push_ortho();
         {
-            glEnable(GL_BLEND);
             glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
-
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-            glPushAttrib(GL_TEXTURE_BIT);
             {
                 glDisable(GL_TEXTURE_2D);
                 gui_paint_rect(id, 0);
-            }
-            glPopAttrib();
 
-            gui_paint_text(id);
+                glEnable(GL_TEXTURE_2D);
+                gui_paint_text(id);
+            }
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_LIGHTING);
+            glDisable(GL_COLOR_MATERIAL);
         }
         config_pop_matrix();
-        glPopAttrib();
     }
 }
 

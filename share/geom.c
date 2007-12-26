@@ -96,34 +96,33 @@ void ball_free(void)
 
 void ball_draw(void)
 {
-    glPushAttrib(GL_POLYGON_BIT |
-                 GL_LIGHTING_BIT |
-                 GL_DEPTH_BUFFER_BIT);
+    static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    static const float s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    static const float e[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    static const float h[1] = { 64.0f };
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
+
+    glEnable(GL_COLOR_MATERIAL);
     {
-        static const float  s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-        static const float  e[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-        static const float  h[1] = { 64.0f };
-
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
-
-        glEnable(GL_COLOR_MATERIAL);
-
         glBindTexture(GL_TEXTURE_2D, ball_text);
 
         /* Render the ball back to front in case it is translucent. */
 
         glDepthMask(GL_FALSE);
-
-        glCullFace(GL_FRONT);
-        glCallList(ball_list);
-        glCullFace(GL_BACK);
-        glCallList(ball_list);
+        {
+            glCullFace(GL_FRONT);
+            glCallList(ball_list);
+            glCullFace(GL_BACK);
+            glCallList(ball_list);
+        }
+        glDepthMask(GL_TRUE);
 
         /* Render the ball into the depth buffer. */
 
-        glDepthMask(GL_TRUE);
         glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
         {
             glCallList(ball_list);
@@ -133,11 +132,13 @@ void ball_draw(void)
         /* Ensure the ball is visible even when obscured by geometry. */
 
         glDisable(GL_DEPTH_TEST);
-
-        glColor4f(1.0f, 1.0f, 1.0f, 0.1f);
-        glCallList(ball_list);
+        {
+            glColor4f(1.0f, 1.0f, 1.0f, 0.1f);
+            glCallList(ball_list);
+        }
+        glEnable(GL_DEPTH_TEST);
     }
-    glPopAttrib();
+    glDisable(GL_COLOR_MATERIAL);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -171,19 +172,16 @@ void mark_init(int b)
 
 void mark_draw(void)
 {
-    glPushAttrib(GL_TEXTURE_BIT);
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushAttrib(GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_COLOR_MATERIAL);
+    glDisable(GL_TEXTURE_2D);
+    glDepthMask(GL_FALSE);
     {
-        glEnable(GL_COLOR_MATERIAL);
-        glDisable(GL_TEXTURE_2D);
-        glDepthMask(GL_FALSE);
 
         glCallList(mark_list);
     }
-    glPopAttrib();
-    glPopAttrib();
-    glPopAttrib();
+    glDepthMask(GL_TRUE);
+    glEnable(GL_TEXTURE_2D);
+    glDisable(GL_COLOR_MATERIAL);
 }
 
 void mark_free(void)
@@ -309,6 +307,7 @@ void item_init(int b)
     item_coin_text   = make_image_from_file(IMG_ITEM_COIN);
     item_grow_text   = make_image_from_file(IMG_ITEM_GROW);
     item_shrink_text = make_image_from_file(IMG_ITEM_SHRINK);
+
     item_list = glGenLists(1);
 
     glNewList(item_list, GL_COMPILE);
@@ -347,8 +346,6 @@ void item_push(int type)
     static const float  e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
     static const float  h[1] = { 32.0f };
 
-    glPushAttrib(GL_LIGHTING_BIT);
-
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
@@ -384,7 +381,7 @@ void item_draw(const struct s_item *hp, float r)
 
 void item_pull(void)
 {
-    glPopAttrib();
+    glDisable(GL_COLOR_MATERIAL);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -399,32 +396,21 @@ void goal_init(int b)
 
     glNewList(goal_list, GL_COMPILE);
     {
-        glPushAttrib(GL_TEXTURE_BIT  |
-                     GL_LIGHTING_BIT |
-                     GL_DEPTH_BUFFER_BIT);
+        glBegin(GL_QUAD_STRIP);
         {
-            glEnable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHTING);
-            glDisable(GL_TEXTURE_2D);
-            glDepthMask(GL_FALSE);
-
-            glBegin(GL_QUAD_STRIP);
+            for (i = 0; i <= n; i++)
             {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n);
-                    float y = fsinf(2.f * PI * i / n);
+                float x = fcosf(2.f * PI * i / n);
+                float y = fsinf(2.f * PI * i / n);
 
-                    glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
-                    glVertex3f(x, 0.0f, y);
+                glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
+                glVertex3f(x, 0.0f, y);
 
-                    glColor4f(1.0f, 1.0f, 0.0f, 0.0f);
-                    glVertex3f(x, GOAL_HEIGHT, y);
-                }
+                glColor4f(1.0f, 1.0f, 0.0f, 0.0f);
+                glVertex3f(x, GOAL_HEIGHT, y);
             }
-            glEnd();
         }
-        glPopAttrib();
+        glEnd();
     }
     glEndList();
 }
@@ -456,32 +442,21 @@ void jump_init(int b)
     {
         glNewList(jump_list + k, GL_COMPILE);
         {
-            glPushAttrib(GL_TEXTURE_BIT  |
-                         GL_LIGHTING_BIT |
-                         GL_DEPTH_BUFFER_BIT);
+            glBegin(GL_QUAD_STRIP);
             {
-                glEnable(GL_COLOR_MATERIAL);
-                glDisable(GL_LIGHTING);
-                glDisable(GL_TEXTURE_2D);
-                glDepthMask(GL_FALSE);
-
-                glBegin(GL_QUAD_STRIP);
+                for (i = 0; i <= n; i++)
                 {
-                    for (i = 0; i <= n; i++)
-                    {
-                        float x = fcosf(2.f * PI * i / n);
-                        float y = fsinf(2.f * PI * i / n);
+                    float x = fcosf(2.f * PI * i / n);
+                    float y = fsinf(2.f * PI * i / n);
 
-                        glColor4f(1.0f, 1.0f, 1.0f, (k == 0 ? 0.5f : 0.8f));
-                        glVertex3f(x, 0.0f, y);
+                    glColor4f(1.0f, 1.0f, 1.0f, (k == 0 ? 0.5f : 0.8f));
+                    glVertex3f(x, 0.0f, y);
 
-                        glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
-                        glVertex3f(x, JUMP_HEIGHT, y);
-                    }
+                    glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
+                    glVertex3f(x, JUMP_HEIGHT, y);
                 }
-                glEnd();
             }
-            glPopAttrib();
+            glEnd();
         }
         glEndList();
     }
@@ -503,14 +478,14 @@ void jump_draw(int highlight)
 static GLuint swch_list;
 
 static GLfloat swch_colors[8][4] = {
-    {1.0f, 0.0f, 0.0f, 0.5f}, /* red out */
-    {1.0f, 0.0f, 0.0f, 0.0f},
-    {1.0f, 0.0f, 0.0f, 0.8f}, /* red in */
-    {1.0f, 0.0f, 0.0f, 0.0f},
-    {0.0f, 1.0f, 0.0f, 0.5f}, /* green out */
-    {0.0f, 1.0f, 0.0f, 0.0f},
-    {0.0f, 1.0f, 0.0f, 0.8f}, /* green in */
-    {0.0f, 1.0f, 0.0f, 0.0f}};
+    { 1.0f, 0.0f, 0.0f, 0.5f }, /* red out */
+    { 1.0f, 0.0f, 0.0f, 0.0f },
+    { 1.0f, 0.0f, 0.0f, 0.8f }, /* red in */
+    { 1.0f, 0.0f, 0.0f, 0.0f },
+    { 0.0f, 1.0f, 0.0f, 0.5f }, /* green out */
+    { 0.0f, 1.0f, 0.0f, 0.0f },
+    { 0.0f, 1.0f, 0.0f, 0.8f }, /* green in */
+    { 0.0f, 1.0f, 0.0f, 0.0f }};
 
 void swch_init(int b)
 {
@@ -524,30 +499,21 @@ void swch_init(int b)
     {
         glNewList(swch_list + k, GL_COMPILE);
         {
-            glPushAttrib(GL_TEXTURE_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
+            glBegin(GL_QUAD_STRIP);
             {
-                glEnable(GL_COLOR_MATERIAL);
-                glDisable(GL_LIGHTING);
-                glDisable(GL_TEXTURE_2D);
-                glDepthMask(GL_FALSE);
-
-                glBegin(GL_QUAD_STRIP);
+                for (i = 0; i <= n; i++)
                 {
-                    for (i = 0; i <= n; i++)
-                    {
-                        float x = fcosf(2.f * PI * i / n);
-                        float y = fsinf(2.f * PI * i / n);
+                    float x = fcosf(2.f * PI * i / n);
+                    float y = fsinf(2.f * PI * i / n);
 
-                        glColor4fv(swch_colors[2 * k]);
-                        glVertex3f(x, 0.0f, y);
+                    glColor4fv(swch_colors[2 * k + 0]);
+                    glVertex3f(x, 0.0f, y);
 
-                        glColor4fv(swch_colors[2 * k + 1]);
-                        glVertex3f(x, SWCH_HEIGHT, y);
-                    }
+                    glColor4fv(swch_colors[2 * k + 1]);
+                    glVertex3f(x, SWCH_HEIGHT, y);
                 }
-                glEnd();
             }
-            glPopAttrib();
+            glEnd();
         }
         glEndList();
     }
@@ -578,12 +544,10 @@ void flag_init(int b)
 
     glNewList(flag_list, GL_COMPILE);
     {
-        glPushAttrib(GL_TEXTURE_BIT | GL_LIGHTING_BIT);
+        glEnable(GL_COLOR_MATERIAL);
+        glDisable(GL_LIGHTING);
+        glDisable(GL_TEXTURE_2D);
         {
-            glEnable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHTING);
-            glDisable(GL_TEXTURE_2D);
-
             glBegin(GL_QUAD_STRIP);
             {
                 for (i = 0; i <= n; i++)
@@ -612,7 +576,9 @@ void flag_init(int b)
             }
             glEnd();
         }
-        glPopAttrib();
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_LIGHTING);
+        glDisable(GL_COLOR_MATERIAL);
     }
     glEndList();
 }
@@ -692,16 +658,12 @@ void shad_draw_clr(void)
 
 void fade_draw(float k)
 {
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
-
     if (k > 0.0f)
     {
+        int w = config_get_d(CONFIG_WIDTH);
+        int h = config_get_d(CONFIG_HEIGHT);
+
         config_push_ortho();
-        glPushAttrib(GL_TEXTURE_BIT  |
-                     GL_LIGHTING_BIT |
-                     GL_COLOR_BUFFER_BIT |
-                     GL_DEPTH_BUFFER_BIT);
         {
             glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
@@ -718,8 +680,12 @@ void fade_draw(float k)
                 glVertex2i(0, h);
             }
             glEnd();
+
+            glEnable(GL_TEXTURE_2D);
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_LIGHTING);
+            glDisable(GL_COLOR_MATERIAL);
         }
-        glPopAttrib();
         config_pop_matrix();
     }
 }

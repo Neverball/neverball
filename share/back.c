@@ -44,8 +44,9 @@ void back_init(const char *s, int b)
 
     glNewList(back_list, GL_COMPILE);
     {
-        glColor3f(1.f, 1.f, 1.f);
         glBindTexture(GL_TEXTURE_2D, back_text);
+
+        glColor3f(1.0f, 1.0f, 1.0f);
 
         for (i = 0; i < stacks; i++)
         {
@@ -66,11 +67,9 @@ void back_init(const char *s, int b)
                     float c = fcosf(V_PI * k * 2.0);
 
                     glTexCoord2f(k, k1);
-                    glNormal3f(s * c1, c * c1, s1);
                     glVertex3f(s * c1, c * c1, s1);
 
                     glTexCoord2f(k, k0);
-                    glNormal3f(s * c0, c * c0, s0);
                     glVertex3f(s * c0, c * c0, s0);
                 }
             }
@@ -95,22 +94,22 @@ void back_free(void)
 void back_draw(float t)
 {
     glPushMatrix();
-    glPushAttrib(GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
     {
         GLfloat dx =  60.f * fsinf(t / 10.f) + 90.f;
         GLfloat dz = 180.f * fsinf(t / 12.f);
 
         glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
+        {
+            glScalef(BACK_DIST, BACK_DIST, BACK_DIST);
+            glRotatef(dz, 0.f, 0.f, 1.f);
+            glRotatef(dx, 1.f, 0.f, 0.f);
 
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glScalef(BACK_DIST, BACK_DIST, BACK_DIST);
-        glRotatef(dz, 0.f, 0.f, 1.f);
-        glRotatef(dx, 1.f, 0.f, 0.f);
-
-        glCallList(back_list);
+            glCallList(back_list);
+        }
+        glDepthMask(GL_TRUE);
+        glEnable(GL_LIGHTING);
     }
-    glPopAttrib();
     glPopMatrix();
 }
 

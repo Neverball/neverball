@@ -166,8 +166,9 @@ static void grow_step(const struct s_file *fp, float dt)
     dr = grow_strt + ((grow_goal-grow_strt) * (1.0f / (GROW_TIME / grow_t)));
 
     /* No sinking through the floor! Keeps ball's bottom constant. */
+
     fp->uv->p[1] += (dr - fp->uv->r);
-    fp->uv->r = dr;
+    fp->uv->r     =  dr;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -309,8 +310,6 @@ static void game_draw_items(const struct s_file *fp)
     float r = 360.f * SDL_GetTicks() / 1000.f;
     int hi;
 
-    /* FIXME:  Draw items of different types in one pass? */
-
     item_push(ITEM_COIN);
     {
         for (hi = 0; hi < fp->hc; hi++)
@@ -371,9 +370,31 @@ static void game_draw_items(const struct s_file *fp)
 
 static void game_draw_goals(const struct s_file *fp, float rx, float ry)
 {
-    int zi;
-
     if (goal_c == 0)
+    {
+        int zi;
+
+        /* Draw the goal particles. */
+
+        glEnable(GL_TEXTURE_2D);
+        {
+            for (zi = 0; zi < fp->zc; zi++)
+            {
+                glPushMatrix();
+                {
+                    glTranslatef(fp->zv[zi].p[0],
+                                 fp->zv[zi].p[1],
+                                 fp->zv[zi].p[2]);
+                    
+                    part_draw_goal(rx, ry, fp->zv[zi].r, goal_k);
+                }
+                glPopMatrix();
+            }
+        }
+        glDisable(GL_TEXTURE_2D);
+
+        /* Draw the goal column. */
+
         for (zi = 0; zi < fp->zc; zi++)
         {
             glPushMatrix();
@@ -382,13 +403,15 @@ static void game_draw_goals(const struct s_file *fp, float rx, float ry)
                              fp->zv[zi].p[1],
                              fp->zv[zi].p[2]);
 
-                part_draw_goal(rx, ry, fp->zv[zi].r, goal_k);
+                glScalef(fp->zv[zi].r,
+                         goal_k,
+                         fp->zv[zi].r);
 
-                glScalef(fp->zv[zi].r, goal_k, fp->zv[zi].r);
                 goal_draw();
             }
             glPopMatrix();
         }
+    }
 }
 
 static void game_draw_jumps(const struct s_file *fp)
@@ -402,8 +425,10 @@ static void game_draw_jumps(const struct s_file *fp)
             glTranslatef(fp->jv[ji].p[0],
                          fp->jv[ji].p[1],
                          fp->jv[ji].p[2]);
+            glScalef(fp->jv[ji].r,
+                     1.0f,
+                     fp->jv[ji].r);
 
-            glScalef(fp->jv[ji].r, 1.f, fp->jv[ji].r);
             jump_draw(!jump_e);
         }
         glPopMatrix();
@@ -424,8 +449,10 @@ static void game_draw_swchs(const struct s_file *fp)
             glTranslatef(fp->xv[xi].p[0],
                          fp->xv[xi].p[1],
                          fp->xv[xi].p[2]);
+            glScalef(fp->xv[xi].r,
+                     1.0f,
+                     fp->xv[xi].r);
 
-            glScalef(fp->xv[xi].r, 1.f, fp->xv[xi].r);
             swch_draw(fp->xv[xi].f, fp->xv[xi].e);
         }
         glPopMatrix();
@@ -434,7 +461,7 @@ static void game_draw_swchs(const struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_refl_all(int s)
+static void game_refl_all()
 {
     const float *ball_p = file.uv->p;
 
@@ -500,79 +527,104 @@ static void game_draw_back(int pose, int d, const float p[3])
         {
             /* Draw all background layers back to front. */
 
-            sol_back(&back, BACK_DIST, FAR_DIST, t);
+            sol_back(&back, BACK_DIST, FAR_DIST,  t);
             back_draw(0);
-            sol_back(&back, 0, BACK_DIST, t);
+            sol_back(&back,         0, BACK_DIST, t);
 
             /* Draw all foreground geometry in the background file. */
 
+            /* HACK: This is never used.
             sol_draw(&back);
+            */
         }
         else back_draw(0);
     }
     glPopMatrix();
 }
 
-static void game_draw_fore(int pose, float rx, float ry, int d, const float p[3])
+static void game_draw_fore(int pose, float rx,
+                                     float ry, int d, const float p[3])
 {
+    static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    static const float s[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    static const float e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    static const float h[1] = { 0.0f };
+    
     const float *ball_p = file.uv->p;
     const float  ball_r = file.uv->r;
 
-    glPushAttrib(GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
+    glPushMatrix();
     {
-        glPushMatrix();
+        /* Rotate the environment about the position of the ball. */
+
+        glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
+        glRotatef(-game_rz * d, view_e[2][0], view_e[2][1], view_e[2][2]);
+        glRotatef(-game_rx * d, view_e[0][0], view_e[0][1], view_e[0][2]);
+        glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
+
+        if (d < 0)
         {
-            /* Rotate the environment about the position of the ball. */
+            GLdouble e[4];
 
-            glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
-            glRotatef(-game_rz * d, view_e[2][0], view_e[2][1], view_e[2][2]);
-            glRotatef(-game_rx * d, view_e[0][0], view_e[0][1], view_e[0][2]);
-            glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
+            e[0] = +0;
+            e[1] = +1;
+            e[2] = +0;
+            e[3] = -0.00001;
 
-            if (d < 0)
-            {
-                GLdouble e[4];
+            glEnable(GL_CLIP_PLANE0);
+            glClipPlane(GL_CLIP_PLANE0, e);
+        }
 
-                e[0] = +0;
-                e[1] = +1;
-                e[2] = +0;
-                e[3] = -0.00001;
+        /* Draw the floor. */
 
-                glEnable(GL_CLIP_PLANE0);
-                glClipPlane(GL_CLIP_PLANE0, e);
-            }
+        sol_draw(&file);
 
-            /* Draw the floor. */
+        if (pose == 0)
+        {
+            /* Draw the ball shadow. */
 
-            sol_draw(&file);
-
-            if (pose == 0 && config_get_d(CONFIG_SHADOW))
+            if (d > 0 && config_get_d(CONFIG_SHADOW))
             {
                 shad_draw_set(ball_p, ball_r);
                 sol_shad(&file);
                 shad_draw_clr();
             }
 
-            /* Draw the game elements. */
+            /* Draw the ball and coins. */
 
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-            if (pose == 0)
-            {
-                part_draw_coin(-rx * d, -ry);
-                game_draw_items(&file);
-                game_draw_balls(&file);
-            }
-            game_draw_goals(&file, -rx * d, -ry);
-            game_draw_jumps(&file);
-            game_draw_swchs(&file);
-
-            glDisable(GL_CLIP_PLANE0);
+            game_draw_items(&file);
+            game_draw_balls(&file);
         }
-        glPopMatrix();
+
+        /* Draw the particles and light columns. */
+
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
+
+        glEnable(GL_COLOR_MATERIAL);
+        glDisable(GL_LIGHTING);
+        glDepthMask(GL_FALSE);
+        {
+            part_draw_coin(-rx * d, -ry);
+
+            glDisable(GL_TEXTURE_2D);
+            {
+                game_draw_goals(&file, -rx * d, -ry);
+                game_draw_jumps(&file);
+                game_draw_swchs(&file);
+            }
+            glEnable(GL_TEXTURE_2D);
+        }
+        glDepthMask(GL_TRUE);
+        glEnable(GL_LIGHTING);
+        glDisable(GL_COLOR_MATERIAL);
+
+        if (d < 0)
+            glDisable(GL_CLIP_PLANE0);
     }
-    glPopAttrib();
+    glPopMatrix();
 }
 
 void game_draw(int pose, float st)
@@ -608,42 +660,43 @@ void game_draw(int pose, float st)
 
             if (config_get_d(CONFIG_REFLECTION))
             {
-                /* Draw the mirror only into the stencil buffer. */
-
-                glDisable(GL_DEPTH_TEST);
                 glEnable(GL_STENCIL_TEST);
-                glStencilFunc(GL_ALWAYS, 1, 0xFFFFFFFF);
-                glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
-                glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-
-                game_refl_all(0);
-
-                /* Draw the scene reflected into color and depth buffers. */
-
-                glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-                glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-                glStencilFunc(GL_EQUAL, 1, 0xFFFFFFFF);
-                glEnable(GL_DEPTH_TEST);
-
-                glFrontFace(GL_CW);
-                glPushMatrix();
                 {
-                    glScalef(+1.f, -1.f, +1.f);
+                    /* Draw the mirrors only into the stencil buffer. */
 
-                    game_draw_light();
-                    game_draw_back(pose,         -1, pdn);
-                    game_draw_fore(pose, rx, ry, -1, pdn);
+                    glStencilFunc(GL_ALWAYS, 1, 0xFFFFFFFF);
+                    glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+                    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+                    glDepthMask(GL_FALSE);
+
+                    game_refl_all();
+
+                    glDepthMask(GL_TRUE);
+                    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+                    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+                    glStencilFunc(GL_EQUAL, 1, 0xFFFFFFFF);
+
+                    /* Draw the scene reflected into color and depth buffers. */
+
+                    glFrontFace(GL_CW);
+                    glPushMatrix();
+                    {
+                        glScalef(+1.f, -1.f, +1.f);
+
+                        game_draw_light();
+                        game_draw_back(pose,         -1, pdn);
+                        game_draw_fore(pose, rx, ry, -1, pdn);
+                    }
+                    glPopMatrix();
+                    glFrontFace(GL_CCW);
                 }
-                glPopMatrix();
-                glFrontFace(GL_CCW);
-
                 glDisable(GL_STENCIL_TEST);
             }
 
             /* Draw the scene normally. */
 
             game_draw_light();
-            game_refl_all(pose ? 0 : config_get_d(CONFIG_SHADOW));
+            game_refl_all();
             game_draw_back(pose,         +1, pup);
             game_draw_fore(pose, rx, ry, +1, pup);
         }

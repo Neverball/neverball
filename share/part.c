@@ -222,22 +222,14 @@ void part_draw_coin(float rx, float ry)
     float r = (float) SDL_GetTicks() / 1000.f;
     int i;
 
-    glPushAttrib(GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
-    {
-        glDisable(GL_LIGHTING);
-        glEnable(GL_COLOR_MATERIAL);
+    glBindTexture(GL_TEXTURE_2D, part_text);
 
-        glDepthMask(GL_FALSE);
-        glBindTexture(GL_TEXTURE_2D, part_text);
-
-        for (i = 0; i < PART_MAX_COIN; i++)
-            if (part_coin[i].t > 0.f)
-                part_draw(part_coin[i].p,
-                          part_coin[i].c,
-                          part_coin[i].t,
-                          1.f, rx, ry, r * part_coin[i].w);
-    }
-    glPopAttrib();
+    for (i = 0; i < PART_MAX_COIN; i++)
+        if (part_coin[i].t > 0.f)
+            part_draw(part_coin[i].p,
+                      part_coin[i].c,
+                      part_coin[i].t,
+                      1.0f, rx, ry, r * part_coin[i].w);
 }
 
 void part_draw_goal(float rx, float ry, float radius, float a)
@@ -245,22 +237,13 @@ void part_draw_goal(float rx, float ry, float radius, float a)
     float r = (float) SDL_GetTicks() / 1000.f;
     int i;
 
-    glPushAttrib(GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
-    {
-        glDisable(GL_LIGHTING);
+    glBindTexture(GL_TEXTURE_2D, part_text);
 
-        glEnable(GL_COLOR_MATERIAL);
-
-        glDepthMask(GL_FALSE);
-        glBindTexture(GL_TEXTURE_2D, part_text);
-
-        for (i = 0; i < PART_MAX_GOAL; i++)
-            if (part_goal[i].t > 0.f)
-                part_draw(part_goal[i].p,
-                          part_goal[i].c, a,
-                          radius - 0.05f, rx, ry, r * part_goal[i].w);
-    }
-    glPopAttrib();
+    for (i = 0; i < PART_MAX_GOAL; i++)
+        if (part_goal[i].t > 0.0f)
+            part_draw(part_goal[i].p,
+                      part_goal[i].c, a,
+                      radius - 0.05f, rx, ry, r * part_goal[i].w);
 }
 
 /*---------------------------------------------------------------------------*/

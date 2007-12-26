@@ -269,6 +269,11 @@ static void game_draw_swchs(const struct s_file *fp)
 
 void game_draw(int pose)
 {
+    static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    static const float s[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    static const float e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    static const float h[1] = { 0.0f };
+    
     const float light_p[4] = { 8.f, 32.f, 8.f, 1.f };
 
     const struct s_file *fp = &file;
@@ -327,9 +332,25 @@ void game_draw(int pose)
             game_draw_vect(fp);
         }
 
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
+
         game_draw_goals(fp, -rx, -ry);
-        game_draw_jumps(fp);
-        game_draw_swchs(fp);
+
+        glEnable(GL_COLOR_MATERIAL);
+        glDisable(GL_LIGHTING);
+        glDisable(GL_TEXTURE_2D);
+        glDepthMask(GL_FALSE);
+        {
+            game_draw_jumps(fp);
+            game_draw_swchs(fp);
+        }
+        glDepthMask(GL_TRUE);
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_LIGHTING);
+        glDisable(GL_COLOR_MATERIAL);
     }
     glPopMatrix();
     glPopAttrib();

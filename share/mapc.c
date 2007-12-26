@@ -2080,11 +2080,13 @@ static void sort_file(struct s_file *fp)
 {
     int i, j;
 
-    /* Sort billboards farthest to nearest. */
+    /* Sort billboards by material within distance. */
 
     for (i = 0; i < fp->rc; i++)
         for (j = i + 1; j < fp->rc; j++)
-            if (fp->rv[j].d > fp->rv[i].d)
+            if ((fp->rv[j].d  > fp->rv[i].d) ||
+                (fp->rv[j].d == fp->rv[i].d &&
+                 fp->rv[j].mi > fp->rv[i].mi))
             {
                 struct s_bill t;
 
