@@ -114,6 +114,7 @@ struct s_mtrl
     float s[4];                                /* specular color             */
     float e[4];                                /* emission color             */
     float h[1];                                /* specular exponent          */
+    float angle;
 
     int fl;                                    /* material flags             */
 

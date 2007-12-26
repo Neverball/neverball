@@ -408,6 +408,7 @@ static int read_mtrl(struct s_file *fp, const char *name)
     mp->e[0] = mp->e[1] = mp->e[2] = mp->e[3] = 1.0f;
     mp->h[0] = 0.0f;
     mp->fl   = 0;
+    mp->angle = 45.0f;
 
     if ((fin = fopen(config_data(name), "r")))
     {
@@ -416,12 +417,12 @@ static int read_mtrl(struct s_file *fp, const char *name)
                "%f %f %f %f "
                "%f %f %f %f "
                "%f %f %f %f "
-               "%f %d ",
+               "%f %d %f",
                mp->d, mp->d + 1, mp->d + 2, mp->d + 3,
                mp->a, mp->a + 1, mp->a + 2, mp->a + 3,
                mp->s, mp->s + 1, mp->s + 2, mp->s + 3,
                mp->e, mp->e + 1, mp->e + 2, mp->e + 3,
-               mp->h, &mp->fl);
+               mp->h, &mp->fl, &mp->angle);
         fclose(fin);
     }
 
@@ -1925,6 +1926,156 @@ static void uniq_file(struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
+struct s_trip
+{
+    int vi;
+    int mi;
+    int si;
+    int gi;
+};
+
+static int comp_trip(const void *p, const void *q)
+{
+    const struct s_trip *tp = (const struct s_trip *) p;
+    const struct s_trip *tq = (const struct s_trip *) q;
+
+    if (tp->vi < tq->vi) return -1;
+    if (tp->vi > tq->vi) return +1;
+    if (tp->mi < tq->mi) return -1;
+    if (tp->mi > tq->mi) return +1;
+
+    return 0;
+}
+
+static void smth_file(struct s_file *fp)
+{
+    struct s_trip temp, *T;
+    
+    if (debug_output == 0)
+    {
+        if ((T = (struct s_trip *) malloc(fp->gc * 3 * sizeof (struct s_trip))))
+        {
+            int gi, i, j, k, l, c = 0;
+
+            /* Create a list of all non-faceted vertex triplets. */
+
+            for (gi = 0; gi < fp->gc; ++gi)
+            {
+                struct s_geom *gp = fp->gv + gi;
+
+                T[c].vi = gp->vi;
+                T[c].mi = gp->mi;
+                T[c].si = gp->si;
+                T[c].gi = gi;
+                c++;
+
+                T[c].vi = gp->vj;
+                T[c].mi = gp->mi;
+                T[c].si = gp->sj;
+                T[c].gi = gi;
+                c++;
+
+                T[c].vi = gp->vk;
+                T[c].mi = gp->mi;
+                T[c].si = gp->sk;
+                T[c].gi = gi;
+                c++;
+            }
+
+            /* Sort all triplets by vertex index and material. */
+
+            qsort(T, c, sizeof (struct s_trip), comp_trip);
+
+            /* For each set of triplets sharing vertex index and material... */
+
+            for (i = 0; i < c; i = l)
+            {
+                int acc = 0;
+
+                float N[3], angle = fp->mv[T[i].mi].angle;
+                const float   *Ni = fp->sv[T[i].si].n;
+
+                /* Sort the set by side similarity to the first. */
+
+                for (j = i + 1; j < c && (T[j].vi == T[i].vi &&
+                                          T[j].mi == T[i].mi); ++j)
+                {
+                    for (k = j + 1; k < c && (T[k].vi == T[i].vi &&
+                                              T[k].mi == T[i].mi); ++k)
+                    {
+                        const float *Nj = fp->sv[T[j].si].n;
+                        const float *Nk = fp->sv[T[k].si].n;
+
+                        if (T[j].si != T[k].si && v_dot(Nk, Ni) > v_dot(Nj, Ni))
+                        {
+                            temp = T[k];
+                            T[k] = T[j];
+                            T[j] = temp;
+                        }
+                    }
+                }
+
+                /* Accumulate all similar side normals. */
+
+                N[0] = Ni[0];
+                N[1] = Ni[1];
+                N[2] = Ni[2];
+
+                for (l = i + 1; l < c && (T[l].vi == T[i].vi &&
+                                          T[l].mi == T[i].mi); ++l)
+                    if (T[l].si != T[i].si)
+                    {
+                        const float *Nl = fp->sv[T[l].si].n;
+
+                        if (V_DEG(facosf(v_dot(Ni, Nl))) > angle)
+                            break;
+
+                        N[0] += Nl[0];
+                        N[1] += Nl[1];
+                        N[2] += Nl[2];
+
+                        acc++;
+                    }
+
+                /* If at least two normals have been accumulated... */
+
+                if (acc)
+                {
+                    /* Store the accumulated normal as a new side. */
+
+                    int ss = incs(fp);
+
+                    v_nrm(fp->sv[ss].n, N);
+                    fp->sv[ss].d = 0.0f;
+
+                    /* Assign the new normal to the merged triplets. */
+
+                    for (j = i; j < l; ++j)
+                        T[j].si = ss;
+                }
+            }
+
+            /* Assign the remapped normals to the original geoms. */
+
+            for (i = 0; i < c; ++i)
+            {
+                struct s_geom *gp = fp->gv + T[i].gi;
+
+                if (gp->vi == T[i].vi) gp->si = T[i].si;
+                if (gp->vj == T[i].vi) gp->sj = T[i].si;
+                if (gp->vk == T[i].vi) gp->sk = T[i].si;
+            }
+
+            free(T);
+        }
+
+        uniq_side(fp);
+    }
+}
+
+
+/*---------------------------------------------------------------------------*/
+
 static void sort_file(struct s_file *fp)
 {
     int i, j;
@@ -2218,6 +2369,7 @@ int main(int argc, char *argv[])
                 clip_file(&f);
                 move_file(&f);
                 uniq_file(&f);
+                smth_file(&f);
                 sort_file(&f);
                 node_file(&f);
                 dump_file(&f, dst);
