@@ -910,85 +910,48 @@ static int game_update_state(int bt)
     return GAME_NONE;
 }
 
-/*
- * On  most  hardware, rendering  requires  much  more  computing power  than
- * physics.  Since  physics takes less time  than graphics, it  make sense to
- * detach  the physics update  time step  from the  graphics frame  rate.  By
- * performing multiple physics updates for  each graphics update, we get away
- * with higher quality physics with little impact on overall performance.
- *
- * Toward this  end, we establish a  baseline maximum physics  time step.  If
- * the measured  frame time  exceeds this  maximum, we cut  the time  step in
- * half, and  do two updates.  If THIS  time step exceeds the  maximum, we do
- * four updates.  And  so on.  In this way, the physics  system is allowed to
- * seek an optimal update rate independent of, yet in integral sync with, the
- * graphics frame rate.
- */
-
 int game_step(const float g[3], float dt, int bt)
 {
-    struct s_file *fp = &file;
-
-    float h[3];
-    float d = 0.f;
-    float b = 0.f;
-    float t;
-    int i, n = 1;
-
     if (game_state)
     {
-        t = dt;
+        struct s_file *fp = &file;
+
+        float h[3];
 
         /* Smooth jittery or discontinuous input. */
 
-        if (t < RESPONSE)
-        {
-            game_rx += (game_ix - game_rx) * t / RESPONSE;
-            game_rz += (game_iz - game_rz) * t / RESPONSE;
-        }
-        else
-        {
-            game_rx = game_ix;
-            game_rz = game_iz;
-        }
+        game_rx += (game_ix - game_rx) * dt / RESPONSE;
+        game_rz += (game_iz - game_rz) * dt / RESPONSE;
 
         grow_step(fp, dt);
 
         game_update_grav(h, g);
-        part_step(h, t);
+        part_step(h, dt);
 
         if (jump_b)
         {
-            jump_dt += t;
+            jump_dt += dt;
 
             /* Handle a jump. */
 
-            if (0.5 < jump_dt)
+            if (0.5f < jump_dt)
             {
                 fp->uv[0].p[0] = jump_p[0];
                 fp->uv[0].p[1] = jump_p[1];
                 fp->uv[0].p[2] = jump_p[2];
             }
-            if (1.f < jump_dt)
+            if (1.0f < jump_dt)
                 jump_b = 0;
         }
         else
         {
             /* Run the sim. */
 
-            while (t > MAX_DT && n < MAX_DN)
-            {
-                t /= 2;
-                n *= 2;
-            }
-
-            for (i = 0; i < n; i++)
-                if (b < (d = sol_step(fp, h, t, 0, NULL)))
-                    b = d;
+            float b = sol_step(fp, h, dt, 0, NULL);
 
             /* Mix the sound of a ball bounce. */
 
-            if (b > 0.5)
+            if (b > 0.5f)
             {
                 float k = (b - 0.5f) * 2.0f;
 

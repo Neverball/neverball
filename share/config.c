@@ -471,6 +471,60 @@ int config_mode(int f, int w, int h)
 
 /*---------------------------------------------------------------------------*/
 
+static float ms     = 0;
+static int   fps    = 0;
+static int   last   = 0;
+static int   ticks  = 0;
+static int   frames = 0;
+
+int  config_perf(void)
+{
+    return fps;
+}
+
+void config_swap(void)
+{
+    int dt;
+
+    SDL_GL_SwapBuffers();
+
+    /* Accumulate time passed and frames rendered. */
+
+    dt = (int) SDL_GetTicks() - last;
+
+    frames +=  1;
+    ticks  += dt;
+    last   += dt;
+
+    /* Average over 250ms. */
+
+    if (ticks > 1000)
+    {
+        /* Round the frames-per-second value to the nearest integer. */
+
+        double k = 1000.0 * frames / ticks;
+        double f = floor(k);
+        double c = ceil (k);
+
+        /* Compute frame time and frames-per-second stats. */
+
+        fps = (int) ((c - k < k - f) ? c : f);
+        ms  = (float) ticks / (float) frames;
+
+        /* Reset the counters for the next update. */
+
+        frames = 0;
+        ticks  = 0;
+
+        /* Output statistics if configured. */
+
+        if (option_d[CONFIG_STATS])
+            fprintf(stdout, "%4d %8.4f\n", fps, ms);
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
 void config_set_d(int i, int d)
 {
     option_d[i] = d;

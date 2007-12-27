@@ -156,6 +156,9 @@ void config_load(void);
 void config_save(void);
 int  config_mode(int, int, int);
 
+int  config_perf(void);
+void config_swap(void);
+
 /*---------------------------------------------------------------------------*/
 
 void config_set_d(int, int);

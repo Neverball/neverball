@@ -90,6 +90,10 @@
 #define MAXNAM 9
 
 #define GUI_FACE                    _("ttf/DejaVuSans-Bold.ttf")
+/*
+#define DT 0.0166666f
+*/
+#define DT 0.01111111f
 
 /*---------------------------------------------------------------------------*/
 
