@@ -22,6 +22,7 @@
 #include "config.h"
 #include "glext.h"
 #include "vec3.h"
+#include "sync.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -79,6 +80,7 @@ void config_init(void)
     config_set_d(CONFIG_AUDIO_BUFF,           DEFAULT_AUDIO_BUFF);
     config_set_d(CONFIG_MOUSE_SENSE,          DEFAULT_MOUSE_SENSE);
     config_set_d(CONFIG_MOUSE_INVERT,         DEFAULT_MOUSE_INVERT);
+    config_set_d(CONFIG_VSYNC,                DEFAULT_VSYNC);
     config_set_d(CONFIG_NICE,                 DEFAULT_NICE);
     config_set_d(CONFIG_FPS,                  DEFAULT_FPS);
     config_set_d(CONFIG_SOUND_VOLUME,         DEFAULT_SOUND_VOLUME);
@@ -163,6 +165,8 @@ void config_load(void)
                     config_set_d(CONFIG_MOUSE_SENSE,          atoi(val));
                 else if (strcmp(key, "mouse_invert")          == 0)
                     config_set_d(CONFIG_MOUSE_INVERT,         atoi(val));
+                else if (strcmp(key, "vsync")                 == 0)
+                    config_set_d(CONFIG_VSYNC,                atoi(val));
                 else if (strcmp(key, "nice")                  == 0)
                     config_set_d(CONFIG_NICE,                 atoi(val));
                 else if (strcmp(key, "fps")                   == 0)
@@ -288,6 +292,8 @@ void config_save(void)
                 option_d[CONFIG_MOUSE_SENSE]);
         fprintf(fp, "mouse_invert         %d\n",
                 option_d[CONFIG_MOUSE_INVERT]);
+        fprintf(fp, "vsync                %d\n",
+                option_d[CONFIG_VSYNC]);
         fprintf(fp, "nice                 %d\n",
                 option_d[CONFIG_NICE]);
         fprintf(fp, "fps                  %d\n",
@@ -410,8 +416,8 @@ int config_mode(int f, int w, int h)
     if (SDL_SetVideoMode(w, h, 0, SDL_OPENGL | (f ? SDL_FULLSCREEN : 0)))
     {
         config_set_d(CONFIG_FULLSCREEN, f);
-        config_set_d(CONFIG_WIDTH, w);
-        config_set_d(CONFIG_HEIGHT, h);
+        config_set_d(CONFIG_WIDTH,      w);
+        config_set_d(CONFIG_HEIGHT,     h);
 
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
@@ -425,6 +431,9 @@ int config_mode(int f, int w, int h)
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthFunc(GL_LEQUAL);
+
+        if (config_get_d(CONFIG_VSYNC))
+            sync_init();
 
         /* If GL supports multisample, and SDL got a multisample buffer... */
 
