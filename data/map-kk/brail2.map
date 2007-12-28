@@ -1,0 +1,88 @@
+
+// entity 0
+{
+"classname" "worldspawn"
+"message" "Is that tiny blue slit . . . a rail?"
+"author" "Byron James Johnson (Krabby Krap)"
+"version" "2.3"
+"bonus" "1"
+"goal" "0"
+"time" "0"
+"coin_hs" "30 20"
+"time_hs" "800 1000"
+"goal_hs" "750 9550"
+"back" "map-back/blank.sol"
+"grad" "back/blk_org.png"
+// brush 0
+{
+( 8 40 -24 ) ( 8 -48 -24 ) ( -8 40 -24 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+( 16 2000 -24 ) ( 0 2000 -24 ) ( 16 2000 -32 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+( 1 39 -24 ) ( 1 39 -32 ) ( 1 -49 -24 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+( -8 -48 -26 ) ( 8 -48 -26 ) ( -8 40 -26 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+( -8 -48 -32 ) ( -8 -48 -24 ) ( 8 -48 -32 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+( -1 -48 -32 ) ( -1 40 -32 ) ( -1 -48 -24 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+}
+// brush 1
+{
+( -8 2016 -23 ) ( -8 1992 -23 ) ( -32 2016 -23 ) mtrl/goal 128 96 0 2 2 134217728 0 0
+( -160 2192 -24 ) ( -184 2192 -24 ) ( -160 2192 -32 ) mtrl/invisible 128 96 0 2 2 134217728 0 0
+( 208 1816 -24 ) ( 208 1816 -32 ) ( 208 1792 -24 ) mtrl/invisible 128 96 0 2 2 134217728 0 0
+( -32 1992 -48 ) ( -8 1992 -48 ) ( -32 2016 -48 ) mtrl/invisible 128 96 0 2 2 134217728 0 0
+( 160 1776 -32 ) ( 160 1776 -24 ) ( 184 1776 -32 ) mtrl/invisible 128 96 0 2 2 134217728 0 0
+( -208 2168 -32 ) ( -208 2192 -32 ) ( -208 2168 -24 ) mtrl/invisible 128 96 0 2 2 134217728 0 0
+}
+}
+// entity 1
+{
+"classname" "info_player_start"
+"radius" "0.5"
+"origin" "0 0 0"
+}
+// entity 2
+{
+"classname" "info_player_deathmatch"
+"origin" "0 1984 0"
+"radius" "3"
+}
+// entity 3
+{
+"classname" "info_player_intermission"
+"origin" "0 -1280 288"
+"target" "t1"
+}
+// entity 4
+{
+"classname" "target_location"
+"origin" "0 -936 248"
+"targetname" "t1"
+}
+// entity 5
+{
+"classname" "light"
+"origin" "0 1280 -8"
+"light" "10"
+}
+// entity 6
+{
+"classname" "light"
+"origin" "0 1536 -8"
+"light" "10"
+}
+// entity 7
+{
+"classname" "light"
+"origin" "0 768 -8"
+"light" "10"
+}
+// entity 8
+{
+"classname" "light"
+"origin" "0 512 -8"
+"light" "10"
+}
+// entity 9
+{
+"classname" "light"
+"origin" "0 1024 -8"
+"light" "10"
+}

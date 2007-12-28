@@ -1,0 +1,30 @@
+Krabby Krap's Levels
+Difficulty: Expert through Insane\\25 levels designed for the more experienced player\Author: Byron James Johnson (Krabby Krap)\ \
+kk
+shot-kk/sintro.jpg
+
+map-kk/sintro.sol
+map-kk/sboxslide.sol
+map-kk/sfallandrise.sol
+map-kk/sfun.sol
+map-kk/bgold.sol
+map-kk/soutofworld.sol
+map-kk/srail.sol
+map-kk/soutofworld2.sol
+map-kk/sspiralrise.sol
+map-kk/bthwomp.sol
+map-kk/scurly.sol
+map-kk/sboxslide2.sol
+map-kk/sfallandrise2.sol
+map-kk/sride.sol
+map-kk/btrap.sol
+map-kk/sdeathhouse.sol
+map-kk/smultiplatform.sol
+map-kk/shighroad.sol
+map-kk/scarnival.sol
+map-kk/bconfusion.sol
+map-kk/sgiantshouse.sol
+map-kk/smultiplatform2.sol
+map-kk/sgreathall.sol
+map-kk/sfinal.sol
+map-kk/bneverballtube.sol

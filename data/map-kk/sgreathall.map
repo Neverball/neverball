@@ -1,0 +1,278 @@
+
+// entity 0
+{
+"classname" "worldspawn"
+"message" "The great hall"
+"author" "Byron James Johnson (Krabby Krap)"
+"version" "2.3"
+"bonus" "0"
+"goal" "0"
+"time" "0"
+"time_hs" "0 0"
+"goal_hs" "0 0"
+"coin_hs" "0 0"
+"song" "bgm/track4.ogg"
+"grad" "back/space.png"
+"back" "map-back/jupiter.sol"
+"shot" "shot-kk/sgreathall.jpg"
+// brush 0
+{
+( 192 192 88 ) ( 192 192 -56 ) ( 200 200 -56 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 192 -112 88 ) ( 192 -112 -56 ) ( 192 192 -56 ) mtrl/mirror-check 0 0 0 0.5 0.5 0 0 0
+( 200 56 -56 ) ( 72 -72 -56 ) ( 200 -72 -56 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 192 -128 -56 ) ( 192 -128 88 ) ( 200 -136 88 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 200 -72 72 ) ( 200 56 -56 ) ( 200 -72 -56 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 152 -72 88 ) ( 24 -72 88 ) ( 152 56 88 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+}
+// brush 1
+{
+( 24 -128 208 ) ( 152 -128 208 ) ( 24 -128 80 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( -64 40 208 ) ( -64 40 80 ) ( -64 168 208 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 152 144 80 ) ( 24 144 80 ) ( 152 16 80 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 168 192 72 ) ( 168 192 200 ) ( 40 192 72 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 192 160 80 ) ( 192 32 80 ) ( 192 160 208 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 120 16 88 ) ( -8 144 88 ) ( 120 144 88 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+}
+// brush 2
+{
+( -64 -128 -56 ) ( -64 -128 88 ) ( -72 -136 88 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -56 -128 88 ) ( -56 -128 -56 ) ( 184 -128 -56 ) mtrl/mirror-check 0 0 0 0.5 0.5 0 0 0
+( 104 -136 -56 ) ( 104 -8 -56 ) ( -24 -136 -56 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 192 -128 88 ) ( 192 -128 -56 ) ( 200 -136 -56 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 96 -136 -56 ) ( -32 -136 -56 ) ( 96 -136 72 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -24 -88 88 ) ( 104 40 88 ) ( 104 -88 88 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+}
+// brush 3
+{
+( -64 192 -56 ) ( -64 192 88 ) ( -72 200 88 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -64 184 88 ) ( -64 184 -56 ) ( -64 -120 -56 ) mtrl/mirror-check 0 0 0 0.5 0.5 0 0 0
+( -72 -72 -56 ) ( 56 -72 -56 ) ( -72 56 -56 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -64 -128 88 ) ( -64 -128 -56 ) ( -72 -136 -56 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -72 -72 -56 ) ( -72 56 -56 ) ( -72 -72 72 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -24 56 88 ) ( 104 -72 88 ) ( -24 -72 88 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+}
+// brush 4
+{
+( 192 192 -56 ) ( 192 192 88 ) ( 200 200 88 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -56 192 -56 ) ( -56 192 88 ) ( 184 192 88 ) mtrl/mirror-check 0 0 0 0.5 0.5 0 0 0
+( -16 200 -56 ) ( -16 72 -56 ) ( 112 200 -56 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -64 192 88 ) ( -64 192 -56 ) ( -72 200 -56 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -16 200 -56 ) ( 112 200 -56 ) ( -16 200 72 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 112 152 88 ) ( -16 24 88 ) ( -16 152 88 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+}
+// brush 5
+{
+( 80 128 48 ) ( -48 128 48 ) ( 80 128 -80 ) mtrl/invisible 128 0 0 0.25 0.25 134217728 0 0
+( 96 0 64 ) ( 96 0 -64 ) ( 96 -128 64 ) mtrl/invisible 128 0 0 0.25 0.25 134217728 0 0
+( -40 -72 -80 ) ( 88 -72 -80 ) ( -40 56 -80 ) mtrl/invisible 128 0 0 0.25 0.25 134217728 0 0
+( -72 64 -72 ) ( -72 64 56 ) ( 56 64 -72 ) mtrl/invisible 128 0 0 0.25 0.25 134217728 0 0
+( 32 -64 -64 ) ( 32 64 -64 ) ( 32 -64 64 ) mtrl/invisible 128 0 0 0.25 0.25 134217728 0 0
+( -8 56 -55 ) ( 120 -72 -55 ) ( -8 -72 -55 ) mtrl/goal 128 0 0 0.25 0.25 134217728 0 0
+}
+// brush 6
+{
+( 48 200 64 ) ( -80 200 64 ) ( 48 200 -64 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 200 120 64 ) ( 200 120 -64 ) ( 200 -8 64 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( -56 8 -64 ) ( 72 8 -64 ) ( -56 136 -64 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( -72 -136 -72 ) ( -72 -136 56 ) ( 56 -136 -72 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( -72 8 -64 ) ( -72 136 -64 ) ( -72 8 64 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( -24 136 -56 ) ( 104 8 -56 ) ( -24 8 -56 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+}
+}
+// entity 1
+{
+"classname" "info_player_deathmatch"
+"origin" "64 96 -32"
+"radius" "0.375"
+}
+// entity 2
+{
+"classname" "info_player_intermission"
+"origin" "40 -472 24"
+"target" "t1"
+}
+// entity 3
+{
+"classname" "target_position"
+"origin" "40 -376 16"
+"targetname" "t1"
+}
+// entity 4
+{
+"classname" "info_player_start"
+"origin" "64 -80 -32"
+}
+// entity 5
+{
+"classname" "light"
+"origin" "136 -72 -40"
+"light" "10"
+}
+// entity 6
+{
+"classname" "light"
+"origin" "168 -72 -40"
+"light" "10"
+}
+// entity 7
+{
+"classname" "light"
+"origin" "152 -40 -40"
+"light" "10"
+}
+// entity 8
+{
+"classname" "light"
+"origin" "104 -72 -40"
+"light" "10"
+}
+// entity 9
+{
+"classname" "light"
+"origin" "64 -40 -40"
+"light" "5"
+}
+// entity 10
+{
+"classname" "light"
+"origin" "120 -40 -40"
+"light" "10"
+}
+// entity 11
+{
+"classname" "light"
+"origin" "8 -40 -40"
+"light" "10"
+}
+// entity 12
+{
+"classname" "light"
+"origin" "-40 -72 -40"
+"light" "10"
+}
+// entity 13
+{
+"classname" "light"
+"origin" "-24 -40 -40"
+"light" "10"
+}
+// entity 14
+{
+"classname" "light"
+"origin" "-8 -72 -40"
+"light" "10"
+}
+// entity 15
+{
+"classname" "light"
+"origin" "24 -72 -40"
+"light" "10"
+}
+// entity 16
+{
+"classname" "light"
+"origin" "-24 -104 -40"
+"light" "10"
+}
+// entity 17
+{
+"classname" "light"
+"origin" "136 56 -40"
+"light" "10"
+}
+// entity 18
+{
+"classname" "light"
+"origin" "8 -104 -40"
+"light" "10"
+}
+// entity 19
+{
+"classname" "light"
+"origin" "152 -104 -40"
+"light" "10"
+}
+// entity 20
+{
+"classname" "light"
+"origin" "120 -104 -40"
+"light" "10"
+}
+// entity 21
+{
+"classname" "light"
+"origin" "-8 -8 -40"
+"light" "10"
+}
+// entity 22
+{
+"classname" "light"
+"origin" "24 -8 -40"
+"light" "10"
+}
+// entity 23
+{
+"classname" "light"
+"origin" "64 -8 -40"
+"light" "5"
+}
+// entity 24
+{
+"classname" "light"
+"origin" "104 -8 -40"
+"light" "10"
+}
+// entity 25
+{
+"classname" "light"
+"origin" "136 -8 -40"
+"light" "10"
+}
+// entity 26
+{
+"classname" "light"
+"origin" "168 -8 -40"
+"light" "10"
+}
+// entity 27
+{
+"classname" "light"
+"origin" "152 24 -40"
+"light" "10"
+}
+// entity 28
+{
+"classname" "light"
+"origin" "120 24 -40"
+"light" "10"
+}
+// entity 29
+{
+"classname" "light"
+"origin" "64 24 -40"
+"light" "5"
+}
+// entity 30
+{
+"classname" "light"
+"origin" "8 24 -40"
+"light" "10"
+}
+// entity 31
+{
+"classname" "light"
+"origin" "-24 24 -40"
+"light" "10"
+}
+// entity 32
+{
+"classname" "light"
+"origin" "-40 -8 -40"
+"light" "10"
+}
+// entity 33
+{
+"classname" "light"
+"origin" "-8 56 -40"
+"light" "10"
+}

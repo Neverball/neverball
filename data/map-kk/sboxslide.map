@@ -1,0 +1,154 @@
+
+// entity 0
+{
+"classname" "worldspawn"
+"message" "Living in a box"
+"back" "map-back/blank.sol"
+"shot" "shot-kk/sboxslide.jpg"
+"grad" "back/space.png"
+"author" "Byron James Johnson (Krabby Krap)"
+"version" "2.3"
+"time" "6000"
+"goal" "30"
+"song" "bgm/track4.ogg"
+"time_hs" "4000 5000"
+"goal_hs" "4000 5000"
+"coin_hs" "50 40"
+"bonus" "0"
+// brush 0
+{
+( -136 72 -104 ) ( 136 72 -104 ) ( 136 -72 -32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 1320 -1048 ) ( -136 1320 -1048 ) ( 136 1320 -1056 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 56 -32 ) ( 136 56 -40 ) ( 136 -72 -32 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+( 136 72 -112 ) ( -136 72 -112 ) ( -136 -72 -40 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+( -72 -72 -40 ) ( -72 -72 -32 ) ( 56 -72 -40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -136 -72 -40 ) ( -136 56 -40 ) ( -136 -72 -32 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+}
+// brush 1
+{
+( 40 1224 -679 ) ( -40 1224 -679 ) ( -40 1304 -719 ) mtrl/goal 128 112 0 0.5 0.5 134217728 0 0
+( 40 1320 -727 ) ( -40 1320 -727 ) ( 40 1320 -728 ) mtrl/invisible 128 112 0 0.5 0.5 134217728 0 0
+( 48 1288 -680 ) ( 48 1288 -688 ) ( 48 1224 -680 ) mtrl/invisible 128 112 0 0.5 0.5 134217728 0 0
+( 136 1288 -712 ) ( -136 1288 -712 ) ( -136 1224 -680 ) mtrl/invisible 128 112 0 0.5 0.5 134217728 0 0
+( -40 1224 -679 ) ( 40 1224 -679 ) ( 40 1224 -680 ) mtrl/invisible 128 112 0 0.5 0.5 134217728 0 0
+( -48 1224 -688 ) ( -48 1288 -688 ) ( -48 1224 -680 ) mtrl/invisible 128 112 0 0.5 0.5 134217728 0 0
+}
+}
+// entity 1
+{
+"classname" "info_player_start"
+"origin" "0 0 -44"
+}
+// entity 2
+{
+"classname" "info_player_deathmatch"
+"origin" "0 1272 -704"
+"radius" "0.75"
+}
+// entity 3
+{
+"classname" "func_train"
+"target" "p1_0"
+// brush 0
+{
+( -8 64 40 ) ( -8 -64 40 ) ( -136 64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -136 64 -100 ) ( -128 64 -100 ) ( -128 64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -128 64 -40 ) ( -128 64 -48 ) ( -128 -64 -40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -136 -64 -36 ) ( -128 -64 -36 ) ( -128 64 -100 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -128 -64 -36 ) ( -136 -64 -36 ) ( -136 -64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -136 -64 -32 ) ( -136 64 -32 ) ( -136 -64 -24 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+}
+// brush 1
+{
+( 64 64 40 ) ( 64 -64 40 ) ( -64 64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 64 64 40 ) ( -64 64 40 ) ( 64 64 32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 128 64 40 ) ( 128 64 32 ) ( 128 -64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 0 -64 32 ) ( 128 -64 32 ) ( 0 64 32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -64 -64 32 ) ( -64 -64 40 ) ( 64 -64 32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -128 -64 32 ) ( -128 64 32 ) ( -128 -64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+}
+// brush 2
+{
+( 128 -64 40 ) ( 256 64 40 ) ( 256 -64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 -64 -36 ) ( 128 -64 -36 ) ( 128 -64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 64 -40 ) ( 136 -64 -48 ) ( 136 -64 -40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 64 -100 ) ( 128 64 -100 ) ( 128 -64 -36 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 128 64 -100 ) ( 136 64 -100 ) ( 136 64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 128 64 -24 ) ( 128 -64 -32 ) ( 128 64 -32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+}
+// brush 3
+{
+( -120 -48 40 ) ( 8 80 40 ) ( 8 -48 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 64 64 -32 ) ( -64 64 -24 ) ( 64 64 -24 ) mtrl/mirror 0 0 0 0.5 0.5 0 0 0
+( 136 80 -24 ) ( 136 -48 -32 ) ( 136 -48 -24 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 64 72 -32 ) ( -64 72 -24 ) ( -64 72 -32 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -136 80 -24 ) ( -136 -48 -32 ) ( -136 80 -32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -64 -48 -104 ) ( 64 80 -104 ) ( -64 80 -104 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+}
+// brush 4
+{
+( 8 48 40 ) ( 8 -80 40 ) ( -120 48 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -136 -64 -36 ) ( 136 -64 -36 ) ( 136 -64 40 ) mtrl/mirror 0 0 0 0.5 0.5 0 0 0
+( 136 48 -24 ) ( 136 48 -32 ) ( 136 -80 -24 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 -64 -36 ) ( -136 -64 -36 ) ( -136 -72 -32 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+( -64 -72 -32 ) ( -64 -72 -24 ) ( 64 -72 -32 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -136 -80 -32 ) ( -136 48 -32 ) ( -136 -80 -24 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+}
+}
+// entity 4
+{
+"classname" "path_corner"
+"origin" "0 -72 -48"
+"targetname" "p1_0"
+"target" "p1_1"
+"speed" "24"
+"state" "1"
+}
+// entity 5
+{
+"classname" "path_corner"
+"origin" "0 1320 -744"
+"targetname" "p1_1"
+}
+// entity 6
+{
+"classname" "light"
+"origin" "64 768 -428"
+"light" "10"
+}
+// entity 7
+{
+"classname" "light"
+"origin" "-64 960 -516"
+"light" "10"
+}
+// entity 8
+{
+"classname" "info_player_intermission"
+"origin" "0 -48 16"
+"target" "t1"
+}
+// entity 9
+{
+"classname" "target_location"
+"origin" "0 56 -20"
+"targetname" "t1"
+}
+// entity 10
+{
+"classname" "light"
+"origin" "-64 128 -108"
+"light" "10"
+}
+// entity 11
+{
+"classname" "light"
+"origin" "64 384 -236"
+"light" "10"
+}
+// entity 12
+{
+"classname" "light"
+"origin" "-64 576 -332"
+"light" "10"
+}

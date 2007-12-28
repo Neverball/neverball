@@ -1,0 +1,153 @@
+
+// entity 0
+{
+"classname" "worldspawn"
+"bonus" "0"
+"back" "map-back/blank.sol"
+"author" "Byron James Johnson (Krabby Krap)"
+"version" "2.3"
+"grad" "back/space.png"
+"song" "bgm/track4.ogg"
+"goal" "30"
+"coin_hs" "5 4"
+"time" "6000"
+"time_hs" "4000 5000"
+"goal_hs" "2000 3000"
+"shot" "shot-kk/soldboxslide2.jpg"
+// brush 0
+{
+( -136 72 -104 ) ( 136 72 -104 ) ( 136 -72 -32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 624 -496 ) ( -136 624 -496 ) ( 136 624 -504 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 56 -32 ) ( 136 56 -40 ) ( 136 -72 -32 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+( 136 72 -112 ) ( -136 72 -112 ) ( -136 -72 -40 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+( -72 -72 -40 ) ( -72 -72 -32 ) ( 56 -72 -40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -136 -72 -40 ) ( -136 56 -40 ) ( -136 -72 -32 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+}
+// brush 1
+{
+( 40 408 -271 ) ( -40 408 -271 ) ( -40 488 -311 ) mtrl/goal 128 16 0 0.5 0.5 0 0 0
+( 40 504 -319 ) ( -40 504 -319 ) ( 40 504 -320 ) mtrl/invisible 128 16 0 0.5 0.5 0 0 0
+( 48 472 -272 ) ( 48 472 -280 ) ( 48 408 -272 ) mtrl/invisible 128 16 0 0.5 0.5 0 0 0
+( 136 472 -304 ) ( -136 472 -304 ) ( -136 408 -272 ) mtrl/invisible 128 16 0 0.5 0.5 0 0 0
+( -40 408 -271 ) ( 40 408 -271 ) ( 40 408 -272 ) mtrl/invisible 128 16 0 0.5 0.5 0 0 0
+( -48 408 -280 ) ( -48 472 -280 ) ( -48 408 -272 ) mtrl/invisible 128 16 0 0.5 0.5 0 0 0
+}
+}
+// entity 1
+{
+"classname" "info_player_start"
+"origin" "0 0 -44"
+}
+// entity 2
+{
+"classname" "info_player_deathmatch"
+"origin" "0 456 -296"
+"radius" "0.75"
+}
+// entity 3
+{
+"classname" "func_train"
+"target" "p1_0"
+// brush 0
+{
+( -8 64 40 ) ( -8 -64 40 ) ( -136 64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -136 64 -100 ) ( -128 64 -100 ) ( -128 64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -128 64 -40 ) ( -128 64 -48 ) ( -128 -64 -40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -136 -64 -36 ) ( -128 -64 -36 ) ( -128 64 -100 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -128 -64 -36 ) ( -136 -64 -36 ) ( -136 -64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -136 -64 -32 ) ( -136 64 -32 ) ( -136 -64 -24 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+}
+// brush 1
+{
+( 64 64 40 ) ( 64 -64 40 ) ( -64 64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 64 64 40 ) ( -64 64 40 ) ( 64 64 32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 128 64 40 ) ( 128 64 32 ) ( 128 -64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 0 -64 32 ) ( 128 -64 32 ) ( 0 64 32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -64 -64 32 ) ( -64 -64 40 ) ( 64 -64 32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -128 -64 32 ) ( -128 64 32 ) ( -128 -64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+}
+// brush 2
+{
+( 128 -64 40 ) ( 256 64 40 ) ( 256 -64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 -64 -36 ) ( 128 -64 -36 ) ( 128 -64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 64 -40 ) ( 136 -64 -48 ) ( 136 -64 -40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 64 -100 ) ( 128 64 -100 ) ( 128 -64 -36 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 128 64 -100 ) ( 136 64 -100 ) ( 136 64 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 128 64 -24 ) ( 128 -64 -32 ) ( 128 64 -32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+}
+// brush 3
+{
+( -120 -48 40 ) ( 8 80 40 ) ( 8 -48 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 64 64 -32 ) ( -64 64 -24 ) ( 64 64 -24 ) mtrl/mirror 0 0 0 0.5 0.5 0 0 0
+( 136 80 -24 ) ( 136 -48 -32 ) ( 136 -48 -24 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 64 72 -32 ) ( -64 72 -24 ) ( -64 72 -32 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -136 80 -24 ) ( -136 -48 -32 ) ( -136 80 -32 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -64 -48 -104 ) ( 64 80 -104 ) ( -64 80 -104 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+}
+// brush 4
+{
+( 8 48 40 ) ( 8 -80 40 ) ( -120 48 40 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( -136 -64 -36 ) ( 136 -64 -36 ) ( 136 -64 40 ) mtrl/mirror 0 0 0 0.5 0.5 0 0 0
+( 136 48 -24 ) ( 136 48 -32 ) ( 136 -80 -24 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+( 136 -64 -36 ) ( -136 -64 -36 ) ( -136 -72 -32 ) mtrl/blue 0 0 0 0.5 0.5 0 0 0
+( -64 -72 -32 ) ( -64 -72 -24 ) ( 64 -72 -32 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( -136 -80 -32 ) ( -136 48 -32 ) ( -136 -80 -24 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
+}
+}
+// entity 4
+{
+"classname" "path_corner"
+"origin" "0 -72 -48"
+"targetname" "p1_0"
+"target" "p1_1"
+"speed" "6"
+"state" "1"
+}
+// entity 5
+{
+"classname" "path_corner"
+"origin" "0 624 -396"
+"targetname" "p1_1"
+}
+// entity 6
+{
+"classname" "light"
+"origin" "-64 384 -228"
+"light" "10"
+}
+// entity 7
+{
+"classname" "light"
+"origin" "-64 128 -108"
+"light" "10"
+}
+// entity 8
+{
+"classname" "light"
+"origin" "64 192 -132"
+"light" "10"
+}
+// entity 9
+{
+"classname" "light"
+"origin" "-64 256 -164"
+"light" "10"
+}
+// entity 10
+{
+"classname" "light"
+"origin" "64 320 -196"
+"light" "10"
+}
+// entity 11
+{
+"classname" "info_player_intermission"
+"origin" "0 -48 16"
+"target" "t1"
+}
+// entity 12
+{
+"classname" "target_location"
+"origin" "0 56 -20"
+"targetname" "t1"
+}
