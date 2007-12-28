@@ -230,8 +230,8 @@ static void goal_timer(int id, float dt)
 
     if (time_state() < 1.f)
     {
+        demo_play_step();
         game_step(g, dt, 0);
-        demo_play_step(dt);
     }
     else if (t > 0.05f && coins_id)
     {

@@ -212,14 +212,18 @@ static void play_loop_paint(int id, float st)
 static void play_loop_timer(int id, float dt)
 {
     float k = ((SDL_GetModState() & KMOD_SHIFT) ?
-               (float) config_get_d(CONFIG_ROTATE_FAST) / 100.f:
-               (float) config_get_d(CONFIG_ROTATE_SLOW) / 100.f);
+               (float) config_get_d(CONFIG_ROTATE_FAST) / 100.0f :
+               (float) config_get_d(CONFIG_ROTATE_SLOW) / 100.0f);
 
     float g[3] = { 0.0f, -9.8f, 0.0f };
 
     gui_timer(id, dt);
     hud_timer(dt);
     game_set_rot(view_rotate * k);
+    game_set_cam(config_get_d(CONFIG_CAMERA));
+
+    game_step_fade(dt);
+    demo_play_step();
 
     switch (game_step(g, dt, 1))
     {
@@ -244,9 +248,6 @@ static void play_loop_timer(int id, float dt)
     default:
         break;
     }
-
-    game_step_fade(dt);
-    demo_play_step(dt);
 }
 
 static void play_loop_point(int id, int x, int y, int dx, int dy)

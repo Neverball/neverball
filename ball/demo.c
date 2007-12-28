@@ -28,7 +28,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define MAGIC           0x52424EAF
-#define DEMO_VERSION    4
+#define DEMO_VERSION    5
 
 #define DATELEN 20
 
@@ -370,13 +370,10 @@ int demo_play_init(const char *name,
     return 0;
 }
 
-void demo_play_step(float dt)
+void demo_play_step()
 {
     if (demo_fp)
-    {
-        put_float(demo_fp, &dt);
-        put_game_state(demo_fp);
-    }
+        input_put(demo_fp);
 }
 
 void demo_play_stat(const struct level_game *lg)
@@ -471,11 +468,11 @@ int demo_replay_init(const char *name, struct level_game *lg)
 
         if (lg)
         {
-            lg->mode = demo_replay.mode;
+            lg->mode  = demo_replay.mode;
             lg->score = demo_replay.score;
             lg->times = demo_replay.times;
-            lg->time = demo_replay.time;
-            lg->goal = demo_replay.goal;
+            lg->time  = demo_replay.time;
+            lg->goal  = demo_replay.goal;
 
             /* A normal replay demo */
             audio_music_fade_to(0.5f, demo_level_replay.song);
@@ -488,27 +485,28 @@ int demo_replay_init(const char *name, struct level_game *lg)
     return 0;
 }
 
-int demo_replay_step(float *dt)
+int demo_replay_step(float dt)
 {
-    const float g[3] = { 0.0f, -9.8f, 0.0f };
+    const float gdn[3] = { 0.0f, -9.8f, 0.0f };
+    const float gup[3] = { 0.0f, +9.8f, 0.0f };
 
     if (demo_fp)
     {
-        get_float(demo_fp, dt);
-
-        if (feof(demo_fp) == 0)
+        if (input_get(demo_fp))
         {
-            /* Play out current game state for particles, clock, etc. */
+            /* Play out current game state. */
 
-            if (demo_status == GAME_NONE)
-                demo_status = game_step(g, *dt, 1);
-            else
-                game_step(g, *dt, 0);
+            switch (demo_status)
+            {
+            case GAME_NONE:
+                demo_status = game_step(gdn, dt, 1); break;
+            case GAME_GOAL:
+                (void)        game_step(gup, dt, 0); break;
+            default:
+                (void)        game_step(gdn, dt, 0); break;
+            }
 
-            /* Load real current game state from file. */
-
-            if (get_game_state(demo_fp))
-                return 1;
+            return 1;
         }
     }
     return 0;

@@ -37,9 +37,6 @@
 static int first = 0;
 static int total = 0;
 
-static float replay_time;
-static float global_time;
-
 /*---------------------------------------------------------------------------*/
 
 static int demo_action(int i)
@@ -337,9 +334,6 @@ static int demo_play_enter(void)
         gui_pulse(id, 1.2f);
     }
 
-    global_time = -1.f;
-    replay_time =  0.f;
-
     hud_update(0);
 
     game_set_fly(0.f);
@@ -358,27 +352,17 @@ static void demo_play_paint(int id, float st)
 
 static void demo_play_timer(int id, float dt)
 {
-    float t;
-
     game_step_fade(dt);
     gui_timer(id, dt);
-
-    global_time += dt;
     hud_timer(dt);
 
     /* Spin or skip depending on how fast the demo wants to run. */
 
-    while (replay_time < global_time)
-        if (demo_replay_step(&t))
-        {
-            replay_time += t;
-        }
-        else
-        {
-            demo_paused = 0;
-            goto_state(&st_demo_end);
-            break;
-        }
+    if (!demo_replay_step(dt))
+    {
+        demo_paused = 0;
+        goto_state(&st_demo_end);
+    }
 }
 
 static int demo_play_keybd(int c, int d)
