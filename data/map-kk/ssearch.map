@@ -12,9 +12,10 @@
 "grad" "back/land.png"
 "song" "bgm/track2.ogg"
 "bonus" "0"
-"version" "2.3"
+"version" "2.4"
 "author" "Byron James Johnson (Krabby Krap)"
 "shot" "shot-kk/ssearch.jpg"
+"special" "1"
 // brush 0
 {
 ( 24 0 64 ) ( 32 0 64 ) ( 24 -32 64 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0

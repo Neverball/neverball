@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "message" "Thwomp!"
-"version" "2.3"
+"version" "2.4"
 "author" "Byron James Johnson (Krabby Krap)"
 "bonus" "1"
 "grad" "back/land.png"

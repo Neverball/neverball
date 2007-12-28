@@ -5,7 +5,7 @@
 "message" "Deja vu?"
 "author" "Byron James Johnson (Krabby Krap)"
 "bonus" "0"
-"version" "2.3"
+"version" "2.4"
 "grad" "back/land.png"
 "back" "map-back/clouds.sol"
 "song" "bgm/track5.ogg"
@@ -15,6 +15,7 @@
 "goal_hs" "9000 18000"
 "coin_hs" "50 40"
 "shot" "shot-kk/smultiplatform2.jpg"
+"special" "1"
 // brush 0
 {
 ( -936 160 -200 ) ( -1008 96 -200 ) ( -1008 160 -200 ) mtrl/turf-green 128 0 0 0.5 0.5 0 0 0

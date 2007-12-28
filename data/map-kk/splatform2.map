@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Almost there!"
 "bonus" "0"
-"version" "2.3"
+"version" "2.4"
 "author" "Byron James Johnson (Krabby Krap)"
 "goal" "30"
 "time" "4000"
@@ -15,6 +15,7 @@
 "song" "bgm/track5.ogg"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
+"special" "1"
 // brush 0
 {
 ( 64 1088 -23 ) ( 64 960 -23 ) ( -64 1088 -23 ) mtrl/goal 128 128 0 0.5 0.5 134217728 0 0
@@ -90,7 +91,7 @@
 "target" "p1_0"
 // brush 0
 {
-( 64 64 -24 ) ( 64 -56 -24 ) ( -64 64 -24 ) mtrl/brickedge 0 0 0 0.5 0.5 0 0 0
+( 64 64 -24 ) ( 64 -56 -24 ) ( -64 64 -24 ) mtrl/brick 0 0 0 0.5 0.5 0 0 0
 ( 0 128 -24 ) ( -128 128 -24 ) ( 0 128 -32 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( 128 0 -24 ) ( 128 0 -32 ) ( 128 -120 -24 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( -64 -56 -32 ) ( 64 -56 -32 ) ( -64 64 -32 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

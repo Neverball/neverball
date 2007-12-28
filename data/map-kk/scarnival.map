@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Welcome to the carnival"
 "author" "Byron James Johnson (Krabby Krap)"
-"version" "2.3"
+"version" "2.4"
 "bonus" "0"
 "shot" "shot-kk/scarnival.jpg"
 "back" "map-back/blank.sol"
@@ -7739,7 +7739,7 @@
 }
 // brush 965
 {
-( -32680 -32264 353 ) ( -32680 -32272 353 ) ( -32712 -32264 353 ) mtrl/goal 0 128 0 0.5 0.5 134217728 0 0
+( -32680 -32264 353 ) ( -32680 -32272 353 ) ( -32712 -32264 353 ) mtrl/goal-special 0 128 0 0.5 0.5 134217728 0 0
 ( -32720 -32200 360 ) ( -32752 -32200 360 ) ( -32720 -32200 352 ) mtrl/invisible 0 128 0 0.5 0.5 134217728 0 0
 ( -32648 -32288 360 ) ( -32648 -32288 352 ) ( -32648 -32296 360 ) mtrl/invisible 0 128 0 0.5 0.5 134217728 0 0
 ( -32720 -32256 352 ) ( -32688 -32256 352 ) ( -32720 -32248 352 ) mtrl/invisible 0 128 0 0.5 0.5 134217728 0 0
@@ -8571,6 +8571,7 @@
 "classname" "info_player_deathmatch"
 "origin" "-32704 -32256 376"
 "radius" "0.75"
+"specialjump" "map-kk/splatform2.sol"
 }
 // entity 20
 {

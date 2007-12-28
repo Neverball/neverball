@@ -9,7 +9,7 @@
 "time" "30000"
 "song" "bgm/track4.ogg"
 "bonus" "0"
-"version" "2.3"
+"version" "2.4"
 "author" "Byron James Johnson (Krabby Krap)"
 "shot" "shot-kk/sgiantshouse.jpg"
 "time_hs" "5000 10000"
@@ -402,7 +402,7 @@
 }
 // brush 43
 {
-( -32680 -32264 353 ) ( -32680 -32272 353 ) ( -32712 -32264 353 ) mtrl/goal 0 128 0 0.5 0.5 134217728 0 0
+( -32680 -32264 353 ) ( -32680 -32272 353 ) ( -32712 -32264 353 ) mtrl/goal-special 0 128 0 0.5 0.5 134217728 0 0
 ( -32712 -32208 360 ) ( -32744 -32208 360 ) ( -32712 -32208 352 ) mtrl/invisible 0 128 0 0.5 0.5 134217728 0 0
 ( -32656 -32280 360 ) ( -32656 -32280 352 ) ( -32656 -32288 360 ) mtrl/invisible 0 128 0 0.5 0.5 134217728 0 0
 ( -32720 -32256 352 ) ( -32688 -32256 352 ) ( -32720 -32248 352 ) mtrl/invisible 0 128 0 0.5 0.5 134217728 0 0
@@ -1854,6 +1854,7 @@
 "classname" "info_player_deathmatch"
 "origin" "-32704 -32256 376"
 "radius" "0.75"
+"specialjump" "map-kk/ssearch.sol"
 }
 // entity 88
 {

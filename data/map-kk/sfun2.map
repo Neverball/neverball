@@ -5,14 +5,15 @@
 "time" "9000"
 "goal" "0"
 "author" "Byron James Johnson (Krabby Krap)"
-"version" "2.3"
+"version" "2.4"
 "back" "map-back/jupiter.sol"
-"shot" "shot-kk/sfun.jpg"
+"shot" "shot-kk/sfun2.jpg"
 "song" "bgm/track4.ogg"
 "grad" "back/space.png"
 "time_hs" "5000 5500"
 "coin_hs" "0 0"
 "goal_hs" "0 0"
+"special" "1"
 // brush 0
 {
 ( 1 0 -792 ) ( 1 -1 -792 ) ( 0 0 -792 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0

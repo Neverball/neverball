@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "All that glitters, is not gold"
 "bonus" "1"
-"version" "2.3"
+"version" "2.4"
 "author" "Byron James Johnson (Krabby Krap)"
 "goal" "0"
 "time" "0"
@@ -26,7 +26,7 @@
 }
 // brush 1
 {
-( 128 -6096 -23 ) ( -128 -6192 -23 ) ( -128 -6096 -23 ) mtrl/goal 128 128 0 0.5 0.5 134217728 0 0
+( 128 -6096 -23 ) ( -128 -6192 -23 ) ( -128 -6096 -23 ) mtrl/goal-special 128 128 0 0.5 0.5 134217728 0 0
 ( -128 -6088 -48 ) ( 128 -6088 -40 ) ( -128 -6088 -40 ) mtrl/invisible 128 128 0 0.5 0.5 134217728 0 0
 ( -56 -6192 -24 ) ( -56 -6096 -32 ) ( -56 -6096 -24 ) mtrl/invisible 128 128 0 0.5 0.5 134217728 0 0
 ( 128 -6096 -48 ) ( -128 -6192 -48 ) ( 128 -6192 -48 ) mtrl/invisible 128 128 0 0.5 0.5 134217728 0 0
@@ -1304,6 +1304,7 @@
 "classname" "info_player_deathmatch"
 "origin" "0 -6144 0"
 "radius" "0.75"
+"specialjump" "map-kk/sstraightspiralrise.sol"
 }
 // entity 144
 {
