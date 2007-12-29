@@ -360,6 +360,9 @@ static void set_load_levels(void)
     }
 
     assert(i == set_v[set].count);
+
+    struct level_game *lg = curr_lg();
+    lg->bonus = lg->bonusid = 0; /* initialize bonus values */
 }
 
 void set_goto(int i)
@@ -502,6 +505,10 @@ void set_finish_level(struct level_game *lg, const char *player)
                     nl->is_locked = 0; /* Unlock bonus level */
                 }
                 nl = next_normal_level(nl->number);
+                if(nl == NULL && lg->mode == MODE_CHALLENGE)
+                {
+                    lg->win = 1;
+                }
             }
         }
         else if (lg->mode == MODE_CHALLENGE)
