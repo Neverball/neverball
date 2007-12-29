@@ -74,7 +74,7 @@ static int goal_action(int i)
         be_back_soon = 1;
 
         level_stop();
-        return goto_name(&st_goal, &st_goal);
+        return goto_name(&st_goal, &st_goal, 0);
 
     case GOAL_DONE:
         level_stop();
