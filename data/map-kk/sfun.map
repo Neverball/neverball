@@ -1039,6 +1039,7 @@
 "origin" "-32704 -32256 376"
 "radius" "0.75"
 "specialjump" "map-kk/sfun2.sol"
+"special" "1"
 }
 // entity 62
 {

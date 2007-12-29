@@ -1305,6 +1305,7 @@
 "origin" "0 -6144 0"
 "radius" "0.75"
 "specialjump" "map-kk/sstraightspiralrise.sol"
+"special" "1"
 }
 // entity 144
 {

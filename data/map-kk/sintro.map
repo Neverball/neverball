@@ -1038,6 +1038,7 @@
 "origin" "-32704 -32256 376"
 "radius" "0.75"
 "specialjump" "map-kk/strust.sol"
+"special" "1"
 }
 // entity 21
 {
