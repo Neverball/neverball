@@ -495,7 +495,13 @@ void set_finish_level(struct level_game *lg, const char *player)
         {
             /* skip bonuses if unlocked in any mode */
             if (nl->is_bonus)
+            {
                 nl = next_normal_level(nl->number);
+                if(lg->mode == MODE_CHALLENGE)
+                {
+                    lg->bonus = 1;
+                }
+            }
         }
         else if (lg->mode == MODE_CHALLENGE)
             lg->win = 1;

@@ -12,6 +12,8 @@
  * General Public License for more details.
  */
 
+#include <stdio.h> /* Necessary for strcat() found below */.
+
 #include "gui.h"
 #include "game.h"
 #include "util.h"
@@ -94,10 +96,11 @@ static int goal_enter(void)
 {
     const char *s1 = _("New Record");
     const char *s2 = _("GOAL");
+    const char *s3 = _("Congratulations!");
 
     int id, jd, kd;
 
-    const struct level_game *lg = curr_lg();
+          struct level_game *lg = curr_lg(); /* Note: const removed.  Is this really needed? */
     const struct level *l = lg->level;
 
     int high;
@@ -116,6 +119,16 @@ static int goal_enter(void)
     if ((id = gui_vstack(0)))
     {
         int gid;
+
+        if(lg->mode == MODE_CHALLENGE && lg->bonus > 0)
+        {
+            lg->bonus = 0;
+            lg->bonusid += 1;
+            char buf[MAXSTR] = {0};
+            sprintf(buf, "You Have Unlocked Bonus Level %i!", lg->bonusid);
+            gid = gui_label(id, s3, GUI_SML, GUI_ALL, gui_grn, gui_red);
+            gid = gui_label(id, buf, GUI_SML, GUI_ALL, gui_grn, gui_blu);
+        }
 
         if (high)
             gid = gui_label(id, s1, GUI_MED, GUI_ALL, gui_grn, gui_grn);
