@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Welcome to Krabby Krap's level set!\\Post your joy with the rest of\the Neverball forum\community: http://www.nevercorner.net/\\Official site: http://icculus.org/neverball/"
+"message" "Welcome to Krabby Krap's level set!\\Neverball: http://www.neverball.org/"
 "back" "map-back/clouds.sol"
 "song" "bgm/track5.ogg"
 "grad" "back/land.png"
