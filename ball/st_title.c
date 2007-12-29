@@ -58,7 +58,7 @@ static int title_action(int i)
         config_get_s(CONFIG_PLAYER, player, MAXNAM);
 
         if (strlen(player) == 0)
-            return goto_name(&st_set, &st_title);
+            return goto_name(&st_set, &st_title, 0);
         else
             return goto_state(&st_set);
 

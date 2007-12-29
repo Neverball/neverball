@@ -21,6 +21,7 @@
 #include "config.h"
 #include "game.h"
 #include "text.h"
+#include "back.h"
 
 #include "st_name.h"
 #include "st_shared.h"
@@ -32,13 +33,15 @@ static char player[MAXNAM];
 /*---------------------------------------------------------------------------*/
 
 static struct state *ok_state, *cancel_state;
+static unsigned int draw_back;
 
-int goto_name(struct state *ok, struct state *cancel)
+int goto_name(struct state *ok, struct state *cancel, unsigned int back)
 {
     config_get_s(CONFIG_PLAYER, player, MAXNAM);
 
     ok_state     = ok;
     cancel_state = cancel;
+    draw_back    = back;
 
     return goto_state(&st_name);
 }
@@ -89,6 +92,12 @@ static int name_enter(void)
 {
     int id, jd;
 
+    if (draw_back)
+    {
+        game_free();
+        back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+    }
+
     if ((id = gui_vstack(0)))
     {
         gui_label(id, _("Player Name"), GUI_MED, GUI_ALL, 0, 0);
@@ -99,10 +108,12 @@ static int name_enter(void)
 
         gui_space(id);
         gui_keyboard(id);
+        gui_space(id);
 
         if ((jd = gui_harray(id)))
         {
-            enter_id = gui_start(jd, _("OK"), GUI_SML, NAME_OK, 0);
+            enter_id = gui_start(jd, _("OK"), GUI_SML, NAME_OK, 1);
+            gui_space(jd);
             gui_state(jd, _("Cancel"), GUI_SML, NAME_CANCEL, 0);
         }
 
@@ -116,8 +127,27 @@ static int name_enter(void)
 
 static void name_leave(int id)
 {
+    if (draw_back)
+        back_free();
+
     SDL_EnableUNICODE(0);
     gui_delete(id);
+}
+
+static void name_paint(int id, float st)
+{
+    if (draw_back)
+    {
+        config_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+        {
+            back_draw(0);
+        }
+        config_pop_matrix();
+    }
+    else
+        game_draw(0, st);
+
+    gui_paint(id);
 }
 
 static int name_keybd(int c, int d)
@@ -157,7 +187,7 @@ static int name_buttn(int b, int d)
 struct state st_name = {
     name_enter,
     name_leave,
-    shared_paint,
+    name_paint,
     shared_timer,
     shared_point,
     shared_stick,
