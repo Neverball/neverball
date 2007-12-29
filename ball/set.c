@@ -309,6 +309,8 @@ int set_level_exists(const struct set *s, int i)
 static void set_load_levels(void)
 {
     FILE *fin;
+
+    struct level_game *lg = curr_lg();
     struct level *l;
 
     char buf[MAXSTR];
@@ -360,8 +362,6 @@ static void set_load_levels(void)
     }
 
     assert(i == set_v[set].count);
-
-    struct level_game *lg = curr_lg();
     lg->bonus = lg->bonusid = 0; /* initialize bonus values */
 }
 
