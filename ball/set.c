@@ -496,11 +496,12 @@ void set_finish_level(struct level_game *lg, const char *player)
             /* skip bonuses if unlocked in any mode */
             if (nl->is_bonus)
             {
-                nl = next_normal_level(nl->number);
-                if(lg->mode == MODE_CHALLENGE)
+                if(lg->mode == MODE_CHALLENGE && nl->is_locked > 0)
                 {
-                    lg->bonus = 1;
+                    lg->bonus = 1; /* Show GUI message */
+                    nl->is_locked = 0; /* Unlock bonus level */
                 }
+                nl = next_normal_level(nl->number);
             }
         }
         else if (lg->mode == MODE_CHALLENGE)

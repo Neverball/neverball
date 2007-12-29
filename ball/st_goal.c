@@ -12,7 +12,7 @@
  * General Public License for more details.
  */
 
-#include <stdio.h> /* Necessary for strcat() found below */.
+#include <stdio.h> /* Necessary for sprintf() line 128 */.
 
 #include "gui.h"
 #include "game.h"
@@ -126,7 +126,7 @@ static int goal_enter(void)
             lg->bonusid += 1;
             char buf[MAXSTR] = {0};
             sprintf(buf, "You Have Unlocked Bonus Level %i!", lg->bonusid);
-            gid = gui_label(id, s3, GUI_SML, GUI_ALL, gui_grn, gui_red);
+            gid = gui_label(id, s3, GUI_MED, GUI_ALL, gui_grn, gui_red);
             gid = gui_label(id, buf, GUI_SML, GUI_ALL, gui_grn, gui_blu);
         }
 
