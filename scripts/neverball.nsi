@@ -62,8 +62,6 @@ Section "Neverball/Neverputt"
 
     File scripts\neverball.bat
     File scripts\neverputt.bat
-    File tools\democonv.exe
-    File tools\convert-replays.bat
 
     # http://nsis.sourceforge.net/\
     # Add_uninstall_information_to_Add/Remove_Programs
