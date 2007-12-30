@@ -12,7 +12,7 @@
  * General Public License for more details.
  */
 
-#include <stdio.h> /* Necessary for sprintf() line 128 */.
+#include <stdio.h>
 
 #include "gui.h"
 #include "game.h"
@@ -124,8 +124,7 @@ static int goal_enter(void)
         {
             lg->bonus = 0;
             lg->bonusid += 1;
-            char buf[MAXSTR] = {0};
-
+            char *buf = malloc(MAXSTR);
 
             const char *roman[] =
             {
