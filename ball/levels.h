@@ -16,7 +16,7 @@ struct level_game
     int balls;         /* live count */
     int times;         /* time total */
     int bonus;         /* is a bonus level message needed? */
-    int bonusid;         /* which bonus level? */
+    int bonusid;       /* which bonus level? */
 
     /* Once a level is finished */
     int status;        /* status ending */

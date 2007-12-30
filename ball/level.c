@@ -209,6 +209,7 @@ int level_play(const struct level *l, int m)
 
     lg->win = lg->dead = lg->unlock = 0;
     lg->next_level = NULL;
+    lg->bonus = lg->bonusid = 0;
 
     return demo_play_init(USER_REPLAY_FILE, lg->level, lg);
 }

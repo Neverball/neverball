@@ -100,7 +100,7 @@ static int goal_enter(void)
 
     int id, jd, kd;
 
-          struct level_game *lg = curr_lg(); /* Note: const removed.  Is this really needed? */
+    struct level_game *lg = curr_lg();
     const struct level *l = lg->level;
 
     int high;
@@ -120,11 +120,9 @@ static int goal_enter(void)
     {
         int gid;
 
-        if(lg->mode == MODE_CHALLENGE && lg->bonus > 0)
+        if (lg->mode == MODE_CHALLENGE && lg->bonus)
         {
-            lg->bonus = 0;
-            lg->bonusid += 1;
-            char *buf = malloc(MAXSTR);
+            char buf[MAXSTR];
 
             const char *roman[] =
             {
@@ -135,7 +133,13 @@ static int goal_enter(void)
                 "XVI", "XVII", "XVIII", "XIX",  "XX",
                 "XXI", "XXII", "XXIII", "XXIV", "XXV"
             };
-            sprintf(buf, "You Have Unlocked Bonus Level %s!", roman[lg->bonusid]);
+
+            lg->bonus = 0;
+            lg->bonusid += 1;
+
+            sprintf(buf, _("You have unlocked bonus level %s!"),
+                    roman[lg->bonusid]);
+
             gid = gui_label(id, s3,  GUI_MED, GUI_ALL, gui_grn, gui_red);
             gid = gui_label(id, buf, GUI_SML, GUI_ALL, gui_blu, gui_grn);
         }
