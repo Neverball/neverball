@@ -381,6 +381,7 @@ void item_draw(const struct s_item *hp, float r)
 
 void item_pull(void)
 {
+    glColor3f(1.0f, 1.0f, 1.0f);
     glDisable(GL_COLOR_MATERIAL);
 }
 

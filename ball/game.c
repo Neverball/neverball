@@ -575,12 +575,18 @@ static void game_draw_fore(int pose, float rx,
             glClipPlane(GL_CLIP_PLANE0, e);
         }
 
-        /* Draw the floor. */
-
-        sol_draw(&file);
-
-        if (pose == 0)
+        if (pose)
+            sol_draw(&file, -rx * d, -ry);
+        else
         {
+            /* Draw the coins. */
+
+            game_draw_items(&file);
+
+            /* Draw the floor. */
+
+            sol_draw(&file, -rx * d, -ry);
+
             /* Draw the ball shadow. */
 
             if (d > 0 && config_get_d(CONFIG_SHADOW))
@@ -590,9 +596,8 @@ static void game_draw_fore(int pose, float rx,
                 shad_draw_clr();
             }
 
-            /* Draw the ball and coins. */
+            /* Draw the ball. */
 
-            game_draw_items(&file);
             game_draw_balls(&file);
         }
 

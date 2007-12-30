@@ -236,6 +236,8 @@ struct s_bill
     float rx[3];                               /* X rotation coefficients    */
     float ry[3];                               /* Y rotation coefficients    */
     float rz[3];                               /* Z rotation coefficients    */
+
+    float p[3];
 };
 
 struct s_jump

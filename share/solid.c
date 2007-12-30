@@ -221,6 +221,7 @@ static void sol_load_bill(FILE *fin, struct s_bill *rp)
     get_array(fin,  rp->rx, 3);
     get_array(fin,  rp->ry, 3);
     get_array(fin,  rp->rz, 3);
+    get_array(fin,  rp->p,  3);
 }
 
 static void sol_load_jump(FILE *fin, struct s_jump *jp)
@@ -559,6 +560,7 @@ static void sol_stor_bill(FILE *fout, struct s_bill *rp)
     put_array(fout,  rp->rx, 3);
     put_array(fout,  rp->ry, 3);
     put_array(fout,  rp->rz, 3);
+    put_array(fout,  rp->p,  3);
 }
 
 static void sol_stor_jump(FILE *fout, struct s_jump *jp)

@@ -993,17 +993,12 @@ static void make_bill(struct s_file *fp,
         if (strcmp(k[i], "origin") == 0)
         {
             int x = 0, y = 0, z = 0;
-            float p[3];
 
             sscanf(v[i], "%d %d %d", &x, &y, &z);
 
-            p[0] = +(float) x / SCALE;
-            p[1] = +(float) z / SCALE;
-            p[2] = -(float) y / SCALE;
-
-            rp->d     = v_len(p);
-            rp->rx[0] = V_DEG(fatan2f(+p[1], rp->d));
-            rp->ry[0] = V_DEG(fatan2f(+p[0], -p[2]));
+            rp->p[0] = +(float) x / SCALE;
+            rp->p[1] = +(float) z / SCALE;
+            rp->p[2] = -(float) y / SCALE;
         }
     }
 
