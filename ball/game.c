@@ -612,6 +612,9 @@ static void game_draw_fore(int pose, float rx,
         glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
         {
+            glColor3f(1.0f, 1.0f, 1.0f);
+
+            sol_bill(&file, -rx * d, -ry);
             part_draw_coin(-rx * d, -ry);
 
             glDisable(GL_TEXTURE_2D);

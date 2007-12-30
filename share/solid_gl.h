@@ -25,6 +25,7 @@ void  sol_free_gl(struct s_file *);
 void  sol_back(const struct s_file *, float, float, float);
 void  sol_refl(const struct s_file *);
 void  sol_draw(const struct s_file *, float, float);
+void  sol_bill(const struct s_file *, float, float);
 void  sol_shad(const struct s_file *);
 
 /*---------------------------------------------------------------------------*/
