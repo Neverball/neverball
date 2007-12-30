@@ -4,17 +4,17 @@ fwp
 shot-fwp/museum.png
 
 map-fwp/atrium.sol
-map-fwp/spacetime.sol
 map-fwp/swarm.sol
-map-fwp/ramps.sol
-map-fwp/museum.sol
-map-fwp/tree.sol
-map-fwp/cargo.sol
 map-fwp/tennis.sol
-map-fwp/oddities.sol
-map-fwp/dots.sol
-map-fwp/rails.sol
 map-fwp/slope.sol
-map-fwp/discs.sol
+map-fwp/oddities.sol
+map-fwp/tree.sol
+map-fwp/spacetime.sol
+map-fwp/museum.sol
 map-fwp/mountains.sol
+map-fwp/dots.sol
+map-fwp/cargo.sol
+map-fwp/ramps.sol
+map-fwp/rails.sol
+map-fwp/discs.sol
 map-fwp/ufo.sol
