@@ -173,12 +173,12 @@ static int help_controls(int id)
     const char *s9 = _("Lazy View");
     const char *sA = _("Manual View");
     const char *sC = _("Screenshot");
-
-    const char *k0 = _(SDL_GetKeyName(config_get_d(CONFIG_KEY_PAUSE)));
+    
+    const char *k0 = _(SDL_GetKeyName((SDLKey) config_get_d(CONFIG_KEY_PAUSE)));
     const char *k1 = _("Escape");
-    const char *k2 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_1));
-    const char *k3 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_2));
-    const char *k4 = SDL_GetKeyName(config_get_d(CONFIG_KEY_CAMERA_3));
+    const char *k2 = SDL_GetKeyName((SDLKey) config_get_d(CONFIG_KEY_CAMERA_1));
+    const char *k3 = SDL_GetKeyName((SDLKey) config_get_d(CONFIG_KEY_CAMERA_2));
+    const char *k4 = SDL_GetKeyName((SDLKey) config_get_d(CONFIG_KEY_CAMERA_3));
     const char *k6 = SDL_GetKeyName(SDLK_F10);
 
     int jd;

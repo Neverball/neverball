@@ -156,7 +156,7 @@ int text_add_char(Uint32 unicode, char *string, int maxbytes, int maxchars)
 
 int text_del_char(char *string)
 {
-    size_t pos = strlen(string) - 1;
+    int pos = (int) strlen(string) - 1;
 
     while (pos >= 0 && ((string[pos] & 0xC0) == 0x80))
         string[pos--] = 0;

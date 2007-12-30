@@ -1172,7 +1172,7 @@ static void make_targ(struct s_file *fp,
 
     targ_p[targ_n][0] = 0.f;
     targ_p[targ_n][1] = 0.f;
-    targ_p[targ_n][3] = 0.f;
+    targ_p[targ_n][2] = 0.f;
 
     for (i = 0; i < c; i++)
     {
