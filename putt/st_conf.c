@@ -147,103 +147,118 @@ static int conf_enter(void)
 
     /* Initialize the configuration GUI. */
 
-    if ((id = gui_harray(0)))
+    if ((id = gui_vstack(0)))
     {
-        if ((jd = gui_varray(id)))
+        int f = config_get_d(CONFIG_FULLSCREEN);
+        int t = config_get_d(CONFIG_TEXTURES);
+        int g = config_get_d(CONFIG_GEOMETRY);
+        int h = config_get_d(CONFIG_SHADOW);
+        int s = config_get_d(CONFIG_SOUND_VOLUME);
+        int m = config_get_d(CONFIG_MUSIC_VOLUME);
+
+        char resolution[20];
+
+        sprintf(resolution, "%d x %d",
+                config_get_d(CONFIG_WIDTH),
+                config_get_d(CONFIG_HEIGHT));
+
+        if ((jd = gui_harray(id)))
         {
-            int f = config_get_d(CONFIG_FULLSCREEN);
-            int t = config_get_d(CONFIG_TEXTURES);
-            int g = config_get_d(CONFIG_GEOMETRY);
-            int h = config_get_d(CONFIG_SHADOW);
-            int s = config_get_d(CONFIG_SOUND_VOLUME);
-            int m = config_get_d(CONFIG_MUSIC_VOLUME);
-
-            if ((kd = gui_harray(jd)))
-            {
-                gui_label(kd, _("Options"), GUI_SML, GUI_ALL, 0, 0);
-                gui_filler(kd);
-            }
-
-            /* Add mode selectors only for existing modes. */
-
-            if ((kd = gui_harray(jd)))
-            {
-                gui_state(kd, _("No"), GUI_SML, CONF_WIN, (f == 0));
-                gui_state(kd, _("Yes"),  GUI_SML, CONF_FULL, (f == 1));
-            }
-
-            {
-                static char msg[20];
-                sprintf(msg, "%d x %d", config_get_d(CONFIG_WIDTH),
-                        config_get_d(CONFIG_HEIGHT));
-                gui_state(jd, msg, GUI_SML, CONF_RESOL, 0);
-            }
-
-            if ((kd = gui_harray(jd)))
-            {
-                gui_state(kd, _("Low"),  GUI_SML, CONF_TEXLO, (t == 2));
-                gui_state(kd, _("High"), GUI_SML, CONF_TEXHI, (t == 1));
-            }
-            if ((kd = gui_harray(jd)))
-            {
-                gui_state(kd, _("Low"),  GUI_SML, CONF_GEOLO, (g == 0));
-                gui_state(kd, _("High"), GUI_SML, CONF_GEOHI, (g == 1));
-            }
-            if ((kd = gui_harray(jd)))
-            {
-                gui_state(kd, _("Off"),  GUI_SML, CONF_SHDOF, (h == 0));
-                gui_state(kd, _("On"),   GUI_SML, CONF_SHDON, (h == 1));
-            }
-            if ((kd = gui_harray(jd)))
-            {
-                /* A series of empty buttons forms the sound volume control. */
-
-                sound_id[10] = gui_state(kd, NULL, GUI_SML, 110, (s == 10));
-                sound_id[ 9] = gui_state(kd, NULL, GUI_SML, 109, (s ==  9));
-                sound_id[ 8] = gui_state(kd, NULL, GUI_SML, 108, (s ==  8));
-                sound_id[ 7] = gui_state(kd, NULL, GUI_SML, 107, (s ==  7));
-                sound_id[ 6] = gui_state(kd, NULL, GUI_SML, 106, (s ==  6));
-                sound_id[ 5] = gui_state(kd, NULL, GUI_SML, 105, (s ==  5));
-                sound_id[ 4] = gui_state(kd, NULL, GUI_SML, 104, (s ==  4));
-                sound_id[ 3] = gui_state(kd, NULL, GUI_SML, 103, (s ==  3));
-                sound_id[ 2] = gui_state(kd, NULL, GUI_SML, 102, (s ==  2));
-                sound_id[ 1] = gui_state(kd, NULL, GUI_SML, 101, (s ==  1));
-                sound_id[ 0] = gui_state(kd, NULL, GUI_SML, 100, (s ==  0));
-            }
-            if ((kd = gui_harray(jd)))
-            {
-                /* A series of empty buttons forms the music volume control. */
-
-                music_id[10] = gui_state(kd, NULL, GUI_SML, 210, (m == 10));
-                music_id[ 9] = gui_state(kd, NULL, GUI_SML, 209, (m ==  9));
-                music_id[ 8] = gui_state(kd, NULL, GUI_SML, 208, (m ==  8));
-                music_id[ 7] = gui_state(kd, NULL, GUI_SML, 207, (m ==  7));
-                music_id[ 6] = gui_state(kd, NULL, GUI_SML, 206, (m ==  6));
-                music_id[ 5] = gui_state(kd, NULL, GUI_SML, 205, (m ==  5));
-                music_id[ 4] = gui_state(kd, NULL, GUI_SML, 204, (m ==  4));
-                music_id[ 3] = gui_state(kd, NULL, GUI_SML, 203, (m ==  3));
-                music_id[ 2] = gui_state(kd, NULL, GUI_SML, 202, (m ==  2));
-                music_id[ 1] = gui_state(kd, NULL, GUI_SML, 201, (m ==  1));
-                music_id[ 0] = gui_state(kd, NULL, GUI_SML, 200, (m ==  0));
-            }
+            gui_label(jd, _("Options"), GUI_SML, GUI_ALL, 0, 0);
+            gui_space(jd);
+            gui_start(jd, _("Back"),    GUI_SML, CONF_BACK, 0);
         }
-        if ((jd = gui_vstack(id)))
+
+        gui_space(id);
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
         {
-            if ((kd = gui_harray(jd)))
-            {
-                gui_filler(kd);
-                gui_start(kd, _("Back"), GUI_SML, CONF_BACK, 0);
-            }
+            gui_state(kd, _("No"),  GUI_SML, CONF_WIN,  (f == 0));
+            gui_state(kd, _("Yes"), GUI_SML, CONF_FULL, (f == 1));
 
-            gui_label(jd, _("Fullscreen"),   GUI_SML, GUI_ALL, 0, 0);
-            gui_label(jd, _("Resolution"),   GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Fullscreen"), GUI_SML, GUI_ALL, 0, 0);
+        }
 
-            gui_label(jd, _("Textures"),     GUI_SML, GUI_ALL, 0, 0);
-            gui_label(jd, _("Geometry"),     GUI_SML, GUI_ALL, 0, 0);
-            gui_label(jd, _("Shadow"),       GUI_SML, GUI_ALL, 0, 0);
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            gui_state(kd, resolution, GUI_SML, CONF_RESOL, 0);
+
+            gui_label(jd, _("Resolution"), GUI_SML, GUI_ALL, 0, 0);
+        }
+
+        gui_space(id);
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            gui_state(kd, _("Low"),  GUI_SML, CONF_TEXLO, (t == 2));
+            gui_state(kd, _("High"), GUI_SML, CONF_TEXHI, (t == 1));
+
+            gui_label(jd, _("Textures"), GUI_SML, GUI_ALL, 0, 0);
+        }
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            gui_state(kd, _("Low"),  GUI_SML, CONF_GEOLO, (g == 0));
+            gui_state(kd, _("High"), GUI_SML, CONF_GEOHI, (g == 1));
+
+            gui_label(jd, _("Geometry"), GUI_SML, GUI_ALL, 0, 0);
+        }
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            gui_state(kd, _("Off"),  GUI_SML, CONF_SHDOF, (h == 0));
+            gui_state(kd, _("On"),   GUI_SML, CONF_SHDON, (h == 1));
+
+            gui_label(jd, _("Shadow"), GUI_SML, GUI_ALL, 0, 0);
+        }
+
+        gui_space(id);
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            /* A series of empty buttons forms the sound volume control. */
+
+            sound_id[10] = gui_state(kd, NULL, GUI_SML, 110, (s == 10));
+            sound_id[ 9] = gui_state(kd, NULL, GUI_SML, 109, (s ==  9));
+            sound_id[ 8] = gui_state(kd, NULL, GUI_SML, 108, (s ==  8));
+            sound_id[ 7] = gui_state(kd, NULL, GUI_SML, 107, (s ==  7));
+            sound_id[ 6] = gui_state(kd, NULL, GUI_SML, 106, (s ==  6));
+            sound_id[ 5] = gui_state(kd, NULL, GUI_SML, 105, (s ==  5));
+            sound_id[ 4] = gui_state(kd, NULL, GUI_SML, 104, (s ==  4));
+            sound_id[ 3] = gui_state(kd, NULL, GUI_SML, 103, (s ==  3));
+            sound_id[ 2] = gui_state(kd, NULL, GUI_SML, 102, (s ==  2));
+            sound_id[ 1] = gui_state(kd, NULL, GUI_SML, 101, (s ==  1));
+            sound_id[ 0] = gui_state(kd, NULL, GUI_SML, 100, (s ==  0));
+
             gui_label(jd, _("Sound Volume"), GUI_SML, GUI_ALL, 0, 0);
+        }
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            /* A series of empty buttons forms the music volume control. */
+
+            music_id[10] = gui_state(kd, NULL, GUI_SML, 210, (m == 10));
+            music_id[ 9] = gui_state(kd, NULL, GUI_SML, 209, (m ==  9));
+            music_id[ 8] = gui_state(kd, NULL, GUI_SML, 208, (m ==  8));
+            music_id[ 7] = gui_state(kd, NULL, GUI_SML, 207, (m ==  7));
+            music_id[ 6] = gui_state(kd, NULL, GUI_SML, 206, (m ==  6));
+            music_id[ 5] = gui_state(kd, NULL, GUI_SML, 205, (m ==  5));
+            music_id[ 4] = gui_state(kd, NULL, GUI_SML, 204, (m ==  4));
+            music_id[ 3] = gui_state(kd, NULL, GUI_SML, 203, (m ==  3));
+            music_id[ 2] = gui_state(kd, NULL, GUI_SML, 202, (m ==  2));
+            music_id[ 1] = gui_state(kd, NULL, GUI_SML, 201, (m ==  1));
+            music_id[ 0] = gui_state(kd, NULL, GUI_SML, 200, (m ==  0));
+
             gui_label(jd, _("Music Volume"), GUI_SML, GUI_ALL, 0, 0);
         }
+
         gui_layout(id, 0, 0);
     }
 

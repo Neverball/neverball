@@ -13,14 +13,14 @@ map-kk/srail.sol
 map-kk/splatform.sol
 map-kk/soutofworld2.sol
 map-kk/bthwomp.sol
+map-kk/scaution.sol
 map-kk/sspiralrise.sol
 map-kk/scurly.sol
 map-kk/sboxslide2.sol
-map-kk/sfallandrise2.sol
 map-kk/btrap.sol
+map-kk/sfallandrise2.sol
 map-kk/sride.sol
 map-kk/sdeathhouse.sol
-map-kk/smultiplatform.sol
 map-kk/shighroad.sol
 map-kk/bconfusion.sol
 map-kk/scarnival.sol

@@ -5,7 +5,7 @@
 "message" "The high road"
 "author" "Byron James Johnson (Krabby Krap)"
 "bonus" "0"
-"version" "2.4"
+"version" "2.5"
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
 "shot" "shot-kk/shighroad.jpg"
