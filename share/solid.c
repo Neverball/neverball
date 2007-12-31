@@ -779,7 +779,7 @@ static float v_edge(float Q[3],
     t = v_sol(P, V, r);
     s = (du + eu * t) / uu;
 
-    if (0.0f < t && t < LARGE && 0.0f < s && s < 1.0f)
+    if (0.0f <= t && t < LARGE && 0.0f < s && s < 1.0f)
     {
         v_mad(d, o, w, t);
         v_mad(e, q, u, s);
