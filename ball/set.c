@@ -310,6 +310,7 @@ static void set_load_levels(void)
 {
     FILE *fin;
 
+    struct level_game *lg = curr_lg();
     struct level *l;
 
     char buf[MAXSTR];
