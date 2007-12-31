@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "shot" "shot-kk/sride.jpg"
 "bonus" "0"
-"version" "2.5"
+"version" "2.6"
 "goal" "30"
 "time" "9000"
 "coin_hs" "60 46"
@@ -1023,7 +1023,7 @@
 "classname" "info_player_deathmatch"
 "origin" "-32704 -32256 376"
 "radius" "0.75"
-"specialjump" "map-kk/sspiralrise2.sol"
+"specialjump" "map-kk/sgreathall.sol"
 "special" "1"
 }
 // entity 58

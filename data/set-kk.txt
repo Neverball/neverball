@@ -21,10 +21,10 @@ map-kk/btrap.sol
 map-kk/sfallandrise2.sol
 map-kk/sride.sol
 map-kk/sdeathhouse.sol
-map-kk/shighroad.sol
+map-kk/sspiralrise2.sol
 map-kk/bconfusion.sol
+map-kk/shighroad.sol
 map-kk/scarnival.sol
 map-kk/sgiantshouse.sol
-map-kk/sgreathall.sol
 map-kk/sfinal.sol
 map-kk/bneverballtube.sol

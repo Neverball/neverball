@@ -502,8 +502,10 @@ void set_finish_level(struct level_game *lg, const char *player)
             {
                 if (lg->mode == MODE_CHALLENGE && nl->is_locked)
                 {
-                    lg->bonus = 1;
                     nl->is_locked = 0;
+
+                    lg->bonus = 1;
+                    lg->bonus_repr = nl->repr;
                 }
 
                 nl = next_normal_level(nl->number);

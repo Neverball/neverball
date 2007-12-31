@@ -5,7 +5,7 @@
 "time" "6000"
 "goal" "0"
 "author" "Byron James Johnson (Krabby Krap)"
-"version" "2.5"
+"version" "2.6"
 "back" "map-back/jupiter.sol"
 "shot" "shot-kk/sfun.jpg"
 "song" "bgm/track4.ogg"
@@ -1038,7 +1038,7 @@
 "classname" "info_player_deathmatch"
 "origin" "-32704 -32256 376"
 "radius" "0.75"
-"specialjump" "map-kk/sfun2.sol"
+"specialjump" "map-kk/sgreathall.sol"
 "special" "1"
 }
 // entity 62

@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "timer" "300"
-"version" "2.5"
+"version" "2.6"
 "bonus" "0"
 "author" "Byron James Johnson (Krabby Krap)"
 "song" "bgm/track3.ogg"

@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Welcome to the carnival"
 "author" "Byron James Johnson (Krabby Krap)"
-"version" "2.5"
+"version" "2.6"
 "bonus" "0"
 "shot" "shot-kk/scarnival.jpg"
 "back" "map-back/blank.sol"

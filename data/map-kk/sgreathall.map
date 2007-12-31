@@ -2,9 +2,8 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "The great hall"
 "author" "Byron James Johnson (Krabby Krap)"
-"version" "2.5"
+"version" "2.6"
 "bonus" "0"
 "goal" "0"
 "time" "0"
