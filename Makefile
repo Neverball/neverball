@@ -78,15 +78,19 @@ ALL_LIBS := $(SDL_LIBS) $(BASE_LIBS) $(INTL_LIBS) -lSDL_ttf \
 #------------------------------------------------------------------------------
 
 ifdef MINGW
-    EXT  := .exe
-    WINE := wine
+    EXT := .exe
 endif
-
-#------------------------------------------------------------------------------
 
 MAPC_TARG := mapc$(EXT)
 BALL_TARG := neverball$(EXT)
 PUTT_TARG := neverputt$(EXT)
+
+ifdef MINGW
+    MAPC := wine ./$(MAPC_TARG)
+else
+    MAPC := ./$(MAPC_TARG)
+endif
+
 
 #------------------------------------------------------------------------------
 
@@ -182,7 +186,7 @@ SOLS := $(MAPS:%.map=%.sol)
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
 %.sol : %.map $(MAPC_TARG)
-	$(WINE) ./$(MAPC_TARG) $< data
+	$(MAPC) $< data
 
 #------------------------------------------------------------------------------
 
