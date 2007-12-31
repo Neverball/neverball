@@ -71,10 +71,12 @@ static int sol_enum_body(const struct s_file *fp,
 
 /*---------------------------------------------------------------------------*/
 
-#define color_cmp(a, b) ((a)[0] == (b)[0] && \
-                         (a)[1] == (b)[1] && \
-                         (a)[2] == (b)[2] && \
-                         (a)[3] == (b)[3])
+#define tobyte(f) ((GLubyte) (f * 255.0f))
+
+#define color_cmp(a, b) (tobyte((a)[0]) == tobyte((b)[0]) && \
+                         tobyte((a)[1]) == tobyte((b)[1]) && \
+                         tobyte((a)[2]) == tobyte((b)[2]) && \
+                         tobyte((a)[3]) == tobyte((b)[3]))
 
 static struct s_mtrl default_mtrl =
 {
@@ -99,7 +101,7 @@ static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mp->s);
     if (!color_cmp(mp->e, mq->e))
         glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  mp->e);
-    if (mp->h[0] != mq->h[0])
+    if (tobyte(mp->h[0]) != tobyte(mq->h[0]))
         glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp->h);
 
     /* Bind the texture. */
@@ -158,7 +160,7 @@ static const struct s_mtrl *sol_back_bill(const struct s_file *fp,
                                           const struct s_bill *rp,
                                           const struct s_mtrl *mp, float t)
 {
-    float T = rp->t ? (fmodf(t, rp->t) - rp->t / 2) : 0.0f;
+    float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2) : 0.0f;
 
     float w = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
     float h = rp->h[0] + rp->h[1] * T + rp->h[2] * T * T;

@@ -195,7 +195,9 @@ static int loop(void)
 int main(int argc, char *argv[])
 {
     int camera = 0;
+#ifndef __APPLE__
     SDL_Surface *icon;
+#endif
     SDL_Joystick *joy = NULL;
 
     srand((int) time(NULL));

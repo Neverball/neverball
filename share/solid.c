@@ -29,6 +29,7 @@
 #define SOL_VERSION 6
 
 #define LARGE 1.0e+5f
+#define SMALL 1.0e-3f
 
 /*---------------------------------------------------------------------------*/
 
@@ -696,11 +697,10 @@ static float v_sol(const float p[3], const float v[3], float r)
     float c = v_dot(p, p) - r * r;
     float d = b * b - 4.0f * a * c;
 
-    if (a == 0.0f) return LARGE;
-    if (d <  0.0f) return LARGE;
+    if (fabsf(a) < SMALL) return LARGE;
 
-    if (d == 0.0f)
-        return -b * 0.5f / a;
+    if      (d <  0.0f) return LARGE;
+    else if (d == 0.0f) return -b * 0.5f / a;
     else
     {
         float t0 = 0.5f * (-b - fsqrtf(d)) / a;

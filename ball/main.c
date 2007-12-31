@@ -290,7 +290,9 @@ static void parse_args(int argc, char **argv)
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
+#ifndef __APPLE__
     SDL_Surface *icon;
+#endif
 
     int t1, t0;
 
