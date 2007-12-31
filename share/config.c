@@ -49,7 +49,7 @@ static void config_key(const char *s, int i, int d)
     config_set_d(i, d);
 
     for (c = 0; c < SDLK_LAST; c++)
-        if (strcmp(s, SDL_GetKeyName(c)) == 0)
+        if (strcmp(s, SDL_GetKeyName((SDLKey) c)) == 0)
         {
             config_set_d(i, c);
             break;
@@ -332,31 +332,31 @@ void config_save(void)
                 option_d[CONFIG_ROTATE_FAST]);
         fprintf(fp, "rotate_slow          %d\n",
                 option_d[CONFIG_ROTATE_SLOW]);
-
+        
         fprintf(fp, "key_forward          %s\n",
-                SDL_GetKeyName(option_d[CONFIG_KEY_FORWARD]));
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_FORWARD]));
         fprintf(fp, "key_backward         %s\n",
-                SDL_GetKeyName(option_d[CONFIG_KEY_BACKWARD]));
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_BACKWARD]));
         fprintf(fp, "key_left             %s\n",
-                SDL_GetKeyName(option_d[CONFIG_KEY_LEFT]));
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_LEFT]));
         fprintf(fp, "key_right            %s\n",
-                SDL_GetKeyName(option_d[CONFIG_KEY_RIGHT]));
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_RIGHT]));
 
         fprintf(fp, "key_camera_1         %s\n",
-                SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_1]));
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_CAMERA_1]));
         fprintf(fp, "key_camera_2         %s\n",
-                SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_2]));
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_CAMERA_2]));
         fprintf(fp, "key_camera_3         %s\n",
-                SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_3]));
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_CAMERA_3]));
         fprintf(fp, "key_camera_r         %s\n",
-                SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_R]));
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_CAMERA_R]));
         fprintf(fp, "key_camera_l         %s\n",
-                SDL_GetKeyName(option_d[CONFIG_KEY_CAMERA_L]));
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_CAMERA_L]));
 
         fprintf(fp, "key_pause            %s\n",
-                SDL_GetKeyName(option_d[CONFIG_KEY_PAUSE]));
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_PAUSE]));
         fprintf(fp, "key_restart          %s\n",
-                SDL_GetKeyName(option_d[CONFIG_KEY_RESTART]));
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_RESTART]));
 
         fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
         fprintf(fp, "ball                 %s\n", option_s[CONFIG_BALL]);

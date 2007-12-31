@@ -103,7 +103,7 @@ int config_data_path(const char *path, const char *file)
         return 1;
     }
 
-    if (CONFIG_DATA && config_test(CONFIG_DATA, file))
+    if (config_test(CONFIG_DATA, file))
     {
         strncpy(data_path, CONFIG_DATA, MAXSTR);
         return 1;

@@ -54,22 +54,20 @@ static int level_enter(void)
 
                 if ((ld = gui_hstack(kd)))
                 {
-                    if(b == 0)
+                    if (b == 0)
                     {
                         gui_label(ld, ln,          GUI_LRG, GUI_NE,
                                   textcol1, textcol2);
                         gui_label(ld, _("Level "), GUI_LRG, GUI_NW,
                                   textcol1, textcol2);
                     }
-
                     else
                     {
-                        gui_label(ld, ln,          GUI_MED, GUI_NE,
+                        gui_label(ld, ln,                GUI_MED, GUI_NE,
                                   textcol1, textcol2);
                         gui_label(ld, _("Bonus Level "), GUI_MED, GUI_NW,
                                   textcol1, textcol2);
                     }
-
                 }
 
                 gui_label(kd, mode_to_str(lg->mode, 1), GUI_SML, GUI_BOT,

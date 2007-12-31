@@ -154,14 +154,14 @@ static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
     return mp;
 }
 
-static const struct s_mtrl *sol_draw_bill(const struct s_file *fp,
+static const struct s_mtrl *sol_back_bill(const struct s_file *fp,
                                           const struct s_bill *rp,
                                           const struct s_mtrl *mp, float t)
 {
-    float T  = fmodf(t, rp->t) - rp->t / 2;
+    float T = rp->t ? (fmodf(t, rp->t) - rp->t / 2) : 0.0f;
 
-    float w  = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
-    float h  = rp->h[0] + rp->h[1] * T + rp->h[2] * T * T;
+    float w = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
+    float h = rp->h[0] + rp->h[1] * T + rp->h[2] * T * T;
 
     if (w > 0 && h > 0)
     {
@@ -205,6 +205,8 @@ static const struct s_mtrl *sol_draw_bill(const struct s_file *fp,
     return mp;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void sol_back(const struct s_file *fp, float n, float f, float t)
 {
     const struct s_mtrl *mp = &default_mtrl;
@@ -218,7 +220,7 @@ void sol_back(const struct s_file *fp, float n, float f, float t)
     {
         for (ri = 0; ri < fp->rc; ri++)
             if (n <= fp->rv[ri].d && fp->rv[ri].d < f)
-                mp = sol_draw_bill(fp, fp->rv + ri, mp, t);
+                mp = sol_back_bill(fp, fp->rv + ri, mp, t);
 
         mp = sol_draw_mtrl(fp, &default_mtrl, mp);
     }
@@ -332,7 +334,7 @@ static void sol_draw_list(const struct s_file *fp,
     glPopMatrix();
 }
 
-void sol_draw(const struct s_file *fp)
+void sol_draw(const struct s_file *fp, float rx, float ry)
 {
     int bi;
 
@@ -351,6 +353,43 @@ void sol_draw(const struct s_file *fp)
                 sol_draw_list(fp, fp->bv + bi, fp->bv[bi].tl);
     }
     glDepthMask(GL_TRUE);
+
+}
+
+void sol_bill(const struct s_file *fp, float rx, float ry)
+{
+    const struct s_mtrl *mp = &default_mtrl;
+
+    int ri;
+
+    for (ri = 0; ri < fp->rc; ++ri)
+    {
+        const struct s_bill *rp = fp->rv + ri;
+
+        float w = (float) rp->w[0];
+        float h = (float) rp->h[0];
+
+        mp = sol_draw_mtrl(fp, fp->mv + rp->mi, mp);
+
+        glPushMatrix();
+        {
+            glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
+            glRotatef(ry, 0.f, 1.f, 0.f);
+            glRotatef(rx, 1.f, 0.f, 0.f);
+
+            glBegin(GL_QUADS);
+            {
+                glTexCoord2f(0.0f, 1.0f); glVertex2f(-w / 2, -h / 2);
+                glTexCoord2f(1.0f, 1.0f); glVertex2f(+w / 2, -h / 2);
+                glTexCoord2f(1.0f, 0.0f); glVertex2f(+w / 2, +h / 2);
+                glTexCoord2f(0.0f, 0.0f); glVertex2f(-w / 2, +h / 2);
+            }
+            glEnd();
+        }
+        glPopMatrix();
+    }
+
+    mp = sol_draw_mtrl(fp, &default_mtrl, mp);
 }
 
 void sol_refl(const struct s_file *fp)

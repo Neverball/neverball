@@ -58,7 +58,6 @@ static int resol_action(int i)
 static int resol_enter(void)
 {
     int id, jd;
-    int i;
 
     back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
 
@@ -72,13 +71,17 @@ static int resol_enter(void)
         if ((jd = gui_harray(id)))
         {
             gui_label(jd, _("Resolution"), GUI_SML, GUI_ALL, 0, 0);
-            gui_filler(jd);
-            gui_start(jd, _("Back"), GUI_SML, RESOL_BACK, 0);
+            gui_space(jd);
+            gui_start(jd, _("Back"),       GUI_SML, RESOL_BACK, 0);
         }
+
+        gui_space(id);
 
         if (modes)
         {
-            for(i = 0; modes[i]; i++)
+            int i;
+
+            for (i = 0; modes[i]; i++)
             {
                 char s[20];
 
