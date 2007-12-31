@@ -358,6 +358,8 @@ static void set_load_levels(void)
         }
         level_v[0].is_locked = 0; /* unlock the first level */
         fclose(fin);
+
+        lg->bonusid = 0;
     }
 
     assert(i == set_v[set].count);
