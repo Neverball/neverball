@@ -124,24 +124,14 @@ static int goal_enter(void)
         {
             char buf[MAXSTR];
 
-            const char *roman[] =
-            {
-                "",
-                "I",   "II",   "III",   "IV",   "V",
-                "VI",  "VII",  "VIII",  "IX",   "X",
-                "XI",  "XII",  "XIII",  "XIV",  "XV",
-                "XVI", "XVII", "XVIII", "XIX",  "XX",
-                "XXI", "XXII", "XXIII", "XXIV", "XXV"
-            };
-
-            lg->bonus = 0;
-            lg->bonusid += 1;
-
             sprintf(buf, _("You have unlocked bonus level %s!"),
-                    roman[lg->bonusid]);
+                    lg->bonus_repr);
 
             gid = gui_label(id, s3,  GUI_MED, GUI_ALL, gui_grn, gui_red);
             gid = gui_label(id, buf, GUI_SML, GUI_ALL, gui_blu, gui_grn);
+
+            lg->bonus = 0;
+            lg->bonus_repr = NULL;
         }
 
         if (high)
