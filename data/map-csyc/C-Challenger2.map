@@ -5,7 +5,7 @@
 "message" "Campaign Challenger II\Story: You might have thought that was\all you had to penetrate... but think again.\\Tips: What does this remind you of?"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
-"shot" "shot-csyc/C-Challenger2.PNG"
+"shot" "shot-csyc/C-Challenger2.png"
 "time" "18000"
 "goal" "100"
 "song" "bgm/track2.ogg"

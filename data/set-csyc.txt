@@ -1,4 +1,4 @@
-CSY Campaign 0.61.1
+CSY Campaign
 Difficulty: Expert through Master\25 levels which follows a story line.\\Author: Challenge Space Yard\\
 csyc
 shot-csyc/C-CurveWorld.png

@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Warp Zone I\Story: Your dangerous mission is to\travel full speed through a warp zone.\\Tips: Stay near the center at the\front part of the moving block.\This can give you an extra split\second to dodge an incoming wall."
 "song" "bgm/track1.ogg"
-"shot" "shot-csyc/C-WarpZone1.PNG"
+"shot" "shot-csyc/C-WarpZone1.png"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "time" "0"
