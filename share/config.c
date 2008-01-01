@@ -429,6 +429,10 @@ int config_mode(int f, int w, int h)
         glEnable(GL_LIGHTING);
         glEnable(GL_BLEND);
 
+        glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,
+                      GL_SEPARATE_SPECULAR_COLOR);
+        glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
+
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthFunc(GL_LEQUAL);
 

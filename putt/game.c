@@ -208,6 +208,7 @@ static void game_draw_balls(const struct s_file *fp)
             glPopMatrix();
         }
     }
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 static void game_draw_goals(const struct s_file *fp, float rx, float ry)

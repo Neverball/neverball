@@ -1269,6 +1269,8 @@ void gui_paint(int id)
 
                 glEnable(GL_TEXTURE_2D);
                 gui_paint_text(id);
+
+                glColor4fv(gui_wht);
             }
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_LIGHTING);

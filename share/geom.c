@@ -99,7 +99,7 @@ void ball_draw(void)
     static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
     static const float s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
     static const float e[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-    static const float h[1] = { 64.0f };
+    static const float h[1] = { 20.0f };
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
@@ -176,7 +176,6 @@ void mark_draw(void)
     glDisable(GL_TEXTURE_2D);
     glDepthMask(GL_FALSE);
     {
-
         glCallList(mark_list);
     }
     glDepthMask(GL_TRUE);
@@ -344,7 +343,7 @@ void item_push(int type)
     static const float  a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
     static const float  s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
     static const float  e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    static const float  h[1] = { 32.0f };
+    static const float  h[1] = { 10.0f };
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
@@ -549,20 +548,6 @@ void flag_init(int b)
         glDisable(GL_LIGHTING);
         glDisable(GL_TEXTURE_2D);
         {
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n) * 0.01f;
-                    float y = fsinf(2.f * PI * i / n) * 0.01f;
-
-                    glColor3f(1.0f, 1.0f, 1.0f);
-                    glVertex3f(x, 0.0f,        y);
-                    glVertex3f(x, GOAL_HEIGHT, y);
-                }
-            }
-            glEnd();
-
             glBegin(GL_TRIANGLES);
             {
                 glColor3f(1.0f, 0.0f, 0.0f);
@@ -574,6 +559,20 @@ void flag_init(int b)
                 glVertex3f(              0.0f, GOAL_HEIGHT,        0.0f);
                 glVertex3f(              0.0f, GOAL_HEIGHT * 0.8f, 0.0f);
                 glVertex3f(GOAL_HEIGHT * 0.2f, GOAL_HEIGHT * 0.9f, 0.0f);
+            }
+            glEnd();
+
+            glBegin(GL_QUAD_STRIP);
+            {
+                for (i = 0; i <= n; i++)
+                {
+                    float x = fcosf(2.f * PI * i / n) * 0.01f;
+                    float y = fsinf(2.f * PI * i / n) * 0.01f;
+
+                    glColor3f(1.0f, 1.0f, 1.0f);
+                    glVertex3f(x, 0.0f,        y);
+                    glVertex3f(x, GOAL_HEIGHT, y);
+                }
             }
             glEnd();
         }
@@ -681,6 +680,8 @@ void fade_draw(float k)
                 glVertex2i(0, h);
             }
             glEnd();
+
+            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
             glEnable(GL_TEXTURE_2D);
             glEnable(GL_DEPTH_TEST);

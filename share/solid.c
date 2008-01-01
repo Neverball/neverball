@@ -99,8 +99,8 @@ void sol_body_p(float p[3],
 
 static void sol_load_mtrl(FILE *fin, struct s_mtrl *mp)
 {
-    get_array(fin,  mp->a, 4);
     get_array(fin,  mp->d, 4);
+    get_array(fin,  mp->a, 4);
     get_array(fin,  mp->s, 4);
     get_array(fin,  mp->e, 4);
     get_array(fin,  mp->h, 1);
@@ -438,8 +438,8 @@ int sol_load_only_head(struct s_file *fp, const char *filename)
 
 static void sol_stor_mtrl(FILE *fout, struct s_mtrl *mp)
 {
-    put_array(fout,  mp->a, 4);
     put_array(fout,  mp->d, 4);
+    put_array(fout,  mp->a, 4);
     put_array(fout,  mp->s, 4);
     put_array(fout,  mp->e, 4);
     put_array(fout,  mp->h, 1);

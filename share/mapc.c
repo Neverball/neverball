@@ -402,10 +402,11 @@ static int read_mtrl(struct s_file *fp, const char *name)
 
     strncpy(mp->f, name, PATHMAX - 1);
 
-    mp->a[0] = mp->a[1] = mp->a[2] = mp->a[3] = 1.0f;
-    mp->d[0] = mp->d[1] = mp->d[2] = mp->d[3] = 1.0f;
-    mp->s[0] = mp->s[1] = mp->s[2] = mp->s[3] = 1.0f;
-    mp->e[0] = mp->e[1] = mp->e[2] = mp->e[3] = 1.0f;
+    mp->a[0] = mp->a[1] = mp->a[2] = 0.2f;
+    mp->d[0] = mp->d[1] = mp->d[2] = 0.8f;
+    mp->s[0] = mp->s[1] = mp->s[2] = 0.0f;
+    mp->e[0] = mp->e[1] = mp->e[2] = 0.0f;
+    mp->a[3] = mp->d[3] = mp->s[3] = mp->e[3] = 1.0f;
     mp->h[0] = 0.0f;
     mp->fl   = 0;
     mp->angle = 45.0f;
@@ -582,7 +583,7 @@ static void read_obj(struct s_file *fp, const char *name)
 
             else if (strncmp(line, "f", 1) == 0)
             {
-                if (fp->mv[mi].d[3] > 0)
+                if (fp->mv[mi].d[3] > 0.0f)
                     read_f(fp, line + 1, v0, t0, s0, mi);
             }
 
@@ -1534,7 +1535,7 @@ static void clip_lump(struct s_file *fp, struct s_lump *lp)
     lp->gc = 0;
 
     for (i = 0; i < lp->sc; i++)
-        if (fp->mv[plane_m[fp->iv[lp->s0 + i]]].d[3] > 0)
+        if (fp->mv[plane_m[fp->iv[lp->s0 + i]]].d[3] > 0.0f)
             clip_geom(fp, lp,
                       fp->iv[lp->s0 + i]);
 

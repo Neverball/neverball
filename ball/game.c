@@ -397,6 +397,7 @@ static void game_draw_balls(const struct s_file *fp)
 
     m_basis(M, fp->uv[0].e[0], fp->uv[0].e[1], fp->uv[0].e[2]);
 
+    glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {
         glTranslatef(fp->uv[0].p[0],
@@ -411,6 +412,7 @@ static void game_draw_balls(const struct s_file *fp)
         ball_draw();
     }
     glPopMatrix();
+    glPopAttrib();
 }
 
 static void game_draw_items(const struct s_file *fp)
@@ -418,62 +420,66 @@ static void game_draw_items(const struct s_file *fp)
     float r = 360.f * SDL_GetTicks() / 1000.f;
     int hi;
 
-    item_push(ITEM_COIN);
+    glPushAttrib(GL_LIGHTING_BIT);
     {
-        for (hi = 0; hi < fp->hc; hi++)
+        item_push(ITEM_COIN);
+        {
+            for (hi = 0; hi < fp->hc; hi++)
 
-            if (fp->hv[hi].t == ITEM_COIN && fp->hv[hi].n > 0)
-            {
-                glPushMatrix();
+                if (fp->hv[hi].t == ITEM_COIN && fp->hv[hi].n > 0)
                 {
-                    glTranslatef(fp->hv[hi].p[0],
-                                 fp->hv[hi].p[1],
-                                 fp->hv[hi].p[2]);
-                    glRotatef(r, 0.0f, 1.0f, 0.0f);
-                    item_draw(&fp->hv[hi], r);
+                    glPushMatrix();
+                    {
+                        glTranslatef(fp->hv[hi].p[0],
+                                     fp->hv[hi].p[1],
+                                     fp->hv[hi].p[2]);
+                        glRotatef(r, 0.0f, 1.0f, 0.0f);
+                        item_draw(&fp->hv[hi], r);
+                    }
+                    glPopMatrix();
                 }
-                glPopMatrix();
-            }
-    }
-    item_pull();
+        }
+        item_pull();
 
-    item_push(ITEM_SHRINK);
-    {
-        for (hi = 0; hi < fp->hc; hi++)
+        item_push(ITEM_SHRINK);
+        {
+            for (hi = 0; hi < fp->hc; hi++)
 
-            if (fp->hv[hi].t == ITEM_SHRINK)
-            {
-                glPushMatrix();
+                if (fp->hv[hi].t == ITEM_SHRINK)
                 {
-                    glTranslatef(fp->hv[hi].p[0],
-                                 fp->hv[hi].p[1],
-                                 fp->hv[hi].p[2]);
-                    glRotatef(r, 0.0f, 1.0f, 0.0f);
-                    item_draw(&fp->hv[hi], r);
+                    glPushMatrix();
+                    {
+                        glTranslatef(fp->hv[hi].p[0],
+                                     fp->hv[hi].p[1],
+                                     fp->hv[hi].p[2]);
+                        glRotatef(r, 0.0f, 1.0f, 0.0f);
+                        item_draw(&fp->hv[hi], r);
+                    }
+                    glPopMatrix();
                 }
-                glPopMatrix();
-            }
-    }
-    item_pull();
+        }
+        item_pull();
 
-    item_push(ITEM_GROW);
-    {
-        for (hi = 0; hi < fp->hc; hi++)
+        item_push(ITEM_GROW);
+        {
+            for (hi = 0; hi < fp->hc; hi++)
 
-            if (fp->hv[hi].t == ITEM_GROW)
-            {
-                glPushMatrix();
+                if (fp->hv[hi].t == ITEM_GROW)
                 {
-                    glTranslatef(fp->hv[hi].p[0],
-                                 fp->hv[hi].p[1],
-                                 fp->hv[hi].p[2]);
-                    glRotatef(r, 0.0f, 1.0f, 0.0f);
-                    item_draw(&fp->hv[hi], r);
+                    glPushMatrix();
+                    {
+                        glTranslatef(fp->hv[hi].p[0],
+                                     fp->hv[hi].p[1],
+                                     fp->hv[hi].p[2]);
+                        glRotatef(r, 0.0f, 1.0f, 0.0f);
+                        item_draw(&fp->hv[hi], r);
+                    }
+                    glPopMatrix();
                 }
-                glPopMatrix();
-            }
+        }
+        item_pull();
     }
-    item_pull();
+    glPopAttrib();
 }
 
 static void game_draw_goals(const struct s_file *fp, float rx, float ry)
@@ -653,11 +659,6 @@ static void game_draw_back(int pose, int d, const float p[3])
 static void game_draw_fore(int pose, float rx,
                                      float ry, int d, const float p[3])
 {
-    static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-    static const float s[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-    static const float e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    static const float h[1] = { 0.0f };
-    
     const float *ball_p = file.uv->p;
     const float  ball_r = file.uv->r;
 
@@ -711,11 +712,6 @@ static void game_draw_fore(int pose, float rx,
 
         /* Draw the particles and light columns. */
 
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
-
         glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
@@ -732,6 +728,8 @@ static void game_draw_fore(int pose, float rx,
                 game_draw_swchs(&file);
             }
             glEnable(GL_TEXTURE_2D);
+
+            glColor3f(1.0f, 1.0f, 1.0f);
         }
         glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);

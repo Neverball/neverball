@@ -108,8 +108,8 @@
 
 struct s_mtrl
 {
-    float a[4];                                /* ambient color              */
     float d[4];                                /* diffuse color              */
+    float a[4];                                /* ambient color              */
     float s[4];                                /* specular color             */
     float e[4];                                /* emission color             */
     float h[1];                                /* specular exponent          */

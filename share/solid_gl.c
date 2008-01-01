@@ -80,8 +80,8 @@ static int sol_enum_body(const struct s_file *fp,
 
 static struct s_mtrl default_mtrl =
 {
-    { 0.2f, 0.2f, 0.2f, 1.0f },
     { 0.8f, 0.8f, 0.8f, 1.0f },
+    { 0.2f, 0.2f, 0.2f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, }, 0.0f, M_OPAQUE, 0, ""
