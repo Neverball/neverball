@@ -722,12 +722,6 @@ static int next_keybd(int c, int d)
             return goto_state(&st_poser);
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
             return goto_pause(&st_over, 0);
-        if (c == SDLK_c)
-        {
-            hole_goto(num, -1);
-            num = 0;
-            return goto_state(&st_next);
-        }
         if ('0' <= c && c <= '9')
             num = num * 10 + c - '0';
     }
@@ -739,7 +733,15 @@ static int next_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+        {
+            if (num > 0)
+            {
+                hole_goto(num, -1);
+                num = 0;
+                return goto_state(&st_next);
+            }
             return goto_state(&st_flyby);
+        }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goto_pause(&st_over, 1);
     }
