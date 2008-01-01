@@ -10,3 +10,7 @@ holes-abc.txt shot-putt/abc.jpg
 A 26-hole course\following the alphabet\\Difficulty: Hard\Author: paxed\
 holes-slippi.txt shot-putt/slippi.jpg
 Crazy Golf\ \\Difficulty: Easy to Medium\Author: slippifishi\
+holes-csy.txt shot-putt/csy.PNG
+CSY Course - A 18-hole course\with a good challenge.\\Difficulty: Easy to Hard\Author: Challenge Space Yard\
+holes-csyp.txt shot-putt/csyplus.PNG
+CSY Course Plus - More challenge,\especially for jumps and falls\\Difficulty: Medium to Very Hard\Author: Challenge Space Yard\

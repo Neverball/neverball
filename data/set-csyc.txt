@@ -1,0 +1,30 @@
+CSY Campaign 0.61.1
+Difficulty: Expert through Master\25 levels which follows a story line.\\Author: Challenge Space Yard\\
+csyc
+shot-csyc/C-CurveWorld.png
+
+map-csyc/C-WarpZone1.sol
+map-csyc/C-CurveWorld.sol
+map-csyc/C-SmallerCurves.sol
+map-csyc/C-DodgeThwomps.sol
+map-csyc/C-SlopeSpiralRoad.sol
+map-csyc/C-WarpZone2.sol
+map-csyc/C-Pinball.sol
+map-csyc/C-Challenger1.sol
+map-csyc/C-Challenger2.sol
+map-csyc/C-WarpZoneCC1.sol
+map-csyc/C-WarpZone3.sol
+map-csyc/C-RoadBumps.sol
+map-csyc/C-Jumpers.sol
+map-csyc/C-ScrewDrive.sol
+map-csyc/C-RetroPortTown.sol
+map-csyc/C-SimplePuzzle.sol
+map-csyc/C-DragonSlope.sol
+map-csyc/C-Halfpipe.sol
+map-csyc/C-CrazyHills.sol
+map-csyc/C-Vortex.sol
+map-csyc/C-ClassicTwist.sol
+map-csyc/C-Twister.sol
+map-csyc/C-Trident.sol
+map-csyc/C-Illusion.sol
+map-csyc/C-Ultimate.sol

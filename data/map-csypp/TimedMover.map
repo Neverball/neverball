@@ -1,0 +1,334 @@
+
+// entity 0
+{
+"classname" "worldspawn"
+"message" "Bend\Watch out! Almost no walls here."
+// brush 0
+{
+( 128 -128 112 ) ( 128 -128 128 ) ( 72 -190 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 128 -128 128 ) ( 128 -128 112 ) ( 128 -256 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 128 -256 128 ) ( 128 -256 112 ) ( 72 -194 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 72 -190 128 ) ( 72 -194 128 ) ( 72 -194 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 72 -190 128 ) ( 82 -190 128 ) ( 82 -194 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 82 -194 112 ) ( 82 -190 112 ) ( 72 -190 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+}
+// brush 1
+{
+( 62 -210 112 ) ( 66 -210 112 ) ( 66 -200 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 66 -200 128 ) ( 66 -210 128 ) ( 62 -210 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 66 -200 128 ) ( 62 -200 128 ) ( 62 -200 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 0 -256 128 ) ( 0 -256 112 ) ( 62 -200 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 128 -256 128 ) ( 128 -256 112 ) ( 0 -256 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 128 -256 112 ) ( 128 -256 128 ) ( 66 -200 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+}
+// brush 2
+{
+( 0 -256 112 ) ( 0 -256 128 ) ( 56 -194 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 0 -256 128 ) ( 0 -256 112 ) ( 0 -128 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 0 -128 128 ) ( 0 -128 112 ) ( 56 -190 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 56 -194 128 ) ( 56 -190 128 ) ( 56 -190 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 56 -194 128 ) ( 46 -194 128 ) ( 46 -190 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 46 -190 112 ) ( 46 -194 112 ) ( 56 -194 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+}
+// brush 3
+{
+( 66 -174 112 ) ( 62 -174 112 ) ( 62 -184 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 62 -184 128 ) ( 62 -174 128 ) ( 66 -174 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 62 -184 128 ) ( 66 -184 128 ) ( 66 -184 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 128 -128 128 ) ( 128 -128 112 ) ( 66 -184 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 0 -128 128 ) ( 0 -128 112 ) ( 128 -128 112 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 0 -128 112 ) ( 0 -128 128 ) ( 62 -184 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+}
+// brush 4
+{
+( 74 -186 128 ) ( 66 -186 128 ) ( 66 -176 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 66 -176 112 ) ( 66 -186 112 ) ( 74 -186 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 70 -186 128 ) ( 70 -186 112 ) ( 66 -184 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 70 -186 112 ) ( 70 -186 128 ) ( 128 -128 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 66 -184 128 ) ( 66 -184 112 ) ( 128 -128 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+}
+// brush 5
+{
+( 70 -186 128 ) ( 70 -186 112 ) ( 128 -128 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 72 -190 112 ) ( 72 -190 128 ) ( 128 -128 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 70 -186 112 ) ( 70 -186 128 ) ( 72 -190 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 64 -178 112 ) ( 64 -188 112 ) ( 72 -188 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 72 -188 128 ) ( 64 -188 128 ) ( 64 -178 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+}
+// brush 6
+{
+( 72 -194 128 ) ( 72 -194 112 ) ( 128 -256 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 70 -198 112 ) ( 70 -198 128 ) ( 128 -256 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 70 -198 128 ) ( 70 -198 112 ) ( 72 -194 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 80 -194 112 ) ( 70 -194 112 ) ( 70 -202 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 70 -202 128 ) ( 70 -194 128 ) ( 80 -194 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+}
+// brush 7
+{
+( 68 -200 128 ) ( 68 -192 128 ) ( 78 -192 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 78 -192 112 ) ( 68 -192 112 ) ( 68 -200 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 70 -198 112 ) ( 70 -198 128 ) ( 66 -200 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 66 -200 112 ) ( 66 -200 128 ) ( 128 -256 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 70 -198 128 ) ( 70 -198 112 ) ( 128 -256 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+}
+// brush 8
+{
+( 54 -198 128 ) ( 62 -198 128 ) ( 62 -208 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 62 -208 112 ) ( 62 -198 112 ) ( 54 -198 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 58 -198 128 ) ( 58 -198 112 ) ( 62 -200 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 58 -198 112 ) ( 58 -198 128 ) ( 0 -256 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 62 -200 128 ) ( 62 -200 112 ) ( 0 -256 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+}
+// brush 9
+{
+( 58 -198 128 ) ( 58 -198 112 ) ( 0 -256 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 56 -194 112 ) ( 56 -194 128 ) ( 0 -256 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 58 -198 112 ) ( 58 -198 128 ) ( 56 -194 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 64 -206 112 ) ( 64 -196 112 ) ( 56 -196 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 56 -196 128 ) ( 64 -196 128 ) ( 64 -206 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+}
+// brush 10
+{
+( 56 -190 128 ) ( 56 -190 112 ) ( 0 -128 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 58 -186 112 ) ( 58 -186 128 ) ( 0 -128 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 58 -186 128 ) ( 58 -186 112 ) ( 56 -190 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 48 -190 112 ) ( 58 -190 112 ) ( 58 -182 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 58 -182 128 ) ( 58 -190 128 ) ( 48 -190 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+}
+// brush 11
+{
+( 60 -184 128 ) ( 60 -192 128 ) ( 50 -192 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 50 -192 112 ) ( 60 -192 112 ) ( 60 -184 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 58 -186 112 ) ( 58 -186 128 ) ( 62 -184 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 62 -184 112 ) ( 62 -184 128 ) ( 0 -128 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 58 -186 128 ) ( 58 -186 112 ) ( 0 -128 112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+}
+// brush 12
+{
+( 80 -208 96 ) ( 80 -176 96 ) ( 48 -176 96 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 48 -176 112 ) ( 80 -176 112 ) ( 80 -208 112 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 0 -224 112 ) ( 0 -256 112 ) ( 0 -256 96 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 0 -256 112 ) ( 32 -256 112 ) ( 32 -256 96 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 128 -160 112 ) ( 128 -128 112 ) ( 128 -128 96 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+( 128 -128 112 ) ( 96 -128 112 ) ( 96 -128 96 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0
+}
+// brush 13
+{
+( 128 -128 0 ) ( 0 -128 0 ) ( 128 0 0 ) mtrl/turf-green 0 0 0 0.5 0.5 0 0 0
+( 128 -128 0 ) ( 128 0 0 ) ( 128 -128 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 128 -128 0 ) ( 128 -128 -16 ) ( 0 -128 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 0 0 -16 ) ( 0 -128 -16 ) ( 128 0 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 0 0 -16 ) ( 0 0 0 ) ( 0 -128 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 0 0 -16 ) ( 128 0 -16 ) ( 0 0 0 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+}
+// brush 14
+{
+( 128 -128 128 ) ( 0 -128 128 ) ( 128 0 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 128 -128 128 ) ( 128 0 128 ) ( 128 -128 112 ) mtrl/red-glass 0 0 0 0.5 0.5 0 0 0
+( 128 -128 128 ) ( 128 -128 112 ) ( 0 -128 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 0 0 112 ) ( 0 -128 112 ) ( 128 0 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 0 0 112 ) ( 0 0 128 ) ( 0 -128 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+( 0 0 112 ) ( 128 0 112 ) ( 0 0 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
+}
+// brush 15
+{
+( 128 -128 0 ) ( 128 -256 0 ) ( 0 -128 0 ) mtrl/arrow-green 0 0 0 0.5 0.5 0 0 0
+( 128 -128 0 ) ( 0 -128 0 ) ( 128 -128 -16 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 128 -128 0 ) ( 128 -128 -16 ) ( 128 -256 0 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 0 -256 -16 ) ( 128 -256 -16 ) ( 0 -128 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 0 -256 -16 ) ( 0 -256 0 ) ( 128 -256 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 0 -256 -16 ) ( 0 -128 -16 ) ( 0 -256 0 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+}
+// brush 16
+{
+( 128 0 1 ) ( 128 -128 1 ) ( 0 -128 1 ) mtrl/timer 0 0 0 0.5 0.5 134217728 0 0
+( 128 0 16 ) ( 0 0 16 ) ( 128 0 0 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 128 -128 1 ) ( 128 0 1 ) ( 128 -128 0 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 0 -128 0 ) ( 128 -128 0 ) ( 0 0 0 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 0 -128 0 ) ( 0 -128 16 ) ( 128 -128 0 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 0 0 1 ) ( 0 -128 1 ) ( 0 0 0 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+}
+}
+// entity 1
+{
+"classname" "info_player_start"
+"origin" "64 -192 24"
+"radius" "0.0625"
+}
+// entity 2
+{
+"classname" "info_player_start"
+"origin" "64 -192 24"
+"radius" "0.0625"
+}
+// entity 3
+{
+"classname" "info_player_start"
+"origin" "64 -192 24"
+"radius" "0.0625"
+}
+// entity 4
+{
+"classname" "info_player_start"
+"origin" "64 -192 24"
+"radius" "0.0625"
+}
+// entity 5
+{
+"classname" "info_player_start"
+"origin" "64 -192 24"
+"radius" "0.0625"
+}
+// entity 6
+{
+"classname" "info_player_deathmatch"
+"origin" "64 -192 136"
+"radius" "0.125"
+}
+// entity 7
+{
+"classname" "target_position"
+"origin" "64 -64 184"
+"targetname" "view"
+}
+// entity 8
+{
+"classname" "target_position"
+"origin" "64 -192 128"
+"targetname" "goal"
+}
+// entity 9
+{
+"classname" "info_player_intermission"
+"origin" "128 -384 176"
+"target" "goal"
+}
+// entity 10
+{
+"classname" "info_player_intermission"
+"origin" "192 192 272"
+"target" "view"
+}
+// entity 11
+{
+"classname" "path_corner"
+"origin" "64 192 0"
+"targetname" "mover2"
+"target" "mover3"
+"speed" "4"
+"state" "0"
+}
+// entity 12
+{
+"classname" "path_corner"
+"origin" "64 192 0"
+"targetname" "mover1"
+"target" "mover2"
+"speed" "2"
+"state" "0"
+}
+// entity 13
+{
+"classname" "func_train"
+"target" "mover1"
+// brush 0
+{
+( 128 128 16 ) ( 128 0 0 ) ( 0 0 0 ) mtrl/turf-green 0 0 0 0.5 0.5 0 0 0
+( 80 128 16 ) ( 64 128 16 ) ( 80 128 0 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 128 0 0 ) ( 128 128 16 ) ( 128 128 0 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 128 0 -16 ) ( 128 128 0 ) ( 0 128 0 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 64 0 -16 ) ( 64 0 0 ) ( 80 0 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 0 128 16 ) ( 0 0 0 ) ( 0 0 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+}
+}
+// entity 14
+{
+"classname" "info_camp"
+"origin" "64 -64 0"
+"timer" "10"
+"target" "mover1"
+}
+// entity 15
+{
+"classname" "path_corner"
+"origin" "64 192 144"
+"targetname" "mover3"
+"target" "mover1"
+"speed" "4"
+"state" "0"
+}
+// entity 16
+{
+"classname" "info_camp"
+"origin" "64 -64 0"
+"timer" "10"
+"target" "wall1"
+}
+// entity 17
+{
+"classname" "path_corner"
+"origin" "64 272 144"
+"targetname" "wall3"
+"target" "wall5"
+"speed" "0.01"
+"state" "0"
+}
+// entity 18
+{
+"classname" "path_corner"
+"origin" "64 272 -48"
+"targetname" "wall1"
+"target" "wall2"
+"speed" "2"
+"state" "0"
+}
+// entity 19
+{
+"classname" "path_corner"
+"origin" "64 272 0"
+"targetname" "wall2"
+"target" "wall3"
+"speed" "4"
+"state" "0"
+}
+// entity 20
+{
+"classname" "path_corner"
+"origin" "64 272 0"
+"targetname" "wall2"
+"target" "wall3"
+"speed" "4"
+"state" "0"
+}
+// entity 21
+{
+"classname" "path_corner"
+"origin" "64 272 0"
+"targetname" "wall2"
+"target" "wall3"
+"speed" "4"
+"state" "0"
+}
+// entity 22
+{
+"classname" "func_train"
+"target" "wall1"
+// brush 0
+{
+( 0 0 -32 ) ( 128 0 -32 ) ( 128 -16 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 128 0 -32 ) ( 0 0 -32 ) ( 128 0 -80 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 128 0 -32 ) ( 128 0 -48 ) ( 128 -16 -32 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 0 -16 -64 ) ( 128 -16 -64 ) ( 128 0 -80 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 128 -16 -64 ) ( 0 -16 -64 ) ( 0 -16 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 0 -16 -48 ) ( 0 0 -48 ) ( 0 -16 -32 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+}
+}
+// entity 23
+{
+"classname" "path_corner"
+"origin" "64 272 -48"
+"targetname" "wall5"
+"target" "wall1"
+"speed" "3.99"
+"state" "0"
+}

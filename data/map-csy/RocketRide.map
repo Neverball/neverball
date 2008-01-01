@@ -1,0 +1,260 @@
+
+// entity 0
+{
+"classname" "worldspawn"
+"message" "Rocket Ride\Can you say 'Weeeeeeeeeeeee!'?"
+"song" "bgm/track5.ogg"
+"back" "map-back/alien.sol"
+"grad" "back/alien.png"
+"shot" "shot-csy/RocketRide.png"
+"time" "4500"
+"goal" "4"
+"coin_hs" "13 8"
+"goal_hs" "4050 4255"
+"time_hs" "4050 4255"
+// brush 0
+{
+( 256 0 128 ) ( 256 -128 128 ) ( 128 0 128 ) mtrl/turf-orange 0 0 0 0.5 0.5 0 0 0
+( 256 0 128 ) ( 128 0 128 ) ( 256 0 112 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 256 0 128 ) ( 256 0 112 ) ( 256 -128 128 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 128 -128 112 ) ( 256 -128 112 ) ( 128 0 112 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 128 -128 112 ) ( 128 -128 128 ) ( 256 -128 112 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 128 -128 112 ) ( 128 0 112 ) ( 128 -128 128 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+}
+// brush 1
+{
+( 255 0 129 ) ( 255 -128 129 ) ( 127 0 129 ) mtrl/goal 0 0 0 0.5 0.5 134217728 0 0
+( 256 0 160 ) ( 128 0 160 ) ( 256 0 128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 256 0 160 ) ( 256 0 128 ) ( 256 -128 160 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 128 -128 128 ) ( 256 -128 128 ) ( 128 0 128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 128 -128 128 ) ( 128 -128 160 ) ( 256 -128 128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 128 -128 128 ) ( 128 0 128 ) ( 128 -128 160 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+}
+// brush 2
+{
+( 0 -128 -16 ) ( 0 -160 -16 ) ( -128 -128 -16 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 0 -128 -16 ) ( -128 -128 -16 ) ( 0 -128 -32 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 0 -128 -16 ) ( 0 -128 -32 ) ( 0 -160 -16 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -128 -160 -32 ) ( 0 -160 -32 ) ( -128 -128 -32 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -128 -144 -32 ) ( -128 -144 -16 ) ( 0 -144 -32 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -128 -160 -32 ) ( -128 -128 -32 ) ( -128 -160 -16 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+}
+}
+// entity 1
+{
+"classname" "path_corner"
+"targetname" "ride1"
+"origin" "-64 -64 -192"
+"target" "ride2"
+"speed" "2"
+}
+// entity 2
+{
+"classname" "path_corner"
+"targetname" "ride2"
+"origin" "-64 64 -192"
+"target" "ride3"
+"speed" "4"
+}
+// entity 3
+{
+"classname" "path_corner"
+"targetname" "ride3"
+"origin" "-320 64 -192"
+"target" "ride4"
+"speed" "2"
+}
+// entity 4
+{
+"classname" "path_corner"
+"targetname" "ride4"
+"origin" "-320 192 -192"
+"target" "ride5"
+"speed" "3"
+}
+// entity 5
+{
+"classname" "path_corner"
+"targetname" "ride5"
+"origin" "-128 192 -192"
+"target" "ride6"
+"speed" "5"
+}
+// entity 6
+{
+"classname" "path_corner"
+"targetname" "ride6"
+"origin" "-128 512 -192"
+"target" "ride7"
+"speed" "2"
+}
+// entity 7
+{
+"classname" "path_corner"
+"targetname" "ride7"
+"origin" "-256 512 -192"
+"target" "ride8"
+"speed" "2"
+}
+// entity 8
+{
+"classname" "path_corner"
+"targetname" "ride8"
+"origin" "-256 384 -192"
+"target" "ride9"
+"speed" "5"
+}
+// entity 9
+{
+"classname" "path_corner"
+"targetname" "ride9"
+"origin" "64 384 -192"
+"target" "ride10"
+"speed" "3"
+}
+// entity 10
+{
+"classname" "path_corner"
+"targetname" "ride10"
+"origin" "64 192 -192"
+"target" "ride11"
+"speed" "2"
+}
+// entity 11
+{
+"classname" "path_corner"
+"targetname" "ride11"
+"origin" "64 192 -64"
+"target" "ride12"
+"speed" "3"
+}
+// entity 12
+{
+"classname" "path_corner"
+"targetname" "ride12"
+"origin" "64 384 -64"
+"target" "ride13"
+"speed" "2"
+}
+// entity 13
+{
+"classname" "path_corner"
+"targetname" "ride13"
+"origin" "192 384 -64"
+"target" "ride14"
+"speed" "5"
+}
+// entity 14
+{
+"classname" "path_corner"
+"targetname" "ride14"
+"origin" "192 64 -64"
+}
+// entity 15
+{
+"classname" "func_train"
+"target" "ride1"
+// brush 0
+{
+( 0 0 0 ) ( 0 -128 0 ) ( -128 0 0 ) mtrl/turf-purple 0 0 0 0.5 0.5 0 0 0
+( 0 0 0 ) ( -128 0 0 ) ( 0 0 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 0 0 0 ) ( 0 0 -16 ) ( 0 -128 0 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( -128 -128 -16 ) ( 0 -128 -16 ) ( -128 0 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( -128 -128 -16 ) ( -128 -128 0 ) ( 0 -128 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( -128 -128 -16 ) ( -128 0 -16 ) ( -128 -128 0 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+}
+}
+// entity 16
+{
+"classname" "light"
+"origin" "224 416 144"
+"light" "1"
+}
+// entity 17
+{
+"classname" "light"
+"origin" "-32 96 16"
+"light" "1"
+}
+// entity 18
+{
+"classname" "light"
+"origin" "-352 32 16"
+"light" "1"
+}
+// entity 19
+{
+"classname" "light"
+"origin" "-352 224 16"
+"light" "1"
+}
+// entity 20
+{
+"classname" "light"
+"origin" "-96 160 16"
+"light" "1"
+}
+// entity 21
+{
+"classname" "light"
+"origin" "-96 544 16"
+"light" "1"
+}
+// entity 22
+{
+"classname" "light"
+"origin" "-288 544 16"
+"light" "1"
+}
+// entity 23
+{
+"classname" "light"
+"origin" "-288 352 16"
+"light" "1"
+}
+// entity 24
+{
+"classname" "light"
+"origin" "96 416 16"
+"light" "1"
+}
+// entity 25
+{
+"classname" "light"
+"origin" "64 160 16"
+"light" "1"
+}
+// entity 26
+{
+"classname" "light"
+"origin" "64 160 144"
+"light" "1"
+}
+// entity 27
+{
+"classname" "light"
+"origin" "32 416 144"
+"light" "1"
+}
+// entity 28
+{
+"classname" "info_player_intermission"
+"origin" "336 -192 240"
+"target" "intermission"
+}
+// entity 29
+{
+"classname" "target_position"
+"origin" "-320 400 16"
+"targetname" "intermission"
+}
+// entity 30
+{
+"classname" "info_player_start"
+"origin" "-64 -64 24"
+}
+// entity 31
+{
+"classname" "info_player_deathmatch"
+"origin" "192 -64 152"
+}
