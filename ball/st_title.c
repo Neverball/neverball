@@ -30,7 +30,6 @@
 /*---------------------------------------------------------------------------*/
 
 static float real_time = 0.0f;
-static float demo_time = 0.0f;
 static int   mode      = 0;
 
 static int play_id = 0;
@@ -156,7 +155,6 @@ static int title_enter(void)
     game_init(&title_level, 0, 0);
 
     real_time = 0.0f;
-    demo_time = 0.0f;
     mode = 0;
 
     SDL_EnableUNICODE(1);
@@ -174,7 +172,6 @@ static void title_leave(int id)
 static void title_timer(int id, float dt)
 {
     static const char *demo = NULL;
-    float t;
 
     real_time += dt;
 
@@ -199,7 +196,7 @@ static void title_timer(int id, float dt)
             if ((demo = demo_pick()))
             {
                 demo_replay_init(demo, NULL);
-                demo_time = 0.0f;
+                game_set_fly(0.0f);
                 real_time = 0.0f;
                 mode = 2;
             }
@@ -214,16 +211,13 @@ static void title_timer(int id, float dt)
 
     case 2: /* Mode 2: Run demo. */
 
-        while (demo_time < real_time)
-            if (demo_replay_step(&t))
-                demo_time += t;
-            else
-            {
-                demo_replay_stop(0);
-                game_fade(+1.0f);
-                real_time = 0.0f;
-                mode = 3;
-            }
+        if (!demo_replay_step(dt))
+        {
+            demo_replay_stop(0);
+            game_fade(+1.0f);
+            real_time = 0.0f;
+            mode = 3;
+        }
         break;
 
     case 3: /* Mode 3: Fade out.  Load title level. */

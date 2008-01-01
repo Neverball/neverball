@@ -398,18 +398,27 @@ int main(int argc, char *argv[])
     /* Run the main game loop. */
 
     t0 = SDL_GetTicks();
+
     while (loop())
-        if ((t1 = SDL_GetTicks()) > t0)
+    {
+        t1 = SDL_GetTicks();
+
+        /* Step the game state at least up to the current time. */
+
+        while (t1 > t0)
         {
-            st_timer((t1 - t0) / 1000.f);
-            st_paint();
-            SDL_GL_SwapBuffers();
-
-            t0 = t1;
-
-            if (config_get_d(CONFIG_NICE))
-                SDL_Delay(1);
+            st_timer(DT);
+            t0 += (int) (DT * 1000);
         }
+
+        /* Render. */
+
+        st_paint();
+        config_swap();
+
+        if (config_get_d(CONFIG_NICE))
+            SDL_Delay(1);
+    }
 
     /* Gracefully close the game */
 

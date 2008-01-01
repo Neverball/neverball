@@ -38,13 +38,10 @@ static struct s_file back;
 static float clock      = 0.f;          /* Clock time                        */
 static int   clock_down = 1;            /* Clock go up or down?              */
 
-static float game_ix;                   /* Input rotation about X axis       */
-static float game_iz;                   /* Input rotation about Z axis       */
 static float game_rx;                   /* Floor rotation about X axis       */
 static float game_rz;                   /* Floor rotation about Z axis       */
 
 static float view_a;                    /* Ideal view rotation about Y axis  */
-static float view_ry;                   /* Angular velocity about Y axis     */
 static float view_dc;                   /* Ideal view distance above ball    */
 static float view_dp;                   /* Ideal view distance above ball    */
 static float view_dz;                   /* Ideal view distance behind ball   */
@@ -65,6 +62,119 @@ static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
+
+/*---------------------------------------------------------------------------*/
+
+/*
+ * This is an abstraction of the game's input state.  All input is
+ * encapsulated here, and all references to the input by the game are made
+ * here.  This has the effect of homogenizing input for use in replay
+ * recording and playback.
+ *
+ * x and z:
+ *     -32767 = -ANGLE_BOUND
+ *     +32767 = +ANGLE_BOUND
+ *
+ * r:
+ *     -32767 = -VIEWR_BOUND
+ *     +32767 = +VIEWR_BOUND
+ *     
+ */
+
+struct input
+{
+    short x;
+    short z;
+    short r;
+    short c;
+};
+
+static struct input input_current;
+
+static void input_init(void)
+{
+    input_current.x = 0;
+    input_current.z = 0;
+    input_current.r = 0;
+    input_current.c = 0;
+}
+
+static void input_set_x(float x)
+{
+    if (x < -ANGLE_BOUND) x = -ANGLE_BOUND;
+    if (x >  ANGLE_BOUND) x =  ANGLE_BOUND;
+
+    input_current.x = (short) (32767.0f * x / ANGLE_BOUND);
+}
+
+static void input_set_z(float z)
+{
+    if (z < -ANGLE_BOUND) z = -ANGLE_BOUND;
+    if (z >  ANGLE_BOUND) z =  ANGLE_BOUND;
+
+    input_current.z = (short) (32767.0f * z / ANGLE_BOUND);
+}
+
+static void input_set_r(float r)
+{
+    if (r < -VIEWR_BOUND) r = -VIEWR_BOUND;
+    if (r >  VIEWR_BOUND) r =  VIEWR_BOUND;
+
+    input_current.r = (short) (32767.0f * r / VIEWR_BOUND);
+}
+
+static void input_set_c(int c)
+{
+    input_current.c = (short) c;
+}
+
+static float input_get_x(void)
+{
+    return ANGLE_BOUND * (float) input_current.x / 32767.0f;
+}
+
+static float input_get_z(void)
+{
+    return ANGLE_BOUND * (float) input_current.z / 32767.0f;
+}
+
+static float input_get_r(void)
+{
+    return VIEWR_BOUND * (float) input_current.r / 32767.0f;
+}
+
+static int input_get_c(void)
+{
+    return (int) input_current.c;
+}
+
+int input_put(FILE *fout)
+{
+    if (game_state)
+    {
+        put_short(fout, &input_current.x);
+        put_short(fout, &input_current.z);
+        put_short(fout, &input_current.r);
+        put_short(fout, &input_current.c);
+        
+        return 1;
+    }
+    return 0;
+}
+
+int input_get(FILE *fin)
+{
+    if (game_state)
+    {
+        get_short(fin, &input_current.x);
+        get_short(fin, &input_current.z);
+        get_short(fin, &input_current.r);
+        get_short(fin, &input_current.c);
+
+        return (feof(fin) ? 0 : 1);
+    }
+    return 0;
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -175,14 +285,12 @@ static void grow_step(const struct s_file *fp, float dt)
 
 static void view_init(void)
 {
-    view_a  = 0.f;
-    view_ry = 0.f;
-
     view_fov = (float) config_get_d(CONFIG_VIEW_FOV);
     view_dp  = (float) config_get_d(CONFIG_VIEW_DP) / 100.0f;
     view_dc  = (float) config_get_d(CONFIG_VIEW_DC) / 100.0f;
     view_dz  = (float) config_get_d(CONFIG_VIEW_DZ) / 100.0f;
     view_k   = 1.0f;
+    view_a   = 0.0f;
 
     view_c[0] = 0.f;
     view_c[1] = view_dc;
@@ -219,10 +327,10 @@ int game_init(const struct level *level, int t, int g)
 
     game_state = 1;
 
-    game_ix = 0.f;
-    game_iz = 0.f;
-    game_rx = 0.f;
-    game_rz = 0.f;
+    input_init();
+
+    game_rx = 0.0f;
+    game_rz = 0.0f;
 
     /* Initialize jump and goal states. */
 
@@ -721,8 +829,6 @@ void game_draw(int pose, float st)
 
 static void game_update_grav(float h[3], const float g[3])
 {
-    struct s_file *fp = &file;
-
     float x[3];
     float y[3] = { 0.f, 1.f, 0.f };
     float z[3];
@@ -732,7 +838,10 @@ static void game_update_grav(float h[3], const float g[3])
 
     /* Compute the gravity vector from the given world rotations. */
 
-    v_sub(z, view_p, fp->uv->p);
+    z[0] = fsinf(V_RAD(view_a));
+    z[1] = 0.0;
+    z[2] = fcosf(V_RAD(view_a));
+
     v_crs(x, y, z);
     v_crs(z, x, y);
     v_nrm(x, x);
@@ -747,39 +856,37 @@ static void game_update_grav(float h[3], const float g[3])
 static void game_update_view(float dt)
 {
     float dc = view_dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
-    float dx = view_ry * dt * 5.0f;
+    float da = input_get_r() * dt * 90.0f;
     float k;
 
-    view_a += view_ry * dt * 90.f;
+    float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };
+
+    view_a += da;
 
     /* Center the view about the ball. */
 
     v_cpy(view_c, file.uv->p);
     v_inv(view_v, file.uv->v);
 
-    switch (config_get_d(CONFIG_CAMERA))
-    {
-    case 1: /* Camera 1:  Viewpoint chases the ball position. */
+    view_e[2][0] = fsinf(V_RAD(view_a));
+    view_e[2][1] = 0.0;
+    view_e[2][2] = fcosf(V_RAD(view_a));
 
-        v_sub(view_e[2], view_p, view_c);
+    switch (input_get_c())
+    {
+    case 1: /* Camera 1: Viewpoint chases the ball position. */
+
+        /* TODO: This camera no longer exists. */
+
         break;
 
     case 2: /* Camera 2: View vector is given by view angle. */
-
-        view_e[2][0] = fsinf(V_RAD(view_a));
-        view_e[2][1] = 0.f;
-        view_e[2][2] = fcosf(V_RAD(view_a));
-
-        dx = 0.0f;
 
         break;
 
     default: /* Default: View vector approaches the ball velocity vector. */
 
-        k = v_dot(view_v, view_v);
-
-        v_sub(view_e[2], view_p, view_c);
-        v_mad(view_e[2], view_e[2], view_v, k * dt / 4);
+        v_mad(view_e[2], view_e[2], view_v, v_dot(view_v, view_v) * dt / 4);
 
         break;
     }
@@ -799,10 +906,11 @@ static void game_update_view(float dt)
 
     if (view_k < 0.5) view_k = 0.5;
 
-    v_cpy(view_p, file.uv->p);
-    v_mad(view_p, view_p, view_e[0], dx      * view_k);
-    v_mad(view_p, view_p, view_e[1], view_dp * view_k);
-    v_mad(view_p, view_p, view_e[2], view_dz * view_k);
+    v_scl(v,    view_e[1], view_dp * view_k);
+    v_mad(v, v, view_e[2], view_dz * view_k);
+    m_rot(M, Y, V_RAD(da));
+    m_vxfm(view_p, M, v);
+    v_add(view_p, view_p, file.uv->p);
 
     /* Compute the new view center. */
 
@@ -844,6 +952,7 @@ static int game_update_state(int bt)
     float c[3];
 
     /* Test for an item. */
+
     if (bt && (hp = sol_item_test(fp, p, COIN_RADIUS)))
     {
         const char *sound = AUD_COIN;
@@ -858,6 +967,7 @@ static int game_update_state(int bt)
             coins += hp->n;
 
             /* Check for goal open. */
+
             if (goal_c > 0)
             {
                 goal_c -= hp->n;
@@ -871,10 +981,12 @@ static int game_update_state(int bt)
         audio_play(sound, 1.f);
 
         /* Reset item type. */
+
         hp->t = ITEM_NONE;
     }
 
     /* Test for a switch. */
+
     if (sol_swch_test(fp, 0))
         audio_play(AUD_SWITCH, 1.f);
 
@@ -918,85 +1030,48 @@ static int game_update_state(int bt)
     return GAME_NONE;
 }
 
-/*
- * On  most  hardware, rendering  requires  much  more  computing power  than
- * physics.  Since  physics takes less time  than graphics, it  make sense to
- * detach  the physics update  time step  from the  graphics frame  rate.  By
- * performing multiple physics updates for  each graphics update, we get away
- * with higher quality physics with little impact on overall performance.
- *
- * Toward this  end, we establish a  baseline maximum physics  time step.  If
- * the measured  frame time  exceeds this  maximum, we cut  the time  step in
- * half, and  do two updates.  If THIS  time step exceeds the  maximum, we do
- * four updates.  And  so on.  In this way, the physics  system is allowed to
- * seek an optimal update rate independent of, yet in integral sync with, the
- * graphics frame rate.
- */
-
 int game_step(const float g[3], float dt, int bt)
 {
-    struct s_file *fp = &file;
-
-    float h[3];
-    float d = 0.f;
-    float b = 0.f;
-    float t;
-    int i, n = 1;
-
     if (game_state)
     {
-        t = dt;
+        struct s_file *fp = &file;
+
+        float h[3];
 
         /* Smooth jittery or discontinuous input. */
 
-        if (t < RESPONSE)
-        {
-            game_rx += (game_ix - game_rx) * t / RESPONSE;
-            game_rz += (game_iz - game_rz) * t / RESPONSE;
-        }
-        else
-        {
-            game_rx = game_ix;
-            game_rz = game_iz;
-        }
+        game_rx += (input_get_x() - game_rx) * dt / RESPONSE;
+        game_rz += (input_get_z() - game_rz) * dt / RESPONSE;
 
         grow_step(fp, dt);
 
         game_update_grav(h, g);
-        part_step(h, t);
+        part_step(h, dt);
 
         if (jump_b)
         {
-            jump_dt += t;
+            jump_dt += dt;
 
             /* Handle a jump. */
 
-            if (0.5 < jump_dt)
+            if (0.5f < jump_dt)
             {
                 fp->uv[0].p[0] = jump_p[0];
                 fp->uv[0].p[1] = jump_p[1];
                 fp->uv[0].p[2] = jump_p[2];
             }
-            if (1.f < jump_dt)
+            if (1.0f < jump_dt)
                 jump_b = 0;
         }
         else
         {
             /* Run the sim. */
 
-            while (t > MAX_DT && n < MAX_DN)
-            {
-                t /= 2;
-                n *= 2;
-            }
-
-            for (i = 0; i < n; i++)
-                if (b < (d = sol_step(fp, h, t, 0, NULL)))
-                    b = d;
+            float b = sol_step(fp, h, dt, 0, NULL);
 
             /* Mix the sound of a ball bounce. */
 
-            if (b > 0.5)
+            if (b > 0.5f)
             {
                 float k = (b - 0.5f) * 2.0f;
 
@@ -1021,51 +1096,30 @@ int game_step(const float g[3], float dt, int bt)
 
 /*---------------------------------------------------------------------------*/
 
-void game_no_aa(void)
-{
-    float max = game_ix * game_ix + game_iz * game_iz;
-    if (max > ANGLE_BOUND * ANGLE_BOUND)
-    {
-        max = ANGLE_BOUND / sqrt(max);
-        game_ix *= max;
-        game_iz *= max;
-    }
-}
-
 void game_set_x(int k)
 {
-    game_ix = -(ANGLE_BOUND) * k / JOY_MAX;
-#if NO_AA
-    game_no_aa();
-#endif
+    input_set_x(-ANGLE_BOUND * k / JOY_MAX);
 }
 
 void game_set_z(int k)
 {
-    game_iz = +ANGLE_BOUND * k / JOY_MAX;
-#if NO_AA
-    game_no_aa();
-#endif
+    input_set_z(+ANGLE_BOUND * k / JOY_MAX);
 }
 
 void game_set_pos(int x, int y)
 {
-    game_ix += 40.f * y / config_get_d(CONFIG_MOUSE_SENSE);
-    game_iz += 40.f * x / config_get_d(CONFIG_MOUSE_SENSE);
+    input_set_x(input_get_x() + 40.0f * y / config_get_d(CONFIG_MOUSE_SENSE));
+    input_set_z(input_get_z() + 40.0f * x / config_get_d(CONFIG_MOUSE_SENSE));
+}
 
-#if NO_AA
-    game_no_aa();
-#else
-    if (game_ix > +ANGLE_BOUND) game_ix = +ANGLE_BOUND;
-    if (game_ix < -ANGLE_BOUND) game_ix = -ANGLE_BOUND;
-    if (game_iz > +ANGLE_BOUND) game_iz = +ANGLE_BOUND;
-    if (game_iz < -ANGLE_BOUND) game_iz = -ANGLE_BOUND;
-#endif
+void game_set_cam(int c)
+{
+    input_set_c(c);
 }
 
 void game_set_rot(float r)
 {
-    view_ry = r;
+    input_set_r(r);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1171,48 +1225,6 @@ void game_step_fade(float dt)
 void game_fade(float d)
 {
     fade_d = d;
-}
-
-/*---------------------------------------------------------------------------*/
-
-int put_game_state(FILE *fout)
-{
-    if (game_state)
-    {
-        /* Write the view and tilt state. */
-
-        put_float(fout, &game_rx);
-        put_float(fout, &game_rz);
-        put_array(fout,  view_c, 3);
-        put_array(fout,  view_p, 3);
-
-        /* Write the game simulation state. */
-
-        put_file_state(fout, &file);
-
-        return 1;
-    }
-    return 0;
-}
-
-int get_game_state(FILE *fin)
-{
-    if (game_state)
-    {
-        /* Read the view and tilt state. */
-
-        get_float(fin, &game_rx);
-        get_float(fin, &game_rz);
-        get_array(fin,  view_c, 3);
-        get_array(fin,  view_p, 3);
-
-        /* Read the game simulation state. */
-
-        get_file_state(fin, &file);
-
-        return (feof(fin) ? 0 : 1);
-    }
-    return 0;
 }
 
 /*---------------------------------------------------------------------------*/

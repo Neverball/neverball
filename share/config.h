@@ -47,6 +47,7 @@ enum {
     CONFIG_AUDIO_BUFF,
     CONFIG_MOUSE_SENSE,
     CONFIG_MOUSE_INVERT,
+    CONFIG_VSYNC,
     CONFIG_NICE,
     CONFIG_FPS,
     CONFIG_SOUND_VOLUME,
@@ -111,7 +112,8 @@ enum {
 #define DEFAULT_AUDIO_BUFF           AUDIO_BUFF_HI
 #define DEFAULT_MOUSE_SENSE          300
 #define DEFAULT_MOUSE_INVERT         0
-#define DEFAULT_NICE                 1
+#define DEFAULT_VSYNC                1
+#define DEFAULT_NICE                 0
 #define DEFAULT_FPS                  0
 #define DEFAULT_SOUND_VOLUME         10
 #define DEFAULT_MUSIC_VOLUME         6
@@ -155,6 +157,10 @@ void config_init(void);
 void config_load(void);
 void config_save(void);
 int  config_mode(int, int, int);
+
+int  config_perf(void);
+void config_sync(void);
+void config_swap(void);
 
 /*---------------------------------------------------------------------------*/
 

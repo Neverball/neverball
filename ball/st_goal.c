@@ -239,18 +239,18 @@ static int goal_enter(void)
 
 static void goal_timer(int id, float dt)
 {
-    static float DT = 0.0f;
+    static float t = 0.0f;
 
     float g[3] = { 0.0f, 9.8f, 0.0f };
 
-    DT += dt;
+    t += dt;
 
     if (time_state() < 1.f)
     {
+        demo_play_step();
         game_step(g, dt, 0);
-        demo_play_step(dt);
     }
-    else if (DT > 0.05f && coins_id)
+    else if (t > 0.05f && coins_id)
     {
         int coins = gui_value(coins_id);
 
@@ -272,7 +272,7 @@ static void goal_timer(int id, float dt)
                 audio_play(AUD_BALL, 1.0f);
             }
         }
-        DT = 0.0f;
+        t = 0.0f;
     }
 
     gui_timer(id, dt);

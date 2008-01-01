@@ -43,24 +43,7 @@ static float view_timer;
 
 static void hud_fps(void)
 {
-    static int fps   = 0;
-    static int then  = 0;
-    static int count = 0;
-
-    int now = SDL_GetTicks();
-
-    if (now - then > 250)
-    {
-        if (count && config_get_d(CONFIG_STATS))
-            fprintf(stdout, "%f\n", (float) (now - then) / count);
-
-        fps   = count * 1000 / (now - then);
-        then  = now;
-        count = 0;
-
-        gui_set_count(fps_id, fps);
-    }
-    else count++;
+    gui_set_count(fps_id, config_perf());
 }
 
 void hud_init(void)

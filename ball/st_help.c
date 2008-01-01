@@ -374,14 +374,8 @@ static int help_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static float real_time;
-static float demo_time;
-
 static int help_demo_enter(void)
 {
-    real_time = -1.f;
-    demo_time =  0.f;
-
     game_set_fly(0.f);
 
     return 0;
@@ -399,20 +393,10 @@ static void help_demo_paint(int id, float st)
 
 static void help_demo_timer(int id, float dt)
 {
-    float t;
-
-    real_time += dt;
-
     game_step_fade(dt);
 
-    while (demo_time < real_time)
-        if (demo_replay_step(&t))
-            demo_time += t;
-        else
-        {
-            goto_state(&st_help);
-            break;
-        }
+    if (!demo_replay_step(dt))
+        goto_state(&st_help);
 }
 
 static int help_demo_buttn(int b, int d)

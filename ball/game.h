@@ -32,11 +32,9 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define MAX_DT      0.01666666         /* Maximum physics update cycle       */
-#define MAX_DN      16                 /* Maximum subdivisions of dt         */
 #define RESPONSE    0.05f              /* Input smoothing time               */
-
-#define ANGLE_BOUND 20.f               /* Angle limit of floor tilting       */
+#define ANGLE_BOUND 20.0f              /* Angle limit of floor tilting       */
+#define VIEWR_BOUND 10.0f              /* Maximum rate of view rotation      */
 #define NO_AA       0                  /* Disable Angle Acceleration         */
 
 /*---------------------------------------------------------------------------*/
@@ -54,6 +52,7 @@ int   game_step(const float[3], float, int);
 void  game_set_pos(int, int);
 void  game_set_x  (int);
 void  game_set_z  (int);
+void  game_set_cam(int);
 void  game_set_rot(float);
 void  game_set_fly(float);
 
@@ -63,8 +62,10 @@ void  game_kill_fade(void);
 void  game_step_fade(float);
 void  game_fade(float);
 
-int   put_game_state(FILE *);
-int   get_game_state(FILE *);
+/*---------------------------------------------------------------------------*/
+
+int input_put(FILE *);
+int input_get(FILE *);
 
 /*---------------------------------------------------------------------------*/
 

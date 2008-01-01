@@ -119,6 +119,7 @@ BALL_OBJS := \
 	share/state.o       \
 	share/audio.o       \
 	share/text.o        \
+	share/sync.o        \
 	ball/hud.o          \
 	ball/mode.o         \
 	ball/game.o         \
@@ -164,6 +165,7 @@ PUTT_OBJS := \
 	share/state.o       \
 	share/gui.o         \
 	share/text.o        \
+	share/sync.o        \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \

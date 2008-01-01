@@ -219,7 +219,7 @@ static void part_draw(const float p[3], const float c[3],
 
 void part_draw_coin(float rx, float ry)
 {
-    float r = (float) SDL_GetTicks() / 1000.f;
+    float r = (float) SDL_GetTicks() / 1000.0f;
     int i;
 
     glBindTexture(GL_TEXTURE_2D, part_text);
@@ -234,7 +234,7 @@ void part_draw_coin(float rx, float ry)
 
 void part_draw_goal(float rx, float ry, float radius, float a)
 {
-    float r = (float) SDL_GetTicks() / 1000.f;
+    float r = (float) SDL_GetTicks() / 1000.0f;
     int i;
 
     glBindTexture(GL_TEXTURE_2D, part_text);

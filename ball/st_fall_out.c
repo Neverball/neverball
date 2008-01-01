@@ -130,8 +130,8 @@ static void fall_out_timer(int id, float dt)
 
     if (time_state() < 2.f)
     {
+        demo_play_step();
         game_step(g, dt, 0);
-        demo_play_step(dt);
     }
 
     gui_timer(id, dt);
