@@ -175,6 +175,10 @@
 		815FFD170AEA357600AFD07F /* binary.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFB840AEA2E0300AFD07F /* binary.h */; };
 		81D0B3F30AEE6C710041CE19 /* SDL_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815F03F60AEAC72600AFD07F /* SDL_ttf.framework */; };
 		81D0B3F60AEE6C710041CE19 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815FFCFD0AEA340300AFD07F /* SDL.framework */; };
+		B509A5D30D2B032B008DB8D9 /* sync.c in Sources */ = {isa = PBXBuildFile; fileRef = B509A5D10D2B032B008DB8D9 /* sync.c */; };
+		B509A5D40D2B032B008DB8D9 /* sync.h in Headers */ = {isa = PBXBuildFile; fileRef = B509A5D20D2B032B008DB8D9 /* sync.h */; };
+		B509A5D50D2B032B008DB8D9 /* sync.c in Sources */ = {isa = PBXBuildFile; fileRef = B509A5D10D2B032B008DB8D9 /* sync.c */; };
+		B509A5D60D2B032B008DB8D9 /* sync.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B509A5D20D2B032B008DB8D9 /* sync.h */; };
 		B5117CE80C9060CB005837F9 /* st_pause.c in Sources */ = {isa = PBXBuildFile; fileRef = B5117CE60C9060CB005837F9 /* st_pause.c */; };
 		B5117CE90C9060CB005837F9 /* st_pause.h in Headers */ = {isa = PBXBuildFile; fileRef = B5117CE70C9060CB005837F9 /* st_pause.h */; };
 		B517CF110D1F133000FCFE83 /* iconv.h in Headers */ = {isa = PBXBuildFile; fileRef = B517CEFC0D1F133000FCFE83 /* iconv.h */; };
@@ -336,6 +340,7 @@
 				B565046A0D22EB68006F75A4 /* pngconf.h in CopyFiles */,
 				B565048A0D22F722006F75A4 /* zconf.h in CopyFiles */,
 				B565048B0D22F722006F75A4 /* zlib.h in CopyFiles */,
+				B509A5D60D2B032B008DB8D9 /* sync.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +449,8 @@
 		B47DDD3F0BCA1BF200915326 /* neverball.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = neverball.icns; path = ../icons/neverball.icns; sourceTree = "<group>"; };
 		B47DDD400BCA1BF200915326 /* neverputt-new.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "neverputt-new.icns"; path = "../icons/neverputt-new.icns"; sourceTree = "<group>"; };
 		B47DDD410BCA1BF200915326 /* neverputt.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = neverputt.icns; path = ../icons/neverputt.icns; sourceTree = "<group>"; };
+		B509A5D10D2B032B008DB8D9 /* sync.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sync.c; sourceTree = "<group>"; };
+		B509A5D20D2B032B008DB8D9 /* sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sync.h; sourceTree = "<group>"; };
 		B51179D80C906000005837F9 /* alien.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alien.png; sourceTree = "<group>"; };
 		B51179D90C906000005837F9 /* blk_org.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blk_org.png; sourceTree = "<group>"; };
 		B51179DA0C906000005837F9 /* blues.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blues.png; sourceTree = "<group>"; };
@@ -1412,6 +1419,8 @@
 		815FFB710AEA2E0300AFD07F /* share */ = {
 			isa = PBXGroup;
 			children = (
+				B509A5D10D2B032B008DB8D9 /* sync.c */,
+				B509A5D20D2B032B008DB8D9 /* sync.h */,
 				B5452B810D19C959000F8933 /* text.c */,
 				B5452B820D19C959000F8933 /* text.h */,
 				815FFB720AEA2E0300AFD07F /* audio.c */,
@@ -2562,6 +2571,7 @@
 				B56504620D22EB68006F75A4 /* pngconf.h in Headers */,
 				B56504870D22F722006F75A4 /* zconf.h in Headers */,
 				B56504880D22F722006F75A4 /* zlib.h in Headers */,
+				B509A5D40D2B032B008DB8D9 /* sync.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2807,6 +2817,7 @@
 				8137FD6A0AEBE54F009172EC /* st_all.c in Sources */,
 				8137FD6B0AEBE54F009172EC /* st_conf.c in Sources */,
 				B5452B850D19C959000F8933 /* text.c in Sources */,
+				B509A5D50D2B032B008DB8D9 /* sync.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2872,6 +2883,7 @@
 				B57D63D40CAE8138005DE710 /* st_time_out.c in Sources */,
 				B57D63D60CAE8138005DE710 /* st_fall_out.c in Sources */,
 				B5452B830D19C959000F8933 /* text.c in Sources */,
+				B509A5D30D2B032B008DB8D9 /* sync.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
