@@ -697,11 +697,13 @@ static float v_sol(const float p[3], const float v[3], float r)
     float c = v_dot(p, p) - r * r;
     float d = b * b - 4.0f * a * c;
 
+/* HACK: This seems to cause failures to detect low-velocity collision
+         Yet, the potential division by zero below seems fine.
     if (fabsf(a) < SMALL) return LARGE;
+*/
 
-    if      (d <  0.0f) return LARGE;
-    else if (d == 0.0f) return -b * 0.5f / a;
-    else
+    if      (d < 0.0f) return LARGE;
+    else if (d > 0.0f)
     {
         float t0 = 0.5f * (-b - fsqrtf(d)) / a;
         float t1 = 0.5f * (-b + fsqrtf(d)) / a;
@@ -709,6 +711,7 @@ static float v_sol(const float p[3], const float v[3], float r)
 
         return (t < 0.0f) ? LARGE : t;
     }
+    else return -b * 0.5f / a;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -933,8 +936,6 @@ static void sol_body_step(struct s_file *fp, float dt)
 
             if (bp->t >= pp->t)
             {
-/* TODO: Confirm that this fixes the repeated path inaccuracy.               */
-/*              bp->t -= pp->t;                                              */
                 bp->t  = 0;
                 bp->pi = pp->pi;
             }
@@ -1037,11 +1038,11 @@ static float sol_test_side(float dt,
 
 /*---------------------------------------------------------------------------*/
 
-static float sol_test_fore(float dt,
-                           const struct s_ball *up,
-                           const struct s_side *sp,
-                           const float o[3],
-                           const float w[3])
+static int sol_test_fore(float dt,
+                         const struct s_ball *up,
+                         const struct s_side *sp,
+                         const float o[3],
+                         const float w[3])
 {
     float q[3];
 
@@ -1068,11 +1069,11 @@ static float sol_test_fore(float dt,
     return 0;
 }
 
-static float sol_test_back(float dt,
-                           const struct s_ball *up,
-                           const struct s_side *sp,
-                           const float o[3],
-                           const float w[3])
+static int sol_test_back(float dt,
+                         const struct s_ball *up,
+                         const struct s_side *sp,
+                         const float o[3],
+                         const float w[3])
 {
     float q[3];
 
