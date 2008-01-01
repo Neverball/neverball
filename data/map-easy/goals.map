@@ -12,7 +12,7 @@
 "goal" "10"
 "time_hs" "100 500"
 "coin_hs" "100 50"
-"message" "This one shouldn't be too difficult.\There are 100 coins here.\That's a save point and a free ball\if you don't accidentally make a goal first.\"
+"message" "There are 100 coins here.\This one shouldn't be too difficult,\if you don't accidentally make a goal first.\"
 // brush 0
 {
 ( 0 128 0 ) ( 0 0 0 ) ( 0 0 -64 ) mtrl/invisible 0 0 0 0.500000 0.500000 0 0 0
