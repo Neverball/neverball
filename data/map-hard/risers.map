@@ -13,7 +13,7 @@
 "goal" "40"
 "time_hs" "2500 4500"
 "coin_hs" "64 50"
-"message" "Ride the elevators to the top.\They move quickly,\and bat the ball around a bit.\Be prepared to handle some bouncing.\"
+"message" "Ride the elevators to the top.\They move quickly,\so don't dally too long.\"
 // brush 0
 {
 ( 128 192 -520 ) ( 0 192 -520 ) ( 0 0 -520 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

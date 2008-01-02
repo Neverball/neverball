@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "2 switchs have to be enabled to open the path to the goal."
+"message" "2 switches have to be enabled to open the path to the goal."
 "bonus" "1"
 "goal" "10"
 "time" "30000"
