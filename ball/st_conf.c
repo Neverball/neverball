@@ -404,6 +404,7 @@ struct state st_conf = {
     shared_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     NULL,
     conf_buttn,
@@ -413,6 +414,7 @@ struct state st_conf = {
 struct state st_null = {
     null_enter,
     null_leave,
+    NULL,
     NULL,
     NULL,
     NULL,

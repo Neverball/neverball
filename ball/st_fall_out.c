@@ -166,6 +166,7 @@ struct state st_fall_out = {
     fall_out_timer,
     shared_point,
     shared_stick,
+    NULL,
     shared_click,
     NULL,
     fall_out_buttn,

@@ -37,13 +37,15 @@ void shared_timer(int id, float dt)
     gui_timer(id, dt);
 }
 
-/* Pulse, activate and return the active id (if changed)*/
-
 int shared_point_basic(int id, int x, int y)
 {
+    /* Pulse, activate and return the active id (if changed) */
+
     int jd = gui_point(id, x, y);
+
     if (jd)
         gui_pulse(jd, 1.2f);
+
     return jd;
 }
 
@@ -53,21 +55,29 @@ void shared_point(int id, int x, int y, int dx, int dy)
 }
 
 int shared_stick_basic(int id, int a, int v)
-/* Pulse, activate and return the active id (if changed)*/
 {
+    /* Pulse, activate and return the active id (if changed) */
+
     int jd = 0;
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
+
+    if      (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         jd = gui_stick(id, v, 0);
     else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
         jd = gui_stick(id, 0, v);
     if (jd)
         gui_pulse(jd, 1.2f);
+
     return jd;
 }
 
 void shared_stick(int id, int a, int v)
 {
     shared_stick_basic(id, a, v);
+}
+
+void shared_angle(int id, int x, int z)
+{
+    game_set_ang(x, z);
 }
 
 int shared_click(int b, int d)

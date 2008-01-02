@@ -1104,6 +1104,12 @@ void game_set_z(int k)
     input_set_z(+ANGLE_BOUND * k / JOY_MAX);
 }
 
+void game_set_ang(int x, int z)
+{
+    input_set_x(x);
+    input_set_z(z);
+}
+
 void game_set_pos(int x, int y)
 {
     input_set_x(input_get_x() + 40.0f * y / config_get_d(CONFIG_MOUSE_SENSE));

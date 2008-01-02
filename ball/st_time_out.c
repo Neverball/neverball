@@ -135,6 +135,7 @@ struct state st_time_out = {
     shared_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     NULL,
     time_out_buttn,

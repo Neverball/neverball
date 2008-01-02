@@ -29,6 +29,7 @@
 #include "gui.h"
 #include "set.h"
 #include "text.h"
+#include "tilt.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -79,6 +80,8 @@ static int loop(void)
     SDL_Event e;
     int d = 1;
     int c;
+    int x;
+    int y;
 
     while (d && SDL_PollEvent(&e))
     {
@@ -150,7 +153,7 @@ static int loop(void)
 
             c = e.key.keysym.sym;
 
-            if (config_tst_d(CONFIG_KEY_FORWARD, c))
+            if      (config_tst_d(CONFIG_KEY_FORWARD, c))
                 st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
 
             else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
@@ -194,6 +197,21 @@ static int loop(void)
             break;
         }
     }
+
+    if (tilt_stat())
+    {
+        tilt_get_direct(&x, &y);
+
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), x);
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), y);
+
+        st_angle((int) tilt_get_x(),
+                 (int) tilt_get_z());
+
+        if (tilt_get_button(&x, &y))
+            d = st_buttn(x, y);
+    }
+
     return d;
 }
 
@@ -353,6 +371,7 @@ int main(int argc, char *argv[])
     /* Initialize the audio. */
 
     audio_init();
+    tilt_init();
 
     /* Require 16-bit double buffer with 16-bit depth buffer. */
 
@@ -425,6 +444,7 @@ int main(int argc, char *argv[])
     if (SDL_JoystickOpened(0))
         SDL_JoystickClose(joy);
 
+    tilt_free();
     SDL_Quit();
 
     config_save();

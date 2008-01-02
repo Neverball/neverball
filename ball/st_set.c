@@ -180,6 +180,7 @@ struct state st_set = {
     shared_timer,
     set_point,
     set_stick,
+    shared_angle,
     shared_click,
     NULL,
     set_buttn,

@@ -80,6 +80,7 @@ struct state st_over = {
     over_timer,
     NULL,
     NULL,
+    NULL,
     over_click,
     NULL,
     over_buttn,

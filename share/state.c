@@ -96,6 +96,12 @@ void st_stick(int a, int k)
         state->stick(state->gui_id, a, k);
 }
 
+void st_angle(int x, int z)
+{
+    if (state && state->angle)
+        state->angle(state->gui_id, x, z);
+}
+
 /*---------------------------------------------------------------------------*/
 
 int st_click(int b, int d)

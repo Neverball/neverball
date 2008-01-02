@@ -177,6 +177,7 @@ struct state st_resol = {
     resol_timer,
     resol_point,
     resol_stick,
+    NULL,
     resol_click,
     resol_keybd,
     resol_buttn,

@@ -1,3 +1,4 @@
+
 #-------------------------------------------------------------------------------
 
 VERSION := $(shell sh scripts/version.sh)
@@ -38,6 +39,11 @@ else
     ALL_CPPFLAGS += -DENABLE_NLS=1
 endif
 
+ifeq ($(ENABLE_WII),1)
+    ALL_CFLAGS    = -O2  # libwiimote is NOT ANSI compliant
+    ALL_CPPFLAGS += -DENABLE_WII=1
+endif
+
 ifdef DARWIN
     ALL_CPPFLAGS += -I/opt/local/include
 endif
@@ -63,6 +69,10 @@ else ifdef DARWIN
 
     OGL_LIBS := -framework OpenGL
 else
+    ifneq ($(ENABLE_WII),0)
+        TILT_LIBS := -lcwiimote -lbluetooth
+    endif
+
     OGL_LIBS := -lGL -lm
 endif
 
@@ -72,7 +82,7 @@ ifdef DARWIN
     BASE_LIBS += -L/opt/local/lib
 endif
 
-ALL_LIBS := $(SDL_LIBS) $(BASE_LIBS) $(INTL_LIBS) -lSDL_ttf \
+ALL_LIBS := $(SDL_LIBS) $(BASE_LIBS) $(TILT_LIBS) $(INTL_LIBS) -lSDL_ttf \
     -lvorbisfile $(OGL_LIBS)
 
 #------------------------------------------------------------------------------
@@ -120,6 +130,7 @@ BALL_OBJS := \
 	share/audio.o       \
 	share/text.o        \
 	share/sync.o        \
+	share/tilt.o        \
 	ball/hud.o          \
 	ball/mode.o         \
 	ball/game.o         \

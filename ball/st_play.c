@@ -263,6 +263,12 @@ static void play_loop_stick(int id, int a, int k)
         game_set_x(k);
 }
 
+static void play_loop_angle(int id, int x, int z)
+{
+    game_set_x(x);
+    game_set_z(z);
+}
+
 static int play_loop_click(int b, int d)
 {
     view_rotate = d ? b : 0;
@@ -422,6 +428,7 @@ struct state st_play_ready = {
     play_ready_timer,
     NULL,
     NULL,
+    NULL,
     play_ready_click,
     play_ready_keybd,
     play_ready_buttn,
@@ -433,6 +440,7 @@ struct state st_play_set = {
     shared_leave,
     shared_paint,
     play_set_timer,
+    NULL,
     NULL,
     NULL,
     play_set_click,
@@ -448,6 +456,7 @@ struct state st_play_loop = {
     play_loop_timer,
     play_loop_point,
     play_loop_stick,
+    shared_angle,
     play_loop_click,
     play_loop_keybd,
     play_loop_buttn,
@@ -460,6 +469,7 @@ struct state st_look = {
     look_paint,
     NULL,
     look_point,
+    NULL,
     NULL,
     NULL,
     look_keybd,

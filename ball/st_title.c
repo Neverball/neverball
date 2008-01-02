@@ -263,6 +263,7 @@ struct state st_title = {
     title_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     title_keybd,
     title_buttn,

@@ -244,7 +244,7 @@ static void coin_edge(int n, float radius, float thick)
             float x = fcosf(2.f * PI * i / n);
             float y = fsinf(2.f * PI * i / n);
 
-            glNormal3f(x, y, 0.f);
+            glNormal3f(x, y, 0.0f);
             glVertex3f(radius * x, radius * y, +thick);
             glVertex3f(radius * x, radius * y, -thick);
         }
@@ -311,7 +311,9 @@ void item_init(int b)
 
     glNewList(item_list, GL_COMPILE);
     {
+        glDisable(GL_TEXTURE_2D);
         coin_edge(n, COIN_RADIUS, COIN_THICK);
+        glEnable (GL_TEXTURE_2D);
         coin_head(n, COIN_RADIUS, COIN_THICK);
         coin_tail(n, COIN_RADIUS, COIN_THICK);
     }

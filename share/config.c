@@ -97,6 +97,7 @@ void config_init(void)
     config_set_d(CONFIG_JOYSTICK_CAMERA_1,    DEFAULT_JOYSTICK_CAMERA_1);
     config_set_d(CONFIG_JOYSTICK_CAMERA_2,    DEFAULT_JOYSTICK_CAMERA_2);
     config_set_d(CONFIG_JOYSTICK_CAMERA_3,    DEFAULT_JOYSTICK_CAMERA_3);
+    config_set_s(CONFIG_WIIMOTE_ADDR,         DEFAULT_WIIMOTE_ADDR);
     config_set_d(CONFIG_KEY_CAMERA_1,         DEFAULT_KEY_CAMERA_1);
     config_set_d(CONFIG_KEY_CAMERA_2,         DEFAULT_KEY_CAMERA_2);
     config_set_d(CONFIG_KEY_CAMERA_3,         DEFAULT_KEY_CAMERA_3);
@@ -241,6 +242,8 @@ void config_load(void)
                     config_set_s(CONFIG_PLAYER, val);
                 else if (strcmp(key, "ball") == 0)
                     config_set_s(CONFIG_BALL, val);
+                else if (strcmp(key, "wiimote_addr") == 0)
+                    config_set_s(CONFIG_WIIMOTE_ADDR, val);
 
                 else if (strcmp(key, "cheat") == 0)
                     config_set_d(CONFIG_CHEAT, atoi(val));
@@ -364,8 +367,12 @@ void config_save(void)
         fprintf(fp, "key_restart          %s\n",
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_RESTART]));
 
-        fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
-        fprintf(fp, "ball                 %s\n", option_s[CONFIG_BALL]);
+        if (strlen(option_s[CONFIG_PLAYER]) > 0)
+            fprintf(fp, "player       %s\n", option_s[CONFIG_PLAYER]);
+        if (strlen(option_s[CONFIG_BALL]) > 0)
+            fprintf(fp, "ball         %s\n", option_s[CONFIG_BALL]);
+        if (strlen(option_s[CONFIG_WIIMOTE_ADDR]) > 0)
+            fprintf(fp, "wiimote_addr %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
 
         fprintf(fp, "stats                %d\n",
                 option_d[CONFIG_STATS]);

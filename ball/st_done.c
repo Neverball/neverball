@@ -128,6 +128,7 @@ struct state st_done = {
     shared_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     NULL,
     done_buttn,

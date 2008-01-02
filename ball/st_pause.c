@@ -177,6 +177,7 @@ struct state st_pause = {
     pause_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     pause_keybd,
     pause_buttn,

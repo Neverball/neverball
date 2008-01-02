@@ -49,6 +49,7 @@ int   curr_goal(void);
 void  game_draw(int, float);
 int   game_step(const float[3], float, int);
 
+void  game_set_ang(int, int);
 void  game_set_pos(int, int);
 void  game_set_x  (int);
 void  game_set_z  (int);

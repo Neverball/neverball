@@ -307,6 +307,7 @@ struct state st_goal = {
     goal_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     NULL,
     goal_buttn,
