@@ -201,6 +201,10 @@
 		B517CF260D1F133000FCFE83 /* libvorbisfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B517CF040D1F133000FCFE83 /* libvorbisfile.a */; };
 		B517CF270D1F133000FCFE83 /* ogg in Resources */ = {isa = PBXBuildFile; fileRef = B517CF050D1F133000FCFE83 /* ogg */; };
 		B517CF2A0D1F133000FCFE83 /* vorbis in Resources */ = {isa = PBXBuildFile; fileRef = B517CF0C0D1F133000FCFE83 /* vorbis */; };
+		B53285970D2B46B000DEC276 /* tilt.c in Sources */ = {isa = PBXBuildFile; fileRef = B53285950D2B46B000DEC276 /* tilt.c */; };
+		B53285980D2B46B000DEC276 /* tilt.h in Headers */ = {isa = PBXBuildFile; fileRef = B53285960D2B46B000DEC276 /* tilt.h */; };
+		B53285990D2B46B000DEC276 /* tilt.c in Sources */ = {isa = PBXBuildFile; fileRef = B53285950D2B46B000DEC276 /* tilt.c */; };
+		B532859A0D2B46B000DEC276 /* tilt.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B53285960D2B46B000DEC276 /* tilt.h */; };
 		B5412EB90CA36ACD00C9A9F7 /* demo.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC0E0AEA2EF600AFD07F /* demo.h */; };
 		B5412EBA0CA36AE000C9A9F7 /* demo.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC0D0AEA2EF600AFD07F /* demo.c */; };
 		B5412EC20CA36C3C00C9A9F7 /* score.c in Sources */ = {isa = PBXBuildFile; fileRef = B5412EBE0CA36C3C00C9A9F7 /* score.c */; };
@@ -341,6 +345,7 @@
 				B565048A0D22F722006F75A4 /* zconf.h in CopyFiles */,
 				B565048B0D22F722006F75A4 /* zlib.h in CopyFiles */,
 				B509A5D60D2B032B008DB8D9 /* sync.h in CopyFiles */,
+				B532859A0D2B46B000DEC276 /* tilt.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -986,6 +991,8 @@
 		B517CF040D1F133000FCFE83 /* libvorbisfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libvorbisfile.a; sourceTree = "<group>"; };
 		B517CF050D1F133000FCFE83 /* ogg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ogg; sourceTree = "<group>"; };
 		B517CF0C0D1F133000FCFE83 /* vorbis */ = {isa = PBXFileReference; lastKnownFileType = folder; path = vorbis; sourceTree = "<group>"; };
+		B53285950D2B46B000DEC276 /* tilt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tilt.c; sourceTree = "<group>"; };
+		B53285960D2B46B000DEC276 /* tilt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tilt.h; sourceTree = "<group>"; };
 		B5412DD80CA36A6700C9A9F7 /* arrow */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow; sourceTree = "<group>"; };
 		B5412DD90CA36A6700C9A9F7 /* arrow-dark */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "arrow-dark"; sourceTree = "<group>"; };
 		B5412DDA0CA36A6700C9A9F7 /* arrow-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-dark.png"; sourceTree = "<group>"; };
@@ -1419,6 +1426,8 @@
 		815FFB710AEA2E0300AFD07F /* share */ = {
 			isa = PBXGroup;
 			children = (
+				B53285950D2B46B000DEC276 /* tilt.c */,
+				B53285960D2B46B000DEC276 /* tilt.h */,
 				B509A5D10D2B032B008DB8D9 /* sync.c */,
 				B509A5D20D2B032B008DB8D9 /* sync.h */,
 				B5452B810D19C959000F8933 /* text.c */,
@@ -2572,6 +2581,7 @@
 				B56504870D22F722006F75A4 /* zconf.h in Headers */,
 				B56504880D22F722006F75A4 /* zlib.h in Headers */,
 				B509A5D40D2B032B008DB8D9 /* sync.h in Headers */,
+				B53285980D2B46B000DEC276 /* tilt.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2818,6 +2828,7 @@
 				8137FD6B0AEBE54F009172EC /* st_conf.c in Sources */,
 				B5452B850D19C959000F8933 /* text.c in Sources */,
 				B509A5D50D2B032B008DB8D9 /* sync.c in Sources */,
+				B53285990D2B46B000DEC276 /* tilt.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2884,6 +2895,7 @@
 				B57D63D60CAE8138005DE710 /* st_fall_out.c in Sources */,
 				B5452B830D19C959000F8933 /* text.c in Sources */,
 				B509A5D30D2B032B008DB8D9 /* sync.c in Sources */,
+				B53285970D2B46B000DEC276 /* tilt.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
