@@ -15,8 +15,13 @@ endif
 #------------------------------------------------------------------------------
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
-#CFLAGS := -Wall -g -ansi -pedantic
-CFLAGS := -Wall -O2 -ansi -pedantic
+ifeq ($(ENABLE_WII),1)
+    # libwiimote is NOT ANSI compliant
+    CFLAGS := -O2
+else
+    #CFLAGS := -Wall -g -ansi -pedantic
+    CFLAGS := -Wall -O2 -ansi -pedantic
+endif
 
 #------------------------------------------------------------------------------
 # Mandatory flags
@@ -40,7 +45,6 @@ else
 endif
 
 ifeq ($(ENABLE_WII),1)
-    ALL_CFLAGS    = -O2  # libwiimote is NOT ANSI compliant
     ALL_CPPFLAGS += -DENABLE_WII=1
 endif
 
@@ -69,7 +73,7 @@ else ifdef DARWIN
 
     OGL_LIBS := -framework OpenGL
 else
-    ifneq ($(ENABLE_WII),0)
+    ifeq ($(ENABLE_WII),1)
         TILT_LIBS := -lcwiimote -lbluetooth
     endif
 
