@@ -263,12 +263,6 @@ static void play_loop_stick(int id, int a, int k)
         game_set_x(k);
 }
 
-static void play_loop_angle(int id, int x, int z)
-{
-    game_set_x(x);
-    game_set_z(z);
-}
-
 static int play_loop_click(int b, int d)
 {
     view_rotate = d ? b : 0;
@@ -456,7 +450,7 @@ struct state st_play_loop = {
     play_loop_timer,
     play_loop_point,
     play_loop_stick,
-    play_loop_angle,
+    shared_angle,
     play_loop_click,
     play_loop_keybd,
     play_loop_buttn,
