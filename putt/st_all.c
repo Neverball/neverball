@@ -154,7 +154,7 @@ static int score_card(const char  *title,
 
 /*---------------------------------------------------------------------------*/
 
-static void shared_stick(int id, int a, int v)
+static int shared_stick_basic(int id, int a, int v)
 {
     int jd = 0;
 
@@ -165,6 +165,13 @@ static void shared_stick(int id, int a, int v)
 
     if (jd)
         gui_pulse(jd, 1.2f);
+
+    return jd;
+}
+
+static void shared_stick(int id, int a, int v)
+{
+    shared_stick_basic(id, a, v);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -367,6 +374,24 @@ static void course_point(int id, int x, int y, int dx, int dy)
     if ((jd = gui_point(id, x, y)))
     {
         int i = gui_token(jd);
+
+        if (course_exists(i))
+        {
+            gui_set_image(shot_id, course_shot(i));
+            gui_set_multi(desc_id, _(course_desc(i)));
+        }
+        gui_pulse(jd, 1.2f);
+    }
+}
+
+static void course_stick(int id, int a, int v)
+{
+    int jd;
+
+    if ((jd = shared_stick_basic(id, a, v)))
+    {
+        int i = gui_token(jd);
+
         if (course_exists(i))
         {
             gui_set_image(shot_id, course_shot(i));
@@ -1302,7 +1327,7 @@ struct state st_course = {
     course_paint,
     course_timer,
     course_point,
-    shared_stick,
+    course_stick,
     NULL,
     course_click,
     NULL,
