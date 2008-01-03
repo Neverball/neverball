@@ -32,11 +32,91 @@
 static GLuint ball_list;
 static GLuint ball_text;
 
+/*---------------------------------------------------------------------------*/
+#ifdef OCTA_BALL
+
+/* These are the faces of an octahedron in positive longitude/latitude. */
+
+static float octahedron[8][3][2] = {
+    {{   0.0f,  90.0f }, {   0.0f, 0.0f }, {  90.0f, 0.0f }},
+    {{  90.0f,  90.0f }, {  90.0f, 0.0f }, { 180.0f, 0.0f }},
+    {{ 180.0f,  90.0f }, { 180.0f, 0.0f }, { 270.0f, 0.0f }},
+    {{ 270.0f,  90.0f }, { 270.0f, 0.0f }, { 360.0f, 0.0f }},
+    {{   0.0f, -90.0f }, {  90.0f, 0.0f }, {   0.0f, 0.0f }},
+    {{  90.0f, -90.0f }, { 180.0f, 0.0f }, {  90.0f, 0.0f }},
+    {{ 180.0f, -90.0f }, { 270.0f, 0.0f }, { 180.0f, 0.0f }},
+    {{ 270.0f, -90.0f }, { 360.0f, 0.0f }, { 270.0f, 0.0f }},
+};
+
+static void midpoint(float *P, const float *A, const float *B)
+{
+    float D[2];
+
+    /* The haversine midpoint method. */
+
+    D[0] = fcosf(B[1]) * fcosf(B[0] - A[0]);
+    D[1] = fcosf(B[1]) * fsinf(B[0] - A[0]);
+
+    P[0] = A[0] + fatan2f(D[1], fcosf(A[1]) + D[0]);
+
+    P[1] = fatan2f(fsinf(A[1]) +
+                   fsinf(B[1]),
+                   fsqrtf((fcosf(A[1]) + D[0]) *
+                          (fcosf(A[1]) + D[0]) + D[1] * D[1])); 
+}
+
+static void ball_vertex(const float *p)
+{
+    /* Draw a vertex with normal and texture coordinate at the given lon/lat. */
+
+    const float x = fsinf(p[0]) * fcosf(p[1]);
+    const float y =               fsinf(p[1]);
+    const float z = fcosf(p[0]) * fcosf(p[1]);
+
+    glTexCoord2f(p[0] / V_RAD(360.0f),
+                 p[1] / V_RAD(180.0f));
+
+    glNormal3f(x, y, z);
+    glVertex3f(x, y, z);
+}
+
+static void ball_subdiv(const float *a,
+                        const float *b,
+                        const float *c, int D)
+{
+    if (D > 0)
+    {
+        /* Recursively subdivide the given triangle. */
+
+        float d[2];
+        float e[2];
+        float f[2];
+
+        midpoint(d, a, b);
+        midpoint(e, b, c);
+        midpoint(f, c, a);
+
+        ball_subdiv(a, d, f, D - 1);
+        ball_subdiv(d, b, e, D - 1);
+        ball_subdiv(f, e, c, D - 1);
+        ball_subdiv(d, e, f, D - 1);
+    }
+    else
+    {
+        /* Draw the given triangle. */
+
+        ball_vertex(a);
+        ball_vertex(b);
+        ball_vertex(c);
+    }
+}
+
+#endif /* OCTA_BALL */
+/*---------------------------------------------------------------------------*/
+
 void ball_init(int b)
 {
     char name[MAXSTR];
-    int i, slices = b ? 32 : 16;
-    int j, stacks = b ? 16 :  8;
 
     config_get_s(CONFIG_BALL, name, MAXSTR);
 
@@ -49,6 +129,34 @@ void ball_init(int b)
 
     glNewList(ball_list, GL_COMPILE);
     {
+#ifdef OCTA_BALL
+        int i, d = b ? 4 : 3;
+
+        glBegin(GL_TRIANGLES);
+        {
+            for (i = 0; i < 8; ++i)
+            {
+                float a[2];
+                float b[2];
+                float c[2];
+
+                a[0] = V_RAD(octahedron[i][0][0]);
+                a[1] = V_RAD(octahedron[i][0][1]);
+
+                b[0] = V_RAD(octahedron[i][1][0]);
+                b[1] = V_RAD(octahedron[i][1][1]);
+
+                c[0] = V_RAD(octahedron[i][2][0]);
+                c[1] = V_RAD(octahedron[i][2][1]);
+
+                ball_subdiv(a, b, c, d);
+            }
+        }
+        glEnd();
+#else
+        int i, slices = b ? 32 : 16;
+        int j, stacks = b ? 16 :  8;
+
         for (i = 0; i < stacks; i++)
         {
             float k0 = (float)  i      / stacks;
@@ -78,6 +186,7 @@ void ball_init(int b)
             }
             glEnd();
         }
+#endif /* OCTA_BALL */
     }
     glEndList();
 }
