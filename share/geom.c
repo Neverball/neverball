@@ -75,8 +75,8 @@ static void ball_vertex(const float *p)
     const float y =               fsinf(p[1]);
     const float z = fcosf(p[0]) * fcosf(p[1]);
 
-    glTexCoord2f(p[0] / V_RAD(360.0f),
-                 p[1] / V_RAD(180.0f));
+    glTexCoord2f((+p[0]               ) / V_RAD(360.0f),
+                 (-p[1] + V_RAD(90.0f)) / V_RAD(180.0f));
 
     glNormal3f(x, y, z);
     glVertex3f(x, y, z);
