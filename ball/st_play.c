@@ -456,7 +456,7 @@ struct state st_play_loop = {
     play_loop_timer,
     play_loop_point,
     play_loop_stick,
-    shared_angle,
+    play_loop_angle,
     play_loop_click,
     play_loop_keybd,
     play_loop_buttn,

@@ -560,7 +560,7 @@ struct state st_demo = {
     demo_timer,
     demo_point,
     demo_stick,
-    shared_stick,
+    shared_angle,
     shared_click,
     NULL,
     demo_buttn,

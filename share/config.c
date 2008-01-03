@@ -97,7 +97,6 @@ void config_init(void)
     config_set_d(CONFIG_JOYSTICK_CAMERA_1,    DEFAULT_JOYSTICK_CAMERA_1);
     config_set_d(CONFIG_JOYSTICK_CAMERA_2,    DEFAULT_JOYSTICK_CAMERA_2);
     config_set_d(CONFIG_JOYSTICK_CAMERA_3,    DEFAULT_JOYSTICK_CAMERA_3);
-    config_set_s(CONFIG_WIIMOTE_ADDR,         DEFAULT_WIIMOTE_ADDR);
     config_set_d(CONFIG_KEY_CAMERA_1,         DEFAULT_KEY_CAMERA_1);
     config_set_d(CONFIG_KEY_CAMERA_2,         DEFAULT_KEY_CAMERA_2);
     config_set_d(CONFIG_KEY_CAMERA_3,         DEFAULT_KEY_CAMERA_3);
@@ -111,6 +110,7 @@ void config_init(void)
     config_set_d(CONFIG_ROTATE_SLOW,          DEFAULT_ROTATE_SLOW);
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
+    config_set_s(CONFIG_WIIMOTE_ADDR,         DEFAULT_WIIMOTE_ADDR);
     config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_STATS,                DEFAULT_STATS);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
