@@ -35,8 +35,8 @@ static int game_state = 0;
 static struct s_file file;
 static struct s_file back;
 
-static float clock      = 0.f;          /* Clock time                        */
-static int   clock_down = 1;            /* Clock go up or down?              */
+static float timer      = 0.f;          /* Clock time                        */
+static int   timer_down = 1;            /* Timer go up or down?              */
 
 static float game_rx;                   /* Floor rotation about X axis       */
 static float game_rz;                   /* Floor rotation about Z axis       */
@@ -313,8 +313,8 @@ static void view_init(void)
 
 int game_init(const struct level *level, int t, int g)
 {
-    clock      = (float) t / 100.f;
-    clock_down = (t > 0);
+    timer      = (float) t / 100.f;
+    timer_down = (t > 0);
     coins      = 0;
 
     if (game_state)
@@ -375,7 +375,7 @@ void game_free(void)
 
 int curr_clock(void)
 {
-    return (int) (clock * 100.f);
+    return (int) (timer * 100.f);
 }
 
 int curr_coins(void)
@@ -927,16 +927,16 @@ static void game_update_time(float dt, int b)
 
    /* The ticking clock. */
 
-    if (b && clock_down)
+    if (b && timer_down)
     {
-        if (clock < 600.f)
-            clock -= dt;
-        if (clock < 0.f)
-            clock = 0.f;
+        if (timer < 600.f)
+            timer -= dt;
+        if (timer < 0.f)
+            timer = 0.f;
     }
     else if (b)
     {
-        clock += dt;
+        timer += dt;
     }
 }
 
@@ -1011,7 +1011,7 @@ static int game_update_state(int bt)
 
     /* Test for time-out. */
 
-    if (bt && clock_down && clock <= 0.f)
+    if (bt && timer_down && timer <= 0.f)
     {
         audio_play(AUD_TIME, 1.0f);
         return GAME_TIME;

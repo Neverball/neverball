@@ -66,7 +66,7 @@ ifdef MINGW
     endif
 
     OGL_LIBS := -lopengl32 -lm
-else ifdef DARWIN
+elifdef DARWIN
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl -liconv
     endif

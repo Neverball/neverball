@@ -9,6 +9,6 @@ svn_version()
     test "$svn_rev" != "exported" && echo "r$svn_rev"
 }
 
-version="$(svn_version || date --utc +"%Y-%m-%d")"
+version="$(svn_version || date -u +"%Y-%m-%d")"
 test -n "$version" && echo "$version" || echo "unknown"
 
