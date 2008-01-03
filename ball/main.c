@@ -80,8 +80,8 @@ static int loop(void)
     SDL_Event e;
     int d = 1;
     int c;
-    int x;
-    int y;
+
+    /* Process SDL events. */
 
     while (d && SDL_PollEvent(&e))
     {
@@ -198,18 +198,48 @@ static int loop(void)
         }
     }
 
+    /* Process events via the tilt sensor API. */
+
     if (tilt_stat())
     {
-        tilt_get_direct(&x, &y);
-
-        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), x);
-        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), y);
+        int b;
+        int s;
 
         st_angle((int) tilt_get_x(),
                  (int) tilt_get_z());
 
-        if (tilt_get_button(&x, &y))
-            d = st_buttn(x, y);
+        while (tilt_get_button(&b, &s))
+        {
+            const int X = config_get_d(CONFIG_JOYSTICK_AXIS_X);
+            const int Y = config_get_d(CONFIG_JOYSTICK_AXIS_Y);
+            const int L = config_get_d(CONFIG_JOYSTICK_DPAD_L);
+            const int R = config_get_d(CONFIG_JOYSTICK_DPAD_R);
+            const int U = config_get_d(CONFIG_JOYSTICK_DPAD_U);
+            const int D = config_get_d(CONFIG_JOYSTICK_DPAD_D);
+
+            if (b == L || b == R || b == U || b == D)
+            {
+                static int pad[4] = { 0, 0, 0, 0 };
+
+                /* Track the state of the D-pad buttons. */
+
+                if      (b == L) pad[0] = s;
+                else if (b == R) pad[1] = s;
+                else if (b == U) pad[2] = s;
+                else if (b == D) pad[3] = s;
+
+                /* Convert D-pad button events into joystick axis motion. */
+
+                if      (pad[0] && !pad[1]) st_stick(X, -JOY_MAX);
+                else if (pad[1] && !pad[0]) st_stick(X, +JOY_MAX);
+                else                        st_stick(X,        1);
+
+                if      (pad[2] && !pad[3]) st_stick(Y, -JOY_MAX);
+                else if (pad[3] && !pad[2]) st_stick(Y, +JOY_MAX);
+                else                        st_stick(Y,        1);
+            }
+            else d = st_buttn(b, s);
+        }
     }
 
     return d;

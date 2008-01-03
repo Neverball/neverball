@@ -26,20 +26,77 @@
 #include <libcwiimote/wiimote.h>
 #include <libcwiimote/wiimote_api.h>
 
+/* 
+ * This data structure tracks button changes, counting transitions so that
+ * none are missed if the event handling thread falls significantly behind
+ * the device IO thread.
+ */
+
+#define BUTTON_NC 0
+#define BUTTON_DN 1
+#define BUTTON_UP 2
+
+struct button_state
+{
+    unsigned char curr;
+    unsigned char last;
+    unsigned char upc;
+    unsigned char dnc;
+};
+
+static void set_button(struct button_state *B, int s)
+{
+    if ((B->curr == 0) != (s == 0))
+    {
+        if (B->curr)
+        {
+            B->upc++;
+            B->curr = 0;
+        }
+        else
+        {
+            B->dnc++;
+            B->curr = 1;
+        }
+    }
+}
+
+static int get_button(struct button_state *B)
+{
+    int ch = BUTTON_NC;
+
+    if      (B->last == 1 && B->upc > 0)
+    {
+        B->upc--;
+        B->last = 0;
+        ch = BUTTON_UP;
+    }
+    else if (B->last == 0 && B->dnc > 0)
+    {
+        B->dnc--;
+        B->last = 1;
+        ch = BUTTON_DN;
+    }
+
+    return ch;
+}
+
+/*---------------------------------------------------------------------------*/
+
 struct tilt_state
 {
     int   status;
     float x;
     float z;
-    int   A, last_A;
-    int   B, last_B;
-    int   P, last_P;
-    int   M, last_M;
-    int   H, last_H;
-    int   U;
-    int   D;
-    int   L;
-    int   R;
+    struct button_state A;
+    struct button_state B;
+    struct button_state plus;
+    struct button_state minus;
+    struct button_state home;
+    struct button_state L;
+    struct button_state R;
+    struct button_state U;
+    struct button_state D;
 };
 
 static struct tilt_state state;
@@ -79,15 +136,15 @@ static int tilt_func(void *data)
                 {
                     running = state.status;
 
-                    state.A = wiimote.keys.a;
-                    state.B = wiimote.keys.b;
-                    state.U = wiimote.keys.up;
-                    state.P = wiimote.keys.plus;
-                    state.M = wiimote.keys.minus;
-                    state.H = wiimote.keys.home;
-                    state.D = wiimote.keys.down;
-                    state.L = wiimote.keys.left;
-                    state.R = wiimote.keys.right;
+                    set_button(&state.A,     wiimote.keys.a);
+                    set_button(&state.B,     wiimote.keys.b);
+                    set_button(&state.plus,  wiimote.keys.plus);
+                    set_button(&state.minus, wiimote.keys.minus);
+                    set_button(&state.home,  wiimote.keys.home);
+                    set_button(&state.L,     wiimote.keys.left);
+                    set_button(&state.R,     wiimote.keys.right);
+                    set_button(&state.U,     wiimote.keys.up);
+                    set_button(&state.D,     wiimote.keys.down);
 
                     if (isnormal(wiimote.tilt.y))
                     {
@@ -142,69 +199,61 @@ void tilt_free(void)
 
 int tilt_get_button(int *b, int *s)
 {
-    int ch = 0;
+    int ch = BUTTON_NC;
 
     if (mutex)
     {
         SDL_mutexP(mutex);
         {
-            if      (state.A != state.last_A)
+            if      ((ch = get_button(&state.A)))
             {
                 *b = config_get_d(CONFIG_JOYSTICK_BUTTON_A);
-                *s = state.last_A = state.A;
-                ch = 1;
+                *s = (ch == BUTTON_DN);
             }
-            else if (state.B != state.last_B)
+            else if ((ch = get_button(&state.B)))
             {
                 *b = config_get_d(CONFIG_JOYSTICK_BUTTON_B);
-                *s = state.last_B = state.B;
-                ch = 1;
+                *s = (ch == BUTTON_DN);
             }
-            else if (state.P != state.last_P)
+            else if ((ch = get_button(&state.plus)))
             {
                 *b = config_get_d(CONFIG_JOYSTICK_BUTTON_R);
-                *s = state.last_P = state.P;
-                ch = 1;
+                *s = (ch == BUTTON_DN);
             }
-            else if (state.M != state.last_M)
+            else if ((ch = get_button(&state.minus)))
             {
                 *b = config_get_d(CONFIG_JOYSTICK_BUTTON_L);
-                *s = state.last_M = state.M;
-                ch = 1;
+                *s = (ch == BUTTON_DN);
             }
-            else if (state.H != state.last_H)
+            else if ((ch = get_button(&state.home)))
             {
                 *b = config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT);
-                *s = state.last_H = state.H;
-                ch = 1;
+                *s = (ch == BUTTON_DN);
+            }
+            else if ((ch = get_button(&state.L)))
+            {
+                *b = config_get_d(CONFIG_JOYSTICK_DPAD_L);
+                *s = (ch == BUTTON_DN);
+            }
+            else if ((ch = get_button(&state.R)))
+            {
+                *b = config_get_d(CONFIG_JOYSTICK_DPAD_R);
+                *s = (ch == BUTTON_DN);
+            }
+            else if ((ch = get_button(&state.U)))
+            {
+                *b = config_get_d(CONFIG_JOYSTICK_DPAD_U);
+                *s = (ch == BUTTON_DN);
+            }
+            else if ((ch = get_button(&state.D)))
+            {
+                *b = config_get_d(CONFIG_JOYSTICK_DPAD_D);
+                *s = (ch == BUTTON_DN);
             }
         }
         SDL_mutexV(mutex);
     }
     return ch;
-}
-
-void tilt_get_direct(int *x, int *y)
-{
-    *x = 1;
-    *y = 1;
-
-    if (mutex)
-    {
-        SDL_mutexP(mutex);
-        {
-            if      (state.L)
-                *x = -JOY_MAX;
-            else if (state.R)
-                *x = +JOY_MAX;
-
-            if      (state.U)
-                *y = -JOY_MAX;
-            else if (state.D)
-                *y = +JOY_MAX;
-        }
-        SDL_mutexV(mutex);
-    }
 }
 
 float tilt_get_x(void)

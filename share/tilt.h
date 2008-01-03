@@ -22,7 +22,6 @@ void tilt_free(void);
 int  tilt_stat(void);
 
 int  tilt_get_button(int *, int *);
-void tilt_get_direct(int *, int *);
 
 float tilt_get_x(void);
 float tilt_get_z(void);
