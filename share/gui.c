@@ -702,13 +702,19 @@ static void gui_button_up(int id)
     if (widget[id].w < widget[id].h && widget[id].w > 0)
         widget[id].w = widget[id].h;
 
-
     /* Padded text elements look a little nicer. */
 
     if (widget[id].w < config_get_d(CONFIG_WIDTH))
         widget[id].w += radius;
     if (widget[id].h < config_get_d(CONFIG_HEIGHT))
         widget[id].h += radius;
+
+    /* A button should be at least wide enough to accomodate the rounding. */
+
+    if (widget[id].w < 2 * radius)
+        widget[id].w = 2 * radius;
+    if (widget[id].h < 2 * radius)
+        widget[id].h = 2 * radius;
 }
 
 static void gui_widget_up(int id)
