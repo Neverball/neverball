@@ -223,33 +223,6 @@ static int set_load(struct set *s, const char *filename)
 
     fclose(fin);
 
-    /* Load the levels states (stored in the user high score file) */
-
-    s->locked = s->count;
-    s->completed = 0;
-
-    if ((fin = fopen(config_user(s->user_scores), "r")))
-    {
-        char states[MAXLVL + 1];
-        int i;
-        if ((fscanf(fin, "%s\n", states) == 1) && (strlen(states) == s->count))
-        {
-            for (i = 0; i < s->count; i++)
-            {
-                if (states[i] == 'O')
-                    s->locked -= 1;
-                else if (states[i] == 'C')
-                {
-                    s->completed += 1;
-                    s->locked -= 1;
-                }
-            }
-        }
-        fclose(fin);
-    }
-    if (s->locked == s->count)
-        s->locked = s->count-1;
-
     return 1;
 }
 
@@ -288,16 +261,6 @@ const struct set *get_set(int i)
 }
 
 /*---------------------------------------------------------------------------*/
-
-int set_unlocked(const struct set *s)
-{
-    return s->locked == 0;
-}
-
-int set_completed(const struct set *s)
-{
-    return s->completed == s->count;
-}
 
 int set_level_exists(const struct set *s, int i)
 {
@@ -481,7 +444,6 @@ void set_finish_level(struct level_game *lg, const char *player)
             if (!cl->is_completed)
             {
                 cl->is_completed = 1;
-                s->completed += 1;
                 dirty = 1;
             }
         }
@@ -548,7 +510,6 @@ void set_finish_level(struct level_game *lg, const char *player)
         {
             lg->unlock = 1;
             nl->is_locked = 0;
-            s->locked -= 1;
             dirty = 1;
         }
         else
@@ -596,11 +557,8 @@ void level_snap(int i)
 }
 
 void set_cheat(void)
-/* Open each level of the current set */
 {
     int i;
-
-    set_v[set].locked = 0;
 
     for (i = 0; i < set_v[set].count; i++)
         level_v[i].is_locked = 0;

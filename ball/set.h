@@ -28,8 +28,6 @@ struct set
     /* Level stats */
 
     unsigned int count;        /* Number of levels           */
-    unsigned int locked;       /* Number of locked levels    */
-    unsigned int completed;    /* Number of completed levels */
 };
 
 /*---------------------------------------------------------------------------*/
@@ -39,8 +37,6 @@ int set_exists(int);
 
 const struct set *get_set(int);
 
-int set_unlocked(const struct set *);
-int set_completed(const struct set *);
 int set_level_exists(const struct set *, int);
 
 void                set_goto(int i);
