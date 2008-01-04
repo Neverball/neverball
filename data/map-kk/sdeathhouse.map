@@ -7,7 +7,7 @@
 "goal" "20"
 "coin_hs" "40 30"
 "author" "Byron James Johnson (Krabby Krap)"
-"version" "2.6"
+"version" "2.7"
 "bonus" "0"
 "grad" "back/land.png"
 "back" "map-back/clouds.sol"

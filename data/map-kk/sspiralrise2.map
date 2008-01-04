@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "bonus" "0"
 "author" "Byron James Johnson (Krabby Krap)"
-"version" "2.6"
+"version" "2.7"
 "grad" "back/space.png"
 "back" "map-back/jupiter.sol"
 "goal" "46"
