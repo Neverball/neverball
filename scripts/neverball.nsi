@@ -53,8 +53,8 @@ Section "Neverball/Neverputt"
 
     File neverball.exe neverputt.exe *.dll
 
-    File /oname=data\icon\neverball.ico dist\ico\neverball_basic_sizes.ico
-    File /oname=data\icon\neverputt.ico dist\ico\neverputt_basic_sizes.ico
+    File /oname=data\icon\neverball.ico dist\ico\neverball.ico
+    File /oname=data\icon\neverputt.ico dist\ico\neverputt.ico
 
     CreateDirectory "$INSTDIR\bin"
 
