@@ -122,10 +122,11 @@ void ball_init(int b)
 
     config_get_s(CONFIG_BALL, name, MAXSTR);
 
-    ball_text = make_image_from_file(name);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    if ((ball_text = make_image_from_file(name)))
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
 
     ball_list = glGenLists(1);
 
