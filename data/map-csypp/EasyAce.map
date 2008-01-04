@@ -1137,13 +1137,13 @@
 // entity 9
 {
 "classname" "info_player_intermission"
-"origin" "-64 64 96"
+"origin" "-64 704 192"
 "target" "goal2"
 }
 // entity 10
 {
 "classname" "info_player_intermission"
-"origin" "-64 -208 192"
+"origin" "-64 464 592"
 "target" "view2"
 }
 // entity 11
