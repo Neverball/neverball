@@ -60,24 +60,35 @@ ALL_CPPFLAGS += $(CPPFLAGS)
 SDL_LIBS := $(shell sdl-config --libs)
 PNG_LIBS := $(shell libpng-config --libs)
 
+# The  non-conditionalised values  below  are specific  to the  native
+# system. The native system of this Makefile is Linux (or GNU+Linux if
+# you prefer). Please be sure to  override ALL of them for each target
+# system in the conditional parts below.
+
+INTL_LIBS :=
+
+ifeq ($(ENABLE_WII),1)
+    TILT_LIBS := -lcwiimote -lbluetooth
+endif
+
+OGL_LIBS := -lGL -lm
+
 ifdef MINGW
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl -liconv
     endif
 
-    OGL_LIBS := -lopengl32 -lm
-elifdef DARWIN
+    TILT_LIBS :=
+    OGL_LIBS  := -lopengl32 -lm
+endif
+
+ifdef DARWIN
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl -liconv
     endif
 
-    OGL_LIBS := -framework OpenGL
-else
-    ifeq ($(ENABLE_WII),1)
-        TILT_LIBS := -lcwiimote -lbluetooth
-    endif
-
-    OGL_LIBS := -lGL -lm
+    TILT_LIBS :=
+    OGL_LIBS  := -framework OpenGL
 endif
 
 BASE_LIBS := -ljpeg $(PNG_LIBS)
