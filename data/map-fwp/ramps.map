@@ -8,7 +8,7 @@
 "back" "map-back/city.sol"
 "grad" "back/city.png"
 "song" "bgm/track3.ogg"
-"time" "12000"
+"time" "9000"
 "goal" "1"
 "time_hs" "3200 4900"
 "coin_hs" "74 54"
