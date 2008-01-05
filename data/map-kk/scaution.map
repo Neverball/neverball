@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "timer" "300"
-"version" "2.7"
+"version" "3.0"
 "bonus" "0"
 "author" "Byron James Johnson (Krabby Krap)"
 "song" "bgm/track3.ogg"
@@ -12,6 +12,7 @@
 "time" "9000"
 "goal" "5"
 "shot" "shot-kk/scaution.jpg"
+"message" "Steal the coins without being caught,\and find the hidden goal.\There is also another special\goal to be aware of."
 // brush 0
 {
 ( -40 88 -23 ) ( -40 48 -23 ) ( -88 88 -23 ) mtrl/sign-no-touch-coins-swap2 128 128 0 0.25 0.25 134217728 0 0

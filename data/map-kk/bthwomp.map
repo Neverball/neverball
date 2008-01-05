@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "message" "Thwomp!"
-"version" "2.7"
+"version" "3.0"
 "author" "Byron James Johnson (Krabby Krap)"
 "bonus" "1"
 "grad" "back/land.png"
@@ -11,7 +11,7 @@
 "shot" "shot-kk/bthwomp.jpg"
 "song" "bgm/track2.ogg"
 "time" "0"
-"goal" "0"
+"goal" "90"
 "coin_hs" "90 60"
 "time_hs" "1000 3000"
 "goal_hs" "0 0"

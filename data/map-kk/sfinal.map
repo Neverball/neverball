@@ -2,8 +2,8 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "..."
-"version" "2.7"
+"message" "Neverball: http://www.neverball.org/"
+"version" "3.0"
 "author" "Byron James Johnson (Krabby Krap)"
 "bonus" "0"
 "goal" "0"

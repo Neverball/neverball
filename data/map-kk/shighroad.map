@@ -2,10 +2,10 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "The high road"
+"message" "It couldn't get any harder, or could it?"
 "author" "Byron James Johnson (Krabby Krap)"
 "bonus" "0"
-"version" "2.7"
+"version" "3.0"
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
 "shot" "shot-kk/shighroad.jpg"
