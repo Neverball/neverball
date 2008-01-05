@@ -21,6 +21,7 @@
 #include "geom.h"
 #include "back.h"
 #include "part.h"
+#include "ball.h"
 #include "image.h"
 #include "audio.h"
 #include "solid_gl.h"
@@ -390,7 +391,7 @@ int curr_goal(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_draw_balls(const struct s_file *fp)
+static void game_draw_balls(const struct s_file *fp, float rx, float ry)
 {
     float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
     float M[16];
@@ -409,7 +410,7 @@ static void game_draw_balls(const struct s_file *fp)
                  fp->uv[0].r);
 
         glColor4fv(c);
-        ball_draw();
+        ball_draw(M, rx, ry);
     }
     glPopMatrix();
     glPopAttrib();
@@ -707,7 +708,7 @@ static void game_draw_fore(int pose, float rx,
 
             /* Draw the ball. */
 
-            game_draw_balls(&file);
+            game_draw_balls(&file, -rx * d, -ry);
         }
 
         /* Draw the particles and light columns. */
@@ -718,7 +719,7 @@ static void game_draw_fore(int pose, float rx,
         {
             glColor3f(1.0f, 1.0f, 1.0f);
 
-            sol_bill(&file, -rx * d, -ry);
+            sol_bill(&file, -rx * d, -ry, NULL);
             part_draw_coin(-rx * d, -ry);
 
             glDisable(GL_TEXTURE_2D);

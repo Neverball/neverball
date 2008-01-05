@@ -560,7 +560,7 @@ static void read_f(struct s_file *fp, const char *line,
     gp->mi  = mi;
 }
 
-static void read_obj(struct s_file *fp, const char *name)
+static void read_obj(struct s_file *fp, const char *name, int mi)
 {
     char line[MAXSTR];
     char mtrl[MAXSTR];
@@ -569,7 +569,6 @@ static void read_obj(struct s_file *fp, const char *name)
     int v0 = fp->vc;
     int t0 = fp->tc;
     int s0 = fp->sc;
-    int mi = 0;
 
     if ((fin = fopen(config_data(name), "r")))
     {
@@ -857,7 +856,7 @@ static void make_body(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c, int l0)
 {
-    int i, bi = incb(fp);
+    int i, mi = 0, bi = incb(fp);
 
     int g0 = fp->gc;
     int v0 = fp->vc;
@@ -882,8 +881,11 @@ static void make_body(struct s_file *fp,
         else if (strcmp(k[i], "target") == 0)
             make_ref(v[i], &bp->pi);
 
+        else if (strcmp(k[i], "material") == 0)
+            mi = read_mtrl(fp, v[i]);
+
         else if (strcmp(k[i], "model") == 0)
-            read_obj(fp, v[i]);
+            read_obj(fp, v[i], mi);
 
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%d %d %d", &x, &y, &z);

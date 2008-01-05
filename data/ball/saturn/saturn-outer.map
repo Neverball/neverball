@@ -1,0 +1,5 @@
+{
+"classname" "misc_model"
+"material" "ball/saturn/saturn-ring"
+"model" "ball/saturn/saturn-ring.obj"
+}

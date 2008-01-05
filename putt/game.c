@@ -19,6 +19,7 @@
 #include "game.h"
 #include "vec3.h"
 #include "geom.h"
+#include "ball.h"
 #include "back.h"
 #include "hole.h"
 #include "hud.h"
@@ -154,7 +155,7 @@ static void game_draw_vect(const struct s_file *fp)
     }
 }
 
-static void game_draw_balls(const struct s_file *fp)
+static void game_draw_balls(const struct s_file *fp, float rx, float ry)
 {
     static const GLfloat color[5][4] = {
         { 1.0f, 1.0f, 1.0f, 0.7f },
@@ -184,7 +185,7 @@ static void game_draw_balls(const struct s_file *fp)
                          fp->uv[ui].r);
 
                 glColor4fv(color[ui]);
-                ball_draw();
+                ball_draw(M, rx, ry);
             }
             glPopMatrix();
         }
@@ -329,7 +330,7 @@ void game_draw(int pose)
 
         if (pose == 0)
         {
-            game_draw_balls(fp);
+            game_draw_balls(fp, -rx, -ry);
             game_draw_vect(fp);
         }
 

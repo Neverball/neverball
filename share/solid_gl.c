@@ -140,6 +140,22 @@ static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
     if ((mq->fl & M_ADDITIVE) && !(mp->fl & M_ADDITIVE))
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    /* Enable visibility-from-behind. */
+
+    if ((mp->fl & M_TWO_SIDED) && !(mq->fl & M_TWO_SIDED))
+    {
+        glDisable(GL_CULL_FACE);
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
+    }
+
+    /* Disable visibility-from-behind. */
+
+    if ((mq->fl & M_TWO_SIDED) && !(mp->fl & M_TWO_SIDED))
+    {
+        glEnable(GL_CULL_FACE);
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
+    }
+
     /* Enable decal offset. */
 
     if ((mp->fl & M_DECAL) && !(mq->fl & M_DECAL))
@@ -358,8 +374,9 @@ void sol_draw(const struct s_file *fp, float rx, float ry)
 
 }
 
-void sol_bill(const struct s_file *fp, float rx, float ry)
+void sol_bill(const struct s_file *fp, float rx, float ry, const float *M)
 {
+    float t = SDL_GetTicks() / 1000.f + 120.0f;
     const struct s_mtrl *mp = &default_mtrl;
 
     int ri;
@@ -368,16 +385,23 @@ void sol_bill(const struct s_file *fp, float rx, float ry)
     {
         const struct s_bill *rp = fp->rv + ri;
 
-        float w = (float) rp->w[0];
-        float h = (float) rp->h[0];
+        float T = rp->t * t;
+
+        float w  = rp->w [0] + rp->w [1] * T + rp->w [2] * fsinf(T);
+        float h  = rp->h [0] + rp->h [1] * T + rp->h [2] * fsinf(T);
+        float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * fsinf(T);
 
         mp = sol_draw_mtrl(fp, fp->mv + rp->mi, mp);
 
         glPushMatrix();
         {
             glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
-            glRotatef(ry, 0.f, 1.f, 0.f);
-            glRotatef(rx, 1.f, 0.f, 0.f);
+
+            if (M) glMultMatrixf(M);
+
+            glRotatef(ry, 0.0f, 1.0f, 0.0f);
+            glRotatef(rx, 1.0f, 0.0f, 0.0f);
+            glRotatef(rz, 0.0f, 0.0f, 1.0f);
 
             glBegin(GL_QUADS);
             {

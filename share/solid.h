@@ -86,6 +86,7 @@
 #define M_ADDITIVE    16
 #define M_CLAMPED     32
 #define M_DECAL       64
+#define M_TWO_SIDED  128
 
 /* Billboard types. */
 
