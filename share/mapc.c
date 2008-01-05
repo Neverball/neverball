@@ -1200,27 +1200,10 @@ static void make_ball(struct s_file *fp,
 
     struct s_ball *up = fp->uv + ui;
 
-    up->p[0] = 0.f;
-    up->p[1] = 0.f;
-    up->p[2] = 0.f;
-    up->r    = 0.25;
-
-    up->e[0][0] = 1.f;
-    up->e[0][1] = 0.f;
-    up->e[0][2] = 0.f;
-    up->e[1][0] = 0.f;
-    up->e[1][1] = 1.f;
-    up->e[1][2] = 0.f;
-    up->e[2][0] = 0.f;
-    up->e[2][1] = 0.f;
-    up->e[2][2] = 1.f;
-
-    up->v[0] = 0.f;
-    up->v[1] = 0.f;
-    up->v[2] = 0.f;
-    up->w[0] = 0.f;
-    up->w[1] = 0.f;
-    up->w[2] = 0.f;
+    up->p[0] = 0.0f;
+    up->p[1] = 0.0f;
+    up->p[2] = 0.0f;
+    up->r    = 0.25f;
 
     for (i = 0; i < c; i++)
     {

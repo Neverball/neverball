@@ -395,8 +395,10 @@ static void game_draw_balls(const struct s_file *fp, float rx, float ry)
 {
     float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
     float M[16];
+    float P[16];
 
     m_basis(M, fp->uv[0].e[0], fp->uv[0].e[1], fp->uv[0].e[2]);
+    m_basis(P, fp->uv[0].E[0], fp->uv[0].E[1], fp->uv[0].E[2]);
 
     glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
@@ -410,7 +412,7 @@ static void game_draw_balls(const struct s_file *fp, float rx, float ry)
                  fp->uv[0].r);
 
         glColor4fv(c);
-        ball_draw(M, rx, ry);
+        ball_draw(M, P, rx, ry);
     }
     glPopMatrix();
     glPopAttrib();
@@ -829,7 +831,7 @@ void game_draw(int pose, float st)
 static void game_update_grav(float h[3], const float g[3])
 {
     float x[3];
-    float y[3] = { 0.f, 1.f, 0.f };
+    float y[3] = { 0.0f, 1.0f, 0.0f };
     float z[3];
     float X[16];
     float Z[16];
@@ -838,7 +840,7 @@ static void game_update_grav(float h[3], const float g[3])
     /* Compute the gravity vector from the given world rotations. */
 
     z[0] = fsinf(V_RAD(view_a));
-    z[1] = 0.0;
+    z[1] = 0.0f;
     z[2] = fcosf(V_RAD(view_a));
 
     v_crs(x, y, z);

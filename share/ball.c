@@ -63,16 +63,16 @@ void ball_free(void)
     has_solid = has_inner = has_outer = 0;
 }
 
-void ball_draw(const float *M, float rx, float ry)
+void ball_draw(const float *M,
+               const float *P, float rx, float ry)
 {
     /* Go to GREAT pains to ensure all layers are drawn back-to-front. */
 
     float T[16];
+    float U[16];
 
-    if (M)
-        m_xps(T, M);
-    else
-        m_ident(T);
+    m_xps(T, M);
+    m_xps(U, P);
 
     /* Position clipping planes to cut through the center of the ball. */
 
@@ -99,6 +99,7 @@ void ball_draw(const float *M, float rx, float ry)
         glPushMatrix();
         {
             glMultMatrixf(T);
+            glMultMatrixf(P);
             glEnable(GL_CLIP_PLANE1);
             sol_draw(&outer, rx, ry);
             glDisable(GL_CLIP_PLANE1);
@@ -122,11 +123,12 @@ void ball_draw(const float *M, float rx, float ry)
         glPushMatrix();
         {
             glMultMatrixf(T);
+            glMultMatrixf(P);
             sol_draw(&inner, rx, ry);
 
             glDepthMask(GL_FALSE);
             glDisable(GL_LIGHTING);
-            sol_bill(&inner, rx, ry, NULL);
+            sol_bill(&inner, rx, ry, U);
             glEnable(GL_LIGHTING);
             glDepthMask(GL_TRUE);
         }
@@ -153,6 +155,7 @@ void ball_draw(const float *M, float rx, float ry)
         glPushMatrix();
         {
             glMultMatrixf(T);
+            glMultMatrixf(P);
             glEnable(GL_CLIP_PLANE2);
             sol_draw(&outer, rx, ry);
             glDisable(GL_CLIP_PLANE2);

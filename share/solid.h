@@ -254,6 +254,8 @@ struct s_ball
     float p[3];                                /* position vector            */
     float v[3];                                /* velocity vector            */
     float w[3];                                /* angular velocity vector    */
+    float E[3][3];                             /* basis of pendulum          */
+    float W[3];                                /* angular pendulum velocity  */
     float r;                                   /* radius                     */
 };
 

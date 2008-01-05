@@ -166,6 +166,7 @@ static void game_draw_balls(const struct s_file *fp, float rx, float ry)
     };
 
     float M[16];
+    float P[16];
     int ui;
 
     for (ui = curr_party(); ui > 0; ui--)
@@ -175,6 +176,7 @@ static void game_draw_balls(const struct s_file *fp, float rx, float ry)
             glPushMatrix();
             {
                 m_basis(M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
+                m_basis(P, fp->uv[ui].E[0], fp->uv[ui].E[1], fp->uv[ui].E[2]);
 
                 glTranslatef(fp->uv[ui].p[0],
                              fp->uv[ui].p[1] + BALL_FUDGE,
@@ -185,7 +187,7 @@ static void game_draw_balls(const struct s_file *fp, float rx, float ry)
                          fp->uv[ui].r);
 
                 glColor4fv(color[ui]);
-                ball_draw(M, rx, ry);
+                ball_draw(M, P, rx, ry);
             }
             glPopMatrix();
         }
