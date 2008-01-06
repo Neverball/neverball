@@ -48,7 +48,7 @@ Section "Neverball/Neverputt"
     SetOutPath "$INSTDIR"
 
     File *.txt doc\*.txt
-    File /r /x .svn /x *.map /x obj data
+    File /r /x .svn /x *.map /x *.obj data
     File /r locale
 
     File neverball.exe neverputt.exe *.dll
@@ -97,7 +97,7 @@ Section "Mapping tools (compiler, maps, ...)"
     SetOutPath "$INSTDIR\data"
 
     File /r /x ".svn" data\*.map
-    File /r /x ".svn" data\obj
+    File /r /x ".svn" data\*.obj
 SectionEnd
 
 SectionGroup "Shortcuts"
