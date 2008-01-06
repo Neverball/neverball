@@ -926,7 +926,7 @@ static void sol_pendulum(struct s_ball *up,
                          const float a[3],
                          const float g[3], float dt)
 {
-    float A[3], F[3], r[3], T[3] = { 0.0f, 0.0f, 0.0f };
+    float v[3], A[3], F[3], r[3], Y[3], T[3] = { 0.0f, 0.0f, 0.0f };
 
     const float m  = 5.000f;
     const float ka = 0.500f;
@@ -936,6 +936,9 @@ static void sol_pendulum(struct s_ball *up,
 
     v_scl(A, a,     ka);
     v_mad(A, A, g, -dt);
+
+    /* Find the force. */
+
     v_scl(F, A, m / dt);
 
     /* Find the position of the pendulum. */
@@ -947,14 +950,23 @@ static void sol_pendulum(struct s_ball *up,
     if (fabsf(v_dot(r, F)) > 0.0f)
         v_crs(T, F, r);
 
-    /* Allow for momentum and dampening. */
+    /* Apply the torque and dampen the angular velocity. */
 
     v_mad(up->W, up->W, T, dt);
+    v_mad(up->W, up->W, Y, dt);
     v_scl(up->W, up->W,    kd);
 
     /* Apply the angular velocity to the pendulum basis. */
 
     sol_rotate(up->E, up->W, dt);
+
+    /* Apply a torque turning the pendulum toward the ball velocity. */
+
+    v_mad(v, up->v, up->E[1], v_dot(up->v, up->E[1]));
+    v_crs(Y, v, up->E[2]);
+    v_scl(Y, up->E[1], 2 * v_dot(Y, up->E[1]));
+
+    sol_rotate(up->E, Y, dt);
 }
 
 /*---------------------------------------------------------------------------*/

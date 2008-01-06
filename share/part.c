@@ -200,24 +200,21 @@ void part_step(const float *g, float dt)
 
 /*---------------------------------------------------------------------------*/
 
-static void part_draw(const float p[3], const float c[3],
-                      float a, float r, float rx, float ry, float rz)
+static void part_draw(const float *M,
+                      const float *p, float r, float rz)
 {
     glPushMatrix();
     {
         glTranslatef(r * p[0], p[1], r * p[2]);
-        glRotatef(ry, 0.f, 1.f, 0.f);
-        glRotatef(rx, 1.f, 0.f, 0.f);
+        glMultMatrixf(M);
         glRotatef(rz, 0.f, 0.f, 1.f);
-
-        glColor4f(c[0], c[1], c[2], a);
 
         glCallList(part_list);
     }
     glPopMatrix();
 }
 
-void part_draw_coin(float rx, float ry)
+void part_draw_coin(const float *M)
 {
     float r = (float) SDL_GetTicks() / 1000.0f;
     int i;
@@ -226,24 +223,28 @@ void part_draw_coin(float rx, float ry)
 
     for (i = 0; i < PART_MAX_COIN; i++)
         if (part_coin[i].t > 0.f)
-            part_draw(part_coin[i].p,
-                      part_coin[i].c,
-                      part_coin[i].t,
-                      1.0f, rx, ry, r * part_coin[i].w);
+        {
+            glColor4f(part_coin[i].c[0],
+                      part_coin[i].c[1],
+                      part_coin[i].c[2],
+                      part_coin[i].t);
+
+            part_draw(M, part_coin[i].p, 1.0f, r * part_coin[i].w);
+        }
 }
 
-void part_draw_goal(float rx, float ry, float radius, float a)
+void part_draw_goal(const float *M, float radius, float a)
 {
     float r = (float) SDL_GetTicks() / 1000.0f;
     int i;
 
     glBindTexture(GL_TEXTURE_2D, part_text);
 
+    glColor4f(1.0f, 1.0f, 0.0f, a);
+
     for (i = 0; i < PART_MAX_GOAL; i++)
         if (part_goal[i].t > 0.0f)
-            part_draw(part_goal[i].p,
-                      part_goal[i].c, a,
-                      radius - 0.05f, rx, ry, r * part_goal[i].w);
+            part_draw(M, part_goal[i].p, radius - 0.05f, r * part_goal[i].w);
 }
 
 /*---------------------------------------------------------------------------*/

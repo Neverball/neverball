@@ -352,7 +352,7 @@ static void sol_draw_list(const struct s_file *fp,
     glPopMatrix();
 }
 
-void sol_draw(const struct s_file *fp, float rx, float ry)
+void sol_draw(const struct s_file *fp)
 {
     int bi;
 
@@ -374,7 +374,7 @@ void sol_draw(const struct s_file *fp, float rx, float ry)
 
 }
 
-void sol_bill(const struct s_file *fp, float rx, float ry, const float *M)
+void sol_bill(const struct s_file *fp, const float *M)
 {
     float t = SDL_GetTicks() / 1000.f + 120.0f;
     const struct s_mtrl *mp = &default_mtrl;
@@ -399,8 +399,6 @@ void sol_bill(const struct s_file *fp, float rx, float ry, const float *M)
 
             if (M) glMultMatrixf(M);
 
-            glRotatef(ry, 0.0f, 1.0f, 0.0f);
-            glRotatef(rx, 1.0f, 0.0f, 0.0f);
             glRotatef(rz, 0.0f, 0.0f, 1.0f);
 
             glBegin(GL_QUADS);

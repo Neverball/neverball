@@ -27,7 +27,26 @@ static struct s_file solid;
 static struct s_file inner;
 static struct s_file outer;
 
+static int inner_pendulum;
+static int outer_pendulum;
+
 /*---------------------------------------------------------------------------*/
+
+static int ball_flag(const struct s_file *fp, const char *key)
+{
+    int di;
+
+    for (di = 0; di < fp->dc; ++di)
+    {
+        char *k = fp->av + fp->dv[di].ai;
+        char *v = fp->av + fp->dv[di].aj;
+
+        if (strcmp(k, key) == 0)
+            return atoi(v);
+    }
+
+    return 0;
+}
 
 void ball_init(void)
 {
@@ -52,6 +71,9 @@ void ball_init(void)
     has_outer = sol_load_gl(&outer,
                             config_data(outer_file),
                             config_get_d(CONFIG_TEXTURES), 0);
+
+    inner_pendulum = (has_inner && ball_flag(&inner, "pendulum"));
+    outer_pendulum = (has_outer && ball_flag(&outer, "pendulum"));
 }
 
 void ball_free(void)
@@ -63,34 +85,20 @@ void ball_free(void)
     has_solid = has_inner = has_outer = 0;
 }
 
-void ball_draw(const float *M,
-               const float *P, float rx, float ry)
+void ball_draw(const float *ball_M,
+               const float *pend_M,
+               const float *bill_M)
 {
     /* Go to GREAT pains to ensure all layers are drawn back-to-front. */
 
-    float T[16];
-    float U[16];
+    float ball_T[16], ball_bill_M[16];
+    float pend_T[16], pend_bill_M[16];
 
-    m_xps(T, M);
-    m_xps(U, P);
+    m_xps(ball_T, ball_M);
+    m_xps(pend_T, pend_M);
 
-    /* Position clipping planes to cut through the center of the ball. */
-
-    if (has_outer)
-    {
-        glPushMatrix();
-        {
-            GLdouble nz[4] = { 0.0, 0.0, -1.0, 0.0 };
-            GLdouble pz[4] = { 0.0, 0.0, +1.0, 0.0 };
-
-            glMultMatrixf(T);
-            glRotatef(ry, 0.0f, 1.0f, 0.0f);
-            glRotatef(rx, 1.0f, 0.0f, 0.0f);
-            glClipPlane(GL_CLIP_PLANE1, nz);
-            glClipPlane(GL_CLIP_PLANE2, pz);
-        }
-        glPopMatrix();
-    }
+    m_mult(ball_bill_M, ball_T, bill_M);
+    m_mult(pend_bill_M, pend_T, bill_M);
 
     /* Draw the outer geometry behind the ball. */
 
@@ -98,10 +106,11 @@ void ball_draw(const float *M,
     {
         glPushMatrix();
         {
-            glMultMatrixf(T);
-            glMultMatrixf(P);
+            if (outer_pendulum)
+                glMultMatrixf(pend_M);
+
             glEnable(GL_CLIP_PLANE1);
-            sol_draw(&outer, rx, ry);
+            sol_draw(&outer);
             glDisable(GL_CLIP_PLANE1);
         }
         glPopMatrix();
@@ -111,9 +120,15 @@ void ball_draw(const float *M,
 
     if (has_solid)
     {
-        glCullFace(GL_FRONT);
-        sol_draw(&solid, rx, ry);
-        glCullFace(GL_BACK);
+        glPushMatrix();
+        {
+            glMultMatrixf(ball_M);
+
+            glCullFace(GL_FRONT);
+            sol_draw(&solid);
+            glCullFace(GL_BACK);
+        }
+        glPopMatrix();
     }
 
     /* Draw the inner geometry. */
@@ -122,13 +137,14 @@ void ball_draw(const float *M,
     {
         glPushMatrix();
         {
-            glMultMatrixf(T);
-            glMultMatrixf(P);
-            sol_draw(&inner, rx, ry);
+            if (inner_pendulum)
+                glMultMatrixf(pend_M);
+
+            sol_draw(&inner);
 
             glDepthMask(GL_FALSE);
             glDisable(GL_LIGHTING);
-            sol_bill(&inner, rx, ry, U);
+            sol_bill(&inner, inner_pendulum ? pend_bill_M : bill_M);
             glEnable(GL_LIGHTING);
             glDepthMask(GL_TRUE);
         }
@@ -139,13 +155,19 @@ void ball_draw(const float *M,
 
     if (has_solid)
     {
-        glDepthMask(GL_FALSE);
-        glDisable(GL_LIGHTING);
-        sol_bill(&solid, rx, ry, T);
-        glEnable(GL_LIGHTING);
-        glDepthMask(GL_TRUE);
+        glPushMatrix();
+        {
+            glMultMatrixf(ball_M);
 
-        sol_draw(&solid, rx, ry);
+            glDepthMask(GL_FALSE);
+            glDisable(GL_LIGHTING);
+            sol_bill(&solid, ball_bill_M);
+            glEnable(GL_LIGHTING);
+            glDepthMask(GL_TRUE);
+
+            sol_draw(&solid);
+        }
+        glPopMatrix();
     }
 
     /* Draw the outer geometry in front of the ball. */
@@ -154,15 +176,15 @@ void ball_draw(const float *M,
     {
         glPushMatrix();
         {
-            glMultMatrixf(T);
-            glMultMatrixf(P);
+            if (outer_pendulum)
+                glMultMatrixf(pend_M);
+
             glEnable(GL_CLIP_PLANE2);
-            sol_draw(&outer, rx, ry);
+            sol_draw(&outer);
             glDisable(GL_CLIP_PLANE2);
         }
         glPopMatrix();
     }
-
 }
 
 /*---------------------------------------------------------------------------*/
