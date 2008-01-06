@@ -104,18 +104,18 @@ int level_load(const char *filename, struct level *level)
 #undef format
 #undef default_error
 
-    strcpy(level->file, filename);
+    strncpy(level->file, filename, PATHMAX - 1);
 
-    /* Init hs with default values */
     score_init_hs(&level->score.best_times, 59999, 0);
     score_init_hs(&level->score.unlock_goal, 59999, 0);
     score_init_hs(&level->score.most_coins, 59999, 0);
 
-    /* Compute money and default max money */
     money = 0;
+
     for (i = 0; i < sol.hc; i++)
         if (sol.hv[i].t == ITEM_COIN)
             money += sol.hv[i].n;
+
     level->score.most_coins.coins[0] = money;
 
     if (sol.dc > 0)

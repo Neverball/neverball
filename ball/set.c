@@ -41,9 +41,10 @@ struct set
     struct score time_score;   /* Challenge score            */
     struct score coin_score;   /* Challenge score            */
 
-    /* Level stats */
+    /* Level info */
 
-    unsigned int count;        /* Number of levels           */
+    int   count;                /* Number of levels           */
+    char *level_name_v[MAXLVL]; /* List of level file names   */
 };
 
 static int set_state = 0;
@@ -51,7 +52,7 @@ static int set_state = 0;
 static int set;
 static int count;
 
-static struct set set_v[MAXSET];
+static struct set   set_v[MAXSET];
 static struct level level_v[MAXLVL];
 
 /*---------------------------------------------------------------------------*/
@@ -180,12 +181,12 @@ static void set_load_hs(void)
     }
 }
 
+/*---------------------------------------------------------------------------*/
+
 static int set_load(struct set *s, const char *filename)
 {
     FILE *fin;
-    char buf[MAXSTR];
-
-    char *scores;
+    char *scores, *level_name;
 
     fin = fopen(config_data(filename), "r");
 
@@ -198,14 +199,12 @@ static int set_load(struct set *s, const char *filename)
 
     memset(s, 0, sizeof (struct set));
 
-    /* Set some sane values in case the scores hs is missing. */
+    /* Set some sane values in case the scores are missing. */
 
     score_init_hs(&s->time_score, 359999, 0);
     score_init_hs(&s->coin_score, 359999, 0);
 
-    /* Load set metadata. */
-
-    strcpy(s->file, filename);
+    strncpy(s->file, filename, PATHMAX - 1);
 
     if (read_line(&s->name, fin) &&
         read_line(&s->desc, fin) &&
@@ -223,15 +222,16 @@ static int set_load(struct set *s, const char *filename)
 
         free(scores);
 
-        strcpy(s->user_scores, "neverballhs-");
-        strcat(s->user_scores, s->id);
-
-        /* Count levels. */
+        strncpy(s->user_scores, "neverballhs-", PATHMAX - 1);
+        strncat(s->user_scores, s->id, PATHMAX - 1 - strlen("neverballhs-"));
 
         s->count = 0;
 
-        while (s->count < MAXLVL && fscanf(fin, "%s", buf) == 1)
+        while (s->count < MAXLVL && read_line(&level_name, fin))
+        {
+            s->level_name_v[s->count] = level_name;
             s->count++;
+        }
 
         fclose(fin);
 
@@ -248,12 +248,10 @@ static int set_load(struct set *s, const char *filename)
     return 0;
 }
 
-/*---------------------------------------------------------------------------*/
-
 int set_init()
 {
     FILE *fin;
-    char  name[MAXSTR];
+    char *name;
 
     if (set_state)
         set_free();
@@ -263,10 +261,13 @@ int set_init()
 
     if ((fin = fopen(config_data(SET_FILE), "r")))
     {
-        while (count < MAXSET && fgets(name, MAXSTR, fin))
-            if (set_load(&set_v[count], strip_newline(name)))
+        while (count < MAXSET && read_line(&name, fin))
+        {
+            if (set_load(&set_v[count], name))
                 count++;
 
+            free(name);
+        }
         fclose(fin);
 
         set_state = 1;
@@ -277,7 +278,7 @@ int set_init()
 
 void set_free(void)
 {
-    int i;
+    int i, j;
 
     for (i = 0; i < count; i++)
     {
@@ -285,6 +286,9 @@ void set_free(void)
         free(set_v[i].desc);
         free(set_v[i].id);
         free(set_v[i].shot);
+
+        for (j = 0; j < set_v[i].count; j++)
+            free(set_v[i].level_name_v[j]);
     }
 
     set_state = 0;
@@ -331,15 +335,10 @@ int set_level_exists(int s, int i)
 
 static void set_load_levels(void)
 {
-    FILE *fin;
-
     struct level *l;
-
-    char buf[MAXSTR];
-    char name[MAXSTR];
-
-    int i = 0, res;
     int nb = 1, bnb = 1;
+
+    int i;
 
     const char *roman[] = {
         "",
@@ -350,40 +349,27 @@ static void set_load_levels(void)
         "XXI", "XXII", "XXIII", "XXIV", "XXV"
     };
 
-    if ((fin = fopen(config_data(set_v[set].file), "r")))
+    for (i = 0; i < set_v[set].count; i++)
     {
-        res = 1;
+        l = &level_v[i];
 
-        /* Skip the five first lines */
-        for (i = 0; i < 5; i++)
-            fgets(buf, MAXSTR, fin);
+        level_load(set_v[set].level_name_v[i], l);
 
-        for (i = 0; i < set_v[set].count && res; i++)
-        {
-            l = &level_v[i];
+        l->set    = &set_v[set];
+        l->number = i;
 
-            res = (fscanf(fin, "%s", name) == 1);
-            assert(res);
+        if (l->is_bonus)
+            sprintf(l->repr, "%s",   roman[bnb++]);
+        else
+            sprintf(l->repr, "%02d", nb++);
 
-            level_load(name, l);
-
-            /* Initialize set related info */
-            l->set    = &set_v[set];
-            l->number = i;
-
-            if (l->is_bonus)
-                sprintf(l->repr, "%s", roman[bnb++]);
-            else
-                sprintf(l->repr, "%02d", nb++);
-
-            l->is_locked    = 1;
-            l->is_completed = 0;
-        }
-        level_v[0].is_locked = 0; /* unlock the first level */
-        fclose(fin);
+        l->is_locked    = 1;
+        l->is_completed = 0;
     }
 
-    assert(i == set_v[set].count);
+    /* Unlock first level. */
+
+    level_v[0].is_locked = 0;
 }
 
 void set_goto(int i)
