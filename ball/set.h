@@ -15,10 +15,10 @@ struct set
 {
     char file[PATHMAX];
 
-    char id[MAXSTR];           /* Internal set identifier    */
-    char name[MAXSTR];         /* Set name                   */
-    char desc[MAXSTR];         /* Set description            */
-    char shot[MAXSTR];         /* Set screen-shot            */
+    char *id;                  /* Internal set identifier    */
+    char *name;                /* Set name                   */
+    char *desc;                /* Set description            */
+    char *shot;                /* Set screen-shot            */
 
     char user_scores[PATHMAX]; /* User high-score file       */
 
@@ -32,8 +32,10 @@ struct set
 
 /*---------------------------------------------------------------------------*/
 
-int set_init();
-int set_exists(int);
+int  set_init(void);
+void set_free(void);
+
+int  set_exists(int);
 
 const struct set *get_set(int);
 

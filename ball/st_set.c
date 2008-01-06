@@ -44,6 +44,7 @@ static int set_action(int i)
     switch (i)
     {
     case GUI_BACK:
+        set_free();
         return goto_state(&st_title);
         break;
 

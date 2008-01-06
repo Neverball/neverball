@@ -146,6 +146,7 @@ BALL_OBJS := \
 	share/text.o        \
 	share/sync.o        \
 	share/tilt.o        \
+	share/common.o      \
 	ball/hud.o          \
 	ball/mode.o         \
 	ball/game.o         \

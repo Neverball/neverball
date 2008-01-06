@@ -23,8 +23,11 @@
 #include "text.h"
 #include "set.h"
 #include "game.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
+
+static int set_state = 0;
 
 static int set;
 static int count;
@@ -158,21 +161,12 @@ static void set_load_hs(void)
     }
 }
 
-static char *strip_eol(char *str)
-{
-    char *c = str + strlen(str) - 1;
-
-    while (c >= str && (*c == '\n' || *c =='\r'))
-        *c-- = '\0';
-
-    return str;
-}
-
 static int set_load(struct set *s, const char *filename)
 {
     FILE *fin;
     char buf[MAXSTR];
-    int res;
+
+    char *scores;
 
     fin = fopen(config_data(filename), "r");
 
@@ -194,36 +188,45 @@ static int set_load(struct set *s, const char *filename)
 
     strcpy(s->file, filename);
 
-    if ((res = fgets(buf, MAXSTR, fin) != NULL))
-        strcpy(s->name, strip_eol(buf));
-    if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
-        strcpy(s->desc, strip_eol(buf));
-    if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
-        strcpy(s->id, strip_eol(buf));
-    if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
-        strcpy(s->shot, strip_eol(buf));
-    if (res && (res = fgets(buf, MAXSTR, fin) != NULL))
-        sscanf(buf, "%d %d %d %d %d %d",
-                &s->time_score.timer[0],
-                &s->time_score.timer[1],
-                &s->time_score.timer[2],
-                &s->coin_score.coins[0],
-                &s->coin_score.coins[1],
-                &s->coin_score.coins[2]);
+    if (read_line(&s->name, fin) &&
+        read_line(&s->desc, fin) &&
+        read_line(&s->id,   fin) &&
+        read_line(&s->shot, fin) &&
+        read_line(&scores,  fin))
+    {
+        sscanf(scores, "%d %d %d %d %d %d",
+               &s->time_score.timer[0],
+               &s->time_score.timer[1],
+               &s->time_score.timer[2],
+               &s->coin_score.coins[0],
+               &s->coin_score.coins[1],
+               &s->coin_score.coins[2]);
 
-    strcpy(s->user_scores, "neverballhs-");
-    strcat(s->user_scores, s->id);
+        free(scores);
 
-    /* Count levels. */
+        strcpy(s->user_scores, "neverballhs-");
+        strcat(s->user_scores, s->id);
 
-    s->count = 0;
+        /* Count levels. */
 
-    while (s->count < MAXLVL && (fscanf(fin, "%s", buf) == 1))
-        s->count++;
+        s->count = 0;
+
+        while (s->count < MAXLVL && fscanf(fin, "%s", buf) == 1)
+            s->count++;
+
+        fclose(fin);
+
+        return 1;
+    }
+
+    free(s->name);
+    free(s->desc);
+    free(s->id);
+    free(s->shot);
 
     fclose(fin);
 
-    return 1;
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -233,19 +236,39 @@ int set_init()
     FILE *fin;
     char  name[MAXSTR];
 
+    if (set_state)
+        set_free();
+
     set   = 0;
     count = 0;
 
     if ((fin = fopen(config_data(SET_FILE), "r")))
     {
         while (count < MAXSET && fgets(name, MAXSTR, fin))
-            if (set_load(&set_v[count], strip_eol(name)))
+            if (set_load(&set_v[count], strip_newline(name)))
                 count++;
 
         fclose(fin);
+
+        set_state = 1;
     }
 
     return count;
+}
+
+void set_free(void)
+{
+    int i;
+
+    for (i = 0; i < count; i++)
+    {
+        free(set_v[i].name);
+        free(set_v[i].desc);
+        free(set_v[i].id);
+        free(set_v[i].shot);
+    }
+
+    set_state = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -563,6 +586,5 @@ void set_cheat(void)
     for (i = 0; i < set_v[set].count; i++)
         level_v[i].is_locked = 0;
 }
-
 
 /*---------------------------------------------------------------------------*/

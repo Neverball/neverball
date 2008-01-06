@@ -24,6 +24,7 @@
 #include "config.h"
 #include "binary.h"
 #include "text.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,26 +65,6 @@ void demo_dump_info(const struct demo *d)
            d->player,
            d->shot, d->file, d->back, d->grad, d->song,
            d->time, d->goal, d->score, d->balls, d->times);
-}
-
-static time_t make_time_from_utc(struct tm *tm)
-{
-    struct tm local, *utc;
-    time_t t;
-
-    t = mktime(tm);
-
-    local = *localtime(&t);
-    utc   =  gmtime(&t);
-
-    local.tm_year += local.tm_year - utc->tm_year;
-    local.tm_mon  += local.tm_mon  - utc->tm_mon ;
-    local.tm_mday += local.tm_mday - utc->tm_mday;
-    local.tm_hour += local.tm_hour - utc->tm_hour;
-    local.tm_min  += local.tm_min  - utc->tm_min ;
-    local.tm_sec  += local.tm_sec  - utc->tm_sec ;
-
-    return mktime(&local);
 }
 
 static int demo_header_read(FILE *fp, struct demo *d)
@@ -141,37 +122,6 @@ static int demo_header_read(FILE *fp, struct demo *d)
     return 0;
 }
 
-static char *bname(const char *name, const char *suffix)
-{
-    static char buf[MAXSTR];
-
-    char *base;
-    size_t l;
-
-    /* Remove the directory delimiter */
-
-    base = strrchr(name, '/');
-#ifdef _WIN32
-    if (!base)
-        base = strrchr(name, '\\');
-    else
-    {
-        char *tmp;
-        if ((tmp = strrchr(base, '\\')))
-            base = tmp;
-    }
-#endif
-    strncpy(buf, base ? base + 1 : name, MAXSTR);
-
-    /* Remove the extension */
-
-    l = strlen(buf) - strlen(suffix);
-    if ((l > 1) && (strcmp(buf + l, suffix) == 0))
-        buf[l] = '\0';
-
-    return buf;
-}
-
 static void demo_header_write(FILE *fp, struct demo *d)
 {
     int magic = MAGIC;
@@ -216,7 +166,8 @@ static void demo_scan_file(const char *filename)
         if (demo_header_read(fp, d))
         {
             strncpy(d->filename, config_user(filename), MAXSTR);
-            strncpy(d->name, bname(text_from_locale(d->filename), REPLAY_EXT),
+            strncpy(d->name,
+                    base_name(text_from_locale(d->filename), REPLAY_EXT),
                     PATHMAX);
             d->name[PATHMAX - 1] = '\0';
 
@@ -283,37 +234,16 @@ const struct demo *demo_get(int i)
     return (0 <= i && i < count) ? &demos[i] : NULL;
 }
 
-const char *date_to_str(time_t i)
-{
-    static char str[MAXSTR];
-    const char *fmt;
-
-    /* TRANSLATORS:  here is the format of the date shown at the
-       replay selection screen (and possibly elsewhere).  The default
-       format is necessarily locale-independent.  See strftime(3) for
-       details on the format.
-     */
-
-    fmt = /* xgettext:no-c-format */ L_("%Y-%m-%d %H:%M:%S");
-    strftime(str, MAXSTR, fmt, localtime(&i));
-    return text_from_locale(str);
-}
-
 /*---------------------------------------------------------------------------*/
 
 int demo_exists(const char *name)
 {
-    FILE *fp;
     char buf[MAXSTR];
 
     strcpy(buf, config_user(name));
     strcat(buf, REPLAY_EXT);
-    if ((fp = fopen(buf, "r")))
-    {
-        fclose(fp);
-        return 1;
-    }
-    return 0;
+
+    return file_exists(buf);
 }
 
 void demo_unique(char *name)
@@ -421,11 +351,7 @@ void demo_rename(const char *name)
         strcpy(dst, config_user(name));
         strcat(dst, REPLAY_EXT);
 
-#ifdef _WIN32
-        if (demo_exists(name))
-            remove(dst);
-#endif
-        rename(src, dst);
+        file_rename(src, dst);
     }
 }
 
@@ -460,8 +386,9 @@ int demo_replay_init(const char *name, struct level_game *lg)
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
         strncpy(demo_replay.filename, name, MAXSTR);
-        strncpy(demo_replay.name, bname(text_from_locale(demo_replay.filename),
-                REPLAY_EXT), PATHMAX);
+        strncpy(demo_replay.name,
+                base_name(text_from_locale(demo_replay.filename), REPLAY_EXT),
+                PATHMAX);
 
         if (!demo_load_level(&demo_replay, &demo_level_replay))
             return 0;
