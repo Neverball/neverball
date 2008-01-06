@@ -44,13 +44,11 @@ static int status_id;
 static void gui_level(int id, int i)
 {
     const GLfloat *fore, *back;
-
-    const struct set *s = curr_set();
     const struct level *l;
 
     int jd;
 
-    if (!set_level_exists(s, i))
+    if (!set_level_exists(curr_set(), i))
     {
         gui_space(id);
         return;
@@ -127,9 +125,9 @@ static void start_over(int id)
     switch (i)
     {
     case START_CHALLENGE:
-        gui_set_image(shot_id, curr_set()->shot);
-        set_most_coins(&curr_set()->coin_score, -1);
-        set_best_times(&curr_set()->time_score, -1, 0);
+        gui_set_image(shot_id, set_shot(curr_set()));
+        set_most_coins(set_coin_score(curr_set()), -1);
+        set_best_times(set_time_score(curr_set()), -1, 0);
         gui_set_label(status_id, _("Challenge all levels from the first one"));
         break;
 
@@ -220,7 +218,7 @@ static int start_enter(void)
         if ((jd = gui_hstack(id)))
         {
 
-            gui_label(jd, _(curr_set()->name), GUI_SML, GUI_ALL,
+            gui_label(jd, set_name(curr_set()), GUI_SML, GUI_ALL,
                       gui_yel, gui_red);
             gui_filler(jd);
             gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);
@@ -229,7 +227,7 @@ static int start_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, curr_set()->shot, 7 * w / 16, 7 * h / 16);
+            shot_id = gui_image(jd, set_shot(curr_set()), 7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
             {

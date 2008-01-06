@@ -101,8 +101,8 @@ static int done_enter(void)
         gui_pulse(gid, 1.2f);
     }
 
-    set_best_times(&curr_set()->time_score, curr_lg()->times_rank, 0);
-    set_most_coins(&curr_set()->coin_score, curr_lg()->score_rank);
+    set_best_times(set_time_score(curr_set()), curr_lg()->times_rank, 0);
+    set_most_coins(set_coin_score(curr_set()), curr_lg()->score_rank);
 
     return id;
 }

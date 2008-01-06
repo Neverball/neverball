@@ -48,8 +48,9 @@ static int level_enter(void)
 
             if ((kd = gui_vstack(jd)))
             {
-                gui_label(kd, _(curr_set()->name), GUI_SML,
-                          GUI_ALL, gui_wht, gui_wht);
+                gui_label(kd, set_name(curr_set()), GUI_SML, GUI_ALL,
+                          gui_wht, gui_wht);
+
                 gui_space(kd);
 
                 if ((ld = gui_hstack(kd)))

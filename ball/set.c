@@ -27,6 +27,25 @@
 
 /*---------------------------------------------------------------------------*/
 
+struct set
+{
+    char file[PATHMAX];
+
+    char *id;                  /* Internal set identifier    */
+    char *name;                /* Set name                   */
+    char *desc;                /* Set description            */
+    char *shot;                /* Set screen-shot            */
+
+    char user_scores[PATHMAX]; /* User high-score file       */
+
+    struct score time_score;   /* Challenge score            */
+    struct score coin_score;   /* Challenge score            */
+
+    /* Level stats */
+
+    unsigned int count;        /* Number of levels           */
+};
+
 static int set_state = 0;
 
 static int set;
@@ -273,24 +292,42 @@ void set_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-int  set_exists(int i)
+int set_exists(int i)
 {
     return (0 <= i && i < count);
 }
 
-const struct set *get_set(int i)
+const char *set_name(int i)
 {
-    return set_exists(i) ? &set_v[i] : NULL;
+    return set_exists(i) ? _(set_v[i].name) : NULL;
+}
+
+const char *set_desc(int i)
+{
+    return set_exists(i) ? _(set_v[i].desc) : NULL;
+}
+
+const char *set_shot(int i)
+{
+    return set_exists(i) ? set_v[i].shot : NULL;
+}
+
+const struct score *set_time_score(int i)
+{
+    return set_exists(i) ? &set_v[i].time_score : NULL;
+}
+
+const struct score *set_coin_score(int i)
+{
+    return set_exists(i) ? &set_v[i].coin_score : NULL;
 }
 
 /*---------------------------------------------------------------------------*/
 
-int set_level_exists(const struct set *s, int i)
+int set_level_exists(int s, int i)
 {
-    return (i >= 0) && (i < s->count);
+    return (i >= 0 && i < set_v[s].count);
 }
-
-/*---------------------------------------------------------------------------*/
 
 static void set_load_levels(void)
 {
@@ -357,9 +394,9 @@ void set_goto(int i)
     set_load_hs();
 }
 
-const struct set *curr_set(void)
+int curr_set(void)
 {
-    return &set_v[set];
+    return set;
 }
 
 const struct level *get_level(int i)
@@ -422,7 +459,7 @@ void score_change_name(struct level_game *lg, const char *player)
 
 static struct level *next_level(int i)
 {
-    return set_level_exists(&set_v[set], i + 1) ? &level_v[i + 1] : NULL;
+    return set_level_exists(set, i + 1) ? &level_v[i + 1] : NULL;
 }
 
 static struct level *next_normal_level(int i)

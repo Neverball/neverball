@@ -83,10 +83,8 @@ static int set_action(int i)
 
 static void gui_set(int id, int i)
 {
-    const struct set *s;
-
-    if ((s = get_set(i)))
-        gui_state(id, _(s->name), GUI_SML, i, 0);
+    if (set_exists(i))
+        gui_state(id, set_name(i), GUI_SML, i, 0);
     else
         gui_label(id, "", GUI_SML, GUI_ALL, 0, 0);
 }
@@ -119,8 +117,7 @@ static int set_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, get_set(first)->shot,
-                                7 * w / 16, 7 * h / 16);
+            shot_id = gui_image(jd, set_shot(first), 7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
             {
@@ -140,8 +137,8 @@ static int set_enter(void)
 
 static void set_over(int i)
 {
-    gui_set_image(shot_id, get_set(i)->shot);
-    gui_set_multi(desc_id, _(get_set(i)->desc));
+    gui_set_image(shot_id, set_shot(i));
+    gui_set_multi(desc_id, set_desc(i));
 }
 
 static void set_point(int id, int x, int y, int dx, int dy)
