@@ -1886,22 +1886,16 @@
 // entity 99
 {
 "classname" "light"
-"origin" "0 1368 -8"
-"light" "10"
-}
-// entity 100
-{
-"classname" "light"
 "origin" "0 -856 -8"
 "light" "5"
 }
-// entity 101
+// entity 100
 {
 "classname" "light"
 "origin" "856 0 -8"
 "light" "5"
 }
-// entity 102
+// entity 101
 {
 "classname" "light"
 "origin" "-856 0 -8"
