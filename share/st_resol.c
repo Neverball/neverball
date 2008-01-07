@@ -63,7 +63,7 @@ static int resol_enter(void)
 
     modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
 
-    if ((int) modes == -1)
+    if (modes == (SDL_Rect **) -1)
         modes = NULL;
 
     if ((id = gui_vstack(0)))
