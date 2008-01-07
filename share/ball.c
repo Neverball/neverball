@@ -27,13 +27,19 @@ static struct s_file solid;
 static struct s_file inner;
 static struct s_file outer;
 
-static int inner_pendulum;
-static int outer_pendulum;
+#define F_PENDULUM 1
+#define F_DRAWBACK 2
+#define F_DRAWCLIP 4
+
+static int solid_flags;
+static int inner_flags;
+static int outer_flags;
 
 /*---------------------------------------------------------------------------*/
 
-static int ball_flag(const struct s_file *fp, const char *key)
+static int ball_flags(const struct s_file *fp)
 {
+    int flags = 0;
     int di;
 
     for (di = 0; di < fp->dc; ++di)
@@ -41,15 +47,18 @@ static int ball_flag(const struct s_file *fp, const char *key)
         char *k = fp->av + fp->dv[di].ai;
         char *v = fp->av + fp->dv[di].aj;
 
-        if (strcmp(k, key) == 0)
-            return atoi(v);
+        if (strcmp(k, "pendulum") == 0) flags |= (atoi(v) * F_PENDULUM);
+        if (strcmp(k, "drawback") == 0) flags |= (atoi(v) * F_DRAWBACK);
+        if (strcmp(k, "drawclip") == 0) flags |= (atoi(v) * F_DRAWCLIP);
     }
 
-    return 0;
+    return flags;
 }
 
 void ball_init(void)
 {
+    int T = config_get_d(CONFIG_TEXTURES);
+
     char solid_file[PATHMAX];
     char inner_file[PATHMAX];
     char outer_file[PATHMAX];
@@ -62,18 +71,18 @@ void ball_init(void)
     strcat(inner_file, "-inner.sol");
     strcat(outer_file, "-outer.sol");
 
-    has_solid = sol_load_gl(&solid,
-                            config_data(solid_file),
-                            config_get_d(CONFIG_TEXTURES), 0);
-    has_inner = sol_load_gl(&inner,
-                            config_data(inner_file),
-                            config_get_d(CONFIG_TEXTURES), 0);
-    has_outer = sol_load_gl(&outer,
-                            config_data(outer_file),
-                            config_get_d(CONFIG_TEXTURES), 0);
+    solid_flags = 0;
+    inner_flags = 0;
+    outer_flags = 0;
 
-    inner_pendulum = (has_inner && ball_flag(&inner, "pendulum"));
-    outer_pendulum = (has_outer && ball_flag(&outer, "pendulum"));
+    if ((has_solid = sol_load_gl(&solid, config_data(solid_file), T, 0)))
+        solid_flags = ball_flags(&solid);
+
+    if ((has_inner = sol_load_gl(&inner, config_data(inner_file), T, 0)))
+        inner_flags = ball_flags(&inner);
+
+    if ((has_outer = sol_load_gl(&outer, config_data(outer_file), T, 0)))
+        outer_flags = ball_flags(&outer);
 }
 
 void ball_free(void)
@@ -106,7 +115,7 @@ void ball_draw(const float *ball_M,
     {
         glPushMatrix();
         {
-            if (outer_pendulum)
+            if (outer_flags & F_PENDULUM)
                 glMultMatrixf(pend_M);
 
             glEnable(GL_CLIP_PLANE1);
@@ -137,14 +146,14 @@ void ball_draw(const float *ball_M,
     {
         glPushMatrix();
         {
-            if (inner_pendulum)
+            if (inner_flags & F_PENDULUM)
                 glMultMatrixf(pend_M);
 
             sol_draw(&inner);
 
             glDepthMask(GL_FALSE);
             glDisable(GL_LIGHTING);
-            sol_bill(&inner, inner_pendulum ? pend_bill_M : bill_M);
+            sol_bill(&inner, (inner_flags & F_PENDULUM) ? pend_bill_M : bill_M);
             glEnable(GL_LIGHTING);
             glDepthMask(GL_TRUE);
         }
@@ -176,7 +185,7 @@ void ball_draw(const float *ball_M,
     {
         glPushMatrix();
         {
-            if (outer_pendulum)
+            if (outer_flags & F_PENDULUM)
                 glMultMatrixf(pend_M);
 
             glEnable(GL_CLIP_PLANE2);
