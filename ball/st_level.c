@@ -12,6 +12,8 @@
  * General Public License for more details.
  */
 
+#include <string.h>
+
 #include "gui.h"
 #include "game.h"
 #include "set.h"

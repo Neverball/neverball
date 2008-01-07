@@ -12,6 +12,8 @@
  * General Public License for more details.
  */
 
+#include <string.h>
+
 #include "gui.h"
 #include "vec3.h"
 #include "demo.h"

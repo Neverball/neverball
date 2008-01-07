@@ -126,8 +126,6 @@ static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
     {
         glDisable(GL_TEXTURE_GEN_S);
         glDisable(GL_TEXTURE_GEN_T);
-
-        glBindTexture(GL_TEXTURE_2D, mp->o);
     }
 
     /* Enable additive blending. */
@@ -352,7 +350,7 @@ static void sol_draw_list(const struct s_file *fp,
     glPopMatrix();
 }
 
-void sol_draw(const struct s_file *fp)
+void sol_draw(const struct s_file *fp, int force_depth)
 {
     int bi;
 
@@ -364,13 +362,13 @@ void sol_draw(const struct s_file *fp)
 
     /* Render all translucent geometry into only the color buffer. */
 
-    glDepthMask(GL_FALSE);
+    if (force_depth == 0) glDepthMask(GL_FALSE);
     {
         for (bi = 0; bi < fp->bc; bi++)
             if (fp->bv[bi].tl)
                 sol_draw_list(fp, fp->bv + bi, fp->bv[bi].tl);
     }
-    glDepthMask(GL_TRUE);
+    if (force_depth == 0) glDepthMask(GL_TRUE);
 
 }
 

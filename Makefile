@@ -19,8 +19,8 @@ ifeq ($(ENABLE_WII),1)
     # libwiimote is NOT ANSI compliant
     CFLAGS := -O2
 else
-    #CFLAGS := -Wall -g -ansi -pedantic
-    CFLAGS := -Wall -O2 -ansi -pedantic
+    CFLAGS := -Wall -g -ansi -pedantic
+    #CFLAGS := -Wall -O2 -ansi -pedantic
 endif
 
 #------------------------------------------------------------------------------

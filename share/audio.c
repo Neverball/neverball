@@ -18,6 +18,7 @@
 #include <vorbis/vorbisfile.h>
 
 #include <string.h>
+#include <stdlib.h>
 
 #include "text.h"
 #include "config.h"

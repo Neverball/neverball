@@ -582,7 +582,7 @@ static void sol_stor_jump(FILE *fout, struct s_jump *jp)
 
 static void sol_stor_ball(FILE *fout, struct s_ball *bp)
 {
-    put_array(fout,  bp->p,    3);
+    put_array(fout,  bp->p, 3);
     put_float(fout, &bp->r);
 }
 
@@ -851,7 +851,7 @@ static float v_side(float Q[3],
  * Integrate the rotation of the given basis E under angular velocity W
  * through time DT.
  */
-static void sol_rotate(float e[3][3], float w[3], float dt)
+static void sol_rotate(float e[3][3], const float w[3], float dt)
 {
     if (v_len(w) > 0.0f)
     {
@@ -953,7 +953,6 @@ static void sol_pendulum(struct s_ball *up,
     /* Apply the torque and dampen the angular velocity. */
 
     v_mad(up->W, up->W, T, dt);
-    v_mad(up->W, up->W, Y, dt);
     v_scl(up->W, up->W,    kd);
 
     /* Apply the angular velocity to the pendulum basis. */

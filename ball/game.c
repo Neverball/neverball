@@ -727,7 +727,7 @@ static void game_draw_fore(int pose, const float *M, int d)
             glEnable(GL_CLIP_PLANE0);
 
         if (pose)
-            sol_draw(&file);
+            sol_draw(&file, 0);
         else
         {
             /* Draw the coins. */
@@ -736,7 +736,7 @@ static void game_draw_fore(int pose, const float *M, int d)
 
             /* Draw the floor. */
 
-            sol_draw(&file);
+            sol_draw(&file, 0);
 
             /* Draw the ball shadow. */
 

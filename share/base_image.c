@@ -14,6 +14,7 @@
 
 #include <png.h>
 #include <jpeglib.h>
+#include <stdlib.h>
 
 #include "glext.h"
 #include "base_config.h"
