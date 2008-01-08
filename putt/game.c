@@ -19,6 +19,7 @@
 #include "game.h"
 #include "vec3.h"
 #include "geom.h"
+#include "ball.h"
 #include "back.h"
 #include "hole.h"
 #include "hud.h"
@@ -154,7 +155,7 @@ static void game_draw_vect(const struct s_file *fp)
     }
 }
 
-static void game_draw_balls(const struct s_file *fp)
+static void game_draw_balls(const struct s_file *fp, const float *bill_M)
 {
     static const GLfloat color[5][4] = {
         { 1.0f, 1.0f, 1.0f, 0.7f },
@@ -164,27 +165,29 @@ static void game_draw_balls(const struct s_file *fp)
         { 1.0f, 1.0f, 0.0f, 1.0f },
     };
 
-    float M[16];
     int ui;
 
     for (ui = curr_party(); ui > 0; ui--)
     {
         if (ui == ball)
         {
+            float ball_M[16];
+            float pend_M[16];
+
+            m_basis(ball_M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
+            m_basis(pend_M, fp->uv[ui].E[0], fp->uv[ui].E[1], fp->uv[ui].E[2]);
+
             glPushMatrix();
             {
-                m_basis(M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
-
                 glTranslatef(fp->uv[ui].p[0],
                              fp->uv[ui].p[1] + BALL_FUDGE,
                              fp->uv[ui].p[2]);
-                glMultMatrixf(M);
                 glScalef(fp->uv[ui].r,
                          fp->uv[ui].r,
                          fp->uv[ui].r);
 
                 glColor4fv(color[ui]);
-                ball_draw();
+                ball_draw(ball_M, pend_M, bill_M);
             }
             glPopMatrix();
         }
@@ -211,7 +214,7 @@ static void game_draw_balls(const struct s_file *fp)
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-static void game_draw_goals(const struct s_file *fp, float rx, float ry)
+static void game_draw_goals(const struct s_file *fp)
 {
     int zi;
 
@@ -287,7 +290,10 @@ void game_draw(int pose)
     glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {
-        float v[3], rx, ry;
+        float T[16], M[16], v[3], rx, ry;
+
+        m_view(T, view_c, view_p, view_e[1]);
+        m_xps(M, T);
 
         v_sub(v, view_c, view_p);
 
@@ -295,8 +301,7 @@ void game_draw(int pose)
         ry = V_DEG(fatan2f(+v[0], -v[2]));
 
         glTranslatef(0.f, 0.f, -v_len(v));
-        glRotatef(rx, 1.f, 0.f, 0.f);
-        glRotatef(ry, 0.f, 1.f, 0.f);
+        glMultMatrixf(M);
         glTranslatef(-view_c[0], -view_c[1], -view_c[2]);
 
         /* Center the skybox about the position of the camera. */
@@ -313,7 +318,7 @@ void game_draw(int pose)
 
         /* Draw the floor. */
 
-        sol_draw(fp, -rx, -ry);
+        sol_draw(fp, 0);
 
         if (config_get_d(CONFIG_SHADOW) && !pose)
         {
@@ -329,7 +334,7 @@ void game_draw(int pose)
 
         if (pose == 0)
         {
-            game_draw_balls(fp);
+            game_draw_balls(fp, T);
             game_draw_vect(fp);
         }
 
@@ -338,7 +343,7 @@ void game_draw(int pose)
         glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
         glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
 
-        game_draw_goals(fp, -rx, -ry);
+        game_draw_goals(fp);
 
         glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);

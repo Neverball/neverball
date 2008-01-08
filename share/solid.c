@@ -234,11 +234,20 @@ static void sol_load_jump(FILE *fin, struct s_jump *jp)
 
 static void sol_load_ball(FILE *fin, struct s_ball *bp)
 {
-    get_array(fin,  bp->e[0], 3);
-    get_array(fin,  bp->e[1], 3);
-    get_array(fin,  bp->e[2], 3);
-    get_array(fin,  bp->p,    3);
+    get_array(fin,  bp->p, 3);
     get_float(fin, &bp->r);
+
+    bp->e[0][0] = bp->E[0][0] = 1.0f;
+    bp->e[0][1] = bp->E[0][1] = 0.0f;
+    bp->e[0][2] = bp->E[0][2] = 0.0f;
+
+    bp->e[1][0] = bp->E[1][0] = 0.0f;
+    bp->e[1][1] = bp->E[1][1] = 1.0f;
+    bp->e[1][2] = bp->E[1][2] = 0.0f;
+
+    bp->e[2][0] = bp->E[2][0] = 0.0f;
+    bp->e[2][1] = bp->E[2][1] = 0.0f;
+    bp->e[2][2] = bp->E[2][2] = 1.0f;
 }
 
 static void sol_load_view(FILE *fin, struct s_view *wp)
@@ -573,10 +582,7 @@ static void sol_stor_jump(FILE *fout, struct s_jump *jp)
 
 static void sol_stor_ball(FILE *fout, struct s_ball *bp)
 {
-    put_array(fout,  bp->e[0], 3);
-    put_array(fout,  bp->e[1], 3);
-    put_array(fout,  bp->e[2], 3);
-    put_array(fout,  bp->p,    3);
+    put_array(fout,  bp->p, 3);
     put_float(fout, &bp->r);
 }
 
@@ -842,6 +848,39 @@ static float v_side(float Q[3],
 /*---------------------------------------------------------------------------*/
 
 /*
+ * Integrate the rotation of the given basis E under angular velocity W
+ * through time DT.
+ */
+static void sol_rotate(float e[3][3], const float w[3], float dt)
+{
+    if (v_len(w) > 0.0f)
+    {
+        float a[3], M[16], f[3][3];
+
+        /* Compute the rotation matrix. */
+
+        v_nrm(a, w);
+        m_rot(M, a, v_len(w) * dt);
+
+        /* Apply it to the basis. */
+
+        m_vxfm(f[0], M, e[0]);
+        m_vxfm(f[1], M, e[1]);
+        m_vxfm(f[2], M, e[2]);
+
+        /* Re-orthonormalize the basis. */
+
+        v_crs(e[2], f[0], f[1]);
+        v_crs(e[1], f[2], f[0]);
+        v_crs(e[0], f[1], f[2]);
+
+        v_nrm(e[0], e[0]);
+        v_nrm(e[1], e[1]);
+        v_nrm(e[2], e[2]);
+    }
+}
+
+/*
  * Compute the new  linear and angular velocities of  a bouncing ball.
  * Q  gives the  position  of the  point  of impact  and  W gives  the
  * velocity of the object being impacted.
@@ -877,6 +916,56 @@ static float sol_bounce(struct s_ball *up,
     /* Return the "energy" of the impact, to determine the sound amplitude. */
 
     return fabsf(v_dot(n, d));
+}
+
+/*
+ * Compute the new angular velocity and orientation of a ball pendulum.
+ * A gives the accelleration of the ball.  G gives the gravity vector.
+ */
+static void sol_pendulum(struct s_ball *up,
+                         const float a[3],
+                         const float g[3], float dt)
+{
+    float v[3], A[3], F[3], r[3], Y[3], T[3] = { 0.0f, 0.0f, 0.0f };
+
+    const float m  = 5.000f;
+    const float ka = 0.500f;
+    const float kd = 0.995f;
+
+    /* Find the total force over DT. */
+
+    v_scl(A, a,     ka);
+    v_mad(A, A, g, -dt);
+
+    /* Find the force. */
+
+    v_scl(F, A, m / dt);
+
+    /* Find the position of the pendulum. */
+
+    v_scl(r, up->E[1], -up->r);
+
+    /* Find the torque on the pendulum. */
+
+    if (fabsf(v_dot(r, F)) > 0.0f)
+        v_crs(T, F, r);
+
+    /* Apply the torque and dampen the angular velocity. */
+
+    v_mad(up->W, up->W, T, dt);
+    v_scl(up->W, up->W,    kd);
+
+    /* Apply the angular velocity to the pendulum basis. */
+
+    sol_rotate(up->E, up->W, dt);
+
+    /* Apply a torque turning the pendulum toward the ball velocity. */
+
+    v_mad(v, up->v, up->E[1], v_dot(up->v, up->E[1]));
+    v_crs(Y, v, up->E[2]);
+    v_scl(Y, up->E[1], 2 * v_dot(Y, up->E[1]));
+
+    sol_rotate(up->E, Y, dt);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -956,27 +1045,7 @@ static void sol_ball_step(struct s_file *fp, float dt)
 
         v_mad(up->p, up->p, up->v, dt);
 
-        if (v_len(up->w) > 0.0f)
-        {
-            float M[16];
-            float w[3];
-            float e[3][3];
-
-            v_nrm(w, up->w);
-            m_rot(M, w, v_len(up->w) * dt);
-
-            m_vxfm(e[0], M, up->e[0]);
-            m_vxfm(e[1], M, up->e[1]);
-            m_vxfm(e[2], M, up->e[2]);
-
-            v_crs(up->e[2], e[0], e[1]);
-            v_crs(up->e[1], e[2], e[0]);
-            v_crs(up->e[0], e[1], e[2]);
-
-            v_nrm(up->e[0], up->e[0]);
-            v_nrm(up->e[1], up->e[1]);
-            v_nrm(up->e[2], up->e[2]);
-        }
+        sol_rotate(up->e, up->w, dt);
     }
 }
 
@@ -1270,7 +1339,7 @@ static float sol_test_file(float dt,
 
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 {
-    float P[3], V[3], v[3], r[3], d, e, nt, b = 0.0f, tt = dt;
+    float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
     int c = 16;
 
     if (ui < fp->uc)
@@ -1279,6 +1348,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
         /* If the ball is in contact with a surface, apply friction. */
 
+        v_cpy(a, up->v);
         v_cpy(v, up->v);
         v_cpy(up->v, g);
 
@@ -1336,6 +1406,12 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
         sol_body_step(fp, tt);
         sol_swch_step(fp, tt);
         sol_ball_step(fp, tt);
+
+        /* Apply the ball's accelleration to the pendulum. */
+
+        v_sub(a, up->v, a);
+
+        sol_pendulum(up, a, g, dt);
     }
     return b;
 }

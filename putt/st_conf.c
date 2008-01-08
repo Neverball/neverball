@@ -16,6 +16,7 @@
 #include "hud.h"
 #include "back.h"
 #include "geom.h"
+#include "ball.h"
 #include "part.h"
 #include "game.h"
 #include "audio.h"
@@ -346,7 +347,7 @@ static void null_leave(int id)
     int g = config_get_d(CONFIG_GEOMETRY);
 
     shad_init();
-    ball_init(g);
+    ball_init();
     mark_init(g);
     flag_init(g);
     jump_init(g);

@@ -1,0 +1,369 @@
+/*
+ * Copyright (C) 2003 Robert Kooima
+ *
+ * NEVERBALL is  free software; you can redistribute  it and/or modify
+ * it under the  terms of the GNU General  Public License as published
+ * by the Free  Software Foundation; either version 2  of the License,
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT  ANY  WARRANTY;  without   even  the  implied  warranty  of
+ * MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.   See the GNU
+ * General Public License for more details.
+ */
+
+#include <stdlib.h>
+#include <string.h>
+
+#include "vec3.h"
+#include "glext.h"
+#include "config.h"
+#include "solid_gl.h"
+
+/*---------------------------------------------------------------------------*/
+
+static int has_solid = 0;
+static int has_inner = 0;
+static int has_outer = 0;
+
+static struct s_file solid;
+static struct s_file inner;
+static struct s_file outer;
+
+#define F_PENDULUM 1
+#define F_DRAWBACK 2
+#define F_DRAWCLIP 4
+#define F_ZBUFFER  8
+
+static int solid_flags;
+static int inner_flags;
+static int outer_flags;
+
+/*---------------------------------------------------------------------------*/
+
+static int ball_flags(const struct s_file *fp)
+{
+    int flags = 0;
+    int di;
+
+    for (di = 0; di < fp->dc; ++di)
+    {
+        char *k = fp->av + fp->dv[di].ai;
+        char *v = fp->av + fp->dv[di].aj;
+
+        if (strcmp(k, "pendulum") == 0) flags |= (atoi(v) * F_PENDULUM);
+        if (strcmp(k, "drawback") == 0) flags |= (atoi(v) * F_DRAWBACK);
+        if (strcmp(k, "drawclip") == 0) flags |= (atoi(v) * F_DRAWCLIP);
+        if (strcmp(k, "zbuffer")  == 0) flags |= (atoi(v) * F_ZBUFFER);
+    }
+
+    return flags;
+}
+
+void ball_init(void)
+{
+    int T = config_get_d(CONFIG_TEXTURES);
+
+    char solid_file[PATHMAX];
+    char inner_file[PATHMAX];
+    char outer_file[PATHMAX];
+
+    config_get_s(CONFIG_BALL, solid_file, PATHMAX - 12);
+    config_get_s(CONFIG_BALL, inner_file, PATHMAX - 12);
+    config_get_s(CONFIG_BALL, outer_file, PATHMAX - 12);
+
+    strcat(solid_file, "-solid.sol");
+    strcat(inner_file, "-inner.sol");
+    strcat(outer_file, "-outer.sol");
+
+    solid_flags = 0;
+    inner_flags = 0;
+    outer_flags = 0;
+
+    if ((has_solid = sol_load_gl(&solid, config_data(solid_file), T, 0)))
+        solid_flags = ball_flags(&solid);
+
+    if ((has_inner = sol_load_gl(&inner, config_data(inner_file), T, 0)))
+        inner_flags = ball_flags(&inner);
+
+    if ((has_outer = sol_load_gl(&outer, config_data(outer_file), T, 0)))
+        outer_flags = ball_flags(&outer);
+}
+
+void ball_free(void)
+{
+    if (has_outer) sol_free_gl(&outer);
+    if (has_inner) sol_free_gl(&inner);
+    if (has_solid) sol_free_gl(&solid);
+
+    has_solid = has_inner = has_outer = 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static void ball_draw_solid(const float *ball_M,
+                            const float *ball_bill_M)
+{
+    if (has_solid)
+    {
+        const int Z = (solid_flags & F_ZBUFFER);
+
+        glPushMatrix();
+        {
+            /* Apply the ball rotation. */
+
+            glMultMatrixf(ball_M);
+
+            /* Draw the solid billboard geometry. */
+
+            if (solid.rc)
+            {
+                glDepthMask(GL_FALSE);
+                glDisable(GL_LIGHTING);
+                {
+                    sol_bill(&solid, ball_bill_M);
+                }
+                glEnable(GL_LIGHTING);
+                glDepthMask(GL_TRUE);
+            }
+
+            /* Draw the solid opaque and transparent geometry. */
+
+            sol_draw(&solid, Z);
+        }
+        glPopMatrix();
+    }
+}
+
+static void ball_draw_inner(const float *pend_M,
+                            const float *bill_M,
+                            const float *pend_bill_M)
+{
+    if (has_inner)
+    {
+        const int P = (inner_flags & F_PENDULUM);
+        const int Z = (inner_flags & F_ZBUFFER);
+
+        /* Apply the pendulum rotation. */
+
+        if (P)
+        {
+            glPushMatrix();
+            glMultMatrixf(pend_M);
+        }
+
+        /* Draw the inner opaque and transparent geometry. */
+
+        sol_draw(&inner, Z);
+
+        /* Draw the inner billboard geometry. */
+
+        if (inner.rc)
+        {
+            glDepthMask(GL_FALSE);
+            glDisable(GL_LIGHTING);
+            {
+                if (P)
+                    sol_bill(&inner, pend_bill_M);
+                else
+                    sol_bill(&inner, bill_M);
+            }
+
+            glEnable(GL_LIGHTING);
+            glDepthMask(GL_TRUE);
+        }
+
+        if (P)
+            glPopMatrix();
+    }
+}
+
+static void ball_draw_outer(const float *pend_M,
+                            const float *bill_M,
+                            const float *pend_bill_M)
+{
+    if (has_outer)
+    {
+        const int P = (outer_flags & F_PENDULUM);
+        const int Z = (outer_flags & F_ZBUFFER);
+
+        /* Apply the pendulum rotation. */
+
+        if (P)
+        {
+            glPushMatrix();
+            glMultMatrixf(pend_M);
+        }
+
+        /* Draw the outer opaque and transparent geometry. */
+
+        sol_draw(&outer, Z);
+
+        /* Draw the outer billboard geometry. */
+
+        if (outer.rc)
+        {
+            glDepthMask(GL_FALSE);
+            glDisable(GL_LIGHTING);
+            {
+                if (P)
+                    sol_bill(&outer, pend_bill_M);
+                else
+                    sol_bill(&outer, bill_M);
+            }
+            glEnable(GL_LIGHTING);
+            glDepthMask(GL_TRUE);
+        }
+
+        if (P)
+            glPopMatrix();
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+static void ball_pass_inner(const float *ball_M,
+                            const float *pend_M,
+                            const float *bill_M,
+                            const float *ball_bill_M,
+                            const float *pend_bill_M)
+{
+    /* Sort the inner ball using clip planes. */
+
+    if      (inner_flags & F_DRAWCLIP)
+    {
+        glEnable(GL_CLIP_PLANE1);
+        ball_draw_inner(        pend_M, bill_M,              pend_bill_M);
+        glDisable(GL_CLIP_PLANE1);
+        
+        glEnable(GL_CLIP_PLANE2);
+        ball_draw_inner(        pend_M, bill_M,              pend_bill_M);
+        glDisable(GL_CLIP_PLANE2);
+    }
+
+    /* Sort the inner ball using face culling. */
+
+    else if (inner_flags & F_DRAWBACK)
+    {
+        glCullFace(GL_FRONT);
+        ball_draw_inner(        pend_M, bill_M,              pend_bill_M);
+        glCullFace(GL_BACK);
+        ball_draw_inner(        pend_M, bill_M,              pend_bill_M);
+    }
+
+    /* Draw the inner ball normally. */
+
+    else
+    {
+        ball_draw_inner(        pend_M, bill_M,              pend_bill_M);
+    }
+}
+
+static void ball_pass_solid(const float *ball_M,
+                            const float *pend_M,
+                            const float *bill_M,
+                            const float *ball_bill_M,
+                            const float *pend_bill_M)
+{
+    /* Sort the solid ball with the inner ball using clip planes. */
+
+    if      (solid_flags & F_DRAWCLIP)
+    {
+        glEnable(GL_CLIP_PLANE1);
+        ball_draw_solid(ball_M,                 ball_bill_M);
+        glDisable(GL_CLIP_PLANE1);
+        
+        ball_pass_inner(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M);
+
+        glEnable(GL_CLIP_PLANE2);
+        ball_draw_solid(ball_M,                 ball_bill_M);
+        glDisable(GL_CLIP_PLANE2);
+    }
+
+    /* Sort the solid ball with the inner ball using face culling. */
+
+    else if (solid_flags & F_DRAWBACK)
+    {
+        glCullFace(GL_FRONT);
+        ball_draw_solid(ball_M,                 ball_bill_M);
+        glCullFace(GL_BACK);
+        
+        ball_pass_inner(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M);
+        ball_draw_solid(ball_M,                 ball_bill_M);
+    }
+
+    /* Draw the solid ball after the inner ball. */
+
+    else
+    {
+        ball_pass_inner(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M);
+        ball_draw_solid(ball_M,                 ball_bill_M);
+    }
+}
+
+static void ball_pass_outer(const float *ball_M,
+                            const float *pend_M,
+                            const float *bill_M,
+                            const float *ball_bill_M,
+                            const float *pend_bill_M)
+{
+    /* Sort the outer ball with the solid ball using clip planes. */
+
+    if      (outer_flags & F_DRAWCLIP)
+    {
+        glEnable(GL_CLIP_PLANE1);
+        ball_draw_outer(        pend_M, bill_M,              pend_bill_M);
+        glDisable(GL_CLIP_PLANE1);
+        
+        ball_pass_solid(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M);
+
+        glEnable(GL_CLIP_PLANE2);
+        ball_draw_outer(        pend_M, bill_M,              pend_bill_M);
+        glDisable(GL_CLIP_PLANE2);
+    }
+
+    /* Sort the outer ball with the solid ball using face culling. */
+
+    else if (outer_flags & F_DRAWBACK)
+    {
+        glCullFace(GL_FRONT);
+        ball_draw_outer(        pend_M, bill_M,              pend_bill_M);
+        glCullFace(GL_BACK);
+        
+        ball_pass_solid(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M);
+        ball_draw_outer(        pend_M, bill_M,              pend_bill_M);
+    }
+
+    /* Draw the outer ball after the solid ball. */
+
+    else
+    {
+        ball_pass_solid(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M);
+        ball_draw_outer(        pend_M, bill_M,              pend_bill_M);
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+void ball_draw(const float *ball_M,
+               const float *pend_M,
+               const float *bill_M)
+{
+    /* Compute transforms for ball and pendulum billboards. */
+
+    float ball_T[16], ball_bill_M[16];
+    float pend_T[16], pend_bill_M[16];
+
+    m_xps(ball_T, ball_M);
+    m_xps(pend_T, pend_M);
+    m_xps(pend_T, pend_M);
+
+    m_mult(ball_bill_M, ball_T, bill_M);
+    m_mult(pend_bill_M, pend_T, bill_M);
+
+    /* Go to GREAT pains to ensure all layers are drawn back-to-front. */
+
+    ball_pass_outer(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M);
+}
+
+/*---------------------------------------------------------------------------*/

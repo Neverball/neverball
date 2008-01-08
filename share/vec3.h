@@ -92,7 +92,6 @@ void   m_ident(float *);
 void   m_basis(float *, const float *,
                         const float *,
                         const float *);
-
 void   m_xlt(float *, const float *);
 void   m_scl(float *, const float *);
 void   m_rot(float *, const float *, float);
@@ -100,5 +99,9 @@ void   m_rot(float *, const float *, float);
 void   m_mult(float *, const float *, const float *);
 void   m_pxfm(float *, const float *, const float *);
 void   m_vxfm(float *, const float *, const float *);
+
+void   m_view(float *, const float *,
+                       const float *,
+                       const float *);
 
 #endif

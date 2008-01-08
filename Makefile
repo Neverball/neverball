@@ -137,6 +137,7 @@ BALL_OBJS := \
 	share/part.o        \
 	share/back.o        \
 	share/geom.o        \
+	share/ball.o        \
 	share/gui.o         \
 	share/base_config.o \
 	share/config.o      \
@@ -184,6 +185,7 @@ PUTT_OBJS := \
 	share/solid_gl.o    \
 	share/part.o        \
 	share/geom.o        \
+	share/ball.o        \
 	share/back.o        \
 	share/base_config.o \
 	share/config.o      \

@@ -560,7 +560,7 @@ static void read_f(struct s_file *fp, const char *line,
     gp->mi  = mi;
 }
 
-static void read_obj(struct s_file *fp, const char *name)
+static void read_obj(struct s_file *fp, const char *name, int mi)
 {
     char line[MAXSTR];
     char mtrl[MAXSTR];
@@ -569,7 +569,6 @@ static void read_obj(struct s_file *fp, const char *name)
     int v0 = fp->vc;
     int t0 = fp->tc;
     int s0 = fp->sc;
-    int mi = 0;
 
     if ((fin = fopen(config_data(name), "r")))
     {
@@ -857,7 +856,7 @@ static void make_body(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c, int l0)
 {
-    int i, bi = incb(fp);
+    int i, mi = 0, bi = incb(fp);
 
     int g0 = fp->gc;
     int v0 = fp->vc;
@@ -882,8 +881,11 @@ static void make_body(struct s_file *fp,
         else if (strcmp(k[i], "target") == 0)
             make_ref(v[i], &bp->pi);
 
+        else if (strcmp(k[i], "material") == 0)
+            mi = read_mtrl(fp, v[i]);
+
         else if (strcmp(k[i], "model") == 0)
-            read_obj(fp, v[i]);
+            read_obj(fp, v[i], mi);
 
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%d %d %d", &x, &y, &z);
@@ -1198,27 +1200,10 @@ static void make_ball(struct s_file *fp,
 
     struct s_ball *up = fp->uv + ui;
 
-    up->p[0] = 0.f;
-    up->p[1] = 0.f;
-    up->p[2] = 0.f;
-    up->r    = 0.25;
-
-    up->e[0][0] = 1.f;
-    up->e[0][1] = 0.f;
-    up->e[0][2] = 0.f;
-    up->e[1][0] = 0.f;
-    up->e[1][1] = 1.f;
-    up->e[1][2] = 0.f;
-    up->e[2][0] = 0.f;
-    up->e[2][1] = 0.f;
-    up->e[2][2] = 1.f;
-
-    up->v[0] = 0.f;
-    up->v[1] = 0.f;
-    up->v[2] = 0.f;
-    up->w[0] = 0.f;
-    up->w[1] = 0.f;
-    up->w[2] = 0.f;
+    up->p[0] = 0.0f;
+    up->p[1] = 0.0f;
+    up->p[2] = 0.0f;
+    up->r    = 0.25f;
 
     for (i = 0; i < c; i++)
     {

@@ -13,19 +13,12 @@
 #define IMG_ITEM_GROW    "png/grow.png"
 #define IMG_ITEM_SHRINK  "png/shrink.png"
 
-#define BALL_FUDGE    0.001f
 #define COIN_RADIUS   0.15f
 #define COIN_THICK    0.01f
 #define JUMP_HEIGHT   2.00f
 #define SWCH_HEIGHT   2.00f
 #define GOAL_HEIGHT   3.00f
 #define GOAL_SPARKS  64
-
-/*---------------------------------------------------------------------------*/
-
-void ball_init(int);
-void ball_free(void);
-void ball_draw(void);
 
 /*---------------------------------------------------------------------------*/
 

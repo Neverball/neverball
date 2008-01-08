@@ -21,6 +21,7 @@
 #include "geom.h"
 #include "back.h"
 #include "part.h"
+#include "ball.h"
 #include "image.h"
 #include "audio.h"
 #include "solid_gl.h"
@@ -50,7 +51,7 @@ static float view_fov;                  /* Field of view                     */
 static float view_c[3];                 /* Current view center               */
 static float view_v[3];                 /* Current view vector               */
 static float view_p[3];                 /* Current view position             */
-static float view_e[3][3];              /* Current view orientation          */
+static float view_e[3][3];              /* Current view reference frame      */
 static float view_k;
 
 static int   coins  = 0;                /* Collected coins                   */
@@ -390,12 +391,15 @@ int curr_goal(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_draw_balls(const struct s_file *fp)
+static void game_draw_balls(const struct s_file *fp, const float *bill_M)
 {
     float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    float M[16];
 
-    m_basis(M, fp->uv[0].e[0], fp->uv[0].e[1], fp->uv[0].e[2]);
+    float ball_M[16];
+    float pend_M[16];
+
+    m_basis(ball_M, fp->uv[0].e[0], fp->uv[0].e[1], fp->uv[0].e[2]);
+    m_basis(pend_M, fp->uv[0].E[0], fp->uv[0].E[1], fp->uv[0].E[2]);
 
     glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
@@ -403,13 +407,12 @@ static void game_draw_balls(const struct s_file *fp)
         glTranslatef(fp->uv[0].p[0],
                      fp->uv[0].p[1] + BALL_FUDGE,
                      fp->uv[0].p[2]);
-        glMultMatrixf(M);
         glScalef(fp->uv[0].r,
                  fp->uv[0].r,
                  fp->uv[0].r);
 
         glColor4fv(c);
-        ball_draw();
+        ball_draw(ball_M, pend_M, bill_M);
     }
     glPopMatrix();
     glPopAttrib();
@@ -482,7 +485,7 @@ static void game_draw_items(const struct s_file *fp)
     glPopAttrib();
 }
 
-static void game_draw_goals(const struct s_file *fp, float rx, float ry)
+static void game_draw_goals(const struct s_file *fp, const float *M)
 {
     if (goal_c == 0)
     {
@@ -500,7 +503,7 @@ static void game_draw_goals(const struct s_file *fp, float rx, float ry)
                                  fp->zv[zi].p[1],
                                  fp->zv[zi].p[2]);
                     
-                    part_draw_goal(rx, ry, fp->zv[zi].r, goal_k);
+                    part_draw_goal(M, fp->zv[zi].r, goal_k);
                 }
                 glPopMatrix();
             }
@@ -621,9 +624,8 @@ static void game_draw_light(void)
     glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
 }
 
-static void game_draw_back(int pose, int d, const float p[3])
+static void game_draw_back(int pose, int d)
 {
-    float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
     float t = SDL_GetTicks() / 1000.f + 120.0f;
 
     glPushMatrix();
@@ -634,8 +636,7 @@ static void game_draw_back(int pose, int d, const float p[3])
             glRotatef(game_rx * 2, view_e[0][0], view_e[0][1], view_e[0][2]);
         }
 
-        glTranslatef(p[0], p[1], p[2]);
-        glColor4fv(c);
+        glTranslatef(view_p[0], view_p[1] * d, view_p[2]);
 
         if (config_get_d(CONFIG_BACKGROUND))
         {
@@ -644,20 +645,66 @@ static void game_draw_back(int pose, int d, const float p[3])
             sol_back(&back, BACK_DIST, FAR_DIST,  t);
             back_draw(0);
             sol_back(&back,         0, BACK_DIST, t);
-
-            /* Draw all foreground geometry in the background file. */
-
-            /* HACK: This is never used.
-            sol_draw(&back);
-            */
         }
         else back_draw(0);
     }
     glPopMatrix();
 }
 
-static void game_draw_fore(int pose, float rx,
-                                     float ry, int d, const float p[3])
+static void game_clip_refl(int d)
+{
+    /* Fudge to eliminate the floor from reflection. */
+
+    GLdouble e[4], k = -0.00001;
+
+    e[0] = 0;
+    e[1] = 1;
+    e[2] = 0;
+    e[3] = k;
+
+    glClipPlane(GL_CLIP_PLANE0, e);
+}
+
+static void game_clip_ball(int d, const float *p)
+{
+    GLdouble r, c[3], pz[4], nz[4];
+
+    /* Compute the plane giving the front of the ball, as seen from view_p. */
+
+    c[0] = p[0];
+    c[1] = p[1] * d;
+    c[2] = p[2];
+
+    pz[0] = view_p[0] - c[0];
+    pz[1] = view_p[1] - c[1];
+    pz[2] = view_p[2] - c[2];
+
+    r = sqrt(pz[0] * pz[0] + pz[1] * pz[1] + pz[2] * pz[2]);
+
+    pz[0] /= r;
+    pz[1] /= r;
+    pz[2] /= r;
+    pz[3] = -(pz[0] * c[0] +
+              pz[1] * c[1] +
+              pz[2] * c[2]);
+
+    /* Find the plane giving the back of the ball, as seen from view_p. */
+
+    nz[0] = -pz[0];
+    nz[1] = -pz[1];
+    nz[2] = -pz[2];
+    nz[3] = -pz[3];
+
+    /* Reflect these planes as necessary, and store them in the GL state. */
+
+    pz[1] *= d;
+    nz[1] *= d;
+
+    glClipPlane(GL_CLIP_PLANE1, nz);
+    glClipPlane(GL_CLIP_PLANE2, pz);
+}
+
+static void game_draw_fore(int pose, const float *M, int d)
 {
     const float *ball_p = file.uv->p;
     const float  ball_r = file.uv->r;
@@ -671,21 +718,16 @@ static void game_draw_fore(int pose, float rx,
         glRotatef(-game_rx * d, view_e[0][0], view_e[0][1], view_e[0][2]);
         glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
 
+        /* Compute clipping planes for reflection and ball facing. */
+
+        game_clip_refl(d);
+        game_clip_ball(d, ball_p);
+
         if (d < 0)
-        {
-            GLdouble e[4];
-
-            e[0] = +0;
-            e[1] = +1;
-            e[2] = +0;
-            e[3] = -0.00001;
-
             glEnable(GL_CLIP_PLANE0);
-            glClipPlane(GL_CLIP_PLANE0, e);
-        }
 
         if (pose)
-            sol_draw(&file, -rx * d, -ry);
+            sol_draw(&file, 0);
         else
         {
             /* Draw the coins. */
@@ -694,7 +736,7 @@ static void game_draw_fore(int pose, float rx,
 
             /* Draw the floor. */
 
-            sol_draw(&file, -rx * d, -ry);
+            sol_draw(&file, 0);
 
             /* Draw the ball shadow. */
 
@@ -707,7 +749,7 @@ static void game_draw_fore(int pose, float rx,
 
             /* Draw the ball. */
 
-            game_draw_balls(&file);
+            game_draw_balls(&file, M);
         }
 
         /* Draw the particles and light columns. */
@@ -718,12 +760,12 @@ static void game_draw_fore(int pose, float rx,
         {
             glColor3f(1.0f, 1.0f, 1.0f);
 
-            sol_bill(&file, -rx * d, -ry);
-            part_draw_coin(-rx * d, -ry);
+            sol_bill(&file, M);
+            part_draw_coin(M);
 
             glDisable(GL_TEXTURE_2D);
             {
-                game_draw_goals(&file, -rx * d, -ry);
+                game_draw_goals(&file, M);
                 game_draw_jumps(&file);
                 game_draw_swchs(&file);
             }
@@ -752,24 +794,25 @@ void game_draw(int pose, float st)
         config_push_persp(fov, 0.1f, FAR_DIST);
         glPushMatrix();
         {
-            float v[3], rx, ry;
-            float pup[3];
-            float pdn[3];
+            float T[16], U[16], M[16], v[3];
 
-            v_cpy(pup, view_p);
-            v_cpy(pdn, view_p);
-            pdn[1] = -pdn[1];
+            /* Compute direct and reflected view bases. */
 
-            /* Compute and apply the view. */
+            v[0] = +view_p[0];
+            v[1] = -view_p[1];
+            v[2] = +view_p[2];
+
+            m_view(T, view_c, view_p, view_e[1]);
+            m_view(U, view_c, v,      view_e[1]);
+
+            m_xps(M, T);
+
+            /* Apply current the view. */
 
             v_sub(v, view_c, view_p);
 
-            rx = V_DEG(fatan2f(-v[1], fsqrtf(v[0] * v[0] + v[2] * v[2])));
-            ry = V_DEG(fatan2f(+v[0], -v[2])) + st;
-
             glTranslatef(0.f, 0.f, -v_len(v));
-            glRotatef(rx, 1.f, 0.f, 0.f);
-            glRotatef(ry, 0.f, 1.f, 0.f);
+            glMultMatrixf(M);
             glTranslatef(-view_c[0], -view_c[1], -view_c[2]);
 
             if (config_get_d(CONFIG_REFLECTION))
@@ -795,11 +838,11 @@ void game_draw(int pose, float st)
                     glFrontFace(GL_CW);
                     glPushMatrix();
                     {
-                        glScalef(+1.f, -1.f, +1.f);
+                        glScalef(+1.0f, -1.0f, +1.0f);
 
                         game_draw_light();
-                        game_draw_back(pose,         -1, pdn);
-                        game_draw_fore(pose, rx, ry, -1, pdn);
+                        game_draw_back(pose,    -1);
+                        game_draw_fore(pose, U, -1);
                     }
                     glPopMatrix();
                     glFrontFace(GL_CCW);
@@ -811,8 +854,8 @@ void game_draw(int pose, float st)
 
             game_draw_light();
             game_refl_all();
-            game_draw_back(pose,         +1, pup);
-            game_draw_fore(pose, rx, ry, +1, pup);
+            game_draw_back(pose,    +1);
+            game_draw_fore(pose, T, +1);
         }
         glPopMatrix();
         config_pop_matrix();
@@ -828,7 +871,7 @@ void game_draw(int pose, float st)
 static void game_update_grav(float h[3], const float g[3])
 {
     float x[3];
-    float y[3] = { 0.f, 1.f, 0.f };
+    float y[3] = { 0.0f, 1.0f, 0.0f };
     float z[3];
     float X[16];
     float Z[16];
@@ -837,7 +880,7 @@ static void game_update_grav(float h[3], const float g[3])
     /* Compute the gravity vector from the given world rotations. */
 
     z[0] = fsinf(V_RAD(view_a));
-    z[1] = 0.0;
+    z[1] = 0.0f;
     z[2] = fcosf(V_RAD(view_a));
 
     v_crs(x, y, z);
@@ -889,7 +932,7 @@ static void game_update_view(float dt)
         break;
     }
 
-    /* Orthonormalize the basis of the view in its new position. */
+    /* Orthonormalize the new view reference frame. */
 
     v_crs(view_e[0], view_e[1], view_e[2]);
     v_crs(view_e[2], view_e[0], view_e[1]);
