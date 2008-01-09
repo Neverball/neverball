@@ -13,7 +13,7 @@
 "time_hs" "355 375"
 "coin_hs" "150 115"
 "goal_hs" "1500 3000"
-"message" "=Slope=\Travel up and down in a controlled manner."
+"message" "=Slope=\Do not become another Sisyphus."
 // brush 0
 {
 ( 64 640 256 ) ( 64 512 256 ) ( -64 640 256 ) mtrl/goal 128 0 0 0.5 0.5 134217728 0 0

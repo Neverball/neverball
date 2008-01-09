@@ -12,7 +12,7 @@ map-fwp/tree.sol
 map-fwp/spacetime.sol
 map-fwp/museum.sol
 map-fwp/mountains.sol
-map-fwp/dots.sol
+map-fwp/confetti.sol
 map-fwp/cargo.sol
 map-fwp/ramps.sol
 map-fwp/rails.sol

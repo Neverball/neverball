@@ -1,10 +1,10 @@
 // entity 0
 {
 "classname" "worldspawn"
-"levelname" "dots"
+"levelname" "confetti"
 "version" "1.0"
 "author" "Florian Priester"
-"shot" "shot-fwp/dots.png"
+"shot" "shot-fwp/confetti.png"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "song" "bgm/track1.ogg"
@@ -13,7 +13,7 @@
 "time_hs" "6000 9000"
 "coin_hs" "90 50"
 "goal_hs" "7500 10500"
-"message" "=Dots=\Help! There has got to be a way through this mess."
+"message" "=Confetti=\Help! There has got to be a way through this mess."
 // brush 0
 {
 ( 64 288 0 ) ( 64 160 0 ) ( -64 288 0 ) mtrl/goal 128 0 0 0.25 0.25 134217728 0 0
