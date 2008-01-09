@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "levelname" "discs"
-"version" "0.1"
+"version" "1.0"
 "author" "Florian Priester"
 "shot" "shot-fwp/discs.png"
 "back" "map-back/alien.sol"

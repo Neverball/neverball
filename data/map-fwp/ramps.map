@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "levelname" "ramps"
-"version" "0.1"
+"version" "1.0"
 "author" "Florian Priester"
 "shot" "shot-fwp/ramps.png"
 "back" "map-back/city.sol"

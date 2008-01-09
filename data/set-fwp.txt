@@ -1,5 +1,5 @@
 Nevermania
-Levels for Neverball Experts\Author: Florian Priester\\\Work in progress.\
+Levels for Neverball Experts\Author: Florian Priester\\\\
 fwp
 shot-fwp/museum.png
 

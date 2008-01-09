@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "levelname" "tennis"
-"version" "0.1"
+"version" "1.0"
 "author" "Florian Priester"
 "shot" "shot-fwp/tennis.png"
 "back" "map-back/jupiter.sol"

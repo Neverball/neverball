@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "levelname" "spacetime"
-"version" "0.1"
+"version" "1.0"
 "author" "Florian Priester"
 "shot" "shot-fwp/spacetime.png"
 "back" "map-back/jupiter.sol"

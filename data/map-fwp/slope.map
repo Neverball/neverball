@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "levelname" "slope"
-"version" "0.1"
+"version" "1.0"
 "author" "Florian Priester"
 "shot" "shot-fwp/slope.png"
 "back" "map-back/city.sol"

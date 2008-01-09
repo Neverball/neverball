@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "levelname" "rails"
-"version" "0.1"
+"version" "1.0"
 "author" "Florian Priester"
 "shot" "shot-fwp/rails.png"
 "back" "map-back/jupiter.sol"
