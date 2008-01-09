@@ -826,7 +826,7 @@
 // entity 7
 {
 "classname" "info_player_intermission"
-"origin" "-384 448 2416"
+"origin" "-383 448 2416"
 "target" "t1"
 }
 // entity 8
