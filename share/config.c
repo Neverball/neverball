@@ -598,10 +598,18 @@ static int grabbed = 0;
 void config_set_grab(int w)
 {
     if (w)
+    {
+        SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+
         SDL_WarpMouse(config_get_d(CONFIG_WIDTH)  / 2,
                       config_get_d(CONFIG_HEIGHT) / 2);
+
+        SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
+    }
+
     SDL_WM_GrabInput(SDL_GRAB_ON);
     SDL_ShowCursor(SDL_DISABLE);
+
     grabbed = 1;
 }
 
