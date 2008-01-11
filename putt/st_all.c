@@ -1413,6 +1413,7 @@ struct state st_roll = {
     NULL,
     NULL,
     NULL,
+    NULL,
     shared_keybd,
     roll_buttn,
     0, 0
