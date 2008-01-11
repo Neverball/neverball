@@ -52,13 +52,13 @@ static int help_action(int t)
         break;
 
     case HELP_DEMO_1:
-        demo_replay_init(config_data("gui/demo1.nbr"), NULL);
-        return goto_state(&st_help_demo);
+        if (demo_replay_init(config_data("gui/demo1.nbr"), NULL))
+            return goto_state(&st_help_demo);
         break;
 
     case HELP_DEMO_2:
-        demo_replay_init(config_data("gui/demo2.nbr"), NULL);
-        return goto_state(&st_help_demo);
+        if (demo_replay_init(config_data("gui/demo2.nbr"), NULL))
+            return goto_state(&st_help_demo);
         break;
 
     default:
