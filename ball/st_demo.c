@@ -311,6 +311,7 @@ static int demo_buttn(int b, int d)
 
 static int standalone;
 static int demo_paused;
+static int show_hud;
 
 void demo_play_goto(int s)
 {
@@ -335,8 +336,8 @@ static int demo_play_enter(void)
         gui_pulse(id, 1.2f);
     }
 
+    show_hud = 1;
     hud_update(0);
-
     game_set_fly(0.f);
 
     return id;
@@ -345,7 +346,9 @@ static int demo_play_enter(void)
 static void demo_play_paint(int id, float st)
 {
     game_draw(0, st);
-    hud_paint();
+
+    if (show_hud)
+        hud_paint();
 
     if (time_state() < 1.f)
         gui_paint(id);
@@ -375,6 +378,9 @@ static int demo_play_keybd(int c, int d)
             demo_paused = 1;
             return goto_state(&st_demo_end);
         }
+
+        if (c == SDLK_F6)
+            show_hud = !show_hud;
     }
     return 1;
 }

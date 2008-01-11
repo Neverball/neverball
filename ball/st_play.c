@@ -165,7 +165,7 @@ static int play_set_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int nohud = 0;
+static int show_hud;
 
 static int play_loop_enter(void)
 {
@@ -191,7 +191,7 @@ static int play_loop_enter(void)
 
     hud_view_pulse(config_get_d(CONFIG_CAMERA));
 
-    nohud = 0;
+    show_hud = 1;
 
     hud_update(0);
 
@@ -202,7 +202,7 @@ static void play_loop_paint(int id, float st)
 {
     game_draw(0, st);
 
-    if (!nohud)
+    if (show_hud)
         hud_paint();
 
     if (time_state() < 1.f)
@@ -314,7 +314,7 @@ static int play_loop_keybd(int c, int d)
         return goto_state(&st_look);
 
     if (d && c == SDLK_F6)
-        nohud = !nohud;
+        show_hud = !show_hud;
 
     if (d && c == SDLK_c && config_cheat())
     {
