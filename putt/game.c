@@ -318,7 +318,7 @@ void game_draw(int pose)
 
         /* Draw the floor. */
 
-        sol_draw(fp, 0);
+        sol_draw(fp, 0, 1);
 
         if (config_get_d(CONFIG_SHADOW) && !pose)
         {

@@ -30,10 +30,11 @@ static struct s_file solid;
 static struct s_file inner;
 static struct s_file outer;
 
-#define F_PENDULUM 1
-#define F_DRAWBACK 2
-#define F_DRAWCLIP 4
-#define F_ZBUFFER  8
+#define F_PENDULUM   1
+#define F_DRAWBACK   2
+#define F_DRAWCLIP   4
+#define F_DEPTHMASK  8
+#define F_DEPTHTEST 16
 
 static int solid_flags;
 static int inner_flags;
@@ -41,9 +42,11 @@ static int outer_flags;
 
 /*---------------------------------------------------------------------------*/
 
+#define SET(B, v, b) ((v) ? ((B) | (b)) : ((B) & ~(b)))
+
 static int ball_flags(const struct s_file *fp)
 {
-    int flags = 0;
+    int flags = F_DEPTHTEST;
     int di;
 
     for (di = 0; di < fp->dc; ++di)
@@ -51,10 +54,16 @@ static int ball_flags(const struct s_file *fp)
         char *k = fp->av + fp->dv[di].ai;
         char *v = fp->av + fp->dv[di].aj;
 
-        if (strcmp(k, "pendulum") == 0) flags |= (atoi(v) * F_PENDULUM);
-        if (strcmp(k, "drawback") == 0) flags |= (atoi(v) * F_DRAWBACK);
-        if (strcmp(k, "drawclip") == 0) flags |= (atoi(v) * F_DRAWCLIP);
-        if (strcmp(k, "zbuffer")  == 0) flags |= (atoi(v) * F_ZBUFFER);
+        if (strcmp(k, "pendulum")  == 0)
+            flags = SET(flags, atoi(v), F_PENDULUM);
+        if (strcmp(k, "drawback")  == 0)
+            flags = SET(flags, atoi(v), F_DRAWBACK);
+        if (strcmp(k, "drawclip")  == 0)
+            flags = SET(flags, atoi(v), F_DRAWCLIP);
+        if (strcmp(k, "depthmask") == 0)
+            flags = SET(flags, atoi(v), F_DEPTHMASK);
+        if (strcmp(k, "depthtest") == 0)
+            flags = SET(flags, atoi(v), F_DEPTHTEST);
     }
 
     return flags;
@@ -106,7 +115,8 @@ static void ball_draw_solid(const float *ball_M,
 {
     if (has_solid)
     {
-        const int Z = (solid_flags & F_ZBUFFER);
+        const int mask = (solid_flags & F_DEPTHMASK);
+        const int test = (solid_flags & F_DEPTHTEST);
 
         glPushMatrix();
         {
@@ -118,6 +128,7 @@ static void ball_draw_solid(const float *ball_M,
 
             if (solid.rc)
             {
+                if (test == 0) glDisable(GL_DEPTH_TEST);
                 glDepthMask(GL_FALSE);
                 glDisable(GL_LIGHTING);
                 {
@@ -125,11 +136,12 @@ static void ball_draw_solid(const float *ball_M,
                 }
                 glEnable(GL_LIGHTING);
                 glDepthMask(GL_TRUE);
+                if (test == 0) glEnable(GL_DEPTH_TEST);
             }
 
             /* Draw the solid opaque and transparent geometry. */
 
-            sol_draw(&solid, Z);
+            sol_draw(&solid, mask, test);
         }
         glPopMatrix();
     }
@@ -141,12 +153,13 @@ static void ball_draw_inner(const float *pend_M,
 {
     if (has_inner)
     {
-        const int P = (inner_flags & F_PENDULUM);
-        const int Z = (inner_flags & F_ZBUFFER);
+        const int pend = (inner_flags & F_PENDULUM);
+        const int mask = (inner_flags & F_DEPTHMASK);
+        const int test = (inner_flags & F_DEPTHTEST);
 
         /* Apply the pendulum rotation. */
 
-        if (P)
+        if (pend)
         {
             glPushMatrix();
             glMultMatrixf(pend_M);
@@ -154,16 +167,17 @@ static void ball_draw_inner(const float *pend_M,
 
         /* Draw the inner opaque and transparent geometry. */
 
-        sol_draw(&inner, Z);
+        sol_draw(&inner, mask, test);
 
         /* Draw the inner billboard geometry. */
 
         if (inner.rc)
         {
+            if (test == 0) glDisable(GL_DEPTH_TEST);
             glDepthMask(GL_FALSE);
             glDisable(GL_LIGHTING);
             {
-                if (P)
+                if (pend)
                     sol_bill(&inner, pend_bill_M);
                 else
                     sol_bill(&inner, bill_M);
@@ -171,9 +185,10 @@ static void ball_draw_inner(const float *pend_M,
 
             glEnable(GL_LIGHTING);
             glDepthMask(GL_TRUE);
+            if (test == 0) glEnable(GL_DEPTH_TEST);
         }
 
-        if (P)
+        if (pend)
             glPopMatrix();
     }
 }
@@ -184,12 +199,13 @@ static void ball_draw_outer(const float *pend_M,
 {
     if (has_outer)
     {
-        const int P = (outer_flags & F_PENDULUM);
-        const int Z = (outer_flags & F_ZBUFFER);
+        const int pend = (outer_flags & F_PENDULUM);
+        const int mask = (outer_flags & F_DEPTHMASK);
+        const int test = (outer_flags & F_DEPTHTEST);
 
         /* Apply the pendulum rotation. */
 
-        if (P)
+        if (pend)
         {
             glPushMatrix();
             glMultMatrixf(pend_M);
@@ -197,25 +213,27 @@ static void ball_draw_outer(const float *pend_M,
 
         /* Draw the outer opaque and transparent geometry. */
 
-        sol_draw(&outer, Z);
+        sol_draw(&outer, mask, test);
 
         /* Draw the outer billboard geometry. */
 
         if (outer.rc)
         {
+            if (test == 0) glDisable(GL_DEPTH_TEST);
             glDepthMask(GL_FALSE);
             glDisable(GL_LIGHTING);
             {
-                if (P)
+                if (pend)
                     sol_bill(&outer, pend_bill_M);
                 else
                     sol_bill(&outer, bill_M);
             }
             glEnable(GL_LIGHTING);
             glDepthMask(GL_TRUE);
+            if (test == 0) glEnable(GL_DEPTH_TEST);
         }
 
-        if (P)
+        if (pend)
             glPopMatrix();
     }
 }

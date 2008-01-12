@@ -1,0 +1,12 @@
+{
+"classname" "worldspawn"
+"depthtest" "0"
+}
+{
+"classname" "info_null"
+"origin" "0 0 0"
+"height" "4.0 0.0 0.0"
+"width" "4.0 0.0 0.0"
+"time" "1.0"
+"image" "ball/lava/lava-glow"
+}

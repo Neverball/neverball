@@ -350,7 +350,7 @@ static void sol_draw_list(const struct s_file *fp,
     glPopMatrix();
 }
 
-void sol_draw(const struct s_file *fp, int force_depth)
+void sol_draw(const struct s_file *fp, int depthmask, int depthtest)
 {
     int bi;
 
@@ -362,14 +362,15 @@ void sol_draw(const struct s_file *fp, int force_depth)
 
     /* Render all translucent geometry into only the color buffer. */
 
-    if (force_depth == 0) glDepthMask(GL_FALSE);
+    if (depthtest == 0) glDisable(GL_DEPTH_TEST);
+    if (depthmask == 0) glDepthMask(GL_FALSE);
     {
         for (bi = 0; bi < fp->bc; bi++)
             if (fp->bv[bi].tl)
                 sol_draw_list(fp, fp->bv + bi, fp->bv[bi].tl);
     }
-    if (force_depth == 0) glDepthMask(GL_TRUE);
-
+    if (depthmask == 0) glDepthMask(GL_TRUE);
+    if (depthtest == 0) glEnable(GL_DEPTH_TEST);
 }
 
 void sol_bill(const struct s_file *fp, const float *M)

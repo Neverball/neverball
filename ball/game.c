@@ -578,18 +578,23 @@ static void game_draw_swchs(const struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_refl_all()
+static void game_draw_tilt(int d)
 {
     const float *ball_p = file.uv->p;
 
+    /* Rotate the environment about the position of the ball. */
+
+    glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
+    glRotatef(-game_rz * d, view_e[2][0], view_e[2][1], view_e[2][2]);
+    glRotatef(-game_rx * d, view_e[0][0], view_e[0][1], view_e[0][2]);
+    glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
+}
+
+static void game_refl_all(void)
+{
     glPushMatrix();
     {
-        /* Rotate the environment about the position of the ball. */
-
-        glTranslatef(+ball_p[0], +ball_p[1], +ball_p[2]);
-        glRotatef(-game_rz, view_e[2][0], view_e[2][1], view_e[2][2]);
-        glRotatef(-game_rx, view_e[0][0], view_e[0][1], view_e[0][2]);
-        glTranslatef(-ball_p[0], -ball_p[1], -ball_p[2]);
+        game_draw_tilt(1);
 
         /* Draw the floor. */
 
@@ -713,10 +718,7 @@ static void game_draw_fore(int pose, const float *M, int d)
     {
         /* Rotate the environment about the position of the ball. */
 
-        glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
-        glRotatef(-game_rz * d, view_e[2][0], view_e[2][1], view_e[2][2]);
-        glRotatef(-game_rx * d, view_e[0][0], view_e[0][1], view_e[0][2]);
-        glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
+        game_draw_tilt(d);
 
         /* Compute clipping planes for reflection and ball facing. */
 
@@ -727,7 +729,7 @@ static void game_draw_fore(int pose, const float *M, int d)
             glEnable(GL_CLIP_PLANE0);
 
         if (pose)
-            sol_draw(&file, 0);
+            sol_draw(&file, 0, 1);
         else
         {
             /* Draw the coins. */
@@ -736,7 +738,7 @@ static void game_draw_fore(int pose, const float *M, int d)
 
             /* Draw the floor. */
 
-            sol_draw(&file, 0);
+            sol_draw(&file, 0, 1);
 
             /* Draw the ball shadow. */
 
