@@ -792,9 +792,8 @@ msgstr ""
 "allem im Münzen sammeln.\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-fwp.txt
-#, fuzzy
 msgid "Nevermania"
-msgstr "Neverball"
+msgstr "Nevermania"
 
 #: data/set-fwp.txt
 msgid "Levels for Neverball Experts\\Author: Florian Priester\\\\\\\\"
@@ -1029,7 +1028,7 @@ msgid "=Ramps=\\Can you make it to the top?"
 msgstr "=Rampen=\\Schaffen Sie es bis an die Spitze?"
 
 #: data/map-fwp/slope.map
-msgid "=Slope=\\Do not become another Sisyphus."
+msgid "=Slope=\\Try not to become a modern-day Sisyphus."
 msgstr "=Abhang=\\Werden Sie nicht zu einem zweiten Sisyphos."
 
 #: data/map-fwp/spacetime.map
