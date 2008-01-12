@@ -1,7 +1,7 @@
 {
 "classname" "worldspawn"
 "drawback" "1"
-"zbuffer" "1"
+"depthmask" "1"
 }
 {
 "classname" "misc_model"
