@@ -1,6 +1,16 @@
 {
 "classname" "worldspawn"
 "pendulum" "1"
+"depthmask" "1"
+"alphatest" "0.5"
+}
+{
+"classname" "info_null"
+"origin" "0 0 0"
+"height" "3.0 0.0 0.0"
+"width" "3.0 0.0 0.0"
+"time" "1.0"
+"image" "ball/sootsprite/sootsprite-body"
 }
 {
 "classname" "info_null"
