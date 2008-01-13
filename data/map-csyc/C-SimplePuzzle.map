@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "shot" "shot-csyc/C-SimplePuzzle.png"
 "song" "bgm/track4.ogg"
-"message" "Simple Puzzle\Story: As you've completed the race,\you left the Class-M planet and ended in space.\\Tips: This level starts partially assembled,\and you have to complete it. Be careful not to\set the wrong switches, or you might fall out.\Each row controls a different block."
+"message" "Simple Puzzle\Story: As you've completed the race, you left the\Class-M planet and ended in space.\\Tips: This level starts partially assembled,\and you have to complete it.\Be careful not to set the wrong switches, or you might fall out.\Each row controls a different slot."
 "grad" "back/space.png"
 "back" "map-back/jupiter.sol"
 "time" "9000"
