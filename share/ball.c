@@ -40,11 +40,15 @@ static int solid_flags;
 static int inner_flags;
 static int outer_flags;
 
+static float solid_alpha;
+static float inner_alpha;
+static float outer_alpha;
+
 /*---------------------------------------------------------------------------*/
 
 #define SET(B, v, b) ((v) ? ((B) | (b)) : ((B) & ~(b)))
 
-static int ball_flags(const struct s_file *fp)
+static int ball_opts(const struct s_file *fp, float *alpha)
 {
     int flags = F_DEPTHTEST;
     int di;
@@ -64,6 +68,8 @@ static int ball_flags(const struct s_file *fp)
             flags = SET(flags, atoi(v), F_DEPTHMASK);
         if (strcmp(k, "depthtest") == 0)
             flags = SET(flags, atoi(v), F_DEPTHTEST);
+        if (strcmp(k, "alphatest") == 0)
+            sscanf(v, "%f", alpha);
     }
 
     return flags;
@@ -89,14 +95,18 @@ void ball_init(void)
     inner_flags = 0;
     outer_flags = 0;
 
+    solid_alpha = 1.0f;
+    inner_alpha = 1.0f;
+    outer_alpha = 1.0f;
+
     if ((has_solid = sol_load_gl(&solid, config_data(solid_file), T, 0)))
-        solid_flags = ball_flags(&solid);
+        solid_flags = ball_opts(&solid, &solid_alpha);
 
     if ((has_inner = sol_load_gl(&inner, config_data(inner_file), T, 0)))
-        inner_flags = ball_flags(&inner);
+        inner_flags = ball_opts(&inner, &inner_alpha);
 
     if ((has_outer = sol_load_gl(&outer, config_data(outer_file), T, 0)))
-        outer_flags = ball_flags(&outer);
+        outer_flags = ball_opts(&outer, &outer_alpha);
 }
 
 void ball_free(void)
@@ -118,6 +128,12 @@ static void ball_draw_solid(const float *ball_M,
         const int mask = (solid_flags & F_DEPTHMASK);
         const int test = (solid_flags & F_DEPTHTEST);
 
+        if (solid_alpha < 1.0f)
+        {
+            glEnable(GL_ALPHA_TEST);
+            glAlphaFunc(GL_GEQUAL, solid_alpha);
+        }
+
         glPushMatrix();
         {
             /* Apply the ball rotation. */
@@ -129,13 +145,13 @@ static void ball_draw_solid(const float *ball_M,
             if (solid.rc)
             {
                 if (test == 0) glDisable(GL_DEPTH_TEST);
-                glDepthMask(GL_FALSE);
+                if (mask == 0) glDepthMask(GL_FALSE);
                 glDisable(GL_LIGHTING);
                 {
                     sol_bill(&solid, ball_bill_M);
                 }
                 glEnable(GL_LIGHTING);
-                glDepthMask(GL_TRUE);
+                if (mask == 0) glDepthMask(GL_TRUE);
                 if (test == 0) glEnable(GL_DEPTH_TEST);
             }
 
@@ -144,6 +160,9 @@ static void ball_draw_solid(const float *ball_M,
             sol_draw(&solid, mask, test);
         }
         glPopMatrix();
+
+        if (solid_alpha < 1.0f)
+            glDisable(GL_ALPHA_TEST);
     }
 }
 
@@ -156,6 +175,12 @@ static void ball_draw_inner(const float *pend_M,
         const int pend = (inner_flags & F_PENDULUM);
         const int mask = (inner_flags & F_DEPTHMASK);
         const int test = (inner_flags & F_DEPTHTEST);
+
+        if (inner_alpha < 1.0f)
+        {
+            glEnable(GL_ALPHA_TEST);
+            glAlphaFunc(GL_GEQUAL, inner_alpha);
+        }
 
         /* Apply the pendulum rotation. */
 
@@ -174,7 +199,7 @@ static void ball_draw_inner(const float *pend_M,
         if (inner.rc)
         {
             if (test == 0) glDisable(GL_DEPTH_TEST);
-            glDepthMask(GL_FALSE);
+            if (mask == 0) glDepthMask(GL_FALSE);
             glDisable(GL_LIGHTING);
             {
                 if (pend)
@@ -184,12 +209,15 @@ static void ball_draw_inner(const float *pend_M,
             }
 
             glEnable(GL_LIGHTING);
-            glDepthMask(GL_TRUE);
+            if (mask == 0) glDepthMask(GL_TRUE);
             if (test == 0) glEnable(GL_DEPTH_TEST);
         }
 
         if (pend)
             glPopMatrix();
+
+        if (inner_alpha < 1.0f)
+            glDisable(GL_ALPHA_TEST);
     }
 }
 
@@ -203,7 +231,13 @@ static void ball_draw_outer(const float *pend_M,
         const int mask = (outer_flags & F_DEPTHMASK);
         const int test = (outer_flags & F_DEPTHTEST);
 
-        /* Apply the pendulum rotation. */
+        if (outer_alpha < 1.0f)
+        {
+            glEnable(GL_ALPHA_TEST);
+            glAlphaFunc(GL_GEQUAL, outer_alpha);
+        }
+
+       /* Apply the pendulum rotation. */
 
         if (pend)
         {
@@ -220,7 +254,7 @@ static void ball_draw_outer(const float *pend_M,
         if (outer.rc)
         {
             if (test == 0) glDisable(GL_DEPTH_TEST);
-            glDepthMask(GL_FALSE);
+            if (mask == 0) glDepthMask(GL_FALSE);
             glDisable(GL_LIGHTING);
             {
                 if (pend)
@@ -229,12 +263,15 @@ static void ball_draw_outer(const float *pend_M,
                     sol_bill(&outer, bill_M);
             }
             glEnable(GL_LIGHTING);
-            glDepthMask(GL_TRUE);
+            if (mask == 0) glDepthMask(GL_TRUE);
             if (test == 0) glEnable(GL_DEPTH_TEST);
         }
 
         if (pend)
             glPopMatrix();
+
+        if (outer_alpha < 1.0f)
+            glDisable(GL_ALPHA_TEST);
     }
 }
 

@@ -93,6 +93,7 @@
 #define B_EDGE     1
 #define B_FLAT     2
 #define B_ADDITIVE 4
+#define B_NOFACE   8
 
 /* Lump flags. */
 

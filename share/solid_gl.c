@@ -385,10 +385,13 @@ void sol_bill(const struct s_file *fp, const float *M)
         const struct s_bill *rp = fp->rv + ri;
 
         float T = rp->t * t;
+        float S = fsinf(T);
 
-        float w  = rp->w [0] + rp->w [1] * T + rp->w [2] * fsinf(T);
-        float h  = rp->h [0] + rp->h [1] * T + rp->h [2] * fsinf(T);
-        float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * fsinf(T);
+        float w  = rp->w [0] + rp->w [1] * T + rp->w [2] * S;
+        float h  = rp->h [0] + rp->h [1] * T + rp->h [2] * S;
+        float rx = rp->rx[0] + rp->rx[1] * T + rp->rx[2] * S;
+        float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * S;
+        float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * S;
 
         mp = sol_draw_mtrl(fp, fp->mv + rp->mi, mp);
 
@@ -396,9 +399,11 @@ void sol_bill(const struct s_file *fp, const float *M)
         {
             glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
 
-            if (M) glMultMatrixf(M);
+            if (M && ((rp->fl & B_NOFACE) == 0)) glMultMatrixf(M);
 
-            glRotatef(rz, 0.0f, 0.0f, 1.0f);
+            if (fabsf(rx) > 0.0f) glRotatef(rx, 1.0f, 0.0f, 0.0f);
+            if (fabsf(ry) > 0.0f) glRotatef(ry, 0.0f, 1.0f, 0.0f);
+            if (fabsf(rz) > 0.0f) glRotatef(rz, 0.0f, 0.0f, 1.0f);
 
             glBegin(GL_QUADS);
             {
