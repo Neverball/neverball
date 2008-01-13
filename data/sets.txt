@@ -3,6 +3,7 @@ set-medium.txt
 set-hard.txt
 set-mym.txt
 set-mym2.txt
+set-fwp.txt
 set-csy.txt
 set-csyc.txt
 set-misc.txt
