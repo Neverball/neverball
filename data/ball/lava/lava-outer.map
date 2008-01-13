@@ -1,12 +1,23 @@
 {
 "classname" "worldspawn"
 "depthtest" "0"
+"pendulum" "1"
 }
 {
 "classname" "info_null"
 "origin" "0 0 0"
 "height" "4.0 0.0 0.0"
 "width" "4.0 0.0 0.0"
+"zrot" "0.0 6.0 0.0"
+"time" "1.0"
+"image" "ball/lava/lava-glow"
+}
+{
+"classname" "info_null"
+"origin" "0 0 0"
+"height" "4.0 0.0 0.0"
+"width" "4.0 0.0 0.0"
+"zrot" "0.0 -7.0 0.0"
 "time" "1.0"
 "image" "ball/lava/lava-glow"
 }
