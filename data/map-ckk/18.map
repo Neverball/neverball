@@ -2388,7 +2388,7 @@
 ( 1280 128 8 ) ( 1280 128 -8 ) ( 1280 192 -8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 ( 1376 120 -8 ) ( 1248 120 -8 ) ( 1248 128 8 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( 1352 120 -8 ) ( 1352 200 -8 ) ( 1284 120 -8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( -224 200 0 ) ( -152 200 0 ) ( -224 120 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( -224 200 0 ) ( -152 200 0 ) ( -224 120 0 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 }
 // brush 254
 {
@@ -2763,9 +2763,11 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "1472 -64 8"
+"radius" "0.125"
 }
 // entity 12
 {
 "classname" "info_player_deathmatch"
 "origin" "-1344 -64 8"
+"radius" "0.125"
 }
