@@ -19,7 +19,7 @@
 #include "game.h"
 #include "util.h"
 #include "demo.h"
-#include "levels.h"
+#include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
@@ -60,11 +60,11 @@ static int done_enter(void)
 
     int id, jd;
 
-    int high = (curr_lg()->times_rank < 3) || (curr_lg()->score_rank < 3);
+    int high = progress_set_high();
 
     if (new_name)
     {
-        level_update_player_name();
+        progress_rename();
         new_name = 0;
     }
 
@@ -92,7 +92,7 @@ static int done_enter(void)
             /* FIXME, I'm ugly. */
 
             if (high)
-               gui_state(jd, _("Change Player Name"), GUI_SML, DONE_NAME, 0);
+                gui_state(jd, _("Change Player Name"), GUI_SML, DONE_NAME, 0);
 
             gui_start(jd, _("OK"), GUI_SML, DONE_OK, 0);
         }
@@ -101,8 +101,8 @@ static int done_enter(void)
         gui_pulse(gid, 1.2f);
     }
 
-    set_best_times(set_time_score(curr_set()), curr_lg()->times_rank, 0);
-    set_most_coins(set_coin_score(curr_set()), curr_lg()->score_rank);
+    set_best_times(set_time_score(curr_set()), progress_times_rank(), 0);
+    set_most_coins(set_coin_score(curr_set()), progress_score_rank());
 
     return id;
 }

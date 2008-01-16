@@ -17,7 +17,7 @@
 #include "gui.h"
 #include "game.h"
 #include "set.h"
-#include "levels.h"
+#include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
@@ -33,7 +33,6 @@ static int level_enter(void)
 {
     int id, jd, kd, ld;
     const char *ln;
-    const struct level_game *lg = curr_lg();
     int b;
     const float *textcol1, *textcol2;
 
@@ -41,8 +40,9 @@ static int level_enter(void)
     {
         if ((jd = gui_hstack(id)))
         {
-            ln = lg->level->repr;
-            b = lg->level->is_bonus;
+            ln = level_repr (curr_level());
+            b  = level_bonus(curr_level());
+
             textcol1 = b ? gui_wht : 0;
             textcol2 = b ? gui_grn : 0;
 
@@ -73,7 +73,7 @@ static int level_enter(void)
                     }
                 }
 
-                gui_label(kd, mode_to_str(lg->mode, 1), GUI_SML, GUI_BOT,
+                gui_label(kd, mode_to_str(curr_mode(), 1), GUI_SML, GUI_BOT,
                           gui_wht, gui_wht);
 
             }
@@ -81,9 +81,9 @@ static int level_enter(void)
         }
         gui_space(id);
 
-        if (strlen(lg->level->message) != 0)
-            gui_multi(id, _(lg->level->message), GUI_SML, GUI_ALL, gui_wht,
-                      gui_wht);
+        gui_multi(id, level_msg(curr_level()),
+                  GUI_SML, GUI_ALL,
+                  gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);
     }
@@ -120,8 +120,7 @@ static int level_buttn(int b, int d)
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
-            level_stat(GAME_NONE, curr_clock(), curr_coins());
-            level_stop();
+            progress_stop();
             return goto_state(&st_over);
         }
     }

@@ -19,7 +19,7 @@
 #include "set.h"
 #include "game.h"
 #include "demo.h"
-#include "levels.h"
+#include "progress.h"
 #include "audio.h"
 #include "solid.h"
 #include "config.h"
@@ -64,9 +64,11 @@ static int demo_action(int i)
         break;
 
     default:
-        if (level_replay(demo_get(i)->filename))
+        if (progress_replay(demo_get(i)->filename))
+        {
             demo_play_goto(0);
             return goto_state(&st_demo_play);
+        }
     }
     return 1;
 }
@@ -425,7 +427,7 @@ static int demo_end_action(int i)
         return 0;
     case DEMO_REPLAY:
         demo_replay_stop(0);
-        level_replay(curr_demo_replay()->filename);
+        progress_replay(curr_demo_replay()->filename);
         return goto_state(&st_demo_play);
     case DEMO_CONTINUE:
         return goto_state(&st_demo_play);

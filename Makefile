@@ -149,11 +149,10 @@ BALL_OBJS := \
 	share/tilt.o        \
 	share/common.o      \
 	ball/hud.o          \
-	ball/mode.o         \
 	ball/game.o         \
 	ball/score.o        \
 	ball/level.o        \
-	ball/levels.o       \
+	ball/progress.o     \
 	ball/set.o          \
 	ball/demo.o         \
 	ball/util.o         \

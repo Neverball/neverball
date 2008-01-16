@@ -20,7 +20,7 @@
 #include "hud.h"
 #include "gui.h"
 #include "game.h"
-#include "levels.h"
+#include "progress.h"
 #include "config.h"
 #include "audio.h"
 
@@ -112,12 +112,10 @@ void hud_free(void)
 
 void hud_paint(void)
 {
-    int mode = curr_lg()->mode;
-
-    if (mode == MODE_CHALLENGE)
+    if (curr_mode() == MODE_CHALLENGE)
         gui_paint(Lhud_id);
 
-    if (mode == MODE_PRACTICE)
+    if (curr_mode() == MODE_PRACTICE)
         gui_paint(Rhud2_id);
     else
         gui_paint(Rhud_id);
@@ -133,14 +131,12 @@ void hud_paint(void)
 
 void hud_update(int pulse)
 {
-    const struct level_game *lg = curr_lg();
-
     int clock = curr_clock();
     int coins = curr_coins();
     int goal  = curr_goal();
-    int balls = lg->balls;
-    int score = lg->score;
-    int mode  = lg->mode;
+    int balls = curr_balls();
+    int score = curr_score();
+    int mode  = curr_mode();
 
     int c_id;
     int last;

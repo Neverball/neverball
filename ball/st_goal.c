@@ -17,7 +17,7 @@
 #include "gui.h"
 #include "game.h"
 #include "util.h"
-#include "levels.h"
+#include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
@@ -60,33 +60,33 @@ static int goal_action(int i)
         /* Fall through. */
 
     case GOAL_OVER:
-        level_stop();
+        progress_stop();
         return goto_state(&st_over);
 
     case GOAL_SAVE:
         be_back_soon = 1;
 
-        level_stop();
+        progress_stop();
         return goto_save(&st_goal, &st_goal);
 
     case GOAL_NAME:
         new_name = 1;
         be_back_soon = 1;
 
-        level_stop();
+        progress_stop();
         return goto_name(&st_goal, &st_goal, 0);
 
     case GOAL_DONE:
-        level_stop();
+        progress_stop();
         return goto_state(&st_done);
 
     case GOAL_NEXT:
-        level_next();
-        return goto_state(&st_level);
+        if (progress_next())
+            return goto_state(&st_level);
 
     case GOAL_SAME:
-        level_same();
-        return goto_state(&st_level);
+        if (progress_same())
+            return goto_state(&st_level);
     }
 
     return 1;
@@ -96,43 +96,25 @@ static int goal_enter(void)
 {
     const char *s1 = _("New Record");
     const char *s2 = _("GOAL");
-    const char *s3 = _("Congratulations!");
 
     int id, jd, kd;
 
-    struct level_game *lg = curr_lg();
-    const struct level *l = lg->level;
+    const struct level *l = get_level(curr_level());
 
-    int high;
-
-    high = (lg->time_rank < 3) || (lg->goal_rank < 3) || (lg->coin_rank < 3);
+    int high = progress_lvl_high();
 
     /* Reset hack. */
     be_back_soon = 0;
 
     if (new_name)
     {
-        level_update_player_name();
+        progress_rename();
         new_name = 0;
     }
 
     if ((id = gui_vstack(0)))
     {
         int gid;
-
-        if (lg->mode == MODE_CHALLENGE && lg->bonus)
-        {
-            char buf[MAXSTR];
-
-            sprintf(buf, _("You have unlocked bonus level %s!"),
-                    lg->bonus_repr);
-
-            gid = gui_label(id, s3,  GUI_MED, GUI_ALL, gui_grn, gui_red);
-            gid = gui_label(id, buf, GUI_SML, GUI_ALL, gui_blu, gui_grn);
-
-            lg->bonus = 0;
-            lg->bonus_repr = NULL;
-        }
 
         if (high)
             gid = gui_label(id, s1, GUI_MED, GUI_ALL, gui_grn, gui_grn);
@@ -141,11 +123,11 @@ static int goal_enter(void)
 
         gui_space(id);
 
-        if (lg->mode == MODE_CHALLENGE)
+        if (curr_mode() == MODE_CHALLENGE)
         {
-            int coins = lg->coins;
-            int score = lg->score - coins;
-            int balls = lg->balls - count_extra_balls(score, coins);
+            int coins = curr_coins();
+            int score = curr_score() - coins;
+            int balls = curr_balls() - count_extra_balls(score, coins);
 
             if ((jd = gui_hstack(id)))
             {
@@ -187,30 +169,17 @@ static int goal_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            int next_id = 0, retry_id = 0;
-
-            if (lg->win)
+            if (progress_done())
                 gui_start(jd, _("Finish"), GUI_SML, GOAL_DONE, 0);
-            else
-                next_id = gui_maybe(jd, _("Next Level"),  GOAL_NEXT,
-                                    lg->next_level != NULL);
 
-            if (lg->dead)
-                gui_start(jd, _("Game Over"), GUI_SML, GOAL_OVER, 0);
-            else
-            {
-                retry_id = gui_maybe(jd, _("Retry Level"), GOAL_SAME,
-                                     lg->mode != MODE_CHALLENGE);
-            }
+            if (progress_next_avail())
+                gui_start(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
 
-            gui_maybe(jd, _("Save Replay"), GOAL_SAVE, demo_saved());
+            if (progress_same_avail())
+                gui_start(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 
-            /* Default is next if the next level is newly unlocked. */
-
-            if (next_id && lg->unlock)
-                gui_focus(next_id);
-            else if (lg->mode != MODE_CHALLENGE)
-                gui_focus(retry_id);
+            if (demo_saved())
+                gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
         }
 
         /* FIXME, I'm ugly. */
@@ -223,12 +192,8 @@ static int goal_enter(void)
 
     }
 
-    set_most_coins(&l->score.most_coins, lg->coin_rank);
-
-    if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
-        set_best_times(&l->score.unlock_goal, lg->goal_rank, 1);
-    else
-        set_best_times(&l->score.best_times, lg->time_rank, 0);
+    set_most_coins(&l->score.most_coins,  progress_coin_rank());
+    set_best_times(&l->score.unlock_goal, progress_goal_rank(), 1);
 
     audio_music_fade_out(2.0f);
 

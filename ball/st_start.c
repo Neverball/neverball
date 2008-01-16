@@ -16,7 +16,7 @@
 #include "set.h"
 #include "util.h"
 #include "game.h"
-#include "levels.h"
+#include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
@@ -44,44 +44,41 @@ static int status_id;
 static void gui_level(int id, int i)
 {
     const GLfloat *fore, *back;
-    const struct level *l;
 
     int jd;
 
-    if (!set_level_exists(curr_set(), i))
+    if (!level_exists(i))
     {
         gui_space(id);
         return;
     }
 
-    l = get_level(i);
-
-    if (!l->is_locked)
+    if (level_opened(i))
     {
-        fore = l->is_bonus     ? gui_grn : gui_wht;
-        back = l->is_completed ? fore    : gui_yel;
+        fore = level_bonus(i)     ? gui_grn : gui_wht;
+        back = level_completed(i) ? fore    : gui_yel;
     }
     else
         fore = back = gui_gry;
 
-    jd = gui_label(id, l->repr, GUI_SML, GUI_ALL, back, fore);
+    jd = gui_label(id, level_repr(i), GUI_SML, GUI_ALL, back, fore);
 
     gui_active(jd, i, 0);
 }
 
 static void start_over_level(int i)
 {
-    const struct level *l = get_level(i);
-    if (!l->is_locked || config_cheat())
+    if (level_opened(i) || config_cheat())
     {
-        gui_set_image(shot_id, l->shot);
+        gui_set_image(shot_id, level_shot(i));
 
-        set_most_coins(&l->score.most_coins, -1);
+        set_most_coins(&get_level(i)->score.most_coins, -1);
 
         if (curr_mode() == MODE_PRACTICE)
         {
-            set_best_times(&l->score.best_times, -1, 0);
-            if (l->is_bonus)
+            set_best_times(&get_level(i)->score.best_times, -1, 0);
+
+            if (level_bonus(i))
                 gui_set_label(status_id,
                               _("Play this bonus level in practice mode"));
             else
@@ -90,8 +87,9 @@ static void start_over_level(int i)
         }
         else
         {
-            set_best_times(&l->score.unlock_goal, -1, 1);
-            if (l->is_bonus)
+            set_best_times(&get_level(i)->score.unlock_goal, -1, 1);
+
+            if (level_bonus(i))
                 gui_set_label(status_id,
                               _("Play this bonus level in normal mode"));
             else
@@ -99,11 +97,11 @@ static void start_over_level(int i)
         }
         if (config_cheat())
         {
-            gui_set_label(status_id, l->file);
+            gui_set_label(status_id, level_file(i));
         }
         return;
     }
-    else if (l->is_bonus)
+    else if (level_bonus(i))
         gui_set_label(status_id,
                       _("Play in challenge mode to unlock extra bonus levels"));
     else
@@ -148,51 +146,22 @@ static void start_over(int id)
 
 static int start_action(int i)
 {
-    int mode = curr_mode();
-
     audio_play(AUD_MENU, 1.0f);
 
     switch (i)
     {
     case START_BACK:
         return goto_state(&st_set);
-    case START_NORMAL:
-        mode_set(MODE_NORMAL);
-        return goto_state(&st_start);
-    case START_PRACTICE:
-        mode_set(MODE_PRACTICE);
-        return goto_state(&st_start);
+
+    case START_CHALLENGE:
+        progress_init(MODE_CHALLENGE);
+        return config_cheat() ? 1 : start_action(0);
+
+    default:
+        if (progress_play(i))
+            return goto_state(&st_level);
     }
 
-    if (i == START_CHALLENGE)
-    {
-        /* On cheat, start challenge mode where you want */
-        if (config_cheat())
-        {
-            mode_set(MODE_CHALLENGE);
-            return goto_state(&st_start);
-        }
-        i = 0;
-        mode = MODE_CHALLENGE;
-    }
-
-    if (i >= 0)
-    {
-        const struct level *l = get_level(i);
-
-        if (!l->is_locked || config_cheat())
-        {
-            if (level_play(l, mode))
-            {
-                return goto_state(&st_level);
-            }
-            else
-            {
-                level_stop();
-                return 1;
-            }
-        }
-    }
     return 1;
 }
 
@@ -200,18 +169,11 @@ static int start_enter(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
-    int m = curr_mode();
     int i, j;
 
     int id, jd, kd, ld;
 
-    /* Deactivate cheat */
-
-    if (m == MODE_CHALLENGE && !config_cheat())
-    {
-        mode_set(MODE_NORMAL);
-        m = MODE_NORMAL;
-    }
+    progress_init(MODE_NORMAL);
 
     if ((id = gui_vstack(0)))
     {
@@ -224,27 +186,19 @@ static int start_enter(void)
             gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);
         }
 
-
         if ((jd = gui_harray(id)))
         {
             shot_id = gui_image(jd, set_shot(curr_set()), 7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
             {
-                if ((ld = gui_harray(kd)))
-                {
-                    gui_state(ld, _("Practice"), GUI_SML, START_PRACTICE,
-                              m == MODE_PRACTICE);
-                    gui_state(ld, _("Normal"),   GUI_SML, START_NORMAL,
-                              m == MODE_NORMAL);
-                }
                 for (i = 0; i < 5; i++)
                     if ((ld = gui_harray(kd)))
                         for (j = 4; j >= 0; j--)
                             gui_level(ld, i * 5 + j);
 
                 gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE,
-                          m == MODE_CHALLENGE);
+                          curr_mode() == MODE_CHALLENGE);
             }
         }
         gui_space(id);
@@ -262,7 +216,7 @@ static int start_enter(void)
         gui_layout(id, 0, 0);
 
         set_most_coins(NULL, -1);
-        set_best_times(NULL, -1, m != MODE_PRACTICE);
+        set_best_times(NULL, -1, curr_mode() != MODE_PRACTICE);
     }
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
@@ -298,7 +252,7 @@ static int start_keybd(int c, int d)
         /* Iterate over all levels, taking a screenshot of each. */
 
         for (i = 0; i < MAXLVL; i++)
-            if (set_level_exists(curr_set(), i))
+            if (level_exists(i))
                 level_snap(i);
     }
 

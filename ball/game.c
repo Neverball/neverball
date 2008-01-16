@@ -27,7 +27,6 @@
 #include "solid_gl.h"
 #include "config.h"
 #include "binary.h"
-#include "level.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -312,7 +311,10 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-int game_init(const struct level *level, int t, int g)
+int game_init(const char *file_name,
+              const char *back_name,
+              const char *grad_name,
+              int t, int g)
 {
     timer      = (float) t / 100.f;
     timer_down = (t > 0);
@@ -321,7 +323,7 @@ int game_init(const struct level *level, int t, int g)
     if (game_state)
         game_free();
 
-    if (!sol_load_gl(&file, config_data(level->file),
+    if (!sol_load_gl(&file, config_data(file_name),
                      config_get_d(CONFIG_TEXTURES),
                      config_get_d(CONFIG_SHADOW)))
         return (game_state = 0);
@@ -348,9 +350,9 @@ int game_init(const struct level *level, int t, int g)
 
     part_reset(GOAL_HEIGHT);
     view_init();
-    back_init(level->grad, config_get_d(CONFIG_GEOMETRY));
+    back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
 
-    sol_load_gl(&back, config_data(level->back),
+    sol_load_gl(&back, config_data(back_name),
                 config_get_d(CONFIG_TEXTURES), 0);
 
     /* Initialize ball size tracking... */
@@ -1274,6 +1276,20 @@ void game_step_fade(float dt)
 void game_fade(float d)
 {
     fade_d = d;
+}
+
+/*---------------------------------------------------------------------------*/
+
+const char *status_to_str(int s)
+{
+    switch (s)
+    {
+    case GAME_NONE:    return _("Aborted");
+    case GAME_TIME:    return _("Time-out");
+    case GAME_GOAL:    return _("Success");
+    case GAME_FALL:    return _("Fall-out");
+    default:           return _("Unknown");
+    }
 }
 
 /*---------------------------------------------------------------------------*/

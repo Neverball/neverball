@@ -52,12 +52,14 @@ static int help_action(int t)
         break;
 
     case HELP_DEMO_1:
-        if (demo_replay_init(config_data("gui/demo1.nbr"), NULL))
+        if (demo_replay_init(config_data("gui/demo1.nbr"),
+                             0, NULL, NULL, NULL, NULL))
             return goto_state(&st_help_demo);
         break;
 
     case HELP_DEMO_2:
-        if (demo_replay_init(config_data("gui/demo2.nbr"), NULL))
+        if (demo_replay_init(config_data("gui/demo2.nbr"),
+                             0, NULL, NULL, NULL, NULL))
             return goto_state(&st_help_demo);
         break;
 
