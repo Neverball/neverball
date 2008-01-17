@@ -14,6 +14,6 @@ map-ckk/12.sol back/blues.png     9  bgm/track5.ogg
 map-ckk/13.sol back/blues.png     6  bgm/track4.ogg
 map-ckk/14.sol back/red_blu.png   17 bgm/track5.ogg
 map-ckk/15.sol back/blues.png     9  bgm/track4.ogg
-map-ckk/16.sol back/alien.png     5  bgm/track2.ogg
-map-ckk/17.sol back/blues.png     3  bgm/track1.ogg
+map-ckk/16.sol back/alien.png     5  bgm/track5.ogg
+map-ckk/17.sol back/blues.png     24 bgm/track2.ogg
 map-ckk/18.sol back/space.png     9  bgm/title.ogg
