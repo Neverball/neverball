@@ -69,6 +69,7 @@ static int demo_action(int i)
             demo_play_goto(0);
             return goto_state(&st_demo_play);
         }
+        break;
     }
     return 1;
 }

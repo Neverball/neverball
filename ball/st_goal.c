@@ -83,10 +83,12 @@ static int goal_action(int i)
     case GOAL_NEXT:
         if (progress_next())
             return goto_state(&st_level);
+        break;
 
     case GOAL_SAME:
         if (progress_same())
             return goto_state(&st_level);
+        break;
     }
 
     return 1;

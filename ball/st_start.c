@@ -160,6 +160,7 @@ static int start_action(int i)
     default:
         if (progress_play(i))
             return goto_state(&st_level);
+        break;
     }
 
     return 1;

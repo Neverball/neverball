@@ -72,6 +72,7 @@ static int pause_action(int i)
             config_set_grab(1);
             return goto_state(&st_play_ready);
         }
+        break;
 
     case PAUSE_EXIT:
         progress_exit(GAME_NONE);

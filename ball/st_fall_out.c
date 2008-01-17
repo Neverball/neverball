@@ -59,10 +59,12 @@ static int fall_out_action(int i)
     case FALL_OUT_NEXT:
         if (progress_next())
             return goto_state(&st_level);
+        break;
 
     case FALL_OUT_SAME:
         if (progress_same())
             return goto_state(&st_level);
+        break;
     }
 
     return 1;

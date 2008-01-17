@@ -55,10 +55,12 @@ static int time_out_action(int i)
     case TIME_OUT_NEXT:
         if (progress_next())
             return goto_state(&st_level);
+        break;
 
     case TIME_OUT_SAME:
         if (progress_same())
             return goto_state(&st_level);
+        break;
     }
 
     return 1;

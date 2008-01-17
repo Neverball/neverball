@@ -205,10 +205,17 @@ int  progress_next_avail(void)
 
 int  progress_same_avail(void)
 {
-    if (mode == MODE_CHALLENGE)
-        return status != GAME_GOAL && !progress_dead();
-    else
-        return 1;
+    switch (status)
+    {
+    case GAME_NONE:
+        return mode != MODE_CHALLENGE;
+
+    default:
+        if (mode == MODE_CHALLENGE)
+            return status != GAME_GOAL && !progress_dead();
+        else
+            return 1;
+    }
 }
 
 int  progress_next(void)
