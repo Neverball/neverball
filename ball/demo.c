@@ -90,8 +90,8 @@ static int demo_header_read(FILE *fp, struct demo *d)
         get_index(fp, &d->mode);
 
         get_string(fp, d->player, MAXNAM);
-
         get_string(fp, datestr, DATELEN);
+
         sscanf(datestr,
                "%d-%d-%dT%d:%d:%d",
                &date.tm_year,
@@ -101,10 +101,9 @@ static int demo_header_read(FILE *fp, struct demo *d)
                &date.tm_min,
                &date.tm_sec);
 
-        /* Convert certain values to valid structure member values. */
-
         date.tm_year -= 1900;
         date.tm_mon  -= 1;
+        date.tm_isdst = 0;
 
         d->date = make_time_from_utc(&date);
 
