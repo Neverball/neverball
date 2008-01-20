@@ -1,10 +1,10 @@
+
 // entity 0
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
 "levelname" "rainbow-mym"
 "version" "1"
-
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
 "song" "bgm/track4.ogg"
@@ -606,7 +606,7 @@
 // brush 69
 {
 ( 120 200 -1 ) ( -192 200 -1 ) ( -192 -192 -1 ) mtrl/rainbow 0 0 0 2 2 0 0 0
-( -184 -192 0 ) ( -184 200 0 ) ( 128 200 0 ) mtrl/starting-line 0 0 0 2 2 0 0 0
+( -184 -192 0 ) ( -184 200 0 ) ( 128 200 0 ) mtrl/check-black-white 0 0 0 0.5 0.5 0 0 0
 ( 128 -192 0 ) ( 128 200 0 ) ( 128 200 -8 ) mtrl/invisible 0 14 0 0.5 0.5 0 0 0
 ( -128 376 7 ) ( -128 -16 7 ) ( -128 -16 -1 ) mtrl/invisible 0 14 0 0.5 0.5 0 0 0
 ( 120 896 15 ) ( -136 896 15 ) ( 120 896 -1 ) mtrl/invisible 0 14 0 0.5 0.5 0 0 0

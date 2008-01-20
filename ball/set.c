@@ -430,7 +430,7 @@ void level_snap(int i)
 
     /* Initialize the game for a snapshot. */
 
-    if (game_init(level_v[i].file, level_v[i].back, level_v[i].grad, 0, 0))
+    if (game_init(level_v[i].file, 0, 0))
     {
         /* Render the level and grab the screen. */
 

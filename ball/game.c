@@ -311,11 +311,12 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-int game_init(const char *file_name,
-              const char *back_name,
-              const char *grad_name,
-              int t, int g)
+int game_init(const char *file_name, int t, int g)
 {
+    char *back_name = NULL, *grad_name = NULL;
+
+    int i;
+
     timer      = (float) t / 100.f;
     timer_down = (t > 0);
     coins      = 0;
@@ -347,6 +348,15 @@ int game_init(const char *file_name,
 
     fade_k =  1.0f;
     fade_d = -2.0f;
+
+    for (i = 0; i < file.dc; i++)
+    {
+        char *k = file.av + file.dv[i].ai;
+        char *v = file.av + file.dv[i].aj;
+
+        if (strcmp(k, "back") == 0) back_name = v;
+        if (strcmp(k, "grad") == 0) grad_name = v;
+    }
 
     part_reset(GOAL_HEIGHT);
     view_init();

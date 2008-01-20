@@ -127,39 +127,57 @@ static int goal_enter(void)
 
         if (curr_mode() == MODE_CHALLENGE)
         {
-            int coins = curr_coins();
-            int score = curr_score() - coins;
-            int balls = curr_balls() - count_extra_balls(score, coins);
+            int coins, score, balls;
+            char msg[MAXSTR] = "";
+            int i;
+
+            /* Reverse-engineer initial score and balls. */
+
+            coins = curr_coins();
+            score = curr_score() - coins;
+            balls = curr_balls();
+
+            for (i = curr_score(); i > score; i--)
+                if (progress_reward_ball(i))
+                    balls--;
+
+            sprintf(msg, ngettext("%d new bonus level",
+                                  "%d new bonus levels",
+                                  curr_bonus()), curr_bonus());
 
             if ((jd = gui_hstack(id)))
             {
+
                 if ((kd = gui_harray(jd)))
                 {
-                    balls_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
-                    gui_label(kd, _("Balls"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+                    balls_id = gui_count(kd, 100, GUI_MED, GUI_NE);
+                    gui_label(kd, _("Balls"), GUI_SML, 0, gui_wht, gui_wht);
                 }
                 if ((kd = gui_harray(jd)))
                 {
-                    score_id = gui_count(kd, 1000, GUI_MED, GUI_RGT);
-                    gui_label(kd, _("Score"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+                    score_id = gui_count(kd, 1000, GUI_MED, 0);
+                    gui_label(kd, _("Score"), GUI_SML, 0, gui_wht, gui_wht);
                 }
                 if ((kd = gui_harray(jd)))
                 {
-                    coins_id = gui_count(kd, 100, GUI_MED, GUI_RGT);
-                    gui_label(kd, _("Coins"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
+                    coins_id = gui_count(kd, 100, GUI_MED, 0);
+                    gui_label(kd, _("Coins"), GUI_SML, GUI_NW, gui_wht, gui_wht);
                 }
 
                 gui_set_count(balls_id, balls);
                 gui_set_count(score_id, score);
                 gui_set_count(coins_id, coins);
+
             }
+
+            gui_label(id, msg, GUI_SML, GUI_BOT, 0, 0);
+
+            gui_space(id);
         }
         else
         {
             balls_id = score_id = coins_id = 0;
         }
-
-        gui_space(id);
 
         if ((jd = gui_harray(id)))
         {
@@ -183,8 +201,6 @@ static int goal_enter(void)
             if (demo_saved())
                 gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
         }
-
-        /* FIXME, I'm ugly. */
 
         if (high)
             gui_state(id, _("Change Player Name"),  GUI_SML, GOAL_NAME, 0);
@@ -232,7 +248,7 @@ static void goal_timer(int id, float dt)
             gui_set_count(score_id, score + 1);
             gui_pulse(score_id, 1.1f);
 
-            if ((score + 1) % 100 == 0)
+            if (progress_reward_ball(score + 1))
             {
                 gui_set_count(balls_id, balls + 1);
                 gui_pulse(balls_id, 2.0f);

@@ -152,9 +152,7 @@ static int title_enter(void)
 
     /* Initialize the title level for display. */
 
-    game_init("map-medium/title.sol",
-              "map-back/jupiter.sol",
-              "png/space.png", 0, 0);
+    game_init("map-medium/title.sol", 0, 0);
 
     real_time = 0.0f;
     mode = 0;
@@ -226,9 +224,7 @@ static void title_timer(int id, float dt)
 
         if (real_time > 1.0f)
         {
-            game_init("map-medium/title.sol",
-                      "map-back/jupiter.sol",
-                      "png/space.png", 0, 0);
+            game_init("map-medium/title.sol", 0, 0);
 
             real_time = 0.0f;
             mode = 0;

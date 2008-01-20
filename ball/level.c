@@ -36,12 +36,8 @@ static void scan_dict(struct level *l, const struct s_file *fp)
 
         if (strcmp(k, "message") == 0)
             strncpy(l->message, v, MAXSTR);
-        else if (strcmp(k, "back") == 0)
-            strncpy(l->back, v, PATHMAX);
         else if (strcmp(k, "song") == 0)
             strncpy(l->song, v, PATHMAX);
-        else if (strcmp(k, "grad") == 0)
-            strncpy(l->grad, v, PATHMAX);
         else if (strcmp(k, "shot") == 0)
             strncpy(l->shot, v, PATHMAX);
         else if (strcmp(k, "goal") == 0)
@@ -146,8 +142,6 @@ void level_dump(const struct level *l)
            "goal hs:         %d %d %d\n"
            "coin hs:         %d %d %d\n"
            "message:         %s\n"
-           "background:      %s\n"
-           "gradient:        %s\n"
            "screenshot:      %s\n"
            "song:            %s\n",
            l->file,
@@ -165,8 +159,6 @@ void level_dump(const struct level *l)
            l->score.most_coins.coins[1],
            l->score.most_coins.coins[2],
            l->message,
-           l->back,
-           l->grad,
            l->shot,
            l->song);
 }

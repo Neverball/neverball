@@ -12,8 +12,6 @@ struct level
     /* TODO: turn into an internal structure. */
 
     char file[PATHMAX];
-    char back[PATHMAX];
-    char grad[PATHMAX];
     char shot[PATHMAX];
     char song[PATHMAX];
 

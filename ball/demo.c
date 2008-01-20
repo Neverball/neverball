@@ -88,8 +88,8 @@ static int demo_header_read(FILE *fp, struct demo *d)
         get_index(fp, &d->mode);
 
         get_string(fp, d->player, MAXNAM);
-
         get_string(fp, datestr, DATELEN);
+
         sscanf(datestr,
                "%d-%d-%dT%d:%d:%d",
                &date.tm_year,
@@ -99,10 +99,9 @@ static int demo_header_read(FILE *fp, struct demo *d)
                &date.tm_min,
                &date.tm_sec);
 
-        /* Convert certain values to valid structure member values. */
-
         date.tm_year -= 1900;
         date.tm_mon  -= 1;
+        date.tm_isdst = 0;
 
         d->date = make_time_from_utc(&date);
 
@@ -289,7 +288,7 @@ int demo_play_init(const char *name, const struct level *level,
     {
         demo_header_write(demo_fp, &demo);
         audio_music_fade_to(2.0f, level->song);
-        return game_init(level->file, level->back, level->grad, t, g);
+        return game_init(level->file, t, g);
     }
     return 0;
 }
@@ -391,15 +390,11 @@ int demo_replay_init(const char *name, int g, int *m, int *b, int *s, int *tt)
             audio_music_fade_to(0.5f, demo_level_replay.song);
 
             return game_init(demo_level_replay.file,
-                             demo_level_replay.back,
-                             demo_level_replay.grad,
                              demo_level_replay.time,
                              demo_level_replay.goal);
         }
         else
             return game_init(demo_level_replay.file,
-                             demo_level_replay.back,
-                             demo_level_replay.grad,
                              demo_level_replay.time, 0);
     }
     return 0;

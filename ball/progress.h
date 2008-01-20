@@ -25,6 +25,12 @@ int  progress_done(void);
 int  progress_lvl_high(void);
 int  progress_set_high(void);
 
+int  curr_level(void);
+int  curr_balls(void);
+int  curr_score(void);
+int  curr_mode (void);
+int  curr_bonus(void);
+
 int  progress_time_rank(void);
 int  progress_goal_rank(void);
 int  progress_coin_rank(void);
@@ -32,12 +38,7 @@ int  progress_coin_rank(void);
 int  progress_times_rank(void);
 int  progress_score_rank(void);
 
-int  curr_level(void);
-int  curr_balls(void);
-int  curr_score(void);
-int  curr_mode (void);
-
-int count_extra_balls(int, int);
+int  progress_reward_ball(int);
 
 /*---------------------------------------------------------------------------*/
 

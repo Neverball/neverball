@@ -30,6 +30,7 @@ static int next  = -1;
 static int done  =  0;
 
 static int balls =  2;
+static int bonus =  0;
 
 /* Set stats. */
 
@@ -59,6 +60,9 @@ void progress_init(int m)
     balls = 2;
     score = 0;
     times = 0;
+    bonus = 0;
+
+    score_rank = times_rank = 3;
 
     done  = 0;
 }
@@ -91,16 +95,9 @@ int  progress_play(int i)
     return 0;
 }
 
-/*---------------------------------------------------------------------------*/
-
-int count_extra_balls(int old_score, int coins)
-{
-    return ((old_score % 100) + coins) / 100;
-}
-
 void progress_stat(int s)
 {
-    int dirty = 0;
+    int i, dirty = 0;
 
     status = s;
 
@@ -111,7 +108,10 @@ void progress_stat(int s)
     {
     case GAME_GOAL:
 
-        balls += count_extra_balls(score, coins);
+        for (i = score + 1; i <= score + coins; i++)
+            if (progress_reward_ball(i))
+                balls++;
+
         score += coins;
         times += timer;
 
@@ -126,15 +126,17 @@ void progress_stat(int s)
             dirty = 1;
         }
 
-        /* FIXME, I'm hardly an improvement. */
+        /* Compute next level. */
 
         if (mode == MODE_CHALLENGE)
         {
             for (next = level + 1; level_bonus(next); next++)
-            {
                 if (!level_opened(next))
+                {
                     level_open(next);
-            }
+                    dirty = 1;
+                    bonus++;
+                }
         }
         else
         {
@@ -144,16 +146,17 @@ void progress_stat(int s)
                 /* Do nothing. */;
         }
 
+        /* Complete the set or open next level. */
+
         if (!level_exists(next))
         {
-            set_score_update(times, score, &score_rank, &times_rank);
-            dirty = 1;
-
-            done = mode == MODE_CHALLENGE;
+            dirty = set_score_update(times, score, &score_rank, &times_rank);
+            done  = mode == MODE_CHALLENGE;
         }
         else
         {
             level_open(next);
+            dirty = 1;
         }
 
         break;
@@ -176,8 +179,6 @@ void progress_stat(int s)
 
     demo_play_stat(status, coins, timer);
 }
-
-/*---------------------------------------------------------------------------*/
 
 void progress_stop(void)
 {
@@ -262,12 +263,18 @@ void progress_rename(void)
     set_store_hs();
 }
 
+int  progress_reward_ball(int s)
+{
+    return s > 0 && s % 100 == 0;
+}
+
 /*---------------------------------------------------------------------------*/
 
 int curr_level(void) { return level; }
 int curr_balls(void) { return balls; }
 int curr_score(void) { return score; }
-int curr_mode (void) { return mode; }
+int curr_mode (void) { return mode;  }
+int curr_bonus(void) { return bonus; }
 
 int progress_time_rank(void) { return time_rank; }
 int progress_goal_rank(void) { return goal_rank; }

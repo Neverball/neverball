@@ -38,7 +38,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-int   game_init(const char *, const char *, const char *, int, int);
+int   game_init(const char *, int, int);
 void  game_free(void);
 
 int   curr_clock(void);
