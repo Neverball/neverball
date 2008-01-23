@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Neverball translation guidelines</title>
+</head>
+
+<body>
+    <h1>Neverball translation guidelines</h1>
+
+    <h2>About this document</h2>
+
+    <p>This document contains information for people who are interested in
+    translating Neverball and Neverputt to their language of choice.</p>
+
+    <p>If you have any questions after reading this document, do not hesitate
+    to <a href="http://www.nevercorner.net/forum/" title="Neverforum">ask
+        them</a>, so that this document can be further improved.</p>
+
+    <h2>General information</h2>
+
+    <p>Neverball is internationalised using the <a
+        href="http://www.gnu.org/software/gettext/">GNU Gettext
+        internationalisation library</a>.  In this approach, translators
+    typically work with PO files containing "message identifiers" (source text)
+    and "message strings" (translations of the source text).</p>
+
+    <h2>Instructions</h2>
+
+    <p>First, if there is already a translation for your language, contact the
+    current translator (or translation team), as indicated in the respective PO
+    file.  A list of current translations is available in the <a
+        href="https://s.snth.net/projects/neverball/browser/trunk/po/">"po"
+        subdirectory of the source code tree</a>.</p>
+
+    <p>If your language does not yet have a translation, download the
+    translation template file "neverball.pot".  Then, translate it.</p>
+
+    <p>Important remarks:</p>
+
+    <ul>
+
+        <li>The text encoding must be UTF-8.</li>
+
+        <li>Never edit the source text.  If you find errors or have any
+        suggestions on how to improve the source text, please contact the
+        developers (preferrably by posting a message on the forum).</li>
+
+        <li>Some strings are "contextualised", in order to allow different
+        translations for identical message identifiers.  These strings are in
+        the form of "xxx^yyy", where "xxx" is the context and "yyy" is the
+        string to translate.  The translations of such strings must have the
+        context prefix removed and must <em>only</em> contain the translation
+        of "yyy".</li>
+
+    </ul>
+
+    <p>After completing the translation, send us the translated file.  You can
+    open a new thread in the forum and either link the PO file from there or
+    send the file to one of the developers.</p>
+
+</body>
+</html>
+
