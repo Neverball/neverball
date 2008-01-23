@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-01-11 01:22+0200\n"
+"POT-Creation-Date: 2008-01-23 03:25+0200\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -198,11 +198,11 @@ msgstr "Optionen"
 msgid "Back"
 msgstr "Zurück"
 
-#: ball/st_conf.c:218 ball/st_demo.c:531 ball/st_save.c:194 putt/st_conf.c:178
+#: ball/st_conf.c:218 ball/st_demo.c:537 ball/st_save.c:194 putt/st_conf.c:178
 msgid "No"
 msgstr "Nein"
 
-#: ball/st_conf.c:219 ball/st_demo.c:532 ball/st_save.c:195 putt/st_conf.c:179
+#: ball/st_conf.c:219 ball/st_demo.c:538 ball/st_save.c:195 putt/st_conf.c:179
 msgid "Yes"
 msgstr "Ja"
 
@@ -272,7 +272,7 @@ msgstr "Spieler"
 msgid "State"
 msgstr "Speichern"
 
-#: ball/st_demo.c:197 ball/st_demo.c:333
+#: ball/st_demo.c:197 ball/st_demo.c:334
 msgid "Replay"
 msgstr "Replay"
 
@@ -298,38 +298,38 @@ msgstr "Replay Auswählen"
 msgid "No Replays"
 msgstr "Replay"
 
-#: ball/st_demo.c:437
+#: ball/st_demo.c:443
 #, fuzzy
 msgid "Replay Paused"
 msgstr "Spieler"
 
-#: ball/st_demo.c:440
+#: ball/st_demo.c:446
 msgid "Replay Ends"
 msgstr "Replay Endet"
 
-#: ball/st_demo.c:449 ball/st_pause.c:105 putt/st_all.c:591
+#: ball/st_demo.c:455 ball/st_pause.c:105 putt/st_all.c:591
 msgid "Quit"
 msgstr ""
 
-#: ball/st_demo.c:453
+#: ball/st_demo.c:459
 msgid "Keep"
 msgstr "Behalten"
 
-#: ball/st_demo.c:454
+#: ball/st_demo.c:460
 msgid "Delete"
 msgstr "Löschen"
 
-#: ball/st_demo.c:459 ball/st_pause.c:115 putt/st_all.c:592
+#: ball/st_demo.c:465 ball/st_pause.c:115 putt/st_all.c:592
 #, fuzzy
 msgid "Continue"
 msgstr "Münzen"
 
-#: ball/st_demo.c:463
+#: ball/st_demo.c:469
 #, fuzzy
 msgid "Repeat"
 msgstr "Replay"
 
-#: ball/st_demo.c:527
+#: ball/st_demo.c:533
 msgid "Delete Replay?"
 msgstr "Replay Löschen?"
 
@@ -845,6 +845,12 @@ msgstr ""
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
 msgstr ""
 "Noch ein 18-Loch Kurs\\ \\ \\Schwierigkeitsgrad: Mittel\\Autor: paxed\\"
+
+#: data/courses.txt
+msgid ""
+"Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
+"Through Insane\\Author: Byron James Johnson (Krabby Krap)"
+msgstr ""
 
 #: data/map-easy/bumper.map
 msgid ""
