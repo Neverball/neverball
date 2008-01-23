@@ -853,24 +853,24 @@
 // entity 7
 {
 "classname" "info_player_intermission"
-"origin" "54 -48 38"
+"origin" "685 96 1096"
 "target" "t1"
 }
 // entity 8
-{
-"classname" "target_position"
-"origin" "-1063 1339 67"
-"targetname" "t1"
-}
-// entity 9
 {
 "classname" "info_player_intermission"
 "origin" "941 894 807"
 "target" "t2"
 }
-// entity 10
+// entity 9
 {
 "classname" "target_position"
 "origin" "-308 263 146"
 "targetname" "t2"
+}
+// entity 10
+{
+"classname" "target_position"
+"origin" "-142 -645 61"
+"targetname" "t1"
 }

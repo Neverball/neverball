@@ -288,7 +288,7 @@
 "classname" "target_teleporter"
 "origin" "0 1536 -496"
 "radius" "1.0"
-"target" "t2"
+"target" "t3"
 }
 // entity 7
 {
@@ -299,8 +299,8 @@
 // entity 8
 {
 "classname" "target_position"
-"origin" "0 1808 -240"
-"targetname" "t2"
+"origin" "0 1808 -496"
+"targetname" "t3"
 }
 // entity 9
 {
@@ -503,6 +503,11 @@
 // entity 17
 {
 "classname" "info_player_intermission"
-"origin" "-384 496 64"
+"origin" "-1419 506 1102"
 "target" "t2"
+}
+// entity 18
+{
+"classname" "target_position"
+"origin" "724 1047 -771"
 }
