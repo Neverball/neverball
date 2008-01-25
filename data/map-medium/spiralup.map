@@ -4,19 +4,15 @@
 "author" "Robert Kooima"
 "levelname" "spiralup"
 "version" "1"
-
 "shot" "shot-medium/spiralup.jpg"
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
 "song" "bgm/track5.ogg"
-
 "time" "4500"
 "goal" "30"
 "time_hs" "2400 6000"
 "coin_hs" "46 40"
-
 "message" "Just as before, but moving up instead of down.\No cheating this time.\"
-
 // brush 0
 {
 ( -8 256 -16 ) ( -8 320 -16 ) ( -504 320 -144 ) mtrl/turf-grey 0 255 90 0.5 0.5 0 0 0
@@ -1652,7 +1648,7 @@
 ( 192 256 0 ) ( 320 256 0 ) ( 320 256 -16 ) mtrl/invisible 0 0 -180 0.5 -0.5 134217728 0 0
 ( 256 320 0 ) ( 256 192 0 ) ( 256 192 -16 ) mtrl/invisible 0 0 0 0.5000609756 0.5 134217728 0 0
 ( 384 384 0 ) ( 256 384 0 ) ( 256 384 -16 ) mtrl/invisible 0 0 -180 0.5 -0.5 134217728 0 0
-( 320 384 1 ) ( 320 256 1 ) ( 192 256 1 ) mtrl/goal 0 0 90 0.5 0.5 134217728 0 0
+( 320 384 0 ) ( 320 256 0 ) ( 192 256 0 ) mtrl/goal 0 0 0 0.5 0.5 134217728 0 0
 ( 192 256 -16 ) ( 320 256 -16 ) ( 320 384 -16 ) mtrl/invisible 127 127 90 0.5 0.5 134217728 0 0
 }
 }

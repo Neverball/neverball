@@ -1,20 +1,17 @@
-
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "movinglumps-mym"
-"version"   "1"
-
-"back"      "map-back/city.sol"
-"grad"      "back/city.png"
-"song"      "bgm/track3.ogg"
-"shot"      "shot-mym2/movinglumps.jpg"
-"time"      "7500"
-"goal"      "22"
-
-"time_hs"   "3200 3600"
-"coin_hs"   "80 60"
+"version" "1"
+"back" "map-back/city.sol"
+"grad" "back/city.png"
+"song" "bgm/track3.ogg"
+"shot" "shot-mym2/movinglumps.jpg"
+"time" "7500"
+"goal" "22"
+"time_hs" "3200 3600"
+"coin_hs" "80 60"
 "message" "Être patient.\Not too hard."
 // brush 0
 {
@@ -72,12 +69,12 @@
 }
 // brush 6
 {
-( -448 -96 136 ) ( -448 -224 136 ) ( -448 -224 128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
-( -320 -96 136 ) ( -448 -96 136 ) ( -448 -96 128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
-( -320 -224 136 ) ( -320 -96 136 ) ( -320 -96 128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
-( -448 -224 136 ) ( -320 -224 136 ) ( -320 -224 128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
-( -447 -224 129 ) ( -447 -96 129 ) ( -319 -96 129 ) mtrl/goal 128 64 0 -0.5 0.5 134217728 0 0
-( -320 -96 128 ) ( -448 -96 128 ) ( -448 -224 128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -448 -96 135 ) ( -448 -224 135 ) ( -448 -224 127 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -320 -96 135 ) ( -448 -96 135 ) ( -448 -96 127 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -320 -224 135 ) ( -320 -96 135 ) ( -320 -96 127 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -448 -224 135 ) ( -320 -224 135 ) ( -320 -224 127 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -447 -224 128 ) ( -447 -96 128 ) ( -319 -96 128 ) mtrl/goal 128 64 0 0.5 0.5 134217728 0 0
+( -320 -96 127 ) ( -448 -96 127 ) ( -448 -224 127 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
 }
 // brush 7
 {
