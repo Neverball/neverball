@@ -342,7 +342,7 @@ int main(int argc, char *argv[])
     SDL_Surface *icon;
 #endif
 
-    int t1, t0;
+    int t1, t0, uniform;
 
     lang_init("neverball", CONFIG_LOCALE);
 
@@ -446,24 +446,40 @@ int main(int argc, char *argv[])
 
     /* Run the main game loop. */
 
+    uniform = config_get_d(CONFIG_UNIFORM);
     t0 = SDL_GetTicks();
 
     while (loop())
     {
         t1 = SDL_GetTicks();
 
-        /* Step the game state at least up to the current time. */
-
-        while (t1 > t0)
+        if (uniform)
         {
-            st_timer(DT);
-            t0 += (int) (DT * 1000);
+            /* Step the game uniformly, as configured. */
+
+            int u;
+
+            for (u = 0; u < abs(uniform); ++u)
+                st_timer(DT);
+        }
+        else
+        {
+            /* Step the game state at least up to the current time. */
+
+            while (t1 > t0)
+            {
+                st_timer(DT);
+                t0 += (int) (DT * 1000);
+            }
         }
 
         /* Render. */
 
         st_paint();
         config_swap();
+
+        if (uniform < 0)
+            shot();
 
         if (config_get_d(CONFIG_NICE))
             SDL_Delay(1);

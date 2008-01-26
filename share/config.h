@@ -87,6 +87,7 @@ enum {
     CONFIG_KEY_RESTART,
     CONFIG_CHEAT,
     CONFIG_STATS,
+    CONFIG_UNIFORM,
     CONFIG_SHOW_CONTRIBUTIONS,
 
     CONFIG_OPTION_D_COUNT
@@ -161,6 +162,7 @@ enum {
 #define DEFAULT_KEY_PAUSE            SDLK_SPACE
 #define DEFAULT_KEY_RESTART          SDLK_r
 #define DEFAULT_STATS                0
+#define DEFAULT_UNIFORM              0
 #define DEFAULT_SHOW_CONTRIBUTIONS   0
 
 /*---------------------------------------------------------------------------*/

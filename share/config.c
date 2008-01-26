@@ -117,6 +117,7 @@ void config_init(void)
     config_set_s(CONFIG_WIIMOTE_ADDR,         DEFAULT_WIIMOTE_ADDR);
     config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_STATS,                DEFAULT_STATS);
+    config_set_d(CONFIG_UNIFORM,              DEFAULT_UNIFORM);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
     config_set_d(CONFIG_KEY_BACKWARD,         DEFAULT_KEY_BACKWARD);
     config_set_d(CONFIG_KEY_LEFT,             DEFAULT_KEY_LEFT);
@@ -250,10 +251,12 @@ void config_load(void)
                 else if (strcmp(key, "wiimote_addr") == 0)
                     config_set_s(CONFIG_WIIMOTE_ADDR, val);
 
-                else if (strcmp(key, "cheat") == 0)
+                else if (strcmp(key, "cheat")   == 0)
                     config_set_d(CONFIG_CHEAT, atoi(val));
-                else if (strcmp(key, "stats") == 0)
+                else if (strcmp(key, "stats")   == 0)
                     config_set_d(CONFIG_STATS, atoi(val));
+                else if (strcmp(key, "uniform") == 0)
+                    config_set_d(CONFIG_UNIFORM, atoi(val));
 
                 else if (strcmp(key, "contrib") == 0)
                     config_set_d(CONFIG_SHOW_CONTRIBUTIONS, atoi(val));
@@ -384,6 +387,8 @@ void config_save(void)
 
         fprintf(fp, "stats                %d\n",
                 option_d[CONFIG_STATS]);
+        fprintf(fp, "uniform              %d\n",
+                option_d[CONFIG_UNIFORM]);
         if (config_cheat())
             fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
 
