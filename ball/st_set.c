@@ -161,6 +161,10 @@ static int set_enter(void)
             }
         }
     }
+
+    if(config_get_d(CONFIG_SHOW_CONTRIBUTIONS))
+        n = 1;
+
     do_init_audio = 1;
     do_init = 1;
 
