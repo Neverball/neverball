@@ -11,7 +11,7 @@
 "version" "1"
 "levelname" "threeways-mym"
 "author" "Mehdi Yousfi-Monod"
-"message" "Control your speed and your bounces.\Teleports will always bring you\ back somewhere in the level."
+"message" "Control your speed and your bounces.\Teleporters will always bring you\back somewhere in the level."
 // brush 0
 {
 ( 96 7456 -64 ) ( 160 7456 -64 ) ( 96 7456 64 ) mtrl/wood-glossy 0 0 0 0.5 0.5 0 0 0
