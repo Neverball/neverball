@@ -286,7 +286,7 @@
 // entity 6
 {
 "classname" "target_teleporter"
-"origin" "0 1536 -496"
+"origin" "0 1536 -520"
 "radius" "1.0"
 "target" "t3"
 }
