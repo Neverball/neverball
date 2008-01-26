@@ -386,7 +386,7 @@ char gui_keyboard_char(char c)
  * two as labels for a switch with a default label.
  */
 
-int gui_back_prev_next(int id, int prev, int next, int displayContrib)
+int gui_back_prev_next(int id, int prev, int next, int displayContributions)
 {
     int jd;
     int kd;
@@ -396,7 +396,7 @@ int gui_back_prev_next(int id, int prev, int next, int displayContrib)
     {
         if ((ld = gui_hstack(jd)))
         {
-            if(displayContrib)
+            if(displayContributions)
             {
                 gui_maybe(ld, _("Contributions"), GUI_CONTRIB, !config_get_d(CONFIG_SHOW_CONTRIBUTIONS));
                 gui_maybe(ld, _("Official Sets"), GUI_OFFIC,    config_get_d(CONFIG_SHOW_CONTRIBUTIONS));

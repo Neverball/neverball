@@ -321,17 +321,11 @@ void set_free(void)
 
 int set_exists(int i, int contribValue)
 {
-    if      (contribValue == 1)
-    {
-        if(set_contribution(i)!=NULL && !strcmp(set_contribution(i), "0"))
-            return 1;
-    }
+    if (contribValue == 1)
+        return (set_contribution(i)!=NULL && !strcmp(set_contribution(i), "0")) ? 1 : 0;
 
     else if (contribValue == 2)
-    {
-        if(set_contribution(i)!=NULL && !strcmp(set_contribution(i), "1"))
-            return 1;
-    }
+        return (set_contribution(i)!=NULL && !strcmp(set_contribution(i), "1")) ? 1 : 0;
 
     else
         return (0 <= i && i < count);

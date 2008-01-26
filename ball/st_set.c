@@ -36,7 +36,7 @@ static int shot_id;
 static int desc_id;
 
 static int do_init             = 1;
-static int do_init_audio       = 1;
+static int true_init           = 1;
 
 static int set_action(int i)
 {
@@ -73,8 +73,8 @@ static int set_action(int i)
 
         config_set_d(CONFIG_SHOW_CONTRIBUTIONS, 0);
 
-        do_init = 1;
-        do_init_audio = 0;
+        do_init   = 1;
+        true_init = 0;
         return goto_state(&st_set);
 
         break;
@@ -85,8 +85,8 @@ static int set_action(int i)
 
         config_set_d(CONFIG_SHOW_CONTRIBUTIONS, 1);
 
-        do_init = 1;
-        do_init_audio = 0;
+        do_init   = 1;
+        true_init = 0;
         return goto_state(&st_set);
 
         break;
@@ -130,7 +130,7 @@ static int set_enter(void)
     int i;
 
     int j, n;
-    j = n = 0;
+    j = 0;
 
     for(i = 0; i < MAXSET; i++)
     {
@@ -145,11 +145,10 @@ static int set_enter(void)
     if (do_init)
     {
         total = set_init(config_get_d(CONFIG_SHOW_CONTRIBUTIONS));
-        if (do_init_audio)
+        if (true_init)
         {
             audio_music_fade_to(0.5f, "bgm/inter.ogg");
             audio_play(AUD_START, 1.f);
-              /* We need to recheck for contributions on true initialization */
             for(i = 0; i < MAXSET; i++)
             {
                 if (set_exists(i, 2))
@@ -165,8 +164,7 @@ static int set_enter(void)
     if(config_get_d(CONFIG_SHOW_CONTRIBUTIONS))
         n = 1;
 
-    do_init_audio = 1;
-    do_init = 1;
+    do_init = true_init = 1;
 
     if ((id = gui_vstack(0)))
     {

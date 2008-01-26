@@ -160,8 +160,8 @@ enum {
 #define DEFAULT_KEY_RIGHT            SDLK_RIGHT
 #define DEFAULT_KEY_PAUSE            SDLK_SPACE
 #define DEFAULT_KEY_RESTART          SDLK_r
-#define DEFAULT_SHOW_CONTRIBUTIONS   0
 #define DEFAULT_STATS                0
+#define DEFAULT_SHOW_CONTRIBUTIONS   0
 
 /*---------------------------------------------------------------------------*/
 
