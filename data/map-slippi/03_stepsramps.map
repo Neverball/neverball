@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -326,4 +327,10 @@
 "classname" "target_position"
 "origin" "448 0 -24"
 "targetname" "flyin1"
+}
+// entity 10
+{
+"classname" "info_player_start"
+"origin" "-144 0 88"
+"radius" "0.0625"
 }

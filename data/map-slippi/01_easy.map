@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -1051,6 +1052,12 @@
 "radius" "0.0625"
 }
 // entity 9
+{
+"classname" "info_player_start"
+"origin" "192 -192 24"
+"radius" "0.0625"
+}
+// entity 10
 {
 "classname" "info_player_start"
 "origin" "192 -192 24"

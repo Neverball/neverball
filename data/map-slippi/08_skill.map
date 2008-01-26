@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -686,7 +687,6 @@
 }
 // brush 77
 {
-( -80 -8 32 ) ( -80 8 32 ) ( -16 -8 32 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
 ( -16 8 32 ) ( -81 8 0 ) ( -16 8 0 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( -16 -8 0 ) ( -16 -8 32 ) ( -16 8 32 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( -16 -8 0 ) ( -81 8 0 ) ( -81 -8 0 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
@@ -826,4 +826,10 @@
 "classname" "target_position"
 "origin" "72 -8 16"
 "targetname" "flyin1"
+}
+// entity 10
+{
+"classname" "info_player_start"
+"origin" "-192 0 24"
+"radius" "0.0625"
 }
