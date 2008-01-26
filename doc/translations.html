@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Neverball translation guidelines</title>
+</head>
+
+<body>
+    <h1>Neverball translation guidelines</h1>
+
+    <h2>About this document</h2>
+
+    <p>This document contains information for people who are interested in
+    translating Neverball and Neverputt to their language of choice.</p>
+
+    <p>If you have any questions after reading this document, do not hesitate
+    to <a href="http://www.nevercorner.net/forum/" title="Neverforum">ask
+        them</a>, so that this document can be further improved.</p>
+
+    <h2>General information</h2>
+
+    <p>Neverball is internationalised using the <a
+        href="http://www.gnu.org/software/gettext/">GNU Gettext
+        internationalisation library</a>.  In this approach, translators
+    typically work with PO files containing "message identifiers" (source text)
+    and "message strings" (translations of the source text).</p>
+
+    <h2>Instructions</h2>
+
+    <p>First, if there is already a translation for your language, contact the
+    current translator (or translation team), as indicated in the respective PO
+    file.  A list of current translations is available in the <a
+        href="https://s.snth.net/projects/neverball/browser/trunk/po/">"po"
+        subdirectory of the source code tree</a>.</p>
+
+    <p>If your language does not yet have a translation, download the
+    translation template file "neverball.pot".  Then, translate it.</p>
+
+    <p>Important remarks:</p>
+
+    <ul>
+
+        <li>The text encoding must be UTF-8.</li>
+
+        <li>Never edit the source text.  If you find errors or have any
+        suggestions on how to improve the source text, please contact the
+        developers (preferrably by posting a message on the forum).</li>
+
+        <li>Some strings are "contextualised", in order to allow different
+        translations for identical message identifiers.  These strings are in
+        the form of "xxx^yyy", where "xxx" is the context and "yyy" is the
+        string to translate.  The translations of such strings must have the
+        context prefix removed and must <em>only</em> contain the translation
+        of "yyy".</li>
+
+    </ul>
+
+    <p>After completing the translation, send us the translated file.  You can
+    open a new thread in the forum and either link the PO file from there or
+    send the file to one of the developers.</p>
+
+    <h2>Tools</h2>
+
+    <p>It is advisable to use a dedicated PO editing tool instead of editing
+    the files manually.  By doing so, you will ensure that files remain in a
+    valid format and encoding, and source text is not accidentally modified,
+    and it will also minimise the time required for translation.</p>
+
+    <p>Listed below are few of such editing tools.  There are also custom modes
+    and plugins available for Vim and Emacs and probably your own favourite
+    extensible text editor.</p>
+
+    <dl>
+
+        <dt>Poedit</dt>
+
+        <dd><a href="http://www.poedit.net/">Poedit</a> is a multi-platform PO
+        file editor.  If you are using Microsoft Windows, Poedit is likely to
+        be your only option.  The interface is straigh-forward and the editor
+        is easy-to-use.  It appears to lack documentation for key bindings,
+        however, and plural forms for your language will have to be entered
+        manually (if needed).</dd>
+
+        <dt>KBabel</dt>
+
+        <dd><a href="http://kbabel.kde.org/">KBabel</a> is an advanced PO
+        editor for KDE.  It is so advanced, in fact, that this author gave up
+        trying it out during the initial set-up...  Can be overwhelming and may
+        require some time to become familiar with.</dd>
+
+        <dt>gtranslator</dt>
+
+        <dd><a href="http://gtranslator.sourceforge.net/">gtranslator</a> is a
+        PO file editor for the GNOME desktop environment.  While being one of
+        the easiest-to-use editors from those mentioned here, it unfortunately
+        has a critical bug (up until version 1.1.7 as of this writing) and does
+        not handle certain message identifiers correctly.  Therefore it is
+        <strong>not usable with Neverball</strong> at the moment.</dd>
+
+    </dl>
+
+</body>
+</html>
+

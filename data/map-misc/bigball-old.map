@@ -1,22 +1,18 @@
-
 // entity 0
 {
 "classname" "worldspawn"
-"author"    "Mehdi Yousfi-Monod"
+"author" "Mehdi Yousfi-Monod"
 "levelname" "bigball-old-mym"
-"version"   "1"
-
-"back"      "map-back/ocean.sol"
-"grad"      "back/ocean.png"
-"shot"      "shot-misc/bigball-old.jpg"
-"song"      "bgm/track2.ogg"
-"time"      "9000"
-"goal"      "60"
-
-"time_hs"   "700 900"
-"coin_hs"   "96 80"
+"version" "1"
+"back" "map-back/ocean.sol"
+"grad" "back/ocean.png"
+"shot" "shot-misc/bigball-old.jpg"
+"song" "bgm/track2.ogg"
+"time" "9000"
+"goal" "60"
+"time_hs" "700 900"
+"coin_hs" "96 80"
 "message" "Prisonnier de la boule.\Living in a sphere.\Catching all blue coins is a challenge."
-
 // brush 0
 {
 ( -32 32 0 ) ( -32 0 0 ) ( -32 0 -8 ) mtrl/glass-dark 0 -16 0 0.5 0.5 0 0 0
@@ -28,12 +24,12 @@
 }
 // brush 1
 {
-( -32 32 8 ) ( -32 -32 8 ) ( -32 -32 0 ) mtrl/invisible -64 80 0 0.5 0.5 134217728 0 0
-( 32 32 8 ) ( -32 32 8 ) ( -32 32 0 ) mtrl/invisible 64 80 0 0.5 0.5 134217728 0 0
-( 32 -32 8 ) ( 32 32 8 ) ( 32 32 0 ) mtrl/glass-dark 0 -16 0 0.5 0.5 134217728 0 0
-( -32 -32 8 ) ( 32 -32 8 ) ( 32 -32 0 ) mtrl/invisible 64 80 0 0.5 0.5 134217728 0 0
-( -32 -32 1 ) ( -32 32 1 ) ( 32 32 1 ) mtrl/goal -128 128 0 -0.25 0.25 134217728 0 0
-( 32 32 0 ) ( -32 32 0 ) ( -32 -32 0 ) mtrl/invisible 64 64 0 0.5 0.5 134217728 0 0
+( -32 32 7 ) ( -32 -32 7 ) ( -32 -32 -1 ) mtrl/invisible -64 80 0 0.5 0.5 134217728 0 0
+( 32 32 7 ) ( -32 32 7 ) ( -32 32 -1 ) mtrl/invisible 64 80 0 0.5 0.5 134217728 0 0
+( 32 -32 7 ) ( 32 32 7 ) ( 32 32 -1 ) mtrl/glass-dark 0 -16 0 0.5 0.5 134217728 0 0
+( -32 -32 7 ) ( 32 -32 7 ) ( 32 -32 -1 ) mtrl/invisible 64 80 0 0.5 0.5 134217728 0 0
+( -32 -32 0 ) ( -32 32 0 ) ( 32 32 0 ) mtrl/goal 128 128 0 0.25 0.25 134217728 0 0
+( 32 32 -1 ) ( -32 32 -1 ) ( -32 -32 -1 ) mtrl/goal 128 128 0 0.25 0.25 134217728 0 0
 }
 // brush 2
 {

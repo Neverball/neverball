@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-01-11 01:22+0200\n"
+"POT-Creation-Date: 2008-01-23 03:25+0200\n"
 "PO-Revision-Date: 2006-12-04 22:07+0100\n"
 "Last-Translator: Miguel Diago <mdiagom@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -210,11 +210,11 @@ msgstr "Ajustes"
 msgid "Back"
 msgstr "Atrás"
 
-#: ball/st_conf.c:218 ball/st_demo.c:531 ball/st_save.c:194 putt/st_conf.c:178
+#: ball/st_conf.c:218 ball/st_demo.c:537 ball/st_save.c:194 putt/st_conf.c:178
 msgid "No"
 msgstr "No"
 
-#: ball/st_conf.c:219 ball/st_demo.c:532 ball/st_save.c:195 putt/st_conf.c:179
+#: ball/st_conf.c:219 ball/st_demo.c:538 ball/st_save.c:195 putt/st_conf.c:179
 msgid "Yes"
 msgstr "Sí"
 
@@ -282,7 +282,7 @@ msgstr "Jugador"
 msgid "State"
 msgstr "Estado"
 
-#: ball/st_demo.c:197 ball/st_demo.c:333
+#: ball/st_demo.c:197 ball/st_demo.c:334
 #, fuzzy
 msgid "Replay"
 msgstr "Grabaciones"
@@ -307,38 +307,38 @@ msgstr "Elija grabación"
 msgid "No Replays"
 msgstr "No hay grabaciones"
 
-#: ball/st_demo.c:437
+#: ball/st_demo.c:443
 #, fuzzy
 msgid "Replay Paused"
 msgstr "Nombre de la grabación"
 
-#: ball/st_demo.c:440
+#: ball/st_demo.c:446
 msgid "Replay Ends"
 msgstr "Fin"
 
-#: ball/st_demo.c:449 ball/st_pause.c:105 putt/st_all.c:591
+#: ball/st_demo.c:455 ball/st_pause.c:105 putt/st_all.c:591
 msgid "Quit"
 msgstr ""
 
-#: ball/st_demo.c:453
+#: ball/st_demo.c:459
 msgid "Keep"
 msgstr "Conservar"
 
-#: ball/st_demo.c:454
+#: ball/st_demo.c:460
 msgid "Delete"
 msgstr "Borrar"
 
-#: ball/st_demo.c:459 ball/st_pause.c:115 putt/st_all.c:592
+#: ball/st_demo.c:465 ball/st_pause.c:115 putt/st_all.c:592
 #, fuzzy
 msgid "Continue"
 msgstr "Monedas"
 
-#: ball/st_demo.c:463
+#: ball/st_demo.c:469
 #, fuzzy
 msgid "Repeat"
 msgstr "Grabaciones"
 
-#: ball/st_demo.c:527
+#: ball/st_demo.c:533
 msgid "Delete Replay?"
 msgstr "¿Borrar grabación?"
 
@@ -856,6 +856,12 @@ msgstr ""
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
 msgstr "Golf loco\\ \\\\Dificultad: Fácil a Media\\Autor: slippifishi\\"
 
+#: data/courses.txt
+msgid ""
+"Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
+"Through Insane\\Author: Byron James Johnson (Krabby Krap)"
+msgstr ""
+
 #: data/map-easy/bumper.map
 msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the ball"
@@ -1034,7 +1040,7 @@ msgid "=Ramps=\\Can you make it to the top?"
 msgstr ""
 
 #: data/map-fwp/slope.map
-msgid "=Slope=\\Do not become another Sisyphus."
+msgid "=Slope=\\Try not to become a modern-day Sisyphus."
 msgstr ""
 
 #: data/map-fwp/spacetime.map
