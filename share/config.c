@@ -123,6 +123,7 @@ void config_init(void)
     config_set_d(CONFIG_KEY_RIGHT,            DEFAULT_KEY_RIGHT);
     config_set_d(CONFIG_KEY_PAUSE,            DEFAULT_KEY_PAUSE);
     config_set_d(CONFIG_KEY_RESTART,          DEFAULT_KEY_RESTART);
+    config_set_d(CONFIG_SHOW_CONTRIBUTIONS,   DEFAULT_SHOW_CONTRIBUTIONS);
 }
 
 void config_load(void)
@@ -253,6 +254,9 @@ void config_load(void)
                     config_set_d(CONFIG_CHEAT, atoi(val));
                 else if (strcmp(key, "stats") == 0)
                     config_set_d(CONFIG_STATS, atoi(val));
+
+                else if (strcmp(key, "contrib") == 0)
+                    config_set_d(CONFIG_SHOW_CONTRIBUTIONS, atoi(val));
             }
 
         fclose(fp);
@@ -382,6 +386,9 @@ void config_save(void)
                 option_d[CONFIG_STATS]);
         if (config_cheat())
             fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
+
+        fprintf(fp, "contrib              %d\n",
+                option_d[CONFIG_SHOW_CONTRIBUTIONS]);
 
         fclose(fp);
     }

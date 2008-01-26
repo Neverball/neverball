@@ -2,6 +2,7 @@ Neverball Hard
 Difficulty: Intermediate through Expert\\25 levels with more of a challenge for\the experienced player. Try to claim\Best Times and Most Coins records.\
 hard
 shot-hard/grid.jpg
+0
 
 map-hard/grid.sol
 map-hard/risers.sol

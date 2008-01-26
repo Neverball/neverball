@@ -2,6 +2,7 @@ Mehdi's Levels
 Difficulty: Expert through Insane\\25 levels with even greater challenge.\Author: Mehdi Yousfi-Monod (mym)\ \
 mym
 shot-mym/turn.jpg
+0
 
 map-mym/descent.sol
 map-mym/dance2.sol

@@ -2,6 +2,7 @@ Neverball Medium
 Difficulty: A set of levels for intermediate players.\\\Work in progress.\\
 medium
 shot-medium/locks.jpg
+0
 
 map-medium/locks.sol
 map-medium/multicurves.sol
