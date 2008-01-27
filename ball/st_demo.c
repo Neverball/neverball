@@ -240,7 +240,7 @@ static int demo_enter(void)
 
             gui_label(jd, _("Select Replay"), GUI_SML, GUI_ALL, 0,0);
             gui_filler(jd);
-            gui_back_prev_next(jd, first > 0, first + DEMO_STEP < total, 0);
+            gui_back_prev_next(jd, first > 0, first + DEMO_STEP < total);
         }
 
         if ((jd = gui_varray(id)))

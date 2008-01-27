@@ -11,12 +11,12 @@
 
 /*---------------------------------------------------------------------------*/
 
-int  set_init(int);
+int  set_init(void);
 void set_free(void);
 
 /*---------------------------------------------------------------------------*/
 
-int  set_exists(int, int);
+int  set_exists(int);
 void set_goto(int);
 
 int  curr_set(void);
@@ -26,7 +26,6 @@ const char         *set_desc(int);
 const char         *set_shot(int);
 const struct score *set_time_score(int);
 const struct score *set_coin_score(int);
-const char         *set_contribution(int);
 
 
 /*---------------------------------------------------------------------------*/

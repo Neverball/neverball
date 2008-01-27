@@ -35,8 +35,7 @@ static int first = 0;
 static int shot_id;
 static int desc_id;
 
-static int do_init             = 1;
-static int true_init           = 1;
+static int do_init = 1;
 
 static int set_action(int i)
 {
@@ -67,36 +66,12 @@ static int set_action(int i)
 
         break;
 
-    case GUI_OFFIC:
-
-        first = 0;
-
-        config_set_d(CONFIG_SHOW_CONTRIBUTIONS, 0);
-
-        do_init   = 1;
-        true_init = 0;
-        return goto_state(&st_set);
-
-        break;
-
-    case GUI_CONTRIB:
-
-        first = 0;
-
-        config_set_d(CONFIG_SHOW_CONTRIBUTIONS, 1);
-
-        do_init   = 1;
-        true_init = 0;
-        return goto_state(&st_set);
-
-        break;
-
     case GUI_NULL:
         return 1;
         break;
 
     default:
-        if (set_exists(i, 0))
+        if (set_exists(i))
         {
             set_goto(i);
             return goto_state(&st_start);
@@ -106,18 +81,12 @@ static int set_action(int i)
     return 1;
 }
 
-static int gui_set(int id, int i)
+static void gui_set(int id, int i)
 {
-    if (set_exists(i, config_get_d(CONFIG_SHOW_CONTRIBUTIONS) + 1))
-    {
+    if (set_exists(i))
         gui_state(id, set_name(i), GUI_SML, i, 0);
-        return 1;
-    }
     else
-    {
-        return 0;
-    }
-    return 0;
+        gui_label(id, "", GUI_SML, GUI_ALL, 0, 0);
 }
 
 static int set_enter(void)
@@ -129,42 +98,13 @@ static int set_enter(void)
 
     int i;
 
-    int j, n;
-    j = 0;
-
-    for(i = 0; i < MAXSET; i++)
-    {
-        if (set_exists(i, 2))
-        {
-            n = 1;
-            break;
-        }
-        n = 0;
-    }
-
     if (do_init)
     {
-        total = set_init(config_get_d(CONFIG_SHOW_CONTRIBUTIONS));
-        if (true_init)
-        {
-            audio_music_fade_to(0.5f, "bgm/inter.ogg");
-            audio_play(AUD_START, 1.f);
-            for(i = 0; i < MAXSET; i++)
-            {
-                if (set_exists(i, 2))
-                {
-                    n = 1;
-                    break;
-                }
-                n = 0;
-            }
-        }
+        total = set_init();
+        audio_music_fade_to(0.5f, "bgm/inter.ogg");
+        audio_play(AUD_START, 1.f);
     }
-
-    if(config_get_d(CONFIG_SHOW_CONTRIBUTIONS))
-        n = 1;
-
-    do_init = true_init = 1;
+    else do_init = 1;
 
     if ((id = gui_vstack(0)))
     {
@@ -172,7 +112,7 @@ static int set_enter(void)
         {
             gui_label(jd, _("Level Set"), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
-            gui_back_prev_next(jd, first > 0, first + SET_STEP < total, n);
+            gui_back_prev_next(jd, first > 0, first + SET_STEP < total);
         }
 
         if ((jd = gui_harray(id)))
@@ -181,16 +121,8 @@ static int set_enter(void)
 
             if ((kd = gui_varray(jd)))
             {
-                for (i = first; i < MAXSET; i++)
-                {
-                    if(j==5)
-                        break;
-                    j += gui_set(kd, i);
-                }
-                for (i = 0; i < 5 - j && i < MAXSET; i++)
-                {
-                    gui_label(kd, "", GUI_SML, GUI_ALL, 0, 0);
-                }
+                for (i = first; i < first + SET_STEP; i++)
+                    gui_set(kd, i);
             }
         }
 
@@ -213,7 +145,7 @@ static void set_point(int id, int x, int y, int dx, int dy)
 {
     int jd = shared_point_basic(id, x, y);
     int i  = gui_token(jd);
-    if (jd && set_exists(i, 0))
+    if (jd && set_exists(i))
         set_over(i);
 }
 
@@ -221,7 +153,7 @@ static void set_stick(int id, int a, int v)
 {
     int jd = shared_stick_basic(id, a, v);
     int i  = gui_token(jd);
-    if (jd && set_exists(i, 0))
+    if (jd && set_exists(i))
         set_over(i);
 }
 

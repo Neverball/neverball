@@ -35,7 +35,6 @@ struct set
     char *name;                /* Set name                   */
     char *desc;                /* Set description            */
     char *shot;                /* Set screen-shot            */
-    char *contribution;        /* Is the set a contribution? */
 
     char user_scores[PATHMAX]; /* User high-score file       */
 
@@ -52,8 +51,6 @@ static int set_state = 0;
 
 static int set;
 static int count;
-static int ctotal;
-static int retsl;
 
 static struct set   set_v[MAXSET];
 static struct level level_v[MAXLVL];
@@ -209,12 +206,11 @@ static int set_load(struct set *s, const char *filename)
 
     strncpy(s->file, filename, PATHMAX - 1);
 
-    if (read_line(&s->name,           fin) &&
-        read_line(&s->desc,           fin) &&
-        read_line(&s->id,             fin) &&
-        read_line(&s->shot,           fin) &&
-        read_line(&s->contribution,   fin) &&
-        read_line(&scores,            fin))
+    if (read_line(&s->name, fin) &&
+        read_line(&s->desc, fin) &&
+        read_line(&s->id,   fin) &&
+        read_line(&s->shot, fin) &&
+        read_line(&scores,  fin))
     {
         sscanf(scores, "%d %d %d %d %d %d",
                &s->time_score.timer[0],
@@ -237,8 +233,6 @@ static int set_load(struct set *s, const char *filename)
             s->count++;
         }
 
-        retsl = (!strcmp(s->contribution, "0")) ? 0 : 1;
-
         fclose(fin);
 
         return 1;
@@ -248,14 +242,13 @@ static int set_load(struct set *s, const char *filename)
     free(s->desc);
     free(s->id);
     free(s->shot);
-    free(s->contribution);
 
     fclose(fin);
 
     return 0;
 }
 
-int set_init(int listContributions)
+int set_init()
 {
     FILE *fin;
     char *name;
@@ -263,20 +256,15 @@ int set_init(int listContributions)
     if (set_state)
         set_free();
 
-    set    = 0;
-    count  = 0;
-    ctotal = 0;
+    set   = 0;
+    count = 0;
 
     if ((fin = fopen(config_data(SET_FILE), "r")))
     {
         while (count < MAXSET && read_line(&name, fin))
         {
             if (set_load(&set_v[count], name))
-            {
-                if (((retsl > 0) ? 1 : 0) == ((listContributions > 0) ? 1 : 0))
-                    ctotal++;
                 count++;
-            }
 
             free(name);
         }
@@ -285,7 +273,7 @@ int set_init(int listContributions)
         set_state = 1;
     }
 
-    return ctotal;
+    return count;
 }
 
 void set_free(void)
@@ -298,7 +286,6 @@ void set_free(void)
         free(set_v[i].desc);
         free(set_v[i].id);
         free(set_v[i].shot);
-        free(set_v[i].contribution);
 
         for (j = 0; j < set_v[i].count; j++)
             free(set_v[i].level_name_v[j]);
@@ -309,58 +296,34 @@ void set_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-/*******************************************
-*            contribValue: can have a      *
-*               value of 0, 1 or 2         *
-*               0: Default behaviour (all) *
-*               1: Only offical sets will  *
-*                   return true            *
-*               2: Only contributed sets   *
-*                   will return true       *
-*******************************************/
-
-int set_exists(int i, int contribValue)
+int set_exists(int i)
 {
-    if (contribValue == 1)
-        return (set_contribution(i)!=NULL && !strcmp(set_contribution(i), "0")) ? 1 : 0;
-
-    else if (contribValue == 2)
-        return (set_contribution(i)!=NULL && !strcmp(set_contribution(i), "1")) ? 1 : 0;
-
-    else
-        return (0 <= i && i < count);
-
-    return 0;
+    return (0 <= i && i < count);
 }
 
 const char *set_name(int i)
 {
-    return set_exists(i, 0) ? _(set_v[i].name) : NULL;
+    return set_exists(i) ? _(set_v[i].name) : NULL;
 }
 
 const char *set_desc(int i)
 {
-    return set_exists(i, 0) ? _(set_v[i].desc) : NULL;
+    return set_exists(i) ? _(set_v[i].desc) : NULL;
 }
 
 const char *set_shot(int i)
 {
-    return set_exists(i, 0) ? set_v[i].shot : NULL;
+    return set_exists(i) ? set_v[i].shot : NULL;
 }
 
 const struct score *set_time_score(int i)
 {
-    return set_exists(i, 0) ? &set_v[i].time_score : NULL;
+    return set_exists(i) ? &set_v[i].time_score : NULL;
 }
 
 const struct score *set_coin_score(int i)
 {
-    return set_exists(i, 0) ? &set_v[i].coin_score : NULL;
-}
-
-const char *set_contribution(int i)
-{
-    return set_exists(i, 0) ? _(set_v[i].contribution) : NULL;
+    return set_exists(i) ? &set_v[i].coin_score : NULL;
 }
 
 /*---------------------------------------------------------------------------*/

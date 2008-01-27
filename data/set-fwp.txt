@@ -2,7 +2,6 @@ Nevermania
 Levels for Neverball Experts\Author: Florian Priester\\\\
 fwp
 shot-fwp/museum.png
-0
 
 map-fwp/atrium.sol
 map-fwp/swarm.sol
