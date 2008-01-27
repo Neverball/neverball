@@ -7,7 +7,7 @@
 "shot" "shot-csyc/C-WarpZone2.png"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
-"time" "0"
+"time" "5000"
 "goal" "0"
 "author" "Challenge Space Yard"
 "levelname" "Warp Zone II"

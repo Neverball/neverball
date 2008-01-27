@@ -827,7 +827,7 @@
 {
 "classname" "worldspawn"
 "message" "Intermediate\Not so hard, but not so easy."
-"time" "6000"
+"time" "9000"
 "goal" "22"
 "shot" "shot-csy/Intermediate.png"
 "back" "map-back/alien.sol"
