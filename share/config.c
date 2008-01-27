@@ -124,6 +124,7 @@ void config_init(void)
     config_set_d(CONFIG_KEY_RIGHT,            DEFAULT_KEY_RIGHT);
     config_set_d(CONFIG_KEY_PAUSE,            DEFAULT_KEY_PAUSE);
     config_set_d(CONFIG_KEY_RESTART,          DEFAULT_KEY_RESTART);
+    config_set_d(CONFIG_PUTT_COLLISIONS,      DEFAULT_PUTT_COLLISIONS);
 }
 
 void config_load(void)
@@ -250,12 +251,14 @@ void config_load(void)
                 else if (strcmp(key, "wiimote_addr") == 0)
                     config_set_s(CONFIG_WIIMOTE_ADDR, val);
 
-                else if (strcmp(key, "cheat")   == 0)
-                    config_set_d(CONFIG_CHEAT, atoi(val));
-                else if (strcmp(key, "stats")   == 0)
-                    config_set_d(CONFIG_STATS, atoi(val));
-                else if (strcmp(key, "uniform") == 0)
+                else if (strcmp(key, "cheat")      == 0)
+                    config_set_d(CONFIG_CHEAT,   atoi(val));
+                else if (strcmp(key, "stats")      == 0)
+                    config_set_d(CONFIG_STATS,   atoi(val));
+                else if (strcmp(key, "uniform")    == 0)
                     config_set_d(CONFIG_UNIFORM, atoi(val));
+                else if (strcmp(key, "putt_collisions") == 0)
+                    config_set_d(CONFIG_PUTT_COLLISIONS, atoi(val));
             }
 
         fclose(fp);
@@ -385,6 +388,8 @@ void config_save(void)
                 option_d[CONFIG_STATS]);
         fprintf(fp, "uniform              %d\n",
                 option_d[CONFIG_UNIFORM]);
+        fprintf(fp, "putt_collisions      %d\n",
+                option_d[CONFIG_PUTT_COLLISIONS]);
         if (config_cheat())
             fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
 
