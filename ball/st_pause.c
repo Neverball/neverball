@@ -124,9 +124,9 @@ static int pause_enter(void)
     return id;
 }
 
-static void pause_paint(int id, float st)
+static void pause_paint(int id, float t)
 {
-    shared_paint(id, st);
+    shared_paint(id, t);
     hud_paint();
 }
 

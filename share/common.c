@@ -66,7 +66,7 @@ int read_line(char **dst, FILE *fin)
 
         /* Allocate or reallocate space for the buffer. */
 
-        if ((store_new = realloc(store, store_size + buffer_size)))
+        if ((store_new = (char *) realloc(store, store_size + buffer_size)))
         {
             /* Avoid passing garbage to string functions. */
 

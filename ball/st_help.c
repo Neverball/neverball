@@ -24,10 +24,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-struct state st_help_demo;
-
-/*---------------------------------------------------------------------------*/
-
 #define HELP_BACK   0
 #define HELP_RULE   1
 #define HELP_CONT   2
@@ -386,9 +382,9 @@ static void help_demo_leave(int id)
     demo_replay_stop(0);
 }
 
-static void help_demo_paint(int id, float st)
+static void help_demo_paint(int id, float t)
 {
-    game_draw(0, st);
+    game_draw(0, t);
 }
 
 static void help_demo_timer(int id, float dt)

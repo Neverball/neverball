@@ -214,9 +214,8 @@ static void part_draw(const float *M,
     glPopMatrix();
 }
 
-void part_draw_coin(const float *M)
+void part_draw_coin(const float *M, float t)
 {
-    float r = (float) SDL_GetTicks() / 1000.0f;
     int i;
 
     glBindTexture(GL_TEXTURE_2D, part_text);
@@ -229,13 +228,12 @@ void part_draw_coin(const float *M)
                       part_coin[i].c[2],
                       part_coin[i].t);
 
-            part_draw(M, part_coin[i].p, 1.0f, r * part_coin[i].w);
+            part_draw(M, part_coin[i].p, 1.0f, t * part_coin[i].w);
         }
 }
 
-void part_draw_goal(const float *M, float radius, float a)
+void part_draw_goal(const float *M, float radius, float a, float t)
 {
-    float r = (float) SDL_GetTicks() / 1000.0f;
     int i;
 
     glBindTexture(GL_TEXTURE_2D, part_text);
@@ -244,7 +242,7 @@ void part_draw_goal(const float *M, float radius, float a)
 
     for (i = 0; i < PART_MAX_GOAL; i++)
         if (part_goal[i].t > 0.0f)
-            part_draw(M, part_goal[i].p, radius - 0.05f, r * part_goal[i].w);
+            part_draw(M, part_goal[i].p, radius - 0.05f, t * part_goal[i].w);
 }
 
 /*---------------------------------------------------------------------------*/

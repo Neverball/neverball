@@ -10,7 +10,7 @@ struct state
 {
     int  (*enter)(void);
     void (*leave)(int dt);
-    void (*paint)(int id, float st);
+    void (*paint)(int id, float t);
     void (*timer)(int id, float dt);
     void (*point)(int id, int x, int y, int dx, int dy);
     void (*stick)(int id, int a, int v);
@@ -28,7 +28,7 @@ float time_state(void);
 void  init_state(struct state *);
 int   goto_state(struct state *);
 
-void st_paint(void);
+void st_paint(float);
 void st_timer(float);
 void st_point(int, int, int, int);
 void st_stick(int, int);

@@ -461,6 +461,8 @@ int main(int argc, char *argv[])
 
             for (u = 0; u < abs(uniform); ++u)
                 st_timer(DT);
+
+            t0 = t1;
         }
         else
         {
@@ -475,7 +477,7 @@ int main(int argc, char *argv[])
 
         /* Render. */
 
-        st_paint();
+        st_paint(0.001f * t0);
         config_swap();
 
         if (uniform < 0)
