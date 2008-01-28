@@ -539,7 +539,7 @@ int game_step(const float g[3], float dt)
 
         for (i = 0; i < n; i++)
         {
-            d = sol_step(fp, g, t, ball, &m);
+            d = sol_step(fp, g, t, ball, &m, config_get_d(CONFIG_PUTT_COLLISIONS));
 
             if (b < d)
                 b = d;

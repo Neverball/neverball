@@ -1110,7 +1110,7 @@ int game_step(const float g[3], float dt, int bt)
         {
             /* Run the sim. */
 
-            float b = sol_step(fp, h, dt, 0, NULL);
+            float b = sol_step(fp, h, dt, 0, NULL, 0);
 
             /* Mix the sound of a ball bounce. */
 

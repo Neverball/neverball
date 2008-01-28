@@ -1337,7 +1337,7 @@ static float sol_test_file(float dt,
  * iterations, punt it.
  */
 
-float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
+float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int puttCollisions)
 {
     float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
     int c = 16;
