@@ -439,6 +439,8 @@ static int game_update_state(float dt)
     struct s_file *fp = &file;
     float p[3];
 
+    int i;
+
     if (dt > 0.f)
         t += dt;
     else
@@ -446,21 +448,45 @@ static int game_update_state(float dt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, ball))
-        audio_play(AUD_SWITCH, 1.f);
+    if(config_get_d(CONFIG_PUTT_COLLISIONS))
+        for (i = 1; i < curr_party() + 1; i++)
+            if (sol_swch_test(fp, i))
+                audio_play(AUD_SWITCH, 1.f);
+    else
+        if (sol_swch_test(fp, i))
+            audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
-    if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, ball) == 1)
+    if (config_get_d(CONFIG_PUTT_COLLISIONS))
     {
-        jump_b  = 1;
-        jump_e  = 0;
-        jump_dt = 0.f;
+        for (i = 1; i < curr_party() + 1; i++)
+        {
+            if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, i) == 1)
+            {
+                jump_b  = 1;
+                jump_e  = 0;
+                jump_dt = 0.f;
 
-        audio_play(AUD_JUMP, 1.f);
+                audio_play(AUD_JUMP, 1.f);
+            }
+            if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, i) == 0)
+                jump_e = 1;
+        }
     }
-    if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, ball) == 0)
-        jump_e = 1;
+    else
+    {
+        if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, ball) == 1)
+        {
+            jump_b  = 1;
+            jump_e  = 0;
+            jump_dt = 0.f;
+
+            audio_play(AUD_JUMP, 1.f);
+        }
+        if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, ball) == 0)
+            jump_e = 1;
+    }
 
     /* Test for fall-out. */
 
