@@ -31,9 +31,6 @@
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
 
-int currentui      = -1;
-int currentplayers = -1;
-
 /*---------------------------------------------------------------------------*/
 
 static float erp(float t)
@@ -1214,6 +1211,7 @@ static int sol_test_back(float dt,
 static float sol_test_lump(float dt,
                            float T[3],
                            const struct s_ball *up,
+                           const struct s_ball *u2p,
                            const struct s_file *fp,
                            const struct s_lump *lp,
                            const float o[3],
@@ -1246,16 +1244,10 @@ static float sol_test_lump(float dt,
 
     if (puttCollisions && up->r > 0.0f)
     {
-        for (i = 0; i < currentplayers; i++)
+        if ((u = sol_test_ball(t, U, up, u2p, o, w)) < t)
         {
-            const struct s_ball *u2p = fp->uv + i;
-            if (currentui == i)
-                continue;
-            if ((u = sol_test_ball(t, U, up, u2p, o, w)) < t)
-            {
-                v_cpy(T, U);
-                t = u;
-            }
+            v_cpy(T, U);
+            t = u;
         }
     }
 
@@ -1291,6 +1283,7 @@ static float sol_test_lump(float dt,
 static float sol_test_node(float dt,
                            float T[3],
                            const struct s_ball *up,
+                           const struct s_ball *u2p,
                            const struct s_file *fp,
                            const struct s_node *np,
                            const float o[3],
@@ -1306,7 +1299,7 @@ static float sol_test_node(float dt,
     {
         const struct s_lump *lp = fp->lv + np->l0 + i;
 
-        if ((u = sol_test_lump(t, U, up, fp, lp, o, w, puttCollisions)) < t)
+        if ((u = sol_test_lump(t, U, up, u2p, fp, lp, o, w, puttCollisions)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1319,7 +1312,7 @@ static float sol_test_node(float dt,
     {
         const struct s_node *nq = fp->nv + np->ni;
 
-        if ((u = sol_test_node(t, U, up, fp, nq, o, w, puttCollisions)) < t)
+        if ((u = sol_test_node(t, U, up, u2p, fp, nq, o, w, puttCollisions)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1332,7 +1325,7 @@ static float sol_test_node(float dt,
     {
         const struct s_node *nq = fp->nv + np->nj;
 
-        if ((u = sol_test_node(t, U, up, fp, nq, o, w, puttCollisions)) < t)
+        if ((u = sol_test_node(t, U, up, u2p, fp, nq, o, w, puttCollisions)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1345,6 +1338,7 @@ static float sol_test_node(float dt,
 static float sol_test_body(float dt,
                            float T[3], float V[3],
                            const struct s_ball *up,
+                           const struct s_ball *u2p,
                            const struct s_file *fp,
                            const struct s_body *bp,
                            int puttCollisions)
@@ -1356,7 +1350,7 @@ static float sol_test_body(float dt,
     sol_body_p(O, fp, bp);
     sol_body_v(W, fp, bp);
 
-    if ((u = sol_test_node(t, U, up, fp, np, O, W, puttCollisions)) < t)
+    if ((u = sol_test_node(t, U, up, u2p, fp, np, O, W, puttCollisions)) < t)
     {
         v_cpy(T, U);
         v_cpy(V, W);
@@ -1368,6 +1362,7 @@ static float sol_test_body(float dt,
 static float sol_test_file(float dt,
                            float T[3], float V[3],
                            const struct s_ball *up,
+                           const struct s_ball *u2p,
                            const struct s_file *fp,
                            int puttCollisions)
 {
@@ -1378,7 +1373,7 @@ static float sol_test_file(float dt,
     {
         const struct s_body *bp = fp->bv + i;
 
-        if ((u = sol_test_body(t, U, W, up, fp, bp, puttCollisions)) < t)
+        if ((u = sol_test_body(t, U, W, up, u2p, fp, bp, puttCollisions)) < t)
         {
             v_cpy(T, U);
             v_cpy(V, W);
@@ -1401,87 +1396,162 @@ static float sol_test_file(float dt,
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int puttCollisions, int howManyPlayers)
 {
     float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
-    int c = 16;
+    int i, c = 16, originalui = ui;
 
-    currentui = -1;
     if (puttCollisions)
-        currentui = ui;
-
-    currentplayers = -1;
-    if (puttCollisions)
-        currentplayers = howManyPlayers;
-
-    if (ui < fp->uc)
-    {
-        struct s_ball *up = fp->uv + ui;
-
-        /* If the ball is in contact with a surface, apply friction. */
-
-        v_cpy(a, up->v);
-        v_cpy(v, up->v);
-        v_cpy(up->v, g);
-
-        if (m && sol_test_file(tt, P, V, up, fp, puttCollisions) < 0.0005f)
-        {
-            v_cpy(up->v, v);
-            v_sub(r, P, up->p);
-
-            if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
+        /* for placed here instead of below causes undesired results.  ? */
+            if (ui < fp->uc)
             {
-                if ((e = (v_len(up->v) - dt)) > 0.0f)
+                struct s_ball *up = fp->uv + ui;
+
+                /* If the ball is in contact with a surface, apply friction. */
+
+                v_cpy(a, up->v);
+                v_cpy(v, up->v);
+                v_cpy(up->v, g);
+
+                if (m && sol_test_file(tt, P, V, up, up, fp, puttCollisions) < 0.0005f)
                 {
-                    /* Scale the linear velocity. */
+                    v_cpy(up->v, v);
+                    v_sub(r, P, up->p);
 
-                    v_nrm(up->v, up->v);
-                    v_scl(up->v, up->v, e);
+                    if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
+                    {
+                        if ((e = (v_len(up->v) - dt)) > 0.0f)
+                        {
+                            /* Scale the linear velocity. */
 
-                    /* Scale the angular velocity. */
+                            v_nrm(up->v, up->v);
+                            v_scl(up->v, up->v, e);
 
-                    v_sub(v, V, up->v);
-                    v_crs(up->w, v, r);
-                    v_scl(up->w, up->w, -1.0f / (up->r * up->r));
+                            /* Scale the angular velocity. */
+
+                            v_sub(v, V, up->v);
+                            v_crs(up->w, v, r);
+                            v_scl(up->w, up->w, -1.0f / (up->r * up->r));
+                        }
+                        else
+                        {
+                            /* Friction has brought the ball to a stop. */
+
+                            up->v[0] = 0.0f;
+                            up->v[1] = 0.0f;
+                            up->v[2] = 0.0f;
+
+                            (*m)++;
+                        }
+                    }
+                    else v_mad(up->v, v, g, tt);
                 }
-                else
+                else v_mad(up->v, v, g, tt);
+        for (ui = 1; ui < howManyPlayers + 1; ui++)
+        {
+
+                /* Test for collision. */
+
+                for (i = 1; i < howManyPlayers + 1; i++)
                 {
-                    /* Friction has brought the ball to a stop. */
+                    struct s_ball *u2p = fp->uv + i;
+                    if(ui == i)
+                        continue;
+                    while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, u2p, fp, puttCollisions)))
+                    {
+                        sol_body_step(fp, nt);
+                        sol_swch_step(fp, nt);
+                        sol_ball_step(fp, nt);
 
-                    up->v[0] = 0.0f;
-                    up->v[1] = 0.0f;
-                    up->v[2] = 0.0f;
+                        tt -= nt;
 
-                    (*m)++;
+                        if (b < (d = sol_bounce(up, P, V, nt)))
+                            b = d;
+
+                        c--;
+                    }
                 }
+
+                /* Apply the ball's accelleration to the pendulum. */
+
+                v_sub(a, up->v, a);
+
+                sol_pendulum(up, a, g, dt);
+            }
+
+            sol_body_step(fp, tt);
+            sol_swch_step(fp, tt);
+            sol_ball_step(fp, tt);
+        }
+    else
+        if (ui < fp->uc)
+        {
+            struct s_ball *up = fp->uv + ui;
+
+            /* If the ball is in contact with a surface, apply friction. */
+
+            v_cpy(a, up->v);
+            v_cpy(v, up->v);
+            v_cpy(up->v, g);
+
+            if (m && sol_test_file(tt, P, V, up, up, fp, puttCollisions) < 0.0005f)
+            {
+                v_cpy(up->v, v);
+                v_sub(r, P, up->p);
+
+                if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
+                {
+                    if ((e = (v_len(up->v) - dt)) > 0.0f)
+                    {
+                        /* Scale the linear velocity. */
+
+                        v_nrm(up->v, up->v);
+                        v_scl(up->v, up->v, e);
+
+                        /* Scale the angular velocity. */
+
+                        v_sub(v, V, up->v);
+                        v_crs(up->w, v, r);
+                        v_scl(up->w, up->w, -1.0f / (up->r * up->r));
+                    }
+                    else
+                    {
+                        /* Friction has brought the ball to a stop. */
+
+                        up->v[0] = 0.0f;
+                        up->v[1] = 0.0f;
+                        up->v[2] = 0.0f;
+
+                        (*m)++;
+                    }
+                }
+                else v_mad(up->v, v, g, tt);
             }
             else v_mad(up->v, v, g, tt);
+
+            /* Test for collision. */
+
+            while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, up, fp, puttCollisions)))
+            {
+                sol_body_step(fp, nt);
+                sol_swch_step(fp, nt);
+                sol_ball_step(fp, nt);
+
+                tt -= nt;
+
+                if (b < (d = sol_bounce(up, P, V, nt)))
+                    b = d;
+
+                c--;
+            }
+
+            sol_body_step(fp, tt);
+            sol_swch_step(fp, tt);
+            sol_ball_step(fp, tt);
+
+            /* Apply the ball's accelleration to the pendulum. */
+
+            v_sub(a, up->v, a);
+
+            sol_pendulum(up, a, g, dt);
         }
-        else v_mad(up->v, v, g, tt);
-
-        /* Test for collision. */
-
-        while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp, puttCollisions)))
-        {
-            sol_body_step(fp, nt);
-            sol_swch_step(fp, nt);
-            sol_ball_step(fp, nt);
-
-            tt -= nt;
-
-            if (b < (d = sol_bounce(up, P, V, nt)))
-                b = d;
-
-            c--;
-        }
-
-        sol_body_step(fp, tt);
-        sol_swch_step(fp, tt);
-        sol_ball_step(fp, tt);
-
-        /* Apply the ball's accelleration to the pendulum. */
-
-        v_sub(a, up->v, a);
-
-        sol_pendulum(up, a, g, dt);
-    }
     return b;
 }
 
