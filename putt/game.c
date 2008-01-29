@@ -169,7 +169,7 @@ static void game_draw_balls(const struct s_file *fp, const float *bill_M)
 
     for (ui = curr_party(); ui > 0; ui--)
     {
-        if (ui == ball)
+        if (ui == ball || config_get_d(CONFIG_PUTT_COLLISIONS))
         {
             float ball_M[16];
             float pend_M[16];
