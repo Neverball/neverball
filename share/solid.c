@@ -1275,8 +1275,6 @@ static float sol_test_lump(float dt,
         for (i = 1; i < fp->uc + 1; i++)
         {
             struct s_ball *u2p = fp->uv + i;
-            if (i == currentui + 1)
-                continue;
             if ((u = sol_test_ball(t, U, up, u2p, o, u2p->w)) < t)
             {
                 v_cpy(T, U);
@@ -1484,39 +1482,18 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
 
                 /* Test for collision. */
 
-                for (i = 1; i < howManyPlayers + 1; i++)
+                while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp, puttCollisions)))
                 {
-                    struct s_ball *u2p = fp->uv + i;
-                    if(ui == i)
-                    {
-                        while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp, 0)))
-                        {
-                            sol_body_step(fp, nt);
-                            sol_swch_step(fp, nt);
-                            sol_ball_step(fp, nt);
+                    sol_body_step(fp, nt);
+                    sol_swch_step(fp, nt);
+                    sol_ball_step(fp, nt);
 
-                            tt -= nt;
+                    tt -= nt;
 
-                            if (b < (d = sol_bounce(up, P, V, nt)))
-                                b = d;
+                    if (b < (d = sol_bounce(up, P, V, nt)))
+                        b = d;
 
-                            c--;
-                        }
-                        continue;
-                    }
-                    while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp, puttCollisions)))
-                    {
-                        sol_body_step(fp, nt);
-                        sol_swch_step(fp, nt);
-                        sol_ball_step(fp, nt);
-
-                        tt -= nt;
-
-                        if (b < (d = sol_bounce(up, P, V, nt)))
-                            b = d;
-
-                        c--;
-                    }
+                    c--;
                 }
 
                 /* Apply the ball's accelleration to the pendulum. */
