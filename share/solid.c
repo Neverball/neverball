@@ -1399,7 +1399,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
     int i, c = 16, originalui = ui;
 
     if (puttCollisions)
-        for (ui = 1; ui < howManyPlayers + 1; ui++) /* for loop now works, but, *sigh*, friction is not applied as strong as it should be.  ? */
+        for (ui = 1; ui < howManyPlayers + 1; ui++) /* for loop now works, but, *sigh*, game speed runs 2x normal.  ? */
         {
             if (ui < fp->uc)
             {
