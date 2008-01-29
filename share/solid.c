@@ -1399,7 +1399,8 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
     int i, c = 16, originalui = ui;
 
     if (puttCollisions)
-        /* for placed here instead of below causes undesired results.  ? */
+        for (ui = 1; ui < howManyPlayers + 1; ui++) /* for loop now works, but, *sigh*, friction is not applied as strong as it should be.  ? */
+        {
             if (ui < fp->uc)
             {
                 struct s_ball *up = fp->uv + ui;
@@ -1438,14 +1439,13 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                             up->v[1] = 0.0f;
                             up->v[2] = 0.0f;
 
-                            (*m)++;
+                            if(ui == originalui)
+                                (*m)++;
                         }
                     }
                     else v_mad(up->v, v, g, tt);
                 }
                 else v_mad(up->v, v, g, tt);
-        for (ui = 1; ui < howManyPlayers + 1; ui++)
-        {
 
                 /* Test for collision. */
 
