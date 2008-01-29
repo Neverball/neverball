@@ -32,6 +32,7 @@
 #define SMALL 1.0e-3f
 
 int currentui = -1;
+int ballflag = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -1279,6 +1280,7 @@ static float sol_test_lump(float dt,
             {
                 v_cpy(T, U);
                 t = u;
+                ballflag = i;
             }
         }
     }
@@ -1424,7 +1426,7 @@ static float sol_test_file(float dt,
 
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int puttCollisions, int howManyPlayers)
 {
-    float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
+    float P[3], V[3], v[3], r[3], a[3], d, d2, e, nt, b = 0.0f, tt = dt;
     int i, c = 16, originalui = ui;
 
     currentui = -1;
@@ -1432,7 +1434,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
         currentui = ui;
 
     if (puttCollisions)
-        for (ui = 1; ui < howManyPlayers + 1; ui++) /* for loop now works, but, *sigh*, game speed runs 2x normal.  ? */
+        for (ui = 1; ui < howManyPlayers + 1; ui++)
         {
             if (ui < fp->uc)
             {
@@ -1495,6 +1497,15 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
 
                     if (b < (d = sol_bounce(up, P, V, nt)))
                         b = d;
+
+                    if (ballflag)
+                    {
+                        struct s_ball *u2p = fp->uv + ballflag;
+                        d2 = sol_bounce(u2p, V, P, nt);
+                        b = (d2 > d) ? d2 : d;
+                    }
+
+                    ballflag = 0;
 
                     c--;
                 }
