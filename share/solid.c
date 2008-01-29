@@ -1277,7 +1277,7 @@ static float sol_test_lump(float dt,
         for (i = 1; i < currentplayers + 1; i++) 
         {
             struct s_ball *u2p = fp->uv + i;
-            if (ui == currentui)
+            if (i == currentui)
                 continue;
             if ((u = sol_test_ball(t, U, up, u2p, o, u2p->w)) < t)
             {
