@@ -1484,9 +1484,12 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
 
                 while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp, puttCollisions)))
                 {
-                    sol_body_step(fp, nt);
-                    sol_swch_step(fp, nt);
-                    sol_ball_step(fp, nt);
+                    if (ui == originalui)
+                    {
+                        sol_body_step(fp, nt);
+                        sol_swch_step(fp, nt);
+                        sol_ball_step(fp, nt);
+                    }
 
                     tt -= nt;
 
@@ -1503,9 +1506,12 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                 sol_pendulum(up, a, g, dt);
             }
 
-            sol_body_step(fp, tt);
-            sol_swch_step(fp, tt);
-            sol_ball_step(fp, tt);
+            if (ui == originalui)
+            {
+                sol_body_step(fp, nt);
+                sol_swch_step(fp, nt);
+                sol_ball_step(fp, nt);
+            }
         }
     else
         if (ui < fp->uc)
