@@ -1501,7 +1501,8 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                     if (ballflag)
                     {
                         struct s_ball *u2p = fp->uv + ballflag;
-                        d2 = sol_bounce(u2p, V, P, nt);
+                        v_inv(V, V);
+                        d2 = sol_bounce(u2p, P, V, nt); /* P is invalid.  ? */
                         b = (d2 > d) ? d2 : d;
                     }
 
