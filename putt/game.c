@@ -469,7 +469,7 @@ static int game_update_state(float dt)
 
     /* Test for a goal or stop. */
 
-    if (t > 1.f)
+    if (t > 1.f && !config_get_d(CONFIG_PUTT_COLLISIONS))
     {
         t = 0.f;
 
@@ -477,6 +477,26 @@ static int game_update_state(float dt)
             return GAME_GOAL;
         else
             return GAME_STOP;
+    }
+
+    else if (t > 1.f && config_get_d(CONFIG_PUTT_COLLISIONS))
+    {
+        t = 0.f;
+
+        switch (sol_collision_goal_test(fp, p, ball, curr_party()))
+        {
+            case 2:  /* The player's ball landed in the goal and the all of the other balls have stopped */
+                return GAME_GOAL;
+                break;
+            case 1:  /* All balls have stopped */
+                return GAME_STOP;
+                break;
+            case 0:  /* Game still running; there may be a ball that has not yet stopped */
+                return GAME_NONE;
+                break;
+            default: /* Should never reach this */
+                break;
+        }
     }
 
     return GAME_NONE;
@@ -539,7 +559,11 @@ int game_step(const float g[3], float dt)
 
         for (i = 0; i < n; i++)
         {
-            d = sol_step(fp, g, t, ball, &m, config_get_d(CONFIG_PUTT_COLLISIONS), curr_party());
+            int hole_collision_flag = 0;
+            d = sol_step(fp, g, t, ball, &m, config_get_d(CONFIG_PUTT_COLLISIONS), curr_party(), hole_collision_flag);
+
+            if (hole_collision_flag)
+                hole_collision_goal(hole_collision_flag);
 
             if (b < d)
                 b = d;

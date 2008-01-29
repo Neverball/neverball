@@ -293,6 +293,31 @@ void hole_goal(void)
         audio_music_fade_out(2.0f);
 }
 
+void hole_collision_goal(int playerid)
+{
+    if (score_v[hole][playerid] == 1)
+        audio_play(AUD_ONE, 1.0f);
+
+    else if (score_v[hole][playerid] == score_v[hole][0] - 2)
+        audio_play(AUD_EAGLE, 1.0f);
+    else if (score_v[hole][playerid] == score_v[hole][0] - 1)
+        audio_play(AUD_BIRDIE, 1.0f);
+    else if (score_v[hole][playerid] == score_v[hole][0])
+        audio_play(AUD_PAR, 1.0f);
+    else if (score_v[hole][playerid] == score_v[hole][0] + 1)
+        audio_play(AUD_BOGEY, 1.0f);
+    else if (score_v[hole][playerid] == score_v[hole][0] + 2)
+        audio_play(AUD_DOUBLE, 1.0f);
+    else
+        audio_play(AUD_SUCCESS, 1.0f);
+
+    stat_v[player] = 1;
+    done++;
+
+    if (done == party)
+        audio_music_fade_out(2.0f);
+}
+
 void hole_stop(void)
 {
     score_v[hole][player]++;

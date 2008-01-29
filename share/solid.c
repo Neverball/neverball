@@ -1506,9 +1506,10 @@ static float sol_test_file(float dt,
  * Deal with any goals or fall-outs
  */
 
-void sol_check_putt_balls(struct s_file *fp, struct s_ball *up, int puttCollisions)
+void sol_check_putt_balls(struct s_file *fp, struct s_ball *up, int puttCollisions, int ui, int *hole_collision_flag)
 {
     float z[3] = {0.0f, 0.0f, 0.0f};
+
     if (!puttCollisions)
         return;
 
@@ -1518,6 +1519,34 @@ void sol_check_putt_balls(struct s_file *fp, struct s_ball *up, int puttCollisio
         v_cpy(up->p, fp->uv->p);
         v_cpy(up->v, z);
         v_cpy(up->w, z);
+    }
+
+    /* If a ball stops in a hole, mark it as complete and drop it -20.0f to allow room for more balls */
+
+    if (!(up->v[0] > 0.0f || up->v[1] > 0.0f || up->v[2] > 0.0f || up->w[0] > 0.0f || up->w[1] > 0.0f || up->w[2] > 0.0f))
+    {
+        const float *ball_p = up->p;
+        const float  ball_r = up->r;
+        int zi;
+        for (zi = 0; zi < fp->zc; zi++)
+        {
+            float r[3];
+
+            r[0] = ball_p[0] - fp->zv[zi].p[0];
+            r[1] = ball_p[2] - fp->zv[zi].p[2];
+            r[2] = 0;
+
+            if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
+                ball_p[1] > fp->zv[zi].p[1] &&
+                ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
+            {
+                up->p[1] -= 20.0f;
+                v_cpy(up->v, z);
+                v_cpy(up->w, z);
+                if (puttCollisions && hole_collision_flag != NULL)
+                    *hole_collision_flag = ui - 1;
+            }
+        }
     }
 }
 
@@ -1531,7 +1560,8 @@ void sol_check_putt_balls(struct s_file *fp, struct s_ball *up, int puttCollisio
  * iterations, punt it.
  */
 
-float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int puttCollisions, int howManyPlayers)
+float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int puttCollisions,
+               int howManyPlayers, int *hole_collision_flag)
 {
     float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
     int c = 16, originalui = ui;
@@ -1629,7 +1659,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
             else
             {
                 struct s_ball *up = fp->uv + ui;
-                sol_check_putt_balls(fp, up, puttCollisions);
+                sol_check_putt_balls(fp, up, puttCollisions, ui, hole_collision_flag);
             }
         }
     else
@@ -1734,6 +1764,46 @@ struct s_item *sol_item_test(struct s_file *fp, float *p, float item_r)
         }
     }
     return NULL;
+}
+
+int sol_collision_goal_test(struct s_file *fp, float *p, int ui, int howManyPlayers)
+{
+    const float *ball_p = fp->uv[ui].p;
+    const float  ball_r = fp->uv[ui].r;
+    int zi, i;
+
+    for (i = 0; i < (4 < howManyPlayers) ? 4 : howManyPlayers; i++)
+    {
+        if (i <= howManyPlayers && (fp->uv[ui].w[0] > 0.0f ||
+                                    fp->uv[ui].w[1] > 0.0f ||
+                                    fp->uv[ui].w[2] > 0.0f ||
+                                    fp->uv[ui].v[0] > 0.0f ||
+                                    fp->uv[ui].v[1] > 0.0f ||
+                                    fp->uv[ui].v[2] > 0.0f))
+            return 0;
+    }
+
+    for (zi = 0; zi < fp->zc; zi++)
+    {
+        float r[3];
+
+        r[0] = ball_p[0] - fp->zv[zi].p[0];
+        r[1] = ball_p[2] - fp->zv[zi].p[2];
+        r[2] = 0;
+
+        if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
+            ball_p[1] > fp->zv[zi].p[1] &&
+            ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
+        {
+            p[0] = fp->zv[zi].p[0];
+            p[1] = fp->zv[zi].p[1] - 20.0f;
+            p[2] = fp->zv[zi].p[2];
+
+            return 2;
+        }
+    }
+
+    return 1;
 }
 
 struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
