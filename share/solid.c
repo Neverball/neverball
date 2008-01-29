@@ -1251,7 +1251,7 @@ static float sol_test_lump(float dt,
                            int puttCollisions)
 {
     float U[3] = {0.0f, 0.0f, 0.0f}; /* init value only to avoid gcc warnings */
-    float u, t = dt;
+    float u, u2, t = dt;
     int i;
 
     /* Short circuit a non-solid lump. */
@@ -1286,8 +1286,38 @@ static float sol_test_lump(float dt,
             {
                 v_cpy(T, U);
                 ballflag = i;
-                sol_bounce(u2p, up->p, w, t);
+                u2 = sol_test_ball(t, U, u2p, up, o, up->w);
+                sol_bounce(u2p, U, u2p->w, u2);
                 t = u;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         }
     }
