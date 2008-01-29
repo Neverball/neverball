@@ -1518,7 +1518,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                     }
 
                     ballflag = 0;
-*//
+*/
                     c--;
                 }
 
