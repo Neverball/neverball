@@ -1501,7 +1501,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                     if (ballflag)
                     {
                         struct s_ball *u2p = fp->uv + ballflag;
-                        nt = sol_test_file(tt, P, V, u2p, fp, puttCollisions);
+                        nt = sol_test_file(tt + nt, P, V, u2p, fp, puttCollisions);
                         d2 = sol_bounce(u2p, P, V, nt);
                         b = (d2 > d) ? d2 : d;
                     }
