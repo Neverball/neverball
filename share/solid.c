@@ -1287,7 +1287,7 @@ static float sol_test_lump(float dt,
                 v_cpy(T, U);
                 ballflag = i;
                 v_cpy(vV, up->v);
-                sol_bounce(u2p, up->p, vV, u - t);
+                u2 = sol_bounce(u2p, up->p, vV, u - t);
                 t = u;
 
 
@@ -1503,6 +1503,27 @@ static float sol_test_file(float dt,
 /*---------------------------------------------------------------------------*/
 
 /*
+ * Deal with any goals or fall-outs
+ */
+
+void sol_check_putt_balls(struct s_file *fp, struct s_ball *up, int puttCollisions)
+{
+    float z[3] = {0.0f, 0.0f, 0.0f};
+    if (!puttCollisions)
+        return;
+
+    /* If a ball falls out, return the ball to the camera marker */
+    if (up->p[1] < -10.f)
+    {
+        v_cpy(up->p, fp->uv->p);
+        v_cpy(up->v, z);
+        v_cpy(up->w, z);
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+/*
  * Step the physics forward DT  seconds under the influence of gravity
  * vector G.  If the ball gets pinched between two moving solids, this
  * loop might not terminate.  It  is better to do something physically
@@ -1512,8 +1533,8 @@ static float sol_test_file(float dt,
 
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int puttCollisions, int howManyPlayers)
 {
-    float P[3], V[3], T[3], v[3], r[3], a[3], d, d2, e, nt, b = 0.0f, tt = dt;
-    int i, c = 16, originalui = ui;
+    float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
+    int c = 16, originalui = ui;
 
     currentui = -1;
     if (puttCollisions)
@@ -1587,17 +1608,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
 
                     if (b < (d = sol_bounce(up, P, V, nt)))
                         b = d;
-/*
-                    if (ballflag)
-                    {
-                        struct s_ball *u2p = fp->uv + ballflag;
-                        nt = sol_test_file(tt, P, V, u2p, fp, puttCollisions);
-                        d2 = sol_bounce(u2p, P, V, nt);
-                        b = (d2 > d) ? d2 : d;
-                    }
 
-                    ballflag = 0;
-*/
                     c--;
                 }
 
@@ -1613,6 +1624,12 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
                 sol_ball_step(fp, nt);
+            }
+
+            else
+            {
+                struct s_ball *up = fp->uv + ui;
+                sol_check_putt_balls(fp, up, puttCollisions);
             }
         }
     else
