@@ -1244,7 +1244,7 @@ static float sol_test_lump(float dt,
 
     if (puttCollisions && up->r > 0.0f)
     {
-        if ((u = sol_test_ball(t, U, up, u2p, o, w)) < t)
+        if ((u = sol_test_ball(t, U, up, u2p, o, u2p->w)) < t)
         {
             v_cpy(T, U);
             t = u;
