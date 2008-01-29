@@ -31,8 +31,9 @@
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
 
-int currentui = -1;
-int ballflag = 0;
+int currentui      = -1; 
+int currentplayers = -1; 
+int ballflag       =  0; 
 
 /*---------------------------------------------------------------------------*/
 
@@ -1273,9 +1274,11 @@ static float sol_test_lump(float dt,
 
     if (puttCollisions && up->r > 0.0f)
     {
-        for (i = 1; i < fp->uc + 1; i++)
+        for (i = 1; i < currentplayers + 1; i++) 
         {
             struct s_ball *u2p = fp->uv + i;
+            if (ui == currentui)
+                continue;
             if ((u = sol_test_ball(t, U, up, u2p, o, u2p->w)) < t)
             {
                 v_cpy(T, U);
@@ -1432,6 +1435,10 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
     currentui = -1;
     if (puttCollisions)
         currentui = ui;
+
+    currentplayers = -1; 
+    if (puttCollisions) 
+        currentplayers = howManyPlayers; 
 
     if (puttCollisions)
         for (ui = 1; ui < howManyPlayers + 1; ui++)
