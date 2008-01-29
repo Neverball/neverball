@@ -31,9 +31,9 @@
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
 
-int currentui      = -1; 
-int currentplayers = -1; 
-int ballflag       =  0; 
+int currentui      = -1;
+int currentplayers = -1;
+int ballflag       =  0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -807,7 +807,9 @@ static float v_ball(float Q[3],
         if (t < LARGE)
             v_mad(Q, O, w, t);
     }
+
     return t;
+
 }
 
 /*
@@ -1274,16 +1276,18 @@ static float sol_test_lump(float dt,
 
     if (puttCollisions && up->r > 0.0f)
     {
-        for (i = 1; i < currentplayers + 1; i++) 
+        for (i = 1; i < currentplayers + 1; i++)
         {
             struct s_ball *u2p = fp->uv + i;
-            if (i == currentui)
+            struct s_ball *u3p = fp->uv + currentui;
+            if(i == currentui)
                 continue;
             if ((u = sol_test_ball(t, U, up, u2p, o, u2p->w)) < t)
             {
                 v_cpy(T, U);
-                t = u;
                 ballflag = i;
+                sol_bounce(u2p, up->p, w, t);
+                t = u;
             }
         }
     }
@@ -1429,16 +1433,16 @@ static float sol_test_file(float dt,
 
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int puttCollisions, int howManyPlayers)
 {
-    float P[3], V[3], v[3], r[3], a[3], d, d2, e, nt, b = 0.0f, tt = dt;
+    float P[3], V[3], T[3], v[3], r[3], a[3], d, d2, e, nt, b = 0.0f, tt = dt;
     int i, c = 16, originalui = ui;
 
     currentui = -1;
     if (puttCollisions)
         currentui = ui;
 
-    currentplayers = -1; 
-    if (puttCollisions) 
-        currentplayers = howManyPlayers; 
+    currentplayers = -1;
+    if (puttCollisions)
+        currentplayers = howManyPlayers;
 
     if (puttCollisions)
         for (ui = 1; ui < howManyPlayers + 1; ui++)
@@ -1504,17 +1508,17 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
 
                     if (b < (d = sol_bounce(up, P, V, nt)))
                         b = d;
-
+/*
                     if (ballflag)
                     {
                         struct s_ball *u2p = fp->uv + ballflag;
-                        v_inv(V, V);
-                        d2 = sol_bounce(u2p, P, V, nt); /* P is invalid.  ? */
+                        nt = sol_test_file(tt, P, V, u2p, fp, puttCollisions);
+                        d2 = sol_bounce(u2p, P, V, nt);
                         b = (d2 > d) ? d2 : d;
                     }
 
                     ballflag = 0;
-
+*/
                     c--;
                 }
 
