@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -8209,48 +8210,24 @@
 // entity 97
 {
 "classname" "light"
-"origin" "-960 -328 1272"
-"light" "5"
-}
-// entity 98
-{
-"classname" "light"
 "origin" "-960 -192 1120"
 "light" "10"
 }
-// entity 99
+// entity 98
 {
 "classname" "light"
 "origin" "-632 0 1272"
 "light" "5"
 }
-// entity 100
-{
-"classname" "light"
-"origin" "-960 328 1272"
-"light" "5"
-}
-// entity 101
+// entity 99
 {
 "classname" "light"
 "origin" "-1288 0 1272"
 "light" "5"
 }
-// entity 102
-{
-"classname" "light"
-"origin" "-768 0 1120"
-"light" "10"
-}
-// entity 103
+// entity 100
 {
 "classname" "light"
 "origin" "-960 192 1120"
-"light" "10"
-}
-// entity 104
-{
-"classname" "light"
-"origin" "-1152 0 1120"
 "light" "10"
 }
