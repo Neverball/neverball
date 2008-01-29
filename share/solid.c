@@ -1282,12 +1282,11 @@ static float sol_test_lump(float dt,
             struct s_ball *u3p = fp->uv + currentui;
             if(i == currentui)
                 continue;
-            if ((u = sol_test_ball(t, U, up, u2p, o, u2p->w)) < t)
+            if ((u = sol_test_ball(t, U, up, u2p, o, u2p->v)) < t)
             {
                 v_cpy(T, U);
                 ballflag = i;
-                u2 = sol_test_ball(t, U, u2p, up, o, up->w);
-                sol_bounce(u2p, up->p, u2p->w, t-u2);
+                sol_bounce(u2p, up->p, u2p->v, t);
                 t = u;
 
 
