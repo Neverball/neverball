@@ -1285,9 +1285,9 @@ static float sol_test_lump(float dt,
             if ((u = sol_test_ball(t, U, up, u2p, o, u2p->w)) < t)
             {
                 v_cpy(T, U);
-                ballflag = i;
-                sol_bounce(u2p, T, w, t);
                 t = u;
+                ballflag = i;
+                sol_bounce(u2p, up->p, w, t);
             }
         }
     }
