@@ -1285,8 +1285,9 @@ static float sol_test_lump(float dt,
             if ((u = sol_test_ball(t, U, up, u2p, o, u2p->w)) < t)
             {
                 v_cpy(T, U);
-                t = u;
                 ballflag = i;
+                sol_bounce(u2p, T, w, t);
+                t = u;
             }
         }
     }
@@ -1507,7 +1508,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
 
                     if (b < (d = sol_bounce(up, P, V, nt)))
                         b = d;
-
+/*
                     if (ballflag)
                     {
                         struct s_ball *u2p = fp->uv + ballflag;
@@ -1517,7 +1518,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                     }
 
                     ballflag = 0;
-
+*/
                     c--;
                 }
 
