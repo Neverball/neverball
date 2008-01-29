@@ -806,7 +806,9 @@ static float v_ball(float Q[3],
         if (t < LARGE)
             v_mad(Q, O, w, t);
     }
+
     return t;
+
 }
 
 /*
@@ -1426,7 +1428,7 @@ static float sol_test_file(float dt,
 
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int puttCollisions, int howManyPlayers)
 {
-    float P[3], V[3], v[3], r[3], a[3], d, d2, e, nt, b = 0.0f, tt = dt;
+    float P[3], V[3], T[3], v[3], r[3], a[3], d, d2, e, nt, b = 0.0f, tt = dt;
     int i, c = 16, originalui = ui;
 
     currentui = -1;
@@ -1501,7 +1503,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                     if (ballflag)
                     {
                         struct s_ball *u2p = fp->uv + ballflag;
-                        nt = sol_test_file(tt + nt, P, V, u2p, fp, puttCollisions);
+                        nt = v_ball(T, P, up->p, up->w, up->p, u2p->v, u2p->r, up->r);
                         d2 = sol_bounce(u2p, P, V, nt);
                         b = (d2 > d) ? d2 : d;
                     }
