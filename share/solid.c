@@ -31,7 +31,8 @@
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
 
-int currentui = -1;
+int currentui      = -1;
+int currentplayers = -1;
 
 /*---------------------------------------------------------------------------*/
 
@@ -756,6 +757,31 @@ static float v_vert(float Q[3],
     return t;
 }
 
+
+static float v_vert2(float Q[3],
+                    const float o[3],
+                    const float q[3],
+                    const float w[3],
+                    const float p[3],
+                    const float v[3], float r, float r2)
+{
+    float O[3], P[3], V[3];
+    float t = LARGE;
+
+    v_add(O, o, q);
+    v_sub(P, p, O);
+    v_sub(V, v, w);
+
+    if (v_dot(P, V) < 0.0f)
+    {
+        t = v_sol(P, V, r);
+
+        if (t < LARGE)
+            v_mad(Q, O, w, t);
+    }
+    return t;
+}
+
 /*
  * Compute the  earliest time  and position of  the intersection  of a
  * sphere and an edge.
@@ -1068,11 +1094,11 @@ static float sol_test_vert(float dt,
 static float sol_test_ball(float dt,
                            float T[3],
                            const struct s_ball  *up,
-                           const struct s_ball *u2p,
+                           const struct s_ball  *u2p,
                            const float o[3],
                            const float w[3])
 {
-    return v_vert(T, o, u2p->p, w, up->p, up->v, up->r);
+    return v_vert2(T, o, u2p->p, w, up->p, up->v, up->r, u2p->r);
 }
 
 static float sol_test_edge(float dt,
@@ -1196,7 +1222,7 @@ static float sol_test_lump(float dt,
 {
     float U[3] = {0.0f, 0.0f, 0.0f}; /* init value only to avoid gcc warnings */
     float u, t = dt;
-    int i, j;
+    int i;
 
     /* Short circuit a non-solid lump. */
 
@@ -1220,7 +1246,7 @@ static float sol_test_lump(float dt,
 
     if (puttCollisions && up->r > 0.0f)
     {
-        for (i = 0; i < 4; i++)
+        for (i = 0; i < currentplayers; i++)
         {
             const struct s_ball *u2p = fp->uv + i;
             if (currentui == i)
@@ -1372,7 +1398,7 @@ static float sol_test_file(float dt,
  * iterations, punt it.
  */
 
-float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int puttCollisions)
+float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int puttCollisions, int howManyPlayers)
 {
     float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
     int c = 16;
@@ -1380,6 +1406,10 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
     currentui = -1;
     if (puttCollisions)
         currentui = ui;
+
+    currentplayers = -1;
+    if (puttCollisions)
+        currentplayers = howManyPlayers;
 
     if (ui < fp->uc)
     {
