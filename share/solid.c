@@ -1411,7 +1411,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                 v_cpy(v, up->v);
                 v_cpy(up->v, g);
 
-                if (m && sol_test_file(tt, P, V, up, up, fp, puttCollisions) < 0.0005f)
+                if (m && sol_test_file(tt, P, V, up, up, fp, 0) < 0.0005f)
                 {
                     v_cpy(up->v, v);
                     v_sub(r, P, up->p);
@@ -1453,7 +1453,22 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                 {
                     struct s_ball *u2p = fp->uv + i;
                     if(ui == i)
+                    {
+                        while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, up, fp, 0)))
+                        {
+                            sol_body_step(fp, nt);
+                            sol_swch_step(fp, nt);
+                            sol_ball_step(fp, nt);
+
+                            tt -= nt;
+
+                            if (b < (d = sol_bounce(up, P, V, nt)))
+                                b = d;
+
+                            c--;
+                        }
                         continue;
+                    }
                     while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, u2p, fp, puttCollisions)))
                     {
                         sol_body_step(fp, nt);
