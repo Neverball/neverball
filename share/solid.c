@@ -1279,6 +1279,9 @@ static float sol_test_lump(float dt,
         for (i = 1; i < currentplayers + 1; i++)
         {
             struct s_ball *u2p = fp->uv + i;
+            struct s_ball *u3p = fp->uv + currentui;
+            if(i == currentui)
+                continue;
             if ((u = sol_test_ball(t, U, up, u2p, o, u2p->w)) < t)
             {
                 v_cpy(T, U);
@@ -1508,7 +1511,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                     if (ballflag)
                     {
                         struct s_ball *u2p = fp->uv + ballflag;
-                        nt = v_ball(T, P, up->p, up->w, up->p, u2p->v, u2p->r, up->r);
+                        nt = sol_test_file(tt, P, V, u2p, fp, puttCollisions);
                         d2 = sol_bounce(u2p, P, V, nt);
                         b = (d2 > d) ? d2 : d;
                     }
