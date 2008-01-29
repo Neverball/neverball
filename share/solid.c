@@ -1287,7 +1287,7 @@ static float sol_test_lump(float dt,
                 v_cpy(T, U);
                 ballflag = i;
                 u2 = sol_test_ball(t, U, u2p, up, o, up->w);
-                sol_bounce(u2p, U, u2p->w, u2);
+                sol_bounce(u2p, up->p, u2p->w, t-u2);
                 t = u;
 
 
@@ -1296,6 +1296,55 @@ static float sol_test_lump(float dt,
 
 
 
+
+
+
+
+
+
+
+
+
+/* (b < (d = sol_bounce(up, P, V, nt))) 8/
+
+
+
+/8---------------------------------------------------------------------------8/
+
+static float sol_test_ball(float dt,
+                           float T[3],
+                           const struct s_ball  *up,
+                           const struct s_ball  *u2p,
+                           const float o[3],
+                           const float w[3])
+{
+    return v_ball(T, o, u2p->p, w, up->p, up->v, up->r, u2p->r);
+}
+
+
+
+
+
+
+
+
+
+/8---------------------------------------------------------------------------8/
+
+/8
+ * Compute the  earliest time  and position of  the intersection  of a
+ * sphere and a vertex.
+ *
+ * The sphere has radius R and moves along vector V from point P.  The
+ * vertex moves  along vector  W from point  Q in a  coordinate system
+ * based at O.
+ 8/
+static float v_vert(float Q[3],
+                    const float o[3],
+                    const float q[3],
+                    const float w[3],
+                    const float p[3],
+                    const float v[3], float r)*/
 
 
 
