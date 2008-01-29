@@ -1279,14 +1279,13 @@ static float sol_test_lump(float dt,
         for (i = 1; i < currentplayers + 1; i++)
         {
             struct s_ball *u2p = fp->uv + i;
-            struct s_ball *u3p = fp->uv + currentui;
             if(i == currentui)
                 continue;
             if ((u = sol_test_ball(t, U, up, u2p, o, u2p->v)) < t)
             {
                 v_cpy(T, U);
                 ballflag = i;
-                sol_bounce(u2p, up->p, u2p->v, t);
+                sol_bounce(u2p, up->p, u2p->v, u - t);
                 t = u;
 
 
