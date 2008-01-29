@@ -479,16 +479,16 @@ static int game_update_state(float dt)
             return GAME_STOP;
     }
 
-    else if (t > 1.f && config_get_d(CONFIG_PUTT_COLLISIONS))
+    if (config_get_d(CONFIG_PUTT_COLLISIONS))
     {
-        t = 0.f;
-
         switch (sol_collision_goal_test(fp, p, ball, curr_party()))
         {
             case 2:  /* The player's ball landed in the goal and the all of the other balls have stopped */
+                t = 0.f;
                 return GAME_GOAL;
                 break;
             case 1:  /* All balls have stopped */
+                t = 0.f;
                 return GAME_STOP;
                 break;
             case 0:  /* Game still running; there may be a ball that has not yet stopped */

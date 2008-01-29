@@ -1514,7 +1514,7 @@ void sol_check_putt_balls(struct s_file *fp, struct s_ball *up, int puttCollisio
         return;
 
     /* If a ball falls out, return the ball to the camera marker */
-    if (up->p[1] < -10.f)
+    if (up->p[1] < -10.f && !(up->p[1] > 19.9f && up->p[1] < 21.1f))
     {
         v_cpy(up->p, fp->uv->p);
         v_cpy(up->v, z);
@@ -1770,17 +1770,19 @@ int sol_collision_goal_test(struct s_file *fp, float *p, int ui, int howManyPlay
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
+    float z[3] = {0.0f, 0.0f, 0.0f};
     int zi, i;
 
-    for (i = 0; i < (4 < howManyPlayers) ? 4 : howManyPlayers; i++)
+    for (i = 0; i < howManyPlayers && i < 4; i++)
     {
-        if (i <= howManyPlayers && (fp->uv[ui].w[0] > 0.0f ||
-                                    fp->uv[ui].w[1] > 0.0f ||
-                                    fp->uv[ui].w[2] > 0.0f ||
-                                    fp->uv[ui].v[0] > 0.0f ||
-                                    fp->uv[ui].v[1] > 0.0f ||
-                                    fp->uv[ui].v[2] > 0.0f))
+        if (i <= howManyPlayers && (v_len(fp->uv[i + 1].v) > 0.0f))
             return 0;
+        else
+            v_cpy(fp->uv[i + 1].v, z);
+    }
+
+    for (i = 0; i < howManyPlayers && i < 4; i++)
+    {
     }
 
     for (zi = 0; zi < fp->zc; zi++)
@@ -1796,7 +1798,7 @@ int sol_collision_goal_test(struct s_file *fp, float *p, int ui, int howManyPlay
             ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
         {
             p[0] = fp->zv[zi].p[0];
-            p[1] = fp->zv[zi].p[1] - 20.0f;
+            p[1] = -20.0f;
             p[2] = fp->zv[zi].p[2];
 
             return 2;
