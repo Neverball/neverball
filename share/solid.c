@@ -1395,7 +1395,7 @@ static float sol_test_file(float dt,
 
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int puttCollisions, int howManyPlayers)
 {
-    float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
+    float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tnt = dt, tt = dt;
     int i, c = 16, originalui = ui;
 
     if (puttCollisions)
@@ -1411,7 +1411,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                 v_cpy(v, up->v);
                 v_cpy(up->v, g);
 
-                if (m && sol_test_file(tt, P, V, up, up, fp, puttCollisions) < 0.0005f)
+                if (m && sol_test_file(tt, P, V, up, up, fp, 0) < 0.0005f)
                 {
                     v_cpy(up->v, v);
                     v_sub(r, P, up->p);
@@ -1454,8 +1454,9 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                     struct s_ball *u2p = fp->uv + i;
                     if(ui == i)
                         continue;
-                    while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, u2p, fp, puttCollisions)))
+                    while (tt > (tnt = sol_test_file(tt, P, V, up, u2p, fp, puttCollisions)) && c > 0 && tt > 0)
                     {
+                        nt = tnt;
                         sol_body_step(fp, nt);
                         sol_swch_step(fp, nt);
                         sol_ball_step(fp, nt);
