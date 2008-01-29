@@ -1285,7 +1285,7 @@ static float sol_test_lump(float dt,
             {
                 v_cpy(T, U);
                 ballflag = i;
-                sol_bounce(u2p, up->p, u2p->v, u - t);
+                sol_bounce(u2p, up->p, up->v, u - t);
                 t = u;
 
 
