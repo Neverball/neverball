@@ -1459,7 +1459,7 @@ void sol_check_putt_balls(struct s_file *fp, struct s_ball *up, int puttCollisio
 
     /* If a ball stops in a hole, mark it as complete and drop it -200.0f to allow room for more balls */
 
-    if (!isPlayerBall && v_len(up->v) > 0.0f && !(up->v[0] > 0.0f || up->v[1] > 0.0f || up->v[2] > 0.0f || up->w[0] > 0.0f || up->w[1] > 0.0f || up->w[2] > 0.0f))
+    if (!isPlayerBall && !(v_len(up->v) > 0.0f) && !(up->v[0] > 0.0f || up->v[1] > 0.0f || up->v[2] > 0.0f || up->w[0] > 0.0f || up->w[1] > 0.0f || up->w[2] > 0.0f))
     {
         const float *ball_p = up->p;
         const float  ball_r = up->r;
