@@ -1567,8 +1567,8 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                     {
                         sol_body_step(fp, nt);
                         sol_swch_step(fp, nt);
+                        sol_ball_step(fp, nt);
                     }
-                    sol_ball_step(fp, nt);
 
                     tt -= nt;
 
