@@ -500,7 +500,7 @@ static int game_update_state(float dt)
 
     /* Test for a goal or stop. */
 
-    if (t > 1.f && !config_get_d(CONFIG_PUTT_COLLISIONS))
+    if (t > 1.0f && !config_get_d(CONFIG_PUTT_COLLISIONS))
     {
         t = 0.f;
 
@@ -510,7 +510,7 @@ static int game_update_state(float dt)
             return GAME_STOP;
     }
 
-    if (config_get_d(CONFIG_PUTT_COLLISIONS))
+    if (config_get_d(CONFIG_PUTT_COLLISIONS) && t > 1.0f)
     {
         switch (sol_collision_goal_test(fp, p, ball, curr_party()))
         {
