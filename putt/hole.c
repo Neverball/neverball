@@ -311,7 +311,7 @@ void hole_collision_goal(int playerid)
     else
         audio_play(AUD_SUCCESS, 1.0f);
 
-    stat_v[player] = 1;
+    stat_v[playerid] = 1;
     done++;
 
     if (done == party)

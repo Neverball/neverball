@@ -610,7 +610,7 @@ int game_step(const float g[3], float dt)
         for (i = 0; i < n; i++)
         {
             int hole_collision_flag = 0;
-            d = sol_step(fp, g, t, ball, &m, config_get_d(CONFIG_PUTT_COLLISIONS), curr_party(), hole_collision_flag);
+            d = sol_step(fp, g, t, ball, &m, config_get_d(CONFIG_PUTT_COLLISIONS), curr_party(), &hole_collision_flag);
 
             if (hole_collision_flag)
                 hole_collision_goal(hole_collision_flag);

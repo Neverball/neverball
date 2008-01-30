@@ -1443,7 +1443,7 @@ void sol_check_putt_balls(struct s_file *fp, struct s_ball *up, int puttCollisio
         return;
 
     /* If a ball falls out, return the ball to the camera marker */
-    if (!isPlayerBall && up->p[1] < -10.f && !(up->p[1] > 19.9f && up->p[1] < 21.1f))
+    if (!isPlayerBall && up->p[1] < -10.f  && up->p[1] > -199.9f)
     {
         v_cpy(up->p, fp->uv->p);
         v_cpy(up->v, z);
@@ -1457,9 +1457,9 @@ void sol_check_putt_balls(struct s_file *fp, struct s_ball *up, int puttCollisio
         v_cpy(up->w, z);
     }
 
-    /* If a ball stops in a hole, mark it as complete and drop it -20.0f to allow room for more balls */
+    /* If a ball stops in a hole, mark it as complete and drop it -200.0f to allow room for more balls */
 
-    if (!isPlayerBall && !(up->v[0] > 0.0f || up->v[1] > 0.0f || up->v[2] > 0.0f || up->w[0] > 0.0f || up->w[1] > 0.0f || up->w[2] > 0.0f))
+    if (!isPlayerBall && v_len(up->v) > 0.0f && !(up->v[0] > 0.0f || up->v[1] > 0.0f || up->v[2] > 0.0f || up->w[0] > 0.0f || up->w[1] > 0.0f || up->w[2] > 0.0f))
     {
         const float *ball_p = up->p;
         const float  ball_r = up->r;
@@ -1476,11 +1476,11 @@ void sol_check_putt_balls(struct s_file *fp, struct s_ball *up, int puttCollisio
                 ball_p[1] > fp->zv[zi].p[1] &&
                 ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
             {
-                up->p[1] -= 20.0f;
+                up->p[1] = -200.0f;
                 v_cpy(up->v, z);
                 v_cpy(up->w, z);
                 if (puttCollisions && hole_collision_flag != NULL)
-                    *hole_collision_flag = ui - 1;
+                    *hole_collision_flag = ui;
             }
         }
     }
@@ -1711,14 +1711,12 @@ int sol_collision_goal_test(struct s_file *fp, float *p, int ui, int howManyPlay
 
     for (i = 0; i < howManyPlayers && i < 4; i++)
     {
+        if(fp->uv[i + 1].p[1] < -199.9f)
+            v_cpy(fp->uv[i + 1].v, z);
         if (i <= howManyPlayers && (v_len(fp->uv[i + 1].v) > 0.0f))
             return 0;
         else
             v_cpy(fp->uv[i + 1].v, z);
-    }
-
-    for (i = 0; i < howManyPlayers && i < 4; i++)
-    {
     }
 
     for (zi = 0; zi < fp->zc; zi++)
@@ -1734,7 +1732,7 @@ int sol_collision_goal_test(struct s_file *fp, float *p, int ui, int howManyPlay
             ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
         {
             p[0] = fp->zv[zi].p[0];
-            p[1] = -20.0f;
+            p[1] = -200.0f;
             p[2] = fp->zv[zi].p[2];
 
             return 2;
