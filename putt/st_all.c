@@ -239,7 +239,7 @@ static void title_paint(int id, float st)
 
 static void title_timer(int id, float dt)
 {
-    float g[3] = { 0.f, 0.f, 0.f };
+    float g[3] = { 0.0f, -9.8f, 0.0f };
 
     game_step(g, dt);
     game_set_fly(fcosf(time_state() / 10.f));
@@ -891,7 +891,7 @@ static void stroke_paint(int id, float st)
 
 static void stroke_timer(int id, float dt)
 {
-    float g[3] = { 0.f, 0.f, 0.f };
+    float g[3] = { 0.0f, -9.8f, 0.0f };
 
     float k;
 

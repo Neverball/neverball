@@ -331,7 +331,7 @@ void  sol_free(struct s_file *);
 float sol_step(struct s_file *, const float *, float, int, int *, int, int, int *);
 
 int   sol_jump_test(struct s_file *, float *, int);
-int   sol_swch_test(struct s_file *, int);
+int   sol_swch_test(struct s_file *, int, int);
 
 struct s_goal *sol_goal_test(struct s_file *, float *, int);
 int  sol_collision_goal_test(struct s_file *, float *, int, int);

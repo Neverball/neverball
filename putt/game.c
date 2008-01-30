@@ -46,6 +46,7 @@ static float view_e[3][3];              /* Current view orientation          */
 
 static float jump_e = 1;                /* Jumping enabled flag              */
 static float jump_b = 0;                /* Jump-in-progress flag             */
+static int   jump_u = 0;                /* Which ball is jumping?            */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 
@@ -450,10 +451,10 @@ static int game_update_state(float dt)
 
     if(config_get_d(CONFIG_PUTT_COLLISIONS))
         for (i = 1; i < curr_party() + 1; i++)
-            if (sol_swch_test(fp, i))
+            if (sol_swch_test(fp, i, config_get_d(CONFIG_PUTT_COLLISIONS)))
                 audio_play(AUD_SWITCH, 1.f);
     else
-        if (sol_swch_test(fp, i))
+        if (sol_swch_test(fp, i, config_get_d(CONFIG_PUTT_COLLISIONS)))
             audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
@@ -467,11 +468,15 @@ static int game_update_state(float dt)
                 jump_b  = 1;
                 jump_e  = 0;
                 jump_dt = 0.f;
+                jump_u  = i;
 
                 audio_play(AUD_JUMP, 1.f);
             }
             if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, i) == 0)
+            {
                 jump_e = 1;
+                jump_u  = i;
+            }
         }
     }
     else
@@ -560,18 +565,37 @@ int game_step(const float g[3], float dt)
 
     if (jump_b)
     {
-        jump_dt += dt;
-
-        /* Handle a jump. */
-
-        if (0.5 < jump_dt)
+        if (config_get_d(CONFIG_PUTT_COLLISIONS))
         {
-            fp->uv[ball].p[0] = jump_p[0];
-            fp->uv[ball].p[1] = jump_p[1];
-            fp->uv[ball].p[2] = jump_p[2];
+            jump_dt += dt;
+
+            /* Handle a jump. */
+
+            if (0.5 < jump_dt)
+            {
+                fp->uv[jump_u].p[0] = jump_p[0];
+                fp->uv[jump_u].p[1] = jump_p[1];
+                fp->uv[jump_u].p[2] = jump_p[2];
+            }
+            if (1.f < jump_dt)
+                jump_b = 0;
         }
-        if (1.f < jump_dt)
-            jump_b = 0;
+
+        else
+        {
+            jump_dt += dt;
+
+            /* Handle a jump. */
+
+            if (0.5 < jump_dt)
+            {
+                fp->uv[ball].p[0] = jump_p[0];
+                fp->uv[ball].p[1] = jump_p[1];
+                fp->uv[ball].p[2] = jump_p[2];
+            }
+            if (1.f < jump_dt)
+                jump_b = 0;
+        }
     }
     else
     {

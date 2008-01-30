@@ -1030,7 +1030,7 @@ static int game_update_state(int bt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, 0))
+    if (sol_swch_test(fp, 0, 0))
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
