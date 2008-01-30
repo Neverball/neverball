@@ -731,7 +731,7 @@ static float v_sol2(const float p[3], const float v[3], float r, float r2)
 {
     float a = v_dot(v, v);
     float b = v_dot(v, p) * 2.0f;
-    float c = v_dot(p, p) - r * r;
+    float c = v_dot(p, p) - r * r - r2 *r2;
     float d = b * b - 4.0f * a * c;
 
 /* HACK: This seems to cause failures to detect low-velocity collision
@@ -1288,12 +1288,14 @@ static float sol_test_lump(float dt,
                 ballflag = i;
                 v_cpy(vV, up->v);
                 v_scl(vV, vV, 0.75f);
+
                 /* Ensure huge hits don't bounce the victom ball */
                 if (!(up->p[1] - u2p->p[1] > 0.05f) && !(u2p->p[1] - up->p[1] > 0.05f)) 
                 {
                     vV[1] = 0.0f;  
                     u2p->p[1] = up->p[1];
                 }
+
                 u2 = sol_bounce(u2p, up->p, vV, u - t);
                 t = u;
             }
