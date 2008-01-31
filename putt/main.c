@@ -269,7 +269,7 @@ int main(int argc, char *argv[])
                         if ((t1 = SDL_GetTicks()) > t0)
                         {
                             st_timer((t1 - t0) / 1000.f);
-                            st_paint();
+                            st_paint(0.001f * t1);
                             SDL_GL_SwapBuffers();
 
                             t0 = t1;

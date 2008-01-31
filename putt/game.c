@@ -156,7 +156,8 @@ static void game_draw_vect(const struct s_file *fp)
     }
 }
 
-static void game_draw_balls(const struct s_file *fp, const float *bill_M)
+static void game_draw_balls(const struct s_file *fp,
+                            const float *bill_M, float t)
 {
     static const GLfloat color[5][4] = {
         { 1.0f, 1.0f, 1.0f, 0.7f },
@@ -188,7 +189,7 @@ static void game_draw_balls(const struct s_file *fp, const float *bill_M)
                          fp->uv[ui].r);
 
                 glColor4fv(color[ui]);
-                ball_draw(ball_M, pend_M, bill_M);
+                ball_draw(ball_M, pend_M, bill_M, t);
             }
             glPopMatrix();
         }
@@ -272,7 +273,7 @@ static void game_draw_swchs(const struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-void game_draw(int pose)
+void game_draw(int pose, float t)
 {
     static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
     static const float s[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -285,7 +286,9 @@ void game_draw(int pose)
 
     float fov = FOV;
 
-    if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
+    if (jump_b &&  config_get_d(CONFIG_PUTT_COLLISIONS)) fov /= 2.0f * fabsf(jump_dt - 0.5f);
+
+    if (jump_b && !config_get_d(CONFIG_PUTT_COLLISIONS)) fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
     config_push_persp(fov, 0.1f, FAR_DIST);
     glPushAttrib(GL_LIGHTING_BIT);
@@ -335,7 +338,7 @@ void game_draw(int pose)
 
         if (pose == 0)
         {
-            game_draw_balls(fp, T);
+            game_draw_balls(fp, T, t);
             game_draw_vect(fp);
         }
 

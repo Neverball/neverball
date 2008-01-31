@@ -198,9 +198,9 @@ static int play_loop_enter(void)
     return id;
 }
 
-static void play_loop_paint(int id, float st)
+static void play_loop_paint(int id, float t)
 {
-    game_draw(0, st);
+    game_draw(0, t);
 
     if (show_hud)
         hud_paint();
@@ -378,9 +378,9 @@ static void look_leave(int id)
 {
 }
 
-static void look_paint(int id, float st)
+static void look_paint(int id, float t)
 {
-    game_draw(0, st);
+    game_draw(0, t);
 }
 
 static void look_point(int id, int x, int y, int dx, int dy)

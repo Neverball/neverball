@@ -26,9 +26,9 @@ void shared_leave(int id)
     gui_delete(id);
 }
 
-void shared_paint(int id, float st)
+void shared_paint(int id, float t)
 {
-    game_draw(0, st);
+    game_draw(0, t);
     gui_paint(id);
 }
 

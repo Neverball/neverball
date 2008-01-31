@@ -52,9 +52,9 @@ int goto_state(struct state *st)
 
 /*---------------------------------------------------------------------------*/
 
-void st_paint(void)
+void st_paint(float t)
 {
-    int stereo  = config_get_d(CONFIG_STEREO);
+    int stereo = config_get_d(CONFIG_STEREO);
 
     if (state && state->paint)
     {
@@ -62,16 +62,16 @@ void st_paint(void)
         {
             glDrawBuffer(GL_BACK_LEFT);
             config_clear();
-            state->paint(state->gui_id, (float) (+stereo));
+            state->paint(state->gui_id, t);
 
             glDrawBuffer(GL_BACK_RIGHT);
             config_clear();
-            state->paint(state->gui_id, (float) (-stereo));
+            state->paint(state->gui_id, t);
         }
         else
         {
             config_clear();
-            state->paint(state->gui_id, 0.0f);
+            state->paint(state->gui_id, t);
         }
     }
 }
