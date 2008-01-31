@@ -976,6 +976,39 @@ static float sol_bounce(struct s_ball *up,
     return fabsf(v_dot(n, d));
 }
 
+
+static float sol_ball_collision_bounce(struct s_ball *up,
+                        const float q[3],
+                        const float w[3], float dt)
+{
+    float n[3], r[3], d[3], vn, wn;
+    float *p = up->p;
+    float *v = up->v;
+
+    /* Find the normal of the impact. */
+
+    v_sub(r, p, q);
+    v_sub(d, v, w);
+    v_nrm(n, r);
+
+    /* Find the new angular velocity. */
+
+    v_crs(up->w, d, r);
+
+    /* Find the new linear velocity. */
+
+    vn = v_dot(v, n);
+    wn = v_dot(w, n);
+
+    v_mad(v, v, n, 1.7 * (wn - vn));
+
+    v_mad(p, q, n, up->r);
+
+    /* Return the "energy" of the impact, to determine the sound amplitude. */
+
+    return fabsf(v_dot(n, d));
+}
+
 /*
  * Compute the new angular velocity and orientation of a ball pendulum.
  * A gives the accelleration of the ball.  G gives the gravity vector.
@@ -1296,7 +1329,7 @@ static float sol_test_lump(float dt,
                     u2p->p[1] = up->p[1];
                 }
 
-                u2 = sol_bounce(u2p, up->p, vV, u - t);
+                u2 = sol_ball_collision_bounce(u2p, up->p, vV, u - t);
                 t = u;
             }
         }
@@ -1574,8 +1607,10 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
 
                     tt -= nt;
 
-                    if (b < (d = sol_bounce(up, P, V, nt)))
+                    if (b < (d = (ballflag) ? sol_ball_collision_bounce(up, P, V, nt) : sol_bounce(up, P, V, nt)))
                         b = d;
+
+                    ballflag = 0;
 
                     c--;
                 }

@@ -644,9 +644,19 @@ void game_putt(void)
      * friction too early and stopping the ball prematurely.
      */
 
-    file.uv[ball].v[0] = -4.f * view_e[2][0] * view_m;
-    file.uv[ball].v[1] = -4.f * view_e[2][1] * view_m + BALL_FUDGE;
-    file.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
+    if (config_get_d(CONFIG_PUTT_COLLISIONS))
+    {
+        file.uv[ball].v[0] = -4.f * view_e[2][0] * view_m;
+        file.uv[ball].v[1] = -4.f * view_e[2][1] * view_m + BALL_FUDGE;
+        file.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
+    }
+
+    else
+    {
+        file.uv[ball].v[0] = -4.f * view_e[2][0] * view_m;
+        file.uv[ball].v[1] = -4.f * view_e[2][1] * view_m + BALL_FUDGE;
+        file.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
+    }
 
     view_m = 0.f;
 }
