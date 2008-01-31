@@ -286,9 +286,11 @@ void game_draw(int pose, float t)
 
     float fov = FOV;
 
-    if (jump_b &&  config_get_d(CONFIG_PUTT_COLLISIONS)) fov /= 2.0f * fabsf(jump_dt - 0.5f);
+    if      (jump_b && config_get_d(CONFIG_PUTT_COLLISIONS) && jump_u != ball)
+        fov /= 1.9f * fabsf(jump_dt - 0.5f);
 
-    if (jump_b && !config_get_d(CONFIG_PUTT_COLLISIONS)) fov *= 2.0f * fabsf(jump_dt - 0.5f);
+    else if (jump_b)
+        fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
     config_push_persp(fov, 0.1f, FAR_DIST);
     glPushAttrib(GL_LIGHTING_BIT);
