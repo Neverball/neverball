@@ -731,7 +731,7 @@ static float v_sol2(const float p[3], const float v[3], float r, float r2)
 {
     float a = v_dot(v, v);
     float b = v_dot(v, p) * 2.0f;
-    float c = v_dot(p, p) - r * r - r2 *r2;
+    float c = v_dot(p, p) - r * r - r2 * r2;
     float d = b * b - 4.0f * a * c;
 
 /* HACK: This seems to cause failures to detect low-velocity collision
@@ -846,7 +846,7 @@ static float v_edge(float Q[3],
     t = v_sol(P, V, r);
     s = (du + eu * t) / uu;
 
-    if (0.0f <= t && t < LARGE && 0.0f < s && s < 1.0f)
+    if (0.0f <= t && t < LARGE && 0.0f < s && s < 1.0f)0
     {
         v_mad(d, o, w, t);
         v_mad(e, q, u, s);
@@ -1452,7 +1452,7 @@ void sol_check_putt_balls(struct s_file *fp, struct s_ball *up, int puttCollisio
         v_cpy(up->w, z);
     }
 
-    if (isPlayerBall && up->p[1] < -30.f)
+    if (isPlayerBall && up->p[1] < -30.0f)
     {
         v_cpy(up->p, fp->uv->p);
         v_cpy(up->v, z);
