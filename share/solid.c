@@ -1513,7 +1513,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
         currentplayers = howManyPlayers;
 
     if (puttCollisions)
-        for (ui = 1; ui < howManyPlayers + 1; ui++)
+        for (ui = 1; ui < howManyPlayers + 1 && c > 0; ui++)
         {
             if (ui < fp->uc)
             {
