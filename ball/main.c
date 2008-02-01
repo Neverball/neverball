@@ -460,9 +460,10 @@ int main(int argc, char *argv[])
             int u;
 
             for (u = 0; u < abs(uniform); ++u)
+            {
                 st_timer(DT);
-
-            t0 = t1;
+                t0 += (int) (DT * 1000);
+            }
         }
         else
         {
