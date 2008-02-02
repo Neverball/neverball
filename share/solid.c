@@ -731,7 +731,7 @@ static float v_sol2(const float p[3], const float v[3], float r, float r2)
 {
     float a = v_dot(v, v);
     float b = v_dot(v, p) * 2.0f;
-    float c = v_dot(p, p) - r * r - r2 * r2;
+    float c = v_dot(p, p) - (r * r + r2 * r2);
     float d = b * b - 4.0f * a * c;
 
 /* HACK: This seems to cause failures to detect low-velocity collision
