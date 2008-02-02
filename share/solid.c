@@ -725,33 +725,6 @@ static float v_sol(const float p[3], const float v[3], float r)
 }
 
 /*---------------------------------------------------------------------------*/
-/* Solves (p + v * t) . (p + v * t) == r * r for smallest t.                 */
-
-static float v_sol2(const float p[3], const float v[3], float r, float r2)
-{
-    float a = v_dot(v, v);
-    float b = v_dot(v, p) * 2.0f;
-    float c = v_dot(p, p) - (r * r + r2 * r2);
-    float d = b * b - 4.0f * a * c;
-
-/* HACK: This seems to cause failures to detect low-velocity collision
-         Yet, the potential division by zero below seems fine.
-    if (fabsf(a) < SMALL) return LARGE;
-*/
-
-    if      (d < 0.0f) return LARGE;
-    else if (d > 0.0f)
-    {
-        float t0 = 0.5f * (-b - fsqrtf(d)) / a;
-        float t1 = 0.5f * (-b + fsqrtf(d)) / a;
-        float t  = (t0 < t1) ? t0 : t1;
-
-        return (t < 0.0f) ? LARGE : t;
-    }
-    else return -b * 0.5f / a;
-}
-
-/*---------------------------------------------------------------------------*/
 
 /*
  * Compute the  earliest time  and position of  the intersection  of a
@@ -802,7 +775,7 @@ static float v_ball(float Q[3],
 
     if (v_dot(P, V) < 0.0f)
     {
-        t = v_sol2(P, V, r, r2);
+        t = v_sol(P, V, r + r2);
 
         if (t < LARGE)
             v_mad(Q, O, w, t);
