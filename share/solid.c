@@ -950,9 +950,9 @@ static float sol_bounce(struct s_ball *up,
 }
 
 
-static float sol_ball_collision_bounce(struct s_ball *up,
-                        const float q[3],
-                        const float w[3], float dt)
+static float sol_elastic_bounce(struct s_ball *up,
+                                const float q[3],
+                                const float w[3], float dt)
 {
     float n[3], r[3], d[3], vn, wn;
     float *p = up->p;
@@ -1302,7 +1302,7 @@ static float sol_test_lump(float dt,
                     u2p->p[1] = up->p[1];
                 }
 
-                u2 = sol_ball_collision_bounce(u2p, up->p, vV, u - t);
+                u2 = sol_elastic_bounce(u2p, up->p, vV, u - t);
                 t = u;
             }
         }

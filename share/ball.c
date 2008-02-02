@@ -128,7 +128,7 @@ static void ball_draw_solid(const float *ball_M,
         const int mask = (solid_flags & F_DEPTHMASK);
         const int test = (solid_flags & F_DEPTHTEST);
 
-        if (0 && solid_alpha < 1.0f)
+        if (solid_alpha < 1.0f)
         {
             glEnable(GL_ALPHA_TEST);
             glAlphaFunc(GL_GEQUAL, solid_alpha);
