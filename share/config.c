@@ -245,7 +245,7 @@ void config_load(void)
 
                 else if (strcmp(key, "player") == 0)
                     config_set_s(CONFIG_PLAYER, val);
-                else if (strcmp(key, "ball") == 0)
+                else if (strcmp(key, "ball_file") == 0)
                     config_set_s(CONFIG_BALL, val);
                 else if (strcmp(key, "wiimote_addr") == 0)
                     config_set_s(CONFIG_WIIMOTE_ADDR, val);
@@ -377,7 +377,7 @@ void config_save(void)
         if (strlen(option_s[CONFIG_PLAYER]) > 0)
             fprintf(fp, "player       %s\n", option_s[CONFIG_PLAYER]);
         if (strlen(option_s[CONFIG_BALL]) > 0)
-            fprintf(fp, "ball         %s\n", option_s[CONFIG_BALL]);
+            fprintf(fp, "ball_file    %s\n", option_s[CONFIG_BALL]);
         if (strlen(option_s[CONFIG_WIIMOTE_ADDR]) > 0)
             fprintf(fp, "wiimote_addr %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
 
