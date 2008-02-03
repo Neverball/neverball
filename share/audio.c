@@ -41,7 +41,6 @@ struct voice
     struct voice *next;
 };
 
-static int   audio_state = 0;
 static float sound_vol   = 1.0f;
 static float music_vol   = 1.0f;
 
@@ -247,7 +246,6 @@ static void audio_step(void *data, Uint8 *stream, int length)
 
 void audio_init(void)
 {
-    audio_state = 0;
 
     /* Configure the audio. */
 
@@ -265,7 +263,6 @@ void audio_init(void)
 
         if (SDL_OpenAudio(&spec, NULL) == 0)
         {
-            audio_state = 1;
             SDL_PauseAudio(0);
         }
         else fprintf(stderr, "%s\n", SDL_GetError());
@@ -292,88 +289,76 @@ void audio_free(void)
 
 void audio_play(const char *filename, float a)
 {
-    if (audio_state)
-    {
-        struct voice *V;
+    struct voice *V;
 
-        /* If we're already playing this sound, preempt the running copy. */
+    /* If we're already playing this sound, preempt the running copy. */
 
-        for (V = voices; V; V = V->next)
-            if (strcmp(V->name, filename) == 0)
-            {
-                ov_raw_seek(&V->vf, 0);
-
-                V->amp = a;
-
-                if (V->amp > 1.0) V->amp = 1.0;
-                if (V->amp < 0.0) V->amp = 0.0;
-
-                return;
-            }
-
-        /* Create a new voice structure. */
-
-        V = voice_init(filename, a);
-
-        /* Add it to the list of sounding voices. */
-
-        SDL_LockAudio();
+    for (V = voices; V; V = V->next)
+        if (strcmp(V->name, filename) == 0)
         {
-            V->next = voices;
-            voices  = V;
+            ov_raw_seek(&V->vf, 0);
+
+            V->amp = a;
+
+            if (V->amp > 1.0) V->amp = 1.0;
+            if (V->amp < 0.0) V->amp = 0.0;
+
+             return;
         }
-        SDL_UnlockAudio();
+
+    /* Create a new voice structure. */
+
+    V = voice_init(filename, a);
+
+    /* Add it to the list of sounding voices. */
+
+    SDL_LockAudio();
+    {
+        V->next = voices;
+        voices  = V;
     }
+    SDL_UnlockAudio();
 }
 
 /*---------------------------------------------------------------------------*/
 
 void audio_music_play(const char *filename)
 {
-    if (audio_state)
-    {
-        audio_music_stop();
+    audio_music_stop();
 
-        SDL_LockAudio();
+    SDL_LockAudio();
+    {
+        if ((music = voice_init(filename, 0.0f)))
         {
-            if ((music = voice_init(filename, 0.0f)))
-            {
-                music->loop = 1;
-            }
+            music->loop = 1;
         }
-        SDL_UnlockAudio();
     }
+    SDL_UnlockAudio();
 }
 
 void audio_music_queue(const char *filename)
 {
-    if (audio_state)
+    SDL_LockAudio();
     {
-        SDL_LockAudio();
+        if ((queue = voice_init(filename, 0.0f)))
         {
-            if ((queue = voice_init(filename, 0.0f)))
-            {
-                queue->loop = 1;
-            }
+            queue->loop = 1;
         }
-        SDL_UnlockAudio();
     }
+    SDL_UnlockAudio();
 }
 
 void audio_music_stop(void)
 {
-    if (audio_state)
+    SDL_LockAudio();
     {
-        SDL_LockAudio();
+        if (music)
         {
-            if (music)
-            {
-                voice_free(music);
-            }
-            music = NULL;
+            voice_free(music);
         }
-        SDL_UnlockAudio();
+        music = NULL;
     }
+    SDL_UnlockAudio();
 }
 
 /*---------------------------------------------------------------------------*/
