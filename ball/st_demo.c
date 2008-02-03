@@ -258,7 +258,7 @@ static int demo_enter(void)
         gui_filler(id);
         gui_demo_status(id, NULL);
         gui_layout(id, 0, 0);
-        gui_demo_update_status(lastv);
+        gui_demo_update_status((lastv < total) ? lastv : total - 1);
     }
     else
     {
