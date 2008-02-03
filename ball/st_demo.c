@@ -38,6 +38,8 @@
 static int first = 0;
 static int total = 0;
 
+static int lastv = 0;
+
 /*---------------------------------------------------------------------------*/
 
 static int demo_action(int i)
@@ -256,7 +258,7 @@ static int demo_enter(void)
         gui_filler(id);
         gui_demo_status(id, NULL);
         gui_layout(id, 0, 0);
-        gui_demo_update_status(0);
+        gui_demo_update_status(lastv);
     }
     else
     {
@@ -283,7 +285,10 @@ static void demo_point(int id, int x, int y, int dx, int dy)
     int i  = gui_token(jd);
 
     if (jd && i >= 0)
+    {
+        lastv = i;
         gui_demo_update_status(i);
+    }
 }
 
 static void demo_stick(int id, int a, int v)
