@@ -1580,7 +1580,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
 
                     tt -= nt;
 
-                    if (b < (d = (ballflag) ? sol_ball_collision_bounce(up, P, V, nt) : sol_bounce(up, P, V, nt)))
+                    if (b < (d = (ballflag) ? sol_elastic_bounce(up, P, V, nt) : sol_bounce(up, P, V, nt)))
                         b = d;
 
                     ballflag = 0;
