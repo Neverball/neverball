@@ -1734,27 +1734,27 @@
 }
 // entity 7
 {
+"classname" "target_position"
+"origin" "154 -91 12"
+"targetname" "t1"
+}
+// entity 8
+{
+"classname" "info_player_intermission"
+"origin" "-400 -576 304"
+"target" "t1"
+}
+// entity 9
+{
 "classname" "info_player_intermission"
 "origin" "1776 1616 1184"
 "target" "t2"
 "angle" "180"
 }
-// entity 8
+// entity 10
 {
 "classname" "target_position"
 "origin" "470 219 12"
 "targetname" "t2"
 "angle" "180"
-}
-// entity 9
-{
-"classname" "target_position"
-"origin" "154 -91 12"
-"targetname" "t1"
-}
-// entity 10
-{
-"classname" "info_player_intermission"
-"origin" "-400 -576 304"
-"target" "t1"
 }
