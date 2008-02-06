@@ -1026,7 +1026,7 @@
 // entity 13
 {
 "classname" "info_player_intermission"
-"origin" "-16 -16 24"
+"origin" "-16 -16 88"
 "target" "t2"
 }
 // entity 14
