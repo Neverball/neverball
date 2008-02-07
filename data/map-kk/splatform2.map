@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "bonus" "0"
-"version" "3.0"
+"version" "3.1"
 "author" "Byron James Johnson (Krabby Krap)"
 "goal" "20"
 "time" "9000"

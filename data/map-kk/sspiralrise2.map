@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "bonus" "0"
 "author" "Byron James Johnson (Krabby Krap)"
-"version" "3.0"
+"version" "3.1"
 "grad" "back/space.png"
 "back" "map-back/jupiter.sol"
 "goal" "46"
@@ -1325,8 +1325,8 @@
 {
 "classname" "path_corner"
 "origin" "32 32 -40"
-"targetname" "t9_0"
-"target" "t9_1"
+"targetname" "p9_0"
+"target" "p9_1"
 "speed" "6"
 "state" "0"
 }
@@ -1334,8 +1334,8 @@
 {
 "classname" "path_corner"
 "origin" "32 32 -272"
-"targetname" "t9_1"
-"target" "t9_0"
+"targetname" "p9_1"
+"target" "p9_0"
 "speed" "6"
 }
 // entity 45
