@@ -1,0 +1,8 @@
+set-easy.txt
+set-medium.txt
+set-hard.txt
+set-mym.txt
+set-mym2.txt
+set-fwp.txt
+set-kk.txt
+set-misc.txt
