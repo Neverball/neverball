@@ -294,6 +294,7 @@ struct s_file
     int wc;
     int dc;
     int ic;
+    int cc;
 
     char          *av;
     struct s_mtrl *mv;
@@ -328,13 +329,17 @@ int   sol_load_only_head(struct s_file *, const char *);
 int   sol_stor(struct s_file *, const char *);
 void  sol_free(struct s_file *);
 
-float sol_step(struct s_file *, const float *, float, int, int *, int, int, int *);
+int   sol_check_putt_balls(struct s_file *, int);
+
+float sol_step(struct s_file *, const float *, float, int, int *);
+float sol_putt_collision_step(struct s_file *, const float *, float, int, int *);
 
 int   sol_jump_test(struct s_file *, float *, int);
-int   sol_swch_test(struct s_file *, int, int);
+int   sol_swch_test(struct s_file *, int);
+int   sol_swch_multi_test(struct s_file *, int);
 
 struct s_goal *sol_goal_test(struct s_file *, float *, int);
-int  sol_collision_goal_test(struct s_file *, float *, int, int);
+int            sol_putt_collision_goal_test(struct s_file *, float *, int);
 struct s_item *sol_item_test(struct s_file *, float *, float);
 
 /*---------------------------------------------------------------------------*/

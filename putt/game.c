@@ -456,10 +456,10 @@ static int game_update_state(float dt)
 
     if(config_get_d(CONFIG_PUTT_COLLISIONS))
         for (i = 1; i < curr_party() + 1; i++)
-            if (sol_swch_test(fp, i, config_get_d(CONFIG_PUTT_COLLISIONS)))
+            if (sol_swch_multi_test(fp, i))
                 audio_play(AUD_SWITCH, 1.f);
     else
-        if (sol_swch_test(fp, i, config_get_d(CONFIG_PUTT_COLLISIONS)))
+        if (sol_swch_test(fp, i))
             audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
@@ -515,9 +515,9 @@ static int game_update_state(float dt)
             return GAME_STOP;
     }
 
-    if (config_get_d(CONFIG_PUTT_COLLISIONS) && t > 1.0f)
+    if ((fp->cc = config_get_d(CONFIG_PUTT_COLLISIONS)) && t > 1.0f)
     {
-        switch (sol_collision_goal_test(fp, p, ball, curr_party()))
+        switch (sol_putt_collision_goal_test(fp, p, ball))
         {
             case 2:  /* The player's ball landed in the goal and the all of the other balls have stopped */
                 t = 0.f;
@@ -563,7 +563,7 @@ int game_step(const float g[3], float dt)
     float d = 0.f;
     float b = 0.f;
     float st = 0.f;
-    int i, n = 1, m = 0;
+    int i, j, n = 1, m = 0;
 
     s = (7.f * s + dt) / 8.f;
     t = s;
@@ -614,11 +614,22 @@ int game_step(const float g[3], float dt)
 
         for (i = 0; i < n; i++)
         {
-            int hole_collision_flag = 0;
-            d = sol_step(fp, g, t, ball, &m, config_get_d(CONFIG_PUTT_COLLISIONS), curr_party(), &hole_collision_flag);
+            int hole_action_ball = 0;
 
-            if (hole_collision_flag)
-                hole_collision_goal(hole_collision_flag);
+            if (config_get_d(CONFIG_PUTT_COLLISIONS))
+            {
+                fp->cc = curr_party();
+                d = sol_putt_collision_step(fp, g, t, ball, &m);
+            }
+            else
+            {
+                fp->cc = 0;
+                d = sol_step(fp, g, t, ball, &m);
+
+            }
+            for (j = 1; j < fp->cc + 1; j++)
+                if ((hole_action_ball = sol_check_putt_balls(fp, i)))
+                    hole_collision_goal(hole_action_ball);
 
             if (b < d)
                 b = d;

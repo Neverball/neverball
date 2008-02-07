@@ -268,10 +268,6 @@ int hole_move(void)
 
 void hole_goal(void)
 {
-    /* HACK: If the player has already beat the hole, return */
-    if (config_get_d(CONFIG_PUTT_COLLISIONS) && stat_v[player] == 1)
-        return;
-
     score_v[hole][player]++;
 
     if (score_v[hole][player] == 1)

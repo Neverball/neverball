@@ -392,7 +392,7 @@ int curr_goal(void)
 /*---------------------------------------------------------------------------*/
 
 static void game_draw_balls(const struct s_file *fp,
-	                        const float *bill_M, float t)
+                            const float *bill_M, float t)
 {
     float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -413,14 +413,14 @@ static void game_draw_balls(const struct s_file *fp,
                  fp->uv[0].r);
 
         glColor4fv(c);
-        ball_draw(ball_M, pend_M, bill_M, t); 
+        ball_draw(ball_M, pend_M, bill_M, t);
     }
     glPopMatrix();
     glPopAttrib();
 }
 
-static void game_draw_items(const struct s_file *fp, float t) 
-{ 
+static void game_draw_items(const struct s_file *fp, float t)
+{
     float r = 360.f * t;
     int hi;
 
@@ -1029,7 +1029,7 @@ static int game_update_state(int bt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, 0, 0))
+    if (sol_swch_test(fp, 0))
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
@@ -1109,7 +1109,7 @@ int game_step(const float g[3], float dt, int bt)
         {
             /* Run the sim. */
 
-            float b = sol_step(fp, h, dt, 0, NULL, 0, 0, NULL);
+            float b = sol_step(fp, h, dt, 0, NULL);
 
             /* Mix the sound of a ball bounce. */
 
