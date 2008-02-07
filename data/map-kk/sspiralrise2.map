@@ -1363,11 +1363,6 @@
 }
 // entity 47
 {
-"classname" "item_health_small"
-"origin" "32 32 472"
-}
-// entity 48
-{
 "classname" "func_train"
 "target" "p8_0"
 // brush 0
@@ -1384,7 +1379,7 @@
 ( -174 23 -88 ) ( -175 22 -88 ) ( -174 23 40 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 49
+// entity 48
 {
 "classname" "func_train"
 "target" "p8_0"
@@ -1401,4 +1396,9 @@
 ( -177 38 -96 ) ( -178 39 -96 ) ( -177 38 32 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( -174 39 -96 ) ( -175 38 -96 ) ( -174 39 32 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 }
+}
+// entity 49
+{
+"classname" "item_health_small"
+"origin" "32 32 472"
 }
