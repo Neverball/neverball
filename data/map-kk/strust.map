@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Trust the ball"
 "author" "Byron James Johnson (Krabby Krap)"
-"version" "3.1"
+"version" "3.2"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
 "shot" "shot-kk/btrust.jpg"

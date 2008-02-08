@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "3.1"
+"version" "3.2"
 "author" "Byron James Johnson (Krabby Krap)"
 "time" "18000"
 "goal" "5"

@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "shot" "shot-kk/sride.jpg"
 "bonus" "0"
-"version" "3.1"
+"version" "3.2"
 "goal" "30"
 "time" "9000"
 "coin_hs" "60 46"
