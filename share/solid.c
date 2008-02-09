@@ -1504,102 +1504,16 @@ int sol_check_putt_balls(struct s_file *fp, int ui)
 
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 {
-    float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
-    int c = 16;
-
-    if (ui < fp->uc)
-    {
-        struct s_ball *up = fp->uv + ui;
-
-        /* If the ball is in contact with a surface, apply friction. */
-
-        v_cpy(a, up->v);
-        v_cpy(v, up->v);
-        v_cpy(up->v, g);
-
-        if (m && sol_test_file(tt, P, V, up, fp) < 0.0005f)
-        {
-            v_cpy(up->v, v);
-            v_sub(r, P, up->p);
-
-            if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
-            {
-                if ((e = (v_len(up->v) - dt)) > 0.0f)
-                {
-                    /* Scale the linear velocity. */
-
-                    v_nrm(up->v, up->v);
-                    v_scl(up->v, up->v, e);
-
-                    /* Scale the angular velocity. */
-
-                    v_sub(v, V, up->v);
-                    v_crs(up->w, v, r);
-                    v_scl(up->w, up->w, -1.0f / (up->r * up->r));
-                }
-                else
-                {
-                    /* Friction has brought the ball to a stop. */
-
-                    up->v[0] = 0.0f;
-                    up->v[1] = 0.0f;
-                    up->v[2] = 0.0f;
-
-                    (*m)++;
-                }
-            }
-            else v_mad(up->v, v, g, tt);
-        }
-        else v_mad(up->v, v, g, tt);
-
-        /* Test for collision. */
-
-        while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp)))
-        {
-            sol_body_step(fp, nt);
-            sol_swch_step(fp, nt);
-            sol_ball_step(fp, nt);
-
-            tt -= nt;
-
-            if (b < (d = sol_bounce(up, P, V, nt)))
-                b = d;
-
-            c--;
-        }
-
-        sol_body_step(fp, tt);
-        sol_swch_step(fp, tt);
-        sol_ball_step(fp, tt);
-
-        /* Apply the ball's accelleration to the pendulum. */
-
-        v_sub(a, up->v, a);
-
-        sol_pendulum(up, a, g, dt);
-    }
-    return b;
-}
-
-/*---------------------------------------------------------------------------*/
-
-/*
- * Step the physics forward DT  seconds under the influence of gravity
- * vector G.  If the ball gets pinched between two moving solids, this
- * loop might not terminate.  It  is better to do something physically
- * impossible than  to lock up the game.   So, if we make  more than C
- * iterations, punt it.
- */
-
-float sol_putt_collision_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
-{
     float P[3], V[3], v[3], r[3], a[3], d, e, nt = 0.0f, b = 0.0f, tt = dt;
     int c = 16;
 
     current_ball = ui;
 
-    for (ui = 1; ui < fp->cc + 1 && c > 0; ui++)
+    for (ui = 1; (ui < fp->cc + 1) || (fp->cc == 0 && ui < 4 + 1) && c > 0; ui++)
     {
+        if (fp->cc == 0 && current_ball != ui)
+            continue;
+
         if (ui < fp->uc)
         {
             struct s_ball *up = fp->uv + ui;

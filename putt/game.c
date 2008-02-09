@@ -617,16 +617,12 @@ int game_step(const float g[3], float dt)
             int hole_action_ball = 0;
 
             if (config_get_d(CONFIG_PUTT_COLLISIONS))
-            {
                 fp->cc = curr_party();
-                d = sol_putt_collision_step(fp, g, t, ball, &m);
-            }
             else
-            {
                 fp->cc = 0;
-                d = sol_step(fp, g, t, ball, &m);
 
-            }
+            d = sol_step(fp, g, t, ball, &m);
+
             for (j = 1; j < fp->cc + 1; j++)
                 if ((hole_action_ball = sol_check_putt_balls(fp, i)))
                     hole_collision_goal(hole_action_ball);
