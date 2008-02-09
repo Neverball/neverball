@@ -3830,19 +3830,19 @@
 // entity 15
 {
 "classname" "light"
-"origin" "56 56 464"
+"origin" "56 56 480"
 "light" "5"
 }
 // entity 16
 {
 "classname" "light"
-"origin" "120 120 464"
+"origin" "120 120 480"
 "light" "5"
 }
 // entity 17
 {
 "classname" "light"
-"origin" "88 88 464"
+"origin" "88 88 480"
 "light" "5"
 }
 // entity 18
