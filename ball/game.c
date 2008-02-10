@@ -1047,7 +1047,7 @@ static int game_update_state(int bt)
 
     /* Test for a goal. */
 
-    if (bt && goal_c == 0 && (zp = sol_goal_test(fp, p, 0)))
+    if (bt && goal_c == 0 && (sol_goal_test(fp, p, 0)))
     {
         audio_play(AUD_GOAL, 1.0f);
         return GAME_GOAL;

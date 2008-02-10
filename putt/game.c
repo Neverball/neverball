@@ -96,6 +96,60 @@ void game_free(void)
 
 /*---------------------------------------------------------------------------*/
 
+int game_check_balls(struct s_file *fp)
+{
+    float z[3] = {0.0f, 0.0f, 0.0f};
+    int i;
+
+    for (i = 1; i < fp->cc + 1; i++)
+    {
+        struct s_ball *up = fp->uv + i;
+        /* If a ball falls out, return the ball to the camera marker */
+        if (i != ball && up->p[1] < -10.f && up->p[1] > -199.9f)
+        {
+            v_cpy(up->p, fp->uv->p);
+            v_cpy(up->v, z);
+            v_cpy(up->w, z);
+        }
+
+        if (i == ball && up->p[1] < -30.0f)
+        {
+            v_cpy(up->p, fp->uv->p);
+            v_cpy(up->v, z);
+            v_cpy(up->w, z);
+        }
+
+        /* If an OTHER ball stops in a hole, mark it as complete *
+         * and drop it -200.0 units to allow room for more balls */
+
+        if (i != ball && !(v_len(up->v) > 0.0f))
+        {
+            const float *ball_p = up->p;
+            const float  ball_r = up->r;
+            int zi;
+            for (zi = 0; zi < fp->zc; zi++)
+            {
+                float r[3];
+
+                r[0] = ball_p[0] - fp->zv[zi].p[0];
+                r[1] = ball_p[2] - fp->zv[zi].p[2];
+                r[2] = 0;
+
+                if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
+                    ball_p[1] > fp->zv[zi].p[1] &&
+                    ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
+                {
+                    up->p[1] = -200.0f;
+                    v_cpy(up->v, z);
+                    v_cpy(up->w, z);
+                    return i;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 static void game_draw_vect_prim(const struct s_file *fp, GLenum mode)
 {
     float p[3];
@@ -456,7 +510,7 @@ static int game_update_state(float dt)
 
     if(config_get_d(CONFIG_PUTT_COLLISIONS))
         for (i = 1; i < curr_party() + 1; i++)
-            if (sol_swch_multi_test(fp, i))
+            if (sol_swch_test(fp, i))
                 audio_play(AUD_SWITCH, 1.f);
     else
         if (sol_swch_test(fp, i))
@@ -500,38 +554,43 @@ static int game_update_state(float dt)
 
     /* Test for fall-out. */
 
-    if (fp->uv[ball].p[1] < -10.f)
+    if (fp->uv[ball].p[1] < -10.0f)
         return GAME_FALL;
 
     /* Test for a goal or stop. */
 
-    if (t > 1.0f && !config_get_d(CONFIG_PUTT_COLLISIONS))
+    if (t > 1.0f)
     {
-        t = 0.f;
+        t = 0.0f;
 
-        if (sol_goal_test(fp, p, ball))
-            return GAME_GOAL;
-        else
-            return GAME_STOP;
-    }
-
-    if ((fp->cc = config_get_d(CONFIG_PUTT_COLLISIONS)) && t > 1.0f)
-    {
-        switch (sol_putt_collision_goal_test(fp, p, ball))
+        if (config_get_d(CONFIG_PUTT_COLLISIONS))
         {
-            case 2:  /* The player's ball landed in the goal and the all of the other balls have stopped */
-                t = 0.f;
+            fp->cc = curr_party();
+            switch (sol_goal_test(fp, p, ball))
+            {
+                case 2:  /* The player's ball landed in the goal and the all of the other balls have stopped */
+                    t = 0.0f;
+                    return GAME_GOAL;
+                    break;
+                case 1:  /* All balls have stopped */
+                    t = 0.0f;
+                    return GAME_STOP;
+                    break;
+                case 0:  /* Game still running; there may be a ball that has not yet stopped */
+                    return GAME_NONE;
+                    break;
+                default: /* Should never reach this */
+                    break;
+            }
+        }
+
+        else
+        {
+            fp->cc = 0;
+            if (sol_goal_test(fp, p, ball))
                 return GAME_GOAL;
-                break;
-            case 1:  /* All balls have stopped */
-                t = 0.f;
+            else
                 return GAME_STOP;
-                break;
-            case 0:  /* Game still running; there may be a ball that has not yet stopped */
-                return GAME_NONE;
-                break;
-            default: /* Should never reach this */
-                break;
         }
     }
 
@@ -563,7 +622,7 @@ int game_step(const float g[3], float dt)
     float d = 0.f;
     float b = 0.f;
     float st = 0.f;
-    int i, j, n = 1, m = 0;
+    int i, n = 1, m = 0;
 
     s = (7.f * s + dt) / 8.f;
     t = s;
@@ -623,9 +682,8 @@ int game_step(const float g[3], float dt)
 
             d = sol_step(fp, g, t, ball, &m);
 
-            for (j = 1; j < fp->cc + 1; j++)
-                if ((hole_action_ball = sol_check_putt_balls(fp, i)))
-                    hole_collision_goal(hole_action_ball);
+            if ((hole_action_ball = game_check_balls(fp)))
+                hole_goal(hole_action_ball);
 
             if (b < d)
                 b = d;

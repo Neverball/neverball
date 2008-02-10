@@ -1002,7 +1002,7 @@ static int goal_enter(void)
     if (paused)
         paused = 0;
     else
-        hole_goal();
+        hole_goal(0);
 
     hud_init();
 

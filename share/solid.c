@@ -1435,66 +1435,6 @@ static float sol_test_file(float dt,
 /*---------------------------------------------------------------------------*/
 
 /*
- * Deal with any goals or fall-outs
- */
-
-int sol_check_putt_balls(struct s_file *fp, int ui)
-{
-    float z[3] = {0.0f, 0.0f, 0.0f};
-    int i;
-
-    for (i = 1; i < fp->cc + 1; i++)
-    {
-        struct s_ball *up = fp->uv + ui;
-        /* If a ball falls out, return the ball to the camera marker */
-        if (ui != i && up->p[1] < -10.f  && up->p[1] > -199.9f)
-        {
-            v_cpy(up->p, fp->uv->p);
-            v_cpy(up->v, z);
-            v_cpy(up->w, z);
-        }
-
-        if (ui == i && up->p[1] < -30.0f)
-        {
-            v_cpy(up->p, fp->uv->p);
-            v_cpy(up->v, z);
-            v_cpy(up->w, z);
-        }
-
-        /* If an OTHER ball stops in a hole, mark it as complete *
-        * and drop it -200.0f to allow room for more balls      */
-
-        if (ui != i && !(v_len(up->v) > 0.0f))
-        {
-            const float *ball_p = up->p;
-            const float  ball_r = up->r;
-            int zi;
-            for (zi = 0; zi < fp->zc; zi++)
-            {
-                float r[3];
-
-                r[0] = ball_p[0] - fp->zv[zi].p[0];
-                r[1] = ball_p[2] - fp->zv[zi].p[2];
-                r[2] = 0;
-
-                if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
-                    ball_p[1] > fp->zv[zi].p[1] &&
-                    ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
-                {
-                    up->p[1] = -200.0f;
-                    v_cpy(up->v, z);
-                    v_cpy(up->w, z);
-                    return i;
-                }
-            }
-        }
-    }
-    return 0;
-}
-
-/*---------------------------------------------------------------------------*/
-
-/*
  * Step the physics forward DT  seconds under the influence of gravity
  * vector G.  If the ball gets pinched between two moving solids, this
  * loop might not terminate.  It  is better to do something physically
@@ -1509,7 +1449,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
     current_ball = ui;
 
-    for (ui = 1; (ui < fp->cc + 1) || (fp->cc == 0 && ui < 4 + 1) && c > 0; ui++)
+    for (ui = 1; ((ui < fp->cc + 1) || (fp->cc == 0 && ui < 4 + 1)) && c > 0; ui++)
     {
         if (fp->cc == 0 && current_ball != ui)
             continue;
@@ -1627,72 +1567,74 @@ struct s_item *sol_item_test(struct s_file *fp, float *p, float item_r)
     return NULL;
 }
 
-struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
+int sol_goal_test(struct s_file *fp, float *p, int ui)
 {
-    const float *ball_p = fp->uv[ui].p;
-    const float  ball_r = fp->uv[ui].r;
-    int zi;
-
-    for (zi = 0; zi < fp->zc; zi++)
+    if (fp->cc)
     {
-        float r[3];
+        const float *ball_p = fp->uv[ui].p;
+        const float  ball_r = fp->uv[ui].r;
+        float z[3] = {0.0f, 0.0f, 0.0f};
+        int zi, i;
 
-        r[0] = ball_p[0] - fp->zv[zi].p[0];
-        r[1] = ball_p[2] - fp->zv[zi].p[2];
-        r[2] = 0;
-
-        if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
-            ball_p[1] > fp->zv[zi].p[1] &&
-            ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
+        for (i = 1; i < fp->cc + 1 && i < 4; i++)
         {
-            p[0] = fp->zv[zi].p[0];
-            p[1] = fp->zv[zi].p[1];
-            p[2] = fp->zv[zi].p[2];
-
-            return &fp->zv[zi];
+            if(fp->uv[i].p[1] < -199.9f)
+                v_cpy(fp->uv[i].v, z);
+            if (i <= fp->cc && (v_len(fp->uv[i].v) > 0.0f))
+                return 0;
+            else
+                v_cpy(fp->uv[i].v, z);
         }
-    }
-    return NULL;
-}
 
-int sol_putt_collision_goal_test(struct s_file *fp, float *p, int ui)
-{
-    const float *ball_p = fp->uv[ui].p;
-    const float  ball_r = fp->uv[ui].r;
-    float z[3] = {0.0f, 0.0f, 0.0f};
-    int zi, i;
-
-    for (i = 1; i < fp->cc + 1 && i < 4; i++)
-    {
-        if(fp->uv[i].p[1] < -199.9f)
-            v_cpy(fp->uv[i].v, z);
-        if (i <= fp->cc && (v_len(fp->uv[i].v) > 0.0f))
-            return 0;
-        else
-            v_cpy(fp->uv[i].v, z);
-    }
-
-    for (zi = 0; zi < fp->zc; zi++)
-    {
-        float r[3];
-
-        r[0] = ball_p[0] - fp->zv[zi].p[0];
-        r[1] = ball_p[2] - fp->zv[zi].p[2];
-        r[2] = 0;
-
-        if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
-            ball_p[1] > fp->zv[zi].p[1] &&
-            ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
+        for (zi = 0; zi < fp->zc; zi++)
         {
-            p[0] = fp->zv[zi].p[0];
-            p[1] = -200.0f;
-            p[2] = fp->zv[zi].p[2];
+            float r[3];
 
-            return 2;
+            r[0] = ball_p[0] - fp->zv[zi].p[0];
+            r[1] = ball_p[2] - fp->zv[zi].p[2];
+            r[2] = 0;
+
+            if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
+                ball_p[1] > fp->zv[zi].p[1] &&
+                ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
+            {
+                p[0] = fp->zv[zi].p[0];
+                p[1] = -200.0f;
+                p[2] = fp->zv[zi].p[2];
+
+                return 2;
+            }
         }
+        return 1;
     }
 
-    return 1;
+    else
+    {
+        const float *ball_p = fp->uv[ui].p;
+        const float  ball_r = fp->uv[ui].r;
+        int zi;
+
+        for (zi = 0; zi < fp->zc; zi++)
+        {
+            float r[3];
+
+            r[0] = ball_p[0] - fp->zv[zi].p[0];
+            r[1] = ball_p[2] - fp->zv[zi].p[2];
+            r[2] = 0;
+
+            if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
+                ball_p[1] > fp->zv[zi].p[1] &&
+                ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
+            {
+                p[0] = fp->zv[zi].p[0];
+                p[1] = -200.0f;
+                p[2] = fp->zv[zi].p[2];
+
+                return 1;
+            }
+        }
+        return 0;
+    }
 }
 
 /*
@@ -1743,201 +1685,201 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
  */
 int sol_swch_test(struct s_file *fp, int ui)
 {
-    const float *ball_p = fp->uv[ui].p;
-    const float  ball_r = fp->uv[ui].r;
-    int xi;
-    int res = 0;
-
-    for (xi = 0; xi < fp->xc; xi++)
+    if (fp->cc)
     {
-        struct s_swch *xp = fp->xv + xi;
+        /* TODO: Tidying */
 
-        if (xp->t0 == 0 || xp->f == xp->f0)
+        const float *ball_p  = fp->uv[ui].p;
+        const float  ball_r  = fp->uv[ui].r;
+        const float *ball_p1 = fp->uv[1].p;
+        const float  ball_r1 = fp->uv[1].r;
+        const float *ball_p2 = fp->uv[2].p;
+        const float  ball_r2 = fp->uv[2].r;
+        const float *ball_p3 = fp->uv[3].p;
+        const float  ball_r3 = fp->uv[3].r;
+        const float *ball_p4 = fp->uv[4].p;
+        const float  ball_r4 = fp->uv[4].r;
+        int xi, howManyBallsAreIn = 0, isBallIn1 = 0, isBallIn2 = 0, isBallIn3 = 0, isBallIn4 = 0;
+        int res = 0;
+
+        for (xi = 0; xi < fp->xc; xi++)
         {
-            float l;
-            float r[3];
+            struct s_swch *xp = fp->xv + xi;
 
-            r[0] = ball_p[0] - xp->p[0];
-            r[1] = ball_p[2] - xp->p[2];
-            r[2] = 0;
-
-            l = v_len(r) - xp->r;
-
-            if (l < ball_r &&
-                ball_p[1] > xp->p[1] &&
-                ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
+            if (xp->t0 == 0 || xp->f == xp->f0)
             {
-                if (!xp->e && l < - ball_r)
+                float l, l1, l2, l3, l4;
+                float r[3], r1[3], r2[3], r3[3], r4[3];
+
+                r[0] = ball_p[0] - xp->p[0];
+                r[1] = ball_p[2] - xp->p[2];
+                r[2] = 0;
+
+                r1[0] = ball_p1[0] - xp->p[0];
+                r1[1] = ball_p1[2] - xp->p[2];
+                r1[2] = 0;
+
+                r2[0] = ball_p2[0] - xp->p[0];
+                r2[1] = ball_p2[2] - xp->p[2];
+                r2[2] = 0;
+
+                r3[0] = ball_p3[0] - xp->p[0];
+                r3[1] = ball_p3[2] - xp->p[2];
+                r3[2] = 0;
+
+                r4[0] = ball_p4[0] - xp->p[0];
+                r4[1] = ball_p4[2] - xp->p[2];
+                r4[2] = 0;
+
+                l = v_len(r) - xp->r;
+
+                l1 = v_len(r1) - xp->r;
+
+                l2 = v_len(r2) - xp->r;
+
+                l3 = v_len(r3) - xp->r;
+
+                l4 = v_len(r4) - xp->r;
+
+                isBallIn1 = (l1 < ball_r1 &&
+                    ball_p1[1] > xp->p[1] &&
+                    ball_p1[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
+
+                isBallIn2 = (l2 < ball_r2 &&
+                    ball_p2[1] > xp->p[1] &&
+                    ball_p2[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
+
+                isBallIn3 = (l3 < ball_r3 &&
+                    ball_p3[1] > xp->p[1] &&
+                    ball_p3[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
+
+                isBallIn4 = (l4 < ball_r4 &&
+                    ball_p4[1] > xp->p[1] &&
+                    ball_p4[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
+
+                howManyBallsAreIn = isBallIn1 + isBallIn2 + isBallIn3 + isBallIn4;
+
+                if (l < ball_r &&
+                    ball_p[1] > xp->p[1] &&
+                    ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2 && howManyBallsAreIn <= 1)
                 {
-                    int pi = xp->pi;
-                    int pj = xp->pi;
-
-                    /* The ball enters. */
-
-                    if (xp->t0 == 0)
-                        xp->e = 1;
-
-                    /* Toggle the state, update the path. */
-
-                    xp->f = xp->f ? 0 : 1;
-
-                    do  /* Tortoise and hare cycle traverser. */
+                    if (!xp->e && l < - ball_r)
                     {
-                        fp->pv[pi].f = xp->f;
-                        fp->pv[pj].f = xp->f;
+                        int pi = xp->pi;
+                        int pj = xp->pi;
 
-                        pi = fp->pv[pi].pi;
-                        pj = fp->pv[pj].pi;
-                        pj = fp->pv[pj].pi;
+                        /* The ball enters. */
+
+                        if (xp->t0 == 0)
+                            xp->e = 1;
+
+                        /* Toggle the state, update the path. */
+
+                        xp->f = xp->f ? 0 : 1;
+
+                        do  /* Tortoise and hare cycle traverser. */
+                        {
+                            fp->pv[pi].f = xp->f;
+                            fp->pv[pj].f = xp->f;
+
+                            pi = fp->pv[pi].pi;
+                            pj = fp->pv[pj].pi;
+                            pj = fp->pv[pj].pi;
+                        }
+                        while (pi != pj);
+
+                        /* It toggled to non-default state, start the timer. */
+
+                        if (xp->f != xp->f0)
+                            xp->t  = xp->t0;
+
+                        /* If visible, set the result. */
+
+                        if (!xp->i)
+                            res = 1;
                     }
-                    while (pi != pj);
-
-                    /* It toggled to non-default state, start the timer. */
-
-                    if (xp->f != xp->f0)
-                        xp->t  = xp->t0;
-
-                    /* If visible, set the result. */
-
-                    if (!xp->i)
-                        res = 1;
                 }
+
+                /* All balls exit. */
+
+                else if (xp->e && howManyBallsAreIn == 0)
+                    xp->e = 0;
             }
-
-            /* The ball exits. */
-
-            else if (xp->e)
-                xp->e = 0;
         }
+        return res;
     }
-    return res;
-}
 
-/*
- * Test and process the event the ball UI enters a switch. Return 1 if
- * a visible  switch is  activated, return 0  otherwise (no  switch is
- * activated or only invisible switches).
- */
-int sol_swch_multi_test(struct s_file *fp, int ui)
-{
-    const float *ball_p  = fp->uv[ui].p;
-    const float  ball_r  = fp->uv[ui].r;
-    const float *ball_p1 = fp->uv[1].p;
-    const float  ball_r1 = fp->uv[1].r;
-    const float *ball_p2 = fp->uv[2].p;
-    const float  ball_r2 = fp->uv[2].r;
-    const float *ball_p3 = fp->uv[3].p;
-    const float  ball_r3 = fp->uv[3].r;
-    const float *ball_p4 = fp->uv[4].p;
-    const float  ball_r4 = fp->uv[4].r;
-    int xi, howManyBallsAreIn = 0, isBallIn1 = 0, isBallIn2 = 0, isBallIn3 = 0, isBallIn4 = 0;
-    int res = 0;
-
-    for (xi = 0; xi < fp->xc; xi++)
+    else
     {
-        struct s_swch *xp = fp->xv + xi;
+        const float *ball_p = fp->uv[ui].p;
+        const float  ball_r = fp->uv[ui].r;
+        int xi;
+        int res = 0;
 
-        if (xp->t0 == 0 || xp->f == xp->f0)
+        for (xi = 0; xi < fp->xc; xi++)
         {
-            float l, l1, l2, l3, l4;
-            float r[3], r1[3], r2[3], r3[3], r4[3];
+            struct s_swch *xp = fp->xv + xi;
 
-            r[0] = ball_p[0] - xp->p[0];
-            r[1] = ball_p[2] - xp->p[2];
-            r[2] = 0;
-
-            r1[0] = ball_p1[0] - xp->p[0];
-            r1[1] = ball_p1[2] - xp->p[2];
-            r1[2] = 0;
-
-            r2[0] = ball_p2[0] - xp->p[0];
-            r2[1] = ball_p2[2] - xp->p[2];
-            r2[2] = 0;
-
-            r3[0] = ball_p3[0] - xp->p[0];
-            r3[1] = ball_p3[2] - xp->p[2];
-            r3[2] = 0;
-
-            r4[0] = ball_p4[0] - xp->p[0];
-            r4[1] = ball_p4[2] - xp->p[2];
-            r4[2] = 0;
-
-            l = v_len(r) - xp->r;
-
-            l1 = v_len(r1) - xp->r;
-
-            l2 = v_len(r2) - xp->r;
-
-            l3 = v_len(r3) - xp->r;
-
-            l4 = v_len(r4) - xp->r;
-
-            isBallIn1 = (l1 < ball_r1 &&
-                ball_p1[1] > xp->p[1] &&
-                ball_p1[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
-
-            isBallIn2 = (l2 < ball_r2 &&
-                ball_p2[1] > xp->p[1] &&
-                ball_p2[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
-
-            isBallIn3 = (l3 < ball_r3 &&
-                ball_p3[1] > xp->p[1] &&
-                ball_p3[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
-
-            isBallIn4 = (l4 < ball_r4 &&
-                ball_p4[1] > xp->p[1] &&
-                ball_p4[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
-
-            howManyBallsAreIn = isBallIn1 + isBallIn2 + isBallIn3 + isBallIn4;
-
-            if (l < ball_r &&
-                ball_p[1] > xp->p[1] &&
-                ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2 && howManyBallsAreIn <= 1)
+            if (xp->t0 == 0 || xp->f == xp->f0)
             {
-                if (!xp->e && l < - ball_r)
+                float l;
+                float r[3];
+
+                    r[0] = ball_p[0] - xp->p[0];
+                r[1] = ball_p[2] - xp->p[2];
+                r[2] = 0;
+
+                l = v_len(r) - xp->r;
+
+                if (l < ball_r &&
+                    ball_p[1] > xp->p[1] &&
+                    ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
                 {
-                    int pi = xp->pi;
-                    int pj = xp->pi;
-
-                    /* The ball enters. */
-
-                    if (xp->t0 == 0)
-                        xp->e = 1;
-
-                    /* Toggle the state, update the path. */
-
-                    xp->f = xp->f ? 0 : 1;
-
-                    do  /* Tortoise and hare cycle traverser. */
+                    if (!xp->e && l < - ball_r)
                     {
-                        fp->pv[pi].f = xp->f;
-                        fp->pv[pj].f = xp->f;
+                        int pi = xp->pi;
+                        int pj = xp->pi;
 
-                        pi = fp->pv[pi].pi;
-                        pj = fp->pv[pj].pi;
-                        pj = fp->pv[pj].pi;
+                        /* The ball enters. */
+
+                        if (xp->t0 == 0)
+                            xp->e = 1;
+
+                        /* Toggle the state, update the path. */
+
+                        xp->f = xp->f ? 0 : 1;
+
+                        do  /* Tortoise and hare cycle traverser. */
+                        {
+                            fp->pv[pi].f = xp->f;
+                            fp->pv[pj].f = xp->f;
+
+                            pi = fp->pv[pi].pi;
+                            pj = fp->pv[pj].pi;
+                            pj = fp->pv[pj].pi;
+                            }
+                        while (pi != pj);
+
+                        /* It toggled to non-default state, start the timer. */
+
+                        if (xp->f != xp->f0)
+                            xp->t  = xp->t0;
+
+                        /* If visible, set the result. */
+
+                        if (!xp->i)
+                            res = 1;
                     }
-                    while (pi != pj);
-
-                    /* It toggled to non-default state, start the timer. */
-
-                    if (xp->f != xp->f0)
-                        xp->t  = xp->t0;
-
-                    /* If visible, set the result. */
-
-                    if (!xp->i)
-                        res = 1;
                 }
+
+                /* The ball exits. */
+
+                else if (xp->e)
+                    xp->e = 0;
             }
-
-            /* All balls exit. */
-
-            else if (xp->e && howManyBallsAreIn == 0)
-                xp->e = 0;
         }
+        return res;
     }
-    return res;
 }
 
 /*---------------------------------------------------------------------------*/
