@@ -1279,7 +1279,7 @@ static float sol_test_lump(float dt,
 
     /* Test all balls */
 
-    if (up->r > 0.0f && fp->cc)
+    if (up->r > 0.0f && fp->cc && current_ball)
     {
         for (i = 1; i < fp->cc + 1; i++)
         {
@@ -1299,6 +1299,21 @@ static float sol_test_lump(float dt,
                     vV[1] = 0.0f;  
                     u2p->p[1] = up->p[1];
                 }
+
+                /* Assert proper floating point presicion for tiny collisions */
+                if (!(up->p[2] - u2p->p[2] > 0.05f) && !(u2p->p[2] - up->p[2] > 0.05f)) 
+                {
+                    vV[1] = 0.0f;  
+                    u2p->p[1] = up->p[1];
+                }
+
+                if (!(up->p[0] - u2p->p[0] > 0.05f) && !(u2p->p[0] - up->p[0] > 0.05f)) 
+                {
+                    vV[1] = 0.0f;  
+                    u2p->p[1] = up->p[1];
+                }
+
+                /* --- */
 
                 u2 = sol_elastic_bounce(u2p, up->p, vV, u - t);
                 t = u;
@@ -1449,7 +1464,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
     current_ball = ui;
 
-    for (ui = 1; ((ui < fp->cc + 1) || (fp->cc == 0 && ui < 4 + 1)) && c > 0; ui++)
+    for (ui = 0; ((ui < fp->cc + 1) || (fp->cc == 0 && ui < 4 + 1)) && c > 0; ui++)
     {
         if (fp->cc == 0 && current_ball != ui)
             continue;
