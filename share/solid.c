@@ -1300,21 +1300,6 @@ static float sol_test_lump(float dt,
                     u2p->p[1] = up->p[1];
                 }
 
-                /* Assert proper floating point presicion for tiny collisions */
-                if (!(up->p[2] - u2p->p[2] > 0.05f) && !(u2p->p[2] - up->p[2] > 0.05f)) 
-                {
-                    vV[1] = 0.0f;  
-                    u2p->p[1] = up->p[1];
-                }
-
-                if (!(up->p[0] - u2p->p[0] > 0.05f) && !(u2p->p[0] - up->p[0] > 0.05f)) 
-                {
-                    vV[1] = 0.0f;  
-                    u2p->p[1] = up->p[1];
-                }
-
-                /* --- */
-
                 u2 = sol_elastic_bounce(u2p, up->p, vV, u - t);
                 t = u;
             }
