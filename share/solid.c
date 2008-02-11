@@ -757,7 +757,6 @@ static float v_vert(float Q[3],
     return t;
 }
 
-
 static float v_ball(float Q[3],
                     const float o[3],
                     const float q[3],
