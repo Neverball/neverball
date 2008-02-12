@@ -83,6 +83,7 @@ void game_init(const char *s)
 {
     jump_e = 1;
     jump_b = 0;
+    jump_u = 0;
 
     view_init();
     sol_load_gl(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
@@ -522,7 +523,7 @@ static int game_update_state(float dt)
     {
         for (i = 1; i < curr_party() + 1; i++)
         {
-            if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, i) == 1)
+            if (!jump_u && jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, i) == 1)
             {
                 jump_b  = 1;
                 jump_e  = 0;
@@ -551,6 +552,9 @@ static int game_update_state(float dt)
         if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, ball) == 0)
             jump_e = 1;
     }
+
+    if (jump_b == 0)
+        jump_u = 0;
 
     /* Test for fall-out. */
 
@@ -642,7 +646,10 @@ int game_step(const float g[3], float dt)
                 fp->uv[jump_u].p[2] = jump_p[2];
             }
             if (1.f < jump_dt)
+            {
                 jump_b = 0;
+                jump_u = 0;
+            }
         }
 
         else
@@ -826,6 +833,7 @@ void game_ball(int i)
 
     jump_e = 1;
     jump_b = 0;
+    jump_u = 0;
 
     for (ui = 0; ui < file.uc; ui++)
     {

@@ -1518,6 +1518,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 ball_collision_flag = 0;
 
                 c--;
+            printf("Debug: c = %d", c);
             }
 
             /* Apply the ball's accelleration to the pendulum. */
