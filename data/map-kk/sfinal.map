@@ -1123,7 +1123,7 @@
 "origin" "-1024 -4100 -40"
 "targetname" "p2_1"
 "target" "p2_0"
-"speed" "6"
+"speed" "2.5"
 }
 // entity 6
 {
@@ -1140,7 +1140,7 @@
 "origin" "-1024 -4220 -40"
 "targetname" "p3_1"
 "target" "p3_0"
-"speed" "6"
+"speed" "2.5"
 }
 // entity 8
 {

@@ -851,7 +851,7 @@
 "origin" "512 0 56"
 "targetname" "p3_0"
 "target" "p3_1"
-"speed" "3"
+"speed" "0.66"
 "state" "0"
 }
 // entity 24
@@ -860,7 +860,7 @@
 "origin" "512 0 -40"
 "targetname" "p3_3"
 "target" "p3_0"
-"speed" "9"
+"speed" "2"
 }
 // entity 25
 {
@@ -890,7 +890,7 @@
 "origin" "0 -512 -40"
 "targetname" "p4_3"
 "target" "p4_0"
-"speed" "9"
+"speed" "2"
 }
 // entity 28
 {
@@ -898,7 +898,7 @@
 "origin" "0 -512 56"
 "targetname" "p4_0"
 "target" "p4_1"
-"speed" "3"
+"speed" "0.66"
 "state" "0"
 }
 // entity 29
@@ -943,7 +943,7 @@
 "origin" "-512 0 -40"
 "targetname" "p5_3"
 "target" "p5_0"
-"speed" "9"
+"speed" "2"
 }
 // entity 33
 {
@@ -951,7 +951,7 @@
 "origin" "-512 0 56"
 "targetname" "p5_0"
 "state" "0"
-"speed" "3"
+"speed" "0.66"
 "target" "p5_1"
 }
 // entity 34
@@ -1074,7 +1074,7 @@
 "classname" "path_corner"
 "origin" "768 0 120"
 "targetname" "p7_0"
-"speed" "3"
+"speed" "0.66"
 "target" "p7_1"
 "state" "0"
 }
@@ -1084,14 +1084,14 @@
 "origin" "768 0 -40"
 "targetname" "p7_3"
 "target" "p7_0"
-"speed" "9"
+"speed" "2"
 }
 // entity 47
 {
 "classname" "path_corner"
 "origin" "0 -768 120"
 "state" "0"
-"speed" "3"
+"speed" "0.66"
 "targetname" "p8_0"
 "target" "p8_1"
 }
@@ -1101,13 +1101,13 @@
 "origin" "256 -768 -40"
 "targetname" "p8_2"
 "target" "p8_3"
-"speed" "3"
+"speed" "0.66"
 }
 // entity 49
 {
 "classname" "path_corner"
 "origin" "-768 0 120"
-"speed" "3"
+"speed" "0.66"
 "state" "0"
 "targetname" "p9_0"
 "target" "p9_1"
@@ -1118,7 +1118,7 @@
 "origin" "-768 0 -40"
 "targetname" "p9_3"
 "target" "p9_0"
-"speed" "9"
+"speed" "2"
 }
 // entity 51
 {
@@ -1148,7 +1148,7 @@
 "origin" "0 512 56"
 "targetname" "p11_0"
 "target" "p11_1"
-"speed" "3"
+"speed" "0.66"
 "state" "0"
 }
 // entity 54
@@ -1156,7 +1156,7 @@
 "classname" "path_corner"
 "origin" "256 512 56"
 "targetname" "p11_1"
-"speed" "3"
+"speed" "0.66"
 "target" "p11_2"
 }
 // entity 55
@@ -1165,7 +1165,7 @@
 "origin" "0 768 120"
 "targetname" "p6_0"
 "target" "p6_1"
-"speed" "3"
+"speed" "0.66"
 "state" "0"
 }
 // entity 56
@@ -1180,7 +1180,7 @@
 "origin" "0 1024 168"
 "targetname" "p10_0"
 "target" "p10_1"
-"speed" "3"
+"speed" "0.66"
 }
 // entity 58
 {
@@ -1763,7 +1763,7 @@
 "origin" "256 512 -40"
 "targetname" "p11_2"
 "target" "p11_3"
-"speed" "3"
+"speed" "0.66"
 }
 // entity 84
 {
@@ -1777,7 +1777,7 @@
 "origin" "-256 768 120"
 "targetname" "p6_1"
 "target" "p6_2"
-"speed" "3"
+"speed" "0.66"
 }
 // entity 86
 {
@@ -1785,7 +1785,7 @@
 "origin" "-256 768 -40"
 "targetname" "p6_2"
 "target" "p6_3"
-"speed" "3"
+"speed" "0.66"
 }
 // entity 87
 {
@@ -1793,7 +1793,7 @@
 "origin" "-256 -512 56"
 "targetname" "p4_1"
 "target" "p4_2"
-"speed" "3"
+"speed" "0.66"
 }
 // entity 88
 {
@@ -1801,13 +1801,13 @@
 "origin" "-256 -512 -40"
 "targetname" "p4_2"
 "target" "p4_3"
-"speed" "3"
+"speed" "0.66"
 }
 // entity 89
 {
 "classname" "path_corner"
 "origin" "256 -768 120"
-"speed" "3"
+"speed" "0.66"
 "targetname" "p8_1"
 "target" "p8_2"
 }
@@ -1817,7 +1817,7 @@
 "origin" "0 -768 -40"
 "targetname" "p8_3"
 "target" "p8_0"
-"speed" "9"
+"speed" "2"
 }
 // entity 91
 {
@@ -1825,7 +1825,7 @@
 "origin" "512 256 56"
 "targetname" "p3_1"
 "target" "p3_2"
-"speed" "3"
+"speed" "0.66"
 }
 // entity 92
 {
@@ -1833,14 +1833,14 @@
 "origin" "512 256 -40"
 "targetname" "p3_2"
 "target" "p3_3"
-"speed" "3"
+"speed" "0.66"
 }
 // entity 93
 {
 "classname" "path_corner"
 "origin" "768 -256 120"
 "targetname" "p7_1"
-"speed" "3"
+"speed" "0.66"
 "target" "p7_2"
 }
 // entity 94
@@ -1848,7 +1848,7 @@
 "classname" "path_corner"
 "origin" "768 -256 -40"
 "targetname" "p7_2"
-"speed" "3"
+"speed" "0.66"
 "target" "p7_3"
 }
 // entity 95
@@ -1856,7 +1856,7 @@
 "classname" "path_corner"
 "origin" "-512 -256 56"
 "targetname" "p5_1"
-"speed" "3"
+"speed" "0.66"
 "target" "p5_2"
 }
 // entity 96
@@ -1864,14 +1864,14 @@
 "classname" "path_corner"
 "origin" "-512 -256 -40"
 "targetname" "p5_2"
-"speed" "3"
+"speed" "0.66"
 "target" "p5_3"
 }
 // entity 97
 {
 "classname" "path_corner"
 "origin" "-768 256 120"
-"speed" "3"
+"speed" "0.66"
 "targetname" "p9_1"
 "target" "p9_2"
 }
@@ -1879,7 +1879,7 @@
 {
 "classname" "path_corner"
 "origin" "-768 256 -40"
-"speed" "3"
+"speed" "0.66"
 "targetname" "p9_2"
 "target" "p9_3"
 }
