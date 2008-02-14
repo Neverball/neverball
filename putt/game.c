@@ -105,8 +105,9 @@ int game_check_balls(struct s_file *fp)
     for (i = 1; i < fp->cc + 1; i++)
     {
         struct s_ball *up = fp->uv + i;
+
         /* If a ball falls out, return the ball to the camera marker */
-        if (i != ball && up->p[1] < -10.f && up->p[1] > -199.9f)
+        if (i != ball && up->p[1] < -10.f && (up->p[1] > -199.9f || up->p[1] < -599.9f))
         {
             v_cpy(up->p, fp->uv->p);
             v_cpy(up->v, z);
