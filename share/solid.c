@@ -951,52 +951,63 @@ static float sol_ball_bounce(struct s_file *fp,
                              struct s_ball *up,
                              struct s_ball *u2p, const float t)
 {
-
-float r12[3], v12[3], v_par[3], v_perp[3], factor;
+    float r12[3], v12[3], v_par[3], v_perp[3], factor;
     float *p1 = up->p;
     float *v1 = up->v;
     float *p2 = u2p->p;
     float *v2 = u2p->v;
 
-/* Correct positions until up to the collision (neglecting friction etc.) in the time interval t until the collision */
+    /* Correct positions */
     v_mad(p1, p1, v1, t);
     v_mad(p2, p2, v2, t);
-  
-/* Keep balls from being bounced off, even though the surface is flat */
-/* The value of 0.005f is empirical and corresponds to an angle theta = asin(0.005/0.125) ~ 2.3 degrees at radii of 0.0625 */
+
+   /*
+    * Keep balls from being bounced off, even though the surface is flat
+    * The value of 0.005f corresponds to an angle
+    * theta = asin(0.005/0.125) ~ 2.3 degrees at radii of 0.0625
+    */
     v_sub(r12, u2p->p, up->p);
-    if (abs(r12[1]) < 0.005f) 
+    if (abs(r12[1]) < 0.005f)
     {
-      p1[1] = p2[1]; 
-      v_sub(r12, u2p->p, up->p);
+        p1[1] = p2[1];
+        v_sub(r12, u2p->p, up->p);
     }
 
-/* The relative velocity v12 is split into a sum of velocities v_perp(endicular) and v_par(allel) to the line of collision */
+   /*
+    * The relative velocity v12 is split into a sum of velocities
+    * v_perp(endicular) and v_par(allel) to the line of collision
+    */
     v_sub(v12, up->v, u2p->v);
-    factor = v_dot(r12, v12) / (v_len(r12)*v_len(r12));
+    factor = v_dot(r12, v12) / (v_len(r12) * v_len(r12));
     v_scl(v_perp, r12, factor);
-    v_scl(v12, v12, 0.50f); /* Always a small rebound */
+    v_scl(v12, v12, 0.50f);
     v_sub(v_par, v12, v_perp);
 
-/* New velocities follow from momentum and energy conservation, solved for the case of equal masses and radii*/
+   /*
+    * New velocities follow from momentum and
+    * energy conservation
+    */
     v_add(v1, v_par, u2p->v);
     v_add(v2, v_perp, u2p->v);
 
-/* If either of the balls is at rest after the collision, set its angular velocity to zero because otherwise it will keep spinning. */ 
+   /* Hack: prevent accidental spinning while the ball is stationary */
     if (v_len(v1) < 0.01f)
     {
-      up->w[0] = 0.0f;
-      up->w[1] = 0.0f;
-      up->w[2] = 0.0f;
+        up->w[0] = 0.0f;
+        up->w[1] = 0.0f;
+        up->w[2] = 0.0f;
     }
     if (v_len(v2) < 0.01f)
     {
-      u2p->w[0] = 0.0f;
-      u2p->w[1] = 0.0f;
-      u2p->w[2] = 0.0f;
+        u2p->w[0] = 0.0f;
+        u2p->w[1] = 0.0f;
+        u2p->w[2] = 0.0f;
     }
 
-/* The "energy" for the sound volume is given by the length of the relative velocity parallel to the line of impact*/
+   /*
+    * Return the length of the relative velocity parallel
+    * to the line of impact
+    */
     return fabsf(v_len(v_perp));
 }
 
