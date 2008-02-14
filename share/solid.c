@@ -1466,10 +1466,16 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
     current_ball = ui;
 
-    for (ui = 0; ((ui < fp->cc + 1) || (fp->cc == 0 && ui < 4 + 1)); ui++)
+    for (ui = 0; !c || ui < fp->cc + 1 || (fp->cc == 0 && ui < 4 + 1); ui++)
     {
         if (fp->cc == 0 && current_ball != ui)
             continue;
+
+        if (c < -4)
+            break;
+
+        if (!c)
+            ui = abs(c);
 
         if (ui < fp->uc)
         {
@@ -1499,7 +1505,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
                         v_sub(v, V, up->v);
                         v_crs(up->w, v, r);
-                            v_scl(up->w, up->w, -1.0f / (up->r * up->r));
+                        v_scl(up->w, up->w, -1.0f / (up->r * up->r));
                     }
                     else
                     {
@@ -1517,16 +1523,23 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             }
             else v_mad(up->v, v, g, tt);
 
-            if (ui == current_ball)
-            {
-               sol_body_step(fp, nt);
-               sol_swch_step(fp, nt);
-               sol_ball_step(fp, nt);
-            }
-
             /* Test for collision. */
 
-            while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp)))
+            if (!c)
+            {
+                c--;
+                sol_body_step(fp, nt);
+                sol_swch_step(fp, nt);
+                sol_ball_step(fp, nt);
+                nt = sol_test_file(tt, P, V, up, fp);
+                sol_body_step(fp, nt);
+                sol_swch_step(fp, nt);
+                sol_ball_step(fp, nt);
+                printf("Debug");
+                break;
+            }
+
+            while (c && tt && tt > (nt = sol_test_file(tt, P, V, up, fp)))
             {
                 if (ui == current_ball)
                 {
@@ -1546,6 +1559,13 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 ball_collision_flag = 0;
 
                 c--;
+            }
+
+            if (ui == current_ball)
+            {
+               sol_body_step(fp, nt);
+               sol_swch_step(fp, nt);
+               sol_ball_step(fp, nt);
             }
 
             /* Apply the ball's accelleration to the pendulum. */
