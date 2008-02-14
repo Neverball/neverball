@@ -1517,6 +1517,13 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             }
             else v_mad(up->v, v, g, tt);
 
+            if (ui == current_ball)
+            {
+               sol_body_step(fp, nt);
+               sol_swch_step(fp, nt);
+               sol_ball_step(fp, nt);
+            }
+
             /* Test for collision. */
 
             while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp)))
@@ -1539,13 +1546,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 ball_collision_flag = 0;
 
                 c--;
-            }
-
-            if (ui == current_ball)
-            {
-               sol_body_step(fp, nt);
-               sol_swch_step(fp, nt);
-               sol_ball_step(fp, nt);
             }
 
             /* Apply the ball's accelleration to the pendulum. */
