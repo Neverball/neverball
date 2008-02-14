@@ -975,7 +975,7 @@ float r12[3], v12[3], v_par[3], v_perp[3], factor;
     v_sub(v12, up->v, u2p->v);
     factor = v_dot(r12, v12) / (v_len(r12)*v_len(r12));
     v_scl(v_perp, r12, factor);
-    v_scl(v12, v12, 0.75f); /* Always a small rebound */
+    v_scl(v12, v12, 0.50f); /* Always a small rebound */
     v_sub(v_par, v12, v_perp);
 
 /* New velocities follow from momentum and energy conservation, solved for the case of equal masses and radii*/
