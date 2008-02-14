@@ -1466,7 +1466,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
     current_ball = ui;
 
-    for (ui = 0; ((ui < fp->cc + 1) || (fp->cc == 0 && ui < 4 + 1)) && c > 0; ui++)
+    for (ui = 0; ((ui < fp->cc + 1) || (fp->cc == 0 && ui < 4 + 1)); ui++)
     {
         if (fp->cc == 0 && current_ball != ui)
             continue;
@@ -1539,7 +1539,13 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 ball_collision_flag = 0;
 
                 c--;
-            printf("Debug: c = %d", c);
+            }
+
+            if (ui == current_ball)
+            {
+               sol_body_step(fp, nt);
+               sol_swch_step(fp, nt);
+               sol_ball_step(fp, nt);
             }
 
             /* Apply the ball's accelleration to the pendulum. */
@@ -1547,13 +1553,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             v_sub(a, up->v, a);
 
             sol_pendulum(up, a, g, dt);
-        }
-
-        if (ui == current_ball)
-        {
-           sol_body_step(fp, nt);
-           sol_swch_step(fp, nt);
-           sol_ball_step(fp, nt);
         }
     }
     return b;
