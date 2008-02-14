@@ -1315,7 +1315,7 @@ static float sol_test_lump(float dt,
             struct s_ball *u2p = fp->uv + i;
             if(i == current_ball)
                 continue;
-            if (u2p->P && (u = sol_test_ball(t, U, up, u2p, o, u2p->v)) < t)
+            if (up->P && u2p->P && (u = sol_test_ball(t, U, up, u2p, o, u2p->v)) < t)
             {
                 ball_collision_flag = i;
                 t = u;
