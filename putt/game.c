@@ -226,7 +226,7 @@ static void game_draw_balls(const struct s_file *fp,
 
     for (ui = curr_party(); ui > 0; ui--)
     {
-        if (ui == ball || config_get_d(CONFIG_PUTT_COLLISIONS))
+        if (ui == ball || (config_get_d(CONFIG_PUTT_COLLISIONS) && fp->uv[ui].P))
         {
             float ball_M[16];
             float pend_M[16];
@@ -341,7 +341,7 @@ void game_draw(int pose, float t)
 
     float fov = FOV;
 
-    if      (jump_b && config_get_d(CONFIG_PUTT_COLLISIONS) && jump_u != ball)
+    if (config_get_d(CONFIG_PUTT_COLLISIONS) && jump_b && jump_u != ball)
         fov /= 1.9f * fabsf(jump_dt - 0.5f);
 
     else if (jump_b)
@@ -601,6 +601,20 @@ static int game_update_state(float dt)
     return GAME_NONE;
 }
 
+void game_set_played(int b)
+{
+    if (ball)
+        file.uv[ball].P = b;
+    if (!b)
+    {
+        file.uv[0].P = 0;
+        file.uv[1].P = 0;
+        file.uv[2].P = 0;
+        file.uv[3].P = 0;
+        file.uv[4].P = 0;
+    }
+}
+
 /*
  * On  most  hardware, rendering  requires  much  more  computing power  than
  * physics.  Since  physics takes less time  than graphics, it  make sense to
@@ -683,9 +697,9 @@ int game_step(const float g[3], float dt)
             int hole_action_ball = 0;
 
             if (config_get_d(CONFIG_PUTT_COLLISIONS))
-                fp->cc = curr_party();
+                 fp->cc = curr_party();
             else
-                fp->cc = 0;
+                 fp->cc = 0;
 
             d = sol_step(fp, g, t, ball, &m);
 

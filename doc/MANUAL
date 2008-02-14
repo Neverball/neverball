@@ -224,7 +224,8 @@ values follow.
 
     putt_collisions 0
 
-        This key allows balls to collide with other balls in Neverputt
+        This  key  allows  balls  to  collide   with  other  balls  in
+        Neverputt.
 
 
 

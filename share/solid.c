@@ -947,37 +947,57 @@ static float sol_bounce(struct s_ball *up,
     return fabsf(v_dot(n, d));
 }
 
-
-static float sol_elastic_bounce(struct s_ball *up,
-                                const float q[3],
-                                const float w[3], float dt)
+static float sol_ball_bounce(struct s_file *fp,
+                             struct s_ball *up,
+                             struct s_ball *u2p, const float t)
 {
-    float n[3], r[3], d[3], vn, wn;
-    float *p = up->p;
-    float *v = up->v;
 
-    /* Find the normal of the impact. */
+float r12[3], v12[3], v_par[3], v_perp[3], factor;
+    float *p1 = up->p;
+    float *v1 = up->v;
+    float *p2 = u2p->p;
+    float *v2 = u2p->v;
 
-    v_sub(r, p, q);
-    v_sub(d, v, w);
-    v_nrm(n, r);
+/* Correct positions until up to the collision (neglecting friction etc.) in the time interval t until the collision */
+    v_mad(p1, p1, v1, t);
+    v_mad(p2, p2, v2, t);
+  
+/* Keep balls from being bounced off, even though the surface is flat */
+/* The value of 0.005f is empirical and corresponds to an angle theta = asin(0.005/0.125) ~ 2.3 degrees at radii of 0.0625 */
+    v_sub(r12, u2p->p, up->p);
+    if (abs(r12[1]) < 0.005f) 
+    {
+      p1[1] = p2[1]; 
+      v_sub(r12, u2p->p, up->p);
+    }
 
-    /* Find the new angular velocity. */
+/* The relative velocity v12 is split into a sum of velocities v_perp(endicular) and v_par(allel) to the line of collision */
+    v_sub(v12, up->v, u2p->v);
+    factor = v_dot(r12, v12) / (v_len(r12)*v_len(r12));
+    v_scl(v_perp, r12, factor);
+    v_scl(v12, v12, 0.75f); /* Always a small rebound */
+    v_sub(v_par, v12, v_perp);
 
-    v_crs(up->w, d, r);
+/* New velocities follow from momentum and energy conservation, solved for the case of equal masses and radii*/
+    v_add(v1, v_par, u2p->v);
+    v_add(v2, v_perp, u2p->v);
 
-    /* Find the new linear velocity. */
+/* If either of the balls is at rest after the collision, set its angular velocity to zero because otherwise it will keep spinning. */ 
+    if (v_len(v1) < 0.01f)
+    {
+      up->w[0] = 0.0f;
+      up->w[1] = 0.0f;
+      up->w[2] = 0.0f;
+    }
+    if (v_len(v2) < 0.01f)
+    {
+      u2p->w[0] = 0.0f;
+      u2p->w[1] = 0.0f;
+      u2p->w[2] = 0.0f;
+    }
 
-    vn = v_dot(v, n);
-    wn = v_dot(w, n);
-
-    v_mad(v, v, n, 1.7 * (wn - vn));
-
-    v_mad(p, q, n, up->r);
-
-    /* Return the "energy" of the impact, to determine the sound amplitude. */
-
-    return fabsf(v_dot(n, d));
+/* The "energy" for the sound volume is given by the length of the relative velocity parallel to the line of impact*/
+    return fabsf(v_len(v_perp));
 }
 
 /*
@@ -1254,8 +1274,7 @@ static float sol_test_lump(float dt,
                            const float w[3])
 {
     float  U[3]     = {0.0f, 0.0f, 0.0f}; /* init value only to avoid gcc warnings */
-    float  vV[3]    = {0.0f, 0.0f, 0.0f}; /* init value only to avoid gcc warnings */
-    float  u, u2, t = dt;
+    float  u, t = dt;
     int    i;
 
     /* Short circuit a non-solid lump. */
@@ -1285,21 +1304,9 @@ static float sol_test_lump(float dt,
             struct s_ball *u2p = fp->uv + i;
             if(i == current_ball)
                 continue;
-            if ((u = sol_test_ball(t, U, up, u2p, o, u2p->v)) < t)
+            if (u2p->P && (u = sol_test_ball(t, U, up, u2p, o, u2p->v)) < t)
             {
                 ball_collision_flag = i;
-                v_cpy(T, U);
-                v_cpy(vV, up->v);
-                v_scl(vV, vV, 0.75f);
-
-                /* Ensure huge hits don't bounce the victom ball */
-                if (!(up->p[1] - u2p->p[1] > 0.05f) && !(u2p->p[1] - up->p[1] > 0.05f)) 
-                {
-                    vV[1] = 0.0f;  
-                    u2p->p[1] = up->p[1];
-                }
-
-                u2 = sol_elastic_bounce(u2p, up->p, vV, u - t);
                 t = u;
             }
         }
@@ -1512,7 +1519,10 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
                 tt -= nt;
 
-                if (b < (d = (ball_collision_flag) ? sol_elastic_bounce(up, P, V, nt) : sol_bounce(up, P, V, nt)))
+                if (b < (d = (ball_collision_flag)
+                           ?  sol_ball_bounce(fp, up,
+                                              fp->uv + ball_collision_flag, nt)
+                           :  sol_bounce(up, P, V, nt)))
                     b = d;
 
                 ball_collision_flag = 0;
