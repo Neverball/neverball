@@ -532,11 +532,10 @@ static int game_update_state(float dt)
 
                 audio_play(AUD_JUMP, 1.f);
             }
-            if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, i) == 0)
-            {
+            if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, i) == 0)
                 jump_e = 1;
-                jump_u  = i;
-            }
+            if (!jump_b && jump_u && i == jump_u && sol_jump_test(fp, jump_p, i) == 0)
+                jump_u = 0;
         }
     }
     else
@@ -549,12 +548,9 @@ static int game_update_state(float dt)
 
             audio_play(AUD_JUMP, 1.f);
         }
-        if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, ball) == 0)
+        if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, ball) == 0)
             jump_e = 1;
     }
-
-    if (jump_b == 0)
-        jump_u = 0;
 
     /* Test for fall-out. */
 
@@ -662,7 +658,6 @@ int game_step(const float g[3], float dt)
             if (1.f < jump_dt)
             {
                 jump_b = 0;
-                jump_u = 0;
             }
         }
 
@@ -847,7 +842,6 @@ void game_ball(int i)
 
     jump_e = 1;
     jump_b = 0;
-    jump_u = 0;
 
     for (ui = 0; ui < file.uc; ui++)
     {
