@@ -1560,6 +1560,19 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 c--;
             }
 
+            if (!c && current_ball == 0)
+            {
+                struct s_ball *ucp = fp->uv;
+                sol_body_step(fp, nt);
+                sol_swch_step(fp, nt);
+                sol_ball_step(fp, nt);
+                nt = sol_test_file(tt, P, V, ucp, fp);
+                sol_body_step(fp, nt);
+                sol_swch_step(fp, nt);
+                sol_ball_step(fp, nt);
+                break;
+            }
+
             if (ui == current_ball)
             {
                sol_body_step(fp, nt);
