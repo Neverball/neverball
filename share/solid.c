@@ -984,10 +984,8 @@ static float sol_ball_bounce(struct s_file *fp,
     */
     v_sub(v_rel, v1, v2);
     factor = v_dot(r_rel, v_rel) / (v_len(r_rel) * v_len(r_rel));
+    v_scl(v_rel, v_rel, BALL_BOUNCEBACK); /* Changed by Krabby Krap!  Yes, I did change this line!  I did! I did!!! */
     v_scl(v_perp, r_rel, factor);
-
-    /* Changed by Krabby Krap!  Changed by Krabby Krap!  (Proper bounceback for smaller collisions */
-    v_scl(v_rel, v_rel, BALL_BOUNCEBACK);
 
     v_sub(v_par, v_rel, v_perp);
 
