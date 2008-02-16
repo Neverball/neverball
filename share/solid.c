@@ -947,17 +947,19 @@ static float sol_bounce(struct s_ball *up,
     return fabsf(v_dot(n, d));
 }
 
+
+/* */
 static float sol_ball_bounce(struct s_file *fp,
                              struct s_ball *up,
                              struct s_ball *u2p, const float t)
 {
-    float r12[3], v12[3], v_par[3], v_perp[3], factor;
+    float r_rel[3], v_rel[3], v_par[3], v_perp[3], factor;
     float *p1 = up->p;
     float *v1 = up->v;
     float *p2 = u2p->p;
     float *v2 = u2p->v;
 
-    /* Correct positions */
+    /* Correct positions up to the collision*/
     v_mad(p1, p1, v1, t);
     v_mad(p2, p2, v2, t);
 
@@ -966,22 +968,25 @@ static float sol_ball_bounce(struct s_file *fp,
     * The value of 0.005f corresponds to an angle
     * theta = asin(0.005/0.125) ~ 2.3 degrees at radii of 0.0625
     */
-    v_sub(r12, u2p->p, up->p);
-    if (abs(r12[1]) < 0.005f)
+    v_sub(r_rel, p2, p1);
+    if (abs(r_rel[1]) < 0.005f)
     {
         p1[1] = p2[1];
-        v_sub(r12, u2p->p, up->p);
+        v_sub(r_rel, p2, p1);
     }
 
    /*
     * The relative velocity v12 is split into a sum of velocities
     * v_perp(endicular) and v_par(allel) to the line of collision
     */
-    v_sub(v12, up->v, u2p->v);
-    factor = v_dot(r12, v12) / (v_len(r12) * v_len(r12));
-    v_scl(v_perp, r12, factor);
-    v_scl(v12, v12, 0.50f);
-    v_sub(v_par, v12, v_perp);
+    v_sub(v_rel, v1, v2);
+    factor = v_dot(r_rel, v_rel) / (v_len(r_rel) * v_len(r_rel));
+    v_scl(v_perp, r_rel, factor);
+
+    /* This is the line that changed. Now it's completely unphysical. Delete it and conservation of energy and momentum will apply.*/
+/*    v_scl(v_rel, v_rel, 0.50f);*/
+
+    v_sub(v_par, v_rel, v_perp);
 
    /*
     * New velocities follow from momentum and
