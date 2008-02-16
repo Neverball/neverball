@@ -7,7 +7,7 @@ void audio_init(void);
 void audio_free(void);
 void audio_play(const char *, float);
 
-void audio_music_queue(const char *);
+void audio_music_queue(const char *, float);
 void audio_music_play(const char *);
 void audio_music_stop(void);
 
