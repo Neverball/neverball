@@ -31,6 +31,9 @@
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
 
+/* BALL_BOUNCEBACK is the how "bouncy" a ball is when colliding.  1.0f is Nue's original.  Lower means more bouncy, higher means less bouncy.  1/8 bouncy is good because it still allows room for forward movemnt when conserving velocity */
+#define BALL_BOUNCEBACK 0.75f
+
 int ball_collision_flag = 0;
 int current_ball        = 0;
 
@@ -983,8 +986,8 @@ static float sol_ball_bounce(struct s_file *fp,
     factor = v_dot(r_rel, v_rel) / (v_len(r_rel) * v_len(r_rel));
     v_scl(v_perp, r_rel, factor);
 
-    /* This is the line that changed. Now it's completely unphysical. Delete it and conservation of energy and momentum will apply.*/
-/*    v_scl(v_rel, v_rel, 0.50f);*/
+    /* Changed by Krabby Krap!  Changed by Krabby Krap!  (Proper bounceback for smaller collisions */
+    v_scl(v_rel, v_rel, BALL_BOUNCEBACK);
 
     v_sub(v_par, v_rel, v_perp);
 
