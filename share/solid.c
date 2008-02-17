@@ -947,19 +947,15 @@ static float sol_bounce(struct s_ball *up,
     return fabsf(v_dot(n, d));
 }
 
-
-/* */
 static float sol_ball_bounce(struct s_file *fp,
                              struct s_ball *up,
                              struct s_ball *u2p, const float t)
-{float r_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3], u[3], factor;
+{
+    float r_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3], u[3], factor;
     float vp1[3], vp2[3], vm1[3], vm2[3];
-    float *p1 = up->p;
-    float *v1 = up->v;
-    float *p2 = u2p->p;
-    float *v2 = u2p->v;
+    float *p1 = up->p, *v1 = up->v, *p2 = u2p->p, *v2 = u2p->v;
 
-    /* Correct positions up to the collision*/
+   /* Correct positions up to the collision */
     v_mad(p1, p1, v1, t);
     v_mad(p2, p2, v2, t);
 
@@ -975,23 +971,30 @@ static float sol_ball_bounce(struct s_file *fp,
         v_sub(r_rel, p2, p1);
     }
 
-    /* r_rel is the unit vector from p1 to p2 */
+   /* r_rel is the unit vector from p1 to p2 */
     v_sub(r_rel, p2, p1);
     v_nrm(r_rel, r_rel);
-    
-    /* project velocities upon r_rel to get components parallel to r_rel - only these will be changed in the collision */
+
+   /*
+    * project velocities upon r_rel to get components parallel
+    * to r_rel - only these will be changed in the collision
+    */
     factor = v_dot(v1, r_rel);
     v_scl(v1_par, r_rel, factor);
     v_sub(v1_perp, v1, v1_par);
-    
+
     factor = v_dot(v2, r_rel);
     v_scl(v2_par, r_rel, factor);
     v_sub(v2_perp, v2, v2_par);
 
-    /* u is used to calculate the "energy" of the impact*/    
+   /* u is used to calculate the "energy" of the impact */
     v_sub(u, v2_par, v1_par);
 
-    /* New parallel velocities follow from momentum conservation and coefficient of restitution GAMMA (for the case of equal masses)*/
+   /*
+    * New parallel velocities follow from momentum conservation
+    * and coefficient of restitution
+    * GAMMA (for the case of equal masses)
+    */
     v_scl(vp1, v1_par, (1.f + fp->oc) * 0.5f);
     v_scl(vp2, v2_par, (1.f + fp->oc) * 0.5f);
     v_scl(vm1, v1_par, (1.f - fp->oc) * 0.5f);
