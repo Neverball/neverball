@@ -26,16 +26,13 @@
 extern struct state st_conf;
 extern struct state st_null;
 
-static SDL_Rect **modes;
-
 /*---------------------------------------------------------------------------*/
 
 enum {
     BALT_BACK = 1,
     BALT_GOLF,
     BALT_BILL,
-    BALT_PING,
-    BALT_FORC
+    BALT_CRAZ
 };
 
 static int balt_action(int i)
@@ -62,13 +59,7 @@ static int balt_action(int i)
         goto_state(&st_balt);
         break;
 
-    case BALT_PING:
-        goto_state(&st_null);
-        config_set_s(CONFIG_BALL_GAMMA, "1.50");
-        goto_state(&st_balt);
-        break;
-
-    case BALT_FORC:
+    case BALT_CRAZ:
         goto_state(&st_null);
         config_set_s(CONFIG_BALL_GAMMA, "2.00");
         goto_state(&st_balt);
@@ -90,11 +81,6 @@ static int balt_enter(void)
     config_get_s(CONFIG_BALL_GAMMA, gamma, MAXNAM);
 
     back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
-
-    modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
-
-    if (modes == (SDL_Rect **) -1)
-        modes = NULL;
 
     if ((id = gui_vstack(0)))
     {
@@ -119,12 +105,9 @@ static int balt_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, _("Super Ping Pong Balls"),        GUI_SML, BALT_FORC,
+            gui_state(jd, _("Crazy Balls"),              GUI_SML, BALT_CRAZ,
                           strcmp(gamma, "2.00") == 0 ||
                           strcmp(gamma, "2.0")  == 0);
-            gui_state(jd, _("Ping Pong Balls"),              GUI_SML, BALT_PING,
-                          strcmp(gamma, "1.50") == 0 ||
-                          strcmp(gamma, "1.5")  == 0);
         }
 
         gui_layout(id, 0, 0);

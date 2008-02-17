@@ -112,9 +112,13 @@ int game_check_balls(struct s_file *fp)
     {
         struct s_ball *up = fp->uv + i;
 
-        /* If a ball falls out, return the ball to the camera marker */
+       /*
+        * If a ball falls out, return the ball to the camera marker
+        * and reset the play state to prevent ball intersection
+        */
         if (i != ball && up->p[1] < -10.f && (up->p[1] > -199.9f || up->p[1] < -599.9f))
         {
+            up->P = 0;
             v_cpy(up->p, fp->uv->p);
             v_cpy(up->v, z);
             v_cpy(up->w, z);
@@ -127,9 +131,10 @@ int game_check_balls(struct s_file *fp)
             v_cpy(up->w, z);
         }
 
-        /* If an OTHER ball stops in a hole, mark it as complete *
-         * and drop it -200.0 units to allow room for more balls */
-
+       /*
+        * If an OTHER ball stops in a hole, mark it as done
+        * and drop it -200.0 units to allow room for more balls
+        */
         if (i != ball && !(v_len(up->v) > 0.0f))
         {
             const float *ball_p = up->p;

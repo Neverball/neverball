@@ -42,7 +42,7 @@ enum {
     CONF_RESOL,
     CONF_BALT,
     CONF_BCLON,
-    CONF_BCLOF,
+    CONF_BCLOF
 };
 
 static int music_id[11];
@@ -191,19 +191,15 @@ static int conf_enter(void)
                 config_get_d(CONFIG_HEIGHT));
 
         if (strcmp(gamma, "0.78") == 0)
-            strcpy(balt, "Golf Balls");
+                     strcpy(balt, "Golf Balls");
 
         else if (strcmp(gamma, "1.00") == 0 ||
-                strcmp(gamma, "1.0") == 0)
+                     strcmp(gamma, "1.0") == 0)
             strcpy(balt, "Billiards");
 
-        else if (strcmp(gamma, "1.50") == 0 ||
-                strcmp(gamma, "1.5") == 0)
-            strcpy(balt, "Ping Pong Balls");
-
         else if (strcmp(gamma, "2.00") == 0 ||
-                strcmp(gamma, "2.0") == 0)
-            strcpy(balt, "Super Ping Pong Balls");
+                     strcmp(gamma, "2.0") == 0)
+            strcpy(balt, "Crazy Balls");
 
         else
             sprintf(balt, "Custom");
