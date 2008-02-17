@@ -197,8 +197,8 @@ static int conf_enter(void)
                      strcmp(gamma, "1.0") == 0)
             strcpy(balt, "Billiards");
 
-        else if (strcmp(gamma, "2.00") == 0 ||
-                     strcmp(gamma, "2.0") == 0)
+        else if (strcmp(gamma, "1.50") == 0 ||
+                     strcmp(gamma, "1.5") == 0)
             strcpy(balt, "Crazy Balls");
 
         else

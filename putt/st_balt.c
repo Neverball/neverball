@@ -61,7 +61,7 @@ static int balt_action(int i)
 
     case BALT_CRAZ:
         goto_state(&st_null);
-        config_set_s(CONFIG_BALL_GAMMA, "2.00");
+        config_set_s(CONFIG_BALL_GAMMA, "1.50");
         goto_state(&st_balt);
         break;
 
@@ -106,8 +106,8 @@ static int balt_enter(void)
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, _("Crazy Balls"),              GUI_SML, BALT_CRAZ,
-                          strcmp(gamma, "2.00") == 0 ||
-                          strcmp(gamma, "2.0")  == 0);
+                          strcmp(gamma, "1.50") == 0 ||
+                          strcmp(gamma, "1.5")  == 0);
         }
 
         gui_layout(id, 0, 0);
