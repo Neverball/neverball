@@ -275,27 +275,28 @@ struct s_dict
 
 struct s_file
 {
-    int ac;
-    int mc;
-    int vc;
-    int ec;
-    int sc;
-    int tc;
-    int gc;
-    int lc;
-    int nc;
-    int pc;
-    int bc;
-    int hc;
-    int zc;
-    int jc;
-    int xc;
-    int rc;
-    int uc;
-    int wc;
-    int dc;
-    int ic;
-    int cc;
+    int   ac;
+    int   mc;
+    int   vc;
+    int   ec;
+    int   sc;
+    int   tc;
+    int   gc;
+    int   lc;
+    int   nc;
+    int   pc;
+    int   bc;
+    int   hc;
+    int   zc;
+    int   jc;
+    int   xc;
+    int   rc;
+    int   uc;
+    int   wc;
+    int   dc;
+    int   ic;
+    int   cc;
+    float oc;
 
     char          *av;
     struct s_mtrl *mv;

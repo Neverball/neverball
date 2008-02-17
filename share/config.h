@@ -97,6 +97,7 @@ enum {
     CONFIG_PLAYER,
     CONFIG_BALL,
     CONFIG_WIIMOTE_ADDR,
+    CONFIG_BALL_GAMMA,
 
     CONFIG_OPTION_S_COUNT
 };
@@ -163,6 +164,7 @@ enum {
 #define DEFAULT_KEY_RESTART          SDLK_r
 #define DEFAULT_STATS                0
 #define DEFAULT_UNIFORM              0
+#define DEFAULT_BALL_GAMMA          "0.80"
 #define DEFAULT_PUTT_COLLISIONS      0
 
 /*---------------------------------------------------------------------------*/

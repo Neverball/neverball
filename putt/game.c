@@ -85,9 +85,15 @@ void game_init(const char *s)
     jump_b = 0;
     jump_u = 0;
 
+    char gamma[MAXNAM];
+
+    config_get_s(CONFIG_BALL_GAMMA, gamma, MAXNAM);
+
     view_init();
     sol_load_gl(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
                                     config_get_d(CONFIG_SHADOW));
+
+    file.oc = atof(gamma);
 }
 
 void game_free(void)

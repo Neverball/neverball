@@ -124,6 +124,7 @@ void config_init(void)
     config_set_d(CONFIG_KEY_RIGHT,            DEFAULT_KEY_RIGHT);
     config_set_d(CONFIG_KEY_PAUSE,            DEFAULT_KEY_PAUSE);
     config_set_d(CONFIG_KEY_RESTART,          DEFAULT_KEY_RESTART);
+    config_set_s(CONFIG_BALL_GAMMA,           DEFAULT_BALL_GAMMA);
     config_set_d(CONFIG_PUTT_COLLISIONS,      DEFAULT_PUTT_COLLISIONS);
 }
 
@@ -257,6 +258,9 @@ void config_load(void)
                     config_set_d(CONFIG_STATS,   atoi(val));
                 else if (strcmp(key, "uniform")    == 0)
                     config_set_d(CONFIG_UNIFORM, atoi(val));
+
+                else if (strcmp(key, "gamma") == 0)
+                    config_set_s(CONFIG_BALL_GAMMA, val);
                 else if (strcmp(key, "putt_collisions") == 0)
                     config_set_d(CONFIG_PUTT_COLLISIONS, atoi(val));
             }
@@ -378,20 +382,24 @@ void config_save(void)
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_RESTART]));
 
         if (strlen(option_s[CONFIG_PLAYER]) > 0)
-            fprintf(fp, "player       %s\n", option_s[CONFIG_PLAYER]);
+            fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
         if (strlen(option_s[CONFIG_BALL]) > 0)
-            fprintf(fp, "ball_file    %s\n", option_s[CONFIG_BALL]);
+            fprintf(fp, "ball_file            %s\n", option_s[CONFIG_BALL]);
         if (strlen(option_s[CONFIG_WIIMOTE_ADDR]) > 0)
-            fprintf(fp, "wiimote_addr %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
+            fprintf(fp, "wiimote_addr         %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
 
         fprintf(fp, "stats                %d\n",
                 option_d[CONFIG_STATS]);
         fprintf(fp, "uniform              %d\n",
                 option_d[CONFIG_UNIFORM]);
-        fprintf(fp, "putt_collisions      %d\n",
-                option_d[CONFIG_PUTT_COLLISIONS]);
         if (config_cheat())
             fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
+
+        if (strlen(option_s[CONFIG_BALL_GAMMA]) > 0)
+            fprintf(fp, "gamma                %s\n", option_s[CONFIG_BALL_GAMMA]);
+
+        fprintf(fp, "putt_collisions      %d\n",
+                option_d[CONFIG_PUTT_COLLISIONS]);
 
         fclose(fp);
     }

@@ -222,6 +222,10 @@ values follow.
 
         Joystick exit button
 
+    gamma DefaultValueHere
+
+        Nue's explanation here.
+
     putt_collisions 0
 
         This  key  allows  balls  to  collide   with  other  balls  in

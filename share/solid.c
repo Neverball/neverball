@@ -31,9 +31,6 @@
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
 
-/* BALL_BOUNCEBACK is the how "bouncy" a ball is when colliding.  1.0f is Nue's original.  Lower means more bouncy, higher means less bouncy.  1/8 bouncy is good because it still allows room for forward movemnt when conserving velocity */
-#define BALL_BOUNCEBACK 0.75f
-
 int ball_collision_flag = 0;
 int current_ball        = 0;
 
@@ -955,8 +952,8 @@ static float sol_bounce(struct s_ball *up,
 static float sol_ball_bounce(struct s_file *fp,
                              struct s_ball *up,
                              struct s_ball *u2p, const float t)
-{
-    float r_rel[3], v_rel[3], v_par[3], v_perp[3], factor;
+{float r_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3], u[3], factor;
+    float vp1[3], vp2[3], vm1[3], vm2[3];
     float *p1 = up->p;
     float *v1 = up->v;
     float *p2 = u2p->p;
@@ -978,23 +975,33 @@ static float sol_ball_bounce(struct s_file *fp,
         v_sub(r_rel, p2, p1);
     }
 
-   /*
-    * The relative velocity v12 is split into a sum of velocities
-    * v_perp(endicular) and v_par(allel) to the line of collision
-    */
-    v_sub(v_rel, v1, v2);
-    factor = v_dot(r_rel, v_rel) / (v_len(r_rel) * v_len(r_rel));
-    v_scl(v_rel, v_rel, BALL_BOUNCEBACK); /* Changed by Krabby Krap!  Yes, I did change this line!  I did! I did!!! */
-    v_scl(v_perp, r_rel, factor);
+    /* r_rel is the unit vector from p1 to p2 */
+    v_sub(r_rel, p2, p1);
+    v_nrm(r_rel, r_rel);
+    
+    /* project velocities upon r_rel to get components parallel to r_rel - only these will be changed in the collision */
+    factor = v_dot(v1, r_rel);
+    v_scl(v1_par, r_rel, factor);
+    v_sub(v1_perp, v1, v1_par);
+    
+    factor = v_dot(v2, r_rel);
+    v_scl(v2_par, r_rel, factor);
+    v_sub(v2_perp, v2, v2_par);
 
-    v_sub(v_par, v_rel, v_perp);
+    /* u is used to calculate the "energy" of the impact*/    
+    v_sub(u, v2_par, v1_par);
 
-   /*
-    * New velocities follow from momentum and
-    * energy conservation
-    */
-    v_add(v1, v_par, u2p->v);
-    v_add(v2, v_perp, u2p->v);
+    /* New parallel velocities follow from momentum conservation and coefficient of restitution GAMMA (for the case of equal masses)*/
+    v_scl(vp1, v1_par, (1.f + fp->oc) * 0.5f);
+    v_scl(vp2, v2_par, (1.f + fp->oc) * 0.5f);
+    v_scl(vm1, v1_par, (1.f - fp->oc) * 0.5f);
+    v_scl(vm2, v2_par, (1.f - fp->oc) * 0.5f);
+
+    v_add(v1_par, vp2, vm1);
+    v_add(v2_par, vp1, vm2);
+
+    v_add(v1, v1_par, v1_perp);
+    v_add(v2, v2_par, v2_perp);
 
    /* Hack: prevent accidental spinning while the ball is stationary */
     if (v_len(v1) < 0.01f)
@@ -1014,7 +1021,7 @@ static float sol_ball_bounce(struct s_file *fp,
     * Return the length of the relative velocity parallel
     * to the line of impact
     */
-    return fabsf(v_len(v_perp));
+    return fabsf(v_len(u));
 }
 
 /*
