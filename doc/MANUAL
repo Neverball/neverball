@@ -222,9 +222,9 @@ values follow.
 
         Joystick exit button
 
-    gamma DefaultValueHere
+    gamma 1.28
 
-        Nue's explanation here.
+        Nue's genius explanation here.
 
     putt_collisions 0
 
