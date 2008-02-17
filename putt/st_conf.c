@@ -40,7 +40,9 @@ enum {
     CONF_BACK,
     CONF_RESOL,
     CONF_BCLON,
-    CONF_BCLOF
+    CONF_BCLOF,
+    CONF_BALGO,
+    CONF_BALBI
 };
 
 static int music_id[11];
@@ -126,6 +128,19 @@ static int conf_action(int i)
         goto_state(&st_conf);
         break;
 
+    case CONF_BALGO:
+        goto_state(&st_null);
+        config_set_s(CONFIG_BALL_GAMMA, "0.78");
+        goto_state(&st_conf);
+        break;
+
+    case CONF_BALBI:
+        goto_state(&st_null);
+        config_set_s(CONFIG_BALL_GAMMA, "1.50");
+        goto_state(&st_conf);
+        break;
+
+
     default:
         if (100 <= i && i <= 110)
         {
@@ -172,7 +187,11 @@ static int conf_enter(void)
         int s = config_get_d(CONFIG_SOUND_VOLUME);
         int m = config_get_d(CONFIG_MUSIC_VOLUME);
 
+        char gamma[MAXNAM];
+
         char resolution[20];
+
+        config_get_s(CONFIG_BALL_GAMMA, gamma, MAXNAM);
 
         sprintf(resolution, "%d x %d",
                 config_get_d(CONFIG_WIDTH),
@@ -213,6 +232,26 @@ static int conf_enter(void)
             gui_state(kd, _("On"),   GUI_SML, CONF_BCLON, (c == 1));
 
             gui_label(jd, _("Ball Collisions"), GUI_SML, GUI_ALL, 0, 0);
+        }
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            if (config_get_d(CONFIG_PUTT_COLLISIONS))
+            {
+                gui_state(kd, _("Billiards"),    GUI_SML, CONF_BALBI,
+                              strcmp(gamma, "1.50") == 0 ||
+                              strcmp(gamma, "1.5")  == 0);
+                gui_state(kd, _("Golf Balls"),   GUI_SML, CONF_BALGO,
+                              strcmp(gamma, "0.78") == 0);
+            }
+            else
+            {
+                gui_space(kd);
+                gui_space(kd);
+            }
+
+            gui_space(jd);
         }
 
         gui_space(id);

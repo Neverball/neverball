@@ -164,7 +164,7 @@ enum {
 #define DEFAULT_KEY_RESTART          SDLK_r
 #define DEFAULT_STATS                0
 #define DEFAULT_UNIFORM              0
-#define DEFAULT_BALL_GAMMA          "1.18"
+#define DEFAULT_BALL_GAMMA          "0.78"
 #define DEFAULT_PUTT_COLLISIONS      0
 
 /*---------------------------------------------------------------------------*/
