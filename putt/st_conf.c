@@ -25,6 +25,7 @@
 #include "st_conf.h"
 #include "st_all.h"
 #include "st_resol.h"
+#include "st_balt.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,10 +40,9 @@ enum {
     CONF_SHDOF,
     CONF_BACK,
     CONF_RESOL,
+    CONF_BALT,
     CONF_BCLON,
     CONF_BCLOF,
-    CONF_BALGO,
-    CONF_BALBI
 };
 
 static int music_id[11];
@@ -116,6 +116,10 @@ static int conf_action(int i)
         goto_state(&st_resol);
         break;
 
+    case CONF_BALT:
+        goto_state(&st_balt);
+        break;
+
     case CONF_BCLON:
         goto_state(&st_null);
         config_set_d(CONFIG_PUTT_COLLISIONS, 1);
@@ -127,19 +131,6 @@ static int conf_action(int i)
         config_set_d(CONFIG_PUTT_COLLISIONS, 0);
         goto_state(&st_conf);
         break;
-
-    case CONF_BALGO:
-        goto_state(&st_null);
-        config_set_s(CONFIG_BALL_GAMMA, "0.78");
-        goto_state(&st_conf);
-        break;
-
-    case CONF_BALBI:
-        goto_state(&st_null);
-        config_set_s(CONFIG_BALL_GAMMA, "1.50");
-        goto_state(&st_conf);
-        break;
-
 
     default:
         if (100 <= i && i <= 110)
@@ -191,11 +182,31 @@ static int conf_enter(void)
 
         char resolution[20];
 
+        char balt[22];
+
         config_get_s(CONFIG_BALL_GAMMA, gamma, MAXNAM);
 
         sprintf(resolution, "%d x %d",
                 config_get_d(CONFIG_WIDTH),
                 config_get_d(CONFIG_HEIGHT));
+
+        if (strcmp(gamma, "0.78") == 0)
+            strcpy(balt, "Golf Balls");
+
+        else if (strcmp(gamma, "1.00") == 0 ||
+                strcmp(gamma, "1.0") == 0)
+            strcpy(balt, "Billiards");
+
+        else if (strcmp(gamma, "1.50") == 0 ||
+                strcmp(gamma, "1.5") == 0)
+            strcpy(balt, "Ping Pong Balls");
+
+        else if (strcmp(gamma, "2.00") == 0 ||
+                strcmp(gamma, "2.0") == 0)
+            strcpy(balt, "Super Ping Pong Balls");
+
+        else
+            sprintf(balt, "Custom");
 
         if ((jd = gui_harray(id)))
         {
@@ -218,7 +229,7 @@ static int conf_enter(void)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, resolution, GUI_SML, CONF_RESOL, 0);
+            gui_state(kd, resolution,      GUI_SML, CONF_RESOL, 0);
 
             gui_label(jd, _("Resolution"), GUI_SML, GUI_ALL, 0, 0);
         }
@@ -228,28 +239,16 @@ static int conf_enter(void)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, _("Off"),  GUI_SML, CONF_BCLOF, (c == 0));
-            gui_state(kd, _("On"),   GUI_SML, CONF_BCLON, (c == 1));
+            gui_state(kd, _("Off"),        GUI_SML, CONF_BCLOF, (c == 0));
+            gui_state(kd, _("On"),         GUI_SML, CONF_BCLON, (c == 1));
 
             gui_label(jd, _("Ball Collisions"), GUI_SML, GUI_ALL, 0, 0);
         }
 
-        if ((jd = gui_harray(id)) &&
+        if (c == 1 && (jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            if (config_get_d(CONFIG_PUTT_COLLISIONS))
-            {
-                gui_state(kd, _("Billiards"),    GUI_SML, CONF_BALBI,
-                              strcmp(gamma, "1.50") == 0 ||
-                              strcmp(gamma, "1.5")  == 0);
-                gui_state(kd, _("Golf Balls"),   GUI_SML, CONF_BALGO,
-                              strcmp(gamma, "0.78") == 0);
-            }
-            else
-            {
-                gui_space(kd);
-                gui_space(kd);
-            }
+            gui_state(kd, balt,            GUI_SML, CONF_BALT, 0);
 
             gui_space(jd);
         }
@@ -259,28 +258,28 @@ static int conf_enter(void)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, _("Low"),  GUI_SML, CONF_TEXLO, (t == 2));
-            gui_state(kd, _("High"), GUI_SML, CONF_TEXHI, (t == 1));
+            gui_state(kd, _("Low"),        GUI_SML, CONF_TEXLO, (t == 2));
+            gui_state(kd, _("High"),       GUI_SML, CONF_TEXHI, (t == 1));
 
-            gui_label(jd, _("Textures"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Textures"),   GUI_SML, GUI_ALL, 0, 0);
         }
 
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, _("Low"),  GUI_SML, CONF_GEOLO, (g == 0));
-            gui_state(kd, _("High"), GUI_SML, CONF_GEOHI, (g == 1));
+            gui_state(kd, _("Low"),        GUI_SML, CONF_GEOLO, (g == 0));
+            gui_state(kd, _("High"),       GUI_SML, CONF_GEOHI, (g == 1));
 
-            gui_label(jd, _("Geometry"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Geometry"),   GUI_SML, GUI_ALL, 0, 0);
         }
 
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, _("Off"),  GUI_SML, CONF_SHDOF, (h == 0));
-            gui_state(kd, _("On"),   GUI_SML, CONF_SHDON, (h == 1));
+            gui_state(kd, _("Off"),        GUI_SML, CONF_SHDOF, (h == 0));
+            gui_state(kd, _("On"),         GUI_SML, CONF_SHDON, (h == 1));
 
-            gui_label(jd, _("Shadow"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Shadow"),     GUI_SML, GUI_ALL, 0, 0);
         }
 
         gui_space(id);
