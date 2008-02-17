@@ -81,11 +81,11 @@ static void view_init(void)
 
 void game_init(const char *s)
 {
+    char gamma[MAXNAM];
+
     jump_e = 1;
     jump_b = 0;
     jump_u = 0;
-
-    char gamma[MAXNAM];
 
     config_get_s(CONFIG_BALL_GAMMA, gamma, MAXNAM);
 
@@ -106,7 +106,7 @@ void game_free(void)
 int game_check_balls(struct s_file *fp)
 {
     float z[3] = {0.0f, 0.0f, 0.0f};
-    int i;
+    int i, j;
 
     for (i = 1; i < fp->cc + 1; i++)
     {
@@ -114,7 +114,7 @@ int game_check_balls(struct s_file *fp)
 
        /*
         * If a ball falls out, return the ball to the camera marker
-        * and reset the play state to prevent ball intersection
+        * and reset the play state for fair play
         */
         if (i != ball && up->p[1] < -10.f && (up->p[1] > -199.9f || up->p[1] < -599.9f))
         {
@@ -159,7 +159,25 @@ int game_check_balls(struct s_file *fp)
                 }
             }
         }
+
+       /*
+        * Check for intesecting balls.
+        * If there are any, reset the proper
+        * ball's play state
+        */
+        for (j = i + 1; j < fp->cc + 1; j++)
+        {
+            struct s_ball *u2p = fp->uv + j;
+            float d[3];
+            v_sub(d, up->p, u2p->p);
+            d[1] = 0.00f;
+            if (v_len(d) < (fsqrtf((up->r + u2p->r) * (up->r + u2p->r))) * 0.75f && i != ball)
+                up->P = 0;
+            else if (v_len(d) < (fsqrtf((up->r + u2p->r) * (up->r + u2p->r)) *  0.75f))
+                u2p->P = 0;
+        }
     }
+
     return 0;
 }
 
