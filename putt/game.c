@@ -93,7 +93,7 @@ void game_init(const char *s)
     sol_load_gl(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
                                     config_get_d(CONFIG_SHADOW));
 
-    file.oc = atof(gamma);
+    file.ball_gamma = atof(gamma);
 }
 
 void game_free(void)
@@ -108,7 +108,7 @@ int game_check_balls(struct s_file *fp)
     float z[3] = {0.0f, 0.0f, 0.0f};
     int i, j;
 
-    for (i = 1; i < fp->cc + 1; i++)
+    for (i = 1; i < fp->ball_collisions + 1; i++)
     {
         struct s_ball *up = fp->uv + i;
 
@@ -165,16 +165,53 @@ int game_check_balls(struct s_file *fp)
         * If there are any, reset the proper
         * ball's play state
         */
-        for (j = i + 1; j < fp->cc + 1; j++)
+        for (j = i + 1; j < fp->ball_collisions + 1; j++)
         {
             struct s_ball *u2p = fp->uv + j;
             float d[3];
             v_sub(d, up->p, u2p->p);
-            d[1] = 0.00f;
+            if (v_len(up->v) > 0.005f || v_len(u2p->v) > 0.005f)
+                continue;
             if (v_len(d) < (fsqrtf((up->r + u2p->r) * (up->r + u2p->r))) * 0.75f && i != ball)
                 up->P = 0;
             else if (v_len(d) < (fsqrtf((up->r + u2p->r) * (up->r + u2p->r)) *  0.75f))
                 u2p->P = 0;
+        }
+    }
+
+    for (i = 0; i < fp->yc; i++)
+    {
+        struct s_ball *yp = fp->yv + i;
+
+        if (yp->p[1] < -20.0f)
+        {
+            v_cpy(yp->p, yp->O);
+            v_cpy(yp->v, z);
+            v_cpy(yp->w, z);
+        }
+
+        if (!(v_len(yp->v) > 0.0f))
+        {
+            const float *ball_p = yp->p;
+            const float  ball_r = yp->r;
+            int zi;
+            for (zi = 0; zi < fp->zc; zi++)
+            {
+                float r[3];
+
+                r[0] = ball_p[0] - fp->zv[zi].p[0];
+                r[1] = ball_p[2] - fp->zv[zi].p[2];
+                r[2] = 0;
+
+                if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
+                    ball_p[1] > fp->zv[zi].p[1] &&
+                    ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
+                {
+                    v_cpy(yp->p, yp->O);
+                    v_cpy(yp->v, z);
+                    v_cpy(yp->w, z);
+                }
+            }
         }
     }
 
@@ -244,19 +281,43 @@ static void game_draw_vect(const struct s_file *fp)
 static void game_draw_balls(const struct s_file *fp,
                             const float *bill_M, float t)
 {
-    static const GLfloat color[5][4] = {
+    static const GLfloat color[6][4] = {
         { 1.0f, 1.0f, 1.0f, 0.7f },
         { 1.0f, 0.0f, 0.0f, 1.0f },
         { 0.0f, 1.0f, 0.0f, 1.0f },
         { 0.0f, 0.0f, 1.0f, 1.0f },
         { 1.0f, 1.0f, 0.0f, 1.0f },
+        { 0.1f, 0.1f, 0.1f, 0.7f },
     };
 
     int ui;
 
+    for (ui = 0; fp->ball_collisions && ui < fp->yc; ui++)
+    {
+            float ball_M[16];
+            float pend_M[16];
+
+            m_basis(ball_M, fp->yv[ui].e[0], fp->yv[ui].e[1], fp->yv[ui].e[2]);
+            m_basis(pend_M, fp->yv[ui].E[0], fp->yv[ui].E[1], fp->yv[ui].E[2]);
+
+            glPushMatrix();
+            {
+                glTranslatef(fp->yv[ui].p[0],
+                             fp->yv[ui].p[1] + BALL_FUDGE,
+                             fp->yv[ui].p[2]);
+                glScalef(fp->yv[ui].r,
+                         fp->yv[ui].r,
+                         fp->yv[ui].r);
+
+                glColor4fv(color[5]);
+                ball_draw(ball_M, pend_M, bill_M, t);
+            }
+            glPopMatrix();
+    }
+
     for (ui = curr_party(); ui > 0; ui--)
     {
-        if (ui == ball || (config_get_d(CONFIG_PUTT_COLLISIONS) && fp->uv[ui].P))
+        if (ui == ball || (config_get_d(CONFIG_BALL_COLLISIONS) && fp->uv[ui].P))
         {
             float ball_M[16];
             float pend_M[16];
@@ -371,7 +432,7 @@ void game_draw(int pose, float t)
 
     float fov = FOV;
 
-    if (config_get_d(CONFIG_PUTT_COLLISIONS) && jump_b && jump_u != ball)
+    if (config_get_d(CONFIG_BALL_COLLISIONS) && jump_b && jump_u != ball)
         fov /= 1.9f * fabsf(jump_dt - 0.5f);
 
     else if (jump_b)
@@ -539,7 +600,7 @@ static int game_update_state(float dt)
 
     /* Test for a switch. */
 
-    if(config_get_d(CONFIG_PUTT_COLLISIONS))
+    if(config_get_d(CONFIG_BALL_COLLISIONS))
         for (i = 1; i < curr_party() + 1; i++)
             if (sol_swch_test(fp, i))
                 audio_play(AUD_SWITCH, 1.f);
@@ -549,7 +610,7 @@ static int game_update_state(float dt)
 
     /* Test for a jump. */
 
-    if (config_get_d(CONFIG_PUTT_COLLISIONS))
+    if (config_get_d(CONFIG_BALL_COLLISIONS))
     {
         for (i = 1; i < curr_party() + 1; i++)
         {
@@ -593,9 +654,9 @@ static int game_update_state(float dt)
     {
         t = 0.0f;
 
-        if (config_get_d(CONFIG_PUTT_COLLISIONS))
+        if (config_get_d(CONFIG_BALL_COLLISIONS))
         {
-            fp->cc = curr_party();
+            fp->ball_collisions = curr_party();
             switch (sol_goal_test(fp, p, ball))
             {
                 case 2:  /* The player's ball landed in the goal and the all of the other balls have stopped */
@@ -616,7 +677,7 @@ static int game_update_state(float dt)
 
         else
         {
-            fp->cc = 0;
+            fp->ball_collisions = 0;
             if (sol_goal_test(fp, p, ball))
                 return GAME_GOAL;
             else
@@ -673,7 +734,7 @@ int game_step(const float g[3], float dt)
 
     if (jump_b)
     {
-        if (config_get_d(CONFIG_PUTT_COLLISIONS))
+        if (config_get_d(CONFIG_BALL_COLLISIONS))
         {
             jump_dt += dt;
 
@@ -721,10 +782,10 @@ int game_step(const float g[3], float dt)
         {
             int hole_action_ball = 0;
 
-            if (config_get_d(CONFIG_PUTT_COLLISIONS))
-                 fp->cc = curr_party();
+            if (config_get_d(CONFIG_BALL_COLLISIONS))
+                 fp->ball_collisions = curr_party();
             else
-                 fp->cc = 0;
+                 fp->ball_collisions = 0;
 
             d = sol_step(fp, g, t, ball, &m);
 
@@ -755,7 +816,7 @@ void game_putt(void)
      * friction too early and stopping the ball prematurely.
      */
 
-    if (config_get_d(CONFIG_PUTT_COLLISIONS))
+    if (config_get_d(CONFIG_BALL_COLLISIONS))
     {
         file.uv[ball].v[0] = -4.f * view_e[2][0] * view_m;
         file.uv[ball].v[1] = -4.f * view_e[2][1] * view_m + BALL_FUDGE;

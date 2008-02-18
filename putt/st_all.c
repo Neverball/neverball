@@ -1093,9 +1093,6 @@ static void stop_timer(int id, float dt)
 {
     float g[3] = { 0.0f, -9.8f, 0.0f };
 
-    if (config_get_d(CONFIG_PUTT_COLLISIONS))
-        g[1] = -9.8f;
-
     game_update_view(dt);
     game_step(g, dt);
 

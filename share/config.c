@@ -125,7 +125,7 @@ void config_init(void)
     config_set_d(CONFIG_KEY_PAUSE,            DEFAULT_KEY_PAUSE);
     config_set_d(CONFIG_KEY_RESTART,          DEFAULT_KEY_RESTART);
     config_set_s(CONFIG_BALL_GAMMA,           DEFAULT_BALL_GAMMA);
-    config_set_d(CONFIG_PUTT_COLLISIONS,      DEFAULT_PUTT_COLLISIONS);
+    config_set_d(CONFIG_BALL_COLLISIONS,      DEFAULT_BALL_COLLISIONS);
 }
 
 void config_load(void)
@@ -261,8 +261,8 @@ void config_load(void)
 
                 else if (strcmp(key, "gamma") == 0)
                     config_set_s(CONFIG_BALL_GAMMA, val);
-                else if (strcmp(key, "putt_collisions") == 0)
-                    config_set_d(CONFIG_PUTT_COLLISIONS, atoi(val));
+                else if (strcmp(key, "ball_collisions") == 0)
+                    config_set_d(CONFIG_BALL_COLLISIONS, atoi(val));
             }
 
         fclose(fp);
@@ -398,8 +398,8 @@ void config_save(void)
         if (strlen(option_s[CONFIG_BALL_GAMMA]) > 0)
             fprintf(fp, "gamma                %s\n", option_s[CONFIG_BALL_GAMMA]);
 
-        fprintf(fp, "putt_collisions      %d\n",
-                option_d[CONFIG_PUTT_COLLISIONS]);
+        fprintf(fp, "ball_collisions      %d\n",
+                option_d[CONFIG_BALL_COLLISIONS]);
 
         fclose(fp);
     }

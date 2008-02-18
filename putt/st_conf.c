@@ -122,13 +122,13 @@ static int conf_action(int i)
 
     case CONF_BCLON:
         goto_state(&st_null);
-        config_set_d(CONFIG_PUTT_COLLISIONS, 1);
+        config_set_d(CONFIG_BALL_COLLISIONS, 1);
         goto_state(&st_conf);
         break;
 
     case CONF_BCLOF:
         goto_state(&st_null);
-        config_set_d(CONFIG_PUTT_COLLISIONS, 0);
+        config_set_d(CONFIG_BALL_COLLISIONS, 0);
         goto_state(&st_conf);
         break;
 
@@ -171,7 +171,7 @@ static int conf_enter(void)
     if ((id = gui_vstack(0)))
     {
         int f = config_get_d(CONFIG_FULLSCREEN);
-        int c = config_get_d(CONFIG_PUTT_COLLISIONS);
+        int c = config_get_d(CONFIG_BALL_COLLISIONS);
         int t = config_get_d(CONFIG_TEXTURES);
         int g = config_get_d(CONFIG_GEOMETRY);
         int h = config_get_d(CONFIG_SHADOW);

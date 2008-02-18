@@ -88,7 +88,7 @@ enum {
     CONFIG_CHEAT,
     CONFIG_STATS,
     CONFIG_UNIFORM,
-    CONFIG_PUTT_COLLISIONS,
+    CONFIG_BALL_COLLISIONS,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -165,7 +165,7 @@ enum {
 #define DEFAULT_STATS                0
 #define DEFAULT_UNIFORM              0
 #define DEFAULT_BALL_GAMMA          "0.78"
-#define DEFAULT_PUTT_COLLISIONS      0
+#define DEFAULT_BALL_COLLISIONS      0
 
 /*---------------------------------------------------------------------------*/
 

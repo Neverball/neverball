@@ -32,27 +32,29 @@
  *
  * The Xs are as documented by struct s_file:
  *
- *     f  File          (struct s_file)
- *     m  Material      (struct s_mtrl)
- *     v  Vertex        (struct s_vert)
- *     e  Edge          (struct s_edge)
- *     s  Side          (struct s_side)
- *     t  Texture coord (struct s_texc)
- *     g  Geometry      (struct s_geom)
- *     l  Lump          (struct s_lump)
- *     n  Node          (struct s_node)
- *     p  Path          (struct s_path)
- *     b  Body          (struct s_body)
- *     h  Item          (struct s_item)
- *     z  Goal          (struct s_goal)
- *     j  Jump          (struct s_jump)
- *     x  Switch        (struct s_swch)
- *     r  Billboard     (struct s_bill)
- *     u  User          (struct s_ball)
- *     w  Viewpoint     (struct s_view)
- *     d  Dictionary    (struct s_dict)
- *     i  Index         (int)
- *     a  Text          (char)
+ *     f  File           (struct s_file)
+ *     m  Material       (struct s_mtrl)
+ *     v  Vertex         (struct s_vert)
+ *     e  Edge           (struct s_edge)
+ *     s  Side           (struct s_side)
+ *     t  Texture coord  (struct s_texc)
+ *     g  Geometry       (struct s_geom)
+ *     l  Lump           (struct s_lump)
+ *     n  Node           (struct s_node)
+ *     p  Path           (struct s_path)
+ *     b  Body           (struct s_body)
+ *     h  Item           (struct s_item)
+ *     z  Goal           (struct s_goal)
+ *     j  Jump           (struct s_jump)
+ *     x  Switch         (struct s_swch)
+ *     r  Billboard      (struct s_bill)
+ *     u  User           (struct s_ball)
+ *     y  Arbitrary ball (struct s_ball)
+ *     w  Viewpoint      (struct s_view)
+ *     d  Dictionary     (struct s_dict)
+ *     i  Index          (int)
+ *     a  Text           (char)
+
  *
  * The Ys are as follows:
  *
@@ -72,7 +74,7 @@
  * Those members that do not conform to this convention are explicitly
  * documented with a comment.
  *
- * These prefixes are still available: c k o q y.
+ * These prefixes are still available: c k o q.
  */
 
 /*---------------------------------------------------------------------------*/
@@ -259,6 +261,9 @@ struct s_ball
     float W[3];                                /* angular pendulum velocity  */
     float r;                                   /* radius                     */
     int   P;                                   /* ball in play state         */
+    int   m;                                   /* is ball mobile?            */
+    float O[3];                                /* original ball              *
+                                                * location (arbitrary balls) */
 };
 
 struct s_view
@@ -295,8 +300,9 @@ struct s_file
     int   wc;
     int   dc;
     int   ic;
-    int   cc;
-    float oc;
+    int   yc;
+    int   ball_collisions; /* If ball_collisions is set, this is the number of players (curr_party) */
+    float ball_gamma; /* This is the GAMMA defined in Neverballrc */
 
     char          *av;
     struct s_mtrl *mv;
@@ -315,6 +321,7 @@ struct s_file
     struct s_swch *xv;
     struct s_bill *rv;
     struct s_ball *uv;
+    struct s_ball *yv;
     struct s_view *wv;
     struct s_dict *dv;
     int           *iv;
