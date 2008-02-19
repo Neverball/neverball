@@ -240,6 +240,8 @@ static void sol_load_ball(FILE *fin, struct s_ball *bp)
     get_array(fin,  bp->p, 3);
     get_float(fin, &bp->r);
     get_index(fin, &bp->m);
+    get_index(fin, &bp->n);
+    get_index(fin, &bp->c);
 
     v_cpy(bp->O, bp->p);
 
@@ -596,6 +598,8 @@ static void sol_stor_ball(FILE *fout, struct s_ball *bp)
     put_array(fout,  bp->p, 3);
     put_float(fout, &bp->r);
     put_index(fout, &bp->m);
+    put_index(fout, &bp->n);
+    put_index(fout, &bp->c);
 }
 
 static void sol_stor_view(FILE *fout, struct s_view *wp)
@@ -966,10 +970,14 @@ static float sol_ball_collision(const struct s_file *fp,
     float r_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3], u[3], factor;
     float vp1[3], vp2[3], vm1[3], vm2[3];
     float *p1 = up->p, *v1 = up->v, *p2 = u2p->p, *v2 = u2p->v;
+    const int u1 = up->m;
+    const int u2 = u2p->m;
 
    /* Correct positions up to the collision */
-    v_mad(p1, p1, v1, t);
-    v_mad(p2, p2, v2, t);
+    if (u1)
+        v_mad(p1, p1, v1, t);
+    if (u2)
+        v_mad(p2, p2, v2, t);
 
    /*
     * Keep balls from being bounced off, even though the surface is flat
@@ -1007,25 +1015,27 @@ static float sol_ball_collision(const struct s_file *fp,
     * and coefficient of restitution
     * GAMMA (for the case of equal masses)
     */
-    v_scl(vp1, v1_par, (1.f + fp->ball_gamma) * 0.5f);
-    v_scl(vp2, v2_par, (1.f + fp->ball_gamma) * 0.5f);
-    v_scl(vm1, v1_par, (1.f - fp->ball_gamma) * 0.5f);
-    v_scl(vm2, v2_par, (1.f - fp->ball_gamma) * 0.5f);
+    v_scl(vp1, v1_par, (1.0f + ((u2) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f))) * 0.5f);
+    v_scl(vp2, v2_par, (1.0f + ((u1) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f))) * 0.5f);
+    v_scl(vm1, v1_par, (1.0f - ((u2) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f))) * 0.5f);
+    v_scl(vm2, v2_par, (1.0f - ((u1) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f))) * 0.5f);
 
     v_add(v1_par, vp2, vm1);
     v_add(v2_par, vp1, vm2);
 
-    v_add(v1, v1_par, v1_perp);
-    v_add(v2, v2_par, v2_perp);
+    if (u1)
+        v_add(v1, v1_par, v1_perp);
+    if (u2)
+        v_add(v2, v2_par, v2_perp);
 
    /* Hack: prevent accidental spinning while the ball is stationary */
-    if (v_len(v1) < 0.01f)
+    if (v_len(v1) < 0.01f && u1)
     {
         up->w[0] = 0.0f;
         up->w[1] = 0.0f;
         up->w[2] = 0.0f;
     }
-    if (v_len(v2) < 0.01f)
+    if (v_len(v2) < 0.01f && u2)
     {
         u2p->w[0] = 0.0f;
         u2p->w[1] = 0.0f;
@@ -1345,14 +1355,11 @@ static float sol_test_lump(float dt,
 
     /* Test all balls */
 
-    if (up->r > 0.0f && fp->ball_collisions && current_ball)
+    if (up->r > 0.0f && current_ball)
     {
         for (i = 0; i < fp->yc; i++)
         {
             struct s_ball *yp = fp->yv + i;
-
-            if (!(yp->m))
-                continue;
 
             if ((u = sol_test_ball(t, U, up, yp, o, yp->v)) < t)
             {
@@ -1646,7 +1653,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
    /*
     * The arbitrary balls loop
     */
-    for (ui = 0; fp->ball_collisions && ui < fp->yc && c > 0; ui++)
+    for (ui = 0; ui < fp->yc && c > 0; ui++)
     {
         float P[3], V[3], v[3], r[3], a[3], d, e, nt = 0.0f, tt = dt;
 
@@ -1654,7 +1661,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
         {
             struct s_ball *yp = fp->yv + ui;
 
-            if (!(yp->m))
+            if (!fp->ball_collisions && yp->c)
                 continue;
 
             /* If the ball is in contact with a surface, apply friction. */

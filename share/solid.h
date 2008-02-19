@@ -253,17 +253,20 @@ struct s_jump
 
 struct s_ball
 {
-    float e[3][3];                             /* basis of orientation       */
-    float p[3];                                /* position vector            */
-    float v[3];                                /* velocity vector            */
-    float w[3];                                /* angular velocity vector    */
-    float E[3][3];                             /* basis of pendulum          */
-    float W[3];                                /* angular pendulum velocity  */
-    float r;                                   /* radius                     */
-    int   P;                                   /* ball in play state         */
-    int   m;                                   /* is ball mobile?            */
-    float O[3];                                /* original ball              *
-                                                * location (arbitrary balls) */
+    float e[3][3];                             /* basis of orientation         */
+    float p[3];                                /* position vector              */
+    float v[3];                                /* velocity vector              */
+    float w[3];                                /* angular velocity vector      */
+    float E[3][3];                             /* basis of pendulum            */
+    float W[3];                                /* angular pendulum velocity    */
+    float r;                                   /* radius                       */
+    int   P;                                   /* ball in play state           */
+    int   m;                                   /* is ball mobile?              */
+    int   n;                                   /* return the ball on fall-out? */
+    int   c;                                   /* is ball only existant with   *
+                                                * ball_collisions?             */
+    float O[3];                                /* original ball                *
+                                                * location (arbitrary balls)   */
 };
 
 struct s_view

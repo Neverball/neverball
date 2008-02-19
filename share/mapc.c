@@ -1213,6 +1213,8 @@ static void make_ball(struct s_file *fp,
     up->p[2] = 0.0f;
     up->r    = 0.25f;
     up->m    = 1;
+    up->n    = 0;
+    up->c    = 0;
 
     for (i = 0; i < c; i++)
     {
@@ -1232,6 +1234,12 @@ static void make_ball(struct s_file *fp,
 
         if (strcmp(k[i], "mobile") == 0)
             sscanf(v[i], "%d", &up->m);
+
+        if (strcmp(k[i], "return") == 0)
+            sscanf(v[i], "%d", &up->n);
+
+        if (strcmp(k[i], "collisions") == 0)
+            sscanf(v[i], "%d", &up->c);
     }
 
     up->p[1] += up->r + SMALL;
@@ -1250,6 +1258,8 @@ static void make_abal(struct s_file *fp,
     yp->p[2] = 0.0f;
     yp->r    = 0.25f;
     yp->m    = 1;
+    yp->n    = 0;
+    yp->c    = 1;
 
     for (i = 0; i < c; i++)
     {
@@ -1269,6 +1279,12 @@ static void make_abal(struct s_file *fp,
 
         if (strcmp(k[i], "mobile") == 0)
             sscanf(v[i], "%d", &yp->m);
+
+        if (strcmp(k[i], "return") == 0)
+            sscanf(v[i], "%d", &yp->n);
+
+        if (strcmp(k[i], "collisions") == 0)
+            sscanf(v[i], "%d", &yp->c);
     }
 
     yp->p[1] += yp->r + SMALL;

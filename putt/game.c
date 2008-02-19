@@ -183,7 +183,7 @@ int game_check_balls(struct s_file *fp)
     {
         struct s_ball *yp = fp->yv + i;
 
-        if (yp->p[1] < -20.0f)
+        if (yp->p[1] < -20.0f && yp->n)
         {
             v_cpy(yp->p, yp->O);
             v_cpy(yp->v, z);
@@ -292,10 +292,13 @@ static void game_draw_balls(const struct s_file *fp,
 
     int ui;
 
-    for (ui = 0; fp->ball_collisions && ui < fp->yc; ui++)
+    for (ui = 0; ui < fp->yc; ui++)
     {
             float ball_M[16];
             float pend_M[16];
+
+            if (!fp->ball_collisions && fp->yv[ui].c)
+                continue;
 
             m_basis(ball_M, fp->yv[ui].e[0], fp->yv[ui].e[1], fp->yv[ui].e[2]);
             m_basis(pend_M, fp->yv[ui].E[0], fp->yv[ui].E[1], fp->yv[ui].E[2]);
