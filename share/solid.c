@@ -407,7 +407,7 @@ static int sol_load_head(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->wc);
     get_index(fin, &fp->ic);
 #endif
-    fseek(fin, 18 * 4, SEEK_CUR);
+    fseek(fin, 19 * 4, SEEK_CUR);
 
     if (fp->ac)
     {
