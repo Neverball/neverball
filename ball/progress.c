@@ -47,6 +47,8 @@ static int status = GAME_NONE;
 static int coins = 0;
 static int timer = 0;
 
+static int goal = 0;
+
 static int time_rank = 3;
 static int goal_rank = 3;
 static int coin_rank = 3;
@@ -77,12 +79,14 @@ int  progress_play(int i)
         status = GAME_NONE;
         coins  = 0;
         timer  = 0;
+        goal   = level_goal(level);
 
         time_rank = goal_rank = coin_rank = 3;
 
         if (demo_play_init(USER_REPLAY_FILE, get_level(level), mode,
                            level_time(level), level_goal(level),
-                           score, balls, times))
+                           (mode == MODE_NORMAL && level_completed(level)) ||
+                           goal == 0, score, balls, times))
         {
             return 1;
         }
@@ -93,6 +97,20 @@ int  progress_play(int i)
         }
     }
     return 0;
+}
+
+void progress_step(void)
+{
+    if (goal > 0)
+    {
+        goal = level_goal(level) - curr_coins();
+
+        if (goal <= 0)
+        {
+            game_set_goal();
+            goal = 0;
+        }
+    }
 }
 
 void progress_stat(int s)
@@ -117,7 +135,7 @@ void progress_stat(int s)
 
         dirty = level_score_update(level, timer, coins,
                                    &time_rank,
-                                   &goal_rank,
+                                   goal == 0 ? &goal_rank : NULL,
                                    &coin_rank);
 
         if (!level_completed(level))
@@ -193,7 +211,7 @@ void progress_exit(int s)
 
 int  progress_replay(const char *filename)
 {
-    return demo_replay_init(filename, 1, &mode, &balls, &score, &times);
+    return demo_replay_init(filename, &goal, &mode, &balls, &score, &times);
 }
 
 int  progress_next_avail(void)
@@ -275,6 +293,7 @@ int curr_balls(void) { return balls; }
 int curr_score(void) { return score; }
 int curr_mode (void) { return mode;  }
 int curr_bonus(void) { return bonus; }
+int curr_goal (void) { return goal;  }
 
 int progress_time_rank(void) { return time_rank; }
 int progress_goal_rank(void) { return goal_rank; }
@@ -291,7 +310,6 @@ const char *mode_to_str(int m, int l)
     {
     case MODE_CHALLENGE: return l ? _("Challenge Mode") : _("Challenge");
     case MODE_NORMAL:    return l ? _("Normal Mode")    : _("Normal");
-    case MODE_PRACTICE:  return l ? _("Practice Mode")  : _("Practice");
     default:             return l ? _("Unknown Mode")   : _("Unknown");
     }
 }

@@ -49,6 +49,12 @@ static int done_action(int i)
     case DONE_NAME:
         new_name = 1;
         return goto_name(&st_done, &st_done, 0);
+
+    case GUI_MOST_COINS:
+    case GUI_BEST_TIMES:
+    case GUI_UNLOCK_GOAL:
+        set_score_type(i);
+        return goto_state(&st_done);
     }
     return 1;
 }
@@ -80,10 +86,7 @@ static int done_enter(void)
         gui_space(id);
 
         if ((jd = gui_harray(id)))
-        {
-            gui_most_coins(jd, 1);
-            gui_best_times(jd, 1);
-        }
+            gui_score_board(jd, 1);
 
         gui_space(id);
 
@@ -101,8 +104,9 @@ static int done_enter(void)
         gui_pulse(gid, 1.2f);
     }
 
-    set_best_times(set_time_score(curr_set()), progress_times_rank(), 0);
-    set_most_coins(set_coin_score(curr_set()), progress_score_rank());
+    set_score_board(set_coin_score(curr_set()), progress_score_rank(),
+                    set_time_score(curr_set()), progress_times_rank(),
+                    set_time_score(curr_set()), progress_times_rank());
 
     return id;
 }

@@ -373,9 +373,8 @@ void sol_draw(const struct s_file *fp, int depthmask, int depthtest)
     if (depthtest == 0) glEnable(GL_DEPTH_TEST);
 }
 
-void sol_bill(const struct s_file *fp, const float *M)
+void sol_bill(const struct s_file *fp, const float *M, float t)
 {
-    float t = SDL_GetTicks() / 1000.f + 120.0f;
     const struct s_mtrl *mp = &default_mtrl;
 
     int ri;

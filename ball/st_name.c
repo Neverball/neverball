@@ -134,7 +134,7 @@ static void name_leave(int id)
     gui_delete(id);
 }
 
-static void name_paint(int id, float st)
+static void name_paint(int id, float t)
 {
     if (draw_back)
     {
@@ -145,7 +145,7 @@ static void name_paint(int id, float st)
         config_pop_matrix();
     }
     else
-        game_draw(0, st);
+        game_draw(0, t);
 
     gui_paint(id);
 }

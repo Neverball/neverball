@@ -244,11 +244,24 @@ int level_score_update(int level,
 
     config_get_s(CONFIG_PLAYER, player, MAXSTR);
 
-    *time_rank = score_time_insert(&l->score.best_times,  player, timer, coins);
-    *goal_rank = score_time_insert(&l->score.unlock_goal, player, timer, coins);
-    *coin_rank = score_coin_insert(&l->score.most_coins,  player, timer, coins);
+    if (time_rank)
+        *time_rank = score_time_insert(&l->score.best_times,
+                                       player, timer, coins);
 
-    return *time_rank < 3 || *goal_rank < 3 || *coin_rank < 3;
+    if (goal_rank)
+        *goal_rank = score_time_insert(&l->score.unlock_goal,
+                                       player, timer, coins);
+
+    if (coin_rank)
+        *coin_rank = score_coin_insert(&l->score.most_coins,
+                                       player, timer, coins);
+
+    if ((time_rank && *time_rank < 3) ||
+        (goal_rank && *goal_rank < 3) ||
+        (coin_rank && *coin_rank < 3))
+        return 1;
+    else
+        return 0;
 }
 
 void level_rename_player(int level,

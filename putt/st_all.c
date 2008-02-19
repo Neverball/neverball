@@ -231,9 +231,9 @@ static void title_leave(int id)
     gui_delete(id);
 }
 
-static void title_paint(int id, float st)
+static void title_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
 }
 
@@ -356,9 +356,9 @@ static void course_leave(int id)
     gui_delete(id);
 }
 
-static void course_paint(int id, float st)
+static void course_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
 }
 
@@ -502,9 +502,9 @@ static void party_leave(int id)
     gui_delete(id);
 }
 
-static void party_paint(int id, float st)
+static void party_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
 }
 
@@ -607,9 +607,9 @@ static void pause_leave(int id)
     audio_music_fade_in(0.5f);
 }
 
-static void pause_paint(int id, float st)
+static void pause_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
     hud_paint();
 }
@@ -717,9 +717,9 @@ static void next_leave(int id)
     gui_delete(id);
 }
 
-static void next_paint(int id, float st)
+static void next_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     hud_paint();
     gui_paint(id);
 }
@@ -781,9 +781,9 @@ static int poser_enter(void)
     return 0;
 }
 
-static void poser_paint(int id, float st)
+static void poser_paint(int id, float t)
 {
-    game_draw(1);
+    game_draw(1, t);
 }
 
 static int poser_buttn(int b, int d)
@@ -815,9 +815,9 @@ static void flyby_leave(int id)
     hud_free();
 }
 
-static void flyby_paint(int id, float st)
+static void flyby_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     hud_paint();
 }
 
@@ -883,9 +883,9 @@ static void stroke_leave(int id)
     config_set_d(CONFIG_CAMERA, 0);
 }
 
-static void stroke_paint(int id, float st)
+static void stroke_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     hud_paint();
 }
 
@@ -962,9 +962,9 @@ static void roll_leave(int id)
     hud_free();
 }
 
-static void roll_paint(int id, float st)
+static void roll_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     hud_paint();
 }
 
@@ -1015,9 +1015,9 @@ static void goal_leave(int id)
     hud_free();
 }
 
-static void goal_paint(int id, float st)
+static void goal_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
     hud_paint();
 }
@@ -1081,9 +1081,9 @@ static void stop_leave(int id)
     hud_free();
 }
 
-static void stop_paint(int id, float st)
+static void stop_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     hud_paint();
 }
 
@@ -1146,7 +1146,7 @@ static int fall_enter(void)
     else
     {
         hole_fall();
-        game_draw(0); /*TODO: is this call ok? */
+/*        game_draw(0);*/ /*TODO: is this call ok? */  /* No, it's not. */
     }
 
     hud_init();
@@ -1160,9 +1160,9 @@ static void fall_leave(int id)
     hud_free();
 }
 
-static void fall_paint(int id, float st)
+static void fall_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
     hud_paint();
 }
@@ -1224,9 +1224,9 @@ static void score_leave(int id)
     gui_delete(id);
 }
 
-static void score_paint(int id, float st)
+static void score_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
 }
 
@@ -1277,9 +1277,9 @@ static void over_leave(int id)
     gui_delete(id);
 }
 
-static void over_paint(int id, float st)
+static void over_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
 }
 

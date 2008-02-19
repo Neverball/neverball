@@ -66,7 +66,7 @@ int read_line(char **dst, FILE *fin)
 
         /* Allocate or reallocate space for the buffer. */
 
-        if ((store_new = realloc(store, store_size + buffer_size)))
+        if ((store_new = (char *) realloc(store, store_size + buffer_size)))
         {
             /* Avoid passing garbage to string functions. */
 
@@ -156,29 +156,32 @@ int file_rename(const char *src, const char *dst)
 char *base_name(const char *name, const char *suffix)
 {
     static char buf[MAXSTR];
-
     char *base;
-    size_t l;
+    int l;
 
-    /* Remove the directory delimiter. */
+    /* Remove the directory part. */
 
     base = strrchr(name, '/');
+
 #ifdef _WIN32
     if (!base)
         base = strrchr(name, '\\');
     else
     {
         char *tmp;
+
         if ((tmp = strrchr(base, '\\')))
             base = tmp;
     }
 #endif
-    strncpy(buf, base ? base + 1 : name, MAXSTR);
 
-    /* Remove the extension. */
+    strncpy(buf, base ? base + 1 : name, sizeof (buf));
+
+    /* Remove the suffix. */
 
     l = strlen(buf) - strlen(suffix);
-    if ((l > 1) && (strcmp(buf + l, suffix) == 0))
+
+    if (l >= 0 && strcmp(buf + l, suffix) == 0)
         buf[l] = '\0';
 
     return buf;

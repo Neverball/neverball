@@ -342,7 +342,7 @@ static void conf_leave(int id)
     gui_delete(id);
 }
 
-static void conf_paint(int id, float st)
+static void conf_paint(int id, float t)
 {
     config_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {

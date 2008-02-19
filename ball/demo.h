@@ -43,7 +43,7 @@ void demo_unique(char *);
 /*---------------------------------------------------------------------------*/
 
 int  demo_play_init(const char *, const struct level *,
-                    int, int, int, int, int, int);
+                    int, int, int, int, int, int, int);
 void demo_play_step(void);
 void demo_play_stat(int, int, int);
 void demo_play_stop(void);
@@ -53,7 +53,7 @@ void demo_rename(const char *);
 
 /*---------------------------------------------------------------------------*/
 
-int  demo_replay_init(const char *, int, int *, int *, int *, int *);
+int  demo_replay_init(const char *, int *, int *, int *, int *, int *);
 int  demo_replay_step(float);
 void demo_replay_stop(int);
 void demo_replay_dump_info(void);

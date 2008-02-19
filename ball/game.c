@@ -54,7 +54,7 @@ static float view_e[3][3];              /* Current view reference frame      */
 static float view_k;
 
 static int   coins  = 0;                /* Collected coins                   */
-static int   goal_c = 0;                /* Goal coins remaining (0 = open)   */
+static int   goal_e = 0;                /* Goal enabled flag                 */
 static float goal_k = 0;                /* Goal animation                    */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
@@ -311,7 +311,7 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-int game_init(const char *file_name, int t, int g)
+int game_init(const char *file_name, int t, int e)
 {
     char *back_name = NULL, *grad_name = NULL;
 
@@ -341,8 +341,8 @@ int game_init(const char *file_name, int t, int g)
     jump_e = 1;
     jump_b = 0;
 
-    goal_c = g;
-    goal_k = (g == 0) ? 1.0f : 0.0f;
+    goal_e = e ? 1    : 0;
+    goal_k = e ? 1.0f : 0.0f;
 
     /* Initialise the level, background, particles, fade, and view. */
 
@@ -396,14 +396,10 @@ int curr_coins(void)
     return coins;
 }
 
-int curr_goal(void)
-{
-    return goal_c;
-}
-
 /*---------------------------------------------------------------------------*/
 
-static void game_draw_balls(const struct s_file *fp, const float *bill_M)
+static void game_draw_balls(const struct s_file *fp,
+                            const float *bill_M, float t)
 {
     float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -424,15 +420,15 @@ static void game_draw_balls(const struct s_file *fp, const float *bill_M)
                  fp->uv[0].r);
 
         glColor4fv(c);
-        ball_draw(ball_M, pend_M, bill_M);
+        ball_draw(ball_M, pend_M, bill_M, t);
     }
     glPopMatrix();
     glPopAttrib();
 }
 
-static void game_draw_items(const struct s_file *fp)
+static void game_draw_items(const struct s_file *fp, float t)
 {
-    float r = 360.f * SDL_GetTicks() / 1000.f;
+    float r = 360.f * t;
     int hi;
 
     glPushAttrib(GL_LIGHTING_BIT);
@@ -497,9 +493,9 @@ static void game_draw_items(const struct s_file *fp)
     glPopAttrib();
 }
 
-static void game_draw_goals(const struct s_file *fp, const float *M)
+static void game_draw_goals(const struct s_file *fp, const float *M, float t)
 {
-    if (goal_c == 0)
+    if (goal_e)
     {
         int zi;
 
@@ -515,7 +511,7 @@ static void game_draw_goals(const struct s_file *fp, const float *M)
                                  fp->zv[zi].p[1],
                                  fp->zv[zi].p[2]);
                     
-                    part_draw_goal(M, fp->zv[zi].r, goal_k);
+                    part_draw_goal(M, fp->zv[zi].r, goal_k, t);
                 }
                 glPopMatrix();
             }
@@ -641,10 +637,8 @@ static void game_draw_light(void)
     glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
 }
 
-static void game_draw_back(int pose, int d)
+static void game_draw_back(int pose, int d, float t)
 {
-    float t = SDL_GetTicks() / 1000.f + 120.0f;
-
     glPushMatrix();
     {
         if (d < 0)
@@ -721,7 +715,7 @@ static void game_clip_ball(int d, const float *p)
     glClipPlane(GL_CLIP_PLANE2, pz);
 }
 
-static void game_draw_fore(int pose, const float *M, int d)
+static void game_draw_fore(int pose, const float *M, int d, float t)
 {
     const float *ball_p = file.uv->p;
     const float  ball_r = file.uv->r;
@@ -746,7 +740,7 @@ static void game_draw_fore(int pose, const float *M, int d)
         {
             /* Draw the coins. */
 
-            game_draw_items(&file);
+            game_draw_items(&file, t);
 
             /* Draw the floor. */
 
@@ -763,7 +757,7 @@ static void game_draw_fore(int pose, const float *M, int d)
 
             /* Draw the ball. */
 
-            game_draw_balls(&file, M);
+            game_draw_balls(&file, M, t);
         }
 
         /* Draw the particles and light columns. */
@@ -774,12 +768,12 @@ static void game_draw_fore(int pose, const float *M, int d)
         {
             glColor3f(1.0f, 1.0f, 1.0f);
 
-            sol_bill(&file, M);
-            part_draw_coin(M);
+            sol_bill(&file, M, t);
+            part_draw_coin(M, t);
 
             glDisable(GL_TEXTURE_2D);
             {
-                game_draw_goals(&file, M);
+                game_draw_goals(&file, M, t);
                 game_draw_jumps(&file);
                 game_draw_swchs(&file);
             }
@@ -797,7 +791,7 @@ static void game_draw_fore(int pose, const float *M, int d)
     glPopMatrix();
 }
 
-void game_draw(int pose, float st)
+void game_draw(int pose, float t)
 {
     float fov = view_fov;
 
@@ -855,8 +849,8 @@ void game_draw(int pose, float st)
                         glScalef(+1.0f, -1.0f, +1.0f);
 
                         game_draw_light();
-                        game_draw_back(pose,    -1);
-                        game_draw_fore(pose, U, -1);
+                        game_draw_back(pose,    -1, t);
+                        game_draw_fore(pose, U, -1, t);
                     }
                     glPopMatrix();
                     glFrontFace(GL_CCW);
@@ -868,8 +862,8 @@ void game_draw(int pose, float st)
 
             game_draw_light();
             game_refl_all();
-            game_draw_back(pose,    +1);
-            game_draw_fore(pose, T, +1);
+            game_draw_back(pose,    +1, t);
+            game_draw_fore(pose, T, +1, t);
         }
         glPopMatrix();
         config_pop_matrix();
@@ -979,7 +973,7 @@ static void game_update_view(float dt)
 
 static void game_update_time(float dt, int b)
 {
-    if (goal_c == 0 && goal_k < 1.0f)
+    if (goal_e && goal_k < 1.0f)
         goal_k += dt;
 
    /* The ticking clock. */
@@ -1010,32 +1004,17 @@ static int game_update_state(int bt)
 
     if (bt && (hp = sol_item_test(fp, p, COIN_RADIUS)))
     {
-        const char *sound = AUD_COIN;
-
         item_color(hp, c);
         part_burst(p, c);
 
         grow_init(fp, hp->t);
 
         if (hp->t == ITEM_COIN)
-        {
             coins += hp->n;
 
-            /* Check for goal open. */
+        audio_play(AUD_COIN, 1.f);
 
-            if (goal_c > 0)
-            {
-                goal_c -= hp->n;
-                if (goal_c <= 0)
-                {
-                    sound = AUD_SWITCH;
-                    goal_c = 0;
-                }
-            }
-        }
-        audio_play(sound, 1.f);
-
-        /* Reset item type. */
+        /* Discard item. */
 
         hp->t = ITEM_NONE;
     }
@@ -1060,7 +1039,7 @@ static int game_update_state(int bt)
 
     /* Test for a goal. */
 
-    if (bt && goal_c == 0 && (zp = sol_goal_test(fp, p, 0)))
+    if (bt && goal_e && (zp = sol_goal_test(fp, p, 0)))
     {
         audio_play(AUD_GOAL, 1.0f);
         return GAME_GOAL;
@@ -1147,6 +1126,19 @@ int game_step(const float g[3], float dt, int bt)
         return game_update_state(bt);
     }
     return GAME_NONE;
+}
+
+/*---------------------------------------------------------------------------*/
+
+void game_set_goal(void)
+{
+    audio_play(AUD_SWITCH, 1.0f);
+    goal_e = 1;
+}
+
+void game_clr_goal(void)
+{
+    goal_e = 0;
 }
 
 /*---------------------------------------------------------------------------*/

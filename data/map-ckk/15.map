@@ -1661,12 +1661,12 @@
 }
 // brush 129
 {
-( 1056 128 -16 ) ( -1888 -128 -16 ) ( -1888 128 -16 ) mtrl/arrow-green 128 128 90 0.5 -0.5 0 0 0
-( -2656 64 -32 ) ( 288 64 96 ) ( -2656 64 96 ) mtrl/invisible 0 0 0 -0.5 0.5 0 0 0
-( -64 -336 96 ) ( -64 -80 -32 ) ( -64 -80 96 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( 1056 128 -32 ) ( -1888 -128 -32 ) ( 1056 -128 -32 ) mtrl/turf-grey 0 0 0 -0.5 0.5 0 0 0
-( -2672 -64 -32 ) ( 272 -64 96 ) ( 272 -64 -32 ) mtrl/invisible 0 0 0 -0.5 0.5 0 0 0
-( 64 -272 96 ) ( 64 -16 -32 ) ( 64 -272 -32 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 1056 128 -16 ) ( -1888 -128 -16 ) ( -1888 128 -16 ) mtrl/arrow-green-light 128 128 90 0.5 -0.5 134217728 0 0
+( -2656 64 -32 ) ( 288 64 96 ) ( -2656 64 96 ) mtrl/invisible 0 0 0 -0.5 0.5 134217728 0 0
+( -64 -336 96 ) ( -64 -80 -32 ) ( -64 -80 96 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 1054 128 -17 ) ( -1890 -128 -17 ) ( 1054 -128 -17 ) mtrl/turf-grey 0 0 0 -0.5 0.5 134217728 0 0
+( -2672 -64 -32 ) ( 272 -64 96 ) ( 272 -64 -32 ) mtrl/invisible 0 0 0 -0.5 0.5 134217728 0 0
+( 64 -272 96 ) ( 64 -16 -32 ) ( 64 -272 -32 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
 }
 // brush 130
 {
@@ -1685,6 +1685,15 @@
 ( 1584 64 -32 ) ( 1584 -3040 -32 ) ( 1680 64 -32 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( 1584 64 -8 ) ( 1584 -64 -8 ) ( 1584 -64 -32 ) mtrl/edge-green 0 0 0 0.5 0.5 0 0 0
 ( 1584 128 -8 ) ( 1600 144 -32 ) ( 1600 144 -8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+}
+// brush 132
+{
+( 1056 128 -16 ) ( -1888 -128 -16 ) ( -1888 128 -16 ) mtrl/turf-green-dark 128 128 90 0.5 -0.5 0 0 0
+( -2656 64 -32 ) ( 288 64 96 ) ( -2656 64 96 ) mtrl/invisible 0 0 0 -0.5 0.5 0 0 0
+( -64 -336 96 ) ( -64 -80 -32 ) ( -64 -80 96 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 1056 128 -32 ) ( -1888 -128 -32 ) ( 1056 -128 -32 ) mtrl/turf-grey 0 0 0 -0.5 0.5 0 0 0
+( -2672 -64 -32 ) ( 272 -64 96 ) ( 272 -64 -32 ) mtrl/invisible 0 0 0 -0.5 0.5 0 0 0
+( 64 -272 96 ) ( 64 -16 -32 ) ( 64 -272 -32 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 }
 }
 // entity 1
@@ -1725,27 +1734,27 @@
 }
 // entity 7
 {
+"classname" "target_position"
+"origin" "154 -91 12"
+"targetname" "t1"
+}
+// entity 8
+{
+"classname" "info_player_intermission"
+"origin" "-400 -576 304"
+"target" "t1"
+}
+// entity 9
+{
 "classname" "info_player_intermission"
 "origin" "1776 1616 1184"
 "target" "t2"
 "angle" "180"
 }
-// entity 8
+// entity 10
 {
 "classname" "target_position"
 "origin" "470 219 12"
 "targetname" "t2"
 "angle" "180"
-}
-// entity 9
-{
-"classname" "target_position"
-"origin" "154 -91 12"
-"targetname" "t1"
-}
-// entity 10
-{
-"classname" "info_player_intermission"
-"origin" "-400 -576 304"
-"target" "t1"
 }

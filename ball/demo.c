@@ -261,7 +261,7 @@ void demo_unique(char *name)
 /*---------------------------------------------------------------------------*/
 
 int demo_play_init(const char *name, const struct level *level,
-                   int mode, int t, int g, int s, int b, int tt)
+                   int mode, int t, int g, int e, int s, int b, int tt)
 {
     struct demo demo;
 
@@ -288,7 +288,7 @@ int demo_play_init(const char *name, const struct level *level,
     {
         demo_header_write(demo_fp, &demo);
         audio_music_fade_to(2.0f, level->song);
-        return game_init(level->file, t, g);
+        return game_init(level->file, t, e);
     }
     return 0;
 }
@@ -360,7 +360,7 @@ const struct demo *curr_demo_replay(void)
 
 static int demo_status = GAME_NONE;
 
-int demo_replay_init(const char *name, int g, int *m, int *b, int *s, int *tt)
+int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
 {
     demo_status = GAME_NONE;
     demo_fp     = fopen(name, FMODE_RB);
@@ -380,6 +380,7 @@ int demo_replay_init(const char *name, int g, int *m, int *b, int *s, int *tt)
         else
             return 0;
 
+        if (g)  *g  = demo_replay.goal;
         if (m)  *m  = demo_replay.mode;
         if (b)  *b  = demo_replay.balls;
         if (s)  *s  = demo_replay.score;
@@ -391,11 +392,11 @@ int demo_replay_init(const char *name, int g, int *m, int *b, int *s, int *tt)
 
             return game_init(demo_level_replay.file,
                              demo_level_replay.time,
-                             demo_level_replay.goal);
+                             demo_level_replay.goal == 0);
         }
         else
             return game_init(demo_level_replay.file,
-                             demo_level_replay.time, 0);
+                             demo_level_replay.time, 1);
     }
     return 0;
 }

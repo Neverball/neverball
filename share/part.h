@@ -18,8 +18,8 @@ void part_free(void);
 void part_burst(const float *, const float *);
 void part_step(const float *, float);
 
-void part_draw_coin(const float *);
-void part_draw_goal(const float *, float, float);
+void part_draw_coin(const float *, float);
+void part_draw_goal(const float *, float, float, float);
 
 /*---------------------------------------------------------------------------*/
 

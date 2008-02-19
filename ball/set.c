@@ -38,8 +38,8 @@ struct set
 
     char user_scores[PATHMAX]; /* User high-score file       */
 
-    struct score time_score;   /* Challenge score            */
     struct score coin_score;   /* Challenge score            */
+    struct score time_score;   /* Challenge score            */
 
     /* Level info */
 
@@ -398,10 +398,16 @@ int set_score_update(int timer, int coins, int *score_rank, int *times_rank)
 
     config_get_s(CONFIG_PLAYER, player, MAXSTR);
 
-    *score_rank = score_time_insert(&s->time_score, player, timer, coins);
-    *times_rank = score_time_insert(&s->coin_score, player, timer, coins);
+    if (score_rank)
+        *score_rank = score_coin_insert(&s->coin_score, player, timer, coins);
 
-    return *score_rank < 3 || *times_rank < 3;
+    if (times_rank)
+        *times_rank = score_time_insert(&s->time_score, player, timer, coins);
+
+    if ((score_rank && *score_rank < 3) || (times_rank && *times_rank < 3))
+        return 1;
+    else
+        return 0;
 }
 
 void set_rename_player(int score_rank, int times_rank, const char *player)
@@ -430,7 +436,7 @@ void level_snap(int i)
 
     /* Initialize the game for a snapshot. */
 
-    if (game_init(level_v[i].file, 0, 0))
+    if (game_init(level_v[i].file, 0, 1))
     {
         /* Render the level and grab the screen. */
 

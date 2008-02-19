@@ -24,10 +24,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-struct state st_help_demo;
-
-/*---------------------------------------------------------------------------*/
-
 #define HELP_BACK   0
 #define HELP_RULE   1
 #define HELP_CONT   2
@@ -53,13 +49,13 @@ static int help_action(int t)
 
     case HELP_DEMO_1:
         if (demo_replay_init(config_data("gui/demo1.nbr"),
-                             0, NULL, NULL, NULL, NULL))
+                             NULL, NULL, NULL, NULL, NULL))
             return goto_state(&st_help_demo);
         break;
 
     case HELP_DEMO_2:
         if (demo_replay_init(config_data("gui/demo2.nbr"),
-                             0, NULL, NULL, NULL, NULL))
+                             NULL, NULL, NULL, NULL, NULL))
             return goto_state(&st_help_demo);
         break;
 
@@ -246,14 +242,6 @@ static int help_modes(int id)
 
             gui_space(kd);
 
-            gui_label(kd, _("Practice Mode"), GUI_SML, GUI_TOP, 0, 0);
-            gui_multi(kd,
-                      _("Play without time limit or coin constraint.\\"
-                        "Levels cannot be unlocked in this mode."),
-                      GUI_SML, GUI_BOT, gui_wht, gui_wht);
-
-            gui_space(kd);
-
             gui_label(kd, _("Challenge Mode"), GUI_SML, GUI_TOP, 0, 0);
             gui_multi(kd,
                       _("Start playing from the first level of the set.\\"
@@ -388,9 +376,9 @@ static void help_demo_leave(int id)
     demo_replay_stop(0);
 }
 
-static void help_demo_paint(int id, float st)
+static void help_demo_paint(int id, float t)
 {
-    game_draw(0, st);
+    game_draw(0, t);
 }
 
 static void help_demo_timer(int id, float dt)

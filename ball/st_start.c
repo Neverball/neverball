@@ -29,13 +29,10 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define START_BACK      -1
-#define START_PRACTICE  -2
-#define START_NORMAL    -3
-#define START_CHALLENGE -4
+#define START_BACK        -1
+#define START_CHALLENGE   -2
 
 static int shot_id;
-static int status_id;
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,13 +40,13 @@ static int status_id;
 
 static void gui_level(int id, int i)
 {
-    const GLfloat *fore, *back;
+    const GLfloat *fore = 0, *back = 0;
 
     int jd;
 
     if (!level_exists(i))
     {
-        gui_space(id);
+        gui_label(id, " ", GUI_SML, GUI_ALL, gui_blk, gui_blk);
         return;
     }
 
@@ -58,84 +55,43 @@ static void gui_level(int id, int i)
         fore = level_bonus(i)     ? gui_grn : gui_wht;
         back = level_completed(i) ? fore    : gui_yel;
     }
-    else
-        fore = back = gui_gry;
 
     jd = gui_label(id, level_repr(i), GUI_SML, GUI_ALL, back, fore);
 
-    gui_active(jd, i, 0);
+    if (level_opened(i))
+        gui_active(jd, i, 0);
 }
 
 static void start_over_level(int i)
 {
-    if (level_opened(i) || config_cheat())
+    if (level_opened(i))
     {
         gui_set_image(shot_id, level_shot(i));
 
-        set_most_coins(&get_level(i)->score.most_coins, -1);
-
-        if (curr_mode() == MODE_PRACTICE)
-        {
-            set_best_times(&get_level(i)->score.best_times, -1, 0);
-
-            if (level_bonus(i))
-                gui_set_label(status_id,
-                              _("Play this bonus level in practice mode"));
-            else
-                gui_set_label(status_id,
-                              _("Play this level in practice mode"));
-        }
-        else
-        {
-            set_best_times(&get_level(i)->score.unlock_goal, -1, 1);
-
-            if (level_bonus(i))
-                gui_set_label(status_id,
-                              _("Play this bonus level in normal mode"));
-            else
-                gui_set_label(status_id, _("Play this level in normal mode"));
-        }
-        if (config_cheat())
-        {
-            gui_set_label(status_id, level_file(i));
-        }
-        return;
+        set_score_board(&get_level(i)->score.most_coins,  -1,
+                        &get_level(i)->score.best_times,  -1,
+                        &get_level(i)->score.unlock_goal, -1);
     }
-    else if (level_bonus(i))
-        gui_set_label(status_id,
-                      _("Play in challenge mode to unlock extra bonus levels"));
-    else
-        gui_set_label(status_id,
-                      _("Finish previous levels to unlock this level"));
 }
 
 static void start_over(int id)
 {
     int i;
 
-    gui_pulse(id, 1.2f);
     if (id == 0)
         return;
 
+    gui_pulse(id, 1.2f);
+
     i = gui_token(id);
 
-
-    switch (i)
+    if (i == START_CHALLENGE || i == START_BACK)
     {
-    case START_CHALLENGE:
         gui_set_image(shot_id, set_shot(curr_set()));
-        set_most_coins(set_coin_score(curr_set()), -1);
-        set_best_times(set_time_score(curr_set()), -1, 0);
-        gui_set_label(status_id, _("Challenge all levels from the first one"));
-        break;
 
-    case START_NORMAL:
-        gui_set_label(status_id, _("Collect coins and unlock next level"));
-        break;
-
-    case START_PRACTICE:
-        gui_set_label(status_id, _("Train yourself without time nor coin"));
-        break;
+        set_score_board(set_coin_score(curr_set()), -1,
+                        set_time_score(curr_set()), -1,
+                        set_time_score(curr_set()), -1);
     }
 
     if (i >= 0)
@@ -156,6 +112,12 @@ static int start_action(int i)
     case START_CHALLENGE:
         progress_init(MODE_CHALLENGE);
         return config_cheat() ? 1 : start_action(0);
+
+    case GUI_MOST_COINS:
+    case GUI_BEST_TIMES:
+    case GUI_UNLOCK_GOAL:
+        set_score_type(i);
+        return goto_state(&st_start);
 
     default:
         if (progress_play(i))
@@ -205,19 +167,11 @@ static int start_enter(void)
         gui_space(id);
 
         if ((jd = gui_harray(id)))
-        {
-            gui_most_coins(jd, 0);
-            gui_best_times(jd, 0);
-        }
-        gui_space(id);
-
-        status_id = gui_label(id, _("Choose a level to play"), GUI_SML, GUI_ALL,
-                              gui_yel, gui_wht);
+            gui_score_board(jd, 0);
 
         gui_layout(id, 0, 0);
 
-        set_most_coins(NULL, -1);
-        set_best_times(NULL, -1, curr_mode() != MODE_PRACTICE);
+        set_score_board(NULL, -1, NULL, -1, NULL, -1);
     }
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");

@@ -11,4 +11,4 @@ A 26-hole course\following the alphabet\\Difficulty: Hard\Author: paxed\
 holes-slippi.txt shot-putt/slippi.jpg
 Crazy Golf\ \\Difficulty: Easy to Medium\Author: slippifishi\
 holes-kk.txt shot-putt/tricky-golf.jpg
-Tricky Golf\\An 18-hole course with many challenges\Difficulty: Expert Through Insane\Author: Byron James Johnson (Krabby Krap)
+Tricky Golf\\An 18-hole course with many challenges\Difficulty: Expert Through Insane\Author: Byron James Johnson

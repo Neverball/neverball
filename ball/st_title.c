@@ -152,7 +152,7 @@ static int title_enter(void)
 
     /* Initialize the title level for display. */
 
-    game_init("map-medium/title.sol", 0, 0);
+    game_init("map-medium/title.sol", 0, 1);
 
     real_time = 0.0f;
     mode = 0;
@@ -195,7 +195,7 @@ static void title_timer(int id, float dt)
         {
             if ((demo = demo_pick()))
             {
-                demo_replay_init(demo, 0, NULL, NULL, NULL, NULL);
+                demo_replay_init(demo, NULL, NULL, NULL, NULL, NULL);
                 game_set_fly(0.0f);
                 real_time = 0.0f;
                 mode = 2;
@@ -224,7 +224,7 @@ static void title_timer(int id, float dt)
 
         if (real_time > 1.0f)
         {
-            game_init("map-medium/title.sol", 0, 0);
+            game_init("map-medium/title.sol", 0, 1);
 
             real_time = 0.0f;
             mode = 0;

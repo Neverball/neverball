@@ -6,6 +6,7 @@
 void progress_init(int);
 
 int  progress_play(int level);
+void progress_step(void);
 void progress_stat(int status);
 void progress_stop(void);
 void progress_exit(int status);
@@ -30,6 +31,7 @@ int  curr_balls(void);
 int  curr_score(void);
 int  curr_mode (void);
 int  curr_bonus(void);
+int  curr_goal (void);
 
 int  progress_time_rank(void);
 int  progress_goal_rank(void);
@@ -44,9 +46,8 @@ int  progress_reward_ball(int);
 
 #define MODE_CHALLENGE 1
 #define MODE_NORMAL    2
-#define MODE_PRACTICE  3
 
-#define MODE_COUNT 3
+#define MODE_COUNT 2
 
 const char *mode_to_str(int, int);
 

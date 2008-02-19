@@ -345,7 +345,7 @@ void audio_music_play(const char *filename)
     }
 }
 
-void audio_music_queue(const char *filename)
+void audio_music_queue(const char *filename, float t)
 {
     if (audio_state)
     {
@@ -354,6 +354,9 @@ void audio_music_queue(const char *filename)
             if ((queue = voice_init(filename, 0.0f)))
             {
                 queue->loop = 1;
+
+                if (t > 0.0f)
+                    queue->damp = +1.0f / (AUDIO_RATE * t);
             }
         }
         SDL_UnlockAudio();
@@ -400,12 +403,10 @@ void audio_music_fade_to(float t, const char *filename)
 {
     if (music)
     {
-        if (strcmp(filename, music->name))
+        if (strcmp(filename, music->name) != 0)
         {
-            audio_music_queue(filename);
             audio_music_fade_out(t);
-
-            if (queue) queue->damp = +1.0f / (AUDIO_RATE * t);
+            audio_music_queue(filename, t);
         }
         else audio_music_fade_in(t);
     }

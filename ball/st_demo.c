@@ -38,6 +38,8 @@
 static int first = 0;
 static int total = 0;
 
+static int last_viewed = 0;
+
 /*---------------------------------------------------------------------------*/
 
 static int demo_action(int i)
@@ -66,6 +68,7 @@ static int demo_action(int i)
     default:
         if (progress_replay(demo_get(i)->filename))
         {
+            last_viewed = i;
             demo_play_goto(0);
             return goto_state(&st_demo_play);
         }
@@ -210,7 +213,10 @@ static int gui_demo_status(int id, const struct demo *d)
 
 static void gui_demo_update_status(int i)
 {
-    const struct demo *d = demo_get(i);
+    const struct demo *d;
+
+    if ((d = demo_get(i)) == NULL && (d = demo_get(0)) == NULL)
+        return;
 
     gui_set_label(name_id,   d->name);
     gui_set_label(date_id,   date_to_str(d->date));
@@ -259,7 +265,7 @@ static int demo_enter(void)
         gui_filler(id);
         gui_demo_status(id, NULL);
         gui_layout(id, 0, 0);
-        gui_demo_update_status(0);
+        gui_demo_update_status(last_viewed);
     }
     else
     {
@@ -346,9 +352,9 @@ static int demo_play_enter(void)
     return id;
 }
 
-static void demo_play_paint(int id, float st)
+static void demo_play_paint(int id, float t)
 {
-    game_draw(0, st);
+    game_draw(0, t);
 
     if (show_hud)
         hud_paint();
@@ -370,6 +376,8 @@ static void demo_play_timer(int id, float dt)
         demo_paused = 0;
         goto_state(&st_demo_end);
     }
+    else
+        progress_step();
 }
 
 static int demo_play_keybd(int c, int d)
@@ -481,9 +489,9 @@ static int demo_end_enter(void)
     return id;
 }
 
-static void demo_end_paint(int id, float st)
+static void demo_end_paint(int id, float t)
 {
-    game_draw(0, st);
+    game_draw(0, t);
     gui_paint(id);
 
     if (demo_paused)

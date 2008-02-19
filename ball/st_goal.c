@@ -80,6 +80,13 @@ static int goal_action(int i)
         progress_stop();
         return goto_state(&st_done);
 
+    case GUI_MOST_COINS:
+    case GUI_BEST_TIMES:
+    case GUI_UNLOCK_GOAL:
+        set_score_type(i);
+        be_back_soon = 1;
+        return goto_state(&st_goal);
+
     case GOAL_NEXT:
         if (progress_next())
             return goto_state(&st_level);
@@ -180,10 +187,7 @@ static int goal_enter(void)
         }
 
         if ((jd = gui_harray(id)))
-        {
-            gui_most_coins(jd, 1);
-            gui_best_times(jd, 1);
-        }
+            gui_score_board(jd, 1);
 
         gui_space(id);
 
@@ -210,8 +214,9 @@ static int goal_enter(void)
 
     }
 
-    set_most_coins(&l->score.most_coins,  progress_coin_rank());
-    set_best_times(&l->score.unlock_goal, progress_goal_rank(), 1);
+    set_score_board(&l->score.most_coins,  progress_coin_rank(),
+                    &l->score.best_times,  progress_time_rank(),
+                    &l->score.unlock_goal, progress_goal_rank());
 
     audio_music_fade_out(2.0f);
 

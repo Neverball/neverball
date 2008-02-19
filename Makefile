@@ -111,7 +111,7 @@ BALL_TARG := neverball$(EXT)
 PUTT_TARG := neverputt$(EXT)
 
 ifdef MINGW
-    MAPC := wine ./$(MAPC_TARG)
+    MAPC := $(WINE) ./$(MAPC_TARG)
 else
     MAPC := ./$(MAPC_TARG)
 endif
