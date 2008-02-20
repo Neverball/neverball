@@ -974,10 +974,8 @@ static float sol_ball_collision(const struct s_file *fp,
     const int u2 = u2p->m;
 
    /* Correct positions up to the collision */
-    if (u1)
-        v_mad(p1, p1, v1, t);
-    if (u2)
-        v_mad(p2, p2, v2, t);
+    v_mad(p1, p1, v1, t);
+    v_mad(p2, p2, v2, t);
 
    /*
     * Keep balls from being bounced off, even though the surface is flat
@@ -1023,10 +1021,8 @@ static float sol_ball_collision(const struct s_file *fp,
     v_add(v1_par, vp2, vm1);
     v_add(v2_par, vp1, vm2);
 
-    if (u1)
-        v_add(v1, v1_par, v1_perp);
-    if (u2)
-        v_add(v2, v2_par, v2_perp);
+    v_add(v1, v1_par, v1_perp);
+    v_add(v2, v2_par, v2_perp);
 
    /* Hack: prevent accidental spinning while the ball is stationary */
     if (v_len(v1) < 0.01f && u1)
