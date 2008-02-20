@@ -1183,6 +1183,9 @@ static void sol_ball_step(struct s_file *fp, float dt)
     {
         struct s_ball *yp = fp->yv + i;
 
+        if (!yp->m)
+            continue;
+
         v_mad(yp->p, yp->p, yp->v, dt);
 
         sol_rotate(yp->e, yp->w, dt);
@@ -1661,7 +1664,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
         {
             struct s_ball *yp = fp->yv + ui;
 
-            if (!fp->ball_collisions && yp->c)
+            if ((!yp->m) || (!fp->ball_collisions && yp->c))
                 continue;
 
             /* If the ball is in contact with a surface, apply friction. */
