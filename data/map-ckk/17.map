@@ -3957,7 +3957,7 @@
 "radius" "0.0625"
 "collisions" "1"
 "return" "1"
-"mobile" "0"
+"mobile" "1"
 }
 // entity 97
 {
@@ -3966,7 +3966,7 @@
 "radius" "0.0625"
 "collisions" "1"
 "return" "1"
-"mobile" "0"
+"mobile" "1"
 }
 // entity 98
 {
