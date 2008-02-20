@@ -224,7 +224,7 @@ values follow.
 
     gamma 0.78
 
-        Nue's genius explanation here.
+        gamma gives the Coefficient of restitution of a ball-ball-collision. Its square gives the fraction of kinetic energy (in the center-of-mass system) that will be conserved in the collision, so possible values range from 0 (completely inelastic) to 1 (completely elastic) collision. Values greater than 1 mean that in each collision, energy is generated.
 
     putt_collisions 0
 
