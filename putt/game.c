@@ -290,32 +290,32 @@ static void game_draw_balls(const struct s_file *fp,
         { 0.1f, 0.1f, 0.1f, 0.7f },
     };
 
-    int ui;
+    int ui, yi;
 
-    for (ui = 0; ui < fp->yc; ui++)
+    for (yi = 0; yi < fp->yc; yi++)
     {
-            float ball_M[16];
-            float pend_M[16];
+        float ball_M[16];
+        float pend_M[16];
 
-            if (!fp->ball_collisions && fp->yv[ui].c)
-                continue;
+        if (!fp->ball_collisions && fp->yv[yi].c)
+            continue;
 
-            m_basis(ball_M, fp->yv[ui].e[0], fp->yv[ui].e[1], fp->yv[ui].e[2]);
-            m_basis(pend_M, fp->yv[ui].E[0], fp->yv[ui].E[1], fp->yv[ui].E[2]);
+        m_basis(ball_M, fp->yv[yi].e[0], fp->yv[yi].e[1], fp->yv[yi].e[2]);
+        m_basis(pend_M, fp->yv[yi].E[0], fp->yv[yi].E[1], fp->yv[yi].E[2]);
 
-            glPushMatrix();
-            {
-                glTranslatef(fp->yv[ui].p[0],
-                             fp->yv[ui].p[1] + BALL_FUDGE,
-                             fp->yv[ui].p[2]);
-                glScalef(fp->yv[ui].r,
-                         fp->yv[ui].r,
-                         fp->yv[ui].r);
+        glPushMatrix();
+        {
+            glTranslatef(fp->yv[yi].p[0],
+                         fp->yv[yi].p[1] + BALL_FUDGE,
+                         fp->yv[yi].p[2]);
+            glScalef(fp->yv[yi].r,
+                     fp->yv[yi].r,
+                     fp->yv[yi].r);
 
-                glColor4fv(color[5]);
-                ball_draw(ball_M, pend_M, bill_M, t);
-            }
-            glPopMatrix();
+            glColor4fv(color[5]);
+            ball_draw(ball_M, pend_M, bill_M, t);
+        }
+        glPopMatrix();
     }
 
     for (ui = curr_party(); ui > 0; ui--)
@@ -435,7 +435,7 @@ void game_draw(int pose, float t)
 
     float fov = FOV;
 
-    if (config_get_d(CONFIG_BALL_COLLISIONS) && jump_b && jump_u != ball)
+    if (config_get_d(CONFIG_BALL_COLLISIONS) && jump_b && jump_u != ball * 2)
         fov /= 1.9f * fabsf(jump_dt - 0.5f);
 
     else if (jump_b)
@@ -602,14 +602,8 @@ static int game_update_state(float dt)
         t = 0.f;
 
     /* Test for a switch. */
-
-    if(config_get_d(CONFIG_BALL_COLLISIONS))
-        for (i = 1; i < curr_party() + 1; i++)
-            if (sol_swch_test(fp, i))
-                audio_play(AUD_SWITCH, 1.f);
-    else
-        if (sol_swch_test(fp, i))
-            audio_play(AUD_SWITCH, 1.f);
+    if (sol_swch_test(fp))
+        audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
@@ -622,13 +616,30 @@ static int game_update_state(float dt)
                 jump_b  = 1;
                 jump_e  = 0;
                 jump_dt = 0.f;
-                jump_u  = i;
+                jump_u  = i * 2;
 
                 audio_play(AUD_JUMP, 1.f);
             }
             if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, i) == 0)
                 jump_e = 1;
             if (!jump_b && jump_u && i == jump_u && sol_jump_test(fp, jump_p, i) == 0)
+                jump_u = 0;
+        }
+
+        for (i = 0; i < fp->yc; i++)
+        {
+            if (!jump_u && jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 1)
+            {
+                jump_b  = 1;
+                jump_e  = 0;
+                jump_dt = 0.f;
+                jump_u  = i * 2 + 1;
+
+                audio_play(AUD_JUMP, 1.f);
+            }
+            if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
+                jump_e = 1;
+            if (!jump_b && jump_u && i == jump_u && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
                 jump_u = 0;
         }
     }
@@ -745,9 +756,19 @@ int game_step(const float g[3], float dt)
 
             if (0.5 < jump_dt)
             {
-                fp->uv[jump_u].p[0] = jump_p[0];
-                fp->uv[jump_u].p[1] = jump_p[1];
-                fp->uv[jump_u].p[2] = jump_p[2];
+                if (jump_u % 2)
+                {
+                    fp->yv[jump_u / 2].p[0] = jump_p[0];
+                    fp->yv[jump_u / 2].p[1] = jump_p[1];
+                    fp->yv[jump_u / 2].p[2] = jump_p[2];
+                }
+
+                else
+                {
+                    fp->uv[jump_u / 2].p[0] = jump_p[0];
+                    fp->uv[jump_u / 2].p[1] = jump_p[1];
+                    fp->uv[jump_u / 2].p[2] = jump_p[2];
+                }
             }
             if (1.f < jump_dt)
             {

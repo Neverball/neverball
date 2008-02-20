@@ -81,6 +81,8 @@
       - Map compiler speed-ups for debugging large maps
     Uoti Urpala
       - Bounces with moving objects
+    Georg Wachter
+      - Generic sphere-vs-sphere collision
     Mehdi Yousfi-Monod
       - Neverball Hall of Fame management
       - Windows packaging

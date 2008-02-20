@@ -225,6 +225,7 @@ struct s_swch
     int   f;                                   /* current state              */
     int   i;                                   /* is invisible?              */
     int   e;                                   /* is a ball inside it?       */
+    int   b;                                   /* which ball?                */
 };
 
 struct s_bill
@@ -344,7 +345,7 @@ void  sol_free(struct s_file *);
 float sol_step(struct s_file *, const float *, float, int, int *);
 
 int   sol_jump_test(struct s_file *, float *, int);
-int   sol_swch_test(struct s_file *, int);
+int   sol_swch_test(struct s_file *);
 int   sol_goal_test(struct s_file *, float *, int);
 
 struct s_item *sol_item_test(struct s_file *, float *, float);

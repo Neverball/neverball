@@ -394,10 +394,39 @@ int curr_goal(void)
 static void game_draw_balls(const struct s_file *fp,
                             const float *bill_M, float t)
 {
-    float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    float  c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    float ac[4] = { 0.0f, 0.0f, 0.0f, 0.7f };
 
     float ball_M[16];
     float pend_M[16];
+
+    int yi;
+
+    for (yi = 0; yi < fp->yc; yi++)
+    {
+        float ball_M[16];
+        float pend_M[16];
+
+        if (!fp->ball_collisions && fp->yv[yi].c)
+            continue;
+
+        m_basis(ball_M, fp->yv[yi].e[0], fp->yv[yi].e[1], fp->yv[yi].e[2]);
+        m_basis(pend_M, fp->yv[yi].E[0], fp->yv[yi].E[1], fp->yv[yi].E[2]);
+
+        glPushMatrix();
+        {
+            glTranslatef(fp->yv[yi].p[0],
+                         fp->yv[yi].p[1] + BALL_FUDGE,
+                         fp->yv[yi].p[2]);
+            glScalef(fp->yv[yi].r,
+                     fp->yv[yi].r,
+                     fp->yv[yi].r);
+
+            glColor4fv(ac);
+            ball_draw(ball_M, pend_M, bill_M, t);
+        }
+        glPopMatrix();
+    }
 
     m_basis(ball_M, fp->uv[0].e[0], fp->uv[0].e[1], fp->uv[0].e[2]);
     m_basis(pend_M, fp->uv[0].E[0], fp->uv[0].E[1], fp->uv[0].E[2]);
@@ -1029,7 +1058,7 @@ static int game_update_state(int bt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, 0))
+    if (sol_swch_test(fp))
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */

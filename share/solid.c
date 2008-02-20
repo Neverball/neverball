@@ -1355,7 +1355,7 @@ static float sol_test_lump(float dt,
 
     /* Test all balls */
 
-    if (up->r > 0.0f && current_ball)
+    if (up->r > 0.0f)
     {
         for (i = 0; i < fp->yc; i++)
         {
@@ -1906,90 +1906,39 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
  * a visible  switch is  activated, return 0  otherwise (no  switch is
  * activated or only invisible switches).
  */
-int sol_swch_test(struct s_file *fp, int ui)
+int sol_swch_test(struct s_file *fp)
 {
-    if (fp->ball_collisions)
+    int xi, i, res = 0;
+
+    for (xi = 0; xi < fp->xc; xi++)
     {
-        /* TODO: Tidying */
+        struct s_swch *xp = fp->xv + xi;
 
-        const float *ball_p  = fp->uv[ui].p;
-        const float  ball_r  = fp->uv[ui].r;
-        const float *ball_p1 = fp->uv[1].p;
-        const float  ball_r1 = fp->uv[1].r;
-        const float *ball_p2 = fp->uv[2].p;
-        const float  ball_r2 = fp->uv[2].r;
-        const float *ball_p3 = fp->uv[3].p;
-        const float  ball_r3 = fp->uv[3].r;
-        const float *ball_p4 = fp->uv[4].p;
-        const float  ball_r4 = fp->uv[4].r;
-        int xi, howManyBallsAreIn = 0, isBallIn1 = 0, isBallIn2 = 0, isBallIn3 = 0, isBallIn4 = 0;
-        int res = 0;
-
-        for (xi = 0; xi < fp->xc; xi++)
+        for (i = 0; i < fp->uc; i++)
         {
-            struct s_swch *xp = fp->xv + xi;
+            float l, r[3];
+
+            const float *ball_p  = fp->uv[i].p;
+            const float  ball_r  = fp->uv[i].r;
 
             if (xp->t0 == 0 || xp->f == xp->f0)
             {
-                float l, l1, l2, l3, l4;
-                float r[3], r1[3], r2[3], r3[3], r4[3];
-
                 r[0] = ball_p[0] - xp->p[0];
                 r[1] = ball_p[2] - xp->p[2];
                 r[2] = 0;
 
-                r1[0] = ball_p1[0] - xp->p[0];
-                r1[1] = ball_p1[2] - xp->p[2];
-                r1[2] = 0;
-
-                r2[0] = ball_p2[0] - xp->p[0];
-                r2[1] = ball_p2[2] - xp->p[2];
-                r2[2] = 0;
-
-                r3[0] = ball_p3[0] - xp->p[0];
-                r3[1] = ball_p3[2] - xp->p[2];
-                r3[2] = 0;
-
-                r4[0] = ball_p4[0] - xp->p[0];
-                r4[1] = ball_p4[2] - xp->p[2];
-                r4[2] = 0;
-
                 l = v_len(r) - xp->r;
-
-                l1 = v_len(r1) - xp->r;
-
-                l2 = v_len(r2) - xp->r;
-
-                l3 = v_len(r3) - xp->r;
-
-                l4 = v_len(r4) - xp->r;
-
-                isBallIn1 = (l1 < ball_r1 &&
-                    ball_p1[1] > xp->p[1] &&
-                    ball_p1[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
-
-                isBallIn2 = (l2 < ball_r2 &&
-                    ball_p2[1] > xp->p[1] &&
-                    ball_p2[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
-
-                isBallIn3 = (l3 < ball_r3 &&
-                    ball_p3[1] > xp->p[1] &&
-                    ball_p3[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
-
-                isBallIn4 = (l4 < ball_r4 &&
-                    ball_p4[1] > xp->p[1] &&
-                    ball_p4[1] < xp->p[1] + SWCH_HEIGHT / 2) ? 1 : 0;
-
-                howManyBallsAreIn = isBallIn1 + isBallIn2 + isBallIn3 + isBallIn4;
 
                 if (l < ball_r &&
                     ball_p[1] > xp->p[1] &&
-                    ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2 && howManyBallsAreIn <= 1)
+                    ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
                 {
-                    if (!xp->e && l < - ball_r)
+                    if (!xp->e && l < -ball_r)
                     {
                         int pi = xp->pi;
                         int pj = xp->pi;
+
+                        xp->b = i * 2;
 
                         /* The ball enters. */
 
@@ -2023,32 +1972,23 @@ int sol_swch_test(struct s_file *fp, int ui)
                     }
                 }
 
-                /* All balls exit. */
+                /* The ball exits. */
 
-                else if (xp->e && howManyBallsAreIn == 0)
+                else if (xp->e && xp->b == i * 2)
                     xp->e = 0;
             }
         }
-        return res;
-    }
 
-    else
-    {
-        const float *ball_p = fp->uv[ui].p;
-        const float  ball_r = fp->uv[ui].r;
-        int xi;
-        int res = 0;
-
-        for (xi = 0; xi < fp->xc; xi++)
+        for (i = 0; i < fp->yc; i++)
         {
-            struct s_swch *xp = fp->xv + xi;
+            float l, r[3];
+
+            const float *ball_p  = fp->uv[i].p;
+            const float  ball_r  = fp->uv[i].r;
 
             if (xp->t0 == 0 || xp->f == xp->f0)
             {
-                float l;
-                float r[3];
-
-                    r[0] = ball_p[0] - xp->p[0];
+                r[0] = ball_p[0] - xp->p[0];
                 r[1] = ball_p[2] - xp->p[2];
                 r[2] = 0;
 
@@ -2058,10 +1998,12 @@ int sol_swch_test(struct s_file *fp, int ui)
                     ball_p[1] > xp->p[1] &&
                     ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
                 {
-                    if (!xp->e && l < - ball_r)
+                    if (!xp->e && l < -ball_r)
                     {
                         int pi = xp->pi;
                         int pj = xp->pi;
+
+                        xp->b = i * 2 + 1;
 
                         /* The ball enters. */
 
@@ -2080,7 +2022,7 @@ int sol_swch_test(struct s_file *fp, int ui)
                             pi = fp->pv[pi].pi;
                             pj = fp->pv[pj].pi;
                             pj = fp->pv[pj].pi;
-                            }
+                        }
                         while (pi != pj);
 
                         /* It toggled to non-default state, start the timer. */
@@ -2097,12 +2039,13 @@ int sol_swch_test(struct s_file *fp, int ui)
 
                 /* The ball exits. */
 
-                else if (xp->e)
+                else if (xp->e && xp->b == i * 2 + 1)
                     xp->e = 0;
             }
         }
-        return res;
     }
+
+    return res;
 }
 
 /*---------------------------------------------------------------------------*/
