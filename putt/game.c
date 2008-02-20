@@ -622,7 +622,7 @@ static int game_update_state(float dt)
             }
             if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, i) == 0)
                 jump_e = 1;
-            if (!jump_b && jump_u && i == jump_u && sol_jump_test(fp, jump_p, i) == 0)
+            if (!jump_b && jump_u && i == jump_u / 2 && sol_jump_test(fp, jump_p, i) == 0)
                 jump_u = 0;
         }
 
@@ -639,7 +639,7 @@ static int game_update_state(float dt)
             }
             if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
                 jump_e = 1;
-            if (!jump_b && jump_u && i == jump_u && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
+            if (!jump_b && jump_u && i == jump_u / 2 && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
                 jump_u = 0;
         }
     }
