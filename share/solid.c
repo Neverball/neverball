@@ -977,17 +977,9 @@ static float sol_ball_collision(const struct s_file *fp,
     v_mad(p1, p1, v1, t);
     v_mad(p2, p2, v2, t);
 
-   /*
-    * Keep balls from being bounced off, even though the surface is flat
-    * The value of 0.005f corresponds to an angle
-    * theta = asin(0.005/0.125) ~ 2.3 degrees at radii of 0.0625
-    */
-    v_sub(r_rel, p2, p1);
-    if (abs(r_rel[1]) < 0.005f)
-    {
+   /* Floating point precision */
+    if (!(p1[1] - p2[1] > 0.05f) && !(p2[1] - p1[1] > 0.05f))
         p1[1] = p2[1];
-        v_sub(r_rel, p2, p1);
-    }
 
    /* r_rel is the unit vector from p1 to p2 */
     v_sub(r_rel, p2, p1);
@@ -1389,7 +1381,6 @@ static float sol_test_lump(float dt,
 
             if ((u = sol_test_edge(t, U, up, fp, ep, o, w)) < t)
             {
-                v_cpy(T, U);
                 t = u;
             }
         }
