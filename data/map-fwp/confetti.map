@@ -9,10 +9,10 @@
 "grad" "back/land.png"
 "song" "bgm/track1.ogg"
 "time" "18000"
-"goal" "26"
+"goal" "25"
 "time_hs" "6000 9000"
 "coin_hs" "90 50"
-"goal_hs" "7500 10500"
+"goal_hs" "7000 10000"
 "message" "=Confetti=\Help! There has got to be a way through this mess."
 // brush 0
 {
