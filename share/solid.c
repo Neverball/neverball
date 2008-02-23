@@ -961,9 +961,10 @@ static float sol_bounce(struct s_ball *up,
     return fabsf(v_dot(n, d));
 }
 
-static float sol_bounce_ball(const struct s_file *fp,
+static float sol_bounce_sphere(const struct s_file *fp,
                                       struct s_ball *up,
-                                      struct s_ball *u2p, const float t)
+                                      struct s_ball *u2p,
+                               const float ratio, const float t)
 {
     float r_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3], u[3];
     float v11[3], v12[3], v21[3], v22[3];
@@ -979,32 +980,32 @@ static float sol_bounce_ball(const struct s_file *fp,
 
    /* Floating point precision */
     if (!(p1[1] - p2[1] > (up->r + u2p->r) * 0.05f / 0.125f ) && !(p2[1] - p1[1] > (up->r + u2p->r) * 0.05f / 0.125f))
-    { 
-      if (p1[1] > p2[1])
-        p2[1] = p1[1];
-      else
-        p1[1] = p2[1];
+    {
+        if (p1[1] > p2[1])
+            p2[1] = p1[1];
+        else
+            p1[1] = p2[1];
     }
 
    /* r_rel is the unit vector from p1 to p2 */
     v_sub(r_rel, p2, p1);
     v_nrm(r_rel, r_rel);
 
-   /* if one ball is not moveable, calculate as if it was a wall  - variable names should be different*/
-    if (!up->m || !u2p->m)
+   /* Handle immobile spheres */
+    if (!u2p->m)
     {
-      v_scl(r_rel, r_rel, up->r);
-      v_add(q, p1, r_rel);
-      if (!u2p->m)
-      {  
+        v_scl(r_rel, r_rel, u2p->r);
+        v_nrm(r_rel, r_rel);
         v_cpy(w, u2p->v);
         return sol_bounce(up, q, w, t);
-      }
-      else
-      {
+    }
+
+    if (!up->m)
+    {
+        v_scl(r_rel, r_rel, up->r);
+        v_nrm(r_rel, r_rel);
         v_cpy(w, up->v);
-        return sol_bounce(u2p, q, w, t);
-      }
+        return sol_bounce(up, q, w, t);
     }
 
    /*
@@ -1026,15 +1027,15 @@ static float sol_bounce_ball(const struct s_file *fp,
     * New parallel velocities follow from momentum conservation
     * and coefficient of restitution GAMMA
     */
-    inertia = pow(up->r / u2p->r, 3);
+    inertia = pow(up->r / u2p->r, ratio);
 
     v_scl(v11, v1_par, (inertia - fp->ball_gamma) / (inertia + 1.0f)); 
-    v_scl(v12, v1_par, (fp->ball_gamma + 1.0f) * inertia / (inertia + 1.0f)); 
-    v_scl(v21, v2_par, (fp->ball_gamma + 1.0f) / (inertia + 1.0f)); 
+    v_scl(v12, v1_par, (fp->ball_gamma + 1.0f) / (inertia + 1.0f)); 
+    v_scl(v21, v2_par, (fp->ball_gamma + 1.0f) * inertia / (inertia + 1.0f)); 
     v_scl(v22, v2_par, (1.0f - fp->ball_gamma * inertia) / (inertia + 1.0f)); 
 
     v_add(v1_par, v11, v21);
-    v_add(v2_par, v12, v22);
+    v_add(v2_par, v12, v21);
 
     v_add(v1, v1_par, v1_perp);
     v_add(v2, v2_par, v2_perp);
@@ -1606,7 +1607,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 tt -= nt;
 
                 if (b < ((ball_collision_flag)
-                        ? (d = sol_bounce_ball(fp, up, fp->uv + ball_collision_flag, nt))
+                        ? (d = sol_bounce_sphere(fp, up, fp->uv + ball_collision_flag, 3.0f, nt))
                         : (d = sol_bounce(up, P, V, nt))))
                     b = d;
 
@@ -1696,7 +1697,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 tt -= nt;
 
                 if (b < ((ball_collision_flag)
-                        ? (d = sol_bounce_ball(fp, yp, fp->uv + ball_collision_flag, nt))
+                        ? (d = sol_bounce_sphere(fp, yp, fp->uv + ball_collision_flag, 3.0f, nt))
                         : (d = sol_bounce(yp, P, V, nt))))
                     b = d;
 
