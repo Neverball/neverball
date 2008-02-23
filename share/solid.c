@@ -1007,8 +1007,8 @@ static float sol_bounce_ball(const struct s_file *fp,
     inertia = pow(up->r / u2p->r, 3);
 
     v_scl(v11, v1_par, (inertia - ((u2) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f))) / (inertia + 1.0f)); 
-    v_scl(v12, v1_par, (((u1) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f)) + 1.0f) / (inertia + 1.0f)); 
-    v_scl(v21, v2_par, (((u2) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f)) + 1.0f) * inertia / (inertia + 1.0f)); 
+    v_scl(v12, v1_par, (((u1) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f)) + 1.0f) * inertia / (inertia + 1.0f)); 
+    v_scl(v21, v2_par, (((u2) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f)) + 1.0f) / (inertia + 1.0f)); 
     v_scl(v22, v2_par, (1.0f - ((u1) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f)) * inertia) / (inertia + 1.0f)); 
 
     v_add(v1_par, v11, v21);
