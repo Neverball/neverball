@@ -958,7 +958,6 @@ static float sol_bounce(struct s_ball *up,
     v_mad(p, q, n, up->r);
 
     /* Return the "energy" of the impact, to determine the sound amplitude. */
-
     return fabsf(v_dot(n, d));
 }
 
@@ -968,6 +967,7 @@ static float sol_bounce_ball(const struct s_file *fp,
 {
     float r_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3], u[3];
     float v11[3], v12[3], v21[3], v22[3];
+    float q[3], w[3];
     float *p1 = up->p, *v1 = up->v, *p2 = u2p->p, *v2 = u2p->v;
     float inertia, factor;
     const int u1 = up->m;
@@ -978,12 +978,34 @@ static float sol_bounce_ball(const struct s_file *fp,
     v_mad(p2, p2, v2, t);
 
    /* Floating point precision */
-    if (!(p1[1] - p2[1] > 0.05f) && !(p2[1] - p1[1] > 0.05f))
+    if (!(p1[1] - p2[1] > (up->r + u2p->r) * 0.05f / 0.125f ) && !(p2[1] - p1[1] > (up->r + u2p->r) * 0.05f / 0.125f))
+    { 
+      if (p1[1] > p2[1])
+        p2[1] = p1[1];
+      else
         p1[1] = p2[1];
+    }
 
    /* r_rel is the unit vector from p1 to p2 */
     v_sub(r_rel, p2, p1);
     v_nrm(r_rel, r_rel);
+
+   /* if one ball is not moveable, calculate as if it was a wall  - variable names should be different*/
+    if (!up->m || !u2p->m)
+    {
+      v_scl(r_rel, r_rel, up->r);
+      v_add(q, p1, r_rel);
+      if (!u2p->m)
+      {  
+        v_cpy(w, u2p->v);
+        return sol_bounce(up, q, w, t);
+      }
+      else
+      {
+        v_cpy(w, up->v);
+        return sol_bounce(u2p, q, w, t);
+      }
+    }
 
    /*
     * project velocities upon r_rel to get components parallel
@@ -1006,10 +1028,10 @@ static float sol_bounce_ball(const struct s_file *fp,
     */
     inertia = pow(up->r / u2p->r, 3);
 
-    v_scl(v11, v1_par, (inertia - ((u2) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f))) / (inertia + 1.0f)); 
-    v_scl(v12, v1_par, (((u1) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f)) + 1.0f) * inertia / (inertia + 1.0f)); 
-    v_scl(v21, v2_par, (((u2) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f)) + 1.0f) / (inertia + 1.0f)); 
-    v_scl(v22, v2_par, (1.0f - ((u1) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f)) * inertia) / (inertia + 1.0f)); 
+    v_scl(v11, v1_par, (inertia - fp->ball_gamma) / (inertia + 1.0f)); 
+    v_scl(v12, v1_par, (fp->ball_gamma + 1.0f) * inertia / (inertia + 1.0f)); 
+    v_scl(v21, v2_par, (fp->ball_gamma + 1.0f) / (inertia + 1.0f)); 
+    v_scl(v22, v2_par, (1.0f - fp->ball_gamma * inertia) / (inertia + 1.0f)); 
 
     v_add(v1_par, v11, v21);
     v_add(v2_par, v12, v22);
