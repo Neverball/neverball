@@ -1030,12 +1030,12 @@ static float sol_bounce_sphere(const struct s_file *fp,
     inertia = pow(up->r / u2p->r, ratio);
 
     v_scl(v11, v1_par, (inertia - fp->ball_gamma) / (inertia + 1.0f)); 
-    v_scl(v12, v1_par, (fp->ball_gamma + 1.0f) / (inertia + 1.0f)); 
-    v_scl(v21, v2_par, (fp->ball_gamma + 1.0f) * inertia / (inertia + 1.0f)); 
+    v_scl(v12, v1_par, (fp->ball_gamma + 1.0f) * inertia / (inertia + 1.0f)); 
+    v_scl(v21, v2_par, (fp->ball_gamma + 1.0f) / (inertia + 1.0f)); 
     v_scl(v22, v2_par, (1.0f - fp->ball_gamma * inertia) / (inertia + 1.0f)); 
 
     v_add(v1_par, v11, v21);
-    v_add(v2_par, v12, v21);
+    v_add(v2_par, v12, v22);
 
     v_add(v1, v1_par, v1_perp);
     v_add(v2, v2_par, v2_perp);

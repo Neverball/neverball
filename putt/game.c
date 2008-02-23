@@ -172,9 +172,9 @@ int game_check_balls(struct s_file *fp)
             v_sub(d, up->p, u2p->p);
             if (v_len(up->v) > 0.005f || v_len(u2p->v) > 0.005f)
                 continue;
-            if (v_len(d) < (fsqrtf((up->r + u2p->r) * (up->r + u2p->r))) * 0.75f && i != ball)
+            if (v_len(d) < (fsqrtf((up->r + u2p->r) * (up->r + u2p->r))) * 1.0f && i != ball)
                 up->P = 0;
-            else if (v_len(d) < (fsqrtf((up->r + u2p->r) * (up->r + u2p->r)) *  0.75f))
+            else if (v_len(d) < (fsqrtf((up->r + u2p->r) * (up->r + u2p->r)) *  1.0f))
                 u2p->P = 0;
         }
     }
