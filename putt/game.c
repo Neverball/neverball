@@ -287,33 +287,32 @@ static void game_draw_balls(const struct s_file *fp,
         { 0.0f, 1.0f, 0.0f, 1.0f },
         { 0.0f, 0.0f, 1.0f, 1.0f },
         { 1.0f, 1.0f, 0.0f, 1.0f },
-        { 0.1f, 0.1f, 0.1f, 0.7f },
+        { 0.1f, 0.1f, 0.1f, 1.0f },
     };
 
     int ui, yi;
 
     for (yi = 0; yi < fp->yc; yi++)
     {
-        float ball_M[16];
-        float pend_M[16];
+        float M[16];
 
         if (!fp->ball_collisions && fp->yv[yi].c)
             continue;
 
-        m_basis(ball_M, fp->yv[yi].e[0], fp->yv[yi].e[1], fp->yv[yi].e[2]);
-        m_basis(pend_M, fp->yv[yi].E[0], fp->yv[yi].E[1], fp->yv[yi].E[2]);
+        m_basis(M, fp->yv[yi].e[0], fp->yv[yi].e[1], fp->yv[yi].e[2]);
 
         glPushMatrix();
         {
             glTranslatef(fp->yv[yi].p[0],
                          fp->yv[yi].p[1] + BALL_FUDGE,
                          fp->yv[yi].p[2]);
+            glMultMatrixf(M);
             glScalef(fp->yv[yi].r,
                      fp->yv[yi].r,
                      fp->yv[yi].r);
 
             glColor4fv(color[5]);
-            ball_draw(ball_M, pend_M, bill_M, t);
+            oldball_draw();
         }
         glPopMatrix();
     }
@@ -322,23 +321,22 @@ static void game_draw_balls(const struct s_file *fp,
     {
         if (ui == ball || (config_get_d(CONFIG_BALL_COLLISIONS) && fp->uv[ui].P))
         {
-            float ball_M[16];
-            float pend_M[16];
+            float M[16];
 
-            m_basis(ball_M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
-            m_basis(pend_M, fp->uv[ui].E[0], fp->uv[ui].E[1], fp->uv[ui].E[2]);
+            m_basis(M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
 
             glPushMatrix();
             {
                 glTranslatef(fp->uv[ui].p[0],
                              fp->uv[ui].p[1] + BALL_FUDGE,
                              fp->uv[ui].p[2]);
+                glMultMatrixf(M);
                 glScalef(fp->uv[ui].r,
                          fp->uv[ui].r,
                          fp->uv[ui].r);
 
                 glColor4fv(color[ui]);
-                ball_draw(ball_M, pend_M, bill_M, t);
+                oldball_draw();
             }
             glPopMatrix();
         }

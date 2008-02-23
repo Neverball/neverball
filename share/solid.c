@@ -31,7 +31,7 @@
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
 
-int ball_collision_flag     = 0;
+static int ball_collision_flag = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -1047,6 +1047,7 @@ static float sol_bounce_sphere(const struct s_file *fp,
         up->w[1] = 0.0f;
         up->w[2] = 0.0f;
     }
+
     if (v_len(v2) < 0.01f && u2)
     {
         u2p->w[0] = 0.0f;
