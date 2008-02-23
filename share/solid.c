@@ -1031,7 +1031,7 @@ static float sol_bounce_sphere(const struct s_file *fp,
 
     v_scl(v11, v1_par, (inertia - fp->ball_gamma) / (inertia + 1.0f)); 
     v_scl(v12, v1_par, (fp->ball_gamma + 1.0f) * inertia / (inertia + 1.0f)); 
-    v_scl(v21, v2_par, (fp->ball_gamma + 1.0f) / (inertia + 1.0f)); 
+    v_scl(v21, v2_par, (fp->ball_gamma + 1.0f) * inertia / (inertia + 1.0f)); 
     v_scl(v22, v2_par, (1.0f - fp->ball_gamma * inertia) / (inertia + 1.0f)); 
 
     v_add(v1_par, v11, v21);
@@ -1607,7 +1607,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 tt -= nt;
 
                 if (b < ((ball_collision_flag)
-                        ? (d = sol_bounce_sphere(fp, up, fp->uv + ball_collision_flag, 3.0f, nt))
+                        ? (d = sol_bounce_sphere(fp, up, fp->uv + ball_collision_flag, 1.25f, nt))
                         : (d = sol_bounce(up, P, V, nt))))
                     b = d;
 
@@ -1697,7 +1697,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 tt -= nt;
 
                 if (b < ((ball_collision_flag)
-                        ? (d = sol_bounce_sphere(fp, yp, fp->uv + ball_collision_flag, 3.0f, nt))
+                        ? (d = sol_bounce_sphere(fp, yp, fp->uv + ball_collision_flag, 1.25f, nt))
                         : (d = sol_bounce(yp, P, V, nt))))
                     b = d;
 
