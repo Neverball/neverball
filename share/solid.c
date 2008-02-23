@@ -32,7 +32,6 @@
 #define SMALL 1.0e-3f
 
 int ball_collision_flag     = 0;
-int current_ball            = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -1320,7 +1319,8 @@ static float sol_test_lump(float dt,
                            const struct s_file *fp,
                            const struct s_lump *lp,
                            const float o[3],
-                           const float w[3])
+                           const float w[3],
+                           const int            ui)
 {
     float  U[3]     = {0.0f, 0.0f, 0.0f}; /* init value only to avoid gcc warnings */
     float  u, t = dt;
@@ -1329,20 +1329,6 @@ static float sol_test_lump(float dt,
     /* Short circuit a non-solid lump. */
 
     if (lp->fl & L_DETAIL) return t;
-
-    /* Test all verts */
-
-    if (up->r > 0.0f)
-        for (i = 0; i < lp->vc; i++)
-        {
-            const struct s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
-
-            if ((u = sol_test_vert(t, U, up, vp, o, w)) < t)
-            {
-                v_cpy(T, U);
-                t = u;
-            }
-        }
 
     /* Test all balls */
 
@@ -1363,16 +1349,30 @@ static float sol_test_lump(float dt,
         {
             struct s_ball *u2p = fp->uv + i;
 
-            if(i == current_ball)
+            if(i == ui)
                 continue;
 
-            if (up->P && u2p->P && (u = sol_test_ball(t, U, up, u2p, o, u2p->v)) < t)
+            if (u2p->P && up->P && (u = sol_test_ball(t, U, up, u2p, o, u2p->v)) < t)
             {
                 ball_collision_flag = i;
                 t = u;
             }
         }
     }
+
+    /* Test all verts */
+
+    if (up->r > 0.0f)
+        for (i = 0; i < lp->vc; i++)
+        {
+            const struct s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
+
+            if ((u = sol_test_vert(t, U, up, vp, o, w)) < t)
+            {
+                v_cpy(T, U);
+                t = u;
+            }
+        }
 
     /* Test all edges */
 
@@ -1409,7 +1409,8 @@ static float sol_test_node(float dt,
                            const struct s_file *fp,
                            const struct s_node *np,
                            const float o[3],
-                           const float w[3])
+                           const float w[3],
+                           const int            ui)
 {
     float U[3], u, t = dt;
     int i;
@@ -1420,7 +1421,7 @@ static float sol_test_node(float dt,
     {
         const struct s_lump *lp = fp->lv + np->l0 + i;
 
-        if ((u = sol_test_lump(t, U, up, fp, lp, o, w)) < t)
+        if ((u = sol_test_lump(t, U, up, fp, lp, o, w, ui)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1433,7 +1434,7 @@ static float sol_test_node(float dt,
     {
         const struct s_node *nq = fp->nv + np->ni;
 
-        if ((u = sol_test_node(t, U, up, fp, nq, o, w)) < t)
+        if ((u = sol_test_node(t, U, up, fp, nq, o, w, ui)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1446,7 +1447,7 @@ static float sol_test_node(float dt,
     {
         const struct s_node *nq = fp->nv + np->nj;
 
-        if ((u = sol_test_node(t, U, up, fp, nq, o, w)) < t)
+        if ((u = sol_test_node(t, U, up, fp, nq, o, w, ui)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1460,7 +1461,8 @@ static float sol_test_body(float dt,
                            float T[3], float V[3],
                            const struct s_ball *up,
                            const struct s_file *fp,
-                           const struct s_body *bp)
+                           const struct s_body *bp,
+                           const int            ui)
 {
     float U[3], O[3], W[3], u, t = dt;
 
@@ -1469,7 +1471,7 @@ static float sol_test_body(float dt,
     sol_body_p(O, fp, bp);
     sol_body_v(W, fp, bp);
 
-    if ((u = sol_test_node(t, U, up, fp, np, O, W)) < t)
+    if ((u = sol_test_node(t, U, up, fp, np, O, W, ui)) < t)
     {
         v_cpy(T, U);
         v_cpy(V, W);
@@ -1481,7 +1483,8 @@ static float sol_test_body(float dt,
 static float sol_test_file(float dt,
                            float T[3], float V[3],
                            const struct s_ball *up,
-                           const struct s_file *fp)
+                           const struct s_file *fp,
+                           const int            ui)
 {
     float U[3], W[3], u, t = dt;
     int i;
@@ -1490,7 +1493,7 @@ static float sol_test_file(float dt,
     {
         const struct s_body *bp = fp->bv + i;
 
-        if ((u = sol_test_body(t, U, W, up, fp, bp)) < t)
+        if ((u = sol_test_body(t, U, W, up, fp, bp, ui)) < t)
         {
             v_cpy(T, U);
             v_cpy(V, W);
@@ -1515,8 +1518,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
     float b    = 0.0f;
     int   i, c = 16;
 
-    current_ball = ui;
-
    /*
     * The user ball loop
     */
@@ -1534,7 +1535,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             v_cpy(v, up->v);
             v_cpy(up->v, g);
 
-            if (m && sol_test_file(tt, P, V, up, fp) < 0.0005f)
+            if (m && sol_test_file(tt, P, V, up, fp, i) < 0.0005f)
             {
                 v_cpy(up->v, v);
                 v_sub(r, P, up->p);
@@ -1562,7 +1563,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                         up->v[1] = 0.0f;
                         up->v[2] = 0.0f;
 
-                        if(i == current_ball)
+                        if(i == ui)
                             (*m)++;
                     }
                 }
@@ -1572,7 +1573,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
             /* Test for collision. */
 
-            while (c && tt && tt > (nt = sol_test_file(tt, P, V, up, fp)))
+            while (c && tt && tt > (nt = sol_test_file(tt, P, V, up, fp, i)))
             {
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
@@ -1590,7 +1591,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 c--;
             }
 
-            if (i == current_ball || !c)
+            if (i == ui || !c)
             {
                 if (!c)
                     nt += tt;
@@ -1627,7 +1628,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             v_cpy(v, yp->v);
             v_cpy(yp->v, g);
 
-            if (m && sol_test_file(tt, P, V, yp, fp) < 0.0005f)
+            if (m && sol_test_file(tt, P, V, yp, fp, i) < 0.0005f)
             {
                 v_cpy(yp->v, v);
                 v_sub(r, P, yp->p);
@@ -1662,7 +1663,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
             /* Test for collision. */
 
-            while (c && tt && tt > (nt = sol_test_file(tt, P, V, yp, fp)))
+            while (c && tt && tt > (nt = sol_test_file(tt, P, V, yp, fp, i)))
             {
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
