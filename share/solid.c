@@ -966,9 +966,10 @@ static float sol_bounce_ball(const struct s_file *fp,
                                       struct s_ball *up,
                                       struct s_ball *u2p, const float t)
 {
-    float r_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3], u[3], factor;
-    float v11[3], v12[3], v21[3], v22[3], mass_ratio12, gamma;
+    float r_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3], u[3];
+    float v11[3], v12[3], v21[3], v22[3];
     float *p1 = up->p, *v1 = up->v, *p2 = u2p->p, *v2 = u2p->v;
+    float inertia, factor;
     const int u1 = up->m;
     const int u2 = u2p->m;
 
@@ -1003,16 +1004,15 @@ static float sol_bounce_ball(const struct s_file *fp,
     * New parallel velocities follow from momentum conservation
     * and coefficient of restitution GAMMA
     */
-    mass_ratio12 = pow(up->r / u2p->r, 3);
-    gamma = fp->ball_gamma;
+    inertia = pow(up->r / u2p->r, 3);
 
-    v_scl(v11, v1_par, (mass_ratio12 - gamma) / (mass_ratio12 + 1.f));
-    v_scl(v12, v1_par, (gamma + 1.f) / (mass_ratio12 + 1.f));
-    v_scl(v21, v2_par, (gamma + 1.f) * mass_ratio12 / (mass_ratio12 + 1.f));
-    v_scl(v22, v2_par, (1.f - gamma * mass_ratio12) / (mass_ratio12 + 1.f));
-    
-    v_add(v1_par, v11, v12);
-    v_add(v2_par, v21, v22);
+    v_scl(v11, v1_par, (inertia - ((u2) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f))) / (inertia + 1.0f)); 
+    v_scl(v12, v1_par, (((u1) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f)) + 1.0f) / (inertia + 1.0f)); 
+    v_scl(v21, v2_par, (((u2) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f)) + 1.0f) * inertia / (inertia + 1.0f)); 
+    v_scl(v22, v2_par, (1.0f - ((u1) ? (fp->ball_gamma) : (fp->ball_gamma + 1.0f)) * inertia) / (inertia + 1.0f)); 
+
+    v_add(v1_par, v11, v21);
+    v_add(v2_par, v12, v22);
 
     v_add(v1, v1_par, v1_perp);
     v_add(v2, v2_par, v2_perp);
