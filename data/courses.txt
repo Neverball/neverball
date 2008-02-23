@@ -1,5 +1,3 @@
-holes-uni-testing.txt shot-putt/null.jpg
-asdf
 holes-putt.txt shot-putt/putt.jpg
 The original 18-hole Neverputt course.\With a gentle learning curve.\ \Difficulty: Easy to Medium\Author: rlk\
 holes-paxed.txt shot-putt/paxed.jpg
