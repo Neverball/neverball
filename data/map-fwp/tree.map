@@ -3282,14 +3282,14 @@
 // entity 3
 {
 "classname" "info_player_intermission"
-"origin" "-124 0 480"
+"origin" "-128 0 480"
 "target" "flyInView"
 }
 // entity 4
 {
 "classname" "target_position"
 "targetname" "flyInView"
-"origin" "132 0 0"
+"origin" "136 0 0"
 }
 // entity 5
 {
