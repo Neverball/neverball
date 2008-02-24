@@ -287,7 +287,7 @@ static void game_draw_balls(const struct s_file *fp,
         { 0.0f, 1.0f, 0.0f, 1.0f },
         { 0.0f, 0.0f, 1.0f, 1.0f },
         { 1.0f, 1.0f, 0.0f, 1.0f },
-        { 0.1f, 0.1f, 0.1f, 0.7f },
+        { 0.1f, 0.1f, 0.1f, 1.0f },
     };
 
     int ui, yi;

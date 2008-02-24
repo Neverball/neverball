@@ -979,7 +979,7 @@ static float sol_bounce_sphere(const struct s_file *fp,
     v_mad(p2, p2, v2, t);
 
    /* Floating point precision */
-    if (!(p1[1] - p2[1] > 0.05f / 0.125f ) && !(p2[1] - p1[1] > 0.05f / 0.125f))
+    if (!(p1[1] - p2[1] > 0.001f ) && !(p2[1] - p1[1] > 0.001f))
     {
         if (p1[1] > p2[1])
             p2[1] = p1[1];

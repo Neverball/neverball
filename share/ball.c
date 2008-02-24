@@ -327,12 +327,6 @@ void oldball_draw(int arb)
             glCallList((arb) ? (arbball_list) : (oldball_list));
             glCullFace(GL_BACK);
             glCallList(oldball_list);
-           /* Solid appearance */
-            if (arb)
-            {
-                glCallList(oldball_list);
-                glCallList(oldball_list);
-            }
         }
         glDepthMask(GL_TRUE);
 
