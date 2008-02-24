@@ -154,7 +154,7 @@ enum {
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_PLAYER               ""
-#define DEFAULT_BALL                 "ball/basic-ball/basic-ball"
+#define DEFAULT_BALL                 "basic-ball"
 #define DEFAULT_CHEAT                0
 #define DEFAULT_KEY_FORWARD          SDLK_UP
 #define DEFAULT_KEY_BACKWARD         SDLK_DOWN
