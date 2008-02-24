@@ -1608,7 +1608,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 tt -= nt;
 
                 if (b < ((ball_collision_flag)
-                        ? (d = sol_bounce_sphere(fp, up, fp->uv + ball_collision_flag, 1.25f, nt))
+                        ? (d = sol_bounce_sphere(fp, up, fp->uv + ball_collision_flag, 3.0f, nt))
                         : (d = sol_bounce(up, P, V, nt))))
                     b = d;
 
@@ -1698,7 +1698,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 tt -= nt;
 
                 if (b < ((ball_collision_flag)
-                        ? (d = sol_bounce_sphere(fp, yp, fp->uv + ball_collision_flag, 1.25f, nt))
+                        ? (d = sol_bounce_sphere(fp, yp, fp->uv + ball_collision_flag, 3.0f, nt))
                         : (d = sol_bounce(yp, P, V, nt))))
                     b = d;
 
