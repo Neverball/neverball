@@ -207,20 +207,20 @@ static void grow_init(const struct s_file *fp, int type)
 
     if (type == ITEM_SHRINK)
     {
-        audio_play(AUD_SHRINK, 1.f);
-
         switch (grow_state)
         {
         case -1:
             break;
 
         case  0:
+            audio_play(AUD_SHRINK, 1.f);
             grow_goal = grow_orig * GROW_SMALL;
             grow_state = -1;
             grow = 1;
             break;
 
         case +1:
+            audio_play(AUD_SHRINK, 1.f);
             grow_goal = grow_orig;
             grow_state = 0;
             grow = 1;
@@ -229,17 +229,17 @@ static void grow_init(const struct s_file *fp, int type)
     }
     else if (type == ITEM_GROW)
     {
-        audio_play(AUD_GROW, 1.f);
-
         switch (grow_state)
         {
         case -1:
+            audio_play(AUD_GROW, 1.f);
             grow_goal = grow_orig;
             grow_state = 0;
             grow = 1;
             break;
 
         case  0:
+            audio_play(AUD_GROW, 1.f);
             grow_goal = grow_orig * GROW_BIG;
             grow_state = +1;
             grow = 1;
@@ -918,7 +918,7 @@ static void game_update_view(float dt)
     {
     case 1: /* Camera 1: Viewpoint chases the ball position. */
 
-        /* TODO: This camera no longer exists. */
+        v_mad(view_e[2], view_e[2], view_v, v_dot(view_v, view_v) * dt / 16);
 
         break;
 
