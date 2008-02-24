@@ -118,8 +118,7 @@ static int time_out_keybd(int c, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_KEY_RESTART, c)
-            && !curr_lg()->dead)
+        if (config_tst_d(CONFIG_KEY_RESTART, c) && !curr_lg()->dead)
             return time_out_action(TIME_OUT_SAME);
     }
     return 1;
