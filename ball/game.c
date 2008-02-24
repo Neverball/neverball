@@ -395,7 +395,6 @@ static void game_draw_balls(const struct s_file *fp,
                             const float *bill_M, float t)
 {
     float  c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    float ac[4] = { 0.0f, 0.0f, 0.0f, 0.7f };
 
     float ball_M[16];
     float pend_M[16];
@@ -422,7 +421,7 @@ static void game_draw_balls(const struct s_file *fp,
                      fp->yv[yi].r,
                      fp->yv[yi].r);
 
-            glColor4fv(ac);
+            glColor4fv(c);
             ball_draw(ball_M, pend_M, bill_M, t);
         }
         glPopMatrix();

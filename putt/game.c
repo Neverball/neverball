@@ -287,7 +287,7 @@ static void game_draw_balls(const struct s_file *fp,
         { 0.0f, 1.0f, 0.0f, 1.0f },
         { 0.0f, 0.0f, 1.0f, 1.0f },
         { 1.0f, 1.0f, 0.0f, 1.0f },
-        { 0.1f, 0.1f, 0.1f, 1.0f },
+        { 0.1f, 0.1f, 0.1f, 0.7f },
     };
 
     int ui, yi;
@@ -312,7 +312,7 @@ static void game_draw_balls(const struct s_file *fp,
                      fp->yv[yi].r);
 
             glColor4fv(color[5]);
-            oldball_draw();
+            oldball_draw(1);
         }
         glPopMatrix();
     }
@@ -336,7 +336,7 @@ static void game_draw_balls(const struct s_file *fp,
                          fp->uv[ui].r);
 
                 glColor4fv(color[ui]);
-                oldball_draw();
+                oldball_draw(0);
             }
             glPopMatrix();
         }

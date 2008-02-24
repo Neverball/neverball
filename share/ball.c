@@ -24,6 +24,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define IMG_DEFAULT "ball/default.png"
+#define IMG_ARBBALL "ball/arbball.png"
 
 static int has_solid = 0;
 static int has_inner = 0;
@@ -49,6 +50,8 @@ static float outer_alpha;
 
 static GLuint oldball_list;
 static GLuint oldball_text;
+static GLuint arbball_list;
+static GLuint arbball_text;
 
 /*---------------------------------------------------------------------------*/
 
@@ -204,6 +207,79 @@ void oldball_init(int b)
 #endif
     }
     glEndList();
+
+    strncpy(name, IMG_ARBBALL, MAXSTR - 12);
+
+    if ((arbball_text = make_image_from_file(name)))
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+
+    arbball_list = glGenLists(1);
+
+    glNewList(arbball_list, GL_COMPILE);
+    {
+#if 1
+        int i, d = b ? 4 : 3;
+
+        glBegin(GL_TRIANGLES);
+        {
+            for (i = 0; i < 8; ++i)
+            {
+                float a[2];
+                float b[2];
+                float c[2];
+
+                a[0] = V_RAD(oldball_octahedron[i][0][0]);
+                a[1] = V_RAD(oldball_octahedron[i][0][1]);
+
+                b[0] = V_RAD(oldball_octahedron[i][1][0]);
+                b[1] = V_RAD(oldball_octahedron[i][1][1]);
+
+                c[0] = V_RAD(oldball_octahedron[i][2][0]);
+                c[1] = V_RAD(oldball_octahedron[i][2][1]);
+
+                oldball_subdiv(a, b, c, d);
+            }
+        }
+        glEnd();
+#else
+        int i, slices = b ? 32 : 16;
+        int j, stacks = b ? 16 :  8;
+
+        for (i = 0; i < stacks; i++)
+        {
+            float k0 = (float)  i      / stacks;
+            float k1 = (float) (i + 1) / stacks;
+
+            float s0 = fsinf(V_PI * (k0 - 0.5));
+            float c0 = fcosf(V_PI * (k0 - 0.5));
+            float s1 = fsinf(V_PI * (k1 - 0.5));
+            float c1 = fcosf(V_PI * (k1 - 0.5));
+
+            glBegin(GL_QUAD_STRIP);
+            {
+                for (j = 0; j <= slices; j++)
+                {
+                    float k = (float) j / slices;
+                    float s = fsinf(V_PI * k * 2.0);
+                    float c = fcosf(V_PI * k * 2.0);
+
+                    glTexCoord2f(k, k0);
+                    glNormal3f(s * c0, c * c0, s0);
+                    glVertex3f(s * c0, c * c0, s0);
+
+                    glTexCoord2f(k, k1);
+                    glNormal3f(s * c1, c * c1, s1);
+                    glVertex3f(s * c1, c * c1, s1);
+                }
+            }
+            glEnd();
+        }
+#endif
+    }
+    glEndList();
 }
 
 void oldball_free(void)
@@ -214,11 +290,20 @@ void oldball_free(void)
     if (glIsTexture(oldball_text))
         glDeleteTextures(1, &oldball_text);
 
+    if (glIsList(arbball_list))
+        glDeleteLists(arbball_list, 1);
+
+    if (glIsTexture(arbball_text))
+        glDeleteTextures(1, &arbball_text);
+
     oldball_list = 0;
     oldball_text = 0;
+
+    arbball_list = 0;
+    arbball_text = 0;
 }
 
-void oldball_draw(void)
+void oldball_draw(int arb)
 {
     static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
     static const float s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -232,16 +317,22 @@ void oldball_draw(void)
 
     glEnable(GL_COLOR_MATERIAL);
     {
-        glBindTexture(GL_TEXTURE_2D, oldball_text);
+        glBindTexture(GL_TEXTURE_2D, (arb) ? (arbball_text) : (oldball_text));
 
         /* Render the ball back to front in case it is translucent. */
 
         glDepthMask(GL_FALSE);
         {
             glCullFace(GL_FRONT);
-            glCallList(oldball_list);
+            glCallList((arb) ? (arbball_list) : (oldball_list));
             glCullFace(GL_BACK);
             glCallList(oldball_list);
+           /* Solid appearance */
+            if (arb)
+            {
+                glCallList(oldball_list);
+                glCallList(oldball_list);
+            }
         }
         glDepthMask(GL_TRUE);
 
@@ -249,7 +340,7 @@ void oldball_draw(void)
 
         glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
         {
-            glCallList(oldball_list);
+            glCallList((arb) ? (arbball_list) : (oldball_list));
         }
         glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
@@ -258,7 +349,7 @@ void oldball_draw(void)
         glDisable(GL_DEPTH_TEST);
         {
             glColor4f(1.0f, 1.0f, 1.0f, 0.1f);
-            glCallList(oldball_list);
+            glCallList((arb) ? (arbball_list) : (oldball_list));
         }
         glEnable(GL_DEPTH_TEST);
     }
