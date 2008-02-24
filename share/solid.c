@@ -966,7 +966,7 @@ static float sol_bounce_sphere(const struct s_file *fp,
                                       struct s_ball *u2p,
                                const float ratio, const float t)
 {
-    float r_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3], u[3];
+    float r_rel[3], v_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3], u[3];
     float v11[3], v12[3], v21[3], v22[3];
     float q[3], w[3];
     float *p1 = up->p, *v1 = up->v, *p2 = u2p->p, *v2 = u2p->v;
@@ -976,10 +976,10 @@ static float sol_bounce_sphere(const struct s_file *fp,
 
    /* Correct positions up to the collision */
     v_mad(p1, p1, v1, t);
-    v_mad(p2, p2, v2, t);
+    v_mad(p2, p2, v2, t); 
 
    /* Floating point precision */
-    if (!(p1[1] - p2[1] > (up->r + u2p->r) * 0.05f / 0.125f ) && !(p2[1] - p1[1] > (up->r + u2p->r) * 0.05f / 0.125f))
+   if (!(p1[1] - p2[1] > (up->r + u2p->r) * 0.05f / 0.125f ) && !(p2[1] - p1[1] > (up->r + u2p->r) * 0.05f / 0.125f))
     {
         if (p1[1] > p2[1])
             p2[1] = p1[1];
@@ -1008,6 +1008,16 @@ static float sol_bounce_sphere(const struct s_file *fp,
         return sol_bounce(up, q, w, t);
     }
 
+   /* Test - maybe this is part of some problems? I don't know. If so, it should be taken care of somewhere else. (collision testing)*/
+    v_sub(v_rel, v2, v1);
+    if (v_len(v_rel) < 0.001f)
+    { 
+      printf("\n\n *** ACCIDENT *** \n");
+      return 0.0f;
+    }
+
+
+
    /*
     * project velocities upon r_rel to get components parallel
     * to r_rel - only these will be changed in the collision
@@ -1027,11 +1037,16 @@ static float sol_bounce_sphere(const struct s_file *fp,
     * New parallel velocities follow from momentum conservation
     * and coefficient of restitution GAMMA
     */
-    inertia = pow(up->r / u2p->r, ratio);
+    inertia = pow(up->r / u2p->r, 3);
+
+   /* Check conservation of momentum -- BEFORE */
+    printf("\nup(before): %f, %f, %f, %f\n", up->v[0], up->v[1], up->v[2], inertia); 
+    printf("u2p(before):  %f, %f, %f\n", u2p->v[0], u2p->v[1], u2p->v[2]); 
+    printf("P(before):    %f, %f, %f\n", inertia*up->v[0] + u2p->v[0], inertia*up->v[1] + u2p->v[1], inertia*up->v[2] + u2p->v[2]); 
 
     v_scl(v11, v1_par, (inertia - fp->ball_gamma) / (inertia + 1.0f)); 
     v_scl(v12, v1_par, (fp->ball_gamma + 1.0f) * inertia / (inertia + 1.0f)); 
-    v_scl(v21, v2_par, (fp->ball_gamma + 1.0f) * inertia / (inertia + 1.0f)); 
+    v_scl(v21, v2_par, (fp->ball_gamma + 1.0f) / (inertia + 1.0f)); 
     v_scl(v22, v2_par, (1.0f - fp->ball_gamma * inertia) / (inertia + 1.0f)); 
 
     v_add(v1_par, v11, v21);
@@ -1039,6 +1054,11 @@ static float sol_bounce_sphere(const struct s_file *fp,
 
     v_add(v1, v1_par, v1_perp);
     v_add(v2, v2_par, v2_perp);
+
+   /* Check conservation of momentum -- AFTER */
+    printf("P(after):   %f, %f, %f\n", inertia*up->v[0] + u2p->v[0], inertia*up->v[1] + u2p->v[1], inertia*up->v[2] + u2p->v[2]); 
+    printf("up(after):  %f, %f, %f, %f\n", up->v[0], up->v[1], up->v[2], inertia); 
+    printf("u2p(after): %f, %f, %f\n", u2p->v[0], u2p->v[1], u2p->v[2]); 
 
    /* Hack: prevent accidental spinning while the ball is stationary */
     if (v_len(v1) < 0.01f && u1)
@@ -1611,7 +1631,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                         ? (d = sol_bounce_sphere(fp, up, fp->uv + ball_collision_flag, 3.0f, nt))
                         : (d = sol_bounce(up, P, V, nt))))
                     b = d;
-
+               
                 ball_collision_flag = 0;
 
                 c--;
