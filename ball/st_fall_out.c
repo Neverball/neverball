@@ -137,6 +137,17 @@ static void fall_out_timer(int id, float dt)
     gui_timer(id, dt);
 }
 
+static int fall_out_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_KEY_RESTART, c)
+            && !curr_lg()->dead)
+            return fall_out_action(FALL_OUT_SAME);
+    }
+    return 1;
+}
+
 static int fall_out_buttn(int b, int d)
 {
     if (d)
@@ -168,7 +179,7 @@ struct state st_fall_out = {
     shared_stick,
     NULL,
     shared_click,
-    NULL,
+    fall_out_keybd,
     fall_out_buttn,
     1, 0
 };
