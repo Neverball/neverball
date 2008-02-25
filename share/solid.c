@@ -1012,7 +1012,6 @@ static float sol_bounce_sphere(const struct s_file *fp,
     v_sub(v_rel, v2, v1);
     if (v_len(v_rel) < 0.001f)
     {
-        printf("\n\n *** ACCIDENT *** \n"); /* DEBUG */
         return 0.0f;
     }
 
@@ -1037,11 +1036,6 @@ static float sol_bounce_sphere(const struct s_file *fp,
     */
     inertia = pow(up->r / u2p->r, 3);
 
-   /* DEBUG: Check conservation of momentum -- BEFORE */
-    printf("\nup(before): %f, %f, %f, %f\n", up->v[0], up->v[1], up->v[2], inertia); 
-    printf("u2p(before):  %f, %f, %f\n", u2p->v[0], u2p->v[1], u2p->v[2]); 
-    printf("P(before):    %f, %f, %f\n", inertia*up->v[0] + u2p->v[0], inertia*up->v[1] + u2p->v[1], inertia*up->v[2] + u2p->v[2]); 
-
     v_scl(v11, v1_par, (inertia - fp->ball_gamma) / (inertia + 1.0f)); 
     v_scl(v12, v1_par, (fp->ball_gamma + 1.0f) * inertia / (inertia + 1.0f)); 
     v_scl(v21, v2_par, (fp->ball_gamma + 1.0f) / (inertia + 1.0f)); 
@@ -1052,11 +1046,6 @@ static float sol_bounce_sphere(const struct s_file *fp,
 
     v_add(v1, v1_par, v1_perp);
     v_add(v2, v2_par, v2_perp);
-
-   /* DEBUG: Check conservation of momentum -- AFTER */
-    printf("P(after):   %f, %f, %f\n", inertia*up->v[0] + u2p->v[0], inertia*up->v[1] + u2p->v[1], inertia*up->v[2] + u2p->v[2]); 
-    printf("up(after):  %f, %f, %f, %f\n", up->v[0], up->v[1], up->v[2], inertia); 
-    printf("u2p(after): %f, %f, %f\n", u2p->v[0], u2p->v[1], u2p->v[2]); 
 
    /* Hack: prevent accidental spinning while the ball is stationary */
     if (v_len(v1) < 0.01f && u1)

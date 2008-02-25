@@ -1015,7 +1015,6 @@ static void game_update_time(float dt, int b)
 static int game_update_state(int bt)
 {
     struct s_file *fp = &file;
-    struct s_goal *zp;
     struct s_item *hp;
 
     float p[3];
