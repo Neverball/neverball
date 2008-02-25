@@ -48,7 +48,7 @@ static int score_id;
 /* Bread crumbs. */
 
 static int new_name;
-static int be_back_soon;
+static int resume;
 
 static int goal_action(int i)
 {
@@ -64,14 +64,14 @@ static int goal_action(int i)
         return goto_state(&st_over);
 
     case GOAL_SAVE:
-        be_back_soon = 1;
+        resume = 1;
 
         progress_stop();
         return goto_save(&st_goal, &st_goal);
 
     case GOAL_NAME:
         new_name = 1;
-        be_back_soon = 1;
+        resume = 1;
 
         progress_stop();
         return goto_name(&st_goal, &st_goal, 0);
@@ -84,7 +84,7 @@ static int goal_action(int i)
     case GUI_BEST_TIMES:
     case GUI_UNLOCK_GOAL:
         set_score_type(i);
-        be_back_soon = 1;
+        resume = 1;
         return goto_state(&st_goal);
 
     case GOAL_NEXT:
@@ -112,9 +112,6 @@ static int goal_enter(void)
 
     int high = progress_lvl_high();
 
-    /* Reset hack. */
-    be_back_soon = 0;
-
     if (new_name)
     {
         progress_rename();
@@ -140,13 +137,22 @@ static int goal_enter(void)
 
             /* Reverse-engineer initial score and balls. */
 
-            coins = curr_coins();
-            score = curr_score() - coins;
-            balls = curr_balls();
+            if (resume)
+            {
+                coins = 0;
+                score = curr_score();
+                balls = curr_balls();
+            }
+            else
+            {
+                coins = curr_coins();
+                score = curr_score() - coins;
+                balls = curr_balls();
 
-            for (i = curr_score(); i > score; i--)
-                if (progress_reward_ball(i))
-                    balls--;
+                for (i = curr_score(); i > score; i--)
+                    if (progress_reward_ball(i))
+                        balls--;
+            }
 
             sprintf(msg, ngettext("%d new bonus level",
                                   "%d new bonus levels",
@@ -204,12 +210,14 @@ static int goal_enter(void)
 
             if (demo_saved())
                 gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
+
+            if (high)
+                gui_state(id, _("Change Name"),  GUI_SML, GOAL_NAME, 0);
         }
 
-        if (high)
-            gui_state(id, _("Change Player Name"),  GUI_SML, GOAL_NAME, 0);
+        if (!resume)
+            gui_pulse(gid, 1.2f);
 
-        gui_pulse(gid, 1.2f);
         gui_layout(id, 0, 0);
 
     }
@@ -221,6 +229,9 @@ static int goal_enter(void)
     audio_music_fade_out(2.0f);
 
     config_clr_grab();
+
+    /* Reset hack. */
+    resume = 0;
 
     return id;
 }
@@ -281,7 +292,7 @@ static int goal_buttn(int b, int d)
 static void goal_leave(int id)
 {
     /* HACK:  don't run animation if only "visiting" a state. */
-    st_goal.timer = be_back_soon ? shared_timer : goal_timer;
+    st_goal.timer = resume ? shared_timer : goal_timer;
 
     gui_delete(id);
 }

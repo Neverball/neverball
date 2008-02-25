@@ -31,6 +31,8 @@
 
 #define START_BACK        -1
 #define START_CHALLENGE   -2
+#define START_OPEN_GOALS  -3
+#define START_LOCK_GOALS  -4
 
 static int shot_id;
 
@@ -58,13 +60,13 @@ static void gui_level(int id, int i)
 
     jd = gui_label(id, level_repr(i), GUI_SML, GUI_ALL, back, fore);
 
-    if (level_opened(i))
+    if (level_opened(i) || config_cheat())
         gui_active(jd, i, 0);
 }
 
 static void start_over_level(int i)
 {
-    if (level_opened(i))
+    if (level_opened(i) || config_cheat())
     {
         gui_set_image(shot_id, level_shot(i));
 
@@ -119,6 +121,14 @@ static int start_action(int i)
         set_score_type(i);
         return goto_state(&st_start);
 
+    case START_OPEN_GOALS:
+        config_set_d(CONFIG_LOCK_GOALS, 0);
+        return goto_state(&st_start);
+
+    case START_LOCK_GOALS:
+        config_set_d(CONFIG_LOCK_GOALS, 1);
+        return goto_state(&st_start);
+
     default:
         if (progress_play(i))
             return goto_state(&st_level);
@@ -168,6 +178,32 @@ static int start_enter(void)
 
         if ((jd = gui_harray(id)))
             gui_score_board(jd, 0);
+
+        gui_space(id);
+
+        if ((jd = gui_hstack(id)))
+        {
+            gui_filler(jd);
+
+            if ((kd = gui_harray(jd)))
+            {
+                /* TODO, replace the whitespace hack with something sane. */
+
+                gui_state(kd,
+                          /* TRANSLATORS: adjust the amount of whitespace here
+                           * as necessary for the buttons to look good. */
+                          _("   No   "), GUI_SML, START_OPEN_GOALS,
+                          config_get_d(CONFIG_LOCK_GOALS) == 0);
+
+                gui_state(kd, _("Yes"), GUI_SML, START_LOCK_GOALS,
+                          config_get_d(CONFIG_LOCK_GOALS) == 1);
+            }
+
+            gui_filler(jd);
+
+            gui_label(jd, _("Lock Goals of Completed Levels?"),
+                      GUI_SML, GUI_ALL, 0, 0);
+        }
 
         gui_layout(id, 0, 0);
 

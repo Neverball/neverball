@@ -88,6 +88,7 @@ enum {
     CONFIG_CHEAT,
     CONFIG_STATS,
     CONFIG_UNIFORM,
+    CONFIG_LOCK_GOALS,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -162,6 +163,7 @@ enum {
 #define DEFAULT_KEY_RESTART          SDLK_r
 #define DEFAULT_STATS                0
 #define DEFAULT_UNIFORM              0
+#define DEFAULT_LOCK_GOALS           0
 
 /*---------------------------------------------------------------------------*/
 

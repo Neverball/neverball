@@ -118,6 +118,7 @@ void config_init(void)
     config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_STATS,                DEFAULT_STATS);
     config_set_d(CONFIG_UNIFORM,              DEFAULT_UNIFORM);
+    config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
     config_set_d(CONFIG_KEY_BACKWARD,         DEFAULT_KEY_BACKWARD);
     config_set_d(CONFIG_KEY_LEFT,             DEFAULT_KEY_LEFT);
@@ -256,6 +257,9 @@ void config_load(void)
                     config_set_d(CONFIG_STATS, atoi(val));
                 else if (strcmp(key, "uniform") == 0)
                     config_set_d(CONFIG_UNIFORM, atoi(val));
+
+                else if (strcmp(key, "lock_goals") == 0)
+                    config_set_d(CONFIG_LOCK_GOALS, atoi(val));
             }
 
         fclose(fp);
@@ -381,10 +385,10 @@ void config_save(void)
         if (strlen(option_s[CONFIG_WIIMOTE_ADDR]) > 0)
             fprintf(fp, "wiimote_addr %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
 
-        fprintf(fp, "stats                %d\n",
-                option_d[CONFIG_STATS]);
-        fprintf(fp, "uniform              %d\n",
-                option_d[CONFIG_UNIFORM]);
+        fprintf(fp, "stats                %d\n", option_d[CONFIG_STATS]);
+        fprintf(fp, "uniform              %d\n", option_d[CONFIG_UNIFORM]);
+        fprintf(fp, "lock_goals           %d\n", option_d[CONFIG_LOCK_GOALS]);
+
         if (config_cheat())
             fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
 

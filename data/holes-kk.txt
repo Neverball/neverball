@@ -5,7 +5,7 @@ map-ckk/03.sol back/greys.png     2  bgm/track3.ogg
 map-ckk/04.sol back/ocean.png     2  bgm/track1.ogg
 map-ckk/05.sol back/land.png      6  bgm/track2.ogg
 map-ckk/06.sol back/blues.png     3  bgm/track1.ogg
-map-ckk/07.sol back/blk_org.png   9  bgm/track4.ogg
+map-ckk/07.sol back/blk_org.png   13 bgm/track4.ogg
 map-ckk/08.sol back/blues.png     4  bgm/track2.ogg
 map-ckk/09.sol back/city.png      7  bgm/track3.ogg
 map-ckk/10.sol back/purples.png   5  bgm/track4.ogg

@@ -36,6 +36,7 @@
 /* Bread crumbs. */
 
 static int new_name;
+static int resume;
 
 static int done_action(int i)
 {
@@ -54,6 +55,7 @@ static int done_action(int i)
     case GUI_BEST_TIMES:
     case GUI_UNLOCK_GOAL:
         set_score_type(i);
+        resume = 1;
         return goto_state(&st_done);
     }
     return 1;
@@ -92,21 +94,24 @@ static int done_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            /* FIXME, I'm ugly. */
+            gui_start(jd, _("Select Level"), GUI_SML, DONE_OK, 0);
 
             if (high)
-                gui_state(jd, _("Change Player Name"), GUI_SML, DONE_NAME, 0);
-
-            gui_start(jd, _("OK"), GUI_SML, DONE_OK, 0);
+                gui_state(jd, _("Change Name"), GUI_SML, DONE_NAME, 0);
         }
 
+        if (!resume)
+            gui_pulse(gid, 1.2f);
+
         gui_layout(id, 0, 0);
-        gui_pulse(gid, 1.2f);
     }
 
     set_score_board(set_coin_score(curr_set()), progress_score_rank(),
                     set_time_score(curr_set()), progress_times_rank(),
                     set_time_score(curr_set()), progress_times_rank());
+
+    /* Reset hack. */
+    resume = 0;
 
     return id;
 }

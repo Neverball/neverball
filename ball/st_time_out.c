@@ -104,6 +104,16 @@ static int time_out_enter(void)
     return id;
 }
 
+static int time_out_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
+            return time_out_action(TIME_OUT_SAME);
+    }
+    return 1;
+}
+
 static int time_out_buttn(int b, int d)
 {
     if (d)
@@ -127,7 +137,7 @@ struct state st_time_out = {
     shared_stick,
     shared_angle,
     shared_click,
-    NULL,
+    time_out_keybd,
     time_out_buttn,
     1, 0
 };

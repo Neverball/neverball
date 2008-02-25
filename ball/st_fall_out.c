@@ -35,7 +35,7 @@
 #define FALL_OUT_BACK 4
 #define FALL_OUT_OVER 5
 
-static int be_back_soon;
+static int resume;
 
 static int fall_out_action(int i)
 {
@@ -51,7 +51,7 @@ static int fall_out_action(int i)
         return goto_state(&st_over);
 
     case FALL_OUT_SAVE:
-        be_back_soon = 1;
+        resume = 1;
 
         progress_stop();
         return goto_save(&st_fall_out, &st_fall_out);
@@ -75,7 +75,7 @@ static int fall_out_enter(void)
     int id, jd, kd;
 
     /* Reset hack. */
-    be_back_soon = 0;
+    resume = 0;
 
     if ((id = gui_vstack(0)))
     {
@@ -125,6 +125,16 @@ static void fall_out_timer(int id, float dt)
     gui_timer(id, dt);
 }
 
+static int fall_out_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
+            return fall_out_action(FALL_OUT_SAME);
+    }
+    return 1;
+}
+
 static int fall_out_buttn(int b, int d)
 {
     if (d)
@@ -140,7 +150,7 @@ static int fall_out_buttn(int b, int d)
 static void fall_out_leave(int id)
 {
     /* HACK:  don't run animation if only "visiting" a state. */
-    st_fall_out.timer = be_back_soon ? shared_timer : fall_out_timer;
+    st_fall_out.timer = resume ? shared_timer : fall_out_timer;
 
     gui_delete(id);
 }
@@ -156,7 +166,7 @@ struct state st_fall_out = {
     shared_stick,
     NULL,
     shared_click,
-    NULL,
+    fall_out_keybd,
     fall_out_buttn,
     1, 0
 };

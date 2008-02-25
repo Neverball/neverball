@@ -85,8 +85,9 @@ int  progress_play(int i)
 
         if (demo_play_init(USER_REPLAY_FILE, get_level(level), mode,
                            level_time(level), level_goal(level),
-                           (mode == MODE_NORMAL && level_completed(level)) ||
-                           goal == 0, score, balls, times))
+                           (mode != MODE_CHALLENGE && level_completed(level) &&
+                            config_get_d(CONFIG_LOCK_GOALS) == 0) || goal == 0,
+                           score, balls, times))
         {
             return 1;
         }
@@ -168,8 +169,11 @@ void progress_stat(int s)
 
         if (!level_exists(next))
         {
-            dirty = set_score_update(times, score, &score_rank, &times_rank);
-            done  = mode == MODE_CHALLENGE;
+            if (mode == MODE_CHALLENGE)
+            {
+                dirty = set_score_update(times, score, &score_rank, &times_rank);
+                done  = 1;
+            }
         }
         else
         {
