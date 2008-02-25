@@ -1,6 +1,5 @@
 {
 "classname" "worldspawn"
-"drawback" "1"
 "depthmask" "1"
 }
 {

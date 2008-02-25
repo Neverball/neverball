@@ -5,6 +5,6 @@
 }
 {
 "classname" "misc_model"
-"material" "ball/crystal-ball/cystal-ball"
+"material" "ball/crystal-ball/crystal-ball"
 "model" "ball/crystal-ball/crystal-ball.obj"
 }

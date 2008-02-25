@@ -390,7 +390,7 @@ void ball_init(void)
     char inner_file[PATHMAX];
     char outer_file[PATHMAX];
 
-    config_get_s(CONFIG_BALL, ball_file, PATHMAX / 2 - 17);
+    config_get_s(CONFIG_BALL, ball_file, PATHMAX / 2 - 12);
 
     strncpy(solid_file, "ball/", PATHMAX);
     strncpy(inner_file, "ball/", PATHMAX);
