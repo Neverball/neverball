@@ -1020,6 +1020,10 @@ static float sol_bounce_sphere(const struct s_file *fp,
    /* u is used to calculate the "energy" of the impact */
     v_sub(u, v2_par, v1_par);
 
+   /* Ensure immobile balls don't travel inside of each other */
+    if (!up->m || !u2p->m)
+        gamma = 0.78f;
+
    /*
     * New parallel velocities follow from momentum conservation
     * and coefficient of restitution GAMMA
@@ -1053,8 +1057,10 @@ static float sol_bounce_sphere(const struct s_file *fp,
     v_add(v1_par, v11, v21);
     v_add(v2_par, v12, v22);
 
-    v_add(v1, v1_par, v1_perp);
-    v_add(v2, v2_par, v2_perp);
+    if (up->m)
+        v_add(v1, v1_par, v1_perp);
+    if (u2p->m)
+        v_add(v2, v2_par, v2_perp);
 
    /* Hack: prevent accidental spinning while the ball is stationary */
     if (v_len(v1) < 0.01f && u1)
