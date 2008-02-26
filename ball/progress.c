@@ -47,7 +47,8 @@ static int status = GAME_NONE;
 static int coins = 0;
 static int timer = 0;
 
-static int goal = 0;
+static int goal   = 0; /* Current goal value. */
+static int goal_i = 0; /* Initial goal value. */
 
 static int time_rank = 3;
 static int goal_rank = 3;
@@ -79,7 +80,7 @@ int  progress_play(int i)
         status = GAME_NONE;
         coins  = 0;
         timer  = 0;
-        goal   = level_goal(level);
+        goal   = goal_i = level_goal(level);
 
         time_rank = goal_rank = coin_rank = 3;
 
@@ -104,7 +105,7 @@ void progress_step(void)
 {
     if (goal > 0)
     {
-        goal = level_goal(level) - curr_coins();
+        goal = goal_i - curr_coins();
 
         if (goal <= 0)
         {
@@ -215,7 +216,13 @@ void progress_exit(int s)
 
 int  progress_replay(const char *filename)
 {
-    return demo_replay_init(filename, &goal, &mode, &balls, &score, &times);
+    if (demo_replay_init(filename, &goal, &mode, &balls, &score, &times))
+    {
+        goal_i = goal;
+        return 1;
+    }
+    else
+        return 0;
 }
 
 int  progress_next_avail(void)

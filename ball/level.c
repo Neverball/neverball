@@ -17,6 +17,7 @@
 #include <string.h>
 #include <math.h>
 #include <errno.h>
+#include <assert.h>
 
 #include "solid.h"
 #include "config.h"
@@ -194,12 +195,14 @@ int  level_completed(int i)
 
 int  level_time (int i)
 {
-    return level_exists(i) ? get_level(i)->time : -1;
+    assert(level_exists(i));
+    return get_level(i)->time;
 }
 
 int  level_goal (int i)
 {
-    return level_exists(i) ? get_level(i)->goal : -1;
+    assert(level_exists(i));
+    return get_level(i)->goal;
 }
 
 int  level_bonus(int i)

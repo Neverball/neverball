@@ -192,7 +192,7 @@ static int goal_enter(void)
             balls_id = score_id = coins_id = 0;
         }
 
-        if ((jd = gui_harray(id)))
+        if ((jd = gui_hstack(id)))
             gui_score_board(jd, 1);
 
         gui_space(id);

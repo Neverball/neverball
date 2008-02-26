@@ -9,22 +9,26 @@
 
 struct demo
 {
-    char   name[PATHMAX];      /* demo basename */
-    char   filename[MAXSTR];  /* demo path */
+    char   name[PATHMAX];     /* demo basename    */
+    char   filename[MAXSTR];  /* demo path        */
 
-    int    timer;           /* elapsed time */
-    int    coins;           /* coin number */
-    int    status;          /* how the replay end */
-    int    mode;            /* game mode */
-    time_t date;            /* date of creation */
-    char   player[MAXNAM];  /* player name */
+    char   player[MAXNAM];
+    time_t date;
+
+    int    timer;
+    int    coins;
+    int    status;
+    int    mode;
+
     char   shot[PATHMAX];   /* image filename */
     char   file[PATHMAX];   /* level filename */
-    int    time;            /* time limit (! training mode) */
-    int    goal;            /* coin to open the goal (! training mode) */
-    int    score;           /* sum of coins (challenge mode) */
-    int    balls;           /* number of balls (challenge mode) */
-    int    times;           /* total time (challenge mode) */
+
+    int    time;            /* time limit        */
+    int    goal;            /* coin limit        */
+    int    goal_e;          /* goal enabled flag */
+    int    score;           /* total coins       */
+    int    balls;           /* number of balls   */
+    int    times;           /* total time        */
 };
 
 /*---------------------------------------------------------------------------*/

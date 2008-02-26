@@ -87,7 +87,7 @@ static int done_enter(void)
 
         gui_space(id);
 
-        if ((jd = gui_harray(id)))
+        if ((jd = gui_hstack(id)))
             gui_score_board(jd, 1);
 
         gui_space(id);

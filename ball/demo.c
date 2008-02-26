@@ -30,7 +30,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define MAGIC           0x52424EAF
-#define DEMO_VERSION    5
+#define DEMO_VERSION    6
 
 #define DATELEN 20
 
@@ -55,6 +55,7 @@ void demo_dump_info(const struct demo *d)
            "Level:        %s\n"
            "Time:         %d\n"
            "Goal:         %d\n"
+           "Goal enabled: %d\n"
            "Score:        %d\n"
            "Balls:        %d\n"
            "Total Time:   %d\n",
@@ -62,7 +63,7 @@ void demo_dump_info(const struct demo *d)
            d->timer, d->coins, d->mode, d->status, ctime(&d->date),
            d->player,
            d->shot, d->file,
-           d->time, d->goal, d->score, d->balls, d->times);
+           d->time, d->goal, d->goal_e, d->score, d->balls, d->times);
 }
 
 static int demo_header_read(FILE *fp, struct demo *d)
@@ -110,6 +111,7 @@ static int demo_header_read(FILE *fp, struct demo *d)
 
         get_index(fp, &d->time);
         get_index(fp, &d->goal);
+        get_index(fp, &d->goal_e);
         get_index(fp, &d->score);
         get_index(fp, &d->balls);
         get_index(fp, &d->times);
@@ -144,6 +146,7 @@ static void demo_header_write(FILE *fp, struct demo *d)
 
     put_index(fp, &d->time);
     put_index(fp, &d->goal);
+    put_index(fp, &d->goal_e);
     put_index(fp, &d->score);
     put_index(fp, &d->balls);
     put_index(fp, &d->times);
@@ -278,11 +281,12 @@ int demo_play_init(const char *name, const struct level *level,
     strncpy(demo.shot, level->shot, PATHMAX);
     strncpy(demo.file, level->file, PATHMAX);
 
-    demo.time  = t;
-    demo.goal  = g;
-    demo.score = s;
-    demo.balls = b;
-    demo.times = tt;
+    demo.time   = t;
+    demo.goal   = g;
+    demo.goal_e = e;
+    demo.score  = s;
+    demo.balls  = b;
+    demo.times  = tt;
 
     if ((demo_fp = fopen(demo.filename, FMODE_WB)))
     {
@@ -392,7 +396,7 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
 
             return game_init(demo_level_replay.file,
                              demo_level_replay.time,
-                             demo_level_replay.goal == 0);
+                             demo_replay.goal_e);
         }
         else
             return game_init(demo_level_replay.file,

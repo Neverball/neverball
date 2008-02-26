@@ -268,6 +268,8 @@ void gui_score_board(int id, int e)
 {
     int jd, kd;
 
+    gui_filler(id);
+
     if ((jd = gui_hstack(id)))
     {
         gui_filler(jd);
@@ -289,6 +291,8 @@ void gui_score_board(int id, int e)
         gui_filler(jd);
     }
 
+    gui_filler(id);
+
     switch (score_type)
     {
     case GUI_MOST_COINS:
@@ -303,7 +307,8 @@ void gui_score_board(int id, int e)
         gui_best_times(id, e);
         break;
     }
-    return;
+
+    gui_filler(id);
 }
 
 void set_score_board(const struct score *smc, int hmc,

@@ -176,7 +176,7 @@ static int start_enter(void)
         }
         gui_space(id);
 
-        if ((jd = gui_harray(id)))
+        if ((jd = gui_hstack(id)))
             gui_score_board(jd, 0);
 
         gui_space(id);
@@ -199,10 +199,12 @@ static int start_enter(void)
                           config_get_d(CONFIG_LOCK_GOALS) == 1);
             }
 
-            gui_filler(jd);
+            gui_space(jd);
 
             gui_label(jd, _("Lock Goals of Completed Levels?"),
                       GUI_SML, GUI_ALL, 0, 0);
+
+            gui_filler(jd);
         }
 
         gui_layout(id, 0, 0);
