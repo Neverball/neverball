@@ -970,7 +970,6 @@ static float sol_bounce_sphere(const struct s_file *fp,
     float r_rel[3], v_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3],
           u[3];
     float v11[3], v12[3], v21[3], v22[3];
-    float q[3], w[3];
     float *p1 = up->p, *v1 = up->v, *p2 = u2p->p, *v2 = u2p->v;
     float inertia, factor, gamma;
     const int u1 = up->m;
@@ -998,23 +997,6 @@ static float sol_bounce_sphere(const struct s_file *fp,
    /* r_rel is the unit vector from p1 to p2 */
     v_sub(r_rel, p2, p1);
     v_nrm(r_rel, r_rel);
-
-   /* Handle immobile spheres */
-    if (!u2p->m)
-    {
-        v_scl(r_rel, r_rel, u2p->r);
-        v_nrm(r_rel, r_rel);
-        v_cpy(w, u2p->v);
-        return sol_bounce(up, q, w, t);
-    }
-
-    if (!up->m)
-    {
-        v_scl(r_rel, r_rel, up->r);
-        v_nrm(r_rel, r_rel);
-        v_cpy(w, up->v);
-        return sol_bounce(u2p, q, w, t);
-    }
 
    /* Hack: prevent losing balls */
     v_sub(v_rel, v2, v1);
@@ -1044,10 +1026,29 @@ static float sol_bounce_sphere(const struct s_file *fp,
     */
     inertia = pow(up->r / u2p->r, 3);
 
-    v_scl(v11, v1_par, (inertia - gamma) / (inertia + 1.0f)); 
-    v_scl(v12, v1_par, (gamma + 1.0f) * inertia / (inertia + 1.0f)); 
-    v_scl(v21, v2_par, (gamma + 1.0f) / (inertia + 1.0f)); 
-    v_scl(v22, v2_par, (1.0f - gamma * inertia) / (inertia + 1.0f)); 
+    if (!u2p->m)
+    {
+        v_scl(v11, v1_par, (inertia - 1.0f / gamma) / (inertia + 1.0f));
+        v_scl(v12, v1_par, (gamma + 1.0f) * inertia / (inertia + 1.0f));
+        v_scl(v21, v2_par, (1.0f / gamma) / (inertia + 1.0f));
+        v_scl(v22, v2_par, (1.0f - gamma * inertia) / (inertia + 1.0f));
+    }
+
+    else if (!up->m)
+    {
+        v_scl(v11, v1_par, (inertia - gamma) / (inertia + 1.0f));
+        v_scl(v12, v1_par, (1.0f / gamma + 1.0f) * inertia / (inertia + 1.0f));
+        v_scl(v21, v2_par, (gamma + 1.0f) / (inertia + 1.0f));
+        v_scl(v22, v2_par, (1.0f - 1.0f / gamma * inertia) / (inertia + 1.0f));
+    }
+
+    else
+    {
+        v_scl(v11, v1_par, (inertia - gamma) / (inertia + 1.0f));
+        v_scl(v12, v1_par, (gamma + 1.0f) * inertia / (inertia + 1.0f));
+        v_scl(v21, v2_par, (gamma + 1.0f) / (inertia + 1.0f));
+        v_scl(v22, v2_par, (1.0f - gamma * inertia) / (inertia + 1.0f));
+    }
 
     v_add(v1_par, v11, v21);
     v_add(v2_par, v12, v22);
@@ -1194,29 +1195,47 @@ static void sol_body_step(struct s_file *fp, float dt)
 /*
  * Compute the positions of all balls after DT seconds have passed.
  */
-static void sol_ball_step(struct s_file *fp, float dt)
+static void sol_ball_step(struct s_file *fp, int arb, float dt)
 {
     int i;
 
-    for (i = 0; i < fp->uc; i++)
+    if (arb)
     {
-        struct s_ball *up = fp->uv + i;
+        for (i = 0; i < fp->yc; i++)
+        {
+            struct s_ball *yp = fp->yv + i;
 
-        v_mad(up->p, up->p, up->v, dt);
+            if (!yp->m)
+                continue;
 
-        sol_rotate(up->e, up->w, dt);
+            v_mad(yp->p, yp->p, yp->v, dt);
+
+            sol_rotate(yp->e, yp->w, dt);
+        }
     }
 
-    for (i = 0; i < fp->yc; i++)
+    else
     {
-        struct s_ball *yp = fp->yv + i;
+        for (i = 0; i < fp->yc; i++)
+        {
+            struct s_ball *yp = fp->yv + i;
 
-        if (!yp->m)
-            continue;
+            if (!yp->m)
+                continue;
 
-        v_mad(yp->p, yp->p, yp->v, dt);
+            v_mad(yp->p, yp->p, yp->v, dt);
 
-        sol_rotate(yp->e, yp->w, dt);
+            sol_rotate(yp->e, yp->w, dt);
+        }
+
+        for (i = 0; i < fp->uc; i++)
+        {
+            struct s_ball *up = fp->uv + i;
+
+            v_mad(up->p, up->p, up->v, dt);
+
+            sol_rotate(up->e, up->w, dt);
+        }
     }
 }
 
@@ -1620,7 +1639,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             {
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
-                sol_ball_step(fp, nt);
+                sol_ball_step(fp, 0, nt);
 
                 tt -= nt;
 
@@ -1641,7 +1660,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                     nt += tt;
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
-                sol_ball_step(fp, nt);
+                sol_ball_step(fp, 0, nt);
             }
 
             /* Apply the ball's accelleration to the pendulum. */
@@ -1709,9 +1728,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
             while (c && tt && tt > (nt = sol_test_file(tt, P, V, yp, fp, i)))
             {
-                sol_body_step(fp, nt);
-                sol_swch_step(fp, nt);
-                sol_ball_step(fp, nt);
+                sol_ball_step(fp, 1, nt);
 
                 tt -= nt;
 
@@ -1732,7 +1749,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                     nt += tt;
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
-                sol_ball_step(fp, nt);
+                sol_ball_step(fp, 1, nt);
             }
 
             /* Apply the ball's accelleration to the pendulum. */
