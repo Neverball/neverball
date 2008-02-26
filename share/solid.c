@@ -1750,26 +1750,49 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
 struct s_item *sol_item_test(struct s_file *fp, float *p, float item_r)
 {
-    const float *ball_p = fp->uv->p;
-    const float  ball_r = fp->uv->r;
-
-    int hi;
+    int hi, yi;
 
     for (hi = 0; hi < fp->hc; hi++)
     {
-        float r[3];
-
-        r[0] = ball_p[0] - fp->hv[hi].p[0];
-        r[1] = ball_p[1] - fp->hv[hi].p[1];
-        r[2] = ball_p[2] - fp->hv[hi].p[2];
-
-        if (fp->hv[hi].t != ITEM_NONE && v_len(r) < ball_r + item_r)
         {
-            p[0] = fp->hv[hi].p[0];
-            p[1] = fp->hv[hi].p[1];
-            p[2] = fp->hv[hi].p[2];
+            const float *ball_p = fp->uv->p;
+            const float  ball_r = fp->uv->r;
 
-            return &fp->hv[hi];
+            float r[3];
+
+            r[0] = ball_p[0] - fp->hv[hi].p[0];
+            r[1] = ball_p[1] - fp->hv[hi].p[1];
+            r[2] = ball_p[2] - fp->hv[hi].p[2];
+
+            if (fp->hv[hi].t != ITEM_NONE && v_len(r) < ball_r + item_r)
+            {
+                p[0] = fp->hv[hi].p[0];
+                p[1] = fp->hv[hi].p[1];
+                p[2] = fp->hv[hi].p[2];
+
+                return &fp->hv[hi];
+            }
+        }
+
+        for (yi = 0; yi < fp->yc; yi++)
+        {
+            const float *ball_p = fp->yv[yi].p;
+            const float  ball_r = fp->yv[yi].r;
+
+            float r[3];
+
+            r[0] = ball_p[0] - fp->hv[hi].p[0];
+            r[1] = ball_p[1] - fp->hv[hi].p[1];
+            r[2] = ball_p[2] - fp->hv[hi].p[2];
+
+            if (fp->hv[hi].t != ITEM_NONE && v_len(r) < ball_r + item_r)
+            {
+                p[0] = fp->hv[hi].p[0];
+                p[1] = fp->hv[hi].p[1];
+                p[2] = fp->hv[hi].p[2];
+
+                return &fp->hv[hi];
+            }
         }
     }
     return NULL;
@@ -1978,8 +2001,8 @@ int sol_swch_test(struct s_file *fp)
         {
             float l, r[3];
 
-            const float *ball_p  = fp->uv[i].p;
-            const float  ball_r  = fp->uv[i].r;
+            const float *ball_p  = fp->yv[i].p;
+            const float  ball_r  = fp->yv[i].r;
 
             if (xp->t0 == 0 || xp->f == xp->f0)
             {
