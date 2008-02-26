@@ -125,7 +125,7 @@ MAPC_OBJS := \
 	share/solid.o       \
 	share/binary.o      \
 	share/base_config.o \
-    share/config.o      \
+        share/config.o      \
 	share/sync.o        \
 	share/mapc.o
 BALL_OBJS := \
