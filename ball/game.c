@@ -406,9 +406,6 @@ static void game_draw_balls(const struct s_file *fp,
         float ball_M[16];
         float pend_M[16];
 
-        if (!fp->ball_collisions && fp->yv[yi].c)
-            continue;
-
         m_basis(ball_M, fp->yv[yi].e[0], fp->yv[yi].e[1], fp->yv[yi].e[2]);
         m_basis(pend_M, fp->yv[yi].E[0], fp->yv[yi].E[1], fp->yv[yi].E[2]);
 

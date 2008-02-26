@@ -81,19 +81,13 @@ static void view_init(void)
 
 void game_init(const char *s)
 {
-    char gamma[MAXNAM];
-
     jump_e = 1;
     jump_b = 0;
     jump_u = 0;
 
-    config_get_s(CONFIG_BALL_GAMMA, gamma, MAXNAM);
-
     view_init();
     sol_load_gl(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
                                     config_get_d(CONFIG_SHADOW));
-
-    file.ball_gamma = atof(gamma);
 }
 
 void game_free(void)
@@ -108,7 +102,7 @@ int game_check_balls(struct s_file *fp)
     float z[3] = {0.0f, 0.0f, 0.0f};
     int i, j;
 
-    for (i = 1; i < fp->ball_collisions + 1; i++)
+    for (i = 1; i < fp->uc && config_get_d(CONFIG_BALL_COLLISIONS); i++)
     {
         struct s_ball *up = fp->uv + i;
 
@@ -165,7 +159,7 @@ int game_check_balls(struct s_file *fp)
         * If there are any, reset the proper
         * ball's play state
         */
-        for (j = i + 1; j < fp->ball_collisions + 1; j++)
+        for (j = i + 1; j < fp->uc && config_get_d(CONFIG_BALL_COLLISIONS); j++)
         {
             struct s_ball *u2p = fp->uv + j;
             float d[3];
@@ -296,7 +290,7 @@ static void game_draw_balls(const struct s_file *fp,
     {
         float M[16];
 
-        if (!fp->ball_collisions && fp->yv[yi].c)
+        if (!config_get_d(CONFIG_BALL_COLLISIONS) && fp->yv[yi].c)
             continue;
 
         m_basis(M, fp->yv[yi].e[0], fp->yv[yi].e[1], fp->yv[yi].e[2]);
@@ -433,6 +427,8 @@ void game_draw(int pose, float t)
 
     float fov = FOV;
 
+    int i = 0;
+
     if (config_get_d(CONFIG_BALL_COLLISIONS) && jump_b && jump_u != ball * 2)
         fov /= 1.9f * fabsf(jump_dt - 0.5f);
 
@@ -475,9 +471,19 @@ void game_draw(int pose, float t)
 
         if (config_get_d(CONFIG_SHADOW) && !pose)
         {
-            shad_draw_set(fp->uv[ball].p, fp->uv[ball].r);
-            sol_shad(fp);
-            shad_draw_clr();
+            for (i = 0; i < fp->yc; i++)
+            {
+                shad_draw_set(fp->yv[i].p, fp->yv[i].r);
+                sol_shad(fp);
+                shad_draw_clr();
+            }
+
+            for (i = 1; i < fp->uc; i++)
+            {
+                shad_draw_set(fp->uv[i].p, fp->uv[i].r);
+                sol_shad(fp);
+                shad_draw_clr();
+            }
         }
 
         /* Draw the game elements. */
@@ -668,7 +674,6 @@ static int game_update_state(float dt)
 
         if (config_get_d(CONFIG_BALL_COLLISIONS))
         {
-            fp->ball_collisions = curr_party();
             switch (sol_goal_test(fp, p, ball))
             {
                 case 2:  /* The player's ball landed in the goal and the all of the other balls have stopped */
@@ -689,7 +694,6 @@ static int game_update_state(float dt)
 
         else
         {
-            fp->ball_collisions = 0;
             if (sol_goal_test(fp, p, ball))
                 return GAME_GOAL;
             else
@@ -802,17 +806,12 @@ int game_step(const float g[3], float dt)
 
         for (i = 0; i < n; i++)
         {
-            int hole_action_ball = 0;
-
-            if (config_get_d(CONFIG_BALL_COLLISIONS))
-                 fp->ball_collisions = curr_party();
-            else
-                 fp->ball_collisions = 0;
+            int ball_in_hole = 0;
 
             d = sol_step(fp, g, t, ball, &m);
 
-            if ((hole_action_ball = game_check_balls(fp)))
-                hole_goal(hole_action_ball);
+            if ((ball_in_hole = game_check_balls(fp)))
+                hole_goal(ball_in_hole);
 
             if (b < d)
                 b = d;

@@ -305,8 +305,6 @@ struct s_file
     int   dc;
     int   ic;
     int   yc;
-    int   ball_collisions; /* If ball_collisions is set, this is the number of players (curr_party) */
-    float ball_gamma; /* This is the GAMMA defined in Neverballrc */
 
     char          *av;
     struct s_mtrl *mv;

@@ -24,6 +24,7 @@
 #include "solid.h"
 #include "base_config.h"
 #include "binary.h"
+#include "config.h"
 
 #define MAGIC       0x4c4f53af
 #define SOL_VERSION 7
@@ -964,15 +965,22 @@ static float sol_bounce(struct s_ball *up,
 static float sol_bounce_sphere(const struct s_file *fp,
                                       struct s_ball *up,
                                       struct s_ball *u2p,
-                               const float ratio, const float t)
+                                      const float t)
 {
-    float r_rel[3], v_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3], u[3];
+    float r_rel[3], v_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3],
+          u[3];
     float v11[3], v12[3], v21[3], v22[3];
     float q[3], w[3];
     float *p1 = up->p, *v1 = up->v, *p2 = u2p->p, *v2 = u2p->v;
-    float inertia, factor;
+    float inertia, factor, gamma;
     const int u1 = up->m;
     const int u2 = u2p->m;
+
+    {
+        char gamma_str[MAXNAM];
+        config_get_s(CONFIG_BALL_GAMMA, gamma_str, MAXNAM);
+        gamma = atof(gamma_str);
+    }
 
    /* Correct positions up to the collision */
     v_mad(p1, p1, v1, t);
@@ -1036,10 +1044,10 @@ static float sol_bounce_sphere(const struct s_file *fp,
     */
     inertia = pow(up->r / u2p->r, 3);
 
-    v_scl(v11, v1_par, (inertia - fp->ball_gamma) / (inertia + 1.0f)); 
-    v_scl(v12, v1_par, (fp->ball_gamma + 1.0f) * inertia / (inertia + 1.0f)); 
-    v_scl(v21, v2_par, (fp->ball_gamma + 1.0f) / (inertia + 1.0f)); 
-    v_scl(v22, v2_par, (1.0f - fp->ball_gamma * inertia) / (inertia + 1.0f)); 
+    v_scl(v11, v1_par, (inertia - gamma) / (inertia + 1.0f)); 
+    v_scl(v12, v1_par, (gamma + 1.0f) * inertia / (inertia + 1.0f)); 
+    v_scl(v21, v2_par, (gamma + 1.0f) / (inertia + 1.0f)); 
+    v_scl(v22, v2_par, (1.0f - gamma * inertia) / (inertia + 1.0f)); 
 
     v_add(v1_par, v11, v21);
     v_add(v2_par, v12, v22);
@@ -1355,9 +1363,9 @@ static float sol_test_lump(float dt,
                            const float w[3],
                            const int            ui)
 {
-    float  U[3]     = {0.0f, 0.0f, 0.0f}; /* init value only to avoid gcc warnings */
-    float  u, t = dt;
-    int    i;
+    float U[3] = {0.0f, 0.0f, 0.0f}; /* init value only to avoid gcc warnings */
+    float u, t = dt;
+    int   i;
 
     /* Short circuit a non-solid lump. */
 
@@ -1378,14 +1386,15 @@ static float sol_test_lump(float dt,
             }
         }
 
-        for (i = 1; i < fp->ball_collisions + 1; i++)
+        for (i = 1; config_get_d(CONFIG_BALL_COLLISIONS) && i < fp->uc; i++)
         {
             struct s_ball *u2p = fp->uv + i;
 
             if(i == ui)
                 continue;
 
-            if (u2p->P && up->P && (u = sol_test_ball(t, U, up, u2p, o, u2p->v)) < t)
+            if (u2p->P && up->P &&
+               (u = sol_test_ball(t, U, up, u2p, o, u2p->v)) < t)
             {
                 ball_collision_flag = i;
                 t = u;
@@ -1554,7 +1563,8 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
    /*
     * The user ball loop
     */
-    for (i = 0; i < fp->ball_collisions + 1 || (fp->ball_collisions == 0 && i < 4 + 1); i++)
+    for (i = 0; (config_get_d(CONFIG_BALL_COLLISIONS) && i < fp->uc) ||
+                (!config_get_d(CONFIG_BALL_COLLISIONS) && i < 4 + 1); i++)
     {
         float P[3], V[3], v[3], r[3], a[3], d, e, nt = 0.0f, tt = dt;
 
@@ -1615,7 +1625,8 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 tt -= nt;
 
                 if (b < ((ball_collision_flag)
-                        ? (d = sol_bounce_sphere(fp, up, fp->uv + ball_collision_flag, 3.0f, nt))
+                        ? (d = sol_bounce_sphere(fp, up,
+                           fp->uv + ball_collision_flag, nt))
                         : (d = sol_bounce(up, P, V, nt))))
                     b = d;
                
@@ -1652,7 +1663,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
         {
             struct s_ball *yp = fp->yv + i;
 
-            if ((!yp->m) || (!fp->ball_collisions && yp->c))
+            if ((!yp->m) || (!config_get_d(CONFIG_BALL_COLLISIONS) && yp->c))
                 continue;
 
             /* If the ball is in contact with a surface, apply friction. */
@@ -1705,7 +1716,8 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 tt -= nt;
 
                 if (b < ((ball_collision_flag)
-                        ? (d = sol_bounce_sphere(fp, yp, fp->uv + ball_collision_flag, 3.0f, nt))
+                        ? (d = sol_bounce_sphere(fp, yp,
+                           fp->uv + ball_collision_flag, nt))
                         : (d = sol_bounce(yp, P, V, nt))))
                     b = d;
 
@@ -1765,21 +1777,31 @@ struct s_item *sol_item_test(struct s_file *fp, float *p, float item_r)
 
 int sol_goal_test(struct s_file *fp, float *p, int ui)
 {
-    if (fp->ball_collisions)
+    if (config_get_d(CONFIG_BALL_COLLISIONS))
     {
         const float *ball_p = fp->uv[ui].p;
         const float  ball_r = fp->uv[ui].r;
         float z[3] = {0.0f, 0.0f, 0.0f};
         int zi, i;
 
-        for (i = 1; i < fp->ball_collisions + 1 && i < 4; i++)
+        for (i = 1; i < fp->uc; i++)
         {
             if(fp->uv[i].p[1] < -199.9f)
                 v_cpy(fp->uv[i].v, z);
-            if (i <= fp->ball_collisions && (v_len(fp->uv[i].v) > 0.0f))
+            if (v_len(fp->uv[i].v) > 0.0f)
                 return 0;
             else
                 v_cpy(fp->uv[i].v, z);
+        }
+
+        for (i = 0; i < fp->yc; i++)
+        {
+            if(fp->yv[i].p[1] < -199.9f)
+                v_cpy(fp->yv[i].v, z);
+            if (v_len(fp->yv[i].v) > 0.0f)
+                return 0;
+            else
+                v_cpy(fp->yv[i].v, z);
         }
 
         for (zi = 0; zi < fp->zc; zi++)
