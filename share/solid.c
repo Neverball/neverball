@@ -1013,7 +1013,7 @@ static float sol_bounce_sphere(const struct s_file *fp,
         v_scl(r_rel, r_rel, up->r);
         v_nrm(r_rel, r_rel);
         v_cpy(w, up->v);
-        return sol_bounce(up, q, w, t);
+        return sol_bounce(u2p, q, w, t);
     }
 
    /* Hack: prevent losing balls */
