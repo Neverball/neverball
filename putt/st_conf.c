@@ -241,12 +241,20 @@ static int conf_enter(void)
             gui_label(jd, _("Ball Collisions"), GUI_SML, GUI_ALL, 0, 0);
         }
 
-        if (c == 1 && (jd = gui_harray(id)) &&
+        if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, balt,            GUI_SML, CONF_BALT, 0);
-
-            gui_space(jd);
+            if (c == 1)
+            {
+                gui_state(kd, balt,            GUI_SML, CONF_BALT, 0);
+                gui_space(jd);
+            }
+            else
+            {
+                gui_space(kd);
+                gui_space(jd);
+                gui_space(id);
+            }
         }
 
         gui_space(id);
