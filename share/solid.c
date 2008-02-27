@@ -1823,7 +1823,7 @@ struct s_item *sol_item_test(struct s_file *fp, float *p, float item_r)
 
 int sol_goal_test(struct s_file *fp, float *p, int ui)
 {
-    if (config_get_d(CONFIG_BALL_COLLISIONS))
+    if (config_get_d(CONFIG_BALL_COLLISIONS) && ui)
     {
         const float *ball_p = fp->uv[ui].p;
         const float  ball_r = fp->uv[ui].r;
