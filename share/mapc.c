@@ -1259,7 +1259,7 @@ static void make_abal(struct s_file *fp,
     yp->r    = 0.25f;
     yp->m    = 1;
     yp->n    = 0;
-    yp->c    = 1;
+    yp->c    = 0;
 
     for (i = 0; i < c; i++)
     {
