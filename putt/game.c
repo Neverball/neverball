@@ -478,12 +478,9 @@ void game_draw(int pose, float t)
                 shad_draw_clr();
             }
 
-            for (i = 1; i < fp->uc; i++)
-            {
-                shad_draw_set(fp->uv[i].p, fp->uv[i].r);
-                sol_shad(fp);
-                shad_draw_clr();
-            }
+            shad_draw_set(fp->uv[ball].p, fp->uv[ball].r);
+            sol_shad(fp);
+            shad_draw_clr();
         }
 
         /* Draw the game elements. */
