@@ -962,6 +962,10 @@ static float sol_bounce(struct s_ball *up,
     return fabsf(v_dot(n, d));
 }
 
+/*
+ * Compute the new  linear velocities of two colliding balls.
+ * t gives the time after which they collide.
+ */
 static float sol_bounce_sphere(const struct s_file *fp,
                                       struct s_ball *up,
                                       struct s_ball *u2p,
@@ -994,16 +998,16 @@ static float sol_bounce_sphere(const struct s_file *fp,
             p1[1] = p2[1];
     }
 
-   /* r_rel is the unit vector from p1 to p2 */
-    v_sub(r_rel, p2, p1);
-    v_nrm(r_rel, r_rel);
-
    /* Hack: prevent losing balls */
     v_sub(v_rel, v2, v1);
     if (v_len(v_rel) < 0.001f)
     {
         return 0.0f;
     }
+
+   /* r_rel is the unit vector from p1 to p2 */
+    v_sub(r_rel, p2, p1);
+    v_nrm(r_rel, r_rel);
 
    /*
     * project velocities upon r_rel to get components parallel
@@ -1025,25 +1029,23 @@ static float sol_bounce_sphere(const struct s_file *fp,
         gamma = 0.78f;
 
    /*
-    * New parallel velocities follow from momentum conservation
-    * and coefficient of restitution GAMMA
+    * New parallel velocities follow from momentum conservation,
+    * coefficient of restitution GAMMA, mass ratio inertia
     */
     inertia = pow(up->r / u2p->r, 3);
 
     if (!u2p->m)
     {
-        v_scl(v11, v1_par, (inertia - 1.0f / gamma) / (inertia + 1.0f));
-        v_scl(v12, v1_par, (gamma + 1.0f) * inertia / (inertia + 1.0f));
-        v_scl(v21, v2_par, (1.0f / gamma) / (inertia + 1.0f));
-        v_scl(v22, v2_par, (1.0f - gamma * inertia) / (inertia + 1.0f));
+        v_scl(v11, v1_par, -gamma);
+        v_scl(v12, v2_par, gamma + 1.0f);
+        v_add(v1_par, v11, v12); 
     }
 
     else if (!up->m)
     {
-        v_scl(v11, v1_par, (inertia - gamma) / (inertia + 1.0f));
-        v_scl(v12, v1_par, (1.0f / gamma + 1.0f) * inertia / (inertia + 1.0f));
-        v_scl(v21, v2_par, (gamma + 1.0f) / (inertia + 1.0f));
-        v_scl(v22, v2_par, (1.0f - 1.0f / gamma * inertia) / (inertia + 1.0f));
+        v_scl(v21, v1_par, gamma + 1.0f);
+        v_scl(v22, v2_par, -gamma);
+        v_add(v2_par, v21, v22); 
     }
 
     else
@@ -1052,10 +1054,9 @@ static float sol_bounce_sphere(const struct s_file *fp,
         v_scl(v12, v1_par, (gamma + 1.0f) * inertia / (inertia + 1.0f));
         v_scl(v21, v2_par, (gamma + 1.0f) / (inertia + 1.0f));
         v_scl(v22, v2_par, (1.0f - gamma * inertia) / (inertia + 1.0f));
+        v_add(v1_par, v11, v21);
+        v_add(v2_par, v12, v22);
     }
-
-    v_add(v1_par, v11, v21);
-    v_add(v2_par, v12, v22);
 
     if (up->m)
         v_add(v1, v1_par, v1_perp);
