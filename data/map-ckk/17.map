@@ -3950,3 +3950,39 @@
 ( -112 -800 464 ) ( -128 -800 464 ) ( -128 -928 464 ) mtrl/turf-grey 128 128 0 0.5 0.5 0 0 0
 }
 }
+// entity 96
+{
+"classname" "info_notnull"
+"origin" "-48 6848 96"
+"radius" "0.0625"
+"collisions" "1"
+"return" "1"
+"mobile" "1"
+}
+// entity 97
+{
+"classname" "info_notnull"
+"origin" "48 6848 96"
+"radius" "0.0625"
+"collisions" "1"
+"return" "1"
+"mobile" "1"
+}
+// entity 98
+{
+"classname" "info_notnull"
+"origin" "32 6848 96"
+"radius" "0.0625"
+"collisions" "1"
+"return" "1"
+"mobile" "1"
+}
+// entity 99
+{
+"classname" "info_notnull"
+"origin" "-32 6848 96"
+"radius" "0.0625"
+"collisions" "1"
+"return" "1"
+"mobile" "1"
+}

@@ -17,3 +17,4 @@ map-misc/freefall-old.sol
 map-misc/hurdles.sol
 map-misc/canals.sol
 map-misc/groweasy.sol
+map-misc/arbitrary_demo.sol
