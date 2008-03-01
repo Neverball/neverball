@@ -201,7 +201,7 @@ PUTT_OBJS := \
 	putt/hole.o         \
 	putt/course.o       \
 	putt/st_all.o       \
-	putt/st_balt.o      \
+    putt/st_balt.o      \
 	putt/st_conf.o      \
 	putt/main.o
 
