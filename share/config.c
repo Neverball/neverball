@@ -118,9 +118,6 @@ void config_init(void)
     config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_STATS,                DEFAULT_STATS);
     config_set_d(CONFIG_UNIFORM,              DEFAULT_UNIFORM);
-    config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
-    config_set_d(CONFIG_BALL_COLLISIONS,      DEFAULT_BALL_COLLISIONS);
-    config_set_s(CONFIG_BALL_GAMMA,           DEFAULT_BALL_GAMMA);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
     config_set_d(CONFIG_KEY_BACKWARD,         DEFAULT_KEY_BACKWARD);
     config_set_d(CONFIG_KEY_LEFT,             DEFAULT_KEY_LEFT);
@@ -253,20 +250,12 @@ void config_load(void)
                 else if (strcmp(key, "wiimote_addr") == 0)
                     config_set_s(CONFIG_WIIMOTE_ADDR, val);
 
-                else if (strcmp(key, "cheat")      == 0)
-                    config_set_d(CONFIG_CHEAT,   atoi(val));
-                else if (strcmp(key, "stats")      == 0)
-                    config_set_d(CONFIG_STATS,   atoi(val));
-                else if (strcmp(key, "uniform")    == 0)
+                else if (strcmp(key, "cheat")   == 0)
+                    config_set_d(CONFIG_CHEAT, atoi(val));
+                else if (strcmp(key, "stats")   == 0)
+                    config_set_d(CONFIG_STATS, atoi(val));
+                else if (strcmp(key, "uniform") == 0)
                     config_set_d(CONFIG_UNIFORM, atoi(val));
-
-                else if (strcmp(key, "lock_goals") == 0)
-                    config_set_d(CONFIG_LOCK_GOALS, atoi(val));
-
-                else if (strcmp(key, "ball_collisions") == 0)
-                    config_set_d(CONFIG_BALL_COLLISIONS, atoi(val));
-                else if (strcmp(key, "gamma") == 0)
-                    config_set_s(CONFIG_BALL_GAMMA, val);
             }
 
         fclose(fp);
@@ -386,19 +375,18 @@ void config_save(void)
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_RESTART]));
 
         if (strlen(option_s[CONFIG_PLAYER]) > 0)
-            fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
+            fprintf(fp, "player       %s\n", option_s[CONFIG_PLAYER]);
         if (strlen(option_s[CONFIG_BALL]) > 0)
-            fprintf(fp, "ball_file            %s\n", option_s[CONFIG_BALL]);
+            fprintf(fp, "ball_file    %s\n", option_s[CONFIG_BALL]);
         if (strlen(option_s[CONFIG_WIIMOTE_ADDR]) > 0)
-            fprintf(fp, "wiimote_addr         %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
+            fprintf(fp, "wiimote_addr %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
 
-        fprintf(fp, "stats                %d\n", option_d[CONFIG_STATS]);
-        fprintf(fp, "uniform              %d\n", option_d[CONFIG_UNIFORM]);
-        fprintf(fp, "lock_goals           %d\n", option_d[CONFIG_LOCK_GOALS]);
-        fprintf(fp, "ball_collisions      %d\n", option_d[CONFIG_BALL_COLLISIONS]);
-
-        if (strlen(option_s[CONFIG_BALL_GAMMA]) > 0)
-            fprintf(fp, "gamma                %s\n", option_s[CONFIG_BALL_GAMMA]);
+        fprintf(fp, "stats                %d\n",
+                option_d[CONFIG_STATS]);
+        fprintf(fp, "uniform              %d\n",
+                option_d[CONFIG_UNIFORM]);
+        if (config_cheat())
+            fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
 
         fclose(fp);
     }

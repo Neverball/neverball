@@ -21,7 +21,7 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
-#include "progress.h"
+#include "levels.h"
 #include "text.h"
 
 #include "st_shared.h"

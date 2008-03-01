@@ -61,7 +61,6 @@ static int debug_output = 0;
 #define MAXX    1024
 #define MAXR    2048
 #define MAXU    1024
-#define MAXY    1024
 #define MAXW    1024
 #define MAXD    1024
 #define MAXA    16384
@@ -154,11 +153,6 @@ static int incu(struct s_file *fp)
     return (fp->uc < MAXU) ? fp->uc++ : overflow("ball");
 }
 
-static int incy(struct s_file *fp)
-{
-    return (fp->yc < MAXY) ? fp->yc++ : overflow("ball");
-}
-
 static int incw(struct s_file *fp)
 {
     return (fp->wc < MAXW) ? fp->wc++ : overflow("view");
@@ -192,7 +186,6 @@ static void init_file(struct s_file *fp)
     fp->xc = 0;
     fp->rc = 0;
     fp->uc = 0;
-    fp->yc = 0;
     fp->wc = 0;
     fp->dc = 0;
     fp->ac = 0;
@@ -214,7 +207,6 @@ static void init_file(struct s_file *fp)
     fp->xv = (struct s_swch *) calloc(MAXX, sizeof (struct s_swch));
     fp->rv = (struct s_bill *) calloc(MAXR, sizeof (struct s_bill));
     fp->uv = (struct s_ball *) calloc(MAXU, sizeof (struct s_ball));
-    fp->yv = (struct s_ball *) calloc(MAXY, sizeof (struct s_ball));
     fp->wv = (struct s_view *) calloc(MAXW, sizeof (struct s_view));
     fp->dv = (struct s_dict *) calloc(MAXD, sizeof (struct s_dict));
     fp->av = (char          *) calloc(MAXA, sizeof (char));
@@ -1212,9 +1204,6 @@ static void make_ball(struct s_file *fp,
     up->p[1] = 0.0f;
     up->p[2] = 0.0f;
     up->r    = 0.25f;
-    up->m    = 1;
-    up->n    = 0;
-    up->c    = 0;
 
     for (i = 0; i < c; i++)
     {
@@ -1231,63 +1220,9 @@ static void make_ball(struct s_file *fp,
             up->p[1] = +(float) (z - 24) / SCALE;
             up->p[2] = -(float) (y)      / SCALE;
         }
-
-        if (strcmp(k[i], "mobile") == 0)
-            sscanf(v[i], "%d", &up->m);
-
-        if (strcmp(k[i], "return") == 0)
-            sscanf(v[i], "%d", &up->n);
-
-        if (strcmp(k[i], "collisions") == 0)
-            sscanf(v[i], "%d", &up->c);
     }
 
     up->p[1] += up->r + SMALL;
-}
-
-static void make_abal(struct s_file *fp,
-                      char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
-{
-    int i, yi = incy(fp);
-
-    struct s_ball *yp = fp->yv + yi;
-
-    yp->p[0] = 0.0f;
-    yp->p[1] = 0.0f;
-    yp->p[2] = 0.0f;
-    yp->r    = 0.25f;
-    yp->m    = 1;
-    yp->n    = 0;
-    yp->c    = 0;
-
-    for (i = 0; i < c; i++)
-    {
-        if (strcmp(k[i], "radius") == 0)
-            sscanf(v[i], "%f", &yp->r);
-
-        if (strcmp(k[i], "origin") == 0)
-        {
-            int x = 0, y = 0, z = 0;
-
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
-
-            yp->p[0] = +(float) (x)      / SCALE;
-            yp->p[1] = +(float) (z - 24) / SCALE;
-            yp->p[2] = -(float) (y)      / SCALE;
-        }
-
-        if (strcmp(k[i], "mobile") == 0)
-            sscanf(v[i], "%d", &yp->m);
-
-        if (strcmp(k[i], "return") == 0)
-            sscanf(v[i], "%d", &yp->n);
-
-        if (strcmp(k[i], "collisions") == 0)
-            sscanf(v[i], "%d", &yp->c);
-    }
-
-    yp->p[1] += yp->r + SMALL;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1319,7 +1254,6 @@ static void read_ent(struct s_file *fp, FILE *fin)
     if (!strcmp(v[i], "info_null"))                make_bill(fp, k, v, c);
     if (!strcmp(v[i], "path_corner"))              make_path(fp, k, v, c);
     if (!strcmp(v[i], "info_player_start"))        make_ball(fp, k, v, c);
-    if (!strcmp(v[i], "info_notnull"))             make_abal(fp, k, v, c);
     if (!strcmp(v[i], "info_player_intermission")) make_view(fp, k, v, c);
     if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(fp, k, v, c);
     if (!strcmp(v[i], "target_teleporter"))        make_jump(fp, k, v, c);
@@ -2379,10 +2313,10 @@ static void dump_file(struct s_file *p, const char *name)
            name, n, m, c,
 #endif
            name, n, c,
-           p->mc, p->vc,         p->ec, p->sc, p->tc,
-           p->gc, p->lc,         p->pc, p->nc, p->bc,
-           p->hc, p->zc,         p->wc, p->jc, p->xc,
-           p->rc, p->uc + p->yc, p->ac, p->dc, p->ic);
+           p->mc, p->vc, p->ec, p->sc, p->tc,
+           p->gc, p->lc, p->pc, p->nc, p->bc,
+           p->hc, p->zc, p->wc, p->jc, p->xc,
+           p->rc, p->uc, p->ac, p->dc, p->ic);
 }
 
 int main(int argc, char *argv[])

@@ -14,7 +14,7 @@
 
 #include "game.h"
 #include "util.h"
-#include "progress.h"
+#include "levels.h"
 #include "demo.h"
 #include "audio.h"
 #include "gui.h"
@@ -45,22 +45,20 @@ static int time_out_action(int i)
         /* Fall through. */
 
     case TIME_OUT_OVER:
-        progress_stop();
+        level_stop();
         return goto_state(&st_over);
 
     case TIME_OUT_SAVE:
-        progress_stop();
+        level_stop();
         return goto_save(&st_time_out, &st_time_out);
 
     case TIME_OUT_NEXT:
-        if (progress_next())
-            return goto_state(&st_level);
-        break;
+        level_next();
+        return goto_state(&st_level);
 
     case TIME_OUT_SAME:
-        if (progress_same())
-            return goto_state(&st_level);
-        break;
+        level_same();
+        return goto_state(&st_level);
     }
 
     return 1;
@@ -70,6 +68,8 @@ static int time_out_enter(void)
 {
     int id, jd, kd;
 
+    const struct level_game *lg = curr_lg();
+
     if ((id = gui_vstack(0)))
     {
         kd = gui_label(id, _("Time's Up!"), GUI_LRG, GUI_ALL, gui_gry, gui_red);
@@ -78,17 +78,27 @@ static int time_out_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            if (progress_dead())
-                gui_start(jd, _("Exit"), GUI_SML, TIME_OUT_OVER, 0);
+            int next_id = 0, retry_id = 0;
 
-            if (progress_next_avail())
-                gui_start(jd, _("Next Level"), GUI_SML, TIME_OUT_NEXT, 0);
+            next_id = gui_maybe(jd, _("Next Level"),  TIME_OUT_NEXT,
+                                lg->next_level != NULL);
 
-            if (progress_same_avail())
-                gui_start(jd, _("Retry Level"), GUI_SML, TIME_OUT_SAME, 0);
+            if (lg->dead)
+                gui_start(jd, _("Game Over"), GUI_SML, TIME_OUT_OVER, 0);
+            else
+            {
+                retry_id = gui_state(jd, _("Retry Level"), GUI_SML,
+                                     TIME_OUT_SAME, 0);
+            }
 
-            if (demo_saved())
-                gui_state(jd, _("Save Replay"), GUI_SML, TIME_OUT_SAVE, 0);
+            gui_maybe(jd, _("Save Replay"), TIME_OUT_SAVE, demo_saved());
+
+            /* Default is next if the next level is newly unlocked. */
+
+            if (next_id && lg->unlock)
+                gui_focus(next_id);
+            else if (retry_id)
+                gui_focus(retry_id);
         }
         gui_space(id);
 
@@ -108,7 +118,7 @@ static int time_out_keybd(int c, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
+        if (config_tst_d(CONFIG_KEY_RESTART, c) && !curr_lg()->dead)
             return time_out_action(TIME_OUT_SAME);
     }
     return 1;

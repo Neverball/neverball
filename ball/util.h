@@ -13,15 +13,10 @@
 #define GUI_BS   -104
 #define GUI_CL   -105
 
-#define GUI_MOST_COINS  -106
-#define GUI_BEST_TIMES  -107
-#define GUI_UNLOCK_GOAL -108
-
-void set_score_type(int);
-void gui_score_board(int, int);
-void set_score_board(const struct score *, int,
-                     const struct score *, int,
-                     const struct score *, int);
+void gui_most_coins(int, int);
+void set_most_coins(const struct score *, int);
+void gui_best_times(int, int);
+void set_best_times(const struct score *, int, int);
 
 void gui_keyboard(int);
 void gui_keyboard_lock(void);

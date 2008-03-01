@@ -27,15 +27,14 @@ const char         *set_shot(int);
 const struct score *set_time_score(int);
 const struct score *set_coin_score(int);
 
-int  set_score_update (int, int, int *, int *);
-void set_rename_player(int, int, const char *);
-
-void set_store_hs(void);
 
 /*---------------------------------------------------------------------------*/
 
 int set_level_exists(int, int);
-struct level *get_level(int);
+const struct level *get_level(int);
+
+void set_finish_level(struct level_game *, const char *);
+void score_change_name(struct level_game *, const char *);
 
 void level_snap(int);
 void set_cheat(void);

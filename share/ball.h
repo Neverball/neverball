@@ -21,12 +21,9 @@
 
 void ball_init(void);
 void ball_free(void);
-void oldball_init(int);
-void oldball_free(void);
 void ball_draw(const float *,
                const float *,
                const float *, float);
-void oldball_draw(int);
 
 /*---------------------------------------------------------------------------*/
 

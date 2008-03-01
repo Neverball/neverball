@@ -3,7 +3,8 @@
 
 #include <stdio.h>
 
-#include "lang.h"
+#include "level.h"
+#include "mode.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,17 +39,15 @@
 
 /*---------------------------------------------------------------------------*/
 
-int   game_init(const char *, int, int);
+int   game_init(const struct level *, int, int);
 void  game_free(void);
 
 int   curr_clock(void);
 int   curr_coins(void);
+int   curr_goal(void);
 
 void  game_draw(int, float);
 int   game_step(const float[3], float, int);
-
-void  game_set_goal(void);
-void  game_clr_goal(void);
 
 void  game_set_ang(int, int);
 void  game_set_pos(int, int);
@@ -68,15 +67,6 @@ void  game_fade(float);
 
 int input_put(FILE *);
 int input_get(FILE *);
-
-/*---------------------------------------------------------------------------*/
-
-#define GAME_NONE 0
-#define GAME_TIME 1
-#define GAME_GOAL 2
-#define GAME_FALL 3
-
-const char *status_to_str(int);
 
 /*---------------------------------------------------------------------------*/
 

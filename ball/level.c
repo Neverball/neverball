@@ -17,12 +17,14 @@
 #include <string.h>
 #include <math.h>
 #include <errno.h>
-#include <assert.h>
 
-#include "solid.h"
 #include "config.h"
+#include "demo.h"
+#include "text.h"
 #include "level.h"
+#include "mode.h"
 #include "set.h"
+#include "solid.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,8 +39,12 @@ static void scan_dict(struct level *l, const struct s_file *fp)
 
         if (strcmp(k, "message") == 0)
             strncpy(l->message, v, MAXSTR);
+        else if (strcmp(k, "back") == 0)
+            strncpy(l->back, v, PATHMAX);
         else if (strcmp(k, "song") == 0)
             strncpy(l->song, v, PATHMAX);
+        else if (strcmp(k, "grad") == 0)
+            strncpy(l->grad, v, PATHMAX);
         else if (strcmp(k, "shot") == 0)
             strncpy(l->shot, v, PATHMAX);
         else if (strcmp(k, "goal") == 0)
@@ -143,6 +149,8 @@ void level_dump(const struct level *l)
            "goal hs:         %d %d %d\n"
            "coin hs:         %d %d %d\n"
            "message:         %s\n"
+           "background:      %s\n"
+           "gradient:        %s\n"
            "screenshot:      %s\n"
            "song:            %s\n",
            l->file,
@@ -160,125 +168,144 @@ void level_dump(const struct level *l)
            l->score.most_coins.coins[1],
            l->score.most_coins.coins[2],
            l->message,
+           l->back,
+           l->grad,
            l->shot,
            l->song);
 }
 
 /*---------------------------------------------------------------------------*/
 
-int  level_exists(int i)
+static unsigned int do_level_init = 1;
+
+int level_replay(const char *filename)
 {
-    return set_level_exists(curr_set(), i);
+    return demo_replay_init(filename, curr_lg());
 }
 
-void level_open(int i)
+int level_play(const struct level *l, int m)
 {
-    if (level_exists(i))
-        get_level(i)->is_locked = 0;
+    struct level_game *lg = curr_lg();
+
+    if (do_level_init)
+    {
+        memset(lg, 0, sizeof (struct level_game));
+
+        lg->mode  = m;
+        lg->level = l;
+        lg->balls = 3;
+    }
+
+    lg->goal = (lg->mode == MODE_PRACTICE) ? 0 : lg->level->goal;
+    lg->time = (lg->mode == MODE_PRACTICE) ? 0 : lg->level->time;
+
+    /* Clear other fields. */
+
+    lg->status = GAME_NONE;
+    lg->coins = 0;
+    lg->timer = lg->time;
+    lg->coin_rank = lg->goal_rank = lg->time_rank =
+        lg->score_rank = lg->times_rank = 3;
+
+    lg->win = lg->dead = lg->unlock = 0;
+    lg->next_level = NULL;
+    lg->bonus = 0;
+
+    return demo_play_init(USER_REPLAY_FILE, lg->level, lg);
 }
 
-int  level_opened(int i)
+void level_stat(int status, int clock, int coins)
 {
-    return level_exists(i) && !get_level(i)->is_locked;
+    struct level_game *lg = curr_lg();
+
+    int mode = lg->mode;
+    int timer = (mode == MODE_PRACTICE) ? clock : lg->time - clock;
+
+    char player[MAXNAM];
+
+    config_get_s(CONFIG_PLAYER, player, MAXNAM);
+
+    lg->status = status;
+    lg->coins = coins;
+    lg->timer = timer;
+
+    if (mode == MODE_CHALLENGE)
+    {
+        /* sum time */
+        lg->times += timer;
+
+        /* sum coins an earn extra balls */
+        if (status == GAME_GOAL || lg->level->is_bonus)
+        {
+            lg->balls += count_extra_balls(lg->score, coins);
+            lg->score += coins;
+        }
+
+        /* lose ball and game */
+        else
+        {
+            lg->dead = (lg->balls <= 0);
+            lg->balls--;
+        }
+    }
+
+    set_finish_level(lg, player);
+
+    demo_play_stat(lg);
 }
 
-void level_complete(int i)
+void level_stop(void)
 {
-    if (level_exists(i))
-        get_level(i)->is_completed = 1;
+    demo_play_stop();
+    do_level_init = 1;
 }
 
-int  level_completed(int i)
+int level_next(void)
 {
-    return level_exists(i) && get_level(i)->is_completed;
+    struct level_game *lg = curr_lg();
+
+    level_stop();
+    lg->level = lg->next_level;
+    do_level_init = 0;
+
+    return level_play(lg->level, lg->mode);
 }
 
-int  level_time (int i)
+int level_same(void)
 {
-    assert(level_exists(i));
-    return get_level(i)->time;
-}
-
-int  level_goal (int i)
-{
-    assert(level_exists(i));
-    return get_level(i)->goal;
-}
-
-int  level_bonus(int i)
-{
-    return level_exists(i) && get_level(i)->is_bonus;
-}
-
-const char *level_shot(int i)
-{
-    return level_exists(i) ? get_level(i)->shot : NULL;
-}
-
-const char *level_file(int i)
-{
-    return level_exists(i) ? get_level(i)->file : NULL;
-}
-
-const char *level_repr(int i)
-{
-    return level_exists(i) ? get_level(i)->repr : NULL;
-}
-
-const char *level_msg(int i)
-{
-    if (level_exists(i) && strlen(get_level(i)->message) > 0)
-        return _(get_level(i)->message);
-
-    return NULL;
-}
-
-/*---------------------------------------------------------------------------*/
-
-int level_score_update(int level,
-                       int timer,
-                       int coins,
-                       int *time_rank,
-                       int *goal_rank,
-                       int *coin_rank)
-{
-    struct level *l = get_level(level);
-    char player[MAXSTR] = "";
-
-    config_get_s(CONFIG_PLAYER, player, MAXSTR);
-
-    if (time_rank)
-        *time_rank = score_time_insert(&l->score.best_times,
-                                       player, timer, coins);
-
-    if (goal_rank)
-        *goal_rank = score_time_insert(&l->score.unlock_goal,
-                                       player, timer, coins);
-
-    if (coin_rank)
-        *coin_rank = score_coin_insert(&l->score.most_coins,
-                                       player, timer, coins);
-
-    if ((time_rank && *time_rank < 3) ||
-        (goal_rank && *goal_rank < 3) ||
-        (coin_rank && *coin_rank < 3))
-        return 1;
-    else
-        return 0;
-}
-
-void level_rename_player(int level,
-                         int time_rank,
-                         int goal_rank,
-                         int coin_rank,
-                         const char *player)
-{
-    struct level *l = get_level(level);
-
-    strncpy(l->score.best_times.player [time_rank], player, MAXNAM);
-    strncpy(l->score.unlock_goal.player[goal_rank], player, MAXNAM);
-    strncpy(l->score.most_coins.player [coin_rank], player, MAXNAM);
+    level_stop();
+    do_level_init = 0;
+    return level_play(curr_lg()->level, curr_lg()->mode);
 }
 
 /*---------------------------------------------------------------------------*/
 
+int count_extra_balls(int old_score, int coins)
+{
+    return ((old_score % 100) + coins) / 100;
+}
+
+void level_update_player_name(void)
+{
+    char player[MAXNAM];
+
+    config_get_s(CONFIG_PLAYER, player, MAXNAM);
+
+    score_change_name(curr_lg(), player);
+}
+
+/*---------------------------------------------------------------------------*/
+
+const char *status_to_str(int m)
+{
+    switch (m)
+    {
+    case GAME_NONE:    return _("Aborted");
+    case GAME_TIME:    return _("Time-out");
+    case GAME_GOAL:    return _("Success");
+    case GAME_FALL:    return _("Fall-out");
+    default:           return _("Unknown");
+    }
+}
+
+/*---------------------------------------------------------------------------*/

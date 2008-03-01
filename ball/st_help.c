@@ -48,14 +48,12 @@ static int help_action(int t)
         break;
 
     case HELP_DEMO_1:
-        if (demo_replay_init(config_data("gui/demo1.nbr"),
-                             NULL, NULL, NULL, NULL, NULL))
+        if (demo_replay_init(config_data("gui/demo1.nbr"), NULL))
             return goto_state(&st_help_demo);
         break;
 
     case HELP_DEMO_2:
-        if (demo_replay_init(config_data("gui/demo2.nbr"),
-                             NULL, NULL, NULL, NULL, NULL))
+        if (demo_replay_init(config_data("gui/demo2.nbr"), NULL))
             return goto_state(&st_help_demo);
         break;
 
@@ -238,6 +236,14 @@ static int help_modes(int id)
             gui_multi(kd,
                       _("Finish a level before the time runs out.\\"
                         "You need to collect coins in order to open the goal."),
+                      GUI_SML, GUI_BOT, gui_wht, gui_wht);
+
+            gui_space(kd);
+
+            gui_label(kd, _("Practice Mode"), GUI_SML, GUI_TOP, 0, 0);
+            gui_multi(kd,
+                      _("Play without time limit or coin constraint.\\"
+                        "Levels cannot be unlocked in this mode."),
                       GUI_SML, GUI_BOT, gui_wht, gui_wht);
 
             gui_space(kd);

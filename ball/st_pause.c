@@ -15,7 +15,7 @@
 #include "gui.h"
 #include "config.h"
 #include "game.h"
-#include "progress.h"
+#include "levels.h"
 #include "level.h"
 #include "audio.h"
 #include "hud.h"
@@ -65,17 +65,15 @@ static int pause_action(int i)
         return goto_state(st_continue);
 
     case PAUSE_RESTART:
-        if (progress_same())
-        {
-            clear_pause();
-            SDL_PauseAudio(0);
-            config_set_grab(1);
-            return goto_state(&st_play_ready);
-        }
-        break;
+        level_same();
+        clear_pause();
+        SDL_PauseAudio(0);
+        config_set_grab(1);
+        return goto_state(&st_play_ready);
 
     case PAUSE_EXIT:
-        progress_exit(GAME_NONE);
+        level_stat(GAME_NONE, curr_clock(), curr_coins());
+        level_stop();
         clear_pause();
         SDL_PauseAudio(0);
         audio_music_stop();
@@ -106,8 +104,13 @@ static int pause_enter(void)
         {
             gui_state(jd, _("Quit"), GUI_SML, PAUSE_EXIT, 0);
 
-            if (progress_same_avail())
+            if (curr_lg()->mode != MODE_CHALLENGE)
                 gui_state(jd, _("Restart"), GUI_SML, PAUSE_RESTART, 0);
+            else
+            {
+                int ld = gui_state(jd, _("Restart"), GUI_SML, 0, 0);
+                gui_set_color(ld, gui_gry, gui_gry);
+            }
 
             gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 1);
         }
@@ -140,8 +143,8 @@ static int pause_keybd(int c, int d)
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
             return pause_action(PAUSE_CONTINUE);
 
-        if (config_tst_d(CONFIG_KEY_RESTART, c) &&
-            curr_mode() != MODE_CHALLENGE)
+        if (config_tst_d(CONFIG_KEY_RESTART, c)
+            && curr_lg()->mode != MODE_CHALLENGE)
             return pause_action(PAUSE_RESTART);
     }
     return 1;

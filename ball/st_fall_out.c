@@ -15,7 +15,7 @@
 #include "gui.h"
 #include "game.h"
 #include "util.h"
-#include "progress.h"
+#include "levels.h"
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
@@ -35,7 +35,7 @@
 #define FALL_OUT_BACK 4
 #define FALL_OUT_OVER 5
 
-static int resume;
+static int be_back_soon;
 
 static int fall_out_action(int i)
 {
@@ -47,24 +47,22 @@ static int fall_out_action(int i)
         /* Fall through. */
 
     case FALL_OUT_OVER:
-        progress_stop();
+        level_stop();
         return goto_state(&st_over);
 
     case FALL_OUT_SAVE:
-        resume = 1;
+        be_back_soon = 1;
 
-        progress_stop();
+        level_stop();
         return goto_save(&st_fall_out, &st_fall_out);
 
     case FALL_OUT_NEXT:
-        if (progress_next())
-            return goto_state(&st_level);
-        break;
+        level_next();
+        return goto_state(&st_level);
 
     case FALL_OUT_SAME:
-        if (progress_same())
-            return goto_state(&st_level);
-        break;
+        level_same();
+        return goto_state(&st_level);
     }
 
     return 1;
@@ -74,8 +72,10 @@ static int fall_out_enter(void)
 {
     int id, jd, kd;
 
+    const struct level_game *lg = curr_lg();
+
     /* Reset hack. */
-    resume = 0;
+    be_back_soon = 0;
 
     if ((id = gui_vstack(0)))
     {
@@ -85,17 +85,29 @@ static int fall_out_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            if (progress_dead())
-                gui_start(jd, _("Exit"), GUI_SML, FALL_OUT_OVER, 0);
+            int next_id = 0, retry_id = 0;
 
-            if (progress_next_avail())
-                gui_start(jd, _("Next Level"),  GUI_SML, FALL_OUT_NEXT, 0);
+            next_id = gui_maybe(jd, _("Next Level"), FALL_OUT_NEXT,
+                                lg->next_level != NULL);
 
-            if (progress_same_avail())
-                gui_start(jd, _("Retry Level"), GUI_SML, FALL_OUT_SAME, 0);
+            if (lg->dead)
+            {
+                gui_start(jd, _("Game Over"), GUI_SML, FALL_OUT_OVER, 0);
+            }
+            else
+            {
+                retry_id = gui_state(jd, _("Retry Level"), GUI_SML,
+                                     FALL_OUT_SAME, 0);
+            }
 
-            if (demo_saved())
-                gui_state(jd, _("Save Replay"), GUI_SML, FALL_OUT_SAVE, 0);
+            gui_maybe(jd, _("Save Replay"), FALL_OUT_SAVE, demo_saved());
+
+            /* Default is next if the next level is newly unlocked. */
+
+            if (next_id && lg->unlock)
+                gui_focus(next_id);
+            else if (retry_id)
+                gui_focus(retry_id);
         }
 
         gui_space(id);
@@ -129,7 +141,7 @@ static int fall_out_keybd(int c, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
+        if (config_tst_d(CONFIG_KEY_RESTART, c) && !curr_lg()->dead)
             return fall_out_action(FALL_OUT_SAME);
     }
     return 1;
@@ -150,7 +162,7 @@ static int fall_out_buttn(int b, int d)
 static void fall_out_leave(int id)
 {
     /* HACK:  don't run animation if only "visiting" a state. */
-    st_fall_out.timer = resume ? shared_timer : fall_out_timer;
+    st_fall_out.timer = be_back_soon ? shared_timer : fall_out_timer;
 
     gui_delete(id);
 }
