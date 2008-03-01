@@ -1066,6 +1066,8 @@ static int game_update_state(int bt)
         if (hp->t == ITEM_COIN)
             coins += hp->n;
 
+        audio_play(AUD_COIN, 1.f);
+
         hp->t = ITEM_NONE;
     }
 
