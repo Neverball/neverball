@@ -1,9 +1,0 @@
-{
-"classname" "worldspawn"
-"depthmask" "1"
-}
-{
-"classname" "misc_model"
-"material" "ball/bowling-ball/bowling-ball"
-"model" "ball/common/ball.obj"
-}
