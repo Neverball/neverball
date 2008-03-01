@@ -88,6 +88,8 @@ enum {
     CONFIG_CHEAT,
     CONFIG_STATS,
     CONFIG_UNIFORM,
+    CONFIG_LOCK_GOALS,
+    CONFIG_BALL_COLLISIONS,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -96,6 +98,7 @@ enum {
     CONFIG_PLAYER,
     CONFIG_BALL,
     CONFIG_WIIMOTE_ADDR,
+    CONFIG_BALL_GAMMA,
 
     CONFIG_OPTION_S_COUNT
 };
@@ -152,7 +155,7 @@ enum {
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_PLAYER               ""
-#define DEFAULT_BALL                 "ball/basic-ball/basic-ball"
+#define DEFAULT_BALL                 "basic-ball"
 #define DEFAULT_CHEAT                0
 #define DEFAULT_KEY_FORWARD          SDLK_UP
 #define DEFAULT_KEY_BACKWARD         SDLK_DOWN
@@ -162,6 +165,9 @@ enum {
 #define DEFAULT_KEY_RESTART          SDLK_r
 #define DEFAULT_STATS                0
 #define DEFAULT_UNIFORM              0
+#define DEFAULT_LOCK_GOALS           0 
+#define DEFAULT_BALL_COLLISIONS      0
+#define DEFAULT_BALL_GAMMA           "0.78"
 
 /*---------------------------------------------------------------------------*/
 

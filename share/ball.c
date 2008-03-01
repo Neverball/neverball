@@ -19,8 +19,12 @@
 #include "glext.h"
 #include "config.h"
 #include "solid_gl.h"
+#include "image.h"
 
 /*---------------------------------------------------------------------------*/
+
+#define IMG_DEFAULT "ball/default.png"
+#define IMG_ARBBALL "ball/arbball.png"
 
 static int has_solid = 0;
 static int has_inner = 0;
@@ -43,6 +47,308 @@ static int outer_flags;
 static float solid_alpha;
 static float inner_alpha;
 static float outer_alpha;
+
+static GLuint oldball_list;
+static GLuint oldball_text;
+static GLuint arbball_list;
+static GLuint arbball_text;
+
+/*---------------------------------------------------------------------------*/
+
+/* These are the faces of an octahedron in positive longitude/latitude. */
+
+static float oldball_octahedron[8][3][2] = {
+    {{   0.0f,  90.0f }, {   0.0f, 0.0f }, {  90.0f, 0.0f }},
+    {{  90.0f,  90.0f }, {  90.0f, 0.0f }, { 180.0f, 0.0f }},
+    {{ 180.0f,  90.0f }, { 180.0f, 0.0f }, { 270.0f, 0.0f }},
+    {{ 270.0f,  90.0f }, { 270.0f, 0.0f }, { 360.0f, 0.0f }},
+    {{   0.0f, -90.0f }, {  90.0f, 0.0f }, {   0.0f, 0.0f }},
+    {{  90.0f, -90.0f }, { 180.0f, 0.0f }, {  90.0f, 0.0f }},
+    {{ 180.0f, -90.0f }, { 270.0f, 0.0f }, { 180.0f, 0.0f }},
+    {{ 270.0f, -90.0f }, { 360.0f, 0.0f }, { 270.0f, 0.0f }},
+};
+
+static void oldball_midpoint(float *P, const float *A, const float *B)
+{
+    float D[2];
+
+    /* The haversine midpoint method. */
+
+    D[0] = fcosf(B[1]) * fcosf(B[0] - A[0]);
+    D[1] = fcosf(B[1]) * fsinf(B[0] - A[0]);
+
+    P[0] = A[0] + fatan2f(D[1], fcosf(A[1]) + D[0]);
+
+    P[1] = fatan2f(fsinf(A[1]) +
+                   fsinf(B[1]),
+                   fsqrtf((fcosf(A[1]) + D[0]) *
+                          (fcosf(A[1]) + D[0]) + D[1] * D[1])); 
+}
+
+static void oldball_vertex(const float *p)
+{
+    /* Draw a vertex with normal and texture coordinate at the given lon/lat. */
+
+    const float x = fsinf(p[0]) * fcosf(p[1]);
+    const float y =               fsinf(p[1]);
+    const float z = fcosf(p[0]) * fcosf(p[1]);
+
+    glTexCoord2f((+p[0]               ) / V_RAD(360.0f),
+                 (-p[1] + V_RAD(90.0f)) / V_RAD(180.0f));
+
+    glNormal3f(x, y, z);
+    glVertex3f(x, y, z);
+}
+
+static void oldball_subdiv(const float *a,
+                        const float *b,
+                        const float *c, int D)
+{
+    if (D > 0)
+    {
+        /* Recursively subdivide the given triangle. */
+
+        float d[2];
+        float e[2];
+        float f[2];
+
+        oldball_midpoint(d, a, b);
+        oldball_midpoint(e, b, c);
+        oldball_midpoint(f, c, a);
+
+        oldball_subdiv(a, d, f, D - 1);
+        oldball_subdiv(d, b, e, D - 1);
+        oldball_subdiv(f, e, c, D - 1);
+        oldball_subdiv(d, e, f, D - 1);
+    }
+    else
+    {
+        /* Draw the given triangle. */
+
+        oldball_vertex(a);
+        oldball_vertex(b);
+        oldball_vertex(c);
+    }
+}
+
+void oldball_init(int b)
+{
+    char name[MAXSTR];
+
+    strncpy(name, IMG_DEFAULT, MAXSTR - 12);
+
+    if ((oldball_text = make_image_from_file(name)))
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+
+    oldball_list = glGenLists(1);
+
+    glNewList(oldball_list, GL_COMPILE);
+    {
+#if 1
+        int i, d = b ? 4 : 3;
+
+        glBegin(GL_TRIANGLES);
+        {
+            for (i = 0; i < 8; ++i)
+            {
+                float a[2];
+                float b[2];
+                float c[2];
+
+                a[0] = V_RAD(oldball_octahedron[i][0][0]);
+                a[1] = V_RAD(oldball_octahedron[i][0][1]);
+
+                b[0] = V_RAD(oldball_octahedron[i][1][0]);
+                b[1] = V_RAD(oldball_octahedron[i][1][1]);
+
+                c[0] = V_RAD(oldball_octahedron[i][2][0]);
+                c[1] = V_RAD(oldball_octahedron[i][2][1]);
+
+                oldball_subdiv(a, b, c, d);
+            }
+        }
+        glEnd();
+#else
+        int i, slices = b ? 32 : 16;
+        int j, stacks = b ? 16 :  8;
+
+        for (i = 0; i < stacks; i++)
+        {
+            float k0 = (float)  i      / stacks;
+            float k1 = (float) (i + 1) / stacks;
+
+            float s0 = fsinf(V_PI * (k0 - 0.5));
+            float c0 = fcosf(V_PI * (k0 - 0.5));
+            float s1 = fsinf(V_PI * (k1 - 0.5));
+            float c1 = fcosf(V_PI * (k1 - 0.5));
+
+            glBegin(GL_QUAD_STRIP);
+            {
+                for (j = 0; j <= slices; j++)
+                {
+                    float k = (float) j / slices;
+                    float s = fsinf(V_PI * k * 2.0);
+                    float c = fcosf(V_PI * k * 2.0);
+
+                    glTexCoord2f(k, k0);
+                    glNormal3f(s * c0, c * c0, s0);
+                    glVertex3f(s * c0, c * c0, s0);
+
+                    glTexCoord2f(k, k1);
+                    glNormal3f(s * c1, c * c1, s1);
+                    glVertex3f(s * c1, c * c1, s1);
+                }
+            }
+            glEnd();
+        }
+#endif
+    }
+    glEndList();
+
+    strncpy(name, IMG_ARBBALL, MAXSTR - 12);
+
+    if ((arbball_text = make_image_from_file(name)))
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+
+    arbball_list = glGenLists(1);
+
+    glNewList(arbball_list, GL_COMPILE);
+    {
+#if 1
+        int i, d = b ? 4 : 3;
+
+        glBegin(GL_TRIANGLES);
+        {
+            for (i = 0; i < 8; ++i)
+            {
+                float a[2];
+                float b[2];
+                float c[2];
+
+                a[0] = V_RAD(oldball_octahedron[i][0][0]);
+                a[1] = V_RAD(oldball_octahedron[i][0][1]);
+
+                b[0] = V_RAD(oldball_octahedron[i][1][0]);
+                b[1] = V_RAD(oldball_octahedron[i][1][1]);
+
+                c[0] = V_RAD(oldball_octahedron[i][2][0]);
+                c[1] = V_RAD(oldball_octahedron[i][2][1]);
+
+                oldball_subdiv(a, b, c, d);
+            }
+        }
+        glEnd();
+#else
+        int i, slices = b ? 32 : 16;
+        int j, stacks = b ? 16 :  8;
+
+        for (i = 0; i < stacks; i++)
+        {
+            float k0 = (float)  i      / stacks;
+            float k1 = (float) (i + 1) / stacks;
+
+            float s0 = fsinf(V_PI * (k0 - 0.5));
+            float c0 = fcosf(V_PI * (k0 - 0.5));
+            float s1 = fsinf(V_PI * (k1 - 0.5));
+            float c1 = fcosf(V_PI * (k1 - 0.5));
+
+            glBegin(GL_QUAD_STRIP);
+            {
+                for (j = 0; j <= slices; j++)
+                {
+                    float k = (float) j / slices;
+                    float s = fsinf(V_PI * k * 2.0);
+                    float c = fcosf(V_PI * k * 2.0);
+
+                    glTexCoord2f(k, k0);
+                    glNormal3f(s * c0, c * c0, s0);
+                    glVertex3f(s * c0, c * c0, s0);
+
+                    glTexCoord2f(k, k1);
+                    glNormal3f(s * c1, c * c1, s1);
+                    glVertex3f(s * c1, c * c1, s1);
+                }
+            }
+            glEnd();
+        }
+#endif
+    }
+    glEndList();
+}
+
+void oldball_free(void)
+{
+    if (glIsList(oldball_list))
+        glDeleteLists(oldball_list, 1);
+
+    if (glIsTexture(oldball_text))
+        glDeleteTextures(1, &oldball_text);
+
+    if (glIsList(arbball_list))
+        glDeleteLists(arbball_list, 1);
+
+    if (glIsTexture(arbball_text))
+        glDeleteTextures(1, &arbball_text);
+
+    oldball_list = 0;
+    oldball_text = 0;
+
+    arbball_list = 0;
+    arbball_text = 0;
+}
+
+void oldball_draw(int arb)
+{
+    static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    static const float s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    static const float e[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    static const float h[1] = { 20.0f };
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
+
+    glEnable(GL_COLOR_MATERIAL);
+    {
+        glBindTexture(GL_TEXTURE_2D, (arb) ? (arbball_text) : (oldball_text));
+
+        /* Render the ball back to front in case it is translucent. */
+
+        glDepthMask(GL_FALSE);
+        {
+            glCullFace(GL_FRONT);
+            glCallList((arb) ? (arbball_list) : (oldball_list));
+            glCullFace(GL_BACK);
+            glCallList(oldball_list);
+        }
+        glDepthMask(GL_TRUE);
+
+        /* Render the ball into the depth buffer. */
+
+        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+        {
+            glCallList((arb) ? (arbball_list) : (oldball_list));
+        }
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+        /* Ensure the ball is visible even when obscured by geometry. */
+
+        glDisable(GL_DEPTH_TEST);
+        {
+            glColor4f(1.0f, 1.0f, 1.0f, 0.1f);
+            glCallList((arb) ? (arbball_list) : (oldball_list));
+        }
+        glEnable(GL_DEPTH_TEST);
+    }
+    glDisable(GL_COLOR_MATERIAL);
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -79,13 +385,28 @@ void ball_init(void)
 {
     int T = config_get_d(CONFIG_TEXTURES);
 
+    char ball_file[PATHMAX];
     char solid_file[PATHMAX];
     char inner_file[PATHMAX];
     char outer_file[PATHMAX];
 
-    config_get_s(CONFIG_BALL, solid_file, PATHMAX - 12);
-    config_get_s(CONFIG_BALL, inner_file, PATHMAX - 12);
-    config_get_s(CONFIG_BALL, outer_file, PATHMAX - 12);
+    config_get_s(CONFIG_BALL, ball_file, PATHMAX / 2 - 12);
+
+    strncpy(solid_file, "ball/", PATHMAX);
+    strncpy(inner_file, "ball/", PATHMAX);
+    strncpy(outer_file, "ball/", PATHMAX);
+
+    strcat(solid_file, ball_file);
+    strcat(inner_file, ball_file);
+    strcat(outer_file, ball_file);
+
+    strcat(solid_file, "/");
+    strcat(inner_file, "/");
+    strcat(outer_file, "/");
+
+    strcat(solid_file, ball_file);
+    strcat(inner_file, ball_file);
+    strcat(outer_file, ball_file);
 
     strcat(solid_file, "-solid.sol");
     strcat(inner_file, "-inner.sol");

@@ -38,7 +38,7 @@ static int coin_extra_row;
 
 /* Build a Most Coins top three list with default values. */
 
-void gui_most_coins(int id, int e)
+static void gui_most_coins(int id, int e)
 {
     const char *s = "1234567";
 
@@ -105,7 +105,7 @@ void gui_most_coins(int id, int e)
 
 /* Set the Most Coins top three list values for level i. */
 
-void set_most_coins(const struct score *s, int hilight)
+static void set_most_coins(const struct score *s, int hilight)
 {
     int j, spe;
     const char *name;
@@ -154,7 +154,7 @@ static int time_extra_row;
 
 /* Build a Best Times top three list with default values. */
 
-void gui_best_times(int id, int e)
+static void gui_best_times(int id, int e)
 {
     const char *s = "1234567";
 
@@ -219,9 +219,9 @@ void gui_best_times(int id, int e)
     }
 }
 
-/* Set the Best Times top three list values for level i. */
+/* Set the Best Times top three list values. */
 
-void set_best_times(const struct score *s, int hilight, int goal)
+static void set_best_times(const struct score *s, int hilight, int goal)
 {
     int j, spe;
     const char *name;
@@ -248,7 +248,7 @@ void set_best_times(const struct score *s, int hilight, int goal)
                 gui_set_color(time_name[j], 0, 0);
             else if (j != hilight)
                 gui_set_color(time_name[j], gui_yel, gui_wht);
-            else if (j>= NSCORE)
+            else if (j >= NSCORE)
                 gui_set_color(time_name[j], gui_red, gui_red);
             else
                 gui_set_color(time_name[j], gui_grn, gui_grn);
@@ -258,6 +258,82 @@ void set_best_times(const struct score *s, int hilight, int goal)
             gui_set_count(time_coin[j], s->coins[j]);
         }
     }
+}
+
+/*---------------------------------------------------------------------------*/
+
+static int score_type = GUI_MOST_COINS;
+
+void gui_score_board(int id, int e)
+{
+    int jd, kd;
+
+    gui_filler(id);
+
+    if ((jd = gui_hstack(id)))
+    {
+        gui_filler(jd);
+
+        if ((kd = gui_vstack(jd)))
+        {
+            gui_filler(kd);
+
+            gui_state(kd, _("Most Coins"),  GUI_SML, GUI_MOST_COINS,
+                      score_type == GUI_MOST_COINS);
+            gui_state(kd, _("Best Times"),  GUI_SML, GUI_BEST_TIMES,
+                      score_type == GUI_BEST_TIMES);
+            gui_state(kd, _("Unlock Goal"), GUI_SML, GUI_UNLOCK_GOAL,
+                      score_type == GUI_UNLOCK_GOAL);
+
+            gui_filler(kd);
+        }
+
+        gui_filler(jd);
+    }
+
+    gui_filler(id);
+
+    switch (score_type)
+    {
+    case GUI_MOST_COINS:
+        gui_most_coins(id, e);
+        break;
+
+    case GUI_BEST_TIMES:
+        gui_best_times(id, e);
+        break;
+
+    case GUI_UNLOCK_GOAL:
+        gui_best_times(id, e);
+        break;
+    }
+
+    gui_filler(id);
+}
+
+void set_score_board(const struct score *smc, int hmc,
+                     const struct score *sbt, int hbt,
+                     const struct score *sug, int hug)
+{
+    switch (score_type)
+    {
+    case GUI_MOST_COINS:
+        set_most_coins(smc, hmc);
+        break;
+
+    case GUI_BEST_TIMES:
+        set_best_times(sbt, hbt, 0);
+        break;
+
+    case GUI_UNLOCK_GOAL:
+        set_best_times(sug, hug, 1);
+        break;
+    }
+}
+
+void set_score_type(int t)
+{
+    score_type = t;
 }
 
 /*---------------------------------------------------------------------------*/

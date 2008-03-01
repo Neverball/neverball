@@ -19,7 +19,7 @@
 #include "game.h"
 #include "util.h"
 #include "demo.h"
-#include "levels.h"
+#include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
@@ -36,6 +36,7 @@
 /* Bread crumbs. */
 
 static int new_name;
+static int resume;
 
 static int done_action(int i)
 {
@@ -49,6 +50,13 @@ static int done_action(int i)
     case DONE_NAME:
         new_name = 1;
         return goto_name(&st_done, &st_done, 0);
+
+    case GUI_MOST_COINS:
+    case GUI_BEST_TIMES:
+    case GUI_UNLOCK_GOAL:
+        set_score_type(i);
+        resume = 1;
+        return goto_state(&st_done);
     }
     return 1;
 }
@@ -60,11 +68,11 @@ static int done_enter(void)
 
     int id, jd;
 
-    int high = (curr_lg()->times_rank < 3) || (curr_lg()->score_rank < 3);
+    int high = progress_set_high();
 
     if (new_name)
     {
-        level_update_player_name();
+        progress_rename();
         new_name = 0;
     }
 
@@ -79,30 +87,31 @@ static int done_enter(void)
 
         gui_space(id);
 
-        if ((jd = gui_harray(id)))
-        {
-            gui_most_coins(jd, 1);
-            gui_best_times(jd, 1);
-        }
+        if ((jd = gui_hstack(id)))
+            gui_score_board(jd, 1);
 
         gui_space(id);
 
         if ((jd = gui_harray(id)))
         {
-            /* FIXME, I'm ugly. */
+            gui_start(jd, _("Select Level"), GUI_SML, DONE_OK, 0);
 
             if (high)
-               gui_state(jd, _("Change Player Name"), GUI_SML, DONE_NAME, 0);
-
-            gui_start(jd, _("OK"), GUI_SML, DONE_OK, 0);
+                gui_state(jd, _("Change Name"), GUI_SML, DONE_NAME, 0);
         }
 
+        if (!resume)
+            gui_pulse(gid, 1.2f);
+
         gui_layout(id, 0, 0);
-        gui_pulse(gid, 1.2f);
     }
 
-    set_best_times(set_time_score(curr_set()), curr_lg()->times_rank, 0);
-    set_most_coins(set_coin_score(curr_set()), curr_lg()->score_rank);
+    set_score_board(set_coin_score(curr_set()), progress_score_rank(),
+                    set_time_score(curr_set()), progress_times_rank(),
+                    set_time_score(curr_set()), progress_times_rank());
+
+    /* Reset hack. */
+    resume = 0;
 
     return id;
 }

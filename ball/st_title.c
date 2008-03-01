@@ -110,8 +110,6 @@ static int title_action(int i)
     return 1;
 }
 
-static struct level title_level;
-
 static int title_enter(void)
 {
     int id, jd, kd;
@@ -153,8 +151,8 @@ static int title_enter(void)
     audio_music_fade_to(0.5f, "bgm/title.ogg");
 
     /* Initialize the title level for display. */
-    level_load("map-medium/title.sol", &title_level);
-    game_init(&title_level, 0, 0);
+
+    game_init("map-medium/title.sol", 0, 1);
 
     real_time = 0.0f;
     mode = 0;
@@ -197,7 +195,7 @@ static void title_timer(int id, float dt)
         {
             if ((demo = demo_pick()))
             {
-                demo_replay_init(demo, NULL);
+                demo_replay_init(demo, NULL, NULL, NULL, NULL, NULL);
                 game_set_fly(0.0f);
                 real_time = 0.0f;
                 mode = 2;
@@ -226,7 +224,8 @@ static void title_timer(int id, float dt)
 
         if (real_time > 1.0f)
         {
-            game_init(&title_level, 0, 0);
+            game_init("map-medium/title.sol", 0, 1);
+
             real_time = 0.0f;
             mode = 0;
         }

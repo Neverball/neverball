@@ -222,6 +222,20 @@ values follow.
 
         Joystick exit button
 
+    gamma 0.78
+
+        gamma  gives the Coefficient of restitution of a sphere-sphere
+        collision.   Its square  gives the fraction  of kinetic energy
+        (in the center-of-mass system)  that will  be conserved in the
+        collision,  so  possible   values range  from  0   (completely
+        inelastic) to 1 (completely elastic) collision. Values greater
+        than 1  mean that in each collision, extra energy is generated.
+
+    putt_collisions 0
+
+        This  key  allows  balls  to  collide   with  other  balls  in
+        Neverputt.
+
 
 
 Contact: <robert.kooima@gmail.com>

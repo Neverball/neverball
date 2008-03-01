@@ -125,6 +125,8 @@ MAPC_OBJS := \
 	share/solid.o       \
 	share/binary.o      \
 	share/base_config.o \
+	share/config.o      \
+	share/sync.o        \
 	share/mapc.o
 BALL_OBJS := \
 	share/lang.o        \
@@ -149,11 +151,10 @@ BALL_OBJS := \
 	share/tilt.o        \
 	share/common.o      \
 	ball/hud.o          \
-	ball/mode.o         \
 	ball/game.o         \
 	ball/score.o        \
 	ball/level.o        \
-	ball/levels.o       \
+	ball/progress.o     \
 	ball/set.o          \
 	ball/demo.o         \
 	ball/util.o         \
@@ -200,6 +201,7 @@ PUTT_OBJS := \
 	putt/hole.o         \
 	putt/course.o       \
 	putt/st_all.o       \
+    putt/st_balt.o      \
 	putt/st_conf.o      \
 	putt/main.o
 
@@ -230,7 +232,7 @@ $(PUTT_TARG) : $(PUTT_OBJS)
 	$(CC) $(ALL_CFLAGS) -o $(PUTT_TARG) $(PUTT_OBJS) $(LDFLAGS) $(ALL_LIBS)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
-	$(CC) $(ALL_CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LDFLAGS) $(BASE_LIBS)
+	$(CC) $(ALL_CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LDFLAGS) $(ALL_LIBS)
 
 # Work around some extremely helpful sdl-config scripts.
 

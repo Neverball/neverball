@@ -15,7 +15,7 @@
 #include "gui.h"
 #include "set.h"
 #include "game.h"
-#include "levels.h"
+#include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
@@ -30,7 +30,7 @@ static int over_enter(void)
 {
     int id;
 
-    if (curr_lg()->mode != MODE_CHALLENGE)
+    if (curr_mode() != MODE_CHALLENGE)
         return 0;
 
     if ((id = gui_label(0, _("GAME OVER"), GUI_LRG, GUI_ALL, gui_gry, gui_red)))
@@ -49,7 +49,7 @@ static int over_enter(void)
 
 static void over_timer(int id, float dt)
 {
-    if (curr_lg()->mode != MODE_CHALLENGE || time_state() > 3.f)
+    if (curr_mode() != MODE_CHALLENGE || time_state() > 3.f)
         goto_state(&st_start);
 
     gui_timer(id, dt);
