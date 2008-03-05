@@ -112,7 +112,7 @@ enum {
 #define DEFAULT_REFLECTION           1
 #define DEFAULT_MULTISAMPLE          0
 #define DEFAULT_MIPMAP               0
-#define DEFAULT_ANISO                1
+#define DEFAULT_ANISO                0
 #define DEFAULT_BACKGROUND           1
 #define DEFAULT_SHADOW               1
 #define DEFAULT_AUDIO_BUFF           AUDIO_BUFF_HI
