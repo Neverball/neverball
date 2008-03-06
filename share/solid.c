@@ -1669,13 +1669,13 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 c--;
             }
 
-/*            if (!c)
+            if (!c)
             {
                 nt += tt;
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
                 sol_ball_step(fp, nt);
-            }*/
+            }
 
             /* Apply the ball's accelleration to the pendulum. */
 
@@ -1754,14 +1754,14 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 c--;
             }
 
-/*            if (!c)
+            if (!c)
             {
                 if (ui == 0)
                     nt += tt;
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
                 sol_ball_step(fp, nt);
-            }*/
+            }
 
             /* Apply the ball's accelleration to the pendulum. */
 
