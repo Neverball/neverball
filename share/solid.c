@@ -1222,29 +1222,6 @@ static float sol_test_sphere_inter(const struct s_ball  *up,
     v_sub(P, up->p, u2p->p);
     v_sub(V, up->v, u2p->v);
 
-/*
-
- *
- * Compute the  earliest time  and position of  the intersection  of a
- * sphere and a vertex.
- *
- * The sphere has radius R and moves along vector V from point P.  The
- * vertex moves  along vector  W from point  Q in a  coordinate system
- * based at O.
-
-v = up->v (1st veloc/vector)
-p = up->p (1st pos)
-w = u2p->v (2nd veloc/vector)
-q = u2p->p (2nd pos)
-
-    v_add(O, o, q);
-    v_sub(P, p, O);
-    v_sub(V, v, w);
-
-    P = 1st - 2nd
-
-*/
-
     if (v_dot(P, V) < 0.0f)
     {
         t = v_sol(P, V, up->r + u2p->r);
