@@ -32,8 +32,6 @@
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
 
-static int ball_collision_flag = 0;
-
 /*---------------------------------------------------------------------------*/
 
 static float erp(float t)
@@ -773,32 +771,6 @@ static float v_vert(float Q[3],
     return t;
 }
 
-static float v_ball(float Q[3],
-                    const float o[3],
-                    const float q[3],
-                    const float w[3],
-                    const float p[3],
-                    const float v[3], float r, float r2)
-{
-    float O[3], P[3], V[3];
-    float t = LARGE;
-
-    v_add(O, o, q);
-    v_sub(P, p, O);
-    v_sub(V, v, w);
-
-    if (v_dot(P, V) < 0.0f)
-    {
-        t = v_sol(P, V, r + r2);
-
-        if (t < LARGE)
-            v_mad(Q, O, w, t);
-    }
-
-    return t;
-
-}
-
 /*
  * Compute the  earliest time  and position of  the intersection  of a
  * sphere and an edge.
@@ -966,10 +938,9 @@ static float sol_bounce(struct s_ball *up,
  * Compute the new  linear velocities of two colliding balls.
  * t gives the time after which they collide.
  */
-static float sol_bounce_sphere(const struct s_file *fp,
-                                      struct s_ball *up,
-                                      struct s_ball *u2p,
-                                      const float t)
+static float sol_bounce_ball(struct s_ball *up,
+                             struct s_ball *u2p,
+                             const float t)
 {
     float r_rel[3], v_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3],
           u[3];
@@ -1202,47 +1173,29 @@ static void sol_body_step(struct s_file *fp, float dt)
 /*
  * Compute the positions of all balls after DT seconds have passed.
  */
-static void sol_ball_step(struct s_file *fp, int arb, float dt)
+static void sol_ball_step(struct s_file *fp, float dt)
 {
     int i;
 
-    if (arb)
+    for (i = 0; i < fp->yc; i++)
     {
-        for (i = 0; i < fp->yc; i++)
-        {
-            struct s_ball *yp = fp->yv + i;
+        struct s_ball *yp = fp->yv + i;
 
-            if (!yp->m)
-                continue;
+        if (!yp->m)
+            continue;
 
-            v_mad(yp->p, yp->p, yp->v, dt);
+        v_mad(yp->p, yp->p, yp->v, dt);
 
-            sol_rotate(yp->e, yp->w, dt);
-        }
+        sol_rotate(yp->e, yp->w, dt);
     }
 
-    else
+    for (i = 0; i < fp->uc; i++)
     {
-        for (i = 0; i < fp->yc; i++)
-        {
-            struct s_ball *yp = fp->yv + i;
+        struct s_ball *up = fp->uv + i;
 
-            if (!yp->m)
-                continue;
+        v_mad(up->p, up->p, up->v, dt);
 
-            v_mad(yp->p, yp->p, yp->v, dt);
-
-            sol_rotate(yp->e, yp->w, dt);
-        }
-
-        for (i = 0; i < fp->uc; i++)
-        {
-            struct s_ball *up = fp->uv + i;
-
-            v_mad(up->p, up->p, up->v, dt);
-
-            sol_rotate(up->e, up->w, dt);
-        }
+        sol_rotate(up->e, up->w, dt);
     }
 }
 
@@ -1260,15 +1213,47 @@ static float sol_test_vert(float dt,
 
 /*---------------------------------------------------------------------------*/
 
-static float sol_test_ball(float dt,
-                           float T[3],
-                           const struct s_ball  *up,
-                           const struct s_ball  *u2p,
-                           const float o[3],
-                           const float w[3])
+static float sol_test_sphere_inter(const struct s_ball  *up,
+                                   const struct s_ball  *u2p) 
 {
-    return v_ball(T, o, u2p->p, w, up->p, up->v, up->r, u2p->r);
+    float P[3], V[3];
+    float t = LARGE;
+
+    v_sub(P, up->p, u2p->p);
+    v_sub(V, up->v, u2p->v);
+
+/*
+
+ *
+ * Compute the  earliest time  and position of  the intersection  of a
+ * sphere and a vertex.
+ *
+ * The sphere has radius R and moves along vector V from point P.  The
+ * vertex moves  along vector  W from point  Q in a  coordinate system
+ * based at O.
+
+v = up->v (1st veloc/vector)
+p = up->p (1st pos)
+w = u2p->v (2nd veloc/vector)
+q = u2p->p (2nd pos)
+
+    v_add(O, o, q);
+    v_sub(P, p, O);
+    v_sub(V, v, w);
+
+    P = 1st - 2nd
+
+*/
+
+    if (v_dot(P, V) < 0.0f)
+    {
+        t = v_sol(P, V, up->r + u2p->r);
+    }
+
+    return (t < LARGE) ? (t) : (0.0f);
 }
+
+/*---------------------------------------------------------------------------*/
 
 static float sol_test_edge(float dt,
                            float T[3],
@@ -1386,8 +1371,7 @@ static float sol_test_lump(float dt,
                            const struct s_file *fp,
                            const struct s_lump *lp,
                            const float o[3],
-                           const float w[3],
-                           const int            ui)
+                           const float w[3])
 {
     float U[3] = {0.0f, 0.0f, 0.0f}; /* init value only to avoid gcc warnings */
     float u, t = dt;
@@ -1396,37 +1380,6 @@ static float sol_test_lump(float dt,
     /* Short circuit a non-solid lump. */
 
     if (lp->fl & L_DETAIL) return t;
-
-    /* Test all balls */
-
-    if (up->r > 0.0f)
-    {
-        for (i = 0; i < fp->yc; i++)
-        {
-            struct s_ball *yp = fp->yv + i;
-
-            if ((u = sol_test_ball(t, U, up, yp, o, yp->v)) < t)
-            {
-                ball_collision_flag = i + fp->yv - fp->uv;
-                t = u;
-            }
-        }
-
-        for (i = 1; config_get_d(CONFIG_BALL_COLLISIONS) && i < fp->uc; i++)
-        {
-            struct s_ball *u2p = fp->uv + i;
-
-            if(i == ui)
-                continue;
-
-            if (u2p->P && up->P &&
-               (u = sol_test_ball(t, U, up, u2p, o, u2p->v)) < t)
-            {
-                ball_collision_flag = i;
-                t = u;
-            }
-        }
-    }
 
     /* Test all verts */
 
@@ -1477,8 +1430,7 @@ static float sol_test_node(float dt,
                            const struct s_file *fp,
                            const struct s_node *np,
                            const float o[3],
-                           const float w[3],
-                           const int            ui)
+                           const float w[3])
 {
     float U[3], u, t = dt;
     int i;
@@ -1489,7 +1441,7 @@ static float sol_test_node(float dt,
     {
         const struct s_lump *lp = fp->lv + np->l0 + i;
 
-        if ((u = sol_test_lump(t, U, up, fp, lp, o, w, ui)) < t)
+        if ((u = sol_test_lump(t, U, up, fp, lp, o, w)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1502,7 +1454,7 @@ static float sol_test_node(float dt,
     {
         const struct s_node *nq = fp->nv + np->ni;
 
-        if ((u = sol_test_node(t, U, up, fp, nq, o, w, ui)) < t)
+        if ((u = sol_test_node(t, U, up, fp, nq, o, w)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1515,7 +1467,7 @@ static float sol_test_node(float dt,
     {
         const struct s_node *nq = fp->nv + np->nj;
 
-        if ((u = sol_test_node(t, U, up, fp, nq, o, w, ui)) < t)
+        if ((u = sol_test_node(t, U, up, fp, nq, o, w)) < t)
         {
             v_cpy(T, U);
             t = u;
@@ -1529,8 +1481,7 @@ static float sol_test_body(float dt,
                            float T[3], float V[3],
                            const struct s_ball *up,
                            const struct s_file *fp,
-                           const struct s_body *bp,
-                           const int            ui)
+                           const struct s_body *bp)
 {
     float U[3], O[3], W[3], u, t = dt;
 
@@ -1539,35 +1490,120 @@ static float sol_test_body(float dt,
     sol_body_p(O, fp, bp);
     sol_body_v(W, fp, bp);
 
-    if ((u = sol_test_node(t, U, up, fp, np, O, W, ui)) < t)
+    if ((u = sol_test_node(t, U, up, fp, np, O, W)) < t)
     {
         v_cpy(T, U);
         v_cpy(V, W);
         t = u;
     }
+
+    return t;
+}
+
+static float sol_test_balls(float dt, const struct s_file *fp)
+{
+    float t = 0.0f;
+    int   i, j;
+
+    for (i = 0; i < fp->yc; i++)
+    {
+        struct s_ball *yp = fp->yv + i;
+
+        for (j = 0; j < fp->yc; j++)
+        {
+            struct s_ball *y2p = fp->yv + j;
+
+            if (!(yp->r > 0.0f || y2p->r > 0.0f))
+                continue;
+
+            if(j == i)
+                continue;
+
+            if (sol_test_sphere_inter(yp, y2p) > 0.0f)
+            {
+                t = sol_bounce_ball(yp, y2p, t);
+            }
+        }
+
+        for (j = 1; config_get_d(CONFIG_BALL_COLLISIONS) && j < fp->uc; j++)
+        {
+            struct s_ball *u2p = fp->uv + j;
+
+            if (!(yp->r > 0.0f || u2p->r > 0.0f))
+                continue;
+
+            if (u2p->P && sol_test_sphere_inter(yp, u2p) > 0.0f)
+            {
+                t = sol_bounce_ball(yp, u2p, t);
+            }
+        }
+    }
+
+    for (i = 1; config_get_d(CONFIG_BALL_COLLISIONS) && i < fp->uc; i++)
+    {
+        struct s_ball *up = fp->uv + i;
+
+        if (!up->P)
+            continue;
+
+        for (j = 0; j < fp->yc; j++)
+        {
+            struct s_ball *y2p = fp->yv + j;
+
+            if (!(up->r > 0.0f || y2p->r > 0.0f))
+                continue;
+
+            if (sol_test_sphere_inter(up, y2p) > 0.0f)
+            {
+                t = sol_bounce_ball(up, y2p, t);
+            }
+        }
+
+        for (j = 1; config_get_d(CONFIG_BALL_COLLISIONS) && j < fp->uc; j++)
+        {
+            struct s_ball *u2p = fp->uv + j;
+
+            if (!(up->r > 0.0f || u2p->r > 0.0f))
+                continue;
+
+            if(j == i)
+                continue;
+
+            if (u2p->P && up->P && sol_test_sphere_inter(up, u2p) > 0.0f)
+            {
+                t = sol_bounce_ball(up, u2p, t);
+            }
+        }
+    }
+
     return t;
 }
 
 static float sol_test_file(float dt,
                            float T[3], float V[3],
                            const struct s_ball *up,
-                           const struct s_file *fp,
-                           const int            ui)
+                           const struct s_file *fp)
 {
     float U[3], W[3], u, t = dt;
     int i;
+
+    if ((u = sol_test_balls(t, fp)) > 0.0f)
+    {
+        t = (u > t) ? (u) : (t + u);
+    }
 
     for (i = 0; i < fp->bc; i++)
     {
         const struct s_body *bp = fp->bv + i;
 
-        if ((u = sol_test_body(t, U, W, up, fp, bp, ui)) < t)
+        if ((u = sol_test_body(t, U, W, up, fp, bp)) < t)
         {
             v_cpy(T, U);
             v_cpy(V, W);
             t = u;
         }
     }
+
     return t;
 }
 
@@ -1583,7 +1619,7 @@ static float sol_test_file(float dt,
 
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 {
-    float b    = 0.0f;
+    float b = 0.0f, nt = 0.0f;
     int   i, c = 16;
 
    /*
@@ -1592,7 +1628,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
     for (i = 0; (config_get_d(CONFIG_BALL_COLLISIONS) && i < fp->uc) ||
                 (!config_get_d(CONFIG_BALL_COLLISIONS) && i < 4 + 1); i++)
     {
-        float P[3], V[3], v[3], r[3], a[3], d, e, nt = 0.0f, tt = dt;
+        float P[3], V[3], v[3], r[3], a[3], d, e, tt = dt;
 
         if (i < fp->uc)
         {
@@ -1604,7 +1640,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             v_cpy(v, up->v);
             v_cpy(up->v, g);
 
-            if (m && sol_test_file(tt, P, V, up, fp, i) < 0.0005f)
+            if (m && sol_test_file(tt, P, V, up, fp) < 0.0005f)
             {
                 v_cpy(up->v, v);
                 v_sub(r, P, up->p);
@@ -1642,33 +1678,27 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
             /* Test for collision. */
 
-            while (c && tt && tt > (nt = sol_test_file(tt, P, V, up, fp, i)))
+            while (c && tt && tt > (nt = sol_test_file(tt, P, V, up, fp)))
             {
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
-                sol_ball_step(fp, 0, nt);
+                sol_ball_step(fp, nt);
 
                 tt -= nt;
 
-                if (b < ((ball_collision_flag)
-                        ? (d = sol_bounce_sphere(fp, up,
-                           fp->uv + ball_collision_flag, nt))
-                        : (d = sol_bounce(up, P, V, nt))))
+                if (b < ((d = sol_bounce(up, P, V, nt))))
                     b = d;
-               
-                ball_collision_flag = 0;
 
                 c--;
             }
 
-            if (i == ui || !c)
+/*            if (!c)
             {
-                if (!c)
-                    nt += tt;
+                nt += tt;
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
-                sol_ball_step(fp, 0, nt);
-            }
+                sol_ball_step(fp, nt);
+            }*/
 
             /* Apply the ball's accelleration to the pendulum. */
 
@@ -1683,7 +1713,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
     */
     for (i = 0; i < fp->yc && c > 0; i++)
     {
-        float P[3], V[3], v[3], r[3], a[3], d, e, nt = 0.0f, tt = dt;
+        float P[3], V[3], v[3], r[3], a[3], d, e, tt = dt;
 
         if (i < fp->yc)
         {
@@ -1698,7 +1728,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             v_cpy(v, yp->v);
             v_cpy(yp->v, g);
 
-            if (m && sol_test_file(tt, P, V, yp, fp, i) < 0.0005f)
+            if (m && sol_test_file(tt, P, V, yp, fp) < 0.0005f)
             {
                 v_cpy(yp->v, v);
                 v_sub(r, P, yp->p);
@@ -1733,31 +1763,28 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
             /* Test for collision. */
 
-            while (c && tt && tt > (nt = sol_test_file(tt, P, V, yp, fp, i)))
+            while (c && tt && tt > (nt = sol_test_file(tt, P, V, yp, fp)))
             {
-                sol_ball_step(fp, 1, nt);
+                sol_body_step(fp, nt);
+                sol_swch_step(fp, nt);
+                sol_ball_step(fp, nt);
 
                 tt -= nt;
 
-                if (b < ((ball_collision_flag)
-                        ? (d = sol_bounce_sphere(fp, yp,
-                           fp->uv + ball_collision_flag, nt))
-                        : (d = sol_bounce(yp, P, V, nt))))
+                if (b < ((d = sol_bounce(yp, P, V, nt))))
                     b = d;
-
-                ball_collision_flag = 0;
 
                 c--;
             }
 
-            if (!c)
+/*            if (!c)
             {
-                if (!c && ui == 0)
+                if (ui == 0)
                     nt += tt;
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
-                sol_ball_step(fp, 1, nt);
-            }
+                sol_ball_step(fp, nt);
+            }*/
 
             /* Apply the ball's accelleration to the pendulum. */
 
@@ -1766,6 +1793,10 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             sol_pendulum(yp, a, g, dt);
         }
     }
+
+    sol_body_step(fp, nt);
+    sol_swch_step(fp, nt);
+    sol_ball_step(fp, nt);
 
     return b;
 }
