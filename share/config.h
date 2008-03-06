@@ -85,6 +85,7 @@ enum {
     CONFIG_KEY_RIGHT,
     CONFIG_KEY_PAUSE,
     CONFIG_KEY_RESTART,
+    CONFIG_KEY_SCORE_NEXT,
     CONFIG_CHEAT,
     CONFIG_STATS,
     CONFIG_UNIFORM,
@@ -113,7 +114,7 @@ enum {
 #define DEFAULT_REFLECTION           1
 #define DEFAULT_MULTISAMPLE          0
 #define DEFAULT_MIPMAP               0
-#define DEFAULT_ANISO                1
+#define DEFAULT_ANISO                0
 #define DEFAULT_BACKGROUND           1
 #define DEFAULT_SHADOW               1
 #define DEFAULT_AUDIO_BUFF           AUDIO_BUFF_HI
@@ -161,6 +162,7 @@ enum {
 #define DEFAULT_KEY_RIGHT            SDLK_RIGHT
 #define DEFAULT_KEY_PAUSE            SDLK_SPACE
 #define DEFAULT_KEY_RESTART          SDLK_r
+#define DEFAULT_KEY_SCORE_NEXT       SDLK_TAB
 #define DEFAULT_STATS                0
 #define DEFAULT_UNIFORM              0
 #define DEFAULT_LOCK_GOALS           0

@@ -280,14 +280,23 @@ int  progress_set_high(void)
     return score_rank < 3 || times_rank < 3;
 }
 
-void progress_rename(void)
+void progress_rename(int set_only)
 {
     char player[MAXNAM] = "";
 
     config_get_s(CONFIG_PLAYER, player, sizeof (player));
 
-    level_rename_player(level, time_rank, goal_rank, coin_rank, player);
-    set_rename_player  (score_rank, times_rank, player);
+    if (set_only)
+    {
+        set_rename_player(score_rank, times_rank, player);
+    }
+    else
+    {
+        level_rename_player(level, time_rank, goal_rank, coin_rank, player);
+
+        if (progress_done())
+            set_rename_player(score_rank, times_rank, player);
+    }
 
     set_store_hs();
 }

@@ -76,14 +76,15 @@ static void start_over_level(int i)
     }
 }
 
-static void start_over(int id)
+static void start_over(int id, int pulse)
 {
     int i;
 
     if (id == 0)
         return;
 
-    gui_pulse(id, 1.2f);
+    if (pulse)
+        gui_pulse(id, 1.2f);
 
     i = gui_token(id);
 
@@ -118,7 +119,7 @@ static int start_action(int i)
     case GUI_MOST_COINS:
     case GUI_BEST_TIMES:
     case GUI_UNLOCK_GOAL:
-        set_score_type(i);
+        gui_score_set(i);
         return goto_state(&st_start);
 
     case START_OPEN_GOALS:
@@ -219,7 +220,7 @@ static int start_enter(void)
 
 static void start_point(int id, int x, int y, int dx, int dy)
 {
-    start_over(gui_point(id, x, y));
+    start_over(gui_point(id, x, y), 1);
 }
 
 static void start_stick(int id, int a, int v)
@@ -227,26 +228,48 @@ static void start_stick(int id, int a, int v)
     int x = (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a)) ? v : 0;
     int y = (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a)) ? v : 0;
 
-    start_over(gui_stick(id, x, y));
+    start_over(gui_stick(id, x, y), 1);
 }
 
 static int start_keybd(int c, int d)
 {
-    if (d && c == SDLK_c && config_cheat())
+    if (d)
     {
-        set_cheat();
-        return goto_state(&st_start);
-    }
+        if (c == SDLK_c && config_cheat())
+        {
+            set_cheat();
+            return goto_state(&st_start);
+        }
+        else if (c == SDLK_F12)
+        {
+            int i;
 
-    if (d && c == SDLK_F12)
-    {
-        int i;
+            /* Iterate over all levels, taking a screenshot of each. */
 
-        /* Iterate over all levels, taking a screenshot of each. */
+            for (i = 0; i < MAXLVL; i++)
+                if (level_exists(i))
+                    level_snap(i);
+        }
+        else if (config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
+        {
+            int active = gui_click();
 
-        for (i = 0; i < MAXLVL; i++)
-            if (level_exists(i))
-                level_snap(i);
+            if (start_action(gui_score_next(gui_score_get())))
+            {
+                /* HACK ALERT
+                 *
+                 * This assumes that 'active' is a valid widget ID even after
+                 * the above start_action has recreated the entire widget
+                 * hierarchy.  Maybe it is.  Maybe it isn't.
+                 */
+                gui_focus(active);
+                start_over(active, 0);
+
+                return 1;
+            }
+            else
+                return 0;
+        }
     }
 
     return 1;

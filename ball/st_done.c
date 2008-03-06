@@ -54,7 +54,7 @@ static int done_action(int i)
     case GUI_MOST_COINS:
     case GUI_BEST_TIMES:
     case GUI_UNLOCK_GOAL:
-        set_score_type(i);
+        gui_score_set(i);
         resume = 1;
         return goto_state(&st_done);
     }
@@ -72,7 +72,7 @@ static int done_enter(void)
 
     if (new_name)
     {
-        progress_rename();
+        progress_rename(1);
         new_name = 0;
     }
 
@@ -116,6 +116,14 @@ static int done_enter(void)
     return id;
 }
 
+static int done_keybd(int c, int d)
+{
+    if (d && config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
+        return done_action(gui_score_next(gui_score_get()));
+
+    return 1;
+}
+
 static int done_buttn(int b, int d)
 {
     if (d)
@@ -139,7 +147,7 @@ struct state st_done = {
     shared_stick,
     shared_angle,
     shared_click,
-    NULL,
+    done_keybd,
     done_buttn,
     1, 0
 };

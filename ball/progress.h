@@ -16,7 +16,7 @@ int  progress_next(void);
 int  progress_same_avail(void);
 int  progress_same(void);
 
-void progress_rename();
+void progress_rename(int);
 
 int  progress_replay(const char *);
 

@@ -125,6 +125,7 @@ void config_init(void)
     config_set_d(CONFIG_KEY_RIGHT,            DEFAULT_KEY_RIGHT);
     config_set_d(CONFIG_KEY_PAUSE,            DEFAULT_KEY_PAUSE);
     config_set_d(CONFIG_KEY_RESTART,          DEFAULT_KEY_RESTART);
+    config_set_d(CONFIG_KEY_SCORE_NEXT,       DEFAULT_KEY_SCORE_NEXT);
 }
 
 void config_load(void)
@@ -243,6 +244,9 @@ void config_load(void)
                     config_key(val, CONFIG_KEY_PAUSE,   DEFAULT_KEY_PAUSE);
                 else if (strcmp(key, "key_restart")  == 0)
                     config_key(val, CONFIG_KEY_RESTART, DEFAULT_KEY_RESTART);
+
+                else if (strcmp(key, "key_score_next") == 0)
+                    config_key(val, CONFIG_KEY_SCORE_NEXT, DEFAULT_KEY_SCORE_NEXT);
 
                 else if (strcmp(key, "player") == 0)
                     config_set_s(CONFIG_PLAYER, val);
@@ -377,6 +381,9 @@ void config_save(void)
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_PAUSE]));
         fprintf(fp, "key_restart          %s\n",
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_RESTART]));
+
+        fprintf(fp, "key_score_next       %s\n",
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_SCORE_NEXT]));
 
         if (strlen(option_s[CONFIG_PLAYER]) > 0)
             fprintf(fp, "player       %s\n", option_s[CONFIG_PLAYER]);

@@ -331,9 +331,27 @@ void set_score_board(const struct score *smc, int hmc,
     }
 }
 
-void set_score_type(int t)
+void gui_score_set(int t)
 {
     score_type = t;
+}
+
+int  gui_score_get(void)
+{
+    return score_type;
+}
+
+int  gui_score_next(int t)
+{
+    switch (t)
+    {
+    case GUI_MOST_COINS:  return GUI_BEST_TIMES;
+    case GUI_BEST_TIMES:  return GUI_UNLOCK_GOAL;
+    case GUI_UNLOCK_GOAL: return GUI_MOST_COINS;
+
+    default:
+        return GUI_MOST_COINS;
+    }
 }
 
 /*---------------------------------------------------------------------------*/

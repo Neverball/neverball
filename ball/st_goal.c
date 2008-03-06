@@ -83,7 +83,7 @@ static int goal_action(int i)
     case GUI_MOST_COINS:
     case GUI_BEST_TIMES:
     case GUI_UNLOCK_GOAL:
-        set_score_type(i);
+        gui_score_set(i);
         resume = 1;
         return goto_state(&st_goal);
 
@@ -114,7 +114,7 @@ static int goal_enter(void)
 
     if (new_name)
     {
-        progress_rename();
+        progress_rename(0);
         new_name = 0;
     }
 
@@ -277,6 +277,14 @@ static void goal_timer(int id, float dt)
     gui_timer(id, dt);
 }
 
+static int goal_keybd(int c, int d)
+{
+    if (d && config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
+        return goal_action(gui_score_next(gui_score_get()));
+
+    return 1;
+}
+
 static int goal_buttn(int b, int d)
 {
     if (d)
@@ -308,7 +316,7 @@ struct state st_goal = {
     shared_stick,
     shared_angle,
     shared_click,
-    NULL,
+    goal_keybd,
     goal_buttn,
     1, 0
 };

@@ -17,7 +17,10 @@
 #define GUI_BEST_TIMES  -107
 #define GUI_UNLOCK_GOAL -108
 
-void set_score_type(int);
+void gui_score_set(int);
+int  gui_score_get(void);
+int  gui_score_next(int);
+
 void gui_score_board(int, int);
 void set_score_board(const struct score *, int,
                      const struct score *, int,
