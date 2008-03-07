@@ -1602,8 +1602,8 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
    /*
     * The user ball loop
     */
-    for (i = 0; ((config_get_d(CONFIG_BALL_COLLISIONS) && i < fp->uc) ||
-                (!config_get_d(CONFIG_BALL_COLLISIONS) && i < 4 + 1)); i++)
+    for (i = 0; (config_get_d(CONFIG_BALL_COLLISIONS) && i < fp->uc) ||
+               (!config_get_d(CONFIG_BALL_COLLISIONS) && i < 4 + 1); i++)
     {
         float P[3], V[3], v[3], r[3], a[3], d, e, tt = dt;
 
@@ -1655,7 +1655,9 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
             /* Test for collision. */
 
-            while (tt && tt > (nt = sol_test_file(tt, P, V, up, fp)) && c > 0)
+            while (tt && tt > ((c || ui) ?
+                        (nt = sol_test_file(tt, P, V, up, fp)) :
+                        (nt = sol_test_file(tt, P, V, up, fp) + tt)) && c > 0)
             {
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
@@ -1732,7 +1734,9 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
             /* Test for collision. */
 
-            while (tt && tt > (nt = sol_test_file(tt, P, V, yp, fp)) && c > 0)
+            while (tt && tt > ((c || ui) ?
+                        (nt = sol_test_file(tt, P, V, yp, fp)) :
+                        (nt = sol_test_file(tt, P, V, yp, fp) + tt)) && c > 0)
             {
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
