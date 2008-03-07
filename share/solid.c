@@ -1227,7 +1227,7 @@ static float sol_test_sphere_inter(const struct s_ball  *up,
         t = v_sol(P, V, up->r + u2p->r);
     }
 
-    return (t < LARGE) ? (t) : (0.0f);
+    return (t > LARGE) ? (LARGE) : (t);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1496,7 +1496,7 @@ static float sol_test_balls(float dt, const struct s_file *fp)
             if(j == i)
                 continue;
 
-            if (sol_test_sphere_inter(yp, y2p) > 0.0f)
+            if (sol_test_sphere_inter(yp, y2p) < dt)
             {
                 t = sol_bounce_ball(yp, y2p, t);
             }
@@ -1509,7 +1509,7 @@ static float sol_test_balls(float dt, const struct s_file *fp)
             if (!(yp->r > 0.0f || u2p->r > 0.0f))
                 continue;
 
-            if (u2p->P && sol_test_sphere_inter(yp, u2p) > 0.0f)
+            if (u2p->P && sol_test_sphere_inter(yp, u2p) < dt)
             {
                 t = sol_bounce_ball(yp, u2p, t);
             }
@@ -1530,7 +1530,7 @@ static float sol_test_balls(float dt, const struct s_file *fp)
             if (!(up->r > 0.0f || y2p->r > 0.0f))
                 continue;
 
-            if (sol_test_sphere_inter(up, y2p) > 0.0f)
+            if (sol_test_sphere_inter(up, y2p) < dt)
             {
                 t = sol_bounce_ball(up, y2p, t);
             }
@@ -1546,7 +1546,7 @@ static float sol_test_balls(float dt, const struct s_file *fp)
             if(j == i)
                 continue;
 
-            if (u2p->P && up->P && sol_test_sphere_inter(up, u2p) > 0.0f)
+            if (u2p->P && up->P && sol_test_sphere_inter(up, u2p) < dt)
             {
                 t = sol_bounce_ball(up, u2p, t);
             }
