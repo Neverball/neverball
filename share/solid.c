@@ -1602,8 +1602,8 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
    /*
     * The user ball loop
     */
-    for (i = 0; (config_get_d(CONFIG_BALL_COLLISIONS) && i < fp->uc) ||
-                (!config_get_d(CONFIG_BALL_COLLISIONS) && i < 4 + 1); i++)
+    for (i = 0; ((config_get_d(CONFIG_BALL_COLLISIONS) && i < fp->uc) ||
+                (!config_get_d(CONFIG_BALL_COLLISIONS) && i < 4 + 1)); i++)
     {
         float P[3], V[3], v[3], r[3], a[3], d, e, tt = dt;
 
@@ -1655,7 +1655,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
             /* Test for collision. */
 
-            while (c && tt && tt > (nt = sol_test_file(tt, P, V, up, fp)))
+            while (tt && tt > (nt = sol_test_file(tt, P, V, up, fp)) && c > 0)
             {
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
@@ -1669,14 +1669,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 c--;
             }
 
-            if (!c)
-            {
-                nt += tt;
-                sol_body_step(fp, nt);
-                sol_swch_step(fp, nt);
-                sol_ball_step(fp, nt);
-            }
-
             /* Apply the ball's accelleration to the pendulum. */
 
             v_sub(a, up->v, a);
@@ -1688,7 +1680,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
    /*
     * The arbitrary balls loop
     */
-    for (i = 0; i < fp->yc && c > 0; i++)
+    for (i = 0; i < fp->yc; i++)
     {
         float P[3], V[3], v[3], r[3], a[3], d, e, tt = dt;
 
@@ -1740,7 +1732,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
             /* Test for collision. */
 
-            while (c && tt && tt > (nt = sol_test_file(tt, P, V, yp, fp)))
+            while (tt && tt > (nt = sol_test_file(tt, P, V, yp, fp)) && c > 0)
             {
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
@@ -1752,15 +1744,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                     b = d;
 
                 c--;
-            }
-
-            if (!c)
-            {
-                if (ui == 0)
-                    nt += tt;
-                sol_body_step(fp, nt);
-                sol_swch_step(fp, nt);
-                sol_ball_step(fp, nt);
             }
 
             /* Apply the ball's accelleration to the pendulum. */
