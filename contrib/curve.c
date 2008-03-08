@@ -19,6 +19,7 @@
 
  */
 
+#define MAX_HELP_TXTS 17
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -41,7 +42,7 @@ char outtex[256];
 char bottex[256];
 char blanktex[256];
 
-const char *helptxt[17] = {
+const char *helptxt[MAX_HELP_TXTS] = {
     /* 0: nothing */ "",
 
     /* 1: inner radius */
@@ -167,7 +168,7 @@ const char *helptxt[17] = {
 
 void showhelp(int which)
 {
-    if (which > 0 && which < 17)
+    if (which > 0 && which < MAX_HELP_TXTS)
 	printf("\n%s\n\n", helptxt[which]);
 }
 
@@ -437,7 +438,7 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Detailed information about each setting has been placed in readme.txt\n");
         freopen("readme.txt", "w" ,stdout);
         showusage(stdout,argv[0]);
-        for ( i=0; i<17; i++) showhelp(i);
+        for ( i=0; i<MAX_HELP_TXTS; i++) showhelp(i);
     }
     else if (argc > 1 && strcmp(argv[1], "-textures") == 0)
     {
