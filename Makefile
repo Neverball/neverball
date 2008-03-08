@@ -296,7 +296,7 @@ TXT_DOCS := $(TEXT_DOCS:%=%.txt)
 .PHONY: setup
 setup: $(INSTALLER)
 
-$(INSTALLER): install-dlls convert-text-files all tools
+$(INSTALLER): install-dlls convert-text-files all contrib
 	$(MAKENSIS) $(MAKENSIS_FLAGS) -nocd scripts/neverball.nsi
 
 $(INSTALLER): LDFLAGS := -s $(LDFLAGS)
@@ -305,7 +305,7 @@ $(INSTALLER): LDFLAGS := -s $(LDFLAGS)
 clean-setup: clean
 	$(RM) install-dlls.sh *.dll $(TXT_DOCS)
 	find data -name "*.txt" -exec $(FROMDOS) {} \;
-	$(MAKE) -C tools EXT=$(EXT) clean
+	$(MAKE) -C contrib EXT=$(EXT) clean
 
 #------------------------------------------------------------------------------
 
@@ -336,9 +336,9 @@ convert-text-files: $(TXT_DOCS)
 
 #------------------------------------------------------------------------------
 
-.PHONY: tools
-tools:
-	$(MAKE) -C tools EXT=$(EXT)
+.PHONY: contrib
+contrib:
+	$(MAKE) -C contrib EXT=$(EXT)
 
 #------------------------------------------------------------------------------
 
