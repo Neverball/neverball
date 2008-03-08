@@ -1564,11 +1564,6 @@ static float sol_test_file(float dt,
     float U[3], W[3], u, t = dt;
     int i;
 
-    if ((u = sol_test_balls(t, fp)) > 0.0f)
-    {
-        t = (u > t) ? (u) : (t + u);
-    }
-
     for (i = 0; i < fp->bc; i++)
     {
         const struct s_body *bp = fp->bv + i;
@@ -1579,6 +1574,14 @@ static float sol_test_file(float dt,
             v_cpy(V, W);
             t = u;
         }
+    }
+
+    if ((u = sol_test_balls(t, fp)) > 0.0f)
+    {
+       /*
+        * A negative value fources the sound amplitude
+        */
+        t = -u;
     }
 
     return t;
@@ -1659,14 +1662,17 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                         (nt = sol_test_file(tt, P, V, up, fp)) :
                         (nt = sol_test_file(tt, P, V, up, fp) + tt)) && c > 0)
             {
-                sol_body_step(fp, nt);
-                sol_swch_step(fp, nt);
-                sol_ball_step(fp, nt);
+                sol_body_step(fp, (nt > 0.f) ? (nt) : (0.f));
+                sol_swch_step(fp, (nt > 0.f) ? (nt) : (0.f));
+                sol_ball_step(fp, (nt > 0.f) ? (nt) : (0.f));
 
-                tt -= nt;
+                tt -= (nt > 0.f) ? (nt) : (0.f);
 
-                if (b < ((d = sol_bounce(up, P, V, nt))))
+                if (nt > 0.f && b < ((d = sol_bounce(up, P, V, nt))))
                     b = d;
+
+                if (nt < 0.f)
+                    b = -nt;
 
                 c--;
             }
@@ -1738,14 +1744,17 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                         (nt = sol_test_file(tt, P, V, yp, fp)) :
                         (nt = sol_test_file(tt, P, V, yp, fp) + tt)) && c > 0)
             {
-                sol_body_step(fp, nt);
-                sol_swch_step(fp, nt);
-                sol_ball_step(fp, nt);
+                sol_body_step(fp, (nt > 0.f) ? (nt) : (0.f));
+                sol_swch_step(fp, (nt > 0.f) ? (nt) : (0.f));
+                sol_ball_step(fp, (nt > 0.f) ? (nt) : (0.f));
 
-                tt -= nt;
+                tt -= (nt > 0.f) ? (nt) : (0.f);
 
-                if (b < ((d = sol_bounce(yp, P, V, nt))))
+                if (nt > 0.f && b < ((d = sol_bounce(yp, P, V, nt))))
                     b = d;
+
+                if (nt < 0.f)
+                    b = -nt;
 
                 c--;
             }
