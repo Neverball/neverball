@@ -89,6 +89,7 @@ enum {
     CONFIG_CHEAT,
     CONFIG_STATS,
     CONFIG_UNIFORM,
+    CONFIG_SCREENSHOT,
     CONFIG_LOCK_GOALS,
 
     CONFIG_OPTION_D_COUNT
@@ -165,6 +166,7 @@ enum {
 #define DEFAULT_KEY_SCORE_NEXT       SDLK_TAB
 #define DEFAULT_STATS                0
 #define DEFAULT_UNIFORM              0
+#define DEFAULT_SCREENSHOT           0
 #define DEFAULT_LOCK_GOALS           0
 
 /*---------------------------------------------------------------------------*/
@@ -199,6 +201,10 @@ int  config_get_grab(void);
 int  config_cheat(void);
 void config_set_cheat(void);
 void config_clr_cheat(void);
+
+/*---------------------------------------------------------------------------*/
+
+int config_screenshot(void);
 
 /*---------------------------------------------------------------------------*/
 

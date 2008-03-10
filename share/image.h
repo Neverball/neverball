@@ -9,7 +9,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-void   image_snap(char *);
+void   image_snap(const char *);
 
 GLuint make_image_from_file(const char *);
 GLuint make_image_from_font(int *, int *,

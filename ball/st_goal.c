@@ -38,8 +38,7 @@
 #define GOAL_SAVE 3
 #define GOAL_BACK 4
 #define GOAL_DONE 5
-#define GOAL_NAME 6
-#define GOAL_OVER 7
+#define GOAL_OVER 6
 
 static int balls_id;
 static int coins_id;
@@ -69,7 +68,7 @@ static int goal_action(int i)
         progress_stop();
         return goto_save(&st_goal, &st_goal);
 
-    case GOAL_NAME:
+    case GUI_NAME:
         new_name = 1;
         resume = 1;
 
@@ -193,7 +192,7 @@ static int goal_enter(void)
         }
 
         if ((jd = gui_hstack(id)))
-            gui_score_board(jd, 1);
+            gui_score_board(jd, 1, high);
 
         gui_space(id);
 
@@ -210,9 +209,6 @@ static int goal_enter(void)
 
             if (demo_saved())
                 gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
-
-            if (high)
-                gui_state(id, _("Change Name"),  GUI_SML, GOAL_NAME, 0);
         }
 
         if (!resume)

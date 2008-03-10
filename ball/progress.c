@@ -23,19 +23,25 @@
 
 /*---------------------------------------------------------------------------*/
 
+struct progress
+{
+    int balls;
+    int score;
+    int times;
+};
+
 static int mode = MODE_NORMAL;
 
 static int level =  0;
 static int next  = -1;
 static int done  =  0;
 
-static int balls =  2;
 static int bonus =  0;
 
-/* Set stats. */
+static struct progress curr;
+static struct progress prev;
 
-static int score = 0;
-static int times = 0;
+/* Set stats. */
 
 static int score_rank = 3;
 static int times_rank = 3;
@@ -59,11 +65,13 @@ static int coin_rank = 3;
 void progress_init(int m)
 {
     mode  = m;
-
-    balls = 2;
-    score = 0;
-    times = 0;
     bonus = 0;
+
+    curr.balls = 2;
+    curr.score = 0;
+    curr.times = 0;
+
+    prev = curr;
 
     score_rank = times_rank = 3;
 
@@ -82,13 +90,15 @@ int  progress_play(int i)
         timer  = 0;
         goal   = goal_i = level_goal(level);
 
+        prev = curr;
+
         time_rank = goal_rank = coin_rank = 3;
 
         if (demo_play_init(USER_REPLAY_FILE, get_level(level), mode,
                            level_time(level), level_goal(level),
                            (mode != MODE_CHALLENGE && level_completed(level) &&
                             config_get_d(CONFIG_LOCK_GOALS) == 0) || goal == 0,
-                           score, balls, times))
+                           curr.score, curr.balls, curr.times))
         {
             return 1;
         }
@@ -128,12 +138,12 @@ void progress_stat(int s)
     {
     case GAME_GOAL:
 
-        for (i = score + 1; i <= score + coins; i++)
+        for (i = curr.score + 1; i <= curr.score + coins; i++)
             if (progress_reward_ball(i))
-                balls++;
+                curr.balls++;
 
-        score += coins;
-        times += timer;
+        curr.score += coins;
+        curr.times += timer;
 
         dirty = level_score_update(level, timer, coins,
                                    &time_rank,
@@ -172,7 +182,8 @@ void progress_stat(int s)
         {
             if (mode == MODE_CHALLENGE)
             {
-                dirty = set_score_update(times, score, &score_rank, &times_rank);
+                dirty = set_score_update(curr.times, curr.score,
+                                         &score_rank, &times_rank);
                 done  = 1;
             }
         }
@@ -193,7 +204,7 @@ void progress_stat(int s)
              next++)
             /* Do nothing. */;
 
-        balls--;
+        curr.balls--;
         break;
     }
 
@@ -216,7 +227,10 @@ void progress_exit(int s)
 
 int  progress_replay(const char *filename)
 {
-    if (demo_replay_init(filename, &goal, &mode, &balls, &score, &times))
+    if (demo_replay_init(filename, &goal, &mode,
+                         &curr.balls,
+                         &curr.score,
+                         &curr.times))
     {
         goal_i = goal;
         return 1;
@@ -242,7 +256,7 @@ int  progress_same_avail(void)
 
     default:
         if (mode == MODE_CHALLENGE)
-            return status != GAME_GOAL && !progress_dead();
+            return !progress_dead();
         else
             return 1;
     }
@@ -257,12 +271,13 @@ int  progress_next(void)
 int  progress_same(void)
 {
     progress_stop();
+    curr = status == GAME_GOAL ? prev : curr;
     return progress_play(level);
 }
 
 int  progress_dead(void)
 {
-    return mode == MODE_CHALLENGE ? balls < 0 : 0;
+    return mode == MODE_CHALLENGE ? curr.balls < 0 : 0;
 }
 
 int  progress_done(void)
@@ -308,12 +323,12 @@ int  progress_reward_ball(int s)
 
 /*---------------------------------------------------------------------------*/
 
-int curr_level(void) { return level; }
-int curr_balls(void) { return balls; }
-int curr_score(void) { return score; }
-int curr_mode (void) { return mode;  }
-int curr_bonus(void) { return bonus; }
-int curr_goal (void) { return goal;  }
+int curr_level(void) { return level;      }
+int curr_balls(void) { return curr.balls; }
+int curr_score(void) { return curr.score; }
+int curr_mode (void) { return mode;       }
+int curr_bonus(void) { return bonus;      }
+int curr_goal (void) { return goal;       }
 
 int progress_time_rank(void) { return time_rank; }
 int progress_goal_rank(void) { return goal_rank; }

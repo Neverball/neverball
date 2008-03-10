@@ -62,6 +62,7 @@ Section "Neverball/Neverputt"
 
     File scripts\neverball.bat
     File scripts\neverputt.bat
+    File contrib\curve.exe
 
     # http://nsis.sourceforge.net/\
     # Add_uninstall_information_to_Add/Remove_Programs

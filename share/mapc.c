@@ -46,11 +46,11 @@ static int debug_output = 0;
 /* Ohhhh... arbitrary! */
 
 #define MAXM    1024
-#define MAXV    65534
-#define MAXE    65534
-#define MAXS    65534
-#define MAXT    65534
-#define MAXG    65534
+#define MAXV    65536
+#define MAXE    65536
+#define MAXS    65536
+#define MAXT    65536
+#define MAXG    65536
 #define MAXL    2048
 #define MAXN    2048
 #define MAXP    1024
@@ -64,7 +64,7 @@ static int debug_output = 0;
 #define MAXW    1024
 #define MAXD    1024
 #define MAXA    16384
-#define MAXI    65534
+#define MAXI    131072
 
 static int overflow(const char *s)
 {
@@ -1931,7 +1931,7 @@ static int comp_trip(const void *p, const void *q)
 static void smth_file(struct s_file *fp)
 {
     struct s_trip temp, *T;
-    
+
     if (debug_output == 0)
     {
         if ((T = (struct s_trip *) malloc(fp->gc * 3 * sizeof (struct s_trip))))

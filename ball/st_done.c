@@ -31,7 +31,6 @@
 /*---------------------------------------------------------------------------*/
 
 #define DONE_OK   1
-#define DONE_NAME 2
 
 /* Bread crumbs. */
 
@@ -47,7 +46,7 @@ static int done_action(int i)
     case DONE_OK:
         return goto_state(&st_start);
 
-    case DONE_NAME:
+    case GUI_NAME:
         new_name = 1;
         return goto_name(&st_done, &st_done, 0);
 
@@ -88,17 +87,11 @@ static int done_enter(void)
         gui_space(id);
 
         if ((jd = gui_hstack(id)))
-            gui_score_board(jd, 1);
+            gui_score_board(jd, 1, high);
 
         gui_space(id);
 
-        if ((jd = gui_harray(id)))
-        {
-            gui_start(jd, _("Select Level"), GUI_SML, DONE_OK, 0);
-
-            if (high)
-                gui_state(jd, _("Change Name"), GUI_SML, DONE_NAME, 0);
-        }
+        gui_start(id, _("Select Level"), GUI_SML, DONE_OK, 0);
 
         if (!resume)
             gui_pulse(gid, 1.2f);

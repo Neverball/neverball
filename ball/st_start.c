@@ -178,7 +178,7 @@ static int start_enter(void)
         gui_space(id);
 
         if ((jd = gui_hstack(id)))
-            gui_score_board(jd, 0);
+            gui_score_board(jd, 0, 0);
 
         gui_space(id);
 
