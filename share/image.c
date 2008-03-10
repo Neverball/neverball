@@ -26,7 +26,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-void image_snap(char *filename)
+void image_snap(const char *filename)
 {
     FILE       *filep  = NULL;
     png_structp writep = NULL;
