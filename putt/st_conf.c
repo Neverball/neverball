@@ -404,7 +404,6 @@ static int null_enter(void)
     jump_free();
     flag_free();
     mark_free();
-    oldball_free();
     ball_free();
     shad_free();
 
@@ -417,7 +416,6 @@ static void null_leave(int id)
 
     shad_init();
     ball_init();
-    oldball_init(g);
     mark_init(g);
     flag_init(g);
     jump_init(g);

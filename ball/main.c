@@ -44,11 +44,9 @@
 static void shot(void)
 {
     static char filename[MAXSTR];
-    static int  num = 0;
 
-    sprintf(filename, "screen%02d.png", num++);
-
-    image_snap(filename);
+    sprintf(filename, "screen%05d.png", config_screenshot());
+    image_snap(config_user(filename));
 }
 
 /*---------------------------------------------------------------------------*/

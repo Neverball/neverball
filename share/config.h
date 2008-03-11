@@ -85,10 +85,11 @@ enum {
     CONFIG_KEY_RIGHT,
     CONFIG_KEY_PAUSE,
     CONFIG_KEY_RESTART,
-    CONFIG_CHEAT,
     CONFIG_STATS,
     CONFIG_UNIFORM,
+    CONFIG_SCREENSHOT,
     CONFIG_BALL_COLLISIONS,
+    CONFIG_CHEAT,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -155,7 +156,6 @@ enum {
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "basic-ball"
-#define DEFAULT_CHEAT                0
 #define DEFAULT_KEY_FORWARD          SDLK_UP
 #define DEFAULT_KEY_BACKWARD         SDLK_DOWN
 #define DEFAULT_KEY_LEFT             SDLK_LEFT
@@ -164,8 +164,10 @@ enum {
 #define DEFAULT_KEY_RESTART          SDLK_r
 #define DEFAULT_STATS                0
 #define DEFAULT_UNIFORM              0
-#define DEFAULT_BALL_GAMMA          "0.78"
+#define DEFAULT_SCREENSHOT           0
+#define DEFAULT_BALL_GAMMA           "0.78"
 #define DEFAULT_BALL_COLLISIONS      0
+#define DEFAULT_CHEAT                0
 
 /*---------------------------------------------------------------------------*/
 
@@ -199,6 +201,10 @@ int  config_get_grab(void);
 int  config_cheat(void);
 void config_set_cheat(void);
 void config_clr_cheat(void);
+
+/*---------------------------------------------------------------------------*/
+
+int config_screenshot(void);
 
 /*---------------------------------------------------------------------------*/
 

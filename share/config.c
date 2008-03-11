@@ -115,7 +115,6 @@ void config_init(void)
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
     config_set_s(CONFIG_WIIMOTE_ADDR,         DEFAULT_WIIMOTE_ADDR);
-    config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_STATS,                DEFAULT_STATS);
     config_set_d(CONFIG_UNIFORM,              DEFAULT_UNIFORM);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
@@ -124,8 +123,10 @@ void config_init(void)
     config_set_d(CONFIG_KEY_RIGHT,            DEFAULT_KEY_RIGHT);
     config_set_d(CONFIG_KEY_PAUSE,            DEFAULT_KEY_PAUSE);
     config_set_d(CONFIG_KEY_RESTART,          DEFAULT_KEY_RESTART);
+    config_set_d(CONFIG_SCREENSHOT,           DEFAULT_SCREENSHOT);
     config_set_s(CONFIG_BALL_GAMMA,           DEFAULT_BALL_GAMMA);
     config_set_d(CONFIG_BALL_COLLISIONS,      DEFAULT_BALL_COLLISIONS);
+    config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
 }
 
 void config_load(void)
@@ -252,17 +253,20 @@ void config_load(void)
                 else if (strcmp(key, "wiimote_addr") == 0)
                     config_set_s(CONFIG_WIIMOTE_ADDR, val);
 
-                else if (strcmp(key, "cheat")      == 0)
-                    config_set_d(CONFIG_CHEAT,   atoi(val));
                 else if (strcmp(key, "stats")      == 0)
                     config_set_d(CONFIG_STATS,   atoi(val));
                 else if (strcmp(key, "uniform")    == 0)
                     config_set_d(CONFIG_UNIFORM, atoi(val));
+                else if (strcmp(key, "screenshot") == 0)
+                    config_set_d(CONFIG_SCREENSHOT, atoi(val));
 
                 else if (strcmp(key, "gamma") == 0)
                     config_set_s(CONFIG_BALL_GAMMA, val);
                 else if (strcmp(key, "ball_collisions") == 0)
                     config_set_d(CONFIG_BALL_COLLISIONS, atoi(val));
+
+                else if (strcmp(key, "cheat")      == 0)
+                    config_set_d(CONFIG_CHEAT,   atoi(val));
             }
 
         fclose(fp);
@@ -392,14 +396,17 @@ void config_save(void)
                 option_d[CONFIG_STATS]);
         fprintf(fp, "uniform              %d\n",
                 option_d[CONFIG_UNIFORM]);
-        if (config_cheat())
-            fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
+        fprintf(fp, "screenshot           %d\n",
+                option_d[CONFIG_SCREENSHOT]);
 
         if (strlen(option_s[CONFIG_BALL_GAMMA]) > 0)
             fprintf(fp, "gamma                %s\n", option_s[CONFIG_BALL_GAMMA]);
 
         fprintf(fp, "ball_collisions      %d\n",
                 option_d[CONFIG_BALL_COLLISIONS]);
+
+        if (config_cheat())
+            fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
 
         fclose(fp);
     }
@@ -658,6 +665,13 @@ void config_set_cheat(void)
 void config_clr_cheat(void)
 {
     config_set_d(CONFIG_CHEAT, 0);
+}
+
+/*---------------------------------------------------------------------------*/
+
+int config_screenshot(void)
+{
+    return ++option_d[CONFIG_SCREENSHOT];
 }
 
 /*---------------------------------------------------------------------------*/
