@@ -14,7 +14,7 @@
 
 #include "gui.h"
 #include "set.h"
-#include "levels.h"
+#include "progress.h"
 #include "game.h"
 #include "audio.h"
 #include "config.h"

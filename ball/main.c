@@ -24,7 +24,7 @@
 #include "image.h"
 #include "audio.h"
 #include "demo.h"
-#include "levels.h"
+#include "progress.h"
 #include "game.h"
 #include "gui.h"
 #include "set.h"
@@ -377,7 +377,7 @@ int main(int argc, char *argv[])
 
     if (display_info)
     {
-        if (!level_replay(demo_path))
+        if (!progress_replay(demo_path))
         {
             fprintf(stderr, L_("Replay file '%s': %s\n"), demo_path,
                     errno ?  strerror(errno) : L_("Not a replay file"));
@@ -433,9 +433,8 @@ int main(int argc, char *argv[])
 
     /* Initialise demo playback. */
 
-    if (replay_demo)
+    if (replay_demo && progress_replay(demo_path))
     {
-        level_replay(demo_path);
         demo_play_goto(1);
         goto_state(&st_demo_play);
     }

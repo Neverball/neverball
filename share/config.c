@@ -124,7 +124,9 @@ void config_init(void)
     config_set_d(CONFIG_KEY_RIGHT,            DEFAULT_KEY_RIGHT);
     config_set_d(CONFIG_KEY_PAUSE,            DEFAULT_KEY_PAUSE);
     config_set_d(CONFIG_KEY_RESTART,          DEFAULT_KEY_RESTART);
+    config_set_d(CONFIG_KEY_SCORE_NEXT,       DEFAULT_KEY_SCORE_NEXT);
     config_set_d(CONFIG_SCREENSHOT,           DEFAULT_SCREENSHOT);
+    config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
 }
 
 void config_load(void)
@@ -244,6 +246,9 @@ void config_load(void)
                 else if (strcmp(key, "key_restart")  == 0)
                     config_key(val, CONFIG_KEY_RESTART, DEFAULT_KEY_RESTART);
 
+                else if (strcmp(key, "key_score_next") == 0)
+                    config_key(val, CONFIG_KEY_SCORE_NEXT, DEFAULT_KEY_SCORE_NEXT);
+
                 else if (strcmp(key, "player") == 0)
                     config_set_s(CONFIG_PLAYER, val);
                 else if (strcmp(key, "ball_file") == 0)
@@ -259,6 +264,8 @@ void config_load(void)
                     config_set_d(CONFIG_UNIFORM, atoi(val));
                 else if (strcmp(key, "screenshot") == 0)
                     config_set_d(CONFIG_SCREENSHOT, atoi(val));
+                else if (strcmp(key, "lock_goals") == 0)
+                    config_set_d(CONFIG_LOCK_GOALS, atoi(val));
             }
 
         fclose(fp);
@@ -377,6 +384,9 @@ void config_save(void)
         fprintf(fp, "key_restart          %s\n",
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_RESTART]));
 
+        fprintf(fp, "key_score_next       %s\n",
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_SCORE_NEXT]));
+
         if (strlen(option_s[CONFIG_PLAYER]) > 0)
             fprintf(fp, "player       %s\n", option_s[CONFIG_PLAYER]);
         if (strlen(option_s[CONFIG_BALL]) > 0)
@@ -384,12 +394,10 @@ void config_save(void)
         if (strlen(option_s[CONFIG_WIIMOTE_ADDR]) > 0)
             fprintf(fp, "wiimote_addr %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
 
-        fprintf(fp, "stats                %d\n",
-                option_d[CONFIG_STATS]);
-        fprintf(fp, "uniform              %d\n",
-                option_d[CONFIG_UNIFORM]);
-        fprintf(fp, "screenshot           %d\n",
-            option_d[CONFIG_SCREENSHOT]);
+        fprintf(fp, "stats                %d\n", option_d[CONFIG_STATS]);
+        fprintf(fp, "uniform              %d\n", option_d[CONFIG_UNIFORM]);
+        fprintf(fp, "screenshot           %d\n", option_d[CONFIG_SCREENSHOT]);
+        fprintf(fp, "lock_goals           %d\n", option_d[CONFIG_LOCK_GOALS]);
 
         if (config_cheat())
             fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);

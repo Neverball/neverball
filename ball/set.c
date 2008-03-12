@@ -38,8 +38,8 @@ struct set
 
     char user_scores[PATHMAX]; /* User high-score file       */
 
-    struct score time_score;   /* Challenge score            */
     struct score coin_score;   /* Challenge score            */
+    struct score time_score;   /* Challenge score            */
 
     /* Level info */
 
@@ -62,11 +62,10 @@ static void put_score(FILE *fp, const struct score *s)
     int j;
 
     for (j = 0; j < NSCORE; j++)
-       fprintf(fp, "%d %d %s\n", s->timer[j], s->coins[j], s->player[j]);
+        fprintf(fp, "%d %d %s\n", s->timer[j], s->coins[j], s->player[j]);
 }
 
-/* Store the score of the set. */
-static void set_store_hs(void)
+void set_store_hs(void)
 {
     const struct set *s = &set_v[set];
     FILE *fout;
@@ -166,8 +165,8 @@ static void set_load_hs(void)
         {
             l = &level_v[i];
             res = get_score(fin, &l->score.best_times) &&
-                  get_score(fin, &l->score.unlock_goal) &&
-                  get_score(fin, &l->score.most_coins);
+                get_score(fin, &l->score.unlock_goal) &&
+                get_score(fin, &l->score.most_coins);
         }
 
         fclose(fin);
@@ -385,189 +384,38 @@ int curr_set(void)
     return set;
 }
 
-const struct level *get_level(int i)
+struct level *get_level(int i)
 {
     return (i >= 0 && i < set_v[set].count) ? &level_v[i] : NULL;
 }
 
 /*---------------------------------------------------------------------------*/
 
-/* Update the level score rank according to coins and timer. */
-static int level_score_update(struct level_game *lg, const char *player)
+int set_score_update(int timer, int coins, int *score_rank, int *times_rank)
 {
-    int timer = lg->timer;
-    int coins = lg->coins;
-    struct level *l = &level_v[lg->level->number];
+    struct set *s = &set_v[set];
+    char player[MAXSTR] = "";
 
-    lg->time_rank = score_time_insert(&l->score.best_times,
-                                      player, timer, coins);
+    config_get_s(CONFIG_PLAYER, player, MAXSTR);
 
-    if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
-        lg->goal_rank = score_time_insert(&l->score.unlock_goal,
-                                          player, timer, coins);
+    if (score_rank)
+        *score_rank = score_coin_insert(&s->coin_score, player, timer, coins);
+
+    if (times_rank)
+        *times_rank = score_time_insert(&s->time_score, player, timer, coins);
+
+    if ((score_rank && *score_rank < 3) || (times_rank && *times_rank < 3))
+        return 1;
     else
-        lg->goal_rank = 3;
-
-    lg->coin_rank = score_coin_insert(&l->score.most_coins,
-                                      player, timer, coins);
-
-    return (lg->time_rank < 3 || lg->goal_rank < 3 || lg->coin_rank < 3);
+        return 0;
 }
 
-/* Update the set score rank according to score and times. */
-static int set_score_update(struct level_game *lg, const char *player)
-{
-    int timer = lg->times;
-    int coins = lg->score;
-    struct set *s = &set_v[set];
-
-    lg->score_rank = score_time_insert(&s->time_score, player, timer, coins);
-    lg->times_rank = score_time_insert(&s->coin_score, player, timer, coins);
-
-    return (lg->score_rank < 3 || lg->times_rank < 3);
-}
-
-/* Update the player name for set and level high-score. */
-void score_change_name(struct level_game *lg, const char *player)
-{
-    struct set   *s = &set_v[set];
-    struct level *l = &level_v[lg->level->number];
-
-    strncpy(l->score.best_times.player [lg->time_rank], player, MAXNAM);
-    strncpy(l->score.unlock_goal.player[lg->goal_rank], player, MAXNAM);
-    strncpy(l->score.most_coins.player [lg->coin_rank], player, MAXNAM);
-
-    strncpy(s->coin_score.player[lg->score_rank], player, MAXNAM);
-    strncpy(s->time_score.player[lg->times_rank], player, MAXNAM);
-
-    set_store_hs();
-}
-
-static struct level *next_level(int i)
-{
-    return set_level_exists(set, i + 1) ? &level_v[i + 1] : NULL;
-}
-
-static struct level *next_normal_level(int i)
-{
-    for (i++; i < set_v[set].count; i++)
-        if (!level_v[i].is_bonus)
-            return &level_v[i];
-
-    return NULL;
-}
-
-/*---------------------------------------------------------------------------*/
-
-void set_finish_level(struct level_game *lg, const char *player)
+void set_rename_player(int score_rank, int times_rank, const char *player)
 {
     struct set *s = &set_v[set];
-    int ln = lg->level->number;      /* Current level number       */
-    struct level *cl = &level_v[ln]; /* Current level              */
-    struct level *nl = NULL;         /* Next level                 */
-    int dirty = 0;                   /* Should the score be saved? */
 
-    assert(s == cl->set);
-
-    /* if no set, no next level */
-    if (s == NULL)
-    {
-        /* if no set, return */
-        lg->next_level = NULL;
-        return;
-    }
-
-    /* On level completed */
-    if (lg->status == GAME_GOAL)
-    {
-        /* Update level scores */
-        dirty = level_score_update(lg, player);
-
-        /* Complete the level */
-        if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
-        {
-            /* Complete the level */
-            if (!cl->is_completed)
-            {
-                cl->is_completed = 1;
-                dirty = 1;
-            }
-        }
-    }
-
-    /* On goal reached */
-    if (lg->status == GAME_GOAL)
-    {
-        /* Identify the following level */
-
-        nl = next_level(ln);
-
-        if (nl != NULL)
-        {
-            /* Skip bonuses if unlocked in any mode */
-
-            if (nl->is_bonus)
-            {
-                if (lg->mode == MODE_CHALLENGE && nl->is_locked)
-                {
-                    nl->is_locked = 0;
-
-                    lg->bonus = 1;
-                    lg->bonus_repr = nl->repr;
-                }
-
-                nl = next_normal_level(nl->number);
-
-                if (nl == NULL && lg->mode == MODE_CHALLENGE)
-                {
-                    lg->win = 1;
-                }
-            }
-        }
-        else if (lg->mode == MODE_CHALLENGE)
-            lg->win = 1;
-    }
-    else if (cl->is_bonus || lg->mode != MODE_CHALLENGE)
-    {
-        /* On fail, identify the next level (only in bonus for challenge) */
-        nl = next_normal_level(ln);
-        /* Next level may be unavailable */
-        if (!cl->is_bonus && nl != NULL && nl->is_locked)
-            nl = NULL;
-        /* Fail a bonus level but win the set! */
-        else if (nl == NULL && lg->mode == MODE_CHALLENGE)
-            lg->win = 1;
-    }
-
-    /* Win ! */
-    if (lg->win)
-    {
-        /* update set score */
-        set_score_update(lg, player);
-        /* unlock all levels */
-        set_cheat();
-        dirty = 1;
-    }
-
-    /* unlock the next level if needed */
-    if (nl != NULL && nl->is_locked)
-    {
-        if (lg->mode == MODE_CHALLENGE || lg->mode == MODE_NORMAL)
-        {
-            lg->unlock = 1;
-            nl->is_locked = 0;
-            dirty = 1;
-        }
-        else
-            nl = NULL;
-    }
-
-    /* got the next level */
-    lg->next_level = nl;
-
-    /* Update file */
-    if (dirty)
-        set_store_hs();
+    strncpy(s->coin_score.player[score_rank], player, MAXNAM);
+    strncpy(s->time_score.player[times_rank], player, MAXNAM);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -588,7 +436,7 @@ void level_snap(int i)
 
     /* Initialize the game for a snapshot. */
 
-    if (game_init(&level_v[i], 0, 0))
+    if (game_init(level_v[i].file, 0, 1))
     {
         /* Render the level and grab the screen. */
 

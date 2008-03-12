@@ -16,7 +16,7 @@
 #include "hud.h"
 #include "game.h"
 #include "demo.h"
-#include "levels.h"
+#include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
@@ -36,8 +36,7 @@ static int pause_or_exit(void)
 {
     if (SDL_GetModState() & KMOD_SHIFT)
     {
-        level_stat(GAME_NONE, curr_clock(), curr_coins());
-        level_stop();
+        progress_exit(GAME_NONE);
         config_clr_grab();
 
         return goto_state(&st_over);
@@ -228,24 +227,25 @@ static void play_loop_timer(int id, float dt)
     switch (game_step(g, dt, 1))
     {
     case GAME_GOAL:
-        level_stat(GAME_GOAL, curr_clock(), curr_coins());
+        progress_stat(GAME_GOAL);
         gui_stuck();
         goto_state(&st_goal);
         break;
 
     case GAME_FALL:
-        level_stat(GAME_FALL, curr_clock(), curr_coins());
+        progress_stat(GAME_FALL);
         gui_stuck();
         goto_state(&st_fall_out);
         break;
 
     case GAME_TIME:
-        level_stat(GAME_TIME, curr_clock(), curr_coins());
+        progress_stat(GAME_TIME);
         gui_stuck();
         goto_state(&st_time_out);
         break;
 
     default:
+        progress_step();
         break;
     }
 }
@@ -294,10 +294,10 @@ static int play_loop_keybd(int c, int d)
             hud_view_pulse(2);
         }
         if (config_tst_d(CONFIG_KEY_RESTART, c) &&
-            curr_lg()->mode != MODE_CHALLENGE)
+            progress_same_avail())
         {
-            level_same();
-            goto_state(&st_play_ready);
+            if (progress_same())
+                goto_state(&st_play_ready);
         }
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
             goto_pause();
@@ -318,7 +318,7 @@ static int play_loop_keybd(int c, int d)
 
     if (d && c == SDLK_c && config_cheat())
     {
-        level_stat(GAME_GOAL, curr_clock(), curr_coins());
+        progress_stat(GAME_GOAL);
         return goto_state(&st_goal);
     }
     return 1;
