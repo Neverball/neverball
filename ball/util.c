@@ -103,7 +103,7 @@ static void gui_most_coins(int id, int e)
     }
 }
 
-/* Set the Most Coins top three list values for level i. */
+/* Set the Most Coins top three list values. */
 
 static void set_most_coins(const struct score *s, int hilight)
 {

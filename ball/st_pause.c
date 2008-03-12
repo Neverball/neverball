@@ -140,8 +140,7 @@ static int pause_keybd(int c, int d)
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
             return pause_action(PAUSE_CONTINUE);
 
-        if (config_tst_d(CONFIG_KEY_RESTART, c) &&
-            curr_mode() != MODE_CHALLENGE)
+        if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
             return pause_action(PAUSE_RESTART);
     }
     return 1;

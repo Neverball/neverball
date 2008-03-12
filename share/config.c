@@ -118,15 +118,15 @@ void config_init(void)
     config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_STATS,                DEFAULT_STATS);
     config_set_d(CONFIG_UNIFORM,              DEFAULT_UNIFORM);
-    config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
     config_set_d(CONFIG_KEY_BACKWARD,         DEFAULT_KEY_BACKWARD);
     config_set_d(CONFIG_KEY_LEFT,             DEFAULT_KEY_LEFT);
     config_set_d(CONFIG_KEY_RIGHT,            DEFAULT_KEY_RIGHT);
     config_set_d(CONFIG_KEY_PAUSE,            DEFAULT_KEY_PAUSE);
     config_set_d(CONFIG_KEY_RESTART,          DEFAULT_KEY_RESTART);
-    config_set_d(CONFIG_SCREENSHOT,           DEFAULT_SCREENSHOT);
     config_set_d(CONFIG_KEY_SCORE_NEXT,       DEFAULT_KEY_SCORE_NEXT);
+    config_set_d(CONFIG_SCREENSHOT,           DEFAULT_SCREENSHOT);
+    config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
 }
 
 void config_load(void)
