@@ -240,7 +240,7 @@ static int start_keybd(int c, int d)
             set_cheat();
             return goto_state(&st_start);
         }
-        else if (c == SDLK_F12)
+        else if (c == SDLK_F12 && config_cheat())
         {
             int i;
 
