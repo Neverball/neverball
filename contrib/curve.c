@@ -430,7 +430,7 @@ int main(int argc, char *argv[])
                         "%s -readme   : creates a readme.txt file with detailed help information.\n"
                         "%s -textures : creates a textures.txt, editable for auto-texture placement.\n"
                         "%s -random   : creates a random curve; add -lots for a grid of 16 curves.\n"
-                        "%s : (no parameters) runs a basic user-interface to aid your curve creation.",
+                        "%s : (no parameters) runs a basic user-interface to aid your curve creation.\n",
                         argv[0],argv[0],argv[0],argv[0],argv[0]);
     }
     else if (argc > 1 && strcmp(argv[1], "-readme") == 0)
