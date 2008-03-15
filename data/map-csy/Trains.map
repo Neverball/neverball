@@ -13,8 +13,8 @@
 "version" "2.1"
 "levelname" "Trains"
 "goal_hs" "3000 4000"
-"time_hs" "20 15"
-"coin_hs" "2000 3000"
+"time_hs" "2000 3000"
+"coin_hs" "20 15"
 // brush 0
 {
 ( 64 576 128 ) ( 64 448 128 ) ( -64 576 128 ) mtrl/coin-blue 0 0 0 0.5 0.5 0 0 0
