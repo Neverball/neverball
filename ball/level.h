@@ -3,15 +3,15 @@
 
 #include "base_config.h"
 #include "score.h"
-#include "levels.h"
+#include "progress.h"
 
 /*---------------------------------------------------------------------------*/
 
 struct level
 {
+    /* TODO: turn into an internal structure. */
+
     char file[PATHMAX];
-    char back[PATHMAX];
-    char grad[PATHMAX];
     char shot[PATHMAX];
     char song[PATHMAX];
 
@@ -48,26 +48,30 @@ struct level
 int  level_load(const char *, struct level *);
 void level_dump(const struct level *);
 
-int  level_replay(const char *);
-int  level_play(const struct level *, int);
-void level_stat(int, int, int);
-void level_stop(void);
-int  level_next(void);
-int  level_same(void);
+/*---------------------------------------------------------------------------*/
+
+int  level_exists(int);
+
+void level_open  (int);
+int  level_opened(int);
+
+void level_complete (int);
+int  level_completed(int);
+
+int  level_time(int);
+int  level_goal(int);
+int  level_bonus(int);
+
+const char *level_shot(int);
+const char *level_file(int);
+const char *level_repr(int);
+const char *level_msg (int);
 
 /*---------------------------------------------------------------------------*/
 
-int count_extra_balls(int, int);
-
-void level_update_player_name(void);
+int  level_score_update (int, int, int, int *, int *, int *);
+void level_rename_player(int, int, int, int, const char *);
 
 /*---------------------------------------------------------------------------*/
-
-#define GAME_NONE 0     /* No event (or aborted) */
-#define GAME_TIME 1     /* Time's up */
-#define GAME_GOAL 2     /* Goal reached */
-#define GAME_FALL 3     /* Fall out */
-
-const char *status_to_str(int);
 
 #endif

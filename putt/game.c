@@ -110,7 +110,8 @@ int game_check_balls(struct s_file *fp)
         * If a ball falls out, return the ball to the camera marker
         * and reset the play state for fair play
         */
-        if (i != ball && up->p[1] < -10.f && (up->p[1] > -199.9f || up->p[1] < -599.9f))
+        if (i != ball && up->p[1] < -10.f
+                      && (up->p[1] > -199.9f || up->p[1] < -599.9f))
         {
             up->P = 0;
             v_cpy(up->p, fp->uv->p);
@@ -166,9 +167,11 @@ int game_check_balls(struct s_file *fp)
             v_sub(d, up->p, u2p->p);
             if (v_len(up->v) > 0.005f || v_len(u2p->v) > 0.005f)
                 continue;
-            if (v_len(d) < (fsqrtf((up->r + u2p->r) * (up->r + u2p->r))) * 1.0f && i != ball)
+            if (v_len(d) < (fsqrtf((up->r + u2p->r)
+                         * (up->r + u2p->r))) * 1.0f && i != ball)
                 up->P = 0;
-            else if (v_len(d) < (fsqrtf((up->r + u2p->r) * (up->r + u2p->r)) *  1.0f))
+            else if (v_len(d) < (fsqrtf((up->r
+                                       + u2p->r) * (up->r + u2p->r)) *  1.0f))
                 u2p->P = 0;
         }
     }
@@ -315,7 +318,8 @@ static void game_draw_balls(const struct s_file *fp,
 
     for (ui = curr_party(); ui > 0; ui--)
     {
-        if (ui == ball || (config_get_d(CONFIG_BALL_COLLISIONS) && fp->uv[ui].P))
+        if (ui == ball || (config_get_d(CONFIG_BALL_COLLISIONS)
+                           && fp->uv[ui].P))
         {
             float ball_M[16];
             float pend_M[16];
@@ -626,7 +630,8 @@ static int game_update_state(float dt)
     {
         for (i = 1; i < curr_party() + 1; i++)
         {
-            if (!jump_u && jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, i) == 1)
+            if (!jump_u && jump_e == 1 && jump_b == 0
+                        && sol_jump_test(fp, jump_p, i) == 1)
             {
                 jump_b  = 1;
                 jump_e  = 0;
@@ -635,15 +640,18 @@ static int game_update_state(float dt)
 
                 audio_play(AUD_JUMP, 1.f);
             }
-            if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, i) == 0)
+            if (jump_e == 0 && jump_b == 0
+                            && sol_jump_test(fp, jump_p, i) == 0)
                 jump_e = 1;
-            if (!jump_b && jump_u && i == jump_u / 2 && sol_jump_test(fp, jump_p, i) == 0)
+            if (!jump_b && jump_u && i == jump_u / 2
+                        && sol_jump_test(fp, jump_p, i) == 0)
                 jump_u = 0;
         }
 
         for (i = 0; i < fp->yc; i++)
         {
-            if (!jump_u && jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 1)
+            if (!jump_u && jump_e == 1 && jump_b == 0
+                        && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 1)
             {
                 jump_b  = 1;
                 jump_e  = 0;
@@ -652,9 +660,12 @@ static int game_update_state(float dt)
 
                 audio_play(AUD_JUMP, 1.f);
             }
-            if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
+            if (jump_e == 0 && jump_b == 0
+                            && sol_jump_test(fp,
+                                             jump_p, fp->yv + i - fp->uv) == 0)
                 jump_e = 1;
-            if (!jump_b && jump_u && i == jump_u / 2 && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
+            if (!jump_b && jump_u && i == jump_u / 2
+                        && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
                 jump_u = 0;
         }
     }
@@ -687,15 +698,15 @@ static int game_update_state(float dt)
         {
             switch (sol_goal_test(fp, p, ball))
             {
-                case 2:  /* The player's ball landed in the goal and the all of the other balls have stopped */
+                case 2:  /* All balls stopped & Player's ball stopped in hole */
                     t = 0.0f;
                     return GAME_GOAL;
                     break;
-                case 1:  /* All balls have stopped */
+                case 1:  /* All balls stopped                                 */
                     t = 0.0f;
                     return GAME_STOP;
                     break;
-                case 0:  /* Game still running; there may be a ball that has not yet stopped */
+                case 0:  /* At least one ball is still in motion              */
                     return GAME_NONE;
                     break;
                 default: /* Should never reach this */

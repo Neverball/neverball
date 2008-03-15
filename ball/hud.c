@@ -20,7 +20,7 @@
 #include "hud.h"
 #include "gui.h"
 #include "game.h"
-#include "levels.h"
+#include "progress.h"
 #include "config.h"
 #include "audio.h"
 
@@ -28,11 +28,9 @@
 
 static int Lhud_id;
 static int Rhud_id;
-static int Rhud2_id;
 static int time_id;
 
 static int coin_id;
-static int coin2_id;
 static int ball_id;
 static int scor_id;
 static int goal_id;
@@ -64,13 +62,6 @@ void hud_init(void)
             goal_id = gui_count(id, 10,  GUI_SML, 0);
         }
         gui_layout(Rhud_id, +1, -1);
-    }
-
-    if ((Rhud2_id = gui_hstack(0)))
-    {
-        gui_label(Rhud2_id, _("Coins"), GUI_SML, 0, gui_wht, gui_wht);
-        coin2_id = gui_count(Rhud2_id, 100,   GUI_SML, GUI_NW);
-        gui_layout(Rhud2_id, +1, -1);
     }
 
     if ((Lhud_id = gui_hstack(0)))
@@ -112,16 +103,10 @@ void hud_free(void)
 
 void hud_paint(void)
 {
-    int mode = curr_lg()->mode;
-
-    if (mode == MODE_CHALLENGE)
+    if (curr_mode() == MODE_CHALLENGE)
         gui_paint(Lhud_id);
 
-    if (mode == MODE_PRACTICE)
-        gui_paint(Rhud2_id);
-    else
-        gui_paint(Rhud_id);
-
+    gui_paint(Rhud_id);
     gui_paint(time_id);
 
     if (config_get_d(CONFIG_FPS))
@@ -133,14 +118,11 @@ void hud_paint(void)
 
 void hud_update(int pulse)
 {
-    const struct level_game *lg = curr_lg();
-
     int clock = curr_clock();
     int coins = curr_coins();
     int goal  = curr_goal();
-    int balls = lg->balls;
-    int score = lg->score;
-    int mode  = lg->mode;
+    int balls = curr_balls();
+    int score = curr_score();
 
     int c_id;
     int last;
@@ -160,7 +142,7 @@ void hud_update(int pulse)
     {
         gui_set_clock(time_id, clock);
 
-        if (last > clock && pulse && mode != MODE_PRACTICE)
+        if (last > clock && pulse)
         {
             if (clock <= 1000 && (last / 100) > (clock / 100))
             {
@@ -177,7 +159,7 @@ void hud_update(int pulse)
 
     /* balls and score + select coin widget */
 
-    switch (mode)
+    switch (curr_mode())
     {
     case MODE_CHALLENGE:
         if (gui_value(ball_id) != balls) gui_set_count(ball_id, balls);
@@ -186,12 +168,8 @@ void hud_update(int pulse)
         c_id = coin_id;
         break;
 
-    case MODE_NORMAL:
-        c_id = coin_id;
-        break;
-
     default:
-        c_id = coin2_id;
+        c_id = coin_id;
         break;
     }
 

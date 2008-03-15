@@ -27,7 +27,6 @@
 #include "solid_gl.h"
 #include "config.h"
 #include "binary.h"
-#include "level.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,7 +54,7 @@ static float view_e[3][3];              /* Current view reference frame      */
 static float view_k;
 
 static int   coins  = 0;                /* Collected coins                   */
-static int   goal_c = 0;                /* Goal coins remaining (0 = open)   */
+static int   goal_e = 0;                /* Goal coins remaining (0 = open)   */
 static float goal_k = 0;                /* Goal animation                    */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
@@ -313,8 +312,12 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-int game_init(const struct level *level, int t, int g)
+int game_init(const char *file_name, int t, int e)
 {
+    char *back_name = NULL, *grad_name = NULL;
+
+    int i;
+
     timer      = (float) t / 100.f;
     timer_down = (t > 0);
     coins      = 0;
@@ -322,7 +325,7 @@ int game_init(const struct level *level, int t, int g)
     if (game_state)
         game_free();
 
-    if (!sol_load_gl(&file, config_data(level->file),
+    if (!sol_load_gl(&file, config_data(file_name),
                      config_get_d(CONFIG_TEXTURES),
                      config_get_d(CONFIG_SHADOW)))
         return (game_state = 0);
@@ -340,19 +343,28 @@ int game_init(const struct level *level, int t, int g)
     jump_b = 0;
     jump_y = 0;
 
-    goal_c = g;
-    goal_k = (g == 0) ? 1.0f : 0.0f;
+    goal_e = e ? 1    : 0;
+    goal_k = e ? 1.0f : 0.0f;
 
     /* Initialise the level, background, particles, fade, and view. */
 
     fade_k =  1.0f;
     fade_d = -2.0f;
 
+    for (i = 0; i < file.dc; i++)
+    {
+        char *k = file.av + file.dv[i].ai;
+        char *v = file.av + file.dv[i].aj;
+
+        if (strcmp(k, "back") == 0) back_name = v;
+        if (strcmp(k, "grad") == 0) grad_name = v;
+    }
+
     part_reset(GOAL_HEIGHT);
     view_init();
-    back_init(level->grad, config_get_d(CONFIG_GEOMETRY));
+    back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
 
-    sol_load_gl(&back, config_data(level->back),
+    sol_load_gl(&back, config_data(back_name),
                 config_get_d(CONFIG_TEXTURES), 0);
 
     /* Initialize ball size tracking... */
@@ -384,11 +396,6 @@ int curr_clock(void)
 int curr_coins(void)
 {
     return coins;
-}
-
-int curr_goal(void)
-{
-    return goal_c;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -536,7 +543,7 @@ static void game_draw_items(const struct s_file *fp, float t)
 
 static void game_draw_goals(const struct s_file *fp, const float *M, float t)
 {
-    if (goal_c == 0)
+    if (goal_e)
     {
         int zi;
 
@@ -1018,7 +1025,7 @@ static void game_update_view(float dt)
 
 static void game_update_time(float dt, int b)
 {
-    if (goal_c == 0 && goal_k < 1.0f)
+    if (goal_e && goal_k < 1.0f)
         goal_k += dt;
 
    /* The ticking clock. */
@@ -1050,30 +1057,17 @@ static int game_update_state(int bt)
 
     if (bt && (hp = sol_item_test(fp, p, COIN_RADIUS)))
     {
-        const char *sound = AUD_COIN;
-
         item_color(hp, c);
         part_burst(p, c);
 
         grow_init(fp, hp->t);
 
         if (hp->t == ITEM_COIN)
-        {
             coins += hp->n;
 
-            /* Check for goal open. */
+        audio_play(AUD_COIN, 1.f);
 
-            if (goal_c > 0)
-            {
-                goal_c -= hp->n;
-                if (goal_c <= 0)
-                {
-                    sound = AUD_SWITCH;
-                    goal_c = 0;
-                }
-            }
-        }
-        audio_play(sound, 1.f);
+        /* Discard item. */
 
         /* Reset item type. */
 
@@ -1087,7 +1081,8 @@ static int game_update_state(int bt)
 
     /* Test for a jump. */
 
-    if (!jump_y && jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 1)
+    if (!jump_y && jump_e == 1 && jump_b == 0
+                && sol_jump_test(fp, jump_p, 0) == 1)
     {
         jump_b  = 1;
         jump_e  = 0;
@@ -1103,7 +1098,8 @@ static int game_update_state(int bt)
 
     for (i = 0; i < fp->yc; i++)
     {
-        if (!jump_y && jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 1)
+        if (!jump_y && jump_e == 1 && jump_b == 0
+                    && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 1)
         {
             jump_b  = 1;
             jump_e  = 0;
@@ -1112,15 +1108,17 @@ static int game_update_state(int bt)
 
             audio_play(AUD_JUMP, 1.f);
         }
-        if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
+        if (jump_e == 0 && jump_b == 0
+                        && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
             jump_e = 1;
-        if (!jump_b && jump_y && i == jump_y - 1 && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
+        if (!jump_b && jump_y && i == jump_y - 1
+                    && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
             jump_y = 0;
     }
 
     /* Test for a goal. */
 
-    if (bt && goal_c == 0 && (sol_goal_test(fp, p, 0)))
+    if (bt && goal_e && (sol_goal_test(fp, p, 0)))
     {
         audio_play(AUD_GOAL, 1.0f);
         return GAME_GOAL;
@@ -1219,6 +1217,19 @@ int game_step(const float g[3], float dt, int bt)
         return game_update_state(bt);
     }
     return GAME_NONE;
+}
+
+/*---------------------------------------------------------------------------*/
+
+void game_set_goal(void)
+{
+    audio_play(AUD_SWITCH, 1.0f);
+    goal_e = 1;
+}
+
+void game_clr_goal(void)
+{
+    goal_e = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1358,6 +1369,20 @@ void game_step_fade(float dt)
 void game_fade(float d)
 {
     fade_d = d;
+}
+
+/*---------------------------------------------------------------------------*/
+
+const char *status_to_str(int s)
+{
+    switch (s)
+    {
+    case GAME_NONE:    return _("Aborted");
+    case GAME_TIME:    return _("Time-out");
+    case GAME_GOAL:    return _("Success");
+    case GAME_FALL:    return _("Fall-out");
+    default:           return _("Unknown");
+    }
 }
 
 /*---------------------------------------------------------------------------*/
