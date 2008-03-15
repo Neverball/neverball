@@ -3,10 +3,10 @@
 {
 "classname" "worldspawn"
 "message" "aMazing Path\Don't get dizzy while inside a small ball!"
-"back" "map-back/city.sol"
+"back" "map-back/jupiter.sol"
 "shot" "shot-csy/AmazingPath.png"
-"grad" "back/city.png"
-"song" "bgm/track3.ogg"
+"grad" "back/space.png"
+"song" "bgm/track4.ogg"
 "time" "18000"
 "goal" "10"
 "author" "Challenge Space Yard"
