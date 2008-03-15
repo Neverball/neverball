@@ -1081,8 +1081,8 @@ static int game_update_state(int bt)
 
     /* Test for a jump. */
 
-    if (!jump_y && jump_e == 1 && jump_b == 0
-                && sol_jump_test(fp, jump_p, 0) == 1)
+    if (!jump_y && jump_e == 1 && jump_b == 0 &&
+                   sol_jump_test(fp, jump_p, 0) == 1)
     {
         jump_b  = 1;
         jump_e  = 0;
@@ -1098,8 +1098,8 @@ static int game_update_state(int bt)
 
     for (i = 0; i < fp->yc; i++)
     {
-        if (!jump_y && jump_e == 1 && jump_b == 0
-                    && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 1)
+        if (!jump_y && jump_e == 1 && jump_b == 0 &&
+                       sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 1)
         {
             jump_b  = 1;
             jump_e  = 0;
@@ -1108,11 +1108,11 @@ static int game_update_state(int bt)
 
             audio_play(AUD_JUMP, 1.f);
         }
-        if (jump_e == 0 && jump_b == 0
-                        && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
+        if (jump_e == 0 && jump_b == 0 &&
+                           sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
             jump_e = 1;
-        if (!jump_b && jump_y && i == jump_y - 1
-                    && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
+        if (!jump_b && jump_y && i == jump_y - 1 &&
+                       sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
             jump_y = 0;
     }
 

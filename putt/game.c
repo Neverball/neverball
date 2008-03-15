@@ -110,8 +110,8 @@ int game_check_balls(struct s_file *fp)
         * If a ball falls out, return the ball to the camera marker
         * and reset the play state for fair play
         */
-        if (i != ball && up->p[1] < -10.f
-                      && (up->p[1] > -199.9f || up->p[1] < -599.9f))
+        if (i != ball && up->p[1] < -10.f &&
+                        (up->p[1] > -199.9f || up->p[1] < -599.9f))
         {
             up->P = 0;
             v_cpy(up->p, fp->uv->p);
@@ -318,8 +318,8 @@ static void game_draw_balls(const struct s_file *fp,
 
     for (ui = curr_party(); ui > 0; ui--)
     {
-        if (ui == ball || (config_get_d(CONFIG_BALL_COLLISIONS)
-                           && fp->uv[ui].P))
+        if (ui == ball || (config_get_d(CONFIG_BALL_COLLISIONS) &&
+                           fp->uv[ui].P))
         {
             float ball_M[16];
             float pend_M[16];
@@ -630,8 +630,8 @@ static int game_update_state(float dt)
     {
         for (i = 1; i < curr_party() + 1; i++)
         {
-            if (!jump_u && jump_e == 1 && jump_b == 0
-                        && sol_jump_test(fp, jump_p, i) == 1)
+            if (!jump_u && jump_e == 1 && jump_b == 0 &&
+                           sol_jump_test(fp, jump_p, i) == 1)
             {
                 jump_b  = 1;
                 jump_e  = 0;
@@ -640,18 +640,18 @@ static int game_update_state(float dt)
 
                 audio_play(AUD_JUMP, 1.f);
             }
-            if (jump_e == 0 && jump_b == 0
-                            && sol_jump_test(fp, jump_p, i) == 0)
+            if (jump_e == 0 && jump_b == 0 &&
+                               sol_jump_test(fp, jump_p, i) == 0)
                 jump_e = 1;
-            if (!jump_b && jump_u && i == jump_u / 2
-                        && sol_jump_test(fp, jump_p, i) == 0)
+            if (!jump_b && jump_u && i == jump_u / 2 &&
+                           sol_jump_test(fp, jump_p, i) == 0)
                 jump_u = 0;
         }
 
         for (i = 0; i < fp->yc; i++)
         {
-            if (!jump_u && jump_e == 1 && jump_b == 0
-                        && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 1)
+            if (!jump_u && jump_e == 1 && jump_b == 0 &&
+                           sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 1)
             {
                 jump_b  = 1;
                 jump_e  = 0;
@@ -660,12 +660,12 @@ static int game_update_state(float dt)
 
                 audio_play(AUD_JUMP, 1.f);
             }
-            if (jump_e == 0 && jump_b == 0
-                            && sol_jump_test(fp,
+            if (jump_e == 0 && jump_b == 0 &&
+                               sol_jump_test(fp,
                                              jump_p, fp->yv + i - fp->uv) == 0)
                 jump_e = 1;
-            if (!jump_b && jump_u && i == jump_u / 2
-                        && sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
+            if (!jump_b && jump_u && i == jump_u / 2 &&
+                           sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
                 jump_u = 0;
         }
     }
