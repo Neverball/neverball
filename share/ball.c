@@ -79,28 +79,13 @@ void ball_init(void)
 {
     int T = config_get_d(CONFIG_TEXTURES);
 
-    char ball_file[PATHMAX];
     char solid_file[PATHMAX];
     char inner_file[PATHMAX];
     char outer_file[PATHMAX];
 
-    config_get_s(CONFIG_BALL, ball_file, PATHMAX / 2 - 12);
-
-    strncpy(solid_file, "ball/", PATHMAX);
-    strncpy(inner_file, "ball/", PATHMAX);
-    strncpy(outer_file, "ball/", PATHMAX);
-
-    strcat(solid_file, ball_file);
-    strcat(inner_file, ball_file);
-    strcat(outer_file, ball_file);
-
-    strcat(solid_file, "/");
-    strcat(inner_file, "/");
-    strcat(outer_file, "/");
-
-    strcat(solid_file, ball_file);
-    strcat(inner_file, ball_file);
-    strcat(outer_file, ball_file);
+    config_get_s(CONFIG_BALL, solid_file, PATHMAX - 12);
+    config_get_s(CONFIG_BALL, inner_file, PATHMAX - 12);
+    config_get_s(CONFIG_BALL, outer_file, PATHMAX - 12);
 
     strcat(solid_file, "-solid.sol");
     strcat(inner_file, "-inner.sol");
