@@ -1,6 +1,0 @@
-# This ball references the standard ball OBJ but provides a material override.
-{
-"classname" "misc_model"
-"material" "ball/saturn/saturn-surface"
-"model" "ball/basic-ball/basic-ball.obj"
-}

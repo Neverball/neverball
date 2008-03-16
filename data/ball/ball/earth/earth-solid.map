@@ -1,9 +1,0 @@
-{
-"classname" "worldspawn"
-"drawback" "1"
-}
-{
-"classname" "misc_model"
-"material" "ball/earth/earth-color"
-"model" "ball/basic-ball/basic-ball.obj"
-}
