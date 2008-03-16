@@ -1,0 +1,10 @@
+{
+"classname" "worldspawn"
+"drawback" "1"
+"depthmask" "1"
+}
+{
+"classname" "misc_model"
+"material" "ball/eightball/eightball"
+"model" "ball/eightball/eightball.obj"
+}

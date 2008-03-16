@@ -247,7 +247,8 @@ void config_load(void)
                     config_key(val, CONFIG_KEY_RESTART, DEFAULT_KEY_RESTART);
 
                 else if (strcmp(key, "key_score_next") == 0)
-                    config_key(val, CONFIG_KEY_SCORE_NEXT, DEFAULT_KEY_SCORE_NEXT);
+                    config_key(val, CONFIG_KEY_SCORE_NEXT,
+                               DEFAULT_KEY_SCORE_NEXT);
 
                 else if (strcmp(key, "player") == 0)
                     config_set_s(CONFIG_PLAYER, val);
