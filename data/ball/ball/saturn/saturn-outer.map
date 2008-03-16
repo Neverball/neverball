@@ -1,0 +1,10 @@
+{
+"classname" "worldspawn"
+"drawclip" "1"
+"depthmask" "1"
+}
+{
+"classname" "misc_model"
+"material" "ball/saturn/saturn-ring"
+"model" "ball/saturn/saturn-ring.obj"
+}
