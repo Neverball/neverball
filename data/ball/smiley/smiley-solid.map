@@ -5,5 +5,5 @@
 {
 "classname" "misc_model"
 "material" "ball/smiley/smiley"
-"model" "ball/smiley/smiley.obj"
+"model" "ball/basic-ball/basic-ball.obj"
 }
