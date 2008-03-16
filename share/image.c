@@ -69,8 +69,7 @@ void image_snap(const char *filename)
 
             /* Allocate and initialize the row pointers. */
 
-            if ((bytep = (png_bytep *) png_malloc(writep,
-                                                  h * sizeof (png_bytep))))
+            if ((bytep = (png_bytep *) png_malloc(writep, h * sizeof (png_bytep))))
             {
                 for (i = 0; i < h; ++i)
                     bytep[h - i - 1] = (png_bytep) (p + i * w * 3);

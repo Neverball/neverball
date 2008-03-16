@@ -359,8 +359,7 @@ static void size_image(const char *name, int *w, int *h)
 
         if (image_n + 1 >= image_alloc)
         {
-            struct _imagedata *tmp =
-                (struct _imagedata *) malloc(sizeof(struct _imagedata)
+            struct _imagedata *tmp = (struct _imagedata *) malloc(sizeof(struct _imagedata)
                                           * (image_alloc + IMAGE_REALLOC));
             if (!tmp)
             {
