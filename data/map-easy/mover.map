@@ -1111,38 +1111,38 @@
 // entity 41
 {
 "classname" "misc_model"
-"origin" "-132 188 0"
+"origin" "-128 188 0"
 "model" "obj/xrail2.obj"
 }
 // entity 42
 {
 "classname" "misc_model"
 "model" "obj/xrail2.obj"
-"origin" "260 188 0"
+"origin" "256 188 0"
 }
 // entity 43
 {
 "classname" "misc_model"
-"origin" "196 60 0"
+"origin" "196 64 0"
 "model" "obj/zrail4.obj"
 }
 // entity 44
 {
 "classname" "misc_model"
 "model" "obj/zrail4.obj"
-"origin" "-68 60 0"
+"origin" "-68 64 0"
 }
 // entity 45
 {
 "classname" "misc_model"
-"origin" "-196 316 0"
+"origin" "-196 320 0"
 "model" "obj/zrail4.obj"
 }
 // entity 46
 {
 "classname" "misc_model"
 "model" "obj/zrail4.obj"
-"origin" "324 316 0"
+"origin" "324 320 0"
 }
 // entity 47
 {
@@ -1220,35 +1220,35 @@
 {
 "classname" "misc_model"
 "model" "obj/xrail2.obj"
-"origin" "260 964 0"
+"origin" "256 964 0"
 }
 // entity 60
 {
 "classname" "misc_model"
-"origin" "-132 964 0"
+"origin" "-128 964 0"
 "model" "obj/xrail2.obj"
 }
 // entity 61
 {
 "classname" "misc_model"
 "model" "obj/zrail4.obj"
-"origin" "-68 1092 0"
+"origin" "-68 1088 0"
 }
 // entity 62
 {
 "classname" "misc_model"
-"origin" "196 1092 0"
+"origin" "196 1088 0"
 "model" "obj/zrail4.obj"
 }
 // entity 63
 {
 "classname" "misc_model"
 "model" "obj/zrail4.obj"
-"origin" "324 836 0"
+"origin" "324 832 0"
 }
 // entity 64
 {
 "classname" "misc_model"
-"origin" "-196 836 0"
+"origin" "-196 832 0"
 "model" "obj/zrail4.obj"
 }

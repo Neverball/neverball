@@ -1490,14 +1490,11 @@ static float sol_test_balls(float dt, const struct s_file *fp)
     {
         struct s_ball *yp = fp->yv + i;
 
-        for (j = 0; j < fp->yc; j++)
+        for (j = i + 1; j < fp->yc; j++)
         {
             struct s_ball *y2p = fp->yv + j;
 
             if (!(yp->r > 0.0f || y2p->r > 0.0f))
-                continue;
-
-            if(j == i)
                 continue;
 
             if (sol_test_sphere_inter(yp, y2p) < dt)
@@ -1505,26 +1502,13 @@ static float sol_test_balls(float dt, const struct s_file *fp)
                 t = sol_bounce_ball(yp, y2p, t);
             }
         }
-
-        for (j = 1; j < fp->uc; j++)
-        {
-            struct s_ball *u2p = fp->uv + j;
-
-            if (!(yp->r > 0.0f || u2p->r > 0.0f))
-                continue;
-
-            if (u2p->P && sol_test_sphere_inter(yp, u2p) < dt)
-            {
-                t = sol_bounce_ball(yp, u2p, t);
-            }
-        }
     }
 
-    for (i = 1; i < fp->uc; i++)
+    for (i = 0; i < fp->uc; i++)
     {
         struct s_ball *up = fp->uv + i;
 
-        if (!up->P)
+        if (i > 0 && !up->P)
             continue;
 
         for (j = 0; j < fp->yc; j++)
@@ -1540,14 +1524,11 @@ static float sol_test_balls(float dt, const struct s_file *fp)
             }
         }
 
-        for (j = 1; config_get_d(CONFIG_BALL_COLLISIONS) && j < fp->uc; j++)
+        for (j = i + 1; config_get_d(CONFIG_BALL_COLLISIONS) && j < fp->uc; j++)
         {
             struct s_ball *u2p = fp->uv + j;
 
             if (!(up->r > 0.0f || u2p->r > 0.0f))
-                continue;
-
-            if(j == i)
                 continue;
 
             if (u2p->P && up->P && sol_test_sphere_inter(up, u2p) < dt)

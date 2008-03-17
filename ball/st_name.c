@@ -112,7 +112,7 @@ static int name_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            enter_id = gui_start(jd, _("OK"), GUI_SML, NAME_OK, 1);
+            enter_id = gui_start(jd, _("OK"), GUI_SML, NAME_OK, 0);
             gui_space(jd);
             gui_state(jd, _("Cancel"), GUI_SML, NAME_CANCEL, 0);
         }
