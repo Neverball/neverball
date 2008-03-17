@@ -1799,26 +1799,26 @@ struct s_item *sol_item_test(struct s_file *fp, float *p, float item_r)
 
             return &fp->hv[hi];
         }
-    }
 
-    for (yi = 0; yi < fp->yc; yi++)
-    {
-        const float *ball_p = fp->yv[yi].p;
-        const float  ball_r = fp->yv[yi].r;
-
-        float r[3];
-
-        r[0] = ball_p[0] - fp->hv[hi].p[0];
-        r[1] = ball_p[1] - fp->hv[hi].p[1];
-        r[2] = ball_p[2] - fp->hv[hi].p[2];
-
-        if (fp->hv[hi].t != ITEM_NONE && v_len(r) < ball_r + item_r)
+        for (yi = 0; yi < fp->yc; yi++)
         {
-            p[0] = fp->hv[hi].p[0];
-            p[1] = fp->hv[hi].p[1];
-            p[2] = fp->hv[hi].p[2];
+            const float *ball_p = fp->yv[yi].p;
+            const float  ball_r = fp->yv[yi].r;
 
-            return &fp->hv[hi];
+            float r[3];
+
+            r[0] = ball_p[0] - fp->hv[hi].p[0];
+            r[1] = ball_p[1] - fp->hv[hi].p[1];
+            r[2] = ball_p[2] - fp->hv[hi].p[2];
+
+            if (fp->hv[hi].t != ITEM_NONE && v_len(r) < ball_r + item_r)
+            {
+                p[0] = fp->hv[hi].p[0];
+                p[1] = fp->hv[hi].p[1];
+                p[2] = fp->hv[hi].p[2];
+
+                return &fp->hv[hi];
+            }
         }
     }
 
