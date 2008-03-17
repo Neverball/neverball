@@ -26,7 +26,7 @@ msgstr "Aika loppui"
 
 #: ball/game.c:1291
 msgid "Success"
-msgstr ""
+msgstr "Onnistui"
 
 #: ball/game.c:1292
 msgid "Fall-out"
@@ -116,6 +116,13 @@ msgid ""
 "  -r, --replay <file>       play the replay 'file'.\n"
 "  -i, --info                display info about a replay.\n"
 msgstr ""
+"Käyttö: %s [parametrit ...]\n"
+"Parametrit:\n"
+"  -h, --help                näytä tämä viesti.\n"
+"  -v, --version             näytä ohjelman versionumero.\n"
+"  -d, --data <hakemisto>    etsi pelin datatiedostot hakemistosta.\n"
+"  -r, --replay <tiedosto>   näytä tallennetiedosto.\n"
+"  -i, --info                näytä tallennetiedoston tiedot.\n"
 
 #: ball/main.c:266
 #, c-format
@@ -324,16 +331,14 @@ msgid "Set Complete"
 msgstr "Sarja on pelattu loppuu"
 
 #: ball/st_done.c:94
-#, fuzzy
 msgid "Select Level"
-msgstr "Seuraava kenttä"
+msgstr "Valitse kenttä"
 
 #: ball/st_fall_out.c:82
 msgid "Fall-out!"
 msgstr "Putosit kentästä!"
 
 #: ball/st_fall_out.c:89 ball/st_time_out.c:82
-#, fuzzy
 msgid "Exit"
 msgstr "Poistu"
 
@@ -347,7 +352,7 @@ msgstr "Yritä uudelleen"
 
 #: ball/st_fall_out.c:98 ball/st_goal.c:211 ball/st_time_out.c:91
 msgid "Save Replay"
-msgstr "Tallenna tapahtumat"
+msgstr "Tallenna uusinta"
 
 #: ball/st_goal.c:105
 msgid "New Record"
@@ -358,11 +363,11 @@ msgid "GOAL"
 msgstr "MAALI"
 
 #: ball/st_goal.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
-msgstr[0] "Bonuskenttä "
-msgstr[1] "Bonuskenttä "
+msgstr[0] "%s uusi bonuskenttä"
+msgstr[1] "%s uutta bonuskenttää"
 
 #: ball/st_goal.c:202
 msgid "Finish"
@@ -531,11 +536,11 @@ msgstr "Kenttäsarja"
 #. * as necessary for the buttons to look good.
 #: ball/st_start.c:196
 msgid "   No   "
-msgstr ""
+msgstr "   Ei   "
 
 #: ball/st_start.c:205
 msgid "Lock Goals of Completed Levels?"
-msgstr ""
+msgstr "Lukitse läpipelattujen kenttien maalit"
 
 #: ball/st_time_out.c:75
 msgid "Time's Up!"
@@ -590,9 +595,8 @@ msgid "Best Times"
 msgstr "Parhaat ajat"
 
 #: ball/util.c:295
-#, fuzzy
 msgid "Change Name"
-msgstr "Muuta pelaajan nimeä"
+msgstr "Vaihda pelaajan nimeä"
 
 #: ball/util.c:442
 msgid "caps"
@@ -785,6 +789,8 @@ msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the ball"
 "\\completely out of control.\\"
 msgstr ""
+"Yritä välttää liikkuviin esteisiin osumista.\\Yksikin tönäisy voi laittaa "
+"pallon\\kimpoilemaan holtittomasti.\\"
 
 #: data/map-easy/bumps.map
 msgid ""
@@ -799,6 +805,9 @@ msgid ""
 "earn an extra ball.\\Red coins are worth 5, blue coins are worth 10.\\Get to "
 "the goal before time expires!\\\\Click to begin.\\"
 msgstr ""
+"Tässä kentässä sinun täytyy kerätä 50 kolikkoa\\avataksesi maali. Kerää 100 "
+"kolikkoa saadaksesi lisäelämän.\\Punaiset kolikot ovat arvoltaan 5 ja "
+"siniset 10 keltaista.\\Yritä päästä maaliin ennenkuin aika loppuu!\\"
 
 #: data/map-easy/corners.map
 msgid ""
@@ -817,6 +826,8 @@ msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
 msgstr ""
+"Liikuta hiirtä kallistaaksesi kenttää.\\Kerää 10 kolikkoa avataksesi maali."
+"\\Liikuta pallo maaliin.\\Napsauta aloittaaksesi peli.\\"
 
 #: data/map-easy/fence.map
 msgid ""
@@ -824,12 +835,16 @@ msgid ""
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
 msgstr ""
+"Tasaisuus on suhteellista.\\Kallista kenttää niin että viettävä\\osuus on "
+"tasainen.\\Näin säilytät pallon hallinnassa.\\\\"
 
 #: data/map-easy/goals.map
 msgid ""
 "There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
 "don't accidentally make a goal first.\\"
 msgstr ""
+"Tässä kentässä on 100 kolikkoa.\\Niiden kerääminen on helppoa,\\ellet sitten "
+"vahingossa osu ensin maaliin.\\"
 
 #: data/map-easy/goslow.map
 msgid ""
@@ -837,28 +852,36 @@ msgid ""
 "speed means better control.\\Watch the clock and use the time wisely.\\"
 "\\Click to begin.\\"
 msgstr ""
+"Käännä kenttää mahdollisimman vähän,\\jotta palloa olisi helpompi hallita."
+"\\Muista että aikaa on rajallinen määrä.\\\\Napsauta aloittaaksesi peli.\\"
 
 #: data/map-easy/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
 msgstr ""
+"Jokainen silta on kapeampi kuin edeltäjänsä,\\mutta myös varakkaampi.\\Sinun "
+"täytyy päättää kuinka pitkälle haluat mennä.\\"
 
 #: data/map-easy/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing down"
 "\\early. You need just as much room to slow\\down as you did to speed up.\\"
 msgstr ""
+"Varo reunoja!\\Kun lähestyt pudotusta, aloita hidastus ajoissa.\\Tarvitset "
+"yhtä paljon tilaa hidastukseen\\ kuin kiihdyttämiseenkin.\\"
 
 #: data/map-easy/lollipop.map
 msgid "Follow the yellow lick road..."
-msgstr ""
+msgstr "Seuraa keltaista..."
 
 #: data/map-easy/maze.map
 msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
 msgstr ""
+"Pallo kimpoilee holtittomasti\\kapeissa käytävissä. Hitaasti\\koskettamatta "
+"seiniä se onnistuu.\\Kaikki kolikot ovat kerättävissä."
 
 #: data/map-easy/mover.map
 msgid ""
@@ -866,12 +889,17 @@ msgid ""
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
 msgstr ""
+"Liikkuva alusta voi olla hankala.\\Ole tarkkana että pääset kyytiin,\\ja "
+"varo ettei se liiku alta pois.\\Käytä liikkuvia alustoja kerätäksesi\\"
+"arvokkaimmat kolikot."
 
 #: data/map-easy/peasy.map
 msgid ""
 "Mouse buttons rotate the view.\\Press Spacebar to pause, ESC to quit.\\\\\\"
 "\\Click to begin.\\"
 msgstr ""
+"Voit kääntää näkökulmaa hiiren painikkeilla.\\Välilyönti keskeyttää pelin, "
+"Esc lopettaa.\\\\\\\\Napsauta aloittaaksesi peli.\\"
 
 #: data/map-easy/thwomp2.map
 msgid "Grab all the coins...\\but don't get thwomped!"
