@@ -3786,7 +3786,7 @@
 // entity 74
 {
 "classname" "path_corner"
-"origin" "128 5120 64"
+"origin" "112 5120 64"
 "targetname" "p2_2"
 "target" "p2_1"
 "speed" "3"
@@ -3802,7 +3802,7 @@
 // entity 76
 {
 "classname" "path_corner"
-"origin" "-128 5120 64"
+"origin" "-112 5120 64"
 "targetname" "p2_1"
 "target" "p2_2"
 "speed" "3"

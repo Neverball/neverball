@@ -6,5 +6,5 @@
 {
 "classname" "misc_model"
 "material" "ball/magic-eightball/magic-eightball"
-"model" "ball/magic-eightball/magic-eightball.obj"
+"model" "ball/basic-ball/basic-ball.obj"
 }

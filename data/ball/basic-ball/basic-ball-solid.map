@@ -6,5 +6,5 @@
 {
 "classname" "misc_model"
 "material" "ball/basic-ball/basic-ball"
-"model" "ball/common/ball.obj"
+"model" "ball/basic-ball/basic-ball.obj"
 }

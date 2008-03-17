@@ -309,9 +309,11 @@ static void game_draw_balls(const struct s_file *fp,
                      fp->yv[yi].r,
                      fp->yv[yi].r);
 
+            glEnable(GL_COLOR_MATERIAL);
             glColor4fv(color[5]);
 
             ball_draw(ball_M, pend_M, bill_M, t);
+            glDisable(GL_COLOR_MATERIAL);
         }
         glPopMatrix();
     }
@@ -336,9 +338,11 @@ static void game_draw_balls(const struct s_file *fp,
                          fp->uv[ui].r,
                          fp->uv[ui].r);
 
+                glEnable(GL_COLOR_MATERIAL);
                 glColor4fv(color[ui]);
 
                 ball_draw(ball_M, pend_M, bill_M, t);
+                glDisable(GL_COLOR_MATERIAL);
             }
             glPopMatrix();
         }
