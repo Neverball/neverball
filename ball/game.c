@@ -79,7 +79,7 @@ static float fade_d = 0.0;              /* Fade in/out direction             */
  * r:
  *     -32767 = -VIEWR_BOUND
  *     +32767 = +VIEWR_BOUND
- *     
+ *
  */
 
 struct input
@@ -157,7 +157,7 @@ int input_put(FILE *fout)
         put_short(fout, &input_current.z);
         put_short(fout, &input_current.r);
         put_short(fout, &input_current.c);
-        
+
         return 1;
     }
     return 0;
@@ -558,7 +558,7 @@ static void game_draw_goals(const struct s_file *fp, const float *M, float t)
                     glTranslatef(fp->zv[zi].p[0],
                                  fp->zv[zi].p[1],
                                  fp->zv[zi].p[2]);
-                    
+
                     part_draw_goal(M, fp->zv[zi].r, goal_k, t);
                 }
                 glPopMatrix();

@@ -194,4 +194,3 @@ struct state st_balt = {
     balt_buttn,
     1, 0
 };
-

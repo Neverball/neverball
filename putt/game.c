@@ -432,7 +432,7 @@ void game_draw(int pose, float t)
     static const float s[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
     static const float e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
     static const float h[1] = { 0.0f };
-    
+
     const float light_p[4] = { 8.f, 32.f, 8.f, 1.f };
 
     const struct s_file *fp = &file;
@@ -1010,4 +1010,3 @@ void game_set_pos(float p[3], float e[3][3])
 }
 
 /*---------------------------------------------------------------------------*/
-

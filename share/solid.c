@@ -1009,14 +1009,14 @@ static float sol_bounce_ball(struct s_ball *up,
     {
         v_scl(v11, v1_par, -gamma);
         v_scl(v12, v2_par, gamma + 1.0f);
-        v_add(v1_par, v11, v12); 
+        v_add(v1_par, v11, v12);
     }
 
     else if (!up->m)
     {
         v_scl(v21, v1_par, gamma + 1.0f);
         v_scl(v22, v2_par, -gamma);
-        v_add(v2_par, v21, v22); 
+        v_add(v2_par, v21, v22);
     }
 
     else
@@ -1214,7 +1214,7 @@ static float sol_test_vert(float dt,
 /*---------------------------------------------------------------------------*/
 
 static float sol_test_sphere_inter(const struct s_ball  *up,
-                                   const struct s_ball  *u2p) 
+                                   const struct s_ball  *u2p)
 {
     float P[3], V[3];
     float t = LARGE;
@@ -2118,4 +2118,3 @@ void get_file_state(FILE *fin, struct s_file *fp)
 }
 
 /*---------------------------------------------------------------------------*/
-
