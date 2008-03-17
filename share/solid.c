@@ -1662,9 +1662,12 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                         (nt = sol_test_file(tt, P, V, up, fp)) :
                         (nt = sol_test_file(tt, P, V, up, fp) + tt)) && c > 0)
             {
-                sol_body_step(fp, (nt > 0.f) ? (nt) : (0.f));
-                sol_swch_step(fp, (nt > 0.f) ? (nt) : (0.f));
-                sol_ball_step(fp, (nt > 0.f) ? (nt) : (0.f));
+                if (nt > 0.f)
+                {
+                    sol_body_step(fp, nt);
+                    sol_swch_step(fp, nt);
+                    sol_ball_step(fp, nt);
+                }
 
                 tt -= (nt > 0.f) ? (nt) : (0.f);
 
@@ -1744,9 +1747,12 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                         (nt = sol_test_file(tt, P, V, yp, fp)) :
                         (nt = sol_test_file(tt, P, V, yp, fp) + tt)) && c > 0)
             {
-                sol_body_step(fp, (nt > 0.f) ? (nt) : (0.f));
-                sol_swch_step(fp, (nt > 0.f) ? (nt) : (0.f));
-                sol_ball_step(fp, (nt > 0.f) ? (nt) : (0.f));
+                if (nt > 0.f)
+                {
+                    sol_body_step(fp, nt);
+                    sol_swch_step(fp, nt);
+                    sol_ball_step(fp, nt);
+                }
 
                 tt -= (nt > 0.f) ? (nt) : (0.f);
 
@@ -1767,9 +1773,12 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
         }
     }
 
-    sol_body_step(fp, nt);
-    sol_swch_step(fp, nt);
-    sol_ball_step(fp, nt);
+    if (nt > 0.f)
+    {
+        sol_body_step(fp, nt);
+        sol_swch_step(fp, nt);
+        sol_ball_step(fp, nt);
+    }
 
     return b;
 }
