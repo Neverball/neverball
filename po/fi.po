@@ -9,12 +9,13 @@ msgstr ""
 "Project-Id-Version: neverball 1.5\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2008-03-17 16:47+0200\n"
-"PO-Revision-Date: 2008-03-13 16:21+0200\n"
+"PO-Revision-Date: 2008-03-17 17:34+0200\n"
 "Last-Translator: Pasi Kallinen <paxed@alt.org>\n"
 "Language-Team: Finnish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ball/game.c:1289
 msgid "Aborted"
@@ -366,8 +367,8 @@ msgstr "MAALI"
 #, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
-msgstr[0] "%s uusi bonuskenttä"
-msgstr[1] "%s uutta bonuskenttää"
+msgstr[0] "%d uusi bonuskenttä"
+msgstr[1] "%d uutta bonuskenttää"
 
 #: ball/st_goal.c:202
 msgid "Finish"
