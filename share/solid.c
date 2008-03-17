@@ -34,6 +34,10 @@
 
 /*---------------------------------------------------------------------------*/
 
+static int amplitude = 0.f;
+
+/*---------------------------------------------------------------------------*/
+
 static float erp(float t)
 {
     return 3.0f * t * t - 2.0f * t * t * t;
@@ -1502,7 +1506,7 @@ static float sol_test_balls(float dt, const struct s_file *fp)
             }
         }
 
-        for (j = 1; config_get_d(CONFIG_BALL_COLLISIONS) && j < fp->uc; j++)
+        for (j = 1; j < fp->uc; j++)
         {
             struct s_ball *u2p = fp->uv + j;
 
@@ -1516,7 +1520,7 @@ static float sol_test_balls(float dt, const struct s_file *fp)
         }
     }
 
-    for (i = 1; config_get_d(CONFIG_BALL_COLLISIONS) && i < fp->uc; i++)
+    for (i = 1; i < fp->uc; i++)
     {
         struct s_ball *up = fp->uv + i;
 
@@ -1577,12 +1581,9 @@ static float sol_test_file(float dt,
     }
 
     if ((u = sol_test_balls(t, fp)) > 0.0f)
-    {
-       /*
-        * A negative value fources the sound amplitude
-        */
-        t = -u;
-    }
+        amplitude = u;
+    else
+        amplitude = 0.f;
 
     return t;
 }
@@ -1658,27 +1659,22 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
             /* Test for collision. */
 
-            while (tt && tt > ((c || ui) ?
-                        (nt = sol_test_file(tt, P, V, up, fp)) :
-                        (nt = sol_test_file(tt, P, V, up, fp) + tt)) && c > 0)
+            while (tt && tt > (nt = sol_test_file(tt, P, V, up, fp)) && c > 0)
             {
-                if (nt > 0.f)
-                {
-                    sol_body_step(fp, nt);
-                    sol_swch_step(fp, nt);
-                    sol_ball_step(fp, nt);
-                }
+                sol_body_step(fp, nt);
+                sol_swch_step(fp, nt);
+                sol_ball_step(fp, nt);
 
-                tt -= (nt > 0.f) ? (nt) : (0.f);
+                tt -= nt;
 
-                if (nt > 0.f && b < ((d = sol_bounce(up, P, V, nt))))
+                if (b < ((d = sol_bounce(up, P, V, nt))))
                     b = d;
-
-                if (nt < 0.f)
-                    b = -nt;
 
                 c--;
             }
+
+            if (b < amplitude)
+                b = amplitude;
 
             /* Apply the ball's accelleration to the pendulum. */
 
@@ -1743,27 +1739,22 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
             /* Test for collision. */
 
-            while (tt && tt > ((c || ui) ?
-                        (nt = sol_test_file(tt, P, V, yp, fp)) :
-                        (nt = sol_test_file(tt, P, V, yp, fp) + tt)) && c > 0)
+            while (tt && tt > (nt = sol_test_file(tt, P, V, yp, fp)) && c > 0)
             {
-                if (nt > 0.f)
-                {
-                    sol_body_step(fp, nt);
-                    sol_swch_step(fp, nt);
-                    sol_ball_step(fp, nt);
-                }
+                sol_body_step(fp, nt);
+                sol_swch_step(fp, nt);
+                sol_ball_step(fp, nt);
 
-                tt -= (nt > 0.f) ? (nt) : (0.f);
+                tt -= nt;
 
-                if (nt > 0.f && b < ((d = sol_bounce(yp, P, V, nt))))
+                if (b < ((d = sol_bounce(yp, P, V, nt))))
                     b = d;
-
-                if (nt < 0.f)
-                    b = -nt;
 
                 c--;
             }
+
+            if (b < amplitude)
+                b = amplitude;
 
             /* Apply the ball's accelleration to the pendulum. */
 
@@ -1773,12 +1764,12 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
         }
     }
 
-    if (nt > 0.f)
-    {
-        sol_body_step(fp, nt);
-        sol_swch_step(fp, nt);
-        sol_ball_step(fp, nt);
-    }
+    if (!c && !ui)
+        nt += dt;
+
+    sol_body_step(fp, nt);
+    sol_swch_step(fp, nt);
+    sol_ball_step(fp, nt);
 
     return b;
 }
