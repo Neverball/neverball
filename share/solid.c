@@ -1205,18 +1205,6 @@ static void sol_ball_step(struct s_file *fp, float dt)
 
 /*---------------------------------------------------------------------------*/
 
-static float sol_test_vert(float dt,
-                           float T[3],
-                           const struct s_ball *up,
-                           const struct s_vert *vp,
-                           const float o[3],
-                           const float w[3])
-{
-    return v_vert(T, o, vp->p, w, up->p, up->v, up->r);
-}
-
-/*---------------------------------------------------------------------------*/
-
 static float sol_test_sphere_inter(const struct s_ball  *up,
                                    const struct s_ball  *u2p)
 {
@@ -1235,6 +1223,16 @@ static float sol_test_sphere_inter(const struct s_ball  *up,
 }
 
 /*---------------------------------------------------------------------------*/
+
+static float sol_test_vert(float dt,
+                           float T[3],
+                           const struct s_ball *up,
+                           const struct s_vert *vp,
+                           const float o[3],
+                           const float w[3])
+{
+    return v_vert(T, o, vp->p, w, up->p, up->v, up->r);
+}
 
 static float sol_test_edge(float dt,
                            float T[3],
@@ -1928,8 +1926,8 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
 }
 
 /*
- * Test and process the event the ball UI enters a switch. Return 1 if
- * a visible  switch is  activated, return 0  otherwise (no  switch is
+ * Test and process the event  a ball enters a switch. Return 1 if
+ * a visible switch is activated, return 0 otherwise (no switch is
  * activated or only invisible switches).
  */
 int sol_swch_test(struct s_file *fp)
