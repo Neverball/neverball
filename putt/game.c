@@ -834,7 +834,7 @@ int game_step(const float g[3], float dt)
         {
             int ball_in_hole = 0;
 
-            d = sol_step(fp, g, t, ball, &m);
+            d = sol_step(fp, g, t, ball, &m, config_get_d(CONFIG_BALL_COLLISIONS));
 
             if ((ball_in_hole = game_check_balls(fp)))
                 hole_goal(ball_in_hole);

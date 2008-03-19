@@ -100,7 +100,6 @@ enum {
     CONFIG_PLAYER,
     CONFIG_BALL,
     CONFIG_WIIMOTE_ADDR,
-    CONFIG_BALL_GAMMA,
 
     CONFIG_OPTION_S_COUNT
 };
@@ -158,6 +157,7 @@ enum {
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "ball/basic-ball/basic-ball"
+#define DEFAULT_CHEAT                0
 #define DEFAULT_KEY_FORWARD          SDLK_UP
 #define DEFAULT_KEY_BACKWARD         SDLK_DOWN
 #define DEFAULT_KEY_LEFT             SDLK_LEFT
@@ -168,10 +168,8 @@ enum {
 #define DEFAULT_STATS                0
 #define DEFAULT_UNIFORM              0
 #define DEFAULT_SCREENSHOT           0
-#define DEFAULT_BALL_GAMMA           "0.78"
 #define DEFAULT_BALL_COLLISIONS      0
 #define DEFAULT_LOCK_GOALS           0
-#define DEFAULT_CHEAT                0
 
 /*---------------------------------------------------------------------------*/
 

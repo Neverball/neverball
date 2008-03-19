@@ -200,7 +200,6 @@ PUTT_OBJS := \
 	putt/course.o       \
 	putt/st_all.o       \
 	putt/st_conf.o      \
-	putt/st_balt.o      \
 	putt/main.o
 
 BALL_DEPS := $(BALL_OBJS:.o=.d)
