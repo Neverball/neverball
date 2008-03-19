@@ -86,12 +86,12 @@ enum {
     CONFIG_KEY_PAUSE,
     CONFIG_KEY_RESTART,
     CONFIG_KEY_SCORE_NEXT,
+    CONFIG_CHEAT,
     CONFIG_STATS,
     CONFIG_UNIFORM,
     CONFIG_SCREENSHOT,
     CONFIG_LOCK_GOALS,
     CONFIG_BALL_COLLISIONS,
-    CONFIG_CHEAT,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -117,7 +117,7 @@ enum {
 #define DEFAULT_REFLECTION           1
 #define DEFAULT_MULTISAMPLE          0
 #define DEFAULT_MIPMAP               0
-#define DEFAULT_ANISO                1
+#define DEFAULT_ANISO                0
 #define DEFAULT_BACKGROUND           1
 #define DEFAULT_SHADOW               1
 #define DEFAULT_AUDIO_BUFF           AUDIO_BUFF_HI

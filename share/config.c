@@ -115,6 +115,7 @@ void config_init(void)
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
     config_set_s(CONFIG_WIIMOTE_ADDR,         DEFAULT_WIIMOTE_ADDR);
+    config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_STATS,                DEFAULT_STATS);
     config_set_d(CONFIG_UNIFORM,              DEFAULT_UNIFORM);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
@@ -128,7 +129,6 @@ void config_init(void)
     config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
     config_set_s(CONFIG_BALL_GAMMA,           DEFAULT_BALL_GAMMA);
     config_set_d(CONFIG_BALL_COLLISIONS,      DEFAULT_BALL_COLLISIONS);
-    config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
 }
 
 void config_load(void)
@@ -366,7 +366,7 @@ void config_save(void)
                 option_d[CONFIG_ROTATE_FAST]);
         fprintf(fp, "rotate_slow          %d\n",
                 option_d[CONFIG_ROTATE_SLOW]);
-        
+
         fprintf(fp, "key_forward          %s\n",
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_FORWARD]));
         fprintf(fp, "key_backward         %s\n",
@@ -396,11 +396,11 @@ void config_save(void)
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_SCORE_NEXT]));
 
         if (strlen(option_s[CONFIG_PLAYER]) > 0)
-            fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
+            fprintf(fp, "player       %s\n", option_s[CONFIG_PLAYER]);
         if (strlen(option_s[CONFIG_BALL]) > 0)
-            fprintf(fp, "ball_file            %s\n", option_s[CONFIG_BALL]);
+            fprintf(fp, "ball_file    %s\n", option_s[CONFIG_BALL]);
         if (strlen(option_s[CONFIG_WIIMOTE_ADDR]) > 0)
-            fprintf(fp, "wiimote_addr         %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
+            fprintf(fp, "wiimote_addr %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
 
         fprintf(fp, "stats                %d\n", option_d[CONFIG_STATS]);
         fprintf(fp, "uniform              %d\n", option_d[CONFIG_UNIFORM]);
