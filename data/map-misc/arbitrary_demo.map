@@ -278,62 +278,53 @@
 }
 // entity 4
 {
-"classname" "info_notnull"
-"origin" "144 256 88"
-"radius" "0.125"
-"collisions" "0"
-"mobile" "1"
-"return" "1"
-}
-// entity 5
-{
 "classname" "light"
 "origin" "-328 256 96"
 "light" "10"
 }
-// entity 6
+// entity 5
 {
 "classname" "light"
 "origin" "0 328 96"
 "light" "5"
 }
-// entity 7
+// entity 6
 {
 "classname" "light"
 "origin" "0 184 96"
 "light" "5"
 }
-// entity 8
+// entity 7
 {
 "classname" "light"
 "origin" "-128 64 80"
 "light" "1"
 }
-// entity 9
+// entity 8
 {
 "classname" "light"
 "origin" "80 256 80"
 "light" "1"
 }
-// entity 10
+// entity 9
 {
 "classname" "light"
 "origin" "40 256 80"
 "light" "1"
 }
-// entity 11
+// entity 10
 {
 "classname" "light"
 "origin" "64 64 80"
 "light" "1"
 }
-// entity 12
+// entity 11
 {
 "classname" "light"
 "origin" "-32 64 80"
 "light" "5"
 }
-// entity 13
+// entity 12
 {
 "classname" "func_train"
 "target" "p1_0"
@@ -347,7 +338,7 @@
 ( -64 192 400 ) ( -64 320 400 ) ( -64 192 416 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 14
+// entity 13
 {
 "classname" "path_corner"
 "origin" "0 256 480"
@@ -356,47 +347,38 @@
 "speed" "3"
 "state" "0"
 }
-// entity 15
+// entity 14
 {
 "classname" "path_corner"
 "origin" "-128 256 480"
 "targetname" "p1_1"
 }
-// entity 16
-{
-"classname" "info_notnull"
-"origin" "0 256 440"
-"mobile" "1"
-"collisions" "0"
-"return" "1"
-"radius" "0.375"
-}
-// entity 17
+// entity 15
 {
 "classname" "light"
 "origin" "-32 448 80"
 "light" "1"
 }
-// entity 18
+// entity 16
 {
 "classname" "light"
 "origin" "64 448 80"
 "light" "1"
 }
-// entity 19
+// entity 17
 {
 "classname" "light"
 "origin" "-80 448 96"
 "light" "10"
 }
-// entity 20
+// entity 18
 {
 "classname" "info_camp"
 "origin" "-256 448 64"
 "target" "p1_0"
 "timer" "9999"
 }
-// entity 21
+// entity 19
 {
 "classname" "info_camp"
 "origin" "256 64 64"
@@ -404,7 +386,7 @@
 "timer" "9999"
 "radius" "1.0"
 }
-// entity 22
+// entity 20
 {
 "classname" "info_camp"
 "origin" "256 64 64"
@@ -413,32 +395,32 @@
 "invisible" "1"
 "radius" "1.0"
 }
-// entity 23
+// entity 21
 {
 "classname" "target_position"
 "origin" "-256 256 64"
 "targetname" "t2"
 }
-// entity 24
+// entity 22
 {
 "classname" "target_position"
 "origin" "256 448 64"
 "targetname" "t3"
 }
-// entity 25
+// entity 23
 {
 "classname" "target_teleporter"
 "origin" "-256 256 64"
 "target" "t3"
 "radius" "0.25"
 }
-// entity 26
+// entity 24
 {
 "classname" "target_teleporter"
 "origin" "256 448 64"
 "target" "t2"
 }
-// entity 27
+// entity 25
 {
 "classname" "func_train"
 "target" "p3_0"
@@ -479,7 +461,7 @@
 ( -336 176 56 ) ( -336 176 64 ) ( -320 192 64 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 28
+// entity 26
 {
 "classname" "path_corner"
 "origin" "0 256 192"
@@ -488,7 +470,7 @@
 "speed" "3"
 "state" "0"
 }
-// entity 29
+// entity 27
 {
 "classname" "path_corner"
 "origin" "0 256 192"
@@ -496,38 +478,30 @@
 "target" "p3_2"
 "speed" "0.75"
 }
-// entity 30
+// entity 28
 {
 "classname" "path_corner"
 "origin" "0 256 184"
 "targetname" "p3_2"
 }
-// entity 31
+// entity 29
 {
 "classname" "light"
 "origin" "704 288 176"
 "light" "5"
 }
-// entity 32
+// entity 30
 {
 "classname" "light"
 "origin" "704 224 176"
 "light" "5"
 }
-// entity 33
-{
-"classname" "info_notnull"
-"origin" "832 256 184"
-"collisions" "0"
-"return" "1"
-"mobile" "0"
-}
-// entity 34
+// entity 31
 {
 "classname" "info_player_deathmatch"
 "origin" "1344 256 24"
 }
-// entity 35
+// entity 32
 {
 "classname" "func_train"
 "target" "p2_0"
@@ -559,7 +533,7 @@
 ( 336 176 144 ) ( 336 336 144 ) ( 336 176 160 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 36
+// entity 33
 {
 "classname" "path_corner"
 "origin" "1024 512 192"
@@ -568,15 +542,41 @@
 "state" "0"
 "speed" "3"
 }
-// entity 37
+// entity 34
 {
 "classname" "path_corner"
 "origin" "1024 512 112"
 "targetname" "p2_1"
 }
-// entity 38
+// entity 35
 {
 "classname" "light"
 "origin" "-128 448 80"
 "light" "1"
+}
+// entity 36
+{
+"classname" "info_player_start"
+"origin" "0 256 440"
+"mobile" "1"
+"collisions" "0"
+"return" "1"
+"radius" "0.375"
+}
+// entity 37
+{
+"classname" "info_player_start"
+"origin" "144 256 88"
+"radius" "0.125"
+"collisions" "0"
+"mobile" "1"
+"return" "1"
+}
+// entity 38
+{
+"classname" "info_player_start"
+"origin" "832 256 184"
+"collisions" "0"
+"return" "1"
+"mobile" "0"
 }

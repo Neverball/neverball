@@ -59,7 +59,7 @@ static float goal_k = 0;                /* Goal animation                    */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
-static int   jump_u = 0;                /* Which arbitrary ball is jumping?  */
+static int   jump_u = 0;                /* Which ball is jumping?            */
 static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
@@ -1126,7 +1126,7 @@ static int game_update_state(int bt)
     /* Test for a goal. */
 
     for (i = 0; i < fp->uc; i++)
-        if (bt && goal_e && (sol_goal_test(fp, p, i) == 2))
+        if (bt && goal_e && (sol_goal_test(fp, p, i, 0) == 2))
         {
             audio_play(AUD_GOAL, 1.0f);
             return GAME_GOAL;

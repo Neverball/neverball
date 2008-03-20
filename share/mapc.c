@@ -1266,7 +1266,6 @@ static void read_ent(struct s_file *fp, FILE *fin)
     if (!strcmp(v[i], "info_null"))                make_bill(fp, k, v, c);
     if (!strcmp(v[i], "path_corner"))              make_path(fp, k, v, c);
     if (!strcmp(v[i], "info_player_start"))        make_ball(fp, k, v, c);
-    if (!strcmp(v[i], "info_notnull"))             make_ball(fp, k, v, c);
     if (!strcmp(v[i], "info_player_intermission")) make_view(fp, k, v, c);
     if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(fp, k, v, c);
     if (!strcmp(v[i], "target_teleporter"))        make_jump(fp, k, v, c);

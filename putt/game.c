@@ -119,7 +119,7 @@ void game_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-int game_handle_balls(struct s_file *fp)
+static void game_handle_balls(struct s_file *fp)
 {
     float z[3] = {0.0f, 0.0f, 0.0f};
     int i, j;
@@ -127,6 +127,7 @@ int game_handle_balls(struct s_file *fp)
     for (i = 1; i < fp->uc; i++)
     {
         struct s_ball *up = fp->uv + i;
+
         if (i > PUTT_BALLS)
         {
             if (up->p[1] < -20.0f && up->n)
@@ -138,7 +139,7 @@ int game_handle_balls(struct s_file *fp)
 
             if (!(v_len(up->v) > 0.0f))
             {
-                if (sol_goal_test(fp, NULL, i) == 2)
+                if (sol_goal_test(fp, NULL, i, curr_party()) == 2)
                 {
                     v_cpy(up->p, up->O);
                     v_cpy(up->v, z);
@@ -182,13 +183,13 @@ int game_handle_balls(struct s_file *fp)
             */
             if (i != ball && !(v_len(up->v) > 0.0f))
             {
-                if (up->P && sol_goal_test(fp, NULL, i) == 2)
+                if (up->P && sol_goal_test(fp, NULL, i, curr_party()) == 2)
                 {
                     up->P = 0;
                     up->p[1] = -200.0f;
                     v_cpy(up->v, z);
                     v_cpy(up->w, z);
-                    return i;
+                    hole_goal(i);
                 }
             }
         }
@@ -215,8 +216,6 @@ int game_handle_balls(struct s_file *fp)
                 u2p->P = 0;
         }
     }
-
-    return 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -297,13 +296,14 @@ static void game_draw_balls(const struct s_file *fp,
 
     for (ui = 1; ui < fp->uc; ui++)
     {
-        if (ui == ball || (config_get_d(CONFIG_BALL_COLLISIONS) &&
-                           fp->uv[ui].P))
+        if (ui == ball ||
+           (config_get_d(CONFIG_BALL_COLLISIONS) && fp->uv[ui].P) ||
+           (ui > PUTT_BALLS                      && fp->uv[ui].P))
         {
             float ball_M[16];
             float pend_M[16];
 
-            if (ui > curr_party() && !config_get_d(CONFIG_BALL_COLLISIONS) && fp->uv[ui].c)
+            if (ui > PUTT_BALLS && !config_get_d(CONFIG_BALL_COLLISIONS) && fp->uv[ui].c)
                 continue;
 
             m_basis(ball_M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
@@ -328,6 +328,9 @@ static void game_draw_balls(const struct s_file *fp,
         }
         else if (ui <= curr_party() || ui > PUTT_BALLS)
         {
+            if (ui > PUTT_BALLS && !config_get_d(CONFIG_BALL_COLLISIONS) && fp->uv[ui].c)
+                continue;
+
             glPushMatrix();
             {
                 glTranslatef(fp->uv[ui].p[0],
@@ -670,7 +673,7 @@ static int game_update_state(float dt)
     {
         t = 0.0f;
 
-        switch (sol_goal_test(fp, p, ball) & ((fp->uv[ball].P) ? (2) : (1)))
+        switch (sol_goal_test(fp, p, ball, curr_party()) & ((fp->uv[ball].P) ? (3) : (1)))
         {
             case 2:  /* All balls stopped & Player's ball stopped in hole */
                 t = 0.0f;
@@ -771,12 +774,9 @@ int game_step(const float g[3], float dt)
 
         for (i = 0; i < n; i++)
         {
-            int ball_in_hole = 0;
+            d = sol_step(fp, g, t, ball, &m, (config_get_d(CONFIG_BALL_COLLISIONS)) ? (curr_party()) : (-1 * curr_party()));
 
-            d = sol_step(fp, g, t, ball, &m, (config_get_d(CONFIG_BALL_COLLISIONS)) ? (curr_party()) : (0));
-
-            if ((ball_in_hole = game_handle_balls(fp)))
-                hole_goal(ball_in_hole);
+            game_handle_balls(fp);
 
             if (b < d)
                 b = d;
@@ -833,7 +833,7 @@ void game_set_play(int b)
         file.uv[ball].P = b;
 
     if (!b)
-        for (i = 0; i < curr_party() && i < file.uc; i++)
+        for (i = 0; i <= PUTT_BALLS && i < file.uc; i++)
             file.uv[i].P = 0;
 }
 

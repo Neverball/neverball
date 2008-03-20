@@ -1164,9 +1164,6 @@ static void sol_ball_step(struct s_file *fp, float dt)
     {
         struct s_ball *up = fp->uv + i;
 
-        if (!up->m || !up->P)
-            continue;
-
         v_mad(up->p, up->p, up->v, dt);
 
         sol_rotate(up->e, up->w, dt);
@@ -1472,7 +1469,7 @@ static float sol_test_balls(const struct s_file *fp,
             if (!u2p->P || !u2p->m)
                 continue;
 
-            if (i <= 4 && !ball_collisions)
+            if (i <= -ball_collisions && j <= -ball_collisions && !ball_collisions)
                 continue;
 
             if (sol_test_sphere_inter(up, u2p) < dt)
@@ -1520,7 +1517,7 @@ static float sol_test_file(float dt,
 
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int ball_collisions)
 {
-    float l, b = 0.0f, nt = 0.0f, p;
+    float l, b = 0.0f, nt = dt, p;
     int   i, c = 16;
 
     if ((p = sol_test_balls(fp, nt, ball_collisions)) > 0.0f)
@@ -1536,7 +1533,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
         {
             struct s_ball *up = fp->uv + i;
 
-            if (!up->m || !up->P || (!ball_collisions && up->c))
+            if (i != ui && (!up->m || !up->P || (!ball_collisions && up->c)))
                 continue;
 
             /* If the ball is in contact with a surface, apply friction. */
@@ -1552,7 +1549,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
 
                 if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
                 {
-                    if ((e = (v_len(up->v) - dt)) > 0.0f)
+                    if ((e = (v_len(up->v) - dt)) > 0.0f) /* GDB tells me this is where the problem lies. I'll look into it */
                     {
                         /* Scale the linear velocity. */
 
@@ -1648,7 +1645,7 @@ struct s_item *sol_item_test(struct s_file *fp, float *p, float item_r)
     return NULL;
 }
 
-int sol_goal_test(struct s_file *fp, float *p, int ui)
+int sol_goal_test(struct s_file *fp, float *p, int ui, int user_balls)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
@@ -1659,9 +1656,9 @@ int sol_goal_test(struct s_file *fp, float *p, int ui)
     {
         if(fp->uv[i].p[1] < -199.9f)
             v_cpy(fp->uv[i].v, z);
-        if (p && v_len(fp->uv[i].v) > 0.0f)
+        if (p && (i <= user_balls || i > 4) && v_len(fp->uv[i].v) > 0.0f)
             return 0;
-        else
+        else if (p && (i <= user_balls || i > 4))
             v_cpy(fp->uv[i].v, z);
     }
 
