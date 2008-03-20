@@ -725,6 +725,16 @@ int game_step(const float g[3], float dt)
     s = (7.f * s + dt) / 8.f;
     t = s;
 
+    if (!config_get_d(CONFIG_BALL_COLLISIONS))
+    {
+        for (i = 0; i < fp->uc; i++)
+            if (fp->uv[i].c)
+                fp->uv[i].P = 0;
+
+        game_set_play(0);
+        game_set_play(1);
+    }
+
     if (jump_b)
     {
         if (config_get_d(CONFIG_BALL_COLLISIONS))
@@ -774,7 +784,7 @@ int game_step(const float g[3], float dt)
 
         for (i = 0; i < n; i++)
         {
-            d = sol_step(fp, g, t, ball, &m, (config_get_d(CONFIG_BALL_COLLISIONS)) ? (curr_party()) : (-1 * curr_party()));
+            d = sol_step(fp, g, t, ball, &m);
 
             game_handle_balls(fp);
 

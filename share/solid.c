@@ -988,14 +988,14 @@ static float sol_bounce_ball(struct s_ball *up,
     */
     inertia = pow(up->r / u2p->r, 3);
 
-    if (!u2p->m)
+    if (!u2)
     {
         v_scl(v11, v1_par, -GAMMA);
         v_scl(v12, v2_par, GAMMA + 1.0f);
         v_add(v1_par, v11, v12);
     }
 
-    else if (!up->m)
+    else if (!u1)
     {
         v_scl(v21, v1_par, GAMMA + 1.0f);
         v_scl(v22, v2_par, -GAMMA);
@@ -1012,9 +1012,9 @@ static float sol_bounce_ball(struct s_ball *up,
         v_add(v2_par, v12, v22);
     }
 
-    if (up->m)
+    if (u1)
         v_add(v1, v1_par, v1_perp);
-    if (u2p->m)
+    if (u2)
         v_add(v2, v2_par, v2_perp);
 
    /* Hack: prevent accidental spinning while the ball is stationary */
@@ -1447,7 +1447,7 @@ static float sol_test_body(float dt,
 }
 
 static float sol_test_balls(const struct s_file *fp,
-                            float dt, int ball_collisions)
+                            float dt)
 {
     float t = 0.0f;
     int   i, j;
@@ -1456,7 +1456,7 @@ static float sol_test_balls(const struct s_file *fp,
     {
         struct s_ball *up = fp->uv + i;
 
-        if (!up->P || !up->m)
+        if (!up->P)
             continue;
 
         for (j = i + 1; j < fp->uc; j++)
@@ -1466,10 +1466,7 @@ static float sol_test_balls(const struct s_file *fp,
             if (!(up->r > 0.0f || u2p->r > 0.0f))
                 continue;
 
-            if (!u2p->P || !u2p->m)
-                continue;
-
-            if (i <= -ball_collisions && j <= -ball_collisions && !ball_collisions)
+            if (!u2p->P)
                 continue;
 
             if (sol_test_sphere_inter(up, u2p) < dt)
@@ -1515,12 +1512,12 @@ static float sol_test_file(float dt,
  * iterations, punt it.
  */
 
-float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int ball_collisions)
+float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 {
     float l, b = 0.0f, nt = dt, p;
     int   i, c = 16;
 
-    if ((p = sol_test_balls(fp, nt, ball_collisions)) > 0.0f)
+    if ((p = sol_test_balls(fp, nt)) > 0.0f)
         l = p;
     else
         l = 0.f;
@@ -1533,7 +1530,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
         {
             struct s_ball *up = fp->uv + i;
 
-            if (i != ui && (!up->m || !up->P || (!ball_collisions && up->c)))
+            if (!up->m)
                 continue;
 
             /* If the ball is in contact with a surface, apply friction. */
@@ -1579,6 +1576,9 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
             else v_mad(up->v, v, g, tt);
 
             /* Test for collision. */
+
+            if (!up->m)
+                continue;
 
             while (tt && tt > (nt = sol_test_file(tt, P, V, up, fp)) && c > 0)
             {

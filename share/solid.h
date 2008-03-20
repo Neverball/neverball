@@ -335,7 +335,7 @@ int   sol_load_only_head(struct s_file *, const char *);
 int   sol_stor(struct s_file *, const char *);
 void  sol_free(struct s_file *);
 
-float sol_step(struct s_file *, const float *, float, int, int *, int);
+float sol_step(struct s_file *, const float *, float, int, int *);
 
 int   sol_jump_test(struct s_file *, float *, int);
 int   sol_swch_test(struct s_file *);
