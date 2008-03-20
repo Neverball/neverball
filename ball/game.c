@@ -407,7 +407,7 @@ int curr_coins(void)
 
 /*---------------------------------------------------------------------------*/
 
-void game_handle_balls(struct s_file *fp)
+static void game_handle_balls(struct s_file *fp)
 {
     float z[3] = {0.0f, 0.0f, 0.0f};
     int i;
@@ -427,6 +427,8 @@ void game_handle_balls(struct s_file *fp)
         }
     }
 }
+
+/*---------------------------------------------------------------------------*/
 
 static void game_draw_balls(const struct s_file *fp,
                             const float *bill_M, float t)
