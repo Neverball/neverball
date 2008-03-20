@@ -209,6 +209,17 @@ static int conf_enter(void)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
+           gui_state(kd, _("Off"),        GUI_SML, CONF_BCLOF, (c == 0));
+           gui_state(kd, _("On"),         GUI_SML, CONF_BCLON, (c == 1));
+
+           gui_label(jd, _("Ball Collisions"), GUI_SML, GUI_ALL, 0, 0);
+        }
+
+        gui_space(id);
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
             gui_state(kd, _("Low"),        GUI_SML, CONF_TEXLO, (t == 2));
             gui_state(kd, _("High"),       GUI_SML, CONF_TEXHI, (t == 1));
 

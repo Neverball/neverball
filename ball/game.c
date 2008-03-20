@@ -59,7 +59,7 @@ static float goal_k = 0;                /* Goal animation                    */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
-static int   jump_y = 0;                /* Which arbitrary ball is jumping?  */
+static int   jump_u = 0;                /* Which arbitrary ball is jumping?  */
 static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
@@ -341,7 +341,7 @@ int game_init(const char *file_name, int t, int e)
 
     jump_e = 1;
     jump_b = 0;
-    jump_y = 0;
+    jump_u = 0;
 
     goal_e = e ? 1    : 0;
     goal_k = e ? 1.0f : 0.0f;
@@ -372,6 +372,13 @@ int game_init(const char *file_name, int t, int e)
     got_orig = 0;
     grow = 0;
 
+    /* Set all arbitrary balls' play state */
+    for (i = 1; i < file.uc; i++)
+        file.uv->P = 1;
+
+    /* Set ball's play and mobile state */
+    file.uv->P = file.uv->m = 1;
+
     return game_state;
 }
 
@@ -400,23 +407,23 @@ int curr_coins(void)
 
 /*---------------------------------------------------------------------------*/
 
-void game_check_balls(struct s_file *fp)
+void game_handle_balls(struct s_file *fp)
 {
     float z[3] = {0.0f, 0.0f, 0.0f};
     int i;
 
-    for (i = 0; i < fp->yc; i++)
+    for (i = 1; i < fp->uc; i++)
     {
-        struct s_ball *yp = fp->yv + i;
+        struct s_ball *up = fp->uv + i;
 
        /*
         * Test and deal with any fall-outs
         */
-        if (yp->p[1] < fp->vv[0].p[1] && yp->n)
+        if (up->p[1] < fp->vv[0].p[1] && up->n)
         {
-            v_cpy(yp->p, yp->O);
-            v_cpy(yp->v, z);
-            v_cpy(yp->w, z);
+            v_cpy(up->p, up->O);
+            v_cpy(up->v, z);
+            v_cpy(up->w, z);
         }
     }
 }
@@ -424,29 +431,29 @@ void game_check_balls(struct s_file *fp)
 static void game_draw_balls(const struct s_file *fp,
                             const float *bill_M, float t)
 {
-    float  c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
     float ball_M[16];
     float pend_M[16];
 
-    int yi;
+    int ui;
 
-    for (yi = 0; yi < fp->yc; yi++)
+    for (ui = 1; ui < fp->uc; ui++)
     {
         float ball_M[16];
         float pend_M[16];
 
-        m_basis(ball_M, fp->yv[yi].e[0], fp->yv[yi].e[1], fp->yv[yi].e[2]);
-        m_basis(pend_M, fp->yv[yi].E[0], fp->yv[yi].E[1], fp->yv[yi].E[2]);
+        m_basis(ball_M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
+        m_basis(pend_M, fp->uv[ui].E[0], fp->uv[ui].E[1], fp->uv[ui].E[2]);
 
         glPushMatrix();
         {
-            glTranslatef(fp->yv[yi].p[0],
-                         fp->yv[yi].p[1] + BALL_FUDGE,
-                         fp->yv[yi].p[2]);
-            glScalef(fp->yv[yi].r,
-                     fp->yv[yi].r,
-                     fp->yv[yi].r);
+            glTranslatef(fp->uv[ui].p[0],
+                         fp->uv[ui].p[1] + BALL_FUDGE,
+                         fp->uv[ui].p[2]);
+            glScalef(fp->uv[ui].r,
+                     fp->uv[ui].r,
+                     fp->uv[ui].r);
 
             glColor4fv(c);
             ball_draw(ball_M, pend_M, bill_M, t);
@@ -843,7 +850,7 @@ void game_draw(int pose, float t)
 {
     float fov = view_fov;
 
-    if (jump_b && jump_y)
+    if (jump_b && jump_u)
         fov /= 1.9f * fabsf(jump_dt - 0.5f);
 
     else if (jump_b)
@@ -1081,48 +1088,49 @@ static int game_update_state(int bt)
 
     /* Test for a jump. */
 
-    if (!jump_y && jump_e == 1 && jump_b == 0 &&
-                   sol_jump_test(fp, jump_p, 0) == 1)
+    if (!jump_u && jump_e == 1 && jump_b == 0 &&
+        sol_jump_test(fp, jump_p, 0) == 1)
     {
         jump_b  = 1;
         jump_e  = 0;
         jump_dt = 0.f;
-        jump_y  = 0;
+        jump_u  = 0;
 
         audio_play(AUD_JUMP, 1.f);
     }
     if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 0)
         jump_e = 1;
-    if (!jump_b && !jump_y && sol_jump_test(fp, jump_p, 0) == 0)
-        jump_y = 0;
+    if (!jump_b && !jump_u && sol_jump_test(fp, jump_p, 0) == 0)
+        jump_u = 0;
 
-    for (i = 0; i < fp->yc; i++)
+    for (i = 1; i < fp->uc; i++)
     {
-        if (!jump_y && jump_e == 1 && jump_b == 0 &&
-                       sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 1)
+        if (!jump_u && jump_e == 1 && jump_b == 0 &&
+            sol_jump_test(fp, jump_p, i) == 1)
         {
             jump_b  = 1;
             jump_e  = 0;
             jump_dt = 0.f;
-            jump_y  = i + 1;
+            jump_u  = i + 1;
 
             audio_play(AUD_JUMP, 1.f);
         }
         if (jump_e == 0 && jump_b == 0 &&
-                           sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
+            sol_jump_test(fp, jump_p, i) == 0)
             jump_e = 1;
-        if (!jump_b && jump_y && i == jump_y - 1 &&
-                       sol_jump_test(fp, jump_p, fp->yv + i - fp->uv) == 0)
-            jump_y = 0;
+        if (!jump_b && jump_u && i == jump_u - 1 &&
+            sol_jump_test(fp, jump_p, i) == 0)
+            jump_u = 0;
     }
 
     /* Test for a goal. */
 
-    if (bt && goal_e && (sol_goal_test(fp, p, 0)))
-    {
-        audio_play(AUD_GOAL, 1.0f);
-        return GAME_GOAL;
-    }
+    for (i = 0; i < fp->uc; i++)
+        if (bt && goal_e && (sol_goal_test(fp, p, i) == 2))
+        {
+            audio_play(AUD_GOAL, 1.0f);
+            return GAME_GOAL;
+        }
 
     /* Test for time-out. */
 
@@ -1169,11 +1177,11 @@ int game_step(const float g[3], float dt, int bt)
 
             if (0.5f < jump_dt)
             {
-                if (jump_y)
+                if (jump_u)
                 {
-                    fp->yv[jump_y - 1].p[0] = jump_p[0];
-                    fp->yv[jump_y - 1].p[1] = jump_p[1];
-                    fp->yv[jump_y - 1].p[2] = jump_p[2];
+                    fp->uv[jump_u - 1].p[0] = jump_p[0];
+                    fp->uv[jump_u - 1].p[1] = jump_p[1];
+                    fp->uv[jump_u - 1].p[2] = jump_p[2];
                 }
 
                 else
@@ -1192,7 +1200,7 @@ int game_step(const float g[3], float dt, int bt)
 
             float b = sol_step(fp, h, dt, 0, NULL, 0);
 
-            game_check_balls(fp);
+            game_handle_balls(fp);
 
             /* Mix the sound of a ball bounce. */
 

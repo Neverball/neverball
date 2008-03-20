@@ -49,7 +49,6 @@
  *     x  Switch         (struct s_swch)
  *     r  Billboard      (struct s_bill)
  *     u  User           (struct s_ball)
- *     y  Arbitrary ball (struct s_ball)
  *     w  Viewpoint      (struct s_view)
  *     d  Dictionary     (struct s_dict)
  *     i  Index          (int)
@@ -74,7 +73,7 @@
  * Those members that do not conform to this convention are explicitly
  * documented with a comment.
  *
- * These prefixes are still available: c k o q.
+ * These prefixes are still available: c k o q y.
  */
 
 /*---------------------------------------------------------------------------*/
@@ -302,7 +301,6 @@ struct s_file
     int   wc;
     int   dc;
     int   ic;
-    int   yc;
 
     char          *av;
     struct s_mtrl *mv;
@@ -321,7 +319,6 @@ struct s_file
     struct s_swch *xv;
     struct s_bill *rv;
     struct s_ball *uv;
-    struct s_ball *yv;
     struct s_view *wv;
     struct s_dict *dv;
     int           *iv;

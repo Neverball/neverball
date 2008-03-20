@@ -35,10 +35,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int amplitude = 0.f;
-
-/*---------------------------------------------------------------------------*/
-
 static float erp(float t)
 {
     return 3.0f * t * t - 2.0f * t * t * t;
@@ -303,7 +299,6 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->xc);
     get_index(fin, &fp->rc);
     get_index(fin, &fp->uc);
-    get_index(fin, &fp->yc);
     get_index(fin, &fp->wc);
     get_index(fin, &fp->ic);
 
@@ -341,8 +336,6 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
         fp->rv = (struct s_bill *) calloc(fp->rc, sizeof (struct s_bill));
     if (fp->uc)
         fp->uv = (struct s_ball *) calloc(fp->uc, sizeof (struct s_ball));
-    if (fp->yc)
-        fp->yv = (struct s_ball *) calloc(fp->yc, sizeof (struct s_ball));
     if (fp->wc)
         fp->wv = (struct s_view *) calloc(fp->wc, sizeof (struct s_view));
     if (fp->dc)
@@ -370,7 +363,6 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->xc; i++) sol_load_swch(fin, fp->xv + i);
     for (i = 0; i < fp->rc; i++) sol_load_bill(fin, fp->rv + i);
     for (i = 0; i < fp->uc; i++) sol_load_ball(fin, fp->uv + i);
-    for (i = 0; i < fp->yc; i++) sol_load_ball(fin, fp->yv + i);
     for (i = 0; i < fp->wc; i++) sol_load_view(fin, fp->wv + i);
     for (i = 0; i < fp->ic; i++) get_index(fin, fp->iv + i);
 
@@ -408,11 +400,10 @@ static int sol_load_head(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->xc);
     get_index(fin, &fp->rc);
     get_index(fin, &fp->uc);
-    get_index(fin, &fp->yc);
     get_index(fin, &fp->wc);
     get_index(fin, &fp->ic);
 #endif
-    fseek(fin, 19 * 4, SEEK_CUR);
+    fseek(fin, 18 * 4, SEEK_CUR);
 
     if (fp->ac)
     {
@@ -644,7 +635,6 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     put_index(fin, &fp->xc);
     put_index(fin, &fp->rc);
     put_index(fin, &fp->uc);
-    put_index(fin, &fp->yc);
     put_index(fin, &fp->wc);
     put_index(fin, &fp->ic);
 
@@ -667,7 +657,6 @@ static void sol_stor_file(FILE *fin, struct s_file *fp)
     for (i = 0; i < fp->xc; i++) sol_stor_swch(fin, fp->xv + i);
     for (i = 0; i < fp->rc; i++) sol_stor_bill(fin, fp->rv + i);
     for (i = 0; i < fp->uc; i++) sol_stor_ball(fin, fp->uv + i);
-    for (i = 0; i < fp->yc; i++) sol_stor_ball(fin, fp->yv + i);
     for (i = 0; i < fp->wc; i++) sol_stor_view(fin, fp->wv + i);
     for (i = 0; i < fp->ic; i++) put_index(fin, fp->iv + i);
 }
@@ -707,7 +696,6 @@ void sol_free(struct s_file *fp)
     if (fp->xv) free(fp->xv);
     if (fp->rv) free(fp->rv);
     if (fp->uv) free(fp->uv);
-    if (fp->yv) free(fp->yv);
     if (fp->wv) free(fp->wv);
     if (fp->dv) free(fp->dv);
     if (fp->iv) free(fp->iv);
@@ -1172,21 +1160,12 @@ static void sol_ball_step(struct s_file *fp, float dt)
 {
     int i;
 
-    for (i = 0; i < fp->yc; i++)
-    {
-        struct s_ball *yp = fp->yv + i;
-
-        if (!yp->m)
-            continue;
-
-        v_mad(yp->p, yp->p, yp->v, dt);
-
-        sol_rotate(yp->e, yp->w, dt);
-    }
-
     for (i = 0; i < fp->uc; i++)
     {
         struct s_ball *up = fp->uv + i;
+
+        if (!up->m || !up->P)
+            continue;
 
         v_mad(up->p, up->p, up->v, dt);
 
@@ -1476,52 +1455,27 @@ static float sol_test_balls(const struct s_file *fp,
     float t = 0.0f;
     int   i, j;
 
-    for (i = 0; i < fp->yc; i++)
-    {
-        struct s_ball *yp = fp->yv + i;
-
-        for (j = i + 1; j < fp->yc; j++)
-        {
-            struct s_ball *y2p = fp->yv + j;
-
-            if (!(yp->r > 0.0f || y2p->r > 0.0f))
-                continue;
-
-            if (sol_test_sphere_inter(yp, y2p) < dt)
-            {
-                t = sol_bounce_ball(yp, y2p, t);
-            }
-        }
-    }
-
     for (i = 0; i < fp->uc; i++)
     {
         struct s_ball *up = fp->uv + i;
 
-        if (i > 0 && !up->P)
+        if (!up->P || !up->m)
             continue;
 
-        for (j = 0; j < fp->yc; j++)
-        {
-            struct s_ball *y2p = fp->yv + j;
-
-            if (!(up->r > 0.0f || y2p->r > 0.0f))
-                continue;
-
-            if (sol_test_sphere_inter(up, y2p) < dt)
-            {
-                t = sol_bounce_ball(up, y2p, t);
-            }
-        }
-
-        for (j = i + 1; ball_collisions && j < fp->uc; j++)
+        for (j = i + 1; j < fp->uc; j++)
         {
             struct s_ball *u2p = fp->uv + j;
 
             if (!(up->r > 0.0f || u2p->r > 0.0f))
                 continue;
 
-            if (u2p->P && up->P && sol_test_sphere_inter(up, u2p) < dt)
+            if (!u2p->P || !u2p->m)
+                continue;
+
+            if (i <= 4 && !ball_collisions)
+                continue;
+
+            if (sol_test_sphere_inter(up, u2p) < dt)
             {
                 t = sol_bounce_ball(up, u2p, t);
             }
@@ -1534,8 +1488,7 @@ static float sol_test_balls(const struct s_file *fp,
 static float sol_test_file(float dt,
                            float T[3], float V[3],
                            const struct s_ball *up,
-                           const struct s_file *fp,
-                           int ball_collisions)
+                           const struct s_file *fp)
 {
     float U[3], W[3], u, t = dt;
     int i;
@@ -1552,11 +1505,6 @@ static float sol_test_file(float dt,
         }
     }
 
-    if ((u = sol_test_balls(fp, t, ball_collisions)) > 0.0f)
-        amplitude = u;
-    else
-        amplitude = 0.f;
-
     return t;
 }
 
@@ -1572,12 +1520,14 @@ static float sol_test_file(float dt,
 
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int ball_collisions)
 {
-    float b = 0.0f, nt = 0.0f;
+    float l, b = 0.0f, nt = 0.0f, p;
     int   i, c = 16;
 
-   /*
-    * The user ball loop
-    */
+    if ((p = sol_test_balls(fp, nt, ball_collisions)) > 0.0f)
+        l = p;
+    else
+        l = 0.f;
+
     for (i = 0; i < fp->uc; i++)
     {
         float P[3], V[3], v[3], r[3], a[3], d, e, tt = dt;
@@ -1586,13 +1536,16 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
         {
             struct s_ball *up = fp->uv + i;
 
+            if (!up->m || !up->P || (!ball_collisions && up->c))
+                continue;
+
             /* If the ball is in contact with a surface, apply friction. */
 
             v_cpy(a, up->v);
             v_cpy(v, up->v);
             v_cpy(up->v, g);
 
-            if (m && sol_test_file(tt, P, V, up, fp, ball_collisions) < 0.0005f)
+            if (m && sol_test_file(tt, P, V, up, fp) < 0.0005f)
             {
                 v_cpy(up->v, v);
                 v_sub(r, P, up->p);
@@ -1630,7 +1583,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
 
             /* Test for collision. */
 
-            while (tt && tt > (nt = sol_test_file(tt, P, V, up, fp, ball_collisions)) && c > 0)
+            while (tt && tt > (nt = sol_test_file(tt, P, V, up, fp)) && c > 0)
             {
                 sol_body_step(fp, nt);
                 sol_swch_step(fp, nt);
@@ -1644,94 +1597,11 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
                 c--;
             }
 
-            if (b < amplitude)
-                b = amplitude;
-
             /* Apply the ball's accelleration to the pendulum. */
 
             v_sub(a, up->v, a);
 
             sol_pendulum(up, a, g, dt);
-        }
-    }
-
-   /*
-    * The arbitrary balls loop
-    */
-    for (i = 0; i < fp->yc; i++)
-    {
-        float P[3], V[3], v[3], r[3], a[3], d, e, tt = dt;
-
-        if (i < fp->yc)
-        {
-            struct s_ball *yp = fp->yv + i;
-
-            if ((!yp->m) || (ui && yp->c))
-                continue;
-
-            /* If the ball is in contact with a surface, apply friction. */
-
-            v_cpy(a, yp->v);
-            v_cpy(v, yp->v);
-            v_cpy(yp->v, g);
-
-            if (m && sol_test_file(tt, P, V, yp, fp, ball_collisions) < 0.0005f)
-            {
-                v_cpy(yp->v, v);
-                v_sub(r, P, yp->p);
-
-                if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
-                {
-                    if ((e = (v_len(yp->v) - dt)) > 0.0f)
-                    {
-                        /* Scale the linear velocity. */
-
-                        v_nrm(yp->v, yp->v);
-                        v_scl(yp->v, yp->v, e);
-
-                        /* Scale the angular velocity. */
-
-                        v_sub(v, V, yp->v);
-                        v_crs(yp->w, v, r);
-                        v_scl(yp->w, yp->w, -1.0f / (yp->r * yp->r));
-                    }
-                    else
-                    {
-                        /* Friction has brought the ball to a stop. */
-
-                        yp->v[0] = 0.0f;
-                        yp->v[1] = 0.0f;
-                        yp->v[2] = 0.0f;
-                    }
-                }
-                else v_mad(yp->v, v, g, tt);
-            }
-            else v_mad(yp->v, v, g, tt);
-
-            /* Test for collision. */
-
-            while (tt && tt > (nt = sol_test_file(tt, P, V, yp, fp, ball_collisions)) && c > 0)
-            {
-                sol_body_step(fp, nt);
-                sol_swch_step(fp, nt);
-                sol_ball_step(fp, nt);
-
-                tt -= nt;
-
-                if (b < ((d = sol_bounce(yp, P, V, nt))))
-                    b = d;
-
-                c--;
-            }
-
-            if (b < amplitude)
-                b = amplitude;
-
-            /* Apply the ball's accelleration to the pendulum. */
-
-            v_sub(a, yp->v, a);
-
-            sol_pendulum(yp, a, g, dt);
         }
     }
 
@@ -1742,39 +1612,21 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m, int 
     sol_swch_step(fp, nt);
     sol_ball_step(fp, nt);
 
-    return b;
+    return (b > p) ? (b) : (p);
 }
 
 /*---------------------------------------------------------------------------*/
 
 struct s_item *sol_item_test(struct s_file *fp, float *p, float item_r)
 {
-    int hi, yi;
+    int hi, ui;
 
     for (hi = 0; hi < fp->hc; hi++)
     {
-        const float *ball_p = fp->uv->p;
-        const float  ball_r = fp->uv->r;
-
-        float r[3];
-
-        r[0] = ball_p[0] - fp->hv[hi].p[0];
-        r[1] = ball_p[1] - fp->hv[hi].p[1];
-        r[2] = ball_p[2] - fp->hv[hi].p[2];
-
-        if (fp->hv[hi].t != ITEM_NONE && v_len(r) < ball_r + item_r)
+        for (ui = 0; ui < fp->uc; ui++)
         {
-            p[0] = fp->hv[hi].p[0];
-            p[1] = fp->hv[hi].p[1];
-            p[2] = fp->hv[hi].p[2];
-
-            return &fp->hv[hi];
-        }
-
-        for (yi = 0; yi < fp->yc; yi++)
-        {
-            const float *ball_p = fp->yv[yi].p;
-            const float  ball_r = fp->yv[yi].r;
+            const float *ball_p = fp->uv[ui].p;
+            const float  ball_r = fp->uv[ui].r;
 
             float r[3];
 
@@ -1798,82 +1650,45 @@ struct s_item *sol_item_test(struct s_file *fp, float *p, float item_r)
 
 int sol_goal_test(struct s_file *fp, float *p, int ui)
 {
-    if (ui)
+    const float *ball_p = fp->uv[ui].p;
+    const float  ball_r = fp->uv[ui].r;
+    float z[3] = {0.0f, 0.0f, 0.0f};
+    int zi, i;
+
+    for (i = 1; i < fp->uc; i++)
     {
-        const float *ball_p = fp->uv[ui].p;
-        const float  ball_r = fp->uv[ui].r;
-        float z[3] = {0.0f, 0.0f, 0.0f};
-        int zi, i;
-
-        for (i = 1; i < fp->uc; i++)
-        {
-            if(fp->uv[i].p[1] < -199.9f)
-                v_cpy(fp->uv[i].v, z);
-            if (v_len(fp->uv[i].v) > 0.0f)
-                return 0;
-            else
-                v_cpy(fp->uv[i].v, z);
-        }
-
-        for (i = 0; i < fp->yc; i++)
-        {
-            if(fp->yv[i].p[1] < -199.9f)
-                v_cpy(fp->yv[i].v, z);
-            if (v_len(fp->yv[i].v) > 0.0f)
-                return 0;
-            else
-                v_cpy(fp->yv[i].v, z);
-        }
-
-        for (zi = 0; zi < fp->zc; zi++)
-        {
-            float r[3];
-
-            r[0] = ball_p[0] - fp->zv[zi].p[0];
-            r[1] = ball_p[2] - fp->zv[zi].p[2];
-            r[2] = 0;
-
-            if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
-                ball_p[1] > fp->zv[zi].p[1] &&
-                ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
-            {
-                p[0] = fp->zv[zi].p[0];
-                p[1] = -200.0f;
-                p[2] = fp->zv[zi].p[2];
-
-                return 2;
-            }
-        }
-        return 1;
+        if(fp->uv[i].p[1] < -199.9f)
+            v_cpy(fp->uv[i].v, z);
+        if (p && v_len(fp->uv[i].v) > 0.0f)
+            return 0;
+        else
+            v_cpy(fp->uv[i].v, z);
     }
 
-    else
+    for (zi = 0; zi < fp->zc; zi++)
     {
-        const float *ball_p = fp->uv[ui].p;
-        const float  ball_r = fp->uv[ui].r;
-        int zi;
+        float r[3];
 
-        for (zi = 0; zi < fp->zc; zi++)
+        r[0] = ball_p[0] - fp->zv[zi].p[0];
+        r[1] = ball_p[2] - fp->zv[zi].p[2];
+        r[2] = 0;
+
+        if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
+            ball_p[1] > fp->zv[zi].p[1] &&
+            ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
         {
-            float r[3];
-
-            r[0] = ball_p[0] - fp->zv[zi].p[0];
-            r[1] = ball_p[2] - fp->zv[zi].p[2];
-            r[2] = 0;
-
-            if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
-                ball_p[1] > fp->zv[zi].p[1] &&
-                ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
+            if (p)
             {
                 p[0] = fp->zv[zi].p[0];
-                p[1] = -200.0f;
+                p[1] = fp->zv[zi].p[1];
                 p[2] = fp->zv[zi].p[2];
-
-                return 1;
             }
+
+            return 2;
         }
-        return 0;
     }
+
+    return 1;
 }
 
 /*
@@ -1991,71 +1806,6 @@ int sol_swch_test(struct s_file *fp)
                 /* The ball exits. */
 
                 else if (xp->e && xp->b == i * 2)
-                    xp->e = 0;
-            }
-        }
-
-        for (i = 0; i < fp->yc; i++)
-        {
-            float l, r[3];
-
-            const float *ball_p  = fp->yv[i].p;
-            const float  ball_r  = fp->yv[i].r;
-
-            if (xp->t0 == 0 || xp->f == xp->f0)
-            {
-                r[0] = ball_p[0] - xp->p[0];
-                r[1] = ball_p[2] - xp->p[2];
-                r[2] = 0;
-
-                l = v_len(r) - xp->r;
-
-                if (l < ball_r &&
-                    ball_p[1] > xp->p[1] &&
-                    ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
-                {
-                    if (!xp->e && l < -ball_r)
-                    {
-                        int pi = xp->pi;
-                        int pj = xp->pi;
-
-                        xp->b = i * 2 + 1;
-
-                        /* The ball enters. */
-
-                        if (xp->t0 == 0)
-                            xp->e = 1;
-
-                        /* Toggle the state, update the path. */
-
-                        xp->f = xp->f ? 0 : 1;
-
-                        do  /* Tortoise and hare cycle traverser. */
-                        {
-                            fp->pv[pi].f = xp->f;
-                            fp->pv[pj].f = xp->f;
-
-                            pi = fp->pv[pi].pi;
-                            pj = fp->pv[pj].pi;
-                            pj = fp->pv[pj].pi;
-                        }
-                        while (pi != pj);
-
-                        /* It toggled to non-default state, start the timer. */
-
-                        if (xp->f != xp->f0)
-                            xp->t  = xp->t0;
-
-                        /* If visible, set the result. */
-
-                        if (!xp->i)
-                            res = 1;
-                    }
-                }
-
-                /* The ball exits. */
-
-                else if (xp->e && xp->b == i * 2 + 1)
                     xp->e = 0;
             }
         }

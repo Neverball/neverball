@@ -873,7 +873,7 @@ static int stroke_enter(void)
     if (paused)
         paused = 0;
 
-    game_set_played(1);
+    game_set_play(1);
 
     return 0;
 }
@@ -1218,7 +1218,7 @@ static int score_enter(void)
     if (paused)
         paused = 0;
 
-    game_set_played(0);
+    game_set_play(0);
 
     return score_card(_("Scores"), gui_yel, gui_red);
 }
