@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Trident\Tips: Watch out for triple splits. You still don't have much time."
+"message" "Trident\Tips: Watch out for triple splits.\You still don't have much time."
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
 "song" "bgm/track5.ogg"
