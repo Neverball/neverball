@@ -245,7 +245,7 @@ static int help_modes(int id)
             gui_label(kd, _("Challenge Mode"), GUI_SML, GUI_TOP, 0, 0);
             gui_multi(kd,
                       _("Start playing from the first level of the set.\\"
-                        "You start with only four balls, do not lose them.\\"
+                        "You start with only three balls, do not lose them.\\"
                         "Earn an extra ball for each 100 coins collected."),
                       GUI_SML, GUI_BOT, gui_wht, gui_wht);
         }
