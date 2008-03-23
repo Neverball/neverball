@@ -262,7 +262,7 @@ void config_load(void)
                 else if (strcmp(key, "stats")   == 0)
                     config_set_d(CONFIG_STATS, atoi(val));
                 else if (strcmp(key, "uniform") == 0)
-                    config_set_d(CONFIG_STATS,   atoi(val));
+                    config_set_d(CONFIG_UNIFORM, atoi(val));
                 else if (strcmp(key, "screenshot") == 0)
                     config_set_d(CONFIG_SCREENSHOT, atoi(val));
                 else if (strcmp(key, "lock_goals") == 0)

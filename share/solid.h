@@ -32,27 +32,27 @@
  *
  * The Xs are as documented by struct s_file:
  *
- *     f  File           (struct s_file)
- *     m  Material       (struct s_mtrl)
- *     v  Vertex         (struct s_vert)
- *     e  Edge           (struct s_edge)
- *     s  Side           (struct s_side)
- *     t  Texture coord  (struct s_texc)
- *     g  Geometry       (struct s_geom)
- *     l  Lump           (struct s_lump)
- *     n  Node           (struct s_node)
- *     p  Path           (struct s_path)
- *     b  Body           (struct s_body)
- *     h  Item           (struct s_item)
- *     z  Goal           (struct s_goal)
- *     j  Jump           (struct s_jump)
- *     x  Switch         (struct s_swch)
- *     r  Billboard      (struct s_bill)
- *     u  User           (struct s_ball)
- *     w  Viewpoint      (struct s_view)
- *     d  Dictionary     (struct s_dict)
- *     i  Index          (int)
- *     a  Text           (char)
+ *     f  File          (struct s_file)
+ *     m  Material      (struct s_mtrl)
+ *     v  Vertex        (struct s_vert)
+ *     e  Edge          (struct s_edge)
+ *     s  Side          (struct s_side)
+ *     t  Texture coord (struct s_texc)
+ *     g  Geometry      (struct s_geom)
+ *     l  Lump          (struct s_lump)
+ *     n  Node          (struct s_node)
+ *     p  Path          (struct s_path)
+ *     b  Body          (struct s_body)
+ *     h  Item          (struct s_item)
+ *     z  Goal          (struct s_goal)
+ *     j  Jump          (struct s_jump)
+ *     x  Switch        (struct s_swch)
+ *     r  Billboard     (struct s_bill)
+ *     u  User          (struct s_ball)
+ *     w  Viewpoint     (struct s_view)
+ *     d  Dictionary    (struct s_dict)
+ *     i  Index         (int)
+ *     a  Text          (char)
 
  *
  * The Ys are as follows:
@@ -281,26 +281,26 @@ struct s_dict
 
 struct s_file
 {
-    int   ac;
-    int   mc;
-    int   vc;
-    int   ec;
-    int   sc;
-    int   tc;
-    int   gc;
-    int   lc;
-    int   nc;
-    int   pc;
-    int   bc;
-    int   hc;
-    int   zc;
-    int   jc;
-    int   xc;
-    int   rc;
-    int   uc;
-    int   wc;
-    int   dc;
-    int   ic;
+    int ac;
+    int mc;
+    int vc;
+    int ec;
+    int sc;
+    int tc;
+    int gc;
+    int lc;
+    int nc;
+    int pc;
+    int bc;
+    int hc;
+    int zc;
+    int jc;
+    int xc;
+    int rc;
+    int uc;
+    int wc;
+    int dc;
+    int ic;
 
     char          *av;
     struct s_mtrl *mv;

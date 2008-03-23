@@ -167,10 +167,11 @@ char *hole_in(int p)
     static char str[MAXSTR];
 
     int h, T = 0;
-
-    if (hole > 9 && p <= party)
+    int out = count / 2;
+ 
+    if (hole > out && p <= party)
     {
-        for (h = 10; h <= hole && h <= 18; h++)
+        for (h = out + 1; h <= hole && h < count; h++)
             T += score_v[h][p];
 
         sprintf(str, "%d", T);

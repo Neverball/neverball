@@ -54,7 +54,7 @@ static float view_e[3][3];              /* Current view reference frame      */
 static float view_k;
 
 static int   coins  = 0;                /* Collected coins                   */
-static int   goal_e = 0;                /* Goal coins remaining (0 = open)   */
+static int   goal_e = 0;                /* Goal enabled flag                 */
 static float goal_k = 0;                /* Goal animation                    */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
@@ -1077,8 +1077,6 @@ static int game_update_state(int bt)
         audio_play(AUD_COIN, 1.f);
 
         /* Discard item. */
-
-        /* Reset item type. */
 
         hp->t = ITEM_NONE;
     }
