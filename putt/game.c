@@ -823,27 +823,30 @@ void game_set_play(int b, int s)
 {
     int i;
 
-    if (b > 0)
+    if (b  >  0 && b    < file.uc)
         file.uv[b].P = s;
 
-    if (b ==  0)
+    if (b ==  0 && ball < file.uc)
         file.uv[ball].P = s;
 
     if (b == -1)
         for (i = 1; i < file.uc; i++)
-            file.uv[i].P = s;
+            if (i < file.uc)
+                file.uv[i].P = s;
 
     if (b == -2)
         for (i = 1; i <= curr_party() && i < file.uc; i++)
-            file.uv[i].P = s;
+            if (i < file.uc)
+                file.uv[i].P = s;
 
     if (b == -3)
         for (i = file.uc; i > PUTT_BALLS; i--)
-            file.uv[i].P = s;
+            if (i < file.uc)
+                file.uv[i].P = s;
 
     if (b == -4)
         for (i = file.uc; i > PUTT_BALLS; i--)
-            if (file.uv[i].c && config_get_d(CONFIG_BALL_COLLISIONS))
+            if (file.uv[i].c && config_get_d(CONFIG_BALL_COLLISIONS) && i < file.uc)
                 file.uv[i].P = s;
 }
 

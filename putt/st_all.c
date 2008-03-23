@@ -708,6 +708,10 @@ static int next_enter(void)
     if (paused)
         paused = 0;
 
+    if (!config_get_d(CONFIG_BALL_COLLISIONS))
+        game_set_play(-2, 0);
+    game_set_play(0, 1);
+
     return id;
 }
 
@@ -806,10 +810,6 @@ static int flyby_enter(void)
         paused = 0;
     else
         hud_init();
-
-    if (!config_get_d(CONFIG_BALL_COLLISIONS))
-        game_set_play(-2, 0);
-    game_set_play(0, 1);
 
     return 0;
 }
