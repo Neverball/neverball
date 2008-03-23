@@ -807,6 +807,10 @@ static int flyby_enter(void)
     else
         hud_init();
 
+    if (!config_get_d(CONFIG_BALL_COLLISIONS))
+        game_set_play(-2, 0);
+    game_set_play(0, 1);
+
     return 0;
 }
 
@@ -872,8 +876,6 @@ static int stroke_enter(void)
 
     if (paused)
         paused = 0;
-
-    game_set_play(1);
 
     return 0;
 }
@@ -1217,8 +1219,6 @@ static int score_enter(void)
 
     if (paused)
         paused = 0;
-
-    game_set_play(0);
 
     return score_card(_("Scores"), gui_yel, gui_red);
 }

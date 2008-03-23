@@ -87,6 +87,8 @@ void hole_init(const char *filename)
 
     for (i = 0; i < count; i++)
         score_v[i][0] = hole_v[i].par;
+
+    game_set_play(-1, 0);
 }
 
 void hole_free(void)
@@ -168,7 +170,7 @@ char *hole_in(int p)
 
     int h, T = 0;
     int out = count / 2;
- 
+
     if (hole > out && p <= party)
     {
         for (h = out + 1; h <= hole && h < count; h++)

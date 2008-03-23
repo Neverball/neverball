@@ -19,7 +19,7 @@
 
 #include "glext.h"
 #include "vec3.h"
-#include "geom.h" /* Only for height constants! */
+#include "geom.h" /* Only for height c0onstants! */
 #include "base_image.h"
 #include "solid.h"
 #include "base_config.h"
@@ -1530,7 +1530,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
         {
             struct s_ball *up = fp->uv + i;
 
-            if (!up->m)
+            if (!up->P || !up->m)
                 continue;
 
             /* If the ball is in contact with a surface, apply friction. */

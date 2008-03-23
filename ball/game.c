@@ -374,7 +374,7 @@ int game_init(const char *file_name, int t, int e)
 
     /* Set all arbitrary balls' play state */
     for (i = 1; i < file.uc; i++)
-        file.uv->P = 1;
+        file.uv[i].P = 1;
 
     /* Set ball's play and mobile state */
     file.uv->P = file.uv->m = 1;

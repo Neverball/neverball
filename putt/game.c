@@ -83,8 +83,6 @@ static void view_init(void)
 
 void game_init(const char *s)
 {
-    int i;
-
     jump_e = 1;
     jump_b = 0;
     jump_u = 0;
@@ -93,23 +91,11 @@ void game_init(const char *s)
     sol_load_gl(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
                                     config_get_d(CONFIG_SHADOW));
 
-    for (i = 1; i < file.uc; i++)
-    {
-        if (i > PUTT_BALLS)
-            file.uv[i].P = 1;
-
-        else if (i <= curr_party())
-            file.uv[i].m = 1;
-
-        else
-        {
-            file.uv[i].P = file.uv[i].m = 0;
-        }
-    }
+    game_set_play(-1, 0);
+    game_set_play(-3, 1);
+    game_set_play(-4, config_get_d(CONFIG_BALL_COLLISIONS));
 
     file.uv->m = file.uv->P = 0;
-
-    game_set_play(0);
 }
 
 void game_free(void)
@@ -725,16 +711,6 @@ int game_step(const float g[3], float dt)
     s = (7.f * s + dt) / 8.f;
     t = s;
 
-    if (!config_get_d(CONFIG_BALL_COLLISIONS))
-    {
-        for (i = 0; i < fp->uc; i++)
-            if (fp->uv[i].c)
-                fp->uv[i].P = 0;
-
-        game_set_play(0);
-        game_set_play(1);
-    }
-
     if (jump_b)
     {
         if (config_get_d(CONFIG_BALL_COLLISIONS))
@@ -832,19 +808,43 @@ void game_putt(void)
 /*---------------------------------------------------------------------------*/
 
 /*
- * Set current ball's play state, or unset all balls' play state
+ * Set ball B's play state as S.  Additional values can be used for b:
+ *  0: Set current ball to s
+ * -1: Set all balls to s
+ * -2: Set all player balls to s
+ * -3: Set all arbitrary balls to s
+ * -4: Set all arbitrary balls with a 'c' state of 0 to s
+ *
+ * Note that the first ball (Or really where fall-out balls return / camera
+ *                           spot) is never affected.
  */
 
-void game_set_play(int b)
+void game_set_play(int b, int s)
 {
     int i;
 
-    if (ball)
-        file.uv[ball].P = b;
+    if (b > 0)
+        file.uv[b].P = s;
 
-    if (!b)
-        for (i = 0; i <= PUTT_BALLS && i < file.uc; i++)
-            file.uv[i].P = 0;
+    if (b ==  0)
+        file.uv[ball].P = s;
+
+    if (b == -1)
+        for (i = 1; i < file.uc; i++)
+            file.uv[i].P = s;
+
+    if (b == -2)
+        for (i = 1; i <= curr_party() && i < file.uc; i++)
+            file.uv[i].P = s;
+
+    if (b == -3)
+        for (i = file.uc; i > PUTT_BALLS; i--)
+            file.uv[i].P = s;
+
+    if (b == -4)
+        for (i = file.uc; i > PUTT_BALLS; i--)
+            if (file.uv[i].c && config_get_d(CONFIG_BALL_COLLISIONS))
+                file.uv[i].P = s;
 }
 
 /*---------------------------------------------------------------------------*/
