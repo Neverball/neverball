@@ -260,7 +260,7 @@ struct s_ball
     float E[3][3];                             /* basis of pendulum          */
     float W[3];                                /* angular pendulum velocity  */
     float r;                                   /* radius                     */
-    int   P;                                   /* ball's play state          */
+    int   P;                                   /* play state                 */
     int   m;                                   /* is ball mobile?            */
     float O[3];                                /* original position          */
 };

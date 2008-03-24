@@ -426,9 +426,6 @@ static void game_draw_balls(const struct s_file *fp,
 
     for (ui = 0; ui < fp->uc; ui++)
     {
-        float ball_M[16];
-        float pend_M[16];
-
         if (!fp->uv[ui].P)
             continue;
 
@@ -1225,7 +1222,7 @@ void game_set_play(int b, int s)
         file.uv[b].P = s;
 
     if (b == -1)
-        file.uv.P = s;
+        file.uv[0].P = s;
 
     if (b == -2)
         for (i = 0; i < file.uc; i++)
