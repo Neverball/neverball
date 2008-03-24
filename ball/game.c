@@ -372,12 +372,9 @@ int game_init(const char *file_name, int t, int e)
     got_orig = 0;
     grow = 0;
 
-    /* Set all arbitrary balls' play state */
-    for (i = 1; i < file.uc; i++)
-        file.uv[i].P = 1;
-
-    /* Set ball's play and mobile state */
-    file.uv->P = file.uv->m = 1;
+    /* Initialize play states */
+    game_set_play(-2, 0);
+    game_set_play( 0, 1);
 
     return game_state;
 }
@@ -407,25 +404,12 @@ int curr_coins(void)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Here for any possible future implementations, eg network play
+ */
+
 static void game_handle_balls(struct s_file *fp)
 {
-    float z[3] = {0.0f, 0.0f, 0.0f};
-    int i;
-
-    for (i = 1; i < fp->uc; i++)
-    {
-        struct s_ball *up = fp->uv + i;
-
-       /*
-        * Test and deal with any fall-outs
-        */
-        if (up->p[1] < fp->vv[0].p[1] && up->n)
-        {
-            v_cpy(up->p, up->O);
-            v_cpy(up->v, z);
-            v_cpy(up->w, z);
-        }
-    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -440,10 +424,13 @@ static void game_draw_balls(const struct s_file *fp,
 
     int ui;
 
-    for (ui = 1; ui < fp->uc; ui++)
+    for (ui = 0; ui < fp->uc; ui++)
     {
         float ball_M[16];
         float pend_M[16];
+
+        if (!fp->uv[ui].P)
+            continue;
 
         m_basis(ball_M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
         m_basis(pend_M, fp->uv[ui].E[0], fp->uv[ui].E[1], fp->uv[ui].E[2]);
@@ -462,25 +449,6 @@ static void game_draw_balls(const struct s_file *fp,
         }
         glPopMatrix();
     }
-
-    m_basis(ball_M, fp->uv[0].e[0], fp->uv[0].e[1], fp->uv[0].e[2]);
-    m_basis(pend_M, fp->uv[0].E[0], fp->uv[0].E[1], fp->uv[0].E[2]);
-
-    glPushAttrib(GL_LIGHTING_BIT);
-    glPushMatrix();
-    {
-        glTranslatef(fp->uv[0].p[0],
-                     fp->uv[0].p[1] + BALL_FUDGE,
-                     fp->uv[0].p[2]);
-        glScalef(fp->uv[0].r,
-                 fp->uv[0].r,
-                 fp->uv[0].r);
-
-        glColor4fv(c);
-        ball_draw(ball_M, pend_M, bill_M, t);
-    }
-    glPopMatrix();
-    glPopAttrib();
 }
 
 static void game_draw_items(const struct s_file *fp, float t)
@@ -1103,7 +1071,7 @@ static int game_update_state(int bt)
     if (!jump_b && !jump_u && sol_jump_test(fp, jump_p, 0) == 0)
         jump_u = 0;
 
-    for (i = 1; i < fp->uc; i++)
+    for (i = 0; i < fp->uc; i++)
     {
         if (!jump_u && jump_e == 1 && jump_b == 0 &&
             sol_jump_test(fp, jump_p, i) == 1)
@@ -1238,6 +1206,30 @@ void game_set_goal(void)
 void game_clr_goal(void)
 {
     goal_e = 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+/*
+ * Set ball B's play state as S.  Additional values can be used for b:
+ * -1: Set current ball to s
+ * -2: Set all balls to s
+ *
+ */
+
+void game_set_play(int b, int s)
+{
+    int i;
+
+    if (b >=  0 && b  < file.uc)
+        file.uv[b].P = s;
+
+    if (b == -1)
+        file.uv.P = s;
+
+    if (b == -2)
+        for (i = 0; i < file.uc; i++)
+            file.uv[i].P = s;
 }
 
 /*---------------------------------------------------------------------------*/

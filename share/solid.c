@@ -239,7 +239,6 @@ static void sol_load_ball(FILE *fin, struct s_ball *bp)
     get_array(fin,  bp->p, 3);
     get_float(fin, &bp->r);
     get_index(fin, &bp->m);
-    get_index(fin, &bp->n);
 
     v_cpy(bp->O, bp->p);
 
@@ -591,7 +590,6 @@ static void sol_stor_ball(FILE *fout, struct s_ball *bp)
     put_array(fout,  bp->p, 3);
     put_float(fout, &bp->r);
     put_index(fout, &bp->m);
-    put_index(fout, &bp->n);
 }
 
 static void sol_stor_view(FILE *fout, struct s_view *wp)
@@ -1698,6 +1696,9 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
     int ji;
     float l;
     int res = 0;
+
+    if (!fp->uv[ui].P || !fp->uv[ui].m)
+        return 0;
 
     for (ji = 0; ji < fp->jc; ji++)
     {

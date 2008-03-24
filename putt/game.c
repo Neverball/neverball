@@ -769,7 +769,7 @@ void game_set_play(int b, int s)
 {
     int i;
 
-    if (b  >  0 && b    < file.uc)
+    if (b >   0 && b    < file.uc)
         file.uv[b].P = s;
 
     if (b ==  0 && ball < file.uc)
@@ -777,13 +777,11 @@ void game_set_play(int b, int s)
 
     if (b == -1)
         for (i = 1; i < file.uc; i++)
-            if (i < file.uc)
-                file.uv[i].P = s;
+            file.uv[i].P = s;
 
     if (b == -2)
         for (i = 1; i <= curr_party() && i < file.uc; i++)
-            if (i < file.uc)
-                file.uv[i].P = s;
+            file.uv[i].P = s;
 }
 
 /*---------------------------------------------------------------------------*/
