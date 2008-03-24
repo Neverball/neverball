@@ -240,7 +240,6 @@ static void sol_load_ball(FILE *fin, struct s_ball *bp)
     get_float(fin, &bp->r);
     get_index(fin, &bp->m);
     get_index(fin, &bp->n);
-    get_index(fin, &bp->c);
 
     v_cpy(bp->O, bp->p);
 
@@ -593,7 +592,6 @@ static void sol_stor_ball(FILE *fout, struct s_ball *bp)
     put_float(fout, &bp->r);
     put_index(fout, &bp->m);
     put_index(fout, &bp->n);
-    put_index(fout, &bp->c);
 }
 
 static void sol_stor_view(FILE *fout, struct s_view *wp)
@@ -1652,7 +1650,7 @@ int sol_goal_test(struct s_file *fp, float *p, int ui, int user_balls)
     float z[3] = {0.0f, 0.0f, 0.0f};
     int zi, i;
 
-    for (i = 1; i < fp->uc; i++)
+    for (i = 0; i < fp->uc; i++)
     {
         if(fp->uv[i].p[1] < -199.9f)
             v_cpy(fp->uv[i].v, z);

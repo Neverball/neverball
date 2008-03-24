@@ -50,8 +50,6 @@ static int   jump_u = 0;                /* Which ball is jumping?            */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 
-#define PUTT_BALLS 4
-
 /*---------------------------------------------------------------------------*/
 
 static void view_init(void)
@@ -92,8 +90,6 @@ void game_init(const char *s)
                                     config_get_d(CONFIG_SHADOW));
 
     game_set_play(-1, 0);
-    game_set_play(-3, 1);
-    game_set_play(-4, config_get_d(CONFIG_BALL_COLLISIONS));
 
     file.uv->m = file.uv->P = 0;
 }
@@ -110,73 +106,53 @@ static void game_handle_balls(struct s_file *fp)
     float z[3] = {0.0f, 0.0f, 0.0f};
     int i, j;
 
-    for (i = 1; i < fp->uc; i++)
+    for (i = 0; i < fp->uc; i++)
     {
         struct s_ball *up = fp->uv + i;
 
-        if (i > PUTT_BALLS)
-        {
-            if (up->p[1] < -20.0f && up->n)
-            {
-                v_cpy(up->p, up->O);
-                v_cpy(up->v, z);
-                v_cpy(up->w, z);
-            }
+        if (!up->P)
+            continue;
 
-            if (!(v_len(up->v) > 0.0f))
-            {
-                if (sol_goal_test(fp, NULL, i, curr_party()) == 2)
-                {
-                    v_cpy(up->p, up->O);
-                    v_cpy(up->v, z);
-                    v_cpy(up->w, z);
-                }
-            }
+       /*
+        * If a ball falls out, return the ball to the camera marker
+        * and reset the play state for fair play
+        */
+        if (i != ball && up->p[1] < -10.f &&
+                        (up->p[1] > -199.9f || up->p[1] < -599.9f))
+        {
+            up->P = 0;
+            v_cpy(up->p, up->O);
+            v_cpy(up->v, z);
+            v_cpy(up->w, z);
         }
 
-        else if (i <= curr_party())
+       /*
+        * Hack: If the _player_'s ball somehow falls into the void before
+        * its shot, return to camera marker.  This usually happens when
+        * when a ball gets knocked out and a penalty is called for one's
+        * own ball.
+        */
+
+        if (i == ball && up->p[1] < -30.0f)
         {
-           /*
-            * If a ball falls out, return the ball to the camera marker
-            * and reset the play state for fair play
-            */
-            if (i != ball && up->p[1] < -10.f &&
-                            (up->p[1] > -199.9f || up->p[1] < -599.9f))
+            v_cpy(up->p, up->O);
+            v_cpy(up->v, z);
+            v_cpy(up->w, z);
+        }
+
+       /*
+        * If an OTHER ball stops in a hole, mark it as done
+        * and drop it -200.0 units to allow room for more balls
+        */
+        if (i != ball && !(v_len(up->v) > 0.0f))
+        {
+            if (up->P && sol_goal_test(fp, NULL, i, curr_party()) == 2)
             {
                 up->P = 0;
-                v_cpy(up->p, fp->uv->p);
+                up->p[1] = -200.0f;
                 v_cpy(up->v, z);
                 v_cpy(up->w, z);
-            }
-
-           /*
-            * Hack: If the _player_'s ball somehow falls into the void before
-            * its shot, return to camera marker.  This usually happens when
-            * when a ball gets knocked out and a penalty is called for one's
-            * own ball.
-            */
-
-            if (i == ball && up->p[1] < -30.0f)
-            {
-                v_cpy(up->p, fp->uv->p);
-                v_cpy(up->v, z);
-                v_cpy(up->w, z);
-            }
-
-           /*
-            * If an OTHER ball stops in a hole, mark it as done
-            * and drop it -200.0 units to allow room for more balls
-            */
-            if (i != ball && !(v_len(up->v) > 0.0f))
-            {
-                if (up->P && sol_goal_test(fp, NULL, i, curr_party()) == 2)
-                {
-                    up->P = 0;
-                    up->p[1] = -200.0f;
-                    v_cpy(up->v, z);
-                    v_cpy(up->w, z);
-                    hole_goal(i);
-                }
+                hole_goal(i);
             }
         }
 
@@ -189,7 +165,7 @@ static void game_handle_balls(struct s_file *fp)
         {
             struct s_ball *u2p = fp->uv + j;
             float d[3];
-            if (!(i <= curr_party() || i > PUTT_BALLS) || !up->P || !u2p->P)
+            if (!u2p->P)
                 continue;
             v_sub(d, up->p, u2p->p);
             if (v_len(up->v) > 0.005f || v_len(u2p->v) > 0.005f)
@@ -275,22 +251,16 @@ static void game_draw_balls(const struct s_file *fp,
         { 0.0f, 1.0f, 0.0f, 1.0f },
         { 0.0f, 0.0f, 1.0f, 1.0f },
         { 1.0f, 1.0f, 0.0f, 1.0f },
-        { 0.1f, 0.1f, 0.1f, 1.0f },
     };
 
     int ui;
 
     for (ui = 1; ui < fp->uc; ui++)
     {
-        if (ui == ball ||
-           (config_get_d(CONFIG_BALL_COLLISIONS) && fp->uv[ui].P) ||
-           (ui > PUTT_BALLS                      && fp->uv[ui].P))
+        if (ui == ball || fp->uv[ui].P)
         {
             float ball_M[16];
             float pend_M[16];
-
-            if (ui > PUTT_BALLS && !config_get_d(CONFIG_BALL_COLLISIONS) && fp->uv[ui].c)
-                continue;
 
             m_basis(ball_M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
             m_basis(pend_M, fp->uv[ui].E[0], fp->uv[ui].E[1], fp->uv[ui].E[2]);
@@ -305,18 +275,16 @@ static void game_draw_balls(const struct s_file *fp,
                          fp->uv[ui].r);
 
                 glEnable(GL_COLOR_MATERIAL);
-                glColor4fv(color[((ui <= curr_party()) ? (ui) : (5))]);
+                glColor4fv(color[ui]);
 
                 ball_draw(ball_M, pend_M, bill_M, t);
                 glDisable(GL_COLOR_MATERIAL);
             }
             glPopMatrix();
         }
-        else if (ui <= curr_party() || ui > PUTT_BALLS)
-        {
-            if (ui > PUTT_BALLS && !config_get_d(CONFIG_BALL_COLLISIONS) && fp->uv[ui].c)
-                continue;
 
+        else if (ui <= curr_party())
+        {
             glPushMatrix();
             {
                 glTranslatef(fp->uv[ui].p[0],
@@ -454,7 +422,7 @@ void game_draw(int pose, float t)
         {
             for (i = 0; i < fp->uc; i++)
             {
-                if ((i <= curr_party() || i > PUTT_BALLS) && fp->uv[i].P)
+                if (fp->uv[i].P)
                 {
                     shad_draw_set(fp->uv[i].p, fp->uv[i].r);
                     sol_shad(fp);
@@ -594,7 +562,7 @@ static int game_update_state(float dt)
 
     if (config_get_d(CONFIG_BALL_COLLISIONS))
     {
-        for (i = 1; i < curr_party() + 1; i++)
+        for (i = 0; i < fp->uc; i++)
         {
             if (!jump_u && jump_e == 1 && jump_b == 0 &&
                            sol_jump_test(fp, jump_p, i) == 1)
@@ -602,27 +570,7 @@ static int game_update_state(float dt)
                 jump_b  = 1;
                 jump_e  = 0;
                 jump_dt = 0.f;
-                jump_u  = i * 2;
-
-                audio_play(AUD_JUMP, 1.f);
-            }
-            if (jump_e == 0 && jump_b == 0 &&
-                sol_jump_test(fp, jump_p, i) == 0)
-                jump_e = 1;
-            if (!jump_b && jump_u && i == jump_u / 2 &&
-                sol_jump_test(fp, jump_p, i) == 0)
-                jump_u = 0;
-        }
-
-        for (i = PUTT_BALLS + 1; i < fp->uc; i++)
-        {
-            if (!jump_u && jump_e == 1 && jump_b == 0 &&
-                sol_jump_test(fp, jump_p, i) == 1)
-            {
-                jump_b  = 1;
-                jump_e  = 0;
-                jump_dt = 0.f;
-                jump_u  = i * 2 + 1;
+                jump_u  = i;
 
                 audio_play(AUD_JUMP, 1.f);
             }
@@ -721,9 +669,9 @@ int game_step(const float g[3], float dt)
 
             if (0.5 < jump_dt)
             {
-                fp->uv[jump_u / 2].p[0] = jump_p[0];
-                fp->uv[jump_u / 2].p[1] = jump_p[1];
-                fp->uv[jump_u / 2].p[2] = jump_p[2];
+                fp->uv[jump_u].p[0] = jump_p[0];
+                fp->uv[jump_u].p[1] = jump_p[1];
+                fp->uv[jump_u].p[2] = jump_p[2];
             }
 
             if (1.f < jump_dt)
@@ -811,9 +759,7 @@ void game_putt(void)
  * Set ball B's play state as S.  Additional values can be used for b:
  *  0: Set current ball to s
  * -1: Set all balls to s
- * -2: Set all player balls to s
- * -3: Set all arbitrary balls to s
- * -4: Set all arbitrary balls with a 'c' state of 0 to s
+ * -2: Set all balls under player control to s
  *
  * Note that the first ball (Or really where fall-out balls return / camera
  *                           spot) is never affected.
@@ -837,16 +783,6 @@ void game_set_play(int b, int s)
     if (b == -2)
         for (i = 1; i <= curr_party() && i < file.uc; i++)
             if (i < file.uc)
-                file.uv[i].P = s;
-
-    if (b == -3)
-        for (i = file.uc; i > PUTT_BALLS; i--)
-            if (i < file.uc)
-                file.uv[i].P = s;
-
-    if (b == -4)
-        for (i = file.uc; i > PUTT_BALLS; i--)
-            if (file.uv[i].c && config_get_d(CONFIG_BALL_COLLISIONS) && i < file.uc)
                 file.uv[i].P = s;
 }
 

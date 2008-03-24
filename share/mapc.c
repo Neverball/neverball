@@ -1206,7 +1206,6 @@ static void make_ball(struct s_file *fp,
     up->r    = 0.25f;
     up->m    = 1;
     up->n    = 0;
-    up->c    = 0;
 
     for (i = 0; i < c; i++)
     {
@@ -1229,9 +1228,6 @@ static void make_ball(struct s_file *fp,
 
         if (strcmp(k[i], "return") == 0)
             sscanf(v[i], "%d", &up->n);
-
-        if (strcmp(k[i], "collisions") == 0)
-            sscanf(v[i], "%d", &up->c);
     }
 
     up->p[1] += up->r + SMALL;

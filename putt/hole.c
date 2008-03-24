@@ -275,6 +275,8 @@ void hole_goal(int playerid)
         if (stat_v[playerid] == 1)
             return;
 
+        game_set_play(playerid, 0);
+
         if (score_v[hole][playerid] == 1)
             audio_play(AUD_ONE, 1.0f);
 
@@ -300,6 +302,8 @@ void hole_goal(int playerid)
 
     else
     {
+        game_set_play(player, 0);
+
         score_v[hole][player]++;
 
         if (score_v[hole][player] == 1)
@@ -334,6 +338,7 @@ void hole_stop(void)
 
     if (score_v[hole][player] >= 12 && score_v[hole][player] >= score_v[hole][0] + 3)
     {
+        game_set_play(player, 0);
         score_v[hole][player] = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
         stat_v[player] = 1;
         done++;
@@ -353,6 +358,7 @@ void hole_fall(void)
 
     if (score_v[hole][player] >= 12 && score_v[hole][player] >= score_v[hole][0] + 3)
     {
+        game_set_play(player, 0);
         score_v[hole][player] = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
         stat_v[player] = 1;
         done++;
