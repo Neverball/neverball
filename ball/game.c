@@ -1091,7 +1091,7 @@ static int game_update_state(int bt)
     /* Test for a goal. */
 
     for (i = 0; i < fp->uc; i++)
-        if (bt && goal_e && (sol_goal_test(fp, p, i) == 2))
+        if (bt && goal_e && (sol_goal_test(fp, NULL, i) == 2))
         {
             audio_play(AUD_GOAL, 1.0f);
             return GAME_GOAL;
