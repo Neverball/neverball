@@ -1641,22 +1641,15 @@ struct s_item *sol_item_test(struct s_file *fp, float *p, float item_r)
     return NULL;
 }
 
-int sol_goal_test(struct s_file *fp, float *p, int ui, int user_balls)
+int sol_goal_test(struct s_file *fp, float *p, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
-    float z[3] = {0.0f, 0.0f, 0.0f};
     int zi, i;
 
     for (i = 0; i < fp->uc; i++)
-    {
-        if(fp->uv[i].p[1] < -199.9f)
-            v_cpy(fp->uv[i].v, z);
-        if (p && (i <= user_balls || i > 4) && v_len(fp->uv[i].v) > 0.0f)
+        if (p && v_len(fp->uv[i].v) > 0.0f)
             return 0;
-        else if (p && (i <= user_balls || i > 4))
-            v_cpy(fp->uv[i].v, z);
-    }
 
     for (zi = 0; zi < fp->zc; zi++)
     {

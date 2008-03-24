@@ -337,7 +337,7 @@ float sol_step(struct s_file *, const float *, float, int, int *);
 
 int   sol_jump_test(struct s_file *, float *, int);
 int   sol_swch_test(struct s_file *);
-int   sol_goal_test(struct s_file *, float *, int, int);
+int   sol_goal_test(struct s_file *, float *, int);
 
 struct s_item *sol_item_test(struct s_file *, float *, float);
 

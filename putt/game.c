@@ -146,7 +146,7 @@ static void game_handle_balls(struct s_file *fp)
         */
         if (i != ball && !(v_len(up->v) > 0.0f))
         {
-            if (up->P && sol_goal_test(fp, NULL, i, curr_party()) == 2)
+            if (up->P && sol_goal_test(fp, NULL, i) == 2)
             {
                 up->P = 0;
                 up->p[1] = -200.0f;
@@ -607,7 +607,7 @@ static int game_update_state(float dt)
     {
         t = 0.0f;
 
-        switch (sol_goal_test(fp, p, ball, curr_party()) & ((fp->uv[ball].P) ? (3) : (1)))
+        switch (sol_goal_test(fp, p, ball) & ((fp->uv[ball].P) ? (3) : (1)))
         {
             case 2:  /* All balls stopped & Player's ball stopped in hole */
                 t = 0.0f;
