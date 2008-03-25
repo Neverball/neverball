@@ -1,0 +1,38 @@
+
+                            * Neverball *
+
+
+Tilt the  floor to roll a  ball through an obstacle  course within the
+given time.  If the ball falls or time expires, a ball is lost.
+
+Collect coins to unlock the exit  and earn extra balls.  Red coins are
+worth 5.   Blue coins are  worth 10.  A  free ball is awarded  for 100
+coins.
+
+                                * * *
+
+The game's license is described in COPYING.
+
+See INSTALL for instructions on how to build the game from source code.
+
+See doc/AUTHORS to know about various contributors.
+
+A description of how to play the game can be found in doc/MANUAL.
+
+                                * * *
+
+Neverball Official Site
+    http://icculus.org/neverball/
+
+Neverforum (Community Discussion Forum)
+    http://www.nevercorner.net/forum/
+
+Nevertable (Neverball Highscore and Replay Database)
+    http://www.nevercorner.net/table/
+
+Neverwiki (Documentation and Level Design)
+    http://www.nevercorner.net/wiki/doku.php
+
+                                * * *
+
+Contact: <robert.kooima@gmail.com>
