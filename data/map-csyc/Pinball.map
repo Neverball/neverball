@@ -237,7 +237,7 @@
 "grad" "back/ocean.png"
 "back" "map-back/ocean.sol"
 "song" "bgm/track2.ogg"
-"shot" "shot-csyc/C-Pinball.png"
+"shot" "shot-csyc/Pinball.png"
 "message" "Pinball\Story: As you landed on a platform on\a Class-H Planet, a Pinball table suddenly fell\and you were stuck in it.\\Tips: Remember the original game?"
 "time" "30000"
 "goal" "20"

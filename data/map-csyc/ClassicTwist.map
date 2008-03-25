@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Classic Twist\Story: If you ever wanted to relax, now is your chance.\\Tips: What does this remind you of?"
 "back" "map-back/alien.sol"
-"shot" "shot-csyc/C-ClassicTwist.png"
+"shot" "shot-csyc/ClassicTwist.png"
 "grad" "back/alien.png"
 "time" "21000"
 "goal" "72"

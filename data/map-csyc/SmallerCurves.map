@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Smaller Curves\Story: As you continue to navigate around the\Class-M planet, you stumble yourself across\even smaller curves.\\Tips: Take it slowly, if needed."
 "song" "bgm/track1.ogg"
-"shot" "shot-csyc/C-SmallerCurves.png"
+"shot" "shot-csyc/SmallerCurves.png"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "time" "12000"

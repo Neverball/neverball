@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Vortex\Story: The dizziness that results\from the spiral throws you off.\\Tips: This is a sloped spiral.\\Notes: This includes one of my earlier levels."
 "song" "bgm/track4.ogg"
-"shot" "shot-csyc/C-Vortex.png"
+"shot" "shot-csyc/Vortex.png"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
 "time" "13500"

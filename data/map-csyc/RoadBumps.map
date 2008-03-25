@@ -1594,7 +1594,7 @@
 "back" "map-back/city.sol"
 "grad" "back/city.png"
 "song" "bgm/track3.ogg"
-"shot" "shot-csyc/C-RoadBumps.png"
+"shot" "shot-csyc/RoadBumps.png"
 "author" "Challenge Space Yard"
 "levelname" "Road Bumps"
 "version" "1"

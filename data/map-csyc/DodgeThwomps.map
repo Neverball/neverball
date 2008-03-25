@@ -5,7 +5,7 @@
 "message" "Dodge the Thwomps\Uh oh! The Thwomps are in your path now!\You mission is to dodge the thwomps\while getting enough coins to advance.\\Tips: The thwomps are slow. Use\their slow speed to your advantage."
 "time" "15000"
 "goal" "7"
-"shot" "shot-csyc/C-DodgeThwomps.png"
+"shot" "shot-csyc/DodgeThwomps.png"
 "song" "bgm/track1.ogg"
 "grad" "back/land.png"
 "back" "map-back/clouds.sol"

@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Slope Spiral Road\Story: As you try to ready yourself for another Warp\Zone, you get thwomped! When you wake up, you\find yourself on a road with lots of spirals.\\Tips: Remember to maintain balance while\on the sloped spiral."
 "song" "bgm/track1.ogg"
-"shot" "shot-csyc/C-SlopeSpiralRoad.png"
+"shot" "shot-csyc/SlopeSpiralRoad.png"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "time" "9000"

@@ -5,7 +5,7 @@
 "message" "Illusion\Story: As you might think you could calm down,\things still get in your way. You need\to be able to make it through.\Don't get lost!\\Tips: Careful! About anything can go wrong\while playing this level."
 "time" "9000"
 "goal" "15"
-"shot" "shot-csyc/C-Illusion.png"
+"shot" "shot-csyc/Illusion.png"
 "song" "bgm/track5.ogg"
 "grad" "back/alien.png"
 "back" "map-back/alien.sol"

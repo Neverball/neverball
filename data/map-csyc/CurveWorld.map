@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Curve World\Story: You have landed on a Class-M planet.\Your mission is to get enough coins in this\level to unlock the next level.\\Tips: This is my very first level with curves.\The first curve is easy, but the\next two curves are narrower.\Don't forget the coins."
 "song" "bgm/track1.ogg"
-"shot" "shot-csyc/C-CurveWorld.png"
+"shot" "shot-csyc/CurveWorld.png"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "time" "9000"

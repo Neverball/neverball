@@ -5,7 +5,7 @@
 "message" "Screw Drive\Story: You've been challenged to participate in another race.\You must complete 3 laps within 3 minutes."
 "back" "map-back/city.sol"
 "grad" "back/city.png"
-"shot" "shot-csyc/C-ScrewDrive.png"
+"shot" "shot-csyc/ScrewDrive.png"
 "song" "bgm/track3.ogg"
 "time" "18000"
 "goal" "50"
