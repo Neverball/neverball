@@ -14,7 +14,7 @@
 
 #include "gui.h"
 #include "set.h"
-#include "levels.h"
+#include "progress.h"
 #include "game.h"
 #include "audio.h"
 #include "config.h"
@@ -35,7 +35,7 @@ static int first = 0;
 static int shot_id;
 static int desc_id;
 
-static int should_prompt = 1;
+static int do_init = 1;
 
 static int set_action(int i)
 {
@@ -44,6 +44,7 @@ static int set_action(int i)
     switch (i)
     {
     case GUI_BACK:
+        set_free();
         return goto_state(&st_title);
         break;
 
@@ -51,7 +52,7 @@ static int set_action(int i)
 
         first -= SET_STEP;
 
-        should_prompt = 0;
+        do_init = 0;
         return goto_state(&st_set);
 
         break;
@@ -60,7 +61,7 @@ static int set_action(int i)
 
         first += SET_STEP;
 
-        should_prompt = 0;
+        do_init = 0;
         return goto_state(&st_set);
 
         break;
@@ -82,10 +83,8 @@ static int set_action(int i)
 
 static void gui_set(int id, int i)
 {
-    const struct set *s;
-
-    if ((s = get_set(i)))
-        gui_state(id, _(s->name), GUI_SML, i, 0);
+    if (set_exists(i))
+        gui_state(id, set_name(i), GUI_SML, i, 0);
     else
         gui_label(id, "", GUI_SML, GUI_ALL, 0, 0);
 }
@@ -99,13 +98,13 @@ static int set_enter(void)
 
     int i;
 
-    total = set_init();
-
-    audio_music_fade_to(0.5f, "bgm/inter.ogg");
-
-    if (should_prompt)
+    if (do_init)
+    {
+        total = set_init();
+        audio_music_fade_to(0.5f, "bgm/inter.ogg");
         audio_play(AUD_START, 1.f);
-    else should_prompt = 1;
+    }
+    else do_init = 1;
 
     if ((id = gui_vstack(0)))
     {
@@ -118,8 +117,7 @@ static int set_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, get_set(first)->shot,
-                                7 * w / 16, 7 * h / 16);
+            shot_id = gui_image(jd, set_shot(first), 7 * w / 16, 7 * h / 16);
 
             if ((kd = gui_varray(jd)))
             {
@@ -139,8 +137,8 @@ static int set_enter(void)
 
 static void set_over(int i)
 {
-    gui_set_image(shot_id, get_set(i)->shot);
-    gui_set_multi(desc_id, _(get_set(i)->desc));
+    gui_set_image(shot_id, set_shot(i));
+    gui_set_multi(desc_id, set_desc(i));
 }
 
 static void set_point(int id, int x, int y, int dx, int dy)
@@ -180,6 +178,7 @@ struct state st_set = {
     shared_timer,
     set_point,
     set_stick,
+    shared_angle,
     shared_click,
     NULL,
     set_buttn,

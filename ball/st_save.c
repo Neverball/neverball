@@ -21,7 +21,7 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
-#include "levels.h"
+#include "progress.h"
 #include "text.h"
 
 #include "st_shared.h"
@@ -223,6 +223,7 @@ struct state st_save = {
     shared_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     save_keybd,
     save_buttn,
@@ -236,6 +237,7 @@ struct state st_clobber = {
     shared_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     NULL,
     clobber_buttn,

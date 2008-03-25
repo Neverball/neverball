@@ -64,6 +64,10 @@ enum {
     CONFIG_JOYSTICK_CAMERA_1,
     CONFIG_JOYSTICK_CAMERA_2,
     CONFIG_JOYSTICK_CAMERA_3,
+    CONFIG_JOYSTICK_DPAD_L,
+    CONFIG_JOYSTICK_DPAD_R,
+    CONFIG_JOYSTICK_DPAD_U,
+    CONFIG_JOYSTICK_DPAD_D,
     CONFIG_KEY_CAMERA_1,
     CONFIG_KEY_CAMERA_2,
     CONFIG_KEY_CAMERA_3,
@@ -81,8 +85,12 @@ enum {
     CONFIG_KEY_RIGHT,
     CONFIG_KEY_PAUSE,
     CONFIG_KEY_RESTART,
+    CONFIG_KEY_SCORE_NEXT,
     CONFIG_CHEAT,
     CONFIG_STATS,
+    CONFIG_UNIFORM,
+    CONFIG_SCREENSHOT,
+    CONFIG_LOCK_GOALS,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -90,6 +98,7 @@ enum {
 enum {
     CONFIG_PLAYER,
     CONFIG_BALL,
+    CONFIG_WIIMOTE_ADDR,
 
     CONFIG_OPTION_S_COUNT
 };
@@ -106,7 +115,7 @@ enum {
 #define DEFAULT_REFLECTION           1
 #define DEFAULT_MULTISAMPLE          0
 #define DEFAULT_MIPMAP               0
-#define DEFAULT_ANISO                1
+#define DEFAULT_ANISO                0
 #define DEFAULT_BACKGROUND           1
 #define DEFAULT_SHADOW               1
 #define DEFAULT_AUDIO_BUFF           AUDIO_BUFF_HI
@@ -129,6 +138,11 @@ enum {
 #define DEFAULT_JOYSTICK_CAMERA_1    5
 #define DEFAULT_JOYSTICK_CAMERA_2    6
 #define DEFAULT_JOYSTICK_CAMERA_3    7
+#define DEFAULT_JOYSTICK_DPAD_L      8
+#define DEFAULT_JOYSTICK_DPAD_R      9
+#define DEFAULT_JOYSTICK_DPAD_U      10
+#define DEFAULT_JOYSTICK_DPAD_D      11
+#define DEFAULT_WIIMOTE_ADDR         ""
 #define DEFAULT_KEY_CAMERA_1         SDLK_F1
 #define DEFAULT_KEY_CAMERA_2         SDLK_F2
 #define DEFAULT_KEY_CAMERA_3         SDLK_F3
@@ -141,7 +155,7 @@ enum {
 #define DEFAULT_ROTATE_SLOW          100
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_PLAYER               ""
-#define DEFAULT_BALL                 "png/ball.png"
+#define DEFAULT_BALL                 "ball/basic-ball/basic-ball"
 #define DEFAULT_CHEAT                0
 #define DEFAULT_KEY_FORWARD          SDLK_UP
 #define DEFAULT_KEY_BACKWARD         SDLK_DOWN
@@ -149,7 +163,11 @@ enum {
 #define DEFAULT_KEY_RIGHT            SDLK_RIGHT
 #define DEFAULT_KEY_PAUSE            SDLK_SPACE
 #define DEFAULT_KEY_RESTART          SDLK_r
+#define DEFAULT_KEY_SCORE_NEXT       SDLK_TAB
 #define DEFAULT_STATS                0
+#define DEFAULT_UNIFORM              0
+#define DEFAULT_SCREENSHOT           0
+#define DEFAULT_LOCK_GOALS           0
 
 /*---------------------------------------------------------------------------*/
 
@@ -183,6 +201,10 @@ int  config_get_grab(void);
 int  config_cheat(void);
 void config_set_cheat(void);
 void config_clr_cheat(void);
+
+/*---------------------------------------------------------------------------*/
+
+int config_screenshot(void);
 
 /*---------------------------------------------------------------------------*/
 

@@ -150,8 +150,6 @@
 		815F01890AEA7C3400AFD07F /* set.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC190AEA2EF600AFD07F /* set.h */; };
 		815F018A0AEA7C3400AFD07F /* set.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC180AEA2EF600AFD07F /* set.c */; };
 		815F018B0AEA7C3400AFD07F /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC170AEA2EF600AFD07F /* main.c */; };
-		815F018C0AEA7C3400AFD07F /* levels.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC160AEA2EF600AFD07F /* levels.h */; };
-		815F018D0AEA7C3400AFD07F /* levels.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC150AEA2EF600AFD07F /* levels.c */; };
 		815F018E0AEA7C3400AFD07F /* level.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC140AEA2EF600AFD07F /* level.h */; };
 		815F018F0AEA7C3400AFD07F /* level.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC130AEA2EF600AFD07F /* level.c */; };
 		815F01900AEA7C3400AFD07F /* hud.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC120AEA2EF600AFD07F /* hud.h */; };
@@ -175,6 +173,10 @@
 		815FFD170AEA357600AFD07F /* binary.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFB840AEA2E0300AFD07F /* binary.h */; };
 		81D0B3F30AEE6C710041CE19 /* SDL_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815F03F60AEAC72600AFD07F /* SDL_ttf.framework */; };
 		81D0B3F60AEE6C710041CE19 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815FFCFD0AEA340300AFD07F /* SDL.framework */; };
+		B509A5D30D2B032B008DB8D9 /* sync.c in Sources */ = {isa = PBXBuildFile; fileRef = B509A5D10D2B032B008DB8D9 /* sync.c */; };
+		B509A5D40D2B032B008DB8D9 /* sync.h in Headers */ = {isa = PBXBuildFile; fileRef = B509A5D20D2B032B008DB8D9 /* sync.h */; };
+		B509A5D50D2B032B008DB8D9 /* sync.c in Sources */ = {isa = PBXBuildFile; fileRef = B509A5D10D2B032B008DB8D9 /* sync.c */; };
+		B509A5D60D2B032B008DB8D9 /* sync.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B509A5D20D2B032B008DB8D9 /* sync.h */; };
 		B5117CE80C9060CB005837F9 /* st_pause.c in Sources */ = {isa = PBXBuildFile; fileRef = B5117CE60C9060CB005837F9 /* st_pause.c */; };
 		B5117CE90C9060CB005837F9 /* st_pause.h in Headers */ = {isa = PBXBuildFile; fileRef = B5117CE70C9060CB005837F9 /* st_pause.h */; };
 		B517CF110D1F133000FCFE83 /* iconv.h in Headers */ = {isa = PBXBuildFile; fileRef = B517CEFC0D1F133000FCFE83 /* iconv.h */; };
@@ -197,12 +199,14 @@
 		B517CF260D1F133000FCFE83 /* libvorbisfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B517CF040D1F133000FCFE83 /* libvorbisfile.a */; };
 		B517CF270D1F133000FCFE83 /* ogg in Resources */ = {isa = PBXBuildFile; fileRef = B517CF050D1F133000FCFE83 /* ogg */; };
 		B517CF2A0D1F133000FCFE83 /* vorbis in Resources */ = {isa = PBXBuildFile; fileRef = B517CF0C0D1F133000FCFE83 /* vorbis */; };
+		B53285970D2B46B000DEC276 /* tilt.c in Sources */ = {isa = PBXBuildFile; fileRef = B53285950D2B46B000DEC276 /* tilt.c */; };
+		B53285980D2B46B000DEC276 /* tilt.h in Headers */ = {isa = PBXBuildFile; fileRef = B53285960D2B46B000DEC276 /* tilt.h */; };
+		B53285990D2B46B000DEC276 /* tilt.c in Sources */ = {isa = PBXBuildFile; fileRef = B53285950D2B46B000DEC276 /* tilt.c */; };
+		B532859A0D2B46B000DEC276 /* tilt.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B53285960D2B46B000DEC276 /* tilt.h */; };
 		B5412EB90CA36ACD00C9A9F7 /* demo.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC0E0AEA2EF600AFD07F /* demo.h */; };
 		B5412EBA0CA36AE000C9A9F7 /* demo.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC0D0AEA2EF600AFD07F /* demo.c */; };
 		B5412EC20CA36C3C00C9A9F7 /* score.c in Sources */ = {isa = PBXBuildFile; fileRef = B5412EBE0CA36C3C00C9A9F7 /* score.c */; };
 		B5412EC30CA36C3C00C9A9F7 /* score.h in Headers */ = {isa = PBXBuildFile; fileRef = B5412EBF0CA36C3C00C9A9F7 /* score.h */; };
-		B5412EC40CA36C3C00C9A9F7 /* mode.c in Sources */ = {isa = PBXBuildFile; fileRef = B5412EC00CA36C3C00C9A9F7 /* mode.c */; };
-		B5412EC50CA36C3C00C9A9F7 /* mode.h in Headers */ = {isa = PBXBuildFile; fileRef = B5412EC10CA36C3C00C9A9F7 /* mode.h */; };
 		B5452B830D19C959000F8933 /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = B5452B810D19C959000F8933 /* text.c */; };
 		B5452B840D19C959000F8933 /* text.h in Headers */ = {isa = PBXBuildFile; fileRef = B5452B820D19C959000F8933 /* text.h */; };
 		B5452B850D19C959000F8933 /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = B5452B810D19C959000F8933 /* text.c */; };
@@ -251,6 +255,16 @@
 		B57D63D60CAE8138005DE710 /* st_fall_out.c in Sources */ = {isa = PBXBuildFile; fileRef = B57D63D00CAE8138005DE710 /* st_fall_out.c */; };
 		B59445470C9641CB00EC3F09 /* neverball.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD3F0BCA1BF200915326 /* neverball.icns */; };
 		B59445480C9641D000EC3F09 /* neverputt.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD410BCA1BF200915326 /* neverputt.icns */; };
+		B5C864060D3552220024E95E /* ball.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864020D3552220024E95E /* ball.c */; };
+		B5C864070D3552220024E95E /* ball.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C864030D3552220024E95E /* ball.h */; };
+		B5C864080D3552220024E95E /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864040D3552220024E95E /* common.c */; };
+		B5C864090D3552220024E95E /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C864050D3552220024E95E /* common.h */; };
+		B5C8640A0D3552220024E95E /* ball.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864020D3552220024E95E /* ball.c */; };
+		B5C8640B0D3552220024E95E /* ball.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5C864030D3552220024E95E /* ball.h */; };
+		B5C8640C0D3552220024E95E /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864040D3552220024E95E /* common.c */; };
+		B5C8640D0D3552220024E95E /* common.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5C864050D3552220024E95E /* common.h */; };
+		B5E71C010D8C299F00B9CC31 /* progress.c in Sources */ = {isa = PBXBuildFile; fileRef = B5E71BFF0D8C299F00B9CC31 /* progress.c */; };
+		B5E71C020D8C299F00B9CC31 /* progress.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E71C000D8C299F00B9CC31 /* progress.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -336,6 +350,10 @@
 				B565046A0D22EB68006F75A4 /* pngconf.h in CopyFiles */,
 				B565048A0D22F722006F75A4 /* zconf.h in CopyFiles */,
 				B565048B0D22F722006F75A4 /* zlib.h in CopyFiles */,
+				B509A5D60D2B032B008DB8D9 /* sync.h in CopyFiles */,
+				B532859A0D2B46B000DEC276 /* tilt.h in CopyFiles */,
+				B5C8640B0D3552220024E95E /* ball.h in CopyFiles */,
+				B5C8640D0D3552220024E95E /* common.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,8 +417,6 @@
 		815FFC120AEA2EF600AFD07F /* hud.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = hud.h; sourceTree = "<group>"; };
 		815FFC130AEA2EF600AFD07F /* level.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = level.c; sourceTree = "<group>"; };
 		815FFC140AEA2EF600AFD07F /* level.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = level.h; sourceTree = "<group>"; };
-		815FFC150AEA2EF600AFD07F /* levels.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = levels.c; sourceTree = "<group>"; };
-		815FFC160AEA2EF600AFD07F /* levels.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = levels.h; sourceTree = "<group>"; };
 		815FFC170AEA2EF600AFD07F /* main.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		815FFC180AEA2EF600AFD07F /* set.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = set.c; sourceTree = "<group>"; };
 		815FFC190AEA2EF600AFD07F /* set.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = set.h; sourceTree = "<group>"; };
@@ -444,6 +460,8 @@
 		B47DDD3F0BCA1BF200915326 /* neverball.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = neverball.icns; path = ../icons/neverball.icns; sourceTree = "<group>"; };
 		B47DDD400BCA1BF200915326 /* neverputt-new.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "neverputt-new.icns"; path = "../icons/neverputt-new.icns"; sourceTree = "<group>"; };
 		B47DDD410BCA1BF200915326 /* neverputt.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = neverputt.icns; path = ../icons/neverputt.icns; sourceTree = "<group>"; };
+		B509A5D10D2B032B008DB8D9 /* sync.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sync.c; sourceTree = "<group>"; };
+		B509A5D20D2B032B008DB8D9 /* sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sync.h; sourceTree = "<group>"; };
 		B51179D80C906000005837F9 /* alien.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alien.png; sourceTree = "<group>"; };
 		B51179D90C906000005837F9 /* blk_org.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blk_org.png; sourceTree = "<group>"; };
 		B51179DA0C906000005837F9 /* blues.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blues.png; sourceTree = "<group>"; };
@@ -979,6 +997,8 @@
 		B517CF040D1F133000FCFE83 /* libvorbisfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libvorbisfile.a; sourceTree = "<group>"; };
 		B517CF050D1F133000FCFE83 /* ogg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ogg; sourceTree = "<group>"; };
 		B517CF0C0D1F133000FCFE83 /* vorbis */ = {isa = PBXFileReference; lastKnownFileType = folder; path = vorbis; sourceTree = "<group>"; };
+		B53285950D2B46B000DEC276 /* tilt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tilt.c; sourceTree = "<group>"; };
+		B53285960D2B46B000DEC276 /* tilt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tilt.h; sourceTree = "<group>"; };
 		B5412DD80CA36A6700C9A9F7 /* arrow */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow; sourceTree = "<group>"; };
 		B5412DD90CA36A6700C9A9F7 /* arrow-dark */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "arrow-dark"; sourceTree = "<group>"; };
 		B5412DDA0CA36A6700C9A9F7 /* arrow-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-dark.png"; sourceTree = "<group>"; };
@@ -1204,8 +1224,6 @@
 		B5412EB80CA36A6700C9A9F7 /* yellow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yellow.jpg; sourceTree = "<group>"; };
 		B5412EBE0CA36C3C00C9A9F7 /* score.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = score.c; sourceTree = "<group>"; };
 		B5412EBF0CA36C3C00C9A9F7 /* score.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = score.h; sourceTree = "<group>"; };
-		B5412EC00CA36C3C00C9A9F7 /* mode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mode.c; sourceTree = "<group>"; };
-		B5412EC10CA36C3C00C9A9F7 /* mode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mode.h; sourceTree = "<group>"; };
 		B5452B810D19C959000F8933 /* text.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = text.c; sourceTree = "<group>"; };
 		B5452B820D19C959000F8933 /* text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		B54968290C964EBF004309DA /* lang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lang.h; sourceTree = "<group>"; };
@@ -1228,6 +1246,12 @@
 		B57D63CE0CAE8138005DE710 /* st_time_out.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_time_out.c; sourceTree = "<group>"; };
 		B57D63CF0CAE8138005DE710 /* st_goal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = st_goal.h; sourceTree = "<group>"; };
 		B57D63D00CAE8138005DE710 /* st_fall_out.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_fall_out.c; sourceTree = "<group>"; };
+		B5C864020D3552220024E95E /* ball.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ball.c; sourceTree = "<group>"; };
+		B5C864030D3552220024E95E /* ball.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ball.h; sourceTree = "<group>"; };
+		B5C864040D3552220024E95E /* common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = common.c; sourceTree = "<group>"; };
+		B5C864050D3552220024E95E /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		B5E71BFF0D8C299F00B9CC31 /* progress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = progress.c; sourceTree = "<group>"; };
+		B5E71C000D8C299F00B9CC31 /* progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = progress.h; sourceTree = "<group>"; };
 		F5A47A9D01A0482F01D3D55B /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = SOURCE_ROOT; };
 		F5A47A9E01A0483001D3D55B /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -1412,6 +1436,14 @@
 		815FFB710AEA2E0300AFD07F /* share */ = {
 			isa = PBXGroup;
 			children = (
+				B5C864020D3552220024E95E /* ball.c */,
+				B5C864030D3552220024E95E /* ball.h */,
+				B5C864040D3552220024E95E /* common.c */,
+				B5C864050D3552220024E95E /* common.h */,
+				B53285950D2B46B000DEC276 /* tilt.c */,
+				B53285960D2B46B000DEC276 /* tilt.h */,
+				B509A5D10D2B032B008DB8D9 /* sync.c */,
+				B509A5D20D2B032B008DB8D9 /* sync.h */,
 				B5452B810D19C959000F8933 /* text.c */,
 				B5452B820D19C959000F8933 /* text.h */,
 				815FFB720AEA2E0300AFD07F /* audio.c */,
@@ -1456,6 +1488,8 @@
 		815FFC0C0AEA2EF600AFD07F /* ball */ = {
 			isa = PBXGroup;
 			children = (
+				B5E71BFF0D8C299F00B9CC31 /* progress.c */,
+				B5E71C000D8C299F00B9CC31 /* progress.h */,
 				B57D63CB0CAE8138005DE710 /* st_goal.c */,
 				B57D63CC0CAE8138005DE710 /* st_fall_out.h */,
 				B57D63CD0CAE8138005DE710 /* st_time_out.h */,
@@ -1464,8 +1498,6 @@
 				B57D63D00CAE8138005DE710 /* st_fall_out.c */,
 				B5412EBE0CA36C3C00C9A9F7 /* score.c */,
 				B5412EBF0CA36C3C00C9A9F7 /* score.h */,
-				B5412EC00CA36C3C00C9A9F7 /* mode.c */,
-				B5412EC10CA36C3C00C9A9F7 /* mode.h */,
 				815FFC0D0AEA2EF600AFD07F /* demo.c */,
 				815FFC0E0AEA2EF600AFD07F /* demo.h */,
 				815FFC0F0AEA2EF600AFD07F /* game.c */,
@@ -1474,8 +1506,6 @@
 				815FFC120AEA2EF600AFD07F /* hud.h */,
 				815FFC130AEA2EF600AFD07F /* level.c */,
 				815FFC140AEA2EF600AFD07F /* level.h */,
-				815FFC150AEA2EF600AFD07F /* levels.c */,
-				815FFC160AEA2EF600AFD07F /* levels.h */,
 				815FFC170AEA2EF600AFD07F /* main.c */,
 				815FFC180AEA2EF600AFD07F /* set.c */,
 				815FFC190AEA2EF600AFD07F /* set.h */,
@@ -2539,7 +2569,6 @@
 				815F01850AEA7C3400AFD07F /* st_demo.h in Headers */,
 				815F01870AEA7C3400AFD07F /* st_conf.h in Headers */,
 				815F01890AEA7C3400AFD07F /* set.h in Headers */,
-				815F018C0AEA7C3400AFD07F /* levels.h in Headers */,
 				815F018E0AEA7C3400AFD07F /* level.h in Headers */,
 				815F01900AEA7C3400AFD07F /* hud.h in Headers */,
 				815F01920AEA7C3400AFD07F /* game.h in Headers */,
@@ -2547,7 +2576,6 @@
 				B5117CE90C9060CB005837F9 /* st_pause.h in Headers */,
 				B549682A0C964EBF004309DA /* lang.h in Headers */,
 				B5412EC30CA36C3C00C9A9F7 /* score.h in Headers */,
-				B5412EC50CA36C3C00C9A9F7 /* mode.h in Headers */,
 				B57D63D20CAE8138005DE710 /* st_fall_out.h in Headers */,
 				B57D63D30CAE8138005DE710 /* st_time_out.h in Headers */,
 				B57D63D50CAE8138005DE710 /* st_goal.h in Headers */,
@@ -2562,6 +2590,11 @@
 				B56504620D22EB68006F75A4 /* pngconf.h in Headers */,
 				B56504870D22F722006F75A4 /* zconf.h in Headers */,
 				B56504880D22F722006F75A4 /* zlib.h in Headers */,
+				B509A5D40D2B032B008DB8D9 /* sync.h in Headers */,
+				B53285980D2B46B000DEC276 /* tilt.h in Headers */,
+				B5C864070D3552220024E95E /* ball.h in Headers */,
+				B5C864090D3552220024E95E /* common.h in Headers */,
+				B5E71C020D8C299F00B9CC31 /* progress.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2760,7 +2793,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Create a dmg\n# \n# Modified from \"Battle for Wesnoth\" building stuff\n\n# set -x # uncomment for debugging\nset -e # exit on error\n\nSVN_REVISION=`cd ${SRCROOT}/../.. && /usr/local/bin/svn info | grep Rev: | cut -d: -f2`\nSVN_REVISION=`echo ${SVN_REVISION} | sed -e 's/\\ //g'`\necho \"*** SVN REV : ${SVN_REVISION}\"\n\nVERSION=\"1.5.0-r${SVN_REVISION}\"\n# VERSION=\"1.5.0\"\nNAME=\"Neverball-$VERSION\"\n\necho \"*** Building disk image...\"\n\nimage_rw=\"${BUILT_PRODUCTS_DIR}/Neverball-${VERSION}.sparseimage\"\nimage_ro=\"${BUILT_PRODUCTS_DIR}/Neverball-${VERSION}.dmg\"\n\nMOUNTPOINT=\"/Volumes/$NAME\"\ntest -e \"$MOUNTPOINT\" && {\n  echo \"$MOUNTPOINT already mounted. Please, detach it.\" 1>&2\n  exit 1\n}\n\nrm \"$image_rw\" 2>/dev/null || true\nhdiutil create -type SPARSE -fs HFS+ -volname \"$NAME\" \"$image_rw\"\nhdiutil attach \"$image_rw\"\n\nfor app in \"Neverball\" \"Neverputt\"\ndo \n  echo \"+ Copying $app\"\n  cp -Rp \"${BUILT_PRODUCTS_DIR}/${app}.app\" \"$MOUNTPOINT/.\"\n  strip \"$MOUNTPOINT/${app}.app/Contents/MacOS/${app}\"\n  rm -fr \"$MOUNTPOINT/${app}.app/\"Contents/Frameworks/*.framework/Versions/*/Headers\n  rm -fr \"$MOUNTPOINT/${app}.app/\"Contents/Frameworks/*.framework/Headers\ndone\n\necho \"+ Copying data\"\ncp -Rp \"${BUILT_PRODUCTS_DIR}/data\" \"${MOUNTPOINT}/.\"\n\necho \"+ Cleaning image before read-only\"\nrm -f \"${MOUNTPOINT}/data/.ok\"\n\necho \"+ Copying Doc\"\nmkdir \"${MOUNTPOINT}/docs\"\nfor i in \"CHANGES\" \"COPYING\" \"INSTALL\" \"README\" \ndo\ncp \"${SRCROOT}/../../$i\" \"${MOUNTPOINT}/Docs/\"\ndone\nfor i in \"AUTHORS\" \"MANUAL\" \"TRANSLATIONS\" \ndo\ncp \"${SRCROOT}/../../doc/$i\" \"${MOUNTPOINT}/Docs/\"\ndone\n\n#echo \"+ Install disk icon\"\n# iconfile=\"shield.icns\"\n#cp \"$iconfile\" \"$mountpoint/.VolumeIcon.icns\"\n#/Developer/Tools/SetFile -a aVbstclinmedz \"$MOUNTPOINT/.VolumeIcon.icns\"\n\necho \"+ Install background dmg\"\nmkdir -p \"${MOUNTPOINT}/data/osx\"\ncp \"${SRCROOT}/../icons/dmg-background.jpg\" \"${MOUNTPOINT}/data/osx/\"\n\necho \"+ set the presentation\"\n# better to copy this in script editor for change...\nosascript - \"$MOUNTPOINT\" <<!\non run argv\n--\tset dir to \"/Volumes/Wesnoth 0.9.5\"\n\tset dir to item 1 of argv\n\ttell application \"Finder\"\n\t\tset f to POSIX file dir as alias\n\t\topen f\n\n\t\tset w to container window of f\n\n\t\tset current view of w to icon view\n\t\tset toolbar visible of w to false\n\t\tset statusbar visible of w to false\n\t\tset opts to icon view options of w\n\t\tset bgfile to file \"data:osx:dmg-background.jpg\" of folder f\n\t\t\n\t\t--\tset background color of opts to {50000, 50000, 50000}\n\t\tset background picture of opts to bgfile\n\t\tset icon size of opts to 70\n\t\tset text size of opts to 12\n\t\tset label position of opts to bottom\n\t\tset arrangement of opts to not arranged\n\t\tset position of item \"Neverball.app\" of f to {94, 245}\n\t\tset position of item \"data\" of f to {220, 245}\n\t\tset position of item \"docs\" of f to {220, 145}\n\t\tset position of item \"Neverputt.app\" of f to {352, 245}\n\t\tset the bounds of w to {100, 100, 558, 425}\n\t\tdelay 5\n\tend tell\nend run\n!\n\necho \"+ Detaching '$NAME' image\"\nhdiutil detach \"$MOUNTPOINT\"\n\n#open \"$image_rw\"\n\n#echo \"+ Compressing disk image\"\n#rm \"$image_ro\" 2>/dev/null || true\n#hdiutil convert \"$image_rw\" -imagekey zlib-level=9 -format UDZO -o \"$image_ro\"\n\n#rm \"$image_rw\"\n\n# open the result in Finder\n#open \"$image_ro\"\n";
+			shellScript = "# Create a dmg\n# \n# Modified from \"Battle for Wesnoth\" building stuff\n\n# set -x # uncomment for debugging\nset -e # exit on error\n\nSVN_REVISION=`cd ${SRCROOT}/../.. && /usr/local/bin/svn info | grep Revision: | cut -d\\  -f2`\nSVN_REVISION=`echo ${SVN_REVISION} | sed -e 's/\\ //g'`\necho \"*** SVN REV : ${SVN_REVISION}\"\n\nVERSION=\"1.5.0-r${SVN_REVISION}\"\n# VERSION=\"1.5.0\"\nNAME=\"Neverball-$VERSION\"\n\necho \"*** Building disk image...\"\n\nimage_rw=\"${BUILT_PRODUCTS_DIR}/Neverball-${VERSION}.sparseimage\"\nimage_ro=\"${BUILT_PRODUCTS_DIR}/Neverball-${VERSION}.dmg\"\n\nMOUNTPOINT=\"/Volumes/$NAME\"\ntest -e \"$MOUNTPOINT\" && {\n  echo \"$MOUNTPOINT already mounted. Please, detach it.\" 1>&2\n  exit 1\n}\n\nrm \"$image_rw\" 2>/dev/null || true\nhdiutil create -type SPARSE -fs HFS+ -volname \"$NAME\" \"$image_rw\"\nhdiutil attach \"$image_rw\"\n\nfor app in \"Neverball\" \"Neverputt\"\ndo \n  echo \"+ Copying $app\"\n  cp -Rp \"${BUILT_PRODUCTS_DIR}/${app}.app\" \"$MOUNTPOINT/.\"\n  strip \"$MOUNTPOINT/${app}.app/Contents/MacOS/${app}\"\n  rm -fr \"$MOUNTPOINT/${app}.app/\"Contents/Frameworks/*.framework/Versions/*/Headers\n  rm -fr \"$MOUNTPOINT/${app}.app/\"Contents/Frameworks/*.framework/Headers\ndone\n\necho \"+ Copying data\"\ncp -Rp \"${BUILT_PRODUCTS_DIR}/data\" \"${MOUNTPOINT}/.\"\n\necho \"+ Cleaning image before read-only\"\nrm -f \"${MOUNTPOINT}/data/.ok\"\n\necho \"+ Copying Doc\"\nmkdir \"${MOUNTPOINT}/docs\"\nfor i in \"CHANGES\" \"COPYING\" \"INSTALL\" \"README\" \ndo\ncp \"${SRCROOT}/../../$i\" \"${MOUNTPOINT}/Docs/\"\ndone\nfor i in \"AUTHORS\" \"MANUAL\" \"translations.html\" \ndo\ncp \"${SRCROOT}/../../doc/$i\" \"${MOUNTPOINT}/Docs/\"\ndone\n\n#echo \"+ Install disk icon\"\n# iconfile=\"shield.icns\"\n#cp \"$iconfile\" \"$mountpoint/.VolumeIcon.icns\"\n#/Developer/Tools/SetFile -a aVbstclinmedz \"$MOUNTPOINT/.VolumeIcon.icns\"\n\necho \"+ Install background dmg\"\nmkdir -p \"${MOUNTPOINT}/data/osx\"\ncp \"${SRCROOT}/../icons/dmg-background.jpg\" \"${MOUNTPOINT}/data/osx/\"\n\necho \"+ set the presentation\"\n# better to copy this in script editor for change...\nosascript - \"$MOUNTPOINT\" <<!\non run argv\n--\tset dir to \"/Volumes/Wesnoth 0.9.5\"\n\tset dir to item 1 of argv\n\ttell application \"Finder\"\n\t\tset f to POSIX file dir as alias\n\t\topen f\n\n\t\tset w to container window of f\n\n\t\tset current view of w to icon view\n\t\tset toolbar visible of w to false\n\t\tset statusbar visible of w to false\n\t\tset opts to icon view options of w\n\t\tset bgfile to file \"data:osx:dmg-background.jpg\" of folder f\n\t\t\n\t\t--\tset background color of opts to {50000, 50000, 50000}\n\t\tset background picture of opts to bgfile\n\t\tset icon size of opts to 70\n\t\tset text size of opts to 12\n\t\tset label position of opts to bottom\n\t\tset arrangement of opts to not arranged\n\t\tset position of item \"Neverball.app\" of f to {94, 245}\n\t\tset position of item \"data\" of f to {220, 245}\n\t\tset position of item \"docs\" of f to {220, 145}\n\t\tset position of item \"Neverputt.app\" of f to {352, 245}\n\t\tset the bounds of w to {100, 100, 558, 425}\n\t\tdelay 5\n\tend tell\nend run\n!\n\necho \"+ Detaching '$NAME' image\"\nhdiutil detach \"$MOUNTPOINT\"\n\n#open \"$image_rw\"\n\n#echo \"+ Compressing disk image\"\n#rm \"$image_ro\" 2>/dev/null || true\n#hdiutil convert \"$image_rw\" -imagekey zlib-level=9 -format UDZO -o \"$image_ro\"\n\n#rm \"$image_rw\"\n\n# open the result in Finder\n#open \"$image_ro\"\n";
 		};
 		81D0B40A0AEE70300041CE19 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2807,6 +2840,10 @@
 				8137FD6A0AEBE54F009172EC /* st_all.c in Sources */,
 				8137FD6B0AEBE54F009172EC /* st_conf.c in Sources */,
 				B5452B850D19C959000F8933 /* text.c in Sources */,
+				B509A5D50D2B032B008DB8D9 /* sync.c in Sources */,
+				B53285990D2B46B000DEC276 /* tilt.c in Sources */,
+				B5C8640A0D3552220024E95E /* ball.c in Sources */,
+				B5C8640C0D3552220024E95E /* common.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2859,7 +2896,6 @@
 				815F01880AEA7C3400AFD07F /* st_conf.c in Sources */,
 				815F018A0AEA7C3400AFD07F /* set.c in Sources */,
 				815F018B0AEA7C3400AFD07F /* main.c in Sources */,
-				815F018D0AEA7C3400AFD07F /* levels.c in Sources */,
 				815F018F0AEA7C3400AFD07F /* level.c in Sources */,
 				815F01910AEA7C3400AFD07F /* hud.c in Sources */,
 				815F01930AEA7C3400AFD07F /* game.c in Sources */,
@@ -2867,11 +2903,15 @@
 				B5117CE80C9060CB005837F9 /* st_pause.c in Sources */,
 				B549682C0C964ED3004309DA /* lang.c in Sources */,
 				B5412EC20CA36C3C00C9A9F7 /* score.c in Sources */,
-				B5412EC40CA36C3C00C9A9F7 /* mode.c in Sources */,
 				B57D63D10CAE8138005DE710 /* st_goal.c in Sources */,
 				B57D63D40CAE8138005DE710 /* st_time_out.c in Sources */,
 				B57D63D60CAE8138005DE710 /* st_fall_out.c in Sources */,
 				B5452B830D19C959000F8933 /* text.c in Sources */,
+				B509A5D30D2B032B008DB8D9 /* sync.c in Sources */,
+				B53285970D2B46B000DEC276 /* tilt.c in Sources */,
+				B5C864060D3552220024E95E /* ball.c in Sources */,
+				B5C864080D3552220024E95E /* common.c in Sources */,
+				B5E71C010D8C299F00B9CC31 /* progress.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

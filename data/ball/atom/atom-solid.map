@@ -1,0 +1,35 @@
+{
+"classname" "worldspawn"
+}
+{
+"classname" "info_null"
+"origin" "0 0 0"
+"height" "2.0 0.0 0.0"
+"width" "2.0 0.0 0.0"
+"xrot" "90.0 0.0 0.0"
+"zrot" "0.0 -1000.0 0.0"
+"time" "1.0"
+"flag" "8"
+"image" "ball/atom/electron"
+}
+{
+"classname" "info_null"
+"origin" "0 0 0"
+"height" "2.0 0.0 0.0"
+"width" "2.0 0.0 0.0"
+"yrot" "90.0 0.0 0.0"
+"zrot" "0.0 -1100.0 0.0"
+"time" "1.0"
+"flag" "8"
+"image" "ball/atom/electron"
+}
+{
+"classname" "info_null"
+"origin" "0 0 0"
+"height" "2.0 0.0 0.0"
+"width" "2.0 0.0 0.0"
+"zrot" "0.0 -1200.0 0.0"
+"time" "1.0"
+"flag" "8"
+"image" "ball/atom/electron"
+}

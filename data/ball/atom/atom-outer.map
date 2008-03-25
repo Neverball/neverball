@@ -1,0 +1,21 @@
+{
+"classname" "worldspawn"
+}
+{
+"classname" "info_null"
+"origin" "0 0 0"
+"height" "3.0 0.0 0.0"
+"width" "3.0 0.0 0.0"
+"zrot" "0.0 90.0 0.0"
+"time" "1.0"
+"image" "ball/atom/atom-glow"
+}
+{
+"classname" "info_null"
+"origin" "0 0 0"
+"height" "3.0 0.0 0.0"
+"width" "3.0 0.0 0.0"
+"zrot" "0.0 -70.0 0.0"
+"time" "1.0"
+"image" "ball/atom/atom-glow"
+}

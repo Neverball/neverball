@@ -16,7 +16,7 @@
 #include "hud.h"
 #include "game.h"
 #include "demo.h"
-#include "levels.h"
+#include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
@@ -36,8 +36,7 @@ static int pause_or_exit(void)
 {
     if (SDL_GetModState() & KMOD_SHIFT)
     {
-        level_stat(GAME_NONE, curr_clock(), curr_coins());
-        level_stop();
+        progress_exit(GAME_NONE);
         config_clr_grab();
 
         return goto_state(&st_over);
@@ -165,7 +164,7 @@ static int play_set_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int nohud = 0;
+static int show_hud;
 
 static int play_loop_enter(void)
 {
@@ -191,18 +190,18 @@ static int play_loop_enter(void)
 
     hud_view_pulse(config_get_d(CONFIG_CAMERA));
 
-    nohud = 0;
+    show_hud = 1;
 
     hud_update(0);
 
     return id;
 }
 
-static void play_loop_paint(int id, float st)
+static void play_loop_paint(int id, float t)
 {
-    game_draw(0, st);
+    game_draw(0, t);
 
-    if (!nohud)
+    if (show_hud)
         hud_paint();
 
     if (time_state() < 1.f)
@@ -228,24 +227,25 @@ static void play_loop_timer(int id, float dt)
     switch (game_step(g, dt, 1))
     {
     case GAME_GOAL:
-        level_stat(GAME_GOAL, curr_clock(), curr_coins());
+        progress_stat(GAME_GOAL);
         gui_stuck();
         goto_state(&st_goal);
         break;
 
     case GAME_FALL:
-        level_stat(GAME_FALL, curr_clock(), curr_coins());
+        progress_stat(GAME_FALL);
         gui_stuck();
         goto_state(&st_fall_out);
         break;
 
     case GAME_TIME:
-        level_stat(GAME_TIME, curr_clock(), curr_coins());
+        progress_stat(GAME_TIME);
         gui_stuck();
         goto_state(&st_time_out);
         break;
 
     default:
+        progress_step();
         break;
     }
 }
@@ -294,10 +294,10 @@ static int play_loop_keybd(int c, int d)
             hud_view_pulse(2);
         }
         if (config_tst_d(CONFIG_KEY_RESTART, c) &&
-            curr_lg()->mode != MODE_CHALLENGE)
+            progress_same_avail())
         {
-            level_same();
-            goto_state(&st_play_ready);
+            if (progress_same())
+                goto_state(&st_play_ready);
         }
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
             goto_pause();
@@ -314,11 +314,11 @@ static int play_loop_keybd(int c, int d)
         return goto_state(&st_look);
 
     if (d && c == SDLK_F6)
-        nohud = !nohud;
+        show_hud = !show_hud;
 
     if (d && c == SDLK_c && config_cheat())
     {
-        level_stat(GAME_GOAL, curr_clock(), curr_coins());
+        progress_stat(GAME_GOAL);
         return goto_state(&st_goal);
     }
     return 1;
@@ -378,9 +378,9 @@ static void look_leave(int id)
 {
 }
 
-static void look_paint(int id, float st)
+static void look_paint(int id, float t)
 {
-    game_draw(0, st);
+    game_draw(0, t);
 }
 
 static void look_point(int id, int x, int y, int dx, int dy)
@@ -422,6 +422,7 @@ struct state st_play_ready = {
     play_ready_timer,
     NULL,
     NULL,
+    NULL,
     play_ready_click,
     play_ready_keybd,
     play_ready_buttn,
@@ -433,6 +434,7 @@ struct state st_play_set = {
     shared_leave,
     shared_paint,
     play_set_timer,
+    NULL,
     NULL,
     NULL,
     play_set_click,
@@ -448,6 +450,7 @@ struct state st_play_loop = {
     play_loop_timer,
     play_loop_point,
     play_loop_stick,
+    shared_angle,
     play_loop_click,
     play_loop_keybd,
     play_loop_buttn,
@@ -460,6 +463,7 @@ struct state st_look = {
     look_paint,
     NULL,
     look_point,
+    NULL,
     NULL,
     NULL,
     look_keybd,

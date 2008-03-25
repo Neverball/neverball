@@ -1,0 +1,18 @@
+{
+"classname" "worldspawn"
+"drawback" "1"
+"depthmask" "1"
+}
+{
+"classname" "misc_model"
+"material" "ball/earth/earth-cloud"
+"model" "ball/basic-ball/basic-ball.obj"
+}
+{
+"classname" "info_null"
+"origin" "0 0 0"
+"height" "2.15 0.0 0.0"
+"width" "2.15 0.0 0.0"
+"time" "1.0"
+"image" "ball/earth/earth-atmos"
+}

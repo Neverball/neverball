@@ -19,12 +19,13 @@
 #include "set.h"
 #include "game.h"
 #include "demo.h"
-#include "levels.h"
+#include "progress.h"
 #include "audio.h"
 #include "solid.h"
 #include "config.h"
 #include "st_shared.h"
 #include "util.h"
+#include "common.h"
 
 #include "st_demo.h"
 #include "st_title.h"
@@ -36,6 +37,8 @@
 
 static int first = 0;
 static int total = 0;
+
+static int last_viewed = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -63,9 +66,13 @@ static int demo_action(int i)
         break;
 
     default:
-        if (level_replay(demo_get(i)->filename))
+        if (progress_replay(demo_get(i)->filename))
+        {
+            last_viewed = i;
             demo_play_goto(0);
             return goto_state(&st_demo_play);
+        }
+        break;
     }
     return 1;
 }
@@ -206,7 +213,10 @@ static int gui_demo_status(int id, const struct demo *d)
 
 static void gui_demo_update_status(int i)
 {
-    const struct demo *d = demo_get(i);
+    const struct demo *d;
+
+    if ((d = demo_get(i)) == NULL && (d = demo_get(0)) == NULL)
+        return;
 
     gui_set_label(name_id,   d->name);
     gui_set_label(date_id,   date_to_str(d->date));
@@ -255,7 +265,7 @@ static int demo_enter(void)
         gui_filler(id);
         gui_demo_status(id, NULL);
         gui_layout(id, 0, 0);
-        gui_demo_update_status(0);
+        gui_demo_update_status(last_viewed);
     }
     else
     {
@@ -310,6 +320,7 @@ static int demo_buttn(int b, int d)
 
 static int standalone;
 static int demo_paused;
+static int show_hud;
 
 void demo_play_goto(int s)
 {
@@ -334,17 +345,19 @@ static int demo_play_enter(void)
         gui_pulse(id, 1.2f);
     }
 
+    show_hud = 1;
     hud_update(0);
-
     game_set_fly(0.f);
 
     return id;
 }
 
-static void demo_play_paint(int id, float st)
+static void demo_play_paint(int id, float t)
 {
-    game_draw(0, st);
-    hud_paint();
+    game_draw(0, t);
+
+    if (show_hud)
+        hud_paint();
 
     if (time_state() < 1.f)
         gui_paint(id);
@@ -363,6 +376,8 @@ static void demo_play_timer(int id, float dt)
         demo_paused = 0;
         goto_state(&st_demo_end);
     }
+    else
+        progress_step();
 }
 
 static int demo_play_keybd(int c, int d)
@@ -374,6 +389,9 @@ static int demo_play_keybd(int c, int d)
             demo_paused = 1;
             return goto_state(&st_demo_end);
         }
+
+        if (c == SDLK_F6)
+            show_hud = !show_hud;
     }
     return 1;
 }
@@ -418,7 +436,7 @@ static int demo_end_action(int i)
         return 0;
     case DEMO_REPLAY:
         demo_replay_stop(0);
-        level_replay(curr_demo_replay()->filename);
+        progress_replay(curr_demo_replay()->filename);
         return goto_state(&st_demo_play);
     case DEMO_CONTINUE:
         return goto_state(&st_demo_play);
@@ -471,9 +489,9 @@ static int demo_end_enter(void)
     return id;
 }
 
-static void demo_end_paint(int id, float st)
+static void demo_end_paint(int id, float t)
 {
-    game_draw(0, st);
+    game_draw(0, t);
     gui_paint(id);
 
     if (demo_paused)
@@ -560,6 +578,7 @@ struct state st_demo = {
     demo_timer,
     demo_point,
     demo_stick,
+    shared_angle,
     shared_click,
     NULL,
     demo_buttn,
@@ -571,6 +590,7 @@ struct state st_demo_play = {
     shared_leave,
     demo_play_paint,
     demo_play_timer,
+    NULL,
     NULL,
     NULL,
     NULL,
@@ -586,6 +606,7 @@ struct state st_demo_end = {
     shared_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     demo_end_keybd,
     demo_end_buttn,
@@ -599,6 +620,7 @@ struct state st_demo_del = {
     shared_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     NULL,
     demo_del_buttn,

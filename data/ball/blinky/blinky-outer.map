@@ -1,0 +1,10 @@
+{
+"classname" "worldspawn"
+"pendulum" "1"
+"drawback" "1"
+"depthmask" "1"
+}
+{
+"classname" "misc_model"
+"model" "ball/blinky/blinky.obj"
+}

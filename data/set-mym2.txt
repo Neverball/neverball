@@ -9,7 +9,7 @@ map-mym2/backforth.sol
 map-mym2/webs.sol
 map-mym2/speeddance.sol
 map-mym2/translation.sol
-map-mym2/movingpath.sol	
+map-mym2/movingpath.sol
 map-mym2/bigball.sol
 map-mym2/bounces.sol
 map-mym2/rainbow.sol

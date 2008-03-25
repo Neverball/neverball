@@ -154,7 +154,7 @@ static int score_card(const char  *title,
 
 /*---------------------------------------------------------------------------*/
 
-static void shared_stick(int id, int a, int v)
+static int shared_stick_basic(int id, int a, int v)
 {
     int jd = 0;
 
@@ -165,6 +165,13 @@ static void shared_stick(int id, int a, int v)
 
     if (jd)
         gui_pulse(jd, 1.2f);
+
+    return jd;
+}
+
+static void shared_stick(int id, int a, int v)
+{
+    shared_stick_basic(id, a, v);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -224,9 +231,9 @@ static void title_leave(int id)
     gui_delete(id);
 }
 
-static void title_paint(int id, float st)
+static void title_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
 }
 
@@ -349,9 +356,9 @@ static void course_leave(int id)
     gui_delete(id);
 }
 
-static void course_paint(int id, float st)
+static void course_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
 }
 
@@ -367,6 +374,24 @@ static void course_point(int id, int x, int y, int dx, int dy)
     if ((jd = gui_point(id, x, y)))
     {
         int i = gui_token(jd);
+
+        if (course_exists(i))
+        {
+            gui_set_image(shot_id, course_shot(i));
+            gui_set_multi(desc_id, _(course_desc(i)));
+        }
+        gui_pulse(jd, 1.2f);
+    }
+}
+
+static void course_stick(int id, int a, int v)
+{
+    int jd;
+
+    if ((jd = shared_stick_basic(id, a, v)))
+    {
+        int i = gui_token(jd);
+
         if (course_exists(i))
         {
             gui_set_image(shot_id, course_shot(i));
@@ -477,9 +502,9 @@ static void party_leave(int id)
     gui_delete(id);
 }
 
-static void party_paint(int id, float st)
+static void party_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
 }
 
@@ -582,9 +607,9 @@ static void pause_leave(int id)
     audio_music_fade_in(0.5f);
 }
 
-static void pause_paint(int id, float st)
+static void pause_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
     hud_paint();
 }
@@ -692,9 +717,9 @@ static void next_leave(int id)
     gui_delete(id);
 }
 
-static void next_paint(int id, float st)
+static void next_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     hud_paint();
     gui_paint(id);
 }
@@ -756,9 +781,9 @@ static int poser_enter(void)
     return 0;
 }
 
-static void poser_paint(int id, float st)
+static void poser_paint(int id, float t)
 {
-    game_draw(1);
+    game_draw(1, t);
 }
 
 static int poser_buttn(int b, int d)
@@ -790,9 +815,9 @@ static void flyby_leave(int id)
     hud_free();
 }
 
-static void flyby_paint(int id, float st)
+static void flyby_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     hud_paint();
 }
 
@@ -858,9 +883,9 @@ static void stroke_leave(int id)
     config_set_d(CONFIG_CAMERA, 0);
 }
 
-static void stroke_paint(int id, float st)
+static void stroke_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     hud_paint();
 }
 
@@ -937,9 +962,9 @@ static void roll_leave(int id)
     hud_free();
 }
 
-static void roll_paint(int id, float st)
+static void roll_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     hud_paint();
 }
 
@@ -990,9 +1015,9 @@ static void goal_leave(int id)
     hud_free();
 }
 
-static void goal_paint(int id, float st)
+static void goal_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
     hud_paint();
 }
@@ -1056,9 +1081,9 @@ static void stop_leave(int id)
     hud_free();
 }
 
-static void stop_paint(int id, float st)
+static void stop_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     hud_paint();
 }
 
@@ -1121,7 +1146,7 @@ static int fall_enter(void)
     else
     {
         hole_fall();
-        game_draw(0); /*TODO: is this call ok? */
+/*        game_draw(0);*/ /*TODO: is this call ok? */  /* No, it's not. */
     }
 
     hud_init();
@@ -1135,9 +1160,9 @@ static void fall_leave(int id)
     hud_free();
 }
 
-static void fall_paint(int id, float st)
+static void fall_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
     hud_paint();
 }
@@ -1199,9 +1224,9 @@ static void score_leave(int id)
     gui_delete(id);
 }
 
-static void score_paint(int id, float st)
+static void score_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
 }
 
@@ -1252,9 +1277,9 @@ static void over_leave(int id)
     gui_delete(id);
 }
 
-static void over_paint(int id, float st)
+static void over_paint(int id, float t)
 {
-    game_draw(0);
+    game_draw(0, t);
     gui_paint(id);
 }
 
@@ -1289,6 +1314,7 @@ struct state st_title = {
     title_timer,
     title_point,
     shared_stick,
+    NULL,
     title_click,
     NULL,
     title_buttn,
@@ -1301,7 +1327,8 @@ struct state st_course = {
     course_paint,
     course_timer,
     course_point,
-    shared_stick,
+    course_stick,
+    NULL,
     course_click,
     NULL,
     course_buttn,
@@ -1315,6 +1342,7 @@ struct state st_party = {
     party_timer,
     party_point,
     shared_stick,
+    NULL,
     party_click,
     NULL,
     party_buttn,
@@ -1328,6 +1356,7 @@ struct state st_next = {
     next_timer,
     next_point,
     shared_stick,
+    NULL,
     next_click,
     next_keybd,
     next_buttn,
@@ -1338,6 +1367,7 @@ struct state st_poser = {
     poser_enter,
     NULL,
     poser_paint,
+    NULL,
     NULL,
     NULL,
     NULL,
@@ -1354,6 +1384,7 @@ struct state st_flyby = {
     flyby_timer,
     NULL,
     NULL,
+    NULL,
     flyby_click,
     shared_keybd,
     flyby_buttn,
@@ -1367,6 +1398,7 @@ struct state st_stroke = {
     stroke_timer,
     stroke_point,
     stroke_stick,
+    NULL,
     stroke_click,
     shared_keybd,
     stroke_buttn,
@@ -1378,6 +1410,7 @@ struct state st_roll = {
     roll_leave,
     roll_paint,
     roll_timer,
+    NULL,
     NULL,
     NULL,
     NULL,
@@ -1393,6 +1426,7 @@ struct state st_goal = {
     goal_timer,
     NULL,
     NULL,
+    NULL,
     goal_click,
     shared_keybd,
     goal_buttn,
@@ -1404,6 +1438,7 @@ struct state st_stop = {
     stop_leave,
     stop_paint,
     stop_timer,
+    NULL,
     NULL,
     NULL,
     stop_click,
@@ -1419,6 +1454,7 @@ struct state st_fall = {
     fall_timer,
     NULL,
     NULL,
+    NULL,
     fall_click,
     shared_keybd,
     fall_buttn,
@@ -1430,6 +1466,7 @@ struct state st_score = {
     score_leave,
     score_paint,
     score_timer,
+    NULL,
     NULL,
     NULL,
     score_click,
@@ -1445,6 +1482,7 @@ struct state st_over = {
     over_timer,
     NULL,
     NULL,
+    NULL,
     over_click,
     NULL,
     over_buttn,
@@ -1458,6 +1496,7 @@ struct state st_pause = {
     pause_timer,
     pause_point,
     shared_stick,
+    NULL,
     pause_click,
     pause_keybd,
     pause_buttn,

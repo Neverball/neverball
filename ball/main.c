@@ -24,11 +24,12 @@
 #include "image.h"
 #include "audio.h"
 #include "demo.h"
-#include "levels.h"
+#include "progress.h"
 #include "game.h"
 #include "gui.h"
 #include "set.h"
 #include "text.h"
+#include "tilt.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -43,11 +44,9 @@
 static void shot(void)
 {
     static char filename[MAXSTR];
-    static int  num = 0;
 
-    sprintf(filename, "screen%02d.png", num++);
-
-    image_snap(filename);
+    sprintf(filename, "screen%05d.png", config_screenshot());
+    image_snap(config_user(filename));
 }
 
 /*---------------------------------------------------------------------------*/
@@ -79,6 +78,8 @@ static int loop(void)
     SDL_Event e;
     int d = 1;
     int c;
+
+    /* Process SDL events. */
 
     while (d && SDL_PollEvent(&e))
     {
@@ -150,7 +151,7 @@ static int loop(void)
 
             c = e.key.keysym.sym;
 
-            if (config_tst_d(CONFIG_KEY_FORWARD, c))
+            if      (config_tst_d(CONFIG_KEY_FORWARD, c))
                 st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
 
             else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
@@ -194,6 +195,51 @@ static int loop(void)
             break;
         }
     }
+
+    /* Process events via the tilt sensor API. */
+
+    if (tilt_stat())
+    {
+        int b;
+        int s;
+
+        st_angle((int) tilt_get_x(),
+                 (int) tilt_get_z());
+
+        while (tilt_get_button(&b, &s))
+        {
+            const int X = config_get_d(CONFIG_JOYSTICK_AXIS_X);
+            const int Y = config_get_d(CONFIG_JOYSTICK_AXIS_Y);
+            const int L = config_get_d(CONFIG_JOYSTICK_DPAD_L);
+            const int R = config_get_d(CONFIG_JOYSTICK_DPAD_R);
+            const int U = config_get_d(CONFIG_JOYSTICK_DPAD_U);
+            const int D = config_get_d(CONFIG_JOYSTICK_DPAD_D);
+
+            if (b == L || b == R || b == U || b == D)
+            {
+                static int pad[4] = { 0, 0, 0, 0 };
+
+                /* Track the state of the D-pad buttons. */
+
+                if      (b == L) pad[0] = s;
+                else if (b == R) pad[1] = s;
+                else if (b == U) pad[2] = s;
+                else if (b == D) pad[3] = s;
+
+                /* Convert D-pad button events into joystick axis motion. */
+
+                if      (pad[0] && !pad[1]) st_stick(X, -JOY_MAX);
+                else if (pad[1] && !pad[0]) st_stick(X, +JOY_MAX);
+                else                        st_stick(X,        1);
+
+                if      (pad[2] && !pad[3]) st_stick(Y, -JOY_MAX);
+                else if (pad[3] && !pad[2]) st_stick(Y, +JOY_MAX);
+                else                        st_stick(Y,        1);
+            }
+            else d = st_buttn(b, s);
+        }
+    }
+
     return d;
 }
 
@@ -294,7 +340,7 @@ int main(int argc, char *argv[])
     SDL_Surface *icon;
 #endif
 
-    int t1, t0;
+    int t1, t0, uniform;
 
     lang_init("neverball", CONFIG_LOCALE);
 
@@ -331,7 +377,7 @@ int main(int argc, char *argv[])
 
     if (display_info)
     {
-        if (!level_replay(demo_path))
+        if (!progress_replay(demo_path))
         {
             fprintf(stderr, L_("Replay file '%s': %s\n"), demo_path,
                     errno ?  strerror(errno) : L_("Not a replay file"));
@@ -353,6 +399,7 @@ int main(int argc, char *argv[])
     /* Initialize the audio. */
 
     audio_init();
+    tilt_init();
 
     /* Require 16-bit double buffer with 16-bit depth buffer. */
 
@@ -386,9 +433,8 @@ int main(int argc, char *argv[])
 
     /* Initialise demo playback. */
 
-    if (replay_demo)
+    if (replay_demo && progress_replay(demo_path))
     {
-        level_replay(demo_path);
         demo_play_goto(1);
         goto_state(&st_demo_play);
     }
@@ -397,24 +443,43 @@ int main(int argc, char *argv[])
 
     /* Run the main game loop. */
 
+    uniform = config_get_d(CONFIG_UNIFORM);
     t0 = SDL_GetTicks();
 
     while (loop())
     {
         t1 = SDL_GetTicks();
 
-        /* Step the game state at least up to the current time. */
-
-        while (t1 > t0)
+        if (uniform)
         {
-            st_timer(DT);
-            t0 += (int) (DT * 1000);
+            /* Step the game uniformly, as configured. */
+
+            int u;
+
+            for (u = 0; u < abs(uniform); ++u)
+            {
+                st_timer(DT);
+                t0 += (int) (DT * 1000);
+            }
+        }
+        else
+        {
+            /* Step the game state at least up to the current time. */
+
+            while (t1 > t0)
+            {
+                st_timer(DT);
+                t0 += (int) (DT * 1000);
+            }
         }
 
         /* Render. */
 
-        st_paint();
+        st_paint(0.001f * t0);
         config_swap();
+
+        if (uniform < 0)
+            shot();
 
         if (config_get_d(CONFIG_NICE))
             SDL_Delay(1);
@@ -425,6 +490,7 @@ int main(int argc, char *argv[])
     if (SDL_JoystickOpened(0))
         SDL_JoystickClose(joy);
 
+    tilt_free();
     SDL_Quit();
 
     config_save();

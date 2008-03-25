@@ -46,11 +46,11 @@ static int debug_output = 0;
 /* Ohhhh... arbitrary! */
 
 #define MAXM    1024
-#define MAXV    65534
-#define MAXE    65534
-#define MAXS    65534
-#define MAXT    65534
-#define MAXG    65534
+#define MAXV    65536
+#define MAXE    65536
+#define MAXS    65536
+#define MAXT    65536
+#define MAXG    65536
 #define MAXL    2048
 #define MAXN    2048
 #define MAXP    1024
@@ -64,7 +64,7 @@ static int debug_output = 0;
 #define MAXW    1024
 #define MAXD    1024
 #define MAXA    16384
-#define MAXI    65534
+#define MAXI    131072
 
 static int overflow(const char *s)
 {
@@ -402,10 +402,11 @@ static int read_mtrl(struct s_file *fp, const char *name)
 
     strncpy(mp->f, name, PATHMAX - 1);
 
-    mp->a[0] = mp->a[1] = mp->a[2] = mp->a[3] = 1.0f;
-    mp->d[0] = mp->d[1] = mp->d[2] = mp->d[3] = 1.0f;
-    mp->s[0] = mp->s[1] = mp->s[2] = mp->s[3] = 1.0f;
-    mp->e[0] = mp->e[1] = mp->e[2] = mp->e[3] = 1.0f;
+    mp->a[0] = mp->a[1] = mp->a[2] = 0.2f;
+    mp->d[0] = mp->d[1] = mp->d[2] = 0.8f;
+    mp->s[0] = mp->s[1] = mp->s[2] = 0.0f;
+    mp->e[0] = mp->e[1] = mp->e[2] = 0.0f;
+    mp->a[3] = mp->d[3] = mp->s[3] = mp->e[3] = 1.0f;
     mp->h[0] = 0.0f;
     mp->fl   = 0;
     mp->angle = 45.0f;
@@ -559,7 +560,7 @@ static void read_f(struct s_file *fp, const char *line,
     gp->mi  = mi;
 }
 
-static void read_obj(struct s_file *fp, const char *name)
+static void read_obj(struct s_file *fp, const char *name, int mi)
 {
     char line[MAXSTR];
     char mtrl[MAXSTR];
@@ -568,7 +569,6 @@ static void read_obj(struct s_file *fp, const char *name)
     int v0 = fp->vc;
     int t0 = fp->tc;
     int s0 = fp->sc;
-    int mi = 0;
 
     if ((fin = fopen(config_data(name), "r")))
     {
@@ -582,7 +582,7 @@ static void read_obj(struct s_file *fp, const char *name)
 
             else if (strncmp(line, "f", 1) == 0)
             {
-                if (fp->mv[mi].d[3] > 0)
+                if (fp->mv[mi].d[3] > 0.0f)
                     read_f(fp, line + 1, v0, t0, s0, mi);
             }
 
@@ -856,7 +856,7 @@ static void make_body(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c, int l0)
 {
-    int i, bi = incb(fp);
+    int i, mi = 0, bi = incb(fp);
 
     int g0 = fp->gc;
     int v0 = fp->vc;
@@ -881,8 +881,11 @@ static void make_body(struct s_file *fp,
         else if (strcmp(k[i], "target") == 0)
             make_ref(v[i], &bp->pi);
 
+        else if (strcmp(k[i], "material") == 0)
+            mi = read_mtrl(fp, v[i]);
+
         else if (strcmp(k[i], "model") == 0)
-            read_obj(fp, v[i]);
+            read_obj(fp, v[i], mi);
 
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%d %d %d", &x, &y, &z);
@@ -1197,27 +1200,10 @@ static void make_ball(struct s_file *fp,
 
     struct s_ball *up = fp->uv + ui;
 
-    up->p[0] = 0.f;
-    up->p[1] = 0.f;
-    up->p[2] = 0.f;
-    up->r    = 0.25;
-
-    up->e[0][0] = 1.f;
-    up->e[0][1] = 0.f;
-    up->e[0][2] = 0.f;
-    up->e[1][0] = 0.f;
-    up->e[1][1] = 1.f;
-    up->e[1][2] = 0.f;
-    up->e[2][0] = 0.f;
-    up->e[2][1] = 0.f;
-    up->e[2][2] = 1.f;
-
-    up->v[0] = 0.f;
-    up->v[1] = 0.f;
-    up->v[2] = 0.f;
-    up->w[0] = 0.f;
-    up->w[1] = 0.f;
-    up->w[2] = 0.f;
+    up->p[0] = 0.0f;
+    up->p[1] = 0.0f;
+    up->p[2] = 0.0f;
+    up->r    = 0.25f;
 
     for (i = 0; i < c; i++)
     {
@@ -1534,7 +1520,7 @@ static void clip_lump(struct s_file *fp, struct s_lump *lp)
     lp->gc = 0;
 
     for (i = 0; i < lp->sc; i++)
-        if (fp->mv[plane_m[fp->iv[lp->s0 + i]]].d[3] > 0)
+        if (fp->mv[plane_m[fp->iv[lp->s0 + i]]].d[3] > 0.0f)
             clip_geom(fp, lp,
                       fp->iv[lp->s0 + i]);
 
@@ -1945,7 +1931,7 @@ static int comp_trip(const void *p, const void *q)
 static void smth_file(struct s_file *fp)
 {
     struct s_trip temp, *T;
-    
+
     if (debug_output == 0)
     {
         if ((T = (struct s_trip *) malloc(fp->gc * 3 * sizeof (struct s_trip))))

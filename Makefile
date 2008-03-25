@@ -1,4 +1,5 @@
-#-------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
 
 VERSION := $(shell sh scripts/version.sh)
 ifeq ($(VERSION),unknown)
@@ -14,8 +15,13 @@ endif
 #------------------------------------------------------------------------------
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
-#CFLAGS := -Wall -g -ansi -pedantic
-CFLAGS := -Wall -O2 -ansi -pedantic
+ifeq ($(ENABLE_WII),1)
+    # libwiimote is NOT ANSI compliant
+    CFLAGS := -O2
+else
+    #CFLAGS := -Wall -g -ansi -pedantic
+    CFLAGS := -Wall -O2 -ansi -pedantic
+endif
 
 #------------------------------------------------------------------------------
 # Mandatory flags
@@ -38,6 +44,10 @@ else
     ALL_CPPFLAGS += -DENABLE_NLS=1
 endif
 
+ifeq ($(ENABLE_WII),1)
+    ALL_CPPFLAGS += -DENABLE_WII=1
+endif
+
 ifdef DARWIN
     ALL_CPPFLAGS += -I/opt/local/include
 endif
@@ -50,20 +60,35 @@ ALL_CPPFLAGS += $(CPPFLAGS)
 SDL_LIBS := $(shell sdl-config --libs)
 PNG_LIBS := $(shell libpng-config --libs)
 
+# The  non-conditionalised values  below  are specific  to the  native
+# system. The native system of this Makefile is Linux (or GNU+Linux if
+# you prefer). Please be sure to  override ALL of them for each target
+# system in the conditional parts below.
+
+INTL_LIBS :=
+
+ifeq ($(ENABLE_WII),1)
+    TILT_LIBS := -lcwiimote -lbluetooth
+endif
+
+OGL_LIBS := -lGL -lm
+
 ifdef MINGW
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl -liconv
     endif
 
-    OGL_LIBS := -lopengl32 -lm
-else ifdef DARWIN
+    TILT_LIBS :=
+    OGL_LIBS  := -lopengl32 -lm
+endif
+
+ifdef DARWIN
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl -liconv
     endif
 
-    OGL_LIBS := -framework OpenGL
-else
-    OGL_LIBS := -lGL -lm
+    TILT_LIBS :=
+    OGL_LIBS  := -framework OpenGL
 endif
 
 BASE_LIBS := -ljpeg $(PNG_LIBS)
@@ -72,7 +97,7 @@ ifdef DARWIN
     BASE_LIBS += -L/opt/local/lib
 endif
 
-ALL_LIBS := $(SDL_LIBS) $(BASE_LIBS) $(INTL_LIBS) -lSDL_ttf \
+ALL_LIBS := $(SDL_LIBS) $(BASE_LIBS) $(TILT_LIBS) $(INTL_LIBS) -lSDL_ttf \
     -lvorbisfile $(OGL_LIBS)
 
 #------------------------------------------------------------------------------
@@ -86,7 +111,7 @@ BALL_TARG := neverball$(EXT)
 PUTT_TARG := neverputt$(EXT)
 
 ifdef MINGW
-    MAPC := wine ./$(MAPC_TARG)
+    MAPC := $(WINE) ./$(MAPC_TARG)
 else
     MAPC := ./$(MAPC_TARG)
 endif
@@ -112,6 +137,7 @@ BALL_OBJS := \
 	share/part.o        \
 	share/back.o        \
 	share/geom.o        \
+	share/ball.o        \
 	share/gui.o         \
 	share/base_config.o \
 	share/config.o      \
@@ -120,12 +146,13 @@ BALL_OBJS := \
 	share/audio.o       \
 	share/text.o        \
 	share/sync.o        \
+	share/tilt.o        \
+	share/common.o      \
 	ball/hud.o          \
-	ball/mode.o         \
 	ball/game.o         \
 	ball/score.o        \
 	ball/level.o        \
-	ball/levels.o       \
+	ball/progress.o     \
 	ball/set.o          \
 	ball/demo.o         \
 	ball/util.o         \
@@ -157,6 +184,7 @@ PUTT_OBJS := \
 	share/solid_gl.o    \
 	share/part.o        \
 	share/geom.o        \
+	share/ball.o        \
 	share/back.o        \
 	share/base_config.o \
 	share/config.o      \
@@ -259,12 +287,12 @@ TEXT_DOCS := \
 
 TXT_DOCS := $(TEXT_DOCS:%=%.txt)
 
-#-----------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 .PHONY: setup
 setup: $(INSTALLER)
 
-$(INSTALLER): install-dlls convert-text-files all tools
+$(INSTALLER): install-dlls convert-text-files all contrib
 	$(MAKENSIS) $(MAKENSIS_FLAGS) -nocd scripts/neverball.nsi
 
 $(INSTALLER): LDFLAGS := -s $(LDFLAGS)
@@ -273,9 +301,9 @@ $(INSTALLER): LDFLAGS := -s $(LDFLAGS)
 clean-setup: clean
 	$(RM) install-dlls.sh *.dll $(TXT_DOCS)
 	find data -name "*.txt" -exec $(FROMDOS) {} \;
-	$(MAKE) -C tools EXT=$(EXT) clean
+	$(MAKE) -C contrib EXT=$(EXT) clean
 
-#-----------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 .PHONY: install-dlls
 install-dlls: install-dlls.sh
@@ -292,7 +320,7 @@ install-dlls.sh:
 	@echo --------------------------------------------------------
 	@exit 1
 
-#-----------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 .PHONY: convert-text-files
 convert-text-files: $(TXT_DOCS)
@@ -302,11 +330,11 @@ convert-text-files: $(TXT_DOCS)
 	$(CP) $< $@
 	$(TODOS) $@
 
-#-----------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
-.PHONY: tools
-tools:
-	$(MAKE) -C tools EXT=$(EXT)
+.PHONY: contrib
+contrib:
+	$(MAKE) -C contrib EXT=$(EXT)
 
 #------------------------------------------------------------------------------
 

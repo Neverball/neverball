@@ -63,7 +63,7 @@ static int resol_enter(void)
 
     modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
 
-    if ((int) modes == -1)
+    if (modes == (SDL_Rect **) -1)
         modes = NULL;
 
     if ((id = gui_vstack(0)))
@@ -177,6 +177,7 @@ struct state st_resol = {
     resol_timer,
     resol_point,
     resol_stick,
+    NULL,
     resol_click,
     resol_keybd,
     resol_buttn,

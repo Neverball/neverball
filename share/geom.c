@@ -29,120 +29,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint ball_list;
-static GLuint ball_text;
-
-void ball_init(int b)
-{
-    char name[MAXSTR];
-    int i, slices = b ? 32 : 16;
-    int j, stacks = b ? 16 :  8;
-
-    config_get_s(CONFIG_BALL, name, MAXSTR);
-
-    ball_text = make_image_from_file(name);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    ball_list = glGenLists(1);
-
-    glNewList(ball_list, GL_COMPILE);
-    {
-        for (i = 0; i < stacks; i++)
-        {
-            float k0 = (float)  i      / stacks;
-            float k1 = (float) (i + 1) / stacks;
-
-            float s0 = fsinf(V_PI * (k0 - 0.5));
-            float c0 = fcosf(V_PI * (k0 - 0.5));
-            float s1 = fsinf(V_PI * (k1 - 0.5));
-            float c1 = fcosf(V_PI * (k1 - 0.5));
-
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (j = 0; j <= slices; j++)
-                {
-                    float k = (float) j / slices;
-                    float s = fsinf(V_PI * k * 2.0);
-                    float c = fcosf(V_PI * k * 2.0);
-
-                    glTexCoord2f(k, k0);
-                    glNormal3f(s * c0, c * c0, s0);
-                    glVertex3f(s * c0, c * c0, s0);
-
-                    glTexCoord2f(k, k1);
-                    glNormal3f(s * c1, c * c1, s1);
-                    glVertex3f(s * c1, c * c1, s1);
-                }
-            }
-            glEnd();
-        }
-    }
-    glEndList();
-}
-
-void ball_free(void)
-{
-    if (glIsList(ball_list))
-        glDeleteLists(ball_list, 1);
-
-    if (glIsTexture(ball_text))
-        glDeleteTextures(1, &ball_text);
-
-    ball_list = 0;
-    ball_text = 0;
-}
-
-void ball_draw(void)
-{
-    static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-    static const float s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    static const float e[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-    static const float h[1] = { 64.0f };
-
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
-
-    glEnable(GL_COLOR_MATERIAL);
-    {
-        glBindTexture(GL_TEXTURE_2D, ball_text);
-
-        /* Render the ball back to front in case it is translucent. */
-
-        glDepthMask(GL_FALSE);
-        {
-            glCullFace(GL_FRONT);
-            glCallList(ball_list);
-            glCullFace(GL_BACK);
-            glCallList(ball_list);
-        }
-        glDepthMask(GL_TRUE);
-
-        /* Render the ball into the depth buffer. */
-
-        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-        {
-            glCallList(ball_list);
-        }
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-
-        /* Ensure the ball is visible even when obscured by geometry. */
-
-        glDisable(GL_DEPTH_TEST);
-        {
-            glColor4f(1.0f, 1.0f, 1.0f, 0.1f);
-            glCallList(ball_list);
-        }
-        glEnable(GL_DEPTH_TEST);
-    }
-    glDisable(GL_COLOR_MATERIAL);
-}
-
-/*---------------------------------------------------------------------------*/
-
 static GLuint mark_list;
 
 void mark_init(int b)
@@ -176,7 +62,6 @@ void mark_draw(void)
     glDisable(GL_TEXTURE_2D);
     glDepthMask(GL_FALSE);
     {
-
         glCallList(mark_list);
     }
     glDepthMask(GL_TRUE);
@@ -245,7 +130,7 @@ static void coin_edge(int n, float radius, float thick)
             float x = fcosf(2.f * PI * i / n);
             float y = fsinf(2.f * PI * i / n);
 
-            glNormal3f(x, y, 0.f);
+            glNormal3f(x, y, 0.0f);
             glVertex3f(radius * x, radius * y, +thick);
             glVertex3f(radius * x, radius * y, -thick);
         }
@@ -312,7 +197,9 @@ void item_init(int b)
 
     glNewList(item_list, GL_COMPILE);
     {
+        glDisable(GL_TEXTURE_2D);
         coin_edge(n, COIN_RADIUS, COIN_THICK);
+        glEnable (GL_TEXTURE_2D);
         coin_head(n, COIN_RADIUS, COIN_THICK);
         coin_tail(n, COIN_RADIUS, COIN_THICK);
     }
@@ -344,7 +231,7 @@ void item_push(int type)
     static const float  a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
     static const float  s[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
     static const float  e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    static const float  h[1] = { 32.0f };
+    static const float  h[1] = { 10.0f };
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
@@ -549,20 +436,6 @@ void flag_init(int b)
         glDisable(GL_LIGHTING);
         glDisable(GL_TEXTURE_2D);
         {
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n) * 0.01f;
-                    float y = fsinf(2.f * PI * i / n) * 0.01f;
-
-                    glColor3f(1.0f, 1.0f, 1.0f);
-                    glVertex3f(x, 0.0f,        y);
-                    glVertex3f(x, GOAL_HEIGHT, y);
-                }
-            }
-            glEnd();
-
             glBegin(GL_TRIANGLES);
             {
                 glColor3f(1.0f, 0.0f, 0.0f);
@@ -574,6 +447,20 @@ void flag_init(int b)
                 glVertex3f(              0.0f, GOAL_HEIGHT,        0.0f);
                 glVertex3f(              0.0f, GOAL_HEIGHT * 0.8f, 0.0f);
                 glVertex3f(GOAL_HEIGHT * 0.2f, GOAL_HEIGHT * 0.9f, 0.0f);
+            }
+            glEnd();
+
+            glBegin(GL_QUAD_STRIP);
+            {
+                for (i = 0; i <= n; i++)
+                {
+                    float x = fcosf(2.f * PI * i / n) * 0.01f;
+                    float y = fsinf(2.f * PI * i / n) * 0.01f;
+
+                    glColor3f(1.0f, 1.0f, 1.0f);
+                    glVertex3f(x, 0.0f,        y);
+                    glVertex3f(x, GOAL_HEIGHT, y);
+                }
             }
             glEnd();
         }
@@ -681,6 +568,8 @@ void fade_draw(float k)
                 glVertex2i(0, h);
             }
             glEnd();
+
+            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
             glEnable(GL_TEXTURE_2D);
             glEnable(GL_DEPTH_TEST);

@@ -86,12 +86,14 @@
 #define M_ADDITIVE    16
 #define M_CLAMPED     32
 #define M_DECAL       64
+#define M_TWO_SIDED  128
 
 /* Billboard types. */
 
 #define B_EDGE     1
 #define B_FLAT     2
 #define B_ADDITIVE 4
+#define B_NOFACE   8
 
 /* Lump flags. */
 
@@ -108,8 +110,8 @@
 
 struct s_mtrl
 {
-    float a[4];                                /* ambient color              */
     float d[4];                                /* diffuse color              */
+    float a[4];                                /* ambient color              */
     float s[4];                                /* specular color             */
     float e[4];                                /* emission color             */
     float h[1];                                /* specular exponent          */
@@ -253,6 +255,8 @@ struct s_ball
     float p[3];                                /* position vector            */
     float v[3];                                /* velocity vector            */
     float w[3];                                /* angular velocity vector    */
+    float E[3][3];                             /* basis of pendulum          */
+    float W[3];                                /* angular pendulum velocity  */
     float r;                                   /* radius                     */
 };
 

@@ -42,16 +42,20 @@ static int search(const char *haystack, const char *needle)
 
 void sync_init(void)
 {
-    Display *dpy = glXGetCurrentDisplay();
-    int      scr = DefaultScreen(dpy);
+    Display *dpy;
 
-    PFNGLXSWAPINTERVALSGIPROC _glXSwapInvervalSGI = NULL;
-
-    if (search(glXQueryExtensionsString(dpy, scr), "GLX_SGI_swap_control"))
+    if ((dpy = glXGetCurrentDisplay()))
     {
-        if ((_glXSwapInvervalSGI = (PFNGLXSWAPINTERVALSGIPROC)
-             glXGetProcAddress((const GLubyte *) "glXSwapIntervalSGI")))
-            _glXSwapInvervalSGI(1);
+        int scr = DefaultScreen(dpy);
+
+        PFNGLXSWAPINTERVALSGIPROC _glXSwapInvervalSGI = NULL;
+
+        if (search(glXQueryExtensionsString(dpy, scr), "GLX_SGI_swap_control"))
+        {
+            if ((_glXSwapInvervalSGI = (PFNGLXSWAPINTERVALSGIPROC)
+                 glXGetProcAddress((const GLubyte *) "glXSwapIntervalSGI")))
+                _glXSwapInvervalSGI(1);
+        }
     }
 }
 

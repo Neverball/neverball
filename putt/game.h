@@ -37,7 +37,7 @@
 void  game_init(const char *);
 void  game_free(void);
 
-void  game_draw(int);
+void  game_draw(int, float);
 void  game_putt(void);
 int   game_step(const float[3], float);
 

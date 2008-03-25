@@ -16,6 +16,7 @@
 #include "hud.h"
 #include "back.h"
 #include "geom.h"
+#include "ball.h"
 #include "part.h"
 #include "game.h"
 #include "audio.h"
@@ -346,7 +347,7 @@ static void null_leave(int id)
     int g = config_get_d(CONFIG_GEOMETRY);
 
     shad_init();
-    ball_init(g);
+    ball_init();
     mark_init(g);
     flag_init(g);
     jump_init(g);
@@ -363,6 +364,7 @@ struct state st_conf = {
     conf_timer,
     conf_point,
     conf_stick,
+    NULL,
     conf_click,
     conf_keybd,
     conf_buttn,
@@ -372,6 +374,7 @@ struct state st_conf = {
 struct state st_null = {
     null_enter,
     null_leave,
+    NULL,
     NULL,
     NULL,
     NULL,

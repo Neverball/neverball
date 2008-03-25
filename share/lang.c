@@ -32,6 +32,7 @@ void lang_init(const char *domain, const char *default_dir)
     char *dir = getenv("NEVERBALL_LOCALE");
 
     setlocale(LC_ALL, "");
+    setlocale(LC_NUMERIC, "C");
 
     bindtextdomain(domain, dir ? dir : default_dir);
     bind_textdomain_codeset(domain, DEFAULT_CODESET);

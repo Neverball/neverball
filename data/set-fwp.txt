@@ -1,0 +1,20 @@
+Nevermania
+Levels for Neverball Experts\Author: Florian Priester\\\\
+fwp
+shot-fwp/museum.png
+
+map-fwp/atrium.sol
+map-fwp/swarm.sol
+map-fwp/tennis.sol
+map-fwp/slope.sol
+map-fwp/oddities.sol
+map-fwp/tree.sol
+map-fwp/spacetime.sol
+map-fwp/museum.sol
+map-fwp/mountains.sol
+map-fwp/confetti.sol
+map-fwp/cargo.sol
+map-fwp/ramps.sol
+map-fwp/rails.sol
+map-fwp/discs.sol
+map-fwp/ufo.sol

@@ -16,6 +16,7 @@
 #include "hud.h"
 #include "back.h"
 #include "geom.h"
+#include "ball.h"
 #include "part.h"
 #include "game.h"
 #include "audio.h"
@@ -341,7 +342,7 @@ static void conf_leave(int id)
     gui_delete(id);
 }
 
-static void conf_paint(int id, float st)
+static void conf_paint(int id, float t)
 {
     config_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
@@ -386,7 +387,7 @@ static void null_leave(int id)
 
     part_init(GOAL_HEIGHT);
     shad_init();
-    ball_init(g);
+    ball_init();
     item_init(g);
     goal_init(g);
     jump_init(g);
@@ -404,6 +405,7 @@ struct state st_conf = {
     shared_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     NULL,
     conf_buttn,
@@ -413,6 +415,7 @@ struct state st_conf = {
 struct state st_null = {
     null_enter,
     null_leave,
+    NULL,
     NULL,
     NULL,
     NULL,

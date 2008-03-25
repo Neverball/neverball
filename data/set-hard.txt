@@ -14,7 +14,7 @@ map-hard/tilt.sol
 map-hard/sync.sol
 map-hard/nostairs.sol
 map-hard/frogger.sol
-map-hard/quads.sol 
+map-hard/quads.sol
 map-hard/teleport.sol
 map-hard/gaps.sol
 map-hard/hallways.sol

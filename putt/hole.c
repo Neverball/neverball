@@ -134,7 +134,7 @@ char *hole_tot(int p)
 
     if (p <= party)
     {
-        for (h = 1; h <= hole && h <= 18; h++)
+        for (h = 1; h <= hole && h < count; h++)
             T += score_v[h][p];
 
         sprintf(str, "%d", T);
@@ -152,7 +152,7 @@ char *hole_out(int p)
 
     if (p <= party)
     {
-        for (h = 1; h <= hole && h <= 9; h++)
+        for (h = 1; h <= hole && h <= count / 2; h++)
             T += score_v[h][p];
 
         sprintf(str, "%d", T);
@@ -167,10 +167,11 @@ char *hole_in(int p)
     static char str[MAXSTR];
 
     int h, T = 0;
+    int out = count / 2;
 
-    if (hole > 9 && p <= party)
+    if (hole > out && p <= party)
     {
-        for (h = 10; h <= hole && h <= 18; h++)
+        for (h = out + 1; h <= hole && h < count; h++)
             T += score_v[h][p];
 
         sprintf(str, "%d", T);
@@ -297,11 +298,11 @@ void hole_stop(void)
 {
     score_v[hole][player]++;
 
-    /* Cap scores at 12. */
+    /* Cap scores at 12 or par plus 3. */
 
-    if (score_v[hole][player] >= 12)
+    if (score_v[hole][player] >= 12 && score_v[hole][player] >= score_v[hole][0] + 3)
     {
-        score_v[hole][player] = 12;
+        score_v[hole][player] = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
         stat_v[player] = 1;
         done++;
     }
@@ -316,11 +317,11 @@ void hole_fall(void)
     game_set_pos(ball_p[player], ball_e[player]);
     score_v[hole][player] += 2;
 
-    /* Cap scores at 12. */
+    /* Cap scores at 12 or par plus 3. */
 
-    if (score_v[hole][player] >= 12)
+    if (score_v[hole][player] >= 12 && score_v[hole][player] >= score_v[hole][0] + 3)
     {
-        score_v[hole][player] = 12;
+        score_v[hole][player] = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
         stat_v[player] = 1;
         done++;
     }

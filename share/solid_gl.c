@@ -80,8 +80,8 @@ static int sol_enum_body(const struct s_file *fp,
 
 static struct s_mtrl default_mtrl =
 {
-    { 0.2f, 0.2f, 0.2f, 1.0f },
     { 0.8f, 0.8f, 0.8f, 1.0f },
+    { 0.2f, 0.2f, 0.2f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, }, 0.0f, M_OPAQUE, 0, ""
@@ -126,8 +126,6 @@ static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
     {
         glDisable(GL_TEXTURE_GEN_S);
         glDisable(GL_TEXTURE_GEN_T);
-
-        glBindTexture(GL_TEXTURE_2D, mp->o);
     }
 
     /* Enable additive blending. */
@@ -139,6 +137,22 @@ static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
 
     if ((mq->fl & M_ADDITIVE) && !(mp->fl & M_ADDITIVE))
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    /* Enable visibility-from-behind. */
+
+    if ((mp->fl & M_TWO_SIDED) && !(mq->fl & M_TWO_SIDED))
+    {
+        glDisable(GL_CULL_FACE);
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
+    }
+
+    /* Disable visibility-from-behind. */
+
+    if ((mq->fl & M_TWO_SIDED) && !(mp->fl & M_TWO_SIDED))
+    {
+        glEnable(GL_CULL_FACE);
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
+    }
 
     /* Enable decal offset. */
 
@@ -336,7 +350,7 @@ static void sol_draw_list(const struct s_file *fp,
     glPopMatrix();
 }
 
-void sol_draw(const struct s_file *fp, float rx, float ry)
+void sol_draw(const struct s_file *fp, int depthmask, int depthtest)
 {
     int bi;
 
@@ -348,17 +362,18 @@ void sol_draw(const struct s_file *fp, float rx, float ry)
 
     /* Render all translucent geometry into only the color buffer. */
 
-    glDepthMask(GL_FALSE);
+    if (depthtest == 0) glDisable(GL_DEPTH_TEST);
+    if (depthmask == 0) glDepthMask(GL_FALSE);
     {
         for (bi = 0; bi < fp->bc; bi++)
             if (fp->bv[bi].tl)
                 sol_draw_list(fp, fp->bv + bi, fp->bv[bi].tl);
     }
-    glDepthMask(GL_TRUE);
-
+    if (depthmask == 0) glDepthMask(GL_TRUE);
+    if (depthtest == 0) glEnable(GL_DEPTH_TEST);
 }
 
-void sol_bill(const struct s_file *fp, float rx, float ry)
+void sol_bill(const struct s_file *fp, const float *M, float t)
 {
     const struct s_mtrl *mp = &default_mtrl;
 
@@ -368,16 +383,26 @@ void sol_bill(const struct s_file *fp, float rx, float ry)
     {
         const struct s_bill *rp = fp->rv + ri;
 
-        float w = (float) rp->w[0];
-        float h = (float) rp->h[0];
+        float T = rp->t * t;
+        float S = fsinf(T);
+
+        float w  = rp->w [0] + rp->w [1] * T + rp->w [2] * S;
+        float h  = rp->h [0] + rp->h [1] * T + rp->h [2] * S;
+        float rx = rp->rx[0] + rp->rx[1] * T + rp->rx[2] * S;
+        float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * S;
+        float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * S;
 
         mp = sol_draw_mtrl(fp, fp->mv + rp->mi, mp);
 
         glPushMatrix();
         {
             glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
-            glRotatef(ry, 0.f, 1.f, 0.f);
-            glRotatef(rx, 1.f, 0.f, 0.f);
+
+            if (M && ((rp->fl & B_NOFACE) == 0)) glMultMatrixf(M);
+
+            if (fabsf(rx) > 0.0f) glRotatef(rx, 1.0f, 0.0f, 0.0f);
+            if (fabsf(ry) > 0.0f) glRotatef(ry, 0.0f, 1.0f, 0.0f);
+            if (fabsf(rz) > 0.0f) glRotatef(rz, 0.0f, 0.0f, 1.0f);
 
             glBegin(GL_QUADS);
             {

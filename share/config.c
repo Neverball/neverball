@@ -97,6 +97,10 @@ void config_init(void)
     config_set_d(CONFIG_JOYSTICK_CAMERA_1,    DEFAULT_JOYSTICK_CAMERA_1);
     config_set_d(CONFIG_JOYSTICK_CAMERA_2,    DEFAULT_JOYSTICK_CAMERA_2);
     config_set_d(CONFIG_JOYSTICK_CAMERA_3,    DEFAULT_JOYSTICK_CAMERA_3);
+    config_set_d(CONFIG_JOYSTICK_DPAD_L,      DEFAULT_JOYSTICK_DPAD_L);
+    config_set_d(CONFIG_JOYSTICK_DPAD_R,      DEFAULT_JOYSTICK_DPAD_R);
+    config_set_d(CONFIG_JOYSTICK_DPAD_U,      DEFAULT_JOYSTICK_DPAD_U);
+    config_set_d(CONFIG_JOYSTICK_DPAD_D,      DEFAULT_JOYSTICK_DPAD_D);
     config_set_d(CONFIG_KEY_CAMERA_1,         DEFAULT_KEY_CAMERA_1);
     config_set_d(CONFIG_KEY_CAMERA_2,         DEFAULT_KEY_CAMERA_2);
     config_set_d(CONFIG_KEY_CAMERA_3,         DEFAULT_KEY_CAMERA_3);
@@ -110,14 +114,19 @@ void config_init(void)
     config_set_d(CONFIG_ROTATE_SLOW,          DEFAULT_ROTATE_SLOW);
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
+    config_set_s(CONFIG_WIIMOTE_ADDR,         DEFAULT_WIIMOTE_ADDR);
     config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_STATS,                DEFAULT_STATS);
+    config_set_d(CONFIG_UNIFORM,              DEFAULT_UNIFORM);
     config_set_d(CONFIG_KEY_FORWARD,          DEFAULT_KEY_FORWARD);
     config_set_d(CONFIG_KEY_BACKWARD,         DEFAULT_KEY_BACKWARD);
     config_set_d(CONFIG_KEY_LEFT,             DEFAULT_KEY_LEFT);
     config_set_d(CONFIG_KEY_RIGHT,            DEFAULT_KEY_RIGHT);
     config_set_d(CONFIG_KEY_PAUSE,            DEFAULT_KEY_PAUSE);
     config_set_d(CONFIG_KEY_RESTART,          DEFAULT_KEY_RESTART);
+    config_set_d(CONFIG_KEY_SCORE_NEXT,       DEFAULT_KEY_SCORE_NEXT);
+    config_set_d(CONFIG_SCREENSHOT,           DEFAULT_SCREENSHOT);
+    config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
 }
 
 void config_load(void)
@@ -237,15 +246,26 @@ void config_load(void)
                 else if (strcmp(key, "key_restart")  == 0)
                     config_key(val, CONFIG_KEY_RESTART, DEFAULT_KEY_RESTART);
 
+                else if (strcmp(key, "key_score_next") == 0)
+                    config_key(val, CONFIG_KEY_SCORE_NEXT, DEFAULT_KEY_SCORE_NEXT);
+
                 else if (strcmp(key, "player") == 0)
                     config_set_s(CONFIG_PLAYER, val);
-                else if (strcmp(key, "ball") == 0)
+                else if (strcmp(key, "ball_file") == 0)
                     config_set_s(CONFIG_BALL, val);
+                else if (strcmp(key, "wiimote_addr") == 0)
+                    config_set_s(CONFIG_WIIMOTE_ADDR, val);
 
-                else if (strcmp(key, "cheat") == 0)
+                else if (strcmp(key, "cheat")   == 0)
                     config_set_d(CONFIG_CHEAT, atoi(val));
-                else if (strcmp(key, "stats") == 0)
+                else if (strcmp(key, "stats")   == 0)
                     config_set_d(CONFIG_STATS, atoi(val));
+                else if (strcmp(key, "uniform") == 0)
+                    config_set_d(CONFIG_UNIFORM, atoi(val));
+                else if (strcmp(key, "screenshot") == 0)
+                    config_set_d(CONFIG_SCREENSHOT, atoi(val));
+                else if (strcmp(key, "lock_goals") == 0)
+                    config_set_d(CONFIG_LOCK_GOALS, atoi(val));
             }
 
         fclose(fp);
@@ -364,11 +384,21 @@ void config_save(void)
         fprintf(fp, "key_restart          %s\n",
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_RESTART]));
 
-        fprintf(fp, "player               %s\n", option_s[CONFIG_PLAYER]);
-        fprintf(fp, "ball                 %s\n", option_s[CONFIG_BALL]);
+        fprintf(fp, "key_score_next       %s\n",
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_SCORE_NEXT]));
 
-        fprintf(fp, "stats                %d\n",
-                option_d[CONFIG_STATS]);
+        if (strlen(option_s[CONFIG_PLAYER]) > 0)
+            fprintf(fp, "player       %s\n", option_s[CONFIG_PLAYER]);
+        if (strlen(option_s[CONFIG_BALL]) > 0)
+            fprintf(fp, "ball_file    %s\n", option_s[CONFIG_BALL]);
+        if (strlen(option_s[CONFIG_WIIMOTE_ADDR]) > 0)
+            fprintf(fp, "wiimote_addr %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
+
+        fprintf(fp, "stats                %d\n", option_d[CONFIG_STATS]);
+        fprintf(fp, "uniform              %d\n", option_d[CONFIG_UNIFORM]);
+        fprintf(fp, "screenshot           %d\n", option_d[CONFIG_SCREENSHOT]);
+        fprintf(fp, "lock_goals           %d\n", option_d[CONFIG_LOCK_GOALS]);
+
         if (config_cheat())
             fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
 
@@ -428,6 +458,10 @@ int config_mode(int f, int w, int h)
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_LIGHTING);
         glEnable(GL_BLEND);
+
+        glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,
+                      GL_SEPARATE_SPECULAR_COLOR);
+        glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthFunc(GL_LEQUAL);
@@ -583,10 +617,18 @@ static int grabbed = 0;
 void config_set_grab(int w)
 {
     if (w)
+    {
+        SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+
         SDL_WarpMouse(config_get_d(CONFIG_WIDTH)  / 2,
                       config_get_d(CONFIG_HEIGHT) / 2);
+
+        SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
+    }
+
     SDL_WM_GrabInput(SDL_GRAB_ON);
     SDL_ShowCursor(SDL_DISABLE);
+
     grabbed = 1;
 }
 
@@ -617,6 +659,13 @@ void config_set_cheat(void)
 void config_clr_cheat(void)
 {
     config_set_d(CONFIG_CHEAT, 0);
+}
+
+/*---------------------------------------------------------------------------*/
+
+int config_screenshot(void)
+{
+    return ++option_d[CONFIG_SCREENSHOT];
 }
 
 /*---------------------------------------------------------------------------*/

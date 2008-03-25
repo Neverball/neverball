@@ -112,7 +112,7 @@ static int name_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            enter_id = gui_start(jd, _("OK"), GUI_SML, NAME_OK, 1);
+            enter_id = gui_start(jd, _("OK"), GUI_SML, NAME_OK, 0);
             gui_space(jd);
             gui_state(jd, _("Cancel"), GUI_SML, NAME_CANCEL, 0);
         }
@@ -134,7 +134,7 @@ static void name_leave(int id)
     gui_delete(id);
 }
 
-static void name_paint(int id, float st)
+static void name_paint(int id, float t)
 {
     if (draw_back)
     {
@@ -145,7 +145,7 @@ static void name_paint(int id, float st)
         config_pop_matrix();
     }
     else
-        game_draw(0, st);
+        game_draw(0, t);
 
     gui_paint(id);
 }
@@ -191,6 +191,7 @@ struct state st_name = {
     shared_timer,
     shared_point,
     shared_stick,
+    shared_angle,
     shared_click,
     name_keybd,
     name_buttn,
