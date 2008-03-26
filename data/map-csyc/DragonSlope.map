@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Dragon Slope\Story: You've been challenged to\participate in yet another race.\You must complete 3 laps within 4 minutes."
+"message" "Dragon Slope\Story: You've yet again been challenged to participate\in a race. You must complete 3 laps within 4 minutes."
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
 "shot" "shot-csyc/DragonSlope.png"
