@@ -105,7 +105,7 @@
 "classname" "path_corner"
 "origin" "192 0 -8"
 "targetname" "dance1"
-"speed" ".49"
+"speed" ".99"
 "target" "dance2"
 }
 // entity 2
