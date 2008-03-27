@@ -43,6 +43,8 @@ int   game_step(const float[3], float);
 
 void  game_update_view(float);
 
+void  game_set_play(int, int);
+
 void  game_set_rot(int);
 void  game_clr_mag(void);
 void  game_set_mag(int);

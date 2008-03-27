@@ -239,7 +239,7 @@ static void title_paint(int id, float t)
 
 static void title_timer(int id, float dt)
 {
-    float g[3] = { 0.f, 0.f, 0.f };
+    float g[3] = { 0.0f, -9.8f, 0.0f };
 
     game_step(g, dt);
     game_set_fly(fcosf(time_state() / 10.f));
@@ -708,6 +708,10 @@ static int next_enter(void)
     if (paused)
         paused = 0;
 
+    if (!config_get_d(CONFIG_BALL_COLLISIONS))
+        game_set_play(-2, 0);
+    game_set_play(0, 1);
+
     return id;
 }
 
@@ -891,7 +895,7 @@ static void stroke_paint(int id, float t)
 
 static void stroke_timer(int id, float dt)
 {
-    float g[3] = { 0.f, 0.f, 0.f };
+    float g[3] = { 0.0f, -9.8f, 0.0f };
 
     float k;
 
@@ -1002,7 +1006,7 @@ static int goal_enter(void)
     if (paused)
         paused = 0;
     else
-        hole_goal();
+        hole_goal(0);
 
     hud_init();
 
@@ -1089,7 +1093,7 @@ static void stop_paint(int id, float t)
 
 static void stop_timer(int id, float dt)
 {
-    float g[3] = { 0.f, 0.f, 0.f };
+    float g[3] = { 0.0f, -9.8f, 0.0f };
 
     game_update_view(dt);
     game_step(g, dt);

@@ -38,7 +38,9 @@ enum {
     CONF_SHDON,
     CONF_SHDOF,
     CONF_BACK,
-    CONF_RESOL
+    CONF_RESOL,
+    CONF_BCLON,
+    CONF_BCLOF
 };
 
 static int music_id[11];
@@ -112,6 +114,18 @@ static int conf_action(int i)
         goto_state(&st_resol);
         break;
 
+    case CONF_BCLON:
+        goto_state(&st_null);
+        config_set_d(CONFIG_BALL_COLLISIONS, 1);
+        goto_state(&st_conf);
+        break;
+
+    case CONF_BCLOF:
+        goto_state(&st_null);
+        config_set_d(CONFIG_BALL_COLLISIONS, 0);
+        goto_state(&st_conf);
+        break;
+
     default:
         if (100 <= i && i <= 110)
         {
@@ -151,6 +165,7 @@ static int conf_enter(void)
     if ((id = gui_vstack(0)))
     {
         int f = config_get_d(CONFIG_FULLSCREEN);
+        int c = config_get_d(CONFIG_BALL_COLLISIONS);
         int t = config_get_d(CONFIG_TEXTURES);
         int g = config_get_d(CONFIG_GEOMETRY);
         int h = config_get_d(CONFIG_SHADOW);
@@ -187,6 +202,17 @@ static int conf_enter(void)
             gui_state(kd, resolution, GUI_SML, CONF_RESOL, 0);
 
             gui_label(jd, _("Resolution"), GUI_SML, GUI_ALL, 0, 0);
+        }
+
+        gui_space(id);
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            gui_state(kd, _("Off"), GUI_SML, CONF_BCLOF, (c == 0));
+            gui_state(kd, _("On"),  GUI_SML, CONF_BCLON, (c == 1));
+
+            gui_label(jd, _("Ball Collisions"), GUI_SML, GUI_ALL, 0, 0);
         }
 
         gui_space(id);
