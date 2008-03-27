@@ -161,7 +161,7 @@ static void game_handle_balls(struct s_file *fp)
         * If there are any, reset the proper
         * ball's play state
         */
-        for (j = i + 1; j < fp->uc && (i > curr_party() || config_get_d(CONFIG_BALL_COLLISIONS)); j++)
+        for (j = i + 1; j < fp->uc; j++)
         {
             struct s_ball *u2p = fp->uv + j;
             float d[3];
@@ -245,7 +245,7 @@ static void game_draw_vect(const struct s_file *fp)
 static void game_draw_balls(const struct s_file *fp,
                             const float *bill_M, float t)
 {
-    static const GLfloat color[6][4] = {
+    static const GLfloat color[5][4] = {
         { 1.0f, 1.0f, 1.0f, 0.7f },
         { 1.0f, 0.0f, 0.0f, 1.0f },
         { 0.0f, 1.0f, 0.0f, 1.0f },
@@ -378,11 +378,14 @@ void game_draw(int pose, float t)
 
     int i = 0;
 
-    if (config_get_d(CONFIG_BALL_COLLISIONS) && jump_b && jump_u != ball * 2)
-        fov /= 1.9f * fabsf(jump_dt - 0.5f);
+    if (jump_b)
+    {
+        if (jump_u == ball)
+            fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
-    else if (jump_b)
-        fov *= 2.0f * fabsf(jump_dt - 0.5f);
+        else
+            fov /= 1.9f * fabsf(jump_dt - 0.5f);
+    }
 
     config_push_persp(fov, 0.1f, FAR_DIST);
     glPushAttrib(GL_LIGHTING_BIT);
@@ -560,52 +563,40 @@ static int game_update_state(float dt)
 
     /* Test for a jump. */
 
-    if (config_get_d(CONFIG_BALL_COLLISIONS))
+    for (i = 0; i < fp->uc; i++)
     {
-        for (i = 0; i < fp->uc; i++)
+        if (jump_e == 1 &&
+            jump_b == 0 &&
+            sol_jump_test(fp, jump_p, i) == 1)
         {
-            if (!jump_u && jump_e == 1 && jump_b == 0 &&
-                           sol_jump_test(fp, jump_p, i) == 1)
-            {
-                jump_b  = 1;
-                jump_e  = 0;
-                jump_dt = 0.f;
-                jump_u  = i;
-
-                audio_play(AUD_JUMP, 1.f);
-            }
-            if (jump_e == 0 && jump_b == 0 &&
-                sol_jump_test(fp, jump_p, i) == 0)
-                jump_e = 1;
-            if (!jump_b && jump_u && i == jump_u / 2 &&
-                sol_jump_test(fp, jump_p, i) == 0)
-                jump_u = 0;
-        }
-    }
-    else
-    {
-        if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, ball) == 1)
-        {
+            /* Initialize a jump */
             jump_b  = 1;
             jump_e  = 0;
             jump_dt = 0.f;
+            jump_u  = i;
 
             audio_play(AUD_JUMP, 1.f);
         }
-        if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, ball) == 0)
+        if (jump_e == 0 &&
+            jump_b == 0 &&
+            jump_u == i &&
+            sol_jump_test(fp, jump_p, i) == 0)
+        {
+            /* Enable jumping after jump finished */
             jump_e = 1;
+        }
     }
 
     /* Test for fall-out. */
 
-    if (fp->uv[ball].p[1] < -10.0f)
+    if (fp->uv[ball].p[1] < -10.f)
         return GAME_FALL;
 
     /* Test for a goal or stop. */
 
-    if (t > 1.0f)
+    if (t > 1.f)
     {
-        t = 0.0f;
+        t = 0.f;
 
         switch (sol_goal_test(fp, p, ball) & ((fp->uv[ball].P) ? (3) : (1)))
         {
@@ -661,39 +652,20 @@ int game_step(const float g[3], float dt)
 
     if (jump_b)
     {
-        if (config_get_d(CONFIG_BALL_COLLISIONS))
+        jump_dt += dt;
+
+        /* Handle a jump. */
+
+        if (0.5 < jump_dt)
         {
-            jump_dt += dt;
-
-            /* Handle a jump. */
-
-            if (0.5 < jump_dt)
-            {
-                fp->uv[jump_u].p[0] = jump_p[0];
-                fp->uv[jump_u].p[1] = jump_p[1];
-                fp->uv[jump_u].p[2] = jump_p[2];
-            }
-
-            if (1.f < jump_dt)
-            {
-                jump_b = 0;
-            }
+            fp->uv[jump_u].p[0] = jump_p[0];
+            fp->uv[jump_u].p[1] = jump_p[1];
+            fp->uv[jump_u].p[2] = jump_p[2];
         }
 
-        else
+        if (1.f < jump_dt)
         {
-            jump_dt += dt;
-
-            /* Handle a jump. */
-
-            if (0.5 < jump_dt)
-            {
-                fp->uv[ball].p[0] = jump_p[0];
-                fp->uv[ball].p[1] = jump_p[1];
-                fp->uv[ball].p[2] = jump_p[2];
-            }
-            if (1.f < jump_dt)
-                jump_b = 0;
+            jump_b = 0;
         }
     }
     else
@@ -736,19 +708,9 @@ void game_putt(void)
      * friction too early and stopping the ball prematurely.
      */
 
-    if (config_get_d(CONFIG_BALL_COLLISIONS))
-    {
-        file.uv[ball].v[0] = -4.f * view_e[2][0] * view_m;
-        file.uv[ball].v[1] = -4.f * view_e[2][1] * view_m + BALL_FUDGE;
-        file.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
-    }
-
-    else
-    {
-        file.uv[ball].v[0] = -4.f * view_e[2][0] * view_m;
-        file.uv[ball].v[1] = -4.f * view_e[2][1] * view_m + BALL_FUDGE;
-        file.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
-    }
+    file.uv[ball].v[0] = -4.f * view_e[2][0] * view_m;
+    file.uv[ball].v[1] = -4.f * view_e[2][1] * view_m + BALL_FUDGE;
+    file.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
 
     view_m = 0.f;
 }
@@ -914,3 +876,4 @@ void game_set_pos(float p[3], float e[3][3])
 }
 
 /*---------------------------------------------------------------------------*/
+

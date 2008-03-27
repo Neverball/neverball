@@ -58,8 +58,8 @@ static int   goal_e = 0;                /* Goal enabled flag                 */
 static float goal_k = 0;                /* Goal animation                    */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
-static float jump_dt;                   /* Jump duration                     */
 static int   jump_u = 0;                /* Which ball is jumping?            */
+static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
@@ -400,16 +400,6 @@ int curr_clock(void)
 int curr_coins(void)
 {
     return coins;
-}
-
-/*---------------------------------------------------------------------------*/
-
-/*
- * Here for any possible future implementations, eg network play
- */
-
-static void game_handle_balls(struct s_file *fp)
-{
 }
 
 /*---------------------------------------------------------------------------*/
@@ -817,11 +807,14 @@ void game_draw(int pose, float t)
 {
     float fov = view_fov;
 
-    if (jump_b && jump_u)
-        fov /= 1.9f * fabsf(jump_dt - 0.5f);
+    if (jump_b)
+    {
+        if (jump_u == 0)
+            fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
-    else if (jump_b)
-        fov *= 2.0f * fabsf(jump_dt - 0.5f);
+        else
+            fov /= 1.9f * fabsf(jump_dt - 0.5f);
+    }
 
     if (game_state)
     {
@@ -1053,39 +1046,28 @@ static int game_update_state(int bt)
 
     /* Test for a jump. */
 
-    if (!jump_u && jump_e == 1 && jump_b == 0 &&
-        sol_jump_test(fp, jump_p, 0) == 1)
-    {
-        jump_b  = 1;
-        jump_e  = 0;
-        jump_dt = 0.f;
-        jump_u  = 0;
-
-        audio_play(AUD_JUMP, 1.f);
-    }
-    if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 0)
-        jump_e = 1;
-    if (!jump_b && !jump_u && sol_jump_test(fp, jump_p, 0) == 0)
-        jump_u = 0;
-
     for (i = 0; i < fp->uc; i++)
     {
-        if (!jump_u && jump_e == 1 && jump_b == 0 &&
+        if (jump_e == 1 &&
+            jump_b == 0 &&
             sol_jump_test(fp, jump_p, i) == 1)
         {
             jump_b  = 1;
             jump_e  = 0;
             jump_dt = 0.f;
-            jump_u  = i + 1;
+            jump_u  = i;
 
             audio_play(AUD_JUMP, 1.f);
         }
-        if (jump_e == 0 && jump_b == 0 &&
+
+        if (jump_e == 0 &&
+            jump_b == 0 &&
+            jump_u == i &&
             sol_jump_test(fp, jump_p, i) == 0)
+        {
+            /* Enable jumping after jump finished */
             jump_e = 1;
-        if (!jump_b && jump_u && i == jump_u - 1 &&
-            sol_jump_test(fp, jump_p, i) == 0)
-            jump_u = 0;
+        }
     }
 
     /* Test for a goal. */
@@ -1165,8 +1147,6 @@ int game_step(const float g[3], float dt, int bt)
 
             float b = sol_step(fp, h, dt, 0, NULL);
 
-            game_handle_balls(fp);
-
             /* Mix the sound of a ball bounce. */
 
             if (b > 0.5f)
@@ -1211,7 +1191,6 @@ void game_clr_goal(void)
  * Set ball B's play state as S.  Additional values can be used for b:
  * -1: Set current ball to s
  * -2: Set all balls to s
- *
  */
 
 void game_set_play(int b, int s)
