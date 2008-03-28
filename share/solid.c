@@ -920,6 +920,7 @@ static float sol_bounce(struct s_ball *up,
     v_mad(p, q, n, up->r);
 
     /* Return the "energy" of the impact, to determine the sound amplitude. */
+
     return fabsf(v_dot(n, d));
 }
 
@@ -1494,7 +1495,6 @@ static float sol_test_file(float dt,
             t = u;
         }
     }
-
     return t;
 }
 
@@ -1542,7 +1542,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
                 if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
                 {
-                    if ((e = (v_len(up->v) - dt)) > 0.0f) /* GDB tells me this is where the problem lies. I'll look into it */
+                    if ((e = (v_len(up->v) - dt)) > 0.0f)
                     {
                         /* Scale the linear velocity. */
 
@@ -1828,3 +1828,4 @@ void get_file_state(FILE *fin, struct s_file *fp)
 }
 
 /*---------------------------------------------------------------------------*/
+

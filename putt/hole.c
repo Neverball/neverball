@@ -134,7 +134,7 @@ char *hole_tot(int p)
 
     if (p <= party)
     {
-        for (h = 1; h <= hole && h <= 18; h++)
+        for (h = 1; h <= hole && h < count; h++)
             T += score_v[h][p];
 
         sprintf(str, "%d", T);
@@ -152,7 +152,7 @@ char *hole_out(int p)
 
     if (p <= party)
     {
-        for (h = 1; h <= hole && h <= 9; h++)
+        for (h = 1; h <= hole && h <= count / 2; h++)
             T += score_v[h][p];
 
         sprintf(str, "%d", T);
