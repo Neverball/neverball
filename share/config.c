@@ -127,7 +127,6 @@ void config_init(void)
     config_set_d(CONFIG_KEY_SCORE_NEXT,       DEFAULT_KEY_SCORE_NEXT);
     config_set_d(CONFIG_SCREENSHOT,           DEFAULT_SCREENSHOT);
     config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
-    config_set_d(CONFIG_BALL_COLLISIONS,      DEFAULT_BALL_COLLISIONS);
 }
 
 void config_load(void)
@@ -267,8 +266,6 @@ void config_load(void)
                     config_set_d(CONFIG_SCREENSHOT, atoi(val));
                 else if (strcmp(key, "lock_goals") == 0)
                     config_set_d(CONFIG_LOCK_GOALS, atoi(val));
-                else if (strcmp(key, "ball_collisions") == 0)
-                    config_set_d(CONFIG_BALL_COLLISIONS, atoi(val));
             }
 
         fclose(fp);
@@ -361,7 +358,7 @@ void config_save(void)
                 option_d[CONFIG_ROTATE_FAST]);
         fprintf(fp, "rotate_slow          %d\n",
                 option_d[CONFIG_ROTATE_SLOW]);
-
+        
         fprintf(fp, "key_forward          %s\n",
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_FORWARD]));
         fprintf(fp, "key_backward         %s\n",
@@ -401,7 +398,6 @@ void config_save(void)
         fprintf(fp, "uniform              %d\n", option_d[CONFIG_UNIFORM]);
         fprintf(fp, "screenshot           %d\n", option_d[CONFIG_SCREENSHOT]);
         fprintf(fp, "lock_goals           %d\n", option_d[CONFIG_LOCK_GOALS]);
-        fprintf(fp, "ball_collisions      %d\n", option_d[CONFIG_BALL_COLLISIONS]);
 
         if (config_cheat())
             fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);

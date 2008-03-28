@@ -50,8 +50,6 @@ int   game_step(const float[3], float, int);
 void  game_set_goal(void);
 void  game_clr_goal(void);
 
-void  game_set_play(int, int);
-
 void  game_set_ang(int, int);
 void  game_set_pos(int, int);
 void  game_set_x  (int);

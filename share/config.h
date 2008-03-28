@@ -91,7 +91,6 @@ enum {
     CONFIG_UNIFORM,
     CONFIG_SCREENSHOT,
     CONFIG_LOCK_GOALS,
-    CONFIG_BALL_COLLISIONS,
 
     CONFIG_OPTION_D_COUNT
 };
@@ -168,7 +167,6 @@ enum {
 #define DEFAULT_STATS                0
 #define DEFAULT_UNIFORM              0
 #define DEFAULT_SCREENSHOT           0
-#define DEFAULT_BALL_COLLISIONS      0
 #define DEFAULT_LOCK_GOALS           0
 
 /*---------------------------------------------------------------------------*/
