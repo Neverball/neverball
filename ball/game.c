@@ -56,6 +56,7 @@ static float view_k;
 static int   coins  = 0;                /* Collected coins                   */
 static int   goal_e = 0;                /* Goal enabled flag                 */
 static float goal_k = 0;                /* Goal animation                    */
+static int   jump_s;                    /* Has ball reached other end?       */
 static int   jump_u = 0;                /* Which ball is jumping?            */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
@@ -339,6 +340,7 @@ int game_init(const char *file_name, int t, int e)
     /* Initialize jump and goal states. */
 
     jump_b = JUMP_NONE;
+    jump_s = 1;
     jump_u = jump_dt = 0;
 
     goal_e = e ? 1    : 0;
@@ -1134,9 +1136,9 @@ int game_step(const float g[3], float dt, int bt)
 
             jump_dt += dt;
 
-            if (0.5f < jump_dt)
+            if (0.5f < jump_dt && jump_s)
             {
-                /* TODO: Execute only once */
+                jump_s = 0;
                 fp->uv[jump_u].p[0] = jump_p[0];
                 fp->uv[jump_u].p[1] = jump_p[1];
                 fp->uv[jump_u].p[2] = jump_p[2];
@@ -1147,6 +1149,7 @@ int game_step(const float g[3], float dt, int bt)
             {
                 jump_dt = 0.f;
                 jump_b  = JUMP_NONE;
+                jump_s  = 1;
             }
         }
 

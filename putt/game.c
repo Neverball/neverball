@@ -44,6 +44,7 @@ static float view_v[3];                 /* Current view vector               */
 static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view orientation          */
 
+static int   jump_s;                    /* Has ball reached other end?       */
 static int   jump_u;                    /* Which ball is jumping?            */
 static float jump_b;                    /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
@@ -80,6 +81,7 @@ static void view_init(void)
 
 void game_init(const char *s)
 {
+    jump_s  = 1;
     jump_u  = 0;
     jump_b  = JUMP_NONE;
     jump_dt = 0.f;
@@ -683,9 +685,9 @@ int game_step(const float g[3], float dt)
 
         jump_dt += dt;
 
-        if (0.5f < jump_dt)
+        if (0.5f < jump_dt && jump_s)
         {
-            /* TODO: Execute only once */
+            jump_s = 0;
             fp->uv[jump_u].p[0] = jump_p[0];
             fp->uv[jump_u].p[1] = jump_p[1];
             fp->uv[jump_u].p[2] = jump_p[2];
@@ -696,6 +698,7 @@ int game_step(const float g[3], float dt)
         {
             jump_dt = 0.f;
             jump_b  = JUMP_NONE;
+            jump_s  = 1;
         }
     }
 
