@@ -44,9 +44,8 @@ static float view_v[3];                 /* Current view vector               */
 static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view orientation          */
 
-static float jump_e = 1;                /* Jumping enabled flag              */
-static float jump_b = 0;                /* Jump-in-progress flag             */
-static int   jump_u = 0;                /* Which ball is jumping?            */
+static int   jump_u;                    /* Which ball is jumping?            */
+static float jump_b;                    /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 
@@ -81,9 +80,9 @@ static void view_init(void)
 
 void game_init(const char *s)
 {
-    jump_e = 1;
-    jump_b = 0;
-    jump_u = 0;
+    jump_u  = 0;
+    jump_b  = JUMP_NONE;
+    jump_dt = 0.f;
 
     view_init();
     sol_load_gl(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
@@ -338,7 +337,7 @@ static void game_draw_jumps(const struct s_file *fp)
                          fp->jv[ji].p[2]);
 
             glScalef(fp->jv[ji].r, 1.f, fp->jv[ji].r);
-            jump_draw(!jump_e);
+            jump_draw((fp->jv[ji].b > 0) ? 1 : 0);
         }
         glPopMatrix();
     }
@@ -380,13 +379,9 @@ void game_draw(int pose, float t)
 
     int i = 0;
 
-    if (jump_b)
+    if (jump_b == JUMP_CURR_BALL)
     {
-        if (jump_u == ball)
-            fov *= 2.0f * fabsf(jump_dt - 0.5f);
-
-        else
-            fov /= 1.9f * fabsf(jump_dt - 0.5f);
+        fov *= 2.0f * fabsf(jump_dt - 0.5f);
     }
 
     config_push_persp(fov, 0.1f, FAR_DIST);
@@ -552,7 +547,7 @@ static int game_update_state(float dt)
     struct s_file *fp = &file;
     float p[3];
 
-    int i;
+    int u;
 
     if (dt > 0.f)
         t += dt;
@@ -560,33 +555,26 @@ static int game_update_state(float dt)
         t = 0.f;
 
     /* Test for a switch. */
+
     if (sol_swch_test(fp))
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
-    for (i = 0; i < fp->uc; i++)
+    if (jump_b == JUMP_NONE && (u = sol_jump_test(fp, jump_p)))
     {
-        if (jump_e == 1 &&
-            jump_b == 0 &&
-            sol_jump_test(fp, jump_p, i) == 1)
+        if (u - 1 == ball)
         {
-            /* Initialize a jump */
-            jump_b  = 1;
-            jump_e  = 0;
-            jump_dt = 0.f;
-            jump_u  = i;
+            jump_b = JUMP_CURR_BALL;
+        }
+        else if (u > 0)
+        {
+            jump_b = JUMP_OTHR_BALL;
+        }
 
-            audio_play(AUD_JUMP, 1.f);
-        }
-        if (jump_e == 0 &&
-            jump_b == 0 &&
-            jump_u == i &&
-            sol_jump_test(fp, jump_p, i) == 0)
-        {
-            /* Enable jumping after jump finished */
-            jump_e = 1;
-        }
+        jump_u = u - 1;
+
+        audio_play(AUD_JUMP, 1.f);
     }
 
     /* Test for fall-out. */
@@ -652,25 +640,16 @@ int game_step(const float g[3], float dt)
     s = (7.f * s + dt) / 8.f;
     t = s;
 
-    if (jump_b)
-    {
-        jump_dt += dt;
+    /*
+     * The JUMP_NONE here ensures that no two balls
+     * are being processed  simultaneously.  If two
+     * enter a  jump at  exactly the same time, the
+     * ball  with  the  lower  ui will be processed
+     * first, and the second ball will be processed
+     * immediately after.
+     */
 
-        /* Handle a jump. */
-
-        if (0.5 < jump_dt)
-        {
-            fp->uv[jump_u].p[0] = jump_p[0];
-            fp->uv[jump_u].p[1] = jump_p[1];
-            fp->uv[jump_u].p[2] = jump_p[2];
-        }
-
-        if (1.f < jump_dt)
-        {
-            jump_b = 0;
-        }
-    }
-    else
+    if (jump_b == JUMP_NONE)
     {
         /* Run the sim. */
 
@@ -696,6 +675,28 @@ int game_step(const float g[3], float dt)
 
         if (b > 0.5)
             audio_play(AUD_BUMP, (float) (b - 0.5) * 2.0f);
+    }
+
+    else
+    {
+        /* Handle a jump. */
+
+        jump_dt += dt;
+
+        if (0.5f < jump_dt)
+        {
+            /* TODO: Execute only once */
+            fp->uv[jump_u].p[0] = jump_p[0];
+            fp->uv[jump_u].p[1] = jump_p[1];
+            fp->uv[jump_u].p[2] = jump_p[2];
+            sol_jump_test(fp, NULL);
+        }
+
+        if (1.f  < jump_dt)
+        {
+            jump_dt = 0.f;
+            jump_b  = JUMP_NONE;
+        }
     }
 
     game_update_view(dt);
@@ -839,9 +840,6 @@ void game_ball(int i)
     int ui;
 
     ball = i;
-
-    jump_e = 1;
-    jump_b = 0;
 
     for (ui = 0; ui < file.uc; ui++)
     {

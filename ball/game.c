@@ -56,9 +56,8 @@ static float view_k;
 static int   coins  = 0;                /* Collected coins                   */
 static int   goal_e = 0;                /* Goal enabled flag                 */
 static float goal_k = 0;                /* Goal animation                    */
-static int   jump_e = 1;                /* Jumping enabled flag              */
-static int   jump_b = 0;                /* Jump-in-progress flag             */
 static int   jump_u = 0;                /* Which ball is jumping?            */
+static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 static float fade_k = 0.0;              /* Fade in/out level                 */
@@ -339,9 +338,8 @@ int game_init(const char *file_name, int t, int e)
 
     /* Initialize jump and goal states. */
 
-    jump_e = 1;
-    jump_b = 0;
-    jump_u = 0;
+    jump_b = JUMP_NONE;
+    jump_u = jump_dt = 0;
 
     goal_e = e ? 1    : 0;
     goal_k = e ? 1.0f : 0.0f;
@@ -570,7 +568,7 @@ static void game_draw_jumps(const struct s_file *fp)
                      1.0f,
                      fp->jv[ji].r);
 
-            jump_draw(!jump_e);
+            jump_draw((fp->jv[ji].b > 0) ? 1 : 0);
         }
         glPopMatrix();
     }
@@ -811,13 +809,9 @@ void game_draw(int pose, float t)
 {
     float fov = view_fov;
 
-    if (jump_b)
+    if (jump_b == JUMP_CURR_BALL)
     {
-        if (jump_u == 0)
-            fov *= 2.0f * fabsf(jump_dt - 0.5f);
-
-        else
-            fov /= 1.9f * fabsf(jump_dt - 0.5f);
+        fov *= 2.0f * fabsf(jump_dt - 0.5f);
     }
 
     if (game_state)
@@ -927,7 +921,7 @@ static void game_update_grav(float h[3], const float g[3])
 
 static void game_update_view(float dt)
 {
-    float dc = view_dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
+    float dc = view_dc * (jump_b != JUMP_NONE ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float da = input_get_r() * dt * 90.0f;
     float k;
 
@@ -1022,7 +1016,7 @@ static int game_update_state(int bt)
     float p[3];
     float c[3];
 
-    int i;
+    int i, u;
 
     /* Test for an item. */
 
@@ -1050,28 +1044,20 @@ static int game_update_state(int bt)
 
     /* Test for a jump. */
 
-    for (i = 0; i < fp->uc; i++)
+    if (jump_b == JUMP_NONE && (u = sol_jump_test(fp, jump_p)))
     {
-        if (jump_e == 1 &&
-            jump_b == 0 &&
-            sol_jump_test(fp, jump_p, i) == 1)
+        if (u - 1 == 0)
         {
-            jump_b  = 1;
-            jump_e  = 0;
-            jump_dt = 0.f;
-            jump_u  = i;
-
-            audio_play(AUD_JUMP, 1.f);
+            jump_b = JUMP_CURR_BALL;
+        }
+        else if (u > 0)
+        {
+            jump_b = JUMP_OTHR_BALL;
         }
 
-        if (jump_e == 0 &&
-            jump_b == 0 &&
-            jump_u == i &&
-            sol_jump_test(fp, jump_p, i) == 0)
-        {
-            /* Enable jumping after jump finished */
-            jump_e = 1;
-        }
+        jump_u = u - 1;
+
+        audio_play(AUD_JUMP, 1.f);
     }
 
     /* Test for a goal. */
@@ -1120,32 +1106,7 @@ int game_step(const float g[3], float dt, int bt)
         game_update_grav(h, g);
         part_step(h, dt);
 
-        if (jump_b)
-        {
-            jump_dt += dt;
-
-            /* Handle a jump. */
-
-            if (0.5f < jump_dt)
-            {
-                if (jump_u)
-                {
-                    fp->uv[jump_u - 1].p[0] = jump_p[0];
-                    fp->uv[jump_u - 1].p[1] = jump_p[1];
-                    fp->uv[jump_u - 1].p[2] = jump_p[2];
-                }
-
-                else
-                {
-                    fp->uv[0].p[0] = jump_p[0];
-                    fp->uv[0].p[1] = jump_p[1];
-                    fp->uv[0].p[2] = jump_p[2];
-                }
-            }
-            if (1.0f < jump_dt)
-                jump_b = 0;
-        }
-        else
+        if (jump_b == JUMP_NONE)
         {
             /* Run the sim. */
 
@@ -1164,6 +1125,28 @@ int game_step(const float g[3], float dt, int bt)
                     else                            audio_play(AUD_BUMPM, k);
                 }
                 else audio_play(AUD_BUMPM, k);
+            }
+        }
+
+        else
+        {
+            /* Handle a jump. */
+
+            jump_dt += dt;
+
+            if (0.5f < jump_dt)
+            {
+                /* TODO: Execute only once */
+                fp->uv[jump_u].p[0] = jump_p[0];
+                fp->uv[jump_u].p[1] = jump_p[1];
+                fp->uv[jump_u].p[2] = jump_p[2];
+                sol_jump_test(fp, NULL);
+            }
+
+            if (1.f  < jump_dt)
+            {
+                jump_dt = 0.f;
+                jump_b  = JUMP_NONE;
             }
         }
 

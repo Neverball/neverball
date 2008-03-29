@@ -232,6 +232,8 @@ static void sol_load_jump(FILE *fin, struct s_jump *jp)
     get_array(fin,  jp->p, 3);
     get_array(fin,  jp->q, 3);
     get_float(fin, &jp->r);
+
+    jp->b = 0;
 }
 
 static void sol_load_ball(FILE *fin, struct s_ball *bp)
@@ -1678,46 +1680,67 @@ int sol_goal_test(struct s_file *fp, float *p, int ui)
 }
 
 /*
- * Test if the  ball UI is inside a  jump. Return 1 if yes  and fill P
- * with the destination position, return 0 if not, and return 2 if the
- * ball is on the border of a jump.
+ * Test and process the event a ball enters a jump.
+ * Return  the  ball's  ui  if  it  entered a jump.
+ * Before return, set p to jump's destination.
  */
-int sol_jump_test(struct s_file *fp, float *p, int ui)
+int sol_jump_test(struct s_file *fp, float *p)
 {
-    const float *ball_p = fp->uv[ui].p;
-    const float  ball_r = fp->uv[ui].r;
-    int ji;
     float l;
-    int res = 0;
+    int ji, ui, res = 0;
 
-    if (!fp->uv[ui].P || !fp->uv[ui].m)
-        return 0;
-
-    for (ji = 0; ji < fp->jc; ji++)
+    for (ui = 0; ui < fp->uc; ui++)
     {
-        float r[3];
-
-        r[0] = ball_p[0] - fp->jv[ji].p[0];
-        r[1] = ball_p[2] - fp->jv[ji].p[2];
-        r[2] = 0;
-
-        l = v_len(r) - fp->jv[ji].r;
-        if (l < 0 &&
-            ball_p[1] > fp->jv[ji].p[1] &&
-            ball_p[1] < fp->jv[ji].p[1] + JUMP_HEIGHT / 2)
+        for (ji = 0; ji < fp->jc; ji++)
         {
-            if (l < - ball_r )
-            {
-                p[0] = fp->jv[ji].q[0] + (ball_p[0] - fp->jv[ji].p[0]);
-                p[1] = fp->jv[ji].q[1] + (ball_p[1] - fp->jv[ji].p[1]);
-                p[2] = fp->jv[ji].q[2] + (ball_p[2] - fp->jv[ji].p[2]);
+            const float *ball_p = fp->uv[ui].p;
+            const float  ball_r = fp->uv[ui].r;
+            float r[3];
 
-                return 1;
+            if (!fp->uv[ui].P || !fp->uv[ui].m)
+                continue;
+
+            r[0] = ball_p[0] - fp->jv[ji].p[0];
+            r[1] = ball_p[2] - fp->jv[ji].p[2];
+            r[2] = 0;
+
+            l = v_len(r) - fp->jv[ji].r;
+            if (l < 0 &&
+                ball_p[1] > fp->jv[ji].p[1] &&
+                ball_p[1] < fp->jv[ji].p[1] + JUMP_HEIGHT / 2)
+            {
+                if (l < -ball_r )
+                {
+                    if (((int)(pow(2, ui)) & (int)(fp->jv[ji].b)) == 0)
+                    {
+                        if (res >=  0)
+                            res  = ui + 1;
+
+                        fp->jv[ji].b |= (int)pow(2, ui);
+
+                        if (p)
+                        {
+                            p[0] = fp->jv[ji].q[0] + (ball_p[0] - fp->jv[ji].p[0]);
+                            p[1] = fp->jv[ji].q[1] + (ball_p[1] - fp->jv[ji].p[1]);
+                            p[2] = fp->jv[ji].q[2] + (ball_p[2] - fp->jv[ji].p[2]);
+                        }
+                    }
+                }
             }
-            else
-                res = 2;
+            else if (((int)(pow(2, ui)) & (int)(fp->jv[ji].b)) > 0)
+            {
+                fp->jv[ji].b &= ~((int)(pow(2, ui)));
+                res = -1;
+            }
         }
+
+        if (res > 0)
+            return res;
+
+        else
+            res = 0;
     }
+
     return res;
 }
 
@@ -1728,18 +1751,21 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
  */
 int sol_swch_test(struct s_file *fp)
 {
-    int xi, i, res = 0;
+    int xi, ui, res = 0;
 
     for (xi = 0; xi < fp->xc; xi++)
     {
         struct s_swch *xp = fp->xv + xi;
 
-        for (i = 0; i < fp->uc; i++)
+        for (ui = 0; ui < fp->uc; ui++)
         {
             float l, r[3];
 
-            const float *ball_p  = fp->uv[i].p;
-            const float  ball_r  = fp->uv[i].r;
+            const float *ball_p  = fp->uv[ui].p;
+            const float  ball_r  = fp->uv[ui].r;
+
+            if (!fp->uv[ui].P || !fp->uv[ui].m)
+                continue;
 
             if (xp->t0 == 0 || xp->f == xp->f0)
             {
@@ -1758,7 +1784,7 @@ int sol_swch_test(struct s_file *fp)
                         int pi = xp->pi;
                         int pj = xp->pi;
 
-                        xp->b = i * 2;
+                        xp->b = ui;
 
                         /* The ball enters. */
 
@@ -1794,7 +1820,7 @@ int sol_swch_test(struct s_file *fp)
 
                 /* The ball exits. */
 
-                else if (xp->e && xp->b == i * 2)
+                else if (xp->e && xp->b == ui)
                     xp->e = 0;
             }
         }

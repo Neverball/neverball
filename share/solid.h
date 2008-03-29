@@ -248,6 +248,10 @@ struct s_jump
     float p[3];                                /* position                   */
     float q[3];                                /* target position            */
     float r;                                   /* radius                     */
+
+    int   b;                                   /* balls inside of jump       */
+                                               /* ball 1: 1, 2: 2, 3:4, 4:8, */
+                                               /* 5:16, 6:32, etc            */
 };
 
 struct s_ball
@@ -334,7 +338,7 @@ void  sol_free(struct s_file *);
 
 float sol_step(struct s_file *, const float *, float, int, int *);
 
-int   sol_jump_test(struct s_file *, float *, int);
+int   sol_jump_test(struct s_file *, float *);
 int   sol_swch_test(struct s_file *);
 int   sol_goal_test(struct s_file *, float *, int);
 
