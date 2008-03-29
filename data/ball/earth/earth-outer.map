@@ -2,6 +2,7 @@
 "classname" "worldspawn"
 "drawback" "1"
 "depthmask" "1"
+"alphatest" "0.01"
 }
 {
 "classname" "misc_model"

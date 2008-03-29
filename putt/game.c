@@ -265,6 +265,7 @@ static void game_draw_balls(const struct s_file *fp,
             m_basis(ball_M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
             m_basis(pend_M, fp->uv[ui].E[0], fp->uv[ui].E[1], fp->uv[ui].E[2]);
 
+            glPushAttrib(GL_LIGHTING_BIT);
             glPushMatrix();
             {
                 glTranslatef(fp->uv[ui].p[0],
@@ -281,6 +282,7 @@ static void game_draw_balls(const struct s_file *fp,
                 glDisable(GL_COLOR_MATERIAL);
             }
             glPopMatrix();
+            glPopAttrib();
         }
 
         else if (ui <= curr_party())
