@@ -89,9 +89,9 @@ void game_init(const char *s)
     sol_load_gl(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
                                     config_get_d(CONFIG_SHADOW));
 
-    game_set_play(-1, 0);
+    game_set_play(PLAY_ALL, 0);
 
-    file.uv->m = file.uv->P = 0;
+    file.uv->m = 0;
 }
 
 void game_free(void)
@@ -721,29 +721,23 @@ void game_putt(void)
 
 /*
  * Set ball B's play state as S.  Additional values can be used for b:
- *  0: Set current ball to s
- * -1: Set all balls to s
- * -2: Set all balls under player control to s
- *
- * Note that the first ball (Or really where fall-out balls return / camera
- *                           spot) is never affected.
  */
 
 void game_set_play(int b, int s)
 {
     int i;
 
-    if (b >   0 && b    < file.uc)
+    if (b >= 0            && b    < file.uc)
         file.uv[b].P = s;
 
-    if (b ==  0 && ball < file.uc)
+    if (b == PLAY_CURRENT && ball < file.uc)
         file.uv[ball].P = s;
 
-    if (b == -1)
+    if (b == PLAY_ALL)
         for (i = 1; i < file.uc; i++)
             file.uv[i].P = s;
 
-    if (b == -2)
+    if (b == PLAY_PARTY)
         for (i = 1; i <= curr_party() && i < file.uc; i++)
             file.uv[i].P = s;
 }

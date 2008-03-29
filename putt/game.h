@@ -32,6 +32,12 @@
 #define GAME_GOAL 2
 #define GAME_FALL 3
 
+enum play {
+    PLAY_CURRENT=-3,
+    PLAY_ALL,
+    PLAY_PARTY
+};
+
 /*---------------------------------------------------------------------------*/
 
 void  game_init(const char *);

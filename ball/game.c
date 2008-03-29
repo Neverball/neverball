@@ -373,8 +373,10 @@ int game_init(const char *file_name, int t, int e)
     grow = 0;
 
     /* Initialize play states */
-    game_set_play(-2, 0);
-    game_set_play( 0, 1);
+    for (i = 0; i < file.uc; i++)
+        file.uv[i].P = 0;
+
+    file.uv->P = file.uv->m = 1;
 
     return game_state;
 }
@@ -1185,29 +1187,6 @@ void game_set_goal(void)
 void game_clr_goal(void)
 {
     goal_e = 0;
-}
-
-/*---------------------------------------------------------------------------*/
-
-/*
- * Set ball B's play state as S.  Additional values can be used for b:
- * -1: Set current ball to s
- * -2: Set all balls to s
- */
-
-void game_set_play(int b, int s)
-{
-    int i;
-
-    if (b >=  0 && b  < file.uc)
-        file.uv[b].P = s;
-
-    if (b == -1)
-        file.uv[0].P = s;
-
-    if (b == -2)
-        for (i = 0; i < file.uc; i++)
-            file.uv[i].P = s;
 }
 
 /*---------------------------------------------------------------------------*/

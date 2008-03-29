@@ -30,6 +30,10 @@
 
 /*---------------------------------------------------------------------------*/
 
+extern enum play;
+
+/*---------------------------------------------------------------------------*/
+
 static SDL_Joystick *joystick = NULL;
 
 void set_joystick(SDL_Joystick *j)
@@ -709,8 +713,8 @@ static int next_enter(void)
         paused = 0;
 
     if (!config_get_d(CONFIG_BALL_COLLISIONS))
-        game_set_play(-2, 0);
-    game_set_play(0, 1);
+        game_set_play(PLAY_PARTY, 0);
+    game_set_play(PLAY_CURRENT, 1);
 
     return id;
 }
