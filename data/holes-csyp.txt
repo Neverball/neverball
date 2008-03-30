@@ -12,7 +12,7 @@ map-csypp/ShiftedRamp.sol	back/grn_yel.png	4	bgm/track3.ogg
 map-csypp/Hoppers.sol	back/cyn_grn.png	7	bgm/track3.ogg
 map-csypp/UpsideDown.sol	back/greys.png	4	bgm/track3.ogg
 map-csypp/LongJump.sol	back/blu_cyn.png	6	bgm/track4.ogg
-map-csypp/Challenger2.sol	back/purples.png	11	bgm/track4.ogg
+map-csypp/Challenger2.sol	back/purples.png	14	bgm/track4.ogg
 map-csypp/Underwater.sol	back/cyn_wht.png	7	bgm/track4.ogg
 map-csypp/Arena.sol	back/org_yel.png	6	bgm/track5.ogg
 map-csypp/EasyAce.sol	back/grn_wht.png	6	bgm/track5.ogg
