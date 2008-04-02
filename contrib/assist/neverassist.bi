@@ -67,12 +67,12 @@ sub plot_face(Detail as ubyte, XOff1 as short, YOff1 as short, _
     ZOff1 as short, XOff2 as short, YOff2 as short, ZOff2 as short, _
     XOff3 as short, YOff3 as short, ZOff3 as short, _
     Texture as string = "invisible")
-	'Plots a face.
-	if Detail < 2 then
-		print #1, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 ";134217728*Detail;" 0 0"
-	else
-		print #1, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 0 0 0"
-	end if
+    'Plots a face.
+    if Detail < 2 then
+    	print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 ";134217728*Detail;" 0 0"
+    else
+    	print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 0 0 0"
+    end if
 end sub
 /'
  ' Don't even bother uncommenting it. This makes it easier for me to make
@@ -84,5 +84,5 @@ solid_face(0,0,0,0,0,0,0,0,0,"")
 
 declare sub clkey
 sub clkey
-	while (inkey < > ""):wend
+    while (inkey < > ""):wend
 end sub
