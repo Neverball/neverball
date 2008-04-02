@@ -6,11 +6,12 @@ dim shared as longint PlacementFormula, GraphicFormula, GraphicTest(200000), Pla
 dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, LevelMessage, WindowTitleM, Compile, Replay, LevelName, MusicPlay
 dim shared as byte Check
 const AssistCfg = "assist.ini"
+const m = 1
 #IFDEF __FB_WIN32__
 /'
  ' 7-Zip-dependent resources
  ' Z7Path and Z7Exe could have been 7ZPath and 7ZExe, but variables can NOT
- ' with a number.
+ ' start with a number.
  '/
 dim shared as string Z7Path, Z7Exe, Unpack
 #ENDIF
@@ -21,7 +22,7 @@ dim shared as ushort MaxMoney, NBDataPath, TimeScore, CoinSore
 dim shared as string Scorer
 
 /'
- ' All my subroutines are placed here.
+ ' Nearly all subroutines are declared here.
  '/
 declare sub base_gfx
 declare sub cursor
@@ -30,8 +31,9 @@ declare sub menu
 declare sub map_generate_initial
 declare sub map_generate
 declare sub place_gfx(Added as integer)
+
 /'
- ' As you can see, this subroutines has 11 arguments. I was able to segment
+ ' As you can see, this subroutine has 11 arguments. I was able to segment
  ' this into multiple lines, but each end of line had to have an underscore
  ' for it to be handled correctly. The only exception towards this rule is
  ' the very last line.
