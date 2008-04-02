@@ -1,0 +1,10 @@
+CSY Sample Set
+Difficulty: Beginner through Expert\5 levels which show what the\assistant program can do.\\Author: Challenge Space Yard\
+csyc
+shot-csysample/Sample1.png
+
+map-csysample/Sample1.sol
+map-csysample/Sample2.sol
+map-csysample/Sample3.sol
+map-csysample/Sample4.sol
+map-csysample/Sample5.sol

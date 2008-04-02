@@ -6,8 +6,15 @@
  ' different compiler (and I'm assuming the GCC doesn't already support this).
  ' Fortunately, the FreeBASIC compiler is available under the GPL.
  '
- ' If you are reading this under Windows, do NOT forget to include an -s gui
- ' switch to get rid of the console. The console can't be removed in Linux.
+ ' Go to www.freebasic.net for the compiler (and optionally source).
+ '
+ ' Once you have the FBC's path into the shell, you can simply invoke
+   fbc "neverassist.bas" [-g] [-s gui]
+ ' Assuming no errors, you should have a binary.
+ '
+ ' Under Windows, the -s gui removes the console. On *nix, this switch does
+ ' nothing.
+ '
  ' Due to incapabilities of the compiler, this program is NOT platform
  ' independent. But the compiler is being ported to other platforms and is
  ' on its way to becoming a GCC front-end. Once the second task is done,
@@ -55,7 +62,7 @@ screen 18,8,1,GFX_NO_SWITCH
 
 /'
  ' This define is actually related to the system you're on.
- ' If you're on windows, __FB_WIN32__ is automatically defined.
+ ' If you're on Windows, __FB_WIN32__ is automatically defined.
  ' If you're on DOS, __FB_DOS__ is automatically defined.
  ' If you're on Linux or GNU/Linux, __FB_LINUX__ is automatically defined.
  '/
@@ -189,18 +196,18 @@ sub menu
 				Z7Exe = Z7Path + "\7z.exe"
 				Check = exec(Z7Exe,"")
 				if (Check = -1) then
-					open "NAP.csy" for input as #1
+					open AssistCfg for input as #1
 					input #1, MediumClear
+					input #1, MaxMoney
 					input #1, Z7Path
 					input #1, Z7Exe
-					input #1, MaxMoney
 					close #1
 				else
-					open "NAP.csy" for output as #1
+					open AssistCfg for output as #1
 					print #1, MediumClear
+					print #1, MaxMoney
 					print #1, Z7Path
 					print #1, Z7Exe
-					print #1, MaxMoney
 					close #1
 				end if
 			end if
@@ -217,11 +224,11 @@ sub menu
 				if (Check = -1) then
 					Z7Path = ""
 					Z7Exe = ""
-					open "NAP.csy" for output as #1
+					open AssistCfg for output as #1
 					print #1, MediumClear
+					print #1, MaxMoney
 					print #1, Z7Path
 					print #1, Z7Exe
-					print #1, MaxMoney
 					close #1
 					sleep 2000
 				end if
@@ -229,6 +236,7 @@ sub menu
 			color 15
 		#ENDIF
 		elseif multikey(SC_H) then
+			'Force crash function.
 			exit do
 		elseif multikey(SC_X) OR multikey(SC_ESCAPE) OR inkey = chr(255)+"k" then
 			Perfect = 1
@@ -828,19 +836,31 @@ do
 			print "Check okay. There are no offending items."
 		else
 			color 40
-			if Warning = 1 then	print "Check failed. There is 1 offending item." else print "Check failed. There are ";Warning;" offending items."
+			if Warning = 1 then
+				print "Check failed. There is 1 offending item."
+			else
+				print "Check failed. There are ";Warning;" offending items."
+			end if	
 			color 42
 			if Start = 0 then print "- Must have 1 start block."
 			if Finish = 0 then print "- Must have at least 1 finish block."
-			if TargetCoins > Coins then print "- The number of required coins exceeds the coins present."
-			if MinimumLevelTime > LevelTime then print "- The time given for a level must equal or exceed ";MinimumLevelTime;"."
+			if TargetCoins > Coins then
+				print "- The number of required coins exceeds the coins present."
+			end if
+			if MinimumLevelTime > LevelTime then
+				print "- The time given for a level must equal or exceed ";MinimumLevelTime;"."
+			end if
 		end if
 		color 44
-		if Openings > 0 then print "- You have ";Openings;" openings that you haven't closed yet. If some of your blocks were"
-		if Openings > 0 then print "  intended to merge roads together, you can hit the "+chr(34)+"/"+chr(34)+" key to merge together."
-		if Money * 1.2 > MaxMoney then print "- You are running low on money. You should stop building this map soon. You"
-		if Money * 1.2 > MaxMoney then print "only have $"& MaxMoney-Money ;" remaining. If you want more, you have to beat more levels"
-		if Money * 1.2 > MaxMoney then print "in the Neverball game. They will give you more money."
+		if Openings > 0 then
+			print "- You have ";Openings;" openings that you haven't closed yet. If some of your blocks were"
+			print "  intended to merge roads together, you can hit the "+chr(34)+"/"+chr(34)+" key to merge together."
+		end if
+		if Money * 1.2 > MaxMoney then
+			print "- You are running low on money. You should stop building this map soon. You"
+			print "only have $"& MaxMoney-Money ;" remaining. If you want more, you have to beat more levels"
+			print "in the Neverball game. They will give you more money."
+		end if
 		color 15
 		sleep
 		cls
@@ -873,7 +893,7 @@ if (Warning = 0) then
 	close #1
 	print "Your map is almost finished..."
 	#IFDEF __FB_WIN32__
-	Check = exec("..\Mapc.exe",MapFile + " data")
+	Check = exec("../Mapc.exe",MapFile + " data")
 	#ELSE
 	Check = exec("../mapc",MapFile + " data")
 	#ENDIF

@@ -9,10 +9,10 @@ sub place_block
 		print #1, "{"
 		plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"arrow-green")
 		plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-		plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-		plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-		plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-		plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+		plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+		plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+		plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+		plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		print #1, "}"
 		print #1, "}"
 		print #1, "// entity ";Entity;"
@@ -46,17 +46,17 @@ sub place_block
 		if (Rotation = 1) OR (Rotation = 3) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 2) OR (Rotation = 4) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		end if
 		print #1, "}"
 		print #1, "}"
@@ -76,32 +76,32 @@ sub place_block
 		print #1, "{"
 		if (Rotation = 1) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 2) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 3) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 4) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		end if
 		print #1, "}"
 		print #1, "}"
@@ -121,32 +121,32 @@ sub place_block
 		print #1, "{"
 		if (Rotation = 1) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 2) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 3) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 4) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		end if
 		print #1, "}"
 		print #1, "}"
@@ -168,7 +168,7 @@ sub place_block
 		plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
 		plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
 		plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-		plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+		plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 		plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
 		plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		print #1, "}"
@@ -190,17 +190,17 @@ sub place_block
 		if (Rotation = 1) OR (Rotation = 3) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 2) OR (Rotation = 4) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		end if
 		print #1, "}"
 		print #1, "}"
@@ -250,32 +250,32 @@ sub place_block
 		print #1, "{"
 		if (Rotation = 1) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 2) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 3) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 4) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		end if
 		print #1, "}"
 		print #1, "}"
@@ -325,32 +325,32 @@ sub place_block
 		print #1, "{"
 		if (Rotation = 1) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 2) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 3) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 4) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		end if
 		print #1, "}"
 		print #1, "}"
@@ -370,32 +370,32 @@ sub place_block
 		print #1, "{"
 		if (Rotation = 1) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 2) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 3) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 4) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		end if
 		print #1, "}"
 		print #1, "}"
@@ -495,32 +495,32 @@ sub place_block
 		print #1, "{"
 		if (Rotation = 1) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 2) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 3) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 4) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		end if
 		print #1, "}"
 		print #1, "}"
@@ -572,7 +572,7 @@ sub place_block
 		plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
 		plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
 		plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-		plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+		plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 		plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
 		plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		print #1, "}"
@@ -625,30 +625,30 @@ sub place_block
 		if (Rotation = 1) then
 			plot_face(0,-128,0,64,0,0,64,0,-128,0,"turf-green")
 			plot_face(0,0,0,48,0,0,48,0,0,64,"invisible")
-			plot_face(0,0,-128,0,0,0,0,0,0,-16,"rail")
-			plot_face(0,0,0,48,-128,0,48,0,-128,-16,"rail")
+			plot_face(0,0,-128,0,0,0,0,0,0,-16,"turf-grey")
+			plot_face(0,0,0,48,-128,0,48,0,-128,-16,"turf-grey")
 			plot_face(0,0,-128,-64,-128,-128,64,0,-128,-64,"invisible")
-			plot_face(0,0,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,0,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 2) then
 			plot_face(0,0,0,64,0,-128,64,-128,-128,0,"turf-green")
-			plot_face(0,0,0,0,-128,0,0,0,0,-16,"rail")
+			plot_face(0,0,0,0,-128,0,0,0,0,-16,"turf-grey")
 			plot_face(0,0,0,48,0,-128,48,0,-128,64,"invisible")
-			plot_face(0,0,-128,48,0,0,48,-128,-128,-16,"rail")
-			plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"rail")
+			plot_face(0,0,-128,48,0,0,48,-128,-128,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"turf-grey")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 3) then
 			plot_face(0,-128,0,0,0,0,0,0,-128,64,"turf-green")
 			plot_face(0,0,0,0,-128,0,0,0,0,-16,"invisible")
-			plot_face(0,0,-128,0,0,0,0,0,-128,-16,"rail")
-			plot_face(0,0,0,-16,-128,0,-16,-128,-128,48,"rail")
+			plot_face(0,0,-128,0,0,0,0,0,-128,-16,"turf-grey")
+			plot_face(0,0,0,-16,-128,0,-16,-128,-128,48,"turf-grey")
 			plot_face(0,0,-128,48,-128,-128,48,-128,-128,64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 4) then
 			plot_face(0,0,0,0,0,-128,0,-128,-128,64,"turf-green")
-			plot_face(0,0,0,0,-128,0,0,0,0,-16,"rail")
+			plot_face(0,0,0,0,-128,0,0,0,0,-16,"turf-grey")
 			plot_face(0,0,-128,0,0,0,0,0,-128,-16,"invisible")
-			plot_face(0,-128,0,48,-128,-128,48,0,-128,-16,"rail")
-			plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"rail")
+			plot_face(0,-128,0,48,-128,-128,48,0,-128,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"turf-grey")
 			plot_face(0,-128,-128,48,-128,0,48,-128,0,64,"invisible")
 		end if
 		print #1, "}"
@@ -671,18 +671,18 @@ sub place_block
 		print #1, "{"
 		if (Rotation = 1) OR (Rotation = 3) then
 			plot_face(0,-128,-64,16,0,-64,16,0,-128,0,"turf-green")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 			plot_face(0,0,-64,16,-128,-64,16,0,0,0,"turf-green")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
 		elseif (Rotation = 2) OR (Rotation = 4) then
 			plot_face(0,-64,-128,16,-64,0,16,0,0,0,"turf-green")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"rail")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,-64,0,16,-64,-128,16,-128,0,0,"turf-green")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		end if
@@ -704,18 +704,18 @@ sub place_block
 		print #1, "{"
 		if (Rotation = 1) OR (Rotation = 3) then
 			plot_face(0,-128,-64,16,0,-64,16,0,-128,0,"coin-green-small")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 			plot_face(0,0,-64,16,-128,-64,16,0,0,0,"coin-green-small")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
 		elseif (Rotation = 2) OR (Rotation = 4) then
 			plot_face(0,-64,-128,16,-64,0,16,0,0,0,"coin-green-small")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"rail")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,-64,0,16,-64,-128,16,-128,0,0,"coin-green-small")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		end if
@@ -768,17 +768,17 @@ sub place_block
 		if (Rotation = 1) OR (Rotation = 3) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 2) OR (Rotation = 4) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		end if
 		print #1, "}"
 		print #1, "}"
@@ -847,32 +847,32 @@ sub place_block
 		print #1, "{"
 		if (Rotation = 1) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
 			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 2) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
 			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
 		elseif (Rotation = 3) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
 			plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-			plot_face(0,0,0,64,0,0,-64,0,-128,64,"rail")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		elseif (Rotation = 4) then
 			plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-			plot_face(0,0,0,64,-128,0,64,0,0,-64,"rail")
+			plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
 			plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"rail")
-			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"rail")
-			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"rail")
+			plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+			plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+			plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
 		end if
 		print #1, "}"
 		print #1, "// brush 1"

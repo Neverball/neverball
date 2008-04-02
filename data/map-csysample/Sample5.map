@@ -1,0 +1,626 @@
+// entity 114
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -16 0 0 ) ( -16 -128 0 ) ( -144 0 0 ) mtrl/arrow-green 0 0 0 0.5 0.5  0 0 0
+( 0 0 64 ) ( -128 0 64 ) ( 0 0 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( 0 0 64 ) ( 0 0 -64 ) ( 0 -128 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -128 -128 -16 ) ( 0 -128 -16 ) ( -128 0 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -128 -128 -64 ) ( 0 -128 64 ) ( 0 -128 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -128 -128 -64 ) ( -128 0 -64 ) ( -128 -128 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 115
+{
+"classname" "info_player_start"
+"origin" "-64 -64 24"
+}
+// entity 116
+{
+"classname" "info_player_intermission"
+"origin" "-64 -64 224"
+"target" "goal"
+}
+// entity 117
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -16 128 0 ) ( -16 0 0 ) ( -144 128 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( 0 128 64 ) ( -128 128 64 ) ( 0 128 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( 0 128 64 ) ( 0 128 -64 ) ( 0 0 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -128 0 -16 ) ( 0 0 -16 ) ( -128 128 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -128 0 -64 ) ( 0 0 64 ) ( 0 0 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -128 0 -64 ) ( -128 128 -64 ) ( -128 0 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 118
+{
+"classname" "light"
+"origin" "-96 32 24"
+"light" "1"
+}
+// entity 119
+{
+"classname" "light"
+"origin" "-32 32 24"
+"light" "1"
+}
+// entity 120
+{
+"classname" "light"
+"origin" "-96 96 24"
+"light" "1"
+}
+// entity 121
+{
+"classname" "light"
+"origin" "-32 96 24"
+"light" "1"
+}
+// entity 122
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -16 256 0 ) ( -16 128 0 ) ( -144 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( 0 256 64 ) ( -128 256 64 ) ( 0 256 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( 0 256 64 ) ( 0 256 -64 ) ( 0 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -128 128 -16 ) ( 0 128 -16 ) ( -128 256 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -128 128 -64 ) ( 0 128 64 ) ( 0 128 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -128 128 -64 ) ( -128 256 -64 ) ( -128 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 123
+{
+"classname" "light"
+"origin" "-96 160 24"
+"light" "1"
+}
+// entity 124
+{
+"classname" "light"
+"origin" "-32 160 24"
+"light" "1"
+}
+// entity 125
+{
+"classname" "light"
+"origin" "-96 224 24"
+"light" "1"
+}
+// entity 126
+{
+"classname" "light"
+"origin" "-32 224 24"
+"light" "1"
+}
+// entity 127
+{
+"classname" "worldspawn"
+// brush 0
+{
+( 112 256 0 ) ( 112 128 0 ) ( -16 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( 128 256 64 ) ( 0 256 64 ) ( 128 256 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( 128 256 64 ) ( 128 256 -64 ) ( 128 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( 0 128 -16 ) ( 128 128 -16 ) ( 0 256 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( 0 128 -64 ) ( 128 128 64 ) ( 128 128 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( 0 128 -64 ) ( 0 256 -64 ) ( 0 128 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 128
+{
+"classname" "light"
+"origin" "32 160 24"
+"light" "1"
+}
+// entity 129
+{
+"classname" "light"
+"origin" "96 160 24"
+"light" "1"
+}
+// entity 130
+{
+"classname" "light"
+"origin" "32 224 24"
+"light" "1"
+}
+// entity 131
+{
+"classname" "light"
+"origin" "96 224 24"
+"light" "1"
+}
+// entity 132
+{
+"classname" "worldspawn"
+// brush 0
+{
+( 240 256 0 ) ( 240 128 0 ) ( 112 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( 256 256 64 ) ( 128 256 64 ) ( 256 256 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( 256 256 64 ) ( 256 256 -64 ) ( 256 128 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( 128 128 -16 ) ( 256 128 -16 ) ( 128 256 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( 128 128 -64 ) ( 256 128 64 ) ( 256 128 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( 128 128 -64 ) ( 128 256 -64 ) ( 128 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 133
+{
+"classname" "light"
+"origin" "160 160 24"
+"light" "1"
+}
+// entity 134
+{
+"classname" "light"
+"origin" "224 160 24"
+"light" "1"
+}
+// entity 135
+{
+"classname" "light"
+"origin" "160 224 24"
+"light" "1"
+}
+// entity 136
+{
+"classname" "light"
+"origin" "224 224 24"
+"light" "1"
+}
+// entity 137
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -144 256 0 ) ( -144 128 0 ) ( -272 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -128 256 64 ) ( -256 256 64 ) ( -128 256 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -128 256 64 ) ( -128 256 -64 ) ( -128 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -256 128 -16 ) ( -128 128 -16 ) ( -256 256 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -256 128 -64 ) ( -128 128 64 ) ( -128 128 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -256 128 -64 ) ( -256 256 -64 ) ( -256 128 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 138
+{
+"classname" "light"
+"origin" "-224 160 24"
+"light" "1"
+}
+// entity 139
+{
+"classname" "light"
+"origin" "-160 160 24"
+"light" "1"
+}
+// entity 140
+{
+"classname" "light"
+"origin" "-224 224 24"
+"light" "1"
+}
+// entity 141
+{
+"classname" "light"
+"origin" "-160 224 24"
+"light" "1"
+}
+// entity 142
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -272 256 0 ) ( -272 128 0 ) ( -400 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -256 256 64 ) ( -384 256 64 ) ( -256 256 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -256 256 64 ) ( -256 256 -64 ) ( -256 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -384 128 -16 ) ( -256 128 -16 ) ( -384 256 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -384 128 -64 ) ( -256 128 64 ) ( -256 128 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -384 128 -64 ) ( -384 256 -64 ) ( -384 128 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 143
+{
+"classname" "light"
+"origin" "-352 160 24"
+"light" "1"
+}
+// entity 144
+{
+"classname" "light"
+"origin" "-288 160 24"
+"light" "1"
+}
+// entity 145
+{
+"classname" "light"
+"origin" "-352 224 24"
+"light" "1"
+}
+// entity 146
+{
+"classname" "light"
+"origin" "-288 224 24"
+"light" "1"
+}
+// entity 147
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -400 256 0 ) ( -400 128 0 ) ( -528 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -384 256 64 ) ( -512 256 64 ) ( -384 256 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -384 256 64 ) ( -384 256 -64 ) ( -384 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -512 128 -16 ) ( -384 128 -16 ) ( -512 256 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -512 128 -64 ) ( -384 128 64 ) ( -384 128 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -512 128 -64 ) ( -512 256 -64 ) ( -512 128 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 148
+{
+"classname" "light"
+"origin" "-480 160 24"
+"light" "1"
+}
+// entity 149
+{
+"classname" "light"
+"origin" "-416 160 24"
+"light" "1"
+}
+// entity 150
+{
+"classname" "light"
+"origin" "-480 224 24"
+"light" "1"
+}
+// entity 151
+{
+"classname" "light"
+"origin" "-416 224 24"
+"light" "1"
+}
+// entity 152
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -576 128 16 ) ( -576 256 16 ) ( -512 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -512 256 64 ) ( -512 256 -64 ) ( -512 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -640 128 -16 ) ( -512 128 -16 ) ( -640 256 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -640 128 -64 ) ( -640 128 64 ) ( -512 128 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -512 256 64 ) ( -640 256 64 ) ( -512 256 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -576 256 16 ) ( -576 128 16 ) ( -640 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -640 128 -64 ) ( -640 256 -64 ) ( -640 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 153
+{
+"classname" "light"
+"origin" "-608 160 32"
+"light" "1"
+}
+// entity 154
+{
+"classname" "light"
+"origin" "-544 160 32"
+"light" "1"
+}
+// entity 155
+{
+"classname" "light"
+"origin" "-608 224 32"
+"light" "1"
+}
+// entity 156
+{
+"classname" "light"
+"origin" "-544 224 32"
+"light" "1"
+}
+// entity 157
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -656 256 0 ) ( -656 128 0 ) ( -784 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -640 256 64 ) ( -768 256 64 ) ( -640 256 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -640 256 64 ) ( -640 256 -64 ) ( -640 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -768 128 -16 ) ( -640 128 -16 ) ( -768 256 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -768 128 -64 ) ( -640 128 64 ) ( -640 128 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -768 128 -64 ) ( -768 256 -64 ) ( -768 128 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 158
+{
+"classname" "light"
+"origin" "-736 160 24"
+"light" "1"
+}
+// entity 159
+{
+"classname" "light"
+"origin" "-672 160 24"
+"light" "1"
+}
+// entity 160
+{
+"classname" "light"
+"origin" "-736 224 24"
+"light" "1"
+}
+// entity 161
+{
+"classname" "light"
+"origin" "-672 224 24"
+"light" "1"
+}
+// entity 162
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -832 128 16 ) ( -832 256 16 ) ( -768 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -768 256 64 ) ( -768 256 -64 ) ( -768 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -896 128 -16 ) ( -768 128 -16 ) ( -896 256 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -896 128 -64 ) ( -896 128 64 ) ( -768 128 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -768 256 64 ) ( -896 256 64 ) ( -768 256 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -832 256 16 ) ( -832 128 16 ) ( -896 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -896 128 -64 ) ( -896 256 -64 ) ( -896 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 163
+{
+"classname" "light"
+"origin" "-864 160 32"
+"light" "1"
+}
+// entity 164
+{
+"classname" "light"
+"origin" "-800 160 32"
+"light" "1"
+}
+// entity 165
+{
+"classname" "light"
+"origin" "-864 224 32"
+"light" "1"
+}
+// entity 166
+{
+"classname" "light"
+"origin" "-800 224 32"
+"light" "1"
+}
+// entity 167
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -912 256 0 ) ( -912 128 0 ) ( -1040 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -896 256 64 ) ( -1024 256 64 ) ( -896 256 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -896 256 64 ) ( -896 256 -64 ) ( -896 128 64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -1024 128 -16 ) ( -896 128 -16 ) ( -1024 256 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 128 -64 ) ( -896 128 64 ) ( -896 128 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -1024 128 -64 ) ( -1024 256 -64 ) ( -1024 128 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 168
+{
+"classname" "light"
+"origin" "-992 160 24"
+"light" "1"
+}
+// entity 169
+{
+"classname" "light"
+"origin" "-928 160 24"
+"light" "1"
+}
+// entity 170
+{
+"classname" "light"
+"origin" "-992 224 24"
+"light" "1"
+}
+// entity 171
+{
+"classname" "light"
+"origin" "-928 224 24"
+"light" "1"
+}
+// entity 172
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -1024 320 16 ) ( -896 320 16 ) ( -896 256 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -896 384 64 ) ( -896 384 -64 ) ( -896 256 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 256 -16 ) ( -896 256 -16 ) ( -1024 384 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 256 -64 ) ( -1024 256 64 ) ( -896 256 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -1024 256 -64 ) ( -1024 384 -64 ) ( -1024 256 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -896 320 16 ) ( -1024 320 16 ) ( -896 384 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -896 384 64 ) ( -1024 384 64 ) ( -896 384 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 173
+{
+"classname" "light"
+"origin" "-992 288 32"
+"light" "1"
+}
+// entity 174
+{
+"classname" "light"
+"origin" "-928 288 32"
+"light" "1"
+}
+// entity 175
+{
+"classname" "light"
+"origin" "-992 352 32"
+"light" "1"
+}
+// entity 176
+{
+"classname" "light"
+"origin" "-928 352 32"
+"light" "1"
+}
+// entity 177
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -912 512 0 ) ( -912 384 0 ) ( -1040 512 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -896 512 64 ) ( -1024 512 64 ) ( -896 512 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -896 512 64 ) ( -896 512 -64 ) ( -896 384 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 384 -16 ) ( -896 384 -16 ) ( -1024 512 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 384 -64 ) ( -896 384 64 ) ( -896 384 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -1024 384 -64 ) ( -1024 512 -64 ) ( -1024 384 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 178
+{
+"classname" "light"
+"origin" "-992 416 24"
+"light" "1"
+}
+// entity 179
+{
+"classname" "light"
+"origin" "-928 416 24"
+"light" "1"
+}
+// entity 180
+{
+"classname" "light"
+"origin" "-992 480 24"
+"light" "1"
+}
+// entity 181
+{
+"classname" "light"
+"origin" "-928 480 24"
+"light" "1"
+}
+// entity 182
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -912 640 0 ) ( -912 512 0 ) ( -1040 640 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -896 640 64 ) ( -1024 640 64 ) ( -896 640 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -896 640 64 ) ( -896 640 -64 ) ( -896 512 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 512 -16 ) ( -896 512 -16 ) ( -1024 640 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 512 -64 ) ( -896 512 64 ) ( -896 512 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -1024 512 -64 ) ( -1024 640 -64 ) ( -1024 512 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 183
+{
+"classname" "light"
+"origin" "-992 544 24"
+"light" "1"
+}
+// entity 184
+{
+"classname" "light"
+"origin" "-928 544 24"
+"light" "1"
+}
+// entity 185
+{
+"classname" "light"
+"origin" "-992 608 24"
+"light" "1"
+}
+// entity 186
+{
+"classname" "light"
+"origin" "-928 608 24"
+"light" "1"
+}
+// entity 187
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -912 128 0 ) ( -912 0 0 ) ( -1040 128 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5  0 0 0
+( -896 128 64 ) ( -1024 128 64 ) ( -896 128 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -896 128 64 ) ( -896 128 -64 ) ( -896 0 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 0 -16 ) ( -896 0 -16 ) ( -1024 128 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 0 -64 ) ( -896 0 64 ) ( -896 0 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -1024 0 -64 ) ( -1024 128 -64 ) ( -1024 0 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+}
+// entity 188
+{
+"classname" "light"
+"origin" "-992 32 24"
+"light" "1"
+}
+// entity 189
+{
+"classname" "light"
+"origin" "-928 32 24"
+"light" "1"
+}
+// entity 190
+{
+"classname" "light"
+"origin" "-992 96 24"
+"light" "1"
+}
+// entity 191
+{
+"classname" "light"
+"origin" "-928 96 24"
+"light" "1"
+}
+// entity 192
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -912 0 0 ) ( -912 -128 0 ) ( -1040 0 0 ) mtrl/turf-green 0 0 0 0.5 0.5  0 0 0
+( -896 0 64 ) ( -1024 0 64 ) ( -896 0 -64 ) mtrl/invisible 0 0 0 0.5 0.5  0 0 0
+( -896 0 64 ) ( -896 0 -64 ) ( -896 -128 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 -128 -16 ) ( -896 -128 -16 ) ( -1024 0 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 -128 -64 ) ( -896 -128 64 ) ( -896 -128 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+( -1024 -128 -64 ) ( -1024 0 -64 ) ( -1024 -128 64 ) mtrl/turf-grey 0 0 0 0.5 0.5  0 0 0
+}
+// brush 1
+{
+( -912 0 1 ) ( -912 -128 1 ) ( -1040 0 1 ) mtrl/goal 0 0 0 0.5 0.5  134217728 0 0
+( -896 0 80 ) ( -1024 0 80 ) ( -896 0 -48 ) mtrl/invisible 0 0 0 0.5 0.5  134217728 0 0
+( -896 0 80 ) ( -896 0 -48 ) ( -896 -128 80 ) mtrl/invisible 0 0 0 0.5 0.5  134217728 0 0
+( -1024 -128 0 ) ( -896 -128 0 ) ( -1024 0 0 ) mtrl/invisible 0 0 0 0.5 0.5  134217728 0 0
+( -1024 -128 -48 ) ( -896 -128 79 ) ( -896 -128 -48 ) mtrl/invisible 0 0 0 0.5 0.5  134217728 0 0
+( -1024 -128 -48 ) ( -1024 0 -49 ) ( -1024 -128 80 ) mtrl/invisible 0 0 0 0.5 0.5  134217728 0 0
+}
+}
+// entity 193
+{
+"classname" "info_player_deathmatch"
+"origin" "-960 -64 24"
+}
+// entity 194
+{
+"classname" "target_position"
+"origin" "-960 -64 128"
+"targetname" "goal"
+}
+// entity 195
+{
+"classname" "worldspawn"
+"message" "Sample Map V\Not just a one way map. Splits can be done here.\This is the last of the sample maps."
+"time" "3525"
+"goal" "15"
+"back" "map-back/alien.sol"
+"grad" "back/alien.png"
+"song" "bgm/track5.ogg"
+"levelname" "Sample Map V"
+}
