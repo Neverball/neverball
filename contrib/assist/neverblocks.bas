@@ -36,6 +36,7 @@ sub place_block
         Blocks += 1
         Openings += 1
         Putt = 2
+
     elseif (BlockType = 2) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -67,6 +68,7 @@ sub place_block
         Money += 1
         Blocks += 1
         Putt = 2
+
     elseif (BlockType = 3) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -112,6 +114,7 @@ sub place_block
         Money += 1
         Blocks += 1
         Putt = 2
+
     elseif (BlockType = 4) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -158,6 +161,7 @@ sub place_block
         Blocks += 1
         Openings += 1
         Putt = 2
+
     elseif (BlockType = 5) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -180,6 +184,7 @@ sub place_block
         Blocks += 1
         Openings += 2
         Putt = 2
+
     elseif (BlockType = 6) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -241,6 +246,7 @@ sub place_block
         Money += 1
         Blocks += 1
         Putt = 2
+
     elseif (BlockType = 7) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -316,6 +322,7 @@ sub place_block
         Money += 1
         Blocks += 1
         Putt = 2
+
     elseif (BlockType = 8) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -361,6 +368,7 @@ sub place_block
         Money += 1
         Openings -= 1
         Putt = 2
+
     elseif (BlockType = 9) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -437,6 +445,7 @@ sub place_block
         Money += 1
         Openings -= 1
         Putt = 2
+
     elseif (BlockType = 10) AND (BlockSet = 0) AND (Money + 2 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -486,6 +495,7 @@ sub place_block
         Money += 2
         Blocks += 1
         Putt = 2
+
     elseif (BlockType = 11) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -562,6 +572,7 @@ sub place_block
         Money += 1
         Openings += 1
         Putt = 2
+
     elseif (BlockType = 12) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -615,6 +626,7 @@ sub place_block
         Money += 1
         Openings += 2
         Putt = 2
+
     elseif (BlockType = 13) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 AND PlacementTest(PlacementFormula+2000) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -662,6 +674,7 @@ sub place_block
         Money += 1
         Blocks += 1
         Putt = 2
+
     elseif (BlockType = 14) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -695,6 +708,7 @@ sub place_block
         Money += 1
         Blocks += 1
         Putt = 2
+
     elseif (BlockType = 15) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -758,6 +772,7 @@ sub place_block
         Money += 1
         Blocks += 1
         Putt = 2
+
     elseif (BlockType = 16) AND (BlockSet = 0) AND (Money + 3 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -838,6 +853,7 @@ sub place_block
         Money += 3
         Blocks += 2
         Putt = 2
+
     elseif (BlockType = 26) AND (BlockSet = 0) AND PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1

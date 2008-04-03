@@ -24,7 +24,7 @@
  '
  ' As with Neverball and Neverputt, you can still apply the -g switch to
  ' enable debugging and use the GDB (or a compatible program) to debug it.
- ' 
+ '
  ' Although parts of the program are still out of alignment with the standards
  ' set forth by rlk, this one works a lot better than what it was before it was
  ' released.
@@ -33,6 +33,7 @@
 #ERROR "Not for DOS." 'This prevents it from being compiled for DOS.
 #ELSE
 windowtitle "Neverassistant Program"
+
 /'
  ' This includes all the contents of the FB Graphics Library and its constants.
  ' This file is part of the compiler. We don't need it in this package.
@@ -83,7 +84,7 @@ close #1
 #IFDEF __FB_WIN32__
 'Incomplete: Attempt to get username and use the user folder.
 dim shared as string Username, AppData
-Username = "" 
+Username = ""
 Appdata = "C:\Documents and Settings\" + Username + "\Application Data\"
 #ENDIF
 menu
@@ -107,7 +108,7 @@ sub menu
     do
         Title = "Neverassistant Program - " + Time + " - " + Date
         windowtitle Title
-        
+
         screenlock
         cls
         color 14
@@ -124,7 +125,7 @@ sub menu
             print "Generate a ";:color 10:print "m";:color 15:print "ap"
         end if
         color 10:print "C";:color 15:print "ompile a map"
-        
+
         #IFDEF __FB_WIN32__
         color 15:print "Locate 7-";:color 10:print "Z";:color 15:print "ip"
         if (Z7Path = "") OR (Z7Exe = "") then
@@ -141,12 +142,12 @@ sub menu
         color 2:print "U";:color 8:print "npack an archive";
         color 11:print " - 7-Zip is Windows only"
         #ENDIF
-        
+
         color 15:print "E";:color 10:print "x";:color 15:print "it program"
         print
         screenunlock
         sleep 20
-        
+
         if multikey(SC_M) AND (MediumClear > 0) then
             map_generate_initial
         elseif multikey(SC_N) then
@@ -165,7 +166,7 @@ sub menu
             #ELSE
             Check = exec("../neverputt","")
             #ENDIF
-            
+
         elseif multikey(SC_C) then
             clkey
             windowtitle "Neverassistant Program - Compiling map"
@@ -179,7 +180,7 @@ sub menu
                 #ENDIF
             end if
             color 15
-            
+
         elseif multikey(SC_R) then
             clkey
             windowtitle "Neverassistant Program - Load replay"
@@ -189,16 +190,18 @@ sub menu
                 #IFDEF __FB_WIN32__
                 Check = exec("../Neverball.exe","-r " + Appdata + Replay)
                 #ELSE
-                Check = exec("../neverball","-r ../data/.neverball-dev/" + Replay)
+                Check = exec("../neverball","-r ../data/.neverball-dev/" + _
+                             Replay)
                 #ENDIF
             end if
             color 15
-            
+
         #IFDEF __FB_WIN32__
         elseif multikey(SC_Z) then
             clkey
             windowtitle "Neverassistant Program - Locate 7-Zip"
-            print "Where do you want to locate 7-Zip? (without \7z.exe, but where the 7z.exe is)"
+            print "Where do you want to locate 7-Zip? " + _
+                  " (without \7z.exe, but where the 7z.exe is)"
             color 44
             input "",Z7Path
             if (Z7Path < > "") then
@@ -221,7 +224,7 @@ sub menu
                 end if
             end if
             color 15
-            
+
         elseif multikey(SC_U) AND (Z7Path < > "") AND (Z7Exe < > "") then
             clkey
             windowtitle "Neverassistant Program - Unpack archive"
@@ -230,7 +233,8 @@ sub menu
             input Unpack
             if (Unpack < > "") then
                 Z7Exe = Z7Path + "\7z.exe"
-                Check = exec(Z7Exe,"x -w{"+chr(34)+curdir+chr(34)+"} -y "+Unpack)
+                Check = exec(Z7Exe,"x -w{" +chr(34)+curdir+chr(34)+ "} -y " + _
+                             Unpack)
                 if (Check = -1) then
                     Z7Path = ""
                     Z7Exe = ""
@@ -245,11 +249,12 @@ sub menu
             end if
             color 15
         #ENDIF
-        
+
         elseif multikey(SC_H) then
             'Force crash function.
             exit do
-        elseif multikey(SC_X) OR multikey(SC_ESCAPE) OR inkey = chr(255)+"k" then
+        elseif multikey(SC_X) OR multikey(SC_ESCAPE) OR _
+        	      inkey = chr(255)+"k" then
             Perfect = 1
             end 0
         end if
@@ -278,6 +283,7 @@ sub map_generate_initial
     print "[A]lien World"
     do
         sleep 10
+
         if multikey(SC_A) then
             Song = "bgm/track5.ogg"
             Back = "map-back/alien.sol"
@@ -311,6 +317,7 @@ sub map_generate_initial
         elseif inkey = chr(255)+"k" then
             end
         end if
+
     loop
     map_generate
     color 15
@@ -346,22 +353,23 @@ sub map_generate
     YR = 1
     ZR = 1
     open MapFile for output as #m
-    
+
     do
         cls
         Warning = 0
-        
+
         /'
          ' Due to an issue in an older version of FB, I used a formula for
          ' processing this as opposed to making three arrays.
          '/
         PlacementFormula = XP + (YP * 50) + (ZP * 2000) + 100000
-        
+
         /'
-         ' This allows hitting the X in the window to actually close the program.
+         ' This allows hitting the X in the window to actually close the
+         ' program.
          '/
         if inkey = chr(255)+"k" then end
-        
+
         /'
          ' These move the cursor
          '/
@@ -380,7 +388,7 @@ sub map_generate
         elseif multikey(SC_PAGEDOWN) then
             ZP -= 1
         end if
-        
+
         if (multikey(SC_PLUS) OR multikey(SC_EQUALS)) AND _
            (NOT multikey(SC_LSHIFT)) then
             LevelTime += 25
@@ -396,9 +404,9 @@ sub map_generate
             Hold = 100
             if Openings > = 2 then Openings -= 2
         end if
-                
+
         if (NOT multikey(SC_SLASH)) AND (Hold > 0) then Hold -= 1
-        
+
         /'
          ' This prevents maps made with this program from getting away without
          ' certain items.
@@ -407,9 +415,10 @@ sub map_generate
         if Finish = 0 then Warning += 1
         if TargetCoins > Coins then Warning += 1
         if MinimumLevelTime > LevelTime then Warning += 1
-        
+
         /'
-         ' If this had been complete, there would have been no commented out lines.
+         ' If this had been complete, there would have been no commented out
+         ' lines.
          '
          ' This allows you to switch block sets.
          '/
@@ -428,7 +437,7 @@ sub map_generate
             BlockSet = 3
             '/
         end if
-        
+
         /'
          ' Each letter of the English alphabet sets an indivudual block.
          '/
@@ -467,7 +476,7 @@ sub map_generate
                 YR = 1
                 ZR = 1
             end if
-            
+
         elseif multikey(SC_F) then
             BlockType = 6
             if (BlockSet = 0) then
@@ -503,7 +512,7 @@ sub map_generate
                 YR = 1
                 ZR = 1
             end if
-            
+
         elseif multikey(SC_K) then
             BlockType = 11
             if (BlockSet = 0) then
@@ -539,7 +548,7 @@ sub map_generate
                 YR = 1
                 ZR = 1
             end if
-            
+
         elseif multikey(SC_P) then
             BlockType = 16
             if (BlockSet = 0) then
@@ -547,7 +556,7 @@ sub map_generate
                 YR = 1
                 ZR = 1
             end if
-            
+
         elseif multikey(SC_Z) then
             BlockType = 26
             if (BlockSet = 0) then
@@ -556,14 +565,16 @@ sub map_generate
                 ZR = 1
             end if
         end if
-        
+
         /'
-         ' This rotates the block 
+         ' This rotates the block
          '/
-        if multikey(SC_CONTROL) then if Rotation < 4 then Rotation += 1 else Rotation = 1
-        
+        if multikey(SC_CONTROL) then
+            if Rotation < 4 then Rotation += 1 else Rotation = 1
+        end if
+
         /'
-         ' This keeps the cursor from going out of bounds. 
+         ' This keeps the cursor from going out of bounds.
          '/
         if (XP < -11 + XR) then XP = -11 + XR
         if (YP < -11 + YR) then YP = -11 + YR
@@ -571,7 +582,7 @@ sub map_generate
         if (XP > 10) then XP = 10
         if (YP > 10) then YP = 10
         if (ZP > 21 - ZR) then ZP = 21 - ZR
-        
+
         /'
          ' Prints information on the right hand side.
          '/
@@ -592,14 +603,22 @@ sub map_generate
         print "Coins: ";TargetCoins;"/";Coins
         locate 8,54
         print "$";Money;"/";MaxMoney
-        
+
         locate 13,54
-        if (BlockSet = 0) then color 10 else if (BlockSet = 1) then color 12 else if (Blockset = 2) then color 11 else if (Blockset = 3) then color 14
+        if (BlockSet = 0) then
+            color 10
+        elseif (BlockSet = 1) then
+            color 12
+        elseif (Blockset = 2) then
+            color 11
+        elseif (Blockset = 3) then
+            color 14
+        end if
         line(448,238)-(502,292),9,bf
         line(449,239)-(501,291),0,bf
         line(548,238)-(602,292),9,bf
         line(549,239)-(601,291),0,bf
-        
+
         if (BlockType = 1) AND (BlockSet < > 1) then
             print "Start"
             line(450,240)-(500,240),12
@@ -611,6 +630,7 @@ sub map_generate
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
             line(570,240)-(580,270),12,bf
+
         elseif (BlockType = 2) AND (BlockSet < > 1) then
             print "Flat straight $1"
             line(450,240)-(500,240),12
@@ -621,6 +641,7 @@ sub map_generate
             line(550,270)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
+
         elseif (BlockType = 3) AND (BlockSet = 0) then
             print "90"+chr(248)+" simple flat turn $1"
             line(450,240)-(500,240),10
@@ -631,6 +652,7 @@ sub map_generate
             line(550,270)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
+
         elseif (BlockType = 4) AND (BlockSet = 0) then
             print "Junction $1"
             line(450,240)-(500,240),10
@@ -641,6 +663,7 @@ sub map_generate
             line(550,270)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
+
         elseif (BlockType = 5) AND (BlockSet = 0) then
             print "Cross $1"
             line(450,240)-(500,240),12
@@ -651,7 +674,7 @@ sub map_generate
             line(550,270)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
-            
+
         elseif (BlockType = 6) AND (BlockSet = 0) then
             print "Coined flat straight $1"
             line(450,240)-(500,240),12
@@ -666,6 +689,7 @@ sub map_generate
             line(550,270)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
+
         elseif (BlockType = 7) AND (BlockSet = 0) then
             print "Coined 90"+chr(248)+" simple flat turn"
             locate 14,54
@@ -682,6 +706,7 @@ sub map_generate
             line(550,270)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
+
         elseif (BlockType = 8) AND (BlockSet = 0) then
             print "Dead-end $1"
             line(450,240)-(500,240),10
@@ -692,6 +717,7 @@ sub map_generate
             line(550,270)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
+
         elseif (BlockType = 9) AND (BlockSet = 0) then
             print "Coined Dead-end $1"
             line(450,240)-(500,240),10
@@ -706,6 +732,7 @@ sub map_generate
             line(550,270)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
+
         elseif (BlockType = 10) AND (BlockSet = 0) then
             print "Small Jump $2"
             line(450,240)-(500,240),12
@@ -724,7 +751,7 @@ sub map_generate
             line(590,260)-(600,270),7
             line(600,270)-(600,290),7
             line(590,290)-(600,290),7
-            
+
         elseif (BlockType = 11) AND (BlockSet = 0) then
             print "Coined Junction $1"
             line(450,240)-(500,240),10
@@ -739,6 +766,7 @@ sub map_generate
             line(550,270)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
+
         elseif (BlockType = 12) AND (BlockSet = 0) then
             print "Coined Cross $1"
             line(450,240)-(500,240),12
@@ -753,6 +781,7 @@ sub map_generate
             line(550,270)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
+
         elseif (BlockType = 13) AND (BlockSet = 0) then
             print "Ramp straight $1"
             line(450,240)-(500,240),12
@@ -763,6 +792,7 @@ sub map_generate
             line(550,270)-(600,250),7
             line(600,250)-(600,270),7
             line(550,290)-(600,270),7
+
         elseif (BlockType = 14) AND (BlockSet = 0) then
             print "Bump $1"
             line(450,240)-(500,240),12
@@ -774,6 +804,7 @@ sub map_generate
             line(575,265)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
+
         elseif (BlockType = 15) AND (BlockSet = 0) then
             print "Coined Bump $1"
             line(450,240)-(500,240),12
@@ -789,7 +820,7 @@ sub map_generate
             line(575,265)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
-            
+
         elseif (BlockType = 16) AND (BlockSet = 0) then
             print "Flat straight with mover $3"
             line(450,240)-(500,240),12
@@ -802,7 +833,7 @@ sub map_generate
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
             line(562,260)-(588,260),6
-            
+
         elseif (BlockType = 26) AND (BlockSet = 0) then
             print "Dead-end Finish"
             line(450,240)-(500,240),10
@@ -814,11 +845,12 @@ sub map_generate
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
             line(570,240)-(580,270),13,bf
+
         elseif (BlockSet = 1) then
             print "Not used"
         end if
         color 15
-        
+
         /'
          ' This gives information about each block.
          '/
@@ -827,7 +859,8 @@ sub map_generate
             if (BlockType = 1) AND (BlockSet = 0) AND (Start = 1) then
                 print " You've already placed this block."
             elseif (BlockType = 1) AND (BlockSet = 0) AND (Start = 0) then
-                print " Every map made must have one of these. This is where the player start. This"
+                print " Every map made must have one of these. " + _
+                      "This is where the player starts. This"
                 print "block can't be rotated."
             elseif (BlockType = 2) AND (BlockSet = 0) then
                 print " This is the most simple block. It is straight and flat."
@@ -837,18 +870,19 @@ sub map_generate
                 print " This is a 3-way block."
             elseif (BlockType = 5) AND (BlockSet = 0) then
                 print " This is a 4-way block."
-                
+
             elseif (BlockType = 6) AND (BlockSet = 0) then
                 print " Like a Flat Straight, but with four coins."
             elseif (BlockType = 7) AND (BlockSet = 0) then
-                print " Like a 90"+chr(248)+" simple flat turn, but with four coins."
+                print " Like a 90"+chr(248)+" simple flat turn, " + _
+                      "but with four coins."
             elseif (BlockType = 8) AND (BlockSet = 0) then
                 print " This block only has one end. Be careful."
             elseif (BlockType = 9) AND (BlockSet = 0) then
                 print " Like a Dead-end, but with four coins."
             elseif (BlockType = 10) AND (BlockSet = 0) then
                 print " You can jump with this block."
-                
+
             elseif (BlockType = 11) AND (BlockSet = 0) then
                 print " Like a Junction, but with four coins."
             elseif (BlockType = 12) AND (BlockSet = 0) then
@@ -859,54 +893,66 @@ sub map_generate
                 print " This block has a bump."
             elseif (BlockType = 15) AND (BlockSet = 0) then
                 print " This bump has coins on it."
-                
+
             elseif (BlockType = 16) AND (BlockSet = 0) then
                 print " Like a Flat Straight, but with a mover on top."
-                
+
             elseif (BlockType = 26) AND (BlockSet = 0) then
-                print " Every map made must have at least one of these. This is where the player"
+                print " Every map made must have at least one of these. " + _
+                      "This is where the player"
                 print "finishes."
-                
+
             elseif (BlockType = 1) AND (BlockSet = 2) AND (Start = 1) then
                 print " You've already placed this block."
-            elseif (BlockType = 1) AND (BlockSet = 2) AND (Start = 0) AND (ZP < > 0) then
+            elseif (BlockType = 1) AND (BlockSet = 2) AND _
+            	   (Start = 0) AND (ZP < > 0) then
                 print " This block must be placed at elevation level 0."
-            elseif (BlockType = 1) AND (BlockSet = 2) AND (Start = 0) AND (ZP = 0) then
-                print " Every map made must have one of these. This is where the player start. This"
+            elseif (BlockType = 1) AND (BlockSet = 2) AND _
+            	   (Start = 0) AND (ZP = 0) then
+                print " Every map made must have one of these. " + _
+                      "This is where the player starts. This"
                 print "block can't be rotated."
             elseif (BlockType = 2) AND (BlockSet = 2) AND (ZP < > 0) then
                 print " This block must be placed at elevation level 0."
             elseif (BlockType = 2) AND (BlockSet = 2) AND (ZP = 0) then
                 print " This is a shiny block. It is straight and flat."
             end if
+
         elseif multikey(SC_F1) then
             clkey
             cls 0
             color 11
             print "Controls:"
             print "* CONTROL: rotate"
-            print "* TAB: toggle music"
+            print "* TAB: toggle music (when its supported)"
             print "* SPACEBAR: place block"
             print "* Arrow keys: move cursor"
             print "* PAGE UP and PAGE DOWN: change elevation.
             print "* Any English letter: change blocks."
             print "* PLUS and MINUS without LSHIFT: adjust time."
             print "* PLUS and MINUS with LSHIFT: adjust target coins."
-            print "* F6 and F7: adjust music beat.
-            print "* F8: restore normal music beat"
-            print "* F2: change to "+chr(34)+"Basic Neverball"+chr(34)+" block set. You can't access this set if"
-            print "  blocks from the "+chr(34)+"Neverputt"+chr(34)+" set are placed."
-            print "* F3: change to "+chr(34)+"Advanced Neverball"+chr(34)+" block set. You can't access this set if"
-            print "  blocks from the "+chr(34)+"Neverputt"+chr(34)+" set are placed."
-            print "* F4: change to "+chr(34)+"Extra textures"+chr(34)+" block set. You can't access this set if blocks"
+
+            print "* F2: change to "+chr(34)+"Basic Neverball"+chr(34) + _
+                  " block set. You can't access this set if"
+            print "  blocks from the "+chr(34)+"Neverputt"+chr(34)+" set " + _
+                  "are placed."
+            print "* F3: change to "+chr(34)+"Advanced Neverball"+chr(34) + _
+                  " block set. You can't access this set if"
+            print "  blocks from the "+chr(34)+"Neverputt"+chr(34)+" set " + _
+                  "are placed."
+            print "* F4: change to "+chr(34)+"Extra textures"+chr(34) + _
+                  " block set. You can't access this set if blocks"
             print "  from the "+chr(34)+"Neverputt"+chr(34)+" set are placed."
-            print "* F5: change to "+chr(34)+"Neverputt"+chr(34)+" block set. You can't access this set if blocks from"
+            print "* F5: change to "+chr(34)+"Neverputt"+chr(34)+" block " + _
+                  "set. You can't access this set if blocks from"
             print "  other sets are placed."
-            print "* ~: to check for issues. You can't save the map until you ensure there are no"
+            print "* ~: to check for issues. You can't save the map until " + _
+                  "you ensure there are no"
             print "  errors."
             color 15
             sleep
             cls
+
         elseif multikey(SC_TILDE) then
             clkey
             cls 0
@@ -919,40 +965,47 @@ sub map_generate
                     print "Check failed. There is 1 offending item."
                 else
                     print "Check failed. There are ";Warning;" offending items."
-                end if    
+                end if
                 color 42
                 if Start = 0 then print "- Must have 1 start block."
                 if Finish = 0 then print "- Must have at least 1 finish block."
                 if TargetCoins > Coins then
-                    print "- The number of required coins exceeds the coins present."
+                    print "- The number of required coins exceeds the " + _
+                          "coins present."
                 end if
                 if MinimumLevelTime > LevelTime then
-                    print "- The time given for a level must equal or exceed ";MinimumLevelTime;"."
+                    print "- The time given for a level must equal or " + _
+                          "exceed ";MinimumLevelTime;"."
                 end if
             end if
             color 44
+
             if Openings > 0 then
-                print "- You have ";Openings;" openings that you haven't closed yet. If some of your blocks were"
-                print "  intended to merge roads together, you can hit the "+chr(34)+"/"+chr(34)+" key to merge together."
+                print "- You have ";Openings;" openings that you haven't " + _
+                      "closed yet. If some of your blocks were"
+                print "  intended to merge roads together, you can hit " + _
+                      "the "+chr(34)+"/"+chr(34)+" key to merge together."
             end if
             if Money * 1.2 > MaxMoney then
-                print "- You are running low on money. You should stop building this map soon. You"
-                print "only have $"& MaxMoney-Money ;" remaining. If you want more, you have to beat more levels"
+                print "- You are running low on money. You should stop " + _
+                      "building this map soon. You"
+                print "only have $"& MaxMoney-Money ;" remaining. If you " + _
+                      "want more, you have to beat more levels"
                 print "in the Neverball game. They will give you more money."
             end if
             color 15
             sleep
             cls
         end if
-        
+
         base_gfx
         cursor
         direction
         if multikey(SC_SPACE) then place_block
-        
+
         sleep 99
     loop until multikey(SC_ESCAPE)
-    
+
     if (Warning = 0) then
         cls
         clkey
@@ -961,10 +1014,14 @@ sub map_generate
         color 15
         input "What would you like in your message";LevelMessage
         input "What is the name of this level";LevelName
+
         print #m, "// entity ";Entity;"
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
-        if (LevelMessage < > "") then print #m, chr(34)+"message"+chr(34)+" "+chr(34);LevelMessage;chr(34)
+        if (LevelMessage < > "") then
+            print #m, chr(34)+"message"+chr(34)+" " + _
+                      chr(34);LevelMessage;chr(34)
+        end if
         print #m, chr(34)+"time"+chr(34)+" "+chr(34);LevelTime;chr(34)
         print #m, chr(34)+"goal"+chr(34)+" "+chr(34);TargetCoins;chr(34)
         print #m, chr(34)+"back"+chr(34)+" "+chr(34);Back;chr(34)
@@ -973,36 +1030,46 @@ sub map_generate
         print #m, chr(34)+"levelname"+chr(34)+" "+chr(34);LevelName;chr(34)
         print #m, "}"
         close #m
+
         print "Your map is almost finished..."
         #IFDEF __FB_WIN32__
         Check = exec("../Mapc.exe",MapFile + " data")
         #ELSE
         Check = exec("../mapc",MapFile + " data")
         #ENDIF
+
         if (Check < > -1) then
             cls
             print "It is now ready for play."
             print
-            print "If this is your first level, you need to create a set-XXX.txt in the data"
-            print "folder with the following contents. Brackets are variables."
+            print "If this is your first level, you need to create a " + _
+                  "set-XXX.txt in the data"
+            print "folder with the following contents. " + _
+                  "Brackets are variables."
+
             color 11
             print "[Name of Set]"
             print "[Description]"
             print "[ID]"
             print "[Set Shot]"
-            print "[Hard BT]","[Hard MT]","[Med BT]","[Med MT]""[Easy BT]","[Easy MT]"
+            print "[Hard BT]","[Hard MT]","[Med BT]", _
+                  "[Med MT]""[Easy BT]","[Easy MT]"
             print "[Level files] (relative to data folder)"
+
             color 15
             print
             print "Add the name of the file to sets.txt"
             print
-            print "It is preferable that you make a folder in the data directory to store all of"
+            print "It is preferable that you make a folder in the " + _
+                  "data directory to store all of"
             print "your levels."
             print
-            print "If you already did this before, you only need to update the set-XXX.txt with"
+            print "If you already did this before, you only need " + _
+                  "to update the set-XXX.txt with"
             print "the new level."
             sleep
         end if
+
     else
         cls
         color 12
@@ -1015,6 +1082,7 @@ sub map_generate
     clkey
     menu
 end sub
+
 sub place_gfx(Added as integer)
     GraphicFormula = PlacementFormula
     GraphicTest(GraphicFormula+Added) = PlacementTest(PlacementFormula)
@@ -1030,7 +1098,8 @@ sub base_gfx
         for YG = -10 to 10
             GraphicFormula = XG + (YG * 50) + (ZP * 2000) + 100000
             if GraphicTest(GraphicFormula) < > 0 then
-                line((XG+10)*20+1,(-YG+10)*20+1)-((XG+11)*20-1,(-YG+9)*20-1),13,bf
+                line((XG+10)*20+1,(-YG+10)*20+1) - _
+                    ((XG+11)*20-1,(-YG+9)*20-1),13,bf
             end if
         next
     next

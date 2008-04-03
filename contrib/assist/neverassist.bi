@@ -1,9 +1,16 @@
 randomize timer
-dim shared as ubyte XM, YM, XG, YG, BlockType, BlockSet, Rotation, XR, YR, ZR, Start, Finish, MusicSwitch, XSwitch, YSwitch, ZSwitch, Warning, Hold, Openings, Putt, MediumClear, MusicID, Perfect
+dim shared as ubyte XM, YM, XG, YG, BlockType, BlockSet, Rotation, XR, YR, _
+                    ZR, Start, Finish, MusicSwitch, XSwitch, YSwitch, _
+                    ZSwitch, Warning, Hold, Openings, Putt, MediumClear, _
+                    MusicID, Perfect
 dim shared as byte XP, YP, ZP
-dim shared as uinteger Entity, LevelTime, Blocks, TargetCoins, Coins, MinimumLevelTime, Money
-dim shared as longint PlacementFormula, GraphicFormula, GraphicTest(200000), PlacementTest(200000)
-dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, LevelMessage, WindowTitleM, Compile, Replay, LevelName, MusicPlay
+dim shared as uinteger Entity, LevelTime, Blocks, TargetCoins, Coins, _
+                       MinimumLevelTime, Money
+dim shared as longint PlacementFormula, GraphicFormula, GraphicTest(200000), _
+                      PlacementTest(200000)
+dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, _
+                     LevelMessage, WindowTitleM, Compile, Replay, LevelName, _
+                     MusicPlay
 dim shared as byte Check
 const AssistCfg = "assist.ini"
 const m = 1
@@ -69,9 +76,16 @@ sub plot_face(Detail as ubyte, XOff1 as short, YOff1 as short, _
     Texture as string = "invisible")
     'Plots a face.
     if Detail < 2 then
-    	print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 ";134217728*Detail;" 0 0"
+    	print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "; _
+    	""& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "; _
+    	""& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "; _
+    	""& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 "; _
+    	""& 134217728*Detail;" 0 0"
     else
-    	print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 0 0 0"
+    	print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "; _
+    	""& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "; _
+    	""& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "; _
+    	""& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 0 0 0"
     end if
 end sub
 /'
