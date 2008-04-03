@@ -959,6 +959,10 @@ msgstr ""
 "Ball.\\Vielleicht wießt du schon einen guten Weg?\\Die Teleporter könnten "
 "helfen.\\"
 
+#: data/map-fwp/adventure.map
+msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
+msgstr "=Abenteuer=\\Viele Aufgaben und Risiken, aber auch viele Münzen."
+
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."
 msgstr "=Atrium=\\Holen Sie die Münzen von ihren Säulen."

@@ -3201,3 +3201,9 @@
 "classname" "info_player_deathmatch"
 "origin" "32 1856 24"
 }
+// entity 96
+{
+"classname" "light"
+"origin" "1024 -1280 576"
+"light" "10"
+}
