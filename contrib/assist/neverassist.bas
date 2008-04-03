@@ -46,7 +46,7 @@ windowtitle "Neverassistant Program"
 #include "fbgfx.bi"
 using FB
 /'
- ' This includes some of the much needed information. This file is not part of
+ ' This includes a lot of the much needed information. This file is not part of
  ' the compiler, and even if it was part of the compiler, its presence in this
  ' package overrides its presence in the compiler.
  '/
@@ -63,6 +63,9 @@ using FB
  '/
 screen 18,8,1,GFX_NO_SWITCH
 
+AssistDir = curdir
+config(1)
+
 /'
  ' This define is actually related to the system you're on.
  ' If you're on Windows, __FB_WIN32__ is automatically defined.
@@ -70,25 +73,33 @@ screen 18,8,1,GFX_NO_SWITCH
  ' If you're on Linux or GNU/Linux, __FB_LINUX__ is automatically defined.
  '/
 #IFDEF __FB_WIN32__
-open AssistCfg for input as #1
-input #1, MediumClear
-input #1, MaxMoney
-input #1, Z7Path
-input #1, Z7Exe
-close #1
-#ELSE
-open AssistCfg for input as #1
-input #1, MediumClear
-input #1, MaxMoney
-close #1
-#ENDIF
-
-#IFDEF __FB_WIN32__
 'Incomplete: Attempt to get username and use the user folder.
 dim shared as string Username, AppData
 Username = ""
 Appdata = "C:\Documents and Settings\" + Username + "\Application Data\"
 #ENDIF
+if Neverpath = "" then
+    print "[Y/N] Is this correct?"
+    print curdir
+    do
+        sleep
+        InType = lcase(inkey)
+        if InType = "n" then
+            cls
+            print "Path can be relative or absolute."
+            input "Where is the path";NeverPath
+            chdir(NeverPath)
+            config
+            exit do
+        elseif InType = "y" then
+            NeverPath = "."
+            config
+            exit do
+        end if
+    loop
+else
+	chdir(NeverPath)
+end if
 menu
 
 /'
@@ -156,18 +167,22 @@ sub menu
             clkey
             windowtitle "Neverassistant Program - Running Neverball"
             #IFDEF __FB_WIN32__
-            Check = exec("../Neverball.exe","")
+            Check = exec("Neverball.exe","")
             #ELSE
-            Check = exec("../neverball","")
+            Check = exec("neverball","")
             #ENDIF
+            print "Exit code: "& Check
+            sleep
         elseif multikey(SC_P) then
             clkey
             windowtitle "Neverassistant Program - Running Neverputt"
             #IFDEF __FB_WIN32__
-            Check = exec("../Neverputt.exe","")
+            Check = exec("Neverputt.exe","")
             #ELSE
-            Check = exec("../neverputt","")
+            Check = exec("neverputt","")
             #ENDIF
+            print "Exit code: "& Check
+            sleep
 
         elseif multikey(SC_C) then
             clkey
@@ -176,9 +191,9 @@ sub menu
             if (Compile < > "") then
                 Compile = Compile + ".map"
                 #IFDEF __FB_WIN32__
-                Check = exec("../Mapc.exe",Compile + " ../data")
+                Check = exec("Mapc.exe",Compile + " data")
                 #ELSE
-                Check = exec("../mapc",Compile + " ../data")
+                Check = exec("mapc",Compile + " data")
                 #ENDIF
             end if
             color 15
@@ -190,10 +205,9 @@ sub menu
             if (Replay < > "") then
                 Replay = Replay + ".nbr"
                 #IFDEF __FB_WIN32__
-                Check = exec("../Neverball.exe","-r " + Appdata + Replay)
+                Check = exec("Neverball.exe","-r " + Appdata + Replay)
                 #ELSE
-                Check = exec("../neverball","-r ../data/.neverball-dev/" + _
-                             Replay)
+                Check = exec("neverball","-r data/.neverball-dev/" + Replay)
                 #ENDIF
             end if
             color 15
@@ -210,19 +224,9 @@ sub menu
                 Z7Exe = Z7Path + "\7z.exe"
                 Check = exec(Z7Exe,"")
                 if (Check = -1) then
-                    open AssistCfg for input as #1
-                    input #1, MediumClear
-                    input #1, MaxMoney
-                    input #1, Z7Path
-                    input #1, Z7Exe
-                    close #1
+                    config(1)
                 else
-                    open AssistCfg for output as #1
-                    print #1, MediumClear
-                    print #1, MaxMoney
-                    print #1, Z7Path
-                    print #1, Z7Exe
-                    close #1
+                    config
                 end if
             end if
             color 15
@@ -240,12 +244,7 @@ sub menu
                 if (Check = -1) then
                     Z7Path = ""
                     Z7Exe = ""
-                    open AssistCfg for output as #1
-                    print #1, MediumClear
-                    print #1, MaxMoney
-                    print #1, Z7Path
-                    print #1, Z7Exe
-                    close #1
+                    config
                     sleep 2000
                 end if
             end if
@@ -256,7 +255,7 @@ sub menu
             'Force crash function.
             exit do
         elseif multikey(SC_X) OR multikey(SC_ESCAPE) OR _
-        	      inkey = chr(255)+"k" then
+                  inkey = chr(255)+"k" then
             Perfect = 1
             end 0
         end if
@@ -864,7 +863,7 @@ sub map_generate
             line(550,290)-(600,290),7
             line(562,260)-(588,260),6
 
-         elseif (BlockType = 22) AND (BlockSet = 0) then
+        elseif (BlockType = 22) AND (BlockSet = 0) then
             print "Flat straight Finish $1"
             line(450,240)-(500,240),12
             line(450,240)-(450,290),10
@@ -985,10 +984,10 @@ sub map_generate
             elseif (BlockType = 1) AND (BlockSet = 2) AND (Start = 1) then
                 print " You've already placed this block."
             elseif (BlockType = 1) AND (BlockSet = 2) AND _
-            	   (Start = 0) AND (ZP < > 0) then
+                   (Start = 0) AND (ZP < > 0) then
                 print " This block must be placed at elevation level 0."
             elseif (BlockType = 1) AND (BlockSet = 2) AND _
-            	   (Start = 0) AND (ZP = 0) then
+                   (Start = 0) AND (ZP = 0) then
                 print " Every map made must have one of these. " + _
                       "This is where the player starts. This"
                 print "block can't be rotated."
@@ -1113,9 +1112,9 @@ sub map_generate
 
         print "Your map is almost finished..."
         #IFDEF __FB_WIN32__
-        Check = exec("../Mapc.exe",MapFile + " data")
+        Check = exec("Mapc.exe",MapFile + " data")
         #ELSE
-        Check = exec("../mapc",MapFile + " data")
+        Check = exec("mapc",MapFile + " data")
         #ENDIF
 
         if (Check < > -1) then

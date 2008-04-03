@@ -8,14 +8,14 @@ sub place_block
      '
      ' BlockSet is the set of blocks you're using.
      '
-     ' Start is exclusive to the first one. That being said, you can only place
-     ' block once.
+     ' Start is exclusive to the start one. It allows you to place the block
+     ' once.
      '
      ' YP is the Y Position of the assistant's cursor. It's also exclusive to
      ' the start block.
      '
      ' Money is the current amount of money you expended. MaxMoney is the
-     ' maximum you can spend. This maximum applies to every map made with the.
+     ' maximum you can spend. This maximum applies to every map made with the
      ' assistant.
      '
      ' PlacementTest prevents you from overriding blocks with each other.
@@ -510,7 +510,7 @@ sub place_block
                 plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
                 plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
                 plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        end if
+        end select
         print #m, "}"
         print #m, "}"
 

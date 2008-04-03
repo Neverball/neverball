@@ -10,7 +10,7 @@ dim shared as longint PlacementFormula, GraphicFormula, GraphicTest(200000), _
                       PlacementTest(200000)
 dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, _
                      LevelMessage, WindowTitleM, Compile, Replay, LevelName, _
-                     MusicPlay
+                     MusicPlay, Neverpath, InType, AssistDir
 dim shared as byte Check
 const AssistCfg = "assist.ini"
 const m = 1
@@ -38,6 +38,7 @@ declare sub menu
 declare sub map_generate_initial
 declare sub map_generate
 declare sub place_gfx(Added as integer)
+declare sub config(Switch as ubyte = 0)
 
 /'
  ' As you can see, this subroutine has 11 arguments. I was able to segment
@@ -76,16 +77,16 @@ sub plot_face(Detail as ubyte, XOff1 as short, YOff1 as short, _
     Texture as string = "invisible")
     'Plots a face.
     if Detail < 2 then
-    	print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "; _
-    	""& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "; _
-    	""& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "; _
-    	""& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 "; _
-    	""& 134217728*Detail;" 0 0"
+        print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "; _
+        ""& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "; _
+        ""& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "; _
+        ""& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 "; _
+        ""& 134217728*Detail;" 0 0"
     else
-    	print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "; _
-    	""& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "; _
-    	""& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "; _
-    	""& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 0 0 0"
+        print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "; _
+        ""& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "; _
+        ""& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "; _
+        ""& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 0 0 0"
     end if
 end sub
 /'
@@ -101,6 +102,9 @@ sub clkey
     while (inkey < > ""):wend
 end sub
 
+/'
+ ' Editor graphics
+ '/
 sub place_gfx(Added as integer)
     GraphicFormula = PlacementFormula
     GraphicTest(GraphicFormula+Added) = PlacementTest(PlacementFormula)
@@ -138,5 +142,45 @@ sub direction
         line ((XP+10)*20+1,(-YP+11)*20-1)-((XP+11)*20-1,(-YP+11)*20-6),9,bf
     elseif Rotation = 4 then
         line ((XP+10)*20+1,(-YP+10)*20+1)-((XP+10)*20+6,(-YP+11)*20-1),9,bf
+    end if
+end sub
+
+/'
+ ' This allows configuration management. 0 saves the data (default) and any
+ ' other value imports the data.
+ '/
+sub config(Switch as ubyte = 0)
+    if Switch = 0 then
+        #IFDEF __FB_WIN32__
+        open AssistDir + "\" + AssistCfg for output as #1
+        print #1, MediumClear
+        print #1, MaxMoney
+        print #1, NeverPath
+        print #1, Z7Path
+        print #1, Z7Exe
+        close #1
+        #ELSE
+        open AssistDir + "/" + AssistCfg for output as #1
+        print #1, MediumClear
+        print #1, MaxMoney
+        print #1, NeverPath
+        close #1
+        #ENDIF
+    else
+        #IFDEF __FB_WIN32__
+        open AssistDir + "\" + AssistCfg for input as #1
+        input #1, MediumClear
+        input #1, MaxMoney
+        input #1, NeverPath
+        input #1, Z7Path
+        input #1, Z7Exe
+        close #1
+        #ELSE
+        open AssistDir + "/" + AssistCfg for input as #1
+        input #1, MediumClear
+        input #1, MaxMoney
+        input #1, NeverPath
+        close #1
+        #ENDIF
     end if
 end sub
