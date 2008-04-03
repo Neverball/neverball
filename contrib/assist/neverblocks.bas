@@ -1,8 +1,36 @@
+/'
+ ' Welcome to the construction blocks source file.
+ '/
 declare sub place_block
 sub place_block
-    if (BlockType = 1) AND (BlockSet = 0) AND (Start = 0) AND (YP < 10) AND PlacementTest(PlacementFormula) = 0 then
+    /'
+     ' BlockType is the type of the block you're using.
+     '
+     ' BlockSet is the set of blocks you're using.
+     '
+     ' Start is exclusive to the first one. That being said, you can only place
+     ' block once.
+     '
+     ' YP is the Y Position of the assistant's cursor. It's also exclusive to
+     ' the start block.
+     '
+     ' Money is the current amount of money you expended. MaxMoney is the
+     ' maximum you can spend. This maximum applies to every map made with the.
+     ' assistant.
+     '
+     ' PlacementTest prevents you from overriding blocks with each other.
+     '/
+
+    if (BlockType = 1) AND (BlockSet = 0) AND (Start = 0) AND (YP < 10) AND _
+        PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
+        /'
+         ' Increments the entity ID.
+         '/
         Entity += 1
+        /'
+         ' Plots the brush(s) into a seperate worldspawn entity.
+         '/
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
@@ -15,19 +43,36 @@ sub place_block
         plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
         print #m, "}"
         print #m, "}"
+
+        /'
+         ' This entity serves a different purpose. In this case, its the
+         ' starting point.
+         '/
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
-        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"info_player_start"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64;" "& YP*128-64;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
+                  "info_player_start"+chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                  " "& YP*128-64;" "& ZP*64+24;chr(34)
         print #m, "}"
+        /'
+         ' This provides the first part of the initial camera.
+         '/
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
-        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"info_player_intermission"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64;" "& YP*128-64;" "& ZP*64+224;chr(34)
+        print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
+                  "info_player_intermission"+chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                  " "& YP*128-64;" "& ZP*64+224;chr(34)
         print #m, chr(34)+"target"+chr(34)+" "+chr(34)+"goal"+chr(34)
         print #m, "}"
+
+        /'
+         ' Once the file has been written, the program then records the
+         ' details into its own memory.
+         '/
         Start = 1
         PlacementTest(PlacementFormula) = 1
         place_gfx(0)
@@ -37,13 +82,21 @@ sub place_block
         Openings += 1
         Putt = 2
 
-    elseif (BlockType = 2) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 2) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
         print #m, "{"
+        /'
+         ' Rotations is how the appearance of the blocks can differ.
+         '
+         ' However, the block above (start block) is the only block that can't
+         ' be rotated. You always start facing north, and the start block
+         ' always faces north.
+         '/
         if (Rotation = 1) OR (Rotation = 3) then
             plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
             plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
@@ -69,44 +122,56 @@ sub place_block
         Blocks += 1
         Putt = 2
 
-    elseif (BlockType = 3) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 3) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
         print #m, "{"
-        if (Rotation = 1) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 2) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 3) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        elseif (Rotation = 4) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        end if
+
+        /'
+         ' This allows more flexibility in printing the blocks with the
+         ' appropriate textures. However, the block above it would not be
+         ' different for certain rotations, which is why its merged together.
+         '
+         ' This block does have it all different.
+         '/
+        select case Rotation
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 2
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 3
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+            case 4
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+        end select
         print #m, "}"
         print #m, "}"
+
         PlacementTest(PlacementFormula) = 3
         place_gfx(0)
         LevelTime += 200
@@ -115,44 +180,48 @@ sub place_block
         Blocks += 1
         Putt = 2
 
-    elseif (BlockType = 4) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 4) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
         print #m, "{"
-        if (Rotation = 1) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 2) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 3) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 4) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        end if
+        select case Rotation
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 2
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 3
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 4
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+        end select
         print #m, "}"
         print #m, "}"
+
         PlacementTest(PlacementFormula) = 4
         place_gfx(0)
         LevelTime += 300
@@ -162,13 +231,20 @@ sub place_block
         Openings += 1
         Putt = 2
 
-    elseif (BlockType = 5) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 5) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
         print #m, "{"
+        /'
+         ' This is the cross block. It would be the same no matter how you
+         ' rotate it. As a result, there are no internal statements keeping
+         ' what's below from printing to the file.
+         '/
         plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
         plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
         plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
@@ -185,7 +261,9 @@ sub place_block
         Openings += 2
         Putt = 2
 
-    elseif (BlockType = 6) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 6) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -209,34 +287,43 @@ sub place_block
         end if
         print #m, "}"
         print #m, "}"
+
+        /'
+         ' Four yellow coins.
+         '/
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-96;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-96;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-96;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-96;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-32;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-32;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-32;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-32;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
+
         PlacementTest(PlacementFormula) = 6
         place_gfx(0)
         LevelTime += 175
@@ -247,72 +334,81 @@ sub place_block
         Blocks += 1
         Putt = 2
 
-    elseif (BlockType = 7) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 7) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
         print #m, "{"
-        if (Rotation = 1) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 2) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 3) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        elseif (Rotation = 4) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        end if
+        select case Rotation
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+        end select
         print #m, "}"
         print #m, "}"
+
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-96;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-96;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-96;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-96;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-32;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-32;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-32;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-32;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
+
         PlacementTest(PlacementFormula) = 7
         place_gfx(0)
         LevelTime += 275
@@ -323,44 +419,49 @@ sub place_block
         Blocks += 1
         Putt = 2
 
-    elseif (BlockType = 8) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 8) AND (BlockSet = 0) AND (Openings > 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
         print #m, "{"
-        if (Rotation = 1) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        elseif (Rotation = 2) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 3) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        elseif (Rotation = 4) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        end if
+
+        select case Rotation
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+            case 2
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 3
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+            case 4
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+        end select
         print #m, "}"
         print #m, "}"
+
         PlacementTest(PlacementFormula) = 8
         place_gfx(0)
         LevelTime += 50
@@ -369,72 +470,83 @@ sub place_block
         Openings -= 1
         Putt = 2
 
-    elseif (BlockType = 9) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 9) AND (BlockSet = 0) AND (Openings > 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
+
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
         print #m, "{"
-        if (Rotation = 1) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        elseif (Rotation = 2) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 3) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        elseif (Rotation = 4) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+
+        select case Rotation
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+            case 2
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 3
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+            case 4
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
         end if
         print #m, "}"
         print #m, "}"
+
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-96;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-96;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-96;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-96;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-32;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-32;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-32;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-32;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
+
         PlacementTest(PlacementFormula) = 9
         place_gfx(0)
         LevelTime += 150
@@ -446,7 +558,9 @@ sub place_block
         Openings -= 1
         Putt = 2
 
-    elseif (BlockType = 10) AND (BlockSet = 0) AND (Money + 2 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 10) AND (BlockSet = 0) AND _
+           (Money + 2 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -469,6 +583,11 @@ sub place_block
             plot_face(0,-16,-128,-16,-16,-64,-16,-16,-128,16,"yellow")
         end if
         print #m, "}"
+
+        /'
+         ' Notice how this "lump" is present as well. This block is two lumps.
+         ' More lumps means a greater complexity of the block.
+         '/
         print #m, "// brush 1"
         print #m, "{"
         if (Rotation = 1) OR (Rotation = 3) then
@@ -488,6 +607,7 @@ sub place_block
         end if
         print #m, "}"
         print #m, "}"
+
         PlacementTest(PlacementFormula) = 10
         place_gfx(0)
         LevelTime += 350
@@ -496,72 +616,81 @@ sub place_block
         Blocks += 1
         Putt = 2
 
-    elseif (BlockType = 11) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 11) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
         print #m, "{"
-        if (Rotation = 1) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 2) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 3) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 4) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        end if
+        select case Rotation
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 2
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 3
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 4
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"coin-green-small")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+        end select
         print #m, "}"
         print #m, "}"
+
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-96;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-96;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-96;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-96;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-32;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-32;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-32;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-32;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
+
         PlacementTest(PlacementFormula) = 11
         place_gfx(0)
         LevelTime += 425
@@ -573,7 +702,9 @@ sub place_block
         Openings += 1
         Putt = 2
 
-    elseif (BlockType = 12) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 12) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -588,34 +719,40 @@ sub place_block
         plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
         print #m, "}"
         print #m, "}"
+
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-96;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-96;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-96;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-96;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-32;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-32;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-32;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-32;" "& ZP*64+24;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
+
         PlacementTest(PlacementFormula) = 12
         place_gfx(0)
         LevelTime += 575
@@ -627,42 +764,53 @@ sub place_block
         Openings += 2
         Putt = 2
 
-    elseif (BlockType = 13) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 AND PlacementTest(PlacementFormula+2000) = 0 then
+    elseif (BlockType = 13) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 AND _
+            PlacementTest(PlacementFormula+2000) = 0 then
+        /'
+         ' This is the first block to take more than one space.
+         '
+         ' It also takes the space right above it.
+         '/
+
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
         print #m, "{"
-        if (Rotation = 1) then
-            plot_face(0,-128,0,64,0,0,64,0,-128,0,"turf-green")
-            plot_face(0,0,0,48,0,0,48,0,0,64,"invisible")
-            plot_face(0,0,-128,0,0,0,0,0,0,-16,"turf-grey")
-            plot_face(0,0,0,48,-128,0,48,0,-128,-16,"turf-grey")
-            plot_face(0,0,-128,-64,-128,-128,64,0,-128,-64,"invisible")
-            plot_face(0,0,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        elseif (Rotation = 2) then
-            plot_face(0,0,0,64,0,-128,64,-128,-128,0,"turf-green")
-            plot_face(0,0,0,0,-128,0,0,0,0,-16,"turf-grey")
-            plot_face(0,0,0,48,0,-128,48,0,-128,64,"invisible")
-            plot_face(0,0,-128,48,0,0,48,-128,-128,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 3) then
-            plot_face(0,-128,0,0,0,0,0,0,-128,64,"turf-green")
-            plot_face(0,0,0,0,-128,0,0,0,0,-16,"invisible")
-            plot_face(0,0,-128,0,0,0,0,0,-128,-16,"turf-grey")
-            plot_face(0,0,0,-16,-128,0,-16,-128,-128,48,"turf-grey")
-            plot_face(0,0,-128,48,-128,-128,48,-128,-128,64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        elseif (Rotation = 4) then
-            plot_face(0,0,0,0,0,-128,0,-128,-128,64,"turf-green")
-            plot_face(0,0,0,0,-128,0,0,0,0,-16,"turf-grey")
-            plot_face(0,0,-128,0,0,0,0,0,-128,-16,"invisible")
-            plot_face(0,-128,0,48,-128,-128,48,0,-128,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,48,-128,0,48,-128,0,64,"invisible")
-        end if
+
+        select case Rotation
+            case 1
+                plot_face(0,-128,0,64,0,0,64,0,-128,0,"turf-green")
+                plot_face(0,0,0,48,0,0,48,0,0,64,"invisible")
+                plot_face(0,0,-128,0,0,0,0,0,0,-16,"turf-grey")
+                plot_face(0,0,0,48,-128,0,48,0,-128,-16,"turf-grey")
+                plot_face(0,0,-128,-64,-128,-128,64,0,-128,-64,"invisible")
+                plot_face(0,0,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+            case 2
+                plot_face(0,0,0,64,0,-128,64,-128,-128,0,"turf-green")
+                plot_face(0,0,0,0,-128,0,0,0,0,-16,"turf-grey")
+                plot_face(0,0,0,48,0,-128,48,0,-128,64,"invisible")
+                plot_face(0,0,-128,48,0,0,48,-128,-128,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 3
+                plot_face(0,-128,0,0,0,0,0,0,-128,64,"turf-green")
+                plot_face(0,0,0,0,-128,0,0,0,0,-16,"invisible")
+                plot_face(0,0,-128,0,0,0,0,0,-128,-16,"turf-grey")
+                plot_face(0,0,0,-16,-128,0,-16,-128,-128,48,"turf-grey")
+                plot_face(0,0,-128,48,-128,-128,48,-128,-128,64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+            case 4
+                plot_face(0,0,0,0,0,-128,0,-128,-128,64,"turf-green")
+                plot_face(0,0,0,0,-128,0,0,0,0,-16,"turf-grey")
+                plot_face(0,0,-128,0,0,0,0,0,-128,-16,"invisible")
+                plot_face(0,-128,0,48,-128,-128,48,0,-128,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,48,-128,0,48,-128,0,64,"invisible")
+        end select
         print #m, "}"
         print #m, "}"
         PlacementTest(PlacementFormula) = 13
@@ -675,7 +823,9 @@ sub place_block
         Blocks += 1
         Putt = 2
 
-    elseif (BlockType = 14) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 14) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -709,7 +859,9 @@ sub place_block
         Blocks += 1
         Putt = 2
 
-    elseif (BlockType = 15) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 15) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -735,34 +887,40 @@ sub place_block
         end if
         print #m, "}"
         print #m, "}"
+
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-96;" "& ZP*64+32;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-96;" "& ZP*64+32;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-96;" "& ZP*64+32;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-96;" "& ZP*64+32;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-32;" "& ZP*64+32;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                  " "& YP*128-32;" "& ZP*64+32;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-32;" "& ZP*64+32;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                  " "& YP*128-32;" "& ZP*64+32;chr(34)
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
+
         PlacementTest(PlacementFormula) = 15
         place_gfx(0)
         LevelTime += 225
@@ -773,7 +931,9 @@ sub place_block
         Blocks += 1
         Putt = 2
 
-    elseif (BlockType = 16) AND (BlockSet = 0) AND (Money + 3 < = MaxMoney) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 16) AND (BlockSet = 0) AND _
+           (Money + 3 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -797,6 +957,11 @@ sub place_block
         end if
         print #m, "}"
         print #m, "}"
+
+        /'
+         ' Even trains can be utilized in this assistant. I should expand this,
+         ' however, to allow all directions. It doesn't do this yet.
+         '/
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -820,17 +985,25 @@ sub place_block
         end if
         print #m, "}"
         print #m, "}"
+
+        /'
+         ' Uses the entities needed for the mover.
+         '/
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"path_corner"+chr(34)
         if (Rotation = 1) OR (Rotation = 3) then
-            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32;" "& YP*128-64;" "& ZP*64-16;chr(34)
+            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+                      " "& YP*128-64;" "& ZP*64-16;chr(34)
         elseif (Rotation = 2) OR (Rotation = 4) then
-            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64;" "& YP*128-96;" "& ZP*64-16;chr(34)
+            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                      " "& YP*128-96;" "& ZP*64-16;chr(34)
         end if
-        print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"path_corner";Entity-1;chr(34)
-        print #m, chr(34)+"target"+chr(34)+" "+chr(34)+"path_corner";Entity;chr(34)
+        print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"path_corner"; _
+                  ""& Entity-1;chr(34)
+        print #m, chr(34)+"target"+chr(34)+" "+chr(34)+"path_corner"; _
+                  ""& Entity;chr(34)
         print #m, chr(34)+"speed"+chr(34)+" "+chr(34)+"3"+chr(34)
         print #m, "}"
         print #m, "// entity ";Entity;"
@@ -838,14 +1011,19 @@ sub place_block
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"path_corner"+chr(34)
         if (Rotation = 1) OR (Rotation = 3) then
-            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96;" "& YP*128-64;" "& ZP*64-16;chr(34)
+            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+                      " "& YP*128-64;" "& ZP*64-16;chr(34)
         elseif (Rotation = 2) OR (Rotation = 4) then
-            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64;" "& YP*128-32;" "& ZP*64-16;chr(34)
+            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                      " "& YP*128-32;" "& ZP*64-16;chr(34)
         end if
-        print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"path_corner";Entity-1;chr(34)
-        print #m, chr(34)+"target"+chr(34)+" "+chr(34)+"path_corner";Entity-2;chr(34)
+        print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"path_corner"; _
+                  ""& Entity-1;chr(34)
+        print #m, chr(34)+"target"+chr(34)+" "+chr(34)+"path_corner"; _
+                  ""& Entity-2;chr(34)
         print #m, chr(34)+"speed"+chr(34)+" "+chr(34)+"3"+chr(34)
         print #m, "}"
+
         PlacementTest(PlacementFormula) = 2
         place_gfx(0)
         LevelTime += 325
@@ -854,35 +1032,24 @@ sub place_block
         Blocks += 2
         Putt = 2
 
-    elseif (BlockType = 26) AND (BlockSet = 0) AND PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 22) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
+
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
         print #m, "{"
-        if (Rotation = 1) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        elseif (Rotation = 2) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
-            plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
-            plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
-        elseif (Rotation = 3) then
+        if (Rotation = 1) OR (Rotation = 3) then
             plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
             plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
             plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
             plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+            plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
             plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
-        elseif (Rotation = 4) then
+        elseif (Rotation = 2) OR (Rotation = 4) then
             plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
             plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
             plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
@@ -890,6 +1057,12 @@ sub place_block
             plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
             plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
         end if
+
+        /'
+         ' Notice that the brush below is completely detail. What makes
+         ' it so is the first argument of plot_face. See neverassist.bi
+         ' for more information.
+         '/
         print #m, "}"
         print #m, "// brush 1"
         print #m, "{"
@@ -906,19 +1079,324 @@ sub place_block
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" " + _
                   chr(34)+"info_player_deathmatch"+chr(34)
-        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64;" "; _
-                  ""&YP*128-64;" "& ZP*64+24;chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                  " "&YP*128-64;" "& ZP*64+24;chr(34)
         print #m, "}"
+
+        /'
+         ' This is the finish touch of our initial camera. This is only placed
+         ' the first time you place a finish block. There is no limit to the
+         ' number of finish blocks.
+         '/
         if Finish = 0 then
             print #m, "// entity ";Entity;"
             Entity += 1
             print #m, "{"
-            print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"target_position"+chr(34)
-            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64;" "; _
-                      ""& YP*128-64;" "& ZP*64+128;chr(34)
+            print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
+                      "target_position"+chr(34)
+            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                      " "& YP*128-64;" "& ZP*64+128;chr(34)
             print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"goal"+chr(34)
             print #m, "}"
         end if
+        PlacementTest(PlacementFormula) = 22
+        place_gfx(0)
+        LevelTime += 125
+        MinimumLevelTime += 100
+        Money += 1
+        Blocks += 1
+        Putt = 2
+
+    elseif (BlockType = 23) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+        print #m, "// brush 0"
+        print #m, "{"
+        select case Rotation
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 2
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 3
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+            case 4
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+        end select
+        print #m, "}"
+
+        print #m, "// brush 1"
+        print #m, "{"
+        plot_face(1,-16,0,1,-16,-128,1,-144,0,1,"goal")
+        plot_face(1,0,0,80,-128,0,80,0,0,-48,"invisible")
+        plot_face(1,0,0,80,0,0,-48,0,-128,80,"invisible")
+        plot_face(1,-128,-128,0,0,-128,0,-128,0,0,"invisible")
+        plot_face(1,-128,-128,-48,0,-128,79,0,-128,-48,"invisible")
+        plot_face(1,-128,-128,-48,-128,0,-49,-128,-128,80,"invisible")
+        print #m, "}"
+        print #m, "}"
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" " + _
+                  chr(34)+"info_player_deathmatch"+chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                  " "&YP*128-64;" "& ZP*64+24;chr(34)
+        print #m, "}"
+
+        if Finish = 0 then
+            print #m, "// entity ";Entity;"
+            Entity += 1
+            print #m, "{"
+            print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
+                      "target_position"+chr(34)
+            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                      " "& YP*128-64;" "& ZP*64+128;chr(34)
+            print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"goal"+chr(34)
+            print #m, "}"
+        end if
+
+        PlacementTest(PlacementFormula) = 23
+        place_gfx(0)
+        LevelTime += 225
+        MinimumLevelTime += 175
+        Money += 1
+        Blocks += 1
+        Putt = 2
+
+    elseif (BlockType = 24) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+        print #m, "// brush 0"
+        print #m, "{"
+        select case Rotation
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 2
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 3
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 4
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+        end select
+        print #m, "}"
+
+        print #m, "// brush 1"
+        print #m, "{"
+        plot_face(1,-16,0,1,-16,-128,1,-144,0,1,"goal")
+        plot_face(1,0,0,80,-128,0,80,0,0,-48,"invisible")
+        plot_face(1,0,0,80,0,0,-48,0,-128,80,"invisible")
+        plot_face(1,-128,-128,0,0,-128,0,-128,0,0,"invisible")
+        plot_face(1,-128,-128,-48,0,-128,79,0,-128,-48,"invisible")
+        plot_face(1,-128,-128,-48,-128,0,-49,-128,-128,80,"invisible")
+        print #m, "}"
+        print #m, "}"
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" " + _
+                  chr(34)+"info_player_deathmatch"+chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                  " "&YP*128-64;" "& ZP*64+24;chr(34)
+        print #m, "}"
+
+        if Finish = 0 then
+            print #m, "// entity ";Entity;"
+            Entity += 1
+            print #m, "{"
+            print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
+                      "target_position"+chr(34)
+            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                      " "& YP*128-64;" "& ZP*64+128;chr(34)
+            print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"goal"+chr(34)
+            print #m, "}"
+        end if
+        PlacementTest(PlacementFormula) = 24
+        place_gfx(0)
+        LevelTime += 325
+        MinimumLevelTime += 225
+        Money += 1
+        Blocks += 1
+        Openings += 1
+        Putt = 2
+
+    elseif (BlockType = 25) AND (BlockSet = 0) AND _
+           (Money + 1 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+        print #m, "// brush 0"
+        print #m, "{"
+        plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+        plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+        plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+        plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+        plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+        plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+        print #m, "}"
+        
+        print #m, "// brush 1"
+        print #m, "{"
+        plot_face(1,-16,0,1,-16,-128,1,-144,0,1,"goal")
+        plot_face(1,0,0,80,-128,0,80,0,0,-48,"invisible")
+        plot_face(1,0,0,80,0,0,-48,0,-128,80,"invisible")
+        plot_face(1,-128,-128,0,0,-128,0,-128,0,0,"invisible")
+        plot_face(1,-128,-128,-48,0,-128,79,0,-128,-48,"invisible")
+        plot_face(1,-128,-128,-48,-128,0,-49,-128,-128,80,"invisible")
+        print #m, "}"
+        print #m, "}"
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" " + _
+                  chr(34)+"info_player_deathmatch"+chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                  " "&YP*128-64;" "& ZP*64+24;chr(34)
+        print #m, "}"
+
+        if Finish = 0 then
+            print #m, "// entity ";Entity;"
+            Entity += 1
+            print #m, "{"
+            print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
+                      "target_position"+chr(34)
+            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                      " "& YP*128-64;" "& ZP*64+128;chr(34)
+            print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"goal"+chr(34)
+            print #m, "}"
+        end if
+        PlacementTest(PlacementFormula) = 25
+        place_gfx(0)
+        LevelTime += 425
+        MinimumLevelTime += 325
+        Blocks += 1
+        Openings += 2
+        Putt = 2
+
+    elseif (BlockType = 26) AND (BlockSet = 0) AND (Openings > 0) AND _
+            PlacementTest(PlacementFormula) = 0 then
+        /'
+         ' I didn't put a money statement on this block because it doesn't
+         ' cost any. However, you must have a free opening.
+         '/
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+        print #m, "// brush 0"
+        print #m, "{"
+        select case Rotation
+            case 1
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+            case 2
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
+            case 3
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+            case 4
+                plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
+                plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"invisible")
+                plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+                plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+        end select
+
+        print #m, "}"
+        print #m, "// brush 1"
+        print #m, "{"
+        plot_face(1,-16,0,1,-16,-128,1,-144,0,1,"goal")
+        plot_face(1,0,0,80,-128,0,80,0,0,-48,"invisible")
+        plot_face(1,0,0,80,0,0,-48,0,-128,80,"invisible")
+        plot_face(1,-128,-128,0,0,-128,0,-128,0,0,"invisible")
+        plot_face(1,-128,-128,-48,0,-128,79,0,-128,-48,"invisible")
+        plot_face(1,-128,-128,-48,-128,0,-49,-128,-128,80,"invisible")
+        print #m, "}"
+        print #m, "}"
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" " + _
+                  chr(34)+"info_player_deathmatch"+chr(34)
+        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                  " "&YP*128-64;" "& ZP*64+24;chr(34)
+        print #m, "}"
+
+        if Finish = 0 then
+            print #m, "// entity ";Entity;"
+            Entity += 1
+            print #m, "{"
+            print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
+                      "target_position"+chr(34)
+            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
+                      " "& YP*128-64;" "& ZP*64+128;chr(34)
+            print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"goal"+chr(34)
+            print #m, "}"
+        end if
+
         PlacementTest(PlacementFormula) = 26
         place_gfx(0)
         LevelTime += 150

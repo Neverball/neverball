@@ -8,12 +8,14 @@
  '
  ' Go to www.freebasic.net for the compiler (and optionally source).
  '
- ' Once you have the FBC's path into the shell, you can simply invoke
-   fbc "neverassist.bas" [-g] [-s gui]
+ ' Once you have the FBC's path into the *nix shell, you can simply invoke
+   fbc "neverassist.bas" -x "../neverball" [-g]
+ ' Windows will need to be a little different.
+   fbc "neverassist.bas" -x "..\neverball.exe" [-g] [-s gui] 
  ' Assuming no errors, you should have a binary.
  '
  ' Under Windows, the -s gui removes the console. On *nix, this switch does
- ' nothing.
+ ' nothing, which is why it's not present.
  '
  ' Due to incapabilities of the compiler, this program is NOT platform
  ' independent. But the compiler is being ported to other platforms and is
@@ -557,6 +559,34 @@ sub map_generate
                 ZR = 1
             end if
 
+        elseif multikey(SC_V) then
+            BlockType = 22
+            if (BlockSet = 0) then
+                XR = 1
+                YR = 1
+                ZR = 1
+            end if
+        elseif multikey(SC_W) then
+            BlockType = 23
+            if (BlockSet = 0) then
+                XR = 1
+                YR = 1
+                ZR = 1
+            end if
+        elseif multikey(SC_X) then
+            BlockType = 24
+            if (BlockSet = 0) then
+                XR = 1
+                YR = 1
+                ZR = 1
+            end if
+        elseif multikey(SC_Y) then
+            BlockType = 25
+            if (BlockSet = 0) then
+                XR = 1
+                YR = 1
+                ZR = 1
+            end if
         elseif multikey(SC_Z) then
             BlockType = 26
             if (BlockSet = 0) then
@@ -834,7 +864,57 @@ sub map_generate
             line(550,290)-(600,290),7
             line(562,260)-(588,260),6
 
-        elseif (BlockType = 26) AND (BlockSet = 0) then
+         elseif (BlockType = 22) AND (BlockSet = 0) then
+            print "Flat straight Finish $1"
+            line(450,240)-(500,240),12
+            line(450,240)-(450,290),10
+            line(450,290)-(500,290),12
+            line(500,240)-(500,290),10
+            line(550,270)-(550,290),7
+            line(550,270)-(600,270),7
+            line(600,270)-(600,290),7
+            line(550,290)-(600,290),7
+            line(570,240)-(580,270),13,bf
+
+        elseif (BlockType = 23) AND (BlockSet = 0) then
+            print "90"+chr(248)+" simple flat turn"
+            locate 14,54
+            print "Finish $1"
+            line(450,240)-(500,240),10
+            line(450,240)-(450,290),12
+            line(450,290)-(500,290),12
+            line(500,240)-(500,290),10
+            line(550,270)-(550,290),7
+            line(550,270)-(600,270),7
+            line(600,270)-(600,290),7
+            line(550,290)-(600,290),7
+            line(570,240)-(580,270),13,bf
+
+        elseif (BlockType = 24) AND (BlockSet = 0) then
+            print "Junction Finish $1"
+            line(450,240)-(500,240),10
+            line(450,240)-(450,290),12
+            line(450,290)-(500,290),12
+            line(500,240)-(500,290),12
+            line(550,270)-(550,290),7
+            line(550,270)-(600,270),7
+            line(600,270)-(600,290),7
+            line(550,290)-(600,290),7
+            line(570,240)-(580,270),13,bf
+
+        elseif (BlockType = 25) AND (BlockSet = 0) then
+            print "Cross Finish $1"
+            line(450,240)-(500,240),12
+            line(450,240)-(450,290),12
+            line(450,290)-(500,290),12
+            line(500,240)-(500,290),12
+            line(550,270)-(550,290),7
+            line(550,270)-(600,270),7
+            line(600,270)-(600,290),7
+            line(550,290)-(600,290),7
+            line(570,240)-(580,270),13,bf
+
+       elseif (BlockType = 26) AND (BlockSet = 0) then
             print "Dead-end Finish"
             line(450,240)-(500,240),10
             line(450,240)-(450,290),10
@@ -1081,44 +1161,4 @@ sub map_generate
     if inkey = chr(27) then sleep
     clkey
     menu
-end sub
-
-sub place_gfx(Added as integer)
-    GraphicFormula = PlacementFormula
-    GraphicTest(GraphicFormula+Added) = PlacementTest(PlacementFormula)
-end sub
-sub base_gfx
-    for XM = 0 to 21
-        line(XM*20,0)-(XM*20,420),15
-    next
-    for YM = 0 to 21
-        line(0,YM*20)-(420,YM*20),15
-    next
-    for XG = -10 to 10
-        for YG = -10 to 10
-            GraphicFormula = XG + (YG * 50) + (ZP * 2000) + 100000
-            if GraphicTest(GraphicFormula) < > 0 then
-                line((XG+10)*20+1,(-YG+10)*20+1) - _
-                    ((XG+11)*20-1,(-YG+9)*20-1),13,bf
-            end if
-        next
-    next
-end sub
-sub cursor
-    if PlacementTest(PlacementFormula) = 0 then
-        line((XP+11-XR)*20,(-YP+11-YR)*20)-((XP+11)*20,(-YP+11)*20),10,b
-    else
-        line((XP+11-XR)*20,(-YP+11-YR)*20)-((XP+11)*20,(-YP+11)*20),12,b
-    end if
-end sub
-sub direction
-    if Rotation = 1 then
-        line ((XP+10)*20+1,(-YP+10)*20+1)-((XP+11)*20-1,(-YP+10)*20+6),9,bf
-    elseif Rotation = 2 then
-        line ((XP+11)*20-1,(-YP+10)*20+1)-((XP+11)*20-6,(-YP+11)*20-1),9,bf
-    elseif Rotation = 3 then
-        line ((XP+10)*20+1,(-YP+11)*20-1)-((XP+11)*20-1,(-YP+11)*20-6),9,bf
-    elseif Rotation = 4 then
-        line ((XP+10)*20+1,(-YP+10)*20+1)-((XP+10)*20+6,(-YP+11)*20-1),9,bf
-    end if
 end sub
