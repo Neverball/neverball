@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -5402,7 +5403,7 @@
 // entity 155
 {
 "classname" "misc_model"
-"origin" "512 384 0"
+"origin" "512 388 0"
 "model" "obj/zrail4.obj"
 }
 // entity 156
