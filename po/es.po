@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-03-17 16:47+0200\n"
+"POT-Creation-Date: 2008-04-04 19:37+0300\n"
 "PO-Revision-Date: 2008-01-26 23:00+0100\n"
 "Last-Translator: Miguel Diago <mdiagom@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -459,8 +459,9 @@ msgstr ""
 "que coger monedas."
 
 #: ball/st_help.c:247
+#, fuzzy
 msgid ""
-"Start playing from the first level of the set.\\You start with only four "
+"Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr ""
 "Empezar desde el primer nivel del set.\\Empiezas con cuatro bolas, no las "
@@ -950,6 +951,10 @@ msgstr ""
 "Aquí hay muchas monedas de regalo.\\Utilízalas para ganar una bola adicional."
 "\\Puede que ya conozcas un buen camino.\\Los transportadores pueden ser "
 "útiles.\\ "
+
+#: data/map-fwp/adventure.map
+msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
+msgstr ""
 
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."

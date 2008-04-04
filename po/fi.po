@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.5\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-03-17 16:47+0200\n"
+"POT-Creation-Date: 2008-04-04 19:37+0300\n"
 "PO-Revision-Date: 2008-03-17 17:34+0200\n"
 "Last-Translator: Pasi Kallinen <paxed@alt.org>\n"
 "Language-Team: Finnish\n"
@@ -450,8 +450,9 @@ msgstr ""
 "avataksesi maalin."
 
 #: ball/st_help.c:247
+#, fuzzy
 msgid ""
-"Start playing from the first level of the set.\\You start with only four "
+"Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr ""
 "Aloita pelaaminen setin ensimmäisestä kentästä.\\Alussa sinulla on neljä "
@@ -891,8 +892,8 @@ msgid ""
 "the platforms to grab the big coins.\\"
 msgstr ""
 "Liikkuva alusta voi olla hankala.\\Ole tarkkana että pääset kyytiin,\\ja "
-"varo ettei se liiku alta pois.\\Käytä liikkuvia alustoja kerätäksesi\\"
-"arvokkaimmat kolikot."
+"varo ettei se liiku alta pois.\\Käytä liikkuvia alustoja kerätäksesi"
+"\\arvokkaimmat kolikot."
 
 #: data/map-easy/peasy.map
 msgid ""
@@ -910,6 +911,10 @@ msgstr ""
 msgid ""
 "Here's another coin grab.\\Use it to earn a free ball.\\Perhaps you already "
 "know a good route.\\Teleportation might come in handy.\\"
+msgstr ""
+
+#: data/map-fwp/adventure.map
+msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
 msgstr ""
 
 #: data/map-fwp/atrium.map

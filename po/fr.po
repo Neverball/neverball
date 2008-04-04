@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-03-17 16:47+0200\n"
+"POT-Creation-Date: 2008-04-04 19:37+0300\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Mehdi Yousfi-Monod <mehdi.yousfi@gmail.com>\n"
 "Language-Team: French\n"
@@ -457,8 +457,9 @@ msgstr ""
 "pièces pour ouvrir la sortie."
 
 #: ball/st_help.c:247
+#, fuzzy
 msgid ""
-"Start playing from the first level of the set.\\You start with only four "
+"Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr ""
 "Jouez à partir du premier niveau de la collection.\\Vous commencez avec "
@@ -961,6 +962,10 @@ msgstr ""
 "Voici une nouvelle course aux pièces.\\Utilisez-là pour gagner une vie."
 "\\Peut-être que vous connaissez déjà la bonne route.\\La téléportation peut "
 "aider."
+
+#: data/map-fwp/adventure.map
+msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
+msgstr ""
 
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."

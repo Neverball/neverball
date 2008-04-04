@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-03-17 16:47+0200\n"
+"POT-Creation-Date: 2008-04-04 19:37+0300\n"
 "PO-Revision-Date: 2006-02-17 17:16+0100\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -458,7 +458,7 @@ msgstr ""
 
 #: ball/st_help.c:247
 msgid ""
-"Start playing from the first level of the set.\\You start with only four "
+"Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr ""
 
