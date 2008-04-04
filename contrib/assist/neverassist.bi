@@ -94,7 +94,7 @@ end sub
  ' future construction blocks.
  '/
 /'
-solid_face(0,0,0,0,0,0,0,0,0,"")
+plot_face(0,0,0,0,0,0,0,0,0,0,"")
 '/
 
 declare sub clkey

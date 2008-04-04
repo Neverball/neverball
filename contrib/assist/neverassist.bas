@@ -8,14 +8,12 @@
  '
  ' Go to www.freebasic.net for the compiler (and optionally source).
  '
- ' Once you have the FBC's path into the *nix shell, you can simply invoke
-   fbc "neverassist.bas" -x "../neverball" [-g]
- ' Windows will need to be a little different.
-   fbc "neverassist.bas" -x "..\neverball.exe" [-g] [-s gui] 
+ ' Once you have the FBC's path into the shell, you can simply invoke
+   fbc "neverassist.bas" [-g] [-s gui]
  ' Assuming no errors, you should have a binary.
  '
- ' Under Windows, the -s gui removes the console. On *nix, this switch does
- ' nothing, which is why it's not present.
+ ' Under Windows, the -s gui removes the console. On *nix, this switch
+ ' currently does nothing.
  '
  ' Due to incapabilities of the compiler, this program is NOT platform
  ' independent. But the compiler is being ported to other platforms and is
@@ -79,7 +77,7 @@ Username = ""
 Appdata = "C:\Documents and Settings\" + Username + "\Application Data\"
 #ENDIF
 if Neverpath = "" then
-    print "[Y/N] Is this correct?"
+    print "[Y/N] Is this correct for usage with Neverball?"
     print curdir
     do
         sleep
@@ -98,7 +96,7 @@ if Neverpath = "" then
         end if
     loop
 else
-	chdir(NeverPath)
+    chdir(NeverPath)
 end if
 menu
 
@@ -1132,7 +1130,7 @@ sub map_generate
             print "[ID]"
             print "[Set Shot]"
             print "[Hard BT]","[Hard MT]","[Med BT]", _
-                  "[Med MT]""[Easy BT]","[Easy MT]"
+                  "[Med MT]","[Easy BT]","[Easy MT]"
             print "[Level files] (relative to data folder)"
 
             color 15

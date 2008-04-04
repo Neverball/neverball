@@ -8,11 +8,15 @@ sub place_block
      '
      ' BlockSet is the set of blocks you're using.
      '
-     ' Start is exclusive to the start one. It allows you to place the block
+     ' Start is exclusive to the start block. It allows you to place the block
      ' once.
      '
-     ' YP is the Y Position of the assistant's cursor. It's also exclusive to
-     ' the start block.
+     ' XP is the X Position of the assistant's cursor.
+     '
+     ' YP is the Y Position of the assistant's cursor. It's requirement is
+     ' also exclusive to the start block.
+     '
+     ' ZP is the Z Position of the assistant's cursor.
      '
      ' Money is the current amount of money you expended. MaxMoney is the
      ' maximum you can spend. This maximum applies to every map made with the
@@ -35,12 +39,22 @@ sub place_block
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
         print #m, "// brush 0"
         print #m, "{"
-        plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"arrow-green")
+        plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green")
         plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
         plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
         plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
         plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"turf-grey")
         plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+        print #m, "}"
+
+        print #m, "// brush 1"
+        print #m, "{"
+        plot_face(1,-16,0,1,-16,-128,1,-144,0,1,"arrow-green-light")
+        plot_face(1,0,0,80,-128,0,80,0,0,-48,"invisible")
+        plot_face(1,0,0,80,0,0,-48,0,-128,80,"invisible")
+        plot_face(1,-128,-128,0,0,-128,0,-128,0,0,"invisible")
+        plot_face(1,-128,-128,-48,0,-128,79,0,-128,-48,"invisible")
+        plot_face(1,-128,-128,-48,-128,0,-49,-128,-128,80,"invisible")
         print #m, "}"
         print #m, "}"
 
