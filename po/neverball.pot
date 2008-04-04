@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-03-17 16:47+0200\n"
+"POT-Creation-Date: 2008-04-04 19:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -439,7 +439,7 @@ msgstr ""
 
 #: ball/st_help.c:247
 msgid ""
-"Start playing from the first level of the set.\\You start with only four "
+"Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr ""
 
@@ -863,6 +863,10 @@ msgstr ""
 msgid ""
 "Here's another coin grab.\\Use it to earn a free ball.\\Perhaps you already "
 "know a good route.\\Teleportation might come in handy.\\"
+msgstr ""
+
+#: data/map-fwp/adventure.map
+msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
 msgstr ""
 
 #: data/map-fwp/atrium.map
