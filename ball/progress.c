@@ -21,6 +21,8 @@
 #include "lang.h"
 #include "score.h"
 
+#include <assert.h>
+
 /*---------------------------------------------------------------------------*/
 
 struct progress
@@ -176,22 +178,15 @@ void progress_stat(int s)
                 /* Do nothing. */;
         }
 
-        /* Complete the set or open next level. */
+        /* Open next level or complete the set. */
 
-        if (!level_exists(next))
-        {
-            if (mode == MODE_CHALLENGE)
-            {
-                dirty = set_score_update(curr.times, curr.score,
-                                         &score_rank, &times_rank);
-                done  = 1;
-            }
-        }
-        else
+        if (level_exists(next))
         {
             level_open(next);
             dirty = 1;
         }
+        else
+            done = mode == MODE_CHALLENGE;
 
         break;
 
@@ -219,10 +214,12 @@ void progress_stop(void)
     demo_play_stop();
 }
 
-void progress_exit(int s)
+void progress_exit(void)
 {
-    progress_stat(s);
-    progress_stop();
+    assert(done);
+
+    if (set_score_update(curr.times, curr.score, &score_rank, &times_rank))
+        set_store_hs();
 }
 
 int  progress_replay(const char *filename)

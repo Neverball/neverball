@@ -36,7 +36,8 @@ static int pause_or_exit(void)
 {
     if (SDL_GetModState() & KMOD_SHIFT)
     {
-        progress_exit(GAME_NONE);
+        progress_stat(GAME_NONE);
+        progress_stop();
         config_clr_grab();
 
         return goto_state(&st_over);
