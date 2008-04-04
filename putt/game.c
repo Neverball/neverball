@@ -118,8 +118,9 @@ static void game_handle_balls(struct s_file *fp)
         * If a ball falls out, return the ball to the camera marker
         * and reset the play state for fair play
         */
-        if (i != ball && up->p[1] < -10.f &&
-                        (up->p[1] > -199.9f || up->p[1] < -599.9f))
+        if (i != ball        &&
+            up->p[1] < -10.f &&
+           (up->p[1] > -199.9f || up->p[1] < -599.9f))
         {
             up->P = 0;
             v_cpy(up->p, up->O);
@@ -142,17 +143,13 @@ static void game_handle_balls(struct s_file *fp)
         }
 
        /*
-        * If an OTHER ball stops in a hole, mark it as done
-        * and drop it -200.0 units to allow room for more balls
+        * If an OTHER ball stops in a hole, unset its play state
         */
         if (i != ball && !(v_len(up->v) > 0.0f))
         {
             if (up->P && sol_goal_test(fp, NULL, i) == 2)
             {
-                up->P = 0;
-                up->p[1] = -200.0f;
-                v_cpy(up->v, z);
-                v_cpy(up->w, z);
+                game_set_play(i, 0);
                 hole_goal(i);
             }
         }
