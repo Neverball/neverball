@@ -223,7 +223,7 @@ struct s_swch
     int   f;                                   /* current state              */
     int   i;                                   /* is invisible?              */
     int   e;                                   /* is a ball inside it?       */
-    int   b;                                   /* which ball?                */
+    int   b;                                   /* which ball started it?     */
 };
 
 struct s_bill

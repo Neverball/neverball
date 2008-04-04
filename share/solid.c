@@ -1784,9 +1784,9 @@ int sol_swch_test(struct s_file *fp)
                         int pi = xp->pi;
                         int pj = xp->pi;
 
-                        xp->b = ui;
+                        /* The  (first) ball enters. */
 
-                        /* The ball enters. */
+                        xp->b = ui;
 
                         if (xp->t0 == 0)
                             xp->e = 1;
