@@ -77,6 +77,7 @@ static int goal_action(int i)
 
     case GOAL_DONE:
         progress_stop();
+        progress_exit();
         return goto_state(&st_done);
 
     case GUI_MOST_COINS:

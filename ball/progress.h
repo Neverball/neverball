@@ -9,7 +9,7 @@ int  progress_play(int level);
 void progress_step(void);
 void progress_stat(int status);
 void progress_stop(void);
-void progress_exit(int status);
+void progress_exit(void);
 
 int  progress_next_avail(void);
 int  progress_next(void);

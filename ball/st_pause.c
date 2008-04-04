@@ -75,7 +75,8 @@ static int pause_action(int i)
         break;
 
     case PAUSE_EXIT:
-        progress_exit(GAME_NONE);
+        progress_stat(GAME_NONE);
+        progress_stop();
         clear_pause();
         SDL_PauseAudio(0);
         audio_music_stop();
