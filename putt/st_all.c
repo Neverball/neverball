@@ -712,10 +712,6 @@ static int next_enter(void)
     if (paused)
         paused = 0;
 
-    if (!config_get_d(CONFIG_BALL_COLLISIONS))
-        game_set_play(PLAY_PARTY, 0);
-    game_set_play(PLAY_CURRENT, 1);
-
     return id;
 }
 

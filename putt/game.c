@@ -102,84 +102,6 @@ void game_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_handle_balls(struct s_file *fp)
-{
-    float z[3] = {0.0f, 0.0f, 0.0f};
-    int i, j;
-
-    for (i = 0; i < fp->uc; i++)
-    {
-        struct s_ball *up = fp->uv + i;
-
-        if (!up->P)
-            continue;
-
-       /*
-        * If a ball falls out, return the ball to the camera marker
-        * and reset the play state for fair play
-        */
-        if (i != ball        &&
-            up->p[1] < -10.f &&
-           (up->p[1] > -199.9f || up->p[1] < -599.9f))
-        {
-            up->P = 0;
-            v_cpy(up->p, up->O);
-            v_cpy(up->v, z);
-            v_cpy(up->w, z);
-        }
-
-       /*
-        * Hack: If the _player_'s ball somehow falls into the void before
-        * its shot, return to camera marker.  This usually happens when
-        * when a ball gets knocked out and a penalty is called for one's
-        * own ball.
-        */
-
-        if (i == ball && up->p[1] < -30.0f)
-        {
-            v_cpy(up->p, up->O);
-            v_cpy(up->v, z);
-            v_cpy(up->w, z);
-        }
-
-       /*
-        * If an OTHER ball stops in a hole, unset its play state
-        */
-        if (i != ball && !(v_len(up->v) > 0.0f))
-        {
-            if (up->P && sol_goal_test(fp, NULL, i) == 2)
-            {
-                game_set_play(i, 0);
-                hole_goal(i);
-            }
-        }
-
-       /*
-        * Check for intesecting balls.
-        * If there are any, reset the proper
-        * ball's play state
-        */
-        for (j = i + 1; j < fp->uc; j++)
-        {
-            struct s_ball *u2p = fp->uv + j;
-            float d[3];
-            if (!u2p->P)
-                continue;
-            v_sub(d, up->p, u2p->p);
-            if (v_len(up->v) > 0.005f || v_len(u2p->v) > 0.005f)
-                continue;
-            if (v_len(d) < (fsqrtf((up->r + u2p->r) *
-                                   (up->r + u2p->r))) * 1.0f && i != ball)
-                up->P = 0;
-            else if (v_len(d) < (fsqrtf((up->r + u2p->r) *
-                                        (up->r + u2p->r)) * 1.0f))
-                u2p->P = 0;
-        }
-    }
-}
-
-/*---------------------------------------------------------------------------*/
-
 static void game_draw_vect_prim(const struct s_file *fp, GLenum mode)
 {
     float p[3];
@@ -544,14 +466,25 @@ static int game_update_state(float dt)
     static float t = 0.f;
 
     struct s_file *fp = &file;
-    float p[3];
+    float p[3], z[3] = {0.f, 0.f, 0.f};
 
-    int u;
+    int u, ui, c = 0, m = 0;
 
     if (dt > 0.f)
         t += dt;
     else
         t = 0.f;
+
+    /*
+     * Any balls in motion?
+     */
+
+    for (ui = 0; ui < fp->uc; ui++)
+        if (ui != ball && fp->uv[ui].P && v_len(fp->uv[ui].v) > 0.0f)
+            m = 1;
+
+    if (v_len(fp->uv[ball].v) > 0.0f)
+        c = 1;
 
     /* Test for a switch. */
 
@@ -578,31 +511,45 @@ static int game_update_state(float dt)
 
     /* Test for fall-out. */
 
-    if (fp->uv[ball].p[1] < -10.f)
+    for (ui = 0; ui < fp->uc; ui++)
+        if (ui != ball && fp->uv[ui].P && fp->uv[ui].p[1] < -10.f)
+        {
+            game_set_play(ui, 0);
+            v_cpy(fp->uv[ui].p, fp->uv[ui].O);
+            v_cpy(fp->uv[ui].v, z);
+            v_cpy(fp->uv[ui].w, z);
+        }
+
+    if (!m && fp->uv[ball].p[1] < -10.f)
+    {
+        game_set_play(ball, 0);
         return GAME_FALL;
+    }
 
     /* Test for a goal or stop. */
 
-    if (t > 1.f)
+    for (ui = 0; ui < fp->uc; ui++)
+    {
+        if (ui != ball && fp->uv[ui].P && !(v_len(fp->uv[ui].v) > 0.0f) && sol_goal_test(fp, p, ui))
+        {
+            game_set_play(ui, 0);
+            hole_goal(ui);
+        }
+    }
+
+    if (!c && !m && t > 1.f)
     {
         t = 0.f;
 
-        switch (sol_goal_test(fp, p, ball) & ((fp->uv[ball].P) ? (3) : (1)))
+        if (sol_goal_test(fp, p, ball))
         {
-            case 2:  /* All balls stopped & Player's ball stopped in hole */
-                t = 0.0f;
-                fp->uv[ball].P = 0;
-                return GAME_GOAL;
-                break;
-            case 1:  /* All balls stopped                                 */
-                t = 0.0f;
-                return GAME_STOP;
-                break;
-            case 0:  /* At least one ball is still in motion              */
-                return GAME_NONE;
-                break;
-            default: /* Should never reach this */
-                break;
+            game_set_play(ui, 0);
+            return GAME_GOAL;
+        }
+
+        else
+        {
+            return GAME_STOP;
         }
     }
 
@@ -661,8 +608,6 @@ int game_step(const float g[3], float dt)
         for (i = 0; i < n; i++)
         {
             d = sol_step(fp, g, t, ball, &m);
-
-            game_handle_balls(fp);
 
             if (b < d)
                 b = d;

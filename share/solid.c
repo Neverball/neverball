@@ -1647,11 +1647,10 @@ int sol_goal_test(struct s_file *fp, float *p, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
-    int zi, i;
+    int zi;
 
-    for (i = 0; i < fp->uc; i++)
-        if (p && v_len(fp->uv[i].v) > 0.0f)
-            return 0;
+    if (!fp->uv[ui].P)
+        return 0;
 
     for (zi = 0; zi < fp->zc; zi++)
     {
@@ -1672,11 +1671,11 @@ int sol_goal_test(struct s_file *fp, float *p, int ui)
                 p[2] = fp->zv[zi].p[2];
             }
 
-            return 2;
+            return 1;
         }
     }
 
-    return 1;
+    return 0;
 }
 
 /*
