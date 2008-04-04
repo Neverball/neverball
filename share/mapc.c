@@ -49,7 +49,7 @@ static int debug_output = 0;
 #define MAXV    65536
 #define MAXE    65536
 #define MAXS    65536
-#define MAXT    65536
+#define MAXT    131072
 #define MAXG    65536
 #define MAXL    2048
 #define MAXN    2048
