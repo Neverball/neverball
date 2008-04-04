@@ -26,9 +26,12 @@
 
 /*---------------------------------------------------------------------------*/
 
-static void scan_dict(struct level *l, const struct s_file *fp)
+static void scan_level_attribs(struct level *l, const struct s_file *fp)
 {
     int i;
+
+    int have_goal = 0, have_time = 0;
+    int need_bt_easy = 0, need_ug_easy = 0, need_mc_easy = 0;
 
     for (i = 0; i < fp->dc; i++)
     {
@@ -44,32 +47,75 @@ static void scan_dict(struct level *l, const struct s_file *fp)
         else if (strcmp(k, "goal") == 0)
         {
             l->goal = atoi(v);
-            l->score.most_coins.coins[2] = l->goal;
+            have_goal = 1;
         }
         else if (strcmp(k, "time") == 0)
         {
             l->time = atoi(v);
-            l->score.best_times.timer[2] = l->time;
-            l->score.unlock_goal.timer[2] = l->time;
+            have_time = 1;
         }
         else if (strcmp(k, "time_hs") == 0)
-            sscanf(v, "%d %d",
-                   &l->score.best_times.timer[0],
-                   &l->score.best_times.timer[1]);
+        {
+            switch (sscanf(v, "%d %d %d",
+                           &l->score.best_times.timer[0],
+                           &l->score.best_times.timer[1],
+                           &l->score.best_times.timer[2]))
+            {
+            case 2: need_bt_easy = 1; break;
+            case 3:                   break;
+
+            default:
+                /* TODO, complain loudly? */
+                break;
+            }
+        }
         else if (strcmp(k, "goal_hs") == 0)
-            sscanf(v, "%d %d",
-                   &l->score.unlock_goal.timer[0],
-                   &l->score.unlock_goal.timer[1]);
+        {
+            switch (sscanf(v, "%d %d %d",
+                           &l->score.unlock_goal.timer[0],
+                           &l->score.unlock_goal.timer[1],
+                           &l->score.unlock_goal.timer[2]))
+            {
+            case 2: need_ug_easy = 1; break;
+            case 3:                   break;
+
+            default:
+                /* TODO, complain loudly? */
+                break;
+            }
+        }
         else if (strcmp(k, "coin_hs") == 0)
-            sscanf(v, "%d %d",
-                   &l->score.most_coins.coins[0],
-                   &l->score.most_coins.coins[1]);
+        {
+            switch (sscanf(v, "%d %d %d",
+                           &l->score.most_coins.coins[0],
+                           &l->score.most_coins.coins[1],
+                           &l->score.most_coins.coins[2]))
+            {
+            case 2: need_mc_easy = 1; break;
+            case 3:                   break;
+
+            default:
+                /* TODO, complain loudly? */
+                break;
+            }
+        }
         else if (strcmp(k, "version") == 0)
             strncpy(l->version, v, MAXSTR);
         else if (strcmp(k, "author") == 0)
             strncpy(l->author, v, MAXSTR);
         else if (strcmp(k, "bonus") == 0)
             l->is_bonus = atoi(v) ? 1 : 0;
+    }
+
+    if (have_goal && need_mc_easy)
+        l->score.most_coins.coins[2] = l->goal;
+
+    if (have_time)
+    {
+        if (need_bt_easy)
+            l->score.best_times.timer[2] = l->time;
+        if (need_ug_easy)
+            l->score.unlock_goal.timer[2] = l->time;
     }
 }
 
@@ -112,8 +158,7 @@ int level_load(const char *filename, struct level *level)
 
     level->score.most_coins.coins[0] = money;
 
-    if (sol.dc > 0)
-        scan_dict(level, &sol);
+    scan_level_attribs(level, &sol);
 
     /* Compute initial hs default values */
 
