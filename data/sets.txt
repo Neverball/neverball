@@ -7,4 +7,3 @@ set-fwp.txt
 set-csy.txt
 set-csyc.txt
 set-misc.txt
-set-sample.txt

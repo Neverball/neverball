@@ -56,10 +56,9 @@ using FB
  '/
 #include "vbcompat.bi"
 /'
- ' This includes the generator and its resources.
+ ' This includes the generator.
  '/
 #include "nevergen.bas" 
-#include "nevergen.bi" 
 
 /'
  ' This initiates graphics mode. It is a 640x480 8-bit program with one page
@@ -199,10 +198,10 @@ sub menu
                 #ELSE
                 Check = exec("mapc",Compile + " data")
                 #ENDIF
+                color 15
+                print "Exit code: "& Check
+                sleep
             end if
-            color 15
-            print "Exit code: "& Check
-            sleep
 
         elseif multikey(SC_R) then
             clkey
@@ -215,10 +214,10 @@ sub menu
                 #ELSE
                 Check = exec("neverball","-r data/.neverball-dev/" + Replay)
                 #ENDIF
+                color 15
+                print "Exit code: "& Check
+                sleep
             end if
-            color 15
-            print "Exit code: "& Check
-            sleep
 
         #IFDEF __FB_WIN32__
         elseif multikey(SC_Z) then

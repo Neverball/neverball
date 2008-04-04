@@ -1,4 +1,8 @@
 /'
+ ' Generator's resources
+ '/
+#include "nevergen.bi" 
+/'
  ' This includes all the construction blocks I've implemented so far.
  '/
 #include "neverblocks.bas"
@@ -668,7 +672,8 @@ sub map_generate
          ' This gives information about each block.
          '/
         locate 28,1
-        if (NOT multikey(SC_F1)) AND (NOT multikey(SC_TILDE)) then
+        if (NOT multikey(SC_F1)) AND (NOT multikey(SC_TILDE)) AND _
+           (NOT multikey(SC_BACKSPACE)) then
             if (BlockType = 1) AND (BlockSet = 0) AND (Start = 1) then
                 print " You've already placed this block."
             elseif (BlockType = 1) AND (BlockSet = 0) AND (Start = 0) then
@@ -760,6 +765,7 @@ sub map_generate
             print "* Any English letter: change blocks."
             print "* PLUS and MINUS without LSHIFT: adjust time."
             print "* PLUS and MINUS with LSHIFT: adjust target coins."
+            print "* BACKSPACE: Clear map and reset settings."
 
             print "* F2: change to "+chr(34)+"Basic Neverball"+chr(34) + _
                   " block set. You can't access this set if"
@@ -825,6 +831,47 @@ sub map_generate
             color 15
             sleep
             cls
+            
+        elseif multikey(SC_BACKSPACE) then
+        	color 15
+            cls
+            print "[Y/N] Really clear whole map?"
+            do
+                sleep 20
+                if multikey(SC_Y) then
+                    Start = 0
+                    Finish = 0
+                    LevelTime = 0
+                    Blocks = 0
+                    Coins = 0
+                    TargetCoins = 0
+                    MinimumLevelTime = 0
+                    MusicSwitch = 0
+                    Money = 0
+                    Putt = 0
+                    
+                    for XP = -10 to 10
+                        for YP = -10 to 10
+                            for ZP = -10 to 20
+                                PlacementFormula = XP + (YP * 50) + (ZP * 2000) + 100000
+                                PlacementTest(PlacementFormula) = 0
+                            next
+                        next
+                    next
+                    XP = 0
+                    YP = 0
+                    ZP = 0
+                    BlockType = 1
+                    Rotation = 1
+                    BlockSet = 0
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                    close #m
+                    open MapFile for output as #m
+                    exit do
+                end if
+            loop until multikey(SC_N)
         end if
 
         /'
