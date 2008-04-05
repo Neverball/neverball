@@ -79,18 +79,19 @@ config(1)
 'Incomplete: Attempt to get username and use the user folder.
 dim shared as string Username, AppData
 Username = ""
-Appdata = "C:\Documents and Settings\" + Username + "\Application Data\"
+Appdata = lang("C:\Documents and Settings\") + Username + lang("\Application Data\")
 #ENDIF
 if Neverpath = "" then
-    print "[Y/N] Is this correct for usage with Neverball?"
+    print lang("[Y/N] Is this correct for usage with Neverball?")
     print curdir
     do
         sleep
         InType = lcase(inkey)
         if InType = "n" then
             cls
-            print "Path can be relative or absolute."
-            input "Where is the path";NeverPath
+            print lang("Path can be relative or absolute.")
+            print lang("Where is the path? ");
+            input "",NeverPath
             chdir(NeverPath)
             config
             exit do
@@ -112,7 +113,7 @@ menu
  '/
 sub catcher destructor
     if Perfect = 0 then
-        print "A crash has occured within the assistant."
+        print lang("A crash has occured within the assistant.")
         sleep
         end
     end if
@@ -128,38 +129,38 @@ sub menu
         screenlock
         cls
         color 14
-        print "What would you like to do?"
+        print lang("What would you like to do?")
         color 15
-        print "Run the ";:color 10:print "N";:color 15:print "everball game"
-        print "Load a Neverball ";:color 10:print "r";:color 15:print "eplay"
-        print "Run the Never";:color 10:print "p";:color 15:print "utt game"
+        print "<N> ";lang("Run the Neverball game")
+        print "<R> ";lang("Load a Neverball replay")
+        print "<P> ";lang("Run the Neverputt game")
         if MediumClear = 0 then
-            color 8:print "Generate a ";:color 2:print "m";:color 8:print "ap";
-            color 11:print " - Must clear Neverball Medium"
+            color 8:print "<M> ";lang("Generate a map");
+            color 11:print lang(" - Must clear Neverball Medium")
             color 15
         else
-            print "Generate a ";:color 10:print "m";:color 15:print "ap"
+            print "<M> ";lang("Generate a map")
         end if
-        color 10:print "C";:color 15:print "ompile a map"
+        print "<C> ";lang("Compile a map")
 
         #IFDEF __FB_WIN32__
-        color 15:print "Locate 7-";:color 10:print "Z";:color 15:print "ip"
+        print "<Z> ";lang("Locate 7-Zip")
         if (Z7Path = "") OR (Z7Exe = "") then
-            color 2
-            print "U";:color 8:print "npack an archive";
-            color 11:print " - Must locate 7-Zip"
+            color 8
+            print "<U> ";lang("Unpack an archive");
+            color 11:print lang(" - Must locate 7-Zip")
         else
-            color 10:print "U";:color 15:print "npack an archive";
-            color 11:print " - Will overwrite without prompt"
+            color 15:print "<U> ";lang("Unpack an archive");
+            color 11:print lang(" - Will overwrite without prompt")
         end if
         #ELSE
-        color 8:print "Locate 7-";:color 2:print "Z";:color 8:print "ip";
-        color 11:print " - 7-Zip is Windows only"
-        color 2:print "U";:color 8:print "npack an archive";
-        color 11:print " - 7-Zip is Windows only"
+        color 8:print "<Z> ";lang("Locate 7-Zip");
+        color 11:print lang(" - 7-Zip is Windows only")
+        color 8:print "<U> ";lang("Unpack an archive");
+        color 11:print lang(" - 7-Zip is Windows only")
         #ENDIF
 
-        color 15:print "E";:color 10:print "x";:color 15:print "it program"
+        color 15:print "<X> ";lang("Exit program")
         print
         screenunlock
         sleep 20
@@ -174,7 +175,7 @@ sub menu
             #ELSE
             Check = exec("neverball","")
             #ENDIF
-            print "Exit code: "& Check
+            print lang("Exit code: ")& Check
             sleep
         elseif multikey(SC_P) then
             clkey
@@ -184,7 +185,7 @@ sub menu
             #ELSE
             Check = exec("neverputt","")
             #ENDIF
-            print "Exit code: "& Check
+            print lang("Exit code: ")& Check
             sleep
 
         elseif multikey(SC_C) then
@@ -199,7 +200,7 @@ sub menu
                 Check = exec("mapc",Compile + " data")
                 #ENDIF
                 color 15
-                print "Exit code: "& Check
+                print lang("Exit code: ")& Check
                 sleep
             end if
 
@@ -215,7 +216,7 @@ sub menu
                 Check = exec("neverball","-r data/.neverball-dev/" + Replay)
                 #ENDIF
                 color 15
-                print "Exit code: "& Check
+                print lang("Exit code: ")& Check
                 sleep
             end if
 
@@ -223,8 +224,8 @@ sub menu
         elseif multikey(SC_Z) then
             clkey
             windowtitle "Neverassistant - Locate 7-Zip"
-            print "Where do you want to locate 7-Zip? " + _
-                  " (without \7z.exe, but where the 7z.exe is)"
+            print lang("Where do you want to locate 7-Zip?") + _
+                  lang(" (without \7z.exe, but where the 7z.exe is)")
             color 44
             input "",Z7Path
             if (Z7Path < > "") then
@@ -241,7 +242,8 @@ sub menu
         elseif multikey(SC_U) AND (Z7Path < > "") AND (Z7Exe < > "") then
             clkey
             windowtitle "Neverassistant - Unpack archive"
-            print "Which archive do you want to extract? (include extension)"
+            print lang("Which archive do you want to extract?") + _
+                  lang(" (include extension)")
             color 44
             input Unpack
             if (Unpack < > "") then

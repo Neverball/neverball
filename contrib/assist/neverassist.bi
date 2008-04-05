@@ -1,3 +1,7 @@
+/'
+ ' This includes language support.
+ '/
+#include "lang.bi" 
 randomize timer
 dim shared as ubyte XM, YM, XG, YG, BlockType, BlockSet, Rotation, XR, YR, _
                     ZR, Start, Finish, MusicSwitch, XSwitch, YSwitch, _
@@ -101,12 +105,14 @@ end sub
  ' other value imports the data.
  '/
 sub config(Switch as ubyte = 0)
+    dim as ubyte ConvertID
     if Switch = 0 then
         #IFDEF __FB_WIN32__
         open AssistDir + "\" + AssistCfg for output as #1
         print #1, MediumClear
         print #1, MaxMoney
         print #1, NeverPath
+        print #1, LangFile
         print #1, Z7Path
         print #1, Z7Exe
         close #1
@@ -115,6 +121,7 @@ sub config(Switch as ubyte = 0)
         print #1, MediumClear
         print #1, MaxMoney
         print #1, NeverPath
+        print #1, LangFile
         close #1
         #ENDIF
     else
@@ -123,6 +130,7 @@ sub config(Switch as ubyte = 0)
         input #1, MediumClear
         input #1, MaxMoney
         input #1, NeverPath
+        input #1, LangFile
         input #1, Z7Path
         input #1, Z7Exe
         close #1
@@ -131,7 +139,30 @@ sub config(Switch as ubyte = 0)
         input #1, MediumClear
         input #1, MaxMoney
         input #1, NeverPath
+        input #1, LangFile
         close #1
         #ENDIF
+        if LangFile < > "" then
+            #IFDEF __FB_WIN32__
+            Check = open(MasterDir + "\" + LangFile for input as #l)
+            #ELSE
+            Check = open(MasterDir + "/" + LangFile for input as #l)
+            #ENDIF
+            if Check = 0 then
+                for ConvertID = 1 to Strings
+                    Unmodded(ConvertID) = ""
+                    Converted(ConvertID) = ""
+                next Strings
+                for ConvertID = 1 to Strings
+                    line input #l, Unmodded(ConvertID)
+                    line input #l, Converted(ConvertID)
+                    if eof(l) then exit for
+                next Strings
+                close #l
+            else
+                print "Unable to open "+MasterDir+"/"+LangFile+" for reading."
+                sleep
+            end if
+        end if
     end if
 end sub

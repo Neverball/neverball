@@ -1,7 +1,7 @@
 /'
  ' Generator's resources
  '/
-#include "nevergen.bi" 
+#include "nevergen.bi"
 /'
  ' This includes all the construction blocks I've implemented so far.
  '/
@@ -17,13 +17,13 @@ sub map_generate
     MapFile = MapFile + ".map"
     WindowTitleM = "Neverassistant Program - " + MapFile
     windowtitle WindowTitleM
-    print "Which environment do you want?"
+    print lang("Which environment do you want?")
     print
-    print "Clouds and [L]and"
-    print "[O]ceans"
-    print "[C]ity and Streets"
-    print "Jupiter and [S]pace"
-    print "[A]lien World"
+    print "<L> ";lang("Clouds and Land")
+    print "<O> ";lang("Oceans")
+    print "<C> ";lang("City and Streets")
+    print "<S> ";lang("Jupiter and Space")
+    print "<A> ";lang("Alien World")
     do
         sleep 10
 
@@ -61,7 +61,7 @@ sub map_generate
             end
         end if
     loop
-    
+
     color 15
     cls
     Start = 0
@@ -91,8 +91,13 @@ sub map_generate
     XR = 1
     YR = 1
     ZR = 1
-    open MapFile for output as #m
-
+    Check = open(MapFile for output as #m)
+    if Check < > 0 then
+        clkey
+        print lang("Unable to open ") + MapFile + lang(" for output.")
+        sleep
+        exit sub
+    end if
     do
         cls
         Warning = 0
@@ -354,23 +359,23 @@ sub map_generate
          ' Prints information on the right hand side.
          '/
         locate 1,54
-        print "Location: ("&XP;","&YP;","&ZP;")"
+        print lang("Location:");")"&XP;lang(",")&YP;lang(",")&ZP;")"
         color 11
         locate 2,54
-        print "* Press F1 for help."
+        print lang("* Press F1 for help.")
         color 14
         locate 4,54
-        print "Music unsupported."
+        print lang("Music unsupported.")
         color 13
         locate 5,54
-        print "Time: ";LevelTime
+        print lang("Time: ");LevelTime
         locate 6,54
-        print "Blocks: ";Blocks
+        print lang("Blocks: ");Blocks
         locate 7,54
-        print "Coins: ";TargetCoins;"/";Coins
+        print lang("Coins: ");TargetCoins;"/";Coins
         locate 8,54
-        print "$";Money;"/";MaxMoney
-
+        print lang("$");Money;lang("/");MaxMoney
+ 
         locate 13,54
         if (BlockSet = 0) then
             color 10
@@ -675,81 +680,81 @@ sub map_generate
         if (NOT multikey(SC_F1)) AND (NOT multikey(SC_TILDE)) AND _
            (NOT multikey(SC_BACKSPACE)) then
             if (BlockType = 1) AND (BlockSet = 0) AND (Start = 1) then
-                print " You've already placed this block."
+                print "You've already placed this block."
             elseif (BlockType = 1) AND (BlockSet = 0) AND (Start = 0) then
-                print " Every map made must have one of these. " + _
+                print "Every map made must have one of these. " + _
                       "This is where the player starts. This"
                 print "block can't be rotated."
             elseif (BlockType = 2) AND (BlockSet = 0) then
-                print " This is the most simple block. It is straight and flat."
+                print "This is the most simple block. It is straight and flat."
             elseif (BlockType = 3) AND (BlockSet = 0) then
-                print " This is the most simple turn. It is flat."
+                print "This is the most simple turn. It is flat."
             elseif (BlockType = 4) AND (BlockSet = 0) then
-                print " This is a 3-way block."
+                print "This is a 3-way block."
             elseif (BlockType = 5) AND (BlockSet = 0) then
-                print " This is a 4-way block."
+                print "This is a 4-way block."
 
             elseif (BlockType = 6) AND (BlockSet = 0) then
-                print " Like a Flat Straight, but with four coins."
+                print "Like a Flat Straight, but with four coins."
             elseif (BlockType = 7) AND (BlockSet = 0) then
-                print " Like a 90"+chr(248)+" simple flat turn, " + _
+                print "Like a 90"+chr(248)+" simple flat turn, " + _
                       "but with four coins."
             elseif (BlockType = 8) AND (BlockSet = 0) then
-                print " This block only has one end. Be careful."
+                print "This block only has one end. Be careful."
             elseif (BlockType = 9) AND (BlockSet = 0) then
-                print " Like a Dead-end, but with four coins."
+                print "Like a Dead-end, but with four coins."
             elseif (BlockType = 10) AND (BlockSet = 0) then
-                print " You can jump with this block."
+                print "You can jump with this block."
 
             elseif (BlockType = 11) AND (BlockSet = 0) then
-                print " Like a Junction, but with four coins."
+                print "Like a Junction, but with four coins."
             elseif (BlockType = 12) AND (BlockSet = 0) then
-                print " Like a Cross, but with four coins."
+                print "Like a Cross, but with four coins."
             elseif (BlockType = 13) AND (BlockSet = 0) then
-                print " This block allows you to change elevations."
+                print "This block allows you to change elevations."
             elseif (BlockType = 14) AND (BlockSet = 0) then
-                print " This block has a bump."
+                print "This block has a bump."
             elseif (BlockType = 15) AND (BlockSet = 0) then
-                print " This bump has coins on it."
+                print "This bump has coins on it."
 
             elseif (BlockType = 16) AND (BlockSet = 0) then
-                print " Like a Flat Straight, but with a mover on top."
+                print "Like a Flat Straight, but with a mover on top."
 
             elseif (BlockType = 22) AND (BlockSet = 0) then
-                print " Every map made must have at least one of these. " + _
+                print "Every map made must have at least one of these. " + _
                       "This is where the player"
                 print "finishes at a straight."
             elseif (BlockType = 23) AND (BlockSet = 0) then
-                print " Every map made must have at least one of these. " + _
+                print "Every map made must have at least one of these. " + _
                       "This is where the player"
                 print "finishes at a turn."
             elseif (BlockType = 24) AND (BlockSet = 0) then
-                print " Every map made must have at least one of these. " + _
+                print "Every map made must have at least one of these. " + _
                       "This is where the player"
                 print "finishes at a junction."
             elseif (BlockType = 25) AND (BlockSet = 0) then
-                print " Every map made must have at least one of these. " + _
+                print "Every map made must have at least one of these. " + _
                       "This is where the player"
                 print "finishes at a cross."
             elseif (BlockType = 26) AND (BlockSet = 0) then
-                print " Every map made must have at least one of these. " + _
+                print "Every map made must have at least one of these. " + _
                       "This is where the player"
                 print "finishes at a dead-end."
 
             elseif (BlockType = 1) AND (BlockSet = 2) AND (Start = 1) then
-                print " You've already placed this block."
+                print "You've already placed this block."
             elseif (BlockType = 1) AND (BlockSet = 2) AND _
                    (Start = 0) AND (ZP < > 0) then
-                print " This block must be placed at elevation level 0."
+                print "This block must be placed at elevation level 0."
             elseif (BlockType = 1) AND (BlockSet = 2) AND _
                    (Start = 0) AND (ZP = 0) then
-                print " Every map made must have one of these. " + _
+                print "Every map made must have one of these. " + _
                       "This is where the player starts. This"
                 print "block can't be rotated."
             elseif (BlockType = 2) AND (BlockSet = 2) AND (ZP < > 0) then
-                print " This block must be placed at elevation level 0."
+                print "This block must be placed at elevation level 0."
             elseif (BlockType = 2) AND (BlockSet = 2) AND (ZP = 0) then
-                print " This is a shiny block. It is straight and flat."
+                print "This is a shiny block. It is straight and flat."
             end if
 
         elseif multikey(SC_F1) then
@@ -769,21 +774,21 @@ sub map_generate
 
             print "* F2: change to "+chr(34)+"Basic Neverball"+chr(34) + _
                   " block set. You can't access this set if"
-            print "  blocks from the "+chr(34)+"Neverputt"+chr(34)+" set " + _
+            print " blocks from the "+chr(34)+"Neverputt"+chr(34)+" set " + _
                   "are placed."
             print "* F3: change to "+chr(34)+"Advanced Neverball"+chr(34) + _
                   " block set. You can't access this set if"
-            print "  blocks from the "+chr(34)+"Neverputt"+chr(34)+" set " + _
+            print " blocks from the "+chr(34)+"Neverputt"+chr(34)+" set " + _
                   "are placed."
             print "* F4: change to "+chr(34)+"Extra textures"+chr(34) + _
                   " block set. You can't access this set if blocks"
-            print "  from the "+chr(34)+"Neverputt"+chr(34)+" set are placed."
+            print " from the "+chr(34)+"Neverputt"+chr(34)+" set are placed."
             print "* F5: change to "+chr(34)+"Neverputt"+chr(34)+" block " + _
                   "set. You can't access this set if blocks from"
-            print "  other sets are placed."
+            print " other sets are placed."
             print "* ~: to check for issues. You can't save the map until " + _
                   "you ensure there are no"
-            print "  errors."
+            print " errors."
             color 15
             sleep
             cls
@@ -818,7 +823,7 @@ sub map_generate
             if Openings > 0 then
                 print "- You have ";Openings;" openings that you haven't " + _
                       "closed yet. If some of your blocks were"
-                print "  intended to merge roads together, you can hit " + _
+                print " intended to merge roads together, you can hit " + _
                       "the "+chr(34)+"/"+chr(34)+" key to merge together."
             end if
             if Money * 1.2 > MaxMoney then
@@ -831,9 +836,9 @@ sub map_generate
             color 15
             sleep
             cls
-            
+
         elseif multikey(SC_BACKSPACE) then
-        	color 15
+            color 15
             cls
             print "[Y/N] Really clear whole map?"
             do
@@ -849,11 +854,12 @@ sub map_generate
                     MusicSwitch = 0
                     Money = 0
                     Putt = 0
-                    
+
                     for XP = -10 to 10
                         for YP = -10 to 10
                             for ZP = -10 to 20
-                                PlacementFormula = XP + (YP * 50) + (ZP * 2000) + 100000
+                                PlacementFormula = XP + (YP * 50) + _
+                                                  (ZP * 2000) + 100000
                                 PlacementTest(PlacementFormula) = 0
                             next
                         next
@@ -880,9 +886,9 @@ sub map_generate
         base_gfx
         cursor
         direction
-        
+
         /'
-         ' 
+         '
          '/
         if multikey(SC_SPACE) then place_block
 
