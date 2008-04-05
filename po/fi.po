@@ -450,12 +450,11 @@ msgstr ""
 "avataksesi maalin."
 
 #: ball/st_help.c:247
-#, fuzzy
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr ""
-"Aloita pelaaminen setin ensimmäisestä kentästä.\\Alussa sinulla on neljä "
+"Aloita pelaaminen setin ensimmäisestä kentästä.\\Alussa sinulla on kolme "
 "palloa.\\Saat lisäpallon kerättyäsi 100 kolikkoa."
 
 #: ball/st_help.c:261
