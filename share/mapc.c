@@ -814,13 +814,13 @@ static void make_path(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            pp->p[0] = +(float) x / SCALE;
-            pp->p[1] = +(float) z / SCALE;
-            pp->p[2] = -(float) y / SCALE;
+            pp->p[0] = +x / SCALE;
+            pp->p[1] = +z / SCALE;
+            pp->p[2] = -y / SCALE;
         }
     }
 }
@@ -863,9 +863,9 @@ static void make_body(struct s_file *fp,
 
     float p[3];
 
-    int x = 0;
-    int y = 0;
-    int z = 0;
+    float x = 0.f;
+    float y = 0.f;
+    float z = 0.f;
 
     struct s_body *bp = fp->bv + bi;
 
@@ -888,7 +888,7 @@ static void make_body(struct s_file *fp,
             read_obj(fp, v[i], mi);
 
         else if (strcmp(k[i], "origin") == 0)
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
         else if (read_dict_entries && strcmp(k[i], "classname") != 0)
             make_dict(fp, k[i], v[i]);
@@ -944,13 +944,13 @@ static void make_item(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            hp->p[0] = +(float) x / SCALE;
-            hp->p[1] = +(float) z / SCALE;
-            hp->p[2] = -(float) y / SCALE;
+            hp->p[0] = +x / SCALE;
+            hp->p[1] = +z / SCALE;
+            hp->p[2] = -y / SCALE;
         }
     }
 }
@@ -995,9 +995,9 @@ static void make_bill(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
             rp->p[0] = +(float) x / SCALE;
             rp->p[1] = +(float) z / SCALE;
@@ -1029,13 +1029,13 @@ static void make_goal(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            zp->p[0] = +(float) (x)      / SCALE;
-            zp->p[1] = +(float) (z - 24) / SCALE;
-            zp->p[2] = -(float) (y)      / SCALE;
+            zp->p[0] = +(x)      / SCALE;
+            zp->p[1] = +(z - 24) / SCALE;
+            zp->p[2] = -(y)      / SCALE;
         }
     }
 }
@@ -1062,9 +1062,9 @@ static void make_view(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
             wp->p[0] = +(float) x / SCALE;
             wp->p[1] = +(float) z / SCALE;
@@ -1099,9 +1099,9 @@ static void make_jump(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
             jp->p[0] = +(float) x / SCALE;
             jp->p[1] = +(float) z / SCALE;
@@ -1151,9 +1151,9 @@ static void make_swch(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
             xp->p[0] = +(float) x / SCALE;
             xp->p[1] = +(float) z / SCALE;
@@ -1179,9 +1179,9 @@ static void make_targ(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
             targ_p[targ_n][0] = +(float) x / SCALE;
             targ_p[targ_n][1] = +(float) z / SCALE;
@@ -1212,9 +1212,9 @@ static void make_ball(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
             up->p[0] = +(float) (x)      / SCALE;
             up->p[1] = +(float) (z - 24) / SCALE;
