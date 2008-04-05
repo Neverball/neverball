@@ -604,9 +604,9 @@ static float plane_v[MAXS][3];
 static int   plane_f[MAXS];
 static int   plane_m[MAXS];
 
-static void make_plane(int pi, int x0, int y0, int z0,
-                       int x1, int y1, int z1,
-                       int x2, int y2, int z2,
+static void make_plane(int pi,   float x0, float y0, float z0,
+                       float x1, float y1, float z1,
+                       float x2, float y2, float z2,
                        int tu, int tv, int r,
                        float su, float sv, int fl, const char *s)
 {
@@ -630,17 +630,17 @@ static void make_plane(int pi, int x0, int y0, int z0,
 
     plane_f[pi] = fl ? L_DETAIL : 0;
 
-    p0[0] = +(float) x0 / SCALE;
-    p0[1] = +(float) z0 / SCALE;
-    p0[2] = -(float) y0 / SCALE;
+    p0[0] = +x0 / SCALE;
+    p0[1] = +z0 / SCALE;
+    p0[2] = -y0 / SCALE;
 
-    p1[0] = +(float) x1 / SCALE;
-    p1[1] = +(float) z1 / SCALE;
-    p1[2] = -(float) y1 / SCALE;
+    p1[0] = +x1 / SCALE;
+    p1[1] = +z1 / SCALE;
+    p1[2] = -y1 / SCALE;
 
-    p2[0] = +(float) x2 / SCALE;
-    p2[1] = +(float) z2 / SCALE;
-    p2[2] = -(float) y2 / SCALE;
+    p2[0] = +x2 / SCALE;
+    p2[1] = +z2 / SCALE;
+    p2[2] = -y2 / SCALE;
 
     v_sub(u, p0, p1);
     v_sub(v, p2, p1);
@@ -902,9 +902,9 @@ static void make_body(struct s_file *fp,
     for (i = 0; i < bp->gc; i++)
         fp->iv[inci(fp)] = g0++;
 
-    p[0] = +(float) x / SCALE;
-    p[1] = +(float) z / SCALE;
-    p[2] = -(float) y / SCALE;
+    p[0] = +x / SCALE;
+    p[1] = +z / SCALE;
+    p[2] = -y / SCALE;
 
     for (i = v0; i < fp->vc; i++)
         v_add(fp->vv[i].p, fp->vv[i].p, p);
@@ -999,9 +999,9 @@ static void make_bill(struct s_file *fp,
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            rp->p[0] = +(float) x / SCALE;
-            rp->p[1] = +(float) z / SCALE;
-            rp->p[2] = -(float) y / SCALE;
+            rp->p[0] = +x / SCALE;
+            rp->p[1] = +z / SCALE;
+            rp->p[2] = -y / SCALE;
         }
     }
 
@@ -1066,9 +1066,9 @@ static void make_view(struct s_file *fp,
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            wp->p[0] = +(float) x / SCALE;
-            wp->p[1] = +(float) z / SCALE;
-            wp->p[2] = -(float) y / SCALE;
+            wp->p[0] = +x / SCALE;
+            wp->p[1] = +z / SCALE;
+            wp->p[2] = -y / SCALE;
         }
     }
 }
@@ -1103,9 +1103,9 @@ static void make_jump(struct s_file *fp,
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            jp->p[0] = +(float) x / SCALE;
-            jp->p[1] = +(float) z / SCALE;
-            jp->p[2] = -(float) y / SCALE;
+            jp->p[0] = +x / SCALE;
+            jp->p[1] = +z / SCALE;
+            jp->p[2] = -y / SCALE;
         }
     }
 }
@@ -1155,9 +1155,9 @@ static void make_swch(struct s_file *fp,
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            xp->p[0] = +(float) x / SCALE;
-            xp->p[1] = +(float) z / SCALE;
-            xp->p[2] = -(float) y / SCALE;
+            xp->p[0] = +x / SCALE;
+            xp->p[1] = +z / SCALE;
+            xp->p[2] = -y / SCALE;
         }
     }
 }
@@ -1183,9 +1183,9 @@ static void make_targ(struct s_file *fp,
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            targ_p[targ_n][0] = +(float) x / SCALE;
-            targ_p[targ_n][1] = +(float) z / SCALE;
-            targ_p[targ_n][2] = -(float) y / SCALE;
+            targ_p[targ_n][0] = +x / SCALE;
+            targ_p[targ_n][1] = +z / SCALE;
+            targ_p[targ_n][2] = -y / SCALE;
         }
     }
 
@@ -1216,9 +1216,9 @@ static void make_ball(struct s_file *fp,
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            up->p[0] = +(float) (x)      / SCALE;
-            up->p[1] = +(float) (z - 24) / SCALE;
-            up->p[2] = -(float) (y)      / SCALE;
+            up->p[0] = +(x)      / SCALE;
+            up->p[1] = +(z - 24) / SCALE;
+            up->p[2] = -(y)      / SCALE;
         }
     }
 
