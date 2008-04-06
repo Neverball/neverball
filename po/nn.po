@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-04-02 20:21+0200\n"
+"POT-Creation-Date: 2008-04-06 11:19+0200\n"
 "PO-Revision-Date: 2008-04-04 19:18+0300\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -33,7 +33,7 @@ msgstr "Suksess"
 msgid "Fall-out"
 msgstr "Fall ned"
 
-#: ball/game.c:1293 ball/progress.c:348
+#: ball/game.c:1293 ball/progress.c:345
 msgid "Unknown"
 msgstr "Ukjend"
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:176
+#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:177
 msgid "Coins"
 msgstr "Myntar"
 
@@ -77,11 +77,11 @@ msgstr "Myntar"
 msgid "Goal"
 msgstr "Mål"
 
-#: ball/hud.c:76 ball/st_goal.c:166
+#: ball/hud.c:76 ball/st_goal.c:167
 msgid "Balls"
 msgstr "Ballar"
 
-#: ball/hud.c:77 ball/st_goal.c:171 putt/hud.c:45
+#: ball/hud.c:77 ball/st_goal.c:172 putt/hud.c:45
 msgid "Score"
 msgstr "Poeng"
 
@@ -97,12 +97,12 @@ msgstr "Lat"
 msgid "Manual"
 msgstr "Manuell"
 
-#: ball/level.c:87
+#: ball/level.c:133
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr "Feil ved opning av brettfila «%s»: %s\n"
 
-#: ball/level.c:89
+#: ball/level.c:135
 msgid "Not a valid level file"
 msgstr "Ikkje ei gyldig brettfil."
 
@@ -151,23 +151,23 @@ msgstr "Opptaksfila «%s»: %s\n"
 msgid "Not a replay file"
 msgstr "Ikkje ei opptaksfil."
 
-#: ball/progress.c:346 ball/st_help.c:245
+#: ball/progress.c:343 ball/st_help.c:245
 msgid "Challenge Mode"
 msgstr "Utfordringsmodus"
 
-#: ball/progress.c:346 ball/st_start.c:174
+#: ball/progress.c:343 ball/st_start.c:174
 msgid "Challenge"
 msgstr "Utfordring"
 
-#: ball/progress.c:347 ball/st_help.c:237
+#: ball/progress.c:344 ball/st_help.c:237
 msgid "Normal Mode"
 msgstr "Normalmodus"
 
-#: ball/progress.c:347
+#: ball/progress.c:344
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/progress.c:348
+#: ball/progress.c:345
 msgid "Unknown Mode"
 msgstr "Ukjend modus"
 
@@ -299,7 +299,7 @@ msgstr "Pause"
 msgid "Replay Ends"
 msgstr "Opptak slutt"
 
-#: ball/st_demo.c:466 ball/st_pause.c:107 putt/st_all.c:591
+#: ball/st_demo.c:466 ball/st_pause.c:108 putt/st_all.c:591
 msgid "Quit"
 msgstr "Avslutt"
 
@@ -311,7 +311,7 @@ msgstr "Behald"
 msgid "Delete"
 msgstr "Slett"
 
-#: ball/st_demo.c:476 ball/st_pause.c:112 putt/st_all.c:592
+#: ball/st_demo.c:476 ball/st_pause.c:113 putt/st_all.c:592
 msgid "Continue"
 msgstr "Hald fram"
 
@@ -343,34 +343,34 @@ msgstr "Nedfall!"
 msgid "Exit"
 msgstr "Utgang"
 
-#: ball/st_fall_out.c:92 ball/st_goal.c:205 ball/st_time_out.c:85
+#: ball/st_fall_out.c:92 ball/st_goal.c:206 ball/st_time_out.c:85
 msgid "Next Level"
 msgstr "Neste brett"
 
-#: ball/st_fall_out.c:95 ball/st_goal.c:208 ball/st_time_out.c:88
+#: ball/st_fall_out.c:95 ball/st_goal.c:209 ball/st_time_out.c:88
 msgid "Retry Level"
 msgstr "Prøv på nytt"
 
-#: ball/st_fall_out.c:98 ball/st_goal.c:211 ball/st_time_out.c:91
+#: ball/st_fall_out.c:98 ball/st_goal.c:212 ball/st_time_out.c:91
 msgid "Save Replay"
 msgstr "Lagra opptak"
 
-#: ball/st_goal.c:105
+#: ball/st_goal.c:106
 msgid "New Record"
 msgstr "Ny rekord"
 
-#: ball/st_goal.c:106
+#: ball/st_goal.c:107
 msgid "GOAL"
 msgstr "MÅL"
 
-#: ball/st_goal.c:156
+#: ball/st_goal.c:157
 #, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
 msgstr[0] "%d nytt bonusbrett"
 msgstr[1] "%d nye bonusbrett"
 
-#: ball/st_goal.c:202
+#: ball/st_goal.c:203
 msgid "Finish"
 msgstr "Fullført"
 
@@ -499,23 +499,23 @@ msgstr "Avbryt"
 msgid "GAME OVER"
 msgstr "SPELET SLUTT"
 
-#: ball/st_pause.c:101 putt/st_all.c:586
+#: ball/st_pause.c:102 putt/st_all.c:586
 msgid "Paused"
 msgstr "Pause"
 
-#: ball/st_pause.c:110
+#: ball/st_pause.c:111
 msgid "Restart"
 msgstr "Start på nytt"
 
-#: ball/st_play.c:53
+#: ball/st_play.c:54
 msgid "Ready?"
 msgstr "Klar?"
 
-#: ball/st_play.c:109
+#: ball/st_play.c:110
 msgid "Set?"
 msgstr "Ferdig?"
 
-#: ball/st_play.c:180
+#: ball/st_play.c:181
 msgid "GO!"
 msgstr "GÅ!"
 
@@ -781,7 +781,8 @@ msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr "Endå fleire hol.\\ \\ \\Vanskegrad: Middels\\Forfattar: paxed\\"
 
 #: data/courses.txt
-msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
+msgid ""
+"A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
 msgstr ""
 "Ei 26-hols bane\\som følgjer alfabetet.\\\\Vanskegrad: Vanskeleg\\Forfattar: "
 "paxed\\"
@@ -1103,7 +1104,8 @@ msgstr "Så nær, men akk så fjern.\\"
 msgid ""
 "Ride the elevators to the top.\\They move quickly,\\so don't dally too long."
 "\\"
-msgstr "Ta heisane til øvste etasje.\\Dei køyrer raskt, så\\ikkje drøl for mykje.\\"
+msgstr ""
+"Ta heisane til øvste etasje.\\Dei køyrer raskt, så\\ikkje drøl for mykje.\\"
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
@@ -1190,7 +1192,8 @@ msgstr ""
 "fungera.\\"
 
 #: data/map-medium/spiralup.map
-msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
+msgid ""
+"Just as before, but moving up instead of down.\\No cheating this time.\\"
 msgstr "Akkurat som før, men no oppover.\\No kan du ikkje fuska lenger!\\"
 
 #: data/map-medium/stairs.map
@@ -1273,7 +1276,8 @@ msgstr "Savoir chuter.\\Følg dei blå merkene."
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
-msgstr "Bruk dei nye myntane for å endra ballstorleik!\\Håpar du likar det!\\– Dave"
+msgstr ""
+"Bruk dei nye myntane for å endra ballstorleik!\\Håpar du likar det!\\– Dave"
 
 #: data/map-misc/groweasy.map
 msgid "There are special coins which can make your\\ball larger or smaller."
@@ -1340,7 +1344,8 @@ msgstr "La descente infernale.\\Lett nok til å vera første brett?"
 msgid ""
 "La conduite stressante.\\Attention:\\The platform under the ball moves "
 "forward."
-msgstr "La conduite stressante.\\Merk: Plattforma under\\ballen køyrer framover."
+msgstr ""
+"La conduite stressante.\\Merk: Plattforma under\\ballen køyrer framover."
 
 #: data/map-mym/drive2.map
 msgid ""
@@ -1390,15 +1395,18 @@ msgstr "Le labyrinthe fou.\\Galskapens labyrint."
 msgid ""
 "Le sentier etroit.\\Patience and timing.\\Tips: maximise speed at the first "
 "slope."
-msgstr "Le sentier étroit.\\Den smale stig.\\Tips: Få stor fart i\\den første bakken."
+msgstr ""
+"Le sentier étroit.\\Den smale stig.\\Tips: Få stor fart i\\den første bakken."
 
 #: data/map-mym/running.map
 msgid "Les epreuves minutees.\\Run baby, run!"
 msgstr "Les epreuves minutees.\\Løype!"
 
 #: data/map-mym/scrambling.map
-msgid "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr "Le petit cross.\\Klar for eit kappløp?\\Hald deg til bana for høgast fart."
+msgid ""
+"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgstr ""
+"Le petit cross.\\Klar for eit kappløp?\\Hald deg til bana for høgast fart."
 
 #: data/map-mym/snow.map
 msgid "La descente rafraichissante.\\Not so fast, not so fast."
@@ -1423,6 +1431,10 @@ msgstr "Un va-et-vient frustrant.\\Hugs aktiveringsrekkjefølgja."
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
 msgstr "Neverbasket.\\Vel lag og få tre poeng."
+
+#: data/map-mym2/bigball.map
+msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
+msgstr ""
 
 #: data/map-mym2/bigcones.map
 msgid "Les grands cones.\\Living in a cone."
@@ -1500,7 +1512,8 @@ msgstr "Préparez un petit sac.\\Ta med spypose."
 
 #: data/map-mym2/sonic.map
 msgid "Un petit echauffement.\\Welcome to the new Mehdi's set!"
-msgstr "Un petit echauffement.\\Velkommen til den nye\\brettsamlinga til Mehdi!"
+msgstr ""
+"Un petit echauffement.\\Velkommen til den nye\\brettsamlinga til Mehdi!"
 
 #: data/map-mym2/speed.map
 msgid "Plus vite que la vitesse.\\Speedness definition."
@@ -1521,4 +1534,3 @@ msgstr "Tranquille, mais pas trop.\\Roleg, men ikkje for roleg."
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
 msgstr "Les toiles attirantes.\\Kom ut av spindelveva."
-

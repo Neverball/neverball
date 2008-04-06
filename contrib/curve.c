@@ -243,11 +243,11 @@ static int rndnum(int low, int high)
     return (rand() % ((high-low) +1)) + low;
 }
 
-static void side(int x0, int y0, int z0,
-                 int x1, int y1, int z1,
-                 int x2, int y2, int z2, char *tex)
+static void side(double x0, double y0, double z0,
+                 double x1, double y1, double z1,
+                 double x2, double y2, double z2, char *tex)
 {
-    int modx, mody, modz; /*for doing a grid of curves*/
+    double modx, mody, modz; /*for doing a grid of curves*/
     modx = 0;
     mody = 0;
     modz = 0;
@@ -256,11 +256,11 @@ static void side(int x0, int y0, int z0,
     {
         int row = iter / 4;
         int col = iter % 4;
-        modz = ((row + col) % 2) * 256;
-        modx = row * 768;
-        mody = col * 768;
+        modz = ((row + col) % 2) * 256.0;
+        modx = row * 768.0;
+        mody = col * 768.0;
     }
-    printf("( %d %d %d ) ( %d %d %d ) ( %d %d %d ) "
+    printf("( %f %f %f ) ( %f %f %f ) ( %f %f %f ) "
            "%s 0 0 0 0.500000 0.500000 0 0 0\n",
            x0+modx, y0+mody, z0+modz,
            x1+modx, y1+mody, z1+modz,
@@ -269,20 +269,20 @@ static void side(int x0, int y0, int z0,
 
 static void lump(int r0, int r1, double a0, double a1, int i, int n)
 {
-    int x00 = (int) ((r0+(int)((float)(r2-r0)*(((float)i)/(float)n))) * cos(M_PI * a0 / 180.0));
-    int y00 = (int) ((r0+(int)((float)(r2-r0)*(((float)i)/(float)n))) * sin(M_PI * a0 / 180.0));
+    double x00 = (r0+((double)(r2-r0)*((i)/(double)n))) * cos(M_PI * a0 / 180.0);
+    double y00 = (r0+((double)(r2-r0)*((i)/(double)n))) * sin(M_PI * a0 / 180.0);
 
-    int x10 = (int) ((r1+(int)((float)(r3-r1)*(((float)i)/(float)n))) * cos(M_PI * a0 / 180.0));
-    int y10 = (int) ((r1+(int)((float)(r3-r1)*(((float)i)/(float)n))) * sin(M_PI * a0 / 180.0));
+    double x10 = (r1+((double)(r3-r1)*((i)/(double)n))) * cos(M_PI * a0 / 180.0);
+    double y10 = (r1+((double)(r3-r1)*((i)/(double)n))) * sin(M_PI * a0 / 180.0);
 
-    int x01 = (int) ((r0+(int)((float)(r2-r0)*(((float)i+1.0f)/(float)n))) * cos(M_PI * a1 / 180.0));
-    int y01 = (int) ((r0+(int)((float)(r2-r0)*(((float)i+1.0f)/(float)n))) * sin(M_PI * a1 / 180.0));
+    double x01 = (r0+((double)(r2-r0)*((i+1.0f)/(double)n))) * cos(M_PI * a1 / 180.0);
+    double y01 = (r0+((double)(r2-r0)*((i+1.0f)/(double)n))) * sin(M_PI * a1 / 180.0);
 
-    int x11 = (int) ((r1+(int)((float)(r3-r1)*(((float)i+1.0f)/(float)n))) * cos(M_PI * a1 / 180.0));
-    int y11 = (int) ((r1+(int)((float)(r3-r1)*(((float)i+1.0f)/(float)n))) * sin(M_PI * a1 / 180.0));
+    double x11 = (r1+((double)(r3-r1)*((i+1.0f)/(double)n))) * cos(M_PI * a1 / 180.0);
+    double y11 = (r1+((double)(r3-r1)*((i+1.0f)/(double)n))) * sin(M_PI * a1 / 180.0);
 
-    int z0  = 0;
-    int z1  = thickness;
+    double z0  = 0;
+    double z1  = thickness;
 
     printf("{\n");
 
@@ -300,30 +300,30 @@ static void lump(int r0, int r1, double a0, double a1, int i, int n)
     else
     {
         /*use Dave's code! */
-        float stepsize = ((float)totalstep/(float)n);
-        int zmod0=(int)((float)i * stepsize);
-        int zmod1=(int)((float)(i+1) * stepsize); /*this goes up!  */
-        int hillmodinside=0,hillmodoutside=0;
-        int hmi2=0,hmo2=0;
-        int cthi1=0,cthi2=0,ctho1=0,ctho2=0;
+        double stepsize = totalstep/(double)n;
+        double zmod0=(double)i * stepsize;
+        double zmod1=(double)(i+1) * stepsize; /*this goes up!  */
+        double hillmodinside=0,hillmodoutside=0;
+        double hmi2=0,hmo2=0;
+        double cthi1=0,cthi2=0,ctho1=0,ctho2=0;
 
         if (hill != 0)
         {
             /*do one based on sinewave. */
-            float mult1=((sin((((360.0f/(float)n)*(float)i)-90.0) * M_PI / 180.0)+1.0)/2.0);
-            float mult2=((sin((((360.0f/(float)n)*(float)(i+1))-90.0) * M_PI / 180.0)+1.0)/2.0);
+            double mult1=((sin((((360.0f/(double)n)*(double)i)-90.0) * M_PI / 180.0)+1.0)/2.0);
+            double mult2=((sin((((360.0f/(double)n)*(double)(i+1))-90.0) * M_PI / 180.0)+1.0)/2.0);
             if (innerdrop>=outerdrop)
             {
                 /*then it's the outside needs altered   */
-                hillmodoutside=hill-(int)(mult1*(float)hill) ;
-                hmo2=hill-(int)(mult2*(float)hill) ;
+                hillmodoutside=hill-(mult1*(double)hill) ;
+                hmo2=hill-(mult2*(double)hill) ;
                 ctho1=hill-hillmodoutside;
                 ctho2=hill-hmo2;
             }
             if (outerdrop>=innerdrop)
             {
-                hillmodinside=hill-(int)(mult1*(float)hill) ;
-                hmi2=hill-(int)(mult2*(float)hill) ;
+                hillmodinside=hill-(mult1*(double)hill) ;
+                hmi2=hill-(mult2*(double)hill) ;
                 cthi1=hill-hillmodinside;
                 cthi2=hill-hmi2;
             }
