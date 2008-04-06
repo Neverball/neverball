@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.5\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-04-04 19:37+0300\n"
+"POT-Creation-Date: 2008-04-06 11:19+0200\n"
 "PO-Revision-Date: 2008-03-17 17:34+0200\n"
 "Last-Translator: Pasi Kallinen <paxed@alt.org>\n"
 "Language-Team: Finnish\n"
@@ -33,7 +33,7 @@ msgstr "Onnistui"
 msgid "Fall-out"
 msgstr "Putosit kentästä"
 
-#: ball/game.c:1293 ball/progress.c:348
+#: ball/game.c:1293 ball/progress.c:345
 msgid "Unknown"
 msgstr "Tuntematon"
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:176
+#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:177
 msgid "Coins"
 msgstr "Kolikot"
 
@@ -77,11 +77,11 @@ msgstr "Kolikot"
 msgid "Goal"
 msgstr "Maali"
 
-#: ball/hud.c:76 ball/st_goal.c:166
+#: ball/hud.c:76 ball/st_goal.c:167
 msgid "Balls"
 msgstr "Palloja"
 
-#: ball/hud.c:77 ball/st_goal.c:171 putt/hud.c:45
+#: ball/hud.c:77 ball/st_goal.c:172 putt/hud.c:45
 msgid "Score"
 msgstr "Pisteet"
 
@@ -97,12 +97,12 @@ msgstr "Laiska kamera"
 msgid "Manual"
 msgstr "Manuaalinen kamera"
 
-#: ball/level.c:87
+#: ball/level.c:133
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr "Virhe ladattaessa kenttätiedostoa '%s': %s\n"
 
-#: ball/level.c:89
+#: ball/level.c:135
 msgid "Not a valid level file"
 msgstr "Virheellinen kenttätiedosto"
 
@@ -151,23 +151,23 @@ msgstr "Toistotiedosto '%s': %s\n"
 msgid "Not a replay file"
 msgstr "Ei toistotiedosto"
 
-#: ball/progress.c:346 ball/st_help.c:245
+#: ball/progress.c:343 ball/st_help.c:245
 msgid "Challenge Mode"
 msgstr "Haastemoodi"
 
-#: ball/progress.c:346 ball/st_start.c:174
+#: ball/progress.c:343 ball/st_start.c:174
 msgid "Challenge"
 msgstr "Haaste"
 
-#: ball/progress.c:347 ball/st_help.c:237
+#: ball/progress.c:344 ball/st_help.c:237
 msgid "Normal Mode"
 msgstr "Normaalimoodi"
 
-#: ball/progress.c:347
+#: ball/progress.c:344
 msgid "Normal"
 msgstr "Normaali"
 
-#: ball/progress.c:348
+#: ball/progress.c:345
 msgid "Unknown Mode"
 msgstr "Tuntematon moodi"
 
@@ -299,7 +299,7 @@ msgstr "Toisto tauotettu"
 msgid "Replay Ends"
 msgstr "Tallenne loppui"
 
-#: ball/st_demo.c:466 ball/st_pause.c:107 putt/st_all.c:591
+#: ball/st_demo.c:466 ball/st_pause.c:108 putt/st_all.c:591
 msgid "Quit"
 msgstr "Poistu"
 
@@ -311,7 +311,7 @@ msgstr "Säilytä"
 msgid "Delete"
 msgstr "Poista"
 
-#: ball/st_demo.c:476 ball/st_pause.c:112 putt/st_all.c:592
+#: ball/st_demo.c:476 ball/st_pause.c:113 putt/st_all.c:592
 msgid "Continue"
 msgstr "Jatka"
 
@@ -343,34 +343,34 @@ msgstr "Putosit kentästä!"
 msgid "Exit"
 msgstr "Poistu"
 
-#: ball/st_fall_out.c:92 ball/st_goal.c:205 ball/st_time_out.c:85
+#: ball/st_fall_out.c:92 ball/st_goal.c:206 ball/st_time_out.c:85
 msgid "Next Level"
 msgstr "Seuraava kenttä"
 
-#: ball/st_fall_out.c:95 ball/st_goal.c:208 ball/st_time_out.c:88
+#: ball/st_fall_out.c:95 ball/st_goal.c:209 ball/st_time_out.c:88
 msgid "Retry Level"
 msgstr "Yritä uudelleen"
 
-#: ball/st_fall_out.c:98 ball/st_goal.c:211 ball/st_time_out.c:91
+#: ball/st_fall_out.c:98 ball/st_goal.c:212 ball/st_time_out.c:91
 msgid "Save Replay"
 msgstr "Tallenna uusinta"
 
-#: ball/st_goal.c:105
+#: ball/st_goal.c:106
 msgid "New Record"
 msgstr "Uusi ennätys"
 
-#: ball/st_goal.c:106
+#: ball/st_goal.c:107
 msgid "GOAL"
 msgstr "MAALI"
 
-#: ball/st_goal.c:156
+#: ball/st_goal.c:157
 #, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
 msgstr[0] "%d uusi bonuskenttä"
 msgstr[1] "%d uutta bonuskenttää"
 
-#: ball/st_goal.c:202
+#: ball/st_goal.c:203
 msgid "Finish"
 msgstr "Maali"
 
@@ -497,23 +497,23 @@ msgstr "Peruuta"
 msgid "GAME OVER"
 msgstr "Peli loppui"
 
-#: ball/st_pause.c:101 putt/st_all.c:586
+#: ball/st_pause.c:102 putt/st_all.c:586
 msgid "Paused"
 msgstr "Keskeytetty"
 
-#: ball/st_pause.c:110
+#: ball/st_pause.c:111
 msgid "Restart"
 msgstr "Uusi peli"
 
-#: ball/st_play.c:53
+#: ball/st_play.c:54
 msgid "Ready?"
 msgstr "Paikoillanne?"
 
-#: ball/st_play.c:109
+#: ball/st_play.c:110
 msgid "Set?"
 msgstr "Valmiit?"
 
-#: ball/st_play.c:180
+#: ball/st_play.c:181
 msgid "GO!"
 msgstr "HEP!"
 
@@ -1353,6 +1353,10 @@ msgstr ""
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
+msgstr ""
+
+#: data/map-mym2/bigball.map
+msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
 msgstr ""
 
 #: data/map-mym2/bigcones.map

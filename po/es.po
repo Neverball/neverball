@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-04-04 19:37+0300\n"
+"POT-Creation-Date: 2008-04-06 11:19+0200\n"
 "PO-Revision-Date: 2008-01-26 23:00+0100\n"
 "Last-Translator: Miguel Diago <mdiagom@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -32,7 +32,7 @@ msgstr "Victoria"
 msgid "Fall-out"
 msgstr "Caída"
 
-#: ball/game.c:1293 ball/progress.c:348
+#: ball/game.c:1293 ball/progress.c:345
 msgid "Unknown"
 msgstr "Desconocido"
 
@@ -68,7 +68,7 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:176
+#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:177
 msgid "Coins"
 msgstr "Monedas"
 
@@ -76,11 +76,11 @@ msgstr "Monedas"
 msgid "Goal"
 msgstr "Meta"
 
-#: ball/hud.c:76 ball/st_goal.c:166
+#: ball/hud.c:76 ball/st_goal.c:167
 msgid "Balls"
 msgstr "Bolas"
 
-#: ball/hud.c:77 ball/st_goal.c:171 putt/hud.c:45
+#: ball/hud.c:77 ball/st_goal.c:172 putt/hud.c:45
 msgid "Score"
 msgstr "Puntuación"
 
@@ -96,12 +96,12 @@ msgstr "Perezoso"
 msgid "Manual"
 msgstr "Manual"
 
-#: ball/level.c:87
+#: ball/level.c:133
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr "Error al cargar el archivo de nivel «%s»: %s\n"
 
-#: ball/level.c:89
+#: ball/level.c:135
 msgid "Not a valid level file"
 msgstr "No es un archivo de nivel válido"
 
@@ -152,23 +152,23 @@ msgstr "Reproducir el archivo «%s»: %s\n"
 msgid "Not a replay file"
 msgstr "El archivo no es una grabación"
 
-#: ball/progress.c:346 ball/st_help.c:245
+#: ball/progress.c:343 ball/st_help.c:245
 msgid "Challenge Mode"
 msgstr "Competición"
 
-#: ball/progress.c:346 ball/st_start.c:174
+#: ball/progress.c:343 ball/st_start.c:174
 msgid "Challenge"
 msgstr "Competición"
 
-#: ball/progress.c:347 ball/st_help.c:237
+#: ball/progress.c:344 ball/st_help.c:237
 msgid "Normal Mode"
 msgstr "Modo Normal"
 
-#: ball/progress.c:347
+#: ball/progress.c:344
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/progress.c:348
+#: ball/progress.c:345
 msgid "Unknown Mode"
 msgstr "Modo desconocido"
 
@@ -302,7 +302,7 @@ msgstr "Nombre de la grabación"
 msgid "Replay Ends"
 msgstr "Fin"
 
-#: ball/st_demo.c:466 ball/st_pause.c:107 putt/st_all.c:591
+#: ball/st_demo.c:466 ball/st_pause.c:108 putt/st_all.c:591
 msgid "Quit"
 msgstr "Salir"
 
@@ -314,7 +314,7 @@ msgstr "Conservar"
 msgid "Delete"
 msgstr "Borrar"
 
-#: ball/st_demo.c:476 ball/st_pause.c:112 putt/st_all.c:592
+#: ball/st_demo.c:476 ball/st_pause.c:113 putt/st_all.c:592
 msgid "Continue"
 msgstr "Continuar"
 
@@ -349,36 +349,36 @@ msgstr "¡Caída!"
 msgid "Exit"
 msgstr "Salir"
 
-#: ball/st_fall_out.c:92 ball/st_goal.c:205 ball/st_time_out.c:85
+#: ball/st_fall_out.c:92 ball/st_goal.c:206 ball/st_time_out.c:85
 msgid "Next Level"
 msgstr "Siguiente nivel"
 
-#: ball/st_fall_out.c:95 ball/st_goal.c:208 ball/st_time_out.c:88
+#: ball/st_fall_out.c:95 ball/st_goal.c:209 ball/st_time_out.c:88
 msgid "Retry Level"
 msgstr "Reintentar"
 
 # Alarga demasiado el menú horizontal.
-#: ball/st_fall_out.c:98 ball/st_goal.c:211 ball/st_time_out.c:91
+#: ball/st_fall_out.c:98 ball/st_goal.c:212 ball/st_time_out.c:91
 msgid "Save Replay"
 msgstr "Guardar grabación"
 
-#: ball/st_goal.c:105
+#: ball/st_goal.c:106
 msgid "New Record"
 msgstr "Nuevo récord"
 
-#: ball/st_goal.c:106
+#: ball/st_goal.c:107
 #, fuzzy
 msgid "GOAL"
 msgstr "VICTORIA"
 
-#: ball/st_goal.c:156
+#: ball/st_goal.c:157
 #, fuzzy, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
 msgstr[0] "Nivel especial"
 msgstr[1] "Nivel especial"
 
-#: ball/st_goal.c:202
+#: ball/st_goal.c:203
 msgid "Finish"
 msgstr "Terminar"
 
@@ -505,23 +505,23 @@ msgstr "Cancelar"
 msgid "GAME OVER"
 msgstr "FIN"
 
-#: ball/st_pause.c:101 putt/st_all.c:586
+#: ball/st_pause.c:102 putt/st_all.c:586
 msgid "Paused"
 msgstr "Pausa"
 
-#: ball/st_pause.c:110
+#: ball/st_pause.c:111
 msgid "Restart"
 msgstr "Reiniciar"
 
-#: ball/st_play.c:53
+#: ball/st_play.c:54
 msgid "Ready?"
 msgstr "¿Preparado?"
 
-#: ball/st_play.c:109
+#: ball/st_play.c:110
 msgid "Set?"
 msgstr "¿Listo?"
 
-#: ball/st_play.c:180
+#: ball/st_play.c:181
 msgid "GO!"
 msgstr "¡YA!"
 
@@ -1445,6 +1445,10 @@ msgstr "Un va-et-vient frustrant.\\Recuerda el orden de activación."
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
 msgstr "Street Neverball\\Elige tu equipo y marca tres puntos."
+
+#: data/map-mym2/bigball.map
+msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
+msgstr ""
 
 #: data/map-mym2/bigcones.map
 msgid "Les grands cones.\\Living in a cone."

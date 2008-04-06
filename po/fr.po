@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-04-04 19:37+0300\n"
+"POT-Creation-Date: 2008-04-06 11:19+0200\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Mehdi Yousfi-Monod <mehdi.yousfi@gmail.com>\n"
 "Language-Team: French\n"
@@ -32,7 +32,7 @@ msgstr "Succès"
 msgid "Fall-out"
 msgstr "Balle perdue"
 
-#: ball/game.c:1293 ball/progress.c:348
+#: ball/game.c:1293 ball/progress.c:345
 msgid "Unknown"
 msgstr "Inconnu"
 
@@ -68,7 +68,7 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:176
+#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:177
 msgid "Coins"
 msgstr "Pièces"
 
@@ -76,11 +76,11 @@ msgstr "Pièces"
 msgid "Goal"
 msgstr "Sortie"
 
-#: ball/hud.c:76 ball/st_goal.c:166
+#: ball/hud.c:76 ball/st_goal.c:167
 msgid "Balls"
 msgstr "Balles"
 
-#: ball/hud.c:77 ball/st_goal.c:171 putt/hud.c:45
+#: ball/hud.c:77 ball/st_goal.c:172 putt/hud.c:45
 msgid "Score"
 msgstr "Score"
 
@@ -96,17 +96,16 @@ msgstr "Paresseuse"
 msgid "Manual"
 msgstr "Manuelle"
 
-#: ball/level.c:87
+#: ball/level.c:133
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr "Erreur lors du chargement du fichier de score « %s » : %s\n"
 
-#: ball/level.c:89
+#: ball/level.c:135
 msgid "Not a valid level file"
 msgstr "Pas un fichier de niveau valide"
 
 #: ball/main.c:256
-#, fuzzy, c-format
 msgid ""
 "Usage: %s [options ...]\n"
 "Options:\n"
@@ -117,22 +116,19 @@ msgid ""
 "  -i, --info                display info about a replay.\n"
 msgstr ""
 "Usage: %s [options ...]\n"
-"-r, --replay fichier      joue le film 'fichier'.\n"
-"-i, --info                affiche des infos à propos d'un niveau ou d'un "
-"film.\n"
-"    --data rep            utilise 'rep' comme dossier de données.\n"
-"-v, --version             affiche la version.\n"
-"-h, -?, --help            affiche ce message d'aide.\n"
+"  -h, --help                affiche ce message d'aide.\n"
+"  -v, --version             affiche la version.\n"
+"  -d, --data <rep>          utilise 'rep' comme dossier de données.\n"
+"  -r, --replay <fichier>    joue le film 'fichier'.\n"
+"  -i, --info                affiche des informations à propos d'un film.\n"
 
 #: ball/main.c:266
-#, fuzzy, c-format
 msgid "Option '%s' requires an argument.\n"
-msgstr "%s : option %s nécessite un argument\n"
+msgstr "L'option %s nécessite un argument.\n"
 
 #: ball/main.c:326
-#, fuzzy
 msgid "Option '--info' requires '--replay'.\n"
-msgstr "%s: --info nécessite --replay\n"
+msgstr "L'option '--info' nécessite '--replay'.\n"
 
 #: ball/main.c:353 putt/main.c:291
 msgid "Failure to establish game data directory\n"
@@ -151,23 +147,23 @@ msgstr "Fichier de film « %s » : %s\n"
 msgid "Not a replay file"
 msgstr "Pas un fichier de film"
 
-#: ball/progress.c:346 ball/st_help.c:245
+#: ball/progress.c:343 ball/st_help.c:245
 msgid "Challenge Mode"
 msgstr "Mode Challenge"
 
-#: ball/progress.c:346 ball/st_start.c:174
+#: ball/progress.c:343 ball/st_start.c:174
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/progress.c:347 ball/st_help.c:237
+#: ball/progress.c:344 ball/st_help.c:237
 msgid "Normal Mode"
 msgstr "Mode Normal"
 
-#: ball/progress.c:347
+#: ball/progress.c:344
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/progress.c:348
+#: ball/progress.c:345
 msgid "Unknown Mode"
 msgstr "Mode Inconnu"
 
@@ -292,17 +288,16 @@ msgid "No Replays"
 msgstr "Pas de film"
 
 #: ball/st_demo.c:454
-#, fuzzy
 msgid "Replay Paused"
-msgstr "Nom du film"
+msgstr "Film en pause"
 
 #: ball/st_demo.c:457
 msgid "Replay Ends"
 msgstr "Fin du film"
 
-#: ball/st_demo.c:466 ball/st_pause.c:107 putt/st_all.c:591
+#: ball/st_demo.c:466 ball/st_pause.c:108 putt/st_all.c:591
 msgid "Quit"
-msgstr ""
+msgstr "Quitter"
 
 #: ball/st_demo.c:470
 msgid "Keep"
@@ -312,71 +307,66 @@ msgstr "Conserver"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ball/st_demo.c:476 ball/st_pause.c:112 putt/st_all.c:592
-#, fuzzy
+#: ball/st_demo.c:476 ball/st_pause.c:113 putt/st_all.c:592
 msgid "Continue"
-msgstr "Pièces"
+msgstr "Continuer"
 
 #: ball/st_demo.c:480
-#, fuzzy
 msgid "Repeat"
-msgstr "Film"
+msgstr "Rejouer"
 
 #: ball/st_demo.c:544
 msgid "Delete Replay?"
 msgstr "Supprimer le film ?"
 
 #: ball/st_done.c:65
-#, fuzzy
 msgid "New Set Record"
-msgstr "Nouveau record"
+msgstr "Nouveau record de collection"
 
 #: ball/st_done.c:66
 msgid "Set Complete"
 msgstr "Collection complétée"
 
 #: ball/st_done.c:94
-#, fuzzy
 msgid "Select Level"
-msgstr "Niveau unique"
+msgstr "Choisissez un niveau"
 
 #: ball/st_fall_out.c:82
 msgid "Fall-out!"
 msgstr "Balle perdue !"
 
 #: ball/st_fall_out.c:89 ball/st_time_out.c:82
-#, fuzzy
 msgid "Exit"
 msgstr "Quitter"
 
-#: ball/st_fall_out.c:92 ball/st_goal.c:205 ball/st_time_out.c:85
+#: ball/st_fall_out.c:92 ball/st_goal.c:206 ball/st_time_out.c:85
 msgid "Next Level"
 msgstr "Niveau suivant"
 
-#: ball/st_fall_out.c:95 ball/st_goal.c:208 ball/st_time_out.c:88
+#: ball/st_fall_out.c:95 ball/st_goal.c:209 ball/st_time_out.c:88
 msgid "Retry Level"
 msgstr "Retenter"
 
-#: ball/st_fall_out.c:98 ball/st_goal.c:211 ball/st_time_out.c:91
+#: ball/st_fall_out.c:98 ball/st_goal.c:212 ball/st_time_out.c:91
 msgid "Save Replay"
 msgstr "Sauver un film"
 
-#: ball/st_goal.c:105
+#: ball/st_goal.c:106
 msgid "New Record"
 msgstr "Nouveau record"
 
-#: ball/st_goal.c:106
+#: ball/st_goal.c:107
 msgid "GOAL"
 msgstr "VICTOIRE"
 
-#: ball/st_goal.c:156
+#: ball/st_goal.c:157
 #, fuzzy, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
 msgstr[0] "Niveau "
 msgstr[1] "Niveau "
 
-#: ball/st_goal.c:202
+#: ball/st_goal.c:203
 msgid "Finish"
 msgstr "Terminé"
 
@@ -457,13 +447,12 @@ msgstr ""
 "pièces pour ouvrir la sortie."
 
 #: ball/st_help.c:247
-#, fuzzy
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr ""
 "Jouez à partir du premier niveau de la collection.\\Vous commencez avec "
-"seulement 4 balles,\\ne les perdez pas. Gagnez une nouvelle balle\\toutes "
+"seulement trois balles,\\ne les perdez pas. Gagnez une nouvelle balle\\toutes "
 "les 100 pièces récupérées."
 
 #: ball/st_help.c:261
@@ -492,9 +481,8 @@ msgid "Level "
 msgstr "Niveau "
 
 #: ball/st_level.c:71
-#, fuzzy
 msgid "Bonus Level "
-msgstr "Niveau "
+msgstr "Niveau bonus "
 
 #: ball/st_name.c:115
 msgid "OK"
@@ -508,23 +496,23 @@ msgstr "Annuler"
 msgid "GAME OVER"
 msgstr "PARTIE FINIE"
 
-#: ball/st_pause.c:101 putt/st_all.c:586
+#: ball/st_pause.c:102 putt/st_all.c:586
 msgid "Paused"
 msgstr "Pause"
 
-#: ball/st_pause.c:110
+#: ball/st_pause.c:111
 msgid "Restart"
-msgstr ""
+msgstr "Recommencer"
 
-#: ball/st_play.c:53
+#: ball/st_play.c:54
 msgid "Ready?"
 msgstr "Attention !"
 
-#: ball/st_play.c:109
+#: ball/st_play.c:110
 msgid "Set?"
 msgstr "Prêt ?"
 
-#: ball/st_play.c:180
+#: ball/st_play.c:181
 msgid "GO!"
 msgstr "PARTEZ !"
 
@@ -548,11 +536,11 @@ msgstr "Collection de niveaux"
 #. * as necessary for the buttons to look good.
 #: ball/st_start.c:196
 msgid "   No   "
-msgstr ""
+msgstr "   Non   "
 
 #: ball/st_start.c:205
 msgid "Lock Goals of Completed Levels?"
-msgstr ""
+msgstr "Fermer la sortie des niv. complétés ?"
 
 #: ball/st_time_out.c:75
 msgid "Time's Up!"
@@ -607,14 +595,12 @@ msgid "Best Times"
 msgstr "Meilleurs temps"
 
 #: ball/util.c:295
-#, fuzzy
 msgid "Change Name"
-msgstr "Changer le nom du joueur"
+msgstr "Changez votre nom"
 
 #: ball/util.c:442
-#, fuzzy
 msgid "caps"
-msgstr "Échappe"
+msgstr "maj"
 
 #: ball/util.c:503
 msgid "Next"
@@ -706,16 +692,16 @@ msgstr ""
 "progressif.\\Lisez les astuces de jeu de chaque niveau.\\ \\"
 
 #: data/set-medium.txt
-#, fuzzy
 msgid "Neverball Medium"
-msgstr "Neverball Difficile"
+msgstr "Neverball Moyen"
 
 #: data/set-medium.txt
-#, fuzzy
 msgid ""
 "Difficulty: A set of levels for intermediate players.\\\\\\Work in progress."
 "\\\\"
-msgstr "Une troisième fournée de niveau faciles.\\\\\\En travaux.\\\\"
+msgstr ""
+"Difficulté : une collection de niveaux pour\\les joueurs intermédiaires.\\\\En travaux."
+"\\\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -757,22 +743,20 @@ msgstr ""
 "Yousfi-Monod (mym)\\ \\"
 
 #: data/set-fwp.txt
-#, fuzzy
 msgid "Nevermania"
-msgstr "Allemand"
+msgstr ""
 
 #: data/set-fwp.txt
 msgid "Levels for Neverball Experts\\Author: Florian Priester\\\\\\\\"
-msgstr ""
+msgstr "Niveaux pour des experts de Neverball\\Auteur : Florian Priester\\\\\\\\"
 
 #: data/set-misc.txt
-#, fuzzy
 msgid "Neverball Misc"
-msgstr "Neverball Facile"
+msgstr "Neverball divers"
 
 #: data/set-misc.txt
 msgid "Unsorted levels\\For testing purposes\\\\\\\\"
-msgstr ""
+msgstr "Niveaux non triés\\Pour des raisons de tests\\\\\\\\"
 
 #: data/courses.txt
 msgid ""
@@ -882,13 +866,11 @@ msgstr ""
 "\\Utilisez l'élan pour atteindre les grosses pièces.\\"
 
 #: data/map-easy/goals.map
-#, fuzzy
 msgid ""
 "There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
 "don't accidentally make a goal first.\\"
 msgstr ""
-"Celui-ci ne devrait pas être top difficile.\\Il y a 100 pièces ici.\\C'est "
-"une zone sûre et une balle gratuite\\sauf si vous sortez accidentellement.\\"
+"Il y a 100 pièces ici.\\Celui-ci ne devrait pas être top difficile,\\sauf si vous sortez accidentellement.\\"
 
 #: data/map-easy/goslow.map
 msgid ""
@@ -1122,13 +1104,11 @@ msgid "So close, yet so very far.\\"
 msgstr "Si proche, et pourtant si loin.\\"
 
 #: data/map-hard/risers.map
-#, fuzzy
 msgid ""
 "Ride the elevators to the top.\\They move quickly,\\so don't dally too long."
 "\\"
 msgstr ""
-"Accédez au sommet grâce aux élévateurs.\\Ils bougent vite,\\et bousculent un "
-"peu la balle.\\Soyez prêt à gérer quelques rebonds."
+"Accédez au sommet grâce aux élévateurs.\\Ils bougent vite,\\ ne traînez donc pas trop."
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
@@ -1248,9 +1228,8 @@ msgstr ""
 "a un minuteur.\\Lorsqu'il expire, les barrières remontent.\\"
 
 #: data/map-medium/title.map
-#, fuzzy
 msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
-msgstr "Neverball\\\\http://icculus.org/neverball\\\\créé par Robert Kooima\\"
+msgstr "Neverball\\\\http://neverball.org\\\\Créé par Robert Kooima\\"
 
 #: data/map-medium/woodmaze.map
 msgid "lalala"
@@ -1472,6 +1451,10 @@ msgstr "Un va-et-vient frustrant.\\Attention à l'ordre d'activation."
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
 msgstr "Street Neverball\\Choisissez votre camp et alignez 3 points."
+
+#: data/map-mym2/bigball.map
+msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
+msgstr ""
 
 #: data/map-mym2/bigcones.map
 #, fuzzy
