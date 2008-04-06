@@ -16,11 +16,17 @@
  ' currently does nothing.
  '
  ' Due to incapabilities of the compiler, this program is NOT platform
- ' independent. But the compiler is being ported to other platforms and is
- ' on its way to becoming a GCC front-end. Once the second task is done,
- ' this program will be cross-platform. FreeBASIC maintains close syntax
- ' across its platform. Code made in Windows doesn't need many (if any)
- ' changes to be compatible in *nix.
+ ' independent. But the compiler is being ported to other platforms and is on
+ ' its way to becoming a GCC front-end. Once the second task is done, this 
+ ' program will be on its way to being cross-platform. FreeBASIC maintains 
+ ' close syntax across across its platforms. Code made in Windows doesn't 
+ ' need many (if any) changes to be compatible in *nix. There was even an Xbox
+ ' port of the compiler. Unfortunately, changes to the compiler has done
+ ' broken backward compatibility, and compatibility has not yet been restored
+ ' as of last check in. In case you're wondering, the port was made using
+ ' OpenXDK, a GPL replacement to that of the Microsoft XDK. OpenXDK uses no
+ ' code whatsoever from Microsoft, making it legal to use on modded Xbox
+ ' consoles. Be aware the two XDKs are not compatible.
  '
  ' As with Neverball and Neverputt, you can still apply the -g switch to
  ' enable debugging and use the GDB (or a compatible program) to debug it.
@@ -68,6 +74,7 @@ screen 18,8,1,GFX_NO_SWITCH
 
 AssistDir = curdir
 config(1)
+inilang
 
 /'
  ' This define is actually related to the system you're on.

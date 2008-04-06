@@ -99,6 +99,7 @@ sub map_generate
         exit sub
     end if
     do
+        screenlock
         cls
         Warning = 0
 
@@ -359,7 +360,7 @@ sub map_generate
          ' Prints information on the right hand side.
          '/
         locate 1,54
-        print lang("Location:");")"&XP;lang(",")&YP;lang(",")&ZP;")"
+        print lang("Location: ");"("&XP;lang(",")&YP;lang(",")&ZP;")"
         color 11
         locate 2,54
         print lang("* Press F1 for help.")
@@ -881,18 +882,20 @@ sub map_generate
         end if
 
         /'
+         ' This places the block
+         '/
+        if multikey(SC_SPACE) then place_block
+
+        /'
          ' Generator graphics
          '/
         base_gfx
         cursor
         direction
+        screenunlock
 
-        /'
-         '
-         '/
-        if multikey(SC_SPACE) then place_block
+        sleep 125,1
 
-        sleep
     loop until multikey(SC_ESCAPE)
 
     if (Warning = 0) then

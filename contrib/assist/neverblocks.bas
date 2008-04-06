@@ -798,11 +798,11 @@ sub place_block
         select case Rotation
             case 1
                 plot_face(0,-128,0,64,0,0,64,0,-128,0,"turf-green")
-                plot_face(0,0,0,48,0,0,48,0,0,64,"invisible")
-                plot_face(0,0,-128,0,0,0,0,0,0,-16,"turf-grey")
+                plot_face(0,-128,0,48,0,0,48,0,0,64,"invisible")
+                plot_face(0,0,0,64,0,0,-64,0,-128,64,"turf-grey")
                 plot_face(0,0,0,48,-128,0,48,0,-128,-16,"turf-grey")
-                plot_face(0,0,-128,-64,-128,-128,64,0,-128,-64,"invisible")
-                plot_face(0,0,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
+                plot_face(0,-128,-128,-64,-128,-128,64,0,-128,-64,"invisible")
+                plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"turf-grey")
             case 2
                 plot_face(0,0,0,64,0,-128,64,-128,-128,0,"turf-green")
                 plot_face(0,0,0,0,-128,0,0,0,0,-16,"turf-grey")

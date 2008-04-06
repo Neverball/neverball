@@ -142,27 +142,5 @@ sub config(Switch as ubyte = 0)
         input #1, LangFile
         close #1
         #ENDIF
-        if LangFile < > "" then
-            #IFDEF __FB_WIN32__
-            Check = open(MasterDir + "\" + LangFile for input as #l)
-            #ELSE
-            Check = open(MasterDir + "/" + LangFile for input as #l)
-            #ENDIF
-            if Check = 0 then
-                for ConvertID = 1 to Strings
-                    Unmodded(ConvertID) = ""
-                    Converted(ConvertID) = ""
-                next Strings
-                for ConvertID = 1 to Strings
-                    line input #l, Unmodded(ConvertID)
-                    line input #l, Converted(ConvertID)
-                    if eof(l) then exit for
-                next Strings
-                close #l
-            else
-                print "Unable to open "+MasterDir+"/"+LangFile+" for reading."
-                sleep
-            end if
-        end if
     end if
 end sub
