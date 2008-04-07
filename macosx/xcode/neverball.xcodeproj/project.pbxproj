@@ -3144,7 +3144,13 @@
 					/usr/lib,
 				);
 				OTHER_CFLAGS = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\"";
-				OTHER_LDFLAGS = "-lz";
+				OTHER_LDFLAGS = (
+					"-Z",
+					"-L/usr/lib",
+					"-F/System/Library/Frameworks",
+					"-F/Library/Frameworks",
+					"-F$(HOME)/Library/Frameworks",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = Neverputt;
 				WRAPPER_EXTENSION = app;
@@ -3248,7 +3254,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G4;
+				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = (
