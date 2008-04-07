@@ -208,7 +208,6 @@
 		B5412EBA0CA36AE000C9A9F7 /* demo.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC0D0AEA2EF600AFD07F /* demo.c */; };
 		B5412EC20CA36C3C00C9A9F7 /* score.c in Sources */ = {isa = PBXBuildFile; fileRef = B5412EBE0CA36C3C00C9A9F7 /* score.c */; };
 		B5412EC30CA36C3C00C9A9F7 /* score.h in Headers */ = {isa = PBXBuildFile; fileRef = B5412EBF0CA36C3C00C9A9F7 /* score.h */; };
-		B543D2960DAABA3800FE69E2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B543D2940DAABA3800FE69E2 /* InfoPlist.strings */; };
 		B5452B830D19C959000F8933 /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = B5452B810D19C959000F8933 /* text.c */; };
 		B5452B840D19C959000F8933 /* text.h in Headers */ = {isa = PBXBuildFile; fileRef = B5452B820D19C959000F8933 /* text.h */; };
 		B5452B850D19C959000F8933 /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = B5452B810D19C959000F8933 /* text.c */; };
@@ -256,6 +255,8 @@
 		B57D63D60CAE8138005DE710 /* st_fall_out.c in Sources */ = {isa = PBXBuildFile; fileRef = B57D63D00CAE8138005DE710 /* st_fall_out.c */; };
 		B59445470C9641CB00EC3F09 /* neverball.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD3F0BCA1BF200915326 /* neverball.icns */; };
 		B59445480C9641D000EC3F09 /* neverputt.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD410BCA1BF200915326 /* neverputt.icns */; };
+		B5C4250A0DAAC39E00F6C398 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5C425020DAAC35800F6C398 /* InfoPlist.strings */; };
+		B5C4250B0DAAC3A100F6C398 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5C425060DAAC35800F6C398 /* InfoPlist.strings */; };
 		B5C864060D3552220024E95E /* ball.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864020D3552220024E95E /* ball.c */; };
 		B5C864070D3552220024E95E /* ball.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C864030D3552220024E95E /* ball.h */; };
 		B5C864080D3552220024E95E /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864040D3552220024E95E /* common.c */; };
@@ -450,10 +451,8 @@
 		815FFC360AEA2EF600AFD07F /* util.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = util.c; sourceTree = "<group>"; };
 		815FFC370AEA2EF600AFD07F /* util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
 		815FFC940AEA305100AFD07F /* Neverputt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neverputt.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		815FFC960AEA305100AFD07F /* Neverputt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Neverputt-Info.plist"; sourceTree = "<group>"; };
 		815FFCB50AEA310700AFD07F /* mapc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mapc; sourceTree = BUILT_PRODUCTS_DIR; };
 		815FFCD60AEA319C00AFD07F /* Neverball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neverball.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		815FFCD80AEA319C00AFD07F /* Neverball-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Neverball-Info.plist"; sourceTree = "<group>"; };
 		815FFCFD0AEA340300AFD07F /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		815FFDE70AEA3B8A00AFD07F /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		B2F67ED704C74A3F00A80002 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -477,7 +476,6 @@
 		B53285960D2B46B000DEC276 /* tilt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tilt.h; sourceTree = "<group>"; };
 		B5412EBE0CA36C3C00C9A9F7 /* score.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = score.c; sourceTree = "<group>"; };
 		B5412EBF0CA36C3C00C9A9F7 /* score.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = score.h; sourceTree = "<group>"; };
-		B543D2950DAABA3800FE69E2 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B543D6F20DAABE4300FE69E2 /* alien.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = alien.png; path = ../../data/back/alien.png; sourceTree = SOURCE_ROOT; };
 		B543D6F30DAABE4300FE69E2 /* blk_org.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blk_org.png; path = ../../data/back/blk_org.png; sourceTree = SOURCE_ROOT; };
 		B543D6F40DAABE4300FE69E2 /* blues.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blues.png; path = ../../data/back/blues.png; sourceTree = SOURCE_ROOT; };
@@ -1509,6 +1507,10 @@
 		B57D63CE0CAE8138005DE710 /* st_time_out.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_time_out.c; sourceTree = "<group>"; };
 		B57D63CF0CAE8138005DE710 /* st_goal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = st_goal.h; sourceTree = "<group>"; };
 		B57D63D00CAE8138005DE710 /* st_fall_out.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_fall_out.c; sourceTree = "<group>"; };
+		B5C425030DAAC35800F6C398 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B5C425040DAAC35800F6C398 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5C425070DAAC35800F6C398 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B5C425080DAAC35800F6C398 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5C864020D3552220024E95E /* ball.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ball.c; sourceTree = "<group>"; };
 		B5C864030D3552220024E95E /* ball.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ball.h; sourceTree = "<group>"; };
 		B5C864040D3552220024E95E /* common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = common.c; sourceTree = "<group>"; };
@@ -1605,8 +1607,6 @@
 				8137F99B0AEAE105009172EC /* external_libs */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				815FFC960AEA305100AFD07F /* Neverputt-Info.plist */,
-				815FFCD80AEA319C00AFD07F /* Neverball-Info.plist */,
 			);
 			name = neverball;
 			sourceTree = "<group>";
@@ -1614,7 +1614,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B543D2940DAABA3800FE69E2 /* InfoPlist.strings */,
+				B5C425010DAAC35800F6C398 /* ball_items */,
+				B5C425050DAAC35800F6C398 /* putt_items */,
 				B47DDD3F0BCA1BF200915326 /* neverball.icns */,
 				B47DDD410BCA1BF200915326 /* neverputt.icns */,
 				B47DDD1C0BCA1AA300915326 /* icons */,
@@ -3264,6 +3265,24 @@
 			path = ../../data/ttf;
 			sourceTree = SOURCE_ROOT;
 		};
+		B5C425010DAAC35800F6C398 /* ball_items */ = {
+			isa = PBXGroup;
+			children = (
+				B5C425020DAAC35800F6C398 /* InfoPlist.strings */,
+				B5C425040DAAC35800F6C398 /* Info.plist */,
+			);
+			path = ball_items;
+			sourceTree = "<group>";
+		};
+		B5C425050DAAC35800F6C398 /* putt_items */ = {
+			isa = PBXGroup;
+			children = (
+				B5C425060DAAC35800F6C398 /* InfoPlist.strings */,
+				B5C425080DAAC35800F6C398 /* Info.plist */,
+			);
+			path = putt_items;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -3445,7 +3464,7 @@
 				B59445470C9641CB00EC3F09 /* neverball.icns in Resources */,
 				B517CF1A0D1F133000FCFE83 /* ogg in Resources */,
 				B517CF1D0D1F133000FCFE83 /* vorbis in Resources */,
-				B543D2960DAABA3800FE69E2 /* InfoPlist.strings in Resources */,
+				B5C4250A0DAAC39E00F6C398 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3456,6 +3475,7 @@
 				B59445480C9641D000EC3F09 /* neverputt.icns in Resources */,
 				B517CF270D1F133000FCFE83 /* ogg in Resources */,
 				B517CF2A0D1F133000FCFE83 /* vorbis in Resources */,
+				B5C4250B0DAAC3A100F6C398 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3692,10 +3712,18 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		B543D2940DAABA3800FE69E2 /* InfoPlist.strings */ = {
+		B5C425020DAAC35800F6C398 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B543D2950DAABA3800FE69E2 /* English */,
+				B5C425030DAAC35800F6C398 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B5C425060DAAC35800F6C398 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B5C425070DAAC35800F6C398 /* English */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3881,7 +3909,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/SDL_mixer.framework/Versions/A/Headers",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/SDL_ttf.framework/Versions/A/Headers",
 				);
-				INFOPLIST_FILE = "Neverputt-Info.plist";
+				INFOPLIST_FILE = putt_items/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
@@ -4008,7 +4036,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/SDL_mixer.framework/Versions/A/Headers",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/SDL_ttf.framework/Versions/A/Headers",
 				);
-				INFOPLIST_FILE = "Neverball-Info.plist";
+				INFOPLIST_FILE = ball_items/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
