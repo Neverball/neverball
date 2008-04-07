@@ -604,10 +604,10 @@ static float plane_v[MAXS][3];
 static int   plane_f[MAXS];
 static int   plane_m[MAXS];
 
-static void make_plane(int   pi, float x0, float y0, float z0,
+static void make_plane(int   pi, float x0, float y0, float      z0,
                        float x1, float y1, float z1,
                        float x2, float y2, float z2,
-                       int   tu, int   tv, int   r,
+                       float tu, float tv, float r,
                        float su, float sv, int   fl, const char *s)
 {
     static const float base[6][3][3] = {
@@ -696,7 +696,7 @@ static int map_token(FILE *fin, int pi, char key[MAXSTR], char val[MAXSTR])
         float x0, y0, z0;
         float x1, y1, z1;
         float x2, y2, z2;
-        int tu, tv, r;
+        float tu, tv, r;
         float su, sv;
         int fl;
 
@@ -722,7 +722,7 @@ static int map_token(FILE *fin, int pi, char key[MAXSTR], char val[MAXSTR])
                    "%c %f %f %f %c "
                    "%c %f %f %f %c "
                    "%c %f %f %f %c "
-                   "%s %d %d %d %f %f %d",
+                   "%s %f %f %f %f %f %d",
                    &c, &x0, &y0, &z0, &c,
                    &c, &x1, &y1, &z1, &c,
                    &c, &x2, &y2, &z2, &c,
