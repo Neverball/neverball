@@ -177,6 +177,7 @@
 		B509A5D40D2B032B008DB8D9 /* sync.h in Headers */ = {isa = PBXBuildFile; fileRef = B509A5D20D2B032B008DB8D9 /* sync.h */; };
 		B509A5D50D2B032B008DB8D9 /* sync.c in Sources */ = {isa = PBXBuildFile; fileRef = B509A5D10D2B032B008DB8D9 /* sync.c */; };
 		B509A5D60D2B032B008DB8D9 /* sync.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B509A5D20D2B032B008DB8D9 /* sync.h */; };
+		B51113DE0DA9D6570050049D /* libpng12.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B56504580D22EB68006F75A4 /* libpng12.a */; };
 		B5117CE80C9060CB005837F9 /* st_pause.c in Sources */ = {isa = PBXBuildFile; fileRef = B5117CE60C9060CB005837F9 /* st_pause.c */; };
 		B5117CE90C9060CB005837F9 /* st_pause.h in Headers */ = {isa = PBXBuildFile; fileRef = B5117CE70C9060CB005837F9 /* st_pause.h */; };
 		B517CF110D1F133000FCFE83 /* iconv.h in Headers */ = {isa = PBXBuildFile; fileRef = B517CEFC0D1F133000FCFE83 /* iconv.h */; };
@@ -219,7 +220,6 @@
 		B565045D0D22EB68006F75A4 /* jmorecfg.h in Headers */ = {isa = PBXBuildFile; fileRef = B56504550D22EB68006F75A4 /* jmorecfg.h */; };
 		B565045E0D22EB68006F75A4 /* jpeglib.h in Headers */ = {isa = PBXBuildFile; fileRef = B56504560D22EB68006F75A4 /* jpeglib.h */; };
 		B565045F0D22EB68006F75A4 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B56504570D22EB68006F75A4 /* libjpeg.a */; };
-		B56504600D22EB68006F75A4 /* libpng12.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B56504580D22EB68006F75A4 /* libpng12.a */; };
 		B56504610D22EB68006F75A4 /* png.h in Headers */ = {isa = PBXBuildFile; fileRef = B56504590D22EB68006F75A4 /* png.h */; };
 		B56504620D22EB68006F75A4 /* pngconf.h in Headers */ = {isa = PBXBuildFile; fileRef = B565045A0D22EB68006F75A4 /* pngconf.h */; };
 		B56504630D22EB68006F75A4 /* jconfig.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B56504530D22EB68006F75A4 /* jconfig.h */; };
@@ -1299,11 +1299,11 @@
 				B517CF120D1F133000FCFE83 /* libiconv.a in Frameworks */,
 				B517CF130D1F133000FCFE83 /* libintl.a in Frameworks */,
 				B517CF150D1F133000FCFE83 /* libogg.a in Frameworks */,
+				B51113DE0DA9D6570050049D /* libpng12.a in Frameworks */,
 				B517CF170D1F133000FCFE83 /* libvorbis.a in Frameworks */,
 				B517CF180D1F133000FCFE83 /* libvorbisenc.a in Frameworks */,
 				B517CF190D1F133000FCFE83 /* libvorbisfile.a in Frameworks */,
 				B565045F0D22EB68006F75A4 /* libjpeg.a in Frameworks */,
-				B56504600D22EB68006F75A4 /* libpng12.a in Frameworks */,
 				B56504860D22F722006F75A4 /* libz.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3267,7 +3267,13 @@
 				);
 				OTHER_CFLAGS = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\"";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CPLUSPLUSFLAGS)";
-				OTHER_LDFLAGS = "-lz";
+				OTHER_LDFLAGS = (
+					"-Z",
+					"-L/usr/lib",
+					"-F/System/Library/Frameworks",
+					"-F/Library/Frameworks",
+					"-F$(HOME)/Library/Frameworks",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = Neverball;
 				WRAPPER_EXTENSION = app;

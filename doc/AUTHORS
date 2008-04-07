@@ -85,6 +85,10 @@
     Mehdi Yousfi-Monod
       - Neverball Hall of Fame management
       - Windows packaging
+    Ben Anderson (jammnrose)
+      - Mac OS X build maintaining and packaging
+    Kevin Ballard
+      - Various bug fixes for Mac OS X builds
 
     Countless others for play testing and bug reports.
 
