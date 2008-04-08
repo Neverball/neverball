@@ -148,6 +148,7 @@ BALL_OBJS := \
 	share/sync.o        \
 	share/tilt.o        \
 	share/common.o      \
+	share/keynames.o    \
 	ball/hud.o          \
 	ball/game.o         \
 	ball/score.o        \
