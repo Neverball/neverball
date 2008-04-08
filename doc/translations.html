@@ -42,28 +42,40 @@
 
         <dt>Poedit</dt>
 
-        <dd><a href="http://www.poedit.net/">Poedit</a> is a multi-platform PO
+        <dd>
+
+        <p><a href="http://www.poedit.net/">Poedit</a> is a multi-platform PO
         file editor.  If you are using Microsoft Windows, Poedit is likely to
         be your only option.  The interface is straight-forward and the editor
         is easy-to-use.  It appears to lack documentation for key bindings,
         however, and plural forms for your language will have to be entered
-        manually (if needed).</dd>
+        manually (if needed).<p>
+
+        </dd>
 
         <dt>KBabel</dt>
 
-        <dd><a href="http://kbabel.kde.org/">KBabel</a> is an advanced PO
+        <dd>
+
+        <p><a href="http://kbabel.kde.org/">KBabel</a> is an advanced PO
         editor for KDE.  It is so advanced, in fact, that this author gave up
         trying it out during the initial set-up...  Can be overwhelming and may
-        require some time to become familiar with.</dd>
+        require some time to become familiar with.<p>
+
+        </dd>
 
         <dt>gtranslator</dt>
 
-        <dd><a href="http://gtranslator.sourceforge.net/">gtranslator</a> is a
+        <dd>
+
+        <p><a href="http://gtranslator.sourceforge.net/">gtranslator</a> is a
         PO file editor for the GNOME desktop environment.  While being one of
         the easiest-to-use editors from those mentioned here, it unfortunately
         has a critical bug (up until version 1.1.7 as of this writing) and does
         not handle certain message identifiers correctly.  Therefore it is
-        <strong>not usable with Neverball</strong> at the moment.</dd>
+        <strong>not usable with Neverball</strong> at the moment.<p>
+
+        </dd>
 
     </dl>
 
@@ -109,17 +121,61 @@
 
         <dt>What to do with the sentences in French in the source text?</dt>
 
-        <dd>The currently accepted practice is to copy the French text verbatim
-        (untranslated) and only translate the parts in English.</dd>
+        <dd>
+
+        <p>The currently accepted practice is to copy the French text verbatim
+        (untranslated) and only translate the parts in English.<p>
+
+        </dd>
 
         <dt>Why <em>are</em> there sentences in French in the source text?</dt>
 
-        <dd>The French text comes from the intro messages of most of Mehdi's
+        <dd>
+
+        <p>The French text comes from the intro messages of most of Mehdi's
         levels.  What can probably be assumed to be the the first attempts to
         introduce i18n in Neverball is now seen as a sort of a "trade mark" for
         Mehdi's levels.  In any case, this is an exception, not the norm, and
         these days mappers are expected to just stick with the "real deal" and
-        use Gettext to do the localisation.</dd>
+        use Gettext to do the localisation.</p>
+
+        </dd>
+
+        <dt>How to deal with plural forms?</dt>
+
+        <dd>
+
+        <p>A good description of <a
+            href="http://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html">Gettext
+            plural form handling</a> is available in the Gettext documentation.
+        It is somewhat technical in nature, however, it is advisable to read
+        the entire section to gain a good understanding of the concept.  Below
+        is a short (but not necessarily easier to understand) summary.</p>
+
+        <p>PO entries involving plural forms typically look like this (example
+        taken from the Finnish translation):</p>
+
+        <pre>#: ball/st_goal.c:157
+#, c-format
+msgid "%d new bonus level"
+msgid_plural "%d new bonus levels"
+msgstr[0] "%d uusi bonuskenttä"
+msgstr[1] "%d uutta bonuskenttää"</pre>
+
+        <p>The number of "msgstr[x]" lines depends on how many plural forms
+        there are in your language.  The number of plural forms is in turn
+        specified in the Plural-Forms header at the top of the PO file:</p>
+
+        <pre>"Plural-Forms: nplurals=2; plural=(n != 1);\n"</pre>
+
+        <p>Here "nplurals" is the number of plural forms and "plural" is an
+        expression used to determine the plural form of the number "n".  (See
+        the Gettext documentation for details and limitations.)</p>
+
+        <p>Each "msgstr[x]" should contain the translation using the plural
+        form "x" where "x" corresponds to a value of the plural expression.</p>
+
+        </dd>
 
     </dl>
 
