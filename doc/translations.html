@@ -27,41 +27,7 @@
     typically work with PO files containing "message identifiers" (source text)
     and "message strings" (translations of the source text).</p>
 
-    <h2>Instructions</h2>
-
-    <p>First, if there is already a translation for your language, contact the
-    current translator (or translation team), as indicated in the respective PO
-    file.  A list of current translations is available in the <a
-        href="https://s.snth.net/projects/neverball/browser/trunk/po/">"po"
-        subdirectory of the source code tree</a>.</p>
-
-    <p>If your language does not yet have a translation, download the
-    translation template file "neverball.pot".  Then, translate it.</p>
-
-    <p>Important remarks:</p>
-
-    <ul>
-
-        <li>The text encoding must be UTF-8.</li>
-
-        <li>Never edit the source text.  If you find errors or have any
-        suggestions on how to improve the source text, please contact the
-        developers (preferrably by posting a message on the forum).</li>
-
-        <li>Some strings are "contextualised", in order to allow different
-        translations for identical message identifiers.  These strings are in
-        the form of "xxx^yyy", where "xxx" is the context and "yyy" is the
-        string to translate.  The translations of such strings must have the
-        context prefix removed and must <em>only</em> contain the translation
-        of "yyy".</li>
-
-    </ul>
-
-    <p>After completing the translation, send us the translated file.  You can
-    open a new thread in the forum and either link the PO file from there or
-    send the file to one of the developers.</p>
-
-    <h2>Tools</h2>
+    <h2 id="tools">Tools</h2>
 
     <p>It is advisable to use a dedicated PO editing tool instead of editing
     the files manually.  By doing so, you will ensure that files remain in a
@@ -78,7 +44,7 @@
 
         <dd><a href="http://www.poedit.net/">Poedit</a> is a multi-platform PO
         file editor.  If you are using Microsoft Windows, Poedit is likely to
-        be your only option.  The interface is straigh-forward and the editor
+        be your only option.  The interface is straight-forward and the editor
         is easy-to-use.  It appears to lack documentation for key bindings,
         however, and plural forms for your language will have to be entered
         manually (if needed).</dd>
@@ -100,6 +66,42 @@
         <strong>not usable with Neverball</strong> at the moment.</dd>
 
     </dl>
+
+    <h2>Instructions</h2>
+
+    <p>First, if there is already a translation for your language, contact the
+    current translator (or translation team), as indicated in the respective PO
+    file.  A list of current translations is available in the <a
+        href="https://s.snth.net/projects/neverball/browser/trunk/po/">"po"
+        subdirectory of the source code tree</a>.</p>
+
+    <p>If your language does not yet have a translation, download the
+    translation template file "neverball.pot".  Then, translate it.</p>
+
+    <p>Important remarks:</p>
+
+    <ul>
+
+        <li>The text encoding must be UTF-8.</li>
+
+        <li>Never edit the source text.  (Using a <a href="#tools">dedicated PO
+            editor</a> can sometimes help resist the temptation.)  If you find
+        errors or have any suggestions on how to improve the source text,
+        please contact the developers (preferably by posting a message on the
+        forum).</li>
+
+        <li>Some strings are "contextualised", in order to allow different
+        translations for identical message identifiers.  These strings are in
+        the form of "xxx^yyy", where "xxx" is the context and "yyy" is the
+        string to translate.  The translations of such strings must have the
+        context prefix removed and must <em>only</em> contain the translation
+        of "yyy".</li>
+
+    </ul>
+
+    <p>After completing the translation, send us the translated file.  You can
+    open a new thread in the forum and either link the PO file from there or
+    send the file to one of the developers.</p>
 
     <h2>(In)Frequently Asked Questions</h2>
 
