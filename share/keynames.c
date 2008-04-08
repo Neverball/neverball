@@ -22,7 +22,7 @@
 /* Initial template generated from $SDL/src/events/SDL_keyboard.c */
 
 static const char *table[][2] = {
-    /* TRANSLATORS,
+    /* Translators,
      *
      * This is a mostly-complete list of human-readable SDL key names.  There
      * might not be corresponding names for all these keys in your language,
