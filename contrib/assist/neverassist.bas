@@ -17,9 +17,9 @@
  '
  ' Due to incapabilities of the compiler, this program is NOT platform
  ' independent. But the compiler is being ported to other platforms and is on
- ' its way to becoming a GCC front-end. Once the second task is done, this 
- ' program will be on its way to being cross-platform. FreeBASIC maintains 
- ' close syntax across across its platforms. Code made in Windows doesn't 
+ ' its way to becoming a GCC front-end. Once the second task is done, this
+ ' program will be on its way to being cross-platform. FreeBASIC maintains
+ ' close syntax across across its platforms. Code made in Windows doesn't
  ' need many (if any) changes to be compatible in *nix. There was even an Xbox
  ' port of the compiler. Unfortunately, changes to the compiler has done
  ' broken backward compatibility, and compatibility has not yet been restored
@@ -64,7 +64,7 @@ using FB
 /'
  ' This includes the generator.
  '/
-#include "nevergen.bas" 
+#include "nevergen.bas"
 
 /'
  ' This initiates graphics mode. It is a 640x480 8-bit program with one page
@@ -98,7 +98,7 @@ if Neverpath = "" then
             cls
             print lang("Path can be relative or absolute.")
             print lang("Where is the path? ");
-            input "",NeverPath
+            line input "",NeverPath
             chdir(NeverPath)
             config
             exit do
@@ -149,6 +149,7 @@ sub menu
             print "<M> ";lang("Generate a map")
         end if
         print "<C> ";lang("Compile a map")
+        print "<D> ";lang("Relocate Directory")
 
         #IFDEF __FB_WIN32__
         print "<Z> ";lang("Locate 7-Zip")
@@ -226,6 +227,15 @@ sub menu
                 print lang("Exit code: ")& Check
                 sleep
             end if
+        elseif multikey(SC_D) then
+            clkey
+            windowtitle "Neverassistant - Relocate Directory"
+            print lang("Path can be relative or absolute.")
+            print lang("If relative, must be relative to old directory.")
+            print lang("Where is the directory? ");
+            line input "",NeverPath
+            chdir(NeverPath)
+            color 15
 
         #IFDEF __FB_WIN32__
         elseif multikey(SC_Z) then

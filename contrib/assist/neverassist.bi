@@ -129,7 +129,7 @@ sub config(Switch as ubyte = 0)
         open AssistDir + "\" + AssistCfg for input as #1
         input #1, MediumClear
         input #1, MaxMoney
-        input #1, NeverPath
+        line input #1, NeverPath
         input #1, LangFile
         input #1, Z7Path
         input #1, Z7Exe
@@ -138,7 +138,7 @@ sub config(Switch as ubyte = 0)
         open AssistDir + "/" + AssistCfg for input as #1
         input #1, MediumClear
         input #1, MaxMoney
-        input #1, NeverPath
+        line input #1, NeverPath
         input #1, LangFile
         close #1
         #ENDIF
