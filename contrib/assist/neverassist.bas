@@ -235,6 +235,7 @@ sub menu
             print lang("Where is the directory? ");
             line input "",NeverPath
             chdir(NeverPath)
+            config
             color 15
 
         #IFDEF __FB_WIN32__

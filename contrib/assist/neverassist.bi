@@ -1,7 +1,7 @@
 /'
  ' This includes language support.
  '/
-#include "lang.bi" 
+#include "lang.bi"
 randomize timer
 dim shared as ubyte XM, YM, XG, YG, BlockType, BlockSet, Rotation, XR, YR, _
                     ZR, Start, Finish, MusicSwitch, XSwitch, YSwitch, _
@@ -16,7 +16,11 @@ dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, _
                      LevelMessage, WindowTitleM, Compile, Replay, LevelName, _
                      MusicPlay, Neverpath, InType, AssistDir
 dim shared as byte Check
+#IFDEF __FB_WIN32__
 const AssistCfg = "assist.ini"
+#ELSE
+const AssistCfg = "assistcfg"
+#ENDIF
 const m = 1
 #IFDEF __FB_WIN32__
 /'

@@ -1297,7 +1297,7 @@ sub place_block
         plot_face(0,-128,-128,-64,0,-128,64,0,-128,-64,"invisible")
         plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
         print #m, "}"
-        
+
         print #m, "// brush 1"
         print #m, "{"
         plot_face(1,-16,0,1,-16,-128,1,-144,0,1,"goal")

@@ -376,7 +376,7 @@ sub map_generate
         print lang("Coins: ");TargetCoins;"/";Coins
         locate 8,54
         print lang("$");Money;lang("/");MaxMoney
- 
+
         locate 13,54
         if (BlockSet = 0) then
             color 10
