@@ -306,6 +306,8 @@ void progress_rename(int set_only)
     {
         level_rename_player(level, time_rank, goal_rank, coin_rank, player);
 
+        demo_rename_player(USER_REPLAY_FILE, player);
+
         if (progress_done())
             set_rename_player(score_rank, times_rank, player);
     }
