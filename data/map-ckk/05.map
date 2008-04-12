@@ -322,13 +322,13 @@
 // entity 7
 {
 "classname" "info_player_intermission"
-"origin" "-285 -397 -130"
+"origin" "-315.375 -167.25 123.901"
 "target" "t1"
 }
 // entity 8
 {
 "classname" "target_position"
-"origin" "379 -17 67"
+"origin" "366.625 135.125 71.375"
 "targetname" "t1"
 }
 // entity 9
