@@ -33,7 +33,7 @@ sub place_block
          '/
         Entity += 1
         /'
-         ' Plots the brush(s) into a seperate worldspawn entity.
+         ' Plots the brush(es) into a seperate worldspawn entity.
          '/
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
