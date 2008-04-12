@@ -1603,8 +1603,8 @@
 // entity 7
 {
 "classname" "info_player_intermission"
-"origin" "1776 1616 1184"
-"target" "t2"
+"origin" "568 -965 753"
+"target" "t1"
 "angle" "180"
 }
 // entity 8
@@ -1623,8 +1623,8 @@
 // entity 10
 {
 "classname" "info_player_intermission"
-"origin" "568 -965 753"
-"target" "t1"
+"origin" "1776 1616 1184"
+"target" "t2"
 }
 // entity 11
 {

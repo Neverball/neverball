@@ -2787,8 +2787,8 @@
 // entity 11
 {
 "classname" "info_player_intermission"
-"origin" "-48 320 1296"
-"target" "t1"
+"origin" "-32 -256 144"
+"target" "t2"
 }
 // entity 12
 {
@@ -2799,8 +2799,8 @@
 // entity 13
 {
 "classname" "info_player_intermission"
-"origin" "-32 -256 144"
-"target" "t2"
+"origin" "-48 320 1296"
+"target" "t1"
 }
 // entity 14
 {

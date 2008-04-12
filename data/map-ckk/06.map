@@ -488,7 +488,7 @@
 // entity 13
 {
 "classname" "info_player_intermission"
-"origin" "-160 -64 80"
+"origin" "-772.375 -684.875 525.125"
 "target" "t1"
 }
 // entity 14
@@ -500,22 +500,16 @@
 // entity 15
 {
 "classname" "target_position"
-"origin" "1216 512 -416"
+"origin" "555.75 998.375 -467.375"
 "targetname" "t1"
 }
 // entity 16
-{
-"classname" "target_position"
-"origin" "1216 512 -416"
-"targetname" "t1"
-}
-// entity 17
 {
 "classname" "info_player_intermission"
 "origin" "-1419 506 1102"
 "target" "t2"
 }
-// entity 18
+// entity 17
 {
 "classname" "target_position"
 "origin" "724 1047 -771"
