@@ -225,7 +225,7 @@ void hole_goto(int h, int p)
 
         for (i = 1; i <= party; i++)
         {
-            game_get_pos(ball_p[i], ball_e[i]);
+            game_get_pos(ball_p[i], ball_e[i], i);
             stat_v[i] = 0;
         }
         game_ball(player);
@@ -238,6 +238,8 @@ void hole_goto(int h, int p)
 
 int hole_next(void)
 {
+    int i;
+
     if (done < party)
     {
         do
@@ -247,7 +249,8 @@ int hole_next(void)
         while (stat_v[player]);
 
         game_ball(player);
-        game_get_pos(ball_p[player], ball_e[player]);
+        for (i = 1; i <= party; i++)
+            game_get_pos(ball_p[i], ball_e[i], i);
         if (!config_get_d(CONFIG_BALL_COLLISIONS))
             game_set_play(PLAY_PARTY, 0);
         game_set_play(PLAY_CURRENT, 1);
@@ -273,31 +276,31 @@ int hole_move(void)
     return 0;
 }
 
-void hole_goal(int playerid)
+void hole_goal(int id)
 {
-    if (playerid == 0)
-        playerid = player;
+    if (id == 0)
+        id = player;
 
-    game_set_play(playerid, 0);
+    game_set_play(id, 0);
 
-    score_v[hole][playerid]++;
+    score_v[hole][id]++;
 
-         if (score_v[hole][playerid] == 1)
+         if (score_v[hole][id] == 1)
         audio_play(AUD_ONE, 1.0f);
-    else if (score_v[hole][playerid] == score_v[hole][0] - 2)
+    else if (score_v[hole][id] == score_v[hole][0] - 2)
         audio_play(AUD_EAGLE, 1.0f);
-    else if (score_v[hole][playerid] == score_v[hole][0] - 1)
+    else if (score_v[hole][id] == score_v[hole][0] - 1)
         audio_play(AUD_BIRDIE, 1.0f);
-    else if (score_v[hole][playerid] == score_v[hole][0])
+    else if (score_v[hole][id] == score_v[hole][0])
         audio_play(AUD_PAR, 1.0f);
-    else if (score_v[hole][playerid] == score_v[hole][0] + 1)
+    else if (score_v[hole][id] == score_v[hole][0] + 1)
         audio_play(AUD_BOGEY, 1.0f);
-    else if (score_v[hole][playerid] == score_v[hole][0] + 2)
+    else if (score_v[hole][id] == score_v[hole][0] + 2)
         audio_play(AUD_DOUBLE, 1.0f);
     else
         audio_play(AUD_SUCCESS, 1.0f);
 
-    stat_v[playerid] = 1;
+    stat_v[id] = 1;
     done++;
 
     if (done == party)
@@ -322,22 +325,25 @@ void hole_stop(void)
     }
 }
 
-void hole_fall(void)
+void hole_fall(int id)
 {
+    if (id == 0)
+        id = player;
+
     audio_play(AUD_PENALTY, 1.0f);
 
     /* Reset to the position of the putt, and apply a one-stroke penalty. */
 
-    game_set_pos(ball_p[player], ball_e[player]);
-    score_v[hole][player] += 2;
+    game_set_pos(ball_p[id], ball_e[id], id);
+    score_v[hole][id] += 2;
 
     /* Cap scores at 12 or par plus 3. */
 
-    if (score_v[hole][player] >= 12 && score_v[hole][player] >= score_v[hole][0] + 3)
+    if (score_v[hole][id] >= 12 && score_v[hole][id] >= score_v[hole][0] + 3)
     {
-        game_set_play(player, 0);
-        score_v[hole][player] = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
-        stat_v[player] = 1;
+        game_set_play(id, 0);
+        score_v[hole][id] = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
+        stat_v[id] = 1;
         done++;
     }
 }

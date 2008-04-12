@@ -1171,8 +1171,7 @@ static void sol_ball_step(struct s_file *fp, float dt)
 
 /*---------------------------------------------------------------------------*/
 
-static float sol_test_sphere_inter(const struct s_ball  *up,
-                                   const struct s_ball  *u2p)
+static float sol_test_spheres(const struct s_ball *up, const struct s_ball *u2p)
 {
     float P[3], V[3];
     float t = LARGE;
@@ -1468,7 +1467,7 @@ static float sol_test_balls(const struct s_file *fp,
             if (!u2p->P)
                 continue;
 
-            if (sol_test_sphere_inter(up, u2p) < dt)
+            if (sol_test_spheres(up, u2p) < dt)
             {
                 t = sol_bounce_ball(up, u2p, t);
             }

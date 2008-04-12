@@ -1149,7 +1149,7 @@ static int fall_enter(void)
         paused = 0;
     else
     {
-        hole_fall();
+        hole_fall(0);
 /*        game_draw(0);*/ /*TODO: is this call ok? */  /* No, it's not. */
     }
 

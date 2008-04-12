@@ -350,10 +350,6 @@ void game_draw(int pose, float t)
                     shad_draw_clr();
                 }
             }
-
-            shad_draw_set(fp->uv[ball].p, fp->uv[ball].r);
-            sol_shad(fp);
-            shad_draw_clr();
         }
 
         /* Draw the game elements. */
@@ -466,9 +462,9 @@ static int game_update_state(float dt)
     static float t = 0.f;
 
     struct s_file *fp = &file;
-    float p[3], z[3] = {0.f, 0.f, 0.f};
+    float p[3], d[3], z[3] = {0.f, 0.f, 0.f};
 
-    int u, ui, c = 0, m = 0;
+    int i, j, u, ui, c = 0, m = 0;
 
     if (dt > 0.f)
         t += dt;
@@ -515,15 +511,45 @@ static int game_update_state(float dt)
         if (ui != ball && fp->uv[ui].P && fp->uv[ui].p[1] < -10.f)
         {
             game_set_play(ui, 0);
-            v_cpy(fp->uv[ui].p, fp->uv[ui].O);
             v_cpy(fp->uv[ui].v, z);
             v_cpy(fp->uv[ui].w, z);
+            hole_fall(ui);
         }
 
     if (!m && fp->uv[ball].p[1] < -10.f)
     {
         game_set_play(ball, 0);
+        v_cpy(fp->uv[ball].v, z);
+        v_cpy(fp->uv[ball].w, z);
         return GAME_FALL;
+    }
+
+    /* Test for intersections */
+
+    for (i = 0; i < fp->uc; i++)
+    {
+        struct s_ball *up = fp->uv + i;
+
+        if (!up->P || v_len(up->v) > 0.0f)
+            continue;
+
+        for (j = i + 1; j < fp->uc; j++)
+        {
+            struct s_ball *u2p = fp->uv + j;
+
+            if (!u2p->P || v_len(u2p->v) > 0.0f)
+                continue;
+
+            v_sub(d, up->p, u2p->p);
+
+            if (v_len(d) < up->r + u2p->r)
+            {
+                if(i == ball)
+                    game_set_play(j, 0);
+                else
+                    game_set_play(i, 0);
+            }
+        }
     }
 
     /* Test for a goal or stop. */
@@ -798,20 +824,32 @@ void game_ball(int i)
     }
 }
 
-void game_get_pos(float p[3], float e[3][3])
+void game_get_pos(float p[3], float e[3][3], int ui)
 {
-    v_cpy(p,    file.uv[ball].p);
-    v_cpy(e[0], file.uv[ball].e[0]);
-    v_cpy(e[1], file.uv[ball].e[1]);
-    v_cpy(e[2], file.uv[ball].e[2]);
+    if (ui == 0)
+        ui = ball;
+
+    if (ui < file.uc)
+    {
+        v_cpy(p,    file.uv[ui].p);
+        v_cpy(e[0], file.uv[ui].e[0]);
+        v_cpy(e[1], file.uv[ui].e[1]);
+        v_cpy(e[2], file.uv[ui].e[2]);
+    }
 }
 
-void game_set_pos(float p[3], float e[3][3])
+void game_set_pos(float p[3], float e[3][3], int ui)
 {
-    v_cpy(file.uv[ball].p,    p);
-    v_cpy(file.uv[ball].e[0], e[0]);
-    v_cpy(file.uv[ball].e[1], e[1]);
-    v_cpy(file.uv[ball].e[2], e[2]);
+    if (ui == 0)
+        ui = ball;
+
+    if (ui < file.uc)
+    {
+        v_cpy(file.uv[ui].p,    p);
+        v_cpy(file.uv[ui].e[0], e[0]);
+        v_cpy(file.uv[ui].e[1], e[1]);
+        v_cpy(file.uv[ui].e[2], e[2]);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
