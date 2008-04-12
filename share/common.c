@@ -153,6 +153,15 @@ int file_rename(const char *src, const char *dst)
     return rename(src, dst);
 }
 
+void file_copy(FILE *fin, FILE *fout)
+{
+    char   buff[MAXSTR];
+    size_t size;
+
+    while ((size = fread(buff, 1, sizeof (buff), fin)) > 0)
+        fwrite(buff, 1, size, fout);
+}
+
 char *base_name(const char *name, const char *suffix)
 {
     static char buf[MAXSTR];

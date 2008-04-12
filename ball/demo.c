@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
 
 #include "demo.h"
 #include "game.h"
@@ -349,6 +350,74 @@ void demo_rename(const char *name)
         strcat(dst, REPLAY_EXT);
 
         file_rename(src, dst);
+    }
+}
+
+void demo_rename_player(const char *name, const char *player)
+{
+    char filename[MAXSTR];
+    FILE *old_fp, *new_fp;
+    struct demo d;
+
+    assert(name);
+    assert(player);
+
+    /* TODO: make this reusable. */
+
+    filename[sizeof (filename) - 1] = '\0';
+    strncpy(filename, name, sizeof (filename) - 1);
+    strncat(filename, REPLAY_EXT, sizeof (filename) - 1 - strlen(name));
+
+    /*
+     * Write out a temporary file containing the original replay data with a
+     * new player name, then copy the resulting contents back to the original
+     * file.
+     *
+     * (It is believed that the ugliness found here is outweighed by the
+     * benefits of preserving the arbitrary-length property of all strings in
+     * the replay.  In case of doubt, FIXME.)
+     */
+
+    if ((old_fp = fopen(config_user(filename), FMODE_RB)))
+    {
+        if ((new_fp = tmpfile()))
+        {
+            if (demo_header_read(old_fp, &d))
+            {
+                FILE *save_fp;
+
+                /* Modify and write the header. */
+
+                strncpy(d.player, player, sizeof (d.player));
+
+                demo_header_write(new_fp, &d);
+
+                /* Restore the last three fields not written by the above call. */
+
+                /* Hack, hack, hack. */
+
+                save_fp = demo_fp;
+                demo_fp = new_fp;
+
+                demo_play_stat(d.status, d.coins, d.timer);
+
+                demo_fp = save_fp;
+
+                /* Copy the remaining data. */
+
+                file_copy(old_fp, new_fp);
+
+                /* Then copy everything back. */
+
+                if (freopen(config_user(filename), FMODE_WB, old_fp))
+                {
+                    fseek(new_fp, 0L, SEEK_SET);
+                    file_copy(new_fp, old_fp);
+                }
+            }
+            fclose(new_fp);
+        }
+        fclose(old_fp);
     }
 }
 

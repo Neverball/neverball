@@ -17,6 +17,7 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
+#include "keynames.h"
 
 #include "st_shared.h"
 #include "st_title.h"
@@ -172,12 +173,12 @@ static int help_controls(int id)
     const char *sA = _("Manual View");
     const char *sC = _("Screenshot");
     
-    const char *k0 = _(SDL_GetKeyName((SDLKey) config_get_d(CONFIG_KEY_PAUSE)));
-    const char *k1 = _("Escape");
-    const char *k2 = SDL_GetKeyName((SDLKey) config_get_d(CONFIG_KEY_CAMERA_1));
-    const char *k3 = SDL_GetKeyName((SDLKey) config_get_d(CONFIG_KEY_CAMERA_2));
-    const char *k4 = SDL_GetKeyName((SDLKey) config_get_d(CONFIG_KEY_CAMERA_3));
-    const char *k6 = SDL_GetKeyName(SDLK_F10);
+    const char *k0 = pretty_keyname((SDLKey) config_get_d(CONFIG_KEY_PAUSE));
+    const char *k1 = pretty_keyname(SDLK_ESCAPE);
+    const char *k2 = pretty_keyname((SDLKey) config_get_d(CONFIG_KEY_CAMERA_1));
+    const char *k3 = pretty_keyname((SDLKey) config_get_d(CONFIG_KEY_CAMERA_2));
+    const char *k4 = pretty_keyname((SDLKey) config_get_d(CONFIG_KEY_CAMERA_3));
+    const char *k6 = pretty_keyname(SDLK_F10);
 
     int jd;
 
