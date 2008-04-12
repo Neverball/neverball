@@ -328,14 +328,17 @@ void hole_stop(void)
 void hole_fall(int id)
 {
     if (id == 0)
+    {
         id = player;
+        score_v[hole][id]++;
+    }
 
     audio_play(AUD_PENALTY, 1.0f);
 
     /* Reset to the position of the putt, and apply a one-stroke penalty. */
 
     game_set_pos(ball_p[id], ball_e[id], id);
-    score_v[hole][id] += 2;
+    score_v[hole][id]++;
 
     /* Cap scores at 12 or par plus 3. */
 
