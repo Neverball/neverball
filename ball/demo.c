@@ -103,7 +103,7 @@ static int demo_header_read(FILE *fp, struct demo *d)
 
         date.tm_year -= 1900;
         date.tm_mon  -= 1;
-        date.tm_isdst = 0;
+        date.tm_isdst = -1;
 
         d->date = make_time_from_utc(&date);
 
