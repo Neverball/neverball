@@ -167,10 +167,8 @@ static int loop(void)
 
         case SDL_ACTIVEEVENT:
             if (e.active.state == SDL_APPINPUTFOCUS)
-            {
-                if (e.active.gain == 0)
+                if (e.active.gain == 0 && config_get_grab())
                     goto_pause(&st_over, 0);
-            }
             break;
 
         case SDL_JOYAXISMOTION:
