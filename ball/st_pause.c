@@ -155,12 +155,7 @@ static int pause_buttn(int b, int d)
             return pause_action(gui_token(gui_click()));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-        {
-            if (SDL_GetModState() & KMOD_SHIFT)
-                return pause_action(PAUSE_EXIT);
-            else
-                return pause_action(PAUSE_CONTINUE);
-        }
+            return pause_action(PAUSE_CONTINUE);
     }
     return 1;
 }

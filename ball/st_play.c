@@ -34,15 +34,19 @@ static int view_rotate;
 
 static int pause_or_exit(void)
 {
-    if (SDL_GetModState() & KMOD_SHIFT)
+    if (config_tst_d(CONFIG_KEY_PAUSE, SDLK_ESCAPE))
+    {
+        return goto_pause();
+    }
+    else
     {
         progress_stat(GAME_NONE);
         progress_stop();
+
         config_clr_grab();
 
         return goto_state(&st_over);
     }
-    return goto_pause();
 }
 
 /*---------------------------------------------------------------------------*/
