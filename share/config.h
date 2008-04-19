@@ -161,7 +161,7 @@ enum {
 #define DEFAULT_KEY_BACKWARD         SDLK_DOWN
 #define DEFAULT_KEY_LEFT             SDLK_LEFT
 #define DEFAULT_KEY_RIGHT            SDLK_RIGHT
-#define DEFAULT_KEY_PAUSE            SDLK_SPACE
+#define DEFAULT_KEY_PAUSE            SDLK_ESCAPE
 #define DEFAULT_KEY_RESTART          SDLK_r
 #define DEFAULT_KEY_SCORE_NEXT       SDLK_TAB
 #define DEFAULT_STATS                0
