@@ -6,7 +6,7 @@
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
 "goal" "250"
-"time" "18000"
+"time" "24000"
 "song" "bgm/track5.ogg"
 "shot" "shot-csyc/Ultimate.png"
 "author" "Challenge Space Yard"
