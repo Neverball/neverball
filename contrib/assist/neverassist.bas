@@ -24,9 +24,8 @@
  ' port of the compiler. Unfortunately, changes to the compiler has done
  ' broken backward compatibility, and compatibility has not yet been restored
  ' as of last check in. In case you're wondering, the port was made using
- ' OpenXDK, a GPL replacement to that of the Microsoft XDK. OpenXDK uses no
- ' code whatsoever from Microsoft, making it legal to use on modded Xbox
- ' consoles. Be aware the two XDKs are not compatible.
+ ' OpenXDK. A BSD port is under way to being ported to, so this assistant will
+ ' be compatible with BSD systems once the port becomes stable.
  '
  ' As with Neverball and Neverputt, you can still apply the -g switch to
  ' enable debugging and use the GDB (or a compatible program) to debug it.
@@ -150,6 +149,11 @@ sub menu
         end if
         print "<C> ";lang("Compile a map")
         print "<D> ";lang("Relocate Directory")
+        if LangFile = "" OR LangFile = "en.txt" then
+            print "<L> Change language"
+        else
+            print "<L> ";lang("Change language");" (Change language)"
+        endif
 
         #IFDEF __FB_WIN32__
         print "<Z> ";lang("Locate 7-Zip")
@@ -235,6 +239,11 @@ sub menu
             print lang("Where is the directory? ");
             line input "",NeverPath
             chdir(NeverPath)
+            config
+            color 15
+        elseif multikey(SC_L) then
+            clkey
+            windowtitle "Neverassistant - Change Language"
             config
             color 15
 
