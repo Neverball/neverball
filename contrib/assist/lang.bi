@@ -1,6 +1,6 @@
 dim shared as string MasterDir
 MasterDir = curdir
-const Strings = 3000
+const Strings = 5000
 const l = 99
 dim shared as string LangFile, Unmodded(Strings), Existant(Strings), Converted(Strings)
 declare function lang(Text as string) as string

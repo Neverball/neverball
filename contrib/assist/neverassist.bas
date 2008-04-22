@@ -244,6 +244,7 @@ sub menu
         elseif multikey(SC_L) then
             clkey
             windowtitle "Neverassistant - Change Language"
+            lang_select
             config
             color 15
 
