@@ -12,6 +12,7 @@
 "goal" "50"
 "time_hs" "1000 4000"
 "coin_hs" "84 60"
+"goal_hs" "2000 4000"
 "message" "This maze has no walls.\But that doesn't make the solution\any easier to find.\"
 // brush 0
 {

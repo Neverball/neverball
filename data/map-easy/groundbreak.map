@@ -10,8 +10,9 @@
 "song" "bgm/track1.ogg"
 "time" "12000"
 "goal" "10"
-"time_hs" " "
-"coin_hs" " "
+"time_hs" "500 1500"
+"coin_hs" "56 28"
+"goal_hs" "2000 5500"
 "bonus" "1"
 // brush 0
 {

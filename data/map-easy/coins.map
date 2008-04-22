@@ -12,6 +12,7 @@
 "goal" "50"
 "time_hs" "300 1000"
 "coin_hs" "112 80"
+"goal_hs" "2000 4000"
 "message" "This time you must get 50 coins to unlock the goal.\Collect 100 coins to earn an extra ball.\Red coins are worth 5, blue coins are worth 10.\Get to the goal before time expires!\\Click to begin.\"
 // brush 0
 {

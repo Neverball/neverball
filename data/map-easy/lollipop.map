@@ -9,6 +9,11 @@
 "grad" "back/ocean.png"
 "shot" "shot-easy/lollipop.jpg"
 "song" "bgm/track2.ogg"
+"time" "12000"
+"goal" "50"
+"time_hs" "500 3000"
+"goal_hs" "3000 4500"
+"coin_hs" "178 83"
 "bonus" "1"
 // brush 0
 {

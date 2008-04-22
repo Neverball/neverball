@@ -2,8 +2,9 @@
 // entity 0
 {
 "classname" "worldspawn"
-"coin_hs" " "
-"time_hs" " "
+"coin_hs" "100 50"
+"time_hs" "1000 2000"
+"goal_hs" "1000 3000"
 "goal" "10"
 "time" "12000"
 "song" "bgm/track2.ogg"

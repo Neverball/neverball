@@ -12,7 +12,8 @@
 "goal" "80"
 "time_hs" "350 3000"
 "coin_hs" "280 140"
-"message" "Here's another coin grab.\Use it to earn a free ball.\Perhaps you already know a good route.\Teleportation might come in handy.\"
+"goal_hs" "3000 6000"
+"message" "Here's another coin grab.\Perhaps you already know a good route.\Teleportation might come in handy.\"
 "bonus" "1"
 // brush 0
 {

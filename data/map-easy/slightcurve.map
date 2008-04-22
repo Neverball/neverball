@@ -10,8 +10,9 @@
 "song" "bgm/track2.ogg"
 "time" "9000"
 "goal" "10"
-"time_hs" " "
-"coin_hs" " "
+"time_hs" "750 2000"
+"coin_hs" "66 30"
+"goal_hs" "1500 4000"
 // brush 0
 {
 ( 128 1088 -64 ) ( 128 704 -64 ) ( 128 1088 64 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0

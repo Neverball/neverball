@@ -12,6 +12,7 @@
 "goal" "10"
 "time_hs" "100 500"
 "coin_hs" "100 50"
+"goal_hs" "500 1500"
 "message" "There are 100 coins here.\This one shouldn't be too difficult,\if you don't accidentally make a goal first.\"
 // brush 0
 {
