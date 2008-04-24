@@ -2,6 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "There are two goals here.\You can complete this level\the easy way or the hard way.\Of course, by going the easy way\you can forget about all\those red and blue coins."
 "author" "Jānis Rūcis"
 "grad" "back/ocean.png"
 "back" "map-back/ocean.sol"

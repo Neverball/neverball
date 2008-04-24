@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "Use momentum to reach\the upper platforms,\but keep the ball in control\for safe landing.\\The manual view may help here.\"
 "coin_hs" "116 66"
 "time_hs" "650 1500"
 "goal_hs" "1500 4500"

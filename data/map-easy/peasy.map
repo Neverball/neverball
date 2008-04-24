@@ -13,7 +13,7 @@
 "time_hs" "600 2000"
 "coin_hs" "20 15"
 "goal_hs" "2200 5000"
-"message" "Mouse buttons rotate the view.\Press Spacebar to pause, ESC to quit.\\\\Click to begin.\"
+"message" "Mouse buttons rotate the view.\Press Escape to pause or quit.\\\\Click to begin.\"
 // brush 0
 {
 ( 0 384 0 ) ( 0 256 0 ) ( 0 256 -16 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
