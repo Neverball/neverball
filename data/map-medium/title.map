@@ -10,6 +10,7 @@
 "grad" "back/space.png"
 "coin_hs" "40 28"
 "time_hs" "1200 3000"
+"time_hs" "1750 4000"
 "goal" "25"
 "time" "6000"
 "message" "Neverball\\http://neverball.org\\Created by Robert Kooima\"

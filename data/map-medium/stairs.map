@@ -4,6 +4,7 @@
 "message" "Here's yet another test of your ability\to control bouncing.  Moving down the\stairs too quickly can be hazardous.\"
 "coin_hs" "110 89"
 "time_hs" "650 4500"
+"goal_hs" "2000 5500"
 "goal" "50"
 "time" "9000"
 "song" "bgm/track3.ogg"
