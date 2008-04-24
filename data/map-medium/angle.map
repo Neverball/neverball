@@ -12,7 +12,7 @@
 "goal" "25"
 "time_hs" "600 2000"
 "coin_hs" "68 28"
-"time_hs" "1200 3000"
+"goal_hs" "1200 3000"
 "message" "Those bridges are angled.\Each is narrower and steeper than the last.\Take the easy cash or\go all the way for a big payoff.\"
 // brush 0
 {
