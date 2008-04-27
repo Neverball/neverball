@@ -358,7 +358,7 @@ void config_save(void)
                 option_d[CONFIG_ROTATE_FAST]);
         fprintf(fp, "rotate_slow          %d\n",
                 option_d[CONFIG_ROTATE_SLOW]);
-        
+
         fprintf(fp, "key_forward          %s\n",
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_FORWARD]));
         fprintf(fp, "key_backward         %s\n",
