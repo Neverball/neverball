@@ -554,7 +554,7 @@ int goto_pause(struct state *s, int e)
     if (curr_state() == &st_pause)
         return 1;
 
-    if (e && (SDL_GetModState() & KMOD_SHIFT))
+    if (e && !config_tst_d(CONFIG_KEY_PAUSE, SDLK_ESCAPE))
         return goto_state(s);
 
     st_continue = curr_state();
@@ -658,8 +658,6 @@ static int shared_keybd(int c, int d)
 {
     if (d)
     {
-        if (c == SDLK_ESCAPE)
-            return goto_pause(&st_over, 1);
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
             return goto_pause(&st_over, 0);
     }

@@ -944,7 +944,7 @@ static void game_update_view(float dt)
     {
     case 1: /* Camera 1: Viewpoint chases the ball position. */
 
-        v_mad(view_e[2], view_e[2], view_v, v_dot(view_v, view_v) * dt / 16);
+        v_sub(view_e[2], view_p, view_c);
 
         break;
 

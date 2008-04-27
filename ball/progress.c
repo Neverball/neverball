@@ -58,6 +58,9 @@ static int timer = 0;
 static int goal   = 0; /* Current goal value. */
 static int goal_i = 0; /* Initial goal value. */
 
+static int goal_e      = 0; /* Goal enabled flag                */
+static int same_goal_e = 0; /* Reuse existing goal enabled flag */
+
 static int time_rank = 3;
 static int goal_rank = 3;
 static int coin_rank = 3;
@@ -92,15 +95,19 @@ int  progress_play(int i)
         timer  = 0;
         goal   = goal_i = level_goal(level);
 
+        if (same_goal_e)
+            same_goal_e = 0;
+        else
+            goal_e = (mode != MODE_CHALLENGE && level_completed(level) &&
+                      config_get_d(CONFIG_LOCK_GOALS) == 0) || goal == 0;
+
         prev = curr;
 
         time_rank = goal_rank = coin_rank = 3;
 
         if (demo_play_init(USER_REPLAY_FILE, get_level(level), mode,
                            level_time(level), level_goal(level),
-                           (mode != MODE_CHALLENGE && level_completed(level) &&
-                            config_get_d(CONFIG_LOCK_GOALS) == 0) || goal == 0,
-                           curr.score, curr.balls, curr.times))
+                           goal_e, curr.score, curr.balls, curr.times))
         {
             return 1;
         }
@@ -268,7 +275,15 @@ int  progress_next(void)
 int  progress_same(void)
 {
     progress_stop();
-    curr = status == GAME_GOAL ? prev : curr;
+
+    /* Reset progress and goal enabled state. */
+
+    if (status == GAME_GOAL)
+    {
+        curr = prev;
+        same_goal_e = 1;
+    }
+
     return progress_play(level);
 }
 

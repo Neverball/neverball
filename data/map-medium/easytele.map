@@ -12,6 +12,7 @@
 "goal" "40"
 "time_hs" "1000 3000"
 "coin_hs" "92 52"
+"goal_hs" "3000 5500"
 "message" "Use teleporters to go\where you otherwise couldn't.\"
 // brush 0
 {

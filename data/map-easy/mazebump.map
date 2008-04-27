@@ -11,6 +11,9 @@
 "shot" "shot-easy/mazebump.jpg"
 "time" "30000"
 "goal" "30"
+"time_hs" "7500 13500"
+"coin_hs" "120 70"
+"goal_hs" "9000 18000"
 "bonus" "1"
 // brush 0
 {

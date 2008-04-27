@@ -12,6 +12,7 @@
 "goal" "30"
 "time_hs" "500 3000"
 "coin_hs" "190 60"
+"goal_hs" "1500 4500"
 "message" "Learn to control a bouncing ball.\Look at the shadow to know where the\ball will land.  If you're feeling confident in\your mastery of bouncing, take a risk\for a big payoff.\"
 // brush 0
 {

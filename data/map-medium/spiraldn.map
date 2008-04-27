@@ -10,6 +10,7 @@
 "song" "bgm/track5.ogg"
 "coin_hs" "46 40"
 "time_hs" "350 6000"
+"goal_hs" "2500 5000"
 "goal" "30"
 "time" "6000"
 "message" "Take it slow to keep it away from the edge.\Or, don't.\Either way might work.\"

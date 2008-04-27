@@ -12,6 +12,7 @@
 "goal" "30"
 "time_hs" "300 2000"
 "coin_hs" "88 50"
+"goal_hs" "2000 5000"
 "message" "Try to avoid being hit by moving objects.\One bump can throw the ball\completely out of control.\"
 // brush 0
 {
