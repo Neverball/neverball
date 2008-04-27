@@ -55,7 +55,8 @@ static void sol_body_v(float v[3],
         v_sub(v, pq->p, pp->p);
         v_scl(v, v, 1.0f / pp->t);
 
-        v_scl(v, v, derp(bp->t / pp->t));
+        if (pp->s)
+            v_scl(v, v, derp(bp->t / pp->t));
     }
     else
     {
