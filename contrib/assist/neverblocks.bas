@@ -980,6 +980,8 @@ sub place_block
         Entity += 1
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"func_train"+chr(34)
+        print #m, chr(34)+"target"+chr(34)+" "+chr(34)+"path_corner"; _
+                  ""& Entity;chr(34)
         print #m, "// brush 0"
         print #m, "{"
         if (Rotation = 1) OR (Rotation = 3) then
