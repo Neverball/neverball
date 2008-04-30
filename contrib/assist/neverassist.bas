@@ -203,7 +203,9 @@ sub menu
         elseif multikey(SC_C) then
             clkey
             windowtitle "Neverassistant - Compiling map"
-            input "Which map do you want to compile? (without .map) ",Compile
+            print lang("Which map do you want to compile?") + _
+                  lang(" (without .map)")
+            input "",Compile
             if (Compile < > "") then
                 Compile = Compile + ".map"
                 #IFDEF __FB_WIN32__
@@ -219,7 +221,9 @@ sub menu
         elseif multikey(SC_R) then
             clkey
             windowtitle "Neverassistant - Load replay"
-            input "Which replay do you want to watch? (without .nbr) ",Replay
+            print lang("Which replay do you want to watch?") + _
+                  lang(" (without .nbr)")
+            input "",Replay
             if (Replay < > "") then
                 Replay = Replay + ".nbr"
                 #IFDEF __FB_WIN32__

@@ -13,7 +13,8 @@ sub map_generate
     color 11
     clkey
     cls
-    input "Which file would you like to enter";MapFile
+    print lang("Which file would you like to enter? ");
+    input "",MapFile
     MapFile = MapFile + ".map"
     WindowTitleM = "Neverassistant Program - " + MapFile
     windowtitle WindowTitleM
@@ -94,7 +95,7 @@ sub map_generate
     Check = open(MapFile for output as #m)
     if Check < > 0 then
         clkey
-        print lang("Unable to open ") + MapFile + lang(" for output.")
+        print lang("Unable to open the map for output: ") + MapFile
         sleep
         exit sub
     end if
@@ -373,7 +374,7 @@ sub map_generate
         locate 6,54
         print lang("Blocks: ");Blocks
         locate 7,54
-        print lang("Coins: ");TargetCoins;"/";Coins
+        print lang("Coins: ");TargetCoins;lang("/");Coins
         locate 8,54
         print lang("$");Money;lang("/");MaxMoney
 
@@ -393,7 +394,7 @@ sub map_generate
         line(549,239)-(601,291),0,bf
 
         if (BlockType = 1) AND (BlockSet < > 1) then
-            print "Start"
+            print lang("Start")
             line(450,240)-(500,240),12
             line(450,240)-(450,290),10
             line(450,290)-(500,290),10
@@ -405,7 +406,7 @@ sub map_generate
             line(570,240)-(580,270),12,bf
 
         elseif (BlockType = 2) AND (BlockSet < > 1) then
-            print "Flat straight $1"
+            print lang("Flat straight $1")
             line(450,240)-(500,240),12
             line(450,240)-(450,290),10
             line(450,290)-(500,290),12
@@ -427,7 +428,7 @@ sub map_generate
             line(550,290)-(600,290),7
 
         elseif (BlockType = 4) AND (BlockSet = 0) then
-            print "Junction $1"
+            print lang("Junction $1")
             line(450,240)-(500,240),10
             line(450,240)-(450,290),12
             line(450,290)-(500,290),12
@@ -438,7 +439,7 @@ sub map_generate
             line(550,290)-(600,290),7
 
         elseif (BlockType = 5) AND (BlockSet = 0) then
-            print "Cross $1"
+            print lang("Cross $1")
             line(450,240)-(500,240),12
             line(450,240)-(450,290),12
             line(450,290)-(500,290),12
@@ -449,7 +450,7 @@ sub map_generate
             line(550,290)-(600,290),7
 
         elseif (BlockType = 6) AND (BlockSet = 0) then
-            print "Coined flat straight $1"
+            print lang("Coined flat straight $1")
             line(450,240)-(500,240),12
             line(450,240)-(450,290),10
             line(450,290)-(500,290),12
@@ -481,7 +482,7 @@ sub map_generate
             line(550,290)-(600,290),7
 
         elseif (BlockType = 8) AND (BlockSet = 0) then
-            print "Dead-end $1"
+            print lang("Dead-end $1")
             line(450,240)-(500,240),10
             line(450,240)-(450,290),10
             line(450,290)-(500,290),12
@@ -492,7 +493,7 @@ sub map_generate
             line(550,290)-(600,290),7
 
         elseif (BlockType = 9) AND (BlockSet = 0) then
-            print "Coined Dead-end $1"
+            print lang("Coined Dead-end $1")
             line(450,240)-(500,240),10
             line(450,240)-(450,290),10
             line(450,290)-(500,290),12
@@ -507,7 +508,7 @@ sub map_generate
             line(550,290)-(600,290),7
 
         elseif (BlockType = 10) AND (BlockSet = 0) then
-            print "Small Jump $2"
+            print lang("Small Jump $2")
             line(450,240)-(500,240),12
             line(450,240)-(450,250),10
             line(450,250)-(500,250),10
@@ -526,7 +527,7 @@ sub map_generate
             line(590,290)-(600,290),7
 
         elseif (BlockType = 11) AND (BlockSet = 0) then
-            print "Coined Junction $1"
+            print lang("Coined Junction $1")
             line(450,240)-(500,240),10
             line(450,240)-(450,290),12
             line(450,290)-(500,290),12
@@ -541,7 +542,7 @@ sub map_generate
             line(550,290)-(600,290),7
 
         elseif (BlockType = 12) AND (BlockSet = 0) then
-            print "Coined Cross $1"
+            print lang("Coined Cross $1")
             line(450,240)-(500,240),12
             line(450,240)-(450,290),12
             line(450,290)-(500,290),12
@@ -556,7 +557,7 @@ sub map_generate
             line(550,290)-(600,290),7
 
         elseif (BlockType = 13) AND (BlockSet = 0) then
-            print "Ramp straight $1"
+            print lang("Ramp straight $1")
             line(450,240)-(500,240),12
             line(450,240)-(450,290),10
             line(450,290)-(500,290),12
@@ -567,7 +568,7 @@ sub map_generate
             line(550,290)-(600,270),7
 
         elseif (BlockType = 14) AND (BlockSet = 0) then
-            print "Bump $1"
+            print lang("Bump $1")
             line(450,240)-(500,240),12
             line(450,240)-(450,290),10
             line(450,290)-(500,290),12
@@ -579,7 +580,7 @@ sub map_generate
             line(550,290)-(600,290),7
 
         elseif (BlockType = 15) AND (BlockSet = 0) then
-            print "Coined Bump $1"
+            print lang("Coined Bump $1")
             line(450,240)-(500,240),12
             line(450,240)-(450,290),10
             line(450,290)-(500,290),12
@@ -595,7 +596,7 @@ sub map_generate
             line(550,290)-(600,290),7
 
         elseif (BlockType = 16) AND (BlockSet = 0) then
-            print "Flat straight with mover $3"
+            print lang("Flat straight with mover $3")
             line(450,240)-(500,240),12
             line(450,240)-(450,290),10
             line(450,290)-(500,290),12
@@ -608,7 +609,7 @@ sub map_generate
             line(562,260)-(588,260),6
 
         elseif (BlockType = 22) AND (BlockSet = 0) then
-            print "Flat straight Finish $1"
+            print lang("Flat straight Finish $1")
             line(450,240)-(500,240),12
             line(450,240)-(450,290),10
             line(450,290)-(500,290),12
@@ -634,7 +635,7 @@ sub map_generate
             line(570,240)-(580,270),13,bf
 
         elseif (BlockType = 24) AND (BlockSet = 0) then
-            print "Junction Finish $1"
+            print lang("Junction Finish $1")
             line(450,240)-(500,240),10
             line(450,240)-(450,290),12
             line(450,290)-(500,290),12
@@ -646,7 +647,7 @@ sub map_generate
             line(570,240)-(580,270),13,bf
 
         elseif (BlockType = 25) AND (BlockSet = 0) then
-            print "Cross Finish $1"
+            print lang("Cross Finish $1")
             line(450,240)-(500,240),12
             line(450,240)-(450,290),12
             line(450,290)-(500,290),12
@@ -658,7 +659,7 @@ sub map_generate
             line(570,240)-(580,270),13,bf
 
        elseif (BlockType = 26) AND (BlockSet = 0) then
-            print "Dead-end Finish"
+            print lang("Dead-end Finish")
             line(450,240)-(500,240),10
             line(450,240)-(450,290),10
             line(450,290)-(500,290),12
@@ -841,7 +842,7 @@ sub map_generate
         elseif multikey(SC_BACKSPACE) then
             color 15
             cls
-            print "[Y/N] Really clear whole map?"
+            print lang("[Y/N] Really clear whole map?")
             do
                 sleep 20
                 if multikey(SC_Y) then

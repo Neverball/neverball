@@ -116,7 +116,7 @@ sub config(Switch as ubyte = 0)
         print #1, MediumClear
         print #1, MaxMoney
         print #1, NeverPath
-        print #1, LangFile
+        print #1, LangFile + ".txt"
         print #1, Z7Path
         print #1, Z7Exe
         close #1
@@ -125,7 +125,7 @@ sub config(Switch as ubyte = 0)
         print #1, MediumClear
         print #1, MaxMoney
         print #1, NeverPath
-        print #1, LangFile
+        print #1, LangFile + ".txt"
         close #1
         #ENDIF
     else
