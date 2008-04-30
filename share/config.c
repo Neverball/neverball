@@ -18,11 +18,13 @@
 #include <stdio.h>
 #include <errno.h>
 #include <math.h>
+#include <ctype.h>
 
 #include "config.h"
 #include "glext.h"
 #include "vec3.h"
 #include "sync.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -129,18 +131,74 @@ void config_init(void)
     config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
 }
 
+/*
+ * Scan a NUL-terminated string LINE according to the format
+ * '^<space>?<key><space><value>$' and store pointers to the start of key and
+ * value at DST_KEY and DST_VAL, respectively.  No memory is allocated to store
+ * the strings;  instead, the memory pointed to by LINE modified in-place as
+ * needed.
+ *
+ * Return 1 if LINE matches the format, return 0 otherwise.
+ */
+
+static int scan_key_and_value(char **dst_key, char **dst_val, char *line)
+{
+    if (line)
+    {
+        char *key, *val, *space;
+
+        for (key = line; *key && isspace(*key); key++);
+
+        if (*key)
+        {
+            if (dst_key)
+                *dst_key = key;
+        }
+        else
+            return 0;
+
+        for (space = key; *space && !isspace(*space); space++);
+
+        if (*space)
+        {
+            /* NUL-terminate the key, if necessary. */
+
+            if (dst_key)
+            {
+                *space = '\0';
+                space++;
+            }
+        }
+        else
+            return 0;
+
+        for (val = space; *val && isspace(*val); val++);
+
+        if (*val)
+        {
+            if (dst_val)
+                *dst_val = val;
+        }
+        else
+            return 0;
+
+        return 1;
+    }
+
+    return 0;
+}
+
 void config_load(void)
 {
     FILE *fp;
 
     if ((fp = fopen(config_user(USER_CONFIG_FILE), "r")))
     {
-        char buf[MAXSTR];
-        char key[MAXSTR];
-        char val[MAXSTR];
+        char *line, *key, *val;
 
-        while (fgets(buf, MAXSTR, fp))
-            if (sscanf(buf, "%s %s", key, val) == 2)
+        while (read_line(&line, fp))
+        {
+            if (scan_key_and_value(&key, &val, line))
             {
                 if      (strcmp(key, "fullscreen")            == 0)
                     config_set_d(CONFIG_FULLSCREEN,           atoi(val));
@@ -267,6 +325,9 @@ void config_load(void)
                 else if (strcmp(key, "lock_goals") == 0)
                     config_set_d(CONFIG_LOCK_GOALS, atoi(val));
             }
+
+            free(line);
+        }
 
         fclose(fp);
 

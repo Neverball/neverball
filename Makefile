@@ -195,6 +195,7 @@ PUTT_OBJS := \
 	share/gui.o         \
 	share/text.o        \
 	share/sync.o        \
+	share/common.o      \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \
