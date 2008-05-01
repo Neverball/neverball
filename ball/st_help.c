@@ -172,7 +172,7 @@ static int help_controls(int id)
     const char *s9 = _("Lazy View");
     const char *sA = _("Manual View");
     const char *sC = _("Screenshot");
-    
+
     const char *k0 = pretty_keyname((SDLKey) config_get_d(CONFIG_KEY_PAUSE));
     const char *k1 = pretty_keyname(SDLK_ESCAPE);
     const char *k2 = pretty_keyname((SDLKey) config_get_d(CONFIG_KEY_CAMERA_1));

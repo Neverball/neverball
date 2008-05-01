@@ -53,7 +53,7 @@ static void *image_load_png(const char *filename, int *width,
 
     if (!(readp = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0)))
         return NULL;
-        
+
     if (!(infop = png_create_info_struct(readp)))
         return NULL;
 
@@ -70,7 +70,7 @@ static void *image_load_png(const char *filename, int *width,
                      PNG_TRANSFORM_EXPAND   |
                      PNG_TRANSFORM_STRIP_16 |
                      PNG_TRANSFORM_PACKING, NULL);
-        
+
         /* Extract and check image properties. */
 
         w = (int) png_get_image_width (readp, infop);
@@ -173,7 +173,7 @@ void *image_load(const char *filename, int *width,
                                        int *bytes)
 {
     const char *ext = filename + strlen(filename) - 4;
-    
+
     if      (strcmp(ext, ".png") == 0 || strcmp(ext, ".PNG") == 0)
         return image_load_png(filename, width, height, bytes);
     else if (strcmp(ext, ".jpg") == 0 || strcmp(ext, ".JPG") == 0)

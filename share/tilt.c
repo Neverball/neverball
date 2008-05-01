@@ -26,7 +26,7 @@
 #include <libcwiimote/wiimote.h>
 #include <libcwiimote/wiimote_api.h>
 
-/* 
+/*
  * This data structure tracks button changes, counting transitions so that
  * none are missed if the event handling thread falls significantly behind
  * the device IO thread.
