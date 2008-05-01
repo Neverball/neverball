@@ -26,10 +26,12 @@
 #include "binary.h"
 
 #define MAGIC       0x4c4f53af
-#define SOL_VERSION 6
+#define SOL_VERSION 7
 
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
+
+#define GAMMA 0.78f
 
 /*---------------------------------------------------------------------------*/
 
@@ -231,12 +233,17 @@ static void sol_load_jump(FILE *fin, struct s_jump *jp)
     get_array(fin,  jp->p, 3);
     get_array(fin,  jp->q, 3);
     get_float(fin, &jp->r);
+
+    jp->b = 0;
 }
 
 static void sol_load_ball(FILE *fin, struct s_ball *bp)
 {
     get_array(fin,  bp->p, 3);
     get_float(fin, &bp->r);
+    get_index(fin, &bp->m);
+
+    v_cpy(bp->O, bp->p);
 
     bp->e[0][0] = bp->E[0][0] = 1.0f;
     bp->e[0][1] = bp->E[0][1] = 0.0f;
@@ -585,6 +592,7 @@ static void sol_stor_ball(FILE *fout, struct s_ball *bp)
 {
     put_array(fout,  bp->p, 3);
     put_float(fout, &bp->r);
+    put_index(fout, &bp->m);
 }
 
 static void sol_stor_view(FILE *fout, struct s_view *wp)
@@ -920,6 +928,118 @@ static float sol_bounce(struct s_ball *up,
 }
 
 /*
+ * Compute the new  linear velocities of two colliding balls.
+ * t gives the time after which they collide.
+ */
+static float sol_bounce_ball(struct s_ball *up,
+                             struct s_ball *u2p,
+                             const float t)
+{
+    float r_rel[3], v_rel[3], v1_par[3], v1_perp[3], v2_par[3], v2_perp[3],
+          u[3];
+    float v11[3], v12[3], v21[3], v22[3];
+    float *p1 = up->p, *v1 = up->v, *p2 = u2p->p, *v2 = u2p->v;
+    float inertia, factor;
+    const int u1 = up->m;
+    const int u2 = u2p->m;
+
+   /* Correct positions up to the collision */
+    v_mad(p1, p1, v1, t);
+    v_mad(p2, p2, v2, t);
+
+   /* Floating point precision */
+    if (!(p1[1] - p2[1] > 0.001f ) && !(p2[1] - p1[1] > 0.001f))
+    {
+        if (p1[1] > p2[1])
+            p2[1] = p1[1];
+        else
+            p1[1] = p2[1];
+    }
+
+   /* Hack: prevent losing balls */
+    v_sub(v_rel, v2, v1);
+    if (v_len(v_rel) < 0.001f)
+    {
+        return 0.0f;
+    }
+
+   /* r_rel is the unit vector from p1 to p2 */
+    v_sub(r_rel, p2, p1);
+    v_nrm(r_rel, r_rel);
+
+   /*
+    * project velocities upon r_rel to get components parallel
+    * to r_rel - only these will be changed in the collision
+    */
+    factor = v_dot(v1, r_rel);
+    v_scl(v1_par, r_rel, factor);
+    v_sub(v1_perp, v1, v1_par);
+
+    factor = v_dot(v2, r_rel);
+    v_scl(v2_par, r_rel, factor);
+    v_sub(v2_perp, v2, v2_par);
+
+   /* u is used to calculate the "energy" of the impact */
+    v_sub(u, v2_par, v1_par);
+
+   /*
+    * New parallel velocities follow from momentum conservation,
+    * coefficient of restitution GAMMA, mass ratio inertia
+    */
+    inertia = pow(up->r / u2p->r, 3);
+
+    if (!u2)
+    {
+        v_scl(v11, v1_par, -GAMMA);
+        v_scl(v12, v2_par, GAMMA + 1.0f);
+        v_add(v1_par, v11, v12);
+    }
+
+    else if (!u1)
+    {
+        v_scl(v21, v1_par, GAMMA + 1.0f);
+        v_scl(v22, v2_par, -GAMMA);
+        v_add(v2_par, v21, v22);
+    }
+
+    else
+    {
+        v_scl(v11, v1_par, (inertia - GAMMA) / (inertia + 1.0f));
+        v_scl(v12, v1_par, (GAMMA + 1.0f) * inertia / (inertia + 1.0f));
+        v_scl(v21, v2_par, (GAMMA + 1.0f) / (inertia + 1.0f));
+        v_scl(v22, v2_par, (1.0f - GAMMA * inertia) / (inertia + 1.0f));
+        v_add(v1_par, v11, v21);
+        v_add(v2_par, v12, v22);
+    }
+
+    if (u1)
+        v_add(v1, v1_par, v1_perp);
+    if (u2)
+        v_add(v2, v2_par, v2_perp);
+
+   /* Hack: prevent accidental spinning while the ball is stationary */
+    if (v_len(v1) < 0.01f && u1)
+    {
+        up->w[0] = 0.0f;
+        up->w[1] = 0.0f;
+        up->w[2] = 0.0f;
+    }
+
+    if (v_len(v2) < 0.01f && u2)
+    {
+        u2p->w[0] = 0.0f;
+        u2p->w[1] = 0.0f;
+        u2p->w[2] = 0.0f;
+    }
+
+   /*
+    * Return the length of the relative velocity parallel
+    * to the line of impact
+    */
+    return fabsf(v_len(u));
+}
+
+/*
  * Compute the new angular velocity and orientation of a ball pendulum.
  * A gives the accelleration of the ball.  G gives the gravity vector.
  */
@@ -1048,6 +1168,24 @@ static void sol_ball_step(struct s_file *fp, float dt)
 
         sol_rotate(up->e, up->w, dt);
     }
+}
+
+/*---------------------------------------------------------------------------*/
+
+static float sol_test_spheres(const struct s_ball *up, const struct s_ball *u2p)
+{
+    float P[3], V[3];
+    float t = LARGE;
+
+    v_sub(P, up->p, u2p->p);
+    v_sub(V, up->v, u2p->v);
+
+    if (v_dot(P, V) < 0.0f)
+    {
+        t = v_sol(P, V, up->r + u2p->r);
+    }
+
+    return (t > LARGE) ? (LARGE) : (t);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1182,7 +1320,7 @@ static float sol_test_lump(float dt,
 {
     float U[3] = {0.0f, 0.0f, 0.0f}; /* init value only to avoid gcc warnings */
     float u, t = dt;
-    int i;
+    int   i;
 
     /* Short circuit a non-solid lump. */
 
@@ -1303,6 +1441,40 @@ static float sol_test_body(float dt,
         v_cpy(V, W);
         t = u;
     }
+
+    return t;
+}
+
+static float sol_test_balls(const struct s_file *fp,
+                            float dt)
+{
+    float t = 0.0f;
+    int   i, j;
+
+    for (i = 0; i < fp->uc; i++)
+    {
+        struct s_ball *up = fp->uv + i;
+
+        if (!up->P)
+            continue;
+
+        for (j = i + 1; j < fp->uc; j++)
+        {
+            struct s_ball *u2p = fp->uv + j;
+
+            if (!(up->r > 0.0f || u2p->r > 0.0f))
+                continue;
+
+            if (!u2p->P)
+                continue;
+
+            if (sol_test_spheres(up, u2p) < dt)
+            {
+                t = sol_bounce_ball(up, u2p, t);
+            }
+        }
+    }
+
     return t;
 }
 
@@ -1340,117 +1512,144 @@ static float sol_test_file(float dt,
 
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 {
-    float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
-    int c = 16;
+    float l, b = 0.0f, nt = dt, p;
+    int   i, c = 16;
 
-    if (ui < fp->uc)
+    if ((p = sol_test_balls(fp, nt)) > 0.0f)
+        l = p;
+    else
+        l = 0.f;
+
+    for (i = 0; i < fp->uc; i++)
     {
-        struct s_ball *up = fp->uv + ui;
+        float P[3], V[3], v[3], r[3], a[3], d, e, tt = dt;
 
-        /* If the ball is in contact with a surface, apply friction. */
-
-        v_cpy(a, up->v);
-        v_cpy(v, up->v);
-        v_cpy(up->v, g);
-
-        if (m && sol_test_file(tt, P, V, up, fp) < 0.0005f)
+        if (i < fp->uc)
         {
-            v_cpy(up->v, v);
-            v_sub(r, P, up->p);
+            struct s_ball *up = fp->uv + i;
 
-            if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
+            if (!up->P || !up->m)
+                continue;
+
+            /* If the ball is in contact with a surface, apply friction. */
+
+            v_cpy(a, up->v);
+            v_cpy(v, up->v);
+            v_cpy(up->v, g);
+
+            if (m && sol_test_file(tt, P, V, up, fp) < 0.0005f)
             {
-                if ((e = (v_len(up->v) - dt)) > 0.0f)
+                v_cpy(up->v, v);
+                v_sub(r, P, up->p);
+
+                if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
                 {
-                    /* Scale the linear velocity. */
+                    if ((e = (v_len(up->v) - dt)) > 0.0f)
+                    {
+                        /* Scale the linear velocity. */
 
-                    v_nrm(up->v, up->v);
-                    v_scl(up->v, up->v, e);
+                        v_nrm(up->v, up->v);
+                        v_scl(up->v, up->v, e);
 
-                    /* Scale the angular velocity. */
+                        /* Scale the angular velocity. */
 
-                    v_sub(v, V, up->v);
-                    v_crs(up->w, v, r);
-                    v_scl(up->w, up->w, -1.0f / (up->r * up->r));
+                        v_sub(v, V, up->v);
+                        v_crs(up->w, v, r);
+                        v_scl(up->w, up->w, -1.0f / (up->r * up->r));
+
+                        (*m)--;
+                    }
+                    else
+                    {
+                        /* Friction has brought the ball to a stop. */
+
+                        up->v[0] = 0.0f;
+                        up->v[1] = 0.0f;
+                        up->v[2] = 0.0f;
+                    }
                 }
-                else
-                {
-                    /* Friction has brought the ball to a stop. */
-
-                    up->v[0] = 0.0f;
-                    up->v[1] = 0.0f;
-                    up->v[2] = 0.0f;
-
-                    (*m)++;
-                }
+                else v_mad(up->v, v, g, tt);
             }
             else v_mad(up->v, v, g, tt);
+
+            /* Test for collision. */
+
+            if (!up->m)
+                continue;
+
+            while (tt && tt > (nt = sol_test_file(tt, P, V, up, fp)) && c > 0)
+            {
+                sol_body_step(fp, nt);
+                sol_swch_step(fp, nt);
+                sol_ball_step(fp, nt);
+
+                tt -= nt;
+
+                if (b < ((d = sol_bounce(up, P, V, nt))))
+                    b = d;
+
+                c--;
+            }
+
+            /* Apply the ball's accelleration to the pendulum. */
+
+            v_sub(a, up->v, a);
+
+            sol_pendulum(up, a, g, dt);
         }
-        else v_mad(up->v, v, g, tt);
-
-        /* Test for collision. */
-
-        while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp)))
-        {
-            sol_body_step(fp, nt);
-            sol_swch_step(fp, nt);
-            sol_ball_step(fp, nt);
-
-            tt -= nt;
-
-            if (b < (d = sol_bounce(up, P, V, nt)))
-                b = d;
-
-            c--;
-        }
-
-        sol_body_step(fp, tt);
-        sol_swch_step(fp, tt);
-        sol_ball_step(fp, tt);
-
-        /* Apply the ball's accelleration to the pendulum. */
-
-        v_sub(a, up->v, a);
-
-        sol_pendulum(up, a, g, dt);
     }
-    return b;
+
+    if (!c && !ui)
+        nt += dt;
+
+    sol_body_step(fp, nt);
+    sol_swch_step(fp, nt);
+    sol_ball_step(fp, nt);
+
+    return (b > p) ? (b) : (p);
 }
 
 /*---------------------------------------------------------------------------*/
 
 struct s_item *sol_item_test(struct s_file *fp, float *p, float item_r)
 {
-    const float *ball_p = fp->uv->p;
-    const float  ball_r = fp->uv->r;
-
-    int hi;
+    int hi, ui;
 
     for (hi = 0; hi < fp->hc; hi++)
     {
-        float r[3];
-
-        r[0] = ball_p[0] - fp->hv[hi].p[0];
-        r[1] = ball_p[1] - fp->hv[hi].p[1];
-        r[2] = ball_p[2] - fp->hv[hi].p[2];
-
-        if (fp->hv[hi].t != ITEM_NONE && v_len(r) < ball_r + item_r)
+        for (ui = 0; ui < fp->uc; ui++)
         {
-            p[0] = fp->hv[hi].p[0];
-            p[1] = fp->hv[hi].p[1];
-            p[2] = fp->hv[hi].p[2];
+            const float *ball_p = fp->uv[ui].p;
+            const float  ball_r = fp->uv[ui].r;
 
-            return &fp->hv[hi];
+            float r[3];
+
+            r[0] = ball_p[0] - fp->hv[hi].p[0];
+            r[1] = ball_p[1] - fp->hv[hi].p[1];
+            r[2] = ball_p[2] - fp->hv[hi].p[2];
+
+            if (fp->hv[hi].t != ITEM_NONE && v_len(r) < ball_r + item_r)
+            {
+                p[0] = fp->hv[hi].p[0];
+                p[1] = fp->hv[hi].p[1];
+                p[2] = fp->hv[hi].p[2];
+
+                return &fp->hv[hi];
+            }
         }
     }
+
     return NULL;
 }
 
-struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
+int sol_goal_test(struct s_file *fp, float *p, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
     int zi;
+
+    if (!fp->uv[ui].P)
+        return 0;
 
     for (zi = 0; zi < fp->zc; zi++)
     {
@@ -1464,131 +1663,167 @@ struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
             ball_p[1] > fp->zv[zi].p[1] &&
             ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
         {
-            p[0] = fp->zv[zi].p[0];
-            p[1] = fp->zv[zi].p[1];
-            p[2] = fp->zv[zi].p[2];
+            if (p)
+            {
+                p[0] = fp->zv[zi].p[0];
+                p[1] = fp->zv[zi].p[1];
+                p[2] = fp->zv[zi].p[2];
+            }
 
-            return &fp->zv[zi];
+            return 1;
         }
     }
-    return NULL;
+
+    return 0;
 }
 
 /*
- * Test if the  ball UI is inside a  jump. Return 1 if yes  and fill P
- * with the destination position, return 0 if not, and return 2 if the
- * ball is on the border of a jump.
+ * Test and process the event a ball enters a jump.
+ * Return  the  ball's  ui  if  it  entered a jump.
+ * Before return, set p to jump's destination.
  */
-int sol_jump_test(struct s_file *fp, float *p, int ui)
+int sol_jump_test(struct s_file *fp, float *p)
 {
-    const float *ball_p = fp->uv[ui].p;
-    const float  ball_r = fp->uv[ui].r;
-    int ji;
     float l;
-    int res = 0;
+    int ji, ui, res = 0;
 
-    for (ji = 0; ji < fp->jc; ji++)
+    for (ui = 0; ui < fp->uc; ui++)
     {
-        float r[3];
-
-        r[0] = ball_p[0] - fp->jv[ji].p[0];
-        r[1] = ball_p[2] - fp->jv[ji].p[2];
-        r[2] = 0;
-
-        l = v_len(r) - fp->jv[ji].r;
-        if (l < 0 &&
-            ball_p[1] > fp->jv[ji].p[1] &&
-            ball_p[1] < fp->jv[ji].p[1] + JUMP_HEIGHT / 2)
+        for (ji = 0; ji < fp->jc; ji++)
         {
-            if (l < - ball_r )
-            {
-                p[0] = fp->jv[ji].q[0] + (ball_p[0] - fp->jv[ji].p[0]);
-                p[1] = fp->jv[ji].q[1] + (ball_p[1] - fp->jv[ji].p[1]);
-                p[2] = fp->jv[ji].q[2] + (ball_p[2] - fp->jv[ji].p[2]);
+            const float *ball_p = fp->uv[ui].p;
+            const float  ball_r = fp->uv[ui].r;
+            float r[3];
 
-                return 1;
+            if (!fp->uv[ui].P || !fp->uv[ui].m)
+                continue;
+
+            r[0] = ball_p[0] - fp->jv[ji].p[0];
+            r[1] = ball_p[2] - fp->jv[ji].p[2];
+            r[2] = 0;
+
+            l = v_len(r) - fp->jv[ji].r;
+            if (l < 0 &&
+                ball_p[1] > fp->jv[ji].p[1] &&
+                ball_p[1] < fp->jv[ji].p[1] + JUMP_HEIGHT / 2)
+            {
+                if (l < -ball_r )
+                {
+                    if (((int)(pow(2, ui)) & (int)(fp->jv[ji].b)) == 0)
+                    {
+                        if (res >=  0)
+                            res  = ui + 1;
+
+                        fp->jv[ji].b |= (int)pow(2, ui);
+
+                        if (p)
+                        {
+                            p[0] = fp->jv[ji].q[0] + (ball_p[0] - fp->jv[ji].p[0]);
+                            p[1] = fp->jv[ji].q[1] + (ball_p[1] - fp->jv[ji].p[1]);
+                            p[2] = fp->jv[ji].q[2] + (ball_p[2] - fp->jv[ji].p[2]);
+                        }
+                    }
+                }
             }
-            else
-                res = 2;
+            else if (((int)(pow(2, ui)) & (int)(fp->jv[ji].b)) > 0)
+            {
+                fp->jv[ji].b &= ~((int)(pow(2, ui)));
+                res = -1;
+            }
         }
+
+        if (res > 0)
+            return res;
+
+        else
+            res = 0;
     }
+
     return res;
 }
 
 /*
- * Test and process the event the ball UI enters a switch. Return 1 if
- * a visible  switch is  activated, return 0  otherwise (no  switch is
+ * Test and process the event  a ball enters a switch. Return 1 if
+ * a visible switch is activated, return 0 otherwise (no switch is
  * activated or only invisible switches).
  */
-int sol_swch_test(struct s_file *fp, int ui)
+int sol_swch_test(struct s_file *fp)
 {
-    const float *ball_p = fp->uv[ui].p;
-    const float  ball_r = fp->uv[ui].r;
-    int xi;
-    int res = 0;
+    int xi, ui, res = 0;
 
     for (xi = 0; xi < fp->xc; xi++)
     {
         struct s_swch *xp = fp->xv + xi;
 
-        if (xp->t0 == 0 || xp->f == xp->f0)
+        for (ui = 0; ui < fp->uc; ui++)
         {
-            float l;
-            float r[3];
+            float l, r[3];
 
-            r[0] = ball_p[0] - xp->p[0];
-            r[1] = ball_p[2] - xp->p[2];
-            r[2] = 0;
+            const float *ball_p  = fp->uv[ui].p;
+            const float  ball_r  = fp->uv[ui].r;
 
-            l = v_len(r) - xp->r;
+            if (!fp->uv[ui].P || !fp->uv[ui].m)
+                continue;
 
-            if (l < ball_r &&
-                ball_p[1] > xp->p[1] &&
-                ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
+            if (xp->t0 == 0 || xp->f == xp->f0)
             {
-                if (!xp->e && l < - ball_r)
+                r[0] = ball_p[0] - xp->p[0];
+                r[1] = ball_p[2] - xp->p[2];
+                r[2] = 0;
+
+                l = v_len(r) - xp->r;
+
+                if (l < ball_r &&
+                    ball_p[1] > xp->p[1] &&
+                    ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
                 {
-                    int pi = xp->pi;
-                    int pj = xp->pi;
-
-                    /* The ball enters. */
-
-                    if (xp->t0 == 0)
-                        xp->e = 1;
-
-                    /* Toggle the state, update the path. */
-
-                    xp->f = xp->f ? 0 : 1;
-
-                    do  /* Tortoise and hare cycle traverser. */
+                    if (!xp->e && l < -ball_r)
                     {
-                        fp->pv[pi].f = xp->f;
-                        fp->pv[pj].f = xp->f;
+                        int pi = xp->pi;
+                        int pj = xp->pi;
 
-                        pi = fp->pv[pi].pi;
-                        pj = fp->pv[pj].pi;
-                        pj = fp->pv[pj].pi;
+                        /* The  (first) ball enters. */
+
+                        xp->b = ui;
+
+                        if (xp->t0 == 0)
+                            xp->e = 1;
+
+                        /* Toggle the state, update the path. */
+
+                        xp->f = xp->f ? 0 : 1;
+
+                        do  /* Tortoise and hare cycle traverser. */
+                        {
+                            fp->pv[pi].f = xp->f;
+                            fp->pv[pj].f = xp->f;
+
+                            pi = fp->pv[pi].pi;
+                            pj = fp->pv[pj].pi;
+                            pj = fp->pv[pj].pi;
+                        }
+                        while (pi != pj);
+
+                        /* It toggled to non-default state, start the timer. */
+
+                        if (xp->f != xp->f0)
+                            xp->t  = xp->t0;
+
+                        /* If visible, set the result. */
+
+                        if (!xp->i)
+                            res = 1;
                     }
-                    while (pi != pj);
-
-                    /* It toggled to non-default state, start the timer. */
-
-                    if (xp->f != xp->f0)
-                        xp->t  = xp->t0;
-
-                    /* If visible, set the result. */
-
-                    if (!xp->i)
-                        res = 1;
                 }
+
+                /* The ball exits. */
+
+                else if (xp->e && xp->b == ui)
+                    xp->e = 0;
             }
-
-            /* The ball exits. */
-
-            else if (xp->e)
-                xp->e = 0;
         }
     }
+
     return res;
 }
 

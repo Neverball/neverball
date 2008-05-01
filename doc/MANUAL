@@ -222,6 +222,10 @@ values follow.
 
         Joystick exit button
 
+    putt_collisions 0
+
+        This key enables ball collisions for Neverputt.
+
 
 
 Contact: <robert.kooima@gmail.com>

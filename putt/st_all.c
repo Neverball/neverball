@@ -239,7 +239,7 @@ static void title_paint(int id, float t)
 
 static void title_timer(int id, float dt)
 {
-    float g[3] = { 0.f, 0.f, 0.f };
+    float g[3] = { 0.f, -9.8f, 0.f };
 
     game_step(g, dt);
     game_set_fly(fcosf(time_state() / 10.f));
@@ -889,7 +889,7 @@ static void stroke_paint(int id, float t)
 
 static void stroke_timer(int id, float dt)
 {
-    float g[3] = { 0.f, 0.f, 0.f };
+    float g[3] = { 0.f, -9.8f, 0.f };
 
     float k;
 
@@ -968,7 +968,7 @@ static void roll_paint(int id, float t)
 
 static void roll_timer(int id, float dt)
 {
-    float g[3] = { 0.0f, -9.8f, 0.0f };
+    float g[3] = { 0.f, -9.8f, 0.f };
 
     switch (game_step(g, dt))
     {
@@ -1000,7 +1000,7 @@ static int goal_enter(void)
     if (paused)
         paused = 0;
     else
-        hole_goal();
+        hole_goal(0);
 
     hud_init();
 
@@ -1087,7 +1087,7 @@ static void stop_paint(int id, float t)
 
 static void stop_timer(int id, float dt)
 {
-    float g[3] = { 0.f, 0.f, 0.f };
+    float g[3] = { 0.f, -9.8f, 0.f };
 
     game_update_view(dt);
     game_step(g, dt);
@@ -1143,7 +1143,7 @@ static int fall_enter(void)
         paused = 0;
     else
     {
-        hole_fall();
+        hole_fall(0);
 /*        game_draw(0);*/ /*TODO: is this call ok? */  /* No, it's not. */
     }
 
