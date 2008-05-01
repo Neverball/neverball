@@ -464,21 +464,16 @@ static int game_update_state(float dt)
     struct s_file *fp = &file;
     float p[3], d[3], z[3] = {0.f, 0.f, 0.f};
 
-    int i, j, u, ui, c = 0, m = 0;
+    int i, j, u, ui, m = 0;
 
     if (dt > 0.f)
         t += dt;
     else
         t = 0.f;
 
-    /* Any balls in motion? */
-
     for (ui = 0; ui < fp->uc; ui++)
         if (ui != ball && fp->uv[ui].P && v_len(fp->uv[ui].v) > 0.0f)
             m = 1;
-
-    if (v_len(fp->uv[ball].v) > 0.0f)
-        c = 1;
 
     /* Test for a switch. */
 
@@ -561,7 +556,7 @@ static int game_update_state(float dt)
         }
     }
 
-    if (!c && !m && t > 1.f)
+    if (t > 1.f)
     {
         t = 0.f;
 
@@ -605,7 +600,7 @@ int game_step(const float g[3], float dt)
     float d = 0.f;
     float b = 0.f;
     float st = 0.f;
-    int i, n = 1, m = 0;
+    int i, n = 1, m = 1;
 
     s = (7.f * s + dt) / 8.f;
     t = s;

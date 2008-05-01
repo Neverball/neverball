@@ -1556,6 +1556,8 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                         v_sub(v, V, up->v);
                         v_crs(up->w, v, r);
                         v_scl(up->w, up->w, -1.0f / (up->r * up->r));
+
+                        (*m)--;
                     }
                     else
                     {
@@ -1564,9 +1566,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                         up->v[0] = 0.0f;
                         up->v[1] = 0.0f;
                         up->v[2] = 0.0f;
-
-                        if(i == ui)
-                            (*m)++;
                     }
                 }
                 else v_mad(up->v, v, g, tt);
