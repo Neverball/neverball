@@ -471,9 +471,7 @@ static int game_update_state(float dt)
     else
         t = 0.f;
 
-    /*
-     * Any balls in motion?
-     */
+    /* Any balls in motion? */
 
     for (ui = 0; ui < fp->uc; ui++)
         if (ui != ball && fp->uv[ui].P && v_len(fp->uv[ui].v) > 0.0f)

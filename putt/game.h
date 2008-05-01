@@ -36,11 +36,9 @@
 #define JUMP_CURR_BALL 1
 #define JUMP_OTHR_BALL 2
 
-enum play {
-    PLAY_CURRENT=-3,
-    PLAY_ALL,
-    PLAY_PARTY
-};
+#define PLAY_CURRENT  -1
+#define PLAY_PARTY    -2
+#define PLAY_ALL      -3
 
 /*---------------------------------------------------------------------------*/
 
