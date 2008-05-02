@@ -1557,7 +1557,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                         v_crs(up->w, v, r);
                         v_scl(up->w, up->w, -1.0f / (up->r * up->r));
 
-                        (*m)--;
+                        (*m)++;
                     }
                     else
                     {
