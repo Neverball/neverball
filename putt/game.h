@@ -32,14 +32,6 @@
 #define GAME_GOAL 2
 #define GAME_FALL 3
 
-#define JUMP_NONE      0
-#define JUMP_CURR_BALL 1
-#define JUMP_OTHR_BALL 2
-
-#define PLAY_CURRENT  -1
-#define PLAY_PARTY    -2
-#define PLAY_ALL      -3
-
 /*---------------------------------------------------------------------------*/
 
 void  game_init(const char *);
@@ -51,16 +43,14 @@ int   game_step(const float[3], float);
 
 void  game_update_view(float);
 
-void  game_set_play(int, int);
-
 void  game_set_rot(int);
 void  game_clr_mag(void);
 void  game_set_mag(int);
 void  game_set_fly(float);
 
 void  game_ball(int);
-void  game_set_pos(float[3], float[3][3], int);
-void  game_get_pos(float[3], float[3][3], int);
+void  game_set_pos(float[3], float[3][3]);
+void  game_get_pos(float[3], float[3][3]);
 
 /*---------------------------------------------------------------------------*/
 

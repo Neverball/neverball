@@ -223,7 +223,6 @@ struct s_swch
     int   f;                                   /* current state              */
     int   i;                                   /* is invisible?              */
     int   e;                                   /* is a ball inside it?       */
-    int   b;                                   /* which ball started it?     */
 };
 
 struct s_bill
@@ -248,10 +247,6 @@ struct s_jump
     float p[3];                                /* position                   */
     float q[3];                                /* target position            */
     float r;                                   /* radius                     */
-
-    int   b;                                   /* balls inside of jump       */
-                                               /* ball 1: 1, 2: 2, 3:4, 4:8, */
-                                               /* 5:16, 6:32, etc            */
 };
 
 struct s_ball
@@ -263,9 +258,6 @@ struct s_ball
     float E[3][3];                             /* basis of pendulum          */
     float W[3];                                /* angular pendulum velocity  */
     float r;                                   /* radius                     */
-    int   P;                                   /* play state                 */
-    int   m;                                   /* is ball mobile?            */
-    float O[3];                                /* original position          */
 };
 
 struct s_view
@@ -338,10 +330,10 @@ void  sol_free(struct s_file *);
 
 float sol_step(struct s_file *, const float *, float, int, int *);
 
-int   sol_jump_test(struct s_file *, float *);
-int   sol_swch_test(struct s_file *);
-int   sol_goal_test(struct s_file *, float *, int);
+int   sol_jump_test(struct s_file *, float *, int);
+int   sol_swch_test(struct s_file *, int);
 
+struct s_goal *sol_goal_test(struct s_file *, float *, int);
 struct s_item *sol_item_test(struct s_file *, float *, float);
 
 /*---------------------------------------------------------------------------*/

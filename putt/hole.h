@@ -28,9 +28,9 @@ const char *curr_par(void);
 void hole_goto(int, int);
 int  hole_next(void);
 int  hole_move(void);
-void hole_goal(int);
+void hole_goal(void);
 void hole_stop(void);
-void hole_fall(int);
+void hole_fall(void);
 
 void hole_song(void);
 

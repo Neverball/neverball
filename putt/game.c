@@ -44,9 +44,8 @@ static float view_v[3];                 /* Current view vector               */
 static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view orientation          */
 
-static int   jump_s;                    /* Has ball reached other end?       */
-static int   jump_u;                    /* Which ball is jumping?            */
-static float jump_b;                    /* Jump-in-progress flag             */
+static float jump_e = 1;                /* Jumping enabled flag              */
+static float jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 
@@ -81,18 +80,12 @@ static void view_init(void)
 
 void game_init(const char *s)
 {
-    jump_s  = 1;
-    jump_u  = 0;
-    jump_b  = JUMP_NONE;
-    jump_dt = 0.f;
+    jump_e = 1;
+    jump_b = 0;
 
     view_init();
     sol_load_gl(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
                                     config_get_d(CONFIG_SHADOW));
-
-    game_set_play(PLAY_ALL, 0);
-
-    file.uv->m = 0;
 }
 
 void game_free(void)
@@ -175,9 +168,9 @@ static void game_draw_balls(const struct s_file *fp,
 
     int ui;
 
-    for (ui = 1; ui < fp->uc; ui++)
+    for (ui = curr_party(); ui > 0; ui--)
     {
-        if (ui == ball || fp->uv[ui].P)
+        if (ui == ball)
         {
             float ball_M[16];
             float pend_M[16];
@@ -185,7 +178,6 @@ static void game_draw_balls(const struct s_file *fp,
             m_basis(ball_M, fp->uv[ui].e[0], fp->uv[ui].e[1], fp->uv[ui].e[2]);
             m_basis(pend_M, fp->uv[ui].E[0], fp->uv[ui].E[1], fp->uv[ui].E[2]);
 
-            glPushAttrib(GL_LIGHTING_BIT);
             glPushMatrix();
             {
                 glTranslatef(fp->uv[ui].p[0],
@@ -197,15 +189,12 @@ static void game_draw_balls(const struct s_file *fp,
 
                 glEnable(GL_COLOR_MATERIAL);
                 glColor4fv(color[ui]);
-
                 ball_draw(ball_M, pend_M, bill_M, t);
                 glDisable(GL_COLOR_MATERIAL);
             }
             glPopMatrix();
-            glPopAttrib();
         }
-
-        else if (ui <= curr_party())
+        else
         {
             glPushMatrix();
             {
@@ -258,7 +247,7 @@ static void game_draw_jumps(const struct s_file *fp)
                          fp->jv[ji].p[2]);
 
             glScalef(fp->jv[ji].r, 1.f, fp->jv[ji].r);
-            jump_draw((fp->jv[ji].b > 0) ? 1 : 0);
+            jump_draw(!jump_e);
         }
         glPopMatrix();
     }
@@ -298,12 +287,7 @@ void game_draw(int pose, float t)
 
     float fov = FOV;
 
-    int i = 0;
-
-    if (jump_b == JUMP_CURR_BALL)
-    {
-        fov *= 2.0f * fabsf(jump_dt - 0.5f);
-    }
+    if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
     config_push_persp(fov, 0.1f, FAR_DIST);
     glPushAttrib(GL_LIGHTING_BIT);
@@ -341,15 +325,9 @@ void game_draw(int pose, float t)
 
         if (config_get_d(CONFIG_SHADOW) && !pose)
         {
-            for (i = 0; i < fp->uc; i++)
-            {
-                if (fp->uv[i].P)
-                {
-                    shad_draw_set(fp->uv[i].p, fp->uv[i].r);
-                    sol_shad(fp);
-                    shad_draw_clr();
-                }
-            }
+            shad_draw_set(fp->uv[ball].p, fp->uv[ball].r);
+            sol_shad(fp);
+            shad_draw_clr();
         }
 
         /* Draw the game elements. */
@@ -462,114 +440,46 @@ static int game_update_state(float dt)
     static float t = 0.f;
 
     struct s_file *fp = &file;
-    float p[3], d[3], z[3] = {0.f, 0.f, 0.f};
-
-    int i, j, u, ui, m = 0;
+    float p[3];
 
     if (dt > 0.f)
         t += dt;
     else
         t = 0.f;
 
-    for (ui = 0; ui < fp->uc; ui++)
-        if (ui != ball && fp->uv[ui].P && v_len(fp->uv[ui].v) > 0.0f)
-            m = 1;
-
     /* Test for a switch. */
 
-    if (sol_swch_test(fp))
+    if (sol_swch_test(fp, ball))
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
-    if (jump_b == JUMP_NONE && (u = sol_jump_test(fp, jump_p)))
+    if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, ball) == 1)
     {
-        if (u - 1 == ball)
-        {
-            jump_b = JUMP_CURR_BALL;
-        }
-        else if (u > 0)
-        {
-            jump_b = JUMP_OTHR_BALL;
-        }
-
-        jump_u = u - 1;
+        jump_b  = 1;
+        jump_e  = 0;
+        jump_dt = 0.f;
 
         audio_play(AUD_JUMP, 1.f);
     }
+    if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, ball) == 0)
+        jump_e = 1;
 
     /* Test for fall-out. */
 
-    for (ui = 0; ui < fp->uc; ui++)
-        if (ui != ball && fp->uv[ui].P && fp->uv[ui].p[1] < -10.f)
-        {
-            game_set_play(ui, 0);
-            v_cpy(fp->uv[ui].v, z);
-            v_cpy(fp->uv[ui].w, z);
-            hole_fall(ui);
-        }
-
-    if (!m && fp->uv[ball].p[1] < -10.f)
-    {
-        game_set_play(ball, 0);
-        v_cpy(fp->uv[ball].v, z);
-        v_cpy(fp->uv[ball].w, z);
+    if (fp->uv[ball].p[1] < -10.f)
         return GAME_FALL;
-    }
-
-    /* Test for intersections */
-
-    for (i = 0; i < fp->uc; i++)
-    {
-        struct s_ball *up = fp->uv + i;
-
-        if (!up->P || v_len(up->v) > 0.0f)
-            continue;
-
-        for (j = i + 1; j < fp->uc; j++)
-        {
-            struct s_ball *u2p = fp->uv + j;
-
-            if (!u2p->P || v_len(u2p->v) > 0.0f)
-                continue;
-
-            v_sub(d, up->p, u2p->p);
-
-            if (v_len(d) < up->r + u2p->r)
-            {
-                if(i == ball)
-                    game_set_play(j, 0);
-                else
-                    game_set_play(i, 0);
-            }
-        }
-    }
 
     /* Test for a goal or stop. */
-
-    for (ui = 0; ui < fp->uc; ui++)
-    {
-        if (ui != ball && fp->uv[ui].P && !(v_len(fp->uv[ui].v) > 0.0f) && sol_goal_test(fp, p, ui))
-        {
-            game_set_play(ui, 0);
-            hole_goal(ui);
-        }
-    }
 
     if (t > 1.f)
     {
         t = 0.f;
 
         if (sol_goal_test(fp, p, ball))
-        {
-            game_set_play(ui, 0);
             return GAME_GOAL;
-        }
-
         else
-        {
             return GAME_STOP;
-        }
     }
 
     return GAME_NONE;
@@ -600,21 +510,27 @@ int game_step(const float g[3], float dt)
     float d = 0.f;
     float b = 0.f;
     float st = 0.f;
-    int i, n = 1, m = 1;
+    int i, n = 1, m = 0;
 
     s = (7.f * s + dt) / 8.f;
     t = s;
 
-    /*
-     * The JUMP_NONE here ensures that no two balls
-     * are being processed  simultaneously.  If two
-     * enter a  jump at  exactly the same time, the
-     * ball  with  the  lower  ui will be processed
-     * first, and the second ball will be processed
-     * immediately after.
-     */
+    if (jump_b)
+    {
+        jump_dt += dt;
 
-    if (jump_b == JUMP_NONE)
+        /* Handle a jump. */
+
+        if (0.5 < jump_dt)
+        {
+            fp->uv[ball].p[0] = jump_p[0];
+            fp->uv[ball].p[1] = jump_p[1];
+            fp->uv[ball].p[2] = jump_p[2];
+        }
+        if (1.f < jump_dt)
+            jump_b = 0;
+    }
+    else
     {
         /* Run the sim. */
 
@@ -640,29 +556,6 @@ int game_step(const float g[3], float dt)
             audio_play(AUD_BUMP, (float) (b - 0.5) * 2.0f);
     }
 
-    else
-    {
-        /* Handle a jump. */
-
-        jump_dt += dt;
-
-        if (0.5f < jump_dt && jump_s)
-        {
-            jump_s = 0;
-            fp->uv[jump_u].p[0] = jump_p[0];
-            fp->uv[jump_u].p[1] = jump_p[1];
-            fp->uv[jump_u].p[2] = jump_p[2];
-            sol_jump_test(fp, NULL);
-        }
-
-        if (1.f  < jump_dt)
-        {
-            jump_dt = 0.f;
-            jump_b  = JUMP_NONE;
-            jump_s  = 1;
-        }
-    }
-
     game_update_view(dt);
     return game_update_state(st);
 }
@@ -680,31 +573,6 @@ void game_putt(void)
     file.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
 
     view_m = 0.f;
-}
-
-/*---------------------------------------------------------------------------*/
-
-/*
- * Set ball B's play state as S.  Additional values can be used for b:
- */
-
-void game_set_play(int b, int s)
-{
-    int i;
-
-    if (b >= 0            && b    < file.uc)
-        file.uv[b].P = s;
-
-    if (b == PLAY_CURRENT && ball < file.uc)
-        file.uv[ball].P = s;
-
-    if (b == PLAY_ALL)
-        for (i = 1; i < file.uc; i++)
-            file.uv[i].P = s;
-
-    if (b == PLAY_PARTY)
-        for (i = 1; i <= curr_party() && i < file.uc; i++)
-            file.uv[i].P = s;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -805,6 +673,9 @@ void game_ball(int i)
 
     ball = i;
 
+    jump_e = 1;
+    jump_b = 0;
+
     for (ui = 0; ui < file.uc; ui++)
     {
         file.uv[ui].v[0] = 0.f;
@@ -817,32 +688,20 @@ void game_ball(int i)
     }
 }
 
-void game_get_pos(float p[3], float e[3][3], int ui)
+void game_get_pos(float p[3], float e[3][3])
 {
-    if (ui == 0)
-        ui = ball;
-
-    if (ui < file.uc)
-    {
-        v_cpy(p,    file.uv[ui].p);
-        v_cpy(e[0], file.uv[ui].e[0]);
-        v_cpy(e[1], file.uv[ui].e[1]);
-        v_cpy(e[2], file.uv[ui].e[2]);
-    }
+    v_cpy(p,    file.uv[ball].p);
+    v_cpy(e[0], file.uv[ball].e[0]);
+    v_cpy(e[1], file.uv[ball].e[1]);
+    v_cpy(e[2], file.uv[ball].e[2]);
 }
 
-void game_set_pos(float p[3], float e[3][3], int ui)
+void game_set_pos(float p[3], float e[3][3])
 {
-    if (ui == 0)
-        ui = ball;
-
-    if (ui < file.uc)
-    {
-        v_cpy(file.uv[ui].p,    p);
-        v_cpy(file.uv[ui].e[0], e[0]);
-        v_cpy(file.uv[ui].e[1], e[1]);
-        v_cpy(file.uv[ui].e[2], e[2]);
-    }
+    v_cpy(file.uv[ball].p,    p);
+    v_cpy(file.uv[ball].e[0], e[0]);
+    v_cpy(file.uv[ball].e[1], e[1]);
+    v_cpy(file.uv[ball].e[2], e[2]);
 }
 
 /*---------------------------------------------------------------------------*/

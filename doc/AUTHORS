@@ -17,7 +17,6 @@
     Mehdi Yousfi-Monod  (mym)
     Michael Middleton   (slippifishi)
     Florian Priester
-    Byron James Johnson (Krabby Krap)
 
 * TRANSLATORS
 
@@ -64,8 +63,6 @@
       - Feature ideas and testing
     Byron James Johnson
       - Platform acceleration toggle
-      - Neverputt ball vs. ball collision
-      - Various bug fixes
     Laurent Moussault (Lorant)
       - Menu navigation improvements
       - Layout improvements in several screens
@@ -85,8 +82,6 @@
       - Map compiler speed-ups for debugging large maps
     Uoti Urpala
       - Bounces with moving objects
-    Georg Wachter
-      - Generic sphere-vs-sphere collision
     Mehdi Yousfi-Monod
       - Neverball Hall of Fame management
       - Windows packaging
