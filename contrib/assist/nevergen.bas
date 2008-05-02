@@ -1,3 +1,6 @@
+#IFNDEF __SATISFY__
+#ERROR Must compile neverassist.bi
+#ELSE
 /'
  ' Generator's resources
  '/
@@ -302,6 +305,13 @@ sub map_generate
                 YR = 1
                 ZR = 1
             end if
+        elseif multikey(SC_Q) then
+            BlockType = 17
+            if (BlockSet = 0) then
+                XR = 1
+                YR = 1
+                ZR = 1
+            end if
 
         elseif multikey(SC_V) then
             BlockType = 22
@@ -361,7 +371,7 @@ sub map_generate
          ' Prints information on the right hand side.
          '/
         locate 1,54
-        print lang("Location: ");"("&XP;lang(",")&YP;lang(",")&ZP;")"
+        print lang("Location: ");"("&XP;","&YP;","&ZP;")"
         color 11
         locate 2,54
         print lang("* Press F1 for help.")
@@ -374,9 +384,9 @@ sub map_generate
         locate 6,54
         print lang("Blocks: ");Blocks
         locate 7,54
-        print lang("Coins: ");TargetCoins;lang("/");Coins
+        print lang("Coins: ");TargetCoins;"/";Coins
         locate 8,54
-        print lang("$");Money;lang("/");MaxMoney
+        print lang("$");Money;"/";MaxMoney
 
         locate 13,54
         if (BlockSet = 0) then
@@ -608,6 +618,17 @@ sub map_generate
             line(550,290)-(600,290),7
             line(562,260)-(588,260),6
 
+        elseif (BlockType = 17) AND (BlockSet = 0) then
+            print lang("Narrower $3")
+            line(450,240)-(500,240),12
+            line(450,240)-(450,290),10
+            line(450,290)-(500,290),12
+            line(500,240)-(500,290),10
+            line(550,270)-(550,290),7
+            line(550,270)-(600,270),7
+            line(600,270)-(600,290),7
+            line(550,290)-(600,290),7
+
         elseif (BlockType = 22) AND (BlockSet = 0) then
             print lang("Flat straight Finish $1")
             line(450,240)-(500,240),12
@@ -688,39 +709,41 @@ sub map_generate
                       "This is where the player starts. This"
                 print "block can't be rotated."
             elseif (BlockType = 2) AND (BlockSet = 0) then
-                print "This is the most simple block. It is straight and flat."
+                print lang("This is the most simple block. It is straight and flat.")
             elseif (BlockType = 3) AND (BlockSet = 0) then
-                print "This is the most simple turn. It is flat."
+                print lang("This is the most simple turn. It is flat.")
             elseif (BlockType = 4) AND (BlockSet = 0) then
-                print "This is a 3-way block."
+                print lang("This is a 3-way block.")
             elseif (BlockType = 5) AND (BlockSet = 0) then
-                print "This is a 4-way block."
+                print lang("This is a 4-way block.")
 
             elseif (BlockType = 6) AND (BlockSet = 0) then
-                print "Like a Flat Straight, but with four coins."
+                print lang("Like a Flat Straight, but with four coins.")
             elseif (BlockType = 7) AND (BlockSet = 0) then
                 print "Like a 90"+chr(248)+" simple flat turn, " + _
                       "but with four coins."
             elseif (BlockType = 8) AND (BlockSet = 0) then
-                print "This block only has one end. Be careful."
+                print lang("This block only has one end. Be careful.")
             elseif (BlockType = 9) AND (BlockSet = 0) then
-                print "Like a Dead-end, but with four coins."
+                print lang("Like a Dead-end, but with four coins.")
             elseif (BlockType = 10) AND (BlockSet = 0) then
-                print "You can jump with this block."
+                print lang("You can jump with this block.")
 
             elseif (BlockType = 11) AND (BlockSet = 0) then
-                print "Like a Junction, but with four coins."
+                print lang("Like a Junction, but with four coins.")
             elseif (BlockType = 12) AND (BlockSet = 0) then
-                print "Like a Cross, but with four coins."
+                print lang("Like a Cross, but with four coins.")
             elseif (BlockType = 13) AND (BlockSet = 0) then
-                print "This block allows you to change elevations."
+                print lang("This block allows you to change elevations.")
             elseif (BlockType = 14) AND (BlockSet = 0) then
-                print "This block has a bump."
+                print lang("This block has a bump.")
             elseif (BlockType = 15) AND (BlockSet = 0) then
-                print "This bump has coins on it."
+                print lang("This bump has coins on it.")
 
             elseif (BlockType = 16) AND (BlockSet = 0) then
                 print "Like a Flat Straight, but with a mover on top."
+            elseif (BlockType = 17) AND (BlockSet = 0) then
+                print lang("This block is narrow in the middle.")
 
             elseif (BlockType = 22) AND (BlockSet = 0) then
                 print "Every map made must have at least one of these. " + _
@@ -975,3 +998,4 @@ sub map_generate
     clkey
     menu
 end sub
+#ENDIF

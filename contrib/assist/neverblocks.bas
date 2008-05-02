@@ -1,3 +1,6 @@
+#IFNDEF __SATISFY__
+#ERROR Must compile neverassist.bi
+#ELSE
 /'
  ' Welcome to the construction blocks source file.
  '/
@@ -34,6 +37,9 @@ sub place_block
         Entity += 1
         /'
          ' Plots the brush(es) into a seperate worldspawn entity.
+         '
+         ' The plot_face subroutine has 11 arguments. They're listed in the
+         ' neverassist.bi header file.
          '/
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -981,7 +987,7 @@ sub place_block
         print #m, "{"
         print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"func_train"+chr(34)
         print #m, chr(34)+"target"+chr(34)+" "+chr(34)+"path_corner"; _
-                  ""& Entity;chr(34)
+                  ""& Entity+1;chr(34)
         print #m, "// brush 0"
         print #m, "{"
         if (Rotation = 1) OR (Rotation = 3) then
@@ -1046,6 +1052,82 @@ sub place_block
         MinimumLevelTime += 150
         Money += 3
         Blocks += 2
+        Putt = 2
+
+    elseif (BlockType = 17) AND (BlockSet = 0) AND _
+           (Money + 3 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
+        /'
+         ' This block has a narrow center.
+         '/
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+        print #m, "// brush 0"
+        print #m, "{"
+        if (Rotation = 1) OR (Rotation = 3) then
+            plot_face(0,0,16,0,0,-128,0,-128,16,0,"turf-green-dark")
+            plot_face(0,-128,-128,-16,0,-128,-16,-128,16,-16,"turf-grey")
+            plot_face(0,-48,-96,-16,0,-128,-16,-128,16,-16,"turf-grey")
+            plot_face(0,-80,-96,0,-80,-96,0,-80,-32,0,"turf-grey")
+            plot_face(0,-48,-32,-16,-48,-32,0,-80,-32,0,"invisible")
+            plot_face(0,-80,-96,-16,-80,-96,0,-48,-96,0,"invisible")
+        elseif (Rotation = 2) OR (Rotation = 4) then
+            plot_face(0,0,0,0,0,-128,0,-128,0,0,"turf-green-dark")
+            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+            plot_face(0,-80,-80,64,-48,-80,-64,-80,-80,-64,"turf-grey")
+            plot_face(0,-96,-64,64,-96,-80,-64,-96,-64,-64,"invisible")
+            plot_face(0,-32,-64,-64,-32,-80,-64,-32,-64,64,"invisible")
+            plot_face(0,-96,-48,-64,-64,-48,-64,-96,-48,64,"turf-grey")
+        end if
+        print #m, "}"
+        print #m, "// brush 1"
+        print #m, "{"
+        if (Rotation = 1) OR (Rotation = 3) then
+            plot_face(0,0,16,0,0,-128,0,-128,16,0,"turf-green-dark")
+            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+            plot_face(0,-128,-128,-16,0,-128,-16,-128,16,-16,"turf-grey")
+            plot_face(0,-80,-32,0,-80,-32,-16,-128,0,-16,"turf-grey")
+            plot_face(0,-48,-32,-16,-48,-32,0,0,0,0,"turf-grey")
+            plot_face(0,-48,-32,0,-48,-32,-16,-80,-32,-16,"invisible")
+        elseif (Rotation = 2) OR (Rotation = 4) then
+            plot_face(0,0,0,0,0,-128,0,-128,0,0,"turf-green-dark")
+            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+            plot_face(0,-128,-128,-16,-128,0,-16,-128,-128,0,"invisible")
+            plot_face(0,-96,-48,64,-128,0,-64,-96,-48,-64,"turf-grey")
+            plot_face(0,-96,-64,-64,-96,-80,-64,-96,-64,64,"invisible")
+            plot_face(0,-96,-80,-64,-128,-128,-64,-96,-80,64,"turf-grey")
+        end if
+        print #m, "}"
+        /'
+         ' It takes three lumps to form a block that is narrow in the middle.
+         '/
+        print #m, "// brush 2"
+        print #m, "{"
+        if (Rotation = 1) OR (Rotation = 3) then
+            plot_face(0,0,16,0,0,-128,0,-128,16,0,"turf-green-dark")
+            plot_face(0,0,0,64,-128,0,64,0,0,-64,"turf-grey")
+            plot_face(0,-128,-128,-16,0,-128,-16,-128,16,-16,"invisible")
+            plot_face(0,-80,-96,-16,-80,-96,0,-128,-128,0,"turf-grey")
+            plot_face(0,-48,-96,0,-48,-96,-16,0,-128,-16,"turf-grey")
+            plot_face(0,-80,-96,0,-80,-96,-16,-48,-96,-16,"invisible")
+        elseif (Rotation = 2) OR (Rotation = 4) then
+            plot_face(0,0,0,0,0,-128,0,-128,0,0,"turf-green-dark")
+            plot_face(0,0,0,0,0,0,-16,0,-128,0,"invisible")
+            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+            plot_face(0,-32,-80,64,0,-128,-64,-32,-80,-64,"turf-grey")
+            plot_face(0,-32,-64,64,-32,-80,-64,-32,-64,-64,"invisible")
+            plot_face(0,0,0,64,-32,-48,-64,0,0,-64,"turf-grey")
+        end if
+        print #m, "}"
+        print #m, "}"
+        PlacementTest(PlacementFormula) = 17
+        place_gfx(0)
+        LevelTime += 100
+        MinimumLevelTime += 75
+        Money += 3
+        Blocks += 3
         Putt = 2
 
     elseif (BlockType = 22) AND (BlockSet = 0) AND _
@@ -1423,3 +1505,4 @@ sub place_block
         Putt = 2
     end if
 end sub
+#ENDIF

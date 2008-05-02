@@ -38,7 +38,7 @@
 #ERROR "Not for DOS." 'This prevents it from being compiled for DOS.
 #ELSE
 windowtitle "Neverassistant"
-
+#DEFINE __SATISFY__ 'This forces this file to be chosen for compilation.
 /'
  ' This includes all the contents of the FB Graphics Library and its constants.
  ' This file is part of the compiler. We don't need it in this package.
@@ -61,7 +61,8 @@ using FB
  '/
 #include "vbcompat.bi"
 /'
- ' This includes the generator.
+ ' This includes the generator. This file is not part of the compiler. It must
+ ' be present in this package.
  '/
 #include "nevergen.bas"
 
