@@ -1531,6 +1531,9 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             if (!up->P || !up->m)
                 continue;
 
+            if (v_len(fp->uv[ui].v) > 0.f)
+                (*m)++;
+
             /* If the ball is in contact with a surface, apply friction. */
 
             v_cpy(a, up->v);
@@ -1556,8 +1559,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                         v_sub(v, V, up->v);
                         v_crs(up->w, v, r);
                         v_scl(up->w, up->w, -1.0f / (up->r * up->r));
-
-                        (*m)++;
                     }
                     else
                     {

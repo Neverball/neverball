@@ -472,7 +472,7 @@ static int game_update_state(float dt)
         t = 0.f;
 
     for (ui = 0; ui < fp->uc; ui++)
-        if (ui != ball && fp->uv[ui].P && v_len(fp->uv[ui].v) > 0.0f)
+        if (ui != ball && fp->uv[ui].P && v_len(fp->uv[ui].v) > 0.f)
             m = 1;
 
     /* Test for a switch. */
@@ -556,7 +556,9 @@ static int game_update_state(float dt)
         }
     }
 
-    if (t > 1.f)
+    /* !m hack to ensure a turn doesn't end prematurely rolling up a slope */
+
+    if (!m && t > 1.f)
     {
         t = 0.f;
 
@@ -630,6 +632,7 @@ int game_step(const float g[3], float dt)
 
             if (b < d)
                 b = d;
+
             if (m == 0)
                 st += t;
         }
