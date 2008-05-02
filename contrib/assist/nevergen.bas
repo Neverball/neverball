@@ -1,5 +1,5 @@
 #IFNDEF __SATISFY__
-#ERROR Must compile neverassist.bi
+#ERROR Must compile neverassist.bas
 #ELSE
 /'
  ' Generator's resources

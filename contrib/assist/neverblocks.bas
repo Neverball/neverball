@@ -1,5 +1,5 @@
 #IFNDEF __SATISFY__
-#ERROR Must compile neverassist.bi
+#ERROR Must compile neverassist.bas
 #ELSE
 /'
  ' Welcome to the construction blocks source file.
