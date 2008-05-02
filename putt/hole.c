@@ -279,11 +279,13 @@ int hole_move(void)
 void hole_goal(int id)
 {
     if (id == 0)
+    {
         id = player;
+        score_v[hole][id]++;
+    }
 
     game_set_play(id, 0);
 
-    score_v[hole][id]++;
 
          if (score_v[hole][id] == 1)
         audio_play(AUD_ONE, 1.0f);
