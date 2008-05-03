@@ -197,6 +197,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 1
+                bload(AssistDir+"/Start.bmp",BlockDisplay)
             end if
         elseif multikey(SC_B) then
             BlockType = 2
@@ -204,6 +205,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 1
+                bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
             end if
         elseif multikey(SC_C) then
             BlockType = 3
@@ -211,6 +213,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 1
+                bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
             end if
         elseif multikey(SC_D) then
             BlockType = 4
@@ -218,6 +221,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 1
+                bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
             end if
         elseif multikey(SC_E) then
             BlockType = 5
@@ -225,6 +229,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 1
+                bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
             end if
 
         elseif multikey(SC_F) then
@@ -247,6 +252,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 1
+                bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
             end if
         elseif multikey(SC_I) then
             BlockType = 9
@@ -283,6 +289,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 2
+                bload(AssistDir+"/Ramp.bmp",BlockDisplay)
             end if
         elseif multikey(SC_N) then
             BlockType = 14
@@ -319,6 +326,7 @@ sub map_generate
                 XR = 2
                 YR = 2
                 ZR = 1
+                bload(AssistDir+"/ChicaneLTR.bmp",BlockDisplay)
             end if
         elseif multikey(SC_S) then
             BlockType = 19
@@ -335,6 +343,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 1
+                bload(AssistDir+"/Finish.bmp",BlockDisplay)
             end if
         elseif multikey(SC_W) then
             BlockType = 23
@@ -342,6 +351,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 1
+                bload(AssistDir+"/Finish.bmp",BlockDisplay)
             end if
         elseif multikey(SC_X) then
             BlockType = 24
@@ -349,6 +359,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 1
+                bload(AssistDir+"/Finish.bmp",BlockDisplay)
             end if
         elseif multikey(SC_Y) then
             BlockType = 25
@@ -356,6 +367,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 1
+                bload(AssistDir+"/Finish.bmp",BlockDisplay)
             end if
         elseif multikey(SC_Z) then
             BlockType = 26
@@ -363,6 +375,7 @@ sub map_generate
                 XR = 1
                 YR = 1
                 ZR = 1
+                bload(AssistDir+"/Finish.bmp",BlockDisplay)
             end if
         end if
 
