@@ -464,7 +464,7 @@ static int game_update_state(float dt)
     struct s_file *fp = &file;
     float p[3], d[3], z[3] = {0.f, 0.f, 0.f};
 
-    int i, j, u, ui, m = 0;
+    int i, j, u, ui, m = 0, c = 0;
 
     if (dt > 0.f)
         t += dt;
@@ -472,8 +472,11 @@ static int game_update_state(float dt)
         t = 0.f;
 
     for (ui = 0; ui < fp->uc; ui++)
-        if (ui != ball && fp->uv[ui].P && v_len(fp->uv[ui].v) > 0.f)
+        if (ui != ball && fp->uv[ui].P && v_len(fp->uv[ui].v) - dt > 0.f)
             m = 1;
+
+    if (fp->uv[ball].P && v_len(fp->uv[ball].v) - dt > 0.f)
+        c = 1;
 
     /* Test for a switch. */
 
@@ -556,9 +559,9 @@ static int game_update_state(float dt)
         }
     }
 
-    /* !m hack to ensure a turn doesn't end prematurely rolling up a slope */
+    /* !mc hack to ensure a turn doesn't end prematurely rolling up a slope */
 
-    if (!m && t > 1.f)
+    if (!m && !c && t > 1.f)
     {
         t = 0.f;
 

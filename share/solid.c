@@ -1558,7 +1558,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 v_cpy(up->v, v);
                 v_sub(r, P, up->p);
 
-                if (v_len(fp->uv[ui].v) > 0.f)
+                if (v_len(up->v) - dt > 0.0f)
                     (*m)++;
 
                 if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
