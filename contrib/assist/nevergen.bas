@@ -13,7 +13,7 @@ sub map_generate
     /'
      ' This subroutine allows generation of a map.
      '/
-    color 11
+    color rgb(0,255,255)
     clkey
     cls
     print lang("Which file would you like to enter? ");
@@ -66,7 +66,7 @@ sub map_generate
         end if
     loop
 
-    color 15
+    color rgb(255,255,255)
     cls
     Start = 0
     Finish = 0
@@ -102,6 +102,7 @@ sub map_generate
         sleep
         exit sub
     end if
+    BlockDisplay = ImageCreate(128,128)
     do
         screenlock
         cls
@@ -325,6 +326,7 @@ sub map_generate
                 XR = 2
                 YR = 2
                 ZR = 1
+                bload(AssistDir+"/ChicaneRTL.bmp",BlockDisplay)
             end if
 
         elseif multikey(SC_V) then
@@ -374,10 +376,10 @@ sub map_generate
         /'
          ' This keeps the cursor from going out of bounds.
          '/
-        if (XP < -11 + XR) then XP = -11 + XR
+        if (XP < -10) then XP = -10
         if (YP < -11 + YR) then YP = -11 + YR
         if (ZP < -10) then ZP = -10
-        if (XP > 10) then XP = 10
+        if (XP > 11 - XR) then XP = 11 - XR
         if (YP > 10) then YP = 10
         if (ZP > 21 - ZR) then ZP = 21 - ZR
 
@@ -386,13 +388,13 @@ sub map_generate
          '/
         locate 1,54
         print lang("Location: ");"("&XP;","&YP;","&ZP;")"
-        color 11
+        color rgb(0,255,255)
         locate 2,54
         print lang("* Press F1 for help.")
-        color 14
+        color rgb(255,255,0)
         locate 4,54
         print lang("Music unsupported.")
-        color 13
+        color rgb(255,0,255)
         locate 5,54
         print lang("Time: ");LevelTime
         locate 6,54
@@ -404,244 +406,67 @@ sub map_generate
 
         locate 13,54
         if (BlockSet = 0) then
-            color 10
+            color rgb(0,255,0)
         elseif (BlockSet = 1) then
-            color 12
+            color rgb(255,0,0)
         elseif (Blockset = 2) then
-            color 11
+            color rgb(0,255,255)
         elseif (Blockset = 3) then
-            color 14
+            color rgb(255,255,0)
         end if
-        line(448,238)-(502,292),9,bf
-        line(449,239)-(501,291),0,bf
-        line(548,238)-(602,292),9,bf
-        line(549,239)-(601,291),0,bf
 
         if (BlockType = 1) AND (BlockSet < > 1) then
             print lang("Start")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),10
-            line(500,240)-(500,290),10
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
-            line(570,240)-(580,270),12,bf
 
         elseif (BlockType = 2) AND (BlockSet < > 1) then
             print lang("Flat straight $1")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 3) AND (BlockSet = 0) then
             print "90"+chr(248)+" simple flat turn $1"
-            line(450,240)-(500,240),10
-            line(450,240)-(450,290),12
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 4) AND (BlockSet = 0) then
             print lang("Junction $1")
-            line(450,240)-(500,240),10
-            line(450,240)-(450,290),12
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),12
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 5) AND (BlockSet = 0) then
             print lang("Cross $1")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),12
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),12
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
-
+            
         elseif (BlockType = 6) AND (BlockSet = 0) then
             print lang("Coined flat straight $1")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            pset(465,255),14
-            pset(485,255),14
-            pset(465,275),14
-            pset(485,275),14
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 7) AND (BlockSet = 0) then
             print "Coined 90"+chr(248)+" simple flat turn"
             locate 14,54
             print "$1"
-            line(450,240)-(500,240),10
-            line(450,240)-(450,290),12
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            pset(465,255),14
-            pset(485,255),14
-            pset(465,275),14
-            pset(485,275),14
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 8) AND (BlockSet = 0) then
             print lang("Dead-end $1")
-            line(450,240)-(500,240),10
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 9) AND (BlockSet = 0) then
             print lang("Coined Dead-end $1")
-            line(450,240)-(500,240),10
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            pset(465,255),14
-            pset(485,255),14
-            pset(465,275),14
-            pset(485,275),14
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 10) AND (BlockSet = 0) then
             print lang("Small Jump $2")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,250),10
-            line(450,250)-(500,250),10
-            line(500,240)-(500,250),10
-            line(450,280)-(500,280),10
-            line(450,280)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,280)-(500,290),10
-            line(550,270)-(550,290),7
-            line(550,270)-(560,260),7
-            line(560,260)-(560,290),7
-            line(550,290)-(560,290),7
-            line(590,260)-(590,290),7
-            line(590,260)-(600,270),7
-            line(600,270)-(600,290),7
-            line(590,290)-(600,290),7
 
         elseif (BlockType = 11) AND (BlockSet = 0) then
             print lang("Coined Junction $1")
-            line(450,240)-(500,240),10
-            line(450,240)-(450,290),12
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),12
-            pset(465,255),14
-            pset(485,255),14
-            pset(465,275),14
-            pset(485,275),14
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 12) AND (BlockSet = 0) then
             print lang("Coined Cross $1")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),12
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),12
-            pset(465,255),14
-            pset(485,255),14
-            pset(465,275),14
-            pset(485,275),14
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 13) AND (BlockSet = 0) then
             print lang("Ramp straight $1")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            line(550,270)-(550,290),7
-            line(550,270)-(600,250),7
-            line(600,250)-(600,270),7
-            line(550,290)-(600,270),7
 
         elseif (BlockType = 14) AND (BlockSet = 0) then
             print lang("Bump $1")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            line(550,270)-(550,290),7
-            line(550,270)-(575,265),7
-            line(575,265)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 15) AND (BlockSet = 0) then
             print lang("Coined Bump $1")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            pset(465,255),14
-            pset(485,255),14
-            pset(465,275),14
-            pset(485,275),14
-            line(550,270)-(550,290),7
-            line(550,270)-(575,265),7
-            line(575,265)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 16) AND (BlockSet = 0) then
             print lang("Flat straight with mover $3")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            line(462,265)-(488,265),6
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
-            line(562,260)-(588,260),6
 
         elseif (BlockType = 17) AND (BlockSet = 0) then
             print lang("Narrower $3")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
 
         elseif (BlockType = 18) AND (BlockSet = 0) then
             print lang("Chicane LTR $4")
@@ -651,70 +476,26 @@ sub map_generate
 
         elseif (BlockType = 22) AND (BlockSet = 0) then
             print lang("Flat straight Finish $1")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
-            line(570,240)-(580,270),13,bf
 
         elseif (BlockType = 23) AND (BlockSet = 0) then
             print "90"+chr(248)+" simple flat turn"
             locate 14,54
             print "Finish $1"
-            line(450,240)-(500,240),10
-            line(450,240)-(450,290),12
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
-            line(570,240)-(580,270),13,bf
 
         elseif (BlockType = 24) AND (BlockSet = 0) then
             print lang("Junction Finish $1")
-            line(450,240)-(500,240),10
-            line(450,240)-(450,290),12
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),12
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
-            line(570,240)-(580,270),13,bf
 
         elseif (BlockType = 25) AND (BlockSet = 0) then
             print lang("Cross Finish $1")
-            line(450,240)-(500,240),12
-            line(450,240)-(450,290),12
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),12
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
-            line(570,240)-(580,270),13,bf
 
        elseif (BlockType = 26) AND (BlockSet = 0) then
             print lang("Dead-end Finish")
-            line(450,240)-(500,240),10
-            line(450,240)-(450,290),10
-            line(450,290)-(500,290),12
-            line(500,240)-(500,290),10
-            line(550,270)-(550,290),7
-            line(550,270)-(600,270),7
-            line(600,270)-(600,290),7
-            line(550,290)-(600,290),7
-            line(570,240)-(580,270),13,bf
 
         elseif (BlockSet = 1) then
             print "Not used"
         end if
-        color 15
+        put (424,222),BlockDisplay,Trans
+        color rgb(255,255,255)
 
         /'
          ' This gives information about each block.
@@ -764,6 +545,10 @@ sub map_generate
                 print "Like a Flat Straight, but with a mover on top."
             elseif (BlockType = 17) AND (BlockSet = 0) then
                 print lang("This block is narrow in the middle.")
+            elseif (BlockType = 18) AND (BlockSet = 0) then
+                print lang("This block shifts from left to right.")
+            elseif (BlockType = 19) AND (BlockSet = 0) then
+                print lang("This block shifts from right to left.")
 
             elseif (BlockType = 22) AND (BlockSet = 0) then
                 print "Every map made must have at least one of these. " + _
@@ -804,8 +589,9 @@ sub map_generate
 
         elseif multikey(SC_F1) then
             clkey
-            cls 0
-            color 11
+            screenunlock
+            cls
+            color rgb(0,255,255)
             print "Controls:"
             print "* CONTROL: rotate"
             print "* TAB: toggle music (when its supported)"
@@ -834,24 +620,25 @@ sub map_generate
             print "* ~: to check for issues. You can't save the map until " + _
                   "you ensure there are no"
             print " errors."
-            color 15
+            color rgb(255,255,255)
             sleep
             cls
 
         elseif multikey(SC_TILDE) then
             clkey
-            cls 0
+            screenunlock
+            cls
             if Warning = 0 then
-                color 48
+                color rgb(0,255,0)
                 print "Check okay. There are no offending items."
             else
-                color 40
+                color rgb(255,0,0)
                 if Warning = 1 then
                     print "Check failed. There is 1 offending item."
                 else
                     print "Check failed. There are ";Warning;" offending items."
                 end if
-                color 42
+                color rgb(255,128,0)
                 if Start = 0 then print "- Must have 1 start block."
                 if Finish = 0 then print "- Must have at least 1 finish block."
                 if TargetCoins > Coins then
@@ -863,7 +650,7 @@ sub map_generate
                           "exceed ";MinimumLevelTime;"."
                 end if
             end if
-            color 44
+            color rgb(255,255,0)
 
             if Openings > 0 then
                 print "- You have ";Openings;" openings that you haven't " + _
@@ -878,12 +665,13 @@ sub map_generate
                       "want more, you have to beat more levels"
                 print "in the Neverball game. They will give you more money."
             end if
-            color 15
+            color rgb(255,255,255)
             sleep
             cls
 
         elseif multikey(SC_BACKSPACE) then
-            color 15
+            color rgb(255,255,255)
+            screenunlock
             cls
             print lang("[Y/N] Really clear whole map?")
             do
@@ -945,9 +733,9 @@ sub map_generate
     if (Warning = 0) then
         cls
         clkey
-        color 10
+        color rgb(0,255,0)
         print "Success."
-        color 15
+        color rgb(255,255,255)
         input "What would you like in your message";LevelMessage
         input "What is the name of this level";LevelName
 
@@ -983,7 +771,7 @@ sub map_generate
             print "folder with the following contents. " + _
                   "Brackets are variables."
 
-            color 11
+            color rgb(0,255,255)
             print "[Name of Set]"
             print "[Description]"
             print "[ID]"
@@ -992,7 +780,7 @@ sub map_generate
                   "[Med MT]","[Easy BT]","[Easy MT]"
             print "[Level files] (relative to data folder)"
 
-            color 15
+            color rgb(255,255,255)
             print
             print "Add the name of the file to sets.txt"
             print
@@ -1008,14 +796,15 @@ sub map_generate
 
     else
         cls
-        color 12
+        color rgb(255,0,0)
         print "Failed."
-        color 15
+        color rgb(255,255,255)
         close #m
         kill(MapFile)
     end if
     if inkey = chr(27) then sleep
     clkey
     menu
+    ImageDestroy(BlockDisplay)
 end sub
 #ENDIF

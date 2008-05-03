@@ -67,10 +67,10 @@ using FB
 #include "nevergen.bas"
 
 /'
- ' This initiates graphics mode. It is a 640x480 8-bit program with one page
+ ' This initiates graphics mode. It is a 640x480 24-bit program with one page
  ' and you can't fullscreen it (unless windowed mode fails).
  '/
-screen 18,8,1,GFX_NO_SWITCH
+screen 18,24,1,GFX_NO_SWITCH
 
 AssistDir = curdir
 config(1)
@@ -135,16 +135,16 @@ sub menu
 
         screenlock
         cls
-        color 14
+        color rgb(255,255,0)
         print lang("What would you like to do?")
-        color 15
+        color rgb(255,255,255)
         print "<N> ";lang("Run the Neverball game")
         print "<R> ";lang("Load a Neverball replay")
         print "<P> ";lang("Run the Neverputt game")
         if MediumClear = 0 then
-            color 8:print "<M> ";lang("Generate a map");
-            color 11:print lang(" - Must clear Neverball Medium")
-            color 15
+            color rgb(128,128,128):print "<M> ";lang("Generate a map");
+            color rgb(0,255,255):print lang(" - Must clear Neverball Medium")
+            color rgb(255,255,255)
         else
             print "<M> ";lang("Generate a map")
         end if
@@ -159,21 +159,21 @@ sub menu
         #IFDEF __FB_WIN32__
         print "<Z> ";lang("Locate 7-Zip")
         if (Z7Path = "") OR (Z7Exe = "") then
-            color 8
+            color rgb(128,128,128)
             print "<U> ";lang("Unpack an archive");
-            color 11:print lang(" - Must locate 7-Zip")
+            color rgb(0,255,255):print lang(" - Must locate 7-Zip")
         else
-            color 15:print "<U> ";lang("Unpack an archive");
-            color 11:print lang(" - Will overwrite without prompt")
+            color rgb(255,255,255):print "<U> ";lang("Unpack an archive");
+            color rgb(0,255,255):print lang(" - Will overwrite without prompt")
         end if
         #ELSE
-        color 8:print "<Z> ";lang("Locate 7-Zip");
-        color 11:print lang(" - 7-Zip is Windows only")
-        color 8:print "<U> ";lang("Unpack an archive");
-        color 11:print lang(" - 7-Zip is Windows only")
+        color rgb(128,128,128):print "<Z> ";lang("Locate 7-Zip");
+        color rgb(0,255,255):print lang(" - 7-Zip is Windows only")
+        color rgb(128,128,128):print "<U> ";lang("Unpack an archive");
+        color rgb(0,255,255):print lang(" - 7-Zip is Windows only")
         #ENDIF
 
-        color 15:print "<X> ";lang("Exit program")
+        color rgb(255,255,255):print "<X> ";lang("Exit program")
         print
         screenunlock
         sleep 20
@@ -214,7 +214,7 @@ sub menu
                 #ELSE
                 Check = exec("mapc",Compile + " data")
                 #ENDIF
-                color 15
+                color rgb(255,255,255)
                 print lang("Exit code: ")& Check
                 sleep
             end if
@@ -224,7 +224,9 @@ sub menu
             windowtitle "Neverassistant - Load replay"
             print lang("Which replay do you want to watch?") + _
                   lang(" (without .nbr)")
+            color rgb(255,255,0)
             input "",Replay
+            color rgb(255,255,255)
             if (Replay < > "") then
                 Replay = Replay + ".nbr"
                 #IFDEF __FB_WIN32__
@@ -232,7 +234,6 @@ sub menu
                 #ELSE
                 Check = exec("neverball","-r data/.neverball-dev/" + Replay)
                 #ENDIF
-                color 15
                 print lang("Exit code: ")& Check
                 sleep
             end if
@@ -242,16 +243,17 @@ sub menu
             print lang("Path can be relative or absolute.")
             print lang("If relative, must be relative to old directory.")
             print lang("Where is the directory? ");
+            color rgb(255,255,0)
             line input "",NeverPath
             chdir(NeverPath)
             config
-            color 15
+            color rgb(255,255,255)
         elseif multikey(SC_L) then
             clkey
             windowtitle "Neverassistant - Change Language"
             lang_select
             config
-            color 15
+            color rgb(255,255,255)
 
         #IFDEF __FB_WIN32__
         elseif multikey(SC_Z) then
@@ -259,7 +261,7 @@ sub menu
             windowtitle "Neverassistant - Locate 7-Zip"
             print lang("Where do you want to locate 7-Zip?") + _
                   lang(" (without \7z.exe, but where the 7z.exe is)")
-            color 44
+            color rgb(255,255,0)
             input "",Z7Path
             if (Z7Path < > "") then
                 Z7Exe = Z7Path + "\7z.exe"
@@ -270,14 +272,14 @@ sub menu
                     config
                 end if
             end if
-            color 15
+            color rgb(255,255,255)
 
         elseif multikey(SC_U) AND (Z7Path < > "") AND (Z7Exe < > "") then
             clkey
             windowtitle "Neverassistant - Unpack archive"
             print lang("Which archive do you want to extract?") + _
                   lang(" (include extension)")
-            color 44
+            color rgb(255,255,0)
             input Unpack
             if (Unpack < > "") then
                 Z7Exe = Z7Path + "\7z.exe"
@@ -290,7 +292,7 @@ sub menu
                     sleep 2000
                 end if
             end if
-            color 15
+            color rgb(255,255,255)
         #ENDIF
 
         elseif multikey(SC_H) then

@@ -95,7 +95,6 @@ sub place_block
          '/
         Start = 1
         PlacementTest(PlacementFormula) = 1
-        place_gfx(0)
         LevelTime += 150
         MinimumLevelTime += 50
         Blocks += 1
@@ -135,7 +134,6 @@ sub place_block
         print #m, "}"
         print #m, "}"
         PlacementTest(PlacementFormula) = 2
-        place_gfx(0)
         LevelTime += 100
         MinimumLevelTime += 75
         Money += 1
@@ -193,7 +191,6 @@ sub place_block
         print #m, "}"
 
         PlacementTest(PlacementFormula) = 3
-        place_gfx(0)
         LevelTime += 200
         MinimumLevelTime += 150
         Money += 1
@@ -243,7 +240,6 @@ sub place_block
         print #m, "}"
 
         PlacementTest(PlacementFormula) = 4
-        place_gfx(0)
         LevelTime += 300
         MinimumLevelTime += 200
         Money += 1
@@ -274,7 +270,6 @@ sub place_block
         print #m, "}"
         print #m, "}"
         PlacementTest(PlacementFormula) = 5
-        place_gfx(0)
         LevelTime += 400
         MinimumLevelTime += 300
         Blocks += 1
@@ -345,7 +340,6 @@ sub place_block
         print #m, "}"
 
         PlacementTest(PlacementFormula) = 6
-        place_gfx(0)
         LevelTime += 175
         MinimumLevelTime += 125
         TargetCoins += 1
@@ -430,7 +424,6 @@ sub place_block
         print #m, "}"
 
         PlacementTest(PlacementFormula) = 7
-        place_gfx(0)
         LevelTime += 275
         MinimumLevelTime += 200
         TargetCoins += 1
@@ -483,7 +476,6 @@ sub place_block
         print #m, "}"
 
         PlacementTest(PlacementFormula) = 8
-        place_gfx(0)
         LevelTime += 50
         Blocks += 1
         Money += 1
@@ -568,7 +560,6 @@ sub place_block
         print #m, "}"
 
         PlacementTest(PlacementFormula) = 9
-        place_gfx(0)
         LevelTime += 150
         MinimumLevelTime += 100
         TargetCoins += 1
@@ -629,7 +620,6 @@ sub place_block
         print #m, "}"
 
         PlacementTest(PlacementFormula) = 10
-        place_gfx(0)
         LevelTime += 350
         MinimumLevelTime += 200
         Money += 2
@@ -712,7 +702,6 @@ sub place_block
         print #m, "}"
 
         PlacementTest(PlacementFormula) = 11
-        place_gfx(0)
         LevelTime += 425
         MinimumLevelTime += 300
         TargetCoins += 1
@@ -774,7 +763,6 @@ sub place_block
         print #m, "}"
 
         PlacementTest(PlacementFormula) = 12
-        place_gfx(0)
         LevelTime += 575
         MinimumLevelTime += 400
         TargetCoins += 1
@@ -835,8 +823,6 @@ sub place_block
         print #m, "}"
         PlacementTest(PlacementFormula) = 13
         PlacementTest(PlacementFormula+2000) = 13
-        place_gfx(0)
-        place_gfx(2000)
         LevelTime += 150
         MinimumLevelTime += 75
         Money += 1
@@ -872,7 +858,6 @@ sub place_block
         print #m, "}"
         print #m, "}"
         PlacementTest(PlacementFormula) = 15
-        place_gfx(0)
         LevelTime += 125
         MinimumLevelTime += 75
         Money += 1
@@ -942,7 +927,6 @@ sub place_block
         print #m, "}"
 
         PlacementTest(PlacementFormula) = 15
-        place_gfx(0)
         LevelTime += 225
         MinimumLevelTime += 150
         TargetCoins += 1
@@ -1047,7 +1031,6 @@ sub place_block
         print #m, "}"
 
         PlacementTest(PlacementFormula) = 2
-        place_gfx(0)
         LevelTime += 325
         MinimumLevelTime += 150
         Money += 3
@@ -1123,7 +1106,6 @@ sub place_block
         print #m, "}"
         print #m, "}"
         PlacementTest(PlacementFormula) = 17
-        place_gfx(0)
         LevelTime += 100
         MinimumLevelTime += 75
         Money += 3
@@ -1134,8 +1116,8 @@ sub place_block
     	   (Money + 4 < = MaxMoney) AND _
             PlacementTest(PlacementFormula) = 0 AND _
             PlacementTest(PlacementFormula+1) = 0 AND _
-            PlacementTest(PlacementFormula+50) = 0 AND _
-            PlacementTest(PlacementFormula+51) = 0 then
+            PlacementTest(PlacementFormula-50) = 0 AND _
+            PlacementTest(PlacementFormula-49) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -1165,9 +1147,8 @@ sub place_block
         print #m, "}"
         PlacementTest(PlacementFormula) = 18
         PlacementTest(PlacementFormula+1) = 18
-        PlacementTest(PlacementFormula+50) = 18
-        PlacementTest(PlacementFormula+51) = 18
-        place_gfx(0)
+        PlacementTest(PlacementFormula-50) = 18
+        PlacementTest(PlacementFormula-49) = 18
         LevelTime += 150
         MinimumLevelTime += 100
         Money += 4
@@ -1178,8 +1159,8 @@ sub place_block
     	   (Money + 4 < = MaxMoney) AND _
             PlacementTest(PlacementFormula) = 0 AND _
             PlacementTest(PlacementFormula+1) = 0 AND _
-            PlacementTest(PlacementFormula+50) = 0 AND _
-            PlacementTest(PlacementFormula+51) = 0 then
+            PlacementTest(PlacementFormula-50) = 0 AND _
+            PlacementTest(PlacementFormula-49) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -1209,9 +1190,8 @@ sub place_block
         print #m, "}"
         PlacementTest(PlacementFormula) = 18
         PlacementTest(PlacementFormula+1) = 18
-        PlacementTest(PlacementFormula+50) = 18
-        PlacementTest(PlacementFormula+51) = 18
-        place_gfx(0)
+        PlacementTest(PlacementFormula-50) = 18
+        PlacementTest(PlacementFormula-49) = 18
         LevelTime += 150
         MinimumLevelTime += 100
         Money += 4
@@ -1286,7 +1266,6 @@ sub place_block
             print #m, "}"
         end if
         PlacementTest(PlacementFormula) = 22
-        place_gfx(0)
         LevelTime += 125
         MinimumLevelTime += 100
         Money += 1
@@ -1366,7 +1345,6 @@ sub place_block
         end if
 
         PlacementTest(PlacementFormula) = 23
-        place_gfx(0)
         LevelTime += 225
         MinimumLevelTime += 175
         Money += 1
@@ -1445,7 +1423,6 @@ sub place_block
             print #m, "}"
         end if
         PlacementTest(PlacementFormula) = 24
-        place_gfx(0)
         LevelTime += 325
         MinimumLevelTime += 225
         Money += 1
@@ -1501,7 +1478,6 @@ sub place_block
             print #m, "}"
         end if
         PlacementTest(PlacementFormula) = 25
-        place_gfx(0)
         LevelTime += 425
         MinimumLevelTime += 325
         Blocks += 1
@@ -1584,7 +1560,6 @@ sub place_block
         end if
 
         PlacementTest(PlacementFormula) = 26
-        place_gfx(0)
         LevelTime += 150
         MinimumLevelTime += 50
         Blocks += 1

@@ -16,6 +16,7 @@ dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, _
                      LevelMessage, WindowTitleM, Compile, Replay, LevelName, _
                      MusicPlay, Neverpath, InType, AssistDir
 dim shared as byte Check
+dim shared as any ptr BlockDisplay
 #IFDEF __FB_WIN32__
 const AssistCfg = "assist.ini"
 #ELSE
@@ -44,7 +45,6 @@ declare sub cursor
 declare sub direction
 declare sub menu
 declare sub map_generate
-declare sub place_gfx(Added as integer)
 declare sub config(Switch as ubyte = 0)
 
 /'
