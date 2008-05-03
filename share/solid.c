@@ -1531,9 +1531,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             if (!up->P || !up->m)
                 continue;
 
-            if (v_len(fp->uv[ui].v) > 0.f)
-                (*m)++;
-
             /* If the ball is in contact with a surface, apply friction. */
 
             v_cpy(a, up->v);
@@ -1544,6 +1541,9 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             {
                 v_cpy(up->v, v);
                 v_sub(r, P, up->p);
+
+                if (v_len(fp->uv[ui].v) > 0.f)
+                    (*m)++;
 
                 if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
                 {
@@ -1574,9 +1574,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             else v_mad(up->v, v, g, tt);
 
             /* Test for collision. */
-
-            if (!up->m)
-                continue;
 
             while (tt && tt > (nt = sol_test_file(tt, P, V, up, fp)) && c > 0)
             {
