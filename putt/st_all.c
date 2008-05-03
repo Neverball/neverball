@@ -666,7 +666,7 @@ static int num = 0;
 
 static int next_enter(void)
 {
-    int id;
+    int id, jd, s = hole_state_get(curr_player());
     char str[MAXSTR];
 
     sprintf(str, _("Hole %02d"), curr_hole());
@@ -674,6 +674,68 @@ static int next_enter(void)
     if ((id = gui_vstack(0)))
     {
         gui_label(id, str, GUI_MED, GUI_ALL, 0, 0);
+
+        if ((jd = gui_hstack(id)))
+        {
+            if (s > 0)
+            {
+                if (s - 1)
+                {
+                    switch (s - 2)
+                    {
+                    case 1:
+                        gui_label(jd, "1", GUI_SML, GUI_RGT, gui_red, gui_wht);
+                        break;
+                    case 2:
+                        gui_label(jd, "2", GUI_SML, GUI_RGT, gui_grn, gui_wht);
+                        break;
+                    case 3:
+                        gui_label(jd, "3", GUI_SML, GUI_RGT, gui_blu, gui_wht);
+                        break;
+                    case 4:
+                        gui_label(jd, "4", GUI_SML, GUI_RGT, gui_yel, gui_wht);
+                        break;
+                    }
+                    gui_label(jd, _("Knocked Out By Player "), GUI_SML, GUI_LFT, gui_red, gui_red);
+                }
+                else
+                {
+                    gui_label(jd, _("Knocked Out"), GUI_SML, GUI_ALL, gui_red, gui_red);
+                }
+            }
+
+            if (s < 0)
+            {
+                s *= -1;
+
+                if (s - 1)
+                {
+                    switch (s - 2)
+                    {
+                    case 1:
+                        gui_label(jd, "1", GUI_SML, GUI_RGT, gui_red, gui_wht);
+                        break;
+                    case 2:
+                        gui_label(jd, "2", GUI_SML, GUI_RGT, gui_grn, gui_wht);
+                        break;
+                    case 3:
+                        gui_label(jd, "3", GUI_SML, GUI_RGT, gui_blu, gui_wht);
+                        break;
+                    case 4:
+                        gui_label(jd, "4", GUI_SML, GUI_RGT, gui_yel, gui_wht);
+                        break;
+                    }
+                    gui_label(jd, _("Knocked In By Player "), GUI_SML, GUI_LFT, gui_red, gui_red);
+                }
+                else
+                {
+                    gui_label(jd, _("Knocked In"), GUI_SML, GUI_ALL, gui_red, gui_red);
+                }
+
+                s *= -1;
+            }
+        }
+
         gui_space(id);
 
         gui_label(id, _("Player"), GUI_SML, GUI_TOP, 0, 0);
@@ -682,21 +744,22 @@ static int next_enter(void)
         {
         case 1:
             gui_label(id, "1", GUI_LRG, GUI_BOT, gui_red, gui_wht);
-            if (curr_party() > 1) audio_play(AUD_PLAYER1, 1.f);
+            if (curr_party() > 1 && s >= 0) audio_play(AUD_PLAYER1, 1.f);
             break;
         case 2:
             gui_label(id, "2", GUI_LRG, GUI_BOT, gui_grn, gui_wht);
-            if (curr_party() > 1) audio_play(AUD_PLAYER2, 1.f);
+            if (curr_party() > 1 && s >= 0) audio_play(AUD_PLAYER2, 1.f);
             break;
         case 3:
             gui_label(id, "3", GUI_LRG, GUI_BOT, gui_blu, gui_wht);
-            if (curr_party() > 1) audio_play(AUD_PLAYER3, 1.f);
+            if (curr_party() > 1 && s >= 0) audio_play(AUD_PLAYER3, 1.f);
             break;
         case 4:
             gui_label(id, "4", GUI_LRG, GUI_BOT, gui_yel, gui_wht);
-            if (curr_party() > 1) audio_play(AUD_PLAYER4, 1.f);
+            if (curr_party() > 1 && s >= 0) audio_play(AUD_PLAYER4, 1.f);
             break;
         }
+
         gui_layout(id, 0, 0);
     }
 
@@ -800,10 +863,23 @@ static int poser_buttn(int b, int d)
 
 static int flyby_enter(void)
 {
+    int i;
+
     if (paused)
         paused = 0;
     else
         hud_init();
+
+    if (hole_goal_next())
+    {
+        return goto_state(&st_next);
+    }
+
+    for (i = 1; i < curr_party(); i++)
+    {
+        game_set_aggressor(i, 0);
+        hole_state_set(i, 0);
+    }
 
     return 0;
 }

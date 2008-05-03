@@ -265,7 +265,7 @@ struct s_ball
     float r;                                   /* radius                     */
     int   P;                                   /* play state                 */
     int   m;                                   /* is ball mobile?            */
-    float O[3];                                /* original position          */
+    int   a;                                   /* last aggressor (ui + 1)    */
 };
 
 struct s_view

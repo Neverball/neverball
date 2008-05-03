@@ -62,6 +62,9 @@ void  game_ball(int);
 void  game_set_pos(float[3], float[3][3], int);
 void  game_get_pos(float[3], float[3][3], int);
 
+int   game_get_aggressor(int id);
+void  game_set_aggressor(int id, int val);
+
 /*---------------------------------------------------------------------------*/
 
 #endif

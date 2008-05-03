@@ -42,6 +42,7 @@ static int player;
 static int count;
 static int done;
 
+static int        state_v[MAXPLY];
 static int         stat_v[MAXPLY];
 static float       ball_p[MAXPLY][3];
 static float       ball_e[MAXPLY][3][3];
@@ -226,6 +227,8 @@ void hole_goto(int h, int p)
         for (i = 1; i <= party; i++)
         {
             game_get_pos(ball_p[i], ball_e[i], i);
+            game_set_aggressor(i, 0);
+            hole_state_set(i, 0);
             stat_v[i] = 0;
         }
         game_ball(player);
@@ -246,11 +249,45 @@ int hole_next(void)
         {
             player = player % party + 1;
         }
+        while (stat_v[player] && hole_state_get(player) >= 0);
+
+        game_ball(player);
+
+        for (i = 1; i <= party; i++)
+            game_get_pos(ball_p[i], ball_e[i], i);
+
+        if (!config_get_d(CONFIG_BALL_COLLISIONS))
+            game_set_play(PLAY_PARTY, 0);
+        game_set_play(PLAY_CURRENT, 1);
+
+        return 1;
+    }
+    return 0;
+}
+
+int hole_goal_next(void)
+{
+    int i;
+
+    if (hole_state_get(player) < 0)
+    {
+        game_set_play(PLAY_CURRENT, 0);
+
+        do
+        {
+            player = player % party + 1;
+        }
         while (stat_v[player]);
 
         game_ball(player);
+
         for (i = 1; i <= party; i++)
+        {
             game_get_pos(ball_p[i], ball_e[i], i);
+            game_set_aggressor(i, 0);
+            hole_state_set(i, 0);
+        }
+
         if (!config_get_d(CONFIG_BALL_COLLISIONS))
             game_set_play(PLAY_PARTY, 0);
         game_set_play(PLAY_CURRENT, 1);
@@ -282,6 +319,11 @@ void hole_goal(int id)
     {
         id = player;
         score_v[hole][id]++;
+    }
+
+    else
+    {
+        hole_state_set(id, (game_get_aggressor(id) + 1) * -1);
     }
 
     game_set_play(id, 0);
@@ -335,6 +377,11 @@ void hole_fall(int id)
         score_v[hole][id]++;
     }
 
+    else
+    {
+        hole_state_set(id, game_get_aggressor(id) + 1);
+    }
+
     audio_play(AUD_PENALTY, 1.0f);
 
     /* Reset to the position of the putt, and apply a one-stroke penalty. */
@@ -351,6 +398,18 @@ void hole_fall(int id)
         stat_v[id] = 1;
         done++;
     }
+}
+
+/*---------------------------------------------------------------------------*/
+
+int hole_state_get(int id)
+{
+    return state_v[id];
+}
+
+void hole_state_set(int id, int val)
+{
+    state_v[id] = val;
 }
 
 /*---------------------------------------------------------------------------*/

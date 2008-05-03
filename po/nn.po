@@ -263,6 +263,22 @@ msgstr "Spelarnamn"
 msgid "Player"
 msgstr "Spelar"
 
+#: ball/st_all.c:730
+msgid "Knocked Out By Player "
+msgstr ""
+
+#: ball/st_all.c:730
+msgid "Knocked Out"
+msgstr ""
+
+#: ball/st_all.c:730
+msgid "Knocked In By Player "
+msgstr ""
+
+#: ball/st_all.c:730
+msgid "Knocked In"
+msgstr ""
+
 #: ball/st_demo.c:186
 msgid "State"
 msgstr "Resultat"

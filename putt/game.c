@@ -688,7 +688,7 @@ void game_putt(void)
 /*---------------------------------------------------------------------------*/
 
 /*
- * Set ball B's play state as S.  Additional values can be used for b:
+ * Set ball B's play state S
  */
 
 void game_set_play(int b, int s)
@@ -696,18 +696,30 @@ void game_set_play(int b, int s)
     int i;
 
     if (b >= 0            && b    < file.uc)
+    {
         file.uv[b].P = s;
+    }
 
     if (b == PLAY_CURRENT && ball < file.uc)
+    {
         file.uv[ball].P = s;
+    }
 
     if (b == PLAY_ALL)
+    {
         for (i = 1; i < file.uc; i++)
+        {
             file.uv[i].P = s;
+        }
+    }
 
     if (b == PLAY_PARTY)
+    {
         for (i = 1; i <= curr_party() && i < file.uc; i++)
+        {
             file.uv[i].P = s;
+        }
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -846,6 +858,16 @@ void game_set_pos(float p[3], float e[3][3], int ui)
         v_cpy(file.uv[ui].e[1], e[1]);
         v_cpy(file.uv[ui].e[2], e[2]);
     }
+}
+
+int game_get_aggressor(int id)
+{
+    return file.uv[id].a;
+}
+
+void game_set_aggressor(int id, int val)
+{
+    file.uv[id].a = val;
 }
 
 /*---------------------------------------------------------------------------*/

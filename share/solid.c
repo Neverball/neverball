@@ -33,6 +33,8 @@
 
 #define GAMMA 0.78f
 
+#define AGGRESSOR_RANGE 0.00f
+
 /*---------------------------------------------------------------------------*/
 
 static float erp(float t)
@@ -242,8 +244,6 @@ static void sol_load_ball(FILE *fin, struct s_ball *bp)
     get_array(fin,  bp->p, 3);
     get_float(fin, &bp->r);
     get_index(fin, &bp->m);
-
-    v_cpy(bp->O, bp->p);
 
     bp->e[0][0] = bp->E[0][0] = 1.0f;
     bp->e[0][1] = bp->E[0][1] = 0.0f;
@@ -1471,6 +1471,22 @@ static float sol_test_balls(const struct s_file *fp,
             if (sol_test_spheres(up, u2p) < dt)
             {
                 t = sol_bounce_ball(up, u2p, t);
+
+                /* Find the aggressor */
+
+                if (v_len(u2p->v) < v_len(up->v) * AGGRESSOR_RANGE)
+                {
+                    u2p->a = i + 1;
+                }
+                else if (v_len(up->v) < v_len(u2p->v) * AGGRESSOR_RANGE)
+                {
+                    up->a  = j + 1;
+                }
+                else
+                {
+                    up->a  = j + 1;
+                    u2p->a = i + 1;
+                }
             }
         }
     }
