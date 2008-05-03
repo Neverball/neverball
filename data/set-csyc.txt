@@ -9,7 +9,7 @@ map-csyc/DodgeThwomps.sol
 map-csyc/SlopeSpiralRoad.sol
 map-csyc/WarpZone1.sol
 map-csyc/Pinball.sol
-map-csyc/WarpZoneCC1.sol
+map-csyc/WarpZoneCC.sol
 map-csyc/Challenger1.sol
 map-csyc/Challenger2.sol
 map-csyc/WarpZone2.sol

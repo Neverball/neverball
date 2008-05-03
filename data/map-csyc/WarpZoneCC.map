@@ -2,11 +2,11 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Warp Zone Coin Collector I\Story: As you started to ready yourself,\you end up facing a warp zone.\This time, you have to get some coins.\\Tips: You must get coins here.\What does the last part remind you of?"
-"song" "bgm\track2.ogg"
-"shot" "shot-csyc\WarpZoneCC1.png"
-"grad" "back\ocean.png"
-"back" "map-back\ocean.sol"
+"message" "Warp Zone Coin Collector\Story: As you started to ready yourself,\you end up facing a warp zone.\This time, you have to get some coins.\\Tips: You must get coins here.\What does the last part remind you of?"
+"song" "bgm/track2.ogg"
+"shot" "shot-csyc/WarpZoneCC1.png"
+"grad" "back/ocean.png"
+"back" "map-back/ocean.sol"
 "time" "6500"
 "goal" "30"
 "author" "Challenge Space Yard"
