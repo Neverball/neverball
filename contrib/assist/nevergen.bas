@@ -312,6 +312,20 @@ sub map_generate
                 YR = 1
                 ZR = 1
             end if
+        elseif multikey(SC_R) then
+            BlockType = 18
+            if (BlockSet = 0) then
+                XR = 2
+                YR = 2
+                ZR = 1
+            end if
+        elseif multikey(SC_S) then
+            BlockType = 19
+            if (BlockSet = 0) then
+                XR = 2
+                YR = 2
+                ZR = 1
+            end if
 
         elseif multikey(SC_V) then
             BlockType = 22
@@ -628,6 +642,12 @@ sub map_generate
             line(550,270)-(600,270),7
             line(600,270)-(600,290),7
             line(550,290)-(600,290),7
+
+        elseif (BlockType = 18) AND (BlockSet = 0) then
+            print lang("Chicane LTR $4")
+
+        elseif (BlockType = 19) AND (BlockSet = 0) then
+            print lang("Chicane RTL $4")
 
         elseif (BlockType = 22) AND (BlockSet = 0) then
             print lang("Flat straight Finish $1")

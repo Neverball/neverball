@@ -1130,6 +1130,94 @@ sub place_block
         Blocks += 3
         Putt = 2
 
+    elseif (BlockType = 18) AND (BlockSet = 0) AND _
+    	   (Money + 4 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 AND _
+            PlacementTest(PlacementFormula+1) = 0 AND _
+            PlacementTest(PlacementFormula+50) = 0 AND _
+            PlacementTest(PlacementFormula+51) = 0 then
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+        print #m, "// brush 0"
+        print #m, "{"
+        /'
+         ' This is a 2x2 block. It takes two spaces horizontal and two spaces
+         ' vertical.
+         '/
+        if (Rotation = 1) OR (Rotation = 3) then
+            plot_face(0,128,0,0,128,-128,0,-128,0,0,"turf-green-dark")
+            plot_face(0,0,0,0,0,0,-16,128,0,-16,"invisible")
+            plot_face(0,0,-256,-16,0,-256,0,128,0,0,"turf-grey")
+            plot_face(0,-128,-128,-16,128,-128,-16,-128,0,-16,"turf-grey")
+            plot_face(0,0,-256,0,0,-256,-16,-128,-256,0,"invisible")
+            plot_face(0,0,0,-16,0,0,0,-128,-256,0,"turf-grey")
+        elseif (Rotation = 2) OR (Rotation = 4) then
+            plot_face(0,128,0,0,128,-128,0,-128,0,0,"turf-green-dark")
+            plot_face(0,128,-128,-16,128,-128,0,-128,0,0,"turf-grey")
+            plot_face(0,128,-128,0,128,-128,-16,128,-256,-16,"invisible")
+            plot_face(0,-128,-128,-16,128,-128,-16,-128,0,-16,"turf-grey")
+            plot_face(0,128,-256,0,128,-256,-16,-128,-128,0,"turf-grey")
+            plot_face(0,-128,-128,0,-128,-128,-16,-128,0,0,"invisible")
+        end if
+        print #m, "}"
+        print #m, "}"
+        PlacementTest(PlacementFormula) = 18
+        PlacementTest(PlacementFormula+1) = 18
+        PlacementTest(PlacementFormula+50) = 18
+        PlacementTest(PlacementFormula+51) = 18
+        place_gfx(0)
+        LevelTime += 150
+        MinimumLevelTime += 100
+        Money += 4
+        Blocks += 1
+        Putt = 2
+
+    elseif (BlockType = 19) AND (BlockSet = 0) AND _
+    	   (Money + 4 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 AND _
+            PlacementTest(PlacementFormula+1) = 0 AND _
+            PlacementTest(PlacementFormula+50) = 0 AND _
+            PlacementTest(PlacementFormula+51) = 0 then
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+        print #m, "// brush 0"
+        print #m, "{"
+        /'
+         ' This is a 2x2 block. It takes two spaces horizontal and two spaces
+         ' vertical.
+         '/
+         if (Rotation = 1) OR (Rotation = 3) then
+            plot_face(0,128,0,0,128,-128,0,-128,0,0,"turf-green-dark")
+            plot_face(0,0,0,-16,0,0,0,-128,0,0,"invisible")
+            plot_face(0,0,0,0,0,0,-16,128,-256,-16,"turf-grey")
+            plot_face(0,-128,-128,-16,128,-128,-16,-128,0,-16,"turf-grey")
+            plot_face(0,0,-256,-16,0,-256,0,128,-256,0,"invisible")
+            plot_face(0,0,-256,0,0,-256,-16,-128,0,-16,"turf-grey")
+        elseif (Rotation = 2) OR (Rotation = 4) then
+            plot_face(0,-128,-256,0,-128,-128,0,128,-128,0,"turf-green-dark")
+            plot_face(0,-128,-128,0,-128,-128,-16,128,0,-16,"turf-grey")
+            plot_face(0,128,-128,-16,128,-128,0,128,0,0,"invisible")
+            plot_face(0,-128,-128,-16,-128,-256,-16,128,-128,-16,"turf-grey")
+            plot_face(0,-128,-256,-16,-128,-256,0,128,-128,0,"invisible")
+            plot_face(0,-128,-128,0,-128,-128,-16,-128,-128,-16,"invisible")
+        end if
+        print #m, "}"
+        print #m, "}"
+        PlacementTest(PlacementFormula) = 18
+        PlacementTest(PlacementFormula+1) = 18
+        PlacementTest(PlacementFormula+50) = 18
+        PlacementTest(PlacementFormula+51) = 18
+        place_gfx(0)
+        LevelTime += 150
+        MinimumLevelTime += 100
+        Money += 4
+        Blocks += 1
+        Putt = 2
+
     elseif (BlockType = 22) AND (BlockSet = 0) AND _
            (Money + 1 < = MaxMoney) AND _
             PlacementTest(PlacementFormula) = 0 then
