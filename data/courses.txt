@@ -13,7 +13,7 @@ Crazy Golf\ \\Difficulty: Easy to Medium\Author: slippifishi\
 holes-kk.txt shot-putt/tricky-golf.jpg
 Tricky Golf\\An 18-hole course with many challenges\Difficulty: Expert Through Insane\Author: Byron James Johnson
 holes-csyn.txt shot-putt/csynovice.jpg
-CSY Course Novice\A 12-hole course designed for novice players.\\Difficulty: Easy to Medium\Author: Challenge Space Yard\
+CSY Course Novice\A 13-hole course designed for novice players.\\Difficulty: Easy to Medium\Author: Challenge Space Yard\
 holes-csy.txt shot-putt/csy.jpg
 CSY Course\An 18-hole course with a good challenge.\\Difficulty: Easy to Hard\Author: Challenge Space Yard\
 holes-csyp.txt shot-putt/csyplus.jpg
