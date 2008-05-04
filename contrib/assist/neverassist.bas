@@ -33,6 +33,8 @@
  ' Although parts of the program are still out of alignment with the standards
  ' set forth by rlk, this one works a lot better than what it was before it was
  ' released.
+ '
+ ' Libraries needed for this program: None
  '/
 #IFDEF __FB_DOS__
 #ERROR "Not for DOS." 'This prevents it from being compiled for DOS.
