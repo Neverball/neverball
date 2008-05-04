@@ -875,7 +875,7 @@ static int flyby_enter(void)
         return goto_state(&st_next);
     }
 
-    for (i = 1; i < curr_party(); i++)
+    for (i = 1; i <= curr_party(); i++)
     {
         game_set_aggressor(i, 0);
         hole_state_set(i, 0);
