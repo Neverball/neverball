@@ -696,11 +696,11 @@ static int next_enter(void)
                         gui_label(jd, "4", GUI_SML, GUI_RGT, gui_yel, gui_wht);
                         break;
                     }
-                    gui_label(jd, _("Knocked Out By Player "), GUI_SML, GUI_LFT, gui_red, gui_red);
+                    gui_label(jd, _("Knocked Out By Player "), GUI_SML, GUI_LFT, gui_gry, gui_red);
                 }
                 else
                 {
-                    gui_label(jd, _("Knocked Out"), GUI_SML, GUI_ALL, gui_red, gui_red);
+                    gui_label(jd, _("Knocked Out"), GUI_SML, GUI_ALL, gui_gry, gui_red);
                 }
             }
 
@@ -725,11 +725,11 @@ static int next_enter(void)
                         gui_label(jd, "4", GUI_SML, GUI_RGT, gui_yel, gui_wht);
                         break;
                     }
-                    gui_label(jd, _("Knocked In By Player "), GUI_SML, GUI_LFT, gui_red, gui_red);
+                    gui_label(jd, _("Knocked In By Player "), GUI_SML, GUI_LFT, gui_grn, gui_wht);
                 }
                 else
                 {
-                    gui_label(jd, _("Knocked In"), GUI_SML, GUI_ALL, gui_red, gui_red);
+                    gui_label(jd, _("Knocked In"), GUI_SML, GUI_ALL, gui_grn, gui_wht);
                 }
 
                 s *= -1;
