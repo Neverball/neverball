@@ -14,7 +14,6 @@
 
 #include <SDL.h>
 #include <math.h>
-#include <stdio.h>
 
 #include "glext.h"
 #include "game.h"
@@ -35,9 +34,6 @@ static int game_state = 0;
 
 static struct s_file file;
 static struct s_file back;
-
-static struct s_file grow_file;
-static struct s_file shrink_file;
 
 static float timer      = 0.f;          /* Clock time                        */
 static int   timer_down = 1;            /* Timer go up or down?              */
@@ -369,12 +365,6 @@ int game_init(const char *file_name, int t, int e)
     sol_load_gl(&back, config_data(back_name),
                 config_get_d(CONFIG_TEXTURES), 0);
 
-    sol_load_gl(&grow_file, config_data("item/grow-item.sol"),
-                config_get_d(CONFIG_TEXTURES), 0);
-    sol_load_gl(&shrink_file, config_data("item/grow-item.sol"),
-                config_get_d(CONFIG_TEXTURES), 0);
-
-
     /* Initialize ball size tracking... */
 
     got_orig = 0;
@@ -389,8 +379,6 @@ void game_free(void)
     {
         sol_free_gl(&file);
         sol_free_gl(&back);
-        sol_free_gl(&grow_file);
-        sol_free_gl(&shrink_file);
         back_free();
     }
     game_state = 0;
@@ -476,7 +464,7 @@ static void game_draw_items(const struct s_file *fp, float t)
                                      fp->hv[hi].p[1],
                                      fp->hv[hi].p[2]);
                         glRotatef(r, 0.0f, 1.0f, 0.0f);
-                        sol_draw(&shrink_file, 0, 1);
+                        item_draw(&fp->hv[hi], r);
                     }
                     glPopMatrix();
                 }
@@ -495,7 +483,7 @@ static void game_draw_items(const struct s_file *fp, float t)
                                      fp->hv[hi].p[1],
                                      fp->hv[hi].p[2]);
                         glRotatef(r, 0.0f, 1.0f, 0.0f);
-                        sol_draw(&grow_file, 0, 1);
+                        item_draw(&fp->hv[hi], r);
                     }
                     glPopMatrix();
                 }
@@ -565,7 +553,7 @@ static void game_draw_jumps(const struct s_file *fp, const float *M, float t)
                              fp->jv[ji].p[1],
                              fp->jv[ji].p[2]);
 
-                part_draw_jump(M, fp->jv[ji].r, goal_k, t);
+                part_draw_jump(M, fp->jv[ji].r, 1.0f, t);
             }
             glPopMatrix();
         }

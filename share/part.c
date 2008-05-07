@@ -66,17 +66,33 @@ void part_reset(float h)
         part_goal[i].a = V_DEG(a);
         part_goal[i].w = V_DEG(w);
 
+        part_jump[i].t = t;
+        part_jump[i].a = V_DEG(a);
+        part_jump[i].w = V_DEG(w);
+
         part_goal[i].c[0] = 1.0f;
         part_goal[i].c[1] = 1.0f;
         part_goal[i].c[2] = 0.0f;
+
+        part_jump[i].c[0] = 1.0f;
+        part_jump[i].c[1] = 1.0f;
+        part_jump[i].c[2] = 0.0f;
 
         part_goal[i].p[0] = fsinf(a);
         part_goal[i].p[1] = (1.f - t) * h;
         part_goal[i].p[2] = fcosf(a);
 
+        part_jump[i].p[0] = fsinf(a);
+        part_jump[i].p[1] = (1.f - t) * h;
+        part_jump[i].p[2] = fcosf(a);
+
         part_goal[i].v[0] = 0.f;
         part_goal[i].v[1] = 0.f;
         part_goal[i].v[2] = 0.f;
+
+        part_jump[i].v[0] = 0.f;
+        part_jump[i].v[1] = 0.f;
+        part_jump[i].v[2] = 0.f;
 
         part_coin[i].t    = 0.0f;
     }
@@ -272,8 +288,8 @@ void part_draw_jump(const float *M, float radius, float a, float t)
     glColor4f(1.0f, 1.0f, 1.0f, a);
 
     for (i = 0; i < PART_MAX_GOAL; i++)
-        if (part_goal[i].t > 0.0f)
-            part_draw_squiggles(M, part_goal[i].p, radius - 0.05f, t * part_goal[i].w);
+        if (part_jump[i].t > 0.0f)
+            part_draw_squiggles(M, part_jump[i].p, radius - 0.05f, t * part_jump[i].w);
 }
 
 /*---------------------------------------------------------------------------*/
