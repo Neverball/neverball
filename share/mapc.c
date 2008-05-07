@@ -1646,30 +1646,6 @@ static void swap_mtrl(struct s_file *fp, int mi, int mj)
         if (fp->rv[i].mi == mi) fp->rv[i].mi = mj;
 }
 
-static int vert_swaps[MAXV];
-
-static void swap_vert2(struct s_file *fp)
-{
-    int i, j;
-
-    for (i = 0; i < fp->ec; i++)
-    {
-        fp->ev[i].vi = vert_swaps[fp->ev[i].vi];
-        fp->ev[i].vj = vert_swaps[fp->ev[i].vj];
-    }
-
-    for (i = 0; i < fp->gc; i++)
-    {
-        fp->gv[i].vi = vert_swaps[fp->gv[i].vi];
-        fp->gv[i].vj = vert_swaps[fp->gv[i].vj];
-        fp->gv[i].vk = vert_swaps[fp->gv[i].vk];
-    }
-
-    for (i = 0; i < fp->lc; i++)
-        for (j = 0; j < fp->lv[i].vc; j++)
-            fp->iv[fp->lv[i].v0 + j] = vert_swaps[fp->iv[fp->lv[i].v0 + j]];
-}
-
 static void swap_vert(struct s_file *fp, int vi, int vj)
 {
     int i, j;
@@ -1693,64 +1669,61 @@ static void swap_vert(struct s_file *fp, int vi, int vj)
                 fp->iv[fp->lv[i].v0 + j]  = vj;
 }
 
-static int edge_swaps[MAXE];
-
-static void swap_edge(struct s_file *fp)
+static void swap_edge(struct s_file *fp, int ei, int ej)
 {
     int i, j;
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].ec; j++)
-            fp->iv[fp->lv[i].e0 + j] = edge_swaps[fp->iv[fp->lv[i].e0 + j]];
+            if (fp->iv[fp->lv[i].e0 + j] == ei)
+                fp->iv[fp->lv[i].e0 + j]  = ej;
 }
 
-static int side_swaps[MAXS];
-
-static void swap_side(struct s_file *fp)
+static void swap_side(struct s_file *fp, int si, int sj)
 {
     int i, j;
 
     for (i = 0; i < fp->gc; i++)
     {
-        fp->gv[i].si = side_swaps[fp->gv[i].si];
-        fp->gv[i].sj = side_swaps[fp->gv[i].sj];
-        fp->gv[i].sk = side_swaps[fp->gv[i].sk];
+        if (fp->gv[i].si == si) fp->gv[i].si = sj;
+        if (fp->gv[i].sj == si) fp->gv[i].sj = sj;
+        if (fp->gv[i].sk == si) fp->gv[i].sk = sj;
     }
     for (i = 0; i < fp->nc; i++)
-        fp->nv[i].si = side_swaps[fp->nv[i].si];
+        if (fp->nv[i].si == si) fp->nv[i].si = sj;
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].sc; j++)
-            fp->iv[fp->lv[i].s0 + j] = side_swaps[fp->iv[fp->lv[i].s0 + j]];
+            if (fp->iv[fp->lv[i].s0 + j] == si)
+                fp->iv[fp->lv[i].s0 + j]  = sj;
 }
 
-static int texc_swaps[MAXT];
-
-static void swap_texc(struct s_file *fp)
+static void swap_texc(struct s_file *fp, int ti, int tj)
 {
     int i;
 
     for (i = 0; i < fp->gc; i++)
     {
-        fp->gv[i].ti = texc_swaps[fp->gv[i].ti];
-        fp->gv[i].tj = texc_swaps[fp->gv[i].tj];
-        fp->gv[i].tk = texc_swaps[fp->gv[i].tk];
+        if (fp->gv[i].ti == ti) fp->gv[i].ti = tj;
+        if (fp->gv[i].tj == ti) fp->gv[i].tj = tj;
+        if (fp->gv[i].tk == ti) fp->gv[i].tk = tj;
     }
 }
 
-static int geom_swaps[MAXG];
 
-static void swap_geom(struct s_file *fp)
+static void swap_geom(struct s_file *fp, int gi, int gj)
 {
     int i, j;
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].gc; j++)
-            fp->iv[fp->lv[i].g0 + j] = geom_swaps[fp->iv[fp->lv[i].g0 + j]];
+            if (fp->iv[fp->lv[i].g0 + j] == gi)
+                fp->iv[fp->lv[i].g0 + j]  = gj;
 
     for (i = 0; i < fp->bc; i++)
         for (j = 0; j < fp->bv[i].gc; j++)
-            fp->iv[fp->bv[i].g0 + j] = geom_swaps[fp->iv[fp->bv[i].g0 + j]];
+            if (fp->iv[fp->bv[i].g0 + j] == gi)
+                fp->iv[fp->bv[i].g0 + j]  = gj;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1790,17 +1763,21 @@ static void uniq_vert(struct s_file *fp)
     {
         for (j = 0; j < k; j++)
             if (comp_vert(fp->vv + i, fp->vv + j))
+            {
+                swap_vert(fp, i, j);
                 break;
+            }
 
-        vert_swaps[i] = j;
         if (j == k)
         {
             if (i != k)
+            {
                 fp->vv[k] = fp->vv[i];
+                swap_vert(fp, i, k);
+            }
             k++;
         }
     }
-    swap_vert2(fp);
 
     fp->vc = k;
 }
@@ -1813,17 +1790,21 @@ static void uniq_edge(struct s_file *fp)
     {
         for (j = 0; j < k; j++)
             if (comp_edge(fp->ev + i, fp->ev + j))
+            {
+                swap_edge(fp, i, j);
                 break;
+            }
 
-        edge_swaps[i] = j;
         if (j == k)
         {
             if (i != k)
+            {
                 fp->ev[k] = fp->ev[i];
+                swap_edge(fp, i, k);
+            }
             k++;
         }
     }
-    swap_edge(fp);
 
     fp->ec = k;
 }
@@ -1835,18 +1816,22 @@ static void uniq_geom(struct s_file *fp)
     for (i = 0; i < fp->gc; i++)
     {
         for (j = 0; j < k; j++)
-             if (comp_geom(fp->gv + i, fp->gv + j))
+            if (comp_geom(fp->gv + i, fp->gv + j))
+            {
+                swap_geom(fp, i, j);
                 break;
+            }
 
-        geom_swaps[i] = j;
         if (j == k)
         {
             if (i != k)
+            {
                 fp->gv[k] = fp->gv[i];
+                swap_geom(fp, i, k);
+            }
             k++;
         }
     }
-    swap_geom(fp);
 
     fp->gc = k;
 }
@@ -1859,17 +1844,21 @@ static void uniq_texc(struct s_file *fp)
     {
         for (j = 0; j < k; j++)
             if (comp_texc(fp->tv + i, fp->tv + j))
+            {
+                swap_texc(fp, i, j);
                 break;
+            }
 
-        texc_swaps[i] = j;
         if (j == k)
         {
             if (i != k)
+            {
                 fp->tv[k] = fp->tv[i];
+                swap_texc(fp, i, k);
+            }
             k++;
         }
     }
-    swap_texc(fp);
 
     fp->tc = k;
 }
@@ -1882,17 +1871,21 @@ static void uniq_side(struct s_file *fp)
     {
         for (j = 0; j < k; j++)
             if (comp_side(fp->sv + i, fp->sv + j))
+            {
+                swap_side(fp, i, j);
                 break;
+            }
 
-        side_swaps[i] = j;
         if (j == k)
         {
             if (i != k)
+            {
                 fp->sv[k] = fp->sv[i];
+                swap_side(fp, i, k);
+            }
             k++;
         }
     }
-    swap_side(fp);
 
     fp->sc = k;
 }
