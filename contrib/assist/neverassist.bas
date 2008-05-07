@@ -157,6 +157,7 @@ sub menu
         else
             print "<L> ";lang("Change language");" (Change language)"
         endif
+        color rgb(255,255,255):print "<S> ";lang("View solutions directory")
 
         #IFDEF __FB_WIN32__
         print "<Z> ";lang("Locate 7-Zip")
@@ -256,6 +257,26 @@ sub menu
             lang_select
             config
             color rgb(255,255,255)
+        elseif multikey(SC_S) then
+            clkey
+            cls
+            'Try to make it wrap the 80 characters if you translate this string
+            print lang("The solution directory contains a collection of " + _
+                  "solutions to levels players have been known to give a" + _
+                  "fit on.")
+            print "<A> ";lang("Neverball Easy Level 10: How to 100% the level")
+            print lang("Hit BACKSPACE to exit the directory.")
+            do
+                sleep 10
+                if multikey(SC_A) then
+                    #IFDEF __FB_WIN32__
+                    Check = exec("Neverball.exe","-r "+AssistDir+"/solutions/cE10csy.nbr")
+                    #ELSE
+                    Check = exec("neverball","-r "+AssistDir+"/solutions/cE10csy.nbr")
+                    #ENDIF
+                    print lang("Exit code of replay A: ")& Check
+                end if
+            loop until multikey(SC_BACKSPACE)
 
         #IFDEF __FB_WIN32__
         elseif multikey(SC_Z) then
