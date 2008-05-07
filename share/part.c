@@ -36,7 +36,9 @@ struct part
 
 static struct part part_coin[PART_MAX_COIN];
 static struct part part_goal[PART_MAX_GOAL];
+static struct part part_jump[PART_MAX_GOAL];
 static GLuint      part_text;
+static GLuint      part_text_squiggle;
 static GLuint      part_list;
 
 /*---------------------------------------------------------------------------*/
@@ -84,8 +86,10 @@ void part_init(float h)
 {
     memset(part_coin, 0, PART_MAX_COIN * sizeof (struct part));
     memset(part_goal, 0, PART_MAX_GOAL * sizeof (struct part));
+    memset(part_jump, 0, PART_MAX_GOAL * sizeof (struct part));
 
     part_text = make_image_from_file(IMG_PART);
+    part_text_squiggle = make_image_from_file(IMG_SQUIGGLE);
     part_list = glGenLists(1);
 
     glNewList(part_list, GL_COMPILE);
@@ -214,6 +218,20 @@ static void part_draw(const float *M,
     glPopMatrix();
 }
 
+static void part_draw_squiggles(const float *M,
+                      const float *p, float r, float rz)
+{
+    glPushMatrix();
+    {
+        glTranslatef(r * p[0], p[1], r * p[2]);
+        glMultMatrixf(M);
+        glRotatef(rz, 0.f, 0.f, 0.0f);
+
+        glCallList(part_list);
+    }
+    glPopMatrix();
+}
+
 void part_draw_coin(const float *M, float t)
 {
     int i;
@@ -243,6 +261,19 @@ void part_draw_goal(const float *M, float radius, float a, float t)
     for (i = 0; i < PART_MAX_GOAL; i++)
         if (part_goal[i].t > 0.0f)
             part_draw(M, part_goal[i].p, radius - 0.05f, t * part_goal[i].w);
+}
+
+void part_draw_jump(const float *M, float radius, float a, float t)
+{
+    int i;
+
+    glBindTexture(GL_TEXTURE_2D, part_text_squiggle);
+
+    glColor4f(1.0f, 1.0f, 1.0f, a);
+
+    for (i = 0; i < PART_MAX_GOAL; i++)
+        if (part_goal[i].t > 0.0f)
+            part_draw_squiggles(M, part_goal[i].p, radius - 0.05f, t * part_goal[i].w);
 }
 
 /*---------------------------------------------------------------------------*/

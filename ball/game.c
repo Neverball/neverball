@@ -14,6 +14,7 @@
 
 #include <SDL.h>
 #include <math.h>
+#include <stdio.h>
 
 #include "glext.h"
 #include "game.h"
@@ -34,6 +35,9 @@ static int game_state = 0;
 
 static struct s_file file;
 static struct s_file back;
+
+static struct s_file grow_file;
+static struct s_file shrink_file;
 
 static float timer      = 0.f;          /* Clock time                        */
 static int   timer_down = 1;            /* Timer go up or down?              */
@@ -365,6 +369,12 @@ int game_init(const char *file_name, int t, int e)
     sol_load_gl(&back, config_data(back_name),
                 config_get_d(CONFIG_TEXTURES), 0);
 
+    sol_load_gl(&grow_file, config_data("item/grow-item.sol"),
+                config_get_d(CONFIG_TEXTURES), 0);
+    sol_load_gl(&shrink_file, config_data("item/grow-item.sol"),
+                config_get_d(CONFIG_TEXTURES), 0);
+
+
     /* Initialize ball size tracking... */
 
     got_orig = 0;
@@ -379,6 +389,8 @@ void game_free(void)
     {
         sol_free_gl(&file);
         sol_free_gl(&back);
+        sol_free_gl(&grow_file);
+        sol_free_gl(&shrink_file);
         back_free();
     }
     game_state = 0;
@@ -464,7 +476,7 @@ static void game_draw_items(const struct s_file *fp, float t)
                                      fp->hv[hi].p[1],
                                      fp->hv[hi].p[2]);
                         glRotatef(r, 0.0f, 1.0f, 0.0f);
-                        item_draw(&fp->hv[hi], r);
+                        sol_draw(&shrink_file, 0, 1);
                     }
                     glPopMatrix();
                 }
@@ -483,7 +495,7 @@ static void game_draw_items(const struct s_file *fp, float t)
                                      fp->hv[hi].p[1],
                                      fp->hv[hi].p[2]);
                         glRotatef(r, 0.0f, 1.0f, 0.0f);
-                        item_draw(&fp->hv[hi], r);
+                        sol_draw(&grow_file, 0, 1);
                     }
                     glPopMatrix();
                 }
@@ -539,9 +551,28 @@ static void game_draw_goals(const struct s_file *fp, const float *M, float t)
     }
 }
 
-static void game_draw_jumps(const struct s_file *fp)
+static void game_draw_jumps(const struct s_file *fp, const float *M, float t)
 {
     int ji;
+
+    glEnable(GL_TEXTURE_2D);
+    {
+        for (ji = 0; ji < fp->jc; ji++)
+        {
+            glPushMatrix();
+            {
+                glTranslatef(fp->jv[ji].p[0],
+                             fp->jv[ji].p[1],
+                             fp->jv[ji].p[2]);
+
+                part_draw_jump(M, fp->jv[ji].r, goal_k, t);
+            }
+            glPopMatrix();
+        }
+    }
+    glDisable(GL_TEXTURE_2D);
+
+
 
     for (ji = 0; ji < fp->jc; ji++)
     {
@@ -774,7 +805,7 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
             glDisable(GL_TEXTURE_2D);
             {
                 game_draw_goals(&file, M, t);
-                game_draw_jumps(&file);
+                game_draw_jumps(&file, M, t);
                 game_draw_swchs(&file);
             }
             glEnable(GL_TEXTURE_2D);

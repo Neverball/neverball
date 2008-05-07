@@ -4,6 +4,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define IMG_PART "png/part.png"
+#define IMG_SQUIGGLE "png/squiggle.png"
 
 #define PART_MAX_COIN 256
 #define PART_MAX_GOAL  64
@@ -20,6 +21,7 @@ void part_step(const float *, float);
 
 void part_draw_coin(const float *, float);
 void part_draw_goal(const float *, float, float, float);
+void part_draw_jump(const float *, float, float, float);
 
 /*---------------------------------------------------------------------------*/
 
