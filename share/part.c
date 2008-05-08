@@ -216,6 +216,7 @@ void part_step(const float *g, float dt)
         part_fall(part_goal, PART_MAX_GOAL, g, dt);
     else
         part_spin(part_goal, PART_MAX_GOAL, g, dt);
+        part_spin(part_jump, PART_MAX_GOAL, g, dt);
 }
 
 /*---------------------------------------------------------------------------*/
