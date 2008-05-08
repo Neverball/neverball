@@ -1648,7 +1648,7 @@ static void swap_mtrl(struct s_file *fp, int mi, int mj)
 
 static int vert_swaps[MAXV];
 
-static void swap_vert2(struct s_file *fp)
+static void apply_vert_swaps(struct s_file *fp)
 {
     int i, j;
 
@@ -1695,7 +1695,7 @@ static void swap_vert(struct s_file *fp, int vi, int vj)
 
 static int edge_swaps[MAXE];
 
-static void swap_edge(struct s_file *fp)
+static void apply_edge_swaps(struct s_file *fp)
 {
     int i, j;
 
@@ -1706,7 +1706,7 @@ static void swap_edge(struct s_file *fp)
 
 static int side_swaps[MAXS];
 
-static void swap_side(struct s_file *fp)
+static void apply_side_swaps(struct s_file *fp)
 {
     int i, j;
 
@@ -1726,7 +1726,7 @@ static void swap_side(struct s_file *fp)
 
 static int texc_swaps[MAXT];
 
-static void swap_texc(struct s_file *fp)
+static void apply_texc_swaps(struct s_file *fp)
 {
     int i;
 
@@ -1740,7 +1740,7 @@ static void swap_texc(struct s_file *fp)
 
 static int geom_swaps[MAXG];
 
-static void swap_geom(struct s_file *fp)
+static void apply_geom_swaps(struct s_file *fp)
 {
     int i, j;
 
@@ -1801,7 +1801,8 @@ static void uniq_vert(struct s_file *fp)
             k++;
         }
     }
-    swap_vert2(fp);
+
+    apply_vert_swaps(fp);
 
     fp->vc = k;
 }
@@ -1825,7 +1826,8 @@ static void uniq_edge(struct s_file *fp)
             k++;
         }
     }
-    swap_edge(fp);
+
+    apply_edge_swaps(fp);
 
     fp->ec = k;
 }
@@ -1849,7 +1851,8 @@ static void uniq_geom(struct s_file *fp)
             k++;
         }
     }
-    swap_geom(fp);
+
+    apply_geom_swaps(fp);
 
     fp->gc = k;
 }
@@ -1873,7 +1876,8 @@ static void uniq_texc(struct s_file *fp)
             k++;
         }
     }
-    swap_texc(fp);
+
+    apply_texc_swaps(fp);
 
     fp->tc = k;
 }
@@ -1897,7 +1901,8 @@ static void uniq_side(struct s_file *fp)
             k++;
         }
     }
-    swap_side(fp);
+
+    apply_side_swaps(fp);
 
     fp->sc = k;
 }
