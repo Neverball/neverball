@@ -4,7 +4,7 @@
 "message" "So many different paths to take...\have you tried all of them?"
 "coin_hs" "216 100"
 "time_hs" "6000 12000"
-"unlock_hs" "7000 15000"
+"goal_hs" "7000 15000"
 "goal" "75"
 "time" "21000"
 "song" "bgm/track5.ogg"
