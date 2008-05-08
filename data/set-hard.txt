@@ -1,5 +1,5 @@
 Neverball Hard
-Difficulty: Intermediate through Expert\\25 levels with more of a challenge for\the experienced player. Try to claim\Best Times and Most Coins records.\
+Difficulty: Intermediate through Expert\\25 levels with more of a challenge for\the experienced player. Try to claim\Best Times, Most Coins, and Unlock Goal records.\
 hard
 shot-hard/grid.jpg
 
