@@ -1,5 +1,5 @@
 Neverball Medium
-Difficulty: A set of levels for intermediate players.\\\Work in progress.\\
+Difficulty: Beginner through Expert\\25 levels which provide a balanced\challenge for players. Try to claim\some of the records provided.\
 medium
 shot-medium/locks.jpg
 
