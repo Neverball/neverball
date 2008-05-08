@@ -1793,6 +1793,7 @@ static void uniq_vert(struct s_file *fp)
                 break;
 
         vert_swaps[i] = j;
+
         if (j == k)
         {
             if (i != k)
@@ -1816,6 +1817,7 @@ static void uniq_edge(struct s_file *fp)
                 break;
 
         edge_swaps[i] = j;
+
         if (j == k)
         {
             if (i != k)
@@ -1835,10 +1837,11 @@ static void uniq_geom(struct s_file *fp)
     for (i = 0; i < fp->gc; i++)
     {
         for (j = 0; j < k; j++)
-             if (comp_geom(fp->gv + i, fp->gv + j))
+            if (comp_geom(fp->gv + i, fp->gv + j))
                 break;
 
         geom_swaps[i] = j;
+
         if (j == k)
         {
             if (i != k)
@@ -1862,6 +1865,7 @@ static void uniq_texc(struct s_file *fp)
                 break;
 
         texc_swaps[i] = j;
+
         if (j == k)
         {
             if (i != k)
@@ -1885,6 +1889,7 @@ static void uniq_side(struct s_file *fp)
                 break;
 
         side_swaps[i] = j;
+
         if (j == k)
         {
             if (i != k)
