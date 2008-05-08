@@ -62,13 +62,9 @@ void part_reset(float h)
         float a = rnd(-1.0f * PI, +1.0f * PI);
         float w = rnd(-2.0f * PI, +2.0f * PI);
 
-        part_goal[i].t = t;
-        part_goal[i].a = V_DEG(a);
-        part_goal[i].w = V_DEG(w);
-
-        part_jump[i].t = t;
-        part_jump[i].a = V_DEG(a);
-        part_jump[i].w = V_DEG(w);
+        part_jump[i].t = part_goal[i].t = t;
+        part_jump[i].a = part_goal[i].a = V_DEG(a);
+        part_jump[i].w = part_goal[i].w = V_DEG(w);
 
         part_goal[i].c[0] = 1.0f;
         part_goal[i].c[1] = 1.0f;
@@ -76,23 +72,15 @@ void part_reset(float h)
 
         part_jump[i].c[0] = 1.0f;
         part_jump[i].c[1] = 1.0f;
-        part_jump[i].c[2] = 0.0f;
+        part_jump[i].c[2] = 1.0f;
 
-        part_goal[i].p[0] = fsinf(a);
-        part_goal[i].p[1] = (1.f - t) * h;
-        part_goal[i].p[2] = fcosf(a);
+        part_jump[i].p[0] = part_goal[i].p[0] = fsinf(a);
+        part_jump[i].p[1] = part_goal[i].p[1] = (1.f - t) * h;
+        part_jump[i].p[2] = part_goal[i].p[2] = fcosf(a);
 
-        part_jump[i].p[0] = fsinf(a);
-        part_jump[i].p[1] = (1.f - t) * h;
-        part_jump[i].p[2] = fcosf(a);
-
-        part_goal[i].v[0] = 0.f;
-        part_goal[i].v[1] = 0.f;
-        part_goal[i].v[2] = 0.f;
-
-        part_jump[i].v[0] = 0.f;
-        part_jump[i].v[1] = 0.f;
-        part_jump[i].v[2] = 0.f;
+        part_jump[i].v[0] = part_goal[i].v[0] = 0.f;
+        part_jump[i].v[1] = part_goal[i].v[1] = 0.f;
+        part_jump[i].v[2] = part_goal[i].v[2] = 0.f;
 
         part_coin[i].t    = 0.0f;
     }
@@ -202,7 +190,7 @@ static void part_spin(struct part *part, int n, const float *g, float dt)
         if (part[i].t > 0.f)
         {
             part[i].a += 30.f * dt;
-
+            
             part[i].p[0] = fsinf(V_RAD(part[i].a));
             part[i].p[2] = fcosf(V_RAD(part[i].a));
         }
@@ -286,11 +274,16 @@ void part_draw_jump(const float *M, float radius, float a, float t)
 
     glBindTexture(GL_TEXTURE_2D, part_text_squiggle);
 
-    glColor4f(1.0f, 1.0f, 1.0f, a);
+   /* glColor4f(1.0f, 1.0f, 1.0f, a);*/
 
     for (i = 0; i < PART_MAX_GOAL; i++)
+    {
         if (part_jump[i].t > 0.0f)
+        {
+     	    glColor4f(1.0f, 1.0f, 1.0f, 2.f - part_jump[i].p[1]); /*Fixme - 2.f is the current goal height declared in geom.h*/
             part_draw_squiggles(M, part_jump[i].p, radius - 0.05f, t * part_jump[i].w);
+        }
+    }
 }
 
 /*---------------------------------------------------------------------------*/
