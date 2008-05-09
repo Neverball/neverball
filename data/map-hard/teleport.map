@@ -12,6 +12,7 @@
 "time" "6000"
 "goal" "40"
 "time_hs" "1900 4500"
+"goal_hs" "3500 5500"
 "coin_hs" "60 50"
 // brush 0
 {
