@@ -26,6 +26,7 @@
 #include "st_start.h"
 #include "st_level.h"
 #include "st_shared.h"
+#include "st_play.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -130,7 +131,10 @@ static int fall_out_keybd(int c, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
-            return fall_out_action(FALL_OUT_SAME);
+        {
+            if (progress_same())
+                goto_state(&st_play_ready);
+        }
     }
     return 1;
 }

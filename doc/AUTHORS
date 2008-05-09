@@ -85,6 +85,7 @@
       - Map compiler speed-ups for debugging large maps
     Uoti Urpala
       - Bounces with moving objects
+      - Map compiler data structure reordering optimisations
     Georg Wachter
       - Generic sphere-vs-sphere collision
     Mehdi Yousfi-Monod
