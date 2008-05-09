@@ -409,7 +409,21 @@ int hole_state_get(int id)
 
 void hole_state_set(int id, int val)
 {
-    state_v[id] = val;
+    int i;
+
+    if (id == PLAY_CURRENT)
+        state_v[player] = val;
+
+    else if (id == PLAY_PARTY)
+        for (i = curr_party(); i > 0; i--)
+            state_v[i] = val;
+
+    else if (id == PLAY_ALL)
+        for (i = MAXPLY; i > 0; i--)
+            state_v[i] = val;
+
+    else if (id >= 0)
+        state_v[id]     = val;
 }
 
 /*---------------------------------------------------------------------------*/

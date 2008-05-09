@@ -870,7 +870,21 @@ int game_get_aggressor(int id)
 
 void game_set_aggressor(int id, int val)
 {
-    file.uv[id].a = val;
+    int i;
+
+    if (id == PLAY_CURRENT)
+        file.uv[ball].a = val;
+
+    else if (id == PLAY_PARTY)
+        for (i = curr_party(); i > 0; i--)
+            file.uv[i].a = val;
+
+    else if (id == PLAY_ALL)
+        for (i = 0; i < file.uc; i++)
+            file.uv[i].a = val;
+
+    else if (id >= 0)
+        file.uv[id].a   = val;
 }
 
 /*---------------------------------------------------------------------------*/

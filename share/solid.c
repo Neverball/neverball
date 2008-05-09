@@ -33,7 +33,7 @@
 
 #define GAMMA 0.78f
 
-#define AGGRESSOR_RANGE 0.00f
+#define AGGRESSOR_RANGE 0.25f
 
 /*---------------------------------------------------------------------------*/
 
