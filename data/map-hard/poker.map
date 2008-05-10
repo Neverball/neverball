@@ -4,6 +4,7 @@
 "message" "Slow and steady.\"
 "coin_hs" "23 20"
 "time_hs" "2500 4500"
+"goal_hs" "3000 5250"
 "goal" "5"
 "time" "6000"
 "song" "bgm/track5.ogg"
