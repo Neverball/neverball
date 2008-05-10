@@ -21448,7 +21448,7 @@
 // entity 157
 {
 "classname" "light"
-"origin" "512 624 16"
+"origin" "512 628 10"
 "light" "10"
 }
 // entity 158
