@@ -230,7 +230,7 @@ static void part_draw_squiggles(const float *M,
     {
         glTranslatef(r * p[0], p[1], r * p[2]);
         glMultMatrixf(M);
-        glRotatef(rz, 0.f, 0.f, 0.0f);
+        glRotatef(rz * 1.5f, 0.f, 0.f, 0.0f);
 
         glCallList(part_list);
     }
@@ -280,6 +280,11 @@ void part_draw_jump(const float *M, float radius, float a, float t)
     {
         if (part_jump[i].t > 0.0f)
         {
+            part_jump[i].p[1] += part_jump[i].t * 0.000025f;
+    	    if (part_jump[i].p[1] > 2.0f)
+            {
+                part_jump[i].p[1] -= 2.0f;
+            }
      	    glColor4f(1.0f, 1.0f, 1.0f, 2.f - part_jump[i].p[1]); /*Fixme - 2.f is the current goal height declared in geom.h*/
             part_draw_squiggles(M, part_jump[i].p, radius - 0.05f, t * part_jump[i].w);
         }
