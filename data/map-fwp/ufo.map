@@ -14993,7 +14993,7 @@
 "targetname" "fighterA1"
 "origin" "-136 2176 272"
 "target" "fighterA2"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 23
@@ -15002,7 +15002,7 @@
 "targetname" "fighterA2"
 "origin" "-136 2176 272"
 "target" "fighterA3"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 24
@@ -15011,7 +15011,7 @@
 "targetname" "fighterA3"
 "origin" "-112 2048 277"
 "target" "fighterA4"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 25
@@ -15020,7 +15020,7 @@
 "targetname" "fighterA4"
 "origin" "-112 2048 277"
 "target" "fighterA5"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 26
@@ -15029,7 +15029,7 @@
 "targetname" "fighterA5"
 "origin" "-88 1920 282"
 "target" "fighterA6"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 27
@@ -15038,7 +15038,7 @@
 "targetname" "fighterA6"
 "origin" "-88 1920 282"
 "target" "fighterA7"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 28
@@ -15047,7 +15047,7 @@
 "targetname" "fighterA7"
 "origin" "-64 1792 287"
 "target" "fighterA8"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 29
@@ -15056,7 +15056,7 @@
 "targetname" "fighterA8"
 "origin" "-64 1792 287"
 "target" "fighterA9"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 30
@@ -15065,7 +15065,7 @@
 "targetname" "fighterA9"
 "origin" "-40 1664 290"
 "target" "fighterA10"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 31
@@ -15178,7 +15178,7 @@
 "targetname" "shotsAA2"
 "origin" "-136 2176 272"
 "target" "shotsAA3"
-"speed" "19.2"
+"speed" "21.333333"
 "smooth" "0"
 }
 // entity 37
@@ -15273,7 +15273,7 @@
 "targetname" "shotsAB1"
 "origin" "-136 2176 272"
 "target" "shotsAB2"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 41
@@ -15282,7 +15282,7 @@
 "targetname" "shotsAB2"
 "origin" "-136 2176 272"
 "target" "shotsAB3"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 42
@@ -15300,7 +15300,7 @@
 "targetname" "shotsAB4"
 "origin" "-112 2048 277"
 "target" "shotsAB5"
-"speed" "19.2"
+"speed" "21.333333"
 "smooth" "0"
 }
 // entity 44
@@ -15395,7 +15395,7 @@
 "targetname" "shotsAC1"
 "origin" "-136 2176 272"
 "target" "shotsAC2"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 48
@@ -15404,7 +15404,7 @@
 "targetname" "shotsAC2"
 "origin" "-136 2176 272"
 "target" "shotsAC3"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 49
@@ -15413,7 +15413,7 @@
 "targetname" "shotsAC3"
 "origin" "-112 2048 277"
 "target" "shotsAC4"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 50
@@ -15422,7 +15422,7 @@
 "targetname" "shotsAC4"
 "origin" "-112 2048 277"
 "target" "shotsAC5"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 51
@@ -15440,7 +15440,7 @@
 "targetname" "shotsAC6"
 "origin" "-88 1920 282"
 "target" "shotsAC7"
-"speed" "19.2"
+"speed" "21.333333"
 "smooth" "0"
 }
 // entity 53
@@ -15535,7 +15535,7 @@
 "targetname" "shotsAD1"
 "origin" "-136 2176 272"
 "target" "shotsAD2"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 57
@@ -15544,7 +15544,7 @@
 "targetname" "shotsAD2"
 "origin" "-136 2176 272"
 "target" "shotsAD3"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 58
@@ -15553,7 +15553,7 @@
 "targetname" "shotsAD3"
 "origin" "-112 2048 277"
 "target" "shotsAD4"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 59
@@ -15562,7 +15562,7 @@
 "targetname" "shotsAD4"
 "origin" "-112 2048 277"
 "target" "shotsAD5"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 60
@@ -15571,7 +15571,7 @@
 "targetname" "shotsAD5"
 "origin" "-88 1920 282"
 "target" "shotsAD6"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 61
@@ -15580,7 +15580,7 @@
 "targetname" "shotsAD6"
 "origin" "-88 1920 282"
 "target" "shotsAD7"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 62
@@ -15598,7 +15598,7 @@
 "targetname" "shotsAD8"
 "origin" "-64 1792 287"
 "target" "shotsAD9"
-"speed" "19.2"
+"speed" "21.333333"
 "smooth" "0"
 }
 // entity 64
@@ -15693,7 +15693,7 @@
 "targetname" "shotsAE1"
 "origin" "-136 2176 272"
 "target" "shotsAE2"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 68
@@ -15702,7 +15702,7 @@
 "targetname" "shotsAE2"
 "origin" "-136 2176 272"
 "target" "shotsAE3"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 69
@@ -15711,7 +15711,7 @@
 "targetname" "shotsAE3"
 "origin" "-112 2048 277"
 "target" "shotsAE4"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 70
@@ -15720,7 +15720,7 @@
 "targetname" "shotsAE4"
 "origin" "-112 2048 277"
 "target" "shotsAE5"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 71
@@ -15729,7 +15729,7 @@
 "targetname" "shotsAE5"
 "origin" "-88 1920 282"
 "target" "shotsAE6"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 72
@@ -15738,7 +15738,7 @@
 "targetname" "shotsAE6"
 "origin" "-88 1920 282"
 "target" "shotsAE7"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 73
@@ -15747,7 +15747,7 @@
 "targetname" "shotsAE7"
 "origin" "-64 1792 287"
 "target" "shotsAE8"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 74
@@ -15756,7 +15756,7 @@
 "targetname" "shotsAE8"
 "origin" "-64 1792 287"
 "target" "shotsAE9"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 75
@@ -15774,7 +15774,7 @@
 "targetname" "shotsAE10"
 "origin" "-40 1664 290"
 "target" "shotsAE11"
-"speed" "19.2"
+"speed" "21.333333"
 "smooth" "0"
 }
 // entity 77
@@ -16763,7 +16763,7 @@
 "targetname" "fighterB1"
 "origin" "136 2688 272"
 "target" "fighterB2"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 81
@@ -16772,7 +16772,7 @@
 "targetname" "fighterB2"
 "origin" "136 2688 272"
 "target" "fighterB3"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 82
@@ -16781,7 +16781,7 @@
 "targetname" "fighterB3"
 "origin" "112 2560 277"
 "target" "fighterB4"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 83
@@ -16790,7 +16790,7 @@
 "targetname" "fighterB4"
 "origin" "112 2560 277"
 "target" "fighterB5"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 84
@@ -16799,7 +16799,7 @@
 "targetname" "fighterB5"
 "origin" "88 2432 282"
 "target" "fighterB6"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 85
@@ -16808,7 +16808,7 @@
 "targetname" "fighterB6"
 "origin" "88 2432 282"
 "target" "fighterB7"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 86
@@ -16817,7 +16817,7 @@
 "targetname" "fighterB7"
 "origin" "64 2304 287"
 "target" "fighterB8"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 87
@@ -16826,7 +16826,7 @@
 "targetname" "fighterB8"
 "origin" "64 2304 287"
 "target" "fighterB9"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 88
@@ -16835,7 +16835,7 @@
 "targetname" "fighterB9"
 "origin" "40 2176 290"
 "target" "fighterB10"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 89
@@ -16948,7 +16948,7 @@
 "targetname" "shotsBA2"
 "origin" "136 2688 272"
 "target" "shotsBA3"
-"speed" "19.2"
+"speed" "21.333333"
 "smooth" "0"
 }
 // entity 95
@@ -17043,7 +17043,7 @@
 "targetname" "shotsBB1"
 "origin" "136 2688 272"
 "target" "shotsBB2"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 99
@@ -17052,7 +17052,7 @@
 "targetname" "shotsBB2"
 "origin" "136 2688 272"
 "target" "shotsBB3"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 100
@@ -17070,7 +17070,7 @@
 "targetname" "shotsBB4"
 "origin" "112 2560 277"
 "target" "shotsBB5"
-"speed" "19.2"
+"speed" "21.333333"
 "smooth" "0"
 }
 // entity 102
@@ -17165,7 +17165,7 @@
 "targetname" "shotsBC1"
 "origin" "136 2688 272"
 "target" "shotsBC2"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 106
@@ -17174,7 +17174,7 @@
 "targetname" "shotsBC2"
 "origin" "136 2688 272"
 "target" "shotsBC3"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 107
@@ -17183,7 +17183,7 @@
 "targetname" "shotsBC3"
 "origin" "112 2560 277"
 "target" "shotsBC4"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 108
@@ -17192,7 +17192,7 @@
 "targetname" "shotsBC4"
 "origin" "112 2560 277"
 "target" "shotsBC5"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 109
@@ -17210,7 +17210,7 @@
 "targetname" "shotsBC6"
 "origin" "88 2432 282"
 "target" "shotsBC7"
-"speed" "19.2"
+"speed" "21.333333"
 "smooth" "0"
 }
 // entity 111
@@ -17305,7 +17305,7 @@
 "targetname" "shotsBD1"
 "origin" "136 2688 272"
 "target" "shotsBD2"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 115
@@ -17314,7 +17314,7 @@
 "targetname" "shotsBD2"
 "origin" "136 2688 272"
 "target" "shotsBD3"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 116
@@ -17323,7 +17323,7 @@
 "targetname" "shotsBD3"
 "origin" "112 2560 277"
 "target" "shotsBD4"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 117
@@ -17332,7 +17332,7 @@
 "targetname" "shotsBD4"
 "origin" "112 2560 277"
 "target" "shotsBD5"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 118
@@ -17341,7 +17341,7 @@
 "targetname" "shotsBD5"
 "origin" "88 2432 282"
 "target" "shotsBD6"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 119
@@ -17350,7 +17350,7 @@
 "targetname" "shotsBD6"
 "origin" "88 2432 282"
 "target" "shotsBD7"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 120
@@ -17368,7 +17368,7 @@
 "targetname" "shotsBD8"
 "origin" "64 2304 287"
 "target" "shotsBD9"
-"speed" "19.2"
+"speed" "21.333333"
 "smooth" "0"
 }
 // entity 122
@@ -17463,7 +17463,7 @@
 "targetname" "shotsBE1"
 "origin" "136 2688 272"
 "target" "shotsBE2"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 126
@@ -17472,7 +17472,7 @@
 "targetname" "shotsBE2"
 "origin" "136 2688 272"
 "target" "shotsBE3"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 127
@@ -17481,7 +17481,7 @@
 "targetname" "shotsBE3"
 "origin" "112 2560 277"
 "target" "shotsBE4"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 128
@@ -17490,7 +17490,7 @@
 "targetname" "shotsBE4"
 "origin" "112 2560 277"
 "target" "shotsBE5"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 129
@@ -17499,7 +17499,7 @@
 "targetname" "shotsBE5"
 "origin" "88 2432 282"
 "target" "shotsBE6"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 130
@@ -17508,7 +17508,7 @@
 "targetname" "shotsBE6"
 "origin" "88 2432 282"
 "target" "shotsBE7"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 131
@@ -17517,7 +17517,7 @@
 "targetname" "shotsBE7"
 "origin" "64 2304 287"
 "target" "shotsBE8"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 132
@@ -17526,7 +17526,7 @@
 "targetname" "shotsBE8"
 "origin" "64 2304 287"
 "target" "shotsBE9"
-"speed" "0.28125"
+"speed" "0.3125"
 "smooth" "0"
 }
 // entity 133
@@ -17544,7 +17544,7 @@
 "targetname" "shotsBE10"
 "origin" "40 2176 290"
 "target" "shotsBE11"
-"speed" "19.2"
+"speed" "21.333333"
 "smooth" "0"
 }
 // entity 135
