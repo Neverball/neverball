@@ -2,10 +2,12 @@ dim shared as string MasterDir
 MasterDir = curdir
 const Strings = 5000
 const l = 99
-dim shared as string LangFile, Unmodded(Strings), Existant(Strings), Converted(Strings)
+dim shared as string LangFile, Unmodded(Strings), Existant(Strings), _
+                     Converted(Strings)
 declare function lang(Text as string) as string
 declare sub lang_select
 declare sub inilang
+
 function lang(Text as string) as string
     dim as ubyte ConvertID
     for ConvertID = 1 to Strings
@@ -16,6 +18,7 @@ function lang(Text as string) as string
     next ConvertID
     return Text
 end function
+
 sub lang_select
     dim as ubyte ConvertID
     dim as integer Result
@@ -44,6 +47,7 @@ sub lang_select
         end if
     end if
 end sub
+
 sub inilang
     dim as ubyte ConvertID
     dim as integer Result

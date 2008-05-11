@@ -23,7 +23,7 @@
  ' need many (if any) changes to be compatible in *nix. There was even an Xbox
  ' port of the compiler. Unfortunately, changes to the compiler has done
  ' broken backward compatibility, and compatibility has not yet been restored
- ' as of last check in. In case you're wondering, the port was made using
+ ' as of last update. In case you're wondering, the port was made using
  ' OpenXDK. A BSD port is under way to being ported to, so this assistant will
  ' be compatible with BSD systems once the port becomes stable.
  '
@@ -36,6 +36,7 @@
  '
  ' Libraries needed for this program: None
  '/
+
 #IFDEF __FB_DOS__
 #ERROR "Not for DOS." 'This prevents it from being compiled for DOS.
 #ELSE
@@ -51,17 +52,18 @@ windowtitle "Neverassistant"
 #include "fbgfx.bi"
 using FB
 /'
- ' This includes a lot of the much needed information. This file is not part of
- ' the compiler, and even if it was part of the compiler, its presence in this
- ' package overrides its presence in the compiler.
- '/
-#include "neverassist.bi"
-/'
  ' This establishes compatibility with VisualBASIC by including compatibility
  ' functions and constants. This file is part of the compiler. We don't need
  ' it in this package.
  '/
 #include "vbcompat.bi"
+
+/'
+ ' This includes a lot of the much needed information. This file is not part of
+ ' the compiler, and even if it was part of the compiler, its presence in this
+ ' package overrides its presence in the compiler.
+ '/
+#include "neverassist.bi"
 /'
  ' This includes the generator. This file is not part of the compiler. It must
  ' be present in this package.
@@ -88,8 +90,10 @@ inilang
 'Incomplete: Attempt to get username and use the user folder.
 dim shared as string Username, AppData
 Username = ""
-Appdata = lang("C:\Documents and Settings\") + Username + lang("\Application Data\")
+Appdata = lang("C:\Documents and Settings\") + _
+               Username + lang("\Application Data\")
 #ENDIF
+
 if Neverpath = "" then
     print lang("[Y/N] Is this correct for usage with Neverball?")
     print curdir
@@ -240,6 +244,7 @@ sub menu
                 print lang("Exit code: ")& Check
                 sleep
             end if
+
         elseif multikey(SC_D) then
             clkey
             windowtitle "Neverassistant - Relocate Directory"
@@ -257,6 +262,7 @@ sub menu
             lang_select
             config
             color rgb(255,255,255)
+
         elseif multikey(SC_S) then
             clkey
             cls
@@ -270,9 +276,11 @@ sub menu
                 sleep 10
                 if multikey(SC_A) then
                     #IFDEF __FB_WIN32__
-                    Check = exec("Neverball.exe","-r "+AssistDir+"/solutions/cE10csy.nbr")
+                    Check = exec("Neverball.exe", _
+                                 "-r "+AssistDir+"/solutions/cE10csy.nbr")
                     #ELSE
-                    Check = exec("neverball","-r "+AssistDir+"/solutions/cE10csy.nbr")
+                    Check = exec("neverball", _
+                                 "-r "+AssistDir+"/solutions/cE10csy.nbr")
                     #ENDIF
                     print lang("Exit code of replay A: ")& Check
                 end if
