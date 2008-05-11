@@ -12,6 +12,7 @@
 "goal" "50"
 "time_hs" "1500 4000"
 "coin_hs" "118 80"
+"goal_hs" "3500 6000"
 "message" "Have fun picking up those\red and blue coins.\"
 // brush 0
 {

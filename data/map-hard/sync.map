@@ -3,6 +3,7 @@
 "classname" "worldspawn"
 "coin_hs" "85 40"
 "time_hs" "1400 4500"
+"goal_hs" "2200 5000"
 "goal" "20"
 "time" "12000"
 "song" "bgm/track2.ogg"
