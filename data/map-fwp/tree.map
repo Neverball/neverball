@@ -11,7 +11,7 @@
 "time" "6000"
 "goal" "38"
 "time_hs" "2000 3000"
-"coin_hs" "58 48"
+"coin_hs" "68 48"
 "goal_hs" "2000 3000"
 "message" "=Tree=\Follow the spiral staircase to the goal."
 // brush 0
@@ -6956,54 +6956,60 @@
 // entity 12
 {
 "classname" "light"
-"origin" "75 0 184"
-"light" "10"
-}
-// entity 13
-{
-"classname" "light"
 "origin" "0 48 216"
 "light" "1"
 }
-// entity 14
+// entity 13
 {
 "classname" "light"
 "origin" "-48 0 244"
 "light" "5"
 }
-// entity 15
+// entity 14
 {
 "classname" "light"
 "origin" "0 -48 268"
 "light" "1"
 }
-// entity 16
+// entity 15
 {
 "classname" "light"
 "origin" "48 0 288"
 "light" "5"
 }
-// entity 17
+// entity 16
 {
 "classname" "light"
 "origin" "0 48 304"
 "light" "1"
 }
-// entity 18
+// entity 17
 {
 "classname" "light"
 "origin" "-48 0 320"
 "light" "5"
 }
-// entity 19
+// entity 18
 {
 "classname" "light"
 "origin" "0 -48 336"
 "light" "1"
 }
+// entity 19
+{
+"classname" "light"
+"origin" "75 0 184"
+"light" "10"
+}
 // entity 20
 {
 "classname" "light"
 "origin" "48 0 320"
+"light" "10"
+}
+// entity 21
+{
+"classname" "light"
+"origin" "-48 0 352"
 "light" "10"
 }
