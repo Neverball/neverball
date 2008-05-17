@@ -15074,14 +15074,14 @@
 "targetname" "fighterA10"
 "origin" "-40 1664 290"
 "target" "fighterA11"
-"speed" "32"
+"speed" "64"
 "smooth" "0"
 }
 // entity 32
 {
 "classname" "path_corner"
 "targetname" "fighterA11"
-"origin" "-40 -14720 4096"
+"origin" "-40 -31104 4096"
 }
 // entity 33
 {
@@ -15178,14 +15178,14 @@
 "targetname" "shotsAA2"
 "origin" "-136 2176 272"
 "target" "shotsAA3"
-"speed" "21.333333"
+"speed" "42.666667"
 "smooth" "0"
 }
 // entity 37
 {
 "classname" "path_corner"
 "targetname" "shotsAA3"
-"origin" "-136 -14208 272"
+"origin" "-136 -30592 272"
 }
 // entity 38
 {
@@ -15300,14 +15300,14 @@
 "targetname" "shotsAB4"
 "origin" "-112 2048 277"
 "target" "shotsAB5"
-"speed" "21.333333"
+"speed" "42.666667"
 "smooth" "0"
 }
 // entity 44
 {
 "classname" "path_corner"
 "targetname" "shotsAB5"
-"origin" "-112 -14336 277"
+"origin" "-112 -30720 277"
 }
 // entity 45
 {
@@ -15440,14 +15440,14 @@
 "targetname" "shotsAC6"
 "origin" "-88 1920 282"
 "target" "shotsAC7"
-"speed" "21.333333"
+"speed" "42.666667"
 "smooth" "0"
 }
 // entity 53
 {
 "classname" "path_corner"
 "targetname" "shotsAC7"
-"origin" "-88 -14464 282"
+"origin" "-88 -30848 282"
 }
 // entity 54
 {
@@ -15598,14 +15598,14 @@
 "targetname" "shotsAD8"
 "origin" "-64 1792 287"
 "target" "shotsAD9"
-"speed" "21.333333"
+"speed" "42.666667"
 "smooth" "0"
 }
 // entity 64
 {
 "classname" "path_corner"
 "targetname" "shotsAD9"
-"origin" "-64 -14592 287"
+"origin" "-64 -30976 287"
 }
 // entity 65
 {
@@ -15774,14 +15774,14 @@
 "targetname" "shotsAE10"
 "origin" "-40 1664 290"
 "target" "shotsAE11"
-"speed" "21.333333"
+"speed" "42.666667"
 "smooth" "0"
 }
 // entity 77
 {
 "classname" "path_corner"
 "targetname" "shotsAE11"
-"origin" "-40 -14720 290"
+"origin" "-40 -31104 290"
 }
 // entity 78
 {
@@ -16844,14 +16844,14 @@
 "targetname" "fighterB10"
 "origin" "40 2176 290"
 "target" "fighterB11"
-"speed" "32"
+"speed" "64"
 "smooth" "0"
 }
 // entity 90
 {
 "classname" "path_corner"
 "targetname" "fighterB11"
-"origin" "40 -14208 1024"
+"origin" "40 -30592 1024"
 }
 // entity 91
 {
@@ -16948,14 +16948,14 @@
 "targetname" "shotsBA2"
 "origin" "136 2688 272"
 "target" "shotsBA3"
-"speed" "21.333333"
+"speed" "42.666667"
 "smooth" "0"
 }
 // entity 95
 {
 "classname" "path_corner"
 "targetname" "shotsBA3"
-"origin" "136 -13696 272"
+"origin" "136 -30080 272"
 }
 // entity 96
 {
@@ -17070,14 +17070,14 @@
 "targetname" "shotsBB4"
 "origin" "112 2560 277"
 "target" "shotsBB5"
-"speed" "21.333333"
+"speed" "42.666667"
 "smooth" "0"
 }
 // entity 102
 {
 "classname" "path_corner"
 "targetname" "shotsBB5"
-"origin" "112 -13824 277"
+"origin" "112 -30208 277"
 }
 // entity 103
 {
@@ -17210,14 +17210,14 @@
 "targetname" "shotsBC6"
 "origin" "88 2432 282"
 "target" "shotsBC7"
-"speed" "21.333333"
+"speed" "42.666667"
 "smooth" "0"
 }
 // entity 111
 {
 "classname" "path_corner"
 "targetname" "shotsBC7"
-"origin" "88 -13952 282"
+"origin" "88 -30336 282"
 }
 // entity 112
 {
@@ -17368,14 +17368,14 @@
 "targetname" "shotsBD8"
 "origin" "64 2304 287"
 "target" "shotsBD9"
-"speed" "21.333333"
+"speed" "42.666667"
 "smooth" "0"
 }
 // entity 122
 {
 "classname" "path_corner"
 "targetname" "shotsBD9"
-"origin" "64 -14080 287"
+"origin" "64 -30464 287"
 }
 // entity 123
 {
@@ -17544,14 +17544,14 @@
 "targetname" "shotsBE10"
 "origin" "40 2176 290"
 "target" "shotsBE11"
-"speed" "21.333333"
+"speed" "42.666667"
 "smooth" "0"
 }
 // entity 135
 {
 "classname" "path_corner"
 "targetname" "shotsBE11"
-"origin" "40 -14208 290"
+"origin" "40 -30592 290"
 }
 // entity 136
 {
