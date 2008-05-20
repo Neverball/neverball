@@ -24,7 +24,7 @@
  ' port of the compiler. Unfortunately, changes to the compiler has done
  ' broken backward compatibility, and compatibility has not yet been restored
  ' as of last update. In case you're wondering, the port was made using
- ' OpenXDK. BSD and Mac OS X ports is under way, so this assistant will
+ ' OpenXDK. BSD and Mac OS X ports are under way, so this assistant will
  ' be compatible with BSD and Mac OS X systems once the ports become stable.
  '
  ' As with Neverball and Neverputt, you can still apply the -g switch to
