@@ -269,7 +269,7 @@ sub menu
             'Try to make it wrap the 80 characters if you translate this string
             print lang("The solution directory contains a collection of " + _
                   "solutions to levels players have been known to give a" + _
-                  "fit on.")
+                  " fit on.")
             print "<A> ";lang("Neverball Easy Level 10: How to 100% the level")
             print lang("Hit BACKSPACE to exit the directory.")
             do
