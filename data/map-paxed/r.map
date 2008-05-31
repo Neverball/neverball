@@ -451,7 +451,7 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "72 488 40"
-"radius" "0.125"
+"radius" "0.1375"
 }
 // entity 7
 {
