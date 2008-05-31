@@ -268,9 +268,9 @@ sub menu
             cls
             'Try to make it wrap the 80 characters if you translate this string
             print lang("The solution directory contains a collection of " + _
-                  "solutions to levels players have been known to give a" + _
-                  " fit on.")
+                  "solutions to levels players may give a fit on.")
             print "<A> ";lang("Neverball Easy Level 10: How to 100% the level")
+            print "<B> ";lang("Neverball Easy Bonus Level 5: How to 100% the level")
             print lang("Hit BACKSPACE to exit the directory.")
             do
                 sleep 10
@@ -281,6 +281,16 @@ sub menu
                     #ELSE
                     Check = exec("neverball", _
                                  "-r "+AssistDir+"/solutions/cE10csy.nbr")
+                    #ENDIF
+                    print
+                    print lang("Exit code of replay A: ")& Check
+                elseif multikey(SC_B) then
+                    #IFDEF __FB_WIN32__
+                    Check = exec("Neverball.exe", _
+                                 "-r "+AssistDir+"/solutions/cEB5csy.nbr")
+                    #ELSE
+                    Check = exec("neverball", _
+                                 "-r "+AssistDir+"/solutions/cEB5csy.nbr")
                     #ENDIF
                     print lang("Exit code of replay A: ")& Check
                 end if
