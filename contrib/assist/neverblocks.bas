@@ -1198,6 +1198,48 @@ sub place_block
         Blocks += 1
         Putt = 2
 
+    elseif (BlockType = 20) AND (BlockSet = 0) AND _
+    	   (Money + 4 < = MaxMoney) AND _
+            PlacementTest(PlacementFormula) = 0 then
+        print #m, "// entity ";Entity;"
+        Entity += 1
+        print #m, "{"
+        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+        print #m, "// brush 0"
+        print #m, "{"
+        /'
+         ' This is a 2x2 block. It takes two spaces horizontal and two spaces
+         ' vertical.
+         '/
+         if (Rotation = 1) OR (Rotation = 3) then
+            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green-dark")
+            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
+            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
+            plot_face(0,-80,-32,64,-48,-32,-64,-80,-32,-64,"turf-grey")
+            plot_face(0,0,0,-64,-32,-32,-64,0,0,64,"invisible")
+            plot_face(0,-128,0,64,-96,-32,-64,-128,0,-64,"turf-grey")
+	        print #m, "}"
+	        print #m, "// brush 1"
+	        print #m, "{"
+        elseif (Rotation = 2) OR (Rotation = 4) then
+            plot_face(0,-128,-256,0,-128,-128,0,128,-128,0,"turf-green-dark")
+            plot_face(0,-128,-128,0,-128,-128,-16,128,0,-16,"turf-grey")
+            plot_face(0,128,-128,-16,128,-128,0,128,0,0,"invisible")
+            plot_face(0,-128,-128,-16,-128,-256,-16,128,-128,-16,"turf-grey")
+            plot_face(0,-128,-256,-16,-128,-256,0,128,-128,0,"invisible")
+            plot_face(0,-128,-128,0,-128,-128,-16,-128,-128,-16,"invisible")
+	        print #m, "}"
+	        print #m, "// brush 1"
+	        print #m, "{"
+       end if
+        print #m, "}"
+        PlacementTest(PlacementFormula) = 20
+        LevelTime += 150
+        MinimumLevelTime += 100
+        Money += 4
+        Blocks += 1
+        Putt = 2
+
     elseif (BlockType = 22) AND (BlockSet = 0) AND _
            (Money + 1 < = MaxMoney) AND _
             PlacementTest(PlacementFormula) = 0 then

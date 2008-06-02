@@ -19,7 +19,7 @@ sub map_generate
     print lang("Which file would you like to enter? ");
     input "",MapFile
     MapFile = MapFile + ".map"
-    WindowTitleM = "Neverassistant Program - " + MapFile
+    WindowTitleM = "Neverassistant - " + MapFile
     windowtitle WindowTitleM
     print lang("Which environment do you want?")
     print
@@ -35,31 +35,31 @@ sub map_generate
             Song = "bgm/track5.ogg"
             Back = "map-back/alien.sol"
             Grad = "back/alien.png"
-            MusicPlay = "data/bgm/track5.ogg"
+            MusicPlay = "bgm/track5.ogg"
             exit do
         elseif multikey(SC_C) then
             Song = "bgm/track3.ogg"
             Back = "map-back/city.sol"
             Grad = "back/city.png"
-            MusicPlay = "data/bgm/track3.ogg"
+            MusicPlay = "bgm/track3.ogg"
             exit do
         elseif multikey(SC_L) then
             Song = "bgm/track1.ogg"
             Back = "map-back/clouds.sol"
             Grad = "back/land.png"
-            MusicPlay = "data/bgm/track1.ogg"
+            MusicPlay = "bgm/track1.ogg"
             exit do
         elseif multikey(SC_O) then
             Song = "bgm/track2.ogg"
             Back = "map-back/ocean.sol"
             Grad = "back/ocean.png"
-            MusicPlay = "data/bgm/track2.ogg"
+            MusicPlay = "bgm/track2.ogg"
             exit do
         elseif multikey(SC_S) then
             Song = "bgm/track4.ogg"
             Back = "map-back/jupiter.sol"
             Grad = "back/space.png"
-            MusicPlay = "data/bgm/track4.ogg"
+            MusicPlay = "bgm/track4.ogg"
             exit do
         elseif inkey = chr(255)+"k" then
             end
@@ -128,16 +128,29 @@ sub map_generate
         elseif multikey(SC_LEFT) then
             XP -= 1
         end if
+        /'
+         ' The left and right arrow keys move the cursor along the X-axis of the generator.
+         '/
         if multikey(SC_UP) then
             YP += 1
         elseif multikey(SC_DOWN) then
             YP -= 1
         end if
+        /'
+         ' The up and down arrow keys move the cursor along the Y-axis of the generator.
+         '/
         if multikey(SC_PAGEUP) then
             ZP += 1
         elseif multikey(SC_PAGEDOWN) then
             ZP -= 1
         end if
+        /'
+         ' The page up and page down keys move the cursor along the Z-axis of the generator.
+         '
+         ' Though you won't notice a change in the cursor graphics-wise, you will notice a change in the coordinates.
+         '
+         ' The nature of the generator makes the Z-axis your elevation level.
+         '/
 
         if (multikey(SC_PLUS) OR multikey(SC_EQUALS)) AND _
            (NOT multikey(SC_LSHIFT)) then
@@ -174,17 +187,37 @@ sub map_generate
          '/
         if multikey(SC_F2) AND (Putt < > 1) then
             BlockSet = 0
+            BlockType = 1
+            XR = 1
+            YR = 1
+            ZR = 1
+            bload(AssistDir+"/Start.bmp",BlockDisplay)
         elseif multikey(SC_F3) AND (Putt < > 1) then
             /'
             BlockSet = 1
+            BlockType = 1
+            XR = 1
+            YR = 1
+            ZR = 1
+            bload(AssistDir+"/Start.bmp",BlockDisplay)
             '/
         elseif multikey(SC_F4) AND (Putt < > 1) then
             /'
             BlockSet = 2
+            BlockType = 1
+            XR = 1
+            YR = 1
+            ZR = 1
+            bload(AssistDir+"/Start.bmp",BlockDisplay)
             '/
         elseif multikey(SC_F5) AND (Putt < > 2) then
             /'
             BlockSet = 3
+            BlockType = 1
+            XR = 1
+            YR = 1
+            ZR = 1
+            bload(AssistDir+"/Start.bmp",BlockDisplay)
             '/
         end if
 
@@ -336,6 +369,25 @@ sub map_generate
                 ZR = 1
                 bload(AssistDir+"/ChicaneRTL.bmp",BlockDisplay)
             end if
+            /'
+        elseif multikey(SC_T) then
+            BlockType = 20
+            if (BlockSet = 0) then
+                XR = 1
+                YR = 1
+                ZR = 1
+                bload(AssistDir+"/Hole.bmp",BlockDisplay)
+            end if
+
+        elseif multikey(SC_U) then
+            BlockType = 21
+            if (BlockSet = 0) then
+                XR = 1
+                YR = 1
+                ZR = 1
+                bload(AssistDir+"/Hole.bmp",BlockDisplay)
+            end if
+            '/
 
         elseif multikey(SC_V) then
             BlockType = 22

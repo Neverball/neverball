@@ -292,7 +292,7 @@ sub menu
                     Check = exec("neverball", _
                                  "-r "+AssistDir+"/solutions/cEB5csy.nbr")
                     #ENDIF
-                    print lang("Exit code of replay A: ")& Check
+                    print lang("Exit code of replay B: ")& Check
                 end if
             loop until multikey(SC_BACKSPACE)
 
