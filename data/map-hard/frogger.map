@@ -12,6 +12,7 @@
 "goal" "30"
 "time_hs" "600 2000"
 "coin_hs" "82 50"
+"goal_hs" "2000 4500"
 "message" "Ribbit!\"
 // brush 0
 {

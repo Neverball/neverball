@@ -49,7 +49,7 @@ static int debug_output = 0;
 #define MAXV    65536
 #define MAXE    65536
 #define MAXS    65536
-#define MAXT    65536
+#define MAXT    131072
 #define MAXG    65536
 #define MAXL    2048
 #define MAXN    2048
@@ -604,11 +604,11 @@ static float plane_v[MAXS][3];
 static int   plane_f[MAXS];
 static int   plane_m[MAXS];
 
-static void make_plane(int pi, int x0, int y0, int z0,
-                       int x1, int y1, int z1,
-                       int x2, int y2, int z2,
-                       int tu, int tv, int r,
-                       float su, float sv, int fl, const char *s)
+static void make_plane(int   pi, float x0, float y0, float      z0,
+                       float x1, float y1, float z1,
+                       float x2, float y2, float z2,
+                       float tu, float tv, float r,
+                       float su, float sv, int   fl, const char *s)
 {
     static const float base[6][3][3] = {
         {{  0,  0,  1 }, {  1,  0,  0 }, {  0, -1,  0 }},
@@ -630,17 +630,17 @@ static void make_plane(int pi, int x0, int y0, int z0,
 
     plane_f[pi] = fl ? L_DETAIL : 0;
 
-    p0[0] = +(float) x0 / SCALE;
-    p0[1] = +(float) z0 / SCALE;
-    p0[2] = -(float) y0 / SCALE;
+    p0[0] = +x0 / SCALE;
+    p0[1] = +z0 / SCALE;
+    p0[2] = -y0 / SCALE;
 
-    p1[0] = +(float) x1 / SCALE;
-    p1[1] = +(float) z1 / SCALE;
-    p1[2] = -(float) y1 / SCALE;
+    p1[0] = +x1 / SCALE;
+    p1[1] = +z1 / SCALE;
+    p1[2] = -y1 / SCALE;
 
-    p2[0] = +(float) x2 / SCALE;
-    p2[1] = +(float) z2 / SCALE;
-    p2[2] = -(float) y2 / SCALE;
+    p2[0] = +x2 / SCALE;
+    p2[1] = +z2 / SCALE;
+    p2[2] = -y2 / SCALE;
 
     v_sub(u, p0, p1);
     v_sub(v, p2, p1);
@@ -693,10 +693,10 @@ static int map_token(FILE *fin, int pi, char key[MAXSTR], char val[MAXSTR])
     if (fgets(buf, MAXSTR, fin))
     {
         char c;
-        int x0, y0, z0;
-        int x1, y1, z1;
-        int x2, y2, z2;
-        int tu, tv, r;
+        float x0, y0, z0;
+        float x1, y1, z1;
+        float x2, y2, z2;
+        float tu, tv, r;
         float su, sv;
         int fl;
 
@@ -719,10 +719,10 @@ static int map_token(FILE *fin, int pi, char key[MAXSTR], char val[MAXSTR])
         /* Scan a plane. */
 
         if (sscanf(buf,
-                   "%c %d %d %d %c "
-                   "%c %d %d %d %c "
-                   "%c %d %d %d %c "
-                   "%s %d %d %d %f %f %d",
+                   "%c %f %f %f %c "
+                   "%c %f %f %f %c "
+                   "%c %f %f %f %c "
+                   "%s %f %f %f %f %f %d",
                    &c, &x0, &y0, &z0, &c,
                    &c, &x1, &y1, &z1, &c,
                    &c, &x2, &y2, &z2, &c,
@@ -814,13 +814,13 @@ static void make_path(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            pp->p[0] = +(float) x / SCALE;
-            pp->p[1] = +(float) z / SCALE;
-            pp->p[2] = -(float) y / SCALE;
+            pp->p[0] = +x / SCALE;
+            pp->p[1] = +z / SCALE;
+            pp->p[2] = -y / SCALE;
         }
     }
 }
@@ -863,9 +863,9 @@ static void make_body(struct s_file *fp,
 
     float p[3];
 
-    int x = 0;
-    int y = 0;
-    int z = 0;
+    float x = 0.f;
+    float y = 0.f;
+    float z = 0.f;
 
     struct s_body *bp = fp->bv + bi;
 
@@ -888,7 +888,7 @@ static void make_body(struct s_file *fp,
             read_obj(fp, v[i], mi);
 
         else if (strcmp(k[i], "origin") == 0)
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
         else if (read_dict_entries && strcmp(k[i], "classname") != 0)
             make_dict(fp, k[i], v[i]);
@@ -902,9 +902,9 @@ static void make_body(struct s_file *fp,
     for (i = 0; i < bp->gc; i++)
         fp->iv[inci(fp)] = g0++;
 
-    p[0] = +(float) x / SCALE;
-    p[1] = +(float) z / SCALE;
-    p[2] = -(float) y / SCALE;
+    p[0] = +x / SCALE;
+    p[1] = +z / SCALE;
+    p[2] = -y / SCALE;
 
     for (i = v0; i < fp->vc; i++)
         v_add(fp->vv[i].p, fp->vv[i].p, p);
@@ -944,13 +944,13 @@ static void make_item(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            hp->p[0] = +(float) x / SCALE;
-            hp->p[1] = +(float) z / SCALE;
-            hp->p[2] = -(float) y / SCALE;
+            hp->p[0] = +x / SCALE;
+            hp->p[1] = +z / SCALE;
+            hp->p[2] = -y / SCALE;
         }
     }
 }
@@ -995,13 +995,13 @@ static void make_bill(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            rp->p[0] = +(float) x / SCALE;
-            rp->p[1] = +(float) z / SCALE;
-            rp->p[2] = -(float) y / SCALE;
+            rp->p[0] = +x / SCALE;
+            rp->p[1] = +z / SCALE;
+            rp->p[2] = -y / SCALE;
         }
     }
 
@@ -1029,13 +1029,13 @@ static void make_goal(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            zp->p[0] = +(float) (x)      / SCALE;
-            zp->p[1] = +(float) (z - 24) / SCALE;
-            zp->p[2] = -(float) (y)      / SCALE;
+            zp->p[0] = +(x)      / SCALE;
+            zp->p[1] = +(z - 24) / SCALE;
+            zp->p[2] = -(y)      / SCALE;
         }
     }
 }
@@ -1062,13 +1062,13 @@ static void make_view(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            wp->p[0] = +(float) x / SCALE;
-            wp->p[1] = +(float) z / SCALE;
-            wp->p[2] = -(float) y / SCALE;
+            wp->p[0] = +x / SCALE;
+            wp->p[1] = +z / SCALE;
+            wp->p[2] = -y / SCALE;
         }
     }
 }
@@ -1099,13 +1099,13 @@ static void make_jump(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            jp->p[0] = +(float) x / SCALE;
-            jp->p[1] = +(float) z / SCALE;
-            jp->p[2] = -(float) y / SCALE;
+            jp->p[0] = +x / SCALE;
+            jp->p[1] = +z / SCALE;
+            jp->p[2] = -y / SCALE;
         }
     }
 }
@@ -1151,13 +1151,13 @@ static void make_swch(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            xp->p[0] = +(float) x / SCALE;
-            xp->p[1] = +(float) z / SCALE;
-            xp->p[2] = -(float) y / SCALE;
+            xp->p[0] = +x / SCALE;
+            xp->p[1] = +z / SCALE;
+            xp->p[2] = -y / SCALE;
         }
     }
 }
@@ -1179,13 +1179,13 @@ static void make_targ(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            targ_p[targ_n][0] = +(float) x / SCALE;
-            targ_p[targ_n][1] = +(float) z / SCALE;
-            targ_p[targ_n][2] = -(float) y / SCALE;
+            targ_p[targ_n][0] = +x / SCALE;
+            targ_p[targ_n][1] = +z / SCALE;
+            targ_p[targ_n][2] = -y / SCALE;
         }
     }
 
@@ -1212,13 +1212,13 @@ static void make_ball(struct s_file *fp,
 
         if (strcmp(k[i], "origin") == 0)
         {
-            int x = 0, y = 0, z = 0;
+            float x = 0.f, y = 0.f, z = 0.f;
 
-            sscanf(v[i], "%d %d %d", &x, &y, &z);
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            up->p[0] = +(float) (x)      / SCALE;
-            up->p[1] = +(float) (z - 24) / SCALE;
-            up->p[2] = -(float) (y)      / SCALE;
+            up->p[0] = +(x)      / SCALE;
+            up->p[1] = +(z - 24) / SCALE;
+            up->p[2] = -(y)      / SCALE;
         }
     }
 
@@ -1646,6 +1646,30 @@ static void swap_mtrl(struct s_file *fp, int mi, int mj)
         if (fp->rv[i].mi == mi) fp->rv[i].mi = mj;
 }
 
+static int vert_swaps[MAXV];
+
+static void apply_vert_swaps(struct s_file *fp)
+{
+    int i, j;
+
+    for (i = 0; i < fp->ec; i++)
+    {
+        fp->ev[i].vi = vert_swaps[fp->ev[i].vi];
+        fp->ev[i].vj = vert_swaps[fp->ev[i].vj];
+    }
+
+    for (i = 0; i < fp->gc; i++)
+    {
+        fp->gv[i].vi = vert_swaps[fp->gv[i].vi];
+        fp->gv[i].vj = vert_swaps[fp->gv[i].vj];
+        fp->gv[i].vk = vert_swaps[fp->gv[i].vk];
+    }
+
+    for (i = 0; i < fp->lc; i++)
+        for (j = 0; j < fp->lv[i].vc; j++)
+            fp->iv[fp->lv[i].v0 + j] = vert_swaps[fp->iv[fp->lv[i].v0 + j]];
+}
+
 static void swap_vert(struct s_file *fp, int vi, int vj)
 {
     int i, j;
@@ -1669,61 +1693,64 @@ static void swap_vert(struct s_file *fp, int vi, int vj)
                 fp->iv[fp->lv[i].v0 + j]  = vj;
 }
 
-static void swap_edge(struct s_file *fp, int ei, int ej)
+static int edge_swaps[MAXE];
+
+static void apply_edge_swaps(struct s_file *fp)
 {
     int i, j;
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].ec; j++)
-            if (fp->iv[fp->lv[i].e0 + j] == ei)
-                fp->iv[fp->lv[i].e0 + j]  = ej;
+            fp->iv[fp->lv[i].e0 + j] = edge_swaps[fp->iv[fp->lv[i].e0 + j]];
 }
 
-static void swap_side(struct s_file *fp, int si, int sj)
+static int side_swaps[MAXS];
+
+static void apply_side_swaps(struct s_file *fp)
 {
     int i, j;
 
     for (i = 0; i < fp->gc; i++)
     {
-        if (fp->gv[i].si == si) fp->gv[i].si = sj;
-        if (fp->gv[i].sj == si) fp->gv[i].sj = sj;
-        if (fp->gv[i].sk == si) fp->gv[i].sk = sj;
+        fp->gv[i].si = side_swaps[fp->gv[i].si];
+        fp->gv[i].sj = side_swaps[fp->gv[i].sj];
+        fp->gv[i].sk = side_swaps[fp->gv[i].sk];
     }
     for (i = 0; i < fp->nc; i++)
-        if (fp->nv[i].si == si) fp->nv[i].si = sj;
+        fp->nv[i].si = side_swaps[fp->nv[i].si];
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].sc; j++)
-            if (fp->iv[fp->lv[i].s0 + j] == si)
-                fp->iv[fp->lv[i].s0 + j]  = sj;
+            fp->iv[fp->lv[i].s0 + j] = side_swaps[fp->iv[fp->lv[i].s0 + j]];
 }
 
-static void swap_texc(struct s_file *fp, int ti, int tj)
+static int texc_swaps[MAXT];
+
+static void apply_texc_swaps(struct s_file *fp)
 {
     int i;
 
     for (i = 0; i < fp->gc; i++)
     {
-        if (fp->gv[i].ti == ti) fp->gv[i].ti = tj;
-        if (fp->gv[i].tj == ti) fp->gv[i].tj = tj;
-        if (fp->gv[i].tk == ti) fp->gv[i].tk = tj;
+        fp->gv[i].ti = texc_swaps[fp->gv[i].ti];
+        fp->gv[i].tj = texc_swaps[fp->gv[i].tj];
+        fp->gv[i].tk = texc_swaps[fp->gv[i].tk];
     }
 }
 
+static int geom_swaps[MAXG];
 
-static void swap_geom(struct s_file *fp, int gi, int gj)
+static void apply_geom_swaps(struct s_file *fp)
 {
     int i, j;
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].gc; j++)
-            if (fp->iv[fp->lv[i].g0 + j] == gi)
-                fp->iv[fp->lv[i].g0 + j]  = gj;
+            fp->iv[fp->lv[i].g0 + j] = geom_swaps[fp->iv[fp->lv[i].g0 + j]];
 
     for (i = 0; i < fp->bc; i++)
         for (j = 0; j < fp->bv[i].gc; j++)
-            if (fp->iv[fp->bv[i].g0 + j] == gi)
-                fp->iv[fp->bv[i].g0 + j]  = gj;
+            fp->iv[fp->bv[i].g0 + j] = geom_swaps[fp->iv[fp->bv[i].g0 + j]];
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1763,21 +1790,19 @@ static void uniq_vert(struct s_file *fp)
     {
         for (j = 0; j < k; j++)
             if (comp_vert(fp->vv + i, fp->vv + j))
-            {
-                swap_vert(fp, i, j);
                 break;
-            }
+
+        vert_swaps[i] = j;
 
         if (j == k)
         {
             if (i != k)
-            {
                 fp->vv[k] = fp->vv[i];
-                swap_vert(fp, i, k);
-            }
             k++;
         }
     }
+
+    apply_vert_swaps(fp);
 
     fp->vc = k;
 }
@@ -1790,21 +1815,19 @@ static void uniq_edge(struct s_file *fp)
     {
         for (j = 0; j < k; j++)
             if (comp_edge(fp->ev + i, fp->ev + j))
-            {
-                swap_edge(fp, i, j);
                 break;
-            }
+
+        edge_swaps[i] = j;
 
         if (j == k)
         {
             if (i != k)
-            {
                 fp->ev[k] = fp->ev[i];
-                swap_edge(fp, i, k);
-            }
             k++;
         }
     }
+
+    apply_edge_swaps(fp);
 
     fp->ec = k;
 }
@@ -1817,21 +1840,19 @@ static void uniq_geom(struct s_file *fp)
     {
         for (j = 0; j < k; j++)
             if (comp_geom(fp->gv + i, fp->gv + j))
-            {
-                swap_geom(fp, i, j);
                 break;
-            }
+
+        geom_swaps[i] = j;
 
         if (j == k)
         {
             if (i != k)
-            {
                 fp->gv[k] = fp->gv[i];
-                swap_geom(fp, i, k);
-            }
             k++;
         }
     }
+
+    apply_geom_swaps(fp);
 
     fp->gc = k;
 }
@@ -1844,21 +1865,19 @@ static void uniq_texc(struct s_file *fp)
     {
         for (j = 0; j < k; j++)
             if (comp_texc(fp->tv + i, fp->tv + j))
-            {
-                swap_texc(fp, i, j);
                 break;
-            }
+
+        texc_swaps[i] = j;
 
         if (j == k)
         {
             if (i != k)
-            {
                 fp->tv[k] = fp->tv[i];
-                swap_texc(fp, i, k);
-            }
             k++;
         }
     }
+
+    apply_texc_swaps(fp);
 
     fp->tc = k;
 }
@@ -1871,21 +1890,19 @@ static void uniq_side(struct s_file *fp)
     {
         for (j = 0; j < k; j++)
             if (comp_side(fp->sv + i, fp->sv + j))
-            {
-                swap_side(fp, i, j);
                 break;
-            }
+
+        side_swaps[i] = j;
 
         if (j == k)
         {
             if (i != k)
-            {
                 fp->sv[k] = fp->sv[i];
-                swap_side(fp, i, k);
-            }
             k++;
         }
     }
+
+    apply_side_swaps(fp);
 
     fp->sc = k;
 }

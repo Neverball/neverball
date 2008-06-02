@@ -12,6 +12,7 @@
 "goal" "40"
 "time_hs" "1700 4500"
 "coin_hs" "78 60"
+"goal_hs" "2500 5500"
 "message" "Hit the switches to move the barriers.\"
 // brush 0
 {

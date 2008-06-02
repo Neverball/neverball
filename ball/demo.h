@@ -55,6 +55,8 @@ void demo_play_stop(void);
 int  demo_saved (void);
 void demo_rename(const char *);
 
+void demo_rename_player(const char *name, const char *player);
+
 /*---------------------------------------------------------------------------*/
 
 int  demo_replay_init(const char *, int *, int *, int *, int *, int *);

@@ -16,11 +16,24 @@ endif
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
 ifeq ($(ENABLE_WII),1)
-    # libwiimote is NOT ANSI compliant
-    CFLAGS := -O2
+    # libwiimote is NOT ANSI compliant (TODO, check if this is necessary.  GCC
+    # is supposed to suppress warnings from system headers.)
+
+    ifneq ($(DEBUG),1)
+        CFLAGS   := -g
+        CPPFLAGS :=
+    else
+        CFLAGS   := -O2
+        CPPFLAGS := -DNDEBUG
+    endif
 else
-    #CFLAGS := -Wall -g -ansi -pedantic
-    CFLAGS := -Wall -O2 -ansi -pedantic
+    ifeq ($(DEBUG),1)
+        CFLAGS   := -Wall -g -ansi -pedantic
+        CPPFLAGS :=
+    else
+        CFLAGS   := -Wall -O2 -ansi -pedantic
+        CPPFLAGS := -DNDEBUG
+    endif
 endif
 
 #------------------------------------------------------------------------------
@@ -148,6 +161,7 @@ BALL_OBJS := \
 	share/sync.o        \
 	share/tilt.o        \
 	share/common.o      \
+	share/keynames.o    \
 	ball/hud.o          \
 	ball/game.o         \
 	ball/score.o        \
@@ -194,6 +208,7 @@ PUTT_OBJS := \
 	share/gui.o         \
 	share/text.o        \
 	share/sync.o        \
+	share/common.o      \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \

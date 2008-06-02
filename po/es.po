@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-03-17 16:47+0200\n"
+"POT-Creation-Date: 2008-04-08 22:05+0300\n"
 "PO-Revision-Date: 2008-01-26 23:00+0100\n"
 "Last-Translator: Miguel Diago <mdiagom@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -32,7 +32,7 @@ msgstr "Victoria"
 msgid "Fall-out"
 msgstr "Caída"
 
-#: ball/game.c:1293 ball/progress.c:348
+#: ball/game.c:1293 ball/progress.c:345
 msgid "Unknown"
 msgstr "Desconocido"
 
@@ -68,7 +68,7 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:176
+#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:177
 msgid "Coins"
 msgstr "Monedas"
 
@@ -76,11 +76,11 @@ msgstr "Monedas"
 msgid "Goal"
 msgstr "Meta"
 
-#: ball/hud.c:76 ball/st_goal.c:166
+#: ball/hud.c:76 ball/st_goal.c:167
 msgid "Balls"
 msgstr "Bolas"
 
-#: ball/hud.c:77 ball/st_goal.c:171 putt/hud.c:45
+#: ball/hud.c:77 ball/st_goal.c:172 putt/hud.c:45
 msgid "Score"
 msgstr "Puntuación"
 
@@ -96,12 +96,12 @@ msgstr "Perezoso"
 msgid "Manual"
 msgstr "Manual"
 
-#: ball/level.c:87
+#: ball/level.c:133
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr "Error al cargar el archivo de nivel «%s»: %s\n"
 
-#: ball/level.c:89
+#: ball/level.c:135
 msgid "Not a valid level file"
 msgstr "No es un archivo de nivel válido"
 
@@ -152,23 +152,23 @@ msgstr "Reproducir el archivo «%s»: %s\n"
 msgid "Not a replay file"
 msgstr "El archivo no es una grabación"
 
-#: ball/progress.c:346 ball/st_help.c:245
+#: ball/progress.c:343 ball/st_help.c:246
 msgid "Challenge Mode"
 msgstr "Competición"
 
-#: ball/progress.c:346 ball/st_start.c:174
+#: ball/progress.c:343 ball/st_start.c:174
 msgid "Challenge"
 msgstr "Competición"
 
-#: ball/progress.c:347 ball/st_help.c:237
+#: ball/progress.c:344 ball/st_help.c:238
 msgid "Normal Mode"
 msgstr "Modo Normal"
 
-#: ball/progress.c:347
+#: ball/progress.c:344
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/progress.c:348
+#: ball/progress.c:345
 msgid "Unknown Mode"
 msgstr "Modo desconocido"
 
@@ -190,7 +190,7 @@ msgstr "No se puede cargar el archivo de niveles «%s»:"
 msgid "Options"
 msgstr "Ajustes"
 
-#: ball/st_conf.c:210 ball/st_help.c:94 ball/st_start.c:160 ball/util.c:507
+#: ball/st_conf.c:210 ball/st_help.c:95 ball/st_start.c:160 ball/util.c:507
 #: share/st_resol.c:75 putt/st_all.c:343 putt/st_all.c:491 putt/st_conf.c:170
 msgid "Back"
 msgstr "Atrás"
@@ -302,7 +302,7 @@ msgstr "Nombre de la grabación"
 msgid "Replay Ends"
 msgstr "Fin"
 
-#: ball/st_demo.c:466 ball/st_pause.c:107 putt/st_all.c:591
+#: ball/st_demo.c:466 ball/st_pause.c:108 putt/st_all.c:591
 msgid "Quit"
 msgstr "Salir"
 
@@ -310,11 +310,11 @@ msgstr "Salir"
 msgid "Keep"
 msgstr "Conservar"
 
-#: ball/st_demo.c:471
+#: ball/st_demo.c:471 share/keynames.c:38
 msgid "Delete"
 msgstr "Borrar"
 
-#: ball/st_demo.c:476 ball/st_pause.c:112 putt/st_all.c:592
+#: ball/st_demo.c:476 ball/st_pause.c:113 putt/st_all.c:592
 msgid "Continue"
 msgstr "Continuar"
 
@@ -349,56 +349,56 @@ msgstr "¡Caída!"
 msgid "Exit"
 msgstr "Salir"
 
-#: ball/st_fall_out.c:92 ball/st_goal.c:205 ball/st_time_out.c:85
+#: ball/st_fall_out.c:92 ball/st_goal.c:206 ball/st_time_out.c:85
 msgid "Next Level"
 msgstr "Siguiente nivel"
 
-#: ball/st_fall_out.c:95 ball/st_goal.c:208 ball/st_time_out.c:88
+#: ball/st_fall_out.c:95 ball/st_goal.c:209 ball/st_time_out.c:88
 msgid "Retry Level"
 msgstr "Reintentar"
 
 # Alarga demasiado el menú horizontal.
-#: ball/st_fall_out.c:98 ball/st_goal.c:211 ball/st_time_out.c:91
+#: ball/st_fall_out.c:98 ball/st_goal.c:212 ball/st_time_out.c:91
 msgid "Save Replay"
 msgstr "Guardar grabación"
 
-#: ball/st_goal.c:105
+#: ball/st_goal.c:106
 msgid "New Record"
 msgstr "Nuevo récord"
 
-#: ball/st_goal.c:106
+#: ball/st_goal.c:107
 #, fuzzy
 msgid "GOAL"
 msgstr "VICTORIA"
 
-#: ball/st_goal.c:156
+#: ball/st_goal.c:157
 #, fuzzy, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
 msgstr[0] "Nivel especial"
 msgstr[1] "Nivel especial"
 
-#: ball/st_goal.c:202
+#: ball/st_goal.c:203
 msgid "Finish"
 msgstr "Terminar"
 
-#: ball/st_help.c:90
+#: ball/st_help.c:91
 msgid "Techniques"
 msgstr "Técnicas"
 
-#: ball/st_help.c:91
+#: ball/st_help.c:92
 msgid "Modes"
 msgstr "Modos"
 
-#: ball/st_help.c:92
+#: ball/st_help.c:93
 msgid "Controls"
 msgstr "Controles"
 
-#: ball/st_help.c:93
+#: ball/st_help.c:94
 msgid "Rules"
 msgstr "Reglas"
 
-#: ball/st_help.c:104
+#: ball/st_help.c:105
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
@@ -406,7 +406,7 @@ msgstr ""
 "Mueve el ratón o el joystick\\o usa las flechas del teclado para\\inclinar "
 "el suelo y\\mover la bola.\\ "
 
-#: ball/st_help.c:109
+#: ball/st_help.c:110
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
@@ -414,43 +414,39 @@ msgstr ""
 "Toca las monedas para\\atraparlas, desbloquear la meta\\y acceder al "
 "siguiente nivel.\\"
 
-#: ball/st_help.c:166
+#: ball/st_help.c:167
 msgid "Left and right mouse buttons rotate the view."
 msgstr "La cámara puede girarse con los botones del ratón."
 
-#: ball/st_help.c:167
+#: ball/st_help.c:168
 msgid "Hold Shift for faster view rotation."
 msgstr "Pulsando Mayús. se gira más rápido."
 
-#: ball/st_help.c:168
+#: ball/st_help.c:169
 msgid "Pause / Release Pointer"
 msgstr "Pausa / Liberar el ratón"
 
-#: ball/st_help.c:169
+#: ball/st_help.c:170
 msgid "Exit / Cancel Menu"
 msgstr "Salir / Retroceder"
 
-#: ball/st_help.c:170
+#: ball/st_help.c:171
 msgid "Chase View"
 msgstr "Vista de seguimiento"
 
-#: ball/st_help.c:171
+#: ball/st_help.c:172
 msgid "Lazy View"
 msgstr "Vista perezosa"
 
-#: ball/st_help.c:172
+#: ball/st_help.c:173
 msgid "Manual View"
 msgstr "Vista manual"
 
-#: ball/st_help.c:173
+#: ball/st_help.c:174
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
-#: ball/st_help.c:176
-msgid "Escape"
-msgstr "Escape"
-
-#: ball/st_help.c:239
+#: ball/st_help.c:240
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
 "to open the goal."
@@ -458,15 +454,16 @@ msgstr ""
 "Terminar niveles antes de que el tiempo se acabe.\\Para abrir la meta hay "
 "que coger monedas."
 
-#: ball/st_help.c:247
+#: ball/st_help.c:248
+#, fuzzy
 msgid ""
-"Start playing from the first level of the set.\\You start with only four "
+"Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr ""
 "Empezar desde el primer nivel del set.\\Empiezas con cuatro bolas, no las "
 "pierdas.\\Con 100 monedas consigues una bola adicional."
 
-#: ball/st_help.c:261
+#: ball/st_help.c:262
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
@@ -474,13 +471,13 @@ msgstr ""
 "Puedes usar las esquinas para\\saltar. Dirígite al ángulo\\con decisión. A "
 "lo mejor\\encuentras sitios nuevos.\\"
 
-#: ball/st_help.c:266
+#: ball/st_help.c:267
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
 "the camera by 45\\degrees for best results.\\"
 msgstr ""
 
-#: ball/st_help.c:286 ball/st_help.c:296
+#: ball/st_help.c:287 ball/st_help.c:297
 msgid "Watch demo"
 msgstr "Ver demo"
 
@@ -504,23 +501,23 @@ msgstr "Cancelar"
 msgid "GAME OVER"
 msgstr "FIN"
 
-#: ball/st_pause.c:101 putt/st_all.c:586
+#: ball/st_pause.c:102 putt/st_all.c:586
 msgid "Paused"
 msgstr "Pausa"
 
-#: ball/st_pause.c:110
+#: ball/st_pause.c:111
 msgid "Restart"
 msgstr "Reiniciar"
 
-#: ball/st_play.c:53
+#: ball/st_play.c:54
 msgid "Ready?"
 msgstr "¿Preparado?"
 
-#: ball/st_play.c:109
+#: ball/st_play.c:110
 msgid "Set?"
 msgstr "¿Listo?"
 
-#: ball/st_play.c:180
+#: ball/st_play.c:181
 msgid "GO!"
 msgstr "¡YA!"
 
@@ -540,7 +537,7 @@ msgstr "¿Sobrescribir?"
 msgid "Level Set"
 msgstr "Serie de niveles"
 
-#. TRANSLATORS: adjust the amount of whitespace here
+#. Translators: adjust the amount of whitespace here
 #. * as necessary for the buttons to look good.
 #: ball/st_start.c:196
 msgid "   No   "
@@ -628,6 +625,246 @@ msgstr "ttf/DejaVuSans-Bold.ttf"
 #: share/geom.h:12
 msgid "png/coin.png"
 msgstr "png/coin.png"
+
+#. Translators,
+#. *
+#. * This is a mostly-complete list of human-readable SDL key names.  There
+#. * might not be corresponding names for all these keys in your language,
+#. * and that's perfectly fine -- in such cases just copy the source string.
+#.
+#: share/keynames.c:31
+#, fuzzy
+msgid "Backspace"
+msgstr "Atrás"
+
+#: share/keynames.c:32
+msgid "Tab"
+msgstr ""
+
+#: share/keynames.c:33
+msgid "Clear"
+msgstr ""
+
+#: share/keynames.c:34
+#, fuzzy
+msgid "Return"
+msgstr "Reiniciar"
+
+#: share/keynames.c:35
+#, fuzzy
+msgid "Pause"
+msgstr "Pausa"
+
+#: share/keynames.c:36
+msgid "Escape"
+msgstr "Escape"
+
+#: share/keynames.c:37
+#, fuzzy
+msgid "Space"
+msgstr "Espacio"
+
+#: share/keynames.c:39
+msgid "Enter"
+msgstr ""
+
+#: share/keynames.c:40
+#, fuzzy
+msgid "Equals"
+msgstr "Fácil"
+
+#: share/keynames.c:41
+msgid "Up"
+msgstr ""
+
+#: share/keynames.c:42 share/keynames.c:45
+msgid "Down"
+msgstr ""
+
+#: share/keynames.c:43
+#, fuzzy
+msgid "Right"
+msgstr "Alto"
+
+#: share/keynames.c:44
+msgid "Left"
+msgstr ""
+
+#: share/keynames.c:46
+msgid "Insert"
+msgstr ""
+
+#: share/keynames.c:47
+msgid "Home"
+msgstr ""
+
+#: share/keynames.c:48
+msgid "End"
+msgstr ""
+
+#: share/keynames.c:49
+msgid "Page Up"
+msgstr ""
+
+#: share/keynames.c:50
+msgid "Page Down"
+msgstr ""
+
+#: share/keynames.c:51
+msgid "F1"
+msgstr ""
+
+#: share/keynames.c:52
+msgid "F2"
+msgstr ""
+
+#: share/keynames.c:53
+msgid "F3"
+msgstr ""
+
+#: share/keynames.c:54
+msgid "F4"
+msgstr ""
+
+#: share/keynames.c:55
+msgid "F5"
+msgstr ""
+
+#: share/keynames.c:56
+msgid "F6"
+msgstr ""
+
+#: share/keynames.c:57
+msgid "F7"
+msgstr ""
+
+#: share/keynames.c:58
+msgid "F8"
+msgstr ""
+
+#: share/keynames.c:59
+msgid "F9"
+msgstr ""
+
+#: share/keynames.c:60
+msgid "F10"
+msgstr ""
+
+#: share/keynames.c:61
+msgid "F11"
+msgstr ""
+
+#: share/keynames.c:62
+msgid "F12"
+msgstr ""
+
+#: share/keynames.c:63
+msgid "F13"
+msgstr ""
+
+#: share/keynames.c:64
+msgid "F14"
+msgstr ""
+
+#: share/keynames.c:65
+msgid "F15"
+msgstr ""
+
+#: share/keynames.c:66
+msgid "Num Lock"
+msgstr ""
+
+#: share/keynames.c:67
+msgid "Caps Lock"
+msgstr ""
+
+#: share/keynames.c:68
+msgid "Scroll Lock"
+msgstr ""
+
+#: share/keynames.c:69
+msgid "Right Shift"
+msgstr ""
+
+#: share/keynames.c:70
+msgid "Left Shift"
+msgstr ""
+
+#: share/keynames.c:71
+msgid "Right CTRL"
+msgstr ""
+
+#: share/keynames.c:72
+msgid "Left CTRL"
+msgstr ""
+
+#: share/keynames.c:73
+msgid "Right Alt"
+msgstr ""
+
+#: share/keynames.c:74
+msgid "Left Alt"
+msgstr ""
+
+#: share/keynames.c:75
+msgid "Right Meta"
+msgstr ""
+
+#: share/keynames.c:76
+msgid "Left Meta"
+msgstr ""
+
+#: share/keynames.c:77
+msgid "Left Super"
+msgstr ""
+
+#: share/keynames.c:78
+msgid "Right Super"
+msgstr ""
+
+#: share/keynames.c:79
+msgid "Alt Gr"
+msgstr ""
+
+#: share/keynames.c:80
+msgid "Compose"
+msgstr ""
+
+#: share/keynames.c:81
+#, fuzzy
+msgid "Help"
+msgstr "Ayuda"
+
+#: share/keynames.c:82
+msgid "Print Screen"
+msgstr ""
+
+#: share/keynames.c:83
+msgid "Sys Req"
+msgstr ""
+
+#: share/keynames.c:84
+#, fuzzy
+msgid "Break"
+msgstr "Atrás"
+
+#: share/keynames.c:85
+#, fuzzy
+msgid "Menu"
+msgstr "Manual"
+
+#: share/keynames.c:86
+msgid "Power"
+msgstr ""
+
+#: share/keynames.c:87
+msgid "Euro"
+msgstr ""
+
+#: share/keynames.c:88
+#, fuzzy
+msgid "Undo"
+msgstr "Ventana"
 
 #: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:97 putt/st_all.c:141
 msgid "Par"
@@ -950,6 +1187,10 @@ msgstr ""
 "Aquí hay muchas monedas de regalo.\\Utilízalas para ganar una bola adicional."
 "\\Puede que ya conozcas un buen camino.\\Los transportadores pueden ser "
 "útiles.\\ "
+
+#: data/map-fwp/adventure.map
+msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
+msgstr ""
 
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."
@@ -1441,6 +1682,10 @@ msgstr "Un va-et-vient frustrant.\\Recuerda el orden de activación."
 msgid "Street Neverball\\Choose your party and score 3 points."
 msgstr "Street Neverball\\Elige tu equipo y marca tres puntos."
 
+#: data/map-mym2/bigball.map
+msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
+msgstr ""
+
 #: data/map-mym2/bigcones.map
 msgid "Les grands cones.\\Living in a cone."
 msgstr "Les grands cônes.\\La vida, en un cono."
@@ -1590,9 +1835,6 @@ msgstr "Les toiles attirantes.\\Sal de las redes."
 #~ msgid "Choose a level to play"
 #~ msgstr "Elije un nivel"
 
-#~ msgid "Window"
-#~ msgstr "Ventana"
-
 #~ msgid "Audio"
 #~ msgstr "Audio"
 
@@ -1645,9 +1887,6 @@ msgstr "Les toiles attirantes.\\Sal de las redes."
 
 #~ msgid "Language"
 #~ msgstr "Idioma"
-
-#~ msgid "Spacebar"
-#~ msgstr "Espacio"
 
 #~ msgid "English"
 #~ msgstr "Inglés"

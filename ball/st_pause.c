@@ -75,7 +75,8 @@ static int pause_action(int i)
         break;
 
     case PAUSE_EXIT:
-        progress_exit(GAME_NONE);
+        progress_stat(GAME_NONE);
+        progress_stop();
         clear_pause();
         SDL_PauseAudio(0);
         audio_music_stop();
@@ -154,12 +155,7 @@ static int pause_buttn(int b, int d)
             return pause_action(gui_token(gui_click()));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-        {
-            if (SDL_GetModState() & KMOD_SHIFT)
-                return pause_action(PAUSE_EXIT);
-            else
-                return pause_action(PAUSE_CONTINUE);
-        }
+            return pause_action(PAUSE_CONTINUE);
     }
     return 1;
 }

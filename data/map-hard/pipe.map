@@ -4,6 +4,7 @@
 "message" "Ceci n'est pas une pipe.\"
 "coin_hs" "129 80"
 "time_hs" "1800 4500"
+"goal_hs" "3000 6000"
 "goal" "40"
 "time" "9900"
 "song" "bgm/track5.ogg"

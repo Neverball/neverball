@@ -10,6 +10,9 @@
 "song" "bgm/track3.ogg"
 "goal" "50"
 "time" "18000"
+"time_hs" "400 3500"
+"coin_hs" "106 60"
+"goal_hs" "2000 6000"
 // brush 0
 {
 ( 256 -256 -64 ) ( -128 -256 -64 ) ( 256 -256 64 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

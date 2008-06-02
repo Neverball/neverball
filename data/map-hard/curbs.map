@@ -4,6 +4,7 @@
 "message" "To make progress here you'll need to hit the\edges hard and control your bouncing.\It's often easiest to hit the curb at a corner.\"
 "coin_hs" "122 60"
 "time_hs" "500 3000"
+"goal_hs" "3000 6000"
 "goal" "30"
 "time" "9000"
 "song" "bgm/track1.ogg"

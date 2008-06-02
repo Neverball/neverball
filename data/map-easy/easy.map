@@ -12,6 +12,7 @@
 "goal" "10"
 "time_hs" "350 1000"
 "coin_hs" "18 15"
+"goal_hs" "2000 4500"
 "message" "Move the mouse to tilt the floor.\Collect 10 coins to unlock the goal.\Guide the ball to the goal to\finish the level.\\Click to begin.\"
 // brush 0
 {

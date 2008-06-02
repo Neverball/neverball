@@ -10,8 +10,9 @@
 "song" "bgm/track1.ogg"
 "time" "12000"
 "goal" "10"
-"time_hs" " "
-"coin_hs" " "
+"time_hs" "3500 5500"
+"coin_hs" "130 80"
+"goal_hs" "4000 6000"
 // brush 0
 {
 ( 63 -124 292 ) ( 63 -252 292 ) ( -73 -124 292 ) mtrl/turf-green-dark 0 0 0 0.5 0.5 0 0 0

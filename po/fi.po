@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.5\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-03-17 16:47+0200\n"
+"POT-Creation-Date: 2008-04-08 22:05+0300\n"
 "PO-Revision-Date: 2008-03-17 17:34+0200\n"
 "Last-Translator: Pasi Kallinen <paxed@alt.org>\n"
 "Language-Team: Finnish\n"
@@ -33,7 +33,7 @@ msgstr "Onnistui"
 msgid "Fall-out"
 msgstr "Putosit kentästä"
 
-#: ball/game.c:1293 ball/progress.c:348
+#: ball/game.c:1293 ball/progress.c:345
 msgid "Unknown"
 msgstr "Tuntematon"
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:176
+#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:177
 msgid "Coins"
 msgstr "Kolikot"
 
@@ -77,11 +77,11 @@ msgstr "Kolikot"
 msgid "Goal"
 msgstr "Maali"
 
-#: ball/hud.c:76 ball/st_goal.c:166
+#: ball/hud.c:76 ball/st_goal.c:167
 msgid "Balls"
 msgstr "Palloja"
 
-#: ball/hud.c:77 ball/st_goal.c:171 putt/hud.c:45
+#: ball/hud.c:77 ball/st_goal.c:172 putt/hud.c:45
 msgid "Score"
 msgstr "Pisteet"
 
@@ -97,12 +97,12 @@ msgstr "Laiska kamera"
 msgid "Manual"
 msgstr "Manuaalinen kamera"
 
-#: ball/level.c:87
+#: ball/level.c:133
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr "Virhe ladattaessa kenttätiedostoa '%s': %s\n"
 
-#: ball/level.c:89
+#: ball/level.c:135
 msgid "Not a valid level file"
 msgstr "Virheellinen kenttätiedosto"
 
@@ -151,23 +151,23 @@ msgstr "Toistotiedosto '%s': %s\n"
 msgid "Not a replay file"
 msgstr "Ei toistotiedosto"
 
-#: ball/progress.c:346 ball/st_help.c:245
+#: ball/progress.c:343 ball/st_help.c:246
 msgid "Challenge Mode"
 msgstr "Haastemoodi"
 
-#: ball/progress.c:346 ball/st_start.c:174
+#: ball/progress.c:343 ball/st_start.c:174
 msgid "Challenge"
 msgstr "Haaste"
 
-#: ball/progress.c:347 ball/st_help.c:237
+#: ball/progress.c:344 ball/st_help.c:238
 msgid "Normal Mode"
 msgstr "Normaalimoodi"
 
-#: ball/progress.c:347
+#: ball/progress.c:344
 msgid "Normal"
 msgstr "Normaali"
 
-#: ball/progress.c:348
+#: ball/progress.c:345
 msgid "Unknown Mode"
 msgstr "Tuntematon moodi"
 
@@ -189,7 +189,7 @@ msgstr "Tiedoston '%s' lataus epäonnistui: %s\n"
 msgid "Options"
 msgstr "Asetukset"
 
-#: ball/st_conf.c:210 ball/st_help.c:94 ball/st_start.c:160 ball/util.c:507
+#: ball/st_conf.c:210 ball/st_help.c:95 ball/st_start.c:160 ball/util.c:507
 #: share/st_resol.c:75 putt/st_all.c:343 putt/st_all.c:491 putt/st_conf.c:170
 msgid "Back"
 msgstr "Takaisin"
@@ -299,7 +299,7 @@ msgstr "Toisto tauotettu"
 msgid "Replay Ends"
 msgstr "Tallenne loppui"
 
-#: ball/st_demo.c:466 ball/st_pause.c:107 putt/st_all.c:591
+#: ball/st_demo.c:466 ball/st_pause.c:108 putt/st_all.c:591
 msgid "Quit"
 msgstr "Poistu"
 
@@ -307,11 +307,11 @@ msgstr "Poistu"
 msgid "Keep"
 msgstr "Säilytä"
 
-#: ball/st_demo.c:471
+#: ball/st_demo.c:471 share/keynames.c:38
 msgid "Delete"
 msgstr "Poista"
 
-#: ball/st_demo.c:476 ball/st_pause.c:112 putt/st_all.c:592
+#: ball/st_demo.c:476 ball/st_pause.c:113 putt/st_all.c:592
 msgid "Continue"
 msgstr "Jatka"
 
@@ -343,54 +343,54 @@ msgstr "Putosit kentästä!"
 msgid "Exit"
 msgstr "Poistu"
 
-#: ball/st_fall_out.c:92 ball/st_goal.c:205 ball/st_time_out.c:85
+#: ball/st_fall_out.c:92 ball/st_goal.c:206 ball/st_time_out.c:85
 msgid "Next Level"
 msgstr "Seuraava kenttä"
 
-#: ball/st_fall_out.c:95 ball/st_goal.c:208 ball/st_time_out.c:88
+#: ball/st_fall_out.c:95 ball/st_goal.c:209 ball/st_time_out.c:88
 msgid "Retry Level"
 msgstr "Yritä uudelleen"
 
-#: ball/st_fall_out.c:98 ball/st_goal.c:211 ball/st_time_out.c:91
+#: ball/st_fall_out.c:98 ball/st_goal.c:212 ball/st_time_out.c:91
 msgid "Save Replay"
 msgstr "Tallenna uusinta"
 
-#: ball/st_goal.c:105
+#: ball/st_goal.c:106
 msgid "New Record"
 msgstr "Uusi ennätys"
 
-#: ball/st_goal.c:106
+#: ball/st_goal.c:107
 msgid "GOAL"
 msgstr "MAALI"
 
-#: ball/st_goal.c:156
+#: ball/st_goal.c:157
 #, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
 msgstr[0] "%d uusi bonuskenttä"
 msgstr[1] "%d uutta bonuskenttää"
 
-#: ball/st_goal.c:202
+#: ball/st_goal.c:203
 msgid "Finish"
 msgstr "Maali"
 
-#: ball/st_help.c:90
+#: ball/st_help.c:91
 msgid "Techniques"
 msgstr "Tekniikka"
 
-#: ball/st_help.c:91
+#: ball/st_help.c:92
 msgid "Modes"
 msgstr "Moodit"
 
-#: ball/st_help.c:92
+#: ball/st_help.c:93
 msgid "Controls"
 msgstr "Ohjaus"
 
-#: ball/st_help.c:93
+#: ball/st_help.c:94
 msgid "Rules"
 msgstr "Säännöt"
 
-#: ball/st_help.c:104
+#: ball/st_help.c:105
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
@@ -398,50 +398,46 @@ msgstr ""
 "Liikuta hiirtä tai joystickiä\\tai käytä nuolinäppäimiä\\kentän "
 "kallistamiseen."
 
-#: ball/st_help.c:109
+#: ball/st_help.c:110
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
 msgstr ""
 "Kosketa kolikoita kerätäksesi niitä.\\Kerää tarpeeksi avataksesi maali."
 
-#: ball/st_help.c:166
+#: ball/st_help.c:167
 msgid "Left and right mouse buttons rotate the view."
 msgstr "Hiiren vasen ja oikea nappi liikuttavat näkökulmaa."
 
-#: ball/st_help.c:167
+#: ball/st_help.c:168
 msgid "Hold Shift for faster view rotation."
 msgstr "Vaihto-näppäin pohjassa näkökulma liikkuu nopeammin."
 
-#: ball/st_help.c:168
+#: ball/st_help.c:169
 msgid "Pause / Release Pointer"
 msgstr "Tauko"
 
-#: ball/st_help.c:169
+#: ball/st_help.c:170
 msgid "Exit / Cancel Menu"
 msgstr "Poistu"
 
-#: ball/st_help.c:170
+#: ball/st_help.c:171
 msgid "Chase View"
 msgstr "Jahtaus"
 
-#: ball/st_help.c:171
+#: ball/st_help.c:172
 msgid "Lazy View"
 msgstr "Laiska"
 
-#: ball/st_help.c:172
+#: ball/st_help.c:173
 msgid "Manual View"
 msgstr "Manuaalinen"
 
-#: ball/st_help.c:173
+#: ball/st_help.c:174
 msgid "Screenshot"
 msgstr "Ruutukaappaus"
 
-#: ball/st_help.c:176
-msgid "Escape"
-msgstr ""
-
-#: ball/st_help.c:239
+#: ball/st_help.c:240
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
 "to open the goal."
@@ -449,15 +445,15 @@ msgstr ""
 "Liikuta pallo maaliin ennen ajan loppumista.\\Joudut keräämään kolikoita "
 "avataksesi maalin."
 
-#: ball/st_help.c:247
+#: ball/st_help.c:248
 msgid ""
-"Start playing from the first level of the set.\\You start with only four "
+"Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr ""
-"Aloita pelaaminen setin ensimmäisestä kentästä.\\Alussa sinulla on neljä "
+"Aloita pelaaminen setin ensimmäisestä kentästä.\\Alussa sinulla on kolme "
 "palloa.\\Saat lisäpallon kerättyäsi 100 kolikkoa."
 
-#: ball/st_help.c:261
+#: ball/st_help.c:262
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
@@ -465,7 +461,7 @@ msgstr ""
 "Nurkkia voi käyttää hyppäämiseen.\\Tähtää kulmaan kun liikut tarpeeksi lujaa,"
 "\\ja saatat päästä uusiin paikkoihin."
 
-#: ball/st_help.c:266
+#: ball/st_help.c:267
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
 "the camera by 45\\degrees for best results.\\"
@@ -473,7 +469,7 @@ msgstr ""
 "Kahteen suuntaan kallistaminen\\lisää kallistuskulmaa. Käytä\\manuaalista "
 "katselukulmaa\\ja käännä kameraa 45 astetta saadaksesi\\parhaat tulokset."
 
-#: ball/st_help.c:286 ball/st_help.c:296
+#: ball/st_help.c:287 ball/st_help.c:297
 msgid "Watch demo"
 msgstr "Katso demo"
 
@@ -497,23 +493,23 @@ msgstr "Peruuta"
 msgid "GAME OVER"
 msgstr "Peli loppui"
 
-#: ball/st_pause.c:101 putt/st_all.c:586
+#: ball/st_pause.c:102 putt/st_all.c:586
 msgid "Paused"
 msgstr "Keskeytetty"
 
-#: ball/st_pause.c:110
+#: ball/st_pause.c:111
 msgid "Restart"
 msgstr "Uusi peli"
 
-#: ball/st_play.c:53
+#: ball/st_play.c:54
 msgid "Ready?"
 msgstr "Paikoillanne?"
 
-#: ball/st_play.c:109
+#: ball/st_play.c:110
 msgid "Set?"
 msgstr "Valmiit?"
 
-#: ball/st_play.c:180
+#: ball/st_play.c:181
 msgid "GO!"
 msgstr "HEP!"
 
@@ -533,7 +529,7 @@ msgstr "Kirjoita päälle?"
 msgid "Level Set"
 msgstr "Kenttäsarja"
 
-#. TRANSLATORS: adjust the amount of whitespace here
+#. Translators: adjust the amount of whitespace here
 #. * as necessary for the buttons to look good.
 #: ball/st_start.c:196
 msgid "   No   "
@@ -618,6 +614,246 @@ msgstr ""
 #: share/geom.h:12
 msgid "png/coin.png"
 msgstr ""
+
+#. Translators,
+#. *
+#. * This is a mostly-complete list of human-readable SDL key names.  There
+#. * might not be corresponding names for all these keys in your language,
+#. * and that's perfectly fine -- in such cases just copy the source string.
+#.
+#: share/keynames.c:31
+#, fuzzy
+msgid "Backspace"
+msgstr "Takaisin"
+
+#: share/keynames.c:32
+msgid "Tab"
+msgstr ""
+
+#: share/keynames.c:33
+msgid "Clear"
+msgstr ""
+
+#: share/keynames.c:34
+#, fuzzy
+msgid "Return"
+msgstr "Uusi peli"
+
+#: share/keynames.c:35
+#, fuzzy
+msgid "Pause"
+msgstr "Keskeytetty"
+
+#: share/keynames.c:36
+msgid "Escape"
+msgstr ""
+
+#: share/keynames.c:37
+#, fuzzy
+msgid "Space"
+msgstr "Tallenna"
+
+#: share/keynames.c:39
+msgid "Enter"
+msgstr ""
+
+#: share/keynames.c:40
+#, fuzzy
+msgid "Equals"
+msgstr "Helppo"
+
+#: share/keynames.c:41
+msgid "Up"
+msgstr ""
+
+#: share/keynames.c:42 share/keynames.c:45
+msgid "Down"
+msgstr ""
+
+#: share/keynames.c:43
+#, fuzzy
+msgid "Right"
+msgstr "Korkea"
+
+#: share/keynames.c:44
+msgid "Left"
+msgstr ""
+
+#: share/keynames.c:46
+msgid "Insert"
+msgstr ""
+
+#: share/keynames.c:47
+msgid "Home"
+msgstr ""
+
+#: share/keynames.c:48
+msgid "End"
+msgstr ""
+
+#: share/keynames.c:49
+msgid "Page Up"
+msgstr ""
+
+#: share/keynames.c:50
+msgid "Page Down"
+msgstr ""
+
+#: share/keynames.c:51
+msgid "F1"
+msgstr ""
+
+#: share/keynames.c:52
+msgid "F2"
+msgstr ""
+
+#: share/keynames.c:53
+msgid "F3"
+msgstr ""
+
+#: share/keynames.c:54
+msgid "F4"
+msgstr ""
+
+#: share/keynames.c:55
+msgid "F5"
+msgstr ""
+
+#: share/keynames.c:56
+msgid "F6"
+msgstr ""
+
+#: share/keynames.c:57
+msgid "F7"
+msgstr ""
+
+#: share/keynames.c:58
+msgid "F8"
+msgstr ""
+
+#: share/keynames.c:59
+msgid "F9"
+msgstr ""
+
+#: share/keynames.c:60
+msgid "F10"
+msgstr ""
+
+#: share/keynames.c:61
+msgid "F11"
+msgstr ""
+
+#: share/keynames.c:62
+msgid "F12"
+msgstr ""
+
+#: share/keynames.c:63
+msgid "F13"
+msgstr ""
+
+#: share/keynames.c:64
+msgid "F14"
+msgstr ""
+
+#: share/keynames.c:65
+msgid "F15"
+msgstr ""
+
+#: share/keynames.c:66
+msgid "Num Lock"
+msgstr ""
+
+#: share/keynames.c:67
+msgid "Caps Lock"
+msgstr ""
+
+#: share/keynames.c:68
+msgid "Scroll Lock"
+msgstr ""
+
+#: share/keynames.c:69
+msgid "Right Shift"
+msgstr ""
+
+#: share/keynames.c:70
+msgid "Left Shift"
+msgstr ""
+
+#: share/keynames.c:71
+msgid "Right CTRL"
+msgstr ""
+
+#: share/keynames.c:72
+msgid "Left CTRL"
+msgstr ""
+
+#: share/keynames.c:73
+msgid "Right Alt"
+msgstr ""
+
+#: share/keynames.c:74
+msgid "Left Alt"
+msgstr ""
+
+#: share/keynames.c:75
+msgid "Right Meta"
+msgstr ""
+
+#: share/keynames.c:76
+msgid "Left Meta"
+msgstr ""
+
+#: share/keynames.c:77
+msgid "Left Super"
+msgstr ""
+
+#: share/keynames.c:78
+msgid "Right Super"
+msgstr ""
+
+#: share/keynames.c:79
+msgid "Alt Gr"
+msgstr ""
+
+#: share/keynames.c:80
+msgid "Compose"
+msgstr ""
+
+#: share/keynames.c:81
+#, fuzzy
+msgid "Help"
+msgstr "Ohjeita"
+
+#: share/keynames.c:82
+msgid "Print Screen"
+msgstr ""
+
+#: share/keynames.c:83
+msgid "Sys Req"
+msgstr ""
+
+#: share/keynames.c:84
+#, fuzzy
+msgid "Break"
+msgstr "Takaisin"
+
+#: share/keynames.c:85
+#, fuzzy
+msgid "Menu"
+msgstr "Manuaalinen kamera"
+
+#: share/keynames.c:86
+msgid "Power"
+msgstr ""
+
+#: share/keynames.c:87
+msgid "Euro"
+msgstr ""
+
+#: share/keynames.c:88
+#, fuzzy
+msgid "Undo"
+msgstr "Ikkunoitu"
 
 #: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:97 putt/st_all.c:141
 msgid "Par"
@@ -891,8 +1127,8 @@ msgid ""
 "the platforms to grab the big coins.\\"
 msgstr ""
 "Liikkuva alusta voi olla hankala.\\Ole tarkkana että pääset kyytiin,\\ja "
-"varo ettei se liiku alta pois.\\Käytä liikkuvia alustoja kerätäksesi\\"
-"arvokkaimmat kolikot."
+"varo ettei se liiku alta pois.\\Käytä liikkuvia alustoja kerätäksesi"
+"\\arvokkaimmat kolikot."
 
 #: data/map-easy/peasy.map
 msgid ""
@@ -910,6 +1146,10 @@ msgstr ""
 msgid ""
 "Here's another coin grab.\\Use it to earn a free ball.\\Perhaps you already "
 "know a good route.\\Teleportation might come in handy.\\"
+msgstr ""
+
+#: data/map-fwp/adventure.map
+msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
 msgstr ""
 
 #: data/map-fwp/atrium.map
@@ -1351,6 +1591,10 @@ msgstr ""
 msgid "Street Neverball\\Choose your party and score 3 points."
 msgstr ""
 
+#: data/map-mym2/bigball.map
+msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
+msgstr ""
+
 #: data/map-mym2/bigcones.map
 msgid "Les grands cones.\\Living in a cone."
 msgstr ""
@@ -1495,9 +1739,6 @@ msgstr ""
 
 #~ msgid "Choose a level to play"
 #~ msgstr "Valitse pelattava kenttä"
-
-#~ msgid "Window"
-#~ msgstr "Ikkunoitu"
 
 #~ msgid "Audio"
 #~ msgstr "Äänet"

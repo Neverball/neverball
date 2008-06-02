@@ -290,7 +290,7 @@ static void ball_pass_inner(const float *ball_M,
         glEnable(GL_CLIP_PLANE1);
         ball_draw_inner(        pend_M, bill_M,              pend_bill_M, t);
         glDisable(GL_CLIP_PLANE1);
-        
+
         glEnable(GL_CLIP_PLANE2);
         ball_draw_inner(        pend_M, bill_M,              pend_bill_M, t);
         glDisable(GL_CLIP_PLANE2);
@@ -327,7 +327,7 @@ static void ball_pass_solid(const float *ball_M,
         glEnable(GL_CLIP_PLANE1);
         ball_draw_solid(ball_M,                 ball_bill_M, t);
         glDisable(GL_CLIP_PLANE1);
-        
+
         ball_pass_inner(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
 
         glEnable(GL_CLIP_PLANE2);
@@ -342,7 +342,7 @@ static void ball_pass_solid(const float *ball_M,
         glCullFace(GL_FRONT);
         ball_draw_solid(ball_M,                 ball_bill_M, t);
         glCullFace(GL_BACK);
-        
+
         ball_pass_inner(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
         ball_draw_solid(ball_M,                 ball_bill_M, t);
     }
@@ -369,7 +369,7 @@ static void ball_pass_outer(const float *ball_M,
         glEnable(GL_CLIP_PLANE1);
         ball_draw_outer(        pend_M, bill_M,              pend_bill_M, t);
         glDisable(GL_CLIP_PLANE1);
-        
+
         ball_pass_solid(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
 
         glEnable(GL_CLIP_PLANE2);
@@ -384,7 +384,7 @@ static void ball_pass_outer(const float *ball_M,
         glCullFace(GL_FRONT);
         ball_draw_outer(        pend_M, bill_M,              pend_bill_M, t);
         glCullFace(GL_BACK);
-        
+
         ball_pass_solid(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
         ball_draw_outer(        pend_M, bill_M,              pend_bill_M, t);
     }

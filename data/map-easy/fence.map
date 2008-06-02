@@ -12,6 +12,7 @@
 "goal" "20"
 "time_hs" "500 2000"
 "coin_hs" "56 35"
+"goal_hs" "750 1875"
 "message" "''Flat'' is relative.\Learn to hold the floor at an angle\so that a slope remains level.\This way, you maintain full control of the ball.\Use momentum to get up to the big coins.\"
 // brush 0
 {

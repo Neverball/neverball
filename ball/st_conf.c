@@ -195,13 +195,13 @@ static int conf_enter(void)
         int s = config_get_d(CONFIG_SOUND_VOLUME);
         int m = config_get_d(CONFIG_MUSIC_VOLUME);
 
-        char resolution[20], player[MAXNAM];
+        char resolution[20], player[MAXNAM] = "";
 
         sprintf(resolution, "%d x %d",
                 config_get_d(CONFIG_WIDTH),
                 config_get_d(CONFIG_HEIGHT));
 
-        config_get_s(CONFIG_PLAYER, player, MAXNAM);
+        config_get_s(CONFIG_PLAYER, player, MAXNAM - 1);
 
         if ((jd = gui_harray(id)))
         {

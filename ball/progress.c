@@ -21,6 +21,8 @@
 #include "lang.h"
 #include "score.h"
 
+#include <assert.h>
+
 /*---------------------------------------------------------------------------*/
 
 struct progress
@@ -56,6 +58,9 @@ static int timer = 0;
 static int goal   = 0; /* Current goal value. */
 static int goal_i = 0; /* Initial goal value. */
 
+static int goal_e      = 0; /* Goal enabled flag                */
+static int same_goal_e = 0; /* Reuse existing goal enabled flag */
+
 static int time_rank = 3;
 static int goal_rank = 3;
 static int coin_rank = 3;
@@ -90,15 +95,19 @@ int  progress_play(int i)
         timer  = 0;
         goal   = goal_i = level_goal(level);
 
+        if (same_goal_e)
+            same_goal_e = 0;
+        else
+            goal_e = (mode != MODE_CHALLENGE && level_completed(level) &&
+                      config_get_d(CONFIG_LOCK_GOALS) == 0) || goal == 0;
+
         prev = curr;
 
         time_rank = goal_rank = coin_rank = 3;
 
         if (demo_play_init(USER_REPLAY_FILE, get_level(level), mode,
                            level_time(level), level_goal(level),
-                           (mode != MODE_CHALLENGE && level_completed(level) &&
-                            config_get_d(CONFIG_LOCK_GOALS) == 0) || goal == 0,
-                           curr.score, curr.balls, curr.times))
+                           goal_e, curr.score, curr.balls, curr.times))
         {
             return 1;
         }
@@ -176,22 +185,15 @@ void progress_stat(int s)
                 /* Do nothing. */;
         }
 
-        /* Complete the set or open next level. */
+        /* Open next level or complete the set. */
 
-        if (!level_exists(next))
-        {
-            if (mode == MODE_CHALLENGE)
-            {
-                dirty = set_score_update(curr.times, curr.score,
-                                         &score_rank, &times_rank);
-                done  = 1;
-            }
-        }
-        else
+        if (level_exists(next))
         {
             level_open(next);
             dirty = 1;
         }
+        else
+            done = mode == MODE_CHALLENGE;
 
         break;
 
@@ -219,10 +221,12 @@ void progress_stop(void)
     demo_play_stop();
 }
 
-void progress_exit(int s)
+void progress_exit(void)
 {
-    progress_stat(s);
-    progress_stop();
+    assert(done);
+
+    if (set_score_update(curr.times, curr.score, &score_rank, &times_rank))
+        set_store_hs();
 }
 
 int  progress_replay(const char *filename)
@@ -271,7 +275,15 @@ int  progress_next(void)
 int  progress_same(void)
 {
     progress_stop();
-    curr = status == GAME_GOAL ? prev : curr;
+
+    /* Reset progress and goal enabled state. */
+
+    if (status == GAME_GOAL)
+    {
+        curr = prev;
+        same_goal_e = 1;
+    }
+
     return progress_play(level);
 }
 
@@ -308,6 +320,8 @@ void progress_rename(int set_only)
     else
     {
         level_rename_player(level, time_rank, goal_rank, coin_rank, player);
+
+        demo_rename_player(USER_REPLAY_FILE, player);
 
         if (progress_done())
             set_rename_player(score_rank, times_rank, player);

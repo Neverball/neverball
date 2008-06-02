@@ -191,7 +191,7 @@ static int start_enter(void)
                 /* TODO, replace the whitespace hack with something sane. */
 
                 gui_state(kd,
-                          /* TRANSLATORS: adjust the amount of whitespace here
+                          /* Translators: adjust the amount of whitespace here
                            * as necessary for the buttons to look good. */
                           _("   No   "), GUI_SML, START_OPEN_GOALS,
                           config_get_d(CONFIG_LOCK_GOALS) == 0);

@@ -1477,24 +1477,24 @@
 // entity 7
 {
 "classname" "info_player_intermission"
-"origin" "656 721 1168"
-"target" "t1"
+"origin" "649.875 304.75 961.5"
+"target" "t2"
 }
 // entity 8
 {
 "classname" "target_position"
-"origin" "-134 172 90"
-"targetname" "t1"
+"origin" "92.625 532.875 262.625"
+"targetname" "t2"
 }
 // entity 9
 {
 "classname" "info_player_intermission"
-"origin" "464 -224 48"
-"target" "t2"
+"origin" "656 721 1168"
+"target" "t1"
 }
 // entity 10
 {
 "classname" "target_position"
-"origin" "-135 513 259"
-"targetname" "t2"
+"origin" "-134 172 90"
+"targetname" "t1"
 }

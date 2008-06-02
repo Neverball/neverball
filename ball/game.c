@@ -78,7 +78,7 @@ static float fade_d = 0.0;              /* Fade in/out direction             */
  * r:
  *     -32767 = -VIEWR_BOUND
  *     +32767 = +VIEWR_BOUND
- *     
+ *
  */
 
 struct input
@@ -156,7 +156,7 @@ int input_put(FILE *fout)
         put_short(fout, &input_current.z);
         put_short(fout, &input_current.r);
         put_short(fout, &input_current.c);
-        
+
         return 1;
     }
     return 0;
@@ -510,7 +510,7 @@ static void game_draw_goals(const struct s_file *fp, const float *M, float t)
                     glTranslatef(fp->zv[zi].p[0],
                                  fp->zv[zi].p[1],
                                  fp->zv[zi].p[2]);
-                    
+
                     part_draw_goal(M, fp->zv[zi].r, goal_k, t);
                 }
                 glPopMatrix();
@@ -925,7 +925,7 @@ static void game_update_view(float dt)
     {
     case 1: /* Camera 1: Viewpoint chases the ball position. */
 
-        v_mad(view_e[2], view_e[2], view_v, v_dot(view_v, view_v) * dt / 16);
+        v_sub(view_e[2], view_p, view_c);
 
         break;
 

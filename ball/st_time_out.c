@@ -26,6 +26,7 @@
 #include "st_time_out.h"
 #include "st_level.h"
 #include "st_shared.h"
+#include "st_play.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -109,7 +110,10 @@ static int time_out_keybd(int c, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
-            return time_out_action(TIME_OUT_SAME);
+        {
+            if (progress_same())
+                goto_state(&st_play_ready);
+        }
     }
     return 1;
 }

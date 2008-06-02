@@ -402,8 +402,9 @@ static int demo_play_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
-            if (!(SDL_GetModState() & KMOD_SHIFT))
+            if (config_tst_d(CONFIG_KEY_PAUSE, SDLK_ESCAPE))
                 demo_paused = 1;
+
             return goto_state(&st_demo_end);
         }
     }
@@ -514,6 +515,7 @@ static int demo_end_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return demo_end_action(gui_token(gui_click()));
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
             if (demo_paused)

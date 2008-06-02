@@ -10,6 +10,7 @@
 "song" "bgm/track5.ogg"
 "coin_hs" "108 65"
 "time_hs" "1000 2000"
+"goal_hs" "1000 2000"
 "goal" "1"
 "time" "9000"
 "message" "That one switch controls all five barriers.\Be quick, because the switch is on a timer.\When it expires, the barriers will rise.\"

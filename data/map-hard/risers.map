@@ -12,6 +12,7 @@
 "goal" "40"
 "time_hs" "2500 4500"
 "coin_hs" "64 50"
+"goal_hs" "3000 4500"
 "message" "Ride the elevators to the top.\They move quickly,\so don't dally too long.\"
 // brush 0
 {

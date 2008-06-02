@@ -12,6 +12,7 @@
 "goal" "30"
 "time_hs" "500 3000"
 "coin_hs" "64 50"
+"goal_hs" "1500 4000"
 "message" "So close, yet so very far.\"
 // brush 0
 {

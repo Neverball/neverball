@@ -28,8 +28,9 @@ char *strip_newline(char *);
 time_t make_time_from_utc(struct tm *);
 const char *date_to_str(time_t);
 
-int file_exists(const char *);
-int file_rename(const char *, const char *);
+int  file_exists(const char *);
+int  file_rename(const char *, const char *);
+void file_copy(FILE *fin, FILE *fout);
 
 char *base_name(const char *name, const char *suffix);
 
