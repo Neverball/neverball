@@ -661,7 +661,9 @@ static void make_plane(int   pi, float x0, float y0, float      z0,
     p[1] = 0.f;
     p[2] = 0.f;
 
-    m_rot(R, base[n][0], V_RAD(r));
+    /* Always rotate around the positive axis */
+
+    m_rot(R, base[n - (n % 2)][0], V_RAD(r));
 
     v_mad(p, p, base[n][1], su * tu / SCALE);
     v_mad(p, p, base[n][2], sv * tv / SCALE);
