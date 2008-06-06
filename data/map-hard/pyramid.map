@@ -109,7 +109,6 @@
 // entity 1
 {
 "classname" "func_train"
-"state" "0"
 "target" "t14"
 // brush 0
 {
@@ -215,7 +214,6 @@
 // entity 2
 {
 "classname" "func_train"
-"state" "0"
 "target" "t13"
 // brush 0
 {
@@ -329,7 +327,6 @@
 // entity 3
 {
 "classname" "func_train"
-"state" "0"
 "target" "t12"
 // brush 0
 {
@@ -443,7 +440,6 @@
 // entity 4
 {
 "classname" "func_train"
-"state" "0"
 "target" "t11"
 // brush 0
 {
@@ -557,7 +553,6 @@
 // entity 5
 {
 "classname" "func_train"
-"state" "0"
 "target" "t10"
 // brush 0
 {
@@ -671,7 +666,6 @@
 // entity 6
 {
 "classname" "func_train"
-"state" "0"
 "target" "t9"
 // brush 0
 {
@@ -785,7 +779,6 @@
 // entity 7
 {
 "classname" "func_train"
-"state" "0"
 "target" "t8"
 // brush 0
 {

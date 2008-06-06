@@ -388,7 +388,6 @@
 {
 "classname" "info_player_start"
 "origin" "64 64 24"
-"target" "t17"
 }
 // entity 2
 {

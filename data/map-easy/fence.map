@@ -1706,7 +1706,6 @@
 // entity 1
 {
 "classname" "info_player_start"
-"target" "t1"
 "origin" "64 64 24"
 }
 // entity 2

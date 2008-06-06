@@ -7352,7 +7352,6 @@
 "radius" "0.18"
 "invisible" "1"
 "timer" ".6"
-"angle" "90"
 }
 // entity 10
 {
@@ -7373,7 +7372,6 @@
 "radius" "0.18"
 "invisible" "1"
 "timer" ".6"
-"angle" "90"
 }
 // entity 13
 {
@@ -7419,7 +7417,6 @@
 "radius" "0.18"
 "invisible" "1"
 "timer" ".6"
-"angle" "-90"
 }
 // entity 19
 {
@@ -7435,7 +7432,6 @@
 "radius" "0.18"
 "invisible" "1"
 "timer" ".6"
-"angle" "-90"
 }
 // entity 21
 {
@@ -7451,7 +7447,6 @@
 "radius" "0.18"
 "invisible" "1"
 "timer" ".6"
-"angle" "180"
 }
 // entity 23
 {
@@ -7467,7 +7462,6 @@
 "radius" "0.18"
 "invisible" "1"
 "timer" ".6"
-"angle" "180"
 }
 // entity 25
 {

@@ -783,8 +783,6 @@
 // entity 1
 {
 "classname" "info_player_start"
-"angle" "90"
-"target" "t5"
 "origin" "64 64 24"
 "radius" "0.25"
 }
@@ -911,7 +909,6 @@
 // entity 22
 {
 "classname" "info_player_deathmatch"
-"angle" "90"
 "origin" "64 1088 24"
 }
 // entity 23

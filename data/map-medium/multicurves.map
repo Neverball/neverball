@@ -5774,7 +5774,6 @@
 {
 "classname" "info_player_start"
 "origin" "0 -96 24"
-"state" "0"
 }
 // entity 2
 {

@@ -163,7 +163,6 @@
 {
 "classname" "info_player_start"
 "origin" "64 64 -488"
-"target" "t1"
 }
 // entity 2
 {
@@ -202,8 +201,6 @@
 {
 "classname" "func_train"
 "target" "t13"
-"state" "0"
-"targetname" "t91"
 // brush 0
 {
 ( 512 -192 -256 ) ( 512 0 -256 ) ( 512 0 -304 ) mtrl/caution 0 0 -180 0.5 -0.5 0 0 0
@@ -218,7 +215,6 @@
 {
 "classname" "func_train"
 "target" "t12"
-"targetname" "t92"
 // brush 0
 {
 ( 960 -128 -144 ) ( 960 0 -144 ) ( 768 0 -144 ) mtrl/turf-grey 255 0 -90 0.4999850094 0.5 0 0 0

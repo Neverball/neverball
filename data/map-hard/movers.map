@@ -154,7 +154,6 @@
 // entity 6
 {
 "classname" "info_player_start"
-"target" "t5"
 "origin" "64 64 24"
 }
 // entity 7

@@ -5732,7 +5732,6 @@
 {
 "classname" "func_train"
 "target" "path_corner60"
-"speed" "1"
 // brush 0
 {
 ( -462 -136 0 ) ( -462 -136 24 ) ( -454 -122 24 ) mtrl/invisible 0 0 0 0.5 0.5 0 1 0

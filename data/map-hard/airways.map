@@ -4195,7 +4195,6 @@
 {
 "classname" "func_train"
 "target" "path_corner3"
-"targetname" "func_train1"
 // brush 0
 {
 ( 0 512 32 ) ( 0 513 32 ) ( 1 512 32 ) mtrl/chrome 0 0 0 0.5 0.5 0 0 0

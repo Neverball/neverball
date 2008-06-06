@@ -415,7 +415,6 @@
 // entity 3
 {
 "classname" "func_train"
-"targetname" "t6"
 "target" "t4"
 // brush 0
 {
@@ -430,7 +429,6 @@
 // entity 4
 {
 "classname" "func_train"
-"targetname" "t5"
 "target" "t8"
 // brush 0
 {

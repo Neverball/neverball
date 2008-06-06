@@ -181,9 +181,6 @@
 {
 "classname" "info_player_start"
 "origin" "64 64 24"
-"targetname" "t7"
-"angle" "90"
-"target" "t7"
 }
 // entity 2
 {

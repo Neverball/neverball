@@ -1062,7 +1062,6 @@
 "classname" "info_player_intermission"
 "origin" "-1259 514 723"
 "target" "target_position1"
-"message" "Follow the yellow lick road..."
 }
 // entity 4
 {

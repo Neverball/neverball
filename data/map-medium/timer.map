@@ -854,8 +854,6 @@
 {
 "classname" "func_train"
 "target" "t11"
-"targetname" "t12"
-"state" "0"
 // brush 0
 {
 ( -8 200 0 ) ( -8 104 0 ) ( -8 104 -16 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
@@ -870,7 +868,6 @@
 {
 "classname" "func_train"
 "target" "t11"
-"state" "0"
 // brush 0
 {
 ( 448 200 48 ) ( 256 200 48 ) ( 256 104 48 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
@@ -885,7 +882,6 @@
 {
 "classname" "func_train"
 "target" "t11"
-"state" "0"
 // brush 0
 {
 ( 504 200 128 ) ( 504 104 128 ) ( 504 104 112 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
@@ -900,7 +896,6 @@
 {
 "classname" "func_train"
 "target" "t11"
-"state" "0"
 // brush 0
 {
 ( 960 200 176 ) ( 768 200 176 ) ( 768 104 176 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
@@ -915,7 +910,6 @@
 {
 "classname" "func_train"
 "target" "t11"
-"state" "0"
 // brush 0
 {
 ( 1016 200 256 ) ( 1016 104 256 ) ( 1016 104 240 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0

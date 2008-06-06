@@ -1523,7 +1523,6 @@
 "classname" "misc_model"
 "origin" "252 1604 512"
 "model" "obj/post.obj"
-"angle" "-180"
 }
 // entity 3
 {
@@ -2138,56 +2137,48 @@
 "classname" "misc_model"
 "origin" "-252 1604 512"
 "model" "obj/post.obj"
-"angle" "-180"
 }
 // entity 30
 {
 "classname" "misc_model"
 "model" "obj/post.obj"
 "origin" "252 1852 512"
-"angle" "-180"
 }
 // entity 31
 {
 "classname" "misc_model"
 "model" "obj/xrail4.obj"
 "origin" "-128 1852 512"
-"angle" "-180"
 }
 // entity 32
 {
 "classname" "misc_model"
 "origin" "0 1852 512"
 "model" "obj/post.obj"
-"angle" "-180"
 }
 // entity 33
 {
 "classname" "misc_model"
 "model" "obj/xrail4.obj"
 "origin" "128 1852 512"
-"angle" "-180"
 }
 // entity 34
 {
 "classname" "misc_model"
 "model" "obj/zrail4.obj"
 "origin" "252 1728 512"
-"angle" "-180"
 }
 // entity 35
 {
 "classname" "misc_model"
 "model" "obj/zrail4.obj"
 "origin" "-252 1728 512"
-"angle" "-180"
 }
 // entity 36
 {
 "classname" "misc_model"
 "origin" "-252 1852 512"
 "model" "obj/post.obj"
-"angle" "-180"
 }
 // entity 37
 {
