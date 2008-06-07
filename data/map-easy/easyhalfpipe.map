@@ -4036,13 +4036,13 @@
 // entity 3
 {
 "classname" "target_position"
-"origin" "256 -320 256"
+"origin" "192 -64 256"
 "targetname" "target_position1"
 }
 // entity 4
 {
 "classname" "info_player_intermission"
-"origin" "320 -640 320"
+"origin" "320 -384 320"
 "target" "target_position1"
 }
 // entity 5
