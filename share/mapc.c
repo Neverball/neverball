@@ -1385,14 +1385,18 @@ static void clip_edge(struct s_file *fp,
 {
     int i, j;
 
-    for (i = 1; i < lp->vc; i++) {
+    for (i = 1; i < lp->vc; i++)
+    {
         int vi = fp->iv[lp->v0 + i];
-        if (!on_side(fp->vv[vi].p, fp->sv + si)
-            || !on_side(fp->vv[vi].p, fp->sv + sj))
+
+        if (!on_side(fp->vv[vi].p, fp->sv + si) ||
+            !on_side(fp->vv[vi].p, fp->sv + sj))
             continue;
+
         for (j = 0; j < i; j++)
         {
             int vj = fp->iv[lp->v0 + j];
+
             if (on_side(fp->vv[vj].p, fp->sv + si) &&
                 on_side(fp->vv[vj].p, fp->sv + sj))
             {
@@ -1844,18 +1848,24 @@ static void uniq_geom(struct s_file *fp)
 
     for (i = 0; i < MAXV; i++)
         geomlist[i] = -1;
+
     for (i = 0; i < fp->gc; i++)
     {
         int key = fp->gv[i].vj;
+
         for (j = geomlist[key]; j != -1; j = nextgeom[j])
             if (comp_geom(fp->gv + i, fp->gv + j))
                 goto found;
+
         fp->gv[k] = fp->gv[i];
+
         nextgeom[k] = geomlist[key];
         geomlist[key] = k;
+
         j = k;
         k++;
-    found:
+
+found:
         geom_swaps[i] = j;
     }
 
@@ -2129,11 +2139,16 @@ static int test_lump_side(const struct s_file *fp,
 
     int f = 0;
     int b = 0;
+
+    float d;
+
     if (!lp->vc)
         return 0;
 
     /* Check if the bounding sphere of the lump is completely on one side. */
-    float d = v_dot(bsphere, sp->n) - sp->d;
+
+    d = v_dot(bsphere, sp->n) - sp->d;
+
     if (fabs(d) > bsphere[3])
         return d > 0 ? 1 : -1;
 
@@ -2197,7 +2212,10 @@ static int node_node(struct s_file *fp, int l0, int lc, float bsphere[][4])
             int k = 0;
 
             for (li = 0; li < lc; li++)
-                if ((k = test_lump_side(fp, fp->lv + l0 + li, fp->sv + si, bsphere[l0 + li])))
+                if ((k = test_lump_side(fp,
+                                        fp->lv + l0 + li,
+                                        fp->sv + si,
+                                        bsphere[l0 + li])))
                     d += k;
                 else
                     o++;
@@ -2221,7 +2239,10 @@ static int node_node(struct s_file *fp, int l0, int lc, float bsphere[][4])
             }
             else
             {
-                switch (test_lump_side(fp, fp->lv + l0 + li, fp->sv + sj, bsphere[l0 + li]))
+                switch (test_lump_side(fp,
+                                       fp->lv + l0 + li,
+                                       fp->sv + sj,
+                                       bsphere[l0 + li]))
                 {
                 case +1:
                     fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x10;
@@ -2244,11 +2265,14 @@ static int node_node(struct s_file *fp, int l0, int lc, float bsphere[][4])
                 if (fp->lv[l0 + li].fl < fp->lv[l0 + lj].fl)
                 {
                     struct s_lump l;
+                    float f;
                     int i;
-                    for (i = 0; i < 4; i++) {
-                        float f = bsphere[l0 + li][i];
+
+                    for (i = 0; i < 4; i++)
+                    {
+                        f                   = bsphere[l0 + li][i];
                         bsphere[l0 + li][i] = bsphere[l0 + lj][i];
-                        bsphere[l0 + lj][i] = f;
+                        bsphere[l0 + lj][i] =                   f;
                     }
 
                     l               = fp->lv[l0 + li];
