@@ -1385,15 +1385,15 @@ static void clip_edge(struct s_file *fp,
 {
     int i, j;
 
-    for (i = 1; i < lp->vc; i++)
+    for (i = 1; i < lp->vc; i++) {
+        int vi = fp->iv[lp->v0 + i];
+        if (!on_side(fp->vv[vi].p, fp->sv + si)
+            || !on_side(fp->vv[vi].p, fp->sv + sj))
+            continue;
         for (j = 0; j < i; j++)
         {
-            int vi = fp->iv[lp->v0 + i];
             int vj = fp->iv[lp->v0 + j];
-
-            if (on_side(fp->vv[vi].p, fp->sv + si) &&
-                on_side(fp->vv[vj].p, fp->sv + si) &&
-                on_side(fp->vv[vi].p, fp->sv + sj) &&
+            if (on_side(fp->vv[vj].p, fp->sv + si) &&
                 on_side(fp->vv[vj].p, fp->sv + sj))
             {
                 fp->ev[fp->ec].vi = vi;
@@ -1406,6 +1406,7 @@ static void clip_edge(struct s_file *fp,
                 lp->ec++;
             }
         }
+    }
 }
 
 /*
@@ -1834,24 +1835,28 @@ static void uniq_edge(struct s_file *fp)
     fp->ec = k;
 }
 
+static int geomlist[MAXV];
+static int nextgeom[MAXG];
+
 static void uniq_geom(struct s_file *fp)
 {
     int i, j, k = 0;
 
+    for (i = 0; i < MAXV; i++)
+        geomlist[i] = -1;
     for (i = 0; i < fp->gc; i++)
     {
-        for (j = 0; j < k; j++)
+        int key = fp->gv[i].vj;
+        for (j = geomlist[key]; j != -1; j = nextgeom[j])
             if (comp_geom(fp->gv + i, fp->gv + j))
-                break;
-
+                goto found;
+        fp->gv[k] = fp->gv[i];
+        nextgeom[k] = geomlist[key];
+        geomlist[key] = k;
+        j = k;
+        k++;
+    found:
         geom_swaps[i] = j;
-
-        if (j == k)
-        {
-            if (i != k)
-                fp->gv[k] = fp->gv[i];
-            k++;
-        }
     }
 
     apply_geom_swaps(fp);
@@ -2116,13 +2121,21 @@ static void sort_file(struct s_file *fp)
 
 static int test_lump_side(const struct s_file *fp,
                           const struct s_lump *lp,
-                          const struct s_side *sp)
+                          const struct s_side *sp,
+                          float bsphere[4])
 {
     int si;
     int vi;
 
     int f = 0;
     int b = 0;
+    if (!lp->vc)
+        return 0;
+
+    /* Check if the bounding sphere of the lump is completely on one side. */
+    float d = v_dot(bsphere, sp->n) - sp->d;
+    if (fabs(d) > bsphere[3])
+        return d > 0 ? 1 : -1;
 
     /* If the given side is part of the given lump, then the lump is behind. */
 
@@ -2150,7 +2163,7 @@ static int test_lump_side(const struct s_file *fp,
     return 0;
 }
 
-static int node_node(struct s_file *fp, int l0, int lc)
+static int node_node(struct s_file *fp, int l0, int lc, float bsphere[][4])
 {
     if (lc < 8)
     {
@@ -2184,7 +2197,7 @@ static int node_node(struct s_file *fp, int l0, int lc)
             int k = 0;
 
             for (li = 0; li < lc; li++)
-                if ((k = test_lump_side(fp, fp->lv + l0 + li, fp->sv + si)))
+                if ((k = test_lump_side(fp, fp->lv + l0 + li, fp->sv + si, bsphere[l0 + li])))
                     d += k;
                 else
                     o++;
@@ -2208,7 +2221,7 @@ static int node_node(struct s_file *fp, int l0, int lc)
             }
             else
             {
-                switch (test_lump_side(fp, fp->lv + l0 + li, fp->sv + sj))
+                switch (test_lump_side(fp, fp->lv + l0 + li, fp->sv + sj, bsphere[l0 + li]))
                 {
                 case +1:
                     fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x10;
@@ -2231,6 +2244,12 @@ static int node_node(struct s_file *fp, int l0, int lc)
                 if (fp->lv[l0 + li].fl < fp->lv[l0 + lj].fl)
                 {
                     struct s_lump l;
+                    int i;
+                    for (i = 0; i < 4; i++) {
+                        float f = bsphere[l0 + li][i];
+                        bsphere[l0 + li][i] = bsphere[l0 + lj][i];
+                        bsphere[l0 + lj][i] = f;
+                    }
 
                     l               = fp->lv[l0 + li];
                     fp->lv[l0 + li] = fp->lv[l0 + lj];
@@ -2256,9 +2275,9 @@ static int node_node(struct s_file *fp, int l0, int lc)
         i = incn(fp);
 
         fp->nv[i].si = sj;
-        fp->nv[i].ni = node_node(fp, li, lic);
+        fp->nv[i].ni = node_node(fp, li, lic, bsphere);
 
-        fp->nv[i].nj = node_node(fp, lk, lkc);
+        fp->nv[i].nj = node_node(fp, lk, lkc, bsphere);
         fp->nv[i].l0 = lj;
         fp->nv[i].lc = ljc;
 
@@ -2268,12 +2287,40 @@ static int node_node(struct s_file *fp, int l0, int lc)
 
 static void node_file(struct s_file *fp)
 {
+    float bbox[6];
+    float bsphere[MAXL][4];
+    float r;
     int bi;
+    int i, j;
+    /* Calculate a bounding sphere for each lump (not optimal) */
+    for (i = 0; i < fp->lc; i++) {
+        if (!fp->lv[i].vc)
+            continue;
+        bbox[0] = bbox[3] = fp->vv[fp->iv[fp->lv[i].v0]].p[0];
+        bbox[1] = bbox[4] = fp->vv[fp->iv[fp->lv[i].v0]].p[1];
+        bbox[2] = bbox[5] = fp->vv[fp->iv[fp->lv[i].v0]].p[2];
+        for (j = 1; j < fp->lv[i].vc; j++) {
+            struct s_vert v = fp->vv[fp->iv[fp->lv[i].v0 + j]];
+            int k;
+            for (k = 0; k < 3; k++)
+                if (v.p[k] < bbox[k])
+                    bbox[k] = v.p[k];
+            for (k = 0; k < 3; k++)
+                if (v.p[k] > bbox[k + 3])
+                    bbox[k + 3] = v.p[k];
+        }
+        r = 0;
+        for (j = 0; j < 3; j++) {
+            bsphere[i][j] = (bbox[j] + bbox[j + 3]) / 2;
+            r += (bsphere[i][j] - bbox[j]) * (bsphere[i][j] - bbox[j]);
+        }
+        bsphere[i][3] = fsqrtf(r);
+    }        
 
     /* Sort the lumps of each body into BSP nodes. */
 
     for (bi = 0; bi < fp->bc; bi++)
-        fp->bv[bi].ni = node_node(fp, fp->bv[bi].l0, fp->bv[bi].lc);
+        fp->bv[bi].ni = node_node(fp, fp->bv[bi].l0, fp->bv[bi].lc, bsphere);
 }
 
 /*---------------------------------------------------------------------------*/
