@@ -2285,42 +2285,63 @@ static int node_node(struct s_file *fp, int l0, int lc, float bsphere[][4])
     }
 }
 
-static void node_file(struct s_file *fp)
+/*
+ * Compute a bounding sphere for a lump (not optimal)
+ */
+static void lump_bounding_sphere(struct s_file *fp,
+                                 struct s_lump *lp,
+                                 float bsphere[4])
 {
     float bbox[6];
-    float bsphere[MAXL][4];
     float r;
-    int bi;
-    int i, j;
-    /* Calculate a bounding sphere for each lump (not optimal) */
-    for (i = 0; i < fp->lc; i++) {
-        if (!fp->lv[i].vc)
-            continue;
-        bbox[0] = bbox[3] = fp->vv[fp->iv[fp->lv[i].v0]].p[0];
-        bbox[1] = bbox[4] = fp->vv[fp->iv[fp->lv[i].v0]].p[1];
-        bbox[2] = bbox[5] = fp->vv[fp->iv[fp->lv[i].v0]].p[2];
-        for (j = 1; j < fp->lv[i].vc; j++) {
-            struct s_vert v = fp->vv[fp->iv[fp->lv[i].v0 + j]];
-            int k;
-            for (k = 0; k < 3; k++)
-                if (v.p[k] < bbox[k])
-                    bbox[k] = v.p[k];
-            for (k = 0; k < 3; k++)
-                if (v.p[k] > bbox[k + 3])
-                    bbox[k + 3] = v.p[k];
-        }
-        r = 0;
-        for (j = 0; j < 3; j++) {
-            bsphere[i][j] = (bbox[j] + bbox[j + 3]) / 2;
-            r += (bsphere[i][j] - bbox[j]) * (bsphere[i][j] - bbox[j]);
-        }
-        bsphere[i][3] = fsqrtf(r);
-    }        
+    int i;
+
+    if (!lp->vc)
+        return;
+
+    bbox[0] = bbox[3] = fp->vv[fp->iv[lp->v0]].p[0];
+    bbox[1] = bbox[4] = fp->vv[fp->iv[lp->v0]].p[1];
+    bbox[2] = bbox[5] = fp->vv[fp->iv[lp->v0]].p[2];
+
+    for (i = 1; i < lp->vc; i++)
+    {
+        struct s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
+        int j;
+
+        for (j = 0; j < 3; j++)
+            if (vp->p[j] < bbox[j])
+                bbox[j] = vp->p[j];
+
+        for (j = 0; j < 3; j++)
+            if (vp->p[j] > bbox[j + 3])
+                bbox[j + 3] = vp->p[j];
+    }
+
+    r = 0;
+
+    for (i = 0; i < 3; i++)
+    {
+        bsphere[i] = (bbox[i] + bbox[i + 3]) / 2;
+        r += (bsphere[i] - bbox[i]) * (bsphere[i] - bbox[i]);
+    }
+
+    bsphere[3] = fsqrtf(r);
+}
+
+static void node_file(struct s_file *fp)
+{
+    float bsphere[MAXL][4];
+    int i;
+
+    /* Compute a bounding sphere for each lump. */
+
+    for (i = 0; i < fp->lc; i++)
+        lump_bounding_sphere(fp, fp->lv + i, bsphere[i]);
 
     /* Sort the lumps of each body into BSP nodes. */
 
-    for (bi = 0; bi < fp->bc; bi++)
-        fp->bv[bi].ni = node_node(fp, fp->bv[bi].l0, fp->bv[bi].lc, bsphere);
+    for (i = 0; i < fp->bc; i++)
+        fp->bv[i].ni = node_node(fp, fp->bv[i].l0, fp->bv[i].lc, bsphere);
 }
 
 /*---------------------------------------------------------------------------*/
