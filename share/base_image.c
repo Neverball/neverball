@@ -15,6 +15,7 @@
 #include <png.h>
 #include <jpeglib.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "glext.h"
 #include "base_config.h"
@@ -290,6 +291,40 @@ void image_white(void *p, int w, int h, int b)
                 s[k + 2] = 0xFF;
             }
         }
+}
+
+/*
+ * Allocate and return an image buffer of the given image flipped horizontally
+ * and/or vertically.
+ */
+void *image_flip(const void *p, int w, int h, int b, int hflip, int vflip)
+{
+    unsigned char *q;
+
+    assert(hflip || vflip);
+
+    if (!p)
+        return NULL;
+
+    if ((q = malloc(w * b * h)))
+    {
+        int r, c, i;
+
+        for (r = 0; r < h; r++)
+            for (c = 0; c < w; c++)
+                for (i = 0; i < b; i++)
+                {
+                    int pr = vflip ? h - r - 1 : r;
+                    int pc = hflip ? w - c - 1 : c;
+
+                    int qi = r  * w * b + c  * b + i;
+                    int pi = pr * w * b + pc * b + i;
+
+                    q[qi] = ((const unsigned char *) p)[pi];
+                }
+        return q;
+    }
+    return NULL;
 }
 
 /*---------------------------------------------------------------------------*/
