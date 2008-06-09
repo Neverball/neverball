@@ -611,12 +611,12 @@ static void make_plane(int   pi, float x0, float y0, float      z0,
                        float su, float sv, int   fl, const char *s)
 {
     static const float base[6][3][3] = {
-        {{  0,  0,  1 }, {  1,  0,  0 }, {  0, -1,  0 }},
-        {{  0,  0, -1 }, {  1,  0,  0 }, {  0, -1,  0 }},
-        {{  1,  0,  0 }, {  0,  0, -1 }, {  0, -1,  0 }},
-        {{ -1,  0,  0 }, {  0,  0, -1 }, {  0, -1,  0 }},
-        {{  0,  1,  0 }, {  1,  0,  0 }, {  0,  0,  1 }},
-        {{  0, -1,  0 }, {  1,  0,  0 }, {  0,  0,  1 }},
+        {{  0,  0,  1 }, {  1,  0,  0 }, {  0,  1,  0 }},
+        {{  0,  0, -1 }, {  1,  0,  0 }, {  0,  1,  0 }},
+        {{  1,  0,  0 }, {  0,  0, -1 }, {  0,  1,  0 }},
+        {{ -1,  0,  0 }, {  0,  0, -1 }, {  0,  1,  0 }},
+        {{  0,  1,  0 }, {  1,  0,  0 }, {  0,  0, -1 }},
+        {{  0, -1,  0 }, {  1,  0,  0 }, {  0,  0, -1 }},
     };
 
     float R[16];
@@ -665,8 +665,8 @@ static void make_plane(int   pi, float x0, float y0, float      z0,
 
     m_rot(R, base[n - (n % 2)][0], V_RAD(r));
 
-    v_mad(p, p, base[n][1], su * tu / SCALE);
-    v_mad(p, p, base[n][2], sv * tv / SCALE);
+    v_mad(p, p, base[n][1], +su * tu / SCALE);
+    v_mad(p, p, base[n][2], -sv * tv / SCALE);
 
     m_vxfm(plane_u[pi], R, base[n][1]);
     m_vxfm(plane_v[pi], R, base[n][2]);

@@ -92,7 +92,7 @@ static void coin_head(int n, float radius, float thick)
             float x = fcosf(+2.f * PI * i / n);
             float y = fsinf(+2.f * PI * i / n);
 
-            glTexCoord2f(-x * 0.5f + 0.5f, +y * 0.5f + 0.5f);
+            glTexCoord2f(+x * 0.5f + 0.5f, +y * 0.5f + 0.5f);
             glVertex3f(radius * x, radius * y, +thick);
         }
     }
@@ -112,7 +112,7 @@ static void coin_tail(int n, float radius, float thick)
             float x = fcosf(-2.f * PI * i / n);
             float y = fsinf(-2.f * PI * i / n);
 
-            glTexCoord2f(+x * 0.5f + 0.5f, +y * 0.5f + 0.5f);
+            glTexCoord2f(-x * 0.5f + 0.5f, +y * 0.5f + 0.5f);
             glVertex3f(radius * x, radius * y, -thick);
         }
     }

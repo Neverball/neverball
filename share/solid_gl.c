@@ -208,10 +208,10 @@ static const struct s_mtrl *sol_back_bill(const struct s_file *fp,
 
             glBegin(GL_QUADS);
             {
-                glTexCoord2f(0.0f, 1.0f); glVertex2f(-w / 2, y0);
-                glTexCoord2f(1.0f, 1.0f); glVertex2f(+w / 2, y0);
-                glTexCoord2f(1.0f, 0.0f); glVertex2f(+w / 2, y1);
-                glTexCoord2f(0.0f, 0.0f); glVertex2f(-w / 2, y1);
+                glTexCoord2f(0.0f, 0.0f); glVertex2f(-w / 2, y0);
+                glTexCoord2f(1.0f, 0.0f); glVertex2f(+w / 2, y0);
+                glTexCoord2f(1.0f, 1.0f); glVertex2f(+w / 2, y1);
+                glTexCoord2f(0.0f, 1.0f); glVertex2f(-w / 2, y1);
             }
             glEnd();
         }
@@ -406,10 +406,10 @@ void sol_bill(const struct s_file *fp, const float *M, float t)
 
             glBegin(GL_QUADS);
             {
-                glTexCoord2f(0.0f, 1.0f); glVertex2f(-w / 2, -h / 2);
-                glTexCoord2f(1.0f, 1.0f); glVertex2f(+w / 2, -h / 2);
-                glTexCoord2f(1.0f, 0.0f); glVertex2f(+w / 2, +h / 2);
-                glTexCoord2f(0.0f, 0.0f); glVertex2f(-w / 2, +h / 2);
+                glTexCoord2f(0.0f, 0.0f); glVertex2f(-w / 2, -h / 2);
+                glTexCoord2f(1.0f, 0.0f); glVertex2f(+w / 2, -h / 2);
+                glTexCoord2f(1.0f, 1.0f); glVertex2f(+w / 2, +h / 2);
+                glTexCoord2f(0.0f, 1.0f); glVertex2f(-w / 2, +h / 2);
             }
             glEnd();
         }
