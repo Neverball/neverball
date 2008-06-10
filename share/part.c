@@ -62,7 +62,7 @@ void part_reset(float h)
         float a = rnd(-1.0f * PI, +1.0f * PI);
         float w = rnd(-2.0f * PI, +2.0f * PI);
 
-        part_jump[i].t = part_goal[i].t = t;
+        part_jump[i].t = part_goal[i].t = rnd(+0.1f,      +1.0f);
         part_jump[i].a = part_goal[i].a = V_DEG(a);
         part_jump[i].w = part_goal[i].w = V_DEG(w);
 
@@ -273,8 +273,6 @@ void part_draw_jump(const float *M, float radius, float a, float t)
     int i;
 
     glBindTexture(GL_TEXTURE_2D, part_text_squiggle);
-
-   /* glColor4f(1.0f, 1.0f, 1.0f, a);*/
 
     for (i = 0; i < PART_MAX_GOAL; i++)
     {
