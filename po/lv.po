@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2008-06-10 17:00+0300\n"
-"PO-Revision-Date: 2007-12-17 03:30+0200\n"
+"PO-Revision-Date: 2008-06-10 17:00+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -1693,7 +1693,7 @@ msgstr ""
 #. and translate the material name to match (from <mtrl> to
 #. <mtrl>-<lang-code>).
 msgid "mtrl/words"
-msgstr ""
+msgstr "mtrl/words-lv"
 
 #~ msgid "Practice Mode"
 #~ msgstr "Treniņa režīms"
