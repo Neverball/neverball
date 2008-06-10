@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-06-10 17:00+0300\n"
-"PO-Revision-Date: 2006-02-14 10:05+0100\n"
+"POT-Creation-Date: 2008-06-10 18:11+0300\n"
+"PO-Revision-Date: 2008-06-10 18:12+0300\n"
 "Last-Translator: Mehdi Yousfi-Monod <mehdi.yousfi@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -183,77 +183,77 @@ msgstr "Format incorrect"
 msgid "Cannot load the set file '%s': %s\n"
 msgstr "Le fichier de collection de niveaux « %s » ne peut être chargé : %s\n"
 
-#: ball/st_conf.c:208 putt/st_conf.c:168
+#: ball/st_conf.c:209 putt/st_conf.c:168
 msgid "Options"
 msgstr "Options"
 
-#: ball/st_conf.c:210 ball/st_help.c:95 ball/st_start.c:160 ball/util.c:507
+#: ball/st_conf.c:211 ball/st_help.c:95 ball/st_start.c:160 ball/util.c:507
 #: share/st_resol.c:75 putt/st_all.c:343 putt/st_all.c:491 putt/st_conf.c:170
 msgid "Back"
 msgstr "Retour"
 
-#: ball/st_conf.c:218 ball/st_demo.c:550 ball/st_save.c:194 putt/st_conf.c:178
+#: ball/st_conf.c:219 ball/st_demo.c:550 ball/st_save.c:194 putt/st_conf.c:178
 msgid "No"
 msgstr "Non"
 
-#: ball/st_conf.c:219 ball/st_demo.c:551 ball/st_save.c:195
+#: ball/st_conf.c:220 ball/st_demo.c:551 ball/st_save.c:195
 #: ball/st_start.c:199 putt/st_conf.c:179
 msgid "Yes"
 msgstr "Oui"
 
-#: ball/st_conf.c:221 putt/st_conf.c:181
+#: ball/st_conf.c:222 putt/st_conf.c:181
 msgid "Fullscreen"
 msgstr "Plein écran"
 
-#: ball/st_conf.c:229 share/st_resol.c:73 putt/st_conf.c:189
+#: ball/st_conf.c:230 share/st_resol.c:73 putt/st_conf.c:189
 msgid "Resolution"
 msgstr "Résolution"
 
-#: ball/st_conf.c:237 ball/st_conf.c:246 putt/st_conf.c:197 putt/st_conf.c:206
+#: ball/st_conf.c:238 ball/st_conf.c:247 putt/st_conf.c:197 putt/st_conf.c:206
 msgid "Low"
 msgstr "Bas"
 
-#: ball/st_conf.c:238 ball/st_conf.c:247 putt/st_conf.c:198 putt/st_conf.c:207
+#: ball/st_conf.c:239 ball/st_conf.c:248 putt/st_conf.c:198 putt/st_conf.c:207
 msgid "High"
 msgstr "Élevé"
 
-#: ball/st_conf.c:240 putt/st_conf.c:200
+#: ball/st_conf.c:241 putt/st_conf.c:200
 msgid "Textures"
 msgstr "Textures"
 
-#: ball/st_conf.c:249 putt/st_conf.c:209
+#: ball/st_conf.c:250 putt/st_conf.c:209
 msgid "Geometry"
 msgstr "Géométrie"
 
-#: ball/st_conf.c:255 ball/st_conf.c:264 ball/st_conf.c:273 putt/st_conf.c:215
+#: ball/st_conf.c:256 ball/st_conf.c:265 ball/st_conf.c:274 putt/st_conf.c:215
 msgid "Off"
 msgstr "Non"
 
-#: ball/st_conf.c:256 ball/st_conf.c:265 ball/st_conf.c:274 putt/st_conf.c:216
+#: ball/st_conf.c:257 ball/st_conf.c:266 ball/st_conf.c:275 putt/st_conf.c:216
 msgid "On"
 msgstr "Oui"
 
-#: ball/st_conf.c:258
+#: ball/st_conf.c:259
 msgid "Reflection"
 msgstr "Réflexion"
 
-#: ball/st_conf.c:267
+#: ball/st_conf.c:268
 msgid "Background"
 msgstr "Décors"
 
-#: ball/st_conf.c:276 putt/st_conf.c:218
+#: ball/st_conf.c:277 putt/st_conf.c:218
 msgid "Shadow"
 msgstr "Ombrage"
 
-#: ball/st_conf.c:298 putt/st_conf.c:240
+#: ball/st_conf.c:299 putt/st_conf.c:240
 msgid "Sound Volume"
 msgstr "Volume sons"
 
-#: ball/st_conf.c:318 putt/st_conf.c:260
+#: ball/st_conf.c:319 putt/st_conf.c:260
 msgid "Music Volume"
 msgstr "Volume musique"
 
-#: ball/st_conf.c:328 ball/st_name.c:103
+#: ball/st_conf.c:329 ball/st_name.c:103
 msgid "Player Name"
 msgstr "Nom du joueur"
 
@@ -611,10 +611,6 @@ msgstr "Prec"
 #: share/base_config.h:92
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr "ttf/DejaVuSans-Bold.ttf"
-
-#: share/geom.h:12
-msgid "png/coin.png"
-msgstr "png/euro_coin.png"
 
 #. Translators,
 #. *
@@ -1840,6 +1836,12 @@ msgstr "Les toiles attirantes.\\Ne vous laissez pas empêtrer."
 #. <mtrl>-<lang-code>).
 msgid "mtrl/words"
 msgstr ""
+
+msgid "item/coin/coin"
+msgstr "item/coin/euro_coin"
+
+#~ msgid "png/coin.png"
+#~ msgstr "png/euro_coin.png"
 
 #~ msgid ""
 #~ "Difficulty: A set of levels for intermediate players.\\\\\\Work in "
