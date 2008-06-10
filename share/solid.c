@@ -1460,7 +1460,7 @@ struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
         r[1] = ball_p[2] - fp->zv[zi].p[2];
         r[2] = 0;
 
-        if (v_len(r) < fp->zv[zi].r * 1.1 - ball_r &&
+        if (v_len(r) < fp->zv[zi].r - ball_r &&
             ball_p[1] > fp->zv[zi].p[1] &&
             ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
         {
