@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-04-08 22:05+0300\n"
+"POT-Creation-Date: 2008-06-10 17:00+0300\n"
 "PO-Revision-Date: 2006-02-14 10:05+0100\n"
 "Last-Translator: Mehdi Yousfi-Monod <mehdi.yousfi@gmail.com>\n"
 "Language-Team: French\n"
@@ -16,23 +16,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ball/game.c:1289
+#: ball/game.c:1290
 msgid "Aborted"
 msgstr "Interrompu"
 
-#: ball/game.c:1290
+#: ball/game.c:1291
 msgid "Time-out"
 msgstr "Temps écoulé"
 
-#: ball/game.c:1291
+#: ball/game.c:1292
 msgid "Success"
 msgstr "Succès"
 
-#: ball/game.c:1292
+#: ball/game.c:1293
 msgid "Fall-out"
 msgstr "Balle perdue"
 
-#: ball/game.c:1293 ball/progress.c:345
+#: ball/game.c:1294 ball/progress.c:362
 msgid "Unknown"
 msgstr "Inconnu"
 
@@ -132,11 +132,11 @@ msgstr "L'option %s nécessite un argument.\n"
 msgid "Option '--info' requires '--replay'.\n"
 msgstr "L'option '--info' nécessite '--replay'.\n"
 
-#: ball/main.c:353 putt/main.c:291
+#: ball/main.c:353 putt/main.c:289
 msgid "Failure to establish game data directory\n"
 msgstr "Impossible d'établir le répertoire des données du jeu\n"
 
-#: ball/main.c:359 putt/main.c:289
+#: ball/main.c:359 putt/main.c:287
 msgid "Failure to establish config directory\n"
 msgstr "Impossible d'établir le répertoire de configuration\n"
 
@@ -149,23 +149,23 @@ msgstr "Fichier de film « %s » : %s\n"
 msgid "Not a replay file"
 msgstr "Pas un fichier de film"
 
-#: ball/progress.c:343 ball/st_help.c:246
+#: ball/progress.c:360 ball/st_help.c:246
 msgid "Challenge Mode"
 msgstr "Mode Challenge"
 
-#: ball/progress.c:343 ball/st_start.c:174
+#: ball/progress.c:360 ball/st_start.c:174
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/progress.c:344 ball/st_help.c:238
+#: ball/progress.c:361 ball/st_help.c:238
 msgid "Normal Mode"
 msgstr "Mode Normal"
 
-#: ball/progress.c:344
+#: ball/progress.c:361
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/progress.c:345
+#: ball/progress.c:362
 msgid "Unknown Mode"
 msgstr "Mode Inconnu"
 
@@ -192,11 +192,11 @@ msgstr "Options"
 msgid "Back"
 msgstr "Retour"
 
-#: ball/st_conf.c:218 ball/st_demo.c:548 ball/st_save.c:194 putt/st_conf.c:178
+#: ball/st_conf.c:218 ball/st_demo.c:550 ball/st_save.c:194 putt/st_conf.c:178
 msgid "No"
 msgstr "Non"
 
-#: ball/st_conf.c:219 ball/st_demo.c:549 ball/st_save.c:195
+#: ball/st_conf.c:219 ball/st_demo.c:551 ball/st_save.c:195
 #: ball/st_start.c:199 putt/st_conf.c:179
 msgid "Yes"
 msgstr "Oui"
@@ -257,7 +257,7 @@ msgstr "Volume musique"
 msgid "Player Name"
 msgstr "Nom du joueur"
 
-#: ball/st_demo.c:182 putt/st_all.c:681
+#: ball/st_demo.c:182 putt/st_all.c:679
 msgid "Player"
 msgstr "Joueur"
 
@@ -289,35 +289,35 @@ msgstr "Choisir un film"
 msgid "No Replays"
 msgstr "Pas de film"
 
-#: ball/st_demo.c:454
+#: ball/st_demo.c:455
 msgid "Replay Paused"
 msgstr "Film en pause"
 
-#: ball/st_demo.c:457
+#: ball/st_demo.c:458
 msgid "Replay Ends"
 msgstr "Fin du film"
 
-#: ball/st_demo.c:466 ball/st_pause.c:108 putt/st_all.c:591
+#: ball/st_demo.c:467 ball/st_pause.c:108 putt/st_all.c:591
 msgid "Quit"
 msgstr "Quitter"
 
-#: ball/st_demo.c:470
+#: ball/st_demo.c:471
 msgid "Keep"
 msgstr "Conserver"
 
-#: ball/st_demo.c:471 share/keynames.c:38
+#: ball/st_demo.c:472 share/keynames.c:38
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ball/st_demo.c:476 ball/st_pause.c:113 putt/st_all.c:592
+#: ball/st_demo.c:477 ball/st_pause.c:113 putt/st_all.c:592
 msgid "Continue"
 msgstr "Continuer"
 
-#: ball/st_demo.c:480
+#: ball/st_demo.c:481
 msgid "Repeat"
 msgstr "Rejouer"
 
-#: ball/st_demo.c:544
+#: ball/st_demo.c:546
 msgid "Delete Replay?"
 msgstr "Supprimer le film ?"
 
@@ -333,23 +333,23 @@ msgstr "Collection complétée"
 msgid "Select Level"
 msgstr "Choisissez un niveau"
 
-#: ball/st_fall_out.c:82
+#: ball/st_fall_out.c:83
 msgid "Fall-out!"
 msgstr "Balle perdue !"
 
-#: ball/st_fall_out.c:89 ball/st_time_out.c:82
+#: ball/st_fall_out.c:90 ball/st_time_out.c:83
 msgid "Exit"
 msgstr "Quitter"
 
-#: ball/st_fall_out.c:92 ball/st_goal.c:206 ball/st_time_out.c:85
+#: ball/st_fall_out.c:93 ball/st_goal.c:206 ball/st_time_out.c:86
 msgid "Next Level"
 msgstr "Niveau suivant"
 
-#: ball/st_fall_out.c:95 ball/st_goal.c:209 ball/st_time_out.c:88
+#: ball/st_fall_out.c:96 ball/st_goal.c:209 ball/st_time_out.c:89
 msgid "Retry Level"
 msgstr "Retenter"
 
-#: ball/st_fall_out.c:98 ball/st_goal.c:212 ball/st_time_out.c:91
+#: ball/st_fall_out.c:99 ball/st_goal.c:212 ball/st_time_out.c:92
 msgid "Save Replay"
 msgstr "Sauver un film"
 
@@ -502,15 +502,15 @@ msgstr "Pause"
 msgid "Restart"
 msgstr "Recommencer"
 
-#: ball/st_play.c:54
+#: ball/st_play.c:58
 msgid "Ready?"
 msgstr "Attention !"
 
-#: ball/st_play.c:110
+#: ball/st_play.c:114
 msgid "Set?"
 msgstr "Prêt ?"
 
-#: ball/st_play.c:181
+#: ball/st_play.c:185
 msgid "GO!"
 msgstr "PARTEZ !"
 
@@ -540,7 +540,7 @@ msgstr "   Non   "
 msgid "Lock Goals of Completed Levels?"
 msgstr "Fermer la sortie des niv. complétés ?"
 
-#: ball/st_time_out.c:75
+#: ball/st_time_out.c:76
 msgid "Time's Up!"
 msgstr "Temps écoulé !"
 
@@ -896,24 +896,24 @@ msgstr "Choisir un parcours"
 msgid "Players?"
 msgstr "Joueur ?"
 
-#: putt/st_all.c:674
+#: putt/st_all.c:672
 #, c-format
 msgid "Hole %02d"
 msgstr "Trou %02d"
 
-#: putt/st_all.c:999
+#: putt/st_all.c:997
 msgid "It's In!"
 msgstr "C'est rentré !"
 
-#: putt/st_all.c:1141
+#: putt/st_all.c:1139
 msgid "1 Stroke Penalty"
 msgstr "Pénalité d'un coup"
 
-#: putt/st_all.c:1219
+#: putt/st_all.c:1217
 msgid "Scores"
 msgstr "Scores"
 
-#: putt/st_all.c:1272
+#: putt/st_all.c:1270
 msgid "Final Scores"
 msgstr "Scores finaux"
 
@@ -934,22 +934,25 @@ msgid "Neverball Medium"
 msgstr "Neverball Moyen"
 
 #: data/set-medium.txt
+#, fuzzy
 msgid ""
-"Difficulty: A set of levels for intermediate players.\\\\\\Work in progress."
-"\\\\"
+"Difficulty: Beginner through Expert\\\\25 levels which provide a balanced"
+"\\challenge for players. Try to claim\\some of the records provided.\\"
 msgstr ""
-"Difficulté : une collection de niveaux pour\\les joueurs intermédiaires.\\"
-"\\En travaux.\\\\"
+"Difficulté : Intermédiaire à Expert\\\\25 niveaux et plus de challenge pour "
+"les\\joueurs expérimentés. Essayez d'obtenir\\les meilleurs temps et le plus "
+"de pièces.\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
 msgstr "Neverball Difficile"
 
 #: data/set-hard.txt
+#, fuzzy
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
-"challenge for\\the experienced player. Try to claim\\Best Times and Most "
-"Coins records.\\"
+"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
+"and Unlock Goal records.\\"
 msgstr ""
 "Difficulté : Intermédiaire à Expert\\\\25 niveaux et plus de challenge pour "
 "les\\joueurs expérimentés. Essayez d'obtenir\\les meilleurs temps et le plus "
@@ -1085,7 +1088,7 @@ msgstr ""
 "balle sur un sol horizontal\\et maintenez un contrôle précis.\\Prenez un peu "
 "d'élan pour atteindre les coins.\\"
 
-#: data/map-easy/easy.map
+#: data/map-easy/easy.map data/map-misc/texture-debug.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
@@ -1131,6 +1134,13 @@ msgstr ""
 "Chaque pont est plus étroit que le précédent,\\mais paie plus !\\À vous de "
 "décider jusqu'où vous pouvez aller.\\"
 
+#: data/map-easy/groundbreak.map
+msgid ""
+"Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
+"will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
+"instead of falling into it."
+msgstr ""
+
 #: data/map-easy/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing down"
@@ -1165,9 +1175,10 @@ msgstr ""
 "accéder aux grosses pièces.\\"
 
 #: data/map-easy/peasy.map
+#, fuzzy
 msgid ""
-"Mouse buttons rotate the view.\\Press Spacebar to pause, ESC to quit.\\\\\\"
-"\\Click to begin.\\"
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
 msgstr ""
 "Les boutons de la souris tournent la vue.\\La barre d'espace met le jeu en "
 "pause.\\« Échap » quitte.\\\\Cliquez pour commencer.\\"
@@ -1177,9 +1188,10 @@ msgid "Grab all the coins...\\but don't get thwomped!"
 msgstr "Collectez toutes les pièces...\\mais attention au gardien !"
 
 #: data/map-easy/wakka.map
+#, fuzzy
 msgid ""
-"Here's another coin grab.\\Use it to earn a free ball.\\Perhaps you already "
-"know a good route.\\Teleportation might come in handy.\\"
+"Here's another coin grab.\\Perhaps you already know a good route."
+"\\Teleportation might come in handy.\\"
 msgstr ""
 "Voici une nouvelle course aux pièces.\\Utilisez-là pour gagner une vie."
 "\\Peut-être que vous connaissez déjà la bonne route.\\La téléportation peut "
@@ -1311,6 +1323,13 @@ msgstr ""
 msgid "Go for a ride.\\"
 msgstr "Faites une promenade.\\"
 
+#: data/map-hard/nostairs.map
+msgid ""
+"There are two goals here.\\You can complete this level\\the easy way or the "
+"hard way.\\Of course, by going the easy way\\you can forget about all\\those "
+"red and blue coins."
+msgstr ""
+
 #: data/map-hard/paths.map
 msgid "So many different paths to take...\\have you tried all of them?"
 msgstr "Tant de chemins à prendre...\\Les avez-vous tous essayés ?"
@@ -1388,6 +1407,12 @@ msgid ""
 msgstr ""
 "Ces ponts sont penchés.\\Chacun est plus étroit et plus incliné que le "
 "précédent.\\Contentez-vous de l'argent facile ou\\tentez le Jackpot.\\"
+
+#: data/map-medium/cross.map
+msgid ""
+"Use momentum to reach\\the upper platforms,\\but keep the ball in control"
+"\\for safe landing.\\\\The manual view may help here.\\"
+msgstr ""
 
 #: data/map-medium/drops.map
 msgid ""
@@ -1494,6 +1519,10 @@ msgstr ""
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
 msgstr ""
 "Essayez de récupérer toutes les pièces bleues...\\ça ne sera pas facile !"
+
+#: data/map-misc/blockers.map
+msgid "Block around the clock."
+msgstr ""
 
 #: data/map-misc/bounce.map
 msgid ""
@@ -1800,6 +1829,24 @@ msgstr "Tranquille, mais pas trop.\\Soyez synchrones avec les élévateurs."
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
 msgstr "Les toiles attirantes.\\Ne vous laissez pas empêtrer."
+
+#. Translators,
+#.
+#. Listed here are the Neverball materials (relative to the data directory)
+#. that can be localised.  Each material <mtrl> has a corresponding JPG or PNG
+#. texture.  To localise a material, create a localised texture for it (copy
+#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify it)
+#. and translate the material name to match (from <mtrl> to
+#. <mtrl>-<lang-code>).
+msgid "mtrl/words"
+msgstr ""
+
+#~ msgid ""
+#~ "Difficulty: A set of levels for intermediate players.\\\\\\Work in "
+#~ "progress.\\\\"
+#~ msgstr ""
+#~ "Difficulté : une collection de niveaux pour\\les joueurs intermédiaires.\\"
+#~ "\\En travaux.\\\\"
 
 #~ msgid "Practice Mode"
 #~ msgstr "Mode Entraînement"
