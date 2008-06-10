@@ -1003,7 +1003,7 @@ static int game_update_state(int bt)
 
     /* Test for an item. */
 
-    if (bt && (hp = sol_item_test(fp, p, COIN_RADIUS)))
+    if (bt && (hp = sol_item_test(fp, p, ITEM_RADIUS)))
     {
         item_color(hp, c);
         part_burst(p, c);

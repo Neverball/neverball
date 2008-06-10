@@ -15,18 +15,12 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "lang.h"
 #include "solid.h"
 
-#define IMG_ITEM_COIN   _("png/coin.png")
-#define IMG_ITEM_GROW     "png/grow.png"
-#define IMG_ITEM_SHRINK   "png/shrink.png"
-
-#define COIN_RADIUS   0.15f
-#define COIN_THICK    0.01f
+#define ITEM_RADIUS 0.15f
 
 void item_color(const struct s_item *, float *);
-void item_init(int);
+void item_init(void);
 void item_free(void);
 
 void item_push(int);
