@@ -26,6 +26,7 @@
 #include "base_image.h"
 #include "solid_gl.h"
 #include "base_config.h"
+#include "lang.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -662,7 +663,7 @@ static void sol_load_textures(struct s_file *fp, int k)
     /* Load the image referenced by each material. */
 
     for (i = 0; i < fp->mc; i++)
-        if ((fp->mv[i].o = sol_find_texture(fp->mv[i].f)))
+        if ((fp->mv[i].o = sol_find_texture(_(fp->mv[i].f))))
         {
             /* Set the texture to clamp or repeat based on material type. */
 
