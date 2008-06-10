@@ -11,3 +11,6 @@
 msgid "mtrl/words"
 msgstr ""
 
+msgid "item/coin/coin"
+msgstr ""
+
