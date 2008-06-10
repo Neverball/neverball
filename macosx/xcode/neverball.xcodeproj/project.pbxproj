@@ -268,6 +268,9 @@
 		B5C8640B0D3552220024E95E /* ball.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5C864030D3552220024E95E /* ball.h */; };
 		B5C8640C0D3552220024E95E /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864040D3552220024E95E /* common.c */; };
 		B5C8640D0D3552220024E95E /* common.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5C864050D3552220024E95E /* common.h */; };
+		B5E6E8960DFF38D8005ADC5B /* item.c in Sources */ = {isa = PBXBuildFile; fileRef = B5E6E8940DFF38D8005ADC5B /* item.c */; };
+		B5E6E8970DFF38D8005ADC5B /* item.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E6E8950DFF38D8005ADC5B /* item.h */; };
+		B5E6E8980DFF38D8005ADC5B /* item.c in Sources */ = {isa = PBXBuildFile; fileRef = B5E6E8940DFF38D8005ADC5B /* item.c */; };
 		B5E71C010D8C299F00B9CC31 /* progress.c in Sources */ = {isa = PBXBuildFile; fileRef = B5E71BFF0D8C299F00B9CC31 /* progress.c */; };
 		B5E71C020D8C299F00B9CC31 /* progress.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E71C000D8C299F00B9CC31 /* progress.h */; };
 /* End PBXBuildFile section */
@@ -1520,6 +1523,8 @@
 		B5C864030D3552220024E95E /* ball.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ball.h; sourceTree = "<group>"; };
 		B5C864040D3552220024E95E /* common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = common.c; sourceTree = "<group>"; };
 		B5C864050D3552220024E95E /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		B5E6E8940DFF38D8005ADC5B /* item.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = item.c; sourceTree = "<group>"; };
+		B5E6E8950DFF38D8005ADC5B /* item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = item.h; sourceTree = "<group>"; };
 		B5E71BFF0D8C299F00B9CC31 /* progress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = progress.c; sourceTree = "<group>"; };
 		B5E71C000D8C299F00B9CC31 /* progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = progress.h; sourceTree = "<group>"; };
 		F5A47A9D01A0482F01D3D55B /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = SOURCE_ROOT; };
@@ -1704,6 +1709,8 @@
 		815FFB710AEA2E0300AFD07F /* share */ = {
 			isa = PBXGroup;
 			children = (
+				B5E6E8940DFF38D8005ADC5B /* item.c */,
+				B5E6E8950DFF38D8005ADC5B /* item.h */,
 				B54EA89E0DAD0B6A0041B11D /* keynames.c */,
 				B54EA89F0DAD0B6A0041B11D /* keynames.h */,
 				B5C864020D3552220024E95E /* ball.c */,
@@ -3355,6 +3362,7 @@
 				B5C864090D3552220024E95E /* common.h in Headers */,
 				B5E71C020D8C299F00B9CC31 /* progress.h in Headers */,
 				B54EA8A10DAD0B6A0041B11D /* keynames.h in Headers */,
+				B5E6E8970DFF38D8005ADC5B /* item.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3609,6 +3617,7 @@
 				B5C8640A0D3552220024E95E /* ball.c in Sources */,
 				B5C8640C0D3552220024E95E /* common.c in Sources */,
 				B54EA8A20DAD0B6A0041B11D /* keynames.c in Sources */,
+				B5E6E8980DFF38D8005ADC5B /* item.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3678,6 +3687,7 @@
 				B5C864080D3552220024E95E /* common.c in Sources */,
 				B5E71C010D8C299F00B9CC31 /* progress.c in Sources */,
 				B54EA8A00DAD0B6A0041B11D /* keynames.c in Sources */,
+				B5E6E8960DFF38D8005ADC5B /* item.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
