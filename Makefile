@@ -150,6 +150,7 @@ BALL_OBJS := \
 	share/part.o        \
 	share/back.o        \
 	share/geom.o        \
+	share/item.o        \
 	share/ball.o        \
 	share/gui.o         \
 	share/base_config.o \

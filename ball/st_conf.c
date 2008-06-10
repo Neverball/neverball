@@ -16,6 +16,7 @@
 #include "hud.h"
 #include "back.h"
 #include "geom.h"
+#include "item.h"
 #include "ball.h"
 #include "part.h"
 #include "game.h"
