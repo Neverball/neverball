@@ -2202,7 +2202,7 @@
 // entity 84
 {
 "classname" "misc_model"
-"origin" "-196 1412 16"
+"origin" "-188 1412 16"
 "model" "obj/post.obj"
 }
 // entity 85
