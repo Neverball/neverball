@@ -824,8 +824,6 @@
 // entity 62
 {
 "classname" "info_player_start"
-"target" "t1"
-"angle" "90"
 "origin" "64 0 40"
 }
 // entity 63

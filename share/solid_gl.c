@@ -26,6 +26,7 @@
 #include "base_image.h"
 #include "solid_gl.h"
 #include "base_config.h"
+#include "lang.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -208,10 +209,10 @@ static const struct s_mtrl *sol_back_bill(const struct s_file *fp,
 
             glBegin(GL_QUADS);
             {
-                glTexCoord2f(0.0f, 1.0f); glVertex2f(-w / 2, y0);
-                glTexCoord2f(1.0f, 1.0f); glVertex2f(+w / 2, y0);
-                glTexCoord2f(1.0f, 0.0f); glVertex2f(+w / 2, y1);
-                glTexCoord2f(0.0f, 0.0f); glVertex2f(-w / 2, y1);
+                glTexCoord2f(0.0f, 0.0f); glVertex2f(-w / 2, y0);
+                glTexCoord2f(1.0f, 0.0f); glVertex2f(+w / 2, y0);
+                glTexCoord2f(1.0f, 1.0f); glVertex2f(+w / 2, y1);
+                glTexCoord2f(0.0f, 1.0f); glVertex2f(-w / 2, y1);
             }
             glEnd();
         }
@@ -406,10 +407,10 @@ void sol_bill(const struct s_file *fp, const float *M, float t)
 
             glBegin(GL_QUADS);
             {
-                glTexCoord2f(0.0f, 1.0f); glVertex2f(-w / 2, -h / 2);
-                glTexCoord2f(1.0f, 1.0f); glVertex2f(+w / 2, -h / 2);
-                glTexCoord2f(1.0f, 0.0f); glVertex2f(+w / 2, +h / 2);
-                glTexCoord2f(0.0f, 0.0f); glVertex2f(-w / 2, +h / 2);
+                glTexCoord2f(0.0f, 0.0f); glVertex2f(-w / 2, -h / 2);
+                glTexCoord2f(1.0f, 0.0f); glVertex2f(+w / 2, -h / 2);
+                glTexCoord2f(1.0f, 1.0f); glVertex2f(+w / 2, +h / 2);
+                glTexCoord2f(0.0f, 1.0f); glVertex2f(-w / 2, +h / 2);
             }
             glEnd();
         }
@@ -662,7 +663,7 @@ static void sol_load_textures(struct s_file *fp, int k)
     /* Load the image referenced by each material. */
 
     for (i = 0; i < fp->mc; i++)
-        if ((fp->mv[i].o = sol_find_texture(fp->mv[i].f)))
+        if ((fp->mv[i].o = sol_find_texture(_(fp->mv[i].f))))
         {
             /* Set the texture to clamp or repeat based on material type. */
 

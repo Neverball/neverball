@@ -82,7 +82,7 @@
       - Map compiler speed-ups for debugging large maps
     Uoti Urpala
       - Bounces with moving objects
-      - Map compiler data structure reordering optimisations
+      - Significant map compiler optimisations
     Mehdi Yousfi-Monod
       - Neverball Hall of Fame management
       - Windows packaging

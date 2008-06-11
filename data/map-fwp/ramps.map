@@ -4421,7 +4421,6 @@
 "origin" "0 -256 640"
 "target" "rampE2"
 "speed" "0.25"
-"light" "5"
 }
 // entity 28
 {

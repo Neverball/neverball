@@ -1099,7 +1099,7 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "-320 64 8"
-"radius" "0.125"
+"radius" "0.1375"
 }
 // entity 2
 {
@@ -1159,11 +1159,11 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "-64 48 664"
-"radius" "0.125"
+"radius" "0.1375"
 }
 // entity 12
 {
 "classname" "info_player_deathmatch"
 "origin" "192 64 8"
-"radius" "0.125"
+"radius" "0.1375"
 }

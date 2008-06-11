@@ -13531,7 +13531,7 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "-960 1216 8"
-"radius" "0.125"
+"radius" "0.1375"
 "angle" "90"
 }
 // entity 3
@@ -13774,14 +13774,14 @@
 {
 "classname" "target_teleporter"
 "origin" "-2624 960 -16"
-"radius" "0.125"
+"radius" "0.1375"
 "target" "levup2"
 }
 // entity 18
 {
 "classname" "target_teleporter"
 "origin" "-192 -64 -16"
-"radius" "0.125"
+"radius" "0.1375"
 "target" "levup1"
 }
 // entity 19

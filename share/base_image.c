@@ -15,6 +15,7 @@
 #include <png.h>
 #include <jpeglib.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "glext.h"
 #include "base_config.h"
@@ -61,15 +62,18 @@ static void *image_load_png(const char *filename, int *width,
 
     if (setjmp(png_jmpbuf(readp)) == 0)
     {
-        int w, h, b, c, r, i;
+        int w, h, b, i;
 
         /* Read the PNG header. */
 
         png_init_io(readp, fp);
-        png_read_png(readp, infop,
-                     PNG_TRANSFORM_EXPAND   |
-                     PNG_TRANSFORM_STRIP_16 |
-                     PNG_TRANSFORM_PACKING, NULL);
+        png_read_info(readp, infop);
+
+        png_set_expand(readp);
+        png_set_strip_16(readp);
+        png_set_packing(readp);
+
+        png_read_update_info(readp, infop);
 
         /* Extract and check image properties. */
 
@@ -86,24 +90,25 @@ static void *image_load_png(const char *filename, int *width,
         default: longjmp(png_jmpbuf(readp), -1);
         }
 
-        /* Read the pixel data. */
-
-        if (!(bytep = png_get_rows(readp, infop)))
+        if (!(bytep = png_malloc(readp, h * png_sizeof(png_bytep))))
             longjmp(png_jmpbuf(readp), -1);
 
-        /* Allocate the final pixel buffer and copy pixels there. */
+        /* Allocate the final pixel buffer and read pixels there. */
 
         if ((p = (unsigned char *) malloc(w * h * b)))
         {
-            for (r = 0; r < h; r++)
-                for (c = 0; c < w; c++)
-                    for (i = 0; i < b; i++)
-                        p[r*w*b+c*b+i] = (unsigned char) bytep[r][c*b+i];
+            for (i = 0; i < h; i++)
+                bytep[i] = p + w * b * (h - i - 1);
+
+            png_read_image(readp, bytep);
+            png_read_end(readp, NULL);
 
             if (width)  *width  = w;
             if (height) *height = h;
             if (bytes)  *bytes  = b;
         }
+
+        png_free(readp, bytep);
     }
     else p = NULL;
 
@@ -150,7 +155,7 @@ static void *image_load_jpg(const char *filename, int *width,
         {
             while (cinfo.output_scanline < cinfo.output_height)
             {
-                GLubyte *buffer = p + w * b * i;
+                GLubyte *buffer = p + w * b * (h - i - 1);
                 i += jpeg_read_scanlines(&cinfo, &buffer, 1);
             }
 
@@ -286,6 +291,40 @@ void image_white(void *p, int w, int h, int b)
                 s[k + 2] = 0xFF;
             }
         }
+}
+
+/*
+ * Allocate and return an image buffer of the given image flipped horizontally
+ * and/or vertically.
+ */
+void *image_flip(const void *p, int w, int h, int b, int hflip, int vflip)
+{
+    unsigned char *q;
+
+    assert(hflip || vflip);
+
+    if (!p)
+        return NULL;
+
+    if ((q = malloc(w * b * h)))
+    {
+        int r, c, i;
+
+        for (r = 0; r < h; r++)
+            for (c = 0; c < w; c++)
+                for (i = 0; i < b; i++)
+                {
+                    int pr = vflip ? h - r - 1 : r;
+                    int pc = hflip ? w - c - 1 : c;
+
+                    int qi = r  * w * b + c  * b + i;
+                    int pi = pr * w * b + pc * b + i;
+
+                    q[qi] = ((const unsigned char *) p)[pi];
+                }
+        return q;
+    }
+    return NULL;
 }
 
 /*---------------------------------------------------------------------------*/

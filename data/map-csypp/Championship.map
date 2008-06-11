@@ -2037,7 +2037,7 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "2432 3648 88"
-"radius" "0.125"
+"radius" "0.1375"
 }
 // entity 34
 {
@@ -2115,25 +2115,25 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "1408 3648 88"
-"radius" "0.125"
+"radius" "0.1375"
 }
 // entity 45
 {
 "classname" "info_player_deathmatch"
 "origin" "1664 3648 88"
-"radius" "0.125"
+"radius" "0.1375"
 }
 // entity 46
 {
 "classname" "info_player_deathmatch"
 "origin" "1920 3648 88"
-"radius" "0.125"
+"radius" "0.1375"
 }
 // entity 47
 {
 "classname" "info_player_deathmatch"
 "origin" "2176 3648 88"
-"radius" "0.125"
+"radius" "0.1375"
 }
 // entity 48
 {

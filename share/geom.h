@@ -9,12 +9,6 @@
 
 #define IMG_SHAD "png/shadow.png"
 
-#define IMG_ITEM_COIN   _("png/coin.png")
-#define IMG_ITEM_GROW    "png/grow.png"
-#define IMG_ITEM_SHRINK  "png/shrink.png"
-
-#define COIN_RADIUS   0.15f
-#define COIN_THICK    0.01f
 #define JUMP_HEIGHT   2.00f
 #define SWCH_HEIGHT   2.00f
 #define GOAL_HEIGHT   3.00f
@@ -25,16 +19,6 @@
 void mark_init(int);
 void mark_free(void);
 void mark_draw(void);
-
-/*---------------------------------------------------------------------------*/
-
-void item_color(const struct s_item *, float *);
-void item_init(int);
-void item_free(void);
-
-void item_push(int);
-void item_draw(const struct s_item *, float);
-void item_pull(void);
 
 /*---------------------------------------------------------------------------*/
 

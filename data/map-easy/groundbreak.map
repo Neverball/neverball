@@ -2098,14 +2098,12 @@
 "classname" "target_position"
 "origin" "-448 384 640"
 "targetname" "t6"
-"angle" "-90"
 }
 // entity 66
 {
 "classname" "info_player_intermission"
 "origin" "-512 384 704"
 "target" "t6"
-"angle" "-90"
 }
 // entity 67
 {

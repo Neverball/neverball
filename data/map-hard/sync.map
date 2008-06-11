@@ -199,8 +199,6 @@
 {
 "classname" "func_train"
 "target" "t4"
-"targetname" "t9"
-"state" "0"
 // brush 0
 {
 ( -256 512 -16 ) ( -288 512 -16 ) ( -288 256 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
@@ -233,8 +231,6 @@
 {
 "classname" "func_train"
 "target" "t7"
-"targetname" "t10"
-"state" "0"
 // brush 0
 {
 ( 8 1024 -16 ) ( -24 1024 -16 ) ( -24 768 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

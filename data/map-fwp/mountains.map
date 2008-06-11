@@ -6715,15 +6715,15 @@
 {
 "classname" "info_camp"
 "origin" "0 -1024 448"
-"target" "goalBlockerA0"
 "radius" "0.75"
+"target" "goalBlockerA0"
 }
 // entity 6
 {
 "classname" "info_camp"
 "origin" "0 0 672"
-"target" "goalBlockerB0"
 "radius" "0.75"
+"target" "goalBlockerB0"
 }
 // entity 7
 {

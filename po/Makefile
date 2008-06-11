@@ -69,6 +69,7 @@ $(DOMAIN).pot $(DOMAIN).pot-update:
 	mv -f $(DOMAIN).pot.utf8 $(DOMAIN).pot
 	
 	sh $(ROOT)/scripts/extractpo.sh $(ROOT) >> $(DOMAIN).pot
+	grep -v '^# ' < mtrl.pot >> $(DOMAIN).pot
 	msguniq -o $(DOMAIN).pot.uniq $(DOMAIN).pot
 	mv -f $(DOMAIN).pot.uniq $(DOMAIN).pot
 

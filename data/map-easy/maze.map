@@ -1818,7 +1818,6 @@
 // entity 1
 {
 "classname" "info_player_start"
-"angle" "90"
 "origin" "64 64 88"
 }
 // entity 2
