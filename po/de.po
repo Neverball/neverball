@@ -1839,7 +1839,7 @@ msgstr "Les toiles attirantes.\\Flüchte aus den Netzen."
 #. and translate the material name to match (from <mtrl> to
 #. <mtrl>-<lang-code>).
 msgid "mtrl/words"
-msgstr ""
+msgstr "mtrl/words-de"
 
 msgid "item/coin/coin"
 msgstr "item/coin/euro_coin"
