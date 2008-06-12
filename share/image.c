@@ -202,14 +202,36 @@ GLuint make_image_from_font(int *W, int *H,
     if (text && strlen(text) > 0)
     {
         SDL_Color    col = { 0xFF, 0xFF, 0xFF, 0xFF };
-        SDL_Surface *src;
+        SDL_Surface *orig;
 
-        if ((src = TTF_RenderUTF8_Blended(font, text, col)))
+        if ((orig = TTF_RenderUTF8_Blended(font, text, col)))
         {
             void *p;
             int  w2;
             int  h2;
-            int   b = src->format->BitsPerPixel / 8;
+            int   b = orig->format->BitsPerPixel / 8;
+
+            SDL_Surface *src;
+            SDL_PixelFormat fmt;
+
+            fmt = *orig->format;
+
+            fmt.Rmask = RMASK;
+            fmt.Gmask = GMASK;
+            fmt.Bmask = BMASK;
+            fmt.Amask = AMASK;
+
+            if ((src = SDL_ConvertSurface(orig, &fmt, orig->flags)) == NULL)
+            {
+                fprintf(stderr, _("Failed to convert SDL_ttf surface: %s\n"),
+                        SDL_GetError());
+
+                /* Pretend everything's just fine. */
+
+                src = orig;
+            }
+            else
+                SDL_FreeSurface(orig);
 
             /* Pad the text to power-of-two. */
 
