@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-06-10 18:11+0300\n"
+"POT-Creation-Date: 2008-06-13 19:05+0300\n"
 "PO-Revision-Date: 2008-01-26 23:00+0100\n"
 "Last-Translator: Miguel Diago <mdiagom@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -621,6 +621,11 @@ msgstr "Anterior"
 #: share/base_config.h:92
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr "ttf/DejaVuSans-Bold.ttf"
+
+#: share/image.c:226
+#, c-format
+msgid "Failed to convert SDL_ttf surface: %s\n"
+msgstr ""
 
 #. Translators,
 #. *
@@ -1817,6 +1822,16 @@ msgstr "Les toiles attirantes.\\Sal de las redes."
 #. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify it)
 #. and translate the material name to match (from <mtrl> to
 #. <mtrl>-<lang-code>).
+#.
+#. Author's comments on the original mtrl/words texture:
+#.
+#. "Courier New, 40pt, bold. The words are centered in cells of 256x64 pixels.
+#. For the vertical centering, the x-height is used as the reference. Some
+#. manual corrections were made; for example, the hyphen in 'Fall-out' was
+#. shortened in order to increase the margin on each side of the word."
+#.
+#. Those on GNU+Linux having the ImageMagick program suite installed may find
+#. the provided scripts/gen-words.sh shell script useful.
 msgid "mtrl/words"
 msgstr ""
 
