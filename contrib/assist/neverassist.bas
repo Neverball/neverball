@@ -147,13 +147,17 @@ sub menu
         print "<N> ";lang("Run the Neverball game")
         print "<R> ";lang("Load a Neverball replay")
         print "<P> ";lang("Run the Neverputt game")
+        /'
         if MediumClear = 0 then
             color rgb(128,128,128):print "<M> ";lang("Generate a map");
             color rgb(0,255,255):print lang(" - Must clear Neverball Medium")
             color rgb(255,255,255)
         else
+        '/
             print "<M> ";lang("Generate a map")
+        /'
         end if
+        '/
         print "<C> ";lang("Compile a map")
         print "<D> ";lang("Relocate Directory")
         if LangFile = "" OR LangFile = "en.txt" then
