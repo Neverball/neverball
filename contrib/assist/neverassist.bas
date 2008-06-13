@@ -185,7 +185,10 @@ sub menu
         screenunlock
         sleep 20
 
+        /'
         if multikey(SC_M) AND (MediumClear > 0) then
+        '/
+        if multikey(SC_M) then
             map_generate
         elseif multikey(SC_N) then
             clkey
