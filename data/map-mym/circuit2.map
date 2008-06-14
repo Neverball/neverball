@@ -7,11 +7,11 @@
 "goal" "48"
 "time" "9000"
 "song" "bgm/track3.ogg"
-"shot" "shot-mym/circuit1.jpg"
+"shot" "shot-mym/circuit2.jpg"
 "grad" "back/city.png"
 "back" "map-back/city.sol"
 "version" "1.1"
-"levelname" "circuit1-mym"
+"levelname" "circuit2"
 "author" "Mehdi Yousfi-Monod"
 // brush 0
 {

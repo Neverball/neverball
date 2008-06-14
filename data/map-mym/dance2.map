@@ -2,11 +2,11 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "dance1"
+"levelname" "dance2"
 "version" "1.1"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
-"shot" "shot-mym/dance1.jpg"
+"shot" "shot-mym/dance2.jpg"
 "song" "bgm/track2.ogg"
 "time" "9000"
 "goal" "50"
