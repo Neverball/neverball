@@ -9,12 +9,12 @@ dim shared as ubyte XM, YM, XG, YG, BlockType, BlockSet, Rotation, XR, YR, _
                     MusicID, Perfect
 dim shared as byte XP, YP, ZP
 dim shared as uinteger Entity, LevelTime, Blocks, TargetCoins, Coins, _
-                       MinimumLevelTime, Money
+                       MinimumLevelTime, Money, SingleLevelID
 dim shared as longint PlacementFormula, GraphicFormula, GraphicTest(200000), _
                       PlacementTest(200000)
 dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, _
                      LevelMessage, WindowTitleM, Compile, Replay, LevelName, _
-                     MusicPlay, Neverpath, InType, AssistDir
+                     MusicPlay, Neverpath, InType, AssistDir, ShotFile
 dim shared as byte Check
 dim shared as any ptr BlockDisplay
 #IFDEF __FB_WIN32__

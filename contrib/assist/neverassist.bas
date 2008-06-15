@@ -125,6 +125,7 @@ menu
  ' constructors) don't need to be declared.
  '/
 sub catcher destructor
+    close #u
     if Perfect = 0 then
         print lang("A crash has occured within the assistant.")
         sleep
@@ -160,12 +161,13 @@ sub menu
         '/
         print "<C> ";lang("Compile a map")
         print "<D> ";lang("Relocate Directory")
-        if LangFile = "" OR LangFile = "en.txt" then
+        if LangFile = "" OR LangFile = "en" OR LangFile = "en.txt" then
             print "<L> Change language"
         else
             print "<L> ";lang("Change language");" (Change language)"
         endif
-        color rgb(255,255,255):print "<S> ";lang("View solutions directory")
+        print "<S> ";lang("View solutions directory")
+        print "<V> ";lang("Convert a level to a set with that level")
 
         #IFDEF __FB_WIN32__
         print "<Z> ";lang("Locate 7-Zip")
@@ -256,10 +258,11 @@ sub menu
             clkey
             windowtitle "Neverassistant - Relocate Directory"
             print lang("Path can be relative or absolute.")
-            print lang("If relative, must be relative to old directory.")
+            print lang("If relative, must be relative to assistant's directory.")
             print lang("Where is the directory? ");
             color rgb(255,255,0)
             line input "",NeverPath
+            chdir(AssistDir)
             chdir(NeverPath)
             config
             color rgb(255,255,255)
@@ -302,6 +305,43 @@ sub menu
                     print lang("Exit code of replay B: ")& Check
                 end if
             loop until multikey(SC_BACKSPACE)
+
+        elseif multikey(SC_V) then
+            clkey
+            print lang("Important: Make sure the files are in root " + _
+                       "directory of Neverball.")
+            print lang("If you don't have a levelshot when it asks you " + _
+                       "for it, leave it blank!")
+            print
+            print lang("Which level to convert? ");
+            input "",MapFile
+            print lang("Where is its corrosponding levelshot?")
+            input "",ShotFile
+            /'
+             ' This creates a totally random ID. As it is random, and with a
+             ' huge range, it will very rarely conflict with another level.
+             '/
+            SingleLevelID = rnd * 4294967295
+            open "data/set-"+str(SingleLevelID)+".txt" for output as #1
+            print #1, "Single Levels - ";SingleLevelID
+            print #1, "A single level. That's it.\\\\"
+            print #1, SingleLevelID
+            if ShotFile = "" then
+                print #1, "shot-singles/Question.png"
+            else
+                print #1, "shot-";SingleLevelID;"/";ShotFile
+            end if
+            print #1, ""
+            print #1, "map-";SingleLevelID;"/";MapFile
+            close #1
+            mkdir("data/map-"+str(SingleLevelID))
+            if ShotFile < > "" then
+                mkdir("data/shot-"+str(SingleLevelID))
+            end if
+            FileCopy(MapFile,"data/map-"+str(SingleLevelID)+"/"+MapFile)
+            if ShotFile < > "" then
+                FileCopy(ShotFile,"data/shot-"+str(SingleLevelID)+"/"+ShotFile)
+            end if
 
         #IFDEF __FB_WIN32__
         elseif multikey(SC_Z) then

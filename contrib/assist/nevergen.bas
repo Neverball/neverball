@@ -557,7 +557,7 @@ sub map_generate
             print lang("Dead-end Finish")
 
         elseif (BlockSet = 1) then
-            print "Not used"
+            print lang("Not used")
         end if
         put (424,222),BlockDisplay,Trans
         color rgb(255,255,255)
