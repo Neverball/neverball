@@ -2084,7 +2084,7 @@
 "classname" "info_camp"
 "origin" "672 3616 0"
 "invisible" "1"
-"timer" ".4"
+"timer" ".41"
 "target" "dash6"
 }
 // entity 41
@@ -2093,7 +2093,7 @@
 "origin" "96 2848 0"
 "invisible" "1"
 "target" "dash2"
-"timer" ".4"
+"timer" ".41"
 }
 // entity 42
 {
@@ -2101,14 +2101,14 @@
 "origin" "32 3296 0"
 "invisible" "1"
 "target" "dash2"
-"timer" ".4"
+"timer" ".41"
 }
 // entity 43
 {
 "classname" "info_camp"
 "origin" "288 3680 0"
 "invisible" "1"
-"timer" ".4"
+"timer" ".41"
 "target" "dash6"
 }
 // entity 44

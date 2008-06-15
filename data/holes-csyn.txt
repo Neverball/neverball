@@ -10,5 +10,6 @@ map-csypn/RampUp.sol	back/red_wht.png	3	bgm/track3.ogg
 map-csypn/RampDown.sol	back/blu_grn.png	3	bgm/track3.ogg
 map-csypn/Teleport.sol	back/blues.png	2	bgm/track4.ogg
 map-csypn/DoubleTurn.sol	back/blu_cyn.png	2	bgm/track4.ogg
-map-csypn/Chicanes.sol	back/blu_wht.png	3	bgm/track5.ogg
+map-csypn/Chicanes.sol	back/blu_wht.png	3	bgm/track4.ogg
+map-csypn/Jump.sol	back/cyn_wht.png	3	bgm/track5.ogg
 map-csypn/UltimateTest.sol	back/blu_wht.png	5	bgm/track5.ogg
