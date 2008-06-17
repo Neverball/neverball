@@ -3897,7 +3897,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/SDL_mixer.framework/Versions/A/Headers",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/SDL_ttf.framework/Versions/A/Headers",
 				);
-				INFOPLIST_FILE = "Neverputt-Info.plist";
+				INFOPLIST_FILE = putt_items/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
@@ -4022,7 +4022,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/SDL_mixer.framework/Versions/A/Headers",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/SDL_ttf.framework/Versions/A/Headers",
 				);
-				INFOPLIST_FILE = "Neverball-Info.plist";
+				INFOPLIST_FILE = ball_items/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS)",
