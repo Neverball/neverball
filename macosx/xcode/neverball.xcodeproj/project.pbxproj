@@ -3904,7 +3904,11 @@
 					"$(SRCROOT)/../external_libs",
 					/usr/lib,
 				);
-				OTHER_CFLAGS = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS = (
+					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
+					"-g",
+				);
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\"";
 				OTHER_LDFLAGS = "-lz";
 				PREBINDING = NO;
 				PRODUCT_NAME = Neverputt;
@@ -4030,7 +4034,11 @@
 					"$(SRCROOT)/../external_libs",
 					/usr/lib,
 				);
-				OTHER_CFLAGS = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS = (
+					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
+					"-g",
+				);
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\"";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CPLUSPLUSFLAGS)";
 				OTHER_LDFLAGS = "-lz";
 				PREBINDING = NO;
