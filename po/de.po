@@ -1242,7 +1242,7 @@ msgstr "=Schienen=\\Verlieren Sie nicht das Gleichgewicht."
 
 #: data/map-fwp/ramps.map
 msgid "=Ramps=\\Can you make it to the top?"
-msgstr "=Rampen=\\Schaffen Sie es bis an die Spitze?"
+msgstr "=Rampen=\\Schaffen Sie es bis ganz nach oben?"
 
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
