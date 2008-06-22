@@ -835,6 +835,7 @@
 "origin" "192 192 0"
 "timer" "2"
 "target" "swapper1"
+"radius" "0.25"
 }
 // entity 16
 {
@@ -842,4 +843,5 @@
 "origin" "-64 192 0"
 "timer" "2"
 "target" "swapper1"
+"radius" "0.25"
 }
