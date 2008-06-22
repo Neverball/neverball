@@ -9,11 +9,13 @@
 "grad" "back/city.png"
 "shot" "shot-easy/thwomp2.jpg"
 "song" "bgm/track3.ogg"
-"coin_hs" " "
-"time_hs" " "
-"time" "40000"
+"coin_hs" "155 85"
+"time_hs" "1000 2000"
+"goal_hs" "2000 4000"
+"time" "21000"
+"goal" "25"
 "bonus" "1"
-"message" "Grab all the coins...\but don't get thwomped!"
+"message" "Grab all the coins...\but don't get bullied!"
 // brush 0
 {
 ( -192 -64 -240 ) ( -192 64 -240 ) ( -192 -64 -112 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
