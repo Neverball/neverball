@@ -817,7 +817,7 @@
 "origin" "-192 192 0"
 "targetname" "swapper1"
 "target" "swapper2"
-"speed" "2"
+"speed" "1"
 "state" "0"
 }
 // entity 14
@@ -826,14 +826,14 @@
 "origin" "-192 192 16"
 "targetname" "swapper2"
 "target" "swapper1"
-"speed" "2"
+"speed" "1"
 "state" "0"
 }
 // entity 15
 {
 "classname" "info_camp"
 "origin" "192 192 0"
-"timer" "2"
+"timer" "1"
 "target" "swapper1"
 "radius" "0.25"
 }
@@ -841,7 +841,7 @@
 {
 "classname" "info_camp"
 "origin" "-64 192 0"
-"timer" "2"
+"timer" "1"
 "target" "swapper1"
 "radius" "0.25"
 }
