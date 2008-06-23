@@ -9,6 +9,11 @@
 "song" "bgm/track2.ogg"
 "bonus" "1"
 "levelname" "nostairs-para"
+"time" "12000"
+"goal" "20"
+"time_hs" "1000 3000"
+"coin_hs" "215 100"
+"goal_hs" "3000 7000"
 "shot" "shot-hard/nostairs.jpg"
 // brush 0
 {
