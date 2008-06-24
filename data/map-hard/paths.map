@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "message" "So many different paths to take...\have you tried all of them?"
-"coin_hs" "216 100"
+"coin_hs" "228 100"
 "time_hs" "6000 12000"
 "goal_hs" "7000 15000"
 "goal" "75"
