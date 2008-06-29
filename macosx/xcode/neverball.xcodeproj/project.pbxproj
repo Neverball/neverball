@@ -3940,7 +3940,15 @@
 					"$(SRCROOT)/../external_libs",
 					/usr/lib,
 				);
-				OTHER_CFLAGS = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS = (
+					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
+					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_2)",
+					Support/Neverball,
+					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_3)",
+				);
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_2 = "-DCONFIG_DATA=\\\"/Library/Application";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_3 = "Data/data\\\"";
 				OTHER_LDFLAGS = (
 					"-Z",
 					"-L/usr/lib",
@@ -4072,7 +4080,15 @@
 					"$(SRCROOT)/../external_libs",
 					/usr/lib,
 				);
-				OTHER_CFLAGS = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS = (
+					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
+					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_2)",
+					Support/Neverball,
+					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_3)",
+				);
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_2 = "-DCONFIG_DATA=\\\"/Library/Application";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_3 = "Data/data\\\"";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CPLUSPLUSFLAGS)";
 				OTHER_LDFLAGS = (
 					"-Z",
