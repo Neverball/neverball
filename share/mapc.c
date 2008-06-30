@@ -64,7 +64,7 @@ static int debug_output = 0;
 #define MAXW    1024
 #define MAXD    1024
 #define MAXA    16384
-#define MAXI    131072
+#define MAXI    262144
 
 static int overflow(const char *s)
 {
