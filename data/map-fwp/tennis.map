@@ -8,7 +8,7 @@
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
 "song" "bgm/track4.ogg"
-"time" "18000"
+"time" "15000"
 "goal" "120"
 "time_hs" "450 475"
 "coin_hs" "210 170"
