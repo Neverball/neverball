@@ -1,0 +1,30 @@
+Neverball Forever Hard
+Difficulty: Expert through Master\25 levels providing a greater\challenge for the experienced players.\Author: Challenge Space Yard\\
+csyc
+shot-csycforeverh/CurveWorld.png
+
+map-csyforeverh/CurveWorld.sol
+map-csyforeverh/SmallerCurves.sol
+map-csyforeverh/DodgeThwomps.sol
+map-csyforeverh/SlopeSpiralRoad.sol
+map-csyforeverh/WarpZone1.sol
+map-csyforeverh/Pinball.sol
+map-csyforeverh/WarpZoneCC.sol
+map-csyforeverh/Challenger1.sol
+map-csyforeverh/Challenger2.sol
+map-csyforeverh/WarpZone2.sol
+map-csyforeverh/RoadBumps.sol
+map-csyforeverh/Jumpers.sol
+map-csyforeverh/ScrewDrive.sol
+map-csyforeverh/DDN.sol
+map-csyforeverh/RetroPortTown.sol
+map-csyforeverh/AeroDive.sol
+map-csyforeverh/DragonSlope.sol
+map-csyforeverh/Halfpipe.sol
+map-csyforeverh/CrazyHills.sol
+map-csyforeverh/Vortex.sol
+map-csyforeverh/ClassicTwist.sol
+map-csyforeverh/Twister.sol
+map-csyforeverh/Trident.sol
+map-csyforeverh/Illusion.sol
+map-csyforeverh/Ultimate.sol

@@ -1,0 +1,30 @@
+Neverball Forever Medium
+Difficulty: Intermediate through Expert\25 levels with a not-so-smooth learning curve.\Included intros can be useful.\\Author: Challenge Space Yard\
+csy
+shot-csyforeverm/Cross.png
+65000	80000	95000	1800	1100	500
+map-csyforeverm/Cross.sol
+map-csyforeverm/Pinwheel.sol
+map-csyforeverm/GiantNeverball.sol
+map-csyforeverm/TinyNeverball.sol
+map-csyforeverm/SpiralOut.sol
+map-csyforeverm/SymmetryChallenge.sol
+map-csyforeverm/SpiralIn.sol
+map-csyforeverm/OneWayTeleport.sol
+map-csyforeverm/InvisibleRoad.sol
+map-csyforeverm/InvisibleWalls.sol
+map-csyforeverm/Speedway.sol
+map-csyforeverm/ThreePaths.sol
+map-csyforeverm/GlassyIntersection.sol
+map-csyforeverm/SwitchReaction.sol
+map-csyforeverm/BendyTurns.sol
+map-csyforeverm/SpeedJumps.sol
+map-csyforeverm/Intermediate.sol
+map-csyforeverm/InvisiblePinwheelLegs.sol
+map-csyforeverm/Crosses.sol
+map-csyforeverm/RocketRide.sol
+map-csyforeverm/Trains.sol
+map-csyforeverm/BentRoad.sol
+map-csyforeverm/ForkedRoad.sol
+map-csyforeverm/AmazingPath.sol
+map-csyforeverm/Challenger.sol
