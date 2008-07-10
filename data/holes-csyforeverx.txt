@@ -1,0 +1,2 @@
+map-csyforeverxp/BentObstacle.sol	back/blues.png	3	bgm/track1.ogg
+map-csyforeverxp/BentObstacle.sol	back/blues.png	3	bgm/track1.ogg
