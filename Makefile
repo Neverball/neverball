@@ -163,6 +163,7 @@ BALL_OBJS := \
 	share/tilt.o        \
 	share/common.o      \
 	share/keynames.o    \
+	share/syswm.o       \
 	ball/hud.o          \
 	ball/game.o         \
 	ball/score.o        \
@@ -210,6 +211,7 @@ PUTT_OBJS := \
 	share/text.o        \
 	share/sync.o        \
 	share/common.o      \
+	share/syswm.o       \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \
