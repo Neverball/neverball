@@ -19,4 +19,4 @@ Neverputt Forever Medium\An 18-hole course designed for intermediate\players.\Di
 holes-csyforeverh.txt shot-putt/csyforeverh.jpg
 Neverputt Forever Hard\An 18-hole course designed for\more experienced players.\Difficulty: Medium to Very Hard\Author: Challenge Space Yard\
 holes-csyforeverx.txt shot-putt/csyforeverx.jpg
-Neverputt Forever Extreme\The highest challenge offered in 1 hole\on this course of Neverputt Forever.\Difficulty: Hard to Extreme\Author: Challenge Space Yard\
+Neverputt Forever Extreme\The highest challenge offered in 2 holes\on this course of Neverputt Forever.\Difficulty: Hard to Extreme\Author: Challenge Space Yard\
