@@ -30,6 +30,7 @@
 #include "set.h"
 #include "text.h"
 #include "tilt.h"
+#include "syswm.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -336,10 +337,6 @@ static void parse_args(int argc, char **argv)
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
-#ifndef __APPLE__
-    SDL_Surface *icon;
-#endif
-
     int t1, t0, uniform;
 
     lang_init("neverball", CONFIG_LOCALE);
@@ -409,14 +406,9 @@ int main(int argc, char *argv[])
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-#ifndef __APPLE__
-    if ((icon = load_surface("icon/neverball.png")))
-    {
-        SDL_WM_SetIcon(icon, NULL);
-        free(icon->pixels);
-        SDL_FreeSurface(icon);
-    }
-#endif /* __APPLE__ */
+    /* This has to happen before mode setting... */
+
+    set_SDL_icon("icon/neverball.png");
 
     /* Initialize the video. */
 
@@ -426,6 +418,10 @@ int main(int argc, char *argv[])
         fprintf(stderr, "%s\n", SDL_GetError());
         return 1;
     }
+
+    /* ...and this has to happen after it. */
+
+    set_EWMH_icon("icon/neverball.png");
 
     SDL_WM_SetCaption(TITLE, TITLE);
 

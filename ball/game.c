@@ -19,6 +19,7 @@
 #include "game.h"
 #include "vec3.h"
 #include "geom.h"
+#include "item.h"
 #include "back.h"
 #include "part.h"
 #include "ball.h"
@@ -1002,7 +1003,7 @@ static int game_update_state(int bt)
 
     /* Test for an item. */
 
-    if (bt && (hp = sol_item_test(fp, p, COIN_RADIUS)))
+    if (bt && (hp = sol_item_test(fp, p, ITEM_RADIUS)))
     {
         item_color(hp, c);
         part_burst(p, c);

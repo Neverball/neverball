@@ -15,11 +15,11 @@ map-easy/slightcurve.sol
 map-easy/lollipop.sol
 map-easy/maze.sol
 map-easy/bumper.sol
-map-easy/easyhalfpipe.sol
+map-easy/hole.sol
 map-easy/speedbumps.sol
 map-easy/thwomp2.sol
-map-easy/hole.sol
 map-easy/roundlaby.sol
+map-easy/easyhalfpipe.sol
 map-easy/roundcoins.sol
 map-easy/corners.sol
 map-easy/wakka.sol

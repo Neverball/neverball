@@ -35,6 +35,7 @@
 #define START_LOCK_GOALS  -4
 
 static int shot_id;
+static int file_id;
 
 /*---------------------------------------------------------------------------*/
 
@@ -73,6 +74,9 @@ static void start_over_level(int i)
         set_score_board(&get_level(i)->score.most_coins,  -1,
                         &get_level(i)->score.best_times,  -1,
                         &get_level(i)->score.unlock_goal, -1);
+
+        if (file_id)
+            gui_set_label(file_id, level_file(i));
     }
 }
 
@@ -162,7 +166,21 @@ static int start_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            shot_id = gui_image(jd, set_shot(curr_set()), 7 * w / 16, 7 * h / 16);
+            if (config_cheat())
+            {
+                if ((kd = gui_vstack(jd)))
+                {
+                    shot_id = gui_image(kd, set_shot(curr_set()),
+                                        7 * w / 16, 7 * h / 16);
+                    file_id = gui_label(kd, " ", GUI_SML, GUI_ALL,
+                                        gui_yel, gui_red);
+                }
+            }
+            else
+            {
+                shot_id = gui_image(jd, set_shot(curr_set()),
+                                    7 * w / 16, 7 * h / 16);
+            }
 
             if ((kd = gui_varray(jd)))
             {
