@@ -444,9 +444,10 @@ void level_snap(int i)
         game_set_fly(1.f);
         game_kill_fade();
         game_draw(1, 0);
-        SDL_GL_SwapBuffers();
 
         image_snap(filename);
+
+        SDL_GL_SwapBuffers();
     }
 }
 
