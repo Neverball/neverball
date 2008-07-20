@@ -19,7 +19,7 @@ map-mym2/fall.sol
 map-mym2/updown.sol
 map-mym2/basket.sol
 map-mym2/longpipe.sol
-map-mym2/bigcones.sol
+map-mym2/bigcone.sol
 map-mym2/rodeo.sol
 map-mym2/littlecones.sol
 map-mym2/shaker.sol
