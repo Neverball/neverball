@@ -173,6 +173,9 @@
 		815FFD170AEA357600AFD07F /* binary.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFB840AEA2E0300AFD07F /* binary.h */; };
 		81D0B3F30AEE6C710041CE19 /* SDL_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815F03F60AEAC72600AFD07F /* SDL_ttf.framework */; };
 		81D0B3F60AEE6C710041CE19 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815FFCFD0AEA340300AFD07F /* SDL.framework */; };
+		B507E3950E36565600178C13 /* syswm.c in Sources */ = {isa = PBXBuildFile; fileRef = B507E3930E36565600178C13 /* syswm.c */; };
+		B507E3960E36565600178C13 /* syswm.h in Headers */ = {isa = PBXBuildFile; fileRef = B507E3940E36565600178C13 /* syswm.h */; };
+		B507E3970E36565600178C13 /* syswm.c in Sources */ = {isa = PBXBuildFile; fileRef = B507E3930E36565600178C13 /* syswm.c */; };
 		B509A5D30D2B032B008DB8D9 /* sync.c in Sources */ = {isa = PBXBuildFile; fileRef = B509A5D10D2B032B008DB8D9 /* sync.c */; };
 		B509A5D40D2B032B008DB8D9 /* sync.h in Headers */ = {isa = PBXBuildFile; fileRef = B509A5D20D2B032B008DB8D9 /* sync.h */; };
 		B509A5D50D2B032B008DB8D9 /* sync.c in Sources */ = {isa = PBXBuildFile; fileRef = B509A5D10D2B032B008DB8D9 /* sync.c */; };
@@ -464,6 +467,8 @@
 		B2F67ED704C74A3F00A80002 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		B47DDD3F0BCA1BF200915326 /* neverball.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = neverball.icns; path = ../icons/neverball.icns; sourceTree = "<group>"; };
 		B47DDD410BCA1BF200915326 /* neverputt.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = neverputt.icns; path = ../icons/neverputt.icns; sourceTree = "<group>"; };
+		B507E3930E36565600178C13 /* syswm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = syswm.c; sourceTree = "<group>"; };
+		B507E3940E36565600178C13 /* syswm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = syswm.h; sourceTree = "<group>"; };
 		B509A5D10D2B032B008DB8D9 /* sync.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sync.c; sourceTree = "<group>"; };
 		B509A5D20D2B032B008DB8D9 /* sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sync.h; sourceTree = "<group>"; };
 		B5117CE60C9060CB005837F9 /* st_pause.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_pause.c; sourceTree = "<group>"; };
@@ -1709,6 +1714,8 @@
 		815FFB710AEA2E0300AFD07F /* share */ = {
 			isa = PBXGroup;
 			children = (
+				B507E3930E36565600178C13 /* syswm.c */,
+				B507E3940E36565600178C13 /* syswm.h */,
 				B5E6E8940DFF38D8005ADC5B /* item.c */,
 				B5E6E8950DFF38D8005ADC5B /* item.h */,
 				B54EA89E0DAD0B6A0041B11D /* keynames.c */,
@@ -3363,6 +3370,7 @@
 				B5E71C020D8C299F00B9CC31 /* progress.h in Headers */,
 				B54EA8A10DAD0B6A0041B11D /* keynames.h in Headers */,
 				B5E6E8970DFF38D8005ADC5B /* item.h in Headers */,
+				B507E3960E36565600178C13 /* syswm.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3618,6 +3626,7 @@
 				B5C8640C0D3552220024E95E /* common.c in Sources */,
 				B54EA8A20DAD0B6A0041B11D /* keynames.c in Sources */,
 				B5E6E8980DFF38D8005ADC5B /* item.c in Sources */,
+				B507E3970E36565600178C13 /* syswm.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3688,6 +3697,7 @@
 				B5E71C010D8C299F00B9CC31 /* progress.c in Sources */,
 				B54EA8A00DAD0B6A0041B11D /* keynames.c in Sources */,
 				B5E6E8960DFF38D8005ADC5B /* item.c in Sources */,
+				B507E3950E36565600178C13 /* syswm.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
