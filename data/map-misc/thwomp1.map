@@ -1216,7 +1216,6 @@
 "classname" "target_position"
 "origin" "696 2760 152"
 "targetname" "t5"
-"target" "t6"
 }
 // entity 27
 {

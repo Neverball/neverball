@@ -378,7 +378,6 @@
 {
 "classname" "target_position"
 "origin" "280 3340 -242"
-"target" "t6"
 "targetname" "t1"
 }
 // entity 8

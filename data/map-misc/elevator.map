@@ -1117,7 +1117,6 @@
 {
 "classname" "info_player_start"
 "origin" "-512 -704 -232"
-"angle" "90"
 }
 // entity 2
 {
@@ -1174,7 +1173,6 @@
 "classname" "info_player_intermission"
 "origin" "-512 -1032 1008"
 "target" "target_position1"
-"angle" "90"
 }
 // entity 4
 {
