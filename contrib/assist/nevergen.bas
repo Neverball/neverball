@@ -76,13 +76,12 @@ sub map_generate
     TargetCoins = 0
     MinimumLevelTime = 0
     MusicSwitch = 0
-    Money = 0
+    UsedMoney = 0
     Putt = 0
     for XP = -10 to 10
         for YP = -10 to 10
             for ZP = -10 to 20
-                PlacementFormula = XP + (YP * 50) + (ZP * 2000) + 100000
-                PlacementTest(PlacementFormula) = 0
+                PlacementTest(XP,YP,ZP) = 0
             next
         next
     next
@@ -369,25 +368,6 @@ sub map_generate
                 ZR = 1
                 bload(AssistDir+"/ChicaneRTL.bmp",BlockDisplay)
             end if
-            /'
-        elseif multikey(SC_T) then
-            BlockType = 20
-            if (BlockSet = 0) then
-                XR = 1
-                YR = 1
-                ZR = 1
-                bload(AssistDir+"/Hole.bmp",BlockDisplay)
-            end if
-
-        elseif multikey(SC_U) then
-            BlockType = 21
-            if (BlockSet = 0) then
-                XR = 1
-                YR = 1
-                ZR = 1
-                bload(AssistDir+"/Hole.bmp",BlockDisplay)
-            end if
-            '/
 
         elseif multikey(SC_V) then
             BlockType = 22
@@ -467,7 +447,7 @@ sub map_generate
         locate 7,54
         print lang("Coins: ");TargetCoins;"/";Coins
         locate 8,54
-        print lang("$");Money;"/";MaxMoney
+        print UsedMoney;"/";Money
 
         locate 13,54
         if (BlockSet = 0) then
@@ -484,74 +464,70 @@ sub map_generate
             print lang("Start")
 
         elseif (BlockType = 2) AND (BlockSet < > 1) then
-            print lang("Flat straight $1")
+            print lang("Flat straight")
 
         elseif (BlockType = 3) AND (BlockSet = 0) then
-            print "90"+chr(248)+" simple flat turn $1"
+            print lang("90"+chr(248)+" simple flat turn")
 
         elseif (BlockType = 4) AND (BlockSet = 0) then
-            print lang("Junction $1")
+            print lang("Junction")
 
         elseif (BlockType = 5) AND (BlockSet = 0) then
-            print lang("Cross $1")
+            print lang("Cross")
             
         elseif (BlockType = 6) AND (BlockSet = 0) then
-            print lang("Coined flat straight $1")
+            print lang("Coined flat straight")
 
         elseif (BlockType = 7) AND (BlockSet = 0) then
-            print "Coined 90"+chr(248)+" simple flat turn"
-            locate 14,54
-            print "$1"
+            print lang("Coined 90"+chr(248)+" simple flat turn")
 
         elseif (BlockType = 8) AND (BlockSet = 0) then
-            print lang("Dead-end $1")
+            print lang("Dead-end")
 
         elseif (BlockType = 9) AND (BlockSet = 0) then
-            print lang("Coined Dead-end $1")
+            print lang("Coined Dead-end")
 
         elseif (BlockType = 10) AND (BlockSet = 0) then
-            print lang("Small Jump $2")
+            print lang("Small Jump")
 
         elseif (BlockType = 11) AND (BlockSet = 0) then
-            print lang("Coined Junction $1")
+            print lang("Coined Junction")
 
         elseif (BlockType = 12) AND (BlockSet = 0) then
-            print lang("Coined Cross $1")
+            print lang("Coined Cross")
 
         elseif (BlockType = 13) AND (BlockSet = 0) then
-            print lang("Ramp straight $1")
+            print lang("Ramp straight")
 
         elseif (BlockType = 14) AND (BlockSet = 0) then
-            print lang("Bump $1")
+            print lang("Bump")
 
         elseif (BlockType = 15) AND (BlockSet = 0) then
-            print lang("Coined Bump $1")
+            print lang("Coined Bump")
 
         elseif (BlockType = 16) AND (BlockSet = 0) then
-            print lang("Flat straight with mover $3")
+            print lang("Flat straight with mover")
 
         elseif (BlockType = 17) AND (BlockSet = 0) then
-            print lang("Narrower $3")
+            print lang("Narrower")
 
         elseif (BlockType = 18) AND (BlockSet = 0) then
-            print lang("Chicane LTR $4")
+            print lang("Chicane LTR")
 
         elseif (BlockType = 19) AND (BlockSet = 0) then
-            print lang("Chicane RTL $4")
+            print lang("Chicane RTL")
 
         elseif (BlockType = 22) AND (BlockSet = 0) then
-            print lang("Flat straight Finish $1")
+            print lang("Flat straight Finish")
 
         elseif (BlockType = 23) AND (BlockSet = 0) then
-            print "90"+chr(248)+" simple flat turn"
-            locate 14,54
-            print "Finish $1"
+            print lang("90"+chr(248)+" simple turn Finish")
 
         elseif (BlockType = 24) AND (BlockSet = 0) then
-            print lang("Junction Finish $1")
+            print lang("Junction Finish")
 
         elseif (BlockType = 25) AND (BlockSet = 0) then
-            print lang("Cross Finish $1")
+            print lang("Cross Finish")
 
        elseif (BlockType = 26) AND (BlockSet = 0) then
             print lang("Dead-end Finish")
@@ -607,7 +583,7 @@ sub map_generate
                 print lang("This bump has coins on it.")
 
             elseif (BlockType = 16) AND (BlockSet = 0) then
-                print "Like a Flat Straight, but with a mover on top."
+                print lang("Like a Flat Straight, but with a mover on top.")
             elseif (BlockType = 17) AND (BlockSet = 0) then
                 print lang("This block is narrow in the middle.")
             elseif (BlockType = 18) AND (BlockSet = 0) then
@@ -616,25 +592,18 @@ sub map_generate
                 print lang("This block shifts from right to left.")
 
             elseif (BlockType = 22) AND (BlockSet = 0) then
-                print "Every map made must have at least one of these. " + _
-                      "This is where the player"
-                print "finishes at a straight."
+                print lang("This is where the player finishes at a " + _
+                      "straight.")
             elseif (BlockType = 23) AND (BlockSet = 0) then
-                print "Every map made must have at least one of these. " + _
-                      "This is where the player"
-                print "finishes at a turn."
+                print lang("This is where the player finishes at a turn.")
             elseif (BlockType = 24) AND (BlockSet = 0) then
-                print "Every map made must have at least one of these. " + _
-                      "This is where the player"
-                print "finishes at a junction."
+                print lang("This is where the player finishes at a " + _
+                      "junction.")
             elseif (BlockType = 25) AND (BlockSet = 0) then
-                print "Every map made must have at least one of these. " + _
-                      "This is where the player"
-                print "finishes at a cross."
+                print lang("This is where the player finishes at a cross.")
             elseif (BlockType = 26) AND (BlockSet = 0) then
-                print "Every map made must have at least one of these. " + _
-                      "This is where the player"
-                print "finishes at a dead-end."
+                print lang("This is where the player finishes at a " + _
+                      "dead-end.")
 
             elseif (BlockType = 1) AND (BlockSet = 2) AND (Start = 1) then
                 print "You've already placed this block."
@@ -657,16 +626,16 @@ sub map_generate
             screenunlock
             cls
             color rgb(0,255,255)
-            print "Controls:"
-            print "* CONTROL: rotate"
-            print "* TAB: toggle music (when its supported)"
-            print "* SPACEBAR: place block"
-            print "* Arrow keys: move cursor"
-            print "* PAGE UP and PAGE DOWN: change elevation.
-            print "* Any English letter: change blocks."
-            print "* PLUS and MINUS without LSHIFT: adjust time."
-            print "* PLUS and MINUS with LSHIFT: adjust target coins."
-            print "* BACKSPACE: Clear map and reset settings."
+            print lang("Controls:")
+            print lang("* CONTROL: rotate")
+            print lang("* TAB: toggle music (when its supported)")
+            print lang("* SPACEBAR: place block")
+            print lang("* Arrow keys: move cursor")
+            print lang("* PAGE UP and PAGE DOWN: change elevation.")
+            print lang("* Any English letter: change blocks.")
+            print lang("* PLUS and MINUS without LSHIFT: adjust time.")
+            print lang("* PLUS and MINUS with LSHIFT: adjust target coins.")
+            print lang("* BACKSPACE: Clear map and reset settings.")
 
             print "* F2: change to "+chr(34)+"Basic Neverball"+chr(34) + _
                   " block set. You can't access this set if"
@@ -695,20 +664,20 @@ sub map_generate
             cls
             if Warning = 0 then
                 color rgb(0,255,0)
-                print "Check okay. There are no offending items."
+                print lang("Check okay. There are no offending items.")
             else
                 color rgb(255,0,0)
-                if Warning = 1 then
-                    print "Check failed. There is 1 offending item."
-                else
-                    print "Check failed. There are ";Warning;" offending items."
-                end if
+                print lang("Check failed. Check the following offending items.")
                 color rgb(255,128,0)
-                if Start = 0 then print "- Must have 1 start block."
-                if Finish = 0 then print "- Must have at least 1 finish block."
+                if Start = 0 then
+                    print lang("- Must have 1 start block.")
+                end if
+                if Finish = 0 then
+                    print lang("- Must have at least 1 finish block.")
+                end if
                 if TargetCoins > Coins then
-                    print "- The number of required coins exceeds the " + _
-                          "coins present."
+                    print lang("- The number of required coins exceeds " + _
+                          "the coins present.")
                 end if
                 if MinimumLevelTime > LevelTime then
                     print "- The time given for a level must equal or " + _
@@ -723,12 +692,12 @@ sub map_generate
                 print " intended to merge roads together, you can hit " + _
                       "the "+chr(34)+"/"+chr(34)+" key to merge together."
             end if
-            if Money * 1.2 > MaxMoney then
+            if UsedMoney * 1.2 > Money then
                 print "- You are running low on money. You should stop " + _
                       "building this map soon. You"
-                print "only have $"& MaxMoney-Money ;" remaining. If you " + _
-                      "want more, you have to beat more levels"
-                print "in the Neverball game. They will give you more money."
+                print "only have "& Money-UsedMoney ;chr(4);" remaining. " + _
+                      "If you want more, you have to beat Official"
+                print "Mode in the game(s). They will give you more money."
             end if
             color rgb(255,255,255)
             sleep
@@ -750,15 +719,13 @@ sub map_generate
                     TargetCoins = 0
                     MinimumLevelTime = 0
                     MusicSwitch = 0
-                    Money = 0
+                    UsedMoney = 0
                     Putt = 0
 
                     for XP = -10 to 10
                         for YP = -10 to 10
                             for ZP = -10 to 20
-                                PlacementFormula = XP + (YP * 50) + _
-                                                  (ZP * 2000) + 100000
-                                PlacementTest(PlacementFormula) = 0
+                                PlacementTest(XP,YP,ZP) = 0
                             next
                         next
                     next
@@ -858,7 +825,8 @@ sub map_generate
             print "the new level."
             sleep
         end if
-
+        Money -= UsedMoney
+        user_data
     else
         cls
         color rgb(255,0,0)

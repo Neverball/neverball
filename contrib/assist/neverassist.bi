@@ -4,23 +4,25 @@
 #include "lang.bi"
 randomize timer
 dim shared as ubyte XM, YM, XG, YG, BlockType, BlockSet, Rotation, XR, YR, _
-                    ZR, Start, Finish, MusicSwitch, XSwitch, YSwitch, _
-                    ZSwitch, Warning, Hold, Openings, Putt, MediumClear, _
-                    MusicID, Perfect
-dim shared as byte XP, YP, ZP
+    ZR, Start, Finish, MusicSwitch, XSwitch, YSwitch, ZSwitch, Warning, Hold, _
+    Openings, Putt, MusicID, Perfect, Official, FullBonus(25)
+dim shared as byte XP, YP, ZP, DiffPar
 dim shared as uinteger Entity, LevelTime, Blocks, TargetCoins, Coins, _
-                       MinimumLevelTime, Money, SingleLevelID
-dim shared as longint PlacementFormula, GraphicFormula, GraphicTest(200000), _
-                      PlacementTest(200000)
+    MinimumLevelTime, UsedMoney, SingleLevelID
+dim shared as integer Money
+dim shared as longint PlacementFormula, PlacementTest(-11 to 11,_
+                      -11 to 11,-11 to 21)
 dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, _
-                     LevelMessage, WindowTitleM, Compile, Replay, LevelName, _
-                     MusicPlay, Neverpath, InType, AssistDir, ShotFile
+    LevelMessage, WindowTitleM, Compile, Replay, LevelName, MusicPlay, _
+    Neverpath, InType, AssistDir, ShotFile, Username, UserData, DataScan
 dim shared as byte Check
 dim shared as any ptr BlockDisplay
 #IFDEF __FB_WIN32__
 const AssistCfg = "assist.ini"
+const UserCfg = "users\"
 #ELSE
-const AssistCfg = "assistcfg"
+const AssistCfg = "assistrc"
+const UserCfg = ".users/"
 #ENDIF
 const m = 1
 #IFDEF __FB_WIN32__
@@ -32,10 +34,10 @@ const m = 1
 dim shared as string Z7Path, Z7Exe, Unpack
 #ENDIF
 /'
- 'These are related to your money.
+ 'These are related to Official Mode.
  '/
-dim shared as ushort MaxMoney, NBDataPath, TimeScore, CoinSore
-dim shared as string Scorer
+dim shared as ushort ChallengeCoins
+dim shared as double ChallengeTime
 
 /'
  ' Nearly all subroutines are declared here.
@@ -63,9 +65,9 @@ declare sub config(Switch as ubyte = 0)
  ' it defaults to invisible.
  '/
 declare sub plot_face(Detail as ubyte, XOff1 as short, YOff1 as short, _
-        ZOff1 as short, XOff2 as short, YOff2 as short, ZOff2 as short, _
-        XOff3 as short, YOff3 as short, ZOff3 as short, _
-        Texture as string = "invisible")
+    ZOff1 as short, XOff2 as short, YOff2 as short, ZOff2 as short, _
+    XOff3 as short, YOff3 as short, ZOff3 as short, _
+    Texture as string = "invisible")
 
 sub edge(EdgeDirection as ubyte)
 /'
@@ -108,43 +110,66 @@ end sub
  ' This allows configuration management. 0 saves the data (default) and any
  ' other value imports the data.
  '/
+sub user_data(Switch as ubyte = 0)
+    if Switch = 0 then
+        #IFDEF __FB_WIN32__
+        open AssistDir + "\" + UserCfg + Username + "\" + "user.ini" for output as #3
+        #ELSE
+        open AssistDir + "/" + UserCfg + Username + "/" + "userrc" for output as #3
+        #ENDIF
+        print #3, ""& Money
+        print #3, UserData
+        for ID as ubyte = 1 to 25
+            print #3, FullBonus(ID)
+        next ID
+        close #3
+    else
+        #IFDEF __FB_WIN32__
+        open AssistDir + "\" + UserCfg + Username + "\" + "user.ini" for input as #3
+        #ELSE
+        open AssistDir + "/" + UserCfg + Username + "/" + "userrc" for input as #3
+        #ENDIF
+        input #3, Money
+        input #3, UserData
+        for ID as ubyte = 1 to 25
+            input #3, FullBonus(ID)
+        next ID
+        close #3
+    end if
+end sub
 sub config(Switch as ubyte = 0)
     dim as ubyte ConvertID
     if Switch = 0 then
         #IFDEF __FB_WIN32__
-        open AssistDir + "\" + AssistCfg for output as #1
-        print #1, MediumClear
-        print #1, MaxMoney
-        print #1, NeverPath
-        print #1, LangFile + ".txt"
-        print #1, Z7Path
-        print #1, Z7Exe
-        close #1
+        open AssistDir + "\" + AssistCfg for output as #2
+        print #2, Username
+        print #2, NeverPath
+        print #2, LangFile
+        print #2, Z7Path
+        print #2, Z7Exe
+        close #2
         #ELSE
-        open AssistDir + "/" + AssistCfg for output as #1
-        print #1, MediumClear
-        print #1, MaxMoney
-        print #1, NeverPath
-        print #1, LangFile + ".txt"
-        close #1
+        open AssistDir + "/" + AssistCfg for output as #2
+        print #2, Username
+        print #2, NeverPath
+        print #2, LangFile
+        close #2
         #ENDIF
     else
         #IFDEF __FB_WIN32__
-        open AssistDir + "\" + AssistCfg for input as #1
-        input #1, MediumClear
-        input #1, MaxMoney
-        line input #1, NeverPath
-        input #1, LangFile
-        input #1, Z7Path
-        input #1, Z7Exe
-        close #1
+        open AssistDir + "\" + AssistCfg for input as #2
+        input #2, Username
+        line input #2, NeverPath
+        input #2, LangFile
+        input #2, Z7Path
+        input #2, Z7Exe
+        close #2
         #ELSE
-        open AssistDir + "/" + AssistCfg for input as #1
-        input #1, MediumClear
-        input #1, MaxMoney
-        line input #1, NeverPath
-        input #1, LangFile
-        close #1
+        open AssistDir + "/" + AssistCfg for input as #2
+        input #2, Username
+        line input #2, NeverPath
+        input #2, LangFile
+        close #2
         #ENDIF
     end if
 end sub

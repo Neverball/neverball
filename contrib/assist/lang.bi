@@ -1,3 +1,5 @@
+#IFNDEF __LANG_BI__
+#DEFINE __LANG_BI__
 dim shared as string MasterDir
 MasterDir = curdir
 const Strings = 5000
@@ -5,7 +7,7 @@ const l = 99
 const u = 98
 const UpdateSwitch = "-lang"
 dim shared as string LangFile, Unmodded(Strings), Existant(Strings), _
-                     Converted(Strings)
+    Converted(Strings)
 dim shared as ushort LangUpdateID
 declare function lang(Text as string) as string
 declare sub lang_select
@@ -81,9 +83,9 @@ sub inilang
     else
         if LangFile < > "" then
             #IFDEF __FB_WIN32__
-            Result = open(MasterDir + "\" + LangFile for input as #l)
+            Result = open(MasterDir + "\" + LangFile + ".txt" for input as #l)
             #ELSE
-            Result = open(MasterDir + "/" + LangFile for input as #l)
+            Result = open(MasterDir + "/" + LangFile + ".txt" for input as #l)
             #ENDIF
             if Result = 0 then
                 for ConvertID = 1 to Strings
@@ -103,3 +105,4 @@ sub inilang
         end if
     end if
 end sub
+#ENDIF

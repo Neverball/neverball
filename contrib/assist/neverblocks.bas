@@ -21,15 +21,15 @@ sub place_block
      '
      ' ZP is the Z Position of the assistant's cursor.
      '
-     ' Money is the current amount of money you expended. MaxMoney is the
-     ' maximum you can spend. This maximum applies to every map made with the
-     ' assistant.
+     ' UsedMoney is the current amount of money you expended. Money is the
+     ' maximum you can spend. Money spent on each map is deducted from your
+     ' account, so use them wisely.
      '
      ' PlacementTest prevents you from overriding blocks with each other.
      '/
 
     if (BlockType = 1) AND (BlockSet = 0) AND (Start = 0) AND (YP < 10) AND _
-        PlacementTest(PlacementFormula) = 0 then
+        PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         /'
          ' Increments the entity ID.
@@ -94,15 +94,15 @@ sub place_block
          ' details into its own memory.
          '/
         Start = 1
-        PlacementTest(PlacementFormula) = 1
+        PlacementTest(XP,YP,ZP) = 1
         LevelTime += 150
         MinimumLevelTime += 50
         Blocks += 1
         Openings += 1
         Putt = 2
 
-    elseif (BlockType = 2) AND (BlockSet = 0) AND (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+    elseif (BlockType = 2) AND (BlockSet = 0) AND (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -133,16 +133,16 @@ sub place_block
         end if
         print #m, "}"
         print #m, "}"
-        PlacementTest(PlacementFormula) = 2
+        PlacementTest(XP,YP,ZP) = 2
         LevelTime += 100
         MinimumLevelTime += 75
-        Money += 1
+        UsedMoney += 1
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 3) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -190,16 +190,16 @@ sub place_block
         print #m, "}"
         print #m, "}"
 
-        PlacementTest(PlacementFormula) = 3
+        PlacementTest(XP,YP,ZP) = 3
         LevelTime += 200
         MinimumLevelTime += 150
-        Money += 1
+        UsedMoney += 1
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 4) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -239,17 +239,17 @@ sub place_block
         print #m, "}"
         print #m, "}"
 
-        PlacementTest(PlacementFormula) = 4
+        PlacementTest(XP,YP,ZP) = 4
         LevelTime += 300
         MinimumLevelTime += 200
-        Money += 1
+        UsedMoney += 1
         Blocks += 1
         Openings += 1
         Putt = 2
 
     elseif (BlockType = 5) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -269,7 +269,7 @@ sub place_block
         plot_face(0,-128,-128,-64,-128,0,-64,-128,-128,64,"invisible")
         print #m, "}"
         print #m, "}"
-        PlacementTest(PlacementFormula) = 5
+        PlacementTest(XP,YP,ZP) = 5
         LevelTime += 400
         MinimumLevelTime += 300
         Blocks += 1
@@ -277,8 +277,8 @@ sub place_block
         Putt = 2
 
     elseif (BlockType = 6) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -339,18 +339,18 @@ sub place_block
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
 
-        PlacementTest(PlacementFormula) = 6
+        PlacementTest(XP,YP,ZP) = 6
         LevelTime += 175
         MinimumLevelTime += 125
         TargetCoins += 1
         Coins += 4
-        Money += 1
+        UsedMoney += 1
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 7) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -423,18 +423,18 @@ sub place_block
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
 
-        PlacementTest(PlacementFormula) = 7
+        PlacementTest(XP,YP,ZP) = 7
         LevelTime += 275
         MinimumLevelTime += 200
         TargetCoins += 1
         Coins += 4
-        Money += 1
+        UsedMoney += 1
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 8) AND (BlockSet = 0) AND (Openings > 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -475,16 +475,16 @@ sub place_block
         print #m, "}"
         print #m, "}"
 
-        PlacementTest(PlacementFormula) = 8
+        PlacementTest(XP,YP,ZP) = 8
         LevelTime += 50
         Blocks += 1
-        Money += 1
+        UsedMoney += 1
         Openings -= 1
         Putt = 2
 
     elseif (BlockType = 9) AND (BlockSet = 0) AND (Openings > 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
 
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -559,19 +559,19 @@ sub place_block
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
 
-        PlacementTest(PlacementFormula) = 9
+        PlacementTest(XP,YP,ZP) = 9
         LevelTime += 150
         MinimumLevelTime += 100
         TargetCoins += 1
         Coins += 4
         Blocks += 1
-        Money += 1
+        UsedMoney += 1
         Openings -= 1
         Putt = 2
 
     elseif (BlockType = 10) AND (BlockSet = 0) AND _
-           (Money + 2 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 2 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -619,16 +619,16 @@ sub place_block
         print #m, "}"
         print #m, "}"
 
-        PlacementTest(PlacementFormula) = 10
+        PlacementTest(XP,YP,ZP) = 10
         LevelTime += 350
         MinimumLevelTime += 200
-        Money += 2
+        UsedMoney += 2
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 11) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -701,19 +701,19 @@ sub place_block
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
 
-        PlacementTest(PlacementFormula) = 11
+        PlacementTest(XP,YP,ZP) = 11
         LevelTime += 425
         MinimumLevelTime += 300
         TargetCoins += 1
         Coins += 4
         Blocks += 1
-        Money += 1
+        UsedMoney += 1
         Openings += 1
         Putt = 2
 
     elseif (BlockType = 12) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -762,24 +762,25 @@ sub place_block
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
 
-        PlacementTest(PlacementFormula) = 12
+        PlacementTest(XP,YP,ZP) = 12
         LevelTime += 575
         MinimumLevelTime += 400
         TargetCoins += 1
         Coins += 4
         Blocks += 1
-        Money += 1
+        UsedMoney += 1
         Openings += 2
         Putt = 2
 
     elseif (BlockType = 13) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 AND _
-            PlacementTest(PlacementFormula+2000) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 AND _
+            PlacementTest(XP,YP,ZP+1) = 0 then
         /'
          ' This is the first block to take more than one space.
          '
-         ' It also takes the space right above it.
+         ' It also takes the space right above it. This is the only
+         ' implemented block with the ability to change elevations.
          '/
 
         print #m, "// entity ";Entity;"
@@ -821,17 +822,17 @@ sub place_block
         end select
         print #m, "}"
         print #m, "}"
-        PlacementTest(PlacementFormula) = 13
-        PlacementTest(PlacementFormula+2000) = 13
+        PlacementTest(XP,YP,ZP) = 13
+        PlacementTest(XP,YP,ZP+1) = 13
         LevelTime += 150
         MinimumLevelTime += 75
-        Money += 1
+        UsedMoney += 1
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 14) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -857,16 +858,16 @@ sub place_block
         end if
         print #m, "}"
         print #m, "}"
-        PlacementTest(PlacementFormula) = 15
+        PlacementTest(XP,YP,ZP) = 15
         LevelTime += 125
         MinimumLevelTime += 75
-        Money += 1
+        UsedMoney += 1
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 15) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -926,18 +927,18 @@ sub place_block
         print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
         print #m, "}"
 
-        PlacementTest(PlacementFormula) = 15
+        PlacementTest(XP,YP,ZP) = 15
         LevelTime += 225
         MinimumLevelTime += 150
         TargetCoins += 1
         Coins += 4
-        Money += 1
+        UsedMoney += 1
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 16) AND (BlockSet = 0) AND _
-           (Money + 3 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 3 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -1030,16 +1031,16 @@ sub place_block
         print #m, chr(34)+"speed"+chr(34)+" "+chr(34)+"3"+chr(34)
         print #m, "}"
 
-        PlacementTest(PlacementFormula) = 2
+        PlacementTest(XP,YP,ZP) = 2
         LevelTime += 325
         MinimumLevelTime += 150
-        Money += 3
+        UsedMoney += 3
         Blocks += 2
         Putt = 2
 
     elseif (BlockType = 17) AND (BlockSet = 0) AND _
-           (Money + 3 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 3 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         /'
          ' This block has a narrow center.
          '/
@@ -1105,19 +1106,19 @@ sub place_block
         end if
         print #m, "}"
         print #m, "}"
-        PlacementTest(PlacementFormula) = 17
+        PlacementTest(XP,YP,ZP) = 17
         LevelTime += 100
         MinimumLevelTime += 75
-        Money += 3
+        UsedMoney += 3
         Blocks += 3
         Putt = 2
 
     elseif (BlockType = 18) AND (BlockSet = 0) AND _
-    	   (Money + 4 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 AND _
-            PlacementTest(PlacementFormula+1) = 0 AND _
-            PlacementTest(PlacementFormula-50) = 0 AND _
-            PlacementTest(PlacementFormula-49) = 0 then
+    	   (UsedMoney + 4 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 AND _
+            PlacementTest(XP+1,YP,ZP) = 0 AND _
+            PlacementTest(XP,YP-1,ZP) = 0 AND _
+            PlacementTest(XP+1,YP-1,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -1145,22 +1146,22 @@ sub place_block
         end if
         print #m, "}"
         print #m, "}"
-        PlacementTest(PlacementFormula) = 18
-        PlacementTest(PlacementFormula+1) = 18
-        PlacementTest(PlacementFormula-50) = 18
-        PlacementTest(PlacementFormula-49) = 18
+        PlacementTest(XP,YP,ZP) = 18
+        PlacementTest(XP+1,YP,ZP) = 18
+        PlacementTest(XP,YP-1,ZP) = 18
+        PlacementTest(XP+1,YP-1,ZP) = 18
         LevelTime += 150
         MinimumLevelTime += 100
-        Money += 4
+        UsedMoney += 4
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 19) AND (BlockSet = 0) AND _
-    	   (Money + 4 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 AND _
-            PlacementTest(PlacementFormula+1) = 0 AND _
-            PlacementTest(PlacementFormula-50) = 0 AND _
-            PlacementTest(PlacementFormula-49) = 0 then
+    	   (UsedMoney + 4 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 AND _
+            PlacementTest(XP+1,YP,ZP) = 0 AND _
+            PlacementTest(XP,YP-1,ZP) = 0 AND _
+            PlacementTest(XP+1,YP-1,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -1188,61 +1189,19 @@ sub place_block
         end if
         print #m, "}"
         print #m, "}"
-        PlacementTest(PlacementFormula) = 18
-        PlacementTest(PlacementFormula+1) = 18
-        PlacementTest(PlacementFormula-50) = 18
-        PlacementTest(PlacementFormula-49) = 18
+        PlacementTest(XP,YP,ZP) = 18
+        PlacementTest(XP+1,YP,ZP) = 18
+        PlacementTest(XP,YP-1,ZP) = 18
+        PlacementTest(XP+1,YP-1,ZP) = 18
         LevelTime += 150
         MinimumLevelTime += 100
-        Money += 4
-        Blocks += 1
-        Putt = 2
-
-    elseif (BlockType = 20) AND (BlockSet = 0) AND _
-    	   (Money + 4 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
-        print #m, "// entity ";Entity;"
-        Entity += 1
-        print #m, "{"
-        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
-        print #m, "// brush 0"
-        print #m, "{"
-        /'
-         ' This is a 2x2 block. It takes two spaces horizontal and two spaces
-         ' vertical.
-         '/
-         if (Rotation = 1) OR (Rotation = 3) then
-            plot_face(0,-16,0,0,-16,-128,0,-144,0,0,"turf-green-dark")
-            plot_face(0,0,0,64,-128,0,64,0,0,-64,"invisible")
-            plot_face(0,-128,-128,-16,0,-128,-16,-128,0,-16,"turf-grey")
-            plot_face(0,-80,-32,64,-48,-32,-64,-80,-32,-64,"turf-grey")
-            plot_face(0,0,0,-64,-32,-32,-64,0,0,64,"invisible")
-            plot_face(0,-128,0,64,-96,-32,-64,-128,0,-64,"turf-grey")
-	        print #m, "}"
-	        print #m, "// brush 1"
-	        print #m, "{"
-        elseif (Rotation = 2) OR (Rotation = 4) then
-            plot_face(0,-128,-256,0,-128,-128,0,128,-128,0,"turf-green-dark")
-            plot_face(0,-128,-128,0,-128,-128,-16,128,0,-16,"turf-grey")
-            plot_face(0,128,-128,-16,128,-128,0,128,0,0,"invisible")
-            plot_face(0,-128,-128,-16,-128,-256,-16,128,-128,-16,"turf-grey")
-            plot_face(0,-128,-256,-16,-128,-256,0,128,-128,0,"invisible")
-            plot_face(0,-128,-128,0,-128,-128,-16,-128,-128,-16,"invisible")
-	        print #m, "}"
-	        print #m, "// brush 1"
-	        print #m, "{"
-       end if
-        print #m, "}"
-        PlacementTest(PlacementFormula) = 20
-        LevelTime += 150
-        MinimumLevelTime += 100
-        Money += 4
+        UsedMoney += 4
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 22) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
 
         print #m, "// entity ";Entity;"
         Entity += 1
@@ -1307,16 +1266,16 @@ sub place_block
             print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"goal"+chr(34)
             print #m, "}"
         end if
-        PlacementTest(PlacementFormula) = 22
+        PlacementTest(XP,YP,ZP) = 22
         LevelTime += 125
         MinimumLevelTime += 100
-        Money += 1
+        UsedMoney += 1
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 23) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -1386,16 +1345,16 @@ sub place_block
             print #m, "}"
         end if
 
-        PlacementTest(PlacementFormula) = 23
+        PlacementTest(XP,YP,ZP) = 23
         LevelTime += 225
         MinimumLevelTime += 175
-        Money += 1
+        UsedMoney += 1
         Blocks += 1
         Putt = 2
 
     elseif (BlockType = 24) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -1464,17 +1423,17 @@ sub place_block
             print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"goal"+chr(34)
             print #m, "}"
         end if
-        PlacementTest(PlacementFormula) = 24
+        PlacementTest(XP,YP,ZP) = 24
         LevelTime += 325
         MinimumLevelTime += 225
-        Money += 1
+        UsedMoney += 1
         Blocks += 1
         Openings += 1
         Putt = 2
 
     elseif (BlockType = 25) AND (BlockSet = 0) AND _
-           (Money + 1 < = MaxMoney) AND _
-            PlacementTest(PlacementFormula) = 0 then
+           (UsedMoney + 1 < = Money) AND _
+            PlacementTest(XP,YP,ZP) = 0 then
         print #m, "// entity ";Entity;"
         Entity += 1
         print #m, "{"
@@ -1519,7 +1478,7 @@ sub place_block
             print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"goal"+chr(34)
             print #m, "}"
         end if
-        PlacementTest(PlacementFormula) = 25
+        PlacementTest(XP,YP,ZP) = 25
         LevelTime += 425
         MinimumLevelTime += 325
         Blocks += 1
@@ -1527,9 +1486,9 @@ sub place_block
         Putt = 2
 
     elseif (BlockType = 26) AND (BlockSet = 0) AND (Openings > 0) AND _
-            PlacementTest(PlacementFormula) = 0 then
+            PlacementTest(XP,YP,ZP) = 0 then
         /'
-         ' I didn't put a money statement on this block because it doesn't
+         ' I didn't put a UsedMoney statement on this block because it doesn't
          ' cost any. However, you must have a free opening.
          '/
         print #m, "// entity ";Entity;"
@@ -1601,7 +1560,7 @@ sub place_block
             print #m, "}"
         end if
 
-        PlacementTest(PlacementFormula) = 26
+        PlacementTest(XP,YP,ZP) = 26
         LevelTime += 150
         MinimumLevelTime += 50
         Blocks += 1

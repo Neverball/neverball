@@ -71,10 +71,10 @@ using FB
 #include "nevergen.bas"
 
 /'
- ' This initiates graphics mode. It is a 640x480 24-bit program with one page
- ' and you can't fullscreen it (unless windowed mode fails).
+ ' This initiates graphics mode. It is a 640x480 24-bit program.
  '/
-screen 18,24,1,GFX_NO_SWITCH
+ 
+screen 18,24
 
 AssistDir = curdir
 config(1)
@@ -86,14 +86,23 @@ inilang
  ' If you're on DOS, __FB_DOS__ is automatically defined.
  ' If you're on Linux or GNU/Linux, __FB_LINUX__ is automatically defined.
  '/
-#IFDEF __FB_WIN32__
-'Incomplete: Attempt to get username and use the user folder.
-dim shared as string Username, AppData
-Username = ""
-Appdata = lang("C:\Documents and Settings\") + _
-               Username + lang("\Application Data\")
-#ENDIF
 
+if Username = "" then
+    #IFDEF __FB_WIN32__
+    mkdir("users")
+    shell("attrib +h users")
+    #ELSE
+    mkdir(".users")
+    #ENDIF
+    input "What's your name";Username
+    input "Where is your high score data kept";UserData
+    mkdir(UserCfg + Username)
+    Money = 20
+    user_data
+    config
+else
+    user_data(1)
+end if
 if Neverpath = "" then
     print lang("[Y/N] Is this correct for usage with Neverball?")
     print curdir
@@ -134,7 +143,6 @@ sub catcher destructor
 end sub
 
 sub menu
-    if (MaxMoney < 50) then MaxMoney = 50
     clkey
     do
         Title = "Neverassistant - " + Time + " - " + Date
@@ -142,23 +150,19 @@ sub menu
 
         screenlock
         cls
+        color rgb(0,255,255)
+        locate 1,1
+        print Username
+        locate 1,70
+        print using "##########!";Money,chr(4);
         color rgb(255,255,0)
+        locate 3,1
         print lang("What would you like to do?")
         color rgb(255,255,255)
         print "<N> ";lang("Run the Neverball game")
         print "<R> ";lang("Load a Neverball replay")
         print "<P> ";lang("Run the Neverputt game")
-        /'
-        if MediumClear = 0 then
-            color rgb(128,128,128):print "<M> ";lang("Generate a map");
-            color rgb(0,255,255):print lang(" - Must clear Neverball Medium")
-            color rgb(255,255,255)
-        else
-        '/
-            print "<M> ";lang("Generate a map")
-        /'
-        end if
-        '/
+        print "<M> ";lang("Generate a map")
         print "<C> ";lang("Compile a map")
         print "<D> ";lang("Relocate Directory")
         if LangFile = "" OR LangFile = "en" OR LangFile = "en.txt" then
@@ -191,30 +195,347 @@ sub menu
         screenunlock
         sleep 20
 
-        /'
-        if multikey(SC_M) AND (MediumClear > 0) then
-        '/
         if multikey(SC_M) then
             map_generate
         elseif multikey(SC_N) then
+            sleep 300,1
             clkey
             windowtitle "Neverassistant - Running Neverball"
+            print lang("Which mode?")
+            print "<P> ";lang("Practice mode")
+            print "<O> ";lang("Official mode (costs 10 diamonds; requires Challenge Mode)")
+            do
+                if multikey(SC_O) AND Money > = 10 then
+                    Official = 1
+                    Money -= 10
+                    exit do
+                end if
+                sleep 20
+            loop until multikey(SC_P)
+            screen 0
             #IFDEF __FB_WIN32__
             Check = exec("Neverball.exe","")
             #ELSE
             Check = exec("neverball","")
             #ENDIF
+            screen 18,24
             print lang("Exit code: ")& Check
+            clkey
+            if Official = 1 then
+                Official = 0
+                print lang("How many coins? (input 0 for failure)  ");
+                input "", ChallengeCoins
+                if ChallengeCoins > 0 then
+                    print lang("How many seconds? ");
+                    input "",ChallengeTime
+                    Money += ((ChallengeCoins / ChallengeTime * 60) - 0.499)
+                    print using "&: #### &";lang("Awarded"),((ChallengeCoins / ChallengeTime * 60) - 0.499),lang("diamonds")
+                end if 
+                user_data
+            end if
+            open UserData + "/neverballhs-easy" for input as #5
+            for ID as ubyte = 1 to 50
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(1) = 0 AND eof(5) = 0 then
+                print lang("Congratulations! You 100% Neverball Easy Bonus Level I.")
+                print lang("Special Bonus: 10 diamonds")
+                FullBonus(1) = 1
+                Money += 10
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(2) = 0 AND eof(5) = 0 then
+                print lang("Congratulations! You 100% Neverball Easy Bonus Level II.")
+                print lang("Special Bonus: 20 diamonds")
+                FullBonus(2) = 1
+                Money += 20
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(3) = 0 AND eof(5) = 0 then
+                print lang("Impressive! You 100% Neverball Easy Bonus Level III.")
+                print lang("Special Bonus: 30 diamonds")
+                FullBonus(3) = 1
+                Money += 30
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(4) = 0 AND eof(5) = 0 then
+                print lang("Impressive!! You 100% Neverball Easy Bonus Level IV.")
+                print lang("Special Bonus: 40 diamonds")
+                FullBonus(4) = 1
+                Money += 40
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(5) = 0 AND eof(5) = 0 then
+                print lang("Awesome!!! You 100% Neverball Easy Bonus Level V.")
+                print lang("Special Bonus: 50 diamonds")
+                FullBonus(5) = 1
+                Money += 50
+                user_data
+            end if
+            close #5
+            open UserData + "/neverballhs-medium" for input as #5
+            for ID as ubyte = 1 to 50
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(6) = 0 AND eof(5) = 0 then
+                print lang("Congratulations! You 100% Neverball Medium Bonus Level I.")
+                print lang("Special Bonus: 60 diamonds")
+                FullBonus(6) = 1
+                Money += 60
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(7) = 0 AND eof(5) = 0 then
+                print lang("Congratulations! You 100% Neverball Medium Bonus Level II.")
+                print lang("Special Bonus: 70 diamonds")
+                FullBonus(7) = 1
+                Money += 70
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(8) = 0 AND eof(5) = 0 then
+                print lang("Impressive! You 100% Neverball Medium Bonus Level III.")
+                print lang("Special Bonus: 80 diamonds")
+                FullBonus(8) = 1
+                Money += 80
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(9) = 0 AND eof(5) = 0 then
+                print lang("Impressive!! You 100% Neverball Medium Bonus Level IV.")
+                print lang("Special Bonus: 90 diamonds")
+                FullBonus(9) = 1
+                Money += 90
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(10) = 0 AND eof(5) = 0 then
+                print lang("Awesome!!! You 100% Neverball Medium Bonus Level V.")
+                print lang("Special Bonus: 100 diamonds")
+                FullBonus(10) = 1
+                Money += 100
+                user_data
+            end if
+            close #5
+            open UserData + "/neverballhs-hard" for input as #5
+            for ID as ubyte = 1 to 50
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(11) = 0 AND eof(5) = 0 then
+                print lang("Congratulations! You 100% Neverball Hard Bonus Level I.")
+                print lang("Special Bonus: 110 diamonds")
+                FullBonus(11) = 1
+                Money += 110
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(12) = 0 AND eof(5) = 0 then
+                print lang("Congratulations! You 100% Neverball Hard Bonus Level II.")
+                print lang("Special Bonus: 120 diamonds")
+                FullBonus(12) = 1
+                Money += 120
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(13) = 0 AND eof(5) = 0 then
+                print lang("Impressive! You 100% Neverball Hard Bonus Level III.")
+                print lang("Special Bonus: 130 diamonds")
+                FullBonus(13) = 1
+                Money += 130
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(14) = 0 AND eof(5) = 0 then
+                print lang("Impressive!! You cleared Neverball Hard Bonus Level IV.")
+                print lang("Special Bonus: 140 diamonds")
+                FullBonus(14) = 1
+                Money += 140
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(15) = 0 AND eof(5) = 0 then
+                print lang("Awesome!!! You 100% Neverball Hard Bonus Level V.")
+                print lang("Special Bonus: 150 diamonds")
+                FullBonus(15) = 1
+                Money += 150
+                user_data
+            end if
+            close #5
+            open UserData + "/neverballhs-mym" for input as #5
+            for ID as ubyte = 1 to 50
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(16) = 0 AND eof(5) = 0 then
+                print lang("Congratulations! You 100% Mehdi's Levels Bonus Level I.")
+                print lang("Special Bonus: 160 diamonds")
+                FullBonus(16) = 1
+                Money += 160
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(17) = 0 AND eof(5) = 0 then
+                print lang("Congratulations! You 100% Mehdi's Levels Bonus Level II.")
+                print lang("Special Bonus: 170 diamonds")
+                FullBonus(17) = 1
+                Money += 170
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(18) = 0 AND eof(5) = 0 then
+                print lang("Impressive! You 100% Mehdi's Levels Bonus Level III.")
+                print lang("Special Bonus: 180 diamonds")
+                FullBonus(18) = 1
+                Money += 180
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(19) = 0 AND eof(5) = 0 then
+                print lang("Impressive!! You 100% Mehdi's Levels Bonus Level IV.")
+                print lang("Special Bonus: 190 diamonds")
+                FullBonus(19) = 1
+                Money += 190
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(20) = 0 AND eof(5) = 0 then
+                print lang("Awesome!!! You 100% Mehdi's Levels Bonus Level V.")
+                print lang("Special Bonus: 200 diamonds")
+                FullBonus(20) = 1
+                Money += 200
+                user_data
+            end if
+            close #5
+            open UserData + "/neverballhs-mym2" for input as #5
+            for ID as ubyte = 1 to 50
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(21) = 0 AND eof(5) = 0 then
+                print lang("Congratulations! You 100% Mehdi's Levels Suite Bonus Level I.")
+                print lang("Special Bonus: 210 diamonds")
+                FullBonus(21) = 1
+                Money += 210
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(22) = 0 AND eof(5) = 0 then
+                print lang("Congratulations! You 100% Mehdi's Levels Suite Bonus Level II.")
+                print lang("Special Bonus: 220 diamonds")
+                FullBonus(22) = 1
+                Money += 220
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(23) = 0 AND eof(5) = 0 then
+                print lang("Impressive! You 100% Mehdi's Levels Suite Bonus Level III.")
+                print lang("Special Bonus: 230 diamonds")
+                FullBonus(23) = 1
+                Money += 230
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(24) = 0 AND eof(5) = 0 then
+                print lang("Impressive!! You 100% Mehdi's Levels Suite Bonus Level IV.")
+                print lang("Special Bonus: 240 diamonds")
+                FullBonus(24) = 1
+                Money += 240
+                user_data
+            end if
+            for ID as ubyte = 1 to 45
+                line input #5, DataScan
+            next ID
+            if right(DataScan,4) < > "Hard" AND FullBonus(25) = 0 AND eof(5) = 0 then
+                print lang("Awesome!!! You 100% Mehdi's Levels Suite Bonus Level V.")
+                print lang("Special Bonus: 250 diamonds")
+                FullBonus(25) = 1
+                Money += 250
+                user_data
+            end if
+            close #5
             sleep
         elseif multikey(SC_P) then
+            sleep 300,1
             clkey
             windowtitle "Neverassistant - Running Neverputt"
+            print lang("Which mode?")
+            print "<P> ";lang("Practice mode")
+            print "<O> ";lang("Official mode (costs 10 diamonds)")
+            do
+                if multikey(SC_O) AND Money > = 10 then
+                    Official = 1
+                    Money -= 10
+                    exit do
+                end if
+                sleep 20
+            loop until multikey(SC_P)
+            screen 0
             #IFDEF __FB_WIN32__
             Check = exec("Neverputt.exe","")
             #ELSE
             Check = exec("neverputt","")
             #ENDIF
+            screen 18,24
             print lang("Exit code: ")& Check
+            clkey
+            if Official = 1 then
+                Official = 0
+                print lang("What was your score (relative to par)? ");
+                input "",DiffPar
+                if DiffPar < -1 then
+                    print lang("You netted ")& abs(DiffPar);lang(" strokes under par. ")&DiffPar*-2;lang(" diamonds rewarded.")
+                elseif DiffPar = -1 then
+                    print lang("You netted 1 stroke under par. 2 diamonds rewarded.")
+                elseif DiffPar = 0 then
+                    print lang("You netted par. No reward.")
+                elseif DiffPar = 1 then
+                    print lang("You netted 1 stroke over par. 2 diamonds fined.")
+                elseif DiffPar > 1 then
+                    print lang("You netted ")&DiffPar;lang(" strokes under par. ")&DiffPar*2;lang(" diamonds fined.")
+                end if
+                Money -= DiffPar * 2
+                user_data
+            end if
             sleep
 
         elseif multikey(SC_C) then
@@ -224,6 +545,7 @@ sub menu
                   lang(" (without .map)")
             input "",Compile
             if (Compile < > "") then
+                screen 0
                 Compile = Compile + ".map"
                 #IFDEF __FB_WIN32__
                 Check = exec("Mapc.exe",Compile + " data")
@@ -231,6 +553,7 @@ sub menu
                 Check = exec("mapc",Compile + " data")
                 #ENDIF
                 color rgb(255,255,255)
+                screen 18,24
                 print lang("Exit code: ")& Check
                 sleep
             end if
@@ -244,12 +567,14 @@ sub menu
             input "",Replay
             color rgb(255,255,255)
             if (Replay < > "") then
+                screen 0
                 Replay = Replay + ".nbr"
                 #IFDEF __FB_WIN32__
-                Check = exec("Neverball.exe","-r " + Appdata + Replay)
+                Check = exec("Neverball.exe","-r " + Replay)
                 #ELSE
-                Check = exec("neverball","-r data/.neverball-dev/" + Replay)
+                Check = exec("neverball","-r " + Replay)
                 #ENDIF
+                screen 18,24
                 print lang("Exit code: ")& Check
                 sleep
             end if
@@ -278,13 +603,18 @@ sub menu
             cls
             'Try to make it wrap the 80 characters if you translate this string
             print lang("The solution directory contains a collection of " + _
-                  "solutions to levels players may give a fit on.")
+                "solutions to levels players may give a fit on.")
             print "<A> ";lang("Neverball Easy Level 10: How to 100% the level")
             print "<B> ";lang("Neverball Easy Bonus Level 5: How to 100% the level")
+            print lang("Each view costs 2 diamonds. Use them wisely.")
             print lang("Hit BACKSPACE to exit the directory.")
+            print
             do
                 sleep 10
-                if multikey(SC_A) then
+                if multikey(SC_A) AND Money > = 2 then
+                    Money -= 2
+                    user_data
+                    screen 0
                     #IFDEF __FB_WIN32__
                     Check = exec("Neverball.exe", _
                                  "-r "+AssistDir+"/solutions/cE10csy.nbr")
@@ -292,9 +622,15 @@ sub menu
                     Check = exec("neverball", _
                                  "-r "+AssistDir+"/solutions/cE10csy.nbr")
                     #ENDIF
-                    print
+                    screen 18,24
+                    clkey
                     print lang("Exit code of replay A: ")& Check
-                elseif multikey(SC_B) then
+                    sleep
+                    exit do
+                elseif multikey(SC_B) AND Money > = 2 then
+                    Money -= 2
+                    user_data
+                    screen 0
                     #IFDEF __FB_WIN32__
                     Check = exec("Neverball.exe", _
                                  "-r "+AssistDir+"/solutions/cEB5csy.nbr")
@@ -302,7 +638,11 @@ sub menu
                     Check = exec("neverball", _
                                  "-r "+AssistDir+"/solutions/cEB5csy.nbr")
                     #ENDIF
+                    screen 18,24
+                    clkey
                     print lang("Exit code of replay B: ")& Check
+                    sleep
+                    exit do
                 end if
             loop until multikey(SC_BACKSPACE)
 
