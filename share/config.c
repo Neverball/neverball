@@ -496,11 +496,13 @@ int config_mode(int f, int w, int h)
     int stencil = config_get_d(CONFIG_REFLECTION)  ? 1 : 0;
     int buffers = config_get_d(CONFIG_MULTISAMPLE) ? 1 : 0;
     int samples = config_get_d(CONFIG_MULTISAMPLE);
+    int vsync   = config_get_d(CONFIG_VSYNC)       ? 1 : 0;
 
     SDL_GL_SetAttribute(SDL_GL_STEREO,             stereo);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE,       stencil);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, buffers);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, samples);
+    SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL,       vsync);
 
     /* Try to set the currently specified mode. */
 
@@ -527,8 +529,13 @@ int config_mode(int f, int w, int h)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthFunc(GL_LEQUAL);
 
-        if (config_get_d(CONFIG_VSYNC))
-            sync_init();
+        /*
+         * Mac OS X might still need this, because apparently SDL doesn't do
+         * SDL_GL_SWAP_CONTROL on OS X.  TODO: investigate.
+         */
+#if 0
+        if (vsync) sync_init();
+#endif
 
         /* If GL supports multisample, and SDL got a multisample buffer... */
 
