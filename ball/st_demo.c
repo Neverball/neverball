@@ -369,7 +369,14 @@ static void demo_play_timer(int id, float dt)
     gui_timer(id, dt);
     hud_timer(dt);
 
-    if (time_state() < 1.0f)
+    /*
+     * Introduce a one-second pause at the start of replay playback.  (One
+     * second is the time during which the "Replay" label is being displayed.)
+     * HACK ALERT!  "id == 0" means we got here from the pause screen, so no
+     * label has been created and there's no need to wait.
+     */
+
+    if (id != 0 && time_state() < 1.0f)
         return;
 
     /* Spin or skip depending on how fast the demo wants to run. */
