@@ -74,6 +74,7 @@
       - FreeBSD port
     Florian Priester
       - Ball shadow removal in poser mode
+      - Performance improvement on maps not using reflective materials
     Jānis Rūcis
       - Code contributions and clean-up
     Michael Sterret

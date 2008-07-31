@@ -72,6 +72,19 @@ static int sol_enum_body(const struct s_file *fp,
 
 /*---------------------------------------------------------------------------*/
 
+int sol_reflective(const struct s_file *fp)
+{
+    int bi;
+
+    for (bi = 0; bi < fp->bc; bi++)
+        if (fp->bv[bi].rl)
+            return 1;
+
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
 #define tobyte(f) ((GLubyte) (f * 255.0f))
 
 #define color_cmp(a, b) (tobyte((a)[0]) == tobyte((b)[0]) && \
