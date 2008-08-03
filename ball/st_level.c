@@ -40,7 +40,7 @@ static int level_enter(void)
     {
         if ((jd = gui_hstack(id)))
         {
-            ln = level_repr (curr_level());
+            ln = level_name (curr_level());
             b  = level_bonus(curr_level());
 
             textcol1 = b ? gui_wht : 0;

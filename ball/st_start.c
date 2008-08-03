@@ -59,7 +59,7 @@ static void gui_level(int id, int i)
         back = level_completed(i) ? fore    : gui_yel;
     }
 
-    jd = gui_label(id, level_repr(i), GUI_SML, GUI_ALL, back, fore);
+    jd = gui_label(id, level_name(i), GUI_SML, GUI_ALL, back, fore);
 
     if (level_opened(i) || config_cheat())
         gui_active(jd, i, 0);

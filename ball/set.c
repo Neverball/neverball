@@ -358,9 +358,9 @@ static void set_load_levels(void)
         l->number = i;
 
         if (l->is_bonus)
-            sprintf(l->repr, "%s",   roman[bnb++]);
+            sprintf(l->name, "%s",   roman[bnb++]);
         else
-            sprintf(l->repr, "%02d", nb++);
+            sprintf(l->name, "%02d", nb++);
 
         l->is_locked    = 1;
         l->is_completed = 0;
