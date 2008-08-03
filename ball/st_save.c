@@ -111,18 +111,18 @@ static int save_enter(void)
     if ((id = gui_vstack(0)))
     {
         gui_label(id, _("Replay Name"), GUI_MED, GUI_ALL, 0, 0);
-
         gui_space(id);
 
         file_id = gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
 
         gui_space(id);
-
         gui_keyboard(id);
+        gui_space(id);
 
         if ((jd = gui_harray(id)))
         {
             enter_id = gui_start(jd, _("Save"), GUI_SML, SAVE_SAVE, 0);
+            gui_space(jd);
             gui_state(jd, _("Cancel"), GUI_SML, SAVE_CANCEL, 0);
         }
 
