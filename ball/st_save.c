@@ -148,7 +148,7 @@ static int save_keybd(int c, int d)
 
         if (c == '\b' || c == 0x7F)
             return save_action(GUI_BS);
-        if (c > ' ')
+        if (c >= ' ')
             return save_action(c);
     }
     return 1;
