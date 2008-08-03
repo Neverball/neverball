@@ -42,7 +42,10 @@ const struct demo *demo_get(int);
 const char *date_to_str(time_t);
 
 int  demo_exists(const char *);
-void demo_unique(char *);
+
+const char *demo_format_name(const char *fmt,
+                             const char *set,
+                             const char *level);
 
 /*---------------------------------------------------------------------------*/
 

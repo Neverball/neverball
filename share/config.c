@@ -117,6 +117,7 @@ void config_init(void)
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
     config_set_s(CONFIG_WIIMOTE_ADDR,         DEFAULT_WIIMOTE_ADDR);
+    config_set_s(CONFIG_REPLAY_NAME,          DEFAULT_REPLAY_NAME);
     config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_STATS,                DEFAULT_STATS);
     config_set_d(CONFIG_UNIFORM,              DEFAULT_UNIFORM);
@@ -313,6 +314,8 @@ void config_load(void)
                     config_set_s(CONFIG_BALL, val);
                 else if (strcmp(key, "wiimote_addr") == 0)
                     config_set_s(CONFIG_WIIMOTE_ADDR, val);
+                else if (strcmp(key, "replay_name") == 0)
+                    config_set_s(CONFIG_REPLAY_NAME, val);
 
                 else if (strcmp(key, "cheat")   == 0)
                     config_set_d(CONFIG_CHEAT, atoi(val));
@@ -454,6 +457,8 @@ void config_save(void)
             fprintf(fp, "ball_file    %s\n", option_s[CONFIG_BALL]);
         if (strlen(option_s[CONFIG_WIIMOTE_ADDR]) > 0)
             fprintf(fp, "wiimote_addr %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
+        if (strlen(option_s[CONFIG_REPLAY_NAME]) > 0)
+            fprintf(fp, "replay_name  %s\n", option_s[CONFIG_REPLAY_NAME]);
 
         fprintf(fp, "stats                %d\n", option_d[CONFIG_STATS]);
         fprintf(fp, "uniform              %d\n", option_d[CONFIG_UNIFORM]);

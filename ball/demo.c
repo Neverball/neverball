@@ -247,20 +247,97 @@ int demo_exists(const char *name)
     return file_exists(buf);
 }
 
-void demo_unique(char *name)
+#define MAXSTRLEN(a) (sizeof ((a)) - 1)
+
+const char *demo_format_name(const char *fmt,
+                             const char *set,
+                             const char *level)
 {
+    static char name[MAXSTR];
+    int space_left;
+    char *numpart;
     int i;
 
-    /* Generate a unique name for a new replay save. */
+    if (!fmt)
+        return NULL;
+
+    memset(name, 0, sizeof (name));
+    space_left = MAXSTRLEN(name);
+
+    /* Construct name, replacing each format sequence as appropriate. */
+
+    while (*fmt && space_left > 0)
+    {
+        if (*fmt == '%')
+        {
+            fmt++;
+
+            switch (*fmt)
+            {
+            case 's':
+                if (set)
+                {
+                    strncat(name, set, space_left);
+                    space_left -= strlen(set);
+                }
+                break;
+
+            case 'l':
+                if (level)
+                {
+                    strncat(name, level, space_left);
+                    space_left -= strlen(level);
+                }
+                break;
+
+            case '%':
+                strncat(name, "%", space_left);
+                space_left--;
+                break;
+
+            case '\0':
+                fputs(L_("Missing format character in replay name\n"), stderr);
+                fmt--;
+                break;
+
+            default:
+                fprintf(stderr, L_("Invalid format character in "
+                                   "replay name: \"%%%c\"\n"), *fmt);
+                break;
+            }
+        }
+        else
+        {
+            strncat(name, fmt, 1);
+            space_left--;
+        }
+
+        fmt++;
+    }
+
+    /*
+     * Append a unique 2-digit number preceded by an underscore to the
+     * file name, discarding characters if there's not enough space
+     * left in the buffer.
+     */
+
+    if (space_left < strlen("_23"))
+        numpart = name + MAXSTRLEN(name) - strlen("_23");
+    else
+        numpart = name + MAXSTRLEN(name) - space_left;
 
     for (i = 1; i < 100; i++)
     {
-        sprintf(name, "replay%02d", i);
+        sprintf(numpart, "_%02d", i);
 
         if (!demo_exists(name))
-            return;
+            break;
     }
+
+    return name;
 }
+
+#undef MAXSTRLEN
 
 /*---------------------------------------------------------------------------*/
 

@@ -30,7 +30,7 @@
 extern struct state st_save;
 extern struct state st_clobber;
 
-static char filename[MAXNAM];
+static char filename[MAXSTR];
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,7 +39,13 @@ static struct state *cancel_state;
 
 int goto_save(struct state *ok, struct state *cancel)
 {
-    demo_unique(filename);
+    char fmt[MAXSTR] = "";
+    const char *name;
+
+    config_get_s(CONFIG_REPLAY_NAME, fmt, sizeof (fmt) - 1);
+    name = demo_format_name(fmt, set_id(curr_set()), level_name(curr_level()));
+
+    strncpy(filename, name, sizeof (filename) - 1);
 
     ok_state     = ok;
     cancel_state = cancel;
@@ -89,7 +95,8 @@ static int save_action(int i)
         break;
 
     default:
-        if (text_add_char(i, filename, MAXNAM, 17))
+        if (text_add_char(i, filename, sizeof (filename) - 1,
+                                       sizeof (filename) - 1))
             gui_set_label(file_id, filename);
     }
     return 1;
