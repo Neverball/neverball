@@ -300,6 +300,11 @@ int set_exists(int i)
     return (0 <= i && i < count);
 }
 
+const char *set_id(int i)
+{
+    return set_exists(i) ? set_v[i].id : NULL;
+}
+
 const char *set_name(int i)
 {
     return set_exists(i) ? _(set_v[i].name) : NULL;

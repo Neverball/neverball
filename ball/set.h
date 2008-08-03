@@ -21,6 +21,7 @@ void set_goto(int);
 
 int  curr_set(void);
 
+const char         *set_id(int);
 const char         *set_name(int);
 const char         *set_desc(int);
 const char         *set_shot(int);
