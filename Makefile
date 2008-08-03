@@ -6,6 +6,8 @@ ifeq ($(VERSION),unknown)
     $(warning Failed to obtain sane version for this build.)
 endif
 
+DEBUG := 1
+
 # Provide a target system hint for the Makefile.
 
 ifeq ($(shell uname), Darwin)
