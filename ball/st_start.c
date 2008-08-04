@@ -36,6 +36,7 @@
 
 static int shot_id;
 static int file_id;
+static int challenge_id;
 
 /*---------------------------------------------------------------------------*/
 
@@ -117,8 +118,19 @@ static int start_action(int i)
         return goto_state(&st_set);
 
     case START_CHALLENGE:
-        progress_init(MODE_CHALLENGE);
-        return config_cheat() ? 1 : start_action(0);
+        if (config_cheat())
+        {
+            progress_init(curr_mode() == MODE_CHALLENGE ?
+                          MODE_NORMAL : MODE_CHALLENGE);
+            gui_toggle(challenge_id);
+            return 1;
+        }
+        else
+        {
+            progress_init(MODE_CHALLENGE);
+            return start_action(0);
+        }
+        break;
 
     case GUI_MOST_COINS:
     case GUI_BEST_TIMES:
@@ -189,8 +201,9 @@ static int start_enter(void)
                         for (j = 4; j >= 0; j--)
                             gui_level(ld, i * 5 + j);
 
-                gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE,
-                          curr_mode() == MODE_CHALLENGE);
+                challenge_id = gui_state(kd, _("Challenge"),
+                                         GUI_SML, START_CHALLENGE,
+                                         curr_mode() == MODE_CHALLENGE);
             }
         }
         gui_space(id);
