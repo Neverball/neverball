@@ -7,7 +7,7 @@
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "song" "bgm/track1.ogg"
-"goal" "26"
+"goal" "30"
 "time" "9000"
 "time_hs" "2000 4000"
 "coin_hs" "74 50"

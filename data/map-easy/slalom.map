@@ -4,7 +4,7 @@
 "coin_hs" "100 50"
 "time_hs" "1000 2000"
 "goal_hs" "1000 3000"
-"goal" "10"
+"goal" "80"
 "time" "6000"
 "song" "bgm/track2.ogg"
 "shot" "shot-easy/slalom.jpg"

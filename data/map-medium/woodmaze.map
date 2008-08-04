@@ -11,7 +11,7 @@
 "shot" "shot-medium/woodmaze.jpg"
 "grad" "back/space.png"
 "back" "map-back/jupiter.sol"
-"goal" "0"
+"goal" "30"
 "time" "9000"
 "coin_hs" "60 58"
 "time_hs" "3000 6000"

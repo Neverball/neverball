@@ -9,7 +9,7 @@
 "shot" "shot-medium/roundfloors.jpg"
 "song" "bgm/track1.ogg"
 "time" "9000"
-"goal" "10"
+"goal" "150"
 "bonus" "1"
 "time_hs" "750 2000"
 "coin_hs" "200 100"
