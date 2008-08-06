@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "Bump the logs at speed to change lanes.\Try to reach the top for an extra challenge!"
 "author" "Mehdi Yousfi-Monod"
 "levelname" "sparselines"
 "version" "1"

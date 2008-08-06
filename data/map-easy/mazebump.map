@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "Puzzling but profitable.\\Take time to observe the motions\of the bumpers - it will help you\to reach the goal."
 "author" "Mehdi Yousfi-Monod"
 "levelname" "mazebump"
 "version" "1"

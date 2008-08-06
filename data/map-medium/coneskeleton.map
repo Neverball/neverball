@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "Plenty of coins for the taking.\Can you take them all?"
 "author" "Mehdi Yousfi-Monod"
 "levelname" "coneskeleton-mym"
 "version" "1"

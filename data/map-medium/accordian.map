@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "Stairway to heaven"
 "levelname" "accordian"
 "version" "1"
 "shot" "shot-medium/pyramid.jpg"

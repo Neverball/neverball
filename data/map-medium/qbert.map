@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "You can never go home again..."
 "author" "Mehdi Yousfi-Monod"
 "version" "1"
 "levelname" "qbert"
