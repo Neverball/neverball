@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "hard-mym"
+"levelname" "hard"
 "version" "2"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
@@ -13,7 +13,7 @@
 "goal" "0"
 "time_hs" "4600 5000"
 "coin_hs" "0 0"
-"message" "La maitrise de Neverball.\You still think Neverball is too easy?"
+"message" "La maîtrise de Neverball.\You still think Neverball is too easy?"
 // brush 0
 {
 ( 1624 8714 -240 ) ( 1624 8906 -240 ) ( 1688 8906 -240 ) mtrl/chrome 0 0 0 0.5 0.5 0 0 0

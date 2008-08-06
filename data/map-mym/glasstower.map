@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "glasstower-mym"
+"levelname" "glasstower"
 "version" "1.1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
@@ -11,8 +11,9 @@
 "song" "bgm/track1.ogg"
 "time" "10000"
 "goal" "70"
-"time_hs" "3700 5500"
+"time_hs" "3600 4000"
 "coin_hs" "127 90"
+"goal_hs" "4000 4500"
 "message" "La tour de verre.\Find the way to the exit."
 // brush 0
 {

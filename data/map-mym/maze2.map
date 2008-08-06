@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "maze2-mym"
+"levelname" "maze2"
 "version" "1.1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"
@@ -10,8 +10,9 @@
 "song" "bgm/track3.ogg"
 "time" "15000"
 "goal" "50"
-"time_hs" "4000 6000"
+"time_hs" "4000 5000"
 "coin_hs" "94 70"
+"goal_hs" "7000 8000"
 "message" "Le labyrinthe fou.\You know the way, you see it,\so why are you taking another one?"
 // brush 0
 {

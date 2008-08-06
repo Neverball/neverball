@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "turn-mym"
+"levelname" "turn"
 "version" "1.1"
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
@@ -13,7 +13,7 @@
 "goal" "60"
 "time_hs" "4100 6000"
 "coin_hs" "114 64"
-"message" "Le sens trigonometrique.\Turn, wait and jump."
+"message" "Le sens trigonométrique.\Turn, wait and jump."
 // brush 0
 {
 ( 256 -32 16 ) ( 256 0 16 ) ( 256 0 0 ) mtrl/turf-grey -16 0 -180 0.5 -0.5 0 0 0

@@ -11,6 +11,7 @@
 "time" "9000"
 "goal" "40"
 "time_hs" "9000 9000"
+"goal_hs" "9000 9000"
 "coin_hs" "90 70"
 "message" "La ballade tranquille.\What a quiet walk."
 // brush 0

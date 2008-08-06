@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "up-mym"
+"levelname" "up"
 "version" "1.1"
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
@@ -13,7 +13,7 @@
 "goal" "160"
 "time_hs" "1500 1700"
 "coin_hs" "182 170"
-"message" "L'ascension pressee.\Only one piece of advice: don't stop!"
+"message" "L'ascension pressée.\Only one piece of advice: don't stop!"
 "bonus" "1"
 // brush 0
 {

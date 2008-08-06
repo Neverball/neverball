@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "loop1-mym"
+"levelname" "loop1"
 "version" "2"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
@@ -11,8 +11,9 @@
 "song" "bgm/track1.ogg"
 "time" "3000"
 "goal" "60"
-"time_hs" "1000 1400"
+"time_hs" "1000 1100"
 "coin_hs" "120 100"
+"goal_hs" "1000 1100"
 "message" "Les boucles renversantes.\Upside down!"
 // brush 0
 {

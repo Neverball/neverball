@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "drive1-mym"
+"levelname" "drive1"
 "version" "1.1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
@@ -11,8 +11,9 @@
 "song" "bgm/track4.ogg"
 "time" "6000"
 "goal" "60"
-"time_hs" "1100 3000"
+"time_hs" "1100 1500"
 "coin_hs" "126 100"
+"goal_hs" "2400 2800"
 "message" "La conduite stressante.\Attention:\The platform under the ball moves forward."
 // brush 0
 {

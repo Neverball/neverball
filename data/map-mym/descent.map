@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "descent-mym"
+"levelname" "descent"
 "version" "1.1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
@@ -11,8 +11,9 @@
 "song" "bgm/track4.ogg"
 "time" "4000"
 "goal" "20"
-"time_hs" "1000 2000"
+"time_hs" "1000 1200"
 "coin_hs" "63 15"
+"goal_hs" "1200 1400"
 "message" "La descente infernale.\Easy enough to start?"
 // brush 0
 {

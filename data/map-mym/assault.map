@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "assault-mym"
+"levelname" "assault"
 "version" "2"
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"

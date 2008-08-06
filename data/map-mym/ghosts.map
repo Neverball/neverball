@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "ghosts-mym"
+"levelname" "ghosts"
 "version" "1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"
@@ -10,7 +10,8 @@
 "song" "bgm/track3.ogg"
 "time" "10000"
 "goal" "30"
-"time_hs" "7000 8000"
+"time_hs" "7000 7500"
+"goal_hs" "7000 7500"
 "coin_hs" "58 54"
 "message" "Ghost Valley.\Make 3 laps to open the goal."
 "bonus" "1"
