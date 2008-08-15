@@ -87,7 +87,8 @@ static int done_enter(void)
         gui_space(id);
 
         if ((jd = gui_hstack(id)))
-            gui_score_board(jd, 1, high);
+            gui_score_board(jd, GUI_MOST_COINS |
+                                GUI_BEST_TIMES, 1, high);
 
         gui_space(id);
 

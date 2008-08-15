@@ -14,6 +14,7 @@
 
 #include <ctype.h>
 #include <string.h>
+#include <assert.h>
 
 #include "gui.h"
 #include "util.h"
@@ -264,9 +265,18 @@ static void set_best_times(const struct score *s, int hilight, int goal)
 
 static int score_type = GUI_MOST_COINS;
 
-void gui_score_board(int id, int e, int h)
+void gui_score_board(int id, unsigned int types, int e, int h)
 {
     int jd, kd, ld;
+
+    assert((types & GUI_MOST_COINS)  == GUI_MOST_COINS ||
+           (types & GUI_BEST_TIMES)  == GUI_BEST_TIMES ||
+           (types & GUI_UNLOCK_GOAL) == GUI_UNLOCK_GOAL );
+
+    /* Make sure current score type matches the spec. */
+
+    while ((types & score_type) != score_type)
+        score_type = gui_score_next(score_type);
 
     gui_filler(id);
 
@@ -278,12 +288,15 @@ void gui_score_board(int id, int e, int h)
         {
             gui_filler(kd);
 
-            gui_state(kd, _("Most Coins"),  GUI_SML, GUI_MOST_COINS,
-                      score_type == GUI_MOST_COINS);
-            gui_state(kd, _("Best Times"),  GUI_SML, GUI_BEST_TIMES,
-                      score_type == GUI_BEST_TIMES);
-            gui_state(kd, _("Unlock Goal"), GUI_SML, GUI_UNLOCK_GOAL,
-                      score_type == GUI_UNLOCK_GOAL);
+            if ((types & GUI_MOST_COINS) == GUI_MOST_COINS)
+                gui_state(kd, _("Most Coins"),  GUI_SML, GUI_MOST_COINS,
+                          score_type == GUI_MOST_COINS);
+            if ((types & GUI_BEST_TIMES) == GUI_BEST_TIMES)
+                gui_state(kd, _("Best Times"),  GUI_SML, GUI_BEST_TIMES,
+                          score_type == GUI_BEST_TIMES);
+            if ((types & GUI_UNLOCK_GOAL) == GUI_UNLOCK_GOAL)
+                gui_state(kd, _("Unlock Goal"), GUI_SML, GUI_UNLOCK_GOAL,
+                          score_type == GUI_UNLOCK_GOAL);
 
             if (h)
             {

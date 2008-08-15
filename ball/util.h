@@ -27,7 +27,7 @@ void gui_score_set(int);
 int  gui_score_get(void);
 int  gui_score_next(int);
 
-void gui_score_board(int, int, int);
+void gui_score_board(int, unsigned int, int, int);
 void set_score_board(const struct score *, int,
                      const struct score *, int,
                      const struct score *, int);
