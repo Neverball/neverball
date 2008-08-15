@@ -5,7 +5,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define GUI_NULL_MASK 0x1000
 #define GUI_NULL -100
 #define GUI_BACK -101
 #define GUI_PREV -102
@@ -33,7 +32,7 @@ void gui_keyboard_lock(void);
 char gui_keyboard_char(char);
 
 int  gui_navig(int, int, int);
-int  gui_maybe(int, const char *, int, int);
+int  gui_maybe(int, const char *, int, int, int);
 
 /*---------------------------------------------------------------------------*/
 

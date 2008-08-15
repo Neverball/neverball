@@ -500,8 +500,8 @@ int gui_navig(int id, int prev, int next)
     {
         if (next || prev)
         {
-            gui_maybe(jd, _("Next"), GUI_NEXT, next);
-            gui_maybe(jd, _("Prev"), GUI_PREV, prev);
+            gui_maybe(jd, _("Next"), GUI_NEXT, GUI_NULL, next);
+            gui_maybe(jd, _("Prev"), GUI_PREV, GUI_NULL, prev);
         }
 
         gui_start(jd, _("Back"), GUI_SML, GUI_BACK, 0);
@@ -509,21 +509,17 @@ int gui_navig(int id, int prev, int next)
     return jd;
 }
 
-int gui_maybe(int id, const char *label, int token, int enabled)
+int gui_maybe(int id, const char *label, int etoken, int dtoken, int enabled)
 {
     int bd;
 
     if (!enabled)
     {
-        bd = gui_state(id,
-                       label,
-                       GUI_SML,
-                       token >= 0 ? token | GUI_NULL_MASK : GUI_NULL,
-                       0);
-
+        bd = gui_state(id, label, GUI_SML, dtoken, 0);
         gui_set_color(bd, gui_gry, gui_gry);
     }
-    else bd = gui_state(id, label, GUI_SML, token, 0);
+    else
+        bd = gui_state(id, label, GUI_SML, etoken, 0);
 
     return bd;
 }
