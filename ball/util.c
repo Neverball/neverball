@@ -492,7 +492,7 @@ char gui_keyboard_char(char c)
  * two as labels for a switch with a default label.
  */
 
-int gui_back_prev_next(int id, int prev, int next)
+int gui_navig(int id, int prev, int next)
 {
     int jd;
 

@@ -32,7 +32,7 @@ void gui_keyboard(int);
 void gui_keyboard_lock(void);
 char gui_keyboard_char(char);
 
-int  gui_back_prev_next(int, int, int);
+int  gui_navig(int, int, int);
 int  gui_maybe(int, const char *, int, int);
 
 /*---------------------------------------------------------------------------*/
