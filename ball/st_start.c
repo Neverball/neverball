@@ -102,7 +102,7 @@ static void start_over(int id, int pulse)
                         set_time_score(curr_set()), -1);
     }
 
-    if (i >= 0)
+    if (i >= 0 && !GUI_ISMSK(i))
         start_over_level(i);
 }
 

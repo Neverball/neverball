@@ -48,8 +48,8 @@ int goto_name(struct state *ok, struct state *cancel, unsigned int back)
 
 /*---------------------------------------------------------------------------*/
 
-#define NAME_OK     1
-#define NAME_CANCEL 2
+#define NAME_OK     -1
+#define NAME_CANCEL -2
 
 static int name_id;
 
@@ -172,9 +172,10 @@ static int name_buttn(int b, int d)
         {
             int c = gui_token(gui_click());
 
-            /* Ugh.  This is such a hack. */
-
-            return name_action(isupper(c) ? gui_keyboard_char(c) : c);
+            if (c >= 0 && !GUI_ISMSK(c))
+                return name_action(gui_keyboard_char(c));
+            else
+                return name_action(c);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             name_action(NAME_CANCEL);

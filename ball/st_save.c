@@ -57,8 +57,8 @@ int goto_save(struct state *ok, struct state *cancel)
 
 static int file_id;
 
-#define SAVE_SAVE   1
-#define SAVE_CANCEL 2
+#define SAVE_SAVE   -1
+#define SAVE_CANCEL -2
 
 static int save_action(int i)
 {
@@ -162,9 +162,10 @@ static int save_buttn(int b, int d)
         {
             int c = gui_token(gui_click());
 
-            /* Ugh.  This is such a hack. */
-
-            return save_action(isupper(c) ? gui_keyboard_char(c) : c);
+            if (c >= 0 && !GUI_ISMSK(c))
+                return save_action(gui_keyboard_char(c));
+            else
+                return save_action(c);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return save_action(SAVE_CANCEL);
