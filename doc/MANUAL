@@ -12,23 +12,33 @@ worth 5.  Blue coins are worth 10.  A ball is awarded for 100 coins.
 * INSTRUCTIONS
 
 Click Play  to begin.   Mouse motion tilts  the floor.   Mouse buttons
-rotate the  viewpoint.  The  following keyboard controls  are defined.
-See below for details.
+rotate the viewpoint.  The following  keyboard controls are defined by
+default; most  of them can  be changed  in a configuration  file.  See
+below for details.
 
-    SPACE  Pause and resume / Release mouse grab
-    ESC    End a game / Exit
+    ESC    Pause and resume / Exit
     SHIFT  Fast camera rotation
 
-    F1     Default Camera                            (configurable)
-    F2     Lazy Camera                               (configurable)
-    F3     Static Camera                             (configurable)
+    F1     Default Camera
+    F2     Lazy Camera
+    F3     Static Camera
 
-    F7     Toggle wire mode
+    F6     Hide HUD
     F8     Toggle nice mode
     F9     Toggle frame counter
     F10    Snap a screenshot
-    F12    Toggle look-around mode
 
+    UP     Tilt the floor forward
+    DOWN   Tilt the floor backward
+    LEFT   Tilt the floor left
+    RIGHT  Tilt the floor right
+
+    D      Rotate the view right
+    S      Rotate the view left
+
+    R      Restart the current level
+
+    TAB    Cycle through scores in high-score table
 
 
 * USER DATA FILES
