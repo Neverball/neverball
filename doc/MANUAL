@@ -41,6 +41,51 @@ below for details.
     TAB    Cycle through scores in high-score table
 
 
+* LEVEL PROGRESSION
+
+Neverball levels are grouped in  level sets.  All sets are immediately
+accessible to the player, and track of progress is kept separately for
+each set.  The player starts out  at the first level and must complete
+each level in turn to unlock subsequent levels until all levels in the
+set are completed.   A level is "unlocked" by  completing the previous
+level in the  progression or if it  is the first level of  the set.  A
+level  is "completed"  by collecing  the required  amount of  coins to
+activate the goal in the level and reaching said goal.
+
+There are  two game  modes or  ways of  progressing through  levels in
+Neverball.  Each  mode is essentially  a subset  of the single  way of
+playing present in Neverball 1.4.0.
+
+In 1.4.0, the game keeps track of "lives" or balls, preventing a level
+from being retried once the balls run out, however, unlocked/completed
+levels remain accessible in the menu at all times.  As a special case,
+1.4.0  also records  a set  high-score (see  below for  information on
+high-scores)  when all  levels  of a  set are  played  through in  one
+attempt, with  the condition  that no successfully-completed  level be
+restarted during the run.
+
+To  address  some of  the  problems  with  this  mode of  playing,  in
+Neverball 1.5.0  it was  split into two  separate modes:  the "normal"
+mode and the challenge mode.
+
+In   the   normal  mode,   no   track   of   balls  is   kept.    Each
+unlocked/completed level is immediately  accessible and can be retried
+and restarted mid-game as often as desired.
+
+In the challenge  mode, the player is given a  limited number of balls
+and starts  out at the  first level of the  set with all  other levels
+locked.  The game ends once the balls run out or all levels in the set
+are completed.  A set score is  recorded for a successful run.  Levels
+cannot be restarted, but can be retried.
+
+In addition to regular  1.4.0-style levels, Neverball 1.5.0 introduces
+bonus levels: extra levels awarded  for playing challenge mode.  Bonus
+levels can only  be unlocked by completing all the  levels before them
+in  challenge  mode,  however,  bonus levels  themselves  are  skipped
+challenge mode; after  they have been unlocked, they can  be played in
+the normal mode as any regular level.
+
+
 * USER DATA FILES
 
 Neverball  creates a  directory in  which it  stores user  data files.
