@@ -136,19 +136,6 @@ to  the user  data directory  and it  will appear  in the  Replay menu
 in-game.
 
 
-
-* NEVERPUTT
-
-Neverputt is Neverball's mini-game.   What you do is that you put your
-ball over a course and you are to get it in the hole as few strokes as
-possible, if you can get less strokes than par, you are a good player.
-If you can get the ball in one stroke, that is even better.
-
-The scores add up to make the total score for the course. Try to avoid
-going over par if you can help it.
-
-
-
 * CONFIGURATION
 
 Game  settings are stored  in the  file neverballrc  in the  user data
