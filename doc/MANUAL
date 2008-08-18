@@ -44,15 +44,19 @@ below for details.
 * USER DATA FILES
 
 Neverball  creates a  directory in  which it  stores user  data files.
-These files  include high  scores, replays, and  configurations. Under
-Unix, Linux, and  OSX this directory is called ".neverball"  and it is
-created in your home directory (specifically, the directory set in the
-HOME environment variable). Under Windows it is called "Neverball" and
-it is created in the user's application data directory or, if the game
-is unable to  determine the location of this directory,  it is assumed
-that the user has permission to  write to the game data directory, and
-the user data directory is created within.
+These files include high scores, replays, and configurations.
 
+Under Unix, Linux,  and OSX this directory is  called ".neverball" and
+is created in  the user's home directory,  specifically, the directory
+set in the HOME environment variable.
+
+Under Windows  it is called "Neverball"  and is created in  the user's
+application  data  directory the  location  of  which is  obtained  by
+inspecting the  APPDATA environment variable.   An easy way  to access
+this directory is by typing  %APPDATA% in the Windows Explorer address
+bar.  If the location could not  be determined, it is assumed that the
+user has permission to write to  the game data directory, and the user
+data directory is created within.
 
 
 * HIGH SCORES
