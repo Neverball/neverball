@@ -3,12 +3,10 @@
 
 
 Tilt the  floor to roll a  ball through an obstacle  course within the
-given time. If the ball falls or time expires, the player must restart
-the level.
+given  time.  If  the  ball falls  or time  expires, a ball is lost.
 
 Collect coins to unlock the exit  and earn extra balls.  Red coins are
-worth 5.   Blue coins are  worth 10.  A  free ball is awarded  for 100
-coins.
+worth 5.  Blue coins are worth 10.  A ball is awarded for 100 coins.
 
 
 * INSTRUCTIONS
