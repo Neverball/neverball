@@ -3,8 +3,8 @@
 
 
 Tilt the  floor to roll a  ball through an obstacle  course within the
-given time.  If the ball falls or time expires, the player must
-restart the level.
+given time. If the ball falls or time expires, the player must restart
+the level.
 
 Collect coins to unlock the exit  and earn extra balls.  Red coins are
 worth 5.   Blue coins are  worth 10.  A  free ball is awarded  for 100
@@ -35,15 +35,15 @@ See below for details.
 
 * USER DATA FILES
 
-Neverball creates a directory in which it stores user data files.  These
-files include high scores, replays, and configurations.  Under Unix,
-Linux, and OSX this directory is called ".neverball" and it is created
-in your home directory (specifically, the directory set in the HOME
-environment variable).  Under Windows it is called "Neverball" and it is
-created in the user's application data directory or, if the game is
-unable to determine the location of this directory, it is assumed that
-the user has permission to write to the game data directory, and the
-user data directory is created within.
+Neverball  creates a  directory in  which it  stores user  data files.
+These files  include high  scores, replays, and  configurations. Under
+Unix, Linux, and  OSX this directory is called ".neverball"  and it is
+created in your home directory (specifically, the directory set in the
+HOME environment variable). Under Windows it is called "Neverball" and
+it is created in the user's application data directory or, if the game
+is unable to  determine the location of this directory,  it is assumed
+that the user has permission to  write to the game data directory, and
+the user data directory is created within.
 
 
 
