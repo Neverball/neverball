@@ -144,6 +144,13 @@ key /  value pairs.  Some of  these values are  configurable using the
 in-game  options  screen.  Other  meaningful  keys  and their  default
 values follow.
 
+    width  800
+    height 600
+
+        These keys determine the effective display resolution.  If for
+        any reason  the resolution you're looking  for isn't available
+        in the in-game settings, you can modify these values instead.
+
     mouse_sense 300
 
         This  key controls  mouse  sensitivity.  The  value gives  the
@@ -158,12 +165,14 @@ values follow.
     key_camera_1 f1
     key_camera_2 f2
     key_camera_3 f3
-    key_camera_l left
-    key_camera_r right
+    key_camera_l d
+    key_camera_r s
 
         These keys  define keyboard mappings for  camera selection and
-        rotation.  Key  names are specified using  SDL's canonical key
-        naming convention.  The three camera behaviors are as follows:
+        rotation.   Key  names  are specified  using  SDL's  canonical
+        key  naming   convention  (for   a  mostly-complete   list  of
+        non-single-letter  key  names,  see  share/keynames.c  in  the
+        source archive).  The three camera behaviors are as follows:
 
         1 - Strict  camera stays behind the ball by  cueing off of the
         velocity of the  ball.  It is very  responsive,  but sometimes
@@ -174,6 +183,33 @@ values follow.
         responsive.
 
         3 - Locked camera  does not rotate  except by  player command.
+
+    key_forward  up
+    key_backward down
+    key_left     left
+    key_right    right
+
+        These keys define keyboard mappings for tilt control.
+
+    key_pause escape
+
+        This  key defines  a  keyboard mapping  for pause  activation.
+        Before version 1.5.0, this mapping was hard-coded to the space
+        bar and Escape key was used  to immediately exit the game.  To
+        restore  this behaviour,  set  key_pause  to "space"  (without
+        quotes).
+
+    key_restart r
+
+        This key defines a keyboard  mapping for a mid-game restart of
+        the  current  level.   Handy  when  trying  to  record  a  new
+        high-score, this function isn't available in challenge mode.
+
+    key_score_next tab
+
+        This key defines  a keyboard mapping for  cycling through Most
+        Coins / Best Times / Unlock  Goal score tabs in the high-score
+        board.
 
     view_fov 50
     view_dp  75
@@ -208,7 +244,7 @@ values follow.
         This key enables an on-screen frames-per-second counter. Press
         F9 to toggle this flag in-game.
 
-    nice 1
+    nice 0
 
         This  key  enables  a  delay  function  after  each  frame  is
         rendered, forcing a context  switch and ensuring that the game
@@ -220,14 +256,64 @@ values follow.
 
         Press F8 to toggle this flag in-game.
 
-    coin png/coin.png
-    ball png/ball.png
+    ball_file ball/basic-ball/basic-ball
 
-        These keys determine the texture image applied to the coin and
-        ball.  If  you prefer collecting euros  to collecting dollars,
-        set:
+        This key determines the model used for the ball.
 
-            coin png/euro_coin.png
+    replay_name %s-%l
+
+        This  key specifies  the  format of  the  default replay  name
+        generated when saving replays.
+
+        The value  of replay_name  can include regular  characters and
+        special  character sequences  which act  as place-holders  for
+        certain "dynamic" text.  These sequences are recognised:
+
+            %s  current set identifier (such as "easy" or "mym")
+            %l  current level identifier (such as "03" or "IV")
+            %%  single percentage sign
+
+        Any  other sequence  starting with  % will  be reported  as an
+        error and skipped.
+
+        The resulting  replay name is  also suffixed by  an underscore
+        and  a unique  2-digit number  to avoid  name collisions  with
+        existing replays.
+
+    stats 0
+
+        This  key enables  print-out (to  standard output)  of running
+        statistics of  the current  frame time  and frames-per-second,
+        averaged over 250 milliseconds.  Most people won't need this.
+
+    uniform 0
+
+        This  key controls  the  frequency of  graphical updates  with
+        respect to physics updates.
+
+        When  uniform is  N, then  there  will be  exactly N  physical
+        updates per graphics update, regardless of the passage of real
+        time.  So for example, if uniform is 1 then you will see every
+        physics update  rendered exactly once.   The default is  0 and
+        the option is disabled.
+
+        A further functionality  is built atop the  uniform option: if
+        the  uniform value  is  negative  then the  game  will take  a
+        screenshot  at  each  frame.   This  may  be  used  to  record
+        high-quality movies of replays.  Set uniform to -3 and start a
+        replay using  the --replay command  line option, and  you will
+        find a 30FPS movie written as a series of PNGs.
+
+        On an unfortunate note: audio is handled in a separate thread,
+        and there is no support for outputting audio synchronized with
+        a movie created in this fashion.
+
+    screenshot 0
+
+        This key holds  the current screen-shot index.   The number is
+        incremented every time a new screen-shot is taken (by pressing
+        F10 or in  uniform mode) and it is appended  to the image file
+        name.
 
     stereo 0
 
@@ -236,6 +322,41 @@ values follow.
         determines the  interocular distance.  0  is normal non-stereo
         viewing.  2 gives  a  good  stereo effect.   If  the eyes  are
         swapped, give a negative value, like -2.
+
+    vsync 1
+
+        This key controls vertical  blanking synchronization.  1 is on
+        (and is the default), 0 is off.
+
+    multisample 0
+
+        This key enables multisample full-screen antialiasing.  Values
+        can be 2,  4, 8, etc., and can be  overspecified; in such case
+        the game  will search for  the highest level  of multisampling
+        supported by  your hardware.  (The best  value eventually gets
+        written to the config file.)
+
+    mipmap 0
+    aniso  0
+
+        These  keys  control  mipmapping  and  anisotropic  filtering,
+        respectively.
+
+        With mipmapping, smaller versions of  each texture are kept in
+        video  memory, and  are referenced  when a  texture is  viewed
+        from  a distance.   This  improves video  cache coherence  and
+        eliminates texture  "swimming" on detailed textures  when seen
+        from afar.  To enable mipmapping, set mipmap to 1.
+
+        Related to mipmapping is anisotropic filtering.  "Anisotropic"
+        basically means "not the same from all directions".  It refers
+        to  cases where  a texture  might need  to be  compressed more
+        vertically than  horizontally.  For  example, if a  texture is
+        applied  to a  flat surface  and seen  from far  away then  it
+        appears  much wider  than high.   Anisotropic filtering  takes
+        care of  this.  To enable  it, set aniso  to a small  power of
+        two.   If  you  have  weak hardware,  this  feature  won't  do
+        anything.
 
     joystick 0
 
@@ -277,6 +398,12 @@ values follow.
     joystick_button_exit 4
 
         Joystick exit button
+
+    wiimote_addr
+
+        This key  specifies the address  of your Nintendo  Wii Remote.
+        For more  information, see the  section on using  Wiimote with
+        Neverball.
 
 
 * WIIMOTE SUPPORT
