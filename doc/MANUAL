@@ -279,5 +279,40 @@ values follow.
         Joystick exit button
 
 
+* WIIMOTE SUPPORT
+
+For information  on how to build  the game with Wiimote  support under
+Linux, see instructions in the file INSTALL in the source archive.
+
+To use it, first make sure you've set up all the Bluetooth mumbo-jumbo
+in your kernel  and what-not.  Once this is done,  you'll need to find
+out your Wiimote's address like this:
+
+    $ hcitool scan
+    Scanning ...
+            00:1B:7A:3E:45:7F       Nintendo RVL-CNT-01
+
+This  hexadecimal   string  must  go   in  the  neverballrc   file  as
+"wiimote_addr 00:1B:7A:3E:45:7F" so that the game knows that there's a
+Wiimote to be used.
+
+Now, when  you start the game  everything will proceed normally  but a
+background thread  will place your Bluetooth  device into discoverable
+mode.  You've got about  15 seconds to press 1 and  2 on your wiimote.
+The Wiimote's LEDs will flash, and once the game makes friends with it
+the Player 1 LED will be lit.  If you don't activate your Wiimote then
+the  game  will  behave  normally and  the  Bluetooth  discovery  will
+eventually time out.
+
+From  there,  the  Wiimote  digital  pad works  like  a  joystick  for
+navigating menus.  A and  B buttons are the A and  B buttons.  Home is
+Pause.  Plus and  Minus are camera rotation controls.   Also, the tilt
+sensor controls the floor.
+
+The  Wiimote tilt  sensor is  a  surprisingly noisy  device, so  heavy
+filtering is applied to the input.   For this reason, the controls may
+feel sluggish.  This might improve with  an IR sensor bar, but has not
+been tested.
+
 
 Contact: <robert.kooima@gmail.com>
