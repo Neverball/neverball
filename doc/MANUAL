@@ -106,9 +106,9 @@ data directory is created within.
 
 * HIGH SCORES
 
-The top three fastest times through each level, and the top three coin
-scores for each  level are stored in files  named neverballhs-* in the
-user data directory.
+The top  three fastest times  through each  level, the top  three coin
+scores and the top three goal  unlock scores for each level are stored
+in files named neverballhs-* in the user data directory.
 
 The top  three fastest  times and  most coins scores  for each  set of
 levels are also stored.  To achieve  a set score, the player must play
