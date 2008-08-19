@@ -11,27 +11,27 @@ dim shared as uinteger Entity, LevelTime, Blocks, TargetCoins, Coins, _
     MinimumLevelTime, UsedMoney, SingleLevelID
 dim shared as integer Money
 dim shared as longint PlacementFormula, PlacementTest(-11 to 11,_
-                      -11 to 11,-11 to 21)
+    -11 to 11,-11 to 21)
 dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, _
     LevelMessage, WindowTitleM, Compile, Replay, LevelName, MusicPlay, _
     Neverpath, InType, AssistDir, ShotFile, Username, UserData, DataScan
 dim shared as byte Check
 dim shared as any ptr BlockDisplay
 #IFDEF __FB_WIN32__
-const AssistCfg = "assist.ini"
-const UserCfg = "users\"
+    const AssistCfg = "assist.ini"
+    const UserCfg = "users\"
 #ELSE
-const AssistCfg = "assistrc"
-const UserCfg = ".users/"
+    const AssistCfg = "assistrc"
+    const UserCfg = ".users/"
 #ENDIF
 const m = 1
 #IFDEF __FB_WIN32__
-/'
- ' 7-Zip-dependent resources
- ' Z7Path and Z7Exe could have been 7ZPath and 7ZExe, but variables can NOT
- ' start with a number.
- '/
-dim shared as string Z7Path, Z7Exe, Unpack
+    /'
+    ' 7-Zip-dependent resources
+    ' Z7Path and Z7Exe could have been 7ZPath and 7ZExe, but variables can NOT
+    ' start with a number.
+    '/
+    dim shared as string Z7Path, Z7Exe, Unpack
 #ENDIF
 /'
  'These are related to Official Mode.
@@ -113,9 +113,9 @@ end sub
 sub user_data(Switch as ubyte = 0)
     if Switch = 0 then
         #IFDEF __FB_WIN32__
-        open AssistDir + "\" + UserCfg + Username + "\" + "user.ini" for output as #3
+            open AssistDir + "\" + UserCfg + Username + "\" + "user.ini" for output as #3
         #ELSE
-        open AssistDir + "/" + UserCfg + Username + "/" + "userrc" for output as #3
+            open AssistDir + "/" + UserCfg + Username + "/" + "userrc" for output as #3
         #ENDIF
         print #3, ""& Money
         print #3, UserData
@@ -125,9 +125,9 @@ sub user_data(Switch as ubyte = 0)
         close #3
     else
         #IFDEF __FB_WIN32__
-        open AssistDir + "\" + UserCfg + Username + "\" + "user.ini" for input as #3
+            open AssistDir + "\" + UserCfg + Username + "\" + "user.ini" for input as #3
         #ELSE
-        open AssistDir + "/" + UserCfg + Username + "/" + "userrc" for input as #3
+            open AssistDir + "/" + UserCfg + Username + "/" + "userrc" for input as #3
         #ENDIF
         input #3, Money
         input #3, UserData
@@ -141,35 +141,35 @@ sub config(Switch as ubyte = 0)
     dim as ubyte ConvertID
     if Switch = 0 then
         #IFDEF __FB_WIN32__
-        open AssistDir + "\" + AssistCfg for output as #2
-        print #2, Username
-        print #2, NeverPath
-        print #2, LangFile
-        print #2, Z7Path
-        print #2, Z7Exe
-        close #2
+            open AssistDir + "\" + AssistCfg for output as #2
+            print #2, Username
+            print #2, NeverPath
+            print #2, LangFile
+            print #2, Z7Path
+            print #2, Z7Exe
+            close #2
         #ELSE
-        open AssistDir + "/" + AssistCfg for output as #2
-        print #2, Username
-        print #2, NeverPath
-        print #2, LangFile
-        close #2
+            open AssistDir + "/" + AssistCfg for output as #2
+            print #2, Username
+            print #2, NeverPath
+            print #2, LangFile
+            close #2
         #ENDIF
     else
         #IFDEF __FB_WIN32__
-        open AssistDir + "\" + AssistCfg for input as #2
-        input #2, Username
-        line input #2, NeverPath
-        input #2, LangFile
-        input #2, Z7Path
-        input #2, Z7Exe
-        close #2
+            open AssistDir + "\" + AssistCfg for input as #2
+            input #2, Username
+            line input #2, NeverPath
+            input #2, LangFile
+            input #2, Z7Path
+            input #2, Z7Exe
+            close #2
         #ELSE
-        open AssistDir + "/" + AssistCfg for input as #2
-        input #2, Username
-        line input #2, NeverPath
-        input #2, LangFile
-        close #2
+            open AssistDir + "/" + AssistCfg for input as #2
+            input #2, Username
+            line input #2, NeverPath
+            input #2, LangFile
+            close #2
         #ENDIF
     end if
 end sub
