@@ -1,101 +1,161 @@
+# This  should  be  a  somewhat  complete  list  of  people  who  have
+# contributed to  Neverball.  The  format is  copied from  the AUTHORS
+# file in the XMMS2 source tree, where  in turn it was copied from the
+# CREDITS file  in the  Linux kernel source  tree...  The  fields are:
+# name (N), e-mail  (E), website (W), PGP key ID  and fingerprint (P),
+# description (D).
+#
+# This list is sorted alphabetically.
 
-                           * Neverball and Neverputt *
+N: Ben Anderson
+D: Mac OS X build maintenance and packaging
+D: Icons
 
-* LEAD MAINTAINER
+N: Derek Arndt
+D: Mac OS X packaging
 
-    Robert Kooima <robert.kooima@gmail.com>
+N: Erik Auerswald
+D: Mouse invert
 
-* DEVELOPERS
+N: Kevin Ballard
+D: Various bug fixes for Mac OS X builds
 
-    Robert Kooima
-    Jean Privat
+N: Josh Bush
+D: SVG icons
+D: Screenshot naming tweaks
 
-* MAPPERS
+N: Challenge Space Yard (alias)
+E: challengespaceyard@gmail.com
+D: High-score updates
+D: Neverputt tweaks
 
-    Pasi Kallinen       (paxed)
-    Robert Kooima       (rlk)
-    Mehdi Yousfi-Monod  (mym)
-    Michael Middleton   (slippifishi)
-    Florian Priester
+N: Miguel Diago
+E: mdiagom@gmail.com
+D: Spanish translation
 
-* TRANSLATORS
+N: Corey Edwards
+D: Joystick select
 
-    Finnish:
-      - Pasi Kallinen
+N: Luc Fabresse
+D: Mac OS X packaging
 
-    French:
-      - Jean Privat
-      - Mehdi Yousfi-Monod
+N: Christoph Frick
+D: Mac OS X port
 
-    German:
-      - Georg Wachter
+N: Max Gilead
+D: Debian packaging
 
-    Latvian:
-      - Jānis Rūcis
+N: François Guillet
+D: Neverball Hall of Fame development and hosting
+D: Neverforum and Neverwiki installation and hosting
 
-    Norwegian Nynorsk:
-      - Karl Ove Hufthammer
+N: Phil Harper
+D: TheOpenCD packaging
+D: Icons
 
-    Spanish:
-      - Miguel Diago
+N: Kyle Hoker
+D: Feature ideas and testing
 
-* THANKS TO
+N: Karl Ove Hufthammer
+E: karl@huftis.org
+D: Norwegian Nynorsk translation
 
-    Derek Arndt
-      - OSX packaging
-    Erik Auerswald
-      - Mouse invert
-    Josh Bush
-      - SVG icons
-    Corey Edwards
-      - Joystick select
-    Christoph Frick
-      - OSX port
-    Max Gilead
-      - Debian packaging
-    François Guillet
-      - Neverball Hall of Fame development and hosting
-      - Neverforum and Neverwiki installation and hosting
-    Phil Harper
-      - TheOpenCD packaging
-      - Icons
-    Kyle Hoker
-      - Feature ideas and testing
-    Byron James Johnson
-      - Platform acceleration toggle
-    Laurent Moussault (Lorant)
-      - Menu navigation improvements
-      - Layout improvements in several screens
-      - Neverputt joystick and keyboard support
-      - New pause screen
-      - I18n improvements
-      - Various bug fixes
-    Jeremy Messenger
-      - FreeBSD port
-    Florian Priester
-      - Ball shadow removal in poser mode
-      - Performance improvement on maps not using reflective materials
-    Jānis Rūcis
-      - Code contributions and clean-up
-    Michael Sterret
-      - Gentoo ebuild
-    Lars Stoltenow
-      - Map compiler speed-ups for debugging large maps
-    Uoti Urpala
-      - Bounces with moving objects
-      - Significant map compiler optimisations
-    Mehdi Yousfi-Monod
-      - Neverball Hall of Fame management
-      - Windows packaging
-    Ben Anderson (jammnrose)
-      - Mac OS X build maintaining and packaging
-    Kevin Ballard
-      - Various bug fixes for Mac OS X builds
-    Challenge Space Yard (nick; challengespaceyard gmail.com)
-      - Unlock Goal scores for existing levels
-      - New stroke limit
-    Countless others for play testing and bug reports.
+N: Byron James Johnson
+D: Neverputt course
+D: Platform acceleration toggle
+D: Various fixes
 
-    http://www.happypenguin.org
-    http://www.flipcode.com
+N: Pasi Kallinen
+E: paxed@alt.org
+D: Finnish translation
+D: Neverputt courses
+D: mapc tweaks
+
+N: Robert Kooima
+E: robert.kooima@gmail.com
+D: Developer
+D: Grand Poobah of the Neverball Rabble
+D: Original author/composer/graphics artist
+
+N: Michael Middleton
+D: Neverputt course
+
+N: Laurent Moussault
+D: Menu navigation improvements
+D: Interface layout improvements
+D: Neverputt joystick and keyboard support
+D: New pause screen
+D: I18n improvements
+D: Various bug fixes and features
+
+N: Jeremy Messenger
+D: FreeBSD port
+
+N: David Olsen
+D: Neverball maps
+D: Textures
+D: Grow/shrink items
+
+N: Florian Priester
+D: Mapper
+D: German translation
+D: Texture clean-up
+D: Ball shadow removal in poser mode
+D: Performance improvement on maps not using reflective materials
+
+N: Jordà Polo
+D: Debian packaging
+D: Neverputt score fixes
+
+N: Jean Privat
+D: Developer (inactive)
+D: French translation
+D: Internationalisation
+D: Various bug fixes and features
+
+N: Jānis Rūcis
+E: parasti@gmail.com
+D: Developer
+D: Latvian translation
+
+N: Alexander Schmehl
+D: Debian packaging
+
+N: Michael Sterret
+D: Gentoo ebuild
+
+N: Lars Stoltenow
+D: mapc speed-ups for debugging large maps
+
+N: Tamas Szerb
+D: Debian packaging
+
+N: Uoti Urpala
+D: Bounces with moving objects
+D: Significant mapc optimisations
+
+N: Georg Wachter
+E: georgwachter@gmail.com
+D: German translation
+
+N: Ian Walker
+D: Mapper
+D: Textures
+D: Neverball Medium set organisation
+
+N: Mehdi Yousfi-Monod
+E: mehdi.yousfi@gmail.com
+D: Mapper
+D: French translation
+D: Neverball Hall of Fame management
+D: Windows packaging
+
+# No names should follow this comment  and unless you really are after
+# "Mehdi Yousfi-Monod" when sorted alphabetically, don't add your name
+# here.
+
+# This "contributor" is special.
+N: Countless others for play testing and bug reports
+W: http://www.happypenguin.org/
+W: http://www.flipcode.com/
 
