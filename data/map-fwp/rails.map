@@ -11,7 +11,7 @@
 "time" "9000"
 "goal" "24"
 "time_hs" "350 800"
-"coin_hs" "64 34"
+"coin_hs" "64 44"
 "goal_hs" "1500 3000"
 "message" "=Rails=\Do not lose your balance."
 // brush 0
