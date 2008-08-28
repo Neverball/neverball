@@ -4327,7 +4327,7 @@
 // entity 27
 {
 "classname" "path_corner"
-"origin" "0 1632 132"
+"origin" "0 1632 131"
 "targetname" "t16"
 "target" "t17"
 "speed" "3"
@@ -4335,7 +4335,7 @@
 // entity 28
 {
 "classname" "path_corner"
-"origin" "0 1632 132"
+"origin" "0 1632 131"
 "targetname" "t17"
 "target" "t18"
 "speed" "1"
@@ -4371,7 +4371,7 @@
 "target" "t23"
 "targetname" "t22"
 "speed" "4"
-"origin" "-128 2144 132"
+"origin" "-128 2144 131"
 }
 // entity 33
 {
@@ -4379,7 +4379,7 @@
 "target" "t24"
 "targetname" "t23"
 "speed" "1"
-"origin" "-128 2144 132"
+"origin" "-128 2144 131"
 }
 // entity 34
 {
