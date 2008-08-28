@@ -14,7 +14,7 @@
 "time_hs" "4500 6000"
 "goal_hs" "6000 9000"
 "coin_hs" "70 40"
-"message" "Le grand cone.\Living in a cone."
+"message" "Le grand cône.\Living in a cone."
 // brush 0
 {
 ( 64 64 -94 ) ( 64 -64 -94 ) ( -64 64 -94 ) mtrl/goal 128.0000152588 128 0 0.4999999404 0.5 134217728 0 0

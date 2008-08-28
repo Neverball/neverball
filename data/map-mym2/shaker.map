@@ -13,7 +13,7 @@
 "goal" "100"
 "time_hs" "6000 12000"
 "coin_hs" "240 160"
-"message" "Preparez un petit sac.\The stomach-tester."
+"message" "Préparez un petit sac.\The stomach-tester."
 "bonus" "1"
 // brush 0
 {

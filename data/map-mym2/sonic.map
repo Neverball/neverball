@@ -14,7 +14,7 @@
 "time_hs" "2600 2800"
 "goal_hs" "3000 3200"
 "coin_hs" "138 100"
-"message" "Un petit echauffement.\Welcome to the new Mehdi's set!"
+"message" "Un petit échauffement.\Welcome to the new Mehdi's set!"
 // brush 0
 {
 ( 1216 1332 -64 ) ( 1088 1332 -64 ) ( 1216 1364 -64 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0

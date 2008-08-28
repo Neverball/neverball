@@ -13,7 +13,7 @@
 "goal" "0"
 "time_hs" "3000 4000"
 "coin_hs" "80 20"
-"message" "Plus dur que la difficulte.\Good luck."
+"message" "Plus dur que la difficulté.\Good luck."
 // brush 0
 {
 ( -320 -64 -1024 ) ( -320 -192 -1024 ) ( -320 -192 -1056 ) mtrl/edge-green-offset 128 0 0 0.5 0.5 0 0 0
