@@ -461,7 +461,10 @@ void set_cheat(void)
     int i;
 
     for (i = 0; i < set_v[set].count; i++)
-        level_v[i].is_locked = 0;
+    {
+        level_v[i].is_locked    = 0;
+        level_v[i].is_completed = 1;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
