@@ -11,7 +11,8 @@
 "song" "bgm/track2.ogg"
 "time" "12000"
 "goal" "100"
-"time_hs" "5300 7000"
+"time_hs" "5000 5500"
+"goal_hs" "5200 5700"
 "coin_hs" "150 130"
 "message" "L'escalade ardue.\Do you suffer from vertigo?"
 // brush 0

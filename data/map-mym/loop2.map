@@ -11,7 +11,8 @@
 "song" "bgm/track5.ogg"
 "time" "7000"
 "goal" "70"
-"time_hs" "2100 4000"
+"time_hs" "1800 2200"
+"goal_hs" "2000 2400"
 "coin_hs" "110 80"
 "message" "Le contrôle des courbes.\Find the right angle to turn,\to jump and to land..."
 // brush 0

@@ -11,7 +11,8 @@
 "song" "bgm/track5.ogg"
 "time" "15000"
 "goal" "60"
-"time_hs" "4100 6000"
+"time_hs" "4000 5000"
+"goal_hs" "4000 5000"
 "coin_hs" "114 64"
 "message" "Le sens trigonométrique.\Turn, wait and jump."
 // brush 0

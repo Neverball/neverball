@@ -11,7 +11,8 @@
 "song" "bgm/track2.ogg"
 "time" "5000"
 "goal" "50"
-"time_hs" "3300 4500"
+"time_hs" "3000 3500"
+"goal_hs" "3300 3800"
 "coin_hs" "75 55"
 "message" "La conduite dangereuse.\The platform under the ball moves quickly forward.\You would do well to advance."
 // brush 0

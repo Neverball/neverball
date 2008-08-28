@@ -11,7 +11,8 @@
 "song" "bgm/track5.ogg"
 "time" "7000"
 "goal" "90"
-"time_hs" "4300 5500"
+"time_hs" "3300 4300"
+"goal_hs" "4300 5300"
 "coin_hs" "109 100"
 "message" "Le sentier étroit.\Patience and timing.\Tips: maximise speed at the first slope."
 // brush 0

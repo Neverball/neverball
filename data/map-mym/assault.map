@@ -11,7 +11,8 @@
 "song" "bgm/track5.ogg"
 "time" "12000"
 "goal" "100"
-"time_hs" "3400 5000"
+"time_hs" "3000 3500"
+"goal_hs" "3200 3700"
 "coin_hs" "146 120"
 "message" "Le parcours du combattant.\Ready for the assault course?"
 // brush 0
