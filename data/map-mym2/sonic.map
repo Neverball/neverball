@@ -11,8 +11,9 @@
 "song" "bgm/track3.ogg"
 "time" "6000"
 "goal" "8"
-"time_hs" "2600 3000"
-"coin_hs" "128 48"
+"time_hs" "2600 2800"
+"goal_hs" "3000 3200"
+"coin_hs" "138 100"
 "message" "Un petit echauffement.\Welcome to the new Mehdi's set!"
 // brush 0
 {

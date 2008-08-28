@@ -12,7 +12,8 @@
 "shot" "shot-mym2/speeddance.jpg"
 "time" "4500"
 "goal" "0"
-"time_hs" "4100 4300"
+"time_hs" "4100 4200"
+"time_hs" "4200 4300"
 "coin_hs" "10 0"
 "bonus" "1"
 // brush 0

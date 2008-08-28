@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
 "levelname" "bigball"
-"version" "1"
+"version" "2"
 "message" "La machine à circonvolutions.\Easy, the goal is just above you."
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
@@ -12,6 +12,9 @@
 "shot" "shot-mym2/bigball.jpg"
 "time" "9000"
 "goal" "80"
+"time_hs" "700 1000"
+"goal_hs" "3000 4500"
+"coin_hs" "200 160"
 // brush 0
 {
 ( -60 128 8 ) ( -60 0 8 ) ( -60 128 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
@@ -181,12 +184,12 @@
 }
 // brush 15
 {
-( 8 128 232 ) ( 8 0 232 ) ( 0 128 232 ) mtrl/goal 128 0 0 0.5 0.5 134217728 0 0
-( 8 124 232 ) ( 0 124 232 ) ( 8 124 224 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
-( 60 120 232 ) ( 60 120 224 ) ( 60 -8 232 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
-( 0 1 231 ) ( 8 1 231 ) ( 0 129 231 ) mtrl/goal 128 0 0 0.5 0.5 134217728 0 0
-( 0 4 224 ) ( 0 4 232 ) ( 8 4 224 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
-( -60 0 224 ) ( -60 128 224 ) ( -60 0 232 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 8 128 224 ) ( 8 0 224 ) ( 0 128 224 ) mtrl/goal 128 0 0 0.5 0.5 134217728 0 0
+( 8 124 224 ) ( 0 124 224 ) ( 8 124 216 ) mtrl/invisible 0 112 0 0.5 0.5 134217728 0 0
+( 60 120 224 ) ( 60 120 216 ) ( 60 -8 224 ) mtrl/invisible 0 112 0 0.5 0.5 134217728 0 0
+( 0 1 223 ) ( 8 1 223 ) ( 0 129 223 ) mtrl/goal 128 0 0 0.5 0.5 134217728 0 0
+( 0 4 216 ) ( 0 4 224 ) ( 8 4 216 ) mtrl/invisible 0 112 0 0.5 0.5 134217728 0 0
+( -60 0 216 ) ( -60 128 216 ) ( -60 0 224 ) mtrl/invisible 0 112 0 0.5 0.5 134217728 0 0
 }
 // brush 16
 {
@@ -17909,7 +17912,7 @@
 // entity 140
 {
 "classname" "info_player_deathmatch"
-"origin" "0 64 256"
+"origin" "0 64 248"
 }
 // entity 141
 {

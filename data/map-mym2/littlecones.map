@@ -11,7 +11,8 @@
 "shot" "shot-mym2/littlecones.jpg"
 "time" "12000"
 "goal" "150"
-"time_hs" "400 600"
+"time_hs" "450 500"
+"goal_hs" "3000 4000"
 "coin_hs" "334 260"
 "message" "Ne pas se laisser emporter dans le neant.\Don't go too low."
 // brush 0

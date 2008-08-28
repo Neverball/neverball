@@ -10,8 +10,9 @@
 "shot" "shot-mym2/basket.jpg"
 "time" "18000"
 "goal" "15"
-"time_hs" "3200 5000"
-"coin_hs" "50 30"
+"time_hs" "3200 4000"
+"goal_hs" "4000 5000"
+"coin_hs" "60 40"
 "message" "Street Neverball\Choose your party and score 3 points."
 "bonus" "1"
 // brush 0

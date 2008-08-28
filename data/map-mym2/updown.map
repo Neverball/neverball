@@ -12,6 +12,7 @@
 "time" "9000"
 "goal" "40"
 "time_hs" "1200 2100"
+"goal_hs" "4000 5000"
 "coin_hs" "82 60"
 "message" "Tranquille, mais pas trop.\Sync yourself to the elevators."
 // brush 0

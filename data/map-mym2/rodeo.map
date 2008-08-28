@@ -9,10 +9,11 @@
 "grad" "back/alien.png"
 "song" "bgm/track5.ogg"
 "shot" "shot-mym2/rodeo.jpg"
-"time" "9000"
+"time" "18000"
 "goal" "0"
-"time_hs" "210 400"
-"coin_hs" "80 40"
+"time_hs" "320 400"
+"time_hs" "320 400"
+"coin_hs" "100 60"
 "message" "Le rodeo de Neverball.\You'll fall quickly."
 // brush 0
 {

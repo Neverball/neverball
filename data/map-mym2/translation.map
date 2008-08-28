@@ -12,6 +12,7 @@
 "time" "5000"
 "goal" "15"
 "time_hs" "4300 4500"
+"goal_hs" "4500 4700"
 "coin_hs" "120 80"
 "message" "Suis le mouvement.\Warning, the road is moving."
 // brush 0

@@ -11,8 +11,9 @@
 "shot" "shot-mym2/bigcone.jpg"
 "time" "30000"
 "goal" "50"
-"time_hs" "5000 9000"
-"coin_hs" "208 160"
+"time_hs" "4500 6000"
+"goal_hs" "6000 9000"
+"coin_hs" "70 40"
 "message" "Le grand cone.\Living in a cone."
 // brush 0
 {

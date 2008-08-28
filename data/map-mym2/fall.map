@@ -10,8 +10,9 @@
 "shot" "shot-mym2/fall.jpg"
 "time" "18000"
 "goal" "150"
-"time_hs" "1500 2500"
-"coin_hs" "300 200"
+"time_hs" "1500 1700"
+"goal_hs" "3500 4000"
+"coin_hs" "400 300"
 "message" "Savoir rebondir pour aller plus haut.\The Neverball Arena.\Use the 2 teleports to unlock and reach the goal."
 // brush 0
 {
