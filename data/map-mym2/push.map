@@ -11,8 +11,9 @@
 "shot" "shot-mym2/push.jpg"
 "time" "6000"
 "goal" "50"
-"time_hs" "3500 3500"
-"coin_hs" "69 60"
+"time_hs" "5200 5300"
+"goal_hs" "5200 5300"
+"coin_hs" "101 80"
 "message" "Hé, on pousse pas !\Not too fast, not too slow."
 // brush 0
 {

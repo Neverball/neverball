@@ -11,8 +11,9 @@
 "shot" "shot-mym2/morenarrow.jpg"
 "time" "12000"
 "goal" "0"
-"time_hs" "3000 4000"
-"coin_hs" "80 20"
+"time_hs" "12000 12000"
+"goal_hs" "12000 12000"
+"coin_hs" "0 0"
 "message" "Plus dur que la difficulté.\Good luck."
 // brush 0
 {

@@ -10,6 +10,9 @@
 "shot" "shot-mym2/freefall.jpg"
 "time" "59999"
 "goal" "500"
+"time_hs" "59999 59999"
+"goal_hs" "59999 59999"
+"coin_hs" "900 700"
 "message" "This level is full of challenges:\understand the level's functioning,\learn to fly and to survive,\grab half of all coins to open the goal,\find and reach the goal,\and more..."
 "bonus" "1"
 // brush 0

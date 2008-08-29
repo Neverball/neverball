@@ -10,8 +10,9 @@
 "shot" "shot-mym2/grinder.jpg"
 "time" "12000"
 "goal" "20"
-"time_hs" "4000 6000"
-"coin_hs" "36 12"
+"time_hs" "4000 5000"
+"goal_hs" "6000 8000"
+"coin_hs" "36 24"
 "message" "Le petit moulin.\The good timing to go in the cabin."
 // brush 0
 {
