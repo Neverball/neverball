@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Thus Neverball is a puzzle game ?\Remove the red to unlock the goal.\Each trigger switches colors in direct contact."
+"message" "Thus Neverball is a puzzle game?\Remove the red to unlock the goal.\Each trigger switches colors in direct contact."
 "goal" "0"
 "time" "59999"
 "song" "bgm/track4.ogg"

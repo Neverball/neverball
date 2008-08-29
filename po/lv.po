@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-08-28 18:29+0100\n"
+"POT-Creation-Date: 2008-08-29 09:32+0100\n"
 "PO-Revision-Date: 2008-06-10 17:00+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -1271,7 +1271,7 @@ msgstr ""
 
 #: data/map-hard/flip.map
 msgid ""
-"Thus Neverball is a puzzle game ?\\Remove the red to unlock the goal.\\Each "
+"Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
 msgstr ""
 
