@@ -1272,7 +1272,7 @@ msgstr ""
 #: data/map-fwp/adventure.map
 msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
 msgstr ""
-"=Adventure=\\Plein d'activités à faire, récupérer des pièces,\\prendre des "
+"=Aventure=\\Plein d'activités à faire, récupérer des pièces,\\prendre des "
 "risques."
 
 #: data/map-fwp/atrium.map
@@ -1281,7 +1281,7 @@ msgstr "=Atrium=\\Enlevez les pièces de leur colonne."
 
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
-msgstr "=Cargo=\\Laissez-vous transporter."
+msgstr "=Cargaison=\\Laissez-vous transporter."
 
 #: data/map-fwp/confetti.map
 msgid "=Confetti=\\Help! There has got to be a way through this mess."
@@ -1290,19 +1290,19 @@ msgstr "=Confetti=\\À l'aide ! Il doit bien y avoir\\un chemin dans ce bazar."
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
 msgstr ""
-"=Discs=\\Bien utilisées, les plates-formes\\vous emmènerons à la sortie."
+"=Disques=\\Bien utilisées, les plates-formes\\vous emmènerons à la sortie."
 
 #: data/map-fwp/mountains.map
 msgid "=Mountains=\\Ups and downs are a part of life."
-msgstr "=Mountains=\\Les hauts et les bas font partie de la vie."
+msgstr "=Montagnes=\\Les hauts et les bas font partie de la vie."
 
 #: data/map-fwp/museum.map
 msgid "=Museum=\\Please do not touch the exhibits."
-msgstr "=Museum=\\Prière de ne pas toucher les pièces exposées."
+msgstr "=Musée=\\Prière de ne pas toucher les pièces exposées."
 
 #: data/map-fwp/oddities.map
 msgid "=Oddities=\\Something is not quite right here..."
-msgstr "=Oddities=\\Quelque chose ne tourne pas rond ici..."
+msgstr "=Bizarreries=\\Quelque chose ne tourne pas rond ici..."
 
 #: data/map-fwp/rails.map
 msgid "=Rails=\\Do not lose your balance."
@@ -1310,19 +1310,19 @@ msgstr "=Rails=\\Ne perdez pas l'équilibre."
 
 #: data/map-fwp/ramps.map
 msgid "=Ramps=\\Can you make it to the top?"
-msgstr "=Ramps=\\Pouvez-vous atteindre le sommet ?"
+msgstr "=Rampes=\\Pouvez-vous atteindre le sommet ?"
 
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
-msgstr "=Slope=\\Essayez de ne pas devenir\\un Sisyphus des temps modernes."
+msgstr "=Pente=\\Essayez de ne pas devenir\\un Sisyphus des temps modernes."
 
 #: data/map-fwp/spacetime.map
 msgid "=Spacetime=\\Not much space, not much time."
-msgstr "=Spacetime=\\Peu d'espace, peu de temps."
+msgstr "=Espace-temps=\\Peu d'espace, peu de temps."
 
 #: data/map-fwp/swarm.map
 msgid "=Swarm=\\Warning: Trespassers will be thwomped."
-msgstr "=Swarm=\\Attention : les intrus seront écrasés."
+msgstr "=Essaim=\\Attention : les intrus seront écrasés."
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
@@ -1331,11 +1331,11 @@ msgstr ""
 
 #: data/map-fwp/tree.map
 msgid "=Tree=\\Follow the spiral staircase to the goal."
-msgstr "=Tree=\\Suivez l'escalier en colimaçon jusqu'à la sortie."
+msgstr "=Arbre=\\Suivez l'escalier en colimaçon jusqu'à la sortie."
 
 #: data/map-fwp/ufo.map
 msgid "=UFO=\\Ride the spaceship they don't want you to know about."
-msgstr "=UFO=\\"
+msgstr "=Ovni=\\Chevauchez le vaisseau spacial dont\\ils ne veulent pas vous en dire davantage."
 
 #: data/map-hard/airways.map
 msgid "2 switches have to be enabled to open the path to the goal."
