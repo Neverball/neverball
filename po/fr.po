@@ -1879,6 +1879,9 @@ msgid ""
 "\\learn to fly and to survive,\\grab half of all coins to open the goal,"
 "\\find and reach the goal,\\and more..."
 msgstr ""
+"Ce niveau est rempli de défis :\\comprendre son fonctionnement,"
+"\\apprendre à voler et à survivre,\\récupérer la moitié des pièces pour ouvrir la sortie,"
+"\\trouver et atteindre la sortie,\\et plus encore..."
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
