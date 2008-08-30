@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-08-29 09:34+0100\n"
+"POT-Creation-Date: 2008-08-30 17:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,7 +78,7 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:177
+#: ball/hud.c:56 ball/st_demo.c:177 ball/st_goal.c:177
 msgid "Coins"
 msgstr ""
 
@@ -196,11 +196,11 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: ball/st_conf.c:219 ball/st_demo.c:560 ball/st_save.c:202 putt/st_conf.c:178
+#: ball/st_conf.c:219 ball/st_demo.c:565 ball/st_save.c:202 putt/st_conf.c:178
 msgid "No"
 msgstr ""
 
-#: ball/st_conf.c:220 ball/st_demo.c:561 ball/st_save.c:203
+#: ball/st_conf.c:220 ball/st_demo.c:566 ball/st_save.c:203
 #: ball/st_start.c:232 putt/st_conf.c:179
 msgid "Yes"
 msgstr ""
@@ -261,67 +261,63 @@ msgstr ""
 msgid "Player Name"
 msgstr ""
 
-#: ball/st_demo.c:182 putt/st_all.c:679
-msgid "Player"
-msgstr ""
-
-#: ball/st_demo.c:186
-msgid "State"
-msgstr ""
-
-#: ball/st_demo.c:203 ball/st_demo.c:343
-msgid "Replay"
-msgstr ""
-
-#: ball/st_demo.c:204
+#: ball/st_demo.c:175
 msgid "Time"
 msgstr ""
 
-#: ball/st_demo.c:205
-msgid "Mode"
+#: ball/st_demo.c:179
+msgid "Status"
 msgstr ""
 
-#: ball/st_demo.c:206
+#: ball/st_demo.c:207 ball/st_demo.c:348
+msgid "Replay"
+msgstr ""
+
+#: ball/st_demo.c:208 putt/st_all.c:679
+msgid "Player"
+msgstr ""
+
+#: ball/st_demo.c:209
 msgid "Date"
 msgstr ""
 
-#: ball/st_demo.c:250
+#: ball/st_demo.c:255
 msgid "Select Replay"
 msgstr ""
 
-#: ball/st_demo.c:272
+#: ball/st_demo.c:277
 msgid "No Replays"
 msgstr ""
 
-#: ball/st_demo.c:465
+#: ball/st_demo.c:470
 msgid "Replay Paused"
 msgstr ""
 
-#: ball/st_demo.c:468
+#: ball/st_demo.c:473
 msgid "Replay Ends"
 msgstr ""
 
-#: ball/st_demo.c:477 ball/st_pause.c:108 putt/st_all.c:591
+#: ball/st_demo.c:482 ball/st_pause.c:108 putt/st_all.c:591
 msgid "Quit"
 msgstr ""
 
-#: ball/st_demo.c:481
+#: ball/st_demo.c:486
 msgid "Keep"
 msgstr ""
 
-#: ball/st_demo.c:482 share/keynames.c:38
+#: ball/st_demo.c:487 share/keynames.c:38
 msgid "Delete"
 msgstr ""
 
-#: ball/st_demo.c:487 ball/st_pause.c:113 putt/st_all.c:592
+#: ball/st_demo.c:492 ball/st_pause.c:113 putt/st_all.c:592
 msgid "Continue"
 msgstr ""
 
-#: ball/st_demo.c:491
+#: ball/st_demo.c:496
 msgid "Repeat"
 msgstr ""
 
-#: ball/st_demo.c:556
+#: ball/st_demo.c:561
 msgid "Delete Replay?"
 msgstr ""
 
@@ -464,12 +460,14 @@ msgstr ""
 msgid "Watch demo"
 msgstr ""
 
-#: ball/st_level.c:64
-msgid "Level "
+#: ball/st_level.c:50
+#, c-format
+msgid "Bonus Level %s"
 msgstr ""
 
-#: ball/st_level.c:71
-msgid "Bonus Level "
+#: ball/st_level.c:52
+#, c-format
+msgid "Level %s"
 msgstr ""
 
 #: ball/st_name.c:115
