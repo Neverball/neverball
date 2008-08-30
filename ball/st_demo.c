@@ -132,7 +132,7 @@ static int gui_demo_status(int id, const struct demo *d)
         mode = mode_to_str(0, 0);
         j = strlen(mode);
 
-        for (i = 1; i <= MODE_COUNT; i++)
+        for (i = MODE_NONE + 1; i < MODE_MAX; i++)
         {
             k = strlen(mode_to_str(i, 0));
 

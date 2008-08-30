@@ -44,10 +44,15 @@ int  progress_reward_ball(int);
 
 /*---------------------------------------------------------------------------*/
 
-#define MODE_CHALLENGE 1
-#define MODE_NORMAL    2
+enum
+{
+    MODE_NONE = 0,
 
-#define MODE_COUNT 2
+    MODE_CHALLENGE,
+    MODE_NORMAL,
+
+    MODE_MAX
+};
 
 const char *mode_to_str(int, int);
 
