@@ -50,6 +50,8 @@ static int level_enter(void)
 
             if ((kd = gui_vstack(jd)))
             {
+                int m = curr_mode() == MODE_CHALLENGE;
+
                 gui_label(kd, set_name(curr_set()), GUI_SML, GUI_ALL,
                           gui_wht, gui_wht);
 
@@ -59,22 +61,27 @@ static int level_enter(void)
                 {
                     if (b == 0)
                     {
-                        gui_label(ld, ln,          GUI_LRG, GUI_NE,
+                        gui_label(ld, ln,          GUI_LRG,
+                                  m ? GUI_NE : GUI_RGT,
                                   textcol1, textcol2);
-                        gui_label(ld, _("Level "), GUI_LRG, GUI_NW,
+                        gui_label(ld, _("Level "), GUI_LRG,
+                                  m ? GUI_NW : GUI_LFT,
                                   textcol1, textcol2);
                     }
                     else
                     {
-                        gui_label(ld, ln,                GUI_MED, GUI_NE,
+                        gui_label(ld, ln,                GUI_MED,
+                                  m ? GUI_NE : GUI_RGT,
                                   textcol1, textcol2);
-                        gui_label(ld, _("Bonus Level "), GUI_MED, GUI_NW,
+                        gui_label(ld, _("Bonus Level "), GUI_MED,
+                                  m ? GUI_NW : GUI_LFT,
                                   textcol1, textcol2);
                     }
                 }
 
-                gui_label(kd, mode_to_str(curr_mode(), 1), GUI_SML, GUI_BOT,
-                          gui_wht, gui_wht);
+                if (m)
+                    gui_label(kd, mode_to_str(MODE_CHALLENGE, 1),
+                              GUI_SML, GUI_BOT, gui_wht, gui_wht);
 
             }
             gui_filler(jd);
