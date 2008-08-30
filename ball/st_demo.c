@@ -111,7 +111,6 @@ static int name_id;
 static int time_id;
 static int coin_id;
 static int date_id;
-static int mode_id;
 static int status_id;
 static int player_id;
 
@@ -120,7 +119,7 @@ static int gui_demo_status(int id, const struct demo *d)
     char noname[MAXNAM];
     const char *mode, *status;
     int i, j, k;
-    int jd, kd, ld, md;
+    int jd, kd, ld;
 
     if (d == NULL)
     {
@@ -164,50 +163,73 @@ static int gui_demo_status(int id, const struct demo *d)
 
     if ((jd = gui_hstack(id)))
     {
-        if ((kd = gui_vstack(jd)))
+        gui_filler(jd);
+
+        if ((kd = gui_hstack(jd)))
         {
-            if ((ld = gui_harray(kd)))
+            if ((ld = gui_vstack(kd)))
             {
-                if ((md = gui_vstack(ld)))
-                {
-                    player_id = gui_label(md, (d ? d->player : noname),
-                                          GUI_SML, GUI_RGT, 0, 0);
-                    coin_id = gui_count(md, (d ? d->coins : 100),
-                                        GUI_SML, GUI_RGT);
-                    status_id = gui_label(md, status, GUI_SML, GUI_RGT,
-                                         gui_red, gui_red);
-                }
-                if ((md = gui_vstack(ld)))
-                {
-                    gui_label(md, _("Player"), GUI_SML, GUI_LFT,
-                              gui_wht, gui_wht);
-                    gui_label(md, _("Coins"), GUI_SML, GUI_LFT,
-                              gui_wht, gui_wht);
-                    gui_label(md, _("State"), GUI_SML, GUI_LFT,
-                              gui_wht, gui_wht);
-                }
-                if ((md = gui_vstack(ld)))
-                {
-                    name_id = gui_label(md, (d ? d->name : noname),
-                                        GUI_SML, GUI_RGT, 0, 0);
-                    time_id = gui_clock(md, (d ? d->timer : 35000),
-                                        GUI_SML, GUI_RGT);
-                    mode_id = gui_label(md, mode, GUI_SML, GUI_RGT, 0, 0);
-                }
+                gui_filler(ld);
+
+                time_id = gui_clock(ld, (d ? d->timer : 35000),
+                                    GUI_SML, GUI_NE);
+                coin_id = gui_count(ld, (d ? d->coins : 100),
+                                    GUI_SML, 0);
+                status_id = gui_label(ld, status, GUI_SML, GUI_SE,
+                                      gui_red, gui_red);
+
+                if (d && d->status == GAME_GOAL)
+                    gui_set_color(status_id, gui_grn, gui_grn);
+
+                gui_filler(ld);
             }
-            date_id = gui_label(kd, (d ? date_to_str(d->date) : "M"),
-                                GUI_SML, GUI_RGT, 0, 0);
+
+            if ((ld = gui_vstack(kd)))
+            {
+                gui_filler(ld);
+
+                gui_label(ld, _("Time"),  GUI_SML, GUI_NW,
+                          gui_wht, gui_wht);
+                gui_label(ld, _("Coins"), GUI_SML, 0,
+                          gui_wht, gui_wht);
+                gui_label(ld, _("Status"), GUI_SML, GUI_SW,
+                          gui_wht, gui_wht);
+
+                gui_filler(ld);
+            }
         }
+
+        gui_space(jd);
+
         if ((kd = gui_vstack(jd)))
         {
-            gui_label(kd, _("Replay"), GUI_SML, GUI_LFT, gui_wht, gui_wht);
-            gui_label(kd, _("Time"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
-            gui_label(kd, _("Mode"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
-            gui_label(kd, _("Date"),   GUI_SML, GUI_LFT, gui_wht, gui_wht);
+            gui_filler(kd);
+
+            name_id   = gui_label(kd, (d ? d->name : noname),
+                                  GUI_SML, GUI_NE, 0, 0);
+            player_id = gui_label(kd, (d ? d->player : noname),
+                                  GUI_SML, 0,      0, 0);
+            date_id   = gui_label(kd, (d ? date_to_str(d->date) :
+                                       date_to_str(time(NULL))),
+                                  GUI_SML, GUI_SE, 0, 0);
+
+            gui_filler(kd);
         }
-        if (d && d->status == GAME_GOAL)
-            gui_set_color(status_id, gui_grn, gui_grn);
+
+        if ((kd = gui_vstack(jd)))
+        {
+            gui_filler(kd);
+
+            gui_label(kd, _("Replay"), GUI_SML, GUI_NW, gui_wht, gui_wht);
+            gui_label(kd, _("Player"), GUI_SML, 0,      gui_wht, gui_wht);
+            gui_label(kd, _("Date"),   GUI_SML, GUI_SW, gui_wht, gui_wht);
+
+            gui_filler(kd);
+        }
+
+        gui_filler(jd);
     }
+
     return jd;
 }
 
@@ -221,7 +243,6 @@ static void gui_demo_update_status(int i)
     gui_set_label(name_id,   d->name);
     gui_set_label(date_id,   date_to_str(d->date));
     gui_set_label(player_id, d->player);
-    gui_set_label(mode_id,   mode_to_str(d->mode, 0));
 
     if (d->status == GAME_GOAL)
         gui_set_color(status_id, gui_grn, gui_grn);
