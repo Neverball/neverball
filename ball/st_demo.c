@@ -312,7 +312,7 @@ static void demo_point(int id, int x, int y, int dx, int dy)
     int jd = shared_point_basic(id, x, y);
     int i  = gui_token(jd);
 
-    if (jd && i >= 0)
+    if (jd && i >= 0 && !GUI_ISMSK(i))
         gui_demo_update_status(i);
 }
 
@@ -321,7 +321,7 @@ static void demo_stick(int id, int a, int v)
     int jd = shared_stick_basic(id, a, v);
     int i  = gui_token(jd);
 
-    if (jd && i >= 0)
+    if (jd && i >= 0 && !GUI_ISMSK(i))
         gui_demo_update_status(i);
 }
 
