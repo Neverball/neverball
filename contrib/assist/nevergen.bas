@@ -771,7 +771,7 @@
             input "What would you like in your message";LevelMessage
             input "What is the name of this level";LevelName
 
-            print #m, "// entity ";Entity;"
+            print #m, "// entity ";Entity
             print #m, "{"
             print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
             if (LevelMessage < > "") then

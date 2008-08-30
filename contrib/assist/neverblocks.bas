@@ -30,7 +30,7 @@
 
         if (BlockType = 1) AND (BlockSet = 0) AND (Start = 0) AND (YP < 10) AND _
          PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          /'
           ' Increments the entity ID.
           '/
@@ -68,7 +68,7 @@
           ' This entity serves a different purpose. In this case, its the
           ' starting point.
           '/
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
@@ -79,7 +79,7 @@
          /'
           ' This provides the first part of the initial camera.
           '/
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
@@ -103,7 +103,7 @@
 
         elseif (BlockType = 2) AND (BlockSet = 0) AND (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -143,7 +143,7 @@
         elseif (BlockType = 3) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -200,7 +200,7 @@
         elseif (BlockType = 4) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -250,7 +250,7 @@
         elseif (BlockType = 5) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -279,7 +279,7 @@
         elseif (BlockType = 6) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -306,7 +306,7 @@
          /'
           ' Four yellow coins.
           '/
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -314,7 +314,7 @@
                 " "& YP*128-96;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -322,7 +322,7 @@
                 " "& YP*128-96;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -330,7 +330,7 @@
                 " "& YP*128-32;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -351,7 +351,7 @@
         elseif (BlockType = 7) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -390,7 +390,7 @@
          print #m, "}"
          print #m, "}"
 
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -398,7 +398,7 @@
                 " "& YP*128-96;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -406,7 +406,7 @@
                 " "& YP*128-96;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -414,7 +414,7 @@
                 " "& YP*128-32;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -435,7 +435,7 @@
         elseif (BlockType = 8) AND (BlockSet = 0) AND (Openings > 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -486,7 +486,7 @@
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
 
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -526,7 +526,7 @@
          print #m, "}"
          print #m, "}"
 
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -534,7 +534,7 @@
                 " "& YP*128-96;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -542,7 +542,7 @@
                 " "& YP*128-96;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -550,7 +550,7 @@
                 " "& YP*128-32;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -572,7 +572,7 @@
         elseif (BlockType = 10) AND (BlockSet = 0) AND _
             (UsedMoney + 2 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -629,7 +629,7 @@
         elseif (BlockType = 11) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -668,7 +668,7 @@
          print #m, "}"
          print #m, "}"
 
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -676,7 +676,7 @@
                 " "& YP*128-96;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -684,7 +684,7 @@
                 " "& YP*128-96;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -692,7 +692,7 @@
                 " "& YP*128-32;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -714,7 +714,7 @@
         elseif (BlockType = 12) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -729,7 +729,7 @@
          print #m, "}"
          print #m, "}"
 
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -737,7 +737,7 @@
                 " "& YP*128-96;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -745,7 +745,7 @@
                 " "& YP*128-96;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -753,7 +753,7 @@
                 " "& YP*128-32;" "& ZP*64+24;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -783,7 +783,7 @@
           ' implemented block with the ability to change elevations.
           '/
 
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -833,7 +833,7 @@
         elseif (BlockType = 14) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -868,7 +868,7 @@
         elseif (BlockType = 15) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -894,7 +894,7 @@
          print #m, "}"
          print #m, "}"
 
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -902,7 +902,7 @@
                 " "& YP*128-96;" "& ZP*64+32;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -910,7 +910,7 @@
                 " "& YP*128-96;" "& ZP*64+32;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -918,7 +918,7 @@
                 " "& YP*128-32;" "& ZP*64+32;chr(34)
          print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
@@ -939,7 +939,7 @@
         elseif (BlockType = 16) AND (BlockSet = 0) AND _
             (UsedMoney + 3 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -967,7 +967,7 @@
           ' Even trains can be utilized in this assistant. I should expand this,
           ' however, to allow all directions. It doesn't do this yet.
           '/
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"func_train"+chr(34)
@@ -996,7 +996,7 @@
          /'
           ' Uses the entities needed for the mover.
           '/
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"path_corner"+chr(34)
@@ -1013,7 +1013,7 @@
                 ""& Entity;chr(34)
          print #m, chr(34)+"speed"+chr(34)+" "+chr(34)+"3"+chr(34)
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"path_corner"+chr(34)
@@ -1044,7 +1044,7 @@
          /'
           ' This block has a narrow center.
           '/
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -1119,7 +1119,7 @@
              PlacementTest(XP+1,YP,ZP) = 0 AND _
              PlacementTest(XP,YP-1,ZP) = 0 AND _
              PlacementTest(XP+1,YP-1,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -1162,7 +1162,7 @@
              PlacementTest(XP+1,YP,ZP) = 0 AND _
              PlacementTest(XP,YP-1,ZP) = 0 AND _
              PlacementTest(XP+1,YP-1,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -1203,7 +1203,7 @@
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
 
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -1241,7 +1241,7 @@
          plot_face(1,-128,-128,-48,-128,0,-49,-128,-128,80,"invisible")
          print #m, "}"
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" " + _
@@ -1256,7 +1256,7 @@
           ' number of finish blocks.
           '/
          if Finish = 0 then
-             print #m, "// entity ";Entity;"
+             print #m, "// entity ";Entity
              Entity += 1
              print #m, "{"
              print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
@@ -1276,7 +1276,7 @@
         elseif (BlockType = 23) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -1324,7 +1324,7 @@
          plot_face(1,-128,-128,-48,-128,0,-49,-128,-128,80,"invisible")
          print #m, "}"
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" " + _
@@ -1334,7 +1334,7 @@
          print #m, "}"
 
          if Finish = 0 then
-             print #m, "// entity ";Entity;"
+             print #m, "// entity ";Entity
              Entity += 1
              print #m, "{"
              print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
@@ -1355,7 +1355,7 @@
         elseif (BlockType = 24) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -1403,7 +1403,7 @@
          plot_face(1,-128,-128,-48,-128,0,-49,-128,-128,80,"invisible")
          print #m, "}"
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" " + _
@@ -1413,7 +1413,7 @@
          print #m, "}"
 
          if Finish = 0 then
-             print #m, "// entity ";Entity;"
+             print #m, "// entity ";Entity
              Entity += 1
              print #m, "{"
              print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
@@ -1434,7 +1434,7 @@
         elseif (BlockType = 25) AND (BlockSet = 0) AND _
             (UsedMoney + 1 < = Money) AND _
              PlacementTest(XP,YP,ZP) = 0 then
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -1458,7 +1458,7 @@
          plot_face(1,-128,-128,-48,-128,0,-49,-128,-128,80,"invisible")
          print #m, "}"
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" " + _
@@ -1468,7 +1468,7 @@
          print #m, "}"
 
          if Finish = 0 then
-             print #m, "// entity ";Entity;"
+             print #m, "// entity ";Entity
              Entity += 1
              print #m, "{"
              print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
@@ -1491,7 +1491,7 @@
           ' I didn't put a UsedMoney statement on this block because it doesn't
           ' cost any. However, you must have a free opening.
           '/
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -1539,7 +1539,7 @@
          plot_face(1,-128,-128,-48,-128,0,-49,-128,-128,80,"invisible")
          print #m, "}"
          print #m, "}"
-         print #m, "// entity ";Entity;"
+         print #m, "// entity ";Entity
          Entity += 1
          print #m, "{"
          print #m, chr(34)+"classname"+chr(34)+" " + _
@@ -1549,7 +1549,7 @@
          print #m, "}"
 
          if Finish = 0 then
-             print #m, "// entity ";Entity;"
+             print #m, "// entity ";Entity
              Entity += 1
              print #m, "{"
              print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _

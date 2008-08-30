@@ -129,10 +129,10 @@
     #IF __FB_DEBUG__
         #IF defined(__FB_WIN32__) OR defined(__FB_DOS__)
             if FileExists("gdb.exe") then
-                sleep 1
                 print lang("GDB detected. Do you want to use the GDB? (Y/N)")
                 print lang("Hit N if you have it open or don't want to use it.")
                 do
+                    sleep 1
                     if multikey(SC_Y) then
                         run("gdb.exe","neverassist.exe")
                         end 0
@@ -141,10 +141,10 @@
             end if
         #ElSE
             if FileExists("gdb") then
-                sleep 1
                 print lang("GDB detected. Do you want to use the GDB? (Y/N)")
                 print lang("Hit N if you have it open or don't want to use it.")
                 do
+                    sleep 1
                     if multikey(SC_Y) then
                         run("gdb","neverassist")
                         end 0
@@ -154,20 +154,6 @@
         #ENDIF
     #ENDIF
     menu
-
-    /'
-     ' This sometimes will catch the errors of the program and notify the user
-     ' that such an event occured. Subroutines which are destructors (or
-     ' constructors) don't need to be declared.
-     '/
-    sub catcher destructor
-        close #u
-        if Perfect = 0 then
-            print lang("A crash has occured within the assistant.")
-            sleep
-            end
-        end if
-    end sub
 
     sub menu
         clkey
@@ -754,10 +740,9 @@
 
             elseif multikey(SC_H) then
                 'Force crash function.
-                exit do
+                end -2
             elseif multikey(SC_X) OR multikey(SC_ESCAPE) OR _
                    inkey = chr(255)+"k" then
-                Perfect = 1
                 end 0
             end if
         loop

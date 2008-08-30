@@ -5,7 +5,7 @@
 randomize timer
 dim shared as ubyte XM, YM, XG, YG, BlockType, BlockSet, Rotation, XR, YR, _
     ZR, Start, Finish, MusicSwitch, XSwitch, YSwitch, ZSwitch, Warning, Hold, _
-    Openings, Putt, MusicID, Perfect, Official, FullBonus(25)
+    Openings, Putt, MusicID, Official, FullBonus(25)
 dim shared as byte XP, YP, ZP, DiffPar
 dim shared as uinteger Entity, LevelTime, Blocks, TargetCoins, Coins, _
     MinimumLevelTime, UsedMoney, SingleLevelID
