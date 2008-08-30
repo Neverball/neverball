@@ -31,58 +31,36 @@
 
 static int level_enter(void)
 {
-    int id, jd, kd, ld;
-    const char *ln;
-    int b;
-    const float *textcol1, *textcol2;
+    int id, jd, kd;
 
     if ((id = gui_vstack(0)))
     {
         if ((jd = gui_hstack(id)))
         {
-            ln = level_name (curr_level());
-            b  = level_bonus(curr_level());
-
-            textcol1 = b ? gui_wht : 0;
-            textcol2 = b ? gui_grn : 0;
-
             gui_filler(jd);
 
             if ((kd = gui_vstack(jd)))
             {
-                int m = curr_mode() == MODE_CHALLENGE;
+                const char *ln = level_name (curr_level());
+                int b          = level_bonus(curr_level());
 
-                gui_label(kd, set_name(curr_set()), GUI_SML, GUI_ALL,
-                          gui_wht, gui_wht);
+                char setattr[MAXSTR], lvlattr[MAXSTR];
 
-                gui_space(kd);
+                if (b)
+                    sprintf(lvlattr, _("Bonus Level %s"), ln);
+                else
+                    sprintf(lvlattr, _("Level %s"), ln);
 
-                if ((ld = gui_hstack(kd)))
-                {
-                    if (b == 0)
-                    {
-                        gui_label(ld, ln,          GUI_LRG,
-                                  m ? GUI_NE : GUI_RGT,
-                                  textcol1, textcol2);
-                        gui_label(ld, _("Level "), GUI_LRG,
-                                  m ? GUI_NW : GUI_LFT,
-                                  textcol1, textcol2);
-                    }
-                    else
-                    {
-                        gui_label(ld, ln,                GUI_MED,
-                                  m ? GUI_NE : GUI_RGT,
-                                  textcol1, textcol2);
-                        gui_label(ld, _("Bonus Level "), GUI_MED,
-                                  m ? GUI_NW : GUI_LFT,
-                                  textcol1, textcol2);
-                    }
-                }
+                if (curr_mode() == MODE_CHALLENGE)
+                    sprintf(setattr, "%s: %s", set_name(curr_set()),
+                            mode_to_str(MODE_CHALLENGE, 1));
+                else
+                    sprintf(setattr, "%s", set_name(curr_set()));
 
-                if (m)
-                    gui_label(kd, mode_to_str(MODE_CHALLENGE, 1),
-                              GUI_SML, GUI_BOT, gui_wht, gui_wht);
-
+                gui_label(kd, lvlattr, b ? GUI_MED : GUI_LRG, GUI_TOP,
+                          b ? gui_wht : 0, b ? gui_grn : 0);
+                gui_label(kd, setattr, GUI_SML,               GUI_BOT,
+                          gui_wht,         gui_wht);
             }
             gui_filler(jd);
         }
