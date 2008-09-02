@@ -62,10 +62,14 @@ void m_xps(float *M, const float *N)
     M[C] = N[3]; M[D] = N[7]; M[E] = N[B]; M[F] = N[F];
 }
 
-int  m_inv(float *I, const float *M)
+int  m_inv(float *I, const float *N)
 {
-    float T[16];
-    float d;
+    double T[16], M[16];
+    double d;
+    int i;
+
+    for (i = 0; i < 16; i++)
+        M[i] = N[i];
 
     T[0] = +(M[5] * (M[A] * M[F] - M[B] * M[E]) -
              M[9] * (M[6] * M[F] - M[7] * M[E]) +
