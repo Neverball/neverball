@@ -2,6 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "The temptation to move quickly\could prove your undoing.\\Then again, maybe not..."
 "author" "Mehdi Yousfi-Monod"
 "levelname" "marblecurves-mym"
 "version" "1"
@@ -9,8 +10,8 @@
 "grad" "back/land.png"
 "shot" "shot-medium/multicurves.jpg"
 "song" "bgm/track1.ogg"
-"time" "12000"
-"goal" "10"
+"time" "18000"
+"goal" "80"
 "time_hs" "3500 5500"
 "coin_hs" "130 80"
 "goal_hs" "4000 6000"

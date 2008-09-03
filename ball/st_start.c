@@ -36,6 +36,7 @@
 
 static int shot_id;
 static int file_id;
+static int challenge_id;
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,7 +60,7 @@ static void gui_level(int id, int i)
         back = level_completed(i) ? fore    : gui_yel;
     }
 
-    jd = gui_label(id, level_repr(i), GUI_SML, GUI_ALL, back, fore);
+    jd = gui_label(id, level_name(i), GUI_SML, GUI_ALL, back, fore);
 
     if (level_opened(i) || config_cheat())
         gui_active(jd, i, 0);
@@ -101,7 +102,7 @@ static void start_over(int id, int pulse)
                         set_time_score(curr_set()), -1);
     }
 
-    if (i >= 0)
+    if (i >= 0 && !GUI_ISMSK(i))
         start_over_level(i);
 }
 
@@ -117,8 +118,19 @@ static int start_action(int i)
         return goto_state(&st_set);
 
     case START_CHALLENGE:
-        progress_init(MODE_CHALLENGE);
-        return config_cheat() ? 1 : start_action(0);
+        if (config_cheat())
+        {
+            progress_init(curr_mode() == MODE_CHALLENGE ?
+                          MODE_NORMAL : MODE_CHALLENGE);
+            gui_toggle(challenge_id);
+            return 1;
+        }
+        else
+        {
+            progress_init(MODE_CHALLENGE);
+            return start_action(0);
+        }
+        break;
 
     case GUI_MOST_COINS:
     case GUI_BEST_TIMES:
@@ -189,14 +201,17 @@ static int start_enter(void)
                         for (j = 4; j >= 0; j--)
                             gui_level(ld, i * 5 + j);
 
-                gui_state(kd, _("Challenge"), GUI_SML, START_CHALLENGE,
-                          curr_mode() == MODE_CHALLENGE);
+                challenge_id = gui_state(kd, _("Challenge"),
+                                         GUI_SML, START_CHALLENGE,
+                                         curr_mode() == MODE_CHALLENGE);
             }
         }
         gui_space(id);
 
         if ((jd = gui_hstack(id)))
-            gui_score_board(jd, 0, 0);
+            gui_score_board(jd, GUI_MOST_COINS |
+                                GUI_BEST_TIMES |
+                                GUI_UNLOCK_GOAL, 0, 0);
 
         gui_space(id);
 

@@ -38,7 +38,7 @@ struct level
     int  number;
 
     /* String representation of the number (eg. "IV") */
-    char repr[MAXSTR];
+    char name[MAXSTR];
 
     int is_locked;
     int is_bonus;
@@ -64,7 +64,7 @@ int  level_bonus(int);
 
 const char *level_shot(int);
 const char *level_file(int);
-const char *level_repr(int);
+const char *level_name(int);
 const char *level_msg (int);
 
 /*---------------------------------------------------------------------------*/

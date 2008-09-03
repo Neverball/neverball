@@ -206,7 +206,9 @@ void progress_stat(int s)
              next++)
             /* Do nothing. */;
 
-        curr.balls--;
+        curr.times += timer;
+        curr.balls -= 1;
+
         break;
     }
 

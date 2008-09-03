@@ -166,7 +166,9 @@ char *base_name(const char *name, const char *suffix)
 {
     static char buf[MAXSTR];
     char *base;
-    int l;
+
+    if (!name)
+        return NULL;
 
     /* Remove the directory part. */
 
@@ -188,10 +190,13 @@ char *base_name(const char *name, const char *suffix)
 
     /* Remove the suffix. */
 
-    l = strlen(buf) - strlen(suffix);
+    if (suffix)
+    {
+        int l = strlen(buf) - strlen(suffix);
 
-    if (l >= 0 && strcmp(buf + l, suffix) == 0)
-        buf[l] = '\0';
+        if (l >= 0 && strcmp(buf + l, suffix) == 0)
+            buf[l] = '\0';
+    }
 
     return buf;
 }

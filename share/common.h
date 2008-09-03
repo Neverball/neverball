@@ -21,6 +21,7 @@
 #define COMMON_H
 
 #include <time.h>
+#include <stdio.h>
 
 int   read_line(char **, FILE *);
 char *strip_newline(char *);

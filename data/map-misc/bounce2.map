@@ -79,7 +79,6 @@
 {
 "classname" "func_train"
 "target" "t1"
-"state" "1"
 // brush 0
 {
 ( 8 1344 -64 ) ( 8 1216 -64 ) ( -120 1344 -64 ) mtrl/turf-brown 240 0 0 0.5 0.5 0 0 0
@@ -189,7 +188,6 @@
 {
 "classname" "func_train"
 "target" "t4"
-"state" "1"
 // brush 0
 {
 ( 8 3072 -192 ) ( 8 2944 -192 ) ( -120 3072 -192 ) mtrl/turf-brown 240 128 0 0.5 0.5 0 0 0
@@ -306,7 +304,6 @@
 {
 "classname" "func_train"
 "target" "t7"
-"state" "1"
 // brush 0
 {
 ( 1160 4608 -336 ) ( 1160 4480 -336 ) ( 1032 4608 -336 ) mtrl/turf-brown -16 128 0 0.5 0.5 0 0 0
@@ -384,7 +381,6 @@
 {
 "classname" "func_train"
 "target" "t10"
-"state" "1"
 // brush 0
 {
 ( 2112 4480 -448 ) ( 1984 4480 -448 ) ( 2112 4608 -448 ) mtrl/turf-brown 0 0 -90 0.5 0.5 0 0 0
@@ -462,7 +458,6 @@
 {
 "classname" "func_train"
 "target" "t13"
-"state" "1"
 // brush 0
 {
 ( 3320 4472 -576 ) ( 3192 4472 -576 ) ( 3320 4600 -576 ) mtrl/turf-brown -16 112 -90 0.5 0.5 0 0 0

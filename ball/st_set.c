@@ -112,7 +112,7 @@ static int set_enter(void)
         {
             gui_label(jd, _("Level Set"), GUI_SML, GUI_ALL, gui_yel, gui_red);
             gui_filler(jd);
-            gui_back_prev_next(jd, first > 0, first + SET_STEP < total);
+            gui_navig(jd, first > 0, first + SET_STEP < total);
         }
 
         if ((jd = gui_harray(id)))

@@ -1180,7 +1180,7 @@ static float sol_test_lump(float dt,
                            const float o[3],
                            const float w[3])
 {
-    float U[3] = {0.0f, 0.0f, 0.0f}; /* init value only to avoid gcc warnings */
+    float U[3] = { 0.0f, 0.0f, 0.0f };
     float u, t = dt;
     int i;
 

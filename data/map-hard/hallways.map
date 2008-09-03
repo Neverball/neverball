@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "bonus" "1"
-"goal" "10"
+"goal" "60"
 "time" "15000"
 "time_hs" ""
 "coin_hs" "186 100"

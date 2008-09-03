@@ -41,7 +41,7 @@ void set_EWMH_icon(const char *filename)
 
     if (SDL_GetWMInfo(&info) != 1)
     {
-        fprintf(stderr, _("Failed to get WM info: %s\n"), SDL_GetError());
+        fprintf(stderr, L_("Failed to get WM info: %s\n"), SDL_GetError());
         return;
     }
 
@@ -112,7 +112,7 @@ void set_EWMH_icon(const char *filename)
             free(data);
         }
         else
-            fputs(_("Failed to allocate memory for EWMH icon data.\n"), stderr);
+            fputs(L_("Failed to allocate memory for EWMH icon data.\n"), stderr);
 
         free(p);
     }

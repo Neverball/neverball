@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "This wedding cake is plenty rich,\but be careful as you go\to each lower layer."
 "author" "Mehdi Yousfi-Monod"
 "levelname" "roundfloors-mym"
 "version" "1"
@@ -8,8 +9,8 @@
 "grad" "back/land.png"
 "shot" "shot-medium/roundfloors.jpg"
 "song" "bgm/track1.ogg"
-"time" "12000"
-"goal" "10"
+"time" "9000"
+"goal" "150"
 "bonus" "1"
 "time_hs" "750 2000"
 "coin_hs" "200 100"

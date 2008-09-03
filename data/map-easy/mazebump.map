@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "Puzzling but profitable.\\Take time to observe the motions\of the bumpers - it will help you\to reach the goal."
 "author" "Mehdi Yousfi-Monod"
 "levelname" "mazebump"
 "version" "1"
@@ -9,7 +10,7 @@
 "song" "bgm/track5.ogg"
 "shot" "shot-easy/mazebump.jpg"
 "time" "30000"
-"goal" "30"
+"goal" "60"
 "time_hs" "7500 13500"
 "coin_hs" "120 70"
 "goal_hs" "9000 18000"

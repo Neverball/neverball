@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "Half-pipes can be fun,\but they make it easy to fall out.\Don't over accelerate and you will\be able to stay in control."
 "author" "Mehdi Yousfi-Monod"
 "levelname" "easyhalfpipe"
 "version" "1"
@@ -9,7 +10,7 @@
 "shot" "shot-easy/easyhalfpipe.jpg"
 "song" "bgm/track4.ogg"
 "time" "12000"
-"goal" "10"
+"goal" "50"
 "time_hs" "750 2000"
 "coin_hs" "115 60"
 "goal_hs" "2500 6000"

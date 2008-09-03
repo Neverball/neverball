@@ -12,8 +12,8 @@
 "coin_hs" "155 85"
 "time_hs" "1000 2000"
 "goal_hs" "2000 4000"
-"time" "21000"
-"goal" "25"
+"time" "18000"
+"goal" "50"
 "bonus" "1"
 "message" "Grab all the coins...\but don't get bullied!"
 // brush 0

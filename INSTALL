@@ -35,21 +35,21 @@ additional arguments to  Make in the form "NAME=VALUE",  where NAME is
 one of those listed below and VALUE is typically 0 for disabled, 1 for
 enabled.
 
-    ENABLE_NLS
+    ENABLE_NLS=1
 
-        Enable  native   language  support.  May   require  additional
-        libraries. Default: enabled.
+        Enable  native  language   support.   May  require  additional
+        libraries.
 
-    ENABLE_WII
+    ENABLE_WII=0
 
-        Enable Wii  Remote support. Requires additional  libraries and
-        system configuration Default: disabled .
+        Enable Wii Remote support.   Requires additional libraries and
+        system configuration.
 
 Under Mac OS X, build using the provided Xcode project files.
 
 For  Windows  builds,  the   MinGW  cross-compilation  environment  is
-supported. (Native  builds are theoretically possible  using MinGW and
-MSYS. Although care  is taken to preserve compatibility  with MSYS, no
+supported. (Native builds  are theoretically possible using  MinGW and
+MSYS.  Although care is taken  to preserve compatibility with MSYS, no
 support exists and no actual testing is done.)
 
 By default, an uninstalled build may be executed in place.
@@ -57,8 +57,8 @@ By default, an uninstalled build may be executed in place.
 
 * INSTALLATION
 
-The game  searches for game assets  in the following  three places, in
-this order.  If the game is  to be installed globally, at least one of
+The game  searches for game assets  in the following three  places, in
+this order.  If the game is to  be installed globally, at least one of
 them must be set.
 
  1. The directory  specified as argument to '--data'  (or '-d') option
@@ -82,5 +82,4 @@ The dist subdirectory contains some miscellaneous files:
   * Icons in PNG, SVG and ICO formats.
 
 
-http://neverball.org/
-
+Web: <http://neverball.org/>

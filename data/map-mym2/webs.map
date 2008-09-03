@@ -11,7 +11,8 @@
 "shot" "shot-mym2/webs.jpg"
 "time" "18000"
 "goal" "50"
-"time_hs" "500 1500"
+"time_hs" "600 1000"
+"goal_hs" "1500 2000"
 "coin_hs" "150 100"
 // brush 0
 {

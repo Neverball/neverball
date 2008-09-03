@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"message" "You can never go home again..."
 "author" "Mehdi Yousfi-Monod"
 "version" "1"
 "levelname" "qbert"
@@ -9,7 +10,7 @@
 "grad" "back/city.png"
 "song" "bgm/track3.ogg"
 "goal" "50"
-"time" "18000"
+"time" "12000"
 "time_hs" "400 3500"
 "coin_hs" "106 60"
 "goal_hs" "2000 6000"
