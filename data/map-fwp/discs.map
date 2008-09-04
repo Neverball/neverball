@@ -8,7 +8,7 @@
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
 "song" "bgm/track5.ogg"
-"time" "13500"
+"time" "12000"
 "goal" "8"
 "time_hs" "4100 5800"
 "coin_hs" "128 48"
