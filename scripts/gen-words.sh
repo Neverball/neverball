@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LANG=lv
+LNG=fr
 
 Ball="Bumba"
 Goal="Mērķis"
@@ -24,5 +24,5 @@ convert \
     \( -clone 0 -annotate +0+0 "$FallOut" \) \
     -delete 0 -append \
     -gravity North -background transparent -extent 256x512 \
-    -depth 8 words-$LANG.png
+    -depth 8 words-$LNG.png
 
