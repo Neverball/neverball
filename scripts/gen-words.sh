@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LNG=fr
+LNG=lv
 
 Ball="Bumba"
 Goal="Mērķis"
