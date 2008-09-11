@@ -1,16 +1,17 @@
 #!/bin/sh
 
-LNG=lv
+LNG=fr
+LANG=lv
 
 Ball="Bumba"
 Goal="Mērķis"
 Coin="Monēta"
-Switch="Slēdzis"
+Switch="Interrupteur"
 Texture="Tekstūra"
 FallOut="Kritiens"
 
 FONT=FreeMono-Negreta
-PTSIZE=56
+PTSIZE=36
 DENSITY=70
 
 convert \
