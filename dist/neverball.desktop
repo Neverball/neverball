@@ -1,11 +1,10 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Encoding=UTF-8
 Name=Neverball
 Comment=A 3D arcade game with a ball
 Comment[fr]=Un jeu d'arcade 3D avec une balle
-Icon=neverball.png
+Icon=neverball
 Exec=neverball
 Terminal=false
-Categories=Application;Game;ArcadeGame;
+Categories=Game;ArcadeGame;
