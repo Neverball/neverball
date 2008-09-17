@@ -3,7 +3,6 @@ Version=1.0
 Type=Application
 Name=Neverball
 Comment=A 3D arcade game with a ball
-Comment[fr]=Un jeu d'arcade 3D avec une balle
 Icon=neverball
 Exec=neverball
 Terminal=false

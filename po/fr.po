@@ -1712,6 +1712,12 @@ msgstr "mtrl/words-fr"
 msgid "item/coin/coin"
 msgstr "item/coin/euro_coin"
 
+msgid "A 3D arcade game with a ball"
+msgstr "Un jeu d'arcade 3D avec une balle"
+
+msgid "A 3D mini golf game"
+msgstr "Un jeu de minigolf en 3D"
+
 #~ msgid "Mode"
 #~ msgstr "Mode"
 #~ msgid "Follow the yellow lick road..."

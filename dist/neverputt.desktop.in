@@ -3,7 +3,6 @@ Version=1.0
 Type=Application
 Name=Neverputt
 Comment=A 3D mini golf game
-Comment[fr]=Un jeu de minigolf en 3D
 Icon=neverputt
 Exec=neverputt
 Terminal=false
