@@ -17,6 +17,7 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
 
 #include "lang.h"
 
@@ -31,7 +32,16 @@ void lang_init(const char *domain, const char *default_dir)
 #if ENABLE_NLS
     char *dir = getenv("NEVERBALL_LOCALE");
 
-    setlocale(LC_ALL, "");
+    errno = 0;
+
+    if (!setlocale(LC_ALL, ""))
+    {
+        fprintf(stderr, "Failed to set LC_ALL to native locale: %s\n",
+                errno ? strerror(errno) : "Unknown error");
+    }
+
+    /* The C locale is guaranteed (sort of) to be available. */
+
     setlocale(LC_NUMERIC, "C");
 
     bindtextdomain(domain, dir ? dir : default_dir);
