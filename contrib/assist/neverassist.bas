@@ -557,7 +557,7 @@
                 clkey
                 windowtitle "Neverassistant - Compiling map"
                 print lang("Which map do you want to compile?") + _
-                      lang(" (without .map)")
+                      lang(" (without extension)")
                 input "",Compile
                 if (Compile < > "") then
                     screen 0
@@ -577,7 +577,7 @@
                 clkey
                 windowtitle "Neverassistant - Load replay"
                 print lang("Which replay do you want to watch?") + _
-                      lang(" (without .nbr)")
+                      lang(" (without extension)")
                 color rgb(255,255,0)
                 input "",Replay
                 color rgb(255,255,255)
