@@ -19,12 +19,12 @@ msgstr ""
 
 #: ball/demo.c:299
 msgid "Missing format character in replay name\n"
-msgstr ""
+msgstr "Tallenteen nimestä puuttuu formaattimerkki\n"
 
 #: ball/demo.c:304
 #, c-format
 msgid "Invalid format character in replay name: \"%%%c\"\n"
-msgstr ""
+msgstr "Tallenteen nimessä laiton formaattimerkki \"%%%c\"\n"
 
 #: ball/game.c:1294
 msgid "Aborted"
@@ -273,7 +273,6 @@ msgid "Time"
 msgstr "Aika"
 
 #: ball/st_demo.c:179
-#, fuzzy
 msgid "Status"
 msgstr "Tila"
 
@@ -480,14 +479,14 @@ msgid "Watch demo"
 msgstr "Katso demo"
 
 #: ball/st_level.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "Bonus Level %s"
-msgstr "Bonuskenttä "
+msgstr "Bonuskenttä %s"
 
 #: ball/st_level.c:52
-#, fuzzy, c-format
+#, c-format
 msgid "Level %s"
-msgstr "Kenttä "
+msgstr "Kenttä %s"
 
 #: ball/st_name.c:115
 msgid "OK"
@@ -511,11 +510,11 @@ msgstr "Uusi peli"
 
 #: ball/st_play.c:58
 msgid "Ready?"
-msgstr "Paikoillanne?"
+msgstr "Paikoillanne"
 
 #: ball/st_play.c:114
 msgid "Set?"
-msgstr "Valmiit?"
+msgstr "Valmiit"
 
 #: ball/st_play.c:185
 msgid "GO!"
@@ -631,9 +630,8 @@ msgstr ""
 #. * and that's perfectly fine -- in such cases just copy the source string.
 #.
 #: share/keynames.c:31
-#, fuzzy
 msgid "Backspace"
-msgstr "Takaisin"
+msgstr ""
 
 #: share/keynames.c:32
 msgid "Tab"
@@ -644,32 +642,28 @@ msgid "Clear"
 msgstr ""
 
 #: share/keynames.c:34
-#, fuzzy
 msgid "Return"
-msgstr "Uusi peli"
+msgstr ""
 
 #: share/keynames.c:35
-#, fuzzy
 msgid "Pause"
-msgstr "Keskeytetty"
+msgstr "Keskeytys"
 
 #: share/keynames.c:36
 msgid "Escape"
 msgstr ""
 
 #: share/keynames.c:37
-#, fuzzy
 msgid "Space"
-msgstr "Tallenna"
+msgstr "Välilyönti"
 
 #: share/keynames.c:39
 msgid "Enter"
 msgstr ""
 
 #: share/keynames.c:40
-#, fuzzy
 msgid "Equals"
-msgstr "Helppo"
+msgstr ""
 
 #: share/keynames.c:41
 msgid "Up"
@@ -680,9 +674,8 @@ msgid "Down"
 msgstr ""
 
 #: share/keynames.c:43
-#, fuzzy
 msgid "Right"
-msgstr "Korkea"
+msgstr ""
 
 #: share/keynames.c:44
 msgid "Left"
@@ -829,9 +822,8 @@ msgid "Compose"
 msgstr ""
 
 #: share/keynames.c:81
-#, fuzzy
 msgid "Help"
-msgstr "Ohjeita"
+msgstr ""
 
 #: share/keynames.c:82
 msgid "Print Screen"
@@ -842,14 +834,12 @@ msgid "Sys Req"
 msgstr ""
 
 #: share/keynames.c:84
-#, fuzzy
 msgid "Break"
-msgstr "Takaisin"
+msgstr ""
 
 #: share/keynames.c:85
-#, fuzzy
 msgid "Menu"
-msgstr "Manuaalinen kamera"
+msgstr ""
 
 #: share/keynames.c:86
 msgid "Power"
@@ -860,9 +850,8 @@ msgid "Euro"
 msgstr ""
 
 #: share/keynames.c:88
-#, fuzzy
 msgid "Undo"
-msgstr "Ikkunoitu"
+msgstr ""
 
 #: share/syswm.c:44
 #, c-format
@@ -944,34 +933,29 @@ msgid ""
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
 msgstr ""
 "Vaikeustaso: Aloittelijalle\\\\25 kenttää jotka opettavat pelaamisen "
-"perusteet.\\Kenttien esittelyteksteissä pelivinkkejä.\\ \\"
+"perusteet.\\Kenttien esittelyteksteissä pelivinkkejä.\\\\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
 msgstr "Neverball - Normaali"
 
 #: data/set-medium.txt
-#, fuzzy
 msgid ""
 "Difficulty: Beginner through Expert\\\\25 levels which provide a balanced"
 "\\challenge for players. Try to claim\\some of the records provided.\\"
 msgstr ""
-"Vaikeustaso: Ekspertti\\\\25 kenttää joissa riittää haastetta\\kokeneellekin "
-"pelaajalle.\\\\"
+"Vaikeustaso: Aloittelijasta eksperttiin\\\\25 kenttää erilaisilla vaikeustasoilla.\\\\\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
 msgstr "Neverball - Vaikea"
 
 #: data/set-hard.txt
-#, fuzzy
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
 "and Unlock Goal records.\\"
-msgstr ""
-"Vaikeustaso: Ekspertti\\\\25 kenttää joissa riittää haastetta\\kokeneellekin "
-"pelaajalle.\\\\"
+msgstr "\\Vaikeustaso: Kokeneesta eksperttiin\\\\25 kenttää joissa riittää haastetta\\kokeneellekin pelaajalle.\\\\"
 
 #: data/set-mym.txt
 msgid "Mehdi's Levels"
@@ -982,6 +966,7 @@ msgid ""
 "Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
 "\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
+"Vaikeustaso: Experteille... ja mielenvikaisille\\\\25 kenttää joissa riittää haastetta myös eksperteille.\\\\\\"
 
 #: data/set-mym2.txt
 msgid "Mehdi's Levels Suite"
@@ -1059,15 +1044,15 @@ msgid ""
 msgstr ""
 
 #: data/map-easy/coins.map
-#, fuzzy
 msgid ""
 "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
 "blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
 "begin.\\"
 msgstr ""
-"Tässä kentässä sinun täytyy kerätä 50 kolikkoa\\avataksesi maali. Kerää 100 "
-"kolikkoa saadaksesi lisäelämän.\\Punaiset kolikot ovat arvoltaan 5 ja "
-"siniset 10 keltaista.\\Yritä päästä maaliin ennenkuin aika loppuu!\\"
+"Tässä kentässä sinun täytyy kerätä 50 kolikkoa\\"
+"avataksesi maali. Punaiset kolikot ovat arvoltaan 5\\"
+"ja siniset 10 keltaista.\\"
+"Yritä päästä maaliin ennen ajan loppumista!\\"
 
 #: data/map-easy/corners.map
 msgid ""
@@ -1176,13 +1161,13 @@ msgstr ""
 "\\arvokkaimmat kolikot."
 
 #: data/map-easy/peasy.map
-#, fuzzy
 msgid ""
 "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
 "to begin.\\"
 msgstr ""
-"Voit kääntää näkökulmaa hiiren painikkeilla.\\Välilyönti keskeyttää pelin, "
-"Esc lopettaa.\\\\\\\\Napsauta aloittaaksesi peli.\\"
+"Voit kääntää näkökulmaa hiiren painikkeilla.\\"
+"Voit keskeyttää tai lopettaa pelin painamalla Esc-näppäintä.\\"
+"\\\\\\Napsauta hiirellä aloittaaksesi peli.\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
