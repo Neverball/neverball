@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.5\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-09-17 23:42+0300\n"
+"POT-Creation-Date: 2008-09-24 20:23+0300\n"
 "PO-Revision-Date: 2008-03-17 17:34+0200\n"
 "Last-Translator: Pasi Kallinen <paxed@alt.org>\n"
 "Language-Team: Finnish\n"
@@ -975,7 +975,7 @@ msgstr ""
 #: data/set-mym2.txt
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
-"particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+"particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
 
 #: data/set-fwp.txt
