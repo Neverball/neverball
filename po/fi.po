@@ -966,7 +966,7 @@ msgid ""
 "Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
 "\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
-"Vaikeustaso: Experteille... ja mielenvikaisille\\\\25 kenttää joissa riittää haastetta myös eksperteille.\\\\\\"
+"Vaikeustaso: Experteille... ja mielenvikaisille\\\\25 kenttää joissa riittää haastetta myös eksperteille.\\Tekijä: Mehdi Yousfi-Monod (mym)\\\\"
 
 #: data/set-mym2.txt
 msgid "Mehdi's Levels Suite"
