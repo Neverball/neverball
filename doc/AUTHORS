@@ -80,6 +80,9 @@ D: Original author/composer/graphics artist
 N: Lazrhog (alias)
 D: iPhone/iPod Touch port
 
+N: Jeremy Messenger
+D: FreeBSD port
+
 N: Michael Middleton
 D: Neverputt course
 
@@ -91,14 +94,15 @@ D: New pause screen
 D: I18n improvements
 D: Various bug fixes and features
 
-N: Jeremy Messenger
-D: FreeBSD port
-
 N: David Olsen
 D: Neverball maps
 D: Textures
 D: Grow/shrink items
 D: Level intro texts
+
+N: Jordà Polo
+D: Debian packaging
+D: Neverputt score fixes
 
 N: Florian Priester
 D: Mapper
@@ -106,10 +110,6 @@ D: German translation
 D: Texture clean-up
 D: Ball shadow removal in poser mode
 D: Performance improvement on maps not using reflective materials
-
-N: Jordà Polo
-D: Debian packaging
-D: Neverputt score fixes
 
 N: Jean Privat
 D: Developer (inactive)
