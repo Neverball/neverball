@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2008-09-24 20:23+0300\n"
-"PO-Revision-Date: 2008-06-10 17:00+0300\n"
+"PO-Revision-Date: 2008-09-26 04:27+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,12 @@ msgstr ""
 
 #: ball/demo.c:299
 msgid "Missing format character in replay name\n"
-msgstr ""
+msgstr "Ieraksta nosaukumā trūkst formāta rakstzīmes\n"
 
 #: ball/demo.c:304
 #, c-format
 msgid "Invalid format character in replay name: \"%%%c\"\n"
-msgstr ""
+msgstr "Ieraksta nosaukumā ir nederīga formāta rakstzīme: \"%%%c\"\n"
 
 #: ball/game.c:1294
 msgid "Aborted"
@@ -273,9 +273,8 @@ msgid "Time"
 msgstr "Laiks"
 
 #: ball/st_demo.c:179
-#, fuzzy
 msgid "Status"
-msgstr "Stāvoklis"
+msgstr "Iznākums"
 
 #: ball/st_demo.c:207 ball/st_demo.c:348
 msgid "Replay"
@@ -338,16 +337,14 @@ msgid "Set Complete"
 msgstr "Komplekts pabeigts"
 
 #: ball/st_done.c:95
-#, fuzzy
 msgid "Select Level"
-msgstr "Nākošais līmenis"
+msgstr "Izvēlies līmeni"
 
 #: ball/st_fall_out.c:83
 msgid "Fall-out!"
 msgstr "Kritiens!"
 
 #: ball/st_fall_out.c:90 ball/st_time_out.c:83
-#, fuzzy
 msgid "Exit"
 msgstr "Iziet"
 
@@ -372,12 +369,12 @@ msgid "GOAL"
 msgstr "MĒRĶIS"
 
 #: ball/st_goal.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
-msgstr[0] "Līmenis "
-msgstr[1] "Līmenis "
-msgstr[2] "Līmenis "
+msgstr[0] "%d jauns bonusa līmenis"
+msgstr[1] "%d jauni bonusa līmeņi"
+msgstr[2] "%d jaunu bonusa līmeņu"
 
 #: ball/st_goal.c:205
 msgid "Finish"
@@ -400,22 +397,16 @@ msgid "Rules"
 msgstr "Noteikumi"
 
 #: ball/st_help.c:105
-#, fuzzy
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
-msgstr ""
-"Kustini peli vai vadības sviru,\\vai izmanto bultiņas uz\\tastatūras, lai "
-"liektu grīdu,\\liekot bumbai ripot.\\ "
+msgstr "Kustini peli vai vadības sviru,\\vai izmanto bultiņas uz\\taustiņdēļa, lai liektu grīdu,\\liekot bumbai ripot.\\ "
 
 #: ball/st_help.c:110
-#, fuzzy
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
-msgstr ""
-"Ripinies pāri monētām, lai\\savāktu tās. Vāc monētas,\\lai atslēgtu mērķi un"
-"\\pabeigtu līmeni.\\ "
+msgstr "Ripo pāri monētām, lai tās\\savāktu. Vāc monētas,\\lai atslēgtu mērķi un\\pabeigtu līmeni.\\"
 
 #: ball/st_help.c:167
 msgid "Left and right mouse buttons rotate the view."
@@ -453,39 +444,39 @@ msgstr "Ekrāna attēls"
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
 "to open the goal."
-msgstr ""
+msgstr "Pabeidz līmeni pirms beidzas laiks.\\Vāc monētas, lai atslēgtu mērķi."
 
 #: ball/st_help.c:248
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr ""
+msgstr "Sāc spēli no pirmā līmeņa komplektā.\\Tev dotas tikai trīs bumbas, tādēļ nepazaudē tās.\\Iegūsti papildu bumbu par\\katrām 100 savāktajām monētām."
 
 #: ball/st_help.c:262
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
-msgstr ""
+msgstr "Stūrus var izmantot lēkāšanai.\\Sāc ripot, mērķējot uz stūra\\malu. Iespējams, ka sasniegsi\\kādu jaunu vietu.\\"
 
 #: ball/st_help.c:267
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
 "the camera by 45\\degrees for best results.\\"
-msgstr ""
+msgstr "Liecot grīdu 2 virzienos var\\palielināt slīpumu. Izmanto\\manuālo kameru, un pagriez\\to 45 grādu leņķī, lai gūtu\\labus rezultātus.\\"
 
 #: ball/st_help.c:287 ball/st_help.c:297
 msgid "Watch demo"
 msgstr "Skatīties piemēru"
 
 #: ball/st_level.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "Bonus Level %s"
-msgstr "Līmenis "
+msgstr "Bonusa līmenis %s"
 
 #: ball/st_level.c:52
-#, fuzzy, c-format
+#, c-format
 msgid "Level %s"
-msgstr "Līmenis "
+msgstr "Līmenis %s"
 
 #: ball/st_name.c:115
 msgid "OK"
@@ -539,11 +530,11 @@ msgstr "Līmeņu komplekts"
 #. * as necessary for the buttons to look good.
 #: ball/st_start.c:229
 msgid "   No   "
-msgstr ""
+msgstr "   Nē   "
 
 #: ball/st_start.c:238
 msgid "Lock Goals of Completed Levels?"
-msgstr ""
+msgstr "Vai slēgt pabeigtu līmeņu mērķus?"
 
 #: ball/st_time_out.c:76
 msgid "Time's Up!"
@@ -598,9 +589,8 @@ msgid "Best Times"
 msgstr "Labākie laiki"
 
 #: ball/util.c:308
-#, fuzzy
 msgid "Change Name"
-msgstr "Mainīt spēlētāja vārdu"
+msgstr "Mainīt vārdu"
 
 #: ball/util.c:455
 msgid "caps"
@@ -621,7 +611,7 @@ msgstr "ttf/DejaVuSans-Bold.ttf"
 #: share/image.c:226
 #, c-format
 msgid "Failed to convert SDL_ttf surface: %s\n"
-msgstr ""
+msgstr "Neizdevās konvertēt SDL_ttf virsmu: %s\n"
 
 #. Translators,
 #. *
@@ -630,36 +620,32 @@ msgstr ""
 #. * and that's perfectly fine -- in such cases just copy the source string.
 #.
 #: share/keynames.c:31
-#, fuzzy
 msgid "Backspace"
-msgstr "Atpakaļ"
+msgstr "Backspace"
 
 #: share/keynames.c:32
 msgid "Tab"
-msgstr ""
+msgstr "Tab"
 
 #: share/keynames.c:33
 msgid "Clear"
-msgstr ""
+msgstr "Clear"
 
 #: share/keynames.c:34
-#, fuzzy
 msgid "Return"
-msgstr "Sākt vēlreiz"
+msgstr "Enter"
 
 #: share/keynames.c:35
-#, fuzzy
 msgid "Pause"
 msgstr "Pauze"
 
 #: share/keynames.c:36
 msgid "Escape"
-msgstr "Esc"
+msgstr "Escape"
 
 #: share/keynames.c:37
-#, fuzzy
 msgid "Space"
-msgstr "Saglabāt"
+msgstr "Atstarpe"
 
 #: share/keynames.c:39
 msgid "Enter"
@@ -672,20 +658,19 @@ msgstr "Viegli"
 
 #: share/keynames.c:41
 msgid "Up"
-msgstr ""
+msgstr "Augšup"
 
 #: share/keynames.c:42 share/keynames.c:45
 msgid "Down"
-msgstr ""
+msgstr "Lejup"
 
 #: share/keynames.c:43
-#, fuzzy
 msgid "Right"
-msgstr "Labi"
+msgstr "Pa labi"
 
 #: share/keynames.c:44
 msgid "Left"
-msgstr ""
+msgstr "Pa kreisi"
 
 #: share/keynames.c:46
 msgid "Insert"
@@ -709,115 +694,115 @@ msgstr ""
 
 #: share/keynames.c:51
 msgid "F1"
-msgstr ""
+msgstr "F1"
 
 #: share/keynames.c:52
 msgid "F2"
-msgstr ""
+msgstr "F2"
 
 #: share/keynames.c:53
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: share/keynames.c:54
 msgid "F4"
-msgstr ""
+msgstr "F4"
 
 #: share/keynames.c:55
 msgid "F5"
-msgstr ""
+msgstr "F5"
 
 #: share/keynames.c:56
 msgid "F6"
-msgstr ""
+msgstr "F6"
 
 #: share/keynames.c:57
 msgid "F7"
-msgstr ""
+msgstr "F7"
 
 #: share/keynames.c:58
 msgid "F8"
-msgstr ""
+msgstr "F8"
 
 #: share/keynames.c:59
 msgid "F9"
-msgstr ""
+msgstr "F9"
 
 #: share/keynames.c:60
 msgid "F10"
-msgstr ""
+msgstr "F10"
 
 #: share/keynames.c:61
 msgid "F11"
-msgstr ""
+msgstr "F11"
 
 #: share/keynames.c:62
 msgid "F12"
-msgstr ""
+msgstr "F12"
 
 #: share/keynames.c:63
 msgid "F13"
-msgstr ""
+msgstr "F13"
 
 #: share/keynames.c:64
 msgid "F14"
-msgstr ""
+msgstr "F14"
 
 #: share/keynames.c:65
 msgid "F15"
-msgstr ""
+msgstr "F15"
 
 #: share/keynames.c:66
 msgid "Num Lock"
-msgstr ""
+msgstr "Num Lock"
 
 #: share/keynames.c:67
 msgid "Caps Lock"
-msgstr ""
+msgstr "Caps Lock"
 
 #: share/keynames.c:68
 msgid "Scroll Lock"
-msgstr ""
+msgstr "Scroll Lock"
 
 #: share/keynames.c:69
 msgid "Right Shift"
-msgstr ""
+msgstr "Labais Shift"
 
 #: share/keynames.c:70
 msgid "Left Shift"
-msgstr ""
+msgstr "Kreisais Shift"
 
 #: share/keynames.c:71
 msgid "Right CTRL"
-msgstr ""
+msgstr "Labais CTRL"
 
 #: share/keynames.c:72
 msgid "Left CTRL"
-msgstr ""
+msgstr "Kreisais CTRL"
 
 #: share/keynames.c:73
 msgid "Right Alt"
-msgstr ""
+msgstr "Labais Alt"
 
 #: share/keynames.c:74
 msgid "Left Alt"
-msgstr ""
+msgstr "Kreisais Alt"
 
 #: share/keynames.c:75
 msgid "Right Meta"
-msgstr ""
+msgstr "Labais Meta"
 
 #: share/keynames.c:76
 msgid "Left Meta"
-msgstr ""
+msgstr "Kreisais Meta"
 
 #: share/keynames.c:77
 msgid "Left Super"
-msgstr ""
+msgstr "Kreisais Super"
 
 #: share/keynames.c:78
 msgid "Right Super"
-msgstr ""
+msgstr "Labais Super"
 
 #: share/keynames.c:79
 msgid "Alt Gr"
@@ -834,11 +819,11 @@ msgstr "Palīdzība"
 
 #: share/keynames.c:82
 msgid "Print Screen"
-msgstr ""
+msgstr "Print Screen"
 
 #: share/keynames.c:83
 msgid "Sys Req"
-msgstr ""
+msgstr "Sys Req"
 
 #: share/keynames.c:84
 #, fuzzy
@@ -866,11 +851,11 @@ msgstr "Logs"
 #: share/syswm.c:44
 #, c-format
 msgid "Failed to get WM info: %s\n"
-msgstr ""
+msgstr "Neizdevās iegūt logu pārziņa info: %s\n"
 
 #: share/syswm.c:115
 msgid "Failed to allocate memory for EWMH icon data.\n"
-msgstr ""
+msgstr "Neizdevās iedalīt atmiņu EWMH ikonas datiem.\n"
 
 #: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:97 putt/st_all.c:141
 msgid "Par"
@@ -985,9 +970,8 @@ msgid ""
 msgstr ""
 
 #: data/set-fwp.txt
-#, fuzzy
 msgid "Nevermania"
-msgstr "Vācu"
+msgstr "Nevermania"
 
 #: data/set-fwp.txt
 msgid "Levels for Neverball Experts\\Author: Florian Priester\\\\\\\\"
