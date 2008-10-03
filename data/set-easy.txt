@@ -2,7 +2,7 @@ Neverball Easy
 Difficulty: Beginner through Intermediate\\25 levels with a smooth learning curve.\Read level introductions for gameplay tips.\ \
 easy
 shot-easy/easy.jpg
-36000 60000 180000  1800 1000 0
+36000 60000 180000  1800 1200 0
 map-easy/easy.sol
 map-easy/peasy.sol
 map-easy/coins.sol
