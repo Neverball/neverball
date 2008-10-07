@@ -158,7 +158,7 @@
     sub menu
         clkey
         do
-            Title = "Neverassistant - " + Time + " - " + Date
+            Title = "Neverassistant - " + left(Time,5) + " - " + Date
             windowtitle Title
 
             screenlock
