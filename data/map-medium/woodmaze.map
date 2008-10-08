@@ -12,8 +12,9 @@
 "back" "map-back/jupiter.sol"
 "goal" "30"
 "time" "9000"
-"coin_hs" "60 58"
-"time_hs" "3000 6000"
+"coin_hs" "60 55"
+"time_hs" "7000 8000"
+"goal_hs" "8000 8500"
 "version" "1"
 // brush 0
 {
