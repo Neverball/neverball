@@ -12,7 +12,7 @@
 "time" "18000"
 "goal" "0"
 "time_hs" "320 400"
-"time_hs" "320 400"
+"goal_hs" "320 400"
 "coin_hs" "100 60"
 "message" "Le rodéo de Neverball.\You'll fall quickly."
 // brush 0
