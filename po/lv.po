@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2008-09-24 20:23+0300\n"
-"PO-Revision-Date: 2008-09-26 04:27+0300\n"
+"PO-Revision-Date: 2008-10-04 21:54+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -109,7 +109,7 @@ msgstr "Manuālais"
 #: ball/level.c:133
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
-msgstr "Kļūda, ielādējot līmeņa failu '%s': %s\n"
+msgstr "Kļūda, ielādējot līmeņa failu \"%s\": %s\n"
 
 #: ball/level.c:135
 msgid "Not a valid level file"
@@ -130,18 +130,18 @@ msgstr ""
 "Opcijas:\n"
 "  -h, --help                parādīt šo ziņu.\n"
 "  -v, --version             parādīt versiju.\n"
-"  -d, --data <dir>          lietot 'dir' kā spēles datu mapi.\n"
-"  -r, --replay <fails>      parādīt ierakstu 'fails'.\n"
+"  -d, --data <dir>          izmantot \"dir\" par spēles datu mapi.\n"
+"  -r, --replay <fails>      parādīt ierakstu \"fails\".\n"
 "  -i, --info                parādīt informāciju par ierakstu.\n"
 
 #: ball/main.c:267
 #, c-format
 msgid "Option '%s' requires an argument.\n"
-msgstr "Opcijai '%s' jānorāda arguments.\n"
+msgstr "Opcijai \"%s\" jānorāda arguments.\n"
 
 #: ball/main.c:327
 msgid "Option '--info' requires '--replay'.\n"
-msgstr "Opcijai '--info' jānorāda '--replay'.\n"
+msgstr "Opcijai \"--info\" jānorāda \"--replay\".\n"
 
 #: ball/main.c:350 putt/main.c:286
 msgid "Failure to establish game data directory\n"
@@ -154,7 +154,7 @@ msgstr "Neizdevās noteikt iestatījumu mapi\n"
 #: ball/main.c:379
 #, c-format
 msgid "Replay file '%s': %s\n"
-msgstr "Ieraksta fails '%s': %s\n"
+msgstr "Ieraksta fails \"%s\": %s\n"
 
 #: ball/main.c:380
 msgid "Not a replay file"
@@ -183,7 +183,7 @@ msgstr "Nezināms režīms"
 #: ball/set.c:178
 #, c-format
 msgid "Error while loading user high-score file '%s': %s\n"
-msgstr "Kļūda, ielādējot lietotāja rekordu failu '%s': %s\n"
+msgstr "Kļūda, ielādējot lietotāja rekordu failu \"%s\": %s\n"
 
 #: ball/set.c:179
 msgid "Incorrect format"
@@ -192,7 +192,7 @@ msgstr "nepareizs formāts"
 #: ball/set.c:194
 #, c-format
 msgid "Cannot load the set file '%s': %s\n"
-msgstr "Nav iespējams ielādēt komplekta failu '%s': %s\n"
+msgstr "Nav iespējams ielādēt komplekta failu \"%s\": %s\n"
 
 #: ball/st_conf.c:209 putt/st_conf.c:168
 msgid "Options"
@@ -598,11 +598,11 @@ msgstr "lielie"
 
 #: ball/util.c:516
 msgid "Next"
-msgstr "Tālāk"
+msgstr "Nākamie"
 
 #: ball/util.c:517
 msgid "Prev"
-msgstr "Iepriekš"
+msgstr "Iepriekš."
 
 #: share/base_config.h:92
 msgid "ttf/DejaVuSans-Bold.ttf"
@@ -649,12 +649,11 @@ msgstr "Atstarpe"
 
 #: share/keynames.c:39
 msgid "Enter"
-msgstr ""
+msgstr "Enter"
 
 #: share/keynames.c:40
-#, fuzzy
 msgid "Equals"
-msgstr "Viegli"
+msgstr "Vienāds"
 
 #: share/keynames.c:41
 msgid "Up"
@@ -674,23 +673,23 @@ msgstr "Pa kreisi"
 
 #: share/keynames.c:46
 msgid "Insert"
-msgstr ""
+msgstr "Insert"
 
 #: share/keynames.c:47
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: share/keynames.c:48
 msgid "End"
-msgstr ""
+msgstr "End"
 
 #: share/keynames.c:49
 msgid "Page Up"
-msgstr ""
+msgstr "Page Up"
 
 #: share/keynames.c:50
 msgid "Page Down"
-msgstr ""
+msgstr "Page Down"
 
 #: share/keynames.c:51
 msgid "F1"
@@ -806,16 +805,15 @@ msgstr "Labais Super"
 
 #: share/keynames.c:79
 msgid "Alt Gr"
-msgstr ""
+msgstr "Alt Gr"
 
 #: share/keynames.c:80
 msgid "Compose"
-msgstr ""
+msgstr "Compose"
 
 #: share/keynames.c:81
-#, fuzzy
 msgid "Help"
-msgstr "Palīdzība"
+msgstr "Help"
 
 #: share/keynames.c:82
 msgid "Print Screen"
@@ -826,27 +824,24 @@ msgid "Sys Req"
 msgstr "Sys Req"
 
 #: share/keynames.c:84
-#, fuzzy
 msgid "Break"
-msgstr "Atpakaļ"
+msgstr "Break"
 
 #: share/keynames.c:85
-#, fuzzy
 msgid "Menu"
-msgstr "Manuālais"
+msgstr "Menu"
 
 #: share/keynames.c:86
 msgid "Power"
-msgstr ""
+msgstr "Power"
 
 #: share/keynames.c:87
 msgid "Euro"
-msgstr ""
+msgstr "Euro"
 
 #: share/keynames.c:88
-#, fuzzy
 msgid "Undo"
-msgstr "Logs"
+msgstr "Undo"
 
 #: share/syswm.c:44
 #, c-format
@@ -920,17 +915,17 @@ msgstr "Gala rezultāti"
 
 #: data/set-easy.txt
 msgid "Neverball Easy"
-msgstr ""
+msgstr "Neverball: Viegli"
 
 #: data/set-easy.txt
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr ""
+msgstr "Grūtības pakāpe: no vieglas līdz vidējai\\\\25 līmeņi ar pakāpeniski pieaugošu grūtības pakāpi.\\Lasi līmeņu aprakstus, lai saņemtu spēles padomus.\\ \\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
-msgstr ""
+msgstr "Neverball: Vidēji"
 
 #: data/set-medium.txt
 msgid ""
@@ -940,7 +935,7 @@ msgstr ""
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
-msgstr ""
+msgstr "Neverball: Grūti"
 
 #: data/set-hard.txt
 msgid ""
@@ -951,7 +946,7 @@ msgstr ""
 
 #: data/set-mym.txt
 msgid "Mehdi's Levels"
-msgstr ""
+msgstr "Mehdi līmeņi"
 
 #: data/set-mym.txt
 msgid ""
@@ -961,7 +956,7 @@ msgstr ""
 
 #: data/set-mym2.txt
 msgid "Mehdi's Levels Suite"
-msgstr ""
+msgstr "Mehdi līmeņu komplekts"
 
 #: data/set-mym2.txt
 msgid ""
@@ -979,11 +974,11 @@ msgstr ""
 
 #: data/set-misc.txt
 msgid "Neverball Misc"
-msgstr ""
+msgstr "Neverball: Dažādi"
 
 #: data/set-misc.txt
 msgid "Unsorted levels\\For testing purposes\\\\\\\\"
-msgstr ""
+msgstr "Nesakārtoti līmeņi\\Testēšanai\\\\\\\\"
 
 #: data/courses.txt
 msgid ""
