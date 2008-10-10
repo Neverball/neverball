@@ -4,14 +4,14 @@
 #include "lang.bi"
 randomize timer
 dim shared as ubyte XM, YM, XG, YG, BlockType, BlockSet, Rotation, XR, YR, _
-    ZR, Start, Finish, MusicSwitch, XSwitch, YSwitch, ZSwitch, Warning, Hold, _
+    ZR, Start, Finish(2), MusicSwitch, XSwitch, YSwitch, ZSwitch, Warning, Hold, _
     Openings, Putt, MusicID, Official, FullBonus(25)
 dim shared as byte XP, YP, ZP, DiffPar
 dim shared as uinteger Entity, LevelTime, Blocks, TargetCoins, Coins, _
     MinimumLevelTime, UsedMoney, SingleLevelID
 dim shared as integer Money
-dim shared as longint PlacementFormula, PlacementTest(-11 to 11,_
-    -11 to 11,-11 to 21)
+dim shared as longint PlacementTest(-11 to 11,-11 to 11,-11 to 21), _
+    Contents(-11 to 11,-11 to 11,-11 to 21), Direction(-11 to 11,-11 to 11,-11 to 21)
 dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, _
     LevelMessage, WindowTitleM, Compile, Replay, LevelName, MusicPlay, _
     Neverpath, InType, AssistDir, ShotFile, Username, UserData, DataScan
@@ -44,8 +44,8 @@ dim shared as double ChallengeTime
  '/
 declare sub base_gfx
 declare sub cursor
-declare sub direction
-declare sub menu
+declare sub direction_gfx
+declare sub main_menu
 declare sub map_generate
 declare sub config(Switch as ubyte = 0)
 
@@ -69,12 +69,6 @@ declare sub plot_face(Detail as ubyte, XOff1 as short, YOff1 as short, _
     XOff3 as short, YOff3 as short, ZOff3 as short, _
     Texture as string = "invisible")
 
-sub edge(EdgeDirection as ubyte)
-/'
- ' WIP: This allows the trimming you see in regular levels to be handled
- ' automatically with this program.
- '/
-end sub
 sub plot_face(Detail as ubyte, XOff1 as short, YOff1 as short, _
     ZOff1 as short, XOff2 as short, YOff2 as short, ZOff2 as short, _
     XOff3 as short, YOff3 as short, ZOff3 as short, _
@@ -92,6 +86,42 @@ sub plot_face(Detail as ubyte, XOff1 as short, YOff1 as short, _
         ""& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "; _
         ""& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 0 0 0"
     end if
+end sub
+
+declare sub plot_coins(ZOff as short = 0)
+sub plot_coins(ZOff as short = 0)
+    print #m, "// entity ";Entity
+    Entity += 1
+    print #m, "{"
+    print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
+    print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+        " "& YP*128-96;" "& ZP*64+24+ZOff;chr(34)
+    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
+    print #m, "}"
+    print #m, "// entity ";Entity
+    Entity += 1
+    print #m, "{"
+    print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
+    print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+        " "& YP*128-96;" "& ZP*64+24+ZOff;chr(34)
+    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
+    print #m, "}"
+    print #m, "// entity ";Entity
+    Entity += 1
+    print #m, "{"
+    print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
+    print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
+        " "& YP*128-32;" "& ZP*64+24+ZOff;chr(34)
+    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
+    print #m, "}"
+    print #m, "// entity ";Entity
+    Entity += 1
+    print #m, "{"
+    print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
+    print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
+        " "& YP*128-32;" "& ZP*64+24+ZOff;chr(34)
+    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
+    print #m, "}"
 end sub
 /'
  ' Don't even bother uncommenting it. This makes it easier for me to make

@@ -10,21 +10,21 @@ sub base_gfx
     next
     for XG = -10 to 10
         for YG = -10 to 10
-            if PlacementTest(XM,YM,ZP) < > 0 then
-                line((XM+10)*20+1,(-YM+10)*20+1) - _
-                    ((XM+11)*20-1,(-YM+9)*20-1),rgb(255,0,255),bf
+            if Contents(XG,YG,ZP) < > 0 then
+                line((XG+10)*20+1,(-YG+10)*20+1) - _
+                    ((XG+11)*20-1,(-YG+9)*20-1),rgb(255,0,255),bf
             end if
         next
     next
 end sub
 sub cursor
-    if PlacementTest(XM,YM,ZP) = 0 then
+    if Contents(XP,YP,ZP) = 0 then
         line((XP+10)*20,(-YP+10)*20)-((XP+10+XR)*20,(-YP+10+YR)*20),rgb(0,255,0),b
     else
         line((XP+10)*20,(-YP+10)*20)-((XP+10+XR)*20,(-YP+10+YR)*20),rgb(255,0,0),b
     end if
 end sub
-sub direction
+sub direction_gfx
     if Rotation = 1 then
         line ((XP+10)*20+1,(-YP+10)*20+1)-((XP+11)*20-1,(-YP+10)*20+6),rgb(0,0,255),bf
     elseif Rotation = 2 then

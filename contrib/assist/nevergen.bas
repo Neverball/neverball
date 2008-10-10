@@ -19,7 +19,7 @@
         print lang("Which file would you like to enter? ");
         input "",MapFile
         MapFile = MapFile + ".map"
-        WindowTitleM = "Neverassistant - " + MapFile
+        WindowTitleM = "Neverassistant - Map Generator: " + MapFile
         windowtitle WindowTitleM
         print lang("Which environment do you want?")
         print
@@ -69,7 +69,8 @@
         color rgb(255,255,255)
         cls
         Start = 0
-        Finish = 0
+        Finish(1) = 0
+        Finish(2) = 0
         LevelTime = 0
         Blocks = 0
         Coins = 0
@@ -81,37 +82,25 @@
         for XP = -10 to 10
             for YP = -10 to 10
                 for ZP = -10 to 20
-                    PlacementTest(XP,YP,ZP) = 0
+                    Contents(XP,YP,ZP) = 0
+                    Direction(XP,YP,ZP) = 0
                 next
             next
         next
         XP = 0
         YP = 0
         ZP = 0
-        BlockType = 1
+        BlockType = 0
         Rotation = 1
         BlockSet = 0
         XR = 1
         YR = 1
         ZR = 1
-        Check = open(MapFile for output as #m)
-        if Check < > 0 then
-            clkey
-            print lang("Unable to open the map for output: ") + MapFile
-            sleep
-            exit sub
-        end if
         BlockDisplay = ImageCreate(128,128)
         do
             screenlock
             cls
             Warning = 0
-
-            /'
-             ' Due to an issue in an older version of FB, I used a formula for
-             ' processing this as opposed to making three arrays.
-             '/
-            PlacementFormula = XP + (YP * 50) + (ZP * 2000) + 100000
 
             /'
              ' This allows hitting the X in the window to actually close the
@@ -174,7 +163,7 @@
              ' certain items.
              '/
             if Start = 0 then Warning += 1
-            if Finish = 0 then Warning += 1
+            if Finish(1) = 0 then Warning += 1
             if TargetCoins > Coins then Warning += 1
             if MinimumLevelTime > LevelTime then Warning += 1
 
@@ -186,229 +175,181 @@
              '/
             if multikey(SC_F2) AND (Putt < > 1) then
                 BlockSet = 0
-                BlockType = 1
+                BlockType = 0
                 XR = 1
                 YR = 1
                 ZR = 1
-                bload(AssistDir+"/Start.bmp",BlockDisplay)
             elseif multikey(SC_F3) AND (Putt < > 1) then
-                /'
                 BlockSet = 1
-                BlockType = 1
+                BlockType = 0
                 XR = 1
                 YR = 1
                 ZR = 1
-                bload(AssistDir+"/Start.bmp",BlockDisplay)
-                '/
             elseif multikey(SC_F4) AND (Putt < > 1) then
-                /'
                 BlockSet = 2
-                BlockType = 1
+                BlockType = 0
                 XR = 1
                 YR = 1
                 ZR = 1
-                bload(AssistDir+"/Start.bmp",BlockDisplay)
-                '/
-            elseif multikey(SC_F5) AND (Putt < > 2) then
-                /'
-                BlockSet = 3
-                BlockType = 1
+            elseif multikey(SC_F6) AND (Putt < > 1) then
+                BlockSet = 4
+                BlockType = 0
                 XR = 1
                 YR = 1
                 ZR = 1
-                bload(AssistDir+"/Start.bmp",BlockDisplay)
-                '/
             end if
 
             /'
-             ' Each letter of the English alphabet sets an indivudual block.
+             ' Each number from 1 to 9 sets an indivudual block.
              '/
-            if multikey(SC_A) then
-                BlockType = 1
-                if (BlockSet < > 1) then
+            if BlockSet = 0 then
+                if multikey(SC_1) then
+                    BlockType = 1
                     XR = 1
                     YR = 1
                     ZR = 1
                     bload(AssistDir+"/Start.bmp",BlockDisplay)
-                end if
-            elseif multikey(SC_B) then
-                BlockType = 2
-                if (BlockSet < > 1) then
+                elseif multikey(SC_2) then
+                    BlockType = 2
                     XR = 1
                     YR = 1
                     ZR = 1
-                    bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
-                end if
-            elseif multikey(SC_C) then
-                BlockType = 3
-                if (BlockSet = 0) then
+                    bload(AssistDir+"/Finish.bmp",BlockDisplay)
+                elseif multikey(SC_3) then
+                    BlockType = 3
                     XR = 1
                     YR = 1
                     ZR = 1
-                    bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
-                end if
-            elseif multikey(SC_D) then
-                BlockType = 4
-                if (BlockSet = 0) then
+                    bload(AssistDir+"/Finish.bmp",BlockDisplay)
+                elseif multikey(SC_4) then
+                    BlockType = 4
                     XR = 1
                     YR = 1
                     ZR = 1
-                    bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
-                end if
-            elseif multikey(SC_E) then
-                BlockType = 5
-                if (BlockSet = 0) then
+                    bload(AssistDir+"/Finish.bmp",BlockDisplay)
+                elseif multikey(SC_5) then
+                    BlockType = 5
                     XR = 1
                     YR = 1
                     ZR = 1
-                    bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
+                    bload(AssistDir+"/Finish.bmp",BlockDisplay)
+                elseif multikey(SC_6) then
+                    BlockType = 6
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                    bload(AssistDir+"/Finish.bmp",BlockDisplay)
                 end if
 
-            elseif multikey(SC_F) then
-                BlockType = 6
-                if (BlockSet = 0) then
-                    XR = 1
-                    YR = 1
-                    ZR = 1
-                end if
-            elseif multikey(SC_G) then
-                BlockType = 7
-                if (BlockSet = 0) then
-                    XR = 1
-                    YR = 1
-                    ZR = 1
-                end if
-            elseif multikey(SC_H) then
-                BlockType = 8
-                if (BlockSet = 0) then
+            elseif BlockSet = 1 then
+                if multikey(SC_1) then
+                    BlockType = 11
                     XR = 1
                     YR = 1
                     ZR = 1
                     bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
-                end if
-            elseif multikey(SC_I) then
-                BlockType = 9
-                if (BlockSet = 0) then
+                elseif multikey(SC_2) then
+                    BlockType = 12
                     XR = 1
                     YR = 1
                     ZR = 1
-                end if
-            elseif multikey(SC_J) then
-                BlockType = 10
-                if (BlockSet = 0) then
+                    bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
+                elseif multikey(SC_3) then
+                    BlockType = 13
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                    bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
+                elseif multikey(SC_4) then
+                    BlockType = 14
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                    bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
+                elseif multikey(SC_5) then
+                    BlockType = 15
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                    bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
+                elseif multikey(SC_6) then
+                    BlockType = 16
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                elseif multikey(SC_7) then
+                    BlockType = 17
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                    bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
+                elseif multikey(SC_8) then
+                    BlockType = 18
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                elseif multikey(SC_9) then
+                    BlockType = 19
                     XR = 1
                     YR = 1
                     ZR = 1
                 end if
 
-            elseif multikey(SC_K) then
-                BlockType = 11
-                if (BlockSet = 0) then
+            elseif BlockSet = 2 then
+                if multikey(SC_1) then
+                    BlockType = 21
                     XR = 1
                     YR = 1
                     ZR = 1
-                end if
-            elseif multikey(SC_L) then
-                BlockType = 12
-                if (BlockSet = 0) then
+                elseif multikey(SC_2) then
+                    BlockType = 22
                     XR = 1
                     YR = 1
                     ZR = 1
-                end if
-            elseif multikey(SC_M) then
-                BlockType = 13
-                if (BlockSet = 0) then
-                    XR = 1
-                    YR = 1
-                    ZR = 2
                     bload(AssistDir+"/Ramp.bmp",BlockDisplay)
-                end if
-            elseif multikey(SC_N) then
-                BlockType = 14
-                if (BlockSet = 0) then
+                elseif multikey(SC_3) then
+                    BlockType = 23
                     XR = 1
                     YR = 1
                     ZR = 1
-                end if
-            elseif multikey(SC_O) then
-                BlockType = 15
-                if (BlockSet = 0) then
+                    bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
+                elseif multikey(SC_4) then
+                    BlockType = 24
                     XR = 1
                     YR = 1
                     ZR = 1
+                    bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
                 end if
 
-            elseif multikey(SC_P) then
-                BlockType = 16
-                if (BlockSet = 0) then
+            elseif BlockSet = 4 then
+                if multikey(SC_1) then
+                    BlockType = 41
                     XR = 1
                     YR = 1
                     ZR = 1
-                end if
-            elseif multikey(SC_Q) then
-                BlockType = 17
-                if (BlockSet = 0) then
+                elseif multikey(SC_2) then
+                    BlockType = 42
                     XR = 1
                     YR = 1
                     ZR = 1
-                end if
-            elseif multikey(SC_R) then
-                BlockType = 18
-                if (BlockSet = 0) then
+                elseif multikey(SC_3) then
+                    BlockType = 43
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                elseif multikey(SC_4) then
+                    BlockType = 44
                     XR = 2
                     YR = 2
                     ZR = 1
                     bload(AssistDir+"/ChicaneLTR.bmp",BlockDisplay)
-                end if
-            elseif multikey(SC_S) then
-                BlockType = 19
-                if (BlockSet = 0) then
+                elseif multikey(SC_5) then
+                    BlockType = 45
                     XR = 2
                     YR = 2
                     ZR = 1
                     bload(AssistDir+"/ChicaneRTL.bmp",BlockDisplay)
-                end if
-
-            elseif multikey(SC_V) then
-                BlockType = 22
-                if (BlockSet = 0) then
-                    XR = 1
-                    YR = 1
-                    ZR = 1
-                    bload(AssistDir+"/Finish.bmp",BlockDisplay)
-                end if
-            elseif multikey(SC_W) then
-                BlockType = 23
-                if (BlockSet = 0) then
-                    XR = 1
-                    YR = 1
-                    ZR = 1
-                    bload(AssistDir+"/Finish.bmp",BlockDisplay)
-                end if
-            elseif multikey(SC_X) then
-                BlockType = 24
-                if (BlockSet = 0) then
-                    XR = 1
-                    YR = 1
-                    ZR = 1
-                    bload(AssistDir+"/Finish.bmp",BlockDisplay)
-                end if
-            elseif multikey(SC_Y) then
-                BlockType = 25
-                if (BlockSet = 0) then
-                    XR = 1
-                    YR = 1
-                    ZR = 1
-                    bload(AssistDir+"/Finish.bmp",BlockDisplay)
-                end if
-            elseif multikey(SC_Z) then
-                BlockType = 26
-                if (BlockSet = 0) then
-                    XR = 1
-                    YR = 1
-                    ZR = 1
-                    bload(AssistDir+"/Finish.bmp",BlockDisplay)
-                end if
+            	end if
             end if
 
             /'
@@ -449,94 +390,70 @@
             locate 8,54
             print UsedMoney;"/";Money
 
+            color rgb(255,255,255)
             locate 13,54
             if (BlockSet = 0) then
-                color rgb(0,255,0)
+                print lang("Required Blocks")
             elseif (BlockSet = 1) then
-                color rgb(255,0,0)
-            elseif (Blockset = 2) then
-                color rgb(0,255,255)
-            elseif (Blockset = 3) then
-                color rgb(255,255,0)
+                print lang("Basic Blocks I")
+            elseif (BlockSet = 2) then
+                print lang("Basic Blocks II")
+            elseif (BlockSet = 4) then
+                print lang("Advanced Blocks")
             end if
-
-            if (BlockType = 1) AND (BlockSet < > 1) then
+            locate 14,54
+            if (BlockType = 0) then
+                print lang("No block selected")
+            elseif (BlockType = 1) then
                 print lang("Start")
-
-            elseif (BlockType = 2) AND (BlockSet < > 1) then
-                print lang("Flat straight")
-
-            elseif (BlockType = 3) AND (BlockSet = 0) then
-                print lang("90"+chr(248)+" simple flat turn")
-
-            elseif (BlockType = 4) AND (BlockSet = 0) then
-                print lang("Junction")
-
-            elseif (BlockType = 5) AND (BlockSet = 0) then
-                print lang("Cross")
-
-            elseif (BlockType = 6) AND (BlockSet = 0) then
-                print lang("Coined flat straight")
-
-            elseif (BlockType = 7) AND (BlockSet = 0) then
-                print lang("Coined 90"+chr(248)+" simple flat turn")
-
-            elseif (BlockType = 8) AND (BlockSet = 0) then
-                print lang("Dead-end")
-
-            elseif (BlockType = 9) AND (BlockSet = 0) then
-                print lang("Coined Dead-end")
-
-            elseif (BlockType = 10) AND (BlockSet = 0) then
-                print lang("Small Jump")
-
-            elseif (BlockType = 11) AND (BlockSet = 0) then
-                print lang("Coined Junction")
-
-            elseif (BlockType = 12) AND (BlockSet = 0) then
-                print lang("Coined Cross")
-
-            elseif (BlockType = 13) AND (BlockSet = 0) then
-                print lang("Ramp straight")
-
-            elseif (BlockType = 14) AND (BlockSet = 0) then
-                print lang("Bump")
-
-            elseif (BlockType = 15) AND (BlockSet = 0) then
-                print lang("Coined Bump")
-
-            elseif (BlockType = 16) AND (BlockSet = 0) then
-                print lang("Flat straight with mover")
-
-            elseif (BlockType = 17) AND (BlockSet = 0) then
-                print lang("Narrower")
-
-            elseif (BlockType = 18) AND (BlockSet = 0) then
-                print lang("Chicane LTR")
-
-            elseif (BlockType = 19) AND (BlockSet = 0) then
-                print lang("Chicane RTL")
-
-            elseif (BlockType = 22) AND (BlockSet = 0) then
+            elseif (BlockType = 2) then
                 print lang("Flat straight Finish")
-
-            elseif (BlockType = 23) AND (BlockSet = 0) then
-                print lang("90"+chr(248)+" simple turn Finish")
-
-            elseif (BlockType = 24) AND (BlockSet = 0) then
+            elseif (BlockType = 3) then
+                print lang("90deg turn Finish")
+            elseif (BlockType = 4) then
                 print lang("Junction Finish")
-
-            elseif (BlockType = 25) AND (BlockSet = 0) then
+            elseif (BlockType = 5) then
                 print lang("Cross Finish")
-
-           elseif (BlockType = 26) AND (BlockSet = 0) then
+            elseif (BlockType = 6) then
                 print lang("Dead-end Finish")
-
-            elseif (BlockSet = 1) then
-                print lang("Not used")
+            elseif (BlockType = 11) then
+                print lang("Flat straight")
+            elseif (BlockType = 12) then
+                print lang("90deg simple flat turn")
+            elseif (BlockType = 13) then
+                print lang("Junction")
+            elseif (BlockType = 14)then
+                print lang("Cross")
+            elseif (BlockType = 15) then
+                print lang("Coined flat straight")
+            elseif (BlockType = 16) then
+                print lang("Coined 90deg flat turn")
+            elseif (BlockType = 17) then
+                print lang("Dead-end")
+            elseif (BlockType = 18) then
+                print lang("Coined Dead-end")
+            elseif (BlockType = 19) then
+                print lang("Coined Junction")
+            elseif (BlockType = 21) then
+                print lang("Coined Cross")
+            elseif (BlockType = 22) then
+                print lang("Ramp straight")
+            elseif (BlockType = 23) then
+                print lang("Bump")
+            elseif (BlockType = 24) then
+                print lang("Coined Bump")
+            elseif (BlockType = 41) then
+                print lang("Small Jump")
+            elseif (BlockType = 42) then
+                print lang("Flat straight with mover")
+            elseif (BlockType = 43) then
+                print lang("Narrower")
+            elseif (BlockType = 44) then
+                print lang("Chicane LTR")
+            elseif (BlockType = 45) then
+                print lang("Chicane RTL")
             end if
-            put (424,222),BlockDisplay,Trans
-            color rgb(255,255,255)
+            put (424,226),BlockDisplay,Trans
 
             /'
              ' This gives information about each block.
@@ -544,81 +461,60 @@
             locate 28,1
             if (NOT multikey(SC_F1)) AND (NOT multikey(SC_TILDE)) AND _
                (NOT multikey(SC_BACKSPACE)) then
-                if (BlockType = 1) AND (BlockSet = 0) AND (Start = 1) then
-                    print "You've already placed this block."
-                elseif (BlockType = 1) AND (BlockSet = 0) AND (Start = 0) then
-                    print "Every map made must have one of these. " + _
-                          "This is where the player starts. This"
-                    print "block can't be rotated."
-                elseif (BlockType = 2) AND (BlockSet = 0) then
-                    print lang("This is the most simple block. It is straight and flat.")
-                elseif (BlockType = 3) AND (BlockSet = 0) then
-                    print lang("This is the most simple turn. It is flat.")
-                elseif (BlockType = 4) AND (BlockSet = 0) then
-                    print lang("This is a 3-way block.")
-                elseif (BlockType = 5) AND (BlockSet = 0) then
-                    print lang("This is a 4-way block.")
-
-                elseif (BlockType = 6) AND (BlockSet = 0) then
-                    print lang("Like a Flat Straight, but with four coins.")
-                elseif (BlockType = 7) AND (BlockSet = 0) then
-                    print "Like a 90"+chr(248)+" simple flat turn, " + _
-                          "but with four coins."
-                elseif (BlockType = 8) AND (BlockSet = 0) then
-                    print lang("This block only has one end. Be careful.")
-                elseif (BlockType = 9) AND (BlockSet = 0) then
-                    print lang("Like a Dead-end, but with four coins.")
-                elseif (BlockType = 10) AND (BlockSet = 0) then
-                    print lang("You can jump with this block.")
-
-                elseif (BlockType = 11) AND (BlockSet = 0) then
-                    print lang("Like a Junction, but with four coins.")
-                elseif (BlockType = 12) AND (BlockSet = 0) then
-                    print lang("Like a Cross, but with four coins.")
-                elseif (BlockType = 13) AND (BlockSet = 0) then
-                    print lang("This block allows you to change elevations.")
-                elseif (BlockType = 14) AND (BlockSet = 0) then
-                    print lang("This block has a bump.")
-                elseif (BlockType = 15) AND (BlockSet = 0) then
-                    print lang("This bump has coins on it.")
-
-                elseif (BlockType = 16) AND (BlockSet = 0) then
-                    print lang("Like a Flat Straight, but with a mover on top.")
-                elseif (BlockType = 17) AND (BlockSet = 0) then
-                    print lang("This block is narrow in the middle.")
-                elseif (BlockType = 18) AND (BlockSet = 0) then
-                    print lang("This block shifts from left to right.")
-                elseif (BlockType = 19) AND (BlockSet = 0) then
-                    print lang("This block shifts from right to left.")
-
-                elseif (BlockType = 22) AND (BlockSet = 0) then
+                if (BlockType = 0) then
+                    print lang("You have no block selected.")
+                elseif (BlockType = 1) then
+                    print lang("This is where the player starts." + _
+                        "Not rotatable.")
+                elseif (BlockType = 2) then
                     print lang("This is where the player finishes at a " + _
-                          "straight.")
-                elseif (BlockType = 23) AND (BlockSet = 0) then
+                        "straight.")
+                elseif (BlockType = 3) then
                     print lang("This is where the player finishes at a turn.")
-                elseif (BlockType = 24) AND (BlockSet = 0) then
+                elseif (BlockType = 4) then
                     print lang("This is where the player finishes at a " + _
-                          "junction.")
-                elseif (BlockType = 25) AND (BlockSet = 0) then
+                        "junction.")
+                elseif (BlockType = 5) then
                     print lang("This is where the player finishes at a cross.")
-                elseif (BlockType = 26) AND (BlockSet = 0) then
+                elseif (BlockType = 6) then
                     print lang("This is where the player finishes at a " + _
-                          "dead-end.")
-
-                elseif (BlockType = 1) AND (BlockSet = 2) AND (Start = 1) then
-                    print "You've already placed this block."
-                elseif (BlockType = 1) AND (BlockSet = 2) AND _
-                       (Start = 0) AND (ZP < > 0) then
-                    print "This block must be placed at elevation level 0."
-                elseif (BlockType = 1) AND (BlockSet = 2) AND _
-                       (Start = 0) AND (ZP = 0) then
-                    print "Every map made must have one of these. " + _
-                          "This is where the player starts. This"
-                    print "block can't be rotated."
-                elseif (BlockType = 2) AND (BlockSet = 2) AND (ZP < > 0) then
-                    print "This block must be placed at elevation level 0."
-                elseif (BlockType = 2) AND (BlockSet = 2) AND (ZP = 0) then
-                    print "This is a shiny block. It is straight and flat."
+                        "dead-end.")
+                elseif (BlockType = 11) then
+                    print lang("This is the most simple block. It is straight and flat.")
+                elseif (BlockType = 12) then
+                    print lang("This is the most simple turn. It is flat.")
+                elseif (BlockType = 13) then
+                    print lang("This is the most simple 3-way block.")
+                elseif (BlockType = 14) then
+                    print lang("This is the most simple 4-way block.")
+                elseif (BlockType = 15) then
+                    print lang("Like a Flat Straight, but with four coins.")
+                elseif (BlockType = 16) then
+                    print lang("Like a 90deg flat turn, but with four coins.")
+                elseif (BlockType = 17) then
+                    print lang("This block only has one end. Be careful.")
+                elseif (BlockType = 18) then
+                    print lang("Like a Dead-end, but with four coins.")
+                elseif (BlockType = 19) then
+                    print lang("Like a Junction, but with four coins.")
+                elseif (BlockType = 21) then
+                    print lang("Like a Cross, but with four coins.")
+                elseif (BlockType = 22) then
+                    print lang("This block allows you to change elevations.")
+                elseif (BlockType = 23) then
+                    print lang("This block has a bump.")
+                elseif (BlockType = 24) then
+                    print lang("This bump has coins on it.")
+                elseif (BlockType = 41) then
+                    print lang("You can jump with this block.")
+                elseif (BlockType = 42) then
+                    print lang("Like a Flat Straight, but with a mover on top.")
+                elseif (BlockType = 43) then
+                    print lang("This block is narrow in the middle.")
+                elseif (BlockType = 44) then
+                    print lang("This block shifts from left to right.")
+                elseif (BlockType = 45) then
+                    print lang("This block shifts from right to left.")
                 end if
 
             elseif multikey(SC_F1) then
@@ -637,20 +533,7 @@
                 print lang("* PLUS and MINUS with LSHIFT: adjust target coins.")
                 print lang("* BACKSPACE: Clear map and reset settings.")
 
-                print "* F2: change to "+chr(34)+"Basic Neverball"+chr(34) + _
-                      " block set. You can't access this set if"
-                print " blocks from the "+chr(34)+"Neverputt"+chr(34)+" set " + _
-                      "are placed."
-                print "* F3: change to "+chr(34)+"Advanced Neverball"+chr(34) + _
-                      " block set. You can't access this set if"
-                print " blocks from the "+chr(34)+"Neverputt"+chr(34)+" set " + _
-                      "are placed."
-                print "* F4: change to "+chr(34)+"Extra textures"+chr(34) + _
-                      " block set. You can't access this set if blocks"
-                print " from the "+chr(34)+"Neverputt"+chr(34)+" set are placed."
-                print "* F5: change to "+chr(34)+"Neverputt"+chr(34)+" block " + _
-                      "set. You can't access this set if blocks from"
-                print " other sets are placed."
+                print "* F2-F6 (except F5): Changes block set. "
                 print "* ~: to check for issues. You can't save the map until " + _
                       "you ensure there are no"
                 print " errors."
@@ -672,7 +555,7 @@
                     if Start = 0 then
                         print lang("- Must have 1 start block.")
                     end if
-                    if Finish = 0 then
+                    if Finish(1) = 0 then
                         print lang("- Must have at least 1 finish block.")
                     end if
                     if TargetCoins > Coins then
@@ -692,7 +575,7 @@
                     print " intended to merge roads together, you can hit " + _
                           "the "+chr(34)+"/"+chr(34)+" key to merge together."
                 end if
-                if UsedMoney * 1.2 > Money then
+                if UsedMoney * 1.3 > Money then
                     print "- You are running low on money. You should stop " + _
                           "building this map soon. You"
                     print "only have "& Money-UsedMoney ;chr(4);" remaining. " + _
@@ -712,7 +595,8 @@
                     sleep 20
                     if multikey(SC_Y) then
                         Start = 0
-                        Finish = 0
+                        Finish(1) = 0
+                        Finish(2) = 0
                         LevelTime = 0
                         Blocks = 0
                         Coins = 0
@@ -721,25 +605,24 @@
                         MusicSwitch = 0
                         UsedMoney = 0
                         Putt = 0
+                        Openings = 0
 
                         for XP = -10 to 10
                             for YP = -10 to 10
                                 for ZP = -10 to 20
-                                    PlacementTest(XP,YP,ZP) = 0
+                                    Contents(XP,YP,ZP) = 0
                                 next
                             next
                         next
                         XP = 0
                         YP = 0
                         ZP = 0
-                        BlockType = 1
-                        Rotation = 1
                         BlockSet = 0
+                        BlockType = 0
+                        Rotation = 1
                         XR = 1
                         YR = 1
                         ZR = 1
-                        close #m
-                        open MapFile for output as #m
                         exit do
                     end if
                 loop until multikey(SC_N)
@@ -755,10 +638,10 @@
              '/
             base_gfx
             cursor
-            direction
+            direction_gfx
             screenunlock
 
-            sleep 125,1
+            sleep
 
         loop until multikey(SC_ESCAPE)
 
@@ -771,6 +654,7 @@
             input "What would you like in your message";LevelMessage
             input "What is the name of this level";LevelName
 
+            compile_blocks
             print #m, "// entity ";Entity
             print #m, "{"
             print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
@@ -832,12 +716,10 @@
             color rgb(255,0,0)
             print "Failed."
             color rgb(255,255,255)
-            close #m
-            kill(MapFile)
         end if
         if inkey = chr(27) then sleep
         clkey
-        menu
+        main_menu
         ImageDestroy(BlockDisplay)
     end sub
 #ENDIF

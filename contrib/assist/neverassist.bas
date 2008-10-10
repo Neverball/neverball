@@ -153,9 +153,9 @@
             end if
         #ENDIF
     #ENDIF
-    menu
+    main_menu
 
-    sub menu
+    sub main_menu
         clkey
         do
             Title = "Neverassistant - " + left(Time,5) + " - " + Date
