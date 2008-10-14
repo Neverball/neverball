@@ -2,7 +2,6 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Wood World\A level that has wood instead of grass."
 // brush 0
 {
 ( -16 -16 24 ) ( -16 -16 -8 ) ( 0 0 -8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0

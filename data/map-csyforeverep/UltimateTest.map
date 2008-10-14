@@ -2,7 +2,6 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Z-Tetromino\Welcome to Challenge Space Yard's course of challenges."
 // brush 0
 {
 ( 128 1280 -16 ) ( 128 1280 0 ) ( 66 1336 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0

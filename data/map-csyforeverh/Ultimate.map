@@ -2,11 +2,11 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Ultimate Challenge\This is the last level of the Neverball Forever Hard\set. Good luck! You may need it to finish this level."
+"message" "Ultimate Challenge\This is the last level of the Neverball Forever Hard\set. Good luck! You may need it to finish this level.\\Long live, Neverball!"
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
 "goal" "250"
-"time" "24000"
+"time" "25500"
 "song" "bgm/track5.ogg"
 "shot" "shot-csyforeverh/Ultimate.png"
 "author" "Challenge Space Yard"

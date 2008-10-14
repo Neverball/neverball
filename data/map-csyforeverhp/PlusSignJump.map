@@ -2,7 +2,6 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Plus Sign\Manuever around the plus sign."
 // brush 0
 {
 ( 128 128 0 ) ( 128 0 0 ) ( 0 128 0 ) mtrl/turf-green 0 0 0 0.5 0.5 0 0 0

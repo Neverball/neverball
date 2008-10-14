@@ -2,7 +2,6 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Bend\Watch out! Almost no walls here."
 // brush 0
 {
 ( 128 -128 112 ) ( 128 -128 128 ) ( 72 -190 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
