@@ -5,6 +5,8 @@
 "message" "Thus Neverball is a puzzle game?\Remove the red to unlock the goal.\Each trigger switches colors in direct contact."
 "goal" "0"
 "time" "59999"
+"time_hs" "2000 3000"
+"goal_hs" "2000 3000"
 "song" "bgm/track4.ogg"
 "shot" "shot-hard/flip.jpg"
 "grad" "back/space.png"

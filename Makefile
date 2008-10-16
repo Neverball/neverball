@@ -227,6 +227,8 @@ MAPC_DEPS := $(MAPC_OBJS:.o=.d)
 MAPS := $(shell find data -name "*.map" \! -name "*.autosave.map")
 SOLS := $(MAPS:%.map=%.sol)
 
+DESKTOPS := $(basename $(wildcard dist/*.desktop.in))
+
 #------------------------------------------------------------------------------
 
 %.o : %.c
@@ -236,9 +238,12 @@ SOLS := $(MAPS:%.map=%.sol)
 %.sol : %.map $(MAPC_TARG)
 	$(MAPC) $< data
 
+%.desktop : %.desktop.in
+	sh scripts/translate-desktop.sh < $< > $@
+
 #------------------------------------------------------------------------------
 
-all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales
+all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales desktops
 
 $(BALL_TARG) : $(BALL_OBJS)
 	$(CC) $(ALL_CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LDFLAGS) $(ALL_LIBS)
@@ -262,6 +267,8 @@ ifneq ($(ENABLE_NLS),0)
 	$(MAKE) -C po
 endif
 
+desktops : $(DESKTOPS)
+
 clean-src :
 	$(RM) $(BALL_TARG) $(BALL_OBJS) $(BALL_DEPS)
 	$(RM) $(PUTT_TARG) $(PUTT_OBJS) $(PUTT_DEPS)
@@ -269,6 +276,7 @@ clean-src :
 
 clean : clean-src
 	$(RM) $(SOLS)
+	$(RM) $(DESKTOPS)
 	$(MAKE) -C po clean
 
 test : all

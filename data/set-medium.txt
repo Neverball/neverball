@@ -2,7 +2,7 @@ Neverball Medium
 Difficulty: Beginner through Expert\\25 levels which provide a balanced\challenge for players. Try to claim\some of the records provided.\
 medium
 shot-medium/locks.jpg
-
+60000 90000 180000  1500 1000 0
 map-medium/locks.sol
 map-medium/multicurves.sol
 map-medium/accordian.sol

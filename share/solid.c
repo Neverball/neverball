@@ -1123,16 +1123,12 @@ static int sol_test_fore(float dt,
     if (v_dot(q, sp->n) - sp->d + up->r >= 0)
         return 1;
 
-    /* if the ball is behind the plane but will hit before dt, test passes. */
-    /*
-      if (v_side(q, o, w, sp->n, sp->d, up->p, up->v, up->r) < dt)
-      return 1;
-    */
-    /* If the ball is behind but moving toward the plane, test passes. */
+    /* If it's not behind the plane after DT seconds, the test passes. */
 
-    if (v_dot(up->v, sp->n) > 0)
+    v_mad(q, q, up->v, dt);
+
+    if (v_dot(q, sp->n) - sp->d + up->r >= 0)
         return 1;
-
 
     /* Else, test fails. */
 
@@ -1154,16 +1150,12 @@ static int sol_test_back(float dt,
     if (v_dot(q, sp->n) - sp->d - up->r <= 0)
         return 1;
 
-    /* if the ball is behind the plane but will hit before dt, test passes. */
-    /*
-      if (v_side(q, o, w, sp->n, sp->d, up->p, up->v, up->r) < dt)
-      return 1;
-    */
-    /* If the ball is in front but moving toward the plane, test passes. */
+    /* If it's not in front of the plane after DT seconds, the test passes. */
 
-    if (v_dot(up->v, sp->n) < 0)
+    v_mad(q, q, up->v, dt);
+
+    if (v_dot(q, sp->n) - sp->d - up->r <= 0)
         return 1;
-
 
     /* Else, test fails. */
 

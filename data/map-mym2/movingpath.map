@@ -11,7 +11,7 @@
 "time" "2500"
 "goal" "40"
 "time_hs" "2250 2300"
-"time_hs" "2300 2350"
+"goal_hs" "2300 2350"
 "coin_hs" "93 60"
 "message" "Le passage éphémère.\Trust the coins."
 // brush 0

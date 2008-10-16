@@ -117,7 +117,7 @@ static int player_id;
 static int gui_demo_status(int id, const struct demo *d)
 {
     char noname[MAXNAM];
-    const char *mode, *status;
+    const char *status;
     int i, j, k;
     int jd, kd, ld;
 
@@ -126,21 +126,6 @@ static int gui_demo_status(int id, const struct demo *d)
         /* Build a long name */
         memset(noname, 'M', MAXNAM - 1);
         noname[MAXNAM - 1] = '\0';
-
-        /* Get a long mode */
-        mode = mode_to_str(0, 0);
-        j = strlen(mode);
-
-        for (i = MODE_NONE + 1; i < MODE_MAX; i++)
-        {
-            k = strlen(mode_to_str(i, 0));
-
-            if (k > j)
-            {
-                j = k;
-                mode = mode_to_str(i, 0);
-            }
-        }
 
         /* Get a long status */
         status = status_to_str(0);
@@ -157,7 +142,6 @@ static int gui_demo_status(int id, const struct demo *d)
     }
     else
     {
-        mode = mode_to_str(d->mode, 0);
         status = status_to_str(d->status);
     }
 

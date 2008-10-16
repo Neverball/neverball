@@ -1,5 +1,5 @@
 Mehdi's Levels Suite
-Difficulty: A little bit harder than my first set.\\More challenge, particulary for coins grabbing.\Author: Mehdi Yousfi-Monod (mym)\ \
+Difficulty: A little bit harder than my first set.\\More challenge, particularly for grabbing coins.\Author: Mehdi Yousfi-Monod (mym)\ \
 mym2
 shot-mym2/fall.jpg
 

@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "2 switches have to be enabled to open the path to the goal."
 "bonus" "1"
-"goal" "10"
+"goal" "50"
 "time" "30000"
 "time_hs" "6000 15000"
 "coin_hs" "217 100"

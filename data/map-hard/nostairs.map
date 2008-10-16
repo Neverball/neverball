@@ -15,7 +15,7 @@
 "goal" "80"
 "time_hs" "1000 3000"
 "coin_hs" "215 100"
-"goal_hs" "3000 7000"
+"goal_hs" "3000 6000"
 "shot" "shot-hard/nostairs.jpg"
 // brush 0
 {

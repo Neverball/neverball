@@ -11,7 +11,7 @@
 "time" "12000"
 "goal" "60"
 "time_hs" "3000 3500"
-"coin_hs" "4000 4500"
+"goal_hs" "4000 4500"
 "coin_hs" "117 80"
 "message" "Les flammes ardentes.\Do this remind you of something?"
 // brush 0
