@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-09-24 20:23+0300\n"
+"POT-Creation-Date: 2008-10-17 10:51+0200\n"
 "PO-Revision-Date: 2008-06-10 18:11+0300\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -982,8 +982,8 @@ msgstr ""
 "erfahrene\\ Spieler. Versuche die Rekorde zu brechen!\\\\"
 
 #: data/set-mym.txt
-msgid "Mehdi's Levels"
-msgstr "Mehdis Levels"
+msgid "Tour de force"
+msgstr ""
 
 #: data/set-mym.txt
 msgid ""
@@ -994,8 +994,8 @@ msgstr ""
 "\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-mym2.txt
-msgid "Mehdi's Levels Suite"
-msgstr "Mehdis Levels 2"
+msgid "Retour de force"
+msgstr ""
 
 #: data/set-mym2.txt
 #, fuzzy
@@ -1974,6 +1974,12 @@ msgstr "mtrl/words-de"
 
 msgid "item/coin/coin"
 msgstr "item/coin/euro_coin"
+
+#~ msgid "Mehdi's Levels"
+#~ msgstr "Mehdis Levels"
+
+#~ msgid "Mehdi's Levels Suite"
+#~ msgstr "Mehdis Levels 2"
 
 #~ msgid "png/coin.png"
 #~ msgstr "png/euro_coin.png"

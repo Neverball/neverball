@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-09-24 20:23+0300\n"
+"POT-Creation-Date: 2008-10-17 10:51+0200\n"
 "PO-Revision-Date: 2008-10-04 21:54+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -400,13 +400,17 @@ msgstr "Noteikumi"
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
-msgstr "Kustini peli vai vadības sviru,\\vai izmanto bultiņas uz\\taustiņdēļa, lai liektu grīdu,\\liekot bumbai ripot.\\ "
+msgstr ""
+"Kustini peli vai vadības sviru,\\vai izmanto bultiņas uz\\taustiņdēļa, lai "
+"liektu grīdu,\\liekot bumbai ripot.\\ "
 
 #: ball/st_help.c:110
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
-msgstr "Ripo pāri monētām, lai tās\\savāktu. Vāc monētas,\\lai atslēgtu mērķi un\\pabeigtu līmeni.\\"
+msgstr ""
+"Ripo pāri monētām, lai tās\\savāktu. Vāc monētas,\\lai atslēgtu mērķi un"
+"\\pabeigtu līmeni.\\"
 
 #: ball/st_help.c:167
 msgid "Left and right mouse buttons rotate the view."
@@ -450,19 +454,25 @@ msgstr "Pabeidz līmeni pirms beidzas laiks.\\Vāc monētas, lai atslēgtu mēr�
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr "Sāc spēli no pirmā līmeņa komplektā.\\Tev dotas tikai trīs bumbas, tādēļ nepazaudē tās.\\Iegūsti papildu bumbu par\\katrām 100 savāktajām monētām."
+msgstr ""
+"Sāc spēli no pirmā līmeņa komplektā.\\Tev dotas tikai trīs bumbas, tādēļ "
+"nepazaudē tās.\\Iegūsti papildu bumbu par\\katrām 100 savāktajām monētām."
 
 #: ball/st_help.c:262
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
-msgstr "Stūrus var izmantot lēkāšanai.\\Sāc ripot, mērķējot uz stūra\\malu. Iespējams, ka sasniegsi\\kādu jaunu vietu.\\"
+msgstr ""
+"Stūrus var izmantot lēkāšanai.\\Sāc ripot, mērķējot uz stūra\\malu. "
+"Iespējams, ka sasniegsi\\kādu jaunu vietu.\\"
 
 #: ball/st_help.c:267
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
 "the camera by 45\\degrees for best results.\\"
-msgstr "Liecot grīdu 2 virzienos var\\palielināt slīpumu. Izmanto\\manuālo kameru, un pagriez\\to 45 grādu leņķī, lai gūtu\\labus rezultātus.\\"
+msgstr ""
+"Liecot grīdu 2 virzienos var\\palielināt slīpumu. Izmanto\\manuālo kameru, "
+"un pagriez\\to 45 grādu leņķī, lai gūtu\\labus rezultātus.\\"
 
 #: ball/st_help.c:287 ball/st_help.c:297
 msgid "Watch demo"
@@ -921,7 +931,10 @@ msgstr "Neverball: Viegli"
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr "Grūtības pakāpe: no vieglas līdz vidējai\\\\25 līmeņi ar pakāpeniski pieaugošu grūtības pakāpi.\\Lasi līmeņu aprakstus, lai saņemtu spēles padomus.\\ \\"
+msgstr ""
+"Grūtības pakāpe: no vieglas līdz vidējai\\\\25 līmeņi ar pakāpeniski "
+"pieaugošu grūtības pakāpi.\\Lasi līmeņu aprakstus, lai saņemtu spēles "
+"padomus.\\ \\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
@@ -945,8 +958,8 @@ msgid ""
 msgstr ""
 
 #: data/set-mym.txt
-msgid "Mehdi's Levels"
-msgstr "Mehdi līmeņi"
+msgid "Tour de force"
+msgstr ""
 
 #: data/set-mym.txt
 msgid ""
@@ -955,8 +968,8 @@ msgid ""
 msgstr ""
 
 #: data/set-mym2.txt
-msgid "Mehdi's Levels Suite"
-msgstr "Mehdi līmeņu komplekts"
+msgid "Retour de force"
+msgstr ""
 
 #: data/set-mym2.txt
 msgid ""
@@ -1801,6 +1814,12 @@ msgstr "mtrl/words-lv"
 
 msgid "item/coin/coin"
 msgstr ""
+
+#~ msgid "Mehdi's Levels"
+#~ msgstr "Mehdi līmeņi"
+
+#~ msgid "Mehdi's Levels Suite"
+#~ msgstr "Mehdi līmeņu komplekts"
 
 #~ msgid "Mode"
 #~ msgstr "Režīms"

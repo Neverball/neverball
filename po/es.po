@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-09-24 20:23+0300\n"
+"POT-Creation-Date: 2008-10-17 10:51+0200\n"
 "PO-Revision-Date: 2008-09-16 15:53+0100\n"
 "Last-Translator: Miguel Diago <mdiagom@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -969,8 +969,8 @@ msgstr ""
 "\\y Desbloqueo de meta.\\"
 
 #: data/set-mym.txt
-msgid "Mehdi's Levels"
-msgstr "Niveles de Mehdi"
+msgid "Tour de force"
+msgstr ""
 
 #: data/set-mym.txt
 msgid ""
@@ -981,8 +981,8 @@ msgstr ""
 "Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-mym2.txt
-msgid "Mehdi's Levels Suite"
-msgstr "Más niveles de Mehdi"
+msgid "Retour de force"
+msgstr ""
 
 #: data/set-mym2.txt
 #, fuzzy
@@ -1976,6 +1976,12 @@ msgstr ""
 
 msgid "item/coin/coin"
 msgstr ""
+
+#~ msgid "Mehdi's Levels"
+#~ msgstr "Niveles de Mehdi"
+
+#~ msgid "Mehdi's Levels Suite"
+#~ msgstr "Más niveles de Mehdi"
 
 #~ msgid "Mode"
 #~ msgstr "Modo"

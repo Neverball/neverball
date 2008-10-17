@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-09-24 20:23+0300\n"
+"POT-Creation-Date: 2008-10-17 10:51+0200\n"
 "PO-Revision-Date: 2008-09-10 20:46+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -964,8 +964,8 @@ msgstr ""
 "målopplåsing.\\"
 
 #: data/set-mym.txt
-msgid "Mehdi's Levels"
-msgstr "Mehdis brett"
+msgid "Tour de force"
+msgstr ""
 
 #: data/set-mym.txt
 msgid ""
@@ -976,8 +976,8 @@ msgstr ""
 "\\Forfattar: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-mym2.txt
-msgid "Mehdi's Levels Suite"
-msgstr "Mehdis brettsamling"
+msgid "Retour de force"
+msgstr ""
 
 #: data/set-mym2.txt
 #, fuzzy
@@ -1961,6 +1961,12 @@ msgstr "mtrl/words-nn"
 
 msgid "item/coin/coin"
 msgstr "item/coin/coin-no"
+
+#~ msgid "Mehdi's Levels"
+#~ msgstr "Mehdis brett"
+
+#~ msgid "Mehdi's Levels Suite"
+#~ msgstr "Mehdis brettsamling"
 
 #~ msgid "Mode"
 #~ msgstr "Modus"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-09-24 20:23+0300\n"
+"POT-Creation-Date: 2008-10-17 10:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -937,7 +937,7 @@ msgid ""
 msgstr ""
 
 #: data/set-mym.txt
-msgid "Mehdi's Levels"
+msgid "Tour de force"
 msgstr ""
 
 #: data/set-mym.txt
@@ -947,7 +947,7 @@ msgid ""
 msgstr ""
 
 #: data/set-mym2.txt
-msgid "Mehdi's Levels Suite"
+msgid "Retour de force"
 msgstr ""
 
 #: data/set-mym2.txt
