@@ -336,12 +336,8 @@ install-dlls: install-dlls.sh
 	sh $<
 
 install-dlls.sh:
-	if ! sh scripts/gen-install-dlls.sh > $@; then \
-	    $(RM) $@; \
-	    exit 1; \
-	fi
+	mingw-list-dlls --sh > $@
 	@echo --------------------------------------------------------
-	@echo You can probably ignore any file-not-found errors above.
 	@echo Now edit $@ to your needs before restarting make.
 	@echo --------------------------------------------------------
 	@exit 1
