@@ -41,7 +41,9 @@ endif
 
 # Compiler...
 
-ALL_CFLAGS := $(CFLAGS)
+SSE_CFLAGS := $(shell env CC="$(CC)" sh scripts/get-sse-cflags.sh)
+
+ALL_CFLAGS := $(SSE_CFLAGS) $(CFLAGS)
 
 # Preprocessor...
 
