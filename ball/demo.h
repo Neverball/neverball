@@ -39,8 +39,6 @@ int                demo_scan(void);
 const char        *demo_pick(void);
 const struct demo *demo_get(int);
 
-const char *date_to_str(time_t);
-
 int  demo_exists(const char *);
 
 const char *demo_format_name(const char *fmt,
