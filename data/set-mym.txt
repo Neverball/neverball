@@ -2,7 +2,7 @@ Tour de force
 Difficulty: Expert through Insane\\25 levels with even greater challenge.\Author: Mehdi Yousfi-Monod (mym)\ \
 mym
 shot-mym/turn.jpg
-
+96000 108000 360000  2200 2000 0
 map-mym/descent.sol
 map-mym/dance1.sol
 map-mym/drive1.sol

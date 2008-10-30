@@ -2,7 +2,7 @@ Retour de force
 Difficulty: A little bit harder than my first set.\\More challenge, particularly for grabbing coins.\Author: Mehdi Yousfi-Monod (mym)\ \
 mym2
 shot-mym2/fall.jpg
-
+90000 102000 360000  2700 2500 0
 map-mym2/sonic.sol
 map-mym2/movinglumps.sol
 map-mym2/backforth.sol
