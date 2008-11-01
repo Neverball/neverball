@@ -35,7 +35,7 @@ ifeq ($(ENABLE_WII),1)
     # is supposed to suppress warnings from system headers.)
     ALL_CFLAGS := $(SSE_CFLAGS) $(CFLAGS)
 else
-    ALL_CFLAGS := -Wall -ansi -pedantic $(SSE_FLAGS) $(CFLAGS)
+    ALL_CFLAGS := -Wall -ansi -pedantic $(SSE_CFLAGS) $(CFLAGS)
 endif
 
 # Preprocessor...
