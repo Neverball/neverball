@@ -18,3 +18,4 @@ map-misc/hurdles.sol
 map-misc/canals.sol
 map-misc/groweasy.sol
 map-misc/blockers.sol
+map-misc/texture-debug.sol

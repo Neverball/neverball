@@ -193,7 +193,9 @@ static int goal_enter(void)
         }
 
         if ((jd = gui_hstack(id)))
-            gui_score_board(jd, 1, high);
+            gui_score_board(jd, GUI_MOST_COINS |
+                                GUI_BEST_TIMES |
+                                GUI_UNLOCK_GOAL, 1, high);
 
         gui_space(id);
 

@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "earthquake-mym"
+"levelname" "earthquake"
 "version" "1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
@@ -10,8 +10,9 @@
 "song" "bgm/track4.ogg"
 "time" "6000"
 "goal" "70"
-"time_hs" "1000 2000"
+"time_hs" "1000 1200"
 "coin_hs" "118 90"
+"goal_hs" "1600 1800"
 "message" "Le passage incertain.\Isn't too easy?"
 "bonus" "1"
 // brush 0

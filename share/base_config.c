@@ -45,11 +45,11 @@ static const char *config_file(const char *path, const char *file)
 {
     static char absolute[MAXSTR];
 
-    size_t d = strlen(path);
+    size_t d = path ? strlen(path) : 0;
 
-    strncpy(absolute, path, MAXSTR - 1);
+    strncpy(absolute, path ? path : "", MAXSTR - 1);
     strncat(absolute, "/",  MAXSTR - d - 1);
-    strncat(absolute, file, MAXSTR - d - 2);
+    strncat(absolute, file ? file : "", MAXSTR - d - 2);
 
     return absolute;
 }

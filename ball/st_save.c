@@ -30,7 +30,7 @@
 extern struct state st_save;
 extern struct state st_clobber;
 
-static char filename[MAXNAM];
+static char filename[MAXSTR];
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,7 +39,13 @@ static struct state *cancel_state;
 
 int goto_save(struct state *ok, struct state *cancel)
 {
-    demo_unique(filename);
+    char fmt[MAXSTR] = "";
+    const char *name;
+
+    config_get_s(CONFIG_REPLAY_NAME, fmt, sizeof (fmt) - 1);
+    name = demo_format_name(fmt, set_id(curr_set()), level_name(curr_level()));
+
+    strncpy(filename, name, sizeof (filename) - 1);
 
     ok_state     = ok;
     cancel_state = cancel;
@@ -51,8 +57,8 @@ int goto_save(struct state *ok, struct state *cancel)
 
 static int file_id;
 
-#define SAVE_SAVE   1
-#define SAVE_CANCEL 2
+#define SAVE_SAVE   -1
+#define SAVE_CANCEL -2
 
 static int save_action(int i)
 {
@@ -89,7 +95,8 @@ static int save_action(int i)
         break;
 
     default:
-        if (text_add_char(i, filename, MAXNAM, 17))
+        if (text_add_char(i, filename, sizeof (filename) - 1,
+                                       sizeof (filename) - 1))
             gui_set_label(file_id, filename);
     }
     return 1;
@@ -104,18 +111,18 @@ static int save_enter(void)
     if ((id = gui_vstack(0)))
     {
         gui_label(id, _("Replay Name"), GUI_MED, GUI_ALL, 0, 0);
-
         gui_space(id);
 
         file_id = gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
 
         gui_space(id);
-
         gui_keyboard(id);
+        gui_space(id);
 
         if ((jd = gui_harray(id)))
         {
             enter_id = gui_start(jd, _("Save"), GUI_SML, SAVE_SAVE, 0);
+            gui_space(jd);
             gui_state(jd, _("Cancel"), GUI_SML, SAVE_CANCEL, 0);
         }
 
@@ -141,7 +148,7 @@ static int save_keybd(int c, int d)
 
         if (c == '\b' || c == 0x7F)
             return save_action(GUI_BS);
-        if (c > ' ')
+        if (c >= ' ')
             return save_action(c);
     }
     return 1;
@@ -155,9 +162,10 @@ static int save_buttn(int b, int d)
         {
             int c = gui_token(gui_click());
 
-            /* Ugh.  This is such a hack. */
-
-            return save_action(isupper(c) ? gui_keyboard_char(c) : c);
+            if (c >= 0 && !GUI_ISMSK(c))
+                return save_action(gui_keyboard_char(c));
+            else
+                return save_action(c);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return save_action(SAVE_CANCEL);

@@ -7,33 +7,42 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-04-08 22:05+0300\n"
-"PO-Revision-Date: 2006-02-17 17:16+0100\n"
+"POT-Creation-Date: 2008-10-17 10:51+0200\n"
+"PO-Revision-Date: 2008-06-10 18:11+0300\n"
 "Last-Translator: GEORG WACHTER <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ball/game.c:1289
+#: ball/demo.c:299
+msgid "Missing format character in replay name\n"
+msgstr ""
+
+#: ball/demo.c:304
+#, c-format
+msgid "Invalid format character in replay name: \"%%%c\"\n"
+msgstr ""
+
+#: ball/game.c:1294
 msgid "Aborted"
 msgstr ""
 
-#: ball/game.c:1290
+#: ball/game.c:1295
 msgid "Time-out"
 msgstr ""
 
-#: ball/game.c:1291
+#: ball/game.c:1296
 #, fuzzy
 msgid "Success"
 msgstr "Punkte"
 
-#: ball/game.c:1292
+#: ball/game.c:1297
 #, fuzzy
 msgid "Fall-out"
 msgstr "Rausgefallen!"
 
-#: ball/game.c:1293 ball/progress.c:345
+#: ball/game.c:1298 ball/progress.c:364
 msgid "Unknown"
 msgstr ""
 
@@ -69,7 +78,7 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:177
+#: ball/hud.c:56 ball/st_demo.c:177 ball/st_goal.c:177
 msgid "Coins"
 msgstr "Münzen"
 
@@ -106,7 +115,7 @@ msgstr ""
 msgid "Not a valid level file"
 msgstr ""
 
-#: ball/main.c:256
+#: ball/main.c:257
 #, c-format
 msgid ""
 "Usage: %s [options ...]\n"
@@ -118,52 +127,52 @@ msgid ""
 "  -i, --info                display info about a replay.\n"
 msgstr ""
 
-#: ball/main.c:266
+#: ball/main.c:267
 #, c-format
 msgid "Option '%s' requires an argument.\n"
 msgstr ""
 
-#: ball/main.c:326
+#: ball/main.c:327
 msgid "Option '--info' requires '--replay'.\n"
 msgstr ""
 
-#: ball/main.c:353 putt/main.c:291
+#: ball/main.c:350 putt/main.c:286
 msgid "Failure to establish game data directory\n"
 msgstr "Spieldatenverzeichnis konnte nicht erstellt werden\n"
 
-#: ball/main.c:359 putt/main.c:289
+#: ball/main.c:356 putt/main.c:284
 msgid "Failure to establish config directory\n"
 msgstr "Konfigurationsverzeichnis konnte nicht erstellt werden\n"
 
-#: ball/main.c:382
+#: ball/main.c:379
 #, c-format
 msgid "Replay file '%s': %s\n"
 msgstr ""
 
-#: ball/main.c:383
+#: ball/main.c:380
 msgid "Not a replay file"
 msgstr ""
 
-#: ball/progress.c:343 ball/st_help.c:246
+#: ball/progress.c:362 ball/st_help.c:246
 #, fuzzy
 msgid "Challenge Mode"
 msgstr "Challenge"
 
-#: ball/progress.c:343 ball/st_start.c:174
+#: ball/progress.c:362 ball/st_start.c:204
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/progress.c:344 ball/st_help.c:238
+#: ball/progress.c:363 ball/st_help.c:238
 #, fuzzy
 msgid "Normal Mode"
 msgstr "Ziel"
 
-#: ball/progress.c:344
+#: ball/progress.c:363
 #, fuzzy
 msgid "Normal"
 msgstr "Ziel"
 
-#: ball/progress.c:345
+#: ball/progress.c:364
 msgid "Unknown Mode"
 msgstr ""
 
@@ -181,164 +190,144 @@ msgstr ""
 msgid "Cannot load the set file '%s': %s\n"
 msgstr ""
 
-#: ball/st_conf.c:208 putt/st_conf.c:168
+#: ball/st_conf.c:209 putt/st_conf.c:168
 msgid "Options"
 msgstr "Optionen"
 
-#: ball/st_conf.c:210 ball/st_help.c:95 ball/st_start.c:160 ball/util.c:507
+#: ball/st_conf.c:211 ball/st_help.c:95 ball/st_start.c:176 ball/util.c:520
 #: share/st_resol.c:75 putt/st_all.c:343 putt/st_all.c:491 putt/st_conf.c:170
 msgid "Back"
 msgstr "Zurück"
 
-#: ball/st_conf.c:218 ball/st_demo.c:548 ball/st_save.c:194 putt/st_conf.c:178
+#: ball/st_conf.c:219 ball/st_demo.c:565 ball/st_save.c:202 putt/st_conf.c:178
 msgid "No"
 msgstr "Nein"
 
-#: ball/st_conf.c:219 ball/st_demo.c:549 ball/st_save.c:195
-#: ball/st_start.c:199 putt/st_conf.c:179
+#: ball/st_conf.c:220 ball/st_demo.c:566 ball/st_save.c:203
+#: ball/st_start.c:232 putt/st_conf.c:179
 msgid "Yes"
 msgstr "Ja"
 
-#: ball/st_conf.c:221 putt/st_conf.c:181
+#: ball/st_conf.c:222 putt/st_conf.c:181
 msgid "Fullscreen"
 msgstr "Vollbild"
 
-#: ball/st_conf.c:229 share/st_resol.c:73 putt/st_conf.c:189
+#: ball/st_conf.c:230 share/st_resol.c:73 putt/st_conf.c:189
 msgid "Resolution"
 msgstr "Auflösung"
 
-#: ball/st_conf.c:237 ball/st_conf.c:246 putt/st_conf.c:197 putt/st_conf.c:206
+#: ball/st_conf.c:238 ball/st_conf.c:247 putt/st_conf.c:197 putt/st_conf.c:206
 msgid "Low"
 msgstr "Niedrig"
 
-#: ball/st_conf.c:238 ball/st_conf.c:247 putt/st_conf.c:198 putt/st_conf.c:207
+#: ball/st_conf.c:239 ball/st_conf.c:248 putt/st_conf.c:198 putt/st_conf.c:207
 msgid "High"
 msgstr "Hoch"
 
-#: ball/st_conf.c:240 putt/st_conf.c:200
+#: ball/st_conf.c:241 putt/st_conf.c:200
 msgid "Textures"
 msgstr "Texturen"
 
-#: ball/st_conf.c:249 putt/st_conf.c:209
+#: ball/st_conf.c:250 putt/st_conf.c:209
 msgid "Geometry"
 msgstr "Geometrie"
 
-#: ball/st_conf.c:255 ball/st_conf.c:264 ball/st_conf.c:273 putt/st_conf.c:215
+#: ball/st_conf.c:256 ball/st_conf.c:265 ball/st_conf.c:274 putt/st_conf.c:215
 msgid "Off"
 msgstr "Aus"
 
-#: ball/st_conf.c:256 ball/st_conf.c:265 ball/st_conf.c:274 putt/st_conf.c:216
+#: ball/st_conf.c:257 ball/st_conf.c:266 ball/st_conf.c:275 putt/st_conf.c:216
 msgid "On"
 msgstr "Ein"
 
-#: ball/st_conf.c:258
+#: ball/st_conf.c:259
 msgid "Reflection"
 msgstr "Spiegelung"
 
-#: ball/st_conf.c:267
+#: ball/st_conf.c:268
 msgid "Background"
 msgstr "Hintergrund"
 
-#: ball/st_conf.c:276 putt/st_conf.c:218
+#: ball/st_conf.c:277 putt/st_conf.c:218
 msgid "Shadow"
 msgstr "Schatten"
 
-#: ball/st_conf.c:298 putt/st_conf.c:240
+#: ball/st_conf.c:299 putt/st_conf.c:240
 msgid "Sound Volume"
 msgstr "Geräuschlautstärke"
 
-#: ball/st_conf.c:318 putt/st_conf.c:260
+#: ball/st_conf.c:319 putt/st_conf.c:260
 msgid "Music Volume"
 msgstr "Musiklautstärke"
 
-#: ball/st_conf.c:328 ball/st_name.c:103
+#: ball/st_conf.c:329 ball/st_name.c:103
 #, fuzzy
 msgid "Player Name"
 msgstr "Spieler"
 
-#: ball/st_demo.c:182 putt/st_all.c:681
-msgid "Player"
-msgstr "Spieler"
-
-#: ball/st_all.c:730
-msgid "Knocked Out By Player "
-msgstr ""
-
-#: ball/st_all.c:730
-msgid "Knocked Out"
-msgstr ""
-
-#: ball/st_all.c:730
-msgid "Knocked In By Player "
-msgstr ""
-
-#: ball/st_all.c:730
-msgid "Knocked In"
-msgstr ""
-
-#: ball/st_demo.c:186
-#, fuzzy
-msgid "State"
-msgstr "Speichern"
-
-#: ball/st_demo.c:203 ball/st_demo.c:343
-msgid "Replay"
-msgstr "Replay"
-
-#: ball/st_demo.c:204
+#: ball/st_demo.c:175
 msgid "Time"
 msgstr ""
 
-#: ball/st_demo.c:205
-msgid "Mode"
-msgstr ""
+#: ball/st_demo.c:179
+#, fuzzy
+msgid "Status"
+msgstr "Speichern"
 
-#: ball/st_demo.c:206
+#: ball/st_demo.c:207 ball/st_demo.c:348
+msgid "Replay"
+msgstr "Replay"
+
+#: ball/st_demo.c:208 putt/st_all.c:679
+msgid "Player"
+msgstr "Spieler"
+
+#: ball/st_demo.c:209
 #, fuzzy
 msgid "Date"
 msgstr "Löschen"
 
-#: ball/st_demo.c:250
+#: ball/st_demo.c:255
 msgid "Select Replay"
 msgstr "Replay Auswählen"
 
-#: ball/st_demo.c:272
+#: ball/st_demo.c:277
 #, fuzzy
 msgid "No Replays"
 msgstr "Replay"
 
-#: ball/st_demo.c:454
+#: ball/st_demo.c:470
 #, fuzzy
 msgid "Replay Paused"
 msgstr "Spieler"
 
-#: ball/st_demo.c:457
+#: ball/st_demo.c:473
 msgid "Replay Ends"
 msgstr "Replay Endet"
 
-#: ball/st_demo.c:466 ball/st_pause.c:108 putt/st_all.c:591
+#: ball/st_demo.c:482 ball/st_pause.c:108 putt/st_all.c:591
 msgid "Quit"
 msgstr ""
 
-#: ball/st_demo.c:470
+#: ball/st_demo.c:486
 msgid "Keep"
 msgstr "Behalten"
 
-#: ball/st_demo.c:471 share/keynames.c:38
+#: ball/st_demo.c:487 share/keynames.c:38
 msgid "Delete"
 msgstr "Löschen"
 
-#: ball/st_demo.c:476 ball/st_pause.c:113 putt/st_all.c:592
+#: ball/st_demo.c:492 ball/st_pause.c:113 putt/st_all.c:592
 #, fuzzy
 msgid "Continue"
 msgstr "Münzen"
 
-#: ball/st_demo.c:480
+#: ball/st_demo.c:496
 #, fuzzy
 msgid "Repeat"
 msgstr "Replay"
 
-#: ball/st_demo.c:544
+#: ball/st_demo.c:561
 msgid "Delete Replay?"
 msgstr "Replay Löschen?"
 
@@ -351,29 +340,29 @@ msgstr "Neuer Rekord"
 msgid "Set Complete"
 msgstr "Set Komplett"
 
-#: ball/st_done.c:94
+#: ball/st_done.c:95
 #, fuzzy
 msgid "Select Level"
 msgstr "Nächster Level"
 
-#: ball/st_fall_out.c:82
+#: ball/st_fall_out.c:83
 msgid "Fall-out!"
 msgstr "Rausgefallen!"
 
-#: ball/st_fall_out.c:89 ball/st_time_out.c:82
+#: ball/st_fall_out.c:90 ball/st_time_out.c:83
 #, fuzzy
 msgid "Exit"
 msgstr "Beenden"
 
-#: ball/st_fall_out.c:92 ball/st_goal.c:206 ball/st_time_out.c:85
+#: ball/st_fall_out.c:93 ball/st_goal.c:208 ball/st_time_out.c:86
 msgid "Next Level"
 msgstr "Nächster Level"
 
-#: ball/st_fall_out.c:95 ball/st_goal.c:209 ball/st_time_out.c:88
+#: ball/st_fall_out.c:96 ball/st_goal.c:211 ball/st_time_out.c:89
 msgid "Retry Level"
 msgstr "Level Wiederholen"
 
-#: ball/st_fall_out.c:98 ball/st_goal.c:212 ball/st_time_out.c:91
+#: ball/st_fall_out.c:99 ball/st_goal.c:214 ball/st_time_out.c:92
 msgid "Save Replay"
 msgstr "Replay Speichern"
 
@@ -392,7 +381,7 @@ msgid_plural "%d new bonus levels"
 msgstr[0] "Level "
 msgstr[1] "Level "
 
-#: ball/st_goal.c:203
+#: ball/st_goal.c:205
 msgid "Finish"
 msgstr "Fertig"
 
@@ -490,13 +479,14 @@ msgstr ""
 msgid "Watch demo"
 msgstr ""
 
-#: ball/st_level.c:64
-msgid "Level "
+#: ball/st_level.c:50
+#, fuzzy, c-format
+msgid "Bonus Level %s"
 msgstr "Level "
 
-#: ball/st_level.c:71
-#, fuzzy
-msgid "Bonus Level "
+#: ball/st_level.c:52
+#, fuzzy, c-format
+msgid "Level %s"
 msgstr "Level "
 
 #: ball/st_name.c:115
@@ -504,7 +494,7 @@ msgstr "Level "
 msgid "OK"
 msgstr "O"
 
-#: ball/st_name.c:117 ball/st_save.c:119
+#: ball/st_name.c:117 ball/st_save.c:126
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -520,28 +510,28 @@ msgstr "Pause"
 msgid "Restart"
 msgstr ""
 
-#: ball/st_play.c:54
+#: ball/st_play.c:58
 msgid "Ready?"
 msgstr "Auf die Plätze!"
 
-#: ball/st_play.c:110
+#: ball/st_play.c:114
 msgid "Set?"
 msgstr "Fertig?"
 
-#: ball/st_play.c:181
+#: ball/st_play.c:185
 msgid "GO!"
 msgstr "LOS!"
 
-#: ball/st_save.c:106
+#: ball/st_save.c:113
 #, fuzzy
 msgid "Replay Name"
 msgstr "Spieler"
 
-#: ball/st_save.c:118
+#: ball/st_save.c:124
 msgid "Save"
 msgstr "Speichern"
 
-#: ball/st_save.c:188
+#: ball/st_save.c:196
 msgid "Overwrite?"
 msgstr "Überschreiben?"
 
@@ -551,15 +541,15 @@ msgstr "Level Set"
 
 #. Translators: adjust the amount of whitespace here
 #. * as necessary for the buttons to look good.
-#: ball/st_start.c:196
+#: ball/st_start.c:229
 msgid "   No   "
 msgstr ""
 
-#: ball/st_start.c:205
+#: ball/st_start.c:238
 msgid "Lock Goals of Completed Levels?"
 msgstr ""
 
-#: ball/st_time_out.c:75
+#: ball/st_time_out.c:76
 msgid "Time's Up!"
 msgstr "Zeit Aus!"
 
@@ -593,44 +583,44 @@ msgstr "Optionen"
 msgid "menu^Exit"
 msgstr "Beenden"
 
-#: ball/util.c:26
+#: ball/util.c:27
 msgid "Hard"
 msgstr ""
 
-#: ball/util.c:27
+#: ball/util.c:28
 msgid "Medium"
 msgstr ""
 
-#: ball/util.c:28
+#: ball/util.c:29
 msgid "Easy"
 msgstr ""
 
-#: ball/util.c:55 ball/util.c:281
+#: ball/util.c:56 ball/util.c:292
 msgid "Most Coins"
 msgstr "Meiste Münzen"
 
-#: ball/util.c:229 ball/util.c:285
+#: ball/util.c:230 ball/util.c:298
 msgid "Unlock Goal"
 msgstr ""
 
-#: ball/util.c:229 ball/util.c:283
+#: ball/util.c:230 ball/util.c:295
 msgid "Best Times"
 msgstr "Bestzeiten"
 
-#: ball/util.c:295
+#: ball/util.c:308
 #, fuzzy
 msgid "Change Name"
 msgstr "Challenge"
 
-#: ball/util.c:442
+#: ball/util.c:455
 msgid "caps"
 msgstr "Caps"
 
-#: ball/util.c:503
+#: ball/util.c:516
 msgid "Next"
 msgstr "Nächste"
 
-#: ball/util.c:504
+#: ball/util.c:517
 msgid "Prev"
 msgstr "Vorige"
 
@@ -638,9 +628,10 @@ msgstr "Vorige"
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr "ttf/DejaVuSans-Bold.ttf"
 
-#: share/geom.h:12
-msgid "png/coin.png"
-msgstr "png/euro_coin.png"
+#: share/image.c:226
+#, c-format
+msgid "Failed to convert SDL_ttf surface: %s\n"
+msgstr ""
 
 #. Translators,
 #. *
@@ -880,6 +871,15 @@ msgstr ""
 msgid "Undo"
 msgstr "Fenster"
 
+#: share/syswm.c:44
+#, c-format
+msgid "Failed to get WM info: %s\n"
+msgstr ""
+
+#: share/syswm.c:115
+msgid "Failed to allocate memory for EWMH icon data.\n"
+msgstr ""
+
 #: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:97 putt/st_all.c:141
 msgid "Par"
 msgstr "Par"
@@ -920,24 +920,24 @@ msgstr "Kurs auswählen"
 msgid "Players?"
 msgstr "Spieler?"
 
-#: putt/st_all.c:674
+#: putt/st_all.c:672
 #, c-format
 msgid "Hole %02d"
 msgstr "Loch %02d"
 
-#: putt/st_all.c:999
+#: putt/st_all.c:997
 msgid "It's In!"
 msgstr "Eingelocht!"
 
-#: putt/st_all.c:1141
+#: putt/st_all.c:1139
 msgid "1 Stroke Penalty"
 msgstr "1 Strafschlag!"
 
-#: putt/st_all.c:1219
+#: putt/st_all.c:1217
 msgid "Scores"
 msgstr "Punkte"
 
-#: putt/st_all.c:1272
+#: putt/st_all.c:1270
 msgid "Final Scores"
 msgstr "Gesamtpunkte"
 
@@ -961,27 +961,29 @@ msgstr "Neverball Schwer"
 #: data/set-medium.txt
 #, fuzzy
 msgid ""
-"Difficulty: A set of levels for intermediate players.\\\\\\Work in progress."
-"\\\\"
+"Difficulty: Beginner through Expert\\\\25 levels which provide a balanced"
+"\\challenge for players. Try to claim\\some of the records provided.\\"
 msgstr ""
-"Schwierigkeitsgrad: Ein zweites leichtes Set.\\\\\\Wird entwickelt.\\\\"
+"Schwierigkeitsgrad: Mittel bis Schwer\\\\25 herausfordernde Levels für "
+"erfahrene\\ Spieler. Versuche die Rekorde zu brechen!\\\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
 msgstr "Neverball Schwer"
 
 #: data/set-hard.txt
+#, fuzzy
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
-"challenge for\\the experienced player. Try to claim\\Best Times and Most "
-"Coins records.\\"
+"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
+"and Unlock Goal records.\\"
 msgstr ""
 "Schwierigkeitsgrad: Mittel bis Schwer\\\\25 herausfordernde Levels für "
 "erfahrene\\ Spieler. Versuche die Rekorde zu brechen!\\\\"
 
 #: data/set-mym.txt
-msgid "Mehdi's Levels"
-msgstr "Mehdis Levels"
+msgid "Tour de force"
+msgstr ""
 
 #: data/set-mym.txt
 msgid ""
@@ -992,13 +994,14 @@ msgstr ""
 "\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-mym2.txt
-msgid "Mehdi's Levels Suite"
-msgstr "Mehdis Levels 2"
+msgid "Retour de force"
+msgstr ""
 
 #: data/set-mym2.txt
+#, fuzzy
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
-"particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+"particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
 "Schwierigkeitsgrad: Noch schwerer als Mehdi...\\\\ Mehr Herausforderung, vor "
 "allem im Münzen sammeln.\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
@@ -1083,10 +1086,11 @@ msgstr ""
 "für eine\\große Belohnung.\\"
 
 #: data/map-easy/coins.map
+#, fuzzy
 msgid ""
-"This time you must get 50 coins to unlock the goal.\\Collect 100 coins to "
-"earn an extra ball.\\Red coins are worth 5, blue coins are worth 10.\\Get to "
-"the goal before time expires!\\\\Click to begin.\\"
+"This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
+"blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
+"begin.\\"
 msgstr ""
 "Dieses Mal musst du 50 Münzen sammeln, um das Ziel zu öffnen.\\Für 100 "
 "Münzen bekommst du einen Extra-Ball.\\Rote Münzen sind 5, blaue Münzen 10 "
@@ -1109,7 +1113,7 @@ msgstr ""
 "Wie zuvor, doch ohne Stützräder.\\Halte den Ball auf flachem Boden\\und "
 "kontrolliere ihn präzise.\\Hole Schwung um die Ecken zu erreichen.\\"
 
-#: data/map-easy/easy.map
+#: data/map-easy/easy.map data/map-misc/texture-debug.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
@@ -1117,6 +1121,12 @@ msgstr ""
 "Bewege die Maus um den Boden zu kippen.\\Sammle 10 Münzen um das Ziel zu "
 "öffnen.\\Führe den Ball hindurch\\um den Level zu meistern.\\\\Klicke um zu "
 "beginnen.\\"
+
+#: data/map-easy/easyhalfpipe.map
+msgid ""
+"Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
+"accelerate and you will\\be able to stay in control."
+msgstr ""
 
 #: data/map-easy/fence.map
 msgid ""
@@ -1155,6 +1165,13 @@ msgstr ""
 "Jede Brücke ist enger als die vorherige -\\aber auch höher dotiert!"
 "\\Entscheide selbst wie weit du gehen willst.\\"
 
+#: data/map-easy/groundbreak.map
+msgid ""
+"Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
+"will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
+"instead of falling into it."
+msgstr ""
+
 #: data/map-easy/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing down"
@@ -1164,7 +1181,10 @@ msgstr ""
 "-\\du brauchst ebenso viel Platz um abzubremsen\\wie zum Beschleunigen.\\"
 
 #: data/map-easy/lollipop.map
-msgid "Follow the yellow lick road..."
+msgid ""
+"Follow the yellow lick road!\\\\The blue coins are especially challenging,"
+"\\but with some experimentation and practice,\\you'll be able to collect "
+"them all."
 msgstr ""
 
 #: data/map-easy/maze.map
@@ -1175,6 +1195,12 @@ msgstr ""
 "Der Ball wird in einer engen Passage unkontrollierbar\\hin und her geworfen. "
 "Halte ihn langsam und fern von\\den Wänden! Alle Münzen können in der"
 "\\gegebenen Zeit gesammelt werden.\\"
+
+#: data/map-easy/mazebump.map
+msgid ""
+"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers "
+"- it will help you\\to reach the goal."
+msgstr ""
 
 #: data/map-easy/mover.map
 msgid ""
@@ -1188,22 +1214,53 @@ msgstr ""
 "kommen.\\"
 
 #: data/map-easy/peasy.map
+#, fuzzy
 msgid ""
-"Mouse buttons rotate the view.\\Press Spacebar to pause, ESC to quit.\\\\\\"
-"\\Click to begin.\\"
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
 msgstr ""
 "Maustasten rotieren die Kamera.\\Leertaste für Pause, Esc zum Beenden.\\\\\\"
 "\\Klicke um zu beginnen.\\"
 
+#: data/map-easy/roundcoins.map
+msgid ""
+"When you are on the elevators,\\make small adjustments to keep the ball "
+"steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
+"much movement and you will fall off."
+msgstr ""
+
+#: data/map-easy/roundlaby.map
+msgid ""
+"There is only one path to reach the goal,\\but lots of paths for collecting "
+"coins.\\Make sure you collect enough\\to unlock the goal."
+msgstr ""
+
+#: data/map-easy/slalom.map
+msgid ""
+"Follow the trail of coins to reach the goal.\\If you hit a post while moving "
+"quickly,\\you will bounce far off course."
+msgstr ""
+
+#: data/map-easy/slightcurve.map
+msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
+msgstr ""
+
+#: data/map-easy/speedbumps.map
+msgid ""
+"When the ball is on a moving platform,\\it will be pulled in the direction "
+"of movement.\\Use the rails to steady yourself,\\and collect the coins you "
+"need\\to open the goal."
+msgstr ""
+
 #: data/map-easy/thwomp2.map
-msgid "Grab all the coins...\\but don't get thwomped!"
+msgid "Grab all the coins...\\but don't get bullied!"
 msgstr ""
 
 #: data/map-easy/wakka.map
 #, fuzzy
 msgid ""
-"Here's another coin grab.\\Use it to earn a free ball.\\Perhaps you already "
-"know a good route.\\Teleportation might come in handy.\\"
+"Here's another coin grab.\\Perhaps you already know a good route."
+"\\Teleportation might come in handy.\\"
 msgstr ""
 "Noch ein Münzensammelkurs.\\Nütze ihn für ein sicheres Spiel und einen Extra-"
 "Ball.\\Vielleicht wießt du schon einen guten Weg?\\Die Teleporter könnten "
@@ -1247,7 +1304,7 @@ msgstr "=Schienen=\\Verlieren Sie nicht das Gleichgewicht."
 
 #: data/map-fwp/ramps.map
 msgid "=Ramps=\\Can you make it to the top?"
-msgstr "=Rampen=\\Schaffen Sie es bis an die Spitze?"
+msgstr "=Rampen=\\Schaffen Sie es bis ganz nach oben?"
 
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
@@ -1291,7 +1348,7 @@ msgstr ""
 
 #: data/map-hard/flip.map
 msgid ""
-"Thus Neverball is a puzzle game ?\\Remove the red to unlock the goal.\\Each "
+"Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
 msgstr ""
 
@@ -1332,6 +1389,13 @@ msgstr ""
 #: data/map-hard/movers.map
 msgid "Go for a ride.\\"
 msgstr "Mach eine Spritztour.\\"
+
+#: data/map-hard/nostairs.map
+msgid ""
+"There are two goals here.\\You can complete this level\\the easy way or the "
+"hard way.\\Of course, by going the easy way\\you can forget about all\\those "
+"red and blue coins."
+msgstr ""
 
 #: data/map-hard/paths.map
 msgid "So many different paths to take...\\have you tried all of them?"
@@ -1403,6 +1467,10 @@ msgstr ""
 msgid "The floor is as flat as you make it.\\"
 msgstr "Der Boden ist so flach wie du ihn dir machst.\\"
 
+#: data/map-medium/accordian.map
+msgid "Stairway to heaven"
+msgstr ""
+
 #: data/map-medium/angle.map
 msgid ""
 "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
@@ -1410,6 +1478,16 @@ msgid ""
 msgstr ""
 "Diese Brücken sind schräg.\\Jede ist enger und steiler als die vorherige."
 "\\Nimm das schnelle Geld oder\\geh den ganzen Weg für die volle Belohnung.\\"
+
+#: data/map-medium/coneskeleton.map
+msgid "Plenty of coins for the taking.\\Can you take them all?"
+msgstr ""
+
+#: data/map-medium/cross.map
+msgid ""
+"Use momentum to reach\\the upper platforms,\\but keep the ball in control"
+"\\for safe landing.\\\\The manual view may help here.\\"
+msgstr ""
 
 #: data/map-medium/drops.map
 msgid ""
@@ -1428,17 +1506,38 @@ msgstr "Nütze Teleporter, um zu\\sonst unerreichbaren Orten vorzudringen.\\"
 msgid "Balance risk versus reward.\\"
 msgstr "Wäge das Risiko gegen die Belohnung ab.\\"
 
+#: data/map-medium/hardrise.map
+msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
+msgstr ""
+
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
 msgstr "Nimm den Zug bevor er den Bahnhof verlässt.\\"
+
+#: data/map-medium/learngrow.map
+msgid ""
+"The ball will fit in those small holes,\\if you can just find something to "
+"make it smaller.\\Other places may require a bigger ball.\\One thing is "
+"certain - you'll want a plan!"
+msgstr ""
 
 #: data/map-medium/locks.map
 msgid "Hit the switches to move the barriers.\\"
 msgstr "Nütze die Schalter um die Barrieren zu beseitigen.\\"
 
+#: data/map-medium/multicurves.map
+msgid ""
+"The temptation to move quickly\\could prove your undoing.\\\\Then again, "
+"maybe not..."
+msgstr ""
+
 #: data/map-medium/plinko.map
 msgid "Take it slowly.\\"
 msgstr "Eile mit Weile.\\"
+
+#: data/map-medium/qbert.map
+msgid "You can never go home again..."
+msgstr ""
 
 #: data/map-medium/rampdn.map
 msgid ""
@@ -1449,6 +1548,18 @@ msgstr ""
 "Hier wirst du Kontrolle über die Kamera ausüben\\müssen.  Drücke F3 um auf "
 "manuelle Kamera umzuschalten\\und verwende die Maustasten um sie zu rotieren."
 "\\Drücke F1 um zur automatischen Kamera zurückzukehren.\\"
+
+#: data/map-medium/roundfloors.map
+msgid ""
+"This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
+"layer."
+msgstr ""
+
+#: data/map-medium/sparselines.map
+msgid ""
+"Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
+"challenge!"
+msgstr ""
 
 #: data/map-medium/spiraldn.map
 msgid ""
@@ -1495,7 +1606,7 @@ msgstr ""
 "Neverball\\\\http://icculus.org/neverball\\\\Kreiert von Robert Kooima\\"
 
 #: data/map-medium/woodmaze.map
-msgid "lalala"
+msgid "Follow the trail of coins\\to make it through the labyrinth."
 msgstr ""
 
 #: data/map-medium/zigzag.map
@@ -1515,6 +1626,10 @@ msgstr ""
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
+msgstr ""
+
+#: data/map-misc/blockers.map
+msgid "Block around the clock."
 msgstr ""
 
 #: data/map-misc/bounce.map
@@ -1572,12 +1687,12 @@ msgid "Le parcours du combattant.\\Ready for the assault course?"
 msgstr "Le parcours du combattant.\\Bereit für den Anschlags-Level?"
 
 #: data/map-mym/circuit1.map
-msgid "Les rampes abruptes.\\Control your speed."
-msgstr "Les rampes abruptes.\\Kontrolliere deine Geschwindigkeit."
-
-#: data/map-mym/circuit2.map
 msgid "La course effrénée.\\Let's make some laps."
 msgstr "La course effrénée.\\Lass uns einige Runden drehen."
+
+#: data/map-mym/circuit2.map
+msgid "Les rampes abruptes.\\Control your speed."
+msgstr "Les rampes abruptes.\\Kontrolliere deine Geschwindigkeit."
 
 #: data/map-mym/climb.map
 msgid "L'escalade ardue.\\Do you suffer from vertigo?"
@@ -1585,10 +1700,14 @@ msgstr "L'escalade ardue.\\Leidest du an Höhenangst?"
 
 #: data/map-mym/comeback.map
 #, fuzzy
-msgid "Le cycle eternel.\\Avoid teleporters..."
+msgid "Le cycle éternel.\\Avoid teleporters..."
 msgstr "Le cycle éternel.\\Vermeide Teleporter..."
 
 #: data/map-mym/dance1.map
+msgid "La ballade tranquille.\\What a quiet walk."
+msgstr "La ballade tranquille.\\Was für ein ruhiger Spaziergang."
+
+#: data/map-mym/dance2.map
 msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
 "activating the last moving platform,\\ turn around the Thwomp until the goal "
@@ -1597,10 +1716,6 @@ msgstr ""
 "La ballade dansante.\\Lass uns auf der Plattform tanzen!\\Tipp: Nach dem du "
 "die letze Plattform aktiviert hast,\\kreise um den Thwomp bis das Ziel "
 "erreichbar ist."
-
-#: data/map-mym/dance2.map
-msgid "La ballade tranquille.\\What a quiet walk."
-msgstr "La ballade tranquille.\\Was für ein ruhiger Spaziergang."
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
@@ -1635,7 +1750,7 @@ msgstr "La tour de verre.\\Finde den Weg zum Ausgang."
 
 #: data/map-mym/hard.map
 #, fuzzy
-msgid "La maitrise de Neverball.\\You still think Neverball is too easy?"
+msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
 msgstr ""
 "La maîtrise de Neverball.\\Glaubst du immer noch Neverball wäre zu einfach?"
 
@@ -1646,7 +1761,7 @@ msgstr "Les boucles renversantes.\\Runter geht's immer."
 #: data/map-mym/loop2.map
 #, fuzzy
 msgid ""
-"Le controle des courbes.\\Find the right angle to turn,\\to jump and to "
+"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
 msgstr ""
 "Le contrôle des courbes.\\Finde den richtigen Winkel zum schwenken,"
@@ -1654,7 +1769,7 @@ msgstr ""
 
 #: data/map-mym/maze1.map
 #, fuzzy
-msgid "Le chemin dissimule.\\Test your memory."
+msgid "Le chemin dissimulé.\\Test your memory."
 msgstr "Le chemin dissimulé.\\Teste dein Gedächtnis."
 
 #: data/map-mym/maze2.map
@@ -1668,7 +1783,7 @@ msgstr ""
 #: data/map-mym/narrow.map
 #, fuzzy
 msgid ""
-"Le sentier etroit.\\Patience and timing.\\Tips: maximise speed at the first "
+"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
 "slope."
 msgstr ""
 "Le sentier étroit.\\Geduld und Timing.\\Tipp: Anfangs Geschwindigkeit "
@@ -1676,7 +1791,7 @@ msgstr ""
 
 #: data/map-mym/running.map
 #, fuzzy
-msgid "Les epreuves minutees.\\Run baby, run!"
+msgid "Les épreuves minutées.\\Run baby, run!"
 msgstr "Les épreuves minutÃ©es.\\Lauf, Baby, lauf!"
 
 #: data/map-mym/scrambling.map
@@ -1688,7 +1803,7 @@ msgstr ""
 
 #: data/map-mym/snow.map
 #, fuzzy
-msgid "La descente rafraichissante.\\Not so fast, not so fast."
+msgid "La descente rafraîchissante.\\Not so fast, not so fast."
 msgstr "La descente rafraîchissante.\\Nicht so schnell, nicht so schnell."
 
 #: data/map-mym/trust.map
@@ -1697,12 +1812,12 @@ msgstr "Le chemin de la foi.\\Selbstvertrauen."
 
 #: data/map-mym/turn.map
 #, fuzzy
-msgid "Le sens trigonometrique.\\Turn, wait and jump."
+msgid "Le sens trigonométrique.\\Turn, wait and jump."
 msgstr "Le sens trigonométrique.\\Schwenken, warten und springen."
 
 #: data/map-mym/up.map
 #, fuzzy
-msgid "L'ascension pressee.\\Only one piece of advice: don't stop!"
+msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
 msgstr "L'ascension pressée.\\Nur ein Rat: Bleib niemals stehen!"
 
 #: data/map-mym2/backforth.map
@@ -1717,9 +1832,9 @@ msgstr "Street Neverball\\Wähle dein Team und erziele 3 Punkte."
 msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
 msgstr ""
 
-#: data/map-mym2/bigcones.map
+#: data/map-mym2/bigcone.map
 #, fuzzy
-msgid "Les grands cones.\\Living in a cone."
+msgid "Le grand cône.\\Living in a cone."
 msgstr "Les grands cônes.\\Leben in einem Kegel."
 
 #: data/map-mym2/bombman.map
@@ -1728,11 +1843,14 @@ msgstr "Les flammes ardentes.\\Erinnert dich das an etwas?"
 
 #: data/map-mym2/bounces.map
 #, fuzzy
-msgid "Les sauts du celebre plombier.\\Follow the coins."
+msgid "Les sauts du célèbre plombier.\\Follow the coins."
 msgstr "Les sauts du célèbre plombier.\\Folge den Münzen."
 
 #: data/map-mym2/fall.map
-msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
+#, fuzzy
+msgid ""
+"Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
+"teleports to unlock and reach the goal."
 msgstr "Savoir rebondir pour aller plus haut.\\Die Neverball Arena."
 
 #: data/map-mym2/freefall.map
@@ -1748,7 +1866,7 @@ msgstr "Le petit moulin.\\Gutes Timing bringt dich in die Kabine."
 
 #: data/map-mym2/littlecones.map
 #, fuzzy
-msgid "Ne pas se laisser emporter dans le neant.\\Don't go too low."
+msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
 msgstr ""
 "Ne pas se laisser emporter dans le néant.\\Rolle nicht zu weit hinunter in "
 "deiner Gier."
@@ -1763,7 +1881,7 @@ msgstr ""
 
 #: data/map-mym2/morenarrow.map
 #, fuzzy
-msgid "Plus dur que la difficulte.\\Good luck."
+msgid "Plus dur que la difficulté.\\Good luck."
 msgstr "Plus dur que la difficulté.\\Viel Glück."
 
 #: data/map-mym2/movinglumps.map
@@ -1776,7 +1894,7 @@ msgstr "Le passage éphémère.\\Münzen lügen nicht."
 
 #: data/map-mym2/push.map
 #, fuzzy
-msgid "He, on pousse pas !\\Not too fast, not too slow."
+msgid "Hé, on pousse pas !\\Not too fast, not too slow."
 msgstr "Hé, on pousse pas !\\Nicht zu langsam, nicht zu schnell."
 
 #: data/map-mym2/rainbow.map
@@ -1785,7 +1903,7 @@ msgstr "Rainbow Road.\\3 Runden öffnen das Ziel."
 
 #: data/map-mym2/rodeo.map
 #, fuzzy
-msgid "Le rodeo de Neverball.\\You'll fall quickly."
+msgid "Le rodéo de Neverball.\\You'll fall quickly."
 msgstr "Le rodéo de Neverball.\\Du wirst bald fallen."
 
 #: data/map-mym2/runstop.map
@@ -1794,12 +1912,12 @@ msgstr "J'y vais, ou j'y vais pas ?\\Verweile kurz."
 
 #: data/map-mym2/shaker.map
 #, fuzzy
-msgid "Preparez un petit sac.\\The stomach-tester."
+msgid "Préparez un petit sac.\\The stomach-tester."
 msgstr "Prépare un petit sac.\\Der Magen-Test."
 
 #: data/map-mym2/sonic.map
 #, fuzzy
-msgid "Un petit echauffement.\\Welcome to the new Mehdi's set!"
+msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
 msgstr "Un petit échauffement.\\Willkommen zum neuen Mehdi Set!"
 
 #: data/map-mym2/speed.map
@@ -1822,6 +1940,56 @@ msgstr "Tranquille, mais pas trop.\\Die Musik gibt den Takt an."
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
 msgstr "Les toiles attirantes.\\Flüchte aus den Netzen."
+
+#. Desktop entry comment
+#: dist/neverball.desktop.in
+msgid "A 3D arcade game with a ball"
+msgstr ""
+
+#. Desktop entry comment
+#: dist/neverputt.desktop.in
+msgid "A 3D mini golf game"
+msgstr ""
+
+#. Translators,
+#.
+#. Listed here are the Neverball materials (relative to the data directory)
+#. that can be localised.  Each material <mtrl> has a corresponding JPG or PNG
+#. texture.  To localise a material, create a localised texture for it (copy
+#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify it)
+#. and translate the material name to match (from <mtrl> to
+#. <mtrl>-<lang-code>).
+#.
+#. Author's comments on the original mtrl/words texture:
+#.
+#. "Courier New, 40pt, bold. The words are centered in cells of 256x64 pixels.
+#. For the vertical centering, the x-height is used as the reference. Some
+#. manual corrections were made; for example, the hyphen in 'Fall-out' was
+#. shortened in order to increase the margin on each side of the word."
+#.
+#. Those on GNU+Linux having the ImageMagick program suite installed may find
+#. the provided scripts/gen-words.sh shell script useful.
+msgid "mtrl/words"
+msgstr "mtrl/words-de"
+
+msgid "item/coin/coin"
+msgstr "item/coin/euro_coin"
+
+#~ msgid "Mehdi's Levels"
+#~ msgstr "Mehdis Levels"
+
+#~ msgid "Mehdi's Levels Suite"
+#~ msgstr "Mehdis Levels 2"
+
+#~ msgid "png/coin.png"
+#~ msgstr "png/euro_coin.png"
+
+#, fuzzy
+#~ msgid ""
+#~ "Difficulty: A set of levels for intermediate players.\\\\\\Work in "
+#~ "progress.\\\\"
+#~ msgstr ""
+#~ "Schwierigkeitsgrad: Ein zweites leichtes Set.\\\\\\Wird entwickelt.\\\\"
 
 #~ msgid "Audio"
 #~ msgstr "Audio"

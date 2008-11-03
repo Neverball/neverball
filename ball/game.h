@@ -50,8 +50,6 @@ int   game_step(const float[3], float, int);
 void  game_set_goal(void);
 void  game_clr_goal(void);
 
-void  game_set_play(int, int);
-
 void  game_set_ang(int, int);
 void  game_set_pos(int, int);
 void  game_set_x  (int);
@@ -77,10 +75,6 @@ int input_get(FILE *);
 #define GAME_TIME 1
 #define GAME_GOAL 2
 #define GAME_FALL 3
-
-#define JUMP_NONE      0
-#define JUMP_CURR_BALL 1
-#define JUMP_OTHR_BALL 2
 
 const char *status_to_str(int);
 

@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "trust-mym"
+"levelname" "trust"
 "version" "1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
@@ -10,8 +10,9 @@
 "song" "bgm/track1.ogg"
 "time" "9000"
 "goal" "100"
-"time_hs" "2300 5000"
+"time_hs" "2300 2700"
 "coin_hs" "169 125"
+"goal_hs" "3900 4200"
 "message" "Le chemin de la foi.\Self-confidence."
 // brush 0
 {

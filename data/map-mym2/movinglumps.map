@@ -10,7 +10,8 @@
 "shot" "shot-mym2/movinglumps.jpg"
 "time" "7500"
 "goal" "22"
-"time_hs" "3200 3600"
+"time_hs" "2400 2800"
+"goal_hs" "3200 3600"
 "coin_hs" "80 60"
 "message" "Être patient.\Not too hard."
 // brush 0

@@ -117,6 +117,7 @@ void config_init(void)
     config_set_s(CONFIG_PLAYER,               DEFAULT_PLAYER);
     config_set_s(CONFIG_BALL,                 DEFAULT_BALL);
     config_set_s(CONFIG_WIIMOTE_ADDR,         DEFAULT_WIIMOTE_ADDR);
+    config_set_s(CONFIG_REPLAY_NAME,          DEFAULT_REPLAY_NAME);
     config_set_d(CONFIG_CHEAT,                DEFAULT_CHEAT);
     config_set_d(CONFIG_STATS,                DEFAULT_STATS);
     config_set_d(CONFIG_UNIFORM,              DEFAULT_UNIFORM);
@@ -129,7 +130,6 @@ void config_init(void)
     config_set_d(CONFIG_KEY_SCORE_NEXT,       DEFAULT_KEY_SCORE_NEXT);
     config_set_d(CONFIG_SCREENSHOT,           DEFAULT_SCREENSHOT);
     config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
-    config_set_d(CONFIG_BALL_COLLISIONS,      DEFAULT_BALL_COLLISIONS);
 }
 
 /*
@@ -314,6 +314,8 @@ void config_load(void)
                     config_set_s(CONFIG_BALL, val);
                 else if (strcmp(key, "wiimote_addr") == 0)
                     config_set_s(CONFIG_WIIMOTE_ADDR, val);
+                else if (strcmp(key, "replay_name") == 0)
+                    config_set_s(CONFIG_REPLAY_NAME, val);
 
                 else if (strcmp(key, "cheat")   == 0)
                     config_set_d(CONFIG_CHEAT, atoi(val));
@@ -325,8 +327,6 @@ void config_load(void)
                     config_set_d(CONFIG_SCREENSHOT, atoi(val));
                 else if (strcmp(key, "lock_goals") == 0)
                     config_set_d(CONFIG_LOCK_GOALS, atoi(val));
-                else if (strcmp(key, "ball_collisions") == 0)
-                    config_set_d(CONFIG_BALL_COLLISIONS, atoi(val));
             }
 
             free(line);
@@ -457,12 +457,13 @@ void config_save(void)
             fprintf(fp, "ball_file    %s\n", option_s[CONFIG_BALL]);
         if (strlen(option_s[CONFIG_WIIMOTE_ADDR]) > 0)
             fprintf(fp, "wiimote_addr %s\n", option_s[CONFIG_WIIMOTE_ADDR]);
+        if (strlen(option_s[CONFIG_REPLAY_NAME]) > 0)
+            fprintf(fp, "replay_name  %s\n", option_s[CONFIG_REPLAY_NAME]);
 
         fprintf(fp, "stats                %d\n", option_d[CONFIG_STATS]);
         fprintf(fp, "uniform              %d\n", option_d[CONFIG_UNIFORM]);
         fprintf(fp, "screenshot           %d\n", option_d[CONFIG_SCREENSHOT]);
         fprintf(fp, "lock_goals           %d\n", option_d[CONFIG_LOCK_GOALS]);
-        fprintf(fp, "ball_collisions      %d\n", option_d[CONFIG_BALL_COLLISIONS]);
 
         if (config_cheat())
             fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);
@@ -500,11 +501,13 @@ int config_mode(int f, int w, int h)
     int stencil = config_get_d(CONFIG_REFLECTION)  ? 1 : 0;
     int buffers = config_get_d(CONFIG_MULTISAMPLE) ? 1 : 0;
     int samples = config_get_d(CONFIG_MULTISAMPLE);
+    int vsync   = config_get_d(CONFIG_VSYNC)       ? 1 : 0;
 
     SDL_GL_SetAttribute(SDL_GL_STEREO,             stereo);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE,       stencil);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, buffers);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, samples);
+    SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL,       vsync);
 
     /* Try to set the currently specified mode. */
 
@@ -531,8 +534,13 @@ int config_mode(int f, int w, int h)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthFunc(GL_LEQUAL);
 
-        if (config_get_d(CONFIG_VSYNC))
-            sync_init();
+        /*
+         * Mac OS X might still need this, because apparently SDL doesn't do
+         * SDL_GL_SWAP_CONTROL on OS X.  TODO: investigate.
+         */
+#if 0
+        if (vsync) sync_init();
+#endif
 
         /* If GL supports multisample, and SDL got a multisample buffer... */
 

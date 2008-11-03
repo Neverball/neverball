@@ -177,10 +177,10 @@ static GLuint gui_rect(int x, int y, int w, int h, int f, int r)
                 float Ya = y + h + ((f & GUI_NW) ? (s - r) : 0);
                 float Yb = y     + ((f & GUI_SW) ? (r - s) : 0);
 
-                glTexCoord2f((X - x) / w, 1 - (Ya - y) / h);
+                glTexCoord2f((X - x) / w, (Ya - y) / h);
                 glVertex2f(X, Ya);
 
-                glTexCoord2f((X - x) / w, 1 - (Yb - y) / h);
+                glTexCoord2f((X - x) / w, (Yb - y) / h);
                 glVertex2f(X, Yb);
             }
 
@@ -196,10 +196,10 @@ static GLuint gui_rect(int x, int y, int w, int h, int f, int r)
                 float Ya = y + h + ((f & GUI_NE) ? (c - r) : 0);
                 float Yb = y     + ((f & GUI_SE) ? (r - c) : 0);
 
-                glTexCoord2f((X - x) / w, 1 - (Ya - y) / h);
+                glTexCoord2f((X - x) / w, (Ya - y) / h);
                 glVertex2f(X, Ya);
 
-                glTexCoord2f((X - x) / w, 1 - (Yb - y) / h);
+                glTexCoord2f((X - x) / w, (Yb - y) / h);
                 glVertex2f(X, Yb);
             }
         }
