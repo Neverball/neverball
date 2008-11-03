@@ -44,8 +44,9 @@ static float view_v[3];                 /* Current view vector               */
 static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view orientation          */
 
-static float jump_e = 1;                /* Jumping enabled flag              */
-static float jump_b = 0;                /* Jump-in-progress flag             */
+static int   jump_s;                    /* Has ball reached destination?     */
+static int   jump_u;                    /* Which ball is jumping?            */
+static int   jump_b;                    /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 
@@ -80,12 +81,16 @@ static void view_init(void)
 
 void game_init(const char *s)
 {
-    jump_e = 1;
-    jump_b = 0;
+    jump_s  = 1;
+    jump_u  = 0;
+    jump_b  = JUMP_NONE;
+    jump_dt = 0.f;
 
     view_init();
     sol_load_gl(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
                                     config_get_d(CONFIG_SHADOW));
+
+    game_ball_inactivate(BALL_ALL);
 }
 
 void game_free(void)
@@ -168,9 +173,9 @@ static void game_draw_balls(const struct s_file *fp,
 
     int ui;
 
-    for (ui = curr_party(); ui > 0; ui--)
+    for (ui = 1; ui < fp->uc; ui++)
     {
-        if (ui == ball)
+        if (fp->uv[ui].a)
         {
             float ball_M[16];
             float pend_M[16];
@@ -194,7 +199,7 @@ static void game_draw_balls(const struct s_file *fp,
             }
             glPopMatrix();
         }
-        else
+        else if (ui <= curr_party())
         {
             glPushMatrix();
             {
@@ -247,7 +252,7 @@ static void game_draw_jumps(const struct s_file *fp)
                          fp->jv[ji].p[2]);
 
             glScalef(fp->jv[ji].r, 1.f, fp->jv[ji].r);
-            jump_draw(!jump_e);
+            jump_draw(fp->jv[ji].b ? 1 : 0);
         }
         glPopMatrix();
     }
@@ -287,7 +292,12 @@ void game_draw(int pose, float t)
 
     float fov = FOV;
 
-    if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
+    int i = 0;
+
+    if (jump_b == JUMP_CURR_BALL)
+    {
+        fov *= 2.0f * fabsf(jump_dt - 0.5f);
+    }
 
     config_push_persp(fov, 0.1f, FAR_DIST);
     glPushAttrib(GL_LIGHTING_BIT);
@@ -325,9 +335,15 @@ void game_draw(int pose, float t)
 
         if (config_get_d(CONFIG_SHADOW) && !pose)
         {
-            shad_draw_set(fp->uv[ball].p, fp->uv[ball].r);
-            sol_shad(fp);
-            shad_draw_clr();
+            for (i = 0; i < fp->uc; i++)
+            {
+                if (fp->uv[i].a)
+                {
+                    shad_draw_set(fp->uv[i].p, fp->uv[i].r);
+                    sol_shad(fp);
+                    shad_draw_clr();
+                }
+            }
         }
 
         /* Draw the game elements. */
@@ -437,49 +453,120 @@ void game_update_view(float dt)
 
 static int game_update_state(float dt)
 {
-    static float t = 0.f;
-
     struct s_file *fp = &file;
-    float p[3];
+
+    static float t = 0.f;
+    float p[3], d[3], z[3] = {0.f, 0.f, 0.f};
+    int i, j, u, ui, m = 0, c = 0;
 
     if (dt > 0.f)
         t += dt;
     else
         t = 0.f;
 
+    if (fp->uv[ball].a && v_len(fp->uv[ball].v) - dt > 0.f)
+        c = 1; /* the current ball is in motion */
+    for (ui = 0; ui < fp->uc; ui++)
+        if (ui != ball && fp->uv[ui].a && v_len(fp->uv[ui].v) - dt > 0.f)
+            m = 1; /* a non-current ball is in motion */
+
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, ball))
+    if (sol_swch_test(fp))
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
-    if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, ball) == 1)
+    if (jump_b == JUMP_NONE && (u = sol_jump_test(fp, jump_p)))
     {
-        jump_b  = 1;
-        jump_e  = 0;
-        jump_dt = 0.f;
+        if (u - 1 == ball)
+        {
+            jump_b = JUMP_CURR_BALL;
+        }
+        else if (u > 0)
+        {
+            jump_b = JUMP_OTHR_BALL;
+        }
+
+        jump_u = u - 1;
 
         audio_play(AUD_JUMP, 1.f);
     }
-    if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, ball) == 0)
-        jump_e = 1;
 
     /* Test for fall-out. */
 
-    if (fp->uv[ball].p[1] < -10.f)
+    for (ui = 0; ui < fp->uc; ui++)
+    {
+        if (ui != ball && fp->uv[ui].a && fp->uv[ui].p[1] < -10.f)
+        {
+            game_ball_inactivate(ui);
+            v_cpy(fp->uv[ui].v, z);
+            v_cpy(fp->uv[ui].w, z);
+            hole_fall(ui);
+        }
+    }
+
+    if (!m && fp->uv[ball].p[1] < -10.f)
+    {
+        game_ball_inactivate(ball);
+        v_cpy(fp->uv[ball].v, z);
+        v_cpy(fp->uv[ball].w, z);
         return GAME_FALL;
+    }
+
+    /* Test for intersections */
+
+    for (i = 0; i < fp->uc; i++)
+    {
+        struct s_ball *up = fp->uv + i;
+
+        if (!up->a || v_len(up->v) > 0.f)
+            continue;
+
+        for (j = i + 1; j < fp->uc; j++)
+        {
+            struct s_ball *u2p = fp->uv + j;
+
+            if (!u2p->a || v_len(u2p->v) > 0.f)
+                continue;
+
+            v_sub(d, up->p, u2p->p);
+
+            if (v_len(d) < up->r + u2p->r)
+            {
+                if(i == ball)
+                    game_ball_inactivate(j);
+                else
+                    game_ball_inactivate(i);
+            }
+        }
+    }
 
     /* Test for a goal or stop. */
 
-    if (t > 1.f)
+    for (ui = 1; ui < fp->uc; ui++)
+    {
+        if (ui != ball && fp->uv[ui].a && !(v_len(fp->uv[ui].v) > 0.0f) && sol_goal_test(fp, p, ui))
+        {
+            game_ball_inactivate(ui);
+            hole_goal(ui);
+        }
+    }
+
+    /*if (!m && !c && t > 1.f)*/
+    if (!m && !c)
     {
         t = 0.f;
 
         if (sol_goal_test(fp, p, ball))
+        {
+            game_ball_inactivate(ball);
             return GAME_GOAL;
+        }
         else
+        {
             return GAME_STOP;
+        }
     }
 
     return GAME_NONE;
@@ -515,22 +602,7 @@ int game_step(const float g[3], float dt)
     s = (7.f * s + dt) / 8.f;
     t = s;
 
-    if (jump_b)
-    {
-        jump_dt += dt;
-
-        /* Handle a jump. */
-
-        if (0.5 < jump_dt)
-        {
-            fp->uv[ball].p[0] = jump_p[0];
-            fp->uv[ball].p[1] = jump_p[1];
-            fp->uv[ball].p[2] = jump_p[2];
-        }
-        if (1.f < jump_dt)
-            jump_b = 0;
-    }
-    else
+    if( jump_b == JUMP_NONE ) /* one ball at a time */
     {
         /* Run the sim. */
 
@@ -546,7 +618,7 @@ int game_step(const float g[3], float dt)
 
             if (b < d)
                 b = d;
-            if (m)
+            if (!m)
                 st += t;
         }
 
@@ -554,6 +626,28 @@ int game_step(const float g[3], float dt)
 
         if (b > 0.5)
             audio_play(AUD_BUMP, (float) (b - 0.5) * 2.0f);
+    }
+    else
+    {
+        /* Handle a jump. */
+
+        jump_dt += dt;
+
+        if (0.5f < jump_dt && jump_s)
+        {
+            jump_s = 0;
+            fp->uv[jump_u].p[0] = jump_p[0];
+            fp->uv[jump_u].p[1] = jump_p[1];
+            fp->uv[jump_u].p[2] = jump_p[2];
+            sol_jump_test(fp, NULL);
+        }
+
+        if (1.f  < jump_dt)
+        {
+            jump_dt = 0.f;
+            jump_b  = JUMP_NONE;
+            jump_s  = 1;
+        }
     }
 
     game_update_view(dt);
@@ -573,6 +667,64 @@ void game_putt(void)
     file.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
 
     view_m = 0.f;
+}
+
+/*---------------------------------------------------------------------------*/
+
+void game_ball_activate(int b)
+{
+    int i;
+
+    if (b == BALL_CURRENT)
+    {
+        file.uv[ball].a = 1;
+    }
+    else if (b == BALL_PARTY)
+    {
+        for (i = 1; i <= curr_party(); i++)
+        {
+            file.uv[i].a = 1;
+        }
+    }
+    else if (b == BALL_ALL)
+    {
+        for (i = 1; i < file.uc; i++)
+        {
+            file.uv[i].a = 1;
+        }
+    }
+    else
+    {
+        file.uv[b].a = 1;
+    }
+}
+
+void game_ball_inactivate(int b)
+{
+    int i;
+
+    if (b == BALL_CURRENT)
+    {
+        file.uv[ball].a = 0;
+    }
+    else if (b == BALL_PARTY)
+    {
+        for (i = 1; i <= curr_party(); i++)
+        {
+            file.uv[i].a = 0;
+        }
+    }
+    else if (b == BALL_ALL)
+    {
+        for (i = 1; i < file.uc; i++)
+        {
+            file.uv[i].a = 0;
+        }
+    }
+    else
+    {
+        file.uv[b].a = 0;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -673,9 +825,6 @@ void game_ball(int i)
 
     ball = i;
 
-    jump_e = 1;
-    jump_b = 0;
-
     for (ui = 0; ui < file.uc; ui++)
     {
         file.uv[ui].v[0] = 0.f;
@@ -688,20 +837,59 @@ void game_ball(int i)
     }
 }
 
-void game_get_pos(float p[3], float e[3][3])
+void game_get_pos(float p[3], float e[3][3], int ui)
 {
-    v_cpy(p,    file.uv[ball].p);
-    v_cpy(e[0], file.uv[ball].e[0]);
-    v_cpy(e[1], file.uv[ball].e[1]);
-    v_cpy(e[2], file.uv[ball].e[2]);
+    if( ui == BALL_CURRENT )
+        ui = ball;
+
+    v_cpy(p,    file.uv[ui].p);
+    v_cpy(e[0], file.uv[ui].e[0]);
+    v_cpy(e[1], file.uv[ui].e[1]);
+    v_cpy(e[2], file.uv[ui].e[2]);
 }
 
-void game_set_pos(float p[3], float e[3][3])
+void game_set_pos(float p[3], float e[3][3], int ui)
 {
-    v_cpy(file.uv[ball].p,    p);
-    v_cpy(file.uv[ball].e[0], e[0]);
-    v_cpy(file.uv[ball].e[1], e[1]);
-    v_cpy(file.uv[ball].e[2], e[2]);
+    if( ui == BALL_CURRENT )
+        ui = ball;
+
+    v_cpy(file.uv[ui].p,    p);
+    v_cpy(file.uv[ui].e[0], e[0]);
+    v_cpy(file.uv[ui].e[1], e[1]);
+    v_cpy(file.uv[ui].e[2], e[2]);
+}
+
+int game_get_aggressor(int ui)
+{
+    return file.uv[ui].g;
+}
+
+void game_set_aggressor(int ui, int val)
+{
+    int i;
+
+    if (ui == BALL_CURRENT)
+    {
+        file.uv[ball].g = val;
+    }
+    else if (ui == BALL_PARTY)
+    {
+        for (i = 1; i <= curr_party(); i++)
+        {
+            file.uv[i].g = val;
+        }
+    }
+    else if (ui == BALL_ALL)
+    {
+        for (i = 1; i < file.uc; i++)
+        {
+            file.uv[i].g = val;
+        }
+    }
+    else
+    {
+        file.uv[ui].g = val;
+    }
 }
 
 /*---------------------------------------------------------------------------*/

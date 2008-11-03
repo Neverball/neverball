@@ -405,6 +405,10 @@ values follow.
         For more  information, see the  section on using  Wiimote with
         Neverball.
 
+    putt_collisions 0
+
+        This key enables ball collisions for Neverputt.
+
 
 * WIIMOTE SUPPORT
 

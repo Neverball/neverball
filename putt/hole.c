@@ -42,6 +42,7 @@ static int player;
 static int count;
 static int done;
 
+static int        state_v[MAXPLY];
 static int         stat_v[MAXPLY];
 static float       ball_p[MAXPLY][3];
 static float       ball_e[MAXPLY][3][3];
@@ -225,18 +226,58 @@ void hole_goto(int h, int p)
 
         for (i = 1; i <= party; i++)
         {
-            game_get_pos(ball_p[i], ball_e[i]);
+            game_get_pos(ball_p[i], ball_e[i], i);
+            game_set_aggressor(i, 0);
+            hole_state_set(i, 0);
             stat_v[i] = 0;
         }
+
         game_ball(player);
+
+        game_ball_inactivate(BALL_ALL);
+        game_ball_activate(BALL_CURRENT);
+
         hole_song();
     }
 }
 
 int hole_next(void)
 {
+    int i;
+
     if (done < party)
     {
+        do
+        {
+            player = player % party + 1;
+        }
+        while (stat_v[player] && hole_state_get(player) >= 0);
+
+        game_ball(player);
+        for (i = 1; i <= party; i++)
+            game_get_pos(ball_p[i], ball_e[i], i);
+
+        if (!config_get_d(CONFIG_PUTT_COLLISIONS))
+            game_ball_inactivate(BALL_PARTY);
+        game_ball_activate(BALL_CURRENT);
+
+        return 1;
+    }
+    return 0;
+}
+
+/*
+ * called on each new player flyby; if the player was knocked in, returns true
+ * and finishes handling the ball
+ */
+int hole_goal_next(void)
+{
+    int i;
+
+    if (hole_state_get(player) < 0)
+    {
+        game_ball_inactivate(BALL_CURRENT);
+
         do
         {
             player = player % party + 1;
@@ -244,7 +285,17 @@ int hole_next(void)
         while (stat_v[player]);
 
         game_ball(player);
-        game_get_pos(ball_p[player], ball_e[player]);
+
+        for (i = 1; i <= party; i++)
+        {
+            game_get_pos(ball_p[i], ball_e[i], i);
+            game_set_aggressor(i, 0);
+            hole_state_set(i, 0);
+        }
+
+        if (!config_get_d(CONFIG_PUTT_COLLISIONS))
+            game_ball_inactivate(BALL_PARTY);
+        game_ball_activate(BALL_CURRENT);
 
         return 1;
     }
@@ -267,31 +318,46 @@ int hole_move(void)
     return 0;
 }
 
-void hole_goal(void)
+void hole_goal(int ui)
 {
-    score_v[hole][player]++;
+    if (ui == BALL_CURRENT)
+    {
+        ui = player;
+        score_v[hole][ui]++;
+    }
 
-    if (score_v[hole][player] == 1)
+    else
+    {
+        /* they were knocked in, so set their end state negative meaning goal */
+        hole_state_set(ui, (game_get_aggressor(ui) + 1) * -1);
+    }
+
+    game_ball_inactivate(ui);
+
+
+    if (score_v[hole][ui] == 1)
         audio_play(AUD_ONE, 1.0f);
-
-    else if (score_v[hole][player] == score_v[hole][0] - 2)
+    else if (score_v[hole][ui] == score_v[hole][0] - 2)
         audio_play(AUD_EAGLE, 1.0f);
-    else if (score_v[hole][player] == score_v[hole][0] - 1)
+    else if (score_v[hole][ui] == score_v[hole][0] - 1)
         audio_play(AUD_BIRDIE, 1.0f);
-    else if (score_v[hole][player] == score_v[hole][0])
+    else if (score_v[hole][ui] == score_v[hole][0])
         audio_play(AUD_PAR, 1.0f);
-    else if (score_v[hole][player] == score_v[hole][0] + 1)
+    else if (score_v[hole][ui] == score_v[hole][0] + 1)
         audio_play(AUD_BOGEY, 1.0f);
-    else if (score_v[hole][player] == score_v[hole][0] + 2)
+    else if (score_v[hole][ui] == score_v[hole][0] + 2)
         audio_play(AUD_DOUBLE, 1.0f);
     else
         audio_play(AUD_SUCCESS, 1.0f);
 
-    stat_v[player] = 1;
+    stat_v[ui] = 1;
     done++;
 
     if (done == party)
+    {
+        game_ball_inactivate(BALL_ALL);
         audio_music_fade_out(2.0f);
+    }
 }
 
 void hole_stop(void)
@@ -302,29 +368,65 @@ void hole_stop(void)
 
     if (score_v[hole][player] >= 12 && score_v[hole][player] >= score_v[hole][0] + 5)
     {
+        game_ball_inactivate(player);
         score_v[hole][player] = (score_v[hole][0] > 12 - 6) ? score_v[hole][0] + 6 : 12;
         stat_v[player] = 1;
         done++;
     }
 }
 
-void hole_fall(void)
+void hole_fall(int ui)
 {
+    if (ui == 0)
+    {
+        ui = player;
+        score_v[hole][ui]++;
+    }
+
+    else
+    {
+        hole_state_set(ui, game_get_aggressor(ui) + 1);
+    }
+
     audio_play(AUD_PENALTY, 1.0f);
 
     /* Reset to the position of the putt, and apply a one-stroke penalty. */
 
-    game_set_pos(ball_p[player], ball_e[player]);
-    score_v[hole][player] += 2;
+    game_set_pos(ball_p[ui], ball_e[ui], ui);
+    score_v[hole][ui] += 2;
 
     /* Cap scores at 12 or par plus 6. */
 
-    if (score_v[hole][player] >= 12 && score_v[hole][player] >= score_v[hole][0] + 6)
+    if (score_v[hole][ui] >= 12 && score_v[hole][ui] >= score_v[hole][0] + 6)
     {
-        score_v[hole][player] = (score_v[hole][0] > 12 - 6) ? score_v[hole][0] + 6 : 12;
-        stat_v[player] = 1;
+        game_ball_inactivate(ui);
+        score_v[hole][ui] = (score_v[hole][0] > 12 - 6) ? score_v[hole][0] + 6 : 12;
+        stat_v[ui] = 1;
         done++;
     }
+}
+
+/*---------------------------------------------------------------------------*/
+
+int hole_state_get(int ui)
+{
+    return state_v[ui];
+}
+
+void hole_state_set(int ui, int val)
+{
+    int i;
+
+    if (ui == BALL_CURRENT)
+        state_v[player] = val;
+    else if (ui == BALL_PARTY)
+        for (i = curr_party(); i > 0; i--)
+            state_v[i] = val;
+    else if (ui == BALL_ALL)
+        for (i = MAXPLY; i > 0; i--)
+            state_v[i] = val;
+    else
+        state_v[ui] = val;
 }
 
 /*---------------------------------------------------------------------------*/
