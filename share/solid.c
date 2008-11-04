@@ -681,7 +681,7 @@ void sol_free(struct s_file *fp)
     if (fp->nv) free(fp->nv);
     if (fp->pv) free(fp->pv);
     if (fp->bv) free(fp->bv);
-    if (fp->hc) free(fp->hv);
+    if (fp->hv) free(fp->hv);
     if (fp->zv) free(fp->zv);
     if (fp->jv) free(fp->jv);
     if (fp->xv) free(fp->xv);
