@@ -53,7 +53,7 @@ static int debug_output = 0;
 #define MAXG    65536
 #define MAXL    4096
 #define MAXN    2048
-#define MAXP    1024
+#define MAXP    2048
 #define MAXB    1024
 #define MAXH    2048
 #define MAXZ    1024
@@ -223,7 +223,7 @@ static void init_file(struct s_file *fp)
  * and fills waiting ints with the proper values.
  */
 
-#define MAXSYM 1024
+#define MAXSYM 2048
 
 static char symv[MAXSYM][MAXSTR];
 static int  valv[MAXSYM];
