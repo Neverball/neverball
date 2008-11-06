@@ -26,6 +26,7 @@
 #include "image.h"
 #include "audio.h"
 #include "solid_gl.h"
+#include "solid_phys.h"
 #include "config.h"
 
 /*---------------------------------------------------------------------------*/

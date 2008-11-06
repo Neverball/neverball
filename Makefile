@@ -142,6 +142,7 @@ BALL_OBJS := \
 	share/image.o       \
 	share/solid.o       \
 	share/solid_gl.o    \
+	share/solid_phys.o  \
 	share/part.o        \
 	share/back.o        \
 	share/geom.o        \
@@ -193,6 +194,7 @@ PUTT_OBJS := \
 	share/image.o       \
 	share/solid.o       \
 	share/solid_gl.o    \
+	share/solid_phys.o  \
 	share/part.o        \
 	share/geom.o        \
 	share/ball.o        \
