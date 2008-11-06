@@ -259,6 +259,9 @@ static void game_draw_swchs(const struct s_file *fp)
 
     for (xi = 0; xi < fp->xc; xi++)
     {
+        if (fp->xv[xi].i)
+            continue;
+
         glPushMatrix();
         {
             glTranslatef(fp->xv[xi].p[0],
