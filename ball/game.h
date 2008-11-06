@@ -34,7 +34,6 @@
 #define RESPONSE    0.05f              /* Input smoothing time               */
 #define ANGLE_BOUND 20.0f              /* Angle limit of floor tilting       */
 #define VIEWR_BOUND 10.0f              /* Maximum rate of view rotation      */
-#define NO_AA       0                  /* Disable Angle Acceleration         */
 
 /*---------------------------------------------------------------------------*/
 
