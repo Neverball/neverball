@@ -1585,28 +1585,3 @@ int sol_swch_test(struct s_file *fp, int ui)
 }
 
 /*---------------------------------------------------------------------------*/
-
-void put_file_state(FILE *fout, struct s_file *fp)
-{
-    /* Write the position and orientation of the ball. */
-
-    put_array(fout, fp->uv[0].p,    3);
-    put_array(fout, fp->uv[0].e[0], 3);
-    put_array(fout, fp->uv[0].e[1], 3);
-}
-
-void get_file_state(FILE *fin, struct s_file *fp)
-{
-    /* Read the position and orientation of the ball. */
-
-    get_array(fin, fp->uv[0].p,    3);
-    get_array(fin, fp->uv[0].e[0], 3);
-    get_array(fin, fp->uv[0].e[1], 3);
-
-    /* Compute the 3rd vector of the ball orientation basis. */
-
-    v_crs(fp->uv[0].e[2], fp->uv[0].e[0], fp->uv[0].e[1]);
-}
-
-/*---------------------------------------------------------------------------*/
-

@@ -338,9 +338,4 @@ struct s_item *sol_item_test(struct s_file *, float *, float);
 
 /*---------------------------------------------------------------------------*/
 
-void put_file_state(FILE *, struct s_file *);
-void get_file_state(FILE *, struct s_file *);
-
-/*---------------------------------------------------------------------------*/
-
 #endif
