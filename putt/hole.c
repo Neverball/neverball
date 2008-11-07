@@ -421,7 +421,7 @@ void hole_state_set(int ui, int val)
         for (i = curr_party(); i > 0; i--)
             state_v[i] = val;
     else if (ui == BALL_ALL)
-        for (i = 1; i < MAXPLY; i++)
+        for (i = MAXPLY; i > 0; i++)
             state_v[i] = val;
     else
         state_v[ui] = val;
