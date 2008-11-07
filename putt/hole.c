@@ -42,7 +42,7 @@ static int player;
 static int count;
 static int done;
 
-static int        state_v[MAXPLY];
+static int        state_v[MAXPLY + 1];
 static int         stat_v[MAXPLY];
 static float       ball_p[MAXPLY][3];
 static float       ball_e[MAXPLY][3][3];
@@ -325,7 +325,6 @@ void hole_goal(int ui)
         ui = player;
         score_v[hole][ui]++;
     }
-
     else
     {
         /* they were knocked in, so set their end state negative meaning goal */
@@ -377,12 +376,11 @@ void hole_stop(void)
 
 void hole_fall(int ui)
 {
-    if (ui == 0)
+    if (ui == BALL_CURRENT)
     {
         ui = player;
         score_v[hole][ui]++;
     }
-
     else
     {
         hole_state_set(ui, game_get_aggressor(ui) + 1);
@@ -423,7 +421,7 @@ void hole_state_set(int ui, int val)
         for (i = curr_party(); i > 0; i--)
             state_v[i] = val;
     else if (ui == BALL_ALL)
-        for (i = MAXPLY; i > 0; i--)
+        for (i = 1; i < MAXPLY; i++)
             state_v[i] = val;
     else
         state_v[ui] = val;

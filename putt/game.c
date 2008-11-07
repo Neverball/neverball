@@ -466,7 +466,7 @@ static int game_update_state(float dt)
 
     if (fp->uv[ball].a && v_len(fp->uv[ball].v) - dt > 0.f)
         c = 1; /* the current ball is in motion */
-    for (ui = 0; ui < fp->uc; ui++)
+    for (ui = 1; ui < fp->uc; ui++)
         if (ui != ball && fp->uv[ui].a && v_len(fp->uv[ui].v) - dt > 0.f)
             m = 1; /* a non-current ball is in motion */
 
@@ -495,7 +495,7 @@ static int game_update_state(float dt)
 
     /* Test for fall-out. */
 
-    for (ui = 0; ui < fp->uc; ui++)
+    for (ui = 1; ui < fp->uc; ui++)
     {
         if (ui != ball && fp->uv[ui].a && fp->uv[ui].p[1] < -10.f)
         {
