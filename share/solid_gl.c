@@ -25,6 +25,7 @@
 #include "image.h"
 #include "base_image.h"
 #include "solid_gl.h"
+#include "solid_phys.h"
 #include "base_config.h"
 #include "lang.h"
 
