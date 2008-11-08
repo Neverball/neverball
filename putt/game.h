@@ -32,10 +32,6 @@
 #define GAME_GOAL 2
 #define GAME_FALL 3
 
-#define JUMP_NONE         0
-#define JUMP_CURR_BALL    1
-#define JUMP_OTHR_BALL    2
-
 #define BALL_CURRENT      -1
 #define BALL_PARTY        -2
 #define BALL_ALL          -3

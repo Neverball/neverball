@@ -29,21 +29,31 @@
 #include "solid_phys.h"
 #include "config.h"
 
+#define TARGET_DISTANCE 0.1f
+#define TARGET_DISTANCE_NEAR 15.f
+#define TARGET_SPEED 4.f
+#define TARGET_ACCELERATION 0.0005f  /* higher value more acceleration */
+#define TARGET_V_FACTOR 10.f
+
 /*---------------------------------------------------------------------------*/
 
-static struct s_file file;
-static int           ball;
+static struct      s_file file;
+static int                ball;
+static int current_view_target;
+static int    last_view_target;
 
 static float view_a;                    /* Ideal view rotation about Y axis  */
 static float view_m;
 static float view_ry;                   /* Angular velocity about Y axis     */
 static float view_dy;                   /* Ideal view distance above ball    */
 static float view_dz;                   /* Ideal view distance behind ball   */
+static float view_target_dt;            /* How far the camera's traveled     */
 
 static float view_c[3];                 /* Current view center               */
 static float view_v[3];                 /* Current view vector               */
 static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view orientation          */
+static float view_vlt[3];               /* Last target's view vector         */
 
 static int   jump_s;                    /* Has ball reached destination?     */
 static int   jump_u;                    /* Which ball is jumping?            */
@@ -84,8 +94,9 @@ void game_init(const char *s)
 {
     jump_s  = 1;
     jump_u  = 0;
-    jump_b  = JUMP_NONE;
+    jump_b  = 0;
     jump_dt = 0.f;
+    view_target_dt = 0.f;
 
     view_init();
     sol_load_gl(&file, config_data(s), config_get_d(CONFIG_TEXTURES),
@@ -108,11 +119,11 @@ static void game_draw_vect_prim(const struct s_file *fp, GLenum mode)
     float z[3];
     float r;
 
-    v_cpy(p, fp->uv[ball].p);
+    v_cpy(p, fp->uv[abs(current_view_target)].p);
     v_cpy(x, view_e[0]);
     v_cpy(z, view_e[2]);
 
-    r = fp->uv[ball].r;
+    r = fp->uv[abs(current_view_target)].r;
 
     glBegin(mode);
     {
@@ -298,9 +309,11 @@ void game_draw(int pose, float t)
 
     int i = 0;
 
-    if (jump_b == JUMP_CURR_BALL)
+    if (jump_b && jump_u == abs(current_view_target))
     {
         fov *= 2.0f * fabsf(jump_dt - 0.5f);
+        current_view_target = last_view_target = abs(current_view_target);
+        v_cpy(view_vlt, view_v);
     }
 
     config_push_persp(fov, 0.1f, FAR_DIST);
@@ -390,6 +403,8 @@ void game_draw(int pose, float t)
 
 void game_update_view(float dt)
 {
+    struct s_ball *up;
+
     const float y[3] = { 0.f, 1.f, 0.f };
 
     float dy;
@@ -397,12 +412,125 @@ void game_update_view(float dt)
     float k;
     float e[3];
     float d[3];
+    float tmp[3];
     float s = 2.f * dt;
+    float l = 1.0e+5f;
+    float pr;
+    int i;
 
     /* Center the view about the ball. */
 
-    v_cpy(view_c, file.uv[ball].p);
-    v_inv(view_v, file.uv[ball].v);
+    up = &file.uv[ball];
+    if (up->a && (!config_get_d(CONFIG_PUTT_COLLISIONS) || v_len(up->v) - dt > 0.0005f))
+    {
+        if (current_view_target == ball)
+        {
+            v_cpy(view_c, up->p);
+            v_inv(view_v, up->v);
+        }
+        else
+        {
+            current_view_target = -1 * ball;  /* en route */
+
+            v_sub(d, file.uv[last_view_target >= 0 ? last_view_target : 0].p, view_c);
+            if (last_view_target < 0 || v_len(d) > file.uv[last_view_target].r * TARGET_DISTANCE_NEAR)
+            {
+                last_view_target = -1 * ball;
+                v_sub(tmp, up->p, view_c);
+                v_mad(view_c, view_c, tmp, (view_target_dt += dt * TARGET_SPEED * TARGET_ACCELERATION));
+                v_sub(tmp, file.uv[last_view_target].p, view_c);
+                pr = v_len(tmp);
+                v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
+                pr = v_len(tmp) / pr;
+                v_sub(tmp, view_vlt, file.uv[current_view_target].v);
+                v_mad(view_v, view_vlt, tmp, pr);
+            }
+            else
+            {
+                v_sub(tmp, up->p, view_c);
+                v_mad(view_c, view_c, tmp, dt * TARGET_SPEED);
+                v_sub(tmp, file.uv[last_view_target].p, view_c);
+                pr = v_len(tmp);
+                v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
+                pr = v_len(tmp) / pr;
+                v_sub(tmp, view_vlt, file.uv[current_view_target].v);
+                v_mad(view_v, view_vlt, tmp, pr);
+            }
+
+            v_sub(d, up->p, view_c);
+            if (v_len(d) < up->r * TARGET_DISTANCE)
+            {
+                current_view_target = last_view_target = ball;
+                view_target_dt = 0.f;
+                v_cpy(view_vlt, view_v);
+            }
+        }
+    }
+    else
+    {
+        /*
+         * the current ball has stopped moving, so use the nearest active,
+         * moving ball if there is one
+         */
+
+        for (i = 1; i < file.uc; i++)
+        {
+            up = &file.uv[i];
+
+            if (!up->a)
+                continue;
+
+            if (v_len(up->v) - dt <= 0.0005f)
+                continue;
+
+            v_sub(d, up->p, view_c);
+            if (v_len(d) < l)
+            {
+                if (current_view_target == i)
+                {
+                    v_cpy(view_c, up->p);
+                    v_inv(view_v, up->v);
+                }
+                else
+                {
+                    current_view_target = -1 * i;  /* en route */
+
+                    v_sub(d, file.uv[last_view_target >= 0 ? last_view_target : 0].p, view_c);
+                    if (last_view_target < 0 || v_len(d) > file.uv[last_view_target].r * TARGET_DISTANCE_NEAR)
+                    {
+                        last_view_target = -1 * i;
+                        v_sub(tmp, up->p, view_c);
+                        v_mad(view_c, view_c, tmp, (view_target_dt += dt * TARGET_SPEED * TARGET_ACCELERATION));
+                        v_sub(tmp, file.uv[last_view_target].p, view_c);
+                        pr = v_len(tmp);
+                        v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
+                        pr = v_len(tmp) / pr;
+                        v_sub(tmp, view_vlt, file.uv[current_view_target].v);
+                        v_mad(view_v, view_vlt, tmp, pr);
+                    }
+                    else
+                    {
+                        v_sub(tmp, up->p, view_c);
+                        v_mad(view_c, view_c, tmp, dt * TARGET_SPEED);
+                        v_sub(tmp, file.uv[last_view_target].p, view_c);
+                        pr = v_len(tmp);
+                        v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
+                        pr = v_len(tmp) / pr;
+                        v_sub(tmp, view_vlt, file.uv[current_view_target].v);
+                        v_mad(view_v, view_vlt, tmp, pr);
+                    }
+
+                    v_sub(d, up->p, view_c);
+                    if (v_len(d) < up->r * TARGET_DISTANCE)
+                    {
+                        current_view_target = last_view_target = i;
+                        view_target_dt = 0.f;
+                        v_cpy(view_vlt, view_v);
+                    }
+                }
+            }
+        }
+    }
 
     switch (config_get_d(CONFIG_CAMERA))
     {
@@ -481,17 +609,9 @@ static int game_update_state(float dt)
 
     /* Test for a jump. */
 
-    if (jump_b == JUMP_NONE && (u = sol_jump_test(fp, jump_p)))
+    if (!jump_b && (u = sol_jump_test(fp, jump_p)))
     {
-        if (u - 1 == ball)
-        {
-            jump_b = JUMP_CURR_BALL;
-        }
-        else if (u > 0)
-        {
-            jump_b = JUMP_OTHR_BALL;
-        }
-
+        jump_b = 1;
         jump_u = u - 1;
 
         audio_play(AUD_JUMP, 1.f);
@@ -605,7 +725,7 @@ int game_step(const float g[3], float dt)
     s = (7.f * s + dt) / 8.f;
     t = s;
 
-    if( jump_b == JUMP_NONE ) /* one ball at a time */
+    if( !jump_b ) /* one ball at a time */
     {
         /* Run the sim. */
 
@@ -648,7 +768,7 @@ int game_step(const float g[3], float dt)
         if (1.f  < jump_dt)
         {
             jump_dt = 0.f;
-            jump_b  = JUMP_NONE;
+            jump_b  = 0;
             jump_s  = 1;
         }
     }
@@ -665,9 +785,9 @@ void game_putt(void)
      * friction too early and stopping the ball prematurely.
      */
 
-    file.uv[ball].v[0] = -4.f * view_e[2][0] * view_m;
-    file.uv[ball].v[1] = -4.f * view_e[2][1] * view_m + BALL_FUDGE;
-    file.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
+    file.uv[abs(current_view_target)].v[0] = -4.f * view_e[2][0] * view_m;
+    file.uv[abs(current_view_target)].v[1] = -4.f * view_e[2][1] * view_m + BALL_FUDGE;
+    file.uv[abs(current_view_target)].v[2] = -4.f * view_e[2][2] * view_m;
 
     view_m = 0.f;
 }
@@ -826,7 +946,9 @@ void game_ball(int i)
 {
     int ui;
 
-    ball = i;
+    ball = current_view_target = last_view_target = i;
+    view_target_dt = 0.f;
+    v_cpy(view_vlt, view_v);
 
     for (ui = 0; ui < file.uc; ui++)
     {

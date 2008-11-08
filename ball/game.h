@@ -75,10 +75,6 @@ int input_get(FILE *);
 #define GAME_GOAL 2
 #define GAME_FALL 3
 
-#define JUMP_NONE      0
-#define JUMP_CURR_BALL 1
-#define JUMP_OTHR_BALL 2
-
 const char *status_to_str(int);
 
 /*---------------------------------------------------------------------------*/

@@ -345,7 +345,7 @@ int game_init(const char *file_name, int t, int e)
 
     /* Initialize jump and goal states. */
 
-    jump_b = JUMP_NONE;
+    jump_b = 0;
     jump_s = 1;
     jump_u = jump_dt = 0;
 
@@ -816,7 +816,7 @@ void game_draw(int pose, float t)
 {
     float fov = view_fov;
 
-    if (jump_b == JUMP_CURR_BALL)
+    if (jump_b)
     {
         fov *= 2.0f * fabsf(jump_dt - 0.5f);
     }
@@ -928,7 +928,7 @@ static void game_update_grav(float h[3], const float g[3])
 
 static void game_update_view(float dt)
 {
-    float dc = view_dc * (jump_b == JUMP_CURR_BALL ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
+    float dc = view_dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float da = input_get_r() * dt * 90.0f;
     float k;
 
@@ -1051,17 +1051,9 @@ static int game_update_state(int bt)
 
     /* Test for a jump. */
 
-    if (jump_b == JUMP_NONE && (u = sol_jump_test(fp, jump_p)))
+    if (!jump_b && (u = sol_jump_test(fp, jump_p)))
     {
-        if (u - 1 == 0)
-        {
-            jump_b = JUMP_CURR_BALL;
-        }
-        else if (u > 0)
-        {
-            jump_b = JUMP_OTHR_BALL;
-        }
-
+        jump_b = 1;
         jump_u = u - 1;
 
         audio_play(AUD_JUMP, 1.f);
@@ -1115,7 +1107,7 @@ int game_step(const float g[3], float dt, int bt)
         game_update_grav(h, g);
         part_step(h, dt);
 
-        if (jump_b == JUMP_NONE)
+        if (!jump_b)
         {
             /* Run the sim. */
 
@@ -1154,7 +1146,7 @@ int game_step(const float g[3], float dt, int bt)
             if (1.f  < jump_dt)
             {
                 jump_dt = 0.f;
-                jump_b  = JUMP_NONE;
+                jump_b  = 0;
                 jump_s  = 1;
             }
         }

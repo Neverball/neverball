@@ -392,12 +392,12 @@ void hole_fall(int ui)
 
     game_set_pos(ball_p[ui], ball_e[ui], ui);
     score_v[hole][ui]++;
+    game_ball_inactivate(ui);
 
     /* Cap scores at 12 or par plus 6. */
 
     if (score_v[hole][ui] >= 12 && score_v[hole][ui] >= score_v[hole][0] + 6)
     {
-        game_ball_inactivate(ui);
         score_v[hole][ui] = (score_v[hole][0] > 12 - 6) ? score_v[hole][0] + 6 : 12;
         stat_v[ui] = 1;
         done++;

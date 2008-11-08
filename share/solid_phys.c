@@ -1032,9 +1032,9 @@ int sol_goal_test(struct s_file *fp, float *p, int ui)
 }
 
 /*
- * Test and process the event a ball enters a jump.
- * Return 0 if no ball enters a jump, else returns
- * 0.  p gets set to the destination.
+ * Test and process the  event a ball  enters a jump.
+ * Return 0 if no ball  enters a jump,  else returns
+ * the ball's ui + 1.  p gets set to the destination.
  */
 int sol_jump_test(struct s_file *fp, float *p)
 {
