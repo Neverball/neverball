@@ -131,6 +131,12 @@ void config_init(void)
     config_set_d(CONFIG_SCREENSHOT,           DEFAULT_SCREENSHOT);
     config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
     config_set_d(CONFIG_PUTT_COLLISIONS,      DEFAULT_PUTT_COLLISIONS);
+    config_set_d(CONFIG_DYNAMIC_CAMERA,       DEFAULT_DYNAMIC_CAMERA);
+    config_set_s(CONFIG_CAMERA_SPEED,         DEFAULT_CAMERA_SPEED);
+    config_set_s(CONFIG_CAMERA_DISTANCE,      DEFAULT_CAMERA_DISTANCE);
+    config_set_s(CONFIG_CAMERA_DISTANCE_NEAR, DEFAULT_CAMERA_DISTANCE_NEAR);
+    config_set_s(CONFIG_CAMERA_ACCELERATION,  DEFAULT_CAMERA_ACCELERATION);
+    config_set_s(CONFIG_CAMERA_ACCELERATION_NEAR, DEFAULT_CAMERA_ACCELERATION_NEAR);
 }
 
 /*
@@ -330,6 +336,19 @@ void config_load(void)
                     config_set_d(CONFIG_LOCK_GOALS, atoi(val));
                 else if (strcmp(key, "putt_collisions") == 0)
                     config_set_d(CONFIG_PUTT_COLLISIONS, atoi(val));
+                else if (strcmp(key, "dynamic_camera") == 0)
+                    config_set_d(CONFIG_DYNAMIC_CAMERA, atoi(val));
+
+                else if (strcmp(key, "camera_speed") == 0)
+                    config_set_s(CONFIG_CAMERA_SPEED, val);
+                else if (strcmp(key, "camera_distance") == 0)
+                    config_set_s(CONFIG_CAMERA_DISTANCE, val);
+                else if (strcmp(key, "camera_distance_near") == 0)
+                    config_set_s(CONFIG_CAMERA_DISTANCE_NEAR, val);
+                else if (strcmp(key, "camera_acceleration") == 0)
+                    config_set_s(CONFIG_CAMERA_ACCELERATION, val);
+                else if (strcmp(key, "camera_acceleration_near") == 0)
+                    config_set_s(CONFIG_CAMERA_ACCELERATION_NEAR, val);
             }
 
             free(line);
@@ -468,6 +487,13 @@ void config_save(void)
         fprintf(fp, "screenshot           %d\n", option_d[CONFIG_SCREENSHOT]);
         fprintf(fp, "lock_goals           %d\n", option_d[CONFIG_LOCK_GOALS]);
         fprintf(fp, "putt_collisions      %d\n", option_d[CONFIG_PUTT_COLLISIONS]);
+        fprintf(fp, "dynamic_camera       %d\n", option_d[CONFIG_DYNAMIC_CAMERA]);
+
+        fprintf(fp, "camera_speed         %s\n", option_s[CONFIG_CAMERA_SPEED]);
+        fprintf(fp, "camera_distance      %s\n", option_s[CONFIG_CAMERA_DISTANCE]);
+        fprintf(fp, "camera_distance_near %s\n", option_s[CONFIG_CAMERA_DISTANCE_NEAR]);
+        fprintf(fp, "camera_acceleration  %s\n",  option_s[CONFIG_CAMERA_ACCELERATION]);
+        fprintf(fp, "camera_acceleration_near %s\n", option_s[CONFIG_CAMERA_ACCELERATION_NEAR]);
 
         if (config_cheat())
             fprintf(fp, "cheat                %d\n", option_d[CONFIG_CHEAT]);

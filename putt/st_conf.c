@@ -40,7 +40,10 @@ enum {
     CONF_BACK,
     CONF_RESOL,
     CONF_PCLON,
-    CONF_PCLOF
+    CONF_PCLOF,
+    CONF_DCSLW,
+    CONF_DCFST,
+    CONF_DCOFF
 };
 
 static int music_id[11];
@@ -126,6 +129,34 @@ static int conf_action(int i)
         goto_state(&st_conf);
         break;
 
+    case CONF_DCSLW:
+        goto_state(&st_null);
+        config_set_s(CONFIG_CAMERA_SPEED, CAMERA_SPEED_SLOW);
+        config_set_s(CONFIG_CAMERA_DISTANCE, CAMERA_DISTANCE_SLOW);
+        config_set_s(CONFIG_CAMERA_DISTANCE_NEAR, CAMERA_DISTANCE_NEAR_SLOW);
+        config_set_s(CONFIG_CAMERA_ACCELERATION, CAMERA_ACCELERATION_SLOW);
+        config_set_s(CONFIG_CAMERA_ACCELERATION_NEAR, CAMERA_ACCELERATION_NEAR_SLOW);
+        config_set_d(CONFIG_DYNAMIC_CAMERA, 1);
+        goto_state(&st_conf);
+        break;
+
+    case CONF_DCFST:
+        goto_state(&st_null);
+        config_set_s(CONFIG_CAMERA_SPEED, CAMERA_SPEED_FAST);
+        config_set_s(CONFIG_CAMERA_DISTANCE, CAMERA_DISTANCE_FAST);
+        config_set_s(CONFIG_CAMERA_DISTANCE_NEAR, CAMERA_DISTANCE_NEAR_FAST);
+        config_set_s(CONFIG_CAMERA_ACCELERATION, CAMERA_ACCELERATION_FAST);
+        config_set_s(CONFIG_CAMERA_ACCELERATION_NEAR, CAMERA_ACCELERATION_NEAR_FAST);
+        config_set_d(CONFIG_DYNAMIC_CAMERA, 1);
+        goto_state(&st_conf);
+        break;
+
+    case CONF_DCOFF:
+        goto_state(&st_null);
+        config_set_d(CONFIG_DYNAMIC_CAMERA, 0);
+        goto_state(&st_conf);
+        break;
+
     default:
         if (100 <= i && i <= 110)
         {
@@ -164,6 +195,9 @@ static int conf_enter(void)
 
     if ((id = gui_vstack(0)))
     {
+        char camera_speed[MAXSTR], camera_distance[MAXSTR], camera_distance_near[MAXSTR], camera_acceleration[MAXSTR], camera_acceleration_near[MAXSTR];
+        char resolution[20];
+
         int f = config_get_d(CONFIG_FULLSCREEN);
         int c = config_get_d(CONFIG_PUTT_COLLISIONS);
         int t = config_get_d(CONFIG_TEXTURES);
@@ -171,8 +205,28 @@ static int conf_enter(void)
         int h = config_get_d(CONFIG_SHADOW);
         int s = config_get_d(CONFIG_SOUND_VOLUME);
         int m = config_get_d(CONFIG_MUSIC_VOLUME);
+        int a = 0;
 
-        char resolution[20];
+        config_get_s(CONFIG_CAMERA_SPEED, camera_speed, MAXSTR);
+        config_get_s(CONFIG_CAMERA_DISTANCE, camera_distance, MAXSTR);
+        config_get_s(CONFIG_CAMERA_DISTANCE_NEAR, camera_distance_near, MAXSTR);
+        config_get_s(CONFIG_CAMERA_ACCELERATION, camera_acceleration, MAXSTR);
+        config_get_s(CONFIG_CAMERA_ACCELERATION_NEAR, camera_acceleration_near, MAXSTR);
+
+        if (!config_get_d(CONFIG_DYNAMIC_CAMERA))
+            a = 2;
+        else if (!strcmp(camera_speed, CAMERA_SPEED_FAST) &&
+            !strcmp(camera_distance, CAMERA_DISTANCE_FAST) &&
+            !strcmp(camera_distance_near, CAMERA_DISTANCE_NEAR_FAST) &&
+            !strcmp(camera_acceleration, CAMERA_ACCELERATION_FAST) &&
+            !strcmp(camera_acceleration_near, CAMERA_ACCELERATION_NEAR_FAST))
+            a = 0;
+        else if (!strcmp(camera_speed, CAMERA_SPEED_SLOW) &&
+            !strcmp(camera_distance, CAMERA_DISTANCE_SLOW) &&
+            !strcmp(camera_distance_near, CAMERA_DISTANCE_NEAR_SLOW) &&
+            !strcmp(camera_acceleration, CAMERA_ACCELERATION_SLOW) &&
+            !strcmp(camera_acceleration_near, CAMERA_ACCELERATION_NEAR_SLOW))
+            a = 1;
 
         sprintf(resolution, "%d x %d",
                 config_get_d(CONFIG_WIDTH),
@@ -213,6 +267,16 @@ static int conf_enter(void)
             gui_state(kd, _("On"),  GUI_SML, CONF_PCLON, (c == 1));
 
             gui_label(jd, _("Ball Collisions"), GUI_SML, GUI_ALL, 0, 0);
+        }
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            gui_state(kd, _("Fast"),  GUI_SML, CONF_DCFST, (a == 0));
+            gui_state(kd, _("Slow"),  GUI_SML, CONF_DCSLW, (a == 1));
+            gui_state(kd, _("Off"),   GUI_SML, CONF_DCOFF, (a == 2));
+
+            gui_label(jd, _("Dynamic Camera"), GUI_SML, GUI_ALL, 0, 0);
         }
 
         gui_space(id);

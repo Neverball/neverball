@@ -29,12 +29,6 @@
 #include "solid_phys.h"
 #include "config.h"
 
-#define TARGET_DISTANCE 0.1f
-#define TARGET_DISTANCE_NEAR 6.5f
-#define TARGET_SPEED 4.f
-#define TARGET_ACCELERATION 0.0005f  /* higher value more acceleration */
-#define TARGET_ACCELERATION_NEAR 0.0005f
-
 /*---------------------------------------------------------------------------*/
 
 static struct      s_file file;
@@ -405,6 +399,8 @@ void game_update_view(float dt)
 
     const float y[3] = { 0.f, 1.f, 0.f };
 
+    char  config[MAXSTR];
+
     float dy;
     float dz;
     float k;
@@ -414,91 +410,50 @@ void game_update_view(float dt)
     float s = 2.f * dt;
     float l = 1.0e+5f;
     float pr;
+    float speed;
+    float distance;
+    float distance_near;
+    float acceleration;
+    float acceleration_near;
     int i, t = 0;
+
+    config_get_s(CONFIG_CAMERA_SPEED, config, MAXSTR);
+    speed = atof(config);
+    config_get_s(CONFIG_CAMERA_DISTANCE, config, MAXSTR);
+    distance = atof(config);
+    config_get_s(CONFIG_CAMERA_DISTANCE_NEAR, config, MAXSTR);
+    distance_near = atof(config);
+    config_get_s(CONFIG_CAMERA_ACCELERATION, config, MAXSTR);
+    acceleration = atof(config);
+    config_get_s(CONFIG_CAMERA_ACCELERATION_NEAR, config, MAXSTR);
+    acceleration_near = atof(config);
 
     /* Center the view about the ball. */
 
-    up = &file.uv[ball];
-    if (up->a && (!config_get_d(CONFIG_PUTT_COLLISIONS) || v_len(up->v) - dt > 0.0005f))
+    if (!config_get_d(CONFIG_DYNAMIC_CAMERA))
     {
-        if (current_view_target == ball)
-        {
-            v_cpy(view_c, up->p);
-            v_inv(view_v, up->v);
-        }
-        else
-        {
-            current_view_target = -1 * ball;  /* en route */
-
-            v_sub(d, file.uv[last_view_target >= 0 ? last_view_target : 0].p, view_c);
-            if (v_len(d) > file.uv[last_view_target].r * TARGET_DISTANCE_NEAR)
-            {
-                v_sub(tmp, up->p, view_c);
-                v_mad(view_c, view_c, tmp, (view_target_dt += dt * TARGET_SPEED * TARGET_ACCELERATION));
-                v_sub(tmp, file.uv[last_view_target].p, view_c);
-                pr = v_len(tmp);
-                v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
-                pr = v_len(tmp) / pr;
-                v_inv(view_v, up->v);
-            }
-            else
-            {
-                v_sub(tmp, up->p, view_c);
-                v_mad(view_c, view_c, tmp, (view_target_dt += dt * TARGET_ACCELERATION_NEAR) > TARGET_SPEED ? (view_target_dt = dt * TARGET_SPEED) : (view_target_dt));
-                v_sub(tmp, file.uv[last_view_target].p, view_c);
-                pr = v_len(tmp);
-                v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
-                pr = v_len(tmp) / pr;
-                v_inv(view_v, up->v);
-            }
-
-            v_sub(d, up->p, view_c);
-            if (v_len(d) < up->r * TARGET_DISTANCE)
-            {
-                current_view_target = last_view_target = ball;
-                view_target_dt = 0.f;
-            }
-        }
+        v_cpy(view_c, file.uv[ball].p);
+        v_inv(view_v, file.uv[ball].v);
     }
     else
     {
-        /*
-         * the current ball has stopped moving, so use the nearest active,
-         * moving ball if there is one
-         */
-
-        for (i = 1; i < file.uc; i++)
+        up = &file.uv[ball];
+        if (up->a && (!config_get_d(CONFIG_PUTT_COLLISIONS) || v_len(up->v) - dt > 0.0005f || sol_goal_test(&file, NULL, ball)))
         {
-            up = &file.uv[i];
-
-            if (!up->a)
-                continue;
-
-            if (v_len(up->v) - dt <= 0.0005f)
-                continue;
-
-            v_sub(d, up->p, view_c);
-            if (v_len(d) < l)
-            {
-                t = i;
-            }
-        }
-        if (t)
-        {
-            up = &file.uv[abs(t)];
-
-            if (t == current_view_target)  /* following target */
+            if (current_view_target == ball)
             {
                 v_cpy(view_c, up->p);
                 v_inv(view_v, up->v);
             }
-            else if (t == -1 * current_view_target)  /* still chasing target */
+            else
             {
+                current_view_target = -1 * ball;  /* en route */
+
                 v_sub(d, file.uv[last_view_target >= 0 ? last_view_target : 0].p, view_c);
-                if (v_len(d) > file.uv[last_view_target].r * TARGET_DISTANCE_NEAR)
+                if (v_len(d) > file.uv[last_view_target].r * distance_near)
                 {
                     v_sub(tmp, up->p, view_c);
-                    v_mad(view_c, view_c, tmp, (view_target_dt += dt * TARGET_SPEED * TARGET_ACCELERATION));
+                    v_mad(view_c, view_c, tmp, (view_target_dt += dt * speed * acceleration));
                     v_sub(tmp, file.uv[last_view_target].p, view_c);
                     pr = v_len(tmp);
                     v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
@@ -508,7 +463,7 @@ void game_update_view(float dt)
                 else
                 {
                     v_sub(tmp, up->p, view_c);
-                    v_mad(view_c, view_c, tmp, (view_target_dt += dt * TARGET_ACCELERATION_NEAR) > TARGET_SPEED ? (view_target_dt = dt * TARGET_SPEED) : (view_target_dt));
+                    v_mad(view_c, view_c, tmp, (view_target_dt += dt * acceleration_near) > speed ? (view_target_dt = dt * speed) : (view_target_dt));
                     v_sub(tmp, file.uv[last_view_target].p, view_c);
                     pr = v_len(tmp);
                     v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
@@ -517,17 +472,82 @@ void game_update_view(float dt)
                 }
 
                 v_sub(d, up->p, view_c);
-                if (v_len(d) < up->r * TARGET_DISTANCE)
+                if (v_len(d) < up->r * distance)
                 {
                     current_view_target = last_view_target = ball;
                     view_target_dt = 0.f;
                 }
             }
-            else  /* start chasing new target */
+        }
+        else
+        {
+            /*
+             * the current ball has stopped moving, so use the nearest active,
+             * moving ball if there is one
+             */
+
+            for (i = 1; i < file.uc; i++)
             {
-                last_view_target = abs(current_view_target);
-                current_view_target = t * -1;
-                view_target_dt = 0.f;
+                up = &file.uv[i];
+
+                if (!up->a)
+                    continue;
+
+                if (v_len(up->v) - dt <= 0.0005f)
+                    continue;
+
+                v_sub(d, up->p, view_c);
+                if (v_len(d) < l || sol_goal_test(&file, NULL, i))
+                {
+                    t = i;
+                }
+            }
+            if (t)
+            {
+                up = &file.uv[abs(t)];
+
+                if (t == current_view_target)  /* following target */
+                {
+                    v_cpy(view_c, up->p);
+                    v_inv(view_v, up->v);
+                }
+                else if (t == -1 * current_view_target)  /* still chasing target */
+                {
+                    v_sub(d, file.uv[last_view_target >= 0 ? last_view_target : 0].p, view_c);
+                    if (v_len(d) > file.uv[last_view_target].r * distance_near)
+                    {
+                        v_sub(tmp, up->p, view_c);
+                        v_mad(view_c, view_c, tmp, (view_target_dt += dt * speed * acceleration));
+                        v_sub(tmp, file.uv[last_view_target].p, view_c);
+                        pr = v_len(tmp);
+                        v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
+                        pr = v_len(tmp) / pr;
+                        v_inv(view_v, up->v);
+                    }
+                    else
+                    {
+                        v_sub(tmp, up->p, view_c);
+                        v_mad(view_c, view_c, tmp, (view_target_dt += dt * acceleration_near) > speed ? (view_target_dt = dt * speed) : (view_target_dt));
+                        v_sub(tmp, file.uv[last_view_target].p, view_c);
+                        pr = v_len(tmp);
+                        v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
+                        pr = v_len(tmp) / pr;
+                        v_inv(view_v, up->v);
+                    }
+
+                    v_sub(d, up->p, view_c);
+                    if (v_len(d) < up->r * distance)
+                    {
+                        current_view_target = last_view_target = ball;
+                        view_target_dt = 0.f;
+                    }
+                }
+                else  /* start chasing new target */
+                {
+                    last_view_target = abs(current_view_target);
+                    current_view_target = t * -1;
+                    view_target_dt = 0.f;
+                }
             }
         }
     }
