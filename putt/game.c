@@ -30,10 +30,10 @@
 #include "config.h"
 
 #define TARGET_DISTANCE 0.1f
-#define TARGET_DISTANCE_NEAR 15.f
+#define TARGET_DISTANCE_NEAR 6.5f
 #define TARGET_SPEED 4.f
 #define TARGET_ACCELERATION 0.0005f  /* higher value more acceleration */
-#define TARGET_V_FACTOR 10.f
+#define TARGET_ACCELERATION_NEAR 0.0005f
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,7 +53,6 @@ static float view_c[3];                 /* Current view center               */
 static float view_v[3];                 /* Current view vector               */
 static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view orientation          */
-static float view_vlt[3];               /* Last target's view vector         */
 
 static int   jump_s;                    /* Has ball reached destination?     */
 static int   jump_u;                    /* Which ball is jumping?            */
@@ -313,7 +312,6 @@ void game_draw(int pose, float t)
     {
         fov *= 2.0f * fabsf(jump_dt - 0.5f);
         current_view_target = last_view_target = abs(current_view_target);
-        v_cpy(view_vlt, view_v);
     }
 
     config_push_persp(fov, 0.1f, FAR_DIST);
@@ -416,7 +414,7 @@ void game_update_view(float dt)
     float s = 2.f * dt;
     float l = 1.0e+5f;
     float pr;
-    int i;
+    int i, t = 0;
 
     /* Center the view about the ball. */
 
@@ -433,28 +431,25 @@ void game_update_view(float dt)
             current_view_target = -1 * ball;  /* en route */
 
             v_sub(d, file.uv[last_view_target >= 0 ? last_view_target : 0].p, view_c);
-            if (last_view_target < 0 || v_len(d) > file.uv[last_view_target].r * TARGET_DISTANCE_NEAR)
+            if (v_len(d) > file.uv[last_view_target].r * TARGET_DISTANCE_NEAR)
             {
-                last_view_target = -1 * ball;
                 v_sub(tmp, up->p, view_c);
                 v_mad(view_c, view_c, tmp, (view_target_dt += dt * TARGET_SPEED * TARGET_ACCELERATION));
                 v_sub(tmp, file.uv[last_view_target].p, view_c);
                 pr = v_len(tmp);
                 v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
                 pr = v_len(tmp) / pr;
-                v_sub(tmp, view_vlt, file.uv[current_view_target].v);
-                v_mad(view_v, view_vlt, tmp, pr);
+                v_inv(view_v, up->v);
             }
             else
             {
                 v_sub(tmp, up->p, view_c);
-                v_mad(view_c, view_c, tmp, dt * TARGET_SPEED);
+                v_mad(view_c, view_c, tmp, (view_target_dt += dt * TARGET_ACCELERATION_NEAR) > TARGET_SPEED ? (view_target_dt = dt * TARGET_SPEED) : (view_target_dt));
                 v_sub(tmp, file.uv[last_view_target].p, view_c);
                 pr = v_len(tmp);
                 v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
                 pr = v_len(tmp) / pr;
-                v_sub(tmp, view_vlt, file.uv[current_view_target].v);
-                v_mad(view_v, view_vlt, tmp, pr);
+                v_inv(view_v, up->v);
             }
 
             v_sub(d, up->p, view_c);
@@ -462,7 +457,6 @@ void game_update_view(float dt)
             {
                 current_view_target = last_view_target = ball;
                 view_target_dt = 0.f;
-                v_cpy(view_vlt, view_v);
             }
         }
     }
@@ -486,48 +480,54 @@ void game_update_view(float dt)
             v_sub(d, up->p, view_c);
             if (v_len(d) < l)
             {
-                if (current_view_target == i)
+                t = i;
+            }
+        }
+        if (t)
+        {
+            up = &file.uv[abs(t)];
+
+            if (t == current_view_target)  /* following target */
+            {
+                v_cpy(view_c, up->p);
+                v_inv(view_v, up->v);
+            }
+            else if (t == -1 * current_view_target)  /* still chasing target */
+            {
+                v_sub(d, file.uv[last_view_target >= 0 ? last_view_target : 0].p, view_c);
+                if (v_len(d) > file.uv[last_view_target].r * TARGET_DISTANCE_NEAR)
                 {
-                    v_cpy(view_c, up->p);
+                    v_sub(tmp, up->p, view_c);
+                    v_mad(view_c, view_c, tmp, (view_target_dt += dt * TARGET_SPEED * TARGET_ACCELERATION));
+                    v_sub(tmp, file.uv[last_view_target].p, view_c);
+                    pr = v_len(tmp);
+                    v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
+                    pr = v_len(tmp) / pr;
                     v_inv(view_v, up->v);
                 }
                 else
                 {
-                    current_view_target = -1 * i;  /* en route */
-
-                    v_sub(d, file.uv[last_view_target >= 0 ? last_view_target : 0].p, view_c);
-                    if (last_view_target < 0 || v_len(d) > file.uv[last_view_target].r * TARGET_DISTANCE_NEAR)
-                    {
-                        last_view_target = -1 * i;
-                        v_sub(tmp, up->p, view_c);
-                        v_mad(view_c, view_c, tmp, (view_target_dt += dt * TARGET_SPEED * TARGET_ACCELERATION));
-                        v_sub(tmp, file.uv[last_view_target].p, view_c);
-                        pr = v_len(tmp);
-                        v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
-                        pr = v_len(tmp) / pr;
-                        v_sub(tmp, view_vlt, file.uv[current_view_target].v);
-                        v_mad(view_v, view_vlt, tmp, pr);
-                    }
-                    else
-                    {
-                        v_sub(tmp, up->p, view_c);
-                        v_mad(view_c, view_c, tmp, dt * TARGET_SPEED);
-                        v_sub(tmp, file.uv[last_view_target].p, view_c);
-                        pr = v_len(tmp);
-                        v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
-                        pr = v_len(tmp) / pr;
-                        v_sub(tmp, view_vlt, file.uv[current_view_target].v);
-                        v_mad(view_v, view_vlt, tmp, pr);
-                    }
-
-                    v_sub(d, up->p, view_c);
-                    if (v_len(d) < up->r * TARGET_DISTANCE)
-                    {
-                        current_view_target = last_view_target = i;
-                        view_target_dt = 0.f;
-                        v_cpy(view_vlt, view_v);
-                    }
+                    v_sub(tmp, up->p, view_c);
+                    v_mad(view_c, view_c, tmp, (view_target_dt += dt * TARGET_ACCELERATION_NEAR) > TARGET_SPEED ? (view_target_dt = dt * TARGET_SPEED) : (view_target_dt));
+                    v_sub(tmp, file.uv[last_view_target].p, view_c);
+                    pr = v_len(tmp);
+                    v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
+                    pr = v_len(tmp) / pr;
+                    v_inv(view_v, up->v);
                 }
+
+                v_sub(d, up->p, view_c);
+                if (v_len(d) < up->r * TARGET_DISTANCE)
+                {
+                    current_view_target = last_view_target = ball;
+                    view_target_dt = 0.f;
+                }
+            }
+            else  /* start chasing new target */
+            {
+                last_view_target = abs(current_view_target);
+                current_view_target = t * -1;
+                view_target_dt = 0.f;
             }
         }
     }
@@ -948,7 +948,6 @@ void game_ball(int i)
 
     ball = current_view_target = last_view_target = i;
     view_target_dt = 0.f;
-    v_cpy(view_vlt, view_v);
 
     for (ui = 0; ui < file.uc; ui++)
     {
