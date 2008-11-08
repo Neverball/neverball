@@ -391,7 +391,7 @@ void hole_fall(int ui)
     /* Reset to the position of the putt, and apply a one-stroke penalty. */
 
     game_set_pos(ball_p[ui], ball_e[ui], ui);
-    score_v[hole][ui] += 2;
+    score_v[hole][ui]++;
 
     /* Cap scores at 12 or par plus 6. */
 

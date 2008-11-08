@@ -536,7 +536,7 @@ static int game_update_state(float dt)
 
             v_sub(d, up->p, u2p->p);
 
-            if (v_len(d) < up->r + u2p->r)
+            if (v_len(d) * 1.1f < up->r + u2p->r)
             {
                 if(i == ball)
                     game_ball_inactivate(j);
@@ -557,8 +557,7 @@ static int game_update_state(float dt)
         }
     }
 
-    /*if (!m && !c && t > 1.f)*/
-    if (!m && !c)
+    if (!m && !c && t > 1.f)
     {
         t = 0.f;
 
