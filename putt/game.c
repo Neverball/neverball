@@ -41,7 +41,7 @@ static float view_m;
 static float view_ry;                   /* Angular velocity about Y axis     */
 static float view_dy;                   /* Ideal view distance above ball    */
 static float view_dz;                   /* Ideal view distance behind ball   */
-static float view_target_dt;            /* How far the camera's traveled     */
+static float view_target_dt;            /* How far the camera traveled       */
 
 static float view_c[3];                 /* Current view center               */
 static float view_v[3];                 /* Current view vector               */
@@ -415,7 +415,9 @@ void game_update_view(float dt)
     float distance_near;
     float acceleration;
     float acceleration_near;
-    int i, t = 0;
+    float pi;
+    int   t = 0;
+    int   i, j;
 
     config_get_s(CONFIG_CAMERA_SPEED, config, MAXSTR);
     speed = atof(config);
@@ -458,7 +460,16 @@ void game_update_view(float dt)
                     pr = v_len(tmp);
                     v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
                     pr = v_len(tmp) / pr;
-                    v_inv(view_v, up->v);
+                    for (pi = 0.f; pi <= 1.1f; pi += 0.25f)
+                    {
+                        if( pr > pi )
+                        {
+                            v_inv(tmp, up->v);
+                            for (i = 0; i < 16; i++)
+                                v_mid(tmp, view_v, tmp);
+                            v_mid(view_v, view_v, tmp);
+                        }
+                    }
                 }
                 else
                 {
@@ -468,7 +479,16 @@ void game_update_view(float dt)
                     pr = v_len(tmp);
                     v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
                     pr = v_len(tmp) / pr;
-                    v_inv(view_v, up->v);
+                    for (pi = 0.f; pi <= 1.1f; pi += 0.25f)
+                    {
+                        if( pr > pi )
+                        {
+                            v_inv(tmp, up->v);
+                            for (i = 0; i < 16; i++)
+                                v_mid(tmp, view_v, tmp);
+                            v_mid(view_v, view_v, tmp);
+                        }
+                    }
                 }
 
                 v_sub(d, up->p, view_c);
@@ -522,7 +542,16 @@ void game_update_view(float dt)
                         pr = v_len(tmp);
                         v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
                         pr = v_len(tmp) / pr;
-                        v_inv(view_v, up->v);
+                        for (pi = 0.f; pi <= 1.1f; pi += 0.25f)
+                        {
+                            if( pr > pi )
+                            {
+                                v_inv(tmp, up->v);
+                                for (j = 0; j < 16; j++)
+                                    v_mid(tmp, view_v, tmp);
+                                v_mid(view_v, view_v, tmp);
+                            }
+                        }
                     }
                     else
                     {
@@ -532,7 +561,16 @@ void game_update_view(float dt)
                         pr = v_len(tmp);
                         v_sub(tmp, file.uv[last_view_target].p, file.uv[current_view_target].p);
                         pr = v_len(tmp) / pr;
-                        v_inv(view_v, up->v);
+                        for (pi = 0.f; pi <= 1.1f; pi += 0.25f)
+                        {
+                            if( pr > pi )
+                            {
+                                v_inv(tmp, up->v);
+                                for (j = 0; j < 16; j++)
+                                    v_mid(tmp, view_v, tmp);
+                                v_mid(view_v, view_v, tmp);
+                            }
+                        }
                     }
 
                     v_sub(d, up->p, view_c);
