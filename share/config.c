@@ -130,7 +130,7 @@ void config_init(void)
     config_set_d(CONFIG_KEY_SCORE_NEXT,       DEFAULT_KEY_SCORE_NEXT);
     config_set_d(CONFIG_SCREENSHOT,           DEFAULT_SCREENSHOT);
     config_set_d(CONFIG_LOCK_GOALS,           DEFAULT_LOCK_GOALS);
-    config_set_d(CONFIG_PUTT_COLLISIONS,      DEFAULT_PUTT_COLLISIONS);
+    config_set_d(CONFIG_MARKERS,              DEFAULT_MARKERS);
     config_set_d(CONFIG_DYNAMIC_CAMERA,       DEFAULT_DYNAMIC_CAMERA);
     config_set_s(CONFIG_CAMERA_SPEED,         DEFAULT_CAMERA_SPEED);
     config_set_s(CONFIG_CAMERA_DISTANCE,      DEFAULT_CAMERA_DISTANCE);
@@ -334,8 +334,8 @@ void config_load(void)
                     config_set_d(CONFIG_SCREENSHOT, atoi(val));
                 else if (strcmp(key, "lock_goals") == 0)
                     config_set_d(CONFIG_LOCK_GOALS, atoi(val));
-                else if (strcmp(key, "putt_collisions") == 0)
-                    config_set_d(CONFIG_PUTT_COLLISIONS, atoi(val));
+                else if (strcmp(key, "markers") == 0)
+                    config_set_d(CONFIG_MARKERS, atoi(val));
                 else if (strcmp(key, "dynamic_camera") == 0)
                     config_set_d(CONFIG_DYNAMIC_CAMERA, atoi(val));
 
@@ -486,7 +486,7 @@ void config_save(void)
         fprintf(fp, "uniform              %d\n", option_d[CONFIG_UNIFORM]);
         fprintf(fp, "screenshot           %d\n", option_d[CONFIG_SCREENSHOT]);
         fprintf(fp, "lock_goals           %d\n", option_d[CONFIG_LOCK_GOALS]);
-        fprintf(fp, "putt_collisions      %d\n", option_d[CONFIG_PUTT_COLLISIONS]);
+        fprintf(fp, "markers              %d\n", option_d[CONFIG_MARKERS]);
         fprintf(fp, "dynamic_camera       %d\n", option_d[CONFIG_DYNAMIC_CAMERA]);
 
         fprintf(fp, "camera_speed         %s\n", option_s[CONFIG_CAMERA_SPEED]);

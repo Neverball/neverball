@@ -438,7 +438,7 @@ void game_update_view(float dt)
     else
     {
         up = &file.uv[ball];
-        if (up->a && (!config_get_d(CONFIG_PUTT_COLLISIONS) || v_len(up->v) - dt > 0.0005f || sol_goal_test(&file, NULL, ball)))
+        if (up->a && (v_len(up->v) - dt > 0.0005f || sol_goal_test(&file, NULL, ball)))
         {
             if (current_view_target == ball)
             {

@@ -39,8 +39,8 @@ enum {
     CONF_SHDOF,
     CONF_BACK,
     CONF_RESOL,
-    CONF_PCLON,
-    CONF_PCLOF,
+    CONF_MRKON,
+    CONF_MRKOF,
     CONF_DCSLW,
     CONF_DCFST,
     CONF_DCOFF
@@ -117,15 +117,15 @@ static int conf_action(int i)
         goto_state(&st_resol);
         break;
 
-    case CONF_PCLON:
+    case CONF_MRKON:
         goto_state(&st_null);
-        config_set_d(CONFIG_PUTT_COLLISIONS, 1);
+        config_set_d(CONFIG_MARKERS, 1);
         goto_state(&st_conf);
         break;
 
-    case CONF_PCLOF:
+    case CONF_MRKOF:
         goto_state(&st_null);
-        config_set_d(CONFIG_PUTT_COLLISIONS, 0);
+        config_set_d(CONFIG_MARKERS, 0);
         goto_state(&st_conf);
         break;
 
@@ -199,7 +199,7 @@ static int conf_enter(void)
         char resolution[20];
 
         int f = config_get_d(CONFIG_FULLSCREEN);
-        int c = config_get_d(CONFIG_PUTT_COLLISIONS);
+        int c = config_get_d(CONFIG_MARKERS);
         int t = config_get_d(CONFIG_TEXTURES);
         int g = config_get_d(CONFIG_GEOMETRY);
         int h = config_get_d(CONFIG_SHADOW);
@@ -263,18 +263,18 @@ static int conf_enter(void)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, _("Off"), GUI_SML, CONF_PCLOF, (c == 0));
-            gui_state(kd, _("On"),  GUI_SML, CONF_PCLON, (c == 1));
+            gui_state(kd, _("Off"), GUI_SML, CONF_MRKOF, (c == 0));
+            gui_state(kd, _("On"),  GUI_SML, CONF_MRKON, (c == 1));
 
-            gui_label(jd, _("Ball Collisions"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Use Markers"), GUI_SML, GUI_ALL, 0, 0);
         }
 
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, _("Fast"),  GUI_SML, CONF_DCFST, (a == 0));
-            gui_state(kd, _("Slow"),  GUI_SML, CONF_DCSLW, (a == 1));
             gui_state(kd, _("Off"),   GUI_SML, CONF_DCOFF, (a == 2));
+            gui_state(kd, _("Slow"),  GUI_SML, CONF_DCSLW, (a == 1));
+            gui_state(kd, _("Fast"),  GUI_SML, CONF_DCFST, (a == 0));
 
             gui_label(jd, _("Dynamic Camera"), GUI_SML, GUI_ALL, 0, 0);
         }

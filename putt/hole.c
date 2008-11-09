@@ -257,7 +257,7 @@ int hole_next(void)
         for (i = 1; i <= party; i++)
             game_get_pos(ball_p[i], ball_e[i], i);
 
-        if (!config_get_d(CONFIG_PUTT_COLLISIONS))
+        if (config_get_d(CONFIG_MARKERS))
             game_ball_inactivate(BALL_PARTY);
         game_ball_activate(BALL_CURRENT);
 
@@ -293,7 +293,7 @@ int hole_goal_next(void)
             hole_state_set(i, 0);
         }
 
-        if (!config_get_d(CONFIG_PUTT_COLLISIONS))
+        if (config_get_d(CONFIG_MARKERS))
             game_ball_inactivate(BALL_PARTY);
         game_ball_activate(BALL_CURRENT);
 

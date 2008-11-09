@@ -91,7 +91,7 @@ enum {
     CONFIG_UNIFORM,
     CONFIG_SCREENSHOT,
     CONFIG_LOCK_GOALS,
-    CONFIG_PUTT_COLLISIONS,
+    CONFIG_MARKERS,
     CONFIG_DYNAMIC_CAMERA,
 
     CONFIG_OPTION_D_COUNT
@@ -177,7 +177,7 @@ enum {
 #define DEFAULT_UNIFORM              0
 #define DEFAULT_SCREENSHOT           0
 #define DEFAULT_LOCK_GOALS           0
-#define DEFAULT_PUTT_COLLISIONS      0
+#define DEFAULT_MARKERS              1
 #define DEFAULT_DYNAMIC_CAMERA       0
 #define DEFAULT_CAMERA_SPEED         "4.f"
 #define DEFAULT_CAMERA_DISTANCE      "0.1f"
