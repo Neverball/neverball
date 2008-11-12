@@ -13,7 +13,7 @@
 "goal" "0"
 "time_hs" "205 210"
 "goal_hs" "210 220"
-"coin_hs" "200 100"
+"coin_hs" "150 75"
 "message" "Le rodéo de Neverball.\You'll fall quickly."
 // brush 0
 {
@@ -65,518 +65,6 @@
 ( 722 -263 -296 ) ( 722 -263 -168 ) ( 985 459 -168 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 ( 756 -133 -296 ) ( 756 -133 -168 ) ( 889 623 -168 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 }
-// brush 2
-// brush 3
-// brush 4
-// brush 5
-// brush 6
-// brush 7
-// brush 8
-// brush 9
-// brush 10
-// brush 11
-// brush 12
-// brush 13
-// brush 14
-// brush 15
-// brush 16
-// brush 17
-// brush 18
-// brush 19
-// brush 20
-// brush 21
-// brush 22
-// brush 23
-// brush 24
-// brush 25
-// brush 26
-// brush 27
-// brush 28
-// brush 29
-// brush 30
-// brush 31
-// brush 32
-// brush 33
-// brush 34
-// brush 35
-// brush 36
-// brush 37
-// brush 38
-// brush 39
-// brush 40
-// brush 41
-// brush 42
-// brush 43
-// brush 44
-// brush 45
-// brush 46
-// brush 47
-// brush 48
-// brush 49
-// brush 50
-// brush 51
-// brush 52
-// brush 53
-// brush 54
-// brush 55
-// brush 56
-// brush 57
-// brush 58
-// brush 59
-// brush 60
-// brush 61
-// brush 62
-// brush 63
-// brush 64
-// brush 65
-// brush 66
-// brush 67
-// brush 68
-// brush 69
-// brush 70
-// brush 71
-// brush 72
-// brush 73
-// brush 74
-// brush 75
-// brush 76
-// brush 77
-// brush 78
-// brush 79
-// brush 80
-// brush 81
-// brush 82
-// brush 83
-// brush 84
-// brush 85
-// brush 86
-// brush 87
-// brush 88
-// brush 89
-// brush 90
-// brush 91
-// brush 92
-// brush 93
-// brush 94
-// brush 95
-// brush 96
-// brush 97
-// brush 98
-// brush 99
-// brush 100
-// brush 101
-// brush 102
-// brush 103
-// brush 104
-// brush 105
-// brush 106
-// brush 107
-// brush 108
-// brush 109
-// brush 110
-// brush 111
-// brush 112
-// brush 113
-// brush 114
-// brush 115
-// brush 116
-// brush 117
-// brush 118
-// brush 119
-// brush 120
-// brush 121
-// brush 122
-// brush 123
-// brush 124
-// brush 125
-// brush 126
-// brush 127
-// brush 128
-// brush 129
-// brush 130
-// brush 131
-// brush 132
-// brush 133
-// brush 134
-// brush 135
-// brush 136
-// brush 137
-// brush 138
-// brush 139
-// brush 140
-// brush 141
-// brush 142
-// brush 143
-// brush 144
-// brush 145
-// brush 146
-// brush 147
-// brush 148
-// brush 149
-// brush 150
-// brush 151
-// brush 152
-// brush 153
-// brush 154
-// brush 155
-// brush 156
-// brush 157
-// brush 158
-// brush 159
-// brush 160
-// brush 161
-// brush 162
-// brush 163
-// brush 164
-// brush 165
-// brush 166
-// brush 167
-// brush 168
-// brush 169
-// brush 170
-// brush 171
-// brush 172
-// brush 173
-// brush 174
-// brush 175
-// brush 176
-// brush 177
-// brush 178
-// brush 179
-// brush 180
-// brush 181
-// brush 182
-// brush 183
-// brush 184
-// brush 185
-// brush 186
-// brush 187
-// brush 188
-// brush 189
-// brush 190
-// brush 191
-// brush 192
-// brush 193
-// brush 194
-// brush 195
-// brush 196
-// brush 197
-// brush 198
-// brush 199
-// brush 200
-// brush 201
-// brush 202
-// brush 203
-// brush 204
-// brush 205
-// brush 206
-// brush 207
-// brush 208
-// brush 209
-// brush 210
-// brush 211
-// brush 212
-// brush 213
-// brush 214
-// brush 215
-// brush 216
-// brush 217
-// brush 218
-// brush 219
-// brush 220
-// brush 221
-// brush 222
-// brush 223
-// brush 224
-// brush 225
-// brush 226
-// brush 227
-// brush 228
-// brush 229
-// brush 230
-// brush 231
-// brush 232
-// brush 233
-// brush 234
-// brush 235
-// brush 236
-// brush 237
-// brush 238
-// brush 239
-// brush 240
-// brush 241
-// brush 242
-// brush 243
-// brush 244
-// brush 245
-// brush 246
-// brush 247
-// brush 248
-// brush 249
-// brush 250
-// brush 251
-// brush 252
-// brush 253
-// brush 254
-// brush 255
-// brush 256
-// brush 257
-// brush 258
-// brush 259
-// brush 260
-// brush 261
-// brush 262
-// brush 263
-// brush 264
-// brush 265
-// brush 266
-// brush 267
-// brush 268
-// brush 269
-// brush 270
-// brush 271
-// brush 272
-// brush 273
-// brush 274
-// brush 275
-// brush 276
-// brush 277
-// brush 278
-// brush 279
-// brush 280
-// brush 281
-// brush 282
-// brush 283
-// brush 284
-// brush 285
-// brush 286
-// brush 287
-// brush 288
-// brush 289
-// brush 290
-// brush 291
-// brush 292
-// brush 293
-// brush 294
-// brush 295
-// brush 296
-// brush 297
-// brush 298
-// brush 299
-// brush 300
-// brush 301
-// brush 302
-// brush 303
-// brush 304
-// brush 305
-// brush 306
-// brush 307
-// brush 308
-// brush 309
-// brush 310
-// brush 311
-// brush 312
-// brush 313
-// brush 314
-// brush 315
-// brush 316
-// brush 317
-// brush 318
-// brush 319
-// brush 320
-// brush 321
-// brush 322
-// brush 323
-// brush 324
-// brush 325
-// brush 326
-// brush 327
-// brush 328
-// brush 329
-// brush 330
-// brush 331
-// brush 332
-// brush 333
-// brush 334
-// brush 335
-// brush 336
-// brush 337
-// brush 338
-// brush 339
-// brush 340
-// brush 341
-// brush 342
-// brush 343
-// brush 344
-// brush 345
-// brush 346
-// brush 347
-// brush 348
-// brush 349
-// brush 350
-// brush 351
-// brush 352
-// brush 353
-// brush 354
-// brush 355
-// brush 356
-// brush 357
-// brush 358
-// brush 359
-// brush 360
-// brush 361
-// brush 362
-// brush 363
-// brush 364
-// brush 365
-// brush 366
-// brush 367
-// brush 368
-// brush 369
-// brush 370
-// brush 371
-// brush 372
-// brush 373
-// brush 374
-// brush 375
-// brush 376
-// brush 377
-// brush 378
-// brush 379
-// brush 380
-// brush 381
-// brush 382
-// brush 383
-// brush 384
-// brush 385
-// brush 386
-// brush 387
-// brush 388
-// brush 389
-// brush 390
-// brush 391
-// brush 392
-// brush 393
-// brush 394
-// brush 395
-// brush 396
-// brush 397
-// brush 398
-// brush 399
-// brush 400
-// brush 401
-// brush 402
-// brush 403
-// brush 404
-// brush 405
-// brush 406
-// brush 407
-// brush 408
-// brush 409
-// brush 410
-// brush 411
-// brush 412
-// brush 413
-// brush 414
-// brush 415
-// brush 416
-// brush 417
-// brush 418
-// brush 419
-// brush 420
-// brush 421
-// brush 422
-// brush 423
-// brush 424
-// brush 425
-// brush 426
-// brush 427
-// brush 428
-// brush 429
-// brush 430
-// brush 431
-// brush 432
-// brush 433
-// brush 434
-// brush 435
-// brush 436
-// brush 437
-// brush 438
-// brush 439
-// brush 440
-// brush 441
-// brush 442
-// brush 443
-// brush 444
-// brush 445
-// brush 446
-// brush 447
-// brush 448
-// brush 449
-// brush 450
-// brush 451
-// brush 452
-// brush 453
-// brush 454
-// brush 455
-// brush 456
-// brush 457
-// brush 458
-// brush 459
-// brush 460
-// brush 461
-// brush 462
-// brush 463
-// brush 464
-// brush 465
-// brush 466
-// brush 467
-// brush 468
-// brush 469
-// brush 470
-// brush 471
-// brush 472
-// brush 473
-// brush 474
-// brush 475
-// brush 476
-// brush 477
-// brush 478
-// brush 479
-// brush 480
-// brush 481
-// brush 482
-// brush 483
-// brush 484
-// brush 485
-// brush 486
-// brush 487
-// brush 488
-// brush 489
-// brush 490
-// brush 491
-// brush 492
-// brush 493
-// brush 494
-// brush 495
-// brush 496
-// brush 497
-// brush 498
-// brush 499
-// brush 500
-// brush 501
-// brush 502
-// brush 503
-// brush 504
-// brush 505
-// brush 506
-// brush 507
-// brush 508
-// brush 509
-// brush 510
-// brush 511
-// brush 512
-// brush 513
 }
 // entity 1
 {
@@ -648,304 +136,196 @@
 // entity 12
 {
 "classname" "light"
-"origin" "0 0 128"
+"origin" "64 64 128"
 "light" "1"
 }
 // entity 13
 {
 "classname" "light"
-"origin" "64 64 128"
+"origin" "128 -128 128"
 "light" "1"
 }
 // entity 14
 {
 "classname" "light"
-"origin" "128 -128 128"
+"origin" "-64 64 128"
 "light" "1"
 }
 // entity 15
 {
 "classname" "light"
-"origin" "-64 64 128"
+"origin" "-64 -64 128"
 "light" "1"
 }
 // entity 16
 {
 "classname" "light"
-"origin" "-64 -64 128"
+"origin" "64 -64 128"
 "light" "1"
 }
 // entity 17
 {
 "classname" "light"
-"origin" "64 -64 128"
-"light" "1"
+"origin" "128 128 192"
+"light" "10"
 }
 // entity 18
 {
 "classname" "light"
-"origin" "128 128 192"
+"origin" "0 128 192"
 "light" "10"
 }
 // entity 19
 {
 "classname" "light"
-"origin" "0 128 192"
+"origin" "-128 -128 192"
 "light" "10"
 }
 // entity 20
 {
 "classname" "light"
-"origin" "128 128 192"
+"origin" "-128 0 192"
 "light" "10"
 }
 // entity 21
 {
 "classname" "light"
-"origin" "0 128 192"
+"origin" "0 -128 192"
 "light" "10"
 }
 // entity 22
 {
 "classname" "light"
-"origin" "-128 -128 192"
+"origin" "64 64 192"
 "light" "10"
 }
 // entity 23
 {
 "classname" "light"
-"origin" "-128 0 192"
+"origin" "0 0 192"
 "light" "10"
 }
 // entity 24
 {
 "classname" "light"
-"origin" "0 -128 192"
+"origin" "-64 -64 192"
 "light" "10"
 }
 // entity 25
 {
 "classname" "light"
-"origin" "0 0 192"
+"origin" "-64 64 192"
 "light" "10"
 }
 // entity 26
 {
 "classname" "light"
-"origin" "128 0 192"
+"origin" "64 -64 192"
 "light" "10"
 }
 // entity 27
 {
 "classname" "light"
-"origin" "64 64 192"
+"origin" "128 0 192"
 "light" "10"
 }
 // entity 28
 {
 "classname" "light"
-"origin" "128 -128 192"
+"origin" "-128 128 192"
 "light" "10"
 }
 // entity 29
 {
 "classname" "light"
-"origin" "-128 128 192"
+"origin" "128 -128 192"
 "light" "10"
 }
 // entity 30
 {
 "classname" "light"
-"origin" "-128 -128 192"
-"light" "10"
+"origin" "-128 64 160"
+"light" "5"
 }
 // entity 31
 {
 "classname" "light"
-"origin" "-128 0 192"
-"light" "10"
+"origin" "64 128 160"
+"light" "5"
 }
 // entity 32
-{
-"classname" "light"
-"origin" "0 -128 192"
-"light" "10"
-}
-// entity 33
-{
-"classname" "light"
-"origin" "0 0 192"
-"light" "10"
-}
-// entity 34
-{
-"classname" "light"
-"origin" "-64 -64 192"
-"light" "10"
-}
-// entity 35
-{
-"classname" "light"
-"origin" "-64 64 192"
-"light" "10"
-}
-// entity 36
-{
-"classname" "light"
-"origin" "64 -64 192"
-"light" "10"
-}
-// entity 37
-{
-"classname" "light"
-"origin" "128 0 192"
-"light" "10"
-}
-// entity 38
-{
-"classname" "light"
-"origin" "-128 128 192"
-"light" "10"
-}
-// entity 39
-{
-"classname" "light"
-"origin" "128 -128 192"
-"light" "10"
-}
-// entity 40
-{
-"classname" "light"
-"origin" "-128 64 160"
-"light" "5"
-}
-// entity 41
-{
-"classname" "light"
-"origin" "64 128 160"
-"light" "5"
-}
-// entity 42
-{
-"classname" "light"
-"origin" "-128 64 160"
-"light" "5"
-}
-// entity 43
-{
-"classname" "light"
-"origin" "64 128 160"
-"light" "5"
-}
-// entity 44
-{
-"classname" "light"
-"origin" "-64 -128 160"
-"light" "5"
-}
-// entity 45
-{
-"classname" "light"
-"origin" "-64 0 160"
-"light" "5"
-}
-// entity 46
-{
-"classname" "light"
-"origin" "64 -128 160"
-"light" "5"
-}
-// entity 47
-{
-"classname" "light"
-"origin" "64 0 160"
-"light" "5"
-}
-// entity 48
-{
-"classname" "light"
-"origin" "-128 -64 160"
-"light" "5"
-}
-// entity 49
 {
 "classname" "light"
 "origin" "128 64 160"
 "light" "5"
 }
-// entity 50
-{
-"classname" "light"
-"origin" "-64 128 160"
-"light" "5"
-}
-// entity 51
+// entity 33
 {
 "classname" "light"
 "origin" "-64 -128 160"
 "light" "5"
 }
-// entity 52
+// entity 34
 {
 "classname" "light"
 "origin" "-64 0 160"
 "light" "5"
 }
-// entity 53
+// entity 35
 {
 "classname" "light"
 "origin" "64 -128 160"
 "light" "5"
 }
-// entity 54
+// entity 36
 {
 "classname" "light"
 "origin" "64 0 160"
 "light" "5"
 }
-// entity 55
+// entity 37
 {
 "classname" "light"
 "origin" "0 -64 160"
 "light" "5"
 }
-// entity 56
+// entity 38
 {
 "classname" "light"
 "origin" "0 64 160"
 "light" "5"
 }
-// entity 57
+// entity 39
 {
 "classname" "light"
 "origin" "128 -64 160"
 "light" "5"
 }
-// entity 58
+// entity 40
 {
 "classname" "light"
 "origin" "-128 -64 160"
 "light" "5"
 }
-// entity 59
+// entity 41
 {
 "classname" "light"
 "origin" "-64 128 160"
 "light" "5"
 }
-// entity 60
+// entity 42
 {
 "classname" "target_position"
 "origin" "-256 -256 352"
 "targetname" "t20"
 }
-// entity 61
+// entity 43
 {
 "classname" "info_player_intermission"
 "origin" "-384 -384 480"
 "target" "t20"
 }
-// entity 62
+// entity 44
 {
 "classname" "path_corner"
 "origin" "0 0 -136"
@@ -953,7 +333,7 @@
 "target" "t9"
 "speed" ".5"
 }
-// entity 63
+// entity 45
 {
 "classname" "func_train"
 "target" "t7"
@@ -4158,7 +3538,7 @@
 ( 0 0 -12 ) ( 0 1 -12 ) ( 1 0 -12 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 64
+// entity 46
 {
 "classname" "path_corner"
 "origin" "0 0 -136"
