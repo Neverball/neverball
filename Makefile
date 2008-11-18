@@ -40,7 +40,7 @@ endif
 
 # Preprocessor...
 
-SDL_CPPFLAGS := $(shell sdl-config --cflags)
+SDL_CPPFLAGS := $(shell sdl-config --cflags) -U_GNU_SOURCE
 PNG_CPPFLAGS := $(shell libpng-config --cflags)
 
 ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare \
