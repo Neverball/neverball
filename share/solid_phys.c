@@ -915,6 +915,8 @@ int sol_swch_test(struct s_file *fp, int ui)
     {
         struct s_swch *xp = fp->xv + xi;
 
+        /* FIXME enter/exit events don't work for timed switches */
+
         if (xp->t0 == 0 || xp->f == xp->f0)
         {
             float l;
