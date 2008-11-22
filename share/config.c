@@ -667,13 +667,10 @@ int config_get_d(int i)
 
 void config_set_s(int i, const char *src)
 {
-    int len = (int) strlen(src);
-
     if (option_s[i])
         free(option_s[i]);
 
-    if ((option_s[i] = (char *) malloc(len + 1)))
-        strncpy(option_s[i], src, len + 1);
+    option_s[i] = strdup(src);
 
     dirty = 1;
 }

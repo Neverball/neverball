@@ -25,6 +25,7 @@
 
 int   read_line(char **, FILE *);
 char *strip_newline(char *);
+char *strdup(const char *);
 
 time_t make_time_from_utc(struct tm *);
 const char *date_to_str(time_t);

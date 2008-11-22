@@ -23,6 +23,7 @@
 #include "text.h"
 #include "config.h"
 #include "audio.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -148,9 +149,7 @@ static struct voice *voice_init(const char *filename, float a)
     {
         /* Note the name. */
 
-        V->name = (char *) malloc(strlen(filename) + 1);
-
-        strcpy(V->name, filename);
+        V->name = strdup(filename);
 
         /* Attempt to open the named Ogg stream. */
 

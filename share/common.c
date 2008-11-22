@@ -105,6 +105,16 @@ char *strip_newline(char *str)
     return str;
 }
 
+char *strdup(const char *src)
+{
+    char *dst = NULL;
+
+    if (src && (dst = malloc(strlen(src) + 1)))
+        strcpy(dst, src);
+
+    return dst;
+}
+
 time_t make_time_from_utc(struct tm *tm)
 {
     struct tm local, *utc;
