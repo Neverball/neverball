@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-09-24 20:23+0300\n"
+"POT-Creation-Date: 2008-10-17 10:51+0200\n"
 "PO-Revision-Date: 2008-09-27 19:06+0200\n"
 "Last-Translator: Jordà Polo <jorda@ettin.org>\n"
 "Language-Team: Catalan\n"
@@ -967,8 +967,8 @@ msgstr ""
 "diferents modalitats."
 
 #: data/set-mym.txt
-msgid "Mehdi's Levels"
-msgstr "Els nivells d'en Mehdi"
+msgid "Tour de force"
+msgstr ""
 
 #: data/set-mym.txt
 msgid ""
@@ -979,8 +979,8 @@ msgstr ""
 "encara\\superior. Autor: Mehdi Yousfi-Monod (mym).\\ \\"
 
 #: data/set-mym2.txt
-msgid "Mehdi's Levels Suite"
-msgstr "Suite d'en Mehdi"
+msgid "Retour de force"
+msgstr ""
 
 #: data/set-mym2.txt
 msgid ""
@@ -1839,6 +1839,12 @@ msgstr "mtrl/words-ca"
 
 msgid "item/coin/coin"
 msgstr "item/coin/euro_coin"
+
+#~ msgid "Mehdi's Levels"
+#~ msgstr "Els nivells d'en Mehdi"
+
+#~ msgid "Mehdi's Levels Suite"
+#~ msgstr "Suite d'en Mehdi"
 
 #~ msgid "%Y-%m-%d %H:%M:%S"
 #~ msgstr "%d-%m-%Y %H:%M:%S"

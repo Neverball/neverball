@@ -12,11 +12,3 @@ holes-slippi.txt shot-putt/slippi.jpg
 Crazy Golf\ \\Difficulty: Easy to Medium\Author: slippifishi\
 holes-kk.txt shot-putt/tricky-golf.jpg
 Tricky Golf\\An 18-hole course with many challenges\Difficulty: Expert Through Insane\Author: Byron James Johnson
-holes-csyforevere.txt shot-putt/csyforevere.jpg
-Neverputt Forever Easy\An 18-hole course designed for\less experienced players.\Difficulty: Easy to Medium\Author: Challenge Space Yard\
-holes-csyforeverm.txt shot-putt/csyforeverm.jpg
-Neverputt Forever Medium\An 18-hole course designed for\intermediate players.\Difficulty: Easy to Hard\Author: Challenge Space Yard\
-holes-csyforeverh.txt shot-putt/csyforeverh.jpg
-Neverputt Forever Hard\An 18-hole course designed for\more experienced players.\Difficulty: Medium to Very Hard\Author: Challenge Space Yard\
-holes-csyforeverx.txt shot-putt/csyforeverx.jpg
-Neverputt Forever Extreme\The highest challenge offered in 2 holes\on this course of Neverputt Forever.\Difficulty: Hard to Extreme\Author: Challenge Space Yard\

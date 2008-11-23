@@ -15,25 +15,12 @@ endif
 #------------------------------------------------------------------------------
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
-ifeq ($(ENABLE_WII),1)
-    # libwiimote is NOT ANSI compliant (TODO, check if this is necessary.  GCC
-    # is supposed to suppress warnings from system headers.)
-
-    ifneq ($(DEBUG),1)
-        CFLAGS   := -g
-        CPPFLAGS :=
-    else
-        CFLAGS   := -O2
-        CPPFLAGS := -DNDEBUG
-    endif
+ifeq ($(DEBUG),1)
+    CFLAGS   := -g
+    CPPFLAGS :=
 else
-    ifeq ($(DEBUG),1)
-        CFLAGS   := -Wall -g -ansi -pedantic
-        CPPFLAGS :=
-    else
-        CFLAGS   := -Wall -O2 -ansi -pedantic
-        CPPFLAGS := -DNDEBUG
-    endif
+    CFLAGS   := -O2
+    CPPFLAGS := -DNDEBUG
 endif
 
 #------------------------------------------------------------------------------
@@ -41,11 +28,19 @@ endif
 
 # Compiler...
 
-ALL_CFLAGS := $(CFLAGS)
+SSE_CFLAGS := $(shell env CC="$(CC)" sh scripts/get-sse-cflags.sh)
+
+ifeq ($(ENABLE_WII),1)
+    # libwiimote is NOT ANSI compliant (TODO, check if this is necessary.  GCC
+    # is supposed to suppress warnings from system headers.)
+    ALL_CFLAGS := $(SSE_CFLAGS) $(CFLAGS)
+else
+    ALL_CFLAGS := -Wall -ansi -pedantic $(SSE_CFLAGS) $(CFLAGS)
+endif
 
 # Preprocessor...
 
-SDL_CPPFLAGS := $(shell sdl-config --cflags)
+SDL_CPPFLAGS := $(shell sdl-config --cflags) -U_GNU_SOURCE
 PNG_CPPFLAGS := $(shell libpng-config --cflags)
 
 ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare \
@@ -147,6 +142,7 @@ BALL_OBJS := \
 	share/image.o       \
 	share/solid.o       \
 	share/solid_gl.o    \
+	share/solid_phys.o  \
 	share/part.o        \
 	share/back.o        \
 	share/geom.o        \
@@ -198,6 +194,7 @@ PUTT_OBJS := \
 	share/image.o       \
 	share/solid.o       \
 	share/solid_gl.o    \
+	share/solid_phys.o  \
 	share/part.o        \
 	share/geom.o        \
 	share/ball.o        \
@@ -336,12 +333,8 @@ install-dlls: install-dlls.sh
 	sh $<
 
 install-dlls.sh:
-	if ! sh scripts/gen-install-dlls.sh > $@; then \
-	    $(RM) $@; \
-	    exit 1; \
-	fi
+	mingw-list-dlls --sh > $@
 	@echo --------------------------------------------------------
-	@echo You can probably ignore any file-not-found errors above.
 	@echo Now edit $@ to your needs before restarting make.
 	@echo --------------------------------------------------------
 	@exit 1

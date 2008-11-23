@@ -26,6 +26,7 @@
 #include "image.h"
 #include "audio.h"
 #include "solid_gl.h"
+#include "solid_phys.h"
 #include "config.h"
 
 /*---------------------------------------------------------------------------*/
@@ -259,6 +260,9 @@ static void game_draw_swchs(const struct s_file *fp)
 
     for (xi = 0; xi < fp->xc; xi++)
     {
+        if (fp->xv[xi].i)
+            continue;
+
         glPushMatrix();
         {
             glTranslatef(fp->xv[xi].p[0],
