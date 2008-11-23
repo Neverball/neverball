@@ -619,31 +619,31 @@
                 'Try to make it wrap the 80 characters if you translate this string
                 print lang("The solution directory contains a collection of " + _
                     "solutions to levels players may give a fit on.")
-                print "<A> ";lang("Neverball Easy Level 10: How to 100% the level")
-                print "<B> ";lang("Neverball Easy Bonus Level 5: How to 100% the level")
-                print lang("Each view costs 2 diamonds. Use them wisely.")
+                print "<A> ";lang("Neverball Easy Level 09: How to 100% the level")
+                print "<B> ";lang("Neverball Easy Bonus Level 5: How to 100% the level");" (obsolence)"
+                print lang("Each view costs a diamond. Use them wisely.")
                 print lang("Hit BACKSPACE to exit the directory.")
                 print
                 do
                     sleep 10
-                    if multikey(SC_A) AND Money > = 2 then
-                        Money -= 2
+                    if multikey(SC_A) AND Money > = 1 then
+                        Money -= 1
                         user_data
                         screen 0
                         #IFDEF __FB_WIN32__
                             Check = exec("Neverball.exe", _
-                                         "-r "+AssistDir+"/solutions/cE10csy.nbr")
+                                         "-r "+AssistDir+"/solutions/cE09csy.nbr")
                         #ELSE
                             Check = exec("neverball", _
-                                         "-r "+AssistDir+"/solutions/cE10csy.nbr")
+                                         "-r "+AssistDir+"/solutions/cE09csy.nbr")
                         #ENDIF
                         screen 18,24
                         clkey
                         print lang("Exit code of replay A: ")& Check
                         sleep
                         exit do
-                    elseif multikey(SC_B) AND Money > = 2 then
-                        Money -= 2
+                    elseif multikey(SC_B) AND Money > = 1 then
+                        Money -= 1
                         user_data
                         screen 0
                         #IFDEF __FB_WIN32__
