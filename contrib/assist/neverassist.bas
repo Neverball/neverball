@@ -620,14 +620,12 @@
                 print lang("The solution directory contains a collection of " + _
                     "solutions to levels players may give a fit on.")
                 print "<A> ";lang("Neverball Easy Level 09: How to 100% the level")
-                print "<B> ";lang("Neverball Easy Bonus Level 5: How to 100% the level");" (obsolence)"
-                print lang("Each view costs a diamond. Use them wisely.")
+                print "<B> ";lang("Neverball Easy Bonus Level 5: How to 100% the level")
                 print lang("Hit BACKSPACE to exit the directory.")
                 print
                 do
                     sleep 10
-                    if multikey(SC_A) AND Money > = 1 then
-                        Money -= 1
+                    if multikey(SC_A) then
                         user_data
                         screen 0
                         #IFDEF __FB_WIN32__
@@ -642,8 +640,7 @@
                         print lang("Exit code of replay A: ")& Check
                         sleep
                         exit do
-                    elseif multikey(SC_B) AND Money > = 1 then
-                        Money -= 1
+                    elseif multikey(SC_B) then
                         user_data
                         screen 0
                         #IFDEF __FB_WIN32__
