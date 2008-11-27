@@ -279,9 +279,13 @@ clean : clean-src
 test : all
 	./neverball
 
+TAGS :
+	$(RM) $@
+	find . -name '*.[ch]' | xargs etags -a
+
 #------------------------------------------------------------------------------
 
-.PHONY : all sols locales clean-src clean test
+.PHONY : all sols locales clean-src clean test TAGS
 
 -include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS)
 
