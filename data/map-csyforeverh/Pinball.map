@@ -244,6 +244,9 @@
 "author" "Challenge Space Yard"
 "version" "2"
 "levelname" "Pinball"
+"coin_hs" "60"
+"time_hs" "500 1000"
+"goal_hs" "4500 9000"
 // brush 0
 {
 ( -112 112 512 ) ( -112 -16 512 ) ( -240 112 512 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0

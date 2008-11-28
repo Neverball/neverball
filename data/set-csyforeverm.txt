@@ -1,6 +1,6 @@
 Neverball Forever Medium
 Difficulty: Intermediate through Expert\25 levels with a not-so-smooth learning curve.\Included intros can be useful.\\Author: Challenge Space Yard\
-csy
+csym
 shot-csyforeverm/Cross.png
 65000	80000	95000	1800	1100	500
 map-csyforeverm/Cross.sol
