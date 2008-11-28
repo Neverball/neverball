@@ -13,7 +13,7 @@
 
 void set_SDL_icon(const char *filename)
 {
-#ifndef __APPLE__
+#if !defined(__APPLE__) && !defined(_WIN32)
     SDL_Surface *icon;
 
     if ((icon = load_surface(filename)))
@@ -22,7 +22,7 @@ void set_SDL_icon(const char *filename)
         free(icon->pixels);
         SDL_FreeSurface(icon);
     }
-#endif /* __APPLE__ */
+#endif
     return;
 }
 

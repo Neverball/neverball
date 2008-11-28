@@ -217,6 +217,11 @@ PUTT_OBJS := \
 	putt/st_conf.o      \
 	putt/main.o
 
+ifdef MINGW
+BALL_OBJS += neverball.ico.o
+PUTT_OBJS += neverputt.ico.o
+endif
+
 BALL_DEPS := $(BALL_OBJS:.o=.d)
 PUTT_DEPS := $(PUTT_OBJS:.o=.d)
 MAPC_DEPS := $(MAPC_OBJS:.o=.d)
@@ -237,6 +242,9 @@ DESKTOPS := $(basename $(wildcard dist/*.desktop.in))
 
 %.desktop : %.desktop.in
 	sh scripts/translate-desktop.sh < $< > $@
+
+%.ico.o: dist/ico/%.ico
+	echo "1 ICON \"$<\"" | $(WINDRES) -o $@
 
 #------------------------------------------------------------------------------
 
@@ -279,9 +287,13 @@ clean : clean-src
 test : all
 	./neverball
 
+TAGS :
+	$(RM) $@
+	find . -name '*.[ch]' | xargs etags -a
+
 #------------------------------------------------------------------------------
 
-.PHONY : all sols locales clean-src clean test
+.PHONY : all sols locales clean-src clean test TAGS
 
 -include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS)
 
