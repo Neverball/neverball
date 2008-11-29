@@ -5845,11 +5845,11 @@
 // brush 0
 {
 ( 192 1024 8 ) ( 192 896 8 ) ( 64 1024 8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( 192 1024 15 ) ( 192 1024 7 ) ( 192 896 15 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( 64 896 7 ) ( 192 896 7 ) ( 64 1024 7 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( 64 896 7 ) ( 64 1024 7 ) ( 64 896 15 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( -192 896 7 ) ( -192 904 8 ) ( -64 896 7 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( -64 1024 7 ) ( -192 1016 8 ) ( -192 1024 7 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 192 904 8 ) ( 192 1024 7.75 ) ( 192 896 7.75 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 192 1024 7.75 ) ( 64 896 7.75 ) ( 192 896 7.75 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 64 1016 8 ) ( 64 896 7.75 ) ( 64 1024 7.75 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 192 904 8 ) ( 192 896 7.75 ) ( 64 896 7.75 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 192 1016 8 ) ( 64 1024 7.75 ) ( 192 1024 7.75 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 }
 }
 // entity 90
@@ -5865,7 +5865,7 @@
 {
 "classname" "path_corner"
 "targetname" "switchBlockerA1"
-"origin" "128 960 9"
+"origin" "128 960 8.25"
 "target" "switchBlockerA0"
 "speed" "0.1"
 }
@@ -5875,19 +5875,19 @@
 "target" "switchBlockerB0"
 // brush 0
 {
-( 188 780 9 ) ( 68 780 9 ) ( 188 892 9 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( 192 779 16 ) ( 192 891 16 ) ( 192 779 8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 64 888 8.25 ) ( 192 776 8.25 ) ( 64 776 8.25 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 192 896 8 ) ( 192 776 8.25 ) ( 192 888 8.25 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 ( 68 892 8 ) ( 68 780 8 ) ( 188 892 8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( 64 892 8 ) ( 64 892 16 ) ( 64 780 8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( -656 888 9 ) ( -528 896 8 ) ( -528 888 9 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( -644 768 8 ) ( -516 776 9 ) ( -516 768 8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 64 896 8 ) ( 64 888 8.25 ) ( 64 776 8.25 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 64 896 8 ) ( 192 888 8.25 ) ( 64 888 8.25 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 192 768 8 ) ( 64 776 8.25 ) ( 192 776 8.25 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 }
 }
 // entity 93
 {
 "classname" "path_corner"
 "targetname" "switchBlockerB0"
-"origin" "128 832 9"
+"origin" "128 832 8.25"
 "target" "switchBlockerB1"
 "speed" "0.1"
 "state" "0"
@@ -5903,7 +5903,7 @@
 // entity 95
 {
 "classname" "info_camp"
-"origin" "128 960 -39"
+"origin" "128 960 -39.875"
 "radius" "1"
 "target" "platform0"
 "timer" "0.2625"
@@ -5912,7 +5912,7 @@
 // entity 96
 {
 "classname" "info_camp"
-"origin" "128 960 -39"
+"origin" "128 960 -39.875"
 "radius" "1"
 "target" "switchBlockerA0"
 "timer" "0.1"
@@ -5921,7 +5921,7 @@
 // entity 97
 {
 "classname" "info_camp"
-"origin" "128 960 -39"
+"origin" "128 960 -39.875"
 "radius" "1"
 "target" "switchBlockerB0"
 "timer" "0.1"
@@ -5930,7 +5930,7 @@
 // entity 98
 {
 "classname" "info_camp"
-"origin" "128 832 -39"
+"origin" "128 832 -39.875"
 "radius" "1"
 "target" "platform0"
 "timer" "0.2625"
@@ -5939,7 +5939,7 @@
 // entity 99
 {
 "classname" "info_camp"
-"origin" "128 832 -39"
+"origin" "128 832 -39.875"
 "radius" "1"
 "target" "switchBlockerA0"
 "timer" "0.1"
@@ -5948,7 +5948,7 @@
 // entity 100
 {
 "classname" "info_camp"
-"origin" "128 832 -39"
+"origin" "128 832 -39.875"
 "radius" "1"
 "target" "switchBlockerB0"
 "timer" "0.1"
