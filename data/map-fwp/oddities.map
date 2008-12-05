@@ -5827,7 +5827,7 @@
 "targetname" "platform0"
 "origin" "128 1088 8"
 "target" "platform1"
-"speed" "0.2625"
+"speed" "0.25"
 "state" "0"
 }
 // entity 88
@@ -5836,7 +5836,7 @@
 "targetname" "platform1"
 "origin" "128 1344 8"
 "target" "platform0"
-"speed" "0.2625"
+"speed" "0.25"
 }
 // entity 89
 {
@@ -5906,7 +5906,7 @@
 "origin" "128 960 -39.875"
 "radius" "1"
 "target" "platform0"
-"timer" "0.2625"
+"timer" "0.25"
 "invisible" "1"
 }
 // entity 96
@@ -5933,7 +5933,7 @@
 "origin" "128 832 -39.875"
 "radius" "1"
 "target" "platform0"
-"timer" "0.2625"
+"timer" "0.25"
 "invisible" "1"
 }
 // entity 99
