@@ -12,7 +12,7 @@
 "goal" "85"
 "time_hs" "525 550"
 "coin_hs" "144 114"
-"goal_hs" "4500 7500"
+"goal_hs" "4000 7500"
 "message" "=Oddities=\Something is not quite right here..."
 // brush 0
 {
