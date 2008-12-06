@@ -1,7 +1,7 @@
 Neverball Misc
 Unsorted levels\For testing purposes\\\\
 misc
-shot-misc/billiard.jpg
+shot-misc/billiard.png
 
 map-misc/billiard.sol
 map-misc/checkers.sol
