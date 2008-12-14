@@ -87,7 +87,8 @@ static int done_enter(void)
         gui_space(id);
 
         if ((jd = gui_hstack(id)))
-            gui_score_board(jd, 1, high);
+            gui_score_board(jd, GUI_MOST_COINS |
+                                GUI_BEST_TIMES, 1, high);
 
         gui_space(id);
 
@@ -101,7 +102,7 @@ static int done_enter(void)
 
     set_score_board(set_coin_score(curr_set()), progress_score_rank(),
                     set_time_score(curr_set()), progress_times_rank(),
-                    set_time_score(curr_set()), progress_times_rank());
+                    NULL, -1);
 
     /* Reset hack. */
     resume = 0;

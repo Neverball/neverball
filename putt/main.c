@@ -31,6 +31,7 @@
 #include "game.h"
 #include "gui.h"
 #include "text.h"
+#include "syswm.h"
 
 #include "st_conf.h"
 #include "st_all.h"
@@ -190,9 +191,6 @@ static int loop(void)
 int main(int argc, char *argv[])
 {
     int camera = 0;
-#ifndef __APPLE__
-    SDL_Surface *icon;
-#endif
     SDL_Joystick *joy = NULL;
 
     srand((int) time(NULL));
@@ -236,14 +234,9 @@ int main(int argc, char *argv[])
                 SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
                 SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-#ifndef __APPLE__
-                if ((icon = load_surface("icon/neverputt.png")))
-                {
-                    SDL_WM_SetIcon(icon, NULL);
-                    free(icon->pixels);
-                    SDL_FreeSurface(icon);
-                }
-#endif /* __APPLE__ */
+                /* This has to happen before mode setting... */
+
+                set_SDL_icon("icon/neverputt.png");
 
                 /* Initialize the video. */
 
@@ -252,6 +245,10 @@ int main(int argc, char *argv[])
                                 config_get_d(CONFIG_HEIGHT)))
                 {
                     int t1, t0 = SDL_GetTicks();
+
+                    /* ... and this has to happen after it. */
+
+                    set_EWMH_icon("icon/neverputt.png");
 
                     SDL_WM_SetCaption(TITLE, TITLE);
 

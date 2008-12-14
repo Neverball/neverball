@@ -12,6 +12,7 @@
 "goal" "30"
 "time_hs" "600 2000"
 "coin_hs" "82 50"
+"goal_hs" "2000 4500"
 "message" "Ribbit!\"
 // brush 0
 {
@@ -324,8 +325,6 @@
 {
 "classname" "info_player_start"
 "origin" "64 64 24"
-"angle" "90"
-"target" "t1"
 }
 // entity 2
 {

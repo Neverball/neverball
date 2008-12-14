@@ -650,14 +650,11 @@
 // entity 1
 {
 "classname" "info_player_start"
-"speed" "42"
 "origin" "192 -260 88"
 }
 // entity 2
 {
 "classname" "func_train"
-"targetname" "f1"
-"state" "1"
 "target" "t10"
 // brush 0
 {
@@ -678,8 +675,6 @@
 // entity 3
 {
 "classname" "func_train"
-"speed" "3"
-"state" "1"
 "target" "t2"
 // brush 0
 {
@@ -1945,12 +1940,10 @@
 // entity 149
 {
 "classname" "info_player_intermission"
-"targetname" "t3"
 "origin" "192 0 1024"
 }
 // entity 150
 {
 "classname" "target_position"
-"target" "t3"
 "origin" "192 64 64"
 }

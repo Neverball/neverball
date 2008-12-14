@@ -265,9 +265,9 @@ const char *level_file(int i)
     return level_exists(i) ? get_level(i)->file : NULL;
 }
 
-const char *level_repr(int i)
+const char *level_name(int i)
 {
-    return level_exists(i) ? get_level(i)->repr : NULL;
+    return level_exists(i) ? get_level(i)->name : NULL;
 }
 
 const char *level_msg(int i)

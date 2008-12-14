@@ -66,10 +66,10 @@ void back_init(const char *s, int b)
                     float s = fsinf(V_PI * k * 2.0);
                     float c = fcosf(V_PI * k * 2.0);
 
-                    glTexCoord2f(k, k1);
+                    glTexCoord2f(k, 1.0f - k1);
                     glVertex3f(s * c1, c * c1, s1);
 
-                    glTexCoord2f(k, k0);
+                    glTexCoord2f(k, 1.0f - k0);
                     glVertex3f(s * c0, c * c0, s0);
                 }
             }

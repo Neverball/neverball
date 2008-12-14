@@ -8,4 +8,4 @@ cp /opt/local/lib/libpng12.a /opt/local/lib/libjpeg.a /opt/local/lib/libintl.a /
 cp /opt/local/include/libpng12/png.h /opt/local/include/libpng12/pngconf.h /opt/local/include/jpeglib.h /opt/local/include/jconfig.h /opt/local/include/jmorecfg.h /opt/local/include/jerror.h /opt/local/include/libintl.h /opt/local/include/iconv.h /opt/local/include/zconf.h /opt/local/include/zlib.h external_libs/.
 cp /opt/local/include/vorbis/codec.h /opt/local/include/vorbis/vorbisenc.h /opt/local/include/vorbis/vorbisfile.h external_libs/vorbis/.
 cp /opt/local/include/ogg/config_types.h /opt/local/include/ogg/ogg.h /opt/local/include/ogg/os_types.h external_libs/ogg/.
-cp /opt/local/bin/msgfmt external_tools/.
+cp /opt/local/bin/msgfmt /opt/local/bin/seticon external_tools/.

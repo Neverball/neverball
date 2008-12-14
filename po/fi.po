@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.5\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-04-08 22:05+0300\n"
+"POT-Creation-Date: 2008-10-17 10:51+0200\n"
 "PO-Revision-Date: 2008-03-17 17:34+0200\n"
 "Last-Translator: Pasi Kallinen <paxed@alt.org>\n"
 "Language-Team: Finnish\n"
@@ -17,23 +17,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ball/game.c:1289
+#: ball/demo.c:299
+msgid "Missing format character in replay name\n"
+msgstr "Tallenteen nimestä puuttuu formaattimerkki\n"
+
+#: ball/demo.c:304
+#, c-format
+msgid "Invalid format character in replay name: \"%%%c\"\n"
+msgstr "Tallenteen nimessä laiton formaattimerkki \"%%%c\"\n"
+
+#: ball/game.c:1294
 msgid "Aborted"
 msgstr "Keskeytetty"
 
-#: ball/game.c:1290
+#: ball/game.c:1295
 msgid "Time-out"
 msgstr "Aika loppui"
 
-#: ball/game.c:1291
+#: ball/game.c:1296
 msgid "Success"
 msgstr "Onnistui"
 
-#: ball/game.c:1292
+#: ball/game.c:1297
 msgid "Fall-out"
 msgstr "Putosit kentästä"
 
-#: ball/game.c:1293 ball/progress.c:345
+#: ball/game.c:1298 ball/progress.c:364
 msgid "Unknown"
 msgstr "Tuntematon"
 
@@ -69,7 +78,7 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:56 ball/st_demo.c:184 ball/st_goal.c:177
+#: ball/hud.c:56 ball/st_demo.c:177 ball/st_goal.c:177
 msgid "Coins"
 msgstr "Kolikot"
 
@@ -106,7 +115,7 @@ msgstr "Virhe ladattaessa kenttätiedostoa '%s': %s\n"
 msgid "Not a valid level file"
 msgstr "Virheellinen kenttätiedosto"
 
-#: ball/main.c:256
+#: ball/main.c:257
 #, c-format
 msgid ""
 "Usage: %s [options ...]\n"
@@ -125,49 +134,49 @@ msgstr ""
 "  -r, --replay <tiedosto>   näytä tallennetiedosto.\n"
 "  -i, --info                näytä tallennetiedoston tiedot.\n"
 
-#: ball/main.c:266
+#: ball/main.c:267
 #, c-format
 msgid "Option '%s' requires an argument.\n"
 msgstr "Vipu '%s' vaatii parametrin.\n"
 
-#: ball/main.c:326
+#: ball/main.c:327
 msgid "Option '--info' requires '--replay'.\n"
 msgstr "'--info' vaatii '--replay' -vivun.\n"
 
-#: ball/main.c:353 putt/main.c:291
+#: ball/main.c:350 putt/main.c:286
 msgid "Failure to establish game data directory\n"
 msgstr "Data-hakemiston haku epäonnistui\n"
 
-#: ball/main.c:359 putt/main.c:289
+#: ball/main.c:356 putt/main.c:284
 msgid "Failure to establish config directory\n"
 msgstr "Asetushakemiston haku epäonnistui\n"
 
-#: ball/main.c:382
+#: ball/main.c:379
 #, c-format
 msgid "Replay file '%s': %s\n"
 msgstr "Toistotiedosto '%s': %s\n"
 
-#: ball/main.c:383
+#: ball/main.c:380
 msgid "Not a replay file"
 msgstr "Ei toistotiedosto"
 
-#: ball/progress.c:343 ball/st_help.c:246
+#: ball/progress.c:362 ball/st_help.c:246
 msgid "Challenge Mode"
 msgstr "Haastemoodi"
 
-#: ball/progress.c:343 ball/st_start.c:174
+#: ball/progress.c:362 ball/st_start.c:204
 msgid "Challenge"
 msgstr "Haaste"
 
-#: ball/progress.c:344 ball/st_help.c:238
+#: ball/progress.c:363 ball/st_help.c:238
 msgid "Normal Mode"
 msgstr "Normaalimoodi"
 
-#: ball/progress.c:344
+#: ball/progress.c:363
 msgid "Normal"
 msgstr "Normaali"
 
-#: ball/progress.c:345
+#: ball/progress.c:364
 msgid "Unknown Mode"
 msgstr "Tuntematon moodi"
 
@@ -185,141 +194,137 @@ msgstr "Virheellinen formaatti"
 msgid "Cannot load the set file '%s': %s\n"
 msgstr "Tiedoston '%s' lataus epäonnistui: %s\n"
 
-#: ball/st_conf.c:208 putt/st_conf.c:168
+#: ball/st_conf.c:209 putt/st_conf.c:168
 msgid "Options"
 msgstr "Asetukset"
 
-#: ball/st_conf.c:210 ball/st_help.c:95 ball/st_start.c:160 ball/util.c:507
+#: ball/st_conf.c:211 ball/st_help.c:95 ball/st_start.c:176 ball/util.c:520
 #: share/st_resol.c:75 putt/st_all.c:343 putt/st_all.c:491 putt/st_conf.c:170
 msgid "Back"
 msgstr "Takaisin"
 
-#: ball/st_conf.c:218 ball/st_demo.c:548 ball/st_save.c:194 putt/st_conf.c:178
+#: ball/st_conf.c:219 ball/st_demo.c:565 ball/st_save.c:202 putt/st_conf.c:178
 msgid "No"
 msgstr "Ei"
 
-#: ball/st_conf.c:219 ball/st_demo.c:549 ball/st_save.c:195
-#: ball/st_start.c:199 putt/st_conf.c:179
+#: ball/st_conf.c:220 ball/st_demo.c:566 ball/st_save.c:203
+#: ball/st_start.c:232 putt/st_conf.c:179
 msgid "Yes"
 msgstr "Kyllä"
 
-#: ball/st_conf.c:221 putt/st_conf.c:181
+#: ball/st_conf.c:222 putt/st_conf.c:181
 msgid "Fullscreen"
 msgstr "Koko ruutu"
 
-#: ball/st_conf.c:229 share/st_resol.c:73 putt/st_conf.c:189
+#: ball/st_conf.c:230 share/st_resol.c:73 putt/st_conf.c:189
 msgid "Resolution"
 msgstr "Tarkkuus"
 
-#: ball/st_conf.c:237 ball/st_conf.c:246 putt/st_conf.c:197 putt/st_conf.c:206
+#: ball/st_conf.c:238 ball/st_conf.c:247 putt/st_conf.c:197 putt/st_conf.c:206
 msgid "Low"
 msgstr "Matala"
 
-#: ball/st_conf.c:238 ball/st_conf.c:247 putt/st_conf.c:198 putt/st_conf.c:207
+#: ball/st_conf.c:239 ball/st_conf.c:248 putt/st_conf.c:198 putt/st_conf.c:207
 msgid "High"
 msgstr "Korkea"
 
-#: ball/st_conf.c:240 putt/st_conf.c:200
+#: ball/st_conf.c:241 putt/st_conf.c:200
 msgid "Textures"
 msgstr "Tekstuurit"
 
-#: ball/st_conf.c:249 putt/st_conf.c:209
+#: ball/st_conf.c:250 putt/st_conf.c:209
 msgid "Geometry"
 msgstr "Muodot"
 
-#: ball/st_conf.c:255 ball/st_conf.c:264 ball/st_conf.c:273 putt/st_conf.c:215
+#: ball/st_conf.c:256 ball/st_conf.c:265 ball/st_conf.c:274 putt/st_conf.c:215
 msgid "Off"
 msgstr "Ei"
 
-#: ball/st_conf.c:256 ball/st_conf.c:265 ball/st_conf.c:274 putt/st_conf.c:216
+#: ball/st_conf.c:257 ball/st_conf.c:266 ball/st_conf.c:275 putt/st_conf.c:216
 msgid "On"
 msgstr "Kyllä"
 
-#: ball/st_conf.c:258
+#: ball/st_conf.c:259
 msgid "Reflection"
 msgstr "Heijastukset"
 
-#: ball/st_conf.c:267
+#: ball/st_conf.c:268
 msgid "Background"
 msgstr "Tausta"
 
-#: ball/st_conf.c:276 putt/st_conf.c:218
+#: ball/st_conf.c:277 putt/st_conf.c:218
 msgid "Shadow"
 msgstr "Varjo"
 
-#: ball/st_conf.c:298 putt/st_conf.c:240
+#: ball/st_conf.c:299 putt/st_conf.c:240
 msgid "Sound Volume"
 msgstr "Ääniefektit"
 
-#: ball/st_conf.c:318 putt/st_conf.c:260
+#: ball/st_conf.c:319 putt/st_conf.c:260
 msgid "Music Volume"
 msgstr "Musiikki"
 
-#: ball/st_conf.c:328 ball/st_name.c:103
+#: ball/st_conf.c:329 ball/st_name.c:103
 msgid "Player Name"
 msgstr "Pelaajan nimi"
 
-#: ball/st_demo.c:182 putt/st_all.c:681
-msgid "Player"
-msgstr "Pelaaja"
-
-#: ball/st_demo.c:186
-msgid "State"
-msgstr "Tila"
-
-#: ball/st_demo.c:203 ball/st_demo.c:343
-msgid "Replay"
-msgstr "Tallenne"
-
-#: ball/st_demo.c:204
+#: ball/st_demo.c:175
 msgid "Time"
 msgstr "Aika"
 
-#: ball/st_demo.c:205
-msgid "Mode"
-msgstr "Moodi"
+#: ball/st_demo.c:179
+msgid "Status"
+msgstr "Tila"
 
-#: ball/st_demo.c:206
+#: ball/st_demo.c:207 ball/st_demo.c:348
+msgid "Replay"
+msgstr "Tallenne"
+
+#: ball/st_demo.c:208 putt/st_all.c:679
+msgid "Player"
+msgstr "Pelaaja"
+
+#: ball/st_demo.c:209
 msgid "Date"
 msgstr "Päiväys"
 
-#: ball/st_demo.c:250
+#: ball/st_demo.c:255
 msgid "Select Replay"
 msgstr "Valitse tallenne"
 
-#: ball/st_demo.c:272
+#: ball/st_demo.c:277
 msgid "No Replays"
 msgstr "Ei tallenteita"
 
-#: ball/st_demo.c:454
+#: ball/st_demo.c:470
 msgid "Replay Paused"
 msgstr "Toisto tauotettu"
 
-#: ball/st_demo.c:457
+#: ball/st_demo.c:473
 msgid "Replay Ends"
 msgstr "Tallenne loppui"
 
-#: ball/st_demo.c:466 ball/st_pause.c:108 putt/st_all.c:591
+#: ball/st_demo.c:482 ball/st_pause.c:108 putt/st_all.c:591
 msgid "Quit"
 msgstr "Poistu"
 
-#: ball/st_demo.c:470
+#: ball/st_demo.c:486
 msgid "Keep"
 msgstr "Säilytä"
 
-#: ball/st_demo.c:471 share/keynames.c:38
+#: ball/st_demo.c:487 share/keynames.c:38
 msgid "Delete"
 msgstr "Poista"
 
-#: ball/st_demo.c:476 ball/st_pause.c:113 putt/st_all.c:592
+#: ball/st_demo.c:492 ball/st_pause.c:113 putt/st_all.c:592
 msgid "Continue"
 msgstr "Jatka"
 
-#: ball/st_demo.c:480
+#: ball/st_demo.c:496
 msgid "Repeat"
 msgstr "Toista"
 
-#: ball/st_demo.c:544
+#: ball/st_demo.c:561
 msgid "Delete Replay?"
 msgstr "Tuhoa tallenne?"
 
@@ -331,27 +336,27 @@ msgstr "Uusi sarjaennätys"
 msgid "Set Complete"
 msgstr "Sarja on pelattu loppuu"
 
-#: ball/st_done.c:94
+#: ball/st_done.c:95
 msgid "Select Level"
 msgstr "Valitse kenttä"
 
-#: ball/st_fall_out.c:82
+#: ball/st_fall_out.c:83
 msgid "Fall-out!"
 msgstr "Putosit kentästä!"
 
-#: ball/st_fall_out.c:89 ball/st_time_out.c:82
+#: ball/st_fall_out.c:90 ball/st_time_out.c:83
 msgid "Exit"
 msgstr "Poistu"
 
-#: ball/st_fall_out.c:92 ball/st_goal.c:206 ball/st_time_out.c:85
+#: ball/st_fall_out.c:93 ball/st_goal.c:208 ball/st_time_out.c:86
 msgid "Next Level"
 msgstr "Seuraava kenttä"
 
-#: ball/st_fall_out.c:95 ball/st_goal.c:209 ball/st_time_out.c:88
+#: ball/st_fall_out.c:96 ball/st_goal.c:211 ball/st_time_out.c:89
 msgid "Retry Level"
 msgstr "Yritä uudelleen"
 
-#: ball/st_fall_out.c:98 ball/st_goal.c:212 ball/st_time_out.c:91
+#: ball/st_fall_out.c:99 ball/st_goal.c:214 ball/st_time_out.c:92
 msgid "Save Replay"
 msgstr "Tallenna uusinta"
 
@@ -370,7 +375,7 @@ msgid_plural "%d new bonus levels"
 msgstr[0] "%d uusi bonuskenttä"
 msgstr[1] "%d uutta bonuskenttää"
 
-#: ball/st_goal.c:203
+#: ball/st_goal.c:205
 msgid "Finish"
 msgstr "Maali"
 
@@ -473,19 +478,21 @@ msgstr ""
 msgid "Watch demo"
 msgstr "Katso demo"
 
-#: ball/st_level.c:64
-msgid "Level "
-msgstr "Kenttä "
+#: ball/st_level.c:50
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Bonuskenttä %s"
 
-#: ball/st_level.c:71
-msgid "Bonus Level "
-msgstr "Bonuskenttä "
+#: ball/st_level.c:52
+#, c-format
+msgid "Level %s"
+msgstr "Kenttä %s"
 
 #: ball/st_name.c:115
 msgid "OK"
 msgstr ""
 
-#: ball/st_name.c:117 ball/st_save.c:119
+#: ball/st_name.c:117 ball/st_save.c:126
 msgid "Cancel"
 msgstr "Peruuta"
 
@@ -501,27 +508,27 @@ msgstr "Keskeytetty"
 msgid "Restart"
 msgstr "Uusi peli"
 
-#: ball/st_play.c:54
+#: ball/st_play.c:58
 msgid "Ready?"
-msgstr "Paikoillanne?"
+msgstr "Paikoillanne"
 
-#: ball/st_play.c:110
+#: ball/st_play.c:114
 msgid "Set?"
-msgstr "Valmiit?"
+msgstr "Valmiit"
 
-#: ball/st_play.c:181
+#: ball/st_play.c:185
 msgid "GO!"
 msgstr "HEP!"
 
-#: ball/st_save.c:106
+#: ball/st_save.c:113
 msgid "Replay Name"
 msgstr "Tallenteen nimi"
 
-#: ball/st_save.c:118
+#: ball/st_save.c:124
 msgid "Save"
 msgstr "Tallenna"
 
-#: ball/st_save.c:188
+#: ball/st_save.c:196
 msgid "Overwrite?"
 msgstr "Kirjoita päälle?"
 
@@ -531,15 +538,15 @@ msgstr "Kenttäsarja"
 
 #. Translators: adjust the amount of whitespace here
 #. * as necessary for the buttons to look good.
-#: ball/st_start.c:196
+#: ball/st_start.c:229
 msgid "   No   "
 msgstr "   Ei   "
 
-#: ball/st_start.c:205
+#: ball/st_start.c:238
 msgid "Lock Goals of Completed Levels?"
 msgstr "Lukitse läpipelattujen kenttien maalit"
 
-#: ball/st_time_out.c:75
+#: ball/st_time_out.c:76
 msgid "Time's Up!"
 msgstr "Aika!"
 
@@ -567,43 +574,43 @@ msgstr "Asetukset"
 msgid "menu^Exit"
 msgstr "Poistu"
 
-#: ball/util.c:26
+#: ball/util.c:27
 msgid "Hard"
 msgstr "Vaikea"
 
-#: ball/util.c:27
+#: ball/util.c:28
 msgid "Medium"
 msgstr "Normaali"
 
-#: ball/util.c:28
+#: ball/util.c:29
 msgid "Easy"
 msgstr "Helppo"
 
-#: ball/util.c:55 ball/util.c:281
+#: ball/util.c:56 ball/util.c:292
 msgid "Most Coins"
 msgstr "Eniten kolikoita"
 
-#: ball/util.c:229 ball/util.c:285
+#: ball/util.c:230 ball/util.c:298
 msgid "Unlock Goal"
 msgstr "Avaa maali"
 
-#: ball/util.c:229 ball/util.c:283
+#: ball/util.c:230 ball/util.c:295
 msgid "Best Times"
 msgstr "Parhaat ajat"
 
-#: ball/util.c:295
+#: ball/util.c:308
 msgid "Change Name"
 msgstr "Vaihda pelaajan nimeä"
 
-#: ball/util.c:442
+#: ball/util.c:455
 msgid "caps"
 msgstr "vaihto"
 
-#: ball/util.c:503
+#: ball/util.c:516
 msgid "Next"
 msgstr "Seuraava"
 
-#: ball/util.c:504
+#: ball/util.c:517
 msgid "Prev"
 msgstr "Edellinen"
 
@@ -611,8 +618,9 @@ msgstr "Edellinen"
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr ""
 
-#: share/geom.h:12
-msgid "png/coin.png"
+#: share/image.c:226
+#, c-format
+msgid "Failed to convert SDL_ttf surface: %s\n"
 msgstr ""
 
 #. Translators,
@@ -622,9 +630,8 @@ msgstr ""
 #. * and that's perfectly fine -- in such cases just copy the source string.
 #.
 #: share/keynames.c:31
-#, fuzzy
 msgid "Backspace"
-msgstr "Takaisin"
+msgstr ""
 
 #: share/keynames.c:32
 msgid "Tab"
@@ -635,32 +642,28 @@ msgid "Clear"
 msgstr ""
 
 #: share/keynames.c:34
-#, fuzzy
 msgid "Return"
-msgstr "Uusi peli"
+msgstr ""
 
 #: share/keynames.c:35
-#, fuzzy
 msgid "Pause"
-msgstr "Keskeytetty"
+msgstr "Keskeytys"
 
 #: share/keynames.c:36
 msgid "Escape"
 msgstr ""
 
 #: share/keynames.c:37
-#, fuzzy
 msgid "Space"
-msgstr "Tallenna"
+msgstr "Välilyönti"
 
 #: share/keynames.c:39
 msgid "Enter"
 msgstr ""
 
 #: share/keynames.c:40
-#, fuzzy
 msgid "Equals"
-msgstr "Helppo"
+msgstr ""
 
 #: share/keynames.c:41
 msgid "Up"
@@ -671,9 +674,8 @@ msgid "Down"
 msgstr ""
 
 #: share/keynames.c:43
-#, fuzzy
 msgid "Right"
-msgstr "Korkea"
+msgstr ""
 
 #: share/keynames.c:44
 msgid "Left"
@@ -820,9 +822,8 @@ msgid "Compose"
 msgstr ""
 
 #: share/keynames.c:81
-#, fuzzy
 msgid "Help"
-msgstr "Ohjeita"
+msgstr ""
 
 #: share/keynames.c:82
 msgid "Print Screen"
@@ -833,14 +834,12 @@ msgid "Sys Req"
 msgstr ""
 
 #: share/keynames.c:84
-#, fuzzy
 msgid "Break"
-msgstr "Takaisin"
+msgstr ""
 
 #: share/keynames.c:85
-#, fuzzy
 msgid "Menu"
-msgstr "Manuaalinen kamera"
+msgstr ""
 
 #: share/keynames.c:86
 msgid "Power"
@@ -851,9 +850,17 @@ msgid "Euro"
 msgstr ""
 
 #: share/keynames.c:88
-#, fuzzy
 msgid "Undo"
-msgstr "Ikkunoitu"
+msgstr ""
+
+#: share/syswm.c:44
+#, c-format
+msgid "Failed to get WM info: %s\n"
+msgstr ""
+
+#: share/syswm.c:115
+msgid "Failed to allocate memory for EWMH icon data.\n"
+msgstr ""
 
 #: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:97 putt/st_all.c:141
 msgid "Par"
@@ -895,24 +902,24 @@ msgstr "Valitse kenttä"
 msgid "Players?"
 msgstr "Pelaajia?"
 
-#: putt/st_all.c:674
+#: putt/st_all.c:672
 #, c-format
 msgid "Hole %02d"
 msgstr "Reikä %02d"
 
-#: putt/st_all.c:999
+#: putt/st_all.c:997
 msgid "It's In!"
 msgstr "Reiässä!"
 
-#: putt/st_all.c:1141
+#: putt/st_all.c:1139
 msgid "1 Stroke Penalty"
 msgstr "1 rangaistuslyönti"
 
-#: putt/st_all.c:1219
+#: putt/st_all.c:1217
 msgid "Scores"
 msgstr "Lyönnit"
 
-#: putt/st_all.c:1272
+#: putt/st_all.c:1270
 msgid "Final Scores"
 msgstr "Tulostaulu"
 
@@ -926,7 +933,7 @@ msgid ""
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
 msgstr ""
 "Vaikeustaso: Aloittelijalle\\\\25 kenttää jotka opettavat pelaamisen "
-"perusteet.\\Kenttien esittelyteksteissä pelivinkkejä.\\ \\"
+"perusteet.\\Kenttien esittelyteksteissä pelivinkkejä.\\\\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
@@ -934,9 +941,11 @@ msgstr "Neverball - Normaali"
 
 #: data/set-medium.txt
 msgid ""
-"Difficulty: A set of levels for intermediate players.\\\\\\Work in progress."
-"\\\\"
-msgstr "Vaikeustaso: Normaali\\\\\\\\\\"
+"Difficulty: Beginner through Expert\\\\25 levels which provide a balanced"
+"\\challenge for players. Try to claim\\some of the records provided.\\"
+msgstr ""
+"Vaikeustaso: Aloittelijasta eksperttiin\\\\25 kenttää erilaisilla "
+"vaikeustasoilla.\\\\\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -945,14 +954,14 @@ msgstr "Neverball - Vaikea"
 #: data/set-hard.txt
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
-"challenge for\\the experienced player. Try to claim\\Best Times and Most "
-"Coins records.\\"
+"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
+"and Unlock Goal records.\\"
 msgstr ""
-"Vaikeustaso: Ekspertti\\\\25 kenttää joissa riittää haastetta\\kokeneellekin "
-"pelaajalle.\\\\"
+"\\Vaikeustaso: Kokeneesta eksperttiin\\\\25 kenttää joissa riittää haastetta"
+"\\kokeneellekin pelaajalle.\\\\"
 
 #: data/set-mym.txt
-msgid "Mehdi's Levels"
+msgid "Tour de force"
 msgstr ""
 
 #: data/set-mym.txt
@@ -960,15 +969,17 @@ msgid ""
 "Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
 "\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
+"Vaikeustaso: Experteille... ja mielenvikaisille\\\\25 kenttää joissa riittää "
+"haastetta myös eksperteille.\\Tekijä: Mehdi Yousfi-Monod (mym)\\\\"
 
 #: data/set-mym2.txt
-msgid "Mehdi's Levels Suite"
+msgid "Retour de force"
 msgstr ""
 
 #: data/set-mym2.txt
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
-"particulary for coins grabbing.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+"particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
 
 #: data/set-fwp.txt
@@ -1038,13 +1049,13 @@ msgstr ""
 
 #: data/map-easy/coins.map
 msgid ""
-"This time you must get 50 coins to unlock the goal.\\Collect 100 coins to "
-"earn an extra ball.\\Red coins are worth 5, blue coins are worth 10.\\Get to "
-"the goal before time expires!\\\\Click to begin.\\"
+"This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
+"blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
+"begin.\\"
 msgstr ""
-"Tässä kentässä sinun täytyy kerätä 50 kolikkoa\\avataksesi maali. Kerää 100 "
-"kolikkoa saadaksesi lisäelämän.\\Punaiset kolikot ovat arvoltaan 5 ja "
-"siniset 10 keltaista.\\Yritä päästä maaliin ennenkuin aika loppuu!\\"
+"Tässä kentässä sinun täytyy kerätä 50 kolikkoa\\avataksesi maali. Punaiset "
+"kolikot ovat arvoltaan 5\\ja siniset 10 keltaista.\\Yritä päästä maaliin "
+"ennen ajan loppumista!\\"
 
 #: data/map-easy/corners.map
 msgid ""
@@ -1058,13 +1069,19 @@ msgid ""
 "\\and maintain precise control.\\Build some momentum to reach the corners.\\"
 msgstr ""
 
-#: data/map-easy/easy.map
+#: data/map-easy/easy.map data/map-misc/texture-debug.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
 msgstr ""
 "Liikuta hiirtä kallistaaksesi kenttää.\\Kerää 10 kolikkoa avataksesi maali."
 "\\Liikuta pallo maaliin.\\Napsauta aloittaaksesi peli.\\"
+
+#: data/map-easy/easyhalfpipe.map
+msgid ""
+"Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
+"accelerate and you will\\be able to stay in control."
+msgstr ""
 
 #: data/map-easy/fence.map
 msgid ""
@@ -1100,6 +1117,13 @@ msgstr ""
 "Jokainen silta on kapeampi kuin edeltäjänsä,\\mutta myös varakkaampi.\\Sinun "
 "täytyy päättää kuinka pitkälle haluat mennä.\\"
 
+#: data/map-easy/groundbreak.map
+msgid ""
+"Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
+"will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
+"instead of falling into it."
+msgstr ""
+
 #: data/map-easy/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing down"
@@ -1109,8 +1133,11 @@ msgstr ""
 "yhtä paljon tilaa hidastukseen\\ kuin kiihdyttämiseenkin.\\"
 
 #: data/map-easy/lollipop.map
-msgid "Follow the yellow lick road..."
-msgstr "Seuraa keltaista..."
+msgid ""
+"Follow the yellow lick road!\\\\The blue coins are especially challenging,"
+"\\but with some experimentation and practice,\\you'll be able to collect "
+"them all."
+msgstr ""
 
 #: data/map-easy/maze.map
 msgid ""
@@ -1119,6 +1146,12 @@ msgid ""
 msgstr ""
 "Pallo kimpoilee holtittomasti\\kapeissa käytävissä. Hitaasti\\koskettamatta "
 "seiniä se onnistuu.\\Kaikki kolikot ovat kerättävissä."
+
+#: data/map-easy/mazebump.map
+msgid ""
+"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers "
+"- it will help you\\to reach the goal."
+msgstr ""
 
 #: data/map-easy/mover.map
 msgid ""
@@ -1132,20 +1165,51 @@ msgstr ""
 
 #: data/map-easy/peasy.map
 msgid ""
-"Mouse buttons rotate the view.\\Press Spacebar to pause, ESC to quit.\\\\\\"
-"\\Click to begin.\\"
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
 msgstr ""
-"Voit kääntää näkökulmaa hiiren painikkeilla.\\Välilyönti keskeyttää pelin, "
-"Esc lopettaa.\\\\\\\\Napsauta aloittaaksesi peli.\\"
+"Voit kääntää näkökulmaa hiiren painikkeilla.\\Voit keskeyttää tai lopettaa "
+"pelin painamalla Esc-näppäintä.\\\\\\\\Napsauta hiirellä aloittaaksesi peli."
+"\\"
+
+#: data/map-easy/roundcoins.map
+msgid ""
+"When you are on the elevators,\\make small adjustments to keep the ball "
+"steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
+"much movement and you will fall off."
+msgstr ""
+
+#: data/map-easy/roundlaby.map
+msgid ""
+"There is only one path to reach the goal,\\but lots of paths for collecting "
+"coins.\\Make sure you collect enough\\to unlock the goal."
+msgstr ""
+
+#: data/map-easy/slalom.map
+msgid ""
+"Follow the trail of coins to reach the goal.\\If you hit a post while moving "
+"quickly,\\you will bounce far off course."
+msgstr ""
+
+#: data/map-easy/slightcurve.map
+msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
+msgstr ""
+
+#: data/map-easy/speedbumps.map
+msgid ""
+"When the ball is on a moving platform,\\it will be pulled in the direction "
+"of movement.\\Use the rails to steady yourself,\\and collect the coins you "
+"need\\to open the goal."
+msgstr ""
 
 #: data/map-easy/thwomp2.map
-msgid "Grab all the coins...\\but don't get thwomped!"
+msgid "Grab all the coins...\\but don't get bullied!"
 msgstr ""
 
 #: data/map-easy/wakka.map
 msgid ""
-"Here's another coin grab.\\Use it to earn a free ball.\\Perhaps you already "
-"know a good route.\\Teleportation might come in handy.\\"
+"Here's another coin grab.\\Perhaps you already know a good route."
+"\\Teleportation might come in handy.\\"
 msgstr ""
 
 #: data/map-fwp/adventure.map
@@ -1228,7 +1292,7 @@ msgstr ""
 
 #: data/map-hard/flip.map
 msgid ""
-"Thus Neverball is a puzzle game ?\\Remove the red to unlock the goal.\\Each "
+"Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
 msgstr ""
 
@@ -1264,6 +1328,13 @@ msgstr ""
 
 #: data/map-hard/movers.map
 msgid "Go for a ride.\\"
+msgstr ""
+
+#: data/map-hard/nostairs.map
+msgid ""
+"There are two goals here.\\You can complete this level\\the easy way or the "
+"hard way.\\Of course, by going the easy way\\you can forget about all\\those "
+"red and blue coins."
 msgstr ""
 
 #: data/map-hard/paths.map
@@ -1327,10 +1398,24 @@ msgstr ""
 msgid "The floor is as flat as you make it.\\"
 msgstr ""
 
+#: data/map-medium/accordian.map
+msgid "Stairway to heaven"
+msgstr ""
+
 #: data/map-medium/angle.map
 msgid ""
 "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
 "the easy cash or\\go all the way for a big payoff.\\"
+msgstr ""
+
+#: data/map-medium/coneskeleton.map
+msgid "Plenty of coins for the taking.\\Can you take them all?"
+msgstr ""
+
+#: data/map-medium/cross.map
+msgid ""
+"Use momentum to reach\\the upper platforms,\\but keep the ball in control"
+"\\for safe landing.\\\\The manual view may help here.\\"
 msgstr ""
 
 #: data/map-medium/drops.map
@@ -1347,16 +1432,37 @@ msgstr ""
 msgid "Balance risk versus reward.\\"
 msgstr ""
 
+#: data/map-medium/hardrise.map
+msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
+msgstr ""
+
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
+msgstr ""
+
+#: data/map-medium/learngrow.map
+msgid ""
+"The ball will fit in those small holes,\\if you can just find something to "
+"make it smaller.\\Other places may require a bigger ball.\\One thing is "
+"certain - you'll want a plan!"
 msgstr ""
 
 #: data/map-medium/locks.map
 msgid "Hit the switches to move the barriers.\\"
 msgstr ""
 
+#: data/map-medium/multicurves.map
+msgid ""
+"The temptation to move quickly\\could prove your undoing.\\\\Then again, "
+"maybe not..."
+msgstr ""
+
 #: data/map-medium/plinko.map
 msgid "Take it slowly.\\"
+msgstr ""
+
+#: data/map-medium/qbert.map
+msgid "You can never go home again..."
 msgstr ""
 
 #: data/map-medium/rampdn.map
@@ -1364,6 +1470,18 @@ msgid ""
 "You'll need to exert some control over your\\view here.  Press F3 to stop "
 "the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press F1 "
 "to return to the auto-rotating view.\\"
+msgstr ""
+
+#: data/map-medium/roundfloors.map
+msgid ""
+"This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
+"layer."
+msgstr ""
+
+#: data/map-medium/sparselines.map
+msgid ""
+"Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
+"challenge!"
 msgstr ""
 
 #: data/map-medium/spiraldn.map
@@ -1400,7 +1518,7 @@ msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
 msgstr ""
 
 #: data/map-medium/woodmaze.map
-msgid "lalala"
+msgid "Follow the trail of coins\\to make it through the labyrinth."
 msgstr ""
 
 #: data/map-medium/zigzag.map
@@ -1417,6 +1535,10 @@ msgstr ""
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
+msgstr ""
+
+#: data/map-misc/blockers.map
+msgid "Block around the clock."
 msgstr ""
 
 #: data/map-misc/bounce.map
@@ -1474,11 +1596,11 @@ msgid "Le parcours du combattant.\\Ready for the assault course?"
 msgstr ""
 
 #: data/map-mym/circuit1.map
-msgid "Les rampes abruptes.\\Control your speed."
+msgid "La course effrénée.\\Let's make some laps."
 msgstr ""
 
 #: data/map-mym/circuit2.map
-msgid "La course effrénée.\\Let's make some laps."
+msgid "Les rampes abruptes.\\Control your speed."
 msgstr ""
 
 #: data/map-mym/climb.map
@@ -1486,18 +1608,18 @@ msgid "L'escalade ardue.\\Do you suffer from vertigo?"
 msgstr ""
 
 #: data/map-mym/comeback.map
-msgid "Le cycle eternel.\\Avoid teleporters..."
+msgid "Le cycle éternel.\\Avoid teleporters..."
 msgstr ""
 
 #: data/map-mym/dance1.map
+msgid "La ballade tranquille.\\What a quiet walk."
+msgstr ""
+
+#: data/map-mym/dance2.map
 msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
 "activating the last moving platform,\\ turn around the Thwomp until the goal "
 "is reachable."
-msgstr ""
-
-#: data/map-mym/dance2.map
-msgid "La ballade tranquille.\\What a quiet walk."
 msgstr ""
 
 #: data/map-mym/descent.map
@@ -1529,7 +1651,7 @@ msgid "La tour de verre.\\Find the way to the exit."
 msgstr ""
 
 #: data/map-mym/hard.map
-msgid "La maitrise de Neverball.\\You still think Neverball is too easy?"
+msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
 msgstr ""
 
 #: data/map-mym/loop1.map
@@ -1538,12 +1660,12 @@ msgstr ""
 
 #: data/map-mym/loop2.map
 msgid ""
-"Le controle des courbes.\\Find the right angle to turn,\\to jump and to "
+"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
 msgstr ""
 
 #: data/map-mym/maze1.map
-msgid "Le chemin dissimule.\\Test your memory."
+msgid "Le chemin dissimulé.\\Test your memory."
 msgstr ""
 
 #: data/map-mym/maze2.map
@@ -1554,12 +1676,12 @@ msgstr ""
 
 #: data/map-mym/narrow.map
 msgid ""
-"Le sentier etroit.\\Patience and timing.\\Tips: maximise speed at the first "
+"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
 "slope."
 msgstr ""
 
 #: data/map-mym/running.map
-msgid "Les epreuves minutees.\\Run baby, run!"
+msgid "Les épreuves minutées.\\Run baby, run!"
 msgstr ""
 
 #: data/map-mym/scrambling.map
@@ -1568,7 +1690,7 @@ msgid ""
 msgstr ""
 
 #: data/map-mym/snow.map
-msgid "La descente rafraichissante.\\Not so fast, not so fast."
+msgid "La descente rafraîchissante.\\Not so fast, not so fast."
 msgstr ""
 
 #: data/map-mym/trust.map
@@ -1576,11 +1698,11 @@ msgid "Le chemin de la foi.\\Self-confidence."
 msgstr ""
 
 #: data/map-mym/turn.map
-msgid "Le sens trigonometrique.\\Turn, wait and jump."
+msgid "Le sens trigonométrique.\\Turn, wait and jump."
 msgstr ""
 
 #: data/map-mym/up.map
-msgid "L'ascension pressee.\\Only one piece of advice: don't stop!"
+msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
 msgstr ""
 
 #: data/map-mym2/backforth.map
@@ -1595,8 +1717,8 @@ msgstr ""
 msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
 msgstr ""
 
-#: data/map-mym2/bigcones.map
-msgid "Les grands cones.\\Living in a cone."
+#: data/map-mym2/bigcone.map
+msgid "Le grand cône.\\Living in a cone."
 msgstr ""
 
 #: data/map-mym2/bombman.map
@@ -1604,11 +1726,13 @@ msgid "Les flammes ardentes.\\Do this remind you of something?"
 msgstr ""
 
 #: data/map-mym2/bounces.map
-msgid "Les sauts du celebre plombier.\\Follow the coins."
+msgid "Les sauts du célèbre plombier.\\Follow the coins."
 msgstr ""
 
 #: data/map-mym2/fall.map
-msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena."
+msgid ""
+"Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
+"teleports to unlock and reach the goal."
 msgstr ""
 
 #: data/map-mym2/freefall.map
@@ -1623,7 +1747,7 @@ msgid "Le petit moulin.\\The good timing to go in the cabin."
 msgstr ""
 
 #: data/map-mym2/littlecones.map
-msgid "Ne pas se laisser emporter dans le neant.\\Don't go too low."
+msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
 msgstr ""
 
 #: data/map-mym2/longpipe.map
@@ -1633,7 +1757,7 @@ msgid ""
 msgstr ""
 
 #: data/map-mym2/morenarrow.map
-msgid "Plus dur que la difficulte.\\Good luck."
+msgid "Plus dur que la difficulté.\\Good luck."
 msgstr ""
 
 #: data/map-mym2/movinglumps.map
@@ -1645,7 +1769,7 @@ msgid "Le passage éphémère.\\Trust the coins."
 msgstr ""
 
 #: data/map-mym2/push.map
-msgid "He, on pousse pas !\\Not too fast, not too slow."
+msgid "Hé, on pousse pas !\\Not too fast, not too slow."
 msgstr ""
 
 #: data/map-mym2/rainbow.map
@@ -1653,7 +1777,7 @@ msgid "Rainbow Road.\\Make 3 laps to open the goal."
 msgstr ""
 
 #: data/map-mym2/rodeo.map
-msgid "Le rodeo de Neverball.\\You'll fall quickly."
+msgid "Le rodéo de Neverball.\\You'll fall quickly."
 msgstr ""
 
 #: data/map-mym2/runstop.map
@@ -1661,11 +1785,11 @@ msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
 msgstr ""
 
 #: data/map-mym2/shaker.map
-msgid "Preparez un petit sac.\\The stomach-tester."
+msgid "Préparez un petit sac.\\The stomach-tester."
 msgstr ""
 
 #: data/map-mym2/sonic.map
-msgid "Un petit echauffement.\\Welcome to the new Mehdi's set!"
+msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
 msgstr ""
 
 #: data/map-mym2/speed.map
@@ -1687,6 +1811,51 @@ msgstr ""
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
 msgstr ""
+
+#. Desktop entry comment
+#: dist/neverball.desktop.in
+msgid "A 3D arcade game with a ball"
+msgstr ""
+
+#. Desktop entry comment
+#: dist/neverputt.desktop.in
+msgid "A 3D mini golf game"
+msgstr ""
+
+#. Translators,
+#.
+#. Listed here are the Neverball materials (relative to the data directory)
+#. that can be localised.  Each material <mtrl> has a corresponding JPG or PNG
+#. texture.  To localise a material, create a localised texture for it (copy
+#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify it)
+#. and translate the material name to match (from <mtrl> to
+#. <mtrl>-<lang-code>).
+#.
+#. Author's comments on the original mtrl/words texture:
+#.
+#. "Courier New, 40pt, bold. The words are centered in cells of 256x64 pixels.
+#. For the vertical centering, the x-height is used as the reference. Some
+#. manual corrections were made; for example, the hyphen in 'Fall-out' was
+#. shortened in order to increase the margin on each side of the word."
+#.
+#. Those on GNU+Linux having the ImageMagick program suite installed may find
+#. the provided scripts/gen-words.sh shell script useful.
+msgid "mtrl/words"
+msgstr ""
+
+msgid "item/coin/coin"
+msgstr ""
+
+#~ msgid "Mode"
+#~ msgstr "Moodi"
+
+#~ msgid "Follow the yellow lick road..."
+#~ msgstr "Seuraa keltaista..."
+
+#~ msgid ""
+#~ "Difficulty: A set of levels for intermediate players.\\\\\\Work in "
+#~ "progress.\\\\"
+#~ msgstr "Vaikeustaso: Normaali\\\\\\\\\\"
 
 #~ msgid "Practice Mode"
 #~ msgstr "Harjoittelumoodi"

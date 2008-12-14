@@ -99,6 +99,7 @@ enum {
     CONFIG_PLAYER,
     CONFIG_BALL,
     CONFIG_WIIMOTE_ADDR,
+    CONFIG_REPLAY_NAME,
 
     CONFIG_OPTION_S_COUNT
 };
@@ -156,6 +157,7 @@ enum {
 #define DEFAULT_ROTATE_FAST          200
 #define DEFAULT_PLAYER               ""
 #define DEFAULT_BALL                 "ball/basic-ball/basic-ball"
+#define DEFAULT_REPLAY_NAME          "%s-%l"
 #define DEFAULT_CHEAT                0
 #define DEFAULT_KEY_FORWARD          SDLK_UP
 #define DEFAULT_KEY_BACKWARD         SDLK_DOWN

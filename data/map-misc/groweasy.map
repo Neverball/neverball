@@ -1188,7 +1188,6 @@
 // entity 29
 {
 "classname" "target_position"
-"message" "There are special coins which can make your\ball larger or smaller."
 "targetname" "target_position1"
 "origin" "120 456 0"
 }

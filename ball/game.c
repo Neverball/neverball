@@ -19,12 +19,14 @@
 #include "game.h"
 #include "vec3.h"
 #include "geom.h"
+#include "item.h"
 #include "back.h"
 #include "part.h"
 #include "ball.h"
 #include "image.h"
 #include "audio.h"
 #include "solid_gl.h"
+#include "solid_phys.h"
 #include "config.h"
 #include "binary.h"
 
@@ -34,6 +36,8 @@ static int game_state = 0;
 
 static struct s_file file;
 static struct s_file back;
+
+static int   reflective;                /* Reflective geometry used?         */
 
 static float timer      = 0.f;          /* Clock time                        */
 static int   timer_down = 1;            /* Timer go up or down?              */
@@ -328,6 +332,8 @@ int game_init(const char *file_name, int t, int e)
                      config_get_d(CONFIG_TEXTURES),
                      config_get_d(CONFIG_SHADOW)))
         return (game_state = 0);
+
+    reflective = sol_reflective(&file);
 
     game_state = 1;
 
@@ -842,7 +848,7 @@ void game_draw(int pose, float t)
             glMultMatrixf(M);
             glTranslatef(-view_c[0], -view_c[1], -view_c[2]);
 
-            if (config_get_d(CONFIG_REFLECTION))
+            if (reflective && config_get_d(CONFIG_REFLECTION))
             {
                 glEnable(GL_STENCIL_TEST);
                 {
@@ -1021,7 +1027,7 @@ static int game_update_state(int bt)
 
     /* Test for an item. */
 
-    if (bt && (hp = sol_item_test(fp, p, COIN_RADIUS)))
+    if (bt && (hp = sol_item_test(fp, p, ITEM_RADIUS)))
     {
         item_color(hp, c);
         part_burst(p, c);

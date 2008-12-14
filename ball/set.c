@@ -300,6 +300,11 @@ int set_exists(int i)
     return (0 <= i && i < count);
 }
 
+const char *set_id(int i)
+{
+    return set_exists(i) ? set_v[i].id : NULL;
+}
+
 const char *set_name(int i)
 {
     return set_exists(i) ? _(set_v[i].name) : NULL;
@@ -358,9 +363,9 @@ static void set_load_levels(void)
         l->number = i;
 
         if (l->is_bonus)
-            sprintf(l->repr, "%s",   roman[bnb++]);
+            sprintf(l->name, "%s",   roman[bnb++]);
         else
-            sprintf(l->repr, "%02d", nb++);
+            sprintf(l->name, "%02d", nb++);
 
         l->is_locked    = 1;
         l->is_completed = 0;
@@ -444,9 +449,10 @@ void level_snap(int i)
         game_set_fly(1.f);
         game_kill_fade();
         game_draw(1, 0);
-        SDL_GL_SwapBuffers();
 
         image_snap(filename);
+
+        SDL_GL_SwapBuffers();
     }
 }
 
@@ -455,7 +461,10 @@ void set_cheat(void)
     int i;
 
     for (i = 0; i < set_v[set].count; i++)
-        level_v[i].is_locked = 0;
+    {
+        level_v[i].is_locked    = 0;
+        level_v[i].is_completed = 1;
+    }
 }
 
 /*---------------------------------------------------------------------------*/

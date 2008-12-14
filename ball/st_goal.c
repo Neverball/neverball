@@ -193,7 +193,9 @@ static int goal_enter(void)
         }
 
         if ((jd = gui_hstack(id)))
-            gui_score_board(jd, 1, high);
+            gui_score_board(jd, GUI_MOST_COINS |
+                                GUI_BEST_TIMES |
+                                GUI_UNLOCK_GOAL, 1, high);
 
         gui_space(id);
 
@@ -276,8 +278,13 @@ static void goal_timer(int id, float dt)
 
 static int goal_keybd(int c, int d)
 {
-    if (d && config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
-        return goal_action(gui_score_next(gui_score_get()));
+    if (d)
+    {
+        if (config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
+            return goal_action(gui_score_next(gui_score_get()));
+        if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
+            return goal_action(GOAL_SAME);
+    }
 
     return 1;
 }

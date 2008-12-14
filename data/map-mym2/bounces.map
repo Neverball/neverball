@@ -10,9 +10,10 @@
 "shot" "shot-mym2/bounces.jpg"
 "time" "1500"
 "goal" "120"
-"time_hs" "600 800"
+"time_hs" "600 700"
+"goal_hs" "1000 1100"
 "coin_hs" "177 130"
-"message" "Les sauts du celebre plombier.\Follow the coins."
+"message" "Les sauts du célèbre plombier.\Follow the coins."
 // brush 0
 {
 ( 64 64 -4 ) ( -64 64 -4 ) ( -64 -56 -4 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0

@@ -14,6 +14,7 @@
 
 #include <ctype.h>
 #include <string.h>
+#include <assert.h>
 
 #include "gui.h"
 #include "util.h"
@@ -29,6 +30,8 @@ static int is_special_name(const char *n)
 }
 
 /*---------------------------------------------------------------------------*/
+
+static int coin_label;
 
 static int coin_coin[4];
 static int coin_name[4];
@@ -52,7 +55,8 @@ static void gui_most_coins(int id, int e)
 
         if ((kd = gui_vstack(jd)))
         {
-            gui_label(kd, _("Most Coins"), GUI_SML, GUI_TOP, 0, 0);
+            coin_label = gui_label(kd, _("Unavailable"),
+                                   GUI_SML, GUI_TOP, 0, 0);
 
             if ((ld = gui_hstack(kd)))
             {
@@ -112,6 +116,8 @@ static void set_most_coins(const struct score *s, int hilight)
 
     if (s == NULL)
     {
+        gui_set_label(coin_label, _("Unavailable"));
+
         for (j = 0; j < NSCORE + coin_extra_row ; j++)
         {
             gui_set_count(coin_coin[j], -1);
@@ -121,6 +127,8 @@ static void set_most_coins(const struct score *s, int hilight)
     }
     else
     {
+        gui_set_label(coin_label, _("Most Coins"));
+
         for (j = 0; j < NSCORE + coin_extra_row; j++)
         {
             name = s->player[j];
@@ -168,7 +176,8 @@ static void gui_best_times(int id, int e)
 
         if ((kd = gui_vstack(jd)))
         {
-            time_label = gui_label(kd, "XXX", GUI_SML, GUI_TOP, 0, 0);
+            time_label = gui_label(kd, _("Unavailable"),
+                                   GUI_SML, GUI_TOP, 0, 0);
 
             if ((ld = gui_hstack(kd)))
             {
@@ -226,10 +235,10 @@ static void set_best_times(const struct score *s, int hilight, int goal)
     const char *name;
     int j;
 
-    gui_set_label(time_label, goal ? _("Unlock Goal") : _("Best Times"));
-
     if (s == NULL)
     {
+        gui_set_label(time_label, _("Unavailable"));
+
         for (j = 0; j < NSCORE + time_extra_row ; j++)
         {
             gui_set_clock(time_time[j], -1);
@@ -239,6 +248,8 @@ static void set_best_times(const struct score *s, int hilight, int goal)
     }
     else
     {
+        gui_set_label(time_label, goal ? _("Unlock Goal") : _("Best Times"));
+
         for (j = 0; j < NSCORE + time_extra_row; j++)
         {
             name = s->player[j];
@@ -264,9 +275,18 @@ static void set_best_times(const struct score *s, int hilight, int goal)
 
 static int score_type = GUI_MOST_COINS;
 
-void gui_score_board(int id, int e, int h)
+void gui_score_board(int id, unsigned int types, int e, int h)
 {
     int jd, kd, ld;
+
+    assert((types & GUI_MOST_COINS)  == GUI_MOST_COINS ||
+           (types & GUI_BEST_TIMES)  == GUI_BEST_TIMES ||
+           (types & GUI_UNLOCK_GOAL) == GUI_UNLOCK_GOAL );
+
+    /* Make sure current score type matches the spec. */
+
+    while ((types & score_type) != score_type)
+        score_type = gui_score_next(score_type);
 
     gui_filler(id);
 
@@ -278,12 +298,15 @@ void gui_score_board(int id, int e, int h)
         {
             gui_filler(kd);
 
-            gui_state(kd, _("Most Coins"),  GUI_SML, GUI_MOST_COINS,
-                      score_type == GUI_MOST_COINS);
-            gui_state(kd, _("Best Times"),  GUI_SML, GUI_BEST_TIMES,
-                      score_type == GUI_BEST_TIMES);
-            gui_state(kd, _("Unlock Goal"), GUI_SML, GUI_UNLOCK_GOAL,
-                      score_type == GUI_UNLOCK_GOAL);
+            if ((types & GUI_MOST_COINS) == GUI_MOST_COINS)
+                gui_state(kd, _("Most Coins"),  GUI_SML, GUI_MOST_COINS,
+                          score_type == GUI_MOST_COINS);
+            if ((types & GUI_BEST_TIMES) == GUI_BEST_TIMES)
+                gui_state(kd, _("Best Times"),  GUI_SML, GUI_BEST_TIMES,
+                          score_type == GUI_BEST_TIMES);
+            if ((types & GUI_UNLOCK_GOAL) == GUI_UNLOCK_GOAL)
+                gui_state(kd, _("Unlock Goal"), GUI_SML, GUI_UNLOCK_GOAL,
+                          score_type == GUI_UNLOCK_GOAL);
 
             if (h)
             {
@@ -492,7 +515,7 @@ char gui_keyboard_char(char c)
  * two as labels for a switch with a default label.
  */
 
-int gui_back_prev_next(int id, int prev, int next)
+int gui_navig(int id, int prev, int next)
 {
     int jd;
 
@@ -500,30 +523,28 @@ int gui_back_prev_next(int id, int prev, int next)
     {
         if (next || prev)
         {
-            gui_maybe(jd, _("Next"), GUI_NEXT, next);
-            gui_maybe(jd, _("Prev"), GUI_PREV, prev);
+            gui_maybe(jd, _("Next"), GUI_NEXT, GUI_NULL, next);
+            gui_maybe(jd, _("Prev"), GUI_PREV, GUI_NULL, prev);
         }
+
+        gui_space(jd);
 
         gui_start(jd, _("Back"), GUI_SML, GUI_BACK, 0);
     }
     return jd;
 }
 
-int gui_maybe(int id, const char *label, int token, int enabled)
+int gui_maybe(int id, const char *label, int etoken, int dtoken, int enabled)
 {
     int bd;
 
     if (!enabled)
     {
-        bd = gui_state(id,
-                       label,
-                       GUI_SML,
-                       token >= 0 ? token | GUI_NULL_MASK : GUI_NULL,
-                       0);
-
+        bd = gui_state(id, label, GUI_SML, dtoken, 0);
         gui_set_color(bd, gui_gry, gui_gry);
     }
-    else bd = gui_state(id, label, GUI_SML, token, 0);
+    else
+        bd = gui_state(id, label, GUI_SML, etoken, 0);
 
     return bd;
 }

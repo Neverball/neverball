@@ -16,6 +16,7 @@
 #include "hud.h"
 #include "back.h"
 #include "geom.h"
+#include "item.h"
 #include "ball.h"
 #include "part.h"
 #include "game.h"
@@ -388,7 +389,7 @@ static void null_leave(int id)
     part_init(GOAL_HEIGHT);
     shad_init();
     ball_init();
-    item_init(g);
+    item_init();
     goal_init(g);
     jump_init(g);
     swch_init(g);

@@ -10,8 +10,9 @@
 "shot" "shot-mym2/runstop.jpg"
 "time" "9000"
 "goal" "30"
-"time_hs" "1300 2000"
-"coin_hs" "107 40"
+"time_hs" "1200 1400"
+"goal_hs" "1500 1800"
+"coin_hs" "108 40"
 "message" "J'y vais, ou j'y vais pas ?\Do not dither."
 // brush 0
 {

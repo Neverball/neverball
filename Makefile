@@ -15,12 +15,12 @@ endif
 #------------------------------------------------------------------------------
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
-ifeq ($(ENABLE_WII),1)
-    # libwiimote is NOT ANSI compliant
-    CFLAGS := -O2
+ifeq ($(DEBUG),1)
+    CFLAGS   := -g
+    CPPFLAGS :=
 else
-    #CFLAGS := -Wall -g -ansi -pedantic
-    CFLAGS := -Wall -O2 -ansi -pedantic
+    CFLAGS   := -O2
+    CPPFLAGS := -DNDEBUG
 endif
 
 #------------------------------------------------------------------------------
@@ -28,11 +28,19 @@ endif
 
 # Compiler...
 
-ALL_CFLAGS := $(CFLAGS)
+SSE_CFLAGS := $(shell env CC="$(CC)" sh scripts/get-sse-cflags.sh)
+
+ifeq ($(ENABLE_WII),1)
+    # libwiimote is NOT ANSI compliant (TODO, check if this is necessary.  GCC
+    # is supposed to suppress warnings from system headers.)
+    ALL_CFLAGS := $(SSE_CFLAGS) $(CFLAGS)
+else
+    ALL_CFLAGS := -Wall -ansi -pedantic $(SSE_CFLAGS) $(CFLAGS)
+endif
 
 # Preprocessor...
 
-SDL_CPPFLAGS := $(shell sdl-config --cflags)
+SDL_CPPFLAGS := $(shell sdl-config --cflags) -U_GNU_SOURCE
 PNG_CPPFLAGS := $(shell libpng-config --cflags)
 
 ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare \
@@ -134,9 +142,11 @@ BALL_OBJS := \
 	share/image.o       \
 	share/solid.o       \
 	share/solid_gl.o    \
+	share/solid_phys.o  \
 	share/part.o        \
 	share/back.o        \
 	share/geom.o        \
+	share/item.o        \
 	share/ball.o        \
 	share/gui.o         \
 	share/base_config.o \
@@ -149,6 +159,7 @@ BALL_OBJS := \
 	share/tilt.o        \
 	share/common.o      \
 	share/keynames.o    \
+	share/syswm.o       \
 	ball/hud.o          \
 	ball/game.o         \
 	ball/score.o        \
@@ -183,6 +194,7 @@ PUTT_OBJS := \
 	share/image.o       \
 	share/solid.o       \
 	share/solid_gl.o    \
+	share/solid_phys.o  \
 	share/part.o        \
 	share/geom.o        \
 	share/ball.o        \
@@ -196,6 +208,7 @@ PUTT_OBJS := \
 	share/text.o        \
 	share/sync.o        \
 	share/common.o      \
+	share/syswm.o       \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \
@@ -204,12 +217,19 @@ PUTT_OBJS := \
 	putt/st_conf.o      \
 	putt/main.o
 
+ifdef MINGW
+BALL_OBJS += neverball.ico.o
+PUTT_OBJS += neverputt.ico.o
+endif
+
 BALL_DEPS := $(BALL_OBJS:.o=.d)
 PUTT_DEPS := $(PUTT_OBJS:.o=.d)
 MAPC_DEPS := $(MAPC_OBJS:.o=.d)
 
 MAPS := $(shell find data -name "*.map" \! -name "*.autosave.map")
 SOLS := $(MAPS:%.map=%.sol)
+
+DESKTOPS := $(basename $(wildcard dist/*.desktop.in))
 
 #------------------------------------------------------------------------------
 
@@ -220,9 +240,15 @@ SOLS := $(MAPS:%.map=%.sol)
 %.sol : %.map $(MAPC_TARG)
 	$(MAPC) $< data
 
+%.desktop : %.desktop.in
+	sh scripts/translate-desktop.sh < $< > $@
+
+%.ico.o: dist/ico/%.ico
+	echo "1 ICON \"$<\"" | $(WINDRES) -o $@
+
 #------------------------------------------------------------------------------
 
-all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales
+all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales desktops
 
 $(BALL_TARG) : $(BALL_OBJS)
 	$(CC) $(ALL_CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LDFLAGS) $(ALL_LIBS)
@@ -246,6 +272,8 @@ ifneq ($(ENABLE_NLS),0)
 	$(MAKE) -C po
 endif
 
+desktops : $(DESKTOPS)
+
 clean-src :
 	$(RM) $(BALL_TARG) $(BALL_OBJS) $(BALL_DEPS)
 	$(RM) $(PUTT_TARG) $(PUTT_OBJS) $(PUTT_DEPS)
@@ -253,14 +281,19 @@ clean-src :
 
 clean : clean-src
 	$(RM) $(SOLS)
+	$(RM) $(DESKTOPS)
 	$(MAKE) -C po clean
 
 test : all
 	./neverball
 
+TAGS :
+	$(RM) $@
+	find . -name '*.[ch]' | xargs etags -a
+
 #------------------------------------------------------------------------------
 
-.PHONY : all sols locales clean-src clean test
+.PHONY : all sols locales clean-src clean test TAGS
 
 -include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS)
 
@@ -312,12 +345,8 @@ install-dlls: install-dlls.sh
 	sh $<
 
 install-dlls.sh:
-	if ! sh scripts/gen-install-dlls.sh > $@; then \
-	    $(RM) $@; \
-	    exit 1; \
-	fi
+	mingw-list-dlls --sh > $@
 	@echo --------------------------------------------------------
-	@echo You can probably ignore any file-not-found errors above.
 	@echo Now edit $@ to your needs before restarting make.
 	@echo --------------------------------------------------------
 	@exit 1
