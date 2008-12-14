@@ -517,6 +517,8 @@ int gui_navig(int id, int prev, int next)
             gui_maybe(jd, _("Prev"), GUI_PREV, GUI_NULL, prev);
         }
 
+        gui_space(jd);
+
         gui_start(jd, _("Back"), GUI_SML, GUI_BACK, 0);
     }
     return jd;
