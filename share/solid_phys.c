@@ -464,11 +464,11 @@ static void sol_swch_step(struct s_file *fp, float dt)
     {
         struct s_swch *xp = fp->xv + xi;
 
-        if (xp->t > 0)
+        if (xp->t < xp->t0)
         {
-            xp->t -= dt;
+            xp->t += dt;
 
-            if (xp->t <= 0)
+            if (xp->t >= xp->t0)
             {
                 int pi = xp->pi;
                 int pj = xp->pi;
@@ -1117,6 +1117,8 @@ int sol_swch_test(struct s_file *fp)
             if (!fp->uv[ui].a)
                 continue;
 
+            /* FIXME enter/exit events don't work for timed switches */
+
             if (xp->t0 == 0 || xp->f == xp->f0)
             {
                 r[0] = ball_p[0] - xp->p[0];
@@ -1156,7 +1158,7 @@ int sol_swch_test(struct s_file *fp)
 
                         /* It toggled to non-default state, start the timer. */
                         if (xp->f != xp->f0)
-                            xp->t  = xp->t0;
+                            xp->t = 0.0f;
 
                         /* If visible, set the result. */
                         if (!xp->i)

@@ -363,12 +363,11 @@ void hole_stop(void)
 {
     score_v[hole][player]++;
 
-    /* Cap scores at 12 or par plus 6. */
+    /* Cap scores at 12 or par plus 3. */
 
-    if (score_v[hole][player] >= 12 && score_v[hole][player] >= score_v[hole][0] + 5)
+    if (score_v[hole][player] >= 12 && score_v[hole][player] >= score_v[hole][0] + 3)
     {
-        game_ball_inactivate(player);
-        score_v[hole][player] = (score_v[hole][0] > 12 - 6) ? score_v[hole][0] + 6 : 12;
+        score_v[hole][player] = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
         stat_v[player] = 1;
         done++;
     }
@@ -396,9 +395,9 @@ void hole_fall(int ui)
 
     /* Cap scores at 12 or par plus 6. */
 
-    if (score_v[hole][ui] >= 12 && score_v[hole][ui] >= score_v[hole][0] + 6)
+    if (score_v[hole][player] >= 12 && score_v[hole][player] >= score_v[hole][0] + 3)
     {
-        score_v[hole][ui] = (score_v[hole][0] > 12 - 6) ? score_v[hole][0] + 6 : 12;
+        score_v[hole][player] = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
         stat_v[ui] = 1;
         done++;
     }

@@ -102,7 +102,7 @@ static int done_enter(void)
 
     set_score_board(set_coin_score(curr_set()), progress_score_rank(),
                     set_time_score(curr_set()), progress_times_rank(),
-                    set_time_score(curr_set()), progress_times_rank());
+                    NULL, -1);
 
     /* Reset hack. */
     resume = 0;
