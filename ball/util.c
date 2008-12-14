@@ -31,6 +31,8 @@ static int is_special_name(const char *n)
 
 /*---------------------------------------------------------------------------*/
 
+static int coin_label;
+
 static int coin_coin[4];
 static int coin_name[4];
 static int coin_time[4];
@@ -53,7 +55,8 @@ static void gui_most_coins(int id, int e)
 
         if ((kd = gui_vstack(jd)))
         {
-            gui_label(kd, _("Most Coins"), GUI_SML, GUI_TOP, 0, 0);
+            coin_label = gui_label(kd, _("Unavailable"),
+                                   GUI_SML, GUI_TOP, 0, 0);
 
             if ((ld = gui_hstack(kd)))
             {
@@ -113,6 +116,8 @@ static void set_most_coins(const struct score *s, int hilight)
 
     if (s == NULL)
     {
+        gui_set_label(coin_label, _("Unavailable"));
+
         for (j = 0; j < NSCORE + coin_extra_row ; j++)
         {
             gui_set_count(coin_coin[j], -1);
@@ -122,6 +127,8 @@ static void set_most_coins(const struct score *s, int hilight)
     }
     else
     {
+        gui_set_label(coin_label, _("Most Coins"));
+
         for (j = 0; j < NSCORE + coin_extra_row; j++)
         {
             name = s->player[j];
@@ -169,7 +176,8 @@ static void gui_best_times(int id, int e)
 
         if ((kd = gui_vstack(jd)))
         {
-            time_label = gui_label(kd, "XXX", GUI_SML, GUI_TOP, 0, 0);
+            time_label = gui_label(kd, _("Unavailable"),
+                                   GUI_SML, GUI_TOP, 0, 0);
 
             if ((ld = gui_hstack(kd)))
             {
@@ -227,10 +235,10 @@ static void set_best_times(const struct score *s, int hilight, int goal)
     const char *name;
     int j;
 
-    gui_set_label(time_label, goal ? _("Unlock Goal") : _("Best Times"));
-
     if (s == NULL)
     {
+        gui_set_label(time_label, _("Unavailable"));
+
         for (j = 0; j < NSCORE + time_extra_row ; j++)
         {
             gui_set_clock(time_time[j], -1);
@@ -240,6 +248,8 @@ static void set_best_times(const struct score *s, int hilight, int goal)
     }
     else
     {
+        gui_set_label(time_label, goal ? _("Unlock Goal") : _("Best Times"));
+
         for (j = 0; j < NSCORE + time_extra_row; j++)
         {
             name = s->player[j];
