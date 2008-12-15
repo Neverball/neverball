@@ -65,7 +65,7 @@ void part_reset(float h)
         float a = rnd(-1.0f * PI, +1.0f * PI);
         float w = rnd(-2.0f * PI, +2.0f * PI);
 
-        part_jump[i].t = part_goal[i].t = rnd(+0.1f,      +1.0f);
+        part_jump[i].t = part_goal[i].t = rnd(+0.1f, +1.0f);
         part_jump[i].a = part_goal[i].a = V_DEG(a);
         part_jump[i].w = part_goal[i].w = V_DEG(w);
 
@@ -191,7 +191,7 @@ static void part_spin(struct part *part, int n, const float *g, float dt)
         if (part[i].t > 0.f)
         {
             part[i].a += 30.f * dt;
-            
+
             part[i].p[0] = fsinf(V_RAD(part[i].a));
             part[i].p[2] = fcosf(V_RAD(part[i].a));
         }
@@ -205,7 +205,8 @@ void part_step(const float *g, float dt)
         part_fall(part_goal, PART_MAX_GOAL, g, dt);
     else
         part_spin(part_goal, PART_MAX_GOAL, g, dt);
-        part_spin(part_jump, PART_MAX_GOAL, g, dt);
+
+    part_spin(part_jump, PART_MAX_GOAL, g, dt);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -225,7 +226,7 @@ static void part_draw(const float *M,
 }
 
 static void part_draw_squiggles(const float *M,
-                      const float *p, float r, float rz)
+                                const float *p, float r, float rz)
 {
     glPushMatrix();
     {
@@ -280,12 +281,16 @@ void part_draw_jump(const float *M, float radius, float a, float t)
         if (part_jump[i].t > 0.0f)
         {
             part_jump[i].p[1] += part_jump[i].t * 0.000025f;
+
     	    if (part_jump[i].p[1] > 2.0f)
-            {
                 part_jump[i].p[1] -= 2.0f;
-            }
-     	    glColor4f(1.0f, 1.0f, 1.0f, 2.f - part_jump[i].p[1]); /*Fixme - 2.f is the current goal height declared in geom.h*/
-            part_draw_squiggles(M, part_jump[i].p, radius - 0.05f, t * part_jump[i].w);
+
+            /* FIXME - 2.f is the current goal height declared in geom.h */
+            glColor4f(1.0f, 1.0f, 1.0f, 2.f - part_jump[i].p[1]);
+
+            part_draw_squiggles(M, part_jump[i].p,
+                                radius - 0.05f,
+                                t * part_jump[i].w);
         }
     }
 }

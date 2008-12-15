@@ -566,8 +566,6 @@ static void game_draw_jumps(const struct s_file *fp, const float *M, float t)
     }
     glDisable(GL_TEXTURE_2D);
 
-
-
     for (ji = 0; ji < fp->jc; ji++)
     {
         glPushMatrix();

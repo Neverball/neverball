@@ -74,7 +74,6 @@ void st_paint(float t)
             state->paint(state->gui_id, t);
         }
     }
-
 }
 
 void st_timer(float dt)
