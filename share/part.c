@@ -36,7 +36,7 @@ struct part
 
 static struct part part_coin[PART_MAX_COIN];
 static struct part part_goal[PART_MAX_GOAL];
-static struct part part_jump[PART_MAX_GOAL];
+static struct part part_jump[PART_MAX_JUMP];
 static GLuint      part_text;
 static GLuint      part_text_squiggle;
 static GLuint      part_list;
@@ -65,25 +65,44 @@ void part_reset(float h)
         float a = rnd(-1.0f * PI, +1.0f * PI);
         float w = rnd(-2.0f * PI, +2.0f * PI);
 
-        part_jump[i].t = part_goal[i].t = rnd(+0.1f, +1.0f);
-        part_jump[i].a = part_goal[i].a = V_DEG(a);
-        part_jump[i].w = part_goal[i].w = V_DEG(w);
+        part_goal[i].t = rnd(+0.1f, +1.0f);
+        part_goal[i].a = V_DEG(a);
+        part_goal[i].w = V_DEG(w);
 
         part_goal[i].c[0] = 1.0f;
         part_goal[i].c[1] = 1.0f;
         part_goal[i].c[2] = 0.0f;
 
+        part_goal[i].p[0] = fsinf(a);
+        part_goal[i].p[1] = (1.f - t) * h;
+        part_goal[i].p[2] = fcosf(a);
+
+        part_goal[i].v[0] = 0.f;
+        part_goal[i].v[1] = 0.f;
+        part_goal[i].v[2] = 0.f;
+    }
+
+    for (i = 0; i < PART_MAX_JUMP; i++)
+    {
+        float t = rnd(+0.1f,      +1.0f);
+        float a = rnd(-1.0f * PI, +1.0f * PI);
+        float w = rnd(-2.0f * PI, +2.0f * PI);
+
+        part_jump[i].t = rnd(+0.1f, +1.0f);
+        part_jump[i].a = V_DEG(a);
+        part_jump[i].w = V_DEG(w);
+
         part_jump[i].c[0] = 1.0f;
         part_jump[i].c[1] = 1.0f;
         part_jump[i].c[2] = 1.0f;
 
-        part_jump[i].p[0] = part_goal[i].p[0] = fsinf(a);
-        part_jump[i].p[1] = part_goal[i].p[1] = (1.f - t) * h;
-        part_jump[i].p[2] = part_goal[i].p[2] = fcosf(a);
+        part_jump[i].p[0] = fsinf(a);
+        part_jump[i].p[1] = (1.f - t) * h;
+        part_jump[i].p[2] = fcosf(a);
 
-        part_jump[i].v[0] = part_goal[i].v[0] = 0.f;
-        part_jump[i].v[1] = part_goal[i].v[1] = 0.f;
-        part_jump[i].v[2] = part_goal[i].v[2] = 0.f;
+        part_jump[i].v[0] = 0.f;
+        part_jump[i].v[1] = 0.f;
+        part_jump[i].v[2] = 0.f;
     }
 }
 
@@ -91,7 +110,7 @@ void part_init(float h)
 {
     memset(part_coin, 0, PART_MAX_COIN * sizeof (struct part));
     memset(part_goal, 0, PART_MAX_GOAL * sizeof (struct part));
-    memset(part_jump, 0, PART_MAX_GOAL * sizeof (struct part));
+    memset(part_jump, 0, PART_MAX_JUMP * sizeof (struct part));
 
     part_text = make_image_from_file(IMG_PART);
     part_text_squiggle = make_image_from_file(IMG_SQUIGGLE);
@@ -209,7 +228,7 @@ void part_step(const float *g, float dt)
     else
         part_spin(part_goal, PART_MAX_GOAL, g, dt);
 
-    part_spin(part_jump, PART_MAX_GOAL, g, dt);
+    part_spin(part_jump, PART_MAX_JUMP, g, dt);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -279,7 +298,7 @@ void part_draw_jump(const float *M, float radius, float a, float t)
 
     glBindTexture(GL_TEXTURE_2D, part_text_squiggle);
 
-    for (i = 0; i < PART_MAX_GOAL; i++)
+    for (i = 0; i < PART_MAX_JUMP; i++)
     {
         if (part_jump[i].t > 0.0f)
         {

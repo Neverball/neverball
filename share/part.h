@@ -8,6 +8,8 @@
 
 #define PART_MAX_COIN 256
 #define PART_MAX_GOAL  64
+#define PART_MAX_JUMP  64
+
 #define PART_SIZE       0.1f
 
 /*---------------------------------------------------------------------------*/
