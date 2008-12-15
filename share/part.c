@@ -37,7 +37,7 @@ struct part
 static struct part part_coin[PART_MAX_COIN];
 static struct part part_goal[PART_MAX_GOAL];
 static struct part part_jump[PART_MAX_JUMP];
-static GLuint      part_text;
+static GLuint      part_text_star;
 static GLuint      part_text_squiggle;
 static GLuint      part_list;
 
@@ -112,8 +112,9 @@ void part_init(float h)
     memset(part_goal, 0, PART_MAX_GOAL * sizeof (struct part));
     memset(part_jump, 0, PART_MAX_JUMP * sizeof (struct part));
 
-    part_text = make_image_from_file(IMG_PART);
-    part_text_squiggle = make_image_from_file(IMG_SQUIGGLE);
+    part_text_star     = make_image_from_file(IMG_PART_STAR);
+    part_text_squiggle = make_image_from_file(IMG_PART_SQUIGGLE);
+
     part_list = glGenLists(1);
 
     glNewList(part_list, GL_COMPILE);
@@ -144,8 +145,8 @@ void part_free(void)
     if (glIsList(part_list))
         glDeleteLists(part_list, 1);
 
-    if (glIsTexture(part_text))
-        glDeleteTextures(1, &part_text);
+    if (glIsTexture(part_text_star))
+        glDeleteTextures(1, &part_text_star);
 
     if (glIsTexture(part_text_squiggle))
         glDeleteTextures(1, &part_text_squiggle);
@@ -265,7 +266,7 @@ void part_draw_coin(const float *M, float t)
 {
     int i;
 
-    glBindTexture(GL_TEXTURE_2D, part_text);
+    glBindTexture(GL_TEXTURE_2D, part_text_star);
 
     for (i = 0; i < PART_MAX_COIN; i++)
         if (part_coin[i].t > 0.f)
@@ -283,7 +284,7 @@ void part_draw_goal(const float *M, float radius, float a, float t)
 {
     int i;
 
-    glBindTexture(GL_TEXTURE_2D, part_text);
+    glBindTexture(GL_TEXTURE_2D, part_text_star);
 
     glColor4f(1.0f, 1.0f, 0.0f, a);
 
