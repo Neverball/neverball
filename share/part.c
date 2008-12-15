@@ -127,6 +127,9 @@ void part_free(void)
 
     if (glIsTexture(part_text))
         glDeleteTextures(1, &part_text);
+
+    if (glIsTexture(part_text_squiggle))
+        glDeleteTextures(1, &part_text_squiggle);
 }
 
 /*---------------------------------------------------------------------------*/
