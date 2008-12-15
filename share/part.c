@@ -56,6 +56,9 @@ void part_reset(float h)
 {
     int i;
 
+    for (i = 0; i < PART_MAX_COIN; i++)
+        part_coin[i].t = 0.0f;
+
     for (i = 0; i < PART_MAX_GOAL; i++)
     {
         float t = rnd(+0.1f,      +1.0f);
@@ -81,8 +84,6 @@ void part_reset(float h)
         part_jump[i].v[0] = part_goal[i].v[0] = 0.f;
         part_jump[i].v[1] = part_goal[i].v[1] = 0.f;
         part_jump[i].v[2] = part_goal[i].v[2] = 0.f;
-
-        part_coin[i].t    = 0.0f;
     }
 }
 
