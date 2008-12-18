@@ -14,8 +14,6 @@ map-misc/thwomp1.sol
 map-misc/bounce.sol
 map-misc/bounce2.sol
 map-misc/freefall-old.sol
-map-misc/hurdles.sol
-map-misc/canals.sol
 map-misc/groweasy.sol
 map-misc/blockers.sol
 map-misc/texture-debug.sol
