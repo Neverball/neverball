@@ -41,6 +41,9 @@ static GLuint      part_text_star;
 static GLuint      part_text_squiggle;
 static GLuint      part_list;
 
+static float goal_height;
+static float jump_height;
+
 /*---------------------------------------------------------------------------*/
 
 #define PI 3.1415927f
@@ -52,9 +55,12 @@ static float rnd(float l, float h)
 
 /*---------------------------------------------------------------------------*/
 
-void part_reset(float h)
+void part_reset(float zh, float jh)
 {
     int i;
+
+    goal_height = zh;
+    jump_height = jh;
 
     for (i = 0; i < PART_MAX_COIN; i++)
         part_coin[i].t = 0.0f;
@@ -65,7 +71,7 @@ void part_reset(float h)
         float a = rnd(-1.0f * PI, +1.0f * PI);
         float w = rnd(-2.0f * PI, +2.0f * PI);
 
-        part_goal[i].t = rnd(+0.1f, +1.0f);
+        part_goal[i].t = t;
         part_goal[i].a = V_DEG(a);
         part_goal[i].w = V_DEG(w);
 
@@ -74,7 +80,7 @@ void part_reset(float h)
         part_goal[i].c[2] = 0.0f;
 
         part_goal[i].p[0] = fsinf(a);
-        part_goal[i].p[1] = (1.f - t) * h;
+        part_goal[i].p[1] = (1.f - t) * goal_height;
         part_goal[i].p[2] = fcosf(a);
 
         part_goal[i].v[0] = 0.f;
@@ -86,27 +92,29 @@ void part_reset(float h)
     {
         float t = rnd(+0.1f,      +1.0f);
         float a = rnd(-1.0f * PI, +1.0f * PI);
-        float w = rnd(-2.0f * PI, +2.0f * PI);
+        float w = rnd(+0.5f,      +2.5f);
 
-        part_jump[i].t = rnd(+0.1f, +1.0f);
+        float vy = rnd(+0.025f, +0.25f);
+
+        part_jump[i].t = t;
         part_jump[i].a = V_DEG(a);
-        part_jump[i].w = V_DEG(w);
+        part_jump[i].w = w;
 
         part_jump[i].c[0] = 1.0f;
         part_jump[i].c[1] = 1.0f;
         part_jump[i].c[2] = 1.0f;
 
         part_jump[i].p[0] = fsinf(a);
-        part_jump[i].p[1] = (1.f - t) * h;
+        part_jump[i].p[1] = (1.f - t) * jump_height;
         part_jump[i].p[2] = fcosf(a);
 
         part_jump[i].v[0] = 0.f;
-        part_jump[i].v[1] = 0.f;
+        part_jump[i].v[1] = vy;
         part_jump[i].v[2] = 0.f;
     }
 }
 
-void part_init(float h)
+void part_init(float zh, float jh)
 {
     memset(part_coin, 0, PART_MAX_COIN * sizeof (struct part));
     memset(part_goal, 0, PART_MAX_GOAL * sizeof (struct part));
@@ -137,7 +145,7 @@ void part_init(float h)
     }
     glEndList();
 
-    part_reset(h);
+    part_reset(zh, jh);
 }
 
 void part_free(void)
@@ -222,6 +230,8 @@ static void part_spin(struct part *part, int n, const float *g, float dt)
 
 void part_step(const float *g, float dt)
 {
+    int i;
+
     part_fall(part_coin, PART_MAX_COIN, g, dt);
 
     if (g[1] > 0.f)
@@ -229,33 +239,26 @@ void part_step(const float *g, float dt)
     else
         part_spin(part_goal, PART_MAX_GOAL, g, dt);
 
-    part_spin(part_jump, PART_MAX_JUMP, g, dt);
+    for (i = 0; i < PART_MAX_JUMP; i++)
+    {
+        part_jump[i].p[1] += part_jump[i].v[1] * dt;
+
+        if (part_jump[i].p[1] > jump_height)
+            part_jump[i].p[1] = 0.0f;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
 
 static void part_draw(const float *M,
-                      const float *p, float r, float rz)
+                      const float *p, float r, float rz, float s)
 {
     glPushMatrix();
     {
         glTranslatef(r * p[0], p[1], r * p[2]);
         glMultMatrixf(M);
         glRotatef(rz, 0.f, 0.f, 1.f);
-
-        glCallList(part_list);
-    }
-    glPopMatrix();
-}
-
-static void part_draw_squiggles(const float *M,
-                                const float *p, float r, float rz)
-{
-    glPushMatrix();
-    {
-        glTranslatef(r * p[0], p[1], r * p[2]);
-        glMultMatrixf(M);
-        glRotatef(rz * 1.5f, 0.f, 0.f, 0.0f);
+        glScalef(s, s, 1.0f);
 
         glCallList(part_list);
     }
@@ -276,7 +279,7 @@ void part_draw_coin(const float *M, float t)
                       part_coin[i].c[2],
                       part_coin[i].t);
 
-            part_draw(M, part_coin[i].p, 1.0f, t * part_coin[i].w);
+            part_draw(M, part_coin[i].p, 1.0f, t * part_coin[i].w, 1.0f);
         }
 }
 
@@ -290,7 +293,8 @@ void part_draw_goal(const float *M, float radius, float a, float t)
 
     for (i = 0; i < PART_MAX_GOAL; i++)
         if (part_goal[i].t > 0.0f)
-            part_draw(M, part_goal[i].p, radius - 0.05f, t * part_goal[i].w);
+            part_draw(M, part_goal[i].p, radius - 0.05f,
+                      t * part_goal[i].w, 1.0f);
 }
 
 void part_draw_jump(const float *M, float radius, float a, float t)
@@ -301,20 +305,24 @@ void part_draw_jump(const float *M, float radius, float a, float t)
 
     for (i = 0; i < PART_MAX_JUMP; i++)
     {
-        if (part_jump[i].t > 0.0f)
-        {
-            part_jump[i].p[1] += part_jump[i].t * 0.000025f;
+        glColor4f(part_jump[i].c[0],
+                  part_jump[i].c[1],
+                  part_jump[i].c[2],
+                  1.0f - part_jump[i].p[1] / jump_height);
 
-    	    if (part_jump[i].p[1] > 2.0f)
-                part_jump[i].p[1] -= 2.0f;
+        /*
+         * X is the current time since some Epoch, Y is the time it
+         * takes for a squiggle to grow to its full size and then
+         * shrink again.  F is the current scale of the squiggle in
+         * the interval [0.0, 1.0].
+         */
 
-            /* FIXME - 2.f is the current goal height declared in geom.h */
-            glColor4f(1.0f, 1.0f, 1.0f, 2.f - part_jump[i].p[1]);
+#define F(x, y) fabsf(fsinf(((x) / (y)) * PI))
 
-            part_draw_squiggles(M, part_jump[i].p,
-                                radius - 0.05f,
-                                t * part_jump[i].w);
-        }
+        part_draw(M, part_jump[i].p, radius - 0.05f,
+                  0.0f, F(t, part_jump[i].w));
+
+#undef F
     }
 }
 

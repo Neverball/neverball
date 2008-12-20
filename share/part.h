@@ -14,8 +14,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-void part_reset(float);
-void part_init(float);
+void part_reset(float, float);
+void part_init(float, float);
 void part_free(void);
 
 void part_burst(const float *, const float *);

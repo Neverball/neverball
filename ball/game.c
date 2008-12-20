@@ -364,7 +364,7 @@ int game_init(const char *file_name, int t, int e)
         if (strcmp(k, "grad") == 0) grad_name = v;
     }
 
-    part_reset(GOAL_HEIGHT);
+    part_reset(GOAL_HEIGHT, JUMP_HEIGHT);
     view_init();
     back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
 
