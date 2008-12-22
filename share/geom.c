@@ -142,7 +142,7 @@ void jump_init(int b)
                     float x = fcosf(2.f * PI * i / n);
                     float y = fsinf(2.f * PI * i / n);
 
-                    glColor4f(1.0f, 1.0f, 1.0f, (k == 0 ? 0.5f : 0.8f));
+                    glColor4f(0.75f, 0.5f, 1.0f, (k == 0 ? 0.5f : 0.8f));
                     glVertex3f(x, 0.0f, y);
 
                     glColor4f(1.0f, 1.0f, 1.0f, 0.0f);

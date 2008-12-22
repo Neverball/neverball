@@ -364,7 +364,7 @@ int game_init(const char *file_name, int t, int e)
         if (strcmp(k, "grad") == 0) grad_name = v;
     }
 
-    part_reset(GOAL_HEIGHT);
+    part_reset(GOAL_HEIGHT, JUMP_HEIGHT);
     view_init();
     back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
 
@@ -545,9 +545,26 @@ static void game_draw_goals(const struct s_file *fp, const float *M, float t)
     }
 }
 
-static void game_draw_jumps(const struct s_file *fp)
+static void game_draw_jumps(const struct s_file *fp, const float *M, float t)
 {
     int ji;
+
+    glEnable(GL_TEXTURE_2D);
+    {
+        for (ji = 0; ji < fp->jc; ji++)
+        {
+            glPushMatrix();
+            {
+                glTranslatef(fp->jv[ji].p[0],
+                             fp->jv[ji].p[1],
+                             fp->jv[ji].p[2]);
+
+                part_draw_jump(M, fp->jv[ji].r, 1.0f, t);
+            }
+            glPopMatrix();
+        }
+    }
+    glDisable(GL_TEXTURE_2D);
 
     for (ji = 0; ji < fp->jc; ji++)
     {
@@ -780,7 +797,7 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
             glDisable(GL_TEXTURE_2D);
             {
                 game_draw_goals(&file, M, t);
-                game_draw_jumps(&file);
+                game_draw_jumps(&file, M, t);
                 game_draw_swchs(&file);
             }
             glEnable(GL_TEXTURE_2D);
