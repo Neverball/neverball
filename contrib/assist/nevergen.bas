@@ -1,3 +1,22 @@
+/'
+ ' The Level Generator is one of the Neverassistant's most useful features.
+ '
+ ' It significantly simplifies the level creation process. Although this makes
+ ' level creation easier, it is not intended to replace GtkRadiant as it has
+ ' a limited capacity in generating.
+ '
+ ' For example, each individual "brush" as Radiant calls it or "lump" as
+ ' Neverball calls. It does not exist in the Assistant. It uses the term
+ ' "construction block", which can be comprised of multiple lumps or entities.
+ '
+ ' Radiant allows virtually limitless freeform placement. The Neverassistant
+ ' is presently limited to a 21x21x31 grid, with at msot one
+ ' "construction block" in each slot.
+ '
+ ' Also, the Neverassistant presently has only a limited number of construction
+ ' blocks (presently 24). This number will be increased as more ideas are
+ ' available.
+ '/
 #IFNDEF __SATISFY__
     #ERROR Must compile neverassist.bas
 #ELSE
@@ -18,7 +37,7 @@
         cls
         print lang("Which file would you like to enter? ");
         input "",MapFile
-        MapFile = MapFile + ".map"
+        MapFile = MapFile
         WindowTitleM = "Neverassistant - Map Generator: " + MapFile
         windowtitle WindowTitleM
         print lang("Which environment do you want?")
@@ -168,9 +187,6 @@
             if MinimumLevelTime > LevelTime then Warning += 1
 
             /'
-             ' If this had been complete, there would have been no commented out
-             ' lines.
-             '
              ' This allows you to switch block sets.
              '/
             if multikey(SC_F2) AND (Putt < > 1) then
@@ -191,7 +207,7 @@
                 XR = 1
                 YR = 1
                 ZR = 1
-            elseif multikey(SC_F6) AND (Putt < > 1) then
+            elseif multikey(SC_F5) AND (Putt < > 1) then
                 BlockSet = 4
                 BlockType = 0
                 XR = 1
@@ -349,7 +365,7 @@
                     YR = 2
                     ZR = 1
                     bload(AssistDir+"/ChicaneRTL.bmp",BlockDisplay)
-            	end if
+                end if
             end if
 
             /'
@@ -387,8 +403,6 @@
             print lang("Blocks: ");Blocks
             locate 7,54
             print lang("Coins: ");TargetCoins;"/";Coins
-            locate 8,54
-            print UsedMoney;"/";Money
 
             color rgb(255,255,255)
             locate 13,54
@@ -533,7 +547,8 @@
                 print lang("* PLUS and MINUS with LSHIFT: adjust target coins.")
                 print lang("* BACKSPACE: Clear map and reset settings.")
 
-                print "* F2-F6 (except F5): Changes block set. "
+                print "* F2-F5: Changes block set."
+                print "* 1-9: Changes block. Not all sets have 9 blocks in them."
                 print "* ~: to check for issues. You can't save the map until " + _
                       "you ensure there are no"
                 print " errors."
@@ -574,13 +589,6 @@
                           "closed yet. If some of your blocks were"
                     print " intended to merge roads together, you can hit " + _
                           "the "+chr(34)+"/"+chr(34)+" key to merge together."
-                end if
-                if UsedMoney * 1.3 > Money then
-                    print "- You are running low on money. You should stop " + _
-                          "building this map soon. You"
-                    print "only have "& Money-UsedMoney ;chr(4);" remaining. " + _
-                          "If you want more, you have to beat Official"
-                    print "Mode in the game(s). They will give you more money."
                 end if
                 color rgb(255,255,255)
                 sleep
@@ -654,67 +662,73 @@
             input "What would you like in your message";LevelMessage
             input "What is the name of this level";LevelName
 
-            compile_blocks
-            print #m, "// entity ";Entity
-            print #m, "{"
-            print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
-            if (LevelMessage < > "") then
-                print #m, chr(34)+"message"+chr(34)+" " + _
-                          chr(34);LevelMessage;chr(34)
+            Check = open(MapFile+".map" for output as #m)
+            if Check = 0 then
+                compile_blocks
+                print #m, "// entity ";Entity
+                print #m, "{"
+                print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+                if (LevelMessage < > "") then
+                    print #m, chr(34)+"message"+chr(34)+" " + _
+                              chr(34);LevelMessage;chr(34)
+                end if
+                print #m, chr(34)+"time"+chr(34)+" "+chr(34);LevelTime;chr(34)
+                print #m, chr(34)+"goal"+chr(34)+" "+chr(34);TargetCoins;chr(34)
+                print #m, chr(34)+"back"+chr(34)+" "+chr(34);Back;chr(34)
+                print #m, chr(34)+"grad"+chr(34)+" "+chr(34);Grad;chr(34)
+                print #m, chr(34)+"song"+chr(34)+" "+chr(34);Song;chr(34)
+                print #m, chr(34)+"levelname"+chr(34)+" "+chr(34);LevelName;chr(34)
+                print #m, "}"
+                close #m
+    
+                print "Your map is almost finished..."
+                #IFDEF __FB_WIN32__
+                    Check = exec("Mapc.exe",MapFile + " data")
+                #ELSE
+                    Check = exec("mapc",MapFile + " data")
+                #ENDIF
+    
+                if (Check < > -1) then
+                    cls
+                    print "It is now ready for play."
+                    print
+                    print "If this is your first level, you need to create a " + _
+                          "set-XXX.txt in the data"
+                    print "folder with the following contents. " + _
+                          "Brackets are variables."
+    
+                    color rgb(0,255,255)
+                    print "[Name of Set]"
+                    print "[Description]"
+                    print "[ID]"
+                    print "[Set Shot]"
+                    print "[Hard BT]","[Hard MT]","[Med BT]", _
+                          "[Med MT]","[Easy BT]","[Easy MT]"
+                    print "[Level files] (relative to data folder)"
+    
+                    color rgb(255,255,255)
+                    print
+                    print "Add the name of the file to sets.txt"
+                    print
+                    print "It is preferable that you make a folder in the " + _
+                          "data directory to store all of"
+                    print "your levels."
+                    print
+                    print "If you already did this before, you only need " + _
+                          "to update the set-XXX.txt with"
+                    print "the new level."
+                    sleep
+                else
+    	            cls
+    	            color rgb(255,0,0)
+    	            print lang("Unable to open ");MapFile;".map";lang(" for output.")
+    	            color rgb(255,255,255)
+                end if
             end if
-            print #m, chr(34)+"time"+chr(34)+" "+chr(34);LevelTime;chr(34)
-            print #m, chr(34)+"goal"+chr(34)+" "+chr(34);TargetCoins;chr(34)
-            print #m, chr(34)+"back"+chr(34)+" "+chr(34);Back;chr(34)
-            print #m, chr(34)+"grad"+chr(34)+" "+chr(34);Grad;chr(34)
-            print #m, chr(34)+"song"+chr(34)+" "+chr(34);Song;chr(34)
-            print #m, chr(34)+"levelname"+chr(34)+" "+chr(34);LevelName;chr(34)
-            print #m, "}"
-            close #m
-
-            print "Your map is almost finished..."
-            #IFDEF __FB_WIN32__
-                Check = exec("Mapc.exe",MapFile + " data")
-            #ELSE
-                Check = exec("mapc",MapFile + " data")
-            #ENDIF
-
-            if (Check < > -1) then
-                cls
-                print "It is now ready for play."
-                print
-                print "If this is your first level, you need to create a " + _
-                      "set-XXX.txt in the data"
-                print "folder with the following contents. " + _
-                      "Brackets are variables."
-
-                color rgb(0,255,255)
-                print "[Name of Set]"
-                print "[Description]"
-                print "[ID]"
-                print "[Set Shot]"
-                print "[Hard BT]","[Hard MT]","[Med BT]", _
-                      "[Med MT]","[Easy BT]","[Easy MT]"
-                print "[Level files] (relative to data folder)"
-
-                color rgb(255,255,255)
-                print
-                print "Add the name of the file to sets.txt"
-                print
-                print "It is preferable that you make a folder in the " + _
-                      "data directory to store all of"
-                print "your levels."
-                print
-                print "If you already did this before, you only need " + _
-                      "to update the set-XXX.txt with"
-                print "the new level."
-                sleep
-            end if
-            Money -= UsedMoney
-            user_data
         else
             cls
             color rgb(255,0,0)
-            print "Failed."
+            print lang("Failed.")
             color rgb(255,255,255)
         end if
         if inkey = chr(27) then sleep

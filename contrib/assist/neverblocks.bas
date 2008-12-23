@@ -7,6 +7,11 @@
     declare sub place_block
     declare sub compile_blocks
     sub place_block
+    	/'
+    	 ' Should the money system ever come back, I'm keeping some of the code
+    	 ' intact. Until then, you may assume infinite money.
+    	 '/
+    	dim as integer Money = 1e+9
         /'
          ' BlockType is the type of the block you're using.
          '
@@ -328,13 +333,6 @@
     /'----------------------------------------------------------------------'/
 
     sub compile_blocks
-        Check = open(MapFile for output as #m)
-        if Check < > 0 then
-            clkey
-            print lang("Unable to open the map for output: ") + MapFile
-            sleep
-            exit sub
-        end if
         for ZP as byte = -10 to 20
             for YP as byte = -10 to 10
                 for XP as byte = -10 to 10

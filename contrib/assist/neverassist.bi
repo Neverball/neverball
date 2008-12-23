@@ -5,26 +5,25 @@
 randomize timer
 dim shared as ubyte XM, YM, XG, YG, BlockType, BlockSet, Rotation, XR, YR, _
     ZR, Start, Finish(2), MusicSwitch, XSwitch, YSwitch, ZSwitch, Warning, Hold, _
-    Openings, Putt, MusicID, Official, FullBonus(25)
-dim shared as byte XP, YP, ZP, DiffPar
+    Openings, Putt, MusicID
+dim shared as byte XP, YP, ZP
 dim shared as uinteger Entity, LevelTime, Blocks, TargetCoins, Coins, _
     MinimumLevelTime, UsedMoney, SingleLevelID
-dim shared as integer Money
 dim shared as longint PlacementTest(-11 to 11,-11 to 11,-11 to 21), _
     Contents(-11 to 11,-11 to 11,-11 to 21), Direction(-11 to 11,-11 to 11,-11 to 21)
 dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, _
     LevelMessage, WindowTitleM, Compile, Replay, LevelName, MusicPlay, _
-    Neverpath, InType, AssistDir, ShotFile, Username, UserData, DataScan
-dim shared as byte Check
+    Neverpath, InType, AssistDir, ShotFile
+dim shared as integer Check
 dim shared as any ptr BlockDisplay
 #IFDEF __FB_WIN32__
     const AssistCfg = "assist.ini"
-    const UserCfg = "users\"
 #ELSE
     const AssistCfg = "assistrc"
-    const UserCfg = ".users/"
 #ENDIF
 const m = 1
+const c = 2
+const s = 3
 #IFDEF __FB_WIN32__
     /'
     ' 7-Zip-dependent resources
@@ -33,11 +32,6 @@ const m = 1
     '/
     dim shared as string Z7Path, Z7Exe, Unpack
 #ENDIF
-/'
- 'These are related to Official Mode.
- '/
-dim shared as ushort ChallengeCoins
-dim shared as double ChallengeTime
 
 /'
  ' Nearly all subroutines are declared here.
@@ -88,15 +82,15 @@ sub plot_face(Detail as ubyte, XOff1 as short, YOff1 as short, _
     end if
 end sub
 
-declare sub plot_coins(ZOff as short = 0)
-sub plot_coins(ZOff as short = 0)
+declare sub plot_coins(ZOff as short = 0, Value as ubyte = 1)
+sub plot_coins(ZOff as short = 0, Value as ubyte = 1)
     print #m, "// entity ";Entity
     Entity += 1
     print #m, "{"
     print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
     print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
         " "& YP*128-96;" "& ZP*64+24+ZOff;chr(34)
-    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
+    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+str(Value)+chr(34)
     print #m, "}"
     print #m, "// entity ";Entity
     Entity += 1
@@ -104,7 +98,7 @@ sub plot_coins(ZOff as short = 0)
     print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
     print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
         " "& YP*128-96;" "& ZP*64+24+ZOff;chr(34)
-    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
+    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+str(Value)+chr(34)
     print #m, "}"
     print #m, "// entity ";Entity
     Entity += 1
@@ -112,7 +106,7 @@ sub plot_coins(ZOff as short = 0)
     print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
     print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
         " "& YP*128-32;" "& ZP*64+24+ZOff;chr(34)
-    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
+    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+str(Value)+chr(34)
     print #m, "}"
     print #m, "// entity ";Entity
     Entity += 1
@@ -120,7 +114,7 @@ sub plot_coins(ZOff as short = 0)
     print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"light"+chr(34)
     print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
         " "& YP*128-32;" "& ZP*64+24+ZOff;chr(34)
-    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+"1"+chr(34)
+    print #m, chr(34)+"light"+chr(34)+" "+chr(34)+str(Value)+chr(34)
     print #m, "}"
 end sub
 /'
@@ -140,66 +134,35 @@ end sub
  ' This allows configuration management. 0 saves the data (default) and any
  ' other value imports the data.
  '/
-sub user_data(Switch as ubyte = 0)
-    if Switch = 0 then
-        #IFDEF __FB_WIN32__
-            open AssistDir + "\" + UserCfg + Username + "\" + "user.ini" for output as #3
-        #ELSE
-            open AssistDir + "/" + UserCfg + Username + "/" + "userrc" for output as #3
-        #ENDIF
-        print #3, ""& Money
-        print #3, UserData
-        for ID as ubyte = 1 to 25
-            print #3, FullBonus(ID)
-        next ID
-        close #3
-    else
-        #IFDEF __FB_WIN32__
-            open AssistDir + "\" + UserCfg + Username + "\" + "user.ini" for input as #3
-        #ELSE
-            open AssistDir + "/" + UserCfg + Username + "/" + "userrc" for input as #3
-        #ENDIF
-        input #3, Money
-        input #3, UserData
-        for ID as ubyte = 1 to 25
-            input #3, FullBonus(ID)
-        next ID
-        close #3
-    end if
-end sub
 sub config(Switch as ubyte = 0)
     dim as ubyte ConvertID
     if Switch = 0 then
         #IFDEF __FB_WIN32__
-            open AssistDir + "\" + AssistCfg for output as #2
-            print #2, Username
-            print #2, NeverPath
-            print #2, LangFile
-            print #2, Z7Path
-            print #2, Z7Exe
-            close #2
+            open AssistDir + "\" + AssistCfg for output as #c
+            print #c, NeverPath
+            print #c, LangFile
+            print #c, Z7Path
+            print #c, Z7Exe
+            close #c
         #ELSE
-            open AssistDir + "/" + AssistCfg for output as #2
-            print #2, Username
-            print #2, NeverPath
-            print #2, LangFile
-            close #2
+            open AssistDir + "/" + AssistCfg for output as #c
+            print #c, NeverPath
+            print #c, LangFile
+            close #c
         #ENDIF
     else
         #IFDEF __FB_WIN32__
-            open AssistDir + "\" + AssistCfg for input as #2
-            input #2, Username
-            line input #2, NeverPath
-            input #2, LangFile
-            input #2, Z7Path
-            input #2, Z7Exe
-            close #2
+            open AssistDir + "\" + AssistCfg for input as #c
+            line input #c, NeverPath
+            input #c, LangFile
+            input #c, Z7Path
+            input #c, Z7Exe
+            close #c
         #ELSE
-            open AssistDir + "/" + AssistCfg for input as #2
-            input #2, Username
-            line input #2, NeverPath
-            input #2, LangFile
-            close #2
+            open AssistDir + "/" + AssistCfg for input as #c
+            line input #c, NeverPath
+            input #c, LangFile
+            close #c
         #ENDIF
     end if
 end sub
