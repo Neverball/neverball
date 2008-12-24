@@ -81,7 +81,7 @@ cannot be restarted, but can be retried.
 In addition to regular  1.4.0-style levels, Neverball 1.5.0 introduces
 bonus levels: extra levels awarded  for playing challenge mode.  Bonus
 levels can only  be unlocked by completing all the  levels before them
-in  challenge  mode,  however,  bonus levels  themselves  are  skipped
+in  challenge mode,  however,  bonus levels themselves  are skipped in
 challenge mode; after  they have been unlocked, they can  be played in
 the normal mode as any regular level.
 
