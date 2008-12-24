@@ -3,8 +3,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /*---------------------------------------------------------------------------*/
+
+#define FLOAT_BYTES     4
+#define INDEX_BYTES     4
+#define SHORT_BYTES     2
+#define ARRAY_BYTES(n)  (FLOAT_BYTES * (n))
+#define STRING_BYTES(s) (strlen(s) + 1)
 
 void put_float(FILE *, const float *);
 void put_index(FILE *, const int   *);

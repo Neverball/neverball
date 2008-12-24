@@ -386,7 +386,7 @@ static void null_leave(int id)
 {
     int g = config_get_d(CONFIG_GEOMETRY);
 
-    part_init(GOAL_HEIGHT);
+    part_init(GOAL_HEIGHT, JUMP_HEIGHT);
     shad_init();
     ball_init();
     item_init();

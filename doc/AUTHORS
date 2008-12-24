@@ -99,6 +99,7 @@ D: Neverball maps
 D: Textures
 D: Grow/shrink items
 D: Level intro texts
+D: Major improvements to curve generation program (contrib/curve.c)
 
 N: Jordà Polo
 D: Debian packaging

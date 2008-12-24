@@ -281,10 +281,9 @@ int  progress_same(void)
     /* Reset progress and goal enabled state. */
 
     if (status == GAME_GOAL)
-    {
         curr = prev;
-        same_goal_e = 1;
-    }
+
+    same_goal_e = 1;
 
     return progress_play(level);
 }
