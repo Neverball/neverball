@@ -708,6 +708,7 @@
                 print #m, chr(34)+"back"+chr(34)+" "+chr(34);Back;chr(34)
                 print #m, chr(34)+"grad"+chr(34)+" "+chr(34);Grad;chr(34)
                 print #m, chr(34)+"song"+chr(34)+" "+chr(34);Song;chr(34)
+                print #m, chr(34)+"coin_hs"+chr(34)+" "+chr(34);Coins;chr(34)
                 print #m, chr(34)+"levelname"+chr(34)+" "+chr(34);LevelName;chr(34)
                 print #m, "}"
                 close #m
