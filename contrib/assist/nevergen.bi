@@ -35,3 +35,6 @@ sub direction_gfx
         line ((XP+10)*20+1,(-YP+10)*20+1)-((XP+10)*20+6,(-YP+11)*20-1),rgb(0,0,255),bf
     end if
 end sub
+sub clear_preview
+	line BlockDisplay,(0,0)-(127,127),rgb(0,0,0),bf
+end sub

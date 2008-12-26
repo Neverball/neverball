@@ -11,10 +11,11 @@
  '
  ' Radiant allows virtually limitless freeform placement. The Neverassistant
  ' is presently limited to a 21x21x31 grid, with at msot one
- ' "construction block" in each slot.
+ ' "construction block" in each slot. Also, the Neverassistant makes one
+ ' worldspawn entity for each construction block and one entity for metadata.
  '
  ' Also, the Neverassistant presently has only a limited number of construction
- ' blocks (presently 24). This number will be increased as more ideas are
+ ' blocks (presently 26). This number will be increased as more ideas are
  ' available.
  '/
 #IFNDEF __SATISFY__
@@ -195,24 +196,28 @@
                 XR = 1
                 YR = 1
                 ZR = 1
+                clear_preview
             elseif multikey(SC_F3) AND (Putt < > 1) then
                 BlockSet = 1
                 BlockType = 0
                 XR = 1
                 YR = 1
                 ZR = 1
+                clear_preview
             elseif multikey(SC_F4) AND (Putt < > 1) then
                 BlockSet = 2
                 BlockType = 0
                 XR = 1
                 YR = 1
                 ZR = 1
+                clear_preview
             elseif multikey(SC_F5) AND (Putt < > 1) then
                 BlockSet = 4
                 BlockType = 0
                 XR = 1
                 YR = 1
                 ZR = 1
+                clear_preview
             end if
 
             /'
@@ -304,11 +309,13 @@
                     XR = 1
                     YR = 1
                     ZR = 1
+	                clear_preview
                 elseif multikey(SC_9) then
                     BlockType = 19
                     XR = 1
                     YR = 1
                     ZR = 1
+	                clear_preview
                 end if
 
             elseif BlockSet = 2 then
@@ -317,6 +324,7 @@
                     XR = 1
                     YR = 1
                     ZR = 1
+	                clear_preview
                 elseif multikey(SC_2) then
                     BlockType = 22
                     XR = 1
@@ -343,16 +351,19 @@
                     XR = 1
                     YR = 1
                     ZR = 1
+	                clear_preview
                 elseif multikey(SC_2) then
                     BlockType = 42
                     XR = 1
                     YR = 1
                     ZR = 1
+	                clear_preview
                 elseif multikey(SC_3) then
                     BlockType = 43
                     XR = 1
                     YR = 1
                     ZR = 1
+	                clear_preview
                 elseif multikey(SC_4) then
                     BlockType = 44
                     XR = 2
@@ -363,6 +374,18 @@
                     BlockType = 45
                     XR = 2
                     YR = 2
+                    ZR = 1
+                    bload(AssistDir+"/ChicaneRTL.bmp",BlockDisplay)
+                elseif multikey(SC_4) then
+                    BlockType = 46
+                    XR = 3
+                    YR = 3
+                    ZR = 1
+                    bload(AssistDir+"/ChicaneLTR.bmp",BlockDisplay)
+                elseif multikey(SC_5) then
+                    BlockType = 47
+                    XR = 3
+                    YR = 3
                     ZR = 1
                     bload(AssistDir+"/ChicaneRTL.bmp",BlockDisplay)
                 end if
@@ -463,9 +486,13 @@
             elseif (BlockType = 43) then
                 print lang("Narrower")
             elseif (BlockType = 44) then
-                print lang("Chicane LTR")
+                print lang("Chicane LTR 2x2")
             elseif (BlockType = 45) then
-                print lang("Chicane RTL")
+                print lang("Chicane RTL 2x2")
+            elseif (BlockType = 46) then
+                print lang("Chicane LTR 3x3")
+            elseif (BlockType = 47) then
+                print lang("Chicane RTL 3x3")
             end if
             put (424,226),BlockDisplay,Trans
 
@@ -526,9 +553,13 @@
                 elseif (BlockType = 43) then
                     print lang("This block is narrow in the middle.")
                 elseif (BlockType = 44) then
-                    print lang("This block shifts from left to right.")
+                    print lang("This 2x2 block shifts from left to right.")
                 elseif (BlockType = 45) then
-                    print lang("This block shifts from right to left.")
+                    print lang("This 2x2 block shifts from right to left.")
+                elseif (BlockType = 46) then
+                    print lang("This 3x3 block shifts from left to right.")
+                elseif (BlockType = 47) then
+                    print lang("This 3x3 block shifts from right to left.")
                 end if
 
             elseif multikey(SC_F1) then

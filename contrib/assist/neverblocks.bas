@@ -49,7 +49,7 @@
             Putt = 2
         elseif (BlockType = 2) AND (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 22
+            Contents(XP,YP,ZP) = 2
             Direction(XP,YP,ZP) = Rotation
             Finish(1) += 1
             LevelTime += 125
@@ -59,7 +59,7 @@
             Putt = 2
         elseif (BlockType = 3) AND (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 23
+            Contents(XP,YP,ZP) = 3
             Direction(XP,YP,ZP) = Rotation
             Finish(1) += 1
             LevelTime += 225
@@ -80,7 +80,7 @@
             Putt = 2
         elseif (BlockType = 5) AND (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 25
+            Contents(XP,YP,ZP) = 5
             Direction(XP,YP,ZP) = Rotation
             Finish(1) += 1
             LevelTime += 425
@@ -94,7 +94,7 @@
              ' I didn't put a Money statement on this block because it doesn't
              ' cost any. However, you must have a free opening.
              '/
-            Contents(XP,YP,ZP) = 26
+            Contents(XP,YP,ZP) = 6
             Direction(XP,YP,ZP) = Rotation
             Finish(1) += 1
             LevelTime += 150
@@ -107,7 +107,7 @@
         elseif (BlockType = 11) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 2
+            Contents(XP,YP,ZP) = 11
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 100
             MinimumLevelTime += 75
@@ -117,7 +117,7 @@
         elseif (BlockType = 12) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 3
+            Contents(XP,YP,ZP) = 12
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 200
             MinimumLevelTime += 150
@@ -127,7 +127,7 @@
         elseif (BlockType = 13) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 4
+            Contents(XP,YP,ZP) = 13
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 300
             MinimumLevelTime += 200
@@ -138,7 +138,7 @@
         elseif (BlockType = 14) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 5
+            Contents(XP,YP,ZP) = 14
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 400
             MinimumLevelTime += 300
@@ -148,7 +148,7 @@
         elseif (BlockType = 15) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 6
+            Contents(XP,YP,ZP) = 15
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 175
             MinimumLevelTime += 125
@@ -160,7 +160,7 @@
         elseif (BlockType = 16) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 7
+            Contents(XP,YP,ZP) = 16
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 275
             MinimumLevelTime += 200
@@ -172,7 +172,7 @@
         elseif (BlockType = 17) AND (Openings > 0) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 8
+            Contents(XP,YP,ZP) = 17
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 50
             Blocks += 1
@@ -182,7 +182,7 @@
         elseif (BlockType = 18) AND (Openings > 0) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 9
+            Contents(XP,YP,ZP) = 18
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 150
             MinimumLevelTime += 100
@@ -195,7 +195,7 @@
         elseif (BlockType = 19) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 11
+            Contents(XP,YP,ZP) = 19
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 425
             MinimumLevelTime += 300
@@ -209,7 +209,7 @@
         elseif (BlockType = 21) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 12
+            Contents(XP,YP,ZP) = 21
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 575
             MinimumLevelTime += 400
@@ -223,7 +223,7 @@
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 AND _
             Contents(XP,YP,ZP+1) = 0 then
-            Contents(XP,YP,ZP) = 13
+            Contents(XP,YP,ZP) = 22
             Contents(XP,YP,ZP+1) = 255
             /'
              ' This is a 1x1x2 block. It takes the space above it.
@@ -237,7 +237,7 @@
         elseif (BlockType = 23) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 15
+            Contents(XP,YP,ZP) = 23
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 125
             MinimumLevelTime += 75
@@ -260,7 +260,7 @@
         elseif (BlockType = 41) AND _
             (UsedMoney + 2 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 10
+            Contents(XP,YP,ZP) = 41
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 350
             MinimumLevelTime += 200
@@ -270,7 +270,7 @@
         elseif (BlockType = 42) AND _
             (UsedMoney + 3 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 2
+            Contents(XP,YP,ZP) = 42
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 325
             MinimumLevelTime += 150
@@ -280,7 +280,7 @@
         elseif (BlockType = 43) AND _
             (UsedMoney + 3 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 17
+            Contents(XP,YP,ZP) = 43
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 100
             MinimumLevelTime += 75
@@ -294,10 +294,10 @@
             Contents(XP,YP-1,ZP) = 0 AND _
             Contents(XP+1,YP-1,ZP) = 0 then
             /'
-             ' This is a 2x2x1 block. It takes two spaces horizontal and two spaces
-             ' vertical.
+             ' This is a 2x2x1 block. It takes two spaces horizontal and two
+             ' spaces vertical.
              '/
-            Contents(XP,YP,ZP) = 18
+            Contents(XP,YP,ZP) = 44
             Contents(XP+1,YP,ZP) = 255
             Contents(XP,YP-1,ZP) = 255
             Contents(XP+1,YP-1,ZP) = 255
@@ -314,10 +314,10 @@
             Contents(XP,YP-1,ZP) = 0 AND _
             Contents(XP+1,YP-1,ZP) = 0 then
             /'
-             ' This is a 2x2x1 block. It takes two spaces horizontal and two spaces
-             ' vertical.
+             ' This is a 2x2x1 block. It takes two spaces horizontal and two
+             ' spaces vertical.
              '/
-            Contents(XP,YP,ZP) = 18
+            Contents(XP,YP,ZP) = 45
             Contents(XP+1,YP,ZP) = 255
             Contents(XP,YP-1,ZP) = 255
             Contents(XP+1,YP-1,ZP) = 255
@@ -325,6 +325,66 @@
             LevelTime += 150
             MinimumLevelTime += 100
             UsedMoney += 4
+            Blocks += 1
+            Putt = 2
+        elseif (BlockType = 46) AND _
+            (UsedMoney + 9 < = Money) AND _
+            Contents(XP,YP,ZP) = 0 AND _
+            Contents(XP+1,YP,ZP) = 0 AND _
+            Contents(XP+2,YP,ZP) = 0 AND _
+            Contents(XP,YP-1,ZP) = 0 AND _
+            Contents(XP+1,YP-1,ZP) = 0 AND _
+            Contents(XP+2,YP-1,ZP) = 0 AND _
+            Contents(XP,YP-2,ZP) = 0 AND _
+            Contents(XP+1,YP-2,ZP) = 0 AND _
+            Contents(XP+2,YP-2,ZP) = 0 then
+            /'
+             ' This is a 3x3x1 block. It takes three spaces horizontal and
+             ' three spaces vertical.
+             '/
+            Contents(XP,YP,ZP) = 46
+            Contents(XP+1,YP,ZP) = 255
+            Contents(XP+2,YP,ZP) = 255
+            Contents(XP,YP-1,ZP) = 255
+            Contents(XP+1,YP-1,ZP) = 255
+            Contents(XP+2,YP-1,ZP) = 255
+            Contents(XP,YP-2,ZP) = 255
+            Contents(XP+1,YP-2,ZP) = 255
+            Contents(XP+2,YP-2,ZP) = 255
+            Direction(XP,YP,ZP) = Rotation
+            LevelTime += 200
+            MinimumLevelTime += 150
+            UsedMoney += 9
+            Blocks += 1
+            Putt = 2
+        elseif (BlockType = 47) AND _
+            (UsedMoney + 9 < = Money) AND _
+            Contents(XP,YP,ZP) = 0 AND _
+            Contents(XP+1,YP,ZP) = 0 AND _
+            Contents(XP+2,YP,ZP) = 0 AND _
+            Contents(XP,YP-1,ZP) = 0 AND _
+            Contents(XP+1,YP-1,ZP) = 0 AND _
+            Contents(XP+2,YP-1,ZP) = 0 AND _
+            Contents(XP,YP-2,ZP) = 0 AND _
+            Contents(XP+1,YP-2,ZP) = 0 AND _
+            Contents(XP+2,YP-2,ZP) = 0 then
+            /'
+             ' This is a 3x3x1 block. It takes three spaces horizontal and
+             ' three spaces vertical.
+             '/
+            Contents(XP,YP,ZP) = 47
+            Contents(XP+1,YP,ZP) = 255
+            Contents(XP+2,YP,ZP) = 255
+            Contents(XP,YP-1,ZP) = 255
+            Contents(XP+1,YP-1,ZP) = 255
+            Contents(XP+2,YP-1,ZP) = 255
+            Contents(XP,YP-2,ZP) = 255
+            Contents(XP+1,YP-2,ZP) = 255
+            Contents(XP+2,YP-2,ZP) = 255
+            Direction(XP,YP,ZP) = Rotation
+            LevelTime += 200
+            MinimumLevelTime += 150
+            UsedMoney += 9
             Blocks += 1
             Putt = 2
         end if
@@ -1075,8 +1135,8 @@
                             print #m, "// brush 0"
                             print #m, "{"
                             /'
-                             ' This is a 2x2 block. It takes two spaces horizontal and two spaces
-                             ' vertical.
+                             ' This is a 2x2 block. It takes two spaces
+                             ' horizontal and two spaces vertical.
                              '/
                             if (Direction(XP,YP,ZP) = 1) OR (Direction(XP,YP,ZP) = 3) then
                                 plot_face(0,128,0,0,128,-128,0,-128,0,0,"turf-green-dark")
@@ -1104,8 +1164,8 @@
                             print #m, "// brush 0"
                             print #m, "{"
                             /'
-                             ' This is a 2x2 block. It takes two spaces horizontal and two spaces
-                             ' vertical.
+                             ' This is a 2x2 block. It takes two spaces
+                             ' horizontal and two spaces vertical.
                              '/
                             if (Direction(XP,YP,ZP) = 1) OR (Direction(XP,YP,ZP) = 3) then
                                 plot_face(0,128,0,0,128,-128,0,-128,0,0,"turf-green-dark")
@@ -1121,6 +1181,64 @@
                                 plot_face(0,-128,-128,-16,-128,-256,-16,128,-128,-16,"turf-grey")
                                 plot_face(0,-128,-256,-16,-128,-256,0,128,-128,0,"invisible")
                                 plot_face(0,-128,-128,0,-128,-128,-16,-128,-128,-16,"invisible")
+                            end if
+                            print #m, "}"
+                            print #m, "}"
+
+                        case 46
+                            print #m, "// entity ";Entity
+                            Entity += 1
+                            print #m, "{"
+                            print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+                            print #m, "// brush 0"
+                            print #m, "{"
+                            /'
+                             ' This is a 3x3 block. It takes three spaces
+                             ' horizontal and three spaces vertical.
+                             '/
+                            if (Direction(XP,YP,ZP) = 1) OR (Direction(XP,YP,ZP) = 3) then
+                                plot_face(0,256,0,0,256,-128,0,0,0,0,"turf-green-dark")
+                                plot_face(0,128,0,0,128,0,-16,256,0,-16,"invisible")
+                                plot_face(0,0,-384,-16,0,-384,0,256,0,0,"turf-grey")
+                                plot_face(0,0,-128,-16,256,-128,-16,0,0,-16,"turf-grey")
+                                plot_face(0,0,-384,0,0,-384,-16,-128,-384,0,"invisible")
+                                plot_face(0,-128,-384,0,-128,-384,-16,128,0,-16,"turf-grey")
+                            elseif (Direction(XP,YP,ZP) = 2) OR (Direction(XP,YP,ZP) = 4) then
+                                plot_face(0,128,0,0,128,-128,0,-128,0,0,"turf-green-dark")
+                                plot_face(0,256,-256,-16,256,-256,0,-128,0,0,"turf-grey")
+                                plot_face(0,256,-256,0,256,-256,-16,256,-384,-16,"invisible")
+                                plot_face(0,-128,-128,-16,128,-128,-16,-128,0,-16,"turf-grey")
+                                plot_face(0,256,-384,0,256,-384,-16,-128,-128,0,"turf-grey")
+                                plot_face(0,-128,-128,0,-128,-128,-16,-128,0,0,"invisible")
+                            end if
+                            print #m, "}"
+                            print #m, "}"
+
+                        case 47
+                            print #m, "// entity ";Entity
+                            Entity += 1
+                            print #m, "{"
+                            print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+                            print #m, "// brush 0"
+                            print #m, "{"
+                            /'
+                             ' This is a 3x3 block. It takes three spaces
+                             ' horizontal and three spaces vertical.
+                             '/
+                            if (Direction(XP,YP,ZP) = 1) OR (Direction(XP,YP,ZP) = 3) then
+                                plot_face(0,128,0,0,128,-128,0,-128,0,0,"turf-green-dark")
+                                plot_face(0,0,0,-16,0,0,0,-128,0,0,"invisible")
+                                plot_face(0,256,-384,-16,256,-384,0,0,0,0,"turf-grey")
+                                plot_face(0,-128,-128,-16,128,-128,-16,-128,0,-16,"turf-grey")
+                                plot_face(0,128,-384,-16,128,-384,0,256,-384,0,"invisible")
+                                plot_face(0,128,-384,0,128,-384,-16,-128,0,-16,"turf-grey")
+                            elseif (Direction(XP,YP,ZP) = 2) OR (Direction(XP,YP,ZP) = 4) then
+                                plot_face(0,0,-256,0,0,-128,0,256,-128,0,"turf-green-dark")
+                                plot_face(0,-128,-256,0,-128,-256,-16,256,0,-16,"turf-grey")
+                                plot_face(0,256,-128,-16,256,-128,0,256,0,0,"invisible")
+                                plot_face(0,0,-128,-16,0,-256,-16,256,-128,-16,"turf-grey")
+                                plot_face(0,-128,-384,-16,-128,-384,0,256,-128,0,"invisible")
+                                plot_face(0,-128,-256,-16,-128,-256,0,-128,-384,0,"invisible")
                             end if
                             print #m, "}"
                             print #m, "}"

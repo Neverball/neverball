@@ -40,6 +40,7 @@ declare sub base_gfx
 declare sub cursor
 declare sub direction_gfx
 declare sub main_menu
+declare sub clear_preview
 declare sub map_generate
 declare sub config(Switch as ubyte = 0)
 
