@@ -43,30 +43,31 @@
     windowtitle "Neverassistant"
     #DEFINE __SATISFY__ 'This forces this file to be chosen for compilation.
     /'
-     ' This includes all the contents of the FB Graphics Library and its constants.
-     ' This file is part of the compiler. We don't need it in this package.
+     ' This includes all the contents of the FB Graphics Library and its
+     ' constants. This file is part of the compiler. We don't need it in this
+     ' package.
      '
-     ' The namespace FB is utilized to allow actions under it to be used without
-     ' prefixing it.
+     ' The namespace FB is utilized to allow actions under it to be used
+     ' without prefixing it.
      '/
     #include "fbgfx.bi"
     using FB
     /'
-     ' This establishes compatibility with VisualBASIC by including compatibility
-     ' functions and constants. This file is part of the compiler. We don't need
-     ' it in this package.
+     ' This establishes compatibility with VisualBASIC by including
+     ' compatibility functions and constants. This file is part of the
+     ' compiler. We don't need it in this package.
      '/
     #include "vbcompat.bi"
 
     /'
-     ' This includes a lot of the much needed information. This file is not part of
-     ' the compiler, and even if it was part of the compiler, its presence in this
-     ' package overrides its presence in the compiler.
+     ' This includes a lot of the much needed information. This file is not part
+     ' of the compiler, and even if it was part of the compiler, its presence in
+     ' this package overrides its presence in the compiler.
      '/
     #include "neverassist.bi"
     /'
-     ' This includes the generator. This file is not part of the compiler. It must
-     ' be present in this package.
+     ' This includes the generator. This file is not part of the compiler. It
+     ' must be present in this package.
      '/
     #include "nevergen.bas"
 
@@ -109,6 +110,7 @@
     else
         chdir(NeverPath)
     end if
+
     #IF __FB_DEBUG__
         #IF defined(__FB_WIN32__) OR defined(__FB_DOS__)
             if FileExists("gdb.exe") then
@@ -170,14 +172,20 @@
                     print "<U> ";lang("Unpack an archive");
                     color rgb(0,255,255):print lang(" - Must locate 7-Zip")
                 else
-                    color rgb(255,255,255):print "<U> ";lang("Unpack an archive");
-                    color rgb(0,255,255):print lang(" - Will overwrite without prompt")
+                    color rgb(255,255,255)
+                    print "<U> ";lang("Unpack an archive");
+                    color rgb(0,255,255)
+                    print lang(" - Will overwrite without prompt")
                 end if
             #ELSE
-                color rgb(128,128,128):print "<Z> ";lang("Locate 7-Zip");
-                color rgb(0,255,255):print lang(" - 7-Zip is Windows only")
-                color rgb(128,128,128):print "<U> ";lang("Unpack an archive");
-                color rgb(0,255,255):print lang(" - 7-Zip is Windows only")
+                color rgb(128,128,128)
+                print "<Z> ";lang("Locate 7-Zip");
+                color rgb(0,255,255)
+                print lang(" - 7-Zip is Windows only")
+                color rgb(128,128,128)
+                print "<U> ";lang("Unpack an archive");
+                color rgb(0,255,255)
+                print lang(" - 7-Zip is Windows only")
             #ENDIF
 
             color rgb(255,255,255):print "<X> ";lang("Exit program")
@@ -261,7 +269,8 @@
                 clkey
                 windowtitle "Neverassistant - Relocate Directory"
                 print lang("Path can be relative or absolute.")
-                print lang("If relative, must be relative to assistant's directory.")
+                print lang("If relative, must be relative to" + _
+                    " assistant's directory.")
                 print lang("Where is the directory? ");
                 color rgb(255,255,0)
                 line input "",NeverPath
@@ -279,11 +288,16 @@
             elseif multikey(SC_S) then
                 clkey
                 cls
-                'Try to make it wrap the 80 characters if you translate this string
-                print lang("The solution directory contains a collection of " + _
-                    "solutions to levels players may give a fit on.")
-                print "<A> ";lang("Neverball Easy Level 09: How to 100% the level")
-                print "<B> ";lang("Neverball Easy Bonus Level 5: How to 100% the level")
+                /'
+                 ' Try to make it wrap the 80 characters if you translate
+                 ' this string.
+                 '/
+                print lang("The solution directory contains a collection" + _
+                    " of solutions to levels players may give a fit on.")
+                print "<A> ";lang("Neverball Easy Level 09: " + _
+                    "How to 100% the level")
+                print "<B> ";lang("Neverball Easy Bonus Level 5: " + _
+                    How to 100% the level")
                 print lang("Hit BACKSPACE to exit the directory.")
                 print
                 do
@@ -291,11 +305,11 @@
                     if multikey(SC_A) then
                         screen 0
                         #IFDEF __FB_WIN32__
-                            Check = exec("Neverball.exe", _
-                                         "-r "+AssistDir+"/solutions/cE09csy.nbr")
+                            Check = exec("Neverball.exe", "-r " + _
+                                         AssistDir+"/solutions/cE09csy.nbr")
                         #ELSE
-                            Check = exec("neverball", _
-                                         "-r "+AssistDir+"/solutions/cE09csy.nbr")
+                            Check = exec("neverball", "-r " + _
+                                         AssistDir+"/solutions/cE09csy.nbr")
                         #ENDIF
                         screen 18,24
                         clkey
@@ -305,11 +319,11 @@
                     elseif multikey(SC_B) then
                         screen 0
                         #IFDEF __FB_WIN32__
-                            Check = exec("Neverball.exe", _
-                                         "-r "+AssistDir+"/solutions/cEB5csy.nbr")
+                            Check = exec("Neverball.exe", "-r " + _
+                                         AssistDir+"/solutions/cEB5csy.nbr")
                         #ELSE
-                            Check = exec("neverball", _
-                                         "-r "+AssistDir+"/solutions/cEB5csy.nbr")
+                            Check = exec("neverball", "-r " + _
+                                         AssistDir+"/solutions/cEB5csy.nbr")
                         #ENDIF
                         screen 18,24
                         clkey
@@ -323,16 +337,17 @@
                 clkey
                 print lang("Important: Make sure the files are in root " + _
                            "directory of Neverball.")
-                print lang("If you don't have a levelshot when it asks you " + _
-                           "for it, leave it blank!")
+                print lang("If you don't have a levelshot when it asks " + _
+                           "you for it, leave it blank!")
                 print
                 print lang("Which level to convert? ");
                 input "",MapFile
                 print lang("Where is its corrosponding levelshot?")
                 input "",ShotFile
                 /'
-                 ' This creates a totally random ID. As it is random, and with a
-                 ' huge range, it will very rarely conflict with another level.
+                 ' This creates a totally random ID. As it is random, and
+                 ' with a huge range, it will very rarely (if ever) conflict
+                 ' with another level.
                  '/
                 SingleLevelID = rnd * 4294967295
                 open "data/set-"+str(SingleLevelID)+".txt" for output as #1
@@ -353,7 +368,8 @@
                 end if
                 FileCopy(MapFile,"data/map-"+str(SingleLevelID)+"/"+MapFile)
                 if ShotFile < > "" then
-                    FileCopy(ShotFile,"data/shot-"+str(SingleLevelID)+"/"+ShotFile)
+                    FileCopy(ShotFile,_
+                    "data/shot-"+str(SingleLevelID)+"/"+ShotFile)
                 end if
 
             #IFDEF __FB_WIN32__
@@ -375,7 +391,8 @@
                     end if
                     color rgb(255,255,255)
 
-                elseif multikey(SC_U) AND (Z7Path < > "") AND (Z7Exe < > "") then
+                elseif multikey(SC_U) AND _
+                    (Z7Path < > "") AND (Z7Exe < > "") then
                     clkey
                     windowtitle "Neverassistant - Unpack archive"
                     print lang("Which archive do you want to extract?") + _
@@ -384,8 +401,8 @@
                     input Unpack
                     if (Unpack < > "") then
                         Z7Exe = Z7Path + "\7z.exe"
-                        Check = exec(Z7Exe,"x -w{" +chr(34)+curdir+chr(34)+ "} -y " + _
-                                     Unpack)
+                        Check = exec(Z7Exe, "x -w{" +chr(34)+curdir+_
+                            chr(34)+"} -y " + Unpack)
                         if (Check = -1) then
                             Z7Path = ""
                             Z7Exe = ""

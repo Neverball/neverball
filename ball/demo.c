@@ -469,7 +469,9 @@ void demo_rename_player(const char *name, const char *player)
 
                 demo_header_write(new_fp, &d);
 
-                /* Restore the last three fields not written by the above call. */
+                /* 
+                 * Restore the last three fields not written by the above call.
+                 */
 
                 /* Hack, hack, hack. */
 

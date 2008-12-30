@@ -4,13 +4,14 @@
 #include "lang.bi"
 randomize timer
 dim shared as ubyte XM, YM, XG, YG, BlockType, BlockSet, Rotation, XR, YR, _
-    ZR, Start, Finish(2), MusicSwitch, XSwitch, YSwitch, ZSwitch, Warning, Hold, _
-    Openings, Putt, MusicID
+    ZR, Start, Finish(2), MusicSwitch, XSwitch, YSwitch, ZSwitch, Warning, _
+    Hold, Openings, Putt, MusicID
 dim shared as byte XP, YP, ZP
 dim shared as uinteger Entity, LevelTime, Blocks, TargetCoins, Coins, _
     MinimumLevelTime, UsedMoney, SingleLevelID
 dim shared as longint PlacementTest(-11 to 11,-11 to 11,-11 to 21), _
-    Contents(-11 to 11,-11 to 11,-11 to 21), Direction(-11 to 11,-11 to 11,-11 to 21)
+    Contents(-11 to 11,-11 to 11,-11 to 21), _
+    Direction(-11 to 11,-11 to 11,-11 to 21)
 dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, _
     LevelMessage, WindowTitleM, Compile, Replay, LevelName, MusicPlay, _
     Neverpath, InType, AssistDir, ShotFile
@@ -57,29 +58,31 @@ declare sub config(Switch as ubyte = 0)
  ' these faces, which in turn makes the lumps.
  '
  ' The last argument applies a texture to it. This argument is optional, and
- ' it defaults to invisible.
+ ' it defaults to 0 when omitted.
  '/
-declare sub plot_face(Detail as ubyte, XOff1 as short, YOff1 as short, _
+declare sub ptf(Detail as ubyte, XOff1 as short, YOff1 as short, _
     ZOff1 as short, XOff2 as short, YOff2 as short, ZOff2 as short, _
     XOff3 as short, YOff3 as short, ZOff3 as short, _
-    Texture as string = "invisible")
+    TexID as ubyte = 0)
 
-sub plot_face(Detail as ubyte, XOff1 as short, YOff1 as short, _
+sub ptf(Detail as ubyte, XOff1 as short, YOff1 as short, _
     ZOff1 as short, XOff2 as short, YOff2 as short, ZOff2 as short, _
     XOff3 as short, YOff3 as short, ZOff3 as short, _
-    Texture as string = "invisible")
+    TexID as ubyte = 0)
+    dim as string Texture(0 to 99) => {"invisible", "turf-grey", _
+        "turf-green", "turf-green-dark", "coin-green-small", "yellow"}
     'Plots a face.
     if Detail < 2 then
         print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "; _
         ""& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "; _
         ""& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "; _
-        ""& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 "; _
+        ""& ZP*64+ZOff3;" ) mtrl/";Texture(TexID);" 0 0 0 0.5 0.5 "; _
         ""& 134217728*Detail;" 0 0"
     else
         print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "; _
         ""& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "; _
         ""& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "; _
-        ""& ZP*64+ZOff3;" ) mtrl/";Texture;" 0 0 0 0.5 0.5 0 0 0"
+        ""& ZP*64+ZOff3;" ) mtrl/";Texture(TexID);" 0 0 0 0.5 0.5 0 0 0"
     end if
 end sub
 
@@ -123,7 +126,7 @@ end sub
  ' future construction blocks.
  '/
 /'
-plot_face(0,0,0,0,0,0,0,0,0,0,"")
+ptf(0,0,0,0,0,0,0,0,0,0,"")
 '/
 
 declare sub clkey

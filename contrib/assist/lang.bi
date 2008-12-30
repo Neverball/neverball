@@ -48,9 +48,11 @@
         input "Which language file";LangFile
         if LangFile < > "" then
             #IF defined(__FB_WIN32__) OR defined(__FB_DOS__)
-                Result = open(MasterDir + "\" + LangFile + ".txt" for input as #l)
+                Result = open(MasterDir + _
+                    "\" + LangFile + ".txt" for input as #l)
             #ELSE
-                Result = open(MasterDir + "/" + LangFile + ".txt" for input as #l)
+                Result = open(MasterDir + _
+                    "/" + LangFile + ".txt" for input as #l)
             #ENDIF
             if Result = 0 then
                 for ConvertID = 1 to Strings
@@ -83,9 +85,11 @@
         else
             if LangFile < > "" then
                 #IFDEF __FB_WIN32__
-                    Result = open(MasterDir + "\" + LangFile + ".txt" for input as #l)
+                    Result = open(MasterDir + _
+                        "\" + LangFile + ".txt" for input as #l)
                 #ELSE
-                    Result = open(MasterDir + "/" + LangFile + ".txt" for input as #l)
+                    Result = open(MasterDir + _
+                        "/" + LangFile + ".txt" for input as #l)
                 #ENDIF
                 if Result = 0 then
                     for ConvertID = 1 to Strings
@@ -99,7 +103,8 @@
                     next ConvertID
                     close #l
                 else
-                    print "Unable to open "+MasterDir+"/"+LangFile+" for reading."
+                    print "Unable to open "+MasterDir+"_
+                        /"+LangFile+" for reading."
                     sleep
                 end if
             end if

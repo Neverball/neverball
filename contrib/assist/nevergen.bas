@@ -18,6 +18,7 @@
  ' blocks (presently 26). This number will be increased as more ideas are
  ' available.
  '/
+
 #IFNDEF __SATISFY__
     #ERROR Must compile neverassist.bas
 #ELSE
@@ -137,7 +138,8 @@
                 XP -= 1
             end if
             /'
-             ' The left and right arrow keys move the cursor along the X-axis of the generator.
+             ' The left and right arrow keys move the cursor along the X-axis
+             ' of the generator.
              '/
             if multikey(SC_UP) then
                 YP += 1
@@ -145,7 +147,8 @@
                 YP -= 1
             end if
             /'
-             ' The up and down arrow keys move the cursor along the Y-axis of the generator.
+             ' The up and down arrow keys move the cursor along the Y-axis
+             ' of the generator.
              '/
             if multikey(SC_PAGEUP) then
                 ZP += 1
@@ -153,11 +156,13 @@
                 ZP -= 1
             end if
             /'
-             ' The page up and page down keys move the cursor along the Z-axis of the generator.
+             ' The page up and page down keys move the cursor along the Z-axis
+             ' of the generator.
              '
-             ' Though you won't notice a change in the cursor graphics-wise, you will notice a change in the coordinates.
+             ' Though you won't notice a change in the cursor graphics-wise,
+             ' you will notice a change in the coordinates.
              '
-             ' The nature of the generator makes the Z-axis your elevation level.
+             ' The nature of the generator makes Z-axis your elevation level.
              '/
 
             if (multikey(SC_PLUS) OR multikey(SC_EQUALS)) AND _
@@ -179,8 +184,8 @@
             if (NOT multikey(SC_SLASH)) AND (Hold > 0) then Hold -= 1
 
             /'
-             ' This prevents maps made with this program from getting away without
-             ' certain items.
+             ' This prevents maps made with this program from getting away
+             ' without certain items.
              '/
             if Start = 0 then Warning += 1
             if Finish(1) = 0 then Warning += 1
@@ -242,6 +247,7 @@
                     YR = 1
                     ZR = 1
                     bload(AssistDir+"/Finish.bmp",BlockDisplay)
+
                 elseif multikey(SC_4) then
                     BlockType = 4
                     XR = 1
@@ -293,11 +299,13 @@
                     YR = 1
                     ZR = 1
                     bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
+
                 elseif multikey(SC_6) then
                     BlockType = 16
                     XR = 1
                     YR = 1
                     ZR = 1
+	                clear_preview
                 elseif multikey(SC_7) then
                     BlockType = 17
                     XR = 1
@@ -453,6 +461,7 @@
                 print lang("Cross Finish")
             elseif (BlockType = 6) then
                 print lang("Dead-end Finish")
+
             elseif (BlockType = 11) then
                 print lang("Flat straight")
             elseif (BlockType = 12) then
@@ -479,6 +488,7 @@
                 print lang("Bump")
             elseif (BlockType = 24) then
                 print lang("Coined Bump")
+
             elseif (BlockType = 41) then
                 print lang("Small Jump")
             elseif (BlockType = 42) then
@@ -505,7 +515,7 @@
                 if (BlockType = 0) then
                     print lang("You have no block selected.")
                 elseif (BlockType = 1) then
-                    print lang("This is where the player starts." + _
+                    print lang("This is where the player starts. " + _
                         "Not rotatable.")
                 elseif (BlockType = 2) then
                     print lang("This is where the player finishes at a " + _
@@ -520,8 +530,10 @@
                 elseif (BlockType = 6) then
                     print lang("This is where the player finishes at a " + _
                         "dead-end.")
+
                 elseif (BlockType = 11) then
-                    print lang("This is the most simple block. It is straight and flat.")
+                    print lang("This is the most simple block. It is " + _
+                        "straight and flat.")
                 elseif (BlockType = 12) then
                     print lang("This is the most simple turn. It is flat.")
                 elseif (BlockType = 13) then
@@ -546,6 +558,7 @@
                     print lang("This block has a bump.")
                 elseif (BlockType = 24) then
                     print lang("This bump has coins on it.")
+
                 elseif (BlockType = 41) then
                     print lang("You can jump with this block.")
                 elseif (BlockType = 42) then
@@ -579,9 +592,10 @@
                 print lang("* BACKSPACE: Clear map and reset settings.")
 
                 print "* F2-F5: Changes block set."
-                print "* 1-9: Changes block. Not all sets have 9 blocks in them."
-                print "* ~: to check for issues. You can't save the map until " + _
-                      "you ensure there are no"
+                print "* 1-9: Changes block. Not all sets have 9 blocks" + _
+                    " in them."
+                print "* ~: to check for issues. You can't save the map " + _
+                      "until you ensure there are no"
                 print " errors."
                 color rgb(255,255,255)
                 sleep
@@ -596,7 +610,8 @@
                     print lang("Check okay. There are no offending items.")
                 else
                     color rgb(255,0,0)
-                    print lang("Check failed. Check the following offending items.")
+                    print lang("Check failed. Check the following" + _
+                        " offending items.")
                     color rgb(255,128,0)
                     if Start = 0 then
                         print lang("- Must have 1 start block.")
@@ -605,8 +620,8 @@
                         print lang("- Must have at least 1 finish block.")
                     end if
                     if TargetCoins > Coins then
-                        print lang("- The number of required coins exceeds " + _
-                              "the coins present.")
+                        print lang("- The number of required coins " + _
+                              "exceeds the coins present.")
                     end if
                     if MinimumLevelTime > LevelTime then
                         print "- The time given for a level must equal or " + _
@@ -616,8 +631,8 @@
                 color rgb(255,255,0)
 
                 if Openings > 0 then
-                    print "- You have ";Openings;" openings that you haven't " + _
-                          "closed yet. If some of your blocks were"
+                    print "- You have ";Openings;" openings that you " + _
+                          "haven't closed yet. If some of your blocks were"
                     print " intended to merge roads together, you can hit " + _
                           "the "+chr(34)+"/"+chr(34)+" key to merge together."
                 end if
@@ -698,7 +713,8 @@
                 compile_blocks
                 print #m, "// entity ";Entity
                 print #m, "{"
-                print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"worldspawn"+chr(34)
+                print #m, chr(34)+"classname"+chr(34)+" " + _
+                    chr(34)+"worldspawn"+chr(34)
                 if (LevelMessage < > "") then
                     print #m, chr(34)+"message"+chr(34)+" " + _
                               chr(34);LevelMessage;chr(34)
@@ -709,7 +725,8 @@
                 print #m, chr(34)+"grad"+chr(34)+" "+chr(34);Grad;chr(34)
                 print #m, chr(34)+"song"+chr(34)+" "+chr(34);Song;chr(34)
                 print #m, chr(34)+"coin_hs"+chr(34)+" "+chr(34);Coins;chr(34)
-                print #m, chr(34)+"levelname"+chr(34)+" "+chr(34);LevelName;chr(34)
+                print #m, chr(34)+"levelname"+chr(34)+" " + _
+                    chr(34);LevelName;chr(34)
                 print #m, "}"
                 close #m
     
@@ -724,8 +741,8 @@
                     cls
                     print "It is now ready for play."
                     print
-                    print "If this is your first level, you need to create a " + _
-                          "set-XXX.txt in the data"
+                    print "If this is your first level, you need to" + _
+                          " create a set-XXX.txt in the data"
                     print "folder with the following contents. " + _
                           "Brackets are variables."
     
@@ -753,7 +770,7 @@
                 else
     	            cls
     	            color rgb(255,0,0)
-    	            print lang("Unable to open ");MapFile;".map";lang(" for output.")
+    	            print lang("Unable to open the map for output.")
     	            color rgb(255,255,255)
                 end if
             end if
