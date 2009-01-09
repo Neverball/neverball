@@ -143,8 +143,6 @@
 		815F018F0AEA7C3400AFD07F /* level.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC130AEA2EF600AFD07F /* level.c */; };
 		815F01900AEA7C3400AFD07F /* hud.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC120AEA2EF600AFD07F /* hud.h */; };
 		815F01910AEA7C3400AFD07F /* hud.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC110AEA2EF600AFD07F /* hud.c */; };
-		815F01920AEA7C3400AFD07F /* game.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC100AEA2EF600AFD07F /* game.h */; };
-		815F01930AEA7C3400AFD07F /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC0F0AEA2EF600AFD07F /* game.c */; };
 		815F02EF0AEA8B8100AFD07F /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815FFCFD0AEA340300AFD07F /* SDL.framework */; };
 		815FFCF50AEA333200AFD07F /* base_config.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFB7A0AEA2E0300AFD07F /* base_config.c */; };
 		815FFCF60AEA334600AFD07F /* base_image.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFB7E0AEA2E0300AFD07F /* base_image.c */; };
@@ -253,6 +251,23 @@
 		B593CBDC0EC4A9DF0088DCCA /* solid_phys.c in Sources */ = {isa = PBXBuildFile; fileRef = B593CBD80EC4A9DF0088DCCA /* solid_phys.c */; };
 		B59445470C9641CB00EC3F09 /* neverball.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD3F0BCA1BF200915326 /* neverball.icns */; };
 		B59445480C9641D000EC3F09 /* neverputt.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD410BCA1BF200915326 /* neverputt.icns */; };
+		B5C1631E0ED9CA1000A884A9 /* game_client.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163160ED9CA1000A884A9 /* game_client.c */; };
+		B5C1631F0ED9CA1000A884A9 /* game_client.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C163170ED9CA1000A884A9 /* game_client.h */; };
+		B5C163200ED9CA1000A884A9 /* game_common.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163180ED9CA1000A884A9 /* game_common.c */; };
+		B5C163210ED9CA1000A884A9 /* game_common.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C163190ED9CA1000A884A9 /* game_common.h */; };
+		B5C163220ED9CA1000A884A9 /* game_proxy.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C1631A0ED9CA1000A884A9 /* game_proxy.c */; };
+		B5C163230ED9CA1000A884A9 /* game_proxy.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C1631B0ED9CA1000A884A9 /* game_proxy.h */; };
+		B5C163240ED9CA1000A884A9 /* game_server.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C1631C0ED9CA1000A884A9 /* game_server.c */; };
+		B5C163250ED9CA1000A884A9 /* game_server.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C1631D0ED9CA1000A884A9 /* game_server.h */; };
+		B5C1632C0ED9CA3800A884A9 /* cmd.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163260ED9CA3800A884A9 /* cmd.c */; };
+		B5C1632D0ED9CA3800A884A9 /* cmd.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C163270ED9CA3800A884A9 /* cmd.h */; };
+		B5C1632E0ED9CA3800A884A9 /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163280ED9CA3800A884A9 /* list.c */; };
+		B5C1632F0ED9CA3800A884A9 /* list.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C163290ED9CA3800A884A9 /* list.h */; };
+		B5C163300ED9CA3800A884A9 /* queue.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C1632A0ED9CA3800A884A9 /* queue.c */; };
+		B5C163310ED9CA3800A884A9 /* queue.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C1632B0ED9CA3800A884A9 /* queue.h */; };
+		B5C163320ED9CA3800A884A9 /* cmd.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163260ED9CA3800A884A9 /* cmd.c */; };
+		B5C163330ED9CA3800A884A9 /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163280ED9CA3800A884A9 /* list.c */; };
+		B5C163340ED9CA3800A884A9 /* queue.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C1632A0ED9CA3800A884A9 /* queue.c */; };
 		B5C4250A0DAAC39E00F6C398 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5C425020DAAC35800F6C398 /* InfoPlist.strings */; };
 		B5C4250B0DAAC3A100F6C398 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5C425060DAAC35800F6C398 /* InfoPlist.strings */; };
 		B5C864060D3552220024E95E /* ball.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864020D3552220024E95E /* ball.c */; };
@@ -1525,6 +1540,20 @@
 		B57D63D00CAE8138005DE710 /* st_fall_out.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_fall_out.c; sourceTree = "<group>"; };
 		B593CBD80EC4A9DF0088DCCA /* solid_phys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = solid_phys.c; sourceTree = "<group>"; };
 		B593CBD90EC4A9DF0088DCCA /* solid_phys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = solid_phys.h; sourceTree = "<group>"; };
+		B5C163160ED9CA1000A884A9 /* game_client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_client.c; path = ../../ball/game_client.c; sourceTree = SOURCE_ROOT; };
+		B5C163170ED9CA1000A884A9 /* game_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_client.h; path = ../../ball/game_client.h; sourceTree = SOURCE_ROOT; };
+		B5C163180ED9CA1000A884A9 /* game_common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_common.c; path = ../../ball/game_common.c; sourceTree = SOURCE_ROOT; };
+		B5C163190ED9CA1000A884A9 /* game_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_common.h; path = ../../ball/game_common.h; sourceTree = SOURCE_ROOT; };
+		B5C1631A0ED9CA1000A884A9 /* game_proxy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_proxy.c; path = ../../ball/game_proxy.c; sourceTree = SOURCE_ROOT; };
+		B5C1631B0ED9CA1000A884A9 /* game_proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_proxy.h; path = ../../ball/game_proxy.h; sourceTree = SOURCE_ROOT; };
+		B5C1631C0ED9CA1000A884A9 /* game_server.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_server.c; path = ../../ball/game_server.c; sourceTree = SOURCE_ROOT; };
+		B5C1631D0ED9CA1000A884A9 /* game_server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_server.h; path = ../../ball/game_server.h; sourceTree = SOURCE_ROOT; };
+		B5C163260ED9CA3800A884A9 /* cmd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cmd.c; path = ../../share/cmd.c; sourceTree = SOURCE_ROOT; };
+		B5C163270ED9CA3800A884A9 /* cmd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cmd.h; path = ../../share/cmd.h; sourceTree = SOURCE_ROOT; };
+		B5C163280ED9CA3800A884A9 /* list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = list.c; path = ../../share/list.c; sourceTree = SOURCE_ROOT; };
+		B5C163290ED9CA3800A884A9 /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = list.h; path = ../../share/list.h; sourceTree = SOURCE_ROOT; };
+		B5C1632A0ED9CA3800A884A9 /* queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = queue.c; path = ../../share/queue.c; sourceTree = SOURCE_ROOT; };
+		B5C1632B0ED9CA3800A884A9 /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = queue.h; path = ../../share/queue.h; sourceTree = SOURCE_ROOT; };
 		B5C425030DAAC35800F6C398 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B5C425040DAAC35800F6C398 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5C425070DAAC35800F6C398 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1618,6 +1647,20 @@
 		29B97314FDCFA39411CA2CEA /* neverball */ = {
 			isa = PBXGroup;
 			children = (
+				B5C163260ED9CA3800A884A9 /* cmd.c */,
+				B5C163270ED9CA3800A884A9 /* cmd.h */,
+				B5C163280ED9CA3800A884A9 /* list.c */,
+				B5C163290ED9CA3800A884A9 /* list.h */,
+				B5C1632A0ED9CA3800A884A9 /* queue.c */,
+				B5C1632B0ED9CA3800A884A9 /* queue.h */,
+				B5C163160ED9CA1000A884A9 /* game_client.c */,
+				B5C163170ED9CA1000A884A9 /* game_client.h */,
+				B5C163180ED9CA1000A884A9 /* game_common.c */,
+				B5C163190ED9CA1000A884A9 /* game_common.h */,
+				B5C1631A0ED9CA1000A884A9 /* game_proxy.c */,
+				B5C1631B0ED9CA1000A884A9 /* game_proxy.h */,
+				B5C1631C0ED9CA1000A884A9 /* game_server.c */,
+				B5C1631D0ED9CA1000A884A9 /* game_server.h */,
 				8137FD570AEBE54F009172EC /* putt */,
 				815FFC0C0AEA2EF600AFD07F /* ball */,
 				815FFB710AEA2E0300AFD07F /* share */,
@@ -3346,7 +3389,6 @@
 				815F01890AEA7C3400AFD07F /* set.h in Headers */,
 				815F018E0AEA7C3400AFD07F /* level.h in Headers */,
 				815F01900AEA7C3400AFD07F /* hud.h in Headers */,
-				815F01920AEA7C3400AFD07F /* game.h in Headers */,
 				8137FB120AEB07D4009172EC /* SDLMain.h in Headers */,
 				B5117CE90C9060CB005837F9 /* st_pause.h in Headers */,
 				B549682A0C964EBF004309DA /* lang.h in Headers */,
@@ -3374,6 +3416,13 @@
 				B5E6E8970DFF38D8005ADC5B /* item.h in Headers */,
 				B507E3960E36565600178C13 /* syswm.h in Headers */,
 				B593CBDB0EC4A9DF0088DCCA /* solid_phys.h in Headers */,
+				B5C1631F0ED9CA1000A884A9 /* game_client.h in Headers */,
+				B5C163210ED9CA1000A884A9 /* game_common.h in Headers */,
+				B5C163230ED9CA1000A884A9 /* game_proxy.h in Headers */,
+				B5C163250ED9CA1000A884A9 /* game_server.h in Headers */,
+				B5C1632D0ED9CA3800A884A9 /* cmd.h in Headers */,
+				B5C1632F0ED9CA3800A884A9 /* list.h in Headers */,
+				B5C163310ED9CA3800A884A9 /* queue.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3617,6 +3666,9 @@
 				B5E6E8980DFF38D8005ADC5B /* item.c in Sources */,
 				B507E3970E36565600178C13 /* syswm.c in Sources */,
 				B593CBDC0EC4A9DF0088DCCA /* solid_phys.c in Sources */,
+				B5C163320ED9CA3800A884A9 /* cmd.c in Sources */,
+				B5C163330ED9CA3800A884A9 /* list.c in Sources */,
+				B5C163340ED9CA3800A884A9 /* queue.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3671,7 +3723,6 @@
 				815F018B0AEA7C3400AFD07F /* main.c in Sources */,
 				815F018F0AEA7C3400AFD07F /* level.c in Sources */,
 				815F01910AEA7C3400AFD07F /* hud.c in Sources */,
-				815F01930AEA7C3400AFD07F /* game.c in Sources */,
 				8137FB130AEB07D7009172EC /* SDLMain.m in Sources */,
 				B5117CE80C9060CB005837F9 /* st_pause.c in Sources */,
 				B549682C0C964ED3004309DA /* lang.c in Sources */,
@@ -3689,6 +3740,13 @@
 				B5E6E8960DFF38D8005ADC5B /* item.c in Sources */,
 				B507E3950E36565600178C13 /* syswm.c in Sources */,
 				B593CBDA0EC4A9DF0088DCCA /* solid_phys.c in Sources */,
+				B5C1631E0ED9CA1000A884A9 /* game_client.c in Sources */,
+				B5C163200ED9CA1000A884A9 /* game_common.c in Sources */,
+				B5C163220ED9CA1000A884A9 /* game_proxy.c in Sources */,
+				B5C163240ED9CA1000A884A9 /* game_server.c in Sources */,
+				B5C1632C0ED9CA3800A884A9 /* cmd.c in Sources */,
+				B5C1632E0ED9CA3800A884A9 /* list.c in Sources */,
+				B5C163300ED9CA3800A884A9 /* queue.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
