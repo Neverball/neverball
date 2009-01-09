@@ -16,13 +16,14 @@
 #include <ctype.h>
 
 #include "gui.h"
-#include "game.h"
 #include "util.h"
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
 #include "progress.h"
 #include "text.h"
+
+#include "game_common.h"
 
 #include "st_shared.h"
 #include "st_save.h"

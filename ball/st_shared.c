@@ -16,8 +16,10 @@
 #include "gui.h"
 #include "config.h"
 #include "audio.h"
-#include "game.h"
 #include "state.h"
+
+#include "game_server.h"
+#include "game_client.h"
 
 #include "st_shared.h"
 

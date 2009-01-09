@@ -22,8 +22,11 @@
 #include "image.h"
 #include "text.h"
 #include "set.h"
-#include "game.h"
 #include "common.h"
+
+#include "game_server.h"
+#include "game_client.h"
+#include "game_proxy.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -441,13 +444,19 @@ void level_snap(int i)
 
     /* Initialize the game for a snapshot. */
 
-    if (game_init(level_v[i].file, 0, 1))
+    if (game_client_init(level_v[i].file))
     {
+        union cmd cmd;
+
+        cmd.type = CMD_GOAL_OPEN;
+        game_proxy_enq(&cmd);
+
         /* Render the level and grab the screen. */
 
         config_clear();
-        game_set_fly(1.f);
+        game_set_fly(1.f, game_client_file());
         game_kill_fade();
+        game_client_step(NULL);
         game_draw(1, 0);
 
         image_snap(filename);

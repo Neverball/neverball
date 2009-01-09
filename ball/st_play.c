@@ -14,12 +14,15 @@
 
 #include "gui.h"
 #include "hud.h"
-#include "game.h"
 #include "demo.h"
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
+
+#include "game_common.h"
+#include "game_server.h"
+#include "game_client.h"
 
 #include "st_play.h"
 #include "st_goal.h"
@@ -71,7 +74,8 @@ static void play_ready_timer(int id, float dt)
 {
     float t = time_state();
 
-    game_set_fly(1.0f - 0.5f * t);
+    game_set_fly(1.0f - 0.5f * t, NULL);
+    game_client_step(NULL);
 
     if (dt > 0.0f && t > 1.0f)
         goto_state(&st_play_set);
@@ -128,7 +132,8 @@ static void play_set_timer(int id, float dt)
 {
     float t = time_state();
 
-    game_set_fly(0.5f - 0.5f * t);
+    game_set_fly(0.5f - 0.5f * t, NULL);
+    game_client_step(NULL);
 
     if (dt > 0.0f && t > 1.0f)
         goto_state(&st_play_loop);
@@ -141,7 +146,8 @@ static int play_set_click(int b, int d)
 {
     if (b < 0 && d == 1)
     {
-        game_set_fly(0.0f);
+        game_set_fly(0.0f, NULL);
+        game_client_step(NULL);
         return goto_state(&st_play_loop);
     }
     return 1;
@@ -190,7 +196,8 @@ static int play_loop_enter(void)
 
     audio_play(AUD_GO, 1.f);
 
-    game_set_fly(0.f);
+    game_set_fly(0.f, NULL);
+    game_client_step(NULL);
     view_rotate = 0;
 
     hud_view_pulse(config_get_d(CONFIG_CAMERA));
@@ -219,17 +226,17 @@ static void play_loop_timer(int id, float dt)
                (float) config_get_d(CONFIG_ROTATE_FAST) / 100.0f :
                (float) config_get_d(CONFIG_ROTATE_SLOW) / 100.0f);
 
-    float g[3] = { 0.0f, -9.8f, 0.0f };
-
     gui_timer(id, dt);
     hud_timer(dt);
     game_set_rot(view_rotate * k);
     game_set_cam(config_get_d(CONFIG_CAMERA));
 
     game_step_fade(dt);
-    demo_play_step();
 
-    switch (game_step(g, dt, 1))
+    game_server_step(dt);
+    game_client_step(demo_file());
+
+    switch (curr_status())
     {
     case GAME_GOAL:
         progress_stat(GAME_GOAL);

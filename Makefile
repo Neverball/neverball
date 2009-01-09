@@ -160,8 +160,14 @@ BALL_OBJS := \
 	share/common.o      \
 	share/keynames.o    \
 	share/syswm.o       \
+	share/list.o        \
+	share/queue.o       \
+	share/cmd.o         \
 	ball/hud.o          \
-	ball/game.o         \
+	ball/game_common.o  \
+	ball/game_client.o  \
+	ball/game_server.o  \
+	ball/game_proxy.o   \
 	ball/score.o        \
 	ball/level.o        \
 	ball/progress.o     \
@@ -209,6 +215,7 @@ PUTT_OBJS := \
 	share/sync.o        \
 	share/common.o      \
 	share/syswm.o       \
+	share/list.o        \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \

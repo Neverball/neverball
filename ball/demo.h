@@ -2,6 +2,7 @@
 #define DEMO_H
 
 #include <time.h>
+#include <stdio.h>
 
 #include "level.h"
 
@@ -66,6 +67,10 @@ void demo_replay_stop(int);
 void demo_replay_dump_info(void);
 
 const struct demo *curr_demo_replay(void);
+
+/*---------------------------------------------------------------------------*/
+
+FILE *demo_file(void);
 
 /*---------------------------------------------------------------------------*/
 

@@ -12,13 +12,14 @@
  * General Public License for more details.
  */
 
-#include "game.h"
 #include "util.h"
 #include "progress.h"
 #include "demo.h"
 #include "audio.h"
 #include "gui.h"
 #include "config.h"
+
+#include "game_common.h"
 
 #include "st_over.h"
 #include "st_start.h"

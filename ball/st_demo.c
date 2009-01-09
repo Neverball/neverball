@@ -17,7 +17,6 @@
 #include "gui.h"
 #include "hud.h"
 #include "set.h"
-#include "game.h"
 #include "demo.h"
 #include "progress.h"
 #include "audio.h"
@@ -26,6 +25,10 @@
 #include "st_shared.h"
 #include "util.h"
 #include "common.h"
+
+#include "game_common.h"
+#include "game_server.h"
+#include "game_client.h"
 
 #include "st_demo.h"
 #include "st_title.h"
@@ -352,7 +355,8 @@ static int demo_play_enter(void)
 
     show_hud = 1;
     hud_update(0);
-    game_set_fly(0.f);
+    game_set_fly(0.f, game_client_file());
+    game_client_step(NULL);
 
     return id;
 }

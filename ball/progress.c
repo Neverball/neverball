@@ -14,12 +14,15 @@
 
 #include "progress.h"
 #include "config.h"
-#include "game.h"
 #include "demo.h"
 #include "level.h"
 #include "set.h"
 #include "lang.h"
 #include "score.h"
+
+#include "game_common.h"
+#include "game_client.h"
+#include "game_server.h"
 
 #include <assert.h>
 
@@ -31,6 +34,8 @@ struct progress
     int score;
     int times;
 };
+
+static int replay = 0;
 
 static int mode = MODE_NORMAL;
 
@@ -71,6 +76,8 @@ void progress_init(int m)
 {
     mode  = m;
     bonus = 0;
+
+    replay = 0;
 
     curr.balls = 2;
     curr.score = 0;
@@ -128,7 +135,7 @@ void progress_step(void)
 
         if (goal <= 0)
         {
-            game_set_goal();
+            if (!replay) game_set_goal();
             goal = 0;
         }
     }
@@ -239,6 +246,7 @@ int  progress_replay(const char *filename)
                          &curr.times))
     {
         goal_i = goal;
+        replay = 1;
         return 1;
     }
     else

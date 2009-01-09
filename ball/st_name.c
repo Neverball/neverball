@@ -19,9 +19,12 @@
 #include "util.h"
 #include "audio.h"
 #include "config.h"
-#include "game.h"
 #include "text.h"
 #include "back.h"
+
+#include "game_common.h"
+#include "game_server.h"
+#include "game_client.h"
 
 #include "st_name.h"
 #include "st_shared.h"
@@ -94,7 +97,7 @@ static int name_enter(void)
 
     if (draw_back)
     {
-        game_free();
+        game_client_free();
         back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
     }
 

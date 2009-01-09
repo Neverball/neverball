@@ -19,10 +19,12 @@
 #include "glext.h"
 #include "hud.h"
 #include "gui.h"
-#include "game.h"
 #include "progress.h"
 #include "config.h"
 #include "audio.h"
+
+#include "game_common.h"
+#include "game_client.h"
 
 /*---------------------------------------------------------------------------*/
 

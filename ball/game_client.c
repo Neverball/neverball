@@ -14,9 +14,9 @@
 
 #include <SDL.h>
 #include <math.h>
+#include <assert.h>
 
 #include "glext.h"
-#include "game.h"
 #include "vec3.h"
 #include "geom.h"
 #include "item.h"
@@ -26,13 +26,17 @@
 #include "image.h"
 #include "audio.h"
 #include "solid_gl.h"
-#include "solid_phys.h"
 #include "config.h"
-#include "binary.h"
+
+#include "game_client.h"
+#include "game_common.h"
+#include "game_proxy.h"
+
+#include "cmd.h"
 
 /*---------------------------------------------------------------------------*/
 
-static int game_state = 0;
+static int client_state = 0;
 
 static struct s_file file;
 static struct s_file back;
@@ -40,304 +44,356 @@ static struct s_file back;
 static int   reflective;                /* Reflective geometry used?         */
 
 static float timer      = 0.f;          /* Clock time                        */
-static int   timer_down = 1;            /* Timer go up or down?              */
+
+static int status = GAME_NONE;          /* Outcome of the game               */
 
 static float game_rx;                   /* Floor rotation about X axis       */
 static float game_rz;                   /* Floor rotation about Z axis       */
 
 static float view_a;                    /* Ideal view rotation about Y axis  */
-static float view_dc;                   /* Ideal view distance above ball    */
-static float view_dp;                   /* Ideal view distance above ball    */
-static float view_dz;                   /* Ideal view distance behind ball   */
 static float view_fov;                  /* Field of view                     */
 
 static float view_c[3];                 /* Current view center               */
-static float view_v[3];                 /* Current view vector               */
 static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view reference frame      */
-static float view_k;
 
 static int   coins  = 0;                /* Collected coins                   */
 static int   goal_e = 0;                /* Goal enabled flag                 */
 static float goal_k = 0;                /* Goal animation                    */
+
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
-static float jump_p[3];                 /* Jump destination                  */
+
 static float fade_k = 0.0;              /* Fade in/out level                 */
 static float fade_d = 0.0;              /* Fade in/out direction             */
 
-/*---------------------------------------------------------------------------*/
-
-/*
- * This is an abstraction of the game's input state.  All input is
- * encapsulated here, and all references to the input by the game are made
- * here.  This has the effect of homogenizing input for use in replay
- * recording and playback.
- *
- * x and z:
- *     -32767 = -ANGLE_BOUND
- *     +32767 = +ANGLE_BOUND
- *
- * r:
- *     -32767 = -VIEWR_BOUND
- *     +32767 = +VIEWR_BOUND
- *
- */
-
-struct input
-{
-    short x;
-    short z;
-    short r;
-    short c;
-};
-
-static struct input input_current;
-
-static void input_init(void)
-{
-    input_current.x = 0;
-    input_current.z = 0;
-    input_current.r = 0;
-    input_current.c = 0;
-}
-
-static void input_set_x(float x)
-{
-    if (x < -ANGLE_BOUND) x = -ANGLE_BOUND;
-    if (x >  ANGLE_BOUND) x =  ANGLE_BOUND;
-
-    input_current.x = (short) (32767.0f * x / ANGLE_BOUND);
-}
-
-static void input_set_z(float z)
-{
-    if (z < -ANGLE_BOUND) z = -ANGLE_BOUND;
-    if (z >  ANGLE_BOUND) z =  ANGLE_BOUND;
-
-    input_current.z = (short) (32767.0f * z / ANGLE_BOUND);
-}
-
-static void input_set_r(float r)
-{
-    if (r < -VIEWR_BOUND) r = -VIEWR_BOUND;
-    if (r >  VIEWR_BOUND) r =  VIEWR_BOUND;
-
-    input_current.r = (short) (32767.0f * r / VIEWR_BOUND);
-}
-
-static void input_set_c(int c)
-{
-    input_current.c = (short) c;
-}
-
-static float input_get_x(void)
-{
-    return ANGLE_BOUND * (float) input_current.x / 32767.0f;
-}
-
-static float input_get_z(void)
-{
-    return ANGLE_BOUND * (float) input_current.z / 32767.0f;
-}
-
-static float input_get_r(void)
-{
-    return VIEWR_BOUND * (float) input_current.r / 32767.0f;
-}
-
-static int input_get_c(void)
-{
-    return (int) input_current.c;
-}
-
-int input_put(FILE *fout)
-{
-    if (game_state)
-    {
-        put_short(fout, &input_current.x);
-        put_short(fout, &input_current.z);
-        put_short(fout, &input_current.r);
-        put_short(fout, &input_current.c);
-
-        return 1;
-    }
-    return 0;
-}
-
-int input_get(FILE *fin)
-{
-    if (game_state)
-    {
-        get_short(fin, &input_current.x);
-        get_short(fin, &input_current.z);
-        get_short(fin, &input_current.r);
-        get_short(fin, &input_current.c);
-
-        return (feof(fin) ? 0 : 1);
-    }
-    return 0;
-}
+static int ups;                         /* Updates per second                */
+static int first_update;                /* First update flag                 */
+static int curr_ball;                   /* Current ball index                */
 
 /*---------------------------------------------------------------------------*/
 
-static int   grow = 0;                  /* Should the ball be changing size? */
-static float grow_orig = 0;             /* the original ball size            */
-static float grow_goal = 0;             /* how big or small to get!          */
-static float grow_t = 0.0;              /* timer for the ball to grow...     */
-static float grow_strt = 0;             /* starting value for growth         */
-static int   got_orig = 0;              /* Do we know original ball size?    */
-
-#define GROW_TIME  0.5f                 /* sec for the ball to get to size.  */
-#define GROW_BIG   1.5f                 /* large factor                      */
-#define GROW_SMALL 0.5f                 /* small factor                      */
-
-static int   grow_state = 0;            /* Current state (values -1, 0, +1)  */
-
-static void grow_init(const struct s_file *fp, int type)
+static void game_run_cmd(const union cmd *cmd)
 {
-    if (!got_orig)
+    static const float gup[] = { 0.0f, +9.8f, 0.0f };
+    static const float gdn[] = { 0.0f, -9.8f, 0.0f };
+
+    float f[3];
+
+    if (client_state)
     {
-        grow_orig  = fp->uv->r;
-        grow_goal  = grow_orig;
-        grow_strt  = grow_orig;
+        struct s_item *hp;
+        struct s_ball *up;
 
-        grow_state = 0;
+        float dt;
+        int i;
 
-        got_orig   = 1;
-    }
-
-    if (type == ITEM_SHRINK)
-    {
-        switch (grow_state)
+        switch (cmd->type)
         {
-        case -1:
+        case CMD_END_OF_UPDATE:
+            if (first_update)
+            {
+                first_update = 0;
+                break;
+            }
+
+            /* Compute gravity for particle effects. */
+
+            if (status == GAME_GOAL)
+                game_comp_grav(f, gup, view_a, game_rx, game_rz);
+            else
+                game_comp_grav(f, gdn, view_a, game_rx, game_rz);
+
+            /* Step particle, goal and jump effects. */
+
+            if (ups > 0)
+            {
+                dt = 1.0f / (float) ups;
+
+                if (goal_e && goal_k < 1.0f)
+                    goal_k += dt;
+
+                if (jump_b)
+                {
+                    jump_dt += dt;
+
+                    if (1.0f < jump_dt)
+                        jump_b = 0;
+                }
+
+                part_step(f, dt);
+            }
+
             break;
 
-        case  0:
-            audio_play(AUD_SHRINK, 1.f);
-            grow_goal = grow_orig * GROW_SMALL;
-            grow_state = -1;
-            grow = 1;
+        case CMD_MAKE_BALL:
+            /* Allocate a new ball and mark it as the current ball. */
+
+            if ((up = realloc(file.uv, sizeof (*up) * (file.uc + 1))))
+            {
+                file.uv = up;
+                curr_ball = file.uc;
+                file.uc++;
+            }
             break;
 
-        case +1:
-            audio_play(AUD_SHRINK, 1.f);
-            grow_goal = grow_orig;
-            grow_state = 0;
-            grow = 1;
+        case CMD_MAKE_ITEM:
+            /* Allocate and initialise a new item. */
+
+            if ((hp = realloc(file.hv, sizeof (*hp) * (file.hc + 1))))
+            {
+                struct s_item h;
+
+                v_cpy(h.p, cmd->mkitem.p);
+
+                h.t = cmd->mkitem.t;
+                h.n = cmd->mkitem.n;
+
+                file.hv          = hp;
+                file.hv[file.hc] = h;
+                file.hc++;
+            }
+
+            break;
+
+        case CMD_PICK_ITEM:
+            /* Set up particle effects and discard the item. */
+
+            assert(cmd->pkitem.hi < file.hc);
+
+            hp = &file.hv[cmd->pkitem.hi];
+
+            item_color(hp, f);
+            part_burst(hp->p, f);
+
+            hp->t = ITEM_NONE;
+
+            break;
+
+        case CMD_ROTATE:
+            game_rx = cmd->rotate.x;
+            game_rz = cmd->rotate.z;
+            break;
+
+        case CMD_SOUND:
+            /* Play the sound, then free its file name. */
+
+            if (cmd->sound.n)
+            {
+                audio_play(cmd->sound.n, cmd->sound.a);
+
+                /*
+                 * FIXME Command memory management should be done
+                 * elsewhere and done properly.
+                 */
+
+                free(cmd->sound.n);
+            }
+            break;
+
+        case CMD_TIMER:
+            timer = cmd->timer.t;
+            break;
+
+        case CMD_STATUS:
+            status = cmd->status.t;
+            break;
+
+        case CMD_COINS:
+            coins = cmd->coins.n;
+            break;
+
+        case CMD_JUMP_ENTER:
+            jump_b  = 1;
+            jump_e  = 0;
+            jump_dt = 0.0f;
+            break;
+
+        case CMD_JUMP_EXIT:
+            jump_e = 1;
+            break;
+
+        case CMD_BODY_PATH:
+            file.bv[cmd->bodypath.bi].pi = cmd->bodypath.pi;
+            break;
+
+        case CMD_BODY_TIME:
+            file.bv[cmd->bodytime.bi].t = cmd->bodytime.t;
+            break;
+
+        case CMD_GOAL_OPEN:
+            /*
+             * Enable the goal and make sure it's fully visible if
+             * this is the first update.
+             */
+
+            if (!goal_e)
+            {
+                goal_e = 1;
+                goal_k = first_update ? 1.0f : 0.0f;
+            }
+            break;
+
+        case CMD_SWCH_ENTER:
+            file.xv[cmd->swchenter.xi].e = 1;
+            break;
+
+        case CMD_SWCH_TOGGLE:
+            file.xv[cmd->swchtoggle.xi].f = !file.xv[cmd->swchtoggle.xi].f;
+            break;
+
+        case CMD_SWCH_EXIT:
+            file.xv[cmd->swchexit.xi].e = 0;
+            break;
+
+        case CMD_UPDATES_PER_SECOND:
+            ups = cmd->ups.n;
+            break;
+
+        case CMD_BALL_RADIUS:
+            file.uv[curr_ball].r = cmd->ballradius.r;
+            break;
+
+        case CMD_CLEAR_ITEMS:
+            if (file.hv)
+            {
+                free(file.hv);
+                file.hv = NULL;
+            }
+            file.hc = 0;
+            break;
+
+        case CMD_CLEAR_BALLS:
+            if (file.uv)
+            {
+                free(file.uv);
+                file.uv = NULL;
+            }
+            file.uc = 0;
+            break;
+
+        case CMD_BALL_POSITION:
+            v_cpy(file.uv[curr_ball].p, cmd->ballpos.p);
+            break;
+
+        case CMD_BALL_BASIS:
+            v_cpy(file.uv[curr_ball].e[0], cmd->ballbasis.e[0]);
+            v_cpy(file.uv[curr_ball].e[1], cmd->ballbasis.e[1]);
+
+            v_crs(file.uv[curr_ball].e[2],
+                  file.uv[curr_ball].e[0],
+                  file.uv[curr_ball].e[1]);
+            break;
+
+        case CMD_BALL_PEND_BASIS:
+            v_cpy(file.uv[curr_ball].E[0], cmd->ballpendbasis.E[0]);
+            v_cpy(file.uv[curr_ball].E[1], cmd->ballpendbasis.E[1]);
+
+            v_crs(file.uv[curr_ball].E[2],
+                  file.uv[curr_ball].E[0],
+                  file.uv[curr_ball].E[1]);
+            break;
+
+        case CMD_VIEW_POSITION:
+            v_cpy(view_p, cmd->viewpos.p);
+            break;
+
+        case CMD_VIEW_CENTER:
+            v_cpy(view_c, cmd->viewcenter.c);
+            break;
+
+        case CMD_VIEW_BASIS:
+            v_cpy(view_e[0], cmd->viewbasis.e[0]);
+            v_cpy(view_e[1], cmd->viewbasis.e[1]);
+
+            v_crs(view_e[2], view_e[0], view_e[1]);
+
+            view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
+
+            break;
+
+        case CMD_CURRENT_BALL:
+            curr_ball = cmd->currball.ui;
+            break;
+
+        case CMD_PATH_FLAG:
+            file.pv[cmd->pathflag.pi].f = cmd->pathflag.f;
+            break;
+
+        case CMD_STEP_SIMULATION:
+            /*
+             * Simulate body motion.
+             *
+             * This is done on the client side due to replay file size
+             * concerns and isn't done as part of CMD_END_OF_UPDATE to
+             * match the server state as closely as possible.  Body
+             * time is still synchronised with the server on a
+             * semi-regular basis and path indices are handled through
+             * CMD_BODY_PATH, thus this code doesn't need to be as
+             * sophisticated as sol_body_step.
+             */
+
+            dt = cmd->stepsim.dt;
+
+            for (i = 0; i < file.bc; i++)
+            {
+                struct s_body *bp = file.bv + i;
+                struct s_path *pp = file.pv + bp->pi;
+
+                if (bp->pi >= 0 && pp->f)
+                    bp->t += dt;
+            }
+            break;
+
+        case CMD_NONE:
+        case CMD_MAX:
             break;
         }
     }
-    else if (type == ITEM_GROW)
-    {
-        switch (grow_state)
-        {
-        case -1:
-            audio_play(AUD_GROW, 1.f);
-            grow_goal = grow_orig;
-            grow_state = 0;
-            grow = 1;
-            break;
-
-        case  0:
-            audio_play(AUD_GROW, 1.f);
-            grow_goal = grow_orig * GROW_BIG;
-            grow_state = +1;
-            grow = 1;
-            break;
-
-        case +1:
-            break;
-        }
-    }
-
-    if (grow)
-    {
-        grow_t = 0.0;
-        grow_strt = fp->uv->r;
-    }
 }
 
-static void grow_step(const struct s_file *fp, float dt)
+void game_client_step(FILE *demo_fp)
 {
-    float dr;
+    union cmd *cmdp;
 
-    if (!grow)
-        return;
-
-    /* Calculate new size based on how long since you touched the coin... */
-
-    grow_t += dt;
-
-    if (grow_t >= GROW_TIME)
+    while ((cmdp = game_proxy_deq()))
     {
-        grow = 0;
-        grow_t = GROW_TIME;
+        /*
+         * Note: cmd_put is called first here because game_run_cmd
+         * frees the filename of CMD_SOUND.
+         */
+
+        if (demo_fp)
+            cmd_put(demo_fp, cmdp);
+
+        game_run_cmd(cmdp);
+
+        free(cmdp);
     }
-
-    dr = grow_strt + ((grow_goal-grow_strt) * (1.0f / (GROW_TIME / grow_t)));
-
-    /* No sinking through the floor! Keeps ball's bottom constant. */
-
-    fp->uv->p[1] += (dr - fp->uv->r);
-    fp->uv->r     =  dr;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void view_init(void)
-{
-    view_fov = (float) config_get_d(CONFIG_VIEW_FOV);
-    view_dp  = (float) config_get_d(CONFIG_VIEW_DP) / 100.0f;
-    view_dc  = (float) config_get_d(CONFIG_VIEW_DC) / 100.0f;
-    view_dz  = (float) config_get_d(CONFIG_VIEW_DZ) / 100.0f;
-    view_k   = 1.0f;
-    view_a   = 0.0f;
-
-    view_c[0] = 0.f;
-    view_c[1] = view_dc;
-    view_c[2] = 0.f;
-
-    view_p[0] =     0.f;
-    view_p[1] = view_dp;
-    view_p[2] = view_dz;
-
-    view_e[0][0] = 1.f;
-    view_e[0][1] = 0.f;
-    view_e[0][2] = 0.f;
-    view_e[1][0] = 0.f;
-    view_e[1][1] = 1.f;
-    view_e[1][2] = 0.f;
-    view_e[2][0] = 0.f;
-    view_e[2][1] = 0.f;
-    view_e[2][2] = 1.f;
-}
-
-int game_init(const char *file_name, int t, int e)
+int  game_client_init(const char *file_name)
 {
     char *back_name = NULL, *grad_name = NULL;
-
     int i;
 
-    timer      = (float) t / 100.f;
-    timer_down = (t > 0);
-    coins      = 0;
+    coins  = 0;
+    status = GAME_NONE;
 
-    if (game_state)
-        game_free();
+    if (client_state)
+        game_client_free();
 
     if (!sol_load_gl(&file, config_data(file_name),
                      config_get_d(CONFIG_TEXTURES),
                      config_get_d(CONFIG_SHADOW)))
-        return (game_state = 0);
+        return (client_state = 0);
 
     reflective = sol_reflective(&file);
 
-    game_state = 1;
-
-    input_init();
+    client_state = 1;
 
     game_rx = 0.0f;
     game_rz = 0.0f;
@@ -347,8 +403,8 @@ int game_init(const char *file_name, int t, int e)
     jump_e = 1;
     jump_b = 0;
 
-    goal_e = e ? 1    : 0;
-    goal_k = e ? 1.0f : 0.0f;
+    goal_e = 0;
+    goal_k = 0.0f;
 
     /* Initialise the level, background, particles, fade, and view. */
 
@@ -365,29 +421,29 @@ int game_init(const char *file_name, int t, int e)
     }
 
     part_reset(GOAL_HEIGHT, JUMP_HEIGHT);
-    view_init();
-    back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
 
+    view_fov = (float) config_get_d(CONFIG_VIEW_FOV);
+
+    ups          = 0;
+    first_update = 1;
+
+    back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
     sol_load_gl(&back, config_data(back_name),
                 config_get_d(CONFIG_TEXTURES), 0);
 
-    /* Initialize ball size tracking... */
-
-    got_orig = 0;
-    grow = 0;
-
-    return game_state;
+    return client_state;
 }
 
-void game_free(void)
+void game_client_free(void)
 {
-    if (game_state)
+    if (client_state)
     {
+        game_proxy_clr();
         sol_free_gl(&file);
         sol_free_gl(&back);
         back_free();
     }
-    game_state = 0;
+    client_state = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -400,6 +456,11 @@ int curr_clock(void)
 int curr_coins(void)
 {
     return coins;
+}
+
+int curr_status(void)
+{
+    return status;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -820,7 +881,7 @@ void game_draw(int pose, float t)
 
     if (jump_b) fov *= 2.f * fabsf(jump_dt - 0.5);
 
-    if (game_state)
+    if (client_state)
     {
         config_push_persp(fov, 0.1f, FAR_DIST);
         glPushMatrix();
@@ -899,372 +960,6 @@ void game_draw(int pose, float t)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_update_grav(float h[3], const float g[3])
-{
-    float x[3];
-    float y[3] = { 0.0f, 1.0f, 0.0f };
-    float z[3];
-    float X[16];
-    float Z[16];
-    float M[16];
-
-    /* Compute the gravity vector from the given world rotations. */
-
-    z[0] = fsinf(V_RAD(view_a));
-    z[1] = 0.0f;
-    z[2] = fcosf(V_RAD(view_a));
-
-    v_crs(x, y, z);
-    v_crs(z, x, y);
-    v_nrm(x, x);
-    v_nrm(z, z);
-
-    m_rot (Z, z, V_RAD(game_rz));
-    m_rot (X, x, V_RAD(game_rx));
-    m_mult(M, Z, X);
-    m_vxfm(h, M, g);
-}
-
-static void game_update_view(float dt)
-{
-    float dc = view_dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
-    float da = input_get_r() * dt * 90.0f;
-    float k;
-
-    float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };
-
-    view_a += da;
-
-    /* Center the view about the ball. */
-
-    v_cpy(view_c, file.uv->p);
-    v_inv(view_v, file.uv->v);
-
-    view_e[2][0] = fsinf(V_RAD(view_a));
-    view_e[2][1] = 0.0;
-    view_e[2][2] = fcosf(V_RAD(view_a));
-
-    switch (input_get_c())
-    {
-    case 1: /* Camera 1: Viewpoint chases the ball position. */
-
-        v_sub(view_e[2], view_p, view_c);
-
-        break;
-
-    case 2: /* Camera 2: View vector is given by view angle. */
-
-        break;
-
-    default: /* Default: View vector approaches the ball velocity vector. */
-
-        v_mad(view_e[2], view_e[2], view_v, v_dot(view_v, view_v) * dt / 4);
-
-        break;
-    }
-
-    /* Orthonormalize the new view reference frame. */
-
-    v_crs(view_e[0], view_e[1], view_e[2]);
-    v_crs(view_e[2], view_e[0], view_e[1]);
-    v_nrm(view_e[0], view_e[0]);
-    v_nrm(view_e[2], view_e[2]);
-
-    /* Compute the new view position. */
-
-    k = 1.0f + v_dot(view_e[2], view_v) / 10.0f;
-
-    view_k = view_k + (k - view_k) * dt;
-
-    if (view_k < 0.5) view_k = 0.5;
-
-    v_scl(v,    view_e[1], view_dp * view_k);
-    v_mad(v, v, view_e[2], view_dz * view_k);
-    m_rot(M, Y, V_RAD(da));
-    m_vxfm(view_p, M, v);
-    v_add(view_p, view_p, file.uv->p);
-
-    /* Compute the new view center. */
-
-    v_cpy(view_c, file.uv->p);
-    v_mad(view_c, view_c, view_e[1], dc);
-
-    /* Note the current view angle. */
-
-    view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
-}
-
-static void game_update_time(float dt, int b)
-{
-    if (goal_e && goal_k < 1.0f)
-        goal_k += dt;
-
-   /* The ticking clock. */
-
-    if (b && timer_down)
-    {
-        if (timer < 600.f)
-            timer -= dt;
-        if (timer < 0.f)
-            timer = 0.f;
-    }
-    else if (b)
-    {
-        timer += dt;
-    }
-}
-
-static int game_update_state(int bt)
-{
-    struct s_file *fp = &file;
-    struct s_goal *zp;
-    struct s_item *hp;
-
-    float p[3];
-    float c[3];
-
-    /* Test for an item. */
-
-    if (bt && (hp = sol_item_test(fp, p, ITEM_RADIUS)))
-    {
-        item_color(hp, c);
-        part_burst(p, c);
-
-        grow_init(fp, hp->t);
-
-        if (hp->t == ITEM_COIN)
-            coins += hp->n;
-
-        audio_play(AUD_COIN, 1.f);
-
-        /* Discard item. */
-
-        hp->t = ITEM_NONE;
-    }
-
-    /* Test for a switch. */
-
-    if (sol_swch_test(fp, 0))
-        audio_play(AUD_SWITCH, 1.f);
-
-    /* Test for a jump. */
-
-    if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 1)
-    {
-        jump_b  = 1;
-        jump_e  = 0;
-        jump_dt = 0.f;
-
-        audio_play(AUD_JUMP, 1.f);
-    }
-    if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 0)
-        jump_e = 1;
-
-    /* Test for a goal. */
-
-    if (bt && goal_e && (zp = sol_goal_test(fp, p, 0)))
-    {
-        audio_play(AUD_GOAL, 1.0f);
-        return GAME_GOAL;
-    }
-
-    /* Test for time-out. */
-
-    if (bt && timer_down && timer <= 0.f)
-    {
-        audio_play(AUD_TIME, 1.0f);
-        return GAME_TIME;
-    }
-
-    /* Test for fall-out. */
-
-    if (bt && fp->uv[0].p[1] < fp->vv[0].p[1])
-    {
-        audio_play(AUD_FALL, 1.0f);
-        return GAME_FALL;
-    }
-
-    return GAME_NONE;
-}
-
-int game_step(const float g[3], float dt, int bt)
-{
-    if (game_state)
-    {
-        struct s_file *fp = &file;
-
-        float h[3];
-
-        /* Smooth jittery or discontinuous input. */
-
-        game_rx += (input_get_x() - game_rx) * dt / RESPONSE;
-        game_rz += (input_get_z() - game_rz) * dt / RESPONSE;
-
-        grow_step(fp, dt);
-
-        game_update_grav(h, g);
-        part_step(h, dt);
-
-        if (jump_b)
-        {
-            jump_dt += dt;
-
-            /* Handle a jump. */
-
-            if (0.5f < jump_dt)
-            {
-                fp->uv[0].p[0] = jump_p[0];
-                fp->uv[0].p[1] = jump_p[1];
-                fp->uv[0].p[2] = jump_p[2];
-            }
-            if (1.0f < jump_dt)
-                jump_b = 0;
-        }
-        else
-        {
-            /* Run the sim. */
-
-            float b = sol_step(fp, h, dt, 0, NULL);
-
-            /* Mix the sound of a ball bounce. */
-
-            if (b > 0.5f)
-            {
-                float k = (b - 0.5f) * 2.0f;
-
-                if (got_orig)
-                {
-                    if      (fp->uv->r > grow_orig) audio_play(AUD_BUMPL, k);
-                    else if (fp->uv->r < grow_orig) audio_play(AUD_BUMPS, k);
-                    else                            audio_play(AUD_BUMPM, k);
-                }
-                else audio_play(AUD_BUMPM, k);
-            }
-        }
-
-        game_step_fade(dt);
-        game_update_view(dt);
-        game_update_time(dt, bt);
-
-        return game_update_state(bt);
-    }
-    return GAME_NONE;
-}
-
-/*---------------------------------------------------------------------------*/
-
-void game_set_goal(void)
-{
-    audio_play(AUD_SWITCH, 1.0f);
-    goal_e = 1;
-}
-
-void game_clr_goal(void)
-{
-    goal_e = 0;
-}
-
-/*---------------------------------------------------------------------------*/
-
-void game_set_x(int k)
-{
-    input_set_x(-ANGLE_BOUND * k / JOY_MAX);
-}
-
-void game_set_z(int k)
-{
-    input_set_z(+ANGLE_BOUND * k / JOY_MAX);
-}
-
-void game_set_ang(int x, int z)
-{
-    input_set_x(x);
-    input_set_z(z);
-}
-
-void game_set_pos(int x, int y)
-{
-    input_set_x(input_get_x() + 40.0f * y / config_get_d(CONFIG_MOUSE_SENSE));
-    input_set_z(input_get_z() + 40.0f * x / config_get_d(CONFIG_MOUSE_SENSE));
-}
-
-void game_set_cam(int c)
-{
-    input_set_c(c);
-}
-
-void game_set_rot(float r)
-{
-    input_set_r(r);
-}
-
-/*---------------------------------------------------------------------------*/
-
-void game_set_fly(float k)
-{
-    struct s_file *fp = &file;
-
-    float  x[3] = { 1.f, 0.f, 0.f };
-    float  y[3] = { 0.f, 1.f, 0.f };
-    float  z[3] = { 0.f, 0.f, 1.f };
-    float c0[3] = { 0.f, 0.f, 0.f };
-    float p0[3] = { 0.f, 0.f, 0.f };
-    float c1[3] = { 0.f, 0.f, 0.f };
-    float p1[3] = { 0.f, 0.f, 0.f };
-    float  v[3];
-
-    z[0] = fsinf(V_RAD(view_a));
-    z[2] = fcosf(V_RAD(view_a));
-
-    v_cpy(view_e[0], x);
-    v_cpy(view_e[1], y);
-    v_cpy(view_e[2], z);
-
-    /* k = 0.0 view is at the ball. */
-
-    if (fp->uc > 0)
-    {
-        v_cpy(c0, fp->uv[0].p);
-        v_cpy(p0, fp->uv[0].p);
-    }
-
-    v_mad(p0, p0, y, view_dp);
-    v_mad(p0, p0, z, view_dz);
-    v_mad(c0, c0, y, view_dc);
-
-    /* k = +1.0 view is s_view 0 */
-
-    if (k >= 0 && fp->wc > 0)
-    {
-        v_cpy(p1, fp->wv[0].p);
-        v_cpy(c1, fp->wv[0].q);
-    }
-
-    /* k = -1.0 view is s_view 1 */
-
-    if (k <= 0 && fp->wc > 1)
-    {
-        v_cpy(p1, fp->wv[1].p);
-        v_cpy(c1, fp->wv[1].q);
-    }
-
-    /* Interpolate the views. */
-
-    v_sub(v, p1, p0);
-    v_mad(view_p, p0, v, k * k);
-
-    v_sub(v, c1, c0);
-    v_mad(view_c, c0, v, k * k);
-
-    /* Orthonormalize the view basis. */
-
-    v_sub(view_e[2], view_p, view_c);
-    v_crs(view_e[0], view_e[1], view_e[2]);
-    v_crs(view_e[2], view_e[0], view_e[1]);
-    v_nrm(view_e[0], view_e[0]);
-    v_nrm(view_e[2], view_e[2]);
-}
-
 void game_look(float phi, float theta)
 {
     view_c[0] = view_p[0] + fsinf(V_RAD(theta)) * fcosf(V_RAD(phi));
@@ -1305,16 +1000,9 @@ void game_fade(float d)
 
 /*---------------------------------------------------------------------------*/
 
-const char *status_to_str(int s)
+const struct s_file *game_client_file(void)
 {
-    switch (s)
-    {
-    case GAME_NONE:    return _("Aborted");
-    case GAME_TIME:    return _("Time-out");
-    case GAME_GOAL:    return _("Success");
-    case GAME_FALL:    return _("Fall-out");
-    default:           return _("Unknown");
-    }
+    return &file;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -25,7 +25,6 @@
 #include "audio.h"
 #include "demo.h"
 #include "progress.h"
-#include "game.h"
 #include "gui.h"
 #include "set.h"
 #include "text.h"

@@ -13,12 +13,15 @@
  */
 
 #include "gui.h"
-#include "game.h"
 #include "util.h"
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
+
+#include "game_common.h"
+#include "game_server.h"
+#include "game_client.h"
 
 #include "st_fall_out.h"
 #include "st_save.h"
@@ -115,12 +118,10 @@ static int fall_out_enter(void)
 
 static void fall_out_timer(int id, float dt)
 {
-    float g[3] = { 0.0f, -9.8f, 0.0f };
-
     if (time_state() < 2.f)
     {
-        demo_play_step();
-        game_step(g, dt, 0);
+        game_server_step(dt);
+        game_client_step(demo_file());
     }
 
     gui_timer(id, dt);

@@ -19,10 +19,13 @@
 #include "item.h"
 #include "ball.h"
 #include "part.h"
-#include "game.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
+
+#include "game_common.h"
+#include "game_client.h"
+#include "game_server.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -180,7 +183,7 @@ static int conf_enter(void)
 {
     int id, jd, kd;
 
-    game_free();
+    game_client_free();
     back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
 
     /* Initialize the configuration GUI. */

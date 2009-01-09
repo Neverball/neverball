@@ -14,11 +14,12 @@
 
 #include "gui.h"
 #include "config.h"
-#include "game.h"
 #include "progress.h"
 #include "level.h"
 #include "audio.h"
 #include "hud.h"
+
+#include "game_common.h"
 
 #include "st_play.h"
 #include "st_over.h"
