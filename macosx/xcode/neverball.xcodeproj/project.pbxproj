@@ -429,8 +429,6 @@
 		815FFBB70AEA2E0300AFD07F /* vec3.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = vec3.h; sourceTree = "<group>"; };
 		815FFC0D0AEA2EF600AFD07F /* demo.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = demo.c; sourceTree = "<group>"; };
 		815FFC0E0AEA2EF600AFD07F /* demo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = demo.h; sourceTree = "<group>"; };
-		815FFC0F0AEA2EF600AFD07F /* game.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
-		815FFC100AEA2EF600AFD07F /* game.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
 		815FFC110AEA2EF600AFD07F /* hud.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = hud.c; sourceTree = "<group>"; };
 		815FFC120AEA2EF600AFD07F /* hud.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = hud.h; sourceTree = "<group>"; };
 		815FFC130AEA2EF600AFD07F /* level.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = level.c; sourceTree = "<group>"; };
@@ -1834,8 +1832,6 @@
 				B5412EBF0CA36C3C00C9A9F7 /* score.h */,
 				815FFC0D0AEA2EF600AFD07F /* demo.c */,
 				815FFC0E0AEA2EF600AFD07F /* demo.h */,
-				815FFC0F0AEA2EF600AFD07F /* game.c */,
-				815FFC100AEA2EF600AFD07F /* game.h */,
 				815FFC110AEA2EF600AFD07F /* hud.c */,
 				815FFC120AEA2EF600AFD07F /* hud.h */,
 				815FFC130AEA2EF600AFD07F /* level.c */,
