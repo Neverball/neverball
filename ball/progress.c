@@ -306,6 +306,11 @@ int  progress_done(void)
     return done;
 }
 
+int  progress_last(void)
+{
+    return mode != MODE_CHALLENGE && status == GAME_GOAL && !level_exists(next);
+}
+
 int  progress_lvl_high(void)
 {
     return time_rank < 3 || goal_rank < 3 || coin_rank < 3;

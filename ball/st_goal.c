@@ -42,6 +42,7 @@
 #define GOAL_BACK 4
 #define GOAL_DONE 5
 #define GOAL_OVER 6
+#define GOAL_LAST 7
 
 static int balls_id;
 static int coins_id;
@@ -82,6 +83,10 @@ static int goal_action(int i)
         progress_stop();
         progress_exit();
         return goto_state(&st_done);
+
+    case GOAL_LAST:
+        progress_stop();
+        return goto_state(&st_start);
 
     case GUI_MOST_COINS:
     case GUI_BEST_TIMES:
@@ -204,8 +209,10 @@ static int goal_enter(void)
 
         if ((jd = gui_harray(id)))
         {
-            if (progress_done())
+            if      (progress_done())
                 gui_start(jd, _("Finish"), GUI_SML, GOAL_DONE, 0);
+            else if (progress_last())
+                gui_start(jd, _("Finish"), GUI_SML, GOAL_LAST, 0);
 
             if (progress_next_avail())
                 gui_start(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
