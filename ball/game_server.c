@@ -546,10 +546,6 @@ static void game_update_view(float dt)
     v_cpy(view_c, file.uv->p);
     v_inv(view_v, file.uv->v);
 
-    view_e[2][0] = fsinf(V_RAD(view_a));
-    view_e[2][1] = 0.0;
-    view_e[2][2] = fcosf(V_RAD(view_a));
-
     switch (input_get_c())
     {
     case 1: /* Camera 1: Viewpoint chases the ball position. */
@@ -560,10 +556,16 @@ static void game_update_view(float dt)
 
     case 2: /* Camera 2: View vector is given by view angle. */
 
+        view_e[2][0] = fsinf(V_RAD(view_a));
+        view_e[2][1] = 0.0;
+        view_e[2][2] = fcosf(V_RAD(view_a));
+
         break;
 
     default: /* Default: View vector approaches the ball velocity vector. */
 
+        v_sub(view_e[2], view_p, view_c);
+        v_nrm(view_e[2], view_e[2]);
         v_mad(view_e[2], view_e[2], view_v, v_dot(view_v, view_v) * dt / 4);
 
         break;
