@@ -541,8 +541,6 @@ static void game_update_view(float dt)
 
     float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };
 
-    view_a += da;
-
     /* Center the view about the ball. */
 
     v_cpy(view_c, file.uv->p);
@@ -571,6 +569,11 @@ static void game_update_view(float dt)
         break;
     }
 
+    /* Apply manual rotation. */
+
+    m_rot(M, Y, V_RAD(da));
+    m_vxfm(view_e[2], M, view_e[2]);
+
     /* Orthonormalize the new view reference frame. */
 
     v_crs(view_e[0], view_e[1], view_e[2]);
@@ -588,9 +591,7 @@ static void game_update_view(float dt)
 
     v_scl(v,    view_e[1], view_dp * view_k);
     v_mad(v, v, view_e[2], view_dz * view_k);
-    m_rot(M, Y, V_RAD(da));
-    m_vxfm(view_p, M, v);
-    v_add(view_p, view_p, file.uv->p);
+    v_add(view_p, v, file.uv->p);
 
     /* Compute the new view center. */
 
