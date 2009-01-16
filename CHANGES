@@ -5,6 +5,7 @@ New in 1.5.0
 * Reverted short usage in SOL to int.  Was bumping up against the limit.
 * Added new textures.
 * Corrected various mapping problems in existing maps.
+* Tweaked maps.
 * Removed 5 set limit.
 * Added internationalization.
 * Added Catalan, Finnish, French, German, Latvian, Norwegian Nynorsk,
@@ -14,8 +15,8 @@ New in 1.5.0
 * Reshuffled levels to smooth the difficulty curve.
 * Fixed config not being saved sometimes.
 * Fixed a misplaced Set Complete screen.
-* Added a new game mode called the Challenge mode for whole-set runs.
-* Split off limited lives and set high-scores into Challenge mode.
+* Split off limited lives and set high-scores to a separate
+  "Challenge" game mode.
 * Added bonus levels as a reward in Challenge mode.
 * Added four new Neverputt courses.
 * Fixed goal sound not being played in replays.
@@ -24,7 +25,7 @@ New in 1.5.0
 * Added keyboard support for typing text.
 * Added an option to launch replays from the command line.
 * Added a dialog with replay info in replay selection screen.
-* Added Goal Unlock high-scores.
+* Added Unlock Goal high-scores.
 * Made replays use the .nbr filename extension.
 * Added invisible switches.
 * Fixed layout falling apart due to long replay names.
@@ -101,6 +102,7 @@ New in 1.5.0
 * Implemented new shot name generation using a persistent index.
 * Now saving screenshots in user data directory.
 * Added support for decimal fractions in mapc.
+* Rebuilt curves in maps to take advantage of decimal fractions.
 * Allowed spaces in config values.
 * Greatly optimized several mapc operations.
 * Fixed texture rotation in mapc.
