@@ -3,9 +3,124 @@ New in 1.5.0
 
 * Added dictionary elements to SOL file in order to allow metadata storage.
 * Reverted short usage in SOL to int.  Was bumping up against the limit.
+* Added new textures.
+* Corrected various mapping problems in existing maps.
+* Removed 5 set limit.
 * Added internationalization.
-* New levels.
-* New courses.
+* Added Catalan, Finnish, French, German, Latvian, Norwegian Nynorsk,
+  and Spanish translations.
+* Countless interface tweaks across the board.
+* Added three new Neverball sets.
+* Reshuffled levels to smooth the difficulty curve.
+* Fixed config not being saved sometimes.
+* Fixed a misplaced Set Complete screen.
+* Added a new game mode called the Challenge mode for whole-set runs.
+* Split off limited lives and set high-scores into Challenge mode.
+* Added bonus levels as a reward in Challenge mode.
+* Added four new Neverputt courses.
+* Fixed goal sound not being played in replays.
+* Removed OSX mouse invert work-around.
+* Reworked player name management.
+* Added keyboard support for typing text.
+* Added an option to launch replays from the command line.
+* Added a dialog with replay info in replay selection screen.
+* Added Goal Unlock high-scores.
+* Made replays use the .nbr filename extension.
+* Added invisible switches.
+* Fixed layout falling apart due to long replay names.
+* Added a new help system.
+* Added a HUD toggle, bound to F6.
+* Removed coin texture config option, it's now based on locale instead.
+* Display current camera type when starting a level.
+* Save screenshots as PNG instead of BMP.
+* Implemented collectible grow/shrink items.
+* Added ability to restart a level mid-game (normal mode only), bound to R.
+* Added SVG icons.
+* Fixed replays not being overwritten on Windows.
+* Increased mapc limits.
+* Fixed a repeated path inaccuracy.
+* Fixed mute sounds after toggling the audio setting in config screen.
+* Added multisample option.
+* Fixed ball texture seem.
+* Fixed GUI font texture coordinates sometimes being off by half a pixel.
+* Made ball bounce more realistically with respect to moving objects.
+* Replaced all TGA files with PNGs.
+* Made several key bindings only available in development mode.
+* Removed MSVC support, only MinGW is supported.
+* Store user config in %APPDATA%\Neverball on Windows.
+* Bound camera rotation keys to S and D by default.
+* Added new pause screen.
+* Changed lights to evenly illuminate entire maps.
+* Fixed not being able to deactivate a timed switch on at start of level.
+* Added platform acceleration toggle.
+* Added Neverputt keyboard navigation.
+* Added decal material flag in order to enable decals coincident with
+  base geometry.
+* Added a tweak to place the GUI into "recently moved" mode upon level
+  end.  This will force the player to recenter the joystick before the
+  GUI with work.  Thus, the default button will not be accidentally
+  deselected if the joystick is not centered when play ends.
+* Changed mover OBJ mechanism.
+* Removed ball shadow in poser mode.
+* Rewrote audio code without SDL_mixer dependency to eliminate
+  annoying crackle on various platforms.
+* Removed audio_rate config variable.
+* Rewrote image handling, eliminating SDL_image.
+* Added mipmap and anisotropic options.
+* Fixed level data not being freed by conf state.  This allowed OpenGL
+  state to leak when the context is bounced on resolution change.
+* Fixed image_white not saturating red channel on RGB and RGBA images.
+* Modified material sorter to draw opaque decals AFTER opaque
+  textures, and transparent decals BEFORE transparent textures.
+* Removed TGA search from mapc.
+* Added lump smoothing to mapc.
+* Added glassy effect to glass materials.
+* Some OpenGL optimization and state-change reduction.
+* Added foreground billboards.
+* Fixed the zero-velocity test in the edge/vert collision detection.
+  Was producing different results with different compilers.
+* Added constant DT.
+* Modified FPS calculation to be more correct.
+* Added stats collection and output.
+* Added application controlled vblank sync.
+* Enhanced specular illumination.
+* Added tilt sensor abstraction.
+* Added Wiimote tilt sensor mode for Linux.
+* Fixed empty buttons possibly being layed out so small that the
+  rounding rectangle overlaps itself.
+* Added joystick digital pad button config symbols.
+* Fixed failure to load ball texture breaks shadow texture.
+* Added new ball rendering mechanism.
+* Added several new balls using the new mechanism.
+* Ignored mouse motion events generated on mouse grab, sometimes
+  causing sudden tilting to bottom right at level start.
+* Texture cleanup.
+* Added uniform sync option.
+* Fixed Neverputt using hard-coded limits for score counts.
+* Added curve tool to distribution.
+* Implemented new shot name generation using a persistent index.
+* Now saving screenshots in user data directory.
+* Added support for decimal fractions in mapc.
+* Allowed spaces in config values.
+* Greatly optimized several mapc operations.
+* Fixed texture rotation in mapc.
+* Used OpenGL memory layout conventions for storing image data,
+  allowing proper texture coordinates to be used in OBJs and
+  elsewhere.
+* Moved goal detection factor from code to Neverputt maps.
+* Set the EWMH _NET_WM_ICON window hint on X11 systems (WM icons with
+  8-bit alpha transparency).
+* Delayed buffer swap in level_snap until after image_snap, following
+  OpenGL standard and fixing off-by-one type error in set shots on
+  some ATI hardware.
+* Eliminated performance penalty on mirror-less maps with reflections
+  enabled.
+* Made default replay name user-configurable.
+* Fixed mapc to avoid overflows when operating on SSE hardware.
+* Fixed logic of BSP back/front tests.
+* Requested SSE floating-point math from GCC for x86 systems
+* Redesigned teleporter visuals.
+* Implemented a server/client-like game/replay architecture.
 
 -------------------------------------------------------------------------------
 New in 1.4.0
