@@ -351,12 +351,8 @@ clean-setup: clean
 install-dlls: install-dlls.sh
 	sh $<
 
-install-dlls.sh:
-	mingw-list-dlls --sh > $@
-	@echo --------------------------------------------------------
-	@echo Now edit $@ to your needs before restarting make.
-	@echo --------------------------------------------------------
-	@exit 1
+install-dlls.sh: $(MAPC_TARG) $(BALL_TARG) $(PUTT_TARG)
+	mingw-list-dlls --format=shell $^ > $@
 
 #------------------------------------------------------------------------------
 
