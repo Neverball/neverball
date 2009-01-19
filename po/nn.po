@@ -2,19 +2,19 @@
 # Copyright (C) 2007 Robert Kooima
 # This file is distributed under the same license as the Neverball package.
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008.
+# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2009-01-19 05:10+0200\n"
-"PO-Revision-Date: 2008-09-10 20:46+0200\n"
+"PO-Revision-Date: 2009-01-19 22:17+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 0.2\n"
+"X-Generator: Lokalize 0.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: ball/demo.c:302
@@ -590,7 +590,7 @@ msgstr "Lett"
 
 #: ball/util.c:58 ball/util.c:119 ball/util.c:179 ball/util.c:240
 msgid "Unavailable"
-msgstr ""
+msgstr "Ikkje tilgjengeleg"
 
 #: ball/util.c:130 ball/util.c:302
 msgid "Most Coins"
@@ -969,7 +969,7 @@ msgstr ""
 
 #: data/set-mym.txt
 msgid "Tour de force"
-msgstr ""
+msgstr "Kraftprestasjon"
 
 #: data/set-mym.txt
 msgid ""
@@ -981,15 +981,14 @@ msgstr ""
 
 #: data/set-mym2.txt
 msgid "Retour de force"
-msgstr ""
+msgstr "Ny kraftprestasjon"
 
 #: data/set-mym2.txt
-#, fuzzy
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
-"Vanskegrad: Litt vanskelegare enn\\den første brettsamlinga mi.\\\\Større "
+"Vanskegrad: Litt vanskelegare enn\\den første kraftprestasjonen.\\\\Større "
 "utfordringar, spesielt når det gjeld myntar.\\Forfattar: Mehdi Yousfi-Monod "
 "(mym)\\"
 
@@ -1928,12 +1927,12 @@ msgstr "Les toiles attirantes.\\Kom ut av spindelveva."
 #. Desktop entry comment
 #: dist/neverball.desktop.in
 msgid "A 3D arcade game with a ball"
-msgstr ""
+msgstr "3D-spel med ein rullande ball"
 
 #. Desktop entry comment
 #: dist/neverputt.desktop.in
 msgid "A 3D mini golf game"
-msgstr ""
+msgstr "Minigolfspel i 3D"
 
 #. Translators,
 #.
