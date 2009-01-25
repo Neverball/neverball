@@ -407,7 +407,22 @@ void audio_music_fade_to(float t, const char *filename)
             audio_music_fade_out(t);
             audio_music_queue(filename, t);
         }
-        else audio_music_fade_in(t);
+        else
+        {
+            /*
+             * We're fading to the current track.  Chances are,
+             * whatever track is still in the queue, we don't want to
+             * hear it anymore.
+             */
+
+            if (queue)
+            {
+                voice_free(queue);
+                queue = NULL;
+            }
+
+            audio_music_fade_in(t);
+        }
     }
     else
     {
