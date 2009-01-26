@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2009-01-19 05:10+0200\n"
-"PO-Revision-Date: 2009-01-24 15:36+0100\n"
+"PO-Revision-Date: 2009-01-26 10:58+0100\n"
 "Last-Translator: Georg Wachter <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -346,7 +346,7 @@ msgstr "Keine Replays"
 
 #: ball/st_demo.c:474
 msgid "Replay Paused"
-msgstr "Replay unterbrochen"
+msgstr "Pause"
 
 #: ball/st_demo.c:477
 msgid "Replay Ends"
