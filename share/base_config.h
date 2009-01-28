@@ -40,9 +40,9 @@
 /* User config directory */
 #ifndef CONFIG_USER
 #ifdef _WIN32
-#define CONFIG_USER   "Neverball-dev"
+#define CONFIG_USER   "Neverball"
 #else
-#define CONFIG_USER   ".neverball-dev"
+#define CONFIG_USER   ".neverball"
 #endif
 #endif
 
