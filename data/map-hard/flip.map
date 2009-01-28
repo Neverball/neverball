@@ -7,6 +7,7 @@
 "time" "59999"
 "time_hs" "2000 3000"
 "goal_hs" "2000 3000"
+"coin_hs" "0 0"
 "song" "bgm/track4.ogg"
 "shot" "shot-hard/flip.jpg"
 "grad" "back/space.png"
