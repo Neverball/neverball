@@ -4,4 +4,3 @@ set-hard.txt
 set-mym.txt
 set-mym2.txt
 set-fwp.txt
-set-misc.txt
