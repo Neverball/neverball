@@ -36,7 +36,7 @@
 #include "st_conf.h"
 #include "st_all.h"
 
-#define TITLE "Neverputt"
+#define TITLE "Neverputt " VERSION
 
 /*---------------------------------------------------------------------------*/
 
