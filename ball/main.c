@@ -37,7 +37,7 @@
 #include "st_level.h"
 #include "st_pause.h"
 
-#define TITLE "Neverball"
+#define TITLE "Neverball " VERSION
 
 /*---------------------------------------------------------------------------*/
 
