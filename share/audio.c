@@ -297,18 +297,23 @@ void audio_play(const char *filename, float a)
 
         /* If we're already playing this sound, preempt the running copy. */
 
-        for (V = voices; V; V = V->next)
-            if (strcmp(V->name, filename) == 0)
-            {
-                ov_raw_seek(&V->vf, 0);
+        SDL_LockAudio();
+        {
+            for (V = voices; V; V = V->next)
+                if (strcmp(V->name, filename) == 0)
+                {
+                    ov_raw_seek(&V->vf, 0);
 
-                V->amp = a;
+                    V->amp = a;
 
-                if (V->amp > 1.0) V->amp = 1.0;
-                if (V->amp < 0.0) V->amp = 0.0;
+                    if (V->amp > 1.0) V->amp = 1.0;
+                    if (V->amp < 0.0) V->amp = 0.0;
 
-                return;
-            }
+                    SDL_UnlockAudio();
+                    return;
+                }
+        }
+        SDL_UnlockAudio();
 
         /* Create a new voice structure. */
 
