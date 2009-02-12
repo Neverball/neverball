@@ -98,7 +98,7 @@ void set_store_hs(void)
             l = &level_v[i];
 
             put_score(fout, &l->score.best_times);
-            put_score(fout, &l->score.unlock_goal);
+            put_score(fout, &l->score.fast_unlock);
             put_score(fout, &l->score.most_coins);
         }
 
@@ -168,7 +168,7 @@ static void set_load_hs(void)
         {
             l = &level_v[i];
             res = get_score(fin, &l->score.best_times) &&
-                get_score(fin, &l->score.unlock_goal) &&
+                get_score(fin, &l->score.fast_unlock) &&
                 get_score(fin, &l->score.most_coins);
         }
 

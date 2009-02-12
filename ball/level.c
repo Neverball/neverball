@@ -31,7 +31,7 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
     int i;
 
     int have_goal = 0, have_time = 0;
-    int need_bt_easy = 0, need_ug_easy = 0, need_mc_easy = 0;
+    int need_bt_easy = 0, need_fu_easy = 0, need_mc_easy = 0;
 
     for (i = 0; i < fp->dc; i++)
     {
@@ -72,11 +72,11 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
         else if (strcmp(k, "goal_hs") == 0)
         {
             switch (sscanf(v, "%d %d %d",
-                           &l->score.unlock_goal.timer[0],
-                           &l->score.unlock_goal.timer[1],
-                           &l->score.unlock_goal.timer[2]))
+                           &l->score.fast_unlock.timer[0],
+                           &l->score.fast_unlock.timer[1],
+                           &l->score.fast_unlock.timer[2]))
             {
-            case 2: need_ug_easy = 1; break;
+            case 2: need_fu_easy = 1; break;
             case 3:                   break;
 
             default:
@@ -114,8 +114,8 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
     {
         if (need_bt_easy)
             l->score.best_times.timer[2] = l->time;
-        if (need_ug_easy)
-            l->score.unlock_goal.timer[2] = l->time;
+        if (need_fu_easy)
+            l->score.fast_unlock.timer[2] = l->time;
     }
 }
 
@@ -147,7 +147,7 @@ int level_load(const char *filename, struct level *level)
     strncpy(level->file, filename, PATHMAX - 1);
 
     score_init_hs(&level->score.best_times, 59999, 0);
-    score_init_hs(&level->score.unlock_goal, 59999, 0);
+    score_init_hs(&level->score.fast_unlock, 59999, 0);
     score_init_hs(&level->score.most_coins, 59999, 0);
 
     money = 0;
@@ -169,7 +169,7 @@ int level_load(const char *filename, struct level *level)
         t[1] = (t[0] + t[2]) / 2
 
     HOP(level->score.best_times.timer, <=);
-    HOP(level->score.unlock_goal.timer, <=);
+    HOP(level->score.fast_unlock.timer, <=);
     HOP(level->score.most_coins.coins, >=);
 
     sol_free(&sol);
@@ -198,9 +198,9 @@ void level_dump(const struct level *l)
            l->score.best_times.timer[0],
            l->score.best_times.timer[1],
            l->score.best_times.timer[2],
-           l->score.unlock_goal.timer[0],
-           l->score.unlock_goal.timer[1],
-           l->score.unlock_goal.timer[2],
+           l->score.fast_unlock.timer[0],
+           l->score.fast_unlock.timer[1],
+           l->score.fast_unlock.timer[2],
            l->score.most_coins.coins[0],
            l->score.most_coins.coins[1],
            l->score.most_coins.coins[2],
@@ -297,7 +297,7 @@ int level_score_update(int level,
                                        player, timer, coins);
 
     if (goal_rank)
-        *goal_rank = score_time_insert(&l->score.unlock_goal,
+        *goal_rank = score_time_insert(&l->score.fast_unlock,
                                        player, timer, coins);
 
     if (coin_rank)
@@ -321,7 +321,7 @@ void level_rename_player(int level,
     struct level *l = get_level(level);
 
     strncpy(l->score.best_times.player [time_rank], player, MAXNAM);
-    strncpy(l->score.unlock_goal.player[goal_rank], player, MAXNAM);
+    strncpy(l->score.fast_unlock.player[goal_rank], player, MAXNAM);
     strncpy(l->score.most_coins.player [coin_rank], player, MAXNAM);
 }
 

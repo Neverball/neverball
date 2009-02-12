@@ -26,7 +26,7 @@ struct level
     struct
     {
         struct score best_times;
-        struct score unlock_goal;
+        struct score fast_unlock;
         struct score most_coins;
     }
     score;

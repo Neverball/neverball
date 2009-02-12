@@ -75,7 +75,7 @@ static void start_over_level(int i)
 
         set_score_board(&get_level(i)->score.most_coins,  -1,
                         &get_level(i)->score.best_times,  -1,
-                        &get_level(i)->score.unlock_goal, -1);
+                        &get_level(i)->score.fast_unlock, -1);
 
         if (file_id)
             gui_set_label(file_id, level_file(i));
@@ -135,7 +135,7 @@ static int start_action(int i)
 
     case GUI_MOST_COINS:
     case GUI_BEST_TIMES:
-    case GUI_UNLOCK_GOAL:
+    case GUI_FAST_UNLOCK:
         gui_score_set(i);
         return goto_state(&st_start);
 
@@ -212,7 +212,7 @@ static int start_enter(void)
         if ((jd = gui_hstack(id)))
             gui_score_board(jd, GUI_MOST_COINS |
                                 GUI_BEST_TIMES |
-                                GUI_UNLOCK_GOAL, 0, 0);
+                                GUI_FAST_UNLOCK, 0, 0);
 
         gui_space(id);
 

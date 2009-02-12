@@ -90,7 +90,7 @@ static int goal_action(int i)
 
     case GUI_MOST_COINS:
     case GUI_BEST_TIMES:
-    case GUI_UNLOCK_GOAL:
+    case GUI_FAST_UNLOCK:
         gui_score_set(i);
         resume = 1;
         return goto_state(&st_goal);
@@ -203,7 +203,7 @@ static int goal_enter(void)
         if ((jd = gui_hstack(id)))
             gui_score_board(jd, GUI_MOST_COINS |
                                 GUI_BEST_TIMES |
-                                GUI_UNLOCK_GOAL, 1, high);
+                                GUI_FAST_UNLOCK, 1, high);
 
         gui_space(id);
 
@@ -233,7 +233,7 @@ static int goal_enter(void)
 
     set_score_board(&l->score.most_coins,  progress_coin_rank(),
                     &l->score.best_times,  progress_time_rank(),
-                    &l->score.unlock_goal, progress_goal_rank());
+                    &l->score.fast_unlock, progress_goal_rank());
 
     audio_music_fade_out(2.0f);
 

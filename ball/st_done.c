@@ -53,7 +53,7 @@ static int done_action(int i)
 
     case GUI_MOST_COINS:
     case GUI_BEST_TIMES:
-    case GUI_UNLOCK_GOAL:
+    case GUI_FAST_UNLOCK:
         gui_score_set(i);
         resume = 1;
         return goto_state(&st_done);
