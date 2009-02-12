@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2009-01-19 05:10+0200\n"
+"POT-Creation-Date: 2009-02-12 03:50+0200\n"
 "PO-Revision-Date: 2008-10-04 21:54+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -595,8 +595,10 @@ msgid "Most Coins"
 msgstr "Visvairāk monētu"
 
 #: ball/util.c:251 ball/util.c:308
-msgid "Unlock Goal"
-msgstr "Atslēgts mērķis"
+#, fuzzy
+#| msgid "Caps Lock"
+msgid "Fast Unlock"
+msgstr "Caps Lock"
 
 #: ball/util.c:251 ball/util.c:305
 msgid "Best Times"
@@ -958,7 +960,7 @@ msgstr "Neverball: Grūti"
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
-"and Unlock Goal records.\\"
+"and Fast Unlock records.\\"
 msgstr ""
 
 #: data/set-mym.txt
@@ -1813,6 +1815,9 @@ msgstr "mtrl/words-lv"
 
 msgid "item/coin/coin"
 msgstr ""
+
+#~ msgid "Unlock Goal"
+#~ msgstr "Atslēgts mērķis"
 
 #~ msgid "Mehdi's Levels"
 #~ msgstr "Mehdi līmeņi"

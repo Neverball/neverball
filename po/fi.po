@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.5\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2009-01-19 05:10+0200\n"
+"POT-Creation-Date: 2009-02-12 03:50+0200\n"
 "PO-Revision-Date: 2008-03-17 17:34+0200\n"
 "Last-Translator: Pasi Kallinen <paxed@alt.org>\n"
 "Language-Team: Finnish\n"
@@ -595,8 +595,8 @@ msgid "Most Coins"
 msgstr "Eniten kolikoita"
 
 #: ball/util.c:251 ball/util.c:308
-msgid "Unlock Goal"
-msgstr "Avaa maali"
+msgid "Fast Unlock"
+msgstr ""
 
 #: ball/util.c:251 ball/util.c:305
 msgid "Best Times"
@@ -956,10 +956,15 @@ msgid "Neverball Hard"
 msgstr "Neverball - Vaikea"
 
 #: data/set-hard.txt
+#, fuzzy
+#| msgid ""
+#| "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
+#| "challenge for\\the experienced player. Try to claim\\Best Times, Most "
+#| "Coins, and Unlock Goal records.\\"
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
-"and Unlock Goal records.\\"
+"and Fast Unlock records.\\"
 msgstr ""
 "\\Vaikeustaso: Kokeneesta eksperttiin\\\\25 kenttää joissa riittää haastetta"
 "\\kokeneellekin pelaajalle.\\\\"
@@ -1844,6 +1849,9 @@ msgstr ""
 
 msgid "item/coin/coin"
 msgstr ""
+
+#~ msgid "Unlock Goal"
+#~ msgstr "Avaa maali"
 
 #~ msgid "Mode"
 #~ msgstr "Moodi"

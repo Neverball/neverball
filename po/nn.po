@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2009-01-19 05:10+0200\n"
+"POT-Creation-Date: 2009-02-12 03:50+0200\n"
 "PO-Revision-Date: 2009-01-19 22:17+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -597,8 +597,10 @@ msgid "Most Coins"
 msgstr "Flest myntar"
 
 #: ball/util.c:251 ball/util.c:308
-msgid "Unlock Goal"
-msgstr "Målopplåsing"
+#, fuzzy
+#| msgid "Caps Lock"
+msgid "Fast Unlock"
+msgstr "Caps Lock"
 
 #: ball/util.c:251 ball/util.c:305
 msgid "Best Times"
@@ -958,10 +960,15 @@ msgid "Neverball Hard"
 msgstr "Neverball vanskeleg"
 
 #: data/set-hard.txt
+#, fuzzy
+#| msgid ""
+#| "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
+#| "challenge for\\the experienced player. Try to claim\\Best Times, Most "
+#| "Coins, and Unlock Goal records.\\"
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
-"and Unlock Goal records.\\"
+"and Fast Unlock records.\\"
 msgstr ""
 "Vanskegrad: Middels til vanskeleg.\\\\25 brett med ei større utfordring for "
 "meir\\erfarne spelarar. Prøv å få rekordar for\\beste tid, flest myntar og "
@@ -1957,6 +1964,9 @@ msgstr "mtrl/words-nn"
 
 msgid "item/coin/coin"
 msgstr "item/coin/coin-no"
+
+#~ msgid "Unlock Goal"
+#~ msgstr "Målopplåsing"
 
 #~ msgid ""
 #~ "You must leap to the goal.\\Build speed on the final runway and aim for "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2009-01-19 05:10+0200\n"
+"POT-Creation-Date: 2009-02-12 03:50+0200\n"
 "PO-Revision-Date: 2008-09-27 19:06+0200\n"
 "Last-Translator: Jordà Polo <jorda@ettin.org>\n"
 "Language-Team: Catalan\n"
@@ -599,8 +599,10 @@ msgid "Most Coins"
 msgstr "Més monedes"
 
 #: ball/util.c:251 ball/util.c:308
-msgid "Unlock Goal"
-msgstr "Desbloqueja la meta"
+#, fuzzy
+#| msgid "Caps Lock"
+msgid "Fast Unlock"
+msgstr "Fixació de majúscules"
 
 #: ball/util.c:251 ball/util.c:305
 msgid "Best Times"
@@ -961,10 +963,15 @@ msgid "Neverball Hard"
 msgstr "Neverball difícil"
 
 #: data/set-hard.txt
+#, fuzzy
+#| msgid ""
+#| "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
+#| "challenge for\\the experienced player. Try to claim\\Best Times, Most "
+#| "Coins, and Unlock Goal records.\\"
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
-"and Unlock Goal records.\\"
+"and Fast Unlock records.\\"
 msgstr ""
 "Dificultat: intermedi a expert.\\\\25 nivells que suposen tot un repte per "
 "als jugadors\\experimentats. Intenteu fer les millors puntuacions\\en les "
@@ -1838,6 +1845,9 @@ msgstr "mtrl/words-ca"
 
 msgid "item/coin/coin"
 msgstr "item/coin/euro_coin"
+
+#~ msgid "Unlock Goal"
+#~ msgstr "Desbloqueja la meta"
 
 #~ msgid "Mehdi's Levels"
 #~ msgstr "Els nivells d'en Mehdi"

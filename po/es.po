@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2009-01-19 05:10+0200\n"
+"POT-Creation-Date: 2009-02-12 03:50+0200\n"
 "PO-Revision-Date: 2008-09-16 15:53+0100\n"
 "Last-Translator: Miguel Diago <mdiagom@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -598,8 +598,10 @@ msgid "Most Coins"
 msgstr "Récord de monedas"
 
 #: ball/util.c:251 ball/util.c:308
-msgid "Unlock Goal"
-msgstr "Desbloqueo de meta"
+#, fuzzy
+#| msgid "Caps Lock"
+msgid "Fast Unlock"
+msgstr "Bloq Mayús"
 
 #: ball/util.c:251 ball/util.c:305
 msgid "Best Times"
@@ -963,10 +965,15 @@ msgid "Neverball Hard"
 msgstr "Neverball difícil"
 
 #: data/set-hard.txt
+#, fuzzy
+#| msgid ""
+#| "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
+#| "challenge for\\the experienced player. Try to claim\\Best Times, Most "
+#| "Coins, and Unlock Goal records.\\"
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
-"and Unlock Goal records.\\"
+"and Fast Unlock records.\\"
 msgstr ""
 "Dificultad: Intermedio a Experto\\\\25 niveles más complicados para "
 "jugadores avanzados.\\Intenta batir los récords de Monedas, Mejores tiempos,"
@@ -1975,6 +1982,9 @@ msgstr ""
 
 msgid "item/coin/coin"
 msgstr ""
+
+#~ msgid "Unlock Goal"
+#~ msgstr "Desbloqueo de meta"
 
 #~ msgid "Mehdi's Levels"
 #~ msgstr "Niveles de Mehdi"
