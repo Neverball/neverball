@@ -61,6 +61,58 @@ static void config_key(const char *s, int i, int d)
 
 /*---------------------------------------------------------------------------*/
 
+static void config_mouse_button(const char *s, int i)
+{
+    if      (strcmp(s, "none") == 0)
+        config_set_d(i, 0);
+    else if (strcmp(s, "left") == 0)
+        config_set_d(i, SDL_BUTTON_LEFT);
+    else if (strcmp(s, "right") == 0)
+        config_set_d(i, SDL_BUTTON_RIGHT);
+    else if (strcmp(s, "wheelup") == 0)
+        config_set_d(i, SDL_BUTTON_WHEELUP);
+    else if (strcmp(s, "middle") == 0)
+        config_set_d(i, SDL_BUTTON_MIDDLE);
+    else if (strcmp(s, "wheeldown") == 0)
+        config_set_d(i, SDL_BUTTON_WHEELDOWN);
+    else
+        config_set_d(i, atoi(s));
+}
+
+static void config_write_mouse_button(FILE *fp, char *d, int b)
+{
+    fprintf (fp, "%s", d);
+
+    switch (b)
+    {
+    case 0:
+        fprintf(fp, "none\n");
+        break;
+
+    case SDL_BUTTON_LEFT:
+        fprintf(fp, "left\n");
+        break;
+    case SDL_BUTTON_RIGHT:
+        fprintf(fp, "right\n");
+        break;
+    case SDL_BUTTON_WHEELUP:
+        fprintf(fp, "wheelup\n");
+        break;
+    case SDL_BUTTON_MIDDLE:
+        fprintf(fp, "middle\n");
+        break;
+    case SDL_BUTTON_WHEELDOWN:
+        fprintf(fp, "wheeldown\n");
+        break;
+
+    default:
+        fprintf(fp, "%d\n", b);
+        break;
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
 void config_init(void)
 {
     memset(option_d, 0, sizeof (option_d));
@@ -83,6 +135,11 @@ void config_init(void)
     config_set_d(CONFIG_MOUSE_SENSE,          DEFAULT_MOUSE_SENSE);
     config_set_d(CONFIG_MOUSE_INVERT,         DEFAULT_MOUSE_INVERT);
     config_set_d(CONFIG_VSYNC,                DEFAULT_VSYNC);
+    config_set_d(CONFIG_MOUSE_CAMERA_1,       DEFAULT_MOUSE_CAMERA_1);
+    config_set_d(CONFIG_MOUSE_CAMERA_2,       DEFAULT_MOUSE_CAMERA_2);
+    config_set_d(CONFIG_MOUSE_CAMERA_3,       DEFAULT_MOUSE_CAMERA_3);
+    config_set_d(CONFIG_MOUSE_CAMERA_L,       DEFAULT_MOUSE_CAMERA_L);
+    config_set_d(CONFIG_MOUSE_CAMERA_R,       DEFAULT_MOUSE_CAMERA_R);
     config_set_d(CONFIG_NICE,                 DEFAULT_NICE);
     config_set_d(CONFIG_FPS,                  DEFAULT_FPS);
     config_set_d(CONFIG_SOUND_VOLUME,         DEFAULT_SOUND_VOLUME);
@@ -229,12 +286,26 @@ void config_load(void)
                     config_set_d(CONFIG_SHADOW,               atoi(val));
                 else if (strcmp(key, "audio_buff")            == 0)
                     config_set_d(CONFIG_AUDIO_BUFF,           atoi(val));
+
                 else if (strcmp(key, "mouse_sense")           == 0)
                     config_set_d(CONFIG_MOUSE_SENSE,          atoi(val));
                 else if (strcmp(key, "mouse_invert")          == 0)
                     config_set_d(CONFIG_MOUSE_INVERT,         atoi(val));
                 else if (strcmp(key, "vsync")                 == 0)
                     config_set_d(CONFIG_VSYNC,                atoi(val));
+
+                else if (strcmp(key, "mouse_camera_1")        == 0)
+                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_1);
+                else if (strcmp(key, "mouse_camera_2")        == 0)
+                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_2);
+                else if (strcmp(key, "mouse_camera_3")        == 0)
+                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_3);
+
+                else if (strcmp(key, "mouse_camera_l")        == 0)
+                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_L);
+                else if (strcmp(key, "mouse_camera_r")        == 0)
+                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_R);
+
                 else if (strcmp(key, "nice")                  == 0)
                     config_set_d(CONFIG_NICE,                 atoi(val));
                 else if (strcmp(key, "fps")                   == 0)
@@ -372,12 +443,26 @@ void config_save(void)
                 option_d[CONFIG_SHADOW]);
         fprintf(fp, "audio_buff           %d\n",
                 option_d[CONFIG_AUDIO_BUFF]);
+
         fprintf(fp, "mouse_sense          %d\n",
                 option_d[CONFIG_MOUSE_SENSE]);
         fprintf(fp, "mouse_invert         %d\n",
                 option_d[CONFIG_MOUSE_INVERT]);
         fprintf(fp, "vsync                %d\n",
                 option_d[CONFIG_VSYNC]);
+
+        config_write_mouse_button(fp, "mouse_camera_1       ",
+                option_d[CONFIG_MOUSE_CAMERA_1]);
+        config_write_mouse_button(fp, "mouse_camera_2       ",
+                option_d[CONFIG_MOUSE_CAMERA_2]);
+        config_write_mouse_button(fp, "mouse_camera_3       ",
+                option_d[CONFIG_MOUSE_CAMERA_3]);
+
+        config_write_mouse_button(fp, "mouse_camera_l       ",
+                option_d[CONFIG_MOUSE_CAMERA_L]);
+        config_write_mouse_button(fp, "mouse_camera_r       ",
+                option_d[CONFIG_MOUSE_CAMERA_R]);
+
         fprintf(fp, "nice                 %d\n",
                 option_d[CONFIG_NICE]);
         fprintf(fp, "fps                  %d\n",

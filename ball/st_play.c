@@ -277,7 +277,37 @@ static void play_loop_stick(int id, int a, int k)
 
 static int play_loop_click(int b, int d)
 {
-    view_rotate = d ? (b == SDL_BUTTON_LEFT ? -1 : +1) : 0;
+    if (d)
+    {
+        if (config_tst_d(CONFIG_MOUSE_CAMERA_R, b))
+            view_rotate = +1;
+        if (config_tst_d(CONFIG_MOUSE_CAMERA_L, b))
+            view_rotate = -1;
+
+        if (config_tst_d(CONFIG_MOUSE_CAMERA_1, b))
+        {
+            config_set_d(CONFIG_CAMERA, 0);
+            hud_view_pulse(0);
+        }
+        if (config_tst_d(CONFIG_MOUSE_CAMERA_2, b))
+        {
+            config_set_d(CONFIG_CAMERA, 1);
+            hud_view_pulse(0);
+        }
+        if (config_tst_d(CONFIG_MOUSE_CAMERA_3, b))
+        {
+            config_set_d(CONFIG_CAMERA, 2);
+            hud_view_pulse(0);
+        }
+    }
+    else
+    {
+        if (config_tst_d(CONFIG_MOUSE_CAMERA_R, b))
+            view_rotate = 0;
+        if (config_tst_d(CONFIG_MOUSE_CAMERA_L, b))
+            view_rotate = 0;
+    }
+
     return 1;
 }
 
