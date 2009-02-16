@@ -324,6 +324,16 @@ void config_load(void)
                     config_set_d(CONFIG_JOYSTICK_CAMERA_2,    atoi(val));
                 else if (strcmp(key, "joystick_camera_3")     == 0)
                     config_set_d(CONFIG_JOYSTICK_CAMERA_3,    atoi(val));
+
+                else if (strcmp(key, "joystick_dpad_l")       == 0)
+                    config_set_d(CONFIG_JOYSTICK_DPAD_L,    atoi(val));
+                else if (strcmp(key, "joystick_dpad_r")       == 0)
+                    config_set_d(CONFIG_JOYSTICK_DPAD_R,    atoi(val));
+                else if (strcmp(key, "joystick_dpad_u")       == 0)
+                    config_set_d(CONFIG_JOYSTICK_DPAD_U,    atoi(val));
+                else if (strcmp(key, "joystick_dpad_d")       == 0)
+                    config_set_d(CONFIG_JOYSTICK_DPAD_D,    atoi(val));
+
                 else if (strcmp(key, "joystick_camera_toggle") == 0)
                     config_set_d(CONFIG_JOYSTICK_CAMERA_TOGGLE, atoi(val));
 
@@ -488,6 +498,16 @@ void config_save(void)
                 option_d[CONFIG_JOYSTICK_CAMERA_2]);
         fprintf(fp, "joystick_camera_3    %d\n",
                 option_d[CONFIG_JOYSTICK_CAMERA_3]);
+
+        fprintf(fp, "joystick_dpad_l      %d\n",
+                option_d[CONFIG_JOYSTICK_DPAD_L]);
+        fprintf(fp, "joystick_dpad_r      %d\n",
+                option_d[CONFIG_JOYSTICK_DPAD_R]);
+        fprintf(fp, "joystick_dpad_u      %d\n",
+                option_d[CONFIG_JOYSTICK_DPAD_U]);
+        fprintf(fp, "joystick_dpad_d      %d\n",
+                option_d[CONFIG_JOYSTICK_DPAD_D]);
+
         fprintf(fp, "joystick_camera_toggle %d\n",
                 option_d[CONFIG_JOYSTICK_CAMERA_TOGGLE]);
 
