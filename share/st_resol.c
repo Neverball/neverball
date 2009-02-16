@@ -143,7 +143,7 @@ static void resol_stick(int id, int a, int v)
 
 static int resol_click(int b, int d)
 {
-    if (b < 0 && d == 1)
+    if (b == SDL_BUTTON_LEFT && d == 1)
         return resol_action(gui_token(gui_click()));
     return 1;
 }

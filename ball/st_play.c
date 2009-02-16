@@ -86,7 +86,7 @@ static void play_ready_timer(int id, float dt)
 
 static int play_ready_click(int b, int d)
 {
-    return (b < 0 && d == 1) ? goto_state(&st_play_loop) : 1;
+    return (b == SDL_BUTTON_LEFT && d == 1) ? goto_state(&st_play_loop) : 1;
 }
 
 static int play_ready_keybd(int c, int d)
@@ -144,7 +144,7 @@ static void play_set_timer(int id, float dt)
 
 static int play_set_click(int b, int d)
 {
-    if (b < 0 && d == 1)
+    if (b == SDL_BUTTON_LEFT && d == 1)
     {
         game_set_fly(0.0f, NULL);
         game_client_step(NULL);
@@ -277,7 +277,7 @@ static void play_loop_stick(int id, int a, int k)
 
 static int play_loop_click(int b, int d)
 {
-    view_rotate = d ? b : 0;
+    view_rotate = d ? (b == SDL_BUTTON_LEFT ? -1 : +1) : 0;
     return 1;
 }
 

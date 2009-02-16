@@ -254,7 +254,7 @@ static void title_point(int id, int x, int y, int dx, int dy)
 
 static int title_click(int b, int d)
 {
-    return (d && b < 0) ? title_action(gui_token(gui_click())) : 1;
+    return d && b == SDL_BUTTON_LEFT ? title_action(gui_token(gui_click())) : 1;
 }
 
 static int title_buttn(int b, int d)
@@ -403,7 +403,7 @@ static void course_stick(int id, int a, int v)
 
 static int course_click(int b, int d)
 {
-    return (d && b < 0) ? course_action(gui_token(gui_click())) : 1;
+    return d && b == SDL_BUTTON_LEFT ? course_action(gui_token(gui_click())) : 1;
 }
 
 static int course_buttn(int b, int d)
@@ -520,7 +520,7 @@ static void party_point(int id, int x, int y, int dx, int dy)
 
 static int party_click(int b, int d)
 {
-    return (d && b < 0) ? party_action(gui_token(gui_click())) : 1;
+    return d && b == SDL_BUTTON_LEFT ? party_action(gui_token(gui_click())) : 1;
 }
 
 static int party_buttn(int b, int d)
@@ -626,7 +626,7 @@ static void pause_point(int id, int x, int y, int dx, int dy)
 
 static int pause_click(int b, int d)
 {
-    return (d && b < 0) ? pause_action(gui_token(gui_click())) : 1;
+    return d && b == SDL_BUTTON_LEFT ? pause_action(gui_token(gui_click())) : 1;
 }
 
 static int pause_keybd(int c, int d)
@@ -734,7 +734,7 @@ static void next_point(int id, int x, int y, int dx, int dy)
 
 static int next_click(int b, int d)
 {
-    return (d && b < 0) ? goto_state(&st_flyby) : 1;
+    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_flyby) : 1;
 }
 
 static int next_keybd(int c, int d)
@@ -833,7 +833,7 @@ static void flyby_timer(int id, float dt)
 
 static int flyby_click(int b, int d)
 {
-    if (d && b < 0)
+    if (d && b == SDL_BUTTON_LEFT)
     {
         game_set_fly(0.f);
         return goto_state(&st_stroke);
@@ -926,7 +926,7 @@ static void stroke_stick(int id, int a, int v)
 
 static int stroke_click(int b, int d)
 {
-    return (d && b < 0) ? goto_state(&st_roll) : 1;
+    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_roll) : 1;
 }
 
 static int stroke_buttn(int b, int d)
@@ -1033,7 +1033,7 @@ static void goal_timer(int id, float dt)
 
 static int goal_click(int b, int d)
 {
-    if (b < 0 && d == 1)
+    if (b == SDL_BUTTON_LEFT && d == 1)
     {
         if (hole_next())
             goto_state(&st_next);
@@ -1103,7 +1103,7 @@ static void stop_timer(int id, float dt)
 
 static int stop_click(int b, int d)
 {
-    if (b < 0 && d == 1)
+    if (b == SDL_BUTTON_LEFT && d == 1)
     {
         if (hole_next())
             goto_state(&st_next);
@@ -1178,7 +1178,7 @@ static void fall_timer(int id, float dt)
 
 static int fall_click(int b, int d)
 {
-    if (b < 0 && d == 1)
+    if (b == SDL_BUTTON_LEFT && d == 1)
     {
         if (hole_next())
             goto_state(&st_next);
@@ -1235,7 +1235,7 @@ static void score_timer(int id, float dt)
 
 static int score_click(int b, int d)
 {
-    if (b < 0 && d == 1)
+    if (b == SDL_BUTTON_LEFT && d == 1)
     {
         if (hole_move())
             return goto_state(&st_next);
@@ -1288,7 +1288,7 @@ static void over_timer(int id, float dt)
 
 static int over_click(int b, int d)
 {
-    return (d && b < 0) ? goto_state(&st_title) : 1;
+    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_title) : 1;
 }
 
 static int over_buttn(int b, int d)

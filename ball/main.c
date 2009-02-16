@@ -97,11 +97,11 @@ static int loop(void)
             break;
 
         case SDL_MOUSEBUTTONDOWN:
-            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 1);
+            d = st_click(e.button.button, 1);
             break;
 
         case SDL_MOUSEBUTTONUP:
-            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 0);
+            d = st_click(e.button.button, 0);
             break;
 
         case SDL_KEYDOWN:

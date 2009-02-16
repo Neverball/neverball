@@ -84,7 +84,7 @@ void shared_angle(int id, int x, int z)
 
 int shared_click(int b, int d)
 {
-    if (b < 0 && d == 1)
+    if (b == SDL_BUTTON_LEFT && d == 1)
         return st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
     else
         return 1;

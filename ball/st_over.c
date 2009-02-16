@@ -58,7 +58,7 @@ static void over_timer(int id, float dt)
 
 static int over_click(int b, int d)
 {
-    return (b < 0 && d == 1) ? goto_state(&st_start) : 1;
+    return (b == SDL_BUTTON_LEFT && d == 1) ? goto_state(&st_start) : 1;
 }
 
 static int over_buttn(int b, int d)
