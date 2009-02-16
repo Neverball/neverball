@@ -138,6 +138,7 @@ void config_init(void)
     config_set_d(CONFIG_MOUSE_CAMERA_1,       DEFAULT_MOUSE_CAMERA_1);
     config_set_d(CONFIG_MOUSE_CAMERA_2,       DEFAULT_MOUSE_CAMERA_2);
     config_set_d(CONFIG_MOUSE_CAMERA_3,       DEFAULT_MOUSE_CAMERA_3);
+    config_set_d(CONFIG_MOUSE_CAMERA_TOGGLE,  DEFAULT_MOUSE_CAMERA_TOGGLE);
     config_set_d(CONFIG_MOUSE_CAMERA_L,       DEFAULT_MOUSE_CAMERA_L);
     config_set_d(CONFIG_MOUSE_CAMERA_R,       DEFAULT_MOUSE_CAMERA_R);
     config_set_d(CONFIG_NICE,                 DEFAULT_NICE);
@@ -160,9 +161,11 @@ void config_init(void)
     config_set_d(CONFIG_JOYSTICK_DPAD_R,      DEFAULT_JOYSTICK_DPAD_R);
     config_set_d(CONFIG_JOYSTICK_DPAD_U,      DEFAULT_JOYSTICK_DPAD_U);
     config_set_d(CONFIG_JOYSTICK_DPAD_D,      DEFAULT_JOYSTICK_DPAD_D);
+    config_set_d(CONFIG_JOYSTICK_CAMERA_TOGGLE, DEFAULT_JOYSTICK_CAMERA_TOGGLE);
     config_set_d(CONFIG_KEY_CAMERA_1,         DEFAULT_KEY_CAMERA_1);
     config_set_d(CONFIG_KEY_CAMERA_2,         DEFAULT_KEY_CAMERA_2);
     config_set_d(CONFIG_KEY_CAMERA_3,         DEFAULT_KEY_CAMERA_3);
+    config_set_d(CONFIG_KEY_CAMERA_TOGGLE,    DEFAULT_KEY_CAMERA_TOGGLE);
     config_set_d(CONFIG_KEY_CAMERA_R,         DEFAULT_KEY_CAMERA_R);
     config_set_d(CONFIG_KEY_CAMERA_L,         DEFAULT_KEY_CAMERA_L);
     config_set_d(CONFIG_VIEW_FOV,             DEFAULT_VIEW_FOV);
@@ -300,7 +303,8 @@ void config_load(void)
                     config_mouse_button(val, CONFIG_MOUSE_CAMERA_2);
                 else if (strcmp(key, "mouse_camera_3")        == 0)
                     config_mouse_button(val, CONFIG_MOUSE_CAMERA_3);
-
+                else if (strcmp(key, "mouse_camera_toggle")   == 0)
+                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_TOGGLE);
                 else if (strcmp(key, "mouse_camera_l")        == 0)
                     config_mouse_button(val, CONFIG_MOUSE_CAMERA_L);
                 else if (strcmp(key, "mouse_camera_r")        == 0)
@@ -314,6 +318,7 @@ void config_load(void)
                     config_set_d(CONFIG_SOUND_VOLUME,         atoi(val));
                 else if (strcmp(key, "music_volume")          == 0)
                     config_set_d(CONFIG_MUSIC_VOLUME,         atoi(val));
+
                 else if (strcmp(key, "joystick")              == 0)
                     config_set_d(CONFIG_JOYSTICK,             atoi(val));
                 else if (strcmp(key, "joystick_device")       == 0)
@@ -338,6 +343,9 @@ void config_load(void)
                     config_set_d(CONFIG_JOYSTICK_CAMERA_2,    atoi(val));
                 else if (strcmp(key, "joystick_camera_3")     == 0)
                     config_set_d(CONFIG_JOYSTICK_CAMERA_3,    atoi(val));
+                else if (strcmp(key, "joystick_camera_toggle") == 0)
+                    config_set_d(CONFIG_JOYSTICK_CAMERA_TOGGLE, atoi(val));
+
                 else if (strcmp(key, "view_fov")              == 0)
                     config_set_d(CONFIG_VIEW_FOV,             atoi(val));
                 else if (strcmp(key, "view_dp")               == 0)
@@ -366,6 +374,8 @@ void config_load(void)
                     config_key(val, CONFIG_KEY_CAMERA_2, DEFAULT_KEY_CAMERA_2);
                 else if (strcmp(key, "key_camera_3")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_3, DEFAULT_KEY_CAMERA_3);
+                else if (strcmp(key, "key_camera_toggle") == 0)
+                    config_key(val, CONFIG_KEY_CAMERA_TOGGLE, DEFAULT_KEY_CAMERA_TOGGLE);
                 else if (strcmp(key, "key_camera_r")  == 0)
                     config_key(val, CONFIG_KEY_CAMERA_R, DEFAULT_KEY_CAMERA_R);
                 else if (strcmp(key, "key_camera_l")  == 0)
@@ -457,7 +467,8 @@ void config_save(void)
                 option_d[CONFIG_MOUSE_CAMERA_2]);
         config_write_mouse_button(fp, "mouse_camera_3       ",
                 option_d[CONFIG_MOUSE_CAMERA_3]);
-
+        config_write_mouse_button(fp, "mouse_camera_toggle  ",
+                option_d[CONFIG_MOUSE_CAMERA_TOGGLE]);
         config_write_mouse_button(fp, "mouse_camera_l       ",
                 option_d[CONFIG_MOUSE_CAMERA_L]);
         config_write_mouse_button(fp, "mouse_camera_r       ",
@@ -471,6 +482,7 @@ void config_save(void)
                 option_d[CONFIG_SOUND_VOLUME]);
         fprintf(fp, "music_volume         %d\n",
                 option_d[CONFIG_MUSIC_VOLUME]);
+
         fprintf(fp, "joystick             %d\n",
                 option_d[CONFIG_JOYSTICK]);
         fprintf(fp, "joystick_device      %d\n",
@@ -495,6 +507,9 @@ void config_save(void)
                 option_d[CONFIG_JOYSTICK_CAMERA_2]);
         fprintf(fp, "joystick_camera_3    %d\n",
                 option_d[CONFIG_JOYSTICK_CAMERA_3]);
+        fprintf(fp, "joystick_camera_toggle %d\n",
+                option_d[CONFIG_JOYSTICK_CAMERA_TOGGLE]);
+
         fprintf(fp, "view_fov             %d\n",
                 option_d[CONFIG_VIEW_FOV]);
         fprintf(fp, "view_dp              %d\n",
@@ -523,6 +538,8 @@ void config_save(void)
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_CAMERA_2]));
         fprintf(fp, "key_camera_3         %s\n",
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_CAMERA_3]));
+        fprintf(fp, "key_camera_toggle    %s\n",
+                SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_CAMERA_TOGGLE]));
         fprintf(fp, "key_camera_r         %s\n",
                 SDL_GetKeyName((SDLKey) option_d[CONFIG_KEY_CAMERA_R]));
         fprintf(fp, "key_camera_l         %s\n",

@@ -299,6 +299,9 @@ static int play_loop_click(int b, int d)
             config_set_d(CONFIG_CAMERA, 2);
             hud_view_pulse(0);
         }
+
+        if (config_tst_d(CONFIG_MOUSE_CAMERA_TOGGLE, b))
+            return st_buttn(config_get_d(CONFIG_JOYSTICK_CAMERA_TOGGLE), 1);
     }
     else
     {
@@ -340,6 +343,12 @@ static int play_loop_keybd(int c, int d)
         {
             if (progress_same())
                 goto_state(&st_play_ready);
+        }
+        if (config_tst_d(CONFIG_KEY_CAMERA_TOGGLE, c))
+        {
+            int m = config_tst_d(CONFIG_CAMERA, 2) ? 0 : 2;
+            config_set_d(CONFIG_CAMERA, m);
+            hud_view_pulse(m);
         }
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
             goto_pause();
@@ -392,6 +401,12 @@ static int play_loop_buttn(int b, int d)
         {
             config_set_d(CONFIG_CAMERA, 2);
             hud_view_pulse(2);
+        }
+        if (config_tst_d(CONFIG_JOYSTICK_CAMERA_TOGGLE, b))
+        {
+            int m = config_tst_d(CONFIG_CAMERA, 2) ? 0 : 2;
+            config_set_d(CONFIG_CAMERA, m);
+            hud_view_pulse(m);
         }
     }
     else
