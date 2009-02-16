@@ -20,7 +20,6 @@
 int  video_mode(int, int, int);
 
 int  video_perf(void);
-void video_sync(void);
 void video_swap(void);
 
 void video_set_grab(int w);
