@@ -162,11 +162,12 @@ values follow.
 
         This key inverts the vertical mouse axis if set to 1.
 
-    key_camera_1 f1
-    key_camera_2 f2
-    key_camera_3 f3
-    key_camera_l d
-    key_camera_r s
+    key_camera_1      f1
+    key_camera_2      f2
+    key_camera_3      f3
+    key_camera_l      d
+    key_camera_r      s
+    key_camera_toggle e
 
         These keys  define keyboard mappings for  camera selection and
         rotation.   Key  names  are specified  using  SDL's  canonical
@@ -183,6 +184,20 @@ values follow.
         responsive.
 
         3 - Locked camera  does not rotate  except by  player command.
+
+	key_camera_toggle toggles camera behaviour between 1 and 3.
+
+    mouse_camera_1      none
+    mouse_camera_2      none
+    mouse_camera_3      none
+    mouse_camera_l      left
+    mouse_camera_r      right
+    mouse_camera_toggle none
+
+        These   keys  match   the  respective   key_camera_*  options.
+        Accepted values are: "none" (for no mapping), "left", "right",
+        "wheelup",  "middle", "wheeldown"  or a  numeric  mouse button
+        index.
 
     key_forward  up
     key_backward down
