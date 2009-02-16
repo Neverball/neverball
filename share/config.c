@@ -61,7 +61,7 @@ static void config_key(const char *s, int i, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static void config_mouse_button(const char *s, int i)
+static void config_mouse(const char *s, int i)
 {
     if      (strcmp(s, "none") == 0)
         config_set_d(i, 0);
@@ -79,35 +79,21 @@ static void config_mouse_button(const char *s, int i)
         config_set_d(i, atoi(s));
 }
 
-static void config_write_mouse_button(FILE *fp, char *d, int b)
+static const char *config_mouse_name(int b)
 {
-    fprintf (fp, "%s", d);
+    static char buff[sizeof ("256")];
+
+    sprintf(buff, "%d", b);
 
     switch (b)
     {
-    case 0:
-        fprintf(fp, "none\n");
-        break;
-
-    case SDL_BUTTON_LEFT:
-        fprintf(fp, "left\n");
-        break;
-    case SDL_BUTTON_RIGHT:
-        fprintf(fp, "right\n");
-        break;
-    case SDL_BUTTON_WHEELUP:
-        fprintf(fp, "wheelup\n");
-        break;
-    case SDL_BUTTON_MIDDLE:
-        fprintf(fp, "middle\n");
-        break;
-    case SDL_BUTTON_WHEELDOWN:
-        fprintf(fp, "wheeldown\n");
-        break;
-
-    default:
-        fprintf(fp, "%d\n", b);
-        break;
+    case 0:                    return "none";      break;
+    case SDL_BUTTON_LEFT:      return "left";      break;
+    case SDL_BUTTON_RIGHT:     return "right";     break;
+    case SDL_BUTTON_WHEELUP:   return "wheelup";   break;
+    case SDL_BUTTON_MIDDLE:    return "middle";    break;
+    case SDL_BUTTON_WHEELDOWN: return "wheeldown"; break;
+    default:                   return buff;        break;
     }
 }
 
@@ -298,17 +284,17 @@ void config_load(void)
                     config_set_d(CONFIG_VSYNC,                atoi(val));
 
                 else if (strcmp(key, "mouse_camera_1")        == 0)
-                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_1);
+                    config_mouse(val, CONFIG_MOUSE_CAMERA_1);
                 else if (strcmp(key, "mouse_camera_2")        == 0)
-                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_2);
+                    config_mouse(val, CONFIG_MOUSE_CAMERA_2);
                 else if (strcmp(key, "mouse_camera_3")        == 0)
-                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_3);
+                    config_mouse(val, CONFIG_MOUSE_CAMERA_3);
                 else if (strcmp(key, "mouse_camera_toggle")   == 0)
-                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_TOGGLE);
+                    config_mouse(val, CONFIG_MOUSE_CAMERA_TOGGLE);
                 else if (strcmp(key, "mouse_camera_l")        == 0)
-                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_L);
+                    config_mouse(val, CONFIG_MOUSE_CAMERA_L);
                 else if (strcmp(key, "mouse_camera_r")        == 0)
-                    config_mouse_button(val, CONFIG_MOUSE_CAMERA_R);
+                    config_mouse(val, CONFIG_MOUSE_CAMERA_R);
 
                 else if (strcmp(key, "nice")                  == 0)
                     config_set_d(CONFIG_NICE,                 atoi(val));
@@ -461,18 +447,18 @@ void config_save(void)
         fprintf(fp, "vsync                %d\n",
                 option_d[CONFIG_VSYNC]);
 
-        config_write_mouse_button(fp, "mouse_camera_1       ",
-                option_d[CONFIG_MOUSE_CAMERA_1]);
-        config_write_mouse_button(fp, "mouse_camera_2       ",
-                option_d[CONFIG_MOUSE_CAMERA_2]);
-        config_write_mouse_button(fp, "mouse_camera_3       ",
-                option_d[CONFIG_MOUSE_CAMERA_3]);
-        config_write_mouse_button(fp, "mouse_camera_toggle  ",
-                option_d[CONFIG_MOUSE_CAMERA_TOGGLE]);
-        config_write_mouse_button(fp, "mouse_camera_l       ",
-                option_d[CONFIG_MOUSE_CAMERA_L]);
-        config_write_mouse_button(fp, "mouse_camera_r       ",
-                option_d[CONFIG_MOUSE_CAMERA_R]);
+        fprintf(fp, "mouse_camera_1       %s\n",
+                config_mouse_name(option_d[CONFIG_MOUSE_CAMERA_1]));
+        fprintf(fp, "mouse_camera_2       %s\n",
+                config_mouse_name(option_d[CONFIG_MOUSE_CAMERA_2]));
+        fprintf(fp, "mouse_camera_3       %s\n",
+                config_mouse_name(option_d[CONFIG_MOUSE_CAMERA_3]));
+        fprintf(fp, "mouse_camera_toggle  %s\n",
+                config_mouse_name(option_d[CONFIG_MOUSE_CAMERA_TOGGLE]));
+        fprintf(fp, "mouse_camera_l       %s\n",
+                config_mouse_name(option_d[CONFIG_MOUSE_CAMERA_L]));
+        fprintf(fp, "mouse_camera_r       %s\n",
+                config_mouse_name(option_d[CONFIG_MOUSE_CAMERA_R]));
 
         fprintf(fp, "nice                 %d\n",
                 option_d[CONFIG_NICE]);
