@@ -17,6 +17,7 @@
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
+#include "video.h"
 #include "demo.h"
 #include "st_shared.h"
 

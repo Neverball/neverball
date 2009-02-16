@@ -18,6 +18,7 @@
 #include "audio.h"
 #include "gui.h"
 #include "config.h"
+#include "video.h"
 
 #include "game_common.h"
 

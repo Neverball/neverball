@@ -21,6 +21,7 @@
 #include "gui.h"
 #include "progress.h"
 #include "config.h"
+#include "video.h"
 #include "audio.h"
 
 #include "game_common.h"

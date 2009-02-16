@@ -192,11 +192,6 @@ enum {
 void config_init(void);
 void config_load(void);
 void config_save(void);
-int  config_mode(int, int, int);
-
-int  config_perf(void);
-void config_sync(void);
-void config_swap(void);
 
 /*---------------------------------------------------------------------------*/
 
@@ -210,12 +205,6 @@ void config_get_s(int, char *, int);
 
 /*---------------------------------------------------------------------------*/
 
-void config_set_grab(int w);
-void config_clr_grab(void);
-int  config_get_grab(void);
-
-/*---------------------------------------------------------------------------*/
-
 int  config_cheat(void);
 void config_set_cheat(void);
 void config_clr_cheat(void);
@@ -223,13 +212,6 @@ void config_clr_cheat(void);
 /*---------------------------------------------------------------------------*/
 
 int config_screenshot(void);
-
-/*---------------------------------------------------------------------------*/
-
-void config_push_persp(float, float, float);
-void config_push_ortho(void);
-void config_pop_matrix(void);
-void config_clear(void);
 
 /*---------------------------------------------------------------------------*/
 

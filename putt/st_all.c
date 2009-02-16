@@ -24,6 +24,7 @@
 #include "audio.h"
 #include "course.h"
 #include "config.h"
+#include "video.h"
 
 #include "st_all.h"
 #include "st_conf.h"

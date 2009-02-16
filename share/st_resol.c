@@ -22,6 +22,7 @@
 #include "part.h"
 #include "audio.h"
 #include "config.h"
+#include "video.h"
 
 #include "st_resol.h"
 

@@ -151,6 +151,7 @@ BALL_OBJS := \
 	share/gui.o         \
 	share/base_config.o \
 	share/config.o      \
+	share/video.o       \
 	share/binary.o      \
 	share/state.o       \
 	share/audio.o       \
@@ -207,6 +208,7 @@ PUTT_OBJS := \
 	share/back.o        \
 	share/base_config.o \
 	share/config.o      \
+	share/video.o       \
 	share/binary.o      \
 	share/audio.o       \
 	share/state.o       \

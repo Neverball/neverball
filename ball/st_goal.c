@@ -19,6 +19,7 @@
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
+#include "video.h"
 #include "demo.h"
 
 #include "game_common.h"

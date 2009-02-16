@@ -26,6 +26,7 @@
 #include "image.h"
 #include "state.h"
 #include "config.h"
+#include "video.h"
 #include "course.h"
 #include "hole.h"
 #include "game.h"

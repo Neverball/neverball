@@ -14,6 +14,7 @@
 
 #include "gui.h"
 #include "config.h"
+#include "video.h"
 #include "progress.h"
 #include "level.h"
 #include "audio.h"

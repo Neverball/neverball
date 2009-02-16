@@ -15,6 +15,7 @@
 #include "glext.h"
 #include "state.h"
 #include "config.h"
+#include "video.h"
 
 /*---------------------------------------------------------------------------*/
 

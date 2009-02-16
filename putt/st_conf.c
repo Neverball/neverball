@@ -21,6 +21,7 @@
 #include "game.h"
 #include "audio.h"
 #include "config.h"
+#include "video.h"
 
 #include "st_conf.h"
 #include "st_all.h"

@@ -19,6 +19,7 @@
 #include "util.h"
 #include "audio.h"
 #include "config.h"
+#include "video.h"
 #include "text.h"
 #include "back.h"
 

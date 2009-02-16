@@ -17,6 +17,7 @@
 #include <stdio.h>
 
 #include "config.h"
+#include "video.h"
 #include "glext.h"
 #include "image.h"
 #include "vec3.h"

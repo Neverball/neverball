@@ -21,6 +21,7 @@
 
 #include "glext.h"
 #include "config.h"
+#include "video.h"
 #include "image.h"
 #include "audio.h"
 #include "demo.h"

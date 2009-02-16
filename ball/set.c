@@ -19,6 +19,7 @@
 
 #include "glext.h"
 #include "config.h"
+#include "video.h"
 #include "image.h"
 #include "text.h"
 #include "set.h"

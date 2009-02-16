@@ -28,6 +28,7 @@
 #include "solid_gl.h"
 #include "solid_phys.h"
 #include "config.h"
+#include "video.h"
 
 /*---------------------------------------------------------------------------*/
 
