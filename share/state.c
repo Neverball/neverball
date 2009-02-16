@@ -62,16 +62,16 @@ void st_paint(float t)
         if (stereo)
         {
             glDrawBuffer(GL_BACK_LEFT);
-            config_clear();
+            video_clear();
             state->paint(state->gui_id, t);
 
             glDrawBuffer(GL_BACK_RIGHT);
-            config_clear();
+            video_clear();
             state->paint(state->gui_id, t);
         }
         else
         {
-            config_clear();
+            video_clear();
             state->paint(state->gui_id, t);
         }
     }

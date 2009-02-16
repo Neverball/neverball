@@ -38,7 +38,7 @@ int check_extension(const char *needle)
     return 0;
 }
 
-int config_mode(int f, int w, int h)
+int video_mode(int f, int w, int h)
 {
     int stereo  = config_get_d(CONFIG_STEREO)      ? 1 : 0;
     int stencil = config_get_d(CONFIG_REFLECTION)  ? 1 : 0;
@@ -104,7 +104,7 @@ int config_mode(int f, int w, int h)
     else if (stereo)
     {
         config_set_d(CONFIG_STEREO, 0);
-        return config_mode(f, w, h);
+        return video_mode(f, w, h);
     }
 
     /* If the mode failed, try decreasing the level of multisampling. */
@@ -112,7 +112,7 @@ int config_mode(int f, int w, int h)
     else if (buffers)
     {
         config_set_d(CONFIG_MULTISAMPLE, samples / 2);
-        return config_mode(f, w, h);
+        return video_mode(f, w, h);
     }
 
     /* If that mode failed, try it without reflections. */
@@ -120,7 +120,7 @@ int config_mode(int f, int w, int h)
     else if (stencil)
     {
         config_set_d(CONFIG_REFLECTION, 0);
-        return config_mode(f, w, h);
+        return video_mode(f, w, h);
     }
 
     /* If THAT mode failed, punt. */
@@ -136,12 +136,12 @@ static int   last   = 0;
 static int   ticks  = 0;
 static int   frames = 0;
 
-int  config_perf(void)
+int  video_perf(void)
 {
     return fps;
 }
 
-void config_swap(void)
+void video_swap(void)
 {
     int dt;
 
@@ -186,7 +186,7 @@ void config_swap(void)
 
 static int grabbed = 0;
 
-void config_set_grab(int w)
+void video_set_grab(int w)
 {
     if (w)
     {
@@ -204,21 +204,21 @@ void config_set_grab(int w)
     grabbed = 1;
 }
 
-void config_clr_grab(void)
+void video_clr_grab(void)
 {
     SDL_WM_GrabInput(SDL_GRAB_OFF);
     SDL_ShowCursor(SDL_ENABLE);
     grabbed = 0;
 }
 
-int  config_get_grab(void)
+int  video_get_grab(void)
 {
     return grabbed;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void config_push_persp(float fov, float n, float f)
+void video_push_persp(float fov, float n, float f)
 {
     GLdouble m[4][4];
 
@@ -256,7 +256,7 @@ void config_push_persp(float fov, float n, float f)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void config_push_ortho(void)
+void video_push_ortho(void)
 {
     GLdouble w = (GLdouble) config_get_d(CONFIG_WIDTH);
     GLdouble h = (GLdouble) config_get_d(CONFIG_HEIGHT);
@@ -270,7 +270,7 @@ void config_push_ortho(void)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void config_pop_matrix(void)
+void video_pop_matrix(void)
 {
     glMatrixMode(GL_PROJECTION);
     {
@@ -279,7 +279,7 @@ void config_pop_matrix(void)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void config_clear(void)
+void video_clear(void)
 {
     if (config_get_d(CONFIG_REFLECTION))
         glClear(GL_COLOR_BUFFER_BIT |

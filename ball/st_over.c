@@ -44,7 +44,7 @@ static int over_enter(void)
     audio_music_fade_out(2.0f);
     audio_play(AUD_OVER, 1.f);
 
-    config_clr_grab();
+    video_clr_grab();
 
     return id;
 }

@@ -1265,7 +1265,7 @@ void gui_paint(int id)
 {
     if (id)
     {
-        config_push_ortho();
+        video_push_ortho();
         {
             glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
@@ -1283,7 +1283,7 @@ void gui_paint(int id)
             glEnable(GL_LIGHTING);
             glDisable(GL_COLOR_MATERIAL);
         }
-        config_pop_matrix();
+        video_pop_matrix();
     }
 }
 

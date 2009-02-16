@@ -27,6 +27,7 @@
 #include "audio.h"
 #include "solid_gl.h"
 #include "config.h"
+#include "video.h"
 
 #include "game_client.h"
 #include "game_common.h"
@@ -883,7 +884,7 @@ void game_draw(int pose, float t)
 
     if (client_state)
     {
-        config_push_persp(fov, 0.1f, FAR_DIST);
+        video_push_persp(fov, 0.1f, FAR_DIST);
         glPushMatrix();
         {
             float T[16], U[16], M[16], v[3];
@@ -950,7 +951,7 @@ void game_draw(int pose, float t)
             game_draw_fore(pose, T, +1, t);
         }
         glPopMatrix();
-        config_pop_matrix();
+        video_pop_matrix();
 
         /* Draw the fade overlay. */
 

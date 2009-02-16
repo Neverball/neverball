@@ -454,7 +454,7 @@ void level_snap(int i)
 
         /* Render the level and grab the screen. */
 
-        config_clear();
+        video_clear();
         game_set_fly(1.f, game_client_file());
         game_kill_fade();
         game_client_step(NULL);

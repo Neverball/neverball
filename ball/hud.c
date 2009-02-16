@@ -44,7 +44,7 @@ static float view_timer;
 
 static void hud_fps(void)
 {
-    gui_set_count(fps_id, config_perf());
+    gui_set_count(fps_id, video_perf());
 }
 
 void hud_init(void)

@@ -867,7 +867,7 @@ static int stroke_enter(void)
     hud_init();
     game_clr_mag();
     config_set_d(CONFIG_CAMERA, 2);
-    config_set_grab(!paused);
+    video_set_grab(!paused);
 
     if (paused)
         paused = 0;
@@ -878,7 +878,7 @@ static int stroke_enter(void)
 static void stroke_leave(int id)
 {
     hud_free();
-    config_clr_grab();
+    video_clr_grab();
     config_set_d(CONFIG_CAMERA, 0);
 }
 

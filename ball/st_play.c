@@ -47,7 +47,7 @@ static int pause_or_exit(void)
         progress_stat(GAME_NONE);
         progress_stop();
 
-        config_clr_grab();
+        video_clr_grab();
 
         return goto_state(&st_over);
     }
@@ -66,7 +66,7 @@ static int play_ready_enter(void)
     }
 
     audio_play(AUD_READY, 1.0f);
-    config_set_grab(1);
+    video_set_grab(1);
 
     return id;
 }

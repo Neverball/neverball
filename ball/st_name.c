@@ -142,11 +142,11 @@ static void name_paint(int id, float t)
 {
     if (draw_back)
     {
-        config_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+        video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
         {
             back_draw(0);
         }
-        config_pop_matrix();
+        video_pop_matrix();
     }
     else
         game_draw(0, t);

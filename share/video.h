@@ -17,22 +17,22 @@
 
 /*---------------------------------------------------------------------------*/
 
-int  config_mode(int, int, int);
+int  video_mode(int, int, int);
 
-int  config_perf(void);
-void config_sync(void);
-void config_swap(void);
+int  video_perf(void);
+void video_sync(void);
+void video_swap(void);
 
-void config_set_grab(int w);
-void config_clr_grab(void);
-int  config_get_grab(void);
+void video_set_grab(int w);
+void video_clr_grab(void);
+int  video_get_grab(void);
 
 /*---------------------------------------------------------------------------*/
 
-void config_push_persp(float, float, float);
-void config_push_ortho(void);
-void config_pop_matrix(void);
-void config_clear(void);
+void video_push_persp(float, float, float);
+void video_push_ortho(void);
+void video_pop_matrix(void);
+void video_clear(void);
 
 /*---------------------------------------------------------------------------*/
 

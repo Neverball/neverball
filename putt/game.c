@@ -294,7 +294,7 @@ void game_draw(int pose, float t)
 
     if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
-    config_push_persp(fov, 0.1f, FAR_DIST);
+    video_push_persp(fov, 0.1f, FAR_DIST);
     glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {
@@ -368,7 +368,7 @@ void game_draw(int pose, float t)
     }
     glPopMatrix();
     glPopAttrib();
-    config_pop_matrix();
+    video_pop_matrix();
 }
 
 /*---------------------------------------------------------------------------*/

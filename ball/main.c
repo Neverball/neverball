@@ -179,7 +179,7 @@ static int loop(void)
 
         case SDL_ACTIVEEVENT:
             if (e.active.state == SDL_APPINPUTFOCUS)
-                if (e.active.gain == 0 && config_get_grab())
+                if (e.active.gain == 0 && video_get_grab())
                     goto_pause();
             break;
 
@@ -412,8 +412,8 @@ int main(int argc, char *argv[])
 
     /* Initialize the video. */
 
-    if (!config_mode(config_get_d(CONFIG_FULLSCREEN),
-                     config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT)))
+    if (!video_mode(config_get_d(CONFIG_FULLSCREEN),
+                    config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT)))
     {
         fprintf(stderr, "%s\n", SDL_GetError());
         return 1;
@@ -472,7 +472,7 @@ int main(int argc, char *argv[])
         /* Render. */
 
         st_paint(0.001f * t0);
-        config_swap();
+        video_swap();
 
         if (uniform < 0)
             shot();

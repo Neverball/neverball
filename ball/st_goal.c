@@ -238,7 +238,7 @@ static int goal_enter(void)
 
     audio_music_fade_out(2.0f);
 
-    config_clr_grab();
+    video_clr_grab();
 
     /* Reset hack. */
     resume = 0;

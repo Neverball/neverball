@@ -59,13 +59,13 @@ static int conf_action(int i)
     {
     case CONF_FULL:
         goto_state(&st_null);
-        r = config_mode(1, w, h);
+        r = video_mode(1, w, h);
         goto_state(&st_conf);
         break;
 
     case CONF_WIN:
         goto_state(&st_null);
-        r = config_mode(0, w, h);
+        r = video_mode(0, w, h);
         goto_state(&st_conf);
         break;
 
@@ -276,11 +276,11 @@ static void conf_leave(int id)
 
 static void conf_paint(int id, float st)
 {
-    config_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
         back_draw(0);
     }
-    config_pop_matrix();
+    video_pop_matrix();
     gui_paint(id);
 }
 
