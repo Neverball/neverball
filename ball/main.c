@@ -30,7 +30,6 @@
 #include "set.h"
 #include "text.h"
 #include "tilt.h"
-#include "syswm.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -398,32 +397,10 @@ int main(int argc, char *argv[])
     audio_init();
     tilt_init();
 
-    /* Require 16-bit double buffer with 16-bit depth buffer. */
-
-    SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
-    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
-    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-    /* This has to happen before mode setting... */
-
-    set_SDL_icon("icon/neverball.png");
-
     /* Initialize the video. */
 
-    if (!video_mode(config_get_d(CONFIG_FULLSCREEN),
-                    config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT)))
-    {
-        fprintf(stderr, "%s\n", SDL_GetError());
+    if (!video_init(TITLE, "icon/neverball.png"))
         return 1;
-    }
-
-    /* ...and this has to happen after it. */
-
-    set_EWMH_icon("icon/neverball.png");
-
-    SDL_WM_SetCaption(TITLE, TITLE);
 
     init_state(&st_null);
 

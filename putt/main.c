@@ -32,7 +32,6 @@
 #include "game.h"
 #include "gui.h"
 #include "text.h"
-#include "syswm.h"
 
 #include "st_conf.h"
 #include "st_all.h"
@@ -227,31 +226,11 @@ int main(int argc, char *argv[])
 
                 audio_init();
 
-                /* Require 16-bit double buffer with 16-bit depth buffer. */
-
-                SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
-                SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
-                SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
-                SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-                SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-                /* This has to happen before mode setting... */
-
-                set_SDL_icon("icon/neverputt.png");
-
                 /* Initialize the video. */
 
-                if (video_mode(config_get_d(CONFIG_FULLSCREEN),
-                               config_get_d(CONFIG_WIDTH),
-                               config_get_d(CONFIG_HEIGHT)))
+                if (video_init(TITLE, "icon/neverputt.png"))
                 {
                     int t1, t0 = SDL_GetTicks();
-
-                    /* ... and this has to happen after it. */
-
-                    set_EWMH_icon("icon/neverputt.png");
-
-                    SDL_WM_SetCaption(TITLE, TITLE);
 
                     /* Run the main game loop. */
 
@@ -271,7 +250,6 @@ int main(int argc, char *argv[])
                                 SDL_Delay(1);
                         }
                 }
-                else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
 
                 /* Restore Neverball's camera setting. */
 
