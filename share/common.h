@@ -23,6 +23,8 @@
 #include <time.h>
 #include <stdio.h>
 
+#define ARRAYSIZE(a) (sizeof (a) / sizeof ((a)[0]))
+
 int   read_line(char **, FILE *);
 char *strip_newline(char *);
 char *strdup(const char *);
