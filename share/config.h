@@ -30,162 +30,83 @@
 
 /*---------------------------------------------------------------------------*/
 
-enum {
-    CONFIG_FULLSCREEN,
-    CONFIG_WIDTH,
-    CONFIG_HEIGHT,
-    CONFIG_STEREO,
-    CONFIG_CAMERA,
-    CONFIG_TEXTURES,
-    CONFIG_GEOMETRY,
-    CONFIG_REFLECTION,
-    CONFIG_MULTISAMPLE,
-    CONFIG_MIPMAP,
-    CONFIG_ANISO,
-    CONFIG_BACKGROUND,
-    CONFIG_SHADOW,
-    CONFIG_AUDIO_BUFF,
-    CONFIG_MOUSE_SENSE,
-    CONFIG_MOUSE_INVERT,
-    CONFIG_VSYNC,
-    CONFIG_MOUSE_CAMERA_1,
-    CONFIG_MOUSE_CAMERA_2,
-    CONFIG_MOUSE_CAMERA_3,
-    CONFIG_MOUSE_CAMERA_TOGGLE,
-    CONFIG_MOUSE_CAMERA_L,
-    CONFIG_MOUSE_CAMERA_R,
-    CONFIG_NICE,
-    CONFIG_FPS,
-    CONFIG_SOUND_VOLUME,
-    CONFIG_MUSIC_VOLUME,
-    CONFIG_JOYSTICK,
-    CONFIG_JOYSTICK_DEVICE,
-    CONFIG_JOYSTICK_AXIS_X,
-    CONFIG_JOYSTICK_AXIS_Y,
-    CONFIG_JOYSTICK_BUTTON_A,
-    CONFIG_JOYSTICK_BUTTON_B,
-    CONFIG_JOYSTICK_BUTTON_R,
-    CONFIG_JOYSTICK_BUTTON_L,
-    CONFIG_JOYSTICK_BUTTON_EXIT,
-    CONFIG_JOYSTICK_CAMERA_1,
-    CONFIG_JOYSTICK_CAMERA_2,
-    CONFIG_JOYSTICK_CAMERA_3,
-    CONFIG_JOYSTICK_DPAD_L,
-    CONFIG_JOYSTICK_DPAD_R,
-    CONFIG_JOYSTICK_DPAD_U,
-    CONFIG_JOYSTICK_DPAD_D,
-    CONFIG_JOYSTICK_CAMERA_TOGGLE,
-    CONFIG_KEY_CAMERA_1,
-    CONFIG_KEY_CAMERA_2,
-    CONFIG_KEY_CAMERA_3,
-    CONFIG_KEY_CAMERA_TOGGLE,
-    CONFIG_KEY_CAMERA_R,
-    CONFIG_KEY_CAMERA_L,
-    CONFIG_VIEW_FOV,
-    CONFIG_VIEW_DP,
-    CONFIG_VIEW_DC,
-    CONFIG_VIEW_DZ,
-    CONFIG_ROTATE_FAST,
-    CONFIG_ROTATE_SLOW,
-    CONFIG_KEY_FORWARD,
-    CONFIG_KEY_BACKWARD,
-    CONFIG_KEY_LEFT,
-    CONFIG_KEY_RIGHT,
-    CONFIG_KEY_PAUSE,
-    CONFIG_KEY_RESTART,
-    CONFIG_KEY_SCORE_NEXT,
-    CONFIG_CHEAT,
-    CONFIG_STATS,
-    CONFIG_UNIFORM,
-    CONFIG_SCREENSHOT,
-    CONFIG_LOCK_GOALS,
+/* Integer options. */
 
-    CONFIG_OPTION_D_COUNT
-};
+extern int CONFIG_FULLSCREEN;
+extern int CONFIG_WIDTH;
+extern int CONFIG_HEIGHT;
+extern int CONFIG_STEREO;
+extern int CONFIG_CAMERA;
+extern int CONFIG_TEXTURES;
+extern int CONFIG_GEOMETRY;
+extern int CONFIG_REFLECTION;
+extern int CONFIG_MULTISAMPLE;
+extern int CONFIG_MIPMAP;
+extern int CONFIG_ANISO;
+extern int CONFIG_BACKGROUND;
+extern int CONFIG_SHADOW;
+extern int CONFIG_AUDIO_BUFF;
+extern int CONFIG_MOUSE_SENSE;
+extern int CONFIG_MOUSE_INVERT;
+extern int CONFIG_VSYNC;
+extern int CONFIG_MOUSE_CAMERA_1;
+extern int CONFIG_MOUSE_CAMERA_2;
+extern int CONFIG_MOUSE_CAMERA_3;
+extern int CONFIG_MOUSE_CAMERA_TOGGLE;
+extern int CONFIG_MOUSE_CAMERA_L;
+extern int CONFIG_MOUSE_CAMERA_R;
+extern int CONFIG_NICE;
+extern int CONFIG_FPS;
+extern int CONFIG_SOUND_VOLUME;
+extern int CONFIG_MUSIC_VOLUME;
+extern int CONFIG_JOYSTICK;
+extern int CONFIG_JOYSTICK_DEVICE;
+extern int CONFIG_JOYSTICK_AXIS_X;
+extern int CONFIG_JOYSTICK_AXIS_Y;
+extern int CONFIG_JOYSTICK_BUTTON_A;
+extern int CONFIG_JOYSTICK_BUTTON_B;
+extern int CONFIG_JOYSTICK_BUTTON_R;
+extern int CONFIG_JOYSTICK_BUTTON_L;
+extern int CONFIG_JOYSTICK_BUTTON_EXIT;
+extern int CONFIG_JOYSTICK_CAMERA_1;
+extern int CONFIG_JOYSTICK_CAMERA_2;
+extern int CONFIG_JOYSTICK_CAMERA_3;
+extern int CONFIG_JOYSTICK_DPAD_L;
+extern int CONFIG_JOYSTICK_DPAD_R;
+extern int CONFIG_JOYSTICK_DPAD_U;
+extern int CONFIG_JOYSTICK_DPAD_D;
+extern int CONFIG_JOYSTICK_CAMERA_TOGGLE;
+extern int CONFIG_KEY_CAMERA_1;
+extern int CONFIG_KEY_CAMERA_2;
+extern int CONFIG_KEY_CAMERA_3;
+extern int CONFIG_KEY_CAMERA_TOGGLE;
+extern int CONFIG_KEY_CAMERA_R;
+extern int CONFIG_KEY_CAMERA_L;
+extern int CONFIG_VIEW_FOV;
+extern int CONFIG_VIEW_DP;
+extern int CONFIG_VIEW_DC;
+extern int CONFIG_VIEW_DZ;
+extern int CONFIG_ROTATE_FAST;
+extern int CONFIG_ROTATE_SLOW;
+extern int CONFIG_KEY_FORWARD;
+extern int CONFIG_KEY_BACKWARD;
+extern int CONFIG_KEY_LEFT;
+extern int CONFIG_KEY_RIGHT;
+extern int CONFIG_KEY_PAUSE;
+extern int CONFIG_KEY_RESTART;
+extern int CONFIG_KEY_SCORE_NEXT;
+extern int CONFIG_CHEAT;
+extern int CONFIG_STATS;
+extern int CONFIG_UNIFORM;
+extern int CONFIG_SCREENSHOT;
+extern int CONFIG_LOCK_GOALS;
 
-enum {
-    CONFIG_PLAYER,
-    CONFIG_BALL,
-    CONFIG_WIIMOTE_ADDR,
-    CONFIG_REPLAY_NAME,
+/* String options. */
 
-    CONFIG_OPTION_S_COUNT
-};
-
-/*---------------------------------------------------------------------------*/
-
-#define DEFAULT_FULLSCREEN           0
-#define DEFAULT_WIDTH                800
-#define DEFAULT_HEIGHT               600
-#define DEFAULT_STEREO               0
-#define DEFAULT_CAMERA               0
-#define DEFAULT_TEXTURES             1
-#define DEFAULT_GEOMETRY             1
-#define DEFAULT_REFLECTION           1
-#define DEFAULT_MULTISAMPLE          0
-#define DEFAULT_MIPMAP               0
-#define DEFAULT_ANISO                0
-#define DEFAULT_BACKGROUND           1
-#define DEFAULT_SHADOW               1
-#define DEFAULT_AUDIO_BUFF           AUDIO_BUFF_HI
-#define DEFAULT_MOUSE_SENSE          300
-#define DEFAULT_MOUSE_INVERT         0
-#define DEFAULT_VSYNC                1
-#define DEFAULT_MOUSE_CAMERA_1       0
-#define DEFAULT_MOUSE_CAMERA_2       0
-#define DEFAULT_MOUSE_CAMERA_3       0
-#define DEFAULT_MOUSE_CAMERA_TOGGLE  0
-#define DEFAULT_MOUSE_CAMERA_L       SDL_BUTTON_LEFT
-#define DEFAULT_MOUSE_CAMERA_R       SDL_BUTTON_RIGHT
-#define DEFAULT_NICE                 0
-#define DEFAULT_FPS                  0
-#define DEFAULT_SOUND_VOLUME         10
-#define DEFAULT_MUSIC_VOLUME         6
-#define DEFAULT_JOYSTICK             0
-#define DEFAULT_JOYSTICK_DEVICE      0
-#define DEFAULT_JOYSTICK_AXIS_X      0
-#define DEFAULT_JOYSTICK_AXIS_Y      1
-#define DEFAULT_JOYSTICK_BUTTON_A    0
-#define DEFAULT_JOYSTICK_BUTTON_B    1
-#define DEFAULT_JOYSTICK_BUTTON_R    2
-#define DEFAULT_JOYSTICK_BUTTON_L    3
-#define DEFAULT_JOYSTICK_BUTTON_EXIT 4
-#define DEFAULT_JOYSTICK_CAMERA_1    5
-#define DEFAULT_JOYSTICK_CAMERA_2    6
-#define DEFAULT_JOYSTICK_CAMERA_3    7
-#define DEFAULT_JOYSTICK_DPAD_L      8
-#define DEFAULT_JOYSTICK_DPAD_R      9
-#define DEFAULT_JOYSTICK_DPAD_U      10
-#define DEFAULT_JOYSTICK_DPAD_D      11
-#define DEFAULT_JOYSTICK_CAMERA_TOGGLE 12
-#define DEFAULT_WIIMOTE_ADDR         ""
-#define DEFAULT_KEY_CAMERA_1         SDLK_F1
-#define DEFAULT_KEY_CAMERA_2         SDLK_F2
-#define DEFAULT_KEY_CAMERA_3         SDLK_F3
-#define DEFAULT_KEY_CAMERA_TOGGLE    SDLK_e
-#define DEFAULT_KEY_CAMERA_R         SDLK_d
-#define DEFAULT_KEY_CAMERA_L         SDLK_s
-#define DEFAULT_VIEW_FOV             50
-#define DEFAULT_VIEW_DP              75
-#define DEFAULT_VIEW_DC              25
-#define DEFAULT_VIEW_DZ              200
-#define DEFAULT_ROTATE_SLOW          100
-#define DEFAULT_ROTATE_FAST          200
-#define DEFAULT_PLAYER               ""
-#define DEFAULT_BALL                 "ball/basic-ball/basic-ball"
-#define DEFAULT_REPLAY_NAME          "%s-%l"
-#define DEFAULT_CHEAT                0
-#define DEFAULT_KEY_FORWARD          SDLK_UP
-#define DEFAULT_KEY_BACKWARD         SDLK_DOWN
-#define DEFAULT_KEY_LEFT             SDLK_LEFT
-#define DEFAULT_KEY_RIGHT            SDLK_RIGHT
-#define DEFAULT_KEY_PAUSE            SDLK_ESCAPE
-#define DEFAULT_KEY_RESTART          SDLK_r
-#define DEFAULT_KEY_SCORE_NEXT       SDLK_TAB
-#define DEFAULT_STATS                0
-#define DEFAULT_UNIFORM              0
-#define DEFAULT_SCREENSHOT           0
-#define DEFAULT_LOCK_GOALS           0
+extern int CONFIG_PLAYER;
+extern int CONFIG_BALL;
+extern int CONFIG_WIIMOTE_ADDR;
+extern int CONFIG_REPLAY_NAME;
 
 /*---------------------------------------------------------------------------*/
 
