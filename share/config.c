@@ -107,7 +107,7 @@ int CONFIG_LOCK_GOALS;
 /* String options. */
 
 int CONFIG_PLAYER;
-int CONFIG_BALL;
+int CONFIG_BALL_FILE;
 int CONFIG_WIIMOTE_ADDR;
 int CONFIG_REPLAY_NAME;
 
@@ -202,7 +202,7 @@ static struct
     char       *cur;
 } option_s[] = {
     { &CONFIG_PLAYER,       "player",       "" },
-    { &CONFIG_BALL,         "ball_file",    "ball/basic-ball/basic-ball" },
+    { &CONFIG_BALL_FILE,    "ball_file",    "ball/basic-ball/basic-ball" },
     { &CONFIG_WIIMOTE_ADDR, "wiimote_addr", "" },
     { &CONFIG_REPLAY_NAME,  "replay_name",  "%s-%l "}
 };
