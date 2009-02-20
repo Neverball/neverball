@@ -22,6 +22,7 @@
 #include <string.h>
 #include <errno.h>
 #include <time.h>
+#include <ctype.h>
 
 #include "common.h"
 
@@ -174,6 +175,28 @@ void file_copy(FILE *fin, FILE *fout)
 
 /*---------------------------------------------------------------------------*/
 
+int path_is_sep(int c)
+{
+#ifdef _WIN32
+    return c == '/' || c == '\\';
+#else
+    return c == '/';
+#endif
+}
+
+int path_is_abs(const char *path)
+{
+    if (path_is_sep(path[0]))
+        return 1;
+
+#ifdef _WIN32
+    if (isalpha(path[0]) && path[1] == ':' && path_is_sep(path[2]))
+        return 1;
+#endif
+
+    return 0;
+}
+
 static char *path_last_sep(const char *path)
 {
     char *sep;
@@ -243,6 +266,28 @@ const char *dir_name(const char *name)
     }
 
     return ".";
+}
+
+/*
+ * Given a path to a file REF and another path REL relative to REF,
+ * construct and return a new path that can be used to refer to REL
+ * directly.
+ */
+char *path_resolve(const char *ref, const char *rel)
+{
+    static char new[MAXSTR * 2];
+
+    if (path_is_abs(rel))
+    {
+        strncpy(new, rel, sizeof (new) - 1);
+        return new;
+    }
+
+    strncpy(new, dir_name(ref), sizeof (new) - 1);
+    strncat(new, "/",           sizeof (new) - strlen(new) - 1);
+    strncat(new, rel,           sizeof (new) - strlen(new) - 1);
+
+    return new;
 }
 
 /*---------------------------------------------------------------------------*/
