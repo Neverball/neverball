@@ -25,6 +25,9 @@
 
 #define ARRAYSIZE(a) (sizeof (a) / sizeof ((a)[0]))
 
+#define MIN(x, y) ((x) < (y) ? (x) : (y))
+#define MAX(x, y) ((x) > (y) ? (x) : (y))
+
 int   read_line(char **, FILE *);
 char *strip_newline(char *);
 char *strdup(const char *);
