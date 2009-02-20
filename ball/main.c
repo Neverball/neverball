@@ -313,6 +313,14 @@ static void parse_args(int argc, char **argv)
             display_info = 1;
             continue;
         }
+
+        /* Assume a single unrecognised argument is a replay name. */
+
+        if (argc == 2)
+        {
+            demo_path = argv[i];
+            break;
+        }
     }
 
     /* Resolve conflicts. */
