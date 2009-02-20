@@ -338,6 +338,8 @@ int main(int argc, char *argv[])
     SDL_Joystick *joy = NULL;
     int t1, t0, uniform;
 
+    config_exec_path = argv[0];
+
     lang_init("neverball", CONFIG_LOCALE);
 
     text_init();

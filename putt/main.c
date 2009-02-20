@@ -193,6 +193,8 @@ int main(int argc, char *argv[])
     int camera = 0;
     SDL_Joystick *joy = NULL;
 
+    config_exec_path = argv[0];
+
     srand((int) time(NULL));
 
     lang_init("neverball", CONFIG_LOCALE);

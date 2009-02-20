@@ -133,6 +133,7 @@ MAPC_OBJS := \
 	share/solid.o       \
 	share/binary.o      \
 	share/base_config.o \
+	share/common.o      \
 	share/mapc.o
 BALL_OBJS := \
 	share/lang.o        \

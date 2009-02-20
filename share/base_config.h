@@ -99,6 +99,8 @@
 const char *config_data(const char *);
 const char *config_user(const char *);
 
+extern const char *config_exec_path;
+
 int  config_data_path(const char *, const char *);
 int  config_user_path(const char *);
 

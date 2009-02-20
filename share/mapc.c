@@ -2440,6 +2440,8 @@ int main(int argc, char *argv[])
     struct s_file f;
     FILE *fin;
 
+    config_exec_path = argv[0];
+
     if (argc > 2)
     {
         if (argc > 3 && strcmp(argv[3], "--debug") == 0)
