@@ -340,7 +340,7 @@ int main(int argc, char *argv[])
 
     config_exec_path = argv[0];
 
-    lang_init("neverball", CONFIG_LOCALE);
+    lang_init("neverball");
 
     text_init();
 

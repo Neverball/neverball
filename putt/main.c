@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
 
     srand((int) time(NULL));
 
-    lang_init("neverball", CONFIG_LOCALE);
+    lang_init("neverball");
 
     if (config_data_path((argc > 1 ? argv[1] : NULL), COURSE_FILE))
     {

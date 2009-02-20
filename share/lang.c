@@ -29,13 +29,13 @@
 
 /*---------------------------------------------------------------------------*/
 
-void lang_init(const char *domain, const char *default_dir)
+void lang_init(const char *domain)
 {
 #if ENABLE_NLS
     char *dir = getenv("NEVERBALL_LOCALE");
 
     if (!dir)
-        dir = path_resolve(config_exec_path, default_dir);
+        dir = path_resolve(config_exec_path, CONFIG_LOCALE);
 
     errno = 0;
 
