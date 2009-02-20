@@ -172,6 +172,31 @@ void file_copy(FILE *fin, FILE *fout)
         fwrite(buff, 1, size, fout);
 }
 
+/*---------------------------------------------------------------------------*/
+
+static char *path_last_sep(const char *path)
+{
+    char *sep;
+
+    sep = strrchr(path, '/');
+
+#ifdef _WIN32
+    if (!sep)
+    {
+        sep = strrchr(path, '\\');
+    }
+    else
+    {
+        char *tmp;
+
+        if ((tmp = strrchr(sep, '\\')))
+            sep = tmp;
+    }
+#endif
+
+    return sep;
+}
+
 char *base_name(const char *name, const char *suffix)
 {
     static char buf[MAXSTR];
@@ -182,19 +207,7 @@ char *base_name(const char *name, const char *suffix)
 
     /* Remove the directory part. */
 
-    base = strrchr(name, '/');
-
-#ifdef _WIN32
-    if (!base)
-        base = strrchr(name, '\\');
-    else
-    {
-        char *tmp;
-
-        if ((tmp = strrchr(base, '\\')))
-            base = tmp;
-    }
-#endif
+    base = path_last_sep(name);
 
     strncpy(buf, base ? base + 1 : name, sizeof (buf));
 
@@ -209,6 +222,27 @@ char *base_name(const char *name, const char *suffix)
     }
 
     return buf;
+}
+
+const char *dir_name(const char *name)
+{
+    static char buff[MAXSTR];
+
+    char *sep;
+
+    strncpy(buff, name, sizeof (buff) - 1);
+
+    if ((sep = path_last_sep(buff)))
+    {
+        if (sep == buff)
+            return "/";
+
+        *sep = '\0';
+
+        return buff;
+    }
+
+    return ".";
 }
 
 /*---------------------------------------------------------------------------*/

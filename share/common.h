@@ -39,6 +39,7 @@ int  file_exists(const char *);
 int  file_rename(const char *, const char *);
 void file_copy(FILE *fin, FILE *fout);
 
-char *base_name(const char *name, const char *suffix);
+char       *base_name(const char *name, const char *suffix);
+const char *dir_name(const char *name);
 
 #endif
