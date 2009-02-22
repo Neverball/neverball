@@ -1,4 +1,19 @@
 -------------------------------------------------------------------------------
+New in 1.5.1
+
+* Prevent thread race that was occasionally crashing the game
+* Rename Unlock Goal scores to Fast Unlock
+* Make mouse buttons configurable (full view control)
+* Add bindings to toggle between chase and manual views
+* Actually load/save joystick dpad config added in r1380
+* Transform default game/locale data paths based on executable name
+* Treat a single unrecognised argument as a replay name
+* turn.map: full rebuild to prevent a bothering camera problem (may
+  break replays)
+* bigcone.map: rebuilt bottom part of the cone
+* German translation update
+
+-------------------------------------------------------------------------------
 New in 1.5.0
 
 * Added dictionary elements to SOL file in order to allow metadata storage.
