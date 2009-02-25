@@ -266,6 +266,14 @@ int set_init()
     {
         while (count < MAXSET && read_line(&name, fin))
         {
+            /* Skip "Misc" set when not in dev mode. */
+
+            if (strcmp(name, SET_MISC) == 0 && !config_cheat())
+            {
+                free(name);
+                continue;
+            }
+
             if (set_load(&set_v[count], name))
                 count++;
 
