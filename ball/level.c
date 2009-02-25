@@ -107,8 +107,15 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
             l->is_bonus = atoi(v) ? 1 : 0;
     }
 
-    if (have_goal && need_mc_easy)
-        l->score.most_coins.coins[2] = l->goal;
+    if (have_goal)
+    {
+        if (need_mc_easy)
+            l->score.most_coins.coins[2] = l->goal;
+
+        l->score.fast_unlock.coins[0] =
+            l->score.fast_unlock.coins[1] =
+            l->score.fast_unlock.coins[2] = l->goal;
+    }
 
     if (have_time)
     {
