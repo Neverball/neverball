@@ -8,9 +8,8 @@ New in 1.5.1
 * Actually load/save joystick dpad config added in r1380
 * Transform default game/locale data paths based on executable name
 * Treat a single unrecognised argument as a replay name
-* turn.map: full rebuild to prevent a bothering camera problem (may
-  break replays)
-* bigcone.map: rebuilt bottom part of the cone
+* turn.map: full rebuild to prevent a bothering camera problem (breaks existing replays)
+* bigcone.map: rebuilt bottom part of the cone (breaks existing replays)
 * German translation update
 
 -------------------------------------------------------------------------------
