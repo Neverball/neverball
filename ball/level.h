@@ -46,7 +46,6 @@ struct level
 };
 
 int  level_load(const char *, struct level *);
-void level_dump(const struct level *);
 
 /*---------------------------------------------------------------------------*/
 

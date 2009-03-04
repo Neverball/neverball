@@ -184,38 +184,6 @@ int level_load(const char *filename, struct level *level)
     return 1;
 }
 
-void level_dump(const struct level *l)
-{
-    printf("filename:        %s\n"
-           "version:         %s\n"
-           "author:          %s\n"
-           "time limit:      %d\n"
-           "goal count:      %d\n"
-           "time hs:         %d %d %d\n"
-           "goal hs:         %d %d %d\n"
-           "coin hs:         %d %d %d\n"
-           "message:         %s\n"
-           "screenshot:      %s\n"
-           "song:            %s\n",
-           l->file,
-           l->version,
-           l->author,
-           l->time,
-           l->goal,
-           l->score.best_times.timer[0],
-           l->score.best_times.timer[1],
-           l->score.best_times.timer[2],
-           l->score.fast_unlock.timer[0],
-           l->score.fast_unlock.timer[1],
-           l->score.fast_unlock.timer[2],
-           l->score.most_coins.coins[0],
-           l->score.most_coins.coins[1],
-           l->score.most_coins.coins[2],
-           l->message,
-           l->shot,
-           l->song);
-}
-
 /*---------------------------------------------------------------------------*/
 
 int  level_exists(int i)
