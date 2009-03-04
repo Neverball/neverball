@@ -204,7 +204,7 @@ static struct
     { &CONFIG_PLAYER,       "player",       "" },
     { &CONFIG_BALL_FILE,    "ball_file",    "ball/basic-ball/basic-ball" },
     { &CONFIG_WIIMOTE_ADDR, "wiimote_addr", "" },
-    { &CONFIG_REPLAY_NAME,  "replay_name",  "%s-%l "}
+    { &CONFIG_REPLAY_NAME,  "replay_name",  "%s-%l" }
 };
 
 static int dirty = 0;
