@@ -186,6 +186,15 @@ int input_get(FILE *fin)
 
 static union cmd cmd;
 
+static void game_cmd_map(const char *name, int ver_x, int ver_y)
+{
+    cmd.type          = CMD_MAP;
+    cmd.map.name      = strdup(name);
+    cmd.map.version.x = ver_x;
+    cmd.map.version.y = ver_y;
+    game_proxy_enq(&cmd);
+}
+
 static void game_cmd_eou(void)
 {
     cmd.type = CMD_END_OF_UPDATE;
@@ -471,6 +480,13 @@ static void view_init(void)
 
 int game_server_init(const char *file_name, int t, int e)
 {
+    struct
+    {
+        int x, y;
+    } version;
+
+    int i;
+
     timer      = (float) t / 100.f;
     timer_down = (t > 0);
     coins      = 0;
@@ -483,6 +499,18 @@ int game_server_init(const char *file_name, int t, int e)
         return (server_state = 0);
 
     server_state = 1;
+
+    version.x = 0;
+    version.y = 0;
+
+    for (i = 0; i < file.dc; i++)
+    {
+        char *k = file.av + file.dv[i].ai;
+        char *v = file.av + file.dv[i].aj;
+
+        if (strcmp(k, "version") == 0)
+            sscanf(v, "%d.%d", &version.x, &version.y);
+    }
 
     input_init();
 
@@ -510,6 +538,7 @@ int game_server_init(const char *file_name, int t, int e)
 
     /* Queue client commands. */
 
+    game_cmd_map(file_name, version.x, version.y);
     game_cmd_ups();
     game_cmd_timer();
 

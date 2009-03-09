@@ -37,6 +37,10 @@
 
 /*---------------------------------------------------------------------------*/
 
+int game_compat_map;                    /* Client/server map compat flag     */
+
+/*---------------------------------------------------------------------------*/
+
 static int client_state = 0;
 
 static struct s_file file;
@@ -72,6 +76,11 @@ static float fade_d = 0.0;              /* Fade in/out direction             */
 static int ups;                         /* Updates per second                */
 static int first_update;                /* First update flag                 */
 static int curr_ball;                   /* Current ball index                */
+
+struct
+{
+    int x, y;
+} version;                              /* Current map version               */
 
 /*---------------------------------------------------------------------------*/
 
@@ -347,6 +356,18 @@ static void game_run_cmd(const union cmd *cmd)
             }
             break;
 
+        case CMD_MAP:
+
+            /*
+             * Note if the loaded map matches the server's
+             * expectations. (No, this doesn't actually load a map,
+             * yet.  Something else somewhere else does.)
+             */
+
+            free(cmd->map.name);
+            game_compat_map = version.x == cmd->map.version.x;
+            break;
+
         case CMD_NONE:
         case CMD_MAX:
             break;
@@ -362,7 +383,7 @@ void game_client_step(FILE *demo_fp)
     {
         /*
          * Note: cmd_put is called first here because game_run_cmd
-         * frees the filename of CMD_SOUND.
+         * frees some command struct members.
          */
 
         if (demo_fp)
@@ -412,6 +433,11 @@ int  game_client_init(const char *file_name)
     fade_k =  1.0f;
     fade_d = -2.0f;
 
+    game_compat_map = 0;
+
+    version.x = 0;
+    version.y = 0;
+
     for (i = 0; i < file.dc; i++)
     {
         char *k = file.av + file.dv[i].ai;
@@ -419,6 +445,9 @@ int  game_client_init(const char *file_name)
 
         if (strcmp(k, "back") == 0) back_name = v;
         if (strcmp(k, "grad") == 0) grad_name = v;
+
+        if (strcmp(k, "version") == 0)
+            sscanf(v, "%d.%d", &version.x, &version.y);
     }
 
     part_reset(GOAL_HEIGHT, JUMP_HEIGHT);
