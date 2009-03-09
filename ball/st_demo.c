@@ -329,10 +329,12 @@ static int demo_buttn(int b, int d)
 static int standalone;
 static int demo_paused;
 static int show_hud;
+static int check_compat;
 
 void demo_play_goto(int s)
 {
-    standalone = s;
+    standalone   = s;
+    check_compat = 1;
 }
 
 static int demo_play_enter(void)
@@ -343,6 +345,12 @@ static int demo_play_enter(void)
     {
         demo_paused = 0;
         audio_music_fade_in(0.5f);
+        return 0;
+    }
+
+    if (check_compat && !game_compat_map)
+    {
+        goto_state(&st_demo_compat);
         return 0;
     }
 
@@ -592,6 +600,51 @@ static int demo_del_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
+static int demo_compat_enter(void)
+{
+    int id;
+
+    check_compat = 0;
+
+    if ((id = gui_vstack(0)))
+    {
+        gui_label(id, _("Warning!"), GUI_MED, GUI_ALL, 0, 0);
+        gui_space(id);
+        gui_multi(id, _("The replay you're about to view was\\"
+                        "recorded with a different (or unknown)\\"
+                        "version of this map. Be prepared to\\"
+                        "encounter visual errors.\\"),
+                  GUI_SML, GUI_ALL, gui_wht, gui_wht);
+
+        gui_layout(id, 0, 0);
+    }
+
+    game_set_fly(0.f, game_client_file());
+    game_client_step(NULL);
+
+    return id;
+}
+
+static void demo_compat_timer(int id, float dt)
+{
+    game_step_fade(dt);
+    gui_timer(id, dt);
+}
+
+static int demo_compat_buttn(int b, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+            return goto_state(&st_demo_play);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+            return goto_state(&st_demo_end);
+    }
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
 struct state st_demo = {
     demo_enter,
     shared_leave,
@@ -645,5 +698,19 @@ struct state st_demo_del = {
     shared_click,
     NULL,
     demo_del_buttn,
+    1, 0
+};
+
+struct state st_demo_compat = {
+    demo_compat_enter,
+    shared_leave,
+    shared_paint,
+    demo_compat_timer,
+    shared_point,
+    shared_stick,
+    shared_angle,
+    shared_click,
+    NULL,
+    demo_compat_buttn,
     1, 0
 };
