@@ -545,6 +545,33 @@ END_FUNC;
 
 /*---------------------------------------------------------------------------*/
 
+#undef BYTES
+#define BYTES STRING_BYTES(cmd->map.name) + INDEX_BYTES * 2
+
+PUT_FUNC(CMD_MAP)
+{
+    put_string(fp, cmd->map.name);
+
+    put_index(fp, &cmd->map.version.x);
+    put_index(fp, &cmd->map.version.y);
+}
+END_FUNC;
+
+GET_FUNC(CMD_MAP)
+{
+    char buff[MAXSTR];
+
+    get_string(fp, buff, sizeof (buff));
+
+    cmd->map.name = strdup(buff);
+
+    get_index(fp, &cmd->map.version.x);
+    get_index(fp, &cmd->map.version.y);
+}
+END_FUNC;
+
+/*---------------------------------------------------------------------------*/
+
 #define PUT_CASE(t) case t: cmd_put_ ## t(fp, cmd); break
 #define GET_CASE(t) case t: cmd_get_ ## t(fp, cmd); break
 
@@ -589,6 +616,7 @@ int cmd_put(FILE *fp, const union cmd *cmd)
         PUT_CASE(CMD_CURRENT_BALL);
         PUT_CASE(CMD_PATH_FLAG);
         PUT_CASE(CMD_STEP_SIMULATION);
+        PUT_CASE(CMD_MAP);
 
     case CMD_NONE:
     case CMD_MAX:
@@ -652,6 +680,7 @@ int cmd_get(FILE *fp, union cmd *cmd)
             GET_CASE(CMD_CURRENT_BALL);
             GET_CASE(CMD_PATH_FLAG);
             GET_CASE(CMD_STEP_SIMULATION);
+            GET_CASE(CMD_MAP);
 
         case CMD_NONE:
         case CMD_MAX:

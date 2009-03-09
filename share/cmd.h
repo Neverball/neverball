@@ -63,6 +63,7 @@ enum cmd_type
     CMD_CURRENT_BALL,
     CMD_PATH_FLAG,
     CMD_STEP_SIMULATION,
+    CMD_MAP,
 
     CMD_MAX
 };
@@ -258,6 +259,16 @@ struct cmd_step_simulation
     float dt;
 };
 
+struct cmd_map
+{
+    HEADER;
+    char *name;
+    struct
+    {
+        int x, y;
+    } version;
+};
+
 union cmd
 {
     HEADER;
@@ -291,6 +302,7 @@ union cmd
     struct cmd_current_ball       currball;
     struct cmd_path_flag          pathflag;
     struct cmd_step_simulation    stepsim;
+    struct cmd_map                map;
 };
 
 /* No module should see this. */
