@@ -5,12 +5,20 @@ New in 1.5.1
 * Rename Unlock Goal scores to Fast Unlock
 * Make mouse buttons configurable (full view control)
 * Add bindings to toggle between chase and manual views
-* Actually load/save joystick dpad config added in r1380
+* Actually load/save joystick dpad config
 * Transform default game/locale data paths based on executable name
 * Treat a single unrecognised argument as a replay name
-* turn.map: full rebuild to prevent a bothering camera problem (breaks existing replays)
-* bigcone.map: rebuilt bottom part of the cone (breaks existing replays)
-* German translation update
+* turn.map: full rebuild to prevent a bothering camera problem
+  (invalidates replays)
+* bigcone.map: rebuilt bottom part of the cone (invalidates replays)
+* German, French translation update
+* Init the default fast unlock coin values with the level's goal value
+* Display warning on map version mismatch when watching replays. (Due
+  to a warn-by-default policy, all 1.5.0 replays will trigger the
+  warning, although only the maps listed here have actually changed in
+  an incompatible way.)
+* ufo.map: Change to reduce stress on the physics engine (invalidates
+  replays)
 
 -------------------------------------------------------------------------------
 New in 1.5.0
