@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2009-02-12 03:50+0200\n"
+"POT-Creation-Date: 2009-03-13 02:14+0200\n"
 "PO-Revision-Date: 2008-10-04 21:54+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -78,19 +78,19 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:58 ball/st_demo.c:180 ball/st_goal.c:185
+#: ball/hud.c:59 ball/st_demo.c:180 ball/st_goal.c:186
 msgid "Coins"
 msgstr "Monētas"
 
-#: ball/hud.c:59
+#: ball/hud.c:60
 msgid "Goal"
 msgstr "Mērķis"
 
-#: ball/hud.c:78 ball/st_goal.c:175
+#: ball/hud.c:79 ball/st_goal.c:176
 msgid "Balls"
 msgstr "Bumbas"
 
-#: ball/hud.c:79 ball/st_goal.c:180 putt/hud.c:45
+#: ball/hud.c:80 ball/st_goal.c:181 putt/hud.c:45
 msgid "Score"
 msgstr "Rezultāts"
 
@@ -106,12 +106,12 @@ msgstr "Slinkais"
 msgid "Manual"
 msgstr "Manuālais"
 
-#: ball/level.c:133
+#: ball/level.c:140
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr "Kļūda, ielādējot līmeņa failu \"%s\": %s\n"
 
-#: ball/level.c:135
+#: ball/level.c:142
 msgid "Not a valid level file"
 msgstr "nederīgs līmeņa fails"
 
@@ -139,24 +139,24 @@ msgstr ""
 msgid "Option '%s' requires an argument.\n"
 msgstr "Opcijai \"%s\" jānorāda arguments.\n"
 
-#: ball/main.c:326
+#: ball/main.c:334
 msgid "Option '--info' requires '--replay'.\n"
 msgstr "Opcijai \"--info\" jānorāda \"--replay\".\n"
 
-#: ball/main.c:349 putt/main.c:286
+#: ball/main.c:359 putt/main.c:267
 msgid "Failure to establish game data directory\n"
 msgstr "Neizdevās noteikt spēles datu mapi\n"
 
-#: ball/main.c:355 putt/main.c:284
+#: ball/main.c:365 putt/main.c:265
 msgid "Failure to establish config directory\n"
 msgstr "Neizdevās noteikt iestatījumu mapi\n"
 
-#: ball/main.c:378
+#: ball/main.c:388
 #, c-format
 msgid "Replay file '%s': %s\n"
 msgstr "Ieraksta fails \"%s\": %s\n"
 
-#: ball/main.c:379
+#: ball/main.c:389
 msgid "Not a replay file"
 msgstr "nav ieraksta fails"
 
@@ -180,91 +180,91 @@ msgstr "Normālais"
 msgid "Unknown Mode"
 msgstr "Nezināms režīms"
 
-#: ball/set.c:181
+#: ball/set.c:182
 #, c-format
 msgid "Error while loading user high-score file '%s': %s\n"
 msgstr "Kļūda, ielādējot lietotāja rekordu failu \"%s\": %s\n"
 
-#: ball/set.c:182
+#: ball/set.c:183
 msgid "Incorrect format"
 msgstr "nepareizs formāts"
 
-#: ball/set.c:197
+#: ball/set.c:198
 #, c-format
 msgid "Cannot load the set file '%s': %s\n"
 msgstr "Nav iespējams ielādēt komplekta failu \"%s\": %s\n"
 
-#: ball/st_conf.c:212 putt/st_conf.c:168
+#: ball/st_conf.c:213 putt/st_conf.c:169
 msgid "Options"
 msgstr "Opcijas"
 
-#: ball/st_conf.c:214 ball/st_help.c:98 ball/st_start.c:177 ball/util.c:532
-#: share/st_resol.c:75 putt/st_all.c:343 putt/st_all.c:491 putt/st_conf.c:170
+#: ball/st_conf.c:215 ball/st_help.c:98 ball/st_start.c:177 ball/util.c:532
+#: share/st_resol.c:76 putt/st_all.c:344 putt/st_all.c:492 putt/st_conf.c:171
 msgid "Back"
 msgstr "Atpakaļ"
 
-#: ball/st_conf.c:222 ball/st_demo.c:569 ball/st_save.c:203 putt/st_conf.c:178
+#: ball/st_conf.c:223 ball/st_demo.c:577 ball/st_save.c:203 putt/st_conf.c:179
 msgid "No"
 msgstr "Nē"
 
-#: ball/st_conf.c:223 ball/st_demo.c:570 ball/st_save.c:204
-#: ball/st_start.c:233 putt/st_conf.c:179
+#: ball/st_conf.c:224 ball/st_demo.c:578 ball/st_save.c:204
+#: ball/st_start.c:233 putt/st_conf.c:180
 msgid "Yes"
 msgstr "Jā"
 
-#: ball/st_conf.c:225 putt/st_conf.c:181
+#: ball/st_conf.c:226 putt/st_conf.c:182
 msgid "Fullscreen"
 msgstr "Pilns ekrāns"
 
-#: ball/st_conf.c:233 share/st_resol.c:73 putt/st_conf.c:189
+#: ball/st_conf.c:234 share/st_resol.c:74 putt/st_conf.c:190
 msgid "Resolution"
 msgstr "Izšķirtspēja"
 
-#: ball/st_conf.c:241 ball/st_conf.c:250 putt/st_conf.c:197 putt/st_conf.c:206
+#: ball/st_conf.c:242 ball/st_conf.c:251 putt/st_conf.c:198 putt/st_conf.c:207
 msgid "Low"
 msgstr "Slikti"
 
-#: ball/st_conf.c:242 ball/st_conf.c:251 putt/st_conf.c:198 putt/st_conf.c:207
+#: ball/st_conf.c:243 ball/st_conf.c:252 putt/st_conf.c:199 putt/st_conf.c:208
 msgid "High"
 msgstr "Labi"
 
-#: ball/st_conf.c:244 putt/st_conf.c:200
+#: ball/st_conf.c:245 putt/st_conf.c:201
 msgid "Textures"
 msgstr "Tekstūras"
 
-#: ball/st_conf.c:253 putt/st_conf.c:209
+#: ball/st_conf.c:254 putt/st_conf.c:210
 msgid "Geometry"
 msgstr "Ģeometrija"
 
-#: ball/st_conf.c:259 ball/st_conf.c:268 ball/st_conf.c:277 putt/st_conf.c:215
+#: ball/st_conf.c:260 ball/st_conf.c:269 ball/st_conf.c:278 putt/st_conf.c:216
 msgid "Off"
 msgstr "Bez"
 
-#: ball/st_conf.c:260 ball/st_conf.c:269 ball/st_conf.c:278 putt/st_conf.c:216
+#: ball/st_conf.c:261 ball/st_conf.c:270 ball/st_conf.c:279 putt/st_conf.c:217
 msgid "On"
 msgstr "Ar"
 
-#: ball/st_conf.c:262
+#: ball/st_conf.c:263
 msgid "Reflection"
 msgstr "Atspulgs"
 
-#: ball/st_conf.c:271
+#: ball/st_conf.c:272
 msgid "Background"
 msgstr "Fons"
 
-#: ball/st_conf.c:280 putt/st_conf.c:218
+#: ball/st_conf.c:281 putt/st_conf.c:219
 msgid "Shadow"
 msgstr "Ēna"
 
-#: ball/st_conf.c:302 putt/st_conf.c:240
+#: ball/st_conf.c:303 putt/st_conf.c:241
 msgid "Sound Volume"
 msgstr "Skaņu skaļums"
 
-#: ball/st_conf.c:322 putt/st_conf.c:260
+#: ball/st_conf.c:323 putt/st_conf.c:261
 msgid "Music Volume"
 msgstr "Mūzikas skaļums"
 
-#: ball/st_conf.c:332 ball/st_name.c:106
+#: ball/st_conf.c:333 ball/st_name.c:107
 msgid "Player Name"
 msgstr "Spēlētāja vārds"
 
@@ -276,11 +276,11 @@ msgstr "Laiks"
 msgid "Status"
 msgstr "Iznākums"
 
-#: ball/st_demo.c:210 ball/st_demo.c:351
+#: ball/st_demo.c:210 ball/st_demo.c:359
 msgid "Replay"
 msgstr "Ieraksts"
 
-#: ball/st_demo.c:211 putt/st_all.c:679
+#: ball/st_demo.c:211 putt/st_all.c:680
 msgid "Player"
 msgstr "Spēlētājs"
 
@@ -296,37 +296,47 @@ msgstr "Izvēlies ierakstu"
 msgid "No Replays"
 msgstr "Nav ierakstu"
 
-#: ball/st_demo.c:474
+#: ball/st_demo.c:482
 msgid "Replay Paused"
 msgstr "Ieraksta pauze"
 
-#: ball/st_demo.c:477
+#: ball/st_demo.c:485
 msgid "Replay Ends"
 msgstr "Ieraksta beigas"
 
-#: ball/st_demo.c:486 ball/st_pause.c:109 putt/st_all.c:591
+#: ball/st_demo.c:494 ball/st_pause.c:110 putt/st_all.c:592
 msgid "Quit"
 msgstr "Iziet"
 
-#: ball/st_demo.c:490
+#: ball/st_demo.c:498
 msgid "Keep"
 msgstr "Paturēt"
 
-#: ball/st_demo.c:491 share/keynames.c:38
+#: ball/st_demo.c:499 share/keynames.c:38
 msgid "Delete"
 msgstr "Izdzēst"
 
-#: ball/st_demo.c:496 ball/st_pause.c:114 putt/st_all.c:592
+#: ball/st_demo.c:504 ball/st_pause.c:115 putt/st_all.c:593
 msgid "Continue"
 msgstr "Turpināt"
 
-#: ball/st_demo.c:500
+#: ball/st_demo.c:508
 msgid "Repeat"
 msgstr "Atkārtot"
 
-#: ball/st_demo.c:565
+#: ball/st_demo.c:573
 msgid "Delete Replay?"
 msgstr "Dzēst ierakstu?"
+
+#: ball/st_demo.c:611
+msgid "Warning!"
+msgstr ""
+
+#: ball/st_demo.c:613
+msgid ""
+"The replay you're about to view was\\recorded with a different (or unknown)"
+"\\version of this map. Be prepared to\\encounter visual errors.\\"
+msgstr ""
 
 #: ball/st_done.c:66
 msgid "New Set Record"
@@ -340,35 +350,35 @@ msgstr "Komplekts pabeigts"
 msgid "Select Level"
 msgstr "Izvēlies līmeni"
 
-#: ball/st_fall_out.c:86
+#: ball/st_fall_out.c:87
 msgid "Fall-out!"
 msgstr "Kritiens!"
 
-#: ball/st_fall_out.c:93 ball/st_time_out.c:84
+#: ball/st_fall_out.c:94 ball/st_time_out.c:85
 msgid "Exit"
 msgstr "Iziet"
 
-#: ball/st_fall_out.c:96 ball/st_goal.c:218 ball/st_time_out.c:87
+#: ball/st_fall_out.c:97 ball/st_goal.c:219 ball/st_time_out.c:88
 msgid "Next Level"
 msgstr "Nākošais līmenis"
 
-#: ball/st_fall_out.c:99 ball/st_goal.c:221 ball/st_time_out.c:90
+#: ball/st_fall_out.c:100 ball/st_goal.c:222 ball/st_time_out.c:91
 msgid "Retry Level"
 msgstr "Mēģināt vēlreiz"
 
-#: ball/st_fall_out.c:102 ball/st_goal.c:224 ball/st_time_out.c:93
+#: ball/st_fall_out.c:103 ball/st_goal.c:225 ball/st_time_out.c:94
 msgid "Save Replay"
 msgstr "Saglabāt ierakstu"
 
-#: ball/st_goal.c:114
+#: ball/st_goal.c:115
 msgid "New Record"
 msgstr "Jauns rekords"
 
-#: ball/st_goal.c:115
+#: ball/st_goal.c:116
 msgid "GOAL"
 msgstr "MĒRĶIS"
 
-#: ball/st_goal.c:165
+#: ball/st_goal.c:166
 #, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
@@ -376,7 +386,7 @@ msgstr[0] "%d jauns bonusa līmenis"
 msgstr[1] "%d jauni bonusa līmeņi"
 msgstr[2] "%d jaunu bonusa līmeņu"
 
-#: ball/st_goal.c:213 ball/st_goal.c:215
+#: ball/st_goal.c:214 ball/st_goal.c:216
 msgid "Finish"
 msgstr "Beigt"
 
@@ -488,35 +498,35 @@ msgstr "Bonusa līmenis %s"
 msgid "Level %s"
 msgstr "Līmenis %s"
 
-#: ball/st_name.c:118
+#: ball/st_name.c:119
 msgid "OK"
 msgstr "Labi"
 
-#: ball/st_name.c:120 ball/st_save.c:127
+#: ball/st_name.c:121 ball/st_save.c:127
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: ball/st_over.c:37
+#: ball/st_over.c:38
 msgid "GAME OVER"
 msgstr "SPĒLE GALĀ"
 
-#: ball/st_pause.c:103 putt/st_all.c:586
+#: ball/st_pause.c:104 putt/st_all.c:587
 msgid "Paused"
 msgstr "Pauze"
 
-#: ball/st_pause.c:112
+#: ball/st_pause.c:113
 msgid "Restart"
 msgstr "Sākt vēlreiz"
 
-#: ball/st_play.c:61
+#: ball/st_play.c:62
 msgid "Ready?"
 msgstr "Uzmanību!"
 
-#: ball/st_play.c:118
+#: ball/st_play.c:119
 msgid "Set?"
 msgstr "Gatavību!"
 
-#: ball/st_play.c:191
+#: ball/st_play.c:192
 msgid "GO!"
 msgstr "AIZIET!"
 
@@ -546,7 +556,7 @@ msgstr "   Nē   "
 msgid "Lock Goals of Completed Levels?"
 msgstr "Vai slēgt pabeigtu līmeņu mērķus?"
 
-#: ball/st_time_out.c:77
+#: ball/st_time_out.c:78
 msgid "Time's Up!"
 msgstr "Laiks cauri!"
 
@@ -554,7 +564,7 @@ msgstr "Laiks cauri!"
 msgid "menu^Cheat"
 msgstr "Krāpties"
 
-#: ball/st_title.c:127 ball/st_title.c:158 putt/st_all.c:213
+#: ball/st_title.c:127 ball/st_title.c:158 putt/st_all.c:214
 msgid "menu^Play"
 msgstr "Spēlēt"
 
@@ -566,11 +576,11 @@ msgstr "Skatīties"
 msgid "menu^Help"
 msgstr "Palīdzība"
 
-#: ball/st_title.c:163 putt/st_all.c:214
+#: ball/st_title.c:163 putt/st_all.c:215
 msgid "menu^Options"
 msgstr "Opcijas"
 
-#: ball/st_title.c:164 putt/st_all.c:215
+#: ball/st_title.c:164 putt/st_all.c:216
 msgid "menu^Exit"
 msgstr "Iziet"
 
@@ -868,64 +878,64 @@ msgstr "Neizdevās iegūt logu pārziņa info: %s\n"
 msgid "Failed to allocate memory for EWMH icon data.\n"
 msgstr "Neizdevās iedalīt atmiņu EWMH ikonas datiem.\n"
 
-#: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:97 putt/st_all.c:141
+#: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:98 putt/st_all.c:142
 msgid "Par"
 msgstr ""
 
-#: putt/hole.c:106 putt/st_all.c:98 putt/st_all.c:142
+#: putt/hole.c:106 putt/st_all.c:99 putt/st_all.c:143
 msgid "P1"
 msgstr "S1"
 
-#: putt/hole.c:107 putt/st_all.c:99 putt/st_all.c:143
+#: putt/hole.c:107 putt/st_all.c:100 putt/st_all.c:144
 msgid "P2"
 msgstr "S2"
 
-#: putt/hole.c:108 putt/st_all.c:100 putt/st_all.c:144
+#: putt/hole.c:108 putt/st_all.c:101 putt/st_all.c:145
 msgid "P3"
 msgstr "S3"
 
-#: putt/hole.c:109 putt/st_all.c:101 putt/st_all.c:145
+#: putt/hole.c:109 putt/st_all.c:102 putt/st_all.c:146
 msgid "P4"
 msgstr "S4"
 
-#: putt/st_all.c:75
+#: putt/st_all.c:76
 msgid "O"
 msgstr ""
 
-#: putt/st_all.c:111
+#: putt/st_all.c:112
 msgid "Tot"
 msgstr ""
 
-#: putt/st_all.c:120
+#: putt/st_all.c:121
 msgid "I"
 msgstr ""
 
-#: putt/st_all.c:302
+#: putt/st_all.c:303
 msgid "Select Course"
 msgstr "Izvēlies apli"
 
-#: putt/st_all.c:468
+#: putt/st_all.c:469
 msgid "Players?"
 msgstr "Spēlētāji?"
 
-#: putt/st_all.c:672
+#: putt/st_all.c:673
 #, c-format
 msgid "Hole %02d"
 msgstr "Bedrīte %02d"
 
-#: putt/st_all.c:997
+#: putt/st_all.c:998
 msgid "It's In!"
 msgstr "Ir!"
 
-#: putt/st_all.c:1139
+#: putt/st_all.c:1140
 msgid "1 Stroke Penalty"
 msgstr "1 sitiena sods"
 
-#: putt/st_all.c:1217
+#: putt/st_all.c:1218
 msgid "Scores"
 msgstr "Rezultāti"
 
-#: putt/st_all.c:1270
+#: putt/st_all.c:1271
 msgid "Final Scores"
 msgstr "Gala rezultāti"
 

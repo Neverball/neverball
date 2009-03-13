@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2009-02-12 03:50+0200\n"
+"POT-Creation-Date: 2009-03-13 02:14+0200\n"
 "PO-Revision-Date: 2008-09-16 15:53+0100\n"
 "Last-Translator: Miguel Diago <mdiagom@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -77,19 +77,19 @@ msgstr "snd/time.ogg"
 msgid "snd/over.ogg"
 msgstr "snd/over.ogg"
 
-#: ball/hud.c:58 ball/st_demo.c:180 ball/st_goal.c:185
+#: ball/hud.c:59 ball/st_demo.c:180 ball/st_goal.c:186
 msgid "Coins"
 msgstr "Monedas"
 
-#: ball/hud.c:59
+#: ball/hud.c:60
 msgid "Goal"
 msgstr "Meta"
 
-#: ball/hud.c:78 ball/st_goal.c:175
+#: ball/hud.c:79 ball/st_goal.c:176
 msgid "Balls"
 msgstr "Bolas"
 
-#: ball/hud.c:79 ball/st_goal.c:180 putt/hud.c:45
+#: ball/hud.c:80 ball/st_goal.c:181 putt/hud.c:45
 msgid "Score"
 msgstr "Puntuación"
 
@@ -105,12 +105,12 @@ msgstr "Perezoso"
 msgid "Manual"
 msgstr "Manual"
 
-#: ball/level.c:133
+#: ball/level.c:140
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr "Error al cargar el archivo de nivel «%s»: %s\n"
 
-#: ball/level.c:135
+#: ball/level.c:142
 msgid "Not a valid level file"
 msgstr "No es un archivo de nivel válido"
 
@@ -139,24 +139,24 @@ msgstr ""
 msgid "Option '%s' requires an argument.\n"
 msgstr "La opción '%s' requiere un parámetro.\n"
 
-#: ball/main.c:326
+#: ball/main.c:334
 msgid "Option '--info' requires '--replay'.\n"
 msgstr "La opción '--info' requiere '--replay'.\n"
 
-#: ball/main.c:349 putt/main.c:286
+#: ball/main.c:359 putt/main.c:267
 msgid "Failure to establish game data directory\n"
 msgstr "No se pudo establecer el directorio de datos del juego\n"
 
-#: ball/main.c:355 putt/main.c:284
+#: ball/main.c:365 putt/main.c:265
 msgid "Failure to establish config directory\n"
 msgstr "No se pudo establecer el directorio de configuración\n"
 
-#: ball/main.c:378
+#: ball/main.c:388
 #, c-format
 msgid "Replay file '%s': %s\n"
 msgstr "Reproducir el archivo «%s»: %s\n"
 
-#: ball/main.c:379
+#: ball/main.c:389
 msgid "Not a replay file"
 msgstr "El archivo no es una grabación"
 
@@ -180,91 +180,91 @@ msgstr "Normal"
 msgid "Unknown Mode"
 msgstr "Modo desconocido"
 
-#: ball/set.c:181
+#: ball/set.c:182
 #, c-format
 msgid "Error while loading user high-score file '%s': %s\n"
 msgstr "Error al cargar el archivo personal de mejores puntuaciones '%s': %s\n"
 
-#: ball/set.c:182
+#: ball/set.c:183
 msgid "Incorrect format"
 msgstr "Formato incorrecto"
 
-#: ball/set.c:197
+#: ball/set.c:198
 #, c-format
 msgid "Cannot load the set file '%s': %s\n"
 msgstr "No se puede cargar el archivo de niveles «%s»: %s\n"
 
-#: ball/st_conf.c:212 putt/st_conf.c:168
+#: ball/st_conf.c:213 putt/st_conf.c:169
 msgid "Options"
 msgstr "Ajustes"
 
-#: ball/st_conf.c:214 ball/st_help.c:98 ball/st_start.c:177 ball/util.c:532
-#: share/st_resol.c:75 putt/st_all.c:343 putt/st_all.c:491 putt/st_conf.c:170
+#: ball/st_conf.c:215 ball/st_help.c:98 ball/st_start.c:177 ball/util.c:532
+#: share/st_resol.c:76 putt/st_all.c:344 putt/st_all.c:492 putt/st_conf.c:171
 msgid "Back"
 msgstr "Atrás"
 
-#: ball/st_conf.c:222 ball/st_demo.c:569 ball/st_save.c:203 putt/st_conf.c:178
+#: ball/st_conf.c:223 ball/st_demo.c:577 ball/st_save.c:203 putt/st_conf.c:179
 msgid "No"
 msgstr "No"
 
-#: ball/st_conf.c:223 ball/st_demo.c:570 ball/st_save.c:204
-#: ball/st_start.c:233 putt/st_conf.c:179
+#: ball/st_conf.c:224 ball/st_demo.c:578 ball/st_save.c:204
+#: ball/st_start.c:233 putt/st_conf.c:180
 msgid "Yes"
 msgstr "Sí"
 
-#: ball/st_conf.c:225 putt/st_conf.c:181
+#: ball/st_conf.c:226 putt/st_conf.c:182
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: ball/st_conf.c:233 share/st_resol.c:73 putt/st_conf.c:189
+#: ball/st_conf.c:234 share/st_resol.c:74 putt/st_conf.c:190
 msgid "Resolution"
 msgstr "Resolución"
 
-#: ball/st_conf.c:241 ball/st_conf.c:250 putt/st_conf.c:197 putt/st_conf.c:206
+#: ball/st_conf.c:242 ball/st_conf.c:251 putt/st_conf.c:198 putt/st_conf.c:207
 msgid "Low"
 msgstr "Bajo"
 
-#: ball/st_conf.c:242 ball/st_conf.c:251 putt/st_conf.c:198 putt/st_conf.c:207
+#: ball/st_conf.c:243 ball/st_conf.c:252 putt/st_conf.c:199 putt/st_conf.c:208
 msgid "High"
 msgstr "Alto"
 
-#: ball/st_conf.c:244 putt/st_conf.c:200
+#: ball/st_conf.c:245 putt/st_conf.c:201
 msgid "Textures"
 msgstr "Texturas"
 
-#: ball/st_conf.c:253 putt/st_conf.c:209
+#: ball/st_conf.c:254 putt/st_conf.c:210
 msgid "Geometry"
 msgstr "Geometría"
 
-#: ball/st_conf.c:259 ball/st_conf.c:268 ball/st_conf.c:277 putt/st_conf.c:215
+#: ball/st_conf.c:260 ball/st_conf.c:269 ball/st_conf.c:278 putt/st_conf.c:216
 msgid "Off"
 msgstr "Off"
 
-#: ball/st_conf.c:260 ball/st_conf.c:269 ball/st_conf.c:278 putt/st_conf.c:216
+#: ball/st_conf.c:261 ball/st_conf.c:270 ball/st_conf.c:279 putt/st_conf.c:217
 msgid "On"
 msgstr "On"
 
-#: ball/st_conf.c:262
+#: ball/st_conf.c:263
 msgid "Reflection"
 msgstr "Reflejos"
 
-#: ball/st_conf.c:271
+#: ball/st_conf.c:272
 msgid "Background"
 msgstr "Fondo"
 
-#: ball/st_conf.c:280 putt/st_conf.c:218
+#: ball/st_conf.c:281 putt/st_conf.c:219
 msgid "Shadow"
 msgstr "Sombras"
 
-#: ball/st_conf.c:302 putt/st_conf.c:240
+#: ball/st_conf.c:303 putt/st_conf.c:241
 msgid "Sound Volume"
 msgstr "Efectos de sonido"
 
-#: ball/st_conf.c:322 putt/st_conf.c:260
+#: ball/st_conf.c:323 putt/st_conf.c:261
 msgid "Music Volume"
 msgstr "Música"
 
-#: ball/st_conf.c:332 ball/st_name.c:106
+#: ball/st_conf.c:333 ball/st_name.c:107
 msgid "Player Name"
 msgstr "Nombre del jugador"
 
@@ -276,11 +276,11 @@ msgstr "Tiempo"
 msgid "Status"
 msgstr "Estado"
 
-#: ball/st_demo.c:210 ball/st_demo.c:351
+#: ball/st_demo.c:210 ball/st_demo.c:359
 msgid "Replay"
 msgstr "Repetición"
 
-#: ball/st_demo.c:211 putt/st_all.c:679
+#: ball/st_demo.c:211 putt/st_all.c:680
 msgid "Player"
 msgstr "Jugador"
 
@@ -296,37 +296,47 @@ msgstr "Elija grabación"
 msgid "No Replays"
 msgstr "No hay grabaciones"
 
-#: ball/st_demo.c:474
+#: ball/st_demo.c:482
 msgid "Replay Paused"
 msgstr "Pausa"
 
-#: ball/st_demo.c:477
+#: ball/st_demo.c:485
 msgid "Replay Ends"
 msgstr "Fin"
 
-#: ball/st_demo.c:486 ball/st_pause.c:109 putt/st_all.c:591
+#: ball/st_demo.c:494 ball/st_pause.c:110 putt/st_all.c:592
 msgid "Quit"
 msgstr "Salir"
 
-#: ball/st_demo.c:490
+#: ball/st_demo.c:498
 msgid "Keep"
 msgstr "Conservar"
 
-#: ball/st_demo.c:491 share/keynames.c:38
+#: ball/st_demo.c:499 share/keynames.c:38
 msgid "Delete"
 msgstr "Borrar"
 
-#: ball/st_demo.c:496 ball/st_pause.c:114 putt/st_all.c:592
+#: ball/st_demo.c:504 ball/st_pause.c:115 putt/st_all.c:593
 msgid "Continue"
 msgstr "Continuar"
 
-#: ball/st_demo.c:500
+#: ball/st_demo.c:508
 msgid "Repeat"
 msgstr "Repetir"
 
-#: ball/st_demo.c:565
+#: ball/st_demo.c:573
 msgid "Delete Replay?"
 msgstr "¿Borrar grabación?"
+
+#: ball/st_demo.c:611
+msgid "Warning!"
+msgstr ""
+
+#: ball/st_demo.c:613
+msgid ""
+"The replay you're about to view was\\recorded with a different (or unknown)"
+"\\version of this map. Be prepared to\\encounter visual errors.\\"
+msgstr ""
 
 #: ball/st_done.c:66
 msgid "New Set Record"
@@ -340,43 +350,43 @@ msgstr "Set completado"
 msgid "Select Level"
 msgstr "Seleccionar nivel"
 
-#: ball/st_fall_out.c:86
+#: ball/st_fall_out.c:87
 msgid "Fall-out!"
 msgstr "¡Caída!"
 
-#: ball/st_fall_out.c:93 ball/st_time_out.c:84
+#: ball/st_fall_out.c:94 ball/st_time_out.c:85
 msgid "Exit"
 msgstr "Salir"
 
-#: ball/st_fall_out.c:96 ball/st_goal.c:218 ball/st_time_out.c:87
+#: ball/st_fall_out.c:97 ball/st_goal.c:219 ball/st_time_out.c:88
 msgid "Next Level"
 msgstr "Siguiente nivel"
 
-#: ball/st_fall_out.c:99 ball/st_goal.c:221 ball/st_time_out.c:90
+#: ball/st_fall_out.c:100 ball/st_goal.c:222 ball/st_time_out.c:91
 msgid "Retry Level"
 msgstr "Reintentar"
 
 # Alarga demasiado el menú horizontal.
-#: ball/st_fall_out.c:102 ball/st_goal.c:224 ball/st_time_out.c:93
+#: ball/st_fall_out.c:103 ball/st_goal.c:225 ball/st_time_out.c:94
 msgid "Save Replay"
 msgstr "Guardar grabación"
 
-#: ball/st_goal.c:114
+#: ball/st_goal.c:115
 msgid "New Record"
 msgstr "Nuevo récord"
 
-#: ball/st_goal.c:115
+#: ball/st_goal.c:116
 msgid "GOAL"
 msgstr "VICTORIA"
 
-#: ball/st_goal.c:165
+#: ball/st_goal.c:166
 #, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
 msgstr[0] "%d nivel especial"
 msgstr[1] "%d niveles especiales"
 
-#: ball/st_goal.c:213 ball/st_goal.c:215
+#: ball/st_goal.c:214 ball/st_goal.c:216
 msgid "Finish"
 msgstr "Terminar"
 
@@ -490,35 +500,35 @@ msgstr "Nivel especial %s"
 msgid "Level %s"
 msgstr "Nivel %s"
 
-#: ball/st_name.c:118
+#: ball/st_name.c:119
 msgid "OK"
 msgstr "OK"
 
-#: ball/st_name.c:120 ball/st_save.c:127
+#: ball/st_name.c:121 ball/st_save.c:127
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ball/st_over.c:37
+#: ball/st_over.c:38
 msgid "GAME OVER"
 msgstr "FIN"
 
-#: ball/st_pause.c:103 putt/st_all.c:586
+#: ball/st_pause.c:104 putt/st_all.c:587
 msgid "Paused"
 msgstr "Pausa"
 
-#: ball/st_pause.c:112
+#: ball/st_pause.c:113
 msgid "Restart"
 msgstr "Reiniciar"
 
-#: ball/st_play.c:61
+#: ball/st_play.c:62
 msgid "Ready?"
 msgstr "¿Preparado?"
 
-#: ball/st_play.c:118
+#: ball/st_play.c:119
 msgid "Set?"
 msgstr "¿Listo?"
 
-#: ball/st_play.c:191
+#: ball/st_play.c:192
 msgid "GO!"
 msgstr "¡YA!"
 
@@ -548,7 +558,7 @@ msgstr "   No   "
 msgid "Lock Goals of Completed Levels?"
 msgstr "¿Cerrar la meta en niveles completados?"
 
-#: ball/st_time_out.c:77
+#: ball/st_time_out.c:78
 msgid "Time's Up!"
 msgstr "¡Tiempo agotado!"
 
@@ -556,7 +566,7 @@ msgstr "¡Tiempo agotado!"
 msgid "menu^Cheat"
 msgstr "Trampa"
 
-#: ball/st_title.c:127 ball/st_title.c:158 putt/st_all.c:213
+#: ball/st_title.c:127 ball/st_title.c:158 putt/st_all.c:214
 msgid "menu^Play"
 msgstr "Jugar"
 
@@ -569,11 +579,11 @@ msgstr "Grabaciones"
 msgid "menu^Help"
 msgstr "Ayuda"
 
-#: ball/st_title.c:163 putt/st_all.c:214
+#: ball/st_title.c:163 putt/st_all.c:215
 msgid "menu^Options"
 msgstr "Ajustes"
 
-#: ball/st_title.c:164 putt/st_all.c:215
+#: ball/st_title.c:164 putt/st_all.c:216
 msgid "menu^Exit"
 msgstr "Salir"
 
@@ -874,65 +884,65 @@ msgstr "Fallo al obtener información del gestor de ventanas: %s\n"
 msgid "Failed to allocate memory for EWMH icon data.\n"
 msgstr "Fallo al reservar memoria para datos EWMH de iconos.\n"
 
-#: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:97 putt/st_all.c:141
+#: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:98 putt/st_all.c:142
 msgid "Par"
 msgstr "Par"
 
-#: putt/hole.c:106 putt/st_all.c:98 putt/st_all.c:142
+#: putt/hole.c:106 putt/st_all.c:99 putt/st_all.c:143
 msgid "P1"
 msgstr "J1"
 
-#: putt/hole.c:107 putt/st_all.c:99 putt/st_all.c:143
+#: putt/hole.c:107 putt/st_all.c:100 putt/st_all.c:144
 msgid "P2"
 msgstr "J2"
 
-#: putt/hole.c:108 putt/st_all.c:100 putt/st_all.c:144
+#: putt/hole.c:108 putt/st_all.c:101 putt/st_all.c:145
 msgid "P3"
 msgstr "J3"
 
-#: putt/hole.c:109 putt/st_all.c:101 putt/st_all.c:145
+#: putt/hole.c:109 putt/st_all.c:102 putt/st_all.c:146
 msgid "P4"
 msgstr "J4"
 
-#: putt/st_all.c:75
+#: putt/st_all.c:76
 msgid "O"
 msgstr "O"
 
-#: putt/st_all.c:111
+#: putt/st_all.c:112
 msgid "Tot"
 msgstr "Tot"
 
-#: putt/st_all.c:120
+#: putt/st_all.c:121
 msgid "I"
 msgstr "I"
 
-#: putt/st_all.c:302
+#: putt/st_all.c:303
 msgid "Select Course"
 msgstr "Selecciona una pista"
 
-#: putt/st_all.c:468
+#: putt/st_all.c:469
 msgid "Players?"
 msgstr "¿Jugadores?"
 
-#: putt/st_all.c:672
+#: putt/st_all.c:673
 #, c-format
 msgid "Hole %02d"
 msgstr "Hoyo %02d"
 
 # ¿Qué se dice en español cuando se mete la bola en el hoyo? :P
-#: putt/st_all.c:997
+#: putt/st_all.c:998
 msgid "It's In!"
 msgstr "¡En el hoyo!"
 
-#: putt/st_all.c:1139
+#: putt/st_all.c:1140
 msgid "1 Stroke Penalty"
 msgstr "Penalización: 1 golpe"
 
-#: putt/st_all.c:1217
+#: putt/st_all.c:1218
 msgid "Scores"
 msgstr "Puntuación"
 
-#: putt/st_all.c:1270
+#: putt/st_all.c:1271
 msgid "Final Scores"
 msgstr "Puntuación final"
 
