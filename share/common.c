@@ -106,7 +106,7 @@ char *strip_newline(char *str)
     return str;
 }
 
-char *strdup(const char *src)
+char *dupe_string(const char *src)
 {
     char *dst = NULL;
 

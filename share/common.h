@@ -30,7 +30,12 @@
 
 int   read_line(char **, FILE *);
 char *strip_newline(char *);
-char *strdup(const char *);
+char *dupe_string(const char *);
+
+#ifdef strdup
+#undef strdup
+#endif
+#define strdup dupe_string
 
 time_t make_time_from_utc(struct tm *);
 const char *date_to_str(time_t);
