@@ -31,9 +31,12 @@ endif
 SSE_CFLAGS := $(shell env CC="$(CC)" sh scripts/get-sse-cflags.sh)
 
 ifeq ($(ENABLE_WII),1)
-    # libwiimote is NOT ANSI compliant (TODO, check if this is necessary.  GCC
-    # is supposed to suppress warnings from system headers.)
-    ALL_CFLAGS := $(SSE_CFLAGS) $(CFLAGS)
+    # -std=c99 because we need isnormal and -fms-extensions because
+    # libwiimote headers makes heavy use of the "unnamed fields" GCC
+    # extension.
+
+    ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions \
+	$(SSE_CFLAGS) $(CFLAGS)
 else
     ALL_CFLAGS := -Wall -ansi -pedantic $(SSE_CFLAGS) $(CFLAGS)
 endif
