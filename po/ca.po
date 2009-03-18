@@ -1,14 +1,14 @@
 # Catalan translation for Neverball.
 # Copyright © 2008 Robert Kooima
 # This file is distributed under the same license as the neverball package.
-# Jordà Polo <jorda@ettin>, 2008.
+# Jordà Polo <jorda@ettin>, 2008, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2009-03-13 02:14+0200\n"
-"PO-Revision-Date: 2008-09-27 19:06+0200\n"
+"PO-Revision-Date: 2009-03-16 18:25+0100\n"
 "Last-Translator: Jordà Polo <jorda@ettin.org>\n"
 "Language-Team: Catalan\n"
 "MIME-Version: 1.0\n"
@@ -332,13 +332,16 @@ msgstr "Voleu esborrar la repetició?"
 
 #: ball/st_demo.c:611
 msgid "Warning!"
-msgstr ""
+msgstr "Avís!"
 
 #: ball/st_demo.c:613
 msgid ""
 "The replay you're about to view was\\recorded with a different (or unknown)"
 "\\version of this map. Be prepared to\\encounter visual errors.\\"
 msgstr ""
+"La repetició que esteu a punt de veure\\s'ha gravat amb una versió diferent"
+"\\(o desconeguda) d'aquest mapa. És\\possible que trobeu problemes a l'hora"
+"\\de visualitzar-la."
 
 #: ball/st_done.c:66
 msgid "New Set Record"
@@ -602,17 +605,16 @@ msgstr "Fàcil"
 
 #: ball/util.c:58 ball/util.c:119 ball/util.c:179 ball/util.c:240
 msgid "Unavailable"
-msgstr ""
+msgstr "No disponible"
 
 #: ball/util.c:130 ball/util.c:302
 msgid "Most Coins"
 msgstr "Més monedes"
 
 #: ball/util.c:251 ball/util.c:308
-#, fuzzy
 #| msgid "Caps Lock"
 msgid "Fast Unlock"
-msgstr "Fixació de majúscules"
+msgstr "Desbloqueig ràpid"
 
 #: ball/util.c:251 ball/util.c:305
 msgid "Best Times"
@@ -973,7 +975,6 @@ msgid "Neverball Hard"
 msgstr "Neverball difícil"
 
 #: data/set-hard.txt
-#, fuzzy
 #| msgid ""
 #| "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 #| "challenge for\\the experienced player. Try to claim\\Best Times, Most "
@@ -1034,7 +1035,7 @@ msgid ""
 "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
 msgstr ""
-"El circuit de 18 forats original de\\Neverputt. Té una corva d'aprenentatge"
+"El circuit de 18 forats original de\\Neverputt. Té una corba d'aprenentatge"
 "\\suau. \\Dificultat: fàcil a mitjana\\Autor: rlk\\"
 
 #: data/courses.txt
