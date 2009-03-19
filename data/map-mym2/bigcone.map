@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
 "levelname" "bigcone"
-"version" "1.3"
+"version" "2.0"
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
 "song" "bgm/track5.ogg"
