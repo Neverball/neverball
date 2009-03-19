@@ -433,7 +433,6 @@ int  game_client_init(const char *file_name)
     fade_k =  1.0f;
     fade_d = -2.0f;
 
-    game_compat_map = 0;
 
     version.x = 0;
     version.y = 0;
@@ -449,6 +448,15 @@ int  game_client_init(const char *file_name)
         if (strcmp(k, "version") == 0)
             sscanf(v, "%d.%d", &version.x, &version.y);
     }
+
+    /*
+     * Work around 1.5.0 replays that trigger bogus replay
+     * compatibility warnings: if the client map's version is 1,
+     * assume the map is compatible with the server.  Post-1.5.0
+     * replays will have CMD_MAP override this.
+     */
+
+    game_compat_map = version.x == 1;
 
     part_reset(GOAL_HEIGHT, JUMP_HEIGHT);
 
