@@ -11,14 +11,13 @@ New in 1.5.1
 * turn.map: full rebuild to prevent a bothering camera problem
   (invalidates replays)
 * bigcone.map: rebuilt bottom part of the cone (invalidates replays)
-* German, French translation update
+* German, French, Catalan translation updates
 * Init the default fast unlock coin values with the level's goal value
-* Display warning on map version mismatch when watching replays. (Due
-  to a warn-by-default policy, all 1.5.0 replays will trigger the
-  warning, although only the maps listed here have actually changed in
-  an incompatible way.)
+* Display warning on map version mismatch when watching replays.
 * ufo.map: Change to reduce stress on the physics engine (invalidates
   replays)
+* Make ENABLE_WII=1 compile again
+* adventure.map: Rearranged several coins (invalidates replays)
 
 -------------------------------------------------------------------------------
 New in 1.5.0
