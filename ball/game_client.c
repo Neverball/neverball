@@ -450,10 +450,10 @@ int  game_client_init(const char *file_name)
     }
 
     /*
-     * Work around 1.5.0 replays that trigger bogus replay
-     * compatibility warnings: if the client map's version is 1,
-     * assume the map is compatible with the server.  Post-1.5.0
-     * replays will have CMD_MAP override this.
+     * If the client map's version is 1, assume the map is compatible
+     * with the server.  This ensures that 1.5.0 replays don't trigger
+     * bogus map compatibility warnings.  (Post-1.5.0 replays will
+     * have CMD_MAP override this.)
      */
 
     game_compat_map = version.x == 1;
