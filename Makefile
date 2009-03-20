@@ -1,7 +1,7 @@
 
 #------------------------------------------------------------------------------
 
-VERSION := $(shell sh scripts/version.sh)
+VERSION := 1.5.1
 ifeq ($(VERSION),unknown)
     $(warning Failed to obtain sane version for this build.)
 endif
