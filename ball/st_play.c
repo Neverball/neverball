@@ -293,12 +293,12 @@ static int play_loop_click(int b, int d)
         if (config_tst_d(CONFIG_MOUSE_CAMERA_2, b))
         {
             config_set_d(CONFIG_CAMERA, 1);
-            hud_view_pulse(0);
+            hud_view_pulse(1);
         }
         if (config_tst_d(CONFIG_MOUSE_CAMERA_3, b))
         {
             config_set_d(CONFIG_CAMERA, 2);
-            hud_view_pulse(0);
+            hud_view_pulse(2);
         }
 
         if (config_tst_d(CONFIG_MOUSE_CAMERA_TOGGLE, b))
