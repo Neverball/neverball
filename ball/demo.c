@@ -23,7 +23,6 @@
 #include "solid.h"
 #include "config.h"
 #include "binary.h"
-#include "text.h"
 #include "common.h"
 #include "level.h"
 
@@ -170,9 +169,7 @@ static void demo_scan_file(const char *filename)
         if (demo_header_read(fp, d))
         {
             strncpy(d->filename, config_user(filename), MAXSTR);
-            strncpy(d->name,
-                    base_name(text_from_locale(d->filename), REPLAY_EXT),
-                    PATHMAX);
+            strncpy(d->name, base_name(d->filename, REPLAY_EXT), PATHMAX);
             d->name[PATHMAX - 1] = '\0';
 
             count++;
@@ -527,7 +524,7 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
     {
         strncpy(demo_replay.filename, name, MAXSTR);
         strncpy(demo_replay.name,
-                base_name(text_from_locale(demo_replay.filename), REPLAY_EXT),
+                base_name(demo_replay.filename, REPLAY_EXT),
                 PATHMAX);
 
         if (level_load(demo_replay.file, &demo_level_replay))

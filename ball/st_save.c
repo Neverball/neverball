@@ -70,7 +70,7 @@ static int save_action(int i)
     switch (i)
     {
     case SAVE_SAVE:
-        n = text_to_locale(filename);
+        n = filename;
 
         if (strlen(n) == 0)
             return 1;
@@ -182,7 +182,7 @@ static int clobber_action(int i)
 
     if (i == SAVE_SAVE)
     {
-        demo_rename(text_to_locale(filename));
+        demo_rename(filename);
         return goto_state(ok_state);
     }
     return goto_state(&st_save);

@@ -21,7 +21,6 @@
 #include "glext.h"
 #include "image.h"
 #include "vec3.h"
-#include "text.h"
 #include "gui.h"
 
 /*---------------------------------------------------------------------------*/

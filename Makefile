@@ -86,7 +86,7 @@ OGL_LIBS := -lGL -lm
 
 ifdef MINGW
     ifneq ($(ENABLE_NLS),0)
-        INTL_LIBS := -lintl -liconv
+        INTL_LIBS := -lintl
     endif
 
     TILT_LIBS :=
@@ -95,7 +95,7 @@ endif
 
 ifdef DARWIN
     ifneq ($(ENABLE_NLS),0)
-        INTL_LIBS := -lintl -liconv
+        INTL_LIBS := -lintl
     endif
 
     TILT_LIBS :=

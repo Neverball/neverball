@@ -20,7 +20,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "text.h"
 #include "config.h"
 #include "audio.h"
 #include "common.h"

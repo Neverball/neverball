@@ -31,7 +31,6 @@
 #include "hole.h"
 #include "game.h"
 #include "gui.h"
-#include "text.h"
 
 #include "st_conf.h"
 #include "st_all.h"

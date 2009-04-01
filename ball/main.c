@@ -28,7 +28,6 @@
 #include "progress.h"
 #include "gui.h"
 #include "set.h"
-#include "text.h"
 #include "tilt.h"
 
 #include "st_conf.h"
@@ -350,8 +349,6 @@ int main(int argc, char *argv[])
 
     lang_init("neverball");
 
-    text_init();
-
     parse_args(argc, argv);
 
     if (!config_data_path(data_path, SET_FILE))
@@ -477,8 +474,6 @@ int main(int argc, char *argv[])
     SDL_Quit();
 
     config_save();
-
-    text_quit();
 
     return 0;
 }

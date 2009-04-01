@@ -21,7 +21,6 @@
 #include "config.h"
 #include "video.h"
 #include "image.h"
-#include "text.h"
 #include "set.h"
 #include "common.h"
 
