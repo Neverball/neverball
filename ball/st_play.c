@@ -34,7 +34,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int view_rotate;
+static float view_rotate;
 
 static int pause_or_exit(void)
 {
@@ -274,6 +274,8 @@ static void play_loop_stick(int id, int a, int k)
         game_set_z(k);
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
         game_set_x(k);
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_U, a))
+        view_rotate = (float) -k / 32768.0f;
 }
 
 static int play_loop_click(int b, int d)

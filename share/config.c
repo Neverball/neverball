@@ -66,6 +66,7 @@ int CONFIG_JOYSTICK;
 int CONFIG_JOYSTICK_DEVICE;
 int CONFIG_JOYSTICK_AXIS_X;
 int CONFIG_JOYSTICK_AXIS_Y;
+int CONFIG_JOYSTICK_AXIS_U;
 int CONFIG_JOYSTICK_BUTTON_A;
 int CONFIG_JOYSTICK_BUTTON_B;
 int CONFIG_JOYSTICK_BUTTON_R;
@@ -154,6 +155,7 @@ static struct
     { &CONFIG_JOYSTICK_DEVICE,        "joystick_device",        0 },
     { &CONFIG_JOYSTICK_AXIS_X,        "joystick_axis_x",        0 },
     { &CONFIG_JOYSTICK_AXIS_Y,        "joystick_axis_y",        1 },
+    { &CONFIG_JOYSTICK_AXIS_U,        "joystick_axis_u",        2 },
     { &CONFIG_JOYSTICK_BUTTON_A,      "joystick_button_a",      0 },
     { &CONFIG_JOYSTICK_BUTTON_B,      "joystick_button_b",      1 },
     { &CONFIG_JOYSTICK_BUTTON_R,      "joystick_button_r",      2 },
