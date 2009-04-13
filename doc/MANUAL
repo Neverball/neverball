@@ -394,6 +394,10 @@ values follow.
 
         Joystick vertical axis number
 
+    joystick_axis_u 2
+
+        Joystick axis number for view rotation control
+
     joystick_button_a 0
 
         Joystick menu select button
