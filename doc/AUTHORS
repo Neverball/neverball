@@ -135,6 +135,10 @@ D: Gentoo ebuild
 N: Lars Stoltenow
 D: mapc speed-ups for debugging large maps
 
+N: Matthias Sweertvaegher
+W: http://mattiesworld.gotdns.org
+D: View rotation using second gamepad stick
+
 N: Tamas Szerb
 D: Debian packaging
 
@@ -166,4 +170,3 @@ D: Windows packaging
 N: Countless others for play testing and bug reports
 W: http://www.happypenguin.org/
 W: http://www.flipcode.com/
-
