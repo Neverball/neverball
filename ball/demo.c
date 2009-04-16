@@ -25,6 +25,7 @@
 #include "binary.h"
 #include "common.h"
 #include "level.h"
+#include "array.h"
 
 #include "game_server.h"
 #include "game_client.h"
@@ -38,9 +39,7 @@
 #define DATELEN 20
 
 static FILE *demo_fp;
-
-static struct demo demos[MAXDEMO]; /* Array of scanned demos  */
-static int         count;          /* Number of scanned demos */
+static Array demos;
 
 /*---------------------------------------------------------------------------*/
 
@@ -157,12 +156,23 @@ static void demo_header_write(FILE *fp, struct demo *d)
 
 /*---------------------------------------------------------------------------*/
 
+static void demo_init(void)
+{
+    if (demos)
+    {
+        array_free(demos);
+        demos = NULL;
+    }
+
+    demos = array_new(sizeof (struct demo));
+}
+
 /* Scan another file (used by demo_scan). */
 
 static void demo_scan_file(const char *filename)
 {
     FILE *fp;
-    struct demo *d = &demos[count];
+    struct demo *d = array_add(demos);
 
     if ((fp = fopen(config_user(filename), FMODE_RB)))
     {
@@ -171,9 +181,9 @@ static void demo_scan_file(const char *filename)
             strncpy(d->filename, config_user(filename), MAXSTR);
             strncpy(d->name, base_name(d->filename, REPLAY_EXT), PATHMAX);
             d->name[PATHMAX - 1] = '\0';
-
-            count++;
         }
+        else array_del(demos);
+
         fclose(fp);
     }
 }
@@ -185,7 +195,7 @@ int demo_scan(void)
     WIN32_FIND_DATA d;
     HANDLE h;
 
-    count = 0;
+    demo_init();
 
     /* Scan the user directory for files. */
 
@@ -193,11 +203,12 @@ int demo_scan(void)
     {
         do
             demo_scan_file(d.cFileName);
-        while (count < MAXDEMO && FindNextFile(h, &d));
+        while (FindNextFile(h, &d));
 
         FindClose(h);
     }
-    return count;
+
+    return array_len(demos);
 }
 
 #else /* _WIN32 */
@@ -208,31 +219,34 @@ int demo_scan(void)
     struct dirent *ent;
     DIR  *dp;
 
-    count = 0;
+    demo_init();
 
     /* Scan the user directory for files. */
 
     if ((dp = opendir(config_user(""))))
     {
-        while (count < MAXDEMO && (ent = readdir(dp)))
+        while ((ent = readdir(dp)))
             demo_scan_file(ent->d_name);
 
         closedir(dp);
     }
-    return count;
+
+    return array_len(demos);
 }
 #endif /* _WIN32 */
 
 const char *demo_pick(void)
 {
-    int n = demo_scan();
+    struct demo *d;
 
-    return (n > 0) ? demos[(rand() >> 4) % n].filename : NULL;
+    demo_scan();
+
+    return (d = array_rnd(demos)) ? d->filename : NULL;
 }
 
 const struct demo *demo_get(int i)
 {
-    return (0 <= i && i < count) ? &demos[i] : NULL;
+    return array_get(demos, i);
 }
 
 /*---------------------------------------------------------------------------*/

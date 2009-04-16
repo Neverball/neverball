@@ -34,8 +34,6 @@ struct demo
 
 /*---------------------------------------------------------------------------*/
 
-#define MAXDEMO 256
-
 int                demo_scan(void);
 const char        *demo_pick(void);
 const struct demo *demo_get(int);

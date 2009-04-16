@@ -168,6 +168,7 @@ BALL_OBJS := \
 	share/list.o        \
 	share/queue.o       \
 	share/cmd.o         \
+	share/array.o       \
 	ball/hud.o          \
 	ball/game_common.o  \
 	ball/game_client.o  \
