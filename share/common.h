@@ -52,4 +52,6 @@ const char *dir_name(const char *name);
 
 char *path_resolve(const char *ref, const char *rel);
 
+int rand_between(int low, int high);
+
 #endif

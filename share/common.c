@@ -291,3 +291,10 @@ char *path_resolve(const char *ref, const char *rel)
 }
 
 /*---------------------------------------------------------------------------*/
+
+int rand_between(int low, int high)
+{
+    return low + rand() / (RAND_MAX / (high - low + 1) + 1);
+}
+
+/*---------------------------------------------------------------------------*/
