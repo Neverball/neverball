@@ -186,6 +186,7 @@ static void demo_scan_file(const char *filename)
 
         fclose(fp);
     }
+    else array_del(demos);
 }
 
 #ifdef _WIN32
@@ -489,7 +490,7 @@ void demo_rename_player(const char *name, const char *player)
 
                 demo_header_write(new_fp, &d);
 
-                /* 
+                /*
                  * Restore the last three fields not written by the above call.
                  */
 
