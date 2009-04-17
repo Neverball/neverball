@@ -214,8 +214,8 @@ static int help_controls(int id)
     }
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, sC, GUI_SML, 0,      gui_wht, gui_wht);
-        gui_label(jd, k6, GUI_SML, 0,      gui_yel, gui_yel);
+        gui_label(jd, sC, GUI_SML, GUI_SE, gui_wht, gui_wht);
+        gui_label(jd, k6, GUI_SML, GUI_SW, gui_yel, gui_yel);
     }
 
     gui_space(id);
