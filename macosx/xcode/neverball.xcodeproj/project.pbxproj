@@ -207,6 +207,9 @@
 		B54EA8A00DAD0B6A0041B11D /* keynames.c in Sources */ = {isa = PBXBuildFile; fileRef = B54EA89E0DAD0B6A0041B11D /* keynames.c */; };
 		B54EA8A10DAD0B6A0041B11D /* keynames.h in Headers */ = {isa = PBXBuildFile; fileRef = B54EA89F0DAD0B6A0041B11D /* keynames.h */; };
 		B54EA8A20DAD0B6A0041B11D /* keynames.c in Sources */ = {isa = PBXBuildFile; fileRef = B54EA89E0DAD0B6A0041B11D /* keynames.c */; };
+		B55624BF0F8A2C1D0090B302 /* video.c in Sources */ = {isa = PBXBuildFile; fileRef = B55624BD0F8A2C1D0090B302 /* video.c */; };
+		B55624C00F8A2C1D0090B302 /* video.h in Headers */ = {isa = PBXBuildFile; fileRef = B55624BE0F8A2C1D0090B302 /* video.h */; };
+		B55624C10F8A2C1D0090B302 /* video.c in Sources */ = {isa = PBXBuildFile; fileRef = B55624BD0F8A2C1D0090B302 /* video.c */; };
 		B56171BB0C96BABD00FE88EE /* lang.c in Sources */ = {isa = PBXBuildFile; fileRef = B549682B0C964ED3004309DA /* lang.c */; };
 		B565045B0D22EB68006F75A4 /* jconfig.h in Headers */ = {isa = PBXBuildFile; fileRef = B56504530D22EB68006F75A4 /* jconfig.h */; };
 		B565045C0D22EB68006F75A4 /* jerror.h in Headers */ = {isa = PBXBuildFile; fileRef = B56504540D22EB68006F75A4 /* jerror.h */; };
@@ -251,6 +254,9 @@
 		B593CBDC0EC4A9DF0088DCCA /* solid_phys.c in Sources */ = {isa = PBXBuildFile; fileRef = B593CBD80EC4A9DF0088DCCA /* solid_phys.c */; };
 		B59445470C9641CB00EC3F09 /* neverball.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD3F0BCA1BF200915326 /* neverball.icns */; };
 		B59445480C9641D000EC3F09 /* neverputt.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD410BCA1BF200915326 /* neverputt.icns */; };
+		B5A2EA140F98DCBF009D255C /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = B5A2EA120F98DCBF009D255C /* array.c */; };
+		B5A2EA150F98DCBF009D255C /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = B5A2EA120F98DCBF009D255C /* array.c */; };
+		B5A2EA160F98DCBF009D255C /* array.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A2EA130F98DCBF009D255C /* array.h */; };
 		B5C1631E0ED9CA1000A884A9 /* game_client.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163160ED9CA1000A884A9 /* game_client.c */; };
 		B5C1631F0ED9CA1000A884A9 /* game_client.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C163170ED9CA1000A884A9 /* game_client.h */; };
 		B5C163200ED9CA1000A884A9 /* game_common.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163180ED9CA1000A884A9 /* game_common.c */; };
@@ -498,6 +504,8 @@
 		B549682B0C964ED3004309DA /* lang.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lang.c; sourceTree = "<group>"; };
 		B54EA89E0DAD0B6A0041B11D /* keynames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = keynames.c; sourceTree = "<group>"; };
 		B54EA89F0DAD0B6A0041B11D /* keynames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keynames.h; sourceTree = "<group>"; };
+		B55624BD0F8A2C1D0090B302 /* video.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = video.c; path = ../../share/video.c; sourceTree = SOURCE_ROOT; };
+		B55624BE0F8A2C1D0090B302 /* video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = video.h; path = ../../share/video.h; sourceTree = SOURCE_ROOT; };
 		B56504530D22EB68006F75A4 /* jconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jconfig.h; sourceTree = "<group>"; };
 		B56504540D22EB68006F75A4 /* jerror.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jerror.h; sourceTree = "<group>"; };
 		B56504550D22EB68006F75A4 /* jmorecfg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jmorecfg.h; sourceTree = "<group>"; };
@@ -1538,6 +1546,8 @@
 		B57D63D00CAE8138005DE710 /* st_fall_out.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_fall_out.c; sourceTree = "<group>"; };
 		B593CBD80EC4A9DF0088DCCA /* solid_phys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = solid_phys.c; sourceTree = "<group>"; };
 		B593CBD90EC4A9DF0088DCCA /* solid_phys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = solid_phys.h; sourceTree = "<group>"; };
+		B5A2EA120F98DCBF009D255C /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = array.c; path = ../../share/array.c; sourceTree = SOURCE_ROOT; };
+		B5A2EA130F98DCBF009D255C /* array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = array.h; path = ../../share/array.h; sourceTree = SOURCE_ROOT; };
 		B5C163160ED9CA1000A884A9 /* game_client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_client.c; path = ../../ball/game_client.c; sourceTree = SOURCE_ROOT; };
 		B5C163170ED9CA1000A884A9 /* game_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_client.h; path = ../../ball/game_client.h; sourceTree = SOURCE_ROOT; };
 		B5C163180ED9CA1000A884A9 /* game_common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_common.c; path = ../../ball/game_common.c; sourceTree = SOURCE_ROOT; };
@@ -1645,6 +1655,10 @@
 		29B97314FDCFA39411CA2CEA /* neverball */ = {
 			isa = PBXGroup;
 			children = (
+				B5A2EA120F98DCBF009D255C /* array.c */,
+				B5A2EA130F98DCBF009D255C /* array.h */,
+				B55624BD0F8A2C1D0090B302 /* video.c */,
+				B55624BE0F8A2C1D0090B302 /* video.h */,
 				B5C163260ED9CA3800A884A9 /* cmd.c */,
 				B5C163270ED9CA3800A884A9 /* cmd.h */,
 				B5C163280ED9CA3800A884A9 /* list.c */,
@@ -3419,6 +3433,8 @@
 				B5C1632D0ED9CA3800A884A9 /* cmd.h in Headers */,
 				B5C1632F0ED9CA3800A884A9 /* list.h in Headers */,
 				B5C163310ED9CA3800A884A9 /* queue.h in Headers */,
+				B55624C00F8A2C1D0090B302 /* video.h in Headers */,
+				B5A2EA160F98DCBF009D255C /* array.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3665,6 +3681,8 @@
 				B5C163320ED9CA3800A884A9 /* cmd.c in Sources */,
 				B5C163330ED9CA3800A884A9 /* list.c in Sources */,
 				B5C163340ED9CA3800A884A9 /* queue.c in Sources */,
+				B55624C10F8A2C1D0090B302 /* video.c in Sources */,
+				B5A2EA140F98DCBF009D255C /* array.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3743,6 +3761,8 @@
 				B5C1632C0ED9CA3800A884A9 /* cmd.c in Sources */,
 				B5C1632E0ED9CA3800A884A9 /* list.c in Sources */,
 				B5C163300ED9CA3800A884A9 /* queue.c in Sources */,
+				B55624BF0F8A2C1D0090B302 /* video.c in Sources */,
+				B5A2EA150F98DCBF009D255C /* array.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3963,7 +3983,7 @@
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
 					"-g",
 				);
-				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.1\\\"";
 				OTHER_LDFLAGS = "-lz";
 				PREBINDING = NO;
 				PRODUCT_NAME = Neverputt;
@@ -4098,7 +4118,7 @@
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
 					"-g",
 				);
-				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.1\\\"";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CPLUSPLUSFLAGS)";
 				OTHER_LDFLAGS = "-lz";
 				PREBINDING = NO;
