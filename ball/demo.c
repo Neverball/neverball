@@ -172,10 +172,12 @@ static void demo_init(void)
 static void demo_scan_file(const char *filename)
 {
     FILE *fp;
-    struct demo *d = array_add(demos);
+    struct demo *d;
 
     if ((fp = fopen(config_user(filename), FMODE_RB)))
     {
+        d = array_add(demos);
+
         if (demo_header_read(fp, d))
         {
             strncpy(d->filename, config_user(filename), MAXSTR);
@@ -186,7 +188,6 @@ static void demo_scan_file(const char *filename)
 
         fclose(fp);
     }
-    else array_del(demos);
 }
 
 #ifdef _WIN32
