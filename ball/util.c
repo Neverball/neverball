@@ -417,7 +417,7 @@ void gui_keyboard(int id)
                 keyd['5'] = gui_state(ld, "5", GUI_SML, '5', 0);
                 keyd['4'] = gui_state(ld, "4", GUI_SML, '4', 0);
                 keyd['3'] = gui_state(ld, "3", GUI_SML, '3', 0);
-                keyd['3'] = gui_state(ld, "2", GUI_SML, '2', 0);
+                keyd['2'] = gui_state(ld, "2", GUI_SML, '2', 0);
                 keyd['1'] = gui_state(ld, "1", GUI_SML, '1', 0);
                 keyd['0'] = gui_state(ld, "0", GUI_SML, '0', 0);
                 gui_filler(ld);
