@@ -23,6 +23,7 @@
 #include <errno.h>
 #include <time.h>
 #include <ctype.h>
+#include <stdarg.h>
 
 #include "common.h"
 
@@ -114,6 +115,40 @@ char *dupe_string(const char *src)
         strcpy(dst, src);
 
     return dst;
+}
+
+char *concat_string(const char *first, ...)
+{
+    char *full;
+
+    if ((full = strdup(first)))
+    {
+        const char *part;
+        va_list ap;
+
+        va_start(ap, first);
+
+        while ((part = va_arg(ap, const char *)))
+        {
+            char *new;
+
+            if ((new = realloc(full, strlen(full) + strlen(part) + 1)))
+            {
+                full = new;
+                strcat(full, part);
+            }
+            else
+            {
+                free(full);
+                full = NULL;
+                break;
+            }
+        }
+
+        va_end(ap);
+    }
+
+    return full;
 }
 
 time_t make_time_from_utc(struct tm *tm)

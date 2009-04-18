@@ -23,6 +23,12 @@
 #include <time.h>
 #include <stdio.h>
 
+#ifdef __GNUC__
+#define NULL_TERMINATED __attribute__ ((__sentinel__))
+#else
+#define NULL_TERMINATED
+#endif
+
 #define ARRAYSIZE(a) (sizeof (a) / sizeof ((a)[0]))
 
 #define MIN(x, y) ((x) < (y) ? (x) : (y))
@@ -30,7 +36,9 @@
 
 int   read_line(char **, FILE *);
 char *strip_newline(char *);
+
 char *dupe_string(const char *);
+char *concat_string(const char *first, ...) NULL_TERMINATED;
 
 #ifdef strdup
 #undef strdup
