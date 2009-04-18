@@ -224,7 +224,9 @@ static void gui_demo_update_status(int i)
 {
     const struct demo *d;
 
-    if ((d = demo_get(i)) == NULL && (d = demo_get(0)) == NULL)
+    if (total > 0)
+        d = demo_get(i < total ? i : 0);
+    else
         return;
 
     gui_set_label(name_id,   d->name);
