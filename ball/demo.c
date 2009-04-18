@@ -26,6 +26,7 @@
 #include "common.h"
 #include "level.h"
 #include "array.h"
+#include "dir.h"
 
 #include "game_server.h"
 #include "game_client.h"
@@ -39,7 +40,7 @@
 #define DATELEN 20
 
 static FILE *demo_fp;
-static Array demos;
+static Array items;
 
 /*---------------------------------------------------------------------------*/
 
@@ -156,99 +157,75 @@ static void demo_header_write(FILE *fp, struct demo *d)
 
 /*---------------------------------------------------------------------------*/
 
-static void demo_init(void)
+static void free_items(void)
 {
-    if (demos)
+    if (items)
     {
-        array_free(demos);
-        demos = NULL;
-    }
+        struct dir_item *item;
+        int i;
 
-    demos = array_new(sizeof (struct demo));
+        for (i = 0; i < array_len(items); i++)
+        {
+            item = array_get(items, i);
+
+            free(item->data);
+            item->data = NULL;
+        }
+
+        dir_free(items);
+        items = NULL;
+    }
 }
 
-/* Scan another file (used by demo_scan). */
-
-static void demo_scan_file(const char *filename)
+static int scan_item(struct dir_item *item)
 {
     FILE *fp;
     struct demo *d;
+    int keep = 0;
 
-    if ((fp = fopen(config_user(filename), FMODE_RB)))
+    if ((fp = fopen(item->path, FMODE_RB)))
     {
-        d = array_add(demos);
+        d = malloc(sizeof (struct demo));
 
         if (demo_header_read(fp, d))
         {
-            strncpy(d->filename, config_user(filename), MAXSTR);
+            strncpy(d->filename, item->path, MAXSTR);
             strncpy(d->name, base_name(d->filename, REPLAY_EXT), PATHMAX);
             d->name[PATHMAX - 1] = '\0';
+
+            item->data = d;
+            keep = 1;
         }
-        else array_del(demos);
+        else free(d);
 
         fclose(fp);
     }
-}
 
-#ifdef _WIN32
+    return keep;
+}
 
 int demo_scan(void)
 {
-    WIN32_FIND_DATA d;
-    HANDLE h;
+    free_items();
 
-    demo_init();
+    items = dir_scan(config_user(""), scan_item);
 
-    /* Scan the user directory for files. */
-
-    if ((h = FindFirstFile(config_user("*"), &d)) != INVALID_HANDLE_VALUE)
-    {
-        do
-            demo_scan_file(d.cFileName);
-        while (FindNextFile(h, &d));
-
-        FindClose(h);
-    }
-
-    return array_len(demos);
+    return array_len(items);
 }
-
-#else /* _WIN32 */
-#include <dirent.h>
-
-int demo_scan(void)
-{
-    struct dirent *ent;
-    DIR  *dp;
-
-    demo_init();
-
-    /* Scan the user directory for files. */
-
-    if ((dp = opendir(config_user(""))))
-    {
-        while ((ent = readdir(dp)))
-            demo_scan_file(ent->d_name);
-
-        closedir(dp);
-    }
-
-    return array_len(demos);
-}
-#endif /* _WIN32 */
 
 const char *demo_pick(void)
 {
+    struct dir_item *item;
     struct demo *d;
 
     demo_scan();
 
-    return (d = array_rnd(demos)) ? d->filename : NULL;
+    return (item = array_rnd(items)) && (d = item->data) ? d->filename : NULL;
 }
 
 const struct demo *demo_get(int i)
 {
-    return array_get(demos, i);
+    return DIR_ITEM_GET(items, i)->data;
 }
 
 /*---------------------------------------------------------------------------*/
