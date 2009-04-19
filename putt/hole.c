@@ -301,7 +301,7 @@ void hole_stop(void)
     /* Cap scores at 12 or par plus 3. */
 
     if (score_v[hole][player] >= 12 &&
-	    score_v[hole][player] >= score_v[hole][0] + 3)
+        score_v[hole][player] >= score_v[hole][0] + 3)
     {
         score_v[hole][player] = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
         stat_v[player] = 1;
@@ -321,7 +321,7 @@ void hole_fall(void)
     /* Cap scores at 12 or par plus 3. */
 
     if (score_v[hole][player] >= 12 &&
-	    score_v[hole][player] >= score_v[hole][0] + 3)
+        score_v[hole][player] >= score_v[hole][0] + 3)
     {
         score_v[hole][player] = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
         stat_v[player] = 1;
