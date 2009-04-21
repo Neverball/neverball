@@ -256,9 +256,6 @@
 		B593CBDC0EC4A9DF0088DCCA /* solid_phys.c in Sources */ = {isa = PBXBuildFile; fileRef = B593CBD80EC4A9DF0088DCCA /* solid_phys.c */; };
 		B59445470C9641CB00EC3F09 /* neverball.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD3F0BCA1BF200915326 /* neverball.icns */; };
 		B59445480C9641D000EC3F09 /* neverputt.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD410BCA1BF200915326 /* neverputt.icns */; };
-		B5A2EA140F98DCBF009D255C /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = B5A2EA120F98DCBF009D255C /* array.c */; };
-		B5A2EA150F98DCBF009D255C /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = B5A2EA120F98DCBF009D255C /* array.c */; };
-		B5A2EA160F98DCBF009D255C /* array.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A2EA130F98DCBF009D255C /* array.h */; };
 		B5C1631E0ED9CA1000A884A9 /* game_client.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163160ED9CA1000A884A9 /* game_client.c */; };
 		B5C1631F0ED9CA1000A884A9 /* game_client.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C163170ED9CA1000A884A9 /* game_client.h */; };
 		B5C163200ED9CA1000A884A9 /* game_common.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163180ED9CA1000A884A9 /* game_common.c */; };
@@ -286,6 +283,12 @@
 		B5C8640B0D3552220024E95E /* ball.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5C864030D3552220024E95E /* ball.h */; };
 		B5C8640C0D3552220024E95E /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864040D3552220024E95E /* common.c */; };
 		B5C8640D0D3552220024E95E /* common.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5C864050D3552220024E95E /* common.h */; };
+		B5D101AB0F9E14D900D16BAF /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A70F9E14D900D16BAF /* array.c */; };
+		B5D101AC0F9E14D900D16BAF /* array.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D101A80F9E14D900D16BAF /* array.h */; };
+		B5D101AD0F9E14D900D16BAF /* dir.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A90F9E14D900D16BAF /* dir.c */; };
+		B5D101AE0F9E14D900D16BAF /* dir.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D101AA0F9E14D900D16BAF /* dir.h */; };
+		B5D101AF0F9E14D900D16BAF /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A70F9E14D900D16BAF /* array.c */; };
+		B5D101B00F9E14D900D16BAF /* dir.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A90F9E14D900D16BAF /* dir.c */; };
 		B5E6E8960DFF38D8005ADC5B /* item.c in Sources */ = {isa = PBXBuildFile; fileRef = B5E6E8940DFF38D8005ADC5B /* item.c */; };
 		B5E6E8970DFF38D8005ADC5B /* item.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E6E8950DFF38D8005ADC5B /* item.h */; };
 		B5E6E8980DFF38D8005ADC5B /* item.c in Sources */ = {isa = PBXBuildFile; fileRef = B5E6E8940DFF38D8005ADC5B /* item.c */; };
@@ -1548,8 +1551,6 @@
 		B57D63D00CAE8138005DE710 /* st_fall_out.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_fall_out.c; sourceTree = "<group>"; };
 		B593CBD80EC4A9DF0088DCCA /* solid_phys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = solid_phys.c; sourceTree = "<group>"; };
 		B593CBD90EC4A9DF0088DCCA /* solid_phys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = solid_phys.h; sourceTree = "<group>"; };
-		B5A2EA120F98DCBF009D255C /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = array.c; path = ../../share/array.c; sourceTree = SOURCE_ROOT; };
-		B5A2EA130F98DCBF009D255C /* array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = array.h; path = ../../share/array.h; sourceTree = SOURCE_ROOT; };
 		B5C163160ED9CA1000A884A9 /* game_client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_client.c; path = ../../ball/game_client.c; sourceTree = SOURCE_ROOT; };
 		B5C163170ED9CA1000A884A9 /* game_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_client.h; path = ../../ball/game_client.h; sourceTree = SOURCE_ROOT; };
 		B5C163180ED9CA1000A884A9 /* game_common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_common.c; path = ../../ball/game_common.c; sourceTree = SOURCE_ROOT; };
@@ -1572,6 +1573,10 @@
 		B5C864030D3552220024E95E /* ball.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ball.h; sourceTree = "<group>"; };
 		B5C864040D3552220024E95E /* common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = common.c; sourceTree = "<group>"; };
 		B5C864050D3552220024E95E /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		B5D101A70F9E14D900D16BAF /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = array.c; path = ../../share/array.c; sourceTree = SOURCE_ROOT; };
+		B5D101A80F9E14D900D16BAF /* array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = array.h; path = ../../share/array.h; sourceTree = SOURCE_ROOT; };
+		B5D101A90F9E14D900D16BAF /* dir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = dir.c; path = ../../share/dir.c; sourceTree = SOURCE_ROOT; };
+		B5D101AA0F9E14D900D16BAF /* dir.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dir.h; path = ../../share/dir.h; sourceTree = SOURCE_ROOT; };
 		B5E6E8940DFF38D8005ADC5B /* item.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = item.c; sourceTree = "<group>"; };
 		B5E6E8950DFF38D8005ADC5B /* item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = item.h; sourceTree = "<group>"; };
 		B5E71BFF0D8C299F00B9CC31 /* progress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = progress.c; sourceTree = "<group>"; };
@@ -1657,8 +1662,10 @@
 		29B97314FDCFA39411CA2CEA /* neverball */ = {
 			isa = PBXGroup;
 			children = (
-				B5A2EA120F98DCBF009D255C /* array.c */,
-				B5A2EA130F98DCBF009D255C /* array.h */,
+				B5D101A70F9E14D900D16BAF /* array.c */,
+				B5D101A80F9E14D900D16BAF /* array.h */,
+				B5D101A90F9E14D900D16BAF /* dir.c */,
+				B5D101AA0F9E14D900D16BAF /* dir.h */,
 				B55624BD0F8A2C1D0090B302 /* video.c */,
 				B55624BE0F8A2C1D0090B302 /* video.h */,
 				B5C163260ED9CA3800A884A9 /* cmd.c */,
@@ -3436,7 +3443,8 @@
 				B5C1632F0ED9CA3800A884A9 /* list.h in Headers */,
 				B5C163310ED9CA3800A884A9 /* queue.h in Headers */,
 				B55624C00F8A2C1D0090B302 /* video.h in Headers */,
-				B5A2EA160F98DCBF009D255C /* array.h in Headers */,
+				B5D101AC0F9E14D900D16BAF /* array.h in Headers */,
+				B5D101AE0F9E14D900D16BAF /* dir.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3639,7 +3647,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Build Neverball Installer and package to a dmg.\n# set -x # uncomment for debugging\nset -e # exit on error\n\nSVN_REVISION=`cd ${SRCROOT}/../.. && /usr/local/bin/svn info | grep Revision: | cut -d\\  -f2`\nSVN_REVISION=`echo ${SVN_REVISION} | sed -e 's/\\ //g'`\necho \"*** SVN REV : ${SVN_REVISION}\"\n\nBASE_VERSION=\"v1.5.0\"\n#VERSION=\"${BASE_VERSION} r${SVN_REVISION}\"\nVERSION=\"${BASE_VERSION}\"\nBASE_NAME=\"Neverball $BASE_VERSION\"\nNAME=\"Neverball $VERSION\"\n\nfor app in \"Neverball\" \"Neverputt\"\ndo\n  echo \"+ Cleaning $app\"\n  strip \"${BUILT_PRODUCTS_DIR}/${app}.app/Contents/MacOS/${app}\"\n  rm -fr \"${BUILT_PRODUCTS_DIR}/${app}.app/\"Contents/Frameworks/*.framework/Versions/*/Headers\n  rm -fr \"${BUILT_PRODUCTS_DIR}/${app}.app/\"Contents/Frameworks/*.framework/Headers\ndone\n\necho \"+ Cleaning data\"\nrm -f \"${BUILT_PRODUCTS_DIR}/data/.ok\"\nrm -f \"${BUILT_PRODUCTS_DIR}/data/.ok\"\n\necho \"Building installer and uninstaller...\"\n/Developer/usr/bin/packagemaker -d \"../uninstall.pmdoc\" -o \"${BUILT_PRODUCTS_DIR}/Uninstall Neverball.mpkg\" -i org.neverball.Uninstall.pkg\nsh ../modify_neverball_pkg_uninstaller.sh \"${BUILT_PRODUCTS_DIR}/Uninstall Neverball.mpkg\"\n/Developer/usr/bin/packagemaker -d \"../neverball.pmdoc\" -o \"${BUILT_PRODUCTS_DIR}/${BASE_NAME}.mpkg\"\nsh ../modify_neverball_pkg_installer.sh \"${BUILT_PRODUCTS_DIR}/${BASE_NAME}.mpkg\"\n\necho \"*** Building disk image...\"\n\nimage_rw=\"${BUILT_PRODUCTS_DIR}/${NAME}.sparseimage\"\nimage_ro=\"${BUILT_PRODUCTS_DIR}/${NAME}.dmg\"\n\nMOUNTPOINT=\"/Volumes/$NAME\"\ntest -e \"$MOUNTPOINT\" && {\n  echo \"$MOUNTPOINT already mounted. Please, detach it.\" 1>&2\n  exit 1\n}\n\nrm \"$image_rw\" 2>/dev/null || true\nhdiutil create -type SPARSE -fs HFS+ -volname \"$NAME\" \"$image_rw\"\nhdiutil attach \"$image_rw\"\n\ncp -R \"${BUILT_PRODUCTS_DIR}/${BASE_NAME}.mpkg\" \"${MOUNTPOINT}/${BASE_NAME}.mpkg\"\ncp ../Run\\ Installer.app \"${MOUNTPOINT}/ \"\n#ln -s \"${MOUNTPOINT}/${BASE_NAME}.mpkg\" \"${MOUNTPOINT}/ \"\n\ncp ../neverball.org.webloc \"${MOUNTPOINT}/neverball.org.webloc\"\ncp ../Run\\ Webloc.app \"${MOUNTPOINT}/  \"\n\ncp -R ../readme.rtfd \"${MOUNTPOINT}/readme.rtfd\"\ncp ../Run\\ Readme.app \"${MOUNTPOINT}/   \"\n\n#echo \"+ Install disk icon\"\n#iconfile=\"icon.icns\"\n#cp \"$iconfile\" \"$mountpoint/.VolumeIcon.icns\"\n#/Developer/Tools/SetFile -a aVbstclinmedz \"$MOUNTPOINT/.VolumeIcon.icns\"\n\necho \"+ Install background dmg\"\ncp \"${SRCROOT}/../icons/dmg-background.png\" \"${MOUNTPOINT}/dmg-background.png\"\n\necho \"+ set the presentation\"\n# better to copy this in script editor for change...\nosascript - \"$MOUNTPOINT\" <<!\non run argv\n\tset dir to item 1 of argv\n\ttell application \"Finder\"\n\t\tset f to POSIX file dir as alias\n\t\topen f\n\n\t\tset w to container window of f\n\n\t\tset current view of w to icon view\n\t\tset toolbar visible of w to false\n\t\tset statusbar visible of w to false\n\t\tset opts to icon view options of w\n\t\tset bgfile to file \"dmg-background.png\" of folder f\n\t\t\n\t\t--\tset background color of opts to {50000, 50000, 50000}\n\t\tset background picture of opts to bgfile\n\t\tset icon size of opts to 96\n\t\tset text size of opts to 12\n\t\tset label position of opts to bottom\n\t\tset arrangement of opts to not arranged\n\t\tset position of item \"neverball.org.webloc\" of f to {384/2 - (96 + 20), 214 + 40}\n\t\tset position of item \"  \" of f to {384/2 - (96 + 20), 214 + 40}\n\t\tset position of item \"readme.rtfd\" of f to {384/2 + (96 + 20), 214 + 40}\n\t\tset position of item \"   \" of f to {384/2 + (96 + 20), 214 + 40}\n\t\tset position of item \"${BASE_NAME}.mpkg\" of f to {384/2, 214 + 40}\n\t\tset position of item \" \" of f to {384/2, 214 + 40}\n#\t\tset position of item \"\" of f to {224 + 48, 214 + 40}\n#\t\tset label index of file \"${BASE_NAME}.mpkg\" of folder f to 7\n\t\tset the bounds of w to {100, 100, 484, 604}\n\t\tdelay 5\n\tend tell\nend run\n!\n\nSETICON=/opt/local/bin/seticon #change this if seticon resides in a different location\nMPKGICON=$(ls -kS $(locate metapackage.icns) | head -1)\nWEBLOCICON=$(ls -kr $(locate InternetLocationHTTP.icns) | head -1)\nRTFDICON=$(ls -kS $(locate rtfd.icns) | head -1)\n${SETICON} -d ${MPKGICON} \"${MOUNTPOINT}/ \"\n${SETICON} -d ${WEBLOCICON} \"${MOUNTPOINT}/  \"\n${SETICON} -d ${RTFDICON} \"${MOUNTPOINT}/   \"\nsetfile -a V \"${MOUNTPOINT}/dmg-background.png\"\nsetfile -a V \"${MOUNTPOINT}/${BASE_NAME}.mpkg\"\nsetfile -a V \"${MOUNTPOINT}/neverball.org.webloc\"\nsetfile -a V \"${MOUNTPOINT}/readme.rtfd\"\n\n\necho \"+ Detaching '$NAME' image\"\nhdiutil detach \"$MOUNTPOINT\"\n\n#open \"$image_rw\"\n\necho \"+ Compressing disk image\"\nrm \"$image_ro\" 2>/dev/null || true\nhdiutil convert \"$image_rw\" -imagekey zlib-level=9 -format UDZO -o \"$image_ro\"\n\nrm \"$image_rw\"\n\n# open the result in Finder\nopen \"$image_ro\"\n";
+			shellScript = "# Build Neverball Installer and package to a dmg.\n# set -x # uncomment for debugging\nset -e # exit on error\n\nSVN_REVISION=`cd ${SRCROOT}/../.. && /usr/local/bin/svn info | grep Revision: | cut -d\\  -f2`\nSVN_REVISION=`echo ${SVN_REVISION} | sed -e 's/\\ //g'`\necho \"*** SVN REV : ${SVN_REVISION}\"\n\nBASE_VERSION=\"v1.5.1\"\nVERSION=\"${BASE_VERSION} r${SVN_REVISION}\"\n#VERSION=\"${BASE_VERSION}\"\nBASE_NAME=\"Neverball $BASE_VERSION\"\nNAME=\"Neverball $VERSION\"\n\nfor app in \"Neverball\" \"Neverputt\"\ndo\n  echo \"+ Cleaning $app\"\n  strip \"${BUILT_PRODUCTS_DIR}/${app}.app/Contents/MacOS/${app}\"\n  rm -fr \"${BUILT_PRODUCTS_DIR}/${app}.app/\"Contents/Frameworks/*.framework/Versions/*/Headers\n  rm -fr \"${BUILT_PRODUCTS_DIR}/${app}.app/\"Contents/Frameworks/*.framework/Headers\ndone\n\necho \"+ Cleaning data\"\nrm -f \"${BUILT_PRODUCTS_DIR}/data/.ok\"\nrm -f \"${BUILT_PRODUCTS_DIR}/data/.ok\"\n\necho \"Building installer and uninstaller...\"\n/Developer/usr/bin/packagemaker -d \"../uninstall.pmdoc\" -o \"${BUILT_PRODUCTS_DIR}/Uninstall Neverball.mpkg\" -i org.neverball.Uninstall.pkg\nsh ../modify_neverball_pkg_uninstaller.sh \"${BUILT_PRODUCTS_DIR}/Uninstall Neverball.mpkg\"\n/Developer/usr/bin/packagemaker -d \"../neverball.pmdoc\" -o \"${BUILT_PRODUCTS_DIR}/${BASE_NAME}.mpkg\"\nsh ../modify_neverball_pkg_installer.sh \"${BUILT_PRODUCTS_DIR}/${BASE_NAME}.mpkg\"\n\necho \"*** Building disk image...\"\n\nimage_rw=\"${BUILT_PRODUCTS_DIR}/${NAME}.sparseimage\"\nimage_ro=\"${BUILT_PRODUCTS_DIR}/${NAME}.dmg\"\n\nMOUNTPOINT=\"/Volumes/$NAME\"\ntest -e \"$MOUNTPOINT\" && {\n  echo \"$MOUNTPOINT already mounted. Please, detach it.\" 1>&2\n  exit 1\n}\n\nrm \"$image_rw\" 2>/dev/null || true\nhdiutil create -type SPARSE -fs HFS+ -volname \"$NAME\" \"$image_rw\"\nhdiutil attach \"$image_rw\"\n\ncp -R \"${BUILT_PRODUCTS_DIR}/${BASE_NAME}.mpkg\" \"${MOUNTPOINT}/${BASE_NAME}.mpkg\"\ncp ../Run\\ Installer.app \"${MOUNTPOINT}/ \"\n#ln -s \"${MOUNTPOINT}/${BASE_NAME}.mpkg\" \"${MOUNTPOINT}/ \"\n\ncp ../neverball.org.webloc \"${MOUNTPOINT}/neverball.org.webloc\"\ncp ../Run\\ Webloc.app \"${MOUNTPOINT}/  \"\n\ncp -R ../readme.rtfd \"${MOUNTPOINT}/readme.rtfd\"\ncp ../Run\\ Readme.app \"${MOUNTPOINT}/   \"\n\n#echo \"+ Install disk icon\"\n#iconfile=\"icon.icns\"\n#cp \"$iconfile\" \"$mountpoint/.VolumeIcon.icns\"\n#/Developer/Tools/SetFile -a aVbstclinmedz \"$MOUNTPOINT/.VolumeIcon.icns\"\n\necho \"+ Install background dmg\"\ncp \"${SRCROOT}/../icons/dmg-background.png\" \"${MOUNTPOINT}/dmg-background.png\"\n\necho \"+ set the presentation\"\n# better to copy this in script editor for change...\nosascript - \"$MOUNTPOINT\" <<!\non run argv\n\tset dir to item 1 of argv\n\ttell application \"Finder\"\n\t\tset f to POSIX file dir as alias\n\t\topen f\n\n\t\tset w to container window of f\n\n\t\tset current view of w to icon view\n\t\tset toolbar visible of w to false\n\t\tset statusbar visible of w to false\n\t\tset opts to icon view options of w\n\t\tset bgfile to file \"dmg-background.png\" of folder f\n\t\t\n\t\t--\tset background color of opts to {50000, 50000, 50000}\n\t\tset background picture of opts to bgfile\n\t\tset icon size of opts to 96\n\t\tset text size of opts to 12\n\t\tset label position of opts to bottom\n\t\tset arrangement of opts to not arranged\n\t\tset position of item \"neverball.org.webloc\" of f to {384/2 - (96 + 20), 214 + 40}\n\t\tset position of item \"  \" of f to {384/2 - (96 + 20), 214 + 40}\n\t\tset position of item \"readme.rtfd\" of f to {384/2 + (96 + 20), 214 + 40}\n\t\tset position of item \"   \" of f to {384/2 + (96 + 20), 214 + 40}\n\t\tset position of item \"${BASE_NAME}.mpkg\" of f to {384/2, 214 + 40}\n\t\tset position of item \" \" of f to {384/2, 214 + 40}\n#\t\tset position of item \"\" of f to {224 + 48, 214 + 40}\n#\t\tset label index of file \"${BASE_NAME}.mpkg\" of folder f to 7\n\t\tset the bounds of w to {100, 100, 484, 604}\n\t\tdelay 5\n\tend tell\nend run\n!\n\nSETICON=/opt/local/bin/seticon #change this if seticon resides in a different location\nMPKGICON=$(ls -kS $(locate metapackage.icns) | head -1)\nWEBLOCICON=$(ls -kr $(locate InternetLocationHTTP.icns) | head -1)\nRTFDICON=$(ls -kS $(locate rtfd.icns) | head -1)\n${SETICON} -d ${MPKGICON} \"${MOUNTPOINT}/ \"\n${SETICON} -d ${WEBLOCICON} \"${MOUNTPOINT}/  \"\n${SETICON} -d ${RTFDICON} \"${MOUNTPOINT}/   \"\nsetfile -a V \"${MOUNTPOINT}/dmg-background.png\"\nsetfile -a V \"${MOUNTPOINT}/${BASE_NAME}.mpkg\"\nsetfile -a V \"${MOUNTPOINT}/neverball.org.webloc\"\nsetfile -a V \"${MOUNTPOINT}/readme.rtfd\"\n\n\necho \"+ Detaching '$NAME' image\"\nhdiutil detach \"$MOUNTPOINT\"\n\n#open \"$image_rw\"\n\necho \"+ Compressing disk image\"\nrm \"$image_ro\" 2>/dev/null || true\nhdiutil convert \"$image_rw\" -imagekey zlib-level=9 -format UDZO -o \"$image_ro\"\n\nrm \"$image_rw\"\n\n# open the result in Finder\nopen \"$image_ro\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3685,7 +3693,8 @@
 				B5C163330ED9CA3800A884A9 /* list.c in Sources */,
 				B5C163340ED9CA3800A884A9 /* queue.c in Sources */,
 				B55624C10F8A2C1D0090B302 /* video.c in Sources */,
-				B5A2EA140F98DCBF009D255C /* array.c in Sources */,
+				B5D101AF0F9E14D900D16BAF /* array.c in Sources */,
+				B5D101B00F9E14D900D16BAF /* dir.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3766,7 +3775,8 @@
 				B5C1632E0ED9CA3800A884A9 /* list.c in Sources */,
 				B5C163300ED9CA3800A884A9 /* queue.c in Sources */,
 				B55624BF0F8A2C1D0090B302 /* video.c in Sources */,
-				B5A2EA150F98DCBF009D255C /* array.c in Sources */,
+				B5D101AB0F9E14D900D16BAF /* array.c in Sources */,
+				B5D101AD0F9E14D900D16BAF /* dir.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
