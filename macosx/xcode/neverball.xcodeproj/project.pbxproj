@@ -170,6 +170,8 @@
 		B51113DE0DA9D6570050049D /* libpng12.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B56504580D22EB68006F75A4 /* libpng12.a */; };
 		B5117CE80C9060CB005837F9 /* st_pause.c in Sources */ = {isa = PBXBuildFile; fileRef = B5117CE60C9060CB005837F9 /* st_pause.c */; };
 		B5117CE90C9060CB005837F9 /* st_pause.h in Headers */ = {isa = PBXBuildFile; fileRef = B5117CE70C9060CB005837F9 /* st_pause.h */; };
+		B517A9040F9DF754006D48C0 /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864040D3552220024E95E /* common.c */; };
+		B517A9050F9DF75A006D48C0 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C864050D3552220024E95E /* common.h */; };
 		B517CF110D1F133000FCFE83 /* iconv.h in Headers */ = {isa = PBXBuildFile; fileRef = B517CEFC0D1F133000FCFE83 /* iconv.h */; };
 		B517CF120D1F133000FCFE83 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B517CEFD0D1F133000FCFE83 /* libiconv.a */; };
 		B517CF130D1F133000FCFE83 /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B517CEFE0D1F133000FCFE83 /* libintl.a */; };
@@ -3455,6 +3457,7 @@
 				B56504720D22EB68006F75A4 /* pngconf.h in Headers */,
 				B565048D0D22F722006F75A4 /* zconf.h in Headers */,
 				B565048E0D22F722006F75A4 /* zlib.h in Headers */,
+				B517A9050F9DF75A006D48C0 /* common.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3696,6 +3699,7 @@
 				815FFCF70AEA334E00AFD07F /* binary.c in Sources */,
 				815FFCF50AEA333200AFD07F /* base_config.c in Sources */,
 				815FFCFA0AEA336800AFD07F /* mapc.c in Sources */,
+				B517A9040F9DF754006D48C0 /* common.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4019,7 +4023,7 @@
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_2)",
 				);
-				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.0\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.1\\\"";
 				OTHER_CFLAGS_QUOTED_FOR_TARGET_2 = "-DCONFIG_DATA=\\\"/Library/Application\\ Support/Neverball\\ Data/data\\\"";
 				OTHER_LDFLAGS = (
 					"-Z",
@@ -4156,7 +4160,7 @@
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_2)",
 				);
-				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.0\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.1\\\"";
 				OTHER_CFLAGS_QUOTED_FOR_TARGET_2 = "-DCONFIG_DATA=\\\"/Library/Application\\ Support/Neverball\\ Data/data\\\"";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CPLUSPLUSFLAGS)";
 				OTHER_LDFLAGS = (
