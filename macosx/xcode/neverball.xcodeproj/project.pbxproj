@@ -242,6 +242,15 @@
 		B565048C0D22F722006F75A4 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B56504830D22F722006F75A4 /* libz.a */; };
 		B565048D0D22F722006F75A4 /* zconf.h in Headers */ = {isa = PBXBuildFile; fileRef = B56504840D22F722006F75A4 /* zconf.h */; };
 		B565048E0D22F722006F75A4 /* zlib.h in Headers */ = {isa = PBXBuildFile; fileRef = B56504850D22F722006F75A4 /* zlib.h */; };
+		B56872C70FA8C91C0073C122 /* dir.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A90F9E14D900D16BAF /* dir.c */; };
+		B56872C80FA8C91C0073C122 /* dir.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D101AA0F9E14D900D16BAF /* dir.h */; };
+		B56872C90FA8C91C0073C122 /* video.c in Sources */ = {isa = PBXBuildFile; fileRef = B55624BD0F8A2C1D0090B302 /* video.c */; };
+		B56872CA0FA8C91C0073C122 /* video.h in Headers */ = {isa = PBXBuildFile; fileRef = B55624BE0F8A2C1D0090B302 /* video.h */; };
+		B56872CB0FA8C9260073C122 /* dir.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A90F9E14D900D16BAF /* dir.c */; };
+		B56872CC0FA8C9260073C122 /* video.c in Sources */ = {isa = PBXBuildFile; fileRef = B55624BD0F8A2C1D0090B302 /* video.c */; };
+		B56872CD0FA8C93E0073C122 /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A70F9E14D900D16BAF /* array.c */; };
+		B56872CE0FA8C93E0073C122 /* array.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D101A80F9E14D900D16BAF /* array.h */; };
+		B56872CF0FA8C9460073C122 /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A70F9E14D900D16BAF /* array.c */; };
 		B57D63D10CAE8138005DE710 /* st_goal.c in Sources */ = {isa = PBXBuildFile; fileRef = B57D63CB0CAE8138005DE710 /* st_goal.c */; };
 		B57D63D20CAE8138005DE710 /* st_fall_out.h in Headers */ = {isa = PBXBuildFile; fileRef = B57D63CC0CAE8138005DE710 /* st_fall_out.h */; };
 		B57D63D30CAE8138005DE710 /* st_time_out.h in Headers */ = {isa = PBXBuildFile; fileRef = B57D63CD0CAE8138005DE710 /* st_time_out.h */; };
@@ -3433,6 +3442,9 @@
 				B5C1632D0ED9CA3800A884A9 /* cmd.h in Headers */,
 				B5C1632F0ED9CA3800A884A9 /* list.h in Headers */,
 				B5C163310ED9CA3800A884A9 /* queue.h in Headers */,
+				B56872C80FA8C91C0073C122 /* dir.h in Headers */,
+				B56872CA0FA8C91C0073C122 /* video.h in Headers */,
+				B56872CE0FA8C93E0073C122 /* array.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3680,6 +3692,9 @@
 				B5C163320ED9CA3800A884A9 /* cmd.c in Sources */,
 				B5C163330ED9CA3800A884A9 /* list.c in Sources */,
 				B5C163340ED9CA3800A884A9 /* queue.c in Sources */,
+				B56872CB0FA8C9260073C122 /* dir.c in Sources */,
+				B56872CC0FA8C9260073C122 /* video.c in Sources */,
+				B56872CF0FA8C9460073C122 /* array.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3759,6 +3774,9 @@
 				B5C1632C0ED9CA3800A884A9 /* cmd.c in Sources */,
 				B5C1632E0ED9CA3800A884A9 /* list.c in Sources */,
 				B5C163300ED9CA3800A884A9 /* queue.c in Sources */,
+				B56872C70FA8C91C0073C122 /* dir.c in Sources */,
+				B56872C90FA8C91C0073C122 /* video.c in Sources */,
+				B56872CD0FA8C93E0073C122 /* array.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
