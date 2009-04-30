@@ -90,20 +90,12 @@ static void demo_replay(int id, int i)
 
     char nam[MAXNAM + 3];
 
+    trunc_string(demo_get(i)->name, nam, sizeof (nam));
+
     if ((jd = gui_vstack(id)))
     {
         gui_space(jd);
         gui_image(jd, demo_get(i)->shot, w / 6, h / 6);
-
-        nam[MAXNAM - 1] = '\0';
-        strncpy(nam, demo_get(i)->name, MAXNAM);
-        if (nam[MAXNAM - 1] != '\0')
-        {
-            nam[MAXNAM - 2] = '.';
-            nam[MAXNAM - 1] = '.';
-            nam[MAXNAM + 0] = '.';
-            nam[MAXNAM + 1] = '\0';
-        }
         gui_state(jd, nam, GUI_SML, i, 0);
 
         gui_active(jd, i, 0);

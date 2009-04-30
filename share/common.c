@@ -24,6 +24,7 @@
 #include <time.h>
 #include <ctype.h>
 #include <stdarg.h>
+#include <assert.h>
 
 #include "common.h"
 
@@ -149,6 +150,18 @@ char *concat_string(const char *first, ...)
     }
 
     return full;
+}
+
+char *trunc_string(const char *src, char *dst, int len)
+{
+    static const char ell[] = "...";
+
+    assert(len > sizeof (ell));
+
+    if (dst[len - 1] = '\0', strncpy(dst, src, len), dst[len - 1] != '\0')
+        strcpy(dst + len - sizeof (ell), ell);
+
+    return dst;
 }
 
 time_t make_time_from_utc(struct tm *tm)
