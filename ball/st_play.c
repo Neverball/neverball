@@ -35,6 +35,7 @@
 /*---------------------------------------------------------------------------*/
 
 static float view_rotate;
+static int   fast_rotate;
 
 static int pause_or_exit(void)
 {
@@ -186,6 +187,7 @@ static int play_loop_enter(void)
     {
         clear_pause();
         view_rotate = 0;
+        fast_rotate = 0;
         return 0;
     }
 
@@ -199,7 +201,9 @@ static int play_loop_enter(void)
 
     game_set_fly(0.f, NULL);
     game_client_step(NULL);
+
     view_rotate = 0;
+    fast_rotate = 0;
 
     hud_view_pulse(config_get_d(CONFIG_CAMERA));
 
@@ -223,7 +227,7 @@ static void play_loop_paint(int id, float t)
 
 static void play_loop_timer(int id, float dt)
 {
-    float k = ((SDL_GetModState() & KMOD_SHIFT) ?
+    float k = (fast_rotate ?
                (float) config_get_d(CONFIG_ROTATE_FAST) / 100.0f :
                (float) config_get_d(CONFIG_ROTATE_SLOW) / 100.0f);
 
@@ -325,6 +329,8 @@ static int play_loop_keybd(int c, int d)
             view_rotate = +1;
         if (config_tst_d(CONFIG_KEY_CAMERA_L, c))
             view_rotate = -1;
+        if (config_tst_d(CONFIG_KEY_ROTATE_FAST, c))
+            fast_rotate = 1;
 
         if (config_tst_d(CONFIG_KEY_CAMERA_1, c))
         {
@@ -362,6 +368,8 @@ static int play_loop_keybd(int c, int d)
             view_rotate = 0;
         if (config_tst_d(CONFIG_KEY_CAMERA_L, c))
             view_rotate = 0;
+        if (config_tst_d(CONFIG_KEY_ROTATE_FAST, c))
+            fast_rotate = 0;
     }
 
     if (d && c == SDLK_F12 && config_cheat())
@@ -389,6 +397,8 @@ static int play_loop_buttn(int b, int d)
             view_rotate = +1;
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L, b))
             view_rotate = -1;
+        if (config_tst_d(CONFIG_JOYSTICK_ROTATE_FAST, b))
+            fast_rotate = 1;
 
         if (config_tst_d(CONFIG_JOYSTICK_CAMERA_1, b))
         {
@@ -418,6 +428,8 @@ static int play_loop_buttn(int b, int d)
             view_rotate = 0;
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L, b))
             view_rotate = 0;
+        if (config_tst_d(CONFIG_JOYSTICK_ROTATE_FAST, b))
+            fast_rotate = 0;
     }
     return 1;
 }

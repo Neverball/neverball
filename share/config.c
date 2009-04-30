@@ -80,6 +80,7 @@ int CONFIG_JOYSTICK_DPAD_R;
 int CONFIG_JOYSTICK_DPAD_U;
 int CONFIG_JOYSTICK_DPAD_D;
 int CONFIG_JOYSTICK_CAMERA_TOGGLE;
+int CONFIG_JOYSTICK_ROTATE_FAST;
 int CONFIG_KEY_CAMERA_1;
 int CONFIG_KEY_CAMERA_2;
 int CONFIG_KEY_CAMERA_3;
@@ -99,6 +100,7 @@ int CONFIG_KEY_RIGHT;
 int CONFIG_KEY_PAUSE;
 int CONFIG_KEY_RESTART;
 int CONFIG_KEY_SCORE_NEXT;
+int CONFIG_KEY_ROTATE_FAST;
 int CONFIG_CHEAT;
 int CONFIG_STATS;
 int CONFIG_UNIFORM;
@@ -169,6 +171,7 @@ static struct
     { &CONFIG_JOYSTICK_DPAD_U,        "joystick_dpad_u",        10 },
     { &CONFIG_JOYSTICK_DPAD_D,        "joystick_dpad_d",        11 },
     { &CONFIG_JOYSTICK_CAMERA_TOGGLE, "joystick_camera_toggle", 12 },
+    { &CONFIG_JOYSTICK_ROTATE_FAST,   "joystick_rotate_fast",   13 },
 
     { &CONFIG_KEY_CAMERA_1,      "key_camera_1",      SDLK_F1 },
     { &CONFIG_KEY_CAMERA_2,      "key_camera_2",      SDLK_F2 },
@@ -189,6 +192,7 @@ static struct
     { &CONFIG_KEY_PAUSE,         "key_pause",         SDLK_ESCAPE },
     { &CONFIG_KEY_RESTART,       "key_restart",       SDLK_r },
     { &CONFIG_KEY_SCORE_NEXT,    "key_score_next",    SDLK_TAB },
+    { &CONFIG_KEY_ROTATE_FAST,   "key_rotate_fast",   SDLK_LSHIFT },
     { &CONFIG_CHEAT,             "cheat",             0 },
     { &CONFIG_STATS,             "stats",             0 },
     { &CONFIG_UNIFORM,           "uniform",           0 },
@@ -389,7 +393,8 @@ void config_load(void)
                                  i == CONFIG_KEY_CAMERA_L      ||
                                  i == CONFIG_KEY_PAUSE         ||
                                  i == CONFIG_KEY_RESTART       ||
-                                 i == CONFIG_KEY_SCORE_NEXT)
+                                 i == CONFIG_KEY_SCORE_NEXT    ||
+                                 i == CONFIG_KEY_ROTATE_FAST)
                         {
                             config_key(val, i);
                         }
@@ -458,7 +463,8 @@ void config_save(void)
                      i == CONFIG_KEY_CAMERA_L      ||
                      i == CONFIG_KEY_PAUSE         ||
                      i == CONFIG_KEY_RESTART       ||
-                     i == CONFIG_KEY_SCORE_NEXT)
+                     i == CONFIG_KEY_SCORE_NEXT    ||
+                     i == CONFIG_KEY_ROTATE_FAST)
             {
                 s = SDL_GetKeyName((SDLKey) option_d[i].cur);
             }

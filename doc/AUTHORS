@@ -138,6 +138,7 @@ D: mapc speed-ups for debugging large maps
 N: Matthias Sweertvaegher
 W: http://mattiesworld.gotdns.org
 D: View rotation using second gamepad stick
+D: Configurable fast view rotation bind
 
 N: Tamas Szerb
 D: Debian packaging
