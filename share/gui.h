@@ -16,8 +16,11 @@
 #define GUI_H
 
 #include "glext.h"
+#include "lang.h"
 
 /*---------------------------------------------------------------------------*/
+
+#define GUI_FACE _("ttf/DejaVuSans-Bold.ttf")
 
 #define GUI_SML  0
 #define GUI_MED  1

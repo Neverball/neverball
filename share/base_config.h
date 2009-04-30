@@ -89,8 +89,6 @@
 #define PATHMAX 64
 #define MAXNAM 9
 
-#define GUI_FACE                    _("ttf/DejaVuSans-Bold.ttf")
-
 #define UPS 90
 #define DT  (1.0f / (float) UPS)
 
