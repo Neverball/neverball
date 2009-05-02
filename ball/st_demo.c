@@ -17,7 +17,6 @@
 #include "gui.h"
 #include "hud.h"
 #include "set.h"
-#include "game.h"
 #include "demo.h"
 #include "progress.h"
 #include "audio.h"
@@ -26,6 +25,10 @@
 #include "st_shared.h"
 #include "util.h"
 #include "common.h"
+
+#include "game_common.h"
+#include "game_server.h"
+#include "game_client.h"
 
 #include "st_demo.h"
 #include "st_title.h"
@@ -87,20 +90,12 @@ static void demo_replay(int id, int i)
 
     char nam[MAXNAM + 3];
 
+    trunc_string(demo_get(i)->name, nam, sizeof (nam));
+
     if ((jd = gui_vstack(id)))
     {
         gui_space(jd);
         gui_image(jd, demo_get(i)->shot, w / 6, h / 6);
-
-        nam[MAXNAM - 1] = '\0';
-        strncpy(nam, demo_get(i)->name, MAXNAM);
-        if (nam[MAXNAM - 1] != '\0')
-        {
-            nam[MAXNAM - 2] = '.';
-            nam[MAXNAM - 1] = '.';
-            nam[MAXNAM + 0] = '.';
-            nam[MAXNAM + 1] = '\0';
-        }
         gui_state(jd, nam, GUI_SML, i, 0);
 
         gui_active(jd, i, 0);
@@ -221,7 +216,9 @@ static void gui_demo_update_status(int i)
 {
     const struct demo *d;
 
-    if ((d = demo_get(i)) == NULL && (d = demo_get(0)) == NULL)
+    if (total > 0)
+        d = demo_get(i < total ? i : 0);
+    else
         return;
 
     gui_set_label(name_id,   d->name);
@@ -326,10 +323,12 @@ static int demo_buttn(int b, int d)
 static int standalone;
 static int demo_paused;
 static int show_hud;
+static int check_compat;
 
 void demo_play_goto(int s)
 {
-    standalone = s;
+    standalone   = s;
+    check_compat = 1;
 }
 
 static int demo_play_enter(void)
@@ -343,6 +342,12 @@ static int demo_play_enter(void)
         return 0;
     }
 
+    if (check_compat && !game_compat_map)
+    {
+        goto_state(&st_demo_compat);
+        return 0;
+    }
+
     if ((id = gui_vstack(0)))
     {
         gui_label(id, _("Replay"), GUI_LRG, GUI_ALL, gui_blu, gui_grn);
@@ -352,7 +357,8 @@ static int demo_play_enter(void)
 
     show_hud = 1;
     hud_update(0);
-    game_set_fly(0.f);
+    game_set_fly(0.f, game_client_file());
+    game_client_step(NULL);
 
     return id;
 }
@@ -588,6 +594,51 @@ static int demo_del_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
+static int demo_compat_enter(void)
+{
+    int id;
+
+    check_compat = 0;
+
+    if ((id = gui_vstack(0)))
+    {
+        gui_label(id, _("Warning!"), GUI_MED, GUI_ALL, 0, 0);
+        gui_space(id);
+        gui_multi(id, _("The replay you're about to view was\\"
+                        "recorded with a different (or unknown)\\"
+                        "version of this map. Be prepared to\\"
+                        "encounter visual errors.\\"),
+                  GUI_SML, GUI_ALL, gui_wht, gui_wht);
+
+        gui_layout(id, 0, 0);
+    }
+
+    game_set_fly(0.f, game_client_file());
+    game_client_step(NULL);
+
+    return id;
+}
+
+static void demo_compat_timer(int id, float dt)
+{
+    game_step_fade(dt);
+    gui_timer(id, dt);
+}
+
+static int demo_compat_buttn(int b, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+            return goto_state(&st_demo_play);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+            return goto_state(&st_demo_end);
+    }
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
 struct state st_demo = {
     demo_enter,
     shared_leave,
@@ -641,5 +692,19 @@ struct state st_demo_del = {
     shared_click,
     NULL,
     demo_del_buttn,
+    1, 0
+};
+
+struct state st_demo_compat = {
+    demo_compat_enter,
+    shared_leave,
+    shared_paint,
+    demo_compat_timer,
+    shared_point,
+    shared_stick,
+    shared_angle,
+    shared_click,
+    NULL,
+    demo_compat_buttn,
     1, 0
 };

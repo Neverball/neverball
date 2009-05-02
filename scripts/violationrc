@@ -3,8 +3,14 @@
 
 ../ball/demo.c
 ../ball/demo.h
-../ball/game.c
-../ball/game.h
+../ball/game_client.c
+../ball/game_client.h
+../ball/game_server.c
+../ball/game_server.h
+../ball/game_proxy.c
+../ball/game_proxy.h
+../ball/game_common.c
+../ball/game_common.h
 ../ball/hud.c
 ../ball/hud.h
 ../ball/level.c
@@ -67,6 +73,8 @@
 ../putt/st_conf.h
 ../share/audio.c
 ../share/audio.h
+../share/array.c
+../share/array.h
 ../share/back.c
 ../share/back.h
 ../share/ball.c
@@ -81,6 +89,10 @@
 ../share/common.h
 ../share/config.c
 ../share/config.h
+../share/cmd.c
+../share/cmd.h
+../share/dir.c
+../share/dir.h
 ../share/geom.c
 ../share/geom.h
 ../share/glext.h
@@ -97,6 +109,8 @@
 ../share/mapc.c
 ../share/part.c
 ../share/part.h
+../share/queue.c
+../share/queue.h
 ../share/solid.c
 ../share/solid.h
 ../share/solid_gl.c
@@ -117,6 +131,7 @@
 ../share/tilt.h
 ../share/vec3.c
 ../share/vec3.h
+../share/video.c
 ../contrib/curve.c
 ../contrib/assist/neverassist.bas
 ../contrib/assist/neverassist.bi

@@ -21,16 +21,14 @@
 
 #include "glext.h"
 #include "config.h"
+#include "video.h"
 #include "image.h"
 #include "audio.h"
 #include "demo.h"
 #include "progress.h"
-#include "game.h"
 #include "gui.h"
 #include "set.h"
-#include "text.h"
 #include "tilt.h"
-#include "syswm.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -38,7 +36,7 @@
 #include "st_level.h"
 #include "st_pause.h"
 
-#define TITLE "Neverball"
+#define TITLE "Neverball " VERSION
 
 /*---------------------------------------------------------------------------*/
 
@@ -98,11 +96,11 @@ static int loop(void)
             break;
 
         case SDL_MOUSEBUTTONDOWN:
-            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 1);
+            d = st_click(e.button.button, 1);
             break;
 
         case SDL_MOUSEBUTTONUP:
-            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 0);
+            d = st_click(e.button.button, 0);
             break;
 
         case SDL_KEYDOWN:
@@ -179,7 +177,7 @@ static int loop(void)
 
         case SDL_ACTIVEEVENT:
             if (e.active.state == SDL_APPINPUTFOCUS)
-                if (e.active.gain == 0 && config_get_grab())
+                if (e.active.gain == 0 && video_get_grab())
                     goto_pause();
             break;
 
@@ -314,6 +312,14 @@ static void parse_args(int argc, char **argv)
             display_info = 1;
             continue;
         }
+
+        /* Assume a single unrecognised argument is a replay name. */
+
+        if (argc == 2)
+        {
+            demo_path = argv[i];
+            break;
+        }
     }
 
     /* Resolve conflicts. */
@@ -339,9 +345,9 @@ int main(int argc, char *argv[])
     SDL_Joystick *joy = NULL;
     int t1, t0, uniform;
 
-    lang_init("neverball", CONFIG_LOCALE);
+    config_exec_path = argv[0];
 
-    text_init();
+    lang_init("neverball");
 
     parse_args(argc, argv);
 
@@ -398,32 +404,10 @@ int main(int argc, char *argv[])
     audio_init();
     tilt_init();
 
-    /* Require 16-bit double buffer with 16-bit depth buffer. */
-
-    SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
-    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
-    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-    /* This has to happen before mode setting... */
-
-    set_SDL_icon("icon/neverball.png");
-
     /* Initialize the video. */
 
-    if (!config_mode(config_get_d(CONFIG_FULLSCREEN),
-                     config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT)))
-    {
-        fprintf(stderr, "%s\n", SDL_GetError());
+    if (!video_init(TITLE, "icon/neverball.png"))
         return 1;
-    }
-
-    /* ...and this has to happen after it. */
-
-    set_EWMH_icon("icon/neverball.png");
-
-    SDL_WM_SetCaption(TITLE, TITLE);
 
     init_state(&st_null);
 
@@ -472,7 +456,7 @@ int main(int argc, char *argv[])
         /* Render. */
 
         st_paint(0.001f * t0);
-        config_swap();
+        video_swap();
 
         if (uniform < 0)
             shot();
@@ -490,8 +474,6 @@ int main(int argc, char *argv[])
     SDL_Quit();
 
     config_save();
-
-    text_quit();
 
     return 0;
 }

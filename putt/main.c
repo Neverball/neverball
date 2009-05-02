@@ -26,17 +26,16 @@
 #include "image.h"
 #include "state.h"
 #include "config.h"
+#include "video.h"
 #include "course.h"
 #include "hole.h"
 #include "game.h"
 #include "gui.h"
-#include "text.h"
-#include "syswm.h"
 
 #include "st_conf.h"
 #include "st_all.h"
 
-#define TITLE "Neverputt"
+#define TITLE "Neverputt " VERSION
 
 /*---------------------------------------------------------------------------*/
 
@@ -93,11 +92,11 @@ static int loop(void)
             break;
 
         case SDL_MOUSEBUTTONDOWN:
-            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 1);
+            d = st_click(e.button.button, 1);
             break;
 
         case SDL_MOUSEBUTTONUP:
-            d = st_click((e.button.button == SDL_BUTTON_LEFT) ? -1 : 1, 0);
+            d = st_click(e.button.button, 0);
             break;
 
         case SDL_KEYDOWN:
@@ -168,7 +167,7 @@ static int loop(void)
 
         case SDL_ACTIVEEVENT:
             if (e.active.state == SDL_APPINPUTFOCUS)
-                if (e.active.gain == 0 && config_get_grab())
+                if (e.active.gain == 0 && video_get_grab())
                     goto_pause(&st_over, 0);
             break;
 
@@ -193,9 +192,11 @@ int main(int argc, char *argv[])
     int camera = 0;
     SDL_Joystick *joy = NULL;
 
+    config_exec_path = argv[0];
+
     srand((int) time(NULL));
 
-    lang_init("neverball", CONFIG_LOCALE);
+    lang_init("neverball");
 
     if (config_data_path((argc > 1 ? argv[1] : NULL), COURSE_FILE))
     {
@@ -226,31 +227,11 @@ int main(int argc, char *argv[])
 
                 audio_init();
 
-                /* Require 16-bit double buffer with 16-bit depth buffer. */
-
-                SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
-                SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
-                SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
-                SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-                SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-                /* This has to happen before mode setting... */
-
-                set_SDL_icon("icon/neverputt.png");
-
                 /* Initialize the video. */
 
-                if (config_mode(config_get_d(CONFIG_FULLSCREEN),
-                                config_get_d(CONFIG_WIDTH),
-                                config_get_d(CONFIG_HEIGHT)))
+                if (video_init(TITLE, "icon/neverputt.png"))
                 {
                     int t1, t0 = SDL_GetTicks();
-
-                    /* ... and this has to happen after it. */
-
-                    set_EWMH_icon("icon/neverputt.png");
-
-                    SDL_WM_SetCaption(TITLE, TITLE);
 
                     /* Run the main game loop. */
 
@@ -270,7 +251,6 @@ int main(int argc, char *argv[])
                                 SDL_Delay(1);
                         }
                 }
-                else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
 
                 /* Restore Neverball's camera setting. */
 

@@ -17,11 +17,12 @@
 #include <stdio.h>
 
 #include "config.h"
+#include "video.h"
 #include "glext.h"
 #include "image.h"
 #include "vec3.h"
-#include "text.h"
 #include "gui.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -212,6 +213,23 @@ static GLuint gui_rect(int x, int y, int w, int h, int f, int r)
 
 /*---------------------------------------------------------------------------*/
 
+static const char *pick_font_path(void)
+{
+    const char *path;
+
+    path = config_data(_(GUI_FACE));
+
+    if (!file_exists(path))
+    {
+        fprintf(stderr, _("Font \"%s\" doesn't exist, trying default font.\n"),
+                path);
+
+        path = config_data(GUI_FACE);
+    }
+
+    return path;
+}
+
 void gui_init(void)
 {
     const float *c0 = gui_yel;
@@ -225,6 +243,8 @@ void gui_init(void)
 
     if (TTF_Init() == 0)
     {
+        const char *fontpath = pick_font_path();
+
         int s0 = s / 26;
         int s1 = s / 13;
         int s2 = s /  7;
@@ -233,9 +253,9 @@ void gui_init(void)
 
         /* Load small, medium, and large typefaces. */
 
-        font[GUI_SML] = TTF_OpenFont(config_data(GUI_FACE), s0);
-        font[GUI_MED] = TTF_OpenFont(config_data(GUI_FACE), s1);
-        font[GUI_LRG] = TTF_OpenFont(config_data(GUI_FACE), s2);
+        font[GUI_SML] = TTF_OpenFont(fontpath, s0);
+        font[GUI_MED] = TTF_OpenFont(fontpath, s1);
+        font[GUI_LRG] = TTF_OpenFont(fontpath, s2);
         radius = s / 60;
 
         /* Initialize digit glyphs and lists for counters and clocks. */
@@ -1264,7 +1284,7 @@ void gui_paint(int id)
 {
     if (id)
     {
-        config_push_ortho();
+        video_push_ortho();
         {
             glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
@@ -1282,7 +1302,7 @@ void gui_paint(int id)
             glEnable(GL_LIGHTING);
             glDisable(GL_COLOR_MATERIAL);
         }
-        config_pop_matrix();
+        video_pop_matrix();
     }
 }
 

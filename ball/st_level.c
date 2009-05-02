@@ -15,12 +15,14 @@
 #include <string.h>
 
 #include "gui.h"
-#include "game.h"
 #include "set.h"
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
+
+#include "game_server.h"
+#include "game_client.h"
 
 #include "st_level.h"
 #include "st_play.h"
@@ -73,7 +75,8 @@ static int level_enter(void)
         gui_layout(id, 0, 0);
     }
 
-    game_set_fly(1.f);
+    game_set_fly(1.f, NULL);
+    game_client_step(NULL);
 
     return id;
 }
@@ -85,7 +88,7 @@ static void level_timer(int id, float dt)
 
 static int level_click(int b, int d)
 {
-    return (b < 0 && d == 1) ? goto_state(&st_play_ready) : 1;
+    return (b == SDL_BUTTON_LEFT && d == 1) ? goto_state(&st_play_ready) : 1;
 }
 
 static int level_keybd(int c, int d)

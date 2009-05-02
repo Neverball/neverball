@@ -248,7 +248,7 @@ static void set_best_times(const struct score *s, int hilight, int goal)
     }
     else
     {
-        gui_set_label(time_label, goal ? _("Unlock Goal") : _("Best Times"));
+        gui_set_label(time_label, goal ? _("Fast Unlock") : _("Best Times"));
 
         for (j = 0; j < NSCORE + time_extra_row; j++)
         {
@@ -281,7 +281,7 @@ void gui_score_board(int id, unsigned int types, int e, int h)
 
     assert((types & GUI_MOST_COINS)  == GUI_MOST_COINS ||
            (types & GUI_BEST_TIMES)  == GUI_BEST_TIMES ||
-           (types & GUI_UNLOCK_GOAL) == GUI_UNLOCK_GOAL );
+           (types & GUI_FAST_UNLOCK) == GUI_FAST_UNLOCK );
 
     /* Make sure current score type matches the spec. */
 
@@ -304,9 +304,9 @@ void gui_score_board(int id, unsigned int types, int e, int h)
             if ((types & GUI_BEST_TIMES) == GUI_BEST_TIMES)
                 gui_state(kd, _("Best Times"),  GUI_SML, GUI_BEST_TIMES,
                           score_type == GUI_BEST_TIMES);
-            if ((types & GUI_UNLOCK_GOAL) == GUI_UNLOCK_GOAL)
-                gui_state(kd, _("Unlock Goal"), GUI_SML, GUI_UNLOCK_GOAL,
-                          score_type == GUI_UNLOCK_GOAL);
+            if ((types & GUI_FAST_UNLOCK) == GUI_FAST_UNLOCK)
+                gui_state(kd, _("Fast Unlock"), GUI_SML, GUI_FAST_UNLOCK,
+                          score_type == GUI_FAST_UNLOCK);
 
             if (h)
             {
@@ -338,7 +338,7 @@ void gui_score_board(int id, unsigned int types, int e, int h)
         gui_best_times(id, e);
         break;
 
-    case GUI_UNLOCK_GOAL:
+    case GUI_FAST_UNLOCK:
         gui_best_times(id, e);
         break;
     }
@@ -360,7 +360,7 @@ void set_score_board(const struct score *smc, int hmc,
         set_best_times(sbt, hbt, 0);
         break;
 
-    case GUI_UNLOCK_GOAL:
+    case GUI_FAST_UNLOCK:
         set_best_times(sug, hug, 1);
         break;
     }
@@ -381,8 +381,8 @@ int  gui_score_next(int t)
     switch (t)
     {
     case GUI_MOST_COINS:  return GUI_BEST_TIMES;
-    case GUI_BEST_TIMES:  return GUI_UNLOCK_GOAL;
-    case GUI_UNLOCK_GOAL: return GUI_MOST_COINS;
+    case GUI_BEST_TIMES:  return GUI_FAST_UNLOCK;
+    case GUI_FAST_UNLOCK: return GUI_MOST_COINS;
 
     default:
         return GUI_MOST_COINS;
@@ -417,7 +417,7 @@ void gui_keyboard(int id)
                 keyd['5'] = gui_state(ld, "5", GUI_SML, '5', 0);
                 keyd['4'] = gui_state(ld, "4", GUI_SML, '4', 0);
                 keyd['3'] = gui_state(ld, "3", GUI_SML, '3', 0);
-                keyd['3'] = gui_state(ld, "2", GUI_SML, '2', 0);
+                keyd['2'] = gui_state(ld, "2", GUI_SML, '2', 0);
                 keyd['1'] = gui_state(ld, "1", GUI_SML, '1', 0);
                 keyd['0'] = gui_state(ld, "0", GUI_SML, '0', 0);
                 gui_filler(ld);

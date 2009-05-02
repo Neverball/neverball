@@ -22,6 +22,7 @@ int  progress_replay(const char *);
 
 int  progress_dead(void);
 int  progress_done(void);
+int  progress_last(void);
 
 int  progress_lvl_high(void);
 int  progress_set_high(void);

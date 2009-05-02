@@ -14,11 +14,13 @@
 
 #include "gui.h"
 #include "config.h"
-#include "game.h"
+#include "video.h"
 #include "progress.h"
 #include "level.h"
 #include "audio.h"
 #include "hud.h"
+
+#include "game_common.h"
 
 #include "st_play.h"
 #include "st_over.h"
@@ -61,7 +63,7 @@ static int pause_action(int i)
     {
     case PAUSE_CONTINUE:
         SDL_PauseAudio(0);
-        config_set_grab(0);
+        video_set_grab(0);
         return goto_state(st_continue);
 
     case PAUSE_RESTART:
@@ -69,7 +71,7 @@ static int pause_action(int i)
         {
             clear_pause();
             SDL_PauseAudio(0);
-            config_set_grab(1);
+            video_set_grab(1);
             return goto_state(&st_play_ready);
         }
         break;
@@ -92,7 +94,7 @@ static int pause_enter(void)
 {
     int id, jd, title_id;
 
-    config_clr_grab();
+    video_clr_grab();
     SDL_PauseAudio(1);
 
     /* Build the pause GUI. */

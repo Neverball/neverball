@@ -53,7 +53,20 @@ void item_color(const struct s_item *hp, float *c)
         break;
 
     case ITEM_GROW:
+
+        c[0] = 0.00f;
+        c[1] = 0.51f;
+        c[2] = 0.80f;
+
+        break;
+
     case ITEM_SHRINK:
+
+        c[0] = 1.00f;
+        c[1] = 0.76f;
+        c[2] = 0.00f;
+
+        break;
 
     default:
 

@@ -15,12 +15,16 @@
 #include <stdio.h>
 
 #include "gui.h"
-#include "game.h"
 #include "util.h"
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
+#include "video.h"
 #include "demo.h"
+
+#include "game_common.h"
+#include "game_server.h"
+#include "game_client.h"
 
 #include "st_goal.h"
 #include "st_save.h"
@@ -39,6 +43,7 @@
 #define GOAL_BACK 4
 #define GOAL_DONE 5
 #define GOAL_OVER 6
+#define GOAL_LAST 7
 
 static int balls_id;
 static int coins_id;
@@ -80,9 +85,13 @@ static int goal_action(int i)
         progress_exit();
         return goto_state(&st_done);
 
+    case GOAL_LAST:
+        progress_stop();
+        return goto_state(&st_start);
+
     case GUI_MOST_COINS:
     case GUI_BEST_TIMES:
-    case GUI_UNLOCK_GOAL:
+    case GUI_FAST_UNLOCK:
         gui_score_set(i);
         resume = 1;
         return goto_state(&st_goal);
@@ -195,14 +204,16 @@ static int goal_enter(void)
         if ((jd = gui_hstack(id)))
             gui_score_board(jd, GUI_MOST_COINS |
                                 GUI_BEST_TIMES |
-                                GUI_UNLOCK_GOAL, 1, high);
+                                GUI_FAST_UNLOCK, 1, high);
 
         gui_space(id);
 
         if ((jd = gui_harray(id)))
         {
-            if (progress_done())
+            if      (progress_done())
                 gui_start(jd, _("Finish"), GUI_SML, GOAL_DONE, 0);
+            else if (progress_last())
+                gui_start(jd, _("Finish"), GUI_SML, GOAL_LAST, 0);
 
             if (progress_next_avail())
                 gui_start(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
@@ -223,11 +234,11 @@ static int goal_enter(void)
 
     set_score_board(&l->score.most_coins,  progress_coin_rank(),
                     &l->score.best_times,  progress_time_rank(),
-                    &l->score.unlock_goal, progress_goal_rank());
+                    &l->score.fast_unlock, progress_goal_rank());
 
     audio_music_fade_out(2.0f);
 
-    config_clr_grab();
+    video_clr_grab();
 
     /* Reset hack. */
     resume = 0;
@@ -239,14 +250,12 @@ static void goal_timer(int id, float dt)
 {
     static float t = 0.0f;
 
-    float g[3] = { 0.0f, 9.8f, 0.0f };
-
     t += dt;
 
     if (time_state() < 1.f)
     {
-        demo_play_step();
-        game_step(g, dt, 0);
+        game_server_step(dt);
+        game_client_step(demo_file());
     }
     else if (t > 0.05f && coins_id)
     {

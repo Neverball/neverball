@@ -17,10 +17,15 @@
 #include "gui.h"
 #include "vec3.h"
 #include "demo.h"
-#include "game.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
+#include "cmd.h"
+
+#include "game_common.h"
+#include "game_server.h"
+#include "game_client.h"
+#include "game_proxy.h"
 
 #include "st_title.h"
 #include "st_help.h"
@@ -28,6 +33,24 @@
 #include "st_conf.h"
 #include "st_set.h"
 #include "st_name.h"
+
+/*---------------------------------------------------------------------------*/
+
+static int init_title_level(void)
+{
+    if (game_client_init("map-medium/title.sol"))
+    {
+        union cmd cmd;
+
+        cmd.type = CMD_GOAL_OPEN;
+        game_proxy_enq(&cmd);
+
+        game_client_step(NULL);
+
+        return 1;
+    }
+    return 0;
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -152,7 +175,7 @@ static int title_enter(void)
 
     /* Initialize the title level for display. */
 
-    game_init("map-medium/title.sol", 0, 1);
+    init_title_level();
 
     real_time = 0.0f;
     mode = 0;
@@ -180,7 +203,11 @@ static void title_timer(int id, float dt)
     case 0: /* Mode 0: Pan across title level. */
 
         if (real_time <= 20.0f)
-            game_set_fly(fcosf(V_PI * real_time / 20.0f));
+        {
+            game_set_fly(fcosf(V_PI * real_time / 20.0f),
+                         game_client_file());
+            game_client_step(NULL);
+        }
         else
         {
             game_fade(+1.0f);
@@ -196,7 +223,8 @@ static void title_timer(int id, float dt)
             if ((demo = demo_pick()))
             {
                 demo_replay_init(demo, NULL, NULL, NULL, NULL, NULL);
-                game_set_fly(0.0f);
+                game_set_fly(0.0f, game_client_file());
+                game_client_step(NULL);
                 real_time = 0.0f;
                 mode = 2;
             }
@@ -224,7 +252,7 @@ static void title_timer(int id, float dt)
 
         if (real_time > 1.0f)
         {
-            game_init("map-medium/title.sol", 0, 1);
+            init_title_level();
 
             real_time = 0.0f;
             mode = 0;

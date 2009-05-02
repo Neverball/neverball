@@ -4,7 +4,7 @@
  '/
 #include "file.bi"
 dim as ushort MaxLen, MaxVertWhitespace
-dim as uinteger VioCount(2,2)
+dim as uinteger VioCount(2,2), TotalSize, FileCount
 dim as string File
 
 /'
@@ -32,6 +32,8 @@ if eof(2) = 0 then
 	        dim as string PresentLine
 	        dim as uinteger CurLine, LineCombo
 	        print #1, "File ";File;" ("& FileLen(File);" bytes) opened."
+	        TotalSize += FileLen(File)
+	        FileCount += 1
 	        open File for input as #3
 	        do
 	            CurLine += 1
@@ -53,7 +55,9 @@ if eof(2) = 0 then
 	                if len(PresentLine) > MaxLen then
 	                    VioCount(1,1) += 1
 	                    VioCount(1,2) += 1
-	                    print #1, "* Length violation found at Line ";CurLine;"."
+	                    print #1, "* Length violation found at Line ";CurLine;".";
+	                    print #1, " There are "& len(PresentLine)-MaxLen;
+	                    print #1, " character(s) too many."
 	                    print #1, string(MaxLen,"-");"|"
 	                    print #1, PresentLine
 	                    print #1, string(MaxLen,"-");"|"
@@ -64,7 +68,7 @@ if eof(2) = 0 then
 	        print #1, "File ";File;" closed. ";
 	        print #1, VioCount(1,1);" length and ";VioCount(2,1);_
 	            " vertical whitespace violation(s) found."
-            print #1, "Per kilobyte (SI-wise), there are ";
+            print #1, "Per kilobyte (SI), there are ";
             print #1, using "##.##";VioCount(1,1)/FileLen(File)*1000;
 	        print #1, " length violations and ";
             print #1, using "##.##";VioCount(2,1)/FileLen(File)*1000;
@@ -77,6 +81,20 @@ if eof(2) = 0 then
 end if
 
 close #2
-print #1, "Checking complete. A total of ";VioCount(1,2);" length and ";_
-	VioCount(2,2);" vertical whitespace violation(s) found."
+print #1, "Checking complete."
+print #1, "-- Statistics --"
+print #1, "Total files: ";FileCount;" files"
+print #1, "Total project size: ";TotalSize;" bytes"
+print #1, "Average file size: ";
+print #1, using "#######.### bytes/file";TotalSize/FileCount
+print #1, "Total Length violations: ";VioCount(1,2)
+print #1, "Length violations per kilobyte (SI): ";
+print #1, using "##.###";VioCount(1,2)/TotalSize*1000
+print #1, "Length violations per file: ";
+print #1, using "##.###";VioCount(1,2)/FileCount
+print #1, "Total Vertical whitespace violations: ";VioCount(2,2)
+print #1, "Vertical whitespace violations per kilobyte (SI): ";
+print #1, using "##.###";VioCount(2,2)/TotalSize*1000
+print #1, "Vertical whitespace violations per file: ";
+print #1, using "##.###";VioCount(2,2)/FileCount
 close #1

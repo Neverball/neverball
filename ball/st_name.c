@@ -19,9 +19,13 @@
 #include "util.h"
 #include "audio.h"
 #include "config.h"
-#include "game.h"
+#include "video.h"
 #include "text.h"
 #include "back.h"
+
+#include "game_common.h"
+#include "game_server.h"
+#include "game_client.h"
 
 #include "st_name.h"
 #include "st_shared.h"
@@ -94,7 +98,7 @@ static int name_enter(void)
 
     if (draw_back)
     {
-        game_free();
+        game_client_free();
         back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
     }
 
@@ -138,11 +142,11 @@ static void name_paint(int id, float t)
 {
     if (draw_back)
     {
-        config_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+        video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
         {
             back_draw(0);
         }
-        config_pop_matrix();
+        video_pop_matrix();
     }
     else
         game_draw(0, t);

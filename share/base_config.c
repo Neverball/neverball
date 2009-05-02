@@ -21,6 +21,7 @@
 #include "base_config.h"
 #include "glext.h"
 #include "vec3.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -82,6 +83,8 @@ const char *config_user(const char *file)
 
 /*---------------------------------------------------------------------------*/
 
+const char *config_exec_path;
+
 /*
  * Attempt to find  the game data directory.  Search  the command line
  * parameter,  the environment,  and the  hard-coded default,  in that
@@ -103,9 +106,11 @@ int config_data_path(const char *path, const char *file)
         return 1;
     }
 
-    if (config_test(CONFIG_DATA, file))
+    dir = path_resolve(config_exec_path, CONFIG_DATA);
+
+    if (config_test(dir, file))
     {
-        strncpy(data_path, CONFIG_DATA, MAXSTR);
+        strncpy(data_path, dir, MAXSTR);
         return 1;
     }
 

@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
 "levelname" "bombman-mym"
-"version" "2"
+"version" "1"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
 "song" "bgm/track2.ogg"
