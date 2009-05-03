@@ -1,5 +1,5 @@
 /'
- ' Generator graphics
+ ' Generator resources
  '/
 const North = 1
 const East = 2
@@ -18,7 +18,7 @@ sub base_gfx
         for YG = -10 to 10
             if Contents(XG,YG,ZP) < > 0 then
                 line((XG+10)*20+1,(-YG+10)*20+1) - _
-                    ((XG+11)*20-1,(-YG+9)*20-1),rgb(255,0,255),bf
+                    ((XG+11)*20-1,(-YG+11)*20-1),rgb(255,0,255),bf
             end if
         next
     next

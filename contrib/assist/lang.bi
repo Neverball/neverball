@@ -103,8 +103,8 @@
                     next ConvertID
                     close #l
                 else
-                    print "Unable to open "+MasterDir+"_
-                        /"+LangFile+" for reading."
+                    print "Unable to open "+MasterDir+_
+                        "/"+LangFile+" for reading."
                     sleep
                 end if
             end if

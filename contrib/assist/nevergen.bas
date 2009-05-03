@@ -3,14 +3,15 @@
  '
  ' It significantly simplifies the level creation process. Although this makes
  ' level creation easier, it is not intended to replace GtkRadiant as it has
- ' a limited capacity in generating.
+ ' a limited capacity in generating. You can still edit maps in Radiant, but
+ ' Neverassistant allows easy generation of these maps.
  '
  ' For example, each individual "brush" as Radiant calls it or "lump" as
  ' Neverball calls. It does not exist in the Assistant. It uses the term
  ' "construction block", which can be comprised of multiple lumps or entities.
  '
  ' Radiant allows virtually limitless freeform placement. The Neverassistant
- ' is presently limited to a 21x21x31 grid, with at msot one
+ ' is presently limited to a 21x21x31 grid, with at most one
  ' "construction block" in each slot. Also, the Neverassistant makes one
  ' worldspawn entity for each construction block and one entity for metadata.
  '
@@ -31,6 +32,7 @@
      '/
     #include "neverblocks.bas"
     sub map_generate
+        dim as ubyte Hold(128)
         /'
          ' This subroutine allows generation of a map.
          '/
@@ -176,12 +178,10 @@
             elseif multikey(SC_MINUS) AND multikey(SC_LSHIFT) then
                 if TargetCoins > 0 then TargetCoins -= 1
             end if
-            if multikey(SC_SLASH) AND (Hold = 0) then
-                Hold = 100
+            if multikey(SC_SLASH) AND (Hold(SC_SLASH) = 0) then
+                Hold(SC_SLASH) = 100
                 if Openings > = 2 then Openings -= 2
             end if
-
-            if (NOT multikey(SC_SLASH)) AND (Hold > 0) then Hold -= 1
 
             /'
              ' This prevents maps made with this program from getting away
@@ -305,7 +305,7 @@
                     XR = 1
                     YR = 1
                     ZR = 1
-	                clear_preview
+                    clear_preview
                 elseif multikey(SC_7) then
                     BlockType = 17
                     XR = 1
@@ -317,13 +317,13 @@
                     XR = 1
                     YR = 1
                     ZR = 1
-	                clear_preview
+                    clear_preview
                 elseif multikey(SC_9) then
                     BlockType = 19
                     XR = 1
                     YR = 1
                     ZR = 1
-	                clear_preview
+                    clear_preview
                 end if
 
             elseif BlockSet = 2 then
@@ -332,7 +332,7 @@
                     XR = 1
                     YR = 1
                     ZR = 1
-	                clear_preview
+                    clear_preview
                 elseif multikey(SC_2) then
                     BlockType = 22
                     XR = 1
@@ -359,19 +359,19 @@
                     XR = 1
                     YR = 1
                     ZR = 1
-	                clear_preview
+                    clear_preview
                 elseif multikey(SC_2) then
                     BlockType = 42
                     XR = 1
                     YR = 1
                     ZR = 1
-	                clear_preview
+                    clear_preview
                 elseif multikey(SC_3) then
                     BlockType = 43
                     XR = 1
                     YR = 1
                     ZR = 1
-	                clear_preview
+                    clear_preview
                 elseif multikey(SC_4) then
                     BlockType = 44
                     XR = 2
@@ -402,8 +402,9 @@
             /'
              ' This rotates the block
              '/
-            if multikey(SC_CONTROL) then
+            if multikey(SC_CONTROL) AND Hold(SC_CONTROL) = 0 then
                 if Rotation < 4 then Rotation += 1 else Rotation = 1
+                Hold(SC_CONTROL) = 1
             end if
 
             /'
@@ -686,6 +687,9 @@
              ' This places the block
              '/
             if multikey(SC_SPACE) then place_block
+            for KID as ubyte = 1 to 128
+                if Hold(KID) AND multikey(KID) = 0 then Hold(KID) = 0
+            next KID
 
             /'
              ' Generator graphics
@@ -695,7 +699,7 @@
             direction_gfx
             screenunlock
 
-            sleep
+            sleep 100,1
 
         loop until multikey(SC_ESCAPE)
 
@@ -768,10 +772,10 @@
                     print "the new level."
                     sleep
                 else
-    	            cls
-    	            color rgb(255,0,0)
-    	            print lang("Unable to open the map for output.")
-    	            color rgb(255,255,255)
+                    cls
+                    color rgb(255,0,0)
+                    print lang("Unable to open the map for output.")
+                    color rgb(255,255,255)
                 end if
             end if
         else

@@ -297,7 +297,7 @@
                 print "<A> ";lang("Neverball Easy Level 09: " + _
                     "How to 100% the level")
                 print "<B> ";lang("Neverball Easy Bonus Level 5: " + _
-                    How to 100% the level")
+                    "How to 100% the level")
                 print lang("Hit BACKSPACE to exit the directory.")
                 print
                 do

@@ -20,8 +20,7 @@ sub compile_blocks
                          ' file.
                          '/
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+_
-                            " "+chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         ptf(0,-16,0,0,-16,-128,0,-144,0,0,2)
@@ -34,7 +33,7 @@ sub compile_blocks
 
                         print #m, "// brush 1"
                         print #m, "{"
-                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,"arrow-green-light")
+                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,6)
                         ptf(1,0,0,80,-128,0,80,0,0,-48,0)
                         ptf(1,0,0,80,0,0,-48,0,-128,80,0)
                         ptf(1,-128,-128,0,0,-128,0,-128,0,0,0)
@@ -50,10 +49,10 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
-                               "info_player_start"+chr(34)
-                        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
-                               " "& YP*128-64;" "& ZP*64+24;chr(34)
+                        print #m, quote("classname")+" " + _
+                            quote("info_player_start")
+                        print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                            " "+str(YP*128-64)+" "+str(ZP*64+24))
                         print #m, "}"
                         /'
                          ' This provides the first part of the initial camera.
@@ -61,19 +60,18 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" "+chr(34) + _
-                               "info_player_intermission"+chr(34)
-                        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
-                               " "& YP*128-64;" "& ZP*64+224;chr(34)
-                        print #m, chr(34)+"target"+chr(34)+" "+chr(34)+"goal"+chr(34)
+                        print #m, quote("classname")+" "+chr(34) + _
+                            "info_player_intermission"+chr(34)
+                        print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                            " "+str(YP*128-64)+" "+str(ZP*64+224))
+                        print #m, quote("target")+" "+quote("goal")
                         print #m, "}"
 
                     case 11
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         /'
@@ -107,8 +105,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
 
@@ -157,8 +154,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         select case Direction(XP,YP,ZP)
@@ -198,8 +194,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         /'
@@ -221,8 +216,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         if Direction(XP,YP,ZP) = NS then
@@ -252,8 +246,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         select case Direction(XP,YP,ZP)
@@ -294,8 +287,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
 
@@ -336,8 +328,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
 
@@ -379,8 +370,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         if Direction(XP,YP,ZP) = NS then
@@ -429,8 +419,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         select case Direction(XP,YP,ZP)
@@ -471,8 +460,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         ptf(0,-16,0,0,-16,-128,0,-144,0,0,4)
@@ -497,8 +485,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
 
@@ -539,8 +526,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         if Direction(XP,YP,ZP) = NS then
@@ -567,8 +553,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         if Direction(XP,YP,ZP) = NS then
@@ -596,8 +581,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         if Direction(XP,YP,ZP) = NS then
@@ -619,16 +603,14 @@ sub compile_blocks
                         print #m, "}"
 
                         /'
-                         ' Even trains can be utilized in this assistant. I
-                         ' should expand this, however, to allow all
-                         ' directions. It doesn't do this yet.
+                         ' Even trains can be utilized in this assistant.
                          '/
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"func_train"+chr(34)
-                        print #m, chr(34)+"target"+chr(34)+" "+chr(34)+"path_corner"; _
-                               ""& Entity+1;chr(34)
+                        print #m, quote("classname")+" "+quote("func_train")
+                        print #m, quote("target")+" " + _
+                            quote("path_corner"+str(Entity+1))
                         print #m, "// brush 0"
                         print #m, "{"
                         if Direction(XP,YP,ZP) = NS then
@@ -655,36 +637,59 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"path_corner"+chr(34)
-                        if Direction(XP,YP,ZP) = NS then
-                            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-32; _
-                                      " "& YP*128-64;" "& ZP*64-16;chr(34)
-                        elseif Direction(XP,YP,ZP) = EW then
-                            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
-                                      " "& YP*128-96;" "& ZP*64-16;chr(34)
-                        end if
-                        print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"path_corner"; _
-                               ""& Entity-1;chr(34)
-                        print #m, chr(34)+"target"+chr(34)+" "+chr(34)+"path_corner"; _
-                               ""& Entity;chr(34)
-                        print #m, chr(34)+"speed"+chr(34)+" "+chr(34)+"3"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
+                        select case Direction(XP,YP,ZP)
+                        	case North
+                                print #m, quote("origin")+" "+quote( _
+                                    str(XP*128-32)+" "+str(YP*128-64)+" " + _
+                                    str(ZP*64-16))
+                            case West
+                                print #m, quote("origin")+" "+quote( _
+                                    str(XP*128-64)+" "+str(YP*128-96)+" " + _
+                                    str(ZP*64-16))
+                            case South
+                                print #m, quote("origin")+" "+quote( _
+                                    str(XP*128-96)+" "+str(YP*128-64)+" " + _
+                                    str(ZP*64-16))
+                        	case West
+                                print #m, quote("origin")+" "+quote( _
+                                    str(XP*128-64)+" "+str(YP*128-32)+" " + _
+                                    str(ZP*64-16))
+                        end select
+                        print #m, quote("targetname")+" " + _
+                            quote("path_corner"+str(Entity-1))
+                        print #m, quote("targetname")+" " + _
+                            quote("path_corner"+str(Entity))
+                        print #m, quote("speed")+" "+quote("3")
                         print #m, "}"
+
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" "+chr(34)+"path_corner"+chr(34)
-                        if Direction(XP,YP,ZP) = NS then
-                            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-96; _
-                                      " "& YP*128-64;" "& ZP*64-16;chr(34)
-                        elseif Direction(XP,YP,ZP) = EW then
-                            print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
-                                      " "& YP*128-32;" "& ZP*64-16;chr(34)
-                        end if
-                        print #m, chr(34)+"targetname"+chr(34)+" "+chr(34)+"path_corner"; _
-                               ""& Entity-1;chr(34)
-                        print #m, chr(34)+"target"+chr(34)+" "+chr(34)+"path_corner"; _
-                               ""& Entity-2;chr(34)
-                        print #m, chr(34)+"speed"+chr(34)+" "+chr(34)+"3"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
+                        select case Direction(XP,YP,ZP)
+                        	case North
+                                print #m, quote("origin")+" "+quote( _
+                                    str(XP*128-96)+" "+str(YP*128-64)+" " + _
+                                    str(ZP*64-16))
+                            case West
+                                print #m, quote("origin")+" "+quote( _
+                                    str(XP*128-64)+" "+str(YP*128-32)+" " + _
+                                    str(ZP*64-16))
+                            case South
+                                print #m, quote("origin")+" "+quote( _
+                                    str(XP*128-32)+" "+str(YP*128-64)+" " + _
+                                    str(ZP*64-16))
+                        	case West
+                                print #m, quote("origin")+" "+quote( _
+                                    str(XP*128-64)+" "+str(YP*128-96)+" " + _
+                                    str(ZP*64-16))
+                        end select
+                        print #m, quote("targetname")+" " + _
+                            quote("path_corner"+str(Entity-1))
+                        print #m, quote("targetname")+" " + _
+                            quote("path_corner"+str(Entity-2))
+                        print #m, quote("speed")+" "+quote("3")
                         print #m, "}"
 
                     case 43
@@ -694,8 +699,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
                         print #m, "// brush 0"
                         print #m, "{"
                         if Direction(XP,YP,ZP) = NS then
@@ -764,8 +768,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
                         print #m, "// brush 0"
                         print #m, "{"
                         /'
@@ -794,8 +797,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
                         print #m, "// brush 0"
                         print #m, "{"
                         /'
@@ -824,8 +826,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
                         print #m, "// brush 0"
                         print #m, "{"
                         /'
@@ -854,8 +855,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
                         print #m, "// brush 0"
                         print #m, "{"
                         /'
@@ -884,25 +884,25 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
                         print #m, "// brush 0"
                         print #m, "{"
-                        if Direction(XP,YP,ZP) = NS then
-                            ptf(0,-16,0,0,-16,-128,0,-144,0,0,2)
-                            ptf(0,0,0,64,-128,0,64,0,0,-64,0)
-                            ptf(0,0,0,64,0,0,-64,0,-128,64,1)
-                            ptf(0,-128,-128,-16,0,-128,-16,-128,0,-16,1)
-                            ptf(0,-128,-128,-64,0,-128,64,0,-128,-64,0)
-                            ptf(0,-128,-128,-64,-128,0,-64,-128,-128,64,1)
-                        elseif Direction(XP,YP,ZP) = EW then
-                            ptf(0,-16,0,0,-16,-128,0,-144,0,0,2)
-                            ptf(0,0,0,64,-128,0,64,0,0,-64,1)
-                            ptf(0,0,0,64,0,0,-64,0,-128,64,0)
-                            ptf(0,-128,-128,-16,0,-128,-16,-128,0,-16,1)
-                            ptf(0,-128,-128,-64,0,-128,64,0,-128,-64,1)
-                            ptf(0,-128,-128,-64,-128,0,-64,-128,-128,64,1)
-                        end if
+                        select case Direction(XP,YP,ZP)
+                            case NS
+                                ptf(0,-16,0,0,-16,-128,0,-144,0,0,2)
+                                ptf(0,0,0,64,-128,0,64,0,0,-64,0)
+                                ptf(0,0,0,64,0,0,-64,0,-128,64,1)
+                                ptf(0,-128,-128,-16,0,-128,-16,-128,0,-16,1)
+                                ptf(0,-128,-128,-64,0,-128,64,0,-128,-64,0)
+                                ptf(0,-128,-128,-64,-128,0,-64,-128,-128,64,1)
+                            case EW
+                                ptf(0,-16,0,0,-16,-128,0,-144,0,0,2)
+                                ptf(0,0,0,64,-128,0,64,0,0,-64,1)
+                                ptf(0,0,0,64,0,0,-64,0,-128,64,0)
+                                ptf(0,-128,-128,-16,0,-128,-16,-128,0,-16,1)
+                                ptf(0,-128,-128,-64,0,-128,64,0,-128,-64,1)
+                                ptf(0,-128,-128,-64,-128,0,-64,-128,-128,64,1)
+                        end select
 
                         /'
                          ' Notice that the brush below is completely
@@ -913,7 +913,7 @@ sub compile_blocks
                         print #m, "}"
                         print #m, "// brush 1"
                         print #m, "{"
-                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,"goal")
+                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,7)
                         ptf(1,0,0,80,-128,0,80,0,0,-48,0)
                         ptf(1,0,0,80,0,0,-48,0,-128,80,0)
                         ptf(1,-128,-128,0,0,-128,0,-128,0,0,0)
@@ -924,10 +924,10 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                               chr(34)+"info_player_deathmatch"+chr(34)
-                        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
-                               " "&YP*128-64;" "& ZP*64+24;chr(34)
+                        print #m, quote("classname")+" " + _
+                            quote("info_player_deathmatch")
+                        print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                            " "+str(YP*128-64)+" "+str(ZP*64+24))
                         print #m, "}"
 
                         /'
@@ -940,13 +940,11 @@ sub compile_blocks
                             print #m, "// entity ";Entity
                             Entity += 1
                             print #m, "{"
-                            print #m, chr(34)+"classname"+chr(34) + _
-                                " "+chr(34)+"target_position"+chr(34)
-                            print #m, chr(34)+"origin"+chr(34)+" " + _
-                                chr(34)& XP*128-64;" "& YP*128-64;" "& _
-                                ZP*64+128;chr(34)
-                            print #m, chr(34)+"targetname"+chr(34)+" " + _
-                                chr(34)+"goal"+chr(34)
+                            print #m, quote("classname")+" " + _
+                                quote("target_position")
+                            print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                                " "+str(YP*128-64)+" "+str(ZP*64+128))
+                            print #m, quote("targetname")+" "+quote("goal")
                             print #m, "}"
                         end if
                         Finish(2) += 1
@@ -955,8 +953,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
                         print #m, "// brush 0"
                         print #m, "{"
                         select case Direction(XP,YP,ZP)
@@ -993,7 +990,7 @@ sub compile_blocks
 
                         print #m, "// brush 1"
                         print #m, "{"
-                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,"goal")
+                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,7)
                         ptf(1,0,0,80,-128,0,80,0,0,-48,0)
                         ptf(1,0,0,80,0,0,-48,0,-128,80,0)
                         ptf(1,-128,-128,0,0,-128,0,-128,0,0,0)
@@ -1004,23 +1001,21 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                               chr(34)+"info_player_deathmatch"+chr(34)
-                        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
-                               " "&YP*128-64;" "& ZP*64+24;chr(34)
+                        print #m, quote("classname")+" " + _
+                            quote("info_player_deathmatch")
+                        print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                            " "+str(YP*128-64)+" "+str(ZP*64+24))
                         print #m, "}"
 
                         if Finish(2) = 0 then
                             print #m, "// entity ";Entity
                             Entity += 1
                             print #m, "{"
-                            print #m, chr(34)+"classname"+chr(34) + _
-                                " "+chr(34)+"target_position"+chr(34)
-                            print #m, chr(34)+"origin"+chr(34)+" " + _
-                                chr(34)& XP*128-64;" "& YP*128-64;" "& _
-                                ZP*64+128;chr(34)
-                            print #m, chr(34)+"targetname"+chr(34)+" " + _
-                                chr(34)+"goal"+chr(34)
+                            print #m, quote("classname")+" " + _
+                                quote("target_position")
+                            print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                                " "+str(YP*128-64)+" "+str(ZP*64+128))
+                            print #m, quote("targetname")+" "+quote("goal")
                             print #m, "}"
                         end if
                         Finish(2) += 1
@@ -1029,8 +1024,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
                         print #m, "// brush 0"
                         print #m, "{"
                         select case Direction(XP,YP,ZP)
@@ -1067,7 +1061,7 @@ sub compile_blocks
 
                         print #m, "// brush 1"
                         print #m, "{"
-                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,"goal")
+                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,7)
                         ptf(1,0,0,80,-128,0,80,0,0,-48,0)
                         ptf(1,0,0,80,0,0,-48,0,-128,80,0)
                         ptf(1,-128,-128,0,0,-128,0,-128,0,0,0)
@@ -1078,23 +1072,21 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                               chr(34)+"info_player_deathmatch"+chr(34)
-                        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
-                               " "&YP*128-64;" "& ZP*64+24;chr(34)
+                        print #m, quote("classname")+" " + _
+                            quote("info_player_deathmatch")
+                        print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                            " "+str(YP*128-64)+" "+str(ZP*64+24))
                         print #m, "}"
 
                         if Finish(2) = 0 then
                             print #m, "// entity ";Entity
                             Entity += 1
                             print #m, "{"
-                            print #m, chr(34)+"classname"+chr(34) + _
-                                " "+chr(34)+"target_position"+chr(34)
-                            print #m, chr(34)+"origin"+chr(34)+" " + _
-                                chr(34)& XP*128-64;" "& YP*128-64;" "& _
-                                ZP*64+128;chr(34)
-                            print #m, chr(34)+"targetname"+chr(34)+" " + _
-                                chr(34)+"goal"+chr(34)
+                            print #m, quote("classname")+" " + _
+                                quote("target_position")
+                            print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                                " "+str(YP*128-64)+" "+str(ZP*64+128))
+                            print #m, quote("targetname")+" "+quote("goal")
                             print #m, "}"
                         end if
                         Finish(2) += 1
@@ -1103,8 +1095,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
                         print #m, "// brush 0"
                         print #m, "{"
                         ptf(0,-16,0,0,-16,-128,0,-144,0,0,2)
@@ -1117,7 +1108,7 @@ sub compile_blocks
 
                         print #m, "// brush 1"
                         print #m, "{"
-                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,"goal")
+                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,7)
                         ptf(1,0,0,80,-128,0,80,0,0,-48,0)
                         ptf(1,0,0,80,0,0,-48,0,-128,80,0)
                         ptf(1,-128,-128,0,0,-128,0,-128,0,0,0)
@@ -1128,23 +1119,21 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                               chr(34)+"info_player_deathmatch"+chr(34)
-                        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& XP*128-64; _
-                               " "&YP*128-64;" "& ZP*64+24;chr(34)
+                        print #m, quote("classname")+" " + _
+                            quote("info_player_deathmatch")
+                        print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                            " "+str(YP*128-64)+" "+str(ZP*64+24))
                         print #m, "}"
 
                         if Finish(2) = 0 then
                             print #m, "// entity ";Entity
                             Entity += 1
                             print #m, "{"
-                            print #m, chr(34)+"classname"+chr(34) + _
-                                " "+chr(34)+"target_position"+chr(34)
-                            print #m, chr(34)+"origin"+chr(34)+" " + _
-                                chr(34)& XP*128-64;" "& YP*128-64;" "& _
-                                ZP*64+128;chr(34)
-                            print #m, chr(34)+"targetname"+chr(34)+" " + _
-                                chr(34)+"goal"+chr(34)
+                            print #m, quote("classname")+" " + _
+                                quote("target_position")
+                            print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                                " "+str(YP*128-64)+" "+str(ZP*64+128))
+                            print #m, quote("targetname")+" "+quote("goal")
                             print #m, "}"
                         end if
                         Finish(2) += 1
@@ -1153,8 +1142,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                            chr(34)+"worldspawn"+chr(34)
+                        print #m, quote("classname")+" "+quote("path_corner")
                         print #m, "// brush 0"
                         print #m, "{"
                         select case Direction(XP,YP,ZP)
@@ -1191,7 +1179,7 @@ sub compile_blocks
                         print #m, "}"
                         print #m, "// brush 1"
                         print #m, "{"
-                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,"goal")
+                        ptf(1,-16,0,1,-16,-128,1,-144,0,1,7)
                         ptf(1,0,0,80,-128,0,80,0,0,-48,0)
                         ptf(1,0,0,80,0,0,-48,0,-128,80,0)
                         ptf(1,-128,-128,0,0,-128,0,-128,0,0,0)
@@ -1202,23 +1190,21 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, chr(34)+"classname"+chr(34)+" " + _
-                               chr(34)+"info_player_deathmatch"+chr(34)
-                        print #m, chr(34)+"origin"+chr(34)+" "+chr(34)& _
-                            XP*128-64;" "&YP*128-64;" "& ZP*64+24;chr(34)
+                        print #m, quote("classname")+" " + _
+                            quote("info_player_deathmatch")
+                        print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                            " "+str(YP*128-64)+" "+str(ZP*64+24))
                         print #m, "}"
 
                         if Finish(2) = 0 then
                             print #m, "// entity ";Entity
                             Entity += 1
                             print #m, "{"
-                            print #m, chr(34)+"classname"+chr(34) + _
-                                " "+chr(34)+"target_position"+chr(34)
-                            print #m, chr(34)+"origin"+chr(34)+" " + _
-                                chr(34)& XP*128-64;" "& YP*128-64;" "& _
-                                ZP*64+128;chr(34)
-                            print #m, chr(34)+"targetname"+chr(34)+" " + _
-                                chr(34)+"goal"+chr(34)
+                            print #m, quote("classname")+" " + _
+                                quote("target_position")
+                            print #m, quote("origin")+" "+quote(str(XP*128-64)+_
+                                " "+str(YP*128-64)+" "+str(ZP*64+128))
+                            print #m, quote("targetname")+" "+quote("goal")
                             print #m, "}"
                         end if
                         Finish(2) += 1

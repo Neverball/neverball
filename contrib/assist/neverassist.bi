@@ -3,10 +3,10 @@
  '/
 #include "lang.bi"
 randomize timer
-dim shared as ubyte XM, YM, XG, YG, BlockType, BlockSet, Rotation, XR, YR, _
+dim shared as ubyte XM, YM, BlockType, BlockSet, Rotation, XR, YR, _
     ZR, Start, Finish(2), MusicSwitch, XSwitch, YSwitch, ZSwitch, Warning, _
     Hold, Openings, Putt, MusicID
-dim shared as byte XP, YP, ZP
+dim shared as byte XP, YP, ZP, XG, YG
 dim shared as uinteger Entity, LevelTime, Blocks, TargetCoins, Coins, _
     MinimumLevelTime, UsedMoney, SingleLevelID
 dim shared as longint PlacementTest(-11 to 11,-11 to 11,-11 to 21), _
@@ -69,8 +69,9 @@ sub ptf(Detail as ubyte, XOff1 as short, YOff1 as short, _
     ZOff1 as short, XOff2 as short, YOff2 as short, ZOff2 as short, _
     XOff3 as short, YOff3 as short, ZOff3 as short, _
     TexID as ubyte = 0)
-    dim as string Texture(0 to 99) => {"invisible", "turf-grey", _
-        "turf-green", "turf-green-dark", "coin-green-small", "yellow"}
+    dim as string Texture(0 to 7) => {"invisible", "turf-grey", _
+        "turf-green", "turf-green-dark", "coin-green-small", "yellow", _
+        "arrow-green-light","goal"}
     'Plots a face.
     if Detail < 2 then
         print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "; _
@@ -133,6 +134,11 @@ declare sub clkey
 sub clkey
     while (inkey < > ""):wend
 end sub
+
+declare function quote(Argument as string) as string
+function quote(Argument as string) as string
+	return chr(34)+Argument+chr(34)
+end function
 
 /'
  ' This allows configuration management. 0 saves the data (default) and any
