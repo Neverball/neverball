@@ -9,28 +9,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-static Array items;
-
-static void free_items(void)
-{
-    if (items)
-    {
-        struct dir_item *item;
-        int i;
-
-        for (i = 0; i < array_len(items); i++)
-        {
-            item = array_get(items, i);
-
-            free(item->data);
-            item->data = NULL;
-        }
-
-        dir_free(items);
-        items = NULL;
-    }
-}
-
 static int scan_item(struct dir_item *item)
 {
     FILE *fp;
@@ -58,29 +36,25 @@ static int scan_item(struct dir_item *item)
     return keep;
 }
 
-int demo_scan(void)
+Array demo_dir_scan(const char *path)
 {
-    free_items();
-
-    items = dir_scan(config_user(""), scan_item);
-
-    return array_len(items);
+    return dir_scan(path, scan_item);
 }
 
-const char *demo_pick(void)
+void demo_dir_free(Array items)
 {
     struct dir_item *item;
-    struct demo *d;
+    int i;
 
-    demo_scan();
+    for (i = 0; i < array_len(items); i++)
+    {
+        item = array_get(items, i);
 
-    return (item = array_rnd(items)) && (d = item->data) ? d->filename : NULL;
-}
+        free(item->data);
+        item->data = NULL;
+    }
 
-const struct demo *demo_get(int i)
-{
-    return DIR_ITEM_GET(items, i)->data;
+    dir_free(items);
 }
 
 /*---------------------------------------------------------------------------*/
-

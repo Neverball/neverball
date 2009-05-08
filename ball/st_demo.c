@@ -39,6 +39,8 @@
 #define DEMO_LINE 4
 #define DEMO_STEP 8
 
+static Array items;
+
 static int first = 0;
 static int total = 0;
 
@@ -70,7 +72,7 @@ static int demo_action(int i)
         break;
 
     default:
-        if (progress_replay(demo_get(i)->filename))
+        if (progress_replay(DEMO_GET(items, i)->filename))
         {
             last_viewed = i;
             demo_play_goto(0);
@@ -91,12 +93,12 @@ static void demo_replay(int id, int i)
 
     char nam[MAXNAM + 3];
 
-    trunc_string(demo_get(i)->name, nam, sizeof (nam));
+    trunc_string(DEMO_GET(items, i)->name, nam, sizeof (nam));
 
     if ((jd = gui_vstack(id)))
     {
         gui_space(jd);
-        gui_image(jd, demo_get(i)->shot, w / 6, h / 6);
+        gui_image(jd, DEMO_GET(items, i)->shot, w / 6, h / 6);
         gui_state(jd, nam, GUI_SML, i, 0);
 
         gui_active(jd, i, 0);
@@ -218,7 +220,7 @@ static void gui_demo_update_status(int i)
     const struct demo *d;
 
     if (total > 0)
-        d = demo_get(i < total ? i : 0);
+        d = DEMO_GET(items, i < total ? i : 0);
     else
         return;
 
@@ -243,9 +245,15 @@ static int demo_enter(void)
     int i, j;
     int id, jd, kd;
 
+    if (items)
+        demo_dir_free(items);
+
+    items = demo_dir_scan(config_user(""));
+    total = array_len(items);
+
     id = gui_vstack(0);
 
-    if ((total = demo_scan()))
+    if (total)
     {
         if ((jd = gui_hstack(id)))
         {

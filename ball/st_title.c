@@ -13,6 +13,7 @@
  */
 
 #include <string.h>
+#include <assert.h>
 
 #include "gui.h"
 #include "vec3.h"
@@ -53,10 +54,18 @@ static int init_title_level(void)
     return 0;
 }
 
+static const char *pick_demo(Array items)
+{
+    struct dir_item *item;
+    return (item = array_rnd(items)) ? item->path : NULL;
+}
+
 /*---------------------------------------------------------------------------*/
 
 static float real_time = 0.0f;
 static int   mode      = 0;
+
+static Array items;
 
 static int play_id = 0;
 
@@ -188,6 +197,12 @@ static int title_enter(void)
 
 static void title_leave(int id)
 {
+    if (items)
+    {
+        demo_dir_free(items);
+        items = NULL;
+    }
+
     SDL_EnableUNICODE(0);
     demo_replay_stop(0);
     gui_delete(id);
@@ -221,7 +236,10 @@ static void title_timer(int id, float dt)
 
         if (real_time > 1.0f)
         {
-            if ((demo = demo_pick()))
+            if (!items)
+                items = demo_dir_scan(config_user(""));
+
+            if ((demo = pick_demo(items)))
             {
                 demo_replay_init(demo, NULL, NULL, NULL, NULL, NULL);
                 game_set_fly(0.0f, game_client_file());

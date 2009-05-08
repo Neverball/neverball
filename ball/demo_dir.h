@@ -2,9 +2,12 @@
 #define DEMO_SCAN
 
 #include "demo.h"
+#include "array.h"
+#include "dir.h"
 
-int                demo_scan(void);
-const char        *demo_pick(void);
-const struct demo *demo_get(int);
+#define DEMO_GET(a, i) ((struct demo *) DIR_ITEM_GET((a), (i))->data)
+
+Array demo_dir_scan(const char *);
+void  demo_dir_free(Array);
 
 #endif
