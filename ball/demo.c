@@ -68,7 +68,7 @@ void demo_dump_info(const struct demo *d)
            d->time, d->goal, d->goal_e, d->score, d->balls, d->times);
 }
 
-int demo_header_read(FILE *fp, struct demo *d)
+static int demo_header_read(FILE *fp, struct demo *d)
 {
     int magic;
     int version;
@@ -152,6 +152,42 @@ static void demo_header_write(FILE *fp, struct demo *d)
     put_index(fp, &d->score);
     put_index(fp, &d->balls);
     put_index(fp, &d->times);
+}
+
+/*---------------------------------------------------------------------------*/
+
+struct demo *demo_load(const char *path)
+{
+    FILE *fp;
+    struct demo *d;
+
+    d = NULL;
+
+    if ((fp = fopen(path, FMODE_RB)))
+    {
+        d = malloc(sizeof (struct demo));
+
+        if (demo_header_read(fp, d))
+        {
+            strncpy(d->filename, path, MAXSTR);
+            strncpy(d->name, base_name(d->filename, REPLAY_EXT), PATHMAX);
+            d->name[PATHMAX - 1] = '\0';
+        }
+        else
+        {
+            free(d);
+            d = NULL;
+        }
+
+        fclose(fp);
+    }
+
+    return d;
+}
+
+void demo_free(struct demo *d)
+{
+    free(d);
 }
 
 /*---------------------------------------------------------------------------*/

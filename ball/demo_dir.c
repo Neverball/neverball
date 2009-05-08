@@ -11,29 +11,7 @@
 
 static int scan_item(struct dir_item *item)
 {
-    FILE *fp;
-    struct demo *d;
-    int keep = 0;
-
-    if ((fp = fopen(item->path, FMODE_RB)))
-    {
-        d = malloc(sizeof (struct demo));
-
-        if (demo_header_read(fp, d))
-        {
-            strncpy(d->filename, item->path, MAXSTR);
-            strncpy(d->name, base_name(d->filename, REPLAY_EXT), PATHMAX);
-            d->name[PATHMAX - 1] = '\0';
-
-            item->data = d;
-            keep = 1;
-        }
-        else free(d);
-
-        fclose(fp);
-    }
-
-    return keep;
+    return (item->data = demo_load(item->path)) ? 1 : 0;
 }
 
 Array demo_dir_scan(const char *path)
@@ -50,7 +28,7 @@ void demo_dir_free(Array items)
     {
         item = array_get(items, i);
 
-        free(item->data);
+        demo_free(item->data);
         item->data = NULL;
     }
 
