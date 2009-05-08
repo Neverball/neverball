@@ -180,6 +180,7 @@ BALL_OBJS := \
 	ball/progress.o     \
 	ball/set.o          \
 	ball/demo.o         \
+	ball/demo_dir.o     \
 	ball/util.o         \
 	ball/st_conf.o      \
 	ball/st_demo.o      \

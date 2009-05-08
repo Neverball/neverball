@@ -21,6 +21,7 @@
 #include "config.h"
 #include "st_shared.h"
 #include "cmd.h"
+#include "demo_dir.h"
 
 #include "game_common.h"
 #include "game_server.h"

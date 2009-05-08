@@ -25,6 +25,7 @@
 #include "st_shared.h"
 #include "util.h"
 #include "common.h"
+#include "demo_dir.h"
 
 #include "game_common.h"
 #include "game_server.h"

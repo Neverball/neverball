@@ -40,7 +40,6 @@
 #define DATELEN 20
 
 static FILE *demo_fp;
-static Array items;
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,7 +68,7 @@ void demo_dump_info(const struct demo *d)
            d->time, d->goal, d->goal_e, d->score, d->balls, d->times);
 }
 
-static int demo_header_read(FILE *fp, struct demo *d)
+int demo_header_read(FILE *fp, struct demo *d)
 {
     int magic;
     int version;
@@ -153,79 +152,6 @@ static void demo_header_write(FILE *fp, struct demo *d)
     put_index(fp, &d->score);
     put_index(fp, &d->balls);
     put_index(fp, &d->times);
-}
-
-/*---------------------------------------------------------------------------*/
-
-static void free_items(void)
-{
-    if (items)
-    {
-        struct dir_item *item;
-        int i;
-
-        for (i = 0; i < array_len(items); i++)
-        {
-            item = array_get(items, i);
-
-            free(item->data);
-            item->data = NULL;
-        }
-
-        dir_free(items);
-        items = NULL;
-    }
-}
-
-static int scan_item(struct dir_item *item)
-{
-    FILE *fp;
-    struct demo *d;
-    int keep = 0;
-
-    if ((fp = fopen(item->path, FMODE_RB)))
-    {
-        d = malloc(sizeof (struct demo));
-
-        if (demo_header_read(fp, d))
-        {
-            strncpy(d->filename, item->path, MAXSTR);
-            strncpy(d->name, base_name(d->filename, REPLAY_EXT), PATHMAX);
-            d->name[PATHMAX - 1] = '\0';
-
-            item->data = d;
-            keep = 1;
-        }
-        else free(d);
-
-        fclose(fp);
-    }
-
-    return keep;
-}
-
-int demo_scan(void)
-{
-    free_items();
-
-    items = dir_scan(config_user(""), scan_item);
-
-    return array_len(items);
-}
-
-const char *demo_pick(void)
-{
-    struct dir_item *item;
-    struct demo *d;
-
-    demo_scan();
-
-    return (item = array_rnd(items)) && (d = item->data) ? d->filename : NULL;
-}
-
-const struct demo *demo_get(int i)
-{
-    return DIR_ITEM_GET(items, i)->data;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -34,9 +34,7 @@ struct demo
 
 /*---------------------------------------------------------------------------*/
 
-int                demo_scan(void);
-const char        *demo_pick(void);
-const struct demo *demo_get(int);
+int demo_header_read(FILE *, struct demo *);
 
 int  demo_exists(const char *);
 
