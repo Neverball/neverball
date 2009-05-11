@@ -23,6 +23,7 @@ D: Various bug fixes for Mac OS X builds
 N: Josh Bush
 D: SVG icons
 D: Screenshot naming tweaks
+D: Teleport design
 
 N: Challenge Space Yard (alias)
 E: challengespaceyard@gmail.com
@@ -80,6 +81,10 @@ D: Original author/composer/graphics artist
 N: Lazrhog (alias)
 D: iPhone/iPod Touch port
 
+N: Jie Luo
+E: lililjlj@gmail.com
+D: Simplified Chinese translation
+
 N: Jeremy Messenger
 D: FreeBSD port
 
@@ -99,6 +104,7 @@ D: Neverball maps
 D: Textures
 D: Grow/shrink items
 D: Level intro texts
+D: Major improvements to curve generation program (contrib/curve.c)
 
 N: Jordà Polo
 D: Debian packaging
@@ -133,6 +139,11 @@ D: Gentoo ebuild
 N: Lars Stoltenow
 D: mapc speed-ups for debugging large maps
 
+N: Matthias Sweertvaegher
+W: http://mattiesworld.gotdns.org
+D: View rotation using second gamepad stick
+D: Configurable fast view rotation bind
+
 N: Tamas Szerb
 D: Debian packaging
 
@@ -164,4 +175,3 @@ D: Windows packaging
 N: Countless others for play testing and bug reports
 W: http://www.happypenguin.org/
 W: http://www.flipcode.com/
-

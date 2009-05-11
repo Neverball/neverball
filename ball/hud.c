@@ -19,10 +19,13 @@
 #include "glext.h"
 #include "hud.h"
 #include "gui.h"
-#include "game.h"
 #include "progress.h"
 #include "config.h"
+#include "video.h"
 #include "audio.h"
+
+#include "game_common.h"
+#include "game_client.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,7 +44,7 @@ static float view_timer;
 
 static void hud_fps(void)
 {
-    gui_set_count(fps_id, config_perf());
+    gui_set_count(fps_id, video_perf());
 }
 
 void hud_init(void)

@@ -20,6 +20,8 @@
 #include <errno.h>
 
 #include "lang.h"
+#include "common.h"
+#include "base_config.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,10 +29,13 @@
 
 /*---------------------------------------------------------------------------*/
 
-void lang_init(const char *domain, const char *default_dir)
+void lang_init(const char *domain)
 {
 #if ENABLE_NLS
     char *dir = getenv("NEVERBALL_LOCALE");
+
+    if (!dir)
+        dir = path_resolve(config_exec_path, CONFIG_LOCALE);
 
     errno = 0;
 
@@ -44,7 +49,7 @@ void lang_init(const char *domain, const char *default_dir)
 
     setlocale(LC_NUMERIC, "C");
 
-    bindtextdomain(domain, dir ? dir : default_dir);
+    bindtextdomain(domain, dir);
     bind_textdomain_codeset(domain, DEFAULT_CODESET);
     textdomain(domain);
 #else

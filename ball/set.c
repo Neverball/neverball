@@ -19,11 +19,14 @@
 
 #include "glext.h"
 #include "config.h"
+#include "video.h"
 #include "image.h"
-#include "text.h"
 #include "set.h"
-#include "game.h"
 #include "common.h"
+
+#include "game_server.h"
+#include "game_client.h"
+#include "game_proxy.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -95,7 +98,7 @@ void set_store_hs(void)
             l = &level_v[i];
 
             put_score(fout, &l->score.best_times);
-            put_score(fout, &l->score.unlock_goal);
+            put_score(fout, &l->score.fast_unlock);
             put_score(fout, &l->score.most_coins);
         }
 
@@ -165,7 +168,7 @@ static void set_load_hs(void)
         {
             l = &level_v[i];
             res = get_score(fin, &l->score.best_times) &&
-                get_score(fin, &l->score.unlock_goal) &&
+                get_score(fin, &l->score.fast_unlock) &&
                 get_score(fin, &l->score.most_coins);
         }
 
@@ -262,6 +265,14 @@ int set_init()
     {
         while (count < MAXSET && read_line(&name, fin))
         {
+            /* Skip "Misc" set when not in dev mode. */
+
+            if (strcmp(name, SET_MISC) == 0 && !config_cheat())
+            {
+                free(name);
+                continue;
+            }
+
             if (set_load(&set_v[count], name))
                 count++;
 
@@ -441,13 +452,19 @@ void level_snap(int i)
 
     /* Initialize the game for a snapshot. */
 
-    if (game_init(level_v[i].file, 0, 1))
+    if (game_client_init(level_v[i].file))
     {
+        union cmd cmd;
+
+        cmd.type = CMD_GOAL_OPEN;
+        game_proxy_enq(&cmd);
+
         /* Render the level and grab the screen. */
 
-        config_clear();
-        game_set_fly(1.f);
+        video_clear();
+        game_set_fly(1.f, game_client_file());
         game_kill_fade();
+        game_client_step(NULL);
         game_draw(1, 0);
 
         image_snap(filename);

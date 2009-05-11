@@ -1,7 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
-
-#include <stdio.h>
+#ifndef GAME_COMMON_H
+#define GAME_COMMON_H
 
 #include "lang.h"
 
@@ -31,51 +29,19 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define RESPONSE    0.05f              /* Input smoothing time               */
-#define ANGLE_BOUND 20.0f              /* Angle limit of floor tilting       */
-#define VIEWR_BOUND 10.0f              /* Maximum rate of view rotation      */
-
-/*---------------------------------------------------------------------------*/
-
-int   game_init(const char *, int, int);
-void  game_free(void);
-
-int   curr_clock(void);
-int   curr_coins(void);
-
-void  game_draw(int, float);
-int   game_step(const float[3], float, int);
-
-void  game_set_goal(void);
-void  game_clr_goal(void);
-
-void  game_set_ang(int, int);
-void  game_set_pos(int, int);
-void  game_set_x  (int);
-void  game_set_z  (int);
-void  game_set_cam(int);
-void  game_set_rot(float);
-void  game_set_fly(float);
-
-void  game_look(float, float);
-
-void  game_kill_fade(void);
-void  game_step_fade(float);
-void  game_fade(float);
-
-/*---------------------------------------------------------------------------*/
-
-int input_put(FILE *);
-int input_get(FILE *);
-
-/*---------------------------------------------------------------------------*/
-
 #define GAME_NONE 0
 #define GAME_TIME 1
 #define GAME_GOAL 2
 #define GAME_FALL 3
 
 const char *status_to_str(int);
+
+/*---------------------------------------------------------------------------*/
+
+void game_comp_grav(float h[3], const float g[3],
+                    float view_a,
+                    float game_rx,
+                    float game_rz);
 
 /*---------------------------------------------------------------------------*/
 

@@ -1140,7 +1140,10 @@ static void make_swch(struct s_file *fp,
             make_ref(v[i], &xp->pi);
 
         if (strcmp(k[i], "timer") == 0)
+        {
             sscanf(v[i], "%f", &xp->t0);
+            xp->t = xp->t0;
+        }
 
         if (strcmp(k[i], "state") == 0)
         {
@@ -2436,6 +2439,8 @@ int main(int argc, char *argv[])
     char dst[MAXSTR];
     struct s_file f;
     FILE *fin;
+
+    config_exec_path = argv[0];
 
     if (argc > 2)
     {

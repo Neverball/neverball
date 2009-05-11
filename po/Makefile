@@ -57,7 +57,7 @@ $(LOCALEDIR)/%/LC_MESSAGES/$(DOMAIN).mo: %.po
 	msgfmt -c --statistics -o $@ $<
 
 %.po: $(DOMAIN).pot
-	msgmerge -U $@ $<
+	msgmerge -U --previous $@ $<
 	touch $@
 
 $(DOMAIN).pot $(DOMAIN).pot-update:

@@ -22,6 +22,7 @@
 #include "part.h"
 #include "audio.h"
 #include "config.h"
+#include "video.h"
 
 #include "st_resol.h"
 
@@ -46,8 +47,8 @@ static int resol_action(int i)
 
     default:
         goto_state(&st_null);
-        r = config_mode(config_get_d(CONFIG_FULLSCREEN),
-                        modes[i]->w, modes[i]->h);
+        r = video_mode(config_get_d(CONFIG_FULLSCREEN),
+                       modes[i]->w, modes[i]->h);
         goto_state(&st_resol);
         break;
     }
@@ -115,11 +116,11 @@ static void resol_leave(int id)
 
 static void resol_paint(int id, float st)
 {
-    config_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
         back_draw(0);
     }
-    config_pop_matrix();
+    video_pop_matrix();
     gui_paint(id);
 }
 
@@ -143,7 +144,7 @@ static void resol_stick(int id, int a, int v)
 
 static int resol_click(int b, int d)
 {
-    if (b < 0 && d == 1)
+    if (b == SDL_BUTTON_LEFT && d == 1)
         return resol_action(gui_token(gui_click()));
     return 1;
 }

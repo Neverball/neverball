@@ -23,9 +23,28 @@
 #include <time.h>
 #include <stdio.h>
 
+#ifdef __GNUC__
+#define NULL_TERMINATED __attribute__ ((__sentinel__))
+#else
+#define NULL_TERMINATED
+#endif
+
+#define ARRAYSIZE(a) (sizeof (a) / sizeof ((a)[0]))
+
+#define MIN(x, y) ((x) < (y) ? (x) : (y))
+#define MAX(x, y) ((x) > (y) ? (x) : (y))
+
 int   read_line(char **, FILE *);
 char *strip_newline(char *);
-char *strdup(const char *);
+
+char *dupe_string(const char *);
+char *concat_string(const char *first, ...) NULL_TERMINATED;
+char *trunc_string(const char *src, char *dst, int len);
+
+#ifdef strdup
+#undef strdup
+#endif
+#define strdup dupe_string
 
 time_t make_time_from_utc(struct tm *);
 const char *date_to_str(time_t);
@@ -34,6 +53,14 @@ int  file_exists(const char *);
 int  file_rename(const char *, const char *);
 void file_copy(FILE *fin, FILE *fout);
 
-char *base_name(const char *name, const char *suffix);
+int path_is_sep(int);
+int path_is_abs(const char *);
+
+char       *base_name(const char *name, const char *suffix);
+const char *dir_name(const char *name);
+
+char *path_resolve(const char *ref, const char *rel);
+
+int rand_between(int low, int high);
 
 #endif

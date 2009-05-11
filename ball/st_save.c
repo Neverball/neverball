@@ -16,13 +16,14 @@
 #include <ctype.h>
 
 #include "gui.h"
-#include "game.h"
 #include "util.h"
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
 #include "progress.h"
 #include "text.h"
+
+#include "game_common.h"
 
 #include "st_shared.h"
 #include "st_save.h"
@@ -69,7 +70,7 @@ static int save_action(int i)
     switch (i)
     {
     case SAVE_SAVE:
-        n = text_to_locale(filename);
+        n = filename;
 
         if (strlen(n) == 0)
             return 1;
@@ -181,7 +182,7 @@ static int clobber_action(int i)
 
     if (i == SAVE_SAVE)
     {
-        demo_rename(text_to_locale(filename));
+        demo_rename(filename);
         return goto_state(ok_state);
     }
     return goto_state(&st_save);

@@ -28,7 +28,7 @@ void set_SDL_icon(const char *filename)
 
 void set_EWMH_icon(const char *filename)
 {
-#if SDL_VIDEO_DRIVER_X11
+#if SDL_VIDEO_DRIVER_X11 && !SDL_VIDEO_DRIVER_QUARTZ
     SDL_SysWMinfo info;
 
     Display *dpy;

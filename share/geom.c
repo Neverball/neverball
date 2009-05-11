@@ -24,6 +24,7 @@
 #include "solid.h"
 #include "image.h"
 #include "config.h"
+#include "video.h"
 
 #define PI 3.1415926535897932
 
@@ -142,7 +143,7 @@ void jump_init(int b)
                     float x = fcosf(2.f * PI * i / n);
                     float y = fsinf(2.f * PI * i / n);
 
-                    glColor4f(1.0f, 1.0f, 1.0f, (k == 0 ? 0.5f : 0.8f));
+                    glColor4f(0.75f, 0.5f, 1.0f, (k == 0 ? 0.5f : 0.8f));
                     glVertex3f(x, 0.0f, y);
 
                     glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
@@ -356,7 +357,7 @@ void fade_draw(float k)
         int w = config_get_d(CONFIG_WIDTH);
         int h = config_get_d(CONFIG_HEIGHT);
 
-        config_push_ortho();
+        video_push_ortho();
         {
             glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
@@ -381,7 +382,7 @@ void fade_draw(float k)
             glEnable(GL_LIGHTING);
             glDisable(GL_COLOR_MATERIAL);
         }
-        config_pop_matrix();
+        video_pop_matrix();
     }
 }
 

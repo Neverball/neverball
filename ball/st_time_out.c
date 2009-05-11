@@ -12,13 +12,15 @@
  * General Public License for more details.
  */
 
-#include "game.h"
 #include "util.h"
 #include "progress.h"
 #include "demo.h"
 #include "audio.h"
 #include "gui.h"
 #include "config.h"
+#include "video.h"
+
+#include "game_common.h"
 
 #include "st_over.h"
 #include "st_start.h"
@@ -100,7 +102,7 @@ static int time_out_enter(void)
     audio_music_fade_out(2.0f);
     /* audio_play(AUD_TIME, 1.0f); */
 
-    config_clr_grab();
+    video_clr_grab();
 
     return id;
 }

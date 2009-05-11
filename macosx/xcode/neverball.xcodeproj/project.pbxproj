@@ -143,8 +143,6 @@
 		815F018F0AEA7C3400AFD07F /* level.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC130AEA2EF600AFD07F /* level.c */; };
 		815F01900AEA7C3400AFD07F /* hud.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC120AEA2EF600AFD07F /* hud.h */; };
 		815F01910AEA7C3400AFD07F /* hud.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC110AEA2EF600AFD07F /* hud.c */; };
-		815F01920AEA7C3400AFD07F /* game.h in Headers */ = {isa = PBXBuildFile; fileRef = 815FFC100AEA2EF600AFD07F /* game.h */; };
-		815F01930AEA7C3400AFD07F /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFC0F0AEA2EF600AFD07F /* game.c */; };
 		815F02EF0AEA8B8100AFD07F /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 815FFCFD0AEA340300AFD07F /* SDL.framework */; };
 		815FFCF50AEA333200AFD07F /* base_config.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFB7A0AEA2E0300AFD07F /* base_config.c */; };
 		815FFCF60AEA334600AFD07F /* base_image.c in Sources */ = {isa = PBXBuildFile; fileRef = 815FFB7E0AEA2E0300AFD07F /* base_image.c */; };
@@ -172,6 +170,8 @@
 		B51113DE0DA9D6570050049D /* libpng12.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B56504580D22EB68006F75A4 /* libpng12.a */; };
 		B5117CE80C9060CB005837F9 /* st_pause.c in Sources */ = {isa = PBXBuildFile; fileRef = B5117CE60C9060CB005837F9 /* st_pause.c */; };
 		B5117CE90C9060CB005837F9 /* st_pause.h in Headers */ = {isa = PBXBuildFile; fileRef = B5117CE70C9060CB005837F9 /* st_pause.h */; };
+		B517A9040F9DF754006D48C0 /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864040D3552220024E95E /* common.c */; };
+		B517A9050F9DF75A006D48C0 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C864050D3552220024E95E /* common.h */; };
 		B517CF110D1F133000FCFE83 /* iconv.h in Headers */ = {isa = PBXBuildFile; fileRef = B517CEFC0D1F133000FCFE83 /* iconv.h */; };
 		B517CF120D1F133000FCFE83 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B517CEFD0D1F133000FCFE83 /* libiconv.a */; };
 		B517CF130D1F133000FCFE83 /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B517CEFE0D1F133000FCFE83 /* libintl.a */; };
@@ -242,6 +242,15 @@
 		B565048C0D22F722006F75A4 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B56504830D22F722006F75A4 /* libz.a */; };
 		B565048D0D22F722006F75A4 /* zconf.h in Headers */ = {isa = PBXBuildFile; fileRef = B56504840D22F722006F75A4 /* zconf.h */; };
 		B565048E0D22F722006F75A4 /* zlib.h in Headers */ = {isa = PBXBuildFile; fileRef = B56504850D22F722006F75A4 /* zlib.h */; };
+		B56872C70FA8C91C0073C122 /* dir.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A90F9E14D900D16BAF /* dir.c */; };
+		B56872C80FA8C91C0073C122 /* dir.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D101AA0F9E14D900D16BAF /* dir.h */; };
+		B56872C90FA8C91C0073C122 /* video.c in Sources */ = {isa = PBXBuildFile; fileRef = B55624BD0F8A2C1D0090B302 /* video.c */; };
+		B56872CA0FA8C91C0073C122 /* video.h in Headers */ = {isa = PBXBuildFile; fileRef = B55624BE0F8A2C1D0090B302 /* video.h */; };
+		B56872CB0FA8C9260073C122 /* dir.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A90F9E14D900D16BAF /* dir.c */; };
+		B56872CC0FA8C9260073C122 /* video.c in Sources */ = {isa = PBXBuildFile; fileRef = B55624BD0F8A2C1D0090B302 /* video.c */; };
+		B56872CD0FA8C93E0073C122 /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A70F9E14D900D16BAF /* array.c */; };
+		B56872CE0FA8C93E0073C122 /* array.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D101A80F9E14D900D16BAF /* array.h */; };
+		B56872CF0FA8C9460073C122 /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = B5D101A70F9E14D900D16BAF /* array.c */; };
 		B57D63D10CAE8138005DE710 /* st_goal.c in Sources */ = {isa = PBXBuildFile; fileRef = B57D63CB0CAE8138005DE710 /* st_goal.c */; };
 		B57D63D20CAE8138005DE710 /* st_fall_out.h in Headers */ = {isa = PBXBuildFile; fileRef = B57D63CC0CAE8138005DE710 /* st_fall_out.h */; };
 		B57D63D30CAE8138005DE710 /* st_time_out.h in Headers */ = {isa = PBXBuildFile; fileRef = B57D63CD0CAE8138005DE710 /* st_time_out.h */; };
@@ -253,6 +262,23 @@
 		B593CBDC0EC4A9DF0088DCCA /* solid_phys.c in Sources */ = {isa = PBXBuildFile; fileRef = B593CBD80EC4A9DF0088DCCA /* solid_phys.c */; };
 		B59445470C9641CB00EC3F09 /* neverball.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD3F0BCA1BF200915326 /* neverball.icns */; };
 		B59445480C9641D000EC3F09 /* neverputt.icns in Resources */ = {isa = PBXBuildFile; fileRef = B47DDD410BCA1BF200915326 /* neverputt.icns */; };
+		B5C1631E0ED9CA1000A884A9 /* game_client.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163160ED9CA1000A884A9 /* game_client.c */; };
+		B5C1631F0ED9CA1000A884A9 /* game_client.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C163170ED9CA1000A884A9 /* game_client.h */; };
+		B5C163200ED9CA1000A884A9 /* game_common.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163180ED9CA1000A884A9 /* game_common.c */; };
+		B5C163210ED9CA1000A884A9 /* game_common.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C163190ED9CA1000A884A9 /* game_common.h */; };
+		B5C163220ED9CA1000A884A9 /* game_proxy.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C1631A0ED9CA1000A884A9 /* game_proxy.c */; };
+		B5C163230ED9CA1000A884A9 /* game_proxy.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C1631B0ED9CA1000A884A9 /* game_proxy.h */; };
+		B5C163240ED9CA1000A884A9 /* game_server.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C1631C0ED9CA1000A884A9 /* game_server.c */; };
+		B5C163250ED9CA1000A884A9 /* game_server.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C1631D0ED9CA1000A884A9 /* game_server.h */; };
+		B5C1632C0ED9CA3800A884A9 /* cmd.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163260ED9CA3800A884A9 /* cmd.c */; };
+		B5C1632D0ED9CA3800A884A9 /* cmd.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C163270ED9CA3800A884A9 /* cmd.h */; };
+		B5C1632E0ED9CA3800A884A9 /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163280ED9CA3800A884A9 /* list.c */; };
+		B5C1632F0ED9CA3800A884A9 /* list.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C163290ED9CA3800A884A9 /* list.h */; };
+		B5C163300ED9CA3800A884A9 /* queue.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C1632A0ED9CA3800A884A9 /* queue.c */; };
+		B5C163310ED9CA3800A884A9 /* queue.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C1632B0ED9CA3800A884A9 /* queue.h */; };
+		B5C163320ED9CA3800A884A9 /* cmd.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163260ED9CA3800A884A9 /* cmd.c */; };
+		B5C163330ED9CA3800A884A9 /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C163280ED9CA3800A884A9 /* list.c */; };
+		B5C163340ED9CA3800A884A9 /* queue.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C1632A0ED9CA3800A884A9 /* queue.c */; };
 		B5C4250A0DAAC39E00F6C398 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5C425020DAAC35800F6C398 /* InfoPlist.strings */; };
 		B5C4250B0DAAC3A100F6C398 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5C425060DAAC35800F6C398 /* InfoPlist.strings */; };
 		B5C864060D3552220024E95E /* ball.c in Sources */ = {isa = PBXBuildFile; fileRef = B5C864020D3552220024E95E /* ball.c */; };
@@ -414,8 +440,6 @@
 		815FFBB70AEA2E0300AFD07F /* vec3.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = vec3.h; sourceTree = "<group>"; };
 		815FFC0D0AEA2EF600AFD07F /* demo.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = demo.c; sourceTree = "<group>"; };
 		815FFC0E0AEA2EF600AFD07F /* demo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = demo.h; sourceTree = "<group>"; };
-		815FFC0F0AEA2EF600AFD07F /* game.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
-		815FFC100AEA2EF600AFD07F /* game.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
 		815FFC110AEA2EF600AFD07F /* hud.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = hud.c; sourceTree = "<group>"; };
 		815FFC120AEA2EF600AFD07F /* hud.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = hud.h; sourceTree = "<group>"; };
 		815FFC130AEA2EF600AFD07F /* level.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = level.c; sourceTree = "<group>"; };
@@ -485,6 +509,8 @@
 		B549682B0C964ED3004309DA /* lang.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lang.c; sourceTree = "<group>"; };
 		B54EA89E0DAD0B6A0041B11D /* keynames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = keynames.c; sourceTree = "<group>"; };
 		B54EA89F0DAD0B6A0041B11D /* keynames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keynames.h; sourceTree = "<group>"; };
+		B55624BD0F8A2C1D0090B302 /* video.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = video.c; path = ../../share/video.c; sourceTree = SOURCE_ROOT; };
+		B55624BE0F8A2C1D0090B302 /* video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = video.h; path = ../../share/video.h; sourceTree = SOURCE_ROOT; };
 		B56504530D22EB68006F75A4 /* jconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jconfig.h; sourceTree = "<group>"; };
 		B56504540D22EB68006F75A4 /* jerror.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jerror.h; sourceTree = "<group>"; };
 		B56504550D22EB68006F75A4 /* jmorecfg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jmorecfg.h; sourceTree = "<group>"; };
@@ -1525,6 +1551,20 @@
 		B57D63D00CAE8138005DE710 /* st_fall_out.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = st_fall_out.c; sourceTree = "<group>"; };
 		B593CBD80EC4A9DF0088DCCA /* solid_phys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = solid_phys.c; sourceTree = "<group>"; };
 		B593CBD90EC4A9DF0088DCCA /* solid_phys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = solid_phys.h; sourceTree = "<group>"; };
+		B5C163160ED9CA1000A884A9 /* game_client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_client.c; path = ../../ball/game_client.c; sourceTree = SOURCE_ROOT; };
+		B5C163170ED9CA1000A884A9 /* game_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_client.h; path = ../../ball/game_client.h; sourceTree = SOURCE_ROOT; };
+		B5C163180ED9CA1000A884A9 /* game_common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_common.c; path = ../../ball/game_common.c; sourceTree = SOURCE_ROOT; };
+		B5C163190ED9CA1000A884A9 /* game_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_common.h; path = ../../ball/game_common.h; sourceTree = SOURCE_ROOT; };
+		B5C1631A0ED9CA1000A884A9 /* game_proxy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_proxy.c; path = ../../ball/game_proxy.c; sourceTree = SOURCE_ROOT; };
+		B5C1631B0ED9CA1000A884A9 /* game_proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_proxy.h; path = ../../ball/game_proxy.h; sourceTree = SOURCE_ROOT; };
+		B5C1631C0ED9CA1000A884A9 /* game_server.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_server.c; path = ../../ball/game_server.c; sourceTree = SOURCE_ROOT; };
+		B5C1631D0ED9CA1000A884A9 /* game_server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_server.h; path = ../../ball/game_server.h; sourceTree = SOURCE_ROOT; };
+		B5C163260ED9CA3800A884A9 /* cmd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cmd.c; path = ../../share/cmd.c; sourceTree = SOURCE_ROOT; };
+		B5C163270ED9CA3800A884A9 /* cmd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cmd.h; path = ../../share/cmd.h; sourceTree = SOURCE_ROOT; };
+		B5C163280ED9CA3800A884A9 /* list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = list.c; path = ../../share/list.c; sourceTree = SOURCE_ROOT; };
+		B5C163290ED9CA3800A884A9 /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = list.h; path = ../../share/list.h; sourceTree = SOURCE_ROOT; };
+		B5C1632A0ED9CA3800A884A9 /* queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = queue.c; path = ../../share/queue.c; sourceTree = SOURCE_ROOT; };
+		B5C1632B0ED9CA3800A884A9 /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = queue.h; path = ../../share/queue.h; sourceTree = SOURCE_ROOT; };
 		B5C425030DAAC35800F6C398 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B5C425040DAAC35800F6C398 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5C425070DAAC35800F6C398 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1533,6 +1573,10 @@
 		B5C864030D3552220024E95E /* ball.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ball.h; sourceTree = "<group>"; };
 		B5C864040D3552220024E95E /* common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = common.c; sourceTree = "<group>"; };
 		B5C864050D3552220024E95E /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		B5D101A70F9E14D900D16BAF /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = array.c; path = ../../share/array.c; sourceTree = SOURCE_ROOT; };
+		B5D101A80F9E14D900D16BAF /* array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = array.h; path = ../../share/array.h; sourceTree = SOURCE_ROOT; };
+		B5D101A90F9E14D900D16BAF /* dir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = dir.c; path = ../../share/dir.c; sourceTree = SOURCE_ROOT; };
+		B5D101AA0F9E14D900D16BAF /* dir.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dir.h; path = ../../share/dir.h; sourceTree = SOURCE_ROOT; };
 		B5E6E8940DFF38D8005ADC5B /* item.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = item.c; sourceTree = "<group>"; };
 		B5E6E8950DFF38D8005ADC5B /* item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = item.h; sourceTree = "<group>"; };
 		B5E71BFF0D8C299F00B9CC31 /* progress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = progress.c; sourceTree = "<group>"; };
@@ -1618,6 +1662,26 @@
 		29B97314FDCFA39411CA2CEA /* neverball */ = {
 			isa = PBXGroup;
 			children = (
+				B5D101A70F9E14D900D16BAF /* array.c */,
+				B5D101A80F9E14D900D16BAF /* array.h */,
+				B5D101A90F9E14D900D16BAF /* dir.c */,
+				B5D101AA0F9E14D900D16BAF /* dir.h */,
+				B55624BD0F8A2C1D0090B302 /* video.c */,
+				B55624BE0F8A2C1D0090B302 /* video.h */,
+				B5C163260ED9CA3800A884A9 /* cmd.c */,
+				B5C163270ED9CA3800A884A9 /* cmd.h */,
+				B5C163280ED9CA3800A884A9 /* list.c */,
+				B5C163290ED9CA3800A884A9 /* list.h */,
+				B5C1632A0ED9CA3800A884A9 /* queue.c */,
+				B5C1632B0ED9CA3800A884A9 /* queue.h */,
+				B5C163160ED9CA1000A884A9 /* game_client.c */,
+				B5C163170ED9CA1000A884A9 /* game_client.h */,
+				B5C163180ED9CA1000A884A9 /* game_common.c */,
+				B5C163190ED9CA1000A884A9 /* game_common.h */,
+				B5C1631A0ED9CA1000A884A9 /* game_proxy.c */,
+				B5C1631B0ED9CA1000A884A9 /* game_proxy.h */,
+				B5C1631C0ED9CA1000A884A9 /* game_server.c */,
+				B5C1631D0ED9CA1000A884A9 /* game_server.h */,
 				8137FD570AEBE54F009172EC /* putt */,
 				815FFC0C0AEA2EF600AFD07F /* ball */,
 				815FFB710AEA2E0300AFD07F /* share */,
@@ -1791,8 +1855,6 @@
 				B5412EBF0CA36C3C00C9A9F7 /* score.h */,
 				815FFC0D0AEA2EF600AFD07F /* demo.c */,
 				815FFC0E0AEA2EF600AFD07F /* demo.h */,
-				815FFC0F0AEA2EF600AFD07F /* game.c */,
-				815FFC100AEA2EF600AFD07F /* game.h */,
 				815FFC110AEA2EF600AFD07F /* hud.c */,
 				815FFC120AEA2EF600AFD07F /* hud.h */,
 				815FFC130AEA2EF600AFD07F /* level.c */,
@@ -3346,7 +3408,6 @@
 				815F01890AEA7C3400AFD07F /* set.h in Headers */,
 				815F018E0AEA7C3400AFD07F /* level.h in Headers */,
 				815F01900AEA7C3400AFD07F /* hud.h in Headers */,
-				815F01920AEA7C3400AFD07F /* game.h in Headers */,
 				8137FB120AEB07D4009172EC /* SDLMain.h in Headers */,
 				B5117CE90C9060CB005837F9 /* st_pause.h in Headers */,
 				B549682A0C964EBF004309DA /* lang.h in Headers */,
@@ -3374,6 +3435,16 @@
 				B5E6E8970DFF38D8005ADC5B /* item.h in Headers */,
 				B507E3960E36565600178C13 /* syswm.h in Headers */,
 				B593CBDB0EC4A9DF0088DCCA /* solid_phys.h in Headers */,
+				B5C1631F0ED9CA1000A884A9 /* game_client.h in Headers */,
+				B5C163210ED9CA1000A884A9 /* game_common.h in Headers */,
+				B5C163230ED9CA1000A884A9 /* game_proxy.h in Headers */,
+				B5C163250ED9CA1000A884A9 /* game_server.h in Headers */,
+				B5C1632D0ED9CA3800A884A9 /* cmd.h in Headers */,
+				B5C1632F0ED9CA3800A884A9 /* list.h in Headers */,
+				B5C163310ED9CA3800A884A9 /* queue.h in Headers */,
+				B56872C80FA8C91C0073C122 /* dir.h in Headers */,
+				B56872CA0FA8C91C0073C122 /* video.h in Headers */,
+				B56872CE0FA8C93E0073C122 /* array.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3394,6 +3465,7 @@
 				B56504720D22EB68006F75A4 /* pngconf.h in Headers */,
 				B565048D0D22F722006F75A4 /* zconf.h in Headers */,
 				B565048E0D22F722006F75A4 /* zlib.h in Headers */,
+				B517A9050F9DF75A006D48C0 /* common.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3575,7 +3647,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Build Neverball Installer and package to a dmg.\n# set -x # uncomment for debugging\nset -e # exit on error\n\nSVN_REVISION=`cd ${SRCROOT}/../.. && /usr/local/bin/svn info | grep Revision: | cut -d\\  -f2`\nSVN_REVISION=`echo ${SVN_REVISION} | sed -e 's/\\ //g'`\necho \"*** SVN REV : ${SVN_REVISION}\"\n\nVERSION=\"v1.5.0 r${SVN_REVISION}\"\n# VERSION=\"1.5.0\"\nNAME=\"Neverball $VERSION\"\n\nfor app in \"Neverball\" \"Neverputt\"\ndo\n  echo \"+ Cleaning $app\"\n  strip \"${BUILT_PRODUCTS_DIR}/${app}.app/Contents/MacOS/${app}\"\n  rm -fr \"${BUILT_PRODUCTS_DIR}/${app}.app/\"Contents/Frameworks/*.framework/Versions/*/Headers\n  rm -fr \"${BUILT_PRODUCTS_DIR}/${app}.app/\"Contents/Frameworks/*.framework/Headers\ndone\n\necho \"+ Cleaning data\"\nrm -f \"${BUILT_PRODUCTS_DIR}/data/.ok\"\nrm -f \"${BUILT_PRODUCTS_DIR}/data/.ok\"\n\necho \"Building installer and uninstaller...\"\n/Developer/usr/bin/packagemaker -d \"../uninstall.pmdoc\" -o \"${BUILT_PRODUCTS_DIR}/Uninstall Neverball.mpkg\" -i org.neverball.Uninstall.pkg\nsh ../modify_neverball_pkg_uninstaller.sh \"${BUILT_PRODUCTS_DIR}/Uninstall Neverball.mpkg\"\n/Developer/usr/bin/packagemaker -d \"../neverball.pmdoc\" -o \"${BUILT_PRODUCTS_DIR}/${NAME}.mpkg\"\nsh ../modify_neverball_pkg_installer.sh \"${BUILT_PRODUCTS_DIR}/${NAME}.mpkg\"\n\necho \"*** Building disk image...\"\n\nimage_rw=\"${BUILT_PRODUCTS_DIR}/${NAME}.sparseimage\"\nimage_ro=\"${BUILT_PRODUCTS_DIR}/${NAME}.dmg\"\n\nMOUNTPOINT=\"/Volumes/$NAME\"\ntest -e \"$MOUNTPOINT\" && {\n  echo \"$MOUNTPOINT already mounted. Please, detach it.\" 1>&2\n  exit 1\n}\n\nrm \"$image_rw\" 2>/dev/null || true\nhdiutil create -type SPARSE -fs HFS+ -volname \"$NAME\" \"$image_rw\"\nhdiutil attach \"$image_rw\"\n\ncp -R \"${BUILT_PRODUCTS_DIR}/${NAME}.mpkg\" \"${MOUNTPOINT}/${NAME}.mpkg\"\nln -s \"${MOUNTPOINT}/${NAME}.mpkg\" \"${MOUNTPOINT}/ \"\n\n#echo \"+ Install disk icon\"\n#iconfile=\"icon.icns\"\n#cp \"$iconfile\" \"$mountpoint/.VolumeIcon.icns\"\n#/Developer/Tools/SetFile -a aVbstclinmedz \"$MOUNTPOINT/.VolumeIcon.icns\"\n\necho \"+ Install background dmg\"\ncp \"${SRCROOT}/../icons/dmg-background.png\" \"${MOUNTPOINT}/dmg-background.png\"\n\necho \"+ set the presentation\"\n# better to copy this in script editor for change...\nosascript - \"$MOUNTPOINT\" <<!\non run argv\n\tset dir to item 1 of argv\n\ttell application \"Finder\"\n\t\tset f to POSIX file dir as alias\n\t\topen f\n\n\t\tset w to container window of f\n\n\t\tset current view of w to icon view\n\t\tset toolbar visible of w to false\n\t\tset statusbar visible of w to false\n\t\tset opts to icon view options of w\n\t\tset bgfile to file \"dmg-background.png\" of folder f\n\t\t\n\t\t--\tset background color of opts to {50000, 50000, 50000}\n\t\tset background picture of opts to bgfile\n\t\tset icon size of opts to 96\n\t\tset text size of opts to 12\n\t\tset label position of opts to bottom\n\t\tset arrangement of opts to not arranged\n\t\tset position of item \"${NAME}.mpkg\" of f to {64 + 48, 214 + 40}\n\t\tset position of item \" \" of f to {64 + 48, 214 + 40}\n#\t\tset position of item \"\" of f to {224 + 48, 214 + 40}\n#\t\tset label index of file \"${NAME}.mpkg\" of folder f to 7\n\t\tset the bounds of w to {100, 100, 484, 604}\n\t\tdelay 5\n\tend tell\nend run\n!\n\nsetfile -a V \"${MOUNTPOINT}/dmg-background.png\"\nsetfile -a V \"${MOUNTPOINT}/${NAME}.mpkg\"\n\n\necho \"+ Detaching '$NAME' image\"\nhdiutil detach \"$MOUNTPOINT\"\n\n#open \"$image_rw\"\n\necho \"+ Compressing disk image\"\nrm \"$image_ro\" 2>/dev/null || true\nhdiutil convert \"$image_rw\" -imagekey zlib-level=9 -format UDZO -o \"$image_ro\"\n\nrm \"$image_rw\"\n\n# open the result in Finder\nopen \"$image_ro\"\n";
+			shellScript = "# Build Neverball Installer and package to a dmg.\n# set -x # uncomment for debugging\nset -e # exit on error\n\nSVN_REVISION=`cd ${SRCROOT}/../.. && /usr/local/bin/svn info | grep Revision: | cut -d\\  -f2`\nSVN_REVISION=`echo ${SVN_REVISION} | sed -e 's/\\ //g'`\necho \"*** SVN REV : ${SVN_REVISION}\"\n\nBASE_VERSION=\"v1.5.1\"\nVERSION=\"${BASE_VERSION} r${SVN_REVISION}\"\n#VERSION=\"${BASE_VERSION}\"\nBASE_NAME=\"Neverball $BASE_VERSION\"\nNAME=\"Neverball $VERSION\"\n\nfor app in \"Neverball\" \"Neverputt\"\ndo\n  echo \"+ Cleaning $app\"\n  strip \"${BUILT_PRODUCTS_DIR}/${app}.app/Contents/MacOS/${app}\"\n  rm -fr \"${BUILT_PRODUCTS_DIR}/${app}.app/\"Contents/Frameworks/*.framework/Versions/*/Headers\n  rm -fr \"${BUILT_PRODUCTS_DIR}/${app}.app/\"Contents/Frameworks/*.framework/Headers\ndone\n\necho \"+ Cleaning data\"\nrm -f \"${BUILT_PRODUCTS_DIR}/data/.ok\"\nrm -f \"${BUILT_PRODUCTS_DIR}/data/.ok\"\n\necho \"Building installer and uninstaller...\"\n/Developer/usr/bin/packagemaker -d \"../uninstall.pmdoc\" -o \"${BUILT_PRODUCTS_DIR}/Uninstall Neverball.mpkg\" -i org.neverball.Uninstall.pkg\nsh ../modify_neverball_pkg_uninstaller.sh \"${BUILT_PRODUCTS_DIR}/Uninstall Neverball.mpkg\"\n/Developer/usr/bin/packagemaker -d \"../neverball.pmdoc\" -o \"${BUILT_PRODUCTS_DIR}/${BASE_NAME}.mpkg\"\nsh ../modify_neverball_pkg_installer.sh \"${BUILT_PRODUCTS_DIR}/${BASE_NAME}.mpkg\"\n\necho \"*** Building disk image...\"\n\nimage_rw=\"${BUILT_PRODUCTS_DIR}/${NAME}.sparseimage\"\nimage_ro=\"${BUILT_PRODUCTS_DIR}/${NAME}.dmg\"\n\nMOUNTPOINT=\"/Volumes/$NAME\"\ntest -e \"$MOUNTPOINT\" && {\n  echo \"$MOUNTPOINT already mounted. Please, detach it.\" 1>&2\n  exit 1\n}\n\nrm \"$image_rw\" 2>/dev/null || true\nhdiutil create -type SPARSE -fs HFS+ -volname \"$NAME\" \"$image_rw\"\nhdiutil attach \"$image_rw\"\n\ncp -R \"${BUILT_PRODUCTS_DIR}/${BASE_NAME}.mpkg\" \"${MOUNTPOINT}/${BASE_NAME}.mpkg\"\ncp ../Run\\ Installer.app \"${MOUNTPOINT}/ \"\n#ln -s \"${MOUNTPOINT}/${BASE_NAME}.mpkg\" \"${MOUNTPOINT}/ \"\n\ncp ../neverball.org.webloc \"${MOUNTPOINT}/neverball.org.webloc\"\ncp ../Run\\ Webloc.app \"${MOUNTPOINT}/  \"\n\ncp -R ../readme.rtfd \"${MOUNTPOINT}/readme.rtfd\"\ncp ../Run\\ Readme.app \"${MOUNTPOINT}/   \"\n\n#echo \"+ Install disk icon\"\n#iconfile=\"icon.icns\"\n#cp \"$iconfile\" \"$mountpoint/.VolumeIcon.icns\"\n#/Developer/Tools/SetFile -a aVbstclinmedz \"$MOUNTPOINT/.VolumeIcon.icns\"\n\necho \"+ Install background dmg\"\ncp \"${SRCROOT}/../icons/dmg-background.png\" \"${MOUNTPOINT}/dmg-background.png\"\n\necho \"+ set the presentation\"\n# better to copy this in script editor for change...\nosascript - \"$MOUNTPOINT\" <<!\non run argv\n\tset dir to item 1 of argv\n\ttell application \"Finder\"\n\t\tset f to POSIX file dir as alias\n\t\topen f\n\n\t\tset w to container window of f\n\n\t\tset current view of w to icon view\n\t\tset toolbar visible of w to false\n\t\tset statusbar visible of w to false\n\t\tset opts to icon view options of w\n\t\tset bgfile to file \"dmg-background.png\" of folder f\n\t\t\n\t\t--\tset background color of opts to {50000, 50000, 50000}\n\t\tset background picture of opts to bgfile\n\t\tset icon size of opts to 96\n\t\tset text size of opts to 12\n\t\tset label position of opts to bottom\n\t\tset arrangement of opts to not arranged\n\t\tset position of item \"neverball.org.webloc\" of f to {384/2 - (96 + 20), 214 + 40}\n\t\tset position of item \"  \" of f to {384/2 - (96 + 20), 214 + 40}\n\t\tset position of item \"readme.rtfd\" of f to {384/2 + (96 + 20), 214 + 40}\n\t\tset position of item \"   \" of f to {384/2 + (96 + 20), 214 + 40}\n\t\tset position of item \"${BASE_NAME}.mpkg\" of f to {384/2, 214 + 40}\n\t\tset position of item \" \" of f to {384/2, 214 + 40}\n#\t\tset position of item \"\" of f to {224 + 48, 214 + 40}\n#\t\tset label index of file \"${BASE_NAME}.mpkg\" of folder f to 7\n\t\tset the bounds of w to {100, 100, 484, 604}\n\t\tdelay 5\n\tend tell\nend run\n!\n\nSETICON=/opt/local/bin/seticon #change this if seticon resides in a different location\nMPKGICON=$(ls -kS $(locate metapackage.icns) | head -1)\nWEBLOCICON=$(ls -kr $(locate InternetLocationHTTP.icns) | head -1)\nRTFDICON=$(ls -kS $(locate rtfd.icns) | head -1)\n${SETICON} -d ${MPKGICON} \"${MOUNTPOINT}/ \"\n${SETICON} -d ${WEBLOCICON} \"${MOUNTPOINT}/  \"\n${SETICON} -d ${RTFDICON} \"${MOUNTPOINT}/   \"\nsetfile -a V \"${MOUNTPOINT}/dmg-background.png\"\nsetfile -a V \"${MOUNTPOINT}/${BASE_NAME}.mpkg\"\nsetfile -a V \"${MOUNTPOINT}/neverball.org.webloc\"\nsetfile -a V \"${MOUNTPOINT}/readme.rtfd\"\n\n\necho \"+ Detaching '$NAME' image\"\nhdiutil detach \"$MOUNTPOINT\"\n\n#open \"$image_rw\"\n\necho \"+ Compressing disk image\"\nrm \"$image_ro\" 2>/dev/null || true\nhdiutil convert \"$image_rw\" -imagekey zlib-level=9 -format UDZO -o \"$image_ro\"\n\nrm \"$image_rw\"\n\n# open the result in Finder\nopen \"$image_ro\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3617,6 +3689,12 @@
 				B5E6E8980DFF38D8005ADC5B /* item.c in Sources */,
 				B507E3970E36565600178C13 /* syswm.c in Sources */,
 				B593CBDC0EC4A9DF0088DCCA /* solid_phys.c in Sources */,
+				B5C163320ED9CA3800A884A9 /* cmd.c in Sources */,
+				B5C163330ED9CA3800A884A9 /* list.c in Sources */,
+				B5C163340ED9CA3800A884A9 /* queue.c in Sources */,
+				B56872CB0FA8C9260073C122 /* dir.c in Sources */,
+				B56872CC0FA8C9260073C122 /* video.c in Sources */,
+				B56872CF0FA8C9460073C122 /* array.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3630,6 +3708,7 @@
 				815FFCF70AEA334E00AFD07F /* binary.c in Sources */,
 				815FFCF50AEA333200AFD07F /* base_config.c in Sources */,
 				815FFCFA0AEA336800AFD07F /* mapc.c in Sources */,
+				B517A9040F9DF754006D48C0 /* common.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3671,7 +3750,6 @@
 				815F018B0AEA7C3400AFD07F /* main.c in Sources */,
 				815F018F0AEA7C3400AFD07F /* level.c in Sources */,
 				815F01910AEA7C3400AFD07F /* hud.c in Sources */,
-				815F01930AEA7C3400AFD07F /* game.c in Sources */,
 				8137FB130AEB07D7009172EC /* SDLMain.m in Sources */,
 				B5117CE80C9060CB005837F9 /* st_pause.c in Sources */,
 				B549682C0C964ED3004309DA /* lang.c in Sources */,
@@ -3689,6 +3767,16 @@
 				B5E6E8960DFF38D8005ADC5B /* item.c in Sources */,
 				B507E3950E36565600178C13 /* syswm.c in Sources */,
 				B593CBDA0EC4A9DF0088DCCA /* solid_phys.c in Sources */,
+				B5C1631E0ED9CA1000A884A9 /* game_client.c in Sources */,
+				B5C163200ED9CA1000A884A9 /* game_common.c in Sources */,
+				B5C163220ED9CA1000A884A9 /* game_proxy.c in Sources */,
+				B5C163240ED9CA1000A884A9 /* game_server.c in Sources */,
+				B5C1632C0ED9CA3800A884A9 /* cmd.c in Sources */,
+				B5C1632E0ED9CA3800A884A9 /* list.c in Sources */,
+				B5C163300ED9CA3800A884A9 /* queue.c in Sources */,
+				B56872C70FA8C91C0073C122 /* dir.c in Sources */,
+				B56872C90FA8C91C0073C122 /* video.c in Sources */,
+				B56872CD0FA8C93E0073C122 /* array.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3909,7 +3997,7 @@
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
 					"-g",
 				);
-				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.1\\\"";
 				OTHER_LDFLAGS = "-lz";
 				PREBINDING = NO;
 				PRODUCT_NAME = Neverputt;
@@ -3945,7 +4033,7 @@
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_2)",
 				);
-				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.1\\\"";
 				OTHER_CFLAGS_QUOTED_FOR_TARGET_2 = "-DCONFIG_DATA=\\\"/Library/Application\\ Support/Neverball\\ Data/data\\\"";
 				OTHER_LDFLAGS = (
 					"-Z",
@@ -4044,7 +4132,7 @@
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
 					"-g",
 				);
-				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.1\\\"";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CPLUSPLUSFLAGS)";
 				OTHER_LDFLAGS = "-lz";
 				PREBINDING = NO;
@@ -4082,7 +4170,7 @@
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_2)",
 				);
-				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.1\\\"";
 				OTHER_CFLAGS_QUOTED_FOR_TARGET_2 = "-DCONFIG_DATA=\\\"/Library/Application\\ Support/Neverball\\ Data/data\\\"";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CPLUSPLUSFLAGS)";
 				OTHER_LDFLAGS = (

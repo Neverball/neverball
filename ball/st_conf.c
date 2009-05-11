@@ -19,10 +19,14 @@
 #include "item.h"
 #include "ball.h"
 #include "part.h"
-#include "game.h"
 #include "audio.h"
 #include "config.h"
+#include "video.h"
 #include "st_shared.h"
+
+#include "game_common.h"
+#include "game_client.h"
+#include "game_server.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -66,13 +70,13 @@ static int conf_action(int i)
     {
     case CONF_FULL:
         goto_state(&st_null);
-        r = config_mode(1, w, h);
+        r = video_mode(1, w, h);
         goto_state(&st_conf);
         break;
 
     case CONF_WIN:
         goto_state(&st_null);
-        r = config_mode(0, w, h);
+        r = video_mode(0, w, h);
         goto_state(&st_conf);
         break;
 
@@ -180,7 +184,7 @@ static int conf_enter(void)
 {
     int id, jd, kd;
 
-    game_free();
+    game_client_free();
     back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
 
     /* Initialize the configuration GUI. */
@@ -345,11 +349,11 @@ static void conf_leave(int id)
 
 static void conf_paint(int id, float t)
 {
-    config_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
         back_draw(0);
     }
-    config_pop_matrix();
+    video_pop_matrix();
     gui_paint(id);
 }
 
@@ -386,7 +390,7 @@ static void null_leave(int id)
 {
     int g = config_get_d(CONFIG_GEOMETRY);
 
-    part_init(GOAL_HEIGHT);
+    part_init(GOAL_HEIGHT, JUMP_HEIGHT);
     shad_init();
     ball_init();
     item_init();

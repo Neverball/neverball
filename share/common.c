@@ -22,6 +22,9 @@
 #include <string.h>
 #include <errno.h>
 #include <time.h>
+#include <ctype.h>
+#include <stdarg.h>
+#include <assert.h>
 
 #include "common.h"
 
@@ -105,12 +108,58 @@ char *strip_newline(char *str)
     return str;
 }
 
-char *strdup(const char *src)
+char *dupe_string(const char *src)
 {
     char *dst = NULL;
 
     if (src && (dst = malloc(strlen(src) + 1)))
         strcpy(dst, src);
+
+    return dst;
+}
+
+char *concat_string(const char *first, ...)
+{
+    char *full;
+
+    if ((full = strdup(first)))
+    {
+        const char *part;
+        va_list ap;
+
+        va_start(ap, first);
+
+        while ((part = va_arg(ap, const char *)))
+        {
+            char *new;
+
+            if ((new = realloc(full, strlen(full) + strlen(part) + 1)))
+            {
+                full = new;
+                strcat(full, part);
+            }
+            else
+            {
+                free(full);
+                full = NULL;
+                break;
+            }
+        }
+
+        va_end(ap);
+    }
+
+    return full;
+}
+
+char *trunc_string(const char *src, char *dst, int len)
+{
+    static const char ell[] = "...";
+
+    assert(len > sizeof (ell));
+
+    if (dst[len - 1] = '\0', strncpy(dst, src, len), dst[len - 1] != '\0')
+        strcpy(dst + len - sizeof (ell), ell);
 
     return dst;
 }
@@ -172,6 +221,53 @@ void file_copy(FILE *fin, FILE *fout)
         fwrite(buff, 1, size, fout);
 }
 
+/*---------------------------------------------------------------------------*/
+
+int path_is_sep(int c)
+{
+#ifdef _WIN32
+    return c == '/' || c == '\\';
+#else
+    return c == '/';
+#endif
+}
+
+int path_is_abs(const char *path)
+{
+    if (path_is_sep(path[0]))
+        return 1;
+
+#ifdef _WIN32
+    if (isalpha(path[0]) && path[1] == ':' && path_is_sep(path[2]))
+        return 1;
+#endif
+
+    return 0;
+}
+
+static char *path_last_sep(const char *path)
+{
+    char *sep;
+
+    sep = strrchr(path, '/');
+
+#ifdef _WIN32
+    if (!sep)
+    {
+        sep = strrchr(path, '\\');
+    }
+    else
+    {
+        char *tmp;
+
+        if ((tmp = strrchr(sep, '\\')))
+            sep = tmp;
+    }
+#endif
+
+    return sep;
+}
+
 char *base_name(const char *name, const char *suffix)
 {
     static char buf[MAXSTR];
@@ -182,19 +278,7 @@ char *base_name(const char *name, const char *suffix)
 
     /* Remove the directory part. */
 
-    base = strrchr(name, '/');
-
-#ifdef _WIN32
-    if (!base)
-        base = strrchr(name, '\\');
-    else
-    {
-        char *tmp;
-
-        if ((tmp = strrchr(base, '\\')))
-            base = tmp;
-    }
-#endif
+    base = path_last_sep(name);
 
     strncpy(buf, base ? base + 1 : name, sizeof (buf));
 
@@ -209,6 +293,56 @@ char *base_name(const char *name, const char *suffix)
     }
 
     return buf;
+}
+
+const char *dir_name(const char *name)
+{
+    static char buff[MAXSTR];
+
+    char *sep;
+
+    strncpy(buff, name, sizeof (buff) - 1);
+
+    if ((sep = path_last_sep(buff)))
+    {
+        if (sep == buff)
+            return "/";
+
+        *sep = '\0';
+
+        return buff;
+    }
+
+    return ".";
+}
+
+/*
+ * Given a path to a file REF and another path REL relative to REF,
+ * construct and return a new path that can be used to refer to REL
+ * directly.
+ */
+char *path_resolve(const char *ref, const char *rel)
+{
+    static char new[MAXSTR * 2];
+
+    if (path_is_abs(rel))
+    {
+        strncpy(new, rel, sizeof (new) - 1);
+        return new;
+    }
+
+    strncpy(new, dir_name(ref), sizeof (new) - 1);
+    strncat(new, "/",           sizeof (new) - strlen(new) - 1);
+    strncat(new, rel,           sizeof (new) - strlen(new) - 1);
+
+    return new;
+}
+
+/*---------------------------------------------------------------------------*/
+
+int rand_between(int low, int high)
+{
+    return low + rand() / (RAND_MAX / (high - low + 1) + 1);
 }
 
 /*---------------------------------------------------------------------------*/

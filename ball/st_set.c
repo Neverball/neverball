@@ -15,11 +15,12 @@
 #include "gui.h"
 #include "set.h"
 #include "progress.h"
-#include "game.h"
 #include "audio.h"
 #include "config.h"
 #include "util.h"
 #include "st_shared.h"
+
+#include "game_common.h"
 
 #include "st_set.h"
 #include "st_title.h"

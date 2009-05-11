@@ -14,12 +14,14 @@
 
 #include "gui.h"
 #include "set.h"
-#include "game.h"
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
+#include "video.h"
 #include "demo.h"
 #include "st_shared.h"
+
+#include "game_common.h"
 
 #include "st_over.h"
 #include "st_start.h"
@@ -42,7 +44,7 @@ static int over_enter(void)
     audio_music_fade_out(2.0f);
     audio_play(AUD_OVER, 1.f);
 
-    config_clr_grab();
+    video_clr_grab();
 
     return id;
 }
@@ -57,7 +59,7 @@ static void over_timer(int id, float dt)
 
 static int over_click(int b, int d)
 {
-    return (b < 0 && d == 1) ? goto_state(&st_start) : 1;
+    return (b == SDL_BUTTON_LEFT && d == 1) ? goto_state(&st_start) : 1;
 }
 
 static int over_buttn(int b, int d)

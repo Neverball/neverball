@@ -5,6 +5,7 @@
 #include "level.h"
 
 #define SET_FILE "sets.txt"
+#define SET_MISC "set-misc.txt"
 
 #define MAXSET 16
 #define MAXLVL 25

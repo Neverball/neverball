@@ -16,6 +16,7 @@
 #define SOL_PHYS_H
 
 #include "solid.h"
+#include "cmd.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,7 +30,11 @@ int   sol_jump_test(struct s_file *, float *, int);
 int   sol_swch_test(struct s_file *, int);
 
 struct s_goal *sol_goal_test(struct s_file *, float *, int);
-struct s_item *sol_item_test(struct s_file *, float *, float);
+int            sol_item_test(struct s_file *, float *, float);
+
+/*---------------------------------------------------------------------------*/
+
+void sol_cmd_enq_func(void (*enq_fn) (const union cmd *));
 
 /*---------------------------------------------------------------------------*/
 

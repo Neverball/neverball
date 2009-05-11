@@ -11,10 +11,9 @@
     libjpeg
 
 To build Neverball  with native language support on  systems not using
-the GNU C library, two additonal libraries may have to be installed:
+the GNU C library, an additional library may have to be installed:
 
     libintl           http://www.gnu.org/software/gettext/
-    libiconv          http://www.gnu.org/software/libiconv/
 
 To  build Neverball  with Nintendo  Wii Remote  support on  Linux, the
 "official Linux Bluetooth protocol stack"  or BlueZ and the libwiimote

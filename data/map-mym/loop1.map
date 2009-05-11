@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
 "levelname" "loop1"
-"version" "2"
+"version" "1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "shot" "shot-mym/loop1.jpg"

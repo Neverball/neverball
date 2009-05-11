@@ -89,8 +89,6 @@
 #define PATHMAX 64
 #define MAXNAM 9
 
-#define GUI_FACE                    _("ttf/DejaVuSans-Bold.ttf")
-
 #define UPS 90
 #define DT  (1.0f / (float) UPS)
 
@@ -98,6 +96,8 @@
 
 const char *config_data(const char *);
 const char *config_user(const char *);
+
+extern const char *config_exec_path;
 
 int  config_data_path(const char *, const char *);
 int  config_user_path(const char *);

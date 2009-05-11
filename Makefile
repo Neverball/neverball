@@ -31,9 +31,12 @@ endif
 SSE_CFLAGS := $(shell env CC="$(CC)" sh scripts/get-sse-cflags.sh)
 
 ifeq ($(ENABLE_WII),1)
-    # libwiimote is NOT ANSI compliant (TODO, check if this is necessary.  GCC
-    # is supposed to suppress warnings from system headers.)
-    ALL_CFLAGS := $(SSE_CFLAGS) $(CFLAGS)
+    # -std=c99 because we need isnormal and -fms-extensions because
+    # libwiimote headers make heavy use of the "unnamed fields" GCC
+    # extension.
+
+    ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions \
+	$(SSE_CFLAGS) $(CFLAGS)
 else
     ALL_CFLAGS := -Wall -ansi -pedantic $(SSE_CFLAGS) $(CFLAGS)
 endif
@@ -83,7 +86,7 @@ OGL_LIBS := -lGL -lm
 
 ifdef MINGW
     ifneq ($(ENABLE_NLS),0)
-        INTL_LIBS := -lintl -liconv
+        INTL_LIBS := -lintl
     endif
 
     TILT_LIBS :=
@@ -92,7 +95,7 @@ endif
 
 ifdef DARWIN
     ifneq ($(ENABLE_NLS),0)
-        INTL_LIBS := -lintl -liconv
+        INTL_LIBS := -lintl
     endif
 
     TILT_LIBS :=
@@ -133,6 +136,7 @@ MAPC_OBJS := \
 	share/solid.o       \
 	share/binary.o      \
 	share/base_config.o \
+	share/common.o      \
 	share/mapc.o
 BALL_OBJS := \
 	share/lang.o        \
@@ -151,6 +155,7 @@ BALL_OBJS := \
 	share/gui.o         \
 	share/base_config.o \
 	share/config.o      \
+	share/video.o       \
 	share/binary.o      \
 	share/state.o       \
 	share/audio.o       \
@@ -160,13 +165,22 @@ BALL_OBJS := \
 	share/common.o      \
 	share/keynames.o    \
 	share/syswm.o       \
+	share/list.o        \
+	share/queue.o       \
+	share/cmd.o         \
+	share/array.o       \
+	share/dir.o         \
 	ball/hud.o          \
-	ball/game.o         \
+	ball/game_common.o  \
+	ball/game_client.o  \
+	ball/game_server.o  \
+	ball/game_proxy.o   \
 	ball/score.o        \
 	ball/level.o        \
 	ball/progress.o     \
 	ball/set.o          \
 	ball/demo.o         \
+	ball/demo_dir.o     \
 	ball/util.o         \
 	ball/st_conf.o      \
 	ball/st_demo.o      \
@@ -201,6 +215,7 @@ PUTT_OBJS := \
 	share/back.o        \
 	share/base_config.o \
 	share/config.o      \
+	share/video.o       \
 	share/binary.o      \
 	share/audio.o       \
 	share/state.o       \
@@ -209,6 +224,7 @@ PUTT_OBJS := \
 	share/sync.o        \
 	share/common.o      \
 	share/syswm.o       \
+	share/list.o        \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \
@@ -344,12 +360,8 @@ clean-setup: clean
 install-dlls: install-dlls.sh
 	sh $<
 
-install-dlls.sh:
-	mingw-list-dlls --sh > $@
-	@echo --------------------------------------------------------
-	@echo Now edit $@ to your needs before restarting make.
-	@echo --------------------------------------------------------
-	@exit 1
+install-dlls.sh: $(MAPC_TARG) $(BALL_TARG) $(PUTT_TARG)
+	mingw-list-dlls --format=shell $^ > $@
 
 #------------------------------------------------------------------------------
 

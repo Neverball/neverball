@@ -13,14 +13,21 @@
  */
 
 #include <string.h>
+#include <assert.h>
 
 #include "gui.h"
 #include "vec3.h"
 #include "demo.h"
-#include "game.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
+#include "cmd.h"
+#include "demo_dir.h"
+
+#include "game_common.h"
+#include "game_server.h"
+#include "game_client.h"
+#include "game_proxy.h"
 
 #include "st_title.h"
 #include "st_help.h"
@@ -31,8 +38,34 @@
 
 /*---------------------------------------------------------------------------*/
 
+static int init_title_level(void)
+{
+    if (game_client_init("map-medium/title.sol"))
+    {
+        union cmd cmd;
+
+        cmd.type = CMD_GOAL_OPEN;
+        game_proxy_enq(&cmd);
+
+        game_client_step(NULL);
+
+        return 1;
+    }
+    return 0;
+}
+
+static const char *pick_demo(Array items)
+{
+    struct dir_item *item;
+    return (item = array_rnd(items)) ? item->path : NULL;
+}
+
+/*---------------------------------------------------------------------------*/
+
 static float real_time = 0.0f;
 static int   mode      = 0;
+
+static Array items;
 
 static int play_id = 0;
 
@@ -152,7 +185,7 @@ static int title_enter(void)
 
     /* Initialize the title level for display. */
 
-    game_init("map-medium/title.sol", 0, 1);
+    init_title_level();
 
     real_time = 0.0f;
     mode = 0;
@@ -164,6 +197,12 @@ static int title_enter(void)
 
 static void title_leave(int id)
 {
+    if (items)
+    {
+        demo_dir_free(items);
+        items = NULL;
+    }
+
     SDL_EnableUNICODE(0);
     demo_replay_stop(0);
     gui_delete(id);
@@ -180,7 +219,11 @@ static void title_timer(int id, float dt)
     case 0: /* Mode 0: Pan across title level. */
 
         if (real_time <= 20.0f)
-            game_set_fly(fcosf(V_PI * real_time / 20.0f));
+        {
+            game_set_fly(fcosf(V_PI * real_time / 20.0f),
+                         game_client_file());
+            game_client_step(NULL);
+        }
         else
         {
             game_fade(+1.0f);
@@ -193,10 +236,14 @@ static void title_timer(int id, float dt)
 
         if (real_time > 1.0f)
         {
-            if ((demo = demo_pick()))
+            if (!items)
+                items = demo_dir_scan(config_user(""));
+
+            if ((demo = pick_demo(items)))
             {
                 demo_replay_init(demo, NULL, NULL, NULL, NULL, NULL);
-                game_set_fly(0.0f);
+                game_set_fly(0.0f, game_client_file());
+                game_client_step(NULL);
                 real_time = 0.0f;
                 mode = 2;
             }
@@ -224,7 +271,7 @@ static void title_timer(int id, float dt)
 
         if (real_time > 1.0f)
         {
-            game_init("map-medium/title.sol", 0, 1);
+            init_title_level();
 
             real_time = 0.0f;
             mode = 0;

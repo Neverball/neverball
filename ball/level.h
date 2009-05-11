@@ -26,7 +26,7 @@ struct level
     struct
     {
         struct score best_times;
-        struct score unlock_goal;
+        struct score fast_unlock;
         struct score most_coins;
     }
     score;
@@ -46,7 +46,6 @@ struct level
 };
 
 int  level_load(const char *, struct level *);
-void level_dump(const struct level *);
 
 /*---------------------------------------------------------------------------*/
 

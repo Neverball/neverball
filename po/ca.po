@@ -1,14 +1,14 @@
 # Catalan translation for Neverball.
 # Copyright © 2008 Robert Kooima
 # This file is distributed under the same license as the neverball package.
-# Jordà Polo <jorda@ettin>, 2008.
+# Jordà Polo <jorda@ettin>, 2008, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2008-10-17 10:51+0200\n"
-"PO-Revision-Date: 2008-09-27 19:06+0200\n"
+"POT-Creation-Date: 2009-03-13 02:14+0200\n"
+"PO-Revision-Date: 2009-03-16 18:25+0100\n"
 "Last-Translator: Jordà Polo <jorda@ettin.org>\n"
 "Language-Team: Catalan\n"
 "MIME-Version: 1.0\n"
@@ -16,82 +16,82 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ball/demo.c:299
+#: ball/demo.c:302
 msgid "Missing format character in replay name\n"
 msgstr "Falta un caràcter de format en el nom de la repetició\n"
 
-#: ball/demo.c:304
+#: ball/demo.c:307
 #, c-format
 msgid "Invalid format character in replay name: \"%%%c\"\n"
 msgstr ""
 "S'ha trobat un caràcter de format invàlid en el nom de la repetició: \"%%%c"
 "\"\n"
 
-#: ball/game.c:1294
+#: ball/game_common.c:8
 msgid "Aborted"
 msgstr "Interrompuda"
 
-#: ball/game.c:1295
+#: ball/game_common.c:9
 msgid "Time-out"
 msgstr "Temps esgotat"
 
-#: ball/game.c:1296
+#: ball/game_common.c:10
 msgid "Success"
 msgstr "Èxit"
 
-#: ball/game.c:1297
+#: ball/game_common.c:11
 msgid "Fall-out"
 msgstr "Perduda"
 
-#: ball/game.c:1298 ball/progress.c:364
+#: ball/game_common.c:12 ball/progress.c:376
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: ball/game.h:11
+#: ball/game_common.h:9
 msgid "snd/select.ogg"
 msgstr "snd/select.ogg"
 
-#: ball/game.h:12
+#: ball/game_common.h:10
 msgid "snd/ready.ogg"
 msgstr "snd/ready.ogg"
 
-#: ball/game.h:13
+#: ball/game_common.h:11
 msgid "snd/set.ogg"
 msgstr "snd/set.ogg"
 
-#: ball/game.h:14
+#: ball/game_common.h:12
 msgid "snd/go.ogg"
 msgstr "snd/go.ogg"
 
-#: ball/game.h:25
+#: ball/game_common.h:23
 msgid "snd/record.ogg"
 msgstr "snd/record.ogg"
 
-#: ball/game.h:26
+#: ball/game_common.h:24
 msgid "snd/fall.ogg"
 msgstr "snd/fall.ogg"
 
-#: ball/game.h:27
+#: ball/game_common.h:25
 msgid "snd/time.ogg"
 msgstr "snd/time.ogg"
 
-#: ball/game.h:28
+#: ball/game_common.h:26
 msgid "snd/over.ogg"
 msgstr "snd/over.ogg"
 
-#: ball/hud.c:56 ball/st_demo.c:177 ball/st_goal.c:177
+#: ball/hud.c:59 ball/st_demo.c:180 ball/st_goal.c:186
 msgid "Coins"
 msgstr "Monedes"
 
-#: ball/hud.c:57
+#: ball/hud.c:60
 msgid "Goal"
 msgstr "Meta"
 
-#: ball/hud.c:76 ball/st_goal.c:167
+#: ball/hud.c:79 ball/st_goal.c:176
 msgid "Balls"
 msgstr "Boles"
 
-#: ball/hud.c:77 ball/st_goal.c:172 putt/hud.c:45
+#: ball/hud.c:80 ball/st_goal.c:181 putt/hud.c:45
 msgid "Score"
 msgstr "Puntuació"
 
@@ -107,17 +107,17 @@ msgstr "Mandrosa"
 msgid "Manual"
 msgstr "Manual"
 
-#: ball/level.c:133
+#: ball/level.c:140
 #, c-format
 msgid "Error while loading level file '%s': %s\n"
 msgstr ""
 "S'ha produït un error mentre es carregava el fitxer del nivell «%s»: %s\n"
 
-#: ball/level.c:135
+#: ball/level.c:142
 msgid "Not a valid level file"
 msgstr "El fitxer del nivell no és vàlid"
 
-#: ball/main.c:257
+#: ball/main.c:256
 #, c-format
 msgid ""
 "Usage: %s [options ...]\n"
@@ -136,268 +136,281 @@ msgstr ""
 "  -r, --replay <fitxer>     repeteix la partida «fitxer».\n"
 "  -i, --info                mostra informació sobre la repetició.\n"
 
-#: ball/main.c:267
+#: ball/main.c:266
 #, c-format
 msgid "Option '%s' requires an argument.\n"
 msgstr "L'opció «%s» requereix un argument.\n"
 
-#: ball/main.c:327
+#: ball/main.c:334
 msgid "Option '--info' requires '--replay'.\n"
 msgstr "L'opció «--info» requereix «--replay».\n"
 
-#: ball/main.c:350 putt/main.c:286
+#: ball/main.c:359 putt/main.c:267
 msgid "Failure to establish game data directory\n"
 msgstr "No s'ha pogut establir el directori de dades del joc.\n"
 
-#: ball/main.c:356 putt/main.c:284
+#: ball/main.c:365 putt/main.c:265
 msgid "Failure to establish config directory\n"
 msgstr "No s'ha pogut establir el directori de configuració del joc.\n"
 
-#: ball/main.c:379
+#: ball/main.c:388
 #, c-format
 msgid "Replay file '%s': %s\n"
 msgstr "Repeteix la partida «%s»: %s.\n"
 
-#: ball/main.c:380
+#: ball/main.c:389
 msgid "Not a replay file"
 msgstr "El fitxer no és una repetició"
 
-#: ball/progress.c:362 ball/st_help.c:246
+#: ball/progress.c:374 ball/st_help.c:249
 msgid "Challenge Mode"
 msgstr "Mode repte"
 
-#: ball/progress.c:362 ball/st_start.c:204
+#: ball/progress.c:374 ball/st_start.c:205
 msgid "Challenge"
 msgstr "Repte"
 
-#: ball/progress.c:363 ball/st_help.c:238
+#: ball/progress.c:375 ball/st_help.c:241
 msgid "Normal Mode"
 msgstr "Mode normal"
 
-#: ball/progress.c:363
+#: ball/progress.c:375
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/progress.c:364
+#: ball/progress.c:376
 msgid "Unknown Mode"
 msgstr "Mode desconegut"
 
-#: ball/set.c:178
+#: ball/set.c:182
 #, c-format
 msgid "Error while loading user high-score file '%s': %s\n"
 msgstr "S'ha produït un error en carregar el fitxer de puntuacions «%s»: %s\n"
 
-#: ball/set.c:179
+#: ball/set.c:183
 msgid "Incorrect format"
 msgstr "El format és incorrecte"
 
-#: ball/set.c:194
+#: ball/set.c:198
 #, c-format
 msgid "Cannot load the set file '%s': %s\n"
 msgstr "No s'ha pogut carregar el fitxer de la col·lecció «%s»: %s\n"
 
-#: ball/st_conf.c:209 putt/st_conf.c:168
+#: ball/st_conf.c:213 putt/st_conf.c:169
 msgid "Options"
 msgstr "Opcions"
 
-#: ball/st_conf.c:211 ball/st_help.c:95 ball/st_start.c:176 ball/util.c:520
-#: share/st_resol.c:75 putt/st_all.c:343 putt/st_all.c:491 putt/st_conf.c:170
+#: ball/st_conf.c:215 ball/st_help.c:98 ball/st_start.c:177 ball/util.c:532
+#: share/st_resol.c:76 putt/st_all.c:344 putt/st_all.c:492 putt/st_conf.c:171
 msgid "Back"
 msgstr "Torna"
 
-#: ball/st_conf.c:219 ball/st_demo.c:565 ball/st_save.c:202 putt/st_conf.c:178
+#: ball/st_conf.c:223 ball/st_demo.c:577 ball/st_save.c:203 putt/st_conf.c:179
 msgid "No"
 msgstr "No"
 
-#: ball/st_conf.c:220 ball/st_demo.c:566 ball/st_save.c:203
-#: ball/st_start.c:232 putt/st_conf.c:179
+#: ball/st_conf.c:224 ball/st_demo.c:578 ball/st_save.c:204
+#: ball/st_start.c:233 putt/st_conf.c:180
 msgid "Yes"
 msgstr "Sí"
 
-#: ball/st_conf.c:222 putt/st_conf.c:181
+#: ball/st_conf.c:226 putt/st_conf.c:182
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: ball/st_conf.c:230 share/st_resol.c:73 putt/st_conf.c:189
+#: ball/st_conf.c:234 share/st_resol.c:74 putt/st_conf.c:190
 msgid "Resolution"
 msgstr "Resolució"
 
-#: ball/st_conf.c:238 ball/st_conf.c:247 putt/st_conf.c:197 putt/st_conf.c:206
+#: ball/st_conf.c:242 ball/st_conf.c:251 putt/st_conf.c:198 putt/st_conf.c:207
 msgid "Low"
 msgstr "Baixa"
 
-#: ball/st_conf.c:239 ball/st_conf.c:248 putt/st_conf.c:198 putt/st_conf.c:207
+#: ball/st_conf.c:243 ball/st_conf.c:252 putt/st_conf.c:199 putt/st_conf.c:208
 msgid "High"
 msgstr "Alta"
 
-#: ball/st_conf.c:241 putt/st_conf.c:200
+#: ball/st_conf.c:245 putt/st_conf.c:201
 msgid "Textures"
 msgstr "Textures"
 
-#: ball/st_conf.c:250 putt/st_conf.c:209
+#: ball/st_conf.c:254 putt/st_conf.c:210
 msgid "Geometry"
 msgstr "Geometria"
 
-#: ball/st_conf.c:256 ball/st_conf.c:265 ball/st_conf.c:274 putt/st_conf.c:215
+#: ball/st_conf.c:260 ball/st_conf.c:269 ball/st_conf.c:278 putt/st_conf.c:216
 msgid "Off"
 msgstr "Inactiu"
 
-#: ball/st_conf.c:257 ball/st_conf.c:266 ball/st_conf.c:275 putt/st_conf.c:216
+#: ball/st_conf.c:261 ball/st_conf.c:270 ball/st_conf.c:279 putt/st_conf.c:217
 msgid "On"
 msgstr "Actiu"
 
-#: ball/st_conf.c:259
+#: ball/st_conf.c:263
 msgid "Reflection"
 msgstr "Reflex"
 
-#: ball/st_conf.c:268
+#: ball/st_conf.c:272
 msgid "Background"
 msgstr "Rerefons"
 
-#: ball/st_conf.c:277 putt/st_conf.c:218
+#: ball/st_conf.c:281 putt/st_conf.c:219
 msgid "Shadow"
 msgstr "Ombra"
 
-#: ball/st_conf.c:299 putt/st_conf.c:240
+#: ball/st_conf.c:303 putt/st_conf.c:241
 msgid "Sound Volume"
 msgstr "Volum del so"
 
-#: ball/st_conf.c:319 putt/st_conf.c:260
+#: ball/st_conf.c:323 putt/st_conf.c:261
 msgid "Music Volume"
 msgstr "Volum de la musica"
 
-#: ball/st_conf.c:329 ball/st_name.c:103
+#: ball/st_conf.c:333 ball/st_name.c:107
 msgid "Player Name"
 msgstr "Nom del jugador"
 
-#: ball/st_demo.c:175
+#: ball/st_demo.c:178
 msgid "Time"
 msgstr "Temps"
 
-#: ball/st_demo.c:179
+#: ball/st_demo.c:182
 msgid "Status"
 msgstr "Estat"
 
-#: ball/st_demo.c:207 ball/st_demo.c:348
+#: ball/st_demo.c:210 ball/st_demo.c:359
 msgid "Replay"
 msgstr "Repetició"
 
-#: ball/st_demo.c:208 putt/st_all.c:679
+#: ball/st_demo.c:211 putt/st_all.c:680
 msgid "Player"
 msgstr "Jugador"
 
-#: ball/st_demo.c:209
+#: ball/st_demo.c:212
 msgid "Date"
 msgstr "Data"
 
-#: ball/st_demo.c:255
+#: ball/st_demo.c:258
 msgid "Select Replay"
 msgstr "Seleccioneu la repetició"
 
-#: ball/st_demo.c:277
+#: ball/st_demo.c:280
 msgid "No Replays"
 msgstr "Cap repetició"
 
-#: ball/st_demo.c:470
+#: ball/st_demo.c:482
 msgid "Replay Paused"
 msgstr "Repetició pausada"
 
-#: ball/st_demo.c:473
+#: ball/st_demo.c:485
 msgid "Replay Ends"
 msgstr "Fi de repetició"
 
-#: ball/st_demo.c:482 ball/st_pause.c:108 putt/st_all.c:591
+#: ball/st_demo.c:494 ball/st_pause.c:110 putt/st_all.c:592
 msgid "Quit"
 msgstr "Surt"
 
-#: ball/st_demo.c:486
+#: ball/st_demo.c:498
 msgid "Keep"
 msgstr "Torna"
 
-#: ball/st_demo.c:487 share/keynames.c:38
+#: ball/st_demo.c:499 share/keynames.c:38
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: ball/st_demo.c:492 ball/st_pause.c:113 putt/st_all.c:592
+#: ball/st_demo.c:504 ball/st_pause.c:115 putt/st_all.c:593
 msgid "Continue"
 msgstr "Continua"
 
-#: ball/st_demo.c:496
+#: ball/st_demo.c:508
 msgid "Repeat"
 msgstr "Repeteix"
 
-#: ball/st_demo.c:561
+#: ball/st_demo.c:573
 msgid "Delete Replay?"
 msgstr "Voleu esborrar la repetició?"
 
-#: ball/st_done.c:65
+#: ball/st_demo.c:611
+msgid "Warning!"
+msgstr "Avís!"
+
+#: ball/st_demo.c:613
+msgid ""
+"The replay you're about to view was\\recorded with a different (or unknown)"
+"\\version of this map. Be prepared to\\encounter visual errors.\\"
+msgstr ""
+"La repetició que esteu a punt de veure\\s'ha gravat amb una versió diferent"
+"\\(o desconeguda) d'aquest mapa. És\\possible que trobeu problemes a l'hora"
+"\\de visualitzar-la."
+
+#: ball/st_done.c:66
 msgid "New Set Record"
 msgstr "Nou rècord de la col·lecció"
 
-#: ball/st_done.c:66
+#: ball/st_done.c:67
 msgid "Set Complete"
 msgstr "Col·lecció completada"
 
-#: ball/st_done.c:95
+#: ball/st_done.c:96
 msgid "Select Level"
 msgstr "Seleccioneu el nivell"
 
-#: ball/st_fall_out.c:83
+#: ball/st_fall_out.c:87
 msgid "Fall-out!"
 msgstr "Bola perduda!"
 
-#: ball/st_fall_out.c:90 ball/st_time_out.c:83
+#: ball/st_fall_out.c:94 ball/st_time_out.c:85
 msgid "Exit"
 msgstr "Surt"
 
-#: ball/st_fall_out.c:93 ball/st_goal.c:208 ball/st_time_out.c:86
+#: ball/st_fall_out.c:97 ball/st_goal.c:219 ball/st_time_out.c:88
 msgid "Next Level"
 msgstr "Següent nivell"
 
-#: ball/st_fall_out.c:96 ball/st_goal.c:211 ball/st_time_out.c:89
+#: ball/st_fall_out.c:100 ball/st_goal.c:222 ball/st_time_out.c:91
 msgid "Retry Level"
 msgstr "Reintenta el nivell"
 
-#: ball/st_fall_out.c:99 ball/st_goal.c:214 ball/st_time_out.c:92
+#: ball/st_fall_out.c:103 ball/st_goal.c:225 ball/st_time_out.c:94
 msgid "Save Replay"
 msgstr "Desa la repetició"
 
-#: ball/st_goal.c:106
+#: ball/st_goal.c:115
 msgid "New Record"
 msgstr "Nou rècord"
 
-#: ball/st_goal.c:107
+#: ball/st_goal.c:116
 msgid "GOAL"
 msgstr "META"
 
-#: ball/st_goal.c:157
+#: ball/st_goal.c:166
 #, c-format
 msgid "%d new bonus level"
 msgid_plural "%d new bonus levels"
 msgstr[0] "%d nou nivell de bonificació"
 msgstr[1] "%d nous nivells de bonificació"
 
-#: ball/st_goal.c:205
+#: ball/st_goal.c:214 ball/st_goal.c:216
 msgid "Finish"
 msgstr "Finalitza"
 
-#: ball/st_help.c:91
+#: ball/st_help.c:94
 msgid "Techniques"
 msgstr "Tècniques"
 
-#: ball/st_help.c:92
+#: ball/st_help.c:95
 msgid "Modes"
 msgstr "Modes"
 
-#: ball/st_help.c:93
+#: ball/st_help.c:96
 msgid "Controls"
 msgstr "Controls"
 
-#: ball/st_help.c:94
+#: ball/st_help.c:97
 msgid "Rules"
 msgstr "Regles"
 
-#: ball/st_help.c:105
+#: ball/st_help.c:108
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
@@ -405,7 +418,7 @@ msgstr ""
 "Moveu el ratolí, el joystick\\o les tecles de desplaçament\\per escorar la "
 "superfície i\\fer que rodi la bola.\\"
 
-#: ball/st_help.c:110
+#: ball/st_help.c:113
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
@@ -413,39 +426,39 @@ msgstr ""
 "Rodola sobre les monedes per\\recollir-les. Les monedes\\permeten "
 "desbloquejar la\\meta i finalitzar el nivell.\\"
 
-#: ball/st_help.c:167
+#: ball/st_help.c:170
 msgid "Left and right mouse buttons rotate the view."
 msgstr "Podeu rotar la vista amb els botons del ratolí."
 
-#: ball/st_help.c:168
+#: ball/st_help.c:171
 msgid "Hold Shift for faster view rotation."
 msgstr "Premeu majúscules per rotar més ràpidament."
 
-#: ball/st_help.c:169
+#: ball/st_help.c:172
 msgid "Pause / Release Pointer"
 msgstr "Pausa / Allibera el punter"
 
-#: ball/st_help.c:170
+#: ball/st_help.c:173
 msgid "Exit / Cancel Menu"
 msgstr "Surt / Cancel·la el menú"
 
-#: ball/st_help.c:171
+#: ball/st_help.c:174
 msgid "Chase View"
 msgstr "Vista persecutòria"
 
-#: ball/st_help.c:172
+#: ball/st_help.c:175
 msgid "Lazy View"
 msgstr "Vista mandrosa"
 
-#: ball/st_help.c:173
+#: ball/st_help.c:176
 msgid "Manual View"
 msgstr "Vista manual"
 
-#: ball/st_help.c:174
+#: ball/st_help.c:177
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
-#: ball/st_help.c:240
+#: ball/st_help.c:243
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
 "to open the goal."
@@ -453,7 +466,7 @@ msgstr ""
 "Acabeu un nivell abans que el temps s'esgoti.\\Haureu de recollir monedes "
 "per tal de desbloquejar\\la meta."
 
-#: ball/st_help.c:248
+#: ball/st_help.c:251
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
@@ -462,7 +475,7 @@ msgstr ""
 "boles, no les perdeu.\\Podeu guanyar una bola addicional per cada\\100 "
 "monedes."
 
-#: ball/st_help.c:262
+#: ball/st_help.c:265
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
@@ -470,7 +483,7 @@ msgstr ""
 "Podeu utilitzar les cantonades\\per saltar. Rodoleu en direcció\\a un cert "
 "angle. Així podreu\\arribar a zones noves."
 
-#: ball/st_help.c:267
+#: ball/st_help.c:270
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
 "the camera by 45\\degrees for best results.\\"
@@ -478,103 +491,103 @@ msgstr ""
 "Escorar en 2 direccions\\incrementa la pendent.\\Utilitzeu la vista manual i"
 "\\gireu la càmera 45 graus\\per obtenir millors resultats."
 
-#: ball/st_help.c:287 ball/st_help.c:297
+#: ball/st_help.c:290 ball/st_help.c:300
 msgid "Watch demo"
 msgstr "Mira la demostració"
 
-#: ball/st_level.c:50
+#: ball/st_level.c:52
 #, c-format
 msgid "Bonus Level %s"
 msgstr "Nivell de bonificació %s"
 
-#: ball/st_level.c:52
+#: ball/st_level.c:54
 #, c-format
 msgid "Level %s"
 msgstr "Nivell %s"
 
-#: ball/st_name.c:115
+#: ball/st_name.c:119
 msgid "OK"
 msgstr "D'acord"
 
-#: ball/st_name.c:117 ball/st_save.c:126
+#: ball/st_name.c:121 ball/st_save.c:127
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: ball/st_over.c:36
+#: ball/st_over.c:38
 msgid "GAME OVER"
 msgstr "S'HA ACABAT"
 
-#: ball/st_pause.c:102 putt/st_all.c:586
+#: ball/st_pause.c:104 putt/st_all.c:587
 msgid "Paused"
 msgstr "Pausa"
 
-#: ball/st_pause.c:111
+#: ball/st_pause.c:113
 msgid "Restart"
 msgstr "Reinicia"
 
-#: ball/st_play.c:58
+#: ball/st_play.c:62
 msgid "Ready?"
 msgstr "Preparats?"
 
-#: ball/st_play.c:114
+#: ball/st_play.c:119
 msgid "Set?"
 msgstr "Llestos?"
 
-#: ball/st_play.c:185
+#: ball/st_play.c:192
 msgid "GO!"
 msgstr "Ja!"
 
-#: ball/st_save.c:113
+#: ball/st_save.c:114
 msgid "Replay Name"
 msgstr "Nom de la repetició"
 
-#: ball/st_save.c:124
+#: ball/st_save.c:125
 msgid "Save"
 msgstr "Desa"
 
-#: ball/st_save.c:196
+#: ball/st_save.c:197
 msgid "Overwrite?"
 msgstr "Voleu sobreescriure?"
 
-#: ball/st_set.c:113
+#: ball/st_set.c:114
 msgid "Level Set"
 msgstr "Col·lecció de nivells"
 
 #. Translators: adjust the amount of whitespace here
 #. * as necessary for the buttons to look good.
-#: ball/st_start.c:229
+#: ball/st_start.c:230
 msgid "   No   "
 msgstr "   No   "
 
-#: ball/st_start.c:238
+#: ball/st_start.c:239
 msgid "Lock Goals of Completed Levels?"
 msgstr "Bloquejar la meta als completats?"
 
-#: ball/st_time_out.c:76
+#: ball/st_time_out.c:78
 msgid "Time's Up!"
 msgstr "Temps esgotat!"
 
-#: ball/st_title.c:98 ball/st_title.c:132
+#: ball/st_title.c:121 ball/st_title.c:155
 msgid "menu^Cheat"
 msgstr "Fes trampa"
 
-#: ball/st_title.c:104 ball/st_title.c:135 putt/st_all.c:213
+#: ball/st_title.c:127 ball/st_title.c:158 putt/st_all.c:214
 msgid "menu^Play"
 msgstr "Juga"
 
-#: ball/st_title.c:138
+#: ball/st_title.c:161
 msgid "menu^Replay"
 msgstr "Repeteix"
 
-#: ball/st_title.c:139
+#: ball/st_title.c:162
 msgid "menu^Help"
 msgstr "Ajuda"
 
-#: ball/st_title.c:140 putt/st_all.c:214
+#: ball/st_title.c:163 putt/st_all.c:215
 msgid "menu^Options"
 msgstr "Opcions"
 
-#: ball/st_title.c:141 putt/st_all.c:215
+#: ball/st_title.c:164 putt/st_all.c:216
 msgid "menu^Exit"
 msgstr "Surt"
 
@@ -590,31 +603,36 @@ msgstr "Mitjà"
 msgid "Easy"
 msgstr "Fàcil"
 
-#: ball/util.c:56 ball/util.c:292
+#: ball/util.c:58 ball/util.c:119 ball/util.c:179 ball/util.c:240
+msgid "Unavailable"
+msgstr "No disponible"
+
+#: ball/util.c:130 ball/util.c:302
 msgid "Most Coins"
 msgstr "Més monedes"
 
-#: ball/util.c:230 ball/util.c:298
-msgid "Unlock Goal"
-msgstr "Desbloqueja la meta"
+#: ball/util.c:251 ball/util.c:308
+#| msgid "Caps Lock"
+msgid "Fast Unlock"
+msgstr "Desbloqueig ràpid"
 
-#: ball/util.c:230 ball/util.c:295
+#: ball/util.c:251 ball/util.c:305
 msgid "Best Times"
 msgstr "Millors temps"
 
-#: ball/util.c:308
+#: ball/util.c:318
 msgid "Change Name"
 msgstr "Canvia el nom"
 
-#: ball/util.c:455
+#: ball/util.c:465
 msgid "caps"
 msgstr "majúscules"
 
-#: ball/util.c:516
+#: ball/util.c:526
 msgid "Next"
 msgstr "Següent"
 
-#: ball/util.c:517
+#: ball/util.c:527
 msgid "Prev"
 msgstr "Anterior"
 
@@ -866,64 +884,64 @@ msgstr "No s'ha pogut obtenir informació del gestor de finestres: %s\n"
 msgid "Failed to allocate memory for EWMH icon data.\n"
 msgstr "No s'ha pogut assignar la memòria per a les dades de la icona EWMH.\n"
 
-#: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:97 putt/st_all.c:141
+#: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:98 putt/st_all.c:142
 msgid "Par"
 msgstr "Par"
 
-#: putt/hole.c:106 putt/st_all.c:98 putt/st_all.c:142
+#: putt/hole.c:106 putt/st_all.c:99 putt/st_all.c:143
 msgid "P1"
 msgstr "J1"
 
-#: putt/hole.c:107 putt/st_all.c:99 putt/st_all.c:143
+#: putt/hole.c:107 putt/st_all.c:100 putt/st_all.c:144
 msgid "P2"
 msgstr "J2"
 
-#: putt/hole.c:108 putt/st_all.c:100 putt/st_all.c:144
+#: putt/hole.c:108 putt/st_all.c:101 putt/st_all.c:145
 msgid "P3"
 msgstr "J3"
 
-#: putt/hole.c:109 putt/st_all.c:101 putt/st_all.c:145
+#: putt/hole.c:109 putt/st_all.c:102 putt/st_all.c:146
 msgid "P4"
 msgstr "J4"
 
-#: putt/st_all.c:75
+#: putt/st_all.c:76
 msgid "O"
 msgstr "Ext"
 
-#: putt/st_all.c:111
+#: putt/st_all.c:112
 msgid "Tot"
 msgstr "Tot"
 
-#: putt/st_all.c:120
+#: putt/st_all.c:121
 msgid "I"
 msgstr "Int"
 
-#: putt/st_all.c:302
+#: putt/st_all.c:303
 msgid "Select Course"
 msgstr "Seleccioneu el circuit"
 
-#: putt/st_all.c:468
+#: putt/st_all.c:469
 msgid "Players?"
 msgstr "Nombre de jugadors?"
 
-#: putt/st_all.c:672
+#: putt/st_all.c:673
 #, c-format
 msgid "Hole %02d"
 msgstr "Forat %02d"
 
-#: putt/st_all.c:997
+#: putt/st_all.c:998
 msgid "It's In!"
 msgstr "És dins!"
 
-#: putt/st_all.c:1139
+#: putt/st_all.c:1140
 msgid "1 Stroke Penalty"
 msgstr "Cop de penalització"
 
-#: putt/st_all.c:1217
+#: putt/st_all.c:1218
 msgid "Scores"
 msgstr "Puntuació"
 
-#: putt/st_all.c:1270
+#: putt/st_all.c:1271
 msgid "Final Scores"
 msgstr "Puntuació final"
 
@@ -957,10 +975,14 @@ msgid "Neverball Hard"
 msgstr "Neverball difícil"
 
 #: data/set-hard.txt
+#| msgid ""
+#| "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
+#| "challenge for\\the experienced player. Try to claim\\Best Times, Most "
+#| "Coins, and Unlock Goal records.\\"
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
-"and Unlock Goal records.\\"
+"and Fast Unlock records.\\"
 msgstr ""
 "Dificultat: intermedi a expert.\\\\25 nivells que suposen tot un repte per "
 "als jugadors\\experimentats. Intenteu fer les millors puntuacions\\en les "
@@ -1013,7 +1035,7 @@ msgid ""
 "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
 msgstr ""
-"El circuit de 18 forats original de\\Neverputt. Té una corva d'aprenentatge"
+"El circuit de 18 forats original de\\Neverputt. Té una corba d'aprenentatge"
 "\\suau. \\Dificultat: fàcil a mitjana\\Autor: rlk\\"
 
 #: data/courses.txt
@@ -1084,6 +1106,7 @@ msgid ""
 msgstr ""
 
 #: data/map-easy/easy.map data/map-misc/texture-debug.map
+#: data/map-misc/timer-test.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
@@ -1567,12 +1590,6 @@ msgstr ""
 msgid "There are special coins which can make your\\ball larger or smaller."
 msgstr ""
 
-#: data/map-misc/hurdles.map
-msgid ""
-"You must leap to the goal.\\Build speed on the final runway and aim for the "
-"ramp!"
-msgstr ""
-
 #: data/map-misc/ocean.map
 msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
 msgstr ""
@@ -1839,6 +1856,9 @@ msgstr "mtrl/words-ca"
 
 msgid "item/coin/coin"
 msgstr "item/coin/euro_coin"
+
+#~ msgid "Unlock Goal"
+#~ msgstr "Desbloqueja la meta"
 
 #~ msgid "Mehdi's Levels"
 #~ msgstr "Els nivells d'en Mehdi"

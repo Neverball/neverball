@@ -83,9 +83,9 @@ void ball_init(void)
     char inner_file[PATHMAX];
     char outer_file[PATHMAX];
 
-    config_get_s(CONFIG_BALL, solid_file, PATHMAX - 12);
-    config_get_s(CONFIG_BALL, inner_file, PATHMAX - 12);
-    config_get_s(CONFIG_BALL, outer_file, PATHMAX - 12);
+    config_get_s(CONFIG_BALL_FILE, solid_file, PATHMAX - 12);
+    config_get_s(CONFIG_BALL_FILE, inner_file, PATHMAX - 12);
+    config_get_s(CONFIG_BALL_FILE, outer_file, PATHMAX - 12);
 
     strcat(solid_file, "-solid.sol");
     strcat(inner_file, "-inner.sol");

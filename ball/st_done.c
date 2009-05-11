@@ -16,13 +16,14 @@
 
 #include "gui.h"
 #include "set.h"
-#include "game.h"
 #include "util.h"
 #include "demo.h"
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
+
+#include "game_common.h"
 
 #include "st_done.h"
 #include "st_start.h"
@@ -52,7 +53,7 @@ static int done_action(int i)
 
     case GUI_MOST_COINS:
     case GUI_BEST_TIMES:
-    case GUI_UNLOCK_GOAL:
+    case GUI_FAST_UNLOCK:
         gui_score_set(i);
         resume = 1;
         return goto_state(&st_done);
@@ -102,7 +103,7 @@ static int done_enter(void)
 
     set_score_board(set_coin_score(curr_set()), progress_score_rank(),
                     set_time_score(curr_set()), progress_times_rank(),
-                    set_time_score(curr_set()), progress_times_rank());
+                    NULL, -1);
 
     /* Reset hack. */
     resume = 0;
