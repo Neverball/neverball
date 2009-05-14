@@ -16,6 +16,7 @@
 #include <string.h>
 
 #include "lang.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -98,7 +99,7 @@ const char *pretty_keyname(SDLKey key)
     if ((ugly_keyname = SDL_GetKeyName(key)) == NULL)
         return NULL;
 
-    for (i = 0; i < sizeof (table); i++)
+    for (i = 0; i < ARRAYSIZE(table); i++)
         if (strcmp(table[i][0], ugly_keyname) == 0)
             return _(table[i][1]);
 
