@@ -33,6 +33,9 @@
 #include "st_resol.h"
 #include "st_name.h"
 
+extern const char TITLE[];
+extern const char ICON[];
+
 /*---------------------------------------------------------------------------*/
 
 enum {
@@ -107,7 +110,7 @@ static int conf_action(int i)
     case CONF_REFON:
         goto_state(&st_null);
         config_set_d(CONFIG_REFLECTION, 1);
-        r = video_init("Neverball " VERSION, "icon/neverball.png");
+        r = video_init(TITLE, ICON);
         goto_state(&st_conf);
         break;
 

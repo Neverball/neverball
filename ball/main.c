@@ -36,7 +36,8 @@
 #include "st_level.h"
 #include "st_pause.h"
 
-#define TITLE "Neverball " VERSION
+const char TITLE[] = "Neverball " VERSION;
+const char ICON[] = "icon/neverball.png";
 
 /*---------------------------------------------------------------------------*/
 
@@ -406,7 +407,7 @@ int main(int argc, char *argv[])
 
     /* Initialize the video. */
 
-    if (!video_init(TITLE, "icon/neverball.png"))
+    if (!video_init(TITLE, ICON))
         return 1;
 
     init_state(&st_null);

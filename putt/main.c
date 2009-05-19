@@ -35,7 +35,8 @@
 #include "st_conf.h"
 #include "st_all.h"
 
-#define TITLE "Neverputt " VERSION
+const char TITLE[] = "Neverputt " VERSION;
+const char ICON[] = "icon/neverputt.png";
 
 /*---------------------------------------------------------------------------*/
 
@@ -229,7 +230,7 @@ int main(int argc, char *argv[])
 
                 /* Initialize the video. */
 
-                if (video_init(TITLE, "icon/neverputt.png"))
+                if (video_init(TITLE, ICON))
                 {
                     int t1, t0 = SDL_GetTicks();
 
