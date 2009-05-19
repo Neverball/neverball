@@ -22,14 +22,6 @@
 
 int video_init(const char *title, const char *icon)
 {
-    /* Require 16-bit double buffer with 16-bit depth buffer. */
-
-    SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
-    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
-    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
     /* This has to happen before mode setting... */
 
     set_SDL_icon(icon);
@@ -87,6 +79,14 @@ int video_mode(int f, int w, int h)
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, buffers);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, samples);
     SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL,       vsync);
+
+    /* Require 16-bit double buffer with 16-bit depth buffer. */
+
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     /* Try to set the currently specified mode. */
 
