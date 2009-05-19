@@ -37,7 +37,8 @@ int video_init(const char *title, const char *icon)
     /* Initialize the video. */
 
     if (!video_mode(config_get_d(CONFIG_FULLSCREEN),
-                    config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT)))
+                    config_get_d(CONFIG_WIDTH),
+                    config_get_d(CONFIG_HEIGHT)))
     {
         fprintf(stderr, "%s\n", SDL_GetError());
         return 0;
