@@ -107,6 +107,7 @@ static int conf_action(int i)
     case CONF_REFON:
         goto_state(&st_null);
         config_set_d(CONFIG_REFLECTION, 1);
+        r = video_init("Neverball " VERSION, "icon/neverball.png");
         goto_state(&st_conf);
         break;
 
