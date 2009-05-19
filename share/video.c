@@ -22,6 +22,14 @@
 
 int video_init(const char *title, const char *icon)
 {
+    SDL_QuitSubSystem(SDL_INIT_VIDEO);
+
+    if (SDL_InitSubSystem(SDL_INIT_VIDEO) == -1)
+    {
+        fprintf(stderr, "%s\n", SDL_GetError());
+        return 0;
+    }
+
     /* This has to happen before mode setting... */
 
     set_SDL_icon(icon);

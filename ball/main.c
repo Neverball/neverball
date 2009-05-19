@@ -365,7 +365,7 @@ int main(int argc, char *argv[])
 
     /* Initialize SDL system and subsystems */
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
+    if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
     {
         fprintf(stderr, "%s\n", SDL_GetError());
         return 1;
