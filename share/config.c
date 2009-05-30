@@ -134,7 +134,7 @@ static struct
     { &CONFIG_MOUSE_CAMERA_1,      "mouse_camera_1",      0 },
     { &CONFIG_MOUSE_CAMERA_2,      "mouse_camera_2",      0 },
     { &CONFIG_MOUSE_CAMERA_3,      "mouse_camera_3",      0 },
-    { &CONFIG_MOUSE_CAMERA_TOGGLE, "mouse_camera_toggle", 0 },
+    { &CONFIG_MOUSE_CAMERA_TOGGLE, "mouse_camera_toggle", SDL_BUTTON_MIDDLE },
     { &CONFIG_MOUSE_CAMERA_L,      "mouse_camera_l",      SDL_BUTTON_LEFT },
     { &CONFIG_MOUSE_CAMERA_R,      "mouse_camera_r",      SDL_BUTTON_RIGHT },
 
