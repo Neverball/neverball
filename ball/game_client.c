@@ -712,10 +712,20 @@ static void game_draw_tilt(int d)
 {
     const float *ball_p = file.uv->p;
 
+    const float Y[3] = { 0.0f, 1.0f, 0.0f };
+    float z[3];
+
+    v_cpy(z, view_e[2]);
+
+    /* Handle possible top-down view. */
+
+    if (fabsf(v_dot(view_e[1], Y)) < fabsf(v_dot(view_e[2], Y)))
+        v_inv(z, view_e[1]);
+
     /* Rotate the environment about the position of the ball. */
 
     glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
-    glRotatef(-game_rz * d, view_e[2][0], view_e[2][1], view_e[2][2]);
+    glRotatef(-game_rz * d, z[0],         z[1],         z[2]);
     glRotatef(-game_rx * d, view_e[0][0], view_e[0][1], view_e[0][2]);
     glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
 }

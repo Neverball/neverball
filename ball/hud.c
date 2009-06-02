@@ -234,6 +234,7 @@ void hud_view_pulse(int c)
     case 0: gui_set_label(view_id, STR_VIEW0); break;
     case 1: gui_set_label(view_id, STR_VIEW1); break;
     case 2: gui_set_label(view_id, STR_VIEW2); break;
+    case 3: gui_set_label(view_id, STR_VIEW3); break;
     }
 
     gui_pulse(view_id, 1.2f);

@@ -6,6 +6,7 @@
 #define STR_VIEW0 _("Chase")
 #define STR_VIEW1 _("Lazy")
 #define STR_VIEW2 _("Manual")
+#define STR_VIEW3 _("Top-Down")
 
 /*---------------------------------------------------------------------------*/
 

@@ -347,6 +347,11 @@ static int play_loop_keybd(int c, int d)
             config_set_d(CONFIG_CAMERA, 2);
             hud_view_pulse(2);
         }
+        if (c == SDLK_F4 && config_cheat())
+        {
+            config_set_d(CONFIG_CAMERA, 3);
+            hud_view_pulse(3);
+        }
         if (config_tst_d(CONFIG_KEY_RESTART, c) &&
             progress_same_avail())
         {
