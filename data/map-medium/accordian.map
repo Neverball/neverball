@@ -9,7 +9,7 @@
 "grad" "back/land.png"
 "song" "bgm/track1.ogg"
 "goal" "30"
-"time" "9000"
+"time" "9500"
 "time_hs" "1500 3000"
 "coin_hs" "74 50"
 "goal_hs" "3000 6000"
