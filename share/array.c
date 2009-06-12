@@ -79,3 +79,10 @@ int array_len(Array a)
 
     return a->elem_num;
 }
+
+void array_sort(Array a, int (*cmp)(const void *, const void *))
+{
+    assert(a);
+
+    qsort(a->data, a->elem_num, a->elem_len, cmp);
+}
