@@ -13,7 +13,7 @@ struct demo
     char   name[PATHMAX];     /* demo basename    */
     char   filename[MAXSTR];  /* demo path        */
 
-    char   player[MAXNAM];
+    char   player[MAXSTR];
     time_t date;
 
     int    timer;

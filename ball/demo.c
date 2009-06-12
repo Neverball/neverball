@@ -90,7 +90,7 @@ static int demo_header_read(FILE *fp, struct demo *d)
         get_index(fp, &d->status);
         get_index(fp, &d->mode);
 
-        get_string(fp, d->player, MAXNAM);
+        get_string(fp, d->player, sizeof (d->player));
         get_string(fp, datestr, DATELEN);
 
         sscanf(datestr,
