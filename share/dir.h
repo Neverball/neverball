@@ -16,7 +16,10 @@ struct dir_item
  */
 #define DIR_ITEM_GET(a, i) ((struct dir_item *) array_get((a), (i)))
 
-Array dir_scan(const char *, int (*filter)(struct dir_item *));
+Array dir_scan(const char *,
+               int    (*filter)   (struct dir_item *),
+               char **(*get_list) (const char *),
+               void   (*free_list)(void *));
 void  dir_free(Array);
 
 #endif

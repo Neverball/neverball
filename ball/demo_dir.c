@@ -16,7 +16,7 @@ static int scan_item(struct dir_item *item)
 
 Array demo_dir_scan(const char *path)
 {
-    return dir_scan(path, scan_item);
+    return dir_scan(path, scan_item, NULL, NULL);
 }
 
 void demo_dir_free(Array items)
