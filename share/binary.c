@@ -142,12 +142,24 @@ void put_string(FILE *fout, const char *s)
 
 void get_string(FILE *fin, char *s, int max)
 {
-    do
-        *s = (char) fgetc(fin);
-    while (*s++ != '\0' && max-- > 0);
+    int c = -1;
 
-    if(*(s - 1) != '\0')
-        *(s - 1) = '\0';
+    if (max == 0)
+        return;
+
+    while (max && c && (c = fgetc(fin)) != EOF)
+    {
+        *s++ = c;
+        max--;
+    }
+
+     /*
+      * Terminate the buffer ourselves, if we ran out of space without
+      * seeing a NUL character.
+      */
+
+    if (max == 0 && *(s - 1) != 0)
+        *(s - 1) = 0;
 }
 
 /*---------------------------------------------------------------------------*/
