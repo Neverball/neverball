@@ -24,11 +24,14 @@
 #include "base_image.h"
 #include "config.h"
 
+#include "fs.h"
+#include "fs_png.h"
+
 /*---------------------------------------------------------------------------*/
 
 void image_snap(const char *filename)
 {
-    FILE       *filep  = NULL;
+    fs_file     filep  = NULL;
     png_structp writep = NULL;
     png_infop   infop  = NULL;
     png_bytep  *bytep  = NULL;
@@ -41,7 +44,7 @@ void image_snap(const char *filename)
 
     /* Initialize all PNG export data structures. */
 
-    if (!(filep = fopen(filename, FMODE_WB)))
+    if (!(filep = fs_open(filename, "w")))
         return;
     if (!(writep = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0)))
         return;
@@ -54,7 +57,7 @@ void image_snap(const char *filename)
     {
         /* Initialize the PNG header. */
 
-        png_init_io (writep, filep);
+        png_set_write_fn(writep, filep, fs_png_write, fs_png_flush);
         png_set_IHDR(writep, infop, w, h, 8,
                      PNG_COLOR_TYPE_RGB,
                      PNG_INTERLACE_NONE,
@@ -90,7 +93,7 @@ void image_snap(const char *filename)
     /* Release all resources. */
 
     png_destroy_write_struct(&writep, &infop);
-    fclose(filep);
+    fs_close(filep);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -175,7 +178,7 @@ GLuint make_image_from_file(const char *filename)
 
     /* Load the image. */
 
-    if ((p = image_load(config_data(filename), &w, &h, &b)))
+    if ((p = image_load(filename, &w, &h, &b)))
     {
         o = make_texture(p, w, h, b);
         free(p);
@@ -298,7 +301,7 @@ SDL_Surface *load_surface(const char *filename)
     amask = 0xFF000000;
 #endif
 
-    if ((p = image_load(config_data(filename), &w, &h, &b)))
+    if ((p = image_load(filename, &w, &h, &b)))
     {
         void *q;
 

@@ -39,7 +39,7 @@
 
 #define DATELEN 20
 
-static FILE *demo_fp;
+static fs_file demo_fp;
 
 /*---------------------------------------------------------------------------*/
 
@@ -68,7 +68,7 @@ void demo_dump_info(const struct demo *d)
            d->time, d->goal, d->goal_e, d->score, d->balls, d->times);
 }
 
-static int demo_header_read(FILE *fp, struct demo *d)
+static int demo_header_read(fs_file fp, struct demo *d)
 {
     int magic;
     int version;
@@ -123,7 +123,7 @@ static int demo_header_read(FILE *fp, struct demo *d)
     return 0;
 }
 
-static void demo_header_write(FILE *fp, struct demo *d)
+static void demo_header_write(fs_file fp, struct demo *d)
 {
     int magic = MAGIC;
     int version = DEMO_VERSION;
@@ -158,12 +158,12 @@ static void demo_header_write(FILE *fp, struct demo *d)
 
 struct demo *demo_load(const char *path)
 {
-    FILE *fp;
+    fs_file fp;
     struct demo *d;
 
     d = NULL;
 
-    if ((fp = fopen(path, FMODE_RB)))
+    if ((fp = fs_open(path, "r")))
     {
         d = malloc(sizeof (struct demo));
 
@@ -179,7 +179,7 @@ struct demo *demo_load(const char *path)
             d = NULL;
         }
 
-        fclose(fp);
+        fs_close(fp);
     }
 
     return d;
@@ -196,10 +196,10 @@ int demo_exists(const char *name)
 {
     char buf[MAXSTR];
 
-    strcpy(buf, config_user(name));
+    strcpy(buf, name);
     strcat(buf, REPLAY_EXT);
 
-    return file_exists(buf);
+    return fs_exists(buf);
 }
 
 #define MAXSTRLEN(a) (sizeof ((a)) - 1)
@@ -303,7 +303,7 @@ int demo_play_init(const char *name, const struct level *level,
 
     memset(&demo, 0, sizeof (demo));
 
-    strncpy(demo.filename, config_user(name), MAXSTR);
+    strncpy(demo.filename, name, MAXSTR);
     strcat(demo.filename, REPLAY_EXT);
 
     demo.mode = mode;
@@ -321,7 +321,7 @@ int demo_play_init(const char *name, const struct level *level,
     demo.balls  = b;
     demo.times  = tt;
 
-    if ((demo_fp = fopen(demo.filename, FMODE_WB)))
+    if ((demo_fp = fs_open(demo.filename, "w")))
     {
         demo_header_write(demo_fp, &demo);
         audio_music_fade_to(2.0f, level->song);
@@ -346,15 +346,15 @@ void demo_play_stat(int status, int coins, int timer)
 {
     if (demo_fp)
     {
-        long pos = ftell(demo_fp);
+        long pos = fs_tell(demo_fp);
 
-        fseek(demo_fp, 8, SEEK_SET);
+        fs_seek(demo_fp, 8, SEEK_SET);
 
         put_index(demo_fp, &timer);
         put_index(demo_fp, &coins);
         put_index(demo_fp, &status);
 
-        fseek(demo_fp, pos, SEEK_SET);
+        fs_seek(demo_fp, pos, SEEK_SET);
     }
 }
 
@@ -362,7 +362,7 @@ void demo_play_stop(void)
 {
     if (demo_fp)
     {
-        fclose(demo_fp);
+        fs_close(demo_fp);
         demo_fp = NULL;
     }
 }
@@ -381,18 +381,19 @@ void demo_rename(const char *name)
         demo_exists(USER_REPLAY_FILE) &&
         strcmp(name, USER_REPLAY_FILE) != 0)
     {
-        strcpy(src, config_user(USER_REPLAY_FILE));
+        strcpy(src, USER_REPLAY_FILE);
         strcat(src, REPLAY_EXT);
 
-        strcpy(dst, config_user(name));
+        strcpy(dst, name);
         strcat(dst, REPLAY_EXT);
 
-        file_rename(src, dst);
+        fs_rename(src, dst);
     }
 }
 
 void demo_rename_player(const char *name, const char *player)
 {
+#if 0
     char filename[MAXSTR];
     FILE *old_fp, *new_fp;
     struct demo d;
@@ -459,6 +460,7 @@ void demo_rename_player(const char *name, const char *player)
         }
         fclose(old_fp);
     }
+#endif
 }
 
 /*---------------------------------------------------------------------------*/
@@ -473,7 +475,7 @@ const struct demo *curr_demo_replay(void)
 
 int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
 {
-    demo_fp = fopen(name, FMODE_RB);
+    demo_fp = fs_open(name, "r");
 
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
@@ -543,7 +545,7 @@ int demo_replay_step(float dt)
                 break;
         }
 
-        if (!feof(demo_fp))
+        if (!fs_eof(demo_fp))
         {
             game_client_step(NULL);
             return 1;
@@ -556,10 +558,10 @@ void demo_replay_stop(int d)
 {
     if (demo_fp)
     {
-        fclose(demo_fp);
+        fs_close(demo_fp);
         demo_fp = NULL;
 
-        if (d) remove(demo_replay.filename);
+        if (d) fs_remove(demo_replay.filename);
     }
 }
 
@@ -570,6 +572,6 @@ void demo_replay_dump_info(void)
 
 /*---------------------------------------------------------------------------*/
 
-FILE *demo_file(void) { return demo_fp; }
+fs_file demo_file(void) { return demo_fp; }
 
 /*---------------------------------------------------------------------------*/

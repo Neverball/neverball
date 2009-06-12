@@ -237,7 +237,7 @@ static void title_timer(int id, float dt)
         if (real_time > 1.0f)
         {
             if (!items)
-                items = demo_dir_scan(config_user(""));
+                items = demo_dir_scan("");
 
             if ((demo = pick_demo(items)))
             {

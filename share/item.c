@@ -82,9 +82,9 @@ void item_init(void)
 {
     int T = config_get_d(CONFIG_TEXTURES);
 
-    sol_load_gl(&item_coin_file, config_data("item/coin/coin.sol"), T, 0);
-    sol_load_gl(&item_grow_file, config_data("item/grow/grow.sol"), T, 0);
-    sol_load_gl(&item_shrink_file, config_data("item/shrink/shrink.sol"), T, 0);
+    sol_load_gl(&item_coin_file,   "item/coin/coin.sol",     T, 0);
+    sol_load_gl(&item_grow_file,   "item/grow/grow.sol",     T, 0);
+    sol_load_gl(&item_shrink_file, "item/shrink/shrink.sol", T, 0);
 }
 
 void item_free(void)

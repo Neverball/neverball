@@ -375,7 +375,7 @@ static void game_run_cmd(const union cmd *cmd)
     }
 }
 
-void game_client_step(FILE *demo_fp)
+void game_client_step(fs_file demo_fp)
 {
     union cmd *cmdp;
 
@@ -408,7 +408,7 @@ int  game_client_init(const char *file_name)
     if (client_state)
         game_client_free();
 
-    if (!sol_load_gl(&file, config_data(file_name),
+    if (!sol_load_gl(&file, file_name,
                      config_get_d(CONFIG_TEXTURES),
                      config_get_d(CONFIG_SHADOW)))
         return (client_state = 0);
@@ -466,7 +466,7 @@ int  game_client_init(const char *file_name)
     first_update = 1;
 
     back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
-    sol_load_gl(&back, config_data(back_name),
+    sol_load_gl(&back, back_name,
                 config_get_d(CONFIG_TEXTURES), 0);
 
     return client_state;

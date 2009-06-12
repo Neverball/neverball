@@ -308,9 +308,9 @@ union cmd
 /* No module should see this. */
 #undef HEADER
 
-#include <stdio.h>
+#include "fs.h"
 
-int cmd_put(FILE *, const union cmd *);
-int cmd_get(FILE *, union cmd *);
+int cmd_put(fs_file, const union cmd *);
+int cmd_get(fs_file, union cmd *);
 
 #endif

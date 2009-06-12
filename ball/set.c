@@ -23,6 +23,7 @@
 #include "image.h"
 #include "set.h"
 #include "common.h"
+#include "fs.h"
 
 #include "game_server.h"
 #include "game_client.h"
@@ -60,23 +61,23 @@ static struct level level_v[MAXLVL];
 
 /*---------------------------------------------------------------------------*/
 
-static void put_score(FILE *fp, const struct score *s)
+static void put_score(fs_file fp, const struct score *s)
 {
     int j;
 
     for (j = 0; j < NSCORE; j++)
-        fprintf(fp, "%d %d %s\n", s->timer[j], s->coins[j], s->player[j]);
+        fs_printf(fp, "%d %d %s\n", s->timer[j], s->coins[j], s->player[j]);
 }
 
 void set_store_hs(void)
 {
     const struct set *s = &set_v[set];
-    FILE *fout;
+    fs_file fout;
     int i;
     const struct level *l;
     char states[MAXLVL + 1];
 
-    if ((fout = fopen(config_user(s->user_scores), "w")))
+    if ((fout = fs_open(s->user_scores, "w")))
     {
         for (i = 0; i < s->count; i++)
         {
@@ -88,7 +89,7 @@ void set_store_hs(void)
                 states[i] = 'O';
         }
         states[s->count] = '\0';
-        fprintf(fout, "%s\n",states);
+        fs_printf(fout, "%s\n",states);
 
         put_score(fout, &s->time_score);
         put_score(fout, &s->coin_score);
@@ -102,21 +103,23 @@ void set_store_hs(void)
             put_score(fout, &l->score.most_coins);
         }
 
-        fclose(fout);
+        fs_close(fout);
     }
 }
 
-static int get_score(FILE *fp, struct score *s)
+static int get_score(fs_file fp, struct score *s)
 {
     int j;
     int res = 1;
+    char line[MAXSTR];
 
     for (j = 0; j < NSCORE && res; j++)
     {
-        res = fscanf(fp, "%d %d %s\n",
-                     &s->timer[j],
-                     &s->coins[j],
-                     s->player[j]) == 3;
+        res = (fs_gets(line, sizeof (line), fp) &&
+               sscanf(line, "%d %d %s\n",
+                      &s->timer[j],
+                      &s->coins[j],
+                      s->player[j]) == 3);
     }
     return res;
 }
@@ -125,16 +128,17 @@ static int get_score(FILE *fp, struct score *s)
 static void set_load_hs(void)
 {
     struct set *s = &set_v[set];
-    FILE *fin;
+    fs_file fin;
     int i;
     int res = 0;
     struct level *l;
-    const char *fn = config_user(s->user_scores);
-    char states[MAXLVL + 1];
+    const char *fn = s->user_scores;
+    char states[MAXLVL + sizeof ("\n")];
 
-    if ((fin = fopen(fn, "r")))
+    if ((fin = fs_open(fn, "r")))
     {
-        res = fscanf(fin, "%s\n", states) == 1 && strlen(states) == s->count;
+        res = (fs_gets(states, sizeof (states), fin) &&
+               strlen(states) - 1 == s->count);
 
         for (i = 0; i < s->count && res; i++)
         {
@@ -172,7 +176,7 @@ static void set_load_hs(void)
                 get_score(fin, &l->score.most_coins);
         }
 
-        fclose(fin);
+        fs_close(fin);
     }
 
     if (!res && errno != ENOENT)
@@ -187,10 +191,10 @@ static void set_load_hs(void)
 
 static int set_load(struct set *s, const char *filename)
 {
-    FILE *fin;
+    fs_file fin;
     char *scores, *level_name;
 
-    fin = fopen(config_data(filename), "r");
+    fin = fs_open(filename, "r");
 
     if (!fin)
     {
@@ -235,7 +239,7 @@ static int set_load(struct set *s, const char *filename)
             s->count++;
         }
 
-        fclose(fin);
+        fs_close(fin);
 
         return 1;
     }
@@ -245,14 +249,14 @@ static int set_load(struct set *s, const char *filename)
     free(s->id);
     free(s->shot);
 
-    fclose(fin);
+    fs_close(fin);
 
     return 0;
 }
 
 int set_init()
 {
-    FILE *fin;
+    fs_file fin;
     char *name;
 
     if (set_state)
@@ -261,7 +265,7 @@ int set_init()
     set   = 0;
     count = 0;
 
-    if ((fin = fopen(config_data(SET_FILE), "r")))
+    if ((fin = fs_open(SET_FILE, "r")))
     {
         while (count < MAXSET && read_line(&name, fin))
         {
@@ -278,7 +282,7 @@ int set_init()
 
             free(name);
         }
-        fclose(fin);
+        fs_close(fin);
 
         set_state = 1;
     }

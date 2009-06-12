@@ -149,7 +149,7 @@ static int input_get_c(void)
     return (int) input_current.c;
 }
 
-int input_put(FILE *fout)
+int input_put(fs_file fout)
 {
     if (server_state)
     {
@@ -163,7 +163,7 @@ int input_put(FILE *fout)
     return 0;
 }
 
-int input_get(FILE *fin)
+int input_get(fs_file fin)
 {
     if (server_state)
     {
@@ -172,7 +172,7 @@ int input_get(FILE *fin)
         get_short(fin, &input_current.r);
         get_short(fin, &input_current.c);
 
-        return (feof(fin) ? 0 : 1);
+        return (fs_eof(fin) ? 0 : 1);
     }
     return 0;
 }
@@ -495,7 +495,7 @@ int game_server_init(const char *file_name, int t, int e)
     if (server_state)
         game_server_free();
 
-    if (!sol_load_only_file(&file, config_data(file_name)))
+    if (!sol_load_only_file(&file, file_name))
         return (server_state = 0);
 
     server_state = 1;

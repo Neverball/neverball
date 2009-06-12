@@ -22,6 +22,7 @@
 #include "lang.h"
 #include "common.h"
 #include "base_config.h"
+#include "fs.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -32,10 +33,10 @@
 void lang_init(const char *domain)
 {
 #if ENABLE_NLS
-    char *dir = getenv("NEVERBALL_LOCALE");
+    char *dir = strdup(getenv("NEVERBALL_LOCALE"));
 
     if (!dir)
-        dir = path_resolve(config_exec_path, CONFIG_LOCALE);
+        dir = concat_string(fs_base_dir(), "/", CONFIG_LOCALE, NULL);
 
     errno = 0;
 
@@ -52,6 +53,8 @@ void lang_init(const char *domain)
     bindtextdomain(domain, dir);
     bind_textdomain_codeset(domain, DEFAULT_CODESET);
     textdomain(domain);
+
+    free(dir);
 #else
     return;
 #endif

@@ -23,6 +23,8 @@
 #include "solid.h"
 #include "base_image.h"
 #include "base_config.h"
+#include "fs.h"
+#include "common.h"
 
 #define MAXSTR 256
 #define MAXKEY 16
@@ -353,8 +355,8 @@ static void size_image(const char *name, int *w, int *h)
     strcpy(jpg, name); strcat(jpg, ".jpg");
     strcpy(png, name); strcat(png, ".png");
 
-    if (size_load(config_data(png), w, h) ||
-        size_load(config_data(jpg), w, h))
+    if (size_load(png, w, h) ||
+        size_load(jpg, w, h))
     {
 
         if (image_n + 1 >= image_alloc)
@@ -388,10 +390,15 @@ static void size_image(const char *name, int *w, int *h)
 
 /* Read the given material file, adding a new material to the solid.  */
 
+#define scan_vec4(f, s, v)                                              \
+    if (fs_gets((s), sizeof (s), (f)))                                  \
+        sscanf((s), "%f %f %f %f", (v), (v) + 1, (v) + 2, (v) + 3)
+
 static int read_mtrl(struct s_file *fp, const char *name)
 {
+    static char line[MAXSTR];
     struct s_mtrl *mp;
-    FILE *fin;
+    fs_file fin;
     int mi;
 
     for (mi = 0; mi < fp->mc; mi++)
@@ -411,24 +418,29 @@ static int read_mtrl(struct s_file *fp, const char *name)
     mp->fl   = 0;
     mp->angle = 45.0f;
 
-    if ((fin = fopen(config_data(name), "r")))
+    if ((fin = fs_open(name, "r")))
     {
-        fscanf(fin,
-               "%f %f %f %f "
-               "%f %f %f %f "
-               "%f %f %f %f "
-               "%f %f %f %f "
-               "%f %d %f",
-               mp->d, mp->d + 1, mp->d + 2, mp->d + 3,
-               mp->a, mp->a + 1, mp->a + 2, mp->a + 3,
-               mp->s, mp->s + 1, mp->s + 2, mp->s + 3,
-               mp->e, mp->e + 1, mp->e + 2, mp->e + 3,
-               mp->h, &mp->fl, &mp->angle);
-        fclose(fin);
+        scan_vec4(fin, line, mp->d);
+        scan_vec4(fin, line, mp->a);
+        scan_vec4(fin, line, mp->s);
+        scan_vec4(fin, line, mp->e);
+
+        if (fs_gets(line, sizeof (line), fin))
+            mp->h[0] = strtod(line, NULL);
+
+        if (fs_gets(line, sizeof (line), fin))
+            mp->fl = strtol(line, NULL, 10);
+
+        if (fs_gets(line, sizeof (line), fin))
+            mp->angle = strtod(line, NULL);
+
+        fs_close(fin);
     }
 
     return mi;
 }
+
+#undef scan_vec4
 
 /*---------------------------------------------------------------------------*/
 
@@ -564,15 +576,15 @@ static void read_obj(struct s_file *fp, const char *name, int mi)
 {
     char line[MAXSTR];
     char mtrl[MAXSTR];
-    FILE *fin;
+    fs_file fin;
 
     int v0 = fp->vc;
     int t0 = fp->tc;
     int s0 = fp->sc;
 
-    if ((fin = fopen(config_data(name), "r")))
+    if ((fin = fs_open(name, "r")))
     {
-        while (fgets(line, MAXSTR, fin))
+        while (fs_gets(line, MAXSTR, fin))
         {
             if (strncmp(line, "usemtl", 6) == 0)
             {
@@ -590,7 +602,7 @@ static void read_obj(struct s_file *fp, const char *name, int mi)
             else if (strncmp(line, "vn", 2) == 0) read_vn(fp, line + 2);
             else if (strncmp(line, "v",  1) == 0) read_v (fp, line + 1);
         }
-        fclose(fin);
+        fs_close(fin);
     }
 }
 
@@ -688,11 +700,11 @@ static void make_plane(int   pi, float x0, float y0, float      z0,
 #define T_END 4
 #define T_NOP 5
 
-static int map_token(FILE *fin, int pi, char key[MAXSTR], char val[MAXSTR])
+static int map_token(fs_file fin, int pi, char key[MAXSTR], char val[MAXSTR])
 {
     char buf[MAXSTR];
 
-    if (fgets(buf, MAXSTR, fin))
+    if (fs_gets(buf, MAXSTR, fin))
     {
         char c;
         float x0, y0, z0;
@@ -748,7 +760,7 @@ static int map_token(FILE *fin, int pi, char key[MAXSTR], char val[MAXSTR])
 
 /* Parse a lump from the given file and add it to the solid. */
 
-static void read_lump(struct s_file *fp, FILE *fin)
+static void read_lump(struct s_file *fp, fs_file fin)
 {
     char k[MAXSTR];
     char v[MAXSTR];
@@ -1232,7 +1244,7 @@ static void make_ball(struct s_file *fp,
 
 /*---------------------------------------------------------------------------*/
 
-static void read_ent(struct s_file *fp, FILE *fin)
+static void read_ent(struct s_file *fp, fs_file fin)
 {
     char k[MAXKEY][MAXSTR];
     char v[MAXKEY][MAXSTR];
@@ -1272,7 +1284,7 @@ static void read_ent(struct s_file *fp, FILE *fin)
     if (!strcmp(v[i], "misc_model"))               make_body(fp, k, v, c, l0);
 }
 
-static void read_map(struct s_file *fp, FILE *fin)
+static void read_map(struct s_file *fp, fs_file fin)
 {
     char k[MAXSTR];
     char v[MAXSTR];
@@ -2438,49 +2450,60 @@ int main(int argc, char *argv[])
     char src[MAXSTR];
     char dst[MAXSTR];
     struct s_file f;
-    FILE *fin;
+    fs_file fin;
 
-    config_exec_path = argv[0];
+    if (!fs_init(argv[0]))
+    {
+        fprintf(stderr, "Failure to initialize virtual file system\n");
+        return 1;
+    }
 
     if (argc > 2)
     {
         if (argc > 3 && strcmp(argv[3], "--debug") == 0)
             debug_output = 1;
 
-        if (config_data_path(argv[2], NULL))
+        fs_add_path     (dir_name(argv[1]));
+        fs_set_write_dir(dir_name(argv[1]));
+
+        strncpy(src,  base_name(argv[1], NULL), MAXSTR);
+        strncpy(dst,  src,                      MAXSTR);
+
+        if (strcmp(dst + strlen(dst) - 4, ".map") == 0)
+            strcpy(dst + strlen(dst) - 4, ".sol");
+        else
+            strcat(dst, ".sol");
+
+        if ((fin = fs_open(src, "r")))
         {
-            strncpy(src,  argv[1], MAXSTR);
-            strncpy(dst,  argv[1], MAXSTR);
-
-            if (strcmp(dst + strlen(dst) - 4, ".map") == 0)
-                strcpy(dst + strlen(dst) - 4, ".sol");
-            else
-                strcat(dst, ".sol");
-
-            if ((fin = fopen(src, "r")))
+            if (!fs_add_path_with_archives(argv[2]))
             {
-                init_file(&f);
-                read_map(&f, fin);
-
-                resolve();
-                targets(&f);
-
-                clip_file(&f);
-                move_file(&f);
-                uniq_file(&f);
-                smth_file(&f);
-                sort_file(&f);
-                node_file(&f);
-                dump_file(&f, dst);
-
-                sol_stor(&f, dst);
-
-                fclose(fin);
-
-                free_imagedata();
+                fprintf(stderr, "Failure to establish data directory\n");
+                fs_close(fin);
+                fs_quit();
+                return 1;
             }
+
+            init_file(&f);
+            read_map(&f, fin);
+
+            resolve();
+            targets(&f);
+
+            clip_file(&f);
+            move_file(&f);
+            uniq_file(&f);
+            smth_file(&f);
+            sort_file(&f);
+            node_file(&f);
+            dump_file(&f, dst);
+
+            sol_stor(&f, dst);
+
+            fs_close(fin);
+
+            free_imagedata();
         }
-        else fprintf(stderr, "Failure to establish data directory\n");
     }
     else fprintf(stderr, "Usage: %s <map> <data> [--debug]\n", argv[0]);
 

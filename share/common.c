@@ -27,12 +27,13 @@
 #include <assert.h>
 
 #include "common.h"
+#include "fs.h"
 
 #define MAXSTR 256
 
 /*---------------------------------------------------------------------------*/
 
-int read_line(char **dst, FILE *fin)
+int read_line(char **dst, fs_file fin)
 {
     char buffer[MAXSTR] = "";
     int  buffer_size    = 0;
@@ -45,7 +46,7 @@ int read_line(char **dst, FILE *fin)
 
     while (!seen_newline)
     {
-        if (fgets(buffer, sizeof (buffer), fin) == NULL)
+        if (fs_gets(buffer, sizeof (buffer), fin) == NULL)
         {
             if (store_size > 0)
                 break;

@@ -3,12 +3,13 @@
 
 #include <stdio.h>
 #include "solid.h"
+#include "fs.h"
 
 /*---------------------------------------------------------------------------*/
 
 int   game_client_init(const char *);
 void  game_client_free(void);
-void  game_client_step(FILE *);
+void  game_client_step(fs_file);
 
 int   curr_clock(void);
 int   curr_coins(void);

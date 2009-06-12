@@ -18,56 +18,58 @@
 
 #include <SDL_endian.h>
 
+#include "fs.h"
+
 /*---------------------------------------------------------------------------*/
 
-void put_float(FILE *fout, const float *f)
+void put_float(fs_file fout, const float *f)
 {
     const unsigned char *p = (const unsigned char *) f;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    fputc((int) p[3], fout);
-    fputc((int) p[2], fout);
-    fputc((int) p[1], fout);
-    fputc((int) p[0], fout);
+    fs_putc((int) p[3], fout);
+    fs_putc((int) p[2], fout);
+    fs_putc((int) p[1], fout);
+    fs_putc((int) p[0], fout);
 #else
-    fputc((int) p[0], fout);
-    fputc((int) p[1], fout);
-    fputc((int) p[2], fout);
-    fputc((int) p[3], fout);
+    fs_putc((int) p[0], fout);
+    fs_putc((int) p[1], fout);
+    fs_putc((int) p[2], fout);
+    fs_putc((int) p[3], fout);
 #endif
 }
 
-void put_index(FILE *fout, const int *i)
+void put_index(fs_file fout, const int *i)
 {
     const unsigned char *p = (const unsigned char *) i;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    fputc((int) p[3], fout);
-    fputc((int) p[2], fout);
-    fputc((int) p[1], fout);
-    fputc((int) p[0], fout);
+    fs_putc((int) p[3], fout);
+    fs_putc((int) p[2], fout);
+    fs_putc((int) p[1], fout);
+    fs_putc((int) p[0], fout);
 #else
-    fputc((int) p[0], fout);
-    fputc((int) p[1], fout);
-    fputc((int) p[2], fout);
-    fputc((int) p[3], fout);
+    fs_putc((int) p[0], fout);
+    fs_putc((int) p[1], fout);
+    fs_putc((int) p[2], fout);
+    fs_putc((int) p[3], fout);
 #endif
 }
 
-void put_short(FILE *fout, const short *s)
+void put_short(fs_file fout, const short *s)
 {
     const unsigned char *p = (const unsigned char *) s;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    fputc((int) p[1], fout);
-    fputc((int) p[0], fout);
+    fs_putc((int) p[1], fout);
+    fs_putc((int) p[0], fout);
 #else
-    fputc((int) p[0], fout);
-    fputc((int) p[1], fout);
+    fs_putc((int) p[0], fout);
+    fs_putc((int) p[1], fout);
 #endif
 }
 
-void put_array(FILE *fout, const float *v, size_t n)
+void put_array(fs_file fout, const float *v, size_t n)
 {
     size_t i;
 
@@ -77,54 +79,54 @@ void put_array(FILE *fout, const float *v, size_t n)
 
 /*---------------------------------------------------------------------------*/
 
-void get_float(FILE *fin, float *f)
+void get_float(fs_file fin, float *f)
 {
     unsigned char *p = (unsigned char *) f;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    p[3] = (unsigned char) fgetc(fin);
-    p[2] = (unsigned char) fgetc(fin);
-    p[1] = (unsigned char) fgetc(fin);
-    p[0] = (unsigned char) fgetc(fin);
+    p[3] = (unsigned char) fs_getc(fin);
+    p[2] = (unsigned char) fs_getc(fin);
+    p[1] = (unsigned char) fs_getc(fin);
+    p[0] = (unsigned char) fs_getc(fin);
 #else
-    p[0] = (unsigned char) fgetc(fin);
-    p[1] = (unsigned char) fgetc(fin);
-    p[2] = (unsigned char) fgetc(fin);
-    p[3] = (unsigned char) fgetc(fin);
+    p[0] = (unsigned char) fs_getc(fin);
+    p[1] = (unsigned char) fs_getc(fin);
+    p[2] = (unsigned char) fs_getc(fin);
+    p[3] = (unsigned char) fs_getc(fin);
 #endif
 }
 
-void get_index(FILE *fin, int *i)
+void get_index(fs_file fin, int *i)
 {
     unsigned char *p = (unsigned char *) i;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    p[3] = (unsigned char) fgetc(fin);
-    p[2] = (unsigned char) fgetc(fin);
-    p[1] = (unsigned char) fgetc(fin);
-    p[0] = (unsigned char) fgetc(fin);
+    p[3] = (unsigned char) fs_getc(fin);
+    p[2] = (unsigned char) fs_getc(fin);
+    p[1] = (unsigned char) fs_getc(fin);
+    p[0] = (unsigned char) fs_getc(fin);
 #else
-    p[0] = (unsigned char) fgetc(fin);
-    p[1] = (unsigned char) fgetc(fin);
-    p[2] = (unsigned char) fgetc(fin);
-    p[3] = (unsigned char) fgetc(fin);
+    p[0] = (unsigned char) fs_getc(fin);
+    p[1] = (unsigned char) fs_getc(fin);
+    p[2] = (unsigned char) fs_getc(fin);
+    p[3] = (unsigned char) fs_getc(fin);
 #endif
 }
 
-void get_short(FILE *fin, short *s)
+void get_short(fs_file fin, short *s)
 {
     unsigned char *p = (unsigned char *) s;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    p[1] = (unsigned char) fgetc(fin);
-    p[0] = (unsigned char) fgetc(fin);
+    p[1] = (unsigned char) fs_getc(fin);
+    p[0] = (unsigned char) fs_getc(fin);
 #else
-    p[0] = (unsigned char) fgetc(fin);
-    p[1] = (unsigned char) fgetc(fin);
+    p[0] = (unsigned char) fs_getc(fin);
+    p[1] = (unsigned char) fs_getc(fin);
 #endif
 }
 
-void get_array(FILE *fin, float *v, size_t n)
+void get_array(fs_file fin, float *v, size_t n)
 {
     size_t i;
 
@@ -134,20 +136,20 @@ void get_array(FILE *fin, float *v, size_t n)
 
 /*---------------------------------------------------------------------------*/
 
-void put_string(FILE *fout, const char *s)
+void put_string(fs_file fout, const char *s)
 {
-    fputs(s, fout);
-    fputc('\0', fout);
+    fs_puts(s, fout);
+    fs_putc('\0', fout);
 }
 
-void get_string(FILE *fin, char *s, int max)
+void get_string(fs_file fin, char *s, int max)
 {
     int c = -1;
 
     if (max == 0)
         return;
 
-    while (max && c && (c = fgetc(fin)) != EOF)
+    while (max && c && (c = fs_getc(fin)) >= 0)
     {
         *s++ = c;
         max--;

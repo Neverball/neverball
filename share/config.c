@@ -20,6 +20,7 @@
 
 #include "config.h"
 #include "common.h"
+#include "fs.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -342,13 +343,13 @@ static int scan_key_and_value(char **dst_key, char **dst_val, char *line)
 
 void config_load(void)
 {
-    FILE *fp;
+    fs_file fh;
 
-    if ((fp = fopen(config_user(USER_CONFIG_FILE), "r")))
+    if ((fh = fs_open(USER_CONFIG_FILE, "r")))
     {
         char *line, *key, *val;
 
-        while (read_line(&line, fp))
+        while (read_line(&line, fh))
         {
             if (scan_key_and_value(&key, &val, line))
             {
@@ -410,7 +411,7 @@ void config_load(void)
             }
             free(line);
         }
-        fclose(fp);
+        fs_close(fh);
 
         dirty = 0;
     }
@@ -418,9 +419,9 @@ void config_load(void)
 
 void config_save(void)
 {
-    FILE *fp;
+    fs_file fh;
 
-    if (dirty && (fp = fopen(config_user(USER_CONFIG_FILE), "w")))
+    if (dirty && (fh = fs_open(USER_CONFIG_FILE, "w")))
     {
         int i;
 
@@ -465,9 +466,9 @@ void config_save(void)
             }
 
             if (s)
-                fprintf(fp, "%-25s %s\n", option_d[i].name, s);
+                fs_printf(fh, "%-25s %s\n", option_d[i].name, s);
             else
-                fprintf(fp, "%-25s %d\n", option_d[i].name, option_d[i].cur);
+                fs_printf(fh, "%-25s %d\n", option_d[i].name, option_d[i].cur);
         }
 
         /* Write out string options. */
@@ -475,10 +476,10 @@ void config_save(void)
         for (i = 0; i < ARRAYSIZE(option_s); i++)
         {
             if (option_s[i].cur && *option_s[i].cur)
-                fprintf(fp, "%-25s %s\n", option_s[i].name, option_s[i].cur);
+                fs_printf(fh, "%-25s %s\n", option_s[i].name, option_s[i].cur);
         }
 
-        fclose(fp);
+        fs_close(fh);
     }
 
     dirty = 0;

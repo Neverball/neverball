@@ -29,6 +29,8 @@
 #include "gui.h"
 #include "set.h"
 #include "tilt.h"
+#include "fs.h"
+#include "common.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -46,7 +48,7 @@ static void shot(void)
     static char filename[MAXSTR];
 
     sprintf(filename, "screen%05d.png", config_screenshot());
-    image_snap(config_user(filename));
+    image_snap(filename);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -346,23 +348,17 @@ int main(int argc, char *argv[])
     SDL_Joystick *joy = NULL;
     int t1, t0, uniform;
 
-    config_exec_path = argv[0];
+    if (!fs_init(argv[0]))
+    {
+        fputs("Failure to initialize virtual file system\n", stderr);
+        return 1;
+    }
 
     lang_init("neverball");
 
     parse_args(argc, argv);
 
-    if (!config_data_path(data_path, SET_FILE))
-    {
-        fputs(L_("Failure to establish game data directory\n"), stderr);
-        return 1;
-    }
-
-    if (!config_user_path(NULL))
-    {
-        fputs(L_("Failure to establish config directory\n"), stderr);
-        return 1;
-    }
+    config_paths(data_path);
 
     /* Initialize SDL system and subsystems */
 
@@ -379,9 +375,9 @@ int main(int argc, char *argv[])
 
     /* Dump replay information and exit. */
 
-    if (display_info)
+    if (display_info && fs_add_path(dir_name(demo_path)))
     {
-        if (!progress_replay(demo_path))
+        if (!progress_replay(base_name(demo_path, NULL)))
         {
             fprintf(stderr, L_("Replay file '%s': %s\n"), demo_path,
                     errno ?  strerror(errno) : L_("Not a replay file"));
@@ -414,7 +410,8 @@ int main(int argc, char *argv[])
 
     /* Initialise demo playback. */
 
-    if (replay_demo && progress_replay(demo_path))
+    if (replay_demo && fs_add_path(dir_name(demo_path)) &&
+        progress_replay(base_name(demo_path, NULL)))
     {
         demo_play_goto(1);
         goto_state(&st_demo_play);

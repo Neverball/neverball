@@ -43,7 +43,7 @@ static int cmd_stats = 0;
  */
 
 #define PUT_FUNC(t)                                                     \
-    static void cmd_put_ ## t(FILE *fp, const union cmd *cmd) {         \
+    static void cmd_put_ ## t(fs_file fp, const union cmd *cmd) {       \
     const char *cmd_name = #t;                                          \
                                                                         \
     /* This is a write, so BYTES should be safe to eval already. */     \
@@ -56,7 +56,7 @@ static int cmd_stats = 0;
     if (cmd_stats) printf("put");                                       \
 
 #define GET_FUNC(t)                                             \
-    static void cmd_get_ ## t(FILE *fp, union cmd *cmd) {       \
+    static void cmd_get_ ## t(fs_file fp, union cmd *cmd) {     \
     const char *cmd_name = #t;                                  \
                                                                 \
     /* This is a read, so we'll have to eval BYTES later. */    \
@@ -575,14 +575,14 @@ END_FUNC;
 #define PUT_CASE(t) case t: cmd_put_ ## t(fp, cmd); break
 #define GET_CASE(t) case t: cmd_get_ ## t(fp, cmd); break
 
-int cmd_put(FILE *fp, const union cmd *cmd)
+int cmd_put(fs_file fp, const union cmd *cmd)
 {
     if (!fp || !cmd)
         return 0;
 
     assert(cmd->type > CMD_NONE && cmd->type < CMD_MAX);
 
-    fputc(cmd->type, fp);
+    fs_putc(cmd->type, fp);
 
     switch (cmd->type)
     {
@@ -623,10 +623,10 @@ int cmd_put(FILE *fp, const union cmd *cmd)
         break;
     }
 
-    return !feof(fp);
+    return !fs_eof(fp);
 }
 
-int cmd_get(FILE *fp, union cmd *cmd)
+int cmd_get(fs_file fp, union cmd *cmd)
 {
     int type;
     short size;
@@ -634,7 +634,7 @@ int cmd_get(FILE *fp, union cmd *cmd)
     if (!fp || !cmd)
         return 0;
 
-    if ((type = fgetc(fp)) != EOF)
+    if ((type = fs_getc(fp)) >= 0)
     {
         get_short(fp, &size);
 
@@ -642,7 +642,7 @@ int cmd_get(FILE *fp, union cmd *cmd)
 
         if (type >= CMD_MAX)
         {
-            fseek(fp, size, SEEK_CUR);
+            fs_seek(fp, size, SEEK_CUR);
             type = CMD_NONE;
         }
 
@@ -687,7 +687,7 @@ int cmd_get(FILE *fp, union cmd *cmd)
             break;
         }
 
-        return !feof(fp);
+        return !fs_eof(fp);
     }
     return 0;
 }
