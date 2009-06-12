@@ -63,7 +63,7 @@ static struct dir_item *add_item(Array items, const char *dir, const char *name)
 {
     struct dir_item *item = array_add(items);
 
-    item->path = concat_string(dir, "/", name, NULL);
+    item->path = *dir ? concat_string(dir, "/", name, NULL) : strdup(name);
     item->data = NULL;
 
     return item;
