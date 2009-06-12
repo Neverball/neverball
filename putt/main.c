@@ -203,7 +203,7 @@ int main(int argc, char *argv[])
     {
         if (config_user_path(NULL))
         {
-            if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
+            if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
             {
                 config_init();
                 config_load();
