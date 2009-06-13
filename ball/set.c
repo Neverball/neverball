@@ -194,6 +194,11 @@ static int set_load(struct set *s, const char *filename)
     fs_file fin;
     char *scores, *level_name;
 
+    /* Skip "Misc" set when not in dev mode. */
+
+    if (strcmp(filename, SET_MISC) == 0 && !config_cheat())
+        return 0;
+
     fin = fs_open(filename, "r");
 
     if (!fin)
@@ -254,10 +259,36 @@ static int set_load(struct set *s, const char *filename)
     return 0;
 }
 
+static int cmp_dir_items(const void *A, const void *B)
+{
+    const struct dir_item *a = A, *b = B;
+    return strcmp(a->path, b->path);
+}
+
+static int set_is_loaded(const char *path)
+{
+    int i;
+
+    for (i = 0; i < count; i++)
+        if (strcmp(set_v[i].file, path) == 0)
+            return 1;
+
+    return 0;
+}
+
+static int is_unseen_set(struct dir_item *item)
+{
+    return (strncmp(base_name(item->path, NULL), "set-", 4) == 0 &&
+            !set_is_loaded(item->path));
+}
+
 int set_init()
 {
     fs_file fin;
     char *name;
+
+    Array items;
+    int i;
 
     if (set_state)
         set_free();
@@ -265,24 +296,38 @@ int set_init()
     set   = 0;
     count = 0;
 
+     /*
+      * First, load the sets listed in the set file, preserving order.
+      */
+
     if ((fin = fs_open(SET_FILE, "r")))
     {
         while (count < MAXSET && read_line(&name, fin))
         {
-            /* Skip "Misc" set when not in dev mode. */
-
-            if (strcmp(name, SET_MISC) == 0 && !config_cheat())
-            {
-                free(name);
-                continue;
-            }
-
             if (set_load(&set_v[count], name))
                 count++;
 
             free(name);
         }
         fs_close(fin);
+
+        set_state = 1;
+    }
+
+    /*
+     * Then, scan for any remaining set description files, and add
+     * them after the first group in alphabetic order.
+     */
+
+    if ((items = fs_dir_scan("", is_unseen_set)))
+    {
+        array_sort(items, cmp_dir_items);
+
+        for (i = 0; i < array_len(items) && count < MAXSET; i++)
+            if (set_load(&set_v[count], DIR_ITEM_GET(items, i)->path))
+                count++;
+
+        fs_dir_free(items);
 
         set_state = 1;
     }
