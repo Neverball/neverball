@@ -353,7 +353,7 @@ static int is_score(struct dir_item *item)
     return strncmp(item->path, "neverballhs-", sizeof ("neverballhs-") - 1) == 0;
 }
 
-static void make_dirs(void)
+static void make_dirs_and_migrate(void)
 {
     Array items;
     int i;
@@ -413,7 +413,7 @@ int main(int argc, char *argv[])
     parse_args(argc, argv);
 
     config_paths(data_path);
-    make_dirs();
+    make_dirs_and_migrate();
 
     /* Initialize SDL system and subsystems */
 
