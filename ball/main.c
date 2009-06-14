@@ -343,9 +343,34 @@ static void parse_args(int argc, char **argv)
 
 /*---------------------------------------------------------------------------*/
 
+static int is_replay(struct dir_item *item)
+{
+    return strcmp(item->path + strlen(item->path) - 4, ".nbr") == 0;
+}
+
 static void make_dirs(void)
 {
-    fs_mkdir("Replays");
+    Array items;
+    int i;
+
+    const char *src;
+    char *dst;
+
+    if (fs_mkdir("Replays"))
+    {
+        if ((items = fs_dir_scan("", is_replay)))
+        {
+            for (i = 0; i < array_len(items); i++)
+            {
+                src = DIR_ITEM_GET(items, i)->path;
+                dst = concat_string("Replays/", src, NULL);
+                fs_rename(src, dst);
+                free(dst);
+            }
+
+            fs_dir_free(items);
+        }
+    }
 }
 
 int main(int argc, char *argv[])
