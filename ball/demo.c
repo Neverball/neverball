@@ -170,7 +170,7 @@ struct demo *demo_load(const char *path)
         if (demo_header_read(fp, d))
         {
             strncpy(d->filename, path, MAXSTR);
-            strncpy(d->name, base_name(d->filename, REPLAY_EXT), PATHMAX);
+            strncpy(d->name, base_name(d->filename, ".nbr"), PATHMAX);
             d->name[PATHMAX - 1] = '\0';
         }
         else
@@ -195,7 +195,7 @@ void demo_free(struct demo *d)
 static const char *demo_path(const char *name)
 {
     static char path[MAXSTR];
-    sprintf(path, DEMO_PATH "/%s" REPLAY_EXT, name);
+    sprintf(path, "Replays/%s.nbr", name);
     return path;
 }
 
@@ -481,7 +481,7 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
     {
         strncpy(demo_replay.filename, name, MAXSTR);
         strncpy(demo_replay.name,
-                base_name(demo_replay.filename, REPLAY_EXT),
+                base_name(demo_replay.filename, ".nbr"),
                 PATHMAX);
 
         if (level_load(demo_replay.file, &demo_level_replay))

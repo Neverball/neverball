@@ -55,7 +55,6 @@
 
 #define USER_CONFIG_FILE    "neverballrc"
 #define USER_REPLAY_FILE    "Last"
-#define REPLAY_EXT          ".nbr"
 
 /*---------------------------------------------------------------------------*/
 

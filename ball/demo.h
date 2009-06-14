@@ -9,8 +9,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define DEMO_PATH "Replays"
-
 struct demo
 {
     char   name[PATHMAX];     /* demo basename    */

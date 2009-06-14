@@ -345,7 +345,7 @@ static void parse_args(int argc, char **argv)
 
 static void make_dirs(void)
 {
-    fs_mkdir(DEMO_PATH);
+    fs_mkdir("Replays");
 }
 
 int main(int argc, char *argv[])
