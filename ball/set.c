@@ -233,8 +233,7 @@ static int set_load(struct set *s, const char *filename)
 
         free(scores);
 
-        strncpy(s->user_scores, "neverballhs-", PATHMAX - 1);
-        strncat(s->user_scores, s->id, PATHMAX - 1 - strlen("neverballhs-"));
+        sprintf(s->user_scores, "Scores/%s.txt", s->id);
 
         s->count = 0;
 

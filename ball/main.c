@@ -348,6 +348,11 @@ static int is_replay(struct dir_item *item)
     return strcmp(item->path + strlen(item->path) - 4, ".nbr") == 0;
 }
 
+static int is_score(struct dir_item *item)
+{
+    return strncmp(item->path, "neverballhs-", sizeof ("neverballhs-") - 1) == 0;
+}
+
 static void make_dirs(void)
 {
     Array items;
@@ -364,6 +369,25 @@ static void make_dirs(void)
             {
                 src = DIR_ITEM_GET(items, i)->path;
                 dst = concat_string("Replays/", src, NULL);
+                fs_rename(src, dst);
+                free(dst);
+            }
+
+            fs_dir_free(items);
+        }
+    }
+
+    if (fs_mkdir("Scores"))
+    {
+        if ((items = fs_dir_scan("", is_score)))
+        {
+            for (i = 0; i < array_len(items); i++)
+            {
+                src = DIR_ITEM_GET(items, i)->path;
+                dst = concat_string("Scores/",
+                                    src + sizeof ("neverballhs-") - 1,
+                                    ".txt",
+                                    NULL);
                 fs_rename(src, dst);
                 free(dst);
             }
