@@ -7,6 +7,7 @@
 #include "fs.h"
 #include "dir.h"
 #include "array.h"
+#include "common.h"
 
 /*
  * This file implements the virtual file system layer.  Most file
@@ -48,6 +49,11 @@ int fs_add_path(const char *path)
 int fs_set_write_dir(const char *path)
 {
     return PHYSFS_setWriteDir(path);
+}
+
+const char *fs_get_write_dir(void)
+{
+    return PHYSFS_getWriteDir();
 }
 
 /* -------------------------------------------------------------------------- */
@@ -225,32 +231,24 @@ int fs_add_path_with_archives(const char *path)
 
 /* -------------------------------------------------------------------------- */
 
-static void copy_file(fs_file src, fs_file dst)
-{
-    char buff[256];
-    int  size;
-
-    while ((size = fs_read(buff, 1, sizeof (buff), src)) > 0)
-        fs_write(buff, 1, size, dst);
-}
-
 int fs_rename(const char *src, const char *dst)
 {
-    fs_file fin, fout;
-    int copied = 0;
+    const char *write_dir;
+    char *real_src, *real_dst;
+    int rc = 0;
 
-    if ((fin = fs_open(src, "r")))
+    if ((write_dir = fs_get_write_dir()))
     {
-        if ((fout = fs_open(dst, "w")))
-        {
-            copy_file(fin, fout);
-            copied = 1;
-            fs_close(fout);
-        }
-        fs_close(fin);
+        real_src = concat_string(write_dir, "/", src, NULL);
+        real_dst = concat_string(write_dir, "/", dst, NULL);
+
+        rc = file_rename(real_src, real_dst);
+
+        free(real_src);
+        free(real_dst);
     }
 
-    return copied && fs_remove(src);
+    return rc;
 }
 
 /* -------------------------------------------------------------------------- */

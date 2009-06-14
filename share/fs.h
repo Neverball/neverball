@@ -12,6 +12,7 @@ const char *fs_base_dir(void);
 int         fs_add_path(const char *);
 int         fs_add_path_with_archives(const char *);
 int         fs_set_write_dir(const char *);
+const char *fs_get_write_dir(void);
 
 int fs_exists(const char *);
 int fs_remove(const char *);
