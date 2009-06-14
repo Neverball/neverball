@@ -192,14 +192,18 @@ void demo_free(struct demo *d)
 
 /*---------------------------------------------------------------------------*/
 
+static const char *demo_path(const char *name)
+{
+    static char path[MAXSTR];
+    sprintf(path, DEMO_PATH "/%s" REPLAY_EXT, name);
+    return path;
+}
+
+/*---------------------------------------------------------------------------*/
+
 int demo_exists(const char *name)
 {
-    char buf[MAXSTR];
-
-    strcpy(buf, name);
-    strcat(buf, REPLAY_EXT);
-
-    return fs_exists(buf);
+    return fs_exists(demo_path(name));
 }
 
 #define MAXSTRLEN(a) (sizeof ((a)) - 1)
@@ -303,8 +307,7 @@ int demo_play_init(const char *name, const struct level *level,
 
     memset(&demo, 0, sizeof (demo));
 
-    strncpy(demo.filename, name, MAXSTR);
-    strcat(demo.filename, REPLAY_EXT);
+    strncpy(demo.filename, demo_path(name), sizeof (demo.filename) - 1);
 
     demo.mode = mode;
     demo.date = time(NULL);
@@ -381,11 +384,8 @@ void demo_rename(const char *name)
         demo_exists(USER_REPLAY_FILE) &&
         strcmp(name, USER_REPLAY_FILE) != 0)
     {
-        strcpy(src, USER_REPLAY_FILE);
-        strcat(src, REPLAY_EXT);
-
-        strcpy(dst, name);
-        strcat(dst, REPLAY_EXT);
+        strncpy(src, demo_path(USER_REPLAY_FILE), sizeof (src) - 1);
+        strncpy(dst, demo_path(name),             sizeof (dst) - 1);
 
         fs_rename(src, dst);
     }

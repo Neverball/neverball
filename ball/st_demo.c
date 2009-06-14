@@ -248,7 +248,7 @@ static int demo_enter(void)
     if (items)
         demo_dir_free(items);
 
-    items = demo_dir_scan("");
+    items = demo_dir_scan();
     total = array_len(items);
 
     id = gui_vstack(0);

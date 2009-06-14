@@ -343,6 +343,11 @@ static void parse_args(int argc, char **argv)
 
 /*---------------------------------------------------------------------------*/
 
+static void make_dirs(void)
+{
+    fs_mkdir(DEMO_PATH);
+}
+
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
@@ -359,6 +364,7 @@ int main(int argc, char *argv[])
     parse_args(argc, argv);
 
     config_paths(data_path);
+    make_dirs();
 
     /* Initialize SDL system and subsystems */
 
