@@ -45,7 +45,7 @@ static int shot(void)
 {
     static char filename[MAXSTR];
 
-    sprintf(filename, "screen%05d.png", config_screenshot());
+    sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
     image_snap(filename);
 
     return 1;
@@ -204,6 +204,7 @@ int main(int argc, char *argv[])
 
     lang_init("neverball");
     config_paths(argc > 1 ? argv[1] : NULL);
+    fs_mkdir("Screenshots");
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
     {

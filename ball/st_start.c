@@ -19,6 +19,7 @@
 #include "audio.h"
 #include "config.h"
 #include "st_shared.h"
+#include "common.h"
 
 #include "game_common.h"
 
@@ -276,13 +277,19 @@ static int start_keybd(int c, int d)
         }
         else if (c == SDLK_F12 && config_cheat())
         {
+            char *dir = concat_string("Screenshots/shot-",
+                                      set_id(curr_set()), NULL);
             int i;
+
+            fs_mkdir(dir);
 
             /* Iterate over all levels, taking a screenshot of each. */
 
             for (i = 0; i < MAXLVL; i++)
                 if (level_exists(i))
-                    level_snap(i);
+                    level_snap(i, dir);
+
+            free(dir);
         }
         else if (config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
         {

@@ -47,7 +47,7 @@ static void shot(void)
 {
     static char filename[MAXSTR];
 
-    sprintf(filename, "screen%05d.png", config_screenshot());
+    sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
     image_snap(filename);
 }
 
@@ -395,6 +395,8 @@ static void make_dirs_and_migrate(void)
             fs_dir_free(items);
         }
     }
+
+    fs_mkdir("Screenshots");
 }
 
 int main(int argc, char *argv[])

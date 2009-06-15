@@ -484,19 +484,13 @@ void set_rename_player(int score_rank, int times_rank, const char *player)
 
 /*---------------------------------------------------------------------------*/
 
-void level_snap(int i)
+void level_snap(int i, const char *path)
 {
     char filename[MAXSTR];
-    char *ext;
 
     /* Convert the level name to a PNG filename. */
 
-    memset(filename, 0, MAXSTR);
-
-    ext = strrchr(level_v[i].file, '.');
-    strncpy(filename, level_v[i].file,
-            ext ? ext - level_v[i].file : strlen(level_v[i].file));
-    strcat(filename, ".png");
+    sprintf(filename, "%s/%s.png", path, base_name(level_v[i].file, ".sol"));
 
     /* Initialize the game for a snapshot. */
 
