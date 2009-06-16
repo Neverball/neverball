@@ -1,7 +1,7 @@
 Neverball Forever Hard
 Difficulty: Expert through Master\25 levels providing a greater\challenge for the experienced players.\Author: Challenge Space Yard\\
 csyh
-shot-csycforeverh/CurveWorld.png
+shot-csyforeverh/CurveWorld.png
 
 map-csyforeverh/CurveWorld.sol
 map-csyforeverh/SmallerCurves.sol
