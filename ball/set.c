@@ -508,10 +508,9 @@ void level_snap(int i, const char *path)
         game_kill_fade();
         game_client_step(NULL);
         game_draw(1, 0);
+        SDL_GL_SwapBuffers();
 
         image_snap(filename);
-
-        SDL_GL_SwapBuffers();
     }
 }
 

@@ -140,6 +140,8 @@ int video_mode(int f, int w, int h)
         }
 #endif
 
+        glReadBuffer(GL_FRONT);
+
         return 1;
     }
 
