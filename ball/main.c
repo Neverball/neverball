@@ -527,7 +527,7 @@ int main(int argc, char *argv[])
 
     /* Gracefully close the game */
 
-    if (SDL_WasInit(SDL_INIT_JOYSTICK) && SDL_JoystickOpened(0))
+    if (joy)
         SDL_JoystickClose(joy);
 
     tilt_free();
