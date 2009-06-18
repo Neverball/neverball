@@ -9,7 +9,7 @@
  ' Go to www.freebasic.net for the compiler (and optionally source).
  '
  ' Once you have the FBC's path into the shell, you can simply invoke
-   fbc "neverassist.bas" [-g] [-s gui]
+   fbc neverassist.bas [-g] [-s gui]
  ' Assuming no errors, you should have a binary.
  '
  ' Under Windows, the -s gui removes the console. On *nix, this switch
@@ -20,12 +20,9 @@
  ' its way to becoming a GCC front-end. Once the second task is done, this
  ' program will be on its way to being cross-platform. FreeBASIC maintains
  ' close syntax across across its platforms. Code made in Windows doesn't
- ' need many (if any) changes to be compatible in *nix. There was even an Xbox
- ' port of the compiler. Unfortunately, changes to the compiler has done
- ' broken backward compatibility, and compatibility has not yet been restored
- ' as of last update. In case you're wondering, the port was made using
- ' OpenXDK. BSD and Mac OS X ports are under way, so this assistant will
- ' be compatible with BSD and Mac OS X systems once the ports become stable.
+ ' need many (if any) changes to be compatible in *nix. BSD and Mac OS X ports
+ ' are under way, so this assistant will be compatible with BSD and Mac OS X
+ ' systems once the ports become stable.
  '
  ' As with Neverball and Neverputt, you can still apply the -g switch to
  ' enable debugging and use the GDB (or a compatible program) to debug it.

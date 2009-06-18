@@ -8,11 +8,11 @@
 
     declare sub place_block
     sub place_block
-    	/'
-    	 ' Should the money system ever come back, I'm keeping some of the code
-    	 ' intact. Until then, you may assume infinite money.
-    	 '/
-    	dim as integer Money = 1e+9
+        /'
+         ' Should the money system ever come back, I'm keeping some of the code
+         ' intact. Until then, you may assume infinite money.
+         '/
+        dim as integer Money = 1e+9
         /'
          ' BlockType is the type of the block you're using.
          '
@@ -252,7 +252,7 @@
         elseif (BlockType = 24) AND _
             (UsedMoney + 1 < = Money) AND _
             Contents(XP,YP,ZP) = 0 then
-            Contents(XP,YP,ZP) = 15
+            Contents(XP,YP,ZP) = 24
             Direction(XP,YP,ZP) = Rotation
             LevelTime += 225
             MinimumLevelTime += 150
@@ -260,6 +260,59 @@
             Coins += 4
             UsedMoney += 1
             Blocks += 1
+            Putt = 2
+        elseif (BlockType = 25) AND _
+            (UsedMoney + 2 < = Money) AND _
+            Contents(XP,YP,ZP) = 0 AND _
+            Contents(XP,YP,ZP+1) = 0 then
+            Contents(XP,YP,ZP) = 25
+            Contents(XP,YP,ZP+1) = 255
+            Direction(XP,YP,ZP) = Rotation
+            LevelTime += 350
+            MinimumLevelTime += 200
+            UsedMoney += 2
+            Blocks += 2
+            Putt = 2
+        elseif (BlockType = 26) AND _
+            (UsedMoney + 2 < = Money) AND _
+            Contents(XP,YP,ZP) = 0 AND _
+            Contents(XP,YP,ZP+1) = 0 then
+            Contents(XP,YP,ZP) = 26
+            Contents(XP,YP,ZP+1) = 255
+            Direction(XP,YP,ZP) = Rotation
+            LevelTime += 500
+            MinimumLevelTime += 300
+            TargetCoins += 2
+            Coins += 8
+            UsedMoney += 2
+            Blocks += 2
+            Putt = 2
+
+        elseif (BlockType = 27) AND _
+            (UsedMoney + 2 < = Money) AND _
+            Contents(XP,YP,ZP) = 0 AND _
+            Contents(XP,YP,ZP+1) = 0 then
+            Contents(XP,YP,ZP) = 27
+            Contents(XP,YP,ZP+1) = 255
+            Direction(XP,YP,ZP) = Rotation
+            LevelTime += 100
+            MinimumLevelTime += 50
+            UsedMoney += 2
+            Blocks += 2
+            Putt = 2
+        elseif (BlockType = 28) AND _
+            (UsedMoney + 2 < = Money) AND _
+            Contents(XP,YP,ZP) = 0 AND _
+            Contents(XP,YP,ZP+1) = 0 then
+            Contents(XP,YP,ZP) = 28
+            Contents(XP,YP,ZP+1) = 255
+            Direction(XP,YP,ZP) = Rotation
+            LevelTime += 200
+            MinimumLevelTime += 100
+            TargetCoins += 2
+            Coins += 8
+            UsedMoney += 2
+            Blocks += 2
             Putt = 2
 
         elseif (BlockType = 41) AND _

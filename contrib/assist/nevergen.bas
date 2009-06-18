@@ -7,16 +7,17 @@
  ' Neverassistant allows easy generation of these maps.
  '
  ' For example, each individual "brush" as Radiant calls it or "lump" as
- ' Neverball calls. It does not exist in the Assistant. It uses the term
+ ' Neverball calls does not really exist in the Assistant. It uses the term
  ' "construction block", which can be comprised of multiple lumps or entities.
  '
  ' Radiant allows virtually limitless freeform placement. The Neverassistant
  ' is presently limited to a 21x21x31 grid, with at most one
  ' "construction block" in each slot. Also, the Neverassistant makes one
  ' worldspawn entity for each construction block and one entity for metadata.
+ ' (with extremely few exceptions).
  '
  ' Also, the Neverassistant presently has only a limited number of construction
- ' blocks (presently 26). This number will be increased as more ideas are
+ ' blocks (presently 30). This number will be increased as more ideas are
  ' available.
  '/
 
@@ -351,6 +352,18 @@
                     YR = 1
                     ZR = 1
                     bload(AssistDir+"/FlatNormal.bmp",BlockDisplay)
+                elseif multikey(SC_5) then
+                    BlockType = 25
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                    clear_preview
+                elseif multikey(SC_6) then
+                    BlockType = 26
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                    clear_preview
                 end if
 
             elseif BlockSet = 4 then
@@ -489,6 +502,10 @@
                 print lang("Bump")
             elseif (BlockType = 24) then
                 print lang("Coined Bump")
+            elseif (BlockType = 25) then
+                print lang("Vertical Platform")
+            elseif (BlockType = 26) then
+                print lang("Coined Vertical Platform")
 
             elseif (BlockType = 41) then
                 print lang("Small Jump")
@@ -736,9 +753,9 @@
     
                 print "Your map is almost finished..."
                 #IFDEF __FB_WIN32__
-                    Check = exec("Mapc.exe",MapFile + " data")
+                    Check = exec("Mapc.exe",MapFile + ".map data")
                 #ELSE
-                    Check = exec("mapc",MapFile + " data")
+                    Check = exec("mapc",MapFile + ".map data")
                 #ENDIF
     
                 if (Check < > -1) then
