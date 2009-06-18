@@ -271,6 +271,7 @@
             LevelTime += 350
             MinimumLevelTime += 200
             UsedMoney += 2
+            Openings += 2
             Blocks += 2
             Putt = 2
         elseif (BlockType = 26) AND _
@@ -285,6 +286,7 @@
             TargetCoins += 2
             Coins += 8
             UsedMoney += 2
+            Openings += 2
             Blocks += 2
             Putt = 2
 
@@ -298,6 +300,7 @@
             LevelTime += 100
             MinimumLevelTime += 50
             UsedMoney += 2
+            Openings += 2
             Blocks += 2
             Putt = 2
         elseif (BlockType = 28) AND _
@@ -312,6 +315,7 @@
             TargetCoins += 2
             Coins += 8
             UsedMoney += 2
+            Openings += 2
             Blocks += 2
             Putt = 2
 

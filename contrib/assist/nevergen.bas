@@ -364,6 +364,18 @@
                     YR = 1
                     ZR = 1
                     clear_preview
+                elseif multikey(SC_7) then
+                    BlockType = 27
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                    clear_preview
+                elseif multikey(SC_8) then
+                    BlockType = 28
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                    clear_preview
                 end if
 
             elseif BlockSet = 4 then
