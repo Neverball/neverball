@@ -193,6 +193,7 @@ int main(int argc, char *argv[])
 {
     int camera = 0;
     SDL_Joystick *joy = NULL;
+    Uint32 flags = 0;
 
     if (!fs_init(argv[0]))
     {
@@ -206,7 +207,11 @@ int main(int argc, char *argv[])
     config_paths(argc > 1 ? argv[1] : NULL);
     fs_mkdir("Screenshots");
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
+    flags |= SDL_INIT_VIDEO;
+    flags |= SDL_INIT_AUDIO;
+    flags |= config_get_d(CONFIG_JOYSTICK) ? SDL_INIT_JOYSTICK : 0;
+
+    if (SDL_Init(flags) == 0)
     {
         config_init();
         config_load();
@@ -217,7 +222,7 @@ int main(int argc, char *argv[])
 
         /* Initialize the joystick. */
 
-        if (SDL_NumJoysticks() > 0)
+        if (SDL_WasInit(SDL_INIT_JOYSTICK) && SDL_NumJoysticks() > 0)
         {
             joy = SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
             if (joy)
