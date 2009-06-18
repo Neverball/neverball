@@ -4,4 +4,6 @@ set-hard.txt
 set-mym.txt
 set-mym2.txt
 set-fwp.txt
+set-csyforeverm.txt
+set-csyforeverh.txt
 set-misc.txt
