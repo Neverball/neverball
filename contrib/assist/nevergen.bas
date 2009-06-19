@@ -222,14 +222,14 @@
                 ZR = 1
                 clear_preview
             elseif multikey(SC_F5) AND (Putt < > 1) then
-                BlockSet = 4
+                BlockSet = 3
                 BlockType = 0
                 XR = 1
                 YR = 1
                 ZR = 1
                 clear_preview
             elseif multikey(SC_F6) AND (Putt < > 1) then
-                BlockSet = 5
+                BlockSet = 4
                 BlockType = 0
                 XR = 1
                 YR = 1
