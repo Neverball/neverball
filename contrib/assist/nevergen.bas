@@ -389,7 +389,7 @@
                     clear_preview
                 end if
 
-            elseif BlockSet = 4 then
+            elseif BlockSet = 3 then
                 if multikey(SC_1) then
                     BlockType = 41
                     XR = 1
@@ -434,7 +434,7 @@
                     bload(AssistDir+"/ChicaneRTL.bmp",BlockDisplay)
                 end if
 
-            elseif BlockSet = 5 then
+            elseif BlockSet = 4 then
                 if multikey(SC_1) then
                     BlockType = 51
                     XR = 1
@@ -649,6 +649,8 @@
                     print lang("This 3x3 block shifts from left to right.")
                 elseif (BlockType = 47) then
                     print lang("This 3x3 block shifts from right to left.")
+                elseif (BlockType = 47) then
+                    print lang("This straight carries a tunnel above it.")
                 end if
 
             elseif multikey(SC_F1) then
