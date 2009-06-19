@@ -41,7 +41,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int debug_output = 0;
+static const char *input_file;
+static int         debug_output = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -436,6 +437,8 @@ static int read_mtrl(struct s_file *fp, const char *name)
 
         fs_close(fin);
     }
+    else
+        fprintf(stderr, "%s: unknown material \"%s\"\n", input_file, name);
 
     return mi;
 }
@@ -2460,14 +2463,16 @@ int main(int argc, char *argv[])
 
     if (argc > 2)
     {
+        input_file = argv[1];
+
         if (argc > 3 && strcmp(argv[3], "--debug") == 0)
             debug_output = 1;
 
-        fs_add_path     (dir_name(argv[1]));
-        fs_set_write_dir(dir_name(argv[1]));
+        fs_add_path     (dir_name(input_file));
+        fs_set_write_dir(dir_name(input_file));
 
-        strncpy(src,  base_name(argv[1], NULL), MAXSTR);
-        strncpy(dst,  src,                      MAXSTR);
+        strncpy(src,  base_name(input_file, NULL), MAXSTR);
+        strncpy(dst,  src,                         MAXSTR);
 
         if (strcmp(dst + strlen(dst) - 4, ".map") == 0)
             strcpy(dst + strlen(dst) - 4, ".sol");
