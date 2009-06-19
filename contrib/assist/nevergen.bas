@@ -456,12 +456,12 @@
              ' This toggles the music
              '/
             if multikey(SC_TAB) AND Hold(SC_TAB) = 0 then
-            	MusicSwitch = iif(MusicSwitch = 0,1,0)
+                MusicSwitch = iif(MusicSwitch = 0,1,0)
                 Hold(SC_TAB) = 1
                 if MusicSwitch = 0 then
-                	Mix_HaltMusic
+                    Mix_HaltMusic
                 else
-                	Mix_PlayMusic(music, -1)
+                    Mix_PlayMusic(music, -1)
                 end if
             end if
 
@@ -485,11 +485,11 @@
             print lang("* Press F1 for help.")
             locate 4,54
             if MusicSwitch = 0 then
-	            color rgb(255,255,255)
-	            print lang("Music disabled")
+                color rgb(255,255,255)
+                print lang("Music disabled")
             else
-	            color rgb(255,255,0)
-	            print lang("Music activated")
+                color rgb(255,255,0)
+                print lang("Music activated")
             end if
             color rgb(255,0,255)
             locate 5,54

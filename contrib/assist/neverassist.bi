@@ -137,7 +137,7 @@ end sub
 
 declare function quote(Argument as string) as string
 function quote(Argument as string) as string
-	return chr(34)+Argument+chr(34)
+    return chr(34)+Argument+chr(34)
 end function
 
 /'

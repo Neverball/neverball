@@ -48,5 +48,5 @@ sub direction_gfx
     end if
 end sub
 sub clear_preview
-	line BlockDisplay,(0,0)-(127,127),rgb(0,0,0),bf
+    line BlockDisplay,(0,0)-(127,127),rgb(0,0,0),bf
 end sub

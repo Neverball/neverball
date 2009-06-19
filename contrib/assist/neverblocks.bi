@@ -1164,7 +1164,7 @@ sub compile_blocks
                         print #m, "{"
                         print #m, quote("classname")+" "+quote("path_corner")
                         select case Direction(XP,YP,ZP)
-                        	case North
+                            case North
                                 print #m, quote("origin")+" "+quote( _
                                     str(XP*128-32)+" "+str(YP*128-64)+" " + _
                                     str(ZP*64-16))
@@ -1176,7 +1176,7 @@ sub compile_blocks
                                 print #m, quote("origin")+" "+quote( _
                                     str(XP*128-96)+" "+str(YP*128-64)+" " + _
                                     str(ZP*64-16))
-                        	case West
+                            case West
                                 print #m, quote("origin")+" "+quote( _
                                     str(XP*128-64)+" "+str(YP*128-32)+" " + _
                                     str(ZP*64-16))
@@ -1193,7 +1193,7 @@ sub compile_blocks
                         print #m, "{"
                         print #m, quote("classname")+" "+quote("path_corner")
                         select case Direction(XP,YP,ZP)
-                        	case North
+                            case North
                                 print #m, quote("origin")+" "+quote( _
                                     str(XP*128-96)+" "+str(YP*128-64)+" " + _
                                     str(ZP*64-16))
@@ -1205,7 +1205,7 @@ sub compile_blocks
                                 print #m, quote("origin")+" "+quote( _
                                     str(XP*128-32)+" "+str(YP*128-64)+" " + _
                                     str(ZP*64-16))
-                        	case West
+                            case West
                                 print #m, quote("origin")+" "+quote( _
                                     str(XP*128-64)+" "+str(YP*128-96)+" " + _
                                     str(ZP*64-16))
