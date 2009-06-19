@@ -17,7 +17,7 @@
  ' (with extremely few exceptions).
  '
  ' Also, the Neverassistant presently has only a limited number of construction
- ' blocks (presently 30). This number will be increased as more ideas are
+ ' blocks (presently 31). This number will be increased as more ideas are
  ' available.
  '/
 
@@ -34,6 +34,9 @@
     #include "neverblocks.bas"
     sub map_generate
         dim as ubyte Hold(128)
+        dim as string BlockSets(0 to 4) => {"Required Blocks (6)", _
+            "Basic Blocks I (9)", "Basic Blocks II (8)", _
+            "Advanced Blocks (7)", "Underground Blocks (1)"}
         /'
          ' This subroutine allows generation of a map.
          '/
@@ -89,6 +92,9 @@
                 end
             end if
         loop
+        music = Mix_LoadMUS("data/"+MusicPlay)
+        MusicSwitch = 1
+        Mix_PlayMusic(music, -1)
 
         color rgb(255,255,255)
         cls
@@ -100,7 +106,6 @@
         Coins = 0
         TargetCoins = 0
         MinimumLevelTime = 0
-        MusicSwitch = 0
         UsedMoney = 0
         Putt = 0
         for XP = -10 to 10
@@ -160,12 +165,11 @@
             end if
             /'
              ' The page up and page down keys move the cursor along the Z-axis
-             ' of the generator.
+             ' of the generator. (elevation level)
              '
              ' Though you won't notice a change in the cursor graphics-wise,
-             ' you will notice a change in the coordinates.
-             '
-             ' The nature of the generator makes Z-axis your elevation level.
+             ' you will notice a change in the coordinates. Additionally, some
+             ' contents may change to reflect the new elevation level.
              '/
 
             if (multikey(SC_PLUS) OR multikey(SC_EQUALS)) AND _
@@ -219,6 +223,13 @@
                 clear_preview
             elseif multikey(SC_F5) AND (Putt < > 1) then
                 BlockSet = 4
+                BlockType = 0
+                XR = 1
+                YR = 1
+                ZR = 1
+                clear_preview
+            elseif multikey(SC_F6) AND (Putt < > 1) then
+                BlockSet = 5
                 BlockType = 0
                 XR = 1
                 YR = 1
@@ -409,18 +420,27 @@
                     YR = 2
                     ZR = 1
                     bload(AssistDir+"/ChicaneRTL.bmp",BlockDisplay)
-                elseif multikey(SC_4) then
+                elseif multikey(SC_6) then
                     BlockType = 46
                     XR = 3
                     YR = 3
                     ZR = 1
                     bload(AssistDir+"/ChicaneLTR.bmp",BlockDisplay)
-                elseif multikey(SC_5) then
+                elseif multikey(SC_7) then
                     BlockType = 47
                     XR = 3
                     YR = 3
                     ZR = 1
                     bload(AssistDir+"/ChicaneRTL.bmp",BlockDisplay)
+                end if
+
+            elseif BlockSet = 5 then
+                if multikey(SC_1) then
+                    BlockType = 51
+                    XR = 1
+                    YR = 1
+                    ZR = 1
+                    clear_preview
                 end if
             end if
 
@@ -430,6 +450,19 @@
             if multikey(SC_CONTROL) AND Hold(SC_CONTROL) = 0 then
                 if Rotation < 4 then Rotation += 1 else Rotation = 1
                 Hold(SC_CONTROL) = 1
+            end if
+
+            /'
+             ' This toggles the music
+             '/
+            if multikey(SC_TAB) AND Hold(SC_TAB) = 0 then
+            	MusicSwitch = iif(MusicSwitch = 0,1,0)
+                Hold(SC_TAB) = 1
+                if MusicSwitch = 0 then
+                	Mix_HaltMusic
+                else
+                	Mix_PlayMusic(music, -1)
+                end if
             end if
 
             /'
@@ -450,9 +483,14 @@
             color rgb(0,255,255)
             locate 2,54
             print lang("* Press F1 for help.")
-            color rgb(255,255,0)
             locate 4,54
-            print lang("Music unsupported.")
+            if MusicSwitch = 0 then
+	            color rgb(255,255,255)
+	            print lang("Music disabled")
+            else
+	            color rgb(255,255,0)
+	            print lang("Music activated")
+            end if
             color rgb(255,0,255)
             locate 5,54
             print lang("Time: ");LevelTime
@@ -463,15 +501,7 @@
 
             color rgb(255,255,255)
             locate 13,54
-            if (BlockSet = 0) then
-                print lang("Required Blocks")
-            elseif (BlockSet = 1) then
-                print lang("Basic Blocks I")
-            elseif (BlockSet = 2) then
-                print lang("Basic Blocks II")
-            elseif (BlockSet = 4) then
-                print lang("Advanced Blocks")
-            end if
+            print lang(BlockSets(BlockSet))
             locate 14,54
             if (BlockType = 0) then
                 print lang("No block selected")
@@ -506,6 +536,7 @@
                 print lang("Coined Dead-end")
             elseif (BlockType = 19) then
                 print lang("Coined Junction")
+
             elseif (BlockType = 21) then
                 print lang("Coined Cross")
             elseif (BlockType = 22) then
@@ -518,6 +549,10 @@
                 print lang("Vertical Platform")
             elseif (BlockType = 26) then
                 print lang("Coined Vertical Platform")
+            elseif (BlockType = 27) then
+                print lang("Fast Vertical Platform")
+            elseif (BlockType = 28) then
+                print lang("Coined Fast V. Platform")
 
             elseif (BlockType = 41) then
                 print lang("Small Jump")
@@ -533,6 +568,9 @@
                 print lang("Chicane LTR 3x3")
             elseif (BlockType = 47) then
                 print lang("Chicane RTL 3x3")
+
+            elseif (BlockType = 51) then
+                print lang("Underground Straight")
             end if
             put (424,226),BlockDisplay,Trans
 
@@ -588,6 +626,14 @@
                     print lang("This block has a bump.")
                 elseif (BlockType = 24) then
                     print lang("This bump has coins on it.")
+                elseif (BlockType = 25) then
+                    print lang("Vertical Platform that goes up and down.")
+                elseif (BlockType = 26) then
+                    print lang("Vertical platform with coins.")
+                elseif (BlockType = 25) then
+                    print lang("Vertical platform with a very high speed.")
+                elseif (BlockType = 25) then
+                    print lang("Vertical platform that combines coins and high speeds!")
 
                 elseif (BlockType = 41) then
                     print lang("You can jump with this block.")
@@ -612,11 +658,10 @@
                 color rgb(0,255,255)
                 print lang("Controls:")
                 print lang("* CONTROL: rotate")
-                print lang("* TAB: toggle music (when its supported)")
+                print lang("* TAB: toggle music")
                 print lang("* SPACEBAR: place block")
                 print lang("* Arrow keys: move cursor")
                 print lang("* PAGE UP and PAGE DOWN: change elevation.")
-                print lang("* Any English letter: change blocks.")
                 print lang("* PLUS and MINUS without LSHIFT: adjust time.")
                 print lang("* PLUS and MINUS with LSHIFT: adjust target coins.")
                 print lang("* BACKSPACE: Clear map and reset settings.")
@@ -762,14 +807,14 @@
                     chr(34);LevelName;chr(34)
                 print #m, "}"
                 close #m
-    
+
                 print "Your map is almost finished..."
                 #IFDEF __FB_WIN32__
                     Check = exec("Mapc.exe",MapFile + ".map data")
                 #ELSE
                     Check = exec("mapc",MapFile + ".map data")
                 #ENDIF
-    
+
                 if (Check < > -1) then
                     cls
                     print "It is now ready for play."
@@ -778,7 +823,7 @@
                           " create a set-XXX.txt in the data"
                     print "folder with the following contents. " + _
                           "Brackets are variables."
-    
+
                     color rgb(0,255,255)
                     print "[Name of Set]"
                     print "[Description]"
@@ -787,7 +832,7 @@
                     print "[Hard BT]","[Hard MT]","[Med BT]", _
                           "[Med MT]","[Easy BT]","[Easy MT]"
                     print "[Level files] (relative to data folder)"
-    
+
                     color rgb(255,255,255)
                     print
                     print "Add the name of the file to sets.txt"
@@ -815,6 +860,9 @@
         end if
         if inkey = chr(27) then sleep
         clkey
+        Mix_HaltMusic
+        Mix_FreeMusic(music)
+        music = NULL
         main_menu
         ImageDestroy(BlockDisplay)
     end sub

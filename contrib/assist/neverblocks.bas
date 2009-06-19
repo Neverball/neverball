@@ -452,6 +452,17 @@
             UsedMoney += 9
             Blocks += 1
             Putt = 2
+
+        elseif (BlockType = 51) AND _
+            (UsedMoney + 4 < = Money) AND _
+            Contents(XP,YP,ZP) = 0 then
+            Contents(XP,YP,ZP) = 11
+            Direction(XP,YP,ZP) = Rotation
+            LevelTime += 100
+            MinimumLevelTime += 75
+            UsedMoney += 4
+            Blocks += 1
+            Putt = 2
         end if
     end sub
 #ENDIF

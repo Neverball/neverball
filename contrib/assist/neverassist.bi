@@ -27,10 +27,10 @@ const c = 2
 const s = 3
 #IFDEF __FB_WIN32__
     /'
-    ' 7-Zip-dependent resources
-    ' Z7Path and Z7Exe could have been 7ZPath and 7ZExe, but variables can NOT
-    ' start with a number.
-    '/
+     ' 7-Zip-dependent resources
+     ' Z7Path and Z7Exe could have been 7ZPath and 7ZExe, but variables can NOT
+     ' start with a number. (of course you can't do this in C, either)
+     '/
     dim shared as string Z7Path, Z7Exe, Unpack
 #ENDIF
 
@@ -127,7 +127,7 @@ end sub
  ' future construction blocks.
  '/
 /'
-ptf(0,0,0,0,0,0,0,0,0,0,"")
+ptf(0,0,0,0,0,0,0,0,0,0,0)
 '/
 
 declare sub clkey
@@ -176,3 +176,32 @@ sub config(Switch as ubyte = 0)
         #ENDIF
     end if
 end sub
+
+/'
+ ' These lines includes SDL and its child library SDL_mixer. The headers are
+ ' pre-packaged with the compiler, so it isn't needed in this package. You may
+ ' have to use dynamic linking.
+ '/ 
+#include "SDL\SDL.bi"
+#include "SDL\SDL_mixer.bi"
+dim shared music as Mix_Music ptr
+music = NULL
+dim audio_rate as integer
+dim audio_format as Uint16
+dim audio_channels as integer
+dim audio_buffers as integer
+audio_rate = 44100
+audio_format = AUDIO_S16
+audio_channels = 2
+audio_buffers = 4096
+/'
+ ' Only audio needs to be initialized, since a seperate graphics window will
+ ' be used.
+ '/
+SDL_Init(SDL_INIT_AUDIO)
+if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) then
+    open err as #1
+    print #1, "Unable to open audio!"
+    close #1
+    end 1
+end if

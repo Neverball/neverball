@@ -31,7 +31,9 @@
  ' set forth by rlk, this one works a lot better than what it was before it was
  ' released.
  '
- ' Libraries needed for this program: None
+ ' Libraries needed for this program (2): 
+ ' SDL (headers inclded in compiler)
+ ' SDL_mixer (headers included in compiler)
  '/
 
 #IFDEF __FB_DOS__
@@ -117,6 +119,8 @@
                     sleep 1
                     if multikey(SC_Y) then
                         run("gdb.exe","neverassist.exe")
+                        Mix_CloseAudio
+                        SDL_Quit
                         end 0
                     end if
                 loop until multikey(SC_N)
@@ -129,6 +133,8 @@
                     sleep 1
                     if multikey(SC_Y) then
                         run("gdb","neverassist")
+                        Mix_CloseAudio
+                        SDL_Quit
                         end 0
                     end if
                 loop until multikey(SC_N)
@@ -136,6 +142,8 @@
         #ENDIF
     #ENDIF
     main_menu
+    Mix_CloseAudio
+    SDL_Quit
 
     sub main_menu
         clkey
