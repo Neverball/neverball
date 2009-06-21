@@ -40,7 +40,8 @@ struct set
     char *desc;                /* Set description            */
     char *shot;                /* Set screen-shot            */
 
-    char user_scores[PATHMAX]; /* User high-score file       */
+    char *user_scores;         /* User high-score file       */
+    char *cheat_scores;        /* Cheat mode score file      */
 
     struct score coin_score;   /* Challenge score            */
     struct score time_score;   /* Challenge score            */
@@ -77,7 +78,9 @@ void set_store_hs(void)
     const struct level *l;
     char states[MAXLVL + 1];
 
-    if ((fout = fs_open(s->user_scores, "w")))
+    if ((fout = fs_open(config_cheat() ?
+                        s->cheat_scores :
+                        s->user_scores, "w")))
     {
         for (i = 0; i < s->count; i++)
         {
@@ -132,7 +135,7 @@ static void set_load_hs(void)
     int i;
     int res = 0;
     struct level *l;
-    const char *fn = s->user_scores;
+    const char *fn = config_cheat() ? s->cheat_scores : s->user_scores;
     char states[MAXLVL + sizeof ("\n")];
 
     if ((fin = fs_open(fn, "r")))
@@ -233,7 +236,8 @@ static int set_load(struct set *s, const char *filename)
 
         free(scores);
 
-        sprintf(s->user_scores, "Scores/%s.txt", s->id);
+        s->user_scores  = concat_string("Scores/", s->id, ".txt",       NULL);
+        s->cheat_scores = concat_string("Scores/", s->id, "-cheat.txt", NULL);
 
         s->count = 0;
 
@@ -344,6 +348,9 @@ void set_free(void)
         free(set_v[i].desc);
         free(set_v[i].id);
         free(set_v[i].shot);
+
+        free(set_v[i].user_scores);
+        free(set_v[i].cheat_scores);
 
         for (j = 0; j < set_v[i].count; j++)
             free(set_v[i].level_name_v[j]);
