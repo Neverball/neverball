@@ -36,7 +36,12 @@ void lang_init(const char *domain)
     char *dir = strdup(getenv("NEVERBALL_LOCALE"));
 
     if (!dir)
-        dir = concat_string(fs_base_dir(), "/", CONFIG_LOCALE, NULL);
+    {
+        if (path_is_abs(CONFIG_LOCALE))
+            dir = strdup(CONFIG_LOCALE);
+        else
+            dir = concat_string(fs_base_dir(), "/", CONFIG_LOCALE, NULL);
+    }
 
     errno = 0;
 
