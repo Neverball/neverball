@@ -95,20 +95,20 @@ Under Unix, Linux,  and OSX this directory is  called ".neverball" and
 is created in  the user's home directory,  specifically, the directory
 set in the HOME environment variable.
 
-Under Windows  it is called "Neverball"  and is created in  the user's
-application  data  directory the  location  of  which is  obtained  by
+Under Windows  it is called "Neverball"  and is created  in the user's
+application  data directory,  the  location of  which  is obtained  by
 inspecting the  APPDATA environment variable.   An easy way  to access
 this directory is by typing  %APPDATA% in the Windows Explorer address
 bar.  If the location could not  be determined, it is assumed that the
-user has permission to write to  the game data directory, and the user
-data directory is created within.
+user has permission to write to  the game directory, and the user data
+directory is created within.
 
 
 * HIGH SCORES
 
 The top  three fastest  times through each  level, the top  three coin
 scores  and the top  three fastest  unlock scores  for each  level are
-stored in files named neverballhs-* in the user data directory.
+stored in the Scores directory within user data directory.
 
 The top  three fastest  times and  most coins scores  for each  set of
 levels are also stored.  To achieve  a set score, the player must play
@@ -130,10 +130,10 @@ The player may enter  a name for each replay at the  end of the level.
 By default, the most recent unsaved  level will be saved to the replay
 file named "Last.nbr".
 
-Replay  files are  stored in  the user  data directory.   They  may be
-copied freely.  To  view a replay you have  downloaded, simply move it
-to  the user  data directory  and it  will appear  in the  Replay menu
-in-game.
+Replay files are stored in  the Replays directory within the user data
+directory.   They may be  copied freely.   To view  a replay  you have
+downloaded, simply move it to the Replays directory and it will appear
+in the Replay menu in-game.
 
 
 * CONFIGURATION

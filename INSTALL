@@ -6,6 +6,7 @@
 
     SDL               http://www.libsdl.org/download-1.2.php
     SDL_ttf           http://www.libsdl.org/projects/SDL_ttf/
+    PhysicsFS         http://icculus.org/physfs/
     libvorbis         http://xiph.org/vorbis/
     libpng            http://www.libpng.org/pub/png/libpng.html
     libjpeg
