@@ -34,6 +34,11 @@ int fs_quit(void)
     return PHYSFS_deinit();
 }
 
+const char *fs_error(void)
+{
+    return PHYSFS_getLastError();
+}
+
 /* -------------------------------------------------------------------------- */
 
 const char *fs_base_dir(void)
