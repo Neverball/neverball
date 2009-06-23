@@ -27,6 +27,7 @@ int  fs_flush(fs_file);
 long fs_tell(fs_file);
 int  fs_seek(fs_file, long offset, int whence);
 int  fs_eof(fs_file);
+int  fs_length(fs_file);
 
 int   fs_getc(fs_file);
 char *fs_gets(char *dst, int count, fs_file fh);

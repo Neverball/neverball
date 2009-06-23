@@ -193,6 +193,11 @@ int fs_eof(fs_file fh)
     return PHYSFS_eof(fh->handle);
 }
 
+int fs_length(fs_file fh)
+{
+    return PHYSFS_fileLength(fh->handle);
+}
+
 /* -------------------------------------------------------------------------- */
 
 /*
