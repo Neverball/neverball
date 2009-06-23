@@ -23,6 +23,7 @@
 #include "config.h"
 #include "video.h"
 #include "st_shared.h"
+#include "common.h"
 
 #include "game_common.h"
 #include "game_client.h"
@@ -32,6 +33,7 @@
 #include "st_title.h"
 #include "st_resol.h"
 #include "st_name.h"
+#include "st_ball.h"
 
 extern const char TITLE[];
 extern const char ICON[];
@@ -53,7 +55,8 @@ enum {
     CONF_SHDOF,
     CONF_BACK,
     CONF_RES,
-    CONF_PLAYER
+    CONF_PLAYER,
+    CONF_BALL
 };
 
 static int music_id[11];
@@ -154,6 +157,10 @@ static int conf_action(int i)
 
     case CONF_PLAYER:
         goto_name(&st_conf, &st_conf, 1);
+        break;
+
+    case CONF_BALL:
+        goto_state(&st_ball);
         break;
 
     default:
@@ -335,6 +342,15 @@ static int conf_enter(void)
             gui_state(kd, player, GUI_SML, CONF_PLAYER, 0);
 
             gui_label(jd, _("Player Name"), GUI_SML, GUI_ALL, 0, 0);
+        }
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            char ball[64] = "";
+            config_get_s(CONFIG_BALL_FILE, ball, sizeof (ball) - 1);
+            gui_state(kd, base_name(ball, NULL), GUI_SML, CONF_BALL, 0);
+            gui_label(jd, _("Ball"), GUI_SML, GUI_ALL, 0, 0);
         }
 
         gui_layout(id, 0, 0);
