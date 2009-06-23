@@ -85,7 +85,10 @@ static struct widget widget[MAXWIDGET];
 static int           active;
 static int           radius;
 static TTF_Font     *font[3] = { NULL, NULL, NULL };
-static SDL_RWops    *fontrwops;
+
+static void      *fontdata;
+static int        fontdatalen;
+static SDL_RWops *fontrwops;
 
 static GLuint digit_text[3][11];
 static GLuint digit_list[3][11];
@@ -255,14 +258,18 @@ void gui_init(void)
 
         memset(widget, 0, sizeof (struct widget) * MAXWIDGET);
 
-        /* Load small, medium, and large typefaces. */
+        /* Load the font. */
 
-        if (!(fontrwops = fs_rwops_open(fontpath, "r")))
+        if (!(fontdata = fs_load(fontpath, &fontdatalen)))
         {
-            fprintf(stderr, _("Could not open font %s.\n"), fontpath);
+            fprintf(stderr, _("Could not load font %s.\n"), fontpath);
             /* Return or no return, we'll probably crash now. */
             return;
         }
+
+        fontrwops = SDL_RWFromConstMem(fontdata, fontdatalen);
+
+        /* Load small, medium, and large typefaces. */
 
         font[GUI_SML] = TTF_OpenFontRW(fontrwops, 0, s0);
 
@@ -358,6 +365,7 @@ void gui_free(void)
     if (font[GUI_SML]) TTF_CloseFont(font[GUI_SML]);
 
     if (fontrwops) SDL_RWclose(fontrwops);
+    if (fontdata)  free(fontdata);
 
     TTF_Quit();
 }
