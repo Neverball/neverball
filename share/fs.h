@@ -34,6 +34,8 @@ char *fs_gets(char *dst, int count, fs_file fh);
 int   fs_putc(int c, fs_file);
 int   fs_puts(const char *src, fs_file);
 
+void *fs_load(const char *path, int *size);
+
 int fs_mkdir(const char *);
 
 #include <stdarg.h>

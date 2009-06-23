@@ -428,3 +428,33 @@ int fs_printf(fs_file fh, const char *fmt, ...)
 }
 
 /* -------------------------------------------------------------------------- */
+
+void *fs_load(const char *path, int *datalen)
+{
+    fs_file fh;
+    void *data;
+
+    data = NULL;
+
+    if ((fh = fs_open(path, "r")))
+    {
+        if ((*datalen = fs_length(fh)) > 0)
+        {
+            if ((data = malloc(*datalen)))
+            {
+                if (fs_read(data, *datalen, 1, fh) != 1)
+                {
+                    free(data);
+                    data = NULL;
+                    *datalen = 0;
+                }
+            }
+        }
+
+        fs_close(fh);
+    }
+
+    return data;
+}
+
+/* -------------------------------------------------------------------------- */
