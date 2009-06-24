@@ -47,6 +47,20 @@ void free_balls(void)
     balls = NULL;
 }
 
+static int make_ball_label(void)
+{
+    int id;
+
+    if ((id = gui_label(0, base_name(ball_file, NULL),
+                        GUI_SML, GUI_NW, gui_wht, gui_wht)))
+    {
+        gui_layout(id, 0, -1);
+        gui_pulse(id, 1.2f);
+    }
+
+    return id;
+}
+
 static void set_curr_ball(void)
 {
     sprintf(ball_file, "%s/%s",
@@ -57,6 +71,9 @@ static void set_curr_ball(void)
 
     ball_free();
     ball_init();
+
+    gui_delete(st_ball.gui_id);
+    st_ball.gui_id = make_ball_label();
 }
 
 static void next_ball(void)
@@ -83,16 +100,18 @@ static int ball_enter(void)
     game_set_fly(0, game_client_file());
     game_client_step(NULL);
 
-    return 0;
+    return make_ball_label();
 }
 
 static void ball_leave(int id)
 {
+    gui_delete(id);
     free_balls();
 }
 
 static void ball_timer(int id, float dt)
 {
+    gui_timer(id, dt);
     game_step_fade(dt);
 }
 
