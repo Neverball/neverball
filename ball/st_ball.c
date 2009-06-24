@@ -7,14 +7,23 @@
 #include "common.h"
 #include "ball.h"
 #include "cmd.h"
+#include "audio.h"
 
 #include "game_server.h"
 #include "game_proxy.h"
 #include "game_client.h"
+#include "game_common.h"
 
 #include "st_ball.h"
 #include "st_shared.h"
 #include "st_conf.h"
+
+enum
+{
+    BALL_NEXT = 1,
+    BALL_PREV,
+    BALL_BACK
+};
 
 static Array balls;
 static int   curr_ball;
@@ -76,20 +85,34 @@ static void set_curr_ball(void)
     st_ball.gui_id = make_ball_label();
 }
 
-static void next_ball(void)
+static int ball_action(int i)
 {
-    if (++curr_ball == array_len(balls))
-        curr_ball = 0;
+    audio_play(AUD_MENU, 1.0f);
 
-    set_curr_ball();
-}
+    switch (i)
+    {
+    case BALL_NEXT:
+        if (++curr_ball == array_len(balls))
+            curr_ball = 0;
 
-static void prev_ball(void)
-{
-    if (--curr_ball == -1)
-        curr_ball = array_len(balls) - 1;
+        set_curr_ball();
 
-    set_curr_ball();
+        break;
+
+    case BALL_PREV:
+        if (--curr_ball == -1)
+            curr_ball = array_len(balls) - 1;
+
+        set_curr_ball();
+
+        break;
+
+    case BALL_BACK:
+        goto_state(&st_conf);
+        break;
+    }
+
+    return 1;
 }
 
 static int ball_enter(void)
@@ -119,11 +142,8 @@ static void ball_stick(int id, int a, int v)
 {
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
     {
-        if (v > 0 && v != 1)
-            next_ball();
-
-        if (v < 0 && v != 1)
-            prev_ball();
+        if (v > +JOY_MID) ball_action(BALL_NEXT);
+        if (v < -JOY_MID) ball_action(BALL_PREV);
     }
 }
 
@@ -131,9 +151,11 @@ static int ball_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b) ||
-            config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_conf);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+            return ball_action(BALL_BACK);
+
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+            return ball_action(BALL_BACK);
     }
     return 1;
 }
