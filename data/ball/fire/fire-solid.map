@@ -1,9 +1,10 @@
 {
 "classname" "worldspawn"
+"drawback" "1"
 "depthmask" "1"
 }
 {
 "classname" "misc_model"
-"material" "ball/arrows/arrows"
+"material" "ball/fire/fire"
 "model" "ball/basic-ball/basic-ball.obj"
 }
