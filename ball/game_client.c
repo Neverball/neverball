@@ -771,6 +771,9 @@ static void game_draw_light(void)
 
 static void game_draw_back(int pose, int d, float t)
 {
+    if (pose == 2)
+        return;
+
     glPushMatrix();
     {
         if (d < 0)
@@ -866,10 +869,13 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
         if (d < 0)
             glEnable(GL_CLIP_PLANE0);
 
-        if (pose)
-            sol_draw(&file, 0, 1);
-        else
+        switch (pose)
         {
+        case 1:
+            sol_draw(&file, 0, 1);
+            break;
+
+        case 0:
             /* Draw the coins. */
 
             game_draw_items(&file, t);
@@ -877,6 +883,10 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
             /* Draw the floor. */
 
             sol_draw(&file, 0, 1);
+
+            /* Fall through. */
+
+        case 2:
 
             /* Draw the ball shadow. */
 
@@ -890,6 +900,8 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
             /* Draw the ball. */
 
             game_draw_balls(&file, M, t);
+
+            break;
         }
 
         /* Draw the particles and light columns. */
