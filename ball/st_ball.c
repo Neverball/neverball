@@ -8,6 +8,9 @@
 #include "ball.h"
 #include "cmd.h"
 #include "audio.h"
+#include "back.h"
+#include "video.h"
+#include "demo.h"
 
 #include "game_server.h"
 #include "game_proxy.h"
@@ -117,11 +120,19 @@ static int ball_action(int i)
 
 static int ball_enter(void)
 {
+    int g;
+
     scan_balls();
 
-    game_client_init("map-medium/title.sol");
+    /* "g" is a stupid hack to keep the goal locked. */
+
+    demo_replay_init("gui/ball.nbr", &g, NULL, NULL, NULL, NULL);
+    audio_music_fade_to(0.0f, "bgm/inter.ogg");
     game_set_fly(0, game_client_file());
     game_client_step(NULL);
+    game_kill_fade();
+
+    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
 
     return make_ball_label();
 }
@@ -129,13 +140,29 @@ static int ball_enter(void)
 static void ball_leave(int id)
 {
     gui_delete(id);
+    back_free();
+    demo_replay_stop(0);
     free_balls();
+}
+
+static void ball_paint(int id, float t)
+{
+    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+    {
+        back_draw(0);
+    }
+    video_pop_matrix();
+
+    game_draw(2, t);
+    gui_paint(id);
 }
 
 static void ball_timer(int id, float dt)
 {
     gui_timer(id, dt);
-    game_step_fade(dt);
+
+    if (!demo_replay_step(dt))
+        goto_state(&st_ball);
 }
 
 static void ball_stick(int id, int a, int v)
@@ -163,7 +190,7 @@ static int ball_buttn(int b, int d)
 struct state st_ball = {
     ball_enter,
     ball_leave,
-    shared_paint,
+    ball_paint,
     ball_timer,
     NULL,
     ball_stick,
