@@ -118,11 +118,9 @@ static int ball_action(int i)
     return 1;
 }
 
-static int ball_enter(void)
+static void load_ball_demo(void)
 {
     int g;
-
-    scan_balls();
 
     /* "g" is a stupid hack to keep the goal locked. */
 
@@ -133,7 +131,12 @@ static int ball_enter(void)
     game_kill_fade();
 
     back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+}
 
+static int ball_enter(void)
+{
+    scan_balls();
+    load_ball_demo();
     return make_ball_label();
 }
 
@@ -162,7 +165,10 @@ static void ball_timer(int id, float dt)
     gui_timer(id, dt);
 
     if (!demo_replay_step(dt))
-        goto_state(&st_ball);
+    {
+        demo_replay_stop(0);
+        load_ball_demo();
+    }
 }
 
 static void ball_stick(int id, int a, int v)
