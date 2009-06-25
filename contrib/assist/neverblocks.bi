@@ -888,7 +888,7 @@ sub compile_blocks
                             str(ZP*64))
                         print #m, quote("targetname")+" " + _
                             quote("path_corner"+str(Entity-1))
-                        print #m, quote("targetname")+" " + _
+                        print #m, quote("target")+" " + _
                             quote("path_corner"+str(Entity))
                         print #m, quote("speed")+" "+quote("2")
                         print #m, "}"
@@ -902,7 +902,7 @@ sub compile_blocks
                             str(ZP*64+64))
                         print #m, quote("targetname")+" " + _
                             quote("path_corner"+str(Entity-1))
-                        print #m, quote("targetname")+" " + _
+                        print #m, quote("target")+" " + _
                             quote("path_corner"+str(Entity-2))
                         print #m, quote("speed")+" "+quote("2")
                         print #m, "}"
@@ -934,7 +934,7 @@ sub compile_blocks
                             str(ZP*64))
                         print #m, quote("targetname")+" " + _
                             quote("path_corner"+str(Entity-1))
-                        print #m, quote("targetname")+" " + _
+                        print #m, quote("target")+" " + _
                             quote("path_corner"+str(Entity))
                         print #m, quote("speed")+" "+quote("2")
                         print #m, "}"
@@ -948,7 +948,7 @@ sub compile_blocks
                             str(ZP*64+64))
                         print #m, quote("targetname")+" " + _
                             quote("path_corner"+str(Entity-1))
-                        print #m, quote("targetname")+" " + _
+                        print #m, quote("target")+" " + _
                             quote("path_corner"+str(Entity-2))
                         print #m, quote("speed")+" "+quote("2")
                         print #m, "}"
@@ -986,7 +986,7 @@ sub compile_blocks
                             str(ZP*64))
                         print #m, quote("targetname")+" " + _
                             quote("path_corner"+str(Entity-1))
-                        print #m, quote("targetname")+" " + _
+                        print #m, quote("target")+" " + _
                             quote("path_corner"+str(Entity))
                         print #m, quote("speed")+" "+quote("0.5")
                         print #m, "}"
@@ -1000,7 +1000,7 @@ sub compile_blocks
                             str(ZP*64+64))
                         print #m, quote("targetname")+" " + _
                             quote("path_corner"+str(Entity-1))
-                        print #m, quote("targetname")+" " + _
+                        print #m, quote("target")+" " + _
                             quote("path_corner"+str(Entity-2))
                         print #m, quote("speed")+" "+quote("0.5")
                         print #m, "}"
@@ -1032,7 +1032,7 @@ sub compile_blocks
                             str(ZP*64))
                         print #m, quote("targetname")+" " + _
                             quote("path_corner"+str(Entity-1))
-                        print #m, quote("targetname")+" " + _
+                        print #m, quote("target")+" " + _
                             quote("path_corner"+str(Entity))
                         print #m, quote("speed")+" "+quote("0.5")
                         print #m, "}"
@@ -1046,7 +1046,7 @@ sub compile_blocks
                             str(ZP*64+64))
                         print #m, quote("targetname")+" " + _
                             quote("path_corner"+str(Entity-1))
-                        print #m, quote("targetname")+" " + _
+                        print #m, quote("target")+" " + _
                             quote("path_corner"+str(Entity-2))
                         print #m, quote("speed")+" "+quote("0.5")
                         print #m, "}"
@@ -1293,7 +1293,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, quote("classname")+" "+quote("path_corner")
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         /'
@@ -1322,7 +1322,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, quote("classname")+" "+quote("path_corner")
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         /'
@@ -1351,7 +1351,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, quote("classname")+" "+quote("path_corner")
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         /'
@@ -1380,7 +1380,7 @@ sub compile_blocks
                         print #m, "// entity ";Entity
                         Entity += 1
                         print #m, "{"
-                        print #m, quote("classname")+" "+quote("path_corner")
+                        print #m, quote("classname")+" "+quote("worldspawn")
                         print #m, "// brush 0"
                         print #m, "{"
                         /'
