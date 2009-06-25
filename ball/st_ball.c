@@ -61,7 +61,7 @@ static int make_ball_label(void)
     int id;
 
     if ((id = gui_label(0, base_name(ball_file, NULL),
-                        GUI_SML, GUI_NW, gui_wht, gui_wht)))
+                        GUI_SML, GUI_TOP, gui_wht, gui_wht)))
     {
         gui_layout(id, 0, -1);
         gui_pulse(id, 1.2f);
