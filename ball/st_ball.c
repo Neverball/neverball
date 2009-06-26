@@ -32,7 +32,7 @@ static Array balls;
 static int   curr_ball;
 static char  ball_file[64];
 
-void scan_balls(void)
+static void scan_balls(void)
 {
     int i;
 
@@ -53,7 +53,7 @@ void scan_balls(void)
     }
 }
 
-void free_balls(void)
+static void free_balls(void)
 {
     fs_dir_free(balls);
     balls = NULL;
