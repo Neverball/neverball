@@ -32,13 +32,43 @@ static Array balls;
 static int   curr_ball;
 static char  ball_file[64];
 
+static int has_ball_sols(struct dir_item *item)
+{
+    char *solid, *inner, *outer;
+    int yes;
+
+    solid = concat_string(item->path,
+                          "/",
+                          base_name(item->path, NULL),
+                          "-solid.sol",
+                          NULL);
+    inner = concat_string(item->path,
+                          "/",
+                          base_name(item->path, NULL),
+                          "-inner.sol",
+                          NULL);
+    outer = concat_string(item->path,
+                          "/",
+                          base_name(item->path, NULL),
+                          "-outer.sol",
+                          NULL);
+
+    yes = (fs_exists(solid) || fs_exists(inner) || fs_exists(outer));
+
+    free(solid);
+    free(inner);
+    free(outer);
+
+    return yes;
+}
+
 static void scan_balls(void)
 {
     int i;
 
     config_get_s(CONFIG_BALL_FILE, ball_file, sizeof (ball_file) - 1);
 
-    if ((balls = fs_dir_scan("ball", NULL)))
+    if ((balls = fs_dir_scan("ball", has_ball_sols)))
     {
         for (i = 0; i < array_len(balls); i++)
         {
