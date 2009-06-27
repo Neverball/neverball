@@ -1,4 +1,5 @@
-map-csyforeverxp/BentObstacle.sol	back/blues.png	4	bgm/track1.ogg
-map-csyforeverxp/BentObstacle.sol	back/blues.png	4	bgm/track1.ogg
+map-csyforeverxp/NarrowObstacle.sol	back/blu_wht.png	3	bgm/track1.ogg
 map-csyforeverxp/NarrowObstacle.sol	back/blu_wht.png	3	bgm/track1.ogg
 map-csyforeverxp/NarrowDrop.sol	back/blu_grn.png	5	bgm/track1.ogg
+map-csyforeverxp/BentObstacle.sol	back/blues.png	4	bgm/track1.ogg
+map-csyforeverxp/LongEndurance.sol	back/blu_wht.png	135	bgm/title.ogg
