@@ -38,6 +38,22 @@ const char *status_to_str(int);
 
 /*---------------------------------------------------------------------------*/
 
+enum
+{
+    VIEW_NONE = -1,
+
+    VIEW_CHASE,
+    VIEW_LAZY,
+    VIEW_MANUAL,
+    VIEW_TOPDOWN,
+
+    VIEW_MAX
+};
+
+const char *view_to_str(int);
+
+/*---------------------------------------------------------------------------*/
+
 void game_comp_grav(float h[3], const float g[3],
                     float view_a,
                     float game_rx,

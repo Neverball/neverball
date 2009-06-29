@@ -13,6 +13,18 @@ const char *status_to_str(int s)
     }
 }
 
+const char *view_to_str(int v)
+{
+    switch (v)
+    {
+    case VIEW_CHASE:   return _("Chase");
+    case VIEW_LAZY:    return _("Lazy");
+    case VIEW_MANUAL:  return _("Manual");
+    case VIEW_TOPDOWN: return _("Top-Down");
+    default:           return _("Unknown");
+    }
+}
+
 void game_comp_grav(float h[3], const float g[3],
                     float view_a,
                     float game_rx,

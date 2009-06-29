@@ -579,7 +579,7 @@ static void game_update_view(float dt)
 
     /* Restore usable vectors. */
 
-    if (view_prev == 3)
+    if (view_prev == VIEW_TOPDOWN)
     {
         /* View basis. */
 
@@ -597,14 +597,14 @@ static void game_update_view(float dt)
 
     switch (input_get_c())
     {
-    case 1: /* Camera 1: Viewpoint chases the ball position. */
+    case VIEW_LAZY: /* Viewpoint chases the ball position. */
 
         v_sub(view_e[2], view_p, view_c);
 
         break;
 
-    case 2: /* Camera 2: View vector is given by view angle. */
-    case 3: /* Camera 3: Crude top-down view. */
+    case VIEW_MANUAL:  /* View vector is given by view angle. */
+    case VIEW_TOPDOWN: /* Crude top-down view. */
 
         view_e[2][0] = fsinf(V_RAD(view_a));
         view_e[2][1] = 0.0;
@@ -612,7 +612,7 @@ static void game_update_view(float dt)
 
         break;
 
-    default: /* Default: View vector approaches the ball velocity vector. */
+    case VIEW_CHASE: /* View vector approaches the ball velocity vector. */
 
         v_sub(view_e[2], view_p, view_c);
         v_nrm(view_e[2], view_e[2]);
@@ -656,7 +656,7 @@ static void game_update_view(float dt)
 
     /* Override vectors for top-down view. */
 
-    if (input_get_c() == 3)
+    if (input_get_c() == VIEW_TOPDOWN)
     {
         v_inv(view_e[1], view_e[2]);
         v_cpy(view_e[2], Y);

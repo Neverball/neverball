@@ -50,7 +50,8 @@ static void hud_fps(void)
 void hud_init(void)
 {
     int id;
-    char *str_view;
+    const char *str_view;
+    int v;
 
     if ((Rhud_id = gui_hstack(0)))
     {
@@ -85,9 +86,13 @@ void hud_init(void)
     if ((time_id = gui_clock(0, 59999, GUI_MED, GUI_TOP)))
         gui_layout(time_id, 0, -1);
 
-    str_view = strlen(STR_VIEW0) > strlen(STR_VIEW1) ? STR_VIEW0 : STR_VIEW1;
-    if (strlen(str_view) < strlen(STR_VIEW2))
-        str_view = STR_VIEW2;
+
+    /* Find the longest view name. */
+
+    for (str_view = "", v = VIEW_NONE + 1; v < VIEW_MAX; v++)
+        if (strlen(view_to_str(v)) > strlen(str_view))
+            str_view = view_to_str(v);
+
     if ((view_id = gui_label(0, str_view, GUI_SML, GUI_SW, gui_wht, gui_wht)))
         gui_layout(view_id, 1, 1);
 
@@ -229,14 +234,7 @@ void hud_timer(float dt)
 
 void hud_view_pulse(int c)
 {
-    switch (c)
-    {
-    case 0: gui_set_label(view_id, STR_VIEW0); break;
-    case 1: gui_set_label(view_id, STR_VIEW1); break;
-    case 2: gui_set_label(view_id, STR_VIEW2); break;
-    case 3: gui_set_label(view_id, STR_VIEW3); break;
-    }
-
+    gui_set_label(view_id, view_to_str(c));
     gui_pulse(view_id, 1.2f);
     view_timer = 2.0f;
 }

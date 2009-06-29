@@ -293,18 +293,18 @@ static int play_loop_click(int b, int d)
 
         if (config_tst_d(CONFIG_MOUSE_CAMERA_1, b))
         {
-            config_set_d(CONFIG_CAMERA, 0);
-            hud_view_pulse(0);
+            config_set_d(CONFIG_CAMERA, VIEW_CHASE);
+            hud_view_pulse(VIEW_CHASE);
         }
         if (config_tst_d(CONFIG_MOUSE_CAMERA_2, b))
         {
-            config_set_d(CONFIG_CAMERA, 1);
-            hud_view_pulse(1);
+            config_set_d(CONFIG_CAMERA, VIEW_LAZY);
+            hud_view_pulse(VIEW_LAZY);
         }
         if (config_tst_d(CONFIG_MOUSE_CAMERA_3, b))
         {
-            config_set_d(CONFIG_CAMERA, 2);
-            hud_view_pulse(2);
+            config_set_d(CONFIG_CAMERA, VIEW_MANUAL);
+            hud_view_pulse(VIEW_MANUAL);
         }
 
         if (config_tst_d(CONFIG_MOUSE_CAMERA_TOGGLE, b))
@@ -334,23 +334,23 @@ static int play_loop_keybd(int c, int d)
 
         if (config_tst_d(CONFIG_KEY_CAMERA_1, c))
         {
-            config_set_d(CONFIG_CAMERA, 0);
-            hud_view_pulse(0);
+            config_set_d(CONFIG_CAMERA, VIEW_CHASE);
+            hud_view_pulse(VIEW_CHASE);
         }
         if (config_tst_d(CONFIG_KEY_CAMERA_2, c))
         {
-            config_set_d(CONFIG_CAMERA, 1);
-            hud_view_pulse(1);
+            config_set_d(CONFIG_CAMERA, VIEW_LAZY);
+            hud_view_pulse(VIEW_LAZY);
         }
         if (config_tst_d(CONFIG_KEY_CAMERA_3, c))
         {
-            config_set_d(CONFIG_CAMERA, 2);
-            hud_view_pulse(2);
+            config_set_d(CONFIG_CAMERA, VIEW_MANUAL);
+            hud_view_pulse(VIEW_MANUAL);
         }
         if (c == SDLK_F4 && config_cheat())
         {
-            config_set_d(CONFIG_CAMERA, 3);
-            hud_view_pulse(3);
+            config_set_d(CONFIG_CAMERA, VIEW_TOPDOWN);
+            hud_view_pulse(VIEW_TOPDOWN);
         }
         if (config_tst_d(CONFIG_KEY_RESTART, c) &&
             progress_same_avail())
@@ -360,7 +360,8 @@ static int play_loop_keybd(int c, int d)
         }
         if (config_tst_d(CONFIG_KEY_CAMERA_TOGGLE, c))
         {
-            int m = config_tst_d(CONFIG_CAMERA, 2) ? 0 : 2;
+            int m = (config_tst_d(CONFIG_CAMERA, VIEW_MANUAL) ?
+                     VIEW_CHASE : VIEW_MANUAL);
             config_set_d(CONFIG_CAMERA, m);
             hud_view_pulse(m);
         }
@@ -407,22 +408,23 @@ static int play_loop_buttn(int b, int d)
 
         if (config_tst_d(CONFIG_JOYSTICK_CAMERA_1, b))
         {
-            config_set_d(CONFIG_CAMERA, 0);
-            hud_view_pulse(0);
+            config_set_d(CONFIG_CAMERA, VIEW_CHASE);
+            hud_view_pulse(VIEW_CHASE);
         }
         if (config_tst_d(CONFIG_JOYSTICK_CAMERA_2, b))
         {
-            config_set_d(CONFIG_CAMERA, 1);
-            hud_view_pulse(1);
+            config_set_d(CONFIG_CAMERA, VIEW_LAZY);
+            hud_view_pulse(VIEW_LAZY);
         }
         if (config_tst_d(CONFIG_JOYSTICK_CAMERA_3, b))
         {
-            config_set_d(CONFIG_CAMERA, 2);
-            hud_view_pulse(2);
+            config_set_d(CONFIG_CAMERA, VIEW_MANUAL);
+            hud_view_pulse(VIEW_MANUAL);
         }
         if (config_tst_d(CONFIG_JOYSTICK_CAMERA_TOGGLE, b))
         {
-            int m = config_tst_d(CONFIG_CAMERA, 2) ? 0 : 2;
+            int m = (config_tst_d(CONFIG_CAMERA, VIEW_MANUAL) ?
+                     VIEW_CHASE : VIEW_MANUAL);
             config_set_d(CONFIG_CAMERA, m);
             hud_view_pulse(m);
         }
