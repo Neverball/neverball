@@ -575,7 +575,10 @@ static void game_update_view(float dt)
     /* Center the view about the ball. */
 
     v_cpy(view_c, file.uv->p);
-    v_inv(view_v, file.uv->v);
+
+    view_v[0] = -file.uv->v[0];
+    view_v[1] =  0.0f;
+    view_v[2] = -file.uv->v[2];
 
     /* Restore usable vectors. */
 
