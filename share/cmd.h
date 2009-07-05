@@ -105,7 +105,6 @@ struct cmd_pick_item
 struct cmd_rotate
 {
     HEADER;
-    short size;
     float x;
     float z;
 };
