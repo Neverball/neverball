@@ -144,24 +144,24 @@ void put_string(fs_file fout, const char *s)
 
 void get_string(fs_file fin, char *s, int max)
 {
-    int c = -1;
+    int c;
 
-    if (max == 0)
-        return;
-
-    while (max && c && (c = fs_getc(fin)) >= 0)
+    while ((c = fs_getc(fin)) >= 0)
     {
-        *s++ = c;
-        max--;
+        if (max > 0)
+        {
+            *s++ = c;
+            max--;
+
+            /* Terminate the string, but keep reading until NUL. */
+
+            if (max == 0)
+                *(s - 1) = 0;
+        }
+
+        if (c == 0)
+            break;
     }
-
-     /*
-      * Terminate the buffer ourselves, if we ran out of space without
-      * seeing a NUL character.
-      */
-
-    if (max == 0 && *(s - 1) != 0)
-        *(s - 1) = 0;
 }
 
 /*---------------------------------------------------------------------------*/
