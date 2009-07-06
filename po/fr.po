@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2009-03-13 02:14+0200\n"
-"PO-Revision-Date: 2009-03-20 22:41-0500\n"
+"PO-Revision-Date: 2009-07-06 15:38+0300\n"
 "Last-Translator: Mehdi Yousfi-Monod <mehdi.yousfi@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -1117,7 +1117,7 @@ msgstr "Le « plat » est relatif.\\Apprenez à incliner le sol de telle\\sorte 
 
 #: data/map-easy/goals.map
 msgid "There are 100 coins here.\\This one shouldn't be too difficult,\\if you don't accidentally make a goal first.\\"
-msgstr "Il y a 100 pièces ici.\\Celui-ci ne devrait pas être top difficile,\\sauf si vous sortez accidentellement.\\"
+msgstr "Il y a 100 pièces ici.\\Celui-ci ne devrait pas être trop difficile,\\sauf si vous sortez accidentellement.\\"
 
 #: data/map-easy/goslow.map
 msgid "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower speed means better control.\\Watch the clock and use the time wisely.\\\\Click to begin.\\"
