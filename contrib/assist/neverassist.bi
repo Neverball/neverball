@@ -25,14 +25,6 @@ dim shared as any ptr BlockDisplay
 const m = 1
 const c = 2
 const s = 3
-#IFDEF __FB_WIN32__
-    /'
-     ' 7-Zip-dependent resources
-     ' Z7Path and Z7Exe could have been 7ZPath and 7ZExe, but variables can NOT
-     ' start with a number. (of course you can't do this in C, either)
-     '/
-    dim shared as string Z7Path, Z7Exe, Unpack
-#ENDIF
 
 /'
  ' Nearly all subroutines are declared here.

@@ -170,28 +170,10 @@
             print "<S> ";lang("View solutions directory")
             print "<V> ";lang("Convert a level to a set with that level")
 
-            #IFDEF __FB_WIN32__
-                print "<Z> ";lang("Locate 7-Zip")
-                if (Z7Path = "") OR (Z7Exe = "") then
-                    color rgb(128,128,128)
-                    print "<U> ";lang("Unpack an archive");
-                    color rgb(0,255,255):print lang(" - Must locate 7-Zip")
-                else
-                    color rgb(255,255,255)
-                    print "<U> ";lang("Unpack an archive");
-                    color rgb(0,255,255)
-                    print lang(" - Will overwrite without prompt")
-                end if
-            #ELSE
-                color rgb(128,128,128)
-                print "<Z> ";lang("Locate 7-Zip");
-                color rgb(0,255,255)
-                print lang(" - 7-Zip is Windows only")
-                color rgb(128,128,128)
-                print "<U> ";lang("Unpack an archive");
-                color rgb(0,255,255)
-                print lang(" - 7-Zip is Windows only")
-            #ENDIF
+            color rgb(128,128,128)
+            print "<U> ";lang("Unpack an archive");
+            color rgb(0,255,255)
+            print lang(" - Disabled for the time being")
 
             color rgb(255,255,255):print "<X> ";lang("Exit program")
             print
@@ -378,24 +360,6 @@
                 end if
 
             #IFDEF __FB_WIN32__
-                elseif multikey(SC_Z) then
-                    clkey
-                    windowtitle "Neverassistant - Locate 7-Zip"
-                    print lang("Where do you want to locate 7-Zip?") + _
-                          lang(" (without \7z.exe, but where the 7z.exe is)")
-                    color rgb(255,255,0)
-                    input "",Z7Path
-                    if (Z7Path < > "") then
-                        Z7Exe = Z7Path + "\7z.exe"
-                        Check = exec(Z7Exe,"")
-                        if (Check = -1) then
-                            config(1)
-                        else
-                            config
-                        end if
-                    end if
-                    color rgb(255,255,255)
-
                 elseif multikey(SC_U) AND _
                     (Z7Path < > "") AND (Z7Exe < > "") then
                     clkey
