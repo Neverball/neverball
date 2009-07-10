@@ -37,7 +37,7 @@ enum cmd_type
     CMD_MAKE_BALL,
     CMD_MAKE_ITEM,
     CMD_PICK_ITEM,
-    CMD_ROTATE,
+    CMD_TILT_ANGLES,
     CMD_SOUND,
     CMD_TIMER,
     CMD_STATUS,
@@ -102,7 +102,7 @@ struct cmd_pick_item
     int   hi;
 };
 
-struct cmd_rotate
+struct cmd_tilt_angles
 {
     HEADER;
     float x;
@@ -275,7 +275,7 @@ union cmd
     struct cmd_make_ball          mkball;
     struct cmd_make_item          mkitem;
     struct cmd_pick_item          pkitem;
-    struct cmd_rotate             rotate;
+    struct cmd_tilt_angles        tiltangles;
     struct cmd_sound              sound;
     struct cmd_timer              timer;
     struct cmd_status             status;

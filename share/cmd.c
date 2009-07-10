@@ -131,17 +131,17 @@ END_FUNC;
 #undef BYTES
 #define BYTES (FLOAT_BYTES + FLOAT_BYTES)
 
-PUT_FUNC(CMD_ROTATE)
+PUT_FUNC(CMD_TILT_ANGLES)
 {
-    put_float(fp, &cmd->rotate.x);
-    put_float(fp, &cmd->rotate.z);
+    put_float(fp, &cmd->tiltangles.x);
+    put_float(fp, &cmd->tiltangles.z);
 }
 END_FUNC;
 
-GET_FUNC(CMD_ROTATE)
+GET_FUNC(CMD_TILT_ANGLES)
 {
-    get_float(fp, &cmd->rotate.x);
-    get_float(fp, &cmd->rotate.z);
+    get_float(fp, &cmd->tiltangles.x);
+    get_float(fp, &cmd->tiltangles.z);
 }
 END_FUNC;
 
@@ -590,7 +590,7 @@ int cmd_put(fs_file fp, const union cmd *cmd)
         PUT_CASE(CMD_MAKE_BALL);
         PUT_CASE(CMD_MAKE_ITEM);
         PUT_CASE(CMD_PICK_ITEM);
-        PUT_CASE(CMD_ROTATE);
+        PUT_CASE(CMD_TILT_ANGLES);
         PUT_CASE(CMD_SOUND);
         PUT_CASE(CMD_TIMER);
         PUT_CASE(CMD_STATUS);
@@ -654,7 +654,7 @@ int cmd_get(fs_file fp, union cmd *cmd)
             GET_CASE(CMD_MAKE_BALL);
             GET_CASE(CMD_MAKE_ITEM);
             GET_CASE(CMD_PICK_ITEM);
-            GET_CASE(CMD_ROTATE);
+            GET_CASE(CMD_TILT_ANGLES);
             GET_CASE(CMD_SOUND);
             GET_CASE(CMD_TIMER);
             GET_CASE(CMD_STATUS);

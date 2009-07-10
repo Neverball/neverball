@@ -311,12 +311,12 @@ static void game_cmd_jump(int e)
     game_proxy_enq(&cmd);
 }
 
-static void game_cmd_rotate(void)
+static void game_cmd_tiltangles(void)
 {
-    cmd.type = CMD_ROTATE;
+    cmd.type = CMD_TILT_ANGLES;
 
-    cmd.rotate.x = game_rx;
-    cmd.rotate.z = game_rz;
+    cmd.tiltangles.x = game_rx;
+    cmd.tiltangles.z = game_rz;
 
     game_proxy_enq(&cmd);
 }
@@ -787,7 +787,7 @@ static int game_step(const float g[3], float dt, int bt)
         game_rx += (input_get_x() - game_rx) * dt / RESPONSE;
         game_rz += (input_get_z() - game_rz) * dt / RESPONSE;
 
-        game_cmd_rotate();
+        game_cmd_tiltangles();
 
         grow_step(fp, dt);
 

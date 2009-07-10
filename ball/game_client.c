@@ -181,9 +181,9 @@ static void game_run_cmd(const union cmd *cmd)
 
             break;
 
-        case CMD_ROTATE:
-            game_rx = cmd->rotate.x;
-            game_rz = cmd->rotate.z;
+        case CMD_TILT_ANGLES:
+            game_rx = cmd->tiltangles.x;
+            game_rz = cmd->tiltangles.z;
             break;
 
         case CMD_SOUND:
