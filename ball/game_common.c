@@ -25,31 +25,51 @@ const char *view_to_str(int v)
     }
 }
 
-void game_comp_grav(float h[3], const float g[3],
-                    float view_a,
-                    float game_rx,
-                    float game_rz)
+/*---------------------------------------------------------------------------*/
+
+void game_tilt_init(struct game_tilt *tilt)
 {
-    float x[3];
-    float y[3] = { 0.0f, 1.0f, 0.0f };
-    float z[3];
+    tilt->x[0] = 1.0f;
+    tilt->x[1] = 0.0f;
+    tilt->x[2] = 0.0f;
+
+    tilt->rx = 0.0f;
+
+    tilt->z[0] = 0.0f;
+    tilt->z[1] = 0.0f;
+    tilt->z[2] = 1.0f;
+
+    tilt->rz = 0.0f;
+}
+
+/*
+ * Compute appropriate tilt axes from the view basis.
+ */
+void game_tilt_axes(struct game_tilt *tilt, float view_e[3][3])
+{
+    const float Y[3] = { 0.0f, 1.0f, 0.0f };
+
+    v_cpy(tilt->x, view_e[0]);
+    v_cpy(tilt->z, view_e[2]);
+
+    /* Handle possible top-down view. */
+
+    if (fabsf(v_dot(view_e[1], Y)) < fabsf(v_dot(view_e[2], Y)))
+        v_inv(tilt->z, view_e[1]);
+}
+
+void game_comp_grav(float h[3], const float g[3], const struct game_tilt *tilt)
+{
     float X[16];
     float Z[16];
     float M[16];
 
     /* Compute the gravity vector from the given world rotations. */
 
-    z[0] = fsinf(V_RAD(view_a));
-    z[1] = 0.0f;
-    z[2] = fcosf(V_RAD(view_a));
-
-    v_crs(x, y, z);
-    v_crs(z, x, y);
-    v_nrm(x, x);
-    v_nrm(z, z);
-
-    m_rot (Z, z, V_RAD(game_rz));
-    m_rot (X, x, V_RAD(game_rx));
+    m_rot (Z, tilt->z, V_RAD(tilt->rz));
+    m_rot (X, tilt->x, V_RAD(tilt->rx));
     m_mult(M, Z, X);
     m_vxfm(h, M, g);
 }
+
+/*---------------------------------------------------------------------------*/

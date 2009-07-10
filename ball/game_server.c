@@ -40,8 +40,7 @@ static int   timer_down = 1;            /* Timer go up or down?              */
 
 static int status = GAME_NONE;          /* Outcome of the game               */
 
-static float game_rx;                   /* Floor rotation about X axis       */
-static float game_rz;                   /* Floor rotation about Z axis       */
+static struct game_tilt tilt;           /* Floor rotation                    */
 
 static float view_a;                    /* Ideal view rotation about Y axis  */
 static float view_dc;                   /* Ideal view distance above ball    */
@@ -315,8 +314,18 @@ static void game_cmd_tiltangles(void)
 {
     cmd.type = CMD_TILT_ANGLES;
 
-    cmd.tiltangles.x = game_rx;
-    cmd.tiltangles.z = game_rz;
+    cmd.tiltangles.x = tilt.rx;
+    cmd.tiltangles.z = tilt.rz;
+
+    game_proxy_enq(&cmd);
+}
+
+static void game_cmd_tiltaxes(void)
+{
+    cmd.type = CMD_TILT_AXES;
+
+    v_cpy(cmd.tiltaxes.x, tilt.x);
+    v_cpy(cmd.tiltaxes.z, tilt.z);
 
     game_proxy_enq(&cmd);
 }
@@ -514,8 +523,7 @@ int game_server_init(const char *file_name, int t, int e)
 
     input_init();
 
-    game_rx = 0.0f;
-    game_rz = 0.0f;
+    game_tilt_init(&tilt);
 
     /* Initialize jump and goal states. */
 
@@ -784,14 +792,17 @@ static int game_step(const float g[3], float dt, int bt)
 
         /* Smooth jittery or discontinuous input. */
 
-        game_rx += (input_get_x() - game_rx) * dt / RESPONSE;
-        game_rz += (input_get_z() - game_rz) * dt / RESPONSE;
+        tilt.rx += (input_get_x() - tilt.rx) * dt / RESPONSE;
+        tilt.rz += (input_get_z() - tilt.rz) * dt / RESPONSE;
 
+        game_tilt_axes(&tilt, view_e);
+
+        game_cmd_tiltaxes();
         game_cmd_tiltangles();
 
         grow_step(fp, dt);
 
-        game_comp_grav(h, g, view_a, game_rx, game_rz);
+        game_comp_grav(h, g, &tilt);
 
         if (jump_b)
         {

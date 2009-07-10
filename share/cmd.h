@@ -64,6 +64,7 @@ enum cmd_type
     CMD_PATH_FLAG,
     CMD_STEP_SIMULATION,
     CMD_MAP,
+    CMD_TILT_AXES,
 
     CMD_MAX
 };
@@ -268,6 +269,12 @@ struct cmd_map
     } version;
 };
 
+struct cmd_tilt_axes
+{
+    HEADER;
+    float x[3], z[3];
+};
+
 union cmd
 {
     HEADER;
@@ -302,6 +309,7 @@ union cmd
     struct cmd_path_flag          pathflag;
     struct cmd_step_simulation    stepsim;
     struct cmd_map                map;
+    struct cmd_tilt_axes          tiltaxes;
 };
 
 /* No module should see this. */

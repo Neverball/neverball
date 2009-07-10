@@ -572,6 +572,25 @@ END_FUNC;
 
 /*---------------------------------------------------------------------------*/
 
+#undef BYTES
+#define BYTES ARRAY_BYTES(3) * 2
+
+PUT_FUNC(CMD_TILT_AXES)
+{
+    put_array(fp, cmd->tiltaxes.x, 3);
+    put_array(fp, cmd->tiltaxes.z, 3);
+}
+END_FUNC;
+
+GET_FUNC(CMD_TILT_AXES)
+{
+    get_array(fp, cmd->tiltaxes.x, 3);
+    get_array(fp, cmd->tiltaxes.z, 3);
+}
+END_FUNC;
+
+/*---------------------------------------------------------------------------*/
+
 #define PUT_CASE(t) case t: cmd_put_ ## t(fp, cmd); break
 #define GET_CASE(t) case t: cmd_get_ ## t(fp, cmd); break
 
@@ -617,6 +636,7 @@ int cmd_put(fs_file fp, const union cmd *cmd)
         PUT_CASE(CMD_PATH_FLAG);
         PUT_CASE(CMD_STEP_SIMULATION);
         PUT_CASE(CMD_MAP);
+        PUT_CASE(CMD_TILT_AXES);
 
     case CMD_NONE:
     case CMD_MAX:
@@ -681,6 +701,7 @@ int cmd_get(fs_file fp, union cmd *cmd)
             GET_CASE(CMD_PATH_FLAG);
             GET_CASE(CMD_STEP_SIMULATION);
             GET_CASE(CMD_MAP);
+            GET_CASE(CMD_TILT_AXES);
 
         case CMD_NONE:
         case CMD_MAX:
