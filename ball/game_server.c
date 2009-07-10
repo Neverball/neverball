@@ -802,7 +802,7 @@ static int game_step(const float g[3], float dt, int bt)
 
         grow_step(fp, dt);
 
-        game_comp_grav(h, g, &tilt);
+        game_tilt_grav(h, g, &tilt);
 
         if (jump_b)
         {

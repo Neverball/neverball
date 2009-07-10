@@ -58,7 +58,7 @@ void game_tilt_axes(struct game_tilt *tilt, float view_e[3][3])
         v_inv(tilt->z, view_e[1]);
 }
 
-void game_comp_grav(float h[3], const float g[3], const struct game_tilt *tilt)
+void game_tilt_grav(float h[3], const float g[3], const struct game_tilt *tilt)
 {
     float X[16];
     float Z[16];

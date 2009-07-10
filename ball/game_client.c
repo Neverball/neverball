@@ -121,9 +121,9 @@ static void game_run_cmd(const union cmd *cmd)
             /* Compute gravity for particle effects. */
 
             if (status == GAME_GOAL)
-                game_comp_grav(f, gup, &tilt);
+                game_tilt_grav(f, gup, &tilt);
             else
-                game_comp_grav(f, gdn, &tilt);
+                game_tilt_grav(f, gdn, &tilt);
 
             /* Step particle, goal and jump effects. */
 
