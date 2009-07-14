@@ -1,11 +1,15 @@
 /'
  ' This simple FB program checks source files for length and vertical
  ' whitespace related violations.
+ '
+ ' The file.bi is a compiler file.
  '/
 #include "file.bi"
 dim as ushort MaxLen, MaxVertWhitespace
 dim as uinteger VioCount(2,2), TotalSize, FileCount
 dim as string File
+const FileOut = "stdout.txt"
+const Resources = "violationrc"
 
 /'
  ' The violationrc format is this.
@@ -15,10 +19,10 @@ dim as string File
  ' * Subsequent lines are the filesnames and (if applicable) their relative
  ' paths. For platform independency, use forward slashes.
  '
- ' Will spit out information to vioout.txt
+ ' Will spit out information to stdout.txt
  '/
-open "vioout.txt" for output as #1
-open "violationrc" for input as #2
+open FileOut for output as #1
+open Resources for input as #2
 input #2, MaxLen
 input #2, MaxVertWhitespace
 input #2, ""

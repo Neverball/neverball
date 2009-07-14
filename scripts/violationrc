@@ -3,6 +3,8 @@
 
 ../ball/demo.c
 ../ball/demo.h
+../ball/demo_dir.c
+../ball/demo_dir.h
 ../ball/game_client.c
 ../ball/game_client.h
 ../ball/game_server.c
@@ -22,6 +24,8 @@
 ../ball/score.h
 ../ball/set.c
 ../ball/set.h
+../ball/st_ball.c
+../ball/st_ball.h
 ../ball/st_conf.c
 ../ball/st_conf.h
 ../ball/st_demo.c
@@ -93,6 +97,16 @@
 ../share/cmd.h
 ../share/dir.c
 ../share/dir.h
+../share/fs.c
+../share/fs.h
+../share/fs_jpg.c
+../share/fs_jpg.h
+../share/fs_png.c
+../share/fs_png.h
+../share/fs_ov.c
+../share/fs_ov.c
+../share/fs_rwops.c
+../share/fs_rwops.h
 ../share/geom.c
 ../share/geom.h
 ../share/glext.h
