@@ -19,10 +19,11 @@
 #include "audio.h"
 #include "config.h"
 #include "video.h"
-#include "st_shared.h"
+#include "cmd.h"
 
 #include "game_common.h"
 #include "game_server.h"
+#include "game_proxy.h"
 #include "game_client.h"
 
 #include "st_play.h"
@@ -31,6 +32,7 @@
 #include "st_time_out.h"
 #include "st_over.h"
 #include "st_pause.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -146,13 +148,7 @@ static void play_set_timer(int id, float dt)
 
 static int play_set_click(int b, int d)
 {
-    if (b == SDL_BUTTON_LEFT && d == 1)
-    {
-        game_set_fly(0.0f, NULL);
-        game_client_step(NULL);
-        return goto_state(&st_play_loop);
-    }
-    return 1;
+    return (b == SDL_BUTTON_LEFT && d == 1) ? goto_state(&st_play_loop) : 1;
 }
 
 static int play_set_keybd(int c, int d)
@@ -181,6 +177,7 @@ static int show_hud;
 
 static int play_loop_enter(void)
 {
+    union cmd cmd;
     int id;
 
     if (is_paused())
@@ -200,7 +197,15 @@ static int play_loop_enter(void)
     audio_play(AUD_GO, 1.f);
 
     game_set_fly(0.f, NULL);
-    game_client_step(NULL);
+
+    /* End first update. */
+
+    cmd.type = CMD_END_OF_UPDATE;
+    game_proxy_enq(&cmd);
+
+    /* Sync client. */
+
+    game_client_step(demo_file());
 
     view_rotate = 0;
     fast_rotate = 0;

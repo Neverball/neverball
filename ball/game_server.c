@@ -554,7 +554,6 @@ int game_server_init(const char *file_name, int t, int e)
 
     game_cmd_init_balls();
     game_cmd_init_items();
-    game_cmd_eou();
 
     return server_state;
 }

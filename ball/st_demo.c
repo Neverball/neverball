@@ -351,6 +351,15 @@ static int demo_play_enter(void)
         return 0;
     }
 
+    /*
+     * Post-1.5.1 replays include view data in the first update, these
+     * two lines are currently left in for compatibility with older
+     * replays.
+     */
+
+    game_set_fly(0.f, game_client_file());
+    game_client_step(NULL);
+
     if (check_compat && !game_compat_map)
     {
         goto_state(&st_demo_compat);
@@ -366,8 +375,6 @@ static int demo_play_enter(void)
 
     show_hud = 1;
     hud_update(0);
-    game_set_fly(0.f, game_client_file());
-    game_client_step(NULL);
 
     return id;
 }
@@ -621,9 +628,6 @@ static int demo_compat_enter(void)
 
         gui_layout(id, 0, 0);
     }
-
-    game_set_fly(0.f, game_client_file());
-    game_client_step(NULL);
 
     return id;
 }
