@@ -120,8 +120,7 @@ void hud_paint(void)
     if (config_get_d(CONFIG_FPS))
         gui_paint(fps_id);
 
-    if (view_timer > 0.0f)
-        gui_paint(view_id);
+    hud_view_paint();
 }
 
 void hud_update(int pulse)
@@ -224,19 +223,32 @@ void hud_timer(float dt)
 
     hud_update(1);
 
-    view_timer -= dt;
-
     gui_timer(Rhud_id, dt);
     gui_timer(Lhud_id, dt);
     gui_timer(time_id, dt);
-    gui_timer(view_id, dt);
+
+    hud_view_timer(dt);
 }
+
+/*---------------------------------------------------------------------------*/
 
 void hud_view_pulse(int c)
 {
     gui_set_label(view_id, view_to_str(c));
     gui_pulse(view_id, 1.2f);
     view_timer = 2.0f;
+}
+
+void hud_view_timer(float dt)
+{
+    view_timer -= dt;
+    gui_timer(view_id, dt);
+}
+
+void hud_view_paint(void)
+{
+    if (view_timer > 0.0f)
+        gui_paint(view_id);
 }
 
 /*---------------------------------------------------------------------------*/
