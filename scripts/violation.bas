@@ -7,7 +7,7 @@
 #include "file.bi"
 dim as ushort MaxLen, MaxVertWhitespace
 dim as uinteger VioCount(2,2), TotalSize, FileCount
-dim as string File
+dim as string File, TrimSet
 const FileOut = "stdout.txt"
 const Resources = "violationrc"
 
@@ -16,6 +16,10 @@ const Resources = "violationrc"
  ' * First line is maximum length.
  ' * Second line is the maximum number of consecutive vertical lines. A blank
  ' line will break this combo.
+ ' * Third line is the trim set for purposes of breaking the combo above.
+ ' Lines checked for purposes of the combo have the configured characters
+ excluded. If this resultant is blank, it will break the combo above as well.
+ ' * Fourth line should be blank, as it isn't loaded.
  ' * Subsequent lines are the filesnames and (if applicable) their relative
  ' paths. For platform independency, use forward slashes.
  '
@@ -25,6 +29,7 @@ open FileOut for output as #1
 open Resources for input as #2
 input #2, MaxLen
 input #2, MaxVertWhitespace
+input #2, TrimSet
 input #2, ""
 
 if eof(2) = 0 then
@@ -43,7 +48,8 @@ if eof(2) = 0 then
             do
                 CurLine += 1
                 line input #3, PresentLine
-                if PresentLine = "" then
+                if PresentLine = "" OR (trim(PresentLine, Any TrimSet) AND _
+                    TrimSet < > "") then
                     if LineCombo > MaxVertWhitespace then
                         VioCount(2,1) += 1
                         VioCount(2,2) += 1
