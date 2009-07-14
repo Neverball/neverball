@@ -19,13 +19,14 @@
 #include "solid.h"
 #include "base_config.h"
 #include "binary.h"
+#include "fs.h"
 
 #define MAGIC       0x4c4f53af
 #define SOL_VERSION 6
 
 /*---------------------------------------------------------------------------*/
 
-static void sol_load_mtrl(FILE *fin, struct s_mtrl *mp)
+static void sol_load_mtrl(fs_file fin, struct s_mtrl *mp)
 {
     get_array(fin,  mp->d, 4);
     get_array(fin,  mp->a, 4);
@@ -34,32 +35,32 @@ static void sol_load_mtrl(FILE *fin, struct s_mtrl *mp)
     get_array(fin,  mp->h, 1);
     get_index(fin, &mp->fl);
 
-    fread(mp->f, 1, PATHMAX, fin);
+    fs_read(mp->f, 1, PATHMAX, fin);
 }
 
-static void sol_load_vert(FILE *fin, struct s_vert *vp)
+static void sol_load_vert(fs_file fin, struct s_vert *vp)
 {
     get_array(fin,  vp->p, 3);
 }
 
-static void sol_load_edge(FILE *fin, struct s_edge *ep)
+static void sol_load_edge(fs_file fin, struct s_edge *ep)
 {
     get_index(fin, &ep->vi);
     get_index(fin, &ep->vj);
 }
 
-static void sol_load_side(FILE *fin, struct s_side *sp)
+static void sol_load_side(fs_file fin, struct s_side *sp)
 {
     get_array(fin,  sp->n, 3);
     get_float(fin, &sp->d);
 }
 
-static void sol_load_texc(FILE *fin, struct s_texc *tp)
+static void sol_load_texc(fs_file fin, struct s_texc *tp)
 {
     get_array(fin,  tp->u, 2);
 }
 
-static void sol_load_geom(FILE *fin, struct s_geom *gp)
+static void sol_load_geom(fs_file fin, struct s_geom *gp)
 {
     get_index(fin, &gp->mi);
     get_index(fin, &gp->ti);
@@ -73,7 +74,7 @@ static void sol_load_geom(FILE *fin, struct s_geom *gp)
     get_index(fin, &gp->vk);
 }
 
-static void sol_load_lump(FILE *fin, struct s_lump *lp)
+static void sol_load_lump(fs_file fin, struct s_lump *lp)
 {
     get_index(fin, &lp->fl);
     get_index(fin, &lp->v0);
@@ -86,7 +87,7 @@ static void sol_load_lump(FILE *fin, struct s_lump *lp)
     get_index(fin, &lp->sc);
 }
 
-static void sol_load_node(FILE *fin, struct s_node *np)
+static void sol_load_node(fs_file fin, struct s_node *np)
 {
     get_index(fin, &np->si);
     get_index(fin, &np->ni);
@@ -95,7 +96,7 @@ static void sol_load_node(FILE *fin, struct s_node *np)
     get_index(fin, &np->lc);
 }
 
-static void sol_load_path(FILE *fin, struct s_path *pp)
+static void sol_load_path(fs_file fin, struct s_path *pp)
 {
     get_array(fin,  pp->p, 3);
     get_float(fin, &pp->t);
@@ -104,7 +105,7 @@ static void sol_load_path(FILE *fin, struct s_path *pp)
     get_index(fin, &pp->s);
 }
 
-static void sol_load_body(FILE *fin, struct s_body *bp)
+static void sol_load_body(fs_file fin, struct s_body *bp)
 {
     get_index(fin, &bp->pi);
     get_index(fin, &bp->ni);
@@ -114,20 +115,20 @@ static void sol_load_body(FILE *fin, struct s_body *bp)
     get_index(fin, &bp->gc);
 }
 
-static void sol_load_item(FILE *fin, struct s_item *hp)
+static void sol_load_item(fs_file fin, struct s_item *hp)
 {
     get_array(fin,  hp->p, 3);
     get_index(fin, &hp->t);
     get_index(fin, &hp->n);
 }
 
-static void sol_load_goal(FILE *fin, struct s_goal *zp)
+static void sol_load_goal(fs_file fin, struct s_goal *zp)
 {
     get_array(fin,  zp->p, 3);
     get_float(fin, &zp->r);
 }
 
-static void sol_load_swch(FILE *fin, struct s_swch *xp)
+static void sol_load_swch(fs_file fin, struct s_swch *xp)
 {
     get_array(fin,  xp->p, 3);
     get_float(fin, &xp->r);
@@ -139,7 +140,7 @@ static void sol_load_swch(FILE *fin, struct s_swch *xp)
     get_index(fin, &xp->i);
 }
 
-static void sol_load_bill(FILE *fin, struct s_bill *rp)
+static void sol_load_bill(fs_file fin, struct s_bill *rp)
 {
     get_index(fin, &rp->fl);
     get_index(fin, &rp->mi);
@@ -153,14 +154,14 @@ static void sol_load_bill(FILE *fin, struct s_bill *rp)
     get_array(fin,  rp->p,  3);
 }
 
-static void sol_load_jump(FILE *fin, struct s_jump *jp)
+static void sol_load_jump(fs_file fin, struct s_jump *jp)
 {
     get_array(fin,  jp->p, 3);
     get_array(fin,  jp->q, 3);
     get_float(fin, &jp->r);
 }
 
-static void sol_load_ball(FILE *fin, struct s_ball *bp)
+static void sol_load_ball(fs_file fin, struct s_ball *bp)
 {
     get_array(fin,  bp->p, 3);
     get_float(fin, &bp->r);
@@ -178,19 +179,19 @@ static void sol_load_ball(FILE *fin, struct s_ball *bp)
     bp->e[2][2] = bp->E[2][2] = 1.0f;
 }
 
-static void sol_load_view(FILE *fin, struct s_view *wp)
+static void sol_load_view(fs_file fin, struct s_view *wp)
 {
     get_array(fin,  wp->p, 3);
     get_array(fin,  wp->q, 3);
 }
 
-static void sol_load_dict(FILE *fin, struct s_dict *dp)
+static void sol_load_dict(fs_file fin, struct s_dict *dp)
 {
     get_index(fin, &dp->ai);
     get_index(fin, &dp->aj);
 }
 
-static int sol_load_file(FILE *fin, struct s_file *fp)
+static int sol_load_file(fs_file fin, struct s_file *fp)
 {
     int i;
     int magic;
@@ -265,7 +266,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
         fp->iv = (int           *) calloc(fp->ic, sizeof (int));
 
     if (fp->ac)
-        fread(fp->av, 1, fp->ac, fin);
+        fs_read(fp->av, 1, fp->ac, fin);
 
     for (i = 0; i < fp->dc; i++) sol_load_dict(fin, fp->dv + i);
     for (i = 0; i < fp->mc; i++) sol_load_mtrl(fin, fp->mv + i);
@@ -290,7 +291,7 @@ static int sol_load_file(FILE *fin, struct s_file *fp)
     return 1;
 }
 
-static int sol_load_head(FILE *fin, struct s_file *fp)
+static int sol_load_head(fs_file fin, struct s_file *fp)
 {
     int magic;
     int version;
@@ -324,12 +325,12 @@ static int sol_load_head(FILE *fin, struct s_file *fp)
     get_index(fin, &fp->wc);
     get_index(fin, &fp->ic);
 #endif
-    fseek(fin, 18 * 4, SEEK_CUR);
+    fs_seek(fin, 18 * 4, SEEK_CUR);
 
     if (fp->ac)
     {
         fp->av = (char *) calloc(fp->ac, sizeof (char));
-        fread(fp->av, 1, fp->ac, fin);
+        fs_read(fp->av, 1, fp->ac, fin);
     }
 
     if (fp->dc)
@@ -347,33 +348,33 @@ static int sol_load_head(FILE *fin, struct s_file *fp)
 
 int sol_load_only_file(struct s_file *fp, const char *filename)
 {
-    FILE *fin;
+    fs_file fin;
     int res = 0;
 
-    if ((fin = fopen(filename, FMODE_RB)))
+    if ((fin = fs_open(filename, "r")))
     {
         res = sol_load_file(fin, fp);
-        fclose(fin);
+        fs_close(fin);
     }
     return res;
 }
 
 int sol_load_only_head(struct s_file *fp, const char *filename)
 {
-    FILE *fin;
+    fs_file fin;
     int res = 0;
 
-    if ((fin = fopen(filename, FMODE_RB)))
+    if ((fin = fs_open(filename, "r")))
     {
         res = sol_load_head(fin, fp);
-        fclose(fin);
+        fs_close(fin);
     }
     return res;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void sol_stor_mtrl(FILE *fout, struct s_mtrl *mp)
+static void sol_stor_mtrl(fs_file fout, struct s_mtrl *mp)
 {
     put_array(fout,  mp->d, 4);
     put_array(fout,  mp->a, 4);
@@ -382,32 +383,32 @@ static void sol_stor_mtrl(FILE *fout, struct s_mtrl *mp)
     put_array(fout,  mp->h, 1);
     put_index(fout, &mp->fl);
 
-    fwrite(mp->f, 1, PATHMAX, fout);
+    fs_write(mp->f, 1, PATHMAX, fout);
 }
 
-static void sol_stor_vert(FILE *fout, struct s_vert *vp)
+static void sol_stor_vert(fs_file fout, struct s_vert *vp)
 {
     put_array(fout,  vp->p, 3);
 }
 
-static void sol_stor_edge(FILE *fout, struct s_edge *ep)
+static void sol_stor_edge(fs_file fout, struct s_edge *ep)
 {
     put_index(fout, &ep->vi);
     put_index(fout, &ep->vj);
 }
 
-static void sol_stor_side(FILE *fout, struct s_side *sp)
+static void sol_stor_side(fs_file fout, struct s_side *sp)
 {
     put_array(fout,  sp->n, 3);
     put_float(fout, &sp->d);
 }
 
-static void sol_stor_texc(FILE *fout, struct s_texc *tp)
+static void sol_stor_texc(fs_file fout, struct s_texc *tp)
 {
     put_array(fout,  tp->u, 2);
 }
 
-static void sol_stor_geom(FILE *fout, struct s_geom *gp)
+static void sol_stor_geom(fs_file fout, struct s_geom *gp)
 {
     put_index(fout, &gp->mi);
     put_index(fout, &gp->ti);
@@ -421,7 +422,7 @@ static void sol_stor_geom(FILE *fout, struct s_geom *gp)
     put_index(fout, &gp->vk);
 }
 
-static void sol_stor_lump(FILE *fout, struct s_lump *lp)
+static void sol_stor_lump(fs_file fout, struct s_lump *lp)
 {
     put_index(fout, &lp->fl);
     put_index(fout, &lp->v0);
@@ -434,7 +435,7 @@ static void sol_stor_lump(FILE *fout, struct s_lump *lp)
     put_index(fout, &lp->sc);
 }
 
-static void sol_stor_node(FILE *fout, struct s_node *np)
+static void sol_stor_node(fs_file fout, struct s_node *np)
 {
     put_index(fout, &np->si);
     put_index(fout, &np->ni);
@@ -443,7 +444,7 @@ static void sol_stor_node(FILE *fout, struct s_node *np)
     put_index(fout, &np->lc);
 }
 
-static void sol_stor_path(FILE *fout, struct s_path *pp)
+static void sol_stor_path(fs_file fout, struct s_path *pp)
 {
     put_array(fout,  pp->p, 3);
     put_float(fout, &pp->t);
@@ -452,7 +453,7 @@ static void sol_stor_path(FILE *fout, struct s_path *pp)
     put_index(fout, &pp->s);
 }
 
-static void sol_stor_body(FILE *fout, struct s_body *bp)
+static void sol_stor_body(fs_file fout, struct s_body *bp)
 {
     put_index(fout, &bp->pi);
     put_index(fout, &bp->ni);
@@ -462,20 +463,20 @@ static void sol_stor_body(FILE *fout, struct s_body *bp)
     put_index(fout, &bp->gc);
 }
 
-static void sol_stor_item(FILE *fout, struct s_item *hp)
+static void sol_stor_item(fs_file fout, struct s_item *hp)
 {
     put_array(fout,  hp->p, 3);
     put_index(fout, &hp->t);
     put_index(fout, &hp->n);
 }
 
-static void sol_stor_goal(FILE *fout, struct s_goal *zp)
+static void sol_stor_goal(fs_file fout, struct s_goal *zp)
 {
     put_array(fout,  zp->p, 3);
     put_float(fout, &zp->r);
 }
 
-static void sol_stor_swch(FILE *fout, struct s_swch *xp)
+static void sol_stor_swch(fs_file fout, struct s_swch *xp)
 {
     put_array(fout,  xp->p, 3);
     put_float(fout, &xp->r);
@@ -487,7 +488,7 @@ static void sol_stor_swch(FILE *fout, struct s_swch *xp)
     put_index(fout, &xp->i);
 }
 
-static void sol_stor_bill(FILE *fout, struct s_bill *rp)
+static void sol_stor_bill(fs_file fout, struct s_bill *rp)
 {
     put_index(fout, &rp->fl);
     put_index(fout, &rp->mi);
@@ -501,32 +502,32 @@ static void sol_stor_bill(FILE *fout, struct s_bill *rp)
     put_array(fout,  rp->p,  3);
 }
 
-static void sol_stor_jump(FILE *fout, struct s_jump *jp)
+static void sol_stor_jump(fs_file fout, struct s_jump *jp)
 {
     put_array(fout,  jp->p, 3);
     put_array(fout,  jp->q, 3);
     put_float(fout, &jp->r);
 }
 
-static void sol_stor_ball(FILE *fout, struct s_ball *bp)
+static void sol_stor_ball(fs_file fout, struct s_ball *bp)
 {
     put_array(fout,  bp->p, 3);
     put_float(fout, &bp->r);
 }
 
-static void sol_stor_view(FILE *fout, struct s_view *wp)
+static void sol_stor_view(fs_file fout, struct s_view *wp)
 {
     put_array(fout,  wp->p, 3);
     put_array(fout,  wp->q, 3);
 }
 
-static void sol_stor_dict(FILE *fout, struct s_dict *dp)
+static void sol_stor_dict(fs_file fout, struct s_dict *dp)
 {
     put_index(fout, &dp->ai);
     put_index(fout, &dp->aj);
 }
 
-static void sol_stor_file(FILE *fout, struct s_file *fp)
+static void sol_stor_file(fs_file fout, struct s_file *fp)
 {
     int i;
     int magic   = MAGIC;
@@ -556,7 +557,7 @@ static void sol_stor_file(FILE *fout, struct s_file *fp)
     put_index(fout, &fp->wc);
     put_index(fout, &fp->ic);
 
-    fwrite(fp->av, 1, fp->ac, fout);
+    fs_write(fp->av, 1, fp->ac, fout);
 
     for (i = 0; i < fp->dc; i++) sol_stor_dict(fout, fp->dv + i);
     for (i = 0; i < fp->mc; i++) sol_stor_mtrl(fout, fp->mv + i);
@@ -583,12 +584,12 @@ static void sol_stor_file(FILE *fout, struct s_file *fp)
 
 int sol_stor(struct s_file *fp, const char *filename)
 {
-    FILE *fout;
+    fs_file fout;
 
-    if ((fout = fopen(filename, FMODE_WB)))
+    if ((fout = fs_open(filename, "w")))
     {
         sol_stor_file(fout, fp);
-        fclose(fout);
+        fs_close(fout);
 
         return 1;
     }

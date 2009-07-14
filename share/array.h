@@ -12,4 +12,6 @@ void *array_get(Array, int);
 void *array_rnd(Array);
 int   array_len(Array);
 
+void  array_sort(Array, int (*cmp)(const void *, const void *));
+
 #endif

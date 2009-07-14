@@ -23,6 +23,8 @@
 #include "config.h"
 #include "audio.h"
 #include "common.h"
+#include "fs.h"
+#include "fs_ov.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -51,6 +53,10 @@ static struct voice *music  = NULL;
 static struct voice *queue  = NULL;
 static struct voice *voices = NULL;
 static short        *buffer = NULL;
+
+static ov_callbacks callbacks = {
+    fs_ov_read, fs_ov_seek, fs_ov_close, fs_ov_tell
+};
 
 /*---------------------------------------------------------------------------*/
 
@@ -140,7 +146,7 @@ static int voice_step(struct voice *V, float volume, Uint8 *stream, int length)
 static struct voice *voice_init(const char *filename, float a)
 {
     struct voice *V;
-    FILE        *fp;
+    fs_file      fp;
 
     /* Allocate and initialize a new voice structure. */
 
@@ -152,9 +158,9 @@ static struct voice *voice_init(const char *filename, float a)
 
         /* Attempt to open the named Ogg stream. */
 
-        if ((fp = fopen(config_data(filename), FMODE_RB)))
+        if ((fp = fs_open(filename, "r")))
         {
-            if (ov_open(fp, &V->vf, NULL, 0) == 0)
+            if (ov_open_callbacks(fp, &V->vf, NULL, 0, callbacks) == 0)
             {
                 vorbis_info *info = ov_info(&V->vf, -1);
 
@@ -171,7 +177,7 @@ static struct voice *voice_init(const char *filename, float a)
 
                 /* The file will be closed when the Ogg is cleared. */
             }
-            else fclose(fp);
+            else fs_close(fp);
         }
     }
     return V;

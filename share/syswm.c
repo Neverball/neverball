@@ -62,7 +62,7 @@ void set_EWMH_icon(const char *filename)
      * [*] http://standards.freedesktop.org/wm-spec/latest/
      */
 
-    if ((p = image_load(config_data(filename), &w, &h, &b)))
+    if ((p = image_load(filename, &w, &h, &b)))
     {
         long *data = NULL;
 

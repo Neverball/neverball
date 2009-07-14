@@ -31,11 +31,13 @@
 #include "hole.h"
 #include "game.h"
 #include "gui.h"
+#include "fs.h"
 
 #include "st_conf.h"
 #include "st_all.h"
 
-#define TITLE "Neverputt " VERSION
+const char TITLE[] = "Neverputt " VERSION;
+const char ICON[] = "icon/neverputt.png";
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,8 +45,8 @@ static int shot(void)
 {
     static char filename[MAXSTR];
 
-    sprintf(filename, "screen%05d.png", config_screenshot());
-    image_snap(config_user(filename));
+    sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
+    image_snap(filename);
 
     return 1;
 }
@@ -191,79 +193,82 @@ int main(int argc, char *argv[])
 {
     int camera = 0;
     SDL_Joystick *joy = NULL;
+    Uint32 flags = 0;
 
-    config_exec_path = argv[0];
+    if (!fs_init(argv[0]))
+    {
+        fputs("Failure to initialize virtual file system\n", stderr);
+        return 1;
+    }
 
     srand((int) time(NULL));
 
     lang_init("neverball");
+    config_paths(argc > 1 ? argv[1] : NULL);
+    fs_mkdir("Screenshots");
 
-    if (config_data_path((argc > 1 ? argv[1] : NULL), COURSE_FILE))
+    flags |= SDL_INIT_VIDEO;
+    flags |= SDL_INIT_AUDIO;
+    flags |= config_get_d(CONFIG_JOYSTICK) ? SDL_INIT_JOYSTICK : 0;
+
+    if (SDL_Init(flags) == 0)
     {
-        if (config_user_path(NULL))
+        config_init();
+        config_load();
+
+        /* Cache Neverball's camera setting. */
+
+        camera = config_get_d(CONFIG_CAMERA);
+
+        /* Initialize the joystick. */
+
+        if (SDL_WasInit(SDL_INIT_JOYSTICK) && SDL_NumJoysticks() > 0)
         {
-            if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
+            joy = SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
+            if (joy)
             {
-                config_init();
-                config_load();
-
-                /* Cache Neverball's camera setting. */
-
-                camera = config_get_d(CONFIG_CAMERA);
-
-                /* Initialize the joystick. */
-
-                if (SDL_NumJoysticks() > 0)
-                {
-                    joy = SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
-                    if (joy)
-                    {
-                        SDL_JoystickEventState(SDL_ENABLE);
-                        set_joystick(joy);
-                    }
-                }
-
-                /* Initialize the audio. */
-
-                audio_init();
-
-                /* Initialize the video. */
-
-                if (video_init(TITLE, "icon/neverputt.png"))
-                {
-                    int t1, t0 = SDL_GetTicks();
-
-                    /* Run the main game loop. */
-
-                    init_state(&st_null);
-                    goto_state(&st_title);
-
-                    while (loop())
-                        if ((t1 = SDL_GetTicks()) > t0)
-                        {
-                            st_timer((t1 - t0) / 1000.f);
-                            st_paint(0.001f * t1);
-                            SDL_GL_SwapBuffers();
-
-                            t0 = t1;
-
-                            if (config_get_d(CONFIG_NICE))
-                                SDL_Delay(1);
-                        }
-                }
-
-                /* Restore Neverball's camera setting. */
-
-                config_set_d(CONFIG_CAMERA, camera);
-                config_save();
-
-                SDL_Quit();
+                SDL_JoystickEventState(SDL_ENABLE);
+                set_joystick(joy);
             }
-            else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
         }
-        else fprintf(stderr, L_("Failure to establish config directory\n"));
+
+        /* Initialize the audio. */
+
+        audio_init();
+
+        /* Initialize the video. */
+
+        if (video_init(TITLE, ICON))
+        {
+            int t1, t0 = SDL_GetTicks();
+
+            /* Run the main game loop. */
+
+            init_state(&st_null);
+            goto_state(&st_title);
+
+            while (loop())
+                if ((t1 = SDL_GetTicks()) > t0)
+                {
+                    st_timer((t1 - t0) / 1000.f);
+                    st_paint(0.001f * t1);
+                    SDL_GL_SwapBuffers();
+
+                    t0 = t1;
+
+                    if (config_get_d(CONFIG_NICE))
+                        SDL_Delay(1);
+                }
+        }
+
+        /* Restore Neverball's camera setting. */
+
+        config_set_d(CONFIG_CAMERA, camera);
+        config_save();
+
+        SDL_Quit();
     }
-    else fprintf(stderr, L_("Failure to establish game data directory\n"));
+    else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
 
     return 0;
 }

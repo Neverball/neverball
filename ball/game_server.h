@@ -2,6 +2,7 @@
 #define GAME_SERVER_H
 
 #include "solid.h"
+#include "fs.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,8 +29,8 @@ void  game_set_fly(float, const struct s_file *);
 
 /*---------------------------------------------------------------------------*/
 
-int input_put(FILE *);
-int input_get(FILE *);
+int input_put(fs_file);
+int input_get(fs_file);
 
 /*---------------------------------------------------------------------------*/
 

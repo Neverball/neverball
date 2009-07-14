@@ -52,8 +52,7 @@ static float timer      = 0.f;          /* Clock time                        */
 
 static int status = GAME_NONE;          /* Outcome of the game               */
 
-static float game_rx;                   /* Floor rotation about X axis       */
-static float game_rz;                   /* Floor rotation about Z axis       */
+static struct game_tilt tilt;           /* Floor rotation                    */
 
 static float view_a;                    /* Ideal view rotation about Y axis  */
 static float view_fov;                  /* Field of view                     */
@@ -89,6 +88,14 @@ static void game_run_cmd(const union cmd *cmd)
     static const float gup[] = { 0.0f, +9.8f, 0.0f };
     static const float gdn[] = { 0.0f, -9.8f, 0.0f };
 
+    /*
+     * Neverball <= 1.5.1 does not send explicit tilt axes, rotation
+     * happens directly around view vectors.  So for compatibility if
+     * at the time of receiving tilt angles we have not yet received
+     * the tilt axes, we use the view vectors.
+     */
+    static int got_tilt_axes;
+
     float f[3];
 
     if (client_state)
@@ -102,6 +109,9 @@ static void game_run_cmd(const union cmd *cmd)
         switch (cmd->type)
         {
         case CMD_END_OF_UPDATE:
+
+            got_tilt_axes = 0;
+
             if (first_update)
             {
                 first_update = 0;
@@ -111,9 +121,9 @@ static void game_run_cmd(const union cmd *cmd)
             /* Compute gravity for particle effects. */
 
             if (status == GAME_GOAL)
-                game_comp_grav(f, gup, view_a, game_rx, game_rz);
+                game_tilt_grav(f, gup, &tilt);
             else
-                game_comp_grav(f, gdn, view_a, game_rx, game_rz);
+                game_tilt_grav(f, gdn, &tilt);
 
             /* Step particle, goal and jump effects. */
 
@@ -181,9 +191,12 @@ static void game_run_cmd(const union cmd *cmd)
 
             break;
 
-        case CMD_ROTATE:
-            game_rx = cmd->rotate.x;
-            game_rz = cmd->rotate.z;
+        case CMD_TILT_ANGLES:
+            if (!got_tilt_axes)
+                game_tilt_axes(&tilt, view_e);
+
+            tilt.rx = cmd->tiltangles.x;
+            tilt.rz = cmd->tiltangles.z;
             break;
 
         case CMD_SOUND:
@@ -368,6 +381,12 @@ static void game_run_cmd(const union cmd *cmd)
             game_compat_map = version.x == cmd->map.version.x;
             break;
 
+        case CMD_TILT_AXES:
+            got_tilt_axes = 1;
+            v_cpy(tilt.x, cmd->tiltaxes.x);
+            v_cpy(tilt.z, cmd->tiltaxes.z);
+            break;
+
         case CMD_NONE:
         case CMD_MAX:
             break;
@@ -375,7 +394,7 @@ static void game_run_cmd(const union cmd *cmd)
     }
 }
 
-void game_client_step(FILE *demo_fp)
+void game_client_step(fs_file demo_fp)
 {
     union cmd *cmdp;
 
@@ -408,7 +427,7 @@ int  game_client_init(const char *file_name)
     if (client_state)
         game_client_free();
 
-    if (!sol_load_gl(&file, config_data(file_name),
+    if (!sol_load_gl(&file, file_name,
                      config_get_d(CONFIG_TEXTURES),
                      config_get_d(CONFIG_SHADOW)))
         return (client_state = 0);
@@ -417,8 +436,7 @@ int  game_client_init(const char *file_name)
 
     client_state = 1;
 
-    game_rx = 0.0f;
-    game_rz = 0.0f;
+    game_tilt_init(&tilt);
 
     /* Initialize jump and goal states. */
 
@@ -466,7 +484,7 @@ int  game_client_init(const char *file_name)
     first_update = 1;
 
     back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
-    sol_load_gl(&back, config_data(back_name),
+    sol_load_gl(&back, back_name,
                 config_get_d(CONFIG_TEXTURES), 0);
 
     return client_state;
@@ -715,8 +733,8 @@ static void game_draw_tilt(int d)
     /* Rotate the environment about the position of the ball. */
 
     glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
-    glRotatef(-game_rz * d, view_e[2][0], view_e[2][1], view_e[2][2]);
-    glRotatef(-game_rx * d, view_e[0][0], view_e[0][1], view_e[0][2]);
+    glRotatef(-tilt.rz * d, tilt.z[0], tilt.z[1], tilt.z[2]);
+    glRotatef(-tilt.rx * d, tilt.x[0], tilt.x[1], tilt.x[2]);
     glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
 }
 
@@ -761,12 +779,15 @@ static void game_draw_light(void)
 
 static void game_draw_back(int pose, int d, float t)
 {
+    if (pose == 2)
+        return;
+
     glPushMatrix();
     {
         if (d < 0)
         {
-            glRotatef(game_rz * 2, view_e[2][0], view_e[2][1], view_e[2][2]);
-            glRotatef(game_rx * 2, view_e[0][0], view_e[0][1], view_e[0][2]);
+            glRotatef(tilt.rz * 2, tilt.z[0], tilt.z[1], tilt.z[2]);
+            glRotatef(tilt.rx * 2, tilt.x[0], tilt.x[1], tilt.x[2]);
         }
 
         glTranslatef(view_p[0], view_p[1] * d, view_p[2]);
@@ -856,10 +877,13 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
         if (d < 0)
             glEnable(GL_CLIP_PLANE0);
 
-        if (pose)
-            sol_draw(&file, 0, 1);
-        else
+        switch (pose)
         {
+        case 1:
+            sol_draw(&file, 0, 1);
+            break;
+
+        case 0:
             /* Draw the coins. */
 
             game_draw_items(&file, t);
@@ -867,6 +891,10 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
             /* Draw the floor. */
 
             sol_draw(&file, 0, 1);
+
+            /* Fall through. */
+
+        case 2:
 
             /* Draw the ball shadow. */
 
@@ -880,6 +908,8 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
             /* Draw the ball. */
 
             game_draw_balls(&file, M, t);
+
+            break;
         }
 
         /* Draw the particles and light columns. */

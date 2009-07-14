@@ -19,6 +19,7 @@
 #include "config.h"
 #include "course.h"
 #include "hole.h"
+#include "fs.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,19 +42,21 @@ static struct course course_v[MAXCRS];
 
 void course_init()
 {
-    FILE *fin;
+    fs_file fin;
+    char buff[MAXSTR];
 
     if (course_state)
         course_free();
 
     count = 0;
 
-    if ((fin = fopen(config_data(COURSE_FILE), "r")))
+    if ((fin = fs_open(COURSE_FILE, "r")))
     {
-        while (fscanf(fin, "%s %s\n",
+        while (fs_gets(buff, sizeof (buff), fin) &&
+               sscanf(buff, "%s %s\n",
                       course_v[count].holes,
                       course_v[count].shot) == 2 &&
-                fgets(course_v[count].desc, MAXSTR, fin))
+               fs_gets(course_v[count].desc, MAXSTR, fin))
         {
             char *q = course_v[count].desc + strlen(course_v[count].desc) - 1;
 
@@ -62,7 +65,7 @@ void course_init()
             count++;
         }
 
-        fclose(fin);
+        fs_close(fin);
 
         course_state = 1;
     }

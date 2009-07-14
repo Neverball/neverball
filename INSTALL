@@ -6,6 +6,7 @@
 
     SDL               http://www.libsdl.org/download-1.2.php
     SDL_ttf           http://www.libsdl.org/projects/SDL_ttf/
+    PhysicsFS         http://icculus.org/physfs/
     libvorbis         http://xiph.org/vorbis/
     libpng            http://www.libpng.org/pub/png/libpng.html
     libjpeg
@@ -21,6 +22,18 @@ library must be installed and configured:
 
     BlueZ             http://www.bluez.org/
     libwiimote        http://libwiimote.sourceforge.net/
+
+
+* FONTS
+
+The Deja  Vu font typically  used by Neverball  is not usable  for the
+Simplified  Chinese  translation.   Due  to  file  size  concerns,  an
+appropriate font  is not  included; however, if  a font with  the name
+"ttf/wqy-zenhei.ttc"  exists  in  Neverball's  search  path,  it  will
+attempt to use that font.  We recommend downloading and installing the
+Wen Quan Yi Chinese font:
+
+    Wen Quan Yi       http://wenq.org/enindex.cgi
 
 
 * COMPILATION

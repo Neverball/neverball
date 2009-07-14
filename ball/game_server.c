@@ -40,8 +40,7 @@ static int   timer_down = 1;            /* Timer go up or down?              */
 
 static int status = GAME_NONE;          /* Outcome of the game               */
 
-static float game_rx;                   /* Floor rotation about X axis       */
-static float game_rz;                   /* Floor rotation about Z axis       */
+static struct game_tilt tilt;           /* Floor rotation                    */
 
 static float view_a;                    /* Ideal view rotation about Y axis  */
 static float view_dc;                   /* Ideal view distance above ball    */
@@ -149,7 +148,7 @@ static int input_get_c(void)
     return (int) input_current.c;
 }
 
-int input_put(FILE *fout)
+int input_put(fs_file fout)
 {
     if (server_state)
     {
@@ -163,7 +162,7 @@ int input_put(FILE *fout)
     return 0;
 }
 
-int input_get(FILE *fin)
+int input_get(fs_file fin)
 {
     if (server_state)
     {
@@ -172,7 +171,7 @@ int input_get(FILE *fin)
         get_short(fin, &input_current.r);
         get_short(fin, &input_current.c);
 
-        return (feof(fin) ? 0 : 1);
+        return (fs_eof(fin) ? 0 : 1);
     }
     return 0;
 }
@@ -311,12 +310,22 @@ static void game_cmd_jump(int e)
     game_proxy_enq(&cmd);
 }
 
-static void game_cmd_rotate(void)
+static void game_cmd_tiltangles(void)
 {
-    cmd.type = CMD_ROTATE;
+    cmd.type = CMD_TILT_ANGLES;
 
-    cmd.rotate.x = game_rx;
-    cmd.rotate.z = game_rz;
+    cmd.tiltangles.x = tilt.rx;
+    cmd.tiltangles.z = tilt.rz;
+
+    game_proxy_enq(&cmd);
+}
+
+static void game_cmd_tiltaxes(void)
+{
+    cmd.type = CMD_TILT_AXES;
+
+    v_cpy(cmd.tiltaxes.x, tilt.x);
+    v_cpy(cmd.tiltaxes.z, tilt.z);
 
     game_proxy_enq(&cmd);
 }
@@ -495,7 +504,7 @@ int game_server_init(const char *file_name, int t, int e)
     if (server_state)
         game_server_free();
 
-    if (!sol_load_only_file(&file, config_data(file_name)))
+    if (!sol_load_only_file(&file, file_name))
         return (server_state = 0);
 
     server_state = 1;
@@ -514,8 +523,7 @@ int game_server_init(const char *file_name, int t, int e)
 
     input_init();
 
-    game_rx = 0.0f;
-    game_rz = 0.0f;
+    game_tilt_init(&tilt);
 
     /* Initialize jump and goal states. */
 
@@ -564,6 +572,8 @@ void game_server_free(void)
 
 static void game_update_view(float dt)
 {
+    static int view_prev;
+
     float dc = view_dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float da = input_get_r() * dt * 90.0f;
     float k;
@@ -573,17 +583,39 @@ static void game_update_view(float dt)
     /* Center the view about the ball. */
 
     v_cpy(view_c, file.uv->p);
-    v_inv(view_v, file.uv->v);
+
+    view_v[0] = -file.uv->v[0];
+    view_v[1] =  0.0f;
+    view_v[2] = -file.uv->v[2];
+
+    /* Restore usable vectors. */
+
+    if (view_prev == VIEW_TOPDOWN)
+    {
+        /* View basis. */
+
+        v_inv(view_e[2], view_e[1]);
+        v_cpy(view_e[1], Y);
+
+        /* View position. */
+
+        v_scl(v,    view_e[1], view_dp);
+        v_mad(v, v, view_e[2], view_dz);
+        v_add(view_p, v, file.uv->p);
+    }
+
+    view_prev = input_get_c();
 
     switch (input_get_c())
     {
-    case 1: /* Camera 1: Viewpoint chases the ball position. */
+    case VIEW_LAZY: /* Viewpoint chases the ball position. */
 
         v_sub(view_e[2], view_p, view_c);
 
         break;
 
-    case 2: /* Camera 2: View vector is given by view angle. */
+    case VIEW_MANUAL:  /* View vector is given by view angle. */
+    case VIEW_TOPDOWN: /* Crude top-down view. */
 
         view_e[2][0] = fsinf(V_RAD(view_a));
         view_e[2][1] = 0.0;
@@ -591,7 +623,7 @@ static void game_update_view(float dt)
 
         break;
 
-    default: /* Default: View vector approaches the ball velocity vector. */
+    case VIEW_CHASE: /* View vector approaches the ball velocity vector. */
 
         v_sub(view_e[2], view_p, view_c);
         v_nrm(view_e[2], view_e[2]);
@@ -632,6 +664,17 @@ static void game_update_view(float dt)
     /* Note the current view angle. */
 
     view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
+
+    /* Override vectors for top-down view. */
+
+    if (input_get_c() == VIEW_TOPDOWN)
+    {
+        v_inv(view_e[1], view_e[2]);
+        v_cpy(view_e[2], Y);
+
+        v_cpy(view_c, file.uv->p);
+        v_mad(view_p, view_c, view_e[2], view_dz * 1.5f);
+    }
 
     game_cmd_updview();
 }
@@ -749,14 +792,17 @@ static int game_step(const float g[3], float dt, int bt)
 
         /* Smooth jittery or discontinuous input. */
 
-        game_rx += (input_get_x() - game_rx) * dt / RESPONSE;
-        game_rz += (input_get_z() - game_rz) * dt / RESPONSE;
+        tilt.rx += (input_get_x() - tilt.rx) * dt / RESPONSE;
+        tilt.rz += (input_get_z() - tilt.rz) * dt / RESPONSE;
 
-        game_cmd_rotate();
+        game_tilt_axes(&tilt, view_e);
+
+        game_cmd_tiltaxes();
+        game_cmd_tiltangles();
 
         grow_step(fp, dt);
 
-        game_comp_grav(h, g, view_a, game_rx, game_rz);
+        game_tilt_grav(h, g, &tilt);
 
         if (jump_b)
         {

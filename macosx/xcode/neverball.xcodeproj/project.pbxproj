@@ -209,6 +209,8 @@
 		B54EA8A00DAD0B6A0041B11D /* keynames.c in Sources */ = {isa = PBXBuildFile; fileRef = B54EA89E0DAD0B6A0041B11D /* keynames.c */; };
 		B54EA8A10DAD0B6A0041B11D /* keynames.h in Headers */ = {isa = PBXBuildFile; fileRef = B54EA89F0DAD0B6A0041B11D /* keynames.h */; };
 		B54EA8A20DAD0B6A0041B11D /* keynames.c in Sources */ = {isa = PBXBuildFile; fileRef = B54EA89E0DAD0B6A0041B11D /* keynames.c */; };
+		B55446AE0FCCAA11006C6052 /* demo_dir.c in Sources */ = {isa = PBXBuildFile; fileRef = B55446AC0FCCAA11006C6052 /* demo_dir.c */; };
+		B55446AF0FCCAA11006C6052 /* demo_dir.h in Headers */ = {isa = PBXBuildFile; fileRef = B55446AD0FCCAA11006C6052 /* demo_dir.h */; };
 		B56171BB0C96BABD00FE88EE /* lang.c in Sources */ = {isa = PBXBuildFile; fileRef = B549682B0C964ED3004309DA /* lang.c */; };
 		B565045B0D22EB68006F75A4 /* jconfig.h in Headers */ = {isa = PBXBuildFile; fileRef = B56504530D22EB68006F75A4 /* jconfig.h */; };
 		B565045C0D22EB68006F75A4 /* jerror.h in Headers */ = {isa = PBXBuildFile; fileRef = B56504540D22EB68006F75A4 /* jerror.h */; };
@@ -509,6 +511,8 @@
 		B549682B0C964ED3004309DA /* lang.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lang.c; sourceTree = "<group>"; };
 		B54EA89E0DAD0B6A0041B11D /* keynames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = keynames.c; sourceTree = "<group>"; };
 		B54EA89F0DAD0B6A0041B11D /* keynames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keynames.h; sourceTree = "<group>"; };
+		B55446AC0FCCAA11006C6052 /* demo_dir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = demo_dir.c; path = ../../ball/demo_dir.c; sourceTree = SOURCE_ROOT; };
+		B55446AD0FCCAA11006C6052 /* demo_dir.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = demo_dir.h; path = ../../ball/demo_dir.h; sourceTree = SOURCE_ROOT; };
 		B55624BD0F8A2C1D0090B302 /* video.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = video.c; path = ../../share/video.c; sourceTree = SOURCE_ROOT; };
 		B55624BE0F8A2C1D0090B302 /* video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = video.h; path = ../../share/video.h; sourceTree = SOURCE_ROOT; };
 		B56504530D22EB68006F75A4 /* jconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jconfig.h; sourceTree = "<group>"; };
@@ -1662,6 +1666,8 @@
 		29B97314FDCFA39411CA2CEA /* neverball */ = {
 			isa = PBXGroup;
 			children = (
+				B55446AC0FCCAA11006C6052 /* demo_dir.c */,
+				B55446AD0FCCAA11006C6052 /* demo_dir.h */,
 				B5D101A70F9E14D900D16BAF /* array.c */,
 				B5D101A80F9E14D900D16BAF /* array.h */,
 				B5D101A90F9E14D900D16BAF /* dir.c */,
@@ -3445,6 +3451,7 @@
 				B56872C80FA8C91C0073C122 /* dir.h in Headers */,
 				B56872CA0FA8C91C0073C122 /* video.h in Headers */,
 				B56872CE0FA8C93E0073C122 /* array.h in Headers */,
+				B55446AF0FCCAA11006C6052 /* demo_dir.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3777,6 +3784,7 @@
 				B56872C70FA8C91C0073C122 /* dir.c in Sources */,
 				B56872C90FA8C91C0073C122 /* video.c in Sources */,
 				B56872CD0FA8C93E0073C122 /* array.c in Sources */,
+				B55446AE0FCCAA11006C6052 /* demo_dir.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -141,7 +141,7 @@ int level_load(const char *filename, struct level *level)
 #define default_error \
     L_("Not a valid level file")
 
-    if (!sol_load_only_head(&sol, config_data(filename)))
+    if (!sol_load_only_head(&sol, filename))
     {
         const char *error = errno ? strerror(errno) : default_error;
         fprintf(stderr, format, filename, error);

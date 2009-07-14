@@ -22,6 +22,7 @@
 
 #include <time.h>
 #include <stdio.h>
+#include "fs.h"
 
 #ifdef __GNUC__
 #define NULL_TERMINATED __attribute__ ((__sentinel__))
@@ -34,7 +35,7 @@
 #define MIN(x, y) ((x) < (y) ? (x) : (y))
 #define MAX(x, y) ((x) > (y) ? (x) : (y))
 
-int   read_line(char **, FILE *);
+int   read_line(char **, fs_file);
 char *strip_newline(char *);
 
 char *dupe_string(const char *);

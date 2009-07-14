@@ -22,13 +22,13 @@
 
 int video_init(const char *title, const char *icon)
 {
-    /* Require 16-bit double buffer with 16-bit depth buffer. */
+    SDL_QuitSubSystem(SDL_INIT_VIDEO);
 
-    SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
-    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
-    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    if (SDL_InitSubSystem(SDL_INIT_VIDEO) == -1)
+    {
+        fprintf(stderr, "%s\n", SDL_GetError());
+        return 0;
+    }
 
     /* This has to happen before mode setting... */
 
@@ -37,7 +37,8 @@ int video_init(const char *title, const char *icon)
     /* Initialize the video. */
 
     if (!video_mode(config_get_d(CONFIG_FULLSCREEN),
-                    config_get_d(CONFIG_WIDTH), config_get_d(CONFIG_HEIGHT)))
+                    config_get_d(CONFIG_WIDTH),
+                    config_get_d(CONFIG_HEIGHT)))
     {
         fprintf(stderr, "%s\n", SDL_GetError());
         return 0;
@@ -87,6 +88,14 @@ int video_mode(int f, int w, int h)
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, samples);
     SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL,       vsync);
 
+    /* Require 16-bit double buffer with 16-bit depth buffer. */
+
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
     /* Try to set the currently specified mode. */
 
     if (SDL_SetVideoMode(w, h, 0, SDL_OPENGL | (f ? SDL_FULLSCREEN : 0)))
@@ -130,6 +139,8 @@ int video_mode(int f, int w, int h)
                 glEnable(GL_MULTISAMPLE_ARB);
         }
 #endif
+
+        glReadBuffer(GL_FRONT);
 
         return 1;
     }

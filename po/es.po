@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2009-03-13 02:14+0200\n"
-"PO-Revision-Date: 2009-03-27 00:15+0100\n"
-"Last-Translator: Miguel Diago <mdiagom@gmail.com>\n"
+"PO-Revision-Date: 2009-06-06 11:33+0100\n"
+"Last-Translator: Mehdi Yousfi-Monod <mehdi.yousfi@gmail.com>\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -420,12 +420,11 @@ msgstr "Siguiente nivel"
 msgid "Retry Level"
 msgstr "Reintentar"
 
-# Alarga demasiado el menú horizontal.
 #: ball/st_fall_out.c:103
 #: ball/st_goal.c:225
 #: ball/st_time_out.c:94
 msgid "Save Replay"
-msgstr "Guardar grabación"
+msgstr "Guardar Video"
 
 #: ball/st_goal.c:115
 msgid "New Record"
@@ -609,10 +608,9 @@ msgstr "Trampa"
 msgid "menu^Play"
 msgstr "Jugar"
 
-# Demasiado largo para estar en el menú
 #: ball/st_title.c:161
 msgid "menu^Replay"
-msgstr "Grabaciones"
+msgstr "Videos"
 
 #: ball/st_title.c:162
 msgid "menu^Help"
@@ -984,10 +982,9 @@ msgstr "¿Jugadores?"
 msgid "Hole %02d"
 msgstr "Hoyo %02d"
 
-# ¿Qué se dice en español cuando se mete la bola en el hoyo? :P
 #: putt/st_all.c:998
 msgid "It's In!"
-msgstr "¡En el hoyo!"
+msgstr "¡Adentro!"
 
 #: putt/st_all.c:1140
 msgid "1 Stroke Penalty"
@@ -1358,10 +1355,9 @@ msgstr "Bien mirado, el suelo no deja de ser llano.\\"
 msgid "Stairway to heaven"
 msgstr "Stairway to heaven"
 
-# ¿big payoff = premio gordo?
 #: data/map-medium/angle.map
 msgid "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take the easy cash or\\go all the way for a big payoff.\\"
-msgstr "Los puentes están inclinados, y cada uno\\es más estrecho y agudo que el anterior.\\Coge el dinero fácil o\\ve a por el premio gordo.\\"
+msgstr "Los puentes están inclinados, y cada uno\\es más estrecho y agudo que el anterior.\\Coge el dinero fácil o\\ve a por el gran premio.\\"
 
 #: data/map-medium/coneskeleton.map
 msgid "Plenty of coins for the taking.\\Can you take them all?"

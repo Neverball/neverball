@@ -22,145 +22,78 @@
 #include "glext.h"
 #include "vec3.h"
 #include "common.h"
+#include "fs.h"
+#include "dir.h"
+#include "array.h"
 
 /*---------------------------------------------------------------------------*/
 
-/* Define the mkdir symbol. */
+static const char *pick_data_path(const char *arg_data_path)
+{
+    static char dir[MAXSTR];
+    char *env;
+
+    if (arg_data_path)
+        return arg_data_path;
+
+    if ((env = getenv("NEVERBALL_DATA")))
+        return env;
+
+    if (path_is_abs(CONFIG_DATA))
+        return CONFIG_DATA;
+
+    strncpy(dir, fs_base_dir(), sizeof (dir) - 1);
+    strncat(dir, "/",           sizeof (dir) - strlen(dir) - 1);
+    strncat(dir, CONFIG_DATA,   sizeof (dir) - strlen(dir) - 1);
+
+    return dir;
+}
+
+static const char *pick_home_path(void)
+{
+    const char *path;
 
 #ifdef _WIN32
-#include <direct.h>
+    return (path = getenv("APPDATA")) ? path : fs_base_dir();
 #else
-#include <sys/stat.h>
+    return (path = getenv("HOME")) ? path : fs_base_dir();
 #endif
-
-/*---------------------------------------------------------------------------*/
-
-static char data_path[MAXSTR];
-static char user_path[MAXSTR];
-
-/*
- * Given  a path  and a  file name  relative to  that path,  create an
- * absolute path name and return a temporary pointer to it.
- */
-static const char *config_file(const char *path, const char *file)
-{
-    static char absolute[MAXSTR];
-
-    size_t d = path ? strlen(path) : 0;
-
-    strncpy(absolute, path ? path : "", MAXSTR - 1);
-    strncat(absolute, "/",  MAXSTR - d - 1);
-    strncat(absolute, file ? file : "", MAXSTR - d - 2);
-
-    return absolute;
 }
 
-static int config_test(const char *path, const char *file)
+void config_paths(const char *arg_data_path)
 {
-    if (file)
+    const char *data, *home, *user;
+
+    /*
+     * Scan in turn the game data and user directories for archives,
+     * adding each archive to the search path.  Archives with names
+     * further down the alphabet take precedence.  After each scan,
+     * add the directory itself, taking precedence over archives added
+     * so far.
+     */
+
+    /* Data directory. */
+
+    data = pick_data_path(arg_data_path);
+
+    fs_add_path_with_archives(data);
+
+    /* User directory. */
+
+    home = pick_home_path();
+    user = concat_string(home, "/", CONFIG_USER, NULL);
+
+    /* Set up directory for writing, create if needed. */
+
+    if (!fs_set_write_dir(user))
     {
-        FILE *fp;
-
-        if ((fp = fopen(config_file(path, file), "r")))
-        {
-            fclose(fp);
-            return 1;
-        }
-        return 0;
-    }
-    return 1;
-}
-
-const char *config_data(const char *file)
-{
-    return config_file(data_path, file);
-}
-
-const char *config_user(const char *file)
-{
-    return config_file(user_path, file);
-}
-
-/*---------------------------------------------------------------------------*/
-
-const char *config_exec_path;
-
-/*
- * Attempt to find  the game data directory.  Search  the command line
- * parameter,  the environment,  and the  hard-coded default,  in that
- * order.  Confirm it by checking for presence of the named file.
- */
-int config_data_path(const char *path, const char *file)
-{
-    char *dir;
-
-    if (path && config_test(path, file))
-    {
-        strncpy(data_path, path, MAXSTR);
-        return 1;
+        if (fs_set_write_dir(home) && fs_mkdir(CONFIG_USER))
+            fs_set_write_dir(user);
     }
 
-    if ((dir = getenv("NEVERBALL_DATA")) && config_test(dir, file))
-    {
-        strncpy(data_path, dir, MAXSTR);
-        return 1;
-    }
+    fs_add_path_with_archives(user);
 
-    dir = path_resolve(config_exec_path, CONFIG_DATA);
-
-    if (config_test(dir, file))
-    {
-        strncpy(data_path, dir, MAXSTR);
-        return 1;
-    }
-
-    return 0;
-}
-
-/*
- * Determine the location of  the user's home directory.  Ensure there
- * is a  directory there for  storing configuration, high  scores, and
- * replays.
- *
- * Under Windows check the APPDATA environment variable and if that's
- * not set, just assume the user has permission to write to the data
- * directory.
- */
-int config_user_path(const char *file)
-{
-#ifdef _WIN32
-    char *dir;
-
-    if ((dir = getenv("APPDATA")) || (dir = data_path))
-    {
-        size_t d = strlen(dir);
-
-        strncpy(user_path, dir,         MAXSTR - 1);
-        strncat(user_path, "\\",        MAXSTR - d - 1);
-        strncat(user_path, CONFIG_USER, MAXSTR - d - 2);
-    }
-
-    if ((mkdir(user_path) == 0) || (errno == EEXIST))
-        if (config_test(user_path, file))
-            return 1;
-#else
-    char *dir;
-
-    if ((dir = getenv("HOME")))
-    {
-        size_t d = strlen(dir);
-
-        strncpy(user_path, dir,         MAXSTR - 1);
-        strncat(user_path, "/",         MAXSTR - d - 1);
-        strncat(user_path, CONFIG_USER, MAXSTR - d - 2);
-    }
-
-    if ((mkdir(user_path, 0777) == 0) || (errno == EEXIST))
-        if (config_test(user_path, file))
-            return 1;
-#endif
-
-    return 0;
+    free((void *) user);
 }
 
 /*---------------------------------------------------------------------------*/

@@ -21,6 +21,10 @@
 #include "base_config.h"
 #include "base_image.h"
 
+#include "fs.h"
+#include "fs_png.h"
+#include "fs_jpg.h"
+
 /*---------------------------------------------------------------------------*/
 
 void image_size(int *W, int *H, int w, int h)
@@ -40,7 +44,7 @@ static void *image_load_png(const char *filename, int *width,
                                                   int *height,
                                                   int *bytes)
 {
-    FILE *fp;
+    fs_file fh;
 
     png_structp readp = NULL;
     png_infop   infop = NULL;
@@ -49,7 +53,7 @@ static void *image_load_png(const char *filename, int *width,
 
     /* Initialize all PNG import data structures. */
 
-    if (!(fp = fopen(filename, FMODE_RB)))
+    if (!(fh = fs_open(filename, "r")))
         return NULL;
 
     if (!(readp = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0)))
@@ -66,7 +70,7 @@ static void *image_load_png(const char *filename, int *width,
 
         /* Read the PNG header. */
 
-        png_init_io(readp, fp);
+        png_set_read_fn(readp, fh, fs_png_read);
         png_read_info(readp, infop);
 
         png_set_expand(readp);
@@ -115,7 +119,7 @@ static void *image_load_png(const char *filename, int *width,
     /* Free all resources. */
 
     png_destroy_read_struct(&readp, &infop, NULL);
-    fclose(fp);
+    fs_close(fh);
 
     return p;
 }
@@ -125,9 +129,9 @@ static void *image_load_jpg(const char *filename, int *width,
                                                   int *bytes)
 {
     GLubyte *p = NULL;
-    FILE   *fp;
+    fs_file fp;
 
-    if ((fp = fopen(filename, FMODE_RB)))
+    if ((fp = fs_open(filename, "r")))
     {
         struct jpeg_decompress_struct cinfo;
         struct jpeg_error_mgr         jerr;
@@ -138,7 +142,10 @@ static void *image_load_jpg(const char *filename, int *width,
 
         cinfo.err = jpeg_std_error(&jerr);
         jpeg_create_decompress(&cinfo);
-        jpeg_stdio_src(&cinfo, fp);
+
+        /* Set up a VFS source manager. */
+
+        fs_jpg_src(&cinfo, fp);
 
         /* Grab the JPG header info. */
 
@@ -167,7 +174,7 @@ static void *image_load_jpg(const char *filename, int *width,
         jpeg_finish_decompress(&cinfo);
         jpeg_destroy_decompress(&cinfo);
 
-        fclose(fp);
+        fs_close(fp);
     }
 
     return p;

@@ -24,6 +24,9 @@
 #include "gui.h"
 #include "common.h"
 
+#include "fs.h"
+#include "fs_rwops.h"
+
 /*---------------------------------------------------------------------------*/
 
 #define MAXWIDGET 256
@@ -82,6 +85,10 @@ static struct widget widget[MAXWIDGET];
 static int           active;
 static int           radius;
 static TTF_Font     *font[3] = { NULL, NULL, NULL };
+
+static void      *fontdata;
+static int        fontdatalen;
+static SDL_RWops *fontrwops;
 
 static GLuint digit_text[3][11];
 static GLuint digit_list[3][11];
@@ -217,14 +224,14 @@ static const char *pick_font_path(void)
 {
     const char *path;
 
-    path = config_data(_(GUI_FACE));
+    path = _(GUI_FACE);
 
-    if (!file_exists(path))
+    if (!fs_exists(path))
     {
         fprintf(stderr, _("Font \"%s\" doesn't exist, trying default font.\n"),
                 path);
 
-        path = config_data(GUI_FACE);
+        path = GUI_FACE;
     }
 
     return path;
@@ -251,11 +258,29 @@ void gui_init(void)
 
         memset(widget, 0, sizeof (struct widget) * MAXWIDGET);
 
+        /* Load the font. */
+
+        if (!(fontdata = fs_load(fontpath, &fontdatalen)))
+        {
+            fprintf(stderr, _("Could not load font %s.\n"), fontpath);
+            /* Return or no return, we'll probably crash now. */
+            return;
+        }
+
+        fontrwops = SDL_RWFromConstMem(fontdata, fontdatalen);
+
         /* Load small, medium, and large typefaces. */
 
-        font[GUI_SML] = TTF_OpenFont(fontpath, s0);
-        font[GUI_MED] = TTF_OpenFont(fontpath, s1);
-        font[GUI_LRG] = TTF_OpenFont(fontpath, s2);
+        font[GUI_SML] = TTF_OpenFontRW(fontrwops, 0, s0);
+
+        SDL_RWseek(fontrwops, 0, SEEK_SET);
+        font[GUI_MED] = TTF_OpenFontRW(fontrwops, 0, s1);
+
+        SDL_RWseek(fontrwops, 0, SEEK_SET);
+        font[GUI_LRG] = TTF_OpenFontRW(fontrwops, 0, s2);
+
+        /* fontrwops remains open. */
+
         radius = s / 60;
 
         /* Initialize digit glyphs and lists for counters and clocks. */
@@ -338,6 +363,9 @@ void gui_free(void)
     if (font[GUI_LRG]) TTF_CloseFont(font[GUI_LRG]);
     if (font[GUI_MED]) TTF_CloseFont(font[GUI_MED]);
     if (font[GUI_SML]) TTF_CloseFont(font[GUI_SML]);
+
+    if (fontrwops) SDL_RWclose(fontrwops);
+    if (fontdata)  free(fontdata);
 
     TTF_Quit();
 }

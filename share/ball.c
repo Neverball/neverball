@@ -99,13 +99,13 @@ void ball_init(void)
     inner_alpha = 1.0f;
     outer_alpha = 1.0f;
 
-    if ((has_solid = sol_load_gl(&solid, config_data(solid_file), T, 0)))
+    if ((has_solid = sol_load_gl(&solid, solid_file, T, 0)))
         solid_flags = ball_opts(&solid, &solid_alpha);
 
-    if ((has_inner = sol_load_gl(&inner, config_data(inner_file), T, 0)))
+    if ((has_inner = sol_load_gl(&inner, inner_file, T, 0)))
         inner_flags = ball_opts(&inner, &inner_alpha);
 
-    if ((has_outer = sol_load_gl(&outer, config_data(outer_file), T, 0)))
+    if ((has_outer = sol_load_gl(&outer, outer_file, T, 0)))
         outer_flags = ball_opts(&outer, &outer_alpha);
 }
 

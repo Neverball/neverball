@@ -43,7 +43,7 @@ static int cmd_stats = 0;
  */
 
 #define PUT_FUNC(t)                                                     \
-    static void cmd_put_ ## t(FILE *fp, const union cmd *cmd) {         \
+    static void cmd_put_ ## t(fs_file fp, const union cmd *cmd) {       \
     const char *cmd_name = #t;                                          \
                                                                         \
     /* This is a write, so BYTES should be safe to eval already. */     \
@@ -56,7 +56,7 @@ static int cmd_stats = 0;
     if (cmd_stats) printf("put");                                       \
 
 #define GET_FUNC(t)                                             \
-    static void cmd_get_ ## t(FILE *fp, union cmd *cmd) {       \
+    static void cmd_get_ ## t(fs_file fp, union cmd *cmd) {     \
     const char *cmd_name = #t;                                  \
                                                                 \
     /* This is a read, so we'll have to eval BYTES later. */    \
@@ -131,17 +131,17 @@ END_FUNC;
 #undef BYTES
 #define BYTES (FLOAT_BYTES + FLOAT_BYTES)
 
-PUT_FUNC(CMD_ROTATE)
+PUT_FUNC(CMD_TILT_ANGLES)
 {
-    put_float(fp, &cmd->rotate.x);
-    put_float(fp, &cmd->rotate.z);
+    put_float(fp, &cmd->tiltangles.x);
+    put_float(fp, &cmd->tiltangles.z);
 }
 END_FUNC;
 
-GET_FUNC(CMD_ROTATE)
+GET_FUNC(CMD_TILT_ANGLES)
 {
-    get_float(fp, &cmd->rotate.x);
-    get_float(fp, &cmd->rotate.z);
+    get_float(fp, &cmd->tiltangles.x);
+    get_float(fp, &cmd->tiltangles.z);
 }
 END_FUNC;
 
@@ -572,17 +572,36 @@ END_FUNC;
 
 /*---------------------------------------------------------------------------*/
 
+#undef BYTES
+#define BYTES ARRAY_BYTES(3) * 2
+
+PUT_FUNC(CMD_TILT_AXES)
+{
+    put_array(fp, cmd->tiltaxes.x, 3);
+    put_array(fp, cmd->tiltaxes.z, 3);
+}
+END_FUNC;
+
+GET_FUNC(CMD_TILT_AXES)
+{
+    get_array(fp, cmd->tiltaxes.x, 3);
+    get_array(fp, cmd->tiltaxes.z, 3);
+}
+END_FUNC;
+
+/*---------------------------------------------------------------------------*/
+
 #define PUT_CASE(t) case t: cmd_put_ ## t(fp, cmd); break
 #define GET_CASE(t) case t: cmd_get_ ## t(fp, cmd); break
 
-int cmd_put(FILE *fp, const union cmd *cmd)
+int cmd_put(fs_file fp, const union cmd *cmd)
 {
     if (!fp || !cmd)
         return 0;
 
     assert(cmd->type > CMD_NONE && cmd->type < CMD_MAX);
 
-    fputc(cmd->type, fp);
+    fs_putc(cmd->type, fp);
 
     switch (cmd->type)
     {
@@ -590,7 +609,7 @@ int cmd_put(FILE *fp, const union cmd *cmd)
         PUT_CASE(CMD_MAKE_BALL);
         PUT_CASE(CMD_MAKE_ITEM);
         PUT_CASE(CMD_PICK_ITEM);
-        PUT_CASE(CMD_ROTATE);
+        PUT_CASE(CMD_TILT_ANGLES);
         PUT_CASE(CMD_SOUND);
         PUT_CASE(CMD_TIMER);
         PUT_CASE(CMD_STATUS);
@@ -617,16 +636,17 @@ int cmd_put(FILE *fp, const union cmd *cmd)
         PUT_CASE(CMD_PATH_FLAG);
         PUT_CASE(CMD_STEP_SIMULATION);
         PUT_CASE(CMD_MAP);
+        PUT_CASE(CMD_TILT_AXES);
 
     case CMD_NONE:
     case CMD_MAX:
         break;
     }
 
-    return !feof(fp);
+    return !fs_eof(fp);
 }
 
-int cmd_get(FILE *fp, union cmd *cmd)
+int cmd_get(fs_file fp, union cmd *cmd)
 {
     int type;
     short size;
@@ -634,7 +654,7 @@ int cmd_get(FILE *fp, union cmd *cmd)
     if (!fp || !cmd)
         return 0;
 
-    if ((type = fgetc(fp)) != EOF)
+    if ((type = fs_getc(fp)) >= 0)
     {
         get_short(fp, &size);
 
@@ -642,7 +662,7 @@ int cmd_get(FILE *fp, union cmd *cmd)
 
         if (type >= CMD_MAX)
         {
-            fseek(fp, size, SEEK_CUR);
+            fs_seek(fp, size, SEEK_CUR);
             type = CMD_NONE;
         }
 
@@ -654,7 +674,7 @@ int cmd_get(FILE *fp, union cmd *cmd)
             GET_CASE(CMD_MAKE_BALL);
             GET_CASE(CMD_MAKE_ITEM);
             GET_CASE(CMD_PICK_ITEM);
-            GET_CASE(CMD_ROTATE);
+            GET_CASE(CMD_TILT_ANGLES);
             GET_CASE(CMD_SOUND);
             GET_CASE(CMD_TIMER);
             GET_CASE(CMD_STATUS);
@@ -681,13 +701,14 @@ int cmd_get(FILE *fp, union cmd *cmd)
             GET_CASE(CMD_PATH_FLAG);
             GET_CASE(CMD_STEP_SIMULATION);
             GET_CASE(CMD_MAP);
+            GET_CASE(CMD_TILT_AXES);
 
         case CMD_NONE:
         case CMD_MAX:
             break;
         }
 
-        return !feof(fp);
+        return !fs_eof(fp);
     }
     return 0;
 }

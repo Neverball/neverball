@@ -37,7 +37,7 @@ enum cmd_type
     CMD_MAKE_BALL,
     CMD_MAKE_ITEM,
     CMD_PICK_ITEM,
-    CMD_ROTATE,
+    CMD_TILT_ANGLES,
     CMD_SOUND,
     CMD_TIMER,
     CMD_STATUS,
@@ -64,6 +64,7 @@ enum cmd_type
     CMD_PATH_FLAG,
     CMD_STEP_SIMULATION,
     CMD_MAP,
+    CMD_TILT_AXES,
 
     CMD_MAX
 };
@@ -102,10 +103,9 @@ struct cmd_pick_item
     int   hi;
 };
 
-struct cmd_rotate
+struct cmd_tilt_angles
 {
     HEADER;
-    short size;
     float x;
     float z;
 };
@@ -269,6 +269,12 @@ struct cmd_map
     } version;
 };
 
+struct cmd_tilt_axes
+{
+    HEADER;
+    float x[3], z[3];
+};
+
 union cmd
 {
     HEADER;
@@ -276,7 +282,7 @@ union cmd
     struct cmd_make_ball          mkball;
     struct cmd_make_item          mkitem;
     struct cmd_pick_item          pkitem;
-    struct cmd_rotate             rotate;
+    struct cmd_tilt_angles        tiltangles;
     struct cmd_sound              sound;
     struct cmd_timer              timer;
     struct cmd_status             status;
@@ -303,14 +309,15 @@ union cmd
     struct cmd_path_flag          pathflag;
     struct cmd_step_simulation    stepsim;
     struct cmd_map                map;
+    struct cmd_tilt_axes          tiltaxes;
 };
 
 /* No module should see this. */
 #undef HEADER
 
-#include <stdio.h>
+#include "fs.h"
 
-int cmd_put(FILE *, const union cmd *);
-int cmd_get(FILE *, union cmd *);
+int cmd_put(fs_file, const union cmd *);
+int cmd_get(fs_file, union cmd *);
 
 #endif

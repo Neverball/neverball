@@ -29,6 +29,8 @@
 #include "gui.h"
 #include "set.h"
 #include "tilt.h"
+#include "fs.h"
+#include "common.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -36,7 +38,8 @@
 #include "st_level.h"
 #include "st_pause.h"
 
-#define TITLE "Neverball " VERSION
+const char TITLE[] = "Neverball " VERSION;
+const char ICON[] = "icon/neverball.png";
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,8 +47,8 @@ static void shot(void)
 {
     static char filename[MAXSTR];
 
-    sprintf(filename, "screen%05d.png", config_screenshot());
-    image_snap(config_user(filename));
+    sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
+    image_snap(filename);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -340,32 +343,88 @@ static void parse_args(int argc, char **argv)
 
 /*---------------------------------------------------------------------------*/
 
+static int is_replay(struct dir_item *item)
+{
+    return strcmp(item->path + strlen(item->path) - 4, ".nbr") == 0;
+}
+
+static int is_score(struct dir_item *item)
+{
+    return strncmp(item->path, "neverballhs-", sizeof ("neverballhs-") - 1) == 0;
+}
+
+static void make_dirs_and_migrate(void)
+{
+    Array items;
+    int i;
+
+    const char *src;
+    char *dst;
+
+    if (fs_mkdir("Replays"))
+    {
+        if ((items = fs_dir_scan("", is_replay)))
+        {
+            for (i = 0; i < array_len(items); i++)
+            {
+                src = DIR_ITEM_GET(items, i)->path;
+                dst = concat_string("Replays/", src, NULL);
+                fs_rename(src, dst);
+                free(dst);
+            }
+
+            fs_dir_free(items);
+        }
+    }
+
+    if (fs_mkdir("Scores"))
+    {
+        if ((items = fs_dir_scan("", is_score)))
+        {
+            for (i = 0; i < array_len(items); i++)
+            {
+                src = DIR_ITEM_GET(items, i)->path;
+                dst = concat_string("Scores/",
+                                    src + sizeof ("neverballhs-") - 1,
+                                    ".txt",
+                                    NULL);
+                fs_rename(src, dst);
+                free(dst);
+            }
+
+            fs_dir_free(items);
+        }
+    }
+
+    fs_mkdir("Screenshots");
+}
+
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
     int t1, t0, uniform;
+    Uint32 flags = 0;
 
-    config_exec_path = argv[0];
+    if (!fs_init(argv[0]))
+    {
+        fputs("Failure to initialize virtual file system\n", stderr);
+        return 1;
+    }
 
     lang_init("neverball");
 
     parse_args(argc, argv);
 
-    if (!config_data_path(data_path, SET_FILE))
-    {
-        fputs(L_("Failure to establish game data directory\n"), stderr);
-        return 1;
-    }
-
-    if (!config_user_path(NULL))
-    {
-        fputs(L_("Failure to establish config directory\n"), stderr);
-        return 1;
-    }
+    config_paths(data_path);
+    make_dirs_and_migrate();
 
     /* Initialize SDL system and subsystems */
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
+    flags |= SDL_INIT_VIDEO;
+    flags |= SDL_INIT_AUDIO;
+    flags |= config_get_d(CONFIG_JOYSTICK) ? SDL_INIT_JOYSTICK : 0;
+
+    if (SDL_Init(flags) == -1)
     {
         fprintf(stderr, "%s\n", SDL_GetError());
         return 1;
@@ -378,9 +437,9 @@ int main(int argc, char *argv[])
 
     /* Dump replay information and exit. */
 
-    if (display_info)
+    if (display_info && fs_add_path(dir_name(demo_path)))
     {
-        if (!progress_replay(demo_path))
+        if (!progress_replay(base_name(demo_path, NULL)))
         {
             fprintf(stderr, L_("Replay file '%s': %s\n"), demo_path,
                     errno ?  strerror(errno) : L_("Not a replay file"));
@@ -392,7 +451,7 @@ int main(int argc, char *argv[])
 
     /* Initialize the joystick. */
 
-    if (SDL_NumJoysticks() > 0)
+    if (SDL_WasInit(SDL_INIT_JOYSTICK) && SDL_NumJoysticks() > 0)
     {
         joy = SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
         if (joy)
@@ -406,14 +465,15 @@ int main(int argc, char *argv[])
 
     /* Initialize the video. */
 
-    if (!video_init(TITLE, "icon/neverball.png"))
+    if (!video_init(TITLE, ICON))
         return 1;
 
     init_state(&st_null);
 
     /* Initialise demo playback. */
 
-    if (replay_demo && progress_replay(demo_path))
+    if (replay_demo && fs_add_path(dir_name(demo_path)) &&
+        progress_replay(base_name(demo_path, NULL)))
     {
         demo_play_goto(1);
         goto_state(&st_demo_play);
@@ -467,7 +527,7 @@ int main(int argc, char *argv[])
 
     /* Gracefully close the game */
 
-    if (SDL_JoystickOpened(0))
+    if (joy)
         SDL_JoystickClose(joy);
 
     tilt_free();

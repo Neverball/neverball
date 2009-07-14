@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "author" "Robert Kooima"
 "levelname" "title-rlk"
-"version" "1"
+"version" "2"
 "shot" "shot-medium/title.jpg"
 "song" "bgm/title.ogg"
 "back" "map-back/jupiter.sol"
@@ -2694,7 +2694,7 @@
 {
 "classname" "light"
 "light" "1"
-"origin" "-88 160 16"
+"origin" "-96 160 16"
 }
 // entity 10
 {

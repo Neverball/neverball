@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 #include "level.h"
+#include "fs.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,7 +14,7 @@ struct demo
     char   name[PATHMAX];     /* demo basename    */
     char   filename[MAXSTR];  /* demo path        */
 
-    char   player[MAXNAM];
+    char   player[MAXSTR];
     time_t date;
 
     int    timer;
@@ -34,9 +35,8 @@ struct demo
 
 /*---------------------------------------------------------------------------*/
 
-int                demo_scan(void);
-const char        *demo_pick(void);
-const struct demo *demo_get(int);
+struct demo *demo_load(const char *);
+void         demo_free(struct demo *);
 
 int  demo_exists(const char *);
 
@@ -68,7 +68,7 @@ const struct demo *curr_demo_replay(void);
 
 /*---------------------------------------------------------------------------*/
 
-FILE *demo_file(void);
+fs_file demo_file(void);
 
 /*---------------------------------------------------------------------------*/
 

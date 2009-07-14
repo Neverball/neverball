@@ -20,16 +20,7 @@
 
 #include "config.h"
 #include "common.h"
-
-/*---------------------------------------------------------------------------*/
-
-/* Define the mkdir symbol. */
-
-#ifdef _WIN32
-#include <direct.h>
-#else
-#include <sys/stat.h>
-#endif
+#include "fs.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -144,7 +135,7 @@ static struct
     { &CONFIG_MOUSE_CAMERA_1,      "mouse_camera_1",      0 },
     { &CONFIG_MOUSE_CAMERA_2,      "mouse_camera_2",      0 },
     { &CONFIG_MOUSE_CAMERA_3,      "mouse_camera_3",      0 },
-    { &CONFIG_MOUSE_CAMERA_TOGGLE, "mouse_camera_toggle", 0 },
+    { &CONFIG_MOUSE_CAMERA_TOGGLE, "mouse_camera_toggle", SDL_BUTTON_MIDDLE },
     { &CONFIG_MOUSE_CAMERA_L,      "mouse_camera_l",      SDL_BUTTON_LEFT },
     { &CONFIG_MOUSE_CAMERA_R,      "mouse_camera_r",      SDL_BUTTON_RIGHT },
 
@@ -183,8 +174,8 @@ static struct
     { &CONFIG_VIEW_DP,           "view_dp",           75 },
     { &CONFIG_VIEW_DC,           "view_dc",           25 },
     { &CONFIG_VIEW_DZ,           "view_dz",           200 },
-    { &CONFIG_ROTATE_FAST,       "rotate_fast",       200 },
-    { &CONFIG_ROTATE_SLOW,       "rotate_slow",       100 },
+    { &CONFIG_ROTATE_FAST,       "rotate_fast",       300 },
+    { &CONFIG_ROTATE_SLOW,       "rotate_slow",       150 },
     { &CONFIG_KEY_FORWARD,       "key_forward",       SDLK_UP },
     { &CONFIG_KEY_BACKWARD,      "key_backward",      SDLK_DOWN },
     { &CONFIG_KEY_LEFT,          "key_left",          SDLK_LEFT },
@@ -352,13 +343,13 @@ static int scan_key_and_value(char **dst_key, char **dst_val, char *line)
 
 void config_load(void)
 {
-    FILE *fp;
+    fs_file fh;
 
-    if ((fp = fopen(config_user(USER_CONFIG_FILE), "r")))
+    if ((fh = fs_open(USER_CONFIG_FILE, "r")))
     {
         char *line, *key, *val;
 
-        while (read_line(&line, fp))
+        while (read_line(&line, fh))
         {
             if (scan_key_and_value(&key, &val, line))
             {
@@ -420,7 +411,7 @@ void config_load(void)
             }
             free(line);
         }
-        fclose(fp);
+        fs_close(fh);
 
         dirty = 0;
     }
@@ -428,9 +419,9 @@ void config_load(void)
 
 void config_save(void)
 {
-    FILE *fp;
+    fs_file fh;
 
-    if (dirty && (fp = fopen(config_user(USER_CONFIG_FILE), "w")))
+    if (dirty && (fh = fs_open(USER_CONFIG_FILE, "w")))
     {
         int i;
 
@@ -475,9 +466,9 @@ void config_save(void)
             }
 
             if (s)
-                fprintf(fp, "%-25s %s\n", option_d[i].name, s);
+                fs_printf(fh, "%-25s %s\n", option_d[i].name, s);
             else
-                fprintf(fp, "%-25s %d\n", option_d[i].name, option_d[i].cur);
+                fs_printf(fh, "%-25s %d\n", option_d[i].name, option_d[i].cur);
         }
 
         /* Write out string options. */
@@ -485,10 +476,10 @@ void config_save(void)
         for (i = 0; i < ARRAYSIZE(option_s); i++)
         {
             if (option_s[i].cur && *option_s[i].cur)
-                fprintf(fp, "%-25s %s\n", option_s[i].name, option_s[i].cur);
+                fs_printf(fh, "%-25s %s\n", option_s[i].name, option_s[i].cur);
         }
 
-        fclose(fp);
+        fs_close(fh);
     }
 
     dirty = 0;

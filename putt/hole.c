@@ -25,6 +25,7 @@
 #include "back.h"
 #include "audio.h"
 #include "config.h"
+#include "fs.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -52,7 +53,8 @@ static int        score_v[MAXHOL][MAXPLY];
 
 static void hole_init_rc(const char *filename)
 {
-    FILE *fin;
+    fs_file fin;
+    char buff[MAXSTR];
 
     hole   = 0;
     player = 0;
@@ -61,16 +63,17 @@ static void hole_init_rc(const char *filename)
 
     /* Load the holes list. */
 
-    if ((fin = fopen(config_data(filename), "r")))
+    if ((fin = fs_open(filename, "r")))
     {
-        while (fscanf(fin, "%s %s %d %s",
-                       hole_v[count].file,
-                       hole_v[count].back,
+        while (fs_gets(buff, sizeof (buff), fin) &&
+               sscanf(buff, "%s %s %d %s",
+                      hole_v[count].file,
+                      hole_v[count].back,
                       &hole_v[count].par,
-                       hole_v[count].song) == 4)
+                      hole_v[count].song) == 4)
             count++;
 
-        fclose(fin);
+        fs_close(fin);
     }
 }
 

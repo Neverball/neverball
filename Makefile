@@ -70,6 +70,7 @@ ALL_CPPFLAGS += $(CPPFLAGS)
 
 SDL_LIBS := $(shell sdl-config --libs)
 PNG_LIBS := $(shell libpng-config --libs)
+FS_LIBS := -lphysfs
 
 # The  non-conditionalised values  below  are specific  to the  native
 # system. The native system of this Makefile is Linux (or GNU+Linux if
@@ -102,7 +103,7 @@ ifdef DARWIN
     OGL_LIBS  := -framework OpenGL
 endif
 
-BASE_LIBS := -ljpeg $(PNG_LIBS)
+BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS)
 
 ifdef DARWIN
     BASE_LIBS += -L/opt/local/lib
@@ -137,6 +138,11 @@ MAPC_OBJS := \
 	share/binary.o      \
 	share/base_config.o \
 	share/common.o      \
+	share/fs.o          \
+	share/fs_png.o      \
+	share/fs_jpg.o      \
+	share/dir.o         \
+	share/array.o       \
 	share/mapc.o
 BALL_OBJS := \
 	share/lang.o        \
@@ -170,6 +176,11 @@ BALL_OBJS := \
 	share/cmd.o         \
 	share/array.o       \
 	share/dir.o         \
+	share/fs.o          \
+	share/fs_png.o      \
+	share/fs_jpg.o      \
+	share/fs_rwops.o    \
+	share/fs_ov.o       \
 	ball/hud.o          \
 	ball/game_common.o  \
 	ball/game_client.o  \
@@ -180,6 +191,7 @@ BALL_OBJS := \
 	ball/progress.o     \
 	ball/set.o          \
 	ball/demo.o         \
+	ball/demo_dir.o     \
 	ball/util.o         \
 	ball/st_conf.o      \
 	ball/st_demo.o      \
@@ -198,6 +210,7 @@ BALL_OBJS := \
 	ball/st_name.o      \
 	ball/st_shared.o    \
 	ball/st_pause.o     \
+	ball/st_ball.o      \
 	ball/main.o
 PUTT_OBJS := \
 	share/lang.o        \
@@ -224,6 +237,13 @@ PUTT_OBJS := \
 	share/common.o      \
 	share/syswm.o       \
 	share/list.o        \
+	share/fs.o          \
+	share/fs_png.o      \
+	share/fs_jpg.o      \
+	share/fs_rwops.o    \
+	share/fs_ov.o       \
+	share/dir.o         \
+	share/array.o       \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \
