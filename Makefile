@@ -166,7 +166,6 @@ BALL_OBJS := \
 	share/state.o       \
 	share/audio.o       \
 	share/text.o        \
-	share/sync.o        \
 	share/tilt.o        \
 	share/common.o      \
 	share/keynames.o    \
@@ -233,7 +232,6 @@ PUTT_OBJS := \
 	share/state.o       \
 	share/gui.o         \
 	share/text.o        \
-	share/sync.o        \
 	share/common.o      \
 	share/syswm.o       \
 	share/list.o        \

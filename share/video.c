@@ -121,14 +121,6 @@ int video_mode(int f, int w, int h)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthFunc(GL_LEQUAL);
 
-        /*
-         * Mac OS X might still need this, because apparently SDL doesn't do
-         * SDL_GL_SWAP_CONTROL on OS X.  TODO: investigate.
-         */
-#if 0
-        if (vsync) sync_init();
-#endif
-
         /* If GL supports multisample, and SDL got a multisample buffer... */
 
 #ifdef GL_ARB_multisample
