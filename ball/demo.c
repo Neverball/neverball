@@ -43,31 +43,6 @@ static fs_file demo_fp;
 
 /*---------------------------------------------------------------------------*/
 
-void demo_dump_info(const struct demo *d)
-{
-    printf("Name:         %s\n"
-           "File:         %s\n"
-           "Time:         %d\n"
-           "Coins:        %d\n"
-           "Mode:         %d\n"
-           "State:        %d\n"
-           "Date:         %s"
-           "Player:       %s\n"
-           "Shot:         %s\n"
-           "Level:        %s\n"
-           "Time:         %d\n"
-           "Goal:         %d\n"
-           "Goal enabled: %d\n"
-           "Score:        %d\n"
-           "Balls:        %d\n"
-           "Total Time:   %d\n",
-           d->name, d->filename,
-           d->timer, d->coins, d->mode, d->status, ctime(&d->date),
-           d->player,
-           d->shot, d->file,
-           d->time, d->goal, d->goal_e, d->score, d->balls, d->times);
-}
-
 static int demo_header_read(fs_file fp, struct demo *d)
 {
     int magic;
@@ -563,11 +538,6 @@ void demo_replay_stop(int d)
 
         if (d) fs_remove(demo_replay.filename);
     }
-}
-
-void demo_replay_dump_info(void)
-{
-    demo_dump_info(&demo_replay);
 }
 
 /*---------------------------------------------------------------------------*/
