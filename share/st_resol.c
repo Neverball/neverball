@@ -58,6 +58,34 @@ static int resol_action(int i)
     return r;
 }
 
+static int fill_row(int id, SDL_Rect **modes, int i, int n)
+{
+    int complete;
+
+    if (n == 0)
+        return 1;
+
+    if (modes[i])
+    {
+        char label[20];
+
+        sprintf(label, "%d x %d", modes[i]->w, modes[i]->h);
+
+        complete = fill_row(id, modes, i + 1, n - 1);
+
+        gui_state(id, label, GUI_SML, i,
+                  config_get_d(CONFIG_WIDTH)  == modes[i]->w &&
+                  config_get_d(CONFIG_HEIGHT) == modes[i]->h);
+    }
+    else
+    {
+        for (; n; gui_space(id), n--);
+        complete = 0;
+    }
+
+    return complete;
+}
+
 static int resol_enter(void)
 {
     int id, jd;
@@ -84,22 +112,7 @@ static int resol_enter(void)
         {
             int i;
 
-            for (i = 0; modes[i]; i++)
-            {
-                char s[20];
-
-                sprintf(s, "%d x %d", modes[i]->w, modes[i]->h);
-
-                if (i % 4 == 0)
-                    jd = gui_harray(id);
-
-                gui_state(jd, s, GUI_SML, i,
-                          config_get_d(CONFIG_WIDTH)  == modes[i]->w &&
-                          config_get_d(CONFIG_HEIGHT) == modes[i]->h);
-            }
-
-            for(; i % 4 != 0; i++)
-                gui_space(jd);
+            for (i = 0; fill_row(gui_harray(id), modes, i, 4); i += 4);
         }
 
         gui_layout(id, 0, 0);
