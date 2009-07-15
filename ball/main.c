@@ -250,9 +250,6 @@ static int loop(void)
 static char *data_path = NULL;
 static char *demo_path = NULL;
 
-static unsigned int display_info = 0;
-static unsigned int replay_demo  = 0;
-
 #define usage \
     L_(                                                                   \
         "Usage: %s [options ...]\n"                                       \
@@ -261,7 +258,6 @@ static unsigned int replay_demo  = 0;
         "  -v, --version             show version.\n"                     \
         "  -d, --data <dir>          use 'dir' as game data directory.\n" \
         "  -r, --replay <file>       play the replay 'file'.\n"           \
-        "  -i, --info                display info about a replay.\n"      \
     )
 
 #define argument_error(option) { \
@@ -310,12 +306,6 @@ static void parse_args(int argc, char **argv)
             continue;
         }
 
-        if (strcmp(argv[i], "-i") == 0 || strcmp(argv[i], "--info")    == 0)
-        {
-            display_info = 1;
-            continue;
-        }
-
         /* Assume a single unrecognised argument is a replay name. */
 
         if (argc == 2)
@@ -324,18 +314,6 @@ static void parse_args(int argc, char **argv)
             break;
         }
     }
-
-    /* Resolve conflicts. */
-
-    if (demo_path)
-        replay_demo = display_info ? 0 : 1;
-    else
-        if (display_info)
-        {
-            /* FIXME, I'm a required option. */
-            fputs(L_("Option '--info' requires '--replay'.\n"), stderr);
-            exit(EXIT_FAILURE);
-        }
 }
 
 #undef usage
@@ -435,20 +413,6 @@ int main(int argc, char *argv[])
     config_init();
     config_load();
 
-    /* Dump replay information and exit. */
-
-    if (display_info && fs_add_path(dir_name(demo_path)))
-    {
-        if (!progress_replay(base_name(demo_path, NULL)))
-        {
-            fprintf(stderr, L_("Replay file '%s': %s\n"), demo_path,
-                    errno ?  strerror(errno) : L_("Not a replay file"));
-            return 1;
-        }
-        demo_replay_dump_info();
-        return 0;
-    }
-
     /* Initialize the joystick. */
 
     if (SDL_WasInit(SDL_INIT_JOYSTICK) && SDL_NumJoysticks() > 0)
@@ -472,7 +436,7 @@ int main(int argc, char *argv[])
 
     /* Initialise demo playback. */
 
-    if (replay_demo && fs_add_path(dir_name(demo_path)) &&
+    if (demo_path && fs_add_path(dir_name(demo_path)) &&
         progress_replay(base_name(demo_path, NULL)))
     {
         demo_play_goto(1);

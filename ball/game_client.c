@@ -54,9 +54,6 @@ static int status = GAME_NONE;          /* Outcome of the game               */
 
 static struct game_tilt tilt;           /* Floor rotation                    */
 
-static float view_a;                    /* Ideal view rotation about Y axis  */
-static float view_fov;                  /* Field of view                     */
-
 static float view_c[3];                 /* Current view center               */
 static float view_p[3];                 /* Current view position             */
 static float view_e[3][3];              /* Current view reference frame      */
@@ -332,8 +329,6 @@ static void game_run_cmd(const union cmd *cmd)
 
             v_crs(view_e[2], view_e[0], view_e[1]);
 
-            view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
-
             break;
 
         case CMD_CURRENT_BALL:
@@ -477,8 +472,6 @@ int  game_client_init(const char *file_name)
     game_compat_map = version.x == 1;
 
     part_reset(GOAL_HEIGHT, JUMP_HEIGHT);
-
-    view_fov = (float) config_get_d(CONFIG_VIEW_FOV);
 
     ups          = 0;
     first_update = 1;
@@ -945,7 +938,7 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
 
 void game_draw(int pose, float t)
 {
-    float fov = view_fov;
+    float fov = (float) config_get_d(CONFIG_VIEW_FOV);
 
     if (jump_b) fov *= 2.f * fabsf(jump_dt - 0.5);
 

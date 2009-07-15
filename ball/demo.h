@@ -62,7 +62,6 @@ void demo_rename_player(const char *name, const char *player);
 int  demo_replay_init(const char *, int *, int *, int *, int *, int *);
 int  demo_replay_step(float);
 void demo_replay_stop(int);
-void demo_replay_dump_info(void);
 
 const struct demo *curr_demo_replay(void);
 

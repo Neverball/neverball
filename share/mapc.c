@@ -2468,18 +2468,18 @@ int main(int argc, char *argv[])
         if (argc > 3 && strcmp(argv[3], "--debug") == 0)
             debug_output = 1;
 
-        fs_add_path     (dir_name(input_file));
-        fs_set_write_dir(dir_name(input_file));
-
-        strncpy(src,  base_name(input_file, NULL), MAXSTR);
-        strncpy(dst,  src,                         MAXSTR);
+        strncpy(src, argv[1], MAXSTR);
+        strncpy(dst, argv[1], MAXSTR);
 
         if (strcmp(dst + strlen(dst) - 4, ".map") == 0)
             strcpy(dst + strlen(dst) - 4, ".sol");
         else
             strcat(dst, ".sol");
 
-        if ((fin = fs_open(src, "r")))
+        fs_add_path     (dir_name(src));
+        fs_set_write_dir(dir_name(dst));
+
+        if ((fin = fs_open(base_name(src, NULL), "r")))
         {
             if (!fs_add_path_with_archives(argv[2]))
             {
@@ -2503,7 +2503,7 @@ int main(int argc, char *argv[])
             node_file(&f);
             dump_file(&f, dst);
 
-            sol_stor(&f, dst);
+            sol_stor(&f, base_name(dst, NULL));
 
             fs_close(fin);
 

@@ -11,6 +11,8 @@ void hud_timer(float);
 void hud_update(int);
 
 void hud_view_pulse(int);
+void hud_view_timer(float);
+void hud_view_paint();
 
 /*---------------------------------------------------------------------------*/
 
