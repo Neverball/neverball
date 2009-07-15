@@ -116,6 +116,8 @@ static int set_enter(void)
             gui_navig(jd, first > 0, first + SET_STEP < total);
         }
 
+        gui_space(id);
+
         if ((jd = gui_harray(id)))
         {
             shot_id = gui_image(jd, set_shot(first), 7 * w / 16, 7 * h / 16);

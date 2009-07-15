@@ -178,6 +178,8 @@ static int start_enter(void)
             gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);
         }
 
+        gui_space(id);
+
         if ((jd = gui_harray(id)))
         {
             if (config_cheat())
@@ -185,7 +187,7 @@ static int start_enter(void)
                 if ((kd = gui_vstack(jd)))
                 {
                     shot_id = gui_image(kd, set_shot(curr_set()),
-                                        7 * w / 16, 7 * h / 16);
+                                        6 * w / 16, 6 * h / 16);
                     file_id = gui_label(kd, " ", GUI_SML, GUI_ALL,
                                         gui_yel, gui_red);
                 }
