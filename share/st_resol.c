@@ -39,6 +39,8 @@ static int resol_action(int i)
 {
     int r = 1;
 
+    audio_play("snd/menu.ogg", 1.0f);
+
     switch (i)
     {
     case RESOL_BACK:
