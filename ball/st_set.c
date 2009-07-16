@@ -18,13 +18,14 @@
 #include "audio.h"
 #include "config.h"
 #include "util.h"
-#include "st_shared.h"
+#include "common.h"
 
 #include "game_common.h"
 
 #include "st_set.h"
 #include "st_title.h"
 #include "st_start.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -102,6 +103,8 @@ static int set_enter(void)
     if (do_init)
     {
         total = set_init();
+        first = MIN(first, (total - 1) - ((total - 1) % SET_STEP));
+
         audio_music_fade_to(0.5f, "bgm/inter.ogg");
         audio_play(AUD_START, 1.f);
     }
