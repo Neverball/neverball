@@ -148,7 +148,9 @@ void progress_stat(int s)
     status = s;
 
     coins = curr_coins();
-    timer = level_time(level) - curr_clock();
+    timer = (level_time(level) == 0 ?
+             curr_clock() :
+             level_time(level) - curr_clock());
 
     switch (status)
     {
