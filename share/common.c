@@ -35,68 +35,56 @@
 
 int read_line(char **dst, fs_file fin)
 {
-    char buffer[MAXSTR] = "";
-    int  buffer_size    = 0;
+    char buff[MAXSTR];
 
-    char *store      = NULL;
-    char *store_new  = NULL;
-    int   store_size = 0;
+    char *line, *new;
+    size_t len0, len1;
+    int eof;
 
-    int seen_newline = 0;
+    /* Make sure we'll read at least _some_ data. */
 
-    while (!seen_newline)
+    if (fs_eof(fin))
+        return 0;
+
+    line = NULL;
+
+    while (1)
     {
-        if (fs_gets(buffer, sizeof (buffer), fin) == NULL)
+        /* Fill the buffer. */
+
+        eof = fs_gets(buff, sizeof (buff), fin) == NULL;
+
+        /* Append to data read so far. */
+
+        if (line)
         {
-            if (store_size > 0)
-                break;
-            else
-            {
-                *dst = NULL;
-                return 0;
-            }
-        }
-
-        buffer_size = strlen(buffer) + 1;
-
-        /* Erase trailing newline. */
-
-        if (buffer[buffer_size - 2] == '\n')
-        {
-            seen_newline = 1;
-            buffer[buffer_size - 2] = '\0';
-            buffer_size--;
-        }
-
-        /* Allocate or reallocate space for the buffer. */
-
-        if ((store_new = (char *) realloc(store, store_size + buffer_size)))
-        {
-            /* Avoid passing garbage to string functions. */
-
-            if (store == NULL)
-                store_new[0] = '\0';
-
-            store       = store_new;
-            store_size += buffer_size;
-
-            store_new = NULL;
+            new  = concat_string(line, buff, NULL);
+            free(line);
+            line = new;
         }
         else
         {
-            fprintf(stderr, "Failed to allocate memory.\n");
-
-            free(store);
-            *dst = NULL;
-            return 0;
+            line = strdup(buff);
         }
 
-        strncat(store, buffer, buffer_size);
+        /* Strip newline, if any. */
+
+        len0 = strlen(line);
+        strip_newline(line);
+        len1 = strlen(line);
+
+        if (len1 != len0)
+        {
+            /* We hit a newline, clean up and break. */
+            line = realloc(line, len1 + 1);
+            break;
+        }
+
+        if (eof)
+            break;
     }
 
-    *dst = store;
-
-    return 1;
+    return (*dst = line) ? 1 : 0;
 }
 
 char *strip_newline(char *str)
