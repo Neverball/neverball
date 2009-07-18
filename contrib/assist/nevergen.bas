@@ -833,7 +833,7 @@
                     print #10, "validate"
                     print #10, "shot-easy/easy.png"
                     print #10, "359999 359999 359999 0 0 0"
-                    print #10, "data/validate/";MapFile;".sol"
+                    print #10, "validate/";MapFile;".sol"
                     close #10
 
                     print
