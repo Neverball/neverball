@@ -296,7 +296,10 @@ char *fs_gets(char *dst, int count, fs_file fh)
 {
     char *s = dst;
     char *cr = NULL;
-    int c = 0;
+    int c;
+
+    assert(dst);
+    assert(count > 0);
 
     if (fs_eof(fh))
         return NULL;
@@ -327,10 +330,9 @@ char *fs_gets(char *dst, int count, fs_file fh)
         s++;
     }
 
-    if (count > 0)
-        *s = '\0';
+    *s = '\0';
 
-    return c < 0 ? NULL : dst;
+    return dst;
 }
 
 /* -------------------------------------------------------------------------- */

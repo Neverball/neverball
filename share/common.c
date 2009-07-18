@@ -39,21 +39,11 @@ int read_line(char **dst, fs_file fin)
 
     char *line, *new;
     size_t len0, len1;
-    int eof;
-
-    /* Make sure we'll read at least _some_ data. */
-
-    if (fs_eof(fin))
-        return 0;
 
     line = NULL;
 
-    while (1)
+    while (fs_gets(buff, sizeof (buff), fin))
     {
-        /* Fill the buffer. */
-
-        eof = fs_gets(buff, sizeof (buff), fin) == NULL;
-
         /* Append to data read so far. */
 
         if (line)
@@ -79,9 +69,6 @@ int read_line(char **dst, fs_file fin)
             line = realloc(line, len1 + 1);
             break;
         }
-
-        if (eof)
-            break;
     }
 
     return (*dst = line) ? 1 : 0;
