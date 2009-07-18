@@ -826,14 +826,14 @@
                     print #9, "set-validate.txt"
                     close #9
                     mkdir("data\validate")
-                    FileCopy(MapFile+".sol","data/validate"+MapFile+".sol")
+                    FileCopy(MapFile+".sol","data/validate/"+MapFile+".sol")
                     open "data/set-validate.txt" for output as #10
                     print #10, "Validate Level"
                     print #10, "\\\\\\"
                     print #10, "validate"
                     print #10, "shot-easy/easy.png"
                     print #10, "359999 359999 359999 0 0 0"
-                    print #10, "data/validate/";MapFile;".sol" 
+                    print #10, "data/validate/";MapFile;".sol"
                     close #10
 
                     print
@@ -846,6 +846,7 @@
                     print "Press any key to start the game..."
                     sleep
                     screen 0
+                    Mix_HaltMusic
                     #IFDEF __FB_WIN32__
                         shell("set APPDATA=")
                         Check = exec("Neverball.exe","")
@@ -853,7 +854,7 @@
                         Check = exec("neverball","")
                     #ENDIF
                     screen 18,24
-                    
+
                     if FileExists(ScoreFile) then
                         dim as string ScoreLine(2)
                         open ScoreFile for input as #11
@@ -865,7 +866,7 @@
                             if mid(ScoreLine(0),ReadChr) = chr(32) then
                                 SpdTarget = cint(left(ScoreLine(0),ReadChr-1))
                                 exit for
-                            end if 
+                            end if
                         next
                         for Ignore as ubyte = 1 to 2
                             input #11, ""
@@ -876,7 +877,7 @@
                             if mid(ScoreLine(1),ReadChr) = chr(32) then
                                 LockTarget = cint(left(ScoreLine(1),ReadChr-1))
                                 exit for
-                            end if 
+                            end if
                         next
                         for Ignore as ubyte = 1 to 2
                             input #11, ""
@@ -886,7 +887,7 @@
                             if mid(ScoreLine(2),ReadChr) = chr(32) then
                                 CoinTarget = cint(mid(ScoreLine(2),ReadChr+1,4))
                                 exit for
-                            end if 
+                            end if
                         next
                         close #11
 
@@ -903,7 +904,7 @@
                                 if mid(ScoreLine(0),ReadChr) = chr(32) then
                                     SpdTarget = cint(left(ScoreLine(0),ReadChr-1))
                                     exit for
-                                end if 
+                                end if
                             next
                             for Ignore as ubyte = 1 to 2
                                 input #11, ""
@@ -914,7 +915,7 @@
                                 if mid(ScoreLine(1),ReadChr) = chr(32) then
                                     LockTarget = cint(left(ScoreLine(1),ReadChr-1))
                                     exit for
-                                end if 
+                                end if
                             next
                             for Ignore as ubyte = 1 to 2
                                 input #11, ""
@@ -924,7 +925,7 @@
                                 if mid(ScoreLine(2),ReadChr) = chr(32) then
                                     CoinTarget = cint(mid(ScoreLine(2),ReadChr+1,4))
                                     exit for
-                                end if 
+                                end if
                             next
                             close #11
                         end if
@@ -941,12 +942,13 @@
                     print #m, quote("goal_hs")+" "+quote(str(LockTarget))
                     print #m, "}"
                     close #m
-                    kill("data/validate"+MapFile+".sol")
+                    kill("data/validate/"+MapFile+".sol")
                     kill("data/sets.txt")
                     kill("data/set-validate.txt")
                     kill(ScoreFile)
                     name("data/sets.bak","data/sets.txt")
-                    
+                    rmdir("data/validate")
+
                     cls
                     print lang("Successfully validated.")
                     print
