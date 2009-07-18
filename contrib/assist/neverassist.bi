@@ -143,8 +143,6 @@ sub config(Switch as ubyte = 0)
             open AssistDir + "\" + AssistCfg for output as #c
             print #c, NeverPath
             print #c, LangFile
-            print #c, Z7Path
-            print #c, Z7Exe
             close #c
         #ELSE
             open AssistDir + "/" + AssistCfg for output as #c
@@ -157,8 +155,6 @@ sub config(Switch as ubyte = 0)
             open AssistDir + "\" + AssistCfg for input as #c
             line input #c, NeverPath
             input #c, LangFile
-            input #c, Z7Path
-            input #c, Z7Exe
             close #c
         #ELSE
             open AssistDir + "/" + AssistCfg for input as #c

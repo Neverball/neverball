@@ -817,13 +817,10 @@
                 if (Check < > -1) then
                     dim as string ScoreFile = "data/.neverball/" + _
                         "neverballhs-validate"
+                    dim as integer SpdTarget, LockTarget, CoinTarget
                     cls
-                    print "You will need to validate the level before you" + _
-                    print " can be satisfied with it."
-                    print
-                    print "To validate your level, the program will be" + _
-                    print "making adjustments to the game"
-                    print "data to allow it to be played."
+                    print lang("You will need to validate the level " + _
+                        "before you can be satisfied with it.")
                     FileCopy("data/sets.txt","data/sets.bak")
                     open "data/sets.txt" for append as #9
                     print #9, "set-validate.txt"
@@ -840,11 +837,11 @@
                     close #10
 
                     print
-                    print "Make sure you attempt to set all three types" + _
-                    print " of high scores."
+                    print lang("Make sure you set all three types of" + _
+                        " high scores.")
                     #IFDEF __FB_WIN32__
-                        print "Your APPDATA variable will be cleared for " + _
-                        print " this run."
+                        print lang("Your APPDATA variable will be " + _
+                            "cleared for this run.")
                     #ENDIF
                     print "Press any key to start the game..."
                     sleep
@@ -859,7 +856,6 @@
                     
                     if FileExists(ScoreFile) then
                         dim as string ScoreLine(2)
-                        dim as integer SpdTarget, LockTarget, CoinTarget
                         open ScoreFile for input as #11
                         for Ignore as ubyte = 1 to 17
                             input #11, ""
@@ -898,7 +894,6 @@
                         ScoreFile = "data/.neverball-dev/neverballhs-validate"
                         if FileExists(ScoreFile) then
                             dim as string ScoreLine(2)
-                            dim as integer SpdTarget, LockTarget, CoinTarget
                             open ScoreFile for input as #11
                             for Ignore as ubyte = 1 to 17
                                 input #11, ""
@@ -953,33 +948,28 @@
                     name("data/sets.bak","data/sets.txt")
                     
                     cls
-                    print "Successfully validated. It is now ready for play."
+                    print lang("Successfully validated.")
                     print
-                    print "If this is your first level, you need to" + _
-                          " create a set-XXX.txt in the data"
-                    print "folder with the following contents. " + _
-                          "Brackets are variables."
-
+                    print lang("If this is your first level, you need to" + _
+                          " make a set-XXX.txt in data.")
                     color rgb(0,255,255)
-                    print "[Name of Set]"
-                    print "[Description]"
-                    print "[ID]"
-                    print "[Set Shot]"
-                    print "[Hard BT]","[Hard MT]","[Med BT]", _
-                          "[Med MC]","[Easy BC]","[Easy MC]"
-                    print "[Level files] (relative to data folder)"
+                    print lang("[Name of Set]")
+                    print lang("[Description]")
+                    print lang("[ID]")
+                    print lang("[Set Shot]")
+                    print lang("[Hard BT]"),lang("[Hard MT]"),lang("[Med BT]"), _
+                          lang("[Med MC]"),lang("[Easy BC]"),lang("[Easy MC]")
+                    print lang("[Level files] (relative to data folder)")
 
                     color rgb(255,255,255)
                     print
-                    print "Add the name of the file to sets.txt"
+                    print lang("Add the name of the file to sets.txt")
                     print
-                    print "It is preferable that you make a folder in the " + _
-                          "data directory to store all of"
-                    print "your levels." 
+                    print lang("It is preferable that you make a folder " + _
+                          "to store all of your levels.")
                     print
-                    print "If you already did this before, you only need " + _
-                          "to update the set-XXX.txt with"
-                    print "the new level."
+                    print "If you already did this, you only need to " + _
+                          "update the file with the new level."
                     sleep
                 else
                     cls

@@ -358,30 +358,18 @@
                     FileCopy(ShotFile,_
                     "data/shot-"+str(SingleLevelID)+"/"+ShotFile)
                 end if
-
+/'
             #IFDEF __FB_WIN32__
-                elseif multikey(SC_U) AND _
-                    (Z7Path < > "") AND (Z7Exe < > "") then
+                elseif multikey(SC_U) then
                     clkey
                     windowtitle "Neverassistant - Unpack archive"
                     print lang("Which archive do you want to extract?") + _
-                          lang(" (include extension)")
+                        lang(" (include extension)")
                     color rgb(255,255,0)
                     input Unpack
-                    if (Unpack < > "") then
-                        Z7Exe = Z7Path + "\7z.exe"
-                        Check = exec(Z7Exe, "x -w{" +chr(34)+curdir+_
-                            chr(34)+"} -y " + Unpack)
-                        if (Check = -1) then
-                            Z7Path = ""
-                            Z7Exe = ""
-                            config
-                            sleep 2000
-                        end if
-                    end if
                     color rgb(255,255,255)
             #ENDIF
-
+'/
             elseif multikey(SC_X) OR multikey(SC_ESCAPE) OR _
                    inkey = chr(255)+"k" then
                 end 0
