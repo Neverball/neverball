@@ -13,8 +13,8 @@
  ' Radiant allows virtually limitless freeform placement. The Neverassistant
  ' is presently limited to a 21x21x31 grid, with at most one
  ' "construction block" in each slot. Also, the Neverassistant makes one
- ' worldspawn entity for each construction block and one entity for metadata.
- ' (with extremely few exceptions).
+ ' worldspawn entity for each construction block and two entities for
+ ' metadata. (with extremely few exceptions)
  '
  ' Also, the Neverassistant presently has only a limited number of construction
  ' blocks (presently 31). This number will be increased as more ideas are
@@ -793,20 +793,17 @@
                 compile_blocks
                 print #m, "// entity ";Entity
                 print #m, "{"
-                print #m, chr(34)+"classname"+chr(34)+" " + _
-                    chr(34)+"worldspawn"+chr(34)
+                print #m, quote("classname")+" "+quote("worldspawn")
                 if (LevelMessage < > "") then
-                    print #m, chr(34)+"message"+chr(34)+" " + _
-                              chr(34);LevelMessage;chr(34)
+                    print #m, quote("message")+" " + _
+                              quote(LevelMessage)
                 end if
-                print #m, chr(34)+"time"+chr(34)+" "+chr(34);LevelTime;chr(34)
-                print #m, chr(34)+"goal"+chr(34)+" "+chr(34);TargetCoins;chr(34)
-                print #m, chr(34)+"back"+chr(34)+" "+chr(34);Back;chr(34)
-                print #m, chr(34)+"grad"+chr(34)+" "+chr(34);Grad;chr(34)
-                print #m, chr(34)+"song"+chr(34)+" "+chr(34);Song;chr(34)
-                print #m, chr(34)+"coin_hs"+chr(34)+" "+chr(34);Coins;chr(34)
-                print #m, chr(34)+"levelname"+chr(34)+" " + _
-                    chr(34);LevelName;chr(34)
+                print #m, quote("time")+" "+quote(str(LevelTime))
+                print #m, quote("goal")+" "+quote(str(TargetCoins))
+                print #m, quote("back")+" "+quote(Back)
+                print #m, quote("grad")+" "+quote(Grad)
+                print #m, quote("song")+" "+quote(Song)
+                print #m, quote("levelname")+" "+quote(LevelName)
                 print #m, "}"
                 close #m
 
@@ -818,8 +815,145 @@
                 #ENDIF
 
                 if (Check < > -1) then
+                    dim as string ScoreFile = "data/.neverball/" + _
+                        "neverballhs-validate"
                     cls
-                    print "It is now ready for play."
+                    print "You will need to validate the level before you" + _
+                    print " can be satisfied with it."
+                    print
+                    print "To validate your level, the program will be" + _
+                    print "making adjustments to the game"
+                    print "data to allow it to be played."
+                    FileCopy("data/sets.txt","data/sets.bak")
+                    open "data/sets.txt" for append as #9
+                    print #9, "set-validate.txt"
+                    close #9
+                    mkdir("data\validate")
+                    FileCopy(MapFile+".sol","data/validate"+MapFile+".sol")
+                    open "data/set-validate.txt" for output as #10
+                    print #10, "Validate Level"
+                    print #10, "\\\\\\"
+                    print #10, "validate"
+                    print #10, "shot-easy/easy.png"
+                    print #10, "359999 359999 359999 0 0 0"
+                    print #10, "data/validate/";MapFile;".sol" 
+                    close #10
+
+                    print
+                    print "Make sure you attempt to set all three types" + _
+                    print " of high scores."
+                    #IFDEF __FB_WIN32__
+                        print "Your APPDATA variable will be cleared for " + _
+                        print " this run."
+                    #ENDIF
+                    print "Press any key to start the game..."
+                    sleep
+                    screen 0
+                    #IFDEF __FB_WIN32__
+                        shell("set APPDATA=")
+                        Check = exec("Neverball.exe","")
+                    #ELSE
+                        Check = exec("neverball","")
+                    #ENDIF
+                    screen 18,24
+                    
+                    if FileExists(ScoreFile) then
+                        dim as string ScoreLine(2)
+                        dim as integer SpdTarget, LockTarget, CoinTarget
+                        open ScoreFile for input as #11
+                        for Ignore as ubyte = 1 to 17
+                            input #11, ""
+                        next Ignore
+                        input #11, ScoreLine(0)
+                        for ReadChr as ushort = 1 to len(ScoreLine(0))
+                            if mid(ScoreLine(0),ReadChr) = chr(32) then
+                                SpdTarget = cint(left(ScoreLine(0),ReadChr-1))
+                                exit for
+                            end if 
+                        next
+                        for Ignore as ubyte = 1 to 2
+                            input #11, ""
+                        next Ignore
+
+                        input #11, ScoreLine(1)
+                        for ReadChr as ushort = 1 to len(ScoreLine(1))
+                            if mid(ScoreLine(1),ReadChr) = chr(32) then
+                                LockTarget = cint(left(ScoreLine(1),ReadChr-1))
+                                exit for
+                            end if 
+                        next
+                        for Ignore as ubyte = 1 to 2
+                            input #11, ""
+                        next Ignore
+                        input #11, ScoreLine(2)
+                        for ReadChr as ushort = 1 to len(ScoreLine(2))
+                            if mid(ScoreLine(2),ReadChr) = chr(32) then
+                                CoinTarget = cint(mid(ScoreLine(2),ReadChr+1,4))
+                                exit for
+                            end if 
+                        next
+                        close #11
+
+                    else
+                        ScoreFile = "data/.neverball-dev/neverballhs-validate"
+                        if FileExists(ScoreFile) then
+                            dim as string ScoreLine(2)
+                            dim as integer SpdTarget, LockTarget, CoinTarget
+                            open ScoreFile for input as #11
+                            for Ignore as ubyte = 1 to 17
+                                input #11, ""
+                            next Ignore
+                            input #11, ScoreLine(0)
+                            for ReadChr as ushort = 1 to len(ScoreLine(0))
+                                if mid(ScoreLine(0),ReadChr) = chr(32) then
+                                    SpdTarget = cint(left(ScoreLine(0),ReadChr-1))
+                                    exit for
+                                end if 
+                            next
+                            for Ignore as ubyte = 1 to 2
+                                input #11, ""
+                            next Ignore
+
+                            input #11, ScoreLine(1)
+                            for ReadChr as ushort = 1 to len(ScoreLine(1))
+                                if mid(ScoreLine(1),ReadChr) = chr(32) then
+                                    LockTarget = cint(left(ScoreLine(1),ReadChr-1))
+                                    exit for
+                                end if 
+                            next
+                            for Ignore as ubyte = 1 to 2
+                                input #11, ""
+                            next Ignore
+                            input #11, ScoreLine(2)
+                            for ReadChr as ushort = 1 to len(ScoreLine(2))
+                                if mid(ScoreLine(2),ReadChr) = chr(32) then
+                                    CoinTarget = cint(mid(ScoreLine(2),ReadChr+1,4))
+                                    exit for
+                                end if 
+                            next
+                            close #11
+                        end if
+                    end if
+
+                    SpdTarget = int(SpdTarget/25*1.11)*25
+                    LockTarget = int(LockTarget/25*1.11)*25
+                    open MapFile+".map" for append as #m
+                    print #m, "// entity "& Entity+1
+                    print #m, "{"
+                    print #m, quote("classname")+" "+quote("worldspawn")
+                    print #m, quote("coin_hs")+" "+quote(str(CoinTarget))
+                    print #m, quote("time_hs")+" "+quote(str(SpdTarget))
+                    print #m, quote("goal_hs")+" "+quote(str(LockTarget))
+                    print #m, "}"
+                    close #m
+                    kill("data/validate"+MapFile+".sol")
+                    kill("data/sets.txt")
+                    kill("data/set-validate.txt")
+                    kill(ScoreFile)
+                    name("data/sets.bak","data/sets.txt")
+                    
+                    cls
+                    print "Successfully validated. It is now ready for play."
                     print
                     print "If this is your first level, you need to" + _
                           " create a set-XXX.txt in the data"
@@ -832,7 +966,7 @@
                     print "[ID]"
                     print "[Set Shot]"
                     print "[Hard BT]","[Hard MT]","[Med BT]", _
-                          "[Med MT]","[Easy BT]","[Easy MT]"
+                          "[Med MC]","[Easy BC]","[Easy MC]"
                     print "[Level files] (relative to data folder)"
 
                     color rgb(255,255,255)
@@ -841,7 +975,7 @@
                     print
                     print "It is preferable that you make a folder in the " + _
                           "data directory to store all of"
-                    print "your levels."
+                    print "your levels." 
                     print
                     print "If you already did this before, you only need " + _
                           "to update the set-XXX.txt with"
