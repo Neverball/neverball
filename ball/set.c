@@ -52,12 +52,11 @@ struct set
     char *level_name_v[MAXLVL]; /* List of level file names   */
 };
 
-static int set_state = 0;
+#define SET_GET(a, i) ((struct set *) array_get((a), (i)))
 
-static int set;
-static int count;
+static Array sets;
+static int   curr;
 
-static struct set   set_v[MAXSET];
 static struct level level_v[MAXLVL];
 
 /*---------------------------------------------------------------------------*/
@@ -72,7 +71,7 @@ static void put_score(fs_file fp, const struct score *s)
 
 void set_store_hs(void)
 {
-    const struct set *s = &set_v[set];
+    const struct set *s = SET_GET(sets, curr);
     fs_file fout;
     int i;
     const struct level *l;
@@ -130,7 +129,7 @@ static int get_score(fs_file fp, struct score *s)
 /* Get the score of the set. */
 static void set_load_hs(void)
 {
-    struct set *s = &set_v[set];
+    struct set *s = SET_GET(sets, curr);
     fs_file fin;
     int i;
     int res = 0;
@@ -272,8 +271,8 @@ static int set_is_loaded(const char *path)
 {
     int i;
 
-    for (i = 0; i < count; i++)
-        if (strcmp(set_v[i].file, path) == 0)
+    for (i = 0; i < array_len(sets); i++)
+        if (strcmp(SET_GET(sets, i)->file, path) == 0)
             return 1;
 
     return 0;
@@ -293,28 +292,28 @@ int set_init()
     Array items;
     int i;
 
-    if (set_state)
+    if (sets)
         set_free();
 
-    set   = 0;
-    count = 0;
+    sets = array_new(sizeof (struct set));
+    curr = 0;
 
-     /*
-      * First, load the sets listed in the set file, preserving order.
-      */
+    /*
+     * First, load the sets listed in the set file, preserving order.
+     */
 
     if ((fin = fs_open(SET_FILE, "r")))
     {
-        while (count < MAXSET && read_line(&name, fin))
+        while (read_line(&name, fin))
         {
-            if (set_load(&set_v[count], name))
-                count++;
+            struct set *s = array_add(sets);
+
+            if (!set_load(s, name))
+                array_del(sets);
 
             free(name);
         }
         fs_close(fin);
-
-        set_state = 1;
     }
 
     /*
@@ -326,81 +325,84 @@ int set_init()
     {
         array_sort(items, cmp_dir_items);
 
-        for (i = 0; i < array_len(items) && count < MAXSET; i++)
-            if (set_load(&set_v[count], DIR_ITEM_GET(items, i)->path))
-                count++;
+        for (i = 0; i < array_len(items); i++)
+        {
+            struct set *s = array_add(sets);
+
+            if (!set_load(s, DIR_ITEM_GET(items, i)->path))
+                array_del(sets);
+        }
 
         fs_dir_free(items);
-
-        set_state = 1;
     }
 
-    return count;
+    return array_len(sets);
 }
 
 void set_free(void)
 {
     int i, j;
 
-    for (i = 0; i < count; i++)
+    for (i = 0; i < array_len(sets); i++)
     {
-        free(set_v[i].name);
-        free(set_v[i].desc);
-        free(set_v[i].id);
-        free(set_v[i].shot);
+        free(SET_GET(sets, i)->name);
+        free(SET_GET(sets, i)->desc);
+        free(SET_GET(sets, i)->id);
+        free(SET_GET(sets, i)->shot);
 
-        free(set_v[i].user_scores);
-        free(set_v[i].cheat_scores);
+        free(SET_GET(sets, i)->user_scores);
+        free(SET_GET(sets, i)->cheat_scores);
 
-        for (j = 0; j < set_v[i].count; j++)
-            free(set_v[i].level_name_v[j]);
+        for (j = 0; j < SET_GET(sets, i)->count; j++)
+            free(SET_GET(sets, i)->level_name_v[j]);
     }
 
-    set_state = 0;
+    array_free(sets);
+    sets = NULL;
 }
 
 /*---------------------------------------------------------------------------*/
 
 int set_exists(int i)
 {
-    return (0 <= i && i < count);
+    return (0 <= i && i < array_len(sets));
 }
 
 const char *set_id(int i)
 {
-    return set_exists(i) ? set_v[i].id : NULL;
+    return set_exists(i) ? SET_GET(sets, i)->id : NULL;
 }
 
 const char *set_name(int i)
 {
-    return set_exists(i) ? _(set_v[i].name) : NULL;
+    return set_exists(i) ? _(SET_GET(sets, i)->name) : NULL;
 }
 
 const char *set_desc(int i)
 {
-    return set_exists(i) ? _(set_v[i].desc) : NULL;
+    return set_exists(i) ? _(SET_GET(sets, i)->desc) : NULL;
 }
 
 const char *set_shot(int i)
 {
-    return set_exists(i) ? set_v[i].shot : NULL;
+    return set_exists(i) ? SET_GET(sets, i)->shot : NULL;
 }
 
 const struct score *set_time_score(int i)
 {
-    return set_exists(i) ? &set_v[i].time_score : NULL;
+    return set_exists(i) ? &SET_GET(sets, i)->time_score : NULL;
 }
 
 const struct score *set_coin_score(int i)
 {
-    return set_exists(i) ? &set_v[i].coin_score : NULL;
+    return set_exists(i) ? &SET_GET(sets, i)->coin_score : NULL;
 }
 
 /*---------------------------------------------------------------------------*/
 
-int set_level_exists(int s, int i)
+int set_level_exists(int i, int l)
 {
-    return (i >= 0 && i < set_v[s].count);
+    return (l >= 0 && l < SET_GET(sets, i)->count);
 }
 
 static void set_load_levels(void)
@@ -419,13 +421,13 @@ static void set_load_levels(void)
         "XXI", "XXII", "XXIII", "XXIV", "XXV"
     };
 
-    for (i = 0; i < set_v[set].count; i++)
+    for (i = 0; i < SET_GET(sets, curr)->count; i++)
     {
         l = &level_v[i];
 
-        level_load(set_v[set].level_name_v[i], l);
+        level_load(SET_GET(sets, curr)->level_name_v[i], l);
 
-        l->set    = &set_v[set];
+        l->set    = SET_GET(sets, curr);
         l->number = i;
 
         if (l->is_bonus)
@@ -444,7 +446,7 @@ static void set_load_levels(void)
 
 void set_goto(int i)
 {
-    set = i;
+    curr = i;
 
     set_load_levels();
     set_load_hs();
@@ -452,19 +454,19 @@ void set_goto(int i)
 
 int curr_set(void)
 {
-    return set;
+    return curr;
 }
 
 struct level *get_level(int i)
 {
-    return (i >= 0 && i < set_v[set].count) ? &level_v[i] : NULL;
+    return (i >= 0 && i < SET_GET(sets, curr)->count) ? &level_v[i] : NULL;
 }
 
 /*---------------------------------------------------------------------------*/
 
 int set_score_update(int timer, int coins, int *score_rank, int *times_rank)
 {
-    struct set *s = &set_v[set];
+    struct set *s = SET_GET(sets, curr);
     char player[MAXSTR] = "";
 
     config_get_s(CONFIG_PLAYER, player, MAXSTR);
@@ -483,7 +485,7 @@ int set_score_update(int timer, int coins, int *score_rank, int *times_rank)
 
 void set_rename_player(int score_rank, int times_rank, const char *player)
 {
-    struct set *s = &set_v[set];
+    struct set *s = SET_GET(sets, curr);
 
     strncpy(s->coin_score.player[score_rank], player, MAXNAM);
     strncpy(s->time_score.player[times_rank], player, MAXNAM);
@@ -525,7 +527,7 @@ void set_cheat(void)
 {
     int i;
 
-    for (i = 0; i < set_v[set].count; i++)
+    for (i = 0; i < SET_GET(sets, curr)->count; i++)
     {
         level_v[i].is_locked    = 0;
         level_v[i].is_completed = 1;
