@@ -29,7 +29,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define SET_STEP    5
+#define SET_STEP 6
 
 static int total = 0;
 static int first = 0;
