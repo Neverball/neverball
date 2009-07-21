@@ -12,6 +12,9 @@
 "author" "Challenge Space Yard"
 "levelname" "Aero Dive"
 "version" "0.6"
+"coin_hs" "198 120"
+"goal_hs" "9000 15000"
+"time_hs" "9000 12000"
 // brush 0
 {
 ( 128 512 0 ) ( 0 512 0 ) ( 0 1024 0 ) mtrl/mirror-orange 0 0 0 0.5 0.5 0 0 0

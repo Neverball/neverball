@@ -12,6 +12,9 @@
 "author" "Challenge Space Yard"
 "levelname" "Screw Drive"
 "version" "0.6"
+"coin_hs" "140 100"
+"goal_hs" "6000 12000"
+"time_hs" "6000 9000"
 // brush 0
 {
 ( 257 0 81 ) ( 257 -128 81 ) ( -257 0 81 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0

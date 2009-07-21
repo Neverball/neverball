@@ -12,6 +12,9 @@
 "author" "Challenge Space Yard"
 "levelname" "Retro Port Town"
 "version" "1"
+"coin_hs" "58 45"
+"goal_hs" "10500 13500"
+"time_hs" "10000 12000"
 // brush 0
 {
 ( 128 704 0 ) ( 0 704 0 ) ( 0 1216 0 ) mtrl/mirror-blue 0 0 0 0.5 0.5 0 0 0
@@ -847,12 +850,12 @@
 "targetname" "t5"
 "speed" "8"
 "target" "t4"
-"origin" "192 712 400"
+"origin" "192 712 384"
 }
 // entity 8
 {
 "classname" "path_corner"
-"origin" "192 712 400"
+"origin" "192 712 384"
 "speed" "2"
 "targetname" "t4"
 "target" "t7"
