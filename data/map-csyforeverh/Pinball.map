@@ -244,7 +244,7 @@
 "author" "Challenge Space Yard"
 "version" "2"
 "levelname" "Pinball"
-"coin_hs" "60"
+"coin_hs" "60 40"
 "time_hs" "500 1000"
 "goal_hs" "4500 9000"
 // brush 0

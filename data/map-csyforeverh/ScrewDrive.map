@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Screw Drive\You've been challenged to participate in another race.\You must complete 3 laps within 3 minutes."
+"message" "Screw Drive\You've been challenged to participate in a race.\You must complete 3 laps within 3 minutes."
 "back" "map-back/city.sol"
 "grad" "back/city.png"
 "shot" "shot-csyforeverh/ScrewDrive.png"

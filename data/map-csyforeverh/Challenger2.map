@@ -2,16 +2,19 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Neverball Forever Challenger II\Careful! This level remixes five levels from Neverball Forever Medium."
+"message" "Neverball Forever Challenger II\This level remixes five levels from Forever Medium."
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
 "shot" "shot-csyforeverh/Challenger2.png"
-"time" "18000"
+"time" "20500"
 "goal" "100"
 "song" "bgm/track2.ogg"
 "author" "Challenge Space Yard"
 "levelname" "Neverball Forever Challenger II"
 "version" "1"
+"goal_hs" "9000 12000"
+"time_hs" "6750 8000"
+"coin_hs" "279 200"
 // brush 0
 {
 ( 128 128 0 ) ( 128 0 0 ) ( 0 128 0 ) mtrl/coin-green-small 0 0 0 0.5 0.5 0 0 0

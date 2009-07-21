@@ -12,6 +12,9 @@
 "author" "Challenge Space Yard"
 "levelname" "Warp Zone II"
 "version" "1"
+"coin_hs" "50"
+"time_hs" "4500 4750"
+"goal_hs" "4500 4750"
 // brush 0
 {
 ( -192 7936 0 ) ( -192 7808 0 ) ( -320 7936 0 ) mtrl/turf-blue 0 0 0 0.5 0.5 0 0 0

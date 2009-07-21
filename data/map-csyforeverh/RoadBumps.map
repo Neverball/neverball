@@ -1445,7 +1445,7 @@
 {
 "classname" "worldspawn"
 "message" "Road Bumps\Careful, the road isn't that smooth."
-"time" "10225"
+"time" "10000"
 "goal" "50"
 "back" "map-back/city.sol"
 "grad" "back/city.png"
@@ -1454,4 +1454,7 @@
 "author" "Challenge Space Yard"
 "levelname" "Road Bumps"
 "version" "1"
+"goal_hs" "1500 3000"
+"time_hs" "300 750"
+"coin_hs" "200 120"
 }
