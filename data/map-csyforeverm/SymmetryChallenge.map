@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Symmetry Challenge\Parts are symmetrical.\But the more challenging parts are not!"
+"message" "Symmetry Challenge\Parts are symmetrical,\but the more challenging parts are not!"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
 "shot" "shot-csyforeverm/SymmetryChallenge.png"

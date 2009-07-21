@@ -12,6 +12,9 @@
 "author" "Challenge Space Yard"
 "levelname" "Curve World"
 "version" "1"
+"goal_hs" "1600 4000"
+"coin_hs" "27 21"
+"time_hs" "1500 3500"
 // brush 0
 {
 ( 128 0 0 ) ( 125 24 0 ) ( 128 0 16 ) mtrl/glass 0 0 0 0.5 0.5 0 0 0

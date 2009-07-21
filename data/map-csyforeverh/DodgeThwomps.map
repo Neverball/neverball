@@ -12,6 +12,9 @@
 "author" "Challenge Space Yard"
 "levelname" "Dodge the Thwomps"
 "version" "1"
+"coin_hs" "21 14"
+"goal_hs" "3000 7500"
+"time_hs" "3000 6500"
 // brush 0
 {
 ( -64 1920 0 ) ( -64 1792 0 ) ( -192 1920 0 ) mtrl/turf-blue 0 0 0 0.5 0.5 0 0 0

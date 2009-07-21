@@ -173,509 +173,437 @@
 }
 // entity 23
 {
-"classname" "worldspawn"
-}
-// entity 24
-{
 "classname" "light"
 "origin" "160 -1248 24"
 "light" "1"
 }
-// entity 25
+// entity 24
 {
 "classname" "light"
 "origin" "224 -1248 24"
 "light" "1"
 }
-// entity 26
+// entity 25
 {
 "classname" "light"
 "origin" "160 -1184 24"
 "light" "1"
 }
-// entity 27
+// entity 26
 {
 "classname" "light"
 "origin" "224 -1184 24"
 "light" "1"
 }
-// entity 28
-{
-"classname" "worldspawn"
-}
-// entity 29
+// entity 27
 {
 "classname" "light"
 "origin" "288 -1248 24"
 "light" "1"
 }
-// entity 30
+// entity 28
 {
 "classname" "light"
 "origin" "352 -1248 24"
 "light" "1"
 }
-// entity 31
+// entity 29
 {
 "classname" "light"
 "origin" "288 -1184 24"
 "light" "1"
 }
-// entity 32
+// entity 30
 {
 "classname" "light"
 "origin" "352 -1184 24"
 "light" "1"
 }
-// entity 33
-{
-"classname" "worldspawn"
-}
-// entity 34
+// entity 31
 {
 "classname" "light"
 "origin" "416 -1248 24"
 "light" "1"
 }
-// entity 35
+// entity 32
 {
 "classname" "light"
 "origin" "480 -1248 24"
 "light" "1"
 }
-// entity 36
+// entity 33
 {
 "classname" "light"
 "origin" "416 -1184 24"
 "light" "1"
 }
-// entity 37
+// entity 34
 {
 "classname" "light"
 "origin" "480 -1184 24"
 "light" "1"
 }
-// entity 38
-{
-"classname" "worldspawn"
-}
-// entity 39
+// entity 35
 {
 "classname" "light"
 "origin" "544 -1248 24"
 "light" "1"
 }
-// entity 40
+// entity 36
 {
 "classname" "light"
 "origin" "608 -1248 24"
 "light" "1"
 }
-// entity 41
+// entity 37
 {
 "classname" "light"
 "origin" "544 -1184 24"
 "light" "1"
 }
-// entity 42
+// entity 38
 {
 "classname" "light"
 "origin" "608 -1184 24"
 "light" "1"
 }
-// entity 43
-{
-"classname" "worldspawn"
-}
-// entity 44
+// entity 39
 {
 "classname" "light"
 "origin" "672 -1248 24"
 "light" "1"
 }
-// entity 45
+// entity 40
 {
 "classname" "light"
 "origin" "736 -1248 24"
 "light" "1"
 }
-// entity 46
+// entity 41
 {
 "classname" "light"
 "origin" "672 -1184 24"
 "light" "1"
 }
-// entity 47
+// entity 42
 {
 "classname" "light"
 "origin" "736 -1184 24"
 "light" "1"
 }
-// entity 48
-{
-"classname" "worldspawn"
-}
-// entity 49
+// entity 43
 {
 "classname" "light"
 "origin" "800 -1248 24"
 "light" "1"
 }
-// entity 50
+// entity 44
 {
 "classname" "light"
 "origin" "864 -1248 24"
 "light" "1"
 }
-// entity 51
+// entity 45
 {
 "classname" "light"
 "origin" "800 -1184 24"
 "light" "1"
 }
-// entity 52
+// entity 46
 {
 "classname" "light"
 "origin" "864 -1184 24"
 "light" "1"
 }
-// entity 53
-{
-"classname" "worldspawn"
-}
-// entity 54
+// entity 47
 {
 "classname" "light"
 "origin" "928 -1248 24"
 "light" "1"
 }
-// entity 55
+// entity 48
 {
 "classname" "light"
 "origin" "992 -1248 24"
 "light" "1"
 }
-// entity 56
+// entity 49
 {
 "classname" "light"
 "origin" "928 -1184 24"
 "light" "1"
 }
-// entity 57
+// entity 50
 {
 "classname" "light"
 "origin" "992 -1184 24"
 "light" "1"
 }
-// entity 58
-{
-"classname" "worldspawn"
-}
-// entity 59
+// entity 51
 {
 "classname" "light"
 "origin" "1056 -1248 24"
 "light" "1"
 }
-// entity 60
+// entity 52
 {
 "classname" "light"
 "origin" "1120 -1248 24"
 "light" "1"
 }
-// entity 61
+// entity 53
 {
 "classname" "light"
 "origin" "1056 -1184 24"
 "light" "1"
 }
-// entity 62
+// entity 54
 {
 "classname" "light"
 "origin" "1120 -1184 24"
 "light" "1"
 }
-// entity 63
-{
-"classname" "worldspawn"
-}
-// entity 64
+// entity 55
 {
 "classname" "light"
 "origin" "1184 -1248 24"
 "light" "1"
 }
-// entity 65
+// entity 56
 {
 "classname" "light"
 "origin" "1248 -1248 24"
 "light" "1"
 }
-// entity 66
+// entity 57
 {
 "classname" "light"
 "origin" "1184 -1184 24"
 "light" "1"
 }
-// entity 67
+// entity 58
 {
 "classname" "light"
 "origin" "1248 -1184 24"
 "light" "1"
 }
-// entity 68
-{
-"classname" "worldspawn"
-}
-// entity 69
+// entity 59
 {
 "classname" "light"
 "origin" "1184 -992 24"
 "light" "1"
 }
-// entity 70
+// entity 60
 {
 "classname" "light"
 "origin" "1248 -992 24"
 "light" "1"
 }
-// entity 71
+// entity 61
 {
 "classname" "light"
 "origin" "1184 -928 24"
 "light" "1"
 }
-// entity 72
+// entity 62
 {
 "classname" "light"
 "origin" "1248 -928 24"
 "light" "1"
 }
-// entity 73
-{
-"classname" "worldspawn"
-}
-// entity 74
+// entity 63
 {
 "classname" "light"
 "origin" "1056 -992 24"
 "light" "1"
 }
-// entity 75
+// entity 64
 {
 "classname" "light"
 "origin" "1120 -992 24"
 "light" "1"
 }
-// entity 76
+// entity 65
 {
 "classname" "light"
 "origin" "1056 -928 24"
 "light" "1"
 }
-// entity 77
+// entity 66
 {
 "classname" "light"
 "origin" "1120 -928 24"
 "light" "1"
 }
-// entity 78
-{
-"classname" "worldspawn"
-}
-// entity 79
+// entity 67
 {
 "classname" "light"
 "origin" "928 -992 24"
 "light" "1"
 }
-// entity 80
+// entity 68
 {
 "classname" "light"
 "origin" "992 -992 24"
 "light" "1"
 }
-// entity 81
+// entity 69
 {
 "classname" "light"
 "origin" "928 -928 24"
 "light" "1"
 }
-// entity 82
+// entity 70
 {
 "classname" "light"
 "origin" "992 -928 24"
 "light" "1"
 }
-// entity 83
-{
-"classname" "worldspawn"
-}
-// entity 84
+// entity 71
 {
 "classname" "light"
 "origin" "800 -992 24"
 "light" "1"
 }
-// entity 85
+// entity 72
 {
 "classname" "light"
 "origin" "864 -992 24"
 "light" "1"
 }
-// entity 86
+// entity 73
 {
 "classname" "light"
 "origin" "800 -928 24"
 "light" "1"
 }
-// entity 87
+// entity 74
 {
 "classname" "light"
 "origin" "864 -928 24"
 "light" "1"
 }
-// entity 88
-{
-"classname" "worldspawn"
-}
-// entity 89
+// entity 75
 {
 "classname" "light"
 "origin" "672 -992 24"
 "light" "1"
 }
-// entity 90
+// entity 76
 {
 "classname" "light"
 "origin" "736 -992 24"
 "light" "1"
 }
-// entity 91
+// entity 77
 {
 "classname" "light"
 "origin" "672 -928 24"
 "light" "1"
 }
-// entity 92
+// entity 78
 {
 "classname" "light"
 "origin" "736 -928 24"
 "light" "1"
 }
-// entity 93
-{
-"classname" "worldspawn"
-}
-// entity 94
+// entity 79
 {
 "classname" "light"
 "origin" "544 -992 24"
 "light" "1"
 }
-// entity 95
+// entity 80
 {
 "classname" "light"
 "origin" "608 -992 24"
 "light" "1"
 }
-// entity 96
+// entity 81
 {
 "classname" "light"
 "origin" "544 -928 24"
 "light" "1"
 }
-// entity 97
+// entity 82
 {
 "classname" "light"
 "origin" "608 -928 24"
 "light" "1"
 }
-// entity 98
-{
-"classname" "worldspawn"
-}
-// entity 99
+// entity 83
 {
 "classname" "light"
 "origin" "416 -992 24"
 "light" "1"
 }
-// entity 100
+// entity 84
 {
 "classname" "light"
 "origin" "480 -992 24"
 "light" "1"
 }
-// entity 101
+// entity 85
 {
 "classname" "light"
 "origin" "416 -928 24"
 "light" "1"
 }
-// entity 102
+// entity 86
 {
 "classname" "light"
 "origin" "480 -928 24"
 "light" "1"
 }
-// entity 103
-{
-"classname" "worldspawn"
-}
-// entity 104
+// entity 87
 {
 "classname" "light"
 "origin" "288 -992 24"
 "light" "1"
 }
-// entity 105
+// entity 88
 {
 "classname" "light"
 "origin" "352 -992 24"
 "light" "1"
 }
-// entity 106
+// entity 89
 {
 "classname" "light"
 "origin" "288 -928 24"
 "light" "1"
 }
-// entity 107
+// entity 90
 {
 "classname" "light"
 "origin" "352 -928 24"
 "light" "1"
 }
-// entity 108
-{
-"classname" "worldspawn"
-}
-// entity 109
+// entity 91
 {
 "classname" "light"
 "origin" "160 -992 24"
 "light" "1"
 }
-// entity 110
+// entity 92
 {
 "classname" "light"
 "origin" "224 -992 24"
 "light" "1"
 }
-// entity 111
+// entity 93
 {
 "classname" "light"
 "origin" "160 -928 24"
 "light" "1"
 }
-// entity 112
+// entity 94
 {
 "classname" "light"
 "origin" "224 -928 24"
 "light" "1"
 }
-// entity 113
+// entity 95
 {
 "classname" "worldspawn"
 // brush 0
@@ -688,283 +616,247 @@
 ( 0 -1024 -64 ) ( 0 -896 -64 ) ( 0 -1024 64 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 114
+// entity 96
 {
 "classname" "light"
 "origin" "32 -992 24"
 "light" "1"
 }
-// entity 115
+// entity 97
 {
 "classname" "light"
 "origin" "96 -992 24"
 "light" "1"
 }
-// entity 116
+// entity 98
 {
 "classname" "light"
 "origin" "32 -928 24"
 "light" "1"
 }
-// entity 117
+// entity 99
 {
 "classname" "light"
 "origin" "96 -928 24"
 "light" "1"
 }
-// entity 118
-{
-"classname" "worldspawn"
-}
-// entity 119
+// entity 100
 {
 "classname" "light"
 "origin" "-224 -1248 24"
 "light" "1"
 }
-// entity 120
+// entity 101
 {
 "classname" "light"
 "origin" "-160 -1248 24"
 "light" "1"
 }
-// entity 121
+// entity 102
 {
 "classname" "light"
 "origin" "-224 -1184 24"
 "light" "1"
 }
-// entity 122
+// entity 103
 {
 "classname" "light"
 "origin" "-160 -1184 24"
 "light" "1"
 }
-// entity 123
-{
-"classname" "worldspawn"
-}
-// entity 124
+// entity 104
 {
 "classname" "light"
 "origin" "-352 -1248 24"
 "light" "1"
 }
-// entity 125
+// entity 105
 {
 "classname" "light"
 "origin" "-288 -1248 24"
 "light" "1"
 }
-// entity 126
+// entity 106
 {
 "classname" "light"
 "origin" "-352 -1184 24"
 "light" "1"
 }
-// entity 127
+// entity 107
 {
 "classname" "light"
 "origin" "-288 -1184 24"
 "light" "1"
 }
-// entity 128
-{
-"classname" "worldspawn"
-}
-// entity 129
+// entity 108
 {
 "classname" "light"
 "origin" "-480 -1248 24"
 "light" "1"
 }
-// entity 130
+// entity 109
 {
 "classname" "light"
 "origin" "-416 -1248 24"
 "light" "1"
 }
-// entity 131
+// entity 110
 {
 "classname" "light"
 "origin" "-480 -1184 24"
 "light" "1"
 }
-// entity 132
+// entity 111
 {
 "classname" "light"
 "origin" "-416 -1184 24"
 "light" "1"
 }
-// entity 133
-{
-"classname" "worldspawn"
-}
-// entity 134
+// entity 112
 {
 "classname" "light"
 "origin" "-608 -1248 24"
 "light" "1"
 }
-// entity 135
+// entity 113
 {
 "classname" "light"
 "origin" "-544 -1248 24"
 "light" "1"
 }
-// entity 136
+// entity 114
 {
 "classname" "light"
 "origin" "-608 -1184 24"
 "light" "1"
 }
-// entity 137
+// entity 115
 {
 "classname" "light"
 "origin" "-544 -1184 24"
 "light" "1"
 }
-// entity 138
-{
-"classname" "worldspawn"
-}
-// entity 139
+// entity 116
 {
 "classname" "light"
 "origin" "-736 -1248 24"
 "light" "1"
 }
-// entity 140
+// entity 117
 {
 "classname" "light"
 "origin" "-672 -1248 24"
 "light" "1"
 }
-// entity 141
+// entity 118
 {
 "classname" "light"
 "origin" "-736 -1184 24"
 "light" "1"
 }
-// entity 142
+// entity 119
 {
 "classname" "light"
 "origin" "-672 -1184 24"
 "light" "1"
 }
-// entity 143
-{
-"classname" "worldspawn"
-}
-// entity 144
+// entity 120
 {
 "classname" "light"
 "origin" "-864 -1248 24"
 "light" "1"
 }
-// entity 145
+// entity 121
 {
 "classname" "light"
 "origin" "-800 -1248 24"
 "light" "1"
 }
-// entity 146
+// entity 122
 {
 "classname" "light"
 "origin" "-864 -1184 24"
 "light" "1"
 }
-// entity 147
+// entity 123
 {
 "classname" "light"
 "origin" "-800 -1184 24"
 "light" "1"
 }
-// entity 148
-{
-"classname" "worldspawn"
-}
-// entity 149
+// entity 124
 {
 "classname" "light"
 "origin" "-992 -1248 24"
 "light" "1"
 }
-// entity 150
+// entity 125
 {
 "classname" "light"
 "origin" "-928 -1248 24"
 "light" "1"
 }
-// entity 151
+// entity 126
 {
 "classname" "light"
 "origin" "-992 -1184 24"
 "light" "1"
 }
-// entity 152
+// entity 127
 {
 "classname" "light"
 "origin" "-928 -1184 24"
 "light" "1"
 }
-// entity 153
-{
-"classname" "worldspawn"
-}
-// entity 154
+// entity 128
 {
 "classname" "light"
 "origin" "-1120 -1248 24"
 "light" "1"
 }
-// entity 155
+// entity 129
 {
 "classname" "light"
 "origin" "-1056 -1248 24"
 "light" "1"
 }
-// entity 156
+// entity 130
 {
 "classname" "light"
 "origin" "-1120 -1184 24"
 "light" "1"
 }
-// entity 157
+// entity 131
 {
 "classname" "light"
 "origin" "-1056 -1184 24"
 "light" "1"
 }
-// entity 158
-{
-"classname" "worldspawn"
-}
-// entity 159
+// entity 132
 {
 "classname" "light"
 "origin" "-1248 -1248 24"
 "light" "1"
 }
-// entity 160
+// entity 133
 {
 "classname" "light"
 "origin" "-1184 -1248 24"
 "light" "1"
 }
-// entity 161
+// entity 134
 {
 "classname" "light"
 "origin" "-1248 -1184 24"
 "light" "1"
 }
-// entity 162
+// entity 135
 {
 "classname" "light"
 "origin" "-1184 -1184 24"
 "light" "1"
 }
-// entity 163
+// entity 136
 {
 "classname" "worldspawn"
 // brush 0
@@ -977,31 +869,31 @@
 ( -1408 -1280 -64 ) ( -1408 -1152 -64 ) ( -1408 -1280 64 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 164
+// entity 137
 {
 "classname" "light"
 "origin" "-1376 -1248 24"
 "light" "1"
 }
-// entity 165
+// entity 138
 {
 "classname" "light"
 "origin" "-1312 -1248 24"
 "light" "1"
 }
-// entity 166
+// entity 139
 {
 "classname" "light"
 "origin" "-1376 -1184 24"
 "light" "1"
 }
-// entity 167
+// entity 140
 {
 "classname" "light"
 "origin" "-1312 -1184 24"
 "light" "1"
 }
-// entity 168
+// entity 141
 {
 "classname" "worldspawn"
 // brush 0
@@ -1014,31 +906,31 @@
 ( -1152 -768 64 ) ( -1152 -768 -64 ) ( -1152 -896 64 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 169
+// entity 142
 {
 "classname" "light"
 "origin" "-1376 -864 24"
 "light" "1"
 }
-// entity 170
+// entity 143
 {
 "classname" "light"
 "origin" "-1312 -864 24"
 "light" "1"
 }
-// entity 171
+// entity 144
 {
 "classname" "light"
 "origin" "-1376 -800 24"
 "light" "1"
 }
-// entity 172
+// entity 145
 {
 "classname" "light"
 "origin" "-1312 -800 24"
 "light" "1"
 }
-// entity 173
+// entity 146
 {
 "classname" "worldspawn"
 // brush 0
@@ -1051,87 +943,79 @@
 ( -1152 -896 64 ) ( -1152 -896 -64 ) ( -1152 -1024 64 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 174
+// entity 147
 {
 "classname" "light"
 "origin" "-1376 -992 24"
 "light" "1"
 }
-// entity 175
+// entity 148
 {
 "classname" "light"
 "origin" "-1312 -992 24"
 "light" "1"
 }
-// entity 176
+// entity 149
 {
 "classname" "light"
 "origin" "-1376 -928 24"
 "light" "1"
 }
-// entity 177
+// entity 150
 {
 "classname" "light"
 "origin" "-1312 -928 24"
 "light" "1"
 }
-// entity 178
-{
-"classname" "worldspawn"
-}
-// entity 179
+// entity 151
 {
 "classname" "light"
 "origin" "-1248 -992 24"
 "light" "1"
 }
-// entity 180
+// entity 152
 {
 "classname" "light"
 "origin" "-1184 -992 24"
 "light" "1"
 }
-// entity 181
+// entity 153
 {
 "classname" "light"
 "origin" "-1248 -928 24"
 "light" "1"
 }
-// entity 182
+// entity 154
 {
 "classname" "light"
 "origin" "-1184 -928 24"
 "light" "1"
 }
-// entity 183
-{
-"classname" "worldspawn"
-}
-// entity 184
+// entity 155
 {
 "classname" "light"
 "origin" "-1248 -864 24"
 "light" "1"
 }
-// entity 185
+// entity 156
 {
 "classname" "light"
 "origin" "-1184 -864 24"
 "light" "1"
 }
-// entity 186
+// entity 157
 {
 "classname" "light"
 "origin" "-1248 -800 24"
 "light" "1"
 }
-// entity 187
+// entity 158
 {
 "classname" "light"
 "origin" "-1184 -800 24"
 "light" "1"
 }
-// entity 188
+// entity 159
 {
 "classname" "worldspawn"
 // brush 0
@@ -1144,227 +1028,199 @@
 ( -128 -896 64 ) ( -128 -896 -64 ) ( -128 -1024 64 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 189
+// entity 160
 {
 "classname" "light"
 "origin" "-1120 -992 24"
 "light" "1"
 }
-// entity 190
+// entity 161
 {
 "classname" "light"
 "origin" "-1056 -992 24"
 "light" "1"
 }
-// entity 191
+// entity 162
 {
 "classname" "light"
 "origin" "-1120 -928 24"
 "light" "1"
 }
-// entity 192
+// entity 163
 {
 "classname" "light"
 "origin" "-1056 -928 24"
 "light" "1"
 }
-// entity 193
-{
-"classname" "worldspawn"
-}
-// entity 194
+// entity 164
 {
 "classname" "light"
 "origin" "-992 -992 24"
 "light" "1"
 }
-// entity 195
+// entity 165
 {
 "classname" "light"
 "origin" "-928 -992 24"
 "light" "1"
 }
-// entity 196
+// entity 166
 {
 "classname" "light"
 "origin" "-992 -928 24"
 "light" "1"
 }
-// entity 197
+// entity 167
 {
 "classname" "light"
 "origin" "-928 -928 24"
 "light" "1"
 }
-// entity 198
-{
-"classname" "worldspawn"
-}
-// entity 199
+// entity 168
 {
 "classname" "light"
 "origin" "-864 -992 24"
 "light" "1"
 }
-// entity 200
+// entity 169
 {
 "classname" "light"
 "origin" "-800 -992 24"
 "light" "1"
 }
-// entity 201
+// entity 170
 {
 "classname" "light"
 "origin" "-864 -928 24"
 "light" "1"
 }
-// entity 202
+// entity 171
 {
 "classname" "light"
 "origin" "-800 -928 24"
 "light" "1"
 }
-// entity 203
-{
-"classname" "worldspawn"
-}
-// entity 204
+// entity 172
 {
 "classname" "light"
 "origin" "-736 -992 24"
 "light" "1"
 }
-// entity 205
+// entity 173
 {
 "classname" "light"
 "origin" "-672 -992 24"
 "light" "1"
 }
-// entity 206
+// entity 174
 {
 "classname" "light"
 "origin" "-736 -928 24"
 "light" "1"
 }
-// entity 207
+// entity 175
 {
 "classname" "light"
 "origin" "-672 -928 24"
 "light" "1"
 }
-// entity 208
-{
-"classname" "worldspawn"
-}
-// entity 209
+// entity 176
 {
 "classname" "light"
 "origin" "-608 -992 24"
 "light" "1"
 }
-// entity 210
+// entity 177
 {
 "classname" "light"
 "origin" "-544 -992 24"
 "light" "1"
 }
-// entity 211
+// entity 178
 {
 "classname" "light"
 "origin" "-608 -928 24"
 "light" "1"
 }
-// entity 212
+// entity 179
 {
 "classname" "light"
 "origin" "-544 -928 24"
 "light" "1"
 }
-// entity 213
-{
-"classname" "worldspawn"
-}
-// entity 214
+// entity 180
 {
 "classname" "light"
 "origin" "-480 -992 24"
 "light" "1"
 }
-// entity 215
+// entity 181
 {
 "classname" "light"
 "origin" "-416 -992 24"
 "light" "1"
 }
-// entity 216
+// entity 182
 {
 "classname" "light"
 "origin" "-480 -928 24"
 "light" "1"
 }
-// entity 217
+// entity 183
 {
 "classname" "light"
 "origin" "-416 -928 24"
 "light" "1"
 }
-// entity 218
-{
-"classname" "worldspawn"
-}
-// entity 219
+// entity 184
 {
 "classname" "light"
 "origin" "-352 -992 24"
 "light" "1"
 }
-// entity 220
+// entity 185
 {
 "classname" "light"
 "origin" "-288 -992 24"
 "light" "1"
 }
-// entity 221
+// entity 186
 {
 "classname" "light"
 "origin" "-352 -928 24"
 "light" "1"
 }
-// entity 222
+// entity 187
 {
 "classname" "light"
 "origin" "-288 -928 24"
 "light" "1"
 }
-// entity 223
-{
-"classname" "worldspawn"
-}
-// entity 224
+// entity 188
 {
 "classname" "light"
 "origin" "-224 -992 24"
 "light" "1"
 }
-// entity 225
+// entity 189
 {
 "classname" "light"
 "origin" "-160 -992 24"
 "light" "1"
 }
-// entity 226
+// entity 190
 {
 "classname" "light"
 "origin" "-224 -928 24"
 "light" "1"
 }
-// entity 227
+// entity 191
 {
 "classname" "light"
 "origin" "-160 -928 24"
 "light" "1"
 }
-// entity 228
+// entity 192
 {
 "classname" "worldspawn"
 // brush 0
@@ -1378,31 +1234,31 @@
 ( 0 -768 64 ) ( -128 -768 64 ) ( 0 -768 -64 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 229
+// entity 193
 {
 "classname" "light"
 "origin" "-96 -864 32"
 "light" "1"
 }
-// entity 230
+// entity 194
 {
 "classname" "light"
 "origin" "-32 -864 32"
 "light" "1"
 }
-// entity 231
+// entity 195
 {
 "classname" "light"
 "origin" "-96 -800 32"
 "light" "1"
 }
-// entity 232
+// entity 196
 {
 "classname" "light"
 "origin" "-32 -800 32"
 "light" "1"
 }
-// entity 233
+// entity 197
 {
 "classname" "worldspawn"
 // brush 0
@@ -1416,31 +1272,31 @@
 ( 0 -512 64 ) ( -128 -512 64 ) ( 0 -512 -64 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 234
+// entity 198
 {
 "classname" "light"
 "origin" "-96 -608 32"
 "light" "1"
 }
-// entity 235
+// entity 199
 {
 "classname" "light"
 "origin" "-32 -608 32"
 "light" "1"
 }
-// entity 236
+// entity 200
 {
 "classname" "light"
 "origin" "-96 -544 32"
 "light" "1"
 }
-// entity 237
+// entity 201
 {
 "classname" "light"
 "origin" "-32 -544 32"
 "light" "1"
 }
-// entity 238
+// entity 202
 {
 "classname" "worldspawn"
 // brush 0
@@ -1453,31 +1309,31 @@
 ( -128 -768 -64 ) ( -128 -640 -64 ) ( -128 -768 64 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 239
+// entity 203
 {
 "classname" "light"
 "origin" "-96 -736 24"
 "light" "1"
 }
-// entity 240
+// entity 204
 {
 "classname" "light"
 "origin" "-32 -736 24"
 "light" "1"
 }
-// entity 241
+// entity 205
 {
 "classname" "light"
 "origin" "-96 -672 24"
 "light" "1"
 }
-// entity 242
+// entity 206
 {
 "classname" "light"
 "origin" "-32 -672 24"
 "light" "1"
 }
-// entity 243
+// entity 207
 {
 "classname" "worldspawn"
 // brush 0
@@ -1490,31 +1346,31 @@
 ( -128 -512 -64 ) ( -128 -384 -64 ) ( -128 -512 64 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 244
+// entity 208
 {
 "classname" "light"
 "origin" "-96 -480 24"
 "light" "1"
 }
-// entity 245
+// entity 209
 {
 "classname" "light"
 "origin" "-32 -480 24"
 "light" "1"
 }
-// entity 246
+// entity 210
 {
 "classname" "light"
 "origin" "-96 -416 24"
 "light" "1"
 }
-// entity 247
+// entity 211
 {
 "classname" "light"
 "origin" "-32 -416 24"
 "light" "1"
 }
-// entity 248
+// entity 212
 {
 "classname" "worldspawn"
 // brush 0
@@ -1528,31 +1384,31 @@
 ( 0 -256 64 ) ( -128 -256 64 ) ( 0 -256 -64 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 249
+// entity 213
 {
 "classname" "light"
 "origin" "-96 -352 32"
 "light" "1"
 }
-// entity 250
+// entity 214
 {
 "classname" "light"
 "origin" "-32 -352 32"
 "light" "1"
 }
-// entity 251
+// entity 215
 {
 "classname" "light"
 "origin" "-96 -288 32"
 "light" "1"
 }
-// entity 252
+// entity 216
 {
 "classname" "light"
 "origin" "-32 -288 32"
 "light" "1"
 }
-// entity 253
+// entity 217
 {
 "classname" "worldspawn"
 // brush 0
@@ -1574,18 +1430,18 @@
 ( -128 -256 -48 ) ( -128 -128 -49 ) ( -128 -256 80 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
 }
 }
-// entity 254
+// entity 218
 {
 "classname" "info_player_deathmatch"
 "origin" "-64 -192 24"
 }
-// entity 255
+// entity 219
 {
 "classname" "target_position"
 "origin" "-64 -192 128"
 "targetname" "goal"
 }
-// entity 256
+// entity 220
 {
 "classname" "worldspawn"
 "message" "Road Bumps\Careful, the road isn't that smooth."
@@ -1594,7 +1450,7 @@
 "back" "map-back/city.sol"
 "grad" "back/city.png"
 "song" "bgm/track3.ogg"
-"shot" "shot-csyc/RoadBumps.png"
+"shot" "shot-csyforeverh/RoadBumps.png"
 "author" "Challenge Space Yard"
 "levelname" "Road Bumps"
 "version" "1"
