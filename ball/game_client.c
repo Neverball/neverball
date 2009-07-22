@@ -1006,8 +1006,55 @@ void game_draw(int pose, float t)
             /* Draw the scene normally. */
 
             game_draw_light();
-            game_refl_all();
-            game_draw_back(pose,    +1, t);
+
+            if (reflective)
+            {
+                if (config_get_d(CONFIG_REFLECTION))
+                {
+                    /* Draw background while preserving reflections. */
+
+                    glEnable(GL_STENCIL_TEST);
+                    {
+                        glStencilFunc(GL_NOTEQUAL, 1, 0xFFFFFFFF);
+                        game_draw_back(pose, +1, t);
+                    }
+                    glDisable(GL_STENCIL_TEST);
+
+                    /* Draw mirrors. */
+
+                    game_refl_all();
+                }
+                else
+                {
+                    /* Draw background. */
+
+                    game_draw_back(pose, +1, t);
+
+                    /*
+                     * Draw mirrors, first fully opaque with a custom
+                     * material color, then blending normally with the
+                     * opaque surfaces using their original material
+                     * properties.  (Keeps background from showing
+                     * through.)
+                     */
+
+                    glEnable(GL_COLOR_MATERIAL);
+                    {
+                        glColor4f(0.0, 0.0, 0.05, 1.0);
+                        game_refl_all();
+                        glColor4f(1.0,  1.0,  1.0,  1.0);
+                    }
+                    glDisable(GL_COLOR_MATERIAL);
+
+                    game_refl_all();
+                }
+            }
+            else
+            {
+                game_draw_back(pose, +1, t);
+                game_refl_all();
+            }
+
             game_draw_fore(pose, T, +1, t);
         }
         glPopMatrix();
