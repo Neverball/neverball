@@ -26,7 +26,13 @@ struct fs_file
 
 int fs_init(const char *argv0)
 {
-    return PHYSFS_init(argv0);
+    if (PHYSFS_init(argv0))
+    {
+        PHYSFS_permitSymbolicLinks(1);
+        return 1;
+    }
+
+    return 0;
 }
 
 int fs_quit(void)
