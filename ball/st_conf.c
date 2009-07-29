@@ -211,13 +211,13 @@ static int conf_enter(void)
         int s = config_get_d(CONFIG_SOUND_VOLUME);
         int m = config_get_d(CONFIG_MUSIC_VOLUME);
 
-        char resolution[20], player[MAXNAM] = "";
+        const char *player = config_get_s(CONFIG_PLAYER);
+
+        char resolution[20];
 
         sprintf(resolution, "%d x %d",
                 config_get_d(CONFIG_WIDTH),
                 config_get_d(CONFIG_HEIGHT));
-
-        config_get_s(CONFIG_PLAYER, player, MAXNAM - 1);
 
         if ((jd = gui_harray(id)))
         {
@@ -347,8 +347,7 @@ static int conf_enter(void)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            char ball[64] = "";
-            config_get_s(CONFIG_BALL_FILE, ball, sizeof (ball) - 1);
+            const char *ball = config_get_s(CONFIG_BALL_FILE);
             gui_state(kd, base_name(ball, NULL), GUI_SML, CONF_BALL, 0);
             gui_label(jd, _("Ball"), GUI_SML, GUI_ALL, 0, 0);
         }

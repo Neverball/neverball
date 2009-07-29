@@ -521,9 +521,9 @@ void config_set_s(int i, const char *src)
     dirty = 1;
 }
 
-void config_get_s(int i, char *dst, int len)
+const char *config_get_s(int i)
 {
-    strncpy(dst, option_s[i].cur, len);
+    return option_s[i].cur;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -287,7 +287,7 @@ int demo_play_init(const char *name, const struct level *level,
     demo.mode = mode;
     demo.date = time(NULL);
 
-    config_get_s(CONFIG_PLAYER, demo.player, MAXNAM);
+    strncpy(demo.player, config_get_s(CONFIG_PLAYER), sizeof (demo.player) - 1);
 
     strncpy(demo.shot, level->shot, PATHMAX);
     strncpy(demo.file, level->file, PATHMAX);

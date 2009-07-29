@@ -19,6 +19,7 @@
 #include "glext.h"
 #include "config.h"
 #include "solid_gl.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -79,17 +80,12 @@ void ball_init(void)
 {
     int T = config_get_d(CONFIG_TEXTURES);
 
-    char solid_file[PATHMAX];
-    char inner_file[PATHMAX];
-    char outer_file[PATHMAX];
-
-    config_get_s(CONFIG_BALL_FILE, solid_file, PATHMAX - 12);
-    config_get_s(CONFIG_BALL_FILE, inner_file, PATHMAX - 12);
-    config_get_s(CONFIG_BALL_FILE, outer_file, PATHMAX - 12);
-
-    strcat(solid_file, "-solid.sol");
-    strcat(inner_file, "-inner.sol");
-    strcat(outer_file, "-outer.sol");
+    char *solid_file = concat_string(config_get_s(CONFIG_BALL_FILE),
+                                     "-solid.sol", NULL);
+    char *inner_file = concat_string(config_get_s(CONFIG_BALL_FILE),
+                                     "-inner.sol", NULL);
+    char *outer_file = concat_string(config_get_s(CONFIG_BALL_FILE),
+                                     "-outer.sol", NULL);
 
     solid_flags = 0;
     inner_flags = 0;
@@ -107,6 +103,10 @@ void ball_init(void)
 
     if ((has_outer = sol_load_gl(&outer, outer_file, T, 0)))
         outer_flags = ball_opts(&outer, &outer_alpha);
+
+    free(solid_file);
+    free(inner_file);
+    free(outer_file);
 }
 
 void ball_free(void)

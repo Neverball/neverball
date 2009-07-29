@@ -40,11 +40,11 @@ static struct state *cancel_state;
 
 int goto_save(struct state *ok, struct state *cancel)
 {
-    char fmt[MAXSTR] = "";
     const char *name;
 
-    config_get_s(CONFIG_REPLAY_NAME, fmt, sizeof (fmt) - 1);
-    name = demo_format_name(fmt, set_id(curr_set()), level_name(curr_level()));
+    name = demo_format_name(config_get_s(CONFIG_REPLAY_NAME),
+                            set_id(curr_set()),
+                            level_name(curr_level()));
 
     strncpy(filename, name, sizeof (filename) - 1);
 

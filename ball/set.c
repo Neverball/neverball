@@ -467,9 +467,7 @@ struct level *get_level(int i)
 int set_score_update(int timer, int coins, int *score_rank, int *times_rank)
 {
     struct set *s = SET_GET(sets, curr);
-    char player[MAXSTR] = "";
-
-    config_get_s(CONFIG_PLAYER, player, MAXSTR);
+    const char *player = config_get_s(CONFIG_PLAYER);
 
     if (score_rank)
         *score_rank = score_coin_insert(&s->coin_score, player, timer, coins);

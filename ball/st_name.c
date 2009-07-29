@@ -41,7 +41,7 @@ static unsigned int draw_back;
 
 int goto_name(struct state *ok, struct state *cancel, unsigned int back)
 {
-    config_get_s(CONFIG_PLAYER, player, MAXNAM);
+    strncpy(player, config_get_s(CONFIG_PLAYER), sizeof (player) - 1);
 
     ok_state     = ok;
     cancel_state = cancel;

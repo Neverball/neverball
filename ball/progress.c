@@ -325,9 +325,7 @@ int  progress_set_high(void)
 
 void progress_rename(int set_only)
 {
-    char player[MAXNAM] = "";
-
-    config_get_s(CONFIG_PLAYER, player, sizeof (player));
+    const char *player = config_get_s(CONFIG_PLAYER);
 
     if (set_only)
     {

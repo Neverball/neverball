@@ -263,9 +263,7 @@ int level_score_update(int level,
                        int *coin_rank)
 {
     struct level *l = get_level(level);
-    char player[MAXSTR] = "";
-
-    config_get_s(CONFIG_PLAYER, player, MAXSTR);
+    const char *player =  config_get_s(CONFIG_PLAYER);
 
     if (time_rank)
         *time_rank = score_time_insert(&l->score.best_times,
