@@ -184,14 +184,14 @@ static void gui_best_times(int id, int e)
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < NSCORE - 1; j++)
-                        time_time[j] = gui_clock(md, 359999, GUI_SML, 0);
+                        time_coin[j] = gui_count(md, 1000, GUI_SML, 0);
 
-                    time_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_SE);
+                    time_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_SE);
 
                     if (e)
                     {
                         gui_space(md);
-                        time_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_RGT);
+                        time_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_RGT);
                     }
                 }
 
@@ -212,14 +212,14 @@ static void gui_best_times(int id, int e)
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = 0; j < NSCORE - 1; j++)
-                        time_coin[j] = gui_count(md, 1000, GUI_SML, 0);
+                        time_time[j] = gui_clock(md, 359999, GUI_SML, 0);
 
-                    time_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_SW);
+                    time_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_SW);
 
                     if (e)
                     {
                         gui_space(md);
-                        time_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_LFT);
+                        time_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_LFT);
                     }
                 }
             }
