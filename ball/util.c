@@ -31,6 +31,22 @@ static int is_special_name(const char *n)
 
 /*---------------------------------------------------------------------------*/
 
+static int coin_btn_id;
+static int time_btn_id;
+static int goal_btn_id;
+
+static void set_score_color(int id, int hi,
+                            const GLfloat *c0,
+                            const GLfloat *c1)
+{
+    if (hi < NSCORE)
+        gui_set_color(id, c0, c0);
+    else
+        gui_set_color(id, c1, c1);
+}
+
+/*---------------------------------------------------------------------------*/
+
 static int score_label;
 
 static int score_coin[4];
@@ -134,12 +150,7 @@ static void gui_set_scores(const char *label, const struct score *s, int hilite)
             name = s->player[j];
 
             if (j == hilite)
-            {
-                if (j < NSCORE)
-                    gui_set_color(score_name[j], gui_grn, gui_grn);
-                else
-                    gui_set_color(score_name[j], gui_red, gui_red);
-            }
+                set_score_color(score_name[j], j, gui_grn, gui_red);
             else
                 gui_set_color(score_name[j], gui_yel, gui_wht);
 
@@ -178,14 +189,23 @@ void gui_score_board(int id, unsigned int types, int e, int h)
             gui_filler(kd);
 
             if ((types & GUI_MOST_COINS) == GUI_MOST_COINS)
-                gui_state(kd, _("Most Coins"),  GUI_SML, GUI_MOST_COINS,
-                          score_type == GUI_MOST_COINS);
+            {
+                coin_btn_id = gui_state(kd, _("Most Coins"),
+                                        GUI_SML, GUI_MOST_COINS,
+                                        score_type == GUI_MOST_COINS);
+            }
             if ((types & GUI_BEST_TIMES) == GUI_BEST_TIMES)
-                gui_state(kd, _("Best Times"),  GUI_SML, GUI_BEST_TIMES,
-                          score_type == GUI_BEST_TIMES);
+            {
+                time_btn_id = gui_state(kd, _("Best Times"),
+                                        GUI_SML, GUI_BEST_TIMES,
+                                        score_type == GUI_BEST_TIMES);
+            }
             if ((types & GUI_FAST_UNLOCK) == GUI_FAST_UNLOCK)
-                gui_state(kd, _("Fast Unlock"), GUI_SML, GUI_FAST_UNLOCK,
-                          score_type == GUI_FAST_UNLOCK);
+            {
+                goal_btn_id = gui_state(kd, _("Fast Unlock"),
+                                        GUI_SML, GUI_FAST_UNLOCK,
+                                        score_type == GUI_FAST_UNLOCK);
+            }
 
             if (h)
             {
@@ -228,6 +248,10 @@ void set_score_board(const struct score *smc, int hmc,
         gui_set_scores(_("Fast Unlock"), sfu, hfu);
         break;
     }
+
+    set_score_color(coin_btn_id, hmc, gui_grn, gui_wht);
+    set_score_color(time_btn_id, hbt, gui_grn, gui_wht);
+    set_score_color(goal_btn_id, hfu, gui_grn, gui_wht);
 }
 
 void gui_score_set(int t)
