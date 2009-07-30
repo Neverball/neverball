@@ -96,8 +96,7 @@ static int save_action(int i)
         break;
 
     default:
-        if (text_add_char(i, filename, sizeof (filename) - 1,
-                                       sizeof (filename) - 1))
+        if (text_add_char(i, filename, sizeof (filename)))
             gui_set_label(file_id, filename);
     }
     return 1;

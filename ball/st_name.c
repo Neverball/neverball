@@ -84,7 +84,7 @@ static int name_action(int i)
         break;
 
     default:
-        if (text_add_char(i, player, MAXNAM, 17))
+        if (text_add_char(i, player, sizeof (player)))
             gui_set_label(name_id, player);
     }
     return 1;
