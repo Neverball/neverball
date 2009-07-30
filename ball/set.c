@@ -261,6 +261,24 @@ static int set_load(struct set *s, const char *filename)
     return 0;
 }
 
+static void set_free(struct set *s)
+{
+    int i;
+
+    free(s->name);
+    free(s->desc);
+    free(s->id);
+    free(s->shot);
+
+    free(s->user_scores);
+    free(s->cheat_scores);
+
+    for (i = 0; i < s->count; i++)
+        free(s->level_name_v[i]);
+}
+
+/*---------------------------------------------------------------------------*/
+
 static int cmp_dir_items(const void *A, const void *B)
 {
     const struct dir_item *a = A, *b = B;
@@ -341,23 +359,10 @@ int set_init()
 
 void set_quit(void)
 {
-    int i, j;
+    int i;
 
     for (i = 0; i < array_len(sets); i++)
-    {
-        struct set *s = array_get(sets, i);
-
-        free(s->name);
-        free(s->desc);
-        free(s->id);
-        free(s->shot);
-
-        free(s->user_scores);
-        free(s->cheat_scores);
-
-        for (j = 0; j < s->count; j++)
-            free(s->level_name_v[j]);
-    }
+        set_free(array_get(sets, i));
 
     array_free(sets);
     sets = NULL;
