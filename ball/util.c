@@ -39,10 +39,13 @@ static void set_score_color(int id, int hi,
                             const GLfloat *c0,
                             const GLfloat *c1)
 {
-    if (hi < NSCORE)
-        gui_set_color(id, c0, c0);
-    else
-        gui_set_color(id, c1, c1);
+    if (hi >= 0)
+    {
+        if (hi < NSCORE)
+            gui_set_color(id, c0, c0);
+        else
+            gui_set_color(id, c1, c1);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
