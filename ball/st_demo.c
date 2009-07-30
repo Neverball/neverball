@@ -112,36 +112,19 @@ static int date_id;
 static int status_id;
 static int player_id;
 
-static int gui_demo_status(int id, const struct demo *d)
+static int gui_demo_status(int id)
 {
-    char noname[MAXNAM];
     const char *status;
-    int i, j, k;
     int jd, kd, ld;
+    int s;
 
-    if (d == NULL)
-    {
-        /* Build a long name */
-        memset(noname, 'M', MAXNAM - 1);
-        noname[MAXNAM - 1] = '\0';
+    /* Find the longest status string. */
 
-        /* Get a long status */
-        status = status_to_str(0);
-        j = strlen(status);
-        for (i = 1; i <= GAME_FALL; i++)
-        {
-            k = strlen(status_to_str(i));
-            if (k > j)
-            {
-                j = k;
-                status = status_to_str(i);
-            }
-        }
-    }
-    else
-    {
-        status = status_to_str(d->status);
-    }
+    for (status = "", s = GAME_NONE; s < GAME_MAX; s++)
+        if (strlen(status_to_str(s)) > strlen(status))
+            status = status_to_str(s);
+
+    /* Build info bar with dummy values. */
 
     if ((jd = gui_hstack(id)))
     {
@@ -153,15 +136,10 @@ static int gui_demo_status(int id, const struct demo *d)
             {
                 gui_filler(ld);
 
-                time_id = gui_clock(ld, (d ? d->timer : 35000),
-                                    GUI_SML, GUI_NE);
-                coin_id = gui_count(ld, (d ? d->coins : 100),
-                                    GUI_SML, 0);
+                time_id   = gui_clock(ld, 35000,  GUI_SML, GUI_NE);
+                coin_id   = gui_count(ld, 100,    GUI_SML, 0);
                 status_id = gui_label(ld, status, GUI_SML, GUI_SE,
                                       gui_red, gui_red);
-
-                if (d && d->status == GAME_GOAL)
-                    gui_set_color(status_id, gui_grn, gui_grn);
 
                 gui_filler(ld);
             }
@@ -170,12 +148,9 @@ static int gui_demo_status(int id, const struct demo *d)
             {
                 gui_filler(ld);
 
-                gui_label(ld, _("Time"),  GUI_SML, GUI_NW,
-                          gui_wht, gui_wht);
-                gui_label(ld, _("Coins"), GUI_SML, 0,
-                          gui_wht, gui_wht);
-                gui_label(ld, _("Status"), GUI_SML, GUI_SW,
-                          gui_wht, gui_wht);
+                gui_label(ld, _("Time"),   GUI_SML, GUI_NW, gui_wht, gui_wht);
+                gui_label(ld, _("Coins"),  GUI_SML, 0,      gui_wht, gui_wht);
+                gui_label(ld, _("Status"), GUI_SML, GUI_SW, gui_wht, gui_wht);
 
                 gui_filler(ld);
             }
@@ -187,12 +162,9 @@ static int gui_demo_status(int id, const struct demo *d)
         {
             gui_filler(kd);
 
-            name_id   = gui_label(kd, (d ? d->name : noname),
-                                  GUI_SML, GUI_NE, 0, 0);
-            player_id = gui_label(kd, (d ? d->player : noname),
-                                  GUI_SML, 0,      0, 0);
-            date_id   = gui_label(kd, (d ? date_to_str(d->date) :
-                                       date_to_str(time(NULL))),
+            name_id   = gui_label(kd, " ", GUI_SML, GUI_NE, 0, 0);
+            player_id = gui_label(kd, " ", GUI_SML, 0,      0, 0);
+            date_id   = gui_label(kd, date_to_str(time(NULL)),
                                   GUI_SML, GUI_SE, 0, 0);
 
             gui_filler(kd);
@@ -274,7 +246,7 @@ static int demo_enter(void)
                             gui_space(kd);
                 }
         gui_filler(id);
-        gui_demo_status(id, NULL);
+        gui_demo_status(id);
         gui_layout(id, 0, 0);
         gui_demo_update_status(last_viewed);
     }
