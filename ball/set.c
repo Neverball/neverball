@@ -293,7 +293,7 @@ int set_init()
     int i;
 
     if (sets)
-        set_free();
+        set_quit();
 
     sets = array_new(sizeof (struct set));
     curr = 0;
@@ -339,7 +339,7 @@ int set_init()
     return array_len(sets);
 }
 
-void set_free(void)
+void set_quit(void)
 {
     int i, j;
 
