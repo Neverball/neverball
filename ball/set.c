@@ -345,16 +345,18 @@ void set_free(void)
 
     for (i = 0; i < array_len(sets); i++)
     {
-        free(SET_GET(sets, i)->name);
-        free(SET_GET(sets, i)->desc);
-        free(SET_GET(sets, i)->id);
-        free(SET_GET(sets, i)->shot);
+        struct set *s = array_get(sets, i);
 
-        free(SET_GET(sets, i)->user_scores);
-        free(SET_GET(sets, i)->cheat_scores);
+        free(s->name);
+        free(s->desc);
+        free(s->id);
+        free(s->shot);
 
-        for (j = 0; j < SET_GET(sets, i)->count; j++)
-            free(SET_GET(sets, i)->level_name_v[j]);
+        free(s->user_scores);
+        free(s->cheat_scores);
+
+        for (j = 0; j < s->count; j++)
+            free(s->level_name_v[j]);
     }
 
     array_free(sets);
