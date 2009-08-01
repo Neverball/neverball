@@ -95,15 +95,19 @@ static void gui_scores(int id, int e)
 
                 if ((md = gui_vstack(ld)))
                 {
-                    for (j = 0; j < NSCORE ; j++)
+                    for (j = 0; j < NSCORE; j++)
+                    {
                         score_name[j] = gui_label(md, s, GUI_SML, 0,
                                                   gui_yel, gui_wht);
+                        gui_set_trunc(score_name[j], TRUNC_TAIL);
+                    }
 
                     if (e)
                     {
                         gui_space(md);
                         score_name[j++] = gui_label(md, s, GUI_SML, 0,
                                                     gui_yel, gui_wht);
+                        gui_set_trunc(score_name[j - 1], TRUNC_TAIL);
                     }
                 }
 
