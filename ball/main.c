@@ -17,7 +17,6 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <string.h>
-#include <errno.h>
 
 #include "glext.h"
 #include "config.h"

@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <errno.h>
 #include <assert.h>
 
 #include "solid.h"
@@ -136,20 +135,11 @@ int level_load(const char *filename, struct level *level)
     memset(level, 0, sizeof (struct level));
     memset(&sol,  0, sizeof (sol));
 
-#define format \
-    L_("Error while loading level file '%s': %s\n")
-#define default_error \
-    L_("Not a valid level file")
-
     if (!sol_load_only_head(&sol, filename))
     {
-        const char *error = errno ? strerror(errno) : default_error;
-        fprintf(stderr, format, filename, error);
+        fprintf(stderr, L_("Failure to load level file '%s'\n"), filename);
         return 0;
     }
-
-#undef format
-#undef default_error
 
     strncpy(level->file, filename, PATHMAX - 1);
 

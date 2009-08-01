@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include <errno.h>
 
 #include "glext.h"
 #include "config.h"
@@ -179,13 +178,9 @@ static void set_load_hs(void)
         }
 
         fs_close(fin);
-    }
 
-    if (!res && errno != ENOENT)
-    {
-        fprintf(stderr,
-                L_("Error while loading user high-score file '%s': %s\n"),
-                fn, errno ? strerror(errno) : L_("Incorrect format"));
+        if (!res)
+            fprintf(stderr, L_("Failure to load user score file '%s'"), fn);
     }
 }
 
@@ -205,8 +200,7 @@ static int set_load(struct set *s, const char *filename)
 
     if (!fin)
     {
-        fprintf(stderr, L_("Cannot load the set file '%s': %s\n"),
-                filename, strerror(errno));
+        fprintf(stderr, L_("Failure to load set file '%s'\n"), filename);
         return 0;
     }
 
