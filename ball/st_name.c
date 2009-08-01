@@ -107,8 +107,7 @@ static int name_enter(void)
         gui_label(id, _("Player Name"), GUI_MED, GUI_ALL, 0, 0);
         gui_space(id);
 
-        name_id = gui_label(id, strlen(player) == 0 ? " " : player,
-                            GUI_MED, GUI_ALL, gui_yel, gui_yel);
+        name_id = gui_label(id, " ", GUI_MED, GUI_ALL, gui_yel, gui_yel);
 
         gui_space(id);
         gui_keyboard(id);
@@ -122,6 +121,9 @@ static int name_enter(void)
         }
 
         gui_layout(id, 0, 0);
+
+        gui_set_trunc(name_id, TRUNC_HEAD);
+        gui_set_label(name_id, player);
     }
 
     SDL_EnableUNICODE(1);
