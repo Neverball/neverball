@@ -85,23 +85,68 @@ static int demo_action(int i)
 
 /*---------------------------------------------------------------------------*/
 
-static void demo_replay(int id, int i)
+static struct thumb
+{
+    int item;
+    int shot;
+    int name;
+} thumbs[DEMO_STEP];
+
+static int gui_demo_thumbs(int id)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
-    int jd;
 
-    char nam[MAXNAM + 3];
+    int jd, kd, ld;
+    int i, j;
 
-    trunc_string(DEMO_GET(items, i)->name, nam, sizeof (nam));
+    struct thumb *thumb;
 
-    if ((jd = gui_vstack(id)))
+    if ((jd = gui_varray(id)))
+        for (i = first; i < first + DEMO_STEP; i += DEMO_LINE)
+            if ((kd = gui_harray(jd)))
+            {
+                for (j = i + DEMO_LINE - 1; j >= i; j--)
+                {
+                    thumb = &thumbs[j % DEMO_STEP];
+
+                    thumb->item = j;
+
+                    if (j < total)
+                    {
+                        if ((ld = gui_vstack(kd)))
+                        {
+                            gui_space(ld);
+
+                            thumb->shot = gui_image(ld, " ", w / 6, h / 6);
+                            thumb->name = gui_state(ld, " ", GUI_SML, j, 0);
+
+                            gui_set_trunc(thumb->name, TRUNC_TAIL);
+
+                            gui_active(ld, j, 0);
+                        }
+                    }
+                    else
+                    {
+                        gui_space(kd);
+
+                        thumb->shot = 0;
+                        thumb->name = 0;
+                    }
+                }
+            }
+
+    return jd;
+}
+
+static void gui_demo_update_thumbs(void)
+{
+    int i;
+
+    for (i = 0; i < ARRAYSIZE(thumbs) && thumbs[i].shot && thumbs[i].name; i++)
     {
-        gui_space(jd);
-        gui_image(jd, DEMO_GET(items, i)->shot, w / 6, h / 6);
-        gui_state(jd, nam, GUI_SML, i, 0);
-
-        gui_active(jd, i, 0);
+        gui_set_image(thumbs[i].shot, DEMO_GET(items, thumbs[i].item)->shot);
+        gui_set_label(thumbs[i].name, DEMO_GET(items, thumbs[i].item)->name);
     }
 }
 
@@ -168,6 +213,9 @@ static int gui_demo_status(int id)
                                   GUI_SML, GUI_SE, 0, 0);
 
             gui_filler(kd);
+
+            gui_set_trunc(name_id,   TRUNC_TAIL);
+            gui_set_trunc(player_id, TRUNC_TAIL);
         }
 
         if ((kd = gui_vstack(jd)))
@@ -214,8 +262,7 @@ static void gui_demo_update_status(int i)
 
 static int demo_enter(void)
 {
-    int i, j;
-    int id, jd, kd;
+    int id, jd;
 
     if (items)
         demo_dir_free(items);
@@ -235,19 +282,13 @@ static int demo_enter(void)
             gui_navig(jd, first > 0, first + DEMO_STEP < total);
         }
 
-        if ((jd = gui_varray(id)))
-            for (i = first; i < first + DEMO_STEP ; i += DEMO_LINE)
-                if ((kd = gui_harray(jd)))
-                {
-                    for (j = i + DEMO_LINE - 1; j >= i; j--)
-                        if (j < total)
-                            demo_replay(kd, j);
-                        else
-                            gui_space(kd);
-                }
+        gui_demo_thumbs(id);
         gui_filler(id);
         gui_demo_status(id);
+
         gui_layout(id, 0, 0);
+
+        gui_demo_update_thumbs();
         gui_demo_update_status(last_viewed);
     }
     else
