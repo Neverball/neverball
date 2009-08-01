@@ -256,7 +256,7 @@ char *base_name(const char *name, const char *suffix)
 
     base = path_last_sep(name);
 
-    strncpy(buf, base ? base + 1 : name, sizeof (buf));
+    strncpy(buf, base ? base + 1 : name, sizeof (buf) - 1);
 
     /* Remove the suffix. */
 

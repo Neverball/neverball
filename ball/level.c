@@ -39,11 +39,11 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
         char *v = fp->av + fp->dv[i].aj;
 
         if (strcmp(k, "message") == 0)
-            strncpy(l->message, v, MAXSTR);
+            strncpy(l->message, v, MAXSTR - 1);
         else if (strcmp(k, "song") == 0)
-            strncpy(l->song, v, PATHMAX);
+            strncpy(l->song, v, PATHMAX - 1);
         else if (strcmp(k, "shot") == 0)
-            strncpy(l->shot, v, PATHMAX);
+            strncpy(l->shot, v, PATHMAX - 1);
         else if (strcmp(k, "goal") == 0)
         {
             l->goal = atoi(v);
@@ -100,9 +100,9 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
             }
         }
         else if (strcmp(k, "version") == 0)
-            strncpy(l->version, v, MAXSTR);
+            strncpy(l->version, v, MAXSTR - 1);
         else if (strcmp(k, "author") == 0)
-            strncpy(l->author, v, MAXSTR);
+            strncpy(l->author, v, MAXSTR - 1);
         else if (strcmp(k, "bonus") == 0)
             l->is_bonus = atoi(v) ? 1 : 0;
     }
@@ -293,9 +293,9 @@ void level_rename_player(int level,
 {
     struct level *l = get_level(level);
 
-    strncpy(l->score.best_times.player [time_rank], player, MAXNAM);
-    strncpy(l->score.fast_unlock.player[goal_rank], player, MAXNAM);
-    strncpy(l->score.most_coins.player [coin_rank], player, MAXNAM);
+    strncpy(l->score.best_times.player [time_rank], player, MAXNAM - 1);
+    strncpy(l->score.fast_unlock.player[goal_rank], player, MAXNAM - 1);
+    strncpy(l->score.most_coins.player [coin_rank], player, MAXNAM - 1);
 }
 
 /*---------------------------------------------------------------------------*/

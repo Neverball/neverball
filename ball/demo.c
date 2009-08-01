@@ -140,12 +140,12 @@ struct demo *demo_load(const char *path)
 
     if ((fp = fs_open(path, "r")))
     {
-        d = malloc(sizeof (struct demo));
+        d = calloc(1, sizeof (struct demo));
 
         if (demo_header_read(fp, d))
         {
-            strncpy(d->filename, path, MAXSTR);
-            strncpy(d->name, base_name(d->filename, ".nbr"), PATHMAX);
+            strncpy(d->filename, path, MAXSTR - 1);
+            strncpy(d->name, base_name(d->filename, ".nbr"), PATHMAX - 1);
             d->name[PATHMAX - 1] = '\0';
         }
         else
@@ -289,8 +289,8 @@ int demo_play_init(const char *name, const struct level *level,
 
     strncpy(demo.player, config_get_s(CONFIG_PLAYER), sizeof (demo.player) - 1);
 
-    strncpy(demo.shot, level->shot, PATHMAX);
-    strncpy(demo.file, level->file, PATHMAX);
+    strncpy(demo.shot, level->shot, PATHMAX - 1);
+    strncpy(demo.file, level->file, PATHMAX - 1);
 
     demo.time   = t;
     demo.goal   = g;
@@ -454,10 +454,10 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
 
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
-        strncpy(demo_replay.filename, name, MAXSTR);
+        strncpy(demo_replay.filename, name, MAXSTR - 1);
         strncpy(demo_replay.name,
                 base_name(demo_replay.filename, ".nbr"),
-                PATHMAX);
+                PATHMAX - 1);
 
         if (level_load(demo_replay.file, &demo_level_replay))
         {

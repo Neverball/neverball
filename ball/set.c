@@ -492,8 +492,8 @@ void set_rename_player(int score_rank, int times_rank, const char *player)
 {
     struct set *s = SET_GET(sets, curr);
 
-    strncpy(s->coin_score.player[score_rank], player, MAXNAM);
-    strncpy(s->time_score.player[times_rank], player, MAXNAM);
+    strncpy(s->coin_score.player[score_rank], player, MAXNAM - 1);
+    strncpy(s->time_score.player[times_rank], player, MAXNAM - 1);
 }
 
 /*---------------------------------------------------------------------------*/

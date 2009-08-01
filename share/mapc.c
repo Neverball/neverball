@@ -2450,8 +2450,8 @@ static void dump_file(struct s_file *p, const char *name)
 
 int main(int argc, char *argv[])
 {
-    char src[MAXSTR];
-    char dst[MAXSTR];
+    char src[MAXSTR] = "";
+    char dst[MAXSTR] = "";
     struct s_file f;
     fs_file fin;
 
@@ -2468,8 +2468,8 @@ int main(int argc, char *argv[])
         if (argc > 3 && strcmp(argv[3], "--debug") == 0)
             debug_output = 1;
 
-        strncpy(src, argv[1], MAXSTR);
-        strncpy(dst, argv[1], MAXSTR);
+        strncpy(src, argv[1], MAXSTR - 1);
+        strncpy(dst, argv[1], MAXSTR - 1);
 
         if (strcmp(dst + strlen(dst) - 4, ".map") == 0)
             strcpy(dst + strlen(dst) - 4, ".sol");
