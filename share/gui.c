@@ -473,7 +473,7 @@ static char *gui_trunc_head(const char *text,
         free(str);
     }
 
-    return concat_string("...", text + left, NULL);
+    return concat_string("...", text + right, NULL);
 }
 
 static char *gui_trunc_tail(const char *text,
@@ -503,10 +503,10 @@ static char *gui_trunc_tail(const char *text,
         free(str);
     }
 
-    str = malloc(right + sizeof ("..."));
+    str = malloc(left + sizeof ("..."));
 
-    memcpy(str,         text,  right);
-    memcpy(str + right, "...", sizeof ("..."));
+    memcpy(str,        text,  left);
+    memcpy(str + left, "...", sizeof ("..."));
 
     return str;
 }
