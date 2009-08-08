@@ -28,17 +28,14 @@ endif
 
 # Compiler...
 
-SSE_CFLAGS := $(shell env CC="$(CC)" sh scripts/get-sse-cflags.sh)
-
 ifeq ($(ENABLE_WII),1)
     # -std=c99 because we need isnormal and -fms-extensions because
     # libwiimote headers make heavy use of the "unnamed fields" GCC
     # extension.
 
-    ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions \
-	$(SSE_CFLAGS) $(CFLAGS)
+    ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions $(CFLAGS)
 else
-    ALL_CFLAGS := -Wall -ansi -pedantic $(SSE_CFLAGS) $(CFLAGS)
+    ALL_CFLAGS := -Wall -ansi -pedantic $(CFLAGS)
 endif
 
 # Preprocessor...
