@@ -32,6 +32,8 @@ static Array balls;
 static int   curr_ball;
 static char  ball_file[64];
 
+static int name_id;
+
 static int has_ball_sols(struct dir_item *item)
 {
     char *solid, *inner, *outer;
@@ -89,20 +91,6 @@ static void free_balls(void)
     balls = NULL;
 }
 
-static int make_ball_label(void)
-{
-    int id;
-
-    if ((id = gui_label(0, base_name(ball_file, NULL),
-                        GUI_SML, GUI_TOP, gui_wht, gui_wht)))
-    {
-        gui_layout(id, 0, -1);
-        gui_pulse(id, 1.2f);
-    }
-
-    return id;
-}
-
 static void set_curr_ball(void)
 {
     sprintf(ball_file, "%s/%s",
@@ -114,8 +102,7 @@ static void set_curr_ball(void)
     ball_free();
     ball_init();
 
-    gui_delete(st_ball.gui_id);
-    st_ball.gui_id = make_ball_label();
+    gui_set_label(name_id, base_name(ball_file, NULL));
 }
 
 static int ball_action(int i)
@@ -165,9 +152,45 @@ static void load_ball_demo(void)
 
 static int ball_enter(void)
 {
+    int id, jd;
+    int i;
+
     scan_balls();
     load_ball_demo();
-    return make_ball_label();
+
+    if ((id = gui_vstack(0)))
+    {
+        if ((jd = gui_harray(id)))
+        {
+            gui_label(jd, _("Ball"), GUI_SML, GUI_ALL, 0, 0);
+            gui_space(jd);
+            gui_start(jd, _("Back"), GUI_SML, BALL_BACK, 0);
+        }
+
+        gui_space(id);
+
+        if ((jd = gui_hstack(id)))
+        {
+            gui_state(jd, " > ", GUI_SML, BALL_NEXT, 0);
+
+            name_id = gui_label(jd, "very-long-ball-name",
+                                GUI_SML, GUI_ALL,
+                                gui_wht, gui_wht);
+
+            gui_set_trunc(name_id, TRUNC_TAIL);
+
+            gui_state(jd, " < ", GUI_SML, BALL_PREV, 0);
+        }
+
+        for (i = 0; i < 12; i++)
+            gui_space(id);
+
+        gui_layout(id, 0, 0);
+
+        gui_set_label(name_id, base_name(ball_file, NULL));
+    }
+
+    return id;
 }
 
 static void ball_leave(int id)
@@ -201,21 +224,12 @@ static void ball_timer(int id, float dt)
     }
 }
 
-static void ball_stick(int id, int a, int v)
-{
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-    {
-        if (v > +JOY_MID) ball_action(BALL_NEXT);
-        if (v < -JOY_MID) ball_action(BALL_PREV);
-    }
-}
-
 static int ball_buttn(int b, int d)
 {
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return ball_action(BALL_BACK);
+            return ball_action(gui_token(gui_click()));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return ball_action(BALL_BACK);
@@ -228,10 +242,10 @@ struct state st_ball = {
     ball_leave,
     ball_paint,
     ball_timer,
+    shared_point,
+    shared_stick,
     NULL,
-    ball_stick,
-    NULL,
-    NULL,
+    shared_click,
     NULL,
     ball_buttn,
     1, 0
