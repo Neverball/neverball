@@ -19,7 +19,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-static float  state_time;
+static float         state_time;
+static int           state_drawn;
 static struct state *state;
 
 struct state *curr_state(void)
@@ -42,8 +43,9 @@ int goto_state(struct state *st)
     if (state && state->leave)
         state->leave(state->gui_id);
 
-    state      = st;
-    state_time =  0;
+    state       = st;
+    state_time  = 0;
+    state_drawn = 0;
 
     if (state && state->enter)
         state->gui_id = state->enter();
@@ -56,6 +58,8 @@ int goto_state(struct state *st)
 void st_paint(float t)
 {
     int stereo = config_get_d(CONFIG_STEREO);
+
+    state_drawn = 1;
 
     if (state && state->paint)
     {
@@ -79,6 +83,9 @@ void st_paint(float t)
 
 void st_timer(float dt)
 {
+    if (!state_drawn)
+        return;
+
     state_time += dt;
 
     if (state && state->timer)
