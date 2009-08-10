@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "invis-rlk"
 "version" "1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"

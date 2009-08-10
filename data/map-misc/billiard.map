@@ -1,7 +1,6 @@
 // entity 0
 {
 "classname" "worldspawn"
-"levelname" "billiard"
 "version" "1"
 "author" "Paul Tompkins"
 "contributor" "Mehdi Yousfi-Monod"

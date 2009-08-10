@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "frogger-rlk"
 "version" "1"
 "back" "map-back/volcano.sol"
 "grad" "back/volcano.png"

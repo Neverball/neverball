@@ -1,7 +1,6 @@
 // entity 0
 {
 "classname" "worldspawn"
-"levelname" "ufo"
 "version" "2.1"
 "author" "Florian Priester"
 "shot" "shot-fwp/ufo.png"

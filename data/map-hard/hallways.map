@@ -13,7 +13,6 @@
 "grad" "back/volcano.png"
 "back" "map-back/volcano.sol"
 "version" "1"
-"levelname" "threeways-mym"
 "author" "Mehdi Yousfi-Monod"
 "message" "Control your speed and your bounces.\Teleporters will always bring you\back somewhere in the level."
 // brush 0

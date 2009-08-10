@@ -4,7 +4,6 @@
 "message" "You can never go home again..."
 "author" "Mehdi Yousfi-Monod"
 "version" "1"
-"levelname" "qbert"
 "shot" "shot-medium/qbert.jpg"
 "back" "map-back/city.sol"
 "grad" "back/city.png"

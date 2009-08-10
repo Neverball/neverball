@@ -3,7 +3,6 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "freefall"
 "version" "1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"

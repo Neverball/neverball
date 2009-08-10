@@ -11,7 +11,6 @@
 "grad" "back/land.png"
 "back" "map-back/clouds.sol"
 "version" "1"
-"levelname" "checkers"
 "author" "Paul Tompkins"
 // brush 0
 {

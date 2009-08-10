@@ -1,7 +1,6 @@
 // entity 0
 {
 "classname" "worldspawn"
-"levelname" "discs"
 "version" "1.0"
 "author" "Florian Priester"
 "shot" "shot-fwp/discs.png"

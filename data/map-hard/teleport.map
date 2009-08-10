@@ -3,7 +3,6 @@
 "classname" "worldspawn"
 "message" "The ball must be entirely within a teleporter\in order to trigger it.\Remember that the ball carries its momentum\through a teleporter, so plan ahead.\"
 "author" "Robert Kooima"
-"levelname" "teleport-rlk"
 "version" "1"
 "back" "map-back/volcano.sol"
 "grad" "back/volcano.png"

@@ -4,7 +4,6 @@
 "classname" "worldspawn"
 "message" "La danse asiatique\Trust in the arrows."
 "author" "Mehdi Yousfi-Monod"
-"levelname" "speeddance-mym"
 "version" "1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"

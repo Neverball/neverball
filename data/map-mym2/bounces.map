@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "bounces-mym"
 "version" "1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"

@@ -3,7 +3,6 @@
 "classname" "worldspawn"
 "message" "When the ball is on a moving platform,\it will be pulled in the direction of movement.\Use the rails to steady yourself,\and collect the coins you need\to open the goal."
 "author" "Mehdi Yousfi-Monod"
-"levelname" "speedbumps-mym"
 "version" "1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"

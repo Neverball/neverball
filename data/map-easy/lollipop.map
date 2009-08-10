@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "David Olsen"
-"levelname" "lollipop"
 "version" "1"
 "message" "Follow the yellow lick road!\\The blue coins are especially challenging,\but with some experimentation and practice,\you'll be able to collect them all."
 "back" "map-back/ocean.sol"

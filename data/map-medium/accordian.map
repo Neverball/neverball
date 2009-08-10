@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "message" "Stairway to heaven"
-"levelname" "accordian"
 "version" "1"
 "shot" "shot-medium/accordian.jpg"
 "back" "map-back/clouds.sol"

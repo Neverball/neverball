@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "spiralup"
 "version" "1"
 "shot" "shot-medium/spiralup.jpg"
 "back" "map-back/alien.sol"

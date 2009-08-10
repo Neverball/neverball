@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "title-rlk"
 "version" "2"
 "shot" "shot-medium/title.jpg"
 "song" "bgm/title.ogg"

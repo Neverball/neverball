@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "telemaze"
 "version" "1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"

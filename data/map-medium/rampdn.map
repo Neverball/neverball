@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "rampdn"
 "shot" "shot-medium/rampdn.jpg"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"

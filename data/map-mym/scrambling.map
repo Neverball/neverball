@@ -3,7 +3,6 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "scrambling"
 "version" "1.1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"

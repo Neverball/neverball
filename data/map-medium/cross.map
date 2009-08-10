@@ -12,7 +12,6 @@
 "grad" "back/ocean.png"
 "back" "map-back/ocean.sol"
 "version" "1"
-"levelname" "cross-para"
 "author" "Jānis Rūcis"
 // brush 0
 {

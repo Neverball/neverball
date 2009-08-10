@@ -3,7 +3,6 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "glasstower"
 "version" "1.1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"

@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "plinko"
 "version" "1"
 "shot" "shot-medium/plinko.jpg"
 "back" "map-back/jupiter.sol"
