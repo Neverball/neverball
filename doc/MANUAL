@@ -373,7 +373,7 @@ values follow.
         two.   If  you  have  weak hardware,  this  feature  won't  do
         anything.
 
-    joystick 0
+    joystick 1
 
         This key  enables joystick control.  0  is off, 1  is on.  The
         game may still be controlled with the mouse even while gamepad
