@@ -633,10 +633,9 @@ static int demo_compat_enter(void)
     {
         gui_label(id, _("Warning!"), GUI_MED, GUI_ALL, 0, 0);
         gui_space(id);
-        gui_multi(id, _("The replay you're about to view was\\"
-                        "recorded with a different (or unknown)\\"
-                        "version of this map. Be prepared to\\"
-                        "encounter visual errors.\\"),
+        gui_multi(id, _("The current replay was recorded with a\\"
+                        "different (or unknown) version of this level.\\"
+                        "Be prepared to encounter visual errors.\\"),
                   GUI_SML, GUI_ALL, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);
