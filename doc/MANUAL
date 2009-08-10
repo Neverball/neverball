@@ -246,8 +246,8 @@ values follow.
             view_dc  0
             view_dz  600
 
-    rotate_fast 200
-    rotate_slow 100
+    rotate_fast 300
+    rotate_slow 150
 
         These keys control the rate of camera rotation.  Roughly, they
         give  the rate  of lateral  camera motion  in  centimeters per
