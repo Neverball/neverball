@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2009-03-13 02:14+0200\n"
+"POT-Creation-Date: 2009-08-11 01:07+0300\n"
 "PO-Revision-Date: 2009-01-19 22:17+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "X-Generator: Lokalize 0.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: ball/demo.c:302
+#: ball/demo.c:233
 msgid "Missing format character in replay name\n"
 msgstr "Manglar formateringsteikn i opptaksnamn.\n"
 
-#: ball/demo.c:307
+#: ball/demo.c:238
 #, c-format
 msgid "Invalid format character in replay name: \"%%%c\"\n"
 msgstr "Ugyldig formateringsteikn i opptaksnamn: «%%%c».\n"
@@ -42,9 +42,27 @@ msgstr "Suksess"
 msgid "Fall-out"
 msgstr "Fall ned"
 
-#: ball/game_common.c:12 ball/progress.c:376
+#: ball/game_common.c:12 ball/game_common.c:24 ball/progress.c:376
 msgid "Unknown"
 msgstr "Ukjend"
+
+#: ball/game_common.c:20
+msgid "Chase"
+msgstr "Etterfølging"
+
+#: ball/game_common.c:21
+msgid "Lazy"
+msgstr "Lat"
+
+#: ball/game_common.c:22
+msgid "Manual"
+msgstr "Manuell"
+
+#: ball/game_common.c:23
+#, fuzzy
+#| msgid "Down"
+msgid "Top-Down"
+msgstr "Pil ned"
 
 #: ball/game_common.h:9
 msgid "snd/select.ogg"
@@ -78,45 +96,38 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:59 ball/st_demo.c:180 ball/st_goal.c:186
+#: ball/hud.c:60 ball/st_demo.c:197 ball/st_goal.c:186
 msgid "Coins"
 msgstr "Myntar"
 
-#: ball/hud.c:60
+#: ball/hud.c:61
 msgid "Goal"
 msgstr "Mål"
 
-#: ball/hud.c:79 ball/st_goal.c:176
+#: ball/hud.c:80 ball/st_goal.c:176
 msgid "Balls"
 msgstr "Ballar"
 
-#: ball/hud.c:80 ball/st_goal.c:181 putt/hud.c:45
+#: ball/hud.c:81 ball/st_goal.c:181 putt/hud.c:45
 msgid "Score"
 msgstr "Poeng"
 
-#: ball/hud.h:6
-msgid "Chase"
-msgstr "Etterfølging"
-
-#: ball/hud.h:7
-msgid "Lazy"
-msgstr "Lat"
-
-#: ball/hud.h:8
-msgid "Manual"
-msgstr "Manuell"
-
 #: ball/level.c:140
-#, c-format
-msgid "Error while loading level file '%s': %s\n"
+#, fuzzy, c-format
+#| msgid "Error while loading level file '%s': %s\n"
+msgid "Failure to load level file '%s'\n"
 msgstr "Feil ved opning av brettfila «%s»: %s\n"
 
-#: ball/level.c:142
-msgid "Not a valid level file"
-msgstr "Ikkje ei gyldig brettfil."
-
-#: ball/main.c:256
-#, c-format
+#: ball/main.c:254
+#, fuzzy, c-format
+#| msgid ""
+#| "Usage: %s [options ...]\n"
+#| "Options:\n"
+#| "  -h, --help                show this usage message.\n"
+#| "  -v, --version             show version.\n"
+#| "  -d, --data <dir>          use 'dir' as game data directory.\n"
+#| "  -r, --replay <file>       play the replay 'file'.\n"
+#| "  -i, --info                display info about a replay.\n"
 msgid ""
 "Usage: %s [options ...]\n"
 "Options:\n"
@@ -124,7 +135,6 @@ msgid ""
 "  -v, --version             show version.\n"
 "  -d, --data <dir>          use 'dir' as game data directory.\n"
 "  -r, --replay <file>       play the replay 'file'.\n"
-"  -i, --info                display info about a replay.\n"
 msgstr ""
 "Bruk: %s [val …]\n"
 "Val:\n"
@@ -134,41 +144,20 @@ msgstr ""
 "  -r, --replay <fil>        Spel opptaket «fil».\n"
 "  -i, --info                Vis informasjon om eit opptak.\n"
 
-#: ball/main.c:266
+#: ball/main.c:263
 #, c-format
 msgid "Option '%s' requires an argument.\n"
 msgstr "Valet «%s» tek eit argument.\n"
 
-#: ball/main.c:334
-msgid "Option '--info' requires '--replay'.\n"
-msgstr "Valet «--info» treng «--replay».\n"
-
-#: ball/main.c:359 putt/main.c:267
-msgid "Failure to establish game data directory\n"
-msgstr "Klarte ikkje fastsetja speldatamappa.\n"
-
-#: ball/main.c:365 putt/main.c:265
-msgid "Failure to establish config directory\n"
-msgstr "Klarte ikkje fastsetja oppsettmappa.\n"
-
-#: ball/main.c:388
-#, c-format
-msgid "Replay file '%s': %s\n"
-msgstr "Opptaksfila «%s»: %s\n"
-
-#: ball/main.c:389
-msgid "Not a replay file"
-msgstr "Ikkje ei opptaksfil."
-
-#: ball/progress.c:374 ball/st_help.c:249
+#: ball/progress.c:374 ball/st_help.c:247
 msgid "Challenge Mode"
 msgstr "Utfordringsmodus"
 
-#: ball/progress.c:374 ball/st_start.c:205
+#: ball/progress.c:374 ball/st_start.c:208
 msgid "Challenge"
 msgstr "Utfordring"
 
-#: ball/progress.c:375 ball/st_help.c:241
+#: ball/progress.c:375 ball/st_help.c:239
 msgid "Normal Mode"
 msgstr "Normalmodus"
 
@@ -180,162 +169,167 @@ msgstr "Normal"
 msgid "Unknown Mode"
 msgstr "Ukjend modus"
 
-#: ball/set.c:182
-#, c-format
-msgid "Error while loading user high-score file '%s': %s\n"
+#: ball/set.c:183
+#, fuzzy, c-format
+#| msgid "Error while loading user high-score file '%s': %s\n"
+msgid "Failure to load user score file '%s'"
 msgstr "Feil ved lasting av rekordfila «%s»: %s\n"
 
-#: ball/set.c:183
-msgid "Incorrect format"
-msgstr "Ugyldig format."
-
-#: ball/set.c:198
-#, c-format
-msgid "Cannot load the set file '%s': %s\n"
+#: ball/set.c:203
+#, fuzzy, c-format
+#| msgid "Cannot load the set file '%s': %s\n"
+msgid "Failure to load set file '%s'\n"
 msgstr "Klarte ikkje opna brettsamlinga «%s»: %s\n"
 
-#: ball/st_conf.c:213 putt/st_conf.c:169
-msgid "Options"
-msgstr "Oppsett"
+#: ball/st_ball.c:165 ball/st_conf.c:353
+#, fuzzy
+#| msgid "Balls"
+msgid "Ball"
+msgstr "Ballar"
 
-#: ball/st_conf.c:215 ball/st_help.c:98 ball/st_start.c:177 ball/util.c:532
-#: share/st_resol.c:76 putt/st_all.c:344 putt/st_all.c:492 putt/st_conf.c:171
+#: ball/st_ball.c:167 ball/st_conf.c:229 ball/st_help.c:96 ball/st_start.c:178
+#: ball/util.c:427 share/st_resol.c:106 putt/st_all.c:344 putt/st_all.c:492
+#: putt/st_conf.c:171
 msgid "Back"
 msgstr "Tilbake"
 
-#: ball/st_conf.c:223 ball/st_demo.c:577 ball/st_save.c:203 putt/st_conf.c:179
+#: ball/st_conf.c:227 putt/st_conf.c:169
+msgid "Options"
+msgstr "Oppsett"
+
+#: ball/st_conf.c:237 ball/st_demo.c:600 ball/st_save.c:206 putt/st_conf.c:179
 msgid "No"
 msgstr "Nei"
 
-#: ball/st_conf.c:224 ball/st_demo.c:578 ball/st_save.c:204
-#: ball/st_start.c:233 putt/st_conf.c:180
+#: ball/st_conf.c:238 ball/st_demo.c:601 ball/st_save.c:207
+#: ball/st_start.c:236 putt/st_conf.c:180
 msgid "Yes"
 msgstr "Ja"
 
-#: ball/st_conf.c:226 putt/st_conf.c:182
+#: ball/st_conf.c:240 putt/st_conf.c:182
 msgid "Fullscreen"
 msgstr "Fullskjerm"
 
-#: ball/st_conf.c:234 share/st_resol.c:74 putt/st_conf.c:190
+#: ball/st_conf.c:248 share/st_resol.c:104 putt/st_conf.c:190
 msgid "Resolution"
 msgstr "Oppløysing"
 
-#: ball/st_conf.c:242 ball/st_conf.c:251 putt/st_conf.c:198 putt/st_conf.c:207
+#: ball/st_conf.c:256 ball/st_conf.c:265 putt/st_conf.c:198 putt/st_conf.c:207
 msgid "Low"
 msgstr "Låg"
 
-#: ball/st_conf.c:243 ball/st_conf.c:252 putt/st_conf.c:199 putt/st_conf.c:208
+#: ball/st_conf.c:257 ball/st_conf.c:266 putt/st_conf.c:199 putt/st_conf.c:208
 msgid "High"
 msgstr "Høg"
 
-#: ball/st_conf.c:245 putt/st_conf.c:201
+#: ball/st_conf.c:259 putt/st_conf.c:201
 msgid "Textures"
 msgstr "Teksturar"
 
-#: ball/st_conf.c:254 putt/st_conf.c:210
+#: ball/st_conf.c:268 putt/st_conf.c:210
 msgid "Geometry"
 msgstr "Geometri"
 
-#: ball/st_conf.c:260 ball/st_conf.c:269 ball/st_conf.c:278 putt/st_conf.c:216
+#: ball/st_conf.c:274 ball/st_conf.c:283 ball/st_conf.c:292 putt/st_conf.c:216
 msgid "Off"
 msgstr "Av"
 
-#: ball/st_conf.c:261 ball/st_conf.c:270 ball/st_conf.c:279 putt/st_conf.c:217
+#: ball/st_conf.c:275 ball/st_conf.c:284 ball/st_conf.c:293 putt/st_conf.c:217
 msgid "On"
 msgstr "På"
 
-#: ball/st_conf.c:263
+#: ball/st_conf.c:277
 msgid "Reflection"
 msgstr "Refleksjon"
 
-#: ball/st_conf.c:272
+#: ball/st_conf.c:286
 msgid "Background"
 msgstr "Bakgrunn"
 
-#: ball/st_conf.c:281 putt/st_conf.c:219
+#: ball/st_conf.c:295 putt/st_conf.c:219
 msgid "Shadow"
 msgstr "Skuggar"
 
-#: ball/st_conf.c:303 putt/st_conf.c:241
+#: ball/st_conf.c:317 putt/st_conf.c:241
 msgid "Sound Volume"
 msgstr "Lydeffektar"
 
-#: ball/st_conf.c:323 putt/st_conf.c:261
+#: ball/st_conf.c:337 putt/st_conf.c:261
 msgid "Music Volume"
 msgstr "Musikk"
 
-#: ball/st_conf.c:333 ball/st_name.c:107
+#: ball/st_conf.c:346 ball/st_name.c:107
 msgid "Player Name"
 msgstr "Spelarnamn"
 
-#: ball/st_demo.c:178
+#: ball/st_demo.c:196
 msgid "Time"
 msgstr "Tid"
 
-#: ball/st_demo.c:182
+#: ball/st_demo.c:198
 msgid "Status"
 msgstr "Status"
 
-#: ball/st_demo.c:210 ball/st_demo.c:359
+#: ball/st_demo.c:225 ball/st_demo.c:384
 msgid "Replay"
 msgstr "Opptak"
 
-#: ball/st_demo.c:211 putt/st_all.c:680
+#: ball/st_demo.c:226 putt/st_all.c:680
 msgid "Player"
 msgstr "Spelar"
 
-#: ball/st_demo.c:212
+#: ball/st_demo.c:227
 msgid "Date"
 msgstr "Dato"
 
-#: ball/st_demo.c:258
+#: ball/st_demo.c:280
 msgid "Select Replay"
 msgstr "Vel opptak"
 
-#: ball/st_demo.c:280
+#: ball/st_demo.c:296
 msgid "No Replays"
 msgstr "Ingen opptak"
 
-#: ball/st_demo.c:482
+#: ball/st_demo.c:505
 msgid "Replay Paused"
 msgstr "Pause"
 
-#: ball/st_demo.c:485
+#: ball/st_demo.c:508
 msgid "Replay Ends"
 msgstr "Opptak slutt"
 
-#: ball/st_demo.c:494 ball/st_pause.c:110 putt/st_all.c:592
+#: ball/st_demo.c:517 ball/st_pause.c:110 putt/st_all.c:592
 msgid "Quit"
 msgstr "Avslutt"
 
-#: ball/st_demo.c:498
+#: ball/st_demo.c:521
 msgid "Keep"
 msgstr "Behald"
 
-#: ball/st_demo.c:499 share/keynames.c:38
+#: ball/st_demo.c:522 share/keynames.c:39
 msgid "Delete"
 msgstr "Slett"
 
-#: ball/st_demo.c:504 ball/st_pause.c:115 putt/st_all.c:593
+#: ball/st_demo.c:527 ball/st_pause.c:115 putt/st_all.c:593
 msgid "Continue"
 msgstr "Hald fram"
 
-#: ball/st_demo.c:508
+#: ball/st_demo.c:531
 msgid "Repeat"
 msgstr "Vis på nytt"
 
-#: ball/st_demo.c:573
+#: ball/st_demo.c:596
 msgid "Delete Replay?"
 msgstr "Vil du sletta opptaket?"
 
-#: ball/st_demo.c:611
+#: ball/st_demo.c:634
 msgid "Warning!"
 msgstr ""
 
-#: ball/st_demo.c:613
+#: ball/st_demo.c:636
 msgid ""
-"The replay you're about to view was\\recorded with a different (or unknown)"
-"\\version of this map. Be prepared to\\encounter visual errors.\\"
+"The current replay was recorded with a\\different (or unknown) version of "
+"this level.\\Be prepared to encounter visual errors.\\"
 msgstr ""
 
 #: ball/st_done.c:66
@@ -389,23 +383,23 @@ msgstr[1] "%d nye bonusbrett"
 msgid "Finish"
 msgstr "Fullførd"
 
-#: ball/st_help.c:94
+#: ball/st_help.c:92
 msgid "Techniques"
 msgstr "Teknikkar"
 
-#: ball/st_help.c:95
+#: ball/st_help.c:93
 msgid "Modes"
 msgstr "Modusar"
 
-#: ball/st_help.c:96
+#: ball/st_help.c:94
 msgid "Controls"
 msgstr "Styring"
 
-#: ball/st_help.c:97
+#: ball/st_help.c:95
 msgid "Rules"
 msgstr "Reglar"
 
-#: ball/st_help.c:108
+#: ball/st_help.c:106
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
@@ -413,7 +407,7 @@ msgstr ""
 "Bruk mus, styrespake eller\\tastaturpilene for å vippa\\golvet slik at "
 "ballen rullar.\\"
 
-#: ball/st_help.c:113
+#: ball/st_help.c:111
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
@@ -421,39 +415,39 @@ msgstr ""
 "Rull over myntar for å plukka\\dei opp. Samla saman nok\\myntar for å låsa "
 "opp\\målet og fullføra brettet.\\"
 
-#: ball/st_help.c:170
+#: ball/st_help.c:168
 msgid "Left and right mouse buttons rotate the view."
 msgstr "Bruk venstre/høgre museknapp for å rotera synsvinkelen."
 
-#: ball/st_help.c:171
+#: ball/st_help.c:169
 msgid "Hold Shift for faster view rotation."
 msgstr "Hald innne «Shift» for raskare rotering."
 
-#: ball/st_help.c:172
+#: ball/st_help.c:170
 msgid "Pause / Release Pointer"
 msgstr "Pause / start"
 
-#: ball/st_help.c:173
+#: ball/st_help.c:171
 msgid "Exit / Cancel Menu"
 msgstr "Avslutt / avbryt meny"
 
-#: ball/st_help.c:174
+#: ball/st_help.c:172
 msgid "Chase View"
 msgstr "Kamera: etterfølging"
 
-#: ball/st_help.c:175
+#: ball/st_help.c:173
 msgid "Lazy View"
 msgstr "Kamera: lat"
 
-#: ball/st_help.c:176
+#: ball/st_help.c:174
 msgid "Manual View"
 msgstr "Kamera: manuell"
 
-#: ball/st_help.c:177
+#: ball/st_help.c:175
 msgid "Screenshot"
 msgstr "Lagra skjermbilete"
 
-#: ball/st_help.c:243
+#: ball/st_help.c:241
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
 "to open the goal."
@@ -461,7 +455,7 @@ msgstr ""
 "Fullfør brettet før tida går ut.\\Du må plukka opp nok myntar for å opna "
 "målfeltet."
 
-#: ball/st_help.c:251
+#: ball/st_help.c:249
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
@@ -470,7 +464,7 @@ msgstr ""
 "ballar, så ikkje mist dei.\\Du får ein ny ball for kvar 100. mynt du plukkar "
 "opp."
 
-#: ball/st_help.c:265
+#: ball/st_help.c:263
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
@@ -478,7 +472,7 @@ msgstr ""
 "Du kan bruka hjørner til å hoppa.\\Start å rulla, og sikt på hjørnet.\\Med "
 "denne teknikken kan du av\\og til komma til nye stader.\\"
 
-#: ball/st_help.c:270
+#: ball/st_help.c:268
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
 "the camera by 45\\degrees for best results.\\"
@@ -486,7 +480,7 @@ msgstr ""
 "Vipp i to forskjellige retningar\\samtidig for å auka hellingsvinkelen."
 "\\Bruk manuelt kamera og set\\det til 45 gradar for best resultat.\\"
 
-#: ball/st_help.c:290 ball/st_help.c:300
+#: ball/st_help.c:288 ball/st_help.c:298
 msgid "Watch demo"
 msgstr "Sjå demo"
 
@@ -500,11 +494,11 @@ msgstr "Bonusbrett %s"
 msgid "Level %s"
 msgstr "Brett %s"
 
-#: ball/st_name.c:119
+#: ball/st_name.c:118
 msgid "OK"
 msgstr "OK"
 
-#: ball/st_name.c:121 ball/st_save.c:127
+#: ball/st_name.c:120 ball/st_save.c:126
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -520,41 +514,41 @@ msgstr "Pause"
 msgid "Restart"
 msgstr "Start på nytt"
 
-#: ball/st_play.c:62
+#: ball/st_play.c:123
 msgid "Ready?"
 msgstr "Klar?"
 
-#: ball/st_play.c:119
+#: ball/st_play.c:203
 msgid "Set?"
 msgstr "Ferdig?"
 
-#: ball/st_play.c:192
+#: ball/st_play.c:293
 msgid "GO!"
 msgstr "GÅ!"
 
-#: ball/st_save.c:114
+#: ball/st_save.c:113
 msgid "Replay Name"
 msgstr "Namn på opptak"
 
-#: ball/st_save.c:125
+#: ball/st_save.c:124
 msgid "Save"
 msgstr "Lagra"
 
-#: ball/st_save.c:197
+#: ball/st_save.c:200
 msgid "Overwrite?"
 msgstr "Vil du overskriva?"
 
-#: ball/st_set.c:114
+#: ball/st_set.c:117
 msgid "Level Set"
 msgstr "Brettsamling"
 
 #. Translators: adjust the amount of whitespace here
 #. * as necessary for the buttons to look good.
-#: ball/st_start.c:230
+#: ball/st_start.c:233
 msgid "   No   "
 msgstr "   Nei   "
 
-#: ball/st_start.c:239
+#: ball/st_start.c:242
 msgid "Lock Goals of Completed Levels?"
 msgstr "Lås måla på fullførde brett?"
 
@@ -562,27 +556,27 @@ msgstr "Lås måla på fullførde brett?"
 msgid "Time's Up!"
 msgstr "Tida er ute"
 
-#: ball/st_title.c:121 ball/st_title.c:155
+#: ball/st_title.c:127 ball/st_title.c:161
 msgid "menu^Cheat"
 msgstr "Fusk"
 
-#: ball/st_title.c:127 ball/st_title.c:158 putt/st_all.c:214
+#: ball/st_title.c:133 ball/st_title.c:164 putt/st_all.c:214
 msgid "menu^Play"
 msgstr "Spel"
 
-#: ball/st_title.c:161
+#: ball/st_title.c:167
 msgid "menu^Replay"
 msgstr "Opptak"
 
-#: ball/st_title.c:162
+#: ball/st_title.c:168
 msgid "menu^Help"
 msgstr "Hjelp"
 
-#: ball/st_title.c:163 putt/st_all.c:215
+#: ball/st_title.c:169 putt/st_all.c:215
 msgid "menu^Options"
 msgstr "Oppsett"
 
-#: ball/st_title.c:164 putt/st_all.c:216
+#: ball/st_title.c:170 putt/st_all.c:216
 msgid "menu^Exit"
 msgstr "Avslutt"
 
@@ -598,45 +592,55 @@ msgstr "Middels"
 msgid "Easy"
 msgstr "Lett"
 
-#: ball/util.c:58 ball/util.c:119 ball/util.c:179 ball/util.c:240
+#: ball/util.c:77 ball/util.c:142
 msgid "Unavailable"
 msgstr "Ikkje tilgjengeleg"
 
-#: ball/util.c:130 ball/util.c:302
+#: ball/util.c:200 ball/util.c:247
 msgid "Most Coins"
 msgstr "Flest myntar"
 
-#: ball/util.c:251 ball/util.c:308
+#: ball/util.c:206 ball/util.c:251
+msgid "Best Times"
+msgstr "Beste tider"
+
+#: ball/util.c:212 ball/util.c:255
 #, fuzzy
 #| msgid "Caps Lock"
 msgid "Fast Unlock"
 msgstr "Caps Lock"
 
-#: ball/util.c:251 ball/util.c:305
-msgid "Best Times"
-msgstr "Beste tider"
-
-#: ball/util.c:318
+#: ball/util.c:224
 msgid "Change Name"
 msgstr "Byt namn"
 
-#: ball/util.c:465
+#: ball/util.c:360
 msgid "caps"
 msgstr "store/små"
 
-#: ball/util.c:526
+#: ball/util.c:421
 msgid "Next"
 msgstr "Neste"
 
-#: ball/util.c:527
+#: ball/util.c:422
 msgid "Prev"
 msgstr "Førre"
 
-#: share/base_config.h:92
+#: share/gui.c:236
+#, c-format
+msgid "Font \"%s\" doesn't exist, trying default font.\n"
+msgstr ""
+
+#: share/gui.c:270
+#, c-format
+msgid "Could not load font %s.\n"
+msgstr ""
+
+#: share/gui.h:23
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr "ttf/DejaVuSans-Bold.ttf"
 
-#: share/image.c:226
+#: share/image.c:229
 #, c-format
 msgid "Failed to convert SDL_ttf surface: %s\n"
 msgstr "Klarte ikkje gjera om SDL_ttf-overflate: %s\n"
@@ -647,227 +651,227 @@ msgstr "Klarte ikkje gjera om SDL_ttf-overflate: %s\n"
 #. * might not be corresponding names for all these keys in your language,
 #. * and that's perfectly fine -- in such cases just copy the source string.
 #.
-#: share/keynames.c:31
+#: share/keynames.c:32
 msgid "Backspace"
 msgstr "Rettetast"
 
-#: share/keynames.c:32
+#: share/keynames.c:33
 msgid "Tab"
 msgstr "Tab"
 
-#: share/keynames.c:33
+#: share/keynames.c:34
 msgid "Clear"
 msgstr "Clear"
 
-#: share/keynames.c:34
+#: share/keynames.c:35
 msgid "Return"
 msgstr "Enter"
 
-#: share/keynames.c:35
+#: share/keynames.c:36
 msgid "Pause"
 msgstr "Pause"
 
-#: share/keynames.c:36
+#: share/keynames.c:37
 msgid "Escape"
 msgstr "Escape"
 
-#: share/keynames.c:37
+#: share/keynames.c:38
 msgid "Space"
 msgstr "Mellomrom"
 
-#: share/keynames.c:39
+#: share/keynames.c:40
 msgid "Enter"
 msgstr "Enter"
 
-#: share/keynames.c:40
+#: share/keynames.c:41
 msgid "Equals"
 msgstr "Er lik"
 
-#: share/keynames.c:41
+#: share/keynames.c:42
 msgid "Up"
 msgstr "Pil opp"
 
-#: share/keynames.c:42 share/keynames.c:45
+#: share/keynames.c:43 share/keynames.c:46
 msgid "Down"
 msgstr "Pil ned"
 
-#: share/keynames.c:43
+#: share/keynames.c:44
 msgid "Right"
 msgstr "Pil høgre"
 
-#: share/keynames.c:44
+#: share/keynames.c:45
 msgid "Left"
 msgstr "Pil venstre"
 
-#: share/keynames.c:46
+#: share/keynames.c:47
 msgid "Insert"
 msgstr "Insert"
 
-#: share/keynames.c:47
+#: share/keynames.c:48
 msgid "Home"
 msgstr "Home"
 
-#: share/keynames.c:48
+#: share/keynames.c:49
 msgid "End"
 msgstr "End"
 
-#: share/keynames.c:49
+#: share/keynames.c:50
 msgid "Page Up"
 msgstr "Page Up"
 
-#: share/keynames.c:50
+#: share/keynames.c:51
 msgid "Page Down"
 msgstr "Page Down"
 
-#: share/keynames.c:51
+#: share/keynames.c:52
 msgid "F1"
 msgstr "F1"
 
-#: share/keynames.c:52
+#: share/keynames.c:53
 msgid "F2"
 msgstr "F2"
 
-#: share/keynames.c:53
+#: share/keynames.c:54
 msgid "F3"
 msgstr "F3"
 
-#: share/keynames.c:54
+#: share/keynames.c:55
 msgid "F4"
 msgstr "F4"
 
-#: share/keynames.c:55
+#: share/keynames.c:56
 msgid "F5"
 msgstr "F5"
 
-#: share/keynames.c:56
+#: share/keynames.c:57
 msgid "F6"
 msgstr "F6"
 
-#: share/keynames.c:57
+#: share/keynames.c:58
 msgid "F7"
 msgstr "F7"
 
-#: share/keynames.c:58
+#: share/keynames.c:59
 msgid "F8"
 msgstr "F8"
 
-#: share/keynames.c:59
+#: share/keynames.c:60
 msgid "F9"
 msgstr "F9"
 
-#: share/keynames.c:60
+#: share/keynames.c:61
 msgid "F10"
 msgstr "F10"
 
-#: share/keynames.c:61
+#: share/keynames.c:62
 msgid "F11"
 msgstr "F11"
 
-#: share/keynames.c:62
+#: share/keynames.c:63
 msgid "F12"
 msgstr "F12"
 
-#: share/keynames.c:63
+#: share/keynames.c:64
 msgid "F13"
 msgstr "F13"
 
-#: share/keynames.c:64
+#: share/keynames.c:65
 msgid "F14"
 msgstr "F14"
 
-#: share/keynames.c:65
+#: share/keynames.c:66
 msgid "F15"
 msgstr "F15"
 
-#: share/keynames.c:66
+#: share/keynames.c:67
 msgid "Num Lock"
 msgstr "Num Lock"
 
-#: share/keynames.c:67
+#: share/keynames.c:68
 msgid "Caps Lock"
 msgstr "Caps Lock"
 
-#: share/keynames.c:68
+#: share/keynames.c:69
 msgid "Scroll Lock"
 msgstr "Scroll Lock"
 
-#: share/keynames.c:69
+#: share/keynames.c:70
 msgid "Right Shift"
 msgstr "Høgre Shift"
 
-#: share/keynames.c:70
+#: share/keynames.c:71
 msgid "Left Shift"
 msgstr "Venstre Shift"
 
-#: share/keynames.c:71
+#: share/keynames.c:72
 msgid "Right CTRL"
 msgstr "Høgre Ctrl"
 
-#: share/keynames.c:72
+#: share/keynames.c:73
 msgid "Left CTRL"
 msgstr "Venstre Ctrl"
 
-#: share/keynames.c:73
+#: share/keynames.c:74
 msgid "Right Alt"
 msgstr "Høgre Alt"
 
-#: share/keynames.c:74
+#: share/keynames.c:75
 msgid "Left Alt"
 msgstr "Venstre Alt"
 
-#: share/keynames.c:75
+#: share/keynames.c:76
 msgid "Right Meta"
 msgstr "Høgre Meta"
 
-#: share/keynames.c:76
+#: share/keynames.c:77
 msgid "Left Meta"
 msgstr "Venstre Meta"
 
-#: share/keynames.c:77
+#: share/keynames.c:78
 msgid "Left Super"
 msgstr "Venstre Super"
 
-#: share/keynames.c:78
+#: share/keynames.c:79
 msgid "Right Super"
 msgstr "Høgre Super"
 
-#: share/keynames.c:79
+#: share/keynames.c:80
 msgid "Alt Gr"
 msgstr "Alt Gr"
 
-#: share/keynames.c:80
+#: share/keynames.c:81
 msgid "Compose"
 msgstr "Compose"
 
-#: share/keynames.c:81
+#: share/keynames.c:82
 msgid "Help"
 msgstr "Hjelp"
 
-#: share/keynames.c:82
+#: share/keynames.c:83
 msgid "Print Screen"
 msgstr "Print Screen"
 
-#: share/keynames.c:83
+#: share/keynames.c:84
 msgid "Sys Req"
 msgstr "Sys Req"
 
-#: share/keynames.c:84
+#: share/keynames.c:85
 msgid "Break"
 msgstr "Break"
 
-#: share/keynames.c:85
+#: share/keynames.c:86
 msgid "Menu"
 msgstr "Meny"
 
-#: share/keynames.c:86
+#: share/keynames.c:87
 msgid "Power"
 msgstr "Power"
 
-#: share/keynames.c:87
+#: share/keynames.c:88
 msgid "Euro"
 msgstr "Euro"
 
-#: share/keynames.c:88
+#: share/keynames.c:89
 msgid "Undo"
 msgstr "Angra"
 
@@ -880,23 +884,23 @@ msgstr "Klarte ikkje henta informasjon frå vindaugshandsamar: %s\n"
 msgid "Failed to allocate memory for EWMH icon data.\n"
 msgstr "Klarte ikkje gjera klar minne til EWMH-ikon.\n"
 
-#: putt/hole.c:104 putt/hud.c:51 putt/st_all.c:98 putt/st_all.c:142
+#: putt/hole.c:107 putt/hud.c:51 putt/st_all.c:98 putt/st_all.c:142
 msgid "Par"
 msgstr "Par"
 
-#: putt/hole.c:106 putt/st_all.c:99 putt/st_all.c:143
+#: putt/hole.c:109 putt/st_all.c:99 putt/st_all.c:143
 msgid "P1"
 msgstr "S1"
 
-#: putt/hole.c:107 putt/st_all.c:100 putt/st_all.c:144
+#: putt/hole.c:110 putt/st_all.c:100 putt/st_all.c:144
 msgid "P2"
 msgstr "S2"
 
-#: putt/hole.c:108 putt/st_all.c:101 putt/st_all.c:145
+#: putt/hole.c:111 putt/st_all.c:101 putt/st_all.c:145
 msgid "P3"
 msgstr "S3"
 
-#: putt/hole.c:109 putt/st_all.c:102 putt/st_all.c:146
+#: putt/hole.c:112 putt/st_all.c:102 putt/st_all.c:146
 msgid "P4"
 msgstr "S4"
 
@@ -1343,7 +1347,9 @@ msgid "=UFO=\\Ride the spaceship they don't want you to know about."
 msgstr "=UFO=\\Vert med i romskipet dei ikkje vil du skal kjenna til."
 
 #: data/map-hard/airways.map
-msgid "2 switches have to be enabled to open the path to the goal."
+#, fuzzy
+#| msgid "2 switches have to be enabled to open the path to the goal."
+msgid "2 switches have to be enabled\\to open the path to the goal."
 msgstr "Du må slå på to brytarar for\\å kunna nå fram til målet."
 
 #: data/map-hard/check.map
@@ -1974,6 +1980,27 @@ msgstr "mtrl/words-nn"
 
 msgid "item/coin/coin"
 msgstr "item/coin/coin-no"
+
+#~ msgid "Not a valid level file"
+#~ msgstr "Ikkje ei gyldig brettfil."
+
+#~ msgid "Option '--info' requires '--replay'.\n"
+#~ msgstr "Valet «--info» treng «--replay».\n"
+
+#~ msgid "Failure to establish game data directory\n"
+#~ msgstr "Klarte ikkje fastsetja speldatamappa.\n"
+
+#~ msgid "Failure to establish config directory\n"
+#~ msgstr "Klarte ikkje fastsetja oppsettmappa.\n"
+
+#~ msgid "Replay file '%s': %s\n"
+#~ msgstr "Opptaksfila «%s»: %s\n"
+
+#~ msgid "Not a replay file"
+#~ msgstr "Ikkje ei opptaksfil."
+
+#~ msgid "Incorrect format"
+#~ msgstr "Ugyldig format."
 
 #~ msgid "Unlock Goal"
 #~ msgstr "Målopplåsing"
