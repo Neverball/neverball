@@ -552,7 +552,7 @@ msgstr "Conjunto de Fases"
 #. * as necessary for the buttons to look good.
 #: ball/st_start.c:233
 msgid "   No   "
-msgstr "   Não  "
+msgstr " Não "
 
 #: ball/st_start.c:242
 msgid "Lock Goals of Completed Levels?"
