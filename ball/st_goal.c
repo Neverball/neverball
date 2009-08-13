@@ -115,7 +115,7 @@ static int goal_enter(void)
     const char *s1 = _("New Record");
     const char *s2 = _("GOAL");
 
-    int id, jd, kd;
+    int id, jd, kd, ld, md;
 
     const struct level *l = get_level(curr_level());
 
@@ -169,30 +169,41 @@ static int goal_enter(void)
 
             if ((jd = gui_hstack(id)))
             {
+                gui_filler(jd);
 
-                if ((kd = gui_harray(jd)))
+                if ((kd = gui_vstack(jd)))
                 {
-                    balls_id = gui_count(kd, 100, GUI_MED, GUI_NE);
-                    gui_label(kd, _("Balls"), GUI_SML, 0, gui_wht, gui_wht);
-                }
-                if ((kd = gui_harray(jd)))
-                {
-                    score_id = gui_count(kd, 1000, GUI_MED, 0);
-                    gui_label(kd, _("Score"), GUI_SML, 0, gui_wht, gui_wht);
-                }
-                if ((kd = gui_harray(jd)))
-                {
-                    coins_id = gui_count(kd, 100, GUI_MED, 0);
-                    gui_label(kd, _("Coins"), GUI_SML, GUI_NW, gui_wht, gui_wht);
+                    if ((ld = gui_hstack(kd)))
+                    {
+                        if ((md = gui_harray(ld)))
+                        {
+                            balls_id = gui_count(md, 100, GUI_MED, GUI_NE);
+                            gui_label(md, _("Balls"), GUI_SML, 0,
+                                      gui_wht, gui_wht);
+                        }
+                        if ((md = gui_harray(ld)))
+                        {
+                            score_id = gui_count(md, 1000, GUI_MED, 0);
+                            gui_label(md, _("Score"), GUI_SML, 0,
+                                      gui_wht, gui_wht);
+                        }
+                        if ((md = gui_harray(ld)))
+                        {
+                            coins_id = gui_count(md, 100, GUI_MED, 0);
+                            gui_label(md, _("Coins"), GUI_SML, GUI_NW,
+                                      gui_wht, gui_wht);
+                        }
+
+                        gui_set_count(balls_id, balls);
+                        gui_set_count(score_id, score);
+                        gui_set_count(coins_id, coins);
+                    }
+
+                    gui_label(kd, msg, GUI_SML, GUI_BOT, 0, 0);
                 }
 
-                gui_set_count(balls_id, balls);
-                gui_set_count(score_id, score);
-                gui_set_count(coins_id, coins);
-
+                gui_filler(jd);
             }
-
-            gui_label(id, msg, GUI_SML, GUI_BOT, 0, 0);
 
             gui_space(id);
         }
