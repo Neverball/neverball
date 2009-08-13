@@ -548,7 +548,7 @@ void gui_set_label(int id, const char *text)
     if (glIsList(widget[id].text_obj))
         glDeleteLists(widget[id].text_obj, 1);
 
-    text = gui_truncate(text, widget[id].w - radius * 2,
+    text = gui_truncate(text, widget[id].w - radius,
                         font[widget[id].size],
                         widget[id].trunc);
 
