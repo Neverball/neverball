@@ -24,6 +24,21 @@ endif
 # MINGW=1 also supported.
 
 #------------------------------------------------------------------------------
+# Paths (packagers might want to set DATADIR and LOCALEDIR)
+
+USERDIR   := .neverball
+DATADIR   := ./data
+LOCALEDIR := ./locale
+
+ifdef MINGW
+    USERDIR := Neverball
+endif
+
+ifneq ($(BUILD),release)
+    USERDIR := $(USERDIR)-dev
+endif
+
+#------------------------------------------------------------------------------
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
 ifeq ($(DEBUG),1)
@@ -56,6 +71,11 @@ PNG_CPPFLAGS := $(shell libpng-config --cflags)
 
 ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare \
     -DVERSION=\"$(VERSION)\"
+
+ALL_CPPFLAGS += \
+    -DCONFIG_USER=\"$(USERDIR)\" \
+    -DCONFIG_DATA=\"$(DATADIR)\" \
+    -DCONFIG_LOCALE=\"$(LOCALEDIR)\"
 
 ifeq ($(ENABLE_NLS),0)
     ALL_CPPFLAGS += -DENABLE_NLS=0

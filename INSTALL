@@ -78,12 +78,12 @@ them must be set.
 
  2. The directory given by the NEVERBALL_DATA environment variable.
 
- 3. The   directory   given  by  the  CONFIG_DATA   macro  defined  in
-    share/base_config.h
+ 3. The directory given by the CONFIG_DATA macro defined in
+    share/base_config.h (which corresponds to the DATADIR Makefile
+    variable).
 
-A normal Linux installation would  probably copy the data directory to
-"/usr/local/share/games/neverball/" and  change the  CONFIG_DATA macro
-to match.
+A normal Linux installation would probably copy the data directory to
+"/usr/local/share/games/neverball/" and set DATADIR to match.
 
 
 * DISTRIBUTION
