@@ -1,16 +1,27 @@
 
 #------------------------------------------------------------------------------
 
-VERSION := $(shell sh scripts/version.sh)
-ifeq ($(VERSION),unknown)
-    $(warning Failed to obtain sane version for this build.)
+BUILD := $(shell head -n1 BUILD 2> /dev/null || echo release)
+
+ifeq ($(BUILD),release)
+    VERSION := 1.5.2
+else
+    VERSION := $(shell sh scripts/version.sh)
+    ifeq ($(VERSION),unknown)
+        VERSION := 1.5.2-dev
+    endif
 endif
 
+$(info Will make a "$(BUILD)" build of Neverball $(VERSION).)
+
+#------------------------------------------------------------------------------
 # Provide a target system hint for the Makefile.
 
 ifeq ($(shell uname), Darwin)
     DARWIN := 1
 endif
+
+# MINGW=1 also supported.
 
 #------------------------------------------------------------------------------
 # Optional flags (CFLAGS, CPPFLAGS, ...)
