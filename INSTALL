@@ -26,14 +26,14 @@ library must be installed and configured:
 
 * FONTS
 
-The Deja  Vu font typically  used by Neverball  is not usable  for the
-Simplified  Chinese  translation.   Due  to  file  size  concerns,  an
-appropriate font  is not  included; however, if  a font with  the name
-"ttf/wqy-zenhei.ttc"  exists  in  Neverball's  search  path,  it  will
-attempt to use that font.  We recommend downloading and installing the
-Wen Quan Yi Chinese font:
+The Deja Vu font used by  Neverball is not suitable for the Simplified
+Chinese translation.   Due to file size concerns,  an appropriate font
+is  not included  with Neverball;  however, if  a font  with  the name
+"ttf/wqy-zenhei.ttc"  is  found in  the  search  path, Neverball  will
+attempt  to use  that  font.  The  Wen  Quan Yi  Chinese  font can  be
+obtained from here:
 
-    Wen Quan Yi       http://wenq.org/enindex.cgi
+    Wen Quan Yi       http://wenq.org/en/
 
 
 * COMPILATION
