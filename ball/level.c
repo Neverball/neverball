@@ -122,6 +122,10 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
             l->score.best_times.timer[2] = l->time;
         if (need_fu_easy)
             l->score.fast_unlock.timer[2] = l->time;
+
+        l->score.most_coins.timer[0] =
+            l->score.most_coins.timer[1] =
+            l->score.most_coins.timer[2] = l->time;
     }
 }
 
