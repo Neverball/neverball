@@ -172,9 +172,9 @@ static void gui_set_scores(const char *label, const struct score *s, int hilite)
 
 static int score_type = GUI_MOST_COINS;
 
-void gui_score_board(int id, unsigned int types, int e, int h)
+void gui_score_board(int pd, unsigned int types, int e, int h)
 {
-    int jd, kd, ld;
+    int id, jd, kd, ld;
 
     assert((types & GUI_MOST_COINS)  == GUI_MOST_COINS ||
            (types & GUI_BEST_TIMES)  == GUI_BEST_TIMES ||
@@ -185,56 +185,59 @@ void gui_score_board(int id, unsigned int types, int e, int h)
     while ((types & score_type) != score_type)
         score_type = gui_score_next(score_type);
 
-    gui_filler(id);
-
-    if ((jd = gui_hstack(id)))
+    if ((id = gui_hstack(pd)))
     {
-        gui_filler(jd);
+        gui_filler(id);
 
-        if ((kd = gui_vstack(jd)))
+        if ((jd = gui_hstack(id)))
         {
-            gui_filler(kd);
+            gui_filler(jd);
 
-            if ((types & GUI_MOST_COINS) == GUI_MOST_COINS)
+            if ((kd = gui_vstack(jd)))
             {
-                coin_btn_id = gui_state(kd, _("Most Coins"),
-                                        GUI_SML, GUI_MOST_COINS,
-                                        score_type == GUI_MOST_COINS);
-            }
-            if ((types & GUI_BEST_TIMES) == GUI_BEST_TIMES)
-            {
-                time_btn_id = gui_state(kd, _("Best Times"),
-                                        GUI_SML, GUI_BEST_TIMES,
-                                        score_type == GUI_BEST_TIMES);
-            }
-            if ((types & GUI_FAST_UNLOCK) == GUI_FAST_UNLOCK)
-            {
-                goal_btn_id = gui_state(kd, _("Fast Unlock"),
-                                        GUI_SML, GUI_FAST_UNLOCK,
-                                        score_type == GUI_FAST_UNLOCK);
-            }
+                gui_filler(kd);
 
-            if (h)
-            {
-                gui_space(kd);
-
-                if ((ld = gui_hstack(kd)))
+                if ((types & GUI_MOST_COINS) == GUI_MOST_COINS)
                 {
-                    gui_filler(ld);
-                    gui_state(ld, _("Change Name"), GUI_SML, GUI_NAME, 0);
-                    gui_filler(ld);
+                    coin_btn_id = gui_state(kd, _("Most Coins"),
+                                            GUI_SML, GUI_MOST_COINS,
+                                            score_type == GUI_MOST_COINS);
                 }
+                if ((types & GUI_BEST_TIMES) == GUI_BEST_TIMES)
+                {
+                    time_btn_id = gui_state(kd, _("Best Times"),
+                                            GUI_SML, GUI_BEST_TIMES,
+                                            score_type == GUI_BEST_TIMES);
+                }
+                if ((types & GUI_FAST_UNLOCK) == GUI_FAST_UNLOCK)
+                {
+                    goal_btn_id = gui_state(kd, _("Fast Unlock"),
+                                            GUI_SML, GUI_FAST_UNLOCK,
+                                            score_type == GUI_FAST_UNLOCK);
+                }
+
+                if (h)
+                {
+                    gui_space(kd);
+
+                    if ((ld = gui_hstack(kd)))
+                    {
+                        gui_filler(ld);
+                        gui_state(ld, _("Change Name"), GUI_SML, GUI_NAME, 0);
+                        gui_filler(ld);
+                    }
+                }
+
+                gui_filler(kd);
             }
 
-            gui_filler(kd);
+            gui_filler(jd);
         }
 
-        gui_filler(jd);
+        gui_filler(id);
+        gui_scores(id, e);
+        gui_filler(id);
     }
-
-    gui_filler(id);
-    gui_scores(id, e);
-    gui_filler(id);
 }
 
 void set_score_board(const struct score *smc, int hmc,

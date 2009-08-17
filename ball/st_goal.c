@@ -212,10 +212,9 @@ static int goal_enter(void)
             balls_id = score_id = coins_id = 0;
         }
 
-        if ((jd = gui_hstack(id)))
-            gui_score_board(jd, GUI_MOST_COINS |
-                                GUI_BEST_TIMES |
-                                GUI_FAST_UNLOCK, 1, high);
+        gui_score_board(id, (GUI_MOST_COINS |
+                             GUI_BEST_TIMES |
+                             GUI_FAST_UNLOCK), 1, high);
 
         gui_space(id);
 
