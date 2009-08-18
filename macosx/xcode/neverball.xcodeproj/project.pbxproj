@@ -4101,7 +4101,7 @@
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_2)",
 				);
-				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.1\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverputt.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.2\\\"";
 				OTHER_CFLAGS_QUOTED_FOR_TARGET_2 = "-DCONFIG_DATA=\\\"/Library/Application\\ Support/Neverball\\ Data/data\\\"";
 				OTHER_LDFLAGS = (
 					"-Z",
@@ -4246,7 +4246,7 @@
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_1)",
 					"$(OTHER_CFLAGS_QUOTED_FOR_TARGET_2)",
 				);
-				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.1\\\"";
+				OTHER_CFLAGS_QUOTED_FOR_TARGET_1 = "-DCONFIG_LOCALE=\\\"Neverball.app/Contents/Resources/locale\\\" -DVERSION=\\\"1.5.2\\\"";
 				OTHER_CFLAGS_QUOTED_FOR_TARGET_2 = "-DCONFIG_DATA=\\\"/Library/Application\\ Support/Neverball\\ Data/data\\\"";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CPLUSPLUSFLAGS)";
 				OTHER_LDFLAGS = (
