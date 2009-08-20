@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "rampup-rlk"
 "version" "1"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"

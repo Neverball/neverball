@@ -211,13 +211,16 @@ static int conf_enter(void)
         int s = config_get_d(CONFIG_SOUND_VOLUME);
         int m = config_get_d(CONFIG_MUSIC_VOLUME);
 
-        char resolution[20], player[MAXNAM] = "";
+        const char *player = config_get_s(CONFIG_PLAYER);
+        const char *ball   = config_get_s(CONFIG_BALL_FILE);
+
+        char resolution[20];
+
+        int name_id = 0, ball_id = 0;
 
         sprintf(resolution, "%d x %d",
                 config_get_d(CONFIG_WIDTH),
                 config_get_d(CONFIG_HEIGHT));
-
-        config_get_s(CONFIG_PLAYER, player, MAXNAM - 1);
 
         if ((jd = gui_harray(id)))
         {
@@ -339,21 +342,24 @@ static int conf_enter(void)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, player, GUI_SML, CONF_PLAYER, 0);
-
+            name_id = gui_state(kd, " ", GUI_SML, CONF_PLAYER, 0);
             gui_label(jd, _("Player Name"), GUI_SML, GUI_ALL, 0, 0);
         }
 
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            char ball[64] = "";
-            config_get_s(CONFIG_BALL_FILE, ball, sizeof (ball) - 1);
-            gui_state(kd, base_name(ball, NULL), GUI_SML, CONF_BALL, 0);
+            ball_id = gui_state(kd, " ", GUI_SML, CONF_BALL, 0);
             gui_label(jd, _("Ball"), GUI_SML, GUI_ALL, 0, 0);
         }
 
         gui_layout(id, 0, 0);
+
+        gui_set_trunc(name_id, TRUNC_TAIL);
+        gui_set_trunc(ball_id, TRUNC_TAIL);
+
+        gui_set_label(name_id, player);
+        gui_set_label(ball_id, base_name(ball, NULL));
     }
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");

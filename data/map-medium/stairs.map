@@ -12,7 +12,6 @@
 "grad" "back/city.png"
 "back" "map-back/city.sol"
 "version" "1"
-"levelname" "stairs-rlk"
 "author" "Robert Kooima"
 // brush 0
 {

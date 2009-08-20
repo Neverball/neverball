@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "islands"
 "version" "1"
 "shot" "shot-medium/islands.jpg"
 "back" "map-back/jupiter.sol"

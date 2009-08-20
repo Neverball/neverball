@@ -4,7 +4,6 @@
 "classname" "worldspawn"
 "message" "The temptation to move quickly\could prove your undoing.\\Then again, maybe not..."
 "author" "Mehdi Yousfi-Monod"
-"levelname" "marblecurves-mym"
 "version" "1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"

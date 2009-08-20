@@ -44,9 +44,9 @@ static void score_swap(struct score *S, int i, int j)
     char player[MAXNAM];
     int  tmp;
 
-    strncpy(player,       S->player[i], MAXNAM);
-    strncpy(S->player[i], S->player[j], MAXNAM);
-    strncpy(S->player[j], player,       MAXNAM);
+    strncpy(player,       S->player[i], MAXNAM - 1);
+    strncpy(S->player[i], S->player[j], MAXNAM - 1);
+    strncpy(S->player[j], player,       MAXNAM - 1);
 
     tmp         = S->timer[i];
     S->timer[i] = S->timer[j];
@@ -79,7 +79,7 @@ int score_time_insert(struct score *s, const char *player, int timer, int coins)
 {
     int i;
 
-    strncpy(s->player[3], player, MAXNAM);
+    strncpy(s->player[3], player, MAXNAM - 1);
     s->timer[3] = timer;
     s->coins[3] = coins;
 
@@ -93,7 +93,7 @@ int score_coin_insert(struct score *s, const char *player, int timer, int coins)
 {
     int i;
 
-    strncpy(s->player[3], player, MAXNAM);
+    strncpy(s->player[3], player, MAXNAM - 1);
     s->timer[3] = timer;
     s->coins[3] = coins;
 

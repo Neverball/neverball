@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "grid-rlk"
 "version" "1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"

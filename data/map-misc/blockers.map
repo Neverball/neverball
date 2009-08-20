@@ -1,7 +1,6 @@
 // entity 0
 {
 "classname" "worldspawn"
-"levelname" "blockers"
 "version" "1.0"
 "author" "Alan Smithee"
 "shot" "shot-misc/blockers.jpg"

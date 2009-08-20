@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Jean Privat"
-"levelname" "elevator"
 "version" "1"
 "message" "Calm and meditation may bring you to the Nirvana."
 "back" "map-back/clouds.sol"

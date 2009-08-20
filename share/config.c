@@ -144,7 +144,7 @@ static struct
     { &CONFIG_SOUND_VOLUME, "sound_volume", 10 },
     { &CONFIG_MUSIC_VOLUME, "music_volume", 6 },
 
-    { &CONFIG_JOYSTICK,               "joystick",               0 },
+    { &CONFIG_JOYSTICK,               "joystick",               1 },
     { &CONFIG_JOYSTICK_DEVICE,        "joystick_device",        0 },
     { &CONFIG_JOYSTICK_AXIS_X,        "joystick_axis_x",        0 },
     { &CONFIG_JOYSTICK_AXIS_Y,        "joystick_axis_y",        1 },
@@ -521,9 +521,9 @@ void config_set_s(int i, const char *src)
     dirty = 1;
 }
 
-void config_get_s(int i, char *dst, int len)
+const char *config_get_s(int i)
 {
-    strncpy(dst, option_s[i].cur, len);
+    return option_s[i].cur;
 }
 
 /*---------------------------------------------------------------------------*/

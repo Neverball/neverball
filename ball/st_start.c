@@ -211,12 +211,9 @@ static int start_enter(void)
             }
         }
         gui_space(id);
-
-        if ((jd = gui_hstack(id)))
-            gui_score_board(jd, GUI_MOST_COINS |
-                                GUI_BEST_TIMES |
-                                GUI_FAST_UNLOCK, 0, 0);
-
+        gui_score_board(id, (GUI_MOST_COINS |
+                             GUI_BEST_TIMES |
+                             GUI_FAST_UNLOCK), 0, 0);
         gui_space(id);
 
         if ((jd = gui_hstack(id)))

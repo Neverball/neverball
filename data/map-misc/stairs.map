@@ -3,7 +3,6 @@
 "classname" "worldspawn"
 "author" "Jean Privat"
 "contributor" "Mehdi Yousfi-Monod"
-"levelname" "stairs"
 "version" "1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"

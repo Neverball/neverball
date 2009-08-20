@@ -3,7 +3,6 @@
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
 "contributor" "Craig Cooper"
-"levelname" "woodmaze-mym"
 "bonus" "1"
 "message" "Follow the trail of coins\to make it through the labyrinth."
 "song" "bgm/track4.ogg"

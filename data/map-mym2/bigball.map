@@ -3,7 +3,6 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "bigball"
 "version" "1"
 "message" "La machine à circonvolutions.\Easy, the goal is just above you."
 "back" "map-back/jupiter.sol"

@@ -1,4 +1,83 @@
 -------------------------------------------------------------------------------
+New in 1.5.2
+
+* French translation update
+* Fixed HUD display of selected camera
+* Rip out locale <-> UTF-8 filename conversions (and a direct iconv dep)
+* Allow view rotation using second gamepad stick
+* Remove static replay limit
+* Fixed label corners in help screen
+* Simplified Chinese translation
+* Allow fall back to non-localised font path
+* Make fast view rotation modifier configurable, and support joystick
+* Squash embarrasing out-of-bounds access bug
+* Redo video init when turning on reflections, to fix the
+  long-standing crazy reflections bug
+* Middle mouse button toggles between chase/manual views
+* ufo.map: Tiny texture fix
+* accordian.map: increase time by 5 seconds
+* Fix a buffer overflow when reading player name from replay, and
+  support stored names of arbitrary length
+* Implement a Quake-like virtual file system with ZIP archive support
+* Make sets.txt optional
+* Write and look for replays in a Replays directory
+* Move replays found at the top of the user dir into Replays
+* Keep scores in a Scores directory (migrate old ones, too)
+* Write all screen shots to a Screenshots directory
+* Set GL read buffer to "front" once and for all when setting video mode
+* Actually use the "joystick" config option
+* mapc: report unknown materials
+* Use separate score files in cheat mode
+* Document font requirements
+* Increase default view rotation rates
+* Load entire font to memory at init
+* Add a ball configuration screen
+* Added brass-faceted texture to match chrome-faceted
+* title.map: Aligned stray coin to the 32-unit grid
+* Spanish translation update
+* Add normal green texture
+* Exclude vertical ball velocity from view computations (no more
+  spinning out of control while in air)
+* Added non-reflective texture "blue-wave" for moving water
+* Fix typo in French translation
+* spacetime.map: Small fixes
+* coneskeleton.map: Changed goal_hs times that were based on an
+  outdated goal value
+* Remove "--info" command line option
+* Include initial view data in the first update (in replays)
+* Allow camera switching during ready/set stage
+* Add missing sounds in resolution screen
+* Tweak selector layout in resolution screen
+* Add some space between navigation and set/level selectors
+* Make sure the last viewed set selection page actually exists
+* Correctly register scores for levels with no time limit
+* Remove static level set limit
+* Show 6 sets per page
+* Paint background first, then mirrors (fix for environments with
+  layers very close to origin)
+* Add a Volcano environment (used in levels from Hard 09 to Hard III)
+* Add new BGM track6.ogg for use in Volcano environment
+* Time to the left, coins to the right in the score board
+* Paint score buttons green on a high-score in that score type
+* Preempt many buffer overflows related to strncpy usage
+* Add label truncation, truncate long labels in several screens
+* Clip shadowed geometry above the ball center
+* Remove unused Bitstream Vera font
+* Revert "Request SSE floating-point math from GCC for x86 systems"
+* Updated DejaVu font to v2.29
+* Remove archaic "levelname" attribute from maps
+* Tweak replay compatibility warning message
+* airways.map: split message across two lines
+* Do not step state unless it has been painted at least once (avoids
+  "fast-forwards" after long screen loads)
+* Change "joystick" default to 1
+* Brazilian Portuguese translation
+* Remove several uninteresting or problematic balls
+* Decrease par to 4 on hole 18 of Tricky Golf
+* Change Challenge info area in goal screen to fix breakage using
+  French translation
+
+-------------------------------------------------------------------------------
 New in 1.5.1
 
 * Prevent thread race that was occasionally crashing the game

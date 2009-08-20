@@ -10,7 +10,6 @@
 "grad" "back/city.png"
 "back" "map-back/city.sol"
 "version" "1"
-"levelname" "groweasy"
 "author" "Dave"
 "message" "There are special coins which can make your\ball larger or smaller."
 // brush 0

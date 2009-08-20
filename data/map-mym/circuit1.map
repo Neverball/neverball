@@ -3,7 +3,6 @@
 "classname" "worldspawn"
 "message" "La course effrénée.\Let's make some laps."
 "author" "Mehdi Yousfi-Monod"
-"levelname" "circuit1"
 "version" "1.1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"

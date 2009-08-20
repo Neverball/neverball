@@ -3,7 +3,6 @@
 "classname" "worldspawn"
 "message" "There are plenty of coins here if you're\willing to take the time to grab them.\"
 "author" "Robert Kooima"
-"levelname" "zigzag-rlk"
 "version" "1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"

@@ -1,15 +1,41 @@
 
 #------------------------------------------------------------------------------
 
-VERSION := $(shell sh scripts/version.sh)
-ifeq ($(VERSION),unknown)
-    $(warning Failed to obtain sane version for this build.)
+BUILD := $(shell head -n1 BUILD 2> /dev/null || echo release)
+
+ifeq ($(BUILD),release)
+    VERSION := 1.5.3
+else
+    VERSION := $(shell sh scripts/version.sh)
+    ifeq ($(VERSION),unknown)
+        VERSION := 1.5.3-dev
+    endif
 endif
 
+$(info Will make a "$(BUILD)" build of Neverball $(VERSION).)
+
+#------------------------------------------------------------------------------
 # Provide a target system hint for the Makefile.
 
 ifeq ($(shell uname), Darwin)
     DARWIN := 1
+endif
+
+# MINGW=1 also supported.
+
+#------------------------------------------------------------------------------
+# Paths (packagers might want to set DATADIR and LOCALEDIR)
+
+USERDIR   := .neverball
+DATADIR   := ./data
+LOCALEDIR := ./locale
+
+ifdef MINGW
+    USERDIR := Neverball
+endif
+
+ifneq ($(BUILD),release)
+    USERDIR := $(USERDIR)-dev
 endif
 
 #------------------------------------------------------------------------------
@@ -28,17 +54,14 @@ endif
 
 # Compiler...
 
-SSE_CFLAGS := $(shell env CC="$(CC)" sh scripts/get-sse-cflags.sh)
-
 ifeq ($(ENABLE_WII),1)
     # -std=c99 because we need isnormal and -fms-extensions because
     # libwiimote headers make heavy use of the "unnamed fields" GCC
     # extension.
 
-    ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions \
-	$(SSE_CFLAGS) $(CFLAGS)
+    ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions $(CFLAGS)
 else
-    ALL_CFLAGS := -Wall -ansi -pedantic $(SSE_CFLAGS) $(CFLAGS)
+    ALL_CFLAGS := -Wall -ansi -pedantic $(CFLAGS)
 endif
 
 # Preprocessor...
@@ -48,6 +71,11 @@ PNG_CPPFLAGS := $(shell libpng-config --cflags)
 
 ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare \
     -DVERSION=\"$(VERSION)\"
+
+ALL_CPPFLAGS += \
+    -DCONFIG_USER=\"$(USERDIR)\" \
+    -DCONFIG_DATA=\"$(DATADIR)\" \
+    -DCONFIG_LOCALE=\"$(LOCALEDIR)\"
 
 ifeq ($(ENABLE_NLS),0)
     ALL_CPPFLAGS += -DENABLE_NLS=0

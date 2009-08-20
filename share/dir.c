@@ -141,4 +141,6 @@ void dir_free(Array items)
 {
     while (array_len(items))
         del_item(items);
+
+    array_free(items);
 }

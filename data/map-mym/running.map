@@ -3,7 +3,6 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "running"
 "version" "1"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"

@@ -29,10 +29,16 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define GAME_NONE 0
-#define GAME_TIME 1
-#define GAME_GOAL 2
-#define GAME_FALL 3
+enum
+{
+    GAME_NONE = 0,
+
+    GAME_TIME,
+    GAME_GOAL,
+    GAME_FALL,
+
+    GAME_MAX
+};
 
 const char *status_to_str(int);
 

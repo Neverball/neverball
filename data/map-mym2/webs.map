@@ -3,7 +3,6 @@
 "classname" "worldspawn"
 "message" "Les toiles attirantes.\Get out of the webs."
 "author" "Mehdi Yousfi-Monod"
-"levelname" "webs-mym"
 "version" "1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"

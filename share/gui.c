@@ -67,6 +67,11 @@ struct widget
     const GLfloat *color1;
 
     GLfloat  scale;
+
+    int text_obj_w;
+    int text_obj_h;
+
+    enum trunc trunc;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -396,6 +401,10 @@ static int gui_widget(int pd, int type)
             widget[id].color0   = gui_wht;
             widget[id].color1   = gui_wht;
             widget[id].scale    = 1.0f;
+            widget[id].trunc    = TRUNC_NONE;
+
+            widget[id].text_obj_w = 0;
+            widget[id].text_obj_h = 0;
 
             /* Insert the new widget into the parent's widget list. */
 
@@ -427,6 +436,101 @@ int gui_filler(int pd) { return gui_widget(pd, GUI_FILLER); }
 
 /*---------------------------------------------------------------------------*/
 
+struct size
+{
+    int w, h;
+};
+
+
+static struct size gui_measure(const char *text, TTF_Font *font)
+{
+    struct size size = { 0, 0 };
+    TTF_SizeUTF8(font, text, &size.w, &size.h);
+    return size;
+}
+
+static char *gui_trunc_head(const char *text,
+                            const int maxwidth,
+                            TTF_Font *font)
+{
+    int left, right, mid;
+    char *str = NULL;
+
+    left  = 0;
+    right = strlen(text);
+
+    while (right - left > 1)
+    {
+        mid = (left + right) / 2;
+
+        str = concat_string("...", text + mid, NULL);
+
+        if (gui_measure(str, font).w <= maxwidth)
+            right = mid;
+        else
+            left = mid;
+
+        free(str);
+    }
+
+    return concat_string("...", text + right, NULL);
+}
+
+static char *gui_trunc_tail(const char *text,
+                            const int maxwidth,
+                            TTF_Font *font)
+{
+    int left, right, mid;
+    char *str = NULL;
+
+    left  = 0;
+    right = strlen(text);
+
+    while (right - left > 1)
+    {
+        mid = (left + right) / 2;
+
+        str = malloc(mid + sizeof ("..."));
+
+        memcpy(str,       text,  mid);
+        memcpy(str + mid, "...", sizeof ("..."));
+
+        if (gui_measure(str, font).w <= maxwidth)
+            left = mid;
+        else
+            right = mid;
+
+        free(str);
+    }
+
+    str = malloc(left + sizeof ("..."));
+
+    memcpy(str,        text,  left);
+    memcpy(str + left, "...", sizeof ("..."));
+
+    return str;
+}
+
+static char *gui_truncate(const char *text,
+                          const int maxwidth,
+                          TTF_Font *font,
+                          enum trunc trunc)
+{
+    if (gui_measure(text, font).w <= maxwidth)
+        return strdup(text);
+
+    switch (trunc)
+    {
+    case TRUNC_NONE: return strdup(text);                         break;
+    case TRUNC_HEAD: return gui_trunc_head(text, maxwidth, font); break;
+    case TRUNC_TAIL: return gui_trunc_tail(text, maxwidth, font); break;
+    }
+
+    return NULL;
+}
+
+/*---------------------------------------------------------------------------*/
+
 void gui_set_image(int id, const char *file)
 {
     if (glIsTexture(widget[id].text_img))
@@ -444,10 +548,19 @@ void gui_set_label(int id, const char *text)
     if (glIsList(widget[id].text_obj))
         glDeleteLists(widget[id].text_obj, 1);
 
+    text = gui_truncate(text, widget[id].w - radius,
+                        font[widget[id].size],
+                        widget[id].trunc);
+
     widget[id].text_img = make_image_from_font(NULL, NULL, &w, &h,
                                                text, font[widget[id].size]);
     widget[id].text_obj = gui_list(-w / 2, -h / 2, w, h,
                                    widget[id].color0, widget[id].color1);
+
+    widget[id].text_obj_w = w;
+    widget[id].text_obj_h = h;
+
+    free((void *) text);
 }
 
 void gui_set_count(int id, int value)
@@ -463,8 +576,31 @@ void gui_set_clock(int id, int value)
 void gui_set_color(int id, const float *c0,
                            const float *c1)
 {
-    widget[id].color0 = c0 ? c0 : gui_yel;
-    widget[id].color1 = c1 ? c1 : gui_red;
+    if (id)
+    {
+        c0 = c0 ? c0 : gui_yel;
+        c1 = c1 ? c1 : gui_red;
+
+        if (widget[id].color0 != c0 || widget[id].color1 != c1)
+        {
+            widget[id].color0 = c0;
+            widget[id].color1 = c1;
+
+            if (glIsList(widget[id].text_obj))
+            {
+                int w, h;
+
+                glDeleteLists(widget[id].text_obj, 1);
+
+                w = widget[id].text_obj_w;
+                h = widget[id].text_obj_h;
+
+                widget[id].text_obj = gui_list(-w / 2, -h / 2, w, h,
+                                               widget[id].color0,
+                                               widget[id].color1);
+            }
+        }
+    }
 }
 
 void gui_set_multi(int id, const char *text)
@@ -490,6 +626,11 @@ void gui_set_multi(int id, const char *text)
 
     for (i = j - 1, jd = widget[id].car; i >= 0 && jd; i--, jd = widget[jd].cdr)
         gui_set_label(jd, s[i]);
+}
+
+void gui_set_trunc(int id, enum trunc trunc)
+{
+    widget[id].trunc = trunc;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -744,8 +885,8 @@ static void gui_button_up(int id)
 {
     /* Store width and height for later use in text rendering. */
 
-    widget[id].x = widget[id].w;
-    widget[id].y = widget[id].h;
+    widget[id].text_obj_w = widget[id].w;
+    widget[id].text_obj_h = widget[id].h;
 
     if (widget[id].w < widget[id].h && widget[id].w > 0)
         widget[id].w = widget[id].h;
@@ -913,8 +1054,8 @@ static void gui_button_dn(int id, int x, int y, int w, int h)
 {
     /* Recall stored width and height for text rendering. */
 
-    int W = widget[id].x;
-    int H = widget[id].y;
+    int W = widget[id].text_obj_w;
+    int H = widget[id].text_obj_h;
     int R = widget[id].rect;
 
     const float *c0 = widget[id].color0;

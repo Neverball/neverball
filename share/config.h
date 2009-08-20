@@ -124,8 +124,8 @@ void config_tgl_d(int);
 int  config_tst_d(int, int);
 int  config_get_d(int);
 
-void config_set_s(int, const char *);
-void config_get_s(int, char *, int);
+void        config_set_s(int, const char *);
+const char *config_get_s(int);
 
 /*---------------------------------------------------------------------------*/
 

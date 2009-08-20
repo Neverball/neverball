@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"levelname" "maze1"
 "version" "1.1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"

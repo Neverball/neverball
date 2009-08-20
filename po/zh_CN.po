@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2009-03-13 02:14+0200\n"
+"POT-Creation-Date: 2009-08-11 01:07+0300\n"
 "PO-Revision-Date: 2009-05-01 00:39+0300\n"
 "Last-Translator: luojie <lililjlj@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ball/demo.c:302
+#: ball/demo.c:233
 msgid "Missing format character in replay name\n"
 msgstr ""
 
-#: ball/demo.c:307
+#: ball/demo.c:238
 #, c-format
 msgid "Invalid format character in replay name: \"%%%c\"\n"
 msgstr ""
@@ -41,10 +41,27 @@ msgstr "呈贡"
 msgid "Fall-out"
 msgstr "掉落"
 
-#: ball/game_common.c:12
-#: ball/progress.c:376
+#: ball/game_common.c:12 ball/game_common.c:24 ball/progress.c:376
 msgid "Unknown"
 msgstr "未知"
+
+#: ball/game_common.c:20
+msgid "Chase"
+msgstr "追踪"
+
+#: ball/game_common.c:21
+msgid "Lazy"
+msgstr "懒惰"
+
+#: ball/game_common.c:22
+msgid "Manual"
+msgstr "手动"
+
+#: ball/game_common.c:23
+#, fuzzy
+#| msgid "Down"
+msgid "Top-Down"
+msgstr "下"
 
 #: ball/game_common.h:9
 msgid "snd/select.ogg"
@@ -78,50 +95,38 @@ msgstr "snd/time.ogg"
 msgid "snd/over.ogg"
 msgstr "snd/over.ogg"
 
-#: ball/hud.c:59
-#: ball/st_demo.c:180
-#: ball/st_goal.c:186
+#: ball/hud.c:60 ball/st_demo.c:197 ball/st_goal.c:186
 msgid "Coins"
 msgstr "硬币"
 
-#: ball/hud.c:60
+#: ball/hud.c:61
 msgid "Goal"
 msgstr "出口"
 
-#: ball/hud.c:79
-#: ball/st_goal.c:176
+#: ball/hud.c:80 ball/st_goal.c:176
 msgid "Balls"
 msgstr "球数"
 
-#: ball/hud.c:80
-#: ball/st_goal.c:181
-#: putt/hud.c:45
+#: ball/hud.c:81 ball/st_goal.c:181 putt/hud.c:45
 msgid "Score"
 msgstr "分数"
 
-#: ball/hud.h:6
-msgid "Chase"
-msgstr "追踪"
-
-#: ball/hud.h:7
-msgid "Lazy"
-msgstr "懒惰"
-
-#: ball/hud.h:8
-msgid "Manual"
-msgstr "手动"
-
 #: ball/level.c:140
-#, c-format
-msgid "Error while loading level file '%s': %s\n"
+#, fuzzy, c-format
+#| msgid "Error while loading level file '%s': %s\n"
+msgid "Failure to load level file '%s'\n"
 msgstr "读取关卡文件'%s'时出错: %s\n"
 
-#: ball/level.c:142
-msgid "Not a valid level file"
-msgstr "关卡文件有问题"
-
-#: ball/main.c:256
-#, c-format
+#: ball/main.c:254
+#, fuzzy, c-format
+#| msgid ""
+#| "Usage: %s [options ...]\n"
+#| "Options:\n"
+#| "  -h, --help                show this usage message.\n"
+#| "  -v, --version             show version.\n"
+#| "  -d, --data <dir>          use 'dir' as game data directory.\n"
+#| "  -r, --replay <file>       play the replay 'file'.\n"
+#| "  -i, --info                display info about a replay.\n"
 msgid ""
 "Usage: %s [options ...]\n"
 "Options:\n"
@@ -129,7 +134,6 @@ msgid ""
 "  -v, --version             show version.\n"
 "  -d, --data <dir>          use 'dir' as game data directory.\n"
 "  -r, --replay <file>       play the replay 'file'.\n"
-"  -i, --info                display info about a replay.\n"
 msgstr ""
 "Usage: %s [options ...]\n"
 "Options:\n"
@@ -139,46 +143,20 @@ msgstr ""
 "  -r, --replay <file>       play the replay 'file'.\n"
 "  -i, --info                display info about a replay.\n"
 
-#: ball/main.c:266
+#: ball/main.c:263
 #, c-format
 msgid "Option '%s' requires an argument.\n"
 msgstr ""
 
-#: ball/main.c:334
-msgid "Option '--info' requires '--replay'.\n"
-msgstr ""
-
-#: ball/main.c:359
-#: putt/main.c:267
-msgid "Failure to establish game data directory\n"
-msgstr ""
-
-#: ball/main.c:365
-#: putt/main.c:265
-msgid "Failure to establish config directory\n"
-msgstr ""
-
-#: ball/main.c:388
-#, c-format
-msgid "Replay file '%s': %s\n"
-msgstr ""
-
-#: ball/main.c:389
-msgid "Not a replay file"
-msgstr "不是回放文件"
-
-#: ball/progress.c:374
-#: ball/st_help.c:249
+#: ball/progress.c:374 ball/st_help.c:247
 msgid "Challenge Mode"
 msgstr "挑战模式"
 
-#: ball/progress.c:374
-#: ball/st_start.c:205
+#: ball/progress.c:374 ball/st_start.c:208
 msgid "Challenge"
 msgstr "挑战"
 
-#: ball/progress.c:375
-#: ball/st_help.c:241
+#: ball/progress.c:375 ball/st_help.c:239
 msgid "Normal Mode"
 msgstr "正常模式"
 
@@ -190,201 +168,166 @@ msgstr "正常"
 msgid "Unknown Mode"
 msgstr "未知模式"
 
-#: ball/set.c:182
-#, c-format
-msgid "Error while loading user high-score file '%s': %s\n"
-msgstr ""
-
 #: ball/set.c:183
-msgid "Incorrect format"
-msgstr "格式不正确"
-
-#: ball/set.c:198
 #, c-format
-msgid "Cannot load the set file '%s': %s\n"
+msgid "Failure to load user score file '%s'"
 msgstr ""
 
-#: ball/st_conf.c:213
-#: putt/st_conf.c:169
-msgid "Options"
-msgstr "选项"
+#: ball/set.c:203
+#, fuzzy, c-format
+#| msgid "Error while loading level file '%s': %s\n"
+msgid "Failure to load set file '%s'\n"
+msgstr "读取关卡文件'%s'时出错: %s\n"
 
-#: ball/st_conf.c:215
-#: ball/st_help.c:98
-#: ball/st_start.c:177
-#: ball/util.c:532
-#: share/st_resol.c:76
-#: putt/st_all.c:344
-#: putt/st_all.c:492
+#: ball/st_ball.c:165 ball/st_conf.c:353
+#, fuzzy
+#| msgid "Balls"
+msgid "Ball"
+msgstr "球数"
+
+#: ball/st_ball.c:167 ball/st_conf.c:229 ball/st_help.c:96 ball/st_start.c:178
+#: ball/util.c:427 share/st_resol.c:106 putt/st_all.c:344 putt/st_all.c:492
 #: putt/st_conf.c:171
 msgid "Back"
 msgstr "返回"
 
-#: ball/st_conf.c:223
-#: ball/st_demo.c:577
-#: ball/st_save.c:203
-#: putt/st_conf.c:179
+#: ball/st_conf.c:227 putt/st_conf.c:169
+msgid "Options"
+msgstr "选项"
+
+#: ball/st_conf.c:237 ball/st_demo.c:600 ball/st_save.c:206 putt/st_conf.c:179
 msgid "No"
 msgstr "不"
 
-#: ball/st_conf.c:224
-#: ball/st_demo.c:578
-#: ball/st_save.c:204
-#: ball/st_start.c:233
-#: putt/st_conf.c:180
+#: ball/st_conf.c:238 ball/st_demo.c:601 ball/st_save.c:207
+#: ball/st_start.c:236 putt/st_conf.c:180
 msgid "Yes"
 msgstr "是"
 
-#: ball/st_conf.c:226
-#: putt/st_conf.c:182
+#: ball/st_conf.c:240 putt/st_conf.c:182
 msgid "Fullscreen"
 msgstr "全屏"
 
-#: ball/st_conf.c:234
-#: share/st_resol.c:74
-#: putt/st_conf.c:190
+#: ball/st_conf.c:248 share/st_resol.c:104 putt/st_conf.c:190
 msgid "Resolution"
 msgstr "分辨率"
 
-#: ball/st_conf.c:242
-#: ball/st_conf.c:251
-#: putt/st_conf.c:198
-#: putt/st_conf.c:207
+#: ball/st_conf.c:256 ball/st_conf.c:265 putt/st_conf.c:198 putt/st_conf.c:207
 msgid "Low"
 msgstr "低"
 
-#: ball/st_conf.c:243
-#: ball/st_conf.c:252
-#: putt/st_conf.c:199
-#: putt/st_conf.c:208
+#: ball/st_conf.c:257 ball/st_conf.c:266 putt/st_conf.c:199 putt/st_conf.c:208
 msgid "High"
 msgstr "高"
 
-#: ball/st_conf.c:245
-#: putt/st_conf.c:201
+#: ball/st_conf.c:259 putt/st_conf.c:201
 msgid "Textures"
 msgstr "纹理贴图"
 
-#: ball/st_conf.c:254
-#: putt/st_conf.c:210
+#: ball/st_conf.c:268 putt/st_conf.c:210
 msgid "Geometry"
 msgstr "几何"
 
-#: ball/st_conf.c:260
-#: ball/st_conf.c:269
-#: ball/st_conf.c:278
-#: putt/st_conf.c:216
+#: ball/st_conf.c:274 ball/st_conf.c:283 ball/st_conf.c:292 putt/st_conf.c:216
 msgid "Off"
 msgstr "关闭"
 
-#: ball/st_conf.c:261
-#: ball/st_conf.c:270
-#: ball/st_conf.c:279
-#: putt/st_conf.c:217
+#: ball/st_conf.c:275 ball/st_conf.c:284 ball/st_conf.c:293 putt/st_conf.c:217
 msgid "On"
 msgstr "开启"
 
-#: ball/st_conf.c:263
+#: ball/st_conf.c:277
 msgid "Reflection"
 msgstr "映像"
 
-#: ball/st_conf.c:272
+#: ball/st_conf.c:286
 msgid "Background"
 msgstr "背景"
 
-#: ball/st_conf.c:281
-#: putt/st_conf.c:219
+#: ball/st_conf.c:295 putt/st_conf.c:219
 msgid "Shadow"
 msgstr "阴影"
 
-#: ball/st_conf.c:303
-#: putt/st_conf.c:241
+#: ball/st_conf.c:317 putt/st_conf.c:241
 msgid "Sound Volume"
 msgstr "音效音量"
 
-#: ball/st_conf.c:323
-#: putt/st_conf.c:261
+#: ball/st_conf.c:337 putt/st_conf.c:261
 msgid "Music Volume"
 msgstr "音乐音量"
 
-#: ball/st_conf.c:333
-#: ball/st_name.c:107
+#: ball/st_conf.c:346 ball/st_name.c:107
 msgid "Player Name"
 msgstr "玩家的名字"
 
-#: ball/st_demo.c:178
+#: ball/st_demo.c:196
 msgid "Time"
 msgstr "时间"
 
-#: ball/st_demo.c:182
+#: ball/st_demo.c:198
 msgid "Status"
 msgstr "状态"
 
-#: ball/st_demo.c:210
-#: ball/st_demo.c:359
+#: ball/st_demo.c:225 ball/st_demo.c:384
 msgid "Replay"
 msgstr "回放"
 
-#: ball/st_demo.c:211
-#: putt/st_all.c:680
+#: ball/st_demo.c:226 putt/st_all.c:680
 msgid "Player"
 msgstr "玩家"
 
-#: ball/st_demo.c:212
+#: ball/st_demo.c:227
 msgid "Date"
 msgstr "日期"
 
-#: ball/st_demo.c:258
+#: ball/st_demo.c:280
 msgid "Select Replay"
 msgstr "选择回放"
 
-#: ball/st_demo.c:280
+#: ball/st_demo.c:296
 msgid "No Replays"
 msgstr "没有"
 
-#: ball/st_demo.c:482
+#: ball/st_demo.c:505
 msgid "Replay Paused"
 msgstr "暂停回放"
 
-#: ball/st_demo.c:485
+#: ball/st_demo.c:508
 msgid "Replay Ends"
 msgstr "结束"
 
-#: ball/st_demo.c:494
-#: ball/st_pause.c:110
-#: putt/st_all.c:592
+#: ball/st_demo.c:517 ball/st_pause.c:110 putt/st_all.c:592
 msgid "Quit"
 msgstr "退出"
 
-#: ball/st_demo.c:498
+#: ball/st_demo.c:521
 msgid "Keep"
 msgstr "保留"
 
-#: ball/st_demo.c:499
-#: share/keynames.c:38
+#: ball/st_demo.c:522 share/keynames.c:39
 msgid "Delete"
 msgstr "删除"
 
-#: ball/st_demo.c:504
-#: ball/st_pause.c:115
-#: putt/st_all.c:593
+#: ball/st_demo.c:527 ball/st_pause.c:115 putt/st_all.c:593
 msgid "Continue"
 msgstr "继续"
 
-#: ball/st_demo.c:508
+#: ball/st_demo.c:531
 msgid "Repeat"
 msgstr "重复"
 
-#: ball/st_demo.c:573
+#: ball/st_demo.c:596
 msgid "Delete Replay?"
 msgstr "删除回放？"
 
-#: ball/st_demo.c:611
+#: ball/st_demo.c:634
 msgid "Warning!"
 msgstr "警告"
 
-#: ball/st_demo.c:613
-msgid "The replay you're about to view was\\recorded with a different (or unknown)\\version of this map. Be prepared to\\encounter visual errors.\\"
+#: ball/st_demo.c:636
+msgid ""
+"The current replay was recorded with a\\different (or unknown) version of "
+"this level.\\Be prepared to encounter visual errors.\\"
 msgstr ""
 
 #: ball/st_done.c:66
@@ -403,26 +346,19 @@ msgstr "选择关卡"
 msgid "Fall-out!"
 msgstr "落下！"
 
-#: ball/st_fall_out.c:94
-#: ball/st_time_out.c:85
+#: ball/st_fall_out.c:94 ball/st_time_out.c:85
 msgid "Exit"
 msgstr "退出"
 
-#: ball/st_fall_out.c:97
-#: ball/st_goal.c:219
-#: ball/st_time_out.c:88
+#: ball/st_fall_out.c:97 ball/st_goal.c:219 ball/st_time_out.c:88
 msgid "Next Level"
 msgstr "下一关"
 
-#: ball/st_fall_out.c:100
-#: ball/st_goal.c:222
-#: ball/st_time_out.c:91
+#: ball/st_fall_out.c:100 ball/st_goal.c:222 ball/st_time_out.c:91
 msgid "Retry Level"
 msgstr "重来"
 
-#: ball/st_fall_out.c:103
-#: ball/st_goal.c:225
-#: ball/st_time_out.c:94
+#: ball/st_fall_out.c:103 ball/st_goal.c:225 ball/st_time_out.c:94
 msgid "Save Replay"
 msgstr "保存回放"
 
@@ -441,85 +377,97 @@ msgid_plural "%d new bonus levels"
 msgstr[0] "%d  新的奖励关卡"
 msgstr[1] "%d  新的奖励关卡"
 
-#: ball/st_goal.c:214
-#: ball/st_goal.c:216
+#: ball/st_goal.c:214 ball/st_goal.c:216
 msgid "Finish"
 msgstr "结束"
 
-#: ball/st_help.c:94
+#: ball/st_help.c:92
 msgid "Techniques"
 msgstr "技巧"
 
-#: ball/st_help.c:95
+#: ball/st_help.c:93
 msgid "Modes"
 msgstr "模式"
 
-#: ball/st_help.c:96
+#: ball/st_help.c:94
 msgid "Controls"
 msgstr "控制"
 
-#: ball/st_help.c:97
+#: ball/st_help.c:95
 msgid "Rules"
 msgstr "规则"
 
-#: ball/st_help.c:108
-msgid "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor causing the\\ball to roll.\\"
+#: ball/st_help.c:106
+msgid ""
+"Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
+"causing the\\ball to roll.\\"
 msgstr "移动鼠标或操纵杆\\或者按下键盘方向\\键，改变平面让球\\滚动。"
 
-#: ball/st_help.c:113
-msgid "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and finish\\the level.\\"
+#: ball/st_help.c:111
+msgid ""
+"Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
+"finish\\the level.\\"
 msgstr "滚过硬币获取它们，\\收集足够多后给出口解锁。\\"
 
-#: ball/st_help.c:170
+#: ball/st_help.c:168
 msgid "Left and right mouse buttons rotate the view."
 msgstr "鼠标左右键旋转。"
 
-#: ball/st_help.c:171
+#: ball/st_help.c:169
 msgid "Hold Shift for faster view rotation."
 msgstr "按住Shift键加速视角旋转。"
 
-#: ball/st_help.c:172
+#: ball/st_help.c:170
 msgid "Pause / Release Pointer"
 msgstr "暂停 / 释放"
 
-#: ball/st_help.c:173
+#: ball/st_help.c:171
 msgid "Exit / Cancel Menu"
 msgstr "退出 /取消菜单"
 
-#: ball/st_help.c:174
+#: ball/st_help.c:172
 msgid "Chase View"
 msgstr "追踪视角"
 
-#: ball/st_help.c:175
+#: ball/st_help.c:173
 msgid "Lazy View"
 msgstr "懒惰视角"
 
-#: ball/st_help.c:176
+#: ball/st_help.c:174
 msgid "Manual View"
 msgstr "手动视角"
 
-#: ball/st_help.c:177
+#: ball/st_help.c:175
 msgid "Screenshot"
 msgstr "截图"
 
-#: ball/st_help.c:243
-msgid "Finish a level before the time runs out.\\You need to collect coins in order to open the goal."
+#: ball/st_help.c:241
+msgid ""
+"Finish a level before the time runs out.\\You need to collect coins in order "
+"to open the goal."
 msgstr "时间用完之前结束关卡。\\需要收集硬币才能打开出口。"
 
-#: ball/st_help.c:251
-msgid "Start playing from the first level of the set.\\You start with only three balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr "从第一个关卡开始玩。\\只有3个球可用，不要失去它们。\\收集100当量的硬币赢取额外一个球。"
+#: ball/st_help.c:249
+msgid ""
+"Start playing from the first level of the set.\\You start with only three "
+"balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
+msgstr ""
+"从第一个关卡开始玩。\\只有3个球可用，不要失去它们。\\收集100当量的硬币赢取额"
+"外一个球。"
 
-#: ball/st_help.c:265
-msgid "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You may be able\\to reach new places.\\"
+#: ball/st_help.c:263
+msgid ""
+"Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
+"may be able\\to reach new places.\\"
 msgstr ""
 
-#: ball/st_help.c:270
-msgid "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn the camera by 45\\degrees for best results.\\"
+#: ball/st_help.c:268
+msgid ""
+"Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
+"the camera by 45\\degrees for best results.\\"
 msgstr ""
 
-#: ball/st_help.c:290
-#: ball/st_help.c:300
+#: ball/st_help.c:288 ball/st_help.c:298
 msgid "Watch demo"
 msgstr "观看 demo"
 
@@ -533,12 +481,11 @@ msgstr "奖励关卡  %s"
 msgid "Level %s"
 msgstr "关卡 %s"
 
-#: ball/st_name.c:119
+#: ball/st_name.c:118
 msgid "OK"
 msgstr "确定"
 
-#: ball/st_name.c:121
-#: ball/st_save.c:127
+#: ball/st_name.c:120 ball/st_save.c:126
 msgid "Cancel"
 msgstr "取消"
 
@@ -546,8 +493,7 @@ msgstr "取消"
 msgid "GAME OVER"
 msgstr "游戏结束"
 
-#: ball/st_pause.c:104
-#: putt/st_all.c:587
+#: ball/st_pause.c:104 putt/st_all.c:587
 msgid "Paused"
 msgstr "暂停"
 
@@ -555,41 +501,41 @@ msgstr "暂停"
 msgid "Restart"
 msgstr "重新开始"
 
-#: ball/st_play.c:62
+#: ball/st_play.c:123
 msgid "Ready?"
 msgstr "预备？"
 
-#: ball/st_play.c:119
+#: ball/st_play.c:203
 msgid "Set?"
 msgstr "开始？"
 
-#: ball/st_play.c:192
+#: ball/st_play.c:293
 msgid "GO!"
 msgstr "开球！"
 
-#: ball/st_save.c:114
+#: ball/st_save.c:113
 msgid "Replay Name"
 msgstr "回放名称"
 
-#: ball/st_save.c:125
+#: ball/st_save.c:124
 msgid "Save"
 msgstr "保存"
 
-#: ball/st_save.c:197
+#: ball/st_save.c:200
 msgid "Overwrite?"
 msgstr "覆盖？"
 
-#: ball/st_set.c:114
+#: ball/st_set.c:117
 msgid "Level Set"
 msgstr "关卡集合"
 
 #. Translators: adjust the amount of whitespace here
 #. * as necessary for the buttons to look good.
-#: ball/st_start.c:230
+#: ball/st_start.c:233
 msgid "   No   "
 msgstr "   不"
 
-#: ball/st_start.c:239
+#: ball/st_start.c:242
 msgid "Lock Goals of Completed Levels?"
 msgstr "锁定已完成关卡的出口？"
 
@@ -597,32 +543,27 @@ msgstr "锁定已完成关卡的出口？"
 msgid "Time's Up!"
 msgstr "时间用尽！"
 
-#: ball/st_title.c:121
-#: ball/st_title.c:155
+#: ball/st_title.c:127 ball/st_title.c:161
 msgid "menu^Cheat"
 msgstr "作弊"
 
-#: ball/st_title.c:127
-#: ball/st_title.c:158
-#: putt/st_all.c:214
+#: ball/st_title.c:133 ball/st_title.c:164 putt/st_all.c:214
 msgid "menu^Play"
 msgstr "开  始"
 
-#: ball/st_title.c:161
+#: ball/st_title.c:167
 msgid "menu^Replay"
 msgstr "回  放"
 
-#: ball/st_title.c:162
+#: ball/st_title.c:168
 msgid "menu^Help"
 msgstr "帮  助"
 
-#: ball/st_title.c:163
-#: putt/st_all.c:215
+#: ball/st_title.c:169 putt/st_all.c:215
 msgid "menu^Options"
 msgstr "选  项"
 
-#: ball/st_title.c:164
-#: putt/st_all.c:216
+#: ball/st_title.c:170 putt/st_all.c:216
 msgid "menu^Exit"
 msgstr "退  出"
 
@@ -638,49 +579,53 @@ msgstr "中等"
 msgid "Easy"
 msgstr "简单"
 
-#: ball/util.c:58
-#: ball/util.c:119
-#: ball/util.c:179
-#: ball/util.c:240
+#: ball/util.c:77 ball/util.c:142
 msgid "Unavailable"
 msgstr "不可用"
 
-#: ball/util.c:130
-#: ball/util.c:302
+#: ball/util.c:200 ball/util.c:247
 msgid "Most Coins"
 msgstr "大多硬币"
 
-#: ball/util.c:251
-#: ball/util.c:308
-msgid "Fast Unlock"
-msgstr "快速解锁"
-
-#: ball/util.c:251
-#: ball/util.c:305
+#: ball/util.c:206 ball/util.c:251
 msgid "Best Times"
 msgstr "最佳时间"
 
-#: ball/util.c:318
+#: ball/util.c:212 ball/util.c:255
+msgid "Fast Unlock"
+msgstr "快速解锁"
+
+#: ball/util.c:224
 msgid "Change Name"
 msgstr "改名"
 
-#: ball/util.c:465
+#: ball/util.c:360
 msgid "caps"
 msgstr ""
 
-#: ball/util.c:526
+#: ball/util.c:421
 msgid "Next"
 msgstr "下一页"
 
-#: ball/util.c:527
+#: ball/util.c:422
 msgid "Prev"
 msgstr "上一页"
 
-#: share/base_config.h:92
+#: share/gui.c:236
+#, c-format
+msgid "Font \"%s\" doesn't exist, trying default font.\n"
+msgstr ""
+
+#: share/gui.c:270
+#, c-format
+msgid "Could not load font %s.\n"
+msgstr ""
+
+#: share/gui.h:23
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr "ttf/wqy-zenhei.ttc"
 
-#: share/image.c:226
+#: share/image.c:229
 #, c-format
 msgid "Failed to convert SDL_ttf surface: %s\n"
 msgstr ""
@@ -691,228 +636,227 @@ msgstr ""
 #. * might not be corresponding names for all these keys in your language,
 #. * and that's perfectly fine -- in such cases just copy the source string.
 #.
-#: share/keynames.c:31
+#: share/keynames.c:32
 msgid "Backspace"
 msgstr "Backspace"
 
-#: share/keynames.c:32
+#: share/keynames.c:33
 msgid "Tab"
 msgstr "Tab"
 
-#: share/keynames.c:33
+#: share/keynames.c:34
 msgid "Clear"
 msgstr "清除"
 
-#: share/keynames.c:34
+#: share/keynames.c:35
 msgid "Return"
 msgstr "返回"
 
-#: share/keynames.c:35
+#: share/keynames.c:36
 msgid "Pause"
 msgstr "暂停"
 
-#: share/keynames.c:36
+#: share/keynames.c:37
 msgid "Escape"
 msgstr "ESC"
 
-#: share/keynames.c:37
+#: share/keynames.c:38
 msgid "Space"
 msgstr "空格"
 
-#: share/keynames.c:39
+#: share/keynames.c:40
 msgid "Enter"
 msgstr "Enter"
 
-#: share/keynames.c:40
+#: share/keynames.c:41
 msgid "Equals"
 msgstr "等于"
 
-#: share/keynames.c:41
+#: share/keynames.c:42
 msgid "Up"
 msgstr "上"
 
-#: share/keynames.c:42
-#: share/keynames.c:45
+#: share/keynames.c:43 share/keynames.c:46
 msgid "Down"
 msgstr "下"
 
-#: share/keynames.c:43
+#: share/keynames.c:44
 msgid "Right"
 msgstr "右"
 
-#: share/keynames.c:44
+#: share/keynames.c:45
 msgid "Left"
 msgstr "左"
 
-#: share/keynames.c:46
+#: share/keynames.c:47
 msgid "Insert"
 msgstr "Insert"
 
-#: share/keynames.c:47
+#: share/keynames.c:48
 msgid "Home"
 msgstr "Home"
 
-#: share/keynames.c:48
+#: share/keynames.c:49
 msgid "End"
 msgstr "End"
 
-#: share/keynames.c:49
+#: share/keynames.c:50
 msgid "Page Up"
 msgstr "Page Up"
 
-#: share/keynames.c:50
+#: share/keynames.c:51
 msgid "Page Down"
 msgstr "Page Down"
 
-#: share/keynames.c:51
+#: share/keynames.c:52
 msgid "F1"
 msgstr "F1"
 
-#: share/keynames.c:52
+#: share/keynames.c:53
 msgid "F2"
 msgstr "F2"
 
-#: share/keynames.c:53
+#: share/keynames.c:54
 msgid "F3"
 msgstr "F3"
 
-#: share/keynames.c:54
+#: share/keynames.c:55
 msgid "F4"
 msgstr "F4"
 
-#: share/keynames.c:55
+#: share/keynames.c:56
 msgid "F5"
 msgstr "F5"
 
-#: share/keynames.c:56
+#: share/keynames.c:57
 msgid "F6"
 msgstr "F6"
 
-#: share/keynames.c:57
+#: share/keynames.c:58
 msgid "F7"
 msgstr "F7"
 
-#: share/keynames.c:58
+#: share/keynames.c:59
 msgid "F8"
 msgstr "F8"
 
-#: share/keynames.c:59
+#: share/keynames.c:60
 msgid "F9"
 msgstr "F9"
 
-#: share/keynames.c:60
+#: share/keynames.c:61
 msgid "F10"
 msgstr "F10"
 
-#: share/keynames.c:61
+#: share/keynames.c:62
 msgid "F11"
 msgstr "F11"
 
-#: share/keynames.c:62
+#: share/keynames.c:63
 msgid "F12"
 msgstr "F12"
 
-#: share/keynames.c:63
+#: share/keynames.c:64
 msgid "F13"
 msgstr "F13"
 
-#: share/keynames.c:64
+#: share/keynames.c:65
 msgid "F14"
 msgstr "F14"
 
-#: share/keynames.c:65
+#: share/keynames.c:66
 msgid "F15"
 msgstr "F15"
 
-#: share/keynames.c:66
+#: share/keynames.c:67
 msgid "Num Lock"
 msgstr "Num Lock"
 
-#: share/keynames.c:67
+#: share/keynames.c:68
 msgid "Caps Lock"
 msgstr "Caps Lock"
 
-#: share/keynames.c:68
+#: share/keynames.c:69
 msgid "Scroll Lock"
 msgstr "Scroll Lock"
 
-#: share/keynames.c:69
+#: share/keynames.c:70
 msgid "Right Shift"
 msgstr "右Shift"
 
-#: share/keynames.c:70
+#: share/keynames.c:71
 msgid "Left Shift"
 msgstr "左Shift"
 
-#: share/keynames.c:71
+#: share/keynames.c:72
 msgid "Right CTRL"
 msgstr "右CTRL"
 
-#: share/keynames.c:72
+#: share/keynames.c:73
 msgid "Left CTRL"
 msgstr "左CTRL"
 
-#: share/keynames.c:73
+#: share/keynames.c:74
 msgid "Right Alt"
 msgstr "右Alt"
 
-#: share/keynames.c:74
+#: share/keynames.c:75
 msgid "Left Alt"
 msgstr "左Alt"
 
-#: share/keynames.c:75
+#: share/keynames.c:76
 msgid "Right Meta"
 msgstr ""
 
-#: share/keynames.c:76
+#: share/keynames.c:77
 msgid "Left Meta"
 msgstr ""
 
-#: share/keynames.c:77
+#: share/keynames.c:78
 msgid "Left Super"
 msgstr ""
 
-#: share/keynames.c:78
+#: share/keynames.c:79
 msgid "Right Super"
 msgstr ""
 
-#: share/keynames.c:79
+#: share/keynames.c:80
 msgid "Alt Gr"
 msgstr ""
 
-#: share/keynames.c:80
+#: share/keynames.c:81
 msgid "Compose"
 msgstr "混合"
 
-#: share/keynames.c:81
+#: share/keynames.c:82
 msgid "Help"
 msgstr "帮助"
 
-#: share/keynames.c:82
+#: share/keynames.c:83
 msgid "Print Screen"
 msgstr "Print Screen"
 
-#: share/keynames.c:83
+#: share/keynames.c:84
 msgid "Sys Req"
 msgstr ""
 
-#: share/keynames.c:84
+#: share/keynames.c:85
 msgid "Break"
 msgstr "停"
 
-#: share/keynames.c:85
+#: share/keynames.c:86
 msgid "Menu"
 msgstr "菜单"
 
-#: share/keynames.c:86
+#: share/keynames.c:87
 msgid "Power"
 msgstr "力道"
 
-#: share/keynames.c:87
+#: share/keynames.c:88
 msgid "Euro"
 msgstr ""
 
-#: share/keynames.c:88
+#: share/keynames.c:89
 msgid "Undo"
 msgstr "返回"
 
@@ -925,34 +869,23 @@ msgstr ""
 msgid "Failed to allocate memory for EWMH icon data.\n"
 msgstr ""
 
-#: putt/hole.c:104
-#: putt/hud.c:51
-#: putt/st_all.c:98
-#: putt/st_all.c:142
+#: putt/hole.c:107 putt/hud.c:51 putt/st_all.c:98 putt/st_all.c:142
 msgid "Par"
 msgstr ""
 
-#: putt/hole.c:106
-#: putt/st_all.c:99
-#: putt/st_all.c:143
+#: putt/hole.c:109 putt/st_all.c:99 putt/st_all.c:143
 msgid "P1"
 msgstr "P1"
 
-#: putt/hole.c:107
-#: putt/st_all.c:100
-#: putt/st_all.c:144
+#: putt/hole.c:110 putt/st_all.c:100 putt/st_all.c:144
 msgid "P2"
 msgstr "P2"
 
-#: putt/hole.c:108
-#: putt/st_all.c:101
-#: putt/st_all.c:145
+#: putt/hole.c:111 putt/st_all.c:101 putt/st_all.c:145
 msgid "P3"
 msgstr "P3"
 
-#: putt/hole.c:109
-#: putt/st_all.c:102
-#: putt/st_all.c:146
+#: putt/hole.c:112 putt/st_all.c:102 putt/st_all.c:146
 msgid "P4"
 msgstr "P4"
 
@@ -1002,40 +935,60 @@ msgid "Neverball Easy"
 msgstr "Neverball 简易"
 
 #: data/set-easy.txt
-msgid "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr "难度：入门到中级\\\\25个关卡，平滑学习曲线。\\阅读简介探知游戏要点。\\ \\"
+msgid ""
+"Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
+"learning curve.\\Read level introductions for gameplay tips.\\ \\"
+msgstr ""
+"难度：入门到中级\\\\25个关卡，平滑学习曲线。\\阅读简介探知游戏要点。\\ \\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
 msgstr "Neverball 适中"
 
 #: data/set-medium.txt
-msgid "Difficulty: Beginner through Expert\\\\25 levels which provide a balanced\\challenge for players. Try to claim\\some of the records provided.\\"
-msgstr "难度：初学到精通25关\\\\的设定给与玩家缓和进阶的\\\\挑战。尝试突破那些记录吧。\\"
+msgid ""
+"Difficulty: Beginner through Expert\\\\25 levels which provide a balanced"
+"\\challenge for players. Try to claim\\some of the records provided.\\"
+msgstr ""
+"难度：初学到精通25关\\\\的设定给与玩家缓和进阶的\\\\挑战。尝试突破那些记录"
+"吧。\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
 msgstr "Neverball 困难"
 
 #: data/set-hard.txt
-msgid "Difficulty: Intermediate through Expert\\\\25 levels with more of a challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, and Fast Unlock records.\\"
-msgstr "难度：中等通往精通\\\\25关挑战更有技巧的玩家。\\\\试着挑战最佳时间，最\\多硬币和最快解锁的记录。\\"
+msgid ""
+"Difficulty: Intermediate through Expert\\\\25 levels with more of a "
+"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
+"and Fast Unlock records.\\"
+msgstr ""
+"难度：中等通往精通\\\\25关挑战更有技巧的玩家。\\\\试着挑战最佳时间，最\\多硬"
+"币和最快解锁的记录。\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
 msgstr "旅途的实力"
 
 #: data/set-mym.txt
-msgid "Difficulty: Expert through Insane\\\\25 levels with even greater challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "难度：精通到。。。\\\\25关确保实力的展现。\\作者：Mehdi Yousfi-Monod (mym)\\ \\"
+msgid ""
+"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
+"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+"难度：精通到。。。\\\\25关确保实力的展现。\\作者：Mehdi Yousfi-Monod (mym)\\ "
+"\\"
 
 #: data/set-mym2.txt
 msgid "Retour de force"
 msgstr "再现旅途的实力 "
 
 #: data/set-mym2.txt
-msgid "Difficulty: A little bit harder than my first set.\\\\More challenge, particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "难度：比我的第一个旅途要困难些。\\\\更多挑战特别是勾取硬币方面。\\作者：Mehdi Yousfi-Monod (mym)\\ \\"
+msgid ""
+"Difficulty: A little bit harder than my first set.\\\\More challenge, "
+"particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+"难度：比我的第一个旅途要困难些。\\\\更多挑战特别是勾取硬币方面。\\作者："
+"Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-fwp.txt
 msgid "Nevermania"
@@ -1054,7 +1007,9 @@ msgid "Unsorted levels\\For testing purposes\\\\\\\\"
 msgstr "没分类的关卡\\测试用\\\\\\\\"
 
 #: data/courses.txt
-msgid "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ \\Difficulty: Easy to Medium\\Author: rlk\\"
+msgid ""
+"The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
+"\\Difficulty: Easy to Medium\\Author: rlk\\"
 msgstr ""
 
 #: data/courses.txt
@@ -1070,7 +1025,8 @@ msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr ""
 
 #: data/courses.txt
-msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
+msgid ""
+"A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
 msgstr ""
 
 #: data/courses.txt
@@ -1078,92 +1034,144 @@ msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
 msgstr ""
 
 #: data/courses.txt
-msgid "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert Through Insane\\Author: Byron James Johnson"
+msgid ""
+"Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
+"Through Insane\\Author: Byron James Johnson"
 msgstr ""
 
 #: data/map-easy/bumper.map
-msgid "Try to avoid being hit by moving objects.\\One bump can throw the ball\\completely out of control.\\"
+msgid ""
+"Try to avoid being hit by moving objects.\\One bump can throw the ball"
+"\\completely out of control.\\"
 msgstr ""
 
 #: data/map-easy/bumps.map
-msgid "Learn to control a bouncing ball.\\Look at the shadow to know where the\\ball will land.  If you're feeling confident in\\your mastery of bouncing, take a risk\\for a big payoff.\\"
+msgid ""
+"Learn to control a bouncing ball.\\Look at the shadow to know where the"
+"\\ball will land.  If you're feeling confident in\\your mastery of bouncing, "
+"take a risk\\for a big payoff.\\"
 msgstr ""
 
 #: data/map-easy/coins.map
-msgid "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to begin.\\"
+msgid ""
+"This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
+"blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
+"begin.\\"
 msgstr ""
 
 #: data/map-easy/corners.map
-msgid "Here are some more opportunities for you to\\fall off into the void. Hit the bump hard to\\grab some big coins and score a short time.\\"
+msgid ""
+"Here are some more opportunities for you to\\fall off into the void. Hit the "
+"bump hard to\\grab some big coins and score a short time.\\"
 msgstr ""
 
 #: data/map-easy/curved.map
-msgid "As before, but without the training wheels.\\Keep the ball on a level floor\\and maintain precise control.\\Build some momentum to reach the corners.\\"
+msgid ""
+"As before, but without the training wheels.\\Keep the ball on a level floor"
+"\\and maintain precise control.\\Build some momentum to reach the corners.\\"
 msgstr ""
 
 #: data/map-easy/easy.map data/map-misc/texture-debug.map
 #: data/map-misc/timer-test.map
-msgid "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgid ""
+"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
+"\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
 msgstr ""
 
 #: data/map-easy/easyhalfpipe.map
-msgid "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over accelerate and you will\\be able to stay in control."
+msgid ""
+"Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
+"accelerate and you will\\be able to stay in control."
 msgstr ""
 
 #: data/map-easy/fence.map
-msgid "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope remains level.\\This way, you maintain full control of the ball.\\Use momentum to get up to the big coins.\\"
+msgid ""
+"''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
+"remains level.\\This way, you maintain full control of the ball.\\Use "
+"momentum to get up to the big coins.\\"
 msgstr ""
 
 #: data/map-easy/goals.map
-msgid "There are 100 coins here.\\This one shouldn't be too difficult,\\if you don't accidentally make a goal first.\\"
+msgid ""
+"There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
+"don't accidentally make a goal first.\\"
 msgstr ""
 
 #: data/map-easy/goslow.map
-msgid "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower speed means better control.\\Watch the clock and use the time wisely.\\\\Click to begin.\\"
+msgid ""
+"Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
+"speed means better control.\\Watch the clock and use the time wisely.\\"
+"\\Click to begin.\\"
 msgstr ""
 
 #: data/map-easy/greed.map
-msgid "Each bridge is narrower than the one before.\\But each pays better than the last as well!\\You get to decide how far you go on this one.\\"
+msgid ""
+"Each bridge is narrower than the one before.\\But each pays better than the "
+"last as well!\\You get to decide how far you go on this one.\\"
 msgstr ""
 
 #: data/map-easy/groundbreak.map
-msgid "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole instead of falling into it."
+msgid ""
+"Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
+"will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
+"instead of falling into it."
 msgstr ""
 
 #: data/map-easy/hole.map
-msgid "Stay away from the edges!\\When approaching a drop, begin slowing down\\early. You need just as much room to slow\\down as you did to speed up.\\"
+msgid ""
+"Stay away from the edges!\\When approaching a drop, begin slowing down"
+"\\early. You need just as much room to slow\\down as you did to speed up.\\"
 msgstr ""
 
 #: data/map-easy/lollipop.map
-msgid "Follow the yellow lick road!\\\\The blue coins are especially challenging,\\but with some experimentation and practice,\\you'll be able to collect them all."
+msgid ""
+"Follow the yellow lick road!\\\\The blue coins are especially challenging,"
+"\\but with some experimentation and practice,\\you'll be able to collect "
+"them all."
 msgstr ""
 
 #: data/map-easy/maze.map
-msgid "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow and\\off the walls. All the coins are collectable\\in the given time.\\"
+msgid ""
+"The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
+"and\\off the walls. All the coins are collectable\\in the given time.\\"
 msgstr ""
 
 #: data/map-easy/mazebump.map
-msgid "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers - it will help you\\to reach the goal."
+msgid ""
+"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers "
+"- it will help you\\to reach the goal."
 msgstr ""
 
 #: data/map-easy/mover.map
-msgid "A moving platform can be tricky.\\Use precise timing to get aboard,\\and precise balance to stay there.\\Don't let it move out from under you.\\Ride the platforms to grab the big coins.\\"
+msgid ""
+"A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
+"precise balance to stay there.\\Don't let it move out from under you.\\Ride "
+"the platforms to grab the big coins.\\"
 msgstr ""
 
 #: data/map-easy/peasy.map
-msgid "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click to begin.\\"
+msgid ""
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
 msgstr ""
 
 #: data/map-easy/roundcoins.map
-msgid "When you are on the elevators,\\make small adjustments to keep the ball steady.\\You can collect many coins by\\keeping the ball in one place.\\Too much movement and you will fall off."
+msgid ""
+"When you are on the elevators,\\make small adjustments to keep the ball "
+"steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
+"much movement and you will fall off."
 msgstr ""
 
 #: data/map-easy/roundlaby.map
-msgid "There is only one path to reach the goal,\\but lots of paths for collecting coins.\\Make sure you collect enough\\to unlock the goal."
+msgid ""
+"There is only one path to reach the goal,\\but lots of paths for collecting "
+"coins.\\Make sure you collect enough\\to unlock the goal."
 msgstr ""
 
 #: data/map-easy/slalom.map
-msgid "Follow the trail of coins to reach the goal.\\If you hit a post while moving quickly,\\you will bounce far off course."
+msgid ""
+"Follow the trail of coins to reach the goal.\\If you hit a post while moving "
+"quickly,\\you will bounce far off course."
 msgstr ""
 
 #: data/map-easy/slightcurve.map
@@ -1171,7 +1179,10 @@ msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
 msgstr "山坡需要更快的速度才能跨过。\\但也别太快了！"
 
 #: data/map-easy/speedbumps.map
-msgid "When the ball is on a moving platform,\\it will be pulled in the direction of movement.\\Use the rails to steady yourself,\\and collect the coins you need\\to open the goal."
+msgid ""
+"When the ball is on a moving platform,\\it will be pulled in the direction "
+"of movement.\\Use the rails to steady yourself,\\and collect the coins you "
+"need\\to open the goal."
 msgstr ""
 
 #: data/map-easy/thwomp2.map
@@ -1179,7 +1190,9 @@ msgid "Grab all the coins...\\but don't get bullied!"
 msgstr ""
 
 #: data/map-easy/wakka.map
-msgid "Here's another coin grab.\\Perhaps you already know a good route.\\Teleportation might come in handy.\\"
+msgid ""
+"Here's another coin grab.\\Perhaps you already know a good route."
+"\\Teleportation might come in handy.\\"
 msgstr ""
 
 #: data/map-fwp/adventure.map
@@ -1247,7 +1260,7 @@ msgid "=UFO=\\Ride the spaceship they don't want you to know about."
 msgstr ""
 
 #: data/map-hard/airways.map
-msgid "2 switches have to be enabled to open the path to the goal."
+msgid "2 switches have to be enabled\\to open the path to the goal."
 msgstr ""
 
 #: data/map-hard/check.map
@@ -1255,11 +1268,15 @@ msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
 msgstr ""
 
 #: data/map-hard/curbs.map
-msgid "To make progress here you'll need to hit the\\edges hard and control your bouncing.\\It's often easiest to hit the curb at a corner.\\"
+msgid ""
+"To make progress here you'll need to hit the\\edges hard and control your "
+"bouncing.\\It's often easiest to hit the curb at a corner.\\"
 msgstr ""
 
 #: data/map-hard/flip.map
-msgid "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each trigger switches colors in direct contact."
+msgid ""
+"Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
+"trigger switches colors in direct contact."
 msgstr ""
 
 #: data/map-hard/frogger.map
@@ -1267,7 +1284,9 @@ msgid "Ribbit!\\"
 msgstr "兔子！"
 
 #: data/map-hard/gaps.map
-msgid "Time the switches carefully to synchronize\\the motion of the platforms.\\Move quickly across the gaps.\\"
+msgid ""
+"Time the switches carefully to synchronize\\the motion of the platforms."
+"\\Move quickly across the gaps.\\"
 msgstr ""
 
 #: data/map-hard/grid.map
@@ -1275,7 +1294,9 @@ msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
 msgstr ""
 
 #: data/map-hard/hallways.map
-msgid "Control your speed and your bounces.\\Teleporters will always bring you\\back somewhere in the level."
+msgid ""
+"Control your speed and your bounces.\\Teleporters will always bring you"
+"\\back somewhere in the level."
 msgstr ""
 
 #: data/map-hard/hump.map
@@ -1283,7 +1304,9 @@ msgid "Momentum may work against you.\\"
 msgstr ""
 
 #: data/map-hard/invis.map
-msgid "Allow your greed to guide you.\\For an added challenge,\\try to get to all of the coins.\\It can be done without guesswork.\\"
+msgid ""
+"Allow your greed to guide you.\\For an added challenge,\\try to get to all "
+"of the coins.\\It can be done without guesswork.\\"
 msgstr ""
 
 #: data/map-hard/movers.map
@@ -1291,7 +1314,10 @@ msgid "Go for a ride.\\"
 msgstr ""
 
 #: data/map-hard/nostairs.map
-msgid "There are two goals here.\\You can complete this level\\the easy way or the hard way.\\Of course, by going the easy way\\you can forget about all\\those red and blue coins."
+msgid ""
+"There are two goals here.\\You can complete this level\\the easy way or the "
+"hard way.\\Of course, by going the easy way\\you can forget about all\\those "
+"red and blue coins."
 msgstr ""
 
 #: data/map-hard/paths.map
@@ -1307,7 +1333,9 @@ msgid "Slow and steady.\\"
 msgstr ""
 
 #: data/map-hard/pyramid.map
-msgid "You'll only get about 15 seconds at each step,\\so don't delay.  Get the coins and\\get to the next switch.\\"
+msgid ""
+"You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
+"coins and\\get to the next switch.\\"
 msgstr ""
 
 #: data/map-hard/quads.map
@@ -1323,7 +1351,9 @@ msgid "So close, yet so very far.\\"
 msgstr ""
 
 #: data/map-hard/risers.map
-msgid "Ride the elevators to the top.\\They move quickly,\\so don't dally too long.\\"
+msgid ""
+"Ride the elevators to the top.\\They move quickly,\\so don't dally too long."
+"\\"
 msgstr ""
 
 #: data/map-hard/spiralin.map
@@ -1335,11 +1365,16 @@ msgid "Don't worry.\\The green part isn't going anywhere.\\"
 msgstr ""
 
 #: data/map-hard/sync.map
-msgid "Use the switches to set the platforms\\in motion.  Time it so they come\\together in the middle.\\"
+msgid ""
+"Use the switches to set the platforms\\in motion.  Time it so they come"
+"\\together in the middle.\\"
 msgstr ""
 
 #: data/map-hard/teleport.map
-msgid "The ball must be entirely within a teleporter\\in order to trigger it.\\Remember that the ball carries its momentum\\through a teleporter, so plan ahead.\\"
+msgid ""
+"The ball must be entirely within a teleporter\\in order to trigger it."
+"\\Remember that the ball carries its momentum\\through a teleporter, so plan "
+"ahead.\\"
 msgstr ""
 
 #: data/map-hard/tilt.map
@@ -1351,7 +1386,9 @@ msgid "Stairway to heaven"
 msgstr ""
 
 #: data/map-medium/angle.map
-msgid "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take the easy cash or\\go all the way for a big payoff.\\"
+msgid ""
+"Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
+"the easy cash or\\go all the way for a big payoff.\\"
 msgstr ""
 
 #: data/map-medium/coneskeleton.map
@@ -1359,11 +1396,15 @@ msgid "Plenty of coins for the taking.\\Can you take them all?"
 msgstr ""
 
 #: data/map-medium/cross.map
-msgid "Use momentum to reach\\the upper platforms,\\but keep the ball in control\\for safe landing.\\\\The manual view may help here.\\"
+msgid ""
+"Use momentum to reach\\the upper platforms,\\but keep the ball in control"
+"\\for safe landing.\\\\The manual view may help here.\\"
 msgstr ""
 
 #: data/map-medium/drops.map
-msgid "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
+msgid ""
+"Remember to keep an eye on the shadow to\\help control a bouncing ball.  And "
+"don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
 msgstr ""
 
 #: data/map-medium/easytele.map
@@ -1383,7 +1424,10 @@ msgid "Catch the train before it leaves the station.\\"
 msgstr ""
 
 #: data/map-medium/learngrow.map
-msgid "The ball will fit in those small holes,\\if you can just find something to make it smaller.\\Other places may require a bigger ball.\\One thing is certain - you'll want a plan!"
+msgid ""
+"The ball will fit in those small holes,\\if you can just find something to "
+"make it smaller.\\Other places may require a bigger ball.\\One thing is "
+"certain - you'll want a plan!"
 msgstr ""
 
 #: data/map-medium/locks.map
@@ -1391,7 +1435,9 @@ msgid "Hit the switches to move the barriers.\\"
 msgstr ""
 
 #: data/map-medium/multicurves.map
-msgid "The temptation to move quickly\\could prove your undoing.\\\\Then again, maybe not..."
+msgid ""
+"The temptation to move quickly\\could prove your undoing.\\\\Then again, "
+"maybe not..."
 msgstr ""
 
 #: data/map-medium/plinko.map
@@ -1403,35 +1449,51 @@ msgid "You can never go home again..."
 msgstr "你永远也回不了家了..."
 
 #: data/map-medium/rampdn.map
-msgid "You'll need to exert some control over your\\view here.  Press F3 to stop the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press F1 to return to the auto-rotating view.\\"
+msgid ""
+"You'll need to exert some control over your\\view here.  Press F3 to stop "
+"the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press F1 "
+"to return to the auto-rotating view.\\"
 msgstr ""
 
 #: data/map-medium/roundfloors.map
-msgid "This wedding cake is plenty rich,\\but be careful as you go\\to each lower layer."
+msgid ""
+"This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
+"layer."
 msgstr ""
 
 #: data/map-medium/sparselines.map
-msgid "Bump the logs at speed to change lanes.\\Try to reach the top for an extra challenge!"
+msgid ""
+"Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
+"challenge!"
 msgstr ""
 
 #: data/map-medium/spiraldn.map
-msgid "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might work.\\"
+msgid ""
+"Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
+"work.\\"
 msgstr ""
 
 #: data/map-medium/spiralup.map
-msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
+msgid ""
+"Just as before, but moving up instead of down.\\No cheating this time.\\"
 msgstr ""
 
 #: data/map-medium/stairs.map
-msgid "Here's yet another test of your ability\\to control bouncing.  Moving down the\\stairs too quickly can be hazardous.\\"
+msgid ""
+"Here's yet another test of your ability\\to control bouncing.  Moving down "
+"the\\stairs too quickly can be hazardous.\\"
 msgstr ""
 
 #: data/map-medium/telemaze.map
-msgid "This maze has no walls.\\But that doesn't make the solution\\any easier to find.\\"
+msgid ""
+"This maze has no walls.\\But that doesn't make the solution\\any easier to "
+"find.\\"
 msgstr ""
 
 #: data/map-medium/timer.map
-msgid "That one switch controls all five barriers.\\Be quick, because the switch is on a timer.\\When it expires, the barriers will rise.\\"
+msgid ""
+"That one switch controls all five barriers.\\Be quick, because the switch is "
+"on a timer.\\When it expires, the barriers will rise.\\"
 msgstr ""
 
 #: data/map-medium/title.map
@@ -1443,11 +1505,15 @@ msgid "Follow the trail of coins\\to make it through the labyrinth."
 msgstr ""
 
 #: data/map-medium/zigzag.map
-msgid "There are plenty of coins here if you're\\willing to take the time to grab them.\\"
+msgid ""
+"There are plenty of coins here if you're\\willing to take the time to grab "
+"them.\\"
 msgstr ""
 
 #: data/map-misc/bigball-old.map
-msgid "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a challenge."
+msgid ""
+"Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
+"challenge."
 msgstr ""
 
 #: data/map-misc/billiard.map
@@ -1459,7 +1525,9 @@ msgid "Block around the clock."
 msgstr ""
 
 #: data/map-misc/bounce.map
-msgid "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the 'chase' camera mode."
+msgid ""
+"Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
+"'chase' camera mode."
 msgstr ""
 
 #: data/map-misc/bounce2.map
@@ -1467,7 +1535,9 @@ msgid "Follow the arrows."
 msgstr ""
 
 #: data/map-misc/checkers.map
-msgid "It's a real game of checkers, but no one wins...\\You have to bounce to reach the blue coins."
+msgid ""
+"It's a real game of checkers, but no one wins...\\You have to bounce to "
+"reach the blue coins."
 msgstr ""
 
 #: data/map-misc/elevator.map
@@ -1523,7 +1593,10 @@ msgid "La ballade tranquille.\\What a quiet walk."
 msgstr ""
 
 #: data/map-mym/dance2.map
-msgid "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After activating the last moving platform,\\ turn around the Thwomp until the goal is reachable."
+msgid ""
+"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
+"activating the last moving platform,\\ turn around the Thwomp until the goal "
+"is reachable."
 msgstr ""
 
 #: data/map-mym/descent.map
@@ -1531,11 +1604,15 @@ msgid "La descente infernale.\\Easy enough to start?"
 msgstr ""
 
 #: data/map-mym/drive1.map
-msgid "La conduite stressante.\\Attention:\\The platform under the ball moves forward."
+msgid ""
+"La conduite stressante.\\Attention:\\The platform under the ball moves "
+"forward."
 msgstr ""
 
 #: data/map-mym/drive2.map
-msgid "La conduite dangereuse.\\The platform under the ball moves quickly forward.\\You would do well to advance."
+msgid ""
+"La conduite dangereuse.\\The platform under the ball moves quickly forward."
+"\\You would do well to advance."
 msgstr ""
 
 #: data/map-mym/earthquake.map
@@ -1559,7 +1636,9 @@ msgid "Les boucles renversantes.\\Upside down!"
 msgstr ""
 
 #: data/map-mym/loop2.map
-msgid "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to land..."
+msgid ""
+"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
+"land..."
 msgstr ""
 
 #: data/map-mym/maze1.map
@@ -1567,11 +1646,15 @@ msgid "Le chemin dissimulé.\\Test your memory."
 msgstr ""
 
 #: data/map-mym/maze2.map
-msgid "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking another one?"
+msgid ""
+"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
+"another one?"
 msgstr ""
 
 #: data/map-mym/narrow.map
-msgid "Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first slope."
+msgid ""
+"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
+"slope."
 msgstr ""
 
 #: data/map-mym/running.map
@@ -1579,7 +1662,8 @@ msgid "Les épreuves minutées.\\Run baby, run!"
 msgstr ""
 
 #: data/map-mym/scrambling.map
-msgid "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgid ""
+"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
 msgstr ""
 
 #: data/map-mym/snow.map
@@ -1623,11 +1707,16 @@ msgid "Les sauts du célèbre plombier.\\Follow the coins."
 msgstr ""
 
 #: data/map-mym2/fall.map
-msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 teleports to unlock and reach the goal."
+msgid ""
+"Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
+"teleports to unlock and reach the goal."
 msgstr ""
 
 #: data/map-mym2/freefall.map
-msgid "This level is full of challenges:\\understand the level's functioning,\\learn to fly and to survive,\\grab half of all coins to open the goal,\\find and reach the goal,\\and more..."
+msgid ""
+"This level is full of challenges:\\understand the level's functioning,"
+"\\learn to fly and to survive,\\grab half of all coins to open the goal,"
+"\\find and reach the goal,\\and more..."
 msgstr ""
 
 #: data/map-mym2/grinder.map
@@ -1639,7 +1728,9 @@ msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
 msgstr ""
 
 #: data/map-mym2/longpipe.map
-msgid "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last jump!"
+msgid ""
+"Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
+"jump!"
 msgstr ""
 
 #: data/map-mym2/morenarrow.map
@@ -1732,3 +1823,11 @@ msgstr "mtrl/words"
 msgid "item/coin/coin"
 msgstr "item/coin/coin"
 
+#~ msgid "Not a valid level file"
+#~ msgstr "关卡文件有问题"
+
+#~ msgid "Not a replay file"
+#~ msgstr "不是回放文件"
+
+#~ msgid "Incorrect format"
+#~ msgstr "格式不正确"

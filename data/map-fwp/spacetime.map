@@ -1,7 +1,6 @@
 // entity 0
 {
 "classname" "worldspawn"
-"levelname" "spacetime"
 "version" "1.1"
 "author" "Florian Priester"
 "shot" "shot-fwp/spacetime.png"

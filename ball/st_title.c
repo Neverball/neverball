@@ -82,16 +82,12 @@ static int title_action(int i)
 
     size_t queue_len = strlen(queue);
 
-    char player[MAXNAM];
-
     audio_play(AUD_MENU, 1.0f);
 
     switch (i)
     {
     case TITLE_PLAY:
-        config_get_s(CONFIG_PLAYER, player, MAXNAM);
-
-        if (strlen(player) == 0)
+        if (strlen(config_get_s(CONFIG_PLAYER)) == 0)
             return goto_name(&st_set, &st_title, 0);
         else
             return goto_state(&st_set);

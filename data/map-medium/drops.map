@@ -2,7 +2,6 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"levelname" "drops-rlk"
 "version" "1"
 "shot" "shot-medium/drops.jpg"
 "back" "map-back/city.sol"

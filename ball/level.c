@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <errno.h>
 #include <assert.h>
 
 #include "solid.h"
@@ -39,11 +38,11 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
         char *v = fp->av + fp->dv[i].aj;
 
         if (strcmp(k, "message") == 0)
-            strncpy(l->message, v, MAXSTR);
+            strncpy(l->message, v, MAXSTR - 1);
         else if (strcmp(k, "song") == 0)
-            strncpy(l->song, v, PATHMAX);
+            strncpy(l->song, v, PATHMAX - 1);
         else if (strcmp(k, "shot") == 0)
-            strncpy(l->shot, v, PATHMAX);
+            strncpy(l->shot, v, PATHMAX - 1);
         else if (strcmp(k, "goal") == 0)
         {
             l->goal = atoi(v);
@@ -100,9 +99,9 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
             }
         }
         else if (strcmp(k, "version") == 0)
-            strncpy(l->version, v, MAXSTR);
+            strncpy(l->version, v, MAXSTR - 1);
         else if (strcmp(k, "author") == 0)
-            strncpy(l->author, v, MAXSTR);
+            strncpy(l->author, v, MAXSTR - 1);
         else if (strcmp(k, "bonus") == 0)
             l->is_bonus = atoi(v) ? 1 : 0;
     }
@@ -123,6 +122,10 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
             l->score.best_times.timer[2] = l->time;
         if (need_fu_easy)
             l->score.fast_unlock.timer[2] = l->time;
+
+        l->score.most_coins.timer[0] =
+            l->score.most_coins.timer[1] =
+            l->score.most_coins.timer[2] = l->time;
     }
 }
 
@@ -136,20 +139,11 @@ int level_load(const char *filename, struct level *level)
     memset(level, 0, sizeof (struct level));
     memset(&sol,  0, sizeof (sol));
 
-#define format \
-    L_("Error while loading level file '%s': %s\n")
-#define default_error \
-    L_("Not a valid level file")
-
     if (!sol_load_only_head(&sol, filename))
     {
-        const char *error = errno ? strerror(errno) : default_error;
-        fprintf(stderr, format, filename, error);
+        fprintf(stderr, L_("Failure to load level file '%s'\n"), filename);
         return 0;
     }
-
-#undef format
-#undef default_error
 
     strncpy(level->file, filename, PATHMAX - 1);
 
@@ -263,9 +257,7 @@ int level_score_update(int level,
                        int *coin_rank)
 {
     struct level *l = get_level(level);
-    char player[MAXSTR] = "";
-
-    config_get_s(CONFIG_PLAYER, player, MAXSTR);
+    const char *player =  config_get_s(CONFIG_PLAYER);
 
     if (time_rank)
         *time_rank = score_time_insert(&l->score.best_times,
@@ -295,9 +287,9 @@ void level_rename_player(int level,
 {
     struct level *l = get_level(level);
 
-    strncpy(l->score.best_times.player [time_rank], player, MAXNAM);
-    strncpy(l->score.fast_unlock.player[goal_rank], player, MAXNAM);
-    strncpy(l->score.most_coins.player [coin_rank], player, MAXNAM);
+    strncpy(l->score.best_times.player [time_rank], player, MAXNAM - 1);
+    strncpy(l->score.fast_unlock.player[goal_rank], player, MAXNAM - 1);
+    strncpy(l->score.most_coins.player [coin_rank], player, MAXNAM - 1);
 }
 
 /*---------------------------------------------------------------------------*/

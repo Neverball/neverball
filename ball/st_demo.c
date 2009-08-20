@@ -85,23 +85,68 @@ static int demo_action(int i)
 
 /*---------------------------------------------------------------------------*/
 
-static void demo_replay(int id, int i)
+static struct thumb
+{
+    int item;
+    int shot;
+    int name;
+} thumbs[DEMO_STEP];
+
+static int gui_demo_thumbs(int id)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
-    int jd;
 
-    char nam[MAXNAM + 3];
+    int jd, kd, ld;
+    int i, j;
 
-    trunc_string(DEMO_GET(items, i)->name, nam, sizeof (nam));
+    struct thumb *thumb;
 
-    if ((jd = gui_vstack(id)))
+    if ((jd = gui_varray(id)))
+        for (i = first; i < first + DEMO_STEP; i += DEMO_LINE)
+            if ((kd = gui_harray(jd)))
+            {
+                for (j = i + DEMO_LINE - 1; j >= i; j--)
+                {
+                    thumb = &thumbs[j % DEMO_STEP];
+
+                    thumb->item = j;
+
+                    if (j < total)
+                    {
+                        if ((ld = gui_vstack(kd)))
+                        {
+                            gui_space(ld);
+
+                            thumb->shot = gui_image(ld, " ", w / 6, h / 6);
+                            thumb->name = gui_state(ld, " ", GUI_SML, j, 0);
+
+                            gui_set_trunc(thumb->name, TRUNC_TAIL);
+
+                            gui_active(ld, j, 0);
+                        }
+                    }
+                    else
+                    {
+                        gui_space(kd);
+
+                        thumb->shot = 0;
+                        thumb->name = 0;
+                    }
+                }
+            }
+
+    return jd;
+}
+
+static void gui_demo_update_thumbs(void)
+{
+    int i;
+
+    for (i = 0; i < ARRAYSIZE(thumbs) && thumbs[i].shot && thumbs[i].name; i++)
     {
-        gui_space(jd);
-        gui_image(jd, DEMO_GET(items, i)->shot, w / 6, h / 6);
-        gui_state(jd, nam, GUI_SML, i, 0);
-
-        gui_active(jd, i, 0);
+        gui_set_image(thumbs[i].shot, DEMO_GET(items, thumbs[i].item)->shot);
+        gui_set_label(thumbs[i].name, DEMO_GET(items, thumbs[i].item)->name);
     }
 }
 
@@ -112,36 +157,19 @@ static int date_id;
 static int status_id;
 static int player_id;
 
-static int gui_demo_status(int id, const struct demo *d)
+static int gui_demo_status(int id)
 {
-    char noname[MAXNAM];
     const char *status;
-    int i, j, k;
     int jd, kd, ld;
+    int s;
 
-    if (d == NULL)
-    {
-        /* Build a long name */
-        memset(noname, 'M', MAXNAM - 1);
-        noname[MAXNAM - 1] = '\0';
+    /* Find the longest status string. */
 
-        /* Get a long status */
-        status = status_to_str(0);
-        j = strlen(status);
-        for (i = 1; i <= GAME_FALL; i++)
-        {
-            k = strlen(status_to_str(i));
-            if (k > j)
-            {
-                j = k;
-                status = status_to_str(i);
-            }
-        }
-    }
-    else
-    {
-        status = status_to_str(d->status);
-    }
+    for (status = "", s = GAME_NONE; s < GAME_MAX; s++)
+        if (strlen(status_to_str(s)) > strlen(status))
+            status = status_to_str(s);
+
+    /* Build info bar with dummy values. */
 
     if ((jd = gui_hstack(id)))
     {
@@ -153,15 +181,10 @@ static int gui_demo_status(int id, const struct demo *d)
             {
                 gui_filler(ld);
 
-                time_id = gui_clock(ld, (d ? d->timer : 35000),
-                                    GUI_SML, GUI_NE);
-                coin_id = gui_count(ld, (d ? d->coins : 100),
-                                    GUI_SML, 0);
+                time_id   = gui_clock(ld, 35000,  GUI_SML, GUI_NE);
+                coin_id   = gui_count(ld, 100,    GUI_SML, 0);
                 status_id = gui_label(ld, status, GUI_SML, GUI_SE,
                                       gui_red, gui_red);
-
-                if (d && d->status == GAME_GOAL)
-                    gui_set_color(status_id, gui_grn, gui_grn);
 
                 gui_filler(ld);
             }
@@ -170,12 +193,9 @@ static int gui_demo_status(int id, const struct demo *d)
             {
                 gui_filler(ld);
 
-                gui_label(ld, _("Time"),  GUI_SML, GUI_NW,
-                          gui_wht, gui_wht);
-                gui_label(ld, _("Coins"), GUI_SML, 0,
-                          gui_wht, gui_wht);
-                gui_label(ld, _("Status"), GUI_SML, GUI_SW,
-                          gui_wht, gui_wht);
+                gui_label(ld, _("Time"),   GUI_SML, GUI_NW, gui_wht, gui_wht);
+                gui_label(ld, _("Coins"),  GUI_SML, 0,      gui_wht, gui_wht);
+                gui_label(ld, _("Status"), GUI_SML, GUI_SW, gui_wht, gui_wht);
 
                 gui_filler(ld);
             }
@@ -187,15 +207,15 @@ static int gui_demo_status(int id, const struct demo *d)
         {
             gui_filler(kd);
 
-            name_id   = gui_label(kd, (d ? d->name : noname),
-                                  GUI_SML, GUI_NE, 0, 0);
-            player_id = gui_label(kd, (d ? d->player : noname),
-                                  GUI_SML, 0,      0, 0);
-            date_id   = gui_label(kd, (d ? date_to_str(d->date) :
-                                       date_to_str(time(NULL))),
+            name_id   = gui_label(kd, " ", GUI_SML, GUI_NE, 0, 0);
+            player_id = gui_label(kd, " ", GUI_SML, 0,      0, 0);
+            date_id   = gui_label(kd, date_to_str(time(NULL)),
                                   GUI_SML, GUI_SE, 0, 0);
 
             gui_filler(kd);
+
+            gui_set_trunc(name_id,   TRUNC_TAIL);
+            gui_set_trunc(player_id, TRUNC_TAIL);
         }
 
         if ((kd = gui_vstack(jd)))
@@ -242,8 +262,7 @@ static void gui_demo_update_status(int i)
 
 static int demo_enter(void)
 {
-    int i, j;
-    int id, jd, kd;
+    int id, jd;
 
     if (items)
         demo_dir_free(items);
@@ -263,19 +282,13 @@ static int demo_enter(void)
             gui_navig(jd, first > 0, first + DEMO_STEP < total);
         }
 
-        if ((jd = gui_varray(id)))
-            for (i = first; i < first + DEMO_STEP ; i += DEMO_LINE)
-                if ((kd = gui_harray(jd)))
-                {
-                    for (j = i + DEMO_LINE - 1; j >= i; j--)
-                        if (j < total)
-                            demo_replay(kd, j);
-                        else
-                            gui_space(kd);
-                }
+        gui_demo_thumbs(id);
         gui_filler(id);
-        gui_demo_status(id, NULL);
+        gui_demo_status(id);
+
         gui_layout(id, 0, 0);
+
+        gui_demo_update_thumbs();
         gui_demo_update_status(last_viewed);
     }
     else
@@ -620,10 +633,9 @@ static int demo_compat_enter(void)
     {
         gui_label(id, _("Warning!"), GUI_MED, GUI_ALL, 0, 0);
         gui_space(id);
-        gui_multi(id, _("The replay you're about to view was\\"
-                        "recorded with a different (or unknown)\\"
-                        "version of this map. Be prepared to\\"
-                        "encounter visual errors.\\"),
+        gui_multi(id, _("The current replay was recorded with a\\"
+                        "different (or unknown) version of this level.\\"
+                        "Be prepared to encounter visual errors.\\"),
                   GUI_SML, GUI_ALL, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);

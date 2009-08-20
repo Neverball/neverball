@@ -17,7 +17,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-int text_add_char(Uint32 unicode, char *string, int maxbytes, int maxchars)
+int text_add_char(Uint32 unicode, char *string, int maxbytes)
 {
     size_t pos = strlen(string);
     int l;
@@ -27,7 +27,7 @@ int text_add_char(Uint32 unicode, char *string, int maxbytes, int maxchars)
     else if (unicode < 0x10000) l = 3;
     else                        l = 4;
 
-    if ((pos + l >= maxbytes) || (text_length(string) + 1 >= maxchars))
+    if (pos + l >= maxbytes)
         return 0;
 
     if (unicode < 0x80)

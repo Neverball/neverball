@@ -66,7 +66,7 @@ static int done_enter(void)
     const char *s1 = _("New Set Record");
     const char *s2 = _("Set Complete");
 
-    int id, jd;
+    int id;
 
     int high = progress_set_high();
 
@@ -86,11 +86,7 @@ static int done_enter(void)
             gid = gui_label(id, s2, GUI_MED, GUI_ALL, gui_blu, gui_grn);
 
         gui_space(id);
-
-        if ((jd = gui_hstack(id)))
-            gui_score_board(jd, GUI_MOST_COINS |
-                                GUI_BEST_TIMES, 1, high);
-
+        gui_score_board(id, GUI_MOST_COINS | GUI_BEST_TIMES, 1, high);
         gui_space(id);
 
         gui_start(id, _("Select Level"), GUI_SML, DONE_OK, 0);

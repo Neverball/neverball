@@ -40,11 +40,11 @@ static struct state *cancel_state;
 
 int goto_save(struct state *ok, struct state *cancel)
 {
-    char fmt[MAXSTR] = "";
     const char *name;
 
-    config_get_s(CONFIG_REPLAY_NAME, fmt, sizeof (fmt) - 1);
-    name = demo_format_name(fmt, set_id(curr_set()), level_name(curr_level()));
+    name = demo_format_name(config_get_s(CONFIG_REPLAY_NAME),
+                            set_id(curr_set()),
+                            level_name(curr_level()));
 
     strncpy(filename, name, sizeof (filename) - 1);
 
@@ -96,8 +96,7 @@ static int save_action(int i)
         break;
 
     default:
-        if (text_add_char(i, filename, sizeof (filename) - 1,
-                                       sizeof (filename) - 1))
+        if (text_add_char(i, filename, sizeof (filename)))
             gui_set_label(file_id, filename);
     }
     return 1;
@@ -114,7 +113,7 @@ static int save_enter(void)
         gui_label(id, _("Replay Name"), GUI_MED, GUI_ALL, 0, 0);
         gui_space(id);
 
-        file_id = gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
+        file_id = gui_label(id, " ", GUI_MED, GUI_ALL, gui_yel, gui_yel);
 
         gui_space(id);
         gui_keyboard(id);
@@ -128,6 +127,9 @@ static int save_enter(void)
         }
 
         gui_layout(id, 0, 0);
+
+        gui_set_trunc(file_id, TRUNC_HEAD);
+        gui_set_label(file_id, filename);
     }
 
     SDL_EnableUNICODE(1);
@@ -191,12 +193,13 @@ static int clobber_action(int i)
 static int clobber_enter(void)
 {
     int id, jd, kd;
+    int file_id;
 
     if ((id = gui_vstack(0)))
     {
         kd = gui_label(id, _("Overwrite?"), GUI_MED, GUI_ALL, gui_red, gui_red);
 
-        gui_label(id, filename, GUI_MED, GUI_ALL, gui_yel, gui_yel);
+        file_id = gui_label(id, "MMMMMMMM", GUI_MED, GUI_ALL, gui_yel, gui_yel);
 
         if ((jd = gui_harray(id)))
         {
@@ -206,6 +209,9 @@ static int clobber_enter(void)
 
         gui_pulse(kd, 1.2f);
         gui_layout(id, 0, 0);
+
+        gui_set_trunc(file_id, TRUNC_TAIL);
+        gui_set_label(file_id, filename);
     }
 
     return id;

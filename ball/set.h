@@ -7,13 +7,12 @@
 #define SET_FILE "sets.txt"
 #define SET_MISC "set-misc.txt"
 
-#define MAXSET 16
 #define MAXLVL 25
 
 /*---------------------------------------------------------------------------*/
 
 int  set_init(void);
-void set_free(void);
+void set_quit(void);
 
 /*---------------------------------------------------------------------------*/
 

@@ -5,7 +5,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-int text_add_char(Uint32, char *, int, int);
+int text_add_char(Uint32, char *, int);
 int text_del_char(char *);
 int text_length(const char *);
 

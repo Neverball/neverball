@@ -3,7 +3,6 @@
 "classname" "worldspawn"
 "message" "Use the new coins to change ball size!\I hope you like it!\-Dave"
 "author" "Dave"
-"levelname" "grow_demo"
 "version" "1"
 "back" "map-back/jupiter.sol"
 "song" "bgm/track3.ogg"
