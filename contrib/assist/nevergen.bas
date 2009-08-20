@@ -55,6 +55,7 @@
         print "<C> ";lang("City and Streets")
         print "<S> ";lang("Jupiter and Space")
         print "<A> ";lang("Alien World")
+        print "<V> ";lang("Volcanic World")
         do
             sleep 10
 
@@ -87,6 +88,12 @@
                 Back = "map-back/jupiter.sol"
                 Grad = "back/space.png"
                 MusicPlay = "bgm/track4.ogg"
+                exit do
+            elseif multikey(SC_V) then
+                Song = "bgm/track6.ogg"
+                Back = "map-back/volcano.sol"
+                Grad = "back/volcano.png"
+                MusicPlay = "bgm/track6.ogg"
                 exit do
             elseif inkey = chr(255)+"k" then
                 end
