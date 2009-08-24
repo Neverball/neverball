@@ -22,6 +22,7 @@
 #include "demo.h"
 #include "progress.h"
 #include "text.h"
+#include "common.h"
 
 #include "game_common.h"
 
@@ -96,7 +97,7 @@ static int save_action(int i)
         break;
 
     default:
-        if (text_add_char(i, filename, sizeof (filename)))
+        if (!path_is_sep(i) && text_add_char(i, filename, sizeof (filename)))
             gui_set_label(file_id, filename);
     }
     return 1;
