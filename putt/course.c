@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "common.h"
 #include "config.h"
 #include "course.h"
 #include "hole.h"
@@ -40,10 +41,36 @@ static struct course course_v[MAXCRS];
 
 /*---------------------------------------------------------------------------*/
 
+static int course_load(struct course *course, const char *filename)
+{
+    fs_file fin;
+    int rc = 0;
+
+    memset(course, 0, sizeof (*course));
+
+    strncpy(course->holes, filename, MAXSTR - 1);
+
+    if ((fin = fs_open(filename, "r")))
+    {
+        if (fs_gets(course->shot, sizeof (course->shot), fin) &&
+            fs_gets(course->desc, sizeof (course->desc), fin))
+        {
+            strip_newline(course->shot);
+            strip_newline(course->desc);
+
+            rc = 1;
+        }
+
+        fs_close(fin);
+    }
+
+    return rc;
+}
+
 void course_init()
 {
     fs_file fin;
-    char buff[MAXSTR];
+    char *line;
 
     if (course_state)
         course_free();
@@ -52,17 +79,12 @@ void course_init()
 
     if ((fin = fs_open(COURSE_FILE, "r")))
     {
-        while (fs_gets(buff, sizeof (buff), fin) &&
-               sscanf(buff, "%s %s\n",
-                      course_v[count].holes,
-                      course_v[count].shot) == 2 &&
-               fs_gets(course_v[count].desc, MAXSTR, fin))
+        while (read_line(&line, fin))
         {
-            char *q = course_v[count].desc + strlen(course_v[count].desc) - 1;
+            if (course_load(&course_v[count], line))
+                count++;
 
-            if (*q == '\n') *q = 0;
-
-            count++;
+            free(line);
         }
 
         fs_close(fin);

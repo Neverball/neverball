@@ -1,14 +1,7 @@
-holes-putt.txt shot-putt/putt.jpg
-The original 18-hole Neverputt course.\With a gentle learning curve.\ \Difficulty: Easy to Medium\Author: rlk\
-holes-paxed.txt shot-putt/paxed.jpg
-Another 18-hole course\ \ \Difficulty: Medium\Author: paxed\
-holes-paxed2.txt shot-putt/paxed2.jpg
-Yet Another 18-hole course\ \ \Difficulty: Medium\Author: paxed\
-holes-paxed3.txt shot-putt/paxed3.jpg
-Even More Holes\ \ \Difficulty: Medium\Author: paxed\
-holes-abc.txt shot-putt/abc.jpg
-A 26-hole course\following the alphabet\\Difficulty: Hard\Author: paxed\
-holes-slippi.txt shot-putt/slippi.jpg
-Crazy Golf\ \\Difficulty: Easy to Medium\Author: slippifishi\
-holes-kk.txt shot-putt/tricky-golf.jpg
-Tricky Golf\\An 18-hole course with many challenges\Difficulty: Expert Through Insane\Author: Byron James Johnson
+holes-putt.txt
+holes-paxed.txt
+holes-paxed2.txt
+holes-paxed3.txt
+holes-abc.txt
+holes-slippi.txt
+holes-kk.txt

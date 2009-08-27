@@ -1,3 +1,5 @@
+shot-putt/paxed2.jpg
+Yet Another 18-hole course\ \ \Difficulty: Medium\Author: paxed\
 map-paxed2/spheroids.sol   back/blues.png       5  bgm/track1.ogg
 map-paxed2/spheroids.sol   back/blues.png       5  bgm/track1.ogg
 map-paxed2/key.sol         back/blk_org.png     3  bgm/track2.ogg
