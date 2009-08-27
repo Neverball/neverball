@@ -67,10 +67,37 @@ static int course_load(struct course *course, const char *filename)
     return rc;
 }
 
+static int cmp_dir_items(const void *A, const void *B)
+{
+    const struct dir_item *a = A, *b = B;
+    return strcmp(a->path, b->path);
+}
+
+static int course_is_loaded(const char *path)
+{
+    int i;
+
+    for (i = 0; i < count; i++)
+        if (strcmp(course_v[i].holes, path) == 0)
+            return 1;
+
+    return 0;
+}
+
+static int is_unseen_course(struct dir_item *item)
+{
+    return (strncmp(base_name(item->path, NULL), "holes-", 6) == 0 &&
+            strcmp(item->path + strlen(item->path) - 4, ".txt") == 0 &&
+            !course_is_loaded(item->path));
+}
+
 void course_init()
 {
     fs_file fin;
     char *line;
+
+    Array items;
+    int i;
 
     if (course_state)
         course_free();
@@ -79,7 +106,7 @@ void course_init()
 
     if ((fin = fs_open(COURSE_FILE, "r")))
     {
-        while (read_line(&line, fin))
+        while (count < MAXCRS && read_line(&line, fin))
         {
             if (course_load(&course_v[count], line))
                 count++;
@@ -88,6 +115,19 @@ void course_init()
         }
 
         fs_close(fin);
+
+        course_state = 1;
+    }
+
+    if ((items = fs_dir_scan("", is_unseen_course)))
+    {
+        array_sort(items, cmp_dir_items);
+
+        for (i = 0; i < array_len(items) && count < MAXCRS; i++)
+            if (course_load(&course_v[count], DIR_ITEM_GET(items, i)->path))
+                count++;
+
+        fs_dir_free(items);
 
         course_state = 1;
     }
