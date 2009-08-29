@@ -301,7 +301,6 @@ int fs_puts(const char *src, fs_file fh)
 char *fs_gets(char *dst, int count, fs_file fh)
 {
     char *s = dst;
-    char *cr = NULL;
     int c;
 
     assert(dst);
@@ -316,22 +315,21 @@ char *fs_gets(char *dst, int count, fs_file fh)
 
         *s = c;
 
-        /* Normalize possible CRLF and break. */
+        /* Keep a newline and break. */
 
         if (*s == '\n')
         {
-            if (cr + 1 == s)
-                *cr = '\n';
-            else
-                s++;
-
+            s++;
             break;
         }
 
-        /* Note carriage return. */
+        /* Ignore carriage returns. */
 
         if (*s == '\r')
-            cr = s;
+        {
+            count++;
+            s--;
+        }
 
         s++;
     }
