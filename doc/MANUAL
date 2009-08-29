@@ -19,9 +19,9 @@ below for details.
     ESC    Pause and resume / Exit
     SHIFT  Fast camera rotation
 
-    F1     Default Camera
+    F1     Chase Camera (default)
     F2     Lazy Camera
-    F3     Static Camera
+    F3     Manual Camera
 
     F6     Hide HUD
     F8     Toggle nice mode
@@ -175,7 +175,7 @@ values follow.
         non-single-letter  key  names,  see  share/keynames.c  in  the
         source archive).  The three camera behaviors are as follows:
 
-        1 - Strict  camera stays behind the ball by  cueing off of the
+        1 - Chase  camera stays behind  the ball by cueing  off of the
         velocity of the  ball.  It is very  responsive,  but sometimes
         confusing.
 
@@ -183,7 +183,7 @@ values follow.
         It is seldom  surprising, but at times it  is not sufficiently
         responsive.
 
-        3 - Locked camera  does not rotate  except by  player command.
+        3 - Manual camera  does not rotate  except by  player command.
 
 	key_camera_toggle toggles camera behaviour between 1 and 3.
 
