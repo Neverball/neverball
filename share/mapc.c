@@ -2457,7 +2457,8 @@ int main(int argc, char *argv[])
 
     if (!fs_init(argv[0]))
     {
-        fprintf(stderr, "Failure to initialize virtual file system\n");
+        fprintf(stderr, "Failure to initialize virtual file system: %s\n",
+                fs_error());
         return 1;
     }
 
