@@ -65,13 +65,21 @@ static void hole_init_rc(const char *filename)
 
     if ((fin = fs_open(filename, "r")))
     {
-        while (fs_gets(buff, sizeof (buff), fin) &&
-               sscanf(buff, "%s %s %d %s",
-                      hole_v[count].file,
-                      hole_v[count].back,
-                      &hole_v[count].par,
-                      hole_v[count].song) == 4)
-            count++;
+        /* Skip shot and description. */
+
+        if (fs_gets(buff, sizeof (buff), fin) &&
+            fs_gets(buff, sizeof (buff), fin))
+        {
+            /* Read the list. */
+
+            while (fs_gets(buff, sizeof (buff), fin) &&
+                   sscanf(buff, "%s %s %d %s",
+                          hole_v[count].file,
+                          hole_v[count].back,
+                          &hole_v[count].par,
+                          hole_v[count].song) == 4)
+                count++;
+        }
 
         fs_close(fin);
     }

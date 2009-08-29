@@ -1,3 +1,5 @@
+shot-putt/slippi.jpg
+Crazy Golf\ \\Difficulty: Easy to Medium\Author: slippifishi\
 map-slippi/01_easy.sol     back/blues.png       2 bgm/track3.ogg
 map-slippi/01_easy.sol     back/blues.png       3 bgm/track3.ogg
 map-slippi/02_path.sol     back/pastel.png       3 bgm/track2.ogg

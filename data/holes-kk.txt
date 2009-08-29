@@ -1,3 +1,5 @@
+shot-putt/tricky-golf.jpg
+Tricky Golf\\An 18-hole course with many challenges\Difficulty: Expert Through Insane\Author: Byron James Johnson
 map-ckk/01.sol back/red_wht.png   3  bgm/track3.ogg
 map-ckk/01.sol back/red_wht.png   9  bgm/track3.ogg
 map-ckk/02.sol back/land.png      5  bgm/track2.ogg

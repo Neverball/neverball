@@ -3,7 +3,7 @@
  *
  * Copyright (C) 1994-1996, Thomas G. Lane.
  * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * The conditions of distribution and use are reproduced below.
  *
  * This file contains decompression data source routines for the case of
  * reading JPEG data from a file (or any stdio stream).  While these routines
@@ -12,9 +12,32 @@
  * IMPORTANT: we assume that fread() will correctly transcribe an array of
  * JOCTETs from 8-bit-wide elements on external storage.  If char is wider
  * than 8 bits on your machine, you may need to do some tweaking.
+ *
+ * -- libjpeg licence
+ *
+ * Permission is hereby granted to use, copy, modify, and distribute
+ * this software (or portions thereof) for any purpose, without fee,
+ * subject to these conditions:
+ * (1) If any part of the source code for this software is
+ * distributed, then this README file must be included, with this
+ * copyright and no-warranty notice unaltered; and any additions,
+ * deletions, or changes to the original files must be clearly
+ * indicated in accompanying documentation.
+ * (2) If only executable code is distributed, then the accompanying
+ * documentation must state that "this software is based in part on
+ * the work of the Independent JPEG Group".
+ * (3) Permission for use of this software is granted only if the user
+ * accepts full responsibility for any undesirable consequences; the
+ * authors accept NO LIABILITY for damages of any kind.
+ *
+ * -- Neverball-related changes
+ *
+ * Search-and-replace to use with Neverball's custom IO routines:
+ *
+ *  * Replaced use of FILE * with fs_file.
+ *  * Replaced use of JFREAD with fs_read (fread interface).
+ *
  */
-
-/* -------------------------------------------------------------------------- */
 
 #include "fs.h"
 #include "fs_jpg.h"

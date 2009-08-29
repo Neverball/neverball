@@ -1,3 +1,5 @@
+shot-putt/paxed3.jpg
+Even More Holes\ \ \Difficulty: Medium\Author: paxed\
 map-paxed3/curvacious.sol   back/blues.png       3  bgm/track1.ogg
 map-paxed3/curvacious.sol   back/blues.png       3  bgm/track1.ogg
 map-paxed3/rampbunker.sol   back/blues.png       3  bgm/track1.ogg

@@ -1,3 +1,5 @@
+shot-putt/putt.jpg
+The original 18-hole Neverputt course.\With a gentle learning curve.\ \Difficulty: Easy to Medium\Author: rlk\
 map-putt/01_easy.sol     back/blues.png       2 bgm/track1.ogg
 map-putt/01_easy.sol     back/blues.png       2 bgm/track1.ogg
 map-putt/02_uturn.sol    back/org_yel.png     2 bgm/track2.ogg

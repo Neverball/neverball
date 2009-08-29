@@ -1,3 +1,5 @@
+shot-putt/paxed.jpg
+Another 18-hole course\ \ \Difficulty: Medium\Author: paxed\
 map-paxed/01_fastpenta.sol  back/blues.png     3  bgm/track1.ogg
 map-paxed/01_fastpenta.sol  back/blues.png     3  bgm/track1.ogg
 map-paxed/02_bumpy_road.sol back/org_yel.png   3  bgm/track2.ogg

@@ -1,3 +1,5 @@
+shot-putt/csyforeverh.jpg 
+Neverputt Forever Hard\The challenging 18-hole "Forever" course.\\Difficulty: Medium to Very Hard\Author: Challenge Space Yard\ 
 map-csyforeverhp/EasyJump.sol	back/blues.png	2	bgm/track1.ogg
 map-csyforeverhp/EasyJump.sol	back/blues.png	2	bgm/track1.ogg
 map-csyforeverhp/EasyFall.sol	back/sea_land.png	2	bgm/track1.ogg

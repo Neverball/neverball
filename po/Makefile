@@ -15,9 +15,9 @@ endif
 ROOT := ..
 
 DOMAIN    := neverball
-LOCALEDIR := $(ROOT)/locale
+MODIR     := $(ROOT)/locale
 POFILES   := $(LINGUAS:%=%.po)
-MOFILES   := $(LINGUAS:%=$(LOCALEDIR)/%/LC_MESSAGES/$(DOMAIN).mo)
+MOFILES   := $(LINGUAS:%=$(MODIR)/%/LC_MESSAGES/$(DOMAIN).mo)
 SOURCES   := \
     $(wildcard $(ROOT)/ball/*.[ch])  \
     $(wildcard $(ROOT)/share/*.[ch]) \
@@ -40,7 +40,7 @@ XGETTEXT_FLAGS := \
 all: $(MOFILES)
 
 clean:
-	rm -rf $(LOCALEDIR)
+	rm -rf $(MODIR)
 
 #------------------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ clean:
 
 update-po: $(DOMAIN).pot-update $(POFILES) $(MOFILES)
 
-$(LOCALEDIR)/%/LC_MESSAGES/$(DOMAIN).mo: %.po
+$(MODIR)/%/LC_MESSAGES/$(DOMAIN).mo: %.po
 	mkdir -p $(dir $@)
 	msgfmt -c --statistics -o $@ $<
 
@@ -63,11 +63,11 @@ $(LOCALEDIR)/%/LC_MESSAGES/$(DOMAIN).mo: %.po
 $(DOMAIN).pot $(DOMAIN).pot-update:
 	$(XGETTEXT) $(XGETTEXT_FLAGS) -o $(DOMAIN).pot \
 	    --directory="$(ROOT)" $(SOURCES:$(ROOT)/%=%)
-	
+
 	# Force encoding to UTF-8
 	sed "1,/^$$/ s/CHARSET/UTF-8/" < $(DOMAIN).pot > $(DOMAIN).pot.utf8
 	mv -f $(DOMAIN).pot.utf8 $(DOMAIN).pot
-	
+
 	sh $(ROOT)/scripts/extractpo.sh $(ROOT) >> $(DOMAIN).pot
 	grep -v '^# ' < mtrl.pot >> $(DOMAIN).pot
 	msguniq -o $(DOMAIN).pot.uniq $(DOMAIN).pot

@@ -380,7 +380,6 @@ int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
     int t1, t0, uniform;
-    Uint32 flags = 0;
 
     if (!fs_init(argv[0]))
     {
@@ -397,11 +396,7 @@ int main(int argc, char *argv[])
 
     /* Initialize SDL system and subsystems */
 
-    flags |= SDL_INIT_VIDEO;
-    flags |= SDL_INIT_AUDIO;
-    flags |= config_get_d(CONFIG_JOYSTICK) ? SDL_INIT_JOYSTICK : 0;
-
-    if (SDL_Init(flags) == -1)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
     {
         fprintf(stderr, "%s\n", SDL_GetError());
         return 1;
@@ -414,7 +409,7 @@ int main(int argc, char *argv[])
 
     /* Initialize the joystick. */
 
-    if (SDL_WasInit(SDL_INIT_JOYSTICK) && SDL_NumJoysticks() > 0)
+    if (config_get_d(CONFIG_JOYSTICK) && SDL_NumJoysticks() > 0)
     {
         joy = SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
         if (joy)

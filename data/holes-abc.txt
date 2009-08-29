@@ -1,3 +1,5 @@
+shot-putt/abc.jpg
+A 26-hole course\following the alphabet\\Difficulty: Hard\Author: paxed\
 map-paxed/a.sol  back/blues.png       2  bgm/track1.ogg
 map-paxed/a.sol  back/blues.png       2  bgm/track1.ogg
 map-paxed/b.sol  back/org_yel.png     2  bgm/track2.ogg
