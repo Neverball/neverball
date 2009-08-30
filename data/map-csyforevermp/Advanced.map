@@ -1469,7 +1469,7 @@
 "origin" "-192 960 32"
 "targetname" "path_corner1"
 "target" "path_corner2"
-"speed" "4"
+"speed" "2"
 }
 // entity 23
 {
@@ -1477,5 +1477,5 @@
 "origin" "-448 960 32"
 "target" "path_corner1"
 "targetname" "path_corner2"
-"speed" "4"
+"speed" "2"
 }

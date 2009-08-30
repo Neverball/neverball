@@ -372,7 +372,7 @@
 "classname" "path_corner"
 "origin" "-320 -576 0"
 "targetname" "train1"
-"speed" "4"
+"speed" "2"
 "target" "train2"
 }
 // entity 13
@@ -380,6 +380,6 @@
 "classname" "path_corner"
 "origin" "-320 -320 0"
 "targetname" "train2"
-"speed" "4"
+"speed" "2"
 "target" "train1"
 }
