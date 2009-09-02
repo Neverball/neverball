@@ -971,7 +971,7 @@ void game_draw(int pose, float t)
 
             m_xps(M, T);
 
-            /* Apply current the view. */
+            /* Apply the current view. */
 
             v_sub(v, view_c, view_p);
 
