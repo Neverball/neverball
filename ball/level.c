@@ -259,17 +259,9 @@ int level_score_update(int level,
     struct level *l = get_level(level);
     const char *player =  config_get_s(CONFIG_PLAYER);
 
-    if (time_rank)
-        *time_rank = score_time_insert(&l->score.best_times,
-                                       player, timer, coins);
-
-    if (goal_rank)
-        *goal_rank = score_time_insert(&l->score.fast_unlock,
-                                       player, timer, coins);
-
-    if (coin_rank)
-        *coin_rank = score_coin_insert(&l->score.most_coins,
-                                       player, timer, coins);
+    score_time_insert(&l->score.best_times,  time_rank, player, timer, coins);
+    score_time_insert(&l->score.fast_unlock, goal_rank, player, timer, coins);
+    score_coin_insert(&l->score.most_coins,  coin_rank, player, timer, coins);
 
     if ((time_rank && *time_rank < 3) ||
         (goal_rank && *goal_rank < 3) ||

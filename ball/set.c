@@ -471,11 +471,8 @@ int set_score_update(int timer, int coins, int *score_rank, int *times_rank)
     struct set *s = SET_GET(sets, curr);
     const char *player = config_get_s(CONFIG_PLAYER);
 
-    if (score_rank)
-        *score_rank = score_coin_insert(&s->coin_score, player, timer, coins);
-
-    if (times_rank)
-        *times_rank = score_time_insert(&s->time_score, player, timer, coins);
+    score_coin_insert(&s->coin_score, score_rank, player, timer, coins);
+    score_time_insert(&s->time_score, times_rank, player, timer, coins);
 
     if ((score_rank && *score_rank < 3) || (times_rank && *times_rank < 3))
         return 1;

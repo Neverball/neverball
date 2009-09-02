@@ -19,8 +19,8 @@ struct score
 
 void score_init_hs(struct score *, int, int);
 
-int score_time_insert(struct score *, const char *, int, int);
-int score_coin_insert(struct score *, const char *, int, int);
+void score_time_insert(struct score *, int *, const char *, int, int);
+void score_coin_insert(struct score *, int *, const char *, int, int);
 
 /*---------------------------------------------------------------------------*/
 
