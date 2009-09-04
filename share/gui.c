@@ -915,6 +915,7 @@ static void gui_widget_up(int id)
         case GUI_VARRAY: gui_varray_up(id); break;
         case GUI_HSTACK: gui_hstack_up(id); break;
         case GUI_VSTACK: gui_vstack_up(id); break;
+        case GUI_FILLER:                    break;
         default:         gui_button_up(id); break;
         }
 }
