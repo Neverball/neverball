@@ -60,6 +60,7 @@ static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
+static float jump_w[3];                 /* View destination                  */
 
 /*---------------------------------------------------------------------------*/
 
@@ -744,6 +745,9 @@ static int game_update_state(int bt)
         jump_e  = 0;
         jump_dt = 0.f;
 
+        v_sub(jump_w, jump_p, fp->uv->p);
+        v_add(jump_w, view_p, jump_w);
+
         audio_play(AUD_JUMP, 1.f);
 
         game_cmd_jump(1);
@@ -811,9 +815,8 @@ static int game_step(const float g[3], float dt, int bt)
 
             if (0.5f < jump_dt)
             {
-                fp->uv[0].p[0] = jump_p[0];
-                fp->uv[0].p[1] = jump_p[1];
-                fp->uv[0].p[2] = jump_p[2];
+                v_cpy(fp->uv->p, jump_p);
+                v_cpy(view_p,    jump_w);
             }
             if (1.0f < jump_dt)
                 jump_b = 0;
