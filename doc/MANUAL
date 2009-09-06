@@ -333,10 +333,7 @@ values follow.
     stereo 0
 
         This key  enables quad-buffered stereo viewing  for those with
-        the hardware to support it.  It gives an angle in degrees that
-        determines the  interocular distance.  0  is normal non-stereo
-        viewing.  2 gives  a  good  stereo effect.   If  the eyes  are
-        swapped, give a negative value, like -2.
+        the hardware to support it.  1 is on, 0 is off.
 
     vsync 1
 
