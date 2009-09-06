@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"version" "1"
+"version" "2.0"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
 "song" "bgm/track2.ogg"
