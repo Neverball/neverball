@@ -1,4 +1,33 @@
 -------------------------------------------------------------------------------
+New in 1.5.3
+
+* Init default most coins times with the level's time
+* When scanning for set files, ignore files not ending with ".txt"
+* Fix attempt to use "joystick" option before config system is set up
+* Add licence info for share/fs_jpg.c, which is based on jdatasrc.c
+  from libjpeg
+* Do not flip left/right when using joystick third-axis rotation
+* Disallow path separators when entering replay name
+* Fix LOCALEDIR ambiguity in Makefile
+* Putt: Move shot/desc from courses.txt to the individual course
+  files, a la sets.txt
+* Putt: Scan for and add courses not listed in courses.txt after those
+  listed
+* Don't clip shadow geometry above ball if "shadow" is set to 3
+* Print last error when VFS init fails
+* Fix user scores not being read if file has CRLF newlines
+* Fix some "glass" materials scheduled as opaque
+* Show inapplicable score (e.g. not enough coins for a Fast Unlock) as
+  unqualified rather than leave an empty row
+* ufo.map: Replaced uses of red-glass and green-glass
+* Removed the now unused green-glass texture
+* Fix filler space allocation in GUI
+* Correctly apply teleport translation to view position
+* maze2.map, runstop.map: replaced pane of glass with a grill
+  (invalidates replays)
+* Update "stereo" option description
+
+-------------------------------------------------------------------------------
 New in 1.5.2
 
 * French translation update
