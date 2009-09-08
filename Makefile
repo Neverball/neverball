@@ -4,11 +4,11 @@
 BUILD := $(shell head -n1 BUILD 2> /dev/null || echo release)
 
 ifeq ($(BUILD),release)
-    VERSION := 1.5.3
+    VERSION := 1.5.4
 else
     VERSION := $(shell sh scripts/version.sh)
     ifeq ($(VERSION),unknown)
-        VERSION := 1.5.3-dev
+        VERSION := 1.5.4-dev
     endif
 endif
 
