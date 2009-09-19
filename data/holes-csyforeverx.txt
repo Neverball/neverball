@@ -1,4 +1,4 @@
-shot-putt/csyforeverx.jpg 
+shot-putt/csyforeverx.jpg
 Neverputt Forever Extreme\The most insane "Forever" course offered.\\Difficulty: Hard to Extreme\Author: Challenge Space Yard\
 map-csyforeverxp/NarrowObstacle.sol	back/blu_wht.png	3	bgm/track1.ogg
 map-csyforeverxp/NarrowObstacle.sol	back/blu_wht.png	3	bgm/track1.ogg
