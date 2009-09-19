@@ -472,11 +472,13 @@ static void sol_swch_step(struct s_file *fp, float dt)
     {
         struct s_swch *xp = fp->xv + xi;
 
-        if (xp->t < xp->t0)
-        {
-            xp->t += dt;
+        volatile float t = xp->t;
 
-            if (xp->t >= xp->t0)
+        if (t < xp->t0)
+        {
+            xp->t = (t += dt);
+
+            if (t >= xp->t0)
             {
                 int pi = xp->pi;
                 int pj = xp->pi;
@@ -519,11 +521,13 @@ static void sol_body_step(struct s_file *fp, float dt)
         struct s_body *bp = fp->bv + i;
         struct s_path *pp = fp->pv + bp->pi;
 
+        volatile float t = bp->t;
+
         if (bp->pi >= 0 && pp->f)
         {
-            bp->t += dt;
+            bp->t = (t += dt);
 
-            if (bp->t >= pp->t)
+            if (t >= pp->t)
             {
                 bp->t  = 0;
                 bp->pi = pp->pi;
