@@ -1,5 +1,5 @@
 shot-putt/csyforevere.jpg
-Neverputt Forever Easy\The easier 18-hole "Forever" course.\\Difficulty: Easy to Medium\Author: Challenge Space Yard\ 
+Neverputt Forever Easy\The easier 18-hole "Forever" course.\\Difficulty: Easy to Medium\Author: Challenge Space Yard\
 map-csyforeverep/Easy.sol	back/blues.png	2	bgm/track1.ogg
 map-csyforeverep/Easy.sol	back/blues.png	2	bgm/track1.ogg
 map-csyforeverep/Turn.sol	back/blu_cyn.png	2	bgm/track1.ogg
