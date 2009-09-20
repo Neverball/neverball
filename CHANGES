@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
+New in 1.5.4
+
+* Fix inconsistent quoting in error messages
+* Try to work around GCC optimizations breaking switch/body timers
+
+-------------------------------------------------------------------------------
 New in 1.5.3
 
 * Init default most coins times with the level's time
