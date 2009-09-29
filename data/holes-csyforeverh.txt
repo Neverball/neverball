@@ -11,8 +11,8 @@ map-csyforeverhp/PlusSignJump.sol	back/blk_org.png	4	bgm/track3.ogg
 map-csyforeverhp/SimpleTwister.sol	back/blu_wht.png	2	bgm/track3.ogg
 map-csyforeverhp/TimedMover.sol	back/red_wht.png	2	bgm/track3.ogg
 map-csyforeverhp/ShiftedRamp.sol	back/grn_yel.png	3	bgm/track4.ogg
+map-csyforeverhp/BentRoad.sol	back/blu_wht.png	5	bgm/track4.ogg
 map-csyforeverhp/Hoppers.sol	back/cyn_grn.png	6	bgm/track4.ogg
-map-csyforeverhp/UpsideDown.sol	back/greys.png	4	bgm/track4.ogg
 map-csyforeverhp/LongJump.sol	back/blu_cyn.png	3	bgm/track6.ogg
 map-csyforeverhp/Challenger2.sol	back/purples.png	14	bgm/track6.ogg
 map-csyforeverhp/Underwater.sol	back/cyn_wht.png	4	bgm/track6.ogg
