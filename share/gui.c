@@ -100,6 +100,9 @@ static GLuint digit_list[3][11];
 static int    digit_w[3][11];
 static int    digit_h[3][11];
 
+static GLuint pointer_text;
+static GLuint pointer_list;
+
 /*---------------------------------------------------------------------------*/
 
 static int gui_hot(int id)
@@ -323,6 +326,27 @@ void gui_init(void)
                                         +digit_h[i][10], c0, c1);
         }
     }
+
+    pointer_text = make_image_from_file("gui/pointer.png");
+
+    pointer_list = glGenLists(1);
+
+    glNewList(pointer_list, GL_COMPILE);
+    {
+        const float h = s / 40;
+
+        glBegin(GL_QUADS);
+        {
+            glColor4fv(gui_wht);
+
+            glTexCoord2f(0.0f, 0.0f); glVertex2f(-h, -h);
+            glTexCoord2f(1.0f, 0.0f); glVertex2f(+h, -h);
+            glTexCoord2f(1.0f, 1.0f); glVertex2f(+h, +h);
+            glTexCoord2f(0.0f, 1.0f); glVertex2f(-h, +h);
+        }
+        glEnd();
+    }
+    glEndList();
 
     active = 0;
 }
@@ -1450,6 +1474,29 @@ static void gui_paint_text(int id)
     }
 }
 
+static void gui_paint_pointer(void)
+{
+    int wx, wy;
+    GLfloat x, y;
+
+    if ((SDL_GetAppState() & SDL_APPMOUSEFOCUS) == 0)
+        return;
+
+    SDL_GetMouseState(&wx, &wy);
+
+    x = +wx;
+    y = -wy + config_get_d(CONFIG_HEIGHT);
+
+    glBindTexture(GL_TEXTURE_2D, pointer_text);
+
+    glPushMatrix();
+    {
+        glTranslatef(x, y, 0.0f);
+        glCallList(pointer_list);
+    }
+    glPopMatrix();
+}
+
 void gui_paint(int id)
 {
     if (id)
@@ -1465,6 +1512,9 @@ void gui_paint(int id)
 
                 glEnable(GL_TEXTURE_2D);
                 gui_paint_text(id);
+
+                if (!video_get_grab())
+                    gui_paint_pointer();
 
                 glColor4fv(gui_wht);
             }
