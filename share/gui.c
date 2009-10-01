@@ -1481,29 +1481,6 @@ static void gui_paint_text(int id)
     }
 }
 
-static void gui_paint_pointer(void)
-{
-    int wx, wy;
-    GLfloat x, y;
-
-    if ((SDL_GetAppState() & SDL_APPMOUSEFOCUS) == 0)
-        return;
-
-    SDL_GetMouseState(&wx, &wy);
-
-    x = +wx;
-    y = -wy + config_get_d(CONFIG_HEIGHT);
-
-    glBindTexture(GL_TEXTURE_2D, pointer_text);
-
-    glPushMatrix();
-    {
-        glTranslatef(x, y, 0.0f);
-        glCallList(pointer_list);
-    }
-    glPopMatrix();
-}
-
 void gui_paint(int id)
 {
     if (id)
@@ -1520,9 +1497,6 @@ void gui_paint(int id)
                 glEnable(GL_TEXTURE_2D);
                 gui_paint_text(id);
 
-                if (!video_get_grab())
-                    gui_paint_pointer();
-
                 glColor4fv(gui_wht);
             }
             glEnable(GL_DEPTH_TEST);
@@ -1531,6 +1505,42 @@ void gui_paint(int id)
         }
         video_pop_matrix();
     }
+}
+
+/*---------------------------------------------------------------------------*/
+
+void gui_pointer(void)
+{
+    int wx, wy;
+    GLfloat x, y;
+
+    if (video_get_grab())
+        return;
+
+    if ((SDL_GetAppState() & SDL_APPMOUSEFOCUS) == 0)
+        return;
+
+    SDL_GetMouseState(&wx, &wy);
+
+    x = +wx;
+    y = -wy + config_get_d(CONFIG_HEIGHT);
+
+    glBindTexture(GL_TEXTURE_2D, pointer_text);
+
+    video_push_ortho();
+    {
+        glDisable(GL_LIGHTING);
+        glDisable(GL_DEPTH_TEST);
+        glPushMatrix();
+        {
+            glTranslatef(x, y, 0.0f);
+            glCallList(pointer_list);
+        }
+        glPopMatrix();
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_LIGHTING);
+    }
+    video_pop_matrix();
 }
 
 /*---------------------------------------------------------------------------*/
