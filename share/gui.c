@@ -355,6 +355,13 @@ void gui_free(void)
 {
     int i, j, id;
 
+    /* Release pointer resources. */
+
+    if (glIsTexture(pointer_text))
+        glDeleteTextures(1, &pointer_text);
+    if (glIsList(pointer_list))
+        glDeleteLists(pointer_list, 1);
+
     /* Release any remaining widget texture and display list indices. */
 
     for (id = 1; id < MAXWIDGET; id++)
