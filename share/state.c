@@ -55,8 +55,6 @@ int goto_state(struct state *st)
 
 /*---------------------------------------------------------------------------*/
 
-extern void gui_pointer(void);
-
 void st_paint(float t)
 {
     int stereo = config_get_d(CONFIG_STEREO);
@@ -70,18 +68,15 @@ void st_paint(float t)
             glDrawBuffer(GL_BACK_LEFT);
             video_clear();
             state->paint(state->gui_id, t);
-            gui_pointer();
 
             glDrawBuffer(GL_BACK_RIGHT);
             video_clear();
             state->paint(state->gui_id, t);
-            gui_pointer();
         }
         else
         {
             video_clear();
             state->paint(state->gui_id, t);
-            gui_pointer();
         }
     }
 }

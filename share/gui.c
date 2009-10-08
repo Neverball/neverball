@@ -100,9 +100,6 @@ static GLuint digit_list[3][11];
 static int    digit_w[3][11];
 static int    digit_h[3][11];
 
-static GLuint pointer_text;
-static GLuint pointer_list;
-
 /*---------------------------------------------------------------------------*/
 
 static int gui_hot(int id)
@@ -327,40 +324,12 @@ void gui_init(void)
         }
     }
 
-    pointer_text = make_image_from_file("gui/pointer.png");
-
-    pointer_list = glGenLists(1);
-
-    glNewList(pointer_list, GL_COMPILE);
-    {
-        const float h = s / 40;
-
-        glBegin(GL_QUADS);
-        {
-            glColor4fv(gui_wht);
-
-            glTexCoord2f(0.0f, 0.0f); glVertex2f(-h, -h);
-            glTexCoord2f(1.0f, 0.0f); glVertex2f(+h, -h);
-            glTexCoord2f(1.0f, 1.0f); glVertex2f(+h, +h);
-            glTexCoord2f(0.0f, 1.0f); glVertex2f(-h, +h);
-        }
-        glEnd();
-    }
-    glEndList();
-
     active = 0;
 }
 
 void gui_free(void)
 {
     int i, j, id;
-
-    /* Release pointer resources. */
-
-    if (glIsTexture(pointer_text))
-        glDeleteTextures(1, &pointer_text);
-    if (glIsList(pointer_list))
-        glDeleteLists(pointer_list, 1);
 
     /* Release any remaining widget texture and display list indices. */
 
@@ -1505,42 +1474,6 @@ void gui_paint(int id)
         }
         video_pop_matrix();
     }
-}
-
-/*---------------------------------------------------------------------------*/
-
-void gui_pointer(void)
-{
-    int wx, wy;
-    GLfloat x, y;
-
-    if (video_get_grab())
-        return;
-
-    if ((SDL_GetAppState() & SDL_APPMOUSEFOCUS) == 0)
-        return;
-
-    SDL_GetMouseState(&wx, &wy);
-
-    x = +wx;
-    y = -wy + config_get_d(CONFIG_HEIGHT);
-
-    glBindTexture(GL_TEXTURE_2D, pointer_text);
-
-    video_push_ortho();
-    {
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
-        glPushMatrix();
-        {
-            glTranslatef(x, y, 0.0f);
-            glCallList(pointer_list);
-        }
-        glPopMatrix();
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_LIGHTING);
-    }
-    video_pop_matrix();
 }
 
 /*---------------------------------------------------------------------------*/

@@ -50,8 +50,6 @@ int video_init(const char *title, const char *icon)
 
     SDL_WM_SetCaption(title, title);
 
-    SDL_ShowCursor(SDL_DISABLE);
-
     return 1;
 }
 
@@ -239,6 +237,7 @@ void video_set_grab(int w)
     }
 
     SDL_WM_GrabInput(SDL_GRAB_ON);
+    SDL_ShowCursor(SDL_DISABLE);
 
     grabbed = 1;
 }
@@ -246,6 +245,7 @@ void video_set_grab(int w)
 void video_clr_grab(void)
 {
     SDL_WM_GrabInput(SDL_GRAB_OFF);
+    SDL_ShowCursor(SDL_ENABLE);
     grabbed = 0;
 }
 
