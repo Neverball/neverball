@@ -337,9 +337,6 @@ void shad_draw_set(const float *p, float r)
         glScalef(k, k, 1.0f);
     }
     glMatrixMode(GL_MODELVIEW);
-
-    if (config_get_d(CONFIG_SHADOW) != 3)
-        glEnable(GL_CLIP_PLANE3);
 }
 
 void shad_draw_clr(void)
@@ -349,9 +346,6 @@ void shad_draw_clr(void)
         glLoadIdentity();
     }
     glMatrixMode(GL_MODELVIEW);
-
-    if (config_get_d(CONFIG_SHADOW) != 3)
-        glDisable(GL_CLIP_PLANE3);
 }
 
 /*---------------------------------------------------------------------------*/

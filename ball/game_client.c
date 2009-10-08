@@ -814,7 +814,7 @@ static void game_clip_refl(int d)
 
 static void game_clip_ball(int d, const float *p)
 {
-    GLdouble r, c[3], pz[4], nz[4], ny[4];
+    GLdouble r, c[3], pz[4], nz[4];
 
     /* Compute the plane giving the front of the ball, as seen from view_p. */
 
@@ -842,24 +842,13 @@ static void game_clip_ball(int d, const float *p)
     nz[2] = -pz[2];
     nz[3] = -pz[3];
 
-    /* Compute the plane giving the bottom of the ball. */
-
-    ny[0] =  0.0;
-    ny[1] = -1.0;
-    ny[2] =  0.0;
-    ny[3] = -(ny[0] * c[0] +
-              ny[1] * c[1] +
-              ny[2] * c[2]);
-
     /* Reflect these planes as necessary, and store them in the GL state. */
 
     pz[1] *= d;
     nz[1] *= d;
-    ny[1] *= d;
 
     glClipPlane(GL_CLIP_PLANE1, nz);
     glClipPlane(GL_CLIP_PLANE2, pz);
-    glClipPlane(GL_CLIP_PLANE3, ny);
 }
 
 static void game_draw_fore(int pose, const float *M, int d, float t)
