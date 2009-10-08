@@ -78,12 +78,6 @@ int CONFIG_KEY_CAMERA_3;
 int CONFIG_KEY_CAMERA_TOGGLE;
 int CONFIG_KEY_CAMERA_R;
 int CONFIG_KEY_CAMERA_L;
-int CONFIG_VIEW_FOV;
-int CONFIG_VIEW_DP;
-int CONFIG_VIEW_DC;
-int CONFIG_VIEW_DZ;
-int CONFIG_ROTATE_FAST;
-int CONFIG_ROTATE_SLOW;
 int CONFIG_KEY_FORWARD;
 int CONFIG_KEY_BACKWARD;
 int CONFIG_KEY_LEFT;
@@ -92,6 +86,12 @@ int CONFIG_KEY_PAUSE;
 int CONFIG_KEY_RESTART;
 int CONFIG_KEY_SCORE_NEXT;
 int CONFIG_KEY_ROTATE_FAST;
+int CONFIG_VIEW_FOV;
+int CONFIG_VIEW_DP;
+int CONFIG_VIEW_DC;
+int CONFIG_VIEW_DZ;
+int CONFIG_ROTATE_FAST;
+int CONFIG_ROTATE_SLOW;
 int CONFIG_CHEAT;
 int CONFIG_STATS;
 int CONFIG_UNIFORM;
@@ -170,12 +170,6 @@ static struct
     { &CONFIG_KEY_CAMERA_TOGGLE, "key_camera_toggle", SDLK_e },
     { &CONFIG_KEY_CAMERA_R,      "key_camera_r",      SDLK_d },
     { &CONFIG_KEY_CAMERA_L,      "key_camera_l",      SDLK_s },
-    { &CONFIG_VIEW_FOV,          "view_fov",          50 },
-    { &CONFIG_VIEW_DP,           "view_dp",           75 },
-    { &CONFIG_VIEW_DC,           "view_dc",           25 },
-    { &CONFIG_VIEW_DZ,           "view_dz",           200 },
-    { &CONFIG_ROTATE_FAST,       "rotate_fast",       300 },
-    { &CONFIG_ROTATE_SLOW,       "rotate_slow",       150 },
     { &CONFIG_KEY_FORWARD,       "key_forward",       SDLK_UP },
     { &CONFIG_KEY_BACKWARD,      "key_backward",      SDLK_DOWN },
     { &CONFIG_KEY_LEFT,          "key_left",          SDLK_LEFT },
@@ -184,11 +178,18 @@ static struct
     { &CONFIG_KEY_RESTART,       "key_restart",       SDLK_r },
     { &CONFIG_KEY_SCORE_NEXT,    "key_score_next",    SDLK_TAB },
     { &CONFIG_KEY_ROTATE_FAST,   "key_rotate_fast",   SDLK_LSHIFT },
-    { &CONFIG_CHEAT,             "cheat",             0 },
-    { &CONFIG_STATS,             "stats",             0 },
-    { &CONFIG_UNIFORM,           "uniform",           0 },
-    { &CONFIG_SCREENSHOT,        "screenshot",        0 },
-    { &CONFIG_LOCK_GOALS,        "lock_goals",        0 }
+
+    { &CONFIG_VIEW_FOV,    "view_fov",    50 },
+    { &CONFIG_VIEW_DP,     "view_dp",     75 },
+    { &CONFIG_VIEW_DC,     "view_dc",     25 },
+    { &CONFIG_VIEW_DZ,     "view_dz",     200 },
+    { &CONFIG_ROTATE_FAST, "rotate_fast", 300 },
+    { &CONFIG_ROTATE_SLOW, "rotate_slow", 150 },
+    { &CONFIG_CHEAT,       "cheat",       0 },
+    { &CONFIG_STATS,       "stats",       0 },
+    { &CONFIG_UNIFORM,     "uniform",     0 },
+    { &CONFIG_SCREENSHOT,  "screenshot",  0 },
+    { &CONFIG_LOCK_GOALS,  "lock_goals",  0 }
 };
 
 static struct
