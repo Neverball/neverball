@@ -208,6 +208,7 @@ BALL_OBJS := \
 	share/fs_jpg.o      \
 	share/fs_rwops.o    \
 	share/fs_ov.o       \
+	share/sync.o        \
 	ball/hud.o          \
 	ball/game_common.o  \
 	ball/game_client.o  \
@@ -270,6 +271,7 @@ PUTT_OBJS := \
 	share/fs_ov.o       \
 	share/dir.o         \
 	share/array.o       \
+	share/sync.o        \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \
