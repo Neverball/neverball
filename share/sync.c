@@ -75,13 +75,13 @@ void sync_init(void)
     {
         int scr = DefaultScreen(dpy);
 
-        PFNGLXSWAPINTERVALSGIPROC _glXSwapInvervalSGI = NULL;
+        PFNGLXSWAPINTERVALSGIPROC _glXSwapIntervalSGI = NULL;
 
         if (search(glXQueryExtensionsString(dpy, scr), "GLX_SGI_swap_control"))
         {
-            if ((_glXSwapInvervalSGI = (PFNGLXSWAPINTERVALSGIPROC)
+            if ((_glXSwapIntervalSGI = (PFNGLXSWAPINTERVALSGIPROC)
                  glXGetProcAddress((const GLubyte *) "glXSwapIntervalSGI")))
-                _glXSwapInvervalSGI(1);
+                _glXSwapIntervalSGI(1);
         }
     }
     info.info.x11.unlock_func();
