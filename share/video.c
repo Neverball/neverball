@@ -137,7 +137,7 @@ int video_mode(int f, int w, int h)
 
         /* Attempt manual swap control if SDL's is broken. */
 
-        if (SDL_GL_GetAttribute(SDL_GL_SWAP_CONTROL, &vsync) == -1)
+        if (vsync && SDL_GL_GetAttribute(SDL_GL_SWAP_CONTROL, &vsync) == -1)
             sync_init();
 
         return 1;
