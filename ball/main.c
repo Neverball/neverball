@@ -484,15 +484,13 @@ int main(int argc, char *argv[])
             SDL_Delay(1);
     }
 
-    /* Gracefully close the game */
+    config_save();
 
     if (joy)
         SDL_JoystickClose(joy);
 
     tilt_free();
     SDL_Quit();
-
-    config_save();
 
     return 0;
 }
