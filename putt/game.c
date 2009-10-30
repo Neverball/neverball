@@ -86,9 +86,7 @@ void game_init(const char *s)
     jump_b = 0;
 
     view_init();
-    sol_load_gl(&file, s,
-                config_get_d(CONFIG_TEXTURES),
-                config_get_d(CONFIG_SHADOW));
+    sol_load_gl(&file, s, config_get_d(CONFIG_SHADOW));
 }
 
 void game_free(void)

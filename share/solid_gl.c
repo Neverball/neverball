@@ -670,7 +670,7 @@ static GLuint sol_find_texture(const char *name)
     return 0;
 }
 
-static void sol_load_textures(struct s_file *fp, int k)
+static void sol_load_textures(struct s_file *fp)
 {
     int i;
 
@@ -696,11 +696,11 @@ static void sol_load_textures(struct s_file *fp, int k)
 
 /*---------------------------------------------------------------------------*/
 
-int sol_load_gl(struct s_file *fp, const char *filename, int k, int s)
+int sol_load_gl(struct s_file *fp, const char *filename, int s)
 {
     if (sol_load_only_file(fp, filename))
     {
-        sol_load_textures(fp, k);
+        sol_load_textures(fp);
         sol_load_objects (fp, s);
         return 1;
     }

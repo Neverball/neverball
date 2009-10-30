@@ -422,9 +422,7 @@ int  game_client_init(const char *file_name)
     if (client_state)
         game_client_free();
 
-    if (!sol_load_gl(&file, file_name,
-                     config_get_d(CONFIG_TEXTURES),
-                     config_get_d(CONFIG_SHADOW)))
+    if (!sol_load_gl(&file, file_name, config_get_d(CONFIG_SHADOW)))
         return (client_state = 0);
 
     reflective = sol_reflective(&file);
@@ -477,8 +475,7 @@ int  game_client_init(const char *file_name)
     first_update = 1;
 
     back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
-    sol_load_gl(&back, back_name,
-                config_get_d(CONFIG_TEXTURES), 0);
+    sol_load_gl(&back, back_name, 0);
 
     return client_state;
 }

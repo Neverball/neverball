@@ -19,7 +19,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-int   sol_load_gl(struct s_file *, const char *, int, int);
+int   sol_load_gl(struct s_file *, const char *, int);
 void  sol_free_gl(struct s_file *);
 
 int   sol_reflective(const struct s_file *);
