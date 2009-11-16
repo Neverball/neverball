@@ -1,0 +1,1960 @@
+#
+# Copyright (C) YEAR Robert Kooima
+# This file is distributed under GPL
+#
+# Gergő Nagy <gegsite@gmail.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: v.0.1\n"
+"Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
+"POT-Creation-Date: 2009-08-11 01:07+0300\n"
+"PO-Revision-Date: 2009-10-31 00:55+0100\n"
+"Last-Translator: Gergő Nagy <gegsite@gmail.com>\n"
+"Language-Team: Hungarian <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ball/demo.c:233
+msgid "Missing format character in replay name\n"
+msgstr "Hiányzik a karakter formátum a visszajátszás fájlnévben\n"
+
+#: ball/demo.c:238
+#, c-format
+msgid "Invalid format character in replay name: \"%%%c\"\n"
+msgstr "Érvénytelen karakter formátum a visszajátszás nevében: \"%%%c\"\n"
+
+#: ball/game_common.c:8
+msgid "Aborted"
+msgstr "Megszakítva"
+
+#: ball/game_common.c:9
+msgid "Time-out"
+msgstr "Idő vége"
+
+#: ball/game_common.c:10
+msgid "Success"
+msgstr "Siker"
+
+#: ball/game_common.c:11
+msgid "Fall-out"
+msgstr "Kiesés"
+
+#: ball/game_common.c:12 ball/game_common.c:24 ball/progress.c:376
+msgid "Unknown"
+msgstr "Ismeretlen"
+
+#: ball/game_common.c:20
+msgid "Chase"
+msgstr "Követés"
+
+#: ball/game_common.c:21
+msgid "Lazy"
+msgstr "Lusta"
+
+#: ball/game_common.c:22
+msgid "Manual"
+msgstr "Kézi"
+
+#: ball/game_common.c:23
+msgid "Top-Down"
+msgstr "Fentről-Lefele"
+
+#: ball/game_common.h:9
+msgid "snd/select.ogg"
+msgstr "snd/select.ogg"
+
+#: ball/game_common.h:10
+msgid "snd/ready.ogg"
+msgstr "snd/ready.ogg"
+
+#: ball/game_common.h:11
+msgid "snd/set.ogg"
+msgstr "snd/set.ogg"
+
+#: ball/game_common.h:12
+msgid "snd/go.ogg"
+msgstr "snd/go.ogg"
+
+#: ball/game_common.h:23
+msgid "snd/record.ogg"
+msgstr "snd/record.ogg"
+
+#: ball/game_common.h:24
+msgid "snd/fall.ogg"
+msgstr "snd/fall.ogg"
+
+#: ball/game_common.h:25
+msgid "snd/time.ogg"
+msgstr "snd/time.ogg"
+
+#: ball/game_common.h:26
+msgid "snd/over.ogg"
+msgstr "snd/over.ogg"
+
+#: ball/hud.c:60 ball/st_demo.c:197 ball/st_goal.c:186
+msgid "Coins"
+msgstr "Érme"
+
+#: ball/hud.c:61
+msgid "Goal"
+msgstr "Célig"
+
+#: ball/hud.c:80 ball/st_goal.c:176
+msgid "Balls"
+msgstr "Labdák"
+
+#: ball/hud.c:81 ball/st_goal.c:181 putt/hud.c:45
+msgid "Score"
+msgstr "Pontszám"
+
+#: ball/level.c:140
+#, c-format
+msgid "Failure to load level file '%s'\n"
+msgstr "Sikertelen pályabetöltés '%s'\n"
+
+#: ball/main.c:254
+#, c-format
+msgid ""
+"Usage: %s [options ...]\n"
+"Options:\n"
+"  -h, --help                show this usage message.\n"
+"  -v, --version             show version.\n"
+"  -d, --data <dir>          use 'dir' as game data directory.\n"
+"  -r, --replay <file>       play the replay 'file'.\n"
+msgstr ""
+"Használat: %s [lehetőségek ...]\n"
+"Lehetőségek:\n"
+"  -h, --help                  ezt a segédet mutatja.\n"
+"  -v,  --version             megmutatja a verziószámot.\n"
+"  -d,  --data <mappa>        a 'mappa' mint a játék adathelye.\n"
+"  -r,  --replay <fájl>            lejátsza a 'fájl' visszajátszást.\n"
+
+#: ball/main.c:263
+#, c-format
+msgid "Option '%s' requires an argument.\n"
+msgstr "A '%s' lehetőségnek kell egy érték\n"
+
+#: ball/progress.c:374 ball/st_help.c:247
+msgid "Challenge Mode"
+msgstr "Mód váltás"
+
+#: ball/progress.c:374 ball/st_start.c:208
+msgid "Challenge"
+msgstr "Kihívás"
+
+#: ball/progress.c:375 ball/st_help.c:239
+msgid "Normal Mode"
+msgstr "Normál mód"
+
+#: ball/progress.c:375
+msgid "Normal"
+msgstr "Normal"
+
+#: ball/progress.c:376
+msgid "Unknown Mode"
+msgstr "Ismeretlen mód"
+
+#: ball/set.c:183
+#, c-format
+msgid "Failure to load user score file '%s'"
+msgstr "Sikertelen felhasználói pont-tábla fájl betöltés '%s'"
+
+#: ball/set.c:203
+#, c-format
+msgid "Failure to load set file '%s'\n"
+msgstr "Sikertelen beállító fájl betöltés '%s'\n"
+
+#: ball/st_ball.c:165 ball/st_conf.c:353
+msgid "Ball"
+msgstr "Labda"
+
+#: ball/st_ball.c:167 ball/st_conf.c:229 ball/st_help.c:96 ball/st_start.c:178
+#: ball/util.c:427 share/st_resol.c:106 putt/st_all.c:344 putt/st_all.c:492
+#: putt/st_conf.c:171
+msgid "Back"
+msgstr "Vissza"
+
+#: ball/st_conf.c:227 putt/st_conf.c:169
+msgid "Options"
+msgstr "Beállítások"
+
+#: ball/st_conf.c:237 ball/st_demo.c:600 ball/st_save.c:206 putt/st_conf.c:179
+msgid "No"
+msgstr "Nem"
+
+#: ball/st_conf.c:238 ball/st_demo.c:601 ball/st_save.c:207
+#: ball/st_start.c:236 putt/st_conf.c:180
+msgid "Yes"
+msgstr "Igen"
+
+#: ball/st_conf.c:240 putt/st_conf.c:182
+msgid "Fullscreen"
+msgstr "Teljesképernyő"
+
+#: ball/st_conf.c:248 share/st_resol.c:104 putt/st_conf.c:190
+msgid "Resolution"
+msgstr "Felbontás"
+
+#: ball/st_conf.c:256 ball/st_conf.c:265 putt/st_conf.c:198 putt/st_conf.c:207
+msgid "Low"
+msgstr "Alacsony"
+
+#: ball/st_conf.c:257 ball/st_conf.c:266 putt/st_conf.c:199 putt/st_conf.c:208
+msgid "High"
+msgstr "Magas"
+
+#: ball/st_conf.c:259 putt/st_conf.c:201
+msgid "Textures"
+msgstr "Textúrák"
+
+#: ball/st_conf.c:268 putt/st_conf.c:210
+msgid "Geometry"
+msgstr "Geometria"
+
+#: ball/st_conf.c:274 ball/st_conf.c:283 ball/st_conf.c:292 putt/st_conf.c:216
+msgid "Off"
+msgstr "Ki"
+
+#: ball/st_conf.c:275 ball/st_conf.c:284 ball/st_conf.c:293 putt/st_conf.c:217
+msgid "On"
+msgstr "Be"
+
+#: ball/st_conf.c:277
+msgid "Reflection"
+msgstr "Tükröződés"
+
+#: ball/st_conf.c:286
+msgid "Background"
+msgstr "Háttér"
+
+#: ball/st_conf.c:295 putt/st_conf.c:219
+msgid "Shadow"
+msgstr "Árnyék"
+
+#: ball/st_conf.c:317 putt/st_conf.c:241
+msgid "Sound Volume"
+msgstr "Hangerő"
+
+#: ball/st_conf.c:337 putt/st_conf.c:261
+msgid "Music Volume"
+msgstr "Zene"
+
+#: ball/st_conf.c:346 ball/st_name.c:107
+msgid "Player Name"
+msgstr "Játékos neve"
+
+#: ball/st_demo.c:196
+msgid "Time"
+msgstr "Idő"
+
+#: ball/st_demo.c:198
+msgid "Status"
+msgstr "Állapot"
+
+#: ball/st_demo.c:225 ball/st_demo.c:384
+msgid "Replay"
+msgstr "Visszajátszás"
+
+#: ball/st_demo.c:226 putt/st_all.c:680
+msgid "Player"
+msgstr "Játékos"
+
+#: ball/st_demo.c:227
+msgid "Date"
+msgstr "Dátum"
+
+#: ball/st_demo.c:280
+msgid "Select Replay"
+msgstr "Válassz visszajátszást"
+
+#: ball/st_demo.c:296
+msgid "No Replays"
+msgstr "Nincs visszajátszás"
+
+#: ball/st_demo.c:505
+msgid "Replay Paused"
+msgstr "Szünet"
+
+#: ball/st_demo.c:508
+msgid "Replay Ends"
+msgstr "Játék vége"
+
+#: ball/st_demo.c:517 ball/st_pause.c:110 putt/st_all.c:592
+msgid "Quit"
+msgstr "Kilépés"
+
+#: ball/st_demo.c:521
+msgid "Keep"
+msgstr "Megtart"
+
+#: ball/st_demo.c:522 share/keynames.c:39
+msgid "Delete"
+msgstr "Töröl"
+
+#: ball/st_demo.c:527 ball/st_pause.c:115 putt/st_all.c:593
+msgid "Continue"
+msgstr "Folytat"
+
+#: ball/st_demo.c:531
+msgid "Repeat"
+msgstr "Ismétlés"
+
+#: ball/st_demo.c:596
+msgid "Delete Replay?"
+msgstr "Törlöd a visszajátszást?"
+
+#: ball/st_demo.c:634
+msgid "Warning!"
+msgstr "Figyelem!"
+
+#: ball/st_demo.c:636
+msgid ""
+"The current replay was recorded with a\\different (or unknown) version of "
+"this level.\\Be prepared to encounter visual errors.\\"
+msgstr ""
+"Ez a visszajátszás egy másik (vagy ismeretlen)\\verziójával készült ennek a "
+"pályának.\\Készülj fel grafikai hibákra.\\"
+
+#: ball/st_done.c:66
+msgid "New Set Record"
+msgstr "Új rekord állítás"
+
+#: ball/st_done.c:67
+msgid "Set Complete"
+msgstr "Befejezetté tevés"
+
+#: ball/st_done.c:96
+msgid "Select Level"
+msgstr "Pálya választás"
+
+#: ball/st_fall_out.c:87
+msgid "Fall-out!"
+msgstr "Kiestél!"
+
+#: ball/st_fall_out.c:94 ball/st_time_out.c:85
+msgid "Exit"
+msgstr "Kilépés"
+
+#: ball/st_fall_out.c:97 ball/st_goal.c:219 ball/st_time_out.c:88
+msgid "Next Level"
+msgstr "Következő pálya"
+
+#: ball/st_fall_out.c:100 ball/st_goal.c:222 ball/st_time_out.c:91
+msgid "Retry Level"
+msgstr "Újrakezdés"
+
+#: ball/st_fall_out.c:103 ball/st_goal.c:225 ball/st_time_out.c:94
+msgid "Save Replay"
+msgstr "Játék mentése"
+
+#: ball/st_goal.c:115
+msgid "New Record"
+msgstr "Új rekord"
+
+#: ball/st_goal.c:116
+msgid "GOAL"
+msgstr "CÉL"
+
+#: ball/st_goal.c:166
+#, c-format
+msgid "%d new bonus level"
+msgid_plural "%d new bonus levels"
+msgstr[0] "%d új bónusz pálya"
+msgstr[1] "%d új bónusz pályák"
+
+#: ball/st_goal.c:214 ball/st_goal.c:216
+msgid "Finish"
+msgstr "Cél"
+
+#: ball/st_help.c:92
+msgid "Techniques"
+msgstr "Technikák"
+
+#: ball/st_help.c:93
+msgid "Modes"
+msgstr "Módok"
+
+#: ball/st_help.c:94
+msgid "Controls"
+msgstr "Irányítások"
+
+#: ball/st_help.c:95
+msgid "Rules"
+msgstr "Szabályok"
+
+#: ball/st_help.c:106
+msgid ""
+"Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
+"causing the\\ball to roll.\\"
+msgstr ""
+"Mozgasd az egeret vagy\\joystickot, vagy használd a\\billentyűzet nyilait, a"
+"\\padló megbillentéséhez,\\hogy a labda guruljon.\\"
+
+#: ball/st_help.c:111
+msgid ""
+"Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
+"finish\\the level.\\"
+msgstr ""
+"Üsd el az érméket a\\begyűjtésükhöz.  Gyűjtsd őket\\a további feladatok,\\és "
+"pályákért.\\"
+
+#: ball/st_help.c:168
+msgid "Left and right mouse buttons rotate the view."
+msgstr "Jobb és bal egérgombok a nézetet forgatják."
+
+#: ball/st_help.c:169
+msgid "Hold Shift for faster view rotation."
+msgstr "Nyomd a Shift gombot a gyors nézetforgatáshoz."
+
+#: ball/st_help.c:170
+msgid "Pause / Release Pointer"
+msgstr "Kurzor megfogás / elengedés"
+
+#: ball/st_help.c:171
+msgid "Exit / Cancel Menu"
+msgstr "Menü elhagyása / Kilépés"
+
+#: ball/st_help.c:172
+msgid "Chase View"
+msgstr "Követő nézet"
+
+#: ball/st_help.c:173
+msgid "Lazy View"
+msgstr "Lusta nézet"
+
+#: ball/st_help.c:174
+msgid "Manual View"
+msgstr "Kézi nézet"
+
+#: ball/st_help.c:175
+msgid "Screenshot"
+msgstr "Képernyőkép"
+
+#: ball/st_help.c:241
+msgid ""
+"Finish a level before the time runs out.\\You need to collect coins in order "
+"to open the goal."
+msgstr ""
+"Fejezd be a pályát az idő lejárta előtt.\\Gyűjts érméket a cél megnyitásához."
+
+#: ball/st_help.c:249
+msgid ""
+"Start playing from the first level of the set.\\You start with only three "
+"balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
+msgstr ""
+"Kezd a játékot az első pályával a szettből.\\Csupán három labdával kezdesz, "
+"ne veszítsd el őket.\\Spórolj meg egy extra labdát, 100 érme "
+"összegyűjtésével."
+
+#: ball/st_help.c:263
+msgid ""
+"Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
+"may be able\\to reach new places.\\"
+msgstr ""
+"A sarok ugráshoz is használható.\\Kezdj gurulni, s célozd meg\\a jó szöget."
+"\\Új helyekre is eljuthatsz.\\"
+
+#: ball/st_help.c:268
+msgid ""
+"Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
+"the camera by 45\\degrees for best results.\\"
+msgstr ""
+"Két irányba döntéssel növelheted\\a lejtést. Használd a kézi\\nézetet, és "
+"tedd 45 fokba\\a legjobb eredményért.\\"
+
+#: ball/st_help.c:288 ball/st_help.c:298
+msgid "Watch demo"
+msgstr "Bemutató mégnézése"
+
+#: ball/st_level.c:52
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Bónusz pálya %s"
+
+#: ball/st_level.c:54
+#, c-format
+msgid "Level %s"
+msgstr "Pálya %s"
+
+#: ball/st_name.c:118
+msgid "OK"
+msgstr "OK"
+
+#: ball/st_name.c:120 ball/st_save.c:126
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: ball/st_over.c:38
+msgid "GAME OVER"
+msgstr "Játék vége"
+
+#: ball/st_pause.c:104 putt/st_all.c:587
+msgid "Paused"
+msgstr "Szünet"
+
+#: ball/st_pause.c:113
+msgid "Restart"
+msgstr "Újrakezdés"
+
+#: ball/st_play.c:123
+msgid "Ready?"
+msgstr "Vigyázz!"
+
+#: ball/st_play.c:203
+msgid "Set?"
+msgstr "Kész?"
+
+#: ball/st_play.c:293
+msgid "GO!"
+msgstr "RAJT!"
+
+#: ball/st_save.c:113
+msgid "Replay Name"
+msgstr "Visszajátszás neve"
+
+#: ball/st_save.c:124
+msgid "Save"
+msgstr "Ment"
+
+#: ball/st_save.c:200
+msgid "Overwrite?"
+msgstr "Felülírod?"
+
+#: ball/st_set.c:117
+msgid "Level Set"
+msgstr "Pálya beállítva"
+
+#. Translators: adjust the amount of whitespace here
+#. * as necessary for the buttons to look good.
+#: ball/st_start.c:233
+msgid "   No   "
+msgstr "   Nem   "
+
+#: ball/st_start.c:242
+msgid "Lock Goals of Completed Levels?"
+msgstr "Zárolod a végigvitt pályák céljait?"
+
+#: ball/st_time_out.c:78
+msgid "Time's Up!"
+msgstr "Lejárt az idő!"
+
+#: ball/st_title.c:127 ball/st_title.c:161
+msgid "menu^Cheat"
+msgstr "Csalás"
+
+#: ball/st_title.c:133 ball/st_title.c:164 putt/st_all.c:214
+msgid "menu^Play"
+msgstr "Játszás"
+
+#: ball/st_title.c:167
+msgid "menu^Replay"
+msgstr "Visszajátszás"
+
+#: ball/st_title.c:168
+msgid "menu^Help"
+msgstr "Súgó"
+
+#: ball/st_title.c:169 putt/st_all.c:215
+msgid "menu^Options"
+msgstr "Beállítások"
+
+#: ball/st_title.c:170 putt/st_all.c:216
+msgid "menu^Exit"
+msgstr "Kilépés"
+
+#: ball/util.c:27
+msgid "Hard"
+msgstr "Nehéz"
+
+#: ball/util.c:28
+msgid "Medium"
+msgstr "Közepes"
+
+#: ball/util.c:29
+msgid "Easy"
+msgstr "Könnyű"
+
+#: ball/util.c:77 ball/util.c:142
+msgid "Unavailable"
+msgstr "Nem elérhető"
+
+#: ball/util.c:200 ball/util.c:247
+msgid "Most Coins"
+msgstr "Legtöbb érme"
+
+#: ball/util.c:206 ball/util.c:251
+msgid "Best Times"
+msgstr "Legjobb idők"
+
+#: ball/util.c:212 ball/util.c:255
+msgid "Fast Unlock"
+msgstr "Gyors feloldás"
+
+#: ball/util.c:224
+msgid "Change Name"
+msgstr "Név váltás"
+
+#: ball/util.c:360
+msgid "caps"
+msgstr "caps"
+
+#: ball/util.c:421
+msgid "Next"
+msgstr "Következő"
+
+#: ball/util.c:422
+msgid "Prev"
+msgstr "Előző"
+
+#: share/gui.c:236
+#, c-format
+msgid "Font \"%s\" doesn't exist, trying default font.\n"
+msgstr "A \"%s\" font nem létezik, próbáld a gyári fontot.\n"
+
+#: share/gui.c:270
+#, c-format
+msgid "Could not load font %s.\n"
+msgstr "Nem tudom betölteni a %s fontot.\n"
+
+#: share/gui.h:23
+msgid "ttf/DejaVuSans-Bold.ttf"
+msgstr "ttf/DejaVuSans-Bold.ttf"
+
+#: share/image.c:229
+#, c-format
+msgid "Failed to convert SDL_ttf surface: %s\n"
+msgstr "Nem sikerült az SDL_ttl felületet átkonvertálni: %s\n"
+
+#. Translators,
+#. *
+#. * This is a mostly-complete list of human-readable SDL key names.  There
+#. * might not be corresponding names for all these keys in your language,
+#. * and that's perfectly fine -- in such cases just copy the source string.
+#.
+#: share/keynames.c:32
+msgid "Backspace"
+msgstr "Backspace"
+
+#: share/keynames.c:33
+msgid "Tab"
+msgstr "Tab"
+
+#: share/keynames.c:34
+msgid "Clear"
+msgstr "Clear"
+
+#: share/keynames.c:35
+msgid "Return"
+msgstr "Enter"
+
+#: share/keynames.c:36
+msgid "Pause"
+msgstr "Pause"
+
+#: share/keynames.c:37
+msgid "Escape"
+msgstr "Escape"
+
+#: share/keynames.c:38
+msgid "Space"
+msgstr "Szóköz"
+
+#: share/keynames.c:40
+msgid "Enter"
+msgstr "Enter"
+
+#: share/keynames.c:41
+msgid "Equals"
+msgstr "Egyenlő"
+
+#: share/keynames.c:42
+msgid "Up"
+msgstr "Fel"
+
+#: share/keynames.c:43 share/keynames.c:46
+msgid "Down"
+msgstr "Le"
+
+#: share/keynames.c:44
+msgid "Right"
+msgstr "Jobb"
+
+#: share/keynames.c:45
+msgid "Left"
+msgstr "Bal"
+
+#: share/keynames.c:47
+msgid "Insert"
+msgstr "Insert"
+
+#: share/keynames.c:48
+msgid "Home"
+msgstr "Home"
+
+#: share/keynames.c:49
+msgid "End"
+msgstr "End"
+
+#: share/keynames.c:50
+msgid "Page Up"
+msgstr "Page Up"
+
+#: share/keynames.c:51
+msgid "Page Down"
+msgstr "Page Down"
+
+#: share/keynames.c:52
+msgid "F1"
+msgstr "F1"
+
+#: share/keynames.c:53
+msgid "F2"
+msgstr "F2"
+
+#: share/keynames.c:54
+msgid "F3"
+msgstr "F3"
+
+#: share/keynames.c:55
+msgid "F4"
+msgstr "F4"
+
+#: share/keynames.c:56
+msgid "F5"
+msgstr "F5"
+
+#: share/keynames.c:57
+msgid "F6"
+msgstr "F6"
+
+#: share/keynames.c:58
+msgid "F7"
+msgstr "F7"
+
+#: share/keynames.c:59
+msgid "F8"
+msgstr "F8"
+
+#: share/keynames.c:60
+msgid "F9"
+msgstr "F9"
+
+#: share/keynames.c:61
+msgid "F10"
+msgstr "F10"
+
+#: share/keynames.c:62
+msgid "F11"
+msgstr "F11"
+
+#: share/keynames.c:63
+msgid "F12"
+msgstr "F12"
+
+#: share/keynames.c:64
+msgid "F13"
+msgstr "F13"
+
+#: share/keynames.c:65
+msgid "F14"
+msgstr "F14"
+
+#: share/keynames.c:66
+msgid "F15"
+msgstr "F15"
+
+#: share/keynames.c:67
+msgid "Num Lock"
+msgstr "Num Lock"
+
+#: share/keynames.c:68
+msgid "Caps Lock"
+msgstr "Caps Lock"
+
+#: share/keynames.c:69
+msgid "Scroll Lock"
+msgstr "Scroll Lock"
+
+#: share/keynames.c:70
+msgid "Right Shift"
+msgstr "Jobb Shift"
+
+#: share/keynames.c:71
+msgid "Left Shift"
+msgstr "Bal Shift"
+
+#: share/keynames.c:72
+msgid "Right CTRL"
+msgstr "Jobb CTRL"
+
+#: share/keynames.c:73
+msgid "Left CTRL"
+msgstr "Bal CTRL"
+
+#: share/keynames.c:74
+msgid "Right Alt"
+msgstr "Jobb Alt"
+
+#: share/keynames.c:75
+msgid "Left Alt"
+msgstr "Bal Alt"
+
+#: share/keynames.c:76
+msgid "Right Meta"
+msgstr "Jobb Meta"
+
+#: share/keynames.c:77
+msgid "Left Meta"
+msgstr "Bal Meta"
+
+#: share/keynames.c:78
+msgid "Left Super"
+msgstr "Bal Super"
+
+#: share/keynames.c:79
+msgid "Right Super"
+msgstr "Jobb Super"
+
+#: share/keynames.c:80
+msgid "Alt Gr"
+msgstr "Alt Gr"
+
+#: share/keynames.c:81
+msgid "Compose"
+msgstr "Compose"
+
+#: share/keynames.c:82
+msgid "Help"
+msgstr "Help"
+
+#: share/keynames.c:83
+msgid "Print Screen"
+msgstr "Print Screen"
+
+#: share/keynames.c:84
+msgid "Sys Req"
+msgstr "Sys Req"
+
+#: share/keynames.c:85
+msgid "Break"
+msgstr "Break"
+
+#: share/keynames.c:86
+msgid "Menu"
+msgstr "Menu"
+
+#: share/keynames.c:87
+msgid "Power"
+msgstr "Power"
+
+#: share/keynames.c:88
+msgid "Euro"
+msgstr "Euro"
+
+#: share/keynames.c:89
+msgid "Undo"
+msgstr "Visszavonás"
+
+#: share/syswm.c:44
+#, c-format
+msgid "Failed to get WM info: %s\n"
+msgstr "Sikertelen WM infó szerzés: %s\n"
+
+#: share/syswm.c:115
+msgid "Failed to allocate memory for EWMH icon data.\n"
+msgstr "Sikertelen memóriafoglalása az EWMH ikonoknak.\n"
+
+#: putt/hole.c:107 putt/hud.c:51 putt/st_all.c:98 putt/st_all.c:142
+msgid "Par"
+msgstr "Par"
+
+#: putt/hole.c:109 putt/st_all.c:99 putt/st_all.c:143
+msgid "P1"
+msgstr "P1"
+
+#: putt/hole.c:110 putt/st_all.c:100 putt/st_all.c:144
+msgid "P2"
+msgstr "P2"
+
+#: putt/hole.c:111 putt/st_all.c:101 putt/st_all.c:145
+msgid "P3"
+msgstr "P3"
+
+#: putt/hole.c:112 putt/st_all.c:102 putt/st_all.c:146
+msgid "P4"
+msgstr "P4"
+
+#: putt/st_all.c:76
+msgid "O"
+msgstr "O"
+
+#: putt/st_all.c:112
+msgid "Tot"
+msgstr "Tot"
+
+#: putt/st_all.c:121
+msgid "I"
+msgstr "I"
+
+#: putt/st_all.c:303
+msgid "Select Course"
+msgstr "Válassz egy kurzust"
+
+#: putt/st_all.c:469
+msgid "Players?"
+msgstr "Játékosok?"
+
+#: putt/st_all.c:673
+#, c-format
+msgid "Hole %02d"
+msgstr "Lyuk %02d"
+
+#: putt/st_all.c:998
+msgid "It's In!"
+msgstr "Bent van!"
+
+#: putt/st_all.c:1140
+msgid "1 Stroke Penalty"
+msgstr "+1 büntetőpont"
+
+#: putt/st_all.c:1218
+msgid "Scores"
+msgstr "Eredmények"
+
+#: putt/st_all.c:1271
+msgid "Final Scores"
+msgstr "Végeredmények"
+
+#: data/set-easy.txt
+msgid "Neverball Easy"
+msgstr "Neverball Könnyű"
+
+#: data/set-easy.txt
+msgid ""
+"Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
+"learning curve.\\Read level introductions for gameplay tips.\\ \\"
+msgstr ""
+"Nehézség: Kezdőtől a középszintig\\\\25 könnyen tanulható pályával.\\Olvasd "
+"el a pálya bevezetőjében lévő játéktippeket.\\.\\"
+
+#: data/set-medium.txt
+msgid "Neverball Medium"
+msgstr "Neverball Közepes"
+
+#: data/set-medium.txt
+msgid ""
+"Difficulty: Beginner through Expert\\\\25 levels which provide a balanced"
+"\\challenge for players. Try to claim\\some of the records provided.\\"
+msgstr ""
+"Nehézség: Kezdőtől a szakértőig\\\\25 pálya, ami egy kis kihívást biztosít"
+"\\a játékosoknak. Próbálj pár\\ rekordot megdönteni.\\"
+
+#: data/set-hard.txt
+msgid "Neverball Hard"
+msgstr "Neverball Nehéz"
+
+#: data/set-hard.txt
+msgid ""
+"Difficulty: Intermediate through Expert\\\\25 levels with more of a "
+"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
+"and Fast Unlock records.\\"
+msgstr ""
+"Nehézség: Közepestől a szakértőig\\\\25 pálya, amik a gyakorlott "
+"játékosoknak is\\kihívás. Próbáld megdönteni a legjobb idő,\\legtöbb érme, "
+"és a gyors feloldási rekordokat.\\"
+
+#: data/set-mym.txt
+msgid "Tour de force"
+msgstr "Tour de Force"
+
+#: data/set-mym.txt
+msgid ""
+"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
+"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+"Nehézség: Szakértőtől az őrültig\\\\25 pálya, melyek igazán nagy kihívást "
+"jelentenek.\\Szerző: Medhi Yousfi-Monod (mym)\\ \\"
+
+#: data/set-mym2.txt
+msgid "Retour de force"
+msgstr "Retour de Force"
+
+#: data/set-mym2.txt
+msgid ""
+"Difficulty: A little bit harder than my first set.\\\\More challenge, "
+"particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+"Nehézség: Egy kicsivel nehezebb mint az előzők.\\\\Nagyobb kihívás, "
+"különösen az érmék felszedése.\\Szerző Mehdi Yousfi-Monod (mym)\\ \\"
+
+#: data/set-fwp.txt
+msgid "Nevermania"
+msgstr "Nevermánia"
+
+#: data/set-fwp.txt
+msgid "Levels for Neverball Experts\\Author: Florian Priester\\\\\\\\"
+msgstr "Pályák a Neverball szakértőknek\\Szerző: Florian Priester\\\\\\\\"
+
+#: data/set-misc.txt
+msgid "Neverball Misc"
+msgstr "Neverball Egyveleg"
+
+#: data/set-misc.txt
+msgid "Unsorted levels\\For testing purposes\\\\\\\\"
+msgstr "Besorolatlan pályák\\Kipróbálási céllal\\\\\\\\"
+
+#: data/courses.txt
+msgid ""
+"The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
+"\\Difficulty: Easy to Medium\\Author: rlk\\"
+msgstr ""
+"Az eredeti 18 lyuk.Neverputt kurzus.\\Egy elegáns tanulási folyamat.\\\\"
+"\\Nehézség: Könnyűtől a közepesig\\Szerző: rlk\\"
+
+#: data/courses.txt
+msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "Másik 18-lyukú tanfolyam\\ \\ \\Nehézség:Közepes\\Szerző:paxed"
+
+#: data/courses.txt
+msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "Szintén egy 18-lyukú tanfolyam\\ \\ \\Nehézség:Közepes\\Szerző:paxed\\"
+
+#: data/courses.txt
+msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "Még több Lyukak\\ \\ \\Nehézség:Közepes\\Szerző:paxed\\"
+
+#: data/courses.txt
+msgid ""
+"A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
+msgstr ""
+"A 26 lyukú kurzus\\követi az ábécét\\\\Nehézség: Nehéz\\Szerző: paxed\\"
+
+#: data/courses.txt
+msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
+msgstr ""
+"Őrült Golf\\ \\\\Nehézség: Könnyűtől a közepesig\\Szerző: slippifishi\\"
+
+#: data/courses.txt
+msgid ""
+"Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
+"Through Insane\\Author: Byron James Johnson"
+msgstr ""
+"Trükkös Golf\\\\Egy 18 lyukú kurzus sok kihívással\\Nehézség: Szakértőtől az "
+"őrültig\\Szerző: Byron James Johnson"
+
+#: data/map-easy/bumper.map
+msgid ""
+"Try to avoid being hit by moving objects.\\One bump can throw the ball"
+"\\completely out of control.\\"
+msgstr ""
+"Próbáld elkerülni a mozgó tárgyakkal való érintkezést.\\Egy lökés teljesen"
+"\\irányíthatatlanná teheti a labdát.\\"
+
+#: data/map-easy/bumps.map
+msgid ""
+"Learn to control a bouncing ball.\\Look at the shadow to know where the"
+"\\ball will land.  If you're feeling confident in\\your mastery of bouncing, "
+"take a risk\\for a big payoff.\\"
+msgstr ""
+"Tanuld meg irányítani a pattogó labdát.\\Nézd az árnyékot, hogy hova fogsz "
+"érkezni.\\Hogyha már magabiztosnak érzed magad,\\vállald a rizikót, "
+"kifizetődik.\\"
+
+#: data/map-easy/coins.map
+msgid ""
+"This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
+"blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
+"begin.\\"
+msgstr ""
+"Most 50 érmét kell felszedni a cél megnyitásához.\\A piros érmék 5, míg a "
+"kék érmék 10-et érnek.\\Juss el a célig mielőtt lejár az idő!\\\\Kattints a "
+"kezdéshez.\\"
+
+#: data/map-easy/corners.map
+msgid ""
+"Here are some more opportunities for you to\\fall off into the void. Hit the "
+"bump hard to\\grab some big coins and score a short time.\\"
+msgstr ""
+"Itt van pár új lehetőség, hogy leess a semmibe.\\Jól üssed meg az ütközőt a "
+"nagy érmékért,\\és érj gyorsan célba.\\"
+
+#: data/map-easy/curved.map
+msgid ""
+"As before, but without the training wheels.\\Keep the ball on a level floor"
+"\\and maintain precise control.\\Build some momentum to reach the corners.\\"
+msgstr ""
+"Úgy mint eddig, de a gyakorló kerekek nélkül.\\Tartsad a labdát a padlón,"
+"\\és tartsad meg az irányítást.\\Érd el a sarkokat a lendület erejével.\\"
+
+#: data/map-easy/easy.map data/map-misc/texture-debug.map
+#: data/map-misc/timer-test.map
+msgid ""
+"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
+"\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgstr ""
+"Mozgasd az egeret a padló döntéséhez.\\Gyűjts 10 érmét a cél kinyitásához."
+"\\Vezesd a labdát a célba\\a pálya befejezéséhez.\\\\Kattints a kezdéshez.\\"
+
+#: data/map-easy/easyhalfpipe.map
+msgid ""
+"Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
+"accelerate and you will\\be able to stay in control."
+msgstr ""
+"A félcsövek viccesek lehetnek,\\de könnyedén kieshetsz.\\Ne menj gyorsan,\\s "
+"akkor nem veszíted el az irányítást."
+
+#: data/map-easy/fence.map
+msgid ""
+"''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
+"remains level.\\This way, you maintain full control of the ball.\\Use "
+"momentum to get up to the big coins.\\"
+msgstr ""
+"A \"lapos\" relatív \\Tanuld meg a padlót olyan szögben dönteni,\\hogy az "
+"szintbe legyen.\\Így teljesen az irányításod alatt tudod tartani a labdát."
+"\\Használd ki a lendületet a nagyobb érmék eléréséhez.\\"
+
+#: data/map-easy/goals.map
+msgid ""
+"There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
+"don't accidentally make a goal first.\\"
+msgstr ""
+"Itt 100 érme van.\\Ez most nem lehet bonyolult,\\kivéve ha előbb nem mész a "
+"célba véletlenül.\\"
+
+#: data/map-easy/goslow.map
+msgid ""
+"Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
+"speed means better control.\\Watch the clock and use the time wisely.\\"
+"\\Click to begin.\\"
+msgstr ""
+"Döntsd meg a padlót épp csak egy kicsit.\\Minél kisebb a szög annál kisebb a "
+"sebesség.\\A kisebb sebesség nagyobb irányíthatóságot jelent.\\Figyeld az "
+"órát, és használd az időt ésszerűen.\\\\Kattints a kezdéshez.\\"
+
+#: data/map-easy/greed.map
+msgid ""
+"Each bridge is narrower than the one before.\\But each pays better than the "
+"last as well!\\You get to decide how far you go on this one.\\"
+msgstr ""
+"Mindegyik híd keskenyebb mint az előző,\\viszont jobban is fizet!\\Neked "
+"kell eldöntened meddig akarsz elmenni.\\"
+
+#: data/map-easy/groundbreak.map
+msgid ""
+"Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
+"will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
+"instead of falling into it."
+msgstr ""
+"A célhoz eljutás\\nem jelenthet problémát,\\de az összes érmét felszedni, egy"
+"\\kis tervezést igényel.\\\\Tipp: sokszor gyorsabb elkerülni\\a lyukakat, "
+"mint beléjük esni."
+
+#: data/map-easy/hole.map
+msgid ""
+"Stay away from the edges!\\When approaching a drop, begin slowing down"
+"\\early. You need just as much room to slow\\down as you did to speed up.\\"
+msgstr ""
+"Tartsd távol magad a szélektől!\\A szakadéknál, korán kezdj\\lassulni. Annyi "
+"útra van szükség\\a megálláshoz mint a gyorsuláshoz.\\"
+
+#: data/map-easy/lollipop.map
+msgid ""
+"Follow the yellow lick road!\\\\The blue coins are especially challenging,"
+"\\but with some experimentation and practice,\\you'll be able to collect "
+"them all."
+msgstr ""
+"Kövessed a sárga csúszós utat!\\\\A kék érméket különösen nagy kihívás "
+"felszedni,\\de némi kísérletezés és gyakorlás,\\s képes leszel összegyűjteni "
+"őket."
+
+#: data/map-easy/maze.map
+msgid ""
+"The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
+"and\\off the walls. All the coins are collectable\\in the given time.\\"
+msgstr ""
+"Egy szűk folyosón a labda irányíthatatlanul\\pattan vissza. Menj lassan és"
+"\\tartsad távol a falaktól. Az összes érme\\begyűjthető az adott időben.\\"
+
+#: data/map-easy/mazebump.map
+msgid ""
+"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers "
+"- it will help you\\to reach the goal."
+msgstr ""
+"Talányos, de nyereséges.\\\\Szánj időt a ütközők mozgásának\\megfigyeléséhez "
+"- ez segít elérni a célt."
+
+#: data/map-easy/mover.map
+msgid ""
+"A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
+"precise balance to stay there.\\Don't let it move out from under you.\\Ride "
+"the platforms to grab the big coins.\\"
+msgstr ""
+"Egy mozgó állvány trükkös lehet.\\Pontosan időzíts a felszállásnál,\\és "
+"ügyelj az egyensúlyra is.\\Ne hagyd, hogy kimenjen alólad.\\Maradj az "
+"állványon a nagy érmékért.\\"
+
+#: data/map-easy/peasy.map
+msgid ""
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
+msgstr ""
+"Az egér gombjaival forgathatod a nézetet.\\Nyomj ESC-t a szünethez, vagy a "
+"kilépéshez.\\\\\\\\Kattints a kezdéshez.\\"
+
+#: data/map-easy/roundcoins.map
+msgid ""
+"When you are on the elevators,\\make small adjustments to keep the ball "
+"steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
+"much movement and you will fall off."
+msgstr ""
+"Amikor a liftben vagy,\\apróbb mozdulatokkal tartsad helyben a labdát.\\Sok "
+"érmét szedhetsz fel, ha mozdulatlanul maradsz.\\Túl sok mozgás, és le fogsz "
+"esni."
+
+#: data/map-easy/roundlaby.map
+msgid ""
+"There is only one path to reach the goal,\\but lots of paths for collecting "
+"coins.\\Make sure you collect enough\\to unlock the goal."
+msgstr ""
+"Csak egyetlen út vezet a célhoz,\\de a többi úton sok az érme.\\Légy biztos, "
+"hogy eleget szedtél fel,\\a cél megnyitásához."
+
+#: data/map-easy/slalom.map
+msgid ""
+"Follow the trail of coins to reach the goal.\\If you hit a post while moving "
+"quickly,\\you will bounce far off course."
+msgstr ""
+"Kövessed az ösvényt a cél eléréséhez.\\Hogyha gyorsan nekimész egy oszlopnak,"
+"\\nagyon eltérhetsz az iránytól."
+
+#: data/map-easy/slightcurve.map
+msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
+msgstr "A dombok több sebességet igényelnek.\\Vigyázz nem menj túl gyorsan!"
+
+#: data/map-easy/speedbumps.map
+msgid ""
+"When the ball is on a moving platform,\\it will be pulled in the direction "
+"of movement.\\Use the rails to steady yourself,\\and collect the coins you "
+"need\\to open the goal."
+msgstr ""
+"Amikor a mozgó állványon van a labda,\\azt a mozgás irányába húzza."
+"\\Használd a síneket hogy stabilizáld magad.\\Gyűjtsd össze az érméket\\a "
+"cél megnyitásához."
+
+#: data/map-easy/thwomp2.map
+msgid "Grab all the coins...\\but don't get bullied!"
+msgstr "Fogd az összes érmét...\\de ne légy terrorizálva!"
+
+#: data/map-easy/wakka.map
+msgid ""
+"Here's another coin grab.\\Perhaps you already know a good route."
+"\\Teleportation might come in handy.\\"
+msgstr ""
+"Itt egy újabb érme gyűjtés.\\Lehet, hogy már tudsz, egy jó útvonalat.\\A "
+"teleportáció jól jöhet.\\"
+
+#: data/map-fwp/adventure.map
+msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
+msgstr "=Kaland=\\Sok a tenni való, érme gyűjtés, kockázat vállalás."
+
+#: data/map-fwp/atrium.map
+msgid "=Atrium=\\Remove the coins from their columns."
+msgstr "=Átrium=\\Távolítsad el az érméket az oszlopaikból."
+
+#: data/map-fwp/cargo.map
+msgid "=Cargo=\\Let yourself be carried away."
+msgstr "=Szállítmány=\\Engedd magad elvinni."
+
+#: data/map-fwp/confetti.map
+msgid "=Confetti=\\Help! There has got to be a way through this mess."
+msgstr "=Konfetti=\\Segítség! Kell hogy legyen egy kiút ebből a rumliból."
+
+#: data/map-fwp/discs.map
+msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
+msgstr "=Lemezek=\\Használd megfontoltan, az állványok elvisznek a célig."
+
+#: data/map-fwp/mountains.map
+msgid "=Mountains=\\Ups and downs are a part of life."
+msgstr "=Hegyek=\\Egyszer fent egyszer lent, ilyen az élet."
+
+#: data/map-fwp/museum.map
+msgid "=Museum=\\Please do not touch the exhibits."
+msgstr "=Múzeum=\\Kérjük ne érintse meg a kiállításokat."
+
+#: data/map-fwp/oddities.map
+msgid "=Oddities=\\Something is not quite right here..."
+msgstr "=Furcsaságok=\\Valami nincsen itt rendben..."
+
+#: data/map-fwp/rails.map
+msgid "=Rails=\\Do not lose your balance."
+msgstr "=Sínek=\\Ne veszítsed el az egyensúlyod."
+
+#: data/map-fwp/ramps.map
+msgid "=Ramps=\\Can you make it to the top?"
+msgstr "=Rámpák=\\Fel tudsz menni a tetejére?"
+
+#: data/map-fwp/slope.map
+msgid "=Slope=\\Try not to become a modern-day Sisyphus."
+msgstr "=Lejtő=\\Próbálj ne egy modern Sisyphus-i lenni."
+
+#: data/map-fwp/spacetime.map
+msgid "=Spacetime=\\Not much space, not much time."
+msgstr "=Űridő=\\Nem sok űr, nem sok idő."
+
+#: data/map-fwp/swarm.map
+msgid "=Swarm=\\Warning: Trespassers will be thwomped."
+msgstr "=Rajzás=\\Figyelem: A betolakodókat agyonnyomjuk."
+
+#: data/map-fwp/tennis.map
+msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
+msgstr "=Tenisz=\\Rengeteg pénzjutalom van, és csak fel kell venni."
+
+#: data/map-fwp/tree.map
+msgid "=Tree=\\Follow the spiral staircase to the goal."
+msgstr "=Fa=\\Kövesd a csigalépcsőt a célhoz."
+
+#: data/map-fwp/ufo.map
+msgid "=UFO=\\Ride the spaceship they don't want you to know about."
+msgstr "=UFO=\\Vezesd az űrhajót amiről nem szeretnének hogy tudj."
+
+#: data/map-hard/airways.map
+msgid "2 switches have to be enabled\\to open the path to the goal."
+msgstr "Két kapcsolót engedélyezni kell,\\hogy megnyíljon a cél."
+
+#: data/map-hard/check.map
+msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
+msgstr "Itt nincs elegendő padló.\\Szerencsére ez itt nem gond.\\"
+
+#: data/map-hard/curbs.map
+msgid ""
+"To make progress here you'll need to hit the\\edges hard and control your "
+"bouncing.\\It's often easiest to hit the curb at a corner.\\"
+msgstr ""
+"Ahhoz, hogy itt sikerrel járj,\\keményen neki kell menni az éleknek,\\aztán "
+"irányítsad a pattanást.\\Gyakran a legegyszerűbb,\\ha a járdát a sarokban "
+"ütöd meg.\\"
+
+#: data/map-hard/flip.map
+msgid ""
+"Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
+"trigger switches colors in direct contact."
+msgstr ""
+"A Neverball egy kirakós játék?\\Vedd el a pirosat a cél megnyitásához."
+"\\Mindegyik kapcsoló színt cserél."
+
+#: data/map-hard/frogger.map
+msgid "Ribbit!\\"
+msgstr "Ribbit!\\"
+
+#: data/map-hard/gaps.map
+msgid ""
+"Time the switches carefully to synchronize\\the motion of the platforms."
+"\\Move quickly across the gaps.\\"
+msgstr ""
+"Váltsd át időben a kapcsolókat\\az állványok összehangolásához.\\A réseknél "
+"gyorsan menj."
+
+#: data/map-hard/grid.map
+msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
+msgstr "Bizony, a labda nagyon szépen átfér\\azokon a kis lyukakon.\\"
+
+#: data/map-hard/hallways.map
+msgid ""
+"Control your speed and your bounces.\\Teleporters will always bring you"
+"\\back somewhere in the level."
+msgstr ""
+"Irányítsd a sebességedet, és a pattogásodat.\\A teleportálók mindig valahova"
+"\\visszavisznek a pályán."
+
+#: data/map-hard/hump.map
+msgid "Momentum may work against you.\\"
+msgstr "A lendület ellened dolgozhat.\\"
+
+#: data/map-hard/invis.map
+msgid ""
+"Allow your greed to guide you.\\For an added challenge,\\try to get to all "
+"of the coins.\\It can be done without guesswork.\\"
+msgstr ""
+"Hagyd, hogy a kapzsiság vezessen.\\Nagy kihívás az összes érmét felszedni."
+"\\Találgatás nélkül is meg lehet csinálni.\\"
+
+#: data/map-hard/movers.map
+msgid "Go for a ride.\\"
+msgstr "Járj egyet.\\"
+
+#: data/map-hard/nostairs.map
+msgid ""
+"There are two goals here.\\You can complete this level\\the easy way or the "
+"hard way.\\Of course, by going the easy way\\you can forget about all\\those "
+"red and blue coins."
+msgstr ""
+"Itt két cél van.\\Teljesítheted a pályát a könnyű\\vagy a nehéz módon."
+"\\Természetesen, a könnyebbet választva\\elfelejtheted az összes kék\\és "
+"piros érmét."
+
+#: data/map-hard/paths.map
+msgid "So many different paths to take...\\have you tried all of them?"
+msgstr "Oly sok út ami járható...\\kipróbáltad mindegyiket?"
+
+#: data/map-hard/pipe.map
+msgid "Ceci n'est pas une pipe.\\"
+msgstr "Ceci n'est pas une pipe.\\"
+
+#: data/map-hard/poker.map
+msgid "Slow and steady.\\"
+msgstr "Lassan és készen.\\"
+
+#: data/map-hard/pyramid.map
+msgid ""
+"You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
+"coins and\\get to the next switch.\\"
+msgstr ""
+"15 másodpercet kapsz minden lépcsőn,\\ezért nem várakozz.  Szedd össze az "
+"érméket\\és menj a következő kapcsolóhoz."
+
+#: data/map-hard/quads.map
+msgid "Don't get bullied.\\"
+msgstr "Ne légy erőszakos.\\"
+
+#: data/map-hard/rampup.map
+msgid "I think I can.\\I think I can.\\"
+msgstr "Szerintem menni fog.\\Szerintem menni fog.\\"
+
+#: data/map-hard/ring.map
+msgid "So close, yet so very far.\\"
+msgstr "Oly közel, s mégis oly távol.\\"
+
+#: data/map-hard/risers.map
+msgid ""
+"Ride the elevators to the top.\\They move quickly,\\so don't dally too long."
+"\\"
+msgstr ""
+"Vezesd a lifteket a tetőig.\\Gyorsan mozognak,\\úgyhogy nem tétlenkedj sokat."
+
+#: data/map-hard/spiralin.map
+msgid "Have fun picking up those\\red and blue coins.\\"
+msgstr "Jó szórakozást a kék,\\és piros érmék begyűjtéséhez.\\"
+
+#: data/map-hard/spread.map
+msgid "Don't worry.\\The green part isn't going anywhere.\\"
+msgstr "Ne aggódj.\\A zöld rész nem megy sehova.\\"
+
+#: data/map-hard/sync.map
+msgid ""
+"Use the switches to set the platforms\\in motion.  Time it so they come"
+"\\together in the middle.\\"
+msgstr ""
+"Használd a kapcsolókat az állványok\\ mozgatásához.  Időzítsed őket,\\hogy "
+"középen összeérjenek.\\"
+
+#: data/map-hard/teleport.map
+msgid ""
+"The ball must be entirely within a teleporter\\in order to trigger it."
+"\\Remember that the ball carries its momentum\\through a teleporter, so plan "
+"ahead.\\"
+msgstr ""
+"A labdának teljesen bent kell lennie a\\teleportálóban, hogy működésbe hozza."
+"\\Emlékezz a labda magával\\ viszi a lendületét, szóval tervezz előre.\\"
+
+#: data/map-hard/tilt.map
+msgid "The floor is as flat as you make it.\\"
+msgstr "Ez a padló annyira lapos amennyire azzá teszed.\\"
+
+#: data/map-medium/accordian.map
+msgid "Stairway to heaven"
+msgstr "Lépcső a mennyországba"
+
+#: data/map-medium/angle.map
+msgid ""
+"Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
+"the easy cash or\\go all the way for a big payoff.\\"
+msgstr ""
+"Ezek a hidak lejtenek.\\Mindegyik szűkebb és meredekebb mint az előző.\\Fogd "
+"a könnyű pénzt,\\vagy menj végig a nagy jutalomért.\\"
+
+#: data/map-medium/coneskeleton.map
+msgid "Plenty of coins for the taking.\\Can you take them all?"
+msgstr "Rengeteg érme a begyűjtéshez.\\Feltudod mind szedni?"
+
+#: data/map-medium/cross.map
+msgid ""
+"Use momentum to reach\\the upper platforms,\\but keep the ball in control"
+"\\for safe landing.\\\\The manual view may help here.\\"
+msgstr ""
+"Használd a lendületed,\\hogy elérjed a felső állványokat.\\Tartsd a labdát,"
+"az irányításod alatt\\ a biztonságos landoláshoz.\\\\Itt a kézi nézet "
+"segíthet.\\"
+
+#: data/map-medium/drops.map
+msgid ""
+"Remember to keep an eye on the shadow to\\help control a bouncing ball.  And "
+"don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
+msgstr ""
+"Emlékezz figyelni az árnyékot,\\segít irányítani a pattogó labdát.\\És ne "
+"feledd  használni\\az egér gombjait se,hogy\\azt szemmel tartsad.\\"
+
+#: data/map-medium/easytele.map
+msgid "Use teleporters to go\\where you otherwise couldn't.\\"
+msgstr ""
+"Használd a teleportálókat,\\így oda is eljutsz ahová amúgy nem tudnál.\\"
+
+#: data/map-medium/four.map
+msgid "Balance risk versus reward.\\"
+msgstr "Mérlegeld a rizikót és a jutalmat.\\"
+
+#: data/map-medium/hardrise.map
+msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
+msgstr ""
+"Menj felfelé az emelkedőn, a célig.\\(Könnyebb mondani, mint megcsinálni)"
+
+#: data/map-medium/islands.map
+msgid "Catch the train before it leaves the station.\\"
+msgstr "Kapd el a vonatot mielőtt elhagyja az állomást.\\"
+
+#: data/map-medium/learngrow.map
+msgid ""
+"The ball will fit in those small holes,\\if you can just find something to "
+"make it smaller.\\Other places may require a bigger ball.\\One thing is "
+"certain - you'll want a plan!"
+msgstr ""
+"A labda pont belefér ezekbe a kis lyukakba,\\ha csak nem találsz valamit ami "
+"kisebbé teszi.\\Máshol nagyobb labda szükséges.\\Egy dolog biztos - kell egy "
+"terv!"
+
+#: data/map-medium/locks.map
+msgid "Hit the switches to move the barriers.\\"
+msgstr "Találd el a kapcsolókat az akadályok mozgatásához.\\"
+
+#: data/map-medium/multicurves.map
+msgid ""
+"The temptation to move quickly\\could prove your undoing.\\\\Then again, "
+"maybe not..."
+msgstr ""
+"A kísértés, hogy gyorsan\\bizonyíts a veszted lehet.\\\\Aztán újra, talán "
+"mégsem ..."
+
+#: data/map-medium/plinko.map
+msgid "Take it slowly.\\"
+msgstr "Vegyed lassan."
+
+#: data/map-medium/qbert.map
+msgid "You can never go home again..."
+msgstr "Soha többé nem mehetsz vissza..."
+
+#: data/map-medium/rampdn.map
+msgid ""
+"You'll need to exert some control over your\\view here.  Press F3 to stop "
+"the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press F1 "
+"to return to the auto-rotating view.\\"
+msgstr ""
+"El kell némi gyakorlás a nézet irányítására.\\Nyomd meg az F3-mat az"
+"\\automatikus forgatás leállításához.\\Az egér gombokkal forgatod a nézetet."
+"\\Nyomd meg az F1-et,\\hogy visszatérjen az automatikus forgatás. \\"
+
+#: data/map-medium/roundfloors.map
+msgid ""
+"This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
+"layer."
+msgstr ""
+"Ez az esküvői torta nagyon gazdag,\\de vigyázz ahogy egyre\\lejjebb mész."
+
+#: data/map-medium/sparselines.map
+msgid ""
+"Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
+"challenge!"
+msgstr ""
+"A sáv váltáshoz verd be a tuskót a sebességeddel.\\Próbálj felmenni a tetőre "
+"egy külön kihívásért!"
+
+#: data/map-medium/spiraldn.map
+msgid ""
+"Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
+"work.\\"
+msgstr ""
+"Lassan menj, és maradj távol a szélektől.\\Vagy, ne.\\Így is, úgy is "
+"működhet.\\"
+
+#: data/map-medium/spiralup.map
+msgid ""
+"Just as before, but moving up instead of down.\\No cheating this time.\\"
+msgstr ""
+"Pont mint korábban, csak most nem lefelé hanem felfelé.\\Itt nincs csalás.\\"
+
+#: data/map-medium/stairs.map
+msgid ""
+"Here's yet another test of your ability\\to control bouncing.  Moving down "
+"the\\stairs too quickly can be hazardous.\\"
+msgstr ""
+"Itt egy újabb próba a\\pattogás irányítására.  A lépcsőkön\\halálos lehet a "
+"nagy sietség.\\"
+
+#: data/map-medium/telemaze.map
+msgid ""
+"This maze has no walls.\\But that doesn't make the solution\\any easier to "
+"find.\\"
+msgstr ""
+"Ebben az útvesztőben\\nincsenek falak. De ettől nem lesz\\könnyebb "
+"megtalálni a megoldást.\\"
+
+#: data/map-medium/timer.map
+msgid ""
+"That one switch controls all five barriers.\\Be quick, because the switch is "
+"on a timer.\\When it expires, the barriers will rise.\\"
+msgstr ""
+"Itt egyetlen kapcsoló irányítja mind az öt akadályt.\\Légy gyors, mert a "
+"kapcsoló időzítve van.\\Amikor lejár, azok felemelkednek.\\"
+
+#: data/map-medium/title.map
+msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
+msgstr "Neverball\\\\http://neverball.org\\\\Készítette Robert Kooima\\"
+
+#: data/map-medium/woodmaze.map
+msgid "Follow the trail of coins\\to make it through the labyrinth."
+msgstr "Kövesd az érmék nyomait,\\hogy átjuss a labirintuson."
+
+#: data/map-medium/zigzag.map
+msgid ""
+"There are plenty of coins here if you're\\willing to take the time to grab "
+"them.\\"
+msgstr ""
+"Oly sok érme van itt, már ha\\hajlandó vagy rászánni az időt, hogy felszedd "
+"őket. \\"
+
+#: data/map-misc/bigball-old.map
+msgid ""
+"Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
+"challenge."
+msgstr ""
+"Prisonnier de la boule.\\Élet egy gömbben. \\ Igazi kihívás az összes kék "
+"érmét felszedni."
+
+#: data/map-misc/billiard.map
+msgid "Try to grab all of the blue coins...\\it won't be easy!"
+msgstr "Próbáld meg az összes kék érmét felszedni...\\nem lesz egyszerű!"
+
+#: data/map-misc/blockers.map
+msgid "Block around the clock."
+msgstr "Tömb az óra körül."
+
+#: data/map-misc/bounce.map
+msgid ""
+"Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
+"'chase' camera mode."
+msgstr ""
+"Kövessed a kék érméket...\\és tanuld meg irányítani a pattogásodat!"
+"\\Ajánlatos a 'követő' kamera módot használni."
+
+#: data/map-misc/bounce2.map
+msgid "Follow the arrows."
+msgstr "Kövesd a nyilakat."
+
+#: data/map-misc/checkers.map
+msgid ""
+"It's a real game of checkers, but no one wins...\\You have to bounce to "
+"reach the blue coins."
+msgstr ""
+"Ez egy igazi ellenőröző pontos játék, de senki sem nyer...\\Ugrálnod kell, "
+"hogy elérd a kék érméket."
+
+#: data/map-misc/elevator.map
+msgid "Calm and meditation may bring you to the Nirvana."
+msgstr "Nyugalmat és meditációt hozhat a Nirvana."
+
+#: data/map-misc/freefall-old.map
+msgid "Savoir chuter.\\Follow the blue markers."
+msgstr "Savoir chuter.\\Kövesd a kék jelzéseket."
+
+#: data/map-misc/grow_demo.map
+msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
+msgstr ""
+"Használd az új érméket a labda\\méretének megváltoztatására!\\Remélem "
+"tetszeni fog!\\-Dave"
+
+#: data/map-misc/groweasy.map
+msgid "There are special coins which can make your\\ball larger or smaller."
+msgstr "Vannak speciális érmék amik a labdádat kisebbé\\vagy nagyobbá teszik."
+
+#: data/map-misc/ocean.map
+msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
+msgstr "Menjünk egyet úszni...\\minden érme teljesen el van merülve.\\"
+
+#: data/map-misc/stairs.map
+msgid "Fall down stairs.\\Ough!\\It hurts."
+msgstr "Leeső lépcsők.\\Áúúú!\\Ez fáj."
+
+#: data/map-misc/thwomp1.map
+msgid "Just let it happen...\\then start to worry!"
+msgstr "Csak hagyd megtörténni...\\aztán már aggódhatsz!"
+
+#: data/map-mym/assault.map
+msgid "Le parcours du combattant.\\Ready for the assault course?"
+msgstr "Le parcours du combattant.\\Készen állsz a roham kurzushoz?"
+
+#: data/map-mym/circuit1.map
+msgid "La course effrénée.\\Let's make some laps."
+msgstr "La course effrénée.\\Menjünk pár kört."
+
+#: data/map-mym/circuit2.map
+msgid "Les rampes abruptes.\\Control your speed."
+msgstr "Les rampes abruptes.\\Irányítsd a sebességed."
+
+#: data/map-mym/climb.map
+msgid "L'escalade ardue.\\Do you suffer from vertigo?"
+msgstr "L'escalade ardue.\\Szédülésben szenvedsz?"
+
+#: data/map-mym/comeback.map
+msgid "Le cycle éternel.\\Avoid teleporters..."
+msgstr "Le cycle éternel.\\Kerüld a teleportálókat..."
+
+#: data/map-mym/dance1.map
+msgid "La ballade tranquille.\\What a quiet walk."
+msgstr "La ballade tranquille.\\Micsoda egy halk séta."
+
+#: data/map-mym/dance2.map
+msgid ""
+"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
+"activating the last moving platform,\\ turn around the Thwomp until the goal "
+"is reachable."
+msgstr ""
+"La ballade dansante.\\Táncoljunk a mozgó állványon!\\Tipp: Az utolsó állvány "
+"aktiválása után,\\fordulj meg a kőoszlop körül, amíg a cél nem lesz elérhető."
+
+#: data/map-mym/descent.map
+msgid "La descente infernale.\\Easy enough to start?"
+msgstr "La descente infernale.\\Elég könnyű kezdésnek?"
+
+#: data/map-mym/drive1.map
+msgid ""
+"La conduite stressante.\\Attention:\\The platform under the ball moves "
+"forward."
+msgstr ""
+"La conduite stressante.\\Figyelem:\\A labda alatti állvány előre mozog."
+
+#: data/map-mym/drive2.map
+msgid ""
+"La conduite dangereuse.\\The platform under the ball moves quickly forward."
+"\\You would do well to advance."
+msgstr ""
+"La conduite dangereuse.\\Az állvány a labda alatt gyorsan mozog.\\Jól "
+"tennéd, ha sietnél."
+
+#: data/map-mym/earthquake.map
+msgid "Le passage incertain.\\Isn't too easy?"
+msgstr "Le passage incertain.\\Nem túl könnyű?"
+
+#: data/map-mym/ghosts.map
+msgid "Ghost Valley.\\Make 3 laps to open the goal."
+msgstr "Ghost Valley.\\Menj 3 kör a célért."
+
+#: data/map-mym/glasstower.map
+msgid "La tour de verre.\\Find the way to the exit."
+msgstr "La tour de verre.\\Keresd az utat a kijárathoz."
+
+#: data/map-mym/hard.map
+msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
+msgstr ""
+"La maîtrise de Neverball.\\Még mindig úgy gondold, hogy könnyű ez a játék?"
+
+#: data/map-mym/loop1.map
+msgid "Les boucles renversantes.\\Upside down!"
+msgstr "Les boucles renversantes.\\Fejjel lefele!"
+
+#: data/map-mym/loop2.map
+msgid ""
+"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
+"land..."
+msgstr ""
+"Le contrôle des courbes.\\Keresd a jó szöget a fordulás,\\az ugrás, és a "
+"landoláshoz..."
+
+#: data/map-mym/maze1.map
+msgid "Le chemin dissimulé.\\Test your memory."
+msgstr "Le chemin dissimulé.\\Teszteld a memóriád."
+
+#: data/map-mym/maze2.map
+msgid ""
+"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
+"another one?"
+msgstr ""
+"Le labyrinthe fou.\\Tudod az utat, ahogy látod, szóval\\miért mész másfelé?"
+
+#: data/map-mym/narrow.map
+msgid ""
+"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
+"slope."
+msgstr ""
+"Le sentier étroit.\\Türelem, és időzítés.\\Tipp: gyorsíts az első lejtőn."
+
+#: data/map-mym/running.map
+msgid "Les épreuves minutées.\\Run baby, run!"
+msgstr "Les épreuves minutées.\\Fuss kicsim, fuss!"
+
+#: data/map-mym/scrambling.map
+msgid ""
+"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgstr "Le petit cross.\\Kirakózzunk!\\Ragadj az útra, a jó sebességért."
+
+#: data/map-mym/snow.map
+msgid "La descente rafraîchissante.\\Not so fast, not so fast."
+msgstr "La descente rafraîchissante.\\Ne oly gyorsan, ne oly lassan."
+
+#: data/map-mym/trust.map
+msgid "Le chemin de la foi.\\Self-confidence."
+msgstr "Le chemin de la foi.\\Magabiztosság."
+
+#: data/map-mym/turn.map
+msgid "Le sens trigonométrique.\\Turn, wait and jump."
+msgstr "Le sens trigonométrique.\\Fordulj, várj, és ugorj."
+
+#: data/map-mym/up.map
+msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
+msgstr "L'ascension pressée.\\Csak egy jó tanács: ne állj meg!"
+
+#: data/map-mym2/backforth.map
+msgid "Un va-et-vient frustrant.\\Remember the activation order."
+msgstr "Un va-et-vient frustrant.\\Emlékezz az aktivációs sorrendre."
+
+#: data/map-mym2/basket.map
+msgid "Street Neverball\\Choose your party and score 3 points."
+msgstr "Utcai Neverball\\Válassz oldalt és szerezz 3 pontot."
+
+#: data/map-mym2/bigball.map
+msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
+msgstr "La machine à circonvolutions.\\Egyszerű, a cél éppen feletted van."
+
+#: data/map-mym2/bigcone.map
+msgid "Le grand cône.\\Living in a cone."
+msgstr "Le grand cône.\\Egy kúpban élni."
+
+#: data/map-mym2/bombman.map
+msgid "Les flammes ardentes.\\Do this remind you of something?"
+msgstr "Les flammes ardentes.\\Emlékeztet valamire?"
+
+#: data/map-mym2/bounces.map
+msgid "Les sauts du célèbre plombier.\\Follow the coins."
+msgstr "Les sauts du célèbre plombier.\\Kövesd az érméket."
+
+#: data/map-mym2/fall.map
+msgid ""
+"Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
+"teleports to unlock and reach the goal."
+msgstr ""
+"Savoir rebondir pour aller plus haut.\\A Neverball Aréna.\\Használd a két "
+"teleportot a cél megnyitásához."
+
+#: data/map-mym2/freefall.map
+msgid ""
+"This level is full of challenges:\\understand the level's functioning,"
+"\\learn to fly and to survive,\\grab half of all coins to open the goal,"
+"\\find and reach the goal,\\and more..."
+msgstr ""
+"Ez a pálya tele van kihívásokkal:\\értsd meg a pálya működését,\\tanulj meg "
+"repülni és túlélni.\\Szerezd meg legalább az érmék felét\\a cél "
+"megnyitásához.\\Találd meg és juss el a célig, és tovább..."
+
+#: data/map-mym2/grinder.map
+msgid "Le petit moulin.\\The good timing to go in the cabin."
+msgstr "Le petit moulin.\\A jó időzítés a kabinba juttat."
+
+#: data/map-mym2/littlecones.map
+msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
+msgstr "Ne pas se laisser emporter dans le néant.\\Nem menj túl lassan."
+
+#: data/map-mym2/longpipe.map
+msgid ""
+"Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
+"jump!"
+msgstr ""
+"Si si, ce tuyau a une fin.\\Csőben élés.\\Tipp: lassan az utolsó ugratónál!"
+
+#: data/map-mym2/morenarrow.map
+msgid "Plus dur que la difficulté.\\Good luck."
+msgstr "Plus dur que la difficulté.\\Sok szerencsét."
+
+#: data/map-mym2/movinglumps.map
+msgid "Être patient.\\Not too hard."
+msgstr "Être patient.\\Nem túl nehéz."
+
+#: data/map-mym2/movingpath.map
+msgid "Le passage éphémère.\\Trust the coins."
+msgstr "Le passage éphémère.\\Bízz az érmében."
+
+#: data/map-mym2/push.map
+msgid "Hé, on pousse pas !\\Not too fast, not too slow."
+msgstr "Hé, on pousse pas !\\Nem túl gyors, nem túl lassú."
+
+#: data/map-mym2/rainbow.map
+msgid "Rainbow Road.\\Make 3 laps to open the goal."
+msgstr "Rainbow Road.\\Menj 3 kört, és mehetsz tovább."
+
+#: data/map-mym2/rodeo.map
+msgid "Le rodéo de Neverball.\\You'll fall quickly."
+msgstr "Le rodéo de Neverball.\\Gyorsan ki fogsz esni."
+
+#: data/map-mym2/runstop.map
+msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
+msgstr "J'y vais, ou j'y vais pas ?\\Légy magabiztos."
+
+#: data/map-mym2/shaker.map
+msgid "Préparez un petit sac.\\The stomach-tester."
+msgstr "Préparez un petit sac.\\A gyomor próbáló."
+
+#: data/map-mym2/sonic.map
+msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
+msgstr "Un petit échauffement.\\Üdvözöl az új Mehdi csomag!"
+
+#: data/map-mym2/speed.map
+msgid "Plus vite que la vitesse.\\Speedness definition."
+msgstr "Plus vite que la vitesse.\\Sebességfaló definíció."
+
+#: data/map-mym2/speeddance.map
+msgid "La danse asiatique\\Trust in the arrows."
+msgstr "La danse asiatique\\Bízz a nyilakban."
+
+#: data/map-mym2/translation.map
+msgid "Suis le mouvement.\\Warning, the road is moving."
+msgstr "Suis le mouvement.\\Figyelem az út mozog."
+
+#: data/map-mym2/updown.map
+msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
+msgstr "Tranquille, mais pas trop.\\Hangold össze magad a liftekkel."
+
+#: data/map-mym2/webs.map
+msgid "Les toiles attirantes.\\Get out of the webs."
+msgstr "Les toiles attirantes.\\Találj ki a hálóból."
+
+#. Desktop entry comment
+#: dist/neverball.desktop.in
+msgid "A 3D arcade game with a ball"
+msgstr "A 3D árkád játék egy labdával"
+
+#. Desktop entry comment
+#: dist/neverputt.desktop.in
+msgid "A 3D mini golf game"
+msgstr "A 3D mini golf játék"
+
+#. Translators,
+#.
+#. Listed here are the Neverball materials (relative to the data directory)
+#. that can be localised.  Each material <mtrl> has a corresponding JPG or PNG
+#. texture.  To localise a material, create a localised texture for it (copy
+#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify it)
+#. and translate the material name to match (from <mtrl> to
+#. <mtrl>-<lang-code>).
+#.
+#. Author's comments on the original mtrl/words texture:
+#.
+#. "Courier New, 40pt, bold. The words are centered in cells of 256x64 pixels.
+#. For the vertical centering, the x-height is used as the reference. Some
+#. manual corrections were made; for example, the hyphen in 'Fall-out' was
+#. shortened in order to increase the margin on each side of the word."
+#.
+#. Those on GNU+Linux having the ImageMagick program suite installed may find
+#. the provided scripts/gen-words.sh shell script useful.
+msgid "mtrl/words"
+msgstr "mtrl/words"
+
+msgid "item/coin/coin"
+msgstr "item/coin/coin"
