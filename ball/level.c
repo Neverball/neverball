@@ -244,7 +244,7 @@ const char *level_msg(int i)
     if (level_exists(i) && strlen(get_level(i)->message) > 0)
         return _(get_level(i)->message);
 
-    return NULL;
+    return "";
 }
 
 /*---------------------------------------------------------------------------*/

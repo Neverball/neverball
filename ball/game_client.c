@@ -413,7 +413,7 @@ void game_client_step(fs_file demo_fp)
 
 int  game_client_init(const char *file_name)
 {
-    char *back_name = NULL, *grad_name = NULL;
+    char *back_name = "", *grad_name = "";
     int i;
 
     coins  = 0;
