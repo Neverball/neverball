@@ -2390,20 +2390,10 @@ static void node_file(struct s_file *fp)
 
 static void dump_file(struct s_file *p, const char *name)
 {
-    /* FIXME:  Count visible geoms.
-     *
-     * I'm afraid items break this (not sure though) so leaving it out.
-     */
-
-#if 0
     int i, j;
-#endif
-    int i;
     int c = 0;
     int n = 0;
-#if 0
-    int m = p->rc + p->cc * 128 + (p->zc * p->jc + p->xc) * 32;
-#endif
+    int m;
 
     /* Count the number of solid lumps. */
 
@@ -2411,8 +2401,15 @@ static void dump_file(struct s_file *p, const char *name)
         if ((p->lv[i].fl & 1) == 0)
             n++;
 
-#if 0
     /* Count the number of visible geoms. */
+
+    m = p->rc + (p->zc + p->jc + p->xc) * 32;
+
+    for (i = 0; i < p->hc; i++)
+        if (p->hv[i].t == ITEM_COIN)
+            m += 124;
+        else
+            m += 304;
 
     for (i = 0; i < p->bc; i++)
     {
@@ -2420,7 +2417,6 @@ static void dump_file(struct s_file *p, const char *name)
             m += p->lv[p->bv[i].l0 + j].gc;
         m += p->bv[i].gc;
     }
-#endif
 
     /* Count the total value of all coins. */
 
@@ -2428,20 +2424,14 @@ static void dump_file(struct s_file *p, const char *name)
         if (p->hv[i].t == ITEM_COIN)
             c += p->hv[i].n;
 
-#if 0
     printf("%s (%d/%d/$%d)\n"
-#endif
-    printf("%s (%d/$%d)\n"
            "  mtrl  vert  edge  side  texc"
            "  geom  lump  path  node  body\n"
            "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
            "  item  goal  view  jump  swch"
            "  bill  ball  char  dict  indx\n"
            "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
-#if 0
            name, n, m, c,
-#endif
-           name, n, c,
            p->mc, p->vc, p->ec, p->sc, p->tc,
            p->gc, p->lc, p->pc, p->nc, p->bc,
            p->hc, p->zc, p->wc, p->jc, p->xc,
