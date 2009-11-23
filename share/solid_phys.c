@@ -186,6 +186,7 @@ void sol_body_p(float p[3],
 }
 
 /*---------------------------------------------------------------------------*/
+/* Solves (p + v * t) . (p + v * t) == r * r for smallest t.                 */
 
 static float v_sol(const float p[3], const float v[3], float r)
 {
