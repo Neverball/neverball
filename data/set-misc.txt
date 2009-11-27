@@ -18,3 +18,4 @@ map-misc/groweasy.sol
 map-misc/blockers.sol
 map-misc/texture-debug.sol
 map-misc/timer-test.sol
+map-misc/edge-test.sol
