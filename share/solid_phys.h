@@ -20,7 +20,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-void sol_body_p(float p[3], const struct s_file *, const struct s_body *);
+void sol_body_p(float p[3], const struct s_file *, int pi, float t);
 
 /*---------------------------------------------------------------------------*/
 

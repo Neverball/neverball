@@ -18,6 +18,7 @@
 #include "geom.h" /* Only for height constants! */
 #include "solid.h"
 #include "solid_phys.h"
+#include "common.h"
 
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
@@ -127,25 +128,29 @@ static float erp(float t)
     return 3.0f * t * t - 2.0f * t * t * t;
 }
 
+#if UNUSED
 static float derp(float t)
 {
     return 6.0f * t     - 6.0f * t * t;
 }
+#endif
 
 static void sol_body_v(float v[3],
                        const struct s_file *fp,
-                       const struct s_body *bp)
+                       int pi, float t, float dt)
 {
-    if (bp->pi >= 0 && fp->pv[bp->pi].f)
+    if (pi >= 0 && fp->pv[pi].f)
     {
-        const struct s_path *pp = fp->pv + bp->pi;
-        const struct s_path *pq = fp->pv + pp->pi;
+        float p[3], q[3];
 
-        v_sub(v, pq->p, pp->p);
-        v_scl(v, v, 1.0f / pp->t);
+        sol_body_p(p, fp, pi, t);
+        sol_body_p(q, fp, pi, t + dt);
 
-        if (pp->s)
-            v_scl(v, v, derp(bp->t / pp->t));
+        v_sub(v, q, p);
+
+        v[0] /= dt;
+        v[1] /= dt;
+        v[2] /= dt;
     }
     else
     {
@@ -155,27 +160,19 @@ static void sol_body_v(float v[3],
     }
 }
 
-void sol_body_p(float p[3],
-                const struct s_file *fp,
-                const struct s_body *bp)
+void sol_body_p(float p[3], const struct s_file *fp, int pi, float t)
 {
     float v[3];
 
-    if (bp->pi >= 0)
+    if (pi >= 0)
     {
-        const struct s_path *pp = fp->pv + bp->pi;
+        const struct s_path *pp = fp->pv + pi;
         const struct s_path *pq = fp->pv + pp->pi;
 
-        if (pp->s)
-        {
-            v_sub(v, pq->p, pp->p);
-            v_mad(p, pp->p, v, erp(bp->t / pp->t));
-        }
-        else
-        {
-            v_sub(v, pq->p, pp->p);
-            v_mad(p, pp->p, v, bp->t / pp->t);
-        }
+        float s = MIN(t / pp->t, 1.0f);
+
+        v_sub(v, pq->p, pp->p);
+        v_mad(p, pp->p, v, pp->s ? erp(s) : s);
     }
     else
     {
@@ -832,8 +829,8 @@ static float sol_test_body(float dt,
 
     const struct s_node *np = fp->nv + bp->ni;
 
-    sol_body_p(O, fp, bp);
-    sol_body_v(W, fp, bp);
+    sol_body_p(O, fp, bp->pi, bp->t);
+    sol_body_v(W, fp, bp->pi, bp->t, dt);
 
     if ((u = sol_test_node(t, U, up, fp, np, O, W)) < t)
     {

@@ -350,7 +350,7 @@ static void sol_draw_list(const struct s_file *fp,
 {
     float p[3];
 
-    sol_body_p(p, fp, bp);
+    sol_body_p(p, fp, bp->pi, bp->t);
 
     glPushMatrix();
     {
@@ -510,7 +510,7 @@ static void sol_shad_list(const struct s_file *fp,
 {
     float p[3];
 
-    sol_body_p(p, fp, bp);
+    sol_body_p(p, fp, bp->pi, bp->t);
 
     glPushMatrix();
     {
