@@ -188,6 +188,30 @@ void sol_body_p(float p[3],
 /*---------------------------------------------------------------------------*/
 /* Solves (p + v * t) . (p + v * t) == r * r for smallest t.                 */
 
+/*
+ * Given vectors A = P, B = V * t, C = A + B, |C| = r, solve for
+ * smallest t.
+ *
+ * Some useful dot product properties:
+ *
+ * 1) A . A = |A| * |A|
+ * 2) A . (B + C) = A . B + A . C
+ * 3) (r * A) . B = r * (A . B)
+ *
+ * Deriving a quadratic equation:
+ *
+ * C . C = r * r                                     (1)
+ * (A + B) . (A + B) = r * r
+ * A . (A + B) + B . (A + B) = r * r                 (2)
+ * A . A + A . B + B . A + B . B = r * r             (2)
+ * A . A + 2 * (A . B) + B . B = r * r
+ * P . P + 2 * (P . V * t) + (V * t . V * t) = r * r
+ * P . P + 2 * (P . V) * t + (V . V) * t * t = r * r (3)
+ * (V . V) * t * t + 2 * (P . V) * t + P . P - r * r = 0
+ *
+ * This equation is solved using the quadratic formula.
+ */
+
 static float v_sol(const float p[3], const float v[3], float r)
 {
     float a = v_dot(v, v);
@@ -270,6 +294,14 @@ static float v_edge(float Q[3],
     v_sub(d, d, q);
     v_sub(e, v, w);
 
+    /*
+     * Think projections.  Vectors D, extending from the edge vertex Q
+     * to the sphere,  and E, the relative velocity  of sphere wrt the
+     * edge, are  made orthogonal to  the edge vector U.   Division of
+     * the  dot products  is required  to obtain  the  true projection
+     * ratios since U does not have unit length.
+     */
+
     du = v_dot(d, u);
     eu = v_dot(e, u);
     uu = v_dot(u, u);
@@ -278,7 +310,7 @@ static float v_edge(float Q[3],
     v_mad(V, e, u, -eu / uu);
 
     t = v_sol(P, V, r);
-    s = (du + eu * t) / uu;
+    s = (du + eu * t) / uu; /* Projection of D + E * t on U. */
 
     if (0.0f <= t && t < LARGE && 0.0f < s && s < 1.0f)
     {
