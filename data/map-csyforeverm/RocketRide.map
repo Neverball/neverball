@@ -9,6 +9,7 @@
 "shot" "shot-csyforeverm/RocketRide.png"
 "time" "4500"
 "goal" "4"
+"version" "1"
 "coin_hs" "13 8"
 "goal_hs" "4050 4255"
 "time_hs" "4050 4255"

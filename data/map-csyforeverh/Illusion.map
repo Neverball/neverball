@@ -5,6 +5,8 @@
 "message" "Illusion\Careful! About anything can go wrong\while playing this level."
 "time" "9000"
 "goal" "15"
+"author" "Challenge Space Yard"
+"version" "1"
 "shot" "shot-csyforeverh/Illusion.png"
 "song" "bgm/track5.ogg"
 "grad" "back/alien.png"

@@ -560,6 +560,7 @@
 "grad" "back/alien.png"
 "song" "bgm/track5.ogg"
 "levelname" "Intermediate"
+"version" "1"
 "coin_hs" "88 55"
 "goal_hs" "1250 3000"
 "time_hs" "1125 2500"
