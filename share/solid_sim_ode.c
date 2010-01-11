@@ -100,11 +100,55 @@ void free_convex(struct convex *cx)
 #define CAT_OBJECT 0x1
 #define CAT_WORLD  0x2
 
+static void build_node(dBodyID body, dSpaceID parent,
+                       struct s_node *np,
+                       struct s_file *fp)
+{
+    dSpaceID node = dHashSpaceCreate(parent);
+    dGeomID geom;
+    int i;
+
+    for (i = 0; i < np->lc; i++)
+    {
+        struct s_lump *lp = fp->lv + np->l0 + i;
+        struct convex *cx;
+
+        if (lp->fl & L_DETAIL)
+            continue;
+
+        cx = array_add(lumps);
+
+        make_convex(cx, fp, lp);
+
+        geom = dCreateConvex(node,
+                             cx->planes, cx->nplanes,
+                             cx->points, cx->npoints,
+                             cx->polygons);
+
+        dGeomSetCategoryBits(geom, CAT_WORLD);
+        dGeomSetCollideBits (geom, CAT_OBJECT);
+
+        if (body) dGeomSetBody(geom, body);
+    }
+
+    if (np->ni >= 0) build_node(body, node, fp->nv + np->ni, fp);
+    if (np->nj >= 0) build_node(body, node, fp->nv + np->nj, fp);
+}
+
+static void build_branch(dBodyID body, dSpaceID root,
+                         struct s_body *bp,
+                         struct s_file *fp)
+{
+    dSpaceID branch = dHashSpaceCreate(root);
+
+    build_node(body, branch, fp->nv + bp->ni, fp);
+}
+
 void sol_init_sim(struct s_file *fp)
 {
     dGeomID geom;
 
-    int i, j;
+    int i;
 
     dInitODE();
 
@@ -129,28 +173,7 @@ void sol_init_sim(struct s_file *fp)
         else
             bodies[i] = 0;
 
-        for (j = 0; j < bp->lc; j++)
-        {
-            struct s_lump *lp = fp->lv + bp->l0 + j;
-            struct convex *cx;
-
-            if (lp->fl & L_DETAIL)
-                continue;
-
-            cx = array_add(lumps);
-
-            make_convex(cx, fp, lp);
-
-            geom = dCreateConvex(space,
-                                 cx->planes, cx->nplanes,
-                                 cx->points, cx->npoints,
-                                 cx->polygons);
-
-            dGeomSetCategoryBits(geom, CAT_WORLD);
-            dGeomSetCollideBits (geom, CAT_OBJECT);
-
-            if (bodies[i]) dGeomSetBody(geom, bodies[i]);
-        }
+        build_branch(bodies[i], space, bp, fp);
 
         if (bodies[i])
         {
@@ -265,6 +288,12 @@ static void collide(void *data, dGeomID o1, dGeomID o2)
 
     float *b = (float *) data;
     float  d;
+
+    if (dGeomIsSpace(o1) || dGeomIsSpace(o2))
+    {
+        dSpaceCollide2(o1, o2, data, collide);
+        return;
+    }
 
     if ((n = dCollide(o1, o2, 8, &contacts[0].geom, sizeof (dContact))) > 0)
     {
