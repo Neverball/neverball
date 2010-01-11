@@ -12,29 +12,17 @@
  * General Public License for more details.
  */
 
-#ifndef SOL_PHYS_H
-#define SOL_PHYS_H
+#ifndef SOL_SIM_H
+#define SOL_SIM_H
 
 #include "solid.h"
-#include "cmd.h"
 
 /*---------------------------------------------------------------------------*/
 
-void sol_body_p(float p[3], const struct s_file *, int pi, float t);
-
-/*---------------------------------------------------------------------------*/
+void sol_init_sim(struct s_file *);
+void sol_quit_sim(void);
 
 float sol_step(struct s_file *, const float *, float, int, int *);
-
-int   sol_jump_test(struct s_file *, float *, int);
-int   sol_swch_test(struct s_file *, int);
-
-struct s_goal *sol_goal_test(struct s_file *, float *, int);
-int            sol_item_test(struct s_file *, float *, float);
-
-/*---------------------------------------------------------------------------*/
-
-void sol_cmd_enq_func(void (*enq_fn) (const union cmd *));
 
 /*---------------------------------------------------------------------------*/
 

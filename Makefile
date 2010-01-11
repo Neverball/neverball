@@ -87,6 +87,10 @@ ifeq ($(ENABLE_WII),1)
     ALL_CPPFLAGS += -DENABLE_WII=1
 endif
 
+ifeq ($(ENABLE_ODE),1)
+    ALL_CPPFLAGS += $(shell ode-config --cflags)
+endif
+
 ifdef DARWIN
     ALL_CPPFLAGS += -I/opt/local/include
 endif
@@ -111,11 +115,19 @@ ifeq ($(ENABLE_WII),1)
     TILT_LIBS := -lcwiimote -lbluetooth
 endif
 
+ifeq ($(ENABLE_ODE),1)
+    ODE_LIBS := $(shell ode-config --libs)
+endif
+
 OGL_LIBS := -lGL -lm
 
 ifdef MINGW
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl
+    endif
+
+    ifeq ($(ENABLE_ODE),1)
+        ODE_LIBS := -lode
     endif
 
     TILT_LIBS :=
@@ -125,6 +137,10 @@ endif
 ifdef DARWIN
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl
+    endif
+
+    ifeq ($(ENABLE_ODE),1)
+        ODE_LIBS := -lode
     endif
 
     TILT_LIBS :=
@@ -138,7 +154,7 @@ ifdef DARWIN
 endif
 
 ALL_LIBS := $(SDL_LIBS) $(BASE_LIBS) $(TILT_LIBS) $(INTL_LIBS) -lSDL_ttf \
-    -lvorbisfile $(OGL_LIBS)
+    -lvorbisfile $(OGL_LIBS) $(ODE_LIBS)
 
 #------------------------------------------------------------------------------
 
@@ -180,7 +196,8 @@ BALL_OBJS := \
 	share/image.o       \
 	share/solid.o       \
 	share/solid_gl.o    \
-	share/solid_phys.o  \
+	share/solid_cmd.o   \
+	share/solid_all.o   \
 	share/part.o        \
 	share/back.o        \
 	share/geom.o        \
@@ -248,7 +265,8 @@ PUTT_OBJS := \
 	share/image.o       \
 	share/solid.o       \
 	share/solid_gl.o    \
-	share/solid_phys.o  \
+	share/solid_cmd.o   \
+	share/solid_all.o   \
 	share/part.o        \
 	share/geom.o        \
 	share/ball.o        \
@@ -279,6 +297,14 @@ PUTT_OBJS := \
 	putt/st_all.o       \
 	putt/st_conf.o      \
 	putt/main.o
+
+ifeq ($(ENABLE_ODE),1)
+BALL_OBJS += share/solid_sim_ode.o
+PUTT_OBJS += share/solid_sim_ode.o
+else
+BALL_OBJS += share/solid_sim_sol.o
+PUTT_OBJS += share/solid_sim_sol.o
+endif
 
 ifdef MINGW
 BALL_OBJS += neverball.ico.o

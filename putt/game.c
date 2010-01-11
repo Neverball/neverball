@@ -25,10 +25,12 @@
 #include "hud.h"
 #include "image.h"
 #include "audio.h"
-#include "solid_gl.h"
-#include "solid_phys.h"
 #include "config.h"
 #include "video.h"
+
+#include "solid_gl.h"
+#include "solid_sim.h"
+#include "solid_all.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -87,10 +89,12 @@ void game_init(const char *s)
 
     view_init();
     sol_load_gl(&file, s, config_get_d(CONFIG_SHADOW));
+    sol_init_sim(&file);
 }
 
 void game_free(void)
 {
+    sol_quit_sim();
     sol_free_gl(&file);
 }
 

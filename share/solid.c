@@ -22,7 +22,7 @@
 #include "fs.h"
 
 #define MAGIC       0x4c4f53af
-#define SOL_VERSION 6
+#define SOL_VERSION 7
 
 /*---------------------------------------------------------------------------*/
 
@@ -85,6 +85,8 @@ static void sol_load_lump(fs_file fin, struct s_lump *lp)
     get_index(fin, &lp->gc);
     get_index(fin, &lp->s0);
     get_index(fin, &lp->sc);
+    get_index(fin, &lp->f0);
+    get_index(fin, &lp->fc);
 }
 
 static void sol_load_node(fs_file fin, struct s_node *np)
@@ -433,6 +435,8 @@ static void sol_stor_lump(fs_file fout, struct s_lump *lp)
     put_index(fout, &lp->gc);
     put_index(fout, &lp->s0);
     put_index(fout, &lp->sc);
+    put_index(fout, &lp->f0);
+    put_index(fout, &lp->fc);
 }
 
 static void sol_stor_node(fs_file fout, struct s_node *np)

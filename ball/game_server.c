@@ -18,10 +18,13 @@
 
 #include "vec3.h"
 #include "item.h"
-#include "solid_phys.h"
 #include "config.h"
 #include "binary.h"
 #include "common.h"
+
+#include "solid_sim.h"
+#include "solid_all.h"
+#include "solid_cmd.h"
 
 #include "game_common.h"
 #include "game_server.h"
@@ -543,6 +546,10 @@ int game_server_init(const char *file_name, int t, int e)
     got_orig = 0;
     grow = 0;
 
+    /* Initialize simulation. */
+
+    sol_init_sim(&file);
+
     sol_cmd_enq_func(game_proxy_enq);
 
     /* Queue client commands. */
@@ -563,6 +570,7 @@ void game_server_free(void)
 {
     if (server_state)
     {
+        sol_quit_sim();
         sol_free(&file);
         server_state = 0;
     }

@@ -160,6 +160,7 @@ struct s_lump
     int e0, ec;
     int g0, gc;
     int s0, sc;
+    int f0, fc;                                /* polygon data               */
 };
 
 struct s_node
