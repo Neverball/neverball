@@ -177,9 +177,13 @@ void sol_init_sim(struct s_file *fp)
 
         if (bodies[i])
         {
-            float p[3];
+            float p[3], w[3];
+
             sol_body_p(p, fp, bp->pi, 0.0f);
+            sol_body_w(w, fp, bp);
+
             dBodySetPosition(bodies[i], p[0], p[1], p[2]);
+            dBodySetAngularVel(bodies[i], w[0], w[1], w[2]);
         }
     }
 
@@ -340,33 +344,46 @@ static void import_state(struct s_file *fp, float dt)
     for (i = 0; i < fp->bc; i++)
     {
         struct s_body *bp = fp->bv + i;
-        float v[3], p[3];
+        float p[3], v[3], w[3];
 
         if (bodies[i])
         {
             sol_body_p(p, fp, bp->pi, bp->t);
             sol_body_v(v, fp, bp->pi, bp->t, dt);
+            sol_body_w(w, fp, bp);
 
             dBodySetPosition(bodies[i], p[0], p[1], p[2]);
             dBodySetLinearVel(bodies[i], v[0], v[1], v[2]);
+            dBodySetAngularVel(bodies[i], w[0], w[1], w[2]);
         }
     }
 }
 
 static void export_state(struct s_file *fp)
 {
+    const dReal *v;
     int i;
 
     for (i = 0; i < fp->uc; i++)
     {
         struct s_ball *up = fp->uv + i;
-        const dReal *v;
 
         v = dBodyGetPosition(balls[i]);
         v_cpy(up->p, v);
 
         v = dBodyGetLinearVel(balls[i]);
         v_cpy(up->v, v);
+    }
+
+    for (i = 0; i < fp->bc; i++)
+    {
+        struct s_body *bp = fp->bv + i;
+
+        if (bodies[i])
+        {
+            v = dBodyGetQuaternion(bodies[i]);
+            q_cpy(bp->e, v);
+        }
     }
 }
 

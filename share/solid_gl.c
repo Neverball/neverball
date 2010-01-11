@@ -348,15 +348,18 @@ static const struct s_mtrl *sol_draw_body(const struct s_file *fp,
 static void sol_draw_list(const struct s_file *fp,
                           const struct s_body *bp, GLuint list)
 {
-    float p[3];
+    float p[3], u[3], a;
 
     sol_body_p(p, fp, bp->pi, bp->t);
 
+    q_axisangle(bp->e, u, &a);
+
     glPushMatrix();
     {
-        /* Translate a moving body. */
+        /* Translate and rotate a moving body. */
 
         glTranslatef(p[0], p[1], p[2]);
+        glRotatef(a, u[0], u[1], u[2]);
 
         /* Draw the body. */
 
@@ -508,15 +511,18 @@ static void sol_shad_body(const struct s_file *fp,
 static void sol_shad_list(const struct s_file *fp,
                           const struct s_body *bp, GLuint list)
 {
-    float p[3];
+    float p[3], u[3], a;
 
     sol_body_p(p, fp, bp->pi, bp->t);
 
+    q_axisangle(bp->e, u, &a);
+
     glPushMatrix();
     {
-        /* Translate a moving body. */
+        /* Translate and rotate a moving body. */
 
         glTranslatef(p[0], p[1], p[2]);
+        glRotatef(a, u[0], u[1], u[2]);
 
         /* Translate the shadow on a moving body. */
 

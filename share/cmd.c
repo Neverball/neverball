@@ -591,6 +591,25 @@ END_FUNC;
 
 /*---------------------------------------------------------------------------*/
 
+#undef BYTES
+#define BYTES (INDEX_BYTES + ARRAY_BYTES(4))
+
+PUT_FUNC(CMD_BODY_ORIENTATION)
+{
+    put_index(fp, &cmd->bodyorient.bi);
+    put_array(fp,  cmd->bodyorient.e, 4);
+}
+END_FUNC;
+
+GET_FUNC(CMD_BODY_ORIENTATION)
+{
+    get_index(fp, &cmd->bodyorient.bi);
+    get_array(fp,  cmd->bodyorient.e, 4);
+}
+END_FUNC;
+
+/*---------------------------------------------------------------------------*/
+
 #define PUT_CASE(t) case t: cmd_put_ ## t(fp, cmd); break
 #define GET_CASE(t) case t: cmd_get_ ## t(fp, cmd); break
 
@@ -637,6 +656,7 @@ int cmd_put(fs_file fp, const union cmd *cmd)
         PUT_CASE(CMD_STEP_SIMULATION);
         PUT_CASE(CMD_MAP);
         PUT_CASE(CMD_TILT_AXES);
+        PUT_CASE(CMD_BODY_ORIENTATION);
 
     case CMD_NONE:
     case CMD_MAX:
@@ -702,6 +722,7 @@ int cmd_get(fs_file fp, union cmd *cmd)
             GET_CASE(CMD_STEP_SIMULATION);
             GET_CASE(CMD_MAP);
             GET_CASE(CMD_TILT_AXES);
+            GET_CASE(CMD_BODY_ORIENTATION);
 
         case CMD_NONE:
         case CMD_MAX:

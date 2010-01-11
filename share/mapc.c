@@ -887,6 +887,7 @@ static void make_body(struct s_file *fp,
     struct s_body *bp = fp->bv + bi;
 
     bp->t  = 0.f;
+    bp->fl = 0;
     bp->pi = -1;
     bp->ni = -1;
 
@@ -906,6 +907,10 @@ static void make_body(struct s_file *fp,
 
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%f %f %f", &x, &y, &z);
+
+        else if (strcmp(k[i], "classname") == 0 &&
+                 strcmp(v[i], "func_rotating") == 0)
+            bp->fl |= P_ROTATING;
 
         else if (read_dict_entries && strcmp(k[i], "classname") != 0)
             make_dict(fp, k[i], v[i]);
@@ -1284,6 +1289,7 @@ static void read_ent(struct s_file *fp, fs_file fin)
         make_body(fp, k, v, c, l0);
     }
     if (!strcmp(v[i], "func_train"))               make_body(fp, k, v, c, l0);
+    if (!strcmp(v[i], "func_rotating"))            make_body(fp, k, v, c, l0);
     if (!strcmp(v[i], "misc_model"))               make_body(fp, k, v, c, l0);
 }
 

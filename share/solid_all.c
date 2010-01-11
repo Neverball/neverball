@@ -69,6 +69,46 @@ void sol_body_v(float v[3],
     }
 }
 
+void sol_body_w(float w[3],
+                const struct s_file *fp,
+                const struct s_body *bp)
+{
+    if (bp->fl & P_ROTATING)
+    {
+        struct s_path *pp = fp->pv + bp->pi;
+
+        if (bp->pi >= 0 && pp->f)
+        {
+            struct s_path *pq = fp->pv + pp->pi;
+
+            if (pp->pi != bp->pi)
+            {
+                v_sub(w, pq->p, pp->p);
+                v_nrm(w, w);
+                v_scl(w, w, (1.0f / pp->t) * 2 * V_PI);
+            }
+            else
+            {
+                w[0] = 0.0f;
+                w[1] = (1.0f / pp->t) * 2 * V_PI;
+                w[2] = 0.0f;
+            }
+        }
+        else
+        {
+            w[0] = 0.0f;
+            w[1] = 0.0f;
+            w[2] = 0.0f;
+        }
+    }
+    else
+    {
+        w[0] = 0.0f;
+        w[1] = 0.0f;
+        w[2] = 0.0f;
+    }
+}
+
 /*---------------------------------------------------------------------------*/
 
 /*
@@ -226,22 +266,32 @@ void sol_body_step(struct s_file *fp, float dt)
 
         if (bp->pi >= 0 && pp->f)
         {
-            bp->t = (t += dt);
-
-            if (t >= pp->t)
+            if (bp->fl & P_ROTATING)
             {
-                bp->t  = 0;
-                bp->pi = pp->pi;
-
-                cmd.type        = CMD_BODY_TIME;
-                cmd.bodytime.bi = i;
-                cmd.bodytime.t  = bp->t;
+                cmd.type          = CMD_BODY_ORIENTATION;
+                cmd.bodyorient.bi = i;
+                q_cpy(cmd.bodyorient.e, bp->e);
                 sol_cmd_enq(&cmd);
+            }
+            else
+            {
+                bp->t = (t += dt);
 
-                cmd.type        = CMD_BODY_PATH;
-                cmd.bodypath.bi = i;
-                cmd.bodypath.pi = bp->pi;
-                sol_cmd_enq(&cmd);
+                if (t >= pp->t)
+                {
+                    bp->t  = 0;
+                    bp->pi = pp->pi;
+
+                    cmd.type        = CMD_BODY_TIME;
+                    cmd.bodytime.bi = i;
+                    cmd.bodytime.t  = bp->t;
+                    sol_cmd_enq(&cmd);
+
+                    cmd.type        = CMD_BODY_PATH;
+                    cmd.bodypath.bi = i;
+                    cmd.bodypath.pi = bp->pi;
+                    sol_cmd_enq(&cmd);
+                }
             }
         }
     }

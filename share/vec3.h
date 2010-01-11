@@ -104,4 +104,15 @@ void   m_view(float *, const float *,
                        const float *,
                        const float *);
 
+/*---------------------------------------------------------------------------*/
+
+#define q_cpy(q, p) do { \
+    (q)[0] = (p)[0];     \
+    (q)[1] = (p)[1];     \
+    (q)[2] = (p)[2];     \
+    (q)[3] = (p)[3];     \
+} while (0)
+
+void q_axisangle(const float *q, float *u, float *a);
+
 #endif
