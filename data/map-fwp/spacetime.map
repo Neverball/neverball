@@ -9,8 +9,8 @@
 "song" "bgm/track4.ogg"
 "time" "7500"
 "goal" "82"
-"time_hs" "5000 5100"
 "coin_hs" "152 112"
+"time_hs" "5000 5100"
 "goal_hs" "5000 5500"
 "message" "=Spacetime=\Not much space, not much time."
 // brush 0

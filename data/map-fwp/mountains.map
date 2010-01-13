@@ -9,8 +9,8 @@
 "song" "bgm/track2.ogg"
 "time" "12000"
 "goal" "50"
-"time_hs" "2100 2500"
 "coin_hs" "150 90"
+"time_hs" "2100 2500"
 "goal_hs" "2500 4500"
 "message" "=Mountains=\Ups and downs are a part of life."
 // brush 0

@@ -9,8 +9,8 @@
 "song" "bgm/track1.ogg"
 "time" "12000"
 "goal" "28"
-"time_hs" "1250 2000"
 "coin_hs" "108 68"
+"time_hs" "1250 2000"
 "goal_hs" "2500 4500"
 "message" "=Museum=\Please do not touch the exhibits."
 // brush 0

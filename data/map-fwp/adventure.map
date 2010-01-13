@@ -9,8 +9,8 @@
 "song" "bgm/track5.ogg"
 "time" "59999"
 "goal" "250"
-"time_hs" "1000 2500"
 "coin_hs" "400 325"
+"time_hs" "1000 2500"
 "goal_hs" "22500 30000"
 "message" "=Adventure=\Many things to do, coins to collect, risks to take."
 // brush 0

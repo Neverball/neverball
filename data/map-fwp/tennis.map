@@ -9,8 +9,8 @@
 "song" "bgm/track4.ogg"
 "time" "15000"
 "goal" "120"
-"time_hs" "450 475"
 "coin_hs" "210 170"
+"time_hs" "450 475"
 "goal_hs" "4000 7500"
 "message" "=Tennis=\There is plenty of prize money, and it's up for grabs."
 // brush 0

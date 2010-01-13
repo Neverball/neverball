@@ -9,8 +9,8 @@
 "song" "bgm/track5.ogg"
 "time" "15000"
 "goal" "85"
-"time_hs" "525 550"
 "coin_hs" "144 114"
+"time_hs" "525 550"
 "goal_hs" "4000 7500"
 "message" "=Oddities=\Something is not quite right here..."
 // brush 0

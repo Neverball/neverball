@@ -9,8 +9,8 @@
 "song" "bgm/track2.ogg"
 "time" "9000"
 "goal" "50"
-"time_hs" "210 225"
 "coin_hs" "130 90"
+"time_hs" "210 225"
 "goal_hs" "1000 2000"
 "message" "=Swarm=\Warning: Trespassers will be thwomped."
 // brush 0

@@ -9,8 +9,8 @@
 "song" "bgm/track4.ogg"
 "time" "9000"
 "goal" "24"
-"time_hs" "350 3000"
 "coin_hs" "64 44"
+"time_hs" "350 3000"
 "goal_hs" "1500 3000"
 "message" "=Rails=\Do not lose your balance."
 // brush 0
