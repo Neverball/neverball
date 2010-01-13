@@ -266,13 +266,21 @@ static void spin(dContactGeom *contact)
     const dReal *p, *v, *w;
     float r[3], d[3];
 
-    /* Why do I know that the first geom is a sphere? */
+    if ((up = dGeomGetData(contact->g1)))
+    {
 
-    up = dGeomGetData(contact->g1);
+        p = dGeomGetPosition(contact->g1);
+        v = geomvel(contact->g1);
+        w = pointvel(contact->g2, contact->pos);
+    }
+    else
+    {
+        up = dGeomGetData(contact->g2);
 
-    p = dGeomGetPosition(contact->g1);
-    v = geomvel(contact->g1);
-    w = pointvel(contact->g2, contact->pos);
+        p = dGeomGetPosition(contact->g2);
+        v = geomvel(contact->g2);
+        w = pointvel(contact->g1, contact->pos);
+    }
 
     v_sub(r, p, contact->pos);
     v_sub(d, v, w);
