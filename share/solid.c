@@ -21,10 +21,36 @@
 #include "binary.h"
 #include "fs.h"
 
-#define MAGIC       0x4c4f53af
-#define SOL_VERSION 8
+enum
+{
+    SOL_VER_MINIMUM = 6,
+    SOL_VER_LUMP_POLY,
+    SOL_VER_BODY_FLAG,
+    SOL_VER_CURRENT = SOL_VER_BODY_FLAG
+};
+
+#define MAGIC 0x4c4f53af
 
 /*---------------------------------------------------------------------------*/
+
+static int sol_version;
+
+static int sol_file(fs_file fin)
+{
+    int magic;
+    int version;
+
+    get_index(fin, &magic);
+    get_index(fin, &version);
+
+    if (magic != MAGIC || (version < SOL_VER_MINIMUM ||
+                           version > SOL_VER_CURRENT))
+        return 0;
+
+    sol_version = version;
+
+    return 1;
+}
 
 static void sol_load_mtrl(fs_file fin, struct s_mtrl *mp)
 {
@@ -85,8 +111,12 @@ static void sol_load_lump(fs_file fin, struct s_lump *lp)
     get_index(fin, &lp->gc);
     get_index(fin, &lp->s0);
     get_index(fin, &lp->sc);
-    get_index(fin, &lp->f0);
-    get_index(fin, &lp->fc);
+
+    if (sol_version >= SOL_VER_LUMP_POLY)
+    {
+        get_index(fin, &lp->f0);
+        get_index(fin, &lp->fc);
+    }
 }
 
 static void sol_load_node(fs_file fin, struct s_node *np)
@@ -115,7 +145,9 @@ static void sol_load_body(fs_file fin, struct s_body *bp)
     get_index(fin, &bp->lc);
     get_index(fin, &bp->g0);
     get_index(fin, &bp->gc);
-    get_index(fin, &bp->fl);
+
+    if (sol_version >= SOL_VER_BODY_FLAG)
+        get_index(fin, &bp->fl);
 
     bp->e[0] = 1.0f;
     bp->e[1] = 0.0f;
@@ -199,16 +231,12 @@ static void sol_load_dict(fs_file fin, struct s_dict *dp)
     get_index(fin, &dp->aj);
 }
 
+
 static int sol_load_file(fs_file fin, struct s_file *fp)
 {
     int i;
-    int magic;
-    int version;
 
-    get_index(fin, &magic);
-    get_index(fin, &version);
-
-    if (magic != MAGIC || version != SOL_VERSION)
+    if (!sol_file(fin))
         return 0;
 
     get_index(fin, &fp->ac);
@@ -301,13 +329,7 @@ static int sol_load_file(fs_file fin, struct s_file *fp)
 
 static int sol_load_head(fs_file fin, struct s_file *fp)
 {
-    int magic;
-    int version;
-
-    get_index(fin, &magic);
-    get_index(fin, &version);
-
-    if (magic != MAGIC || version != SOL_VERSION)
+    if (!sol_file(fin))
         return 0;
 
     get_index(fin, &fp->ac);
@@ -542,7 +564,7 @@ static void sol_stor_file(fs_file fout, struct s_file *fp)
 {
     int i;
     int magic   = MAGIC;
-    int version = SOL_VERSION;
+    int version = SOL_VER_CURRENT;
 
     put_index(fout, &magic);
     put_index(fout, &version);
