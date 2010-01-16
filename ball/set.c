@@ -180,7 +180,7 @@ static void set_load_hs(void)
         fs_close(fin);
 
         if (!res)
-            fprintf(stderr, L_("Failure to load user score file '%s'"), fn);
+            fprintf(stderr, L_("Failure to load user score file '%s'\n"), fn);
     }
 }
 
