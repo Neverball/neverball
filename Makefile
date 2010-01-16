@@ -126,10 +126,6 @@ ifdef MINGW
         INTL_LIBS := -lintl
     endif
 
-    ifeq ($(ENABLE_ODE),1)
-        ODE_LIBS := -lode
-    endif
-
     TILT_LIBS :=
     OGL_LIBS  := -lopengl32 -lm
 endif
@@ -137,10 +133,6 @@ endif
 ifdef DARWIN
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl
-    endif
-
-    ifeq ($(ENABLE_ODE),1)
-        ODE_LIBS := -lode
     endif
 
     TILT_LIBS :=
