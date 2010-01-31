@@ -16,12 +16,16 @@ $(info Will make a "$(BUILD)" build of Neverball $(VERSION).)
 
 #------------------------------------------------------------------------------
 # Provide a target system hint for the Makefile.
+# Recognized PLATFORM values: darwin, mingw.
 
 ifeq ($(shell uname), Darwin)
-    DARWIN := 1
+    PLATFORM := darwin
 endif
 
-# MINGW=1 also supported.
+# Compatibility with the old "make MINGW=1".
+ifeq ($(MINGW),1)
+    PLATFORM := mingw
+endif
 
 #------------------------------------------------------------------------------
 # Paths (packagers might want to set DATADIR and LOCALEDIR)
@@ -30,7 +34,7 @@ USERDIR   := .neverball
 DATADIR   := ./data
 LOCALEDIR := ./locale
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
     USERDIR := Neverball
 endif
 
@@ -91,7 +95,7 @@ ifeq ($(ENABLE_ODE),1)
     ALL_CPPFLAGS += $(shell ode-config --cflags)
 endif
 
-ifdef DARWIN
+ifeq ($(PLATFORM),darwin)
     ALL_CPPFLAGS += -I/opt/local/include
 endif
 
@@ -121,7 +125,7 @@ endif
 
 OGL_LIBS := -lGL -lm
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl
     endif
@@ -130,7 +134,7 @@ ifdef MINGW
     OGL_LIBS  := -lopengl32 -lm
 endif
 
-ifdef DARWIN
+ifeq ($(PLATFORM),darwin)
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl
     endif
@@ -141,7 +145,7 @@ endif
 
 BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS)
 
-ifdef DARWIN
+ifeq ($(PLATFORM),darwin)
     BASE_LIBS += -L/opt/local/lib
 endif
 
@@ -150,7 +154,7 @@ ALL_LIBS := $(SDL_LIBS) $(BASE_LIBS) $(TILT_LIBS) $(INTL_LIBS) -lSDL_ttf \
 
 #------------------------------------------------------------------------------
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
     EXT := .exe
 endif
 
@@ -158,7 +162,7 @@ MAPC_TARG := mapc$(EXT)
 BALL_TARG := neverball$(EXT)
 PUTT_TARG := neverputt$(EXT)
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
     MAPC := $(WINE) ./$(MAPC_TARG)
 else
     MAPC := ./$(MAPC_TARG)
@@ -298,7 +302,7 @@ BALL_OBJS += share/solid_sim_sol.o
 PUTT_OBJS += share/solid_sim_sol.o
 endif
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
 BALL_OBJS += neverball.ico.o
 PUTT_OBJS += neverputt.ico.o
 endif
@@ -342,7 +346,7 @@ $(MAPC_TARG) : $(MAPC_OBJS)
 
 # Work around some extremely helpful sdl-config scripts.
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
 $(MAPC_TARG) : ALL_CPPFLAGS := $(ALL_CPPFLAGS) -Umain
 endif
 
@@ -380,7 +384,7 @@ TAGS :
 
 #------------------------------------------------------------------------------
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
 
 #------------------------------------------------------------------------------
 
