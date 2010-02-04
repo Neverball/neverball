@@ -32,9 +32,18 @@ void v_nrm(float *n, const float *v)
 {
     float d = v_len(v);
 
-    n[0] = v[0] / d;
-    n[1] = v[1] / d;
-    n[2] = v[2] / d;
+    if (d == 0.0f)
+    {
+        n[0] = 0.0f;
+        n[1] = 0.0f;
+        n[2] = 0.0f;
+    }
+    else
+    {
+        n[0] = v[0] / d;
+        n[1] = v[1] / d;
+        n[2] = v[2] / d;
+    }
 }
 
 void v_crs(float *u, const float *v, const float *w)
