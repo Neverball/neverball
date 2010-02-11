@@ -207,7 +207,7 @@ BALL_OBJS := \
 	share/state.o       \
 	share/audio.o       \
 	share/text.o        \
-	share/tilt.o        \
+	share/tilt_wii.o    \
 	share/common.o      \
 	share/keynames.o    \
 	share/syswm.o       \
