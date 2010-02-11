@@ -106,10 +106,8 @@ static SDL_Thread       *thread = NULL;
 
 static int tilt_func(void *data)
 {
-    wiimote_t wiimote = WIIMOTE_INIT;
-    char      address[MAXSTR];
-
-    config_get_s(CONFIG_WIIMOTE_ADDR, address, MAXSTR);
+    wiimote_t   wiimote = WIIMOTE_INIT;
+    const char *address = config_get_s(CONFIG_WIIMOTE_ADDR);
 
     if (strlen(address) > 0)
     {
