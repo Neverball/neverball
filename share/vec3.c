@@ -317,9 +317,9 @@ void q_nrm(float *q, const float *r)
     else
     {
         q[0] = r[0] / d;
-        q[0] = r[1] / d;
-        q[0] = r[2] / d;
-        q[0] = r[3] / d;
+        q[1] = r[1] / d;
+        q[2] = r[2] / d;
+        q[3] = r[3] / d;
     }
 }
 
