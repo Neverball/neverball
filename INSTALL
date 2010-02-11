@@ -52,7 +52,7 @@ enabled.
         Enable  native  language   support.   May  require  additional
         libraries.
 
-    ENABLE_WII=0
+    ENABLE_TILT=wii
 
         Enable Wii Remote support.   Requires additional libraries and
         system configuration.

@@ -20,7 +20,6 @@
 #include "config.h"
 
 /*---------------------------------------------------------------------------*/
-#ifdef ENABLE_WII
 
 #define _ENABLE_TILT
 #include <libcwiimote/wiimote.h>
@@ -297,43 +296,4 @@ int tilt_stat(void)
     return b;
 }
 
-#endif
-/*---------------------------------------------------------------------------*/
-#ifndef ENABLE_WII
-
-void tilt_init(void)
-{
-}
-
-void tilt_free(void)
-{
-}
-
-int tilt_stat(void)
-{
-    return 0;
-}
-
-int  tilt_get_button(int *b, int *s)
-{
-    return 0;
-}
-
-void tilt_get_direct(int *x, int *y)
-{
-    *x = 1;
-    *y = 1;
-}
-
-float tilt_get_x(void)
-{
-    return 0.0f;
-}
-
-float tilt_get_z(void)
-{
-    return 0.0f;
-}
-
-#endif
 /*---------------------------------------------------------------------------*/

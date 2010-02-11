@@ -14,6 +14,10 @@ endif
 
 $(info Will make a "$(BUILD)" build of Neverball $(VERSION).)
 
+ifeq ($(ENABLE_WII),1)
+ENABLE_TILT := wii
+endif
+
 #------------------------------------------------------------------------------
 # Provide a target system hint for the Makefile.
 # Recognized PLATFORM values: darwin, mingw.
@@ -58,7 +62,7 @@ endif
 
 # Compiler...
 
-ifeq ($(ENABLE_WII),1)
+ifeq ($(ENABLE_TILT),wii)
     # -std=c99 because we need isnormal and -fms-extensions because
     # libwiimote headers make heavy use of the "unnamed fields" GCC
     # extension.
@@ -87,10 +91,6 @@ else
     ALL_CPPFLAGS += -DENABLE_NLS=1
 endif
 
-ifeq ($(ENABLE_WII),1)
-    ALL_CPPFLAGS += -DENABLE_WII=1
-endif
-
 ifeq ($(ENABLE_ODE),1)
     ALL_CPPFLAGS += $(shell ode-config --cflags)
 endif
@@ -115,7 +115,7 @@ FS_LIBS := -lphysfs
 
 INTL_LIBS :=
 
-ifeq ($(ENABLE_WII),1)
+ifeq ($(ENABLE_TILT),wii)
     TILT_LIBS := -lcwiimote -lbluetooth
 endif
 
@@ -207,7 +207,6 @@ BALL_OBJS := \
 	share/state.o       \
 	share/audio.o       \
 	share/text.o        \
-	share/tilt_wii.o    \
 	share/common.o      \
 	share/keynames.o    \
 	share/syswm.o       \
@@ -300,6 +299,12 @@ PUTT_OBJS += share/solid_sim_ode.o
 else
 BALL_OBJS += share/solid_sim_sol.o
 PUTT_OBJS += share/solid_sim_sol.o
+endif
+
+ifeq ($(ENABLE_TILT),wii)
+BALL_OBJS += share/tilt_wii.o
+else
+BALL_OBJS += share/tilt_null.o
 endif
 
 ifeq ($(PLATFORM),mingw)
