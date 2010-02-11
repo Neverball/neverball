@@ -303,4 +303,37 @@ void q_axisangle(const float *q, float *u, float *a)
     v_nrm(u, q + 1);
 }
 
+void q_nrm(float *q, const float *r)
+{
+    float d = q_len(r);
+
+    if (d == 0.0f)
+    {
+        q[0] = 1.0f;
+        q[1] = 0.0f;
+        q[2] = 0.0f;
+        q[3] = 0.0f;
+    }
+    else
+    {
+        q[0] = r[0] / d;
+        q[0] = r[1] / d;
+        q[0] = r[2] / d;
+        q[0] = r[3] / d;
+    }
+}
+
+void q_euler(float *v, const float *q)
+{
+    float m11 = (2 * q[0] * q[0]) + (2 * q[1] * q[1]) - 1;
+    float m12 = (2 * q[1] * q[2]) + (2 * q[0] * q[3]);
+    float m13 = (2 * q[1] * q[3]) - (2 * q[0] * q[2]);
+    float m23 = (2 * q[2] * q[3]) + (2 * q[0] * q[1]);
+    float m33 = (2 * q[0] * q[0]) + (2 * q[3] * q[3]) - 1;
+
+    v[0] = fatan2f(m12, m11);
+    v[1] = fasinf(-m13);
+    v[2] = fatan2f(m23, m33);
+}
+
 /*---------------------------------------------------------------------------*/

@@ -458,4 +458,22 @@ feel sluggish.  This might improve with  an IR sensor bar, but has not
 been tested.
 
 
+* HILLCREST LABS LOOP SUPPORT
+
+For  information on how  to build  the game  with Hillcrest  Labs Loop
+support on all platforms, see  instructions in the file INSTALL in the
+source archive.
+
+To use a loop  to control the game, it must be  plugged in at startup.
+If  the  loop  is  plugged  in,  it will  be  chosen  as  the  default
+controller.   Hold  the  loop  upright,  and tilt  it  left/right  and
+forward/backwards to control the  game.  Occasionally the sensors will
+get miscalibrated;  to fix  this, simply  set the loop  on a  table or
+stable surface for about 5 seconds, and the controls should be back to
+normal.
+
+When  not in game  mode, the  loop will  act like  a mouse  to control
+menus.  When the  game is playing, the left  and right buttons control
+the camera and the middle button will bring up a pause menu.
+
 Web: <http://neverball.org/>

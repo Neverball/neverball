@@ -23,6 +23,11 @@ library must be installed and configured:
     BlueZ             http://www.bluez.org/
     libwiimote        http://libwiimote.sourceforge.net/
 
+To  build Neverball  with  Hillcrest Labs  Loop  support enabled,  the
+libfreespace and libusb libraries must be installed and configured:
+
+    libusb-1.0        http://www.libusb.org/wiki/Libusb1.0
+    libfreespace      http://libfreespace.hillcrestlabs.com/
 
 * FONTS
 
@@ -56,6 +61,11 @@ enabled.
 
         Enable Wii Remote support.   Requires additional libraries and
         system configuration.
+
+    ENABLE_TILT=loop
+
+        Enable  Hillcrest  Labs  Loop  support.   Requires  additional
+        libraries and system configuration.
 
 Under Mac OS X, build using the provided Xcode project files.
 

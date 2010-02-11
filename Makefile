@@ -117,6 +117,10 @@ INTL_LIBS :=
 
 ifeq ($(ENABLE_TILT),wii)
     TILT_LIBS := -lcwiimote -lbluetooth
+else
+ifeq ($(ENABLE_TILT),loop)
+    TILT_LIBS := -lusb-1.0 -lfreespace
+endif
 endif
 
 ifeq ($(ENABLE_ODE),1)
@@ -304,7 +308,11 @@ endif
 ifeq ($(ENABLE_TILT),wii)
 BALL_OBJS += share/tilt_wii.o
 else
+ifeq ($(ENABLE_TILT),loop)
+BALL_OBJS += share/tilt_loop.o
+else
 BALL_OBJS += share/tilt_null.o
+endif
 endif
 
 ifeq ($(PLATFORM),mingw)
