@@ -14,21 +14,12 @@ endif
 
 $(info Will make a "$(BUILD)" build of Neverball $(VERSION).)
 
-ifeq ($(ENABLE_WII),1)
-ENABLE_TILT := wii
-endif
-
 #------------------------------------------------------------------------------
 # Provide a target system hint for the Makefile.
 # Recognized PLATFORM values: darwin, mingw.
 
 ifeq ($(shell uname), Darwin)
     PLATFORM := darwin
-endif
-
-# Compatibility with the old "make MINGW=1".
-ifeq ($(MINGW),1)
-    PLATFORM := mingw
 endif
 
 #------------------------------------------------------------------------------
