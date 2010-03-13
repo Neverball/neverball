@@ -1,13 +1,9 @@
-# This  should  be  a  somewhat  complete  list  of  people  who  have
-# contributed  to Neverball.  The  format is  copied from  the AUTHORS
-# file in the XMMS2 source tree,  where in turn it was copied from the
-# CREDITS file  in the  Linux kernel source  tree...  The  fields are:
-# name (N),  Neverforum user  name or alias  (A), e-mail  (E), website
-# (W), PGP key ID and  fingerprint (P), description (D).  This list is
-# sorted alphabetically.
+# This should  be a  complete list of  people who have  contributed to
+# Neverball.   The fields  are:  name and/or  alias  (N), e-mail  (E),
+# website  (W),  PGP key  ID  and  fingerprint  (P), description  (D).
+# Please keep this list sorted alphabetically.
 
-N: Ben Anderson
-A: jammnrose
+N: Ben Anderson (jammnrose)
 D: Mac OS X build maintenance and packaging
 D: Icons
 
@@ -20,32 +16,28 @@ D: Mouse invert
 N: Kevin Ballard
 D: Various bug fixes for Mac OS X builds
 
-N: Josh Bush
-A: Cheeseness
+N: Josh Bush (Cheeseness)
 D: SVG icons
 D: Screenshot naming tweaks
 D: Teleport design
 D: Volcano background
 
-A: Challenge Space Yard
+N: Challenge Space Yard
 E: challengespaceyard@gmail.com
 D: High-score updates
 D: Neverputt tweaks
 
-N: Miguel Diago
-A: mdm
+N: Miguel Diago (mdm)
 E: mdiagom@gmail.com
 D: Spanish translation
 
 N: Corey Edwards
 D: Joystick select
 
-N: Luc Fabresse
-A: luc
+N: Luc Fabresse (luc)
 D: Mac OS X packaging
 
-N: Adrián Chaves Fernández
-A: Gallaecio
+N: Adrián Chaves Fernández (Gallaecio)
 E: adriyetichaves@gmail.com
 D: Galician translation
 
@@ -55,8 +47,7 @@ D: Mac OS X port
 N: Max Gilead
 D: Debian packaging
 
-N: François Guillet
-A: shino
+N: François Guillet (shino)
 D: Neverball Hall of Fame development and hosting
 D: Neverforum and Neverwiki installation and hosting
 
@@ -67,52 +58,45 @@ D: Icons
 N: Kyle Hoker
 D: Feature ideas and testing
 
-N: Karl Ove Hufthammer
-A: huftis
+N: Karl Ove Hufthammer (huftis)
 E: karl@huftis.org
 D: Norwegian Nynorsk translation
 
-N: Byron James Johnson
-A: Krabby Krap
+N: Byron James Johnson (Krabby Krap)
 D: Neverputt course
 D: Platform acceleration toggle
 D: Various fixes
 
-A: kaito57
+N: kaito57
 E: kaito2000@gmail.com
 D: Brazilian Portuguese translation
 
-N: Pasi Kallinen
-A: paxed
+N: Pasi Kallinen (paxed)
 E: paxed@alt.org
 D: Finnish translation
 D: Neverputt courses
 D: mapc tweaks
 
-N: Robert Kooima
-A: rlk
+N: Robert Kooima (rlk)
 E: robert.kooima@gmail.com
 D: Developer
 D: Grand Poobah of the Neverball Rabble
 D: Original author/composer/graphics artist
 
-A: Lazrhog
+N: Lazrhog
 D: iPhone/iPod Touch port
 
-N: Jie Luo
-A: sinmdi
+N: Jie Luo (sinmdi)
 E: lililjlj@gmail.com
 D: Simplified Chinese translation
 
 N: Jeremy Messenger
 D: FreeBSD port
 
-N: Michael Middleton
-A: slippifishi
+N: Michael Middleton (slippifishi)
 D: Neverputt course
 
-N: Laurent Moussault
-A: Lorant
+N: Laurent Moussault (Lorant)
 D: Menu navigation improvements
 D: Interface layout improvements
 D: Neverputt joystick and keyboard support
@@ -120,28 +104,24 @@ D: New pause screen
 D: I18n improvements
 D: Various bug fixes and features
 
-N: Gergő Nagy
-A: Gegsite
-E: <gegsite@gmail.com>
+N: Gergő Nagy (Gegsite)
+E: gegsite@gmail.com
 D: Hungarian translation
 
-N: David Olsen
-A: Dave, jolynsbass
+N: David Olsen (Dave, jolynsbass)
 D: Neverball maps
 D: Textures
 D: Grow/shrink items
 D: Level intro texts
 D: Major improvements to curve generation program (contrib/curve.c)
 
-N: Jordà Polo
-A: ettin
+N: Jordà Polo (ettin)
 D: Debian packaging
 D: Neverputt score fixes
 D: .desktop file i18n
 D: Catalan translation
 
-N: Florian Priester
-A: Elviz
+N: Florian Priester (Elviz)
 D: Mapper
 D: German translation
 D: Texture clean-up
@@ -154,14 +134,13 @@ D: French translation
 D: Internationalisation
 D: Various bug fixes and features
 
-N: Jānis Rūcis
-A: parasti
+N: Jānis Rūcis (parasti)
 E: parasti@gmail.com
 D: Developer
 D: Latvian translation
 D: Neverball maps
 
-A: rotajota
+N: rotajota
 D: Hillcrest Labs Loop support
 
 N: Alexander Schmehl
@@ -170,12 +149,10 @@ D: Debian packaging
 N: Michael Sterret
 D: Gentoo ebuild
 
-N: Lars Stoltenow
-A: penma
+N: Lars Stoltenow (penma)
 D: mapc speed-ups for debugging large maps
 
-N: Matthias Sweertvaegher
-A: mxttie
+N: Matthias Sweertvaegher (mxttie)
 W: http://mattiesworld.gotdns.org
 D: View rotation using second gamepad stick
 D: Configurable fast view rotation bind
@@ -183,29 +160,24 @@ D: Configurable fast view rotation bind
 N: Tamas Szerb
 D: Debian packaging
 
-N: Paul Tompkins
-A: paul
+N: Paul Tompkins (paul)
 D: Neverball maps
 
-N: Uoti Urpala
-A: uau
+N: Uoti Urpala (uau)
 D: Bounces with moving objects
 D: Significant mapc optimisations
 
-N: Georg Wachter
-A: nue
+N: Georg Wachter (nue)
 E: georgwachter@gmail.com
 D: German translation
 
-N: Ian Walker
-A: tonesfrommars
+N: Ian Walker (tonesfrommars)
 D: Mapper
 D: Textures
-D: Neverball Medium set organisation
+D: Neverball Medium set organization
 D: Background music (track6.ogg)
 
-N: Mehdi Yousfi-Monod
-A: mym
+N: Mehdi Yousfi-Monod (mym)
 E: mehdi.yousfi@gmail.com
 D: Mapper
 D: French translation
