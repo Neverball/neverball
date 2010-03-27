@@ -1019,8 +1019,14 @@ msgid "Nevermania"
 msgstr "Nevermania"
 
 #: data/set-fwp.txt
-msgid "Levels for Neverball Experts\\Author: Florian Priester\\\\\\\\"
-msgstr "Levels für Neverball-Experten\\Autor: Florian Priester\\\\\\\\"
+msgid ""
+"Difficulty: Expert through Impossible\\"
+"Assorted levels for advanced players.\"
+"Author: Florian Priester\\"
+msgstr ""
+"Schwierigkeitsgrad: Schwer bis Unmöglich\\"
+"Diverse Levels für fortgeschrittene Spieler.\"
+"Autor: Florian Priester\\"
 
 #: data/set-misc.txt
 msgid "Neverball Misc"
