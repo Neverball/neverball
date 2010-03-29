@@ -359,7 +359,7 @@ static void game_run_cmd(const union cmd *cmd)
                 struct s_body *bp = file.bv + i;
                 struct s_path *pp = file.pv + bp->pi;
 
-                if (bp->pi >= 0 && pp->f)
+                if (bp->pi >= 0 && pp->f && (bp->fl & P_ROTATING) == 0)
                     bp->t += dt;
             }
             break;
@@ -380,6 +380,10 @@ static void game_run_cmd(const union cmd *cmd)
             got_tilt_axes = 1;
             v_cpy(tilt.x, cmd->tiltaxes.x);
             v_cpy(tilt.z, cmd->tiltaxes.z);
+            break;
+
+        case CMD_BODY_ORIENTATION:
+            q_cpy(file.bv[cmd->bodyorient.bi].e, cmd->bodyorient.e);
             break;
 
         case CMD_NONE:
@@ -413,7 +417,7 @@ void game_client_step(fs_file demo_fp)
 
 int  game_client_init(const char *file_name)
 {
-    char *back_name = NULL, *grad_name = NULL;
+    char *back_name = "", *grad_name = "";
     int i;
 
     coins  = 0;
@@ -422,9 +426,7 @@ int  game_client_init(const char *file_name)
     if (client_state)
         game_client_free();
 
-    if (!sol_load_gl(&file, file_name,
-                     config_get_d(CONFIG_TEXTURES),
-                     config_get_d(CONFIG_SHADOW)))
+    if (!sol_load_gl(&file, file_name, config_get_d(CONFIG_SHADOW)))
         return (client_state = 0);
 
     reflective = sol_reflective(&file);
@@ -477,8 +479,7 @@ int  game_client_init(const char *file_name)
     first_update = 1;
 
     back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
-    sol_load_gl(&back, back_name,
-                config_get_d(CONFIG_TEXTURES), 0);
+    sol_load_gl(&back, back_name, 0);
 
     return client_state;
 }
@@ -814,7 +815,7 @@ static void game_clip_refl(int d)
 
 static void game_clip_ball(int d, const float *p)
 {
-    GLdouble r, c[3], pz[4], nz[4], ny[4];
+    GLdouble r, c[3], pz[4], nz[4];
 
     /* Compute the plane giving the front of the ball, as seen from view_p. */
 
@@ -842,24 +843,13 @@ static void game_clip_ball(int d, const float *p)
     nz[2] = -pz[2];
     nz[3] = -pz[3];
 
-    /* Compute the plane giving the bottom of the ball. */
-
-    ny[0] =  0.0;
-    ny[1] = -1.0;
-    ny[2] =  0.0;
-    ny[3] = -(ny[0] * c[0] +
-              ny[1] * c[1] +
-              ny[2] * c[2]);
-
     /* Reflect these planes as necessary, and store them in the GL state. */
 
     pz[1] *= d;
     nz[1] *= d;
-    ny[1] *= d;
 
     glClipPlane(GL_CLIP_PLANE1, nz);
     glClipPlane(GL_CLIP_PLANE2, pz);
-    glClipPlane(GL_CLIP_PLANE3, ny);
 }
 
 static void game_draw_fore(int pose, const float *M, int d, float t)
@@ -971,7 +961,7 @@ void game_draw(int pose, float t)
 
             m_xps(M, T);
 
-            /* Apply current the view. */
+            /* Apply the current view. */
 
             v_sub(v, view_c, view_p);
 

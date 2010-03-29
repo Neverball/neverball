@@ -106,6 +106,10 @@
 #define ITEM_GROW       2
 #define ITEM_SHRINK     3
 
+/* Body flags. */
+
+#define P_ROTATING 1
+
 /*---------------------------------------------------------------------------*/
 
 struct s_mtrl
@@ -160,6 +164,7 @@ struct s_lump
     int e0, ec;
     int g0, gc;
     int s0, sc;
+    int f0, fc;                                /* polygon data               */
 };
 
 struct s_node
@@ -184,11 +189,14 @@ struct s_path
 struct s_body
 {
     float t;                                   /* time on current path       */
+    float e[4];                                /* orientation (quaternion)   */
 
     GLuint ol;                                 /* opaque geometry list       */
     GLuint tl;                                 /* transparent geometry list  */
     GLuint rl;                                 /* reflective geometry list   */
     GLuint sl;                                 /* shadowed geometry list     */
+
+    int fl;                                    /* flags                      */
 
     int pi;
     int ni;

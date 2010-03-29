@@ -78,8 +78,6 @@ static int ball_opts(const struct s_file *fp, float *alpha)
 
 void ball_init(void)
 {
-    int T = config_get_d(CONFIG_TEXTURES);
-
     char *solid_file = concat_string(config_get_s(CONFIG_BALL_FILE),
                                      "-solid.sol", NULL);
     char *inner_file = concat_string(config_get_s(CONFIG_BALL_FILE),
@@ -95,13 +93,13 @@ void ball_init(void)
     inner_alpha = 1.0f;
     outer_alpha = 1.0f;
 
-    if ((has_solid = sol_load_gl(&solid, solid_file, T, 0)))
+    if ((has_solid = sol_load_gl(&solid, solid_file, 0)))
         solid_flags = ball_opts(&solid, &solid_alpha);
 
-    if ((has_inner = sol_load_gl(&inner, inner_file, T, 0)))
+    if ((has_inner = sol_load_gl(&inner, inner_file, 0)))
         inner_flags = ball_opts(&inner, &inner_alpha);
 
-    if ((has_outer = sol_load_gl(&outer, outer_file, T, 0)))
+    if ((has_outer = sol_load_gl(&outer, outer_file, 0)))
         outer_flags = ball_opts(&outer, &outer_alpha);
 
     free(solid_file);

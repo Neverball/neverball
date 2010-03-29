@@ -1,0 +1,85 @@
+
+// entity 0
+{
+"classname" "worldspawn"
+"author" "Robert Kooima"
+"version" "1"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"shot" "shot-hard/risers.jpg"
+"song" "bgm/track1.ogg"
+"time" "4500"
+"goal" "40"
+"time_hs" "2500 4500"
+"coin_hs" "64 50"
+"goal_hs" "3000 4500"
+"message" "Ride the elevators to the top.\They move quickly,\so don't dally too long.\"
+// brush 0
+{
+( 128 64 -8 ) ( 0 64 -8 ) ( 0 -128 -8 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+( 0 -128 0 ) ( 0 64 0 ) ( 128 64 0 ) mtrl/turf-green 0 0 0 0.5 0.5 0 0 0
+( 0 -128 0 ) ( 128 -128 0 ) ( 128 -128 -48 ) mtrl/edge-green 0 0 0 0.5 0.5 0 0 0
+( 128 -128 0 ) ( 128 64 0 ) ( 128 64 -48 ) mtrl/edge-green 0 0 0 0.5 0.5 0 0 0
+( 144 0 0 ) ( 16 0 0 ) ( 16 0 -48 ) mtrl/edge-green 0 0 0 0.5 0.5 0 0 0
+( 0 64 0 ) ( 0 -128 0 ) ( 0 -128 -48 ) mtrl/edge-green 0 0 0 0.5 0.5 0 0 0
+}
+}
+// entity 1
+{
+"classname" "info_player_start"
+"origin" "64.000000 -2.000000 24.000000"
+}
+// entity 2
+{
+"classname" "func_train"
+"target" "t9"
+// brush 0
+{
+( 0 192 0 ) ( 0 0 0 ) ( 0 0 -48 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
+( 144 128 0 ) ( 16 128 0 ) ( 16 128 -48 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
+( 128 0 0 ) ( 128 192 0 ) ( 128 192 -48 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
+( 0 0 0 ) ( 128 0 0 ) ( 128 0 -48 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
+( 0 0 0 ) ( 0 192 0 ) ( 128 192 0 ) mtrl/turf-brown 0 0 0 0.5 0.5 0 0 0
+( 128 192 -16 ) ( 0 192 -16 ) ( 0 0 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+}
+}
+// entity 3
+{
+"classname" "path_corner"
+"targetname" "t9"
+"target" "t6"
+"origin" "-64.000000 64.000000 0.000000"
+}
+// entity 4
+{
+"classname" "path_corner"
+"target" "t7"
+"targetname" "t6"
+"origin" "-64.000000 64.000000 128.000000"
+}
+// entity 5
+{
+"classname" "path_corner"
+"target" "t8"
+"targetname" "t7"
+"origin" "-64.000000 64.000000 128.000000"
+}
+// entity 6
+{
+"classname" "path_corner"
+"target" "t9"
+"targetname" "t8"
+"origin" "-64.000000 64.000000 0.000000"
+}
+// entity 7
+{
+"classname" "target_position"
+"targetname" "t10"
+"origin" "448.000000 -128.000000 256.000000"
+}
+// entity 8
+{
+"classname" "info_player_intermission"
+"target" "t10"
+"origin" "-832.000000 448.000000 896.000000"
+}

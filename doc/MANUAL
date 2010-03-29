@@ -19,9 +19,9 @@ below for details.
     ESC    Pause and resume / Exit
     SHIFT  Fast camera rotation
 
-    F1     Default Camera
+    F1     Chase Camera (default)
     F2     Lazy Camera
-    F3     Static Camera
+    F3     Manual Camera
 
     F6     Hide HUD
     F8     Toggle nice mode
@@ -175,7 +175,7 @@ values follow.
         non-single-letter  key  names,  see  share/keynames.c  in  the
         source archive).  The three camera behaviors are as follows:
 
-        1 - Strict  camera stays behind the ball by  cueing off of the
+        1 - Chase  camera stays behind  the ball by cueing  off of the
         velocity of the  ball.  It is very  responsive,  but sometimes
         confusing.
 
@@ -183,7 +183,7 @@ values follow.
         It is seldom  surprising, but at times it  is not sufficiently
         responsive.
 
-        3 - Locked camera  does not rotate  except by  player command.
+        3 - Manual camera  does not rotate  except by  player command.
 
 	key_camera_toggle toggles camera behaviour between 1 and 3.
 
@@ -333,10 +333,7 @@ values follow.
     stereo 0
 
         This key  enables quad-buffered stereo viewing  for those with
-        the hardware to support it.  It gives an angle in degrees that
-        determines the  interocular distance.  0  is normal non-stereo
-        viewing.  2 gives  a  good  stereo effect.   If  the eyes  are
-        swapped, give a negative value, like -2.
+        the hardware to support it.  1 is on, 0 is off.
 
     vsync 1
 
@@ -460,5 +457,23 @@ filtering is applied to the input.   For this reason, the controls may
 feel sluggish.  This might improve with  an IR sensor bar, but has not
 been tested.
 
+
+* HILLCREST LABS LOOP SUPPORT
+
+For  information on how  to build  the game  with Hillcrest  Labs Loop
+support on all platforms, see  instructions in the file INSTALL in the
+source archive.
+
+To use a loop  to control the game, it must be  plugged in at startup.
+If  the  loop  is  plugged  in,  it will  be  chosen  as  the  default
+controller.   Hold  the  loop  upright,  and tilt  it  left/right  and
+forward/backwards to control the  game.  Occasionally the sensors will
+get miscalibrated;  to fix  this, simply  set the loop  on a  table or
+stable surface for about 5 seconds, and the controls should be back to
+normal.
+
+When  not in game  mode, the  loop will  act like  a mouse  to control
+menus.  When the  game is playing, the left  and right buttons control
+the camera and the middle button will bring up a pause menu.
 
 Web: <http://neverball.org/>

@@ -1,5 +1,5 @@
 Nevermania
-Levels for Neverball Experts\Author: Florian Priester\\\\
+Difficulty: Expert through Impossible\\Assorted levels for advanced players.\Author: Florian Priester\\
 fwp
 shot-fwp/museum.png
 

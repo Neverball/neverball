@@ -9,8 +9,8 @@
 "song" "bgm/track3.ogg"
 "time" "9000"
 "goal" "100"
-"time_hs" "355 375"
 "coin_hs" "150 125"
+"time_hs" "355 375"
 "goal_hs" "2000 4500"
 "message" "=Slope=\Try not to become a modern-day Sisyphus."
 // brush 0

@@ -80,11 +80,9 @@ void item_color(const struct s_item *hp, float *c)
 
 void item_init(void)
 {
-    int T = config_get_d(CONFIG_TEXTURES);
-
-    sol_load_gl(&item_coin_file,   "item/coin/coin.sol",     T, 0);
-    sol_load_gl(&item_grow_file,   "item/grow/grow.sol",     T, 0);
-    sol_load_gl(&item_shrink_file, "item/shrink/shrink.sol", T, 0);
+    sol_load_gl(&item_coin_file,   "item/coin/coin.sol",     0);
+    sol_load_gl(&item_grow_file,   "item/grow/grow.sol",     0);
+    sol_load_gl(&item_shrink_file, "item/shrink/shrink.sol", 0);
 }
 
 void item_free(void)

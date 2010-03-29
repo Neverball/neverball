@@ -9,8 +9,8 @@
 "song" "bgm/track3.ogg"
 "time" "9000"
 "goal" "44"
-"time_hs" "3150 4900"
 "coin_hs" "74 54"
+"time_hs" "3150 4900"
 "goal_hs" "3150 4900"
 "message" "=Ramps=\Can you make it to the top?"
 // brush 0

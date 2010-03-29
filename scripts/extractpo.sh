@@ -51,13 +51,10 @@ for i in $(cat "$SETS"); do
     done
 done
 
-# the "echo | cat x -" forces the end of the last line
-echo | cat "$COURSES" - | while read -r d; do
-    # Heuristic: description is non empty line without .txt inside
-    if test -n "$d" && echo "$d" | grep -v ".txt" &> /dev/null; then
-        msg=$(echo "$d" | sed 's/\\/\\\\/g')
-        print_msg "$msg" "$COURSES"
-    fi
+for course in $(cat $COURSES); do
+    course=$DATA/$course
+    # Translate the second line
+    print_msg "$(sed -n '2 { s/\\/\\\\/g; p; }' < $course)" $course
 done
 
 for i in $(find $DATA -name "*.map" | sort); do

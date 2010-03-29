@@ -9,8 +9,8 @@
 "song" "bgm/track5.ogg"
 "time" "12000"
 "goal" "8"
-"time_hs" "4100 5800"
 "coin_hs" "128 48"
+"time_hs" "4100 5800"
 "goal_hs" "4100 5800"
 "message" "=Discs=\Used correctly, the platforms will take you to the goal."
 // brush 0

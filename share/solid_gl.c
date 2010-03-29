@@ -25,7 +25,7 @@
 #include "image.h"
 #include "base_image.h"
 #include "solid_gl.h"
-#include "solid_phys.h"
+#include "solid_all.h"
 #include "base_config.h"
 #include "lang.h"
 
@@ -348,15 +348,18 @@ static const struct s_mtrl *sol_draw_body(const struct s_file *fp,
 static void sol_draw_list(const struct s_file *fp,
                           const struct s_body *bp, GLuint list)
 {
-    float p[3];
+    float p[3], u[3], a;
 
-    sol_body_p(p, fp, bp);
+    sol_body_p(p, fp, bp->pi, bp->t);
+
+    q_axisangle(bp->e, u, &a);
 
     glPushMatrix();
     {
-        /* Translate a moving body. */
+        /* Translate and rotate a moving body. */
 
         glTranslatef(p[0], p[1], p[2]);
+        glRotatef(a, u[0], u[1], u[2]);
 
         /* Draw the body. */
 
@@ -508,15 +511,18 @@ static void sol_shad_body(const struct s_file *fp,
 static void sol_shad_list(const struct s_file *fp,
                           const struct s_body *bp, GLuint list)
 {
-    float p[3];
+    float p[3], u[3], a;
 
-    sol_body_p(p, fp, bp);
+    sol_body_p(p, fp, bp->pi, bp->t);
+
+    q_axisangle(bp->e, u, &a);
 
     glPushMatrix();
     {
-        /* Translate a moving body. */
+        /* Translate and rotate a moving body. */
 
         glTranslatef(p[0], p[1], p[2]);
+        glRotatef(a, u[0], u[1], u[2]);
 
         /* Translate the shadow on a moving body. */
 
@@ -670,7 +676,7 @@ static GLuint sol_find_texture(const char *name)
     return 0;
 }
 
-static void sol_load_textures(struct s_file *fp, int k)
+static void sol_load_textures(struct s_file *fp)
 {
     int i;
 
@@ -696,11 +702,11 @@ static void sol_load_textures(struct s_file *fp, int k)
 
 /*---------------------------------------------------------------------------*/
 
-int sol_load_gl(struct s_file *fp, const char *filename, int k, int s)
+int sol_load_gl(struct s_file *fp, const char *filename, int s)
 {
     if (sol_load_only_file(fp, filename))
     {
-        sol_load_textures(fp, k);
+        sol_load_textures(fp);
         sol_load_objects (fp, s);
         return 1;
     }

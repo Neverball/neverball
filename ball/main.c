@@ -383,7 +383,8 @@ int main(int argc, char *argv[])
 
     if (!fs_init(argv[0]))
     {
-        fputs("Failure to initialize virtual file system\n", stderr);
+        fprintf(stderr, "Failure to initialize virtual file system: %s\n",
+                fs_error());
         return 1;
     }
 
@@ -483,15 +484,13 @@ int main(int argc, char *argv[])
             SDL_Delay(1);
     }
 
-    /* Gracefully close the game */
+    config_save();
 
     if (joy)
         SDL_JoystickClose(joy);
 
     tilt_free();
     SDL_Quit();
-
-    config_save();
 
     return 0;
 }

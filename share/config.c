@@ -58,6 +58,9 @@ int CONFIG_JOYSTICK_DEVICE;
 int CONFIG_JOYSTICK_AXIS_X;
 int CONFIG_JOYSTICK_AXIS_Y;
 int CONFIG_JOYSTICK_AXIS_U;
+int CONFIG_JOYSTICK_AXIS_X_INVERT;
+int CONFIG_JOYSTICK_AXIS_Y_INVERT;
+int CONFIG_JOYSTICK_AXIS_U_INVERT;
 int CONFIG_JOYSTICK_BUTTON_A;
 int CONFIG_JOYSTICK_BUTTON_B;
 int CONFIG_JOYSTICK_BUTTON_R;
@@ -78,12 +81,6 @@ int CONFIG_KEY_CAMERA_3;
 int CONFIG_KEY_CAMERA_TOGGLE;
 int CONFIG_KEY_CAMERA_R;
 int CONFIG_KEY_CAMERA_L;
-int CONFIG_VIEW_FOV;
-int CONFIG_VIEW_DP;
-int CONFIG_VIEW_DC;
-int CONFIG_VIEW_DZ;
-int CONFIG_ROTATE_FAST;
-int CONFIG_ROTATE_SLOW;
 int CONFIG_KEY_FORWARD;
 int CONFIG_KEY_BACKWARD;
 int CONFIG_KEY_LEFT;
@@ -92,6 +89,12 @@ int CONFIG_KEY_PAUSE;
 int CONFIG_KEY_RESTART;
 int CONFIG_KEY_SCORE_NEXT;
 int CONFIG_KEY_ROTATE_FAST;
+int CONFIG_VIEW_FOV;
+int CONFIG_VIEW_DP;
+int CONFIG_VIEW_DC;
+int CONFIG_VIEW_DZ;
+int CONFIG_ROTATE_FAST;
+int CONFIG_ROTATE_SLOW;
 int CONFIG_CHEAT;
 int CONFIG_STATS;
 int CONFIG_UNIFORM;
@@ -149,6 +152,9 @@ static struct
     { &CONFIG_JOYSTICK_AXIS_X,        "joystick_axis_x",        0 },
     { &CONFIG_JOYSTICK_AXIS_Y,        "joystick_axis_y",        1 },
     { &CONFIG_JOYSTICK_AXIS_U,        "joystick_axis_u",        2 },
+    { &CONFIG_JOYSTICK_AXIS_X_INVERT, "joystick_axis_x_invert", 0 },
+    { &CONFIG_JOYSTICK_AXIS_Y_INVERT, "joystick_axis_y_invert", 0 },
+    { &CONFIG_JOYSTICK_AXIS_U_INVERT, "joystick_axis_u_invert", 0 },
     { &CONFIG_JOYSTICK_BUTTON_A,      "joystick_button_a",      0 },
     { &CONFIG_JOYSTICK_BUTTON_B,      "joystick_button_b",      1 },
     { &CONFIG_JOYSTICK_BUTTON_R,      "joystick_button_r",      2 },
@@ -170,12 +176,6 @@ static struct
     { &CONFIG_KEY_CAMERA_TOGGLE, "key_camera_toggle", SDLK_e },
     { &CONFIG_KEY_CAMERA_R,      "key_camera_r",      SDLK_d },
     { &CONFIG_KEY_CAMERA_L,      "key_camera_l",      SDLK_s },
-    { &CONFIG_VIEW_FOV,          "view_fov",          50 },
-    { &CONFIG_VIEW_DP,           "view_dp",           75 },
-    { &CONFIG_VIEW_DC,           "view_dc",           25 },
-    { &CONFIG_VIEW_DZ,           "view_dz",           200 },
-    { &CONFIG_ROTATE_FAST,       "rotate_fast",       300 },
-    { &CONFIG_ROTATE_SLOW,       "rotate_slow",       150 },
     { &CONFIG_KEY_FORWARD,       "key_forward",       SDLK_UP },
     { &CONFIG_KEY_BACKWARD,      "key_backward",      SDLK_DOWN },
     { &CONFIG_KEY_LEFT,          "key_left",          SDLK_LEFT },
@@ -184,11 +184,18 @@ static struct
     { &CONFIG_KEY_RESTART,       "key_restart",       SDLK_r },
     { &CONFIG_KEY_SCORE_NEXT,    "key_score_next",    SDLK_TAB },
     { &CONFIG_KEY_ROTATE_FAST,   "key_rotate_fast",   SDLK_LSHIFT },
-    { &CONFIG_CHEAT,             "cheat",             0 },
-    { &CONFIG_STATS,             "stats",             0 },
-    { &CONFIG_UNIFORM,           "uniform",           0 },
-    { &CONFIG_SCREENSHOT,        "screenshot",        0 },
-    { &CONFIG_LOCK_GOALS,        "lock_goals",        0 }
+
+    { &CONFIG_VIEW_FOV,    "view_fov",    50 },
+    { &CONFIG_VIEW_DP,     "view_dp",     75 },
+    { &CONFIG_VIEW_DC,     "view_dc",     25 },
+    { &CONFIG_VIEW_DZ,     "view_dz",     200 },
+    { &CONFIG_ROTATE_FAST, "rotate_fast", 300 },
+    { &CONFIG_ROTATE_SLOW, "rotate_slow", 150 },
+    { &CONFIG_CHEAT,       "cheat",       0 },
+    { &CONFIG_STATS,       "stats",       0 },
+    { &CONFIG_UNIFORM,     "uniform",     0 },
+    { &CONFIG_SCREENSHOT,  "screenshot",  0 },
+    { &CONFIG_LOCK_GOALS,  "lock_goals",  0 }
 };
 
 static struct

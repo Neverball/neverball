@@ -59,48 +59,53 @@ static void score_swap(struct score *S, int i, int j)
 
 /*---------------------------------------------------------------------------*/
 
+static void score_insert(struct score *s, int i,
+                         const char *player, int timer, int coins)
+{
+    strncpy(s->player[i], player, MAXNAM - 1);
+
+    s->timer[i] = timer;
+    s->coins[i] = coins;
+}
+
 void score_init_hs(struct score *s, int timer, int coins)
+{
+    score_insert(s, 0, "Hard",   timer, coins);
+    score_insert(s, 1, "Medium", timer, coins);
+    score_insert(s, 2, "Easy",   timer, coins);
+    score_insert(s, 3, "",       timer, coins);
+}
+
+void score_time_insert(struct score *s, int *rank,
+                       const char *player, int timer, int coins)
 {
     int i;
 
-    strcpy(s->player[0], "Hard");
-    strcpy(s->player[1], "Medium");
-    strcpy(s->player[2], "Easy");
-    strcpy(s->player[3], "");
+    score_insert(s, 3, player, timer, coins);
 
-    for (i = 0; i < NSCORE + 1; i++)
+    if (rank)
     {
-        s->timer[i] = timer;
-        s->coins[i] = coins;
+        for (i = 2; i >= 0 && score_time_comp(s, i + 1, i); i--)
+            score_swap(s, i + 1, i);
+
+        *rank = i + 1;
     }
 }
 
-int score_time_insert(struct score *s, const char *player, int timer, int coins)
+void score_coin_insert(struct score *s, int *rank,
+                       const char *player, int timer, int coins)
 {
     int i;
 
-    strncpy(s->player[3], player, MAXNAM - 1);
-    s->timer[3] = timer;
-    s->coins[3] = coins;
+    score_insert(s, 3, player, timer, coins);
 
-    for (i = 2; i >= 0 && score_time_comp(s, i + 1, i); i--)
-        score_swap(s, i + 1, i);
+    if (rank)
+    {
+        for (i = 2; i >= 0 && score_coin_comp(s, i + 1, i); i--)
+            score_swap(s, i + 1, i);
 
-    return i + 1;
-}
-
-int score_coin_insert(struct score *s, const char *player, int timer, int coins)
-{
-    int i;
-
-    strncpy(s->player[3], player, MAXNAM - 1);
-    s->timer[3] = timer;
-    s->coins[3] = coins;
-
-    for (i = 2; i >= 0 && score_coin_comp(s, i + 1, i); i--)
-        score_swap(s, i + 1, i);
-
-    return i + 1;
+        *rank = i + 1;
+    }
 }
 
 /*---------------------------------------------------------------------------*/

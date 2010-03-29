@@ -9,8 +9,8 @@
 "song" "bgm/track1.ogg"
 "time" "6000"
 "goal" "38"
-"time_hs" "1750 3000"
 "coin_hs" "68 48"
+"time_hs" "1750 3000"
 "goal_hs" "1750 3000"
 "message" "=Tree=\Follow the spiral staircase to the goal."
 // brush 0

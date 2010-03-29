@@ -20,7 +20,6 @@
 #include "config.h"
 
 /*---------------------------------------------------------------------------*/
-#ifdef ENABLE_WII
 
 #define _ENABLE_TILT
 #include <libcwiimote/wiimote.h>
@@ -107,10 +106,8 @@ static SDL_Thread       *thread = NULL;
 
 static int tilt_func(void *data)
 {
-    wiimote_t wiimote = WIIMOTE_INIT;
-    char      address[MAXSTR];
-
-    config_get_s(CONFIG_WIIMOTE_ADDR, address, MAXSTR);
+    wiimote_t   wiimote = WIIMOTE_INIT;
+    const char *address = config_get_s(CONFIG_WIIMOTE_ADDR);
 
     if (strlen(address) > 0)
     {
@@ -297,43 +294,4 @@ int tilt_stat(void)
     return b;
 }
 
-#endif
-/*---------------------------------------------------------------------------*/
-#ifndef ENABLE_WII
-
-void tilt_init(void)
-{
-}
-
-void tilt_free(void)
-{
-}
-
-int tilt_stat(void)
-{
-    return 0;
-}
-
-int  tilt_get_button(int *b, int *s)
-{
-    return 0;
-}
-
-void tilt_get_direct(int *x, int *y)
-{
-    *x = 1;
-    *y = 1;
-}
-
-float tilt_get_x(void)
-{
-    return 0.0f;
-}
-
-float tilt_get_z(void)
-{
-    return 0.0f;
-}
-
-#endif
 /*---------------------------------------------------------------------------*/

@@ -27,6 +27,7 @@
 #define ftanf(a)      ((float) tan((double) a))
 #define fabsf(a)      ((float) fabs((double) a))
 #define fsqrtf(a)     ((float) sqrt((double) a))
+#define fasinf(a)     ((float) asin((double) a))
 #define facosf(a)     ((float) acos((double) a))
 #define fmodf(x,y)    ((float) fmod((double) x, (double) y))
 #define fatan2f(x, y) ((float) atan2((double) x, (double) y))
@@ -36,47 +37,47 @@
 #define v_dot(u, v)  ((u)[0] * (v)[0] + (u)[1] * (v)[1] + (u)[2] * (v)[2])
 #define v_len(u)     fsqrtf(v_dot(u, u))
 
-#define v_cpy(u, v) { \
-    (u)[0] = (v)[0];  \
-    (u)[1] = (v)[1];  \
-    (u)[2] = (v)[2];  \
-}
+#define v_cpy(u, v) do { \
+    (u)[0] = (v)[0];     \
+    (u)[1] = (v)[1];     \
+    (u)[2] = (v)[2];     \
+} while (0)
 
-#define v_inv(u, v) { \
-    (u)[0] = -(v)[0]; \
-    (u)[1] = -(v)[1]; \
-    (u)[2] = -(v)[2]; \
-}
+#define v_inv(u, v) do { \
+    (u)[0] = -(v)[0];    \
+    (u)[1] = -(v)[1];    \
+    (u)[2] = -(v)[2];    \
+} while (0)
 
-#define v_scl(u, v, k) {   \
-    (u)[0] = (v)[0] * (k); \
-    (u)[1] = (v)[1] * (k); \
-    (u)[2] = (v)[2] * (k); \
-}
+#define v_scl(u, v, k) do { \
+    (u)[0] = (v)[0] * (k);  \
+    (u)[1] = (v)[1] * (k);  \
+    (u)[2] = (v)[2] * (k);  \
+} while (0)
 
-#define v_add(u, v, w) {      \
+#define v_add(u, v, w) do {   \
     (u)[0] = (v)[0] + (w)[0]; \
     (u)[1] = (v)[1] + (w)[1]; \
     (u)[2] = (v)[2] + (w)[2]; \
-}
+} while (0)
 
-#define v_sub(u, v, w) {      \
+#define v_sub(u, v, w) do {   \
     (u)[0] = (v)[0] - (w)[0]; \
     (u)[1] = (v)[1] - (w)[1]; \
     (u)[2] = (v)[2] - (w)[2]; \
-}
+} while (0)
 
-#define v_mid(u, v, w) {              \
+#define v_mid(u, v, w) do {           \
     (u)[0] = ((v)[0] + (w)[0]) / 2.f; \
     (u)[1] = ((v)[1] + (w)[1]) / 2.f; \
     (u)[2] = ((v)[2] + (w)[2]) / 2.f; \
-}
+} while (0)
 
-#define v_mad(u, p, v, t) {         \
+#define v_mad(u, p, v, t) do {      \
     (u)[0] = (p)[0] + (v)[0] * (t); \
     (u)[1] = (p)[1] + (v)[1] * (t); \
     (u)[2] = (p)[2] + (v)[2] * (t); \
-}
+} while (0)
 
 /*---------------------------------------------------------------------------*/
 
@@ -103,5 +104,21 @@ void   m_vxfm(float *, const float *, const float *);
 void   m_view(float *, const float *,
                        const float *,
                        const float *);
+
+/*---------------------------------------------------------------------------*/
+
+#define q_dot(q, r) ((q)[0] * (r)[0] + v_dot((q) + 1, (r) + 1))
+#define q_len(q)    fsqrtf(q_dot((q), (q)))
+
+#define q_cpy(q, p) do { \
+    (q)[0] = (p)[0];     \
+    (q)[1] = (p)[1];     \
+    (q)[2] = (p)[2];     \
+    (q)[3] = (p)[3];     \
+} while (0)
+
+void q_axisangle(const float *q, float *u, float *a);
+void q_nrm(float *q, const float *r);
+void q_euler(float *v, const float *q);
 
 #endif

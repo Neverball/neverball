@@ -4,11 +4,11 @@
 BUILD := $(shell head -n1 BUILD 2> /dev/null || echo release)
 
 ifeq ($(BUILD),release)
-    VERSION := 1.5.3
+    VERSION := 1.5.5
 else
     VERSION := $(shell sh scripts/version.sh)
     ifeq ($(VERSION),unknown)
-        VERSION := 1.5.3-dev
+        VERSION := 1.5.5-dev
     endif
 endif
 
@@ -16,12 +16,11 @@ $(info Will make a "$(BUILD)" build of Neverball $(VERSION).)
 
 #------------------------------------------------------------------------------
 # Provide a target system hint for the Makefile.
+# Recognized PLATFORM values: darwin, mingw.
 
 ifeq ($(shell uname), Darwin)
-    DARWIN := 1
+    PLATFORM := darwin
 endif
-
-# MINGW=1 also supported.
 
 #------------------------------------------------------------------------------
 # Paths (packagers might want to set DATADIR and LOCALEDIR)
@@ -30,7 +29,7 @@ USERDIR   := .neverball
 DATADIR   := ./data
 LOCALEDIR := ./locale
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
     USERDIR := Neverball
 endif
 
@@ -54,7 +53,7 @@ endif
 
 # Compiler...
 
-ifeq ($(ENABLE_WII),1)
+ifeq ($(ENABLE_TILT),wii)
     # -std=c99 because we need isnormal and -fms-extensions because
     # libwiimote headers make heavy use of the "unnamed fields" GCC
     # extension.
@@ -83,11 +82,11 @@ else
     ALL_CPPFLAGS += -DENABLE_NLS=1
 endif
 
-ifeq ($(ENABLE_WII),1)
-    ALL_CPPFLAGS += -DENABLE_WII=1
+ifeq ($(ENABLE_ODE),1)
+    ALL_CPPFLAGS += $(shell ode-config --cflags)
 endif
 
-ifdef DARWIN
+ifeq ($(PLATFORM),darwin)
     ALL_CPPFLAGS += -I/opt/local/include
 endif
 
@@ -107,13 +106,21 @@ FS_LIBS := -lphysfs
 
 INTL_LIBS :=
 
-ifeq ($(ENABLE_WII),1)
+ifeq ($(ENABLE_TILT),wii)
     TILT_LIBS := -lcwiimote -lbluetooth
+else
+ifeq ($(ENABLE_TILT),loop)
+    TILT_LIBS := -lusb-1.0 -lfreespace
+endif
+endif
+
+ifeq ($(ENABLE_ODE),1)
+    ODE_LIBS := $(shell ode-config --libs)
 endif
 
 OGL_LIBS := -lGL -lm
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl
     endif
@@ -122,7 +129,7 @@ ifdef MINGW
     OGL_LIBS  := -lopengl32 -lm
 endif
 
-ifdef DARWIN
+ifeq ($(PLATFORM),darwin)
     ifneq ($(ENABLE_NLS),0)
         INTL_LIBS := -lintl
     endif
@@ -133,16 +140,16 @@ endif
 
 BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS)
 
-ifdef DARWIN
+ifeq ($(PLATFORM),darwin)
     BASE_LIBS += -L/opt/local/lib
 endif
 
 ALL_LIBS := $(SDL_LIBS) $(BASE_LIBS) $(TILT_LIBS) $(INTL_LIBS) -lSDL_ttf \
-    -lvorbisfile $(OGL_LIBS)
+    -lvorbisfile $(OGL_LIBS) $(ODE_LIBS)
 
 #------------------------------------------------------------------------------
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
     EXT := .exe
 endif
 
@@ -150,7 +157,7 @@ MAPC_TARG := mapc$(EXT)
 BALL_TARG := neverball$(EXT)
 PUTT_TARG := neverputt$(EXT)
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
     MAPC := $(WINE) ./$(MAPC_TARG)
 else
     MAPC := ./$(MAPC_TARG)
@@ -180,7 +187,8 @@ BALL_OBJS := \
 	share/image.o       \
 	share/solid.o       \
 	share/solid_gl.o    \
-	share/solid_phys.o  \
+	share/solid_cmd.o   \
+	share/solid_all.o   \
 	share/part.o        \
 	share/back.o        \
 	share/geom.o        \
@@ -194,7 +202,6 @@ BALL_OBJS := \
 	share/state.o       \
 	share/audio.o       \
 	share/text.o        \
-	share/tilt.o        \
 	share/common.o      \
 	share/keynames.o    \
 	share/syswm.o       \
@@ -208,6 +215,7 @@ BALL_OBJS := \
 	share/fs_jpg.o      \
 	share/fs_rwops.o    \
 	share/fs_ov.o       \
+	share/sync.o        \
 	ball/hud.o          \
 	ball/game_common.o  \
 	ball/game_client.o  \
@@ -247,7 +255,8 @@ PUTT_OBJS := \
 	share/image.o       \
 	share/solid.o       \
 	share/solid_gl.o    \
-	share/solid_phys.o  \
+	share/solid_cmd.o   \
+	share/solid_all.o   \
 	share/part.o        \
 	share/geom.o        \
 	share/ball.o        \
@@ -270,6 +279,7 @@ PUTT_OBJS := \
 	share/fs_ov.o       \
 	share/dir.o         \
 	share/array.o       \
+	share/sync.o        \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \
@@ -278,7 +288,25 @@ PUTT_OBJS := \
 	putt/st_conf.o      \
 	putt/main.o
 
-ifdef MINGW
+ifeq ($(ENABLE_ODE),1)
+BALL_OBJS += share/solid_sim_ode.o
+PUTT_OBJS += share/solid_sim_ode.o
+else
+BALL_OBJS += share/solid_sim_sol.o
+PUTT_OBJS += share/solid_sim_sol.o
+endif
+
+ifeq ($(ENABLE_TILT),wii)
+BALL_OBJS += share/tilt_wii.o
+else
+ifeq ($(ENABLE_TILT),loop)
+BALL_OBJS += share/tilt_loop.o
+else
+BALL_OBJS += share/tilt_null.o
+endif
+endif
+
+ifeq ($(PLATFORM),mingw)
 BALL_OBJS += neverball.ico.o
 PUTT_OBJS += neverputt.ico.o
 endif
@@ -322,7 +350,7 @@ $(MAPC_TARG) : $(MAPC_OBJS)
 
 # Work around some extremely helpful sdl-config scripts.
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
 $(MAPC_TARG) : ALL_CPPFLAGS := $(ALL_CPPFLAGS) -Umain
 endif
 
@@ -360,7 +388,7 @@ TAGS :
 
 #------------------------------------------------------------------------------
 
-ifdef MINGW
+ifeq ($(PLATFORM),mingw)
 
 #------------------------------------------------------------------------------
 

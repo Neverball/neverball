@@ -9,8 +9,8 @@
 "song" "bgm/track1.ogg"
 "time" "9000"
 "goal" "26"
-"time_hs" "265 285"
 "coin_hs" "51 36"
+"time_hs" "265 285"
 "goal_hs" "1475 3000"
 "message" "=Atrium=\Remove the coins from their columns."
 // brush 0

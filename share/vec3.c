@@ -32,9 +32,18 @@ void v_nrm(float *n, const float *v)
 {
     float d = v_len(v);
 
-    n[0] = v[0] / d;
-    n[1] = v[1] / d;
-    n[2] = v[2] / d;
+    if (d == 0.0f)
+    {
+        n[0] = 0.0f;
+        n[1] = 0.0f;
+        n[2] = 0.0f;
+    }
+    else
+    {
+        n[0] = v[0] / d;
+        n[1] = v[1] / d;
+        n[2] = v[2] / d;
+    }
 }
 
 void v_crs(float *u, const float *v, const float *w)
@@ -284,6 +293,47 @@ void m_view(float *M,
     v_crs(y, z, x);
 
     m_basis(M, x, y, z);
+}
+
+/*---------------------------------------------------------------------------*/
+
+void q_axisangle(const float *q, float *u, float *a)
+{
+    *a = V_DEG(2.0f * facosf(q[0]));
+    v_nrm(u, q + 1);
+}
+
+void q_nrm(float *q, const float *r)
+{
+    float d = q_len(r);
+
+    if (d == 0.0f)
+    {
+        q[0] = 1.0f;
+        q[1] = 0.0f;
+        q[2] = 0.0f;
+        q[3] = 0.0f;
+    }
+    else
+    {
+        q[0] = r[0] / d;
+        q[1] = r[1] / d;
+        q[2] = r[2] / d;
+        q[3] = r[3] / d;
+    }
+}
+
+void q_euler(float *v, const float *q)
+{
+    float m11 = (2 * q[0] * q[0]) + (2 * q[1] * q[1]) - 1;
+    float m12 = (2 * q[1] * q[2]) + (2 * q[0] * q[3]);
+    float m13 = (2 * q[1] * q[3]) - (2 * q[0] * q[2]);
+    float m23 = (2 * q[2] * q[3]) + (2 * q[0] * q[1]);
+    float m33 = (2 * q[0] * q[0]) + (2 * q[3] * q[3]) - 1;
+
+    v[0] = fatan2f(m12, m11);
+    v[1] = fasinf(-m13);
+    v[2] = fatan2f(m23, m33);
 }
 
 /*---------------------------------------------------------------------------*/

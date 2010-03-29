@@ -233,7 +233,7 @@ static const char *pick_font_path(void)
 
     if (!fs_exists(path))
     {
-        fprintf(stderr, _("Font \"%s\" doesn't exist, trying default font.\n"),
+        fprintf(stderr, _("Font '%s' doesn't exist, trying default font.\n"),
                 path);
 
         path = GUI_FACE;
@@ -267,7 +267,7 @@ void gui_init(void)
 
         if (!(fontdata = fs_load(fontpath, &fontdatalen)))
         {
-            fprintf(stderr, _("Could not load font %s.\n"), fontpath);
+            fprintf(stderr, _("Could not load font '%s'.\n"), fontpath);
             /* Return or no return, we'll probably crash now. */
             return;
         }
@@ -915,6 +915,7 @@ static void gui_widget_up(int id)
         case GUI_VARRAY: gui_varray_up(id); break;
         case GUI_HSTACK: gui_hstack_up(id); break;
         case GUI_VSTACK: gui_vstack_up(id); break;
+        case GUI_FILLER:                    break;
         default:         gui_button_up(id); break;
         }
 }
