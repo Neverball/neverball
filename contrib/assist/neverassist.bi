@@ -14,13 +14,28 @@ dim shared as longint PlacementTest(-11 to 11,-11 to 11,-11 to 21), _
     Direction(-11 to 11,-11 to 11,-11 to 21)
 dim shared as string MapFile, Title, Song, Back, Grad, Shot, MusicFile, _
     LevelMessage, WindowTitleM, Compile, Replay, LevelName, MusicPlay, _
-    Neverpath, InType, AssistDir, ShotFile
+    Neverpath, InType, AssistDir, ShotFile, Userdir
 dim shared as integer Check
 dim shared as any ptr BlockDisplay
 #IFDEF __FB_WIN32__
     const AssistCfg = "assist.ini"
+    const Debugger = "gdb.exe"
+    const Program = "neverassist.exe"
+    const Neverball = "neverball.exe"
+    const Neverputt = "neverputt.exe"
+    const Mapc = "mapc.exe"
+    Userdir = environ("APPDATA")
 #ELSE
     const AssistCfg = "assistrc"
+    const Debugger = "gdb"
+    const Program = "neverassist"
+    const Neverball = "neverball"
+    const Neverputt = "neverputt"
+    const Mapc = "mapc"
+    /'
+     'Need a *nix user to verify this variable
+     '/
+    Userdir = environ("HOME")
 #ENDIF
 const m = 1
 const c = 2
@@ -64,7 +79,9 @@ sub ptf(Detail as ubyte, XOff1 as short, YOff1 as short, _
     dim as string Texture(0 to 7) => {"invisible", "turf-grey", _
         "turf-green", "turf-green-dark", "coin-green-small", "yellow", _
         "arrow-green-light","goal"}
-    'Plots a face.
+    /'
+     'Plots a face.
+     '/
     if Detail < 2 then
         print #m, "( "& XP*128+XOff1;" "& YP*128+YOff1;" "; _
         ""& ZP*64+ZOff1;" ) ( "& XP*128+XOff2;" "& YP*128+YOff2;" "; _
@@ -77,6 +94,10 @@ sub ptf(Detail as ubyte, XOff1 as short, YOff1 as short, _
         ""& ZP*64+ZOff2;" ) ( "& XP*128+XOff3;" "& YP*128+YOff3;" "; _
         ""& ZP*64+ZOff3;" ) mtrl/";Texture(TexID);" 0 0 0 0.5 0.5 0 0 0"
     end if
+    /'
+     ' Limits memory leaks.
+     '/
+    erase Texture
 end sub
 
 declare sub plot_coins(ZOff as short = 0, Value as ubyte = 1)
@@ -139,29 +160,15 @@ end function
 sub config(Switch as ubyte = 0)
     dim as ubyte ConvertID
     if Switch = 0 then
-        #IFDEF __FB_WIN32__
-            open AssistDir + "\" + AssistCfg for output as #c
-            print #c, NeverPath
-            print #c, LangFile
-            close #c
-        #ELSE
-            open AssistDir + "/" + AssistCfg for output as #c
-            print #c, NeverPath
-            print #c, LangFile
-            close #c
-        #ENDIF
+        open AssistDir + "/" + AssistCfg for output as #c
+        print #c, NeverPath
+        print #c, LangFile
+        close #c
     else
-        #IFDEF __FB_WIN32__
-            open AssistDir + "\" + AssistCfg for input as #c
-            line input #c, NeverPath
-            input #c, LangFile
-            close #c
-        #ELSE
-            open AssistDir + "/" + AssistCfg for input as #c
-            line input #c, NeverPath
-            input #c, LangFile
-            close #c
-        #ENDIF
+        open AssistDir + "/" + AssistCfg for input as #c
+        line input #c, NeverPath
+        input #c, LangFile
+        close #c
     end if
 end sub
 

@@ -15,7 +15,7 @@
  ' Under Windows, the -s gui removes the console. On *nix, this switch
  ' currently does nothing.
  '
- ' Due to incapabilities of the compiler, this program is NOT platform
+ ' Due to limitations of the compiler, this program is NOT platform
  ' independent. But the compiler is being ported to other platforms and is on
  ' its way to becoming a GCC front-end. Once the second task is done, this
  ' program will be on its way to being cross-platform. FreeBASIC maintains
@@ -111,35 +111,19 @@
     end if
 
     #IF __FB_DEBUG__
-        #IF defined(__FB_WIN32__) OR defined(__FB_DOS__)
-            if FileExists("gdb.exe") then
-                print lang("GDB detected. Do you want to use the GDB? (Y/N)")
-                print lang("Hit N if you have it open or don't want to use it.")
-                do
-                    sleep 1
-                    if multikey(SC_Y) then
-                        run("gdb.exe","neverassist.exe")
-                        Mix_CloseAudio
-                        SDL_Quit
-                        end 0
-                    end if
-                loop until multikey(SC_N)
-            end if
-        #ElSE
-            if FileExists("gdb") then
-                print lang("GDB detected. Do you want to use the GDB? (Y/N)")
-                print lang("Hit N if you have it open or don't want to use it.")
-                do
-                    sleep 1
-                    if multikey(SC_Y) then
-                        run("gdb","neverassist")
-                        Mix_CloseAudio
-                        SDL_Quit
-                        end 0
-                    end if
-                loop until multikey(SC_N)
-            end if
-        #ENDIF
+        if FileExists(Debugger) then
+            print lang("Debugger detected. Do you want to use the Debugger? (Y/N)")
+            print lang("Hit N if you have it open or don't want to use it.")
+            do
+                sleep 1
+                if multikey(SC_Y) then
+                    run(Debugger,Program)
+                    Mix_CloseAudio
+                    SDL_Quit
+                    end 0
+                end if
+            loop until multikey(SC_N)
+        end if
     #ENDIF
     main_menu
     Mix_CloseAudio
@@ -159,6 +143,7 @@
             print "<N> ";lang("Run the Neverball game")
             print "<R> ";lang("Load a Neverball replay")
             print "<P> ";lang("Run the Neverputt game")
+
             print "<M> ";lang("Generate a map")
             print "<C> ";lang("Compile a map")
             print "<D> ";lang("Relocate Directory")
@@ -187,11 +172,7 @@
                 clkey
                 windowtitle "Neverassistant - Running Neverball"
                 screen 0
-                #IFDEF __FB_WIN32__
-                    Check = exec("Neverball.exe","")
-                #ELSE
-                    Check = exec("neverball","")
-                #ENDIF
+                Check = exec(Neverball,"")
                 screen 18,24
                 print lang("Exit code: ")& Check
                 clkey
@@ -201,11 +182,7 @@
                 clkey
                 windowtitle "Neverassistant - Running Neverputt"
                 screen 0
-                #IFDEF __FB_WIN32__
-                    Check = exec("Neverputt.exe","")
-                #ELSE
-                    Check = exec("neverputt","")
-                #ENDIF
+                Check = exec(Neverputt,"")
                 screen 18,24
                 print lang("Exit code: ")& Check
                 clkey
@@ -220,11 +197,7 @@
                 if (Compile < > "") then
                     screen 0
                     Compile = Compile + ".map"
-                    #IFDEF __FB_WIN32__
-                        Check = exec("Mapc.exe",Compile + " data")
-                    #ELSE
-                        Check = exec("mapc",Compile + " data")
-                    #ENDIF
+                    Check = exec(Mapc,Compile + " data")
                     color rgb(255,255,255)
                     screen 18,24
                     print lang("Exit code: ")& Check
@@ -242,11 +215,7 @@
                 if (Replay < > "") then
                     screen 0
                     Replay = Replay + ".nbr"
-                    #IFDEF __FB_WIN32__
-                        Check = exec("Neverball.exe","-r " + Replay)
-                    #ELSE
-                        Check = exec("neverball","-r " + Replay)
-                    #ENDIF
+                    Check = exec(Neverball,"-r " + Replay)
                     screen 18,24
                     print lang("Exit code: ")& Check
                     sleep
@@ -275,10 +244,6 @@
             elseif multikey(SC_S) then
                 clkey
                 cls
-                /'
-                 ' Try to make it wrap the 80 characters if you translate
-                 ' this string.
-                 '/
                 print lang("The solution directory contains a collection" + _
                     " of solutions to levels players may give a fit on.")
                 print "<A> ";lang("Neverball Easy Level 09: " + _
@@ -291,13 +256,8 @@
                     sleep 10
                     if multikey(SC_A) then
                         screen 0
-                        #IFDEF __FB_WIN32__
-                            Check = exec("Neverball.exe", "-r " + _
-                                         AssistDir+"/solutions/cE09csy.nbr")
-                        #ELSE
-                            Check = exec("neverball", "-r " + _
-                                         AssistDir+"/solutions/cE09csy.nbr")
-                        #ENDIF
+                        Check = exec(Neverball, "-r " + _
+                        AssistDir+"/solutions/cE09csy.nbr")
                         screen 18,24
                         clkey
                         print lang("Exit code of replay A: ")& Check
@@ -305,13 +265,8 @@
                         exit do
                     elseif multikey(SC_B) then
                         screen 0
-                        #IFDEF __FB_WIN32__
-                            Check = exec("Neverball.exe", "-r " + _
-                                         AssistDir+"/solutions/cEB5csy.nbr")
-                        #ELSE
-                            Check = exec("neverball", "-r " + _
-                                         AssistDir+"/solutions/cEB5csy.nbr")
-                        #ENDIF
+                        Check = exec(Neverball, "-r " + _
+                            AssistDir+"/solutions/cEB5csy.nbr")
                         screen 18,24
                         clkey
                         print lang("Exit code of replay B: ")& Check
@@ -358,18 +313,7 @@
                     FileCopy(ShotFile,_
                     "data/shot-"+str(SingleLevelID)+"/"+ShotFile)
                 end if
-/'
-            #IFDEF __FB_WIN32__
-                elseif multikey(SC_U) then
-                    clkey
-                    windowtitle "Neverassistant - Unpack archive"
-                    print lang("Which archive do you want to extract?") + _
-                        lang(" (include extension)")
-                    color rgb(255,255,0)
-                    input Unpack
-                    color rgb(255,255,255)
-            #ENDIF
-'/
+
             elseif multikey(SC_X) OR multikey(SC_ESCAPE) OR _
                    inkey = chr(255)+"k" then
                 end 0

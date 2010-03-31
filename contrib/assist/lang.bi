@@ -9,11 +9,43 @@
     dim shared as string LangFile, Unmodded(Strings), Existant(Strings), _
         Converted(Strings)
     dim shared as ushort LangUpdateID
-    declare function lang(Text as string) as string
-    declare sub lang_select
-    declare sub inilang
 
-    function lang(Text as string) as string
+    function remainder(Byval Param1 as double, Byval Param2 as double) as double
+        'Returns the remainder of a division.
+        if Param2 = 0 then
+            return 1e+300
+        else
+            return Param1-(int(Param1/Param2)*Param2)
+        end if
+    end function
+
+    function word_wrap(Text as string, Cap as ushort = 80) as string
+    	'Wraps the text automatically.
+        dim as ushort RefChar, RaisedChar, TotalRaised
+        dim as string OutText = Text
+        for WID as ushort = 1 to len(Text)
+            if mid(Text,WID,1) = chr(32) then
+                RefChar = WID
+            end if
+            if remainder(WID+TotalRaised,Cap) = 0 then
+                if RefChar > 0 then
+                    RaisedChar = Cap - remainder(RefChar+TotalRaised,Cap)
+                else
+                    RaisedChar = 0
+                end if
+                if RaisedChar = Cap then
+                    RaisedChar = 0
+                end if
+    
+                OutText = left(OutText,RefChar+TotalRaised-1)+space(RaisedChar)+right(OutText,len(OutText)-TotalRaised-RefChar+1)
+                TotalRaised += RaisedChar
+                RefChar = 0
+            end if
+        next WID
+        return OutText
+    end function
+
+    function lang(Text as string, SWidth as ushort = 80) as string
         dim as ubyte ConvertID, Duplicate
         if Command(1) = UpdateSwitch then
             Duplicate = 0
@@ -33,11 +65,11 @@
             for ConvertID = 1 to Strings
                 if Unmodded(ConvertID) = Text AND _
                     Converted(ConvertID) < > "" then
-                    return Converted(ConvertID)
+                    return word_wrap(Converted(ConvertID),SWidth)
                 end if
             next ConvertID
         end if
-        return Text
+        return word_wrap(Text,SWidth)
     end function
 
     sub lang_select

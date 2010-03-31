@@ -11,6 +11,7 @@
 "time_hs" "2500 2700"
 "goal_hs" "2500 2800"
 "coin_hs" "40 20"
+"version" "2"
 "shot" "shot-csyforeverh/DDN.png"
 "levelname" "Dance Dance Neverball"
 // brush 0
