@@ -297,13 +297,13 @@ void m_view(float *M,
 
 /*---------------------------------------------------------------------------*/
 
-void q_axisangle(const float *q, float *u, float *a)
+void q_axisangle(const float q[4], float u[3], float *a)
 {
     *a = V_DEG(2.0f * facosf(q[0]));
     v_nrm(u, q + 1);
 }
 
-void q_nrm(float *q, const float *r)
+void q_nrm(float q[4], const float r[4])
 {
     float d = q_len(r);
 
@@ -323,7 +323,7 @@ void q_nrm(float *q, const float *r)
     }
 }
 
-void q_euler(float *v, const float *q)
+void q_euler(float v[3], const float q[4])
 {
     float m11 = (2 * q[0] * q[0]) + (2 * q[1] * q[1]) - 1;
     float m12 = (2 * q[1] * q[2]) + (2 * q[0] * q[3]);

@@ -110,15 +110,15 @@ void   m_view(float *, const float *,
 #define q_dot(q, r) ((q)[0] * (r)[0] + v_dot((q) + 1, (r) + 1))
 #define q_len(q)    fsqrtf(q_dot((q), (q)))
 
-#define q_cpy(q, p) do { \
-    (q)[0] = (p)[0];     \
-    (q)[1] = (p)[1];     \
-    (q)[2] = (p)[2];     \
-    (q)[3] = (p)[3];     \
+#define q_cpy(q, r) do { \
+    (q)[0] = (r)[0];     \
+    (q)[1] = (r)[1];     \
+    (q)[2] = (r)[2];     \
+    (q)[3] = (r)[3];     \
 } while (0)
 
-void q_axisangle(const float *q, float *u, float *a);
-void q_nrm(float *q, const float *r);
-void q_euler(float *v, const float *q);
+void q_axisangle(const float q[4], float u[3], float *a);
+void q_nrm(float q[4], const float r[4]);
+void q_euler(float v[3], const float q[4]);
 
 #endif
