@@ -117,8 +117,13 @@ void   m_view(float *, const float *,
     (q)[3] = (r)[3];     \
 } while (0)
 
-void q_axisangle(const float q[4], float u[3], float *a);
+void q_as_axisangle(const float q[4], float u[3], float *a);
+void q_by_axisangle(float q[4], const float u[3], float a);
+
 void q_nrm(float q[4], const float r[4]);
+void q_mul(float q[4], const float a[4], const float b[4]);
+void q_rot(float v[3], const float r[4], const float w[3]);
+
 void q_euler(float v[3], const float q[4]);
 
 #endif

@@ -297,10 +297,22 @@ void m_view(float *M,
 
 /*---------------------------------------------------------------------------*/
 
-void q_axisangle(const float q[4], float u[3], float *a)
+void q_as_axisangle(const float q[4], float u[3], float *a)
 {
     *a = V_DEG(2.0f * facosf(q[0]));
     v_nrm(u, q + 1);
+}
+
+void q_by_axisangle(float q[4], const float u[3], float a)
+{
+    float c = fcosf(a * 0.5f);
+    float s = fsinf(a * 0.5f);
+    float d = v_len(u);
+
+    q[0] =              c;
+    q[1] = (u[0] / d) * s;
+    q[2] = (u[1] / d) * s;
+    q[3] = (u[2] / d) * s;
 }
 
 void q_nrm(float q[4], const float r[4])
@@ -321,6 +333,37 @@ void q_nrm(float q[4], const float r[4])
         q[2] = r[2] / d;
         q[3] = r[3] / d;
     }
+}
+
+void q_mul(float q[4], const float a[4], const float b[4])
+{
+    q[0] = a[0] * b[0] - a[1] * b[1] - a[2] * b[2] - a[3] * b[3];
+    q[1] = a[0] * b[1] + a[1] * b[0] + a[2] * b[3] - a[3] * b[2];
+    q[2] = a[0] * b[2] - a[1] * b[3] + a[2] * b[0] + a[3] * b[1];
+    q[3] = a[0] * b[3] + a[1] * b[2] - a[2] * b[1] + a[3] * b[0];
+}
+
+void q_rot(float v[3], const float r[4], const float w[3])
+{
+    float a[4], b[4], c[4];
+
+    a[0] = 0.0f;
+    a[1] = w[0];
+    a[2] = w[1];
+    a[3] = w[2];
+
+    q_mul(b, r, a);
+
+    a[0] =  r[0];
+    a[1] = -r[1];
+    a[2] = -r[2];
+    a[3] = -r[3];
+
+    q_mul(c, b, a);
+
+    v[0] = c[1];
+    v[1] = c[2];
+    v[2] = c[3];
 }
 
 void q_euler(float v[3], const float q[4])
