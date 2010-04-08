@@ -268,6 +268,15 @@ void sol_body_step(struct s_file *fp, float dt)
         {
             if (bp->fl & P_ROTATING)
             {
+                float d[4], e[4], w[3];
+
+                sol_body_w(w, fp, bp);
+
+                q_by_axisangle(d, w, v_len(w) * dt);
+
+                q_mul(e, bp->e, d);
+                q_nrm(bp->e, e);
+
                 cmd.type          = CMD_BODY_ORIENTATION;
                 cmd.bodyorient.bi = i;
                 q_cpy(cmd.bodyorient.e, bp->e);

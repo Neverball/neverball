@@ -485,18 +485,79 @@ static float sol_test_body(float dt,
                            const struct s_file *fp,
                            const struct s_body *bp)
 {
-    float U[3], O[3], W[3], u, t = dt;
+    float U[3], O[3], W[3], A[3], u, t = dt;
 
     const struct s_node *np = fp->nv + bp->ni;
 
     sol_body_p(O, fp, bp->pi, bp->t);
     sol_body_v(W, fp, bp->pi, bp->t, dt);
+    sol_body_w(A, fp, bp);
 
-    if ((u = sol_test_node(t, U, up, fp, np, O, W)) < t)
+    /*
+     * For rotating bodies, rather than rotate every normal and vertex
+     * of the body, we temporarily pretend the ball is rotating and
+     * moving about a static body.
+     */
+
+    /*
+     * Linear velocity of a point rotating about the origin:
+     * v = w x p
+     */
+
+    if (bp->fl & P_ROTATING)
     {
-        v_cpy(T, U);
-        v_cpy(V, W);
-        t = u;
+        struct s_ball ball = *up;
+        float e[4], w[3], v[3];
+
+        e[0] =  bp->e[0];
+        e[1] = -bp->e[1];
+        e[2] = -bp->e[2];
+        e[3] = -bp->e[3];
+
+        w[0] = -A[0];
+        w[1] = -A[1];
+        w[2] = -A[2];
+
+        /* Transform position. */
+
+        v_sub(v, up->p, O);
+        q_rot(ball.p, e, v);
+
+        /* Transform velocity. */
+
+        q_rot(ball.v, e, up->v);
+
+        /* Also add the velocity from rotation. */
+
+        v_crs(v, w, ball.p);
+        v_add(ball.v, ball.v, v);
+
+        /* Force the solver to work in body space. */
+
+        v[0] = 0.0f;
+        v[1] = 0.0f;
+        v[2] = 0.0f;
+
+        w[0] = 0.0f;
+        w[1] = 0.0f;
+        w[2] = 0.0f;
+
+        if ((u = sol_test_node(t, U, &ball, fp, np, v, w)) < t)
+        {
+            q_rot(T, bp->e, U);
+            v_crs(V, A, T);
+            v_add(T, O, T);
+            t = u;
+        }
+    }
+    else
+    {
+        if ((u = sol_test_node(t, U, up, fp, np, O, W)) < t)
+        {
+            v_cpy(T, U);
+            v_cpy(V, W);
+            t = u;
+        }
     }
     return t;
 }
