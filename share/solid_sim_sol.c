@@ -147,6 +147,36 @@ static float v_edge(float Q[3],
     uu = v_dot(u, u);
 
     v_mad(P, d, u, -du / uu);
+
+    /* First, test for intersection. */
+
+    if (v_dot(P, P) < r * r)
+    {
+        /* The sphere already intersects the line of the edge. */
+
+        if (du < 0 || du > uu)
+        {
+            /*
+             * The sphere is behind the endpoints of the edge, and
+             * can't hit the edge without hitting the vertices first.
+             */
+            return LARGE;
+        }
+
+        /* The sphere already intersects the edge. */
+
+        if (v_dot(P, e) >= 0)
+        {
+            /* Moving apart. */
+            return LARGE;
+        }
+
+        v_nrm(P, P);
+        v_mad(Q, p, P, -r);
+
+        return 0;
+    }
+
     v_mad(V, e, u, -eu / uu);
 
     t = v_sol(P, V, r);

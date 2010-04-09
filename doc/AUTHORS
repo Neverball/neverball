@@ -166,6 +166,8 @@ D: Neverball maps
 N: Uoti Urpala (uau)
 D: Bounces with moving objects
 D: Significant mapc optimisations
+D: Code review, suggestions and comments
+D: Edge intersection handling
 
 N: Georg Wachter (nue)
 E: georgwachter@gmail.com
