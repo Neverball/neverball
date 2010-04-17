@@ -12,7 +12,7 @@
 "goal" "50"
 "time_hs" "4000 6000"
 "goal_hs" "6000 9000"
-"coin_hs" "70 40"
+"coin_hs" "80 60"
 "message" "Le grand cône.\Living in a cone."
 // brush 0
 {
