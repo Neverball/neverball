@@ -307,12 +307,14 @@ void q_by_axisangle(float q[4], const float u[3], float a)
 {
     float c = fcosf(a * 0.5f);
     float s = fsinf(a * 0.5f);
-    float d = v_len(u);
+    float n[3];
 
-    q[0] =              c;
-    q[1] = (u[0] / d) * s;
-    q[2] = (u[1] / d) * s;
-    q[3] = (u[2] / d) * s;
+    v_nrm(n, u);
+
+    q[0] =        c;
+    q[1] = n[0] * s;
+    q[2] = n[1] * s;
+    q[3] = n[2] * s;
 }
 
 void q_nrm(float q[4], const float r[4])
