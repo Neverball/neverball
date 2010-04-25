@@ -574,9 +574,16 @@ static float sol_test_body(float dt,
 
         if ((u = sol_test_node(t, U, &ball, fp, np, v, w)) < t)
         {
-            q_rot(T, bp->e, U);
+            float d[4];
+
+            q_by_axisangle(d, A, v_len(A) * u);
+            q_mul(e, bp->e, d);
+            q_nrm(e, e);
+
+            q_rot(T, e, U);
             v_crs(V, A, T);
             v_add(T, O, T);
+
             t = u;
         }
     }
