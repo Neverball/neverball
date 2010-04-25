@@ -530,6 +530,7 @@ static void sol_shad_list(const struct s_file *fp,
         {
             glPushMatrix();
             glTranslatef(p[0], p[2], 0.0f);
+            glRotatef(-a, u[0], u[2], u[1]);
         }
         glMatrixMode(GL_MODELVIEW);
 
