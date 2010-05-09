@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Challenger\This is the ultimate test of the 'CSY Levels' level set!"
+"message" "Challenger\This is the ultimate test of the Neverball Forever Medium level set!"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
 "song" "bgm/title.ogg"
