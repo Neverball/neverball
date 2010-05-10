@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "1.0"
+"version" "1.1"
 "author" "Florian Priester"
 "shot" "shot-fwp/slope.png"
 "back" "map-back/city.sol"
@@ -10,7 +10,7 @@
 "time" "9000"
 "goal" "100"
 "coin_hs" "150 125"
-"time_hs" "355 375"
+"time_hs" "350 375"
 "goal_hs" "2000 4500"
 "message" "=Slope=\Try not to become a modern-day Sisyphus."
 // brush 0

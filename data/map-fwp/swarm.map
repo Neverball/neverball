@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "1.0"
+"version" "1.1"
 "author" "Florian Priester"
 "shot" "shot-fwp/swarm.png"
 "back" "map-back/ocean.sol"
@@ -10,7 +10,7 @@
 "time" "9000"
 "goal" "50"
 "coin_hs" "130 90"
-"time_hs" "210 225"
+"time_hs" "200 225"
 "goal_hs" "1000 2000"
 "message" "=Swarm=\Warning: Trespassers will be thwomped."
 // brush 0

@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "1.0"
+"version" "1.1"
 "author" "Florian Priester"
 "shot" "shot-fwp/atrium.png"
 "back" "map-back/clouds.sol"
@@ -10,7 +10,7 @@
 "time" "9000"
 "goal" "26"
 "coin_hs" "51 36"
-"time_hs" "265 285"
+"time_hs" "260 285"
 "goal_hs" "1475 3000"
 "message" "=Atrium=\Remove the coins from their columns."
 // brush 0
