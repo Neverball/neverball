@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "1.2"
+"version" "1.3"
 "author" "Florian Priester"
 "shot" "shot-fwp/oddities.png"
 "back" "map-back/alien.sol"
@@ -10,7 +10,7 @@
 "time" "15000"
 "goal" "85"
 "coin_hs" "144 114"
-"time_hs" "525 550"
+"time_hs" "400 550"
 "goal_hs" "4000 7500"
 "message" "=Oddities=\Something is not quite right here..."
 // brush 0
