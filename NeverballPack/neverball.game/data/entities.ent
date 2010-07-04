@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!-- Neverball entity definition file -->
+<classes>
+<group name="func_train" color="0 0.5 0.8">
+Defines the geometry of a moving object.  Think of it as a container or a grouping mechanism for lumps, rather than an object in-and-of itself. 
+
+Attributes:
+* <target key="target" name="Target">Refers to the first path_corner of the path along which the func_train will travel.</target>
+</group>
+
+
+<point name="info_camp" color="0 0.5 0" box="-8 -8 -8 8 8 8">
+Defines a switch.
+
+Attributes:
+* <target key="target" name="Target">Refers to the path_corner that the switch controls.</target>
+* <real key="radius" name="Radius" value="0.5">Switch radius in meters.  The default is "0.5".</real>
+* <boolean key="state" name="State" value="0">Initial state of the switch.  "0" is off, "1" is on.  The default is off.  This parallels the state attribute of the path_corner.  An info_camp entity should always have the same initial "state" value as the path_corner it targets.</boolean>
+* <real key="timer" name="Timer" value="0">A delay time.  The time begins when a switch is toggled to its non-initial state.  The switch toggles back to its initial state when the timer expires.  A timer value of zero indicates an untimed switch.  The default is zero.  This may be used to define a door that opens only for a moment before closing, or a func_train that moves along its path in discrete activated steps.</real>
+* <boolean key="invisible" name="Invisible" value="0">Determines whether the switch is invisible or not.  "0" is off, "1" is on.  The default is off.</boolean>
+</point>
+
+
+<point name="info_null" color="0 0.5 0" box="-8 -8 -8 8 8 8">
+Defines a billboard.
+
+Attributes:
+* TODO
+</point>
+
+
+<point name="info_player_deathmatch" color="1 0 1" box="-16 -16 -24 16 16 32">
+Defines a goal.
+
+Attributes:
+* <real key="radius" name="Radius" value="0.75">Goal radius in meters.  The default radius is "0.75".  The ball must fall entirely within this radius to trigger a goal.</real>
+</point>
+
+
+<point name="info_player_intermission" color="1 0 1" box="-16 -16 -16 16 16 16">
+Defines the camera position at the beginning of a level fly-in
+
+Attributes:
+* <target key="target" name="Target">Refers to the target_position defining the view direction.</target>
+</point>
+
+
+<point name="info_player_start" color="1 0 0" box="-16 -16 -24 16 16 32">
+Defines a ball.  While multiple balls may be defined, Neverball uses only the first of them.  Neverputt requires an info_player_start entity for each player slot plus one.
+
+Attributes:
+* <real key="radius" name="Radius" value="0.25">Ball radius in meters.  The default radius is "0.25".  In Neverputt, this should be set to "0.0625".</real>
+</point>
+
+
+<point name="item_health_large" color="1 0 0" box="-16 -16 -16 16 16 16">
+Defines a grow coin.
+</point>
+
+
+<point name="item_health_small" color="0 1 0" box="-16 -16 -16 16 16 16">
+Defines a shrink coin.
+</point>
+
+
+<list name="coin">
+  <item name="Yellow" value="1"/>
+  <item name="Red" value="5"/>
+  <item name="Blue" value="10"/>
+</list>
+
+<point name="light" color="0.65 0.65 1" box="-8 -8 -8 8 8 8">
+Defines a coin.
+
+Attributes:
+* <coin key="light" name="Value" value="1">Value of the coin.  Yellow coin = 1, red coin = 5, blue coin = 10.</coin>
+</point>
+
+
+<point name="misc_model" color="1 0.5 0.25" box="-16 -16 -16 16 16 16">
+Imports an arbitrary polygonal model into a level.  It may be used to increase the visual detail of a level without increasing the physical detail.  Arbitrary normal vectors are allowed, so the misc_model entity can be used to produce smoothly shaded curves.
+
+misc_model entities define visible geometry, but not physical geometry.  So, if the ball is to bounce off of a misc_model entity, the entity should be placed within one or more invisible structural lumps.
+
+Attributes:
+* <model key="model" name="Model">Path to the model file.  The model must be in OBJ format.  It must have triangular tessellation.  All vertices must have normals and texture coordinates.</model>
+* <target key="target" name="Target">Can be used to attach the misc_model to a path_corner to create moving detail geometry.</target>
+</point>
+
+
+<point name="path_corner" color="0.5 0.3 0" box="-8 -8 -8 8 8 8">
+Defines a segment of the path of a moving object.
+
+Attributes:
+* <target key="target" name="Target">Refers to another path_corner defining the destination of the path.</target>
+* <targetname key="targetname" name="Target name">Name used by other path_corner entities to target this entity.</targetname>
+* <real key="speed" name="Travel time" value="1.0">Duration of the trip along this path segment, in seconds.  The default is "1.0".</real>
+* <boolean key="state" name="State" value="1">Determines whether the path is enabled.  An object will only move along an enabled path.  An object may be stopped and started by toggling the state of the path to which it is attached.  "0" means no, "1" means yes.  The default is 1.</boolean>
+* <boolean key="smooth" name="Smooth" value="1">Determines whether an object moves smoothly along this path segment or at a constant speed.  "0" means no, "1" means yes.  The default is 1.</boolean>
+</point>
+
+
+<point name="target_position" color="0 0.5 0" box="-8 -8 -8 8 8 8">
+Defines the initial view direction of a level fly-in, as well as the destination of a teleporter.
+
+Attributes:
+* <targetname key="targetname" name="Target name">Name used by other entities to target this entity.</targetname>
+</point>
+
+
+<point name="target_teleporter" color="0 0.5 0" box="-8 -8 -8 8 8 8">
+Defines a teleporter.
+
+Attributes:
+* <target key="target" name="Target">Refers to a target_position entity defining the destination of the teleporter.</target>
+* <real key="radius" name="Radius" value="0.5">Teleporter radius.  The default is "0.5".  The ball must fall entirely within this radius to trigger the teleport.</real>
+</point>
+
+
+<group name="worldspawn" color="0 0 0">
+Used for most static level geometry.
+
+Attributes:
+* <string key="message" name="Introduction">Text that appears as a level begins.  A "\" (backslash) starts a new line.</string>
+* <string key="song" name="Background music">Path to the background music file.</string>
+* <string key="shot" name="Level shot">Path to the level shot file.</string>
+* <integer key="goal" name="Required coins">Number of coins needed to unlock the goal.</integer>
+* <integer key="time" name="Time limit">Level time limit in hundredths of a second.</integer>
+* <string key="time_hs" name="Best Times">Default values for Best Times highscore, in order: Hard, Medium, and Easy (optional, defaults to time limit).</string>
+* <string key="goal_hs" name="Fast Unlock">Default values for Fast Unlock highscore, in order: Hard, Medium, and Easy (optional, defaults to time limit).</string>
+* <string key="coin_hs" name="Most Coins">Default values for Most Coins highscore, in order: Hard, Medium, and Easy (optional, defaults to required coins).</string>
+* <string key="version" name="Version">Version of the level.  The format should be "X.Y", where X is incremented every time the level is changed in a way that breaks existing replays, and Y is incremented for all other changes.</string>
+* <string key="author" name="Author">Name of the author.</string>
+* <boolean key="bonus" name="Bonus level">Marks this level as a bonus level.</boolean>
+</group>
+</classes>
