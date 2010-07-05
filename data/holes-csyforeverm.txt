@@ -7,7 +7,7 @@ map-csyforevermp/SnowLand.sol	back/cyn_grn.png	2	bgm/track1.ogg
 map-csyforevermp/Bend.sol	back/blu_wht.png	2	bgm/track2.ogg
 map-csyforevermp/LoopCross.sol	back/blk_blu.png	2	bgm/track2.ogg
 map-csyforevermp/Advanced.sol	back/red_prp.png	4	bgm/track2.ogg
-map-csyforevermp/STetromino.sol	back/cyn_grn.png	2	bgm/track3.ogg
+map-csyforevermp/NPentomino.sol	back/cyn_grn.png	2	bgm/track3.ogg
 map-csyforevermp/Banks.sol	back/red_blu.png	3	bgm/track3.ogg
 map-csyforevermp/Crazy.sol	back/red_wht.png	5	bgm/track3.ogg
 map-csyforevermp/AdvancedBanks.sol	back/blu_grn.png	6	bgm/track6.ogg
