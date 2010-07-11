@@ -24,7 +24,6 @@
 enum
 {
     SOL_VER_MINIMUM = 6,
-    SOL_VER_BODY_FLAG,
     SOL_VER_PATH_FLAGS,
     SOL_VER_CURRENT = SOL_VER_PATH_FLAGS
 };
@@ -150,9 +149,6 @@ static void sol_load_body(fs_file fin, struct s_body *bp)
     get_index(fin, &bp->lc);
     get_index(fin, &bp->g0);
     get_index(fin, &bp->gc);
-
-    if (sol_version >= SOL_VER_BODY_FLAG)
-        get_index(fin, &bp->fl);
 }
 
 static void sol_load_item(fs_file fin, struct s_item *hp)
@@ -495,7 +491,6 @@ static void sol_stor_body(fs_file fout, struct s_body *bp)
     put_index(fout, &bp->lc);
     put_index(fout, &bp->g0);
     put_index(fout, &bp->gc);
-    put_index(fout, &bp->fl);
 }
 
 static void sol_stor_item(fs_file fout, struct s_item *hp)

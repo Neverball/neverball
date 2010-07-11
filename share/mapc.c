@@ -917,7 +917,6 @@ static void make_body(struct s_file *fp,
     struct s_body *bp = fp->bv + bi;
 
     bp->t  = 0.f;
-    bp->fl = 0;
     bp->pi = -1;
     bp->ni = -1;
 

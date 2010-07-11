@@ -199,8 +199,6 @@ struct s_body
     GLuint rl;                                 /* reflective geometry list   */
     GLuint sl;                                 /* shadowed geometry list     */
 
-    int fl;                                    /* flags                      */
-
     int pi;
     int ni;
     int l0;
