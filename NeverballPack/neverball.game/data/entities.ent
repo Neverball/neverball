@@ -89,7 +89,7 @@ Attributes:
 
 
 <point name="path_corner" color="0.5 0.3 0" box="-8 -8 -8 8 8 8">
-Defines a segment of the path of a moving object.
+Defines a path segment of a moving object.
 
 Attributes:
 * <target key="target" name="Target">Refers to another path_corner defining the destination of the path.</target>
