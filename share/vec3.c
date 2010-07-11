@@ -299,7 +299,7 @@ void m_view(float *M,
 
 void q_as_axisangle(const float q[4], float u[3], float *a)
 {
-    *a = V_DEG(2.0f * facosf(q[0]));
+    *a = 2.0f * facosf(q[0]);
     v_nrm(u, q + 1);
 }
 

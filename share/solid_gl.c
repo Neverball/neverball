@@ -353,6 +353,7 @@ static void sol_draw_list(const struct s_file *fp,
     sol_body_p(p, fp, bp->pi, bp->t);
 
     q_as_axisangle(bp->e, u, &a);
+    a = V_DEG(a);
 
     glPushMatrix();
     {
@@ -516,6 +517,7 @@ static void sol_shad_list(const struct s_file *fp,
     sol_body_p(p, fp, bp->pi, bp->t);
 
     q_as_axisangle(bp->e, u, &a);
+    a = V_DEG(a);
 
     glPushMatrix();
     {
