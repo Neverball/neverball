@@ -125,5 +125,6 @@ void q_mul(float q[4], const float a[4], const float b[4]);
 void q_rot(float v[3], const float r[4], const float w[3]);
 
 void q_euler(float v[3], const float q[4]);
+void q_slerp(float q[4], const float a[4], const float b[4], float t);
 
 #endif

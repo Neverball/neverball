@@ -381,4 +381,58 @@ void q_euler(float v[3], const float q[4])
     v[2] = fatan2f(m23, m33);
 }
 
+/*
+ * Spherical linear interpolation
+ */
+void q_slerp(float q[4], const float a[4], const float b[4], float t)
+{
+    float c, r, s, u, v;
+    int i = +1;
+
+    if (t <= 0.0f)
+    {
+        q_cpy(q, a);
+        return;
+    }
+
+    if (1.0f <= t)
+    {
+        q_cpy(q, b);
+        return;
+    }
+
+    /*
+     * a . b = |a||b| cos A
+     * |a| = |b| = 1
+     */
+
+    c = q_dot(a, b);
+
+    /* Ensure the shortest path. */
+
+    if (c < 0)
+    {
+        c = -c;
+        i = -1;
+    }
+
+    /* Short-circuit identical orientations. */
+
+    if (c == 1.0f)
+    {
+        q_cpy(q, b);
+        return;
+    }
+
+    r = facosf(c);
+    s = fsinf(r);
+    u = fsinf((1.0f - t) * r) / s;
+    v = fsinf((t)        * r) / s * i;
+
+    q[0] = a[0] * u + b[0] * v;
+    q[1] = a[1] * u + b[1] * v;
+    q[2] = a[2] * u + b[2] * v;
+    q[3] = a[3] * u + b[3] * v;
+}
+
 /*---------------------------------------------------------------------------*/
