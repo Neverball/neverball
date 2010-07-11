@@ -65,7 +65,6 @@ enum cmd_type
     CMD_STEP_SIMULATION,
     CMD_MAP,
     CMD_TILT_AXES,
-    CMD_BODY_ORIENTATION,
 
     CMD_MAX
 };
@@ -276,13 +275,6 @@ struct cmd_tilt_axes
     float x[3], z[3];
 };
 
-struct cmd_body_orientation
-{
-    HEADER;
-    int bi;
-    float e[4];
-};
-
 union cmd
 {
     HEADER;
@@ -318,7 +310,6 @@ union cmd
     struct cmd_step_simulation    stepsim;
     struct cmd_map                map;
     struct cmd_tilt_axes          tiltaxes;
-    struct cmd_body_orientation   bodyorient;
 };
 
 /* No module should see this. */

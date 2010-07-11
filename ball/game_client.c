@@ -382,9 +382,6 @@ static void game_run_cmd(const union cmd *cmd)
             v_cpy(tilt.z, cmd->tiltaxes.z);
             break;
 
-        case CMD_BODY_ORIENTATION:
-            break;
-
         case CMD_NONE:
         case CMD_MAX:
             break;
