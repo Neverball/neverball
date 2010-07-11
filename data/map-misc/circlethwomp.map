@@ -1402,12 +1402,18 @@
 }
 // entity 55
 {
-"classname" "func_rotating"
-"target" "path_corner5"
+"classname" "info_camp"
+"origin" "64.000000 192.000000 -1.000000"
+"target" "spin0"
+}
+// entity 56
+{
+"classname" "func_train"
+"target" "spin0"
 // brush 0
 {
 ( 176 384 64 ) ( 176 320 64 ) ( 112 384 64 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
-( 176 384 24 ) ( 112 384 24 ) ( 176 384 16 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 172 320 24 ) ( 108 320 24 ) ( 172 320 16 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
 ( 176 384 24 ) ( 176 384 16 ) ( 176 320 24 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
 ( 112 320 0 ) ( 176 320 0 ) ( 112 384 0 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
 ( 112 319 16 ) ( 112 319 24 ) ( 176 319 16 ) mtrl/thwomp 64 0 0 0.25 0.25 134217728 0 0
@@ -1423,24 +1429,32 @@
 ( 112 320 16 ) ( 112 384 16 ) ( 112 320 24 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 56
-{
-"classname" "path_corner"
-"origin" "64.000000 352.000000 -1.000000"
-"targetname" "path_corner5"
-"speed" "2.5"
-"target" "path_corner6"
-"state" "0"
-}
 // entity 57
 {
 "classname" "path_corner"
-"origin" "64.000000 352.000000 -33.000000"
-"targetname" "path_corner6"
+"origin" "64.000000 352.000000 -1.000000"
+"targetname" "spin120"
+"target" "spin0"
+"angles" "-90.000000 0.000000 120.000000"
+"speed" "0.84"
+"state" "0"
 }
 // entity 58
 {
-"classname" "info_camp"
-"origin" "64.000000 192.000000 -1.000000"
-"target" "path_corner5"
+"classname" "path_corner"
+"origin" "64.000000 352.000000 -1.000000"
+"targetname" "spin0"
+"target" "spin240"
+"speed" "0.84"
+"state" "0"
+}
+// entity 59
+{
+"classname" "path_corner"
+"origin" "64.000000 352.000000 -1.000000"
+"targetname" "spin240"
+"target" "spin120"
+"angles" "-90.000000 0.000000 -119.999992"
+"speed" "0.84"
+"state" "0"
 }

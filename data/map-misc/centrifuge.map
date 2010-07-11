@@ -19,21 +19,20 @@
 {
 "classname" "path_corner"
 "origin" "0.000000 0.000000 64.000000"
-"state" "1"
-"target" "path_corner1"
-"targetname" "path_corner2"
-"speed" "5"
+"targetname" "spin240"
+"target" "spin0"
+"angles" "-90.000000 0.000000 -119.999992"
+"speed" "1.6"
 }
 // entity 2
 {
-"classname" "path_corner"
-"origin" "0.000000 0.000000 96.000000"
-"targetname" "path_corner1"
+"classname" "info_player_start"
+"origin" "1408.000000 -8.000000 40.000000"
 }
 // entity 3
 {
-"classname" "func_rotating"
-"target" "path_corner2"
+"classname" "func_train"
+"target" "spin0"
 // brush 0
 {
 ( 104 8 16 ) ( 104 -16 16 ) ( 40 8 16 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
@@ -136,6 +135,18 @@
 }
 // entity 4
 {
-"classname" "info_player_start"
-"origin" "1408.000000 -8.000000 40.000000"
+"classname" "path_corner"
+"origin" "0.000000 0.000000 64.000000"
+"targetname" "spin0"
+"target" "spin120"
+"speed" "1.6"
+}
+// entity 5
+{
+"classname" "path_corner"
+"origin" "0.000000 0.000000 64.000000"
+"targetname" "spin120"
+"target" "spin240"
+"angles" "-90.000000 0.000000 120.000000"
+"speed" "1.6"
 }
