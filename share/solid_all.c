@@ -69,44 +69,76 @@ void sol_body_v(float v[3],
     }
 }
 
+void sol_body_e(float e[4],
+                const struct s_file *fp,
+                const struct s_body *bp)
+{
+    struct s_path *pp = fp->pv + bp->pi;
+
+    if (bp->pi >= 0)
+    {
+        struct s_path *pq = fp->pv + pp->pi;
+
+        if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
+        {
+            q_slerp(e, pp->e, pq->e, bp->t / pp->t);
+            return;
+        }
+    }
+
+    e[0] = 1.0f;
+    e[1] = 0.0f;
+    e[2] = 0.0f;
+    e[3] = 0.0f;
+}
+
 void sol_body_w(float w[3],
                 const struct s_file *fp,
                 const struct s_body *bp)
 {
-    if (bp->fl & P_ROTATING)
+    struct s_path *pp = fp->pv + bp->pi;
+
+    if (bp->pi >= 0 && pp->f)
     {
-        struct s_path *pp = fp->pv + bp->pi;
+        struct s_path *pq = fp->pv + pp->pi;
 
-        if (bp->pi >= 0 && pp->f)
+        if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
         {
-            struct s_path *pq = fp->pv + pp->pi;
+            float d[4], i[4], a;
 
-            if (pp->pi != bp->pi)
+            /*
+             * a * d = b
+             * d = b / a
+             * d = b * (1 / a)
+             */
+
+            i[0] =  pp->e[0];
+            i[1] = -pp->e[1];
+            i[2] = -pp->e[2];
+            i[3] = -pp->e[3];
+
+            q_mul(d, pq->e, i);
+            q_nrm(d, d);
+
+            /* Match slerp by using the short path. */
+
+            if (d[0] < 0)
             {
-                v_sub(w, pq->p, pp->p);
-                v_nrm(w, w);
-                v_scl(w, w, (1.0f / pp->t) * 2 * V_PI);
+                d[0] = -d[0];
+                d[1] = -d[1];
+                d[2] = -d[2];
+                d[3] = -d[3];
             }
-            else
-            {
-                w[0] = 0.0f;
-                w[1] = (1.0f / pp->t) * 2 * V_PI;
-                w[2] = 0.0f;
-            }
-        }
-        else
-        {
-            w[0] = 0.0f;
-            w[1] = 0.0f;
-            w[2] = 0.0f;
+
+            q_as_axisangle(d, w, &a);
+            v_scl(w, w, a / pp->t);
+            return;
         }
     }
-    else
-    {
-        w[0] = 0.0f;
-        w[1] = 0.0f;
-        w[2] = 0.0f;
-    }
+
+    w[0] = 0.0f;
+    w[1] = 0.0f;
+    w[2] = 0.0f;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -266,41 +298,22 @@ void sol_body_step(struct s_file *fp, float dt)
 
         if (bp->pi >= 0 && pp->f)
         {
-            if (bp->fl & P_ROTATING)
+            bp->t = (t += dt);
+
+            if (t >= pp->t)
             {
-                float d[4], e[4], w[3];
+                bp->t  = 0;
+                bp->pi = pp->pi;
 
-                sol_body_w(w, fp, bp);
-
-                q_by_axisangle(d, w, v_len(w) * dt);
-
-                q_mul(e, bp->e, d);
-                q_nrm(bp->e, e);
-
-                cmd.type          = CMD_BODY_ORIENTATION;
-                cmd.bodyorient.bi = i;
-                q_cpy(cmd.bodyorient.e, bp->e);
+                cmd.type        = CMD_BODY_TIME;
+                cmd.bodytime.bi = i;
+                cmd.bodytime.t  = bp->t;
                 sol_cmd_enq(&cmd);
-            }
-            else
-            {
-                bp->t = (t += dt);
 
-                if (t >= pp->t)
-                {
-                    bp->t  = 0;
-                    bp->pi = pp->pi;
-
-                    cmd.type        = CMD_BODY_TIME;
-                    cmd.bodytime.bi = i;
-                    cmd.bodytime.t  = bp->t;
-                    sol_cmd_enq(&cmd);
-
-                    cmd.type        = CMD_BODY_PATH;
-                    cmd.bodypath.bi = i;
-                    cmd.bodypath.pi = bp->pi;
-                    sol_cmd_enq(&cmd);
-                }
+                cmd.type        = CMD_BODY_PATH;
+                cmd.bodypath.bi = i;
+                cmd.bodypath.pi = bp->pi;
+                sol_cmd_enq(&cmd);
             }
         }
     }

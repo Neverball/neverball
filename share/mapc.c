@@ -839,6 +839,36 @@ static void make_path(struct s_file *fp,
             pp->p[1] = +z / SCALE;
             pp->p[2] = -y / SCALE;
         }
+
+        if (strcmp(k[i], "angles") == 0)
+        {
+            float x = 0.0f, y = 0.0f, z = 0.0f;
+
+            /* Pitch, yaw and roll. */
+
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
+
+            /*
+             * Find the direction vector from pitch and yaw, use it as
+             * the rotation axis.
+             */
+
+            x = V_RAD(-x);
+            y = V_RAD(+y);
+
+            pp->e[1] =  fcosf(y) * fcosf(x);
+            pp->e[2] =  fsinf(x);
+            pp->e[3] = -fsinf(y) * fcosf(x);
+
+            /* Use roll as the rotation angle. */
+
+            z = V_RAD(+z) * 0.5f;
+
+            pp->e[0] = fcosf(z);
+            v_scl(pp->e + 1, pp->e + 1, fsinf(z));
+
+            pp->fl |= P_ORIENTED;
+        }
     }
 }
 
@@ -907,10 +937,6 @@ static void make_body(struct s_file *fp,
 
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%f %f %f", &x, &y, &z);
-
-        else if (strcmp(k[i], "classname") == 0 &&
-                 strcmp(v[i], "func_rotating") == 0)
-            bp->fl |= P_ROTATING;
 
         else if (read_dict_entries && strcmp(k[i], "classname") != 0)
             make_dict(fp, k[i], v[i]);
@@ -1289,7 +1315,6 @@ static void read_ent(struct s_file *fp, fs_file fin)
         make_body(fp, k, v, c, l0);
     }
     if (!strcmp(v[i], "func_train"))               make_body(fp, k, v, c, l0);
-    if (!strcmp(v[i], "func_rotating"))            make_body(fp, k, v, c, l0);
     if (!strcmp(v[i], "misc_model"))               make_body(fp, k, v, c, l0);
 }
 

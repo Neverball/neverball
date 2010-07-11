@@ -359,7 +359,7 @@ static void game_run_cmd(const union cmd *cmd)
                 struct s_body *bp = file.bv + i;
                 struct s_path *pp = file.pv + bp->pi;
 
-                if (bp->pi >= 0 && pp->f && (bp->fl & P_ROTATING) == 0)
+                if (bp->pi >= 0 && pp->f)
                     bp->t += dt;
             }
             break;
@@ -383,7 +383,6 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_BODY_ORIENTATION:
-            q_cpy(file.bv[cmd->bodyorient.bi].e, cmd->bodyorient.e);
             break;
 
         case CMD_NONE:

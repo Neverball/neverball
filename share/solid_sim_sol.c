@@ -515,12 +515,13 @@ static float sol_test_body(float dt,
                            const struct s_file *fp,
                            const struct s_body *bp)
 {
-    float U[3], O[3], W[3], A[3], u, t = dt;
+    float U[3], O[3], E[4], W[3], A[3], u, t = dt;
 
     const struct s_node *np = fp->nv + bp->ni;
 
     sol_body_p(O, fp, bp->pi, bp->t);
     sol_body_v(W, fp, bp->pi, bp->t, dt);
+    sol_body_e(E, fp, bp);
     sol_body_w(A, fp, bp);
 
     /*
@@ -534,15 +535,17 @@ static float sol_test_body(float dt,
      * v = w x p
      */
 
-    if (bp->fl & P_ROTATING)
+    if (E[0] != 1.0f || v_dot(A, A))
     {
+        /* The body has a non-identity orientation or it is rotating. */
+
         struct s_ball ball = *up;
         float e[4], w[3], v[3];
 
-        e[0] =  bp->e[0];
-        e[1] = -bp->e[1];
-        e[2] = -bp->e[2];
-        e[3] = -bp->e[3];
+        e[0] =  E[0];
+        e[1] = -E[1];
+        e[2] = -E[2];
+        e[3] = -E[3];
 
         w[0] = -A[0];
         w[1] = -A[1];
@@ -555,7 +558,8 @@ static float sol_test_body(float dt,
 
         /* Transform velocity. */
 
-        q_rot(ball.v, e, up->v);
+        v_sub(v, up->v, W);
+        q_rot(ball.v, e, v);
 
         /* Also add the velocity from rotation. */
 
@@ -577,12 +581,16 @@ static float sol_test_body(float dt,
             float d[4];
 
             q_by_axisangle(d, A, v_len(A) * u);
-            q_mul(e, bp->e, d);
+            q_mul(e, E, d);
             q_nrm(e, e);
 
             q_rot(T, e, U);
+
             v_crs(V, A, T);
+            v_add(V, V, W);
+
             v_add(T, O, T);
+            v_mad(O, T, W, u);
 
             t = u;
         }

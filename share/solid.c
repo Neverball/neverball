@@ -26,7 +26,8 @@ enum
     SOL_VER_MINIMUM = 6,
     SOL_VER_LUMP_POLY,
     SOL_VER_BODY_FLAG,
-    SOL_VER_CURRENT = SOL_VER_BODY_FLAG
+    SOL_VER_PATH_FLAGS,
+    SOL_VER_CURRENT = SOL_VER_PATH_FLAGS
 };
 
 #define MAGIC 0x4c4f53af
@@ -135,6 +136,17 @@ static void sol_load_path(fs_file fin, struct s_path *pp)
     get_index(fin, &pp->pi);
     get_index(fin, &pp->f);
     get_index(fin, &pp->s);
+
+    if (sol_version >= SOL_VER_PATH_FLAGS)
+        get_index(fin, &pp->fl);
+
+    pp->e[0] = 1.0f;
+    pp->e[1] = 0.0f;
+    pp->e[2] = 0.0f;
+    pp->e[3] = 0.0f;
+
+    if (pp->fl & P_ORIENTED)
+        get_array(fin, pp->e, 4);
 }
 
 static void sol_load_body(fs_file fin, struct s_body *bp)
@@ -148,11 +160,6 @@ static void sol_load_body(fs_file fin, struct s_body *bp)
 
     if (sol_version >= SOL_VER_BODY_FLAG)
         get_index(fin, &bp->fl);
-
-    bp->e[0] = 1.0f;
-    bp->e[1] = 0.0f;
-    bp->e[2] = 0.0f;
-    bp->e[3] = 0.0f;
 }
 
 static void sol_load_item(fs_file fin, struct s_item *hp)
@@ -483,6 +490,10 @@ static void sol_stor_path(fs_file fout, struct s_path *pp)
     put_index(fout, &pp->pi);
     put_index(fout, &pp->f);
     put_index(fout, &pp->s);
+    put_index(fout, &pp->fl);
+
+    if (pp->fl & P_ORIENTED)
+        put_array(fout, pp->e, 4);
 }
 
 static void sol_stor_body(fs_file fout, struct s_body *bp)

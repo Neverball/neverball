@@ -97,6 +97,7 @@ Attributes:
 * <real key="speed" name="Travel time" value="1.0">Duration of the trip along this path segment, in seconds.  The default is "1.0".</real>
 * <boolean key="state" name="State" value="1">Determines whether the path is enabled.  An object will only move along an enabled path.  An object may be stopped and started by toggling the state of the path to which it is attached.  "0" means no, "1" means yes.  The default is 1.</boolean>
 * <boolean key="smooth" name="Smooth" value="1">Determines whether an object moves smoothly along this path segment or at a constant speed.  "0" means no, "1" means yes.  The default is 1.</boolean>
+* <angles key="angles" name="Orientation" value="0 0 0">Defines the final orientation of the object at this path_corner.  The first two values are angles giving the axis of rotation (first angle is inverse elevation, second angle is azimuth).  The third value is an angle giving the amount of rotation about the axis.  As the object travels between two path corners, its orientation is interpolated between the orientations of the corners.</angles>
 </point>
 
 
