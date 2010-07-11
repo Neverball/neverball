@@ -24,7 +24,6 @@
 enum
 {
     SOL_VER_MINIMUM = 6,
-    SOL_VER_LUMP_POLY,
     SOL_VER_BODY_FLAG,
     SOL_VER_PATH_FLAGS,
     SOL_VER_CURRENT = SOL_VER_PATH_FLAGS
@@ -112,12 +111,6 @@ static void sol_load_lump(fs_file fin, struct s_lump *lp)
     get_index(fin, &lp->gc);
     get_index(fin, &lp->s0);
     get_index(fin, &lp->sc);
-
-    if (sol_version >= SOL_VER_LUMP_POLY)
-    {
-        get_index(fin, &lp->f0);
-        get_index(fin, &lp->fc);
-    }
 }
 
 static void sol_load_node(fs_file fin, struct s_node *np)
@@ -470,8 +463,6 @@ static void sol_stor_lump(fs_file fout, struct s_lump *lp)
     put_index(fout, &lp->gc);
     put_index(fout, &lp->s0);
     put_index(fout, &lp->sc);
-    put_index(fout, &lp->f0);
-    put_index(fout, &lp->fc);
 }
 
 static void sol_stor_node(fs_file fout, struct s_node *np)
