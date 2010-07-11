@@ -82,10 +82,6 @@ else
     ALL_CPPFLAGS += -DENABLE_NLS=1
 endif
 
-ifeq ($(ENABLE_ODE),1)
-    ALL_CPPFLAGS += $(shell ode-config --cflags)
-endif
-
 ifeq ($(PLATFORM),darwin)
     ALL_CPPFLAGS += -I/opt/local/include
 endif
@@ -112,10 +108,6 @@ else
 ifeq ($(ENABLE_TILT),loop)
     TILT_LIBS := -lusb-1.0 -lfreespace
 endif
-endif
-
-ifeq ($(ENABLE_ODE),1)
-    ODE_LIBS := $(shell ode-config --libs)
 endif
 
 OGL_LIBS := -lGL -lm
@@ -145,7 +137,7 @@ ifeq ($(PLATFORM),darwin)
 endif
 
 ALL_LIBS := $(SDL_LIBS) $(BASE_LIBS) $(TILT_LIBS) $(INTL_LIBS) -lSDL_ttf \
-    -lvorbisfile $(OGL_LIBS) $(ODE_LIBS)
+    -lvorbisfile $(OGL_LIBS)
 
 #------------------------------------------------------------------------------
 
@@ -288,13 +280,8 @@ PUTT_OBJS := \
 	putt/st_conf.o      \
 	putt/main.o
 
-ifeq ($(ENABLE_ODE),1)
-BALL_OBJS += share/solid_sim_ode.o
-PUTT_OBJS += share/solid_sim_ode.o
-else
 BALL_OBJS += share/solid_sim_sol.o
 PUTT_OBJS += share/solid_sim_sol.o
-endif
 
 ifeq ($(ENABLE_TILT),wii)
 BALL_OBJS += share/tilt_wii.o
