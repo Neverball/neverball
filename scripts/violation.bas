@@ -101,7 +101,7 @@ if eof(2) = 0 then
             if VioCount(1,1) > 0 OR VioCount(2,1) > 0 then
                 print #1, VioCount(1,1);" length and ";VioCount(2,1);_
                     " vertical whitespace violation(s) found."
-                print #1, "Per kilobyte (SI), there are ";
+                print #1, "Per kilobyte, there are ";
                 print #1, using "##.##";VioCount(1,1)/FileLen(LongFile)*1000;
                 print #1, " length violations and ";
                 print #1, using "##.##";VioCount(2,1)/FileLen(LongFile)*1000;
