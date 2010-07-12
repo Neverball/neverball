@@ -297,13 +297,27 @@ void m_view(float *M,
 
 /*---------------------------------------------------------------------------*/
 
-void q_axisangle(const float *q, float *u, float *a)
+void q_as_axisangle(const float q[4], float u[3], float *a)
 {
-    *a = V_DEG(2.0f * facosf(q[0]));
+    *a = 2.0f * facosf(q[0]);
     v_nrm(u, q + 1);
 }
 
-void q_nrm(float *q, const float *r)
+void q_by_axisangle(float q[4], const float u[3], float a)
+{
+    float c = fcosf(a * 0.5f);
+    float s = fsinf(a * 0.5f);
+    float n[3];
+
+    v_nrm(n, u);
+
+    q[0] =        c;
+    q[1] = n[0] * s;
+    q[2] = n[1] * s;
+    q[3] = n[2] * s;
+}
+
+void q_nrm(float q[4], const float r[4])
 {
     float d = q_len(r);
 
@@ -323,7 +337,38 @@ void q_nrm(float *q, const float *r)
     }
 }
 
-void q_euler(float *v, const float *q)
+void q_mul(float q[4], const float a[4], const float b[4])
+{
+    q[0] = a[0] * b[0] - a[1] * b[1] - a[2] * b[2] - a[3] * b[3];
+    q[1] = a[0] * b[1] + a[1] * b[0] + a[2] * b[3] - a[3] * b[2];
+    q[2] = a[0] * b[2] - a[1] * b[3] + a[2] * b[0] + a[3] * b[1];
+    q[3] = a[0] * b[3] + a[1] * b[2] - a[2] * b[1] + a[3] * b[0];
+}
+
+void q_rot(float v[3], const float r[4], const float w[3])
+{
+    float a[4], b[4], c[4];
+
+    a[0] = 0.0f;
+    a[1] = w[0];
+    a[2] = w[1];
+    a[3] = w[2];
+
+    q_mul(b, r, a);
+
+    a[0] =  r[0];
+    a[1] = -r[1];
+    a[2] = -r[2];
+    a[3] = -r[3];
+
+    q_mul(c, b, a);
+
+    v[0] = c[1];
+    v[1] = c[2];
+    v[2] = c[3];
+}
+
+void q_euler(float v[3], const float q[4])
 {
     float m11 = (2 * q[0] * q[0]) + (2 * q[1] * q[1]) - 1;
     float m12 = (2 * q[1] * q[2]) + (2 * q[0] * q[3]);
@@ -334,6 +379,60 @@ void q_euler(float *v, const float *q)
     v[0] = fatan2f(m12, m11);
     v[1] = fasinf(-m13);
     v[2] = fatan2f(m23, m33);
+}
+
+/*
+ * Spherical linear interpolation
+ */
+void q_slerp(float q[4], const float a[4], const float b[4], float t)
+{
+    float c, r, s, u, v;
+    int i = +1;
+
+    if (t <= 0.0f)
+    {
+        q_cpy(q, a);
+        return;
+    }
+
+    if (1.0f <= t)
+    {
+        q_cpy(q, b);
+        return;
+    }
+
+    /*
+     * a . b = |a||b| cos A
+     * |a| = |b| = 1
+     */
+
+    c = q_dot(a, b);
+
+    /* Ensure the shortest path. */
+
+    if (c < 0)
+    {
+        c = -c;
+        i = -1;
+    }
+
+    /* Short-circuit identical orientations. */
+
+    if (c == 1.0f)
+    {
+        q_cpy(q, b);
+        return;
+    }
+
+    r = facosf(c);
+    s = fsinf(r);
+    u = fsinf((1.0f - t) * r) / s;
+    v = fsinf((t)        * r) / s * i;
+
+    q[0] = a[0] * u + b[0] * v;
+    q[1] = a[1] * u + b[1] * v;
+    q[2] = a[2] * u + b[2] * v;
+    q[3] = a[3] * u + b[3] * v;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -348,11 +348,13 @@ static const struct s_mtrl *sol_draw_body(const struct s_file *fp,
 static void sol_draw_list(const struct s_file *fp,
                           const struct s_body *bp, GLuint list)
 {
-    float p[3], u[3], a;
+    float p[3], e[4], u[3], a;
 
     sol_body_p(p, fp, bp->pi, bp->t);
+    sol_body_e(e, fp, bp);
 
-    q_axisangle(bp->e, u, &a);
+    q_as_axisangle(e, u, &a);
+    a = V_DEG(a);
 
     glPushMatrix();
     {
@@ -511,11 +513,13 @@ static void sol_shad_body(const struct s_file *fp,
 static void sol_shad_list(const struct s_file *fp,
                           const struct s_body *bp, GLuint list)
 {
-    float p[3], u[3], a;
+    float p[3], e[4], u[3], a;
 
     sol_body_p(p, fp, bp->pi, bp->t);
+    sol_body_e(e, fp, bp);
 
-    q_axisangle(bp->e, u, &a);
+    q_as_axisangle(e, u, &a);
+    a = V_DEG(a);
 
     glPushMatrix();
     {
@@ -530,6 +534,7 @@ static void sol_shad_list(const struct s_file *fp,
         {
             glPushMatrix();
             glTranslatef(p[0], p[2], 0.0f);
+            glRotatef(-a, u[0], u[2], u[1]);
         }
         glMatrixMode(GL_MODELVIEW);
 

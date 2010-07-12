@@ -24,9 +24,8 @@
 enum
 {
     SOL_VER_MINIMUM = 6,
-    SOL_VER_LUMP_POLY,
-    SOL_VER_BODY_FLAG,
-    SOL_VER_CURRENT = SOL_VER_BODY_FLAG
+    SOL_VER_PATH_FLAGS,
+    SOL_VER_CURRENT = SOL_VER_PATH_FLAGS
 };
 
 #define MAGIC 0x4c4f53af
@@ -111,12 +110,6 @@ static void sol_load_lump(fs_file fin, struct s_lump *lp)
     get_index(fin, &lp->gc);
     get_index(fin, &lp->s0);
     get_index(fin, &lp->sc);
-
-    if (sol_version >= SOL_VER_LUMP_POLY)
-    {
-        get_index(fin, &lp->f0);
-        get_index(fin, &lp->fc);
-    }
 }
 
 static void sol_load_node(fs_file fin, struct s_node *np)
@@ -135,6 +128,17 @@ static void sol_load_path(fs_file fin, struct s_path *pp)
     get_index(fin, &pp->pi);
     get_index(fin, &pp->f);
     get_index(fin, &pp->s);
+
+    if (sol_version >= SOL_VER_PATH_FLAGS)
+        get_index(fin, &pp->fl);
+
+    pp->e[0] = 1.0f;
+    pp->e[1] = 0.0f;
+    pp->e[2] = 0.0f;
+    pp->e[3] = 0.0f;
+
+    if (pp->fl & P_ORIENTED)
+        get_array(fin, pp->e, 4);
 }
 
 static void sol_load_body(fs_file fin, struct s_body *bp)
@@ -145,14 +149,6 @@ static void sol_load_body(fs_file fin, struct s_body *bp)
     get_index(fin, &bp->lc);
     get_index(fin, &bp->g0);
     get_index(fin, &bp->gc);
-
-    if (sol_version >= SOL_VER_BODY_FLAG)
-        get_index(fin, &bp->fl);
-
-    bp->e[0] = 1.0f;
-    bp->e[1] = 0.0f;
-    bp->e[2] = 0.0f;
-    bp->e[3] = 0.0f;
 }
 
 static void sol_load_item(fs_file fin, struct s_item *hp)
@@ -463,8 +459,6 @@ static void sol_stor_lump(fs_file fout, struct s_lump *lp)
     put_index(fout, &lp->gc);
     put_index(fout, &lp->s0);
     put_index(fout, &lp->sc);
-    put_index(fout, &lp->f0);
-    put_index(fout, &lp->fc);
 }
 
 static void sol_stor_node(fs_file fout, struct s_node *np)
@@ -483,6 +477,10 @@ static void sol_stor_path(fs_file fout, struct s_path *pp)
     put_index(fout, &pp->pi);
     put_index(fout, &pp->f);
     put_index(fout, &pp->s);
+    put_index(fout, &pp->fl);
+
+    if (pp->fl & P_ORIENTED)
+        put_array(fout, pp->e, 4);
 }
 
 static void sol_stor_body(fs_file fout, struct s_body *bp)
@@ -493,7 +491,6 @@ static void sol_stor_body(fs_file fout, struct s_body *bp)
     put_index(fout, &bp->lc);
     put_index(fout, &bp->g0);
     put_index(fout, &bp->gc);
-    put_index(fout, &bp->fl);
 }
 
 static void sol_stor_item(fs_file fout, struct s_item *hp)

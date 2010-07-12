@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "1.1"
+"version" "1.2"
 "author" "Florian Priester"
 "shot" "shot-fwp/mountains.png"
 "back" "map-back/ocean.sol"
@@ -10,7 +10,7 @@
 "time" "12000"
 "goal" "50"
 "coin_hs" "150 90"
-"time_hs" "2100 2500"
+"time_hs" "2000 2500"
 "goal_hs" "2500 4500"
 "message" "=Mountains=\Ups and downs are a part of life."
 // brush 0

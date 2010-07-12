@@ -106,9 +106,9 @@
 #define ITEM_GROW       2
 #define ITEM_SHRINK     3
 
-/* Body flags. */
+/* Path flags. */
 
-#define P_ROTATING 1
+#define P_ORIENTED 1
 
 /*---------------------------------------------------------------------------*/
 
@@ -164,7 +164,6 @@ struct s_lump
     int e0, ec;
     int g0, gc;
     int s0, sc;
-    int f0, fc;                                /* polygon data               */
 };
 
 struct s_node
@@ -179,24 +178,26 @@ struct s_node
 struct s_path
 {
     float p[3];                                /* starting position          */
+    float e[4];                                /* orientation (quaternion)   */
     float t;                                   /* travel time                */
 
     int pi;
     int f;                                     /* enable flag                */
     int s;                                     /* smooth flag                */
+
+    int fl;                                    /* flags                      */
+
+    /* TODO: merge enable and smooth into flags. */
 };
 
 struct s_body
 {
     float t;                                   /* time on current path       */
-    float e[4];                                /* orientation (quaternion)   */
 
     GLuint ol;                                 /* opaque geometry list       */
     GLuint tl;                                 /* transparent geometry list  */
     GLuint rl;                                 /* reflective geometry list   */
     GLuint sl;                                 /* shadowed geometry list     */
-
-    int fl;                                    /* flags                      */
 
     int pi;
     int ni;

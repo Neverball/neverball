@@ -147,6 +147,36 @@ static float v_edge(float Q[3],
     uu = v_dot(u, u);
 
     v_mad(P, d, u, -du / uu);
+
+    /* First, test for intersection. */
+
+    if (v_dot(P, P) < r * r)
+    {
+        /* The sphere already intersects the line of the edge. */
+
+        if (du < 0 || du > uu)
+        {
+            /*
+             * The sphere is behind the endpoints of the edge, and
+             * can't hit the edge without hitting the vertices first.
+             */
+            return LARGE;
+        }
+
+        /* The sphere already intersects the edge. */
+
+        if (v_dot(P, e) >= 0)
+        {
+            /* Moving apart. */
+            return LARGE;
+        }
+
+        v_nrm(P, P);
+        v_mad(Q, p, P, -r);
+
+        return 0;
+    }
+
     v_mad(V, e, u, -eu / uu);
 
     t = v_sol(P, V, r);
@@ -485,18 +515,94 @@ static float sol_test_body(float dt,
                            const struct s_file *fp,
                            const struct s_body *bp)
 {
-    float U[3], O[3], W[3], u, t = dt;
+    float U[3], O[3], E[4], W[3], A[3], u, t = dt;
 
     const struct s_node *np = fp->nv + bp->ni;
 
     sol_body_p(O, fp, bp->pi, bp->t);
     sol_body_v(W, fp, bp->pi, bp->t, dt);
+    sol_body_e(E, fp, bp);
+    sol_body_w(A, fp, bp);
 
-    if ((u = sol_test_node(t, U, up, fp, np, O, W)) < t)
+    /*
+     * For rotating bodies, rather than rotate every normal and vertex
+     * of the body, we temporarily pretend the ball is rotating and
+     * moving about a static body.
+     */
+
+    /*
+     * Linear velocity of a point rotating about the origin:
+     * v = w x p
+     */
+
+    if (E[0] != 1.0f || v_dot(A, A))
     {
-        v_cpy(T, U);
-        v_cpy(V, W);
-        t = u;
+        /* The body has a non-identity orientation or it is rotating. */
+
+        struct s_ball ball = *up;
+        float e[4], w[3], v[3];
+
+        e[0] =  E[0];
+        e[1] = -E[1];
+        e[2] = -E[2];
+        e[3] = -E[3];
+
+        w[0] = -A[0];
+        w[1] = -A[1];
+        w[2] = -A[2];
+
+        /* Transform position. */
+
+        v_sub(v, up->p, O);
+        q_rot(ball.p, e, v);
+
+        /* Transform velocity. */
+
+        v_sub(v, up->v, W);
+        q_rot(ball.v, e, v);
+
+        /* Also add the velocity from rotation. */
+
+        v_crs(v, w, ball.p);
+        v_add(ball.v, ball.v, v);
+
+        /* Force the solver to work in body space. */
+
+        v[0] = 0.0f;
+        v[1] = 0.0f;
+        v[2] = 0.0f;
+
+        w[0] = 0.0f;
+        w[1] = 0.0f;
+        w[2] = 0.0f;
+
+        if ((u = sol_test_node(t, U, &ball, fp, np, v, w)) < t)
+        {
+            float d[4];
+
+            q_by_axisangle(d, A, v_len(A) * u);
+            q_mul(e, E, d);
+            q_nrm(e, e);
+
+            q_rot(T, e, U);
+
+            v_crs(V, A, T);
+            v_add(V, V, W);
+
+            v_add(T, O, T);
+            v_mad(O, T, W, u);
+
+            t = u;
+        }
+    }
+    else
+    {
+        if ((u = sol_test_node(t, U, up, fp, np, O, W)) < t)
+        {
+            v_cpy(T, U);
+            v_cpy(V, W);
+            t = u;
+        }
     }
     return t;
 }

@@ -839,6 +839,36 @@ static void make_path(struct s_file *fp,
             pp->p[1] = +z / SCALE;
             pp->p[2] = -y / SCALE;
         }
+
+        if (strcmp(k[i], "angles") == 0)
+        {
+            float x = 0.0f, y = 0.0f, z = 0.0f;
+
+            /* Pitch, yaw and roll. */
+
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
+
+            /*
+             * Find the direction vector from pitch and yaw, use it as
+             * the rotation axis.
+             */
+
+            x = V_RAD(-x);
+            y = V_RAD(+y);
+
+            pp->e[1] =  fcosf(y) * fcosf(x);
+            pp->e[2] =  fsinf(x);
+            pp->e[3] = -fsinf(y) * fcosf(x);
+
+            /* Use roll as the rotation angle. */
+
+            z = V_RAD(+z) * 0.5f;
+
+            pp->e[0] = fcosf(z);
+            v_scl(pp->e + 1, pp->e + 1, fsinf(z));
+
+            pp->fl |= P_ORIENTED;
+        }
     }
 }
 
@@ -887,7 +917,6 @@ static void make_body(struct s_file *fp,
     struct s_body *bp = fp->bv + bi;
 
     bp->t  = 0.f;
-    bp->fl = 0;
     bp->pi = -1;
     bp->ni = -1;
 
@@ -907,10 +936,6 @@ static void make_body(struct s_file *fp,
 
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%f %f %f", &x, &y, &z);
-
-        else if (strcmp(k[i], "classname") == 0 &&
-                 strcmp(v[i], "func_rotating") == 0)
-            bp->fl |= P_ROTATING;
 
         else if (read_dict_entries && strcmp(k[i], "classname") != 0)
             make_dict(fp, k[i], v[i]);
@@ -1289,7 +1314,6 @@ static void read_ent(struct s_file *fp, fs_file fin)
         make_body(fp, k, v, c, l0);
     }
     if (!strcmp(v[i], "func_train"))               make_body(fp, k, v, c, l0);
-    if (!strcmp(v[i], "func_rotating"))            make_body(fp, k, v, c, l0);
     if (!strcmp(v[i], "misc_model"))               make_body(fp, k, v, c, l0);
 }
 
@@ -1440,13 +1464,12 @@ static void clip_edge(struct s_file *fp,
 /*
  * Find all verts that lie on  the given side of the lump.  Sort these
  * verts to  have a counter-clockwise winding about  the plane normal.
- * Add the resulting convex polygon to the lump.
+ * Create geoms to tessellate the resulting convex polygon.
  */
-static void clip_face(struct s_file *fp,
+static void clip_geom(struct s_file *fp,
                       struct s_lump *lp, int si)
 {
-    int m[256], d, i, j, n = 0;
-
+    int   m[256], t[256], d, i, j, n = 0;
     float u[3];
     float v[3];
     float w[3];
@@ -1456,64 +1479,45 @@ static void clip_face(struct s_file *fp,
     /* Find em. */
 
     for (i = 0; i < lp->vc; i++)
-        if (on_side(fp->vv[fp->iv[lp->v0 + i]].p, sp))
-            m[n++] = i;
+    {
+        int vi = fp->iv[lp->v0 + i];
+
+        if (on_side(fp->vv[vi].p, sp))
+        {
+            m[n] = vi;
+            t[n] = inct(fp);
+
+            v_add(v, fp->vv[vi].p, plane_p[si]);
+
+            fp->tv[t[n]].u[0] = v_dot(v, plane_u[si]);
+            fp->tv[t[n]].u[1] = v_dot(v, plane_v[si]);
+
+            n++;
+        }
+    }
 
     /* Sort em. */
 
     for (i = 1; i < n; i++)
         for (j = i + 1; j < n; j++)
         {
-            float *p0 = fp->vv[fp->iv[lp->v0 + m[0]]].p;
-            float *p1 = fp->vv[fp->iv[lp->v0 + m[i]]].p;
-            float *p2 = fp->vv[fp->iv[lp->v0 + m[j]]].p;
-
-            v_sub(u, p1, p0);
-            v_sub(v, p2, p0);
+            v_sub(u, fp->vv[m[i]].p, fp->vv[m[0]].p);
+            v_sub(v, fp->vv[m[j]].p, fp->vv[m[0]].p);
             v_crs(w, u, v);
 
-            if (v_dot(w, sp->n) < 0.0f)
+            if (v_dot(w, sp->n) < 0.f)
             {
-                d    = m[i];
-                m[i] = m[j];
-                m[j] = d;
+                d     = m[i];
+                m[i]  = m[j];
+                m[j]  =    d;
+
+                d     = t[i];
+                t[i]  = t[j];
+                t[j]  =    d;
             }
         }
 
     /* Index em. */
-
-    fp->iv[inci(fp)] = n;
-    lp->fc++;
-
-    for (i = 0; i < n; i++)
-    {
-        fp->iv[inci(fp)] = m[i];
-        lp->fc++;
-    }
-}
-
-/*
- * Create geoms to tessellate the given convex polygon.
- */
-static void clip_geom(struct s_file *fp,
-                      struct s_lump *lp, int si, int fi)
-{
-    int   t[256], i, n;
-    float v[3];
-
-    n = fp->iv[fi++];
-
-    for (i = 0; i < n; i++)
-    {
-        int vi = fp->iv[lp->v0 + fp->iv[fi + i]];
-
-        t[i] = inct(fp);
-
-        v_add(v, fp->vv[vi].p, plane_p[si]);
-
-        fp->tv[t[i]].u[0] = v_dot(v, plane_u[si]);
-        fp->tv[t[i]].u[1] = v_dot(v, plane_v[si]);
-    }
 
     for (i = 0; i < n - 2; i++)
     {
@@ -1527,9 +1531,9 @@ static void clip_geom(struct s_file *fp,
         fp->gv[fp->gc].sj = si;
         fp->gv[fp->gc].sk = si;
 
-        fp->gv[fp->gc].vi = fp->iv[lp->v0 + fp->iv[fi]];
-        fp->gv[fp->gc].vj = fp->iv[lp->v0 + fp->iv[fi + i + 1]];
-        fp->gv[fp->gc].vk = fp->iv[lp->v0 + fp->iv[fi + i + 2]];
+        fp->gv[fp->gc].vi = m[0];
+        fp->gv[fp->gc].vj = m[i + 1];
+        fp->gv[fp->gc].vk = m[i + 2];
 
         fp->iv[fp->ic] = fp->gc;
         inci(fp);
@@ -1545,7 +1549,7 @@ static void clip_geom(struct s_file *fp,
  */
 static void clip_lump(struct s_file *fp, struct s_lump *lp)
 {
-    int i, j, k, fi;
+    int i, j, k;
 
     lp->v0 = fp->ic;
     lp->vc = 0;
@@ -1567,24 +1571,13 @@ static void clip_lump(struct s_file *fp, struct s_lump *lp)
                       fp->iv[lp->s0 + i],
                       fp->iv[lp->s0 + j]);
 
-    lp->f0 = fp->ic;
-    lp->fc = 0;
-
-    for (i = 0; i < lp->sc; i++)
-        clip_face(fp, lp, fp->iv[lp->s0 + i]);
-
     lp->g0 = fp->ic;
     lp->gc = 0;
 
-    fi = lp->f0;
-
     for (i = 0; i < lp->sc; i++)
-    {
         if (fp->mv[plane_m[fp->iv[lp->s0 + i]]].d[3] > 0.0f)
-            clip_geom(fp, lp, fp->iv[lp->s0 + i], fi);
-
-        fi += fp->iv[fi] + 1;
-    }
+            clip_geom(fp, lp,
+                      fp->iv[lp->s0 + i]);
 
     for (i = 0; i < lp->sc; i++)
         if (plane_f[fp->iv[lp->s0 + i]])

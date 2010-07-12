@@ -5,7 +5,3 @@ holes-paxed3.txt
 holes-abc.txt
 holes-slippi.txt
 holes-kk.txt
-holes-csyforevere.txt
-holes-csyforeverm.txt
-holes-csyforeverh.txt
-holes-csyforeverx.txt

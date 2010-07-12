@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+build commands
+[RadiantPath]: path to Radiant .. C:\Program Files\Gtkradiant
+[EnginePath]: path to the engine .. C:\quake3\ C:\Program Files\Quake III Arena\ /usr/local/games/quake3/
+-->
+<!-- grep for build_set_variable in Radiant source to see other vars -->
+<project version="2.0">
+<var name="mapc">"[EnginePath]mapc"</var>
+<var name="data">"[EnginePath][GameName]"</var>
+<build name="Mapc: compile map">
+<command>[mapc] "[MapFile]" [data]</command>
+</build>
+</project>
+
