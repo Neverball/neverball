@@ -840,32 +840,47 @@ static void make_path(struct s_file *fp,
             pp->p[2] = -y / SCALE;
         }
 
+        /*
+         * Radiant sets "angle" for yaw-only rotations, "angles"
+         * otherwise.  Angles takes priority, so check for angle
+         * first.
+         */
+
+        if (strcmp(k[i], "angle") == 0)
+        {
+            static const float Y[3] = { 0.0f, 1.0f, 0.0f };
+
+            float y = 0.0f;
+
+            /* Yaw. */
+
+            sscanf(v[i], "%f", &y);
+            q_by_axisangle(pp->e, Y, V_RAD(+y));
+            pp->fl |= P_ORIENTED;
+        }
+
         if (strcmp(k[i], "angles") == 0)
         {
+            static const float X[3] = { 1.0f, 0.0f, 0.0f };
+            static const float Y[3] = { 0.0f, 1.0f, 0.0f };
+            static const float Z[3] = { 0.0f, 0.0f, 1.0f };
+
             float x = 0.0f, y = 0.0f, z = 0.0f;
+            float d[4], e[4];
 
             /* Pitch, yaw and roll. */
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            /*
-             * Find the direction vector from pitch and yaw, use it as
-             * the rotation axis.
-             */
+            q_by_axisangle(pp->e, Y, V_RAD(+y));
 
-            x = V_RAD(-x);
-            y = V_RAD(+y);
+            q_by_axisangle(d, X, V_RAD(-x));
+            q_mul(e, pp->e, d);
+            q_nrm(pp->e, e);
 
-            pp->e[1] =  fcosf(y) * fcosf(x);
-            pp->e[2] =  fsinf(x);
-            pp->e[3] = -fsinf(y) * fcosf(x);
-
-            /* Use roll as the rotation angle. */
-
-            z = V_RAD(+z) * 0.5f;
-
-            pp->e[0] = fcosf(z);
-            v_scl(pp->e + 1, pp->e + 1, fsinf(z));
+            q_by_axisangle(d, Z, V_RAD(-z));
+            q_mul(e, pp->e, d);
+            q_nrm(pp->e, e);
 
             pp->fl |= P_ORIENTED;
         }
