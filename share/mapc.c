@@ -874,11 +874,11 @@ static void make_path(struct s_file *fp,
 
             q_by_axisangle(pp->e, Y, V_RAD(+y));
 
-            q_by_axisangle(d, X, V_RAD(-x));
+            q_by_axisangle(d, Z, V_RAD(-x));
             q_mul(e, pp->e, d);
             q_nrm(pp->e, e);
 
-            q_by_axisangle(d, Z, V_RAD(-z));
+            q_by_axisangle(d, X, V_RAD(+z));
             q_mul(e, pp->e, d);
             q_nrm(pp->e, e);
 
