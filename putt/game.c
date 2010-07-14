@@ -53,6 +53,8 @@ static float jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 
+static float idle_t;                    /* Idling timeout                    */
+
 /*---------------------------------------------------------------------------*/
 
 static void view_init(void)
@@ -84,12 +86,30 @@ static void view_init(void)
 
 void game_init(const char *s)
 {
+    int i;
+
     jump_e = 1;
     jump_b = 0;
+
+    idle_t = 1.0f;
 
     view_init();
     sol_load_gl(&file, s, config_get_d(CONFIG_SHADOW));
     sol_init_sim(&file);
+
+    for (i = 0; i < file.dc; i++)
+    {
+        const char *k = file.av + file.dv[i].ai;
+        const char *v = file.av + file.dv[i].aj;
+
+        if (strcmp(k, "idle") == 0)
+        {
+            sscanf(v, "%f", &idle_t);
+
+            if (idle_t < 1.0f)
+                idle_t = 1.0f;
+        }
+    }
 }
 
 void game_free(void)
@@ -480,14 +500,16 @@ static int game_update_state(float dt)
 
     /* Test for a goal or stop. */
 
-    if (t > 1.f)
+    if (t > 1.f && sol_goal_test(fp, p, ball))
     {
         t = 0.f;
+        return GAME_GOAL;
+    }
 
-        if (sol_goal_test(fp, p, ball))
-            return GAME_GOAL;
-        else
-            return GAME_STOP;
+    if (t > idle_t)
+    {
+        t = 0.f;
+        return GAME_STOP;
     }
 
     return GAME_NONE;
