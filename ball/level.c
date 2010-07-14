@@ -132,8 +132,6 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
 int level_load(const char *filename, struct level *level)
 {
     struct s_file sol;
-
-    int money;
     int i;
 
     memset(level, 0, sizeof (struct level));
@@ -150,14 +148,6 @@ int level_load(const char *filename, struct level *level)
     score_init_hs(&level->score.best_times, 59999, 0);
     score_init_hs(&level->score.fast_unlock, 59999, 0);
     score_init_hs(&level->score.most_coins, 59999, 0);
-
-    money = 0;
-
-    for (i = 0; i < sol.hc; i++)
-        if (sol.hv[i].t == ITEM_COIN)
-            money += sol.hv[i].n;
-
-    level->score.most_coins.coins[0] = money;
 
     scan_level_attribs(level, &sol);
 

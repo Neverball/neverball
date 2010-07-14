@@ -227,14 +227,8 @@ static void sol_load_dict(fs_file fin, struct s_dict *dp)
     get_index(fin, &dp->aj);
 }
 
-
-static int sol_load_file(fs_file fin, struct s_file *fp)
+static void sol_load_indx(fs_file fin, struct s_file *fp)
 {
-    int i;
-
-    if (!sol_file(fin))
-        return 0;
-
     get_index(fin, &fp->ac);
     get_index(fin, &fp->dc);
     get_index(fin, &fp->mc);
@@ -255,6 +249,16 @@ static int sol_load_file(fs_file fin, struct s_file *fp)
     get_index(fin, &fp->uc);
     get_index(fin, &fp->wc);
     get_index(fin, &fp->ic);
+}
+
+static int sol_load_file(fs_file fin, struct s_file *fp)
+{
+    int i;
+
+    if (!sol_file(fin))
+        return 0;
+
+    sol_load_indx(fin, fp);
 
     if (fp->ac)
         fp->av = (char          *) calloc(fp->ac, sizeof (char));
@@ -328,30 +332,7 @@ static int sol_load_head(fs_file fin, struct s_file *fp)
     if (!sol_file(fin))
         return 0;
 
-    get_index(fin, &fp->ac);
-    get_index(fin, &fp->dc);
-
-#if 0
-    get_index(fin, &fp->mc);
-    get_index(fin, &fp->vc);
-    get_index(fin, &fp->ec);
-    get_index(fin, &fp->sc);
-    get_index(fin, &fp->tc);
-    get_index(fin, &fp->gc);
-    get_index(fin, &fp->lc);
-    get_index(fin, &fp->nc);
-    get_index(fin, &fp->pc);
-    get_index(fin, &fp->bc);
-    get_index(fin, &fp->hc);
-    get_index(fin, &fp->zc);
-    get_index(fin, &fp->jc);
-    get_index(fin, &fp->xc);
-    get_index(fin, &fp->rc);
-    get_index(fin, &fp->uc);
-    get_index(fin, &fp->wc);
-    get_index(fin, &fp->ic);
-#endif
-    fs_seek(fin, 18 * 4, SEEK_CUR);
+    sol_load_indx(fin, fp);
 
     if (fp->ac)
     {
