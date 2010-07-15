@@ -134,5 +134,6 @@ Attributes:
 * <string key="version" name="Version">Version of the level.  The format should be "X.Y", where X is incremented every time the level is changed in a way that breaks existing replays, and Y is incremented for all other changes.</string>
 * <string key="author" name="Author">Name of the author.</string>
 * <boolean key="bonus" name="Bonus level">Marks this level as a bonus level.</boolean>
+* <real key="idle" name="Idling time-out (Neverputt)">Neverputt: time to wait after the ball has stopped before starting the next shot.  Useful to ensure that moving objects won't hit the ball while the player is making the shot.</real>
 </group>
 </classes>
