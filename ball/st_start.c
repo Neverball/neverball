@@ -244,6 +244,9 @@ static int start_enter(void)
 
         gui_layout(id, 0, 0);
 
+        if (file_id)
+            gui_set_trunc(file_id, TRUNC_HEAD);
+
         set_score_board(NULL, -1, NULL, -1, NULL, -1);
     }
 
