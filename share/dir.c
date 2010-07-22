@@ -79,24 +79,6 @@ static void del_item(Array items)
     array_del(items);
 }
 
-/*
- * Scan the directory PATH and return an array of dir_item structures
- * for which FILTER evaluates to non-zero (or all, if FILTER is NULL).
- * FILTER can associate data with a dir_item for later use by
- * assigning it to the "data" member.  If GET_LIST is non-NULL, it is
- * used to obtain a NULL-terminated list of names in PATH; this list
- * is later freed with FREE_LIST.  If both are NULL, the default
- * directory listing mechanism is used.
- *
- * (FIXME: GET_LIST was added to reduce code duplication when
- * maintaining the existing "real file system" directory scanning
- * functionality and at the same time supporting "virtual file system"
- * directory scanning using custom routines.  The result of this is
- * that dir_scan becomes a ridiculously general piece of code to
- * "filter and turn an arbitrary list of strings into an array of
- * dir_item structs".  This is too confusing; it's probably better to
- * support VFS only and adapt accordingly.)
- */
 Array dir_scan(const char *path,
                int    (*filter)   (struct dir_item *),
                char **(*get_list) (const char *),
