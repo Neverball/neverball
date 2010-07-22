@@ -284,30 +284,13 @@ SDL_Surface *load_surface(const char *filename)
 
     SDL_Surface *srf = NULL;
 
-    Uint32 rmask;
-    Uint32 gmask;
-    Uint32 bmask;
-    Uint32 amask;
-
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    rmask = 0xFF000000;
-    gmask = 0x00FF0000;
-    bmask = 0x0000FF00;
-    amask = 0x000000FF;
-#else
-    rmask = 0x000000FF;
-    gmask = 0x0000FF00;
-    bmask = 0x00FF0000;
-    amask = 0xFF000000;
-#endif
-
     if ((p = image_load(filename, &w, &h, &b)))
     {
         void *q;
 
         if ((q = image_flip(p, w, h, b, 0, 1)))
             srf = SDL_CreateRGBSurfaceFrom(q, w, h, b * 8, w * b,
-                                           rmask, gmask, bmask, amask);
+                                           RMASK, GMASK, BMASK, AMASK);
         free(p);
     }
     return srf;
