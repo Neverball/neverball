@@ -132,7 +132,6 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
 int level_load(const char *filename, struct level *level)
 {
     struct s_file sol;
-    int i;
 
     memset(level, 0, sizeof (struct level));
     memset(&sol,  0, sizeof (sol));
