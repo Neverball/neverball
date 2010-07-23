@@ -233,7 +233,7 @@ static const char *pick_font_path(void)
 
     if (!fs_exists(path))
     {
-        fprintf(stderr, _("Font '%s' doesn't exist, trying default font.\n"),
+        fprintf(stderr, L_("Font '%s' doesn't exist, trying default font.\n"),
                 path);
 
         path = GUI_FACE;
@@ -267,7 +267,7 @@ void gui_init(void)
 
         if (!(fontdata = fs_load(fontpath, &fontdatalen)))
         {
-            fprintf(stderr, _("Could not load font '%s'.\n"), fontpath);
+            fprintf(stderr, L_("Could not load font '%s'.\n"), fontpath);
             /* Return or no return, we'll probably crash now. */
             return;
         }
