@@ -292,33 +292,55 @@ void config_init(void)
 }
 
 /*
- * Scan an option string and store pointers to the start of key and
- * value at the passed-in locations.  No memory is allocated to store
- * the strings; instead, the option string is modified in-place as
- * needed.  Return 1 on success, 0 on error.
+ * Scan a NUL-terminated string LINE according to the format
+ * '^<space>?<key><space><value>$' and store pointers to the start of key and
+ * value at DST_KEY and DST_VAL, respectively.  No memory is allocated to store
+ * the strings;  instead, the memory pointed to by LINE modified in-place as
+ * needed.
+ *
+ * Return 1 if LINE matches the format, return 0 otherwise.
  */
+
 static int scan_key_and_value(char **dst_key, char **dst_val, char *line)
 {
     if (line)
     {
-        int ks, ke, vs;
+        char *key, *val, *space;
 
-        ks = -1;
-        ke = -1;
-        vs = -1;
+        for (key = line; *key && isspace(*key); key++);
 
-        sscanf(line, " %n%*s%n %n", &ks, &ke, &vs);
-
-        if (ks < 0 || ke < 0 || vs < 0)
+        if (*key)
+        {
+            if (dst_key)
+                *dst_key = key;
+        }
+        else
             return 0;
 
-        if (vs - ke < 1)
+        for (space = key; *space && !isspace(*space); space++);
+
+        if (*space)
+        {
+            /* NUL-terminate the key, if necessary. */
+
+            if (dst_key)
+            {
+                *space = '\0';
+                space++;
+            }
+        }
+        else
             return 0;
 
-        line[ke] = 0;
+        for (val = space; *val && isspace(*val); val++);
 
-        *dst_key = line + ks;
-        *dst_val = line + vs;
+        if (*val)
+        {
+            if (dst_val)
+                *dst_val = val;
+        }
+        else
+            return 0;
 
         return 1;
     }
