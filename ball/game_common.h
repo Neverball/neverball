@@ -51,7 +51,6 @@ enum
     VIEW_CHASE,
     VIEW_LAZY,
     VIEW_MANUAL,
-    VIEW_TOPDOWN,
 
     VIEW_MAX
 };

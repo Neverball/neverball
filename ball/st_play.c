@@ -81,9 +81,6 @@ static void keybd_camera(int c)
     if (config_tst_d(CONFIG_KEY_CAMERA_3, c))
         set_camera(VIEW_MANUAL);
 
-    if (c == SDLK_F4 && config_cheat())
-        set_camera(VIEW_TOPDOWN);
-
     if (config_tst_d(CONFIG_KEY_CAMERA_TOGGLE, c))
         toggle_camera();
 }

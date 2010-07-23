@@ -20,7 +20,6 @@ const char *view_to_str(int v)
     case VIEW_CHASE:   return _("Chase");
     case VIEW_LAZY:    return _("Lazy");
     case VIEW_MANUAL:  return _("Manual");
-    case VIEW_TOPDOWN: return _("Top-Down");
     default:           return _("Unknown");
     }
 }
@@ -47,15 +46,8 @@ void game_tilt_init(struct game_tilt *tilt)
  */
 void game_tilt_axes(struct game_tilt *tilt, float view_e[3][3])
 {
-    const float Y[3] = { 0.0f, 1.0f, 0.0f };
-
     v_cpy(tilt->x, view_e[0]);
     v_cpy(tilt->z, view_e[2]);
-
-    /* Handle possible top-down view. */
-
-    if (fabsf(v_dot(view_e[1], Y)) < fabsf(v_dot(view_e[2], Y)))
-        v_inv(tilt->z, view_e[1]);
 }
 
 void game_tilt_grav(float h[3], const float g[3], const struct game_tilt *tilt)
