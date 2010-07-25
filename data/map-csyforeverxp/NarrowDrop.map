@@ -347,31 +347,31 @@
 // entity 1
 {
 "classname" "info_player_start"
-"origin" "32 -48 88"
+"origin" "0 -48 88"
 "radius" "0.0625"
 }
 // entity 2
 {
 "classname" "info_player_start"
-"origin" "32 -48 88"
+"origin" "0 -48 88"
 "radius" "0.0625"
 }
 // entity 3
 {
 "classname" "info_player_start"
-"origin" "32 -48 88"
+"origin" "0 -48 88"
 "radius" "0.0625"
 }
 // entity 4
 {
 "classname" "info_player_start"
-"origin" "32 -48 88"
+"origin" "0 -48 88"
 "radius" "0.0625"
 }
 // entity 5
 {
 "classname" "info_player_start"
-"origin" "32 -48 88"
+"origin" "0 -48 88"
 "radius" "0.0625"
 }
 // entity 6
