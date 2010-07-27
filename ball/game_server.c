@@ -622,7 +622,8 @@ static void game_update_view(float dt)
     /* Apply manual rotation. */
 
     m_rot(M, Y, V_RAD(da));
-    m_vxfm(view_e[2], M, view_e[2]);
+    m_vxfm(v, M, view_e[2]);
+    v_cpy(view_e[2], v);
 
     /* Orthonormalize the new view reference frame. */
 
