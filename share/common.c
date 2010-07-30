@@ -220,9 +220,9 @@ int path_is_abs(const char *path)
     return 0;
 }
 
-static char *path_last_sep(const char *path)
+static const char *path_last_sep(const char *path)
 {
-    char *sep;
+    const char *sep;
 
     sep = strrchr(path, '/');
 
@@ -233,7 +233,7 @@ static char *path_last_sep(const char *path)
     }
     else
     {
-        char *tmp;
+        const char *tmp;
 
         if ((tmp = strrchr(sep, '\\')))
             sep = tmp;
@@ -246,7 +246,7 @@ static char *path_last_sep(const char *path)
 char *base_name(const char *name, const char *suffix)
 {
     static char buf[MAXSTR];
-    char *base;
+    const char *base;
 
     if (!name)
         return NULL;
@@ -278,7 +278,7 @@ const char *dir_name(const char *name)
 
     strncpy(buff, name, sizeof (buff) - 1);
 
-    if ((sep = path_last_sep(buff)))
+    if ((sep = (char *) path_last_sep(buff)))
     {
         if (sep == buff)
             return "/";
