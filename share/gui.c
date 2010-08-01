@@ -265,26 +265,32 @@ void gui_init(void)
 
         /* Load the font. */
 
-        if (!(fontdata = fs_load(fontpath, &fontdatalen)))
+        if ((fontdata = fs_load(fontpath, &fontdatalen)))
         {
-            fprintf(stderr, L_("Could not load font '%s'.\n"), fontpath);
-            /* Return or no return, we'll probably crash now. */
-            return;
+            fontrwops = SDL_RWFromConstMem(fontdata, fontdatalen);
+
+            /* Load small, medium, and large typefaces. */
+
+            font[GUI_SML] = TTF_OpenFontRW(fontrwops, 0, s0);
+
+            SDL_RWseek(fontrwops, 0, SEEK_SET);
+            font[GUI_MED] = TTF_OpenFontRW(fontrwops, 0, s1);
+
+            SDL_RWseek(fontrwops, 0, SEEK_SET);
+            font[GUI_LRG] = TTF_OpenFontRW(fontrwops, 0, s2);
+
+            /* fontrwops remains open. */
         }
+        else
+        {
+            fontrwops = NULL;
 
-        fontrwops = SDL_RWFromConstMem(fontdata, fontdatalen);
+            font[GUI_SML] = NULL;
+            font[GUI_MED] = NULL;
+            font[GUI_LRG] = NULL;
 
-        /* Load small, medium, and large typefaces. */
-
-        font[GUI_SML] = TTF_OpenFontRW(fontrwops, 0, s0);
-
-        SDL_RWseek(fontrwops, 0, SEEK_SET);
-        font[GUI_MED] = TTF_OpenFontRW(fontrwops, 0, s1);
-
-        SDL_RWseek(fontrwops, 0, SEEK_SET);
-        font[GUI_LRG] = TTF_OpenFontRW(fontrwops, 0, s2);
-
-        /* fontrwops remains open. */
+            fprintf(stderr, L_("Could not load font '%s'.\n"), fontpath);
+        }
 
         radius = s / 60;
 
@@ -445,7 +451,10 @@ struct size
 static struct size gui_measure(const char *text, TTF_Font *font)
 {
     struct size size = { 0, 0 };
-    TTF_SizeUTF8(font, text, &size.w, &size.h);
+
+    if (font)
+        TTF_SizeUTF8(font, text, &size.w, &size.h);
+
     return size;
 }
 

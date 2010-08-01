@@ -202,7 +202,7 @@ GLuint make_image_from_font(int *W, int *H,
 
     /* Render the text. */
 
-    if (text && strlen(text) > 0)
+    if (font && text && strlen(text) > 0)
     {
         SDL_Color    col = { 0xFF, 0xFF, 0xFF, 0xFF };
         SDL_Surface *orig;
