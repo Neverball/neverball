@@ -224,7 +224,7 @@ static void game_cmd_goalopen(void)
 static void game_cmd_updball(void)
 {
     cmd.type = CMD_BALL_POSITION;
-    memcpy(cmd.ballpos.p, file.uv[0].p, sizeof (float) * 3);
+    v_cpy(cmd.ballpos.p, file.uv[0].p);
     game_proxy_enq(&cmd);
 
     cmd.type = CMD_BALL_BASIS;
@@ -241,11 +241,11 @@ static void game_cmd_updball(void)
 static void game_cmd_updview(void)
 {
     cmd.type = CMD_VIEW_POSITION;
-    memcpy(cmd.viewpos.p, view.p, sizeof (float) * 3);
+    v_cpy(cmd.viewpos.p, view.p);
     game_proxy_enq(&cmd);
 
     cmd.type = CMD_VIEW_CENTER;
-    memcpy(cmd.viewcenter.c, view.c, sizeof (float) * 3);
+    v_cpy(cmd.viewcenter.c, view.c);
     game_proxy_enq(&cmd);
 
     cmd.type = CMD_VIEW_BASIS;
