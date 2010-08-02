@@ -75,8 +75,7 @@ static int level_enter(void)
         gui_layout(id, 0, 0);
     }
 
-    game_server_fly(1.0f);
-    game_client_step(NULL);
+    game_client_fly(1.0f);
 
     return id;
 }
