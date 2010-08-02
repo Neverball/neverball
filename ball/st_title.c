@@ -216,9 +216,7 @@ static void title_timer(int id, float dt)
 
         if (real_time <= 20.0f)
         {
-            game_set_fly(fcosf(V_PI * real_time / 20.0f),
-                         game_client_file());
-            game_client_step(NULL);
+            game_client_fly(fcosf(V_PI * real_time / 20.0f));
         }
         else
         {
@@ -238,8 +236,7 @@ static void title_timer(int id, float dt)
             if ((demo = pick_demo(items)))
             {
                 demo_replay_init(demo, NULL, NULL, NULL, NULL, NULL);
-                game_set_fly(0.0f, game_client_file());
-                game_client_step(NULL);
+                game_client_fly(0.0f);
                 real_time = 0.0f;
                 mode = 2;
             }

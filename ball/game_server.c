@@ -44,16 +44,8 @@ static int   timer_down = 1;            /* Timer go up or down?              */
 static int status = GAME_NONE;          /* Outcome of the game               */
 
 static struct game_tilt tilt;           /* Floor rotation                    */
+static struct game_view view;           /* Current view                      */
 
-static float view_a;                    /* Ideal view rotation about Y axis  */
-static float view_dc;                   /* Ideal view distance above ball    */
-static float view_dp;                   /* Ideal view distance above ball    */
-static float view_dz;                   /* Ideal view distance behind ball   */
-
-static float view_c[3];                 /* Current view center               */
-static float view_v[3];                 /* Current view vector               */
-static float view_p[3];                 /* Current view position             */
-static float view_e[3][3];              /* Current view reference frame      */
 static float view_k;
 
 static int   coins  = 0;                /* Collected coins                   */
@@ -249,16 +241,16 @@ static void game_cmd_updball(void)
 static void game_cmd_updview(void)
 {
     cmd.type = CMD_VIEW_POSITION;
-    memcpy(cmd.viewpos.p, view_p, sizeof (float) * 3);
+    memcpy(cmd.viewpos.p, view.p, sizeof (float) * 3);
     game_proxy_enq(&cmd);
 
     cmd.type = CMD_VIEW_CENTER;
-    memcpy(cmd.viewcenter.c, view_c, sizeof (float) * 3);
+    memcpy(cmd.viewcenter.c, view.c, sizeof (float) * 3);
     game_proxy_enq(&cmd);
 
     cmd.type = CMD_VIEW_BASIS;
-    v_cpy(cmd.viewbasis.e[0], view_e[0]);
-    v_cpy(cmd.viewbasis.e[1], view_e[1]);
+    v_cpy(cmd.viewbasis.e[0], view.e[0]);
+    v_cpy(cmd.viewbasis.e[1], view.e[1]);
     game_proxy_enq(&cmd);
 }
 
@@ -464,33 +456,6 @@ static void grow_step(const struct s_file *fp, float dt)
 
 /*---------------------------------------------------------------------------*/
 
-static void view_init(void)
-{
-    view_dp  = (float) config_get_d(CONFIG_VIEW_DP) / 100.0f;
-    view_dc  = (float) config_get_d(CONFIG_VIEW_DC) / 100.0f;
-    view_dz  = (float) config_get_d(CONFIG_VIEW_DZ) / 100.0f;
-    view_k   = 1.0f;
-    view_a   = 0.0f;
-
-    view_c[0] = 0.f;
-    view_c[1] = view_dc;
-    view_c[2] = 0.f;
-
-    view_p[0] =     0.f;
-    view_p[1] = view_dp;
-    view_p[2] = view_dz;
-
-    view_e[0][0] = 1.f;
-    view_e[0][1] = 0.f;
-    view_e[0][2] = 0.f;
-    view_e[1][0] = 0.f;
-    view_e[1][1] = 1.f;
-    view_e[1][2] = 0.f;
-    view_e[2][0] = 0.f;
-    view_e[2][1] = 0.f;
-    view_e[2][2] = 1.f;
-}
-
 int game_server_init(const char *file_name, int t, int e)
 {
     struct
@@ -539,7 +504,9 @@ int game_server_init(const char *file_name, int t, int e)
 
     /* Initialize the view. */
 
-    view_init();
+    game_view_init(&view);
+
+    view_k = 1.0f;
 
     /* Initialize ball size tracking... */
 
@@ -580,15 +547,16 @@ void game_server_free(void)
 
 static void game_update_view(float dt)
 {
-    float dc = view_dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
+    float dc = view.dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float da = input_get_r() * dt * 90.0f;
     float k;
 
     float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };
+    float view_v[3];
 
     /* Center the view about the ball. */
 
-    v_cpy(view_c, file.uv->p);
+    v_cpy(view.c, file.uv->p);
 
     view_v[0] = -file.uv->v[0];
     view_v[1] =  0.0f;
@@ -598,23 +566,23 @@ static void game_update_view(float dt)
     {
     case VIEW_LAZY: /* Viewpoint chases the ball position. */
 
-        v_sub(view_e[2], view_p, view_c);
+        v_sub(view.e[2], view.p, view.c);
 
         break;
 
     case VIEW_MANUAL:  /* View vector is given by view angle. */
 
-        view_e[2][0] = fsinf(V_RAD(view_a));
-        view_e[2][1] = 0.0;
-        view_e[2][2] = fcosf(V_RAD(view_a));
+        view.e[2][0] = fsinf(V_RAD(view.a));
+        view.e[2][1] = 0.0;
+        view.e[2][2] = fcosf(V_RAD(view.a));
 
         break;
 
     case VIEW_CHASE: /* View vector approaches the ball velocity vector. */
 
-        v_sub(view_e[2], view_p, view_c);
-        v_nrm(view_e[2], view_e[2]);
-        v_mad(view_e[2], view_e[2], view_v, v_dot(view_v, view_v) * dt / 4);
+        v_sub(view.e[2], view.p, view.c);
+        v_nrm(view.e[2], view.e[2]);
+        v_mad(view.e[2], view.e[2], view_v, v_dot(view_v, view_v) * dt / 4);
 
         break;
     }
@@ -622,36 +590,36 @@ static void game_update_view(float dt)
     /* Apply manual rotation. */
 
     m_rot(M, Y, V_RAD(da));
-    m_vxfm(v, M, view_e[2]);
-    v_cpy(view_e[2], v);
+    m_vxfm(v, M, view.e[2]);
+    v_cpy(view.e[2], v);
 
     /* Orthonormalize the new view reference frame. */
 
-    v_crs(view_e[0], view_e[1], view_e[2]);
-    v_crs(view_e[2], view_e[0], view_e[1]);
-    v_nrm(view_e[0], view_e[0]);
-    v_nrm(view_e[2], view_e[2]);
+    v_crs(view.e[0], view.e[1], view.e[2]);
+    v_crs(view.e[2], view.e[0], view.e[1]);
+    v_nrm(view.e[0], view.e[0]);
+    v_nrm(view.e[2], view.e[2]);
 
     /* Compute the new view position. */
 
-    k = 1.0f + v_dot(view_e[2], view_v) / 10.0f;
+    k = 1.0f + v_dot(view.e[2], view_v) / 10.0f;
 
     view_k = view_k + (k - view_k) * dt;
 
     if (view_k < 0.5) view_k = 0.5;
 
-    v_scl(v,    view_e[1], view_dp * view_k);
-    v_mad(v, v, view_e[2], view_dz * view_k);
-    v_add(view_p, v, file.uv->p);
+    v_scl(v,    view.e[1], view.dp * view_k);
+    v_mad(v, v, view.e[2], view.dz * view_k);
+    v_add(view.p, v, file.uv->p);
 
     /* Compute the new view center. */
 
-    v_cpy(view_c, file.uv->p);
-    v_mad(view_c, view_c, view_e[1], dc);
+    v_cpy(view.c, file.uv->p);
+    v_mad(view.c, view.c, view.e[1], dc);
 
     /* Note the current view angle. */
 
-    view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
+    view.a = V_DEG(fatan2f(view.e[2][0], view.e[2][2]));
 
     game_cmd_updview();
 }
@@ -723,7 +691,7 @@ static int game_update_state(int bt)
         jump_dt = 0.f;
 
         v_sub(jump_w, jump_p, fp->uv->p);
-        v_add(jump_w, view_p, jump_w);
+        v_add(jump_w, view.p, jump_w);
 
         audio_play(AUD_JUMP, 1.f);
 
@@ -775,7 +743,7 @@ static int game_step(const float g[3], float dt, int bt)
         tilt.rx += (input_get_x() - tilt.rx) * dt / RESPONSE;
         tilt.rz += (input_get_z() - tilt.rz) * dt / RESPONSE;
 
-        game_tilt_axes(&tilt, view_e);
+        game_tilt_axes(&tilt, view.e);
 
         game_cmd_tiltaxes();
         game_cmd_tiltangles();
@@ -793,7 +761,7 @@ static int game_step(const float g[3], float dt, int bt)
             if (0.5f < jump_dt)
             {
                 v_cpy(fp->uv->p, jump_p);
-                v_cpy(view_p,    jump_w);
+                v_cpy(view.p,    jump_w);
             }
             if (1.0f < jump_dt)
                 jump_b = 0;
@@ -898,72 +866,9 @@ void game_set_rot(float r)
     input_set_r(r);
 }
 
-void game_set_fly(float k, const struct s_file *fp)
+void game_server_fly(float k)
 {
-    float  x[3] = { 1.f, 0.f, 0.f };
-    float  y[3] = { 0.f, 1.f, 0.f };
-    float  z[3] = { 0.f, 0.f, 1.f };
-    float c0[3] = { 0.f, 0.f, 0.f };
-    float p0[3] = { 0.f, 0.f, 0.f };
-    float c1[3] = { 0.f, 0.f, 0.f };
-    float p1[3] = { 0.f, 0.f, 0.f };
-    float  v[3];
-
-    if (!fp) fp = &file;
-
-    view_init();
-
-    z[0] = fsinf(V_RAD(view_a));
-    z[2] = fcosf(V_RAD(view_a));
-
-    v_cpy(view_e[0], x);
-    v_cpy(view_e[1], y);
-    v_cpy(view_e[2], z);
-
-    /* k = 0.0 view is at the ball. */
-
-    if (fp->uc > 0)
-    {
-        v_cpy(c0, fp->uv[0].p);
-        v_cpy(p0, fp->uv[0].p);
-    }
-
-    v_mad(p0, p0, y, view_dp);
-    v_mad(p0, p0, z, view_dz);
-    v_mad(c0, c0, y, view_dc);
-
-    /* k = +1.0 view is s_view 0 */
-
-    if (k >= 0 && fp->wc > 0)
-    {
-        v_cpy(p1, fp->wv[0].p);
-        v_cpy(c1, fp->wv[0].q);
-    }
-
-    /* k = -1.0 view is s_view 1 */
-
-    if (k <= 0 && fp->wc > 1)
-    {
-        v_cpy(p1, fp->wv[1].p);
-        v_cpy(c1, fp->wv[1].q);
-    }
-
-    /* Interpolate the views. */
-
-    v_sub(v, p1, p0);
-    v_mad(view_p, p0, v, k * k);
-
-    v_sub(v, c1, c0);
-    v_mad(view_c, c0, v, k * k);
-
-    /* Orthonormalize the view basis. */
-
-    v_sub(view_e[2], view_p, view_c);
-    v_crs(view_e[0], view_e[1], view_e[2]);
-    v_crs(view_e[2], view_e[0], view_e[1]);
-    v_nrm(view_e[0], view_e[0]);
-    v_nrm(view_e[2], view_e[2]);
-
+    game_view_fly(&view, &file, k);
     game_cmd_updview();
 }
 

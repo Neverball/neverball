@@ -23,10 +23,11 @@ void  game_kill_fade(void);
 void  game_step_fade(float);
 void  game_fade(float);
 
+void game_client_fly(float);
+
 /*---------------------------------------------------------------------------*/
 
-extern int           game_compat_map;
-const struct s_file *game_client_file(void);
+extern int game_compat_map;
 
 /*---------------------------------------------------------------------------*/
 

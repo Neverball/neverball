@@ -503,16 +503,15 @@ void level_snap(int i, const char *path)
     if (game_client_init(level_v[i].file))
     {
         union cmd cmd;
-
         cmd.type = CMD_GOAL_OPEN;
         game_proxy_enq(&cmd);
+        game_client_step(NULL);
 
         /* Render the level and grab the screen. */
 
         video_clear();
-        game_set_fly(1.f, game_client_file());
+        game_client_fly(1.0f);
         game_kill_fade();
-        game_client_step(NULL);
         game_draw(1, 0);
         SDL_GL_SwapBuffers();
 

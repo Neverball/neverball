@@ -53,10 +53,7 @@ static float timer      = 0.f;          /* Clock time                        */
 static int status = GAME_NONE;          /* Outcome of the game               */
 
 static struct game_tilt tilt;           /* Floor rotation                    */
-
-static float view_c[3];                 /* Current view center               */
-static float view_p[3];                 /* Current view position             */
-static float view_e[3][3];              /* Current view reference frame      */
+static struct game_view view;           /* Current view                      */
 
 static int   coins  = 0;                /* Collected coins                   */
 static int   goal_e = 0;                /* Goal enabled flag                 */
@@ -190,7 +187,7 @@ static void game_run_cmd(const union cmd *cmd)
 
         case CMD_TILT_ANGLES:
             if (!got_tilt_axes)
-                game_tilt_axes(&tilt, view_e);
+                game_tilt_axes(&tilt, view.e);
 
             tilt.rx = cmd->tiltangles.x;
             tilt.rz = cmd->tiltangles.z;
@@ -316,18 +313,18 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_VIEW_POSITION:
-            v_cpy(view_p, cmd->viewpos.p);
+            v_cpy(view.p, cmd->viewpos.p);
             break;
 
         case CMD_VIEW_CENTER:
-            v_cpy(view_c, cmd->viewcenter.c);
+            v_cpy(view.c, cmd->viewcenter.c);
             break;
 
         case CMD_VIEW_BASIS:
-            v_cpy(view_e[0], cmd->viewbasis.e[0]);
-            v_cpy(view_e[1], cmd->viewbasis.e[1]);
+            v_cpy(view.e[0], cmd->viewbasis.e[0]);
+            v_cpy(view.e[1], cmd->viewbasis.e[1]);
 
-            v_crs(view_e[2], view_e[0], view_e[1]);
+            v_crs(view.e[2], view.e[0], view.e[1]);
 
             break;
 
@@ -780,7 +777,7 @@ static void game_draw_back(int pose, int d, float t)
             glRotatef(tilt.rx * 2, tilt.x[0], tilt.x[1], tilt.x[2]);
         }
 
-        glTranslatef(view_p[0], view_p[1] * d, view_p[2]);
+        glTranslatef(view.p[0], view.p[1] * d, view.p[2]);
 
         if (config_get_d(CONFIG_BACKGROUND))
         {
@@ -813,15 +810,15 @@ static void game_clip_ball(int d, const float *p)
 {
     GLdouble r, c[3], pz[4], nz[4];
 
-    /* Compute the plane giving the front of the ball, as seen from view_p. */
+    /* Compute the plane giving the front of the ball, as seen from view.p. */
 
     c[0] = p[0];
     c[1] = p[1] * d;
     c[2] = p[2];
 
-    pz[0] = view_p[0] - c[0];
-    pz[1] = view_p[1] - c[1];
-    pz[2] = view_p[2] - c[2];
+    pz[0] = view.p[0] - c[0];
+    pz[1] = view.p[1] - c[1];
+    pz[2] = view.p[2] - c[2];
 
     r = sqrt(pz[0] * pz[0] + pz[1] * pz[1] + pz[2] * pz[2]);
 
@@ -832,7 +829,7 @@ static void game_clip_ball(int d, const float *p)
               pz[1] * c[1] +
               pz[2] * c[2]);
 
-    /* Find the plane giving the back of the ball, as seen from view_p. */
+    /* Find the plane giving the back of the ball, as seen from view.p. */
 
     nz[0] = -pz[0];
     nz[1] = -pz[1];
@@ -948,22 +945,22 @@ void game_draw(int pose, float t)
 
             /* Compute direct and reflected view bases. */
 
-            v[0] = +view_p[0];
-            v[1] = -view_p[1];
-            v[2] = +view_p[2];
+            v[0] = +view.p[0];
+            v[1] = -view.p[1];
+            v[2] = +view.p[2];
 
-            m_view(T, view_c, view_p, view_e[1]);
-            m_view(U, view_c, v,      view_e[1]);
+            m_view(T, view.c, view.p, view.e[1]);
+            m_view(U, view.c, v,      view.e[1]);
 
             m_xps(M, T);
 
             /* Apply the current view. */
 
-            v_sub(v, view_c, view_p);
+            v_sub(v, view.c, view.p);
 
             glTranslatef(0.f, 0.f, -v_len(v));
             glMultMatrixf(M);
-            glTranslatef(-view_c[0], -view_c[1], -view_c[2]);
+            glTranslatef(-view.c[0], -view.c[1], -view.c[2]);
 
             if (reflective && config_get_d(CONFIG_REFLECTION))
             {
@@ -1067,9 +1064,9 @@ void game_draw(int pose, float t)
 
 void game_look(float phi, float theta)
 {
-    view_c[0] = view_p[0] + fsinf(V_RAD(theta)) * fcosf(V_RAD(phi));
-    view_c[1] = view_p[1] +                       fsinf(V_RAD(phi));
-    view_c[2] = view_p[2] - fcosf(V_RAD(theta)) * fcosf(V_RAD(phi));
+    view.c[0] = view.p[0] + fsinf(V_RAD(theta)) * fcosf(V_RAD(phi));
+    view.c[1] = view.p[1] +                       fsinf(V_RAD(phi));
+    view.c[2] = view.p[2] - fcosf(V_RAD(theta)) * fcosf(V_RAD(phi));
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1103,11 +1100,9 @@ void game_fade(float d)
     fade_d = d;
 }
 
-/*---------------------------------------------------------------------------*/
-
-const struct s_file *game_client_file(void)
+void game_client_fly(float k)
 {
-    return &file;
+    game_view_fly(&view, &file, k);
 }
 
 /*---------------------------------------------------------------------------*/

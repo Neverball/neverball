@@ -143,8 +143,7 @@ static void load_ball_demo(void)
 
     demo_replay_init("gui/ball.nbr", &g, NULL, NULL, NULL, NULL);
     audio_music_fade_to(0.0f, "bgm/inter.ogg");
-    game_set_fly(0, game_client_file());
-    game_client_step(NULL);
+    game_client_fly(0);
     game_kill_fade();
 
     back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));

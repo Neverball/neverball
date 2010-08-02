@@ -2,6 +2,7 @@
 #define GAME_COMMON_H
 
 #include "lang.h"
+#include "solid.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -68,6 +69,24 @@ struct game_tilt
 void game_tilt_init(struct game_tilt *);
 void game_tilt_axes(struct game_tilt *, float view_e[3][3]);
 void game_tilt_grav(float h[3], const float g[3], const struct game_tilt *);
+
+/*---------------------------------------------------------------------------*/
+
+struct game_view
+{
+    float dc;                           /* Ideal view distance above ball    */
+    float dp;                           /* Ideal view distance above ball    */
+    float dz;                           /* Ideal view distance behind ball   */
+
+    float c[3];                         /* Current view center               */
+    float p[3];                         /* Current view position             */
+    float e[3][3];                      /* Current view reference frame      */
+
+    float a;                            /* Ideal view rotation about Y axis  */
+};
+
+void game_view_init(struct game_view *);
+void game_view_fly(struct game_view *, const struct s_file *, float);
 
 /*---------------------------------------------------------------------------*/
 

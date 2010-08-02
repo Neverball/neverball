@@ -142,8 +142,7 @@ static void play_ready_timer(int id, float dt)
 {
     float t = time_state();
 
-    game_set_fly(1.0f - 0.5f * t, NULL);
-    game_client_step(NULL);
+    game_client_fly(1.0f - 0.5f * t);
 
     if (dt > 0.0f && t > 1.0f)
         goto_state(&st_play_set);
@@ -221,8 +220,7 @@ static void play_set_timer(int id, float dt)
 {
     float t = time_state();
 
-    game_set_fly(0.5f - 0.5f * t, NULL);
-    game_client_step(NULL);
+    game_client_fly(0.5f - 0.5f * t);
 
     if (dt > 0.0f && t > 1.0f)
         goto_state(&st_play_loop);
@@ -295,15 +293,12 @@ static int play_loop_enter(void)
 
     audio_play(AUD_GO, 1.f);
 
-    game_set_fly(0.f, NULL);
+    game_server_fly(0.0f);
 
     /* End first update. */
 
     cmd.type = CMD_END_OF_UPDATE;
     game_proxy_enq(&cmd);
-
-    /* Sync client. */
-
     game_client_step(demo_file());
 
     view_rotate = 0;
