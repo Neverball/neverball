@@ -643,8 +643,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
     union cmd cmd;
 
-    sol_cmd_defer = 1;
-
     if (ui < fp->uc)
     {
         struct s_ball *up = fp->uv + ui;
@@ -724,9 +722,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
         sol_pendulum(up, a, g, dt);
     }
-
-    sol_cmd_enq_deferred();
-    sol_cmd_defer = 0;
 
     return b;
 }
