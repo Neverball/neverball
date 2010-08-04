@@ -512,7 +512,7 @@ void level_snap(int i, const char *path)
         video_clear();
         game_client_fly(1.0f);
         game_kill_fade();
-        game_draw(1, 0);
+        game_draw(POSE_LEVEL, 0);
         SDL_GL_SwapBuffers();
 
         image_snap(filename);

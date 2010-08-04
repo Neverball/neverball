@@ -118,7 +118,7 @@ static int level_buttn(int b, int d)
 
 static void poser_paint(int id, float t)
 {
-    game_draw(1, t);
+    game_draw(POSE_LEVEL, t);
 }
 
 static int poser_buttn(int c, int d)

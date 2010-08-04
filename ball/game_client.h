@@ -7,6 +7,13 @@
 
 /*---------------------------------------------------------------------------*/
 
+enum
+{
+    POSE_NONE = 0,
+    POSE_LEVEL,
+    POSE_BALL
+};
+
 int   game_client_init(const char *);
 void  game_client_free(void);
 void  game_client_step(fs_file);

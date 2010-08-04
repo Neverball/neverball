@@ -766,7 +766,7 @@ static void game_draw_light(void)
 
 static void game_draw_back(int pose, int d, float t)
 {
-    if (pose == 2)
+    if (pose == POSE_BALL)
         return;
 
     glPushMatrix();
@@ -866,11 +866,11 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
 
         switch (pose)
         {
-        case 1:
+        case POSE_LEVEL:
             sol_draw(&file, 0, 1);
             break;
 
-        case 0:
+        case POSE_NONE:
             /* Draw the coins. */
 
             game_draw_items(&file, t);
@@ -881,7 +881,7 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
 
             /* Fall through. */
 
-        case 2:
+        case POSE_BALL:
 
             /* Draw the ball shadow. */
 

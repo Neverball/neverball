@@ -208,7 +208,7 @@ static void ball_paint(int id, float t)
     }
     video_pop_matrix();
 
-    game_draw(2, t);
+    game_draw(POSE_BALL, t);
     gui_paint(id);
 }
 
