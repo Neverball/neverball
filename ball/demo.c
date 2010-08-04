@@ -34,8 +34,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define MAGIC           0x52424EAF
-#define DEMO_VERSION    9
+#define MAGIC (0xAF | 'N' << 8 | 'B' << 16 | 'R' << 24)
+#define DEMO_VERSION 9
 
 #define DATELEN 20
 

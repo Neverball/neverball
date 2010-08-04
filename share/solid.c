@@ -28,7 +28,7 @@ enum
     SOL_VER_CURRENT = SOL_VER_PATH_FLAGS
 };
 
-#define MAGIC 0x4c4f53af
+#define MAGIC (0xAF | 'S' << 8 | 'O' << 16 | 'L' << 24)
 
 /*---------------------------------------------------------------------------*/
 
