@@ -90,7 +90,7 @@ static void game_run_cmd(const union cmd *cmd)
      */
     static int got_tilt_axes;
 
-    float f[3];
+    float v[3];
 
     if (client_state)
     {
@@ -115,9 +115,9 @@ static void game_run_cmd(const union cmd *cmd)
             /* Compute gravity for particle effects. */
 
             if (status == GAME_GOAL)
-                game_tilt_grav(f, gup, &tilt);
+                game_tilt_grav(v, gup, &tilt);
             else
-                game_tilt_grav(f, gdn, &tilt);
+                game_tilt_grav(v, gdn, &tilt);
 
             /* Step particle, goal and jump effects. */
 
@@ -136,7 +136,7 @@ static void game_run_cmd(const union cmd *cmd)
                         jump_b = 0;
                 }
 
-                part_step(f, dt);
+                part_step(v, dt);
             }
 
             break;
@@ -178,8 +178,8 @@ static void game_run_cmd(const union cmd *cmd)
 
             hp = &file.hv[cmd->pkitem.hi];
 
-            item_color(hp, f);
-            part_burst(hp->p, f);
+            item_color(hp, v);
+            part_burst(hp->p, v);
 
             hp->t = ITEM_NONE;
 
