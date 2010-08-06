@@ -47,7 +47,7 @@ static int init_title_level(void)
         cmd.type = CMD_GOAL_OPEN;
         game_proxy_enq(&cmd);
 
-        game_client_step(NULL);
+        game_client_sync(NULL);
 
         return 1;
     }

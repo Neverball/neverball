@@ -299,7 +299,7 @@ static int play_loop_enter(void)
 
     cmd.type = CMD_END_OF_UPDATE;
     game_proxy_enq(&cmd);
-    game_client_step(demo_file());
+    game_client_sync(demo_file());
 
     view_rotate = 0;
     fast_rotate = 0;
@@ -336,7 +336,7 @@ static void play_loop_timer(int id, float dt)
     game_step_fade(dt);
 
     game_server_step(dt);
-    game_client_step(demo_file());
+    game_client_sync(demo_file());
 
     switch (curr_status())
     {

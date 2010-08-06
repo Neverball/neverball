@@ -265,7 +265,7 @@ static void goal_timer(int id, float dt)
     if (time_state() < 1.f)
     {
         game_server_step(dt);
-        game_client_step(demo_file());
+        game_client_sync(demo_file());
     }
     else if (t > 0.05f && coins_id)
     {

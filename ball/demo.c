@@ -313,7 +313,7 @@ int demo_play_init(const char *name, const struct level *level,
         if (game_client_init(level->file) &&
             game_server_init(level->file, t, e))
         {
-            game_client_step(demo_fp);
+            game_client_sync(demo_fp);
             return 1;
         }
     }
@@ -522,7 +522,7 @@ int demo_replay_step(float dt)
 
         if (!fs_eof(demo_fp))
         {
-            game_client_step(NULL);
+            game_client_sync(NULL);
             return 1;
         }
     }

@@ -386,7 +386,7 @@ static void game_run_cmd(const union cmd *cmd)
     }
 }
 
-void game_client_step(fs_file demo_fp)
+void game_client_sync(fs_file demo_fp)
 {
     union cmd *cmdp;
 

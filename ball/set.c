@@ -505,7 +505,7 @@ void level_snap(int i, const char *path)
         union cmd cmd;
         cmd.type = CMD_GOAL_OPEN;
         game_proxy_enq(&cmd);
-        game_client_step(NULL);
+        game_client_sync(NULL);
 
         /* Render the level and grab the screen. */
 
