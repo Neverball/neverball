@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "1.0"
+"version" "1.1"
 "author" "Florian Priester"
 "shot" "shot-fwp/cargo.png"
 "back" "map-back/ocean.sol"
@@ -11,7 +11,7 @@
 "goal" "22"
 "coin_hs" "77 47"
 "time_hs" "1500 2000"
-"goal_hs" "2000 4500"
+"goal_hs" "1750 4500"
 "message" "=Cargo=\Let yourself be carried away."
 // brush 0
 {
