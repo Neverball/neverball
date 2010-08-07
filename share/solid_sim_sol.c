@@ -535,7 +535,7 @@ static float sol_test_body(float dt,
      * v = w x p
      */
 
-    if (E[0] != 1.0f || v_dot(A, A))
+    if (E[0] != 1.0f || v_dot(A, A) != 0.0f)
     {
         /* The body has a non-identity orientation or it is rotating. */
 
