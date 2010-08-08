@@ -416,8 +416,6 @@ static void demo_play_timer(int id, float dt)
     if (id != 0 && time_state() < 1.0f)
         return;
 
-    /* Spin or skip depending on how fast the demo wants to run. */
-
     if (!demo_replay_step(dt))
     {
         demo_paused = 0;
