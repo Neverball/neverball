@@ -36,9 +36,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-static float view_rotate;
-static int   fast_rotate;
-
 static int pause_or_exit(void)
 {
     if (config_tst_d(CONFIG_KEY_PAUSE, SDLK_ESCAPE))
@@ -270,7 +267,9 @@ static int play_set_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int show_hud;
+static float view_rotate;
+static int   fast_rotate;
+static int   show_hud;
 
 static int play_loop_enter(void)
 {
