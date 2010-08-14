@@ -47,6 +47,9 @@ char *trunc_string(const char *src, char *dst, int len);
 #endif
 #define strdup dupe_string
 
+#define str_starts_with(s, h) (strncmp((s), (h), strlen(h)) == 0)
+#define str_ends_with(s, t) (strcmp((s) + strlen(s) - strlen(t), (t)) == 0)
+
 time_t make_time_from_utc(struct tm *);
 const char *date_to_str(time_t);
 

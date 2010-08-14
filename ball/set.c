@@ -292,8 +292,8 @@ static int set_is_loaded(const char *path)
 
 static int is_unseen_set(struct dir_item *item)
 {
-    return (strncmp(base_name(item->path, NULL), "set-", 4) == 0 &&
-            strcmp(item->path + strlen(item->path) - 4, ".txt") == 0 &&
+    return (str_starts_with(base_name(item->path, NULL), "set-") &&
+            str_ends_with(item->path, ".txt") &&
             !set_is_loaded(item->path));
 }
 

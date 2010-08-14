@@ -322,12 +322,12 @@ static void parse_args(int argc, char **argv)
 
 static int is_replay(struct dir_item *item)
 {
-    return strcmp(item->path + strlen(item->path) - 4, ".nbr") == 0;
+    return str_ends_with(item->path, ".nbr");
 }
 
 static int is_score(struct dir_item *item)
 {
-    return strncmp(item->path, "neverballhs-", sizeof ("neverballhs-") - 1) == 0;
+    return str_starts_with(item->path, "neverballhs-");
 }
 
 static void make_dirs_and_migrate(void)
@@ -375,6 +375,8 @@ static void make_dirs_and_migrate(void)
 
     fs_mkdir("Screenshots");
 }
+
+/*---------------------------------------------------------------------------*/
 
 int main(int argc, char *argv[])
 {
