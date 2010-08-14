@@ -86,7 +86,7 @@ static int course_is_loaded(const char *path)
 
 static int is_unseen_course(struct dir_item *item)
 {
-    return (str_starts_with(base_name(item->path, NULL), "holes-") &&
+    return (str_starts_with(base_name(item->path), "holes-") &&
             str_ends_with(item->path, ".txt") &&
             !course_is_loaded(item->path));
 }

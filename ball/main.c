@@ -434,7 +434,7 @@ int main(int argc, char *argv[])
     /* Initialise demo playback. */
 
     if (demo_path && fs_add_path(dir_name(demo_path)) &&
-        progress_replay(base_name(demo_path, NULL)))
+        progress_replay(base_name(demo_path)))
     {
         demo_play_goto(1);
         goto_state(&st_demo_play);

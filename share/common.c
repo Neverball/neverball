@@ -243,31 +243,37 @@ static const char *path_last_sep(const char *path)
     return sep;
 }
 
-const char *base_name(const char *name, const char *suffix)
+const char *base_name_sans(const char *name, const char *suffix)
 {
-    static char buf[MAXSTR];
-    const char *base;
+    static char buff[MAXSTR];
+    const char *sep;
+    size_t blen, slen;
 
     if (!name)
         return NULL;
+    if (!suffix)
+        return base_name(name);
 
     /* Remove the directory part. */
 
-    base = path_last_sep(name);
-
-    strncpy(buf, base ? base + 1 : name, sizeof (buf) - 1);
+    sep = path_last_sep(name);
+    strncpy(buff, sep ? sep + 1 : name, sizeof (buff) - 1);
 
     /* Remove the suffix. */
 
-    if (suffix)
-    {
-        int l = strlen(buf) - strlen(suffix);
+    blen = strlen(buff);
+    slen = strlen(suffix);
 
-        if (l >= 0 && strcmp(buf + l, suffix) == 0)
-            buf[l] = '\0';
-    }
+    if (blen >= slen && strcmp(buff + blen - slen, suffix) == 0)
+        buff[blen - slen] = '\0';
 
-    return buf;
+    return buff;
+}
+
+const char *base_name(const char *name)
+{
+    const char *sep;
+    return (name && (sep = path_last_sep(name))) ? sep + 1 : name;
 }
 
 const char *dir_name(const char *name)

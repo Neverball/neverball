@@ -292,7 +292,7 @@ static int set_is_loaded(const char *path)
 
 static int is_unseen_set(struct dir_item *item)
 {
-    return (str_starts_with(base_name(item->path, NULL), "set-") &&
+    return (str_starts_with(base_name(item->path), "set-") &&
             str_ends_with(item->path, ".txt") &&
             !set_is_loaded(item->path));
 }
@@ -491,11 +491,15 @@ void set_rename_player(int score_rank, int times_rank, const char *player)
 
 void level_snap(int i, const char *path)
 {
-    char filename[MAXSTR];
+    const char *filename;
 
     /* Convert the level name to a PNG filename. */
 
-    sprintf(filename, "%s/%s.png", path, base_name(level_v[i].file, ".sol"));
+    filename = concat_string(path,
+                             "/",
+                             base_name_sans(level_v[i].file, ".sol"),
+                             ".png",
+                             NULL);
 
     /* Initialize the game for a snapshot. */
 
@@ -516,6 +520,8 @@ void level_snap(int i, const char *path)
 
         image_snap(filename);
     }
+
+    free(filename);
 }
 
 void set_cheat(void)

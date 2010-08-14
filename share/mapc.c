@@ -2515,7 +2515,7 @@ int main(int argc, char *argv[])
         fs_add_path     (dir_name(src));
         fs_set_write_dir(dir_name(dst));
 
-        if ((fin = fs_open(base_name(src, NULL), "r")))
+        if ((fin = fs_open(base_name(src), "r")))
         {
             if (!fs_add_path_with_archives(argv[2]))
             {
@@ -2539,7 +2539,7 @@ int main(int argc, char *argv[])
             node_file(&f);
             dump_file(&f, dst);
 
-            sol_stor(&f, base_name(dst, NULL));
+            sol_stor(&f, base_name(dst));
 
             fs_close(fin);
 

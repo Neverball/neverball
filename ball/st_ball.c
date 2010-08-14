@@ -41,17 +41,17 @@ static int has_ball_sols(struct dir_item *item)
 
     solid = concat_string(item->path,
                           "/",
-                          base_name(item->path, NULL),
+                          base_name(item->path),
                           "-solid.sol",
                           NULL);
     inner = concat_string(item->path,
                           "/",
-                          base_name(item->path, NULL),
+                          base_name(item->path),
                           "-inner.sol",
                           NULL);
     outer = concat_string(item->path,
                           "/",
-                          base_name(item->path, NULL),
+                          base_name(item->path),
                           "-outer.sol",
                           NULL);
 
@@ -95,14 +95,14 @@ static void set_curr_ball(void)
 {
     sprintf(ball_file, "%s/%s",
             DIR_ITEM_GET(balls, curr_ball)->path,
-            base_name(DIR_ITEM_GET(balls, curr_ball)->path, NULL));
+            base_name(DIR_ITEM_GET(balls, curr_ball)->path));
 
     config_set_s(CONFIG_BALL_FILE, ball_file);
 
     ball_free();
     ball_init();
 
-    gui_set_label(name_id, base_name(ball_file, NULL));
+    gui_set_label(name_id, base_name(ball_file));
 }
 
 static int ball_action(int i)
@@ -186,7 +186,7 @@ static int ball_enter(void)
 
         gui_layout(id, 0, 0);
 
-        gui_set_label(name_id, base_name(ball_file, NULL));
+        gui_set_label(name_id, base_name(ball_file));
     }
 
     return id;
