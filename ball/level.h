@@ -33,8 +33,6 @@ struct level
 
     /* Set information. */
 
-    struct set *set;
-
     int  number;
 
     /* String representation of the number (eg. "IV") */

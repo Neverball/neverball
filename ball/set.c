@@ -429,7 +429,6 @@ static void set_load_levels(void)
 
         level_load(SET_GET(sets, curr)->level_name_v[i], l);
 
-        l->set    = SET_GET(sets, curr);
         l->number = i;
 
         if (l->is_bonus)
