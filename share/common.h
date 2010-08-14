@@ -60,7 +60,7 @@ void file_copy(FILE *fin, FILE *fout);
 int path_is_sep(int);
 int path_is_abs(const char *);
 
-char       *base_name(const char *name, const char *suffix);
+const char *base_name(const char *name, const char *suffix);
 const char *dir_name(const char *name);
 
 char *path_resolve(const char *ref, const char *rel);

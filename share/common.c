@@ -243,7 +243,7 @@ static const char *path_last_sep(const char *path)
     return sep;
 }
 
-char *base_name(const char *name, const char *suffix)
+const char *base_name(const char *name, const char *suffix)
 {
     static char buf[MAXSTR];
     const char *base;
