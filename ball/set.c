@@ -491,7 +491,7 @@ void set_rename_player(int score_rank, int times_rank, const char *player)
 
 void level_snap(int i, const char *path)
 {
-    const char *filename;
+    char *filename;
 
     /* Convert the level name to a PNG filename. */
 
