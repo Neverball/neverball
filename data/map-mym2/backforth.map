@@ -3212,7 +3212,6 @@
 "targetname" "t28"
 "speed" "1"
 "state" "0"
-"angle" "-90"
 }
 // entity 8
 {
@@ -3221,7 +3220,6 @@
 "targetname" "t27"
 "target" "t34"
 "speed" "4"
-"angle" "-90"
 }
 // entity 9
 {
@@ -3230,7 +3228,6 @@
 "targetname" "t34"
 "target" "t28"
 "speed" "1"
-"angle" "-90"
 }
 // entity 10
 {
@@ -3248,7 +3245,6 @@
 "targetname" "t37"
 "target" "t35"
 "origin" "128 -320 96"
-"angle" "-90"
 }
 // entity 12
 {
@@ -3257,7 +3253,6 @@
 "target" "t36"
 "targetname" "t35"
 "origin" "128 -320 32"
-"angle" "-90"
 }
 // entity 13
 {
@@ -3266,7 +3261,6 @@
 "target" "t37"
 "targetname" "t36"
 "origin" "128 -320 32"
-"angle" "-90"
 }
 // entity 14
 {
@@ -3276,7 +3270,6 @@
 "targetname" "t55"
 "speed" "1"
 "state" "0"
-"angle" "-90"
 }
 // entity 15
 {
@@ -3285,7 +3278,6 @@
 "targetname" "t39"
 "target" "t40"
 "speed" "4"
-"angle" "-90"
 }
 // entity 16
 {
@@ -3294,7 +3286,6 @@
 "targetname" "t40"
 "target" "t55"
 "speed" "1"
-"angle" "-90"
 }
 // entity 17
 {
@@ -3320,7 +3311,6 @@
 "targetname" "t58"
 "target" "t56"
 "origin" "-128 -320 96"
-"angle" "-90"
 }
 // entity 20
 {
@@ -3329,7 +3319,6 @@
 "target" "t57"
 "targetname" "t56"
 "origin" "-128 -320 32"
-"angle" "-90"
 }
 // entity 21
 {
@@ -3338,7 +3327,6 @@
 "target" "t58"
 "targetname" "t57"
 "origin" "-128 -320 32"
-"angle" "-90"
 }
 // entity 22
 {
@@ -3356,7 +3344,6 @@
 "targetname" "t61"
 "speed" "1"
 "state" "0"
-"angle" "-90"
 }
 // entity 24
 {
@@ -3365,7 +3352,6 @@
 "targetname" "t59"
 "target" "t60"
 "speed" "4"
-"angle" "-90"
 }
 // entity 25
 {
@@ -3374,7 +3360,6 @@
 "targetname" "t60"
 "target" "t61"
 "speed" "1"
-"angle" "-90"
 }
 // entity 26
 {
@@ -3392,7 +3377,6 @@
 "targetname" "t64"
 "target" "t62"
 "origin" "-320 -128 96"
-"angle" "-90"
 }
 // entity 28
 {
@@ -3401,7 +3385,6 @@
 "target" "t63"
 "targetname" "t62"
 "origin" "-320 -128 32"
-"angle" "-90"
 }
 // entity 29
 {
@@ -3410,7 +3393,6 @@
 "target" "t64"
 "targetname" "t63"
 "origin" "-320 -128 32"
-"angle" "-90"
 }
 // entity 30
 {
@@ -3434,7 +3416,6 @@
 "targetname" "t67"
 "speed" "1"
 "state" "0"
-"angle" "-90"
 }
 // entity 33
 {
@@ -3443,7 +3424,6 @@
 "targetname" "t65"
 "target" "t66"
 "speed" "4"
-"angle" "-90"
 }
 // entity 34
 {
@@ -3452,7 +3432,6 @@
 "targetname" "t66"
 "target" "t67"
 "speed" "1"
-"angle" "-90"
 }
 // entity 35
 {

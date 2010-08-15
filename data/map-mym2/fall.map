@@ -4604,7 +4604,6 @@
 "target" "t4"
 "speed" "1"
 "state" "0"
-"angle" "90"
 }
 // entity 213
 {
@@ -4614,14 +4613,12 @@
 "speed" "2"
 "targetname" "t3"
 "state" "0"
-"angle" "90"
 }
 // entity 214
 {
 "classname" "path_corner"
 "origin" "-384 64 960"
 "targetname" "t4"
-"angle" "90"
 }
 // entity 215
 {
