@@ -40,7 +40,6 @@ char *strip_newline(char *);
 
 char *dupe_string(const char *);
 char *concat_string(const char *first, ...) NULL_TERMINATED;
-char *trunc_string(const char *src, char *dst, int len);
 
 #ifdef strdup
 #undef strdup
