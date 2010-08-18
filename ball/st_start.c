@@ -99,8 +99,8 @@ static void start_over(int id, int pulse)
     {
         gui_set_image(shot_id, set_shot(curr_set()));
 
-        set_score_board(set_coin_score(curr_set()), -1,
-                        set_time_score(curr_set()), -1,
+        set_score_board(set_score(curr_set(), SCORE_COIN), -1,
+                        set_score(curr_set(), SCORE_TIME), -1,
                         NULL, -1);
     }
 

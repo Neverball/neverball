@@ -390,14 +390,14 @@ const char *set_shot(int i)
     return set_exists(i) ? SET_GET(sets, i)->shot : NULL;
 }
 
-const struct score *set_time_score(int i)
+const struct score *set_score(int i, int s)
 {
-    return set_exists(i) ? &SET_GET(sets, i)->time_score : NULL;
-}
-
-const struct score *set_coin_score(int i)
-{
-    return set_exists(i) ? &SET_GET(sets, i)->coin_score : NULL;
+    if (set_exists(i))
+    {
+        if (s == SCORE_TIME) return &SET_GET(sets, i)->time_score;
+        if (s == SCORE_COIN) return &SET_GET(sets, i)->coin_score;
+    }
+    return NULL;
 }
 
 /*---------------------------------------------------------------------------*/
