@@ -236,6 +236,11 @@ const char *level_msg(int i)
     return "";
 }
 
+const struct score *level_score(int i, int s)
+{
+    return level_exists(i) ? &get_level(i)->scores[s] : NULL;
+}
+
 /*---------------------------------------------------------------------------*/
 
 int level_score_update(int level,

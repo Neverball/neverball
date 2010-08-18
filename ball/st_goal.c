@@ -117,9 +117,8 @@ static int goal_enter(void)
 
     int id, jd, kd, ld, md;
 
-    const struct level *l = get_level(curr_level());
-
     int high = progress_lvl_high();
+    int level = curr_level();
 
     if (new_name)
     {
@@ -242,9 +241,9 @@ static int goal_enter(void)
 
     }
 
-    set_score_board(&l->scores[SCORE_MOST_COINS],  progress_coin_rank(),
-                    &l->scores[SCORE_BEST_TIMES],  progress_time_rank(),
-                    &l->scores[SCORE_FAST_UNLOCK], progress_goal_rank());
+    set_score_board(level_score(level, SCORE_MOST_COINS),  progress_coin_rank(),
+                    level_score(level, SCORE_BEST_TIMES),  progress_time_rank(),
+                    level_score(level, SCORE_FAST_UNLOCK), progress_goal_rank());
 
     audio_music_fade_out(2.0f);
 

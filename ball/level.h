@@ -65,6 +65,8 @@ const char *level_file(int);
 const char *level_name(int);
 const char *level_msg (int);
 
+const struct score *level_score(int, int);
+
 /*---------------------------------------------------------------------------*/
 
 int  level_score_update (int, int, int, int *, int *, int *);
