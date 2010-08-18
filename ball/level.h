@@ -7,6 +7,13 @@
 
 /*---------------------------------------------------------------------------*/
 
+enum
+{
+    SCORE_BEST_TIMES = 0,
+    SCORE_FAST_UNLOCK,
+    SCORE_MOST_COINS
+};
+
 struct level
 {
     /* TODO: turn into an internal structure. */
@@ -23,13 +30,7 @@ struct level
     int time; /* Time limit   */
     int goal; /* Coins needed */
 
-    struct
-    {
-        struct score best_times;
-        struct score fast_unlock;
-        struct score most_coins;
-    }
-    score;
+    struct score scores[3];
 
     /* Set information. */
 

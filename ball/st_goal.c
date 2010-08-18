@@ -242,9 +242,9 @@ static int goal_enter(void)
 
     }
 
-    set_score_board(&l->score.most_coins,  progress_coin_rank(),
-                    &l->score.best_times,  progress_time_rank(),
-                    &l->score.fast_unlock, progress_goal_rank());
+    set_score_board(&l->scores[SCORE_MOST_COINS],  progress_coin_rank(),
+                    &l->scores[SCORE_BEST_TIMES],  progress_time_rank(),
+                    &l->scores[SCORE_FAST_UNLOCK], progress_goal_rank());
 
     audio_music_fade_out(2.0f);
 

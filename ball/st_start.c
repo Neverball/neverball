@@ -74,9 +74,9 @@ static void start_over_level(int i)
     {
         gui_set_image(shot_id, level_shot(i));
 
-        set_score_board(&get_level(i)->score.most_coins,  -1,
-                        &get_level(i)->score.best_times,  -1,
-                        &get_level(i)->score.fast_unlock, -1);
+        set_score_board(&get_level(i)->scores[SCORE_MOST_COINS],  -1,
+                        &get_level(i)->scores[SCORE_BEST_TIMES],  -1,
+                        &get_level(i)->scores[SCORE_FAST_UNLOCK], -1);
 
         if (file_id)
             gui_set_label(file_id, level_file(i));
