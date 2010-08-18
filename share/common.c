@@ -127,18 +127,6 @@ char *concat_string(const char *first, ...)
     return full;
 }
 
-char *trunc_string(const char *src, char *dst, int len)
-{
-    static const char ell[] = "...";
-
-    assert(len > sizeof (ell));
-
-    if (dst[len - 1] = '\0', strncpy(dst, src, len), dst[len - 1] != '\0')
-        strcpy(dst + len - sizeof (ell), ell);
-
-    return dst;
-}
-
 time_t make_time_from_utc(struct tm *tm)
 {
     struct tm local, *utc;
@@ -220,9 +208,9 @@ int path_is_abs(const char *path)
     return 0;
 }
 
-static char *path_last_sep(const char *path)
+static const char *path_last_sep(const char *path)
 {
-    char *sep;
+    const char *sep;
 
     sep = strrchr(path, '/');
 
@@ -233,7 +221,7 @@ static char *path_last_sep(const char *path)
     }
     else
     {
-        char *tmp;
+        const char *tmp;
 
         if ((tmp = strrchr(sep, '\\')))
             sep = tmp;
@@ -243,31 +231,35 @@ static char *path_last_sep(const char *path)
     return sep;
 }
 
-char *base_name(const char *name, const char *suffix)
+const char *base_name_sans(const char *name, const char *suffix)
 {
-    static char buf[MAXSTR];
-    char *base;
+    static char base[MAXSTR];
+    size_t blen, slen;
 
     if (!name)
         return NULL;
+    if (!suffix)
+        return base_name(name);
 
     /* Remove the directory part. */
 
-    base = path_last_sep(name);
-
-    strncpy(buf, base ? base + 1 : name, sizeof (buf) - 1);
+    strncpy(base, base_name(name), sizeof (base) - 1);
 
     /* Remove the suffix. */
 
-    if (suffix)
-    {
-        int l = strlen(buf) - strlen(suffix);
+    blen = strlen(base);
+    slen = strlen(suffix);
 
-        if (l >= 0 && strcmp(buf + l, suffix) == 0)
-            buf[l] = '\0';
-    }
+    if (blen >= slen && strcmp(base + blen - slen, suffix) == 0)
+        base[blen - slen] = '\0';
 
-    return buf;
+    return base;
+}
+
+const char *base_name(const char *name)
+{
+    const char *sep;
+    return (name && (sep = path_last_sep(name))) ? sep + 1 : name;
 }
 
 const char *dir_name(const char *name)
@@ -278,7 +270,7 @@ const char *dir_name(const char *name)
 
     strncpy(buff, name, sizeof (buff) - 1);
 
-    if ((sep = path_last_sep(buff)))
+    if ((sep = (char *) path_last_sep(buff)))
     {
         if (sep == buff)
             return "/";

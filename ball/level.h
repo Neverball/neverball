@@ -7,6 +7,13 @@
 
 /*---------------------------------------------------------------------------*/
 
+enum
+{
+    SCORE_TIME = 0,
+    SCORE_GOAL,
+    SCORE_COIN
+};
+
 struct level
 {
     /* TODO: turn into an internal structure. */
@@ -23,17 +30,9 @@ struct level
     int time; /* Time limit   */
     int goal; /* Coins needed */
 
-    struct
-    {
-        struct score best_times;
-        struct score fast_unlock;
-        struct score most_coins;
-    }
-    score;
+    struct score scores[3];
 
     /* Set information. */
-
-    struct set *set;
 
     int  number;
 
@@ -65,6 +64,8 @@ const char *level_shot(int);
 const char *level_file(int);
 const char *level_name(int);
 const char *level_msg (int);
+
+const struct score *level_score(int, int);
 
 /*---------------------------------------------------------------------------*/
 

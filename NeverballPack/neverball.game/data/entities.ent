@@ -97,7 +97,8 @@ Attributes:
 * <real key="speed" name="Travel time" value="1.0">Duration of the trip along this path segment, in seconds.  The default is "1.0".</real>
 * <boolean key="state" name="State" value="1">Determines whether the path is enabled.  An object will only move along an enabled path.  An object may be stopped and started by toggling the state of the path to which it is attached.  "0" means no, "1" means yes.  The default is 1.</boolean>
 * <boolean key="smooth" name="Smooth" value="1">Determines whether an object moves smoothly along this path segment or at a constant speed.  "0" means no, "1" means yes.  The default is 1.</boolean>
-* <angles key="angles" name="Orientation" value="0 0 0">Defines the final orientation of the object at this path_corner.  The first two values are angles giving the axis of rotation (first angle is elevation negated, second angle is azimuth).  The third value is an angle giving the amount of rotation about the axis.  As the object travels between two path corners, its orientation is interpolated between the orientations of the corners.</angles>
+* <angle key="angle" name="Orientation (yaw)" value="0">See "angles".  This attribute is supported only for Radiant compatibility.</angle>
+* <angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the final orientation of the object at this path_corner.  The values are angles giving pitch (up/down), yaw (left/right), and roll.  (Use Radiant's rotation manipulator to set the general orientation, and then adjust the values manually.)  As the object travels between two path corners, its orientation is interpolated between the orientations of the corners.</angles>
 </point>
 
 
@@ -133,5 +134,6 @@ Attributes:
 * <string key="version" name="Version">Version of the level.  The format should be "X.Y", where X is incremented every time the level is changed in a way that breaks existing replays, and Y is incremented for all other changes.</string>
 * <string key="author" name="Author">Name of the author.</string>
 * <boolean key="bonus" name="Bonus level">Marks this level as a bonus level.</boolean>
+* <real key="idle" name="Idling time-out (Neverputt)">Neverputt: time to wait after the ball has stopped before starting the next shot.  Useful to ensure that moving objects won't hit the ball while the player is making the shot.</real>
 </group>
 </classes>

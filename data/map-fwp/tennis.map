@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "1.1"
+"version" "1.2"
 "author" "Florian Priester"
 "shot" "shot-fwp/tennis.png"
 "back" "map-back/jupiter.sol"
@@ -11,7 +11,7 @@
 "goal" "120"
 "coin_hs" "210 170"
 "time_hs" "445 475"
-"goal_hs" "4000 7500"
+"goal_hs" "3500 7500"
 "message" "=Tennis=\There is plenty of prize money, and it's up for grabs."
 // brush 0
 {

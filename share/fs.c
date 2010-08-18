@@ -396,8 +396,9 @@ static int write_lines(const char *start, int length, fs_file fh)
 
 #include <stdio.h>
 #include <stdarg.h>
-
+#ifndef __APPLE__
 extern int vsnprintf(char *, size_t, const char *, va_list);
+#endif
 
 int fs_printf(fs_file fh, const char *fmt, ...)
 {

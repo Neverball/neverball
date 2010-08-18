@@ -25,8 +25,7 @@ const char         *set_id(int);
 const char         *set_name(int);
 const char         *set_desc(int);
 const char         *set_shot(int);
-const struct score *set_time_score(int);
-const struct score *set_coin_score(int);
+const struct score *set_score(int, int);
 
 int  set_score_update (int, int, int *, int *);
 void set_rename_player(int, int, const char *);

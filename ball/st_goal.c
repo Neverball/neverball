@@ -89,9 +89,9 @@ static int goal_action(int i)
         progress_stop();
         return goto_state(&st_start);
 
-    case GUI_MOST_COINS:
-    case GUI_BEST_TIMES:
-    case GUI_FAST_UNLOCK:
+    case GUI_SCORE_COIN:
+    case GUI_SCORE_TIME:
+    case GUI_SCORE_GOAL:
         gui_score_set(i);
         resume = 1;
         return goto_state(&st_goal);
@@ -117,9 +117,8 @@ static int goal_enter(void)
 
     int id, jd, kd, ld, md;
 
-    const struct level *l = get_level(curr_level());
-
     int high = progress_lvl_high();
+    int level = curr_level();
 
     if (new_name)
     {
@@ -212,9 +211,9 @@ static int goal_enter(void)
             balls_id = score_id = coins_id = 0;
         }
 
-        gui_score_board(id, (GUI_MOST_COINS |
-                             GUI_BEST_TIMES |
-                             GUI_FAST_UNLOCK), 1, high);
+        gui_score_board(id, (GUI_SCORE_COIN |
+                             GUI_SCORE_TIME |
+                             GUI_SCORE_GOAL), 1, high);
 
         gui_space(id);
 
@@ -242,9 +241,9 @@ static int goal_enter(void)
 
     }
 
-    set_score_board(&l->score.most_coins,  progress_coin_rank(),
-                    &l->score.best_times,  progress_time_rank(),
-                    &l->score.fast_unlock, progress_goal_rank());
+    set_score_board(level_score(level, SCORE_COIN), progress_coin_rank(),
+                    level_score(level, SCORE_TIME), progress_time_rank(),
+                    level_score(level, SCORE_GOAL), progress_goal_rank());
 
     audio_music_fade_out(2.0f);
 
@@ -265,7 +264,7 @@ static void goal_timer(int id, float dt)
     if (time_state() < 1.f)
     {
         game_server_step(dt);
-        game_client_step(demo_file());
+        game_client_sync(demo_file());
     }
     else if (t > 0.05f && coins_id)
     {

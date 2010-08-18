@@ -368,8 +368,7 @@ static int help_buttn(int b, int d)
 
 static int help_demo_enter(void)
 {
-    game_set_fly(0.f, game_client_file());
-    game_client_step(NULL);
+    game_client_fly(0.0f);
     return 0;
 }
 

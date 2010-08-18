@@ -416,23 +416,31 @@ void q_slerp(float q[4], const float a[4], const float b[4], float t)
         i = -1;
     }
 
-    /* Short-circuit identical orientations. */
+    /* Fall back to normalized lerp for very similar orientations. */
 
-    if (c == 1.0f)
+    if (1.0f - c < TINY)
     {
-        q_cpy(q, b);
-        return;
-    }
+        u = 1.0f - t;
+        v = t;
 
-    r = facosf(c);
-    s = fsinf(r);
-    u = fsinf((1.0f - t) * r) / s;
-    v = fsinf((t)        * r) / s * i;
+        i = 1;
+    }
+    else
+    {
+        r = facosf(c);
+        s = fsinf(r);
+        u = fsinf((1.0f - t) * r) / s;
+        v = fsinf((t)        * r) / s * i;
+
+        i = 0;
+    }
 
     q[0] = a[0] * u + b[0] * v;
     q[1] = a[1] * u + b[1] * v;
     q[2] = a[2] * u + b[2] * v;
     q[3] = a[3] * u + b[3] * v;
+
+    if (i) q_nrm(q, q);
 }
 
 /*---------------------------------------------------------------------------*/

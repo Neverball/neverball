@@ -75,8 +75,7 @@ static int level_enter(void)
         gui_layout(id, 0, 0);
     }
 
-    game_set_fly(1.f, NULL);
-    game_client_step(NULL);
+    game_client_fly(1.0f);
 
     return id;
 }
@@ -119,7 +118,7 @@ static int level_buttn(int b, int d)
 
 static void poser_paint(int id, float t)
 {
-    game_draw(1, t);
+    game_draw(POSE_LEVEL, t);
 }
 
 static int poser_buttn(int c, int d)

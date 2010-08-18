@@ -359,7 +359,7 @@ static int conf_enter(void)
         gui_set_trunc(ball_id, TRUNC_TAIL);
 
         gui_set_label(name_id, player);
-        gui_set_label(ball_id, base_name(ball, NULL));
+        gui_set_label(ball_id, base_name(ball));
     }
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");

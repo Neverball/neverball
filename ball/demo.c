@@ -34,8 +34,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define MAGIC           0x52424EAF
-#define DEMO_VERSION    9
+#define MAGIC (0xAF | 'N' << 8 | 'B' << 16 | 'R' << 24)
+#define DEMO_VERSION 9
 
 #define DATELEN 20
 
@@ -145,7 +145,7 @@ struct demo *demo_load(const char *path)
         if (demo_header_read(fp, d))
         {
             strncpy(d->filename, path, MAXSTR - 1);
-            strncpy(d->name, base_name(d->filename, ".nbr"), PATHMAX - 1);
+            strncpy(d->name, base_name_sans(d->filename, ".nbr"), PATHMAX - 1);
             d->name[PATHMAX - 1] = '\0';
         }
         else
@@ -313,7 +313,7 @@ int demo_play_init(const char *name, const struct level *level,
         if (game_client_init(level->file) &&
             game_server_init(level->file, t, e))
         {
-            game_client_step(demo_fp);
+            game_client_sync(demo_fp);
             return 1;
         }
     }
@@ -456,7 +456,7 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
     {
         strncpy(demo_replay.filename, name, MAXSTR - 1);
         strncpy(demo_replay.name,
-                base_name(demo_replay.filename, ".nbr"),
+                base_name_sans(demo_replay.filename, ".nbr"),
                 PATHMAX - 1);
 
         if (level_load(demo_replay.file, &demo_level_replay))
@@ -522,7 +522,7 @@ int demo_replay_step(float dt)
 
         if (!fs_eof(demo_fp))
         {
-            game_client_step(NULL);
+            game_client_sync(NULL);
             return 1;
         }
     }

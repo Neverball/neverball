@@ -56,9 +56,9 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
         else if (strcmp(k, "time_hs") == 0)
         {
             switch (sscanf(v, "%d %d %d",
-                           &l->score.best_times.timer[0],
-                           &l->score.best_times.timer[1],
-                           &l->score.best_times.timer[2]))
+                           &l->scores[SCORE_TIME].timer[0],
+                           &l->scores[SCORE_TIME].timer[1],
+                           &l->scores[SCORE_TIME].timer[2]))
             {
             case 2: need_bt_easy = 1; break;
             case 3:                   break;
@@ -71,9 +71,9 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
         else if (strcmp(k, "goal_hs") == 0)
         {
             switch (sscanf(v, "%d %d %d",
-                           &l->score.fast_unlock.timer[0],
-                           &l->score.fast_unlock.timer[1],
-                           &l->score.fast_unlock.timer[2]))
+                           &l->scores[SCORE_GOAL].timer[0],
+                           &l->scores[SCORE_GOAL].timer[1],
+                           &l->scores[SCORE_GOAL].timer[2]))
             {
             case 2: need_fu_easy = 1; break;
             case 3:                   break;
@@ -86,9 +86,9 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
         else if (strcmp(k, "coin_hs") == 0)
         {
             switch (sscanf(v, "%d %d %d",
-                           &l->score.most_coins.coins[0],
-                           &l->score.most_coins.coins[1],
-                           &l->score.most_coins.coins[2]))
+                           &l->scores[SCORE_COIN].coins[0],
+                           &l->scores[SCORE_COIN].coins[1],
+                           &l->scores[SCORE_COIN].coins[2]))
             {
             case 2: need_mc_easy = 1; break;
             case 3:                   break;
@@ -109,32 +109,29 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
     if (have_goal)
     {
         if (need_mc_easy)
-            l->score.most_coins.coins[2] = l->goal;
+            l->scores[SCORE_COIN].coins[2] = l->goal;
 
-        l->score.fast_unlock.coins[0] =
-            l->score.fast_unlock.coins[1] =
-            l->score.fast_unlock.coins[2] = l->goal;
+        l->scores[SCORE_GOAL].coins[0] = l->goal;
+        l->scores[SCORE_GOAL].coins[1] = l->goal;
+        l->scores[SCORE_GOAL].coins[2] = l->goal;
     }
 
     if (have_time)
     {
         if (need_bt_easy)
-            l->score.best_times.timer[2] = l->time;
+            l->scores[SCORE_TIME].timer[2] = l->time;
         if (need_fu_easy)
-            l->score.fast_unlock.timer[2] = l->time;
+            l->scores[SCORE_GOAL].timer[2] = l->time;
 
-        l->score.most_coins.timer[0] =
-            l->score.most_coins.timer[1] =
-            l->score.most_coins.timer[2] = l->time;
+        l->scores[SCORE_COIN].timer[0] = l->time;
+        l->scores[SCORE_COIN].timer[1] = l->time;
+        l->scores[SCORE_COIN].timer[2] = l->time;
     }
 }
 
 int level_load(const char *filename, struct level *level)
 {
     struct s_file sol;
-
-    int money;
-    int i;
 
     memset(level, 0, sizeof (struct level));
     memset(&sol,  0, sizeof (sol));
@@ -147,17 +144,9 @@ int level_load(const char *filename, struct level *level)
 
     strncpy(level->file, filename, PATHMAX - 1);
 
-    score_init_hs(&level->score.best_times, 59999, 0);
-    score_init_hs(&level->score.fast_unlock, 59999, 0);
-    score_init_hs(&level->score.most_coins, 59999, 0);
-
-    money = 0;
-
-    for (i = 0; i < sol.hc; i++)
-        if (sol.hv[i].t == ITEM_COIN)
-            money += sol.hv[i].n;
-
-    level->score.most_coins.coins[0] = money;
+    score_init_hs(&level->scores[SCORE_TIME], 59999, 0);
+    score_init_hs(&level->scores[SCORE_GOAL], 59999, 0);
+    score_init_hs(&level->scores[SCORE_COIN], 59999, 0);
 
     scan_level_attribs(level, &sol);
 
@@ -169,9 +158,9 @@ int level_load(const char *filename, struct level *level)
     else if (t[2] c t[1]) \
         t[1] = (t[0] + t[2]) / 2
 
-    HOP(level->score.best_times.timer, <=);
-    HOP(level->score.fast_unlock.timer, <=);
-    HOP(level->score.most_coins.coins, >=);
+    HOP(level->scores[SCORE_TIME].timer, <=);
+    HOP(level->scores[SCORE_GOAL].timer, <=);
+    HOP(level->scores[SCORE_COIN].coins, >=);
 
     sol_free(&sol);
 
@@ -247,6 +236,11 @@ const char *level_msg(int i)
     return "";
 }
 
+const struct score *level_score(int i, int s)
+{
+    return level_exists(i) ? &get_level(i)->scores[s] : NULL;
+}
+
 /*---------------------------------------------------------------------------*/
 
 int level_score_update(int level,
@@ -259,9 +253,9 @@ int level_score_update(int level,
     struct level *l = get_level(level);
     const char *player =  config_get_s(CONFIG_PLAYER);
 
-    score_time_insert(&l->score.best_times,  time_rank, player, timer, coins);
-    score_time_insert(&l->score.fast_unlock, goal_rank, player, timer, coins);
-    score_coin_insert(&l->score.most_coins,  coin_rank, player, timer, coins);
+    score_time_insert(&l->scores[SCORE_TIME], time_rank, player, timer, coins);
+    score_time_insert(&l->scores[SCORE_GOAL], goal_rank, player, timer, coins);
+    score_coin_insert(&l->scores[SCORE_COIN], coin_rank, player, timer, coins);
 
     if ((time_rank && *time_rank < 3) ||
         (goal_rank && *goal_rank < 3) ||
@@ -279,9 +273,9 @@ void level_rename_player(int level,
 {
     struct level *l = get_level(level);
 
-    strncpy(l->score.best_times.player [time_rank], player, MAXNAM - 1);
-    strncpy(l->score.fast_unlock.player[goal_rank], player, MAXNAM - 1);
-    strncpy(l->score.most_coins.player [coin_rank], player, MAXNAM - 1);
+    strncpy(l->scores[SCORE_TIME].player[time_rank], player, MAXNAM - 1);
+    strncpy(l->scores[SCORE_GOAL].player[goal_rank], player, MAXNAM - 1);
+    strncpy(l->scores[SCORE_COIN].player[coin_rank], player, MAXNAM - 1);
 }
 
 /*---------------------------------------------------------------------------*/

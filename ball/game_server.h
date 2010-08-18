@@ -25,7 +25,8 @@ void  game_set_x  (int);
 void  game_set_z  (int);
 void  game_set_cam(int);
 void  game_set_rot(float);
-void  game_set_fly(float, const struct s_file *);
+
+void game_server_fly(float);
 
 /*---------------------------------------------------------------------------*/
 

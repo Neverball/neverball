@@ -365,13 +365,10 @@ static int demo_play_enter(void)
     }
 
     /*
-     * Post-1.5.1 replays include view data in the first update, these
-     * two lines are currently left in for compatibility with older
-     * replays.
+     * Post-1.5.1 replays include view data in the first update, this
+     * line is currently left in for compatibility with older replays.
      */
-
-    game_set_fly(0.f, game_client_file());
-    game_client_step(NULL);
+    game_client_fly(0.0f);
 
     if (check_compat && !game_compat_map)
     {
@@ -418,8 +415,6 @@ static void demo_play_timer(int id, float dt)
 
     if (id != 0 && time_state() < 1.0f)
         return;
-
-    /* Spin or skip depending on how fast the demo wants to run. */
 
     if (!demo_replay_step(dt))
     {

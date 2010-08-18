@@ -36,9 +36,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-static float view_rotate;
-static int   fast_rotate;
-
 static int pause_or_exit(void)
 {
     if (config_tst_d(CONFIG_KEY_PAUSE, SDLK_ESCAPE))
@@ -80,9 +77,6 @@ static void keybd_camera(int c)
         set_camera(VIEW_LAZY);
     if (config_tst_d(CONFIG_KEY_CAMERA_3, c))
         set_camera(VIEW_MANUAL);
-
-    if (c == SDLK_F4 && config_cheat())
-        set_camera(VIEW_TOPDOWN);
 
     if (config_tst_d(CONFIG_KEY_CAMERA_TOGGLE, c))
         toggle_camera();
@@ -145,8 +139,7 @@ static void play_ready_timer(int id, float dt)
 {
     float t = time_state();
 
-    game_set_fly(1.0f - 0.5f * t, NULL);
-    game_client_step(NULL);
+    game_client_fly(1.0f - 0.5f * t);
 
     if (dt > 0.0f && t > 1.0f)
         goto_state(&st_play_set);
@@ -224,8 +217,7 @@ static void play_set_timer(int id, float dt)
 {
     float t = time_state();
 
-    game_set_fly(0.5f - 0.5f * t, NULL);
-    game_client_step(NULL);
+    game_client_fly(0.5f - 0.5f * t);
 
     if (dt > 0.0f && t > 1.0f)
         goto_state(&st_play_loop);
@@ -275,6 +267,29 @@ static int play_set_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
+struct
+{
+    float R;
+    float L;
+
+    enum
+    {
+        DIR_R = 1,
+        DIR_L
+    } d;
+} view_rotate;
+
+#define VIEWR_SET_R(v) do {                                    \
+    view_rotate.R = (v);                                       \
+    view_rotate.d = (v) ? DIR_R : (view_rotate.L ? DIR_L : 0); \
+} while (0)
+
+#define VIEWR_SET_L(v) do {                                    \
+    view_rotate.L = (v);                                       \
+    view_rotate.d = (v) ? DIR_L : (view_rotate.R ? DIR_R : 0); \
+} while (0)
+
+static int fast_rotate;
 static int show_hud;
 
 static int play_loop_enter(void)
@@ -282,11 +297,13 @@ static int play_loop_enter(void)
     union cmd cmd;
     int id;
 
+    VIEWR_SET_R(0);
+    VIEWR_SET_L(0);
+    fast_rotate = 0;
+
     if (is_paused())
     {
         clear_pause();
-        view_rotate = 0;
-        fast_rotate = 0;
         return 0;
     }
 
@@ -298,19 +315,13 @@ static int play_loop_enter(void)
 
     audio_play(AUD_GO, 1.f);
 
-    game_set_fly(0.f, NULL);
+    game_server_fly(0.0f);
 
     /* End first update. */
 
     cmd.type = CMD_END_OF_UPDATE;
     game_proxy_enq(&cmd);
-
-    /* Sync client. */
-
-    game_client_step(demo_file());
-
-    view_rotate = 0;
-    fast_rotate = 0;
+    game_client_sync(demo_file());
 
     show_hud = 1;
 
@@ -338,13 +349,15 @@ static void play_loop_timer(int id, float dt)
 
     gui_timer(id, dt);
     hud_timer(dt);
-    game_set_rot(view_rotate * k);
+    game_set_rot(view_rotate.d == DIR_R ?
+                 view_rotate.R * k :
+                 view_rotate.L * k);
     game_set_cam(config_get_d(CONFIG_CAMERA));
 
     game_step_fade(dt);
 
     game_server_step(dt);
-    game_client_step(demo_file());
+    game_client_sync(demo_file());
 
     switch (curr_status())
     {
@@ -384,7 +397,15 @@ static void play_loop_stick(int id, int a, int k)
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
         game_set_x(k);
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_U, a))
-        view_rotate = (float) k / 32768.0f;
+    {
+        float v = (float) k / 32768.0f;
+
+        VIEWR_SET_R(0);
+        VIEWR_SET_L(0);
+
+        if (v > 0) VIEWR_SET_R(v);
+        if (v < 0) VIEWR_SET_L(v);
+    }
 }
 
 static int play_loop_click(int b, int d)
@@ -392,18 +413,18 @@ static int play_loop_click(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_MOUSE_CAMERA_R, b))
-            view_rotate = +1;
+            VIEWR_SET_R(+1);
         if (config_tst_d(CONFIG_MOUSE_CAMERA_L, b))
-            view_rotate = -1;
+            VIEWR_SET_L(-1);
 
         click_camera(b);
     }
     else
     {
         if (config_tst_d(CONFIG_MOUSE_CAMERA_R, b))
-            view_rotate = 0;
+            VIEWR_SET_R(0);
         if (config_tst_d(CONFIG_MOUSE_CAMERA_L, b))
-            view_rotate = 0;
+            VIEWR_SET_L(0);
     }
 
     return 1;
@@ -414,9 +435,9 @@ static int play_loop_keybd(int c, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_KEY_CAMERA_R, c))
-            view_rotate = +1;
+            VIEWR_SET_R(+1);
         if (config_tst_d(CONFIG_KEY_CAMERA_L, c))
-            view_rotate = -1;
+            VIEWR_SET_L(-1);
         if (config_tst_d(CONFIG_KEY_ROTATE_FAST, c))
             fast_rotate = 1;
 
@@ -434,9 +455,9 @@ static int play_loop_keybd(int c, int d)
     else
     {
         if (config_tst_d(CONFIG_KEY_CAMERA_R, c))
-            view_rotate = 0;
+            VIEWR_SET_R(0);
         if (config_tst_d(CONFIG_KEY_CAMERA_L, c))
-            view_rotate = 0;
+            VIEWR_SET_L(0);
         if (config_tst_d(CONFIG_KEY_ROTATE_FAST, c))
             fast_rotate = 0;
     }
@@ -463,9 +484,9 @@ static int play_loop_buttn(int b, int d)
             pause_or_exit();
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R, b))
-            view_rotate = +1;
+            VIEWR_SET_R(+1);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L, b))
-            view_rotate = -1;
+            VIEWR_SET_L(-1);
         if (config_tst_d(CONFIG_JOYSTICK_ROTATE_FAST, b))
             fast_rotate = 1;
 
@@ -474,9 +495,9 @@ static int play_loop_buttn(int b, int d)
     else
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R, b))
-            view_rotate = 0;
+            VIEWR_SET_R(0);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L, b))
-            view_rotate = 0;
+            VIEWR_SET_L(0);
         if (config_tst_d(CONFIG_JOYSTICK_ROTATE_FAST, b))
             fast_rotate = 0;
     }

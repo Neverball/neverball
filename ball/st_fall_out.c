@@ -122,7 +122,7 @@ static void fall_out_timer(int id, float dt)
     if (time_state() < 2.f)
     {
         game_server_step(dt);
-        game_client_step(demo_file());
+        game_client_sync(demo_file());
     }
 
     gui_timer(id, dt);

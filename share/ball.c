@@ -409,7 +409,6 @@ void ball_draw(const float *ball_M,
 
     m_xps(ball_T, ball_M);
     m_xps(pend_T, pend_M);
-    m_xps(pend_T, pend_M);
 
     m_mult(ball_bill_M, ball_T, bill_M);
     m_mult(pend_bill_M, pend_T, bill_M);

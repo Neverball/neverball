@@ -535,7 +535,7 @@ static float sol_test_body(float dt,
      * v = w x p
      */
 
-    if (E[0] != 1.0f || v_dot(A, A))
+    if (E[0] != 1.0f || v_dot(A, A) != 0.0f)
     {
         /* The body has a non-identity orientation or it is rotating. */
 
@@ -558,8 +558,7 @@ static float sol_test_body(float dt,
 
         /* Transform velocity. */
 
-        v_sub(v, up->v, W);
-        q_rot(ball.v, e, v);
+        q_rot(ball.v, e, up->v);
 
         /* Also add the velocity from rotation. */
 
@@ -572,9 +571,7 @@ static float sol_test_body(float dt,
         v[1] = 0.0f;
         v[2] = 0.0f;
 
-        w[0] = 0.0f;
-        w[1] = 0.0f;
-        w[2] = 0.0f;
+        q_rot(w, e, W);
 
         if ((u = sol_test_node(t, U, &ball, fp, np, v, w)) < t)
         {
@@ -645,8 +642,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
     int c = 16;
 
     union cmd cmd;
-
-    sol_cmd_defer = 1;
 
     if (ui < fp->uc)
     {
@@ -727,9 +722,6 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
         sol_pendulum(up, a, g, dt);
     }
-
-    sol_cmd_enq_deferred();
-    sol_cmd_defer = 0;
 
     return b;
 }

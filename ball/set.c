@@ -99,9 +99,9 @@ void set_store_hs(void)
         {
             l = &level_v[i];
 
-            put_score(fout, &l->score.best_times);
-            put_score(fout, &l->score.fast_unlock);
-            put_score(fout, &l->score.most_coins);
+            put_score(fout, &l->scores[SCORE_TIME]);
+            put_score(fout, &l->scores[SCORE_GOAL]);
+            put_score(fout, &l->scores[SCORE_COIN]);
         }
 
         fs_close(fout);
@@ -172,9 +172,9 @@ static void set_load_hs(void)
         for (i = 0; i < s->count && res; i++)
         {
             l = &level_v[i];
-            res = get_score(fin, &l->score.best_times) &&
-                get_score(fin, &l->score.fast_unlock) &&
-                get_score(fin, &l->score.most_coins);
+            res = (get_score(fin, &l->scores[SCORE_TIME])  &&
+                   get_score(fin, &l->scores[SCORE_GOAL]) &&
+                   get_score(fin, &l->scores[SCORE_COIN]));
         }
 
         fs_close(fin);
@@ -292,8 +292,8 @@ static int set_is_loaded(const char *path)
 
 static int is_unseen_set(struct dir_item *item)
 {
-    return (strncmp(base_name(item->path, NULL), "set-", 4) == 0 &&
-            strcmp(item->path + strlen(item->path) - 4, ".txt") == 0 &&
+    return (str_starts_with(base_name(item->path), "set-") &&
+            str_ends_with(item->path, ".txt") &&
             !set_is_loaded(item->path));
 }
 
@@ -390,14 +390,14 @@ const char *set_shot(int i)
     return set_exists(i) ? SET_GET(sets, i)->shot : NULL;
 }
 
-const struct score *set_time_score(int i)
+const struct score *set_score(int i, int s)
 {
-    return set_exists(i) ? &SET_GET(sets, i)->time_score : NULL;
-}
-
-const struct score *set_coin_score(int i)
-{
-    return set_exists(i) ? &SET_GET(sets, i)->coin_score : NULL;
+    if (set_exists(i))
+    {
+        if (s == SCORE_TIME) return &SET_GET(sets, i)->time_score;
+        if (s == SCORE_COIN) return &SET_GET(sets, i)->coin_score;
+    }
+    return NULL;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -429,7 +429,6 @@ static void set_load_levels(void)
 
         level_load(SET_GET(sets, curr)->level_name_v[i], l);
 
-        l->set    = SET_GET(sets, curr);
         l->number = i;
 
         if (l->is_bonus)
@@ -492,32 +491,37 @@ void set_rename_player(int score_rank, int times_rank, const char *player)
 
 void level_snap(int i, const char *path)
 {
-    char filename[MAXSTR];
+    char *filename;
 
     /* Convert the level name to a PNG filename. */
 
-    sprintf(filename, "%s/%s.png", path, base_name(level_v[i].file, ".sol"));
+    filename = concat_string(path,
+                             "/",
+                             base_name_sans(level_v[i].file, ".sol"),
+                             ".png",
+                             NULL);
 
     /* Initialize the game for a snapshot. */
 
     if (game_client_init(level_v[i].file))
     {
         union cmd cmd;
-
         cmd.type = CMD_GOAL_OPEN;
         game_proxy_enq(&cmd);
+        game_client_sync(NULL);
 
         /* Render the level and grab the screen. */
 
         video_clear();
-        game_set_fly(1.f, game_client_file());
+        game_client_fly(1.0f);
         game_kill_fade();
-        game_client_step(NULL);
-        game_draw(1, 0);
+        game_draw(POSE_LEVEL, 0);
         SDL_GL_SwapBuffers();
 
         image_snap(filename);
     }
+
+    free(filename);
 }
 
 void set_cheat(void)
