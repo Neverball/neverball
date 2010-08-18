@@ -19,9 +19,9 @@
 #define GUI_CL   GUI_MSK(5)
 #define GUI_NAME GUI_MSK(6)
 
-#define GUI_MOST_COINS  GUI_MSK(8)
-#define GUI_BEST_TIMES  GUI_MSK(16)
-#define GUI_FAST_UNLOCK GUI_MSK(32)
+#define GUI_SCORE_COIN  GUI_MSK(8)
+#define GUI_SCORE_TIME  GUI_MSK(16)
+#define GUI_SCORE_GOAL GUI_MSK(32)
 
 void gui_score_set(int);
 int  gui_score_get(void);

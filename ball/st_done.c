@@ -51,9 +51,9 @@ static int done_action(int i)
         new_name = 1;
         return goto_name(&st_done, &st_done, 0);
 
-    case GUI_MOST_COINS:
-    case GUI_BEST_TIMES:
-    case GUI_FAST_UNLOCK:
+    case GUI_SCORE_COIN:
+    case GUI_SCORE_TIME:
+    case GUI_SCORE_GOAL:
         gui_score_set(i);
         resume = 1;
         return goto_state(&st_done);
@@ -86,7 +86,7 @@ static int done_enter(void)
             gid = gui_label(id, s2, GUI_MED, GUI_ALL, gui_blu, gui_grn);
 
         gui_space(id);
-        gui_score_board(id, GUI_MOST_COINS | GUI_BEST_TIMES, 1, high);
+        gui_score_board(id, GUI_SCORE_COIN | GUI_SCORE_TIME, 1, high);
         gui_space(id);
 
         gui_start(id, _("Select Level"), GUI_SML, DONE_OK, 0);

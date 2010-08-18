@@ -9,9 +9,9 @@
 
 enum
 {
-    SCORE_BEST_TIMES = 0,
-    SCORE_FAST_UNLOCK,
-    SCORE_MOST_COINS
+    SCORE_TIME = 0,
+    SCORE_GOAL,
+    SCORE_COIN
 };
 
 struct level

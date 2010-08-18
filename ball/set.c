@@ -99,9 +99,9 @@ void set_store_hs(void)
         {
             l = &level_v[i];
 
-            put_score(fout, &l->scores[SCORE_BEST_TIMES]);
-            put_score(fout, &l->scores[SCORE_FAST_UNLOCK]);
-            put_score(fout, &l->scores[SCORE_MOST_COINS]);
+            put_score(fout, &l->scores[SCORE_TIME]);
+            put_score(fout, &l->scores[SCORE_GOAL]);
+            put_score(fout, &l->scores[SCORE_COIN]);
         }
 
         fs_close(fout);
@@ -172,9 +172,9 @@ static void set_load_hs(void)
         for (i = 0; i < s->count && res; i++)
         {
             l = &level_v[i];
-            res = (get_score(fin, &l->scores[SCORE_BEST_TIMES])  &&
-                   get_score(fin, &l->scores[SCORE_FAST_UNLOCK]) &&
-                   get_score(fin, &l->scores[SCORE_MOST_COINS]));
+            res = (get_score(fin, &l->scores[SCORE_TIME])  &&
+                   get_score(fin, &l->scores[SCORE_GOAL]) &&
+                   get_score(fin, &l->scores[SCORE_COIN]));
         }
 
         fs_close(fin);

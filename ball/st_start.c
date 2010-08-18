@@ -74,9 +74,9 @@ static void start_over_level(int i)
     {
         gui_set_image(shot_id, level_shot(i));
 
-        set_score_board(level_score(i, SCORE_MOST_COINS),  -1,
-                        level_score(i, SCORE_BEST_TIMES),  -1,
-                        level_score(i, SCORE_FAST_UNLOCK), -1);
+        set_score_board(level_score(i, SCORE_COIN), -1,
+                        level_score(i, SCORE_TIME), -1,
+                        level_score(i, SCORE_GOAL), -1);
 
         if (file_id)
             gui_set_label(file_id, level_file(i));
@@ -134,9 +134,9 @@ static int start_action(int i)
         }
         break;
 
-    case GUI_MOST_COINS:
-    case GUI_BEST_TIMES:
-    case GUI_FAST_UNLOCK:
+    case GUI_SCORE_COIN:
+    case GUI_SCORE_TIME:
+    case GUI_SCORE_GOAL:
         gui_score_set(i);
         return goto_state(&st_start);
 
@@ -211,9 +211,9 @@ static int start_enter(void)
             }
         }
         gui_space(id);
-        gui_score_board(id, (GUI_MOST_COINS |
-                             GUI_BEST_TIMES |
-                             GUI_FAST_UNLOCK), 0, 0);
+        gui_score_board(id, (GUI_SCORE_COIN |
+                             GUI_SCORE_TIME |
+                             GUI_SCORE_GOAL), 0, 0);
         gui_space(id);
 
         if ((jd = gui_hstack(id)))
