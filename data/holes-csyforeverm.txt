@@ -15,7 +15,7 @@ map-csyforevermp/AdvancedBend.sol	back/grn_wht.png	3	bgm/track6.ogg
 map-csyforevermp/CrazyLoopCross.sol	back/greens.png	3	bgm/track6.ogg
 map-csyforevermp/SlimLineSlits.sol	back/grn_wht.png	4	bgm/track4.ogg
 map-csyforevermp/Challenger1.sol	back/blu_wht.png	5	bgm/track4.ogg
-map-csyforevermp/BumperJumpers.sol	back/purples.png	3	bgm/track4.ogg
+map-csyforevermp/BumperJumpers.sol	back/purples.png	6	bgm/track4.ogg
 map-csyforevermp/NeverTrisWorld.sol	back/blk_org.png	5	bgm/track5.ogg
 map-csyforevermp/WoodWorld.sol	back/red_blu.png	5	bgm/track5.ogg
 map-csyforevermp/Ultra.sol	back/cyn_wht.png	7	bgm/track5.ogg
