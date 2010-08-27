@@ -709,13 +709,13 @@
 // entity 13
 {
 "classname" "target_position"
-"origin" "-96 -112 64"
+"origin" "-96 -96 336"
 "targetname" "view"
 }
 // entity 14
 {
 "classname" "info_player_intermission"
-"origin" "-112 -272 224"
+"origin" "-192 384 672"
 "target" "goal"
 }
 // entity 15
