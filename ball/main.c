@@ -325,7 +325,7 @@ static int is_replay(struct dir_item *item)
     return str_ends_with(item->path, ".nbr");
 }
 
-static int is_score(struct dir_item *item)
+static int is_score_file(struct dir_item *item)
 {
     return str_starts_with(item->path, "neverballhs-");
 }
@@ -356,7 +356,7 @@ static void make_dirs_and_migrate(void)
 
     if (fs_mkdir("Scores"))
     {
-        if ((items = fs_dir_scan("", is_score)))
+        if ((items = fs_dir_scan("", is_score_file)))
         {
             for (i = 0; i < array_len(items); i++)
             {
