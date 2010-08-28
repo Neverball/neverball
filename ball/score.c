@@ -70,10 +70,10 @@ static void score_insert(struct score *s, int i,
 
 void score_init_hs(struct score *s, int timer, int coins)
 {
-    score_insert(s, 0, "Hard",   timer, coins);
-    score_insert(s, 1, "Medium", timer, coins);
-    score_insert(s, 2, "Easy",   timer, coins);
-    score_insert(s, 3, "",       timer, coins);
+    score_insert(s, RANK_HARD, "Hard",   timer, coins);
+    score_insert(s, RANK_MEDM, "Medium", timer, coins);
+    score_insert(s, RANK_EASY, "Easy",   timer, coins);
+    score_insert(s, RANK_LAST, "",       timer, coins);
 }
 
 void score_time_insert(struct score *s, int *rank,
@@ -81,11 +81,11 @@ void score_time_insert(struct score *s, int *rank,
 {
     int i;
 
-    score_insert(s, 3, player, timer, coins);
+    score_insert(s, RANK_LAST, player, timer, coins);
 
     if (rank)
     {
-        for (i = 2; i >= 0 && score_time_comp(s, i + 1, i); i--)
+        for (i = RANK_EASY; i >= RANK_HARD && score_time_comp(s, i + 1, i); i--)
             score_swap(s, i + 1, i);
 
         *rank = i + 1;
@@ -97,11 +97,11 @@ void score_coin_insert(struct score *s, int *rank,
 {
     int i;
 
-    score_insert(s, 3, player, timer, coins);
+    score_insert(s, RANK_LAST, player, timer, coins);
 
     if (rank)
     {
-        for (i = 2; i >= 0 && score_coin_comp(s, i + 1, i); i--)
+        for (i = RANK_EASY; i >= RANK_HARD && score_coin_comp(s, i + 1, i); i--)
             score_swap(s, i + 1, i);
 
         *rank = i + 1;

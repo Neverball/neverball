@@ -56,9 +56,9 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
         else if (strcmp(k, "time_hs") == 0)
         {
             switch (sscanf(v, "%d %d %d",
-                           &l->scores[SCORE_TIME].timer[0],
-                           &l->scores[SCORE_TIME].timer[1],
-                           &l->scores[SCORE_TIME].timer[2]))
+                           &l->scores[SCORE_TIME].timer[RANK_HARD],
+                           &l->scores[SCORE_TIME].timer[RANK_MEDM],
+                           &l->scores[SCORE_TIME].timer[RANK_EASY]))
             {
             case 2: need_bt_easy = 1; break;
             case 3:                   break;
@@ -71,9 +71,9 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
         else if (strcmp(k, "goal_hs") == 0)
         {
             switch (sscanf(v, "%d %d %d",
-                           &l->scores[SCORE_GOAL].timer[0],
-                           &l->scores[SCORE_GOAL].timer[1],
-                           &l->scores[SCORE_GOAL].timer[2]))
+                           &l->scores[SCORE_GOAL].timer[RANK_HARD],
+                           &l->scores[SCORE_GOAL].timer[RANK_MEDM],
+                           &l->scores[SCORE_GOAL].timer[RANK_EASY]))
             {
             case 2: need_fu_easy = 1; break;
             case 3:                   break;
@@ -86,9 +86,9 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
         else if (strcmp(k, "coin_hs") == 0)
         {
             switch (sscanf(v, "%d %d %d",
-                           &l->scores[SCORE_COIN].coins[0],
-                           &l->scores[SCORE_COIN].coins[1],
-                           &l->scores[SCORE_COIN].coins[2]))
+                           &l->scores[SCORE_COIN].coins[RANK_HARD],
+                           &l->scores[SCORE_COIN].coins[RANK_MEDM],
+                           &l->scores[SCORE_COIN].coins[RANK_EASY]))
             {
             case 2: need_mc_easy = 1; break;
             case 3:                   break;
@@ -109,23 +109,23 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
     if (have_goal)
     {
         if (need_mc_easy)
-            l->scores[SCORE_COIN].coins[2] = l->goal;
+            l->scores[SCORE_COIN].coins[RANK_EASY] = l->goal;
 
-        l->scores[SCORE_GOAL].coins[0] = l->goal;
-        l->scores[SCORE_GOAL].coins[1] = l->goal;
-        l->scores[SCORE_GOAL].coins[2] = l->goal;
+        l->scores[SCORE_GOAL].coins[RANK_HARD] = l->goal;
+        l->scores[SCORE_GOAL].coins[RANK_MEDM] = l->goal;
+        l->scores[SCORE_GOAL].coins[RANK_EASY] = l->goal;
     }
 
     if (have_time)
     {
         if (need_bt_easy)
-            l->scores[SCORE_TIME].timer[2] = l->time;
+            l->scores[SCORE_TIME].timer[RANK_EASY] = l->time;
         if (need_fu_easy)
-            l->scores[SCORE_GOAL].timer[2] = l->time;
+            l->scores[SCORE_GOAL].timer[RANK_EASY] = l->time;
 
-        l->scores[SCORE_COIN].timer[0] = l->time;
-        l->scores[SCORE_COIN].timer[1] = l->time;
-        l->scores[SCORE_COIN].timer[2] = l->time;
+        l->scores[SCORE_COIN].timer[RANK_HARD] = l->time;
+        l->scores[SCORE_COIN].timer[RANK_MEDM] = l->time;
+        l->scores[SCORE_COIN].timer[RANK_EASY] = l->time;
     }
 }
 
@@ -149,18 +149,6 @@ int level_load(const char *filename, struct level *level)
     score_init_hs(&level->scores[SCORE_COIN], 59999, 0);
 
     scan_level_attribs(level, &sol);
-
-    /* Compute initial hs default values */
-
-#define HOP(t, c) \
-    if (t[2] c t[0]) \
-        t[0] = t[1] = t[2]; \
-    else if (t[2] c t[1]) \
-        t[1] = (t[0] + t[2]) / 2
-
-    HOP(level->scores[SCORE_TIME].timer, <=);
-    HOP(level->scores[SCORE_GOAL].timer, <=);
-    HOP(level->scores[SCORE_COIN].coins, >=);
 
     sol_free(&sol);
 

@@ -315,12 +315,15 @@ int  progress_last(void)
 
 int  progress_lvl_high(void)
 {
-    return time_rank < 3 || goal_rank < 3 || coin_rank < 3;
+    return (time_rank < RANK_LAST ||
+            goal_rank < RANK_LAST ||
+            coin_rank < RANK_LAST);
 }
 
 int  progress_set_high(void)
 {
-    return score_rank < 3 || times_rank < 3;
+    return (score_rank < RANK_LAST ||
+            times_rank < RANK_LAST);
 }
 
 void progress_rename(int set_only)

@@ -64,7 +64,7 @@ static void put_score(fs_file fp, const struct score *s)
 {
     int j;
 
-    for (j = 0; j < NSCORE; j++)
+    for (j = RANK_HARD; j < RANK_LAST; j++)
         fs_printf(fp, "%d %d %s\n", s->timer[j], s->coins[j], s->player[j]);
 }
 
@@ -114,7 +114,7 @@ static int get_score(fs_file fp, struct score *s)
     int res = 1;
     char line[MAXSTR];
 
-    for (j = 0; j < NSCORE && res; j++)
+    for (j = RANK_HARD; j < RANK_LAST && res; j++)
     {
         res = (fs_gets(line, sizeof (line), fp) &&
                sscanf(line, "%d %d %s\n",
@@ -125,7 +125,6 @@ static int get_score(fs_file fp, struct score *s)
     return res;
 }
 
-/* Get the score of the set. */
 static void set_load_hs(void)
 {
     struct set *s = SET_GET(sets, curr);
@@ -220,12 +219,12 @@ static int set_load(struct set *s, const char *filename)
         read_line(&scores,  fin))
     {
         sscanf(scores, "%d %d %d %d %d %d",
-               &s->time_score.timer[0],
-               &s->time_score.timer[1],
-               &s->time_score.timer[2],
-               &s->coin_score.coins[0],
-               &s->coin_score.coins[1],
-               &s->coin_score.coins[2]);
+               &s->time_score.timer[RANK_HARD],
+               &s->time_score.timer[RANK_MEDM],
+               &s->time_score.timer[RANK_EASY],
+               &s->coin_score.coins[RANK_HARD],
+               &s->coin_score.coins[RANK_MEDM],
+               &s->coin_score.coins[RANK_EASY]);
 
         free(scores);
 
@@ -473,7 +472,8 @@ int set_score_update(int timer, int coins, int *score_rank, int *times_rank)
     score_coin_insert(&s->coin_score, score_rank, player, timer, coins);
     score_time_insert(&s->time_score, times_rank, player, timer, coins);
 
-    if ((score_rank && *score_rank < 3) || (times_rank && *times_rank < 3))
+    if ((score_rank && *score_rank < RANK_LAST) ||
+        (times_rank && *times_rank < RANK_LAST))
         return 1;
     else
         return 0;

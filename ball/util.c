@@ -39,9 +39,9 @@ static void set_score_color(int id, int hi,
                             const GLfloat *c0,
                             const GLfloat *c1)
 {
-    if (hi >= 0)
+    if (hi >= RANK_HARD)
     {
-        if (hi < NSCORE)
+        if (hi < RANK_LAST)
             gui_set_color(id, c0, c0);
         else
             gui_set_color(id, c1, c1);
@@ -81,7 +81,7 @@ static void gui_scores(int id, int e)
             {
                 if ((md = gui_vstack(ld)))
                 {
-                    for (j = 0; j < NSCORE - 1; j++)
+                    for (j = RANK_HARD; j < RANK_EASY; j++)
                         score_coin[j] = gui_count(md, 1000, GUI_SML, 0);
 
                     score_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_SE);
@@ -95,7 +95,7 @@ static void gui_scores(int id, int e)
 
                 if ((md = gui_vstack(ld)))
                 {
-                    for (j = 0; j < NSCORE; j++)
+                    for (j = RANK_HARD; j < RANK_LAST; j++)
                     {
                         score_name[j] = gui_label(md, s, GUI_SML, 0,
                                                   gui_yel, gui_wht);
@@ -113,7 +113,7 @@ static void gui_scores(int id, int e)
 
                 if ((md = gui_vstack(ld)))
                 {
-                    for (j = 0; j < NSCORE - 1; j++)
+                    for (j = RANK_HARD; j < RANK_EASY; j++)
                         score_time[j] = gui_clock(md, 359999, GUI_SML, 0);
 
                     score_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_SW);
@@ -135,13 +135,13 @@ static void gui_scores(int id, int e)
 static void gui_set_scores(const char *label, const struct score *s, int hilite)
 {
     const char *name;
-    int j;
+    int j, n = score_extra_row ? RANK_LAST : RANK_EASY;
 
     if (s == NULL)
     {
         gui_set_label(score_label, _("Unavailable"));
 
-        for (j = 0; j < NSCORE + score_extra_row ; j++)
+        for (j = RANK_HARD; j <= n; j++)
         {
             gui_set_count(score_coin[j], -1);
             gui_set_label(score_name[j], "");
@@ -152,7 +152,7 @@ static void gui_set_scores(const char *label, const struct score *s, int hilite)
     {
         gui_set_label(score_label, label);
 
-        for (j = 0; j < NSCORE + score_extra_row; j++)
+        for (j = RANK_HARD; j <= n; j++)
         {
             name = s->player[j];
 
