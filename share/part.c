@@ -314,11 +314,10 @@ void part_draw_jump(const float *M, float radius, float a, float t)
          * X is the current time since some Epoch, Y is the time it
          * takes for a squiggle to grow to its full size and then
          * shrink again.  F is the current scale of the squiggle in
-         * the interval [0.0, 1.0].  The ratio is offset by 0.5 to
-         * have F = 1.0 when X = 0.0.
+         * the interval [0.0, 1.0].
          */
 
-#define F(x, y) fabsf(fsinf(((x) / (y) + 0.5f) * PI))
+#define F(x, y) fabsf(fcosf(((x) / (y)) * PI))
 
         part_draw(M, part_jump[i].p, radius - 0.05f,
                   0.0f, F(t, part_jump[i].w));
