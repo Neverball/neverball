@@ -240,28 +240,28 @@ void gui_score_board(int pd, unsigned int types, int e, int h)
     }
 }
 
-void set_score_board(const struct score *smc, int hmc,
-                     const struct score *sbt, int hbt,
-                     const struct score *sfu, int hfu)
+void set_score_board(const struct score *sc, int hc,
+                     const struct score *st, int ht,
+                     const struct score *sg, int hg)
 {
     switch (score_type)
     {
     case GUI_SCORE_COIN:
-        gui_set_scores(_("Most Coins"), smc, hmc);
+        gui_set_scores(_("Most Coins"), sc, hc);
         break;
 
     case GUI_SCORE_TIME:
-        gui_set_scores(_("Best Times"), sbt, hbt);
+        gui_set_scores(_("Best Times"), st, ht);
         break;
 
     case GUI_SCORE_GOAL:
-        gui_set_scores(_("Fast Unlock"), sfu, hfu);
+        gui_set_scores(_("Fast Unlock"), sg, hg);
         break;
     }
 
-    set_score_color(coin_btn_id, hmc, gui_grn, gui_wht);
-    set_score_color(time_btn_id, hbt, gui_grn, gui_wht);
-    set_score_color(goal_btn_id, hfu, gui_grn, gui_wht);
+    set_score_color(coin_btn_id, hc, gui_grn, gui_wht);
+    set_score_color(time_btn_id, ht, gui_grn, gui_wht);
+    set_score_color(goal_btn_id, hg, gui_grn, gui_wht);
 }
 
 void gui_score_set(int t)

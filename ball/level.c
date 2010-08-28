@@ -29,8 +29,12 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
 {
     int i;
 
-    int have_goal = 0, have_time = 0;
-    int need_bt_easy = 0, need_fu_easy = 0, need_mc_easy = 0;
+    int have_goal = 0;
+    int have_time = 0;
+
+    int need_time_easy = 0;
+    int need_goal_easy = 0;
+    int need_coin_easy = 0;
 
     for (i = 0; i < fp->dc; i++)
     {
@@ -60,12 +64,8 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
                            &l->scores[SCORE_TIME].timer[RANK_MEDM],
                            &l->scores[SCORE_TIME].timer[RANK_EASY]))
             {
-            case 2: need_bt_easy = 1; break;
-            case 3:                   break;
-
-            default:
-                /* TODO, complain loudly? */
-                break;
+            case 2: need_time_easy = 1; break;
+            case 3: break;
             }
         }
         else if (strcmp(k, "goal_hs") == 0)
@@ -75,12 +75,8 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
                            &l->scores[SCORE_GOAL].timer[RANK_MEDM],
                            &l->scores[SCORE_GOAL].timer[RANK_EASY]))
             {
-            case 2: need_fu_easy = 1; break;
-            case 3:                   break;
-
-            default:
-                /* TODO, complain loudly? */
-                break;
+            case 2: need_goal_easy = 1; break;
+            case 3: break;
             }
         }
         else if (strcmp(k, "coin_hs") == 0)
@@ -90,12 +86,8 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
                            &l->scores[SCORE_COIN].coins[RANK_MEDM],
                            &l->scores[SCORE_COIN].coins[RANK_EASY]))
             {
-            case 2: need_mc_easy = 1; break;
-            case 3:                   break;
-
-            default:
-                /* TODO, complain loudly? */
-                break;
+            case 2: need_coin_easy = 1; break;
+            case 3: break;
             }
         }
         else if (strcmp(k, "version") == 0)
@@ -108,7 +100,7 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
 
     if (have_goal)
     {
-        if (need_mc_easy)
+        if (need_coin_easy)
             l->scores[SCORE_COIN].coins[RANK_EASY] = l->goal;
 
         l->scores[SCORE_GOAL].coins[RANK_HARD] = l->goal;
@@ -118,9 +110,9 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
 
     if (have_time)
     {
-        if (need_bt_easy)
+        if (need_time_easy)
             l->scores[SCORE_TIME].timer[RANK_EASY] = l->time;
-        if (need_fu_easy)
+        if (need_goal_easy)
             l->scores[SCORE_GOAL].timer[RANK_EASY] = l->time;
 
         l->scores[SCORE_COIN].timer[RANK_HARD] = l->time;
