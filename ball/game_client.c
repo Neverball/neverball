@@ -41,30 +41,34 @@ int game_compat_map;                    /* Client/server map compat flag     */
 
 /*---------------------------------------------------------------------------*/
 
-static int client_state = 0;
+struct game_draw
+{
+    int state;
 
-static struct s_file file;
-static struct s_file back;
+    struct s_file file;
+    struct s_file back;
 
-static int   reflective;                /* Reflective geometry used?         */
+    int reflective;                     /* Reflective geometry used?         */
 
-static float timer      = 0.f;          /* Clock time                        */
+    struct game_tilt tilt;              /* Floor rotation                    */
+    struct game_view view;              /* Current view                      */
 
-static int status = GAME_NONE;          /* Outcome of the game               */
+    int   goal_e;                       /* Goal enabled flag                 */
+    float goal_k;                       /* Goal animation                    */
 
-static struct game_tilt tilt;           /* Floor rotation                    */
-static struct game_view view;           /* Current view                      */
+    int   jump_e;                       /* Jumping enabled flag              */
+    int   jump_b;                       /* Jump-in-progress flag             */
+    float jump_dt;                      /* Jump duration                     */
 
+    float fade_k;                       /* Fade in/out level                 */
+    float fade_d;                       /* Fade in/out direction             */
+};
+
+static struct game_draw dr;
+
+static float timer  = 0.0f;             /* Clock time                        */
+static int   status = GAME_NONE;        /* Outcome of the game               */
 static int   coins  = 0;                /* Collected coins                   */
-static int   goal_e = 0;                /* Goal enabled flag                 */
-static float goal_k = 0;                /* Goal animation                    */
-
-static int   jump_e = 1;                /* Jumping enabled flag              */
-static int   jump_b = 0;                /* Jump-in-progress flag             */
-static float jump_dt;                   /* Jump duration                     */
-
-static float fade_k = 0.0;              /* Fade in/out level                 */
-static float fade_d = 0.0;              /* Fade in/out direction             */
 
 static int ups;                         /* Updates per second                */
 static int first_update;                /* First update flag                 */
@@ -92,7 +96,7 @@ static void game_run_cmd(const union cmd *cmd)
 
     float v[3];
 
-    if (client_state)
+    if (dr.state)
     {
         struct s_item *hp;
         struct s_ball *up;
@@ -115,9 +119,9 @@ static void game_run_cmd(const union cmd *cmd)
             /* Compute gravity for particle effects. */
 
             if (status == GAME_GOAL)
-                game_tilt_grav(v, gup, &tilt);
+                game_tilt_grav(v, gup, &dr.tilt);
             else
-                game_tilt_grav(v, gdn, &tilt);
+                game_tilt_grav(v, gdn, &dr.tilt);
 
             /* Step particle, goal and jump effects. */
 
@@ -125,15 +129,15 @@ static void game_run_cmd(const union cmd *cmd)
             {
                 dt = 1.0f / (float) ups;
 
-                if (goal_e && goal_k < 1.0f)
-                    goal_k += dt;
+                if (dr.goal_e && dr.goal_k < 1.0f)
+                    dr.goal_k += dt;
 
-                if (jump_b)
+                if (dr.jump_b)
                 {
-                    jump_dt += dt;
+                    dr.jump_dt += dt;
 
-                    if (1.0f < jump_dt)
-                        jump_b = 0;
+                    if (1.0f < dr.jump_dt)
+                        dr.jump_b = 0;
                 }
 
                 part_step(v, dt);
@@ -144,18 +148,18 @@ static void game_run_cmd(const union cmd *cmd)
         case CMD_MAKE_BALL:
             /* Allocate a new ball and mark it as the current ball. */
 
-            if ((up = realloc(file.uv, sizeof (*up) * (file.uc + 1))))
+            if ((up = realloc(dr.file.uv, sizeof (*up) * (dr.file.uc + 1))))
             {
-                file.uv = up;
-                curr_ball = file.uc;
-                file.uc++;
+                dr.file.uv = up;
+                curr_ball = dr.file.uc;
+                dr.file.uc++;
             }
             break;
 
         case CMD_MAKE_ITEM:
             /* Allocate and initialise a new item. */
 
-            if ((hp = realloc(file.hv, sizeof (*hp) * (file.hc + 1))))
+            if ((hp = realloc(dr.file.hv, sizeof (*hp) * (dr.file.hc + 1))))
             {
                 struct s_item h;
 
@@ -164,9 +168,9 @@ static void game_run_cmd(const union cmd *cmd)
                 h.t = cmd->mkitem.t;
                 h.n = cmd->mkitem.n;
 
-                file.hv          = hp;
-                file.hv[file.hc] = h;
-                file.hc++;
+                dr.file.hv = hp;
+                dr.file.hv[dr.file.hc] = h;
+                dr.file.hc++;
             }
 
             break;
@@ -174,9 +178,9 @@ static void game_run_cmd(const union cmd *cmd)
         case CMD_PICK_ITEM:
             /* Set up particle effects and discard the item. */
 
-            assert(cmd->pkitem.hi < file.hc);
+            assert(cmd->pkitem.hi < dr.file.hc);
 
-            hp = &file.hv[cmd->pkitem.hi];
+            hp = &dr.file.hv[cmd->pkitem.hi];
 
             item_color(hp, v);
             part_burst(hp->p, v);
@@ -187,14 +191,14 @@ static void game_run_cmd(const union cmd *cmd)
 
         case CMD_TILT_ANGLES:
             if (!got_tilt_axes)
-                game_tilt_axes(&tilt, view.e);
+                game_tilt_axes(&dr.tilt, dr.view.e);
 
-            tilt.rx = cmd->tiltangles.x;
-            tilt.rz = cmd->tiltangles.z;
+            dr.tilt.rx = cmd->tiltangles.x;
+            dr.tilt.rz = cmd->tiltangles.z;
             break;
 
         case CMD_SOUND:
-            /* Play the sound, then free its file name. */
+            /* Play the sound, then free its dr.file name. */
 
             if (cmd->sound.n)
             {
@@ -222,21 +226,21 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_JUMP_ENTER:
-            jump_b  = 1;
-            jump_e  = 0;
-            jump_dt = 0.0f;
+            dr.jump_b  = 1;
+            dr.jump_e  = 0;
+            dr.jump_dt = 0.0f;
             break;
 
         case CMD_JUMP_EXIT:
-            jump_e = 1;
+            dr.jump_e = 1;
             break;
 
         case CMD_BODY_PATH:
-            file.bv[cmd->bodypath.bi].pi = cmd->bodypath.pi;
+            dr.file.bv[cmd->bodypath.bi].pi = cmd->bodypath.pi;
             break;
 
         case CMD_BODY_TIME:
-            file.bv[cmd->bodytime.bi].t = cmd->bodytime.t;
+            dr.file.bv[cmd->bodytime.bi].t = cmd->bodytime.t;
             break;
 
         case CMD_GOAL_OPEN:
@@ -245,23 +249,23 @@ static void game_run_cmd(const union cmd *cmd)
              * this is the first update.
              */
 
-            if (!goal_e)
+            if (!dr.goal_e)
             {
-                goal_e = 1;
-                goal_k = first_update ? 1.0f : 0.0f;
+                dr.goal_e = 1;
+                dr.goal_k = first_update ? 1.0f : 0.0f;
             }
             break;
 
         case CMD_SWCH_ENTER:
-            file.xv[cmd->swchenter.xi].e = 1;
+            dr.file.xv[cmd->swchenter.xi].e = 1;
             break;
 
         case CMD_SWCH_TOGGLE:
-            file.xv[cmd->swchtoggle.xi].f = !file.xv[cmd->swchtoggle.xi].f;
+            dr.file.xv[cmd->swchtoggle.xi].f = !dr.file.xv[cmd->swchtoggle.xi].f;
             break;
 
         case CMD_SWCH_EXIT:
-            file.xv[cmd->swchexit.xi].e = 0;
+            dr.file.xv[cmd->swchexit.xi].e = 0;
             break;
 
         case CMD_UPDATES_PER_SECOND:
@@ -269,62 +273,62 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_BALL_RADIUS:
-            file.uv[curr_ball].r = cmd->ballradius.r;
+            dr.file.uv[curr_ball].r = cmd->ballradius.r;
             break;
 
         case CMD_CLEAR_ITEMS:
-            if (file.hv)
+            if (dr.file.hv)
             {
-                free(file.hv);
-                file.hv = NULL;
+                free(dr.file.hv);
+                dr.file.hv = NULL;
             }
-            file.hc = 0;
+            dr.file.hc = 0;
             break;
 
         case CMD_CLEAR_BALLS:
-            if (file.uv)
+            if (dr.file.uv)
             {
-                free(file.uv);
-                file.uv = NULL;
+                free(dr.file.uv);
+                dr.file.uv = NULL;
             }
-            file.uc = 0;
+            dr.file.uc = 0;
             break;
 
         case CMD_BALL_POSITION:
-            v_cpy(file.uv[curr_ball].p, cmd->ballpos.p);
+            v_cpy(dr.file.uv[curr_ball].p, cmd->ballpos.p);
             break;
 
         case CMD_BALL_BASIS:
-            v_cpy(file.uv[curr_ball].e[0], cmd->ballbasis.e[0]);
-            v_cpy(file.uv[curr_ball].e[1], cmd->ballbasis.e[1]);
+            v_cpy(dr.file.uv[curr_ball].e[0], cmd->ballbasis.e[0]);
+            v_cpy(dr.file.uv[curr_ball].e[1], cmd->ballbasis.e[1]);
 
-            v_crs(file.uv[curr_ball].e[2],
-                  file.uv[curr_ball].e[0],
-                  file.uv[curr_ball].e[1]);
+            v_crs(dr.file.uv[curr_ball].e[2],
+                  dr.file.uv[curr_ball].e[0],
+                  dr.file.uv[curr_ball].e[1]);
             break;
 
         case CMD_BALL_PEND_BASIS:
-            v_cpy(file.uv[curr_ball].E[0], cmd->ballpendbasis.E[0]);
-            v_cpy(file.uv[curr_ball].E[1], cmd->ballpendbasis.E[1]);
+            v_cpy(dr.file.uv[curr_ball].E[0], cmd->ballpendbasis.E[0]);
+            v_cpy(dr.file.uv[curr_ball].E[1], cmd->ballpendbasis.E[1]);
 
-            v_crs(file.uv[curr_ball].E[2],
-                  file.uv[curr_ball].E[0],
-                  file.uv[curr_ball].E[1]);
+            v_crs(dr.file.uv[curr_ball].E[2],
+                  dr.file.uv[curr_ball].E[0],
+                  dr.file.uv[curr_ball].E[1]);
             break;
 
         case CMD_VIEW_POSITION:
-            v_cpy(view.p, cmd->viewpos.p);
+            v_cpy(dr.view.p, cmd->viewpos.p);
             break;
 
         case CMD_VIEW_CENTER:
-            v_cpy(view.c, cmd->viewcenter.c);
+            v_cpy(dr.view.c, cmd->viewcenter.c);
             break;
 
         case CMD_VIEW_BASIS:
-            v_cpy(view.e[0], cmd->viewbasis.e[0]);
-            v_cpy(view.e[1], cmd->viewbasis.e[1]);
+            v_cpy(dr.view.e[0], cmd->viewbasis.e[0]);
+            v_cpy(dr.view.e[1], cmd->viewbasis.e[1]);
 
-            v_crs(view.e[2], view.e[0], view.e[1]);
+            v_crs(dr.view.e[2], dr.view.e[0], dr.view.e[1]);
 
             break;
 
@@ -333,7 +337,7 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_PATH_FLAG:
-            file.pv[cmd->pathflag.pi].f = cmd->pathflag.f;
+            dr.file.pv[cmd->pathflag.pi].f = cmd->pathflag.f;
             break;
 
         case CMD_STEP_SIMULATION:
@@ -351,10 +355,10 @@ static void game_run_cmd(const union cmd *cmd)
 
             dt = cmd->stepsim.dt;
 
-            for (i = 0; i < file.bc; i++)
+            for (i = 0; i < dr.file.bc; i++)
             {
-                struct s_body *bp = file.bv + i;
-                struct s_path *pp = file.pv + bp->pi;
+                struct s_body *bp = dr.file.bv + i;
+                struct s_path *pp = dr.file.pv + bp->pi;
 
                 if (bp->pi >= 0 && pp->f)
                     bp->t += dt;
@@ -375,8 +379,8 @@ static void game_run_cmd(const union cmd *cmd)
 
         case CMD_TILT_AXES:
             got_tilt_axes = 1;
-            v_cpy(tilt.x, cmd->tiltaxes.x);
-            v_cpy(tilt.z, cmd->tiltaxes.z);
+            v_cpy(dr.tilt.x, cmd->tiltaxes.x);
+            v_cpy(dr.tilt.z, cmd->tiltaxes.z);
             break;
 
         case CMD_NONE:
@@ -416,39 +420,39 @@ int  game_client_init(const char *file_name)
     coins  = 0;
     status = GAME_NONE;
 
-    if (client_state)
+    if (dr.state)
         game_client_free();
 
-    if (!sol_load_gl(&file, file_name, config_get_d(CONFIG_SHADOW)))
-        return (client_state = 0);
+    if (!sol_load_gl(&dr.file, file_name, config_get_d(CONFIG_SHADOW)))
+        return (dr.state = 0);
 
-    reflective = sol_reflective(&file);
+    dr.reflective = sol_reflective(&dr.file);
 
-    client_state = 1;
+    dr.state = 1;
 
-    game_tilt_init(&tilt);
+    game_tilt_init(&dr.tilt);
 
     /* Initialize jump and goal states. */
 
-    jump_e = 1;
-    jump_b = 0;
+    dr.jump_e = 1;
+    dr.jump_b = 0;
 
-    goal_e = 0;
-    goal_k = 0.0f;
+    dr.goal_e = 0;
+    dr.goal_k = 0.0f;
 
     /* Initialise the level, background, particles, fade, and view. */
 
-    fade_k =  1.0f;
-    fade_d = -2.0f;
+    dr.fade_k =  1.0f;
+    dr.fade_d = -2.0f;
 
 
     version.x = 0;
     version.y = 0;
 
-    for (i = 0; i < file.dc; i++)
+    for (i = 0; i < dr.file.dc; i++)
     {
-        char *k = file.av + file.dv[i].ai;
-        char *v = file.av + file.dv[i].aj;
+        char *k = dr.file.av + dr.file.dv[i].ai;
+        char *v = dr.file.av + dr.file.dv[i].aj;
 
         if (strcmp(k, "back") == 0) back_name = v;
         if (strcmp(k, "grad") == 0) grad_name = v;
@@ -472,21 +476,21 @@ int  game_client_init(const char *file_name)
     first_update = 1;
 
     back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
-    sol_load_gl(&back, back_name, 0);
+    sol_load_gl(&dr.back, back_name, 0);
 
-    return client_state;
+    return dr.state;
 }
 
 void game_client_free(void)
 {
-    if (client_state)
+    if (dr.state)
     {
         game_proxy_clr();
-        sol_free_gl(&file);
-        sol_free_gl(&back);
+        sol_free_gl(&dr.file);
+        sol_free_gl(&dr.back);
         back_free();
     }
-    client_state = 0;
+    dr.state = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -605,7 +609,7 @@ static void game_draw_items(const struct s_file *fp, float t)
 
 static void game_draw_goals(const struct s_file *fp, const float *M, float t)
 {
-    if (goal_e)
+    if (dr.goal_e)
     {
         int zi;
 
@@ -621,7 +625,7 @@ static void game_draw_goals(const struct s_file *fp, const float *M, float t)
                                  fp->zv[zi].p[1],
                                  fp->zv[zi].p[2]);
 
-                    part_draw_goal(M, fp->zv[zi].r, goal_k, t);
+                    part_draw_goal(M, fp->zv[zi].r, dr.goal_k, t);
                 }
                 glPopMatrix();
             }
@@ -639,7 +643,7 @@ static void game_draw_goals(const struct s_file *fp, const float *M, float t)
                              fp->zv[zi].p[2]);
 
                 glScalef(fp->zv[zi].r,
-                         goal_k,
+                         dr.goal_k,
                          fp->zv[zi].r);
 
                 goal_draw();
@@ -681,7 +685,7 @@ static void game_draw_jumps(const struct s_file *fp, const float *M, float t)
                      1.0f,
                      fp->jv[ji].r);
 
-            jump_draw(!jump_e);
+            jump_draw(!dr.jump_e);
         }
         glPopMatrix();
     }
@@ -715,13 +719,13 @@ static void game_draw_swchs(const struct s_file *fp)
 
 static void game_draw_tilt(int d)
 {
-    const float *ball_p = file.uv->p;
+    const float *ball_p = dr.file.uv->p;
 
     /* Rotate the environment about the position of the ball. */
 
     glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
-    glRotatef(-tilt.rz * d, tilt.z[0], tilt.z[1], tilt.z[2]);
-    glRotatef(-tilt.rx * d, tilt.x[0], tilt.x[1], tilt.x[2]);
+    glRotatef(-dr.tilt.rz * d, dr.tilt.z[0], dr.tilt.z[1], dr.tilt.z[2]);
+    glRotatef(-dr.tilt.rx * d, dr.tilt.x[0], dr.tilt.x[1], dr.tilt.x[2]);
     glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
 }
 
@@ -733,7 +737,7 @@ static void game_refl_all(void)
 
         /* Draw the floor. */
 
-        sol_refl(&file);
+        sol_refl(&dr.file);
     }
     glPopMatrix();
 }
@@ -773,19 +777,19 @@ static void game_draw_back(int pose, int d, float t)
     {
         if (d < 0)
         {
-            glRotatef(tilt.rz * 2, tilt.z[0], tilt.z[1], tilt.z[2]);
-            glRotatef(tilt.rx * 2, tilt.x[0], tilt.x[1], tilt.x[2]);
+            glRotatef(dr.tilt.rz * 2, dr.tilt.z[0], dr.tilt.z[1], dr.tilt.z[2]);
+            glRotatef(dr.tilt.rx * 2, dr.tilt.x[0], dr.tilt.x[1], dr.tilt.x[2]);
         }
 
-        glTranslatef(view.p[0], view.p[1] * d, view.p[2]);
+        glTranslatef(dr.view.p[0], dr.view.p[1] * d, dr.view.p[2]);
 
         if (config_get_d(CONFIG_BACKGROUND))
         {
             /* Draw all background layers back to front. */
 
-            sol_back(&back, BACK_DIST, FAR_DIST,  t);
+            sol_back(&dr.back, BACK_DIST, FAR_DIST,  t);
             back_draw(0);
-            sol_back(&back,         0, BACK_DIST, t);
+            sol_back(&dr.back,         0, BACK_DIST, t);
         }
         else back_draw(0);
     }
@@ -816,9 +820,9 @@ static void game_clip_ball(int d, const float *p)
     c[1] = p[1] * d;
     c[2] = p[2];
 
-    pz[0] = view.p[0] - c[0];
-    pz[1] = view.p[1] - c[1];
-    pz[2] = view.p[2] - c[2];
+    pz[0] = dr.view.p[0] - c[0];
+    pz[1] = dr.view.p[1] - c[1];
+    pz[2] = dr.view.p[2] - c[2];
 
     r = sqrt(pz[0] * pz[0] + pz[1] * pz[1] + pz[2] * pz[2]);
 
@@ -847,8 +851,8 @@ static void game_clip_ball(int d, const float *p)
 
 static void game_draw_fore(int pose, const float *M, int d, float t)
 {
-    const float *ball_p = file.uv->p;
-    const float  ball_r = file.uv->r;
+    const float *ball_p = dr.file.uv->p;
+    const float  ball_r = dr.file.uv->r;
 
     glPushMatrix();
     {
@@ -867,17 +871,17 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
         switch (pose)
         {
         case POSE_LEVEL:
-            sol_draw(&file, 0, 1);
+            sol_draw(&dr.file, 0, 1);
             break;
 
         case POSE_NONE:
             /* Draw the coins. */
 
-            game_draw_items(&file, t);
+            game_draw_items(&dr.file, t);
 
             /* Draw the floor. */
 
-            sol_draw(&file, 0, 1);
+            sol_draw(&dr.file, 0, 1);
 
             /* Fall through. */
 
@@ -888,13 +892,13 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
             if (d > 0 && config_get_d(CONFIG_SHADOW))
             {
                 shad_draw_set(ball_p, ball_r);
-                sol_shad(&file);
+                sol_shad(&dr.file);
                 shad_draw_clr();
             }
 
             /* Draw the ball. */
 
-            game_draw_balls(&file, M, t);
+            game_draw_balls(&dr.file, M, t);
 
             break;
         }
@@ -907,14 +911,14 @@ static void game_draw_fore(int pose, const float *M, int d, float t)
         {
             glColor3f(1.0f, 1.0f, 1.0f);
 
-            sol_bill(&file, M, t);
+            sol_bill(&dr.file, M, t);
             part_draw_coin(M, t);
 
             glDisable(GL_TEXTURE_2D);
             {
-                game_draw_goals(&file, M, t);
-                game_draw_jumps(&file, M, t);
-                game_draw_swchs(&file);
+                game_draw_goals(&dr.file, M, t);
+                game_draw_jumps(&dr.file, M, t);
+                game_draw_swchs(&dr.file);
             }
             glEnable(GL_TEXTURE_2D);
 
@@ -934,9 +938,9 @@ void game_draw(int pose, float t)
 {
     float fov = (float) config_get_d(CONFIG_VIEW_FOV);
 
-    if (jump_b) fov *= 2.f * fabsf(jump_dt - 0.5);
+    if (dr.jump_b) fov *= 2.f * fabsf(dr.jump_dt - 0.5);
 
-    if (client_state)
+    if (dr.state)
     {
         video_push_persp(fov, 0.1f, FAR_DIST);
         glPushMatrix();
@@ -945,24 +949,24 @@ void game_draw(int pose, float t)
 
             /* Compute direct and reflected view bases. */
 
-            v[0] = +view.p[0];
-            v[1] = -view.p[1];
-            v[2] = +view.p[2];
+            v[0] = +dr.view.p[0];
+            v[1] = -dr.view.p[1];
+            v[2] = +dr.view.p[2];
 
-            m_view(T, view.c, view.p, view.e[1]);
-            m_view(U, view.c, v,      view.e[1]);
+            m_view(T, dr.view.c, dr.view.p, dr.view.e[1]);
+            m_view(U, dr.view.c, v,         dr.view.e[1]);
 
             m_xps(M, T);
 
             /* Apply the current view. */
 
-            v_sub(v, view.c, view.p);
+            v_sub(v, dr.view.c, dr.view.p);
 
             glTranslatef(0.f, 0.f, -v_len(v));
             glMultMatrixf(M);
-            glTranslatef(-view.c[0], -view.c[1], -view.c[2]);
+            glTranslatef(-dr.view.c[0], -dr.view.c[1], -dr.view.c[2]);
 
-            if (reflective && config_get_d(CONFIG_REFLECTION))
+            if (dr.reflective && config_get_d(CONFIG_REFLECTION))
             {
                 glEnable(GL_STENCIL_TEST);
                 {
@@ -1001,7 +1005,7 @@ void game_draw(int pose, float t)
 
             game_draw_light();
 
-            if (reflective)
+            if (dr.reflective)
             {
                 if (config_get_d(CONFIG_REFLECTION))
                 {
@@ -1056,7 +1060,7 @@ void game_draw(int pose, float t)
 
         /* Draw the fade overlay. */
 
-        fade_draw(fade_k);
+        fade_draw(dr.fade_k);
     }
 }
 
@@ -1064,45 +1068,47 @@ void game_draw(int pose, float t)
 
 void game_look(float phi, float theta)
 {
-    view.c[0] = view.p[0] + fsinf(V_RAD(theta)) * fcosf(V_RAD(phi));
-    view.c[1] = view.p[1] +                       fsinf(V_RAD(phi));
-    view.c[2] = view.p[2] - fcosf(V_RAD(theta)) * fcosf(V_RAD(phi));
+    dr.view.c[0] = dr.view.p[0] + fsinf(V_RAD(theta)) * fcosf(V_RAD(phi));
+    dr.view.c[1] = dr.view.p[1] +                       fsinf(V_RAD(phi));
+    dr.view.c[2] = dr.view.p[2] - fcosf(V_RAD(theta)) * fcosf(V_RAD(phi));
 }
 
 /*---------------------------------------------------------------------------*/
 
 void game_kill_fade(void)
 {
-    fade_k = 0.0f;
-    fade_d = 0.0f;
+    dr.fade_k = 0.0f;
+    dr.fade_d = 0.0f;
 }
 
 void game_step_fade(float dt)
 {
-    if ((fade_k < 1.0f && fade_d > 0.0f) ||
-        (fade_k > 0.0f && fade_d < 0.0f))
-        fade_k += fade_d * dt;
+    if ((dr.fade_k < 1.0f && dr.fade_d > 0.0f) ||
+        (dr.fade_k > 0.0f && dr.fade_d < 0.0f))
+        dr.fade_k += dr.fade_d * dt;
 
-    if (fade_k < 0.0f)
+    if (dr.fade_k < 0.0f)
     {
-        fade_k = 0.0f;
-        fade_d = 0.0f;
+        dr.fade_k = 0.0f;
+        dr.fade_d = 0.0f;
     }
-    if (fade_k > 1.0f)
+    if (dr.fade_k > 1.0f)
     {
-        fade_k = 1.0f;
-        fade_d = 0.0f;
+        dr.fade_k = 1.0f;
+        dr.fade_d = 0.0f;
     }
 }
 
 void game_fade(float d)
 {
-    fade_d = d;
+    dr.fade_d = d;
 }
+
+/*---------------------------------------------------------------------------*/
 
 void game_client_fly(float k)
 {
-    game_view_fly(&view, &file, k);
+    game_view_fly(&dr.view, &dr.file, k);
 }
 
 /*---------------------------------------------------------------------------*/
