@@ -379,7 +379,7 @@ static void help_demo_leave(int id)
 
 static void help_demo_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
 }
 
 static void help_demo_timer(int id, float dt)

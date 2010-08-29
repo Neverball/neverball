@@ -130,7 +130,7 @@ static int play_ready_enter(void)
 
 static void play_ready_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
     hud_view_paint();
     gui_paint(id);
 }
@@ -208,7 +208,7 @@ static int play_set_enter(void)
 
 static void play_set_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
     hud_view_paint();
     gui_paint(id);
 }
@@ -332,7 +332,7 @@ static int play_loop_enter(void)
 
 static void play_loop_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
 
     if (show_hud)
         hud_paint();
@@ -522,7 +522,7 @@ static void look_leave(int id)
 
 static void look_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
 }
 
 static void look_point(int id, int x, int y, int dx, int dy)

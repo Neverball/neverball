@@ -391,7 +391,7 @@ static int demo_play_enter(void)
 
 static void demo_play_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
 
     if (show_hud)
         hud_paint();
@@ -537,7 +537,7 @@ static int demo_end_enter(void)
 
 static void demo_end_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
     gui_paint(id);
 
     if (demo_paused)
