@@ -31,12 +31,15 @@ libfreespace and libusb libraries must be installed and configured:
 
 * FONTS
 
-The Deja Vu font used by  Neverball is not suitable for the Simplified
-Chinese translation.   Due to file size concerns,  an appropriate font
-is  not included  with Neverball;  however, if  a font  with  the name
-"ttf/wqy-zenhei.ttc"  is  found in  the  search  path, Neverball  will
-attempt  to use  that  font.  The  Wen  Quan Yi  Chinese  font can  be
-obtained from here:
+The  Deja  Vu  font  used   by  Neverball  is  not  suitable  for  all
+translations  included with  the  game.  Due  to  file size  concerns,
+another font is not included with Neverball; however, additional fonts
+can be installed in these locations:
+
+    ttf/wqy-zenhei.ttc    Simplified Chinese
+    ttf/wqy-microhei.ttc  Traditional Chinese
+
+The Wen Quan Yi Chinese fonts may be obtained from here:
 
     Wen Quan Yi       http://wenq.org/en/
 

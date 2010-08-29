@@ -589,7 +589,7 @@ msgstr "無法載入字型 %s。\n"
 
 #: share/gui.h:23
 msgid "ttf/DejaVuSans-Bold.ttf"
-msgstr "/usr/share/fonts/wqy-microhei/wqy-microhei.ttc"
+msgstr "ttf/wqy-microhei.ttc"
 
 #: share/image.c:229
 #, c-format
