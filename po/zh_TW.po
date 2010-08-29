@@ -1,0 +1,1632 @@
+# Traditional Chinese translations for neverball package.
+# Copyright (C) 2009 THE neverball'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the neverball package.
+# Luojie <lililjlj@gmail.com>, 2009.
+# Wei-Lun Chao <chaoweilun@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: neverball 1.5.4\n"
+"Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
+"POT-Creation-Date: 2009-08-11 01:07+0300\n"
+"PO-Revision-Date: 2010-08-28 22:01+0800\n"
+"Last-Translator: Wei-Lun Chao <chaoweilun@gmail.com>\n"
+"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ball/demo.c:233
+msgid "Missing format character in replay name\n"
+msgstr "在重播名稱中缺少格式字元\n"
+
+#: ball/demo.c:238
+#, c-format
+msgid "Invalid format character in replay name: \"%%%c\"\n"
+msgstr "在重播名稱中的無效格式字元：「%%%c」\n"
+
+#: ball/game_common.c:8
+msgid "Aborted"
+msgstr "中止"
+
+#: ball/game_common.c:9
+msgid "Time-out"
+msgstr "逾時"
+
+#: ball/game_common.c:10
+msgid "Success"
+msgstr "成功"
+
+#: ball/game_common.c:11
+msgid "Fall-out"
+msgstr "掉落"
+
+#: ball/game_common.c:12 ball/game_common.c:24 ball/progress.c:376
+msgid "Unknown"
+msgstr "不明"
+
+#: ball/game_common.c:20
+msgid "Chase"
+msgstr "追蹤"
+
+#: ball/game_common.c:21
+msgid "Lazy"
+msgstr "懶惰"
+
+#: ball/game_common.c:22
+msgid "Manual"
+msgstr "手動"
+
+#: ball/game_common.c:23
+msgid "Top-Down"
+msgstr "由上而下"
+
+#: ball/game_common.h:9
+msgid "snd/select.ogg"
+msgstr "snd/select.ogg"
+
+#: ball/game_common.h:10
+msgid "snd/ready.ogg"
+msgstr "snd/ready.ogg"
+
+#: ball/game_common.h:11
+msgid "snd/set.ogg"
+msgstr "snd/set.ogg"
+
+#: ball/game_common.h:12
+msgid "snd/go.ogg"
+msgstr "snd/go.ogg"
+
+#: ball/game_common.h:23
+msgid "snd/record.ogg"
+msgstr "snd/record.ogg"
+
+#: ball/game_common.h:24
+msgid "snd/fall.ogg"
+msgstr "snd/fall.ogg"
+
+#: ball/game_common.h:25
+msgid "snd/time.ogg"
+msgstr "snd/time.ogg"
+
+#: ball/game_common.h:26
+msgid "snd/over.ogg"
+msgstr "snd/over.ogg"
+
+#: ball/hud.c:60 ball/st_demo.c:197 ball/st_goal.c:186
+msgid "Coins"
+msgstr "錢幣"
+
+#: ball/hud.c:61
+msgid "Goal"
+msgstr "出口"
+
+#: ball/hud.c:80 ball/st_goal.c:176
+msgid "Balls"
+msgstr "球數"
+
+#: ball/hud.c:81 ball/st_goal.c:181 putt/hud.c:45
+msgid "Score"
+msgstr "分數"
+
+#: ball/level.c:140
+msgid "Failure to load level file '%s'\n"
+msgstr "載入關卡檔案「%s」時失敗\n"
+
+#: ball/main.c:254
+msgid ""
+"Usage: %s [options ...]\n"
+"Options:\n"
+"  -h, --help                show this usage message.\n"
+"  -v, --version             show version.\n"
+"  -d, --data <dir>          use 'dir' as game data directory.\n"
+"  -r, --replay <file>       play the replay 'file'.\n"
+msgstr ""
+"用法：%s [選項...]\n"
+"選項：\n"
+"  -h, --help                顯示這個用法訊息。\n"
+"  -v, --version             顯示版本。\n"
+"  -d, --data <dir>          使用「dir」做為遊戲資料目錄。\n"
+"  -r, --replay <file>       播放重播「file」。\n"
+
+#: ball/main.c:263
+#, c-format
+msgid "Option '%s' requires an argument.\n"
+msgstr "選項「%s」需要一個引數。\n"
+
+#: ball/progress.c:374 ball/st_help.c:247
+msgid "Challenge Mode"
+msgstr "挑戰模式"
+
+#: ball/progress.c:374 ball/st_start.c:208
+msgid "Challenge"
+msgstr "挑戰"
+
+#: ball/progress.c:375 ball/st_help.c:239
+msgid "Normal Mode"
+msgstr "正常模式"
+
+#: ball/progress.c:375
+msgid "Normal"
+msgstr "正常"
+
+#: ball/progress.c:376
+msgid "Unknown Mode"
+msgstr "不明模式"
+
+#: ball/set.c:183
+#, c-format
+msgid "Failure to load user score file '%s'"
+msgstr "載入使用者分數檔案「%s」時失敗"
+
+#: ball/set.c:203
+msgid "Failure to load set file '%s'\n"
+msgstr "載入關卡檔案「%s」時失敗\n"
+
+#: ball/st_ball.c:165 ball/st_conf.c:353
+msgid "Ball"
+msgstr "球"
+
+#: ball/st_ball.c:167 ball/st_conf.c:229 ball/st_help.c:96 ball/st_start.c:178
+#: ball/util.c:427 share/st_resol.c:106 putt/st_all.c:344 putt/st_all.c:492
+#: putt/st_conf.c:171
+msgid "Back"
+msgstr "返回"
+
+#: ball/st_conf.c:227 putt/st_conf.c:169
+msgid "Options"
+msgstr "選項"
+
+#: ball/st_conf.c:237 ball/st_demo.c:600 ball/st_save.c:206 putt/st_conf.c:179
+msgid "No"
+msgstr "否"
+
+#: ball/st_conf.c:238 ball/st_demo.c:601 ball/st_save.c:207
+#: ball/st_start.c:236 putt/st_conf.c:180
+msgid "Yes"
+msgstr "是"
+
+#: ball/st_conf.c:240 putt/st_conf.c:182
+msgid "Fullscreen"
+msgstr "全螢幕"
+
+#: ball/st_conf.c:248 share/st_resol.c:104 putt/st_conf.c:190
+msgid "Resolution"
+msgstr "解析度"
+
+#: ball/st_conf.c:256 ball/st_conf.c:265 putt/st_conf.c:198 putt/st_conf.c:207
+msgid "Low"
+msgstr "低"
+
+#: ball/st_conf.c:257 ball/st_conf.c:266 putt/st_conf.c:199 putt/st_conf.c:208
+msgid "High"
+msgstr "高"
+
+#: ball/st_conf.c:259 putt/st_conf.c:201
+msgid "Textures"
+msgstr "紋理貼圖"
+
+#: ball/st_conf.c:268 putt/st_conf.c:210
+msgid "Geometry"
+msgstr "幾何"
+
+#: ball/st_conf.c:274 ball/st_conf.c:283 ball/st_conf.c:292 putt/st_conf.c:216
+msgid "Off"
+msgstr "關閉"
+
+#: ball/st_conf.c:275 ball/st_conf.c:284 ball/st_conf.c:293 putt/st_conf.c:217
+msgid "On"
+msgstr "開啟"
+
+#: ball/st_conf.c:277
+msgid "Reflection"
+msgstr "映像"
+
+#: ball/st_conf.c:286
+msgid "Background"
+msgstr "背景"
+
+#: ball/st_conf.c:295 putt/st_conf.c:219
+msgid "Shadow"
+msgstr "陰影"
+
+#: ball/st_conf.c:317 putt/st_conf.c:241
+msgid "Sound Volume"
+msgstr "音效音量"
+
+#: ball/st_conf.c:337 putt/st_conf.c:261
+msgid "Music Volume"
+msgstr "音樂音量"
+
+#: ball/st_conf.c:346 ball/st_name.c:107
+msgid "Player Name"
+msgstr "玩家名稱"
+
+#: ball/st_demo.c:196
+msgid "Time"
+msgstr "時間"
+
+#: ball/st_demo.c:198
+msgid "Status"
+msgstr "狀態"
+
+#: ball/st_demo.c:225 ball/st_demo.c:384
+msgid "Replay"
+msgstr "重播"
+
+#: ball/st_demo.c:226 putt/st_all.c:680
+msgid "Player"
+msgstr "玩家"
+
+#: ball/st_demo.c:227
+msgid "Date"
+msgstr "日期"
+
+#: ball/st_demo.c:280
+msgid "Select Replay"
+msgstr "選擇重播"
+
+#: ball/st_demo.c:296
+msgid "No Replays"
+msgstr "沒有重播"
+
+#: ball/st_demo.c:505
+msgid "Replay Paused"
+msgstr "重播暫停"
+
+#: ball/st_demo.c:508
+msgid "Replay Ends"
+msgstr "重播結束"
+
+#: ball/st_demo.c:517 ball/st_pause.c:110 putt/st_all.c:592
+msgid "Quit"
+msgstr "離開"
+
+#: ball/st_demo.c:521
+msgid "Keep"
+msgstr "保留"
+
+#: ball/st_demo.c:522 share/keynames.c:39
+msgid "Delete"
+msgstr "刪除"
+
+#: ball/st_demo.c:527 ball/st_pause.c:115 putt/st_all.c:593
+msgid "Continue"
+msgstr "繼續"
+
+#: ball/st_demo.c:531
+msgid "Repeat"
+msgstr "重複"
+
+#: ball/st_demo.c:596
+msgid "Delete Replay?"
+msgstr "刪除重播？"
+
+#: ball/st_demo.c:634
+msgid "Warning!"
+msgstr "警告"
+
+#: ball/st_demo.c:636
+msgid "The current replay was recorded with a\\different (or unknown) version of this level.\\Be prepared to encounter visual errors.\\"
+msgstr "目前的重播是以這個關卡的\\不同 (或不明) 版本所記錄。\\要有準備會遇到畫面上的錯誤.\\"
+
+#: ball/st_done.c:66
+msgid "New Set Record"
+msgstr "新紀錄"
+
+#: ball/st_done.c:67
+msgid "Set Complete"
+msgstr "完成"
+
+#: ball/st_done.c:96
+msgid "Select Level"
+msgstr "選擇關卡"
+
+#: ball/st_fall_out.c:87
+msgid "Fall-out!"
+msgstr "落下！"
+
+#: ball/st_fall_out.c:94 ball/st_time_out.c:85
+msgid "Exit"
+msgstr "退出"
+
+#: ball/st_fall_out.c:97 ball/st_goal.c:219 ball/st_time_out.c:88
+msgid "Next Level"
+msgstr "下一關"
+
+#: ball/st_fall_out.c:100 ball/st_goal.c:222 ball/st_time_out.c:91
+msgid "Retry Level"
+msgstr "重來"
+
+#: ball/st_fall_out.c:103 ball/st_goal.c:225 ball/st_time_out.c:94
+msgid "Save Replay"
+msgstr "儲存重播"
+
+#: ball/st_goal.c:115
+msgid "New Record"
+msgstr "新紀錄"
+
+#: ball/st_goal.c:116
+msgid "GOAL"
+msgstr "出口"
+
+#: ball/st_goal.c:166
+#, c-format
+msgid "%d new bonus level"
+msgid_plural "%d new bonus levels"
+msgstr[0] "%d 新的獎勵關卡"
+
+#: ball/st_goal.c:214 ball/st_goal.c:216
+msgid "Finish"
+msgstr "結束"
+
+#: ball/st_help.c:92
+msgid "Techniques"
+msgstr "技巧"
+
+#: ball/st_help.c:93
+msgid "Modes"
+msgstr "模式"
+
+#: ball/st_help.c:94
+msgid "Controls"
+msgstr "控制"
+
+#: ball/st_help.c:95
+msgid "Rules"
+msgstr "規則"
+
+#: ball/st_help.c:106
+msgid "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor causing the\\ball to roll.\\"
+msgstr "移動滑鼠或搖桿\\或是按下鍵盤方向\\鍵以傾斜平面讓球\\捲動。"
+
+#: ball/st_help.c:111
+msgid "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and finish\\the level.\\"
+msgstr "滾過錢幣以取得它們，\\收集足夠數量就能將出口解鎖。\\"
+
+#: ball/st_help.c:168
+msgid "Left and right mouse buttons rotate the view."
+msgstr "滑鼠左右鍵可以旋轉視角。"
+
+#: ball/st_help.c:169
+msgid "Hold Shift for faster view rotation."
+msgstr "按住 Shift 鍵加速視角旋轉。"
+
+#: ball/st_help.c:170
+msgid "Pause / Release Pointer"
+msgstr "暫停 / 釋放指標"
+
+#: ball/st_help.c:171
+msgid "Exit / Cancel Menu"
+msgstr "退出 / 取消選單"
+
+#: ball/st_help.c:172
+msgid "Chase View"
+msgstr "追蹤視角"
+
+#: ball/st_help.c:173
+msgid "Lazy View"
+msgstr "懶惰視角"
+
+#: ball/st_help.c:174
+msgid "Manual View"
+msgstr "手動視角"
+
+#: ball/st_help.c:175
+msgid "Screenshot"
+msgstr "截圖"
+
+#: ball/st_help.c:241
+msgid "Finish a level before the time runs out.\\You need to collect coins in order to open the goal."
+msgstr "時間用完之前要結束關卡。\\需要收集錢幣才能開啟出口。"
+
+#: ball/st_help.c:249
+msgid "Start playing from the first level of the set.\\You start with only three balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
+msgstr "從第一個關卡開始玩。\\只有 3 顆球可用，不要失去它們。\\收集 100 個錢幣可以贏取額外一顆球。"
+
+#: ball/st_help.c:263
+msgid "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You may be able\\to reach new places.\\"
+msgstr "轉角可用於跳躍。\\保持滾動並瞄準\\角度。您也許能夠\\到達新的地方。\\"
+
+#: ball/st_help.c:268
+msgid "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn the camera by 45\\degrees for best results.\\"
+msgstr "在兩個方向傾斜會增加\\斜度。使用手動檢視\\並將攝影機轉向 45\\度以獲得最好結果。\\"
+
+#: ball/st_help.c:288 ball/st_help.c:298
+msgid "Watch demo"
+msgstr "觀看展示"
+
+#: ball/st_level.c:52
+#, c-format
+msgid "Bonus Level %s"
+msgstr "獎勵關卡 %s"
+
+#: ball/st_level.c:54
+#, c-format
+msgid "Level %s"
+msgstr "關卡 %s"
+
+#: ball/st_name.c:118
+msgid "OK"
+msgstr "確定"
+
+#: ball/st_name.c:120 ball/st_save.c:126
+msgid "Cancel"
+msgstr "取消"
+
+#: ball/st_over.c:38
+msgid "GAME OVER"
+msgstr "遊戲結束"
+
+#: ball/st_pause.c:104 putt/st_all.c:587
+msgid "Paused"
+msgstr "暫停"
+
+#: ball/st_pause.c:113
+msgid "Restart"
+msgstr "重新開始"
+
+#: ball/st_play.c:123
+msgid "Ready?"
+msgstr "預備？"
+
+#: ball/st_play.c:203
+msgid "Set?"
+msgstr "就緒？"
+
+#: ball/st_play.c:293
+msgid "GO!"
+msgstr "開球！"
+
+#: ball/st_save.c:113
+msgid "Replay Name"
+msgstr "重播名稱"
+
+#: ball/st_save.c:124
+msgid "Save"
+msgstr "儲存"
+
+#: ball/st_save.c:200
+msgid "Overwrite?"
+msgstr "覆寫？"
+
+#: ball/st_set.c:117
+msgid "Level Set"
+msgstr "關卡集合"
+
+#. Translators: adjust the amount of whitespace here
+#. * as necessary for the buttons to look good.
+#: ball/st_start.c:233
+msgid "   No   "
+msgstr "   否   "
+
+#: ball/st_start.c:242
+msgid "Lock Goals of Completed Levels?"
+msgstr "鎖定已完成關卡的出口？"
+
+#: ball/st_time_out.c:78
+msgid "Time's Up!"
+msgstr "時間到！"
+
+#: ball/st_title.c:127 ball/st_title.c:161
+msgid "menu^Cheat"
+msgstr "作  弊"
+
+#: ball/st_title.c:133 ball/st_title.c:164 putt/st_all.c:214
+msgid "menu^Play"
+msgstr "開  始"
+
+#: ball/st_title.c:167
+msgid "menu^Replay"
+msgstr "重  播"
+
+#: ball/st_title.c:168
+msgid "menu^Help"
+msgstr "求  助"
+
+#: ball/st_title.c:169 putt/st_all.c:215
+msgid "menu^Options"
+msgstr "選  項"
+
+#: ball/st_title.c:170 putt/st_all.c:216
+msgid "menu^Exit"
+msgstr "退  出"
+
+#: ball/util.c:27
+msgid "Hard"
+msgstr "困難"
+
+#: ball/util.c:28
+msgid "Medium"
+msgstr "中等"
+
+#: ball/util.c:29
+msgid "Easy"
+msgstr "簡單"
+
+#: ball/util.c:77 ball/util.c:142
+msgid "Unavailable"
+msgstr "無法使用"
+
+#: ball/util.c:200 ball/util.c:247
+msgid "Most Coins"
+msgstr "最多錢幣"
+
+#: ball/util.c:206 ball/util.c:251
+msgid "Best Times"
+msgstr "最佳時間"
+
+#: ball/util.c:212 ball/util.c:255
+msgid "Fast Unlock"
+msgstr "快速解鎖"
+
+#: ball/util.c:224
+msgid "Change Name"
+msgstr "更改名稱"
+
+#: ball/util.c:360
+msgid "caps"
+msgstr "帽子"
+
+#: ball/util.c:421
+msgid "Next"
+msgstr "下一頁"
+
+#: ball/util.c:422
+msgid "Prev"
+msgstr "上一頁"
+
+#: share/gui.c:236
+#, c-format
+msgid "Font \"%s\" doesn't exist, trying default font.\n"
+msgstr "字型「%s」不存在，嘗試預設的字型。\n"
+
+#: share/gui.c:270
+#, c-format
+msgid "Could not load font %s.\n"
+msgstr "無法載入字型 %s。\n"
+
+#: share/gui.h:23
+msgid "ttf/DejaVuSans-Bold.ttf"
+msgstr "/usr/share/fonts/wqy-microhei/wqy-microhei.ttc"
+
+#: share/image.c:229
+#, c-format
+msgid "Failed to convert SDL_ttf surface: %s\n"
+msgstr "轉換 SDL_ttf 表面時失敗：%s\n"
+
+#. Translators,
+#. *
+#. * This is a mostly-complete list of human-readable SDL key names.  There
+#. * might not be corresponding names for all these keys in your language,
+#. * and that's perfectly fine -- in such cases just copy the source string.
+#.
+#: share/keynames.c:32
+msgid "Backspace"
+msgstr "Backspace"
+
+#: share/keynames.c:33
+msgid "Tab"
+msgstr "Tab"
+
+#: share/keynames.c:34
+msgid "Clear"
+msgstr "Clear"
+
+#: share/keynames.c:35
+msgid "Return"
+msgstr "Return"
+
+#: share/keynames.c:36
+msgid "Pause"
+msgstr "Pause"
+
+#: share/keynames.c:37
+msgid "Escape"
+msgstr "Escape"
+
+#: share/keynames.c:38
+msgid "Space"
+msgstr "Space"
+
+#: share/keynames.c:40
+msgid "Enter"
+msgstr "Enter"
+
+#: share/keynames.c:41
+msgid "Equals"
+msgstr "Equals"
+
+#: share/keynames.c:42
+msgid "Up"
+msgstr "Up"
+
+#: share/keynames.c:43 share/keynames.c:46
+msgid "Down"
+msgstr "Down"
+
+#: share/keynames.c:44
+msgid "Right"
+msgstr "Right"
+
+#: share/keynames.c:45
+msgid "Left"
+msgstr "Left"
+
+#: share/keynames.c:47
+msgid "Insert"
+msgstr "Insert"
+
+#: share/keynames.c:48
+msgid "Home"
+msgstr "Home"
+
+#: share/keynames.c:49
+msgid "End"
+msgstr "End"
+
+#: share/keynames.c:50
+msgid "Page Up"
+msgstr "Page Up"
+
+#: share/keynames.c:51
+msgid "Page Down"
+msgstr "Page Down"
+
+#: share/keynames.c:52
+msgid "F1"
+msgstr "F1"
+
+#: share/keynames.c:53
+msgid "F2"
+msgstr "F2"
+
+#: share/keynames.c:54
+msgid "F3"
+msgstr "F3"
+
+#: share/keynames.c:55
+msgid "F4"
+msgstr "F4"
+
+#: share/keynames.c:56
+msgid "F5"
+msgstr "F5"
+
+#: share/keynames.c:57
+msgid "F6"
+msgstr "F6"
+
+#: share/keynames.c:58
+msgid "F7"
+msgstr "F7"
+
+#: share/keynames.c:59
+msgid "F8"
+msgstr "F8"
+
+#: share/keynames.c:60
+msgid "F9"
+msgstr "F9"
+
+#: share/keynames.c:61
+msgid "F10"
+msgstr "F10"
+
+#: share/keynames.c:62
+msgid "F11"
+msgstr "F11"
+
+#: share/keynames.c:63
+msgid "F12"
+msgstr "F12"
+
+#: share/keynames.c:64
+msgid "F13"
+msgstr "F13"
+
+#: share/keynames.c:65
+msgid "F14"
+msgstr "F14"
+
+#: share/keynames.c:66
+msgid "F15"
+msgstr "F15"
+
+#: share/keynames.c:67
+msgid "Num Lock"
+msgstr "Num Lock"
+
+#: share/keynames.c:68
+msgid "Caps Lock"
+msgstr "Caps Lock"
+
+#: share/keynames.c:69
+msgid "Scroll Lock"
+msgstr "Scroll Lock"
+
+#: share/keynames.c:70
+msgid "Right Shift"
+msgstr "Right Shift"
+
+#: share/keynames.c:71
+msgid "Left Shift"
+msgstr "Left Shift"
+
+#: share/keynames.c:72
+msgid "Right CTRL"
+msgstr "Right CTRL"
+
+#: share/keynames.c:73
+msgid "Left CTRL"
+msgstr "Left CTRL"
+
+#: share/keynames.c:74
+msgid "Right Alt"
+msgstr "Right Alt"
+
+#: share/keynames.c:75
+msgid "Left Alt"
+msgstr "Left Alt"
+
+#: share/keynames.c:76
+msgid "Right Meta"
+msgstr "Right Meta"
+
+#: share/keynames.c:77
+msgid "Left Meta"
+msgstr "Left Meta"
+
+#: share/keynames.c:78
+msgid "Left Super"
+msgstr "Left Super"
+
+#: share/keynames.c:79
+msgid "Right Super"
+msgstr "Right Super"
+
+#: share/keynames.c:80
+msgid "Alt Gr"
+msgstr "Alt Gr"
+
+#: share/keynames.c:81
+msgid "Compose"
+msgstr "Compose"
+
+#: share/keynames.c:82
+msgid "Help"
+msgstr "Help"
+
+#: share/keynames.c:83
+msgid "Print Screen"
+msgstr "Print Screen"
+
+#: share/keynames.c:84
+msgid "Sys Req"
+msgstr "Sys Req"
+
+#: share/keynames.c:85
+msgid "Break"
+msgstr "Break"
+
+#: share/keynames.c:86
+msgid "Menu"
+msgstr "Menu"
+
+#: share/keynames.c:87
+msgid "Power"
+msgstr "Power"
+
+#: share/keynames.c:88
+msgid "Euro"
+msgstr "Euro"
+
+#: share/keynames.c:89
+msgid "Undo"
+msgstr "Undo"
+
+#: share/syswm.c:44
+#, c-format
+msgid "Failed to get WM info: %s\n"
+msgstr "取得 WM 資訊時失敗：%s\n"
+
+#: share/syswm.c:115
+msgid "Failed to allocate memory for EWMH icon data.\n"
+msgstr "配置記憶體給 EWMH 圖示資料時失敗。\n"
+
+#: putt/hole.c:107 putt/hud.c:51 putt/st_all.c:98 putt/st_all.c:142
+msgid "Par"
+msgstr "Par"
+
+#: putt/hole.c:109 putt/st_all.c:99 putt/st_all.c:143
+msgid "P1"
+msgstr "P1"
+
+#: putt/hole.c:110 putt/st_all.c:100 putt/st_all.c:144
+msgid "P2"
+msgstr "P2"
+
+#: putt/hole.c:111 putt/st_all.c:101 putt/st_all.c:145
+msgid "P3"
+msgstr "P3"
+
+#: putt/hole.c:112 putt/st_all.c:102 putt/st_all.c:146
+msgid "P4"
+msgstr "P4"
+
+#: putt/st_all.c:76
+msgid "O"
+msgstr "0"
+
+#: putt/st_all.c:112
+msgid "Tot"
+msgstr "Tot"
+
+#: putt/st_all.c:121
+msgid "I"
+msgstr "I"
+
+#: putt/st_all.c:303
+msgid "Select Course"
+msgstr "選取課程"
+
+#: putt/st_all.c:469
+msgid "Players?"
+msgstr "玩家數目？"
+
+#: putt/st_all.c:673
+#, c-format
+msgid "Hole %02d"
+msgstr "%02d 洞"
+
+#: putt/st_all.c:998
+msgid "It's In!"
+msgstr "進了！"
+
+#: putt/st_all.c:1140
+msgid "1 Stroke Penalty"
+msgstr "罰一桿"
+
+#: putt/st_all.c:1218
+msgid "Scores"
+msgstr "分數"
+
+#: putt/st_all.c:1271
+msgid "Final Scores"
+msgstr "最終得分"
+
+#: data/set-easy.txt
+msgid "Neverball Easy"
+msgstr "Neverball 簡易"
+
+#: data/set-easy.txt
+msgid "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth learning curve.\\Read level introductions for gameplay tips.\\ \\"
+msgstr "難度：入門到中級\\\\25 個關卡，平滑學習曲線。\\檢視簡介以探知遊戲要點。\\ \\"
+
+#: data/set-medium.txt
+msgid "Neverball Medium"
+msgstr "Neverball 中等"
+
+#: data/set-medium.txt
+msgid "Difficulty: Beginner through Expert\\\\25 levels which provide a balanced\\challenge for players. Try to claim\\some of the records provided.\\"
+msgstr "難度：初學到精通\\\\25 關提供玩家緩和的\\\\挑戰。嘗試突破那些紀錄吧。\\"
+
+#: data/set-hard.txt
+msgid "Neverball Hard"
+msgstr "Neverball 困難"
+
+#: data/set-hard.txt
+msgid "Difficulty: Intermediate through Expert\\\\25 levels with more of a challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, and Fast Unlock records.\\"
+msgstr "難度：中等到專家\\\\25 關挑戰更有技巧的玩家。\\\\嘗試挑戰最佳時間、最\\多錢幣和最快解鎖的紀錄。\\"
+
+#: data/set-mym.txt
+msgid "Tour de force"
+msgstr "環力大賽"
+
+#: data/set-mym.txt
+msgid "Difficulty: Expert through Insane\\\\25 levels with even greater challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "難度：專家到瘋子\\\\25 關更艱難的挑戰。\\作者：Mehdi Yousfi-Monod (mym)\\ \\"
+
+#: data/set-mym2.txt
+msgid "Retour de force"
+msgstr "再環力大賽"
+
+#: data/set-mym2.txt
+msgid "Difficulty: A little bit harder than my first set.\\\\More challenge, particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "難度：比我的第一套關卡要困難些。\\\\更多挑戰，特別是抓取錢幣方面。\\作者：Mehdi Yousfi-Monod (mym)\\ \\"
+
+#: data/set-fwp.txt
+msgid "Nevermania"
+msgstr "永不狂熱"
+
+#: data/set-fwp.txt
+msgid "Levels for Neverball Experts\\Author: Florian Priester\\\\\\\\"
+msgstr "為 Neverball 大師所準備\\作者：Florian Priester\\\\\\\\"
+
+#: data/set-misc.txt
+msgid "Neverball Misc"
+msgstr "Neverball 雜項"
+
+#: data/set-misc.txt
+msgid "Unsorted levels\\For testing purposes\\\\\\\\"
+msgstr "未分類的關卡\\測試用\\\\\\\\"
+
+#: data/courses.txt
+msgid "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ \\Difficulty: Easy to Medium\\Author: rlk\\"
+msgstr "原來的 18 洞 Neverputt 課程。\\具備緩和的學習曲線。\\\\難度：容易到中等\\作者：rlk\\"
+
+#: data/courses.txt
+msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "額外的 18 洞課程\\\\\\難度：中等\\作者：paxed\\"
+
+#: data/courses.txt
+msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "另一個額外的 18 洞課程\\\\\\難度：中等\\作者：paxed\\"
+
+#: data/courses.txt
+msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "還有更多洞數\\\\\\難度：中等\\作者：paxed\\"
+
+#: data/courses.txt
+msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
+msgstr "26 洞課程\\依據字母排列\\\\難度：困難\\作者：paxed\\"
+
+#: data/courses.txt
+msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
+msgstr "瘋狂高爾夫\\\\\\難度：容易到中等\\作者：slippifishi\\"
+
+#: data/courses.txt
+msgid "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert Through Insane\\Author: Byron James Johnson"
+msgstr "巧妙高爾夫\\\\18 洞課程具有許多挑戰\\難度：專家到瘋子\\作者：Byron James Johnson"
+
+#: data/map-easy/bumper.map
+msgid "Try to avoid being hit by moving objects.\\One bump can throw the ball\\completely out of control.\\"
+msgstr "嘗試避免被移動物件打到。\\一擊可以讓球拋出而\\完全不受控制。\\"
+
+#: data/map-easy/bumps.map
+msgid "Learn to control a bouncing ball.\\Look at the shadow to know where the\\ball will land.  If you're feeling confident in\\your mastery of bouncing, take a risk\\for a big payoff.\\"
+msgstr "學習控制彈跳中的球。\\查看陰影以知道\\球將著地的位置。 如果您覺得已經習慣於\\掌握球的彈跳，就要小心付出\\代價的風險。\\"
+
+#: data/map-easy/coins.map
+msgid "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to begin.\\"
+msgstr "這一次您必須取得 50 枚錢幣才能將出口解除鎖定。\\紅色錢幣價值是 5, 藍色錢幣價值是 10。\\在時間到之必須到達出口！\\\\按一下就開始。\\"
+
+#: data/map-easy/corners.map
+msgid "Here are some more opportunities for you to\\fall off into the void. Hit the bump hard to\\grab some big coins and score a short time.\\"
+msgstr "這裏讓您有更多的機會\\會掉落到虛無之中。用力撞擊凸塊以\\抓取某些大錢幣並且獲得較短時間的分數。\\"
+
+#: data/map-easy/curved.map
+msgid "As before, but without the training wheels.\\Keep the ball on a level floor\\and maintain precise control.\\Build some momentum to reach the corners.\\"
+msgstr "一如以往，但是不需要訓練輪子。\\保持球在關卡平面\\並且維持精確控制。\\建立某些衝力以達到轉角。\\"
+
+#: data/map-easy/easy.map data/map-misc/texture-debug.map
+#: data/map-misc/timer-test.map
+msgid "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgstr "移動滑鼠以偏斜地板。\\收集 10 枚錢幣才能將出口解除鎖定。\\引導球到出口以\\完成關卡。\\\\按一下就開始。\\"
+
+#: data/map-easy/easyhalfpipe.map
+msgid "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over accelerate and you will\\be able to stay in control."
+msgstr "半份管線也許有趣，\\但是它們也容易掉出。\\不要過度加速，那麼您將\\能夠保持控制。"
+
+#: data/map-easy/fence.map
+msgid "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope remains level.\\This way, you maintain full control of the ball.\\Use momentum to get up to the big coins.\\"
+msgstr "「扁平」是相對的。\\學習將地板於角度暫停\\使得斜坡能夠維持水平。\\以這個方式，您能夠將球完全控制。\\使用衝力以抓取大錢幣。\\"
+
+#: data/map-easy/goals.map
+msgid "There are 100 coins here.\\This one shouldn't be too difficult,\\if you don't accidentally make a goal first.\\"
+msgstr "有 100 枚錢幣在此。\\這一個不應該太困難，\\即使您沒有意外先製造一個出口的話。\\"
+
+#: data/map-easy/goslow.map
+msgid "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower speed means better control.\\Watch the clock and use the time wisely.\\\\Click to begin.\\"
+msgstr "儘可能小幅度地傾斜底板。\\較少的斜度表示較低的速度。\\較低的速度表示較好控制。\\注意時鐘並且智慧地使用時間。\\\\按一下以開始。\\"
+
+#: data/map-easy/greed.map
+msgid "Each bridge is narrower than the one before.\\But each pays better than the last as well!\\You get to decide how far you go on this one.\\"
+msgstr "每座橋都比前一座要窄。\\但是同樣也會獲得比前一個更好的報酬！\\您將決定您要在這一關走多遠。\\"
+
+#: data/map-easy/groundbreak.map
+msgid "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole instead of falling into it."
+msgstr "到達出口\\應該不是問題，\\但是取得所有錢幣將\\會要求某些計畫。\\\\提示：通常避免\\破洞且不掉進去會比較快。"
+
+#: data/map-easy/hole.map
+msgid "Stay away from the edges!\\When approaching a drop, begin slowing down\\early. You need just as much room to slow\\down as you did to speed up.\\"
+msgstr "與邊緣保持距離！\\當您接近破洞，要早點開始減慢\\下來。您所需要用來減慢\\速度的空間，就像您用來加速一樣。\\"
+
+#: data/map-easy/lollipop.map
+msgid "Follow the yellow lick road!\\\\The blue coins are especially challenging,\\but with some experimentation and practice,\\you'll be able to collect them all."
+msgstr "跟隨黃色標示道路！\\\\藍色錢幣特別具有挑戰性，\\只需要一些經驗和練習，\\您將能夠全部收集它們。"
+
+#: data/map-easy/maze.map
+msgid "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow and\\off the walls. All the coins are collectable\\in the given time.\\"
+msgstr "球想要在狹窄的通道中\\脫離控制而重新繫住。保持它慢速並且\\離開牆壁。在給定的時間內，\\所有錢幣都是可以收集到的。\\"
+
+#: data/map-easy/mazebump.map
+msgid "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers - it will help you\\to reach the goal."
+msgstr "有難度但是也有報酬。\\\\花點時間去觀察\\緩衝塊的動作 - 它將協助您\\到達出口。"
+
+#: data/map-easy/mover.map
+msgid "A moving platform can be tricky.\\Use precise timing to get aboard,\\and precise balance to stay there.\\Don't let it move out from under you.\\Ride the platforms to grab the big coins.\\"
+msgstr "移動平臺可能很巧妙。\\以精確時機上臺，\\並且在那裏保持精確平衡。\\不要讓它從您下方移出。\\駕馭這個平臺好抓取大錢幣。\\"
+
+#: data/map-easy/peasy.map
+msgid "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click to begin.\\"
+msgstr "滑鼠按鈕可以旋轉檢視角度。\\按下退出以暫停或離開。\\\\\\\\按一下以開始。\\"
+
+#: data/map-easy/roundcoins.map
+msgid "When you are on the elevators,\\make small adjustments to keep the ball steady.\\You can collect many coins by\\keeping the ball in one place.\\Too much movement and you will fall off."
+msgstr "當您在電梯上，\\做些小調整來保持球的穩定。\\您可以藉由保持球\\在一個地方來收集許多錢幣。\\太劇烈的移動將會讓您掉落。"
+
+#: data/map-easy/roundlaby.map
+msgid "There is only one path to reach the goal,\\but lots of paths for collecting coins.\\Make sure you collect enough\\to unlock the goal."
+msgstr "只有一個路徑能到達出口，\\但是很多路徑可以收集錢幣。\\確定您收集的足夠\\解除出口的鎖定。"
+
+#: data/map-easy/slalom.map
+msgid "Follow the trail of coins to reach the goal.\\If you hit a post while moving quickly,\\you will bounce far off course."
+msgstr "跟隨錢幣的蹤跡以到達出口。\\如果您快速移動時撞上了郵筒，\\您將遠遠地跳離途徑。"
+
+#: data/map-easy/slightcurve.map
+msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
+msgstr "山坡需要更快的速度才能越過。\\但也別太快了！"
+
+#: data/map-easy/speedbumps.map
+msgid "When the ball is on a moving platform,\\it will be pulled in the direction of movement.\\Use the rails to steady yourself,\\and collect the coins you need\\to open the goal."
+msgstr "當球位於移動的平臺上，\\它將被往動作的方向拉扯。\\使用軌道來穩定您自己，\\並且收集您需要的錢幣\\以開啟出口。"
+
+#: data/map-easy/thwomp2.map
+msgid "Grab all the coins...\\but don't get bullied!"
+msgstr "抓取所有錢幣...\\但是不要被欺負了！"
+
+#: data/map-easy/wakka.map
+msgid "Here's another coin grab.\\Perhaps you already know a good route.\\Teleportation might come in handy.\\"
+msgstr "這裏有另外一堆錢幣。\\也許您已經知道不錯的途徑。\\電子傳送也許會覺得好用。\\"
+
+#: data/map-fwp/adventure.map
+msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
+msgstr "=冒險=\\很多事情要做、收集錢幣、承受風險。"
+
+#: data/map-fwp/atrium.map
+msgid "=Atrium=\\Remove the coins from their columns."
+msgstr "=中庭=\\將錢幣從它們的格子移除。"
+
+#: data/map-fwp/cargo.map
+msgid "=Cargo=\\Let yourself be carried away."
+msgstr "=貨物=\\讓您自己被帶走。"
+
+#: data/map-fwp/confetti.map
+msgid "=Confetti=\\Help! There has got to be a way through this mess."
+msgstr "=碎彩紙=\\求助！一定有方法可以通過這個困境。"
+
+#: data/map-fwp/discs.map
+msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
+msgstr "=碟片=\\如果正確使用，平臺將會帶您到出口。"
+
+#: data/map-fwp/mountains.map
+msgid "=Mountains=\\Ups and downs are a part of life."
+msgstr "=山岳=\\起起落落是生命的一部份。"
+
+#: data/map-fwp/museum.map
+msgid "=Museum=\\Please do not touch the exhibits."
+msgstr "=博物館=\\請不要踫觸展覽品。"
+
+#: data/map-fwp/oddities.map
+msgid "=Oddities=\\Something is not quite right here..."
+msgstr "=怪異=\\這裏有些東西不太對…"
+
+#: data/map-fwp/rails.map
+msgid "=Rails=\\Do not lose your balance."
+msgstr "=鐵路=\\不要失去您的平衡。"
+
+#: data/map-fwp/ramps.map
+msgid "=Ramps=\\Can you make it to the top?"
+msgstr "=斜坡=\\您能夠到達它的頂端嗎？"
+
+#: data/map-fwp/slope.map
+msgid "=Slope=\\Try not to become a modern-day Sisyphus."
+msgstr "=斜坡=\\試著不要成為現代的薛西弗斯。"
+
+#: data/map-fwp/spacetime.map
+msgid "=Spacetime=\\Not much space, not much time."
+msgstr "=空閒時間=\\空閒不太多，時間不太多。"
+
+#: data/map-fwp/swarm.map
+msgid "=Swarm=\\Warning: Trespassers will be thwomped."
+msgstr "=蜂群=\\警告：侵入者將會遭遇煤磚。"
+
+#: data/map-fwp/tennis.map
+msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
+msgstr "=網球=\\大量的有價錢幣等著您來抓取。"
+
+#: data/map-fwp/tree.map
+msgid "=Tree=\\Follow the spiral staircase to the goal."
+msgstr "=樹=\\跟隨盤旋的樓梯間以到達出口。"
+
+#: data/map-fwp/ufo.map
+msgid "=UFO=\\Ride the spaceship they don't want you to know about."
+msgstr "=幽浮=\\搭乘它們不想要您知道的太空船。"
+
+#: data/map-hard/airways.map
+msgid "2 switches have to be enabled\\to open the path to the goal."
+msgstr "兩個切換開關必須被啟用\\才能開啟到出口的路徑。"
+
+#: data/map-hard/check.map
+msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
+msgstr "這裏沒有足夠的底板。\\希望這不會造成問題。\\"
+
+#: data/map-hard/curbs.map
+msgid "To make progress here you'll need to hit the\\edges hard and control your bouncing.\\It's often easiest to hit the curb at a corner.\\"
+msgstr "要在這裏有所進度，您將需要努力撞擊\\邊緣並控制您的彈跳。\\撞擊圍欄的角落通常是最容易的。\\"
+
+#: data/map-hard/flip.map
+msgid "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each trigger switches colors in direct contact."
+msgstr "所以說 Neverball 是種智力遊戲？\\移除紅色才能解除出口的鎖定。\\每個觸發器都會經由直接接觸而切換顏色。"
+
+#: data/map-hard/frogger.map
+msgid "Ribbit!\\"
+msgstr "兔子！"
+
+#: data/map-hard/gaps.map
+msgid "Time the switches carefully to synchronize\\the motion of the platforms.\\Move quickly across the gaps.\\"
+msgstr "小心調整切換開關的時間，\\好與平臺的移動同步。\\快速移動以跨越間隙。\\"
+
+#: data/map-hard/grid.map
+msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
+msgstr "是的，球剛好能穿過\\那些小洞。\\"
+
+#: data/map-hard/hallways.map
+msgid "Control your speed and your bounces.\\Teleporters will always bring you\\back somewhere in the level."
+msgstr "控制您的速度和您的彈跳。\\傳送器將自動帶您\\回到關卡中的某處。"
+
+#: data/map-hard/hump.map
+msgid "Momentum may work against you.\\"
+msgstr "衝力也許會針對您而來。\\"
+
+#: data/map-hard/invis.map
+msgid "Allow your greed to guide you.\\For an added challenge,\\try to get to all of the coins.\\It can be done without guesswork.\\"
+msgstr "允許您的貪心來引導您。\\對於外加的挑戰，\\試著取得所有錢幣。\\它是不需猜測就可以完成的。\\"
+
+#: data/map-hard/movers.map
+msgid "Go for a ride.\\"
+msgstr "騎一下。\\"
+
+#: data/map-hard/nostairs.map
+msgid "There are two goals here.\\You can complete this level\\the easy way or the hard way.\\Of course, by going the easy way\\you can forget about all\\those red and blue coins."
+msgstr "這裏有兩個出口。\\您可以完成這個關卡\\經由容易或困難的方式。\\當然，經由容易的方式\\您就可以不管所有\\那些紅色和藍色錢幣。"
+
+#: data/map-hard/paths.map
+msgid "So many different paths to take...\\have you tried all of them?"
+msgstr "那麼多不同的路徑可用...\\您已經試過它們全部了嗎？"
+
+#: data/map-hard/pipe.map
+msgid "Ceci n'est pas une pipe.\\"
+msgstr "Ceci n'est pas une pipe.\\"
+
+#: data/map-hard/poker.map
+msgid "Slow and steady.\\"
+msgstr "慢和穩定。\\"
+
+#: data/map-hard/pyramid.map
+msgid "You'll only get about 15 seconds at each step,\\so don't delay.  Get the coins and\\get to the next switch.\\"
+msgstr "您將於每個步驟獲得大約 15 秒的時間，\\因此不要拖延。 取得錢幣並\\進到下一個切換開關。\\"
+
+#: data/map-hard/quads.map
+msgid "Don't get bullied.\\"
+msgstr "不要被欺負了。\\"
+
+#: data/map-hard/rampup.map
+msgid "I think I can.\\I think I can.\\"
+msgstr "我覺得我可以。\\我覺得我可以。\\"
+
+#: data/map-hard/ring.map
+msgid "So close, yet so very far.\\"
+msgstr "那麼近，卻又那麼遠。\\"
+
+#: data/map-hard/risers.map
+msgid "Ride the elevators to the top.\\They move quickly,\\so don't dally too long.\\"
+msgstr "搭乘電梯到頂端。\\它們移動很快速，\\因此不要虛耗太久。\\"
+
+#: data/map-hard/spiralin.map
+msgid "Have fun picking up those\\red and blue coins.\\"
+msgstr "祝您撿取\\紅色和藍色錢幣時玩得愉快。\\"
+
+#: data/map-hard/spread.map
+msgid "Don't worry.\\The green part isn't going anywhere.\\"
+msgstr "別擔心。\\綠色部分不會到任何地方。\\"
+
+#: data/map-hard/sync.map
+msgid "Use the switches to set the platforms\\in motion.  Time it so they come\\together in the middle.\\"
+msgstr "使用切換開關來設定移動中的\\平臺。調整時間好讓它們\\一起來到中間。\\"
+
+#: data/map-hard/teleport.map
+msgid "The ball must be entirely within a teleporter\\in order to trigger it.\\Remember that the ball carries its momentum\\through a teleporter, so plan ahead.\\"
+msgstr "球必須整個在傳送器之內\\才能去觸發它。\\請記住球會攜帶它的衝力\\而穿過傳送器，因此要事先計畫。\\"
+
+#: data/map-hard/tilt.map
+msgid "The floor is as flat as you make it.\\"
+msgstr "底板就如您所做的一樣平。\\"
+
+#: data/map-medium/accordian.map
+msgid "Stairway to heaven"
+msgstr "到天堂的樓梯"
+
+#: data/map-medium/angle.map
+msgid "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take the easy cash or\\go all the way for a big payoff.\\"
+msgstr "那些橋樑都具有角度。\\每個都比前一個更窄、更陡峭。\\抓取容易的錢幣或是\\通過每一條路以取得巨大報酬。\\"
+
+#: data/map-medium/coneskeleton.map
+msgid "Plenty of coins for the taking.\\Can you take them all?"
+msgstr "大量的錢幣供您抓取。\\您能夠拿走它們全部嗎？"
+
+#: data/map-medium/cross.map
+msgid "Use momentum to reach\\the upper platforms,\\but keep the ball in control\\for safe landing.\\\\The manual view may help here.\\"
+msgstr "使用衝力以到達\\上層平臺，\\但是要保持球在控制之中\\以便安全降落。\\\\在此手動檢視也許能有所幫助。\\"
+
+#: data/map-medium/drops.map
+msgid "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
+msgstr "記得留意陰影來\\幫助控制彈跳中的球。 同時不要\\忘記使用滑鼠按鈕以保持\\球在檢視範圍之中。\\"
+
+#: data/map-medium/easytele.map
+msgid "Use teleporters to go\\where you otherwise couldn't.\\"
+msgstr "使用傳送器前往\\無法到達的位置。\\"
+
+#: data/map-medium/four.map
+msgid "Balance risk versus reward.\\"
+msgstr "在風險與報酬間求取平衡。\\"
+
+#: data/map-medium/hardrise.map
+msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
+msgstr "登上斜坡以到達您的出口。\\(說比做容易。)"
+
+#: data/map-medium/islands.map
+msgid "Catch the train before it leaves the station.\\"
+msgstr "在火車離開站臺之前抓到它。\\"
+
+#: data/map-medium/learngrow.map
+msgid "The ball will fit in those small holes,\\if you can just find something to make it smaller.\\Other places may require a bigger ball.\\One thing is certain - you'll want a plan!"
+msgstr "球是可以符合那些小洞的，\\只要您可以找到某些東西能讓它變小。\\其他地方也許會需要比較大的球。\\一件事是確定的 - 您將需要一個計畫！"
+
+#: data/map-medium/locks.map
+msgid "Hit the switches to move the barriers.\\"
+msgstr "撞擊切換器以移動障礙。\\"
+
+#: data/map-medium/multicurves.map
+msgid "The temptation to move quickly\\could prove your undoing.\\\\Then again, maybe not..."
+msgstr "想要快速移動的誘惑\\可能會驗證您的毀滅。\\\\同樣地，也許不會…"
+
+#: data/map-medium/plinko.map
+msgid "Take it slowly.\\"
+msgstr "慢慢來。\\"
+
+#: data/map-medium/qbert.map
+msgid "You can never go home again..."
+msgstr "您再也無法回家了…"
+
+#: data/map-medium/rampdn.map
+msgid "You'll need to exert some control over your\\view here.  Press F3 to stop the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press F1 to return to the auto-rotating view.\\"
+msgstr "您將需要運用某些控制於您\\在此的檢視。 按下 F3 以停止自動旋轉。\\使用滑鼠按鈕來手動旋轉它。\\按下 F1 以返回自動旋轉檢視。\\"
+
+#: data/map-medium/roundfloors.map
+msgid "This wedding cake is plenty rich,\\but be careful as you go\\to each lower layer."
+msgstr "這個結婚蛋糕相當貴重，\\但是每當您前往\\下一層時請小心。"
+
+#: data/map-medium/sparselines.map
+msgid "Bump the logs at speed to change lanes.\\Try to reach the top for an extra challenge!"
+msgstr "加速撞擊原木以變更小路。\\試著到達頂端以進入其他挑戰！"
+
+#: data/map-medium/spiraldn.map
+msgid "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might work.\\"
+msgstr "保持它慢速以避開邊緣。\\或者反其道而行。\\任何一種方式都也許有用。\\"
+
+#: data/map-medium/spiralup.map
+msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
+msgstr "就如同以往，但是要向上移動而非向下。\\這次沒有騙人。\\"
+
+#: data/map-medium/stairs.map
+msgid "Here's yet another test of your ability\\to control bouncing.  Moving down the\\stairs too quickly can be hazardous.\\"
+msgstr "在此未另外的測試的您的能力\\到控制彈跳中。 向下移動\\樓梯太快速地可以是 hazardous.\\"
+
+#: data/map-medium/telemaze.map
+msgid "This maze has no walls.\\But that doesn't make the solution\\any easier to find.\\"
+msgstr "這個迷宮沒有任何牆。\\但是並不會使得解決方案\\比較容易被找到。\\"
+
+#: data/map-medium/timer.map
+msgid "That one switch controls all five barriers.\\Be quick, because the switch is on a timer.\\When it expires, the barriers will rise.\\"
+msgstr "那一個切換器控制所有五個障礙。\\快一點，因為切換器有在計時。\\當它超過時間，障礙將會升起。\\"
+
+#: data/map-medium/title.map
+msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
+msgstr "Neverball\\\\http://neverball.org\\\\由 Robert Kooima 所建立\\"
+
+#: data/map-medium/woodmaze.map
+msgid "Follow the trail of coins\\to make it through the labyrinth."
+msgstr "跟隨錢幣的蹤跡\\好讓它通過迷宮。"
+
+#: data/map-medium/zigzag.map
+msgid "There are plenty of coins here if you're\\willing to take the time to grab them.\\"
+msgstr "這裏有大量的錢幣，如果您願意\\花時間去抓取它們的話。\\"
+
+#: data/map-misc/bigball-old.map
+msgid "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a challenge."
+msgstr "Prisonnier de la boule.\\生活在球體中。\\挑戰抓取所有藍色錢幣。"
+
+#: data/map-misc/billiard.map
+msgid "Try to grab all of the blue coins...\\it won't be easy!"
+msgstr "試著抓取所有的藍色錢幣...\\那並不容易！"
+
+#: data/map-misc/blockers.map
+msgid "Block around the clock."
+msgstr "區塊包圍著時鐘。"
+
+#: data/map-misc/bounce.map
+msgid "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the 'chase' camera mode."
+msgstr "跟隨藍色錢幣...\\並且學習控制您的彈跳！\\提示：使用「chase」照相機模式。"
+
+#: data/map-misc/bounce2.map
+msgid "Follow the arrows."
+msgstr "跟隨箭頭。"
+
+#: data/map-misc/checkers.map
+msgid "It's a real game of checkers, but no one wins...\\You have to bounce to reach the blue coins."
+msgstr "它真是個給跳棋玩家的遊戲，但是無人勝利...\\您必須彈跳以抓到藍色錢幣。"
+
+#: data/map-misc/elevator.map
+msgid "Calm and meditation may bring you to the Nirvana."
+msgstr "鎮靜和沉思也許會帶您進入涅槃。"
+
+#: data/map-misc/freefall-old.map
+msgid "Savoir chuter.\\Follow the blue markers."
+msgstr "Savoir chuter.\\跟隨藍色標誌。"
+
+#: data/map-misc/grow_demo.map
+msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
+msgstr "使用新的錢幣來變更球的大小！\\我希望您會喜歡它！\\-Dave"
+
+#: data/map-misc/groweasy.map
+msgid "There are special coins which can make your\\ball larger or smaller."
+msgstr "有些特殊錢幣可以讓您的\\球變大或變小。"
+
+#: data/map-misc/ocean.map
+msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
+msgstr "去游泳吧...\\所有錢幣都完全被淹沒了。\\"
+
+#: data/map-misc/stairs.map
+msgid "Fall down stairs.\\Ough!\\It hurts."
+msgstr "掉下樓梯。\\噢！\\好痛。"
+
+#: data/map-misc/thwomp1.map
+msgid "Just let it happen...\\then start to worry!"
+msgstr "就讓它發生...\\然後開始擔心！"
+
+#: data/map-mym/assault.map
+msgid "Le parcours du combattant.\\Ready for the assault course?"
+msgstr "Le parcours du combattant.\\準備好接受襲擊課程？"
+
+#: data/map-mym/circuit1.map
+msgid "La course effrénée.\\Let's make some laps."
+msgstr "La course effrénée.\\讓我們繞幾圈。"
+
+#: data/map-mym/circuit2.map
+msgid "Les rampes abruptes.\\Control your speed."
+msgstr "Les rampes abruptes.\\控制您的速度。"
+
+#: data/map-mym/climb.map
+msgid "L'escalade ardue.\\Do you suffer from vertigo?"
+msgstr "L'escalade ardue.\\您受眩暈所苦嗎？"
+
+#: data/map-mym/comeback.map
+msgid "Le cycle éternel.\\Avoid teleporters..."
+msgstr "Le cycle éternel.\\避開傳送器…"
+
+#: data/map-mym/dance1.map
+msgid "La ballade tranquille.\\What a quiet walk."
+msgstr "La ballade tranquille.\\多麼安靜的步行。"
+
+#: data/map-mym/dance2.map
+msgid "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After activating the last moving platform,\\ turn around the Thwomp until the goal is reachable."
+msgstr "La ballade dansante.\\讓我們在移動平臺上跳舞！\\祕訣：啟動最後的移動平臺之後，\\將煤磚回轉直到可以接近出口。"
+
+#: data/map-mym/descent.map
+msgid "La descente infernale.\\Easy enough to start?"
+msgstr "La descente infernale.\\啟動算是容易？"
+
+#: data/map-mym/drive1.map
+msgid "La conduite stressante.\\Attention:\\The platform under the ball moves forward."
+msgstr "La conduite stressante.\\注意：\\球下方的平臺會向前移動。"
+
+#: data/map-mym/drive2.map
+msgid "La conduite dangereuse.\\The platform under the ball moves quickly forward.\\You would do well to advance."
+msgstr "La conduite dangereuse.\\球下方的平臺會快速向前移動。\\您會好好前進。"
+
+#: data/map-mym/earthquake.map
+msgid "Le passage incertain.\\Isn't too easy?"
+msgstr "Le passage incertain.\\並非太容易？"
+
+#: data/map-mym/ghosts.map
+msgid "Ghost Valley.\\Make 3 laps to open the goal."
+msgstr "Ghost Valley.\\繞三圈以開啟出口。"
+
+#: data/map-mym/glasstower.map
+msgid "La tour de verre.\\Find the way to the exit."
+msgstr "La tour de verre.\\尋找退出的路。"
+
+#: data/map-mym/hard.map
+msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
+msgstr "La maîtrise de Neverball.\\您仍然覺得 Neverball 太容易？"
+
+#: data/map-mym/loop1.map
+msgid "Les boucles renversantes.\\Upside down!"
+msgstr "Les boucles renversantes.\\上下顛倒！"
+
+#: data/map-mym/loop2.map
+msgid "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to land..."
+msgstr "Le contrôle des courbes.\\尋找正確角度來轉彎、\\跳躍和著地…"
+
+#: data/map-mym/maze1.map
+msgid "Le chemin dissimulé.\\Test your memory."
+msgstr "Le chemin dissimulé.\\測試您的記憶體。"
+
+#: data/map-mym/maze2.map
+msgid "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking another one?"
+msgstr "Le labyrinthe fou.\\您認識路，您看到了它，\\那麼為何您走另外一條？"
+
+#: data/map-mym/narrow.map
+msgid "Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first slope."
+msgstr "Le sentier étroit.\\耐心和時機。\\祕訣：第一面斜坡就用最高速。"
+
+#: data/map-mym/running.map
+msgid "Les épreuves minutées.\\Run baby, run!"
+msgstr "Les épreuves minutées.\\快跑寶貝，快跑！"
+
+#: data/map-mym/scrambling.map
+msgid "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgstr "Le petit cross.\\讓我們去攀爬！\\保持在軌道上來將速度最佳化。"
+
+#: data/map-mym/snow.map
+msgid "La descente rafraîchissante.\\Not so fast, not so fast."
+msgstr "La descente rafraîchissante.\\不要那麼快，不要那麼快。"
+
+#: data/map-mym/trust.map
+msgid "Le chemin de la foi.\\Self-confidence."
+msgstr "Le chemin de la foi.\\自信。"
+
+#: data/map-mym/turn.map
+msgid "Le sens trigonométrique.\\Turn, wait and jump."
+msgstr "Le sens trigonométrique.\\轉身、等待和跳躍。"
+
+#: data/map-mym/up.map
+msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
+msgstr "L'ascension pressée.\\只有一條建言：不要停！"
+
+#: data/map-mym2/backforth.map
+msgid "Un va-et-vient frustrant.\\Remember the activation order."
+msgstr "Un va-et-vient frustrant.\\記住啟動順序。"
+
+#: data/map-mym2/basket.map
+msgid "Street Neverball\\Choose your party and score 3 points."
+msgstr "街道 Neverball\\選擇您的派對和分數 3 點。"
+
+#: data/map-mym2/bigball.map
+msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
+msgstr "La machine à circonvolutions.\\容易，出口就在您的上方。"
+
+#: data/map-mym2/bigcone.map
+msgid "Le grand cône.\\Living in a cone."
+msgstr "Le grand cône.\\生活在圓錐體中。"
+
+#: data/map-mym2/bombman.map
+msgid "Les flammes ardentes.\\Do this remind you of something?"
+msgstr "Les flammes ardentes.\\這有讓您記起某些東西嗎？"
+
+#: data/map-mym2/bounces.map
+msgid "Les sauts du célèbre plombier.\\Follow the coins."
+msgstr "Les sauts du célèbre plombier.\\跟隨錢幣。"
+
+#: data/map-mym2/fall.map
+msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 teleports to unlock and reach the goal."
+msgstr "Savoir rebondir pour aller plus haut.\\Neverball 競技場\\使用二個傳送機以解除鎖定並到達出口。"
+
+#: data/map-mym2/freefall.map
+msgid "This level is full of challenges:\\understand the level's functioning,\\learn to fly and to survive,\\grab half of all coins to open the goal,\\find and reach the goal,\\and more..."
+msgstr "這個關卡充滿了挑戰:\\了解關卡的功能、\\學習飛行和存活、\\抓取半數的錢幣以開啟出口、\\尋找並到達出口，\\以及更多…"
+
+#: data/map-mym2/grinder.map
+msgid "Le petit moulin.\\The good timing to go in the cabin."
+msgstr "Le petit moulin.\\把握正確時間進入艙房。"
+
+#: data/map-mym2/littlecones.map
+msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
+msgstr "Ne pas se laisser emporter dans le néant.\\不要過低。"
+
+#: data/map-mym2/longpipe.map
+msgid "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last jump!"
+msgstr "Si si, ce tuyau a une fin.\\生活在管道中.\\祕訣：最後跳躍時要減速！"
+
+#: data/map-mym2/morenarrow.map
+msgid "Plus dur que la difficulté.\\Good luck."
+msgstr "Plus dur que la difficulté.\\祝您好運。"
+
+#: data/map-mym2/movinglumps.map
+msgid "Être patient.\\Not too hard."
+msgstr "Être patient.\\不太困難。"
+
+#: data/map-mym2/movingpath.map
+msgid "Le passage éphémère.\\Trust the coins."
+msgstr "Le passage éphémère.\\信賴錢幣。"
+
+#: data/map-mym2/push.map
+msgid "Hé, on pousse pas！\\Not too fast, not too slow."
+msgstr "Hé, on pousse pas！\\別太快，別太慢。"
+
+#: data/map-mym2/rainbow.map
+msgid "Rainbow Road.\\Make 3 laps to open the goal."
+msgstr "彩虹路。\\繞三圈後開啟出口。"
+
+#: data/map-mym2/rodeo.map
+msgid "Le rodéo de Neverball.\\You'll fall quickly."
+msgstr "Le rodéo de Neverball.\\您將快速墜落。"
+
+#: data/map-mym2/runstop.map
+msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
+msgstr "J'y vais, ou j'y vais pas ?\\不要遞色。"
+
+#: data/map-mym2/shaker.map
+msgid "Préparez un petit sac.\\The stomach-tester."
+msgstr "Préparez un petit sac.\\腸胃測試者。"
+
+#: data/map-mym2/sonic.map
+msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
+msgstr "Un petit échauffement.\\歡迎使用新的 Mehdi 關卡！"
+
+#: data/map-mym2/speed.map
+msgid "Plus vite que la vitesse.\\Speedness definition."
+msgstr "Plus vite que la vitesse.\\速度的定義。"
+
+#: data/map-mym2/speeddance.map
+msgid "La danse asiatique\\Trust in the arrows."
+msgstr "La danse asiatique\\信賴在箭頭之中。"
+
+#: data/map-mym2/translation.map
+msgid "Suis le mouvement.\\Warning, the road is moving."
+msgstr "Suis le mouvement.\\警告，路正在移動。"
+
+#: data/map-mym2/updown.map
+msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
+msgstr "Tranquille，mais pas trop.\\將您自己與電梯同步。"
+
+#: data/map-mym2/webs.map
+msgid "Les toiles attirantes.\\Get out of the webs."
+msgstr "Les toiles attirantes.\\逃出迷網。"
+
+#. Desktop entry comment
+#: dist/neverball.desktop.in
+msgid "A 3D arcade game with a ball"
+msgstr "立體滾球街機遊戲"
+
+#. Desktop entry comment
+#: dist/neverputt.desktop.in
+msgid "A 3D mini golf game"
+msgstr "立體迷你高爾夫遊戲"
+
+#. Translators,
+#.
+#. Listed here are the Neverball materials (relative to the data directory)
+#. that can be localised.  Each material <mtrl> has a corresponding JPG or PNG
+#. texture.  To localise a material, create a localised texture for it (copy
+#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify it)
+#. and translate the material name to match (from <mtrl> to
+#. <mtrl>-<lang-code>).
+#.
+#. Author's comments on the original mtrl/words texture:
+#.
+#. "Courier New, 40pt, bold. The words are centered in cells of 256x64 pixels.
+#. For the vertical centering, the x-height is used as the reference. Some
+#. manual corrections were made; for example, the hyphen in 'Fall-out' was
+#. shortened in order to increase the margin on each side of the word."
+#.
+#. Those on GNU+Linux having the ImageMagick program suite installed may find
+#. the provided scripts/gen-words.sh shell script useful.
+msgid "mtrl/words"
+msgstr "mtrl/words"
+
+msgid "item/coin/coin"
+msgstr "item/coin/coin"
