@@ -61,7 +61,7 @@ static int done_action(int i)
     return 1;
 }
 
-static int done_enter(struct state *st, struct state *prev)
+static int done_gui(void)
 {
     const char *s1 = _("New Set Record");
     const char *s2 = _("Set Complete");
@@ -70,11 +70,6 @@ static int done_enter(struct state *st, struct state *prev)
 
     int high = progress_set_high();
 
-    if (new_name)
-    {
-        progress_rename(1);
-        new_name = 0;
-    }
 
     if ((id = gui_vstack(0)))
     {
@@ -101,10 +96,21 @@ static int done_enter(struct state *st, struct state *prev)
                     set_score(curr_set(), SCORE_TIME), progress_times_rank(),
                     NULL, -1);
 
+    return id;
+}
+
+static int done_enter(struct state *st, struct state *prev)
+{
+    if (new_name)
+    {
+        progress_rename(1);
+        new_name = 0;
+    }
+
     /* Reset hack. */
     resume = 0;
 
-    return id;
+    return done_gui();
 }
 
 static int done_keybd(int c, int d)

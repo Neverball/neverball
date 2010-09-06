@@ -328,7 +328,7 @@ static int help_techniques(int id)
 
 /* -------------------------------------------------------------------------- */
 
-static int help_enter(struct state *st, struct state *prev)
+static int help_gui(void)
 {
     int id;
 
@@ -349,7 +349,13 @@ static int help_enter(struct state *st, struct state *prev)
 
         gui_layout(id, 0, +1);
     }
+
     return id;
+}
+
+static int help_enter(struct state *st, struct state *prev)
+{
+    return help_gui();
 }
 
 static int help_buttn(int b, int d)

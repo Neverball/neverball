@@ -260,15 +260,9 @@ static void gui_demo_update_status(int i)
 
 /*---------------------------------------------------------------------------*/
 
-static int demo_enter(struct state *st, struct state *prev)
+static int demo_gui(void)
 {
     int id, jd;
-
-    if (items)
-        demo_dir_free(items);
-
-    items = demo_dir_scan();
-    total = array_len(items);
 
     id = gui_vstack(0);
 
@@ -297,9 +291,20 @@ static int demo_enter(struct state *st, struct state *prev)
         gui_layout(id, 0, 0);
     }
 
+    return id;
+}
+
+static int demo_enter(struct state *st, struct state *prev)
+{
+    if (items)
+        demo_dir_free(items);
+
+    items = demo_dir_scan();
+    total = array_len(items);
+
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
-    return id;
+    return demo_gui();
 }
 
 static void demo_timer(int id, float dt)
@@ -353,10 +358,22 @@ void demo_play_goto(int s)
     check_compat = 1;
 }
 
-static int demo_play_enter(struct state *st, struct state *prev)
+static int demo_play_gui(void)
 {
     int id;
 
+    if ((id = gui_vstack(0)))
+    {
+        gui_label(id, _("Replay"), GUI_LRG, GUI_ALL, gui_blu, gui_grn);
+        gui_layout(id, 0, 0);
+        gui_pulse(id, 1.2f);
+    }
+
+    return id;
+}
+
+static int demo_play_enter(struct state *st, struct state *prev)
+{
     if (demo_paused)
     {
         demo_paused = 0;
@@ -376,17 +393,10 @@ static int demo_play_enter(struct state *st, struct state *prev)
         return 0;
     }
 
-    if ((id = gui_vstack(0)))
-    {
-        gui_label(id, _("Replay"), GUI_LRG, GUI_ALL, gui_blu, gui_grn);
-        gui_layout(id, 0, 0);
-        gui_pulse(id, 1.2f);
-    }
-
     show_hud = 1;
     hud_update(0);
 
-    return id;
+    return demo_play_gui();
 }
 
 static void demo_play_paint(int id, float t)
@@ -490,7 +500,7 @@ static int demo_end_action(int i)
     return 1;
 }
 
-static int demo_end_enter(struct state *st, struct state *prev)
+static int demo_end_gui(void)
 {
     int id, jd, kd;
 
@@ -530,9 +540,14 @@ static int demo_end_enter(struct state *st, struct state *prev)
         gui_layout(id, 0, 0);
     }
 
+    return id;
+}
+
+static int demo_end_enter(struct state *st, struct state *prev)
+{
     audio_music_fade_out(demo_paused ? 0.2f : 2.0f);
 
-    return id;
+    return demo_end_gui();
 }
 
 static void demo_end_paint(int id, float t)
@@ -582,7 +597,7 @@ static int demo_del_action(int i)
     return goto_state(&st_demo);
 }
 
-static int demo_del_enter(struct state *st, struct state *prev)
+static int demo_del_gui(void)
 {
     int id, jd, kd;
 
@@ -599,9 +614,15 @@ static int demo_del_enter(struct state *st, struct state *prev)
         gui_pulse(kd, 1.2f);
         gui_layout(id, 0, 0);
     }
-    audio_music_fade_out(2.0f);
 
     return id;
+}
+
+static int demo_del_enter(struct state *st, struct state *prev)
+{
+    audio_music_fade_out(2.0f);
+
+    return demo_del_gui();
 }
 
 static int demo_del_buttn(int b, int d)
@@ -618,11 +639,9 @@ static int demo_del_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int demo_compat_enter(struct state *st, struct state *prev)
+static int demo_compat_gui(void)
 {
     int id;
-
-    check_compat = 0;
 
     if ((id = gui_vstack(0)))
     {
@@ -637,6 +656,13 @@ static int demo_compat_enter(struct state *st, struct state *prev)
     }
 
     return id;
+}
+
+static int demo_compat_enter(struct state *st, struct state *prev)
+{
+    check_compat = 0;
+
+    return demo_compat_gui();
 }
 
 static void demo_compat_timer(int id, float dt)

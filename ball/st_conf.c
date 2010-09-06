@@ -191,12 +191,9 @@ static int conf_action(int i)
     return r;
 }
 
-static int conf_enter(struct state *st, struct state *prev)
+static int conf_gui(void)
 {
     int id, jd, kd;
-
-    game_client_free();
-    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
 
     /* Initialize the configuration GUI. */
 
@@ -362,9 +359,16 @@ static int conf_enter(struct state *st, struct state *prev)
         gui_set_label(ball_id, base_name(ball));
     }
 
+    return id;
+}
+
+static int conf_enter(struct state *st, struct state *prev)
+{
+    game_client_free();
+    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
-    return id;
+    return conf_gui();
 }
 
 static void conf_leave(struct state *st, struct state *next, int id)

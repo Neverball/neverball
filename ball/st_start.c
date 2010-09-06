@@ -157,15 +157,13 @@ static int start_action(int i)
     return 1;
 }
 
-static int start_enter(struct state *st, struct state *prev)
+static int start_gui(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
     int i, j;
 
     int id, jd, kd, ld;
-
-    progress_init(MODE_NORMAL);
 
     if ((id = gui_vstack(0)))
     {
@@ -250,9 +248,16 @@ static int start_enter(struct state *st, struct state *prev)
         set_score_board(NULL, -1, NULL, -1, NULL, -1);
     }
 
+    return id;
+}
+
+static int start_enter(struct state *st, struct state *prev)
+{
+    progress_init(MODE_NORMAL);
+
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
-    return id;
+    return start_gui();
 }
 
 static void start_point(int id, int x, int y, int dx, int dy)

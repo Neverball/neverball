@@ -31,7 +31,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int level_enter(struct state *st, struct state *prev)
+static int level_gui(void)
 {
     int id, jd, kd;
 
@@ -75,9 +75,14 @@ static int level_enter(struct state *st, struct state *prev)
         gui_layout(id, 0, 0);
     }
 
+    return id;
+}
+
+static int level_enter(struct state *st, struct state *prev)
+{
     game_client_fly(1.0f);
 
-    return id;
+    return level_gui();
 }
 
 static void level_timer(int id, float dt)

@@ -149,13 +149,10 @@ static void load_ball_demo(void)
     back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
 }
 
-static int ball_enter(struct state *st, struct state *prev)
+static int ball_gui(void)
 {
     int id, jd;
     int i;
-
-    scan_balls();
-    load_ball_demo();
 
     if ((id = gui_vstack(0)))
     {
@@ -190,6 +187,14 @@ static int ball_enter(struct state *st, struct state *prev)
     }
 
     return id;
+}
+
+static int ball_enter(struct state *st, struct state *prev)
+{
+    scan_balls();
+    load_ball_demo();
+
+    return ball_gui();
 }
 
 static void ball_leave(struct state *st, struct state *next, int id)

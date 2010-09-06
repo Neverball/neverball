@@ -110,7 +110,7 @@ static void buttn_camera(int b)
 
 /*---------------------------------------------------------------------------*/
 
-static int play_ready_enter(struct state *st, struct state *prev)
+static int play_ready_gui(void)
 {
     int id;
 
@@ -120,12 +120,17 @@ static int play_ready_enter(struct state *st, struct state *prev)
         gui_pulse(id, 1.2f);
     }
 
+    return id;
+}
+
+static int play_ready_enter(struct state *st, struct state *prev)
+{
     audio_play(AUD_READY, 1.0f);
     video_set_grab(1);
 
     hud_view_pulse(config_get_d(CONFIG_CAMERA));
 
-    return id;
+    return play_ready_gui();
 }
 
 static void play_ready_paint(int id, float t)
@@ -189,7 +194,7 @@ static int play_ready_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int play_set_enter(struct state *st, struct state *prev)
+static int play_set_gui(void)
 {
     int id;
 
@@ -199,9 +204,14 @@ static int play_set_enter(struct state *st, struct state *prev)
         gui_pulse(id, 1.2f);
     }
 
+    return id;
+}
+
+static int play_set_enter(struct state *st, struct state *prev)
+{
     audio_play(AUD_SET, 1.f);
 
-    return id;
+    return play_set_gui();
 }
 
 static void play_set_paint(int id, float t)
@@ -290,10 +300,22 @@ struct
 static int fast_rotate;
 static int show_hud;
 
+static int play_loop_gui(void)
+{
+    int id;
+
+    if ((id = gui_label(0, _("GO!"), GUI_LRG, GUI_ALL, gui_blu, gui_grn)))
+    {
+        gui_layout(id, 0, 0);
+        gui_pulse(id, 1.2f);
+    }
+
+    return id;
+}
+
 static int play_loop_enter(struct state *st, struct state *prev)
 {
     union cmd cmd;
-    int id;
 
     VIEWR_SET_R(0);
     VIEWR_SET_L(0);
@@ -301,12 +323,6 @@ static int play_loop_enter(struct state *st, struct state *prev)
 
     if (prev == &st_pause)
         return 0;
-
-    if ((id = gui_label(0, _("GO!"), GUI_LRG, GUI_ALL, gui_blu, gui_grn)))
-    {
-        gui_layout(id, 0, 0);
-        gui_pulse(id, 1.2f);
-    }
 
     audio_play(AUD_GO, 1.f);
 
@@ -322,7 +338,7 @@ static int play_loop_enter(struct state *st, struct state *prev)
 
     hud_update(0);
 
-    return id;
+    return play_loop_gui();
 }
 
 static void play_loop_paint(int id, float t)

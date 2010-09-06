@@ -92,15 +92,9 @@ static int name_action(int i)
 
 static int enter_id;
 
-static int name_enter(struct state *st, struct state *prev)
+static int name_gui(void)
 {
     int id, jd;
-
-    if (draw_back)
-    {
-        game_client_free();
-        back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
-    }
 
     if ((id = gui_vstack(0)))
     {
@@ -126,9 +120,20 @@ static int name_enter(struct state *st, struct state *prev)
         gui_set_label(name_id, player);
     }
 
+    return id;
+}
+
+static int name_enter(struct state *st, struct state *prev)
+{
+    if (draw_back)
+    {
+        game_client_free();
+        back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+    }
+
     SDL_EnableUNICODE(1);
 
-    return id;
+    return name_gui();
 }
 
 static void name_leave(struct state *st, struct state *next, int id)

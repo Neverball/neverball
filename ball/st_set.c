@@ -91,7 +91,7 @@ static void gui_set(int id, int i)
         gui_label(id, "", GUI_SML, GUI_ALL, 0, 0);
 }
 
-static int set_enter(struct state *st, struct state *prev)
+static int set_gui(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
@@ -99,16 +99,6 @@ static int set_enter(struct state *st, struct state *prev)
     int id, jd, kd;
 
     int i;
-
-    if (do_init)
-    {
-        total = set_init();
-        first = MIN(first, (total - 1) - ((total - 1) % SET_STEP));
-
-        audio_music_fade_to(0.5f, "bgm/inter.ogg");
-        audio_play(AUD_START, 1.f);
-    }
-    else do_init = 1;
 
     if ((id = gui_vstack(0)))
     {
@@ -138,7 +128,23 @@ static int set_enter(struct state *st, struct state *prev)
 
         gui_layout(id, 0, 0);
     }
+
     return id;
+}
+
+static int set_enter(struct state *st, struct state *prev)
+{
+    if (do_init)
+    {
+        total = set_init();
+        first = MIN(first, (total - 1) - ((total - 1) % SET_STEP));
+
+        audio_music_fade_to(0.5f, "bgm/inter.ogg");
+        audio_play(AUD_START, 1.f);
+    }
+    else do_init = 1;
+
+    return set_gui();
 }
 
 static void set_over(int i)

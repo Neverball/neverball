@@ -105,7 +105,7 @@ static int save_action(int i)
 
 static int enter_id;
 
-static int save_enter(struct state *st, struct state *prev)
+static int save_gui(void)
 {
     int id, jd;
 
@@ -133,9 +133,14 @@ static int save_enter(struct state *st, struct state *prev)
         gui_set_label(file_id, filename);
     }
 
+    return id;
+}
+
+static int save_enter(struct state *st, struct state *prev)
+{
     SDL_EnableUNICODE(1);
 
-    return id;
+    return save_gui();
 }
 
 static void save_leave(struct state *st, struct state *next, int id)
@@ -191,7 +196,7 @@ static int clobber_action(int i)
     return goto_state(&st_save);
 }
 
-static int clobber_enter(struct state *st, struct state *prev)
+static int clobber_gui(void)
 {
     int id, jd, kd;
     int file_id;
@@ -216,6 +221,11 @@ static int clobber_enter(struct state *st, struct state *prev)
     }
 
     return id;
+}
+
+static int clobber_enter(struct state *st, struct state *prev)
+{
+    return clobber_gui();
 }
 
 static int clobber_buttn(int b, int d)

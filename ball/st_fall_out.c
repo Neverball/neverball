@@ -75,12 +75,9 @@ static int fall_out_action(int i)
     return 1;
 }
 
-static int fall_out_enter(struct state *st, struct state *prev)
+static int fall_out_gui(void)
 {
     int id, jd, kd;
-
-    /* Reset hack. */
-    resume = 0;
 
     if ((id = gui_vstack(0)))
     {
@@ -109,12 +106,20 @@ static int fall_out_enter(struct state *st, struct state *prev)
         gui_layout(id, 0, 0);
     }
 
+    return id;
+}
+
+static int fall_out_enter(struct state *st, struct state *prev)
+{
+    /* Reset hack. */
+    resume = 0;
+
     audio_music_fade_out(2.0f);
     /* audio_play(AUD_FALL, 1.0f); */
 
     video_clr_grab();
 
-    return id;
+    return fall_out_gui();
 }
 
 static void fall_out_timer(int id, float dt)

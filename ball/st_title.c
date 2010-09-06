@@ -139,7 +139,7 @@ static int title_action(int i)
     return 1;
 }
 
-static int title_enter(struct state *st, struct state *prev)
+static int title_gui(void)
 {
     int id, jd, kd;
 
@@ -175,6 +175,11 @@ static int title_enter(struct state *st, struct state *prev)
         gui_layout(id, 0, 0);
     }
 
+    return id;
+}
+
+static int title_enter(struct state *st, struct state *prev)
+{
     /* Start the title screen music. */
 
     audio_music_fade_to(0.5f, "bgm/title.ogg");
@@ -188,7 +193,7 @@ static int title_enter(struct state *st, struct state *prev)
 
     SDL_EnableUNICODE(1);
 
-    return id;
+    return title_gui();
 }
 
 static void title_leave(struct state *st, struct state *next, int id)

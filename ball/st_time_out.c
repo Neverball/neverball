@@ -69,7 +69,7 @@ static int time_out_action(int i)
     return 1;
 }
 
-static int time_out_enter(struct state *st, struct state *prev)
+static int time_out_gui(void)
 {
     int id, jd, kd;
 
@@ -99,12 +99,17 @@ static int time_out_enter(struct state *st, struct state *prev)
         gui_layout(id, 0, 0);
     }
 
+    return id;
+}
+
+static int time_out_enter(struct state *st, struct state *prev)
+{
     audio_music_fade_out(2.0f);
     /* audio_play(AUD_TIME, 1.0f); */
 
     video_clr_grab();
 
-    return id;
+    return time_out_gui();
 }
 
 static int time_out_keybd(int c, int d)

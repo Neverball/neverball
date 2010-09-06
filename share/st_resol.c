@@ -86,16 +86,9 @@ static int fill_row(int id, SDL_Rect **modes, int i, int n)
     return complete;
 }
 
-static int resol_enter(struct state *st, struct state *prev)
+static int resol_gui(void)
 {
     int id, jd;
-
-    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
-
-    modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
-
-    if (modes == (SDL_Rect **) -1)
-        modes = NULL;
 
     if ((id = gui_vstack(0)))
     {
@@ -118,9 +111,21 @@ static int resol_enter(struct state *st, struct state *prev)
         gui_layout(id, 0, 0);
     }
 
+    return id;
+}
+
+static int resol_enter(struct state *st, struct state *prev)
+{
+    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+
+    modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
+
+    if (modes == (SDL_Rect **) -1)
+        modes = NULL;
+
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
-    return id;
+    return resol_gui();
 }
 
 static void resol_leave(struct state *st, struct state *next, int id)

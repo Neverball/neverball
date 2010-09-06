@@ -68,14 +68,9 @@ static int pause_action(int i)
 
 /*---------------------------------------------------------------------------*/
 
-static int pause_enter(struct state *st, struct state *prev)
+static int pause_gui(void)
 {
     int id, jd, title_id;
-
-    st_continue = prev;
-
-    video_clr_grab();
-    SDL_PauseAudio(1);
 
     /* Build the pause GUI. */
 
@@ -99,9 +94,19 @@ static int pause_enter(struct state *st, struct state *prev)
         gui_layout(id, 0, 0);
     }
 
+    return id;
+}
+
+static int pause_enter(struct state *st, struct state *prev)
+{
+    st_continue = prev;
+
+    video_clr_grab();
+    SDL_PauseAudio(1);
+
     hud_update(0);
 
-    return id;
+    return pause_gui();
 }
 
 static void pause_paint(int id, float t)

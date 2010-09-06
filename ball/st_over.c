@@ -28,12 +28,9 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int over_enter(struct state *st, struct state *prev)
+static int over_gui(void)
 {
     int id;
-
-    if (curr_mode() != MODE_CHALLENGE)
-        return 0;
 
     if ((id = gui_label(0, _("GAME OVER"), GUI_LRG, GUI_ALL, gui_gry, gui_red)))
     {
@@ -41,12 +38,20 @@ static int over_enter(struct state *st, struct state *prev)
         gui_pulse(id, 1.2f);
     }
 
+    return id;
+}
+
+static int over_enter(struct state *st, struct state *prev)
+{
+    if (curr_mode() != MODE_CHALLENGE)
+        return 0;
+
     audio_music_fade_out(2.0f);
     audio_play(AUD_OVER, 1.f);
 
     video_clr_grab();
 
-    return id;
+    return over_gui();
 }
 
 static void over_timer(int id, float dt)

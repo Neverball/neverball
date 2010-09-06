@@ -110,7 +110,7 @@ static int goal_action(int i)
     return 1;
 }
 
-static int goal_enter(struct state *st, struct state *prev)
+static int goal_gui(void)
 {
     const char *s1 = _("New Record");
     const char *s2 = _("GOAL");
@@ -119,12 +119,6 @@ static int goal_enter(struct state *st, struct state *prev)
 
     int high = progress_lvl_high();
     int level = curr_level();
-
-    if (new_name)
-    {
-        progress_rename(0);
-        new_name = 0;
-    }
 
     if ((id = gui_vstack(0)))
     {
@@ -245,6 +239,18 @@ static int goal_enter(struct state *st, struct state *prev)
                     level_score(level, SCORE_TIME), progress_time_rank(),
                     level_score(level, SCORE_GOAL), progress_goal_rank());
 
+
+    return id;
+}
+
+static int goal_enter(struct state *st, struct state *prev)
+{
+    if (new_name)
+    {
+        progress_rename(0);
+        new_name = 0;
+    }
+
     audio_music_fade_out(2.0f);
 
     video_clr_grab();
@@ -252,7 +258,7 @@ static int goal_enter(struct state *st, struct state *prev)
     /* Reset hack. */
     resume = 0;
 
-    return id;
+    return goal_gui();
 }
 
 static void goal_timer(int id, float dt)
