@@ -31,27 +31,7 @@
 #define PAUSE_RESTART  2
 #define PAUSE_EXIT     3
 
-/*---------------------------------------------------------------------------*/
-
 static struct state *st_continue;
-static int paused;
-
-int goto_pause(void)
-{
-    st_continue = curr_state();
-    paused = 1;
-    return goto_state(&st_pause);
-}
-
-int is_paused(void)
-{
-    return paused;
-}
-
-void clear_pause(void)
-{
-    paused = 0;
-}
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,7 +49,6 @@ static int pause_action(int i)
     case PAUSE_RESTART:
         if (progress_same())
         {
-            clear_pause();
             SDL_PauseAudio(0);
             video_set_grab(1);
             return goto_state(&st_play_ready);
@@ -79,7 +58,6 @@ static int pause_action(int i)
     case PAUSE_EXIT:
         progress_stat(GAME_NONE);
         progress_stop();
-        clear_pause();
         SDL_PauseAudio(0);
         audio_music_stop();
         return goto_state(&st_over);
@@ -93,6 +71,8 @@ static int pause_action(int i)
 static int pause_enter(struct state *st, struct state *prev)
 {
     int id, jd, title_id;
+
+    st_continue = prev;
 
     video_clr_grab();
     SDL_PauseAudio(1);

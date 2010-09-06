@@ -40,7 +40,7 @@ static int pause_or_exit(void)
 {
     if (config_tst_d(CONFIG_KEY_PAUSE, SDLK_ESCAPE))
     {
-        return goto_pause();
+        return goto_state(&st_pause);
     }
     else
     {
@@ -168,7 +168,7 @@ static int play_ready_keybd(int c, int d)
         keybd_camera(c);
 
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
-            goto_pause();
+            goto_state(&st_pause);
     }
     return 1;
 }
@@ -200,8 +200,6 @@ static int play_set_enter(struct state *st, struct state *prev)
     }
 
     audio_play(AUD_SET, 1.f);
-
-    clear_pause();
 
     return id;
 }
@@ -246,7 +244,7 @@ static int play_set_keybd(int c, int d)
         keybd_camera(c);
 
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
-            goto_pause();
+            goto_state(&st_pause);
     }
     return 1;
 }
@@ -301,11 +299,8 @@ static int play_loop_enter(struct state *st, struct state *prev)
     VIEWR_SET_L(0);
     fast_rotate = 0;
 
-    if (is_paused())
-    {
-        clear_pause();
+    if (prev == &st_pause)
         return 0;
-    }
 
     if ((id = gui_label(0, _("GO!"), GUI_LRG, GUI_ALL, gui_blu, gui_grn)))
     {
@@ -450,7 +445,7 @@ static int play_loop_keybd(int c, int d)
                 goto_state(&st_play_ready);
         }
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
-            goto_pause();
+            goto_state(&st_pause);
     }
     else
     {
