@@ -260,7 +260,7 @@ static void gui_demo_update_status(int i)
 
 /*---------------------------------------------------------------------------*/
 
-static int demo_enter(void)
+static int demo_enter(struct state *st, struct state *prev)
 {
     int id, jd;
 
@@ -353,7 +353,7 @@ void demo_play_goto(int s)
     check_compat = 1;
 }
 
-static int demo_play_enter(void)
+static int demo_play_enter(struct state *st, struct state *prev)
 {
     int id;
 
@@ -490,7 +490,7 @@ static int demo_end_action(int i)
     return 1;
 }
 
-static int demo_end_enter(void)
+static int demo_end_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
 
@@ -582,7 +582,7 @@ static int demo_del_action(int i)
     return goto_state(&st_demo);
 }
 
-static int demo_del_enter(void)
+static int demo_del_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
 
@@ -618,7 +618,7 @@ static int demo_del_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int demo_compat_enter(void)
+static int demo_compat_enter(struct state *st, struct state *prev)
 {
     int id;
 

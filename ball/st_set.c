@@ -91,7 +91,7 @@ static void gui_set(int id, int i)
         gui_label(id, "", GUI_SML, GUI_ALL, 0, 0);
 }
 
-static int set_enter(void)
+static int set_enter(struct state *st, struct state *prev)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);

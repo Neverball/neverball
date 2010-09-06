@@ -31,7 +31,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int level_enter(void)
+static int level_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
 

@@ -328,7 +328,7 @@ static int help_techniques(int id)
 
 /* -------------------------------------------------------------------------- */
 
-static int help_enter(void)
+static int help_enter(struct state *st, struct state *prev)
 {
     int id;
 
@@ -366,13 +366,13 @@ static int help_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int help_demo_enter(void)
+static int help_demo_enter(struct state *st, struct state *prev)
 {
     game_client_fly(0.0f);
     return 0;
 }
 
-static void help_demo_leave(int id)
+static void help_demo_leave(struct state *st, struct state *next, int id)
 {
     demo_replay_stop(0);
 }

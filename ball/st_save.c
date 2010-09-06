@@ -105,7 +105,7 @@ static int save_action(int i)
 
 static int enter_id;
 
-static int save_enter(void)
+static int save_enter(struct state *st, struct state *prev)
 {
     int id, jd;
 
@@ -138,7 +138,7 @@ static int save_enter(void)
     return id;
 }
 
-static void save_leave(int id)
+static void save_leave(struct state *st, struct state *next, int id)
 {
     SDL_EnableUNICODE(0);
     gui_delete(id);
@@ -191,7 +191,7 @@ static int clobber_action(int i)
     return goto_state(&st_save);
 }
 
-static int clobber_enter(void)
+static int clobber_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
     int file_id;

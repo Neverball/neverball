@@ -8,8 +8,8 @@
 
 struct state
 {
-    int  (*enter)(void);
-    void (*leave)(int dt);
+    int  (*enter)(struct state *, struct state *prev);
+    void (*leave)(struct state *, struct state *next, int id);
     void (*paint)(int id, float t);
     void (*timer)(int id, float dt);
     void (*point)(int id, int x, int y, int dx, int dy);

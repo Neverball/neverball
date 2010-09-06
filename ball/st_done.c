@@ -61,7 +61,7 @@ static int done_action(int i)
     return 1;
 }
 
-static int done_enter(void)
+static int done_enter(struct state *st, struct state *prev)
 {
     const char *s1 = _("New Set Record");
     const char *s2 = _("Set Complete");

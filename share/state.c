@@ -40,15 +40,17 @@ void init_state(struct state *st)
 
 int goto_state(struct state *st)
 {
+    struct state *prev = state;
+
     if (state && state->leave)
-        state->leave(state->gui_id);
+        state->leave(state, st, state->gui_id);
 
     state       = st;
     state_time  = 0;
     state_drawn = 0;
 
     if (state && state->enter)
-        state->gui_id = state->enter();
+        state->gui_id = state->enter(state, prev);
 
     return 1;
 }

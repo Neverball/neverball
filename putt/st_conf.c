@@ -141,7 +141,7 @@ static int conf_action(int i)
     return r;
 }
 
-static int conf_enter(void)
+static int conf_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
 
@@ -269,7 +269,7 @@ static int conf_enter(void)
     return id;
 }
 
-static void conf_leave(int id)
+static void conf_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
@@ -330,7 +330,7 @@ static int conf_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int null_enter(void)
+static int null_enter(struct state *st, struct state *prev)
 {
     gui_free();
     swch_free();
@@ -343,7 +343,7 @@ static int null_enter(void)
     return 0;
 }
 
-static void null_leave(int id)
+static void null_leave(struct state *st, struct state *next, int id)
 {
     int g = config_get_d(CONFIG_GEOMETRY);
 

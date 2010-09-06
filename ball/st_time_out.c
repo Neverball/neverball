@@ -69,7 +69,7 @@ static int time_out_action(int i)
     return 1;
 }
 
-static int time_out_enter(void)
+static int time_out_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
 

@@ -139,7 +139,7 @@ static int title_action(int i)
     return 1;
 }
 
-static int title_enter(void)
+static int title_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
 
@@ -191,7 +191,7 @@ static int title_enter(void)
     return id;
 }
 
-static void title_leave(int id)
+static void title_leave(struct state *st, struct state *next, int id)
 {
     if (items)
     {

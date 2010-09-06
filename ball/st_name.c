@@ -92,7 +92,7 @@ static int name_action(int i)
 
 static int enter_id;
 
-static int name_enter(void)
+static int name_enter(struct state *st, struct state *prev)
 {
     int id, jd;
 
@@ -131,7 +131,7 @@ static int name_enter(void)
     return id;
 }
 
-static void name_leave(int id)
+static void name_leave(struct state *st, struct state *next, int id)
 {
     if (draw_back)
         back_free();

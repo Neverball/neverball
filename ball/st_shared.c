@@ -23,7 +23,7 @@
 
 #include "st_shared.h"
 
-void shared_leave(int id)
+void shared_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }

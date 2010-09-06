@@ -194,7 +194,7 @@ static int title_action(int i)
     return 1;
 }
 
-static int title_enter(void)
+static int title_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
 
@@ -227,7 +227,7 @@ static int title_enter(void)
     return id;
 }
 
-static void title_leave(int id)
+static void title_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
@@ -290,7 +290,7 @@ static int course_action(int i)
     return 1;
 }
 
-static int course_enter(void)
+static int course_enter(struct state *st, struct state *prev)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
@@ -352,7 +352,7 @@ static int course_enter(void)
     return id;
 }
 
-static void course_leave(int id)
+static void course_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
@@ -460,7 +460,7 @@ static int party_action(int i)
     return 1;
 }
 
-static int party_enter(void)
+static int party_enter(struct state *st, struct state *prev)
 {
     int id, jd;
 
@@ -498,7 +498,7 @@ static int party_enter(void)
     return id;
 }
 
-static void party_leave(int id)
+static void party_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
@@ -576,7 +576,7 @@ static int pause_action(int i)
     return 1;
 }
 
-static int pause_enter(void)
+static int pause_enter(struct state *st, struct state *prev)
 {
     int id, jd, td;
 
@@ -601,7 +601,7 @@ static int pause_enter(void)
     return id;
 }
 
-static void pause_leave(int id)
+static void pause_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
     hud_free();
@@ -665,7 +665,7 @@ static int shared_keybd(int c, int d)
 
 static int num = 0;
 
-static int next_enter(void)
+static int next_enter(struct state *st, struct state *prev)
 {
     int id;
     char str[MAXSTR];
@@ -710,7 +710,7 @@ static int next_enter(void)
     return id;
 }
 
-static void next_leave(int id)
+static void next_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
     gui_delete(id);
@@ -774,7 +774,7 @@ static int next_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int poser_enter(void)
+static int poser_enter(struct state *st, struct state *prev)
 {
     game_set_fly(-1.f);
     return 0;
@@ -799,7 +799,7 @@ static int poser_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int flyby_enter(void)
+static int flyby_enter(struct state *st, struct state *prev)
 {
     if (paused)
         paused = 0;
@@ -809,7 +809,7 @@ static int flyby_enter(void)
     return 0;
 }
 
-static void flyby_leave(int id)
+static void flyby_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
 }
@@ -862,7 +862,7 @@ static int flyby_buttn(int b, int d)
 static int stroke_rotate = 0;
 static int stroke_mag    = 0;
 
-static int stroke_enter(void)
+static int stroke_enter(struct state *st, struct state *prev)
 {
     hud_init();
     game_clr_mag();
@@ -875,7 +875,7 @@ static int stroke_enter(void)
     return 0;
 }
 
-static void stroke_leave(int id)
+static void stroke_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
     video_clr_grab();
@@ -944,7 +944,7 @@ static int stroke_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int roll_enter(void)
+static int roll_enter(struct state *st, struct state *prev)
 {
     hud_init();
 
@@ -956,7 +956,7 @@ static int roll_enter(void)
     return 0;
 }
 
-static void roll_leave(int id)
+static void roll_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
 }
@@ -991,7 +991,7 @@ static int roll_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int goal_enter(void)
+static int goal_enter(struct state *st, struct state *prev)
 {
     int id;
 
@@ -1008,7 +1008,7 @@ static int goal_enter(void)
     return id;
 }
 
-static void goal_leave(int id)
+static void goal_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
     hud_free();
@@ -1063,7 +1063,7 @@ static int goal_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int stop_enter(void)
+static int stop_enter(struct state *st, struct state *prev)
 {
     if (paused)
         paused = 0;
@@ -1075,7 +1075,7 @@ static int stop_enter(void)
     return 0;
 }
 
-static void stop_leave(int id)
+static void stop_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
 }
@@ -1133,7 +1133,7 @@ static int stop_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int fall_enter(void)
+static int fall_enter(struct state *st, struct state *prev)
 {
     int id;
 
@@ -1153,7 +1153,7 @@ static int fall_enter(void)
     return id;
 }
 
-static void fall_leave(int id)
+static void fall_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
     hud_free();
@@ -1208,7 +1208,7 @@ static int fall_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int score_enter(void)
+static int score_enter(struct state *st, struct state *prev)
 {
     audio_music_fade_out(2.f);
 
@@ -1218,7 +1218,7 @@ static int score_enter(void)
     return score_card(_("Scores"), gui_yel, gui_red);
 }
 
-static void score_leave(int id)
+static void score_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
@@ -1265,13 +1265,13 @@ static int score_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int over_enter(void)
+static int over_enter(struct state *st, struct state *prev)
 {
     audio_music_fade_out(2.f);
     return score_card(_("Final Scores"), gui_yel, gui_red);
 }
 
-static void over_leave(int id)
+static void over_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }

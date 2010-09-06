@@ -110,7 +110,7 @@ static int goal_action(int i)
     return 1;
 }
 
-static int goal_enter(void)
+static int goal_enter(struct state *st, struct state *prev)
 {
     const char *s1 = _("New Record");
     const char *s2 = _("GOAL");
@@ -319,7 +319,7 @@ static int goal_buttn(int b, int d)
     return 1;
 }
 
-static void goal_leave(int id)
+static void goal_leave(struct state *st, struct state *next, int id)
 {
     /* HACK:  don't run animation if only "visiting" a state. */
     st_goal.timer = resume ? shared_timer : goal_timer;

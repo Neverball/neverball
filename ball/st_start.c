@@ -157,7 +157,7 @@ static int start_action(int i)
     return 1;
 }
 
-static int start_enter(void)
+static int start_enter(struct state *st, struct state *prev)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);

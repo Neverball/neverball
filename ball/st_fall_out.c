@@ -75,7 +75,7 @@ static int fall_out_action(int i)
     return 1;
 }
 
-static int fall_out_enter(void)
+static int fall_out_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
 
@@ -153,7 +153,7 @@ static int fall_out_buttn(int b, int d)
     return 1;
 }
 
-static void fall_out_leave(int id)
+static void fall_out_leave(struct state *st, struct state *next, int id)
 {
     /* HACK:  don't run animation if only "visiting" a state. */
     st_fall_out.timer = resume ? shared_timer : fall_out_timer;

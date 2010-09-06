@@ -28,7 +28,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int over_enter(void)
+static int over_enter(struct state *st, struct state *prev)
 {
     int id;
 

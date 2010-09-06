@@ -110,7 +110,7 @@ static void buttn_camera(int b)
 
 /*---------------------------------------------------------------------------*/
 
-static int play_ready_enter(void)
+static int play_ready_enter(struct state *st, struct state *prev)
 {
     int id;
 
@@ -189,7 +189,7 @@ static int play_ready_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int play_set_enter(void)
+static int play_set_enter(struct state *st, struct state *prev)
 {
     int id;
 
@@ -292,7 +292,7 @@ struct
 static int fast_rotate;
 static int show_hud;
 
-static int play_loop_enter(void)
+static int play_loop_enter(struct state *st, struct state *prev)
 {
     union cmd cmd;
     int id;
@@ -509,14 +509,14 @@ static int play_loop_buttn(int b, int d)
 static float phi;
 static float theta;
 
-static int look_enter(void)
+static int look_enter(struct state *st, struct state *prev)
 {
     phi   = 0;
     theta = 0;
     return 0;
 }
 
-static void look_leave(int id)
+static void look_leave(struct state *st, struct state *next, int id)
 {
 }
 

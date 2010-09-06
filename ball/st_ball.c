@@ -149,7 +149,7 @@ static void load_ball_demo(void)
     back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
 }
 
-static int ball_enter(void)
+static int ball_enter(struct state *st, struct state *prev)
 {
     int id, jd;
     int i;
@@ -192,7 +192,7 @@ static int ball_enter(void)
     return id;
 }
 
-static void ball_leave(int id)
+static void ball_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
     back_free();

@@ -86,7 +86,7 @@ static int fill_row(int id, SDL_Rect **modes, int i, int n)
     return complete;
 }
 
-static int resol_enter(void)
+static int resol_enter(struct state *st, struct state *prev)
 {
     int id, jd;
 
@@ -123,7 +123,7 @@ static int resol_enter(void)
     return id;
 }
 
-static void resol_leave(int id)
+static void resol_leave(struct state *st, struct state *next, int id)
 {
     back_free();
     gui_delete(id);

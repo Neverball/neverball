@@ -90,7 +90,7 @@ static int pause_action(int i)
 
 /*---------------------------------------------------------------------------*/
 
-static int pause_enter(void)
+static int pause_enter(struct state *st, struct state *prev)
 {
     int id, jd, title_id;
 
