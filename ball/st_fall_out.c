@@ -56,8 +56,6 @@ static int fall_out_action(int i)
         return goto_state(&st_over);
 
     case FALL_OUT_SAVE:
-        resume = 1;
-
         progress_stop();
         return goto_save(&st_fall_out, &st_fall_out);
 
@@ -111,23 +109,21 @@ static int fall_out_gui(void)
 
 static int fall_out_enter(struct state *st, struct state *prev)
 {
-    /* Reset hack. */
-    resume = 0;
-
     audio_music_fade_out(2.0f);
-    /* audio_play(AUD_FALL, 1.0f); */
-
     video_clr_grab();
-
+    resume = (prev == &st_fall_out);
     return fall_out_gui();
 }
 
 static void fall_out_timer(int id, float dt)
 {
-    if (time_state() < 2.f)
+    if (!resume)
     {
-        game_server_step(dt);
-        game_client_sync(demo_file());
+        if (time_state() < 2.f)
+        {
+            game_server_step(dt);
+            game_client_sync(demo_file());
+        }
     }
 
     gui_timer(id, dt);
@@ -158,19 +154,11 @@ static int fall_out_buttn(int b, int d)
     return 1;
 }
 
-static void fall_out_leave(struct state *st, struct state *next, int id)
-{
-    /* HACK:  don't run animation if only "visiting" a state. */
-    st_fall_out.timer = resume ? shared_timer : fall_out_timer;
-
-    gui_delete(id);
-}
-
 /*---------------------------------------------------------------------------*/
 
 struct state st_fall_out = {
     fall_out_enter,
-    fall_out_leave,
+    shared_leave,
     shared_paint,
     fall_out_timer,
     shared_point,

@@ -49,9 +49,6 @@ static int balls_id;
 static int coins_id;
 static int score_id;
 
-/* Bread crumbs. */
-
-static int new_name;
 static int resume;
 
 static int goal_action(int i)
@@ -68,15 +65,10 @@ static int goal_action(int i)
         return goto_state(&st_over);
 
     case GOAL_SAVE:
-        resume = 1;
-
         progress_stop();
         return goto_save(&st_goal, &st_goal);
 
     case GUI_NAME:
-        new_name = 1;
-        resume = 1;
-
         progress_stop();
         return goto_name(&st_goal, &st_goal, 0);
 
@@ -93,7 +85,6 @@ static int goal_action(int i)
     case GUI_SCORE_TIME:
     case GUI_SCORE_GOAL:
         gui_score_set(i);
-        resume = 1;
         return goto_state(&st_goal);
 
     case GOAL_NEXT:
@@ -245,56 +236,52 @@ static int goal_gui(void)
 
 static int goal_enter(struct state *st, struct state *prev)
 {
-    if (new_name)
-    {
+    if (prev == &st_name)
         progress_rename(0);
-        new_name = 0;
-    }
 
     audio_music_fade_out(2.0f);
-
     video_clr_grab();
-
-    /* Reset hack. */
-    resume = 0;
-
+    resume = (prev == &st_goal || prev == &st_name);
     return goal_gui();
 }
 
 static void goal_timer(int id, float dt)
 {
-    static float t = 0.0f;
-
-    t += dt;
-
-    if (time_state() < 1.f)
+    if (!resume)
     {
-        game_server_step(dt);
-        game_client_sync(demo_file());
-    }
-    else if (t > 0.05f && coins_id)
-    {
-        int coins = gui_value(coins_id);
+        static float t = 0.0f;
 
-        if (coins > 0)
+        t += dt;
+
+        if (time_state() < 1.f)
         {
-            int score = gui_value(score_id);
-            int balls = gui_value(balls_id);
-
-            gui_set_count(coins_id, coins - 1);
-            gui_pulse(coins_id, 1.1f);
-
-            gui_set_count(score_id, score + 1);
-            gui_pulse(score_id, 1.1f);
-
-            if (progress_reward_ball(score + 1))
-            {
-                gui_set_count(balls_id, balls + 1);
-                gui_pulse(balls_id, 2.0f);
-                audio_play(AUD_BALL, 1.0f);
-            }
+            game_server_step(dt);
+            game_client_sync(demo_file());
         }
-        t = 0.0f;
+        else if (t > 0.05f && coins_id)
+        {
+            int coins = gui_value(coins_id);
+
+            if (coins > 0)
+            {
+                int score = gui_value(score_id);
+                int balls = gui_value(balls_id);
+
+                gui_set_count(coins_id, coins - 1);
+                gui_pulse(coins_id, 1.1f);
+
+                gui_set_count(score_id, score + 1);
+                gui_pulse(score_id, 1.1f);
+
+                if (progress_reward_ball(score + 1))
+                {
+                    gui_set_count(balls_id, balls + 1);
+                    gui_pulse(balls_id, 2.0f);
+                    audio_play(AUD_BALL, 1.0f);
+                }
+            }
+            t = 0.0f;
+        }
     }
 
     gui_timer(id, dt);
@@ -325,19 +312,11 @@ static int goal_buttn(int b, int d)
     return 1;
 }
 
-static void goal_leave(struct state *st, struct state *next, int id)
-{
-    /* HACK:  don't run animation if only "visiting" a state. */
-    st_goal.timer = resume ? shared_timer : goal_timer;
-
-    gui_delete(id);
-}
-
 /*---------------------------------------------------------------------------*/
 
 struct state st_goal = {
     goal_enter,
-    goal_leave,
+    shared_leave,
     shared_paint,
     goal_timer,
     shared_point,

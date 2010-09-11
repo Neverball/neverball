@@ -33,9 +33,6 @@
 
 #define DONE_OK   1
 
-/* Bread crumbs. */
-
-static int new_name;
 static int resume;
 
 static int done_action(int i)
@@ -48,14 +45,12 @@ static int done_action(int i)
         return goto_state(&st_start);
 
     case GUI_NAME:
-        new_name = 1;
         return goto_name(&st_done, &st_done, 0);
 
     case GUI_SCORE_COIN:
     case GUI_SCORE_TIME:
     case GUI_SCORE_GOAL:
         gui_score_set(i);
-        resume = 1;
         return goto_state(&st_done);
     }
     return 1;
@@ -101,14 +96,10 @@ static int done_gui(void)
 
 static int done_enter(struct state *st, struct state *prev)
 {
-    if (new_name)
-    {
+    if (prev == &st_name)
         progress_rename(1);
-        new_name = 0;
-    }
 
-    /* Reset hack. */
-    resume = 0;
+    resume = (prev == &st_done);
 
     return done_gui();
 }
