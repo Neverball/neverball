@@ -38,7 +38,7 @@ struct demo
 struct demo *demo_load(const char *);
 void         demo_free(struct demo *);
 
-int  demo_exists(const char *);
+int demo_exists(const char *);
 
 const char *demo_format_name(const char *fmt,
                              const char *set,

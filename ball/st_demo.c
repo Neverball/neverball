@@ -43,6 +43,7 @@ static Array items;
 
 static int first = 0;
 static int total = 0;
+static int last  = 0;
 
 static int last_viewed = 0;
 
@@ -72,7 +73,7 @@ static int demo_action(int i)
         break;
 
     default:
-        if (progress_replay(DEMO_GET(items, i)->filename))
+        if (progress_replay(DIR_ITEM_GET(items, i)->path))
         {
             last_viewed = i;
             demo_play_goto(0);
@@ -141,12 +142,17 @@ static int gui_demo_thumbs(int id)
 
 static void gui_demo_update_thumbs(void)
 {
+    struct dir_item *item;
+    struct demo *demo;
     int i;
 
     for (i = 0; i < ARRAYSIZE(thumbs) && thumbs[i].shot && thumbs[i].name; i++)
     {
-        gui_set_image(thumbs[i].shot, DEMO_GET(items, thumbs[i].item)->shot);
-        gui_set_label(thumbs[i].name, DEMO_GET(items, thumbs[i].item)->name);
+        item = DIR_ITEM_GET(items, thumbs[i].item);
+        demo = item->data;
+
+        gui_set_image(thumbs[i].shot, demo ? demo->shot : "");
+        gui_set_label(thumbs[i].name, demo ? demo->name : base_name(item->path));
     }
 }
 
@@ -239,9 +245,12 @@ static void gui_demo_update_status(int i)
 {
     const struct demo *d;
 
-    if (total > 0)
-        d = DEMO_GET(items, i < total ? i : 0);
-    else
+    if (!total)
+        return;
+
+    d = DEMO_GET(items, i < total ? i : 0);
+
+    if (!d)
         return;
 
     gui_set_label(name_id,   d->name);
@@ -296,15 +305,39 @@ static int demo_gui(void)
 
 static int demo_enter(struct state *st, struct state *prev)
 {
-    if (items)
-        demo_dir_free(items);
+    if (!items || (prev == &st_demo_del))
+    {
+        if (items)
+        {
+            demo_dir_free(items);
+            items = NULL;
+        }
 
-    items = demo_dir_scan();
-    total = array_len(items);
+        items = demo_dir_scan();
+        total = array_len(items);
+    }
+
+    first       = first < total ? first : 0;
+    last        = MIN(first + DEMO_STEP - 1, total - 1);
+    last_viewed = MIN(MAX(first, last_viewed), last);
+
+    if (total)
+        demo_dir_load(items, first, last);
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
     return demo_gui();
+}
+
+static void demo_leave(struct state *st, struct state *next, int id)
+{
+    if (next == &st_title)
+    {
+        demo_dir_free(items);
+        items = NULL;
+    }
+
+    gui_delete(id);
 }
 
 static void demo_timer(int id, float dt)
@@ -592,7 +625,6 @@ static int demo_end_buttn(int b, int d)
 static int demo_del_action(int i)
 {
     audio_play(AUD_MENU, 1.0f);
-
     demo_replay_stop(i == DEMO_DEL);
     return goto_state(&st_demo);
 }
@@ -687,7 +719,7 @@ static int demo_compat_buttn(int b, int d)
 
 struct state st_demo = {
     demo_enter,
-    shared_leave,
+    demo_leave,
     shared_paint,
     demo_timer,
     demo_point,
