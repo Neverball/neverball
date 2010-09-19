@@ -332,7 +332,7 @@ static int play_loop_enter(struct state *st, struct state *prev)
 
     cmd.type = CMD_END_OF_UPDATE;
     game_proxy_enq(&cmd);
-    game_client_sync(demo_file());
+    game_client_sync(demo_fp);
 
     show_hud = 1;
 
@@ -368,7 +368,7 @@ static void play_loop_timer(int id, float dt)
     game_step_fade(dt);
 
     game_server_step(dt);
-    game_client_sync(demo_file());
+    game_client_sync(demo_fp);
 
     switch (curr_status())
     {
