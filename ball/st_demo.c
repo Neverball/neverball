@@ -352,6 +352,8 @@ static int demo_paused;
 static int show_hud;
 static int check_compat;
 
+static float prelude;
+
 void demo_play_goto(int s)
 {
     standalone   = s;
@@ -377,6 +379,7 @@ static int demo_play_enter(struct state *st, struct state *prev)
     if (demo_paused)
     {
         demo_paused = 0;
+        prelude = 0;
         audio_music_fade_in(0.5f);
         return 0;
     }
@@ -393,6 +396,8 @@ static int demo_play_enter(struct state *st, struct state *prev)
         return 0;
     }
 
+    prelude = 1.0f;
+
     show_hud = 1;
     hud_update(0);
 
@@ -406,7 +411,7 @@ static void demo_play_paint(int id, float t)
     if (show_hud)
         hud_paint();
 
-    if (time_state() < 1.f)
+    if (time_state() < prelude)
         gui_paint(id);
 }
 
@@ -416,14 +421,9 @@ static void demo_play_timer(int id, float dt)
     gui_timer(id, dt);
     hud_timer(dt);
 
-    /*
-     * Introduce a one-second pause at the start of replay playback.  (One
-     * second is the time during which the "Replay" label is being displayed.)
-     * HACK ALERT!  "id == 0" means we got here from the pause screen, so no
-     * label has been created and there's no need to wait.
-     */
+    /* Pause briefly before starting playback. */
 
-    if (id != 0 && time_state() < 1.0f)
+    if (time_state() < prelude)
         return;
 
     if (!demo_replay_step(dt))
