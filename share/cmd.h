@@ -76,22 +76,22 @@ enum cmd_type
  * (handy when adding new commands).
  */
 
-#define HEADER                                  \
+#define CMD_HEADER \
     enum cmd_type type
 
 struct cmd_end_of_update
 {
-    HEADER;
+    CMD_HEADER;
 };
 
 struct cmd_make_ball
 {
-    HEADER;
+    CMD_HEADER;
 };
 
 struct cmd_make_item
 {
-    HEADER;
+    CMD_HEADER;
     float p[3];
     int   t;
     int   n;
@@ -99,169 +99,169 @@ struct cmd_make_item
 
 struct cmd_pick_item
 {
-    HEADER;
+    CMD_HEADER;
     int   hi;
 };
 
 struct cmd_tilt_angles
 {
-    HEADER;
+    CMD_HEADER;
     float x;
     float z;
 };
 
 struct cmd_sound
 {
-    HEADER;
+    CMD_HEADER;
     char  *n;
     float  a;
 };
 
 struct cmd_timer
 {
-    HEADER;
+    CMD_HEADER;
     float t;
 };
 
 struct cmd_status
 {
-    HEADER;
+    CMD_HEADER;
     int t;
 };
 
 struct cmd_coins
 {
-    HEADER;
+    CMD_HEADER;
     int n;
 };
 
 struct cmd_jump_enter
 {
-    HEADER;
+    CMD_HEADER;
 };
 
 struct cmd_jump_exit
 {
-    HEADER;
+    CMD_HEADER;
 };
 
 struct cmd_body_path
 {
-    HEADER;
+    CMD_HEADER;
     int bi;
     int pi;
 };
 
 struct cmd_body_time
 {
-    HEADER;
+    CMD_HEADER;
     int   bi;
     float t;
 };
 
 struct cmd_goal_open
 {
-    HEADER;
+    CMD_HEADER;
 };
 
 struct cmd_swch_enter
 {
-    HEADER;
+    CMD_HEADER;
     int xi;
 };
 
 struct cmd_swch_toggle
 {
-    HEADER;
+    CMD_HEADER;
     int xi;
 };
 
 struct cmd_swch_exit
 {
-    HEADER;
+    CMD_HEADER;
     int xi;
 };
 
 struct cmd_updates_per_second
 {
-    HEADER;
+    CMD_HEADER;
     int n;
 };
 
 struct cmd_ball_radius
 {
-    HEADER;
+    CMD_HEADER;
     float r;
 };
 
 struct cmd_clear_items
 {
-    HEADER;
+    CMD_HEADER;
 };
 
 struct cmd_clear_balls
 {
-    HEADER;
+    CMD_HEADER;
 };
 
 struct cmd_ball_position
 {
-    HEADER;
+    CMD_HEADER;
     float p[3];
 };
 
 struct cmd_ball_basis
 {
-    HEADER;
+    CMD_HEADER;
     float e[2][3];
 };
 
 struct cmd_ball_pend_basis
 {
-    HEADER;
+    CMD_HEADER;
     float E[2][3];
 };
 
 struct cmd_view_position
 {
-    HEADER;
+    CMD_HEADER;
     float p[3];
 };
 
 struct cmd_view_center
 {
-    HEADER;
+    CMD_HEADER;
     float c[3];
 };
 
 struct cmd_view_basis
 {
-    HEADER;
+    CMD_HEADER;
     float e[2][3];
 };
 
 struct cmd_current_ball
 {
-    HEADER;
+    CMD_HEADER;
     int ui;
 };
 
 struct cmd_path_flag
 {
-    HEADER;
+    CMD_HEADER;
     int pi;
     int f;
 };
 
 struct cmd_step_simulation
 {
-    HEADER;
+    CMD_HEADER;
     float dt;
 };
 
 struct cmd_map
 {
-    HEADER;
+    CMD_HEADER;
     char *name;
     struct
     {
@@ -271,13 +271,13 @@ struct cmd_map
 
 struct cmd_tilt_axes
 {
-    HEADER;
+    CMD_HEADER;
     float x[3], z[3];
 };
 
 union cmd
 {
-    HEADER;
+    CMD_HEADER;
     struct cmd_end_of_update      eou;
     struct cmd_make_ball          mkball;
     struct cmd_make_item          mkitem;
@@ -312,8 +312,7 @@ union cmd
     struct cmd_tilt_axes          tiltaxes;
 };
 
-/* No module should see this. */
-#undef HEADER
+#undef CMD_HEADER
 
 #include "fs.h"
 
