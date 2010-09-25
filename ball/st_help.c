@@ -28,15 +28,15 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define HELP_BACK   0
-#define HELP_RULE   1
-#define HELP_CONT   2
-#define HELP_MODE   3
-#define HELP_TECH   4
-#define HELP_DEMO_1 6
-#define HELP_DEMO_2 7
+#define HELP_BACK     0
+#define HELP_RULES    1
+#define HELP_CONTROLS 2
+#define HELP_MODES    3
+#define HELP_TRICKS   4
+#define HELP_DEMO_1   6
+#define HELP_DEMO_2   7
 
-static int tab = HELP_RULE;
+static int tab = HELP_RULES;
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,7 +47,7 @@ static int help_action(int t)
     switch (t)
     {
     case HELP_BACK:
-        tab = HELP_RULE;
+        tab = HELP_RULES;
         return goto_state(&st_title);
         break;
 
@@ -89,11 +89,11 @@ static int help_menu(int id)
 
     if ((jd = gui_harray(id)))
     {
-        help_button(jd, _("Techniques"), HELP_TECH);
-        help_button(jd, _("Modes"),      HELP_MODE);
-        help_button(jd, _("Controls"),   HELP_CONT);
-        help_button(jd, _("Rules"),      HELP_RULE);
-        help_button(jd, _("Back"),       HELP_BACK);
+        help_button(jd, _("Tricks"),   HELP_TRICKS);
+        help_button(jd, _("Modes"),    HELP_MODES);
+        help_button(jd, _("Controls"), HELP_CONTROLS);
+        help_button(jd, _("Rules"),    HELP_RULES);
+        help_button(jd, _("Back"),     HELP_BACK);
     }
     return jd;
 }
@@ -257,7 +257,7 @@ static int help_modes(int id)
     return id;
 }
 
-static int help_techniques(int id)
+static int help_tricks(int id)
 {
     const char *s0 = _(
         "Corners can be used to jump.\\"
@@ -338,10 +338,10 @@ static int help_gui(void)
 
         switch (tab)
         {
-        case HELP_RULE: help_rules(id);      break;
-        case HELP_CONT: help_controls(id);   break;
-        case HELP_MODE: help_modes(id);      break;
-        case HELP_TECH: help_techniques(id); break;
+        case HELP_RULES:    help_rules(id);    break;
+        case HELP_CONTROLS: help_controls(id); break;
+        case HELP_MODES:    help_modes(id);    break;
+        case HELP_TRICKS:   help_tricks(id);   break;
 
         default:
             break;
