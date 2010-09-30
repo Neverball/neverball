@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -5,7 +6,7 @@
 "author" "Mehdi Yousfi-Monod"
 "version" "1"
 "grad" "back/space.png"
-"back" "map-back/jupiter.sol"
+"back" "map-back/earth.sol"
 "shot" "shot-easy/easyhalfpipe.jpg"
 "song" "bgm/track4.ogg"
 "time" "12000"

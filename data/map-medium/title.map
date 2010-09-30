@@ -5,7 +5,7 @@
 "version" "2"
 "shot" "shot-medium/title.jpg"
 "song" "bgm/title.ogg"
-"back" "map-back/jupiter.sol"
+"back" "map-back/earth.sol"
 "grad" "back/space.png"
 "coin_hs" "40 28"
 "time_hs" "1200 3000"

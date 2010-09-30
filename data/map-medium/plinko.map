@@ -4,7 +4,7 @@
 "author" "Robert Kooima"
 "version" "1"
 "shot" "shot-medium/plinko.jpg"
-"back" "map-back/jupiter.sol"
+"back" "map-back/earth.sol"
 "grad" "back/space.png"
 "song" "bgm/track4.ogg"
 "time" "12000"
