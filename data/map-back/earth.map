@@ -6,7 +6,7 @@
 // entity 1
 {
 "classname" "info_null"
-"image" "png/sun"
+"image" "png/sun2"
 "height" "80.0"
 "width" "80.0"
 "flag" "0"
@@ -17,7 +17,7 @@
 // entity 2
 {
 "classname" "info_null"
-"image" "png/earth"
+"image" "png/earth2"
 "height" "280.0"
 "width" "280.0"
 "flag" "0"
