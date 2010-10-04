@@ -397,7 +397,7 @@ int main(int argc, char *argv[])
     config_paths(data_path);
     make_dirs_and_migrate();
 
-    /* Initialize SDL system and subsystems */
+    /* Initialize SDL. */
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
     {
@@ -405,12 +405,12 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    /* Intitialize the configuration */
+    /* Intitialize configuration. */
 
     config_init();
     config_load();
 
-    /* Initialize the joystick. */
+    /* Initialize joystick. */
 
     if (config_get_d(CONFIG_JOYSTICK) && SDL_NumJoysticks() > 0)
     {
@@ -419,12 +419,12 @@ int main(int argc, char *argv[])
             SDL_JoystickEventState(SDL_ENABLE);
     }
 
-    /* Initialize the audio. */
+    /* Initialize audio. */
 
     audio_init();
     tilt_init();
 
-    /* Initialize the video. */
+    /* Initialize video. */
 
     if (!video_init(TITLE, ICON))
         return 1;

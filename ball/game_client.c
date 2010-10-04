@@ -344,11 +344,10 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_MAP:
-
             /*
-             * Note if the loaded map matches the server's
-             * expectations. (No, this doesn't actually load a map,
-             * yet.  Something else somewhere else does.)
+             * Note a version (mis-)match between the loaded map and
+             * what the server has. (This doesn't actually load a
+             * map.)
              */
 
             free(cmd->map.name);
@@ -440,10 +439,10 @@ int  game_client_init(const char *file_name)
     }
 
     /*
-     * If the client map's version is 1, assume the map is compatible
-     * with the server.  This ensures that 1.5.0 replays don't trigger
-     * bogus map compatibility warnings.  (Post-1.5.0 replays will
-     * have CMD_MAP override this.)
+     * If the version of the loaded map is 1, assume we have a version
+     * match with the server.  In this way 1.5.0 replays don't trigger
+     * bogus map compatibility warnings.  Post-1.5.0 replays will have
+     * CMD_MAP override this.
      */
 
     game_compat_map = version.x == 1;
