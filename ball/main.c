@@ -246,10 +246,10 @@ static int loop(void)
 
 /*---------------------------------------------------------------------------*/
 
-static char *data_path = NULL;
-static char *demo_path = NULL;
+static char *opt_data;
+static char *opt_replay;
 
-#define usage \
+#define opt_usage \
     L_(                                                                   \
         "Usage: %s [options ...]\n"                                       \
         "Options:\n"                                                      \
@@ -259,11 +259,10 @@ static char *demo_path = NULL;
         "  -r, --replay <file>       play the replay 'file'.\n"           \
     )
 
-#define argument_error(option) { \
-    fprintf(stderr, L_("Option '%s' requires an argument.\n"),  option); \
-}
+#define opt_error(option) \
+    fprintf(stderr, L_("Option '%s' requires an argument.\n"), option)
 
-static void parse_args(int argc, char **argv)
+static void opt_parse(int argc, char **argv)
 {
     int i;
 
@@ -273,7 +272,7 @@ static void parse_args(int argc, char **argv)
     {
         if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help")    == 0)
         {
-            printf(usage, argv[0]);
+            printf(opt_usage, argv[0]);
             exit(EXIT_SUCCESS);
         }
 
@@ -287,10 +286,10 @@ static void parse_args(int argc, char **argv)
         {
             if (i + 1 == argc)
             {
-                argument_error(argv[i]);
+                opt_error(argv[i]);
                 exit(EXIT_FAILURE);
             }
-            data_path = argv[++i];
+            opt_data = argv[++i];
             continue;
         }
 
@@ -298,25 +297,25 @@ static void parse_args(int argc, char **argv)
         {
             if (i + 1 == argc)
             {
-                argument_error(argv[i]);
+                opt_error(argv[i]);
                 exit(EXIT_FAILURE);
             }
-            demo_path = argv[++i];
+            opt_replay = argv[++i];
             continue;
         }
 
-        /* Assume a single unrecognised argument is a replay name. */
+        /* Assume a single unrecognized argument is a replay name. */
 
         if (argc == 2)
         {
-            demo_path = argv[i];
+            opt_replay = argv[i];
             break;
         }
     }
 }
 
-#undef usage
-#undef argument_error
+#undef opt_usage
+#undef opt_error
 
 /*---------------------------------------------------------------------------*/
 
@@ -392,9 +391,9 @@ int main(int argc, char *argv[])
 
     lang_init("neverball");
 
-    parse_args(argc, argv);
+    opt_parse(argc, argv);
 
-    config_paths(data_path);
+    config_paths(opt_data);
     make_dirs_and_migrate();
 
     /* Initialize SDL. */
@@ -431,10 +430,11 @@ int main(int argc, char *argv[])
 
     init_state(&st_null);
 
-    /* Initialise demo playback. */
+    /* Initialize demo playback. */
 
-    if (demo_path && fs_add_path(dir_name(demo_path)) &&
-        progress_replay(base_name(demo_path)))
+    if (opt_replay &&
+        fs_add_path(dir_name(opt_replay)) &&
+        progress_replay(base_name(opt_replay)))
     {
         demo_play_goto(1);
         goto_state(&st_demo_play);
