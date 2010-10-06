@@ -443,9 +443,9 @@ void demo_rename_player(const char *name, const char *player)
 static struct demo  demo_replay;       /* The current demo */
 static struct level demo_level_replay; /* The current level demo-ed*/
 
-const struct demo *curr_demo_replay(void)
+const char *curr_demo(void)
 {
-    return &demo_replay;
+    return demo_replay.filename;
 }
 
 int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
