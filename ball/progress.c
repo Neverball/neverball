@@ -135,7 +135,9 @@ void progress_step(void)
 
         if (goal <= 0)
         {
-            if (!replay) game_set_goal();
+            if (!replay)
+                game_set_goal();
+
             goal = 0;
         }
     }
