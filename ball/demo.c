@@ -470,8 +470,7 @@ static struct lockstep update_step = { demo_update_read, DT };
 
 /*---------------------------------------------------------------------------*/
 
-static struct demo  demo_replay;       /* The current demo */
-static struct level demo_level_replay; /* The current level demo-ed*/
+static struct demo demo_replay;
 
 const char *curr_demo(void)
 {
@@ -486,17 +485,14 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
 
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
     {
+        struct level level;
+
         strncpy(demo_replay.filename, name, MAXSTR - 1);
         strncpy(demo_replay.name,
                 base_name_sans(demo_replay.filename, ".nbr"),
                 PATHMAX - 1);
 
-        if (level_load(demo_replay.file, &demo_level_replay))
-        {
-            demo_level_replay.time = demo_replay.time;
-            demo_level_replay.goal = demo_replay.goal;
-        }
-        else
+        if (!level_load(demo_replay.file, &level))
             return 0;
 
         if (g)  *g  = demo_replay.goal;
@@ -510,25 +506,18 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
          * commands from the replay file.
          */
 
-        if (g)
+        if (game_client_init(demo_replay.file))
         {
-            audio_music_fade_to(0.5f, demo_level_replay.song);
-
-            if (game_client_init(demo_level_replay.file))
+            if (g)
             {
-                demo_update_read(0);
-                return !fs_eof(demo_fp);
+                audio_music_fade_to(0.5f, level.song);
             }
-        }
-
-        /* Likewise, but also queue a command to open the goal. */
-
-        else if (game_client_init(demo_level_replay.file))
-        {
-            union cmd cmd;
-
-            cmd.type = CMD_GOAL_OPEN;
-            game_proxy_enq(&cmd);
+            else
+            {
+                union cmd cmd;
+                cmd.type = CMD_GOAL_OPEN;
+                game_proxy_enq(&cmd);
+            }
 
             demo_update_read(0);
             return !fs_eof(demo_fp);
