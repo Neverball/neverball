@@ -456,6 +456,8 @@ static void grow_step(const struct s_file *fp, float dt)
 
 /*---------------------------------------------------------------------------*/
 
+static struct lockstep server_step;
+
 int game_server_init(const char *file_name, int t, int e)
 {
     struct
@@ -529,6 +531,8 @@ int game_server_init(const char *file_name, int t, int e)
 
     game_cmd_init_balls();
     game_cmd_init_items();
+
+    lockstep_clr(&server_step);
 
     return server_state;
 }
@@ -798,7 +802,7 @@ static int game_step(const float g[3], float dt, int bt)
     return GAME_NONE;
 }
 
-void game_server_step(float dt)
+static void game_server_iter(float dt)
 {
     static const float gup[] = { 0.0f, +9.8f, 0.0f };
     static const float gdn[] = { 0.0f, -9.8f, 0.0f };
@@ -815,6 +819,13 @@ void game_server_step(float dt)
     }
 
     game_cmd_eou();
+}
+
+static struct lockstep server_step = { game_server_iter, DT };
+
+void game_server_step(float dt)
+{
+    lockstep_run(&server_step, dt);
 }
 
 /*---------------------------------------------------------------------------*/

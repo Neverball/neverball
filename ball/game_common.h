@@ -90,4 +90,24 @@ void game_view_fly(struct game_view *, const struct s_file *, float);
 
 /*---------------------------------------------------------------------------*/
 
+#define UPS 90
+#define DT  (1.0f / (float) UPS)
+
+/*
+ * Simple fixed time step scheme.
+ */
+
+struct lockstep
+{
+    void (*step)(float);
+
+    float dt;                           /* Time step length                  */
+    float at;                           /* Accumulator                       */
+};
+
+void lockstep_clr(struct lockstep *);
+void lockstep_run(struct lockstep *, float);
+
+/*---------------------------------------------------------------------------*/
+
 #endif

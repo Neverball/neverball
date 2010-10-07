@@ -380,7 +380,7 @@ static void make_dirs_and_migrate(void)
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
-    int t1, t0, uniform;
+    int t1, t0;
 
     if (!fs_init(argv[0]))
     {
@@ -444,46 +444,26 @@ int main(int argc, char *argv[])
 
     /* Run the main game loop. */
 
-    uniform = config_get_d(CONFIG_UNIFORM);
     t0 = SDL_GetTicks();
 
     while (loop())
     {
-        t1 = SDL_GetTicks();
-
-        if (uniform)
+        if ((t1 = SDL_GetTicks()) > t0)
         {
-            /* Step the game uniformly, as configured. */
+            /* Step the game state. */
 
-            int u;
+            st_timer(0.001f * (t1 - t0));
 
-            for (u = 0; u < abs(uniform); ++u)
-            {
-                st_timer(DT);
-                t0 += (int) (DT * 1000);
-            }
+            t0 = t1;
+
+            /* Render. */
+
+            st_paint(0.001f * t0);
+            video_swap();
+
+            if (config_get_d(CONFIG_NICE))
+                SDL_Delay(1);
         }
-        else
-        {
-            /* Step the game state at least up to the current time. */
-
-            while (t1 > t0)
-            {
-                st_timer(DT);
-                t0 += (int) (DT * 1000);
-            }
-        }
-
-        /* Render. */
-
-        st_paint(0.001f * t0);
-        video_swap();
-
-        if (uniform < 0)
-            shot();
-
-        if (config_get_d(CONFIG_NICE))
-            SDL_Delay(1);
     }
 
     config_save();

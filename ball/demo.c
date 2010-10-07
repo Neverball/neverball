@@ -31,6 +31,7 @@
 #include "game_server.h"
 #include "game_client.h"
 #include "game_proxy.h"
+#include "game_common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -440,6 +441,35 @@ void demo_rename_player(const char *name, const char *player)
 
 /*---------------------------------------------------------------------------*/
 
+static struct lockstep update_step;
+
+static void demo_update_read(float dt)
+{
+    if (demo_fp)
+    {
+        union cmd cmd;
+
+        while (cmd_get(demo_fp, &cmd))
+        {
+            game_proxy_enq(&cmd);
+
+            if (cmd.type == CMD_UPDATES_PER_SECOND)
+                update_step.dt = 1.0f / cmd.ups.n;
+
+            if (cmd.type == CMD_END_OF_UPDATE)
+            {
+                game_client_sync(NULL);
+                break;
+            }
+        }
+
+    }
+}
+
+static struct lockstep update_step = { demo_update_read, DT };
+
+/*---------------------------------------------------------------------------*/
+
 static struct demo  demo_replay;       /* The current demo */
 static struct level demo_level_replay; /* The current level demo-ed*/
 
@@ -450,6 +480,8 @@ const char *curr_demo(void)
 
 int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
 {
+    lockstep_clr(&update_step);
+
     demo_fp = fs_open(name, "r");
 
     if (demo_fp && demo_header_read(demo_fp, &demo_replay))
@@ -482,8 +514,11 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
         {
             audio_music_fade_to(0.5f, demo_level_replay.song);
 
-            return (game_client_init(demo_level_replay.file) &&
-                    demo_replay_step(0.0f));
+            if (game_client_init(demo_level_replay.file))
+            {
+                demo_update_read(0);
+                return !fs_eof(demo_fp);
+            }
         }
 
         /* Likewise, but also queue a command to open the goal. */
@@ -495,36 +530,19 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
             cmd.type = CMD_GOAL_OPEN;
             game_proxy_enq(&cmd);
 
-            return demo_replay_step(0.0f);
+            demo_update_read(0);
+            return !fs_eof(demo_fp);
         }
     }
     return 0;
 }
 
-/*
- * Read and enqueue commands from the replay file, up to and including
- * CMD_END_OF_UPDATE.  Return 0 on EOF.  Otherwise, run the commands
- * on the client and return 1.
- */
 int demo_replay_step(float dt)
 {
     if (demo_fp)
     {
-        union cmd cmd;
-
-        while (cmd_get(demo_fp, &cmd))
-        {
-            game_proxy_enq(&cmd);
-
-            if (cmd.type == CMD_END_OF_UPDATE)
-                break;
-        }
-
-        if (!fs_eof(demo_fp))
-        {
-            game_client_sync(NULL);
-            return 1;
-        }
+        lockstep_run(&update_step, dt);
+        return !fs_eof(demo_fp);
     }
     return 0;
 }

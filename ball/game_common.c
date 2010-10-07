@@ -155,3 +155,21 @@ void game_view_fly(struct game_view *view, const struct s_file *fp, float k)
 }
 
 /*---------------------------------------------------------------------------*/
+
+void lockstep_clr(struct lockstep *ls)
+{
+    ls->at = 0;
+}
+
+void lockstep_run(struct lockstep *ls, float dt)
+{
+    ls->at += dt;
+
+    while (ls->at >= ls->dt)
+    {
+        ls->step(ls->dt);
+        ls->at -= ls->dt;
+    }
+}
+
+/*---------------------------------------------------------------------------*/

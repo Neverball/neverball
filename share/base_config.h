@@ -88,9 +88,6 @@
 #define PATHMAX 64
 #define MAXNAM 9
 
-#define UPS 90
-#define DT  (1.0f / (float) UPS)
-
 /*---------------------------------------------------------------------------*/
 
 void config_paths(const char *);
