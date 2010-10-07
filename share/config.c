@@ -97,7 +97,6 @@ int CONFIG_ROTATE_FAST;
 int CONFIG_ROTATE_SLOW;
 int CONFIG_CHEAT;
 int CONFIG_STATS;
-int CONFIG_UNIFORM;
 int CONFIG_SCREENSHOT;
 int CONFIG_LOCK_GOALS;
 
@@ -193,7 +192,6 @@ static struct
     { &CONFIG_ROTATE_SLOW, "rotate_slow", 150 },
     { &CONFIG_CHEAT,       "cheat",       0 },
     { &CONFIG_STATS,       "stats",       0 },
-    { &CONFIG_UNIFORM,     "uniform",     0 },
     { &CONFIG_SCREENSHOT,  "screenshot",  0 },
     { &CONFIG_LOCK_GOALS,  "lock_goals",  0 }
 };

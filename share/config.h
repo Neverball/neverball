@@ -103,7 +103,6 @@ extern int CONFIG_ROTATE_FAST;
 extern int CONFIG_ROTATE_SLOW;
 extern int CONFIG_CHEAT;
 extern int CONFIG_STATS;
-extern int CONFIG_UNIFORM;
 extern int CONFIG_SCREENSHOT;
 extern int CONFIG_LOCK_GOALS;
 
