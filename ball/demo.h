@@ -11,8 +11,8 @@
 
 struct demo
 {
-    char   name[PATHMAX];     /* demo basename    */
-    char   filename[MAXSTR];  /* demo path        */
+    char   name[PATHMAX];               /* Demo basename                     */
+    char   filename[MAXSTR];            /* Demo path                         */
 
     char   player[MAXSTR];
     time_t date;
@@ -22,15 +22,16 @@ struct demo
     int    status;
     int    mode;
 
-    char   shot[PATHMAX];   /* image filename */
-    char   file[PATHMAX];   /* level filename */
+    char   shot[PATHMAX];               /* Image filename                    */
+    char   file[PATHMAX];               /* Level filename                    */
 
-    int    time;            /* time limit        */
-    int    goal;            /* coin limit        */
-    int    goal_e;          /* goal enabled flag */
-    int    score;           /* total coins       */
-    int    balls;           /* number of balls   */
-    int    times;           /* total time        */
+    int    time;                        /* Time limit                        */
+    int    goal;                        /* Coin limit                        */
+    int    goal_e;                      /* Goal enabled flag                 */
+    int    score;                       /* Total coins                       */
+    int    balls;                       /* Number of balls                   */
+    int    times;                       /* Total time                        */
+
 };
 
 /*---------------------------------------------------------------------------*/
