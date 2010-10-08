@@ -319,4 +319,6 @@ union cmd
 int cmd_put(fs_file, const union cmd *);
 int cmd_get(fs_file, union cmd *);
 
+void cmd_free(union cmd *);
+
 #endif

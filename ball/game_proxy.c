@@ -50,5 +50,5 @@ void game_proxy_clr(void)
     union cmd *cmdp;
 
     while ((cmdp = game_proxy_deq()))
-        free(cmdp);
+        cmd_free(cmdp);
 }

@@ -176,19 +176,11 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_SOUND:
-            /* Play the sound, then free its dr.file name. */
+            /* Play the sound. */
 
             if (cmd->sound.n)
-            {
                 audio_play(cmd->sound.n, cmd->sound.a);
 
-                /*
-                 * FIXME Command memory management should be done
-                 * elsewhere and done properly.
-                 */
-
-                free(cmd->sound.n);
-            }
             break;
 
         case CMD_TIMER:
@@ -350,7 +342,6 @@ static void game_run_cmd(const union cmd *cmd)
              * map.)
              */
 
-            free(cmd->map.name);
             game_compat_map = version.x == cmd->map.version.x;
             break;
 
@@ -373,17 +364,12 @@ void game_client_sync(fs_file demo_fp)
 
     while ((cmdp = game_proxy_deq()))
     {
-        /*
-         * Note: cmd_put is called first here because game_run_cmd
-         * frees some command struct members.
-         */
-
         if (demo_fp)
             cmd_put(demo_fp, cmdp);
 
         game_run_cmd(cmdp);
 
-        free(cmdp);
+        cmd_free(cmdp);
     }
 }
 

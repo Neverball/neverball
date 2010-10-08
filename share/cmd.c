@@ -714,3 +714,27 @@ int cmd_get(fs_file fp, union cmd *cmd)
 }
 
 /*---------------------------------------------------------------------------*/
+
+void cmd_free(union cmd *cmd)
+{
+    if (cmd)
+    {
+        switch (cmd->type)
+        {
+        case CMD_SOUND:
+            free(cmd->sound.n);
+            break;
+
+        case CMD_MAP:
+            free(cmd->map.name);
+            break;
+
+        default:
+            break;
+        }
+
+        free(cmd);
+    }
+}
+
+/*---------------------------------------------------------------------------*/
