@@ -863,8 +863,10 @@ void game_set_ang(int x, int z)
 
 void game_set_pos(int x, int y)
 {
-    input_set_x(input_get_x() + 40.0f * y / config_get_d(CONFIG_MOUSE_SENSE));
-    input_set_z(input_get_z() + 40.0f * x / config_get_d(CONFIG_MOUSE_SENSE));
+    const float range = ANGLE_BOUND * 2;
+
+    input_set_x(input_get_x() + range * y / config_get_d(CONFIG_MOUSE_SENSE));
+    input_set_z(input_get_z() + range * x / config_get_d(CONFIG_MOUSE_SENSE));
 }
 
 void game_set_cam(int c)
