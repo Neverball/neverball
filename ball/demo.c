@@ -481,48 +481,55 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
 {
     lockstep_clr(&update_step);
 
-    demo_fp = fs_open(name, "r");
-
-    if (demo_fp && demo_header_read(demo_fp, &demo_replay))
+    if ((demo_fp = fs_open(name, "r")))
     {
-        struct level level;
-
-        strncpy(demo_replay.filename, name, MAXSTR - 1);
-        strncpy(demo_replay.name,
-                base_name_sans(demo_replay.filename, ".nbr"),
-                PATHMAX - 1);
-
-        if (!level_load(demo_replay.file, &level))
-            return 0;
-
-        if (g)  *g  = demo_replay.goal;
-        if (m)  *m  = demo_replay.mode;
-        if (b)  *b  = demo_replay.balls;
-        if (s)  *s  = demo_replay.score;
-        if (tt) *tt = demo_replay.times;
-
-        /*
-         * Init client and then read and process the first batch of
-         * commands from the replay file.
-         */
-
-        if (game_client_init(demo_replay.file))
+        if (demo_header_read(demo_fp, &demo_replay))
         {
-            if (g)
-            {
-                audio_music_fade_to(0.5f, level.song);
-            }
-            else
-            {
-                union cmd cmd;
-                cmd.type = CMD_GOAL_OPEN;
-                game_proxy_enq(&cmd);
-            }
+            struct level level;
 
-            demo_update_read(0);
-            return !fs_eof(demo_fp);
+            strncpy(demo_replay.filename, name, MAXSTR - 1);
+            strncpy(demo_replay.name,
+                    base_name_sans(demo_replay.filename, ".nbr"),
+                    PATHMAX - 1);
+
+            if (level_load(demo_replay.file, &level))
+            {
+                if (g)  *g  = demo_replay.goal;
+                if (m)  *m  = demo_replay.mode;
+                if (b)  *b  = demo_replay.balls;
+                if (s)  *s  = demo_replay.score;
+                if (tt) *tt = demo_replay.times;
+
+                /*
+                 * Init client and then read and process the first batch of
+                 * commands from the replay file.
+                 */
+
+                if (game_client_init(demo_replay.file))
+                {
+                    if (g)
+                    {
+                        audio_music_fade_to(0.5f, level.song);
+                    }
+                    else
+                    {
+                        union cmd cmd;
+                        cmd.type = CMD_GOAL_OPEN;
+                        game_proxy_enq(&cmd);
+                    }
+
+                    demo_update_read(0);
+
+                    if (!fs_eof(demo_fp))
+                        return 1;
+                }
+            }
         }
+
+        fs_close(demo_fp);
+        demo_fp = NULL;
     }
+
     return 0;
 }
 
