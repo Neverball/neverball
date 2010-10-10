@@ -12,6 +12,7 @@
 "author" "Challenge Space Yard"
 "levelname" "Ultimate Challenge"
 "version" "2"
+"coin_hs" "315 220"
 // brush 0
 {
 ( 0 -48 16 ) ( 192 -48 16 ) ( 185 -106 23 ) mtrl/turf-green-dark 0 0 0 0.5 0.5 0 0 0
