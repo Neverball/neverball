@@ -603,7 +603,6 @@
 "classname" "info_player_deathmatch"
 "origin" "192 192 8"
 "radius" "0.1375"
-"angle" "-1.40334e-014"
 }
 // entity 2
 {
@@ -640,7 +639,6 @@
 "classname" "target_position"
 "origin" "192 192 0"
 "targetname" "goal"
-"angle" "-1.40334e-014"
 }
 // entity 8
 {

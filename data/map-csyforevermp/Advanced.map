@@ -1411,7 +1411,6 @@
 "classname" "info_player_deathmatch"
 "radius" "0.1375"
 "origin" "-704 720 72"
-"angle" "180"
 }
 // entity 21
 {

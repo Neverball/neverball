@@ -2318,7 +2318,6 @@
 "classname" "target_position"
 "origin" "144 1392 -80"
 "targetname" "intermission"
-"angle" "-90"
 }
 // entity 31
 {

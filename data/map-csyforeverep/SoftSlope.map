@@ -2,7 +2,6 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Snow Land\A snowy area."
 // brush 0
 {
 ( -512 0 -32 ) ( -512 0 -16 ) ( -568 -62 -16 ) mtrl/turf-green-small 0 0 0 0.5 0.5 0 0 0
@@ -1313,42 +1312,36 @@
 "classname" "info_player_start"
 "origin" "-192 -64 -24"
 "radius" "0.0625"
-"angle" "-1.40334e-014"
 }
 // entity 2
 {
 "classname" "info_player_start"
 "origin" "-192 -64 -24"
 "radius" "0.0625"
-"angle" "-1.40334e-014"
 }
 // entity 3
 {
 "classname" "info_player_start"
 "origin" "-192 -64 -24"
 "radius" "0.0625"
-"angle" "-1.40334e-014"
 }
 // entity 4
 {
 "classname" "info_player_start"
 "origin" "-192 -64 -24"
 "radius" "0.0625"
-"angle" "-1.40334e-014"
 }
 // entity 5
 {
 "classname" "info_player_start"
 "origin" "-192 -64 -24"
 "radius" "0.0625"
-"angle" "-1.40334e-014"
 }
 // entity 6
 {
 "classname" "info_player_deathmatch"
 "origin" "-576 -64 -8"
 "radius" "0.1375"
-"angle" "-3.50835e-015"
 }
 // entity 7
 {
@@ -1361,7 +1354,6 @@
 "classname" "target_position"
 "origin" "-576 -64 -16"
 "targetname" "goal"
-"angle" "-3.50835e-015"
 }
 // entity 9
 {

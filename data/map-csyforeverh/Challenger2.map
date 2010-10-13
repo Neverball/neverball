@@ -2678,7 +2678,6 @@
 "classname" "target_teleporter"
 "origin" "2112 192 0"
 "target" "target_teleporter1"
-"angle" "180"
 }
 // entity 173
 {
