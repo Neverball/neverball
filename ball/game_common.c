@@ -30,6 +30,9 @@ const char *view_to_str(int v)
 
 /*---------------------------------------------------------------------------*/
 
+const float GRAVITY_UP[] = { 0.0f, +9.8f, 0.0f };
+const float GRAVITY_DN[] = { 0.0f, -9.8f, 0.0f };
+
 void game_tilt_init(struct game_tilt *tilt)
 {
     tilt->x[0] = 1.0f;

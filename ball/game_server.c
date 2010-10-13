@@ -804,16 +804,13 @@ static int game_step(const float g[3], float dt, int bt)
 
 static void game_server_iter(float dt)
 {
-    static const float gup[] = { 0.0f, +9.8f, 0.0f };
-    static const float gdn[] = { 0.0f, -9.8f, 0.0f };
-
     switch (status)
     {
-    case GAME_GOAL: game_step(gup, dt, 0); break;
-    case GAME_FALL: game_step(gdn, dt, 0); break;
+    case GAME_GOAL: game_step(GRAVITY_UP, dt, 0); break;
+    case GAME_FALL: game_step(GRAVITY_DN, dt, 0); break;
 
     case GAME_NONE:
-        if ((status = game_step(gdn, dt, 1)) != GAME_NONE)
+        if ((status = game_step(GRAVITY_DN, dt, 1)) != GAME_NONE)
             game_cmd_status();
         break;
     }

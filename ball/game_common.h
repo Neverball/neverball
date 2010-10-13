@@ -60,6 +60,9 @@ const char *view_to_str(int);
 
 /*---------------------------------------------------------------------------*/
 
+extern const float GRAVITY_UP[];
+extern const float GRAVITY_DN[];
+
 struct game_tilt
 {
     float x[3], rx;

@@ -61,9 +61,6 @@ struct
 
 static void game_run_cmd(const union cmd *cmd)
 {
-    static const float gup[] = { 0.0f, +9.8f, 0.0f };
-    static const float gdn[] = { 0.0f, -9.8f, 0.0f };
-
     /*
      * Neverball <= 1.5.1 does not send explicit tilt axes, rotation
      * happens directly around view vectors.  So for compatibility if
@@ -97,9 +94,9 @@ static void game_run_cmd(const union cmd *cmd)
             /* Compute gravity for particle effects. */
 
             if (status == GAME_GOAL)
-                game_tilt_grav(v, gup, &dr.tilt);
+                game_tilt_grav(v, GRAVITY_UP, &dr.tilt);
             else
-                game_tilt_grav(v, gdn, &dr.tilt);
+                game_tilt_grav(v, GRAVITY_DN, &dr.tilt);
 
             /* Step particle, goal and jump effects. */
 
