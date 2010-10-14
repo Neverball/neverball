@@ -558,7 +558,8 @@ static float sol_test_body(float dt,
 
         /* Transform velocity. */
 
-        q_rot(ball.v, e, up->v);
+        v_sub(v, up->v, W);
+        q_rot(ball.v, e, v);
 
         /* Also add the velocity from rotation. */
 
@@ -571,7 +572,9 @@ static float sol_test_body(float dt,
         v[1] = 0.0f;
         v[2] = 0.0f;
 
-        q_rot(w, e, W);
+        w[0] = 0.0f;
+        w[1] = 0.0f;
+        w[2] = 0.0f;
 
         if ((u = sol_test_node(t, U, &ball, fp, np, v, w)) < t)
         {
