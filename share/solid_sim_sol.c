@@ -580,17 +580,28 @@ static float sol_test_body(float dt,
         {
             float d[4];
 
+            /* Compute the final orientation. */
+
             q_by_axisangle(d, A, v_len(A) * u);
             q_mul(e, E, d);
             q_nrm(e, e);
 
+            /* Rotate the point of impact. */
+
             q_rot(T, e, U);
+
+            /* Compute linear velocity for collison response. */
 
             v_crs(V, A, T);
             v_add(V, V, W);
 
+            /* Return world space coordinates. */
+
             v_add(T, O, T);
-            v_mad(O, T, W, u);
+
+            /* Move forward. */
+
+            v_mad(T, T, W, u);
 
             t = u;
         }
