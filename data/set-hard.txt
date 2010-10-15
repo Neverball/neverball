@@ -12,7 +12,7 @@ map-hard/rampup.sol
 map-hard/check.sol
 map-hard/tilt.sol
 map-hard/sync.sol
-map-hard/nostairs.sol
+map-hard/walk-the-plank.sol
 map-hard/frogger.sol
 map-hard/quads.sol
 map-hard/teleport.sol
