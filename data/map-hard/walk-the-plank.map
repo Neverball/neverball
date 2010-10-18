@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "version" "2.0"
 "author" "Jānis Rūcis"
-"contributor" "Mehdi Yousfi-Monod"
+"contributor" "Mehdi Yousfi-Monod, Florian Priester"
 "shot" "shot-hard/walk-the-plank.jpg"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
