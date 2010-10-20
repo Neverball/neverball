@@ -435,7 +435,7 @@ int  game_client_init(const char *file_name)
     ups          = 0;
     first_update = 1;
 
-    back_init(grad_name, config_get_d(CONFIG_GEOMETRY));
+    back_init(grad_name);
     sol_load_gl(&dr.back, back_name, 0);
 
     return dr.state;

@@ -146,7 +146,7 @@ static void load_ball_demo(void)
     game_client_fly(0);
     game_kill_fade();
 
-    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+    back_init("back/gui.png");
 }
 
 static int ball_gui(void)

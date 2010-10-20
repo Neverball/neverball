@@ -40,13 +40,12 @@ extern const char ICON[];
 
 /*---------------------------------------------------------------------------*/
 
-enum {
+enum
+{
     CONF_FULL = 1,
     CONF_WIN,
     CONF_TEXHI,
     CONF_TEXLO,
-    CONF_GEOHI,
-    CONF_GEOLO,
     CONF_REFON,
     CONF_REFOF,
     CONF_BACON,
@@ -95,18 +94,6 @@ static int conf_action(int i)
     case CONF_TEXLO:
         goto_state(&st_null);
         config_set_d(CONFIG_TEXTURES, 2);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_GEOHI:
-        goto_state(&st_null);
-        config_set_d(CONFIG_GEOMETRY, 1);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_GEOLO:
-        goto_state(&st_null);
-        config_set_d(CONFIG_GEOMETRY, 0);
         goto_state(&st_conf);
         break;
 
@@ -201,7 +188,6 @@ static int conf_gui(void)
     {
         int f = config_get_d(CONFIG_FULLSCREEN);
         int t = config_get_d(CONFIG_TEXTURES);
-        int g = config_get_d(CONFIG_GEOMETRY);
         int r = config_get_d(CONFIG_REFLECTION);
         int b = config_get_d(CONFIG_BACKGROUND);
         int h = config_get_d(CONFIG_SHADOW);
@@ -254,15 +240,6 @@ static int conf_gui(void)
             gui_state(kd, _("High"), GUI_SML, CONF_TEXHI, (t == 1));
 
             gui_label(jd, _("Textures"), GUI_SML, GUI_ALL, 0, 0);
-        }
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            gui_state(kd, _("Low"),  GUI_SML, CONF_GEOLO, (g == 0));
-            gui_state(kd, _("High"), GUI_SML, CONF_GEOHI, (g == 1));
-
-            gui_label(jd, _("Geometry"), GUI_SML, GUI_ALL, 0, 0);
         }
 
         if ((jd = gui_harray(id)) &&
@@ -365,7 +342,7 @@ static int conf_gui(void)
 static int conf_enter(struct state *st, struct state *prev)
 {
     game_client_free();
-    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+    back_init("back/gui.png");
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
     return conf_gui();
@@ -418,15 +395,13 @@ static int null_enter(struct state *st, struct state *prev)
 
 static void null_leave(struct state *st, struct state *next, int id)
 {
-    int g = config_get_d(CONFIG_GEOMETRY);
-
     part_init(GOAL_HEIGHT, JUMP_HEIGHT);
     shad_init();
     ball_init();
     item_init();
-    goal_init(g);
-    jump_init(g);
-    swch_init(g);
+    goal_init();
+    jump_init();
+    swch_init();
     gui_init();
     hud_init();
 }

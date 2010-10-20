@@ -38,7 +38,6 @@ extern int CONFIG_HEIGHT;
 extern int CONFIG_STEREO;
 extern int CONFIG_CAMERA;
 extern int CONFIG_TEXTURES;
-extern int CONFIG_GEOMETRY;
 extern int CONFIG_REFLECTION;
 extern int CONFIG_MULTISAMPLE;
 extern int CONFIG_MIPMAP;

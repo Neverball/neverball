@@ -231,7 +231,7 @@ void hole_goto(int h, int p)
         player = (hole - 1) % party + 1;
         done   = 0;
 
-        back_init(hole_v[hole].back, 1);
+        back_init(hole_v[hole].back);
         game_init(hole_v[hole].file);
 
         for (i = 1; i <= party; i++)

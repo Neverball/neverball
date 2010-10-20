@@ -32,7 +32,6 @@ int CONFIG_HEIGHT;
 int CONFIG_STEREO;
 int CONFIG_CAMERA;
 int CONFIG_TEXTURES;
-int CONFIG_GEOMETRY;
 int CONFIG_REFLECTION;
 int CONFIG_MULTISAMPLE;
 int CONFIG_MIPMAP;
@@ -122,7 +121,6 @@ static struct
     { &CONFIG_STEREO,       "stereo",       0 },
     { &CONFIG_CAMERA,       "camera",       0 },
     { &CONFIG_TEXTURES,     "textures",     1 },
-    { &CONFIG_GEOMETRY,     "geometry",     1 },
     { &CONFIG_REFLECTION,   "reflection",   1 },
     { &CONFIG_MULTISAMPLE,  "multisample",  0 },
     { &CONFIG_MIPMAP,       "mipmap",       0 },

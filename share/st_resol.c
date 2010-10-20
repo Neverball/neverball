@@ -116,7 +116,7 @@ static int resol_gui(void)
 
 static int resol_enter(struct state *st, struct state *prev)
 {
-    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+    back_init("back/gui.png");
 
     modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
 

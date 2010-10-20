@@ -128,7 +128,7 @@ static int name_enter(struct state *st, struct state *prev)
     if (draw_back)
     {
         game_client_free();
-        back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+        back_init("back/gui.png");
     }
 
     SDL_EnableUNICODE(1);

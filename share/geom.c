@@ -32,9 +32,9 @@
 
 static GLuint mark_list;
 
-void mark_init(int b)
+void mark_init(void)
 {
-    int i, slices = b ? 32 : 16;
+    int i, slices = 32;
 
     mark_list = glGenLists(1);
 
@@ -82,9 +82,9 @@ void mark_free(void)
 
 static GLuint goal_list;
 
-void goal_init(int b)
+void goal_init(void)
 {
-    int i, n = b ? 32 : 8;
+    int i, n = 32;
 
     goal_list = glGenLists(1);
 
@@ -126,9 +126,9 @@ void goal_draw(void)
 
 static GLuint jump_list;
 
-void jump_init(int b)
+void jump_init(void)
 {
-    int k, i, n = b ? 32 : 8;
+    int k, i, n = 32;
 
     jump_list = glGenLists(2);
 
@@ -181,9 +181,9 @@ static GLfloat swch_colors[8][4] = {
     { 0.0f, 1.0f, 0.0f, 0.8f }, /* green in */
     { 0.0f, 1.0f, 0.0f, 0.0f }};
 
-void swch_init(int b)
+void swch_init(void)
 {
-    int k, i, n = b ? 32 : 8;
+    int k, i, n = 32;
 
     swch_list = glGenLists(4);
 
@@ -230,9 +230,9 @@ void swch_draw(int b, int e)
 
 static GLuint flag_list;
 
-void flag_init(int b)
+void flag_init(void)
 {
-    int i, n = b ? 8 : 4;
+    int i, n = 8;
 
     flag_list = glGenLists(1);
 
