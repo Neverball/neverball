@@ -694,7 +694,29 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
         while (c-- > 0 && tt > 0)
         {
-            nt = sol_test_file(tt, P, V, up, fp);
+            float st;
+            int bi;
+
+            /* HACK: avoid stepping across path changes. */
+
+            st = tt;
+
+            for (bi = 0; bi < fp->bc; bi++)
+            {
+                struct s_body *bp = fp->bv + bi;
+                struct s_path *pp = fp->pv + bp->pi;
+
+                if (bp->pi < 0)
+                    continue;
+
+                if (!pp->f)
+                    continue;
+
+                if (bp->t + st > pp->t)
+                    st = pp->t - bp->t;
+            }
+
+            nt = sol_test_file(st, P, V, up, fp);
 
             cmd.type       = CMD_STEP_SIMULATION;
             cmd.stepsim.dt = nt;
@@ -704,7 +726,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             sol_swch_step(fp, nt);
             sol_ball_step(fp, nt);
 
-            if (nt < tt)
+            if (nt < st)
                 if (b < (d = sol_bounce(up, P, V, nt)))
                     b = d;
 
