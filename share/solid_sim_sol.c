@@ -515,13 +515,13 @@ static float sol_test_body(float dt,
                            const struct s_file *fp,
                            const struct s_body *bp)
 {
-    float U[3], O[3], E[4], W[3], A[3], u, t = dt;
+    float U[3], O[3], E[4], W[3], A[3], u;
 
     const struct s_node *np = fp->nv + bp->ni;
 
     sol_body_p(O, fp, bp->pi, bp->t);
     sol_body_v(W, fp, bp->pi, bp->t, dt);
-    sol_body_e(E, fp, bp);
+    sol_body_e(E, fp, bp, 0);
     sol_body_w(A, fp, bp);
 
     /*
@@ -539,44 +539,35 @@ static float sol_test_body(float dt,
     {
         /* The body has a non-identity orientation or it is rotating. */
 
-        struct s_ball ball = *up;
-        float e[4], w[3], v[3];
+        struct s_ball ball;
+        float e[4], p0[3], p1[3];
+        const float z[3] = { 0 };
 
-        e[0] =  E[0];
-        e[1] = -E[1];
-        e[2] = -E[2];
-        e[3] = -E[3];
+        /* First, calculate position at start and end of time interval. */
 
-        w[0] = -A[0];
-        w[1] = -A[1];
-        w[2] = -A[2];
+        v_sub(p0, up->p, O);
+        v_cpy(p1, p0);
+        q_conj(e, E);
+        q_rot(p0, e, p0);
 
-        /* Transform position. */
+        v_mad(p1, p1, up->v, dt);
+        v_mad(p1, p1, W, -dt);
+        sol_body_e(e, fp, bp, dt);
+        q_conj(e, e);
+        q_rot(p1, e, p1);
 
-        v_sub(v, up->p, O);
-        q_rot(ball.p, e, v);
+        /* Set up ball struct with values relative to body. */
 
-        /* Transform velocity. */
+        ball = *up;
 
-        v_sub(v, up->v, W);
-        q_rot(ball.v, e, v);
+        v_cpy(ball.p, p0);
 
-        /* Also add the velocity from rotation. */
+        /* Calculate velocity from start/end positions and time. */
 
-        v_crs(v, w, ball.p);
-        v_add(ball.v, ball.v, v);
+        v_sub(ball.v, p1, p0);
+        v_scl(ball.v, ball.v, 1.0f / dt);
 
-        /* Force the solver to work in body space. */
-
-        v[0] = 0.0f;
-        v[1] = 0.0f;
-        v[2] = 0.0f;
-
-        w[0] = 0.0f;
-        w[1] = 0.0f;
-        w[2] = 0.0f;
-
-        if ((u = sol_test_node(t, U, &ball, fp, np, v, w)) < t)
+        if ((u = sol_test_node(dt, U, &ball, fp, np, z, z)) < dt)
         {
             float d[4];
 
@@ -586,36 +577,33 @@ static float sol_test_body(float dt,
             q_mul(e, E, d);
             q_nrm(e, e);
 
-            /* Rotate the point of impact. */
-
-            q_rot(T, e, U);
-
-            /* Compute linear velocity for collison response. */
-
-            v_crs(V, A, T);
-            v_add(V, V, W);
-
             /* Return world space coordinates. */
 
+            q_rot(T, e, U);
             v_add(T, O, T);
 
             /* Move forward. */
 
             v_mad(T, T, W, u);
 
-            t = u;
+            /* Express "non-ball" velocity. */
+
+            q_rot(V, e, ball.v);
+            v_sub(V, up->v, V);
+
+            dt = u;
         }
     }
     else
     {
-        if ((u = sol_test_node(t, U, up, fp, np, O, W)) < t)
+        if ((u = sol_test_node(dt, U, up, fp, np, O, W)) < dt)
         {
             v_cpy(T, U);
             v_cpy(V, W);
-            t = u;
+            dt = u;
         }
     }
-    return t;
+    return dt;
 }
 
 static float sol_test_file(float dt,

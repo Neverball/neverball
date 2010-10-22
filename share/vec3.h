@@ -117,6 +117,13 @@ void   m_view(float *, const float *,
     (q)[3] = (r)[3];     \
 } while (0)
 
+#define q_conj(q, r) do { \
+    (q)[0] =  (r)[0];     \
+    (q)[1] = -(r)[1];     \
+    (q)[2] = -(r)[2];     \
+    (q)[3] = -(r)[3];     \
+} while (0)
+
 void q_as_axisangle(const float q[4], float u[3], float *a);
 void q_by_axisangle(float q[4], const float u[3], float a);
 

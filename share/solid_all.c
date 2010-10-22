@@ -85,7 +85,8 @@ void sol_body_v(float v[3],
 
 void sol_body_e(float e[4],
                 const struct s_file *fp,
-                const struct s_body *bp)
+                const struct s_body *bp,
+                float dt)
 {
     struct s_path *pp = fp->pv + bp->pi;
 
@@ -95,7 +96,10 @@ void sol_body_e(float e[4],
 
         if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
         {
-            q_slerp(e, pp->e, pq->e, bp->t / pp->t);
+            if (!pp->f)
+                dt = 0;
+
+            q_slerp(e, pp->e, pq->e, (bp->t + dt) / pp->t);
             return;
         }
     }
