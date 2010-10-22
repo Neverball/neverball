@@ -692,8 +692,10 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
         /* Test for collision. */
 
-        while (c > 0 && tt > 0 && tt > (nt = sol_test_file(tt, P, V, up, fp)))
+        while (c-- > 0 && tt > 0)
         {
+            nt = sol_test_file(tt, P, V, up, fp);
+
             cmd.type       = CMD_STEP_SIMULATION;
             cmd.stepsim.dt = nt;
             sol_cmd_enq(&cmd);
@@ -702,23 +704,12 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             sol_swch_step(fp, nt);
             sol_ball_step(fp, nt);
 
+            if (nt < tt)
+                if (b < (d = sol_bounce(up, P, V, nt)))
+                    b = d;
+
             tt -= nt;
-
-            if (b < (d = sol_bounce(up, P, V, nt)))
-                b = d;
-
-            c--;
         }
-
-        cmd.type       = CMD_STEP_SIMULATION;
-        cmd.stepsim.dt = tt;
-        sol_cmd_enq(&cmd);
-
-        sol_body_step(fp, tt);
-        sol_swch_step(fp, tt);
-        sol_ball_step(fp, tt);
-
-        /* Apply the ball's accelleration to the pendulum. */
 
         v_sub(a, up->v, a);
 
