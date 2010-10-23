@@ -173,6 +173,7 @@ D: Bounces with moving objects
 D: Significant mapc optimisations
 D: Code review, suggestions and comments
 D: Edge intersection handling
+D: Rotating platforms
 
 N: Georg Wachter (nue)
 E: georgwachter@gmail.com
