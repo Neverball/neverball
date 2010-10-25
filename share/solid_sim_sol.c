@@ -704,16 +704,17 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             for (bi = 0; bi < fp->bc; bi++)
             {
                 struct s_body *bp = fp->bv + bi;
-                struct s_path *pp = fp->pv + bp->pi;
 
-                if (bp->pi < 0)
-                    continue;
+                if (bp->pi >= 0)
+                {
+                    struct s_path *pp = fp->pv + bp->pi;
 
-                if (!pp->f)
-                    continue;
+                    if (!pp->f)
+                        continue;
 
-                if (bp->t + st > pp->t)
-                    st = pp->t - bp->t;
+                    if (bp->t + st > pp->t)
+                        st = pp->t - bp->t;
+                }
             }
 
             nt = sol_test_file(st, P, V, up, fp);
