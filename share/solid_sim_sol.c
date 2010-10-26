@@ -641,7 +641,7 @@ static float sol_test_file(float dt,
 float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 {
     float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
-    int c = 16;
+    int c;
 
     union cmd cmd;
 
@@ -692,7 +692,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
         /* Test for collision. */
 
-        while (c-- > 0 && tt > 0)
+        for (c = 16; c > 0 && tt > 0; c--)
         {
             float st;
             int bi;
@@ -717,7 +717,12 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                 }
             }
 
-            nt = sol_test_file(st, P, V, up, fp);
+            /* Miss collisions if we reach the iteration limit. */
+
+            if (c > 1)
+                nt = sol_test_file(st, P, V, up, fp);
+            else
+                nt = tt;
 
             cmd.type       = CMD_STEP_SIMULATION;
             cmd.stepsim.dt = nt;

@@ -311,3 +311,63 @@
 "target" "guard1_out"
 "state" "1"
 }
+// entity 21
+{
+"classname" "path_corner"
+"origin" "2560.000000 -320.000000 192.000000"
+"targetname" "crush3"
+"target" "crush4"
+"speed" "1"
+}
+// entity 22
+{
+"classname" "path_corner"
+"origin" "2560.000000 -448.000000 192.000000"
+"targetname" "crush4"
+"target" "crush3"
+"speed" "4"
+}
+// entity 23
+{
+"classname" "path_corner"
+"origin" "2560.000000 -64.000000 192.000000"
+"targetname" "crush1"
+"target" "crush2"
+"speed" "4"
+}
+// entity 24
+{
+"classname" "path_corner"
+"origin" "2560.000000 -192.000000 192.000000"
+"targetname" "crush2"
+"target" "crush1"
+"speed" "1"
+}
+// entity 25
+{
+"classname" "func_train"
+"target" "crush4"
+// brush 0
+{
+( 2616 -392 144 ) ( 2616 -504 144 ) ( 2488 -392 144 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+( 2624 -384 64 ) ( 2496 -384 64 ) ( 2624 -384 -64 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
+( 2624 -392 64 ) ( 2624 -392 -64 ) ( 2624 -504 64 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+( 2488 -504 16 ) ( 2616 -504 16 ) ( 2488 -392 16 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+( 2496 -400 -64 ) ( 2496 -400 64 ) ( 2624 -400 -64 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+( 2496 -504 -64 ) ( 2496 -392 -64 ) ( 2496 -504 64 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+}
+}
+// entity 26
+{
+"classname" "func_train"
+"target" "crush1"
+// brush 0
+{
+( 2504 -8 16 ) ( 2504 -120 16 ) ( 2632 -8 16 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+( 2496 -112 96 ) ( 2624 -112 96 ) ( 2496 -112 224 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+( 2496 -8 96 ) ( 2496 -8 224 ) ( 2496 -120 96 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+( 2632 -120 144 ) ( 2504 -120 144 ) ( 2632 -8 144 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+( 2624 -128 224 ) ( 2624 -128 96 ) ( 2496 -128 224 ) mtrl/caution 0 0 0 0.5 0.5 0 0 0
+( 2624 -120 224 ) ( 2624 -8 224 ) ( 2624 -120 96 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
+}
+}
