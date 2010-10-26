@@ -29,9 +29,6 @@
 #include "st_shared.h"
 #include "st_save.h"
 
-extern struct state st_save;
-extern struct state st_clobber;
-
 static char filename[MAXSTR];
 
 /*---------------------------------------------------------------------------*/

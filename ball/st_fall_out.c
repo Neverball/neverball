@@ -111,7 +111,7 @@ static int fall_out_enter(struct state *st, struct state *prev)
 {
     audio_music_fade_out(2.0f);
     video_clr_grab();
-    resume = (prev == &st_fall_out);
+    resume = (prev == &st_fall_out || prev == &st_save);
     return fall_out_gui();
 }
 

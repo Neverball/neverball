@@ -241,7 +241,7 @@ static int goal_enter(struct state *st, struct state *prev)
 
     audio_music_fade_out(2.0f);
     video_clr_grab();
-    resume = (prev == &st_goal || prev == &st_name);
+    resume = (prev == &st_goal || prev == &st_name || prev == &st_save);
     return goal_gui();
 }
 
