@@ -57,25 +57,26 @@ struct
     int x, y;
 } version;                              /* Current map version               */
 
+/*
+ * Neverball <= 1.5.1 does not send explicit tilt axes, rotation
+ * happens directly around view vectors.  So for compatibility if at
+ * the time of receiving tilt angles we have not yet received the tilt
+ * axes, we use the view vectors.
+ */
+
+static int got_tilt_axes;
+
 /*---------------------------------------------------------------------------*/
 
 static void game_run_cmd(const union cmd *cmd)
 {
-    /*
-     * Neverball <= 1.5.1 does not send explicit tilt axes, rotation
-     * happens directly around view vectors.  So for compatibility if
-     * at the time of receiving tilt angles we have not yet received
-     * the tilt axes, we use the view vectors.
-     */
-    static int got_tilt_axes;
-
-    float v[3];
-
     if (dr.state)
     {
+        s_file *fp = &dr.file;
         s_item *hp;
         s_ball *up;
 
+        float v[3];
         float dt;
         int i;
 
@@ -123,18 +124,18 @@ static void game_run_cmd(const union cmd *cmd)
         case CMD_MAKE_BALL:
             /* Allocate a new ball and mark it as the current ball. */
 
-            if ((up = realloc(dr.file.uv, sizeof (*up) * (dr.file.uc + 1))))
+            if ((up = realloc(fp->uv, sizeof (*up) * (fp->uc + 1))))
             {
-                dr.file.uv = up;
-                curr_ball = dr.file.uc;
-                dr.file.uc++;
+                fp->uv = up;
+                curr_ball = fp->uc;
+                fp->uc++;
             }
             break;
 
         case CMD_MAKE_ITEM:
             /* Allocate and initialise a new item. */
 
-            if ((hp = realloc(dr.file.hv, sizeof (*hp) * (dr.file.hc + 1))))
+            if ((hp = realloc(fp->hv, sizeof (*hp) * (fp->hc + 1))))
             {
                 s_item h;
 
@@ -143,9 +144,9 @@ static void game_run_cmd(const union cmd *cmd)
                 h.t = cmd->mkitem.t;
                 h.n = cmd->mkitem.n;
 
-                dr.file.hv = hp;
-                dr.file.hv[dr.file.hc] = h;
-                dr.file.hc++;
+                fp->hv = hp;
+                fp->hv[fp->hc] = h;
+                fp->hc++;
             }
 
             break;
@@ -153,9 +154,9 @@ static void game_run_cmd(const union cmd *cmd)
         case CMD_PICK_ITEM:
             /* Set up particle effects and discard the item. */
 
-            assert(cmd->pkitem.hi < dr.file.hc);
+            assert(cmd->pkitem.hi < fp->hc);
 
-            hp = &dr.file.hv[cmd->pkitem.hi];
+            hp = fp->hv + cmd->pkitem.hi;
 
             item_color(hp, v);
             part_burst(hp->p, v);
@@ -203,11 +204,11 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_BODY_PATH:
-            dr.file.bv[cmd->bodypath.bi].pi = cmd->bodypath.pi;
+            fp->bv[cmd->bodypath.bi].pi = cmd->bodypath.pi;
             break;
 
         case CMD_BODY_TIME:
-            dr.file.bv[cmd->bodytime.bi].t = cmd->bodytime.t;
+            fp->bv[cmd->bodytime.bi].t = cmd->bodytime.t;
             break;
 
         case CMD_GOAL_OPEN:
@@ -224,15 +225,15 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_SWCH_ENTER:
-            dr.file.xv[cmd->swchenter.xi].e = 1;
+            fp->xv[cmd->swchenter.xi].e = 1;
             break;
 
         case CMD_SWCH_TOGGLE:
-            dr.file.xv[cmd->swchtoggle.xi].f = !dr.file.xv[cmd->swchtoggle.xi].f;
+            fp->xv[cmd->swchtoggle.xi].f = !fp->xv[cmd->swchtoggle.xi].f;
             break;
 
         case CMD_SWCH_EXIT:
-            dr.file.xv[cmd->swchexit.xi].e = 0;
+            fp->xv[cmd->swchexit.xi].e = 0;
             break;
 
         case CMD_UPDATES_PER_SECOND:
@@ -240,47 +241,47 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_BALL_RADIUS:
-            dr.file.uv[curr_ball].r = cmd->ballradius.r;
+            fp->uv[curr_ball].r = cmd->ballradius.r;
             break;
 
         case CMD_CLEAR_ITEMS:
-            if (dr.file.hv)
+            if (fp->hv)
             {
-                free(dr.file.hv);
-                dr.file.hv = NULL;
+                free(fp->hv);
+                fp->hv = NULL;
             }
-            dr.file.hc = 0;
+            fp->hc = 0;
             break;
 
         case CMD_CLEAR_BALLS:
-            if (dr.file.uv)
+            if (fp->uv)
             {
-                free(dr.file.uv);
-                dr.file.uv = NULL;
+                free(fp->uv);
+                fp->uv = NULL;
             }
-            dr.file.uc = 0;
+            fp->uc = 0;
             break;
 
         case CMD_BALL_POSITION:
-            v_cpy(dr.file.uv[curr_ball].p, cmd->ballpos.p);
+            up = fp->uv + curr_ball;
+
+            v_cpy(up->p, cmd->ballpos.p);
             break;
 
         case CMD_BALL_BASIS:
-            v_cpy(dr.file.uv[curr_ball].e[0], cmd->ballbasis.e[0]);
-            v_cpy(dr.file.uv[curr_ball].e[1], cmd->ballbasis.e[1]);
+            up = fp->uv + curr_ball;
 
-            v_crs(dr.file.uv[curr_ball].e[2],
-                  dr.file.uv[curr_ball].e[0],
-                  dr.file.uv[curr_ball].e[1]);
+            v_cpy(up->e[0], cmd->ballbasis.e[0]);
+            v_cpy(up->e[1], cmd->ballbasis.e[1]);
+            v_crs(up->e[2], up->e[0], up->e[1]);
             break;
 
         case CMD_BALL_PEND_BASIS:
-            v_cpy(dr.file.uv[curr_ball].E[0], cmd->ballpendbasis.E[0]);
-            v_cpy(dr.file.uv[curr_ball].E[1], cmd->ballpendbasis.E[1]);
+            up = fp->uv + curr_ball;
 
-            v_crs(dr.file.uv[curr_ball].E[2],
-                  dr.file.uv[curr_ball].E[0],
-                  dr.file.uv[curr_ball].E[1]);
+            v_cpy(up->E[0], cmd->ballpendbasis.E[0]);
+            v_cpy(up->E[1], cmd->ballpendbasis.E[1]);
+            v_crs(up->E[2], up->E[0], up->E[1]);
             break;
 
         case CMD_VIEW_POSITION:
@@ -294,9 +295,7 @@ static void game_run_cmd(const union cmd *cmd)
         case CMD_VIEW_BASIS:
             v_cpy(dr.view.e[0], cmd->viewbasis.e[0]);
             v_cpy(dr.view.e[1], cmd->viewbasis.e[1]);
-
             v_crs(dr.view.e[2], dr.view.e[0], dr.view.e[1]);
-
             break;
 
         case CMD_CURRENT_BALL:
@@ -304,7 +303,7 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_PATH_FLAG:
-            dr.file.pv[cmd->pathflag.pi].f = cmd->pathflag.f;
+            fp->pv[cmd->pathflag.pi].f = cmd->pathflag.f;
             break;
 
         case CMD_STEP_SIMULATION:
@@ -313,19 +312,19 @@ static void game_run_cmd(const union cmd *cmd)
              *
              * This is done on the client side due to replay file size
              * concerns and isn't done as part of CMD_END_OF_UPDATE to
-             * match the server state as closely as possible.  Body
-             * time is still synchronised with the server on a
-             * semi-regular basis and path indices are handled through
-             * CMD_BODY_PATH, thus this code doesn't need to be as
-             * sophisticated as sol_body_step.
+             * match the server state as closely as possible.  Body time
+             * is still synchronized with the server on a semi-regular
+             * basis and path indices are handled through CMD_BODY_PATH,
+             * thus this code doesn't need to be as sophisticated as
+             * sol_body_step.
              */
 
             dt = cmd->stepsim.dt;
 
-            for (i = 0; i < dr.file.bc; i++)
+            for (i = 0; i < fp->bc; i++)
             {
-                s_body *bp = dr.file.bv + i;
-                s_path *pp = dr.file.pv + bp->pi;
+                s_body *bp = fp->bv + i;
+                s_path *pp = fp->pv + bp->pi;
 
                 if (bp->pi >= 0 && pp->f)
                     bp->t += dt;
@@ -334,9 +333,8 @@ static void game_run_cmd(const union cmd *cmd)
 
         case CMD_MAP:
             /*
-             * Note a version (mis-)match between the loaded map and
-             * what the server has. (This doesn't actually load a
-             * map.)
+             * Note a version (mis-)match between the loaded map and what
+             * the server has. (This doesn't actually load a map.)
              */
 
             game_compat_map = version.x == cmd->map.version.x;
@@ -354,7 +352,6 @@ static void game_run_cmd(const union cmd *cmd)
         }
     }
 }
-
 void game_client_sync(fs_file demo_fp)
 {
     union cmd *cmdp;
