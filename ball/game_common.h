@@ -89,7 +89,7 @@ struct game_view
 };
 
 void game_view_init(struct game_view *);
-void game_view_fly(struct game_view *, const struct s_file *, float);
+void game_view_fly(struct game_view *, const s_file *, float);
 
 /*---------------------------------------------------------------------------*/
 

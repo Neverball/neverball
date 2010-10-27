@@ -8,8 +8,8 @@ struct game_draw
 {
     int state;
 
-    struct s_file file;
-    struct s_file back;
+    s_file file;
+    s_file back;
 
     int reflective;                     /* Reflective geometry used?         */
 

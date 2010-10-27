@@ -73,8 +73,8 @@ static void game_run_cmd(const union cmd *cmd)
 
     if (dr.state)
     {
-        struct s_item *hp;
-        struct s_ball *up;
+        s_item *hp;
+        s_ball *up;
 
         float dt;
         int i;
@@ -136,7 +136,7 @@ static void game_run_cmd(const union cmd *cmd)
 
             if ((hp = realloc(dr.file.hv, sizeof (*hp) * (dr.file.hc + 1))))
             {
-                struct s_item h;
+                s_item h;
 
                 v_cpy(h.p, cmd->mkitem.p);
 
@@ -324,8 +324,8 @@ static void game_run_cmd(const union cmd *cmd)
 
             for (i = 0; i < dr.file.bc; i++)
             {
-                struct s_body *bp = dr.file.bv + i;
-                struct s_path *pp = dr.file.pv + bp->pi;
+                s_body *bp = dr.file.bv + i;
+                s_path *pp = dr.file.pv + bp->pi;
 
                 if (bp->pi >= 0 && pp->f)
                     bp->t += dt;

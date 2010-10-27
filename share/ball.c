@@ -27,9 +27,9 @@ static int has_solid = 0;
 static int has_inner = 0;
 static int has_outer = 0;
 
-static struct s_file solid;
-static struct s_file inner;
-static struct s_file outer;
+static s_file solid;
+static s_file inner;
+static s_file outer;
 
 #define F_PENDULUM   1
 #define F_DRAWBACK   2
@@ -49,7 +49,7 @@ static float outer_alpha;
 
 #define SET(B, v, b) ((v) ? ((B) | (b)) : ((B) & ~(b)))
 
-static int ball_opts(const struct s_file *fp, float *alpha)
+static int ball_opts(const s_file *fp, float *alpha)
 {
     int flags = F_DEPTHTEST;
     int di;

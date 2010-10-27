@@ -36,7 +36,7 @@
 
 static int server_state = 0;
 
-static struct s_file file;
+static s_file file;
 
 static float timer      = 0.f;          /* Clock time                        */
 static int   timer_down = 1;            /* Timer go up or down?              */
@@ -362,7 +362,7 @@ static int   got_orig = 0;              /* Do we know original ball size?    */
 
 static int   grow_state = 0;            /* Current state (values -1, 0, +1)  */
 
-static void grow_init(const struct s_file *fp, int type)
+static void grow_init(const s_file *fp, int type)
 {
     if (!got_orig)
     {
@@ -427,7 +427,7 @@ static void grow_init(const struct s_file *fp, int type)
     }
 }
 
-static void grow_step(const struct s_file *fp, float dt)
+static void grow_step(const s_file *fp, float dt)
 {
     float dr;
 
@@ -652,8 +652,8 @@ static void game_update_time(float dt, int b)
 
 static int game_update_state(int bt)
 {
-    struct s_file *fp = &file;
-    struct s_goal *zp;
+    s_file *fp = &file;
+    s_goal *zp;
     int hi;
 
     float p[3];
@@ -662,7 +662,7 @@ static int game_update_state(int bt)
 
     if (bt && (hi = sol_item_test(fp, p, ITEM_RADIUS)) != -1)
     {
-        struct s_item *hp = &file.hv[hi];
+        s_item *hp = &file.hv[hi];
 
         game_cmd_pkitem(hi);
 
@@ -738,7 +738,7 @@ static int game_step(const float g[3], float dt, int bt)
 {
     if (server_state)
     {
-        struct s_file *fp = &file;
+        s_file *fp = &file;
 
         float h[3];
 

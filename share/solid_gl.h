@@ -19,16 +19,16 @@
 
 /*---------------------------------------------------------------------------*/
 
-int   sol_load_gl(struct s_file *, const char *, int);
-void  sol_free_gl(struct s_file *);
+int   sol_load_gl(s_file *, const char *, int);
+void  sol_free_gl(s_file *);
 
-int   sol_reflective(const struct s_file *);
+int   sol_reflective(const s_file *);
 
-void  sol_back(const struct s_file *, float, float, float);
-void  sol_refl(const struct s_file *);
-void  sol_draw(const struct s_file *, int, int);
-void  sol_bill(const struct s_file *, const float *, float);
-void  sol_shad(const struct s_file *);
+void  sol_back(const s_file *, float, float, float);
+void  sol_refl(const s_file *);
+void  sol_draw(const s_file *, int, int);
+void  sol_bill(const s_file *, const float *, float);
+void  sol_shad(const s_file *);
 
 /*---------------------------------------------------------------------------*/
 

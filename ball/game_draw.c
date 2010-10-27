@@ -28,7 +28,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-static void game_draw_balls(const struct s_file *fp,
+static void game_draw_balls(const s_file *fp,
                             const float *bill_M, float t)
 {
     float c[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -56,7 +56,7 @@ static void game_draw_balls(const struct s_file *fp,
     glPopAttrib();
 }
 
-static void game_draw_items(const struct s_file *fp, float t)
+static void game_draw_items(const s_file *fp, float t)
 {
     float r = 360.f * t;
     int hi;
@@ -124,7 +124,7 @@ static void game_draw_items(const struct s_file *fp, float t)
 }
 
 static void game_draw_goals(const struct game_draw *dr,
-                            const struct s_file *fp,
+                            const s_file *fp,
                             const float *M, float t)
 {
     if (dr->goal_e)
@@ -172,7 +172,7 @@ static void game_draw_goals(const struct game_draw *dr,
 }
 
 static void game_draw_jumps(const struct game_draw *dr,
-                            const struct s_file *fp,
+                            const s_file *fp,
                             const float *M, float t)
 {
     int ji;
@@ -211,7 +211,7 @@ static void game_draw_jumps(const struct game_draw *dr,
     }
 }
 
-static void game_draw_swchs(const struct s_file *fp)
+static void game_draw_swchs(const s_file *fp)
 {
     int xi;
 
@@ -379,7 +379,7 @@ static void game_draw_fore(const struct game_draw *dr,
     const float *ball_p = dr->file.uv->p;
     const float  ball_r = dr->file.uv->r;
 
-    const struct s_file *fp = &dr->file;
+    const s_file *fp = &dr->file;
 
     glPushMatrix();
     {
