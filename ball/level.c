@@ -203,6 +203,11 @@ const char *level_file(int i)
     return level_exists(i) ? get_level(i)->file : NULL;
 }
 
+const char *level_song(int i)
+{
+    return level_exists(i) ? get_level(i)->song : NULL;
+}
+
 const char *level_name(int i)
 {
     return level_exists(i) ? get_level(i)->name : NULL;

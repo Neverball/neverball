@@ -62,6 +62,7 @@ int  level_bonus(int);
 
 const char *level_shot(int);
 const char *level_file(int);
+const char *level_song(int);
 const char *level_name(int);
 const char *level_msg (int);
 
