@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v.0.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2010-09-23 01:29+0300\n"
+"POT-Creation-Date: 2010-10-29 02:46+0300\n"
 "PO-Revision-Date: 2009-10-31 00:55+0100\n"
 "Last-Translator: Gergő Nagy <gegsite@gmail.com>\n"
 "Language-Team: Hungarian <LL@li.org>\n"
@@ -16,44 +16,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ball/demo.c:233
+#: ball/demo.c:234
 msgid "Missing format character in replay name\n"
 msgstr "Hiányzik a karakter formátum a visszajátszás fájlnévben\n"
 
-#: ball/demo.c:238
+#: ball/demo.c:239
 #, c-format
 msgid "Invalid format character in replay name: \"%%%c\"\n"
 msgstr "Érvénytelen karakter formátum a visszajátszás nevében: \"%%%c\"\n"
 
-#: ball/game_common.c:12
+#: ball/game_common.c:26
 msgid "Aborted"
 msgstr "Megszakítva"
 
-#: ball/game_common.c:13
+#: ball/game_common.c:27
 msgid "Time-out"
 msgstr "Idő vége"
 
-#: ball/game_common.c:14
+#: ball/game_common.c:28
 msgid "Success"
 msgstr "Siker"
 
-#: ball/game_common.c:15
+#: ball/game_common.c:29
 msgid "Fall-out"
 msgstr "Kiesés"
 
-#: ball/game_common.c:16 ball/game_common.c:27 ball/progress.c:379
+#: ball/game_common.c:30 ball/game_common.c:41 ball/progress.c:394
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: ball/game_common.c:24
+#: ball/game_common.c:38
 msgid "Chase"
 msgstr "Követés"
 
-#: ball/game_common.c:25
+#: ball/game_common.c:39
 msgid "Lazy"
 msgstr "Lusta"
 
-#: ball/game_common.c:26
+#: ball/game_common.c:40
 msgid "Manual"
 msgstr "Kézi"
 
@@ -132,23 +132,23 @@ msgstr ""
 msgid "Option '%s' requires an argument.\n"
 msgstr "A '%s' lehetőségnek kell egy érték\n"
 
-#: ball/progress.c:377 ball/st_help.c:247
+#: ball/progress.c:392 ball/st_help.c:247
 msgid "Challenge Mode"
 msgstr "Mód váltás"
 
-#: ball/progress.c:377 ball/st_start.c:206
+#: ball/progress.c:392 ball/st_start.c:206
 msgid "Challenge"
 msgstr "Kihívás"
 
-#: ball/progress.c:378 ball/st_help.c:239
+#: ball/progress.c:393 ball/st_help.c:239
 msgid "Normal Mode"
 msgstr "Normál mód"
 
-#: ball/progress.c:378
+#: ball/progress.c:393
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/progress.c:379
+#: ball/progress.c:394
 msgid "Unknown Mode"
 msgstr "Ismeretlen mód"
 
@@ -163,82 +163,78 @@ msgstr "Sikertelen felhasználói pont-tábla fájl betöltés '%s'"
 msgid "Failure to load set file '%s'\n"
 msgstr "Sikertelen beállító fájl betöltés '%s'\n"
 
-#: ball/st_ball.c:161 ball/st_conf.c:350
+#: ball/st_ball.c:175 ball/st_conf.c:327
 msgid "Ball"
 msgstr "Labda"
 
-#: ball/st_ball.c:163 ball/st_conf.c:226 ball/st_help.c:96 ball/st_start.c:176
+#: ball/st_ball.c:177 ball/st_conf.c:212 ball/st_help.c:96 ball/st_start.c:176
 #: ball/util.c:430 share/st_resol.c:99 putt/st_all.c:344 putt/st_all.c:492
-#: putt/st_conf.c:171
+#: putt/st_conf.c:157
 msgid "Back"
 msgstr "Vissza"
 
-#: ball/st_conf.c:224 putt/st_conf.c:169
+#: ball/st_conf.c:210 putt/st_conf.c:155
 msgid "Options"
 msgstr "Beállítások"
 
-#: ball/st_conf.c:234 ball/st_demo.c:642 ball/st_save.c:212 putt/st_conf.c:179
+#: ball/st_conf.c:220 ball/st_demo.c:642 ball/st_save.c:209 putt/st_conf.c:165
 msgid "No"
 msgstr "Nem"
 
-#: ball/st_conf.c:235 ball/st_demo.c:643 ball/st_save.c:213
-#: ball/st_start.c:231 putt/st_conf.c:180
+#: ball/st_conf.c:221 ball/st_demo.c:643 ball/st_save.c:210
+#: ball/st_start.c:231 putt/st_conf.c:166
 msgid "Yes"
 msgstr "Igen"
 
-#: ball/st_conf.c:237 putt/st_conf.c:182
+#: ball/st_conf.c:223 putt/st_conf.c:168
 msgid "Fullscreen"
 msgstr "Teljesképernyő"
 
-#: ball/st_conf.c:245 share/st_resol.c:97 putt/st_conf.c:190
+#: ball/st_conf.c:231 share/st_resol.c:97 putt/st_conf.c:176
 msgid "Resolution"
 msgstr "Felbontás"
 
-#: ball/st_conf.c:253 ball/st_conf.c:262 putt/st_conf.c:198 putt/st_conf.c:207
+#: ball/st_conf.c:239 putt/st_conf.c:184
 msgid "Low"
 msgstr "Alacsony"
 
-#: ball/st_conf.c:254 ball/st_conf.c:263 putt/st_conf.c:199 putt/st_conf.c:208
+#: ball/st_conf.c:240 putt/st_conf.c:185
 msgid "High"
 msgstr "Magas"
 
-#: ball/st_conf.c:256 putt/st_conf.c:201
+#: ball/st_conf.c:242 putt/st_conf.c:187
 msgid "Textures"
 msgstr "Textúrák"
 
-#: ball/st_conf.c:265 putt/st_conf.c:210
-msgid "Geometry"
-msgstr "Geometria"
-
-#: ball/st_conf.c:271 ball/st_conf.c:280 ball/st_conf.c:289 putt/st_conf.c:216
+#: ball/st_conf.c:248 ball/st_conf.c:257 ball/st_conf.c:266 putt/st_conf.c:193
 msgid "Off"
 msgstr "Ki"
 
-#: ball/st_conf.c:272 ball/st_conf.c:281 ball/st_conf.c:290 putt/st_conf.c:217
+#: ball/st_conf.c:249 ball/st_conf.c:258 ball/st_conf.c:267 putt/st_conf.c:194
 msgid "On"
 msgstr "Be"
 
-#: ball/st_conf.c:274
+#: ball/st_conf.c:251
 msgid "Reflection"
 msgstr "Tükröződés"
 
-#: ball/st_conf.c:283
+#: ball/st_conf.c:260
 msgid "Background"
 msgstr "Háttér"
 
-#: ball/st_conf.c:292 putt/st_conf.c:219
+#: ball/st_conf.c:269 putt/st_conf.c:196
 msgid "Shadow"
 msgstr "Árnyék"
 
-#: ball/st_conf.c:314 putt/st_conf.c:241
+#: ball/st_conf.c:291 putt/st_conf.c:218
 msgid "Sound Volume"
 msgstr "Hangerő"
 
-#: ball/st_conf.c:334 putt/st_conf.c:261
+#: ball/st_conf.c:311 putt/st_conf.c:238
 msgid "Music Volume"
 msgstr "Zene"
 
-#: ball/st_conf.c:343 ball/st_name.c:101
+#: ball/st_conf.c:320 ball/st_name.c:101
 msgid "Player Name"
 msgstr "Játékos neve"
 
@@ -302,7 +298,7 @@ msgstr "Ismétlés"
 msgid "Delete Replay?"
 msgstr "Törlöd a visszajátszást?"
 
-#: ball/st_demo.c:680
+#: ball/st_demo.c:680 ball/st_level.c:155
 msgid "Warning!"
 msgstr "Figyelem!"
 
@@ -366,8 +362,8 @@ msgid "Finish"
 msgstr "Cél"
 
 #: ball/st_help.c:92
-msgid "Techniques"
-msgstr "Technikák"
+msgid "Tricks"
+msgstr ""
 
 #: ball/st_help.c:93
 msgid "Modes"
@@ -465,21 +461,27 @@ msgstr ""
 msgid "Watch demo"
 msgstr "Bemutató mégnézése"
 
-#: ball/st_level.c:52
+#: ball/st_level.c:55
 #, c-format
 msgid "Bonus Level %s"
 msgstr "Bónusz pálya %s"
 
-#: ball/st_level.c:54
+#: ball/st_level.c:57
 #, c-format
 msgid "Level %s"
 msgstr "Pálya %s"
+
+#: ball/st_level.c:157
+msgid ""
+"The default replay file could not be opened.\\You will not be able to save a "
+"replay when\\playing this level.\\"
+msgstr ""
 
 #: ball/st_name.c:112
 msgid "OK"
 msgstr "OK"
 
-#: ball/st_name.c:114 ball/st_save.c:127
+#: ball/st_name.c:114 ball/st_save.c:124
 msgid "Cancel"
 msgstr "Mégsem"
 
@@ -495,27 +497,27 @@ msgstr "Szünet"
 msgid "Restart"
 msgstr "Újrakezdés"
 
-#: ball/st_play.c:117
+#: ball/st_play.c:118
 msgid "Ready?"
 msgstr "Vigyázz!"
 
-#: ball/st_play.c:201
+#: ball/st_play.c:202
 msgid "Set?"
 msgstr "Kész?"
 
-#: ball/st_play.c:307
+#: ball/st_play.c:308
 msgid "GO!"
 msgstr "RAJT!"
 
-#: ball/st_save.c:114
+#: ball/st_save.c:111
 msgid "Replay Name"
 msgstr "Visszajátszás neve"
 
-#: ball/st_save.c:125
+#: ball/st_save.c:122
 msgid "Save"
 msgstr "Ment"
 
-#: ball/st_save.c:206
+#: ball/st_save.c:203
 msgid "Overwrite?"
 msgstr "Felülírod?"
 
@@ -856,12 +858,12 @@ msgstr "Euro"
 msgid "Undo"
 msgstr "Visszavonás"
 
-#: share/syswm.c:44
+#: share/syswm.c:58
 #, c-format
 msgid "Failed to get WM info: %s\n"
 msgstr "Sikertelen WM infó szerzés: %s\n"
 
-#: share/syswm.c:115
+#: share/syswm.c:129
 msgid "Failed to allocate memory for EWMH icon data.\n"
 msgstr "Sikertelen memóriafoglalása az EWMH ikonoknak.\n"
 
@@ -1090,7 +1092,6 @@ msgstr ""
 "\\és tartsad meg az irányítást.\\Érd el a sarkokat a lendület erejével.\\"
 
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
-#: data/map-misc/circlethwomp.map data/map-misc/ode-corner.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
@@ -1126,10 +1127,14 @@ msgstr ""
 "célba véletlenül.\\"
 
 #: data/map-easy/goslow.map
+#, fuzzy
+#| msgid ""
+#| "Tilt the floor as little as possible.\\Less tilt means lower speed."
+#| "\\Lower speed means better control.\\Watch the clock and use the time "
+#| "wisely.\\\\Click to begin.\\"
 msgid ""
 "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
 "speed means better control.\\Watch the clock and use the time wisely.\\"
-"\\Click to begin.\\"
 msgstr ""
 "Döntsd meg a padlót épp csak egy kicsit.\\Minél kisebb a szög annál kisebb a "
 "sebesség.\\A kisebb sebesség nagyobb irányíthatóságot jelent.\\Figyeld az "
@@ -1960,6 +1965,12 @@ msgstr "mtrl/words"
 
 msgid "item/coin/coin"
 msgstr "item/coin/coin"
+
+#~ msgid "Geometry"
+#~ msgstr "Geometria"
+
+#~ msgid "Techniques"
+#~ msgstr "Technikák"
 
 #~ msgid "Top-Down"
 #~ msgstr "Fentről-Lefele"
