@@ -110,6 +110,8 @@ static int init_level(void)
         audio_music_fade_to(2.0f, level_song(level));
         return 1;
     }
+
+    demo_play_stop();
     return 0;
 }
 
