@@ -36,14 +36,14 @@ static float derp(float t)
 }
 #endif
 
-void sol_body_p(float p[3], const s_file *fp, int pi, float t)
+void sol_body_p(float p[3], const struct s_file *fp, int pi, float t)
 {
     float v[3];
 
     if (pi >= 0)
     {
-        const s_path *pp = fp->pv + pi;
-        const s_path *pq = fp->pv + pp->pi;
+        const struct s_path *pp = fp->pv + pi;
+        const struct s_path *pq = fp->pv + pp->pi;
 
         float s = MIN(t / pp->t, 1.0f);
 
@@ -59,7 +59,7 @@ void sol_body_p(float p[3], const s_file *fp, int pi, float t)
 }
 
 void sol_body_v(float v[3],
-                const s_file *fp,
+                const struct s_file *fp,
                 int pi, float t, float dt)
 {
     if (pi >= 0 && fp->pv[pi].f)
@@ -84,15 +84,15 @@ void sol_body_v(float v[3],
 }
 
 void sol_body_e(float e[4],
-                const s_file *fp,
-                const s_body *bp,
+                const struct s_file *fp,
+                const struct s_body *bp,
                 float dt)
 {
-    s_path *pp = fp->pv + bp->pi;
+    struct s_path *pp = fp->pv + bp->pi;
 
     if (bp->pi >= 0)
     {
-        s_path *pq = fp->pv + pp->pi;
+        struct s_path *pq = fp->pv + pp->pi;
 
         if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
         {
@@ -111,14 +111,14 @@ void sol_body_e(float e[4],
 }
 
 void sol_body_w(float w[3],
-                const s_file *fp,
-                const s_body *bp)
+                const struct s_file *fp,
+                const struct s_body *bp)
 {
-    s_path *pp = fp->pv + bp->pi;
+    struct s_path *pp = fp->pv + bp->pi;
 
     if (bp->pi >= 0 && pp->f)
     {
-        s_path *pq = fp->pv + pp->pi;
+        struct s_path *pq = fp->pv + pp->pi;
 
         if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
         {
@@ -200,7 +200,7 @@ void sol_rotate(float e[3][3], const float w[3], float dt)
  * Compute the new angular velocity and orientation of a ball pendulum.
  * A gives the accelleration of the ball.  G gives the gravity vector.
  */
-void sol_pendulum(s_ball *up,
+void sol_pendulum(struct s_ball *up,
                   const float a[3],
                   const float g[3], float dt)
 {
@@ -251,7 +251,7 @@ void sol_pendulum(s_ball *up,
 /*
  * Compute the states of all switches after DT seconds have passed.
  */
-void sol_swch_step(s_file *fp, float dt)
+void sol_swch_step(struct s_file *fp, float dt)
 {
     int xi;
 
@@ -259,7 +259,7 @@ void sol_swch_step(s_file *fp, float dt)
 
     for (xi = 0; xi < fp->xc; xi++)
     {
-        s_swch *xp = fp->xv + xi;
+        struct s_swch *xp = fp->xv + xi;
 
         volatile float t = xp->t;
 
@@ -301,7 +301,7 @@ void sol_swch_step(s_file *fp, float dt)
 /*
  * Compute the positions of all bodies after DT seconds have passed.
  */
-void sol_body_step(s_file *fp, float dt)
+void sol_body_step(struct s_file *fp, float dt)
 {
     int i;
 
@@ -309,8 +309,8 @@ void sol_body_step(s_file *fp, float dt)
 
     for (i = 0; i < fp->bc; i++)
     {
-        s_body *bp = fp->bv + i;
-        s_path *pp = fp->pv + bp->pi;
+        struct s_body *bp = fp->bv + i;
+        struct s_path *pp = fp->pv + bp->pi;
 
         volatile float t = bp->t;
 
@@ -340,13 +340,13 @@ void sol_body_step(s_file *fp, float dt)
 /*
  * Compute the positions of all balls after DT seconds have passed.
  */
-void sol_ball_step(s_file *fp, float dt)
+void sol_ball_step(struct s_file *fp, float dt)
 {
     int i;
 
     for (i = 0; i < fp->uc; i++)
     {
-        s_ball *up = fp->uv + i;
+        struct s_ball *up = fp->uv + i;
 
         v_mad(up->p, up->p, up->v, dt);
 
@@ -356,7 +356,7 @@ void sol_ball_step(s_file *fp, float dt)
 
 /*---------------------------------------------------------------------------*/
 
-int sol_item_test(s_file *fp, float *p, float item_r)
+int sol_item_test(struct s_file *fp, float *p, float item_r)
 {
     const float *ball_p = fp->uv->p;
     const float  ball_r = fp->uv->r;
@@ -383,7 +383,7 @@ int sol_item_test(s_file *fp, float *p, float item_r)
     return -1;
 }
 
-s_goal *sol_goal_test(s_file *fp, float *p, int ui)
+struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
@@ -416,7 +416,7 @@ s_goal *sol_goal_test(s_file *fp, float *p, int ui)
  * with the destination position, return 0 if not, and return 2 if the
  * ball is on the border of a jump.
  */
-int sol_jump_test(s_file *fp, float *p, int ui)
+int sol_jump_test(struct s_file *fp, float *p, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
@@ -457,7 +457,7 @@ int sol_jump_test(s_file *fp, float *p, int ui)
  * a visible  switch is  activated, return 0  otherwise (no  switch is
  * activated or only invisible switches).
  */
-int sol_swch_test(s_file *fp, int ui)
+int sol_swch_test(struct s_file *fp, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
@@ -468,7 +468,7 @@ int sol_swch_test(s_file *fp, int ui)
 
     for (xi = 0; xi < fp->xc; xi++)
     {
-        s_swch *xp = fp->xv + xi;
+        struct s_swch *xp = fp->xv + xi;
 
         /* FIXME enter/exit events don't work for timed switches */
 

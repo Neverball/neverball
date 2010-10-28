@@ -21,11 +21,11 @@
 
 /*---------------------------------------------------------------------------*/
 
-static s_file item_coin_file;
-static s_file item_grow_file;
-static s_file item_shrink_file;
+static struct s_file item_coin_file;
+static struct s_file item_grow_file;
+static struct s_file item_shrink_file;
 
-void item_color(const s_item *hp, float *c)
+void item_color(const struct s_item *hp, float *c)
 {
     switch (hp->t)
     {
@@ -97,10 +97,10 @@ void item_push(int type)
     glEnable(GL_COLOR_MATERIAL);
 }
 
-void item_draw(const s_item *hp, float r)
+void item_draw(const struct s_item *hp, float r)
 {
     float c[3];
-    s_file *fp = NULL;
+    struct s_file *fp = NULL;
 
     switch (hp->t)
     {

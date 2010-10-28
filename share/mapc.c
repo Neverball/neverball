@@ -77,102 +77,102 @@ static int overflow(const char *s)
     return 0;
 }
 
-static int incm(s_file *fp)
+static int incm(struct s_file *fp)
 {
     return (fp->mc < MAXM) ? fp->mc++ : overflow("mtrl");
 }
 
-static int incv(s_file *fp)
+static int incv(struct s_file *fp)
 {
     return (fp->vc < MAXV) ? fp->vc++ : overflow("vert");
 }
 
-static int ince(s_file *fp)
+static int ince(struct s_file *fp)
 {
     return (fp->ec < MAXE) ? fp->ec++ : overflow("edge");
 }
 
-static int incs(s_file *fp)
+static int incs(struct s_file *fp)
 {
     return (fp->sc < MAXS) ? fp->sc++ : overflow("side");
 }
 
-static int inct(s_file *fp)
+static int inct(struct s_file *fp)
 {
     return (fp->tc < MAXT) ? fp->tc++ : overflow("texc");
 }
 
-static int incg(s_file *fp)
+static int incg(struct s_file *fp)
 {
     return (fp->gc < MAXG) ? fp->gc++ : overflow("geom");
 }
 
-static int incl(s_file *fp)
+static int incl(struct s_file *fp)
 {
     return (fp->lc < MAXL) ? fp->lc++ : overflow("lump");
 }
 
-static int incn(s_file *fp)
+static int incn(struct s_file *fp)
 {
     return (fp->nc < MAXN) ? fp->nc++ : overflow("node");
 }
 
-static int incp(s_file *fp)
+static int incp(struct s_file *fp)
 {
     return (fp->pc < MAXP) ? fp->pc++ : overflow("path");
 }
 
-static int incb(s_file *fp)
+static int incb(struct s_file *fp)
 {
     return (fp->bc < MAXB) ? fp->bc++ : overflow("body");
 }
 
-static int inch(s_file *fp)
+static int inch(struct s_file *fp)
 {
     return (fp->hc < MAXH) ? fp->hc++ : overflow("item");
 }
 
-static int incz(s_file *fp)
+static int incz(struct s_file *fp)
 {
     return (fp->zc < MAXZ) ? fp->zc++ : overflow("goal");
 }
 
-static int incj(s_file *fp)
+static int incj(struct s_file *fp)
 {
     return (fp->jc < MAXJ) ? fp->jc++ : overflow("jump");
 }
 
-static int incx(s_file *fp)
+static int incx(struct s_file *fp)
 {
     return (fp->xc < MAXX) ? fp->xc++ : overflow("swch");
 }
 
-static int incr(s_file *fp)
+static int incr(struct s_file *fp)
 {
     return (fp->rc < MAXR) ? fp->rc++ : overflow("bill");
 }
 
-static int incu(s_file *fp)
+static int incu(struct s_file *fp)
 {
     return (fp->uc < MAXU) ? fp->uc++ : overflow("ball");
 }
 
-static int incw(s_file *fp)
+static int incw(struct s_file *fp)
 {
     return (fp->wc < MAXW) ? fp->wc++ : overflow("view");
 }
 
-static int incd(s_file *fp)
+static int incd(struct s_file *fp)
 {
     return (fp->dc < MAXD) ? fp->dc++ : overflow("dict");
 }
 
-static int inci(s_file *fp)
+static int inci(struct s_file *fp)
 {
     return (fp->ic < MAXI) ? fp->ic++ : overflow("indx");
 }
 
-static void init_file(s_file *fp)
+static void init_file(struct s_file *fp)
 {
     fp->mc = 0;
     fp->vc = 0;
@@ -195,26 +195,26 @@ static void init_file(s_file *fp)
     fp->ac = 0;
     fp->ic = 0;
 
-    fp->mv = (s_mtrl *) calloc(MAXM, sizeof (s_mtrl));
-    fp->vv = (s_vert *) calloc(MAXV, sizeof (s_vert));
-    fp->ev = (s_edge *) calloc(MAXE, sizeof (s_edge));
-    fp->sv = (s_side *) calloc(MAXS, sizeof (s_side));
-    fp->tv = (s_texc *) calloc(MAXT, sizeof (s_texc));
-    fp->gv = (s_geom *) calloc(MAXG, sizeof (s_geom));
-    fp->lv = (s_lump *) calloc(MAXL, sizeof (s_lump));
-    fp->nv = (s_node *) calloc(MAXN, sizeof (s_node));
-    fp->pv = (s_path *) calloc(MAXP, sizeof (s_path));
-    fp->bv = (s_body *) calloc(MAXB, sizeof (s_body));
-    fp->hv = (s_item *) calloc(MAXH, sizeof (s_item));
-    fp->zv = (s_goal *) calloc(MAXZ, sizeof (s_goal));
-    fp->jv = (s_jump *) calloc(MAXJ, sizeof (s_jump));
-    fp->xv = (s_swch *) calloc(MAXX, sizeof (s_swch));
-    fp->rv = (s_bill *) calloc(MAXR, sizeof (s_bill));
-    fp->uv = (s_ball *) calloc(MAXU, sizeof (s_ball));
-    fp->wv = (s_view *) calloc(MAXW, sizeof (s_view));
-    fp->dv = (s_dict *) calloc(MAXD, sizeof (s_dict));
-    fp->av = (char   *) calloc(MAXA, sizeof (char));
-    fp->iv = (int    *) calloc(MAXI, sizeof (int));
+    fp->mv = (struct s_mtrl *) calloc(MAXM, sizeof (struct s_mtrl));
+    fp->vv = (struct s_vert *) calloc(MAXV, sizeof (struct s_vert));
+    fp->ev = (struct s_edge *) calloc(MAXE, sizeof (struct s_edge));
+    fp->sv = (struct s_side *) calloc(MAXS, sizeof (struct s_side));
+    fp->tv = (struct s_texc *) calloc(MAXT, sizeof (struct s_texc));
+    fp->gv = (struct s_geom *) calloc(MAXG, sizeof (struct s_geom));
+    fp->lv = (struct s_lump *) calloc(MAXL, sizeof (struct s_lump));
+    fp->nv = (struct s_node *) calloc(MAXN, sizeof (struct s_node));
+    fp->pv = (struct s_path *) calloc(MAXP, sizeof (struct s_path));
+    fp->bv = (struct s_body *) calloc(MAXB, sizeof (struct s_body));
+    fp->hv = (struct s_item *) calloc(MAXH, sizeof (struct s_item));
+    fp->zv = (struct s_goal *) calloc(MAXZ, sizeof (struct s_goal));
+    fp->jv = (struct s_jump *) calloc(MAXJ, sizeof (struct s_jump));
+    fp->xv = (struct s_swch *) calloc(MAXX, sizeof (struct s_swch));
+    fp->rv = (struct s_bill *) calloc(MAXR, sizeof (struct s_bill));
+    fp->uv = (struct s_ball *) calloc(MAXU, sizeof (struct s_ball));
+    fp->wv = (struct s_view *) calloc(MAXW, sizeof (struct s_view));
+    fp->dv = (struct s_dict *) calloc(MAXD, sizeof (struct s_dict));
+    fp->av = (char          *) calloc(MAXA, sizeof (char));
+    fp->iv = (int           *) calloc(MAXI, sizeof (int));
 }
 
 /*---------------------------------------------------------------------------*/
@@ -277,7 +277,7 @@ static int   targ_wi[MAXW];
 static int   targ_ji[MAXW];
 static int   targ_n;
 
-static void targets(s_file *fp)
+static void targets(struct s_file *fp)
 {
     int i;
 
@@ -396,10 +396,10 @@ static void size_image(const char *name, int *w, int *h)
     if (fs_gets((s), sizeof (s), (f)))                                  \
         sscanf((s), "%f %f %f %f", (v), (v) + 1, (v) + 2, (v) + 3)
 
-static int read_mtrl(s_file *fp, const char *name)
+static int read_mtrl(struct s_file *fp, const char *name)
 {
     static char line[MAXSTR];
-    s_mtrl *mp;
+    struct s_mtrl *mp;
     fs_file fin;
     int mi;
 
@@ -456,18 +456,18 @@ static int read_mtrl(s_file *fp, const char *name)
  * specification.
  */
 
-static void move_side(s_side *sp, const float p[3])
+static void move_side(struct s_side *sp, const float p[3])
 {
     sp->d -= v_dot(sp->n, p);
 }
 
-static void move_vert(s_vert *vp, const float p[3])
+static void move_vert(struct s_vert *vp, const float p[3])
 {
     v_sub(vp->p, vp->p, p);
 }
 
-static void move_lump(s_file *fp,
-                      s_lump *lp, const float p[3])
+static void move_lump(struct s_file *fp,
+                      struct s_lump *lp, const float p[3])
 {
     int i;
 
@@ -477,8 +477,8 @@ static void move_lump(s_file *fp,
         move_vert(fp->vv + fp->iv[lp->v0 + i], p);
 }
 
-static void move_body(s_file *fp,
-                      s_body *bp)
+static void move_body(struct s_file *fp,
+                      struct s_body *bp)
 {
     int i, *b;
 
@@ -510,7 +510,7 @@ static void move_body(s_file *fp,
     }
 }
 
-static void move_file(s_file *fp)
+static void move_file(struct s_file *fp)
 {
     int i;
 
@@ -529,31 +529,31 @@ static void move_file(s_file *fp)
  * references to Neverball materials, rather than MTL definitions.
  */
 
-static void read_vt(s_file *fp, const char *line)
+static void read_vt(struct s_file *fp, const char *line)
 {
-    s_texc *tp = fp->tv + inct(fp);
+    struct s_texc *tp = fp->tv + inct(fp);
 
     sscanf(line, "%f %f", tp->u, tp->u + 1);
 }
 
-static void read_vn(s_file *fp, const char *line)
+static void read_vn(struct s_file *fp, const char *line)
 {
-    s_side *sp = fp->sv + incs(fp);
+    struct s_side *sp = fp->sv + incs(fp);
 
     sscanf(line, "%f %f %f", sp->n, sp->n + 1, sp->n + 2);
 }
 
-static void read_v(s_file *fp, const char *line)
+static void read_v(struct s_file *fp, const char *line)
 {
-    s_vert *vp = fp->vv + incv(fp);
+    struct s_vert *vp = fp->vv + incv(fp);
 
     sscanf(line, "%f %f %f", vp->p, vp->p + 1, vp->p + 2);
 }
 
-static void read_f(s_file *fp, const char *line,
+static void read_f(struct s_file *fp, const char *line,
                    int v0, int t0, int s0, int mi)
 {
-    s_geom *gp = fp->gv + incg(fp);
+    struct s_geom *gp = fp->gv + incg(fp);
 
     char c1;
     char c2;
@@ -576,7 +576,7 @@ static void read_f(s_file *fp, const char *line,
     gp->mi  = mi;
 }
 
-static void read_obj(s_file *fp, const char *name, int mi)
+static void read_obj(struct s_file *fp, const char *name, int mi)
 {
     char line[MAXSTR];
     char mtrl[MAXSTR];
@@ -764,13 +764,13 @@ static int map_token(fs_file fin, int pi, char key[MAXSTR], char val[MAXSTR])
 
 /* Parse a lump from the given file and add it to the solid. */
 
-static void read_lump(s_file *fp, fs_file fin)
+static void read_lump(struct s_file *fp, fs_file fin)
 {
     char k[MAXSTR];
     char v[MAXSTR];
     int t;
 
-    s_lump *lp = fp->lv + incl(fp);
+    struct s_lump *lp = fp->lv + incl(fp);
 
     lp->s0 = fp->ic;
 
@@ -797,13 +797,13 @@ static void read_lump(s_file *fp, fs_file fin)
 
 /*---------------------------------------------------------------------------*/
 
-static void make_path(s_file *fp,
+static void make_path(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
     int i, pi = incp(fp);
 
-    s_path *pp = fp->pv + pi;
+    struct s_path *pp = fp->pv + pi;
 
     pp->p[0] = 0.f;
     pp->p[1] = 0.f;
@@ -888,13 +888,13 @@ static void make_path(s_file *fp,
     }
 }
 
-static void make_dict(s_file *fp,
+static void make_dict(struct s_file *fp,
                       const char *k,
                       const char *v)
 {
     int space_left, space_needed, di = incd(fp);
 
-    s_dict *dp = fp->dv + di;
+    struct s_dict *dp = fp->dv + di;
 
     space_left   = MAXA - fp->ac;
     space_needed = strlen(k) + 1 + strlen(v) + 1;
@@ -915,7 +915,7 @@ static void make_dict(s_file *fp,
 
 static int read_dict_entries = 0;
 
-static void make_body(s_file *fp,
+static void make_body(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c, int l0)
 {
@@ -930,7 +930,7 @@ static void make_body(s_file *fp,
     float y = 0.f;
     float z = 0.f;
 
-    s_body *bp = fp->bv + bi;
+    struct s_body *bp = fp->bv + bi;
 
     bp->t  = 0.f;
     bp->pi = -1;
@@ -975,13 +975,13 @@ static void make_body(s_file *fp,
     read_dict_entries = 0;
 }
 
-static void make_item(s_file *fp,
+static void make_item(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
     int i, hi = inch(fp);
 
-    s_item *hp = fp->hv + hi;
+    struct s_item *hp = fp->hv + hi;
 
     hp->p[0] = 0.f;
     hp->p[1] = 0.f;
@@ -1018,15 +1018,15 @@ static void make_item(s_file *fp,
     }
 }
 
-static void make_bill(s_file *fp,
+static void make_bill(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
     int i, ri = incr(fp);
 
-    s_bill *rp = fp->rv + ri;
+    struct s_bill *rp = fp->rv + ri;
 
-    memset(rp, 0, sizeof (s_bill));
+    memset(rp, 0, sizeof (struct s_bill));
     rp->t = 1.0f;
 
     for (i = 0; i < c; i++)
@@ -1072,13 +1072,13 @@ static void make_bill(s_file *fp,
         fp->mv[rp->mi].fl |= M_ADDITIVE;
 }
 
-static void make_goal(s_file *fp,
+static void make_goal(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
     int i, zi = incz(fp);
 
-    s_goal *zp = fp->zv + zi;
+    struct s_goal *zp = fp->zv + zi;
 
     zp->p[0] = 0.f;
     zp->p[1] = 0.f;
@@ -1103,13 +1103,13 @@ static void make_goal(s_file *fp,
     }
 }
 
-static void make_view(s_file *fp,
+static void make_view(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
     int i, wi = incw(fp);
 
-    s_view *wp = fp->wv + wi;
+    struct s_view *wp = fp->wv + wi;
 
     wp->p[0] = 0.f;
     wp->p[1] = 0.f;
@@ -1136,13 +1136,13 @@ static void make_view(s_file *fp,
     }
 }
 
-static void make_jump(s_file *fp,
+static void make_jump(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
     int i, ji = incj(fp);
 
-    s_jump *jp = fp->jv + ji;
+    struct s_jump *jp = fp->jv + ji;
 
     jp->p[0] = 0.f;
     jp->p[1] = 0.f;
@@ -1173,13 +1173,13 @@ static void make_jump(s_file *fp,
     }
 }
 
-static void make_swch(s_file *fp,
+static void make_swch(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
     int i, xi = incx(fp);
 
-    s_swch *xp = fp->xv + xi;
+    struct s_swch *xp = fp->xv + xi;
 
     xp->p[0] = 0.f;
     xp->p[1] = 0.f;
@@ -1228,7 +1228,7 @@ static void make_swch(s_file *fp,
     }
 }
 
-static void make_targ(s_file *fp,
+static void make_targ(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
@@ -1258,13 +1258,13 @@ static void make_targ(s_file *fp,
     targ_n++;
 }
 
-static void make_ball(s_file *fp,
+static void make_ball(struct s_file *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
     int i, ui = incu(fp);
 
-    s_ball *up = fp->uv + ui;
+    struct s_ball *up = fp->uv + ui;
 
     up->p[0] = 0.0f;
     up->p[1] = 0.0f;
@@ -1293,7 +1293,7 @@ static void make_ball(s_file *fp,
 
 /*---------------------------------------------------------------------------*/
 
-static void read_ent(s_file *fp, fs_file fin)
+static void read_ent(struct s_file *fp, fs_file fin)
 {
     char k[MAXKEY][MAXSTR];
     char v[MAXKEY][MAXSTR];
@@ -1333,7 +1333,7 @@ static void read_ent(s_file *fp, fs_file fin)
     if (!strcmp(v[i], "misc_model"))               make_body(fp, k, v, c, l0);
 }
 
-static void read_map(s_file *fp, fs_file fin)
+static void read_map(struct s_file *fp, fs_file fin)
 {
     char k[MAXSTR];
     char v[MAXSTR];
@@ -1348,12 +1348,12 @@ static void read_map(s_file *fp, fs_file fin)
 
 /* Test the location of a point with respect to a side plane. */
 
-static int fore_side(const float p[3], const s_side *sp)
+static int fore_side(const float p[3], const struct s_side *sp)
 {
     return (v_dot(p, sp->n) - sp->d > +SMALL) ? 1 : 0;
 }
 
-static int on_side(const float p[3], const s_side *sp)
+static int on_side(const float p[3], const struct s_side *sp)
 {
     float d = v_dot(p, sp->n) - sp->d;
 
@@ -1366,8 +1366,8 @@ static int on_side(const float p[3], const s_side *sp)
  * geometry.
  */
 
-static int ok_vert(const s_file *fp,
-                   const s_lump *lp, const float p[3])
+static int ok_vert(const struct s_file *fp,
+                   const struct s_lump *lp, const float p[3])
 {
     float r[3];
     int i;
@@ -1401,8 +1401,8 @@ static int ok_vert(const s_file *fp,
  * Confirm that this point falls  within the current lump, and that it
  * is unique.  Add it as a vert of the solid.
  */
-static void clip_vert(s_file *fp,
-                      s_lump *lp, int si, int sj, int sk)
+static void clip_vert(struct s_file *fp,
+                      struct s_lump *lp, int si, int sj, int sk)
 {
     float M[16], X[16], I[16];
     float d[3],  p[3];
@@ -1444,8 +1444,8 @@ static void clip_vert(s_file *fp,
  * finding a pair of vertices that fall on both planes.  Add it to the
  * solid.
  */
-static void clip_edge(s_file *fp,
-                      s_lump *lp, int si, int sj)
+static void clip_edge(struct s_file *fp,
+                      struct s_lump *lp, int si, int sj)
 {
     int i, j;
 
@@ -1482,15 +1482,15 @@ static void clip_edge(s_file *fp,
  * verts to  have a counter-clockwise winding about  the plane normal.
  * Create geoms to tessellate the resulting convex polygon.
  */
-static void clip_geom(s_file *fp,
-                      s_lump *lp, int si)
+static void clip_geom(struct s_file *fp,
+                      struct s_lump *lp, int si)
 {
     int   m[256], t[256], d, i, j, n = 0;
     float u[3];
     float v[3];
     float w[3];
 
-    s_side *sp = fp->sv + si;
+    struct s_side *sp = fp->sv + si;
 
     /* Find em. */
 
@@ -1563,7 +1563,7 @@ static void clip_geom(s_file *fp,
  * each trio of planes, a new edge  for each pair of planes, and a new
  * set of geom for each visible plane.
  */
-static void clip_lump(s_file *fp, s_lump *lp)
+static void clip_lump(struct s_file *fp, struct s_lump *lp)
 {
     int i, j, k;
 
@@ -1600,7 +1600,7 @@ static void clip_lump(s_file *fp, s_lump *lp)
             lp->fl |= L_DETAIL;
 }
 
-static void clip_file(s_file *fp)
+static void clip_file(struct s_file *fp)
 {
     int i;
 
@@ -1618,7 +1618,7 @@ static void clip_file(s_file *fp)
  * the number of elements that can be eliminated.
  */
 
-static int comp_mtrl(const s_mtrl *mp, const s_mtrl *mq)
+static int comp_mtrl(const struct s_mtrl *mp, const struct s_mtrl *mq)
 {
     if (fabs(mp->d[0] - mq->d[0]) > SMALL) return 0;
     if (fabs(mp->d[1] - mq->d[1]) > SMALL) return 0;
@@ -1647,7 +1647,7 @@ static int comp_mtrl(const s_mtrl *mp, const s_mtrl *mq)
     return 1;
 }
 
-static int comp_vert(const s_vert *vp, const s_vert *vq)
+static int comp_vert(const struct s_vert *vp, const struct s_vert *vq)
 {
     if (fabs(vp->p[0] - vq->p[0]) > SMALL) return 0;
     if (fabs(vp->p[1] - vq->p[1]) > SMALL) return 0;
@@ -1656,7 +1656,7 @@ static int comp_vert(const s_vert *vp, const s_vert *vq)
     return 1;
 }
 
-static int comp_edge(const s_edge *ep, const s_edge *eq)
+static int comp_edge(const struct s_edge *ep, const struct s_edge *eq)
 {
     if (ep->vi != eq->vi && ep->vi != eq->vj) return 0;
     if (ep->vj != eq->vi && ep->vj != eq->vj) return 0;
@@ -1664,7 +1664,7 @@ static int comp_edge(const s_edge *ep, const s_edge *eq)
     return 1;
 }
 
-static int comp_side(const s_side *sp, const s_side *sq)
+static int comp_side(const struct s_side *sp, const struct s_side *sq)
 {
     if  (fabs(sp->d - sq->d) > SMALL)  return 0;
     if (v_dot(sp->n,  sq->n) < 0.9999) return 0;
@@ -1672,7 +1672,7 @@ static int comp_side(const s_side *sp, const s_side *sq)
     return 1;
 }
 
-static int comp_texc(const s_texc *tp, const s_texc *tq)
+static int comp_texc(const struct s_texc *tp, const struct s_texc *tq)
 {
     if (fabs(tp->u[0] - tq->u[0]) > SMALL) return 0;
     if (fabs(tp->u[1] - tq->u[1]) > SMALL) return 0;
@@ -1680,7 +1680,7 @@ static int comp_texc(const s_texc *tp, const s_texc *tq)
     return 1;
 }
 
-static int comp_geom(const s_geom *gp, const s_geom *gq)
+static int comp_geom(const struct s_geom *gp, const struct s_geom *gq)
 {
     if (gp->mi != gq->mi) return 0;
 
@@ -1707,7 +1707,7 @@ static int comp_geom(const s_geom *gp, const s_geom *gq)
  * and sorting the file.
  */
 
-static void swap_mtrl(s_file *fp, int mi, int mj)
+static void swap_mtrl(struct s_file *fp, int mi, int mj)
 {
     int i;
 
@@ -1719,7 +1719,7 @@ static void swap_mtrl(s_file *fp, int mi, int mj)
 
 static int vert_swaps[MAXV];
 
-static void apply_vert_swaps(s_file *fp)
+static void apply_vert_swaps(struct s_file *fp)
 {
     int i, j;
 
@@ -1741,7 +1741,7 @@ static void apply_vert_swaps(s_file *fp)
             fp->iv[fp->lv[i].v0 + j] = vert_swaps[fp->iv[fp->lv[i].v0 + j]];
 }
 
-static void swap_vert(s_file *fp, int vi, int vj)
+static void swap_vert(struct s_file *fp, int vi, int vj)
 {
     int i, j;
 
@@ -1766,7 +1766,7 @@ static void swap_vert(s_file *fp, int vi, int vj)
 
 static int edge_swaps[MAXE];
 
-static void apply_edge_swaps(s_file *fp)
+static void apply_edge_swaps(struct s_file *fp)
 {
     int i, j;
 
@@ -1777,7 +1777,7 @@ static void apply_edge_swaps(s_file *fp)
 
 static int side_swaps[MAXS];
 
-static void apply_side_swaps(s_file *fp)
+static void apply_side_swaps(struct s_file *fp)
 {
     int i, j;
 
@@ -1797,7 +1797,7 @@ static void apply_side_swaps(s_file *fp)
 
 static int texc_swaps[MAXT];
 
-static void apply_texc_swaps(s_file *fp)
+static void apply_texc_swaps(struct s_file *fp)
 {
     int i;
 
@@ -1811,7 +1811,7 @@ static void apply_texc_swaps(s_file *fp)
 
 static int geom_swaps[MAXG];
 
-static void apply_geom_swaps(s_file *fp)
+static void apply_geom_swaps(struct s_file *fp)
 {
     int i, j;
 
@@ -1826,7 +1826,7 @@ static void apply_geom_swaps(s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void uniq_mtrl(s_file *fp)
+static void uniq_mtrl(struct s_file *fp)
 {
     int i, j, k = 0;
 
@@ -1853,7 +1853,7 @@ static void uniq_mtrl(s_file *fp)
     fp->mc = k;
 }
 
-static void uniq_vert(s_file *fp)
+static void uniq_vert(struct s_file *fp)
 {
     int i, j, k = 0;
 
@@ -1878,7 +1878,7 @@ static void uniq_vert(s_file *fp)
     fp->vc = k;
 }
 
-static void uniq_edge(s_file *fp)
+static void uniq_edge(struct s_file *fp)
 {
     int i, j, k = 0;
 
@@ -1906,7 +1906,7 @@ static void uniq_edge(s_file *fp)
 static int geomlist[MAXV];
 static int nextgeom[MAXG];
 
-static void uniq_geom(s_file *fp)
+static void uniq_geom(struct s_file *fp)
 {
     int i, j, k = 0;
 
@@ -1938,7 +1938,7 @@ found:
     fp->gc = k;
 }
 
-static void uniq_texc(s_file *fp)
+static void uniq_texc(struct s_file *fp)
 {
     int i, j, k = 0;
 
@@ -1963,7 +1963,7 @@ static void uniq_texc(s_file *fp)
     fp->tc = k;
 }
 
-static void uniq_side(s_file *fp)
+static void uniq_side(struct s_file *fp)
 {
     int i, j, k = 0;
 
@@ -1988,7 +1988,7 @@ static void uniq_side(s_file *fp)
     fp->sc = k;
 }
 
-static void uniq_file(s_file *fp)
+static void uniq_file(struct s_file *fp)
 {
     /* Debug mode skips optimization, producing oversized output files. */
 
@@ -2005,18 +2005,18 @@ static void uniq_file(s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct
+struct s_trip
 {
     int vi;
     int mi;
     int si;
     int gi;
-} s_trip;
+};
 
 static int comp_trip(const void *p, const void *q)
 {
-    const s_trip *tp = (const s_trip *) p;
-    const s_trip *tq = (const s_trip *) q;
+    const struct s_trip *tp = (const struct s_trip *) p;
+    const struct s_trip *tq = (const struct s_trip *) q;
 
     if (tp->vi < tq->vi) return -1;
     if (tp->vi > tq->vi) return +1;
@@ -2026,13 +2026,13 @@ static int comp_trip(const void *p, const void *q)
     return 0;
 }
 
-static void smth_file(s_file *fp)
+static void smth_file(struct s_file *fp)
 {
-    s_trip temp, *T;
+    struct s_trip temp, *T;
 
     if (debug_output == 0)
     {
-        if ((T = (s_trip *) malloc(fp->gc * 3 * sizeof (s_trip))))
+        if ((T = (struct s_trip *) malloc(fp->gc * 3 * sizeof (struct s_trip))))
         {
             int gi, i, j, k, l, c = 0;
 
@@ -2040,7 +2040,7 @@ static void smth_file(s_file *fp)
 
             for (gi = 0; gi < fp->gc; ++gi)
             {
-                s_geom *gp = fp->gv + gi;
+                struct s_geom *gp = fp->gv + gi;
 
                 T[c].vi = gp->vi;
                 T[c].mi = gp->mi;
@@ -2063,7 +2063,7 @@ static void smth_file(s_file *fp)
 
             /* Sort all triplets by vertex index and material. */
 
-            qsort(T, c, sizeof (s_trip), comp_trip);
+            qsort(T, c, sizeof (struct s_trip), comp_trip);
 
             /* For each set of triplets sharing vertex index and material... */
 
@@ -2138,7 +2138,7 @@ static void smth_file(s_file *fp)
 
             for (i = 0; i < c; ++i)
             {
-                s_geom *gp = fp->gv + T[i].gi;
+                struct s_geom *gp = fp->gv + T[i].gi;
 
                 if (gp->vi == T[i].vi) gp->si = T[i].si;
                 if (gp->vj == T[i].vi) gp->sj = T[i].si;
@@ -2155,7 +2155,7 @@ static void smth_file(s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void sort_file(s_file *fp)
+static void sort_file(struct s_file *fp)
 {
     int i, j;
 
@@ -2167,7 +2167,7 @@ static void sort_file(s_file *fp)
                 (fp->rv[j].d == fp->rv[i].d &&
                  fp->rv[j].mi > fp->rv[i].mi))
             {
-                s_bill t;
+                struct s_bill t;
 
                 t         = fp->rv[i];
                 fp->rv[i] = fp->rv[j];
@@ -2179,7 +2179,7 @@ static void sort_file(s_file *fp)
     for (i = 0; i < fp->vc; i++)
         if (fp->vv[0].p[1] > fp->vv[i].p[1])
         {
-            s_vert t;
+            struct s_vert t;
 
             t         = fp->vv[0];
             fp->vv[0] = fp->vv[i];
@@ -2193,9 +2193,9 @@ static void sort_file(s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static int test_lump_side(const s_file *fp,
-                          const s_lump *lp,
-                          const s_side *sp,
+static int test_lump_side(const struct s_file *fp,
+                          const struct s_lump *lp,
+                          const struct s_side *sp,
                           float bsphere[4])
 {
     int si;
@@ -2242,7 +2242,7 @@ static int test_lump_side(const s_file *fp,
     return 0;
 }
 
-static int node_node(s_file *fp, int l0, int lc, float bsphere[][4])
+static int node_node(struct s_file *fp, int l0, int lc, float bsphere[][4])
 {
     if (lc < 8)
     {
@@ -2328,7 +2328,7 @@ static int node_node(s_file *fp, int l0, int lc, float bsphere[][4])
             for (lj = 0; lj < li; lj++)
                 if (fp->lv[l0 + li].fl < fp->lv[l0 + lj].fl)
                 {
-                    s_lump l;
+                    struct s_lump l;
                     float f;
                     int i;
 
@@ -2376,8 +2376,8 @@ static int node_node(s_file *fp, int l0, int lc, float bsphere[][4])
 /*
  * Compute a bounding sphere for a lump (not optimal)
  */
-static void lump_bounding_sphere(s_file *fp,
-                                 s_lump *lp,
+static void lump_bounding_sphere(struct s_file *fp,
+                                 struct s_lump *lp,
                                  float bsphere[4])
 {
     float bbox[6];
@@ -2393,7 +2393,7 @@ static void lump_bounding_sphere(s_file *fp,
 
     for (i = 1; i < lp->vc; i++)
     {
-        s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
+        struct s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
         int j;
 
         for (j = 0; j < 3; j++)
@@ -2416,7 +2416,7 @@ static void lump_bounding_sphere(s_file *fp,
     bsphere[3] = fsqrtf(r);
 }
 
-static void node_file(s_file *fp)
+static void node_file(struct s_file *fp)
 {
     float bsphere[MAXL][4];
     int i;
@@ -2434,7 +2434,7 @@ static void node_file(s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void dump_file(s_file *p, const char *name)
+static void dump_file(struct s_file *p, const char *name)
 {
     int i, j;
     int c = 0;
@@ -2488,7 +2488,7 @@ int main(int argc, char *argv[])
 {
     char src[MAXSTR] = "";
     char dst[MAXSTR] = "";
-    s_file f;
+    struct s_file f;
     fs_file fin;
 
     if (!fs_init(argv[0]))

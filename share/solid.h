@@ -30,27 +30,27 @@
  * structure to which the variable  refers.  Y determines the usage of
  * the variable.
  *
- * The Xs are as documented by s_file:
+ * The Xs are as documented by struct s_file:
  *
- *     f  File          (s_file)
- *     m  Material      (s_mtrl)
- *     v  Vertex        (s_vert)
- *     e  Edge          (s_edge)
- *     s  Side          (s_side)
- *     t  Texture coord (s_texc)
- *     g  Geometry      (s_geom)
- *     l  Lump          (s_lump)
- *     n  Node          (s_node)
- *     p  Path          (s_path)
- *     b  Body          (s_body)
- *     h  Item          (s_item)
- *     z  Goal          (s_goal)
- *     j  Jump          (s_jump)
- *     x  Switch        (s_swch)
- *     r  Billboard     (s_bill)
- *     u  User          (s_ball)
- *     w  Viewpoint     (s_view)
- *     d  Dictionary    (s_dict)
+ *     f  File          (struct s_file)
+ *     m  Material      (struct s_mtrl)
+ *     v  Vertex        (struct s_vert)
+ *     e  Edge          (struct s_edge)
+ *     s  Side          (struct s_side)
+ *     t  Texture coord (struct s_texc)
+ *     g  Geometry      (struct s_geom)
+ *     l  Lump          (struct s_lump)
+ *     n  Node          (struct s_node)
+ *     p  Path          (struct s_path)
+ *     b  Body          (struct s_body)
+ *     h  Item          (struct s_item)
+ *     z  Goal          (struct s_goal)
+ *     j  Jump          (struct s_jump)
+ *     x  Switch        (struct s_swch)
+ *     r  Billboard     (struct s_bill)
+ *     u  User          (struct s_ball)
+ *     w  Viewpoint     (struct s_view)
+ *     d  Dictionary    (struct s_dict)
  *     i  Index         (int)
  *     a  Text          (char)
  *
@@ -112,7 +112,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct
+struct s_mtrl
 {
     float d[4];                                /* diffuse color              */
     float a[4];                                /* ambient color              */
@@ -125,57 +125,57 @@ typedef struct
 
     GLuint o;                                  /* OpenGL texture object      */
     char   f[PATHMAX];                         /* texture file name          */
-} s_mtrl;
+};
 
-typedef struct
+struct s_vert
 {
     float p[3];                                /* vertex position            */
-} s_vert;
+};
 
-typedef struct
+struct s_edge
 {
     int vi;
     int vj;
-} s_edge;
+};
 
-typedef struct
+struct s_side
 {
     float n[3];                                /* plane normal vector        */
     float d;                                   /* distance from origin       */
-} s_side;
+};
 
-typedef struct
+struct s_texc
 {
     float u[2];                                /* texture coordinate         */
-} s_texc;
+};
 
-typedef struct
+struct s_geom
 {
     int mi;
     int ti, si, vi;
     int tj, sj, vj;
     int tk, sk, vk;
-} s_geom;
+};
 
-typedef struct
+struct s_lump
 {
     int fl;                                    /* lump flags                 */
     int v0, vc;
     int e0, ec;
     int g0, gc;
     int s0, sc;
-} s_lump;
+};
 
-typedef struct
+struct s_node
 {
     int si;
     int ni;
     int nj;
     int l0;
     int lc;
-} s_node;
+};
 
-typedef struct
+struct s_path
 {
     float p[3];                                /* starting position          */
     float e[4];                                /* orientation (quaternion)   */
@@ -188,9 +188,9 @@ typedef struct
     int fl;                                    /* flags                      */
 
     /* TODO: merge enable and smooth into flags. */
-} s_path;
+};
 
-typedef struct
+struct s_body
 {
     float t;                                   /* time on current path       */
 
@@ -205,22 +205,22 @@ typedef struct
     int lc;
     int g0;
     int gc;
-} s_body;
+};
 
-typedef struct
+struct s_item
 {
     float p[3];                                /* position                   */
     int   t;                                   /* type                       */
     int   n;                                   /* value                      */
-} s_item;
+};
 
-typedef struct
+struct s_goal
 {
     float p[3];                                /* position                   */
     float r;                                   /* radius                     */
-} s_goal;
+};
 
-typedef struct
+struct s_swch
 {
     float p[3];                                /* position                   */
     float r;                                   /* radius                     */
@@ -232,9 +232,9 @@ typedef struct
     int   f;                                   /* current state              */
     int   i;                                   /* is invisible?              */
     int   e;                                   /* is a ball inside it?       */
-} s_swch;
+};
 
-typedef struct
+struct s_bill
 {
     int  fl;
     int  mi;
@@ -249,16 +249,16 @@ typedef struct
     float rz[3];                               /* Z rotation coefficients    */
 
     float p[3];
-} s_bill;
+};
 
-typedef struct
+struct s_jump
 {
     float p[3];                                /* position                   */
     float q[3];                                /* target position            */
     float r;                                   /* radius                     */
-} s_jump;
+};
 
-typedef struct
+struct s_ball
 {
     float e[3][3];                             /* basis of orientation       */
     float p[3];                                /* position vector            */
@@ -267,21 +267,21 @@ typedef struct
     float E[3][3];                             /* basis of pendulum          */
     float W[3];                                /* angular pendulum velocity  */
     float r;                                   /* radius                     */
-} s_ball;
+};
 
-typedef struct
+struct s_view
 {
     float p[3];
     float q[3];
-} s_view;
+};
 
-typedef struct
+struct s_dict
 {
     int ai;
     int aj;
-} s_dict;
+};
 
-typedef struct
+struct s_file
 {
     int ac;
     int mc;
@@ -304,34 +304,34 @@ typedef struct
     int dc;
     int ic;
 
-    char   *av;
-    s_mtrl *mv;
-    s_vert *vv;
-    s_edge *ev;
-    s_side *sv;
-    s_texc *tv;
-    s_geom *gv;
-    s_lump *lv;
-    s_node *nv;
-    s_path *pv;
-    s_body *bv;
-    s_item *hv;
-    s_goal *zv;
-    s_jump *jv;
-    s_swch *xv;
-    s_bill *rv;
-    s_ball *uv;
-    s_view *wv;
-    s_dict *dv;
-    int    *iv;
-} s_file;
+    char          *av;
+    struct s_mtrl *mv;
+    struct s_vert *vv;
+    struct s_edge *ev;
+    struct s_side *sv;
+    struct s_texc *tv;
+    struct s_geom *gv;
+    struct s_lump *lv;
+    struct s_node *nv;
+    struct s_path *pv;
+    struct s_body *bv;
+    struct s_item *hv;
+    struct s_goal *zv;
+    struct s_jump *jv;
+    struct s_swch *xv;
+    struct s_bill *rv;
+    struct s_ball *uv;
+    struct s_view *wv;
+    struct s_dict *dv;
+    int           *iv;
+};
 
 /*---------------------------------------------------------------------------*/
 
-int   sol_load_only_file(s_file *, const char *);
-int   sol_load_only_head(s_file *, const char *);
-int   sol_stor(s_file *, const char *);
-void  sol_free(s_file *);
+int   sol_load_only_file(struct s_file *, const char *);
+int   sol_load_only_head(struct s_file *, const char *);
+int   sol_stor(struct s_file *, const char *);
+void  sol_free(struct s_file *);
 
 /*---------------------------------------------------------------------------*/
 

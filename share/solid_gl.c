@@ -31,8 +31,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int sol_enum_mtrl(const s_file *fp,
-                         const s_body *bp, int mi)
+static int sol_enum_mtrl(const struct s_file *fp,
+                         const struct s_body *bp, int mi)
 {
     int li, gi, c = 0;
 
@@ -57,8 +57,8 @@ static int sol_enum_mtrl(const s_file *fp,
     return c;
 }
 
-static int sol_enum_body(const s_file *fp,
-                         const s_body *bp, int fl)
+static int sol_enum_body(const struct s_file *fp,
+                         const struct s_body *bp, int fl)
 {
     int mi, c = 0;
 
@@ -73,7 +73,7 @@ static int sol_enum_body(const s_file *fp,
 
 /*---------------------------------------------------------------------------*/
 
-int sol_reflective(const s_file *fp)
+int sol_reflective(const struct s_file *fp)
 {
     int bi;
 
@@ -93,7 +93,7 @@ int sol_reflective(const s_file *fp)
                          tobyte((a)[2]) == tobyte((b)[2]) && \
                          tobyte((a)[3]) == tobyte((b)[3]))
 
-static s_mtrl default_mtrl =
+static struct s_mtrl default_mtrl =
 {
     { 0.8f, 0.8f, 0.8f, 1.0f },
     { 0.2f, 0.2f, 0.2f, 1.0f },
@@ -102,9 +102,9 @@ static s_mtrl default_mtrl =
     { 0.0f, }, 0.0f, M_OPAQUE, 0, ""
 };
 
-static const s_mtrl *sol_draw_mtrl(const s_file *fp,
-                                          const s_mtrl *mp,
-                                          const s_mtrl *mq)
+static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
+                                          const struct s_mtrl *mp,
+                                          const struct s_mtrl *mq)
 {
     /* Change material properties only as needed. */
 
@@ -185,9 +185,9 @@ static const s_mtrl *sol_draw_mtrl(const s_file *fp,
     return mp;
 }
 
-static const s_mtrl *sol_back_bill(const s_file *fp,
-                                          const s_bill *rp,
-                                          const s_mtrl *mp, float t)
+static const struct s_mtrl *sol_back_bill(const struct s_file *fp,
+                                          const struct s_bill *rp,
+                                          const struct s_mtrl *mp, float t)
 {
     float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2) : 0.0f;
 
@@ -238,9 +238,9 @@ static const s_mtrl *sol_back_bill(const s_file *fp,
 
 /*---------------------------------------------------------------------------*/
 
-void sol_back(const s_file *fp, float n, float f, float t)
+void sol_back(const struct s_file *fp, float n, float f, float t)
 {
-    const s_mtrl *mp = &default_mtrl;
+    const struct s_mtrl *mp = &default_mtrl;
 
     int ri;
 
@@ -271,8 +271,8 @@ void sol_back(const s_file *fp, float n, float f, float t)
  * stored in display lists.  Thus, it is well worth it.
  */
 
-static void sol_draw_geom(const s_file *fp,
-                          const s_geom *gp, int mi)
+static void sol_draw_geom(const struct s_file *fp,
+                          const struct s_geom *gp, int mi)
 {
     if (gp->mi == mi)
     {
@@ -302,8 +302,8 @@ static void sol_draw_geom(const s_file *fp,
     }
 }
 
-static void sol_draw_lump(const s_file *fp,
-                          const s_lump *lp, int mi)
+static void sol_draw_lump(const struct s_file *fp,
+                          const struct s_lump *lp, int mi)
 {
     int i;
 
@@ -311,9 +311,9 @@ static void sol_draw_lump(const s_file *fp,
         sol_draw_geom(fp, fp->gv + fp->iv[lp->g0 + i], mi);
 }
 
-static const s_mtrl *sol_draw_body(const s_file *fp,
-                                          const s_body *bp,
-                                          const s_mtrl *mp,
+static const struct s_mtrl *sol_draw_body(const struct s_file *fp,
+                                          const struct s_body *bp,
+                                          const struct s_mtrl *mp,
                                           int fl, int decal)
 {
     int mi, li, gi;
@@ -345,8 +345,8 @@ static const s_mtrl *sol_draw_body(const s_file *fp,
     return mp;
 }
 
-static void sol_draw_list(const s_file *fp,
-                          const s_body *bp, GLuint list)
+static void sol_draw_list(const struct s_file *fp,
+                          const struct s_body *bp, GLuint list)
 {
     float p[3], e[4], u[3], a;
 
@@ -370,7 +370,7 @@ static void sol_draw_list(const s_file *fp,
     glPopMatrix();
 }
 
-void sol_draw(const s_file *fp, int depthmask, int depthtest)
+void sol_draw(const struct s_file *fp, int depthmask, int depthtest)
 {
     int bi;
 
@@ -393,15 +393,15 @@ void sol_draw(const s_file *fp, int depthmask, int depthtest)
     if (depthtest == 0) glEnable(GL_DEPTH_TEST);
 }
 
-void sol_bill(const s_file *fp, const float *M, float t)
+void sol_bill(const struct s_file *fp, const float *M, float t)
 {
-    const s_mtrl *mp = &default_mtrl;
+    const struct s_mtrl *mp = &default_mtrl;
 
     int ri;
 
     for (ri = 0; ri < fp->rc; ++ri)
     {
-        const s_bill *rp = fp->rv + ri;
+        const struct s_bill *rp = fp->rv + ri;
 
         float T = rp->t * t;
         float S = fsinf(T);
@@ -439,7 +439,7 @@ void sol_bill(const s_file *fp, const float *M, float t)
     mp = sol_draw_mtrl(fp, &default_mtrl, mp);
 }
 
-void sol_refl(const s_file *fp)
+void sol_refl(const struct s_file *fp)
 {
     int bi;
 
@@ -452,8 +452,8 @@ void sol_refl(const s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void sol_shad_geom(const s_file *fp,
-                          const s_geom *gp, int mi)
+static void sol_shad_geom(const struct s_file *fp,
+                          const struct s_geom *gp, int mi)
 {
     if (gp->mi == mi)
     {
@@ -472,8 +472,8 @@ static void sol_shad_geom(const s_file *fp,
     }
 }
 
-static void sol_shad_lump(const s_file *fp,
-                          const s_lump *lp, int mi)
+static void sol_shad_lump(const struct s_file *fp,
+                          const struct s_lump *lp, int mi)
 {
     int i;
 
@@ -481,8 +481,8 @@ static void sol_shad_lump(const s_file *fp,
         sol_shad_geom(fp, fp->gv + fp->iv[lp->g0 + i], mi);
 }
 
-static void sol_shad_body(const s_file *fp,
-                          const s_body *bp,
+static void sol_shad_body(const struct s_file *fp,
+                          const struct s_body *bp,
                           int fl, int decal)
 {
     int mi, li, gi;
@@ -510,8 +510,8 @@ static void sol_shad_body(const s_file *fp,
         glDisable(GL_POLYGON_OFFSET_FILL);
 }
 
-static void sol_shad_list(const s_file *fp,
-                          const s_body *bp, GLuint list)
+static void sol_shad_list(const struct s_file *fp,
+                          const struct s_body *bp, GLuint list)
 {
     float p[3], e[4], u[3], a;
 
@@ -553,7 +553,7 @@ static void sol_shad_list(const s_file *fp,
     glPopMatrix();
 }
 
-void sol_shad(const s_file *fp)
+void sol_shad(const struct s_file *fp)
 {
     int bi;
 
@@ -570,7 +570,7 @@ void sol_shad(const s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void sol_load_objects(s_file *fp, int s)
+static void sol_load_objects(struct s_file *fp, int s)
 {
     int i;
 
@@ -578,7 +578,7 @@ static void sol_load_objects(s_file *fp, int s)
 
     for (i = 0; i < fp->bc; i++)
     {
-        s_body *bp = fp->bv + i;
+        struct s_body *bp = fp->bv + i;
 
         int on = sol_enum_body(fp, bp, M_OPAQUE);
         int tn = sol_enum_body(fp, bp, M_TRANSPARENT);
@@ -593,7 +593,7 @@ static void sol_load_objects(s_file *fp, int s)
 
             glNewList(fp->bv[i].ol, GL_COMPILE);
             {
-                const s_mtrl *mp = &default_mtrl;
+                const struct s_mtrl *mp = &default_mtrl;
 
                 mp = sol_draw_body(fp, fp->bv + i, mp, M_OPAQUE, 0);
                 mp = sol_draw_body(fp, fp->bv + i, mp, M_OPAQUE, M_DECAL);
@@ -611,7 +611,7 @@ static void sol_load_objects(s_file *fp, int s)
 
             glNewList(fp->bv[i].tl, GL_COMPILE);
             {
-                const s_mtrl *mp = &default_mtrl;
+                const struct s_mtrl *mp = &default_mtrl;
 
                 mp = sol_draw_body(fp, fp->bv + i, mp, M_TRANSPARENT, M_DECAL);
                 mp = sol_draw_body(fp, fp->bv + i, mp, M_TRANSPARENT, 0);
@@ -629,7 +629,7 @@ static void sol_load_objects(s_file *fp, int s)
 
             glNewList(fp->bv[i].rl, GL_COMPILE);
             {
-                const s_mtrl *mp = &default_mtrl;
+                const struct s_mtrl *mp = &default_mtrl;
 
                 mp = sol_draw_body(fp, fp->bv + i, mp, M_REFLECTIVE, 0);
                 mp = sol_draw_mtrl(fp, &default_mtrl, mp);
@@ -681,7 +681,7 @@ static GLuint sol_find_texture(const char *name)
     return 0;
 }
 
-static void sol_load_textures(s_file *fp)
+static void sol_load_textures(struct s_file *fp)
 {
     int i;
 
@@ -707,7 +707,7 @@ static void sol_load_textures(s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
-int sol_load_gl(s_file *fp, const char *filename, int s)
+int sol_load_gl(struct s_file *fp, const char *filename, int s)
 {
     if (sol_load_only_file(fp, filename))
     {
@@ -720,7 +720,7 @@ int sol_load_gl(s_file *fp, const char *filename, int s)
 
 /*---------------------------------------------------------------------------*/
 
-void sol_free_gl(s_file *fp)
+void sol_free_gl(struct s_file *fp)
 {
     int i;
 

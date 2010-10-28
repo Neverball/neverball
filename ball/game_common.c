@@ -113,7 +113,7 @@ void game_view_init(struct game_view *view)
     view->e[2][2] = 1.0f;
 }
 
-void game_view_fly(struct game_view *view, const s_file *fp, float k)
+void game_view_fly(struct game_view *view, const struct s_file *fp, float k)
 {
     /* float  x[3] = { 1.f, 0.f, 0.f }; */
     float  y[3] = { 0.f, 1.f, 0.f };

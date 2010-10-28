@@ -246,7 +246,7 @@ static float v_side(float Q[3],
  * Q  gives the  position  of the  point  of impact  and  W gives  the
  * velocity of the object being impacted.
  */
-static float sol_bounce(s_ball *up,
+static float sol_bounce(struct s_ball *up,
                         const float q[3],
                         const float w[3], float dt)
 {
@@ -283,8 +283,8 @@ static float sol_bounce(s_ball *up,
 
 static float sol_test_vert(float dt,
                            float T[3],
-                           const s_ball *up,
-                           const s_vert *vp,
+                           const struct s_ball *up,
+                           const struct s_vert *vp,
                            const float o[3],
                            const float w[3])
 {
@@ -293,9 +293,9 @@ static float sol_test_vert(float dt,
 
 static float sol_test_edge(float dt,
                            float T[3],
-                           const s_ball *up,
-                           const s_file *fp,
-                           const s_edge *ep,
+                           const struct s_ball *up,
+                           const struct s_file *fp,
+                           const struct s_edge *ep,
                            const float o[3],
                            const float w[3])
 {
@@ -311,10 +311,10 @@ static float sol_test_edge(float dt,
 
 static float sol_test_side(float dt,
                            float T[3],
-                           const s_ball *up,
-                           const s_file *fp,
-                           const s_lump *lp,
-                           const s_side *sp,
+                           const struct s_ball *up,
+                           const struct s_file *fp,
+                           const struct s_lump *lp,
+                           const struct s_side *sp,
                            const float o[3],
                            const float w[3])
 {
@@ -324,7 +324,7 @@ static float sol_test_side(float dt,
     if (t < dt)
         for (i = 0; i < lp->sc; i++)
         {
-            const s_side *sq = fp->sv + fp->iv[lp->s0 + i];
+            const struct s_side *sq = fp->sv + fp->iv[lp->s0 + i];
 
             if (sp != sq &&
                 v_dot(T, sq->n) -
@@ -338,8 +338,8 @@ static float sol_test_side(float dt,
 /*---------------------------------------------------------------------------*/
 
 static int sol_test_fore(float dt,
-                         const s_ball *up,
-                         const s_side *sp,
+                         const struct s_ball *up,
+                         const struct s_side *sp,
                          const float o[3],
                          const float w[3])
 {
@@ -367,8 +367,8 @@ static int sol_test_fore(float dt,
 }
 
 static int sol_test_back(float dt,
-                         const s_ball *up,
-                         const s_side *sp,
+                         const struct s_ball *up,
+                         const struct s_side *sp,
                          const float o[3],
                          const float w[3])
 {
@@ -399,9 +399,9 @@ static int sol_test_back(float dt,
 
 static float sol_test_lump(float dt,
                            float T[3],
-                           const s_ball *up,
-                           const s_file *fp,
-                           const s_lump *lp,
+                           const struct s_ball *up,
+                           const struct s_file *fp,
+                           const struct s_lump *lp,
                            const float o[3],
                            const float w[3])
 {
@@ -418,7 +418,7 @@ static float sol_test_lump(float dt,
     if (up->r > 0.0f)
         for (i = 0; i < lp->vc; i++)
         {
-            const s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
+            const struct s_vert *vp = fp->vv + fp->iv[lp->v0 + i];
 
             if ((u = sol_test_vert(t, U, up, vp, o, w)) < t)
             {
@@ -432,7 +432,7 @@ static float sol_test_lump(float dt,
     if (up->r > 0.0f)
         for (i = 0; i < lp->ec; i++)
         {
-            const s_edge *ep = fp->ev + fp->iv[lp->e0 + i];
+            const struct s_edge *ep = fp->ev + fp->iv[lp->e0 + i];
 
             if ((u = sol_test_edge(t, U, up, fp, ep, o, w)) < t)
             {
@@ -445,7 +445,7 @@ static float sol_test_lump(float dt,
 
     for (i = 0; i < lp->sc; i++)
     {
-        const s_side *sp = fp->sv + fp->iv[lp->s0 + i];
+        const struct s_side *sp = fp->sv + fp->iv[lp->s0 + i];
 
         if ((u = sol_test_side(t, U, up, fp, lp, sp, o, w)) < t)
         {
@@ -458,9 +458,9 @@ static float sol_test_lump(float dt,
 
 static float sol_test_node(float dt,
                            float T[3],
-                           const s_ball *up,
-                           const s_file *fp,
-                           const s_node *np,
+                           const struct s_ball *up,
+                           const struct s_file *fp,
+                           const struct s_node *np,
                            const float o[3],
                            const float w[3])
 {
@@ -471,7 +471,7 @@ static float sol_test_node(float dt,
 
     for (i = 0; i < np->lc; i++)
     {
-        const s_lump *lp = fp->lv + np->l0 + i;
+        const struct s_lump *lp = fp->lv + np->l0 + i;
 
         if ((u = sol_test_lump(t, U, up, fp, lp, o, w)) < t)
         {
@@ -484,7 +484,7 @@ static float sol_test_node(float dt,
 
     if (np->ni >= 0 && sol_test_fore(t, up, fp->sv + np->si, o, w))
     {
-        const s_node *nq = fp->nv + np->ni;
+        const struct s_node *nq = fp->nv + np->ni;
 
         if ((u = sol_test_node(t, U, up, fp, nq, o, w)) < t)
         {
@@ -497,7 +497,7 @@ static float sol_test_node(float dt,
 
     if (np->nj >= 0 && sol_test_back(t, up, fp->sv + np->si, o, w))
     {
-        const s_node *nq = fp->nv + np->nj;
+        const struct s_node *nq = fp->nv + np->nj;
 
         if ((u = sol_test_node(t, U, up, fp, nq, o, w)) < t)
         {
@@ -511,13 +511,13 @@ static float sol_test_node(float dt,
 
 static float sol_test_body(float dt,
                            float T[3], float V[3],
-                           const s_ball *up,
-                           const s_file *fp,
-                           const s_body *bp)
+                           const struct s_ball *up,
+                           const struct s_file *fp,
+                           const struct s_body *bp)
 {
     float U[3], O[3], E[4], W[3], A[3], u;
 
-    const s_node *np = fp->nv + bp->ni;
+    const struct s_node *np = fp->nv + bp->ni;
 
     sol_body_p(O, fp, bp->pi, bp->t);
     sol_body_v(W, fp, bp->pi, bp->t, dt);
@@ -539,7 +539,7 @@ static float sol_test_body(float dt,
     {
         /* The body has a non-identity orientation or it is rotating. */
 
-        s_ball ball;
+        struct s_ball ball;
         float e[4], p0[3], p1[3];
         const float z[3] = { 0 };
 
@@ -608,15 +608,15 @@ static float sol_test_body(float dt,
 
 static float sol_test_file(float dt,
                            float T[3], float V[3],
-                           const s_ball *up,
-                           const s_file *fp)
+                           const struct s_ball *up,
+                           const struct s_file *fp)
 {
     float U[3], W[3], u, t = dt;
     int i;
 
     for (i = 0; i < fp->bc; i++)
     {
-        const s_body *bp = fp->bv + i;
+        const struct s_body *bp = fp->bv + i;
 
         if ((u = sol_test_body(t, U, W, up, fp, bp)) < t)
         {
@@ -638,7 +638,7 @@ static float sol_test_file(float dt,
  * iterations, punt it.
  */
 
-float sol_step(s_file *fp, const float *g, float dt, int ui, int *m)
+float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 {
     float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
     int c;
@@ -647,7 +647,7 @@ float sol_step(s_file *fp, const float *g, float dt, int ui, int *m)
 
     if (ui < fp->uc)
     {
-        s_ball *up = fp->uv + ui;
+        struct s_ball *up = fp->uv + ui;
 
         /* If the ball is in contact with a surface, apply friction. */
 
@@ -703,11 +703,11 @@ float sol_step(s_file *fp, const float *g, float dt, int ui, int *m)
 
             for (bi = 0; bi < fp->bc; bi++)
             {
-                s_body *bp = fp->bv + bi;
+                struct s_body *bp = fp->bv + bi;
 
                 if (bp->pi >= 0)
                 {
-                    s_path *pp = fp->pv + bp->pi;
+                    struct s_path *pp = fp->pv + bp->pi;
 
                     if (!pp->f)
                         continue;
@@ -749,7 +749,7 @@ float sol_step(s_file *fp, const float *g, float dt, int ui, int *m)
 
 /*---------------------------------------------------------------------------*/
 
-void sol_init_sim(s_file *fp)
+void sol_init_sim(struct s_file *fp)
 {
     return;
 }

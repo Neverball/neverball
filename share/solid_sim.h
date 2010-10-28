@@ -19,10 +19,10 @@
 
 /*---------------------------------------------------------------------------*/
 
-void sol_init_sim(s_file *);
+void sol_init_sim(struct s_file *);
 void sol_quit_sim(void);
 
-float sol_step(s_file *, const float *, float, int, int *);
+float sol_step(struct s_file *, const float *, float, int, int *);
 
 /*---------------------------------------------------------------------------*/
 

@@ -34,7 +34,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-static s_file file;
+static struct s_file file;
 static int           ball;
 
 static float view_a;                    /* Ideal view rotation about Y axis  */
@@ -120,7 +120,7 @@ void game_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_draw_vect_prim(const s_file *fp, GLenum mode)
+static void game_draw_vect_prim(const struct s_file *fp, GLenum mode)
 {
     float p[3];
     float x[3];
@@ -153,7 +153,7 @@ static void game_draw_vect_prim(const s_file *fp, GLenum mode)
     glEnd();
 }
 
-static void game_draw_vect(const s_file *fp)
+static void game_draw_vect(const struct s_file *fp)
 {
     if (view_m > 0.f)
     {
@@ -180,7 +180,7 @@ static void game_draw_vect(const s_file *fp)
     }
 }
 
-static void game_draw_balls(const s_file *fp,
+static void game_draw_balls(const struct s_file *fp,
                             const float *bill_M, float t)
 {
     static const GLfloat color[5][4] = {
@@ -242,7 +242,7 @@ static void game_draw_balls(const s_file *fp,
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-static void game_draw_goals(const s_file *fp)
+static void game_draw_goals(const struct s_file *fp)
 {
     int zi;
 
@@ -259,7 +259,7 @@ static void game_draw_goals(const s_file *fp)
     }
 }
 
-static void game_draw_jumps(const s_file *fp)
+static void game_draw_jumps(const struct s_file *fp)
 {
     int ji;
 
@@ -278,7 +278,7 @@ static void game_draw_jumps(const s_file *fp)
     }
 }
 
-static void game_draw_swchs(const s_file *fp)
+static void game_draw_swchs(const struct s_file *fp)
 {
     int xi;
 
@@ -311,7 +311,7 @@ void game_draw(int pose, float t)
 
     const float light_p[4] = { 8.f, 32.f, 8.f, 1.f };
 
-    const s_file *fp = &file;
+    const struct s_file *fp = &file;
 
     float fov = FOV;
 
@@ -467,7 +467,7 @@ static int game_update_state(float dt)
 {
     static float t = 0.f;
 
-    s_file *fp = &file;
+    struct s_file *fp = &file;
     float p[3];
 
     if (dt > 0.f)
@@ -532,7 +532,7 @@ static int game_update_state(float dt)
 
 int game_step(const float g[3], float dt)
 {
-    s_file *fp = &file;
+    struct s_file *fp = &file;
 
     static float s = 0.f;
     static float t = 0.f;
@@ -627,7 +627,7 @@ void game_set_mag(int d)
 
 void game_set_fly(float k)
 {
-    s_file *fp = &file;
+    struct s_file *fp = &file;
 
     float  x[3] = { 1.f, 0.f, 0.f };
     float  y[3] = { 0.f, 1.f, 0.f };
