@@ -360,22 +360,20 @@ int sol_item_test(struct s_file *fp, float *p, float item_r)
 {
     const float *ball_p = fp->uv->p;
     const float  ball_r = fp->uv->r;
-
     int hi;
 
     for (hi = 0; hi < fp->hc; hi++)
     {
+        struct s_item *hp = fp->hv + hi;
         float r[3];
 
-        r[0] = ball_p[0] - fp->hv[hi].p[0];
-        r[1] = ball_p[1] - fp->hv[hi].p[1];
-        r[2] = ball_p[2] - fp->hv[hi].p[2];
+        v_sub(r, ball_p, hp->p);
 
-        if (fp->hv[hi].t != ITEM_NONE && v_len(r) < ball_r + item_r)
+        if (hp->t != ITEM_NONE && v_len(r) < ball_r + item_r)
         {
-            p[0] = fp->hv[hi].p[0];
-            p[1] = fp->hv[hi].p[1];
-            p[2] = fp->hv[hi].p[2];
+            p[0] = hp->p[0];
+            p[1] = hp->p[1];
+            p[2] = hp->p[2];
 
             return hi;
         }
@@ -391,80 +389,73 @@ struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
 
     for (zi = 0; zi < fp->zc; zi++)
     {
+        struct s_goal *zp = fp->zv + zi;
         float r[3];
 
-        r[0] = ball_p[0] - fp->zv[zi].p[0];
-        r[1] = ball_p[2] - fp->zv[zi].p[2];
+        r[0] = ball_p[0] - zp->p[0];
+        r[1] = ball_p[2] - zp->p[2];
         r[2] = 0;
 
-        if (v_len(r) < fp->zv[zi].r - ball_r &&
-            ball_p[1] > fp->zv[zi].p[1] &&
-            ball_p[1] < fp->zv[zi].p[1] + GOAL_HEIGHT / 2)
+        if (v_len(r) + ball_r < zp->r &&
+            ball_p[1] > zp->p[1] &&
+            ball_p[1] < zp->p[1] + GOAL_HEIGHT / 2)
         {
-            p[0] = fp->zv[zi].p[0];
-            p[1] = fp->zv[zi].p[1];
-            p[2] = fp->zv[zi].p[2];
+            p[0] = zp->p[0];
+            p[1] = zp->p[1];
+            p[2] = zp->p[2];
 
-            return &fp->zv[zi];
+            return zp;
         }
     }
     return NULL;
 }
 
 /*
- * Test if the  ball UI is inside a  jump. Return 1 if yes  and fill P
- * with the destination position, return 0 if not, and return 2 if the
- * ball is on the border of a jump.
+ * Test for a ball entering a  teleporter. Return 1 if true and fill P
+ * with the destination position, return 0 otherwise.
  */
 int sol_jump_test(struct s_file *fp, float *p, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
     int ji;
-    float l;
-    int res = 0;
 
     for (ji = 0; ji < fp->jc; ji++)
     {
+        struct s_jump *jp = fp->jv + ji;
         float r[3];
 
-        r[0] = ball_p[0] - fp->jv[ji].p[0];
-        r[1] = ball_p[2] - fp->jv[ji].p[2];
+        r[0] = ball_p[0] - jp->p[0];
+        r[1] = ball_p[2] - jp->p[2];
         r[2] = 0;
 
-        l = v_len(r) - fp->jv[ji].r;
-        if (l < 0 &&
-            ball_p[1] > fp->jv[ji].p[1] &&
-            ball_p[1] < fp->jv[ji].p[1] + JUMP_HEIGHT / 2)
+        if (v_len(r) + ball_r < jp->r &&
+            ball_p[1] > jp->p[1] &&
+            ball_p[1] < jp->p[1] + JUMP_HEIGHT / 2)
         {
-            if (l < - ball_r )
-            {
-                p[0] = fp->jv[ji].q[0] + (ball_p[0] - fp->jv[ji].p[0]);
-                p[1] = fp->jv[ji].q[1] + (ball_p[1] - fp->jv[ji].p[1]);
-                p[2] = fp->jv[ji].q[2] + (ball_p[2] - fp->jv[ji].p[2]);
+            p[0] = jp->q[0] + (ball_p[0] - jp->p[0]);
+            p[1] = jp->q[1] + (ball_p[1] - jp->p[1]);
+            p[2] = jp->q[2] + (ball_p[2] - jp->p[2]);
 
-                return 1;
-            }
-            else
-                res = 2;
+            return 1;
         }
     }
-    return res;
+    return 0;
 }
 
 /*
- * Test and process the event the ball UI enters a switch. Return 1 if
- * a visible  switch is  activated, return 0  otherwise (no  switch is
- * activated or only invisible switches).
+ * Test for a ball entering a  switch. Return 1 if a visible switch is
+ * activated,  return 0  otherwise  (no switch  is  activated or  only
+ * invisible switches).
  */
 int sol_swch_test(struct s_file *fp, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
-    int xi;
-    int res = 0;
 
     union cmd cmd;
+
+    int xi, rc = 0;
 
     for (xi = 0; xi < fp->xc; xi++)
     {
@@ -474,20 +465,17 @@ int sol_swch_test(struct s_file *fp, int ui)
 
         if (xp->t0 == 0 || xp->f == xp->f0)
         {
-            float l;
             float r[3];
 
             r[0] = ball_p[0] - xp->p[0];
             r[1] = ball_p[2] - xp->p[2];
             r[2] = 0;
 
-            l = v_len(r) - xp->r;
-
-            if (l < ball_r &&
+            if (v_len(r) + ball_r < xp->r &&
                 ball_p[1] > xp->p[1] &&
                 ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
             {
-                if (!xp->e && l < - ball_r)
+                if (!xp->e)
                 {
                     int pi = xp->pi;
                     int pj = xp->pi;
@@ -535,7 +523,7 @@ int sol_swch_test(struct s_file *fp, int ui)
                     /* If visible, set the result. */
 
                     if (!xp->i)
-                        res = 1;
+                        rc = 1;
                 }
             }
 
@@ -551,7 +539,7 @@ int sol_swch_test(struct s_file *fp, int ui)
             }
         }
     }
-    return res;
+    return rc;
 }
 
 /*---------------------------------------------------------------------------*/
