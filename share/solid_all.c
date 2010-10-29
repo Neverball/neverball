@@ -417,7 +417,7 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
 {
     const float *ball_p = fp->uv[ui].p;
     const float  ball_r = fp->uv[ui].r;
-    int ji;
+    int ji, in = 0;
 
     for (ji = 0; ji < fp->jc; ji++)
     {
@@ -442,6 +442,8 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
             ball_p[1] > jp->p[1] &&
             ball_p[1] < jp->p[1] + JUMP_HEIGHT / 2)
         {
+            in = 1;
+
             if (d <= 0.0f)
             {
                 p[0] = jp->q[0] + (ball_p[0] - jp->p[0]);
@@ -450,11 +452,9 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
 
                 return JUMP_TRIGGER;
             }
-            else
-                return JUMP_INSIDE;
         }
     }
-    return JUMP_OUTSIDE;
+    return in ? JUMP_INSIDE : JUMP_OUTSIDE;
 }
 
 /*
