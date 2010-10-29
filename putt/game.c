@@ -482,7 +482,8 @@ static int game_update_state(float dt)
 
     /* Test for a jump. */
 
-    if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, ball) == 1)
+    if (jump_e == 1 && jump_b == 0 && (sol_jump_test(fp, jump_p, ball) ==
+                                       JUMP_TRIGGER))
     {
         jump_b  = 1;
         jump_e  = 0;
@@ -490,8 +491,11 @@ static int game_update_state(float dt)
 
         audio_play(AUD_JUMP, 1.f);
     }
-    if (jump_e == 0 && jump_b == 0 &&  sol_jump_test(fp, jump_p, ball) == 0)
+    if (jump_e == 0 && jump_b == 0 && (sol_jump_test(fp, jump_p, ball) ==
+                                       JUMP_OUTSIDE))
+    {
         jump_e = 1;
+    }
 
     /* Test for fall-out. */
 

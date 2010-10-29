@@ -20,6 +20,20 @@ void sol_swch_step(struct s_file *fp, float dt);
 void sol_body_step(struct s_file *fp, float dt);
 void sol_ball_step(struct s_file *fp, float dt);
 
+enum
+{
+    JUMP_OUTSIDE = 0,
+    JUMP_TRIGGER,
+    JUMP_INSIDE
+};
+
+enum
+{
+    SWCH_OUTSIDE = 0,
+    SWCH_TRIGGER,
+    SWCH_INSIDE
+};
+
 int            sol_item_test(struct s_file *fp, float *p, float item_r);
 struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui);
 int            sol_jump_test(struct s_file *fp, float *p, int ui);

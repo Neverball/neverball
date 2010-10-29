@@ -683,12 +683,13 @@ static int game_update_state(int bt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, 0))
+    if (sol_swch_test(fp, 0) == SWCH_TRIGGER)
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
-    if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 1)
+    if (jump_e == 1 && jump_b == 0 && (sol_jump_test(fp, jump_p, 0) ==
+                                       JUMP_TRIGGER))
     {
         jump_b  = 1;
         jump_e  = 0;
@@ -701,7 +702,8 @@ static int game_update_state(int bt)
 
         game_cmd_jump(1);
     }
-    if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 0)
+    if (jump_e == 0 && jump_b == 0 && (sol_jump_test(fp, jump_p, 0) ==
+                                       JUMP_OUTSIDE))
     {
         jump_e = 1;
         game_cmd_jump(0);

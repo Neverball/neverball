@@ -411,8 +411,7 @@ struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
 }
 
 /*
- * Test for a ball entering a  teleporter. Return 1 if true and fill P
- * with the destination position, return 0 otherwise.
+ * Test for a ball entering a teleporter.
  */
 int sol_jump_test(struct s_file *fp, float *p, int ui)
 {
@@ -423,30 +422,43 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
     for (ji = 0; ji < fp->jc; ji++)
     {
         struct s_jump *jp = fp->jv + ji;
-        float r[3];
+        float d, r[3];
 
         r[0] = ball_p[0] - jp->p[0];
         r[1] = ball_p[2] - jp->p[2];
         r[2] = 0;
 
-        if (v_len(r) + ball_r < jp->r &&
+        /* Distance of the far side from the edge of the halo. */
+
+        d = v_len(r) + ball_r - jp->r;
+
+        /*
+         * The "inside"  distance, which must be  cleared before being
+         * able to trigger a  teleporter, is the ball's radius.  (This
+         * is different from switches.)
+         */
+
+        if (d <= ball_r &&
             ball_p[1] > jp->p[1] &&
             ball_p[1] < jp->p[1] + JUMP_HEIGHT / 2)
         {
-            p[0] = jp->q[0] + (ball_p[0] - jp->p[0]);
-            p[1] = jp->q[1] + (ball_p[1] - jp->p[1]);
-            p[2] = jp->q[2] + (ball_p[2] - jp->p[2]);
+            if (d <= 0.0f)
+            {
+                p[0] = jp->q[0] + (ball_p[0] - jp->p[0]);
+                p[1] = jp->q[1] + (ball_p[1] - jp->p[1]);
+                p[2] = jp->q[2] + (ball_p[2] - jp->p[2]);
 
-            return 1;
+                return JUMP_TRIGGER;
+            }
+            else
+                return JUMP_INSIDE;
         }
     }
-    return 0;
+    return JUMP_OUTSIDE;
 }
 
 /*
- * Test for a ball entering a  switch. Return 1 if a visible switch is
- * activated,  return 0  otherwise  (no switch  is  activated or  only
- * invisible switches).
+ * Test for a ball entering a switch.
  */
 int sol_swch_test(struct s_file *fp, int ui)
 {
@@ -455,7 +467,7 @@ int sol_swch_test(struct s_file *fp, int ui)
 
     union cmd cmd;
 
-    int xi, rc = 0;
+    int xi, rc = SWCH_OUTSIDE;
 
     for (xi = 0; xi < fp->xc; xi++)
     {
@@ -465,17 +477,27 @@ int sol_swch_test(struct s_file *fp, int ui)
 
         if (xp->t0 == 0 || xp->f == xp->f0)
         {
-            float r[3];
+            float d, r[3];
 
             r[0] = ball_p[0] - xp->p[0];
             r[1] = ball_p[2] - xp->p[2];
             r[2] = 0;
 
-            if (v_len(r) + ball_r < xp->r &&
+            /* Distance of the far side from the edge of the halo. */
+
+            d = v_len(r) + ball_r - xp->r;
+
+            /*
+             * The  "inside" distance,  which must  be  cleared before
+             * being able to trigger a switch, is the ball's diameter.
+             * (This is different from teleporters.)
+             */
+
+            if (d <= ball_r * 2 &&
                 ball_p[1] > xp->p[1] &&
                 ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
             {
-                if (!xp->e)
+                if (!xp->e && d <= 0.0f)
                 {
                     int pi = xp->pi;
                     int pj = xp->pi;
@@ -523,7 +545,7 @@ int sol_swch_test(struct s_file *fp, int ui)
                     /* If visible, set the result. */
 
                     if (!xp->i)
-                        rc = 1;
+                        rc = SWCH_TRIGGER;
                 }
             }
 
