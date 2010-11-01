@@ -22,9 +22,9 @@
 
 /*---------------------------------------------------------------------------*/
 
-void put_float(fs_file fout, const float *f)
+void put_float(fs_file fout, float f)
 {
-    const unsigned char *p = (const unsigned char *) f;
+    unsigned char *p = (unsigned char *) &f;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     fs_putc((int) p[3], fout);
@@ -39,9 +39,9 @@ void put_float(fs_file fout, const float *f)
 #endif
 }
 
-void put_index(fs_file fout, const int *i)
+void put_index(fs_file fout, int i)
 {
-    const unsigned char *p = (const unsigned char *) i;
+    unsigned char *p = (unsigned char *) &i;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     fs_putc((int) p[3], fout);
@@ -56,9 +56,9 @@ void put_index(fs_file fout, const int *i)
 #endif
 }
 
-void put_short(fs_file fout, const short *s)
+void put_short(fs_file fout, short s)
 {
-    const unsigned char *p = (const unsigned char *) s;
+    unsigned char *p = (unsigned char *) &s;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     fs_putc((int) p[1], fout);
@@ -74,7 +74,7 @@ void put_array(fs_file fout, const float *v, size_t n)
     size_t i;
 
     for (i = 0; i < n; i++)
-        put_float(fout, v + i);
+        put_float(fout, v[i]);
 }
 
 /*---------------------------------------------------------------------------*/

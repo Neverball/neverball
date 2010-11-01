@@ -148,10 +148,10 @@ int input_put(fs_file fout)
 {
     if (server_state)
     {
-        put_short(fout, &input_current.x);
-        put_short(fout, &input_current.z);
-        put_short(fout, &input_current.r);
-        put_short(fout, &input_current.c);
+        put_short(fout, input_current.x);
+        put_short(fout, input_current.z);
+        put_short(fout, input_current.r);
+        put_short(fout, input_current.c);
 
         return 1;
     }

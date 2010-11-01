@@ -109,12 +109,12 @@ static void demo_header_write(fs_file fp, struct demo *d)
 
     strftime(datestr, DATELEN, "%Y-%m-%dT%H:%M:%S", gmtime(&d->date));
 
-    put_index(fp, &magic);
-    put_index(fp, &version);
-    put_index(fp, &zero);
-    put_index(fp, &zero);
-    put_index(fp, &zero);
-    put_index(fp, &d->mode);
+    put_index(fp, magic);
+    put_index(fp, version);
+    put_index(fp, zero);
+    put_index(fp, zero);
+    put_index(fp, zero);
+    put_index(fp, d->mode);
 
     put_string(fp, d->player);
     put_string(fp, datestr);
@@ -122,12 +122,12 @@ static void demo_header_write(fs_file fp, struct demo *d)
     put_string(fp, d->shot);
     put_string(fp, d->file);
 
-    put_index(fp, &d->time);
-    put_index(fp, &d->goal);
-    put_index(fp, &d->goal_e);
-    put_index(fp, &d->score);
-    put_index(fp, &d->balls);
-    put_index(fp, &d->times);
+    put_index(fp, d->time);
+    put_index(fp, d->goal);
+    put_index(fp, d->goal_e);
+    put_index(fp, d->score);
+    put_index(fp, d->balls);
+    put_index(fp, d->times);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -316,9 +316,9 @@ void demo_play_stat(int status, int coins, int timer)
 
         fs_seek(demo_fp, 8, SEEK_SET);
 
-        put_index(demo_fp, &timer);
-        put_index(demo_fp, &coins);
-        put_index(demo_fp, &status);
+        put_index(demo_fp, timer);
+        put_index(demo_fp, coins);
+        put_index(demo_fp, status);
 
         fs_seek(demo_fp, pos, SEEK_SET);
     }

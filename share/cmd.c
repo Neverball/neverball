@@ -50,7 +50,7 @@ static int cmd_stats = 0;
     short cmd_bytes = BYTES;                                            \
                                                                         \
     /* Write command size info (right after the command type). */       \
-    put_short(fp, &cmd_bytes);                                          \
+    put_short(fp, cmd_bytes);                                           \
                                                                         \
     /* Start the stats output. */                                       \
     if (cmd_stats) printf("put");                                       \
@@ -96,8 +96,8 @@ GET_FUNC(CMD_MAKE_BALL) { } END_FUNC;
 PUT_FUNC(CMD_MAKE_ITEM)
 {
     put_array(fp, cmd->mkitem.p, 3);
-    put_index(fp, &cmd->mkitem.t);
-    put_index(fp, &cmd->mkitem.n);
+    put_index(fp, cmd->mkitem.t);
+    put_index(fp, cmd->mkitem.n);
 }
 END_FUNC;
 
@@ -116,7 +116,7 @@ END_FUNC;
 
 PUT_FUNC(CMD_PICK_ITEM)
 {
-    put_index(fp, &cmd->pkitem.hi);
+    put_index(fp, cmd->pkitem.hi);
 }
 END_FUNC;
 
@@ -133,8 +133,8 @@ END_FUNC;
 
 PUT_FUNC(CMD_TILT_ANGLES)
 {
-    put_float(fp, &cmd->tiltangles.x);
-    put_float(fp, &cmd->tiltangles.z);
+    put_float(fp, cmd->tiltangles.x);
+    put_float(fp, cmd->tiltangles.z);
 }
 END_FUNC;
 
@@ -153,7 +153,7 @@ END_FUNC;
 PUT_FUNC(CMD_SOUND)
 {
     put_string(fp, cmd->sound.n);
-    put_float(fp, &cmd->sound.a);
+    put_float(fp, cmd->sound.a);
 }
 END_FUNC;
 
@@ -175,7 +175,7 @@ END_FUNC;
 
 PUT_FUNC(CMD_TIMER)
 {
-    put_float(fp, &cmd->timer.t);
+    put_float(fp, cmd->timer.t);
 }
 END_FUNC;
 
@@ -192,7 +192,7 @@ END_FUNC;
 
 PUT_FUNC(CMD_STATUS)
 {
-    put_index(fp, &cmd->status.t);
+    put_index(fp, cmd->status.t);
 }
 END_FUNC;
 
@@ -209,7 +209,7 @@ END_FUNC;
 
 PUT_FUNC(CMD_COINS)
 {
-    put_index(fp, &cmd->coins.n);
+    put_index(fp, cmd->coins.n);
 }
 END_FUNC;
 
@@ -242,8 +242,8 @@ GET_FUNC(CMD_JUMP_EXIT) { } END_FUNC;
 
 PUT_FUNC(CMD_BODY_PATH)
 {
-    put_index(fp, &cmd->bodypath.bi);
-    put_index(fp, &cmd->bodypath.pi);
+    put_index(fp, cmd->bodypath.bi);
+    put_index(fp, cmd->bodypath.pi);
 }
 END_FUNC;
 
@@ -261,8 +261,8 @@ END_FUNC;
 
 PUT_FUNC(CMD_BODY_TIME)
 {
-    put_index(fp, &cmd->bodytime.bi);
-    put_float(fp, &cmd->bodytime.t);
+    put_index(fp, cmd->bodytime.bi);
+    put_float(fp, cmd->bodytime.t);
 }
 END_FUNC;
 
@@ -288,7 +288,7 @@ GET_FUNC(CMD_GOAL_OPEN) { } END_FUNC;
 
 PUT_FUNC(CMD_SWCH_ENTER)
 {
-    put_index(fp, &cmd->swchenter.xi);
+    put_index(fp, cmd->swchenter.xi);
 }
 END_FUNC;
 
@@ -305,7 +305,7 @@ END_FUNC;
 
 PUT_FUNC(CMD_SWCH_TOGGLE)
 {
-    put_index(fp, &cmd->swchenter.xi);
+    put_index(fp, cmd->swchenter.xi);
 }
 END_FUNC;
 
@@ -322,7 +322,7 @@ END_FUNC;
 
 PUT_FUNC(CMD_SWCH_EXIT)
 {
-    put_index(fp, &cmd->swchenter.xi);
+    put_index(fp, cmd->swchenter.xi);
 }
 END_FUNC;
 
@@ -339,7 +339,7 @@ END_FUNC;
 
 PUT_FUNC(CMD_UPDATES_PER_SECOND)
 {
-    put_index(fp, &cmd->ups.n);
+    put_index(fp, cmd->ups.n);
 }
 END_FUNC;
 
@@ -356,7 +356,7 @@ END_FUNC;
 
 PUT_FUNC(CMD_BALL_RADIUS)
 {
-    put_float(fp, &cmd->ballradius.r);
+    put_float(fp, cmd->ballradius.r);
 }
 END_FUNC;
 
@@ -497,7 +497,7 @@ END_FUNC;
 
 PUT_FUNC(CMD_CURRENT_BALL)
 {
-    put_index(fp, &cmd->currball.ui);
+    put_index(fp, cmd->currball.ui);
 }
 END_FUNC;
 
@@ -514,8 +514,8 @@ END_FUNC;
 
 PUT_FUNC(CMD_PATH_FLAG)
 {
-    put_index(fp, &cmd->pathflag.pi);
-    put_index(fp, &cmd->pathflag.f);
+    put_index(fp, cmd->pathflag.pi);
+    put_index(fp, cmd->pathflag.f);
 }
 END_FUNC;
 
@@ -533,7 +533,7 @@ END_FUNC;
 
 PUT_FUNC(CMD_STEP_SIMULATION)
 {
-    put_float(fp, &cmd->stepsim.dt);
+    put_float(fp, cmd->stepsim.dt);
 }
 END_FUNC;
 
@@ -552,8 +552,8 @@ PUT_FUNC(CMD_MAP)
 {
     put_string(fp, cmd->map.name);
 
-    put_index(fp, &cmd->map.version.x);
-    put_index(fp, &cmd->map.version.y);
+    put_index(fp, cmd->map.version.x);
+    put_index(fp, cmd->map.version.y);
 }
 END_FUNC;
 

@@ -383,12 +383,12 @@ int sol_load_only_head(struct s_file *fp, const char *filename)
 
 static void sol_stor_mtrl(fs_file fout, struct s_mtrl *mp)
 {
-    put_array(fout,  mp->d, 4);
-    put_array(fout,  mp->a, 4);
-    put_array(fout,  mp->s, 4);
-    put_array(fout,  mp->e, 4);
-    put_array(fout,  mp->h, 1);
-    put_index(fout, &mp->fl);
+    put_array(fout, mp->d, 4);
+    put_array(fout, mp->a, 4);
+    put_array(fout, mp->s, 4);
+    put_array(fout, mp->e, 4);
+    put_array(fout, mp->h, 1);
+    put_index(fout, mp->fl);
 
     fs_write(mp->f, 1, PATHMAX, fout);
 }
@@ -400,14 +400,14 @@ static void sol_stor_vert(fs_file fout, struct s_vert *vp)
 
 static void sol_stor_edge(fs_file fout, struct s_edge *ep)
 {
-    put_index(fout, &ep->vi);
-    put_index(fout, &ep->vj);
+    put_index(fout, ep->vi);
+    put_index(fout, ep->vj);
 }
 
 static void sol_stor_side(fs_file fout, struct s_side *sp)
 {
-    put_array(fout,  sp->n, 3);
-    put_float(fout, &sp->d);
+    put_array(fout, sp->n, 3);
+    put_float(fout, sp->d);
 }
 
 static void sol_stor_texc(fs_file fout, struct s_texc *tp)
@@ -417,48 +417,48 @@ static void sol_stor_texc(fs_file fout, struct s_texc *tp)
 
 static void sol_stor_geom(fs_file fout, struct s_geom *gp)
 {
-    put_index(fout, &gp->mi);
-    put_index(fout, &gp->ti);
-    put_index(fout, &gp->si);
-    put_index(fout, &gp->vi);
-    put_index(fout, &gp->tj);
-    put_index(fout, &gp->sj);
-    put_index(fout, &gp->vj);
-    put_index(fout, &gp->tk);
-    put_index(fout, &gp->sk);
-    put_index(fout, &gp->vk);
+    put_index(fout, gp->mi);
+    put_index(fout, gp->ti);
+    put_index(fout, gp->si);
+    put_index(fout, gp->vi);
+    put_index(fout, gp->tj);
+    put_index(fout, gp->sj);
+    put_index(fout, gp->vj);
+    put_index(fout, gp->tk);
+    put_index(fout, gp->sk);
+    put_index(fout, gp->vk);
 }
 
 static void sol_stor_lump(fs_file fout, struct s_lump *lp)
 {
-    put_index(fout, &lp->fl);
-    put_index(fout, &lp->v0);
-    put_index(fout, &lp->vc);
-    put_index(fout, &lp->e0);
-    put_index(fout, &lp->ec);
-    put_index(fout, &lp->g0);
-    put_index(fout, &lp->gc);
-    put_index(fout, &lp->s0);
-    put_index(fout, &lp->sc);
+    put_index(fout, lp->fl);
+    put_index(fout, lp->v0);
+    put_index(fout, lp->vc);
+    put_index(fout, lp->e0);
+    put_index(fout, lp->ec);
+    put_index(fout, lp->g0);
+    put_index(fout, lp->gc);
+    put_index(fout, lp->s0);
+    put_index(fout, lp->sc);
 }
 
 static void sol_stor_node(fs_file fout, struct s_node *np)
 {
-    put_index(fout, &np->si);
-    put_index(fout, &np->ni);
-    put_index(fout, &np->nj);
-    put_index(fout, &np->l0);
-    put_index(fout, &np->lc);
+    put_index(fout, np->si);
+    put_index(fout, np->ni);
+    put_index(fout, np->nj);
+    put_index(fout, np->l0);
+    put_index(fout, np->lc);
 }
 
 static void sol_stor_path(fs_file fout, struct s_path *pp)
 {
-    put_array(fout,  pp->p, 3);
-    put_float(fout, &pp->t);
-    put_index(fout, &pp->pi);
-    put_index(fout, &pp->f);
-    put_index(fout, &pp->s);
-    put_index(fout, &pp->fl);
+    put_array(fout, pp->p, 3);
+    put_float(fout, pp->t);
+    put_index(fout, pp->pi);
+    put_index(fout, pp->f);
+    put_index(fout, pp->s);
+    put_index(fout, pp->fl);
 
     if (pp->fl & P_ORIENTED)
         put_array(fout, pp->e, 4);
@@ -466,64 +466,64 @@ static void sol_stor_path(fs_file fout, struct s_path *pp)
 
 static void sol_stor_body(fs_file fout, struct s_body *bp)
 {
-    put_index(fout, &bp->pi);
-    put_index(fout, &bp->ni);
-    put_index(fout, &bp->l0);
-    put_index(fout, &bp->lc);
-    put_index(fout, &bp->g0);
-    put_index(fout, &bp->gc);
+    put_index(fout, bp->pi);
+    put_index(fout, bp->ni);
+    put_index(fout, bp->l0);
+    put_index(fout, bp->lc);
+    put_index(fout, bp->g0);
+    put_index(fout, bp->gc);
 }
 
 static void sol_stor_item(fs_file fout, struct s_item *hp)
 {
-    put_array(fout,  hp->p, 3);
-    put_index(fout, &hp->t);
-    put_index(fout, &hp->n);
+    put_array(fout, hp->p, 3);
+    put_index(fout, hp->t);
+    put_index(fout, hp->n);
 }
 
 static void sol_stor_goal(fs_file fout, struct s_goal *zp)
 {
-    put_array(fout,  zp->p, 3);
-    put_float(fout, &zp->r);
+    put_array(fout, zp->p, 3);
+    put_float(fout, zp->r);
 }
 
 static void sol_stor_swch(fs_file fout, struct s_swch *xp)
 {
-    put_array(fout,  xp->p, 3);
-    put_float(fout, &xp->r);
-    put_index(fout, &xp->pi);
-    put_float(fout, &xp->t0);
-    put_float(fout, &xp->t);
-    put_index(fout, &xp->f0);
-    put_index(fout, &xp->f);
-    put_index(fout, &xp->i);
+    put_array(fout, xp->p, 3);
+    put_float(fout, xp->r);
+    put_index(fout, xp->pi);
+    put_float(fout, xp->t0);
+    put_float(fout, xp->t);
+    put_index(fout, xp->f0);
+    put_index(fout, xp->f);
+    put_index(fout, xp->i);
 }
 
 static void sol_stor_bill(fs_file fout, struct s_bill *rp)
 {
-    put_index(fout, &rp->fl);
-    put_index(fout, &rp->mi);
-    put_float(fout, &rp->t);
-    put_float(fout, &rp->d);
-    put_array(fout,  rp->w,  3);
-    put_array(fout,  rp->h,  3);
-    put_array(fout,  rp->rx, 3);
-    put_array(fout,  rp->ry, 3);
-    put_array(fout,  rp->rz, 3);
-    put_array(fout,  rp->p,  3);
+    put_index(fout, rp->fl);
+    put_index(fout, rp->mi);
+    put_float(fout, rp->t);
+    put_float(fout, rp->d);
+    put_array(fout, rp->w,  3);
+    put_array(fout, rp->h,  3);
+    put_array(fout, rp->rx, 3);
+    put_array(fout, rp->ry, 3);
+    put_array(fout, rp->rz, 3);
+    put_array(fout, rp->p,  3);
 }
 
 static void sol_stor_jump(fs_file fout, struct s_jump *jp)
 {
-    put_array(fout,  jp->p, 3);
-    put_array(fout,  jp->q, 3);
-    put_float(fout, &jp->r);
+    put_array(fout, jp->p, 3);
+    put_array(fout, jp->q, 3);
+    put_float(fout, jp->r);
 }
 
 static void sol_stor_ball(fs_file fout, struct s_ball *bp)
 {
-    put_array(fout,  bp->p, 3);
-    put_float(fout, &bp->r);
+    put_array(fout, bp->p, 3);
+    put_float(fout, bp->r);
 }
 
 static void sol_stor_view(fs_file fout, struct s_view *wp)
@@ -534,8 +534,8 @@ static void sol_stor_view(fs_file fout, struct s_view *wp)
 
 static void sol_stor_dict(fs_file fout, struct s_dict *dp)
 {
-    put_index(fout, &dp->ai);
-    put_index(fout, &dp->aj);
+    put_index(fout, dp->ai);
+    put_index(fout, dp->aj);
 }
 
 static void sol_stor_file(fs_file fout, struct s_file *fp)
@@ -544,29 +544,29 @@ static void sol_stor_file(fs_file fout, struct s_file *fp)
     int magic   = MAGIC;
     int version = SOL_VER_CURRENT;
 
-    put_index(fout, &magic);
-    put_index(fout, &version);
+    put_index(fout, magic);
+    put_index(fout, version);
 
-    put_index(fout, &fp->ac);
-    put_index(fout, &fp->dc);
-    put_index(fout, &fp->mc);
-    put_index(fout, &fp->vc);
-    put_index(fout, &fp->ec);
-    put_index(fout, &fp->sc);
-    put_index(fout, &fp->tc);
-    put_index(fout, &fp->gc);
-    put_index(fout, &fp->lc);
-    put_index(fout, &fp->nc);
-    put_index(fout, &fp->pc);
-    put_index(fout, &fp->bc);
-    put_index(fout, &fp->hc);
-    put_index(fout, &fp->zc);
-    put_index(fout, &fp->jc);
-    put_index(fout, &fp->xc);
-    put_index(fout, &fp->rc);
-    put_index(fout, &fp->uc);
-    put_index(fout, &fp->wc);
-    put_index(fout, &fp->ic);
+    put_index(fout, fp->ac);
+    put_index(fout, fp->dc);
+    put_index(fout, fp->mc);
+    put_index(fout, fp->vc);
+    put_index(fout, fp->ec);
+    put_index(fout, fp->sc);
+    put_index(fout, fp->tc);
+    put_index(fout, fp->gc);
+    put_index(fout, fp->lc);
+    put_index(fout, fp->nc);
+    put_index(fout, fp->pc);
+    put_index(fout, fp->bc);
+    put_index(fout, fp->hc);
+    put_index(fout, fp->zc);
+    put_index(fout, fp->jc);
+    put_index(fout, fp->xc);
+    put_index(fout, fp->rc);
+    put_index(fout, fp->uc);
+    put_index(fout, fp->wc);
+    put_index(fout, fp->ic);
 
     fs_write(fp->av, 1, fp->ac, fout);
 
@@ -588,7 +588,7 @@ static void sol_stor_file(fs_file fout, struct s_file *fp)
     for (i = 0; i < fp->rc; i++) sol_stor_bill(fout, fp->rv + i);
     for (i = 0; i < fp->uc; i++) sol_stor_ball(fout, fp->uv + i);
     for (i = 0; i < fp->wc; i++) sol_stor_view(fout, fp->wv + i);
-    for (i = 0; i < fp->ic; i++) put_index(fout, fp->iv + i);
+    for (i = 0; i < fp->ic; i++) put_index(fout, fp->iv[i]);
 }
 
 /*---------------------------------------------------------------------------*/
