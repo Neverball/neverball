@@ -28,7 +28,7 @@ enum
     SOL_VER_CURRENT = SOL_VER_PATH_FLAGS
 };
 
-#define MAGIC (0xAF | 'S' << 8 | 'O' << 16 | 'L' << 24)
+#define SOL_MAGIC (0xAF | 'S' << 8 | 'O' << 16 | 'L' << 24)
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,8 +42,8 @@ static int sol_file(fs_file fin)
     get_index(fin, &magic);
     get_index(fin, &version);
 
-    if (magic != MAGIC || (version < SOL_VER_MINIMUM ||
-                           version > SOL_VER_CURRENT))
+    if (magic != SOL_MAGIC || (version < SOL_VER_MINIMUM ||
+                               version > SOL_VER_CURRENT))
         return 0;
 
     sol_version = version;
@@ -541,7 +541,7 @@ static void sol_stor_dict(fs_file fout, struct s_dict *dp)
 static void sol_stor_file(fs_file fout, struct s_file *fp)
 {
     int i;
-    int magic   = MAGIC;
+    int magic   = SOL_MAGIC;
     int version = SOL_VER_CURRENT;
 
     put_index(fout, magic);

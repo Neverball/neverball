@@ -35,10 +35,10 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define MAGIC (0xAF | 'N' << 8 | 'B' << 16 | 'R' << 24)
+#define DEMO_MAGIC (0xAF | 'N' << 8 | 'B' << 16 | 'R' << 24)
 #define DEMO_VERSION 9
 
-#define DATELEN 20
+#define DATELEN sizeof ("YYYY-MM-DDTHH:MM:SS")
 
 fs_file demo_fp;
 
@@ -58,7 +58,7 @@ static int demo_header_read(fs_file fp, struct demo *d)
 
     get_index(fp, &t);
 
-    if (magic == MAGIC && version == DEMO_VERSION && t)
+    if (magic == DEMO_MAGIC && version == DEMO_VERSION && t)
     {
         d->timer = t;
 
@@ -67,7 +67,7 @@ static int demo_header_read(fs_file fp, struct demo *d)
         get_index(fp, &d->mode);
 
         get_string(fp, d->player, sizeof (d->player));
-        get_string(fp, datestr, DATELEN);
+        get_string(fp, datestr, sizeof (datestr));
 
         sscanf(datestr,
                "%d-%d-%dT%d:%d:%d",
@@ -101,13 +101,13 @@ static int demo_header_read(fs_file fp, struct demo *d)
 
 static void demo_header_write(fs_file fp, struct demo *d)
 {
-    int magic = MAGIC;
+    int magic = DEMO_MAGIC;
     int version = DEMO_VERSION;
     int zero  = 0;
 
     char datestr[DATELEN];
 
-    strftime(datestr, DATELEN, "%Y-%m-%dT%H:%M:%S", gmtime(&d->date));
+    strftime(datestr, sizeof (datestr), "%Y-%m-%dT%H:%M:%S", gmtime(&d->date));
 
     put_index(fp, magic);
     put_index(fp, version);
