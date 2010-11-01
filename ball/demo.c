@@ -277,28 +277,25 @@ const char *demo_format_name(const char *fmt,
 /*---------------------------------------------------------------------------*/
 
 int demo_play_init(const char *name, const struct level *level,
-                   int mode, int t, int g, int e, int s, int b, int tt)
+                   int mode, int goal_e, int scores, int balls, int times)
 {
     struct demo demo;
 
     memset(&demo, 0, sizeof (demo));
 
     strncpy(demo.filename, demo_path(name), sizeof (demo.filename) - 1);
-
-    demo.mode = mode;
-    demo.date = time(NULL);
-
     strncpy(demo.player, config_get_s(CONFIG_PLAYER), sizeof (demo.player) - 1);
+    strncpy(demo.shot, level_shot(level), PATHMAX - 1);
+    strncpy(demo.file, level_file(level), PATHMAX - 1);
 
-    strncpy(demo.shot, level->shot, PATHMAX - 1);
-    strncpy(demo.file, level->file, PATHMAX - 1);
-
-    demo.time   = t;
-    demo.goal   = g;
-    demo.goal_e = e;
-    demo.score  = s;
-    demo.balls  = b;
-    demo.times  = tt;
+    demo.mode   = mode;
+    demo.date   = time(NULL);
+    demo.time   = level_time(level);
+    demo.goal   = level_goal(level);
+    demo.goal_e = goal_e;
+    demo.score  = scores;
+    demo.balls  = balls;
+    demo.times  = times;
 
     if ((demo_fp = fs_open(demo.filename, "w")))
     {

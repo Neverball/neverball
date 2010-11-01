@@ -94,9 +94,8 @@ void progress_init(int m)
 
 static int init_level(void)
 {
-    demo_play_init(USER_REPLAY_FILE, level, mode,
-                   level_time(level), level_goal(level),
-                   goal_e, curr.score, curr.balls, curr.times);
+    demo_play_init(USER_REPLAY_FILE, level, mode, goal_e,
+                   curr.score, curr.balls, curr.times);
 
     /*
      * Init both client and server, then process the first batch
