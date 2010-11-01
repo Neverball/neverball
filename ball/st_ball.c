@@ -82,7 +82,7 @@ static void scan_balls(void)
 {
     int i;
 
-    strncpy(ball_file, config_get_s(CONFIG_BALL_FILE), sizeof (ball_file) - 1);
+    SAFECPY(ball_file, config_get_s(CONFIG_BALL_FILE));
 
     if ((balls = fs_dir_scan("ball", has_ball_sols)))
     {

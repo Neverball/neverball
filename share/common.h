@@ -31,9 +31,15 @@
 #endif
 
 #define ARRAYSIZE(a) (sizeof (a) / sizeof ((a)[0]))
+#define MAXSTRLEN(a) (sizeof (a) - 1)
 
 #define MIN(x, y) ((x) < (y) ? (x) : (y))
 #define MAX(x, y) ((x) > (y) ? (x) : (y))
+
+#define SAFECPY(dst, src) (strncpy((dst), (src), MAXSTRLEN(dst)))
+#define SAFECAT(dst, src) (strncat((dst), \
+                                   (src), \
+                                   MAX(0, MAXSTRLEN(dst) - strlen(dst))))
 
 int   read_line(char **, fs_file);
 char *strip_newline(char *);

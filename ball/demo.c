@@ -145,9 +145,8 @@ struct demo *demo_load(const char *path)
 
         if (demo_header_read(fp, d))
         {
-            strncpy(d->filename, path, MAXSTR - 1);
-            strncpy(d->name, base_name_sans(d->filename, ".nbr"), PATHMAX - 1);
-            d->name[PATHMAX - 1] = '\0';
+            SAFECPY(d->filename, path);
+            SAFECPY(d->name, base_name_sans(d->filename, ".nbr"));
         }
         else
         {
@@ -181,8 +180,6 @@ int demo_exists(const char *name)
 {
     return fs_exists(demo_path(name));
 }
-
-#define MAXSTRLEN(a) (sizeof ((a)) - 1)
 
 const char *demo_format_name(const char *fmt,
                              const char *set,
@@ -272,8 +269,6 @@ const char *demo_format_name(const char *fmt,
     return name;
 }
 
-#undef MAXSTRLEN
-
 /*---------------------------------------------------------------------------*/
 
 int demo_play_init(const char *name, const struct level *level,
@@ -283,10 +278,10 @@ int demo_play_init(const char *name, const struct level *level,
 
     memset(&demo, 0, sizeof (demo));
 
-    strncpy(demo.filename, demo_path(name), sizeof (demo.filename) - 1);
-    strncpy(demo.player, config_get_s(CONFIG_PLAYER), sizeof (demo.player) - 1);
-    strncpy(demo.shot, level_shot(level), PATHMAX - 1);
-    strncpy(demo.file, level_file(level), PATHMAX - 1);
+    SAFECPY(demo.filename, demo_path(name));
+    SAFECPY(demo.player, config_get_s(CONFIG_PLAYER));
+    SAFECPY(demo.shot, level_shot(level));
+    SAFECPY(demo.file, level_file(level));
 
     demo.mode  = mode;
     demo.date  = time(NULL);
@@ -343,8 +338,8 @@ void demo_rename(const char *name)
         demo_exists(USER_REPLAY_FILE) &&
         strcmp(name, USER_REPLAY_FILE) != 0)
     {
-        strncpy(src, demo_path(USER_REPLAY_FILE), sizeof (src) - 1);
-        strncpy(dst, demo_path(name),             sizeof (dst) - 1);
+        SAFECPY(src, demo_path(USER_REPLAY_FILE));
+        SAFECPY(dst, demo_path(name));
 
         fs_rename(src, dst);
     }
@@ -404,10 +399,9 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
         {
             struct level level;
 
-            strncpy(demo_replay.filename, name, MAXSTR - 1);
-            strncpy(demo_replay.name,
-                    base_name_sans(demo_replay.filename, ".nbr"),
-                    PATHMAX - 1);
+            SAFECPY(demo_replay.filename, name);
+            SAFECPY(demo_replay.name,
+                    base_name_sans(demo_replay.filename, ".nbr"));
 
             if (level_load(demo_replay.file, &level))
             {

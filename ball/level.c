@@ -18,6 +18,7 @@
 #include <math.h>
 #include <assert.h>
 
+#include "common.h"
 #include "solid.h"
 #include "config.h"
 #include "level.h"
@@ -42,11 +43,11 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
         char *v = fp->av + fp->dv[i].aj;
 
         if (strcmp(k, "message") == 0)
-            strncpy(l->message, v, MAXSTR - 1);
+            SAFECPY(l->message, v);
         else if (strcmp(k, "song") == 0)
-            strncpy(l->song, v, PATHMAX - 1);
+            SAFECPY(l->song, v);
         else if (strcmp(k, "shot") == 0)
-            strncpy(l->shot, v, PATHMAX - 1);
+            SAFECPY(l->shot, v);
         else if (strcmp(k, "goal") == 0)
         {
             l->goal = atoi(v);
@@ -91,9 +92,9 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
             }
         }
         else if (strcmp(k, "version") == 0)
-            strncpy(l->version, v, MAXSTR - 1);
+            SAFECPY(l->version, v);
         else if (strcmp(k, "author") == 0)
-            strncpy(l->author, v, MAXSTR - 1);
+            SAFECPY(l->author, v);
         else if (strcmp(k, "bonus") == 0)
             l->is_bonus = atoi(v) ? 1 : 0;
     }
@@ -134,7 +135,7 @@ int level_load(const char *filename, struct level *level)
         return 0;
     }
 
-    strncpy(level->file, filename, PATHMAX - 1);
+    SAFECPY(level->file, filename);
 
     score_init_hs(&level->scores[SCORE_TIME], 59999, 0);
     score_init_hs(&level->scores[SCORE_GOAL], 59999, 0);
@@ -250,9 +251,9 @@ void level_rename_player(struct level *l,
                          int coin_rank,
                          const char *player)
 {
-    strncpy(l->scores[SCORE_TIME].player[time_rank], player, MAXNAM - 1);
-    strncpy(l->scores[SCORE_GOAL].player[goal_rank], player, MAXNAM - 1);
-    strncpy(l->scores[SCORE_COIN].player[coin_rank], player, MAXNAM - 1);
+    SAFECPY(l->scores[SCORE_TIME].player[time_rank], player);
+    SAFECPY(l->scores[SCORE_GOAL].player[goal_rank], player);
+    SAFECPY(l->scores[SCORE_COIN].player[coin_rank], player);
 }
 
 /*---------------------------------------------------------------------------*/

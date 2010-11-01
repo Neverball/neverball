@@ -210,7 +210,7 @@ static int set_load(struct set *s, const char *filename)
     score_init_hs(&s->time_score, 359999, 0);
     score_init_hs(&s->coin_score, 359999, 0);
 
-    strncpy(s->file, filename, PATHMAX - 1);
+    SAFECPY(s->file, filename);
 
     if (read_line(&s->name, fin) &&
         read_line(&s->desc, fin) &&
@@ -480,8 +480,8 @@ void set_rename_player(int score_rank, int times_rank, const char *player)
 {
     struct set *s = SET_GET(sets, curr);
 
-    strncpy(s->coin_score.player[score_rank], player, MAXNAM - 1);
-    strncpy(s->time_score.player[times_rank], player, MAXNAM - 1);
+    SAFECPY(s->coin_score.player[score_rank], player);
+    SAFECPY(s->time_score.player[times_rank], player);
 }
 
 /*---------------------------------------------------------------------------*/
