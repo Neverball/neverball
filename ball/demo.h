@@ -27,7 +27,6 @@ struct demo
 
     int    time;                        /* Time limit                        */
     int    goal;                        /* Coin limit                        */
-    int    goal_e;                      /* Goal enabled flag                 */
     int    score;                       /* Total coins                       */
     int    balls;                       /* Number of balls                   */
     int    times;                       /* Total time                        */
@@ -47,8 +46,7 @@ const char *demo_format_name(const char *fmt,
 
 /*---------------------------------------------------------------------------*/
 
-int  demo_play_init(const char *, const struct level *,
-                    int, int, int, int, int);
+int  demo_play_init(const char *, const struct level *, int, int, int, int);
 void demo_play_step(void);
 void demo_play_stat(int, int, int);
 void demo_play_stop(void);

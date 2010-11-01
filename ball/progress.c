@@ -94,7 +94,7 @@ void progress_init(int m)
 
 static int init_level(void)
 {
-    demo_play_init(USER_REPLAY_FILE, level, mode, goal_e,
+    demo_play_init(USER_REPLAY_FILE, level, mode,
                    curr.score, curr.balls, curr.times);
 
     /*

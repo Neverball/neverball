@@ -48,7 +48,7 @@ static int demo_header_read(fs_file fp, struct demo *d)
 {
     int magic;
     int version;
-    int t;
+    int t, unused;
 
     struct tm date;
     char datestr[DATELEN];
@@ -89,7 +89,7 @@ static int demo_header_read(fs_file fp, struct demo *d)
 
         get_index(fp, &d->time);
         get_index(fp, &d->goal);
-        get_index(fp, &d->goal_e);
+        get_index(fp, &unused);
         get_index(fp, &d->score);
         get_index(fp, &d->balls);
         get_index(fp, &d->times);
@@ -124,7 +124,7 @@ static void demo_header_write(fs_file fp, struct demo *d)
 
     put_index(fp, d->time);
     put_index(fp, d->goal);
-    put_index(fp, d->goal_e);
+    put_index(fp, 0);                   /* Unused (was goal enabled flag).   */
     put_index(fp, d->score);
     put_index(fp, d->balls);
     put_index(fp, d->times);
@@ -277,7 +277,7 @@ const char *demo_format_name(const char *fmt,
 /*---------------------------------------------------------------------------*/
 
 int demo_play_init(const char *name, const struct level *level,
-                   int mode, int goal_e, int scores, int balls, int times)
+                   int mode, int scores, int balls, int times)
 {
     struct demo demo;
 
@@ -288,14 +288,13 @@ int demo_play_init(const char *name, const struct level *level,
     strncpy(demo.shot, level_shot(level), PATHMAX - 1);
     strncpy(demo.file, level_file(level), PATHMAX - 1);
 
-    demo.mode   = mode;
-    demo.date   = time(NULL);
-    demo.time   = level_time(level);
-    demo.goal   = level_goal(level);
-    demo.goal_e = goal_e;
-    demo.score  = scores;
-    demo.balls  = balls;
-    demo.times  = times;
+    demo.mode  = mode;
+    demo.date  = time(NULL);
+    demo.time  = level_time(level);
+    demo.goal  = level_goal(level);
+    demo.score = scores;
+    demo.balls = balls;
+    demo.times = times;
 
     if ((demo_fp = fs_open(demo.filename, "w")))
     {
