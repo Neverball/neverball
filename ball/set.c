@@ -401,11 +401,6 @@ const struct score *set_score(int i, int s)
 
 /*---------------------------------------------------------------------------*/
 
-int set_level_exists(int i, int l)
-{
-    return (l >= 0 && l < SET_GET(sets, i)->count);
-}
-
 static void set_load_levels(void)
 {
     struct level *l;
@@ -437,6 +432,8 @@ static void set_load_levels(void)
 
         l->is_locked    = 1;
         l->is_completed = 0;
+
+        if (i > 0) level_v[i - 1].next = l;
     }
 
     /* Unlock first level. */

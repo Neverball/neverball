@@ -109,7 +109,6 @@ static int goal_gui(void)
     int id, jd, kd, ld, md;
 
     int high = progress_lvl_high();
-    int level = curr_level();
 
     if ((id = gui_vstack(0)))
     {
@@ -226,10 +225,9 @@ static int goal_gui(void)
 
     }
 
-    set_score_board(level_score(level, SCORE_COIN), progress_coin_rank(),
-                    level_score(level, SCORE_TIME), progress_time_rank(),
-                    level_score(level, SCORE_GOAL), progress_goal_rank());
-
+    set_score_board(level_score(curr_level(), SCORE_COIN), progress_coin_rank(),
+                    level_score(curr_level(), SCORE_TIME), progress_time_rank(),
+                    level_score(curr_level(), SCORE_GOAL), progress_goal_rank());
 
     return id;
 }

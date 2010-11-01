@@ -40,8 +40,9 @@ static int replay = 0;
 
 static int mode = MODE_NORMAL;
 
-static int level =  0;
-static int next  = -1;
+static struct level *level;
+static struct level *next;
+
 static int done  =  0;
 
 static int bonus =  0;
@@ -93,7 +94,7 @@ void progress_init(int m)
 
 static int init_level(void)
 {
-    demo_play_init(USER_REPLAY_FILE, get_level(level), mode,
+    demo_play_init(USER_REPLAY_FILE, level, mode,
                    level_time(level), level_goal(level),
                    goal_e, curr.score, curr.balls, curr.times);
 
@@ -115,13 +116,13 @@ static int init_level(void)
     return 0;
 }
 
-int  progress_play(int i)
+int  progress_play(struct level *l)
 {
-    if (level_opened(i) || config_cheat())
+    if (l && (level_opened(l) || config_cheat()))
     {
-        level = i;
+        level = l;
 
-        next   = -1;
+        next   = NULL;
         status = GAME_NONE;
         coins  = 0;
         timer  = 0;
@@ -195,25 +196,29 @@ void progress_stat(int s)
 
         if (mode == MODE_CHALLENGE)
         {
-            for (next = level + 1; level_bonus(next); next++)
+            for (next = level->next;
+                 next && level_bonus(next);
+                 next = next->next)
+            {
                 if (!level_opened(next))
                 {
                     level_open(next);
                     dirty = 1;
                     bonus++;
                 }
+            }
         }
         else
         {
-            for (next = level + 1;
-                 level_bonus(next) && !level_opened(next);
-                 next++)
-                /* Do nothing. */;
+            for (next = level->next;
+                 next && level_bonus(next) && !level_opened(next);
+                 next = next->next)
+                /* Do nothing */;
         }
 
         /* Open next level or complete the set. */
 
-        if (level_exists(next))
+        if (next)
         {
             level_open(next);
             dirty = 1;
@@ -227,10 +232,10 @@ void progress_stat(int s)
         /* Fall through. */
 
     case GAME_TIME:
-        for (next = level + 1;
-             level_exists(next) && !level_opened(next);
-             next++)
-            /* Do nothing. */;
+        for (next = level->next;
+             next && !level_opened(next);
+             next = next->next)
+            /* Do nothing */;
 
         curr.times += timer;
         curr.balls -= 1;
@@ -274,10 +279,14 @@ int  progress_replay(const char *filename)
 
 int  progress_next_avail(void)
 {
-    if (mode == MODE_CHALLENGE)
-        return status == GAME_GOAL && level_exists(next);
-    else
-        return level_opened(next);
+    if (next)
+    {
+        if (mode == MODE_CHALLENGE)
+            return status == GAME_GOAL;
+        else
+            return level_opened(next);
+    }
+    return 0;
 }
 
 int  progress_same_avail(void)
@@ -327,7 +336,7 @@ int  progress_done(void)
 
 int  progress_last(void)
 {
-    return mode != MODE_CHALLENGE && status == GAME_GOAL && !level_exists(next);
+    return mode != MODE_CHALLENGE && status == GAME_GOAL && !next;
 }
 
 int  progress_lvl_high(void)
@@ -371,7 +380,8 @@ int  progress_reward_ball(int s)
 
 /*---------------------------------------------------------------------------*/
 
-int curr_level(void) { return level;      }
+struct level *curr_level(void) { return level; }
+
 int curr_balls(void) { return curr.balls; }
 int curr_score(void) { return curr.score; }
 int curr_mode (void) { return mode;       }
