@@ -216,7 +216,7 @@ void swch_init(void)
 void swch_free(void)
 {
     if (glIsList(swch_list))
-        glDeleteLists(swch_list, 2);
+        glDeleteLists(swch_list, 4);
 
     swch_list = 0;
 }

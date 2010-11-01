@@ -738,6 +738,8 @@ void sol_free_gl(struct s_file *fp)
             glDeleteLists(fp->bv[i].tl, 1);
         if (glIsList(fp->bv[i].rl))
             glDeleteLists(fp->bv[i].rl, 1);
+        if (glIsList(fp->bv[i].sl))
+            glDeleteLists(fp->bv[i].sl, 1);
     }
 
     sol_free(fp);
