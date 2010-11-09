@@ -14,6 +14,7 @@
 
 #include <string.h>
 #include "score.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,9 +45,9 @@ static void score_swap(struct score *S, int i, int j)
     char player[MAXNAM];
     int  tmp;
 
-    strncpy(player,       S->player[i], MAXNAM - 1);
-    strncpy(S->player[i], S->player[j], MAXNAM - 1);
-    strncpy(S->player[j], player,       MAXNAM - 1);
+    SAFECPY(player,       S->player[i]);
+    SAFECPY(S->player[i], S->player[j]);
+    SAFECPY(S->player[j], player);
 
     tmp         = S->timer[i];
     S->timer[i] = S->timer[j];
@@ -62,7 +63,7 @@ static void score_swap(struct score *S, int i, int j)
 static void score_insert(struct score *s, int i,
                          const char *player, int timer, int coins)
 {
-    strncpy(s->player[i], player, MAXNAM - 1);
+    SAFECPY(s->player[i], player);
 
     s->timer[i] = timer;
     s->coins[i] = coins;

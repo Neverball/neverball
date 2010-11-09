@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Neverball contributors
+ * Copyright (C) 2009 Neverball authors
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
  * it under the  terms of the GNU General  Public License as published
@@ -318,5 +318,7 @@ union cmd
 
 int cmd_put(fs_file, const union cmd *);
 int cmd_get(fs_file, union cmd *);
+
+void cmd_free(union cmd *);
 
 #endif

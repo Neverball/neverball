@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Tilt the floor as little as possible.\Less tilt means lower speed.\Lower speed means better control.\Watch the clock and use the time wisely.\\Click to begin.\"
+"message" "Tilt the floor as little as possible.\Less tilt means lower speed.\Lower speed means better control.\Watch the clock and use the time wisely.\"
 "coin_hs" "50 40"
 "time_hs" "700 3000"
 "goal_hs" "2000 5250"

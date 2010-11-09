@@ -131,7 +131,7 @@ D: German translation
 D: Texture clean-up
 D: Ball shadow removal in poser mode
 D: Performance improvement on maps not using reflective materials
-D: Improvements, suggestions and inspiration through work on Nuncabola (clone)
+D: Improvements, suggestions and inspiration through work on Nuncabola
 
 N: Jean Privat
 D: Developer (inactive)
@@ -173,6 +173,7 @@ D: Bounces with moving objects
 D: Significant mapc optimisations
 D: Code review, suggestions and comments
 D: Edge intersection handling
+D: Rotating platforms
 
 N: Georg Wachter (nue)
 E: georgwachter@gmail.com

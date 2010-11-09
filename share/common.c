@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007  Neverball contributors
+ *  Copyright (C) 2007  Neverball authors
  *
  *  This  program is  free software;  you can  redistribute  it and/or
  *  modify it  under the  terms of the  GNU General Public  License as
@@ -243,7 +243,7 @@ const char *base_name_sans(const char *name, const char *suffix)
 
     /* Remove the directory part. */
 
-    strncpy(base, base_name(name), sizeof (base) - 1);
+    SAFECPY(base, base_name(name));
 
     /* Remove the suffix. */
 
@@ -268,7 +268,7 @@ const char *dir_name(const char *name)
 
     char *sep;
 
-    strncpy(buff, name, sizeof (buff) - 1);
+    SAFECPY(buff, name);
 
     if ((sep = (char *) path_last_sep(buff)))
     {
@@ -294,13 +294,13 @@ char *path_resolve(const char *ref, const char *rel)
 
     if (path_is_abs(rel))
     {
-        strncpy(new, rel, sizeof (new) - 1);
+        SAFECPY(new, rel);
         return new;
     }
 
-    strncpy(new, dir_name(ref), sizeof (new) - 1);
-    strncat(new, "/",           sizeof (new) - strlen(new) - 1);
-    strncat(new, rel,           sizeof (new) - strlen(new) - 1);
+    SAFECPY(new, dir_name(ref));
+    SAFECAT(new, "/");
+    SAFECAT(new, rel);
 
     return new;
 }

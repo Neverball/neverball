@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2003-2010 Neverball authors
+ *
+ * NEVERBALL is  free software; you can redistribute  it and/or modify
+ * it under the  terms of the GNU General  Public License as published
+ * by the Free  Software Foundation; either version 2  of the License,
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT  ANY  WARRANTY;  without   even  the  implied  warranty  of
+ * MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.   See the GNU
+ * General Public License for more details.
+ */
+
 #include "game_common.h"
 #include "vec3.h"
 #include "config.h"
@@ -29,6 +43,9 @@ const char *view_to_str(int v)
 }
 
 /*---------------------------------------------------------------------------*/
+
+const float GRAVITY_UP[] = { 0.0f, +9.8f, 0.0f };
+const float GRAVITY_DN[] = { 0.0f, -9.8f, 0.0f };
 
 void game_tilt_init(struct game_tilt *tilt)
 {
@@ -152,6 +169,24 @@ void game_view_fly(struct game_view *view, const struct s_file *fp, float k)
     v_crs(view->e[2], view->e[0], view->e[1]);
     v_nrm(view->e[0], view->e[0]);
     v_nrm(view->e[2], view->e[2]);
+}
+
+/*---------------------------------------------------------------------------*/
+
+void lockstep_clr(struct lockstep *ls)
+{
+    ls->at = 0;
+}
+
+void lockstep_run(struct lockstep *ls, float dt)
+{
+    ls->at += dt;
+
+    while (ls->at >= ls->dt)
+    {
+        ls->step(ls->dt);
+        ls->at -= ls->dt;
+    }
 }
 
 /*---------------------------------------------------------------------------*/

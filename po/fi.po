@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.5\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2010-09-23 01:29+0300\n"
+"POT-Creation-Date: 2010-10-29 02:46+0300\n"
 "PO-Revision-Date: 2008-03-17 17:34+0200\n"
 "Last-Translator: Pasi Kallinen <paxed@alt.org>\n"
 "Language-Team: Finnish\n"
@@ -17,44 +17,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ball/demo.c:233
+#: ball/demo.c:234
 msgid "Missing format character in replay name\n"
 msgstr "Tallenteen nimestä puuttuu formaattimerkki\n"
 
-#: ball/demo.c:238
+#: ball/demo.c:239
 #, c-format
 msgid "Invalid format character in replay name: \"%%%c\"\n"
 msgstr "Tallenteen nimessä laiton formaattimerkki \"%%%c\"\n"
 
-#: ball/game_common.c:12
+#: ball/game_common.c:26
 msgid "Aborted"
 msgstr "Keskeytetty"
 
-#: ball/game_common.c:13
+#: ball/game_common.c:27
 msgid "Time-out"
 msgstr "Aika loppui"
 
-#: ball/game_common.c:14
+#: ball/game_common.c:28
 msgid "Success"
 msgstr "Onnistui"
 
-#: ball/game_common.c:15
+#: ball/game_common.c:29
 msgid "Fall-out"
 msgstr "Putosit kentästä"
 
-#: ball/game_common.c:16 ball/game_common.c:27 ball/progress.c:379
+#: ball/game_common.c:30 ball/game_common.c:41 ball/progress.c:394
 msgid "Unknown"
 msgstr "Tuntematon"
 
-#: ball/game_common.c:24
+#: ball/game_common.c:38
 msgid "Chase"
 msgstr "Jahtaus-kamera"
 
-#: ball/game_common.c:25
+#: ball/game_common.c:39
 msgid "Lazy"
 msgstr "Laiska kamera"
 
-#: ball/game_common.c:26
+#: ball/game_common.c:40
 msgid "Manual"
 msgstr "Manuaalinen kamera"
 
@@ -143,23 +143,23 @@ msgstr ""
 msgid "Option '%s' requires an argument.\n"
 msgstr "Vipu '%s' vaatii parametrin.\n"
 
-#: ball/progress.c:377 ball/st_help.c:247
+#: ball/progress.c:392 ball/st_help.c:247
 msgid "Challenge Mode"
 msgstr "Haastemoodi"
 
-#: ball/progress.c:377 ball/st_start.c:206
+#: ball/progress.c:392 ball/st_start.c:206
 msgid "Challenge"
 msgstr "Haaste"
 
-#: ball/progress.c:378 ball/st_help.c:239
+#: ball/progress.c:393 ball/st_help.c:239
 msgid "Normal Mode"
 msgstr "Normaalimoodi"
 
-#: ball/progress.c:378
+#: ball/progress.c:393
 msgid "Normal"
 msgstr "Normaali"
 
-#: ball/progress.c:379
+#: ball/progress.c:394
 msgid "Unknown Mode"
 msgstr "Tuntematon moodi"
 
@@ -175,84 +175,80 @@ msgstr "Virhe ladattaessa käyttäjän ennätystiedostoa '%s': %s\n"
 msgid "Failure to load set file '%s'\n"
 msgstr "Tiedoston '%s' lataus epäonnistui: %s\n"
 
-#: ball/st_ball.c:161 ball/st_conf.c:350
+#: ball/st_ball.c:175 ball/st_conf.c:327
 #, fuzzy
 #| msgid "Balls"
 msgid "Ball"
 msgstr "Palloja"
 
-#: ball/st_ball.c:163 ball/st_conf.c:226 ball/st_help.c:96 ball/st_start.c:176
+#: ball/st_ball.c:177 ball/st_conf.c:212 ball/st_help.c:96 ball/st_start.c:176
 #: ball/util.c:430 share/st_resol.c:99 putt/st_all.c:344 putt/st_all.c:492
-#: putt/st_conf.c:171
+#: putt/st_conf.c:157
 msgid "Back"
 msgstr "Takaisin"
 
-#: ball/st_conf.c:224 putt/st_conf.c:169
+#: ball/st_conf.c:210 putt/st_conf.c:155
 msgid "Options"
 msgstr "Asetukset"
 
-#: ball/st_conf.c:234 ball/st_demo.c:642 ball/st_save.c:212 putt/st_conf.c:179
+#: ball/st_conf.c:220 ball/st_demo.c:642 ball/st_save.c:209 putt/st_conf.c:165
 msgid "No"
 msgstr "Ei"
 
-#: ball/st_conf.c:235 ball/st_demo.c:643 ball/st_save.c:213
-#: ball/st_start.c:231 putt/st_conf.c:180
+#: ball/st_conf.c:221 ball/st_demo.c:643 ball/st_save.c:210
+#: ball/st_start.c:231 putt/st_conf.c:166
 msgid "Yes"
 msgstr "Kyllä"
 
-#: ball/st_conf.c:237 putt/st_conf.c:182
+#: ball/st_conf.c:223 putt/st_conf.c:168
 msgid "Fullscreen"
 msgstr "Koko ruutu"
 
-#: ball/st_conf.c:245 share/st_resol.c:97 putt/st_conf.c:190
+#: ball/st_conf.c:231 share/st_resol.c:97 putt/st_conf.c:176
 msgid "Resolution"
 msgstr "Tarkkuus"
 
-#: ball/st_conf.c:253 ball/st_conf.c:262 putt/st_conf.c:198 putt/st_conf.c:207
+#: ball/st_conf.c:239 putt/st_conf.c:184
 msgid "Low"
 msgstr "Matala"
 
-#: ball/st_conf.c:254 ball/st_conf.c:263 putt/st_conf.c:199 putt/st_conf.c:208
+#: ball/st_conf.c:240 putt/st_conf.c:185
 msgid "High"
 msgstr "Korkea"
 
-#: ball/st_conf.c:256 putt/st_conf.c:201
+#: ball/st_conf.c:242 putt/st_conf.c:187
 msgid "Textures"
 msgstr "Tekstuurit"
 
-#: ball/st_conf.c:265 putt/st_conf.c:210
-msgid "Geometry"
-msgstr "Muodot"
-
-#: ball/st_conf.c:271 ball/st_conf.c:280 ball/st_conf.c:289 putt/st_conf.c:216
+#: ball/st_conf.c:248 ball/st_conf.c:257 ball/st_conf.c:266 putt/st_conf.c:193
 msgid "Off"
 msgstr "Ei"
 
-#: ball/st_conf.c:272 ball/st_conf.c:281 ball/st_conf.c:290 putt/st_conf.c:217
+#: ball/st_conf.c:249 ball/st_conf.c:258 ball/st_conf.c:267 putt/st_conf.c:194
 msgid "On"
 msgstr "Kyllä"
 
-#: ball/st_conf.c:274
+#: ball/st_conf.c:251
 msgid "Reflection"
 msgstr "Heijastukset"
 
-#: ball/st_conf.c:283
+#: ball/st_conf.c:260
 msgid "Background"
 msgstr "Tausta"
 
-#: ball/st_conf.c:292 putt/st_conf.c:219
+#: ball/st_conf.c:269 putt/st_conf.c:196
 msgid "Shadow"
 msgstr "Varjo"
 
-#: ball/st_conf.c:314 putt/st_conf.c:241
+#: ball/st_conf.c:291 putt/st_conf.c:218
 msgid "Sound Volume"
 msgstr "Ääniefektit"
 
-#: ball/st_conf.c:334 putt/st_conf.c:261
+#: ball/st_conf.c:311 putt/st_conf.c:238
 msgid "Music Volume"
 msgstr "Musiikki"
 
-#: ball/st_conf.c:343 ball/st_name.c:101
+#: ball/st_conf.c:320 ball/st_name.c:101
 msgid "Player Name"
 msgstr "Pelaajan nimi"
 
@@ -316,7 +312,7 @@ msgstr "Toista"
 msgid "Delete Replay?"
 msgstr "Tuhoa tallenne?"
 
-#: ball/st_demo.c:680
+#: ball/st_demo.c:680 ball/st_level.c:155
 msgid "Warning!"
 msgstr ""
 
@@ -378,8 +374,8 @@ msgid "Finish"
 msgstr "Maali"
 
 #: ball/st_help.c:92
-msgid "Techniques"
-msgstr "Tekniikka"
+msgid "Tricks"
+msgstr ""
 
 #: ball/st_help.c:93
 msgid "Modes"
@@ -476,21 +472,27 @@ msgstr ""
 msgid "Watch demo"
 msgstr "Katso demo"
 
-#: ball/st_level.c:52
+#: ball/st_level.c:55
 #, c-format
 msgid "Bonus Level %s"
 msgstr "Bonuskenttä %s"
 
-#: ball/st_level.c:54
+#: ball/st_level.c:57
 #, c-format
 msgid "Level %s"
 msgstr "Kenttä %s"
+
+#: ball/st_level.c:157
+msgid ""
+"The default replay file could not be opened.\\You will not be able to save a "
+"replay when\\playing this level.\\"
+msgstr ""
 
 #: ball/st_name.c:112
 msgid "OK"
 msgstr ""
 
-#: ball/st_name.c:114 ball/st_save.c:127
+#: ball/st_name.c:114 ball/st_save.c:124
 msgid "Cancel"
 msgstr "Peruuta"
 
@@ -506,27 +508,27 @@ msgstr "Keskeytetty"
 msgid "Restart"
 msgstr "Uusi peli"
 
-#: ball/st_play.c:117
+#: ball/st_play.c:118
 msgid "Ready?"
 msgstr "Paikoillanne"
 
-#: ball/st_play.c:201
+#: ball/st_play.c:202
 msgid "Set?"
 msgstr "Valmiit"
 
-#: ball/st_play.c:307
+#: ball/st_play.c:308
 msgid "GO!"
 msgstr "HEP!"
 
-#: ball/st_save.c:114
+#: ball/st_save.c:111
 msgid "Replay Name"
 msgstr "Tallenteen nimi"
 
-#: ball/st_save.c:125
+#: ball/st_save.c:122
 msgid "Save"
 msgstr "Tallenna"
 
-#: ball/st_save.c:206
+#: ball/st_save.c:203
 msgid "Overwrite?"
 msgstr "Kirjoita päälle?"
 
@@ -865,12 +867,12 @@ msgstr ""
 msgid "Undo"
 msgstr ""
 
-#: share/syswm.c:44
+#: share/syswm.c:58
 #, c-format
 msgid "Failed to get WM info: %s\n"
 msgstr ""
 
-#: share/syswm.c:115
+#: share/syswm.c:129
 msgid "Failed to allocate memory for EWMH icon data.\n"
 msgstr ""
 
@@ -1089,7 +1091,6 @@ msgid ""
 msgstr ""
 
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
-#: data/map-misc/circlethwomp.map data/map-misc/ode-corner.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
@@ -1122,10 +1123,14 @@ msgstr ""
 "vahingossa osu ensin maaliin.\\"
 
 #: data/map-easy/goslow.map
+#, fuzzy
+#| msgid ""
+#| "Tilt the floor as little as possible.\\Less tilt means lower speed."
+#| "\\Lower speed means better control.\\Watch the clock and use the time "
+#| "wisely.\\\\Click to begin.\\"
 msgid ""
 "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
 "speed means better control.\\Watch the clock and use the time wisely.\\"
-"\\Click to begin.\\"
 msgstr ""
 "Käännä kenttää mahdollisimman vähän,\\jotta palloa olisi helpompi hallita."
 "\\Muista että aikaa on rajallinen määrä.\\\\Napsauta aloittaaksesi peli.\\"
@@ -1860,6 +1865,12 @@ msgstr ""
 
 msgid "item/coin/coin"
 msgstr ""
+
+#~ msgid "Geometry"
+#~ msgstr "Muodot"
+
+#~ msgid "Techniques"
+#~ msgstr "Tekniikka"
 
 #~ msgid "Not a valid level file"
 #~ msgstr "Virheellinen kenttätiedosto"

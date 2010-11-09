@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2010-09-23 01:29+0300\n"
+"POT-Creation-Date: 2010-10-29 02:46+0300\n"
 "PO-Revision-Date: 2009-03-16 01:59+0100\n"
 "Last-Translator: Georg Wachter <georgwachter@gmail.com>\n"
 "Language-Team: German\n"
@@ -18,44 +18,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ball/demo.c:233
+#: ball/demo.c:234
 msgid "Missing format character in replay name\n"
 msgstr "Fehlendes Formatierungszeichen im Replay-Namen\n"
 
-#: ball/demo.c:238
+#: ball/demo.c:239
 #, c-format
 msgid "Invalid format character in replay name: \"%%%c\"\n"
 msgstr "Ungültiges Formatierungszeichen: \"%%%c\"\n"
 
-#: ball/game_common.c:12
+#: ball/game_common.c:26
 msgid "Aborted"
 msgstr "Abgebrochen"
 
-#: ball/game_common.c:13
+#: ball/game_common.c:27
 msgid "Time-out"
 msgstr "Time-out"
 
-#: ball/game_common.c:14
+#: ball/game_common.c:28
 msgid "Success"
 msgstr "Erfolg"
 
-#: ball/game_common.c:15
+#: ball/game_common.c:29
 msgid "Fall-out"
 msgstr "Rausgefallen!"
 
-#: ball/game_common.c:16 ball/game_common.c:27 ball/progress.c:379
+#: ball/game_common.c:30 ball/game_common.c:41 ball/progress.c:394
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: ball/game_common.c:24
+#: ball/game_common.c:38
 msgid "Chase"
 msgstr "Verfolgen"
 
-#: ball/game_common.c:25
+#: ball/game_common.c:39
 msgid "Lazy"
 msgstr "Faul"
 
-#: ball/game_common.c:26
+#: ball/game_common.c:40
 msgid "Manual"
 msgstr "Manuell"
 
@@ -145,23 +145,23 @@ msgstr ""
 msgid "Option '%s' requires an argument.\n"
 msgstr "Option '%s' benötigt ein Argument.\n"
 
-#: ball/progress.c:377 ball/st_help.c:247
+#: ball/progress.c:392 ball/st_help.c:247
 msgid "Challenge Mode"
 msgstr "Challenge"
 
-#: ball/progress.c:377 ball/st_start.c:206
+#: ball/progress.c:392 ball/st_start.c:206
 msgid "Challenge"
 msgstr "Challenge"
 
-#: ball/progress.c:378 ball/st_help.c:239
+#: ball/progress.c:393 ball/st_help.c:239
 msgid "Normal Mode"
 msgstr "Normal"
 
-#: ball/progress.c:378
+#: ball/progress.c:393
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/progress.c:379
+#: ball/progress.c:394
 msgid "Unknown Mode"
 msgstr "Unbekannter Modus"
 
@@ -177,84 +177,80 @@ msgstr "Fehler beim Laden der Benutzer High-Score-Datei '%s': %s\n"
 msgid "Failure to load set file '%s'\n"
 msgstr "Kann folgende Set-Datei '%s' nicht laden: %s\n"
 
-#: ball/st_ball.c:161 ball/st_conf.c:350
+#: ball/st_ball.c:175 ball/st_conf.c:327
 #, fuzzy
 #| msgid "Balls"
 msgid "Ball"
 msgstr "Bälle"
 
-#: ball/st_ball.c:163 ball/st_conf.c:226 ball/st_help.c:96 ball/st_start.c:176
+#: ball/st_ball.c:177 ball/st_conf.c:212 ball/st_help.c:96 ball/st_start.c:176
 #: ball/util.c:430 share/st_resol.c:99 putt/st_all.c:344 putt/st_all.c:492
-#: putt/st_conf.c:171
+#: putt/st_conf.c:157
 msgid "Back"
 msgstr "Zurück"
 
-#: ball/st_conf.c:224 putt/st_conf.c:169
+#: ball/st_conf.c:210 putt/st_conf.c:155
 msgid "Options"
 msgstr "Optionen"
 
-#: ball/st_conf.c:234 ball/st_demo.c:642 ball/st_save.c:212 putt/st_conf.c:179
+#: ball/st_conf.c:220 ball/st_demo.c:642 ball/st_save.c:209 putt/st_conf.c:165
 msgid "No"
 msgstr "Nein"
 
-#: ball/st_conf.c:235 ball/st_demo.c:643 ball/st_save.c:213
-#: ball/st_start.c:231 putt/st_conf.c:180
+#: ball/st_conf.c:221 ball/st_demo.c:643 ball/st_save.c:210
+#: ball/st_start.c:231 putt/st_conf.c:166
 msgid "Yes"
 msgstr "Ja"
 
-#: ball/st_conf.c:237 putt/st_conf.c:182
+#: ball/st_conf.c:223 putt/st_conf.c:168
 msgid "Fullscreen"
 msgstr "Vollbild"
 
-#: ball/st_conf.c:245 share/st_resol.c:97 putt/st_conf.c:190
+#: ball/st_conf.c:231 share/st_resol.c:97 putt/st_conf.c:176
 msgid "Resolution"
 msgstr "Auflösung"
 
-#: ball/st_conf.c:253 ball/st_conf.c:262 putt/st_conf.c:198 putt/st_conf.c:207
+#: ball/st_conf.c:239 putt/st_conf.c:184
 msgid "Low"
 msgstr "Niedrig"
 
-#: ball/st_conf.c:254 ball/st_conf.c:263 putt/st_conf.c:199 putt/st_conf.c:208
+#: ball/st_conf.c:240 putt/st_conf.c:185
 msgid "High"
 msgstr "Hoch"
 
-#: ball/st_conf.c:256 putt/st_conf.c:201
+#: ball/st_conf.c:242 putt/st_conf.c:187
 msgid "Textures"
 msgstr "Texturen"
 
-#: ball/st_conf.c:265 putt/st_conf.c:210
-msgid "Geometry"
-msgstr "Geometrie"
-
-#: ball/st_conf.c:271 ball/st_conf.c:280 ball/st_conf.c:289 putt/st_conf.c:216
+#: ball/st_conf.c:248 ball/st_conf.c:257 ball/st_conf.c:266 putt/st_conf.c:193
 msgid "Off"
 msgstr "Aus"
 
-#: ball/st_conf.c:272 ball/st_conf.c:281 ball/st_conf.c:290 putt/st_conf.c:217
+#: ball/st_conf.c:249 ball/st_conf.c:258 ball/st_conf.c:267 putt/st_conf.c:194
 msgid "On"
 msgstr "Ein"
 
-#: ball/st_conf.c:274
+#: ball/st_conf.c:251
 msgid "Reflection"
 msgstr "Spiegelung"
 
-#: ball/st_conf.c:283
+#: ball/st_conf.c:260
 msgid "Background"
 msgstr "Hintergrund"
 
-#: ball/st_conf.c:292 putt/st_conf.c:219
+#: ball/st_conf.c:269 putt/st_conf.c:196
 msgid "Shadow"
 msgstr "Schatten"
 
-#: ball/st_conf.c:314 putt/st_conf.c:241
+#: ball/st_conf.c:291 putt/st_conf.c:218
 msgid "Sound Volume"
 msgstr "Geräuschlautstärke"
 
-#: ball/st_conf.c:334 putt/st_conf.c:261
+#: ball/st_conf.c:311 putt/st_conf.c:238
 msgid "Music Volume"
 msgstr "Musiklautstärke"
 
-#: ball/st_conf.c:343 ball/st_name.c:101
+#: ball/st_conf.c:320 ball/st_name.c:101
 msgid "Player Name"
 msgstr "Spielername"
 
@@ -318,7 +314,7 @@ msgstr "Wiederholen"
 msgid "Delete Replay?"
 msgstr "Replay Löschen?"
 
-#: ball/st_demo.c:680
+#: ball/st_demo.c:680 ball/st_level.c:155
 msgid "Warning!"
 msgstr "Warnung!"
 
@@ -386,8 +382,8 @@ msgid "Finish"
 msgstr "Fertig"
 
 #: ball/st_help.c:92
-msgid "Techniques"
-msgstr "Techniken"
+msgid "Tricks"
+msgstr ""
 
 #: ball/st_help.c:93
 msgid "Modes"
@@ -487,21 +483,27 @@ msgstr ""
 msgid "Watch demo"
 msgstr "Demo ansehen"
 
-#: ball/st_level.c:52
+#: ball/st_level.c:55
 #, c-format
 msgid "Bonus Level %s"
 msgstr "Bonus Level %s"
 
-#: ball/st_level.c:54
+#: ball/st_level.c:57
 #, c-format
 msgid "Level %s"
 msgstr "Level %s"
+
+#: ball/st_level.c:157
+msgid ""
+"The default replay file could not be opened.\\You will not be able to save a "
+"replay when\\playing this level.\\"
+msgstr ""
 
 #: ball/st_name.c:112
 msgid "OK"
 msgstr "OK"
 
-#: ball/st_name.c:114 ball/st_save.c:127
+#: ball/st_name.c:114 ball/st_save.c:124
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -517,27 +519,27 @@ msgstr "Pause"
 msgid "Restart"
 msgstr "Neustart"
 
-#: ball/st_play.c:117
+#: ball/st_play.c:118
 msgid "Ready?"
 msgstr "Auf die Plätze!"
 
-#: ball/st_play.c:201
+#: ball/st_play.c:202
 msgid "Set?"
 msgstr "Fertig?"
 
-#: ball/st_play.c:307
+#: ball/st_play.c:308
 msgid "GO!"
 msgstr "LOS!"
 
-#: ball/st_save.c:114
+#: ball/st_save.c:111
 msgid "Replay Name"
 msgstr "Replay-Name"
 
-#: ball/st_save.c:125
+#: ball/st_save.c:122
 msgid "Save"
 msgstr "Speichern"
 
-#: ball/st_save.c:206
+#: ball/st_save.c:203
 msgid "Overwrite?"
 msgstr "Überschreiben?"
 
@@ -876,12 +878,12 @@ msgstr "Euro"
 msgid "Undo"
 msgstr "Rückgängig"
 
-#: share/syswm.c:44
+#: share/syswm.c:58
 #, c-format
 msgid "Failed to get WM info: %s\n"
 msgstr "Holen von Information über den WM gescheitert: %s\n"
 
-#: share/syswm.c:115
+#: share/syswm.c:129
 msgid "Failed to allocate memory for EWMH icon data.\n"
 msgstr "Speicher für EWMH-Icon-Daten konnte nicht allokiert werden.\n"
 
@@ -1117,7 +1119,6 @@ msgstr ""
 "erreichen.\\"
 
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
-#: data/map-misc/circlethwomp.map data/map-misc/ode-corner.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
@@ -1154,10 +1155,14 @@ msgstr ""
 "rollen versehentlich ins Ziel.\\"
 
 #: data/map-easy/goslow.map
+#, fuzzy
+#| msgid ""
+#| "Tilt the floor as little as possible.\\Less tilt means lower speed."
+#| "\\Lower speed means better control.\\Watch the clock and use the time "
+#| "wisely.\\\\Click to begin.\\"
 msgid ""
 "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
 "speed means better control.\\Watch the clock and use the time wisely.\\"
-"\\Click to begin.\\"
 msgstr ""
 "Kippen Sie den Boden so wenig wie möglich.\\Geringere Neigung bedeutet "
 "geringere Geschwindigkeit,\\geringere Geschwindigkeit bessere Kontrolle."
@@ -2023,6 +2028,12 @@ msgstr "mtrl/words-de"
 
 msgid "item/coin/coin"
 msgstr "item/coin/euro_coin"
+
+#~ msgid "Geometry"
+#~ msgstr "Geometrie"
+
+#~ msgid "Techniques"
+#~ msgstr "Techniken"
 
 #, fuzzy
 #~| msgid "Down"

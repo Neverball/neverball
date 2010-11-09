@@ -301,28 +301,6 @@ values follow.
         statistics of  the current  frame time  and frames-per-second,
         averaged over 250 milliseconds.  Most people won't need this.
 
-    uniform 0
-
-        This  key controls  the  frequency of  graphical updates  with
-        respect to physics updates.
-
-        When  uniform is  N, then  there  will be  exactly N  physical
-        updates per graphics update, regardless of the passage of real
-        time.  So for example, if uniform is 1 then you will see every
-        physics update  rendered exactly once.   The default is  0 and
-        the option is disabled.
-
-        A further functionality  is built atop the  uniform option: if
-        the  uniform value  is  negative  then the  game  will take  a
-        screenshot  at  each  frame.   This  may  be  used  to  record
-        high-quality movies of replays.  Set uniform to -3 and start a
-        replay using  the --replay command  line option, and  you will
-        find a 30FPS movie written as a series of PNGs.
-
-        On an unfortunate note: audio is handled in a separate thread,
-        and there is no support for outputting audio synchronized with
-        a movie created in this fashion.
-
     screenshot 0
 
         This key holds  the current screen-shot index.   The number is

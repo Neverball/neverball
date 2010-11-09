@@ -29,9 +29,6 @@
 #include "st_shared.h"
 #include "st_save.h"
 
-extern struct state st_save;
-extern struct state st_clobber;
-
 static char filename[MAXSTR];
 
 /*---------------------------------------------------------------------------*/
@@ -47,7 +44,7 @@ int goto_save(struct state *ok, struct state *cancel)
                             set_id(curr_set()),
                             level_name(curr_level()));
 
-    strncpy(filename, name, sizeof (filename) - 1);
+    SAFECPY(filename, name);
 
     ok_state     = ok;
     cancel_state = cancel;

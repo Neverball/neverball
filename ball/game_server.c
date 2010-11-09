@@ -148,10 +148,10 @@ int input_put(fs_file fout)
 {
     if (server_state)
     {
-        put_short(fout, &input_current.x);
-        put_short(fout, &input_current.z);
-        put_short(fout, &input_current.r);
-        put_short(fout, &input_current.c);
+        put_short(fout, input_current.x);
+        put_short(fout, input_current.z);
+        put_short(fout, input_current.r);
+        put_short(fout, input_current.c);
 
         return 1;
     }
@@ -456,6 +456,8 @@ static void grow_step(const struct s_file *fp, float dt)
 
 /*---------------------------------------------------------------------------*/
 
+static struct lockstep server_step;
+
 int game_server_init(const char *file_name, int t, int e)
 {
     struct
@@ -529,6 +531,8 @@ int game_server_init(const char *file_name, int t, int e)
 
     game_cmd_init_balls();
     game_cmd_init_items();
+
+    lockstep_clr(&server_step);
 
     return server_state;
 }
@@ -679,12 +683,13 @@ static int game_update_state(int bt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, 0))
+    if (sol_swch_test(fp, 0) == SWCH_TRIGGER)
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
-    if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 1)
+    if (jump_e == 1 && jump_b == 0 && (sol_jump_test(fp, jump_p, 0) ==
+                                       JUMP_TRIGGER))
     {
         jump_b  = 1;
         jump_e  = 0;
@@ -697,7 +702,8 @@ static int game_update_state(int bt)
 
         game_cmd_jump(1);
     }
-    if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 0)
+    if (jump_e == 0 && jump_b == 0 && (sol_jump_test(fp, jump_p, 0) ==
+                                       JUMP_OUTSIDE))
     {
         jump_e = 1;
         game_cmd_jump(0);
@@ -798,23 +804,27 @@ static int game_step(const float g[3], float dt, int bt)
     return GAME_NONE;
 }
 
-void game_server_step(float dt)
+static void game_server_iter(float dt)
 {
-    static const float gup[] = { 0.0f, +9.8f, 0.0f };
-    static const float gdn[] = { 0.0f, -9.8f, 0.0f };
-
     switch (status)
     {
-    case GAME_GOAL: game_step(gup, dt, 0); break;
-    case GAME_FALL: game_step(gdn, dt, 0); break;
+    case GAME_GOAL: game_step(GRAVITY_UP, dt, 0); break;
+    case GAME_FALL: game_step(GRAVITY_DN, dt, 0); break;
 
     case GAME_NONE:
-        if ((status = game_step(gdn, dt, 1)) != GAME_NONE)
+        if ((status = game_step(GRAVITY_DN, dt, 1)) != GAME_NONE)
             game_cmd_status();
         break;
     }
 
     game_cmd_eou();
+}
+
+static struct lockstep server_step = { game_server_iter, DT };
+
+void game_server_step(float dt)
+{
+    lockstep_run(&server_step, dt);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -852,8 +862,10 @@ void game_set_ang(int x, int z)
 
 void game_set_pos(int x, int y)
 {
-    input_set_x(input_get_x() + 40.0f * y / config_get_d(CONFIG_MOUSE_SENSE));
-    input_set_z(input_get_z() + 40.0f * x / config_get_d(CONFIG_MOUSE_SENSE));
+    const float range = ANGLE_BOUND * 2;
+
+    input_set_x(input_get_x() + range * y / config_get_d(CONFIG_MOUSE_SENSE));
+    input_set_z(input_get_z() + range * x / config_get_d(CONFIG_MOUSE_SENSE));
 }
 
 void game_set_cam(int c)

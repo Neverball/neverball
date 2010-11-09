@@ -46,40 +46,43 @@ static int challenge_id;
 
 static void gui_level(int id, int i)
 {
+    struct level *l = get_level(i);
     const GLfloat *fore = 0, *back = 0;
 
     int jd;
 
-    if (!level_exists(i))
+    if (!l)
     {
         gui_label(id, " ", GUI_SML, GUI_ALL, gui_blk, gui_blk);
         return;
     }
 
-    if (level_opened(i))
+    if (level_opened(l))
     {
-        fore = level_bonus(i)     ? gui_grn : gui_wht;
-        back = level_completed(i) ? fore    : gui_yel;
+        fore = level_bonus(l)     ? gui_grn : gui_wht;
+        back = level_completed(l) ? fore    : gui_yel;
     }
 
-    jd = gui_label(id, level_name(i), GUI_SML, GUI_ALL, back, fore);
+    jd = gui_label(id, level_name(l), GUI_SML, GUI_ALL, back, fore);
 
-    if (level_opened(i) || config_cheat())
+    if (level_opened(l) || config_cheat())
         gui_active(jd, i, 0);
 }
 
 static void start_over_level(int i)
 {
-    if (level_opened(i) || config_cheat())
-    {
-        gui_set_image(shot_id, level_shot(i));
+    struct level *l = get_level(i);
 
-        set_score_board(level_score(i, SCORE_COIN), -1,
-                        level_score(i, SCORE_TIME), -1,
-                        level_score(i, SCORE_GOAL), -1);
+    if (level_opened(l) || config_cheat())
+    {
+        gui_set_image(shot_id, level_shot(l));
+
+        set_score_board(level_score(l, SCORE_COIN), -1,
+                        level_score(l, SCORE_TIME), -1,
+                        level_score(l, SCORE_GOAL), -1);
 
         if (file_id)
-            gui_set_label(file_id, level_file(i));
+            gui_set_label(file_id, level_file(l));
     }
 }
 
@@ -149,7 +152,7 @@ static int start_action(int i)
         return goto_state(&st_start);
 
     default:
-        if (progress_play(i))
+        if (progress_play(get_level(i)))
             return goto_state(&st_level);
         break;
     }

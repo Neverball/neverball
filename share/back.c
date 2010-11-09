@@ -30,10 +30,10 @@ static GLuint back_text;
 
 /*---------------------------------------------------------------------------*/
 
-void back_init(const char *s, int b)
+void back_init(const char *s)
 {
-    int i, slices = b ? 32 : 16;
-    int j, stacks = b ? 16 :  8;
+    int i, slices = 32;
+    int j, stacks = 16;
 
     back_free();
     back_text = make_image_from_file(s);

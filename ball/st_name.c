@@ -15,6 +15,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "common.h"
 #include "gui.h"
 #include "util.h"
 #include "audio.h"
@@ -41,7 +42,7 @@ static unsigned int draw_back;
 
 int goto_name(struct state *ok, struct state *cancel, unsigned int back)
 {
-    strncpy(player, config_get_s(CONFIG_PLAYER), sizeof (player) - 1);
+    SAFECPY(player, config_get_s(CONFIG_PLAYER));
 
     ok_state     = ok;
     cancel_state = cancel;
@@ -128,7 +129,7 @@ static int name_enter(struct state *st, struct state *prev)
     if (draw_back)
     {
         game_client_free();
-        back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+        back_init("back/gui.png");
     }
 
     SDL_EnableUNICODE(1);

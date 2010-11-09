@@ -525,7 +525,7 @@ static int demo_end_action(int i)
         return 0;
     case DEMO_REPLAY:
         demo_replay_stop(0);
-        progress_replay(curr_demo_replay()->filename);
+        progress_replay(curr_demo());
         return goto_state(&st_demo_play);
     case DEMO_CONTINUE:
         return goto_state(&st_demo_play);

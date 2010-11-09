@@ -18,6 +18,7 @@
 #include <math.h>
 #include <assert.h>
 
+#include "common.h"
 #include "solid.h"
 #include "config.h"
 #include "level.h"
@@ -42,11 +43,11 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
         char *v = fp->av + fp->dv[i].aj;
 
         if (strcmp(k, "message") == 0)
-            strncpy(l->message, v, MAXSTR - 1);
+            SAFECPY(l->message, v);
         else if (strcmp(k, "song") == 0)
-            strncpy(l->song, v, PATHMAX - 1);
+            SAFECPY(l->song, v);
         else if (strcmp(k, "shot") == 0)
-            strncpy(l->shot, v, PATHMAX - 1);
+            SAFECPY(l->shot, v);
         else if (strcmp(k, "goal") == 0)
         {
             l->goal = atoi(v);
@@ -91,9 +92,9 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
             }
         }
         else if (strcmp(k, "version") == 0)
-            strncpy(l->version, v, MAXSTR - 1);
+            SAFECPY(l->version, v);
         else if (strcmp(k, "author") == 0)
-            strncpy(l->author, v, MAXSTR - 1);
+            SAFECPY(l->author, v);
         else if (strcmp(k, "bonus") == 0)
             l->is_bonus = atoi(v) ? 1 : 0;
     }
@@ -134,7 +135,7 @@ int level_load(const char *filename, struct level *level)
         return 0;
     }
 
-    strncpy(level->file, filename, PATHMAX - 1);
+    SAFECPY(level->file, filename);
 
     score_init_hs(&level->scores[SCORE_TIME], 59999, 0);
     score_init_hs(&level->scores[SCORE_GOAL], 59999, 0);
@@ -149,88 +150,87 @@ int level_load(const char *filename, struct level *level)
 
 /*---------------------------------------------------------------------------*/
 
-int  level_exists(int i)
+int level_exists(int i)
 {
-    return set_level_exists(curr_set(), i);
+    return !!get_level(i);
 }
 
-void level_open(int i)
+void level_open(struct level *level)
 {
-    if (level_exists(i))
-        get_level(i)->is_locked = 0;
+    level->is_locked = 0;
 }
 
-int  level_opened(int i)
+int level_opened(const struct level *level)
 {
-    return level_exists(i) && !get_level(i)->is_locked;
+    return !level->is_locked;
 }
 
-void level_complete(int i)
+void level_complete(struct level *level)
 {
-    if (level_exists(i))
-        get_level(i)->is_completed = 1;
+    level->is_completed = 1;
 }
 
-int  level_completed(int i)
+int level_completed(const struct level *level)
 {
-    return level_exists(i) && get_level(i)->is_completed;
+    return level->is_completed;
 }
 
-int  level_time (int i)
+int level_time(const struct level *level)
 {
-    assert(level_exists(i));
-    return get_level(i)->time;
+    return level->time;
 }
 
-int  level_goal (int i)
+int level_goal(const struct level *level)
 {
-    assert(level_exists(i));
-    return get_level(i)->goal;
+    return level->goal;
 }
 
-int  level_bonus(int i)
+int  level_bonus(const struct level *level)
 {
-    return level_exists(i) && get_level(i)->is_bonus;
+    return level->is_bonus;
 }
 
-const char *level_shot(int i)
+const char *level_shot(const struct level *level)
 {
-    return level_exists(i) ? get_level(i)->shot : NULL;
+    return level->shot;
 }
 
-const char *level_file(int i)
+const char *level_file(const struct level *level)
 {
-    return level_exists(i) ? get_level(i)->file : NULL;
+    return level->file;
 }
 
-const char *level_name(int i)
+const char *level_song(const struct level *level)
 {
-    return level_exists(i) ? get_level(i)->name : NULL;
+    return level->song;
 }
 
-const char *level_msg(int i)
+const char *level_name(const struct level *level)
 {
-    if (level_exists(i) && strlen(get_level(i)->message) > 0)
-        return _(get_level(i)->message);
+    return level->name;
+}
 
+const char *level_msg(const struct level *level)
+{
+    if (strlen(level->message) > 0)
+        return _(level->message);
     return "";
 }
 
-const struct score *level_score(int i, int s)
+const struct score *level_score(struct level *level, int s)
 {
-    return level_exists(i) ? &get_level(i)->scores[s] : NULL;
+    return &level->scores[s];
 }
 
 /*---------------------------------------------------------------------------*/
 
-int level_score_update(int level,
+int level_score_update(struct level *l,
                        int timer,
                        int coins,
                        int *time_rank,
                        int *goal_rank,
                        int *coin_rank)
 {
-    struct level *l = get_level(level);
     const char *player =  config_get_s(CONFIG_PLAYER);
 
     score_time_insert(&l->scores[SCORE_TIME], time_rank, player, timer, coins);
@@ -245,17 +245,15 @@ int level_score_update(int level,
         return 0;
 }
 
-void level_rename_player(int level,
+void level_rename_player(struct level *l,
                          int time_rank,
                          int goal_rank,
                          int coin_rank,
                          const char *player)
 {
-    struct level *l = get_level(level);
-
-    strncpy(l->scores[SCORE_TIME].player[time_rank], player, MAXNAM - 1);
-    strncpy(l->scores[SCORE_GOAL].player[goal_rank], player, MAXNAM - 1);
-    strncpy(l->scores[SCORE_COIN].player[coin_rank], player, MAXNAM - 1);
+    SAFECPY(l->scores[SCORE_TIME].player[time_rank], player);
+    SAFECPY(l->scores[SCORE_GOAL].player[goal_rank], player);
+    SAFECPY(l->scores[SCORE_COIN].player[coin_rank], player);
 }
 
 /*---------------------------------------------------------------------------*/

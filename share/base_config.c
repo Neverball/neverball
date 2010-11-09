@@ -41,9 +41,9 @@ static const char *pick_data_path(const char *arg_data_path)
     if (path_is_abs(CONFIG_DATA))
         return CONFIG_DATA;
 
-    strncpy(dir, fs_base_dir(), sizeof (dir) - 1);
-    strncat(dir, "/",           sizeof (dir) - strlen(dir) - 1);
-    strncat(dir, CONFIG_DATA,   sizeof (dir) - strlen(dir) - 1);
+    SAFECPY(dir, fs_base_dir());
+    SAFECAT(dir, "/");
+    SAFECAT(dir, CONFIG_DATA);
 
     return dir;
 }

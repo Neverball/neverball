@@ -5,5 +5,6 @@
 
 extern struct state st_level;
 extern struct state st_poser;
+extern struct state st_nodemo;
 
 #endif

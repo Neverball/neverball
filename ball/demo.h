@@ -11,8 +11,8 @@
 
 struct demo
 {
-    char   name[PATHMAX];     /* demo basename    */
-    char   filename[MAXSTR];  /* demo path        */
+    char   name[PATHMAX];               /* Demo basename                     */
+    char   filename[MAXSTR];            /* Demo path                         */
 
     char   player[MAXSTR];
     time_t date;
@@ -22,15 +22,15 @@ struct demo
     int    status;
     int    mode;
 
-    char   shot[PATHMAX];   /* image filename */
-    char   file[PATHMAX];   /* level filename */
+    char   shot[PATHMAX];               /* Image filename                    */
+    char   file[PATHMAX];               /* Level filename                    */
 
-    int    time;            /* time limit        */
-    int    goal;            /* coin limit        */
-    int    goal_e;          /* goal enabled flag */
-    int    score;           /* total coins       */
-    int    balls;           /* number of balls   */
-    int    times;           /* total time        */
+    int    time;                        /* Time limit                        */
+    int    goal;                        /* Coin limit                        */
+    int    score;                       /* Total coins                       */
+    int    balls;                       /* Number of balls                   */
+    int    times;                       /* Total time                        */
+
 };
 
 /*---------------------------------------------------------------------------*/
@@ -46,8 +46,7 @@ const char *demo_format_name(const char *fmt,
 
 /*---------------------------------------------------------------------------*/
 
-int  demo_play_init(const char *, const struct level *,
-                    int, int, int, int, int, int, int);
+int  demo_play_init(const char *, const struct level *, int, int, int, int);
 void demo_play_step(void);
 void demo_play_stat(int, int, int);
 void demo_play_stop(void);
@@ -63,7 +62,7 @@ int  demo_replay_init(const char *, int *, int *, int *, int *, int *);
 int  demo_replay_step(float);
 void demo_replay_stop(int);
 
-const struct demo *curr_demo_replay(void);
+const char *curr_demo(void);
 
 /*---------------------------------------------------------------------------*/
 

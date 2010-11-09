@@ -246,10 +246,10 @@ static int loop(void)
 
 /*---------------------------------------------------------------------------*/
 
-static char *data_path = NULL;
-static char *demo_path = NULL;
+static char *opt_data;
+static char *opt_replay;
 
-#define usage \
+#define opt_usage \
     L_(                                                                   \
         "Usage: %s [options ...]\n"                                       \
         "Options:\n"                                                      \
@@ -259,11 +259,10 @@ static char *demo_path = NULL;
         "  -r, --replay <file>       play the replay 'file'.\n"           \
     )
 
-#define argument_error(option) { \
-    fprintf(stderr, L_("Option '%s' requires an argument.\n"),  option); \
-}
+#define opt_error(option) \
+    fprintf(stderr, L_("Option '%s' requires an argument.\n"), option)
 
-static void parse_args(int argc, char **argv)
+static void opt_parse(int argc, char **argv)
 {
     int i;
 
@@ -273,7 +272,7 @@ static void parse_args(int argc, char **argv)
     {
         if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help")    == 0)
         {
-            printf(usage, argv[0]);
+            printf(opt_usage, argv[0]);
             exit(EXIT_SUCCESS);
         }
 
@@ -287,10 +286,10 @@ static void parse_args(int argc, char **argv)
         {
             if (i + 1 == argc)
             {
-                argument_error(argv[i]);
+                opt_error(argv[i]);
                 exit(EXIT_FAILURE);
             }
-            data_path = argv[++i];
+            opt_data = argv[++i];
             continue;
         }
 
@@ -298,25 +297,25 @@ static void parse_args(int argc, char **argv)
         {
             if (i + 1 == argc)
             {
-                argument_error(argv[i]);
+                opt_error(argv[i]);
                 exit(EXIT_FAILURE);
             }
-            demo_path = argv[++i];
+            opt_replay = argv[++i];
             continue;
         }
 
-        /* Assume a single unrecognised argument is a replay name. */
+        /* Assume a single unrecognized argument is a replay name. */
 
         if (argc == 2)
         {
-            demo_path = argv[i];
+            opt_replay = argv[i];
             break;
         }
     }
 }
 
-#undef usage
-#undef argument_error
+#undef opt_usage
+#undef opt_error
 
 /*---------------------------------------------------------------------------*/
 
@@ -381,7 +380,7 @@ static void make_dirs_and_migrate(void)
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
-    int t1, t0, uniform;
+    int t1, t0;
 
     if (!fs_init(argv[0]))
     {
@@ -392,12 +391,12 @@ int main(int argc, char *argv[])
 
     lang_init("neverball");
 
-    parse_args(argc, argv);
+    opt_parse(argc, argv);
 
-    config_paths(data_path);
+    config_paths(opt_data);
     make_dirs_and_migrate();
 
-    /* Initialize SDL system and subsystems */
+    /* Initialize SDL. */
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
     {
@@ -405,12 +404,12 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    /* Intitialize the configuration */
+    /* Intitialize configuration. */
 
     config_init();
     config_load();
 
-    /* Initialize the joystick. */
+    /* Initialize joystick. */
 
     if (config_get_d(CONFIG_JOYSTICK) && SDL_NumJoysticks() > 0)
     {
@@ -419,22 +418,23 @@ int main(int argc, char *argv[])
             SDL_JoystickEventState(SDL_ENABLE);
     }
 
-    /* Initialize the audio. */
+    /* Initialize audio. */
 
     audio_init();
     tilt_init();
 
-    /* Initialize the video. */
+    /* Initialize video. */
 
     if (!video_init(TITLE, ICON))
         return 1;
 
     init_state(&st_null);
 
-    /* Initialise demo playback. */
+    /* Initialize demo playback. */
 
-    if (demo_path && fs_add_path(dir_name(demo_path)) &&
-        progress_replay(base_name(demo_path)))
+    if (opt_replay &&
+        fs_add_path(dir_name(opt_replay)) &&
+        progress_replay(base_name(opt_replay)))
     {
         demo_play_goto(1);
         goto_state(&st_demo_play);
@@ -444,46 +444,26 @@ int main(int argc, char *argv[])
 
     /* Run the main game loop. */
 
-    uniform = config_get_d(CONFIG_UNIFORM);
     t0 = SDL_GetTicks();
 
     while (loop())
     {
-        t1 = SDL_GetTicks();
-
-        if (uniform)
+        if ((t1 = SDL_GetTicks()) > t0)
         {
-            /* Step the game uniformly, as configured. */
+            /* Step the game state. */
 
-            int u;
+            st_timer(0.001f * (t1 - t0));
 
-            for (u = 0; u < abs(uniform); ++u)
-            {
-                st_timer(DT);
-                t0 += (int) (DT * 1000);
-            }
+            t0 = t1;
+
+            /* Render. */
+
+            st_paint(0.001f * t0);
+            video_swap();
+
+            if (config_get_d(CONFIG_NICE))
+                SDL_Delay(1);
         }
-        else
-        {
-            /* Step the game state at least up to the current time. */
-
-            while (t1 > t0)
-            {
-                st_timer(DT);
-                t0 += (int) (DT * 1000);
-            }
-        }
-
-        /* Render. */
-
-        st_paint(0.001f * t0);
-        video_swap();
-
-        if (uniform < 0)
-            shot();
-
-        if (config_get_d(CONFIG_NICE))
-            SDL_Delay(1);
     }
 
     config_save();
