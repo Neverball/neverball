@@ -157,14 +157,9 @@ static int score_card(const char  *title,
 
 static int shared_stick_basic(int id, int a, int v)
 {
-    int jd = 0;
+    int jd;
 
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        jd = gui_stick(id, v, 0);
-    else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        jd = gui_stick(id, 0, v);
-
-    if (jd)
+    if ((jd = gui_stick(id, a, v)))
         gui_pulse(jd, 1.2f);
 
     return jd;
@@ -916,9 +911,6 @@ static void stroke_point(int id, int x, int y, int dx, int dy)
 
 static void stroke_stick(int id, int a, int v)
 {
-    if (v == 1) /* See 'loop' in main.c */
-        v = 0;
-
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         stroke_rotate = (6 * v) / JOY_MAX;
     else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))

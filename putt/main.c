@@ -140,19 +140,17 @@ static int loop(void)
 
             c = e.key.keysym.sym;
 
-            /* gui_stick needs a non-null value, so we use 1 instead of 0. */
-
             if (config_tst_d(CONFIG_KEY_FORWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
 
             else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 1);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
 
             else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 1);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
 
             else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 1);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
 
             else switch (c)
             {

@@ -270,10 +270,7 @@ static void start_point(int id, int x, int y, int dx, int dy)
 
 static void start_stick(int id, int a, int v)
 {
-    int x = (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a)) ? v : 0;
-    int y = (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a)) ? v : 0;
-
-    start_over(gui_stick(id, x, y), 1);
+    start_over(gui_stick(id, a, v), 1);
 }
 
 static int start_keybd(int c, int d)

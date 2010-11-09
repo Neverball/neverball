@@ -156,10 +156,7 @@ static void resol_point(int id, int x, int y, int dx, int dy)
 
 static void resol_stick(int id, int a, int v)
 {
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
+    gui_pulse(gui_stick(id, a, v), 1.2f);
 }
 
 static int resol_click(int b, int d)
