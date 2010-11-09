@@ -62,27 +62,15 @@ static float jump_w[3];                 /* View destination                  */
 /*
  * This is an abstraction of the game's input state.  All input is
  * encapsulated here, and all references to the input by the game are
- * made here.  TODO: This used to have the effect of homogenizing
- * input for use in replay recording and playback, but it's not clear
- * how relevant this approach is with the introduction of the command
- * pipeline.
- *
- * x and z:
- *     -32767 = -ANGLE_BOUND
- *     +32767 = +ANGLE_BOUND
- *
- * r:
- *     -32767 = -VIEWR_BOUND
- *     +32767 = +VIEWR_BOUND
- *
+ * made here.
  */
 
 struct input
 {
-    short x;
-    short z;
-    short r;
-    short c;
+    float x;
+    float z;
+    float r;
+    int   c;
 };
 
 static struct input input_current;
@@ -100,7 +88,7 @@ static void input_set_x(float x)
     if (x < -ANGLE_BOUND) x = -ANGLE_BOUND;
     if (x >  ANGLE_BOUND) x =  ANGLE_BOUND;
 
-    input_current.x = (short) (32767.0f * x / ANGLE_BOUND);
+    input_current.x = x;
 }
 
 static void input_set_z(float z)
@@ -108,7 +96,7 @@ static void input_set_z(float z)
     if (z < -ANGLE_BOUND) z = -ANGLE_BOUND;
     if (z >  ANGLE_BOUND) z =  ANGLE_BOUND;
 
-    input_current.z = (short) (32767.0f * z / ANGLE_BOUND);
+    input_current.z = z;
 }
 
 static void input_set_r(float r)
@@ -116,60 +104,32 @@ static void input_set_r(float r)
     if (r < -VIEWR_BOUND) r = -VIEWR_BOUND;
     if (r >  VIEWR_BOUND) r =  VIEWR_BOUND;
 
-    input_current.r = (short) (32767.0f * r / VIEWR_BOUND);
+    input_current.r = r;
 }
 
 static void input_set_c(int c)
 {
-    input_current.c = (short) c;
+    input_current.c = c;
 }
 
 static float input_get_x(void)
 {
-    return ANGLE_BOUND * (float) input_current.x / 32767.0f;
+    return input_current.x;
 }
 
 static float input_get_z(void)
 {
-    return ANGLE_BOUND * (float) input_current.z / 32767.0f;
+    return input_current.z;
 }
 
 static float input_get_r(void)
 {
-    return VIEWR_BOUND * (float) input_current.r / 32767.0f;
+    return input_current.r;
 }
 
 static int input_get_c(void)
 {
-    return (int) input_current.c;
-}
-
-int input_put(fs_file fout)
-{
-    if (server_state)
-    {
-        put_short(fout, input_current.x);
-        put_short(fout, input_current.z);
-        put_short(fout, input_current.r);
-        put_short(fout, input_current.c);
-
-        return 1;
-    }
-    return 0;
-}
-
-int input_get(fs_file fin)
-{
-    if (server_state)
-    {
-        get_short(fin, &input_current.x);
-        get_short(fin, &input_current.z);
-        get_short(fin, &input_current.r);
-        get_short(fin, &input_current.c);
-
-        return (fs_eof(fin) ? 0 : 1);
-    }
-    return 0;
+    return input_current.c;
 }
 
 /*---------------------------------------------------------------------------*/
