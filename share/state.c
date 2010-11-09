@@ -103,7 +103,7 @@ void st_point(int x, int y, int dx, int dy)
 
 int STICK_BUMP;
 
-void st_stick(int a, float k)
+void st_stick(int a, float v)
 {
     static struct
     {
@@ -129,18 +129,18 @@ void st_stick(int a, float k)
             /* Note the transition from centered to leaned position. */
 
             STICK_BUMP = ((-0.5f <= p && p <= +0.5f) &&
-                          (k < -0.5f || +0.5f < k));
+                          (v < -0.5f || +0.5f < v));
 
-            axes[i].prev = k;
+            axes[i].prev = v;
 
             if (config_get_d(*axes[i].inv))
-                k = -k;
+                v = -v;
 
             break;
         }
 
     if (state && state->stick)
-        state->stick(state->gui_id, a, k);
+        state->stick(state->gui_id, a, v);
 }
 
 void st_angle(int x, int z)
