@@ -273,7 +273,7 @@ static void conf_point(int id, int x, int y, int dx, int dy)
 
 static void conf_stick(int id, int a, float v)
 {
-    gui_pulse(gui_stick(id, a, v), 1.2f);
+    gui_pulse(gui_stick(id, a, v, STICK_BUMP), 1.2f);
 }
 
 static int conf_click(int b, int d)

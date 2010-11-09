@@ -58,7 +58,7 @@ int shared_stick_basic(int id, int a, float v)
 {
     int jd;
 
-    if ((jd = gui_stick(id, a, v)))
+    if ((jd = gui_stick(id, a, v, STICK_BUMP)))
         gui_pulse(jd, 1.2f);
 
     return jd;

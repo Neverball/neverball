@@ -37,6 +37,8 @@ int  st_click(int, int);
 int  st_keybd(int, int);
 int  st_buttn(int, int);
 
+extern int STICK_BUMP;
+
 /*---------------------------------------------------------------------------*/
 
 #endif

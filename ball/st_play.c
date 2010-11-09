@@ -375,19 +375,16 @@ static void play_loop_timer(int id, float dt)
     {
     case GAME_GOAL:
         progress_stat(GAME_GOAL);
-        gui_stuck();
         goto_state(&st_goal);
         break;
 
     case GAME_FALL:
         progress_stat(GAME_FALL);
-        gui_stuck();
         goto_state(&st_fall_out);
         break;
 
     case GAME_TIME:
         progress_stat(GAME_TIME);
-        gui_stuck();
         goto_state(&st_time_out);
         break;
 
