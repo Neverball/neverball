@@ -100,7 +100,7 @@ void st_point(int x, int y, int dx, int dy)
         state->point(state->gui_id, x, y, dx, dy);
 }
 
-void st_stick(int a, int k)
+void st_stick(int a, float k)
 {
     if ((config_tst_d(CONFIG_JOYSTICK_AXIS_X, a) &&
          config_get_d(CONFIG_JOYSTICK_AXIS_X_INVERT)) ||

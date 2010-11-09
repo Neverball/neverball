@@ -81,8 +81,7 @@
 #define AUDIO_BUFF_HI 2048
 #define AUDIO_BUFF_LO 1024
 
-#define JOY_MAX 32767
-#define JOY_MID 16383
+#define JOY_VALUE(k) ((float) (k) / ((k) < 0 ? 32768 : 32767))
 
 #define MAXSTR 256
 #define PATHMAX 64

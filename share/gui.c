@@ -1829,7 +1829,7 @@ void gui_stuck()
     yflag = 0;
 }
 
-int gui_stick(int id, int a, int v)
+int gui_stick(int id, int a, float v)
 {
     int jd = 0;
 
@@ -1837,20 +1837,20 @@ int gui_stick(int id, int a, int v)
 
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
     {
-        if (-JOY_MID <= v && v <= +JOY_MID)
+        if (-0.5f <= v && v <= +0.5f)
             xflag = 1;
-        else if (v < -JOY_MID && xflag && (jd = gui_wrap_L(id, active)))
+        else if (v < -0.5f && xflag && (jd = gui_wrap_L(id, active)))
             xflag = 0;
-        else if (v > +JOY_MID && xflag && (jd = gui_wrap_R(id, active)))
+        else if (v > +0.5f && xflag && (jd = gui_wrap_R(id, active)))
             xflag = 0;
     }
     else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
     {
-        if (-JOY_MID <= v && v <= +JOY_MID)
+        if (-0.5f <= v && v <= +0.5f)
             yflag = 1;
-        else if (v < -JOY_MID && yflag && (jd = gui_wrap_U(id, active)))
+        else if (v < -0.5f && yflag && (jd = gui_wrap_U(id, active)))
             yflag = 0;
-        else if (v > +JOY_MID && yflag && (jd = gui_wrap_D(id, active)))
+        else if (v > +0.5f && yflag && (jd = gui_wrap_D(id, active)))
             yflag = 0;
     }
 

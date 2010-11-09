@@ -13,7 +13,7 @@ struct state
     void (*paint)(int id, float t);
     void (*timer)(int id, float dt);
     void (*point)(int id, int x, int y, int dx, int dy);
-    void (*stick)(int id, int a, int v);
+    void (*stick)(int id, int a, float v);
     void (*angle)(int id, int x, int z);
     int  (*click)(int b,  int d);
     int  (*keybd)(int c,  int d);
@@ -31,7 +31,7 @@ int   goto_state(struct state *);
 void st_paint(float);
 void st_timer(float);
 void st_point(int, int, int, int);
-void st_stick(int, int);
+void st_stick(int, float);
 void st_angle(int, int);
 int  st_click(int, int);
 int  st_keybd(int, int);

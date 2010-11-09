@@ -402,7 +402,7 @@ static void play_loop_point(int id, int x, int y, int dx, int dy)
     game_set_pos(dx, dy);
 }
 
-static void play_loop_stick(int id, int a, int k)
+static void play_loop_stick(int id, int a, float k)
 {
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         game_set_z(k);
@@ -410,13 +410,11 @@ static void play_loop_stick(int id, int a, int k)
         game_set_x(k);
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_U, a))
     {
-        float v = (float) k / 32768.0f;
-
         VIEWR_SET_R(0);
         VIEWR_SET_L(0);
 
-        if (v > 0) VIEWR_SET_R(v);
-        if (v < 0) VIEWR_SET_L(v);
+        if (k > 0) VIEWR_SET_R(k);
+        if (k < 0) VIEWR_SET_L(k);
     }
 }
 

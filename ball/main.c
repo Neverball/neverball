@@ -110,16 +110,16 @@ static int loop(void)
             c = e.key.keysym.sym;
 
             if (config_tst_d(CONFIG_KEY_FORWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -JOY_MAX);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -1.0f);
 
             else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +JOY_MAX);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +1.0f);
 
             else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -JOY_MAX);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -1.0f);
 
             else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +JOY_MAX);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +1.0f);
 
             else switch (c)
             {
@@ -184,7 +184,7 @@ static int loop(void)
             break;
 
         case SDL_JOYAXISMOTION:
-            st_stick(e.jaxis.axis, e.jaxis.value);
+            st_stick(e.jaxis.axis, JOY_VALUE(e.jaxis.value));
             break;
 
         case SDL_JOYBUTTONDOWN:
@@ -229,13 +229,13 @@ static int loop(void)
 
                 /* Convert D-pad button events into joystick axis motion. */
 
-                if      (pad[0] && !pad[1]) st_stick(X, -JOY_MAX);
-                else if (pad[1] && !pad[0]) st_stick(X, +JOY_MAX);
-                else                        st_stick(X,        0);
+                if      (pad[0] && !pad[1]) st_stick(X, -1.0f);
+                else if (pad[1] && !pad[0]) st_stick(X, +1.0f);
+                else                        st_stick(X,  0.0f);
 
-                if      (pad[2] && !pad[3]) st_stick(Y, -JOY_MAX);
-                else if (pad[3] && !pad[2]) st_stick(Y, +JOY_MAX);
-                else                        st_stick(Y,        0);
+                if      (pad[2] && !pad[3]) st_stick(Y, -1.0f);
+                else if (pad[3] && !pad[2]) st_stick(Y, +1.0f);
+                else                        st_stick(Y,  0.0f);
             }
             else d = st_buttn(b, s);
         }

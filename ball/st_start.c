@@ -268,7 +268,7 @@ static void start_point(int id, int x, int y, int dx, int dy)
     start_over(gui_point(id, x, y), 1);
 }
 
-static void start_stick(int id, int a, int v)
+static void start_stick(int id, int a, float v)
 {
     start_over(gui_stick(id, a, v), 1);
 }

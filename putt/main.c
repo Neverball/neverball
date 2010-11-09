@@ -106,16 +106,16 @@ static int loop(void)
             c = e.key.keysym.sym;
 
             if (config_tst_d(CONFIG_KEY_FORWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -JOY_MAX);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -1.0f);
 
             else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +JOY_MAX);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +1.0f);
 
             else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -JOY_MAX);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -1.0f);
 
             else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +JOY_MAX);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +1.0f);
 
             else switch (c)
             {
@@ -141,16 +141,16 @@ static int loop(void)
             c = e.key.keysym.sym;
 
             if (config_tst_d(CONFIG_KEY_FORWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0.0f);
 
             else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0.0f);
 
             else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0.0f);
 
             else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
+                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0.0f);
 
             else switch (c)
             {
@@ -172,7 +172,7 @@ static int loop(void)
             break;
 
         case SDL_JOYAXISMOTION:
-            st_stick(e.jaxis.axis, e.jaxis.value);
+            st_stick(e.jaxis.axis, JOY_VALUE(e.jaxis.value));
             break;
 
         case SDL_JOYBUTTONDOWN:

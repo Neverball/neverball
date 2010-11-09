@@ -271,7 +271,7 @@ static void conf_point(int id, int x, int y, int dx, int dy)
     gui_pulse(gui_point(id, x, y), 1.2f);
 }
 
-static void conf_stick(int id, int a, int v)
+static void conf_stick(int id, int a, float v)
 {
     gui_pulse(gui_stick(id, a, v), 1.2f);
 }

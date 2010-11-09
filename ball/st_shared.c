@@ -54,7 +54,7 @@ void shared_point(int id, int x, int y, int dx, int dy)
     shared_point_basic(id, x, y);
 }
 
-int shared_stick_basic(int id, int a, int v)
+int shared_stick_basic(int id, int a, float v)
 {
     int jd;
 
@@ -64,7 +64,7 @@ int shared_stick_basic(int id, int a, int v)
     return jd;
 }
 
-void shared_stick(int id, int a, int v)
+void shared_stick(int id, int a, float v)
 {
     shared_stick_basic(id, a, v);
 }

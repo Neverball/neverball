@@ -357,7 +357,7 @@ static void demo_point(int id, int x, int y, int dx, int dy)
         gui_demo_update_status(i);
 }
 
-static void demo_stick(int id, int a, int v)
+static void demo_stick(int id, int a, float v)
 {
     int jd = shared_stick_basic(id, a, v);
     int i  = gui_token(jd);

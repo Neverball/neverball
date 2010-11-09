@@ -844,14 +844,14 @@ void game_clr_goal(void)
 
 /*---------------------------------------------------------------------------*/
 
-void game_set_x(int k)
+void game_set_x(float k)
 {
-    input_set_x(-ANGLE_BOUND * k / JOY_MAX);
+    input_set_x(-ANGLE_BOUND * k);
 }
 
-void game_set_z(int k)
+void game_set_z(float k)
 {
-    input_set_z(+ANGLE_BOUND * k / JOY_MAX);
+    input_set_z(+ANGLE_BOUND * k);
 }
 
 void game_set_ang(int x, int z)
