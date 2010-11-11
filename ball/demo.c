@@ -27,6 +27,7 @@
 #include "level.h"
 #include "array.h"
 #include "dir.h"
+#include "speed.h"
 
 #include "game_server.h"
 #include "game_client.h"
@@ -462,6 +463,20 @@ void demo_replay_stop(int d)
         demo_fp = NULL;
 
         if (d) fs_remove(demo_replay.filename);
+    }
+}
+
+void demo_speed_set(int speed)
+{
+    if (SPEED_NONE <= speed && speed < SPEED_MAX)
+    {
+        /*
+         * I am torn between the desire to fix the division by zero
+         * when speed is SPEED_NONE and the knowledge that, on all
+         * modern architectures, the result will be an infinity, which
+         * seems well suited for our purposes.
+         */
+        lockstep_scl(&update_step, 1.0f / SPEED_FACTORS[speed]);
     }
 }
 

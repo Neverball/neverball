@@ -64,6 +64,8 @@ void demo_replay_stop(int);
 
 const char *curr_demo(void);
 
+void demo_speed_set(int);
+
 /*---------------------------------------------------------------------------*/
 
 extern fs_file demo_fp;

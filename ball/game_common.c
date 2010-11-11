@@ -176,17 +176,29 @@ void game_view_fly(struct game_view *view, const struct s_file *fp, float k)
 void lockstep_clr(struct lockstep *ls)
 {
     ls->at = 0;
+    ls->ts = 1.0f;
 }
 
 void lockstep_run(struct lockstep *ls, float dt)
 {
     ls->at += dt;
 
-    while (ls->at >= ls->dt)
+    while (ls->at >= ls->dt * ls->ts)
     {
         ls->step(ls->dt);
-        ls->at -= ls->dt;
+        ls->at -= ls->dt * ls->ts;
     }
+}
+
+void lockstep_scl(struct lockstep *ls, float ts)
+{
+    /*
+     * Depending on the size of the previous time scale, there may be
+     * a lot of time left in the accumulator.  Mind-blowing hack: just
+     * reset the accumulator.
+     */
+    ls->at = 0;
+    ls->ts = ts;
 }
 
 /*---------------------------------------------------------------------------*/

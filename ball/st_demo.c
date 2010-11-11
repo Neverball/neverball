@@ -26,6 +26,7 @@
 #include "util.h"
 #include "common.h"
 #include "demo_dir.h"
+#include "speed.h"
 
 #include "game_common.h"
 #include "game_server.h"
@@ -384,6 +385,7 @@ static int standalone;
 static int demo_paused;
 static int show_hud;
 static int check_compat;
+static int speed;
 
 static float prelude;
 
@@ -431,6 +433,9 @@ static int demo_play_enter(struct state *st, struct state *prev)
 
     prelude = 1.0f;
 
+    speed = SPEED_NORMAL;
+    demo_speed_set(speed);
+
     show_hud = 1;
     hud_update(0);
 
@@ -466,6 +471,38 @@ static void demo_play_timer(int id, float dt)
     }
     else
         progress_step();
+}
+
+static void set_speed(int d)
+{
+    if (d > 0) speed = SPEED_UP(speed);
+    if (d < 0) speed = SPEED_DN(speed);
+
+    demo_speed_set(speed);
+    hud_speed_pulse(speed);
+}
+
+static void demo_play_stick(int id, int a, float v)
+{
+    if (!STICK_BUMP)
+        return;
+
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
+    {
+        if (v < 0) set_speed(+1);
+        if (v > 0) set_speed(-1);
+    }
+}
+
+static int demo_play_click(int b, int d)
+{
+    if (d)
+    {
+        if (b == SDL_BUTTON_WHEELUP)   set_speed(+1);
+        if (b == SDL_BUTTON_WHEELDOWN) set_speed(-1);
+    }
+
+    return 1;
 }
 
 static int demo_play_keybd(int c, int d)
@@ -737,9 +774,9 @@ struct state st_demo_play = {
     demo_play_paint,
     demo_play_timer,
     NULL,
+    demo_play_stick,
     NULL,
-    NULL,
-    NULL,
+    demo_play_click,
     demo_play_keybd,
     demo_play_buttn,
     1, 0

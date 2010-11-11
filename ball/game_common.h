@@ -106,10 +106,12 @@ struct lockstep
 
     float dt;                           /* Time step length                  */
     float at;                           /* Accumulator                       */
+    float ts;                           /* Time scale factor                 */
 };
 
 void lockstep_clr(struct lockstep *);
 void lockstep_run(struct lockstep *, float);
+void lockstep_scl(struct lockstep *, float);
 
 /*---------------------------------------------------------------------------*/
 

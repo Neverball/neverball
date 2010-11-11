@@ -23,6 +23,7 @@
 #include "config.h"
 #include "video.h"
 #include "audio.h"
+#include "speed.h"
 
 #include "game_common.h"
 #include "game_client.h"
@@ -40,7 +41,15 @@ static int goal_id;
 static int view_id;
 static int fps_id;
 
+static int speed_id;
+static int speed_ids[SPEED_MAX];
+
+static const char *speed_labels[SPEED_MAX] = {
+    "", "8", "4", "2", "1", "2", "4", "8"
+};
+
 static float view_timer;
+static float speed_timer;
 
 static void hud_fps(void)
 {
@@ -98,6 +107,26 @@ void hud_init(void)
 
     if ((fps_id = gui_count(0, 1000, GUI_SML, GUI_SE)))
         gui_layout(fps_id, -1, 1);
+
+    if ((speed_id = gui_varray(0)))
+    {
+        int i;
+
+        for (i = SPEED_MAX - 1; i > SPEED_NONE; i--)
+        {
+            int rect = 0;
+
+            if (i == SPEED_MAX - 1)
+                rect = GUI_NW;
+            if (i == SPEED_NONE + 1)
+                rect = GUI_SW;
+
+            speed_ids[i] = gui_label(speed_id, speed_labels[i],
+                                     GUI_SML, rect, 0, 0);
+        }
+
+        gui_layout(speed_id, +1, 0);
+    }
 }
 
 void hud_free(void)
@@ -121,6 +150,7 @@ void hud_paint(void)
         gui_paint(fps_id);
 
     hud_view_paint();
+    hud_speed_paint();
 }
 
 void hud_update(int pulse)
@@ -141,6 +171,8 @@ void hud_update(int pulse)
         gui_pulse(ball_id, 0.f);
         gui_pulse(time_id, 0.f);
         gui_pulse(coin_id, 0.f);
+
+        speed_timer = 0.0f;
     }
 
     /* time and tick-tock */
@@ -220,7 +252,6 @@ void hud_update(int pulse)
 
 void hud_timer(float dt)
 {
-
     hud_update(1);
 
     gui_timer(Rhud_id, dt);
@@ -228,6 +259,7 @@ void hud_timer(float dt)
     gui_timer(time_id, dt);
 
     hud_view_timer(dt);
+    hud_speed_timer(dt);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -249,6 +281,44 @@ void hud_view_paint(void)
 {
     if (view_timer > 0.0f)
         gui_paint(view_id);
+}
+
+/*---------------------------------------------------------------------------*/
+
+void hud_speed_pulse(int speed)
+{
+    int i;
+
+    for (i = SPEED_NONE + 1; i < SPEED_MAX; i++)
+    {
+        const GLfloat *c = gui_gry;
+
+        if      (i > SPEED_NORMAL && i <= speed)
+            c = gui_grn;
+        else if (i < SPEED_NORMAL && i >= speed)
+            c = gui_red;
+        else if (i == SPEED_NORMAL)
+            c = gui_wht;
+
+        gui_set_color(speed_ids[i], c, c);
+
+        if (i == speed)
+            gui_pulse(speed_ids[i], 1.2f);
+    }
+
+    speed_timer = 2.0f;
+}
+
+void hud_speed_timer(float dt)
+{
+    speed_timer -= dt;
+    gui_timer(speed_id, dt);
+}
+
+void hud_speed_paint(void)
+{
+    if (speed_timer > 0.0f)
+        gui_paint(speed_id);
 }
 
 /*---------------------------------------------------------------------------*/
