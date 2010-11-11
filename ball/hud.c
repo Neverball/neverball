@@ -293,12 +293,15 @@ void hud_speed_pulse(int speed)
     {
         const GLfloat *c = gui_gry;
 
-        if      (i > SPEED_NORMAL && i <= speed)
-            c = gui_grn;
-        else if (i < SPEED_NORMAL && i >= speed)
-            c = gui_red;
-        else if (i == SPEED_NORMAL)
-            c = gui_wht;
+        if (speed != SPEED_NONE)
+        {
+            if      (i > SPEED_NORMAL && i <= speed)
+                c = gui_grn;
+            else if (i < SPEED_NORMAL && i >= speed)
+                c = gui_red;
+            else if (i == SPEED_NORMAL)
+                c = gui_wht;
+        }
 
         gui_set_color(speed_ids[i], c, c);
 
