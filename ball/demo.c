@@ -469,15 +469,7 @@ void demo_replay_stop(int d)
 void demo_speed_set(int speed)
 {
     if (SPEED_NONE <= speed && speed < SPEED_MAX)
-    {
-        /*
-         * I am torn between the desire to fix the division by zero
-         * when speed is SPEED_NONE and the knowledge that, on all
-         * modern architectures, the result will be an infinity, which
-         * seems well suited for our purposes.
-         */
-        lockstep_scl(&update_step, 1.0f / SPEED_FACTORS[speed]);
-    }
+        lockstep_scl(&update_step, SPEED_FACTORS[speed]);
 }
 
 /*---------------------------------------------------------------------------*/

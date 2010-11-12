@@ -181,23 +181,17 @@ void lockstep_clr(struct lockstep *ls)
 
 void lockstep_run(struct lockstep *ls, float dt)
 {
-    ls->at += dt;
+    ls->at += dt * ls->ts;
 
-    while (ls->at >= ls->dt * ls->ts)
+    while (ls->at >= ls->dt)
     {
         ls->step(ls->dt);
-        ls->at -= ls->dt * ls->ts;
+        ls->at -= ls->dt;
     }
 }
 
 void lockstep_scl(struct lockstep *ls, float ts)
 {
-    /*
-     * Depending on the size of the previous time scale, there may be
-     * a lot of time left in the accumulator.  Mind-blowing hack: just
-     * reset the accumulator.
-     */
-    ls->at = 0;
     ls->ts = ts;
 }
 
