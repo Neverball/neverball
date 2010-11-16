@@ -126,30 +126,35 @@ char *fs_gets(char *dst, int count, fs_file fh)
     if (fs_eof(fh))
         return NULL;
 
-    while (count > 1 && (c = fs_getc(fh)) >= 0)
-    {
-        count--;
-
-        *s = c;
-
-        /* Keep a newline and break. */
-
-        if (*s == '\n')
+    while (count > 1)
+        if ((c = fs_getc(fh)) >= 0)
         {
+            count--;
+
+            *s = c;
+
+            /* Keep a newline and break. */
+
+            if (*s == '\n')
+            {
+                s++;
+                break;
+            }
+
+            /* Ignore carriage returns. */
+
+            if (*s == '\r')
+            {
+                count++;
+                s--;
+            }
+
             s++;
+        }
+        else if (s == dst)
+            return NULL;
+        else
             break;
-        }
-
-        /* Ignore carriage returns. */
-
-        if (*s == '\r')
-        {
-            count++;
-            s--;
-        }
-
-        s++;
-    }
 
     *s = '\0';
 
