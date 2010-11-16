@@ -21,34 +21,28 @@
 #include "dir.h"
 #include "common.h"
 
-static char **get_dir_list(const char *path)
+/*
+ * HACK: MinGW provides numerous POSIX extensions to MSVCRT, including
+ * dirent.h, so parasti ever so lazily has not bothered to port the
+ * code below to FindFirstFile et al.
+ */
+
+List dir_list_files(const char *path)
 {
     DIR *dir;
-    char **files = NULL;
-    int count = 0;
-
-    /*
-     * HACK: MinGW provides numerous POSIX extensions to MSVCRT,
-     * including dirent.h, so parasti ever so lazily has not bothered
-     * to port the code below to FindFirstFile et al.
-     */
+    List files = NULL;
 
     if ((dir = opendir(path)))
     {
         struct dirent *ent;
-
-        files = malloc(sizeof (char *));
 
         while ((ent = readdir(dir)))
         {
             if (strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0)
                 continue;
 
-            files[count++] = strdup(ent->d_name);
-            files = realloc(files, (count + 1) * sizeof (char *));
+            files = list_cons(strdup(ent->d_name), files);
         }
-
-        files[count] = NULL;
 
         closedir(dir);
     }
@@ -56,20 +50,12 @@ static char **get_dir_list(const char *path)
     return files;
 }
 
-static void free_dir_list(void *files)
+void dir_list_free(List files)
 {
-    if (files)
+    while (files)
     {
-        char **file;
-
-        /* Free file names. */
-        for (file = files; *file; free(*file++));
-
-        /* Free trailing NULL. */
-        free(*file);
-
-        /* Free pointer list. */
-        free(files);
+        free(files->data);
+        files = list_rest(files);
     }
 }
 
@@ -94,40 +80,33 @@ static void del_item(Array items)
 }
 
 Array dir_scan(const char *path,
-               int    (*filter)   (struct dir_item *),
-               char **(*get_list) (const char *),
-               void   (*free_list)(void *))
+               int  (*filter)    (struct dir_item *),
+               List (*list_files)(const char *),
+               void (*free_files)(List))
 {
-    char **list;
+    List files, file;
     Array items = NULL;
 
-    assert((get_list && free_list) || (!get_list && !free_list));
+    assert((list_files && free_files) || (!list_files || !free_files));
 
-    if (!get_list)
-        get_list = get_dir_list;
+    if (!list_files) list_files = dir_list_files;
+    if (!free_files) free_files = dir_list_free;
 
-    if (!free_list)
-        free_list = free_dir_list;
-
-    if ((list = get_list(path)))
+    if ((files = list_files(path)))
     {
-        char **file = list;
-
         items = array_new(sizeof (struct dir_item));
 
-        while (*file)
+        for (file = files; file; file = file->next)
         {
             struct dir_item *item;
 
-            item = add_item(items, path, *file);
+            item = add_item(items, path, file->data);
 
             if (filter && !filter(item))
                 del_item(items);
-
-            file++;
         }
 
-        free_list(list);
+        free_files(files);
     }
 
     return items;

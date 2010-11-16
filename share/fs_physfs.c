@@ -20,6 +20,7 @@
 #include "fs.h"
 #include "dir.h"
 #include "array.h"
+#include "common.h"
 
 /*
  * This file implements the low-level virtual file system routines
@@ -78,9 +79,34 @@ const char *fs_get_write_dir(void)
 
 /*---------------------------------------------------------------------------*/
 
+static List list_files(const char *path)
+{
+    List list = NULL;
+    char **files, **file;
+
+    if ((files = PHYSFS_enumerateFiles(path)))
+    {
+        for (file = files; *file; file++)
+            list = list_cons(strdup(*file), list);
+
+        PHYSFS_freeList(files);
+    }
+
+    return list;
+}
+
+static void free_files(List list)
+{
+    while (list)
+    {
+        free(list->data);
+        list = list_rest(list);
+    }
+}
+
 Array fs_dir_scan(const char *path, int (*filter)(struct dir_item *))
 {
-    return dir_scan(path, filter, PHYSFS_enumerateFiles, PHYSFS_freeList);
+    return dir_scan(path, filter, list_files, free_files);
 }
 
 void fs_dir_free(Array items)

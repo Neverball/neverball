@@ -2,6 +2,7 @@
 #define DIR_H
 
 #include "array.h"
+#include "list.h"
 
 struct dir_item
 {
@@ -17,9 +18,12 @@ struct dir_item
 #define DIR_ITEM_GET(a, i) ((struct dir_item *) array_get((a), (i)))
 
 Array dir_scan(const char *,
-               int    (*filter)   (struct dir_item *),
-               char **(*get_list) (const char *),
-               void   (*free_list)(void *));
+               int  (*filter)    (struct dir_item *),
+               List (*list_files)(const char *),
+               void (*free_files)(List));
 void  dir_free(Array);
+
+List dir_list_files(const char *);
+void dir_list_free (List);
 
 #endif
