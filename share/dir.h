@@ -26,4 +26,14 @@ void  dir_free(Array);
 List dir_list_files(const char *);
 void dir_list_free (List);
 
+int dir_exists(const char *);
+
+#ifdef _WIN32
+#include <direct.h>
+#define dir_make(path) _mkdir(path)
+#else
+#include <sys/stat.h>
+#define dir_make(path) mkdir(path, 0777)
+#endif
+
 #endif

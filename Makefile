@@ -93,7 +93,12 @@ ALL_CPPFLAGS += $(CPPFLAGS)
 
 SDL_LIBS := $(shell sdl-config --libs)
 PNG_LIBS := $(shell libpng-config --libs)
+
+ifeq ($(ENABLE_FS),stdio)
+FS_LIBS :=
+else
 FS_LIBS := -lphysfs
+endif
 
 # The  non-conditionalised values  below  are specific  to the  native
 # system. The native system of this Makefile is Linux (or GNU+Linux if
@@ -170,6 +175,7 @@ MAPC_OBJS := \
 	share/fs_jpg.o      \
 	share/dir.o         \
 	share/array.o       \
+	share/list.o        \
 	share/mapc.o
 BALL_OBJS := \
 	share/lang.o        \
@@ -285,9 +291,15 @@ PUTT_OBJS := \
 BALL_OBJS += share/solid_sim_sol.o
 PUTT_OBJS += share/solid_sim_sol.o
 
+ifeq ($(ENABLE_FS),stdio)
+BALL_OBJS += share/fs_stdio.o
+PUTT_OBJS += share/fs_stdio.o
+MAPC_OBJS += share/fs_stdio.o
+else
 BALL_OBJS += share/fs_physfs.o
 PUTT_OBJS += share/fs_physfs.o
 MAPC_OBJS += share/fs_physfs.o
+endif
 
 ifeq ($(ENABLE_TILT),wii)
 BALL_OBJS += share/tilt_wii.o

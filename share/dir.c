@@ -63,7 +63,7 @@ static struct dir_item *add_item(Array items, const char *dir, const char *name)
 {
     struct dir_item *item = array_add(items);
 
-    item->path = *dir ? concat_string(dir, "/", name, NULL) : strdup(name);
+    item->path = path_join(dir, name);
     item->data = NULL;
 
     return item;
@@ -118,4 +118,16 @@ void dir_free(Array items)
         del_item(items);
 
     array_free(items);
+}
+
+int dir_exists(const char *path)
+{
+    DIR *dir;
+
+    if ((dir = opendir(path)))
+    {
+        closedir(dir);
+        return 1;
+    }
+    return 0;
 }
