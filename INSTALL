@@ -70,6 +70,12 @@ enabled.
         Enable  Hillcrest  Labs  Loop  support.   Requires  additional
         libraries and system configuration.
 
+    ENABLE_FS=stdio
+
+        Enable alternate  file system  backend that uses  standard I/O
+        instead  of PhysicsFS (thus  making the  dependency optional),
+        but does not provide archive support.
+
 Under Mac OS X, build using the provided Xcode project files.
 
 For  Windows  builds,  the   MinGW  cross-compilation  environment  is
