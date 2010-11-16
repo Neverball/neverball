@@ -283,28 +283,6 @@ const char *dir_name(const char *name)
     return ".";
 }
 
-/*
- * Given a path to a file REF and another path REL relative to REF,
- * construct and return a new path that can be used to refer to REL
- * directly.
- */
-char *path_resolve(const char *ref, const char *rel)
-{
-    static char new[MAXSTR * 2];
-
-    if (path_is_abs(rel))
-    {
-        SAFECPY(new, rel);
-        return new;
-    }
-
-    SAFECPY(new, dir_name(ref));
-    SAFECAT(new, "/");
-    SAFECAT(new, rel);
-
-    return new;
-}
-
 /*---------------------------------------------------------------------------*/
 
 int rand_between(int low, int high)
