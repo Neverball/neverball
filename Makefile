@@ -165,7 +165,7 @@ MAPC_OBJS := \
 	share/binary.o      \
 	share/base_config.o \
 	share/common.o      \
-	share/fs.o          \
+	share/fs_common.o   \
 	share/fs_png.o      \
 	share/fs_jpg.o      \
 	share/dir.o         \
@@ -202,7 +202,7 @@ BALL_OBJS := \
 	share/cmd.o         \
 	share/array.o       \
 	share/dir.o         \
-	share/fs.o          \
+	share/fs_common.o   \
 	share/fs_png.o      \
 	share/fs_jpg.o      \
 	share/fs_rwops.o    \
@@ -266,7 +266,7 @@ PUTT_OBJS := \
 	share/common.o      \
 	share/syswm.o       \
 	share/list.o        \
-	share/fs.o          \
+	share/fs_common.o   \
 	share/fs_png.o      \
 	share/fs_jpg.o      \
 	share/fs_rwops.o    \
@@ -284,6 +284,10 @@ PUTT_OBJS := \
 
 BALL_OBJS += share/solid_sim_sol.o
 PUTT_OBJS += share/solid_sim_sol.o
+
+BALL_OBJS += share/fs_physfs.o
+PUTT_OBJS += share/fs_physfs.o
+MAPC_OBJS += share/fs_physfs.o
 
 ifeq ($(ENABLE_TILT),wii)
 BALL_OBJS += share/tilt_wii.o
