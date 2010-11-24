@@ -399,7 +399,7 @@ static void play_loop_point(int id, int x, int y, int dx, int dy)
     game_set_pos(dx, dy);
 }
 
-static void play_loop_stick(int id, int a, float v)
+static void play_loop_stick(int id, int a, float v, int bump)
 {
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         game_set_z(v);

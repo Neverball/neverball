@@ -161,9 +161,9 @@ static void set_point(int id, int x, int y, int dx, int dy)
         set_over(i);
 }
 
-static void set_stick(int id, int a, float v)
+static void set_stick(int id, int a, float v, int bump)
 {
-    int jd = shared_stick_basic(id, a, v);
+    int jd = shared_stick_basic(id, a, v, bump);
     int i  = gui_token(jd);
     if (jd && set_exists(i))
         set_over(i);

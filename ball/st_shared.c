@@ -54,19 +54,19 @@ void shared_point(int id, int x, int y, int dx, int dy)
     shared_point_basic(id, x, y);
 }
 
-int shared_stick_basic(int id, int a, float v)
+int shared_stick_basic(int id, int a, float v, int bump)
 {
     int jd;
 
-    if ((jd = gui_stick(id, a, v, STICK_BUMP)))
+    if ((jd = gui_stick(id, a, v, bump)))
         gui_pulse(jd, 1.2f);
 
     return jd;
 }
 
-void shared_stick(int id, int a, float v)
+void shared_stick(int id, int a, float v, int bump)
 {
-    shared_stick_basic(id, a, v);
+    shared_stick_basic(id, a, v, bump);
 }
 
 void shared_angle(int id, int x, int z)

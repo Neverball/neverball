@@ -358,9 +358,9 @@ static void demo_point(int id, int x, int y, int dx, int dy)
         gui_demo_update_status(i);
 }
 
-static void demo_stick(int id, int a, float v)
+static void demo_stick(int id, int a, float v, int bump)
 {
-    int jd = shared_stick_basic(id, a, v);
+    int jd = shared_stick_basic(id, a, v, bump);
     int i  = gui_token(jd);
 
     if (jd && i >= 0 && !GUI_ISMSK(i))
@@ -482,9 +482,9 @@ static void set_speed(int d)
     hud_speed_pulse(speed);
 }
 
-static void demo_play_stick(int id, int a, float v)
+static void demo_play_stick(int id, int a, float v, int bump)
 {
-    if (!STICK_BUMP)
+    if (!bump)
         return;
 
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))

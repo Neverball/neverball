@@ -155,19 +155,19 @@ static int score_card(const char  *title,
 
 /*---------------------------------------------------------------------------*/
 
-static int shared_stick_basic(int id, int a, float v)
+static int shared_stick_basic(int id, int a, float v, int bump)
 {
     int jd;
 
-    if ((jd = gui_stick(id, a, v, STICK_BUMP)))
+    if ((jd = gui_stick(id, a, v, bump)))
         gui_pulse(jd, 1.2f);
 
     return jd;
 }
 
-static void shared_stick(int id, int a, float v)
+static void shared_stick(int id, int a, float v, int bump)
 {
-    shared_stick_basic(id, a, v);
+    shared_stick_basic(id, a, v, bump);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -380,11 +380,11 @@ static void course_point(int id, int x, int y, int dx, int dy)
     }
 }
 
-static void course_stick(int id, int a, float v)
+static void course_stick(int id, int a, float v, int bump)
 {
     int jd;
 
-    if ((jd = shared_stick_basic(id, a, v)))
+    if ((jd = shared_stick_basic(id, a, v, bump)))
     {
         int i = gui_token(jd);
 
@@ -909,7 +909,7 @@ static void stroke_point(int id, int x, int y, int dx, int dy)
     game_set_mag(dy);
 }
 
-static void stroke_stick(int id, int a, float v)
+static void stroke_stick(int id, int a, float v, int bump)
 {
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
         stroke_rotate = 6 * v;

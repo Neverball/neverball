@@ -101,8 +101,6 @@ void st_point(int x, int y, int dx, int dy)
         state->point(state->gui_id, x, y, dx, dy);
 }
 
-int STICK_BUMP;
-
 void st_stick(int a, float v)
 {
     static struct
@@ -117,9 +115,7 @@ void st_stick(int a, float v)
         { &CONFIG_JOYSTICK_AXIS_U, &CONFIG_JOYSTICK_AXIS_U_INVERT }
     };
 
-    int i;
-
-    STICK_BUMP = 0;
+    int i, bump = 0;
 
     for (i = 0; i < ARRAYSIZE(axes); i++)
         if (config_tst_d(*axes[i].num, a))
@@ -128,8 +124,8 @@ void st_stick(int a, float v)
 
             /* Note the transition from centered to leaned position. */
 
-            STICK_BUMP = ((-0.5f <= p && p <= +0.5f) &&
-                          (v < -0.5f || +0.5f < v));
+            bump = ((-0.5f <= p && p <= +0.5f) &&
+                    (v < -0.5f || +0.5f < v));
 
             axes[i].prev = v;
 
@@ -140,7 +136,7 @@ void st_stick(int a, float v)
         }
 
     if (state && state->stick)
-        state->stick(state->gui_id, a, v);
+        state->stick(state->gui_id, a, v, bump);
 }
 
 void st_angle(int x, int z)

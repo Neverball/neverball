@@ -154,9 +154,9 @@ static void resol_point(int id, int x, int y, int dx, int dy)
     gui_pulse(gui_point(id, x, y), 1.2f);
 }
 
-static void resol_stick(int id, int a, float v)
+static void resol_stick(int id, int a, float v, int bump)
 {
-    gui_pulse(gui_stick(id, a, v, STICK_BUMP), 1.2f);
+    gui_pulse(gui_stick(id, a, v, bump), 1.2f);
 }
 
 static int resol_click(int b, int d)
