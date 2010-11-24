@@ -28,8 +28,7 @@
 
 #include "st_play.h"
 #include "st_goal.h"
-#include "st_fall_out.h"
-#include "st_time_out.h"
+#include "st_fail.h"
 #include "st_over.h"
 #include "st_pause.h"
 #include "st_shared.h"
@@ -380,12 +379,12 @@ static void play_loop_timer(int id, float dt)
 
     case GAME_FALL:
         progress_stat(GAME_FALL);
-        goto_state(&st_fall_out);
+        goto_state(&st_fail);
         break;
 
     case GAME_TIME:
         progress_stat(GAME_TIME);
-        goto_state(&st_time_out);
+        goto_state(&st_fail);
         break;
 
     default:
