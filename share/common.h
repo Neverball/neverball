@@ -67,6 +67,9 @@ int path_is_abs(const char *);
 
 char *path_join(const char *, const char *);
 
+const char *path_last_sep(const char *);
+const char *path_next_sep(const char *);
+
 const char *base_name(const char *name);
 const char *base_name_sans(const char *name, const char *suffix);
 const char *dir_name(const char *name);

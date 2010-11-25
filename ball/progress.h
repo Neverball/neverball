@@ -54,6 +54,7 @@ enum
 
     MODE_CHALLENGE,
     MODE_NORMAL,
+    MODE_STANDALONE,
 
     MODE_MAX
 };

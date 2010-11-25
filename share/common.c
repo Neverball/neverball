@@ -213,7 +213,7 @@ char *path_join(const char *head, const char *tail)
     return *head ? concat_string(head, "/", tail, NULL) : strdup(tail);
 }
 
-static const char *path_last_sep(const char *path)
+const char *path_last_sep(const char *path)
 {
     const char *sep;
 
@@ -234,6 +234,19 @@ static const char *path_last_sep(const char *path)
 #endif
 
     return sep;
+}
+
+const char *path_next_sep(const char *path)
+{
+    size_t skip;
+
+#ifdef _WIN32
+    skip = strcspn(path, "/\\");
+#else
+    skip = strcspn(path, "/");
+#endif
+
+    return skip == strlen(path) ? NULL : path + skip;
 }
 
 const char *base_name_sans(const char *name, const char *suffix)

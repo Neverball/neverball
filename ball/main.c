@@ -248,6 +248,7 @@ static int loop(void)
 
 static char *opt_data;
 static char *opt_replay;
+static char *opt_level;
 
 #define opt_usage \
     L_(                                                                   \
@@ -257,6 +258,7 @@ static char *opt_replay;
         "  -v, --version             show version.\n"                     \
         "  -d, --data <dir>          use 'dir' as game data directory.\n" \
         "  -r, --replay <file>       play the replay 'file'.\n"           \
+        "  -l, --level <file>        load the level 'file'\n"             \
     )
 
 #define opt_error(option) \
@@ -304,11 +306,40 @@ static void opt_parse(int argc, char **argv)
             continue;
         }
 
-        /* Assume a single unrecognized argument is a replay name. */
+        if (strcmp(argv[i], "-l") == 0 || strcmp(argv[i], "--level")  == 0)
+        {
+            if (i + 1 == argc)
+            {
+                opt_error(argv[i]);
+                exit(EXIT_FAILURE);
+            }
+            opt_level = argv[++i];
+            continue;
+        }
+
+        /* Perform magic on a single unrecognized argument. */
 
         if (argc == 2)
         {
-            opt_replay = argv[i];
+            size_t len = strlen(argv[i]);
+            int level = 0;
+
+            if (len > 4)
+            {
+                char *ext = argv[i] + len - 4;
+
+                if (strcmp(ext, ".map") == 0)
+                    strncpy(ext, ".sol", 4);
+
+                if (strcmp(ext, ".sol") == 0)
+                    level = 1;
+            }
+
+            if (level)
+                opt_level = argv[i];
+            else
+                opt_replay = argv[i];
+
             break;
         }
     }
@@ -377,6 +408,26 @@ static void make_dirs_and_migrate(void)
 
 /*---------------------------------------------------------------------------*/
 
+static const char *game_path(const char *path)
+{
+    if (fs_exists(path))
+        return path;
+
+    /* Chop off directories until we have a match. */
+
+    while ((path = path_next_sep(path)))
+    {
+        /* Skip separator. */
+
+        path += 1;
+
+        if (fs_exists(path))
+            return path;
+    }
+
+    return NULL;
+}
+
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
@@ -430,7 +481,7 @@ int main(int argc, char *argv[])
 
     init_state(&st_null);
 
-    /* Initialize demo playback. */
+    /* Initialize demo playback or load the level. */
 
     if (opt_replay &&
         fs_add_path(dir_name(opt_replay)) &&
@@ -438,6 +489,31 @@ int main(int argc, char *argv[])
     {
         demo_play_goto(1);
         goto_state(&st_demo_play);
+    }
+    else if (opt_level)
+    {
+        const char *path = game_path(opt_level);
+        int loaded = 0;
+
+        if (path)
+        {
+            struct level level;
+
+            if (level_load(path, &level))
+            {
+                progress_init(MODE_STANDALONE);
+
+                if (progress_play(&level))
+                {
+                    goto_state(&st_level);
+                    loaded = 1;
+                }
+            }
+        }
+        else fprintf(stderr, "%s: file is not in game path\n", opt_level);
+
+        if (!loaded)
+            goto_state(&st_title);
     }
     else
         goto_state(&st_title);

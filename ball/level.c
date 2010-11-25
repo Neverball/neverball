@@ -136,6 +136,7 @@ int level_load(const char *filename, struct level *level)
     }
 
     SAFECPY(level->file, filename);
+    SAFECPY(level->name, "99");
 
     score_init_hs(&level->scores[SCORE_TIME], 59999, 0);
     score_init_hs(&level->scores[SCORE_GOAL], 59999, 0);

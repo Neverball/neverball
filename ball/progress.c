@@ -242,7 +242,7 @@ void progress_stat(int s)
         break;
     }
 
-    if (dirty)
+    if (dirty && mode != MODE_STANDALONE)
         set_store_hs();
 
     demo_play_stat(status, coins, timer);
@@ -402,6 +402,7 @@ const char *mode_to_str(int m, int l)
     {
     case MODE_CHALLENGE: return l ? _("Challenge Mode") : _("Challenge");
     case MODE_NORMAL:    return l ? _("Normal Mode")    : _("Normal");
+    case MODE_STANDALONE:return l ? _("Standalone Mode"): _("Standalone");
     default:             return l ? _("Unknown Mode")   : _("Unknown");
     }
 }

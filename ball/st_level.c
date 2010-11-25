@@ -60,6 +60,8 @@ static int level_gui(void)
                 if (curr_mode() == MODE_CHALLENGE)
                     sprintf(setattr, "%s: %s", set_name(curr_set()),
                             mode_to_str(MODE_CHALLENGE, 1));
+                else if (curr_mode() == MODE_STANDALONE)
+                    sprintf(setattr, _("Standalone level"));
                 else
                     sprintf(setattr, "%s", set_name(curr_set()));
 
@@ -202,12 +204,24 @@ static int exit_enter(struct state *st, struct state *prev)
         dst = &st_done;
     else if (curr_mode() == MODE_CHALLENGE)
         dst = &st_over;
+    else if (curr_mode() == MODE_STANDALONE)
+        dst = NULL;
     else
         dst = &st_start;
 
-    /* Visit the auxilliary screen or exit to level selection. */
+    if (dst)
+    {
+        /* Visit the auxilliary screen or exit to level selection. */
 
-    goto_state(dst != prev ? dst : &st_start);
+        goto_state(dst != prev ? dst : &st_start);
+    }
+    else
+    {
+        /* Quit the game. */
+
+        SDL_Event e = { SDL_QUIT };
+        SDL_PushEvent(&e);
+    }
 
     return 0;
 }
