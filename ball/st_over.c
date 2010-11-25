@@ -23,7 +23,7 @@
 #include "game_common.h"
 
 #include "st_over.h"
-#include "st_start.h"
+#include "st_level.h"
 #include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
@@ -43,9 +43,6 @@ static int over_gui(void)
 
 static int over_enter(struct state *st, struct state *prev)
 {
-    if (curr_mode() != MODE_CHALLENGE)
-        return 0;
-
     audio_music_fade_out(2.0f);
     audio_play(AUD_OVER, 1.f);
 
@@ -56,15 +53,15 @@ static int over_enter(struct state *st, struct state *prev)
 
 static void over_timer(int id, float dt)
 {
-    if (curr_mode() != MODE_CHALLENGE || time_state() > 3.f)
-        goto_state(&st_start);
+    if (time_state() > 3.f)
+        goto_state(&st_exit);
 
     gui_timer(id, dt);
 }
 
 static int over_click(int b, int d)
 {
-    return (b == SDL_BUTTON_LEFT && d == 1) ? goto_state(&st_start) : 1;
+    return (b == SDL_BUTTON_LEFT && d == 1) ? goto_state(&st_exit) : 1;
 }
 
 static int over_buttn(int b, int d)
@@ -73,7 +70,7 @@ static int over_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_start);
+            return goto_state(&st_exit);
     }
     return 1;
 }

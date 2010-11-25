@@ -28,9 +28,6 @@
 
 #include "st_goal.h"
 #include "st_save.h"
-#include "st_over.h"
-#include "st_done.h"
-#include "st_start.h"
 #include "st_level.h"
 #include "st_name.h"
 #include "st_shared.h"
@@ -62,7 +59,7 @@ static int goal_action(int i)
 
     case GOAL_OVER:
         progress_stop();
-        return goto_state(&st_over);
+        return goto_state(&st_exit);
 
     case GOAL_SAVE:
         progress_stop();
@@ -75,11 +72,11 @@ static int goal_action(int i)
     case GOAL_DONE:
         progress_stop();
         progress_exit();
-        return goto_state(&st_done);
+        return goto_state(&st_exit);
 
     case GOAL_LAST:
         progress_stop();
-        return goto_state(&st_start);
+        return goto_state(&st_exit);
 
     case GUI_SCORE_COIN:
     case GUI_SCORE_TIME:

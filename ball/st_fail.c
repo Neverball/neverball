@@ -24,8 +24,6 @@
 #include "game_server.h"
 #include "game_client.h"
 
-#include "st_over.h"
-#include "st_start.h"
 #include "st_save.h"
 #include "st_fail.h"
 #include "st_level.h"
@@ -54,7 +52,7 @@ static int fail_action(int i)
 
     case FAIL_OVER:
         progress_stop();
-        return goto_state(&st_over);
+        return goto_state(&st_exit);
 
     case FAIL_SAVE:
         progress_stop();

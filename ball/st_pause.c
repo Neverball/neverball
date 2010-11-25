@@ -23,7 +23,7 @@
 #include "game_common.h"
 
 #include "st_play.h"
-#include "st_over.h"
+#include "st_level.h"
 #include "st_pause.h"
 #include "st_shared.h"
 
@@ -60,7 +60,7 @@ static int pause_action(int i)
         progress_stop();
         SDL_PauseAudio(0);
         audio_music_stop();
-        return goto_state(&st_over);
+        return goto_state(&st_exit);
     }
 
     return 1;

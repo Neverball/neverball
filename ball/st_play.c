@@ -29,7 +29,6 @@
 #include "st_play.h"
 #include "st_goal.h"
 #include "st_fail.h"
-#include "st_over.h"
 #include "st_pause.h"
 #include "st_level.h"
 #include "st_shared.h"
@@ -49,7 +48,7 @@ static int pause_or_exit(void)
 
         video_clr_grab();
 
-        return goto_state(&st_over);
+        return goto_state(&st_exit);
     }
 }
 

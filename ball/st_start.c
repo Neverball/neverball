@@ -23,7 +23,6 @@
 #include "game_common.h"
 
 #include "st_set.h"
-#include "st_over.h"
 #include "st_level.h"
 #include "st_start.h"
 #include "st_title.h"

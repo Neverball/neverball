@@ -28,6 +28,7 @@
 #include "st_play.h"
 #include "st_start.h"
 #include "st_over.h"
+#include "st_done.h"
 #include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
@@ -123,7 +124,7 @@ static int level_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
             progress_stop();
-            return goto_state(&st_over);
+            return goto_state(&st_exit);
         }
     }
     return 1;
@@ -190,6 +191,27 @@ static int nodemo_buttn(int b, int d)
     return 1;
 }
 
+
+/*---------------------------------------------------------------------------*/
+
+static int exit_enter(struct state *st, struct state *prev)
+{
+    struct state *dst;
+
+    if (progress_done())
+        dst = &st_done;
+    else if (curr_mode() == MODE_CHALLENGE)
+        dst = &st_over;
+    else
+        dst = &st_start;
+
+    /* Visit the auxilliary screen or exit to level selection. */
+
+    goto_state(dst != prev ? dst : &st_start);
+
+    return 0;
+}
+
 /*---------------------------------------------------------------------------*/
 
 struct state st_level = {
@@ -231,5 +253,19 @@ struct state st_nodemo = {
     shared_click,
     NULL,
     nodemo_buttn,
+    1, 0
+};
+
+struct state st_exit = {
+    exit_enter,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
     1, 0
 };

@@ -25,7 +25,7 @@
 #include "game_common.h"
 
 #include "st_done.h"
-#include "st_start.h"
+#include "st_level.h"
 #include "st_name.h"
 #include "st_shared.h"
 
@@ -42,7 +42,7 @@ static int done_action(int i)
     switch (i)
     {
     case DONE_OK:
-        return goto_state(&st_start);
+        return goto_state(&st_exit);
 
     case GUI_NAME:
         return goto_name(&st_done, &st_done, 0);
