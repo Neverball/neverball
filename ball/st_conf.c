@@ -418,8 +418,7 @@ struct state st_conf = {
     shared_angle,
     shared_click,
     NULL,
-    conf_buttn,
-    1, 0
+    conf_buttn
 };
 
 struct state st_null = {
@@ -432,6 +431,5 @@ struct state st_null = {
     NULL,
     NULL,
     NULL,
-    NULL,
-    1, 0
+    NULL
 };

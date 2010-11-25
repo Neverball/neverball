@@ -312,7 +312,6 @@ struct state st_title = {
     shared_angle,
     shared_click,
     title_keybd,
-    title_buttn,
-    1, 0
+    title_buttn
 };
 

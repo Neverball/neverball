@@ -224,8 +224,7 @@ struct state st_level = {
     NULL,
     level_click,
     level_keybd,
-    level_buttn,
-    1, 0
+    level_buttn
 };
 
 struct state st_poser = {
@@ -238,8 +237,7 @@ struct state st_poser = {
     NULL,
     NULL,
     NULL,
-    poser_buttn,
-    1, 0
+    poser_buttn
 };
 
 struct state st_nodemo = {
@@ -252,8 +250,7 @@ struct state st_nodemo = {
     shared_angle,
     shared_click,
     NULL,
-    nodemo_buttn,
-    1, 0
+    nodemo_buttn
 };
 
 struct state st_exit = {
@@ -266,6 +263,5 @@ struct state st_exit = {
     NULL,
     NULL,
     NULL,
-    NULL,
-    1, 0
+    NULL
 };

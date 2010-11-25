@@ -572,8 +572,7 @@ struct state st_play_ready = {
     NULL,
     play_ready_click,
     play_ready_keybd,
-    play_ready_buttn,
-    1, 0
+    play_ready_buttn
 };
 
 struct state st_play_set = {
@@ -586,8 +585,7 @@ struct state st_play_set = {
     NULL,
     play_set_click,
     play_set_keybd,
-    play_set_buttn,
-    1, 0
+    play_set_buttn
 };
 
 struct state st_play_loop = {
@@ -600,8 +598,7 @@ struct state st_play_loop = {
     shared_angle,
     play_loop_click,
     play_loop_keybd,
-    play_loop_buttn,
-    0, 0
+    play_loop_buttn
 };
 
 struct state st_look = {
@@ -614,6 +611,5 @@ struct state st_look = {
     NULL,
     NULL,
     look_keybd,
-    look_buttn,
-    0, 0
+    look_buttn
 };

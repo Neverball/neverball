@@ -346,6 +346,5 @@ struct state st_start = {
     shared_angle,
     shared_click,
     start_keybd,
-    start_buttn,
-    1, 0
+    start_buttn
 };

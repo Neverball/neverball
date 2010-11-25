@@ -159,6 +159,5 @@ struct state st_pause = {
     shared_angle,
     shared_click,
     pause_keybd,
-    pause_buttn,
-    1, 0
+    pause_buttn
 };

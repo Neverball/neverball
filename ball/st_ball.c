@@ -265,6 +265,5 @@ struct state st_ball = {
     NULL,
     shared_click,
     NULL,
-    ball_buttn,
-    1, 0
+    ball_buttn
 };

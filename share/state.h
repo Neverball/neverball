@@ -1,9 +1,6 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include <stdlib.h>
-#include <stdio.h>
-
 /*---------------------------------------------------------------------------*/
 
 struct state
@@ -19,7 +16,6 @@ struct state
     int  (*keybd)(int c,  int d);
     int  (*buttn)(int b,  int d);
 
-    int pointer;
     int gui_id;
 };
 

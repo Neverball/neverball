@@ -87,6 +87,5 @@ struct state st_over = {
     NULL,
     over_click,
     NULL,
-    over_buttn,
-    1, 0
+    over_buttn
 };

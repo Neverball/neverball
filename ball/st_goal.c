@@ -319,7 +319,6 @@ struct state st_goal = {
     shared_angle,
     shared_click,
     goal_keybd,
-    goal_buttn,
-    1, 0
+    goal_buttn
 };
 

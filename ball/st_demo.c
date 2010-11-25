@@ -764,8 +764,7 @@ struct state st_demo = {
     shared_angle,
     shared_click,
     NULL,
-    demo_buttn,
-    1, 0
+    demo_buttn
 };
 
 struct state st_demo_play = {
@@ -778,8 +777,7 @@ struct state st_demo_play = {
     NULL,
     demo_play_click,
     demo_play_keybd,
-    demo_play_buttn,
-    1, 0
+    demo_play_buttn
 };
 
 struct state st_demo_end = {
@@ -792,8 +790,7 @@ struct state st_demo_end = {
     shared_angle,
     shared_click,
     demo_end_keybd,
-    demo_end_buttn,
-    1, 0
+    demo_end_buttn
 };
 
 struct state st_demo_del = {
@@ -806,8 +803,7 @@ struct state st_demo_del = {
     shared_angle,
     shared_click,
     NULL,
-    demo_del_buttn,
-    1, 0
+    demo_del_buttn
 };
 
 struct state st_demo_compat = {
@@ -820,6 +816,5 @@ struct state st_demo_compat = {
     shared_angle,
     shared_click,
     NULL,
-    demo_compat_buttn,
-    1, 0
+    demo_compat_buttn
 };

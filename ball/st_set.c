@@ -193,6 +193,5 @@ struct state st_set = {
     shared_angle,
     shared_click,
     NULL,
-    set_buttn,
-    1, 0
+    set_buttn
 };

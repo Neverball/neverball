@@ -136,6 +136,5 @@ struct state st_done = {
     shared_angle,
     shared_click,
     done_keybd,
-    done_buttn,
-    1, 0
+    done_buttn
 };

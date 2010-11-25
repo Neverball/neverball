@@ -417,8 +417,7 @@ struct state st_help = {
     shared_angle,
     shared_click,
     NULL,
-    help_buttn,
-    1, 0
+    help_buttn
 };
 
 struct state st_help_demo = {
@@ -431,6 +430,5 @@ struct state st_help_demo = {
     NULL,
     NULL,
     NULL,
-    help_demo_buttn,
-    1, 0
+    help_demo_buttn
 };

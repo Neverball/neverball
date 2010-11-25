@@ -249,8 +249,7 @@ struct state st_save = {
     shared_angle,
     shared_click,
     save_keybd,
-    save_buttn,
-    1, 0
+    save_buttn
 };
 
 struct state st_clobber = {
@@ -263,6 +262,5 @@ struct state st_clobber = {
     shared_angle,
     shared_click,
     NULL,
-    clobber_buttn,
-    1, 0
+    clobber_buttn
 };

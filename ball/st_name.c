@@ -207,7 +207,6 @@ struct state st_name = {
     shared_angle,
     shared_click,
     name_keybd,
-    name_buttn,
-    1, 0
+    name_buttn
 };
 

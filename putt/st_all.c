@@ -1308,8 +1308,7 @@ struct state st_title = {
     NULL,
     title_click,
     NULL,
-    title_buttn,
-    1, 0
+    title_buttn
 };
 
 struct state st_course = {
@@ -1322,8 +1321,7 @@ struct state st_course = {
     NULL,
     course_click,
     NULL,
-    course_buttn,
-    1, 0
+    course_buttn
 };
 
 struct state st_party = {
@@ -1336,8 +1334,7 @@ struct state st_party = {
     NULL,
     party_click,
     NULL,
-    party_buttn,
-    1, 0
+    party_buttn
 };
 
 struct state st_next = {
@@ -1350,8 +1347,7 @@ struct state st_next = {
     NULL,
     next_click,
     next_keybd,
-    next_buttn,
-    1, 0
+    next_buttn
 };
 
 struct state st_poser = {
@@ -1364,8 +1360,7 @@ struct state st_poser = {
     NULL,
     NULL,
     NULL,
-    poser_buttn,
-    1, 0
+    poser_buttn
 };
 
 struct state st_flyby = {
@@ -1378,8 +1373,7 @@ struct state st_flyby = {
     NULL,
     flyby_click,
     shared_keybd,
-    flyby_buttn,
-    1, 0
+    flyby_buttn
 };
 
 struct state st_stroke = {
@@ -1392,8 +1386,7 @@ struct state st_stroke = {
     NULL,
     stroke_click,
     shared_keybd,
-    stroke_buttn,
-    0, 0
+    stroke_buttn
 };
 
 struct state st_roll = {
@@ -1406,8 +1399,7 @@ struct state st_roll = {
     NULL,
     NULL,
     shared_keybd,
-    roll_buttn,
-    0, 0
+    roll_buttn
 };
 
 struct state st_goal = {
@@ -1420,8 +1412,7 @@ struct state st_goal = {
     NULL,
     goal_click,
     shared_keybd,
-    goal_buttn,
-    0, 0
+    goal_buttn
 };
 
 struct state st_stop = {
@@ -1434,8 +1425,7 @@ struct state st_stop = {
     NULL,
     stop_click,
     shared_keybd,
-    stop_buttn,
-    0, 0
+    stop_buttn
 };
 
 struct state st_fall = {
@@ -1448,8 +1438,7 @@ struct state st_fall = {
     NULL,
     fall_click,
     shared_keybd,
-    fall_buttn,
-    0, 0
+    fall_buttn
 };
 
 struct state st_score = {
@@ -1462,8 +1451,7 @@ struct state st_score = {
     NULL,
     score_click,
     shared_keybd,
-    score_buttn,
-    0, 0
+    score_buttn
 };
 
 struct state st_over = {
@@ -1476,8 +1464,7 @@ struct state st_over = {
     NULL,
     over_click,
     NULL,
-    over_buttn,
-    1, 0
+    over_buttn
 };
 
 struct state st_pause = {
@@ -1490,6 +1477,5 @@ struct state st_pause = {
     NULL,
     pause_click,
     pause_keybd,
-    pause_buttn,
-    1, 0
+    pause_buttn
 };

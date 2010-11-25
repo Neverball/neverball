@@ -181,7 +181,6 @@ struct state st_fail = {
     shared_angle,
     shared_click,
     fail_keybd,
-    fail_buttn,
-    1, 0
+    fail_buttn
 };
 

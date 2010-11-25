@@ -198,7 +198,6 @@ struct state st_resol = {
     NULL,
     resol_click,
     resol_keybd,
-    resol_buttn,
-    1, 0
+    resol_buttn
 };
 
