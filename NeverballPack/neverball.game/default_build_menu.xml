@@ -7,9 +7,17 @@ build commands
 <!-- grep for build_set_variable in Radiant source to see other vars -->
 <project version="2.0">
 <var name="mapc">"[EnginePath]mapc"</var>
+<var name="neverball">"[EnginePath]neverball"</var>
 <var name="data">"[EnginePath][GameName]"</var>
 <build name="Mapc: compile map">
 <command>[mapc] "[MapFile]" [data]</command>
+</build>
+<build name="Neverball: test map">
+<command>[neverball] "[MapFile]"</command>
+</build>
+<build name="Mapc + Neverball: compile and test">
+<command>[mapc] "[MapFile]" [data]</command>
+<command>[neverball] "[MapFile]"</command>
 </build>
 </project>
 
