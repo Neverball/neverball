@@ -19,12 +19,12 @@
 #include "config.h"
 #include "video.h"
 #include "demo.h"
-#include "st_shared.h"
 
 #include "game_common.h"
 
 #include "st_over.h"
 #include "st_start.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 

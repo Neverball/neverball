@@ -21,13 +21,13 @@
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
-#include "st_shared.h"
 
 #include "game_common.h"
 
 #include "st_done.h"
 #include "st_start.h"
 #include "st_name.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 

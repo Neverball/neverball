@@ -22,7 +22,6 @@
 #include "audio.h"
 #include "config.h"
 #include "video.h"
-#include "st_shared.h"
 #include "common.h"
 
 #include "game_common.h"
@@ -34,6 +33,7 @@
 #include "st_resol.h"
 #include "st_name.h"
 #include "st_ball.h"
+#include "st_shared.h"
 
 extern const char TITLE[];
 extern const char ICON[];

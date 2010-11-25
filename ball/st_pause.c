@@ -24,8 +24,8 @@
 
 #include "st_play.h"
 #include "st_over.h"
-#include "st_shared.h"
 #include "st_pause.h"
+#include "st_shared.h"
 
 #define PAUSE_CONTINUE 1
 #define PAUSE_RESTART  2

@@ -22,9 +22,9 @@
 #include "game_server.h"
 #include "game_client.h"
 
-#include "st_shared.h"
 #include "st_title.h"
 #include "st_help.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 

@@ -19,7 +19,6 @@
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
-#include "st_shared.h"
 #include "demo.h"
 
 #include "game_server.h"
@@ -29,6 +28,7 @@
 #include "st_play.h"
 #include "st_start.h"
 #include "st_over.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 

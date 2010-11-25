@@ -31,8 +31,8 @@
 #include "st_fail.h"
 #include "st_over.h"
 #include "st_pause.h"
-#include "st_shared.h"
 #include "st_level.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 

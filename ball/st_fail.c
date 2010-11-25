@@ -29,8 +29,8 @@
 #include "st_save.h"
 #include "st_fail.h"
 #include "st_level.h"
-#include "st_shared.h"
 #include "st_play.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 

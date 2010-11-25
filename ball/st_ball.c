@@ -32,8 +32,8 @@
 #include "game_common.h"
 
 #include "st_ball.h"
-#include "st_shared.h"
 #include "st_conf.h"
+#include "st_shared.h"
 
 enum
 {

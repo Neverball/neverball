@@ -22,7 +22,6 @@
 #include "audio.h"
 #include "solid.h"
 #include "config.h"
-#include "st_shared.h"
 #include "util.h"
 #include "common.h"
 #include "demo_dir.h"
@@ -34,6 +33,7 @@
 
 #include "st_demo.h"
 #include "st_title.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 

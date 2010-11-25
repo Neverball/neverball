@@ -18,7 +18,6 @@
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
-#include "st_shared.h"
 #include "common.h"
 
 #include "game_common.h"
@@ -28,6 +27,7 @@
 #include "st_level.h"
 #include "st_start.h"
 #include "st_title.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 

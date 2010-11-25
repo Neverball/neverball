@@ -26,8 +26,8 @@
 
 #include "game_common.h"
 
-#include "st_shared.h"
 #include "st_save.h"
+#include "st_shared.h"
 
 static char filename[MAXSTR];
 

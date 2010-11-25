@@ -20,7 +20,6 @@
 #include "demo.h"
 #include "audio.h"
 #include "config.h"
-#include "st_shared.h"
 #include "cmd.h"
 #include "demo_dir.h"
 
@@ -35,6 +34,7 @@
 #include "st_conf.h"
 #include "st_set.h"
 #include "st_name.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 
