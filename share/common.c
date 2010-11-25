@@ -228,7 +228,7 @@ static const char *path_last_sep(const char *path)
     {
         const char *tmp;
 
-        if ((tmp = strrchr(sep, '\\')))
+        if ((tmp = strrchr(path, '\\')) && sep < tmp)
             sep = tmp;
     }
 #endif
