@@ -62,10 +62,10 @@ static struct level level_v[MAXLVL];
 
 static void put_score(fs_file fp, const struct score *s)
 {
-    int j;
+    int i;
 
-    for (j = RANK_HARD; j < RANK_LAST; j++)
-        fs_printf(fp, "%d %d %s\n", s->timer[j], s->coins[j], s->player[j]);
+    for (i = RANK_HARD; i <= RANK_EASY; i++)
+        fs_printf(fp, "%d %d %s\n", s->timer[i], s->coins[i], s->player[i]);
 }
 
 void set_store_hs(void)
@@ -110,19 +110,28 @@ void set_store_hs(void)
 
 static int get_score(fs_file fp, struct score *s)
 {
-    int j;
-    int res = 1;
     char line[MAXSTR];
+    int i;
 
-    for (j = RANK_HARD; j < RANK_LAST && res; j++)
+    for (i = RANK_HARD; i <= RANK_EASY; i++)
     {
-        res = (fs_gets(line, sizeof (line), fp) &&
-               sscanf(line, "%d %d %s\n",
-                      &s->timer[j],
-                      &s->coins[j],
-                      s->player[j]) == 3);
+        int n = -1;
+
+        if (!fs_gets(line, sizeof (line), fp))
+            return 0;
+
+        strip_newline(line);
+
+        if (sscanf(line, "%d %d %n", &s->timer[i], &s->coins[i], &n) < 2)
+            return 0;
+
+        if (n < 0)
+            return 0;
+
+        SAFECPY(s->player[i], line + n);
     }
-    return res;
+
+    return 1;
 }
 
 static void set_load_hs(void)
