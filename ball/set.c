@@ -34,21 +34,21 @@ struct set
 {
     char file[PATHMAX];
 
-    char *id;                  /* Internal set identifier    */
-    char *name;                /* Set name                   */
-    char *desc;                /* Set description            */
-    char *shot;                /* Set screen-shot            */
+    char *id;                           /* Internal set identifier           */
+    char *name;                         /* Set name                          */
+    char *desc;                         /* Set description                   */
+    char *shot;                         /* Set screen-shot                   */
 
-    char *user_scores;         /* User high-score file       */
-    char *cheat_scores;        /* Cheat mode score file      */
+    char *user_scores;                  /* User high-score file              */
+    char *cheat_scores;                 /* Cheat mode score file             */
 
-    struct score coin_score;   /* Challenge score            */
-    struct score time_score;   /* Challenge score            */
+    struct score coin_score;            /* Challenge score                   */
+    struct score time_score;            /* Challenge score                   */
 
-    /* Level info */
+    /* Level info                                                            */
 
-    int   count;                /* Number of levels           */
-    char *level_name_v[MAXLVL]; /* List of level file names   */
+    int   count;                        /* Number of levels                  */
+    char *level_name_v[MAXLVL];         /* List of level file names          */
 };
 
 #define SET_GET(a, i) ((struct set *) array_get((a), (i)))
@@ -66,46 +66,6 @@ static void put_score(fs_file fp, const struct score *s)
 
     for (i = RANK_HARD; i <= RANK_EASY; i++)
         fs_printf(fp, "%d %d %s\n", s->timer[i], s->coins[i], s->player[i]);
-}
-
-void set_store_hs(void)
-{
-    const struct set *s = SET_GET(sets, curr);
-    fs_file fout;
-    int i;
-    const struct level *l;
-    char states[MAXLVL + 1];
-
-    if ((fout = fs_open(config_cheat() ?
-                        s->cheat_scores :
-                        s->user_scores, "w")))
-    {
-        for (i = 0; i < s->count; i++)
-        {
-            if (level_v[i].is_locked)
-                states[i] = 'L';
-            else if (level_v[i].is_completed)
-                states[i] = 'C';
-            else
-                states[i] = 'O';
-        }
-        states[s->count] = '\0';
-        fs_printf(fout, "%s\n",states);
-
-        put_score(fout, &s->time_score);
-        put_score(fout, &s->coin_score);
-
-        for (i = 0; i < s->count; i++)
-        {
-            l = &level_v[i];
-
-            put_score(fout, &l->scores[SCORE_TIME]);
-            put_score(fout, &l->scores[SCORE_GOAL]);
-            put_score(fout, &l->scores[SCORE_COIN]);
-        }
-
-        fs_close(fout);
-    }
 }
 
 static int get_score(fs_file fp, struct score *s)
@@ -134,61 +94,87 @@ static int get_score(fs_file fp, struct score *s)
     return 1;
 }
 
+void set_store_hs(void)
+{
+    const struct set *s = SET_GET(sets, curr);
+    fs_file fp;
+
+    if ((fp = fs_open(config_cheat() ? s->cheat_scores : s->user_scores, "w")))
+    {
+        const struct level *l;
+
+        char states[MAXLVL + 2] = "";
+        int i;
+
+        for (i = 0; i < s->count; i++)
+        {
+            l = &level_v[i];
+
+            if (l->is_locked)
+                states[i] = 'L';
+            else if (l->is_completed)
+                states[i] = 'C';
+            else
+                states[i] = 'O';
+        }
+
+        states[s->count] = '\n';
+
+        fs_puts(states, fp);
+
+        put_score(fp, &s->time_score);
+        put_score(fp, &s->coin_score);
+
+        for (i = 0; i < s->count; i++)
+        {
+            const struct level *l = &level_v[i];
+
+            put_score(fp, &l->scores[SCORE_TIME]);
+            put_score(fp, &l->scores[SCORE_GOAL]);
+            put_score(fp, &l->scores[SCORE_COIN]);
+        }
+
+        fs_close(fp);
+    }
+}
+
 static void set_load_hs(void)
 {
     struct set *s = SET_GET(sets, curr);
-    fs_file fin;
-    int i;
-    int res = 0;
-    struct level *l;
-    const char *fn = config_cheat() ? s->cheat_scores : s->user_scores;
-    char states[MAXLVL + sizeof ("\n")];
+    fs_file fp;
 
-    if ((fin = fs_open(fn, "r")))
+    if ((fp = fs_open(config_cheat() ? s->cheat_scores : s->user_scores, "r")))
     {
-        res = (fs_gets(states, sizeof (states), fin) &&
-               strlen(states) - 1 == s->count);
+        char states[MAXLVL + 2];
 
-        for (i = 0; i < s->count && res; i++)
+        if (fs_gets(states, sizeof (states), fp) &&
+            strlen(states) - 1 == s->count)
         {
-            switch (states[i])
+            struct level *l;
+            int i;
+
+            for (i = 0; i < s->count; i++)
             {
-            case 'L':
-                level_v[i].is_locked = 1;
-                level_v[i].is_completed = 0;
-                break;
+                l = &level_v[i];
 
-            case 'C':
-                level_v[i].is_locked = 0;
-                level_v[i].is_completed = 1;
-                break;
+                l->is_locked    = (states[i] == 'L');
+                l->is_completed = (states[i] == 'C');
+            }
 
-            case 'O':
-                level_v[i].is_locked = 0;
-                level_v[i].is_completed = 0;
-                break;
+            get_score(fp, &s->time_score);
+            get_score(fp, &s->coin_score);
 
-            default:
-                res = 0;
+            for (i = 0; i < s->count; i++)
+            {
+                l = &level_v[i];
+
+                get_score(fp, &l->scores[SCORE_TIME]);
+                get_score(fp, &l->scores[SCORE_GOAL]);
+                get_score(fp, &l->scores[SCORE_COIN]);
             }
         }
 
-        res = res &&
-            get_score(fin, &s->time_score) &&
-            get_score(fin, &s->coin_score);
-
-        for (i = 0; i < s->count && res; i++)
-        {
-            l = &level_v[i];
-            res = (get_score(fin, &l->scores[SCORE_TIME])  &&
-                   get_score(fin, &l->scores[SCORE_GOAL]) &&
-                   get_score(fin, &l->scores[SCORE_COIN]));
-        }
-
-        fs_close(fin);
-
-        if (!res)
-            fprintf(stderr, L_("Failure to load user score file '%s'\n"), fn);
+        fs_close(fp);
     }
 }
 
@@ -412,42 +398,38 @@ const struct score *set_score(int i, int s)
 
 static void set_load_levels(void)
 {
-    struct level *l;
-    int nb = 1, bnb = 1;
-
-    int i;
-
-    const char *roman[] = {
+    static const char *roman[] = {
         "",
-        "I",   "II",   "III",   "IV",   "V",
-        "VI",  "VII",  "VIII",  "IX",   "X",
-        "XI",  "XII",  "XIII",  "XIV",  "XV",
-        "XVI", "XVII", "XVIII", "XIX",  "XX",
+        "I", "II", "III", "IV", "V",
+        "VI", "VII", "VIII", "IX", "X",
+        "XI", "XII", "XIII", "XIV", "XV",
+        "XVI", "XVII", "XVIII", "XIX", "XX",
         "XXI", "XXII", "XXIII", "XXIV", "XXV"
     };
 
-    for (i = 0; i < SET_GET(sets, curr)->count; i++)
-    {
-        l = &level_v[i];
+    struct set *s = SET_GET(sets, curr);
+    int regular = 1, bonus = 1;
+    int i;
 
-        level_load(SET_GET(sets, curr)->level_name_v[i], l);
+    for (i = 0; i < s->count; i++)
+    {
+        struct level *l = &level_v[i];
+
+        level_load(s->level_name_v[i], l);
 
         l->number = i;
 
         if (l->is_bonus)
-            sprintf(l->name, "%s",   roman[bnb++]);
+            SAFECPY(l->name, roman[bonus++]);
         else
-            sprintf(l->name, "%02d", nb++);
+            sprintf(l->name, "%02d", regular++);
 
-        l->is_locked    = 1;
+        l->is_locked = (i > 0);
         l->is_completed = 0;
 
-        if (i > 0) level_v[i - 1].next = l;
+        if (i > 0)
+            level_v[i - 1].next = l;
     }
-
-    /* Unlock first level. */
-
-    level_v[0].is_locked = 0;
 }
 
 void set_goto(int i)
