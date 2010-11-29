@@ -361,7 +361,7 @@ void set_quit(void)
 
 int set_exists(int i)
 {
-    return (0 <= i && i < array_len(sets));
+    return sets ? 0 <= i && i < array_len(sets) : 0;
 }
 
 const char *set_id(int i)
