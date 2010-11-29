@@ -246,7 +246,7 @@ const char *path_next_sep(const char *path)
     skip = strcspn(path, "/");
 #endif
 
-    return skip == strlen(path) ? NULL : path + skip;
+    return *(path + skip) ? path + skip : NULL;
 }
 
 const char *base_name_sans(const char *name, const char *suffix)
