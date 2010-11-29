@@ -408,26 +408,6 @@ static void make_dirs_and_migrate(void)
 
 /*---------------------------------------------------------------------------*/
 
-static const char *game_path(const char *path)
-{
-    if (fs_exists(path))
-        return path;
-
-    /* Chop off directories until we have a match. */
-
-    while ((path = path_next_sep(path)))
-    {
-        /* Skip separator. */
-
-        path += 1;
-
-        if (fs_exists(path))
-            return path;
-    }
-
-    return NULL;
-}
-
 int main(int argc, char *argv[])
 {
     SDL_Joystick *joy = NULL;
@@ -492,7 +472,7 @@ int main(int argc, char *argv[])
     }
     else if (opt_level)
     {
-        const char *path = game_path(opt_level);
+        const char *path = fs_resolve(opt_level);
         int loaded = 0;
 
         if (path)

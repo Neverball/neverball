@@ -287,3 +287,25 @@ void *fs_load(const char *path, int *datalen)
 }
 
 /*---------------------------------------------------------------------------*/
+
+const char *fs_resolve(const char *path)
+{
+    if (fs_exists(path))
+        return path;
+
+    /* Chop off directories until we have a match. */
+
+    while ((path = path_next_sep(path)))
+    {
+        /* Skip separator. */
+
+        path += 1;
+
+        if (fs_exists(path))
+            return path;
+    }
+
+    return NULL;
+}
+
+/*---------------------------------------------------------------------------*/

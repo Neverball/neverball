@@ -48,4 +48,6 @@ int fs_printf(fs_file, const char *fmt, ...);
 Array fs_dir_scan(const char *, int (*filter)(struct dir_item *));
 void  fs_dir_free(Array);
 
+const char *fs_resolve(const char *);
+
 #endif
