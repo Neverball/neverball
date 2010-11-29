@@ -194,6 +194,12 @@ const char *demo_format_name(const char *fmt,
     if (!fmt)
         return NULL;
 
+    if (!set)
+        set = "none";
+
+    if (!level)
+        level = "00";
+
     memset(name, 0, sizeof (name));
     space_left = MAXSTRLEN(name);
 
@@ -208,19 +214,13 @@ const char *demo_format_name(const char *fmt,
             switch (*fmt)
             {
             case 's':
-                if (set)
-                {
-                    strncat(name, set, space_left);
-                    space_left -= strlen(set);
-                }
+                strncat(name, set, space_left);
+                space_left -= strlen(set);
                 break;
 
             case 'l':
-                if (level)
-                {
-                    strncat(name, level, space_left);
-                    space_left -= strlen(level);
-                }
+                strncat(name, level, space_left);
+                space_left -= strlen(level);
                 break;
 
             case '%':
