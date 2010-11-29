@@ -477,7 +477,8 @@ int main(int argc, char *argv[])
 
         if (path)
         {
-            struct level level;
+            /* HACK: must be around for the duration of the game. */
+            static struct level level;
 
             if (level_load(path, &level))
             {
