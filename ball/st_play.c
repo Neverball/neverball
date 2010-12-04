@@ -314,8 +314,6 @@ static int play_loop_gui(void)
 
 static int play_loop_enter(struct state *st, struct state *prev)
 {
-    union cmd cmd;
-
     VIEWR_SET_R(0);
     VIEWR_SET_L(0);
     fast_rotate = 0;
@@ -325,16 +323,9 @@ static int play_loop_enter(struct state *st, struct state *prev)
 
     audio_play(AUD_GO, 1.f);
 
-    game_server_fly(0.0f);
-
-    /* End first update. */
-
-    cmd.type = CMD_END_OF_UPDATE;
-    game_proxy_enq(&cmd);
-    game_client_sync(demo_fp);
+    game_client_fly(0.0f);
 
     show_hud = 1;
-
     hud_update(0);
 
     return play_loop_gui();

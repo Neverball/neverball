@@ -492,6 +492,16 @@ int game_server_init(const char *file_name, int t, int e)
     game_cmd_init_balls();
     game_cmd_init_items();
 
+    /* Store the initial view. */
+
+    game_server_fly(0.0f);
+
+    /* End first update. */
+
+    game_cmd_eou();
+
+    /* Reset lockstep state. */
+
     lockstep_clr(&server_step);
 
     return server_state;
