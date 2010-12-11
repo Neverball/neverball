@@ -102,19 +102,15 @@ static int demo_header_read(fs_file fp, struct demo *d)
 
 static void demo_header_write(fs_file fp, struct demo *d)
 {
-    int magic = DEMO_MAGIC;
-    int version = DEMO_VERSION;
-    int zero  = 0;
-
     char datestr[DATELEN];
 
     strftime(datestr, sizeof (datestr), "%Y-%m-%dT%H:%M:%S", gmtime(&d->date));
 
-    put_index(fp, magic);
-    put_index(fp, version);
-    put_index(fp, zero);
-    put_index(fp, zero);
-    put_index(fp, zero);
+    put_index(fp, DEMO_MAGIC);
+    put_index(fp, DEMO_VERSION);
+    put_index(fp, 0);
+    put_index(fp, 0);
+    put_index(fp, 0);
     put_index(fp, d->mode);
 
     put_string(fp, d->player);
