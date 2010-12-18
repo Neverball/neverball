@@ -26,8 +26,8 @@
 
 #include "st_resol.h"
 
-extern struct state st_conf;
-extern struct state st_null;
+extern struct state  st_null;
+static struct state *st_back;
 
 static SDL_Rect **modes;
 
@@ -44,7 +44,8 @@ static int resol_action(int i)
     switch (i)
     {
     case RESOL_BACK:
-        goto_state(&st_conf);
+        goto_state(st_back);
+        st_back = NULL;
         break;
 
     default:
@@ -116,6 +117,13 @@ static int resol_gui(void)
 
 static int resol_enter(struct state *st, struct state *prev)
 {
+    if (!st_back)
+    {
+        /* Note the parent screen if not done yet. */
+
+        st_back = prev;
+    }
+
     back_init("back/gui.png");
 
     modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
@@ -168,7 +176,7 @@ static int resol_click(int b, int d)
 
 static int resol_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_conf) : 1;
+    return (d && c == SDLK_ESCAPE) ? resol_action(RESOL_BACK) : 1;
 }
 
 static int resol_buttn(int b, int d)
@@ -178,9 +186,9 @@ static int resol_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return resol_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_conf);
+            return resol_action(RESOL_BACK);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_conf);
+            return resol_action(RESOL_BACK);
     }
     return 1;
 }
