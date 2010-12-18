@@ -85,6 +85,20 @@ static void conf_toggle(int id, const char *label, int value,
     }
 }
 
+static void conf_header(int id, const char *text, int token)
+{
+    int jd;
+
+    if ((jd = gui_harray(id)))
+    {
+        gui_label(jd, text, GUI_SML, GUI_ALL, 0, 0);
+        gui_space(jd);
+        gui_start(jd, _("Back"), GUI_SML, token, 0);
+    }
+
+    gui_space(id);
+}
+
 /*---------------------------------------------------------------------------*/
 
 #define CONF_SHARED_BACK 1              /* Shared GUI token.                 */
@@ -197,7 +211,7 @@ static int conf_action(int i)
 
 static int conf_gui(void)
 {
-    int id, jd;
+    int id;
 
     /* Initialize the configuration GUI. */
 
@@ -211,14 +225,7 @@ static int conf_gui(void)
 
         int name_id = 0, ball_id = 0;
 
-        if ((jd = gui_harray(id)))
-        {
-            gui_label(jd, _("Options"), GUI_SML, GUI_ALL, 0, 0);
-            gui_space(jd);
-            gui_start(jd, _("Back"),    GUI_SML, CONF_BACK, 0);
-        }
-
-        gui_space(id);
+        conf_header(id, _("Options"), CONF_BACK);
 
         conf_state(id, _("Video"), _("Configure"), CONF_VIDEO);
 
@@ -355,7 +362,7 @@ static int conf_video_action(int i)
 
 static int conf_video_gui(void)
 {
-    int id, jd;
+    int id;
 
     if ((id = gui_vstack(0)))
     {
@@ -371,14 +378,7 @@ static int conf_video_gui(void)
                 config_get_d(CONFIG_WIDTH),
                 config_get_d(CONFIG_HEIGHT));
 
-        if ((jd = gui_harray(id)))
-        {
-            gui_label(jd, _("Video Options"), GUI_SML, GUI_ALL, 0, 0);
-            gui_space(jd);
-            gui_start(jd, _("Back"), GUI_SML, CONF_VIDEO_BACK, 0);
-        }
-
-        gui_space(id);
+        conf_header(id, _("Video Options"), CONF_VIDEO_BACK);
 
         conf_toggle(id, _("Fullscreen"), f,
                     _("Yes"), CONF_VIDEO_FULL, 1,
