@@ -40,6 +40,53 @@ extern const char ICON[];
 
 /*---------------------------------------------------------------------------*/
 
+static void conf_slider(int id, const char *text,
+                        int token, int value,
+                        int *ids, int num)
+{
+    int jd, kd, i;
+
+    if ((jd = gui_harray(id)) && (kd = gui_harray(jd)))
+    {
+        /* A series of empty buttons forms a "slider". */
+
+        for (i = num - 1; i >= 0; i--)
+            ids[i] = gui_state(kd, NULL, GUI_SML, token + i, (i == value));
+
+        gui_label(jd, text, GUI_SML, GUI_ALL, 0, 0);
+    }
+}
+
+static int conf_state(int id, const char *label, const char *text, int token)
+{
+    int jd, kd, rd = 0;
+
+    if ((jd = gui_harray(id)) && (kd = gui_harray(jd)))
+    {
+        rd = gui_state(kd, text, GUI_SML, token, 0);
+        gui_label(jd, label, GUI_SML, GUI_ALL, 0, 0);
+    }
+
+    return rd;
+}
+
+static void conf_toggle(int id, const char *label, int value,
+                        const char *text1, int token1, int value1,
+                        const char *text0, int token0, int value0)
+{
+    int jd, kd;
+
+    if ((jd = gui_harray(id)) && (kd = gui_harray(jd)))
+    {
+        gui_state(kd, text0, GUI_SML, token0, (value == value0));
+        gui_state(kd, text1, GUI_SML, token1, (value == value1));
+
+        gui_label(jd, label, GUI_SML, GUI_ALL, 0, 0);
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
 enum
 {
     CONF_FULL = 1,
@@ -180,7 +227,7 @@ static int conf_action(int i)
 
 static int conf_gui(void)
 {
-    int id, jd, kd;
+    int id, jd;
 
     /* Initialize the configuration GUI. */
 
@@ -214,118 +261,41 @@ static int conf_gui(void)
 
         gui_space(id);
 
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            gui_state(kd, _("No"),  GUI_SML, CONF_WIN,  (f == 0));
-            gui_state(kd, _("Yes"), GUI_SML, CONF_FULL, (f == 1));
+        conf_toggle(id, _("Fullscreen"), f,
+                    _("Yes"), CONF_FULL, 1,
+                    _("No"), CONF_WIN, 0);
 
-            gui_label(jd, _("Fullscreen"), GUI_SML, GUI_ALL, 0, 0);
-        }
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            gui_state(kd, resolution, GUI_SML, CONF_RES, 0);
-
-            gui_label(jd, _("Resolution"), GUI_SML, GUI_ALL, 0, 0);
-        }
+        conf_state(id, _("Resolution"), resolution, CONF_RES);
 
         gui_space(id);
 
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            gui_state(kd, _("Low"),  GUI_SML, CONF_TEXLO, (t == 2));
-            gui_state(kd, _("High"), GUI_SML, CONF_TEXHI, (t == 1));
+        conf_toggle(id, _("Textures"), t,
+                    _("High"), CONF_TEXHI, 1,
+                    _("Low"), CONF_TEXLO, 2);
 
-            gui_label(jd, _("Textures"), GUI_SML, GUI_ALL, 0, 0);
-        }
+        conf_toggle(id, _("Reflection"), r,
+                    _("On"), CONF_REFON, 1,
+                    _("Off"), CONF_REFOF, 0);
 
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            gui_state(kd, _("Off"), GUI_SML, CONF_REFOF, (r == 0));
-            gui_state(kd, _("On"),  GUI_SML, CONF_REFON, (r == 1));
+        conf_toggle(id, _("Background"), b,
+                    _("On"), CONF_BACON, 1,
+                    _("Off"), CONF_BACOF, 0);
 
-            gui_label(jd, _("Reflection"), GUI_SML, GUI_ALL, 0, 0);
-        }
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            gui_state(kd, _("Off"), GUI_SML, CONF_BACOF, (b == 0));
-            gui_state(kd, _("On"),  GUI_SML, CONF_BACON, (b == 1));
-
-            gui_label(jd, _("Background"), GUI_SML, GUI_ALL, 0, 0);
-        }
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            gui_state(kd, _("Off"), GUI_SML, CONF_SHDOF, (h == 0));
-            gui_state(kd, _("On"),  GUI_SML, CONF_SHDON, (h == 1));
-
-            gui_label(jd, _("Shadow"), GUI_SML, GUI_ALL, 0, 0);
-        }
+        conf_toggle(id, _("Shadow"), h,
+                    _("On"), CONF_SHDON, 1,
+                    _("Off"), CONF_SHDOF, 0);
 
         gui_space(id);
 
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            /* A series of empty buttons forms the sound volume control. */
-
-            sound_id[10] = gui_state(kd, NULL, GUI_SML, 110, (s == 10));
-            sound_id[ 9] = gui_state(kd, NULL, GUI_SML, 109, (s ==  9));
-            sound_id[ 8] = gui_state(kd, NULL, GUI_SML, 108, (s ==  8));
-            sound_id[ 7] = gui_state(kd, NULL, GUI_SML, 107, (s ==  7));
-            sound_id[ 6] = gui_state(kd, NULL, GUI_SML, 106, (s ==  6));
-            sound_id[ 5] = gui_state(kd, NULL, GUI_SML, 105, (s ==  5));
-            sound_id[ 4] = gui_state(kd, NULL, GUI_SML, 104, (s ==  4));
-            sound_id[ 3] = gui_state(kd, NULL, GUI_SML, 103, (s ==  3));
-            sound_id[ 2] = gui_state(kd, NULL, GUI_SML, 102, (s ==  2));
-            sound_id[ 1] = gui_state(kd, NULL, GUI_SML, 101, (s ==  1));
-            sound_id[ 0] = gui_state(kd, NULL, GUI_SML, 100, (s ==  0));
-
-            gui_label(jd, _("Sound Volume"), GUI_SML, GUI_ALL, 0, 0);
-        }
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            /* A series of empty buttons forms the music volume control. */
-
-            music_id[10] = gui_state(kd, NULL, GUI_SML, 210, (m == 10));
-            music_id[ 9] = gui_state(kd, NULL, GUI_SML, 209, (m ==  9));
-            music_id[ 8] = gui_state(kd, NULL, GUI_SML, 208, (m ==  8));
-            music_id[ 7] = gui_state(kd, NULL, GUI_SML, 207, (m ==  7));
-            music_id[ 6] = gui_state(kd, NULL, GUI_SML, 206, (m ==  6));
-            music_id[ 5] = gui_state(kd, NULL, GUI_SML, 205, (m ==  5));
-            music_id[ 4] = gui_state(kd, NULL, GUI_SML, 204, (m ==  4));
-            music_id[ 3] = gui_state(kd, NULL, GUI_SML, 203, (m ==  3));
-            music_id[ 2] = gui_state(kd, NULL, GUI_SML, 202, (m ==  2));
-            music_id[ 1] = gui_state(kd, NULL, GUI_SML, 201, (m ==  1));
-            music_id[ 0] = gui_state(kd, NULL, GUI_SML, 200, (m ==  0));
-
-            gui_label(jd, _("Music Volume"), GUI_SML, GUI_ALL, 0, 0);
-        }
+        conf_slider(id, _("Sound Volume"), 100, s,
+                    sound_id, ARRAYSIZE(sound_id));
+        conf_slider(id, _("Music Volume"), 200, m,
+                    music_id, ARRAYSIZE(music_id));
 
         gui_space(id);
 
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            name_id = gui_state(kd, " ", GUI_SML, CONF_PLAYER, 0);
-            gui_label(jd, _("Player Name"), GUI_SML, GUI_ALL, 0, 0);
-        }
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            ball_id = gui_state(kd, " ", GUI_SML, CONF_BALL, 0);
-            gui_label(jd, _("Ball Model"), GUI_SML, GUI_ALL, 0, 0);
-        }
+        name_id = conf_state(id, _("Player Name"), " ", CONF_PLAYER);
+        ball_id = conf_state(id, _("Ball Model"), " ", CONF_BALL);
 
         gui_layout(id, 0, 0);
 
