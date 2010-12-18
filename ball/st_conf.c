@@ -324,7 +324,7 @@ static int conf_gui(void)
             (kd = gui_harray(jd)))
         {
             ball_id = gui_state(kd, " ", GUI_SML, CONF_BALL, 0);
-            gui_label(jd, _("Ball"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Ball Model"), GUI_SML, GUI_ALL, 0, 0);
         }
 
         gui_layout(id, 0, 0);
