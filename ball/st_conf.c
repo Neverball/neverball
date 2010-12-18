@@ -87,9 +87,52 @@ static void conf_toggle(int id, const char *label, int value,
 
 /*---------------------------------------------------------------------------*/
 
+#define CONF_SHARED_BACK 1              /* Shared GUI token.                 */
+
+static int (*conf_shared_action)(int i);
+
+static void conf_shared_init(int (*action_fn)(int))
+{
+    conf_shared_action = action_fn;
+
+    game_client_free();
+    back_init("back/gui.png");
+    audio_music_fade_to(0.5f, "bgm/inter.ogg");
+}
+
+static void conf_shared_leave(struct state *st, struct state *next, int id)
+{
+    back_free();
+    gui_delete(id);
+}
+
+static void conf_shared_paint(int id, float t)
+{
+    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+    {
+        back_draw(0);
+    }
+    video_pop_matrix();
+    gui_paint(id);
+}
+
+static int conf_shared_buttn(int b, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+            return conf_shared_action(gui_token(gui_click()));
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+            return conf_shared_action(CONF_SHARED_BACK);
+    }
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
 enum
 {
-    CONF_BACK = 1,
+    CONF_BACK = CONF_SHARED_BACK,
     CONF_VIDEO,
     CONF_PLAYER,
     CONF_BALL
@@ -205,46 +248,15 @@ static int conf_gui(void)
 
 static int conf_enter(struct state *st, struct state *prev)
 {
-    game_client_free();
-    back_init("back/gui.png");
-    audio_music_fade_to(0.5f, "bgm/inter.ogg");
-
+    conf_shared_init(conf_action);
     return conf_gui();
-}
-
-static void conf_leave(struct state *st, struct state *next, int id)
-{
-    back_free();
-    gui_delete(id);
-}
-
-static void conf_paint(int id, float t)
-{
-    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
-    {
-        back_draw(0);
-    }
-    video_pop_matrix();
-    gui_paint(id);
-}
-
-static int conf_buttn(int b, int d)
-{
-    if (d)
-    {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return conf_action(gui_token(gui_click()));
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return conf_action(CONF_BACK);
-    }
-    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
 enum
 {
-    CONF_VIDEO_BACK = 1,
+    CONF_VIDEO_BACK = CONF_SHARED_BACK,
     CONF_VIDEO_WIN,
     CONF_VIDEO_FULL,
     CONF_VIDEO_RES,
@@ -400,39 +412,8 @@ static int conf_video_gui(void)
 
 static int conf_video_enter(struct state *st, struct state *prev)
 {
-    game_client_free();
-    back_init("back/gui.png");
-    audio_music_fade_to(0.5f, "bgm/inter.ogg");
-
+    conf_shared_init(conf_video_action);
     return conf_video_gui();
-}
-
-static void conf_video_leave(struct state *st, struct state *next, int id)
-{
-    back_free();
-    gui_delete(id);
-}
-
-static void conf_video_paint(int id, float t)
-{
-    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
-    {
-        back_draw(0);
-    }
-    video_pop_matrix();
-    gui_paint(id);
-}
-
-static int conf_video_buttn(int b, int d)
-{
-    if (d)
-    {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return conf_video_action(gui_token(gui_click()));
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return conf_video_action(CONF_BACK);
-    }
-    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -469,28 +450,28 @@ static void null_leave(struct state *st, struct state *next, int id)
 
 struct state st_conf = {
     conf_enter,
-    conf_leave,
-    conf_paint,
+    conf_shared_leave,
+    conf_shared_paint,
     shared_timer,
     shared_point,
     shared_stick,
     shared_angle,
     shared_click,
     NULL,
-    conf_buttn
+    conf_shared_buttn
 };
 
 struct state st_conf_video = {
     conf_video_enter,
-    conf_video_leave,
-    conf_video_paint,
+    conf_shared_leave,
+    conf_shared_paint,
     shared_timer,
     shared_point,
     shared_stick,
     shared_angle,
     shared_click,
     NULL,
-    conf_video_buttn
+    conf_shared_buttn
 };
 
 struct state st_null = {
