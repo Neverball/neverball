@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "La danse asiatique\Trust in the arrows."
+"message" "La danse asiatique\Trust the arrows."
 "author" "Mehdi Yousfi-Monod"
 "version" "1"
 "back" "map-back/city.sol"
