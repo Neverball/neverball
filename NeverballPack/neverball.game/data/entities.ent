@@ -124,6 +124,8 @@ Used for most static level geometry.
 
 Attributes:
 * <string key="message" name="Introduction">Text that appears as a level begins.  A "\" (backslash) starts a new line.</string>
+* <string key="back" name="Background environment">Path to the background file.</string>
+* <string key="grad" name="Background gradient">Path to the background gradient image file.</string>
 * <string key="song" name="Background music">Path to the background music file.</string>
 * <string key="shot" name="Level shot">Path to the level shot file.</string>
 * <integer key="goal" name="Required coins">Number of coins needed to unlock the goal.</integer>

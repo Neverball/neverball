@@ -26,8 +26,8 @@
 
 #include "st_resol.h"
 
-extern struct state st_conf;
-extern struct state st_null;
+extern struct state  st_null;
+static struct state *st_back;
 
 static SDL_Rect **modes;
 
@@ -44,7 +44,8 @@ static int resol_action(int i)
     switch (i)
     {
     case RESOL_BACK:
-        goto_state(&st_conf);
+        goto_state(st_back);
+        st_back = NULL;
         break;
 
     default:
@@ -86,16 +87,9 @@ static int fill_row(int id, SDL_Rect **modes, int i, int n)
     return complete;
 }
 
-static int resol_enter(void)
+static int resol_gui(void)
 {
     int id, jd;
-
-    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
-
-    modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
-
-    if (modes == (SDL_Rect **) -1)
-        modes = NULL;
 
     if ((id = gui_vstack(0)))
     {
@@ -118,12 +112,31 @@ static int resol_enter(void)
         gui_layout(id, 0, 0);
     }
 
-    audio_music_fade_to(0.5f, "bgm/inter.ogg");
-
     return id;
 }
 
-static void resol_leave(int id)
+static int resol_enter(struct state *st, struct state *prev)
+{
+    if (!st_back)
+    {
+        /* Note the parent screen if not done yet. */
+
+        st_back = prev;
+    }
+
+    back_init("back/gui.png");
+
+    modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
+
+    if (modes == (SDL_Rect **) -1)
+        modes = NULL;
+
+    audio_music_fade_to(0.5f, "bgm/inter.ogg");
+
+    return resol_gui();
+}
+
+static void resol_leave(struct state *st, struct state *next, int id)
 {
     back_free();
     gui_delete(id);
@@ -149,12 +162,9 @@ static void resol_point(int id, int x, int y, int dx, int dy)
     gui_pulse(gui_point(id, x, y), 1.2f);
 }
 
-static void resol_stick(int id, int a, int v)
+static void resol_stick(int id, int a, float v, int bump)
 {
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
+    gui_pulse(gui_stick(id, a, v, bump), 1.2f);
 }
 
 static int resol_click(int b, int d)
@@ -166,7 +176,7 @@ static int resol_click(int b, int d)
 
 static int resol_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_conf) : 1;
+    return (d && c == SDLK_ESCAPE) ? resol_action(RESOL_BACK) : 1;
 }
 
 static int resol_buttn(int b, int d)
@@ -176,9 +186,9 @@ static int resol_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return resol_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_conf);
+            return resol_action(RESOL_BACK);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_conf);
+            return resol_action(RESOL_BACK);
     }
     return 1;
 }
@@ -196,7 +206,6 @@ struct state st_resol = {
     NULL,
     resol_click,
     resol_keybd,
-    resol_buttn,
-    1, 0
+    resol_buttn
 };
 

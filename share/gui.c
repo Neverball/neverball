@@ -1816,38 +1816,25 @@ static int gui_wrap_D(int id, int dd)
 
 /*---------------------------------------------------------------------------*/
 
-/* Flag the axes to prevent uncontrolled scrolling. */
-
-static int xflag = 1;
-static int yflag = 1;
-
-void gui_stuck()
-{
-    /* Force the user to recenter the joystick before the next GUI action. */
-
-    xflag = 0;
-    yflag = 0;
-}
-
-int gui_stick(int id, int x, int y)
+int gui_stick(int id, int a, float v, int bump)
 {
     int jd = 0;
 
+    if (!bump)
+        return 0;
+
     /* Find a new active widget in the direction of joystick motion. */
 
-    if (x && -JOY_MID <= x && x <= +JOY_MID)
-        xflag = 1;
-    else if (x < -JOY_MID && xflag && (jd = gui_wrap_L(id, active)))
-        xflag = 0;
-    else if (x > +JOY_MID && xflag && (jd = gui_wrap_R(id, active)))
-        xflag = 0;
-
-    if (y && -JOY_MID <= y && y <= +JOY_MID)
-        yflag = 1;
-    else if (y < -JOY_MID && yflag && (jd = gui_wrap_U(id, active)))
-        yflag = 0;
-    else if (y > +JOY_MID && yflag && (jd = gui_wrap_D(id, active)))
-        yflag = 0;
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
+    {
+        if (v < 0) jd = gui_wrap_L(id, active);
+        if (v > 0) jd = gui_wrap_R(id, active);
+    }
+    else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
+    {
+        if (v < 0) jd = gui_wrap_U(id, active);
+        if (v > 0) jd = gui_wrap_D(id, active);
+    }
 
     /* If the active widget has changed, return the new active id. */
 

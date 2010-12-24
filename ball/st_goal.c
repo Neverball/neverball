@@ -28,9 +28,6 @@
 
 #include "st_goal.h"
 #include "st_save.h"
-#include "st_over.h"
-#include "st_done.h"
-#include "st_start.h"
 #include "st_level.h"
 #include "st_name.h"
 #include "st_shared.h"
@@ -49,9 +46,6 @@ static int balls_id;
 static int coins_id;
 static int score_id;
 
-/* Bread crumbs. */
-
-static int new_name;
 static int resume;
 
 static int goal_action(int i)
@@ -65,35 +59,29 @@ static int goal_action(int i)
 
     case GOAL_OVER:
         progress_stop();
-        return goto_state(&st_over);
+        return goto_state(&st_exit);
 
     case GOAL_SAVE:
-        resume = 1;
-
         progress_stop();
         return goto_save(&st_goal, &st_goal);
 
     case GUI_NAME:
-        new_name = 1;
-        resume = 1;
-
         progress_stop();
         return goto_name(&st_goal, &st_goal, 0);
 
     case GOAL_DONE:
         progress_stop();
         progress_exit();
-        return goto_state(&st_done);
+        return goto_state(&st_exit);
 
     case GOAL_LAST:
         progress_stop();
-        return goto_state(&st_start);
+        return goto_state(&st_exit);
 
     case GUI_SCORE_COIN:
     case GUI_SCORE_TIME:
     case GUI_SCORE_GOAL:
         gui_score_set(i);
-        resume = 1;
         return goto_state(&st_goal);
 
     case GOAL_NEXT:
@@ -110,7 +98,7 @@ static int goal_action(int i)
     return 1;
 }
 
-static int goal_enter(void)
+static int goal_gui(void)
 {
     const char *s1 = _("New Record");
     const char *s2 = _("GOAL");
@@ -118,13 +106,6 @@ static int goal_enter(void)
     int id, jd, kd, ld, md;
 
     int high = progress_lvl_high();
-    int level = curr_level();
-
-    if (new_name)
-    {
-        progress_rename(0);
-        new_name = 0;
-    }
 
     if ((id = gui_vstack(0)))
     {
@@ -241,54 +222,61 @@ static int goal_enter(void)
 
     }
 
-    set_score_board(level_score(level, SCORE_COIN), progress_coin_rank(),
-                    level_score(level, SCORE_TIME), progress_time_rank(),
-                    level_score(level, SCORE_GOAL), progress_goal_rank());
-
-    audio_music_fade_out(2.0f);
-
-    video_clr_grab();
-
-    /* Reset hack. */
-    resume = 0;
+    set_score_board(level_score(curr_level(), SCORE_COIN), progress_coin_rank(),
+                    level_score(curr_level(), SCORE_TIME), progress_time_rank(),
+                    level_score(curr_level(), SCORE_GOAL), progress_goal_rank());
 
     return id;
 }
 
+static int goal_enter(struct state *st, struct state *prev)
+{
+    if (prev == &st_name)
+        progress_rename(0);
+
+    audio_music_fade_out(2.0f);
+    video_clr_grab();
+    resume = (prev == &st_goal || prev == &st_name || prev == &st_save);
+    return goal_gui();
+}
+
 static void goal_timer(int id, float dt)
 {
-    static float t = 0.0f;
-
-    t += dt;
-
-    if (time_state() < 1.f)
+    if (!resume)
     {
-        game_server_step(dt);
-        game_client_sync(demo_file());
-    }
-    else if (t > 0.05f && coins_id)
-    {
-        int coins = gui_value(coins_id);
+        static float t = 0.0f;
 
-        if (coins > 0)
+        t += dt;
+
+        if (time_state() < 1.f)
         {
-            int score = gui_value(score_id);
-            int balls = gui_value(balls_id);
-
-            gui_set_count(coins_id, coins - 1);
-            gui_pulse(coins_id, 1.1f);
-
-            gui_set_count(score_id, score + 1);
-            gui_pulse(score_id, 1.1f);
-
-            if (progress_reward_ball(score + 1))
-            {
-                gui_set_count(balls_id, balls + 1);
-                gui_pulse(balls_id, 2.0f);
-                audio_play(AUD_BALL, 1.0f);
-            }
+            game_server_step(dt);
+            game_client_sync(demo_fp);
         }
-        t = 0.0f;
+        else if (t > 0.05f && coins_id)
+        {
+            int coins = gui_value(coins_id);
+
+            if (coins > 0)
+            {
+                int score = gui_value(score_id);
+                int balls = gui_value(balls_id);
+
+                gui_set_count(coins_id, coins - 1);
+                gui_pulse(coins_id, 1.1f);
+
+                gui_set_count(score_id, score + 1);
+                gui_pulse(score_id, 1.1f);
+
+                if (progress_reward_ball(score + 1))
+                {
+                    gui_set_count(balls_id, balls + 1);
+                    gui_pulse(balls_id, 2.0f);
+                    audio_play(AUD_BALL, 1.0f);
+                }
+            }
+            t = 0.0f;
+        }
     }
 
     gui_timer(id, dt);
@@ -319,19 +307,11 @@ static int goal_buttn(int b, int d)
     return 1;
 }
 
-static void goal_leave(int id)
-{
-    /* HACK:  don't run animation if only "visiting" a state. */
-    st_goal.timer = resume ? shared_timer : goal_timer;
-
-    gui_delete(id);
-}
-
 /*---------------------------------------------------------------------------*/
 
 struct state st_goal = {
     goal_enter,
-    goal_leave,
+    shared_leave,
     shared_paint,
     goal_timer,
     shared_point,
@@ -339,7 +319,6 @@ struct state st_goal = {
     shared_angle,
     shared_click,
     goal_keybd,
-    goal_buttn,
-    1, 0
+    goal_buttn
 };
 

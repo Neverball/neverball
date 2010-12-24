@@ -21,21 +21,18 @@
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
-#include "st_shared.h"
 
 #include "game_common.h"
 
 #include "st_done.h"
-#include "st_start.h"
+#include "st_level.h"
 #include "st_name.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 
 #define DONE_OK   1
 
-/* Bread crumbs. */
-
-static int new_name;
 static int resume;
 
 static int done_action(int i)
@@ -45,23 +42,21 @@ static int done_action(int i)
     switch (i)
     {
     case DONE_OK:
-        return goto_state(&st_start);
+        return goto_state(&st_exit);
 
     case GUI_NAME:
-        new_name = 1;
         return goto_name(&st_done, &st_done, 0);
 
     case GUI_SCORE_COIN:
     case GUI_SCORE_TIME:
     case GUI_SCORE_GOAL:
         gui_score_set(i);
-        resume = 1;
         return goto_state(&st_done);
     }
     return 1;
 }
 
-static int done_enter(void)
+static int done_gui(void)
 {
     const char *s1 = _("New Set Record");
     const char *s2 = _("Set Complete");
@@ -70,11 +65,6 @@ static int done_enter(void)
 
     int high = progress_set_high();
 
-    if (new_name)
-    {
-        progress_rename(1);
-        new_name = 0;
-    }
 
     if ((id = gui_vstack(0)))
     {
@@ -101,10 +91,17 @@ static int done_enter(void)
                     set_score(curr_set(), SCORE_TIME), progress_times_rank(),
                     NULL, -1);
 
-    /* Reset hack. */
-    resume = 0;
-
     return id;
+}
+
+static int done_enter(struct state *st, struct state *prev)
+{
+    if (prev == &st_name)
+        progress_rename(1);
+
+    resume = (prev == &st_done);
+
+    return done_gui();
 }
 
 static int done_keybd(int c, int d)
@@ -139,6 +136,5 @@ struct state st_done = {
     shared_angle,
     shared_click,
     done_keybd,
-    done_buttn,
-    1, 0
+    done_buttn
 };

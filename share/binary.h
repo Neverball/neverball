@@ -15,9 +15,9 @@
 #define ARRAY_BYTES(n)  (FLOAT_BYTES * (n))
 #define STRING_BYTES(s) (strlen(s) + 1)
 
-void put_float(fs_file, const float *);
-void put_index(fs_file, const int   *);
-void put_short(fs_file, const short *);
+void put_float(fs_file, float);
+void put_index(fs_file, int);
+void put_short(fs_file, short);
 void put_array(fs_file, const float *, size_t);
 
 void get_float(fs_file, float *);

@@ -21,46 +21,49 @@
 #include "video.h"
 
 #include "game_common.h"
+#include "game_server.h"
+#include "game_client.h"
 
-#include "st_over.h"
-#include "st_start.h"
 #include "st_save.h"
-#include "st_time_out.h"
+#include "st_fail.h"
 #include "st_level.h"
-#include "st_shared.h"
 #include "st_play.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 
-#define TIME_OUT_NEXT 1
-#define TIME_OUT_SAME 2
-#define TIME_OUT_SAVE 3
-#define TIME_OUT_BACK 4
-#define TIME_OUT_OVER 5
+#define FAIL_NEXT 1
+#define FAIL_SAME 2
+#define FAIL_SAVE 3
+#define FAIL_BACK 4
+#define FAIL_OVER 5
 
-static int time_out_action(int i)
+static int resume;
+static int status;
+
+static int fail_action(int i)
 {
     audio_play(AUD_MENU, 1.0f);
 
     switch (i)
     {
-    case TIME_OUT_BACK:
+    case FAIL_BACK:
         /* Fall through. */
 
-    case TIME_OUT_OVER:
+    case FAIL_OVER:
         progress_stop();
-        return goto_state(&st_over);
+        return goto_state(&st_exit);
 
-    case TIME_OUT_SAVE:
+    case FAIL_SAVE:
         progress_stop();
-        return goto_save(&st_time_out, &st_time_out);
+        return goto_save(&st_fail, &st_fail);
 
-    case TIME_OUT_NEXT:
+    case FAIL_NEXT:
         if (progress_next())
             return goto_state(&st_level);
         break;
 
-    case TIME_OUT_SAME:
+    case FAIL_SAME:
         if (progress_same())
             return goto_state(&st_level);
         break;
@@ -69,45 +72,79 @@ static int time_out_action(int i)
     return 1;
 }
 
-static int time_out_enter(void)
+static int fail_gui(void)
 {
     int id, jd, kd;
 
+    const char *label = "";
+
+    if (status == GAME_FALL)
+        label = _("Fall-out!");
+    else if (status == GAME_TIME)
+        label = _("Time's Up!");
+
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, _("Time's Up!"), GUI_LRG, GUI_ALL, gui_gry, gui_red);
+        kd = gui_label(id, label, GUI_LRG, GUI_ALL, gui_gry, gui_red);
 
         gui_space(id);
 
         if ((jd = gui_harray(id)))
         {
             if (progress_dead())
-                gui_start(jd, _("Exit"), GUI_SML, TIME_OUT_OVER, 0);
+                gui_start(jd, _("Exit"), GUI_SML, FAIL_OVER, 0);
 
             if (progress_next_avail())
-                gui_start(jd, _("Next Level"), GUI_SML, TIME_OUT_NEXT, 0);
+                gui_start(jd, _("Next Level"),  GUI_SML, FAIL_NEXT, 0);
 
             if (progress_same_avail())
-                gui_start(jd, _("Retry Level"), GUI_SML, TIME_OUT_SAME, 0);
+                gui_start(jd, _("Retry Level"), GUI_SML, FAIL_SAME, 0);
 
             if (demo_saved())
-                gui_state(jd, _("Save Replay"), GUI_SML, TIME_OUT_SAVE, 0);
+                gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
         }
+
         gui_space(id);
 
         gui_pulse(kd, 1.2f);
         gui_layout(id, 0, 0);
     }
 
-    audio_music_fade_out(2.0f);
-    /* audio_play(AUD_TIME, 1.0f); */
-
-    video_clr_grab();
-
     return id;
 }
 
-static int time_out_keybd(int c, int d)
+static int fail_enter(struct state *st, struct state *prev)
+{
+    audio_music_fade_out(2.0f);
+    video_clr_grab();
+
+    /* Check if we came from a known previous state. */
+
+    resume = (prev == &st_fail || prev == &st_save);
+
+    /* Note the current status if we got here from elsewhere. */
+
+    if (!resume)
+        status = curr_status();
+
+    return fail_gui();
+}
+
+static void fail_timer(int id, float dt)
+{
+    if (status == GAME_FALL)
+    {
+        if (!resume && time_state() < 2.f)
+        {
+            game_server_step(dt);
+            game_client_sync(demo_fp);
+        }
+    }
+
+    gui_timer(id, dt);
+}
+
+static int fail_keybd(int c, int d)
 {
     if (d)
     {
@@ -120,31 +157,30 @@ static int time_out_keybd(int c, int d)
     return 1;
 }
 
-static int time_out_buttn(int b, int d)
+static int fail_buttn(int b, int d)
 {
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return time_out_action(gui_token(gui_click()));
+            return fail_action(gui_token(gui_click()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return time_out_action(TIME_OUT_BACK);
+            return fail_action(FAIL_BACK);
     }
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-struct state st_time_out = {
-    time_out_enter,
+struct state st_fail = {
+    fail_enter,
     shared_leave,
     shared_paint,
-    shared_timer,
+    fail_timer,
     shared_point,
     shared_stick,
     shared_angle,
     shared_click,
-    time_out_keybd,
-    time_out_buttn,
-    1, 0
+    fail_keybd,
+    fail_buttn
 };
 

@@ -155,24 +155,19 @@ static int score_card(const char  *title,
 
 /*---------------------------------------------------------------------------*/
 
-static int shared_stick_basic(int id, int a, int v)
+static int shared_stick_basic(int id, int a, float v, int bump)
 {
-    int jd = 0;
+    int jd;
 
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        jd = gui_stick(id, v, 0);
-    else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        jd = gui_stick(id, 0, v);
-
-    if (jd)
+    if ((jd = gui_stick(id, a, v, bump)))
         gui_pulse(jd, 1.2f);
 
     return jd;
 }
 
-static void shared_stick(int id, int a, int v)
+static void shared_stick(int id, int a, float v, int bump)
 {
-    shared_stick_basic(id, a, v);
+    shared_stick_basic(id, a, v, bump);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -194,7 +189,7 @@ static int title_action(int i)
     return 1;
 }
 
-static int title_enter(void)
+static int title_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
 
@@ -227,7 +222,7 @@ static int title_enter(void)
     return id;
 }
 
-static void title_leave(int id)
+static void title_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
@@ -290,7 +285,7 @@ static int course_action(int i)
     return 1;
 }
 
-static int course_enter(void)
+static int course_enter(struct state *st, struct state *prev)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
@@ -352,7 +347,7 @@ static int course_enter(void)
     return id;
 }
 
-static void course_leave(int id)
+static void course_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
@@ -385,11 +380,11 @@ static void course_point(int id, int x, int y, int dx, int dy)
     }
 }
 
-static void course_stick(int id, int a, int v)
+static void course_stick(int id, int a, float v, int bump)
 {
     int jd;
 
-    if ((jd = shared_stick_basic(id, a, v)))
+    if ((jd = shared_stick_basic(id, a, v, bump)))
     {
         int i = gui_token(jd);
 
@@ -460,7 +455,7 @@ static int party_action(int i)
     return 1;
 }
 
-static int party_enter(void)
+static int party_enter(struct state *st, struct state *prev)
 {
     int id, jd;
 
@@ -498,7 +493,7 @@ static int party_enter(void)
     return id;
 }
 
-static void party_leave(int id)
+static void party_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
@@ -576,7 +571,7 @@ static int pause_action(int i)
     return 1;
 }
 
-static int pause_enter(void)
+static int pause_enter(struct state *st, struct state *prev)
 {
     int id, jd, td;
 
@@ -601,7 +596,7 @@ static int pause_enter(void)
     return id;
 }
 
-static void pause_leave(int id)
+static void pause_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
     hud_free();
@@ -665,7 +660,7 @@ static int shared_keybd(int c, int d)
 
 static int num = 0;
 
-static int next_enter(void)
+static int next_enter(struct state *st, struct state *prev)
 {
     int id;
     char str[MAXSTR];
@@ -710,7 +705,7 @@ static int next_enter(void)
     return id;
 }
 
-static void next_leave(int id)
+static void next_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
     gui_delete(id);
@@ -774,7 +769,7 @@ static int next_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int poser_enter(void)
+static int poser_enter(struct state *st, struct state *prev)
 {
     game_set_fly(-1.f);
     return 0;
@@ -799,7 +794,7 @@ static int poser_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int flyby_enter(void)
+static int flyby_enter(struct state *st, struct state *prev)
 {
     if (paused)
         paused = 0;
@@ -809,7 +804,7 @@ static int flyby_enter(void)
     return 0;
 }
 
-static void flyby_leave(int id)
+static void flyby_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
 }
@@ -862,7 +857,7 @@ static int flyby_buttn(int b, int d)
 static int stroke_rotate = 0;
 static int stroke_mag    = 0;
 
-static int stroke_enter(void)
+static int stroke_enter(struct state *st, struct state *prev)
 {
     hud_init();
     game_clr_mag();
@@ -875,7 +870,7 @@ static int stroke_enter(void)
     return 0;
 }
 
-static void stroke_leave(int id)
+static void stroke_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
     video_clr_grab();
@@ -914,15 +909,12 @@ static void stroke_point(int id, int x, int y, int dx, int dy)
     game_set_mag(dy);
 }
 
-static void stroke_stick(int id, int a, int v)
+static void stroke_stick(int id, int a, float v, int bump)
 {
-    if (v == 1) /* See 'loop' in main.c */
-        v = 0;
-
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        stroke_rotate = (6 * v) / JOY_MAX;
+        stroke_rotate = 6 * v;
     else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        stroke_mag = -((6 * v) / JOY_MAX);
+        stroke_mag = -6 * v;
 }
 
 static int stroke_click(int b, int d)
@@ -944,7 +936,7 @@ static int stroke_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int roll_enter(void)
+static int roll_enter(struct state *st, struct state *prev)
 {
     hud_init();
 
@@ -956,7 +948,7 @@ static int roll_enter(void)
     return 0;
 }
 
-static void roll_leave(int id)
+static void roll_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
 }
@@ -991,7 +983,7 @@ static int roll_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int goal_enter(void)
+static int goal_enter(struct state *st, struct state *prev)
 {
     int id;
 
@@ -1008,7 +1000,7 @@ static int goal_enter(void)
     return id;
 }
 
-static void goal_leave(int id)
+static void goal_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
     hud_free();
@@ -1063,7 +1055,7 @@ static int goal_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int stop_enter(void)
+static int stop_enter(struct state *st, struct state *prev)
 {
     if (paused)
         paused = 0;
@@ -1075,7 +1067,7 @@ static int stop_enter(void)
     return 0;
 }
 
-static void stop_leave(int id)
+static void stop_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
 }
@@ -1133,7 +1125,7 @@ static int stop_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int fall_enter(void)
+static int fall_enter(struct state *st, struct state *prev)
 {
     int id;
 
@@ -1153,7 +1145,7 @@ static int fall_enter(void)
     return id;
 }
 
-static void fall_leave(int id)
+static void fall_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
     hud_free();
@@ -1208,7 +1200,7 @@ static int fall_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int score_enter(void)
+static int score_enter(struct state *st, struct state *prev)
 {
     audio_music_fade_out(2.f);
 
@@ -1218,7 +1210,7 @@ static int score_enter(void)
     return score_card(_("Scores"), gui_yel, gui_red);
 }
 
-static void score_leave(int id)
+static void score_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
@@ -1265,13 +1257,13 @@ static int score_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int over_enter(void)
+static int over_enter(struct state *st, struct state *prev)
 {
     audio_music_fade_out(2.f);
     return score_card(_("Final Scores"), gui_yel, gui_red);
 }
 
-static void over_leave(int id)
+static void over_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
@@ -1316,8 +1308,7 @@ struct state st_title = {
     NULL,
     title_click,
     NULL,
-    title_buttn,
-    1, 0
+    title_buttn
 };
 
 struct state st_course = {
@@ -1330,8 +1321,7 @@ struct state st_course = {
     NULL,
     course_click,
     NULL,
-    course_buttn,
-    1, 0
+    course_buttn
 };
 
 struct state st_party = {
@@ -1344,8 +1334,7 @@ struct state st_party = {
     NULL,
     party_click,
     NULL,
-    party_buttn,
-    1, 0
+    party_buttn
 };
 
 struct state st_next = {
@@ -1358,8 +1347,7 @@ struct state st_next = {
     NULL,
     next_click,
     next_keybd,
-    next_buttn,
-    1, 0
+    next_buttn
 };
 
 struct state st_poser = {
@@ -1372,8 +1360,7 @@ struct state st_poser = {
     NULL,
     NULL,
     NULL,
-    poser_buttn,
-    1, 0
+    poser_buttn
 };
 
 struct state st_flyby = {
@@ -1386,8 +1373,7 @@ struct state st_flyby = {
     NULL,
     flyby_click,
     shared_keybd,
-    flyby_buttn,
-    1, 0
+    flyby_buttn
 };
 
 struct state st_stroke = {
@@ -1400,8 +1386,7 @@ struct state st_stroke = {
     NULL,
     stroke_click,
     shared_keybd,
-    stroke_buttn,
-    0, 0
+    stroke_buttn
 };
 
 struct state st_roll = {
@@ -1414,8 +1399,7 @@ struct state st_roll = {
     NULL,
     NULL,
     shared_keybd,
-    roll_buttn,
-    0, 0
+    roll_buttn
 };
 
 struct state st_goal = {
@@ -1428,8 +1412,7 @@ struct state st_goal = {
     NULL,
     goal_click,
     shared_keybd,
-    goal_buttn,
-    0, 0
+    goal_buttn
 };
 
 struct state st_stop = {
@@ -1442,8 +1425,7 @@ struct state st_stop = {
     NULL,
     stop_click,
     shared_keybd,
-    stop_buttn,
-    0, 0
+    stop_buttn
 };
 
 struct state st_fall = {
@@ -1456,8 +1438,7 @@ struct state st_fall = {
     NULL,
     fall_click,
     shared_keybd,
-    fall_buttn,
-    0, 0
+    fall_buttn
 };
 
 struct state st_score = {
@@ -1470,8 +1451,7 @@ struct state st_score = {
     NULL,
     score_click,
     shared_keybd,
-    score_buttn,
-    0, 0
+    score_buttn
 };
 
 struct state st_over = {
@@ -1484,8 +1464,7 @@ struct state st_over = {
     NULL,
     over_click,
     NULL,
-    over_buttn,
-    1, 0
+    over_buttn
 };
 
 struct state st_pause = {
@@ -1498,6 +1477,5 @@ struct state st_pause = {
     NULL,
     pause_click,
     pause_keybd,
-    pause_buttn,
-    1, 0
+    pause_buttn
 };

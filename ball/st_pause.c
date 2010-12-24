@@ -23,35 +23,15 @@
 #include "game_common.h"
 
 #include "st_play.h"
-#include "st_over.h"
-#include "st_shared.h"
+#include "st_level.h"
 #include "st_pause.h"
+#include "st_shared.h"
 
 #define PAUSE_CONTINUE 1
 #define PAUSE_RESTART  2
 #define PAUSE_EXIT     3
 
-/*---------------------------------------------------------------------------*/
-
 static struct state *st_continue;
-static int paused;
-
-int goto_pause(void)
-{
-    st_continue = curr_state();
-    paused = 1;
-    return goto_state(&st_pause);
-}
-
-int is_paused(void)
-{
-    return paused;
-}
-
-void clear_pause(void)
-{
-    paused = 0;
-}
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,7 +49,6 @@ static int pause_action(int i)
     case PAUSE_RESTART:
         if (progress_same())
         {
-            clear_pause();
             SDL_PauseAudio(0);
             video_set_grab(1);
             return goto_state(&st_play_ready);
@@ -79,10 +58,9 @@ static int pause_action(int i)
     case PAUSE_EXIT:
         progress_stat(GAME_NONE);
         progress_stop();
-        clear_pause();
         SDL_PauseAudio(0);
         audio_music_stop();
-        return goto_state(&st_over);
+        return goto_state(&st_exit);
     }
 
     return 1;
@@ -90,12 +68,9 @@ static int pause_action(int i)
 
 /*---------------------------------------------------------------------------*/
 
-static int pause_enter(void)
+static int pause_gui(void)
 {
     int id, jd, title_id;
-
-    video_clr_grab();
-    SDL_PauseAudio(1);
 
     /* Build the pause GUI. */
 
@@ -119,9 +94,19 @@ static int pause_enter(void)
         gui_layout(id, 0, 0);
     }
 
+    return id;
+}
+
+static int pause_enter(struct state *st, struct state *prev)
+{
+    st_continue = prev;
+
+    video_clr_grab();
+    SDL_PauseAudio(1);
+
     hud_update(0);
 
-    return id;
+    return pause_gui();
 }
 
 static void pause_paint(int id, float t)
@@ -174,6 +159,5 @@ struct state st_pause = {
     shared_angle,
     shared_click,
     pause_keybd,
-    pause_buttn,
-    1, 0
+    pause_buttn
 };

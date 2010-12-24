@@ -17,12 +17,11 @@ enum
 int   game_client_init(const char *);
 void  game_client_free(void);
 void  game_client_sync(fs_file);
+void  game_client_draw(int, float);
 
 int   curr_clock(void);
 int   curr_coins(void);
 int   curr_status(void);
-
-void  game_draw(int, float);
 
 void  game_look(float, float);
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007  Neverball contributors
+ *  Copyright (C) 2007  Neverball authors
  *
  *  This  program is  free software;  you can  redistribute  it and/or
  *  modify it  under the  terms of the  GNU General Public  License as
@@ -208,7 +208,12 @@ int path_is_abs(const char *path)
     return 0;
 }
 
-static const char *path_last_sep(const char *path)
+char *path_join(const char *head, const char *tail)
+{
+    return *head ? concat_string(head, "/", tail, NULL) : strdup(tail);
+}
+
+const char *path_last_sep(const char *path)
 {
     const char *sep;
 
@@ -223,12 +228,25 @@ static const char *path_last_sep(const char *path)
     {
         const char *tmp;
 
-        if ((tmp = strrchr(sep, '\\')))
+        if ((tmp = strrchr(path, '\\')) && sep < tmp)
             sep = tmp;
     }
 #endif
 
     return sep;
+}
+
+const char *path_next_sep(const char *path)
+{
+    size_t skip;
+
+#ifdef _WIN32
+    skip = strcspn(path, "/\\");
+#else
+    skip = strcspn(path, "/");
+#endif
+
+    return *(path + skip) ? path + skip : NULL;
 }
 
 const char *base_name_sans(const char *name, const char *suffix)
@@ -243,7 +261,7 @@ const char *base_name_sans(const char *name, const char *suffix)
 
     /* Remove the directory part. */
 
-    strncpy(base, base_name(name), sizeof (base) - 1);
+    SAFECPY(base, base_name(name));
 
     /* Remove the suffix. */
 
@@ -268,7 +286,7 @@ const char *dir_name(const char *name)
 
     char *sep;
 
-    strncpy(buff, name, sizeof (buff) - 1);
+    SAFECPY(buff, name);
 
     if ((sep = (char *) path_last_sep(buff)))
     {
@@ -281,28 +299,6 @@ const char *dir_name(const char *name)
     }
 
     return ".";
-}
-
-/*
- * Given a path to a file REF and another path REL relative to REF,
- * construct and return a new path that can be used to refer to REL
- * directly.
- */
-char *path_resolve(const char *ref, const char *rel)
-{
-    static char new[MAXSTR * 2];
-
-    if (path_is_abs(rel))
-    {
-        strncpy(new, rel, sizeof (new) - 1);
-        return new;
-    }
-
-    strncpy(new, dir_name(ref), sizeof (new) - 1);
-    strncat(new, "/",           sizeof (new) - strlen(new) - 1);
-    strncat(new, rel,           sizeof (new) - strlen(new) - 1);
-
-    return new;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -351,7 +351,7 @@ static void sol_draw_list(const struct s_file *fp,
     float p[3], e[4], u[3], a;
 
     sol_body_p(p, fp, bp->pi, bp->t);
-    sol_body_e(e, fp, bp);
+    sol_body_e(e, fp, bp, 0);
 
     q_as_axisangle(e, u, &a);
     a = V_DEG(a);
@@ -516,7 +516,7 @@ static void sol_shad_list(const struct s_file *fp,
     float p[3], e[4], u[3], a;
 
     sol_body_p(p, fp, bp->pi, bp->t);
-    sol_body_e(e, fp, bp);
+    sol_body_e(e, fp, bp, 0);
 
     q_as_axisangle(e, u, &a);
     a = V_DEG(a);
@@ -738,6 +738,8 @@ void sol_free_gl(struct s_file *fp)
             glDeleteLists(fp->bv[i].tl, 1);
         if (glIsList(fp->bv[i].rl))
             glDeleteLists(fp->bv[i].rl, 1);
+        if (glIsList(fp->bv[i].sl))
+            glDeleteLists(fp->bv[i].sl, 1);
     }
 
     sol_free(fp);

@@ -20,7 +20,6 @@
 #include "demo.h"
 #include "audio.h"
 #include "config.h"
-#include "st_shared.h"
 #include "cmd.h"
 #include "demo_dir.h"
 
@@ -35,6 +34,7 @@
 #include "st_conf.h"
 #include "st_set.h"
 #include "st_name.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -139,7 +139,7 @@ static int title_action(int i)
     return 1;
 }
 
-static int title_enter(void)
+static int title_gui(void)
 {
     int id, jd, kd;
 
@@ -175,6 +175,11 @@ static int title_enter(void)
         gui_layout(id, 0, 0);
     }
 
+    return id;
+}
+
+static int title_enter(struct state *st, struct state *prev)
+{
     /* Start the title screen music. */
 
     audio_music_fade_to(0.5f, "bgm/title.ogg");
@@ -188,10 +193,10 @@ static int title_enter(void)
 
     SDL_EnableUNICODE(1);
 
-    return id;
+    return title_gui();
 }
 
-static void title_leave(int id)
+static void title_leave(struct state *st, struct state *next, int id)
 {
     if (items)
     {
@@ -307,7 +312,6 @@ struct state st_title = {
     shared_angle,
     shared_click,
     title_keybd,
-    title_buttn,
-    1, 0
+    title_buttn
 };
 

@@ -16,31 +16,31 @@
 
 /*---------------------------------------------------------------------------*/
 
-void mark_init(int);
+void mark_init(void);
 void mark_free(void);
 void mark_draw(void);
 
 /*---------------------------------------------------------------------------*/
 
-void goal_init(int);
+void goal_init(void);
 void goal_free(void);
 void goal_draw(void);
 
 /*---------------------------------------------------------------------------*/
 
-void jump_init(int);
+void jump_init(void);
 void jump_free(void);
 void jump_draw(int);
 
 /*---------------------------------------------------------------------------*/
 
-void swch_init(int);
+void swch_init(void);
 void swch_free(void);
 void swch_draw(int, int);
 
 /*---------------------------------------------------------------------------*/
 
-void flag_init(int);
+void flag_init(void);
 void flag_free(void);
 void flag_draw(void);
 

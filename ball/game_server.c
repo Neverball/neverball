@@ -62,27 +62,15 @@ static float jump_w[3];                 /* View destination                  */
 /*
  * This is an abstraction of the game's input state.  All input is
  * encapsulated here, and all references to the input by the game are
- * made here.  TODO: This used to have the effect of homogenizing
- * input for use in replay recording and playback, but it's not clear
- * how relevant this approach is with the introduction of the command
- * pipeline.
- *
- * x and z:
- *     -32767 = -ANGLE_BOUND
- *     +32767 = +ANGLE_BOUND
- *
- * r:
- *     -32767 = -VIEWR_BOUND
- *     +32767 = +VIEWR_BOUND
- *
+ * made here.
  */
 
 struct input
 {
-    short x;
-    short z;
-    short r;
-    short c;
+    float x;
+    float z;
+    float r;
+    int   c;
 };
 
 static struct input input_current;
@@ -100,7 +88,7 @@ static void input_set_x(float x)
     if (x < -ANGLE_BOUND) x = -ANGLE_BOUND;
     if (x >  ANGLE_BOUND) x =  ANGLE_BOUND;
 
-    input_current.x = (short) (32767.0f * x / ANGLE_BOUND);
+    input_current.x = x;
 }
 
 static void input_set_z(float z)
@@ -108,7 +96,7 @@ static void input_set_z(float z)
     if (z < -ANGLE_BOUND) z = -ANGLE_BOUND;
     if (z >  ANGLE_BOUND) z =  ANGLE_BOUND;
 
-    input_current.z = (short) (32767.0f * z / ANGLE_BOUND);
+    input_current.z = z;
 }
 
 static void input_set_r(float r)
@@ -116,60 +104,32 @@ static void input_set_r(float r)
     if (r < -VIEWR_BOUND) r = -VIEWR_BOUND;
     if (r >  VIEWR_BOUND) r =  VIEWR_BOUND;
 
-    input_current.r = (short) (32767.0f * r / VIEWR_BOUND);
+    input_current.r = r;
 }
 
 static void input_set_c(int c)
 {
-    input_current.c = (short) c;
+    input_current.c = c;
 }
 
 static float input_get_x(void)
 {
-    return ANGLE_BOUND * (float) input_current.x / 32767.0f;
+    return input_current.x;
 }
 
 static float input_get_z(void)
 {
-    return ANGLE_BOUND * (float) input_current.z / 32767.0f;
+    return input_current.z;
 }
 
 static float input_get_r(void)
 {
-    return VIEWR_BOUND * (float) input_current.r / 32767.0f;
+    return input_current.r;
 }
 
 static int input_get_c(void)
 {
-    return (int) input_current.c;
-}
-
-int input_put(fs_file fout)
-{
-    if (server_state)
-    {
-        put_short(fout, &input_current.x);
-        put_short(fout, &input_current.z);
-        put_short(fout, &input_current.r);
-        put_short(fout, &input_current.c);
-
-        return 1;
-    }
-    return 0;
-}
-
-int input_get(fs_file fin)
-{
-    if (server_state)
-    {
-        get_short(fin, &input_current.x);
-        get_short(fin, &input_current.z);
-        get_short(fin, &input_current.r);
-        get_short(fin, &input_current.c);
-
-        return (fs_eof(fin) ? 0 : 1);
-    }
-    return 0;
+    return input_current.c;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -456,6 +416,8 @@ static void grow_step(const struct s_file *fp, float dt)
 
 /*---------------------------------------------------------------------------*/
 
+static struct lockstep server_step;
+
 int game_server_init(const char *file_name, int t, int e)
 {
     struct
@@ -529,6 +491,18 @@ int game_server_init(const char *file_name, int t, int e)
 
     game_cmd_init_balls();
     game_cmd_init_items();
+
+    /* Store the initial view. */
+
+    game_server_fly(0.0f);
+
+    /* End first update. */
+
+    game_cmd_eou();
+
+    /* Reset lockstep state. */
+
+    lockstep_clr(&server_step);
 
     return server_state;
 }
@@ -679,12 +653,13 @@ static int game_update_state(int bt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, 0))
+    if (sol_swch_test(fp, 0) == SWCH_TRIGGER)
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
-    if (jump_e == 1 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 1)
+    if (jump_e == 1 && jump_b == 0 && (sol_jump_test(fp, jump_p, 0) ==
+                                       JUMP_TRIGGER))
     {
         jump_b  = 1;
         jump_e  = 0;
@@ -697,7 +672,8 @@ static int game_update_state(int bt)
 
         game_cmd_jump(1);
     }
-    if (jump_e == 0 && jump_b == 0 && sol_jump_test(fp, jump_p, 0) == 0)
+    if (jump_e == 0 && jump_b == 0 && (sol_jump_test(fp, jump_p, 0) ==
+                                       JUMP_OUTSIDE))
     {
         jump_e = 1;
         game_cmd_jump(0);
@@ -798,23 +774,27 @@ static int game_step(const float g[3], float dt, int bt)
     return GAME_NONE;
 }
 
-void game_server_step(float dt)
+static void game_server_iter(float dt)
 {
-    static const float gup[] = { 0.0f, +9.8f, 0.0f };
-    static const float gdn[] = { 0.0f, -9.8f, 0.0f };
-
     switch (status)
     {
-    case GAME_GOAL: game_step(gup, dt, 0); break;
-    case GAME_FALL: game_step(gdn, dt, 0); break;
+    case GAME_GOAL: game_step(GRAVITY_UP, dt, 0); break;
+    case GAME_FALL: game_step(GRAVITY_DN, dt, 0); break;
 
     case GAME_NONE:
-        if ((status = game_step(gdn, dt, 1)) != GAME_NONE)
+        if ((status = game_step(GRAVITY_DN, dt, 1)) != GAME_NONE)
             game_cmd_status();
         break;
     }
 
     game_cmd_eou();
+}
+
+static struct lockstep server_step = { game_server_iter, DT };
+
+void game_server_step(float dt)
+{
+    lockstep_run(&server_step, dt);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -834,14 +814,14 @@ void game_clr_goal(void)
 
 /*---------------------------------------------------------------------------*/
 
-void game_set_x(int k)
+void game_set_x(float k)
 {
-    input_set_x(-ANGLE_BOUND * k / JOY_MAX);
+    input_set_x(-ANGLE_BOUND * k);
 }
 
-void game_set_z(int k)
+void game_set_z(float k)
 {
-    input_set_z(+ANGLE_BOUND * k / JOY_MAX);
+    input_set_z(+ANGLE_BOUND * k);
 }
 
 void game_set_ang(int x, int z)
@@ -852,8 +832,10 @@ void game_set_ang(int x, int z)
 
 void game_set_pos(int x, int y)
 {
-    input_set_x(input_get_x() + 40.0f * y / config_get_d(CONFIG_MOUSE_SENSE));
-    input_set_z(input_get_z() + 40.0f * x / config_get_d(CONFIG_MOUSE_SENSE));
+    const float range = ANGLE_BOUND * 2;
+
+    input_set_x(input_get_x() + range * y / config_get_d(CONFIG_MOUSE_SENSE));
+    input_set_z(input_get_z() + range * x / config_get_d(CONFIG_MOUSE_SENSE));
 }
 
 void game_set_cam(int c)

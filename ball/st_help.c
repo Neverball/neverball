@@ -22,21 +22,21 @@
 #include "game_server.h"
 #include "game_client.h"
 
-#include "st_shared.h"
 #include "st_title.h"
 #include "st_help.h"
+#include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
 
-#define HELP_BACK   0
-#define HELP_RULE   1
-#define HELP_CONT   2
-#define HELP_MODE   3
-#define HELP_TECH   4
-#define HELP_DEMO_1 6
-#define HELP_DEMO_2 7
+#define HELP_BACK     0
+#define HELP_RULES    1
+#define HELP_CONTROLS 2
+#define HELP_MODES    3
+#define HELP_TRICKS   4
+#define HELP_DEMO_1   6
+#define HELP_DEMO_2   7
 
-static int tab = HELP_RULE;
+static int tab = HELP_RULES;
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,7 +47,7 @@ static int help_action(int t)
     switch (t)
     {
     case HELP_BACK:
-        tab = HELP_RULE;
+        tab = HELP_RULES;
         return goto_state(&st_title);
         break;
 
@@ -89,11 +89,11 @@ static int help_menu(int id)
 
     if ((jd = gui_harray(id)))
     {
-        help_button(jd, _("Techniques"), HELP_TECH);
-        help_button(jd, _("Modes"),      HELP_MODE);
-        help_button(jd, _("Controls"),   HELP_CONT);
-        help_button(jd, _("Rules"),      HELP_RULE);
-        help_button(jd, _("Back"),       HELP_BACK);
+        help_button(jd, _("Tricks"),   HELP_TRICKS);
+        help_button(jd, _("Modes"),    HELP_MODES);
+        help_button(jd, _("Controls"), HELP_CONTROLS);
+        help_button(jd, _("Rules"),    HELP_RULES);
+        help_button(jd, _("Back"),     HELP_BACK);
     }
     return jd;
 }
@@ -257,7 +257,7 @@ static int help_modes(int id)
     return id;
 }
 
-static int help_techniques(int id)
+static int help_tricks(int id)
 {
     const char *s0 = _(
         "Corners can be used to jump.\\"
@@ -328,7 +328,7 @@ static int help_techniques(int id)
 
 /* -------------------------------------------------------------------------- */
 
-static int help_enter(void)
+static int help_gui(void)
 {
     int id;
 
@@ -338,10 +338,10 @@ static int help_enter(void)
 
         switch (tab)
         {
-        case HELP_RULE: help_rules(id);      break;
-        case HELP_CONT: help_controls(id);   break;
-        case HELP_MODE: help_modes(id);      break;
-        case HELP_TECH: help_techniques(id); break;
+        case HELP_RULES:    help_rules(id);    break;
+        case HELP_CONTROLS: help_controls(id); break;
+        case HELP_MODES:    help_modes(id);    break;
+        case HELP_TRICKS:   help_tricks(id);   break;
 
         default:
             break;
@@ -349,7 +349,13 @@ static int help_enter(void)
 
         gui_layout(id, 0, +1);
     }
+
     return id;
+}
+
+static int help_enter(struct state *st, struct state *prev)
+{
+    return help_gui();
 }
 
 static int help_buttn(int b, int d)
@@ -366,20 +372,20 @@ static int help_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int help_demo_enter(void)
+static int help_demo_enter(struct state *st, struct state *prev)
 {
     game_client_fly(0.0f);
     return 0;
 }
 
-static void help_demo_leave(int id)
+static void help_demo_leave(struct state *st, struct state *next, int id)
 {
     demo_replay_stop(0);
 }
 
 static void help_demo_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
 }
 
 static void help_demo_timer(int id, float dt)
@@ -411,8 +417,7 @@ struct state st_help = {
     shared_angle,
     shared_click,
     NULL,
-    help_buttn,
-    1, 0
+    help_buttn
 };
 
 struct state st_help_demo = {
@@ -425,6 +430,5 @@ struct state st_help_demo = {
     NULL,
     NULL,
     NULL,
-    help_demo_buttn,
-    1, 0
+    help_demo_buttn
 };

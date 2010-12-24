@@ -12,7 +12,7 @@
 "time_hs" "12000 13000"
 "goal_hs" "13000 14000"
 "coin_hs" "57 50"
-"message" "Rainbow Road.\Make 3 laps to open the goal."
+"message" "Rainbow Road.\Do 3 laps to open the goal."
 "bonus" "1"
 // brush 0
 {

@@ -34,7 +34,6 @@ void set_store_hs(void);
 
 /*---------------------------------------------------------------------------*/
 
-int set_level_exists(int, int);
 struct level *get_level(int);
 
 void level_snap(int, const char *);

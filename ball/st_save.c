@@ -26,11 +26,8 @@
 
 #include "game_common.h"
 
-#include "st_shared.h"
 #include "st_save.h"
-
-extern struct state st_save;
-extern struct state st_clobber;
+#include "st_shared.h"
 
 static char filename[MAXSTR];
 
@@ -47,7 +44,7 @@ int goto_save(struct state *ok, struct state *cancel)
                             set_id(curr_set()),
                             level_name(curr_level()));
 
-    strncpy(filename, name, sizeof (filename) - 1);
+    SAFECPY(filename, name);
 
     ok_state     = ok;
     cancel_state = cancel;
@@ -105,7 +102,7 @@ static int save_action(int i)
 
 static int enter_id;
 
-static int save_enter(void)
+static int save_gui(void)
 {
     int id, jd;
 
@@ -133,12 +130,17 @@ static int save_enter(void)
         gui_set_label(file_id, filename);
     }
 
-    SDL_EnableUNICODE(1);
-
     return id;
 }
 
-static void save_leave(int id)
+static int save_enter(struct state *st, struct state *prev)
+{
+    SDL_EnableUNICODE(1);
+
+    return save_gui();
+}
+
+static void save_leave(struct state *st, struct state *next, int id)
 {
     SDL_EnableUNICODE(0);
     gui_delete(id);
@@ -191,7 +193,7 @@ static int clobber_action(int i)
     return goto_state(&st_save);
 }
 
-static int clobber_enter(void)
+static int clobber_gui(void)
 {
     int id, jd, kd;
     int file_id;
@@ -218,6 +220,11 @@ static int clobber_enter(void)
     return id;
 }
 
+static int clobber_enter(struct state *st, struct state *prev)
+{
+    return clobber_gui();
+}
+
 static int clobber_buttn(int b, int d)
 {
     if (d)
@@ -242,8 +249,7 @@ struct state st_save = {
     shared_angle,
     shared_click,
     save_keybd,
-    save_buttn,
-    1, 0
+    save_buttn
 };
 
 struct state st_clobber = {
@@ -256,6 +262,5 @@ struct state st_clobber = {
     shared_angle,
     shared_click,
     NULL,
-    clobber_buttn,
-    1, 0
+    clobber_buttn
 };

@@ -28,10 +28,9 @@
 
 #include "st_play.h"
 #include "st_goal.h"
-#include "st_fall_out.h"
-#include "st_time_out.h"
-#include "st_over.h"
+#include "st_fail.h"
 #include "st_pause.h"
+#include "st_level.h"
 #include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
@@ -40,7 +39,7 @@ static int pause_or_exit(void)
 {
     if (config_tst_d(CONFIG_KEY_PAUSE, SDLK_ESCAPE))
     {
-        return goto_pause();
+        return goto_state(&st_pause);
     }
     else
     {
@@ -49,7 +48,7 @@ static int pause_or_exit(void)
 
         video_clr_grab();
 
-        return goto_state(&st_over);
+        return goto_state(&st_exit);
     }
 }
 
@@ -110,7 +109,7 @@ static void buttn_camera(int b)
 
 /*---------------------------------------------------------------------------*/
 
-static int play_ready_enter(void)
+static int play_ready_gui(void)
 {
     int id;
 
@@ -120,17 +119,22 @@ static int play_ready_enter(void)
         gui_pulse(id, 1.2f);
     }
 
+    return id;
+}
+
+static int play_ready_enter(struct state *st, struct state *prev)
+{
     audio_play(AUD_READY, 1.0f);
     video_set_grab(1);
 
     hud_view_pulse(config_get_d(CONFIG_CAMERA));
 
-    return id;
+    return play_ready_gui();
 }
 
 static void play_ready_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
     hud_view_paint();
     gui_paint(id);
 }
@@ -168,7 +172,7 @@ static int play_ready_keybd(int c, int d)
         keybd_camera(c);
 
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
-            goto_pause();
+            goto_state(&st_pause);
     }
     return 1;
 }
@@ -189,7 +193,7 @@ static int play_ready_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int play_set_enter(void)
+static int play_set_gui(void)
 {
     int id;
 
@@ -199,16 +203,19 @@ static int play_set_enter(void)
         gui_pulse(id, 1.2f);
     }
 
+    return id;
+}
+
+static int play_set_enter(struct state *st, struct state *prev)
+{
     audio_play(AUD_SET, 1.f);
 
-    clear_pause();
-
-    return id;
+    return play_set_gui();
 }
 
 static void play_set_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
     hud_view_paint();
     gui_paint(id);
 }
@@ -246,7 +253,7 @@ static int play_set_keybd(int c, int d)
         keybd_camera(c);
 
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
-            goto_pause();
+            goto_state(&st_pause);
     }
     return 1;
 }
@@ -292,20 +299,9 @@ struct
 static int fast_rotate;
 static int show_hud;
 
-static int play_loop_enter(void)
+static int play_loop_gui(void)
 {
-    union cmd cmd;
     int id;
-
-    VIEWR_SET_R(0);
-    VIEWR_SET_L(0);
-    fast_rotate = 0;
-
-    if (is_paused())
-    {
-        clear_pause();
-        return 0;
-    }
 
     if ((id = gui_label(0, _("GO!"), GUI_LRG, GUI_ALL, gui_blu, gui_grn)))
     {
@@ -313,26 +309,31 @@ static int play_loop_enter(void)
         gui_pulse(id, 1.2f);
     }
 
+    return id;
+}
+
+static int play_loop_enter(struct state *st, struct state *prev)
+{
+    VIEWR_SET_R(0);
+    VIEWR_SET_L(0);
+    fast_rotate = 0;
+
+    if (prev == &st_pause)
+        return 0;
+
     audio_play(AUD_GO, 1.f);
 
-    game_server_fly(0.0f);
-
-    /* End first update. */
-
-    cmd.type = CMD_END_OF_UPDATE;
-    game_proxy_enq(&cmd);
-    game_client_sync(demo_file());
+    game_client_fly(0.0f);
 
     show_hud = 1;
-
     hud_update(0);
 
-    return id;
+    return play_loop_gui();
 }
 
 static void play_loop_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
 
     if (show_hud)
         hud_paint();
@@ -357,26 +358,23 @@ static void play_loop_timer(int id, float dt)
     game_step_fade(dt);
 
     game_server_step(dt);
-    game_client_sync(demo_file());
+    game_client_sync(demo_fp);
 
     switch (curr_status())
     {
     case GAME_GOAL:
         progress_stat(GAME_GOAL);
-        gui_stuck();
         goto_state(&st_goal);
         break;
 
     case GAME_FALL:
         progress_stat(GAME_FALL);
-        gui_stuck();
-        goto_state(&st_fall_out);
+        goto_state(&st_fail);
         break;
 
     case GAME_TIME:
         progress_stat(GAME_TIME);
-        gui_stuck();
-        goto_state(&st_time_out);
+        goto_state(&st_fail);
         break;
 
     default:
@@ -390,16 +388,14 @@ static void play_loop_point(int id, int x, int y, int dx, int dy)
     game_set_pos(dx, dy);
 }
 
-static void play_loop_stick(int id, int a, int k)
+static void play_loop_stick(int id, int a, float v, int bump)
 {
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        game_set_z(k);
+        game_set_z(v);
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        game_set_x(k);
+        game_set_x(v);
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_U, a))
     {
-        float v = (float) k / 32768.0f;
-
         VIEWR_SET_R(0);
         VIEWR_SET_L(0);
 
@@ -450,7 +446,7 @@ static int play_loop_keybd(int c, int d)
                 goto_state(&st_play_ready);
         }
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
-            goto_pause();
+            goto_state(&st_pause);
     }
     else
     {
@@ -509,20 +505,20 @@ static int play_loop_buttn(int b, int d)
 static float phi;
 static float theta;
 
-static int look_enter(void)
+static int look_enter(struct state *st, struct state *prev)
 {
     phi   = 0;
     theta = 0;
     return 0;
 }
 
-static void look_leave(int id)
+static void look_leave(struct state *st, struct state *next, int id)
 {
 }
 
 static void look_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
 }
 
 static void look_point(int id, int x, int y, int dx, int dy)
@@ -567,8 +563,7 @@ struct state st_play_ready = {
     NULL,
     play_ready_click,
     play_ready_keybd,
-    play_ready_buttn,
-    1, 0
+    play_ready_buttn
 };
 
 struct state st_play_set = {
@@ -581,8 +576,7 @@ struct state st_play_set = {
     NULL,
     play_set_click,
     play_set_keybd,
-    play_set_buttn,
-    1, 0
+    play_set_buttn
 };
 
 struct state st_play_loop = {
@@ -595,8 +589,7 @@ struct state st_play_loop = {
     shared_angle,
     play_loop_click,
     play_loop_keybd,
-    play_loop_buttn,
-    0, 0
+    play_loop_buttn
 };
 
 struct state st_look = {
@@ -609,6 +602,5 @@ struct state st_look = {
     NULL,
     NULL,
     look_keybd,
-    look_buttn,
-    0, 0
+    look_buttn
 };

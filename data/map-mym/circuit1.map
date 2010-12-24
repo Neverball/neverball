@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "La course effrénée.\Let's make some laps."
+"message" "La course effrénée.\Let's run some laps."
 "author" "Mehdi Yousfi-Monod"
 "version" "1.1"
 "back" "map-back/city.sol"

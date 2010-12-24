@@ -32,7 +32,6 @@ int CONFIG_HEIGHT;
 int CONFIG_STEREO;
 int CONFIG_CAMERA;
 int CONFIG_TEXTURES;
-int CONFIG_GEOMETRY;
 int CONFIG_REFLECTION;
 int CONFIG_MULTISAMPLE;
 int CONFIG_MIPMAP;
@@ -97,7 +96,6 @@ int CONFIG_ROTATE_FAST;
 int CONFIG_ROTATE_SLOW;
 int CONFIG_CHEAT;
 int CONFIG_STATS;
-int CONFIG_UNIFORM;
 int CONFIG_SCREENSHOT;
 int CONFIG_LOCK_GOALS;
 
@@ -123,7 +121,6 @@ static struct
     { &CONFIG_STEREO,       "stereo",       0 },
     { &CONFIG_CAMERA,       "camera",       0 },
     { &CONFIG_TEXTURES,     "textures",     1 },
-    { &CONFIG_GEOMETRY,     "geometry",     1 },
     { &CONFIG_REFLECTION,   "reflection",   1 },
     { &CONFIG_MULTISAMPLE,  "multisample",  0 },
     { &CONFIG_MIPMAP,       "mipmap",       0 },
@@ -193,7 +190,6 @@ static struct
     { &CONFIG_ROTATE_SLOW, "rotate_slow", 150 },
     { &CONFIG_CHEAT,       "cheat",       0 },
     { &CONFIG_STATS,       "stats",       0 },
-    { &CONFIG_UNIFORM,     "uniform",     0 },
     { &CONFIG_SCREENSHOT,  "screenshot",  0 },
     { &CONFIG_LOCK_GOALS,  "lock_goals",  0 }
 };

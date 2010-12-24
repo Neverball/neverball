@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007  Neverball contributors
+ *  Copyright (C) 2007  Neverball authors
  *
  *  This  program is  free software;  you can  redistribute  it and/or
  *  modify it  under the  terms of the  GNU General Public  License as
@@ -31,9 +31,15 @@
 #endif
 
 #define ARRAYSIZE(a) (sizeof (a) / sizeof ((a)[0]))
+#define MAXSTRLEN(a) (sizeof (a) - 1)
 
 #define MIN(x, y) ((x) < (y) ? (x) : (y))
 #define MAX(x, y) ((x) > (y) ? (x) : (y))
+
+#define SAFECPY(dst, src) (strncpy((dst), (src), MAXSTRLEN(dst)))
+#define SAFECAT(dst, src) (strncat((dst), \
+                                   (src), \
+                                   MAX(0, MAXSTRLEN(dst) - strlen(dst))))
 
 int   read_line(char **, fs_file);
 char *strip_newline(char *);
@@ -59,11 +65,14 @@ void file_copy(FILE *fin, FILE *fout);
 int path_is_sep(int);
 int path_is_abs(const char *);
 
+char *path_join(const char *, const char *);
+
+const char *path_last_sep(const char *);
+const char *path_next_sep(const char *);
+
 const char *base_name(const char *name);
 const char *base_name_sans(const char *name, const char *suffix);
 const char *dir_name(const char *name);
-
-char *path_resolve(const char *ref, const char *rel);
 
 int rand_between(int low, int high);
 

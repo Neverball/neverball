@@ -60,6 +60,9 @@ const char *view_to_str(int);
 
 /*---------------------------------------------------------------------------*/
 
+extern const float GRAVITY_UP[];
+extern const float GRAVITY_DN[];
+
 struct game_tilt
 {
     float x[3], rx;
@@ -87,6 +90,28 @@ struct game_view
 
 void game_view_init(struct game_view *);
 void game_view_fly(struct game_view *, const struct s_file *, float);
+
+/*---------------------------------------------------------------------------*/
+
+#define UPS 90
+#define DT  (1.0f / (float) UPS)
+
+/*
+ * Simple fixed time step scheme.
+ */
+
+struct lockstep
+{
+    void (*step)(float);
+
+    float dt;                           /* Time step length                  */
+    float at;                           /* Accumulator                       */
+    float ts;                           /* Time scale factor                 */
+};
+
+void lockstep_clr(struct lockstep *);
+void lockstep_run(struct lockstep *, float);
+void lockstep_scl(struct lockstep *, float);
 
 /*---------------------------------------------------------------------------*/
 

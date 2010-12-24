@@ -23,14 +23,14 @@
 
 #include "st_shared.h"
 
-void shared_leave(int id)
+void shared_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
 
 void shared_paint(int id, float t)
 {
-    game_draw(0, t);
+    game_client_draw(0, t);
     gui_paint(id);
 }
 
@@ -41,11 +41,9 @@ void shared_timer(int id, float dt)
 
 int shared_point_basic(int id, int x, int y)
 {
-    /* Pulse, activate and return the active id (if changed) */
+    int jd;
 
-    int jd = gui_point(id, x, y);
-
-    if (jd)
+    if ((jd = gui_point(id, x, y)))
         gui_pulse(jd, 1.2f);
 
     return jd;
@@ -56,25 +54,19 @@ void shared_point(int id, int x, int y, int dx, int dy)
     shared_point_basic(id, x, y);
 }
 
-int shared_stick_basic(int id, int a, int v)
+int shared_stick_basic(int id, int a, float v, int bump)
 {
-    /* Pulse, activate and return the active id (if changed) */
+    int jd;
 
-    int jd = 0;
-
-    if      (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        jd = gui_stick(id, v, 0);
-    else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        jd = gui_stick(id, 0, v);
-    if (jd)
+    if ((jd = gui_stick(id, a, v, bump)))
         gui_pulse(jd, 1.2f);
 
     return jd;
 }
 
-void shared_stick(int id, int a, int v)
+void shared_stick(int id, int a, float v, int bump)
 {
-    shared_stick_basic(id, a, v);
+    shared_stick_basic(id, a, v, bump);
 }
 
 void shared_angle(int id, int x, int z)

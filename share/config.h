@@ -38,7 +38,6 @@ extern int CONFIG_HEIGHT;
 extern int CONFIG_STEREO;
 extern int CONFIG_CAMERA;
 extern int CONFIG_TEXTURES;
-extern int CONFIG_GEOMETRY;
 extern int CONFIG_REFLECTION;
 extern int CONFIG_MULTISAMPLE;
 extern int CONFIG_MIPMAP;
@@ -103,7 +102,6 @@ extern int CONFIG_ROTATE_FAST;
 extern int CONFIG_ROTATE_SLOW;
 extern int CONFIG_CHEAT;
 extern int CONFIG_STATS;
-extern int CONFIG_UNIFORM;
 extern int CONFIG_SCREENSHOT;
 extern int CONFIG_LOCK_GOALS;
 

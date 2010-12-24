@@ -42,7 +42,8 @@
 /*---------------------------------------------------------------------------*/
 
 static const char *input_file;
-static int         debug_output = 0;
+static int         debug_output;
+static int         verbose;
 
 /*---------------------------------------------------------------------------*/
 
@@ -437,7 +438,7 @@ static int read_mtrl(struct s_file *fp, const char *name)
 
         fs_close(fin);
     }
-    else
+    else if (verbose)
         fprintf(stderr, "%s: unknown material \"%s\"\n", input_file, name);
 
     return mi;
@@ -2496,6 +2497,8 @@ int main(int argc, char *argv[])
                 fs_error());
         return 1;
     }
+
+    verbose = !!getenv("MAPC_VERBOSE");
 
     if (argc > 2)
     {

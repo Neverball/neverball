@@ -93,7 +93,12 @@ ALL_CPPFLAGS += $(CPPFLAGS)
 
 SDL_LIBS := $(shell sdl-config --libs)
 PNG_LIBS := $(shell libpng-config --libs)
+
+ifeq ($(ENABLE_FS),stdio)
+FS_LIBS :=
+else
 FS_LIBS := -lphysfs
+endif
 
 # The  non-conditionalised values  below  are specific  to the  native
 # system. The native system of this Makefile is Linux (or GNU+Linux if
@@ -165,11 +170,12 @@ MAPC_OBJS := \
 	share/binary.o      \
 	share/base_config.o \
 	share/common.o      \
-	share/fs.o          \
+	share/fs_common.o   \
 	share/fs_png.o      \
 	share/fs_jpg.o      \
 	share/dir.o         \
 	share/array.o       \
+	share/list.o        \
 	share/mapc.o
 BALL_OBJS := \
 	share/lang.o        \
@@ -202,7 +208,7 @@ BALL_OBJS := \
 	share/cmd.o         \
 	share/array.o       \
 	share/dir.o         \
-	share/fs.o          \
+	share/fs_common.o   \
 	share/fs_png.o      \
 	share/fs_jpg.o      \
 	share/fs_rwops.o    \
@@ -213,6 +219,7 @@ BALL_OBJS := \
 	ball/game_client.o  \
 	ball/game_server.o  \
 	ball/game_proxy.o   \
+	ball/game_draw.o    \
 	ball/score.o        \
 	ball/level.o        \
 	ball/progress.o     \
@@ -220,12 +227,12 @@ BALL_OBJS := \
 	ball/demo.o         \
 	ball/demo_dir.o     \
 	ball/util.o         \
+	ball/speed.o        \
 	ball/st_conf.o      \
 	ball/st_demo.o      \
 	ball/st_save.o      \
 	ball/st_goal.o      \
-	ball/st_fall_out.o  \
-	ball/st_time_out.o  \
+	ball/st_fail.o      \
 	ball/st_done.o      \
 	ball/st_level.o     \
 	ball/st_over.o      \
@@ -264,7 +271,7 @@ PUTT_OBJS := \
 	share/common.o      \
 	share/syswm.o       \
 	share/list.o        \
-	share/fs.o          \
+	share/fs_common.o   \
 	share/fs_png.o      \
 	share/fs_jpg.o      \
 	share/fs_rwops.o    \
@@ -282,6 +289,16 @@ PUTT_OBJS := \
 
 BALL_OBJS += share/solid_sim_sol.o
 PUTT_OBJS += share/solid_sim_sol.o
+
+ifeq ($(ENABLE_FS),stdio)
+BALL_OBJS += share/fs_stdio.o
+PUTT_OBJS += share/fs_stdio.o
+MAPC_OBJS += share/fs_stdio.o
+else
+BALL_OBJS += share/fs_physfs.o
+PUTT_OBJS += share/fs_physfs.o
+MAPC_OBJS += share/fs_physfs.o
+endif
 
 ifeq ($(ENABLE_TILT),wii)
 BALL_OBJS += share/tilt_wii.o

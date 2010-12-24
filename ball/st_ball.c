@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2003-2010 Neverball authors
+ *
+ * NEVERBALL is  free software; you can redistribute  it and/or modify
+ * it under the  terms of the GNU General  Public License as published
+ * by the Free  Software Foundation; either version 2  of the License,
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT  ANY  WARRANTY;  without   even  the  implied  warranty  of
+ * MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.   See the GNU
+ * General Public License for more details.
+ */
+
 #include "gui.h"
 #include "state.h"
 #include "array.h"
@@ -18,8 +32,8 @@
 #include "game_common.h"
 
 #include "st_ball.h"
-#include "st_shared.h"
 #include "st_conf.h"
+#include "st_shared.h"
 
 enum
 {
@@ -68,7 +82,7 @@ static void scan_balls(void)
 {
     int i;
 
-    strncpy(ball_file, config_get_s(CONFIG_BALL_FILE), sizeof (ball_file) - 1);
+    SAFECPY(ball_file, config_get_s(CONFIG_BALL_FILE));
 
     if ((balls = fs_dir_scan("ball", has_ball_sols)))
     {
@@ -146,16 +160,13 @@ static void load_ball_demo(void)
     game_client_fly(0);
     game_kill_fade();
 
-    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+    back_init("back/gui.png");
 }
 
-static int ball_enter(void)
+static int ball_gui(void)
 {
     int id, jd;
     int i;
-
-    scan_balls();
-    load_ball_demo();
 
     if ((id = gui_vstack(0)))
     {
@@ -192,7 +203,15 @@ static int ball_enter(void)
     return id;
 }
 
-static void ball_leave(int id)
+static int ball_enter(struct state *st, struct state *prev)
+{
+    scan_balls();
+    load_ball_demo();
+
+    return ball_gui();
+}
+
+static void ball_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
     back_free();
@@ -208,7 +227,7 @@ static void ball_paint(int id, float t)
     }
     video_pop_matrix();
 
-    game_draw(POSE_BALL, t);
+    game_client_draw(POSE_BALL, t);
     gui_paint(id);
 }
 
@@ -246,6 +265,5 @@ struct state st_ball = {
     NULL,
     shared_click,
     NULL,
-    ball_buttn,
-    1, 0
+    ball_buttn
 };

@@ -13,7 +13,7 @@
 "time_hs" "1750 1800"
 "goal_hs" "1800 1850"
 "coin_hs" "152 140"
-"message" "Plus vite que la vitesse.\Speedness definition."
+"message" "Plus vite que la vitesse.\The definition of speed."
 // brush 0
 {
 ( -64 -240 -8 ) ( -64 -240 64 ) ( -64 -192 64 ) mtrl/chrome 0 0 0 0.5 0.5 0 0 0

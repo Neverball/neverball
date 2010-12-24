@@ -91,7 +91,7 @@ static void gui_set(int id, int i)
         gui_label(id, "", GUI_SML, GUI_ALL, 0, 0);
 }
 
-static int set_enter(void)
+static int set_gui(void)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
@@ -99,16 +99,6 @@ static int set_enter(void)
     int id, jd, kd;
 
     int i;
-
-    if (do_init)
-    {
-        total = set_init();
-        first = MIN(first, (total - 1) - ((total - 1) % SET_STEP));
-
-        audio_music_fade_to(0.5f, "bgm/inter.ogg");
-        audio_play(AUD_START, 1.f);
-    }
-    else do_init = 1;
 
     if ((id = gui_vstack(0)))
     {
@@ -138,7 +128,23 @@ static int set_enter(void)
 
         gui_layout(id, 0, 0);
     }
+
     return id;
+}
+
+static int set_enter(struct state *st, struct state *prev)
+{
+    if (do_init)
+    {
+        total = set_init();
+        first = MIN(first, (total - 1) - ((total - 1) % SET_STEP));
+
+        audio_music_fade_to(0.5f, "bgm/inter.ogg");
+        audio_play(AUD_START, 1.f);
+    }
+    else do_init = 1;
+
+    return set_gui();
 }
 
 static void set_over(int i)
@@ -155,9 +161,9 @@ static void set_point(int id, int x, int y, int dx, int dy)
         set_over(i);
 }
 
-static void set_stick(int id, int a, int v)
+static void set_stick(int id, int a, float v, int bump)
 {
-    int jd = shared_stick_basic(id, a, v);
+    int jd = shared_stick_basic(id, a, v, bump);
     int i  = gui_token(jd);
     if (jd && set_exists(i))
         set_over(i);
@@ -187,6 +193,5 @@ struct state st_set = {
     shared_angle,
     shared_click,
     NULL,
-    set_buttn,
-    1, 0
+    set_buttn
 };

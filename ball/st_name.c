@@ -15,6 +15,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "common.h"
 #include "gui.h"
 #include "util.h"
 #include "audio.h"
@@ -41,7 +42,7 @@ static unsigned int draw_back;
 
 int goto_name(struct state *ok, struct state *cancel, unsigned int back)
 {
-    strncpy(player, config_get_s(CONFIG_PLAYER), sizeof (player) - 1);
+    SAFECPY(player, config_get_s(CONFIG_PLAYER));
 
     ok_state     = ok;
     cancel_state = cancel;
@@ -92,15 +93,9 @@ static int name_action(int i)
 
 static int enter_id;
 
-static int name_enter(void)
+static int name_gui(void)
 {
     int id, jd;
-
-    if (draw_back)
-    {
-        game_client_free();
-        back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
-    }
 
     if ((id = gui_vstack(0)))
     {
@@ -126,12 +121,23 @@ static int name_enter(void)
         gui_set_label(name_id, player);
     }
 
-    SDL_EnableUNICODE(1);
-
     return id;
 }
 
-static void name_leave(int id)
+static int name_enter(struct state *st, struct state *prev)
+{
+    if (draw_back)
+    {
+        game_client_free();
+        back_init("back/gui.png");
+    }
+
+    SDL_EnableUNICODE(1);
+
+    return name_gui();
+}
+
+static void name_leave(struct state *st, struct state *next, int id)
 {
     if (draw_back)
         back_free();
@@ -151,7 +157,7 @@ static void name_paint(int id, float t)
         video_pop_matrix();
     }
     else
-        game_draw(0, t);
+        game_client_draw(0, t);
 
     gui_paint(id);
 }
@@ -201,7 +207,6 @@ struct state st_name = {
     shared_angle,
     shared_click,
     name_keybd,
-    name_buttn,
-    1, 0
+    name_buttn
 };
 

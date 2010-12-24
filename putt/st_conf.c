@@ -29,13 +29,12 @@
 
 /*---------------------------------------------------------------------------*/
 
-enum {
+enum
+{
     CONF_FULL = 1,
     CONF_WIN,
     CONF_TEXHI,
     CONF_TEXLO,
-    CONF_GEOHI,
-    CONF_GEOLO,
     CONF_SHDON,
     CONF_SHDOF,
     CONF_BACK,
@@ -78,18 +77,6 @@ static int conf_action(int i)
     case CONF_TEXLO:
         goto_state(&st_null);
         config_set_d(CONFIG_TEXTURES, 2);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_GEOHI:
-        goto_state(&st_null);
-        config_set_d(CONFIG_GEOMETRY, 1);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_GEOLO:
-        goto_state(&st_null);
-        config_set_d(CONFIG_GEOMETRY, 0);
         goto_state(&st_conf);
         break;
 
@@ -141,11 +128,11 @@ static int conf_action(int i)
     return r;
 }
 
-static int conf_enter(void)
+static int conf_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
 
-    back_init("back/gui.png", config_get_d(CONFIG_GEOMETRY));
+    back_init("back/gui.png");
 
     /* Initialize the configuration GUI. */
 
@@ -153,7 +140,6 @@ static int conf_enter(void)
     {
         int f = config_get_d(CONFIG_FULLSCREEN);
         int t = config_get_d(CONFIG_TEXTURES);
-        int g = config_get_d(CONFIG_GEOMETRY);
         int h = config_get_d(CONFIG_SHADOW);
         int s = config_get_d(CONFIG_SOUND_VOLUME);
         int m = config_get_d(CONFIG_MUSIC_VOLUME);
@@ -199,15 +185,6 @@ static int conf_enter(void)
             gui_state(kd, _("High"), GUI_SML, CONF_TEXHI, (t == 1));
 
             gui_label(jd, _("Textures"), GUI_SML, GUI_ALL, 0, 0);
-        }
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            gui_state(kd, _("Low"),  GUI_SML, CONF_GEOLO, (g == 0));
-            gui_state(kd, _("High"), GUI_SML, CONF_GEOHI, (g == 1));
-
-            gui_label(jd, _("Geometry"), GUI_SML, GUI_ALL, 0, 0);
         }
 
         if ((jd = gui_harray(id)) &&
@@ -269,7 +246,7 @@ static int conf_enter(void)
     return id;
 }
 
-static void conf_leave(int id)
+static void conf_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
@@ -294,12 +271,9 @@ static void conf_point(int id, int x, int y, int dx, int dy)
     gui_pulse(gui_point(id, x, y), 1.2f);
 }
 
-static void conf_stick(int id, int a, int v)
+static void conf_stick(int id, int a, float v, int bump)
 {
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
-        gui_pulse(gui_stick(id, v, 0), 1.2f);
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
-        gui_pulse(gui_stick(id, 0, v), 1.2f);
+    gui_pulse(gui_stick(id, a, v, bump), 1.2f);
 }
 
 static int conf_click(int b, int d)
@@ -330,7 +304,7 @@ static int conf_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int null_enter(void)
+static int null_enter(struct state *st, struct state *prev)
 {
     gui_free();
     swch_free();
@@ -343,16 +317,14 @@ static int null_enter(void)
     return 0;
 }
 
-static void null_leave(int id)
+static void null_leave(struct state *st, struct state *next, int id)
 {
-    int g = config_get_d(CONFIG_GEOMETRY);
-
     shad_init();
     ball_init();
-    mark_init(g);
-    flag_init(g);
-    jump_init(g);
-    swch_init(g);
+    mark_init();
+    flag_init();
+    jump_init();
+    swch_init();
     gui_init();
 }
 
@@ -368,8 +340,7 @@ struct state st_conf = {
     NULL,
     conf_click,
     conf_keybd,
-    conf_buttn,
-    1, 0
+    conf_buttn
 };
 
 struct state st_null = {
@@ -382,6 +353,5 @@ struct state st_null = {
     NULL,
     NULL,
     NULL,
-    NULL,
-    1, 0
+    NULL
 };

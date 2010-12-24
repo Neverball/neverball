@@ -16,6 +16,7 @@
 #include "state.h"
 #include "config.h"
 #include "video.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,15 +41,17 @@ void init_state(struct state *st)
 
 int goto_state(struct state *st)
 {
+    struct state *prev = state;
+
     if (state && state->leave)
-        state->leave(state->gui_id);
+        state->leave(state, st, state->gui_id);
 
     state       = st;
     state_time  = 0;
     state_drawn = 0;
 
     if (state && state->enter)
-        state->gui_id = state->enter();
+        state->gui_id = state->enter(state, prev);
 
     return 1;
 }
@@ -98,18 +101,42 @@ void st_point(int x, int y, int dx, int dy)
         state->point(state->gui_id, x, y, dx, dy);
 }
 
-void st_stick(int a, int k)
+void st_stick(int a, float v)
 {
-    if ((config_tst_d(CONFIG_JOYSTICK_AXIS_X, a) &&
-         config_get_d(CONFIG_JOYSTICK_AXIS_X_INVERT)) ||
-        (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a) &&
-         config_get_d(CONFIG_JOYSTICK_AXIS_Y_INVERT)) ||
-        (config_tst_d(CONFIG_JOYSTICK_AXIS_U, a) &&
-         config_get_d(CONFIG_JOYSTICK_AXIS_U_INVERT)))
-        k = -k;
+    static struct
+    {
+        const int *num;
+        const int *inv;
+
+        float prev;
+    } axes[] = {
+        { &CONFIG_JOYSTICK_AXIS_X, &CONFIG_JOYSTICK_AXIS_X_INVERT },
+        { &CONFIG_JOYSTICK_AXIS_Y, &CONFIG_JOYSTICK_AXIS_Y_INVERT },
+        { &CONFIG_JOYSTICK_AXIS_U, &CONFIG_JOYSTICK_AXIS_U_INVERT }
+    };
+
+    int i, bump = 0;
+
+    for (i = 0; i < ARRAYSIZE(axes); i++)
+        if (config_tst_d(*axes[i].num, a))
+        {
+            float p = axes[i].prev;
+
+            /* Note the transition from centered to leaned position. */
+
+            bump = ((-0.5f <= p && p <= +0.5f) &&
+                    (v < -0.5f || +0.5f < v));
+
+            axes[i].prev = v;
+
+            if (config_get_d(*axes[i].inv))
+                v = -v;
+
+            break;
+        }
 
     if (state && state->stick)
-        state->stick(state->gui_id, a, k);
+        state->stick(state->gui_id, a, v, bump);
 }
 
 void st_angle(int x, int z)
