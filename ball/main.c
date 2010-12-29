@@ -145,7 +145,6 @@ static int loop(void)
                 else
                     d = st_keybd(e.key.keysym.sym, 1);
             }
-
             break;
 
         case SDL_KEYUP:
@@ -176,6 +175,7 @@ static int loop(void)
             default:
                 d = st_keybd(e.key.keysym.sym, 0);
             }
+            break;
 
         case SDL_ACTIVEEVENT:
             if (e.active.state == SDL_APPINPUTFOCUS)
