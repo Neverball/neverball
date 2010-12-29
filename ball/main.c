@@ -74,11 +74,92 @@ static void toggle_wire(void)
 
 /*---------------------------------------------------------------------------*/
 
+static int handle_key_dn(SDL_Event *e)
+{
+    int d = 1;
+    int c;
+
+    c = e->key.keysym.sym;
+
+    if (config_tst_d(CONFIG_KEY_FORWARD, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -1.0f);
+
+    else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +1.0f);
+
+    else if (config_tst_d(CONFIG_KEY_LEFT, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -1.0f);
+
+    else if (config_tst_d(CONFIG_KEY_RIGHT, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +1.0f);
+
+    else switch (c)
+    {
+    case SDLK_F10:   shot();                    break;
+    case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
+    case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
+
+    case SDLK_F7:
+        if (config_cheat())
+            toggle_wire();
+        break;
+
+    case SDLK_RETURN:
+        d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
+        break;
+    case SDLK_ESCAPE:
+        d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 1);
+        break;
+
+    default:
+        if (SDL_EnableUNICODE(-1))
+            d = st_keybd(e->key.keysym.unicode, 1);
+        else
+            d = st_keybd(e->key.keysym.sym, 1);
+    }
+
+    return d;
+}
+
+static int handle_key_up(SDL_Event *e)
+{
+    int d = 1;
+    int c;
+
+    c = e->key.keysym.sym;
+
+    if (config_tst_d(CONFIG_KEY_FORWARD, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
+
+    else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
+
+    else if (config_tst_d(CONFIG_KEY_LEFT, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
+
+    else if (config_tst_d(CONFIG_KEY_RIGHT, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
+
+    else switch (c)
+    {
+    case SDLK_RETURN:
+        d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
+        break;
+    case SDLK_ESCAPE:
+        d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 0);
+        break;
+
+    default:
+        d = st_keybd(e->key.keysym.sym, 0);
+    }
+
+    return d;
+}
+
 static int loop(void)
 {
     SDL_Event e;
     int d = 1;
-    int c;
 
     /* Process SDL events. */
 
@@ -106,75 +187,11 @@ static int loop(void)
             break;
 
         case SDL_KEYDOWN:
-
-            c = e.key.keysym.sym;
-
-            if (config_tst_d(CONFIG_KEY_FORWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -1.0f);
-
-            else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +1.0f);
-
-            else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -1.0f);
-
-            else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +1.0f);
-
-            else switch (c)
-            {
-            case SDLK_F10:   shot();                    break;
-            case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
-            case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
-
-            case SDLK_F7:
-                if (config_cheat())
-                    toggle_wire();
-                break;
-
-            case SDLK_RETURN:
-                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
-                break;
-            case SDLK_ESCAPE:
-                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 1);
-                break;
-
-            default:
-                if (SDL_EnableUNICODE(-1))
-                    d = st_keybd(e.key.keysym.unicode, 1);
-                else
-                    d = st_keybd(e.key.keysym.sym, 1);
-            }
+            d = handle_key_dn(&e);
             break;
 
         case SDL_KEYUP:
-
-            c = e.key.keysym.sym;
-
-            if      (config_tst_d(CONFIG_KEY_FORWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
-
-            else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
-
-            else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
-
-            else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
-
-            else switch (c)
-            {
-            case SDLK_RETURN:
-                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
-                break;
-            case SDLK_ESCAPE:
-                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 0);
-                break;
-
-            default:
-                d = st_keybd(e.key.keysym.sym, 0);
-            }
+            d = handle_key_up(&e);
             break;
 
         case SDL_ACTIVEEVENT:
