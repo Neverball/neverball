@@ -10,7 +10,7 @@
 "time" "18000"
 "goal" "10"
 "author" "Challenge Space Yard"
-"version" "1.2"
+"version" "2"
 "levelname" "aMazing Path"
 "goal_hs" "4500 6500"
 "coin_hs" "46 26"
@@ -343,7 +343,7 @@
 // entity 13
 {
 "classname" "info_player_deathmatch"
-"origin" "1341 964 24"
+"origin" "1344 960 24"
 }
 // entity 14
 {
