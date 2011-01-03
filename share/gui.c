@@ -46,6 +46,8 @@
 #define GUI_CLOCK  18
 #define GUI_SPACE  20
 
+#define GUI_LINES 8
+
 struct widget
 {
     int     type;
@@ -616,25 +618,29 @@ void gui_set_multi(int id, const char *text)
 {
     const char *p;
 
-    char s[8][MAXSTR];
-    int  i, j, jd;
+    char s[GUI_LINES][MAXSTR];
+    int i, sc, lc, jd;
 
     size_t n = 0;
 
+    /* Count available labels. */
+
+    for (lc = 0, jd = widget[id].car; jd; lc++, jd = widget[jd].cdr);
+
     /* Copy each delimited string to a line buffer. */
 
-    for (p = text, j = 0; *p && j < 8; j++)
+    for (p = text, sc = 0; *p && sc < lc; sc++)
     {
-        strncpy(s[j], p, (n = strcspn(p, "\\")));
-        s[j][n] = 0;
+        strncpy(s[sc], p, (n = strcspn(p, "\\")));
+        s[sc][n] = 0;
 
         if (*(p += n) == '\\') p++;
     }
 
     /* Set the label value for each line. */
 
-    for (i = j - 1, jd = widget[id].car; i >= 0 && jd; i--, jd = widget[jd].cdr)
-        gui_set_label(jd, s[i]);
+    for (i = lc - 1, jd = widget[id].car; i >= 0; i--, jd = widget[jd].cdr)
+        gui_set_label(jd, i < sc ? s[i] : "");
 }
 
 void gui_set_trunc(int id, enum trunc trunc)
@@ -752,6 +758,7 @@ int gui_space(int pd)
 }
 
 /*---------------------------------------------------------------------------*/
+
 /*
  * Create  a multi-line  text box  using a  vertical array  of labels.
  * Parse the  text for '\'  characters and treat them  as line-breaks.
@@ -767,15 +774,15 @@ int gui_multi(int pd, const char *text, int size, int rect, const float *c0,
     {
         const char *p;
 
-        char s[8][MAXSTR];
-        int  r[8];
+        char s[GUI_LINES][MAXSTR];
+        int  r[GUI_LINES];
         int  i, j;
 
         size_t n = 0;
 
         /* Copy each delimited string to a line buffer. */
 
-        for (p = text, j = 0; *p && j < 8; j++)
+        for (p = text, j = 0; *p && j < GUI_LINES; j++)
         {
             strncpy(s[j], p, (n = strcspn(p, "\\")));
             s[j][n] = 0;
