@@ -8,10 +8,10 @@ map-csyforeverhp/MediumJump.sol	back/blk_cyn.png	3	bgm/track2.ogg
 map-csyforeverhp/CautionJump.sol	back/pastel.png	3	bgm/track2.ogg
 map-csyforeverhp/MoverRamp.sol	back/red_prp.png	3	bgm/track2.ogg
 map-csyforeverhp/PlusSignJump.sol	back/blk_org.png	4	bgm/track3.ogg
-map-csyforeverhp/SimpleTwister.sol	back/blu_wht.png	2	bgm/track3.ogg
+map-csyforeverhp/Twister.sol	back/blu_wht.png	5	bgm/track3.ogg
 map-csyforeverhp/TimedMover.sol	back/red_wht.png	2	bgm/track3.ogg
 map-csyforeverhp/ShiftedRamp.sol	back/grn_yel.png	3	bgm/track4.ogg
-map-csyforeverhp/BentRoad.sol	back/blu_wht.png	5	bgm/track4.ogg
+map-csyforeverhp/BentRoad.sol	back/blu_wht.png	6	bgm/track4.ogg
 map-csyforeverhp/Hoppers.sol	back/cyn_grn.png	6	bgm/track4.ogg
 map-csyforeverhp/LongJump.sol	back/blu_cyn.png	3	bgm/track6.ogg
 map-csyforeverhp/Challenger2.sol	back/purples.png	14	bgm/track6.ogg

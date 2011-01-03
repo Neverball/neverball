@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Neverball Forever Challenger II\This level remixes five levels from Forever Medium."
+"message" "Neverball Forever Challenger II\This level remixes five more levels from Forever Medium."
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
 "shot" "shot-csyforeverh/Challenger2.png"

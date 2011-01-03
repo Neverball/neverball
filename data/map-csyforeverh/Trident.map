@@ -2,12 +2,12 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Trident\Watch out for triple splits.\You still don't have much time."
+"message" "Trident\Watch out for triple splits."
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
 "song" "bgm/track5.ogg"
 "shot" "shot-csyforeverh/Trident.png"
-"time" "19500"
+"time" "18000"
 "goal" "75"
 "author" "Challenge Space Yard"
 "version" "1"

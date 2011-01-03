@@ -2,7 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "Dance Dance Neverball\Syncronize yourself to the beat of this game's music.\At least one blue coin must be grabbed during the dance to the finish."
+"message" "Dance Dance Neverball\Syncronize yourself to the beat of this game's music."
 "song" "bgm/track3.ogg"
 "back" "map-back/city.sol"
 "grad" "back/city.png"

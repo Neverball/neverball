@@ -481,7 +481,7 @@
 // entity 45
 {
 "classname" "worldspawn"
-"message" "Jumpers\You don't have some easy jumps. Watch the time!"
+"message" "Jumpers\Watch out for those nasty jumps.\Be careful of the time limit, too."
 "time" "6000"
 "goal" "5"
 "back" "map-back/city.sol"

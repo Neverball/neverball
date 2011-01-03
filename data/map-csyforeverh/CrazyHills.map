@@ -12,6 +12,7 @@
 "author" "Challenge Space Yard"
 "version" "1"
 "levelname" "Crazy Hills"
+"coin_hs" "80 50"
 // brush 0
 {
 ( -1371 1007 34 ) ( -1376 1056 32 ) ( -1248 1056 32 ) mtrl/turf-green-dark 0 0 0 0.5 0.5 0 0 0
