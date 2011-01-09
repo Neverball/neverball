@@ -254,11 +254,11 @@ static void sol_path_loop(struct s_file *fp, int p0, int f)
 
     int pi = p0;
     int pj = p0;
+    int pk;
 
     do  /* Tortoise and hare cycle traverser. */
     {
         fp->pv[pi].f = f;
-        fp->pv[pj].f = f;
 
         cmd.type = CMD_PATH_FLAG;
         cmd.pathflag.pi = pi;
@@ -270,6 +270,31 @@ static void sol_path_loop(struct s_file *fp, int p0, int f)
         pj = fp->pv[pj].pi;
     }
     while (pi != pj);
+
+    /*
+     * At this point, the indices point to a node in the loop, but we
+     * still need to walk any remaining nodes in that loop. This is
+     * essentially the second part of the tortoise and hare algorithm
+     * which finds the start of the loop, although we only care about
+     * walking the remaining nodes.
+     */
+
+    pj = p0;
+    pk = pi;
+
+    do
+    {
+        fp->pv[pi].f = f;
+
+        cmd.type = CMD_PATH_FLAG;
+        cmd.pathflag.pi = pi;
+        cmd.pathflag.f = fp->pv[pi].f;
+        sol_cmd_enq(&cmd);
+
+        pi = fp->pv[pi].pi;
+        pj = fp->pv[pj].pi;
+    }
+    while (pi != pj && pi != pk);
 }
 
 /*---------------------------------------------------------------------------*/
