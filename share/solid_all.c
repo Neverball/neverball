@@ -248,6 +248,32 @@ void sol_pendulum(struct s_ball *up,
 
 /*---------------------------------------------------------------------------*/
 
+static void sol_path_loop(struct s_file *fp, int p0, int f)
+{
+    union cmd cmd;
+
+    int pi = p0;
+    int pj = p0;
+
+    do  /* Tortoise and hare cycle traverser. */
+    {
+        fp->pv[pi].f = f;
+        fp->pv[pj].f = f;
+
+        cmd.type = CMD_PATH_FLAG;
+        cmd.pathflag.pi = pi;
+        cmd.pathflag.f = fp->pv[pi].f;
+        sol_cmd_enq(&cmd);
+
+        pi = fp->pv[pi].pi;
+        pj = fp->pv[pj].pi;
+        pj = fp->pv[pj].pi;
+    }
+    while (pi != pj);
+}
+
+/*---------------------------------------------------------------------------*/
+
 /*
  * Compute the states of all switches after DT seconds have passed.
  */
@@ -269,28 +295,11 @@ void sol_swch_step(struct s_file *fp, float dt)
 
             if (t >= xp->t0)
             {
-                int pi = xp->pi;
-                int pj = xp->pi;
-
-                do  /* Tortoise and hare cycle traverser. */
-                {
-                    fp->pv[pi].f = xp->f0;
-                    fp->pv[pj].f = xp->f0;
-
-                    cmd.type        = CMD_PATH_FLAG;
-                    cmd.pathflag.pi = pi;
-                    cmd.pathflag.f  = fp->pv[pi].f;
-                    sol_cmd_enq(&cmd);
-
-                    pi = fp->pv[pi].pi;
-                    pj = fp->pv[pj].pi;
-                    pj = fp->pv[pj].pi;
-                }
-                while (pi != pj);
+                sol_path_loop(fp, xp->pi, xp->f0);
 
                 xp->f = xp->f0;
 
-                cmd.type          = CMD_SWCH_TOGGLE;
+                cmd.type = CMD_SWCH_TOGGLE;
                 cmd.swchtoggle.xi = xi;
                 sol_cmd_enq(&cmd);
             }
@@ -499,16 +508,13 @@ int sol_swch_test(struct s_file *fp, int ui)
             {
                 if (!xp->e && d <= 0.0f)
                 {
-                    int pi = xp->pi;
-                    int pj = xp->pi;
-
                     /* The ball enters. */
 
                     if (xp->t0 == 0)
                     {
                         xp->e = 1;
 
-                        cmd.type         = CMD_SWCH_ENTER;
+                        cmd.type = CMD_SWCH_ENTER;
                         cmd.swchenter.xi = xi;
                         sol_cmd_enq(&cmd);
                     }
@@ -517,25 +523,11 @@ int sol_swch_test(struct s_file *fp, int ui)
 
                     xp->f = xp->f ? 0 : 1;
 
-                    cmd.type          = CMD_SWCH_TOGGLE;
+                    cmd.type = CMD_SWCH_TOGGLE;
                     cmd.swchtoggle.xi = xi;
                     sol_cmd_enq(&cmd);
 
-                    do  /* Tortoise and hare cycle traverser. */
-                    {
-                        fp->pv[pi].f = xp->f;
-                        fp->pv[pj].f = xp->f;
-
-                        cmd.type        = CMD_PATH_FLAG;
-                        cmd.pathflag.pi = pi;
-                        cmd.pathflag.f  = fp->pv[pi].f;
-                        sol_cmd_enq(&cmd);
-
-                        pi = fp->pv[pi].pi;
-                        pj = fp->pv[pj].pi;
-                        pj = fp->pv[pj].pi;
-                    }
-                    while (pi != pj);
+                    sol_path_loop(fp, xp->pi, xp->f);
 
                     /* It toggled to non-default state, start the timer. */
 
@@ -555,7 +547,7 @@ int sol_swch_test(struct s_file *fp, int ui)
             {
                 xp->e = 0;
 
-                cmd.type        = CMD_SWCH_EXIT;
+                cmd.type = CMD_SWCH_EXIT;
                 cmd.swchexit.xi = xi;
                 sol_cmd_enq(&cmd);
             }
