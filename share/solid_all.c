@@ -248,22 +248,27 @@ void sol_pendulum(struct s_ball *up,
 
 /*---------------------------------------------------------------------------*/
 
-static void sol_path_loop(struct s_file *fp, int p0, int f)
+static void sol_path_flag(struct s_file *fp, int pi, int f)
 {
     union cmd cmd;
 
+    fp->pv[pi].f = f;
+
+    cmd.type = CMD_PATH_FLAG;
+    cmd.pathflag.pi = pi;
+    cmd.pathflag.f = fp->pv[pi].f;
+    sol_cmd_enq(&cmd);
+}
+
+static void sol_path_loop(struct s_file *fp, int p0, int f)
+{
     int pi = p0;
     int pj = p0;
     int pk;
 
     do  /* Tortoise and hare cycle traverser. */
     {
-        fp->pv[pi].f = f;
-
-        cmd.type = CMD_PATH_FLAG;
-        cmd.pathflag.pi = pi;
-        cmd.pathflag.f = fp->pv[pi].f;
-        sol_cmd_enq(&cmd);
+        sol_path_flag(fp, pi, f);
 
         pi = fp->pv[pi].pi;
         pj = fp->pv[pj].pi;
@@ -284,12 +289,7 @@ static void sol_path_loop(struct s_file *fp, int p0, int f)
 
     do
     {
-        fp->pv[pi].f = f;
-
-        cmd.type = CMD_PATH_FLAG;
-        cmd.pathflag.pi = pi;
-        cmd.pathflag.f = fp->pv[pi].f;
-        sol_cmd_enq(&cmd);
+        sol_path_flag(fp, pi, f);
 
         pi = fp->pv[pi].pi;
         pj = fp->pv[pj].pi;
