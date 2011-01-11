@@ -123,7 +123,7 @@
 // brush 14
 {
 ( 128 -128 128 ) ( 0 -128 128 ) ( 128 0 128 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
-( 128 -128 128 ) ( 128 0 128 ) ( 128 -128 112 ) mtrl/red-glass 0 0 0 0.5 0.5 0 0 0
+( 128 -128 128 ) ( 128 0 128 ) ( 128 -128 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
 ( 128 -128 128 ) ( 128 -128 112 ) ( 0 -128 128 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 ( 0 0 112 ) ( 0 -128 112 ) ( 128 0 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
 ( 0 0 112 ) ( 0 0 128 ) ( 0 -128 112 ) mtrl/glass-dark 0 0 0 0.5 0.5 0 0 0
@@ -278,13 +278,13 @@
 "origin" "64 272 144"
 "targetname" "wall3"
 "target" "wall5"
-"speed" "0.01"
+"speed" "0.5"
 "state" "0"
 }
 // entity 18
 {
 "classname" "path_corner"
-"origin" "64 272 -48"
+"origin" "64 272 -64"
 "targetname" "wall1"
 "target" "wall2"
 "speed" "2"
@@ -301,42 +301,33 @@
 }
 // entity 20
 {
-"classname" "path_corner"
-"origin" "64 272 0"
-"targetname" "wall2"
-"target" "wall3"
-"speed" "4"
-"state" "0"
-}
-// entity 21
-{
-"classname" "path_corner"
-"origin" "64 272 0"
-"targetname" "wall2"
-"target" "wall3"
-"speed" "4"
-"state" "0"
-}
-// entity 22
-{
 "classname" "func_train"
 "target" "wall1"
 // brush 0
 {
-( 0 0 -32 ) ( 128 0 -32 ) ( 128 -16 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
-( 128 0 -32 ) ( 0 0 -32 ) ( 128 0 -80 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
-( 128 0 -32 ) ( 128 0 -48 ) ( 128 -16 -32 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
-( 0 -16 -64 ) ( 128 -16 -64 ) ( 128 0 -80 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
-( 128 -16 -64 ) ( 0 -16 -64 ) ( 0 -16 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
-( 0 -16 -48 ) ( 0 0 -48 ) ( 0 -16 -32 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 0 0 -16 ) ( 128 0 -16 ) ( 128 -16 -16 ) mtrl/rail 0 0 0 0.5 0.5 134217728 0 0
+( 128 0 -16 ) ( 0 0 -16 ) ( 128 0 -80 ) mtrl/rail 0 0 0 0.5 0.5 134217728 0 0
+( 128 0 -32 ) ( 128 0 -48 ) ( 128 -16 -32 ) mtrl/rail 0 0 0 0.5 0.5 134217728 0 0
+( 0 -16 -96 ) ( 128 -16 -96 ) ( 128 0 -96 ) mtrl/rail 0 0 0 0.5 0.5 134217728 0 0
+( 128 -16 -80 ) ( 0 -16 -80 ) ( 0 -16 -16 ) mtrl/rail 0 0 0 0.5 0.5 134217728 0 0
+( 0 -16 -48 ) ( 0 0 -48 ) ( 0 -16 -32 ) mtrl/rail 0 0 0 0.5 0.5 134217728 0 0
+}
+// brush 1
+{
+( 0 0 -16 ) ( 128 0 -16 ) ( 128 -16 -16 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 128 0 -16 ) ( 0 0 -16 ) ( 128 0 -80 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 128 0 -32 ) ( 128 0 -48 ) ( 128 -16 -32 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 0 -16 -64 ) ( 128 -16 -64 ) ( 128 0 -80 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 128 -16 -64 ) ( 0 -16 -64 ) ( 0 -16 -16 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
+( 0 -16 -48 ) ( 0 0 -48 ) ( 0 -16 -32 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
 }
 }
-// entity 23
+// entity 21
 {
 "classname" "path_corner"
-"origin" "64 272 -48"
+"origin" "64 272 -64"
 "targetname" "wall5"
 "target" "wall1"
-"speed" "3.99"
+"speed" "3.5"
 "state" "0"
 }
