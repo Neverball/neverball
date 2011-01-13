@@ -285,13 +285,36 @@ static int course_action(int i)
     return 1;
 }
 
+static int comp_size(int n, int s)
+{
+    return n <= s * s ? s : comp_size(n, s + 1);
+}
+
+static int comp_cols(int n)
+{
+    return comp_size(n, 1);
+}
+
+static int comp_rows(int n)
+{
+    int s = comp_size(n, 1);
+
+    return n <= s * (s - 1) ? s - 1 : s;
+}
+
 static int course_enter(struct state *st, struct state *prev)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
 
-    int id, jd, kd, ld, md, i = 0, j, n = course_count();
-    int m = (int)(sqrt(n/2.0)*2);
+    int id, jd, kd, ld, md;
+
+    int i, j, r, c, n;
+
+    n = course_count();
+
+    r = comp_rows(n);
+    c = comp_cols(n);
 
     if ((id = gui_vstack(0)))
     {
@@ -306,19 +329,21 @@ static int course_enter(struct state *st, struct state *prev)
 
             if ((kd = gui_varray(jd)))
             {
-                for(i = 0; i < n; i += m)
+                for(i = 0; i < r; i++)
                 {
                     if ((ld = gui_harray(kd)))
                     {
-                        for (j = (m - 1); j >= 0; j--)
+                        for (j = c - 1; j >= 0; j--)
                         {
-                            if (i + j < n)
-                            {
-                                md = gui_image(ld, course_shot(i + j),
-                                               w / 3 / m, h / 3 / m);
-                                gui_active(md, i + j, 0);
+                            int k = i * c + j;
 
-                                if (i + j == 0)
+                            if (k < n)
+                            {
+                                md = gui_image(ld, course_shot(k),
+                                               w / 3 / c, h / 3 / r);
+                                gui_active(md, k, 0);
+
+                                if (k == 0)
                                     gui_focus(md);
                             }
                             else
