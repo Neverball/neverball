@@ -252,6 +252,9 @@ static void sol_path_flag(struct s_file *fp, int pi, int f)
 {
     union cmd cmd;
 
+    if (fp->pv[pi].f == f)
+        return;
+
     fp->pv[pi].f = f;
 
     cmd.type = CMD_PATH_FLAG;
