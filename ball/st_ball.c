@@ -172,7 +172,7 @@ static int ball_gui(void)
     {
         if ((jd = gui_harray(id)))
         {
-            gui_label(jd, _("Ball"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Ball Model"), GUI_SML, GUI_ALL, 0, 0);
             gui_space(jd);
             gui_start(jd, _("Back"), GUI_SML, BALL_BACK, 0);
         }
