@@ -8979,13 +8979,13 @@
 // entity 23
 {
 "classname" "target_position"
-"origin" "512 -64 -176"
+"origin" "512 -63 -176"
 "targetname" "intermission"
 }
 // entity 24
 {
 "classname" "info_player_intermission"
-"origin" "512 -64 1088"
+"origin" "512 -65 1088"
 "target" "intermission"
 }
 // entity 25
