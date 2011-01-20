@@ -1,0 +1,21 @@
+shot-putt/vidski.jpg
+Golf Jambalaya\\Vidski's infamous course.\Difficulty: Medium to hard.\Author: vidski\
+map-vidski/corkscrew.sol    back/blues.png       5  bgm/track1.ogg
+map-vidski/corkscrew.sol    back/blues.png       5  bgm/track1.ogg
+map-vidski/spiralwall.sol   back/greens.png      6  bgm/track2.ogg
+map-vidski/splitfinish.sol  back/org_yel.png     4  bgm/track3.ogg
+map-vidski/uturntunnel.sol  back/greys.png       5  bgm/track4.ogg
+map-vidski/squareramp.sol   back/pastel.png      6  bgm/track5.ogg
+map-vidski/bigpipe.sol      back/purples.png     8  bgm/track6.ogg
+map-vidski/clovertop.sol    back/blk_org.png     5  bgm/track1.ogg
+map-vidski/loopdloop.sol    back/red_blu.png     6  bgm/track2.ogg
+map-vidski/ovalzigzag.sol   back/red_wht.png     7  bgm/track3.ogg
+map-vidski/windmill.sol	    back/blues.png	 7  bgm/track4.ogg
+map-vidski/bankaround.sol   back/blues.png       7  bgm/track5.ogg
+map-vidski/4way.sol         back/org_yel.png     6  bgm/track6.ogg
+map-vidski/hourglass.sol    back/greys.png       8  bgm/track1.ogg
+map-vidski/hoops.sol        back/blues.png       8  bgm/track2.ogg
+map-vidski/bounce.sol       back/purples.png     6  bgm/track3.ogg
+map-vidski/skiball.sol      back/blues.png       5  bgm/track4.ogg
+map-vidski/hotwheels.sol    back/org_yel.png     7  bgm/track5.ogg
+map-vidski/voodoo.sol       back/greens.png      8  bgm/track6.ogg
