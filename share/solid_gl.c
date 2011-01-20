@@ -487,7 +487,7 @@ static void sol_shad_body(const struct s_file *fp,
 {
     int mi, li, gi;
 
-    if (fl & M_DECAL)
+    if (decal)
     {
         glEnable(GL_POLYGON_OFFSET_FILL);
         glPolygonOffset(-1.0f, -2.0f);
@@ -506,7 +506,7 @@ static void sol_shad_body(const struct s_file *fp,
     }
     glEnd();
 
-    if (fl & M_DECAL)
+    if (decal)
         glDisable(GL_POLYGON_OFFSET_FILL);
 }
 
