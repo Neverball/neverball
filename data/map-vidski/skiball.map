@@ -2,6 +2,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"idle" "1"
 // brush 0
 {
 ( 584 280 -384 ) ( 556 276 -384 ) ( 584 280 -368 ) mtrl/glass 16 0 0 0.5 0.5 0 0 0
