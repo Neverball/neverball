@@ -584,6 +584,7 @@ static void sol_load_objects(struct s_file *fp, int s)
         int tn = sol_enum_body(fp, bp, M_TRANSPARENT);
         int rn = sol_enum_body(fp, bp, M_REFLECTIVE);
         int dn = sol_enum_body(fp, bp, M_DECAL);
+        int sn = sol_enum_body(fp, bp, M_SHADOWED);
 
         /* Draw all opaque geometry, decals last. */
 
@@ -640,7 +641,7 @@ static void sol_load_objects(struct s_file *fp, int s)
 
         /* Draw all shadowed geometry. */
 
-        if (s && (on || rn))
+        if (s && (on || rn || sn))
         {
             fp->bv[i].sl = glGenLists(1);
 
@@ -649,6 +650,15 @@ static void sol_load_objects(struct s_file *fp, int s)
                 if (on) sol_shad_body(fp, fp->bv + i, M_OPAQUE, 0);
                 if (rn) sol_shad_body(fp, fp->bv + i, M_REFLECTIVE, 0);
                 if (dn) sol_shad_body(fp, fp->bv + i, M_OPAQUE, M_DECAL);
+                if (sn)
+                {
+                    /* Transparent shadowed geometry hack. */
+
+                    if (dn)
+                        sol_shad_body(fp, fp->bv + i, M_SHADOWED, M_DECAL);
+
+                    sol_shad_body(fp, fp->bv + i, M_SHADOWED, 0);
+                }
             }
             glEndList();
         }
