@@ -181,6 +181,7 @@ struct s_path
     float p[3];                                /* starting position          */
     float e[4];                                /* orientation (quaternion)   */
     float t;                                   /* travel time                */
+    int   tm;                                  /* milliseconds               */
 
     int pi;
     int f;                                     /* enable flag                */
@@ -194,6 +195,7 @@ struct s_path
 struct s_body
 {
     float t;                                   /* time on current path       */
+    int   tm;                                  /* milliseconds               */
 
     GLuint ol;                                 /* opaque geometry list       */
     GLuint tl;                                 /* transparent geometry list  */
@@ -228,7 +230,9 @@ struct s_swch
     int  pi;                                   /* the linked path            */
 
     float t0;                                  /* default timer              */
+    int   t0m;                                 /* milliseconds               */
     float t;                                   /* current timer              */
+    int   tm;                                  /* milliseconds               */
     int   f0;                                  /* default state              */
     int   f;                                   /* current state              */
     int   i;                                   /* is invisible?              */

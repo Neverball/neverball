@@ -16,8 +16,8 @@ void sol_pendulum(struct s_ball *up,
                   const float a[3],
                   const float g[3], float dt);
 
-void sol_swch_step(struct s_file *fp, float dt);
-void sol_body_step(struct s_file *fp, float dt);
+void sol_swch_step(struct s_file *fp, float dt, int ms);
+void sol_body_step(struct s_file *fp, float dt, int ms);
 void sol_ball_step(struct s_file *fp, float dt);
 
 enum

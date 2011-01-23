@@ -305,7 +305,7 @@ static void sol_path_loop(struct s_file *fp, int p0, int f)
 /*
  * Compute the states of all switches after DT seconds have passed.
  */
-void sol_swch_step(struct s_file *fp, float dt)
+void sol_swch_step(struct s_file *fp, float dt, int ms)
 {
     int xi;
 
@@ -315,13 +315,12 @@ void sol_swch_step(struct s_file *fp, float dt)
     {
         struct s_swch *xp = fp->xv + xi;
 
-        volatile float t = xp->t;
-
-        if (t < xp->t0)
+        if (xp->tm < xp->t0m)
         {
-            xp->t = (t += dt);
+            xp->t += dt;
+            xp->tm += ms;
 
-            if (t >= xp->t0)
+            if (xp->tm >= xp->t0m)
             {
                 sol_path_loop(fp, xp->pi, xp->f0);
 
@@ -338,7 +337,7 @@ void sol_swch_step(struct s_file *fp, float dt)
 /*
  * Compute the positions of all bodies after DT seconds have passed.
  */
-void sol_body_step(struct s_file *fp, float dt)
+void sol_body_step(struct s_file *fp, float dt, int ms)
 {
     int i;
 
@@ -349,15 +348,15 @@ void sol_body_step(struct s_file *fp, float dt)
         struct s_body *bp = fp->bv + i;
         struct s_path *pp = fp->pv + bp->pi;
 
-        volatile float t = bp->t;
-
         if (bp->pi >= 0 && pp->f)
         {
-            bp->t = (t += dt);
+            bp->t += dt;
+            bp->tm += ms;
 
-            if (t >= pp->t)
+            if (bp->tm >= pp->tm)
             {
                 bp->t  = 0;
+                bp->tm = 0;
                 bp->pi = pp->pi;
 
                 cmd.type        = CMD_BODY_TIME;
@@ -512,7 +511,7 @@ int sol_swch_test(struct s_file *fp, int ui)
 
         /* FIXME enter/exit events don't work for timed switches */
 
-        if (xp->t0 == 0 || xp->f == xp->f0)
+        if (xp->t0m == 0 || xp->f == xp->f0)
         {
             float d, r[3];
 
@@ -538,7 +537,7 @@ int sol_swch_test(struct s_file *fp, int ui)
                 {
                     /* The ball enters. */
 
-                    if (xp->t0 == 0)
+                    if (xp->t0m == 0)
                     {
                         xp->e = 1;
 
@@ -560,7 +559,10 @@ int sol_swch_test(struct s_file *fp, int ui)
                     /* It toggled to non-default state, start the timer. */
 
                     if (xp->f != xp->f0)
+                    {
                         xp->t = 0.0f;
+                        xp->tm = 0;
+                    }
 
                     /* If visible, set the result. */
 

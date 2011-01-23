@@ -631,6 +631,50 @@ static float sol_test_file(float dt,
 /*---------------------------------------------------------------------------*/
 
 /*
+ * Track simulation steps in integer milliseconds.
+ */
+
+static float ms_accum;
+
+static void ms_init(void)
+{
+    ms_accum = 0.0f;
+}
+
+static int ms_step(float dt)
+{
+    int ms = 0;
+
+    ms_accum += dt;
+
+    while (ms_accum >= 0.001f)
+    {
+        ms_accum -= 0.001f;
+        ms += 1;
+    }
+
+    return ms;
+}
+
+static int ms_peek(float dt)
+{
+    int ms = 0;
+    float at;
+
+    at = ms_accum + dt;
+
+    while (at >= 0.001f)
+    {
+        at -= 0.001f;
+        ms += 1;
+    }
+
+    return ms;
+}
+
+/*---------------------------------------------------------------------------*/
+
+/*
  * Step the physics forward DT  seconds under the influence of gravity
  * vector G.  If the ball gets pinched between two moving solids, this
  * loop might not terminate.  It  is better to do something physically
@@ -695,7 +739,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
         for (c = 16; c > 0 && tt > 0; c--)
         {
             float st;
-            int bi;
+            int bi, ms;
 
             /* HACK: avoid stepping across path changes. */
 
@@ -712,8 +756,8 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
                     if (!pp->f)
                         continue;
 
-                    if (bp->t + st > pp->t)
-                        st = pp->t - bp->t;
+                    if (bp->tm + ms_peek(st) > pp->tm)
+                        st = MS_TO_TIME(pp->tm - bp->tm);
                 }
             }
 
@@ -728,8 +772,10 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
             cmd.stepsim.dt = nt;
             sol_cmd_enq(&cmd);
 
-            sol_body_step(fp, nt);
-            sol_swch_step(fp, nt);
+            ms = ms_step(nt);
+
+            sol_body_step(fp, nt, ms);
+            sol_swch_step(fp, nt, ms);
             sol_ball_step(fp, nt);
 
             if (nt < st)
@@ -751,7 +797,7 @@ float sol_step(struct s_file *fp, const float *g, float dt, int ui, int *m)
 
 void sol_init_sim(struct s_file *fp)
 {
-    return;
+    ms_init();
 }
 
 void sol_quit_sim(void)

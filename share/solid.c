@@ -19,6 +19,7 @@
 #include "solid.h"
 #include "base_config.h"
 #include "binary.h"
+#include "common.h"
 #include "fs.h"
 
 enum
@@ -129,6 +130,9 @@ static void sol_load_path(fs_file fin, struct s_path *pp)
     get_index(fin, &pp->f);
     get_index(fin, &pp->s);
 
+    pp->tm = TIME_TO_MS(pp->t);
+    pp->t  = MS_TO_TIME(pp->tm);
+
     if (sol_version >= SOL_VER_PATH_FLAGS)
         get_index(fin, &pp->fl);
 
@@ -174,6 +178,12 @@ static void sol_load_swch(fs_file fin, struct s_swch *xp)
     get_index(fin, &xp->f0);
     get_index(fin, &xp->f);
     get_index(fin, &xp->i);
+
+    xp->t0m = TIME_TO_MS(xp->t0);
+    xp->tm  = TIME_TO_MS(xp->t);
+
+    xp->t0 = MS_TO_TIME(xp->t0m);
+    xp->t  = MS_TO_TIME(xp->tm);
 }
 
 static void sol_load_bill(fs_file fin, struct s_bill *rp)
