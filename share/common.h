@@ -41,7 +41,10 @@
                                    (src), \
                                    MAX(0, MAXSTRLEN(dst) - strlen(dst))))
 
-#define TIME_TO_MS(t) ((int) ((t) * 1000.0f))
+#define SIGN(n) ((n) < 0 ? -1 : ((n) ? +1 : 0))
+#define ROUND(f) ((int) ((f) + 0.5f * SIGN(f)))
+
+#define TIME_TO_MS(t) ROUND((t) * 1000.0f)
 #define MS_TO_TIME(m) ((m) * 0.001f)
 
 int   read_line(char **, fs_file);
