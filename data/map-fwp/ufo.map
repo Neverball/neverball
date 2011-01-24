@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "4.0"
+"version" "4.1"
 "author" "Florian Priester"
 "shot" "shot-fwp/ufo.png"
 "back" "map-back/jupiter.sol"
@@ -15906,7 +15906,7 @@
 "targetname" "fighterLeft1"
 "origin" "-136 2304 416"
 "target" "fighterLeft2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 36
@@ -15915,7 +15915,7 @@
 "targetname" "fighterLeft2"
 "origin" "-136 2304 416"
 "target" "fighterLeft3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 37
@@ -15924,7 +15924,7 @@
 "targetname" "fighterLeft3"
 "origin" "-120 2176 416"
 "target" "fighterLeft4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 38
@@ -15933,7 +15933,7 @@
 "targetname" "fighterLeft4"
 "origin" "-120 2176 416"
 "target" "fighterLeft5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 39
@@ -15942,7 +15942,7 @@
 "targetname" "fighterLeft5"
 "origin" "-104 2048 416"
 "target" "fighterLeft6"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 40
@@ -15951,7 +15951,7 @@
 "targetname" "fighterLeft6"
 "origin" "-104 2048 416"
 "target" "fighterLeft7"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 41
@@ -15960,7 +15960,7 @@
 "targetname" "fighterLeft7"
 "origin" "-88 1920 416"
 "target" "fighterLeft8"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 42
@@ -15969,7 +15969,7 @@
 "targetname" "fighterLeft8"
 "origin" "-88 1920 416"
 "target" "fighterLeft9"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 43
@@ -15978,7 +15978,7 @@
 "targetname" "fighterLeft9"
 "origin" "-72 1792 416"
 "target" "fighterLeft10"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 44
@@ -15987,7 +15987,7 @@
 "targetname" "fighterLeft10"
 "origin" "-72 1792 416"
 "target" "fighterLeft11"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 45
@@ -15996,7 +15996,7 @@
 "targetname" "fighterLeft11"
 "origin" "-56 1664 416"
 "target" "fighterLeft12"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 46
@@ -16005,7 +16005,7 @@
 "targetname" "fighterLeft12"
 "origin" "-56 1664 416"
 "target" "fighterLeft13"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 47
@@ -16014,7 +16014,7 @@
 "targetname" "fighterLeft13"
 "origin" "-40 1536 416"
 "target" "fighterLeft14"
-"speed" "0.083333"
+"speed" "0.083"
 "smooth" "0"
 }
 // entity 48
@@ -16023,7 +16023,7 @@
 "targetname" "fighterLeft14"
 "origin" "-40 1536 416"
 "target" "fighterLeft15"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 49
@@ -16366,7 +16366,7 @@
 "targetname" "shotsLeftB1"
 "origin" "-136 2304 416"
 "target" "shotsLeftB2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 58
@@ -16375,7 +16375,7 @@
 "targetname" "shotsLeftB2"
 "origin" "-136 2304 416"
 "target" "shotsLeftB3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 59
@@ -16551,7 +16551,7 @@
 "targetname" "shotsLeftC1"
 "origin" "-136 2304 416"
 "target" "shotsLeftC2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 64
@@ -16560,7 +16560,7 @@
 "targetname" "shotsLeftC2"
 "origin" "-136 2304 416"
 "target" "shotsLeftC3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 65
@@ -16569,7 +16569,7 @@
 "targetname" "shotsLeftC3"
 "origin" "-120 2176 416"
 "target" "shotsLeftC4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 66
@@ -16578,7 +16578,7 @@
 "targetname" "shotsLeftC4"
 "origin" "-120 2176 416"
 "target" "shotsLeftC5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 67
@@ -16754,7 +16754,7 @@
 "targetname" "shotsLeftD1"
 "origin" "-136 2304 416"
 "target" "shotsLeftD2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 72
@@ -16763,7 +16763,7 @@
 "targetname" "shotsLeftD2"
 "origin" "-136 2304 416"
 "target" "shotsLeftD3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 73
@@ -16772,7 +16772,7 @@
 "targetname" "shotsLeftD3"
 "origin" "-120 2176 416"
 "target" "shotsLeftD4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 74
@@ -16781,7 +16781,7 @@
 "targetname" "shotsLeftD4"
 "origin" "-120 2176 416"
 "target" "shotsLeftD5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 75
@@ -16790,7 +16790,7 @@
 "targetname" "shotsLeftD5"
 "origin" "-104 2048 416"
 "target" "shotsLeftD6"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 76
@@ -16799,7 +16799,7 @@
 "targetname" "shotsLeftD6"
 "origin" "-104 2048 416"
 "target" "shotsLeftD7"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 77
@@ -16975,7 +16975,7 @@
 "targetname" "shotsLeftE1"
 "origin" "-136 2304 416"
 "target" "shotsLeftE2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 82
@@ -16984,7 +16984,7 @@
 "targetname" "shotsLeftE2"
 "origin" "-136 2304 416"
 "target" "shotsLeftE3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 83
@@ -16993,7 +16993,7 @@
 "targetname" "shotsLeftE3"
 "origin" "-120 2176 416"
 "target" "shotsLeftE4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 84
@@ -17002,7 +17002,7 @@
 "targetname" "shotsLeftE4"
 "origin" "-120 2176 416"
 "target" "shotsLeftE5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 85
@@ -17011,7 +17011,7 @@
 "targetname" "shotsLeftE5"
 "origin" "-104 2048 416"
 "target" "shotsLeftE6"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 86
@@ -17020,7 +17020,7 @@
 "targetname" "shotsLeftE6"
 "origin" "-104 2048 416"
 "target" "shotsLeftE7"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 87
@@ -17029,7 +17029,7 @@
 "targetname" "shotsLeftE7"
 "origin" "-88 1920 416"
 "target" "shotsLeftE8"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 88
@@ -17038,7 +17038,7 @@
 "targetname" "shotsLeftE8"
 "origin" "-88 1920 416"
 "target" "shotsLeftE9"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 89
@@ -17214,7 +17214,7 @@
 "targetname" "shotsLeftF1"
 "origin" "-136 2304 416"
 "target" "shotsLeftF2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 94
@@ -17223,7 +17223,7 @@
 "targetname" "shotsLeftF2"
 "origin" "-136 2304 416"
 "target" "shotsLeftF3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 95
@@ -17232,7 +17232,7 @@
 "targetname" "shotsLeftF3"
 "origin" "-120 2176 416"
 "target" "shotsLeftF4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 96
@@ -17241,7 +17241,7 @@
 "targetname" "shotsLeftF4"
 "origin" "-120 2176 416"
 "target" "shotsLeftF5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 97
@@ -17250,7 +17250,7 @@
 "targetname" "shotsLeftF5"
 "origin" "-104 2048 416"
 "target" "shotsLeftF6"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 98
@@ -17259,7 +17259,7 @@
 "targetname" "shotsLeftF6"
 "origin" "-104 2048 416"
 "target" "shotsLeftF7"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 99
@@ -17268,7 +17268,7 @@
 "targetname" "shotsLeftF7"
 "origin" "-88 1920 416"
 "target" "shotsLeftF8"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 100
@@ -17277,7 +17277,7 @@
 "targetname" "shotsLeftF8"
 "origin" "-88 1920 416"
 "target" "shotsLeftF9"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 101
@@ -17286,7 +17286,7 @@
 "targetname" "shotsLeftF9"
 "origin" "-72 1792 416"
 "target" "shotsLeftF10"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 102
@@ -17295,7 +17295,7 @@
 "targetname" "shotsLeftF10"
 "origin" "-72 1792 416"
 "target" "shotsLeftF11"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 103
@@ -17471,7 +17471,7 @@
 "targetname" "shotsLeftG1"
 "origin" "-136 2304 416"
 "target" "shotsLeftG2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 108
@@ -17480,7 +17480,7 @@
 "targetname" "shotsLeftG2"
 "origin" "-136 2304 416"
 "target" "shotsLeftG3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 109
@@ -17489,7 +17489,7 @@
 "targetname" "shotsLeftG3"
 "origin" "-120 2176 416"
 "target" "shotsLeftG4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 110
@@ -17498,7 +17498,7 @@
 "targetname" "shotsLeftG4"
 "origin" "-120 2176 416"
 "target" "shotsLeftG5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 111
@@ -17507,7 +17507,7 @@
 "targetname" "shotsLeftG5"
 "origin" "-104 2048 416"
 "target" "shotsLeftG6"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 112
@@ -17516,7 +17516,7 @@
 "targetname" "shotsLeftG6"
 "origin" "-104 2048 416"
 "target" "shotsLeftG7"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 113
@@ -17525,7 +17525,7 @@
 "targetname" "shotsLeftG7"
 "origin" "-88 1920 416"
 "target" "shotsLeftG8"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 114
@@ -17534,7 +17534,7 @@
 "targetname" "shotsLeftG8"
 "origin" "-88 1920 416"
 "target" "shotsLeftG9"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 115
@@ -17543,7 +17543,7 @@
 "targetname" "shotsLeftG9"
 "origin" "-72 1792 416"
 "target" "shotsLeftG10"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 116
@@ -17552,7 +17552,7 @@
 "targetname" "shotsLeftG10"
 "origin" "-72 1792 416"
 "target" "shotsLeftG11"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 117
@@ -17561,7 +17561,7 @@
 "targetname" "shotsLeftG11"
 "origin" "-56 1664 416"
 "target" "shotsLeftG12"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 118
@@ -17570,7 +17570,7 @@
 "targetname" "shotsLeftG12"
 "origin" "-56 1664 416"
 "target" "shotsLeftG13"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 119
@@ -18568,7 +18568,7 @@
 "targetname" "fighterRight1"
 "origin" "136 2496 416"
 "target" "fighterRight2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 124
@@ -18577,7 +18577,7 @@
 "targetname" "fighterRight2"
 "origin" "136 2496 416"
 "target" "fighterRight3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 125
@@ -18586,7 +18586,7 @@
 "targetname" "fighterRight3"
 "origin" "120 2368 416"
 "target" "fighterRight4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 126
@@ -18595,7 +18595,7 @@
 "targetname" "fighterRight4"
 "origin" "120 2368 416"
 "target" "fighterRight5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 127
@@ -18604,7 +18604,7 @@
 "targetname" "fighterRight5"
 "origin" "104 2240 416"
 "target" "fighterRight6"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 128
@@ -18613,7 +18613,7 @@
 "targetname" "fighterRight6"
 "origin" "104 2240 416"
 "target" "fighterRight7"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 129
@@ -18622,7 +18622,7 @@
 "targetname" "fighterRight7"
 "origin" "88 2112 416"
 "target" "fighterRight8"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 130
@@ -18631,7 +18631,7 @@
 "targetname" "fighterRight8"
 "origin" "88 2112 416"
 "target" "fighterRight9"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 131
@@ -18640,7 +18640,7 @@
 "targetname" "fighterRight9"
 "origin" "72 1984 416"
 "target" "fighterRight10"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 132
@@ -18649,7 +18649,7 @@
 "targetname" "fighterRight10"
 "origin" "72 1984 416"
 "target" "fighterRight11"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 133
@@ -18658,7 +18658,7 @@
 "targetname" "fighterRight11"
 "origin" "56 1856 416"
 "target" "fighterRight12"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 134
@@ -18667,7 +18667,7 @@
 "targetname" "fighterRight12"
 "origin" "56 1856 416"
 "target" "fighterRight13"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 135
@@ -18676,7 +18676,7 @@
 "targetname" "fighterRight13"
 "origin" "40 1728 416"
 "target" "fighterRight14"
-"speed" "0.083333"
+"speed" "0.083"
 "smooth" "0"
 }
 // entity 136
@@ -18685,7 +18685,7 @@
 "targetname" "fighterRight14"
 "origin" "40 1728 416"
 "target" "fighterRight15"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 137
@@ -19028,7 +19028,7 @@
 "targetname" "shotsRightB1"
 "origin" "136 2496 416"
 "target" "shotsRightB2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 146
@@ -19037,7 +19037,7 @@
 "targetname" "shotsRightB2"
 "origin" "136 2496 416"
 "target" "shotsRightB3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 147
@@ -19213,7 +19213,7 @@
 "targetname" "shotsRightC1"
 "origin" "136 2496 416"
 "target" "shotsRightC2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 152
@@ -19222,7 +19222,7 @@
 "targetname" "shotsRightC2"
 "origin" "136 2496 416"
 "target" "shotsRightC3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 153
@@ -19231,7 +19231,7 @@
 "targetname" "shotsRightC3"
 "origin" "120 2368 416"
 "target" "shotsRightC4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 154
@@ -19240,7 +19240,7 @@
 "targetname" "shotsRightC4"
 "origin" "120 2368 416"
 "target" "shotsRightC5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 155
@@ -19416,7 +19416,7 @@
 "targetname" "shotsRightD1"
 "origin" "136 2496 416"
 "target" "shotsRightD2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 160
@@ -19425,7 +19425,7 @@
 "targetname" "shotsRightD2"
 "origin" "136 2496 416"
 "target" "shotsRightD3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 161
@@ -19434,7 +19434,7 @@
 "targetname" "shotsRightD3"
 "origin" "120 2368 416"
 "target" "shotsRightD4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 162
@@ -19443,7 +19443,7 @@
 "targetname" "shotsRightD4"
 "origin" "120 2368 416"
 "target" "shotsRightD5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 163
@@ -19452,7 +19452,7 @@
 "targetname" "shotsRightD5"
 "origin" "104 2240 416"
 "target" "shotsRightD6"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 164
@@ -19461,7 +19461,7 @@
 "targetname" "shotsRightD6"
 "origin" "104 2240 416"
 "target" "shotsRightD7"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 165
@@ -19637,7 +19637,7 @@
 "targetname" "shotsRightE1"
 "origin" "136 2496 416"
 "target" "shotsRightE2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 170
@@ -19646,7 +19646,7 @@
 "targetname" "shotsRightE2"
 "origin" "136 2496 416"
 "target" "shotsRightE3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 171
@@ -19655,7 +19655,7 @@
 "targetname" "shotsRightE3"
 "origin" "120 2368 416"
 "target" "shotsRightE4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 172
@@ -19664,7 +19664,7 @@
 "targetname" "shotsRightE4"
 "origin" "120 2368 416"
 "target" "shotsRightE5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 173
@@ -19673,7 +19673,7 @@
 "targetname" "shotsRightE5"
 "origin" "104 2240 416"
 "target" "shotsRightE6"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 174
@@ -19682,7 +19682,7 @@
 "targetname" "shotsRightE6"
 "origin" "104 2240 416"
 "target" "shotsRightE7"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 175
@@ -19691,7 +19691,7 @@
 "targetname" "shotsRightE7"
 "origin" "88 2112 416"
 "target" "shotsRightE8"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 176
@@ -19700,7 +19700,7 @@
 "targetname" "shotsRightE8"
 "origin" "88 2112 416"
 "target" "shotsRightE9"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 177
@@ -19876,7 +19876,7 @@
 "targetname" "shotsRightF1"
 "origin" "136 2496 416"
 "target" "shotsRightF2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 182
@@ -19885,7 +19885,7 @@
 "targetname" "shotsRightF2"
 "origin" "136 2496 416"
 "target" "shotsRightF3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 183
@@ -19894,7 +19894,7 @@
 "targetname" "shotsRightF3"
 "origin" "120 2368 416"
 "target" "shotsRightF4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 184
@@ -19903,7 +19903,7 @@
 "targetname" "shotsRightF4"
 "origin" "120 2368 416"
 "target" "shotsRightF5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 185
@@ -19912,7 +19912,7 @@
 "targetname" "shotsRightF5"
 "origin" "104 2240 416"
 "target" "shotsRightF6"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 186
@@ -19921,7 +19921,7 @@
 "targetname" "shotsRightF6"
 "origin" "104 2240 416"
 "target" "shotsRightF7"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 187
@@ -19930,7 +19930,7 @@
 "targetname" "shotsRightF7"
 "origin" "88 2112 416"
 "target" "shotsRightF8"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 188
@@ -19939,7 +19939,7 @@
 "targetname" "shotsRightF8"
 "origin" "88 2112 416"
 "target" "shotsRightF9"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 189
@@ -19948,7 +19948,7 @@
 "targetname" "shotsRightF9"
 "origin" "72 1984 416"
 "target" "shotsRightF10"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 190
@@ -19957,7 +19957,7 @@
 "targetname" "shotsRightF10"
 "origin" "72 1984 416"
 "target" "shotsRightF11"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 191
@@ -20133,7 +20133,7 @@
 "targetname" "shotsRightG1"
 "origin" "136 2496 416"
 "target" "shotsRightG2"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 196
@@ -20142,7 +20142,7 @@
 "targetname" "shotsRightG2"
 "origin" "136 2496 416"
 "target" "shotsRightG3"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 197
@@ -20151,7 +20151,7 @@
 "targetname" "shotsRightG3"
 "origin" "120 2368 416"
 "target" "shotsRightG4"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 198
@@ -20160,7 +20160,7 @@
 "targetname" "shotsRightG4"
 "origin" "120 2368 416"
 "target" "shotsRightG5"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 199
@@ -20169,7 +20169,7 @@
 "targetname" "shotsRightG5"
 "origin" "104 2240 416"
 "target" "shotsRightG6"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 200
@@ -20178,7 +20178,7 @@
 "targetname" "shotsRightG6"
 "origin" "104 2240 416"
 "target" "shotsRightG7"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 201
@@ -20187,7 +20187,7 @@
 "targetname" "shotsRightG7"
 "origin" "88 2112 416"
 "target" "shotsRightG8"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 202
@@ -20196,7 +20196,7 @@
 "targetname" "shotsRightG8"
 "origin" "88 2112 416"
 "target" "shotsRightG9"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 203
@@ -20205,7 +20205,7 @@
 "targetname" "shotsRightG9"
 "origin" "72 1984 416"
 "target" "shotsRightG10"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 204
@@ -20214,7 +20214,7 @@
 "targetname" "shotsRightG10"
 "origin" "72 1984 416"
 "target" "shotsRightG11"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 205
@@ -20223,7 +20223,7 @@
 "targetname" "shotsRightG11"
 "origin" "56 1856 416"
 "target" "shotsRightG12"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 206
@@ -20232,7 +20232,7 @@
 "targetname" "shotsRightG12"
 "origin" "56 1856 416"
 "target" "shotsRightG13"
-"speed" "0.333333"
+"speed" "0.333"
 "smooth" "0"
 }
 // entity 207

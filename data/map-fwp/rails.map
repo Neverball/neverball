@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "2.0"
+"version" "2.1"
 "author" "Florian Priester"
 "shot" "shot-fwp/rails.png"
 "back" "map-back/jupiter.sol"
@@ -10925,7 +10925,7 @@
 "targetname" "pusher0"
 "origin" "0 64 16"
 "target" "pusher1"
-"speed" "0.333333"
+"speed" "0.333"
 }
 // entity 13
 {
@@ -10933,7 +10933,7 @@
 "targetname" "pusher1"
 "origin" "0 128 16"
 "target" "pusher2"
-"speed" "1.166667"
+"speed" "1.167"
 }
 // entity 14
 {
