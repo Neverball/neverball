@@ -24,28 +24,36 @@
 #include <stdio.h>
 #include "fs.h"
 
+/* Random stuff. */
+
 #ifdef __GNUC__
 #define NULL_TERMINATED __attribute__ ((__sentinel__))
 #else
 #define NULL_TERMINATED
 #endif
 
-#define ARRAYSIZE(a) (sizeof (a) / sizeof ((a)[0]))
-#define MAXSTRLEN(a) (sizeof (a) - 1)
+/* Math. */
 
 #define MIN(x, y) ((x) < (y) ? (x) : (y))
 #define MAX(x, y) ((x) > (y) ? (x) : (y))
-
-#define SAFECPY(dst, src) (strncpy((dst), (src), MAXSTRLEN(dst)))
-#define SAFECAT(dst, src) (strncat((dst), \
-                                   (src), \
-                                   MAX(0, MAXSTRLEN(dst) - strlen(dst))))
 
 #define SIGN(n) ((n) < 0 ? -1 : ((n) ? +1 : 0))
 #define ROUND(f) ((int) ((f) + 0.5f * SIGN(f)))
 
 #define TIME_TO_MS(t) ROUND((t) * 1000.0f)
 #define MS_TO_TIME(m) ((m) * 0.001f)
+
+int rand_between(int low, int high);
+
+/* Arrays and strings. */
+
+#define ARRAYSIZE(a) (sizeof (a) / sizeof ((a)[0]))
+#define MAXSTRLEN(a) (sizeof (a) - 1)
+
+#define SAFECPY(dst, src) (strncpy((dst), (src), MAXSTRLEN(dst)))
+#define SAFECAT(dst, src) (strncat((dst), \
+                                   (src), \
+                                   MAX(0, MAXSTRLEN(dst) - strlen(dst))))
 
 int   read_line(char **, fs_file);
 char *strip_newline(char *);
@@ -61,12 +69,18 @@ char *concat_string(const char *first, ...) NULL_TERMINATED;
 #define str_starts_with(s, h) (strncmp((s), (h), strlen(h)) == 0)
 #define str_ends_with(s, t) (strcmp((s) + strlen(s) - strlen(t), (t)) == 0)
 
+/* Time. */
+
 time_t make_time_from_utc(struct tm *);
 const char *date_to_str(time_t);
+
+/* Files. */
 
 int  file_exists(const char *);
 int  file_rename(const char *, const char *);
 void file_copy(FILE *fin, FILE *fout);
+
+/* Paths. */
 
 int path_is_sep(int);
 int path_is_abs(const char *);
@@ -79,7 +93,5 @@ const char *path_next_sep(const char *);
 const char *base_name(const char *name);
 const char *base_name_sans(const char *name, const char *suffix);
 const char *dir_name(const char *name);
-
-int rand_between(int low, int high);
 
 #endif
