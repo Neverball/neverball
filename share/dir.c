@@ -92,10 +92,10 @@ Array dir_scan(const char *path,
     if (!list_files) list_files = dir_list_files;
     if (!free_files) free_files = dir_list_free;
 
+    items = array_new(sizeof (struct dir_item));
+
     if ((files = list_files(path)))
     {
-        items = array_new(sizeof (struct dir_item));
-
         for (file = files; file; file = file->next)
         {
             struct dir_item *item;
