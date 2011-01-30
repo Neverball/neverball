@@ -18,4 +18,4 @@ map-vidski/hoops.sol        back/blues.png       8  bgm/track2.ogg
 map-vidski/bounce.sol       back/purples.png     6  bgm/track3.ogg
 map-vidski/skiball.sol      back/blues.png       5  bgm/track4.ogg
 map-vidski/hotwheels.sol    back/org_yel.png     7  bgm/track5.ogg
-map-vidski/voodoo.sol       back/greens.png      8  bgm/track6.ogg
+map-vidski/voodoo.sol       back/blk_org.png      8  bgm/track6.ogg
