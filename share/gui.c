@@ -1035,8 +1035,7 @@ static void gui_hstack_dn(int id, int x, int y, int w, int h)
         if ((widget[jd].type & GUI_TYPE) == GUI_FILLER)
             gui_widget_dn(jd, jx, y, (w - jw) / c, h);
         else if (widget[jd].type & GUI_FILL)
-            gui_widget_dn(jd, jx, y, MAX(widget[jd].w,
-                                         widget[jd].w + (w - jw) / c), h);
+            gui_widget_dn(jd, jx, y, widget[jd].w + (w - jw) / c, h);
         else
             gui_widget_dn(jd, jx, y, widget[jd].w, h);
 
@@ -1074,8 +1073,7 @@ static void gui_vstack_dn(int id, int x, int y, int w, int h)
         if ((widget[jd].type & GUI_TYPE) == GUI_FILLER)
             gui_widget_dn(jd, x, jy, w, (h - jh) / c);
         else if (widget[jd].type & GUI_FILL)
-            gui_widget_dn(jd, x, jy, w, MAX(widget[jd].h,
-                                            widget[jd].h + (h - jh) / c));
+            gui_widget_dn(jd, x, jy, w, widget[jd].h + (h - jh) / c);
         else
             gui_widget_dn(jd, x, jy, w, widget[jd].h);
 
