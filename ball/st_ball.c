@@ -188,6 +188,7 @@ static int ball_gui(void)
                                 gui_wht, gui_wht);
 
             gui_set_trunc(name_id, TRUNC_TAIL);
+            gui_set_fill(name_id);
 
             gui_state(jd, " < ", GUI_SML, BALL_PREV, 0);
         }

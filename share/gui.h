@@ -66,6 +66,7 @@ void gui_set_count(int, int);
 void gui_set_clock(int, int);
 void gui_set_color(int, const float *, const float *);
 void gui_set_trunc(int, enum trunc);
+void gui_set_fill(int);
 
 /*---------------------------------------------------------------------------*/
 

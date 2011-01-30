@@ -31,20 +31,25 @@
 
 #define MAXWIDGET 256
 
-#define GUI_TYPE 0xFFFE
+#define GUI_TYPE 0xFFFC
 
 #define GUI_FREE   0
-#define GUI_STATE  1
-#define GUI_HARRAY 2
-#define GUI_VARRAY 4
-#define GUI_HSTACK 6
-#define GUI_VSTACK 8
-#define GUI_FILLER 10
-#define GUI_IMAGE  12
-#define GUI_LABEL  14
-#define GUI_COUNT  16
-#define GUI_CLOCK  18
-#define GUI_SPACE  20
+
+#define GUI_STATE 1
+#define GUI_FILL  2
+
+#define GUI_FLAGS 2
+
+#define GUI_HARRAY (1  << GUI_FLAGS)
+#define GUI_VARRAY (2  << GUI_FLAGS)
+#define GUI_HSTACK (3  << GUI_FLAGS)
+#define GUI_VSTACK (4  << GUI_FLAGS)
+#define GUI_FILLER (5  << GUI_FLAGS)
+#define GUI_IMAGE  (6  << GUI_FLAGS)
+#define GUI_LABEL  (7  << GUI_FLAGS)
+#define GUI_COUNT  (8  << GUI_FLAGS)
+#define GUI_CLOCK  (9  << GUI_FLAGS)
+#define GUI_SPACE  (10 << GUI_FLAGS)
 
 #define GUI_LINES 8
 
@@ -648,6 +653,11 @@ void gui_set_trunc(int id, enum trunc trunc)
     widget[id].trunc = trunc;
 }
 
+void gui_set_fill(int id)
+{
+    widget[id].type |= GUI_FILL;
+}
+
 /*---------------------------------------------------------------------------*/
 
 int gui_image(int pd, const char *file, int w, int h)
@@ -1009,6 +1019,11 @@ static void gui_hstack_dn(int id, int x, int y, int w, int h)
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
         if ((widget[jd].type & GUI_TYPE) == GUI_FILLER)
             c += 1;
+        else if (widget[jd].type & GUI_FILL)
+        {
+            c  += 1;
+            jw += widget[jd].w;
+        }
         else
             jw += widget[jd].w;
 
@@ -1019,6 +1034,9 @@ static void gui_hstack_dn(int id, int x, int y, int w, int h)
     {
         if ((widget[jd].type & GUI_TYPE) == GUI_FILLER)
             gui_widget_dn(jd, jx, y, (w - jw) / c, h);
+        else if (widget[jd].type & GUI_FILL)
+            gui_widget_dn(jd, jx, y, MAX(widget[jd].w,
+                                         widget[jd].w + (w - jw) / c), h);
         else
             gui_widget_dn(jd, jx, y, widget[jd].w, h);
 
@@ -1040,6 +1058,11 @@ static void gui_vstack_dn(int id, int x, int y, int w, int h)
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
         if ((widget[jd].type & GUI_TYPE) == GUI_FILLER)
             c += 1;
+        else if (widget[jd].type & GUI_FILL)
+        {
+            c  += 1;
+            jh += widget[jd].h;
+        }
         else
             jh += widget[jd].h;
 
@@ -1050,6 +1073,9 @@ static void gui_vstack_dn(int id, int x, int y, int w, int h)
     {
         if ((widget[jd].type & GUI_TYPE) == GUI_FILLER)
             gui_widget_dn(jd, x, jy, w, (h - jh) / c);
+        else if (widget[jd].type & GUI_FILL)
+            gui_widget_dn(jd, x, jy, w, MAX(widget[jd].h,
+                                            widget[jd].h + (h - jh) / c));
         else
             gui_widget_dn(jd, x, jy, w, widget[jd].h);
 
