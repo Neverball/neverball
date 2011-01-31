@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -4229,5 +4230,5 @@
 {
 "classname" "info_player_deathmatch"
 "origin" "-776 -128 552"
-"radius" "0.125"
+"radius" "0.1375"
 }
