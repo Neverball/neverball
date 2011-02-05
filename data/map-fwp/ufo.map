@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "4.1"
+"version" "4.2"
 "author" "Florian Priester"
 "shot" "shot-fwp/ufo.png"
 "back" "map-back/jupiter.sol"
@@ -20731,7 +20731,7 @@
 // entity 244
 {
 "classname" "info_null"
-"origin" "0 0 -40"
+"origin" "0 1536 344"
 "image" "mtrl/poof-blue"
 "width" "0.125"
 "height" "0.125"
@@ -20739,7 +20739,7 @@
 // entity 245
 {
 "classname" "info_null"
-"origin" "0 8 -40"
+"origin" "0 1528 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20747,7 +20747,7 @@
 // entity 246
 {
 "classname" "info_null"
-"origin" "0 16 -40"
+"origin" "0 1520 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20755,7 +20755,7 @@
 // entity 247
 {
 "classname" "info_null"
-"origin" "0 24 -40"
+"origin" "0 1512 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20763,7 +20763,7 @@
 // entity 248
 {
 "classname" "info_null"
-"origin" "0 32 -40"
+"origin" "0 1504 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20771,7 +20771,7 @@
 // entity 249
 {
 "classname" "info_null"
-"origin" "0 40 -40"
+"origin" "0 1496 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20779,7 +20779,7 @@
 // entity 250
 {
 "classname" "info_null"
-"origin" "0 48 -40"
+"origin" "0 1488 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20787,7 +20787,7 @@
 // entity 251
 {
 "classname" "info_null"
-"origin" "0 56 -40"
+"origin" "0 1480 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20795,7 +20795,7 @@
 // entity 252
 {
 "classname" "info_null"
-"origin" "0 64 -40"
+"origin" "0 1472 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20803,7 +20803,7 @@
 // entity 253
 {
 "classname" "info_null"
-"origin" "0 72 -40"
+"origin" "0 1464 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20811,7 +20811,7 @@
 // entity 254
 {
 "classname" "info_null"
-"origin" "0 80 -40"
+"origin" "0 1456 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20819,7 +20819,7 @@
 // entity 255
 {
 "classname" "info_null"
-"origin" "0 88 -40"
+"origin" "0 1448 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20827,7 +20827,7 @@
 // entity 256
 {
 "classname" "info_null"
-"origin" "0 96 -40"
+"origin" "0 1440 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20835,7 +20835,7 @@
 // entity 257
 {
 "classname" "info_null"
-"origin" "0 104 -40"
+"origin" "0 1432 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20843,7 +20843,7 @@
 // entity 258
 {
 "classname" "info_null"
-"origin" "0 112 -40"
+"origin" "0 1424 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20851,7 +20851,7 @@
 // entity 259
 {
 "classname" "info_null"
-"origin" "0 120 -40"
+"origin" "0 1416 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20859,7 +20859,7 @@
 // entity 260
 {
 "classname" "info_null"
-"origin" "0 128 -40"
+"origin" "0 1408 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20867,7 +20867,7 @@
 // entity 261
 {
 "classname" "info_null"
-"origin" "0 136 -40"
+"origin" "0 1400 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20875,7 +20875,7 @@
 // entity 262
 {
 "classname" "info_null"
-"origin" "0 144 -40"
+"origin" "0 1392 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20883,7 +20883,7 @@
 // entity 263
 {
 "classname" "info_null"
-"origin" "0 152 -40"
+"origin" "0 1384 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20891,7 +20891,7 @@
 // entity 264
 {
 "classname" "info_null"
-"origin" "0 160 -40"
+"origin" "0 1376 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20899,7 +20899,7 @@
 // entity 265
 {
 "classname" "info_null"
-"origin" "0 168 -40"
+"origin" "0 1368 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20907,7 +20907,7 @@
 // entity 266
 {
 "classname" "info_null"
-"origin" "0 176 -40"
+"origin" "0 1360 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20915,7 +20915,7 @@
 // entity 267
 {
 "classname" "info_null"
-"origin" "0 184 -40"
+"origin" "0 1352 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20923,7 +20923,7 @@
 // entity 268
 {
 "classname" "info_null"
-"origin" "0 192 -40"
+"origin" "0 1344 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20931,7 +20931,7 @@
 // entity 269
 {
 "classname" "info_null"
-"origin" "0 200 -40"
+"origin" "0 1336 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20939,7 +20939,7 @@
 // entity 270
 {
 "classname" "info_null"
-"origin" "0 208 -40"
+"origin" "0 1328 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20947,7 +20947,7 @@
 // entity 271
 {
 "classname" "info_null"
-"origin" "0 216 -40"
+"origin" "0 1320 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20955,7 +20955,7 @@
 // entity 272
 {
 "classname" "info_null"
-"origin" "0 224 -40"
+"origin" "0 1312 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20963,7 +20963,7 @@
 // entity 273
 {
 "classname" "info_null"
-"origin" "0 232 -40"
+"origin" "0 1304 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20971,7 +20971,7 @@
 // entity 274
 {
 "classname" "info_null"
-"origin" "0 240 -40"
+"origin" "0 1296 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20979,7 +20979,7 @@
 // entity 275
 {
 "classname" "info_null"
-"origin" "0 248 -40"
+"origin" "0 1288 344"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -20987,15 +20987,15 @@
 // entity 276
 {
 "classname" "info_null"
-"origin" "0 256 -40"
+"origin" "0 1280 344"
 "image" "mtrl/poof-blue"
-"width" "0.0625"
-"height" "0.0625"
+"width" "0.125"
+"height" "0.125"
 }
 // entity 277
 {
 "classname" "info_null"
-"origin" "0 264 -40"
+"origin" "0 1280 336"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21003,7 +21003,7 @@
 // entity 278
 {
 "classname" "info_null"
-"origin" "0 272 -40"
+"origin" "0 1280 328"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21011,7 +21011,7 @@
 // entity 279
 {
 "classname" "info_null"
-"origin" "0 280 -40"
+"origin" "0 1280 320"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21019,7 +21019,7 @@
 // entity 280
 {
 "classname" "info_null"
-"origin" "0 288 -40"
+"origin" "0 1280 312"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21027,7 +21027,7 @@
 // entity 281
 {
 "classname" "info_null"
-"origin" "0 296 -40"
+"origin" "0 1280 304"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21035,7 +21035,7 @@
 // entity 282
 {
 "classname" "info_null"
-"origin" "0 304 -40"
+"origin" "0 1280 296"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21043,7 +21043,7 @@
 // entity 283
 {
 "classname" "info_null"
-"origin" "0 312 -40"
+"origin" "0 1280 288"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21051,7 +21051,7 @@
 // entity 284
 {
 "classname" "info_null"
-"origin" "0 320 -40"
+"origin" "0 1280 280"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21059,7 +21059,7 @@
 // entity 285
 {
 "classname" "info_null"
-"origin" "0 328 -40"
+"origin" "0 1280 272"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21067,7 +21067,7 @@
 // entity 286
 {
 "classname" "info_null"
-"origin" "0 336 -40"
+"origin" "0 1280 264"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21075,7 +21075,7 @@
 // entity 287
 {
 "classname" "info_null"
-"origin" "0 344 -40"
+"origin" "0 1280 256"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21083,7 +21083,7 @@
 // entity 288
 {
 "classname" "info_null"
-"origin" "0 352 -40"
+"origin" "0 1280 248"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21091,7 +21091,7 @@
 // entity 289
 {
 "classname" "info_null"
-"origin" "0 360 -40"
+"origin" "0 1280 240"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21099,7 +21099,7 @@
 // entity 290
 {
 "classname" "info_null"
-"origin" "0 368 -40"
+"origin" "0 1280 232"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21107,7 +21107,7 @@
 // entity 291
 {
 "classname" "info_null"
-"origin" "0 376 -40"
+"origin" "0 1280 224"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21115,15 +21115,15 @@
 // entity 292
 {
 "classname" "info_null"
-"origin" "0 384 -40"
+"origin" "0 1280 216"
 "image" "mtrl/poof-blue"
-"width" "0.0625"
-"height" "0.0625"
+"width" "0.125"
+"height" "0.125"
 }
 // entity 293
 {
 "classname" "info_null"
-"origin" "0 392 -40"
+"origin" "0 1272 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21131,7 +21131,7 @@
 // entity 294
 {
 "classname" "info_null"
-"origin" "0 400 -40"
+"origin" "0 1264 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21139,7 +21139,7 @@
 // entity 295
 {
 "classname" "info_null"
-"origin" "0 408 -40"
+"origin" "0 1256 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21147,7 +21147,7 @@
 // entity 296
 {
 "classname" "info_null"
-"origin" "0 416 -40"
+"origin" "0 1248 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21155,7 +21155,7 @@
 // entity 297
 {
 "classname" "info_null"
-"origin" "0 424 -40"
+"origin" "0 1240 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21163,7 +21163,7 @@
 // entity 298
 {
 "classname" "info_null"
-"origin" "0 432 -40"
+"origin" "0 1232 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21171,7 +21171,7 @@
 // entity 299
 {
 "classname" "info_null"
-"origin" "0 440 -40"
+"origin" "0 1224 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21179,7 +21179,7 @@
 // entity 300
 {
 "classname" "info_null"
-"origin" "0 448 -40"
+"origin" "0 1216 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21187,7 +21187,7 @@
 // entity 301
 {
 "classname" "info_null"
-"origin" "0 456 -40"
+"origin" "0 1208 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21195,7 +21195,7 @@
 // entity 302
 {
 "classname" "info_null"
-"origin" "0 464 -40"
+"origin" "0 1200 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21203,7 +21203,7 @@
 // entity 303
 {
 "classname" "info_null"
-"origin" "0 472 -40"
+"origin" "0 1192 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21211,7 +21211,7 @@
 // entity 304
 {
 "classname" "info_null"
-"origin" "0 480 -40"
+"origin" "0 1184 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21219,7 +21219,7 @@
 // entity 305
 {
 "classname" "info_null"
-"origin" "0 488 -40"
+"origin" "0 1176 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21227,7 +21227,7 @@
 // entity 306
 {
 "classname" "info_null"
-"origin" "0 496 -40"
+"origin" "0 1168 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21235,7 +21235,7 @@
 // entity 307
 {
 "classname" "info_null"
-"origin" "0 504 -40"
+"origin" "0 1160 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21243,7 +21243,7 @@
 // entity 308
 {
 "classname" "info_null"
-"origin" "0 512 -40"
+"origin" "0 1152 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21251,7 +21251,7 @@
 // entity 309
 {
 "classname" "info_null"
-"origin" "0 520 -40"
+"origin" "0 1144 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21259,7 +21259,7 @@
 // entity 310
 {
 "classname" "info_null"
-"origin" "0 528 -40"
+"origin" "0 1136 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21267,7 +21267,7 @@
 // entity 311
 {
 "classname" "info_null"
-"origin" "0 536 -40"
+"origin" "0 1128 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21275,7 +21275,7 @@
 // entity 312
 {
 "classname" "info_null"
-"origin" "0 544 -40"
+"origin" "0 1120 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21283,7 +21283,7 @@
 // entity 313
 {
 "classname" "info_null"
-"origin" "0 552 -40"
+"origin" "0 1112 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21291,7 +21291,7 @@
 // entity 314
 {
 "classname" "info_null"
-"origin" "0 560 -40"
+"origin" "0 1104 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21299,7 +21299,7 @@
 // entity 315
 {
 "classname" "info_null"
-"origin" "0 568 -40"
+"origin" "0 1096 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21307,7 +21307,7 @@
 // entity 316
 {
 "classname" "info_null"
-"origin" "0 576 -40"
+"origin" "0 1088 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21315,7 +21315,7 @@
 // entity 317
 {
 "classname" "info_null"
-"origin" "0 584 -40"
+"origin" "0 1080 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21323,7 +21323,7 @@
 // entity 318
 {
 "classname" "info_null"
-"origin" "0 592 -40"
+"origin" "0 1072 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21331,7 +21331,7 @@
 // entity 319
 {
 "classname" "info_null"
-"origin" "0 600 -40"
+"origin" "0 1064 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21339,7 +21339,7 @@
 // entity 320
 {
 "classname" "info_null"
-"origin" "0 608 -40"
+"origin" "0 1056 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21347,7 +21347,7 @@
 // entity 321
 {
 "classname" "info_null"
-"origin" "0 616 -40"
+"origin" "0 1048 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21355,7 +21355,7 @@
 // entity 322
 {
 "classname" "info_null"
-"origin" "0 624 -40"
+"origin" "0 1040 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21363,7 +21363,7 @@
 // entity 323
 {
 "classname" "info_null"
-"origin" "0 632 -40"
+"origin" "0 1032 216"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21371,15 +21371,15 @@
 // entity 324
 {
 "classname" "info_null"
-"origin" "0 640 -40"
+"origin" "0 1024 216"
 "image" "mtrl/poof-blue"
-"width" "0.0625"
-"height" "0.0625"
+"width" "0.125"
+"height" "0.125"
 }
 // entity 325
 {
 "classname" "info_null"
-"origin" "0 648 -40"
+"origin" "0 1024 208"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21387,7 +21387,7 @@
 // entity 326
 {
 "classname" "info_null"
-"origin" "0 656 -40"
+"origin" "0 1024 200"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21395,7 +21395,7 @@
 // entity 327
 {
 "classname" "info_null"
-"origin" "0 664 -40"
+"origin" "0 1024 192"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21403,7 +21403,7 @@
 // entity 328
 {
 "classname" "info_null"
-"origin" "0 672 -40"
+"origin" "0 1024 184"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21411,7 +21411,7 @@
 // entity 329
 {
 "classname" "info_null"
-"origin" "0 680 -40"
+"origin" "0 1024 176"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21419,7 +21419,7 @@
 // entity 330
 {
 "classname" "info_null"
-"origin" "0 688 -40"
+"origin" "0 1024 168"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21427,7 +21427,7 @@
 // entity 331
 {
 "classname" "info_null"
-"origin" "0 696 -40"
+"origin" "0 1024 160"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21435,7 +21435,7 @@
 // entity 332
 {
 "classname" "info_null"
-"origin" "0 704 -40"
+"origin" "0 1024 152"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21443,7 +21443,7 @@
 // entity 333
 {
 "classname" "info_null"
-"origin" "0 712 -40"
+"origin" "0 1024 144"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21451,7 +21451,7 @@
 // entity 334
 {
 "classname" "info_null"
-"origin" "0 720 -40"
+"origin" "0 1024 136"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21459,7 +21459,7 @@
 // entity 335
 {
 "classname" "info_null"
-"origin" "0 728 -40"
+"origin" "0 1024 128"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21467,7 +21467,7 @@
 // entity 336
 {
 "classname" "info_null"
-"origin" "0 736 -40"
+"origin" "0 1024 120"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21475,7 +21475,7 @@
 // entity 337
 {
 "classname" "info_null"
-"origin" "0 744 -40"
+"origin" "0 1024 112"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21483,7 +21483,7 @@
 // entity 338
 {
 "classname" "info_null"
-"origin" "0 752 -40"
+"origin" "0 1024 104"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21491,7 +21491,7 @@
 // entity 339
 {
 "classname" "info_null"
-"origin" "0 760 -40"
+"origin" "0 1024 96"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21499,7 +21499,7 @@
 // entity 340
 {
 "classname" "info_null"
-"origin" "0 768 -40"
+"origin" "0 1024 88"
 "image" "mtrl/poof-blue"
 "width" "0.125"
 "height" "0.125"
@@ -21507,7 +21507,7 @@
 // entity 341
 {
 "classname" "info_null"
-"origin" "0 768 -32"
+"origin" "0 1016 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21515,7 +21515,7 @@
 // entity 342
 {
 "classname" "info_null"
-"origin" "0 768 -24"
+"origin" "0 1008 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21523,7 +21523,7 @@
 // entity 343
 {
 "classname" "info_null"
-"origin" "0 768 -16"
+"origin" "0 1000 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21531,7 +21531,7 @@
 // entity 344
 {
 "classname" "info_null"
-"origin" "0 768 -8"
+"origin" "0 992 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21539,7 +21539,7 @@
 // entity 345
 {
 "classname" "info_null"
-"origin" "0 768 0"
+"origin" "0 984 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21547,7 +21547,7 @@
 // entity 346
 {
 "classname" "info_null"
-"origin" "0 768 8"
+"origin" "0 976 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21555,7 +21555,7 @@
 // entity 347
 {
 "classname" "info_null"
-"origin" "0 768 16"
+"origin" "0 968 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21563,7 +21563,7 @@
 // entity 348
 {
 "classname" "info_null"
-"origin" "0 768 24"
+"origin" "0 960 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21571,7 +21571,7 @@
 // entity 349
 {
 "classname" "info_null"
-"origin" "0 768 32"
+"origin" "0 952 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21579,7 +21579,7 @@
 // entity 350
 {
 "classname" "info_null"
-"origin" "0 768 40"
+"origin" "0 944 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21587,7 +21587,7 @@
 // entity 351
 {
 "classname" "info_null"
-"origin" "0 768 48"
+"origin" "0 936 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21595,7 +21595,7 @@
 // entity 352
 {
 "classname" "info_null"
-"origin" "0 768 56"
+"origin" "0 928 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21603,7 +21603,7 @@
 // entity 353
 {
 "classname" "info_null"
-"origin" "0 768 64"
+"origin" "0 920 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21611,7 +21611,7 @@
 // entity 354
 {
 "classname" "info_null"
-"origin" "0 768 72"
+"origin" "0 912 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21619,7 +21619,7 @@
 // entity 355
 {
 "classname" "info_null"
-"origin" "0 768 80"
+"origin" "0 904 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21627,15 +21627,15 @@
 // entity 356
 {
 "classname" "info_null"
-"origin" "0 768 88"
+"origin" "0 896 88"
 "image" "mtrl/poof-blue"
-"width" "0.125"
-"height" "0.125"
+"width" "0.0625"
+"height" "0.0625"
 }
 // entity 357
 {
 "classname" "info_null"
-"origin" "0 776 88"
+"origin" "0 888 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21643,7 +21643,7 @@
 // entity 358
 {
 "classname" "info_null"
-"origin" "0 784 88"
+"origin" "0 880 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21651,7 +21651,7 @@
 // entity 359
 {
 "classname" "info_null"
-"origin" "0 792 88"
+"origin" "0 872 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21659,7 +21659,7 @@
 // entity 360
 {
 "classname" "info_null"
-"origin" "0 800 88"
+"origin" "0 864 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21667,7 +21667,7 @@
 // entity 361
 {
 "classname" "info_null"
-"origin" "0 808 88"
+"origin" "0 856 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21675,7 +21675,7 @@
 // entity 362
 {
 "classname" "info_null"
-"origin" "0 816 88"
+"origin" "0 848 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21683,7 +21683,7 @@
 // entity 363
 {
 "classname" "info_null"
-"origin" "0 824 88"
+"origin" "0 840 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21699,7 +21699,7 @@
 // entity 365
 {
 "classname" "info_null"
-"origin" "0 840 88"
+"origin" "0 824 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21707,7 +21707,7 @@
 // entity 366
 {
 "classname" "info_null"
-"origin" "0 848 88"
+"origin" "0 816 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21715,7 +21715,7 @@
 // entity 367
 {
 "classname" "info_null"
-"origin" "0 856 88"
+"origin" "0 808 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21723,7 +21723,7 @@
 // entity 368
 {
 "classname" "info_null"
-"origin" "0 864 88"
+"origin" "0 800 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21731,7 +21731,7 @@
 // entity 369
 {
 "classname" "info_null"
-"origin" "0 872 88"
+"origin" "0 792 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21739,7 +21739,7 @@
 // entity 370
 {
 "classname" "info_null"
-"origin" "0 880 88"
+"origin" "0 784 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21747,7 +21747,7 @@
 // entity 371
 {
 "classname" "info_null"
-"origin" "0 888 88"
+"origin" "0 776 88"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21755,15 +21755,15 @@
 // entity 372
 {
 "classname" "info_null"
-"origin" "0 896 88"
+"origin" "0 768 88"
 "image" "mtrl/poof-blue"
-"width" "0.0625"
-"height" "0.0625"
+"width" "0.125"
+"height" "0.125"
 }
 // entity 373
 {
 "classname" "info_null"
-"origin" "0 904 88"
+"origin" "0 768 80"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21771,7 +21771,7 @@
 // entity 374
 {
 "classname" "info_null"
-"origin" "0 912 88"
+"origin" "0 768 72"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21779,7 +21779,7 @@
 // entity 375
 {
 "classname" "info_null"
-"origin" "0 920 88"
+"origin" "0 768 64"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21787,7 +21787,7 @@
 // entity 376
 {
 "classname" "info_null"
-"origin" "0 928 88"
+"origin" "0 768 56"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21795,7 +21795,7 @@
 // entity 377
 {
 "classname" "info_null"
-"origin" "0 936 88"
+"origin" "0 768 48"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21803,7 +21803,7 @@
 // entity 378
 {
 "classname" "info_null"
-"origin" "0 944 88"
+"origin" "0 768 40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21811,7 +21811,7 @@
 // entity 379
 {
 "classname" "info_null"
-"origin" "0 952 88"
+"origin" "0 768 32"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21819,7 +21819,7 @@
 // entity 380
 {
 "classname" "info_null"
-"origin" "0 960 88"
+"origin" "0 768 24"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21827,7 +21827,7 @@
 // entity 381
 {
 "classname" "info_null"
-"origin" "0 968 88"
+"origin" "0 768 16"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21835,7 +21835,7 @@
 // entity 382
 {
 "classname" "info_null"
-"origin" "0 976 88"
+"origin" "0 768 8"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21843,7 +21843,7 @@
 // entity 383
 {
 "classname" "info_null"
-"origin" "0 984 88"
+"origin" "0 768 0"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21851,7 +21851,7 @@
 // entity 384
 {
 "classname" "info_null"
-"origin" "0 992 88"
+"origin" "0 768 -8"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21859,7 +21859,7 @@
 // entity 385
 {
 "classname" "info_null"
-"origin" "0 1000 88"
+"origin" "0 768 -16"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21867,7 +21867,7 @@
 // entity 386
 {
 "classname" "info_null"
-"origin" "0 1008 88"
+"origin" "0 768 -24"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21875,7 +21875,7 @@
 // entity 387
 {
 "classname" "info_null"
-"origin" "0 1016 88"
+"origin" "0 768 -32"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21883,7 +21883,7 @@
 // entity 388
 {
 "classname" "info_null"
-"origin" "0 1024 88"
+"origin" "0 768 -40"
 "image" "mtrl/poof-blue"
 "width" "0.125"
 "height" "0.125"
@@ -21891,7 +21891,7 @@
 // entity 389
 {
 "classname" "info_null"
-"origin" "0 1024 96"
+"origin" "0 760 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21899,7 +21899,7 @@
 // entity 390
 {
 "classname" "info_null"
-"origin" "0 1024 104"
+"origin" "0 752 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21907,7 +21907,7 @@
 // entity 391
 {
 "classname" "info_null"
-"origin" "0 1024 112"
+"origin" "0 744 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21915,7 +21915,7 @@
 // entity 392
 {
 "classname" "info_null"
-"origin" "0 1024 120"
+"origin" "0 736 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21923,7 +21923,7 @@
 // entity 393
 {
 "classname" "info_null"
-"origin" "0 1024 128"
+"origin" "0 728 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21931,7 +21931,7 @@
 // entity 394
 {
 "classname" "info_null"
-"origin" "0 1024 136"
+"origin" "0 720 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21939,7 +21939,7 @@
 // entity 395
 {
 "classname" "info_null"
-"origin" "0 1024 144"
+"origin" "0 712 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21947,7 +21947,7 @@
 // entity 396
 {
 "classname" "info_null"
-"origin" "0 1024 152"
+"origin" "0 704 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21955,7 +21955,7 @@
 // entity 397
 {
 "classname" "info_null"
-"origin" "0 1024 160"
+"origin" "0 696 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21963,7 +21963,7 @@
 // entity 398
 {
 "classname" "info_null"
-"origin" "0 1024 168"
+"origin" "0 688 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21971,7 +21971,7 @@
 // entity 399
 {
 "classname" "info_null"
-"origin" "0 1024 176"
+"origin" "0 680 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21979,7 +21979,7 @@
 // entity 400
 {
 "classname" "info_null"
-"origin" "0 1024 184"
+"origin" "0 672 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21987,7 +21987,7 @@
 // entity 401
 {
 "classname" "info_null"
-"origin" "0 1024 192"
+"origin" "0 664 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -21995,7 +21995,7 @@
 // entity 402
 {
 "classname" "info_null"
-"origin" "0 1024 200"
+"origin" "0 656 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22003,7 +22003,7 @@
 // entity 403
 {
 "classname" "info_null"
-"origin" "0 1024 208"
+"origin" "0 648 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22011,15 +22011,15 @@
 // entity 404
 {
 "classname" "info_null"
-"origin" "0 1024 216"
+"origin" "0 640 -40"
 "image" "mtrl/poof-blue"
-"width" "0.125"
-"height" "0.125"
+"width" "0.0625"
+"height" "0.0625"
 }
 // entity 405
 {
 "classname" "info_null"
-"origin" "0 1032 216"
+"origin" "0 632 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22027,7 +22027,7 @@
 // entity 406
 {
 "classname" "info_null"
-"origin" "0 1040 216"
+"origin" "0 624 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22035,7 +22035,7 @@
 // entity 407
 {
 "classname" "info_null"
-"origin" "0 1048 216"
+"origin" "0 616 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22043,7 +22043,7 @@
 // entity 408
 {
 "classname" "info_null"
-"origin" "0 1056 216"
+"origin" "0 608 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22051,7 +22051,7 @@
 // entity 409
 {
 "classname" "info_null"
-"origin" "0 1064 216"
+"origin" "0 600 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22059,7 +22059,7 @@
 // entity 410
 {
 "classname" "info_null"
-"origin" "0 1072 216"
+"origin" "0 592 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22067,7 +22067,7 @@
 // entity 411
 {
 "classname" "info_null"
-"origin" "0 1080 216"
+"origin" "0 584 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22075,7 +22075,7 @@
 // entity 412
 {
 "classname" "info_null"
-"origin" "0 1088 216"
+"origin" "0 576 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22083,7 +22083,7 @@
 // entity 413
 {
 "classname" "info_null"
-"origin" "0 1096 216"
+"origin" "0 568 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22091,7 +22091,7 @@
 // entity 414
 {
 "classname" "info_null"
-"origin" "0 1104 216"
+"origin" "0 560 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22099,7 +22099,7 @@
 // entity 415
 {
 "classname" "info_null"
-"origin" "0 1112 216"
+"origin" "0 552 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22107,7 +22107,7 @@
 // entity 416
 {
 "classname" "info_null"
-"origin" "0 1120 216"
+"origin" "0 544 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22115,7 +22115,7 @@
 // entity 417
 {
 "classname" "info_null"
-"origin" "0 1128 216"
+"origin" "0 536 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22123,7 +22123,7 @@
 // entity 418
 {
 "classname" "info_null"
-"origin" "0 1136 216"
+"origin" "0 528 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22131,7 +22131,7 @@
 // entity 419
 {
 "classname" "info_null"
-"origin" "0 1144 216"
+"origin" "0 520 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22139,7 +22139,7 @@
 // entity 420
 {
 "classname" "info_null"
-"origin" "0 1152 216"
+"origin" "0 512 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22147,7 +22147,7 @@
 // entity 421
 {
 "classname" "info_null"
-"origin" "0 1160 216"
+"origin" "0 504 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22155,7 +22155,7 @@
 // entity 422
 {
 "classname" "info_null"
-"origin" "0 1168 216"
+"origin" "0 496 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22163,7 +22163,7 @@
 // entity 423
 {
 "classname" "info_null"
-"origin" "0 1176 216"
+"origin" "0 488 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22171,7 +22171,7 @@
 // entity 424
 {
 "classname" "info_null"
-"origin" "0 1184 216"
+"origin" "0 480 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22179,7 +22179,7 @@
 // entity 425
 {
 "classname" "info_null"
-"origin" "0 1192 216"
+"origin" "0 472 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22187,7 +22187,7 @@
 // entity 426
 {
 "classname" "info_null"
-"origin" "0 1200 216"
+"origin" "0 464 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22195,7 +22195,7 @@
 // entity 427
 {
 "classname" "info_null"
-"origin" "0 1208 216"
+"origin" "0 456 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22203,7 +22203,7 @@
 // entity 428
 {
 "classname" "info_null"
-"origin" "0 1216 216"
+"origin" "0 448 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22211,7 +22211,7 @@
 // entity 429
 {
 "classname" "info_null"
-"origin" "0 1224 216"
+"origin" "0 440 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22219,7 +22219,7 @@
 // entity 430
 {
 "classname" "info_null"
-"origin" "0 1232 216"
+"origin" "0 432 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22227,7 +22227,7 @@
 // entity 431
 {
 "classname" "info_null"
-"origin" "0 1240 216"
+"origin" "0 424 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22235,7 +22235,7 @@
 // entity 432
 {
 "classname" "info_null"
-"origin" "0 1248 216"
+"origin" "0 416 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22243,7 +22243,7 @@
 // entity 433
 {
 "classname" "info_null"
-"origin" "0 1256 216"
+"origin" "0 408 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22251,7 +22251,7 @@
 // entity 434
 {
 "classname" "info_null"
-"origin" "0 1264 216"
+"origin" "0 400 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22259,7 +22259,7 @@
 // entity 435
 {
 "classname" "info_null"
-"origin" "0 1272 216"
+"origin" "0 392 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22267,15 +22267,15 @@
 // entity 436
 {
 "classname" "info_null"
-"origin" "0 1280 216"
+"origin" "0 384 -40"
 "image" "mtrl/poof-blue"
-"width" "0.125"
-"height" "0.125"
+"width" "0.0625"
+"height" "0.0625"
 }
 // entity 437
 {
 "classname" "info_null"
-"origin" "0 1280 224"
+"origin" "0 376 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22283,7 +22283,7 @@
 // entity 438
 {
 "classname" "info_null"
-"origin" "0 1280 232"
+"origin" "0 368 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22291,7 +22291,7 @@
 // entity 439
 {
 "classname" "info_null"
-"origin" "0 1280 240"
+"origin" "0 360 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22299,7 +22299,7 @@
 // entity 440
 {
 "classname" "info_null"
-"origin" "0 1280 248"
+"origin" "0 352 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22307,7 +22307,7 @@
 // entity 441
 {
 "classname" "info_null"
-"origin" "0 1280 256"
+"origin" "0 344 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22315,7 +22315,7 @@
 // entity 442
 {
 "classname" "info_null"
-"origin" "0 1280 264"
+"origin" "0 336 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22323,7 +22323,7 @@
 // entity 443
 {
 "classname" "info_null"
-"origin" "0 1280 272"
+"origin" "0 328 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22331,7 +22331,7 @@
 // entity 444
 {
 "classname" "info_null"
-"origin" "0 1280 280"
+"origin" "0 320 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22339,7 +22339,7 @@
 // entity 445
 {
 "classname" "info_null"
-"origin" "0 1280 288"
+"origin" "0 312 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22347,7 +22347,7 @@
 // entity 446
 {
 "classname" "info_null"
-"origin" "0 1280 296"
+"origin" "0 304 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22355,7 +22355,7 @@
 // entity 447
 {
 "classname" "info_null"
-"origin" "0 1280 304"
+"origin" "0 296 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22363,7 +22363,7 @@
 // entity 448
 {
 "classname" "info_null"
-"origin" "0 1280 312"
+"origin" "0 288 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22371,7 +22371,7 @@
 // entity 449
 {
 "classname" "info_null"
-"origin" "0 1280 320"
+"origin" "0 280 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22379,7 +22379,7 @@
 // entity 450
 {
 "classname" "info_null"
-"origin" "0 1280 328"
+"origin" "0 272 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22387,7 +22387,7 @@
 // entity 451
 {
 "classname" "info_null"
-"origin" "0 1280 336"
+"origin" "0 264 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22395,15 +22395,15 @@
 // entity 452
 {
 "classname" "info_null"
-"origin" "0 1280 344"
+"origin" "0 256 -40"
 "image" "mtrl/poof-blue"
-"width" "0.125"
-"height" "0.125"
+"width" "0.0625"
+"height" "0.0625"
 }
 // entity 453
 {
 "classname" "info_null"
-"origin" "0 1288 344"
+"origin" "0 248 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22411,7 +22411,7 @@
 // entity 454
 {
 "classname" "info_null"
-"origin" "0 1296 344"
+"origin" "0 240 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22419,7 +22419,7 @@
 // entity 455
 {
 "classname" "info_null"
-"origin" "0 1304 344"
+"origin" "0 232 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22427,7 +22427,7 @@
 // entity 456
 {
 "classname" "info_null"
-"origin" "0 1312 344"
+"origin" "0 224 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22435,7 +22435,7 @@
 // entity 457
 {
 "classname" "info_null"
-"origin" "0 1320 344"
+"origin" "0 216 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22443,7 +22443,7 @@
 // entity 458
 {
 "classname" "info_null"
-"origin" "0 1328 344"
+"origin" "0 208 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22451,7 +22451,7 @@
 // entity 459
 {
 "classname" "info_null"
-"origin" "0 1336 344"
+"origin" "0 200 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22459,7 +22459,7 @@
 // entity 460
 {
 "classname" "info_null"
-"origin" "0 1344 344"
+"origin" "0 192 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22467,7 +22467,7 @@
 // entity 461
 {
 "classname" "info_null"
-"origin" "0 1352 344"
+"origin" "0 184 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22475,7 +22475,7 @@
 // entity 462
 {
 "classname" "info_null"
-"origin" "0 1360 344"
+"origin" "0 176 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22483,7 +22483,7 @@
 // entity 463
 {
 "classname" "info_null"
-"origin" "0 1368 344"
+"origin" "0 168 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22491,7 +22491,7 @@
 // entity 464
 {
 "classname" "info_null"
-"origin" "0 1376 344"
+"origin" "0 160 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22499,7 +22499,7 @@
 // entity 465
 {
 "classname" "info_null"
-"origin" "0 1384 344"
+"origin" "0 152 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22507,7 +22507,7 @@
 // entity 466
 {
 "classname" "info_null"
-"origin" "0 1392 344"
+"origin" "0 144 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22515,7 +22515,7 @@
 // entity 467
 {
 "classname" "info_null"
-"origin" "0 1400 344"
+"origin" "0 136 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22523,7 +22523,7 @@
 // entity 468
 {
 "classname" "info_null"
-"origin" "0 1408 344"
+"origin" "0 128 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22531,7 +22531,7 @@
 // entity 469
 {
 "classname" "info_null"
-"origin" "0 1416 344"
+"origin" "0 120 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22539,7 +22539,7 @@
 // entity 470
 {
 "classname" "info_null"
-"origin" "0 1424 344"
+"origin" "0 112 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22547,7 +22547,7 @@
 // entity 471
 {
 "classname" "info_null"
-"origin" "0 1432 344"
+"origin" "0 104 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22555,7 +22555,7 @@
 // entity 472
 {
 "classname" "info_null"
-"origin" "0 1440 344"
+"origin" "0 96 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22563,7 +22563,7 @@
 // entity 473
 {
 "classname" "info_null"
-"origin" "0 1448 344"
+"origin" "0 88 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22571,7 +22571,7 @@
 // entity 474
 {
 "classname" "info_null"
-"origin" "0 1456 344"
+"origin" "0 80 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22579,7 +22579,7 @@
 // entity 475
 {
 "classname" "info_null"
-"origin" "0 1464 344"
+"origin" "0 72 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22587,7 +22587,7 @@
 // entity 476
 {
 "classname" "info_null"
-"origin" "0 1472 344"
+"origin" "0 64 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22595,7 +22595,7 @@
 // entity 477
 {
 "classname" "info_null"
-"origin" "0 1480 344"
+"origin" "0 56 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22603,7 +22603,7 @@
 // entity 478
 {
 "classname" "info_null"
-"origin" "0 1488 344"
+"origin" "0 48 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22611,7 +22611,7 @@
 // entity 479
 {
 "classname" "info_null"
-"origin" "0 1496 344"
+"origin" "0 40 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22619,7 +22619,7 @@
 // entity 480
 {
 "classname" "info_null"
-"origin" "0 1504 344"
+"origin" "0 32 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22627,7 +22627,7 @@
 // entity 481
 {
 "classname" "info_null"
-"origin" "0 1512 344"
+"origin" "0 24 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22635,7 +22635,7 @@
 // entity 482
 {
 "classname" "info_null"
-"origin" "0 1520 344"
+"origin" "0 16 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22643,7 +22643,7 @@
 // entity 483
 {
 "classname" "info_null"
-"origin" "0 1528 344"
+"origin" "0 8 -40"
 "image" "mtrl/poof-blue"
 "width" "0.0625"
 "height" "0.0625"
@@ -22651,7 +22651,7 @@
 // entity 484
 {
 "classname" "info_null"
-"origin" "0 1536 344"
+"origin" "0 0 -40"
 "image" "mtrl/poof-blue"
 "width" "0.125"
 "height" "0.125"
