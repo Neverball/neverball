@@ -74,19 +74,6 @@ static int sol_enum_body(const struct s_base *base,
 
 /*---------------------------------------------------------------------------*/
 
-int sol_reflective(const struct s_draw *draw)
-{
-    int bi;
-
-    for (bi = 0; bi < draw->bc; bi++)
-        if (draw->bv[bi].rl)
-            return 1;
-
-    return 0;
-}
-
-/*---------------------------------------------------------------------------*/
-
 #define tobyte(f) ((GLubyte) (f * 255.0f))
 
 #define color_cmp(a, b) (tobyte((a)[0]) == tobyte((b)[0]) && \
@@ -660,6 +647,8 @@ static void sol_load_objects(struct s_draw *draw, int s)
                 mp = sol_draw_mtrl(draw, &default_draw_mtrl, mp);
             }
             glEndList();
+
+            draw->reflective = 1;
         }
         else bp->rl = 0;
 

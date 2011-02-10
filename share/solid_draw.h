@@ -51,14 +51,14 @@ struct s_draw
 
     struct d_mtrl *mv;
     struct d_body *bv;
+
+    int reflective;
 };
 
 /*---------------------------------------------------------------------------*/
 
 int  sol_load_draw(struct s_draw *, const struct s_vary *, int);
 void sol_free_draw(struct s_draw *);
-
-int  sol_reflective(const struct s_draw *);
 
 void sol_back(const struct s_draw *, float, float, float);
 void sol_refl(const struct s_draw *);

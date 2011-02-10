@@ -384,8 +384,6 @@ int  game_client_init(const char *file_name)
     if (!sol_load_full(&gd.file, file_name, config_get_d(CONFIG_SHADOW)))
         return (gd.state = 0);
 
-    gd.reflective = sol_reflective(&gd.file.draw);
-
     gd.state = 1;
 
     game_tilt_init(&gd.tilt);

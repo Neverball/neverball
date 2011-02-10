@@ -11,8 +11,6 @@ struct game_draw
     struct s_full file;
     struct s_full back;
 
-    int reflective;                     /* Reflective geometry used?         */
-
     struct game_tilt tilt;              /* Floor rotation                    */
     struct game_view view;              /* Current view                      */
 

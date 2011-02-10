@@ -504,7 +504,7 @@ void game_draw(const struct game_draw *gd, int pose, float t)
             glMultMatrixf(M);
             glTranslatef(-view->c[0], -view->c[1], -view->c[2]);
 
-            if (gd->reflective && config_get_d(CONFIG_REFLECTION))
+            if (gd->file.draw.reflective && config_get_d(CONFIG_REFLECTION))
             {
                 glEnable(GL_STENCIL_TEST);
                 {
@@ -543,7 +543,7 @@ void game_draw(const struct game_draw *gd, int pose, float t)
 
             game_draw_light();
 
-            if (gd->reflective)
+            if (gd->file.draw.reflective)
             {
                 if (config_get_d(CONFIG_REFLECTION))
                 {
