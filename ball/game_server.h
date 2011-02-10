@@ -12,6 +12,7 @@
 int   game_server_init(const char *, int, int);
 void  game_server_free(void);
 void  game_server_step(float);
+float game_server_blend(void);
 
 void  game_set_goal(void);
 void  game_clr_goal(void);

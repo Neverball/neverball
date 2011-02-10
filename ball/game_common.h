@@ -113,6 +113,8 @@ void lockstep_clr(struct lockstep *);
 void lockstep_run(struct lockstep *, float);
 void lockstep_scl(struct lockstep *, float);
 
+#define lockstep_blend(ls) ((ls)->at / (ls)->dt)
+
 /*---------------------------------------------------------------------------*/
 
 #endif

@@ -93,4 +93,47 @@ void sol_free_vary(struct s_vary *);
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Buffers changes to the varying SOL data for interpolation purposes.
+ */
+
+struct l_body
+{
+    float t;                                   /* time on current path       */
+
+    int pi;
+};
+
+struct l_ball
+{
+    float e[3][3];                             /* basis of orientation       */
+    float p[3];                                /* position vector            */
+    float E[3][3];                             /* basis of pendulum          */
+    float r;                                   /* radius                     */
+};
+
+struct s_lerp
+{
+    struct s_vary *vary;
+
+    int bc;
+    int uc;
+
+    struct l_body (*bv)[2];
+    struct l_ball (*uv)[2];
+};
+
+/*---------------------------------------------------------------------------*/
+
+#include "cmd.h"
+
+int  sol_load_lerp(struct s_lerp *, struct s_vary *);
+void sol_free_lerp(struct s_lerp *);
+
+void sol_lerp_copy(struct s_lerp *);
+void sol_lerp_apply(struct s_lerp *, float);
+int  sol_lerp_cmd(struct s_lerp *, const union cmd *);
+
+/*---------------------------------------------------------------------------*/
+
 #endif

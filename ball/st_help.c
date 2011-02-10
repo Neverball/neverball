@@ -385,7 +385,7 @@ static void help_demo_leave(struct state *st, struct state *next, int id)
 
 static void help_demo_paint(int id, float t)
 {
-    game_client_draw(0, t);
+    game_client_draw(0, t, demo_play_blend());
 }
 
 static void help_demo_timer(int id, float dt)

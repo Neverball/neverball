@@ -376,6 +376,11 @@ static void demo_update_read(float dt)
 
 static struct lockstep update_step = { demo_update_read, DT };
 
+float demo_play_blend(void)
+{
+    return lockstep_blend(&update_step);
+}
+
 /*---------------------------------------------------------------------------*/
 
 static struct demo demo_replay;

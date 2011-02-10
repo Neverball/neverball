@@ -443,7 +443,7 @@ static int demo_play_enter(struct state *st, struct state *prev)
 
 static void demo_play_paint(int id, float t)
 {
-    game_client_draw(0, t);
+    game_client_draw(0, t, demo_play_blend());
 
     if (show_hud)
         hud_paint();
@@ -621,7 +621,7 @@ static int demo_end_enter(struct state *st, struct state *prev)
 
 static void demo_end_paint(int id, float t)
 {
-    game_client_draw(0, t);
+    game_client_draw(0, t, demo_play_blend());
     gui_paint(id);
 
     if (demo_paused)

@@ -4,6 +4,8 @@
 #include "solid_draw.h"
 #include "game_common.h"
 
+/*---------------------------------------------------------------------------*/
+
 struct game_draw
 {
     int state;
@@ -29,5 +31,25 @@ struct game_draw
 #include "game_client.h"
 
 void game_draw(const struct game_draw *, int, float);
+
+/*---------------------------------------------------------------------------*/
+
+struct game_lerp
+{
+    struct s_lerp lerp;
+
+    struct game_tilt tilt[2];
+    struct game_view view[2];
+
+    float goal_k[2];
+    float jump_dt[2];
+};
+
+void game_lerp_init(struct game_lerp *, struct game_draw *);
+void game_lerp_free(struct game_lerp *);
+void game_lerp_copy(struct game_lerp *);
+void game_lerp_apply(struct game_lerp *, struct game_draw *, float);
+
+/*---------------------------------------------------------------------------*/
 
 #endif

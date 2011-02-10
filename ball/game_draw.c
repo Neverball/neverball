@@ -603,3 +603,61 @@ void game_draw(const struct game_draw *gd, int pose, float t)
 }
 
 /*---------------------------------------------------------------------------*/
+
+#define CURR 0
+#define PREV 1
+
+void game_lerp_init(struct game_lerp *gl, struct game_draw *gd)
+{
+    sol_load_lerp(&gl->lerp, &gd->file.vary);
+
+    gl->tilt[PREV] = gl->tilt[CURR] = gd->tilt;
+    gl->view[PREV] = gl->view[CURR] = gd->view;
+
+    gl->goal_k[PREV] = gl->goal_k[CURR] = gd->goal_k;
+    gl->jump_dt[PREV] = gl->jump_dt[CURR] = gd->jump_dt;
+}
+
+void game_lerp_free(struct game_lerp *gl)
+{
+    sol_free_lerp(&gl->lerp);
+}
+
+void game_lerp_copy(struct game_lerp *gl)
+{
+    sol_lerp_copy(&gl->lerp);
+
+    gl->tilt[PREV] = gl->tilt[CURR];
+    gl->view[PREV] = gl->view[CURR];
+
+    gl->goal_k[PREV] = gl->goal_k[CURR];
+    gl->jump_dt[PREV] = gl->jump_dt[CURR];
+}
+
+void game_lerp_apply(struct game_lerp *gl, struct game_draw *gd, float a)
+{
+    /* Solid. */
+
+    sol_lerp_apply(&gl->lerp, a);
+
+    /* Tilt. */
+
+    v_lerp(gd->tilt.x, gl->tilt[PREV].x, gl->tilt[CURR].x, a);
+    v_lerp(gd->tilt.z, gl->tilt[PREV].z, gl->tilt[CURR].z, a);
+
+    gd->tilt.rx = (gl->tilt[PREV].rx * (1.0f - a) + gl->tilt[CURR].rx * a);
+    gd->tilt.rz = (gl->tilt[PREV].rz * (1.0f - a) + gl->tilt[CURR].rz * a);
+
+    /* View. */
+
+    v_lerp(gd->view.c, gl->view[PREV].c, gl->view[CURR].c, a);
+    v_lerp(gd->view.p, gl->view[PREV].p, gl->view[CURR].p, a);
+    e_lerp(gd->view.e, gl->view[PREV].e, gl->view[CURR].e, a);
+
+    /* Effects. */
+
+    gd->goal_k = (gl->goal_k[PREV] * (1.0f - a) + gl->goal_k[CURR] * a);
+    gd->jump_dt = (gl->jump_dt[PREV] * (1.0f - a) + gl->jump_dt[CURR] * a);
+}
+
+/*---------------------------------------------------------------------------*/

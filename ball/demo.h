@@ -50,6 +50,7 @@ int  demo_play_init(const char *, const struct level *, int, int, int, int);
 void demo_play_step(void);
 void demo_play_stat(int, int, int);
 void demo_play_stop(void);
+float demo_play_blend(void);
 
 int  demo_saved (void);
 void demo_rename(const char *);

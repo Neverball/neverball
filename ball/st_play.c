@@ -134,7 +134,7 @@ static int play_ready_enter(struct state *st, struct state *prev)
 
 static void play_ready_paint(int id, float t)
 {
-    game_client_draw(0, t);
+    game_client_draw(0, t, 1.0f);
     hud_view_paint();
     gui_paint(id);
 }
@@ -215,7 +215,7 @@ static int play_set_enter(struct state *st, struct state *prev)
 
 static void play_set_paint(int id, float t)
 {
-    game_client_draw(0, t);
+    game_client_draw(0, t, 1.0f);
     hud_view_paint();
     gui_paint(id);
 }
@@ -333,7 +333,7 @@ static int play_loop_enter(struct state *st, struct state *prev)
 
 static void play_loop_paint(int id, float t)
 {
-    game_client_draw(0, t);
+    game_client_draw(0, t, game_server_blend());
 
     if (show_hud)
         hud_paint();
@@ -518,7 +518,7 @@ static void look_leave(struct state *st, struct state *next, int id)
 
 static void look_paint(int id, float t)
 {
-    game_client_draw(0, t);
+    game_client_draw(0, t, 1.0f);
 }
 
 static void look_point(int id, int x, int y, int dx, int dy)

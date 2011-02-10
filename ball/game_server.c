@@ -517,6 +517,7 @@ void game_server_free(void)
     {
         sol_quit_sim();
         sol_free_vary(&file);
+        sol_free_base(&base);
         server_state = 0;
     }
 }
@@ -799,6 +800,11 @@ static struct lockstep server_step = { game_server_iter, DT };
 void game_server_step(float dt)
 {
     lockstep_run(&server_step, dt);
+}
+
+float game_server_blend(void)
+{
+    return lockstep_blend(&server_step);
 }
 
 /*---------------------------------------------------------------------------*/
