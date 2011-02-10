@@ -24,15 +24,16 @@
 #include "vec3.h"
 #include "image.h"
 #include "base_image.h"
-#include "solid_gl.h"
-#include "solid_all.h"
 #include "base_config.h"
 #include "lang.h"
 
+#include "solid_draw.h"
+#include "solid_all.h"
+
 /*---------------------------------------------------------------------------*/
 
-static int sol_enum_mtrl(const struct s_file *fp,
-                         const struct s_body *bp, int mi)
+static int sol_enum_mtrl(const struct s_base *base,
+                         const struct b_body *bp, int mi)
 {
     int li, gi, c = 0;
 
@@ -40,45 +41,45 @@ static int sol_enum_mtrl(const struct s_file *fp,
 
     for (li = 0; li < bp->lc; li++)
     {
-        int g0 = fp->lv[bp->l0 + li].g0;
-        int gc = fp->lv[bp->l0 + li].gc;
+        int g0 = base->lv[bp->l0 + li].g0;
+        int gc = base->lv[bp->l0 + li].gc;
 
         for (gi = 0; gi < gc; gi++)
-            if (fp->gv[fp->iv[g0 + gi]].mi == mi)
+            if (base->gv[base->iv[g0 + gi]].mi == mi)
                 c++;
     }
 
     /* Count all body geoms with this material. */
 
     for (gi = 0; gi < bp->gc; gi++)
-        if (fp->gv[fp->iv[bp->g0 + gi]].mi == mi)
+        if (base->gv[base->iv[bp->g0 + gi]].mi == mi)
             c++;
 
     return c;
 }
 
-static int sol_enum_body(const struct s_file *fp,
-                         const struct s_body *bp, int fl)
+static int sol_enum_body(const struct s_base *base,
+                         const struct b_body *bp, int fl)
 {
     int mi, c = 0;
 
     /* Count all geoms with this flag. */
 
-    for (mi = 0; mi < fp->mc; mi++)
-        if (fp->mv[mi].fl & fl)
-            c = c + sol_enum_mtrl(fp, bp, mi);
+    for (mi = 0; mi < base->mc; mi++)
+        if (base->mv[mi].fl & fl)
+            c = c + sol_enum_mtrl(base, bp, mi);
 
     return c;
 }
 
 /*---------------------------------------------------------------------------*/
 
-int sol_reflective(const struct s_file *fp)
+int sol_reflective(const struct s_draw *draw)
 {
     int bi;
 
-    for (bi = 0; bi < fp->bc; bi++)
-        if (fp->bv[bi].rl)
+    for (bi = 0; bi < draw->bc; bi++)
+        if (draw->bv[bi].rl)
             return 1;
 
     return 0;
@@ -93,40 +94,48 @@ int sol_reflective(const struct s_file *fp)
                          tobyte((a)[2]) == tobyte((b)[2]) && \
                          tobyte((a)[3]) == tobyte((b)[3]))
 
-static struct s_mtrl default_mtrl =
+static struct b_mtrl default_base_mtrl =
 {
     { 0.8f, 0.8f, 0.8f, 1.0f },
     { 0.2f, 0.2f, 0.2f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
-    { 0.0f, }, 0.0f, M_OPAQUE, 0, ""
+    { 0.0f }, 0.0f, M_OPAQUE, ""
 };
 
-static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
-                                          const struct s_mtrl *mp,
-                                          const struct s_mtrl *mq)
+static struct d_mtrl default_draw_mtrl =
 {
+    &default_base_mtrl, 0
+};
+
+static const struct d_mtrl *sol_draw_mtrl(const struct s_draw *draw,
+                                          const struct d_mtrl *mp_draw,
+                                          const struct d_mtrl *mq_draw)
+{
+    const struct b_mtrl *mp_base = mp_draw->base;
+    const struct b_mtrl *mq_base = mq_draw->base;
+
     /* Change material properties only as needed. */
 
-    if (!color_cmp(mp->a, mq->a))
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mp->a);
-    if (!color_cmp(mp->d, mq->d))
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mp->d);
-    if (!color_cmp(mp->s, mq->s))
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mp->s);
-    if (!color_cmp(mp->e, mq->e))
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  mp->e);
-    if (tobyte(mp->h[0]) != tobyte(mq->h[0]))
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp->h);
+    if (!color_cmp(mp_base->a, mq_base->a))
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mp_base->a);
+    if (!color_cmp(mp_base->d, mq_base->d))
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mp_base->d);
+    if (!color_cmp(mp_base->s, mq_base->s))
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mp_base->s);
+    if (!color_cmp(mp_base->e, mq_base->e))
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  mp_base->e);
+    if (tobyte(mp_base->h[0]) != tobyte(mq_base->h[0]))
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp_base->h);
 
     /* Bind the texture. */
 
-    if (mp->o != mq->o)
-        glBindTexture(GL_TEXTURE_2D, mp->o);
+    if (mp_draw->o != mq_draw->o)
+        glBindTexture(GL_TEXTURE_2D, mp_draw->o);
 
     /* Enable environment mapping. */
 
-    if ((mp->fl & M_ENVIRONMENT) && !(mq->fl & M_ENVIRONMENT))
+    if ((mp_base->fl & M_ENVIRONMENT) && !(mq_base->fl & M_ENVIRONMENT))
     {
         glEnable(GL_TEXTURE_GEN_S);
         glEnable(GL_TEXTURE_GEN_T);
@@ -137,7 +146,7 @@ static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
 
     /* Disable environment mapping. */
 
-    if ((mq->fl & M_ENVIRONMENT) && !(mp->fl & M_ENVIRONMENT))
+    if ((mq_base->fl & M_ENVIRONMENT) && !(mp_base->fl & M_ENVIRONMENT))
     {
         glDisable(GL_TEXTURE_GEN_S);
         glDisable(GL_TEXTURE_GEN_T);
@@ -145,17 +154,17 @@ static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
 
     /* Enable additive blending. */
 
-    if ((mp->fl & M_ADDITIVE) && !(mq->fl & M_ADDITIVE))
+    if ((mp_base->fl & M_ADDITIVE) && !(mq_base->fl & M_ADDITIVE))
         glBlendFunc(GL_ONE, GL_ONE);
 
     /* Enable standard blending. */
 
-    if ((mq->fl & M_ADDITIVE) && !(mp->fl & M_ADDITIVE))
+    if ((mq_base->fl & M_ADDITIVE) && !(mp_base->fl & M_ADDITIVE))
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     /* Enable visibility-from-behind. */
 
-    if ((mp->fl & M_TWO_SIDED) && !(mq->fl & M_TWO_SIDED))
+    if ((mp_base->fl & M_TWO_SIDED) && !(mq_base->fl & M_TWO_SIDED))
     {
         glDisable(GL_CULL_FACE);
         glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
@@ -163,7 +172,7 @@ static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
 
     /* Disable visibility-from-behind. */
 
-    if ((mq->fl & M_TWO_SIDED) && !(mp->fl & M_TWO_SIDED))
+    if ((mq_base->fl & M_TWO_SIDED) && !(mp_base->fl & M_TWO_SIDED))
     {
         glEnable(GL_CULL_FACE);
         glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
@@ -171,7 +180,7 @@ static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
 
     /* Enable decal offset. */
 
-    if ((mp->fl & M_DECAL) && !(mq->fl & M_DECAL))
+    if ((mp_base->fl & M_DECAL) && !(mq_base->fl & M_DECAL))
     {
         glEnable(GL_POLYGON_OFFSET_FILL);
         glPolygonOffset(-1.0f, -2.0f);
@@ -179,15 +188,16 @@ static const struct s_mtrl *sol_draw_mtrl(const struct s_file *fp,
 
     /* Disable decal offset. */
 
-    if ((mq->fl & M_DECAL) && !(mp->fl & M_DECAL))
+    if ((mq_base->fl & M_DECAL) && !(mp_base->fl & M_DECAL))
         glDisable(GL_POLYGON_OFFSET_FILL);
 
-    return mp;
+    return mp_draw;
 }
 
-static const struct s_mtrl *sol_back_bill(const struct s_file *fp,
-                                          const struct s_bill *rp,
-                                          const struct s_mtrl *mp, float t)
+static const struct d_mtrl *sol_back_bill(const struct s_draw *draw,
+                                           const struct b_bill *rp,
+                                           const struct d_mtrl *mp,
+                                           float t)
 {
     float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2) : 0.0f;
 
@@ -219,7 +229,7 @@ static const struct s_mtrl *sol_back_bill(const struct s_file *fp,
 
             glRotatef(rz, 0.0f, 0.0f, 1.0f);
 
-            mp = sol_draw_mtrl(fp, fp->mv + rp->mi, mp);
+            mp = sol_draw_mtrl(draw, draw->mv + rp->mi, mp);
 
             glBegin(GL_QUADS);
             {
@@ -238,9 +248,9 @@ static const struct s_mtrl *sol_back_bill(const struct s_file *fp,
 
 /*---------------------------------------------------------------------------*/
 
-void sol_back(const struct s_file *fp, float n, float f, float t)
+void sol_back(const struct s_draw *draw, float n, float f, float t)
 {
-    const struct s_mtrl *mp = &default_mtrl;
+    const struct d_mtrl *mp = &default_draw_mtrl;
 
     int ri;
 
@@ -249,11 +259,11 @@ void sol_back(const struct s_file *fp, float n, float f, float t)
     glDisable(GL_LIGHTING);
     glDepthMask(GL_FALSE);
     {
-        for (ri = 0; ri < fp->rc; ri++)
-            if (n <= fp->rv[ri].d && fp->rv[ri].d < f)
-                mp = sol_back_bill(fp, fp->rv + ri, mp, t);
+        for (ri = 0; ri < draw->base->rc; ri++)
+            if (n <= draw->base->rv[ri].d && draw->base->rv[ri].d < f)
+                mp = sol_back_bill(draw, draw->base->rv + ri, mp, t);
 
-        mp = sol_draw_mtrl(fp, &default_mtrl, mp);
+        mp = sol_draw_mtrl(draw, &default_draw_mtrl, mp);
     }
     glDepthMask(GL_TRUE);
     glEnable(GL_LIGHTING);
@@ -271,22 +281,22 @@ void sol_back(const struct s_file *fp, float n, float f, float t)
  * stored in display lists.  Thus, it is well worth it.
  */
 
-static void sol_draw_geom(const struct s_file *fp,
-                          const struct s_geom *gp, int mi)
+static void sol_draw_geom(const struct s_base *base,
+                          const struct b_geom *gp, int mi)
 {
     if (gp->mi == mi)
     {
-        const float *ui = fp->tv[gp->ti].u;
-        const float *uj = fp->tv[gp->tj].u;
-        const float *uk = fp->tv[gp->tk].u;
+        const float *ui = base->tv[gp->ti].u;
+        const float *uj = base->tv[gp->tj].u;
+        const float *uk = base->tv[gp->tk].u;
 
-        const float *ni = fp->sv[gp->si].n;
-        const float *nj = fp->sv[gp->sj].n;
-        const float *nk = fp->sv[gp->sk].n;
+        const float *ni = base->sv[gp->si].n;
+        const float *nj = base->sv[gp->sj].n;
+        const float *nk = base->sv[gp->sk].n;
 
-        const float *vi = fp->vv[gp->vi].p;
-        const float *vj = fp->vv[gp->vj].p;
-        const float *vk = fp->vv[gp->vk].p;
+        const float *vi = base->vv[gp->vi].p;
+        const float *vj = base->vv[gp->vj].p;
+        const float *vk = base->vv[gp->vk].p;
 
         glTexCoord2fv(ui);
         glNormal3fv(ni);
@@ -302,56 +312,66 @@ static void sol_draw_geom(const struct s_file *fp,
     }
 }
 
-static void sol_draw_lump(const struct s_file *fp,
-                          const struct s_lump *lp, int mi)
+static void sol_draw_lump(const struct s_base *base,
+                          const struct b_lump *lp, int mi)
 {
     int i;
 
     for (i = 0; i < lp->gc; i++)
-        sol_draw_geom(fp, fp->gv + fp->iv[lp->g0 + i], mi);
+        sol_draw_geom(base, base->gv + base->iv[lp->g0 + i], mi);
 }
 
-static const struct s_mtrl *sol_draw_body(const struct s_file *fp,
-                                          const struct s_body *bp,
-                                          const struct s_mtrl *mp,
+static const struct d_mtrl *sol_draw_body(const struct s_draw *draw,
+                                          const struct b_body *bp,
+                                          const struct d_mtrl *mp,
                                           int fl, int decal)
 {
+    const struct s_base *base = draw->base;
+
     int mi, li, gi;
 
     /* Iterate all materials of the correct opacity. */
 
-    for (mi = 0; mi < fp->mc; mi++)
-        if ((fp->mv[mi].fl & fl) && (fp->mv[mi].fl & M_DECAL) == decal)
+    for (mi = 0; mi < draw->mc; mi++)
+    {
+        struct d_mtrl *mq = draw->mv + mi;
+
+        if ((mq->base->fl & fl) && (mq->base->fl & M_DECAL) == decal)
         {
-            if (sol_enum_mtrl(fp, bp, mi))
+            if (sol_enum_mtrl(draw->base, bp, mi))
             {
                 /* Set the material state. */
 
-                mp = sol_draw_mtrl(fp, fp->mv + mi, mp);
+                mp = sol_draw_mtrl(draw, mq, mp);
 
                 /* Render all geometry of that material. */
 
                 glBegin(GL_TRIANGLES);
                 {
                     for (li = 0; li < bp->lc; li++)
-                        sol_draw_lump(fp, fp->lv + bp->l0 + li, mi);
+                        sol_draw_lump(draw->base,
+                                      base->lv + bp->l0 + li,
+                                      mi);
                     for (gi = 0; gi < bp->gc; gi++)
-                        sol_draw_geom(fp, fp->gv + fp->iv[bp->g0 + gi], mi);
+                        sol_draw_geom(draw->base,
+                                      base->gv + base->iv[bp->g0 + gi],
+                                      mi);
                 }
                 glEnd();
             }
         }
+    }
 
     return mp;
 }
 
-static void sol_draw_list(const struct s_file *fp,
-                          const struct s_body *bp, GLuint list)
+static void sol_draw_list(const struct s_vary *vary,
+                          const struct v_body *bp, GLuint list)
 {
     float p[3], e[4], u[3], a;
 
-    sol_body_p(p, fp, bp->pi, bp->t);
-    sol_body_e(e, fp, bp, 0);
+    sol_body_p(p, vary, bp->pi, bp->t);
+    sol_body_e(e, vary, bp, 0);
 
     q_as_axisangle(e, u, &a);
     a = V_DEG(a);
@@ -370,38 +390,38 @@ static void sol_draw_list(const struct s_file *fp,
     glPopMatrix();
 }
 
-void sol_draw(const struct s_file *fp, int depthmask, int depthtest)
+void sol_draw(const struct s_draw *draw, int depthmask, int depthtest)
 {
     int bi;
 
     /* Render all opaque geometry into the color and depth buffers. */
 
-    for (bi = 0; bi < fp->bc; bi++)
-        if (fp->bv[bi].ol)
-            sol_draw_list(fp, fp->bv + bi, fp->bv[bi].ol);
+    for (bi = 0; bi < draw->bc; bi++)
+        if (draw->bv[bi].ol)
+            sol_draw_list(draw->vary, draw->vary->bv + bi, draw->bv[bi].ol);
 
     /* Render all translucent geometry into only the color buffer. */
 
     if (depthtest == 0) glDisable(GL_DEPTH_TEST);
     if (depthmask == 0) glDepthMask(GL_FALSE);
     {
-        for (bi = 0; bi < fp->bc; bi++)
-            if (fp->bv[bi].tl)
-                sol_draw_list(fp, fp->bv + bi, fp->bv[bi].tl);
+        for (bi = 0; bi < draw->bc; bi++)
+            if (draw->bv[bi].tl)
+                sol_draw_list(draw->vary, draw->vary->bv + bi, draw->bv[bi].tl);
     }
     if (depthmask == 0) glDepthMask(GL_TRUE);
     if (depthtest == 0) glEnable(GL_DEPTH_TEST);
 }
 
-void sol_bill(const struct s_file *fp, const float *M, float t)
+void sol_bill(const struct s_draw *draw, const float *M, float t)
 {
-    const struct s_mtrl *mp = &default_mtrl;
+    const struct d_mtrl *mp = &default_draw_mtrl;
 
     int ri;
 
-    for (ri = 0; ri < fp->rc; ++ri)
+    for (ri = 0; ri < draw->base->rc; ++ri)
     {
-        const struct s_bill *rp = fp->rv + ri;
+        const struct b_bill *rp = draw->base->rv + ri;
 
         float T = rp->t * t;
         float S = fsinf(T);
@@ -412,7 +432,7 @@ void sol_bill(const struct s_file *fp, const float *M, float t)
         float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * S;
         float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * S;
 
-        mp = sol_draw_mtrl(fp, fp->mv + rp->mi, mp);
+        mp = sol_draw_mtrl(draw, draw->mv + rp->mi, mp);
 
         glPushMatrix();
         {
@@ -436,30 +456,30 @@ void sol_bill(const struct s_file *fp, const float *M, float t)
         glPopMatrix();
     }
 
-    mp = sol_draw_mtrl(fp, &default_mtrl, mp);
+    mp = sol_draw_mtrl(draw, &default_draw_mtrl, mp);
 }
 
-void sol_refl(const struct s_file *fp)
+void sol_refl(const struct s_draw *draw)
 {
     int bi;
 
     /* Render all reflective geometry into the color and depth buffers. */
 
-    for (bi = 0; bi < fp->bc; bi++)
-        if (fp->bv[bi].rl)
-            sol_draw_list(fp, fp->bv + bi, fp->bv[bi].rl);
+    for (bi = 0; bi < draw->bc; bi++)
+        if (draw->bv[bi].rl)
+            sol_draw_list(draw->vary, draw->vary->bv + bi, draw->bv[bi].rl);
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void sol_shad_geom(const struct s_file *fp,
-                          const struct s_geom *gp, int mi)
+static void sol_shad_geom(const struct s_base *base,
+                          const struct b_geom *gp, int mi)
 {
     if (gp->mi == mi)
     {
-        const float *vi = fp->vv[gp->vi].p;
-        const float *vj = fp->vv[gp->vj].p;
-        const float *vk = fp->vv[gp->vk].p;
+        const float *vi = base->vv[gp->vi].p;
+        const float *vj = base->vv[gp->vj].p;
+        const float *vk = base->vv[gp->vk].p;
 
         glTexCoord2f(vi[0], vi[2]);
         glVertex3fv(vi);
@@ -472,17 +492,17 @@ static void sol_shad_geom(const struct s_file *fp,
     }
 }
 
-static void sol_shad_lump(const struct s_file *fp,
-                          const struct s_lump *lp, int mi)
+static void sol_shad_lump(const struct s_base *base,
+                          const struct b_lump *lp, int mi)
 {
     int i;
 
     for (i = 0; i < lp->gc; i++)
-        sol_shad_geom(fp, fp->gv + fp->iv[lp->g0 + i], mi);
+        sol_shad_geom(base, base->gv + base->iv[lp->g0 + i], mi);
 }
 
-static void sol_shad_body(const struct s_file *fp,
-                          const struct s_body *bp,
+static void sol_shad_body(const struct s_base *base,
+                          const struct b_body *bp,
                           int fl, int decal)
 {
     int mi, li, gi;
@@ -495,14 +515,18 @@ static void sol_shad_body(const struct s_file *fp,
 
     glBegin(GL_TRIANGLES);
     {
-        for (mi = 0; mi < fp->mc; mi++)
-            if ((fp->mv[mi].fl & fl) && (fp->mv[mi].fl & M_DECAL) == decal)
+        for (mi = 0; mi < base->mc; mi++)
+        {
+            struct b_mtrl *mp = base->mv + mi;
+
+            if ((mp->fl & fl) && (mp->fl & M_DECAL) == decal)
             {
                 for (li = 0; li < bp->lc; li++)
-                    sol_shad_lump(fp, fp->lv + bp->l0 + li, mi);
+                    sol_shad_lump(base, base->lv + bp->l0 + li, mi);
                 for (gi = 0; gi < bp->gc; gi++)
-                    sol_shad_geom(fp, fp->gv + fp->iv[bp->g0 + gi], mi);
+                    sol_shad_geom(base, base->gv + base->iv[bp->g0 + gi], mi);
             }
+        }
     }
     glEnd();
 
@@ -510,13 +534,13 @@ static void sol_shad_body(const struct s_file *fp,
         glDisable(GL_POLYGON_OFFSET_FILL);
 }
 
-static void sol_shad_list(const struct s_file *fp,
-                          const struct s_body *bp, GLuint list)
+static void sol_shad_list(const struct s_vary *vary,
+                          const struct v_body *bp, GLuint list)
 {
     float p[3], e[4], u[3], a;
 
-    sol_body_p(p, fp, bp->pi, bp->t);
-    sol_body_e(e, fp, bp, 0);
+    sol_body_p(p, vary, bp->pi, bp->t);
+    sol_body_e(e, vary, bp, 0);
 
     q_as_axisangle(e, u, &a);
     a = V_DEG(a);
@@ -553,7 +577,7 @@ static void sol_shad_list(const struct s_file *fp,
     glPopMatrix();
 }
 
-void sol_shad(const struct s_file *fp)
+void sol_shad(const struct s_draw *draw)
 {
     int bi;
 
@@ -561,108 +585,108 @@ void sol_shad(const struct s_file *fp)
 
     glDepthMask(GL_FALSE);
     {
-        for (bi = 0; bi < fp->bc; bi++)
-            if (fp->bv[bi].sl)
-                sol_shad_list(fp, fp->bv + bi, fp->bv[bi].sl);
+        for (bi = 0; bi < draw->bc; bi++)
+            if (draw->bv[bi].sl)
+                sol_shad_list(draw->vary, draw->vary->bv + bi, draw->bv[bi].sl);
     }
     glDepthMask(GL_TRUE);
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void sol_load_objects(struct s_file *fp, int s)
+static void sol_load_objects(struct s_draw *draw, int s)
 {
     int i;
 
     /* Here we sort geometry into display lists by material type. */
 
-    for (i = 0; i < fp->bc; i++)
+    for (i = 0; i < draw->bc; i++)
     {
-        struct s_body *bp = fp->bv + i;
+        struct d_body *bp = draw->bv + i;
 
-        int on = sol_enum_body(fp, bp, M_OPAQUE);
-        int tn = sol_enum_body(fp, bp, M_TRANSPARENT);
-        int rn = sol_enum_body(fp, bp, M_REFLECTIVE);
-        int dn = sol_enum_body(fp, bp, M_DECAL);
-        int sn = sol_enum_body(fp, bp, M_SHADOWED);
+        int on = sol_enum_body(draw->base, bp->base, M_OPAQUE);
+        int tn = sol_enum_body(draw->base, bp->base, M_TRANSPARENT);
+        int rn = sol_enum_body(draw->base, bp->base, M_REFLECTIVE);
+        int dn = sol_enum_body(draw->base, bp->base, M_DECAL);
+        int sn = sol_enum_body(draw->base, bp->base, M_SHADOWED);
 
         /* Draw all opaque geometry, decals last. */
 
         if (on)
         {
-            fp->bv[i].ol = glGenLists(1);
+            bp->ol = glGenLists(1);
 
-            glNewList(fp->bv[i].ol, GL_COMPILE);
+            glNewList(bp->ol, GL_COMPILE);
             {
-                const struct s_mtrl *mp = &default_mtrl;
+                const struct d_mtrl *mp = &default_draw_mtrl;
 
-                mp = sol_draw_body(fp, fp->bv + i, mp, M_OPAQUE, 0);
-                mp = sol_draw_body(fp, fp->bv + i, mp, M_OPAQUE, M_DECAL);
-                mp = sol_draw_mtrl(fp, &default_mtrl, mp);
+                mp = sol_draw_body(draw, bp->base, mp, M_OPAQUE, 0);
+                mp = sol_draw_body(draw, bp->base, mp, M_OPAQUE, M_DECAL);
+                mp = sol_draw_mtrl(draw, &default_draw_mtrl, mp);
             }
             glEndList();
         }
-        else fp->bv[i].ol = 0;
+        else bp->ol = 0;
 
         /* Draw all translucent geometry, decals first. */
 
         if (tn)
         {
-            fp->bv[i].tl = glGenLists(1);
+            bp->tl = glGenLists(1);
 
-            glNewList(fp->bv[i].tl, GL_COMPILE);
+            glNewList(bp->tl, GL_COMPILE);
             {
-                const struct s_mtrl *mp = &default_mtrl;
+                const struct d_mtrl *mp = &default_draw_mtrl;
 
-                mp = sol_draw_body(fp, fp->bv + i, mp, M_TRANSPARENT, M_DECAL);
-                mp = sol_draw_body(fp, fp->bv + i, mp, M_TRANSPARENT, 0);
-                mp = sol_draw_mtrl(fp, &default_mtrl, mp);
+                mp = sol_draw_body(draw, bp->base, mp, M_TRANSPARENT, M_DECAL);
+                mp = sol_draw_body(draw, bp->base, mp, M_TRANSPARENT, 0);
+                mp = sol_draw_mtrl(draw, &default_draw_mtrl, mp);
             }
             glEndList();
         }
-        else fp->bv[i].tl = 0;
+        else bp->tl = 0;
 
         /* Draw all reflective geometry. */
 
         if (rn)
         {
-            fp->bv[i].rl = glGenLists(1);
+            bp->rl = glGenLists(1);
 
-            glNewList(fp->bv[i].rl, GL_COMPILE);
+            glNewList(bp->rl, GL_COMPILE);
             {
-                const struct s_mtrl *mp = &default_mtrl;
+                const struct d_mtrl *mp = &default_draw_mtrl;
 
-                mp = sol_draw_body(fp, fp->bv + i, mp, M_REFLECTIVE, 0);
-                mp = sol_draw_mtrl(fp, &default_mtrl, mp);
+                mp = sol_draw_body(draw, bp->base, mp, M_REFLECTIVE, 0);
+                mp = sol_draw_mtrl(draw, &default_draw_mtrl, mp);
             }
             glEndList();
         }
-        else fp->bv[i].rl = 0;
+        else bp->rl = 0;
 
         /* Draw all shadowed geometry. */
 
         if (s && (on || rn || sn))
         {
-            fp->bv[i].sl = glGenLists(1);
+            bp->sl = glGenLists(1);
 
-            glNewList(fp->bv[i].sl, GL_COMPILE);
+            glNewList(bp->sl, GL_COMPILE);
             {
-                if (on) sol_shad_body(fp, fp->bv + i, M_OPAQUE, 0);
-                if (rn) sol_shad_body(fp, fp->bv + i, M_REFLECTIVE, 0);
-                if (dn) sol_shad_body(fp, fp->bv + i, M_OPAQUE, M_DECAL);
+                if (on) sol_shad_body(draw->base, bp->base, M_OPAQUE, 0);
+                if (rn) sol_shad_body(draw->base, bp->base, M_REFLECTIVE, 0);
+                if (dn) sol_shad_body(draw->base, bp->base, M_OPAQUE, M_DECAL);
                 if (sn)
                 {
                     /* Transparent shadowed geometry hack. */
 
                     if (dn)
-                        sol_shad_body(fp, fp->bv + i, M_SHADOWED, M_DECAL);
+                        sol_shad_body(draw->base, bp->base, M_SHADOWED, M_DECAL);
 
-                    sol_shad_body(fp, fp->bv + i, M_SHADOWED, 0);
+                    sol_shad_body(draw->base, bp->base, M_SHADOWED, 0);
                 }
             }
             glEndList();
         }
-        else fp->bv[i].sl = 0;
+        else bp->sl = 0;
     }
 }
 
@@ -691,18 +715,21 @@ static GLuint sol_find_texture(const char *name)
     return 0;
 }
 
-static void sol_load_textures(struct s_file *fp)
+static void sol_load_textures(struct s_draw *draw)
 {
     int i;
 
     /* Load the image referenced by each material. */
 
-    for (i = 0; i < fp->mc; i++)
-        if ((fp->mv[i].o = sol_find_texture(_(fp->mv[i].f))))
+    for (i = 0; i < draw->mc; i++)
+    {
+        struct d_mtrl *mp = draw->mv + i;
+
+        if ((mp->o = sol_find_texture(_(mp->base->f))))
         {
             /* Set the texture to clamp or repeat based on material type. */
 
-            if (fp->mv[i].fl & M_CLAMPED)
+            if (mp->base->fl & M_CLAMPED)
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -713,46 +740,102 @@ static void sol_load_textures(struct s_file *fp)
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
             }
         }
-}
-
-/*---------------------------------------------------------------------------*/
-
-int sol_load_gl(struct s_file *fp, const char *filename, int s)
-{
-    if (sol_load_only_file(fp, filename))
-    {
-        sol_load_textures(fp);
-        sol_load_objects (fp, s);
-        return 1;
     }
-    return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void sol_free_gl(struct s_file *fp)
+int sol_load_draw(struct s_draw *draw, const struct s_vary *vary, int s)
 {
     int i;
 
-    for (i = 0; i < fp->mc; i++)
+    memset(draw, 0, sizeof (*draw));
+
+    draw->vary = vary;
+    draw->base = draw->vary->base;
+
+    if (draw->base->mc)
     {
-        if (glIsTexture(fp->mv[i].o))
-            glDeleteTextures(1, &fp->mv[i].o);
+        draw->mv = calloc(draw->base->mc, sizeof (*draw->mv));
+        draw->mc = draw->base->mc;
+
+        for (i = 0; i < draw->base->mc; i++)
+        {
+            struct d_mtrl *mp = draw->mv + i;
+            struct b_mtrl *mq = draw->base->mv + i;
+
+            mp->base = mq;
+        }
     }
 
-    for (i = 0; i < fp->bc; i++)
+    if (draw->base->bc)
     {
-        if (glIsList(fp->bv[i].ol))
-            glDeleteLists(fp->bv[i].ol, 1);
-        if (glIsList(fp->bv[i].tl))
-            glDeleteLists(fp->bv[i].tl, 1);
-        if (glIsList(fp->bv[i].rl))
-            glDeleteLists(fp->bv[i].rl, 1);
-        if (glIsList(fp->bv[i].sl))
-            glDeleteLists(fp->bv[i].sl, 1);
+        draw->bv = calloc(draw->base->bc, sizeof (*draw->bv));
+        draw->bc = draw->base->bc;
+
+        for (i = 0; i < draw->base->bc; i++)
+        {
+            struct d_body *bp = draw->bv + i;
+            struct b_body *bq = draw->base->bv + i;
+
+            bp->base = bq;
+        }
     }
 
-    sol_free(fp);
+    sol_load_textures(draw);
+    sol_load_objects (draw, s);
+
+    return 1;
+}
+
+void sol_free_draw(struct s_draw *draw)
+{
+    int i;
+
+    for (i = 0; i < draw->mc; i++)
+    {
+        if (glIsTexture(draw->mv[i].o))
+            glDeleteTextures(1, &draw->mv[i].o);
+    }
+
+    for (i = 0; i < draw->bc; i++)
+    {
+        if (glIsList(draw->bv[i].ol))
+            glDeleteLists(draw->bv[i].ol, 1);
+        if (glIsList(draw->bv[i].tl))
+            glDeleteLists(draw->bv[i].tl, 1);
+        if (glIsList(draw->bv[i].rl))
+            glDeleteLists(draw->bv[i].rl, 1);
+        if (glIsList(draw->bv[i].sl))
+            glDeleteLists(draw->bv[i].sl, 1);
+    }
+
+    free(draw->mv);
+    free(draw->bv);
+
+    memset(draw, 0, sizeof (*draw));
+}
+
+/*---------------------------------------------------------------------------*/
+
+int sol_load_full(struct s_full *full, const char *filename, int s)
+{
+    if (sol_load_base(&full->base, filename))
+    {
+        sol_load_vary(&full->vary, &full->base);
+        sol_load_draw(&full->draw, &full->vary, s);
+
+        return 1;
+    }
+
+    return 0;
+}
+
+void sol_free_full(struct s_full *full)
+{
+    sol_free_draw(&full->draw);
+    sol_free_vary(&full->vary);
+    sol_free_base(&full->base);
 }
 
 /*---------------------------------------------------------------------------*/

@@ -166,7 +166,7 @@ endif
 MAPC_OBJS := \
 	share/vec3.o        \
 	share/base_image.o  \
-	share/solid.o       \
+	share/solid_base.o  \
 	share/binary.o      \
 	share/base_config.o \
 	share/common.o      \
@@ -183,8 +183,9 @@ BALL_OBJS := \
 	share/vec3.o        \
 	share/base_image.o  \
 	share/image.o       \
-	share/solid.o       \
-	share/solid_gl.o    \
+	share/solid_base.o  \
+	share/solid_vary.o  \
+	share/solid_draw.o  \
 	share/solid_cmd.o   \
 	share/solid_all.o   \
 	share/part.o        \
@@ -252,8 +253,9 @@ PUTT_OBJS := \
 	share/vec3.o        \
 	share/base_image.o  \
 	share/image.o       \
-	share/solid.o       \
-	share/solid_gl.o    \
+	share/solid_base.o  \
+	share/solid_vary.o  \
+	share/solid_draw.o  \
 	share/solid_cmd.o   \
 	share/solid_all.o   \
 	share/part.o        \

@@ -20,7 +20,6 @@
 #include "demo.h"
 #include "progress.h"
 #include "audio.h"
-#include "solid.h"
 #include "config.h"
 #include "util.h"
 #include "common.h"

@@ -1,8 +1,6 @@
 #ifndef GAME_CLIENT_H
 #define GAME_CLIENT_H
 
-#include <stdio.h>
-#include "solid.h"
 #include "fs.h"
 
 /*---------------------------------------------------------------------------*/

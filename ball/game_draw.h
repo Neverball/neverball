@@ -1,15 +1,15 @@
 #ifndef GAME_DRAW_H
 #define GAME_DRAW_H
 
-#include "solid.h"
+#include "solid_draw.h"
 #include "game_common.h"
 
 struct game_draw
 {
     int state;
 
-    struct s_file file;
-    struct s_file back;
+    struct s_full file;
+    struct s_full back;
 
     int reflective;                     /* Reflective geometry used?         */
 

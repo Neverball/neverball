@@ -18,15 +18,16 @@
 #include <math.h>
 #include <assert.h>
 
+#include "solid_base.h"
+
 #include "common.h"
-#include "solid.h"
 #include "config.h"
 #include "level.h"
 #include "set.h"
 
 /*---------------------------------------------------------------------------*/
 
-static void scan_level_attribs(struct level *l, const struct s_file *fp)
+static void scan_level_attribs(struct level *l, const struct s_base *base)
 {
     int i;
 
@@ -37,10 +38,10 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
     int need_goal_easy = 0;
     int need_coin_easy = 0;
 
-    for (i = 0; i < fp->dc; i++)
+    for (i = 0; i < base->dc; i++)
     {
-        char *k = fp->av + fp->dv[i].ai;
-        char *v = fp->av + fp->dv[i].aj;
+        char *k = base->av + base->dv[i].ai;
+        char *v = base->av + base->dv[i].aj;
 
         if (strcmp(k, "message") == 0)
             SAFECPY(l->message, v);
@@ -124,12 +125,12 @@ static void scan_level_attribs(struct level *l, const struct s_file *fp)
 
 int level_load(const char *filename, struct level *level)
 {
-    struct s_file sol;
+    struct s_base base;
 
     memset(level, 0, sizeof (struct level));
-    memset(&sol,  0, sizeof (sol));
+    memset(&base, 0, sizeof (base));
 
-    if (!sol_load_only_head(&sol, filename))
+    if (!sol_load_meta(&base, filename))
     {
         fprintf(stderr, L_("Failure to load level file '%s'\n"), filename);
         return 0;
@@ -142,9 +143,9 @@ int level_load(const char *filename, struct level *level)
     score_init_hs(&level->scores[SCORE_GOAL], 59999, 0);
     score_init_hs(&level->scores[SCORE_COIN], 59999, 0);
 
-    scan_level_attribs(level, &sol);
+    scan_level_attribs(level, &base);
 
-    sol_free(&sol);
+    sol_free_base(&base);
 
     return 1;
 }

@@ -21,7 +21,6 @@
 #include "geom.h"
 #include "part.h"
 #include "vec3.h"
-#include "solid.h"
 #include "image.h"
 #include "config.h"
 #include "video.h"

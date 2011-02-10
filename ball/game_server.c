@@ -36,7 +36,8 @@
 
 static int server_state = 0;
 
-static struct s_file file;
+static struct s_base base;
+static struct s_vary file;
 
 static float timer      = 0.f;          /* Clock time                        */
 static int   timer_down = 1;            /* Timer go up or down?              */
@@ -322,11 +323,11 @@ static int   got_orig = 0;              /* Do we know original ball size?    */
 
 static int   grow_state = 0;            /* Current state (values -1, 0, +1)  */
 
-static void grow_init(const struct s_file *fp, int type)
+static void grow_init(const struct s_vary *vary, int type)
 {
     if (!got_orig)
     {
-        grow_orig  = fp->uv->r;
+        grow_orig  = vary->uv->r;
         grow_goal  = grow_orig;
         grow_strt  = grow_orig;
 
@@ -383,11 +384,11 @@ static void grow_init(const struct s_file *fp, int type)
     if (grow)
     {
         grow_t = 0.0;
-        grow_strt = fp->uv->r;
+        grow_strt = vary->uv->r;
     }
 }
 
-static void grow_step(const struct s_file *fp, float dt)
+static void grow_step(const struct s_vary *vary, float dt)
 {
     float dr;
 
@@ -408,8 +409,8 @@ static void grow_step(const struct s_file *fp, float dt)
 
     /* No sinking through the floor! Keeps ball's bottom constant. */
 
-    fp->uv->p[1] += (dr - fp->uv->r);
-    fp->uv->r     =  dr;
+    vary->uv->p[1] += (dr - vary->uv->r);
+    vary->uv->r     =  dr;
 
     game_cmd_ballradius();
 }
@@ -435,7 +436,10 @@ int game_server_init(const char *file_name, int t, int e)
     if (server_state)
         game_server_free();
 
-    if (!sol_load_only_file(&file, file_name))
+    if (!sol_load_base(&base, file_name))
+        return (server_state = 0);
+
+    if (!sol_load_vary(&file, &base))
         return (server_state = 0);
 
     server_state = 1;
@@ -443,10 +447,10 @@ int game_server_init(const char *file_name, int t, int e)
     version.x = 0;
     version.y = 0;
 
-    for (i = 0; i < file.dc; i++)
+    for (i = 0; i < file.base->dc; i++)
     {
-        char *k = file.av + file.dv[i].ai;
-        char *v = file.av + file.dv[i].aj;
+        char *k = file.base->av + file.base->dv[i].ai;
+        char *v = file.base->av + file.base->dv[i].aj;
 
         if (strcmp(k, "version") == 0)
             sscanf(v, "%d.%d", &version.x, &version.y);
@@ -512,7 +516,7 @@ void game_server_free(void)
     if (server_state)
     {
         sol_quit_sim();
-        sol_free(&file);
+        sol_free_vary(&file);
         server_state = 0;
     }
 }
@@ -622,21 +626,21 @@ static void game_update_time(float dt, int b)
 
 static int game_update_state(int bt)
 {
-    struct s_file *fp = &file;
-    struct s_goal *zp;
+    struct s_vary *vary = &file;
+    struct b_goal *zp;
     int hi;
 
     float p[3];
 
     /* Test for an item. */
 
-    if (bt && (hi = sol_item_test(fp, p, ITEM_RADIUS)) != -1)
+    if (bt && (hi = sol_item_test(vary, p, ITEM_RADIUS)) != -1)
     {
-        struct s_item *hp = &file.hv[hi];
+        struct v_item *hp = file.hv + hi;
 
         game_cmd_pkitem(hi);
 
-        grow_init(fp, hp->t);
+        grow_init(vary, hp->t);
 
         if (hp->t == ITEM_COIN)
         {
@@ -653,26 +657,26 @@ static int game_update_state(int bt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, 0) == SWCH_TRIGGER)
+    if (sol_swch_test(vary, 0) == SWCH_TRIGGER)
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
-    if (jump_e == 1 && jump_b == 0 && (sol_jump_test(fp, jump_p, 0) ==
+    if (jump_e == 1 && jump_b == 0 && (sol_jump_test(vary, jump_p, 0) ==
                                        JUMP_TRIGGER))
     {
         jump_b  = 1;
         jump_e  = 0;
         jump_dt = 0.f;
 
-        v_sub(jump_w, jump_p, fp->uv->p);
+        v_sub(jump_w, jump_p, vary->uv->p);
         v_add(jump_w, view.p, jump_w);
 
         audio_play(AUD_JUMP, 1.f);
 
         game_cmd_jump(1);
     }
-    if (jump_e == 0 && jump_b == 0 && (sol_jump_test(fp, jump_p, 0) ==
+    if (jump_e == 0 && jump_b == 0 && (sol_jump_test(vary, jump_p, 0) ==
                                        JUMP_OUTSIDE))
     {
         jump_e = 1;
@@ -681,7 +685,7 @@ static int game_update_state(int bt)
 
     /* Test for a goal. */
 
-    if (bt && goal_e && (zp = sol_goal_test(fp, p, 0)))
+    if (bt && goal_e && (zp = sol_goal_test(vary, p, 0)))
     {
         audio_play(AUD_GOAL, 1.0f);
         return GAME_GOAL;
@@ -697,7 +701,7 @@ static int game_update_state(int bt)
 
     /* Test for fall-out. */
 
-    if (bt && fp->uv[0].p[1] < fp->vv[0].p[1])
+    if (bt && vary->uv[0].p[1] < vary->base->vv[0].p[1])
     {
         audio_play(AUD_FALL, 1.0f);
         return GAME_FALL;
@@ -710,7 +714,7 @@ static int game_step(const float g[3], float dt, int bt)
 {
     if (server_state)
     {
-        struct s_file *fp = &file;
+        struct s_vary *vary = &file;
 
         float h[3];
 
@@ -724,7 +728,7 @@ static int game_step(const float g[3], float dt, int bt)
         game_cmd_tiltaxes();
         game_cmd_tiltangles();
 
-        grow_step(fp, dt);
+        grow_step(vary, dt);
 
         game_tilt_grav(h, g, &tilt);
 
@@ -736,8 +740,8 @@ static int game_step(const float g[3], float dt, int bt)
 
             if (0.5f < jump_dt)
             {
-                v_cpy(fp->uv->p, jump_p);
-                v_cpy(view.p,    jump_w);
+                v_cpy(vary->uv->p, jump_p);
+                v_cpy(view.p,      jump_w);
             }
             if (1.0f < jump_dt)
                 jump_b = 0;
@@ -746,7 +750,7 @@ static int game_step(const float g[3], float dt, int bt)
         {
             /* Run the sim. */
 
-            float b = sol_step(fp, h, dt, 0, NULL);
+            float b = sol_step(vary, h, dt, 0, NULL);
 
             /* Mix the sound of a ball bounce. */
 
@@ -756,9 +760,9 @@ static int game_step(const float g[3], float dt, int bt)
 
                 if (got_orig)
                 {
-                    if      (fp->uv->r > grow_orig) audio_play(AUD_BUMPL, k);
-                    else if (fp->uv->r < grow_orig) audio_play(AUD_BUMPS, k);
-                    else                            audio_play(AUD_BUMPM, k);
+                    if      (vary->uv->r > grow_orig) audio_play(AUD_BUMPL, k);
+                    else if (vary->uv->r < grow_orig) audio_play(AUD_BUMPS, k);
+                    else                              audio_play(AUD_BUMPM, k);
                 }
                 else audio_play(AUD_BUMPM, k);
             }

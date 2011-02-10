@@ -18,8 +18,9 @@
 #include "vec3.h"
 #include "glext.h"
 #include "config.h"
-#include "solid_gl.h"
 #include "common.h"
+
+#include "solid_draw.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,9 +28,9 @@ static int has_solid = 0;
 static int has_inner = 0;
 static int has_outer = 0;
 
-static struct s_file solid;
-static struct s_file inner;
-static struct s_file outer;
+static struct s_full solid;
+static struct s_full inner;
+static struct s_full outer;
 
 #define F_PENDULUM   1
 #define F_DRAWBACK   2
@@ -49,15 +50,15 @@ static float outer_alpha;
 
 #define SET(B, v, b) ((v) ? ((B) | (b)) : ((B) & ~(b)))
 
-static int ball_opts(const struct s_file *fp, float *alpha)
+static int ball_opts(const struct s_base *base, float *alpha)
 {
     int flags = F_DEPTHTEST;
     int di;
 
-    for (di = 0; di < fp->dc; ++di)
+    for (di = 0; di < base->dc; ++di)
     {
-        char *k = fp->av + fp->dv[di].ai;
-        char *v = fp->av + fp->dv[di].aj;
+        char *k = base->av + base->dv[di].ai;
+        char *v = base->av + base->dv[di].aj;
 
         if (strcmp(k, "pendulum")  == 0)
             flags = SET(flags, atoi(v), F_PENDULUM);
@@ -93,14 +94,14 @@ void ball_init(void)
     inner_alpha = 1.0f;
     outer_alpha = 1.0f;
 
-    if ((has_solid = sol_load_gl(&solid, solid_file, 0)))
-        solid_flags = ball_opts(&solid, &solid_alpha);
+    if ((has_solid = sol_load_full(&solid, solid_file, 0)))
+        solid_flags = ball_opts(&solid.base, &solid_alpha);
 
-    if ((has_inner = sol_load_gl(&inner, inner_file, 0)))
-        inner_flags = ball_opts(&inner, &inner_alpha);
+    if ((has_inner = sol_load_full(&inner, inner_file, 0)))
+        inner_flags = ball_opts(&inner.base, &inner_alpha);
 
-    if ((has_outer = sol_load_gl(&outer, outer_file, 0)))
-        outer_flags = ball_opts(&outer, &outer_alpha);
+    if ((has_outer = sol_load_full(&outer, outer_file, 0)))
+        outer_flags = ball_opts(&outer.base, &outer_alpha);
 
     free(solid_file);
     free(inner_file);
@@ -109,9 +110,9 @@ void ball_init(void)
 
 void ball_free(void)
 {
-    if (has_outer) sol_free_gl(&outer);
-    if (has_inner) sol_free_gl(&inner);
-    if (has_solid) sol_free_gl(&solid);
+    if (has_outer) sol_free_full(&outer);
+    if (has_inner) sol_free_full(&inner);
+    if (has_solid) sol_free_full(&solid);
 
     has_solid = has_inner = has_outer = 0;
 }
@@ -140,13 +141,13 @@ static void ball_draw_solid(const float *ball_M,
 
             /* Draw the solid billboard geometry. */
 
-            if (solid.rc)
+            if (solid.base.rc)
             {
                 if (test == 0) glDisable(GL_DEPTH_TEST);
                 if (mask == 0) glDepthMask(GL_FALSE);
                 glDisable(GL_LIGHTING);
                 {
-                    sol_bill(&solid, ball_bill_M, t);
+                    sol_bill(&solid.draw, ball_bill_M, t);
                 }
                 glEnable(GL_LIGHTING);
                 if (mask == 0) glDepthMask(GL_TRUE);
@@ -155,7 +156,7 @@ static void ball_draw_solid(const float *ball_M,
 
             /* Draw the solid opaque and transparent geometry. */
 
-            sol_draw(&solid, mask, test);
+            sol_draw(&solid.draw, mask, test);
         }
         glPopMatrix();
 
@@ -190,20 +191,20 @@ static void ball_draw_inner(const float *pend_M,
 
         /* Draw the inner opaque and transparent geometry. */
 
-        sol_draw(&inner, mask, test);
+        sol_draw(&inner.draw, mask, test);
 
         /* Draw the inner billboard geometry. */
 
-        if (inner.rc)
+        if (inner.base.rc)
         {
             if (test == 0) glDisable(GL_DEPTH_TEST);
             if (mask == 0) glDepthMask(GL_FALSE);
             glDisable(GL_LIGHTING);
             {
                 if (pend)
-                    sol_bill(&inner, pend_bill_M, t);
+                    sol_bill(&inner.draw, pend_bill_M, t);
                 else
-                    sol_bill(&inner, bill_M,      t);
+                    sol_bill(&inner.draw, bill_M,      t);
             }
 
             glEnable(GL_LIGHTING);
@@ -245,20 +246,20 @@ static void ball_draw_outer(const float *pend_M,
 
         /* Draw the outer opaque and transparent geometry. */
 
-        sol_draw(&outer, mask, test);
+        sol_draw(&outer.draw, mask, test);
 
         /* Draw the outer billboard geometry. */
 
-        if (outer.rc)
+        if (outer.base.rc)
         {
             if (test == 0) glDisable(GL_DEPTH_TEST);
             if (mask == 0) glDepthMask(GL_FALSE);
             glDisable(GL_LIGHTING);
             {
                 if (pend)
-                    sol_bill(&outer, pend_bill_M, t);
+                    sol_bill(&outer.draw, pend_bill_M, t);
                 else
-                    sol_bill(&outer, bill_M,      t);
+                    sol_bill(&outer.draw, bill_M,      t);
             }
             glEnable(GL_LIGHTING);
             if (mask == 0) glDepthMask(GL_TRUE);

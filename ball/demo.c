@@ -20,7 +20,6 @@
 
 #include "demo.h"
 #include "audio.h"
-#include "solid.h"
 #include "config.h"
 #include "binary.h"
 #include "common.h"

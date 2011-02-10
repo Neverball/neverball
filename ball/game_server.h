@@ -1,9 +1,6 @@
 #ifndef GAME_SERVER_H
 #define GAME_SERVER_H
 
-#include "solid.h"
-#include "fs.h"
-
 /*---------------------------------------------------------------------------*/
 
 #define RESPONSE    0.05f              /* Input smoothing time               */
