@@ -644,6 +644,10 @@ void game_lerp_apply(struct game_lerp *gl, struct game_draw *gd)
 
     sol_lerp_apply(&gl->lerp, a);
 
+    /* Particles. */
+
+    part_lerp_apply(a);
+
     /* Tilt. */
 
     v_lerp(gd->tilt.x, gl->tilt[PREV].x, gl->tilt[CURR].x, a);

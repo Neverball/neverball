@@ -55,6 +55,91 @@ static float rnd(float l, float h)
 
 /*---------------------------------------------------------------------------*/
 
+#define CURR 0
+#define PREV 1
+
+struct part_lerp
+{
+    float p[2][3];
+};
+
+static struct part_lerp part_lerp_coin[PART_MAX_COIN];
+static struct part_lerp part_lerp_goal[PART_MAX_GOAL];
+static struct part_lerp part_lerp_jump[PART_MAX_JUMP];
+
+void part_lerp_copy(void)
+{
+    int i;
+
+    for (i = 0; i < PART_MAX_COIN; i++)
+        v_cpy(part_lerp_coin[i].p[PREV], part_lerp_coin[i].p[CURR]);
+
+    for (i = 0; i < PART_MAX_GOAL; i++)
+        v_cpy(part_lerp_goal[i].p[PREV], part_lerp_goal[i].p[CURR]);
+
+    for (i = 0; i < PART_MAX_JUMP; i++)
+        v_cpy(part_lerp_jump[i].p[PREV], part_lerp_jump[i].p[CURR]);
+}
+
+void part_lerp_init(void)
+{
+    int i;
+
+    for (i = 0; i < PART_MAX_GOAL; i++)
+        if (part_goal[i].t > 0.0f)
+        {
+            v_cpy(part_lerp_goal[i].p[PREV], part_goal[i].p);
+            v_cpy(part_lerp_goal[i].p[CURR], part_goal[i].p);
+        }
+
+    for (i = 0; i < PART_MAX_JUMP; i++)
+        if (part_jump[i].t > 0.0f)
+        {
+            v_cpy(part_lerp_jump[i].p[PREV], part_jump[i].p);
+            v_cpy(part_lerp_jump[i].p[CURR], part_jump[i].p);
+        }
+}
+
+void part_lerp_burst(int i)
+{
+    if (part_coin[i].t >= 1.0f)
+    {
+        v_cpy(part_lerp_coin[i].p[PREV], part_coin[i].p);
+        v_cpy(part_lerp_coin[i].p[CURR], part_coin[i].p);
+    }
+}
+
+void part_lerp_apply(float a)
+{
+    int i;
+
+    for (i = 0; i < PART_MAX_COIN; i++)
+        if (part_coin[i].t > 0.0f)
+        {
+            v_lerp(part_coin[i].p,
+                   part_lerp_coin[i].p[PREV],
+                   part_lerp_coin[i].p[CURR], a);
+        }
+
+    for (i = 0; i < PART_MAX_GOAL; i++)
+        if (part_goal[i].t > 0.0f)
+        {
+            v_lerp(part_goal[i].p,
+                   part_lerp_goal[i].p[PREV],
+                   part_lerp_goal[i].p[CURR], a);
+        }
+
+    for (i = 0; i < PART_MAX_GOAL; i++)
+        if (part_jump[i].t > 0.0f)
+        {
+            v_lerp(part_jump[i].p,
+                   part_lerp_jump[i].p[PREV],
+                   part_lerp_jump[i].p[CURR], a);
+        }
+}
+
+/*---------------------------------------------------------------------------*/
+
 void part_reset(float zh, float jh)
 {
     int i;
@@ -112,6 +197,8 @@ void part_reset(float zh, float jh)
         part_jump[i].v[1] = vy;
         part_jump[i].v[2] = 0.f;
     }
+
+    part_lerp_init();
 }
 
 void part_init(float zh, float jh)
@@ -189,13 +276,17 @@ void part_burst(const float *p, const float *c)
             part_coin[i].a = 0.f;
             part_coin[i].w = V_DEG(w);
 
+            part_lerp_burst(i);
+
             n++;
         }
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void part_fall(struct part *part, int n, const float *g, float dt)
+static void part_fall(struct part_lerp *lerp,
+                      struct part *part, int n,
+                      const float *g, float dt)
 {
     int i;
 
@@ -204,17 +295,15 @@ static void part_fall(struct part *part, int n, const float *g, float dt)
         {
             part[i].t -= dt;
 
-            part[i].v[0] += (g[0] * dt);
-            part[i].v[1] += (g[1] * dt);
-            part[i].v[2] += (g[2] * dt);
+            v_mad(part[i].v, part[i].v, g, dt);
 
-            part[i].p[0] += (part[i].v[0] * dt);
-            part[i].p[1] += (part[i].v[1] * dt);
-            part[i].p[2] += (part[i].v[2] * dt);
+            v_mad(lerp[i].p[CURR], lerp[i].p[CURR], part[i].v, dt);
         }
 }
 
-static void part_spin(struct part *part, int n, const float *g, float dt)
+static void part_spin(struct part_lerp *lerp,
+                      struct part *part, int n,
+                      const float *g, float dt)
 {
     int i;
 
@@ -223,8 +312,8 @@ static void part_spin(struct part *part, int n, const float *g, float dt)
         {
             part[i].a += 30.f * dt;
 
-            part[i].p[0] = fsinf(V_RAD(part[i].a));
-            part[i].p[2] = fcosf(V_RAD(part[i].a));
+            lerp[i].p[CURR][0] = fsinf(V_RAD(part[i].a));
+            lerp[i].p[CURR][2] = fcosf(V_RAD(part[i].a));
         }
 }
 
@@ -232,19 +321,24 @@ void part_step(const float *g, float dt)
 {
     int i;
 
-    part_fall(part_coin, PART_MAX_COIN, g, dt);
+    part_lerp_copy();
+
+    part_fall(part_lerp_coin, part_coin, PART_MAX_COIN, g, dt);
 
     if (g[1] > 0.f)
-        part_fall(part_goal, PART_MAX_GOAL, g, dt);
+        part_fall(part_lerp_goal, part_goal, PART_MAX_GOAL, g, dt);
     else
-        part_spin(part_goal, PART_MAX_GOAL, g, dt);
+        part_spin(part_lerp_goal, part_goal, PART_MAX_GOAL, g, dt);
 
     for (i = 0; i < PART_MAX_JUMP; i++)
     {
-        part_jump[i].p[1] += part_jump[i].v[1] * dt;
+        part_lerp_jump[i].p[CURR][1] += part_jump[i].v[1] * dt;
 
-        if (part_jump[i].p[1] > jump_height)
-            part_jump[i].p[1] = 0.0f;
+        if (part_lerp_jump[i].p[PREV][1] > jump_height)
+        {
+            part_lerp_jump[i].p[PREV][1] = 0.0f;
+            part_lerp_jump[i].p[CURR][1] = 0.0f;
+        }
     }
 }
 

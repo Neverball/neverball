@@ -25,6 +25,8 @@ void part_draw_coin(const float *, float);
 void part_draw_goal(const float *, float, float, float);
 void part_draw_jump(const float *, float, float, float);
 
+void part_lerp_apply(float);
+
 /*---------------------------------------------------------------------------*/
 
 #endif
