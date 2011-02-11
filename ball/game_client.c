@@ -116,7 +116,7 @@ static void game_run_cmd(const union cmd *cmd)
                 {
                     gl.jump_dt[CURR] += dt;
 
-                    if (1.0f < gl.jump_dt[CURR])
+                    if (1.0f < gl.jump_dt[PREV])
                         gd.jump_b = 0;
                 }
 
@@ -207,6 +207,7 @@ static void game_run_cmd(const union cmd *cmd)
         case CMD_JUMP_ENTER:
             gd.jump_b  = 1;
             gd.jump_e  = 0;
+            gl.jump_dt[PREV] = 0.0f;
             gl.jump_dt[CURR] = 0.0f;
             break;
 
