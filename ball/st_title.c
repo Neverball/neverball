@@ -263,6 +263,9 @@ static void title_timer(int id, float dt)
             real_time = 0.0f;
             mode = 3;
         }
+        else
+            game_client_blend(demo_play_blend());
+
         break;
 
     case 3: /* Mode 3: Fade out.  Load title level. */
