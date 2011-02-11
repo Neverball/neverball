@@ -79,32 +79,32 @@
     (u)[2] = (p)[2] + (v)[2] * (t); \
 } while (0)
 
-#define v_lerp(u, v, w, a) {                       \
+#define v_lerp(u, v, w, a) do {                    \
     (u)[0] = (v)[0] * (1.0f - (a)) + (w)[0] * (a); \
     (u)[1] = (v)[1] * (1.0f - (a)) + (w)[1] * (a); \
     (u)[2] = (v)[2] * (1.0f - (a)) + (w)[2] * (a); \
-}
+} while (0)
 
-#define e_cpy(d, e) {      \
+#define e_cpy(d, e) do {   \
     v_cpy((d)[0], (e)[0]); \
     v_cpy((d)[1], (e)[1]); \
     v_cpy((d)[2], (e)[2]); \
-}
+} while (0)
 
-#define e_orthonrm(e) {            \
+#define e_orthonrm(e) do {         \
     v_crs((e)[0], (e)[1], (e)[2]); \
     v_crs((e)[2], (e)[0], (e)[1]); \
     v_nrm((e)[0], (e)[0]);         \
     v_nrm((e)[1], (e)[1]);         \
     v_nrm((e)[2], (e)[2]);         \
-}
+} while (0)
 
-#define e_lerp(c, d, e, a) {           \
+#define e_lerp(c, d, e, a) do {        \
     v_lerp((c)[0], (d)[0], (e)[0], a); \
     v_lerp((c)[1], (d)[1], (e)[1], a); \
     v_lerp((c)[2], (d)[2], (e)[2], a); \
     e_orthonrm(c);                     \
-}
+} while (0)
 
 /*---------------------------------------------------------------------------*/
 
