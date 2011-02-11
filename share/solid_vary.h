@@ -132,7 +132,7 @@ void sol_free_lerp(struct s_lerp *);
 
 void sol_lerp_copy(struct s_lerp *);
 void sol_lerp_apply(struct s_lerp *, float);
-int  sol_lerp_cmd(struct s_lerp *, const union cmd *);
+int  sol_lerp_cmd(struct s_lerp *, struct cmd_state *, const union cmd *);
 
 /*---------------------------------------------------------------------------*/
 

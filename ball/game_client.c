@@ -53,25 +53,12 @@ static float timer  = 0.0f;             /* Clock time                        */
 static int   status = GAME_NONE;        /* Outcome of the game               */
 static int   coins  = 0;                /* Collected coins                   */
 
-static int ups;                         /* Updates per second                */
-static int first_update;                /* First update flag                 */
-static int curr_ball;                   /* Current ball index                */
+static struct cmd_state cs;             /* Command state                     */
 
 struct
 {
     int x, y;
 } version;                              /* Current map version               */
-
-/*
- * Neverball <= 1.5.1 does not send explicit tilt axes, rotation
- * happens directly around view vectors.  So for compatibility if at
- * the time of receiving tilt angles we have not yet received the tilt
- * axes, we use the view vectors.
- */
-
-static int got_tilt_axes;
-
-static int next_update;
 
 /*---------------------------------------------------------------------------*/
 
@@ -88,25 +75,24 @@ static void game_run_cmd(const union cmd *cmd)
         float v[3];
         float dt;
 
-        if (next_update)
+        if (cs.next_update)
         {
             game_lerp_copy(&gl);
-            next_update = 0;
+            cs.next_update = 0;
         }
 
         switch (cmd->type)
         {
         case CMD_END_OF_UPDATE:
-            got_tilt_axes = 0;
+            cs.got_tilt_axes = 0;
+            cs.next_update = 1;
 
-            next_update = 1;
-
-            if (first_update)
+            if (cs.first_update)
             {
                 game_lerp_copy(&gl);
                 /* Hack to sync state before the next update. */
                 game_lerp_apply(&gl, &gd);
-                first_update = 0;
+                cs.first_update = 0;
                 break;
             }
 
@@ -119,9 +105,9 @@ static void game_run_cmd(const union cmd *cmd)
 
             /* Step particle, goal and jump effects. */
 
-            if (ups > 0)
+            if (cs.ups > 0)
             {
-                dt = 1.0f / (float) ups;
+                dt = 1.0f / cs.ups;
 
                 if (gd.goal_e && gl.goal_k[CURR] < 1.0f)
                     gl.goal_k[CURR] += dt;
@@ -142,8 +128,8 @@ static void game_run_cmd(const union cmd *cmd)
         case CMD_MAKE_BALL:
             /* Allocate a new ball and mark it as the current ball. */
 
-            if (sol_lerp_cmd(&gl.lerp, cmd))
-                curr_ball = gl.lerp.uc - 1;
+            if (sol_lerp_cmd(&gl.lerp, &cs, cmd))
+                cs.curr_ball = gl.lerp.uc - 1;
 
             break;
 
@@ -181,8 +167,18 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_TILT_ANGLES:
-            if (!got_tilt_axes)
+            if (!cs.got_tilt_axes)
+            {
+                /*
+                 * Neverball <= 1.5.1 does not send explicit tilt
+                 * axes, rotation happens directly around view
+                 * vectors.  So for compatibility if at the time of
+                 * receiving tilt angles we have not yet received the
+                 * tilt axes, we use the view vectors.
+                 */
+
                 game_tilt_axes(tilt, view->e);
+            }
 
             tilt->rx = cmd->tiltangles.x;
             tilt->rz = cmd->tiltangles.z;
@@ -219,11 +215,11 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_BODY_PATH:
-            sol_lerp_cmd(&gl.lerp, cmd);
+            sol_lerp_cmd(&gl.lerp, &cs, cmd);
             break;
 
         case CMD_BODY_TIME:
-            sol_lerp_cmd(&gl.lerp, cmd);
+            sol_lerp_cmd(&gl.lerp, &cs, cmd);
             break;
 
         case CMD_GOAL_OPEN:
@@ -235,7 +231,7 @@ static void game_run_cmd(const union cmd *cmd)
             if (!gd.goal_e)
             {
                 gd.goal_e = 1;
-                gl.goal_k[CURR] = first_update ? 1.0f : 0.0f;
+                gl.goal_k[CURR] = cs.first_update ? 1.0f : 0.0f;
             }
             break;
 
@@ -252,11 +248,11 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_UPDATES_PER_SECOND:
-            ups = cmd->ups.n;
+            cs.ups = cmd->ups.n;
             break;
 
         case CMD_BALL_RADIUS:
-            sol_lerp_cmd(&gl.lerp, cmd);
+            sol_lerp_cmd(&gl.lerp, &cs, cmd);
             break;
 
         case CMD_CLEAR_ITEMS:
@@ -269,19 +265,19 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_CLEAR_BALLS:
-            sol_lerp_cmd(&gl.lerp, cmd);
+            sol_lerp_cmd(&gl.lerp, &cs, cmd);
             break;
 
         case CMD_BALL_POSITION:
-            sol_lerp_cmd(&gl.lerp, cmd);
+            sol_lerp_cmd(&gl.lerp, &cs, cmd);
             break;
 
         case CMD_BALL_BASIS:
-            sol_lerp_cmd(&gl.lerp, cmd);
+            sol_lerp_cmd(&gl.lerp, &cs, cmd);
             break;
 
         case CMD_BALL_PEND_BASIS:
-            sol_lerp_cmd(&gl.lerp, cmd);
+            sol_lerp_cmd(&gl.lerp, &cs, cmd);
             break;
 
         case CMD_VIEW_POSITION:
@@ -299,8 +295,7 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_CURRENT_BALL:
-            sol_lerp_cmd(&gl.lerp, cmd);
-            curr_ball = cmd->currball.ui;
+            cs.curr_ball = cmd->currball.ui;
             break;
 
         case CMD_PATH_FLAG:
@@ -308,7 +303,7 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_STEP_SIMULATION:
-            sol_lerp_cmd(&gl.lerp, cmd);
+            sol_lerp_cmd(&gl.lerp, &cs, cmd);
             break;
 
         case CMD_MAP:
@@ -320,7 +315,7 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_TILT_AXES:
-            got_tilt_axes = 1;
+            cs.got_tilt_axes = 1;
             v_cpy(tilt->x, cmd->tiltaxes.x);
             v_cpy(tilt->z, cmd->tiltaxes.z);
             break;
@@ -418,8 +413,7 @@ int  game_client_init(const char *file_name)
 
     /* Initialize command state. */
 
-    ups          = 0;
-    first_update = 1;
+    cmd_state_init(&cs);
 
     /* Initialize background. */
 

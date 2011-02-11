@@ -139,9 +139,7 @@ void sol_free_vary(struct s_vary *fp)
 #define CURR 0
 #define PREV 1
 
-static int curr_ball;
-
-int sol_lerp_cmd(struct s_lerp *fp, const union cmd *cmd)
+int sol_lerp_cmd(struct s_lerp *fp, struct cmd_state *cs, const union cmd *cmd)
 {
     struct l_ball (*uv)[2];
     struct l_ball *up;
@@ -165,7 +163,7 @@ int sol_lerp_cmd(struct s_lerp *fp, const union cmd *cmd)
                 fp->vary->uv = up;
                 fp->vary->uc = fp->uc;
 
-                curr_ball = fp->uc - 1;
+                cs->curr_ball = fp->uc - 1;
                 rc = 1;
             }
         }
@@ -180,7 +178,7 @@ int sol_lerp_cmd(struct s_lerp *fp, const union cmd *cmd)
         break;
 
     case CMD_BALL_RADIUS:
-        fp->uv[curr_ball][CURR].r = cmd->ballradius.r;
+        fp->uv[cs->curr_ball][CURR].r = cmd->ballradius.r;
         break;
 
     case CMD_CLEAR_BALLS:
@@ -194,26 +192,22 @@ int sol_lerp_cmd(struct s_lerp *fp, const union cmd *cmd)
         break;
 
     case CMD_BALL_POSITION:
-        up = &fp->uv[curr_ball][CURR];
+        up = &fp->uv[cs->curr_ball][CURR];
         v_cpy(up->p, cmd->ballpos.p);
         break;
 
     case CMD_BALL_BASIS:
-        up = &fp->uv[curr_ball][CURR];
+        up = &fp->uv[cs->curr_ball][CURR];
         v_cpy(up->e[0], cmd->ballbasis.e[0]);
         v_cpy(up->e[1], cmd->ballbasis.e[1]);
         v_crs(up->e[2], up->e[0], up->e[1]);
         break;
 
     case CMD_BALL_PEND_BASIS:
-        up = &fp->uv[curr_ball][CURR];
+        up = &fp->uv[cs->curr_ball][CURR];
         v_cpy(up->E[0], cmd->ballpendbasis.E[0]);
         v_cpy(up->E[1], cmd->ballpendbasis.E[1]);
         v_crs(up->E[2], up->E[0], up->E[1]);
-        break;
-
-    case CMD_CURRENT_BALL:
-        curr_ball = cmd->currball.ui;
         break;
 
     case CMD_STEP_SIMULATION:

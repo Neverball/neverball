@@ -321,4 +321,25 @@ int cmd_get(fs_file, union cmd *);
 
 void cmd_free(union cmd *);
 
+/*---------------------------------------------------------------------------*/
+
+struct cmd_state
+{
+    int ups;                            /* Updates per second                */
+    int first_update;                   /* First update flag                 */
+    int next_update;                    /* Previous command was EOU          */
+    int curr_ball;                      /* Current ball index                */
+    int got_tilt_axes;                  /* Received tilt axes in this update */
+};
+
+#define cmd_state_init(cs) do { \
+    (cs)->ups = 0;              \
+    (cs)->first_update = 1;     \
+    (cs)->next_update = 0;      \
+    (cs)->curr_ball = 0;        \
+    (cs)->got_tilt_axes = 0;    \
+} while (0)
+
+/*---------------------------------------------------------------------------*/
+
 #endif
