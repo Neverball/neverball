@@ -228,7 +228,7 @@ static void ball_paint(int id, float t)
     }
     video_pop_matrix();
 
-    game_client_draw(POSE_BALL, t, demo_play_blend());
+    game_client_draw(POSE_BALL, t);
     gui_paint(id);
 }
 
@@ -241,6 +241,8 @@ static void ball_timer(int id, float dt)
         demo_replay_stop(0);
         load_ball_demo();
     }
+
+    game_client_blend(demo_play_blend());
 }
 
 static int ball_buttn(int b, int d)

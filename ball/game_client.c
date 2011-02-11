@@ -105,7 +105,7 @@ static void game_run_cmd(const union cmd *cmd)
             {
                 game_lerp_copy(&gl);
                 /* Hack to sync state before the next update. */
-                game_lerp_apply(&gl, &gd, 1.0f);
+                game_lerp_apply(&gl, &gd);
                 first_update = 0;
                 break;
             }
@@ -444,9 +444,14 @@ void game_client_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-void game_client_draw(int pose, float t, float a)
+void game_client_blend(float a)
 {
-    game_lerp_apply(&gl, &gd, a);
+    gl.alpha = a;
+}
+
+void game_client_draw(int pose, float t)
+{
+    game_lerp_apply(&gl, &gd);
     game_draw(&gd, pose, t);
 }
 

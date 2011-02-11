@@ -157,7 +157,7 @@ static void name_paint(int id, float t)
         video_pop_matrix();
     }
     else
-        game_client_draw(0, t, 1.0f);
+        game_client_draw(0, t);
 
     gui_paint(id);
 }

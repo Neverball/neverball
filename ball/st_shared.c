@@ -30,7 +30,7 @@ void shared_leave(struct state *st, struct state *next, int id)
 
 void shared_paint(int id, float t)
 {
-    game_client_draw(0, t, 1.0f);
+    game_client_draw(0, t);
     gui_paint(id);
 }
 

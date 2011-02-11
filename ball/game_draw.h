@@ -36,6 +36,8 @@ void game_draw(const struct game_draw *, int, float);
 
 struct game_lerp
 {
+    float alpha;                        /* Interpolation factor              */
+
     struct s_lerp lerp;
 
     struct game_tilt tilt[2];
@@ -48,7 +50,7 @@ struct game_lerp
 void game_lerp_init(struct game_lerp *, struct game_draw *);
 void game_lerp_free(struct game_lerp *);
 void game_lerp_copy(struct game_lerp *);
-void game_lerp_apply(struct game_lerp *, struct game_draw *, float);
+void game_lerp_apply(struct game_lerp *, struct game_draw *);
 
 /*---------------------------------------------------------------------------*/
 

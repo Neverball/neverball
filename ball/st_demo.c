@@ -443,7 +443,7 @@ static int demo_play_enter(struct state *st, struct state *prev)
 
 static void demo_play_paint(int id, float t)
 {
-    game_client_draw(0, t, demo_play_blend());
+    game_client_draw(0, t);
 
     if (show_hud)
         hud_paint();
@@ -469,7 +469,10 @@ static void demo_play_timer(int id, float dt)
         goto_state(&st_demo_end);
     }
     else
+    {
         progress_step();
+        game_client_blend(demo_play_blend());
+    }
 }
 
 static void set_speed(int d)
@@ -621,7 +624,7 @@ static int demo_end_enter(struct state *st, struct state *prev)
 
 static void demo_end_paint(int id, float t)
 {
-    game_client_draw(0, t, demo_play_blend());
+    game_client_draw(0, t);
     gui_paint(id);
 
     if (demo_paused)

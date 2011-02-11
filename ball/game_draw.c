@@ -609,6 +609,8 @@ void game_draw(const struct game_draw *gd, int pose, float t)
 
 void game_lerp_init(struct game_lerp *gl, struct game_draw *gd)
 {
+    gl->alpha = 1.0f;
+
     sol_load_lerp(&gl->lerp, &gd->file.vary);
 
     gl->tilt[PREV] = gl->tilt[CURR] = gd->tilt;
@@ -634,8 +636,10 @@ void game_lerp_copy(struct game_lerp *gl)
     gl->jump_dt[PREV] = gl->jump_dt[CURR];
 }
 
-void game_lerp_apply(struct game_lerp *gl, struct game_draw *gd, float a)
+void game_lerp_apply(struct game_lerp *gl, struct game_draw *gd)
 {
+    float a = gl->alpha;
+
     /* Solid. */
 
     sol_lerp_apply(&gl->lerp, a);

@@ -385,7 +385,7 @@ static void help_demo_leave(struct state *st, struct state *next, int id)
 
 static void help_demo_paint(int id, float t)
 {
-    game_client_draw(0, t, demo_play_blend());
+    game_client_draw(0, t);
 }
 
 static void help_demo_timer(int id, float dt)
@@ -394,6 +394,8 @@ static void help_demo_timer(int id, float dt)
 
     if (!demo_replay_step(dt))
         goto_state(&st_help);
+
+    game_client_blend(demo_play_blend());
 }
 
 static int help_demo_buttn(int b, int d)
