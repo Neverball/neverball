@@ -471,7 +471,7 @@ static void demo_play_timer(int id, float dt)
     else
     {
         progress_step();
-        game_client_blend(demo_play_blend());
+        game_client_blend(demo_replay_blend());
     }
 }
 

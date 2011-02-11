@@ -242,7 +242,7 @@ static void ball_timer(int id, float dt)
         load_ball_demo();
     }
 
-    game_client_blend(demo_play_blend());
+    game_client_blend(demo_replay_blend());
 }
 
 static int ball_buttn(int b, int d)

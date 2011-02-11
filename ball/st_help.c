@@ -395,7 +395,7 @@ static void help_demo_timer(int id, float dt)
     if (!demo_replay_step(dt))
         goto_state(&st_help);
 
-    game_client_blend(demo_play_blend());
+    game_client_blend(demo_replay_blend());
 }
 
 static int help_demo_buttn(int b, int d)

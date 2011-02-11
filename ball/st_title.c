@@ -264,7 +264,7 @@ static void title_timer(int id, float dt)
             mode = 3;
         }
         else
-            game_client_blend(demo_play_blend());
+            game_client_blend(demo_replay_blend());
 
         break;
 
