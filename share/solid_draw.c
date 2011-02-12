@@ -243,17 +243,20 @@ void sol_back(const struct s_draw *draw, float n, float f, float t)
 
     /* Render all billboards in the given range. */
 
-    glDisable(GL_LIGHTING);
-    glDepthMask(GL_FALSE);
+    if (draw && draw->base)
     {
-        for (ri = 0; ri < draw->base->rc; ri++)
-            if (n <= draw->base->rv[ri].d && draw->base->rv[ri].d < f)
-                mp = sol_back_bill(draw, draw->base->rv + ri, mp, t);
+        glDisable(GL_LIGHTING);
+        glDepthMask(GL_FALSE);
+        {
+            for (ri = 0; ri < draw->base->rc; ri++)
+                if (n <= draw->base->rv[ri].d && draw->base->rv[ri].d < f)
+                    mp = sol_back_bill(draw, draw->base->rv + ri, mp, t);
 
-        mp = sol_draw_mtrl(draw, &default_draw_mtrl, mp);
+            mp = sol_draw_mtrl(draw, &default_draw_mtrl, mp);
+        }
+        glDepthMask(GL_TRUE);
+        glEnable(GL_LIGHTING);
     }
-    glDepthMask(GL_TRUE);
-    glEnable(GL_LIGHTING);
 }
 
 /*---------------------------------------------------------------------------*/
