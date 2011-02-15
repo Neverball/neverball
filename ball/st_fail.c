@@ -138,6 +138,7 @@ static void fail_timer(int id, float dt)
         {
             game_server_step(dt);
             game_client_sync(demo_fp);
+            game_client_blend(game_server_blend());
         }
     }
 
