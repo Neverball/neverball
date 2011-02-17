@@ -15,7 +15,6 @@ void  game_server_step(float);
 float game_server_blend(void);
 
 void  game_set_goal(void);
-void  game_clr_goal(void);
 
 void  game_set_ang(int, int);
 void  game_set_pos(int, int);
@@ -23,8 +22,6 @@ void  game_set_x  (float);
 void  game_set_z  (float);
 void  game_set_cam(int);
 void  game_set_rot(float);
-
-void game_server_fly(float);
 
 /*---------------------------------------------------------------------------*/
 
