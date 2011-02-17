@@ -477,7 +477,7 @@ void game_look(float phi, float theta)
     view->c[1] = view->p[1] +                       fsinf(V_RAD(phi));
     view->c[2] = view->p[2] - fcosf(V_RAD(theta)) * fcosf(V_RAD(phi));
 
-    gl.alpha = 1.0f;
+    gl.view[PREV] = gl.view[CURR];
 }
 
 /*---------------------------------------------------------------------------*/
@@ -516,6 +516,8 @@ void game_fade(float d)
 void game_client_fly(float k)
 {
     game_view_fly(&gl.view[CURR], &gd.file.vary, k);
+
+    gl.view[PREV] = gl.view[CURR];
 }
 
 /*---------------------------------------------------------------------------*/
