@@ -1,0 +1,25 @@
+Tones' Levels
+Difficulty: Moderate to difficult.\\Author: Ian Walker\\
+tones
+shot-tones/hurdles.jpg
+
+map-tones/hurdles.sol
+map-tones/easyian.sol
+map-tones/canals.sol
+map-tones/marble.sol
+map-tones/check.sol
+map-tones/easyone.sol
+map-tones/swoop.sol
+map-tones/waves.sol
+map-tones/discs.sol
+map-tones/bigtube.sol
+map-tones/blue.sol
+map-tones/swish.sol
+map-tones/leaps.sol
+map-tones/bumperoo.sol
+map-tones/skiball.sol
+map-tones/city.sol
+map-tones/tonesmaze.sol
+map-tones/hotwheels.sol
+map-tones/twisted.sol
+map-tones/runner.sol
