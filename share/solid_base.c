@@ -323,6 +323,14 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
     for (i = 0; i < fp->wc; i++) sol_load_view(fin, fp->wv + i);
     for (i = 0; i < fp->ic; i++) get_index(fin, fp->iv + i);
 
+    /* Magically "fix" all of our code. */
+
+    if (!fp->uc)
+    {
+        fp->uc = 1;
+        fp->uv = (struct b_ball *) calloc(fp->uc, sizeof (*fp->uv));
+    }
+
     return 1;
 }
 
