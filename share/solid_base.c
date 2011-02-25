@@ -208,10 +208,10 @@ static void sol_load_jump(fs_file fin, struct b_jump *jp)
     get_float(fin, &jp->r);
 }
 
-static void sol_load_ball(fs_file fin, struct b_ball *bp)
+static void sol_load_ball(fs_file fin, struct b_ball *up)
 {
-    get_array(fin,  bp->p, 3);
-    get_float(fin, &bp->r);
+    get_array(fin,  up->p, 3);
+    get_float(fin, &up->r);
 }
 
 static void sol_load_view(fs_file fin, struct b_view *wp)
