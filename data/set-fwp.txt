@@ -19,3 +19,4 @@ map-fwp/rails.sol
 map-fwp/discs.sol
 map-fwp/ufo.sol
 map-fwp/adventure.sol
+map-fwp/rings.sol

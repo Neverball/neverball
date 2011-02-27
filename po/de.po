@@ -1336,6 +1336,10 @@ msgstr "=Schienen=\\Verlieren Sie nicht das Gleichgewicht."
 msgid "=Ramps=\\Can you make it to the top?"
 msgstr "=Rampen=\\Schaffen Sie es bis ganz nach oben?"
 
+#: data/map-fwp/rings.map
+msgid "=Rings=\\Roll your way through this trap."
+msgstr "=Ringe=\\Erst in die Falle gehen, dann daraus entkommen."
+
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
 msgstr "=Abhang=\\Werden Sie nicht zu einem zweiten Sisyphos."
