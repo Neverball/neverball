@@ -36,7 +36,6 @@
 
 static int server_state = 0;
 
-static struct s_base base;
 static struct s_vary vary;
 
 static float timer      = 0.f;          /* Clock time                        */
@@ -429,17 +428,16 @@ int game_server_init(const char *file_name, int t, int e)
     coins      = 0;
     status     = GAME_NONE;
 
-    if (server_state)
-        game_server_free();
+    game_server_free(file_name);
 
     /* Load SOL data. */
 
-    if (!sol_load_base(&base, file_name))
+    if (!game_base_load(file_name))
         return (server_state = 0);
 
-    if (!sol_load_vary(&vary, &base))
+    if (!sol_load_vary(&vary, &game_base))
     {
-        sol_free_base(&base);
+        game_base_free(NULL);
         return (server_state = 0);
     }
 
@@ -450,10 +448,10 @@ int game_server_init(const char *file_name, int t, int e)
     version.x = 0;
     version.y = 0;
 
-    for (i = 0; i < base.dc; i++)
+    for (i = 0; i < vary.base->dc; i++)
     {
-        char *k = base.av + base.dv[i].ai;
-        char *v = base.av + base.dv[i].aj;
+        char *k = vary.base->av + vary.base->dv[i].ai;
+        char *v = vary.base->av + vary.base->dv[i].aj;
 
         if (strcmp(k, "version") == 0)
             sscanf(v, "%d.%d", &version.x, &version.y);
@@ -508,14 +506,14 @@ int game_server_init(const char *file_name, int t, int e)
     return server_state;
 }
 
-void game_server_free(void)
+void game_server_free(const char *next)
 {
     if (server_state)
     {
         sol_quit_sim();
-
         sol_free_vary(&vary);
-        sol_free_base(&base);
+
+        game_base_free(next);
 
         server_state = 0;
     }
@@ -700,7 +698,7 @@ static int game_update_state(int bt)
 
     /* Test for fall-out. */
 
-    if (bt && vary.uv[0].p[1] < base.vv[0].p[1])
+    if (bt && vary.uv[0].p[1] < vary.base->vv[0].p[1])
     {
         audio_play(AUD_FALL, 1.0f);
         return GAME_FALL;

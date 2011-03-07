@@ -10,7 +10,9 @@ struct game_draw
 {
     int state;
 
-    struct s_full file;
+    struct s_vary vary;
+    struct s_draw draw;
+
     struct s_full back;
 
     struct game_tilt tilt;              /* Floor rotation                    */

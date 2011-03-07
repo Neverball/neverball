@@ -128,7 +128,7 @@ static int name_enter(struct state *st, struct state *prev)
 {
     if (draw_back)
     {
-        game_client_free();
+        game_client_free(NULL);
         back_init("back/gui.png");
     }
 

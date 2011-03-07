@@ -117,4 +117,11 @@ void lockstep_scl(struct lockstep *, float);
 
 /*---------------------------------------------------------------------------*/
 
+extern struct s_base game_base;
+
+int  game_base_load(const char *);
+void game_base_free(const char *);
+
+/*---------------------------------------------------------------------------*/
+
 #endif

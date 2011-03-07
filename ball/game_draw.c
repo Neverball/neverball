@@ -126,7 +126,7 @@ static void game_draw_items(const struct s_vary *vary, float t)
 static void game_draw_goals(const struct game_draw *gd,
                             const float *M, float t)
 {
-    const struct s_base *base = &gd->file.base;
+    const struct s_base *base = gd->vary.base;
 
     if (gd->goal_e)
     {
@@ -175,7 +175,7 @@ static void game_draw_goals(const struct game_draw *gd,
 static void game_draw_jumps(const struct game_draw *gd,
                             const float *M, float t)
 {
-    const struct s_base *base = &gd->file.base;
+    const struct s_base *base = gd->vary.base;
 
     int ji;
 
@@ -244,7 +244,7 @@ static void game_draw_swchs(const struct s_vary *vary)
 static void game_draw_tilt(const struct game_draw *gd, int d)
 {
     const struct game_tilt *tilt = &gd->tilt;
-    const float *ball_p = gd->file.vary.uv[0].p;
+    const float *ball_p = gd->vary.uv[0].p;
 
     /* Rotate the environment about the position of the ball. */
 
@@ -262,7 +262,7 @@ static void game_refl_all(const struct game_draw *gd)
 
         /* Draw the floor. */
 
-        sol_refl(&gd->file.draw);
+        sol_refl(&gd->draw);
     }
     glPopMatrix();
 }
@@ -382,10 +382,10 @@ static void game_draw_fore(const struct game_draw *gd,
                            int pose, const float *M,
                            int d, float t)
 {
-    const float *ball_p = gd->file.vary.uv[0].p;
-    const float  ball_r = gd->file.vary.uv[0].r;
+    const float *ball_p = gd->vary.uv[0].p;
+    const float  ball_r = gd->vary.uv[0].r;
 
-    const struct s_draw *draw = &gd->file.draw;
+    const struct s_draw *draw = &gd->draw;
 
     glPushMatrix();
     {
@@ -504,7 +504,7 @@ void game_draw(const struct game_draw *gd, int pose, float t)
             glMultMatrixf(M);
             glTranslatef(-view->c[0], -view->c[1], -view->c[2]);
 
-            if (gd->file.draw.reflective && config_get_d(CONFIG_REFLECTION))
+            if (gd->draw.reflective && config_get_d(CONFIG_REFLECTION))
             {
                 glEnable(GL_STENCIL_TEST);
                 {
@@ -543,7 +543,7 @@ void game_draw(const struct game_draw *gd, int pose, float t)
 
             game_draw_light();
 
-            if (gd->file.draw.reflective)
+            if (gd->draw.reflective)
             {
                 if (config_get_d(CONFIG_REFLECTION))
                 {
@@ -611,7 +611,7 @@ void game_lerp_init(struct game_lerp *gl, struct game_draw *gd)
 {
     gl->alpha = 1.0f;
 
-    sol_load_lerp(&gl->lerp, &gd->file.vary);
+    sol_load_lerp(&gl->lerp, &gd->vary);
 
     gl->tilt[PREV] = gl->tilt[CURR] = gd->tilt;
     gl->view[PREV] = gl->view[CURR] = gd->view;

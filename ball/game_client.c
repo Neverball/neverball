@@ -69,7 +69,7 @@ static void game_run_cmd(const union cmd *cmd)
         struct game_view *view = &gl.view[CURR];
         struct game_tilt *tilt = &gl.tilt[CURR];
 
-        struct s_vary *vary = &gd.file.vary;
+        struct s_vary *vary = &gd.vary;
         struct v_item *hp;
 
         float v[3];
@@ -353,11 +353,25 @@ int  game_client_init(const char *file_name)
     coins  = 0;
     status = GAME_NONE;
 
-    if (gd.state)
-        game_client_free();
+    game_client_free(file_name);
 
-    if (!sol_load_full(&gd.file, file_name, config_get_d(CONFIG_SHADOW)))
+    /* Load SOL data. */
+
+    if (!game_base_load(file_name))
         return (gd.state = 0);
+
+    if (!sol_load_vary(&gd.vary, &game_base))
+    {
+        game_base_free(NULL);
+        return (gd.state = 0);
+    }
+
+    if (!sol_load_draw(&gd.draw, &gd.vary, config_get_d(CONFIG_SHADOW)))
+    {
+        sol_free_vary(&gd.vary);
+        game_base_free(NULL);
+        return (gd.state = 0);
+    }
 
     gd.state = 1;
 
@@ -387,10 +401,10 @@ int  game_client_init(const char *file_name)
     version.x = 0;
     version.y = 0;
 
-    for (i = 0; i < gd.file.base.dc; i++)
+    for (i = 0; i < gd.vary.base->dc; i++)
     {
-        char *k = gd.file.base.av + gd.file.base.dv[i].ai;
-        char *v = gd.file.base.av + gd.file.base.dv[i].aj;
+        char *k = gd.vary.base->av + gd.vary.base->dv[i].ai;
+        char *v = gd.vary.base->av + gd.vary.base->dv[i].aj;
 
         if (strcmp(k, "back") == 0) back_name = v;
         if (strcmp(k, "grad") == 0) grad_name = v;
@@ -424,13 +438,19 @@ int  game_client_init(const char *file_name)
     return gd.state;
 }
 
-void game_client_free(void)
+void game_client_free(const char *next)
 {
     if (gd.state)
     {
         game_proxy_clr();
+
         game_lerp_free(&gl);
-        sol_free_full(&gd.file);
+
+        sol_free_draw(&gd.draw);
+        sol_free_vary(&gd.vary);
+
+        game_base_free(next);
+
         sol_free_full(&gd.back);
         back_free();
     }
@@ -515,7 +535,7 @@ void game_fade(float d)
 
 void game_client_fly(float k)
 {
-    game_view_fly(&gl.view[CURR], &gd.file.vary, k);
+    game_view_fly(&gl.view[CURR], &gd.vary, k);
 
     gl.view[PREV] = gl.view[CURR];
 }

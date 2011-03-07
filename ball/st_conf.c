@@ -109,7 +109,7 @@ static void conf_shared_init(int (*action_fn)(int))
 {
     conf_shared_action = action_fn;
 
-    game_client_free();
+    game_client_free(NULL);
     back_init("back/gui.png");
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 }
