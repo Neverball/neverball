@@ -52,7 +52,7 @@ static int         verbose;
 
 #define MAXM    1024
 #define MAXV    65536
-#define MAXE    65536
+#define MAXE    131072
 #define MAXS    65536
 #define MAXT    131072
 #define MAXG    65536
