@@ -471,13 +471,8 @@ static void sol_shad_geom(const struct s_base *base,
         const float *vj = base->vv[gp->vj].p;
         const float *vk = base->vv[gp->vk].p;
 
-        glTexCoord2f(vi[0], vi[2]);
         glVertex3fv(vi);
-
-        glTexCoord2f(vj[0], vj[2]);
         glVertex3fv(vj);
-
-        glTexCoord2f(vk[0], vk[2]);
         glVertex3fv(vk);
     }
 }
@@ -529,11 +524,32 @@ static void sol_shad_list(const struct s_vary *vary,
 {
     float p[3], e[4], u[3], a;
 
+    float X[] = { 1.0f, 0.0f, 0.0f, 0.0f };
+    float Z[] = { 0.0f, 0.0f, 1.0f, 0.0f };
+
     sol_body_p(p, vary, bp->pi, bp->t);
     sol_body_e(e, vary, bp, 0);
 
-    q_as_axisangle(e, u, &a);
-    a = V_DEG(a);
+    if (e[0] != 1.0f)
+    {
+        q_as_axisangle(e, u, &a);
+        a = V_DEG(a);
+
+        q_conj(e, e);
+        q_rot(X, e, X);
+        q_rot(Z, e, Z);
+    }
+    else
+    {
+        u[0] = 0.0f;
+        u[1] = 0.0f;
+        u[2] = 0.0f;
+
+        a = 0.0f;
+    }
+
+    glTexGenfv(GL_S, GL_OBJECT_PLANE, X);
+    glTexGenfv(GL_T, GL_OBJECT_PLANE, Z);
 
     glPushMatrix();
     {
@@ -548,7 +564,6 @@ static void sol_shad_list(const struct s_vary *vary,
         {
             glPushMatrix();
             glTranslatef(p[0], p[2], 0.0f);
-            glRotatef(-a, u[0], u[2], u[1]);
         }
         glMatrixMode(GL_MODELVIEW);
 
@@ -573,6 +588,12 @@ void sol_shad(const struct s_draw *draw)
 
     /* Render all shadowed geometry. */
 
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+
     glDepthMask(GL_FALSE);
     {
         for (bi = 0; bi < draw->bc; bi++)
@@ -580,6 +601,9 @@ void sol_shad(const struct s_draw *draw)
                 sol_shad_list(draw->vary, draw->vary->bv + bi, draw->bv[bi].sl);
     }
     glDepthMask(GL_TRUE);
+
+    glDisable(GL_TEXTURE_GEN_T);
+    glDisable(GL_TEXTURE_GEN_S);
 }
 
 /*---------------------------------------------------------------------------*/
