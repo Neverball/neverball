@@ -1,5 +1,5 @@
-Tones' Levels
-Difficulty: Moderate to difficult.\\Author: Ian Walker\\
+Tones Levels
+Difficulty: Moderate to Difficult.\\Author: Ian Walker\\
 tones
 shot-tones/hurdles.jpg
 
