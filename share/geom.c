@@ -324,11 +324,11 @@ void shad_free(void)
 
 void shad_draw_set(const float *p, float r)
 {
+    glBindTexture(GL_TEXTURE_2D, shad_text);
+
     glMatrixMode(GL_TEXTURE);
     {
         float k = 0.25f / r;
-
-        glBindTexture(GL_TEXTURE_2D, shad_text);
 
         glLoadIdentity();
         glTranslatef(0.5f - k * p[0],
@@ -336,6 +336,12 @@ void shad_draw_set(const float *p, float r)
         glScalef(k, k, 1.0f);
     }
     glMatrixMode(GL_MODELVIEW);
+
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
 }
 
 void shad_draw_clr(void)
@@ -345,6 +351,9 @@ void shad_draw_clr(void)
         glLoadIdentity();
     }
     glMatrixMode(GL_MODELVIEW);
+
+    glDisable(GL_TEXTURE_GEN_S);
+    glDisable(GL_TEXTURE_GEN_T);
 }
 
 /*---------------------------------------------------------------------------*/

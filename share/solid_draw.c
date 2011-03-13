@@ -551,35 +551,33 @@ static void sol_shad_list(const struct s_vary *vary,
     glTexGenfv(GL_S, GL_OBJECT_PLANE, X);
     glTexGenfv(GL_T, GL_OBJECT_PLANE, Z);
 
+    /* Translate the shadow on a moving body. */
+
+    glMatrixMode(GL_TEXTURE);
+    {
+        glPushMatrix();
+        glTranslatef(p[0], p[2], 0.0f);
+    }
+    glMatrixMode(GL_MODELVIEW);
+
+    /* Draw the body. */
+
     glPushMatrix();
     {
-        /* Translate and rotate a moving body. */
-
         glTranslatef(p[0], p[1], p[2]);
         glRotatef(a, u[0], u[1], u[2]);
 
-        /* Translate the shadow on a moving body. */
-
-        glMatrixMode(GL_TEXTURE);
-        {
-            glPushMatrix();
-            glTranslatef(p[0], p[2], 0.0f);
-        }
-        glMatrixMode(GL_MODELVIEW);
-
-        /* Draw the body. */
-
         glCallList(list);
-
-        /* Pop the shadow translation. */
-
-        glMatrixMode(GL_TEXTURE);
-        {
-            glPopMatrix();
-        }
-        glMatrixMode(GL_MODELVIEW);
     }
     glPopMatrix();
+
+    /* Pop the shadow translation. */
+
+    glMatrixMode(GL_TEXTURE);
+    {
+        glPopMatrix();
+    }
+    glMatrixMode(GL_MODELVIEW);
 }
 
 void sol_shad(const struct s_draw *draw)
@@ -588,12 +586,6 @@ void sol_shad(const struct s_draw *draw)
 
     /* Render all shadowed geometry. */
 
-    glEnable(GL_TEXTURE_GEN_S);
-    glEnable(GL_TEXTURE_GEN_T);
-
-    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-
     glDepthMask(GL_FALSE);
     {
         for (bi = 0; bi < draw->bc; bi++)
@@ -601,9 +593,6 @@ void sol_shad(const struct s_draw *draw)
                 sol_shad_list(draw->vary, draw->vary->bv + bi, draw->bv[bi].sl);
     }
     glDepthMask(GL_TRUE);
-
-    glDisable(GL_TEXTURE_GEN_T);
-    glDisable(GL_TEXTURE_GEN_S);
 }
 
 /*---------------------------------------------------------------------------*/
