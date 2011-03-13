@@ -290,6 +290,71 @@ void flag_draw(void)
 }
 
 /*---------------------------------------------------------------------------*/
+
+static GLuint clip_text;
+
+static GLubyte clip_data[] = { 0xff, 0xff, 0x0, 0x0 };
+
+void clip_init(void)
+{
+    if (!glActiveTextureARB_)
+        return;
+
+    glActiveTextureARB_(GL_TEXTURE1_ARB);
+    {
+        glGenTextures(1, &clip_text);
+        glBindTexture(GL_TEXTURE_1D, clip_text);
+
+        glTexImage1D(GL_TEXTURE_1D, 0,
+                     GL_LUMINANCE_ALPHA, 2, 0,
+                     GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, clip_data);
+
+        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    }
+    glActiveTextureARB_(GL_TEXTURE0_ARB);
+}
+
+void clip_free(void)
+{
+    if (glIsTexture(clip_text))
+        glDeleteTextures(1, &clip_text);
+}
+
+void clip_draw_set(void)
+{
+    if (!glActiveTextureARB_)
+        return;
+
+    glActiveTextureARB_(GL_TEXTURE1_ARB);
+    {
+        glBindTexture(GL_TEXTURE_1D, clip_text);
+
+        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+
+        glEnable(GL_TEXTURE_GEN_S);
+        glEnable(GL_TEXTURE_1D);
+    }
+    glActiveTextureARB_(GL_TEXTURE0_ARB);
+}
+
+void clip_draw_clr(void)
+{
+    if (!glActiveTextureARB_)
+        return;
+
+    glActiveTextureARB_(GL_TEXTURE1_ARB);
+    {
+        glDisable(GL_TEXTURE_GEN_S);
+        glDisable(GL_TEXTURE_1D);
+    }
+    glActiveTextureARB_(GL_TEXTURE0_ARB);
+}
+
+/*---------------------------------------------------------------------------*/
+
 /*
  * A note about lighting and shadow: technically speaking, it's wrong.
  * The  light  position  and   shadow  projection  behave  as  if  the
@@ -314,12 +379,16 @@ void shad_init(void)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     }
+
+    clip_init();
 }
 
 void shad_free(void)
 {
     if (glIsTexture(shad_text))
         glDeleteTextures(1, &shad_text);
+
+    clip_free();
 }
 
 void shad_draw_set(void)
@@ -337,12 +406,16 @@ void shad_draw_set(void)
 
     glEnable(GL_TEXTURE_GEN_S);
     glEnable(GL_TEXTURE_GEN_T);
+
+    clip_draw_set();
 }
 
 void shad_draw_clr(void)
 {
     glDisable(GL_TEXTURE_GEN_S);
     glDisable(GL_TEXTURE_GEN_T);
+
+    clip_draw_clr();
 }
 
 /*---------------------------------------------------------------------------*/

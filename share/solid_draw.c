@@ -527,6 +527,7 @@ static void sol_shad_list(const struct s_vary *vary,
     float d[3];
 
     float X[] = { 1.0f, 0.0f, 0.0f, 0.0f };
+    float Y[] = { 0.0f, 1.0f, 0.0f, 0.0f };
     float Z[] = { 0.0f, 0.0f, 1.0f, 0.0f };
 
     sol_body_p(p, vary, bp->pi, bp->t);
@@ -534,13 +535,17 @@ static void sol_shad_list(const struct s_vary *vary,
 
     v_sub(d, up->p, p);
 
+    Y[3] = 0.5f - v_dot(Y, d);
+
     if (e[0] != 1.0f)
     {
         q_as_axisangle(e, u, &a);
         a = V_DEG(a);
 
         q_conj(e, e);
+
         q_rot(X, e, X);
+        q_rot(Y, e, Y);
         q_rot(Z, e, Z);
     }
     else
@@ -567,6 +572,15 @@ static void sol_shad_list(const struct s_vary *vary,
         glScalef(k, k, 0.0f);
     }
     glMatrixMode(GL_MODELVIEW);
+
+    /* Set up shadow clipping. */
+
+    if (glActiveTextureARB_)
+    {
+        glActiveTextureARB_(GL_TEXTURE1_ARB);
+        glTexGenfv(GL_S, GL_OBJECT_PLANE, Y);
+        glActiveTextureARB_(GL_TEXTURE0_ARB);
+    }
 
     /* Draw the body. */
 

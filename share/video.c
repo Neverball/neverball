@@ -56,6 +56,8 @@ int video_init(const char *title, const char *icon)
 
 /*---------------------------------------------------------------------------*/
 
+PFNGLACTIVETEXTUREARBPROC glActiveTextureARB_;
+
 int check_extension(const char *needle)
 {
     const GLubyte *haystack, *c;
@@ -132,6 +134,18 @@ int video_mode(int f, int w, int h)
                 glEnable(GL_MULTISAMPLE_ARB);
         }
 #endif
+
+        if (check_extension("ARB_multitexture"))
+        {
+            union
+            {
+                void *ob;
+                PFNGLACTIVETEXTUREARBPROC fn;
+            } cast;
+
+            cast.ob = SDL_GL_GetProcAddress("glActiveTextureARB");
+            glActiveTextureARB_ = cast.fn;
+        }
 
         glReadBuffer(GL_FRONT);
 
