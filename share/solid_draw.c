@@ -520,15 +520,19 @@ static void sol_shad_body(const struct s_base *base,
 }
 
 static void sol_shad_list(const struct s_vary *vary,
+                          const struct v_ball *up,
                           const struct v_body *bp, GLuint list)
 {
     float p[3], e[4], u[3], a;
+    float d[3];
 
     float X[] = { 1.0f, 0.0f, 0.0f, 0.0f };
     float Z[] = { 0.0f, 0.0f, 1.0f, 0.0f };
 
     sol_body_p(p, vary, bp->pi, bp->t);
     sol_body_e(e, vary, bp, 0);
+
+    v_sub(d, up->p, p);
 
     if (e[0] != 1.0f)
     {
@@ -555,8 +559,12 @@ static void sol_shad_list(const struct s_vary *vary,
 
     glMatrixMode(GL_TEXTURE);
     {
+        float k = 0.25f / up->r;
+
         glPushMatrix();
-        glTranslatef(p[0], p[2], 0.0f);
+        glTranslatef(0.5f - k * d[0],
+                     0.5f - k * d[2], 0.0f);
+        glScalef(k, k, 0.0f);
     }
     glMatrixMode(GL_MODELVIEW);
 
@@ -580,7 +588,7 @@ static void sol_shad_list(const struct s_vary *vary,
     glMatrixMode(GL_MODELVIEW);
 }
 
-void sol_shad(const struct s_draw *draw)
+void sol_shad(const struct s_draw *draw, int ui)
 {
     int bi;
 
@@ -590,7 +598,9 @@ void sol_shad(const struct s_draw *draw)
     {
         for (bi = 0; bi < draw->bc; bi++)
             if (draw->bv[bi].sl)
-                sol_shad_list(draw->vary, draw->vary->bv + bi, draw->bv[bi].sl);
+                sol_shad_list(draw->vary,
+                              draw->vary->uv + ui,
+                              draw->vary->bv + bi, draw->bv[bi].sl);
     }
     glDepthMask(GL_TRUE);
 }

@@ -383,7 +383,6 @@ static void game_draw_fore(const struct game_draw *gd,
                            int d, float t)
 {
     const float *ball_p = gd->vary.uv[0].p;
-    const float  ball_r = gd->vary.uv[0].r;
 
     const struct s_draw *draw = &gd->draw;
 
@@ -424,8 +423,8 @@ static void game_draw_fore(const struct game_draw *gd,
 
             if (d > 0 && config_get_d(CONFIG_SHADOW))
             {
-                shad_draw_set(ball_p, ball_r);
-                sol_shad(draw);
+                shad_draw_set();
+                sol_shad(draw, 0);
                 shad_draw_clr();
             }
 

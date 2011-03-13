@@ -44,7 +44,7 @@ void flag_draw(void);
 
 void shad_init(void);
 void shad_free(void);
-void shad_draw_set(const float *, float);
+void shad_draw_set(void);
 void shad_draw_clr(void);
 
 /*---------------------------------------------------------------------------*/

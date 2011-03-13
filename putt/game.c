@@ -355,8 +355,8 @@ void game_draw(int pose, float t)
 
         if (config_get_d(CONFIG_SHADOW) && !pose)
         {
-            shad_draw_set(fp->vary->uv[ball].p, fp->vary->uv[ball].r);
-            sol_shad(fp);
+            shad_draw_set();
+            sol_shad(fp, ball);
             shad_draw_clr();
         }
 

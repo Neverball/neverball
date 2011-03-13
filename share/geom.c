@@ -322,18 +322,13 @@ void shad_free(void)
         glDeleteTextures(1, &shad_text);
 }
 
-void shad_draw_set(const float *p, float r)
+void shad_draw_set(void)
 {
     glBindTexture(GL_TEXTURE_2D, shad_text);
 
     glMatrixMode(GL_TEXTURE);
     {
-        float k = 0.25f / r;
-
         glLoadIdentity();
-        glTranslatef(0.5f - k * p[0],
-                     0.5f - k * p[2], 0.f);
-        glScalef(k, k, 1.0f);
     }
     glMatrixMode(GL_MODELVIEW);
 
@@ -346,12 +341,6 @@ void shad_draw_set(const float *p, float r)
 
 void shad_draw_clr(void)
 {
-    glMatrixMode(GL_TEXTURE);
-    {
-        glLoadIdentity();
-    }
-    glMatrixMode(GL_MODELVIEW);
-
     glDisable(GL_TEXTURE_GEN_S);
     glDisable(GL_TEXTURE_GEN_T);
 }
