@@ -23,9 +23,9 @@
 #ifndef GL_ARB_multitexture
 #define GL_TEXTURE0_ARB                   0x84C0
 #define GL_TEXTURE1_ARB                   0x84C1
+#endif
 
 typedef void (*PFNGLACTIVETEXTUREARBPROC)(GLenum);
-#endif
 
 extern PFNGLACTIVETEXTUREARBPROC glActiveTextureARB_;
 
