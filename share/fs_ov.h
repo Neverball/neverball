@@ -1,6 +1,7 @@
 #ifndef FS_OV
 #define FS_OV
 
+#define OV_EXCLUDE_STATIC_CALLBACKS
 #include <vorbis/vorbisfile.h>
 
 size_t fs_ov_read(void *ptr, size_t size, size_t nmemb, void *datasource);

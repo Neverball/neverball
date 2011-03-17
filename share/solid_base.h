@@ -153,12 +153,15 @@ struct b_texc
     float u[2];                                /* texture coordinate         */
 };
 
+struct b_offs
+{
+    int ti, si, vi;
+};
+
 struct b_geom
 {
     int mi;
-    int ti, si, vi;
-    int tj, sj, vj;
-    int tk, sk, vk;
+    int oi, oj, ok;
 };
 
 struct b_lump
@@ -280,6 +283,7 @@ struct s_base
     int ec;
     int sc;
     int tc;
+    int oc;
     int gc;
     int lc;
     int nc;
@@ -301,6 +305,7 @@ struct s_base
     struct b_edge *ev;
     struct b_side *sv;
     struct b_texc *tv;
+    struct b_offs *ov;
     struct b_geom *gv;
     struct b_lump *lv;
     struct b_node *nv;

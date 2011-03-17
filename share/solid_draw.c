@@ -276,29 +276,33 @@ static void sol_draw_geom(const struct s_base *base,
 {
     if (gp->mi == mi)
     {
-        const float *ui = base->tv[gp->ti].u;
-        const float *uj = base->tv[gp->tj].u;
-        const float *uk = base->tv[gp->tk].u;
+        const struct b_offs *op = base->ov + gp->oi;
+        const struct b_offs *oq = base->ov + gp->oj;
+        const struct b_offs *or = base->ov + gp->ok;
 
-        const float *ni = base->sv[gp->si].n;
-        const float *nj = base->sv[gp->sj].n;
-        const float *nk = base->sv[gp->sk].n;
+        const float *u0 = base->tv[op->ti].u;
+        const float *u1 = base->tv[oq->ti].u;
+        const float *u2 = base->tv[or->ti].u;
 
-        const float *vi = base->vv[gp->vi].p;
-        const float *vj = base->vv[gp->vj].p;
-        const float *vk = base->vv[gp->vk].p;
+        const float *n0 = base->sv[op->si].n;
+        const float *n1 = base->sv[oq->si].n;
+        const float *n2 = base->sv[or->si].n;
 
-        glTexCoord2fv(ui);
-        glNormal3fv(ni);
-        glVertex3fv(vi);
+        const float *p0 = base->vv[op->vi].p;
+        const float *p1 = base->vv[oq->vi].p;
+        const float *p2 = base->vv[or->vi].p;
 
-        glTexCoord2fv(uj);
-        glNormal3fv(nj);
-        glVertex3fv(vj);
+        glTexCoord2fv(u0);
+        glNormal3fv(n0);
+        glVertex3fv(p0);
 
-        glTexCoord2fv(uk);
-        glNormal3fv(nk);
-        glVertex3fv(vk);
+        glTexCoord2fv(u1);
+        glNormal3fv(n1);
+        glVertex3fv(p1);
+
+        glTexCoord2fv(u2);
+        glNormal3fv(n2);
+        glVertex3fv(p2);
     }
 }
 
@@ -467,13 +471,13 @@ static void sol_shad_geom(const struct s_base *base,
 {
     if (gp->mi == mi)
     {
-        const float *vi = base->vv[gp->vi].p;
-        const float *vj = base->vv[gp->vj].p;
-        const float *vk = base->vv[gp->vk].p;
+        const float *v0 = base->vv[base->ov[gp->oi].vi].p;
+        const float *v1 = base->vv[base->ov[gp->oj].vi].p;
+        const float *v2 = base->vv[base->ov[gp->ok].vi].p;
 
-        glVertex3fv(vi);
-        glVertex3fv(vj);
-        glVertex3fv(vk);
+        glVertex3fv(v0);
+        glVertex3fv(v1);
+        glVertex3fv(v2);
     }
 }
 

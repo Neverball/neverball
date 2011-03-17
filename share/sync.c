@@ -30,7 +30,7 @@ void sync_init(void)
 
 void sync_init(void)
 {
-    long swap = 1;
+    GLint swap = 1;
     CGLSetParameter(CGLGetCurrentContext(),  kCGLCPSwapInterval, &swap);
 }
 

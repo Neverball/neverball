@@ -20,12 +20,12 @@
 
 /*---------------------------------------------------------------------------*/
 
-#ifndef GL_ARB_multitexture
+/*#ifndef GL_ARB_multitexture*/
 #define GL_TEXTURE0_ARB                   0x84C0
 #define GL_TEXTURE1_ARB                   0x84C1
 
 typedef void (*PFNGLACTIVETEXTUREARBPROC)(GLenum);
-#endif
+/*#endif*/
 
 extern PFNGLACTIVETEXTUREARBPROC glActiveTextureARB_;
 
