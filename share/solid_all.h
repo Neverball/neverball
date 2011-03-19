@@ -22,15 +22,15 @@ void sol_ball_step(struct s_vary *, float dt);
 enum
 {
     JUMP_OUTSIDE = 0,
-    JUMP_TRIGGER,
-    JUMP_INSIDE
+    JUMP_INSIDE,
+    JUMP_TOUCH
 };
 
 enum
 {
     SWCH_OUTSIDE = 0,
-    SWCH_TRIGGER,
-    SWCH_INSIDE
+    SWCH_INSIDE,
+    SWCH_TOUCH
 };
 
 int            sol_item_test(struct s_vary *, float *p, float item_r);

@@ -454,7 +454,7 @@ int sol_jump_test(struct s_vary *vary, float *p, int ui)
 {
     const float *ball_p = vary->uv[ui].p;
     const float  ball_r = vary->uv[ui].r;
-    int ji, in = 0;
+    int ji, touch = 0;
 
     for (ji = 0; ji < vary->base->jc; ji++)
     {
@@ -470,7 +470,7 @@ int sol_jump_test(struct s_vary *vary, float *p, int ui)
         d = v_len(r) + ball_r - jp->r;
 
         /*
-         * The "inside"  distance, which must be  cleared before being
+         * The "touch"  distance, which  must be cleared  before being
          * able to trigger a  teleporter, is the ball's radius.  (This
          * is different from switches.)
          */
@@ -479,7 +479,7 @@ int sol_jump_test(struct s_vary *vary, float *p, int ui)
             ball_p[1] > jp->p[1] &&
             ball_p[1] < jp->p[1] + JUMP_HEIGHT / 2)
         {
-            in = 1;
+            touch = 1;
 
             if (d <= 0.0f)
             {
@@ -487,11 +487,11 @@ int sol_jump_test(struct s_vary *vary, float *p, int ui)
                 p[1] = jp->q[1] + (ball_p[1] - jp->p[1]);
                 p[2] = jp->q[2] + (ball_p[2] - jp->p[2]);
 
-                return JUMP_TRIGGER;
+                return JUMP_INSIDE;
             }
         }
     }
-    return in ? JUMP_INSIDE : JUMP_OUTSIDE;
+    return touch ? JUMP_TOUCH : JUMP_OUTSIDE;
 }
 
 /*
@@ -525,7 +525,7 @@ int sol_swch_test(struct s_vary *vary, int ui)
             d = v_len(r) + ball_r - xp->base->r;
 
             /*
-             * The  "inside" distance,  which must  be  cleared before
+             * The  "touch"  distance, which  must  be cleared  before
              * being able to trigger a switch, is the ball's diameter.
              * (This is different from teleporters.)
              */
@@ -568,7 +568,7 @@ int sol_swch_test(struct s_vary *vary, int ui)
                     /* If visible, set the result. */
 
                     if (!xp->base->i)
-                        rc = SWCH_TRIGGER;
+                        rc = SWCH_INSIDE;
                 }
             }
 

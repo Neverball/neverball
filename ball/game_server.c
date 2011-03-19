@@ -654,13 +654,13 @@ static int game_update_state(int bt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(&vary, 0) == SWCH_TRIGGER)
+    if (sol_swch_test(&vary, 0) == SWCH_INSIDE)
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
     if (jump_e == 1 && jump_b == 0 && (sol_jump_test(&vary, jump_p, 0) ==
-                                       JUMP_TRIGGER))
+                                       JUMP_INSIDE))
     {
         jump_b  = 1;
         jump_e  = 0;

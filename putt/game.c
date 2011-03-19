@@ -479,13 +479,13 @@ static int game_update_state(float dt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, ball) == SWCH_TRIGGER)
+    if (sol_swch_test(fp, ball) == SWCH_INSIDE)
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
     if (jump_e == 1 && jump_b == 0 && (sol_jump_test(fp, jump_p, ball) ==
-                                       JUMP_TRIGGER))
+                                       JUMP_INSIDE))
     {
         jump_b  = 1;
         jump_e  = 0;
