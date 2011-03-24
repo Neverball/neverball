@@ -87,7 +87,7 @@ Array dir_scan(const char *path,
     List files, file;
     Array items = NULL;
 
-    assert((list_files && free_files) || (!list_files || !free_files));
+    assert((list_files && free_files) || (!list_files && !free_files));
 
     if (!list_files) list_files = dir_list_files;
     if (!free_files) free_files = dir_list_free;
