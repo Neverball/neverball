@@ -321,7 +321,6 @@ BALL_DEPS := $(BALL_OBJS:.o=.d)
 PUTT_DEPS := $(PUTT_OBJS:.o=.d)
 MAPC_DEPS := $(MAPC_OBJS:.o=.d)
 
-#MAPS := $(shell find data/map-medium -name "*.map" \! -name "*.autosave.map")
 MAPS := $(shell find data -name "*.map" \! -name "*.autosave.map")
 SOLS := $(MAPS:%.map=%.sol)
 
@@ -333,7 +332,8 @@ DESKTOPS := $(basename $(wildcard dist/*.desktop.in))
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
-%.sol : %.map $(MAPC_TARG)
+#%.sol : %.map $(MAPC_TARG)
+%.sol : %.map
 	$(MAPC) $< data
 
 %.desktop : %.desktop.in

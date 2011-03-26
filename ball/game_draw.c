@@ -483,7 +483,6 @@ void game_draw(const struct game_draw *gd, int pose, float t)
         {
             float T[16], U[16], M[16], v[3];
 
-
             /* Compute direct and reflected view bases. */
 
             v[0] = +view->p[0];

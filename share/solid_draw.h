@@ -24,6 +24,22 @@
 
 /*---------------------------------------------------------------------------*/
 
+struct d_vert
+{
+    float p[3];
+    float n[3];
+    float t[2];
+};
+
+struct d_geom
+{
+    GLushort i;
+    GLushort j;
+    GLushort k;
+};
+
+/*---------------------------------------------------------------------------*/
+
 struct d_mtrl
 {
     const struct b_mtrl *base;
@@ -31,14 +47,22 @@ struct d_mtrl
     GLuint o;                                  /* OpenGL texture object      */
 };
 
+struct d_mesh
+{
+    const struct d_mtrl *mp;
+
+    GLuint vbo;                                /* Vertex  buffer object      */
+    GLuint ebo;                                /* Element buffer object      */
+    GLuint ebc;                                /* Element buffer count       */
+};
+
 struct d_body
 {
     const struct b_body *base;
 
-    GLuint ol;                                 /* opaque geometry list       */
-    GLuint tl;                                 /* transparent geometry list  */
-    GLuint rl;                                 /* reflective geometry list   */
-    GLuint sl;                                 /* shadowed geometry list     */
+    int mc;
+
+    struct d_mesh *mv;
 };
 
 struct s_draw
