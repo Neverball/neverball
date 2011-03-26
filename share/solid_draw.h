@@ -29,6 +29,7 @@ struct d_vert
     float p[3];
     float n[3];
     float t[2];
+    float u[2];
 };
 
 struct d_geom

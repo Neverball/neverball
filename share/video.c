@@ -56,7 +56,7 @@ int video_init(const char *title, const char *icon)
 
 /*---------------------------------------------------------------------------*/
 
-PFNGLACTIVETEXTUREARBPROC glActiveTextureARB_;
+PFNGLACTIVETEXTUREARBPROC glActiveTexture_;
 
 int check_extension(const char *needle)
 {
@@ -144,7 +144,7 @@ int video_mode(int f, int w, int h)
             } cast;
 
             cast.ob = SDL_GL_GetProcAddress("glActiveTextureARB");
-            glActiveTextureARB_ = cast.fn;
+            glActiveTexture_ = cast.fn;
         }
 
         glReadBuffer(GL_FRONT);

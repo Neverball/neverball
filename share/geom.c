@@ -297,10 +297,10 @@ static GLubyte clip_data[] = { 0xff, 0xff, 0x0, 0x0 };
 
 void clip_init(void)
 {
-    if (!glActiveTextureARB_)
+    if (!glActiveTexture_)
         return;
 
-    glActiveTextureARB_(GL_TEXTURE1_ARB);
+    glActiveTexture_(GL_TEXTURE1);
     {
         glGenTextures(1, &clip_text);
         glBindTexture(GL_TEXTURE_1D, clip_text);
@@ -314,7 +314,7 @@ void clip_init(void)
 
         glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     }
-    glActiveTextureARB_(GL_TEXTURE0_ARB);
+    glActiveTexture_(GL_TEXTURE0);
 }
 
 void clip_free(void)
@@ -325,10 +325,10 @@ void clip_free(void)
 
 void clip_draw_set(void)
 {
-    if (!glActiveTextureARB_)
+    if (!glActiveTexture_)
         return;
 
-    glActiveTextureARB_(GL_TEXTURE1_ARB);
+    glActiveTexture_(GL_TEXTURE1);
     {
         glBindTexture(GL_TEXTURE_1D, clip_text);
 
@@ -337,20 +337,20 @@ void clip_draw_set(void)
         glEnable(GL_TEXTURE_GEN_S);
         glEnable(GL_TEXTURE_1D);
     }
-    glActiveTextureARB_(GL_TEXTURE0_ARB);
+    glActiveTexture_(GL_TEXTURE0);
 }
 
 void clip_draw_clr(void)
 {
-    if (!glActiveTextureARB_)
+    if (!glActiveTexture_)
         return;
 
-    glActiveTextureARB_(GL_TEXTURE1_ARB);
+    glActiveTexture_(GL_TEXTURE1);
     {
         glDisable(GL_TEXTURE_GEN_S);
         glDisable(GL_TEXTURE_1D);
     }
-    glActiveTextureARB_(GL_TEXTURE0_ARB);
+    glActiveTexture_(GL_TEXTURE0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -380,21 +380,32 @@ void shad_init(void)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     }
 
+#if 0
     clip_init();
+#endif
 }
 
 void shad_free(void)
 {
     if (glIsTexture(shad_text))
         glDeleteTextures(1, &shad_text);
-
+#if 0
     clip_free();
+#endif
 }
 
 void shad_draw_set(void)
 {
-    glBindTexture(GL_TEXTURE_2D, shad_text);
+    glActiveTexture_(GL_TEXTURE1);
+    {
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, shad_text);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    }
+    glActiveTexture_(GL_TEXTURE0);
 
+
+#if 0
     glMatrixMode(GL_TEXTURE);
     {
         glLoadIdentity();
@@ -408,14 +419,24 @@ void shad_draw_set(void)
     glEnable(GL_TEXTURE_GEN_T);
 
     clip_draw_set();
+#endif
 }
 
 void shad_draw_clr(void)
 {
+    glActiveTexture_(GL_TEXTURE1);
+    {
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glDisable(GL_TEXTURE_2D);
+    }
+    glActiveTexture_(GL_TEXTURE0);
+
+#if 0
     glDisable(GL_TEXTURE_GEN_S);
     glDisable(GL_TEXTURE_GEN_T);
 
     clip_draw_clr();
+#endif
 }
 
 /*---------------------------------------------------------------------------*/

@@ -22,6 +22,7 @@
 
 #include "glext.h"
 #include "vec3.h"
+#include "geom.h"
 #include "image.h"
 #include "base_image.h"
 #include "base_config.h"
@@ -32,17 +33,41 @@
 
 /*---------------------------------------------------------------------------*/
 
-static float sol_transform(const struct s_vary *vary,
-                           const struct v_body *bp, float *p, float *r)
+static void sol_transform(const struct s_vary *vary,
+                          const struct v_body *bp)
 {
-    float a, e[4];
+    float a;
+    float d[4];
+    float e[4];
+    float p[3];
+    float v[3];
+
+    /* Compute the body transform. */
 
     sol_body_p(p, vary, bp->pi, bp->t);
     sol_body_e(e, vary, bp, 0);
 
-    q_as_axisangle(e, r, &a);
+    q_as_axisangle(e, v, &a);
 
-    return V_DEG(a);
+    glTranslatef(p[0], p[1], p[2]);
+    glRotatef(V_DEG(a), v[0], v[1], v[2]);
+
+    /* Compute the shadow texture transform */
+
+    v_sub(d, vary->uv->p, p);
+
+    glActiveTexture_(GL_TEXTURE1);
+    glMatrixMode(GL_TEXTURE);
+    {
+        float k = 0.25f / vary->uv->r;
+
+        glLoadIdentity();
+        glTranslatef(0.5f - k * d[0],
+                     0.5f - k * d[2], 0.0f);
+        glScalef(k, k, 0.0f);
+    }
+    glMatrixMode(GL_MODELVIEW);
+    glActiveTexture_(GL_TEXTURE0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -109,6 +134,20 @@ static const struct d_mtrl *sol_apply_mtrl(const struct d_mtrl *mp_draw,
         glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  mp_base->e);
     if (tobyte(mp_base->h[0]) != tobyte(mq_base->h[0]))
         glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp_base->h);
+
+    /* Enable ball shadow. */
+
+    if ((mp_base->fl & M_SHADOWED) && !(mq_base->fl & M_SHADOWED))
+    {
+        shad_draw_set();
+    }
+
+    /* Disable ball shadow. */
+
+    if (!(mp_base->fl & M_SHADOWED) && (mq_base->fl & M_SHADOWED))
+    {
+        shad_draw_clr();
+    }
 
     /* Enable environment mapping. */
 
@@ -217,6 +256,8 @@ static void sol_load_mtrl(struct d_mtrl *mp,
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         }
 
+        /* If at least one material is reflective, mark it in the SOL. */
+
         if (mq->fl & M_REFLECTIVE)
             draw->reflective = 1;
     }
@@ -292,6 +333,9 @@ static void sol_mesh_vert(struct d_vert *vp,
 
     vp->t[0] = tq->u[0];
     vp->t[1] = tq->u[1];
+
+    vp->u[0] = vq->p[0];
+    vp->u[1] = vq->p[2];
 }
 
 static void sol_mesh_geom(struct d_vert *vv,   int *vn,
@@ -414,10 +458,8 @@ static const struct d_mtrl *sol_draw_mesh(const struct d_mesh *mp,
 
     if (sol_test_mtrl(mp->mp, f0, f1))
     {
-        const size_t vs =   sizeof (struct d_vert);
-        const size_t po = offsetof (struct d_vert, p);
-        const size_t no = offsetof (struct d_vert, n);
-        const size_t to = offsetof (struct d_vert, t);
+        const size_t s = sizeof (struct d_vert);
+        const GLenum T = GL_FLOAT;
 
         /* Apply the material state. */
 
@@ -428,9 +470,13 @@ static const struct d_mtrl *sol_draw_mesh(const struct d_mesh *mp,
         glBindBuffer(GL_ARRAY_BUFFER,         mp->vbo);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mp->ebo);
 
-        glVertexPointer  (3, GL_FLOAT, vs, (GLvoid *) po);
-        glNormalPointer  (   GL_FLOAT, vs, (GLvoid *) no);
-        glTexCoordPointer(2, GL_FLOAT, vs, (GLvoid *) to);
+        glVertexPointer  (3, T, s, (GLvoid *) offsetof (struct d_vert, p));
+        glNormalPointer  (   T, s, (GLvoid *) offsetof (struct d_vert, n));
+
+        glClientActiveTexture(GL_TEXTURE1);
+        glTexCoordPointer(2, T, s, (GLvoid *) offsetof (struct d_vert, u));
+        glClientActiveTexture(GL_TEXTURE0);
+        glTexCoordPointer(2, T, s, (GLvoid *) offsetof (struct d_vert, t));
 
         /* Draw the mesh. */
 
@@ -547,10 +593,6 @@ static const struct d_mtrl *sol_draw_all(const struct s_draw *draw,
                                          const struct d_mtrl *mq,
                                          int f0, int f1)
 {
-    float p[3];
-    float v[3];
-    float a;
-
     int bi;
 
     /* Draw all meshes of all bodies matching the given material flags. */
@@ -559,11 +601,7 @@ static const struct d_mtrl *sol_draw_all(const struct s_draw *draw,
     {
         glPushMatrix();
         {
-            a  = sol_transform(draw->vary, draw->vary->bv + bi, p, v);
-
-            glTranslatef(p[0], p[1], p[2]);
-            glRotatef(a, v[0], v[1], v[2]);
-
+            sol_transform(draw->vary, draw->vary->bv + bi);
             mq = sol_draw_body(draw->bv + bi, mq, f0, f1);
         }
         glPopMatrix();
@@ -571,11 +609,31 @@ static const struct d_mtrl *sol_draw_all(const struct s_draw *draw,
     return mq;
 }
 
-void sol_draw(const struct s_draw *draw, int mask, int test)
+void sol_draw_enable(void)
 {
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
+
+    glClientActiveTexture(GL_TEXTURE1);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glClientActiveTexture(GL_TEXTURE0);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+}
+
+void sol_draw_disable(void)
+{
+    glClientActiveTexture(GL_TEXTURE1);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glClientActiveTexture(GL_TEXTURE0);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void sol_draw(const struct s_draw *draw, int mask, int test)
+{
+    sol_draw_enable();
     {
         const struct d_mtrl *mq = &default_draw_mtrl;
 
@@ -600,16 +658,12 @@ void sol_draw(const struct s_draw *draw, int mask, int test)
         glBindBuffer(GL_ARRAY_BUFFER,         0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_NORMAL_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
+    sol_draw_disable();
 }
 
 void sol_refl(const struct s_draw *draw)
 {
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    sol_draw_enable();
     {
         const struct d_mtrl *mq = &default_draw_mtrl;
 
@@ -623,9 +677,7 @@ void sol_refl(const struct s_draw *draw)
         glBindBuffer(GL_ARRAY_BUFFER,         0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_NORMAL_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
+    sol_draw_disable();
 }
 
 /*---------------------------------------------------------------------------*/
