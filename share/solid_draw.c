@@ -54,17 +54,21 @@ static void sol_transform(const struct s_vary *vary,
 
     /* Compute the shadow texture transform */
 
-    v_sub(d, vary->uv->p, p);
-
     glActiveTexture_(GL_TEXTURE1);
     glMatrixMode(GL_TEXTURE);
     {
-        float k = 0.25f / vary->uv->r;
-
         glLoadIdentity();
-        glTranslatef(0.5f - k * d[0],
-                     0.5f - k * d[2], 0.0f);
-        glScalef(k, k, 0.0f);
+
+        if (vary->uc)
+        {
+            float k = 0.25f / vary->uv->r;
+
+            v_sub(d, vary->uv->p, p);
+
+            glTranslatef(0.5f - k * d[0],
+                         0.5f - k * d[2], 0.0f);
+            glScalef(k, k, 0.0f);
+        }
     }
     glMatrixMode(GL_MODELVIEW);
     glActiveTexture_(GL_TEXTURE0);
@@ -637,19 +641,23 @@ void sol_draw(const struct s_draw *draw, int mask, int test)
     {
         const struct d_mtrl *mq = &default_draw_mtrl;
 
-        /* Render all opaque geometry. */
+        /* Render all opaque geometry, decals last. */
 
-        mq = sol_draw_all(draw, mq, M_TRANSPARENT | M_REFLECTIVE, 0);
+        mq = sol_draw_all(draw, mq, M_TRANSPARENT | M_REFLECTIVE | M_DECAL, 0);
+        mq = sol_draw_all(draw, mq, M_TRANSPARENT | M_REFLECTIVE, M_DECAL);
 
-        /* Render all transparent geometry. */
+        /* Render all transparent geometry, decals first. */
 
         if (!test) glDisable(GL_DEPTH_TEST);
         if (!mask) glDepthMask(GL_FALSE);
         {
-            sol_draw_all(draw, mq, M_REFLECTIVE, M_TRANSPARENT);
+            mq = sol_draw_all(draw, mq, M_REFLECTIVE, M_DECAL | M_TRANSPARENT);
+            mq = sol_draw_all(draw, mq, M_REFLECTIVE | M_DECAL, M_TRANSPARENT);
         }
         if (!mask) glDepthMask(GL_TRUE);
         if (!test) glEnable(GL_DEPTH_TEST);
+
+        /* Revert the material state. */
 
         mq = sol_apply_mtrl(&default_draw_mtrl, mq);
 
