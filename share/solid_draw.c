@@ -76,20 +76,68 @@ static void sol_transform(const struct s_vary *vary,
 
 /*---------------------------------------------------------------------------*/
 
-void sol_back(const struct s_draw *draw, float n, float f, float t)
+static void sol_load_bill(struct s_draw *draw)
 {
+    static const GLfloat data[] = {
+        0.0f,  0.0f, -0.5f, -0.5f,
+        1.0f,  0.0f,  0.5f, -0.5f,
+        0.0f,  1.0f, -0.5f,  0.5f,
+        1.0f,  1.0f,  0.5f,  0.5f,
+    };
+
+    /* Initialize a vertex buffer object for billboard drawing. */
+
+    glGenBuffers(1,              &draw->bill);
+    glBindBuffer(GL_ARRAY_BUFFER, draw->bill);
+    glBufferData(GL_ARRAY_BUFFER, sizeof (data), data, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-/*---------------------------------------------------------------------------*/
-
-void sol_bill(const struct s_draw *draw, const float *M, float t)
+static void sol_free_bill(struct s_draw *draw)
 {
+    if (glIsBuffer(draw->bill))
+        glDeleteBuffers(1, &draw->bill);
 }
 
-/*---------------------------------------------------------------------------*/
-
-void sol_shad(const struct s_draw *draw, int ui)
+static void sol_bill_enable(const struct s_draw *draw)
 {
+    const size_t s = sizeof (GLfloat);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glBindBuffer(GL_ARRAY_BUFFER, draw->bill);
+
+    glTexCoordPointer(2, GL_FLOAT, s * 4, (GLvoid *) (    0));
+    glVertexPointer  (2, GL_FLOAT, s * 4, (GLvoid *) (s * 2));
+
+    glDisable(GL_LIGHTING);
+    glDepthMask(GL_FALSE);
+}
+
+static void sol_bill_disable(void)
+{
+    glDepthMask(GL_TRUE);
+    glEnable(GL_LIGHTING);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+static void sol_draw_bill(GLfloat w, GLfloat h, GLboolean edge)
+{
+    glPushMatrix();
+    {
+        glScalef(w, h, 1.0f);
+
+        if (edge)
+            glTranslatef(0.0f, 0.5f, 0.0f);
+
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    }
+    glPopMatrix();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -578,12 +626,16 @@ int sol_load_draw(struct s_draw *draw, const struct s_vary *vary, int s)
         }
     }
 
+    sol_load_bill(draw);
+
     return 1;
 }
 
 void sol_free_draw(struct s_draw *draw)
 {
     int i;
+
+    sol_free_bill(draw);
 
     for (i = 0; i < draw->bc; i++)
         sol_free_body(draw->bv + i);
@@ -634,6 +686,8 @@ void sol_draw_disable(void)
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
 }
+
+/*---------------------------------------------------------------------------*/
 
 void sol_draw(const struct s_draw *draw, int mask, int test)
 {
@@ -686,6 +740,113 @@ void sol_refl(const struct s_draw *draw)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
     sol_draw_disable();
+}
+
+void sol_back(const struct s_draw *draw, float n, float f, float t)
+{
+    sol_bill_enable(draw);
+    {
+        const struct d_mtrl *mq = &default_draw_mtrl;
+
+        int ri;
+
+        /* Consider each billboard. */
+
+        for (ri = 0; ri < draw->base->rc; ri++)
+        {
+            const struct b_bill *rp = draw->base->rv + ri;
+
+            /* Render only billboards at distances between n and f. */
+
+            if (n <= rp->d && rp->d < f)
+            {
+                float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2) : 0;
+
+                float w = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
+                float h = rp->h[0] + rp->h[1] * T + rp->h[2] * T * T;
+
+                /* Render only billboards facing the viewer. */
+
+                if (w > 0 && h > 0)
+                {
+                    float rx = rp->rx[0] + rp->rx[1] * T + rp->rx[2] * T * T;
+                    float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
+                    float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
+
+                    glPushMatrix();
+                    {
+                        glRotatef(ry, 0.0f, 1.0f, 0.0f);
+                        glRotatef(rx, 1.0f, 0.0f, 0.0f);
+                        glTranslatef(0.0f, 0.0f, -rp->d);
+
+                        if (rp->fl & B_FLAT)
+                        {
+                            glRotatef(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
+                            glRotatef(-ry,         0.0f, 0.0f, 1.0f);
+                        }
+                        if (rp->fl & B_EDGE)
+                            glRotatef(-rx,         1.0f, 0.0f, 0.0f);
+
+                        glRotatef(rz, 0.0f, 0.0f, 1.0f);
+
+                        mq = sol_apply_mtrl(draw->mv + rp->mi, mq);
+
+                        sol_draw_bill(w, h, rp->fl & B_EDGE);
+                    }
+                    glPopMatrix();
+                }
+            }
+        }
+        mq = sol_apply_mtrl(&default_draw_mtrl, mq);
+    }
+    sol_bill_disable();
+}
+
+void sol_bill(const struct s_draw *draw, const float *M, float t)
+{
+    sol_bill_enable(draw);
+    {
+        const struct d_mtrl *mq = &default_draw_mtrl;
+
+        int ri;
+
+        for (ri = 0; ri < draw->base->rc; ++ri)
+        {
+            const struct b_bill *rp = draw->base->rv + ri;
+
+            float T = rp->t * t;
+            float S = fsinf(T);
+
+            float w  = rp->w [0] + rp->w [1] * T + rp->w [2] * S;
+            float h  = rp->h [0] + rp->h [1] * T + rp->h [2] * S;
+            float rx = rp->rx[0] + rp->rx[1] * T + rp->rx[2] * S;
+            float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * S;
+            float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * S;
+
+            mq = sol_apply_mtrl(draw->mv + rp->mi, mq);
+
+            glPushMatrix();
+            {
+                glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
+
+                if (M && ((rp->fl & B_NOFACE) == 0)) glMultMatrixf(M);
+
+                if (fabsf(rx) > 0.0f) glRotatef(rx, 1.0f, 0.0f, 0.0f);
+                if (fabsf(ry) > 0.0f) glRotatef(ry, 0.0f, 1.0f, 0.0f);
+                if (fabsf(rz) > 0.0f) glRotatef(rz, 0.0f, 0.0f, 1.0f);
+
+                sol_draw_bill(w, h, GL_FALSE);
+            }
+            glPopMatrix();
+        }
+        mq = sol_apply_mtrl(&default_draw_mtrl, mq);
+    }
+    sol_bill_disable();
+}
+
+void sol_shad(const struct s_draw *draw, int ui)
+{
+    /* TODO: Remove. */
 }
 
 /*---------------------------------------------------------------------------*/

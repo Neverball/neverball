@@ -77,6 +77,8 @@ struct s_draw
     struct d_mtrl *mv;
     struct d_body *bv;
 
+    GLuint bill;
+
     int reflective;
 };
 
