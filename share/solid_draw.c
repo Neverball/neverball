@@ -110,16 +110,10 @@ static void sol_bill_enable(const struct s_draw *draw)
 
     glTexCoordPointer(2, GL_FLOAT, s * 4, (GLvoid *) (    0));
     glVertexPointer  (2, GL_FLOAT, s * 4, (GLvoid *) (s * 2));
-
-    glDisable(GL_LIGHTING);
-    glDepthMask(GL_FALSE);
 }
 
 static void sol_bill_disable(void)
 {
-    glDepthMask(GL_TRUE);
-    glEnable(GL_LIGHTING);
-
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -744,6 +738,9 @@ void sol_refl(const struct s_draw *draw)
 
 void sol_back(const struct s_draw *draw, float n, float f, float t)
 {
+    glDisable(GL_LIGHTING);
+    glDepthMask(GL_FALSE);
+
     sol_bill_enable(draw);
     {
         const struct d_mtrl *mq = &default_draw_mtrl;
@@ -800,6 +797,9 @@ void sol_back(const struct s_draw *draw, float n, float f, float t)
         mq = sol_apply_mtrl(&default_draw_mtrl, mq);
     }
     sol_bill_disable();
+
+    glDepthMask(GL_TRUE);
+    glEnable(GL_LIGHTING);
 }
 
 void sol_bill(const struct s_draw *draw, const float *M, float t)

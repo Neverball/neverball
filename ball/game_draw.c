@@ -134,22 +134,18 @@ static void game_draw_goals(const struct game_draw *gd,
 
         /* Draw the goal particles. */
 
-        glEnable(GL_TEXTURE_2D);
+        for (zi = 0; zi < base->zc; zi++)
         {
-            for (zi = 0; zi < base->zc; zi++)
+            glPushMatrix();
             {
-                glPushMatrix();
-                {
-                    glTranslatef(base->zv[zi].p[0],
-                                 base->zv[zi].p[1],
-                                 base->zv[zi].p[2]);
+                glTranslatef(base->zv[zi].p[0],
+                             base->zv[zi].p[1],
+                             base->zv[zi].p[2]);
 
-                    part_draw_goal(M, base->zv[zi].r, gd->goal_k, t);
-                }
-                glPopMatrix();
+                part_draw_goal(M, base->zv[zi].r, gd->goal_k, t);
             }
+            glPopMatrix();
         }
-        glDisable(GL_TEXTURE_2D);
 
         /* Draw the goal column. */
 
@@ -446,9 +442,10 @@ static void game_draw_fore(const struct game_draw *gd,
             sol_bill(draw, M, t);
             part_draw_coin(M, t);
 
+            game_draw_goals(gd, M, t);
+
             glDisable(GL_TEXTURE_2D);
             {
-                game_draw_goals(gd, M, t);
                 game_draw_jumps(gd, M, t);
                 game_draw_swchs(draw->vary);
             }

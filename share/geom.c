@@ -25,6 +25,8 @@
 #include "config.h"
 #include "video.h"
 
+#include "solid_draw.h"
+
 #define PI 3.1415926535897932
 
 /*---------------------------------------------------------------------------*/
@@ -79,46 +81,21 @@ void mark_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint goal_list;
+static struct s_full geom_goal;
 
 void goal_init(void)
 {
-    int i, n = 32;
-
-    goal_list = glGenLists(1);
-
-    glNewList(goal_list, GL_COMPILE);
-    {
-        glBegin(GL_QUAD_STRIP);
-        {
-            for (i = 0; i <= n; i++)
-            {
-                float x = fcosf(2.f * PI * i / n);
-                float y = fsinf(2.f * PI * i / n);
-
-                glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
-                glVertex3f(x, 0.0f, y);
-
-                glColor4f(1.0f, 1.0f, 0.0f, 0.0f);
-                glVertex3f(x, GOAL_HEIGHT, y);
-            }
-        }
-        glEnd();
-    }
-    glEndList();
+    sol_load_full(&geom_goal, "geom/goal/goal.sol", 0);
 }
 
 void goal_free(void)
 {
-    if (glIsList(goal_list))
-        glDeleteLists(goal_list, 1);
-
-    goal_list = 0;
+    sol_free_full(&geom_goal);
 }
 
 void goal_draw(void)
 {
-    glCallList(goal_list);
+    sol_draw(&geom_goal.draw, 1, 1);
 }
 
 /*---------------------------------------------------------------------------*/
