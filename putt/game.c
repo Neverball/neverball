@@ -376,18 +376,15 @@ void game_draw(int pose, float t)
         glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
         glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
 
-        game_draw_goals(fp->base);
-
         glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
-        glDisable(GL_TEXTURE_2D);
         glDepthMask(GL_FALSE);
         {
+            game_draw_goals(fp->base);
             game_draw_jumps(fp->base);
             game_draw_swchs(fp->vary);
         }
         glDepthMask(GL_TRUE);
-        glEnable(GL_TEXTURE_2D);
         glEnable(GL_LIGHTING);
         glDisable(GL_COLOR_MATERIAL);
     }

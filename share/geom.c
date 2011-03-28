@@ -101,6 +101,7 @@ void swch_draw(int b, int e)
 
 void flag_draw(void)
 {
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     sol_draw(&flag.draw, 1, 1);
 }
 
