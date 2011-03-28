@@ -291,16 +291,15 @@ static void sol_load_mtrl(struct d_mtrl *mp,
     {
         /* Set the texture to clamp or repeat based on material type. */
 
-        if (mq->fl & M_CLAMPED)
-        {
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-        }
+        if (mq->fl & M_CLAMP_S)
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         else
-        {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+
+        if (mq->fl & M_CLAMP_T)
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        else
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        }
 
         /* If at least one material is reflective, mark it in the SOL. */
 

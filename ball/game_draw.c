@@ -175,22 +175,18 @@ static void game_draw_jumps(const struct game_draw *gd,
 
     int ji;
 
-    glEnable(GL_TEXTURE_2D);
+    for (ji = 0; ji < base->jc; ji++)
     {
-        for (ji = 0; ji < base->jc; ji++)
+        glPushMatrix();
         {
-            glPushMatrix();
-            {
-                glTranslatef(base->jv[ji].p[0],
-                             base->jv[ji].p[1],
-                             base->jv[ji].p[2]);
+            glTranslatef(base->jv[ji].p[0],
+                         base->jv[ji].p[1],
+                         base->jv[ji].p[2]);
 
-                part_draw_jump(M, base->jv[ji].r, 1.0f, t);
-            }
-            glPopMatrix();
+            part_draw_jump(M, base->jv[ji].r, 1.0f, t);
         }
+        glPopMatrix();
     }
-    glDisable(GL_TEXTURE_2D);
 
     for (ji = 0; ji < base->jc; ji++)
     {
@@ -437,21 +433,12 @@ static void game_draw_fore(const struct game_draw *gd,
         glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
         {
-            glColor3f(1.0f, 1.0f, 1.0f);
-
             sol_bill(draw, M, t);
             part_draw_coin(M, t);
 
             game_draw_goals(gd, M, t);
-
-            glDisable(GL_TEXTURE_2D);
-            {
-                game_draw_jumps(gd, M, t);
-                game_draw_swchs(draw->vary);
-            }
-            glEnable(GL_TEXTURE_2D);
-
-            glColor3f(1.0f, 1.0f, 1.0f);
+            game_draw_jumps(gd, M, t);
+            game_draw_swchs(draw->vary);
         }
         glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);

@@ -307,9 +307,7 @@ static int conf_buttn(int b, int d)
 static int null_enter(struct state *st, struct state *prev)
 {
     gui_free();
-    swch_free();
-    jump_free();
-    flag_free();
+    geom_free();
     mark_free();
     ball_free();
     shad_free();
@@ -322,9 +320,7 @@ static void null_leave(struct state *st, struct state *next, int id)
     shad_init();
     ball_init();
     mark_init();
-    flag_init();
-    jump_init();
-    swch_init();
+    geom_init();
     gui_init();
 }
 

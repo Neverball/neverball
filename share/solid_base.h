@@ -87,11 +87,12 @@
 #define M_TRANSPARENT  2
 #define M_REFLECTIVE   4
 #define M_ENVIRONMENT  8
-#define M_ADDITIVE    16
-#define M_CLAMPED     32
+#define M_CLAMP_S     16
+#define M_CLAMP_T     32
 #define M_DECAL       64
 #define M_TWO_SIDED  128
 #define M_SHADOWED   256
+#define M_ADDITIVE   512
 
 /* Billboard types. */
 

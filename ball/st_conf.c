@@ -422,9 +422,7 @@ static int null_enter(struct state *st, struct state *prev)
 {
     hud_free();
     gui_free();
-    swch_free();
-    jump_free();
-    goal_free();
+    geom_free();
     item_free();
     ball_free();
     shad_free();
@@ -439,9 +437,7 @@ static void null_leave(struct state *st, struct state *next, int id)
     shad_init();
     ball_init();
     item_init();
-    goal_init();
-    jump_init();
-    swch_init();
+    geom_init();
     gui_init();
     hud_init();
 }

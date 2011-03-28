@@ -1072,7 +1072,7 @@ static void make_bill(struct s_base *fp,
         if (strcmp(k[i], "image") == 0)
         {
             rp->mi = read_mtrl(fp, v[i]);
-            fp->mv[rp->mi].fl |= M_CLAMPED;
+            fp->mv[rp->mi].fl |= M_CLAMP_S | M_CLAMP_T;
         }
 
         if (strcmp(k[i], "origin") == 0)

@@ -389,6 +389,8 @@ void part_draw_goal(const float *M, float radius, float a, float t)
         if (part_goal[i].t > 0.0f)
             part_draw(M, part_goal[i].p, radius - 0.05f,
                       t * part_goal[i].w, 1.0f);
+
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void part_draw_jump(const float *M, float radius, float a, float t)

@@ -31,6 +31,81 @@
 
 /*---------------------------------------------------------------------------*/
 
+static struct s_full beam;
+static struct s_full flag;
+
+void geom_init(void)
+{
+    sol_load_full(&beam, "geom/beam/beam.sol", 0);
+    sol_load_full(&flag, "geom/flag/flag.sol", 0);
+}
+
+void geom_free(void)
+{
+    sol_free_full(&flag);
+    sol_free_full(&beam);
+}
+
+/*---------------------------------------------------------------------------*/
+
+void goal_draw(void)
+{
+    glPushMatrix();
+    {
+        glScalef(1.0f, 3.0f, 1.0f);
+
+        glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
+        sol_draw(&beam.draw, 1, 1);
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    glPopMatrix();
+}
+
+void jump_draw(int highlight)
+{
+    static GLfloat jump_colors[4][4] = {
+        { 0.75f, 0.5f, 1.0f, 0.5f },
+        { 0.75f, 0.5f, 1.0f, 0.8f },
+    };
+
+    glPushMatrix();
+    {
+        glScalef(1.0f, 2.0f, 1.0f);
+
+        glColor4fv(jump_colors[highlight]);
+        sol_draw(&beam.draw, 1, 1);
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    glPopMatrix();
+}
+
+void swch_draw(int b, int e)
+{
+    static GLfloat swch_colors[4][4] = {
+        { 1.0f, 0.0f, 0.0f, 0.5f }, /* red out */
+        { 1.0f, 0.0f, 0.0f, 0.8f }, /* red in */
+        { 0.0f, 1.0f, 0.0f, 0.5f }, /* green out */
+        { 0.0f, 1.0f, 0.0f, 0.8f }, /* green in */
+    };
+
+    glPushMatrix();
+    {
+        glScalef(1.0f, 2.0f, 1.0f);
+
+        glColor4fv(swch_colors[b * 2 + e]);
+        sol_draw(&beam.draw, 1, 1);
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    glPopMatrix();
+}
+
+void flag_draw(void)
+{
+    sol_draw(&flag.draw, 1, 1);
+}
+
+/*---------------------------------------------------------------------------*/
+
 static GLuint mark_list;
 
 void mark_init(void)
@@ -80,130 +155,7 @@ void mark_free(void)
 }
 
 /*---------------------------------------------------------------------------*/
-
-static struct s_full geom_goal;
-
-void goal_init(void)
-{
-    sol_load_full(&geom_goal, "geom/goal/goal.sol", 0);
-}
-
-void goal_free(void)
-{
-    sol_free_full(&geom_goal);
-}
-
-void goal_draw(void)
-{
-    sol_draw(&geom_goal.draw, 1, 1);
-}
-
-/*---------------------------------------------------------------------------*/
-
-static GLuint jump_list;
-
-void jump_init(void)
-{
-    int k, i, n = 32;
-
-    jump_list = glGenLists(2);
-
-    for (k = 0; k < 2; k++)
-    {
-        glNewList(jump_list + k, GL_COMPILE);
-        {
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n);
-                    float y = fsinf(2.f * PI * i / n);
-
-                    glColor4f(0.75f, 0.5f, 1.0f, (k == 0 ? 0.5f : 0.8f));
-                    glVertex3f(x, 0.0f, y);
-
-                    glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
-                    glVertex3f(x, JUMP_HEIGHT, y);
-                }
-            }
-            glEnd();
-        }
-        glEndList();
-    }
-}
-
-void jump_free(void)
-{
-    glDeleteLists(jump_list, 2);
-    jump_list = 0;
-}
-
-void jump_draw(int highlight)
-{
-    glCallList(jump_list + highlight);
-}
-
-/*---------------------------------------------------------------------------*/
-
-static GLuint swch_list;
-
-static GLfloat swch_colors[8][4] = {
-    { 1.0f, 0.0f, 0.0f, 0.5f }, /* red out */
-    { 1.0f, 0.0f, 0.0f, 0.0f },
-    { 1.0f, 0.0f, 0.0f, 0.8f }, /* red in */
-    { 1.0f, 0.0f, 0.0f, 0.0f },
-    { 0.0f, 1.0f, 0.0f, 0.5f }, /* green out */
-    { 0.0f, 1.0f, 0.0f, 0.0f },
-    { 0.0f, 1.0f, 0.0f, 0.8f }, /* green in */
-    { 0.0f, 1.0f, 0.0f, 0.0f }};
-
-void swch_init(void)
-{
-    int k, i, n = 32;
-
-    swch_list = glGenLists(4);
-
-    /* Create the display lists. */
-
-    for (k = 0; k < 4; k++)
-    {
-        glNewList(swch_list + k, GL_COMPILE);
-        {
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n);
-                    float y = fsinf(2.f * PI * i / n);
-
-                    glColor4fv(swch_colors[2 * k + 0]);
-                    glVertex3f(x, 0.0f, y);
-
-                    glColor4fv(swch_colors[2 * k + 1]);
-                    glVertex3f(x, SWCH_HEIGHT, y);
-                }
-            }
-            glEnd();
-        }
-        glEndList();
-    }
-}
-
-void swch_free(void)
-{
-    if (glIsList(swch_list))
-        glDeleteLists(swch_list, 4);
-
-    swch_list = 0;
-}
-
-void swch_draw(int b, int e)
-{
-    glCallList(swch_list + b * 2 + e);
-}
-
-/*---------------------------------------------------------------------------*/
-
+/*
 static GLuint flag_list;
 
 void flag_init(void)
@@ -265,7 +217,7 @@ void flag_draw(void)
 {
     glCallList(flag_list);
 }
-
+*/
 /*---------------------------------------------------------------------------*/
 
 static GLuint clip_text;
