@@ -22,7 +22,7 @@
 #include "config.h"
 #include "video.h"
 #include "text.h"
-#include "back.h"
+#include "geom.h"
 
 #include "game_common.h"
 #include "game_server.h"

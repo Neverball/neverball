@@ -375,6 +375,8 @@ void part_draw_coin(const float *M, float t)
 
             part_draw(M, part_coin[i].p, 1.0f, t * part_coin[i].w, 1.0f);
         }
+
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void part_draw_goal(const float *M, float radius, float a, float t)
@@ -420,6 +422,8 @@ void part_draw_jump(const float *M, float radius, float a, float t)
 
 #undef F
     }
+
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 /*---------------------------------------------------------------------------*/

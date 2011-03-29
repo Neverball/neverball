@@ -32,19 +32,44 @@
 static struct s_full beam;
 static struct s_full flag;
 static struct s_full mark;
+static struct s_full back;
+
+static GLuint back_text;
+
+/*---------------------------------------------------------------------------*/
 
 void geom_init(void)
 {
     sol_load_full(&beam, "geom/beam/beam.sol", 0);
     sol_load_full(&flag, "geom/flag/flag.sol", 0);
     sol_load_full(&mark, "geom/mark/mark.sol", 0);
+    sol_load_full(&back, "geom/back/back.sol", 0);
 }
 
 void geom_free(void)
 {
+    sol_free_full(&back);
     sol_free_full(&mark);
     sol_free_full(&flag);
     sol_free_full(&beam);
+}
+
+/*---------------------------------------------------------------------------*/
+
+void back_init(const char *name)
+{
+    back_free();
+    back_text = make_image_from_file(name);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+}
+
+void back_free(void)
+{
+    if (glIsTexture(back_text))
+        glDeleteTextures(1, &back_text);
+
+    back_text = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -109,6 +134,30 @@ void flag_draw(void)
 void mark_draw(void)
 {
     sol_draw(&mark.draw, 1, 1);
+}
+
+void back_draw(float t)
+{
+    glPushMatrix();
+    {
+        GLfloat dx =  60.0f * fsinf(t / 10.0f);
+        GLfloat dz = 180.0f * fsinf(t / 12.0f);
+
+        glDisable(GL_LIGHTING);
+        glDepthMask(GL_FALSE);
+        {
+            glScalef(-BACK_DIST, BACK_DIST, -BACK_DIST);
+            glRotatef(dz, 0.0f, 0.0f, 1.0f);
+            glRotatef(dx, 1.0f, 0.0f, 0.0f);
+
+            glBindTexture(GL_TEXTURE_2D, back_text);
+            sol_draw(&back.draw, 1, 1);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+        glDepthMask(GL_TRUE);
+        glEnable(GL_LIGHTING);
+    }
+    glPopMatrix();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -261,42 +310,4 @@ void shad_draw_clr(void)
 #endif
 }
 
-/*---------------------------------------------------------------------------*/
-/*
-void fade_draw(float k)
-{
-    if (k > 0.0f)
-    {
-        int w = config_get_d(CONFIG_WIDTH);
-        int h = config_get_d(CONFIG_HEIGHT);
-
-        video_push_ortho();
-        {
-            glEnable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHTING);
-            glDisable(GL_DEPTH_TEST);
-            glDisable(GL_TEXTURE_2D);
-
-            glColor4f(0.0f, 0.0f, 0.0f, k);
-
-            glBegin(GL_QUADS);
-            {
-                glVertex2i(0, 0);
-                glVertex2i(w, 0);
-                glVertex2i(w, h);
-                glVertex2i(0, h);
-            }
-            glEnd();
-
-            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-            glEnable(GL_TEXTURE_2D);
-            glEnable(GL_DEPTH_TEST);
-            glEnable(GL_LIGHTING);
-            glDisable(GL_COLOR_MATERIAL);
-        }
-        video_pop_matrix();
-    }
-}
-*/
 /*---------------------------------------------------------------------------*/

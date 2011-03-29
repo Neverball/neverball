@@ -5,6 +5,8 @@
 
 #define IMG_SHAD "png/shadow.png"
 
+#define BACK_DIST   256.0f
+#define FAR_DIST    512.0f
 #define JUMP_HEIGHT   2.00f
 #define SWCH_HEIGHT   2.00f
 #define GOAL_HEIGHT   3.00f
@@ -19,12 +21,13 @@ void goal_draw(void);
 void jump_draw(int);
 void swch_draw(int, int);
 void flag_draw(void);
+void mark_draw(void);
 
 /*---------------------------------------------------------------------------*/
 
-void mark_init(void);
-void mark_free(void);
-void mark_draw(void);
+void back_init(const char *s);
+void back_free(void);
+void back_draw(float);
 
 /*---------------------------------------------------------------------------*/
 

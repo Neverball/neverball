@@ -19,7 +19,6 @@
 #include "part.h"
 #include "geom.h"
 #include "config.h"
-#include "back.h"
 #include "video.h"
 
 #include "solid_draw.h"

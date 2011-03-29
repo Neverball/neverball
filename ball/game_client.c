@@ -20,7 +20,6 @@
 #include "vec3.h"
 #include "geom.h"
 #include "item.h"
-#include "back.h"
 #include "part.h"
 #include "ball.h"
 #include "image.h"

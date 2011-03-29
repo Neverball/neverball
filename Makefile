@@ -189,7 +189,6 @@ BALL_OBJS := \
 	share/solid_cmd.o   \
 	share/solid_all.o   \
 	share/part.o        \
-	share/back.o        \
 	share/geom.o        \
 	share/item.o        \
 	share/ball.o        \
@@ -261,7 +260,6 @@ PUTT_OBJS := \
 	share/part.o        \
 	share/geom.o        \
 	share/ball.o        \
-	share/back.o        \
 	share/base_config.o \
 	share/config.o      \
 	share/video.o       \
