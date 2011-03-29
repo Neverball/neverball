@@ -580,7 +580,7 @@ void game_draw(const struct game_draw *gd, int pose, float t)
 
         /* Draw the fade overlay. */
 
-        fade_draw(gd->fade_k);
+        sol_fade(&gd->draw, gd->fade_k);
     }
 }
 

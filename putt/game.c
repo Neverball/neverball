@@ -193,6 +193,8 @@ static void game_draw_balls(const struct s_vary *fp,
 
     int ui;
 
+    glEnable(GL_COLOR_MATERIAL);
+
     for (ui = curr_party(); ui > 0; ui--)
     {
         if (ui == ball)
@@ -212,10 +214,8 @@ static void game_draw_balls(const struct s_vary *fp,
                          fp->uv[ui].r,
                          fp->uv[ui].r);
 
-                glEnable(GL_COLOR_MATERIAL);
                 glColor4fv(color[ui]);
                 ball_draw(ball_M, pend_M, bill_M, t);
-                glDisable(GL_COLOR_MATERIAL);
             }
             glPopMatrix();
         }
@@ -239,7 +239,9 @@ static void game_draw_balls(const struct s_vary *fp,
             glPopMatrix();
         }
     }
+
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    glDisable(GL_COLOR_MATERIAL);
 }
 
 static void game_draw_goals(const struct s_base *fp)

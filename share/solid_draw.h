@@ -92,6 +92,7 @@ void sol_refl(const struct s_draw *);
 void sol_draw(const struct s_draw *, int, int);
 void sol_bill(const struct s_draw *, const float *, float);
 void sol_shad(const struct s_draw *, int);
+void sol_fade(const struct s_draw *, float);
 
 /*---------------------------------------------------------------------------*/
 

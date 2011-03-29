@@ -27,21 +27,22 @@
 
 #include "solid_draw.h"
 
-#define PI 3.1415926535897932
-
 /*---------------------------------------------------------------------------*/
 
 static struct s_full beam;
 static struct s_full flag;
+static struct s_full mark;
 
 void geom_init(void)
 {
     sol_load_full(&beam, "geom/beam/beam.sol", 0);
     sol_load_full(&flag, "geom/flag/flag.sol", 0);
+    sol_load_full(&mark, "geom/mark/mark.sol", 0);
 }
 
 void geom_free(void)
 {
+    sol_free_full(&mark);
     sol_free_full(&flag);
     sol_free_full(&beam);
 }
@@ -105,120 +106,11 @@ void flag_draw(void)
     sol_draw(&flag.draw, 1, 1);
 }
 
-/*---------------------------------------------------------------------------*/
-
-static GLuint mark_list;
-
-void mark_init(void)
-{
-    int i, slices = 32;
-
-    mark_list = glGenLists(1);
-
-    glNewList(mark_list, GL_COMPILE);
-    {
-        glBegin(GL_TRIANGLE_FAN);
-        {
-            glNormal3f(0.f, 1.f, 0.f);
-
-            for (i = 0; i < slices; i++)
-            {
-                float x = fcosf(-2.f * PI * i / slices);
-                float y = fsinf(-2.f * PI * i / slices);
-
-                glVertex3f(x, 0, y);
-            }
-        }
-        glEnd();
-    }
-    glEndList();
-}
-
 void mark_draw(void)
 {
-    glEnable(GL_COLOR_MATERIAL);
-    glDisable(GL_TEXTURE_2D);
-    glDepthMask(GL_FALSE);
-    {
-        glCallList(mark_list);
-    }
-    glDepthMask(GL_TRUE);
-    glEnable(GL_TEXTURE_2D);
-    glDisable(GL_COLOR_MATERIAL);
+    sol_draw(&mark.draw, 1, 1);
 }
 
-void mark_free(void)
-{
-    if (glIsList(mark_list))
-        glDeleteLists(mark_list, 1);
-
-    mark_list = 0;
-}
-
-/*---------------------------------------------------------------------------*/
-/*
-static GLuint flag_list;
-
-void flag_init(void)
-{
-    int i, n = 8;
-
-    flag_list = glGenLists(1);
-
-    glNewList(flag_list, GL_COMPILE);
-    {
-        glEnable(GL_COLOR_MATERIAL);
-        glDisable(GL_LIGHTING);
-        glDisable(GL_TEXTURE_2D);
-        {
-            glBegin(GL_TRIANGLES);
-            {
-                glColor3f(1.0f, 0.0f, 0.0f);
-
-                glVertex3f(              0.0f, GOAL_HEIGHT,        0.0f);
-                glVertex3f(GOAL_HEIGHT * 0.2f, GOAL_HEIGHT * 0.9f, 0.0f);
-                glVertex3f(              0.0f, GOAL_HEIGHT * 0.8f, 0.0f);
-
-                glVertex3f(              0.0f, GOAL_HEIGHT,        0.0f);
-                glVertex3f(              0.0f, GOAL_HEIGHT * 0.8f, 0.0f);
-                glVertex3f(GOAL_HEIGHT * 0.2f, GOAL_HEIGHT * 0.9f, 0.0f);
-            }
-            glEnd();
-
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n) * 0.01f;
-                    float y = fsinf(2.f * PI * i / n) * 0.01f;
-
-                    glColor3f(1.0f, 1.0f, 1.0f);
-                    glVertex3f(x, 0.0f,        y);
-                    glVertex3f(x, GOAL_HEIGHT, y);
-                }
-            }
-            glEnd();
-        }
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_LIGHTING);
-        glDisable(GL_COLOR_MATERIAL);
-    }
-    glEndList();
-}
-
-void flag_free(void)
-{
-    if (glIsList(flag_list))
-        glDeleteLists(flag_list, 1);
-
-    flag_list = 0;
-}
-
-void flag_draw(void)
-{
-    glCallList(flag_list);
-}
-*/
 /*---------------------------------------------------------------------------*/
 
 static GLuint clip_text;
@@ -370,7 +262,7 @@ void shad_draw_clr(void)
 }
 
 /*---------------------------------------------------------------------------*/
-
+/*
 void fade_draw(float k)
 {
     if (k > 0.0f)
@@ -406,5 +298,5 @@ void fade_draw(float k)
         video_pop_matrix();
     }
 }
-
+*/
 /*---------------------------------------------------------------------------*/

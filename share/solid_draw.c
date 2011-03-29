@@ -79,10 +79,10 @@ static void sol_transform(const struct s_vary *vary,
 static void sol_load_bill(struct s_draw *draw)
 {
     static const GLfloat data[] = {
-        0.0f,  0.0f, -0.5f, -0.5f,
-        1.0f,  0.0f,  0.5f, -0.5f,
-        0.0f,  1.0f, -0.5f,  0.5f,
-        1.0f,  1.0f,  0.5f,  0.5f,
+        0.0f,  0.0f, -1.0f, -1.0f,
+        1.0f,  0.0f,  1.0f, -1.0f,
+        0.0f,  1.0f, -1.0f,  1.0f,
+        1.0f,  1.0f,  1.0f,  1.0f,
     };
 
     /* Initialize a vertex buffer object for billboard drawing. */
@@ -124,7 +124,7 @@ static void sol_draw_bill(GLfloat w, GLfloat h, GLboolean edge)
 {
     glPushMatrix();
     {
-        glScalef(w, h, 1.0f);
+        glScalef(0.5f * w, 0.5f * h, 1.0f);
 
         if (edge)
             glTranslatef(0.0f, 0.5f, 0.0f);
@@ -846,6 +846,42 @@ void sol_bill(const struct s_draw *draw, const float *M, float t)
 void sol_shad(const struct s_draw *draw, int ui)
 {
     /* TODO: Remove. */
+}
+
+void sol_fade(const struct s_draw *draw, float k)
+{
+    if (k > 0.0f)
+    {
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadIdentity();
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
+        {
+            glEnable(GL_COLOR_MATERIAL);
+            glDisable(GL_LIGHTING);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_TEXTURE_2D);
+
+            glColor4f(0.0f, 0.0f, 0.0f, k);
+
+            sol_bill_enable(draw);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+            sol_bill_disable();
+
+            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+            glEnable(GL_TEXTURE_2D);
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_LIGHTING);
+            glDisable(GL_COLOR_MATERIAL);
+        }
+        glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
+    }
 }
 
 /*---------------------------------------------------------------------------*/

@@ -1,4 +1,4 @@
 {
 "classname" "worldspawn"
-"model" "geom/goal/goal.obj"
+"model" "geom/mark/mark.obj"
 }
