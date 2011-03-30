@@ -37,13 +37,13 @@
 #define GUI_BOT  (GUI_SW  | GUI_SE)
 #define GUI_ALL  (GUI_TOP | GUI_BOT)
 
-extern const GLfloat gui_wht[4];
-extern const GLfloat gui_yel[4];
-extern const GLfloat gui_red[4];
-extern const GLfloat gui_blu[4];
-extern const GLfloat gui_grn[4];
-extern const GLfloat gui_blk[4];
-extern const GLfloat gui_gry[4];
+extern const GLubyte gui_wht[4];
+extern const GLubyte gui_yel[4];
+extern const GLubyte gui_red[4];
+extern const GLubyte gui_blu[4];
+extern const GLubyte gui_grn[4];
+extern const GLubyte gui_blk[4];
+extern const GLubyte gui_gry[4];
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,7 +64,7 @@ void gui_set_image(int, const char *);
 void gui_set_multi(int, const char *);
 void gui_set_count(int, int);
 void gui_set_clock(int, int);
-void gui_set_color(int, const float *, const float *);
+void gui_set_color(int, const GLubyte *, const GLubyte *);
 void gui_set_trunc(int, enum trunc);
 void gui_set_fill(int);
 
@@ -79,8 +79,8 @@ int  gui_filler(int);
 int  gui_image(int, const char *, int, int);
 int  gui_start(int, const char *, int, int, int);
 int  gui_state(int, const char *, int, int, int);
-int  gui_label(int, const char *, int, int, const float *, const float *);
-int  gui_multi(int, const char *, int, int, const float *, const float *);
+int  gui_label(int, const char *, int, int, const GLubyte *, const GLubyte *);
+int  gui_multi(int, const char *, int, int, const GLubyte *, const GLubyte *);
 int  gui_count(int, int, int, int);
 int  gui_clock(int, int, int, int);
 int  gui_space(int);

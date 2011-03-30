@@ -49,8 +49,8 @@ static char *number(int i)
 }
 
 static int score_card(const char  *title,
-                      const float *c0,
-                      const float *c1)
+                      const GLubyte *c0,
+                      const GLubyte *c1)
 {
     int id, jd, kd, ld;
 
