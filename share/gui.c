@@ -1307,9 +1307,12 @@ static void gui_paint_array(int id)
         GLfloat cy = widget[id].y + widget[id].h / 2.0f;
         GLfloat ck = widget[id].scale;
 
-        glTranslatef(+cx, +cy, 0.0f);
-        glScalef(ck, ck, ck);
-        glTranslatef(-cx, -cy, 0.0f);
+        if (1.0 < ck || ck < 1.0)
+        {
+            glTranslatef(+cx, +cy, 0.0f);
+            glScalef(ck, ck, ck);
+            glTranslatef(-cx, -cy, 0.0f);
+        }
 
         /* Recursively paint all subwidgets. */
 

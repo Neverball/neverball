@@ -54,24 +54,23 @@ static void sol_transform(const struct s_vary *vary,
 
     /* Compute the shadow texture transform */
 
-    glActiveTexture_(GL_TEXTURE1);
-    glMatrixMode(GL_TEXTURE);
+    if (vary->uc && vary->uv->r > 0.0)
     {
-        glLoadIdentity();
-
-        if (vary->uc)
+        glActiveTexture_(GL_TEXTURE1);
+        glMatrixMode(GL_TEXTURE);
         {
             float k = 0.25f / vary->uv->r;
 
             v_sub(d, vary->uv->p, p);
 
+            glLoadIdentity();
             glTranslatef(0.5f - k * d[0],
                          0.5f - k * d[2], 0.0f);
             glScalef(k, k, 0.0f);
         }
+        glMatrixMode(GL_MODELVIEW);
+        glActiveTexture_(GL_TEXTURE0);
     }
-    glMatrixMode(GL_MODELVIEW);
-    glActiveTexture_(GL_TEXTURE0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -648,6 +647,8 @@ static const struct d_mtrl *sol_draw_all(const struct s_draw *draw,
 
     for (bi = 0; bi < draw->bc; ++bi)
     {
+        /* TODO: Cache the count for each set of flags and skip this on 0. */
+
         glPushMatrix();
         {
             sol_transform(draw->vary, draw->vary->bv + bi);
@@ -718,6 +719,8 @@ void sol_draw(const struct s_draw *draw, int mask, int test)
 
 void sol_refl(const struct s_draw *draw)
 {
+    /* TODO: Cache the count for each set of flags and skip this on 0. */
+
     sol_draw_enable();
     {
         const struct d_mtrl *mq = &default_draw_mtrl;
