@@ -413,6 +413,8 @@ static void size_image(const char *name, int *w, int *h)
 static int read_mtrl(struct s_base *fp, const char *name)
 {
     static char line[MAXSTR];
+    static char word[MAXSTR];
+
     struct b_mtrl *mp;
     fs_file fin;
     int mi;
@@ -445,7 +447,28 @@ static int read_mtrl(struct s_base *fp, const char *name)
             mp->h[0] = strtod(line, NULL);
 
         if (fs_gets(line, sizeof (line), fin))
-            mp->fl = strtol(line, NULL, 10);
+        {
+            char *p = line;
+            int   f = 0;
+            int   n;
+
+            while (sscanf(p, "%s%n", word, &n) > 0)
+            {
+                if      (strcmp(word, "additive")    == 0) f |= M_ADDITIVE;
+                else if (strcmp(word, "clamp-s")     == 0) f |= M_CLAMP_S;
+                else if (strcmp(word, "clamp-t")     == 0) f |= M_CLAMP_T;
+                else if (strcmp(word, "decal")       == 0) f |= M_DECAL;
+                else if (strcmp(word, "environment") == 0) f |= M_ENVIRONMENT;
+                else if (strcmp(word, "reflective")  == 0) f |= M_REFLECTIVE;
+                else if (strcmp(word, "shadowed")    == 0) f |= M_SHADOWED;
+                else if (strcmp(word, "transparent") == 0) f |= M_TRANSPARENT;
+                else if (strcmp(word, "two-sided")   == 0) f |= M_TWO_SIDED;
+
+                p += n;
+            }
+            printf("%d %s", f, line);
+            mp->fl = f;
+        }
 
         if (fs_gets(line, sizeof (line), fin))
             mp->angle = strtod(line, NULL);

@@ -83,7 +83,6 @@
 
 /* Material type flags */
 
-#define M_OPAQUE       1
 #define M_TRANSPARENT  2
 #define M_REFLECTIVE   4
 #define M_ENVIRONMENT  8

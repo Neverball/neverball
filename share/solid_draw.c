@@ -148,7 +148,7 @@ static struct b_mtrl default_base_mtrl =
     { 0.2f, 0.2f, 0.2f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
-    { 0.0f }, 0.0f, M_OPAQUE, ""
+    { 0.0f }, 0.0f, 0, ""
 };
 
 static struct d_mtrl default_draw_mtrl =
