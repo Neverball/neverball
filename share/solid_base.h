@@ -83,15 +83,15 @@
 
 /* Material type flags */
 
-#define M_TRANSPARENT  2
-#define M_REFLECTIVE   4
-#define M_ENVIRONMENT  8
-#define M_CLAMP_S     16
-#define M_CLAMP_T     32
-#define M_DECAL       64
-#define M_TWO_SIDED  128
-#define M_SHADOWED   256
-#define M_ADDITIVE   512
+#define M_REFLECTIVE   256
+#define M_TRANSPARENT  128
+#define M_SHADOWED      64
+#define M_DECAL         32
+#define M_ENVIRONMENT   16
+#define M_TWO_SIDED      8
+#define M_ADDITIVE       4
+#define M_CLAMP_S        2
+#define M_CLAMP_T        1
 
 /* Billboard types. */
 

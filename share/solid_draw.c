@@ -33,6 +33,28 @@
 
 /*---------------------------------------------------------------------------*/
 
+/* EXCLUDED material flags for each rendering pass. */
+
+static const int pass_ex[] = {
+    M_REFLECTIVE | M_TRANSPARENT | M_DECAL,
+    M_REFLECTIVE | M_TRANSPARENT,
+    M_REFLECTIVE,
+    M_REFLECTIVE | M_DECAL,
+    0,
+};
+
+/* INCLUDED material flags for each rendering pass. */
+
+static const int pass_in[] = {
+    0,
+    M_DECAL,
+    M_DECAL | M_TRANSPARENT,
+    M_TRANSPARENT,
+    M_REFLECTIVE,
+};
+
+/*---------------------------------------------------------------------------*/
+
 static void sol_transform(const struct s_vary *vary,
                           const struct v_body *bp)
 {
@@ -313,12 +335,12 @@ static void sol_free_mtrl(struct d_mtrl *mp)
         glDeleteTextures(1, &mp->o);
 }
 
-static int sol_test_mtrl(const struct d_mtrl *mp, int f0, int f1)
+static int sol_test_mtrl(const struct d_mtrl *mp, int p)
 {
     /* Test whether the material flags exclude f0 and include f1. */
 
-    return ((mp->base->fl & f1) == f1 &&
-            (mp->base->fl & f0) ==  0);
+    return ((mp->base->fl & pass_in[p]) == pass_in[p] &&
+            (mp->base->fl & pass_ex[p]) == 0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -352,6 +374,19 @@ static int sol_count_body(const struct b_body *bp,
     /* Count all body geoms with the given material. */
 
     c += sol_count_geom(base, bp->g0, bp->gc, mi);
+
+    return c;
+}
+
+static int sol_count_mesh(const struct d_body *bp, int p)
+{
+    int mi, c = 0;
+
+    /* Count the body meshes matching the given material flags. */
+
+    for (mi = 0; mi < bp->mc; ++mi)
+        if (sol_test_mtrl(bp->mv[mi].mp, p))
+            c++;
 
     return c;
 }
@@ -495,12 +530,11 @@ static void sol_free_mesh(struct d_mesh *mp)
 }
 
 static const struct d_mtrl *sol_draw_mesh(const struct d_mesh *mp,
-                                          const struct d_mtrl *mq,
-                                          int f0, int f1)
+                                          const struct d_mtrl *mq, int p)
 {
     /* If this mesh has material matching the given flags... */
 
-    if (sol_test_mtrl(mp->mp, f0, f1))
+    if (sol_test_mtrl(mp->mp, p))
     {
         const size_t s = sizeof (struct d_vert);
         const GLenum T = GL_FLOAT;
@@ -557,6 +591,14 @@ static void sol_load_body(struct d_body *bp,
             if (sol_count_body(bq, draw->base, mi))
                 sol_load_mesh(bp->mv + mj++, bq, draw, mi);
     }
+
+    /* Cache a mesh count for each pass. */
+
+    bp->pass[0] = sol_count_mesh(bp, 0);
+    bp->pass[1] = sol_count_mesh(bp, 1);
+    bp->pass[2] = sol_count_mesh(bp, 2); 
+    bp->pass[3] = sol_count_mesh(bp, 3); 
+    bp->pass[4] = sol_count_mesh(bp, 4);
 }
 
 static void sol_free_body(struct d_body *bp)
@@ -570,13 +612,12 @@ static void sol_free_body(struct d_body *bp)
 }
 
 static const struct d_mtrl *sol_draw_body(const struct d_body *bp,
-                                          const struct d_mtrl *mq,
-                                          int f0, int f1)
+                                          const struct d_mtrl *mq, int p)
 {
     int i;
 
     for (i = 0; i < bp->mc; ++i)
-        mq = sol_draw_mesh(bp->mv + i, mq, f0, f1);
+        mq = sol_draw_mesh(bp->mv + i, mq, p);
 
     return mq;
 }
@@ -638,24 +679,24 @@ void sol_free_draw(struct s_draw *draw)
 /*---------------------------------------------------------------------------*/
 
 static const struct d_mtrl *sol_draw_all(const struct s_draw *draw,
-                                         const struct d_mtrl *mq,
-                                         int f0, int f1)
+                                         const struct d_mtrl *mq, int p)
 {
     int bi;
 
     /* Draw all meshes of all bodies matching the given material flags. */
 
     for (bi = 0; bi < draw->bc; ++bi)
-    {
-        /* TODO: Cache the count for each set of flags and skip this on 0. */
 
-        glPushMatrix();
+        if (draw->bv[bi].pass[p])
         {
-            sol_transform(draw->vary, draw->vary->bv + bi);
-            mq = sol_draw_body(draw->bv + bi, mq, f0, f1);
+            glPushMatrix();
+            {
+                sol_transform(draw->vary, draw->vary->bv + bi);
+                mq = sol_draw_body(draw->bv + bi, mq, p);
+            }
+            glPopMatrix();
         }
-        glPopMatrix();
-    }
+
     return mq;
 }
 
@@ -691,16 +732,16 @@ void sol_draw(const struct s_draw *draw, int mask, int test)
 
         /* Render all opaque geometry, decals last. */
 
-        mq = sol_draw_all(draw, mq, M_TRANSPARENT | M_REFLECTIVE | M_DECAL, 0);
-        mq = sol_draw_all(draw, mq, M_TRANSPARENT | M_REFLECTIVE, M_DECAL);
+        mq = sol_draw_all(draw, mq, 0);
+        mq = sol_draw_all(draw, mq, 1);
 
         /* Render all transparent geometry, decals first. */
 
         if (!test) glDisable(GL_DEPTH_TEST);
         if (!mask) glDepthMask(GL_FALSE);
         {
-            mq = sol_draw_all(draw, mq, M_REFLECTIVE, M_DECAL | M_TRANSPARENT);
-            mq = sol_draw_all(draw, mq, M_REFLECTIVE | M_DECAL, M_TRANSPARENT);
+            mq = sol_draw_all(draw, mq, 2);
+            mq = sol_draw_all(draw, mq, 3);
         }
         if (!mask) glDepthMask(GL_TRUE);
         if (!test) glEnable(GL_DEPTH_TEST);
@@ -727,7 +768,7 @@ void sol_refl(const struct s_draw *draw)
 
         /* Render all reflective geometry. */
 
-        mq = sol_draw_all(draw, mq, 0, M_REFLECTIVE);
+        mq = sol_draw_all(draw, mq, 4);
         mq = sol_apply_mtrl(&default_draw_mtrl, mq);
 
         /* Revert the buffer object state. */

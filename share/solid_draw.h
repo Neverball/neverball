@@ -61,6 +61,7 @@ struct d_body
 {
     const struct b_body *base;
 
+    int pass[5];
     int mc;
 
     struct d_mesh *mv;

@@ -466,7 +466,6 @@ static int read_mtrl(struct s_base *fp, const char *name)
 
                 p += n;
             }
-            printf("%d %s", f, line);
             mp->fl = f;
         }
 
@@ -1756,6 +1755,16 @@ static int geom_swaps[MAXG];
  * and sorting the file.
  */
 
+static void swap_mtrl(struct s_base *fp, int mi, int mj)
+{
+    int i;
+
+    for (i = 0; i < fp->gc; i++)
+        if (fp->gv[i].mi == mi) fp->gv[i].mi = mj;
+    for (i = 0; i < fp->rc; i++)
+        if (fp->rv[i].mi == mi) fp->rv[i].mi = mj;
+}
+
 static void swap_vert(struct s_base *fp, int vi, int vj)
 {
     int i, j;
@@ -2211,6 +2220,23 @@ static void smth_file(struct s_base *fp)
 static void sort_file(struct s_base *fp)
 {
     int i, j;
+
+    /* Sort materials by type to minimize state changes. */
+
+    for (i = 0; i < fp->mc; i++)
+        for (j = i + 1; j < fp->mc; j++)
+            if (fp->mv[i].fl > fp->mv[j].fl)
+            {
+                struct b_mtrl t;
+
+                t         = fp->mv[i];
+                fp->mv[i] = fp->mv[j];
+                fp->mv[j] =         t;
+
+                swap_mtrl(fp,  i, -1);
+                swap_mtrl(fp,  j,  i);
+                swap_mtrl(fp, -1,  j);
+            }
 
     /* Sort billboards by material within distance. */
 
