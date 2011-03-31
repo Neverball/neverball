@@ -102,19 +102,16 @@ static int           active;
 static int           radius;
 static TTF_Font     *font[3] = { NULL, NULL, NULL };
 
+/* Digit widgets for the HUD. */
+
+static int digit_id[3][11];
+
 /* Font data access. */
 
 static void      *fontdata;
 static int        fontdatalen;
 static SDL_RWops *fontrwops;
 
-/* Digit glyphs for the HUD. */
-#if 0
-static GLuint digit_text[3][11];
-static GLuint digit_list[3][11];
-static int    digit_w[3][11];
-static int    digit_h[3][11];
-#endif
 /*---------------------------------------------------------------------------*/
 
 static int gui_hot(int id)
@@ -323,6 +320,7 @@ void gui_init(void)
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
     int s = (h < w) ? h : w;
+    int i, j;
 
     /* Initialize font rendering. */
 
@@ -376,6 +374,27 @@ void gui_init(void)
     glBindBuffer(GL_ARRAY_BUFFER, vert_obj);
     glBufferData(GL_ARRAY_BUFFER, sizeof (vert_buf), vert_buf, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    /* Cache digit glyphs for HUD rendering. */
+
+    for (i = 0; i < 3; i++)
+    {
+        digit_id[i][ 0] = gui_label(0, "0", i, 0, 0, 0);
+        digit_id[i][ 1] = gui_label(0, "1", i, 0, 0, 0);
+        digit_id[i][ 2] = gui_label(0, "2", i, 0, 0, 0);
+        digit_id[i][ 3] = gui_label(0, "3", i, 0, 0, 0);
+        digit_id[i][ 4] = gui_label(0, "4", i, 0, 0, 0);
+        digit_id[i][ 5] = gui_label(0, "5", i, 0, 0, 0);
+        digit_id[i][ 6] = gui_label(0, "6", i, 0, 0, 0);
+        digit_id[i][ 7] = gui_label(0, "7", i, 0, 0, 0);
+        digit_id[i][ 8] = gui_label(0, "8", i, 0, 0, 0);
+        digit_id[i][ 9] = gui_label(0, "9", i, 0, 0, 0);
+        digit_id[i][10] = gui_label(0, ":", i, 0, 0, 0);
+    }
+
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 11; ++j)
+            gui_layout(digit_id[i][j], 0, 0);
 
     active = 0;
 }
@@ -732,15 +751,14 @@ int gui_label(int pd, const char *text, int size, int rect, const GLubyte *c0,
 
 int gui_count(int pd, int value, int size, int rect)
 {
-/*
     int i, id;
 
     if ((id = gui_widget(pd, GUI_COUNT)))
     {
         for (i = value; i; i /= 10)
-            widget[id].w += digit_w[size][0];
+            widget[id].w += widget[digit_id[size][0]].text_w;
 
-        widget[id].h      = digit_h[size][0];
+        widget[id].h      = widget[digit_id[size][0]].text_h;
         widget[id].value  = value;
         widget[id].size   = size;
         widget[id].color0 = gui_yel;
@@ -748,19 +766,16 @@ int gui_count(int pd, int value, int size, int rect)
         widget[id].rect   = rect;
     }
     return id;
-*/
-    return gui_label(pd, "FIXME", size, rect, gui_red, gui_red);
 }
 
 int gui_clock(int pd, int value, int size, int rect)
 {
-/*
     int id;
 
     if ((id = gui_widget(pd, GUI_CLOCK)))
     {
-        widget[id].w      = digit_w[size][0] * 6;
-        widget[id].h      = digit_h[size][0];
+        widget[id].w      = widget[digit_id[size][0]].text_w * 6;
+        widget[id].h      = widget[digit_id[size][0]].text_h;
         widget[id].value  = value;
         widget[id].size   = size;
         widget[id].color0 = gui_yel;
@@ -768,8 +783,6 @@ int gui_clock(int pd, int value, int size, int rect)
         widget[id].rect   = rect;
     }
     return id;
-*/
-    return gui_label(pd, "FIXME", size, rect, gui_red, gui_red);
 }
 
 int gui_space(int pd)
@@ -1344,10 +1357,127 @@ static void gui_paint_image(int id)
 
 static void gui_paint_count(int id)
 {
+    int j, i = widget[id].size;
+
+    glPushMatrix();
+    {
+        /* Translate to the widget center, and apply the pulse scale. */
+
+        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
+                     (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+
+        glScalef(widget[id].scale,
+                 widget[id].scale,
+                 widget[id].scale);
+
+        if (widget[id].value > 0)
+        {
+            /* Translate right by half the total width of the rendered value. */
+
+            GLfloat w = -widget[digit_id[i][0]].text_w * 0.5f;
+
+            for (j = widget[id].value; j; j /= 10)
+                w += widget[digit_id[i][j % 10]].text_w * 0.5f;
+
+            glTranslatef(w, 0.0f, 0.0f);
+
+            /* Render each digit, moving left after each. */
+
+            for (j = widget[id].value; j; j /= 10)
+            {
+                int id = digit_id[i][j % 10];
+
+                glBindTexture(GL_TEXTURE_2D, widget[id].image);
+                draw_text(id);
+                glTranslatef((GLfloat) -widget[id].text_w, 0.0f, 0.0f);
+            }
+        }
+        else if (widget[id].value == 0)
+        {
+            /* If the value is zero, just display a zero in place. */
+
+            glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][0]].image);
+            draw_text(digit_id[i][0]);
+        }
+    }
+    glPopMatrix();
 }
 
 static void gui_paint_clock(int id)
 {
+    int i  =   widget[id].size;
+    int mt =  (widget[id].value / 6000) / 10;
+    int mo =  (widget[id].value / 6000) % 10;
+    int st = ((widget[id].value % 6000) / 100) / 10;
+    int so = ((widget[id].value % 6000) / 100) % 10;
+    int ht = ((widget[id].value % 6000) % 100) / 10;
+    int ho = ((widget[id].value % 6000) % 100) % 10;
+
+    GLfloat dx_large = (GLfloat) widget[digit_id[i][0]].text_w;
+    GLfloat dx_small = (GLfloat) widget[digit_id[i][0]].text_w * 0.75f;
+
+    if (widget[id].value < 0)
+        return;
+
+    glPushMatrix();
+    {
+        /* Translate to the widget center, and apply the pulse scale. */
+
+        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
+                     (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+
+        glScalef(widget[id].scale,
+                 widget[id].scale,
+                 widget[id].scale);
+
+        /* Translate left by half the total width of the rendered value. */
+
+        if (mt > 0)
+            glTranslatef(-2.25f * dx_large, 0.0f, 0.0f);
+        else
+            glTranslatef(-1.75f * dx_large, 0.0f, 0.0f);
+
+        /* Render the minutes counter. */
+
+        if (mt > 0)
+        {
+            glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][mt]].image);
+            draw_text(digit_id[i][mt]);
+            glTranslatef(dx_large, 0.0f, 0.0f);
+        }
+
+        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][mo]].image);
+        draw_text(digit_id[i][mo]);
+        glTranslatef(dx_small, 0.0f, 0.0f);
+
+        /* Render the colon. */
+
+        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][10]].image);
+        draw_text(digit_id[i][10]);
+        glTranslatef(dx_small, 0.0f, 0.0f);
+
+        /* Render the seconds counter. */
+
+        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][st]].image);
+        draw_text(digit_id[i][st]);
+        glTranslatef(dx_large, 0.0f, 0.0f);
+
+        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][so]].image);
+        draw_text(digit_id[i][so]);
+        glTranslatef(dx_small, 0.0f, 0.0f);
+
+        /* Render hundredths counter half size. */
+
+        glScalef(0.5f, 0.5f, 1.0f);
+
+        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][ht]].image);
+        draw_text(digit_id[i][ht]);
+        glTranslatef(dx_large, 0.0f, 0.0f);
+
+        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][ho]].image);
+        draw_text(digit_id[i][ho]);
+    }
+    glPopMatrix();
 }
 
 static void gui_paint_label(int id)
