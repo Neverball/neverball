@@ -30,6 +30,8 @@
 /*---------------------------------------------------------------------------*/
 
 static struct s_full beam;
+static struct s_full jump;
+static struct s_full goal;
 static struct s_full flag;
 static struct s_full mark;
 static struct s_full back;
@@ -41,6 +43,8 @@ static GLuint back_text;
 void geom_init(void)
 {
     sol_load_full(&beam, "geom/beam/beam.sol", 0);
+    sol_load_full(&jump, "geom/jump/jump.sol", 0);
+    sol_load_full(&goal, "geom/goal/goal.sol", 0);
     sol_load_full(&flag, "geom/flag/flag.sol", 0);
     sol_load_full(&mark, "geom/mark/mark.sol", 0);
     sol_load_full(&back, "geom/back/back.sol", 0);
@@ -51,6 +55,8 @@ void geom_free(void)
     sol_free_full(&back);
     sol_free_full(&mark);
     sol_free_full(&flag);
+    sol_free_full(&goal);
+    sol_free_full(&jump);
     sol_free_full(&beam);
 }
 
@@ -74,14 +80,49 @@ void back_free(void)
 
 /*---------------------------------------------------------------------------*/
 
+static void jump_part_draw(GLfloat s, GLfloat a)
+{
+    glMatrixMode(GL_TEXTURE);
+    glTranslatef(s, 0.0f, 0.0f);
+    glMatrixMode(GL_MODELVIEW);
+
+    glRotatef(a, 0.0f, 1.0f, 0.0f);
+    sol_draw(&jump.draw, 1, 1);
+    glScalef(0.9f, 0.9f, 0.9f);
+}
+
+static void goal_part_draw(GLfloat s, GLfloat a)
+{
+    glMatrixMode(GL_TEXTURE);
+    glTranslatef(0.0f, -s, 0.0f);
+    glMatrixMode(GL_MODELVIEW);
+
+    glRotatef(a, 0.0f, 1.0f, 0.0f);
+    sol_draw(&goal.draw, 1, 1);
+    glScalef(0.75f, 1.1f, 0.9f);
+}
+
+/*---------------------------------------------------------------------------*/
+
 void goal_draw(void)
 {
+    const GLfloat t = SDL_GetTicks() * 0.001f;
+
     glPushMatrix();
     {
         glScalef(1.0f, 3.0f, 1.0f);
 
         glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
         sol_draw(&beam.draw, 1, 1);
+
+        goal_part_draw(t * 0.1f, 20.0f);
+        goal_part_draw(t * 0.2f, 30.0f);
+        goal_part_draw(t * 0.3f, 70.0f);
+
+        glMatrixMode(GL_TEXTURE);
+        glLoadIdentity();
+        glMatrixMode(GL_MODELVIEW);
+
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glPopMatrix();
@@ -89,6 +130,8 @@ void goal_draw(void)
 
 void jump_draw(int highlight)
 {
+    const GLfloat t = SDL_GetTicks() * 0.001f;
+
     static GLfloat jump_colors[4][4] = {
         { 0.75f, 0.5f, 1.0f, 0.5f },
         { 0.75f, 0.5f, 1.0f, 0.8f },
@@ -96,10 +139,19 @@ void jump_draw(int highlight)
 
     glPushMatrix();
     {
-        glScalef(1.0f, 2.0f, 1.0f);
-
         glColor4fv(jump_colors[highlight]);
+
+        glScalef(1.0f, 2.0f, 1.0f);
         sol_draw(&beam.draw, 1, 1);
+
+        jump_part_draw(t * 0.1f, t * 360.0f);
+        jump_part_draw(t * 0.2f, t * 360.0f);
+        jump_part_draw(t * 0.3f, t * 360.0f);
+
+        glMatrixMode(GL_TEXTURE);
+        glLoadIdentity();
+        glMatrixMode(GL_MODELVIEW);
+
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glPopMatrix();

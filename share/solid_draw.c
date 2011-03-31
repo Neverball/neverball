@@ -202,21 +202,19 @@ static const struct d_mtrl *sol_apply_mtrl(const struct d_mtrl *mp_draw,
     if (tobyte(mp_base->h[0]) != tobyte(mq_base->h[0]))
         glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp_base->h);
 
-    /* Enable ball shadow. */
+    /* Ball shadow. */
 
     if ((mp_base->fl & M_SHADOWED) && !(mq_base->fl & M_SHADOWED))
     {
         shad_draw_set();
     }
 
-    /* Disable ball shadow. */
-
     if (!(mp_base->fl & M_SHADOWED) && (mq_base->fl & M_SHADOWED))
     {
         shad_draw_clr();
     }
 
-    /* Enable environment mapping. */
+    /* Environment mapping. */
 
     if ((mp_base->fl & M_ENVIRONMENT) && !(mq_base->fl & M_ENVIRONMENT))
     {
@@ -227,25 +225,21 @@ static const struct d_mtrl *sol_apply_mtrl(const struct d_mtrl *mp_draw,
         glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
     }
 
-    /* Disable environment mapping. */
-
     if ((mq_base->fl & M_ENVIRONMENT) && !(mp_base->fl & M_ENVIRONMENT))
     {
         glDisable(GL_TEXTURE_GEN_S);
         glDisable(GL_TEXTURE_GEN_T);
     }
 
-    /* Enable additive blending. */
+    /* Additive blending. */
 
     if ((mp_base->fl & M_ADDITIVE) && !(mq_base->fl & M_ADDITIVE))
         glBlendFunc(GL_ONE, GL_ONE);
 
-    /* Enable standard blending. */
-
     if ((mq_base->fl & M_ADDITIVE) && !(mp_base->fl & M_ADDITIVE))
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    /* Enable visibility-from-behind. */
+    /* Visibility-from-behind. */
 
     if ((mp_base->fl & M_TWO_SIDED) && !(mq_base->fl & M_TWO_SIDED))
     {
@@ -253,23 +247,19 @@ static const struct d_mtrl *sol_apply_mtrl(const struct d_mtrl *mp_draw,
         glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
     }
 
-    /* Disable visibility-from-behind. */
-
     if ((mq_base->fl & M_TWO_SIDED) && !(mp_base->fl & M_TWO_SIDED))
     {
         glEnable(GL_CULL_FACE);
         glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
     }
 
-    /* Enable decal offset. */
+    /* Decal offset. */
 
     if ((mp_base->fl & M_DECAL) && !(mq_base->fl & M_DECAL))
     {
         glEnable(GL_POLYGON_OFFSET_FILL);
         glPolygonOffset(-1.0f, -2.0f);
     }
-
-    /* Disable decal offset. */
 
     if ((mq_base->fl & M_DECAL) && !(mp_base->fl & M_DECAL))
         glDisable(GL_POLYGON_OFFSET_FILL);

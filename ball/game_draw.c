@@ -132,7 +132,7 @@ static void game_draw_goals(const struct game_draw *gd,
         int zi;
 
         /* Draw the goal particles. */
-
+/*
         for (zi = 0; zi < base->zc; zi++)
         {
             glPushMatrix();
@@ -145,7 +145,7 @@ static void game_draw_goals(const struct game_draw *gd,
             }
             glPopMatrix();
         }
-
+*/
         /* Draw the goal column. */
 
         for (zi = 0; zi < base->zc; zi++)
@@ -173,7 +173,7 @@ static void game_draw_jumps(const struct game_draw *gd,
     const struct s_base *base = gd->vary.base;
 
     int ji;
-
+/*
     for (ji = 0; ji < base->jc; ji++)
     {
         glPushMatrix();
@@ -186,7 +186,7 @@ static void game_draw_jumps(const struct game_draw *gd,
         }
         glPopMatrix();
     }
-
+*/
     for (ji = 0; ji < base->jc; ji++)
     {
         glPushMatrix();
