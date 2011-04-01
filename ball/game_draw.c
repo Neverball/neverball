@@ -160,7 +160,7 @@ static void game_draw_goals(const struct game_draw *gd,
                          gd->goal_k,
                          base->zv[zi].r);
 
-                goal_draw();
+                goal_draw(t);
             }
             glPopMatrix();
         }
@@ -198,7 +198,7 @@ static void game_draw_jumps(const struct game_draw *gd,
                      1.0f,
                      base->jv[ji].r);
 
-            jump_draw(!gd->jump_e);
+            jump_draw(t, !gd->jump_e);
         }
         glPopMatrix();
     }

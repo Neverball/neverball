@@ -262,6 +262,7 @@ static void game_draw_goals(const struct s_base *fp)
 
 static void game_draw_jumps(const struct s_base *fp)
 {
+    float t = 0.001f * SDL_GetTicks();
     int ji;
 
     for (ji = 0; ji < fp->jc; ji++)
@@ -273,7 +274,7 @@ static void game_draw_jumps(const struct s_base *fp)
                          fp->jv[ji].p[2]);
 
             glScalef(fp->jv[ji].r, 1.f, fp->jv[ji].r);
-            jump_draw(!jump_e);
+            jump_draw(t, !jump_e);
         }
         glPopMatrix();
     }

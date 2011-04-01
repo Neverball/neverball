@@ -17,8 +17,8 @@
 void geom_init(void);
 void geom_free(void);
 
-void goal_draw(void);
-void jump_draw(int);
+void goal_draw(float);
+void jump_draw(float, int);
 void swch_draw(int, int);
 void flag_draw(void);
 void mark_draw(void);
