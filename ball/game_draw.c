@@ -55,9 +55,9 @@ static void game_draw_balls(const struct s_vary *vary,
     glPopAttrib();
 }
 
-static void game_draw_items(const struct s_vary *vary, float t)
+static void game_draw_items(const struct s_vary *vary,
+                            const float *bill_M, float t)
 {
-    float r = 360.f * t;
     int hi;
 
     glPushAttrib(GL_LIGHTING_BIT);
@@ -73,8 +73,7 @@ static void game_draw_items(const struct s_vary *vary, float t)
                         glTranslatef(vary->hv[hi].p[0],
                                      vary->hv[hi].p[1],
                                      vary->hv[hi].p[2]);
-                        glRotatef(r, 0.0f, 1.0f, 0.0f);
-                        item_draw(&vary->hv[hi], r);
+                        item_draw(&vary->hv[hi], bill_M, t);
                     }
                     glPopMatrix();
                 }
@@ -92,8 +91,7 @@ static void game_draw_items(const struct s_vary *vary, float t)
                         glTranslatef(vary->hv[hi].p[0],
                                      vary->hv[hi].p[1],
                                      vary->hv[hi].p[2]);
-                        glRotatef(r, 0.0f, 1.0f, 0.0f);
-                        item_draw(&vary->hv[hi], r);
+                        item_draw(&vary->hv[hi], bill_M, t);
                     }
                     glPopMatrix();
                 }
@@ -111,8 +109,7 @@ static void game_draw_items(const struct s_vary *vary, float t)
                         glTranslatef(vary->hv[hi].p[0],
                                      vary->hv[hi].p[1],
                                      vary->hv[hi].p[2]);
-                        glRotatef(r, 0.0f, 1.0f, 0.0f);
-                        item_draw(&vary->hv[hi], r);
+                        item_draw(&vary->hv[hi], bill_M, t);
                     }
                     glPopMatrix();
                 }
@@ -398,13 +395,13 @@ static void game_draw_fore(const struct game_draw *gd,
             break;
 
         case POSE_NONE:
-            /* Draw the coins. */
-
-            game_draw_items(draw->vary, t);
-
             /* Draw the floor. */
 
             sol_draw(draw, 0, 1);
+
+            /* Draw the coins. */
+
+            game_draw_items(draw->vary, M, t);
 
             /* Fall through. */
 
