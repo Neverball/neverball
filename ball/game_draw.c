@@ -433,11 +433,12 @@ static void game_draw_fore(const struct game_draw *gd,
         glDepthMask(GL_FALSE);
         {
             sol_bill(draw, M, t);
-            part_draw_coin(M, t);
 
             game_draw_goals(gd, M, t);
             game_draw_jumps(gd, M, t);
             game_draw_swchs(draw->vary);
+
+            part_draw_coin(M, t);
         }
         glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);

@@ -432,7 +432,7 @@ static int null_enter(struct state *st, struct state *prev)
 
 static void null_leave(struct state *st, struct state *next, int id)
 {
-    part_init(GOAL_HEIGHT, JUMP_HEIGHT);
+    part_init();
     shad_init();
     ball_init();
     item_init();

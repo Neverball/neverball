@@ -617,10 +617,9 @@ static int demo_end_gui(void)
 
 static int demo_end_enter(struct state *st, struct state *prev)
 {
-#if 0
     SDL_Event quit = { SDL_QUIT };
     SDL_PushEvent(&quit);
-#endif
+
     audio_music_fade_out(demo_paused ? 0.2f : 2.0f);
 
     return demo_end_gui();

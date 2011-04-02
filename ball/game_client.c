@@ -423,7 +423,7 @@ int  game_client_init(const char *file_name)
 
     /* Initialize particles. */
 
-    part_reset(GOAL_HEIGHT, JUMP_HEIGHT);
+    part_reset();
 
     /* Initialize command state. */
 
