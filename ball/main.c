@@ -54,6 +54,7 @@ static void shot(void)
 
 static void toggle_wire(void)
 {
+/*
     static int wire = 0;
 
     if (wire)
@@ -70,6 +71,7 @@ static void toggle_wire(void)
         glDisable(GL_LIGHTING);
         wire = 1;
     }
+*/
 }
 
 /*---------------------------------------------------------------------------*/

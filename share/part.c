@@ -23,9 +23,10 @@
 #include "vec3.h"
 #include "image.h"
 
-#define PARTICLEVBO 1
-
 /*---------------------------------------------------------------------------*/
+/*
+#define PARTICLEVBO 1
+*/
 
 struct part_vary
 {

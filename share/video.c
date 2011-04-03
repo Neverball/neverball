@@ -108,7 +108,7 @@ int video_mode(int f, int w, int h)
         config_set_d(CONFIG_HEIGHT,     h);
 
         glViewport(0, 0, w, h);
-        glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         glEnable(GL_NORMALIZE);
         glEnable(GL_CULL_FACE);
@@ -337,12 +337,10 @@ void video_pop_matrix(void)
 void video_clear(void)
 {
     if (config_get_d(CONFIG_REFLECTION))
-        glClear(GL_COLOR_BUFFER_BIT |
-                GL_DEPTH_BUFFER_BIT |
+        glClear(GL_DEPTH_BUFFER_BIT |
                 GL_STENCIL_BUFFER_BIT);
     else
-        glClear(GL_COLOR_BUFFER_BIT |
-                GL_DEPTH_BUFFER_BIT);
+        glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 /*---------------------------------------------------------------------------*/

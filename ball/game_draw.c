@@ -276,11 +276,8 @@ static const struct d_mtrl *game_draw_back(const struct d_mtrl *mq,
 
         if (config_get_d(CONFIG_BACKGROUND))
         {
-            /* Draw all background layers back to front. */
-
-            mq = sol_back(&gd->back.draw, mq, BACK_DIST, FAR_DIST,  t);
             mq = back_draw(mq, 0);
-            mq = sol_back(&gd->back.draw, mq,         0, BACK_DIST, t);
+            mq = sol_back(&gd->back.draw, mq, 0, FAR_DIST, t);
         }
         else back_draw(mq, t);
     }
