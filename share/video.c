@@ -119,7 +119,6 @@ int video_mode(int f, int w, int h)
 
         glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,
                       GL_SEPARATE_SPECULAR_COLOR);
-        glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthFunc(GL_LEQUAL);
@@ -146,8 +145,6 @@ int video_mode(int f, int w, int h)
             cast.ob = SDL_GL_GetProcAddress("glActiveTextureARB");
             glActiveTexture_ = cast.fn;
         }
-
-        glReadBuffer(GL_FRONT);
 
         /* Attempt manual swap control if SDL's is broken. */
 
@@ -278,46 +275,46 @@ int  video_get_grab(void)
 
 void video_push_persp(float fov, float n, float f)
 {
-    GLdouble m[4][4];
+    GLfloat m[4][4];
 
-    GLdouble r = fov / 2 * V_PI / 180;
-    GLdouble s = sin(r);
-    GLdouble c = cos(r) / s;
+    GLfloat r = fov / 2 * V_PI / 180;
+    GLfloat s = sin(r);
+    GLfloat c = cos(r) / s;
 
-    GLdouble a = ((GLdouble) config_get_d(CONFIG_WIDTH) /
-                  (GLdouble) config_get_d(CONFIG_HEIGHT));
+    GLfloat a = ((GLfloat) config_get_d(CONFIG_WIDTH) /
+                 (GLfloat) config_get_d(CONFIG_HEIGHT));
 
     glMatrixMode(GL_PROJECTION);
     {
         glPushMatrix();
         glLoadIdentity();
 
-        m[0][0] =  c/a;
-        m[0][1] =  0.0;
-        m[0][2] =  0.0;
-        m[0][3] =  0.0;
-        m[1][0] =  0.0;
-        m[1][1] =    c;
-        m[1][2] =  0.0;
-        m[1][3] =  0.0;
-        m[2][0] =  0.0;
-        m[2][1] =  0.0;
+        m[0][0] = c / a;
+        m[0][1] =  0.0f;
+        m[0][2] =  0.0f;
+        m[0][3] =  0.0f;
+        m[1][0] =  0.0f;
+        m[1][1] =     c;
+        m[1][2] =  0.0f;
+        m[1][3] =  0.0f;
+        m[2][0] =  0.0f;
+        m[2][1] =  0.0f;
         m[2][2] = -(f + n) / (f - n);
-        m[2][3] = -1.0;
-        m[3][0] =  0.0;
-        m[3][1] =  0.0;
-        m[3][2] = -2.0 * n * f / (f - n);
-        m[3][3] =  0.0;
+        m[2][3] = -1.0f;
+        m[3][0] =  0.0f;
+        m[3][1] =  0.0f;
+        m[3][2] = -2.0f * n * f / (f - n);
+        m[3][3] =  0.0f;
 
-        glMultMatrixd(&m[0][0]);
+        glMultMatrixf(&m[0][0]);
     }
     glMatrixMode(GL_MODELVIEW);
 }
 
 void video_push_ortho(void)
 {
-    GLdouble w = (GLdouble) config_get_d(CONFIG_WIDTH);
-    GLdouble h = (GLdouble) config_get_d(CONFIG_HEIGHT);
+    GLfloat w = (GLfloat) config_get_d(CONFIG_WIDTH);
+    GLfloat h = (GLfloat) config_get_d(CONFIG_HEIGHT);
 
     glMatrixMode(GL_PROJECTION);
     {

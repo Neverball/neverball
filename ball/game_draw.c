@@ -62,63 +62,50 @@ static const struct d_mtrl *game_draw_items(const struct d_mtrl *mq,
 {
     int hi;
 
-    glPushAttrib(GL_LIGHTING_BIT);
+    glEnable(GL_COLOR_MATERIAL);
     {
-        item_push(ITEM_COIN);
-        {
-            for (hi = 0; hi < vary->hc; hi++)
-
-                if (vary->hv[hi].t == ITEM_COIN && vary->hv[hi].n > 0)
+        for (hi = 0; hi < vary->hc; hi++)
+            if (vary->hv[hi].t == ITEM_COIN && vary->hv[hi].n > 0)
+            {
+                glPushMatrix();
                 {
-                    glPushMatrix();
-                    {
-                        glTranslatef(vary->hv[hi].p[0],
-                                     vary->hv[hi].p[1],
-                                     vary->hv[hi].p[2]);
-                        mq = item_draw(mq, &vary->hv[hi], bill_M, t);
-                    }
-                    glPopMatrix();
+                    glTranslatef(vary->hv[hi].p[0],
+                                 vary->hv[hi].p[1],
+                                 vary->hv[hi].p[2]);
+                    mq = item_draw(mq, &vary->hv[hi], bill_M, t);
                 }
-        }
-        item_pull();
+                glPopMatrix();
+            }
 
-        item_push(ITEM_SHRINK);
-        {
-            for (hi = 0; hi < vary->hc; hi++)
-
-                if (vary->hv[hi].t == ITEM_SHRINK)
+        for (hi = 0; hi < vary->hc; hi++)
+            if (vary->hv[hi].t == ITEM_SHRINK)
+            {
+                glPushMatrix();
                 {
-                    glPushMatrix();
-                    {
-                        glTranslatef(vary->hv[hi].p[0],
-                                     vary->hv[hi].p[1],
-                                     vary->hv[hi].p[2]);
-                        mq = item_draw(mq, &vary->hv[hi], bill_M, t);
-                    }
-                    glPopMatrix();
+                    glTranslatef(vary->hv[hi].p[0],
+                                 vary->hv[hi].p[1],
+                                 vary->hv[hi].p[2]);
+                    mq = item_draw(mq, &vary->hv[hi], bill_M, t);
                 }
-        }
-        item_pull();
+                glPopMatrix();
+            }
 
-        item_push(ITEM_GROW);
-        {
-            for (hi = 0; hi < vary->hc; hi++)
-
-                if (vary->hv[hi].t == ITEM_GROW)
+        for (hi = 0; hi < vary->hc; hi++)
+            if (vary->hv[hi].t == ITEM_GROW)
+            {
+                glPushMatrix();
                 {
-                    glPushMatrix();
-                    {
-                        glTranslatef(vary->hv[hi].p[0],
-                                     vary->hv[hi].p[1],
-                                     vary->hv[hi].p[2]);
-                        mq = item_draw(mq, &vary->hv[hi], bill_M, t);
-                    }
-                    glPopMatrix();
+                    glTranslatef(vary->hv[hi].p[0],
+                                 vary->hv[hi].p[1],
+                                 vary->hv[hi].p[2]);
+                    mq = item_draw(mq, &vary->hv[hi], bill_M, t);
                 }
-        }
-        item_pull();
+                glPopMatrix();
+            }
     }
-    glPopAttrib();
+
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    glDisable(GL_COLOR_MATERIAL);
 
     return mq;
 }

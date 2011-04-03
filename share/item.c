@@ -93,11 +93,6 @@ void item_free(void)
     sol_free_full(&item_shrink_file);
 }
 
-void item_push(int type)
-{
-    glEnable(GL_COLOR_MATERIAL);
-}
-
 const struct d_mtrl *item_draw(const struct d_mtrl *mq,
                                const struct v_item *hp,
                                const GLfloat *M, float t)
@@ -130,12 +125,6 @@ const struct d_mtrl *item_draw(const struct d_mtrl *mq,
     glPopMatrix();
 
     return mq;
-}
-
-void item_pull(void)
-{
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glDisable(GL_COLOR_MATERIAL);
 }
 
 /*---------------------------------------------------------------------------*/

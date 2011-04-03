@@ -232,7 +232,7 @@ void back_draw_easy(void)
 }
 
 /*---------------------------------------------------------------------------*/
-
+/*
 static GLuint clip_text;
 
 static GLubyte clip_data[] = { 0xff, 0xff, 0x0, 0x0 };
@@ -254,7 +254,7 @@ void clip_init(void)
         glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     }
     glActiveTexture_(GL_TEXTURE0);
 }
@@ -294,7 +294,7 @@ void clip_draw_clr(void)
     }
     glActiveTexture_(GL_TEXTURE0);
 }
-
+*/
 /*---------------------------------------------------------------------------*/
 
 /*
@@ -318,22 +318,15 @@ void shad_init(void)
 
     if (config_get_d(CONFIG_SHADOW) == 2)
     {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     }
-
-#if 0
-    clip_init();
-#endif
 }
 
 void shad_free(void)
 {
     if (glIsTexture(shad_text))
         glDeleteTextures(1, &shad_text);
-#if 0
-    clip_free();
-#endif
 }
 
 void shad_draw_set(void)
@@ -346,22 +339,11 @@ void shad_draw_set(void)
     }
     glActiveTexture_(GL_TEXTURE0);
 
-
-#if 0
     glMatrixMode(GL_TEXTURE);
     {
         glLoadIdentity();
     }
     glMatrixMode(GL_MODELVIEW);
-
-    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-
-    glEnable(GL_TEXTURE_GEN_S);
-    glEnable(GL_TEXTURE_GEN_T);
-
-    clip_draw_set();
-#endif
 }
 
 void shad_draw_clr(void)
@@ -372,13 +354,6 @@ void shad_draw_clr(void)
         glDisable(GL_TEXTURE_2D);
     }
     glActiveTexture_(GL_TEXTURE0);
-
-#if 0
-    glDisable(GL_TEXTURE_GEN_S);
-    glDisable(GL_TEXTURE_GEN_T);
-
-    clip_draw_clr();
-#endif
 }
 
 /*---------------------------------------------------------------------------*/

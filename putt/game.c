@@ -319,11 +319,6 @@ static const struct d_mtrl *game_draw_swchs(const struct d_mtrl *mq,
 
 void game_draw(int pose, float t)
 {
-    static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-    static const float s[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-    static const float e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    static const float h[1] = { 0.0f };
-
     const float light_p[4] = { 8.f, 32.f, 8.f, 0.f };
 
     const struct s_draw *fp = &file.draw;
@@ -334,7 +329,6 @@ void game_draw(int pose, float t)
     if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
     video_push_persp(fov, 0.1f, FAR_DIST);
-    glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {
         float T[16], M[16], v[3], rx, ry;
@@ -378,11 +372,6 @@ void game_draw(int pose, float t)
             mq = game_draw_vect(mq, fp->vary);
         }
 
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
-
         glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
@@ -396,7 +385,6 @@ void game_draw(int pose, float t)
         glDisable(GL_COLOR_MATERIAL);
     }
     glPopMatrix();
-    glPopAttrib();
     video_pop_matrix();
 
     sol_draw_disable(mq);
