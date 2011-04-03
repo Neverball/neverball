@@ -24,6 +24,7 @@ const struct d_mtrl *jump_draw(const struct d_mtrl *, float, int);
 const struct d_mtrl *swch_draw(const struct d_mtrl *, int, int);
 const struct d_mtrl *flag_draw(const struct d_mtrl *);
 const struct d_mtrl *mark_draw(const struct d_mtrl *);
+const struct d_mtrl *vect_draw(const struct d_mtrl *);
 const struct d_mtrl *back_draw(const struct d_mtrl *, float);
 
 /*---------------------------------------------------------------------------*/

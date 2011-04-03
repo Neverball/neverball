@@ -34,6 +34,7 @@ static struct s_full jump;
 static struct s_full goal;
 static struct s_full flag;
 static struct s_full mark;
+static struct s_full vect;
 static struct s_full back;
 
 static int back_state = 0;
@@ -47,10 +48,12 @@ void geom_init(void)
     sol_load_full(&goal, "geom/goal/goal.sol", 0);
     sol_load_full(&flag, "geom/flag/flag.sol", 0);
     sol_load_full(&mark, "geom/mark/mark.sol", 0);
+    sol_load_full(&vect, "geom/vect/vect.sol", 0);
 }
 
 void geom_free(void)
 {
+    sol_free_full(&vect);
     sol_free_full(&mark);
     sol_free_full(&flag);
     sol_free_full(&goal);
@@ -200,6 +203,13 @@ const struct d_mtrl *flag_draw(const struct d_mtrl *mq)
 const struct d_mtrl *mark_draw(const struct d_mtrl *mq)
 {
     return sol_draw(&mark.draw, mq, 1, 1);
+}
+
+const struct d_mtrl *vect_draw(const struct d_mtrl *mq)
+{
+    mq = sol_draw(&vect.draw, mq, 0, 1);
+    mq = sol_draw(&vect.draw, mq, 0, 0);
+    return mq;
 }
 
 const struct d_mtrl *back_draw(const struct d_mtrl *mq, float t)

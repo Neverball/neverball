@@ -119,64 +119,25 @@ void game_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_draw_vect_prim(const struct s_vary *fp, GLenum mode)
-{
-    float p[3];
-    float x[3];
-    float z[3];
-    float r;
-
-    v_cpy(p, fp->uv[ball].p);
-    v_cpy(x, view_e[0]);
-    v_cpy(z, view_e[2]);
-
-    r = fp->uv[ball].r;
-
-    glBegin(mode);
-    {
-        glColor4f(1.0f, 1.0f, 0.5f, 0.5f);
-        glVertex3f(p[0] - x[0] * r,
-                   p[1] - x[1] * r,
-                   p[2] - x[2] * r);
-
-        glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
-        glVertex3f(p[0] + z[0] * view_m,
-                   p[1] + z[1] * view_m,
-                   p[2] + z[2] * view_m);
-
-        glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
-        glVertex3f(p[0] + x[0] * r,
-                   p[1] + x[1] * r,
-                   p[2] + x[2] * r);
-    }
-    glEnd();
-}
-
 static const struct d_mtrl *game_draw_vect(const struct d_mtrl *mq,
                                            const struct s_vary *fp)
 {
     if (view_m > 0.f)
     {
-        glPushAttrib(GL_TEXTURE_BIT);
-        glPushAttrib(GL_POLYGON_BIT);
-        glPushAttrib(GL_LIGHTING_BIT);
-        glPushAttrib(GL_DEPTH_BUFFER_BIT);
+        glDisable(GL_LIGHTING);
+        glPushMatrix();
         {
-            glEnable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHTING);
-            glDisable(GL_TEXTURE_2D);
-            glDepthMask(GL_FALSE);
+            glTranslatef(fp->uv[ball].p[0],
+                         fp->uv[ball].p[1],
+                         fp->uv[ball].p[2]);
+            glRotatef(view_a, 0.0f, 1.0f, 0.0f);
+            glScalef(fp->uv[ball].r,
+                     fp->uv[ball].r * 0.1f, view_m);
 
-            glEnable(GL_DEPTH_TEST);
-            game_draw_vect_prim(fp, GL_TRIANGLES);
-
-            glDisable(GL_DEPTH_TEST);
-            game_draw_vect_prim(fp, GL_LINE_STRIP);
+            mq = vect_draw(mq);
         }
-        glPopAttrib();
-        glPopAttrib();
-        glPopAttrib();
-        glPopAttrib();
+        glPopMatrix();
+        glEnable(GL_LIGHTING);
     }
     return mq;
 }
