@@ -23,6 +23,8 @@
 #include "vec3.h"
 #include "image.h"
 
+#define PARTICLEVBO 1
+
 /*---------------------------------------------------------------------------*/
 
 struct part_vary
@@ -50,7 +52,7 @@ static struct b_mtrl coin_base_mtrl =
     { 0.2f, 0.2f, 0.2f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
-    { 0.0f }, 0.0f, 0, ""
+    { 0.0f }, 0.0f, M_TRANSPARENT, ""
 };
 
 static struct d_mtrl coin_draw_mtrl =
@@ -115,9 +117,11 @@ void part_lerp_apply(float a)
     /* this upload to only active particles, but it's more important to do   */
     /* it all in a single call.                                              */
 
+#ifdef PARTICLEVBO
     glBindBuffer   (GL_ARRAY_BUFFER, coin_vbo);
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof (coin_draw), coin_draw);
     glBindBuffer   (GL_ARRAY_BUFFER, 0);
+#endif
 }
 
 /*---------------------------------------------------------------------------*/
@@ -139,11 +143,13 @@ void part_init(void)
     memset(coin_vary, 0, PART_MAX_COIN * sizeof (struct part_vary));
     memset(coin_draw, 0, PART_MAX_COIN * sizeof (struct part_draw));
 
+#ifdef PARTICLEVBO
     glGenBuffers(1,              &coin_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, coin_vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof (coin_draw),
                                           coin_draw, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+#endif
 
     part_reset();
 }
@@ -227,16 +233,29 @@ const struct d_mtrl *part_draw_coin(const struct d_mtrl *mq)
 
     /* Draw the entire buffer.  Dead particles have zero opacity anyway. */
 
+#ifdef PARTICLEVBO
     glBindBuffer(GL_ARRAY_BUFFER, coin_vbo);
+#else
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+#endif
 
+    glClientActiveTexture(GL_TEXTURE1);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glClientActiveTexture(GL_TEXTURE0);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
     glDisableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     {
+#ifdef PARTICLEVBO
         glColorPointer (4, GL_FLOAT, sizeof (struct part_draw),
                         (GLvoid *) offsetof (struct part_draw, c));
         glVertexPointer(3, GL_FLOAT, sizeof (struct part_draw),
                         (GLvoid *) offsetof (struct part_draw, p));
+#else
+        glColorPointer (4, GL_FLOAT, sizeof (struct part_draw), coin_draw[0].c);
+        glVertexPointer(3, GL_FLOAT, sizeof (struct part_draw), coin_draw[0].p);
+#endif
 
         glEnable(GL_POINT_SPRITE);
         {
@@ -250,9 +269,11 @@ const struct d_mtrl *part_draw_coin(const struct d_mtrl *mq)
     }
     glDisableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glClientActiveTexture(GL_TEXTURE1);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glClientActiveTexture(GL_TEXTURE0);
 
     return mq;
 }

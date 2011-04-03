@@ -348,12 +348,6 @@ void shad_draw_set(void)
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
     }
     glActiveTexture_(GL_TEXTURE0);
-
-    glMatrixMode(GL_TEXTURE);
-    {
-        glLoadIdentity();
-    }
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void shad_draw_clr(void)
