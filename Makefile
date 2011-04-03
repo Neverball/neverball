@@ -342,8 +342,7 @@ DESKTOPS := $(basename $(wildcard dist/*.desktop.in))
 
 #------------------------------------------------------------------------------
 
-all : $(BALL_TARG) $(MAPC_TARG) sols locales desktops
-#all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales desktops
+all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales desktops
 
 $(BALL_TARG) : $(BALL_OBJS)
 	$(CC) $(ALL_CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LDFLAGS) $(ALL_LIBS)

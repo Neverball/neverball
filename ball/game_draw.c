@@ -39,7 +39,6 @@ static const struct d_mtrl *game_draw_balls(const struct d_mtrl *mq,
     m_basis(ball_M, vary->uv[0].e[0], vary->uv[0].e[1], vary->uv[0].e[2]);
     m_basis(pend_M, vary->uv[0].E[0], vary->uv[0].E[1], vary->uv[0].E[2]);
 
-    glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {
         glTranslatef(vary->uv[0].p[0],
@@ -53,7 +52,6 @@ static const struct d_mtrl *game_draw_balls(const struct d_mtrl *mq,
         mq = ball_draw(mq, ball_M, pend_M, bill_M, t);
     }
     glPopMatrix();
-    glPopAttrib();
 
     return mq;
 }
