@@ -24,7 +24,9 @@ void item_init(void);
 void item_free(void);
 
 void item_push(int);
-void item_draw(const struct v_item *, const float *, float);
 void item_pull(void);
+
+const struct d_mtrl *item_draw(const struct d_mtrl *,
+                               const struct v_item *, const float *, float);
 
 #endif

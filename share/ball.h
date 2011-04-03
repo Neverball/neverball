@@ -21,9 +21,11 @@
 
 void ball_init(void);
 void ball_free(void);
-void ball_draw(const float *,
-               const float *,
-               const float *, float);
+
+const struct d_mtrl *ball_draw(const struct d_mtrl *,
+                               const float *,
+                               const float *,
+                               const float *, float);
 
 /*---------------------------------------------------------------------------*/
 

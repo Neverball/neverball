@@ -1,6 +1,8 @@
 #ifndef GEOM_H
 #define GEOM_H
 
+#include "solid_draw.h"
+
 /*---------------------------------------------------------------------------*/
 
 #define IMG_SHAD "png/shadow.png"
@@ -17,17 +19,18 @@
 void geom_init(void);
 void geom_free(void);
 
-void goal_draw(float);
-void jump_draw(float, int);
-void swch_draw(int, int);
-void flag_draw(void);
-void mark_draw(void);
+const struct d_mtrl *goal_draw(const struct d_mtrl *, float);
+const struct d_mtrl *jump_draw(const struct d_mtrl *, float, int);
+const struct d_mtrl *swch_draw(const struct d_mtrl *, int, int);
+const struct d_mtrl *flag_draw(const struct d_mtrl *);
+const struct d_mtrl *mark_draw(const struct d_mtrl *);
+const struct d_mtrl *back_draw(const struct d_mtrl *, float);
 
 /*---------------------------------------------------------------------------*/
 
 void back_init(const char *s);
 void back_free(void);
-void back_draw(float);
+void back_draw_easy(void);
 
 /*---------------------------------------------------------------------------*/
 

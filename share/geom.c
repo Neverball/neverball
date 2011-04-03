@@ -36,7 +36,7 @@ static struct s_full flag;
 static struct s_full mark;
 static struct s_full back;
 
-static GLuint back_text;
+static int back_state = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,12 +47,10 @@ void geom_init(void)
     sol_load_full(&goal, "geom/goal/goal.sol", 0);
     sol_load_full(&flag, "geom/flag/flag.sol", 0);
     sol_load_full(&mark, "geom/mark/mark.sol", 0);
-    sol_load_full(&back, "geom/back/back.sol", 0);
 }
 
 void geom_free(void)
 {
-    sol_free_full(&back);
     sol_free_full(&mark);
     sol_free_full(&flag);
     sol_free_full(&goal);
@@ -64,58 +62,71 @@ void geom_free(void)
 
 void back_init(const char *name)
 {
-    back_free();
-    back_text = make_image_from_file(name);
+    if (back_state)
+        back_free();
+
+    /* Load the background SOL and modify its material in-place to use the   */
+    /* named gradient texture.                                               */
+
+    sol_load_full(&back, "geom/back/back.sol", 0);
+    back.draw.mv[0].o = make_image_from_file(name);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+
+    back_state = 1;
 }
 
 void back_free(void)
 {
-    if (glIsTexture(back_text))
-        glDeleteTextures(1, &back_text);
-
-    back_text = 0;
+    if (back_state)
+        sol_free_full(&back);
+    
+    back_state = 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void jump_part_draw(GLfloat s, GLfloat a)
+static const struct d_mtrl *jump_part_draw(const struct d_mtrl *mq,
+                                           GLfloat s, GLfloat a)
 {
     glMatrixMode(GL_TEXTURE);
     glTranslatef(s, 0.0f, 0.0f);
     glMatrixMode(GL_MODELVIEW);
 
     glRotatef(a, 0.0f, 1.0f, 0.0f);
-    sol_draw(&jump.draw, 1, 1);
+    mq = sol_draw(&jump.draw, mq, 1, 1);
     glScalef(0.9f, 0.9f, 0.9f);
+
+    return mq;
 }
 
-static void goal_part_draw(GLfloat s)
+static const struct d_mtrl *goal_part_draw(const struct d_mtrl *mq, GLfloat s)
 {
     glMatrixMode(GL_TEXTURE);
     glTranslatef(0.0f, -s, 0.0f);
     glMatrixMode(GL_MODELVIEW);
 
-    sol_draw(&goal.draw, 1, 1);
+    mq = sol_draw(&goal.draw, mq, 1, 1);
     glScalef(0.8f, 1.1f, 0.8f);
+
+    return mq;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void goal_draw(float t)
+const struct d_mtrl *goal_draw(const struct d_mtrl *mq, float t)
 {
     glPushMatrix();
     {
         glScalef(1.0f, 3.0f, 1.0f);
-
         glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
-        sol_draw(&beam.draw, 1, 1);
 
-        goal_part_draw(t * 0.10f);
-        goal_part_draw(t * 0.10f);
-        goal_part_draw(t * 0.10f);
-        goal_part_draw(t * 0.10f);
+        mq = sol_draw(&beam.draw, mq, 1, 1);
+
+        mq = goal_part_draw(mq, t * 0.10f);
+        mq = goal_part_draw(mq, t * 0.10f);
+        mq = goal_part_draw(mq, t * 0.10f);
+        mq = goal_part_draw(mq, t * 0.10f);
 
         glMatrixMode(GL_TEXTURE);
         glLoadIdentity();
@@ -124,9 +135,11 @@ void goal_draw(float t)
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glPopMatrix();
+
+    return mq;
 }
 
-void jump_draw(float t, int highlight)
+const struct d_mtrl *jump_draw(const struct d_mtrl *mq, float t, int h)
 {
     static GLfloat jump_colors[4][4] = {
         { 0.75f, 0.5f, 1.0f, 0.5f },
@@ -135,14 +148,15 @@ void jump_draw(float t, int highlight)
 
     glPushMatrix();
     {
-        glColor4fv(jump_colors[highlight]);
+        glColor4fv(jump_colors[h]);
 
         glScalef(1.0f, 2.0f, 1.0f);
-        sol_draw(&beam.draw, 1, 1);
 
-        jump_part_draw(t * 0.15f, t * 360.0f);
-        jump_part_draw(t * 0.20f, t * 360.0f);
-        jump_part_draw(t * 0.25f, t * 360.0f);
+        mq = sol_draw(&beam.draw, mq, 1, 1);
+
+        mq = jump_part_draw(mq, t * 0.15f, t * 360.0f);
+        mq = jump_part_draw(mq, t * 0.20f, t * 360.0f);
+        mq = jump_part_draw(mq, t * 0.25f, t * 360.0f);
 
         glMatrixMode(GL_TEXTURE);
         glLoadIdentity();
@@ -151,9 +165,11 @@ void jump_draw(float t, int highlight)
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glPopMatrix();
+
+    return mq;
 }
 
-void swch_draw(int b, int e)
+const struct d_mtrl *swch_draw(const struct d_mtrl *mq, int b, int e)
 {
     static GLfloat swch_colors[4][4] = {
         { 1.0f, 0.0f, 0.0f, 0.5f }, /* red out */
@@ -167,24 +183,26 @@ void swch_draw(int b, int e)
         glScalef(1.0f, 2.0f, 1.0f);
 
         glColor4fv(swch_colors[b * 2 + e]);
-        sol_draw(&beam.draw, 1, 1);
+        mq = sol_draw(&beam.draw, mq, 1, 1);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glPopMatrix();
+
+    return mq;
 }
 
-void flag_draw(void)
+const struct d_mtrl *flag_draw(const struct d_mtrl *mq)
 {
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    sol_draw(&flag.draw, 1, 1);
+    return sol_draw(&flag.draw, mq, 1, 1);
 }
 
-void mark_draw(void)
+const struct d_mtrl *mark_draw(const struct d_mtrl *mq)
 {
-    sol_draw(&mark.draw, 1, 1);
+    return sol_draw(&mark.draw, mq, 1, 1);
 }
 
-void back_draw(float t)
+const struct d_mtrl *back_draw(const struct d_mtrl *mq, float t)
 {
     glPushMatrix();
     {
@@ -198,14 +216,19 @@ void back_draw(float t)
             glRotatef(dz, 0.0f, 0.0f, 1.0f);
             glRotatef(dx, 1.0f, 0.0f, 0.0f);
 
-            glBindTexture(GL_TEXTURE_2D, back_text);
-            sol_draw(&back.draw, 1, 1);
-            glBindTexture(GL_TEXTURE_2D, 0);
+            mq = sol_draw(&back.draw, mq, 1, 1);
         }
         glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);
     }
     glPopMatrix();
+
+    return mq;
+}
+
+void back_draw_easy(void)
+{
+    sol_draw_disable(back_draw(sol_draw_enable(), 0.0f));
 }
 
 /*---------------------------------------------------------------------------*/

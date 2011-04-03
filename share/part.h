@@ -1,6 +1,8 @@
 #ifndef PART_H
 #define PART_H
 
+#include "solid_draw.h"
+
 /*---------------------------------------------------------------------------*/
 
 #define IMG_PART_STAR     "png/part.png"
@@ -21,7 +23,7 @@ void part_free(void);
 void part_burst(const float *, const float *);
 void part_step(const float *, float);
 
-void part_draw_coin(const float *, float);
+const struct d_mtrl *part_draw_coin(const struct d_mtrl *);
 
 void part_lerp_apply(float);
 

@@ -2,21 +2,3 @@
 "classname" "worldspawn"
 "model" "item/coin/coin.obj"
 }
-{
-"classname" "info_null"
-"origin" "0 0 0"
-"height" "0.6 0.0 0.0"
-"width" "0.6 0.0 0.0"
-"zrot" "0.0 135.0 0.0"
-"time" "1.0"
-"image" "item/coin/coin-glow"
-}
-{
-"classname" "info_null"
-"origin" "0 0 0"
-"height" "0.5 0.0 0.0"
-"width" "0.5 0.0 0.0"
-"zrot" "0.0 -180.0 0.0"
-"time" "1.0"
-"image" "item/coin/coin-glow"
-}

@@ -104,6 +104,16 @@ static void sol_load_bill(struct s_draw *draw)
         1.0f,  0.0f,  1.0f, -1.0f,
         0.0f,  1.0f, -1.0f,  1.0f,
         1.0f,  1.0f,  1.0f,  1.0f,
+
+        0.0f,  0.0f, -0.5f,  0.0f,
+        1.0f,  0.0f,  0.5f,  0.0f,
+        0.0f,  1.0f, -0.5f,  1.0f,
+        1.0f,  1.0f,  0.5f,  1.0f,
+
+        0.0f,  0.0f, -0.5f, -0.5f,
+        1.0f,  0.0f,  0.5f, -0.5f,
+        0.0f,  1.0f, -0.5f,  0.5f,
+        1.0f,  1.0f,  0.5f,  0.5f,
     };
 
     /* Initialize a vertex buffer object for billboard drawing. */
@@ -120,27 +130,6 @@ static void sol_free_bill(struct s_draw *draw)
         glDeleteBuffers(1, &draw->bill);
 }
 
-static void sol_bill_enable(const struct s_draw *draw)
-{
-    const size_t s = sizeof (GLfloat);
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-    glBindBuffer(GL_ARRAY_BUFFER, draw->bill);
-
-    glTexCoordPointer(2, GL_FLOAT, s * 4, (GLvoid *) (    0));
-    glVertexPointer  (2, GL_FLOAT, s * 4, (GLvoid *) (s * 2));
-}
-
-static void sol_bill_disable(void)
-{
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
-}
-
 static void sol_draw_bill(GLfloat w, GLfloat h, GLboolean edge)
 {
     glPushMatrix();
@@ -153,6 +142,39 @@ static void sol_draw_bill(GLfloat w, GLfloat h, GLboolean edge)
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
     glPopMatrix();
+}
+
+/*---------------------------------------------------------------------------*/
+
+/* NOTE: The state management here presumes that billboard rendering is      */
+/* NESTED within a wider SOL rendering process. That is: sol_draw_enable     */
+/* has been called and sol_draw_disable will be called in the future.        */
+/* Thus the "default" VBO state retained by billboard rendering is the       */
+/* state appropriate for normal SOL rendering.                               */
+
+static void sol_bill_enable(const struct s_draw *draw)
+{
+    const size_t s = sizeof (GLfloat);
+/*
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glClientActiveTexture(GL_TEXTURE1);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glClientActiveTexture(GL_TEXTURE0);
+*/
+    glBindBuffer(GL_ARRAY_BUFFER, draw->bill);
+
+    glTexCoordPointer(2, GL_FLOAT, s * 4, (GLvoid *) (    0));
+    glVertexPointer  (2, GL_FLOAT, s * 4, (GLvoid *) (s * 2));
+}
+
+static void sol_bill_disable(void)
+{
+/*
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glClientActiveTexture(GL_TEXTURE1);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glClientActiveTexture(GL_TEXTURE0);
+*/
 }
 
 /*---------------------------------------------------------------------------*/
@@ -178,8 +200,8 @@ static struct d_mtrl default_draw_mtrl =
     &default_base_mtrl, 0
 };
 
-static const struct d_mtrl *sol_apply_mtrl(const struct d_mtrl *mp_draw,
-                                           const struct d_mtrl *mq_draw)
+const struct d_mtrl *sol_apply_mtrl(const struct d_mtrl *mp_draw,
+                                    const struct d_mtrl *mq_draw)
 {
     const struct b_mtrl *mp_base = mp_draw->base;
     const struct b_mtrl *mq_base = mq_draw->base;
@@ -690,7 +712,7 @@ static const struct d_mtrl *sol_draw_all(const struct s_draw *draw,
     return mq;
 }
 
-void sol_draw_enable(void)
+const struct d_mtrl *sol_draw_enable(void)
 {
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
@@ -699,10 +721,14 @@ void sol_draw_enable(void)
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture(GL_TEXTURE0);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    return &default_draw_mtrl;
 }
 
-void sol_draw_disable(void)
+void sol_draw_disable(const struct d_mtrl *mq)
 {
+    sol_apply_mtrl(&default_draw_mtrl, mq);
+
     glClientActiveTexture(GL_TEXTURE1);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture(GL_TEXTURE0);
@@ -714,70 +740,57 @@ void sol_draw_disable(void)
 
 /*---------------------------------------------------------------------------*/
 
-void sol_draw(const struct s_draw *draw, int mask, int test)
+const struct d_mtrl *sol_draw(const struct s_draw *draw,
+                              const struct d_mtrl *mq, int mask, int test)
 {
-    sol_draw_enable();
+    /* Render all opaque geometry, decals last. */
+
+    mq = sol_draw_all(draw, mq, 0);
+    mq = sol_draw_all(draw, mq, 1);
+
+    /* Render all transparent geometry, decals first. */
+
+    if (!test) glDisable(GL_DEPTH_TEST);
+    if (!mask) glDepthMask(GL_FALSE);
     {
-        const struct d_mtrl *mq = &default_draw_mtrl;
-
-        /* Render all opaque geometry, decals last. */
-
-        mq = sol_draw_all(draw, mq, 0);
-        mq = sol_draw_all(draw, mq, 1);
-
-        /* Render all transparent geometry, decals first. */
-
-        if (!test) glDisable(GL_DEPTH_TEST);
-        if (!mask) glDepthMask(GL_FALSE);
-        {
-            mq = sol_draw_all(draw, mq, 2);
-            mq = sol_draw_all(draw, mq, 3);
-        }
-        if (!mask) glDepthMask(GL_TRUE);
-        if (!test) glEnable(GL_DEPTH_TEST);
-
-        /* Revert the material state. */
-
-        mq = sol_apply_mtrl(&default_draw_mtrl, mq);
-
-        /* Revert the buffer object state. */
-
-        glBindBuffer(GL_ARRAY_BUFFER,         0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        mq = sol_draw_all(draw, mq, 2);
+        mq = sol_draw_all(draw, mq, 3);
     }
-    sol_draw_disable();
+    if (!mask) glDepthMask(GL_TRUE);
+    if (!test) glEnable(GL_DEPTH_TEST);
+
+    /* Revert the buffer object state. */
+
+    glBindBuffer(GL_ARRAY_BUFFER,         0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    return mq;
 }
 
-void sol_refl(const struct s_draw *draw)
+const struct d_mtrl *sol_refl(const struct s_draw *draw,
+                              const struct d_mtrl *mq)
 {
-    /* TODO: Cache the count for each set of flags and skip this on 0. */
+    /* Render all reflective geometry. */
 
-    sol_draw_enable();
-    {
-        const struct d_mtrl *mq = &default_draw_mtrl;
+    mq = sol_draw_all(draw, mq, 4);
 
-        /* Render all reflective geometry. */
+    /* Revert the buffer object state. */
 
-        mq = sol_draw_all(draw, mq, 4);
-        mq = sol_apply_mtrl(&default_draw_mtrl, mq);
+    glBindBuffer(GL_ARRAY_BUFFER,         0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-        /* Revert the buffer object state. */
-
-        glBindBuffer(GL_ARRAY_BUFFER,         0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
-    sol_draw_disable();
+    return mq;
 }
 
-void sol_back(const struct s_draw *draw, float n, float f, float t)
+const struct d_mtrl *sol_back(const struct s_draw *draw,
+                              const struct d_mtrl *mq,
+                              float n, float f, float t)
 {
     glDisable(GL_LIGHTING);
     glDepthMask(GL_FALSE);
 
     sol_bill_enable(draw);
     {
-        const struct d_mtrl *mq = &default_draw_mtrl;
-
         int ri;
 
         /* Consider each billboard. */
@@ -805,8 +818,9 @@ void sol_back(const struct s_draw *draw, float n, float f, float t)
 
                     glPushMatrix();
                     {
-                        glRotatef(ry, 0.0f, 1.0f, 0.0f);
-                        glRotatef(rx, 1.0f, 0.0f, 0.0f);
+                        if (ry) glRotatef(ry, 0.0f, 1.0f, 0.0f);
+                        if (rx) glRotatef(rx, 1.0f, 0.0f, 0.0f);
+
                         glTranslatef(0.0f, 0.0f, -rp->d);
 
                         if (rp->fl & B_FLAT)
@@ -817,30 +831,35 @@ void sol_back(const struct s_draw *draw, float n, float f, float t)
                         if (rp->fl & B_EDGE)
                             glRotatef(-rx,         1.0f, 0.0f, 0.0f);
 
-                        glRotatef(rz, 0.0f, 0.0f, 1.0f);
+                        if (rz) glRotatef(rz, 0.0f, 0.0f, 1.0f);
+
+                        glScalef(w, h, 1.0f);
 
                         mq = sol_apply_mtrl(draw->mv + rp->mi, mq);
 
-                        sol_draw_bill(w, h, rp->fl & B_EDGE);
+                        if (rp->fl & B_EDGE)
+                            glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
+                        else
+                            glDrawArrays(GL_TRIANGLE_STRIP, 8, 4);
                     }
                     glPopMatrix();
                 }
             }
         }
-        mq = sol_apply_mtrl(&default_draw_mtrl, mq);
     }
     sol_bill_disable();
 
     glDepthMask(GL_TRUE);
     glEnable(GL_LIGHTING);
+
+    return mq;
 }
 
-void sol_bill(const struct s_draw *draw, const float *M, float t)
+const struct d_mtrl *sol_bill(const struct s_draw *draw,
+                              const struct d_mtrl *mq, const float *M, float t)
 {
     sol_bill_enable(draw);
     {
-        const struct d_mtrl *mq = &default_draw_mtrl;
-
         int ri;
 
         for (ri = 0; ri < draw->base->rc; ++ri)
@@ -872,14 +891,10 @@ void sol_bill(const struct s_draw *draw, const float *M, float t)
             }
             glPopMatrix();
         }
-        mq = sol_apply_mtrl(&default_draw_mtrl, mq);
     }
     sol_bill_disable();
-}
 
-void sol_shad(const struct s_draw *draw, int ui)
-{
-    /* TODO: Remove. */
+    return mq;
 }
 
 void sol_fade(const struct s_draw *draw, float k)

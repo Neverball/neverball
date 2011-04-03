@@ -145,7 +145,7 @@ static void resol_paint(int id, float st)
 {
     video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
-        back_draw(0);
+        back_draw_easy();
     }
     video_pop_matrix();
     gui_paint(id);

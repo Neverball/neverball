@@ -119,8 +119,9 @@ void ball_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void ball_draw_solid(const float *ball_M,
-                            const float *ball_bill_M, float t)
+static const struct d_mtrl *ball_draw_solid(const struct d_mtrl *mq,
+                                            const float *ball_M,
+                                            const float *ball_bill_M, float t)
 {
     if (has_solid)
     {
@@ -147,7 +148,7 @@ static void ball_draw_solid(const float *ball_M,
                 if (mask == 0) glDepthMask(GL_FALSE);
                 glDisable(GL_LIGHTING);
                 {
-                    sol_bill(&solid.draw, ball_bill_M, t);
+                    mq = sol_bill(&solid.draw, mq, ball_bill_M, t);
                 }
                 glEnable(GL_LIGHTING);
                 if (mask == 0) glDepthMask(GL_TRUE);
@@ -156,18 +157,20 @@ static void ball_draw_solid(const float *ball_M,
 
             /* Draw the solid opaque and transparent geometry. */
 
-            sol_draw(&solid.draw, mask, test);
+            mq = sol_draw(&solid.draw, mq, mask, test);
         }
         glPopMatrix();
 
         if (solid_alpha < 1.0f)
             glDisable(GL_ALPHA_TEST);
     }
+    return mq;
 }
 
-static void ball_draw_inner(const float *pend_M,
-                            const float *bill_M,
-                            const float *pend_bill_M, float t)
+static const struct d_mtrl *ball_draw_inner(const struct d_mtrl *mq,
+                                            const float *pend_M,
+                                            const float *bill_M,
+                                            const float *pend_bill_M, float t)
 {
     if (has_inner)
     {
@@ -191,7 +194,7 @@ static void ball_draw_inner(const float *pend_M,
 
         /* Draw the inner opaque and transparent geometry. */
 
-        sol_draw(&inner.draw, mask, test);
+        mq = sol_draw(&inner.draw, mq, mask, test);
 
         /* Draw the inner billboard geometry. */
 
@@ -202,9 +205,9 @@ static void ball_draw_inner(const float *pend_M,
             glDisable(GL_LIGHTING);
             {
                 if (pend)
-                    sol_bill(&inner.draw, pend_bill_M, t);
+                    mq = sol_bill(&inner.draw, mq, pend_bill_M, t);
                 else
-                    sol_bill(&inner.draw, bill_M,      t);
+                    mq = sol_bill(&inner.draw, mq, bill_M,      t);
             }
 
             glEnable(GL_LIGHTING);
@@ -218,11 +221,13 @@ static void ball_draw_inner(const float *pend_M,
         if (inner_alpha < 1.0f)
             glDisable(GL_ALPHA_TEST);
     }
+    return mq;
 }
 
-static void ball_draw_outer(const float *pend_M,
-                            const float *bill_M,
-                            const float *pend_bill_M, float t)
+static const struct d_mtrl *ball_draw_outer(const struct d_mtrl *mq,
+                                            const float *pend_M,
+                                            const float *bill_M,
+                                            const float *pend_bill_M, float t)
 {
     if (has_outer)
     {
@@ -246,7 +251,7 @@ static void ball_draw_outer(const float *pend_M,
 
         /* Draw the outer opaque and transparent geometry. */
 
-        sol_draw(&outer.draw, mask, test);
+        mq = sol_draw(&outer.draw, mq, mask, test);
 
         /* Draw the outer billboard geometry. */
 
@@ -257,9 +262,9 @@ static void ball_draw_outer(const float *pend_M,
             glDisable(GL_LIGHTING);
             {
                 if (pend)
-                    sol_bill(&outer.draw, pend_bill_M, t);
+                    mq = sol_bill(&outer.draw, mq, pend_bill_M, t);
                 else
-                    sol_bill(&outer.draw, bill_M,      t);
+                    mq = sol_bill(&outer.draw, mq, bill_M,      t);
             }
             glEnable(GL_LIGHTING);
             if (mask == 0) glDepthMask(GL_TRUE);
@@ -272,26 +277,28 @@ static void ball_draw_outer(const float *pend_M,
         if (outer_alpha < 1.0f)
             glDisable(GL_ALPHA_TEST);
     }
+    return mq;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void ball_pass_inner(const float *ball_M,
-                            const float *pend_M,
-                            const float *bill_M,
-                            const float *ball_bill_M,
-                            const float *pend_bill_M, float t)
+static const struct d_mtrl *ball_pass_inner(const struct d_mtrl *mq,
+                                            const float *ball_M,
+                                            const float *pend_M,
+                                            const float *bill_M,
+                                            const float *ball_bill_M,
+                                            const float *pend_bill_M, float t)
 {
     /* Sort the inner ball using clip planes. */
 
     if      (inner_flags & F_DRAWCLIP)
     {
         glEnable(GL_CLIP_PLANE1);
-        ball_draw_inner(        pend_M, bill_M,              pend_bill_M, t);
+        mq = ball_draw_inner(mq, pend_M, bill_M, pend_bill_M, t);
         glDisable(GL_CLIP_PLANE1);
 
         glEnable(GL_CLIP_PLANE2);
-        ball_draw_inner(        pend_M, bill_M,              pend_bill_M, t);
+        mq = ball_draw_inner(mq, pend_M, bill_M, pend_bill_M, t);
         glDisable(GL_CLIP_PLANE2);
     }
 
@@ -300,37 +307,40 @@ static void ball_pass_inner(const float *ball_M,
     else if (inner_flags & F_DRAWBACK)
     {
         glCullFace(GL_FRONT);
-        ball_draw_inner(        pend_M, bill_M,              pend_bill_M, t);
+        mq = ball_draw_inner(mq, pend_M, bill_M, pend_bill_M, t);
         glCullFace(GL_BACK);
-        ball_draw_inner(        pend_M, bill_M,              pend_bill_M, t);
+        mq = ball_draw_inner(mq, pend_M, bill_M, pend_bill_M, t);
     }
 
     /* Draw the inner ball normally. */
 
     else
     {
-        ball_draw_inner(        pend_M, bill_M,              pend_bill_M, t);
+        mq = ball_draw_inner(mq, pend_M, bill_M, pend_bill_M, t);
     }
+
+    return mq;
 }
 
-static void ball_pass_solid(const float *ball_M,
-                            const float *pend_M,
-                            const float *bill_M,
-                            const float *ball_bill_M,
-                            const float *pend_bill_M, float t)
+static const struct d_mtrl *ball_pass_solid(const struct d_mtrl *mq,
+                                            const float *ball_M,
+                                            const float *pend_M,
+                                            const float *bill_M,
+                                            const float *ball_bill_M,
+                                            const float *pend_bill_M, float t)
 {
     /* Sort the solid ball with the inner ball using clip planes. */
 
     if      (solid_flags & F_DRAWCLIP)
     {
         glEnable(GL_CLIP_PLANE1);
-        ball_draw_solid(ball_M,                 ball_bill_M, t);
+        mq = ball_draw_solid(mq, ball_M,                 ball_bill_M, t);
         glDisable(GL_CLIP_PLANE1);
 
-        ball_pass_inner(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
+        mq = ball_pass_inner(mq, ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
 
         glEnable(GL_CLIP_PLANE2);
-        ball_draw_solid(ball_M,                 ball_bill_M, t);
+        mq = ball_draw_solid(mq, ball_M,                 ball_bill_M, t);
         glDisable(GL_CLIP_PLANE2);
     }
 
@@ -339,40 +349,43 @@ static void ball_pass_solid(const float *ball_M,
     else if (solid_flags & F_DRAWBACK)
     {
         glCullFace(GL_FRONT);
-        ball_draw_solid(ball_M,                 ball_bill_M, t);
+        mq = ball_draw_solid(mq, ball_M,                 ball_bill_M, t);
         glCullFace(GL_BACK);
 
-        ball_pass_inner(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
-        ball_draw_solid(ball_M,                 ball_bill_M, t);
+        mq = ball_pass_inner(mq, ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
+        mq = ball_draw_solid(mq, ball_M,                 ball_bill_M, t);
     }
 
     /* Draw the solid ball after the inner ball. */
 
     else
     {
-        ball_pass_inner(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
-        ball_draw_solid(ball_M,                 ball_bill_M, t);
+        mq = ball_pass_inner(mq, ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
+        mq = ball_draw_solid(mq, ball_M,                 ball_bill_M, t);
     }
+
+    return mq;
 }
 
-static void ball_pass_outer(const float *ball_M,
-                            const float *pend_M,
-                            const float *bill_M,
-                            const float *ball_bill_M,
-                            const float *pend_bill_M, float t)
+static const struct d_mtrl *ball_pass_outer(const struct d_mtrl *mq,
+                                            const float *ball_M,
+                                            const float *pend_M,
+                                            const float *bill_M,
+                                            const float *ball_bill_M,
+                                            const float *pend_bill_M, float t)
 {
     /* Sort the outer ball with the solid ball using clip planes. */
 
     if      (outer_flags & F_DRAWCLIP)
     {
         glEnable(GL_CLIP_PLANE1);
-        ball_draw_outer(        pend_M, bill_M,              pend_bill_M, t);
+        mq = ball_draw_outer(mq,         pend_M, bill_M,              pend_bill_M, t);
         glDisable(GL_CLIP_PLANE1);
 
-        ball_pass_solid(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
+        mq = ball_pass_solid(mq, ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
 
         glEnable(GL_CLIP_PLANE2);
-        ball_draw_outer(        pend_M, bill_M,              pend_bill_M, t);
+        mq = ball_draw_outer(mq,         pend_M, bill_M,              pend_bill_M, t);
         glDisable(GL_CLIP_PLANE2);
     }
 
@@ -381,27 +394,30 @@ static void ball_pass_outer(const float *ball_M,
     else if (outer_flags & F_DRAWBACK)
     {
         glCullFace(GL_FRONT);
-        ball_draw_outer(        pend_M, bill_M,              pend_bill_M, t);
+        mq = ball_draw_outer(mq,         pend_M, bill_M,              pend_bill_M, t);
         glCullFace(GL_BACK);
 
-        ball_pass_solid(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
-        ball_draw_outer(        pend_M, bill_M,              pend_bill_M, t);
+        mq = ball_pass_solid(mq, ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
+        mq = ball_draw_outer(mq,         pend_M, bill_M,              pend_bill_M, t);
     }
 
     /* Draw the outer ball after the solid ball. */
 
     else
     {
-        ball_pass_solid(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
-        ball_draw_outer(        pend_M, bill_M,              pend_bill_M, t);
+        mq = ball_pass_solid(mq, ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
+        mq = ball_draw_outer(mq,         pend_M, bill_M,              pend_bill_M, t);
     }
+
+    return mq;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void ball_draw(const float *ball_M,
-               const float *pend_M,
-               const float *bill_M, float t)
+const struct d_mtrl *ball_draw(const struct d_mtrl *mq,
+                               const float *ball_M,
+                               const float *pend_M,
+                               const float *bill_M, float t)
 {
     /* Compute transforms for ball and pendulum billboards. */
 
@@ -416,7 +432,7 @@ void ball_draw(const float *ball_M,
 
     /* Go to GREAT pains to ensure all layers are drawn back-to-front. */
 
-    ball_pass_outer(ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
+    return ball_pass_outer(mq, ball_M, pend_M, bill_M, ball_bill_M, pend_bill_M, t);
 }
 
 /*---------------------------------------------------------------------------*/

@@ -40,8 +40,23 @@ struct part_draw
 static struct part_vary coin_vary[PART_MAX_COIN];
 static struct part_draw coin_draw[PART_MAX_COIN];
 
-static GLuint part_text_star;
 static GLuint coin_vbo;
+
+/*---------------------------------------------------------------------------*/
+
+static struct b_mtrl coin_base_mtrl =
+{
+    { 0.8f, 0.8f, 0.8f, 1.0f },
+    { 0.2f, 0.2f, 0.2f, 1.0f },
+    { 0.0f, 0.0f, 0.0f, 1.0f },
+    { 0.0f, 0.0f, 0.0f, 1.0f },
+    { 0.0f }, 0.0f, 0, ""
+};
+
+static struct d_mtrl coin_draw_mtrl =
+{
+    &coin_base_mtrl, 0
+};
 
 /*---------------------------------------------------------------------------*/
 
@@ -95,6 +110,14 @@ void part_lerp_apply(float a)
             v_lerp(coin_draw[i].p,
                    part_lerp_coin[i].p[PREV],
                    part_lerp_coin[i].p[CURR], a);
+
+    /* Upload the current state of the particles. It would be best to limit  */
+    /* this upload to only active particles, but it's more important to do   */
+    /* it all in a single call.                                              */
+
+    glBindBuffer   (GL_ARRAY_BUFFER, coin_vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof (coin_draw), coin_draw);
+    glBindBuffer   (GL_ARRAY_BUFFER, 0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -111,7 +134,7 @@ void part_reset(void)
 
 void part_init(void)
 {
-    part_text_star = make_image_from_file(IMG_PART_STAR);
+    coin_draw_mtrl.o = make_image_from_file(IMG_PART_STAR);
 
     memset(coin_vary, 0, PART_MAX_COIN * sizeof (struct part_vary));
     memset(coin_draw, 0, PART_MAX_COIN * sizeof (struct part_draw));
@@ -130,8 +153,8 @@ void part_free(void)
     if (glIsBuffer(coin_vbo))
         glDeleteBuffers(1, &coin_vbo);
 
-    if (glIsTexture(part_text_star))
-        glDeleteTextures(1, &part_text_star);
+    if (glIsTexture(coin_draw_mtrl.o))
+        glDeleteTextures(1, &coin_draw_mtrl.o);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -195,24 +218,20 @@ void part_step(const float *g, float dt)
 
 /*---------------------------------------------------------------------------*/
 
-void part_draw_coin(const float *M, float t)
+const struct d_mtrl *part_draw_coin(const struct d_mtrl *mq)
 {
     const GLfloat c[3] = { 0.0f, 1.0f, 0.0f };
     GLint s = config_get_d(CONFIG_HEIGHT) / 8;
 
-    glBindTexture(GL_TEXTURE_2D, part_text_star);
-
-    /* Upload the current state of the particles. It would be best to limit  */
-    /* this upload to only active particles, but it's more important to do   */
-    /* it all in a single call.                                              */
-
-    glBindBuffer   (GL_ARRAY_BUFFER, coin_vbo);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof (coin_draw), coin_draw);
+    mq = sol_apply_mtrl(&coin_draw_mtrl, mq);
 
     /* Draw the entire buffer.  Dead particles have zero opacity anyway. */
 
+    glBindBuffer(GL_ARRAY_BUFFER, coin_vbo);
+
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
-    glEnableClientState(GL_VERTEX_ARRAY);
     {
         glColorPointer (4, GL_FLOAT, sizeof (struct part_draw),
                         (GLvoid *) offsetof (struct part_draw, c));
@@ -229,11 +248,13 @@ void part_draw_coin(const float *M, float t)
         }
         glDisable(GL_POINT_SPRITE);
     }
-    glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+    return mq;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -98,7 +98,9 @@ void item_push(int type)
     glEnable(GL_COLOR_MATERIAL);
 }
 
-void item_draw(const struct v_item *hp, const GLfloat *M, float t)
+const struct d_mtrl *item_draw(const struct d_mtrl *mq,
+                               const struct v_item *hp,
+                               const GLfloat *M, float t)
 {
     struct s_draw *draw = NULL;
     float c[3];
@@ -116,16 +118,18 @@ void item_draw(const struct v_item *hp, const GLfloat *M, float t)
 
     glDepthMask(GL_FALSE);
     {
-        sol_bill(draw, M, t);
+        mq = sol_bill(draw, mq, M, t);
     }
     glDepthMask(GL_TRUE);
 
     glPushMatrix();
     {
         glRotatef(360.0f * t, 0.0f, 1.0f, 0.0f);
-        sol_draw(draw, 0, 1);
+        mq = sol_draw(draw, mq, 0, 1);
     }
     glPopMatrix();
+
+    return mq;
 }
 
 void item_pull(void)

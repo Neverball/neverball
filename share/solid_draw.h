@@ -15,6 +15,7 @@
 #ifndef SOLID_DRAW_H
 #define SOLID_DRAW_H
 
+#include "glext.h"
 #include "solid_base.h"
 #include "solid_vary.h"
 
@@ -88,11 +89,21 @@ struct s_draw
 int  sol_load_draw(struct s_draw *, const struct s_vary *, int);
 void sol_free_draw(struct s_draw *);
 
-void sol_back(const struct s_draw *, float, float, float);
-void sol_refl(const struct s_draw *);
-void sol_draw(const struct s_draw *, int, int);
-void sol_bill(const struct s_draw *, const float *, float);
-void sol_shad(const struct s_draw *, int);
+const struct d_mtrl *sol_draw_enable(void);
+void                 sol_draw_disable(const struct d_mtrl *);
+
+const struct d_mtrl *sol_apply_mtrl(const struct d_mtrl *,
+                                    const struct d_mtrl *);
+
+const struct d_mtrl *sol_back(const struct s_draw *,
+                              const struct d_mtrl *, float, float, float);
+const struct d_mtrl *sol_refl(const struct s_draw *,
+                              const struct d_mtrl *);
+const struct d_mtrl *sol_draw(const struct s_draw *,
+                              const struct d_mtrl *, int, int);
+const struct d_mtrl *sol_bill(const struct s_draw *,
+                              const struct d_mtrl *, const float *, float);
+
 void sol_fade(const struct s_draw *, float);
 
 /*---------------------------------------------------------------------------*/
