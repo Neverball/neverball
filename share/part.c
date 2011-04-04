@@ -157,8 +157,8 @@ void part_init(void)
 
 void part_free(void)
 {
-    if (glIsBuffer(coin_vbo))
-        glDeleteBuffers(1, &coin_vbo);
+    if (glIsBuffer_(coin_vbo))
+        glDeleteBuffers_(1, &coin_vbo);
 
     if (glIsTexture(coin_draw_mtrl.o))
         glDeleteTextures(1, &coin_draw_mtrl.o);
@@ -235,9 +235,9 @@ const struct d_mtrl *part_draw_coin(const struct d_mtrl *mq)
     /* Draw the entire buffer.  Dead particles have zero opacity anyway. */
 
 #ifdef PARTICLEVBO
-    glBindBuffer(GL_ARRAY_BUFFER, coin_vbo);
+    glBindBuffer_(GL_ARRAY_BUFFER, coin_vbo);
 #else
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
 #endif
 
     glClientActiveTexture(GL_TEXTURE1);
@@ -261,7 +261,7 @@ const struct d_mtrl *part_draw_coin(const struct d_mtrl *mq)
         glEnable(GL_POINT_SPRITE);
         {
             glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
-            glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, c);
+            glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
             glPointSize(s);
 
             glDrawArrays(GL_POINTS, 0, PART_MAX_COIN);

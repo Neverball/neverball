@@ -279,7 +279,7 @@ static const struct d_mtrl *game_draw_back(const struct d_mtrl *mq,
             mq = back_draw(mq, 0);
             mq = sol_back(&gd->back.draw, mq, 0, FAR_DIST, t);
         }
-        else back_draw(mq, t);
+        else back_draw(mq, 0);
     }
     glPopMatrix();
 
@@ -451,6 +451,12 @@ void game_draw(const struct game_draw *gd, int pose, float t)
             glMultMatrixf(M);
             glTranslatef(-view->c[0], -view->c[1], -view->c[2]);
 
+            /* Draw the background. */
+
+            mq = game_draw_back(mq, gd, pose, +1, t);
+
+            /* Draw the reflection. */
+
             if (gd->draw.reflective && config_get_d(CONFIG_REFLECTION))
             {
                 glEnable(GL_STENCIL_TEST);
@@ -470,7 +476,7 @@ void game_draw(const struct game_draw *gd, int pose, float t)
                     glStencilFunc(GL_EQUAL, 1, 0xFFFFFFFF);
 
                     /* Draw the scene reflected into color and depth buffers. */
-
+                    
                     glFrontFace(GL_CW);
                     glPushMatrix();
                     {
@@ -483,62 +489,33 @@ void game_draw(const struct game_draw *gd, int pose, float t)
                     }
                     glPopMatrix();
                     glFrontFace(GL_CCW);
+
+                    glStencilFunc(GL_ALWAYS, 0, 0xFFFFFFF);
                 }
                 glDisable(GL_STENCIL_TEST);
             }
 
-            /* Draw the scene normally. */
+            /* Ready the lights for foreground rendering. */
 
             game_draw_light();
 
-            if (gd->draw.reflective)
+            /* When reflection is disabled, mirrors must be rendered opaque  */
+            /* to prevent the background from showing.                       */
+
+            if (gd->draw.reflective && !config_get_d(CONFIG_REFLECTION))
             {
-                if (config_get_d(CONFIG_REFLECTION))
+                glEnable(GL_COLOR_MATERIAL);
                 {
-                    /* Draw background while preserving reflections. */
-
-                    glEnable(GL_STENCIL_TEST);
-                    {
-                        glStencilFunc(GL_NOTEQUAL, 1, 0xFFFFFFFF);
-                        mq = game_draw_back(mq, gd, pose, +1, t);
-                    }
-                    glDisable(GL_STENCIL_TEST);
-
-                    /* Draw mirrors. */
-
+                    glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
                     mq = game_refl_all(mq, gd);
+                    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
                 }
-                else
-                {
-                    /* Draw background. */
-
-                    mq = game_draw_back(mq, gd, pose, +1, t);
-
-                    /*
-                     * Draw mirrors, first fully opaque with a custom
-                     * material color, then blending normally with the
-                     * opaque surfaces using their original material
-                     * properties.  (Keeps background from showing
-                     * through.)
-                     */
-
-                    glEnable(GL_COLOR_MATERIAL);
-                    {
-                        glColor4f(0.0, 0.0, 0.05, 1.0);
-                        mq = game_refl_all(mq, gd);
-                        glColor4f(1.0,  1.0,  1.0,  1.0);
-                    }
-                    glDisable(GL_COLOR_MATERIAL);
-
-                    mq = game_refl_all(mq, gd);
-                }
-            }
-            else
-            {
-                mq = game_draw_back(mq, gd, pose, +1, t);
-                mq = game_refl_all(mq, gd);
+                glDisable(GL_COLOR_MATERIAL);
             }
 
+            /* Draw the mirrors and the rest of the foreground. */
+
+            mq = game_refl_all (mq, gd);
             mq = game_draw_fore(mq, gd, pose, T, +1, t);
         }
         glPopMatrix();

@@ -56,27 +56,6 @@ int video_init(const char *title, const char *icon)
 
 /*---------------------------------------------------------------------------*/
 
-PFNGLACTIVETEXTUREARBPROC glActiveTexture_;
-
-int check_extension(const char *needle)
-{
-    const GLubyte *haystack, *c;
-
-    /* Search for the given string in the OpenGL extension strings. */
-
-    for (haystack = glGetString(GL_EXTENSIONS); *haystack; haystack++)
-    {
-        for (c = (const GLubyte *) needle; *c && *haystack; c++, haystack++)
-            if (*c != *haystack)
-                break;
-
-        if ((*c == 0) && (*haystack == ' ' || *haystack == '\0'))
-            return 1;
-    }
-
-    return 0;
-}
-
 int video_mode(int f, int w, int h)
 {
     int stereo  = config_get_d(CONFIG_STEREO)      ? 1 : 0;
@@ -103,6 +82,8 @@ int video_mode(int f, int w, int h)
 
     if (SDL_SetVideoMode(w, h, 0, SDL_OPENGL | (f ? SDL_FULLSCREEN : 0)))
     {
+        glext_init();
+
         config_set_d(CONFIG_FULLSCREEN, f);
         config_set_d(CONFIG_WIDTH,      w);
         config_set_d(CONFIG_HEIGHT,     h);
@@ -125,25 +106,10 @@ int video_mode(int f, int w, int h)
 
         /* If GL supports multisample, and SDL got a multisample buffer... */
 
-#ifdef GL_ARB_multisample
-        if (check_extension("ARB_multisample"))
+        if (glext_check("ARB_multisample"))
         {
             SDL_GL_GetAttribute(SDL_GL_MULTISAMPLEBUFFERS, &buffers);
-            if (buffers)
-                glEnable(GL_MULTISAMPLE_ARB);
-        }
-#endif
-
-        if (check_extension("ARB_multitexture"))
-        {
-            union
-            {
-                void *ob;
-                PFNGLACTIVETEXTUREARBPROC fn;
-            } cast;
-
-            cast.ob = SDL_GL_GetProcAddress("glActiveTextureARB");
-            glActiveTexture_ = cast.fn;
+            if (buffers) glEnable(GL_MULTISAMPLE);
         }
 
         /* Attempt manual swap control if SDL's is broken. */
@@ -336,6 +302,14 @@ void video_pop_matrix(void)
 
 void video_clear(void)
 {
+/*
+    if (config_get_d(CONFIG_REFLECTION))
+        glClear(GL_COLOR_BUFFER_BIT |
+                GL_DEPTH_BUFFER_BIT |
+                GL_STENCIL_BUFFER_BIT);
+    else
+        glClear(GL_DEPTH_BUFFER_BIT);
+*/
     if (config_get_d(CONFIG_REFLECTION))
         glClear(GL_DEPTH_BUFFER_BIT |
                 GL_STENCIL_BUFFER_BIT);

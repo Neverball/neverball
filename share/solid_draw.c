@@ -118,16 +118,16 @@ static void sol_load_bill(struct s_draw *draw)
 
     /* Initialize a vertex buffer object for billboard drawing. */
 
-    glGenBuffers(1,              &draw->bill);
-    glBindBuffer(GL_ARRAY_BUFFER, draw->bill);
-    glBufferData(GL_ARRAY_BUFFER, sizeof (data), data, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glGenBuffers_(1,              &draw->bill);
+    glBindBuffer_(GL_ARRAY_BUFFER, draw->bill);
+    glBufferData_(GL_ARRAY_BUFFER, sizeof (data), data, GL_STATIC_DRAW);
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
 }
 
 static void sol_free_bill(struct s_draw *draw)
 {
-    if (glIsBuffer(draw->bill))
-        glDeleteBuffers(1, &draw->bill);
+    if (glIsBuffer_(draw->bill))
+        glDeleteBuffers_(1, &draw->bill);
 }
 
 static void sol_draw_bill(GLfloat w, GLfloat h, GLboolean edge)
@@ -161,7 +161,7 @@ static void sol_bill_enable(const struct s_draw *draw)
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture(GL_TEXTURE0);
 */
-    glBindBuffer(GL_ARRAY_BUFFER, draw->bill);
+    glBindBuffer_(GL_ARRAY_BUFFER, draw->bill);
 
     glTexCoordPointer(2, GL_FLOAT, s * 4, (GLvoid *) (    0));
     glVertexPointer  (2, GL_FLOAT, s * 4, (GLvoid *) (s * 2));
@@ -514,15 +514,15 @@ static void sol_load_mesh(struct d_mesh *mp,
 
         /* Initialize buffer objects for all data. */
 
-        glGenBuffers(1, &mp->vbo);
-        glBindBuffer(GL_ARRAY_BUFFER,         mp->vbo);
-        glBufferData(GL_ARRAY_BUFFER,         vn * vs, vv, GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER,         0);
+        glGenBuffers_(1, &mp->vbo);
+        glBindBuffer_(GL_ARRAY_BUFFER,         mp->vbo);
+        glBufferData_(GL_ARRAY_BUFFER,         vn * vs, vv, GL_STATIC_DRAW);
+        glBindBuffer_(GL_ARRAY_BUFFER,         0);
 
-        glGenBuffers(1, &mp->ebo);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mp->ebo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, gn * gs, gv, GL_STATIC_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        glGenBuffers_(1, &mp->ebo);
+        glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, mp->ebo);
+        glBufferData_(GL_ELEMENT_ARRAY_BUFFER, gn * gs, gv, GL_STATIC_DRAW);
+        glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
 
         mp->mp  = draw->mv + mi;
         mp->ebc = gn * 3;
@@ -535,10 +535,10 @@ static void sol_load_mesh(struct d_mesh *mp,
 
 static void sol_free_mesh(struct d_mesh *mp)
 {
-    if (glIsBuffer(mp->ebo))
-        glDeleteBuffers(1, &mp->ebo);
-    if (glIsBuffer(mp->vbo))
-        glDeleteBuffers(1, &mp->vbo);
+    if (glIsBuffer_(mp->ebo))
+        glDeleteBuffers_(1, &mp->ebo);
+    if (glIsBuffer_(mp->vbo))
+        glDeleteBuffers_(1, &mp->vbo);
 }
 
 static const struct d_mtrl *sol_draw_mesh(const struct d_mesh *mp,
@@ -557,8 +557,8 @@ static const struct d_mtrl *sol_draw_mesh(const struct d_mesh *mp,
 
         /* Bind the mesh data. */
 
-        glBindBuffer(GL_ARRAY_BUFFER,         mp->vbo);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mp->ebo);
+        glBindBuffer_(GL_ARRAY_BUFFER,         mp->vbo);
+        glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, mp->ebo);
 
         glVertexPointer  (3, T, s, (GLvoid *) offsetof (struct d_vert, p));
         glNormalPointer  (   T, s, (GLvoid *) offsetof (struct d_vert, n));
@@ -761,8 +761,8 @@ const struct d_mtrl *sol_draw(const struct s_draw *draw,
 
     /* Revert the buffer object state. */
 
-    glBindBuffer(GL_ARRAY_BUFFER,         0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindBuffer_(GL_ARRAY_BUFFER,         0);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     return mq;
 }
@@ -776,8 +776,8 @@ const struct d_mtrl *sol_refl(const struct s_draw *draw,
 
     /* Revert the buffer object state. */
 
-    glBindBuffer(GL_ARRAY_BUFFER,         0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindBuffer_(GL_ARRAY_BUFFER,         0);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     return mq;
 }

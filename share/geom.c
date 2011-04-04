@@ -219,17 +219,21 @@ const struct d_mtrl *back_draw(const struct d_mtrl *mq, float t)
         GLfloat dx =  60.0f * fsinf(t / 10.0f);
         GLfloat dz = 180.0f * fsinf(t / 12.0f);
 
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
         glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
         {
             glScalef(-BACK_DIST, BACK_DIST, -BACK_DIST);
-            glRotatef(dz, 0.0f, 0.0f, 1.0f);
-            glRotatef(dx, 1.0f, 0.0f, 0.0f);
+            if (t) glRotatef(dz, 0.0f, 0.0f, 1.0f);
+            if (t) glRotatef(dx, 1.0f, 0.0f, 0.0f);
 
             mq = sol_draw(&back.draw, mq, 1, 1);
         }
         glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_DEPTH_TEST);
     }
     glPopMatrix();
 

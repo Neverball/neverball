@@ -156,7 +156,7 @@ static void set_vert(struct vert *v, int x, int y,
 
 static void draw_enable(GLboolean c, GLboolean u, GLboolean p)
 {
-    glBindBuffer(GL_ARRAY_BUFFER, vert_obj);
+    glBindBuffer_(GL_ARRAY_BUFFER, vert_obj);
 
     if (c)
     {
@@ -190,7 +190,7 @@ static void draw_text(int id)
 
 static void draw_disable(void)
 {
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -243,10 +243,10 @@ static void gui_rect(int id, int x, int y, int w, int h, int f, int r)
 
     /* Copy this off to the VBO. */
 
-    glBindBuffer   (GL_ARRAY_BUFFER, vert_obj);
-    glBufferSubData(GL_ARRAY_BUFFER,
-                    id * WIDGET_LEN * sizeof (struct vert),
-                           RECT_LEN * sizeof (struct vert), v);
+    glBindBuffer_   (GL_ARRAY_BUFFER, vert_obj);
+    glBufferSubData_(GL_ARRAY_BUFFER,
+                     id * WIDGET_LEN * sizeof (struct vert),
+                            RECT_LEN * sizeof (struct vert), v);
 }
 
 static void gui_text(int id, int x, int y,
@@ -290,10 +290,10 @@ static void gui_text(int id, int x, int y,
 
     /* Copy this off to the VBO. */
 
-    glBindBuffer   (GL_ARRAY_BUFFER, vert_obj);
-    glBufferSubData(GL_ARRAY_BUFFER,
-                    (id * WIDGET_LEN + RECT_LEN) * sizeof (struct vert),
-                                       TEXT_LEN  * sizeof (struct vert), v);
+    glBindBuffer_   (GL_ARRAY_BUFFER, vert_obj);
+    glBufferSubData_(GL_ARRAY_BUFFER,
+                     (id * WIDGET_LEN + RECT_LEN) * sizeof (struct vert),
+                                        TEXT_LEN  * sizeof (struct vert), v);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -370,10 +370,10 @@ void gui_init(void)
 
     memset(vert_buf, 0, sizeof (vert_buf));
 
-    glGenBuffers(1,              &vert_obj);
-    glBindBuffer(GL_ARRAY_BUFFER, vert_obj);
-    glBufferData(GL_ARRAY_BUFFER, sizeof (vert_buf), vert_buf, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glGenBuffers_(1,              &vert_obj);
+    glBindBuffer_(GL_ARRAY_BUFFER, vert_obj);
+    glBufferData_(GL_ARRAY_BUFFER, sizeof (vert_buf), vert_buf, GL_STATIC_DRAW);
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
 
     /* Cache digit glyphs for HUD rendering. */
 
@@ -405,8 +405,8 @@ void gui_free(void)
 
     /* Release the VBOs. */
 
-    if (glIsBuffer(vert_obj))
-        glDeleteBuffers(1, &vert_obj);
+    if (glIsBuffer_(vert_obj))
+        glDeleteBuffers_(1, &vert_obj);
 
     /* Release any remaining widget texture and display list indices. */
 
