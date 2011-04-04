@@ -56,37 +56,34 @@ int glext_check(const char *needle)
 
 /*---------------------------------------------------------------------------*/
 
+#define SDL_GL_GFPA(fun, str) do {     \
+    ptr = SDL_GL_GetProcAddress(str);  \
+    memcpy(&fun, &ptr, sizeof (void *)); \
+} while(0)
+
+/*---------------------------------------------------------------------------*/
+
 void glext_init(void)
 {
 #ifndef CONF_OPENGLES
 
+    void *ptr;
+
     if (glext_check("ARB_multitexture"))
-    {
-        glActiveTexture_ = (PFNGLACTIVETEXTURE_PROC)
-            SDL_GL_GetProcAddress("glActiveTextureARB");
-    }
+        SDL_GL_GFPA(glActiveTexture_, "glActiveTextureARB");
 
     if (glext_check("ARB_vertex_buffer_object"))
     {
-        glGenBuffers_    = (PFNGLGENBUFFERS_PROC)
-            SDL_GL_GetProcAddress("glGenBuffersARB");
-        glBindBuffer_    = (PFNGLBINDBUFFER_PROC)
-            SDL_GL_GetProcAddress("glBindBufferARB");
-        glBufferData_    = (PFNGLBUFFERDATA_PROC)
-            SDL_GL_GetProcAddress("glBufferDataARB");
-        glBufferSubData_ = (PFNGLBUFFERSUBDATA_PROC)
-            SDL_GL_GetProcAddress("glBufferSubDataARB");
-        glDeleteBuffers_ = (PFNGLDELETEBUFFERS_PROC)
-            SDL_GL_GetProcAddress("glDeleteBuffersARB");
-        glIsBuffer_      = (PFNGLISBUFFER_PROC)
-            SDL_GL_GetProcAddress("glIsBufferARB");
+        SDL_GL_GFPA(glGenBuffers_,    "glGenBuffersARB");
+        SDL_GL_GFPA(glBindBuffer_,    "glBindBufferARB");
+        SDL_GL_GFPA(glBufferData_,    "glBufferDataARB");
+        SDL_GL_GFPA(glBufferSubData_, "glBufferSubDataARB");
+        SDL_GL_GFPA(glDeleteBuffers_, "glDeleteBuffersARB");
+        SDL_GL_GFPA(glIsBuffer_,      "glIsBufferARB");
     }
 
     if (glext_check("ARB_point_parameters"))
-    {
-        glPointParameterfv_ = (PFNGLPOINTPARAMETERFV_PROC)
-            SDL_GL_GetProcAddress("glPointParameterfvARB");
-    }
+        SDL_GL_GFPA(glPointParameterfv_, "glPointParameterfvARB");
 
 #endif
 }
