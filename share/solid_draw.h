@@ -45,7 +45,12 @@ struct d_mtrl
 {
     const struct b_mtrl *base;
 
-    GLuint o;                                  /* OpenGL texture object      */
+    GLuint d;                              /* 32-bit diffuse color cache     */
+    GLuint a;                              /* 32-bit ambient color cache     */
+    GLuint s;                              /* 32-bit specular color cache    */
+    GLuint e;                              /* 32-bit emissive color cache    */
+    GLuint h;                              /* 32-bit specular exponent cache */
+    GLuint o;                              /* OpenGL texture object          */
 };
 
 struct d_mesh

@@ -42,7 +42,6 @@ endif
 
 ifeq ($(DEBUG),1)
     CFLAGS   := -g
-#    CFLAGS   := -O2 -pg
     CPPFLAGS :=
 else
     CFLAGS   := -O2

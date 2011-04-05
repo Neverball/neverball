@@ -198,11 +198,6 @@ static void sol_bill_disable(void)
 
 #define tobyte(f) ((GLubyte) (f * 255.0f))
 
-#define color_cmp(a, b) (tobyte((a)[0]) == tobyte((b)[0]) && \
-                         tobyte((a)[1]) == tobyte((b)[1]) && \
-                         tobyte((a)[2]) == tobyte((b)[2]) && \
-                         tobyte((a)[3]) == tobyte((b)[3]))
-
 static struct b_mtrl default_base_mtrl =
 {
     { 0.8f, 0.8f, 0.8f, 1.0f },
@@ -230,80 +225,86 @@ const struct d_mtrl *sol_apply_mtrl(const struct d_mtrl *mp_draw,
 
     /* Set material properties. */
 
-    if (!color_cmp(mp_base->a, mq_base->a))
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mp_base->a);
-    if (!color_cmp(mp_base->d, mq_base->d))
+    if (mp_draw->d != mq_draw->d)
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mp_base->d);
-    if (!color_cmp(mp_base->s, mq_base->s))
+    if (mp_draw->a != mq_draw->a)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mp_base->a);
+    if (mp_draw->s != mq_draw->s)
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mp_base->s);
-    if (!color_cmp(mp_base->e, mq_base->e))
+    if (mp_draw->e != mq_draw->e)
         glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  mp_base->e);
-    if (tobyte(mp_base->h[0]) != tobyte(mq_base->h[0]))
+    if (mp_draw->h != mq_draw->h)
         glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp_base->h);
 
     /* Ball shadow. */
 
-    if ((mp_base->fl & M_SHADOWED) && !(mq_base->fl & M_SHADOWED))
+    if ((mp_base->fl & M_SHADOWED) ^ (mq_base->fl & M_SHADOWED))
     {
-        shad_draw_set();
-    }
-
-    if (!(mp_base->fl & M_SHADOWED) && (mq_base->fl & M_SHADOWED))
-    {
-        shad_draw_clr();
+        if (mp_base->fl & M_SHADOWED)
+            shad_draw_set();
+        else
+            shad_draw_clr();
     }
 
     /* Environment mapping. */
 
 #ifndef CONF_OPENGLES
-    if ((mp_base->fl & M_ENVIRONMENT) && !(mq_base->fl & M_ENVIRONMENT))
+    if ((mp_base->fl & M_ENVIRONMENT) ^ (mq_base->fl & M_ENVIRONMENT))
     {
-        glEnable(GL_TEXTURE_GEN_S);
-        glEnable(GL_TEXTURE_GEN_T);
+        if (mp_base->fl & M_ENVIRONMENT)
+        {
+            glEnable(GL_TEXTURE_GEN_S);
+            glEnable(GL_TEXTURE_GEN_T);
 
-        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-    }
-
-    if ((mq_base->fl & M_ENVIRONMENT) && !(mp_base->fl & M_ENVIRONMENT))
-    {
-        glDisable(GL_TEXTURE_GEN_S);
-        glDisable(GL_TEXTURE_GEN_T);
+            glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+            glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_GEN_S);
+            glDisable(GL_TEXTURE_GEN_T);
+        }
     }
 #endif
 
     /* Additive blending. */
 
-    if ((mp_base->fl & M_ADDITIVE) && !(mq_base->fl & M_ADDITIVE))
-        glBlendFunc(GL_ONE, GL_ONE);
-
-    if ((mq_base->fl & M_ADDITIVE) && !(mp_base->fl & M_ADDITIVE))
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    if ((mp_base->fl & M_ADDITIVE) ^ (mq_base->fl & M_ADDITIVE))
+    {
+        if (mp_base->fl & M_ADDITIVE)
+            glBlendFunc(GL_ONE, GL_ONE);
+        else
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
 
     /* Visibility-from-behind. */
 
-    if ((mp_base->fl & M_TWO_SIDED) && !(mq_base->fl & M_TWO_SIDED))
+    if ((mp_base->fl & M_TWO_SIDED) ^ (mq_base->fl & M_TWO_SIDED))
     {
-        glDisable(GL_CULL_FACE);
-        glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 1);
-    }
-
-    if ((mq_base->fl & M_TWO_SIDED) && !(mp_base->fl & M_TWO_SIDED))
-    {
-        glEnable(GL_CULL_FACE);
-        glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 0);
+        if (mp_base->fl & M_TWO_SIDED)
+        {
+            glDisable(GL_CULL_FACE);
+            glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 1);
+        }
+        else
+        {
+            glEnable(GL_CULL_FACE);
+            glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 0);
+        }
     }
 
     /* Decal offset. */
 
-    if ((mp_base->fl & M_DECAL) && !(mq_base->fl & M_DECAL))
+    if ((mp_base->fl & M_DECAL) ^ (mq_base->fl & M_DECAL))
     {
-        glEnable(GL_POLYGON_OFFSET_FILL);
-        glPolygonOffset(-1.0f, -2.0f);
+        if (mp_base->fl & M_DECAL)
+        {
+            glEnable(GL_POLYGON_OFFSET_FILL);
+            glPolygonOffset(-1.0f, -2.0f);
+        }
+        else
+            glDisable(GL_POLYGON_OFFSET_FILL);
     }
-
-    if ((mq_base->fl & M_DECAL) && !(mp_base->fl & M_DECAL))
-        glDisable(GL_POLYGON_OFFSET_FILL);
 
     return mp_draw;
 }
@@ -357,6 +358,26 @@ static void sol_load_mtrl(struct d_mtrl *mp,
 
         if (mq->fl & M_REFLECTIVE)
             draw->reflective = 1;
+
+        /* Cache the 32-bit material values for quick comparison. */
+
+        mp->d = (tobyte(mq->d[0]))
+            |   (tobyte(mq->d[1]) <<  8)
+            |   (tobyte(mq->d[2]) << 16)
+            |   (tobyte(mq->d[3]) << 24);
+        mp->a = (tobyte(mq->a[0]))
+            |   (tobyte(mq->a[1]) <<  8)
+            |   (tobyte(mq->a[2]) << 16)
+            |   (tobyte(mq->a[3]) << 24);
+        mp->s = (tobyte(mq->s[0]))
+            |   (tobyte(mq->s[1]) <<  8)
+            |   (tobyte(mq->s[2]) << 16)
+            |   (tobyte(mq->s[3]) << 24);
+        mp->e = (tobyte(mq->e[0]))
+            |   (tobyte(mq->e[1]) <<  8)
+            |   (tobyte(mq->e[2]) << 16)
+            |   (tobyte(mq->e[3]) << 24);
+        mp->h = (tobyte(mq->h[0]));
     }
 }
 
