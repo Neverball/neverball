@@ -240,9 +240,9 @@ const struct d_mtrl *part_draw_coin(const struct d_mtrl *mq)
     glBindBuffer_(GL_ARRAY_BUFFER, 0);
 #endif
 
-    glClientActiveTexture(GL_TEXTURE1);
+    glClientActiveTexture_(GL_TEXTURE1);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glClientActiveTexture(GL_TEXTURE0);
+    glClientActiveTexture_(GL_TEXTURE0);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
     glDisableClientState(GL_NORMAL_ARRAY);
@@ -272,9 +272,9 @@ const struct d_mtrl *part_draw_coin(const struct d_mtrl *mq)
     glEnableClientState(GL_NORMAL_ARRAY);
 
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glClientActiveTexture(GL_TEXTURE1);
+    glClientActiveTexture_(GL_TEXTURE1);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glClientActiveTexture(GL_TEXTURE0);
+    glClientActiveTexture_(GL_TEXTURE0);
 
     return mq;
 }

@@ -20,16 +20,17 @@
 
 #ifndef CONF_OPENGLES
 
-PFNGLACTIVETEXTURE_PROC    glActiveTexture_;
+PFNGLCLIENTACTIVETEXTURE_PROC glClientActiveTexture_;
+PFNGLACTIVETEXTURE_PROC       glActiveTexture_;
 
-PFNGLGENBUFFERS_PROC       glGenBuffers_;
-PFNGLBINDBUFFER_PROC       glBindBuffer_;
-PFNGLBUFFERDATA_PROC       glBufferData_;
-PFNGLBUFFERSUBDATA_PROC    glBufferSubData_;
-PFNGLDELETEBUFFERS_PROC    glDeleteBuffers_;
-PFNGLISBUFFER_PROC         glIsBuffer_;
+PFNGLGENBUFFERS_PROC          glGenBuffers_;
+PFNGLBINDBUFFER_PROC          glBindBuffer_;
+PFNGLBUFFERDATA_PROC          glBufferData_;
+PFNGLBUFFERSUBDATA_PROC       glBufferSubData_;
+PFNGLDELETEBUFFERS_PROC       glDeleteBuffers_;
+PFNGLISBUFFER_PROC            glIsBuffer_;
 
-PFNGLPOINTPARAMETERFV_PROC glPointParameterfv_;
+PFNGLPOINTPARAMETERFV_PROC    glPointParameterfv_;
 
 #endif
 
@@ -57,7 +58,7 @@ int glext_check(const char *needle)
 /*---------------------------------------------------------------------------*/
 
 #define SDL_GL_GFPA(fun, str) do {     \
-    ptr = SDL_GL_GetProcAddress(str);  \
+    ptr = SDL_GL_GetProcAddress(str);   \
     memcpy(&fun, &ptr, sizeof (void *)); \
 } while(0)
 
@@ -70,20 +71,52 @@ void glext_init(void)
     void *ptr;
 
     if (glext_check("ARB_multitexture"))
-        SDL_GL_GFPA(glActiveTexture_, "glActiveTextureARB");
+    {
+        SDL_GL_GFPA(glClientActiveTexture_, "glClientActiveTextureARB");
+        SDL_GL_GFPA(glActiveTexture_,       "glActiveTextureARB");
+    }
 
     if (glext_check("ARB_vertex_buffer_object"))
     {
-        SDL_GL_GFPA(glGenBuffers_,    "glGenBuffersARB");
-        SDL_GL_GFPA(glBindBuffer_,    "glBindBufferARB");
-        SDL_GL_GFPA(glBufferData_,    "glBufferDataARB");
-        SDL_GL_GFPA(glBufferSubData_, "glBufferSubDataARB");
-        SDL_GL_GFPA(glDeleteBuffers_, "glDeleteBuffersARB");
-        SDL_GL_GFPA(glIsBuffer_,      "glIsBufferARB");
+        SDL_GL_GFPA(glGenBuffers_,          "glGenBuffersARB");
+        SDL_GL_GFPA(glBindBuffer_,          "glBindBufferARB");
+        SDL_GL_GFPA(glBufferData_,          "glBufferDataARB");
+        SDL_GL_GFPA(glBufferSubData_,       "glBufferSubDataARB");
+        SDL_GL_GFPA(glDeleteBuffers_,       "glDeleteBuffersARB");
+        SDL_GL_GFPA(glIsBuffer_,            "glIsBufferARB");
     }
 
     if (glext_check("ARB_point_parameters"))
-        SDL_GL_GFPA(glPointParameterfv_, "glPointParameterfvARB");
+        SDL_GL_GFPA(glPointParameterfv_,   "glPointParameterfvARB");
+
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+
+void glClipPlane4f(GLenum p, GLfloat a, GLfloat b, GLfloat c, GLfloat d)
+{
+#ifdef CONF_OPENGLES
+
+    GLfloat v[4];
+
+    v[0] = a;
+    v[1] = b;
+    v[2] = c;
+    v[3] = d;
+
+    glClipPlanef(p, v);
+
+#else
+
+    GLdouble v[4];
+
+    v[0] = a;
+    v[1] = b;
+    v[2] = c;
+    v[3] = d;
+
+    glClipPlane(p, v);
 
 #endif
 }

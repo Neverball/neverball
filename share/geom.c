@@ -144,14 +144,14 @@ const struct d_mtrl *goal_draw(const struct d_mtrl *mq, float t)
 
 const struct d_mtrl *jump_draw(const struct d_mtrl *mq, float t, int h)
 {
-    static GLfloat jump_colors[4][4] = {
+    static GLfloat c[4][4] = {
         { 0.75f, 0.5f, 1.0f, 0.5f },
         { 0.75f, 0.5f, 1.0f, 0.8f },
     };
 
     glPushMatrix();
     {
-        glColor4fv(jump_colors[h]);
+        glColor4f(c[h][0], c[h][1], c[h][2], c[h][3]);
 
         glScalef(1.0f, 2.0f, 1.0f);
 
@@ -174,18 +174,20 @@ const struct d_mtrl *jump_draw(const struct d_mtrl *mq, float t, int h)
 
 const struct d_mtrl *swch_draw(const struct d_mtrl *mq, int b, int e)
 {
-    static GLfloat swch_colors[4][4] = {
+    static GLfloat c[4][4] = {
         { 1.0f, 0.0f, 0.0f, 0.5f }, /* red out */
         { 1.0f, 0.0f, 0.0f, 0.8f }, /* red in */
         { 0.0f, 1.0f, 0.0f, 0.5f }, /* green out */
         { 0.0f, 1.0f, 0.0f, 0.8f }, /* green in */
     };
 
+    const int h = 2 * b + e;
+
     glPushMatrix();
     {
         glScalef(1.0f, 2.0f, 1.0f);
 
-        glColor4fv(swch_colors[b * 2 + e]);
+        glColor4f(c[h][0], c[h][1], c[h][2], c[h][3]);
         mq = sol_draw(&beam.draw, mq, 1, 1);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }

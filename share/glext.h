@@ -35,6 +35,57 @@
 
 /*---------------------------------------------------------------------------*/
 
+#ifndef GL_MULTISAMPLE
+#define GL_MULTISAMPLE                0x809D
+#endif
+
+#ifndef GL_TEXTURE0
+#define GL_TEXTURE0                   0x84C0
+#endif
+
+#ifndef GL_TEXTURE1
+#define GL_TEXTURE1                   0x84C1
+#endif
+
+#ifndef GL_TEXTURE2
+#define GL_TEXTURE2                   0x84C2
+#endif
+
+#ifndef GL_ARRAY_BUFFER
+#define GL_ARRAY_BUFFER               0x8892
+#endif
+
+#ifndef GL_ELEMENT_ARRAY_BUFFER
+#define GL_ELEMENT_ARRAY_BUFFER       0x8893
+#endif
+
+#ifndef GL_STATC_DRAW
+#define GL_STATIC_DRAW                0x88E4
+#endif
+
+#ifndef GL_DYNAMIC_DRAW
+#define GL_DYNAMIC_DRAW               0x88E8
+#endif
+
+#ifndef GL_POINT_SPRITE
+#define GL_POINT_SPRITE               0x8861
+#endif
+
+#ifndef GL_COORD_REPLACE
+#define GL_COORD_REPLACE              0x8862
+#endif
+
+#ifndef GL_POINT_DISTANCE_ATTENUATIAN
+#define GL_POINT_DISTANCE_ATTENUATION 0x8129
+#endif
+
+/*---------------------------------------------------------------------------*/
+
+int  glext_check(const char *);
+void glext_init(void);
+
+/*---------------------------------------------------------------------------*/
+
 /* Exercise extreme paranoia in defining a cross-platform OpenGL interface.  */
 /* If we're compiling against OpenGL ES then we must assume native linkage   */
 /* of the extensions we use. Otherwise, GetProc them regardless of whether   */
@@ -46,52 +97,33 @@
 
 #define CONF_OPENGLES 1
 
-#else /* ... define the extension API. */
+#define glClientActiveTexture_ glClientActiveTexture
+#define glActiveTexture_       glActiveTexture
+#define glGenBuffers_          glGenBuffers
+#define glBindBuffer_          glBindBuffer
+#define glBufferData_          glBufferData
+#define glBufferSubData_       glBufferSubData
+#define glDeleteBuffers_       glDeleteBuffers
+#define glIsBuffer_            glIsBuffer
+#define glPointParameterfv_    glPointParameterfv
 
-/*---------------------------------------------------------------------------*/
-/* ARB_multisample                                                           */
+#define glOrtho_               glOrtho
 
-#ifndef GL_MULTISAMPLE
-#define GL_MULTISAMPLE 0x809D
-#endif
+#else /* No native linkage?  Define the extension API. */
+
+#define glOrtho_               glOrtho
 
 /*---------------------------------------------------------------------------*/
 /* ARB_multitexture                                                          */
 
-#ifndef GL_TEXTURE0
-#define GL_TEXTURE0 0x84C0
-#endif
-
-#ifndef GL_TEXTURE1
-#define GL_TEXTURE1 0x84C1
-#endif
-
-#ifndef GL_TEXTURE2
-#define GL_TEXTURE2 0x84C2
-#endif
-
 typedef void (*PFNGLACTIVETEXTURE_PROC)(GLenum);
+typedef void (*PFNGLCLIENTACTIVETEXTURE_PROC)(GLenum);
 
-extern PFNGLACTIVETEXTURE_PROC glActiveTexture_;
+extern PFNGLCLIENTACTIVETEXTURE_PROC glClientActiveTexture_;
+extern PFNGLACTIVETEXTURE_PROC       glActiveTexture_;
 
 /*---------------------------------------------------------------------------*/
 /* ARB_vertex_buffer_object                                                  */
-
-#ifndef GL_ARRAY_BUFFER
-#define GL_ARRAY_BUFFER         0x8892
-#endif
-
-#ifndef GL_ELEMENT_ARRAY_BUFFER
-#define GL_ELEMENT_ARRAY_BUFFER 0x8893
-#endif
-
-#ifndef GL_STATC_DRAW
-#define GL_STATIC_DRAW          0x88E4
-#endif
-
-#ifndef GL_DYNAMIC_DRAW
-#define GL_DYNAMIC_DRAW         0x88E8
-#endif
 
 typedef void      (*PFNGLGENBUFFERS_PROC)(GLsizei, GLuint *);
 typedef void      (*PFNGLBINDBUFFER_PROC)(GLenum, GLuint);
@@ -108,22 +140,7 @@ extern PFNGLDELETEBUFFERS_PROC glDeleteBuffers_;
 extern PFNGLISBUFFER_PROC      glIsBuffer_;
 
 /*---------------------------------------------------------------------------*/
-/* ARB_point_sprite                                                          */
-
-#ifndef GL_POINT_SPRITE
-#define GL_POINT_SPRITE  0x8861
-#endif
-
-#ifndef GL_COORD_REPLACE
-#define GL_COORD_REPLACE 0x8862
-#endif
-
-/*---------------------------------------------------------------------------*/
 /* ARB_point_parameters                                                      */
-
-#ifndef GL_POINT_DISTANCE_ATTENUATIAN
-#define GL_POINT_DISTANCE_ATTENUATION 0x8129
-#endif
 
 typedef void (*PFNGLPOINTPARAMETERFV_PROC)(GLenum, const GLfloat *);
 
@@ -132,8 +149,7 @@ extern PFNGLPOINTPARAMETERFV_PROC glPointParameterfv_;
 /*---------------------------------------------------------------------------*/
 #endif /* !CONF_OPENGLES */
 
-int  glext_check(const char *);
-void glext_init(void);
+void glClipPlane4f(GLenum, GLfloat, GLfloat, GLfloat, GLfloat);
 
 /*---------------------------------------------------------------------------*/
 #endif

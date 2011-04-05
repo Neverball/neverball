@@ -98,8 +98,10 @@ int video_mode(int f, int w, int h)
         glEnable(GL_LIGHTING);
         glEnable(GL_BLEND);
 
+#ifndef CONF_OPENGLES
         glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,
                       GL_SEPARATE_SPECULAR_COLOR);
+#endif
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthFunc(GL_LEQUAL);
@@ -286,7 +288,7 @@ void video_push_ortho(void)
     {
         glPushMatrix();
         glLoadIdentity();
-        glOrtho(0.0, w, 0.0, h, -1.0, +1.0);
+        glOrtho_(0.0, w, 0.0, h, -1.0, +1.0);
     }
     glMatrixMode(GL_MODELVIEW);
 }
@@ -302,14 +304,6 @@ void video_pop_matrix(void)
 
 void video_clear(void)
 {
-/*
-    if (config_get_d(CONFIG_REFLECTION))
-        glClear(GL_COLOR_BUFFER_BIT |
-                GL_DEPTH_BUFFER_BIT |
-                GL_STENCIL_BUFFER_BIT);
-    else
-        glClear(GL_DEPTH_BUFFER_BIT);
-*/
     if (config_get_d(CONFIG_REFLECTION))
         glClear(GL_DEPTH_BUFFER_BIT |
                 GL_STENCIL_BUFFER_BIT);

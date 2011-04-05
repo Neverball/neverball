@@ -48,7 +48,7 @@ static const struct d_mtrl *game_draw_balls(const struct d_mtrl *mq,
                  vary->uv[0].r,
                  vary->uv[0].r);
 
-        glColor4fv(c);
+        glColor4f(c[0], c[1], c[2], c[3]);
         mq = ball_draw(mq, ball_M, pend_M, bill_M, t);
     }
     glPopMatrix();
@@ -290,14 +290,7 @@ static void game_clip_refl(int d)
 {
     /* Fudge to eliminate the floor from reflection. */
 
-    GLdouble e[4], k = -0.00001;
-
-    e[0] = 0;
-    e[1] = 1;
-    e[2] = 0;
-    e[3] = k;
-
-    glClipPlane(GL_CLIP_PLANE0, e);
+    glClipPlane4f(GL_CLIP_PLANE0, 0, 1, 0, -0.00001);
 }
 
 static void game_clip_ball(const struct game_draw *gd, int d, const float *p)
@@ -335,8 +328,8 @@ static void game_clip_ball(const struct game_draw *gd, int d, const float *p)
     pz[1] *= d;
     nz[1] *= d;
 
-    glClipPlane(GL_CLIP_PLANE1, nz);
-    glClipPlane(GL_CLIP_PLANE2, pz);
+    glClipPlane4f(GL_CLIP_PLANE1, nz[0], nz[1], nz[2], nz[3]);
+    glClipPlane4f(GL_CLIP_PLANE2, pz[0], pz[1], pz[2], pz[3]);
 }
 
 static const struct d_mtrl *game_draw_fore(const struct d_mtrl *mq,
@@ -521,11 +514,10 @@ void game_draw(const struct game_draw *gd, int pose, float t)
         glPopMatrix();
         video_pop_matrix();
 
-        sol_draw_disable(mq);
-
         /* Draw the fade overlay. */
 
         sol_fade(&gd->draw, gd->fade_k);
+        sol_draw_disable(mq);
     }
 }
 

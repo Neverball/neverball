@@ -1349,7 +1349,7 @@ static void gui_paint_image(int id)
                  widget[id].scale);
 
         glBindTexture(GL_TEXTURE_2D, widget[id].image);
-        glColor4ubv(gui_wht);
+        glColor4ub(gui_wht[0], gui_wht[1], gui_wht[2], gui_wht[3]);
         draw_rect(id);
     }
     glPopMatrix();
