@@ -332,8 +332,7 @@ DESKTOPS := $(basename $(wildcard dist/*.desktop.in))
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
-#%.sol : %.map $(MAPC_TARG)
-%.sol : %.map
+%.sol : %.map $(MAPC_TARG)
 	$(MAPC) $< data
 
 %.desktop : %.desktop.in
