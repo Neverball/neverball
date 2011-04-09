@@ -121,6 +121,9 @@ int video_mode(int f, int w, int h)
                       GL_SEPARATE_SPECULAR_COLOR);
         glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
 
+        glPixelStorei(GL_PACK_ALIGNMENT, 1);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthFunc(GL_LEQUAL);
 
