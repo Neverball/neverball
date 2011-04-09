@@ -25,9 +25,8 @@
 
 enum
 {
-    SOL_VER_MINIMUM = 6,
-    SOL_VER_PATH_FLAGS,
-    SOL_VER_CURRENT = SOL_VER_PATH_FLAGS
+    SOL_VER_MINIMUM = 7,
+    SOL_VER_CURRENT = SOL_VER_MINIMUM
 };
 
 #define SOL_MAGIC (0xAF | 'S' << 8 | 'O' << 16 | 'L' << 24)
@@ -135,8 +134,7 @@ static void sol_load_path(fs_file fin, struct b_path *pp)
     pp->tm = TIME_TO_MS(pp->t);
     pp->t  = MS_TO_TIME(pp->tm);
 
-    if (sol_version >= SOL_VER_PATH_FLAGS)
-        get_index(fin, &pp->fl);
+    get_index(fin, &pp->fl);
 
     pp->e[0] = 1.0f;
     pp->e[1] = 0.0f;
