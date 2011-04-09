@@ -17,7 +17,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "glext.h"
 #include "base_config.h"
 #include "base_image.h"
 
@@ -128,7 +127,7 @@ static void *image_load_jpg(const char *filename, int *width,
                                                   int *height,
                                                   int *bytes)
 {
-    GLubyte *p = NULL;
+    unsigned char *p = NULL;
     fs_file fp;
 
     if ((fp = fs_open(filename, "r")))
@@ -158,11 +157,11 @@ static void *image_load_jpg(const char *filename, int *width,
 
         /* Allocate the final pixel buffer and copy pixels there. */
 
-        if ((p = (GLubyte *) malloc (w * h * b)))
+        if ((p = (unsigned char *) malloc (w * h * b)))
         {
             while (cinfo.output_scanline < cinfo.output_height)
             {
-                GLubyte *buffer = p + w * b * (h - i - 1);
+                unsigned char *buffer = p + w * b * (h - i - 1);
                 i += jpeg_read_scanlines(&cinfo, &buffer, 1);
             }
 

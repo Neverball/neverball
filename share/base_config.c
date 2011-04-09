@@ -18,12 +18,8 @@
 #include <math.h>
 
 #include "base_config.h"
-#include "glext.h"
-#include "vec3.h"
 #include "common.h"
 #include "fs.h"
-#include "dir.h"
-#include "array.h"
 
 /*---------------------------------------------------------------------------*/
 
