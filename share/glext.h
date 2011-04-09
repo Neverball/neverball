@@ -107,7 +107,7 @@ void glext_init(void);
 #define glIsBuffer_            glIsBuffer
 #define glPointParameterfv_    glPointParameterfv
 
-#define glOrtho_               glOrtho
+#define glOrtho_               glOrthof
 
 #else /* No native linkage?  Define the extension API. */
 

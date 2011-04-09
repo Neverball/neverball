@@ -1297,7 +1297,7 @@ static void gui_paint_rect(int id, int st)
             glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
                          (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
 
-            glColor4fv(back[i]);
+            glColor4f(back[i][0], back[i][1], back[i][2], back[i][3]);
             draw_rect(id);
         }
         glPopMatrix();
@@ -1535,7 +1535,7 @@ void gui_paint(int id)
                 gui_paint_text(id);
 
                 draw_disable();
-                glColor4ubv(gui_wht);
+                glColor4ub(gui_wht[0], gui_wht[1], gui_wht[2], gui_wht[3]);
             }
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_LIGHTING);

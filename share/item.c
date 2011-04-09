@@ -114,7 +114,7 @@ const struct d_mtrl *item_draw(const struct d_mtrl *mq,
 
     item_color(hp, c);
 
-    glColor4fv(c);
+    glColor4f(c[0], c[1], c[2], c[3]);
 
     glDepthMask(GL_FALSE);
     {

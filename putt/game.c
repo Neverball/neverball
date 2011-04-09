@@ -177,7 +177,10 @@ static const struct d_mtrl *game_draw_balls(const struct d_mtrl *mq,
                          fp->uv[ui].r,
                          fp->uv[ui].r);
 
-                glColor4fv(color[ui]);
+                glColor4f(color[ui][0],
+                          color[ui][1],
+                          color[ui][2],
+                          color[ui][3]);
                 mq = ball_draw(mq, ball_M, pend_M, bill_M, t);
             }
             glPopMatrix();

@@ -113,7 +113,9 @@ static GLuint make_texture(const void *p, int w, int h, int b)
 #ifdef GL_TEXTURE_MAX_ANISOTROPY_EXT
     int a = config_get_d(CONFIG_ANISO);
 #endif
+#ifdef GL_GENERATE_MIPMAP_SGIS
     int m = config_get_d(CONFIG_MIPMAP);
+#endif
     int k = config_get_d(CONFIG_TEXTURES);
     int W = w;
     int H = h;

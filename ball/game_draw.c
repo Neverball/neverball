@@ -295,7 +295,7 @@ static void game_clip_refl(int d)
 
 static void game_clip_ball(const struct game_draw *gd, int d, const float *p)
 {
-    GLdouble r, c[3], pz[4], nz[4];
+    GLfloat r, c[3], pz[4], nz[4];
 
     /* Compute the plane giving the front of the ball, as seen from view.p. */
 
