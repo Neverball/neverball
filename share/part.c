@@ -119,9 +119,9 @@ void part_lerp_apply(float a)
     /* it all in a single call.                                              */
 
 #ifdef PARTICLEVBO
-    glBindBuffer   (GL_ARRAY_BUFFER, coin_vbo);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof (coin_draw), coin_draw);
-    glBindBuffer   (GL_ARRAY_BUFFER, 0);
+    glBindBuffer_   (GL_ARRAY_BUFFER, coin_vbo);
+    glBufferSubData_(GL_ARRAY_BUFFER, 0, sizeof (coin_draw), coin_draw);
+    glBindBuffer_   (GL_ARRAY_BUFFER, 0);
 #endif
 }
 
@@ -145,11 +145,11 @@ void part_init(void)
     memset(coin_draw, 0, PART_MAX_COIN * sizeof (struct part_draw));
 
 #ifdef PARTICLEVBO
-    glGenBuffers(1,              &coin_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, coin_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof (coin_draw),
+    glGenBuffers_(1,              &coin_vbo);
+    glBindBuffer_(GL_ARRAY_BUFFER, coin_vbo);
+    glBufferData_(GL_ARRAY_BUFFER, sizeof (coin_draw),
                                           coin_draw, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
 #endif
 
     part_reset();
