@@ -2672,8 +2672,8 @@
 {
 "classname" "worldspawn"
 "message" "Road Bumps\Careful, the road isn't that smooth."
-"time" "10000"
-"goal" "50"
+"time" "9000"
+"goal" "100"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
 "song" "bgm/track2.ogg"
@@ -2683,5 +2683,5 @@
 "version" "2"
 "goal_hs" "1500 3000"
 "time_hs" "300 750"
-"coin_hs" "264 150"
+"coin_hs" "264 165"
 }
