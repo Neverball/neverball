@@ -98,9 +98,9 @@ void item_free(void)
     sol_free_full(&item_shrink_file);
 }
 
-const struct d_mtrl *item_draw(const struct d_mtrl *mq,
-                               const struct v_item *hp,
-                               const GLfloat *M, float t)
+void item_draw(struct s_rend *rend,
+               const struct v_item *hp,
+               const GLfloat *M, float t)
 {
     struct s_draw *draw = NULL;
     float c[4];
@@ -118,18 +118,16 @@ const struct d_mtrl *item_draw(const struct d_mtrl *mq,
 
     glDepthMask(GL_FALSE);
     {
-        mq = sol_bill(draw, mq, M, t);
+        sol_bill(draw, rend, M, t);
     }
     glDepthMask(GL_TRUE);
 
     glPushMatrix();
     {
         glRotatef(360.0f * t, 0.0f, 1.0f, 0.0f);
-        mq = sol_draw(draw, mq, 0, 1);
+        sol_draw(draw, rend, 0, 1);
     }
     glPopMatrix();
-
-    return mq;
 }
 
 /*---------------------------------------------------------------------------*/

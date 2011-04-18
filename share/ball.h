@@ -15,6 +15,8 @@
 #ifndef BALL_H
 #define BALL_H
 
+#include "solid_draw.h"
+
 /*---------------------------------------------------------------------------*/
 
 #define BALL_FUDGE 0.001f
@@ -22,10 +24,10 @@
 void ball_init(void);
 void ball_free(void);
 
-const struct d_mtrl *ball_draw(const struct d_mtrl *,
-                               const float *,
-                               const float *,
-                               const float *, float);
+void ball_draw(struct s_rend *,
+               const float *,
+               const float *,
+               const float *, float);
 
 /*---------------------------------------------------------------------------*/
 

@@ -90,23 +90,30 @@ struct s_draw
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * This structure holds rendering state shared between separate
+ * SOLs. I am aware that the name leaves much to be desired.
+ */
+
+struct s_rend
+{
+    const struct d_mtrl *mp;
+};
+
+/*---------------------------------------------------------------------------*/
+
 int  sol_load_draw(struct s_draw *, const struct s_vary *, int);
 void sol_free_draw(struct s_draw *);
 
-const struct d_mtrl *sol_draw_enable(void);
-void                 sol_draw_disable(const struct d_mtrl *);
+void sol_draw_enable(struct s_rend *);
+void sol_draw_disable(struct s_rend *);
 
-const struct d_mtrl *sol_apply_mtrl(const struct d_mtrl *,
-                                    const struct d_mtrl *);
+void sol_apply_mtrl(const struct d_mtrl *, struct s_rend *);
 
-const struct d_mtrl *sol_back(const struct s_draw *,
-                              const struct d_mtrl *, float, float, float);
-const struct d_mtrl *sol_refl(const struct s_draw *,
-                              const struct d_mtrl *);
-const struct d_mtrl *sol_draw(const struct s_draw *,
-                              const struct d_mtrl *, int, int);
-const struct d_mtrl *sol_bill(const struct s_draw *,
-                              const struct d_mtrl *, const float *, float);
+void sol_back(const struct s_draw *, struct s_rend *, float, float, float);
+void sol_refl(const struct s_draw *, struct s_rend *);
+void sol_draw(const struct s_draw *, struct s_rend *, int, int);
+void sol_bill(const struct s_draw *, struct s_rend *, const float *, float);
 
 void sol_fade(const struct s_draw *, float);
 

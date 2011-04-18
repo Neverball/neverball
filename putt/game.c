@@ -119,8 +119,7 @@ void game_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-static const struct d_mtrl *game_draw_vect(const struct d_mtrl *mq,
-                                           const struct s_vary *fp)
+static void game_draw_vect(struct s_rend *rend, const struct s_vary *fp)
 {
     if (view_m > 0.f)
     {
@@ -134,17 +133,16 @@ static const struct d_mtrl *game_draw_vect(const struct d_mtrl *mq,
             glScalef(fp->uv[ball].r,
                      fp->uv[ball].r * 0.1f, view_m);
 
-            mq = vect_draw(mq);
+            vect_draw(rend);
         }
         glPopMatrix();
         glEnable(GL_LIGHTING);
     }
-    return mq;
 }
 
-static const struct d_mtrl *game_draw_balls(const struct d_mtrl *mq,
-                                            const struct s_vary *fp,
-                                            const float *bill_M, float t)
+static void game_draw_balls(struct s_rend *rend,
+                            const struct s_vary *fp,
+                            const float *bill_M, float t)
 {
     static const GLfloat color[5][4] = {
         { 1.0f, 1.0f, 1.0f, 0.7f },
@@ -181,7 +179,7 @@ static const struct d_mtrl *game_draw_balls(const struct d_mtrl *mq,
                           color[ui][1],
                           color[ui][2],
                           color[ui][3]);
-                mq = ball_draw(mq, ball_M, pend_M, bill_M, t);
+                ball_draw(rend, ball_M, pend_M, bill_M, t);
             }
             glPopMatrix();
         }
@@ -200,7 +198,7 @@ static const struct d_mtrl *game_draw_balls(const struct d_mtrl *mq,
                           color[ui][1],
                           color[ui][2], 0.5f);
 
-                mq = mark_draw(mq);
+                mark_draw(rend);
             }
             glPopMatrix();
         }
@@ -208,12 +206,9 @@ static const struct d_mtrl *game_draw_balls(const struct d_mtrl *mq,
 
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     glDisable(GL_COLOR_MATERIAL);
-
-    return mq;
 }
 
-static const struct d_mtrl *game_draw_goals(const struct d_mtrl *mq,
-                                            const struct s_base *fp)
+static void game_draw_goals(struct s_rend *rend, const struct s_base *fp)
 {
     int zi;
 
@@ -224,15 +219,13 @@ static const struct d_mtrl *game_draw_goals(const struct d_mtrl *mq,
             glTranslatef(fp->zv[zi].p[0],
                          fp->zv[zi].p[1],
                          fp->zv[zi].p[2]);
-            mq = flag_draw(mq);
+            flag_draw(rend);
         }
         glPopMatrix();
     }
-    return mq;
 }
 
-static const struct d_mtrl *game_draw_jumps(const struct d_mtrl *mq,
-                                            const struct s_base *fp)
+static void game_draw_jumps(struct s_rend *rend, const struct s_base *fp)
 {
     float t = 0.001f * SDL_GetTicks();
     int ji;
@@ -246,15 +239,13 @@ static const struct d_mtrl *game_draw_jumps(const struct d_mtrl *mq,
                          fp->jv[ji].p[2]);
 
             glScalef(fp->jv[ji].r, 1.f, fp->jv[ji].r);
-            mq = jump_draw(mq, t, !jump_e);
+            jump_draw(rend, t, !jump_e);
         }
         glPopMatrix();
     }
-    return mq;
 }
 
-static const struct d_mtrl *game_draw_swchs(const struct d_mtrl *mq,
-                                            const struct s_vary *fp)
+static void game_draw_swchs(struct s_rend *rend, const struct s_vary *fp)
 {
     int xi;
 
@@ -272,11 +263,10 @@ static const struct d_mtrl *game_draw_swchs(const struct d_mtrl *mq,
                          xp->base->p[2]);
 
             glScalef(xp->base->r, 1.f, xp->base->r);
-            mq = swch_draw(mq, xp->f, xp->e);
+            swch_draw(rend, xp->f, xp->e);
         }
         glPopMatrix();
     }
-    return mq;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -286,9 +276,11 @@ void game_draw(int pose, float t)
     const float light_p[4] = { 8.f, 32.f, 8.f, 0.f };
 
     const struct s_draw *fp = &file.draw;
-    const struct d_mtrl *mq = sol_draw_enable();
+    struct s_rend rend = { NULL };
 
     float fov = FOV;
+
+    sol_draw_enable(&rend);
 
     if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
@@ -314,7 +306,7 @@ void game_draw(int pose, float t)
         glPushMatrix();
         {
             glTranslatef(view_p[0], view_p[1], view_p[2]);
-            mq = back_draw(mq, 0);
+            back_draw(&rend, 0);
         }
         glPopMatrix();
 
@@ -323,7 +315,7 @@ void game_draw(int pose, float t)
 
         /* Draw the floor. */
 
-        mq = sol_draw(fp, mq, 0, 1);
+        sol_draw(fp, &rend, 0, 1);
 
         /* Draw the game elements. */
 
@@ -332,17 +324,17 @@ void game_draw(int pose, float t)
 
         if (pose == 0)
         {
-            mq = game_draw_balls(mq, fp->vary, T, t);
-            mq = game_draw_vect(mq, fp->vary);
+            game_draw_balls(&rend, fp->vary, T, t);
+            game_draw_vect(&rend, fp->vary);
         }
 
         glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
         {
-            mq = game_draw_goals(mq, fp->base);
-            mq = game_draw_jumps(mq, fp->base);
-            mq = game_draw_swchs(mq, fp->vary);
+            game_draw_goals(&rend, fp->base);
+            game_draw_jumps(&rend, fp->base);
+            game_draw_swchs(&rend, fp->vary);
         }
         glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);
@@ -351,7 +343,7 @@ void game_draw(int pose, float t)
     glPopMatrix();
     video_pop_matrix();
 
-    sol_draw_disable(mq);
+    sol_draw_disable(&rend);
 }
 
 /*---------------------------------------------------------------------------*/

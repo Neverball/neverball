@@ -225,12 +225,12 @@ void part_step(const float *g, float dt)
 
 /*---------------------------------------------------------------------------*/
 
-const struct d_mtrl *part_draw_coin(const struct d_mtrl *mq)
+void part_draw_coin(struct s_rend *rend)
 {
     const GLfloat c[3] = { 0.0f, 1.0f, 0.0f };
     GLint s = config_get_d(CONFIG_HEIGHT) / 8;
 
-    mq = sol_apply_mtrl(&coin_draw_mtrl, mq);
+    sol_apply_mtrl(&coin_draw_mtrl, rend);
 
     /* Draw the entire buffer.  Dead particles have zero opacity anyway. */
 
@@ -275,8 +275,6 @@ const struct d_mtrl *part_draw_coin(const struct d_mtrl *mq)
     glClientActiveTexture_(GL_TEXTURE1);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE0);
-
-    return mq;
 }
 
 /*---------------------------------------------------------------------------*/

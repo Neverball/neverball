@@ -23,7 +23,7 @@ void part_free(void);
 void part_burst(const float *, const float *);
 void part_step(const float *, float);
 
-const struct d_mtrl *part_draw_coin(const struct d_mtrl *);
+void part_draw_coin(struct s_rend *);
 
 void part_lerp_apply(float);
 

@@ -19,13 +19,13 @@
 void geom_init(void);
 void geom_free(void);
 
-const struct d_mtrl *goal_draw(const struct d_mtrl *, float);
-const struct d_mtrl *jump_draw(const struct d_mtrl *, float, int);
-const struct d_mtrl *swch_draw(const struct d_mtrl *, int, int);
-const struct d_mtrl *flag_draw(const struct d_mtrl *);
-const struct d_mtrl *mark_draw(const struct d_mtrl *);
-const struct d_mtrl *vect_draw(const struct d_mtrl *);
-const struct d_mtrl *back_draw(const struct d_mtrl *, float);
+void goal_draw(struct s_rend *, float);
+void jump_draw(struct s_rend *, float, int);
+void swch_draw(struct s_rend *, int, int);
+void flag_draw(struct s_rend *);
+void mark_draw(struct s_rend *);
+void vect_draw(struct s_rend *);
+void back_draw(struct s_rend *, float);
 
 /*---------------------------------------------------------------------------*/
 

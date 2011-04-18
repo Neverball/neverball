@@ -16,6 +16,7 @@
 #define ITEM_H
 
 #include "solid_vary.h"
+#include "solid_draw.h"
 
 #define ITEM_RADIUS 0.15f
 
@@ -23,7 +24,6 @@ void item_color(const struct v_item *, float *);
 void item_init(void);
 void item_free(void);
 
-const struct d_mtrl *item_draw(const struct d_mtrl *,
-                               const struct v_item *, const float *, float);
+void item_draw(struct s_rend *, const struct v_item *, const float *, float);
 
 #endif

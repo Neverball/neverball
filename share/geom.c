@@ -83,53 +83,48 @@ void back_free(void)
 {
     if (back_state)
         sol_free_full(&back);
-    
+
     back_state = 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static const struct d_mtrl *jump_part_draw(const struct d_mtrl *mq,
-                                           GLfloat s, GLfloat a)
+static void jump_part_draw(struct s_rend *rend, GLfloat s, GLfloat a)
 {
     glMatrixMode(GL_TEXTURE);
     glTranslatef(s, 0.0f, 0.0f);
     glMatrixMode(GL_MODELVIEW);
 
     glRotatef(a, 0.0f, 1.0f, 0.0f);
-    mq = sol_draw(&jump.draw, mq, 1, 1);
+    sol_draw(&jump.draw, rend, 1, 1);
     glScalef(0.9f, 0.9f, 0.9f);
-
-    return mq;
 }
 
-static const struct d_mtrl *goal_part_draw(const struct d_mtrl *mq, GLfloat s)
+static void goal_part_draw(struct s_rend *rend, GLfloat s)
 {
     glMatrixMode(GL_TEXTURE);
     glTranslatef(0.0f, -s, 0.0f);
     glMatrixMode(GL_MODELVIEW);
 
-    mq = sol_draw(&goal.draw, mq, 1, 1);
+    sol_draw(&goal.draw, rend, 1, 1);
     glScalef(0.8f, 1.1f, 0.8f);
-
-    return mq;
 }
 
 /*---------------------------------------------------------------------------*/
 
-const struct d_mtrl *goal_draw(const struct d_mtrl *mq, float t)
+void goal_draw(struct s_rend *rend, float t)
 {
     glPushMatrix();
     {
         glScalef(1.0f, 3.0f, 1.0f);
         glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
 
-        mq = sol_draw(&beam.draw, mq, 1, 1);
+        sol_draw(&beam.draw, rend, 1, 1);
 
-        mq = goal_part_draw(mq, t * 0.10f);
-        mq = goal_part_draw(mq, t * 0.10f);
-        mq = goal_part_draw(mq, t * 0.10f);
-        mq = goal_part_draw(mq, t * 0.10f);
+        goal_part_draw(rend, t * 0.10f);
+        goal_part_draw(rend, t * 0.10f);
+        goal_part_draw(rend, t * 0.10f);
+        goal_part_draw(rend, t * 0.10f);
 
         glMatrixMode(GL_TEXTURE);
         glLoadIdentity();
@@ -138,11 +133,9 @@ const struct d_mtrl *goal_draw(const struct d_mtrl *mq, float t)
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glPopMatrix();
-
-    return mq;
 }
 
-const struct d_mtrl *jump_draw(const struct d_mtrl *mq, float t, int h)
+void jump_draw(struct s_rend *rend, float t, int h)
 {
     static GLfloat c[4][4] = {
         { 0.75f, 0.5f, 1.0f, 0.5f },
@@ -155,11 +148,11 @@ const struct d_mtrl *jump_draw(const struct d_mtrl *mq, float t, int h)
 
         glScalef(1.0f, 2.0f, 1.0f);
 
-        mq = sol_draw(&beam.draw, mq, 1, 1);
+        sol_draw(&beam.draw, rend, 1, 1);
 
-        mq = jump_part_draw(mq, t * 0.15f, t * 360.0f);
-        mq = jump_part_draw(mq, t * 0.20f, t * 360.0f);
-        mq = jump_part_draw(mq, t * 0.25f, t * 360.0f);
+        jump_part_draw(rend, t * 0.15f, t * 360.0f);
+        jump_part_draw(rend, t * 0.20f, t * 360.0f);
+        jump_part_draw(rend, t * 0.25f, t * 360.0f);
 
         glMatrixMode(GL_TEXTURE);
         glLoadIdentity();
@@ -168,11 +161,9 @@ const struct d_mtrl *jump_draw(const struct d_mtrl *mq, float t, int h)
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glPopMatrix();
-
-    return mq;
 }
 
-const struct d_mtrl *swch_draw(const struct d_mtrl *mq, int b, int e)
+void swch_draw(struct s_rend *rend, int b, int e)
 {
     static GLfloat c[4][4] = {
         { 1.0f, 0.0f, 0.0f, 0.5f }, /* red out */
@@ -188,33 +179,30 @@ const struct d_mtrl *swch_draw(const struct d_mtrl *mq, int b, int e)
         glScalef(1.0f, 2.0f, 1.0f);
 
         glColor4f(c[h][0], c[h][1], c[h][2], c[h][3]);
-        mq = sol_draw(&beam.draw, mq, 1, 1);
+        sol_draw(&beam.draw, rend, 1, 1);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glPopMatrix();
-
-    return mq;
 }
 
-const struct d_mtrl *flag_draw(const struct d_mtrl *mq)
+void flag_draw(struct s_rend *rend)
 {
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    return sol_draw(&flag.draw, mq, 1, 1);
+    sol_draw(&flag.draw, rend, 1, 1);
 }
 
-const struct d_mtrl *mark_draw(const struct d_mtrl *mq)
+void mark_draw(struct s_rend *rend)
 {
-    return sol_draw(&mark.draw, mq, 1, 1);
+    sol_draw(&mark.draw, rend, 1, 1);
 }
 
-const struct d_mtrl *vect_draw(const struct d_mtrl *mq)
+void vect_draw(struct s_rend *rend)
 {
-    mq = sol_draw(&vect.draw, mq, 0, 1);
-    mq = sol_draw(&vect.draw, mq, 0, 0);
-    return mq;
+    sol_draw(&vect.draw, rend, 0, 1);
+    sol_draw(&vect.draw, rend, 0, 0);
 }
 
-const struct d_mtrl *back_draw(const struct d_mtrl *mq, float t)
+void back_draw(struct s_rend *rend, float t)
 {
     glPushMatrix();
     {
@@ -230,7 +218,7 @@ const struct d_mtrl *back_draw(const struct d_mtrl *mq, float t)
             if (t) glRotatef(dz, 0.0f, 0.0f, 1.0f);
             if (t) glRotatef(dx, 1.0f, 0.0f, 0.0f);
 
-            mq = sol_draw(&back.draw, mq, 1, 1);
+            sol_draw(&back.draw, rend, 1, 1);
         }
         glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);
@@ -238,13 +226,15 @@ const struct d_mtrl *back_draw(const struct d_mtrl *mq, float t)
         glEnable(GL_DEPTH_TEST);
     }
     glPopMatrix();
-
-    return mq;
 }
 
 void back_draw_easy(void)
 {
-    sol_draw_disable(back_draw(sol_draw_enable(), 0.0f));
+    struct s_rend rend = { NULL };
+
+    sol_draw_enable(&rend);
+    back_draw(&rend, 0.0f);
+    sol_draw_disable(&rend);
 }
 
 /*---------------------------------------------------------------------------*/

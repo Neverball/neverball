@@ -212,10 +212,10 @@ static struct d_mtrl default_draw_mtrl =
     &default_base_mtrl, 0
 };
 
-const struct d_mtrl *sol_apply_mtrl(const struct d_mtrl *mp_draw,
-                                    const struct d_mtrl *mq_draw)
+void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 {
     const struct b_mtrl *mp_base = mp_draw->base;
+    const struct d_mtrl *mq_draw = rend->mp;
     const struct b_mtrl *mq_base = mq_draw->base;
 
     /* Bind the texture. */
@@ -306,7 +306,7 @@ const struct d_mtrl *sol_apply_mtrl(const struct d_mtrl *mp_draw,
             glDisable(GL_POLYGON_OFFSET_FILL);
     }
 
-    return mp_draw;
+    rend->mp = mp_draw;
 }
 
 static GLuint sol_find_texture(const char *name)
@@ -335,7 +335,7 @@ static GLuint sol_find_texture(const char *name)
 }
 
 static void sol_load_mtrl(struct d_mtrl *mp,
-                    const struct b_mtrl *mq,
+                          const struct b_mtrl *mq,
                           struct s_draw *draw)
 {
     mp->base = mq;
@@ -446,7 +446,7 @@ static int sol_count_mesh(const struct d_body *bp, int p)
 /*---------------------------------------------------------------------------*/
 
 static void sol_mesh_vert(struct d_vert *vp,
-                    const struct s_base *base, int oi)
+                          const struct s_base *base, int oi)
 {
     /* Gather all vertex attributes for the given offs. */
 
@@ -468,7 +468,7 @@ static void sol_mesh_vert(struct d_vert *vp,
 
 static void sol_mesh_geom(struct d_vert *vv,   int *vn,
                           struct d_geom *gv,   int *gn,
-                    const struct s_base *base, int *iv, int g0, int gc, int mi)
+                          const struct s_base *base, int *iv, int g0, int gc, int mi)
 {
     int gi;
 
@@ -510,8 +510,8 @@ static void sol_mesh_geom(struct d_vert *vv,   int *vn,
 }
 
 static void sol_load_mesh(struct d_mesh *mp,
-                    const struct b_body *bp,
-                    const struct s_draw *draw, int mi)
+                          const struct b_body *bp,
+                          const struct s_draw *draw, int mi)
 {
     const size_t vs = sizeof (struct d_vert);
     const size_t gs = sizeof (struct d_geom);
@@ -578,8 +578,7 @@ static void sol_free_mesh(struct d_mesh *mp)
         glDeleteBuffers_(1, &mp->vbo);
 }
 
-static const struct d_mtrl *sol_draw_mesh(const struct d_mesh *mp,
-                                          const struct d_mtrl *mq, int p)
+void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 {
     /* If this mesh has material matching the given flags... */
 
@@ -590,7 +589,7 @@ static const struct d_mtrl *sol_draw_mesh(const struct d_mesh *mp,
 
         /* Apply the material state. */
 
-        mq = sol_apply_mtrl(mp->mp, mq);
+        sol_apply_mtrl(mp->mp, rend);
 
         /* Bind the mesh data. */
 
@@ -609,15 +608,13 @@ static const struct d_mtrl *sol_draw_mesh(const struct d_mesh *mp,
 
         glDrawElements(GL_TRIANGLES, mp->ebc, GL_UNSIGNED_SHORT, 0);
     }
-
-    return mq;
 }
 
 /*---------------------------------------------------------------------------*/
 
 static void sol_load_body(struct d_body *bp,
-                    const struct b_body *bq,
-                    const struct s_draw *draw)
+                          const struct b_body *bq,
+                          const struct s_draw *draw)
 {
     int mi;
 
@@ -660,15 +657,12 @@ static void sol_free_body(struct d_body *bp)
     free(bp->mv);
 }
 
-static const struct d_mtrl *sol_draw_body(const struct d_body *bp,
-                                          const struct d_mtrl *mq, int p)
+static void sol_draw_body(const struct d_body *bp, struct s_rend *rend, int p)
 {
     int i;
 
     for (i = 0; i < bp->mc; ++i)
-        mq = sol_draw_mesh(bp->mv + i, mq, p);
-
-    return mq;
+        sol_draw_mesh(bp->mv + i, rend, p);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -727,8 +721,7 @@ void sol_free_draw(struct s_draw *draw)
 
 /*---------------------------------------------------------------------------*/
 
-static const struct d_mtrl *sol_draw_all(const struct s_draw *draw,
-                                         const struct d_mtrl *mq, int p)
+static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
 {
     int bi;
 
@@ -741,15 +734,13 @@ static const struct d_mtrl *sol_draw_all(const struct s_draw *draw,
             glPushMatrix();
             {
                 sol_transform(draw->vary, draw->vary->bv + bi);
-                mq = sol_draw_body(draw->bv + bi, mq, p);
+                sol_draw_body(draw->bv + bi, rend, p);
             }
             glPopMatrix();
         }
-
-    return mq;
 }
 
-const struct d_mtrl *sol_draw_enable(void)
+void sol_draw_enable(struct s_rend *rend)
 {
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
@@ -759,12 +750,12 @@ const struct d_mtrl *sol_draw_enable(void)
     glClientActiveTexture_(GL_TEXTURE0);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    return &default_draw_mtrl;
+    rend->mp = &default_draw_mtrl;
 }
 
-void sol_draw_disable(const struct d_mtrl *mq)
+void sol_draw_disable(struct s_rend *rend)
 {
-    sol_apply_mtrl(&default_draw_mtrl, mq);
+    sol_apply_mtrl(&default_draw_mtrl, rend);
 
     glClientActiveTexture_(GL_TEXTURE1);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -777,21 +768,20 @@ void sol_draw_disable(const struct d_mtrl *mq)
 
 /*---------------------------------------------------------------------------*/
 
-const struct d_mtrl *sol_draw(const struct s_draw *draw,
-                              const struct d_mtrl *mq, int mask, int test)
+void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test)
 {
     /* Render all opaque geometry, decals last. */
 
-    mq = sol_draw_all(draw, mq, 0);
-    mq = sol_draw_all(draw, mq, 1);
+    sol_draw_all(draw, rend, 0);
+    sol_draw_all(draw, rend, 1);
 
     /* Render all transparent geometry, decals first. */
 
     if (!test) glDisable(GL_DEPTH_TEST);
     if (!mask) glDepthMask(GL_FALSE);
     {
-        mq = sol_draw_all(draw, mq, 2);
-        mq = sol_draw_all(draw, mq, 3);
+        sol_draw_all(draw, rend, 2);
+        sol_draw_all(draw, rend, 3);
     }
     if (!mask) glDepthMask(GL_TRUE);
     if (!test) glEnable(GL_DEPTH_TEST);
@@ -800,28 +790,23 @@ const struct d_mtrl *sol_draw(const struct s_draw *draw,
 
     glBindBuffer_(GL_ARRAY_BUFFER,         0);
     glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    return mq;
 }
 
-const struct d_mtrl *sol_refl(const struct s_draw *draw,
-                              const struct d_mtrl *mq)
+void sol_refl(const struct s_draw *draw, struct s_rend *rend)
 {
     /* Render all reflective geometry. */
 
-    mq = sol_draw_all(draw, mq, 4);
+    sol_draw_all(draw, rend, 4);
 
     /* Revert the buffer object state. */
 
     glBindBuffer_(GL_ARRAY_BUFFER,         0);
     glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    return mq;
 }
 
-const struct d_mtrl *sol_back(const struct s_draw *draw,
-                              const struct d_mtrl *mq,
-                              float n, float f, float t)
+void sol_back(const struct s_draw *draw,
+              struct s_rend *rend,
+              float n, float f, float t)
 {
     glDisable(GL_LIGHTING);
     glDepthMask(GL_FALSE);
@@ -872,7 +857,7 @@ const struct d_mtrl *sol_back(const struct s_draw *draw,
 
                         glScalef(w, h, 1.0f);
 
-                        mq = sol_apply_mtrl(draw->mv + rp->mi, mq);
+                        sol_apply_mtrl(draw->mv + rp->mi, rend);
 
                         if (rp->fl & B_EDGE)
                             glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
@@ -888,12 +873,10 @@ const struct d_mtrl *sol_back(const struct s_draw *draw,
 
     glDepthMask(GL_TRUE);
     glEnable(GL_LIGHTING);
-
-    return mq;
 }
 
-const struct d_mtrl *sol_bill(const struct s_draw *draw,
-                              const struct d_mtrl *mq, const float *M, float t)
+void sol_bill(const struct s_draw *draw,
+              struct s_rend *rend, const float *M, float t)
 {
     sol_bill_enable(draw);
     {
@@ -912,7 +895,7 @@ const struct d_mtrl *sol_bill(const struct s_draw *draw,
             float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * S;
             float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * S;
 
-            mq = sol_apply_mtrl(draw->mv + rp->mi, mq);
+            sol_apply_mtrl(draw->mv + rp->mi, rend);
 
             glPushMatrix();
             {
@@ -930,8 +913,6 @@ const struct d_mtrl *sol_bill(const struct s_draw *draw,
         }
     }
     sol_bill_disable();
-
-    return mq;
 }
 
 void sol_fade(const struct s_draw *draw, float k)
