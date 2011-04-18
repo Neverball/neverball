@@ -92,15 +92,15 @@ static void sol_transform(const struct s_vary *vary,
 
             glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
 
+            /* Scale the shadow texture to the radius of the ball. */
+
+            glScalef(k, k, k);
+
             /* Move the shadow texture under the ball. */
 
             glTranslatef(-vary->uv->p[0],
                          -vary->uv->p[1],
                          -vary->uv->p[2]);
-
-            /* Scale the shadow texture to the radius of the ball. */
-
-            glScalef(k, k, k);
 
             /* Apply the body position and rotation. */
 
