@@ -5,8 +5,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define IMG_PART_STAR     "png/part.png"
-#define IMG_PART_SQUIGGLE "png/squiggle.png"
+#define IMG_PART_STAR     "png/part"
 
 #define PART_MAX_COIN  64
 #define PART_MAX_GOAL  64

@@ -207,9 +207,17 @@ static struct b_mtrl default_base_mtrl =
     { 0.0f }, 0.0f, 0, ""
 };
 
+/* Nasty. */
+
 static struct d_mtrl default_draw_mtrl =
 {
-    &default_base_mtrl, 0
+    &default_base_mtrl,
+    0xffcccccc,
+    0xff333333,
+    0xff000000,
+    0xff000000,
+    0x00000000,
+    0
 };
 
 void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
@@ -334,9 +342,7 @@ static GLuint sol_find_texture(const char *name)
     return 0;
 }
 
-static void sol_load_mtrl(struct d_mtrl *mp,
-                          const struct b_mtrl *mq,
-                          struct s_draw *draw)
+void sol_load_mtrl(struct d_mtrl *mp, const struct b_mtrl *mq)
 {
     mp->base = mq;
 
@@ -353,35 +359,30 @@ static void sol_load_mtrl(struct d_mtrl *mp,
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         else
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-        /* If at least one material is reflective, mark it in the SOL. */
-
-        if (mq->fl & M_REFLECTIVE)
-            draw->reflective = 1;
-
-        /* Cache the 32-bit material values for quick comparison. */
-
-        mp->d = (tobyte(mq->d[0]))
-            |   (tobyte(mq->d[1]) <<  8)
-            |   (tobyte(mq->d[2]) << 16)
-            |   (tobyte(mq->d[3]) << 24);
-        mp->a = (tobyte(mq->a[0]))
-            |   (tobyte(mq->a[1]) <<  8)
-            |   (tobyte(mq->a[2]) << 16)
-            |   (tobyte(mq->a[3]) << 24);
-        mp->s = (tobyte(mq->s[0]))
-            |   (tobyte(mq->s[1]) <<  8)
-            |   (tobyte(mq->s[2]) << 16)
-            |   (tobyte(mq->s[3]) << 24);
-        mp->e = (tobyte(mq->e[0]))
-            |   (tobyte(mq->e[1]) <<  8)
-            |   (tobyte(mq->e[2]) << 16)
-            |   (tobyte(mq->e[3]) << 24);
-        mp->h = (tobyte(mq->h[0]));
     }
+
+    /* Cache the 32-bit material values for quick comparison. */
+
+    mp->d = (tobyte(mq->d[0]))
+        |   (tobyte(mq->d[1]) <<  8)
+        |   (tobyte(mq->d[2]) << 16)
+        |   (tobyte(mq->d[3]) << 24);
+    mp->a = (tobyte(mq->a[0]))
+        |   (tobyte(mq->a[1]) <<  8)
+        |   (tobyte(mq->a[2]) << 16)
+        |   (tobyte(mq->a[3]) << 24);
+    mp->s = (tobyte(mq->s[0]))
+        |   (tobyte(mq->s[1]) <<  8)
+        |   (tobyte(mq->s[2]) << 16)
+        |   (tobyte(mq->s[3]) << 24);
+    mp->e = (tobyte(mq->e[0]))
+        |   (tobyte(mq->e[1]) <<  8)
+        |   (tobyte(mq->e[2]) << 16)
+        |   (tobyte(mq->e[3]) << 24);
+    mp->h = (tobyte(mq->h[0]));
 }
 
-static void sol_free_mtrl(struct d_mtrl *mp)
+void sol_free_mtrl(struct d_mtrl *mp)
 {
     if (glIsTexture(mp->o))
         glDeleteTextures(1, &mp->o);
@@ -685,7 +686,14 @@ int sol_load_draw(struct s_draw *draw, const struct s_vary *vary, int s)
             draw->mc = draw->base->mc;
 
             for (i = 0; i < draw->mc; i++)
-                sol_load_mtrl(draw->mv + i, draw->base->mv + i, draw);
+            {
+                sol_load_mtrl(draw->mv + i, draw->base->mv + i);
+
+                /* If at least one material is reflective, mark it. */
+
+                if (draw->base->mv[i].fl & M_REFLECTIVE)
+                    draw->reflective = 1;
+            }
         }
     }
 

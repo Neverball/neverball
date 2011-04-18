@@ -53,13 +53,10 @@ static struct b_mtrl coin_base_mtrl =
     { 0.2f, 0.2f, 0.2f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
-    { 0.0f }, 0.0f, M_TRANSPARENT, ""
+    { 0.0f }, 0.0f, M_TRANSPARENT, IMG_PART_STAR
 };
 
-static struct d_mtrl coin_draw_mtrl =
-{
-    &coin_base_mtrl, 0
-};
+static struct d_mtrl coin_draw_mtrl;
 
 /*---------------------------------------------------------------------------*/
 
@@ -139,7 +136,7 @@ void part_reset(void)
 
 void part_init(void)
 {
-    coin_draw_mtrl.o = make_image_from_file(IMG_PART_STAR);
+    sol_load_mtrl(&coin_draw_mtrl, &coin_base_mtrl);
 
     memset(coin_vary, 0, PART_MAX_COIN * sizeof (struct part_vary));
     memset(coin_draw, 0, PART_MAX_COIN * sizeof (struct part_draw));
@@ -160,8 +157,7 @@ void part_free(void)
     if (glIsBuffer_(coin_vbo))
         glDeleteBuffers_(1, &coin_vbo);
 
-    if (glIsTexture(coin_draw_mtrl.o))
-        glDeleteTextures(1, &coin_draw_mtrl.o);
+    sol_free_mtrl(&coin_draw_mtrl);
 }
 
 /*---------------------------------------------------------------------------*/

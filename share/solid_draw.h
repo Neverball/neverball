@@ -108,6 +108,9 @@ void sol_free_draw(struct s_draw *);
 void sol_draw_enable(struct s_rend *);
 void sol_draw_disable(struct s_rend *);
 
+void sol_load_mtrl(struct d_mtrl *, const struct b_mtrl *);
+void sol_free_mtrl(struct d_mtrl *);
+
 void sol_apply_mtrl(const struct d_mtrl *, struct s_rend *);
 
 void sol_back(const struct s_draw *, struct s_rend *, float, float, float);
