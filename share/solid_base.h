@@ -29,27 +29,28 @@
  * structure to which the variable  refers.  Y determines the usage of
  * the variable.
  *
- * The Xs are as documented by struct s_file:
+ * The Xs are as documented by struct s_base:
  *
- *     f  File          (struct s_file)
- *     m  Material      (struct s_mtrl)
- *     v  Vertex        (struct s_vert)
- *     e  Edge          (struct s_edge)
- *     s  Side          (struct s_side)
- *     t  Texture coord (struct s_texc)
- *     g  Geometry      (struct s_geom)
- *     l  Lump          (struct s_lump)
- *     n  Node          (struct s_node)
- *     p  Path          (struct s_path)
- *     b  Body          (struct s_body)
- *     h  Item          (struct s_item)
- *     z  Goal          (struct s_goal)
- *     j  Jump          (struct s_jump)
- *     x  Switch        (struct s_swch)
- *     r  Billboard     (struct s_bill)
- *     u  User          (struct s_ball)
- *     w  Viewpoint     (struct s_view)
- *     d  Dictionary    (struct s_dict)
+ *     f  File          (struct s_base)
+ *     m  Material      (struct b_mtrl)
+ *     v  Vertex        (struct b_vert)
+ *     e  Edge          (struct b_edge)
+ *     s  Side          (struct b_side)
+ *     t  Texture coord (struct b_texc)
+ *     g  Geometry      (struct b_geom)
+ *     o  Offset        (struct b_offs)
+ *     l  Lump          (struct b_lump)
+ *     n  Node          (struct b_node)
+ *     p  Path          (struct b_path)
+ *     b  Body          (struct b_body)
+ *     h  Item          (struct b_item)
+ *     z  Goal          (struct b_goal)
+ *     j  Jump          (struct b_jump)
+ *     x  Switch        (struct b_swch)
+ *     r  Billboard     (struct b_bill)
+ *     u  User          (struct b_ball)
+ *     w  Viewpoint     (struct b_view)
+ *     d  Dictionary    (struct b_dict)
  *     i  Index         (int)
  *     a  Text          (char)
  *
@@ -71,7 +72,7 @@
  * Those members that do not conform to this convention are explicitly
  * documented with a comment.
  *
- * These prefixes are still available: c k o q y.
+ * These prefixes are still available: c k q y.
  */
 
 /*
