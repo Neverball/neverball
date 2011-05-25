@@ -320,6 +320,19 @@ static GLuint shad_text;
 
 void shad_init(void)
 {
+    GLint m;
+
+    if (!config_get_d(CONFIG_SHADOW))
+        return;
+
+    glGetIntegerv(GL_MAX_TEXTURE_UNITS, &m);
+
+    if (m < 2)
+    {
+        config_set_d(CONFIG_SHADOW, 0);
+        return;
+    }
+
     shad_text = make_image_from_file(IMG_SHAD);
 
     if (config_get_d(CONFIG_SHADOW) == 2)
@@ -337,6 +350,9 @@ void shad_free(void)
 
 void shad_draw_set(void)
 {
+    if (!config_get_d(CONFIG_SHADOW))
+        return;
+
     glActiveTexture_(GL_TEXTURE1);
     {
         glEnable(GL_TEXTURE_2D);
@@ -348,6 +364,9 @@ void shad_draw_set(void)
 
 void shad_draw_clr(void)
 {
+    if (!config_get_d(CONFIG_SHADOW))
+        return;
+
     glActiveTexture_(GL_TEXTURE1);
     {
         glBindTexture(GL_TEXTURE_2D, 0);
