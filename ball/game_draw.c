@@ -398,6 +398,13 @@ static void game_draw_fore(struct s_rend *rend,
 void game_draw(struct game_draw *gd, int pose, float t)
 {
     float fov = (float) config_get_d(CONFIG_VIEW_FOV);
+    int sh;
+
+    if (pose == POSE_LEVEL)
+    {
+        sh = config_get_d(CONFIG_SHADOW);
+        config_set_d(CONFIG_SHADOW, 0);
+    }
 
     if (gd->jump_b) fov *= 2.f * fabsf(gd->jump_dt - 0.5);
 
@@ -509,6 +516,9 @@ void game_draw(struct game_draw *gd, int pose, float t)
         sol_fade(&gd->draw, gd->fade_k);
         sol_draw_disable(&rend);
     }
+
+    if (pose == POSE_LEVEL)
+        config_set_d(CONFIG_SHADOW, sh);
 }
 
 /*---------------------------------------------------------------------------*/
