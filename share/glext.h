@@ -149,7 +149,7 @@ extern PFNGLPOINTPARAMETERFV_PROC glPointParameterfv_;
 /*---------------------------------------------------------------------------*/
 #endif /* !ENABLE_OPENGLES */
 
-void glClipPlane4f(GLenum, GLfloat, GLfloat, GLfloat, GLfloat);
+void glClipPlane4f_(GLenum, GLfloat, GLfloat, GLfloat, GLfloat);
 
 /*---------------------------------------------------------------------------*/
 #endif

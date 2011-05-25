@@ -277,7 +277,7 @@ static void game_clip_refl(int d)
 {
     /* Fudge to eliminate the floor from reflection. */
 
-    glClipPlane4f(GL_CLIP_PLANE0, 0, 1, 0, -0.00001);
+    glClipPlane4f_(GL_CLIP_PLANE0, 0, 1, 0, -0.00001);
 }
 
 static void game_clip_ball(const struct game_draw *gd, int d, const float *p)
@@ -315,8 +315,8 @@ static void game_clip_ball(const struct game_draw *gd, int d, const float *p)
     pz[1] *= d;
     nz[1] *= d;
 
-    glClipPlane4f(GL_CLIP_PLANE1, nz[0], nz[1], nz[2], nz[3]);
-    glClipPlane4f(GL_CLIP_PLANE2, pz[0], pz[1], pz[2], pz[3]);
+    glClipPlane4f_(GL_CLIP_PLANE1, nz[0], nz[1], nz[2], nz[3]);
+    glClipPlane4f_(GL_CLIP_PLANE2, pz[0], pz[1], pz[2], pz[3]);
 }
 
 static void game_draw_fore(struct s_rend *rend,

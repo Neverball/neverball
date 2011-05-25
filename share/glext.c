@@ -94,7 +94,7 @@ void glext_init(void)
 
 /*---------------------------------------------------------------------------*/
 
-void glClipPlane4f(GLenum p, GLfloat a, GLfloat b, GLfloat c, GLfloat d)
+void glClipPlane4f_(GLenum p, GLfloat a, GLfloat b, GLfloat c, GLfloat d)
 {
 #if ENABLE_OPENGLES
 
