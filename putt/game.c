@@ -275,10 +275,12 @@ void game_draw(int pose, float t)
 {
     const float light_p[4] = { 8.f, 32.f, 8.f, 0.f };
 
-    const struct s_draw *fp = &file.draw;
+    struct s_draw *fp = &file.draw;
     struct s_rend rend = { NULL };
 
     float fov = FOV;
+
+    fp->shadow = ball;
 
     sol_draw_enable(&rend);
 

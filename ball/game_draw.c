@@ -320,13 +320,13 @@ static void game_clip_ball(const struct game_draw *gd, int d, const float *p)
 }
 
 static void game_draw_fore(struct s_rend *rend,
-                           const struct game_draw *gd,
+                           struct game_draw *gd,
                            int pose, const float *M,
                            int d, float t)
 {
     const float *ball_p = gd->vary.uv[0].p;
 
-    const struct s_draw *draw = &gd->draw;
+    struct s_draw *draw = &gd->draw;
 
     glPushMatrix();
     {
@@ -395,7 +395,7 @@ static void game_draw_fore(struct s_rend *rend,
 
 /*---------------------------------------------------------------------------*/
 
-void game_draw(const struct game_draw *gd, int pose, float t)
+void game_draw(struct game_draw *gd, int pose, float t)
 {
     float fov = (float) config_get_d(CONFIG_VIEW_FOV);
 
@@ -405,6 +405,8 @@ void game_draw(const struct game_draw *gd, int pose, float t)
     {
         const struct game_view *view = &gd->view;
         struct s_rend rend;
+
+        gd->draw.shadow = 0;
 
         sol_draw_enable(&rend);
 

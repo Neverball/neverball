@@ -56,7 +56,7 @@ static const int pass_in[] = {
 /*---------------------------------------------------------------------------*/
 
 static void sol_transform(const struct s_vary *vary,
-                          const struct v_body *bp)
+                          const struct v_body *bp, int ui)
 {
     float a;
     float e[4];
@@ -75,12 +75,14 @@ static void sol_transform(const struct s_vary *vary,
 
     /* Apply the shadow transform to the texture matrix. */
 
-    if (vary->uc && vary->uv->r > 0.0)
+    if (ui >= 0 && ui < vary->uc && vary->uv[ui].r > 0.0f)
     {
+        struct v_ball *up = vary->uv + ui;
+
         glActiveTexture_(GL_TEXTURE1);
         glMatrixMode(GL_TEXTURE);
         {
-            float k = 0.25f / vary->uv->r;
+            float k = 0.25f / up->r;
 
             glLoadIdentity();
 
@@ -98,9 +100,7 @@ static void sol_transform(const struct s_vary *vary,
 
             /* Move the shadow texture under the ball. */
 
-            glTranslatef(-vary->uv->p[0],
-                         -vary->uv->p[1],
-                         -vary->uv->p[2]);
+            glTranslatef(-up->p[0], -up->p[1], -up->p[2]);
 
             /* Apply the body position and rotation. */
 
@@ -741,7 +741,7 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
         {
             glPushMatrix();
             {
-                sol_transform(draw->vary, draw->vary->bv + bi);
+                sol_transform(draw->vary, draw->vary->bv + bi, draw->shadow);
                 sol_draw_body(draw->bv + bi, rend, p);
             }
             glPopMatrix();
