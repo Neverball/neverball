@@ -816,6 +816,9 @@ void sol_back(const struct s_draw *draw,
               struct s_rend *rend,
               float n, float f, float t)
 {
+    if (!draw || !draw->base)
+        return;
+
     glDisable(GL_LIGHTING);
     glDepthMask(GL_FALSE);
 
