@@ -18,7 +18,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#ifndef CONF_OPENGLES
+#if !ENABLE_OPENGLES
 
 PFNGLCLIENTACTIVETEXTURE_PROC glClientActiveTexture_;
 PFNGLACTIVETEXTURE_PROC       glActiveTexture_;
@@ -66,7 +66,7 @@ int glext_check(const char *needle)
 
 void glext_init(void)
 {
-#ifndef CONF_OPENGLES
+#if !ENABLE_OPENGLES
 
     void *ptr;
 
@@ -96,7 +96,7 @@ void glext_init(void)
 
 void glClipPlane4f(GLenum p, GLfloat a, GLfloat b, GLfloat c, GLfloat d)
 {
-#ifdef CONF_OPENGLES
+#if ENABLE_OPENGLES
 
     GLfloat v[4];
 

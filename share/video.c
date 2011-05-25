@@ -98,7 +98,7 @@ int video_mode(int f, int w, int h)
         glEnable(GL_LIGHTING);
         glEnable(GL_BLEND);
 
-#ifndef CONF_OPENGLES
+#if !ENABLE_OPENGLES
         glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,
                       GL_SEPARATE_SPECULAR_COLOR);
 #endif

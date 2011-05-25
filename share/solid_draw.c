@@ -256,7 +256,7 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 
     /* Environment mapping. */
 
-#ifndef CONF_OPENGLES
+#if !ENABLE_OPENGLES
     if ((mp_base->fl & M_ENVIRONMENT) ^ (mq_base->fl & M_ENVIRONMENT))
     {
         if (mp_base->fl & M_ENVIRONMENT)

@@ -65,7 +65,7 @@ static void shot_take(void)
 
 static void toggle_wire(void)
 {
-#ifndef CONF_OPENGLES
+#if !ENABLE_OPENGLES
     static int wire = 0;
 
     if (wire)

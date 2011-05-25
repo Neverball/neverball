@@ -95,7 +95,7 @@ void glext_init(void);
     defined(GL_VERSION_ES_CM_1_1) || \
     defined(GL_OES_VERSION_1_0)
 
-#define CONF_OPENGLES 1
+#define ENABLE_OPENGLES 1
 
 #define glClientActiveTexture_ glClientActiveTexture
 #define glActiveTexture_       glActiveTexture
@@ -147,7 +147,7 @@ typedef void (*PFNGLPOINTPARAMETERFV_PROC)(GLenum, const GLfloat *);
 extern PFNGLPOINTPARAMETERFV_PROC glPointParameterfv_;
 
 /*---------------------------------------------------------------------------*/
-#endif /* !CONF_OPENGLES */
+#endif /* !ENABLE_OPENGLES */
 
 void glClipPlane4f(GLenum, GLfloat, GLfloat, GLfloat, GLfloat);
 
