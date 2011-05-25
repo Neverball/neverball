@@ -82,11 +82,12 @@ int video_mode(int f, int w, int h)
 
     if (SDL_SetVideoMode(w, h, 0, SDL_OPENGL | (f ? SDL_FULLSCREEN : 0)))
     {
-        glext_init();
-
         config_set_d(CONFIG_FULLSCREEN, f);
         config_set_d(CONFIG_WIDTH,      w);
         config_set_d(CONFIG_HEIGHT,     h);
+
+        if (!glext_init())
+            return 0;
 
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);

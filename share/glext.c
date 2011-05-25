@@ -13,6 +13,7 @@
  */
 
 #include <SDL.h>
+#include <stdio.h>
 
 #include "glext.h"
 
@@ -55,28 +56,40 @@ int glext_check(const char *needle)
     return 0;
 }
 
+int glext_assert(const char *ext)
+{
+    if (!glext_check(ext))
+    {
+        fprintf(stderr, "Missing required OpenGL extension (%s)\n", ext);
+        return 0;
+    }
+    return 1;
+}
+
 /*---------------------------------------------------------------------------*/
 
-#define SDL_GL_GFPA(fun, str) do {     \
-    ptr = SDL_GL_GetProcAddress(str);   \
+#define SDL_GL_GFPA(fun, str) do {       \
+    ptr = SDL_GL_GetProcAddress(str);    \
     memcpy(&fun, &ptr, sizeof (void *)); \
 } while(0)
 
 /*---------------------------------------------------------------------------*/
 
-void glext_init(void)
+int glext_init(void)
 {
 #if !ENABLE_OPENGLES
 
     void *ptr;
 
-    if (glext_check("ARB_multitexture"))
+    if (glext_assert("ARB_multitexture"))
     {
         SDL_GL_GFPA(glClientActiveTexture_, "glClientActiveTextureARB");
         SDL_GL_GFPA(glActiveTexture_,       "glActiveTextureARB");
     }
+    else
+        return 0;
 
-    if (glext_check("ARB_vertex_buffer_object"))
+    if (glext_assert("ARB_vertex_buffer_object"))
     {
         SDL_GL_GFPA(glGenBuffers_,          "glGenBuffersARB");
         SDL_GL_GFPA(glBindBuffer_,          "glBindBufferARB");
@@ -85,9 +98,19 @@ void glext_init(void)
         SDL_GL_GFPA(glDeleteBuffers_,       "glDeleteBuffersARB");
         SDL_GL_GFPA(glIsBuffer_,            "glIsBufferARB");
     }
+    else
+        return 0;
 
-    if (glext_check("ARB_point_parameters"))
+    if (glext_assert("ARB_point_parameters"))
         SDL_GL_GFPA(glPointParameterfv_,   "glPointParameterfvARB");
+    else
+        return 0;
+
+    return 1;
+
+#else
+
+    return 1;
 
 #endif
 }
