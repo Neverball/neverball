@@ -398,13 +398,10 @@ static void game_draw_fore(struct s_rend *rend,
 void game_draw(struct game_draw *gd, int pose, float t)
 {
     float fov = (float) config_get_d(CONFIG_VIEW_FOV);
-    int sh;
+    int sh = config_get_d(CONFIG_SHADOW);
 
     if (pose == POSE_LEVEL)
-    {
-        sh = config_get_d(CONFIG_SHADOW);
         config_set_d(CONFIG_SHADOW, 0);
-    }
 
     if (gd->jump_b) fov *= 2.f * fabsf(gd->jump_dt - 0.5);
 
