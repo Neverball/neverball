@@ -453,23 +453,23 @@ static int party_action(int i)
     {
     case PARTY_1:
         audio_play(AUD_MENU, 1.f);
-        hole_goto(1, 1);
-        goto_state(&st_next);
+        if (hole_goto(1, 1))
+            goto_state(&st_next);
         break;
     case PARTY_2:
         audio_play(AUD_MENU, 1.f);
-        hole_goto(1, 2);
-        goto_state(&st_next);
+        if (hole_goto(1, 2))
+            goto_state(&st_next);
         break;
     case PARTY_3:
         audio_play(AUD_MENU, 1.f);
-        hole_goto(1, 3);
-        goto_state(&st_next);
+        if (hole_goto(1, 3))
+            goto_state(&st_next);
         break;
     case PARTY_4:
         audio_play(AUD_MENU, 1.f);
-        hole_goto(1, 4);
-        goto_state(&st_next);
+        if (hole_goto(1, 4))
+            goto_state(&st_next);
         break;
     case PARTY_B:
         audio_play(AUD_MENU, 1.f);
@@ -777,9 +777,8 @@ static int next_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
-            if (num > 0)
+            if (num > 0 && hole_goto(num, -1))
             {
-                hole_goto(num, -1);
                 num = 0;
                 return goto_state(&st_next);
             }

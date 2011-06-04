@@ -36,6 +36,8 @@
 static struct s_full file;
 static int           ball;
 
+static int state;
+
 static float view_a;                    /* Ideal view rotation about Y axis  */
 static float view_m;
 static float view_ry;                   /* Angular velocity about Y axis     */
@@ -83,7 +85,7 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-void game_init(const char *s)
+int game_init(const char *s)
 {
     int i;
 
@@ -93,7 +95,10 @@ void game_init(const char *s)
     idle_t = 1.0f;
 
     view_init();
-    sol_load_full(&file, s, config_get_d(CONFIG_SHADOW));
+
+    if (!(state = sol_load_full(&file, s, config_get_d(CONFIG_SHADOW))))
+        return 0;
+
     sol_init_sim(&file.vary);
 
     for (i = 0; i < file.base.dc; i++)
@@ -109,6 +114,7 @@ void game_init(const char *s)
                 idle_t = 1.0f;
         }
     }
+    return 1;
 }
 
 void game_free(void)
@@ -280,6 +286,9 @@ void game_draw(int pose, float t)
 
     float fov = FOV;
 
+    if (!state)
+        return;
+
     fp->shadow = ball;
 
     sol_draw_enable(&rend);
@@ -360,6 +369,9 @@ void game_update_view(float dt)
     float e[3];
     float d[3];
     float s = 2.f * dt;
+
+    if (!state)
+        return;
 
     /* Center the view about the ball. */
 
@@ -500,6 +512,9 @@ int game_step(const float g[3], float dt)
     float st = 0.f;
     int i, n = 1, m = 0;
 
+    if (!state)
+        return GAME_NONE;
+
     s = (7.f * s + dt) / 8.f;
     t = s;
 
@@ -595,6 +610,9 @@ void game_set_fly(float k)
     float c1[3] = { 0.f, 0.f, 0.f };
     float p1[3] = { 0.f, 0.f, 0.f };
     float  v[3];
+
+    if (!state)
+        return;
 
     v_cpy(view_e[0], x);
     v_cpy(view_e[1], y);
