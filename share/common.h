@@ -50,10 +50,10 @@ int rand_between(int low, int high);
 #define ARRAYSIZE(a) (sizeof (a) / sizeof ((a)[0]))
 #define MAXSTRLEN(a) (sizeof (a) - 1)
 
-#define SAFECPY(dst, src) (strncpy((dst), (src), MAXSTRLEN(dst)))
-#define SAFECAT(dst, src) (strncat((dst), \
-                                   (src), \
-                                   MAX(0, MAXSTRLEN(dst) - strlen(dst))))
+#define SAFECPY(dst, src) \
+    (strncpy((dst), (src), MAXSTRLEN(dst)))
+#define SAFECAT(dst, src) \
+    (strncat((dst), (src), MAXSTRLEN(dst) - MIN(strlen(dst), MAXSTRLEN(dst))))
 
 int   read_line(char **, fs_file);
 char *strip_newline(char *);
