@@ -25,8 +25,9 @@
 
 enum
 {
-    SOL_VER_MINIMUM = 7,
-    SOL_VER_CURRENT = SOL_VER_MINIMUM
+    SOL_VER_MINIMUM = 6,
+    SOL_VER_GLES,
+    SOL_VER_CURRENT = SOL_VER_GLES
 };
 
 #define SOL_MAGIC (0xAF | 'S' << 8 | 'O' << 16 | 'L' << 24)
@@ -62,6 +63,40 @@ static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
     get_index(fin, &mp->fl);
 
     fs_read(mp->f, 1, PATHMAX, fin);
+
+    if (sol_version < SOL_VER_GLES)
+    {
+        static const int flags[][2] = {
+            { 1, M_SHADOWED },
+            { 2, M_TRANSPARENT },
+            { 4, M_REFLECTIVE | M_SHADOWED },
+            { 8, M_ENVIRONMENT },
+            { 16, M_ADDITIVE },
+            { 32, M_CLAMP_S | M_CLAMP_T },
+            { 64, M_DECAL },
+            { 128, M_TWO_SIDED }
+        };
+
+        /* Convert 1.5.4 material flags. */
+
+        if (mp->fl)
+        {
+            int i, f;
+
+            for (f = 0, i = 0; i < ARRAYSIZE(flags); i++)
+                if (mp->fl & flags[i][0])
+                    f |= flags[i][1];
+
+            mp->fl = f;
+        }
+        else
+        {
+            /* Must be "mtrl/invisible". */
+
+            mp->fl = M_TRANSPARENT;
+            mp->d[3] = 0.0f;
+        }
+    }
 }
 
 static void sol_load_vert(fs_file fin, struct b_vert *vp)
@@ -93,12 +128,61 @@ static void sol_load_offs(fs_file fin, struct b_offs *op)
     get_index(fin, &op->vi);
 }
 
-static void sol_load_geom(fs_file fin, struct b_geom *gp)
+static void sol_load_geom(fs_file fin, struct b_geom *gp, struct s_base *fp)
 {
     get_index(fin, &gp->mi);
-    get_index(fin, &gp->oi);
-    get_index(fin, &gp->oj);
-    get_index(fin, &gp->ok);
+
+    if (sol_version >= SOL_VER_GLES)
+    {
+        get_index(fin, &gp->oi);
+        get_index(fin, &gp->oj);
+        get_index(fin, &gp->ok);
+    }
+    else
+    {
+        struct b_offs ov[3];
+        int i, j, iv[3], oc;
+        void *p;
+
+        oc = 0;
+
+        for (i = 0; i < 3; i++)
+        {
+            get_index(fin, &ov[i].ti);
+            get_index(fin, &ov[i].si);
+            get_index(fin, &ov[i].vi);
+
+            iv[i] = -1;
+
+            for (j = 0; j < fp->oc; j++)
+                if (ov[i].ti == fp->ov[j].ti &&
+                    ov[i].si == fp->ov[j].si &&
+                    ov[i].vi == fp->ov[j].vi)
+                {
+                    iv[i] = j;
+                    break;
+                }
+
+            if (j == fp->oc)
+                oc++;
+        }
+
+        if (oc && (p = realloc(fp->ov, sizeof (struct b_offs) * (fp->oc + oc))))
+        {
+            fp->ov = p;
+
+            for (i = 0; i < 3; i++)
+                if (iv[i] < 0)
+                {
+                    fp->ov[fp->oc] = ov[i];
+                    iv[i] = fp->oc++;
+                }
+        }
+
+        gp->oi = iv[0];
+        gp->oj = iv[1];
+        gp->ok = iv[2];
+    }
 }
 
 static void sol_load_lump(fs_file fin, struct b_lump *lp)
@@ -134,7 +218,8 @@ static void sol_load_path(fs_file fin, struct b_path *pp)
     pp->tm = TIME_TO_MS(pp->t);
     pp->t  = MS_TO_TIME(pp->tm);
 
-    get_index(fin, &pp->fl);
+    if (sol_version >= SOL_VER_GLES)
+        get_index(fin, &pp->fl);
 
     pp->e[0] = 1.0f;
     pp->e[1] = 0.0f;
@@ -234,7 +319,10 @@ static void sol_load_indx(fs_file fin, struct s_base *fp)
     get_index(fin, &fp->ec);
     get_index(fin, &fp->sc);
     get_index(fin, &fp->tc);
-    get_index(fin, &fp->oc);
+
+    if (sol_version >= SOL_VER_GLES)
+        get_index(fin, &fp->oc);
+
     get_index(fin, &fp->gc);
     get_index(fin, &fp->lc);
     get_index(fin, &fp->nc);
@@ -312,7 +400,7 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
     for (i = 0; i < fp->sc; i++) sol_load_side(fin, fp->sv + i);
     for (i = 0; i < fp->tc; i++) sol_load_texc(fin, fp->tv + i);
     for (i = 0; i < fp->oc; i++) sol_load_offs(fin, fp->ov + i);
-    for (i = 0; i < fp->gc; i++) sol_load_geom(fin, fp->gv + i);
+    for (i = 0; i < fp->gc; i++) sol_load_geom(fin, fp->gv + i, fp);
     for (i = 0; i < fp->lc; i++) sol_load_lump(fin, fp->lv + i);
     for (i = 0; i < fp->nc; i++) sol_load_node(fin, fp->nv + i);
     for (i = 0; i < fp->pc; i++) sol_load_path(fin, fp->pv + i);
