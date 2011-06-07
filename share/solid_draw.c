@@ -79,8 +79,16 @@ static void sol_transform(const struct s_vary *vary,
     {
         struct v_ball *up = vary->uv + ui;
 
-        glActiveTexture_(GL_TEXTURE1);
         glMatrixMode(GL_TEXTURE);
+        glActiveTexture_(GL_TEXTURE2);
+        {
+            glLoadIdentity();
+            glTranslatef(p[0] - up->p[0],
+                         p[1] - up->p[1] + 0.5f,
+                         p[2] - up->p[2]);
+            glRotatef(V_DEG(a), v[0], v[1], v[2]);
+        }
+        glActiveTexture_(GL_TEXTURE1);
         {
             float k = 0.25f / up->r;
 
@@ -107,8 +115,8 @@ static void sol_transform(const struct s_vary *vary,
             glTranslatef(p[0], p[1], p[2]);
             glRotatef(V_DEG(a), v[0], v[1], v[2]);
         }
-        glMatrixMode(GL_MODELVIEW);
         glActiveTexture_(GL_TEXTURE0);
+        glMatrixMode(GL_MODELVIEW);
     }
 }
 
@@ -174,6 +182,8 @@ static void sol_bill_enable(const struct s_draw *draw)
     const size_t s = sizeof (GLfloat);
 /*
     glDisableClientState(GL_NORMAL_ARRAY);
+    glClientActiveTexture_(GL_TEXTURE2);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE1);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE0);
@@ -188,6 +198,8 @@ static void sol_bill_disable(void)
 {
 /*
     glEnableClientState(GL_NORMAL_ARRAY);
+    glClientActiveTexture_(GL_TEXTURE2);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE1);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE0);
@@ -600,6 +612,8 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
         glVertexPointer  (3, T, s, (GLvoid *) offsetof (struct d_vert, p));
         glNormalPointer  (   T, s, (GLvoid *) offsetof (struct d_vert, n));
 
+        glClientActiveTexture_(GL_TEXTURE2);
+        glTexCoordPointer(3, T, s, (GLvoid *) offsetof (struct d_vert, p));
         glClientActiveTexture_(GL_TEXTURE1);
         glTexCoordPointer(3, T, s, (GLvoid *) offsetof (struct d_vert, p));
         glClientActiveTexture_(GL_TEXTURE0);
@@ -753,6 +767,8 @@ void sol_draw_enable(struct s_rend *rend)
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
+    glClientActiveTexture_(GL_TEXTURE2);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE1);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE0);
@@ -765,6 +781,8 @@ void sol_draw_disable(struct s_rend *rend)
 {
     sol_apply_mtrl(&default_draw_mtrl, rend);
 
+    glClientActiveTexture_(GL_TEXTURE2);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE1);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE0);

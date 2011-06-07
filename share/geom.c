@@ -238,30 +238,51 @@ void back_draw_easy(void)
 }
 
 /*---------------------------------------------------------------------------*/
-/*
+
+static GLint max_tex_units;
+
 static GLuint clip_text;
 
 static GLubyte clip_data[] = { 0xff, 0xff, 0x0, 0x0 };
 
 void clip_init(void)
 {
-    if (!glActiveTexture_)
+    if (max_tex_units < 3)
         return;
 
-    glActiveTexture_(GL_TEXTURE1);
-    {
-        glGenTextures(1, &clip_text);
-        glBindTexture(GL_TEXTURE_1D, clip_text);
+    glActiveTexture_(GL_TEXTURE2);
 
-        glTexImage1D(GL_TEXTURE_1D, 0,
-                     GL_LUMINANCE_ALPHA, 2, 0,
-                     GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, clip_data);
+    glGenTextures(1, &clip_text);
+    glBindTexture(GL_TEXTURE_2D, clip_text);
 
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0,
+                 GL_LUMINANCE_ALPHA, 1, 2, 0,
+                 GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, clip_data);
 
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    }
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
+
+    /* Fade to black using stored alpha. */
+
+    glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_MODULATE);
+    glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_RGB, GL_PREVIOUS);
+    glTexEnvi(GL_TEXTURE_ENV, GL_SRC1_RGB, GL_PREVIOUS);
+    glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
+    glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_ONE_MINUS_SRC_ALPHA);
+
+    /* Restore original alpha.*/
+
+    glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
+    glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_ALPHA, GL_PRIMARY_COLOR);
+    glTexEnvi(GL_TEXTURE_ENV, GL_SRC1_ALPHA, GL_TEXTURE0);
+    glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
+    glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
+
     glActiveTexture_(GL_TEXTURE0);
 }
 
@@ -273,35 +294,29 @@ void clip_free(void)
 
 void clip_draw_set(void)
 {
-    if (!glActiveTexture_)
+    if (max_tex_units < 3)
         return;
 
-    glActiveTexture_(GL_TEXTURE1);
-    {
-        glBindTexture(GL_TEXTURE_1D, clip_text);
+    glActiveTexture_(GL_TEXTURE2);
 
-        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, clip_text);
+    glEnable(GL_TEXTURE_2D);
 
-        glEnable(GL_TEXTURE_GEN_S);
-        glEnable(GL_TEXTURE_1D);
-    }
     glActiveTexture_(GL_TEXTURE0);
 }
 
 void clip_draw_clr(void)
 {
-    if (!glActiveTexture_)
+    if (max_tex_units < 3)
         return;
 
-    glActiveTexture_(GL_TEXTURE1);
-    {
-        glDisable(GL_TEXTURE_GEN_S);
-        glDisable(GL_TEXTURE_1D);
-    }
+    glActiveTexture_(GL_TEXTURE2);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_TEXTURE_2D);
+
     glActiveTexture_(GL_TEXTURE0);
 }
-*/
-/*---------------------------------------------------------------------------*/
 
 /*
  * A note about lighting and shadow: technically speaking, it's wrong.
@@ -320,14 +335,12 @@ static GLuint shad_text;
 
 void shad_init(void)
 {
-    GLint m;
-
     if (!config_get_d(CONFIG_SHADOW))
         return;
 
-    glGetIntegerv(GL_MAX_TEXTURE_UNITS, &m);
+    glGetIntegerv(GL_MAX_TEXTURE_UNITS, &max_tex_units);
 
-    if (m < 2)
+    if (max_tex_units < 2)
     {
         config_set_d(CONFIG_SHADOW, 0);
         return;
@@ -340,12 +353,16 @@ void shad_init(void)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     }
+
+    clip_init();
 }
 
 void shad_free(void)
 {
     if (glIsTexture(shad_text))
         glDeleteTextures(1, &shad_text);
+
+    clip_free();
 }
 
 void shad_draw_set(void)
@@ -357,9 +374,33 @@ void shad_draw_set(void)
     {
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, shad_text);
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+
+        if (max_tex_units < 3)
+        {
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        }
+        else
+        {
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
+
+            /* Keep color intact. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_REPLACE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_RGB, GL_PREVIOUS);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
+
+            /* Multiply shadow alpha and clip alpha. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_ALPHA, GL_TEXTURE1);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC1_ALPHA, GL_TEXTURE2);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
+        }
     }
     glActiveTexture_(GL_TEXTURE0);
+
+    clip_draw_set();
 }
 
 void shad_draw_clr(void)
@@ -373,6 +414,8 @@ void shad_draw_clr(void)
         glDisable(GL_TEXTURE_2D);
     }
     glActiveTexture_(GL_TEXTURE0);
+
+    clip_draw_clr();
 }
 
 /*---------------------------------------------------------------------------*/
