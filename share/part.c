@@ -236,6 +236,8 @@ void part_draw_coin(struct s_rend *rend)
     glBindBuffer_(GL_ARRAY_BUFFER, 0);
 #endif
 
+    glClientActiveTexture_(GL_TEXTURE2);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE1);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE0);
@@ -267,6 +269,8 @@ void part_draw_coin(struct s_rend *rend)
     glDisableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glClientActiveTexture_(GL_TEXTURE2);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glClientActiveTexture_(GL_TEXTURE1);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
