@@ -239,15 +239,13 @@ void back_draw_easy(void)
 
 /*---------------------------------------------------------------------------*/
 
-static GLint max_tex_units;
-
 static GLuint clip_text;
 
 static GLubyte clip_data[] = { 0xff, 0xff, 0x0, 0x0 };
 
 void clip_init(void)
 {
-    if (max_tex_units < 3)
+    if (gli.max_texture_units < 3)
         return;
 
     glActiveTexture_(GL_TEXTURE2);
@@ -294,7 +292,7 @@ void clip_free(void)
 
 void clip_draw_set(void)
 {
-    if (max_tex_units < 3)
+    if (gli.max_texture_units < 3)
         return;
 
     glActiveTexture_(GL_TEXTURE2);
@@ -307,7 +305,7 @@ void clip_draw_set(void)
 
 void clip_draw_clr(void)
 {
-    if (max_tex_units < 3)
+    if (gli.max_texture_units < 3)
         return;
 
     glActiveTexture_(GL_TEXTURE2);
@@ -338,9 +336,7 @@ void shad_init(void)
     if (!config_get_d(CONFIG_SHADOW))
         return;
 
-    glGetIntegerv(GL_MAX_TEXTURE_UNITS, &max_tex_units);
-
-    if (max_tex_units < 2)
+    if (gli.max_texture_units < 2)
     {
         config_set_d(CONFIG_SHADOW, 0);
         return;
@@ -375,7 +371,7 @@ void shad_draw_set(void)
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, shad_text);
 
-        if (max_tex_units < 3)
+        if (gli.max_texture_units < 3)
         {
             glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
         }

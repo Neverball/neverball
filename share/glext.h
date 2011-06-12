@@ -152,4 +152,18 @@ extern PFNGLPOINTPARAMETERFV_PROC glPointParameterfv_;
 void glClipPlane4f_(GLenum, GLfloat, GLfloat, GLfloat, GLfloat);
 
 /*---------------------------------------------------------------------------*/
+
+struct gl_info
+{
+    GLint max_texture_units;
+    GLint max_texture_size;
+
+    unsigned int multitexture:1;
+    unsigned int vertex_buffer_object:1;
+    unsigned int point_parameters:1;
+};
+
+extern struct gl_info gli;
+
+/*---------------------------------------------------------------------------*/
 #endif

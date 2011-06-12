@@ -120,11 +120,9 @@ static GLuint make_texture(const void *p, int w, int h, int b)
     int W = w;
     int H = h;
 
-    GLint max;
+    GLint max = gli.max_texture_size;
 
     void *q = NULL;
-
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max);
 
     while (w / k > (int) max || h / k > (int) max)
         k *= 2;

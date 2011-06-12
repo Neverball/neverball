@@ -17,6 +17,8 @@
 
 #include "glext.h"
 
+struct gl_info gli;
+
 /*---------------------------------------------------------------------------*/
 
 #if !ENABLE_OPENGLES
@@ -77,17 +79,27 @@ int glext_assert(const char *ext)
 
 int glext_init(void)
 {
-#if !ENABLE_OPENGLES
+    void *ptr = 0;
 
-    void *ptr;
+    memset(&gli, 0, sizeof (struct gl_info));
+
+    /* Common init. */
+
+    gli.max_texture_units = 1;
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &gli.max_texture_size);
+
+#if !ENABLE_OPENGLES
+    /* Desktop init. */
 
     if (glext_assert("ARB_multitexture"))
     {
+        glGetIntegerv(GL_MAX_TEXTURE_UNITS, &gli.max_texture_units);
+
         SDL_GL_GFPA(glClientActiveTexture_, "glClientActiveTextureARB");
         SDL_GL_GFPA(glActiveTexture_,       "glActiveTextureARB");
+
+        gli.multitexture = 1;
     }
-    else
-        return 0;
 
     if (glext_assert("ARB_vertex_buffer_object"))
     {
@@ -97,21 +109,30 @@ int glext_init(void)
         SDL_GL_GFPA(glBufferSubData_,       "glBufferSubDataARB");
         SDL_GL_GFPA(glDeleteBuffers_,       "glDeleteBuffersARB");
         SDL_GL_GFPA(glIsBuffer_,            "glIsBufferARB");
+
+        gli.vertex_buffer_object = 1;
     }
-    else
-        return 0;
 
     if (glext_assert("ARB_point_parameters"))
+    {
         SDL_GL_GFPA(glPointParameterfv_,   "glPointParameterfvARB");
-    else
-        return 0;
 
-    return 1;
+        gli.point_parameters = 1;
+    }
 
+    return (gli.multitexture &&
+            gli.vertex_buffer_object &&
+            gli.point_parameters);
 #else
+    /* GLES init. */
+
+    glGetIntegerv(GL_MAX_TEXTURE_UNITS, &gli.max_texture_units);
+
+    gli.multitexture = 1;
+    gli.vertex_buffer_object = 1;
+    gli.point_parameters = 1;
 
     return 1;
-
 #endif
 }
 
