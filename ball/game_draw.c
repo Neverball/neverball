@@ -410,7 +410,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         const struct game_view *view = &gd->view;
         struct s_rend rend;
 
-        gd->draw.shadow = 0;
+        gd->draw.shadow_ui = 0;
 
         sol_draw_enable(&rend);
 

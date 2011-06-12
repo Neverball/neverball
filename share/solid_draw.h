@@ -86,7 +86,7 @@ struct s_draw
     GLuint bill;
 
     int reflective;
-    int shadow;
+    int shadow_ui;
 };
 
 /*---------------------------------------------------------------------------*/

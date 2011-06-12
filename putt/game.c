@@ -289,7 +289,7 @@ void game_draw(int pose, float t)
     if (!state)
         return;
 
-    fp->shadow = ball;
+    fp->shadow_ui = ball;
 
     sol_draw_enable(&rend);
 

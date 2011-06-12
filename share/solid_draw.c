@@ -755,7 +755,7 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
         {
             glPushMatrix();
             {
-                sol_transform(draw->vary, draw->vary->bv + bi, draw->shadow);
+                sol_transform(draw->vary, draw->vary->bv + bi, draw->shadow_ui);
                 sol_draw_body(draw->bv + bi, rend, p);
             }
             glPopMatrix();
