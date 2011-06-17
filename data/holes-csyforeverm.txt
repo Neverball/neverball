@@ -2,7 +2,7 @@ shot-putt/csyforeverm.jpg
 Neverputt Forever Medium\The original 18-hole "Forever" course.\\Difficulty: Easy to Hard\Author: Challenge Space Yard\
 map-csyforevermp/ZTetromino.sol	back/blues.png	2	bgm/track1.ogg
 map-csyforevermp/ZTetromino.sol	back/blues.png	2	bgm/track1.ogg
-map-csyforevermp/PlusSign.sol	back/org_yel.png	3	bgm/track1.ogg
+map-csyforevermp/HeavyTurns.sol	back/org_yel.png	4	bgm/track1.ogg
 map-csyforevermp/SnowLand.sol	back/cyn_grn.png	2	bgm/track1.ogg
 map-csyforevermp/Bend.sol	back/blu_wht.png	2	bgm/track2.ogg
 map-csyforevermp/LoopCross.sol	back/blk_blu.png	2	bgm/track2.ogg
