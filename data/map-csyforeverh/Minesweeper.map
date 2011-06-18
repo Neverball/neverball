@@ -11,6 +11,7 @@
 "song" "bgm/track1.ogg"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
+"shot" "shot-csyforeverh/Minesweeper.png"
 // brush 0
 {
 ( -64 -64 0 ) ( -64 -128 0 ) ( -128 -64 0 ) mtrl/turf-shiny 0 0 0 0.5 0.5 0 0 0
