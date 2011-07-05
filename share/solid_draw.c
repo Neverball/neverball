@@ -79,44 +79,51 @@ static void sol_transform(const struct s_vary *vary,
     {
         struct v_ball *up = vary->uv + ui;
 
-        glMatrixMode(GL_TEXTURE);
-        glActiveTexture_(GL_TEXTURE2);
+        if (tex_env_stage(TEX_STAGE_SHADOW))
         {
-            glLoadIdentity();
-            glTranslatef(p[0] - up->p[0],
-                         p[1] - up->p[1] + 0.5f,
-                         p[2] - up->p[2]);
-            glRotatef(V_DEG(a), v[0], v[1], v[2]);
+            glMatrixMode(GL_TEXTURE);
+            {
+                float k = 0.25f / up->r;
+
+                glLoadIdentity();
+
+                /* Center the shadow texture on the ball. */
+
+                glTranslatef(0.5f, 0.5f, 0.0f);
+
+                /* Transform ball XZ position to ST texture coordinate. */
+
+                glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+
+                /* Scale the shadow texture to the radius of the ball. */
+
+                glScalef(k, k, k);
+
+                /* Move the shadow texture under the ball. */
+
+                glTranslatef(-up->p[0], -up->p[1], -up->p[2]);
+
+                /* Apply the body position and rotation. */
+
+                glTranslatef(p[0], p[1], p[2]);
+                glRotatef(V_DEG(a), v[0], v[1], v[2]);
+
+                /* Vertically center clipper texture on ball position. */
+
+                if (tex_env_stage(TEX_STAGE_CLIP))
+                {
+                    glLoadIdentity();
+                    glTranslatef(p[0] - up->p[0],
+                                 p[1] - up->p[1] + 0.5f,
+                                 p[2] - up->p[2]);
+                    glRotatef(V_DEG(a), v[0], v[1], v[2]);
+
+                }
+            }
+            glMatrixMode(GL_MODELVIEW);
+
+            tex_env_stage(TEX_STAGE_TEXTURE);
         }
-        glActiveTexture_(GL_TEXTURE1);
-        {
-            float k = 0.25f / up->r;
-
-            glLoadIdentity();
-
-            /* Center the shadow texture on the ball. */
-
-            glTranslatef(0.5f, 0.5f, 0.0f);
-
-            /* Transform ball XZ position to ST texture coordinate. */
-
-            glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-
-            /* Scale the shadow texture to the radius of the ball. */
-
-            glScalef(k, k, k);
-
-            /* Move the shadow texture under the ball. */
-
-            glTranslatef(-up->p[0], -up->p[1], -up->p[2]);
-
-            /* Apply the body position and rotation. */
-
-            glTranslatef(p[0], p[1], p[2]);
-            glRotatef(V_DEG(a), v[0], v[1], v[2]);
-        }
-        glActiveTexture_(GL_TEXTURE0);
-        glMatrixMode(GL_MODELVIEW);
     }
 }
 
@@ -180,14 +187,7 @@ static void sol_draw_bill(GLfloat w, GLfloat h, GLboolean edge)
 static void sol_bill_enable(const struct s_draw *draw)
 {
     const size_t s = sizeof (GLfloat);
-/*
-    glDisableClientState(GL_NORMAL_ARRAY);
-    glClientActiveTexture_(GL_TEXTURE2);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glClientActiveTexture_(GL_TEXTURE1);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glClientActiveTexture_(GL_TEXTURE0);
-*/
+
     glBindBuffer_(GL_ARRAY_BUFFER, draw->bill);
 
     glTexCoordPointer(2, GL_FLOAT, s * 4, (GLvoid *) (    0));
@@ -196,14 +196,6 @@ static void sol_bill_enable(const struct s_draw *draw)
 
 static void sol_bill_disable(void)
 {
-/*
-    glEnableClientState(GL_NORMAL_ARRAY);
-    glClientActiveTexture_(GL_TEXTURE2);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glClientActiveTexture_(GL_TEXTURE1);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glClientActiveTexture_(GL_TEXTURE0);
-*/
 }
 
 /*---------------------------------------------------------------------------*/
@@ -612,11 +604,15 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
         glVertexPointer  (3, T, s, (GLvoid *) offsetof (struct d_vert, p));
         glNormalPointer  (   T, s, (GLvoid *) offsetof (struct d_vert, n));
 
-        glClientActiveTexture_(GL_TEXTURE2);
-        glTexCoordPointer(3, T, s, (GLvoid *) offsetof (struct d_vert, p));
-        glClientActiveTexture_(GL_TEXTURE1);
-        glTexCoordPointer(3, T, s, (GLvoid *) offsetof (struct d_vert, p));
-        glClientActiveTexture_(GL_TEXTURE0);
+        if (tex_env_stage(TEX_STAGE_SHADOW))
+        {
+            glTexCoordPointer(3, T, s, (GLvoid *) offsetof (struct d_vert, p));
+
+            if (tex_env_stage(TEX_STAGE_CLIP))
+                glTexCoordPointer(3, T, s, (GLvoid *) offsetof (struct d_vert, p));
+
+            tex_env_stage(TEX_STAGE_TEXTURE);
+        }
         glTexCoordPointer(2, T, s, (GLvoid *) offsetof (struct d_vert, t));
 
         /* Draw the mesh. */
@@ -711,6 +707,10 @@ int sol_load_draw(struct s_draw *draw, const struct s_vary *vary, int s)
         }
     }
 
+    /* Initialize shadow state. */
+
+    draw->shadow_ui = -1;
+
     /* Initialize all bodies for this file. */
 
     if (draw->base->bc)
@@ -767,11 +767,22 @@ void sol_draw_enable(struct s_rend *rend)
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
-    glClientActiveTexture_(GL_TEXTURE2);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glClientActiveTexture_(GL_TEXTURE1);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glClientActiveTexture_(GL_TEXTURE0);
+    if (gli.max_texture_units > 2)
+        tex_env_active(&tex_env_shadow_clip);
+    else if (gli.max_texture_units > 1)
+        tex_env_active(&tex_env_shadow);
+    else
+        tex_env_active(&tex_env_default);
+
+    if (tex_env_stage(TEX_STAGE_SHADOW))
+    {
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        if (tex_env_stage(TEX_STAGE_CLIP))
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        tex_env_stage(TEX_STAGE_TEXTURE);
+    }
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
     rend->mp = &default_draw_mtrl;
@@ -781,12 +792,18 @@ void sol_draw_disable(struct s_rend *rend)
 {
     sol_apply_mtrl(&default_draw_mtrl, rend);
 
-    glClientActiveTexture_(GL_TEXTURE2);
+    if (tex_env_stage(TEX_STAGE_SHADOW))
+    {
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        if (tex_env_stage(TEX_STAGE_CLIP))
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        tex_env_stage(TEX_STAGE_TEXTURE);
+    }
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glClientActiveTexture_(GL_TEXTURE1);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glClientActiveTexture_(GL_TEXTURE0);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    tex_env_active(&tex_env_default);
 
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);

@@ -29,6 +29,196 @@
 
 /*---------------------------------------------------------------------------*/
 
+static const struct tex_env *curr_tex_env;
+
+static void tex_env_conf_default(int, int);
+static void tex_env_conf_shadow(int, int);
+
+const struct tex_env tex_env_default = {
+    tex_env_conf_default,
+    1,
+    {
+        { GL_TEXTURE0, TEX_STAGE_TEXTURE }
+    }
+};
+
+const struct tex_env tex_env_shadow = {
+    tex_env_conf_shadow,
+    2,
+    {
+        { GL_TEXTURE0, TEX_STAGE_SHADOW },
+        { GL_TEXTURE1, TEX_STAGE_TEXTURE }
+    }
+};
+
+const struct tex_env tex_env_shadow_clip = {
+    tex_env_conf_shadow,
+    3,
+    {
+        { GL_TEXTURE0, TEX_STAGE_SHADOW },
+        { GL_TEXTURE1, TEX_STAGE_CLIP },
+        { GL_TEXTURE2, TEX_STAGE_TEXTURE }
+    }
+};
+
+static void tex_env_conf_default(int stage, int enable)
+{
+    switch (stage)
+    {
+    case TEX_STAGE_TEXTURE:
+        if (enable)
+        {
+            glEnable(GL_TEXTURE_2D);
+
+            /* Modulate is the default mode. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+            glMatrixMode(GL_TEXTURE);
+            glLoadIdentity();
+            glMatrixMode(GL_MODELVIEW);
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
+        break;
+    }
+}
+
+static void tex_env_conf_shadow(int stage, int enable)
+{
+    switch (stage)
+    {
+    case TEX_STAGE_SHADOW:
+        if (enable)
+        {
+            glDisable(GL_TEXTURE_2D);
+
+            /* Modulate primary color and shadow alpha. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_MODULATE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_RGB, GL_PREVIOUS);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC1_RGB, GL_TEXTURE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_ONE_MINUS_SRC_ALPHA);
+
+            /* Copy incoming alpha. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_REPLACE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_ALPHA, GL_PREVIOUS);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
+
+            glMatrixMode(GL_TEXTURE);
+            glLoadIdentity();
+            glMatrixMode(GL_MODELVIEW);
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
+        break;
+
+    case TEX_STAGE_CLIP:
+        if (enable)
+        {
+            glDisable(GL_TEXTURE_2D);
+
+            /* Interpolate shadowed and non-shadowed primary color. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_INTERPOLATE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_RGB, GL_PREVIOUS);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC1_RGB, GL_PRIMARY_COLOR);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC2_RGB, GL_TEXTURE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_SRC_COLOR);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB, GL_SRC_ALPHA);
+
+            /* Copy incoming alpha. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_REPLACE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_ALPHA, GL_PREVIOUS);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
+
+            glMatrixMode(GL_TEXTURE);
+            glLoadIdentity();
+            glMatrixMode(GL_MODELVIEW);
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
+        break;
+
+    case TEX_STAGE_TEXTURE:
+        tex_env_conf_default(TEX_STAGE_TEXTURE, enable);
+        break;
+    }
+}
+
+static void tex_env_conf(const struct tex_env *env, int enable)
+{
+    size_t i;
+
+    for (i = 0; i < env->count; i++)
+    {
+        const struct tex_stage *st = &env->stages[i];
+        glActiveTexture_(st->unit);
+        glClientActiveTexture_(st->unit);
+        env->conf(st->stage, enable);
+    }
+
+    /* Last stage remains selected. */
+}
+
+/*
+ * Set up current texture pipeline.
+ */
+void tex_env_active(const struct tex_env *env)
+{
+    if (curr_tex_env == env)
+        return;
+
+    if (curr_tex_env)
+    {
+        tex_env_conf(curr_tex_env, 0);
+        curr_tex_env = NULL;
+    }
+
+    tex_env_conf(env, 1);
+    curr_tex_env = env;
+}
+
+/*
+ * Select stage of the current texture pipeline.
+ */
+int tex_env_stage(int stage)
+{
+    size_t i;
+
+    if (curr_tex_env)
+    {
+        for (i = 0; i < curr_tex_env->count; i++)
+        {
+            const struct tex_stage *st = &curr_tex_env->stages[i];
+
+            if (st->stage == stage)
+            {
+                glActiveTexture_(st->unit);
+                glClientActiveTexture_(st->unit);
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
 static struct s_full beam;
 static struct s_full jump;
 static struct s_full goal;
@@ -239,83 +429,6 @@ void back_draw_easy(void)
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint clip_text;
-
-static GLubyte clip_data[] = { 0xff, 0xff, 0x0, 0x0 };
-
-void clip_init(void)
-{
-    if (gli.max_texture_units < 3)
-        return;
-
-    glGenTextures(1, &clip_text);
-    glBindTexture(GL_TEXTURE_2D, clip_text);
-
-    glTexImage2D(GL_TEXTURE_2D, 0,
-                 GL_LUMINANCE_ALPHA, 1, 2, 0,
-                 GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, clip_data);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    glActiveTexture_(GL_TEXTURE2);
-
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
-
-    /* Fade to black using stored alpha. */
-
-    glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_MODULATE);
-    glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_RGB, GL_PREVIOUS);
-    glTexEnvi(GL_TEXTURE_ENV, GL_SRC1_RGB, GL_PREVIOUS);
-    glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
-    glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_ONE_MINUS_SRC_ALPHA);
-
-    /* Restore original alpha.*/
-
-    glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
-    glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_ALPHA, GL_PRIMARY_COLOR);
-    glTexEnvi(GL_TEXTURE_ENV, GL_SRC1_ALPHA, GL_TEXTURE0);
-    glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
-    glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
-
-    glActiveTexture_(GL_TEXTURE0);
-}
-
-void clip_free(void)
-{
-    if (glIsTexture(clip_text))
-        glDeleteTextures(1, &clip_text);
-}
-
-void clip_draw_set(void)
-{
-    if (gli.max_texture_units < 3)
-        return;
-
-    glActiveTexture_(GL_TEXTURE2);
-
-    glBindTexture(GL_TEXTURE_2D, clip_text);
-    glEnable(GL_TEXTURE_2D);
-
-    glActiveTexture_(GL_TEXTURE0);
-}
-
-void clip_draw_clr(void)
-{
-    if (gli.max_texture_units < 3)
-        return;
-
-    glActiveTexture_(GL_TEXTURE2);
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_TEXTURE_2D);
-
-    glActiveTexture_(GL_TEXTURE0);
-}
-
 /*
  * A note about lighting and shadow: technically speaking, it's wrong.
  * The  light  position  and   shadow  projection  behave  as  if  the
@@ -330,18 +443,12 @@ void clip_draw_clr(void)
  */
 
 static GLuint shad_text;
+static GLuint clip_text;
+
+static GLubyte clip_data[] = { 0xff, 0xff, 0x0, 0x0 };
 
 void shad_init(void)
 {
-    if (!config_get_d(CONFIG_SHADOW))
-        return;
-
-    if (gli.max_texture_units < 2)
-    {
-        config_set_d(CONFIG_SHADOW, 0);
-        return;
-    }
-
     shad_text = make_image_from_file(IMG_SHAD);
 
     if (config_get_d(CONFIG_SHADOW) == 2)
@@ -350,80 +457,60 @@ void shad_init(void)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     }
 
-    glActiveTexture_(GL_TEXTURE1);
+    /* Create the clip texture. */
 
-    if (gli.max_texture_units < 3)
-    {
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-    }
-    else
-    {
-        /*
-         * FIXME: we use texture "crossbar" (i.e., refer to other TUs
-         * directly) here which is not available in OpenGL ES
-         * 1.1. This can be fixed by a simple reordering of the
-         * texture stages but may require code changes all over the
-         * place.
-         */
+    glGenTextures(1, &clip_text);
+    glBindTexture(GL_TEXTURE_2D, clip_text);
 
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
+    glTexImage2D(GL_TEXTURE_2D, 0,
+                 GL_LUMINANCE_ALPHA, 1, 2, 0,
+                 GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, clip_data);
 
-        /* Keep color intact. */
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_REPLACE);
-        glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_RGB, GL_PREVIOUS);
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
-
-        /* Multiply shadow alpha and clip alpha. */
-
-        glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
-        glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_ALPHA, GL_TEXTURE1);
-        glTexEnvi(GL_TEXTURE_ENV, GL_SRC1_ALPHA, GL_TEXTURE2);
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
-        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
-    }
-
-    glActiveTexture_(GL_TEXTURE0);
-
-    clip_init();
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
 void shad_free(void)
 {
-    if (glIsTexture(shad_text))
-        glDeleteTextures(1, &shad_text);
-
-    clip_free();
+    glDeleteTextures(1, &shad_text);
+    glDeleteTextures(1, &clip_text);
 }
 
 void shad_draw_set(void)
 {
-    if (!config_get_d(CONFIG_SHADOW))
-        return;
-
-    glActiveTexture_(GL_TEXTURE1);
+    if (tex_env_stage(TEX_STAGE_SHADOW))
     {
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, shad_text);
-    }
-    glActiveTexture_(GL_TEXTURE0);
 
-    clip_draw_set();
+        if (tex_env_stage(TEX_STAGE_CLIP))
+        {
+            glBindTexture(GL_TEXTURE_2D, clip_text);
+            glEnable(GL_TEXTURE_2D);
+        }
+
+        tex_env_stage(TEX_STAGE_TEXTURE);
+    }
 }
 
 void shad_draw_clr(void)
 {
-    if (!config_get_d(CONFIG_SHADOW))
-        return;
-
-    glActiveTexture_(GL_TEXTURE1);
+    if (tex_env_stage(TEX_STAGE_SHADOW))
     {
         glBindTexture(GL_TEXTURE_2D, 0);
         glDisable(GL_TEXTURE_2D);
-    }
-    glActiveTexture_(GL_TEXTURE0);
 
-    clip_draw_clr();
+        if (tex_env_stage(TEX_STAGE_CLIP))
+        {
+            glBindTexture(GL_TEXTURE_2D, 0);
+            glDisable(GL_TEXTURE_2D);
+        }
+
+        tex_env_stage(TEX_STAGE_TEXTURE);
+    }
 }
 
 /*---------------------------------------------------------------------------*/

@@ -42,6 +42,35 @@ void shad_draw_clr(void);
 
 /*---------------------------------------------------------------------------*/
 
+enum
+{
+    TEX_STAGE_TEXTURE,
+    TEX_STAGE_SHADOW,
+    TEX_STAGE_CLIP
+};
+
+struct tex_stage
+{
+    GLenum unit;
+    int stage;
+};
+
+struct tex_env
+{
+    void (*conf)(int, int);
+    size_t count;
+    struct tex_stage stages[4];
+};
+
+extern const struct tex_env tex_env_default;
+extern const struct tex_env tex_env_shadow;
+extern const struct tex_env tex_env_shadow_clip;
+
+void tex_env_active(const struct tex_env *);
+int  tex_env_stage(int);
+
+/*---------------------------------------------------------------------------*/
+
 void fade_draw(float);
 
 #endif
