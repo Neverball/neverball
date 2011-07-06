@@ -30,7 +30,7 @@ static int fps_id;
 
 void hud_init(void)
 {
-    static const float *color[5] = {
+    static const GLubyte *color[5] = {
         gui_wht,
         gui_red,
         gui_grn,

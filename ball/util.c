@@ -36,8 +36,8 @@ static int time_btn_id;
 static int goal_btn_id;
 
 static void set_score_color(int id, int hi,
-                            const GLfloat *c0,
-                            const GLfloat *c1)
+                            const GLubyte *c0,
+                            const GLubyte *c1)
 {
     if (hi >= RANK_HARD)
     {

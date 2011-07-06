@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <sys/time.h>
 
 #include "solid_base.h"
 
@@ -43,8 +44,12 @@
 /*---------------------------------------------------------------------------*/
 
 static const char *input_file;
-static int         debug_output;
+static int         debug_output = 0;
+static int           csv_output = 0;
 static int         verbose;
+
+struct timeval t0;
+struct timeval t1;
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,6 +60,7 @@ static int         verbose;
 #define MAXE    131072
 #define MAXS    65536
 #define MAXT    131072
+#define MAXO    131072
 #define MAXG    65536
 #define MAXL    4096
 #define MAXN    2048
@@ -101,6 +107,11 @@ static int incs(struct s_base *fp)
 static int inct(struct s_base *fp)
 {
     return (fp->tc < MAXT) ? fp->tc++ : overflow("texc");
+}
+
+static int inco(struct s_base *fp)
+{
+    return (fp->oc < MAXO) ? fp->oc++ : overflow("offs");
 }
 
 static int incg(struct s_base *fp)
@@ -180,6 +191,7 @@ static void init_file(struct s_base *fp)
     fp->ec = 0;
     fp->sc = 0;
     fp->tc = 0;
+    fp->oc = 0;
     fp->gc = 0;
     fp->lc = 0;
     fp->nc = 0;
@@ -201,6 +213,7 @@ static void init_file(struct s_base *fp)
     fp->ev = (struct b_edge *) calloc(MAXE, sizeof (*fp->ev));
     fp->sv = (struct b_side *) calloc(MAXS, sizeof (*fp->sv));
     fp->tv = (struct b_texc *) calloc(MAXT, sizeof (*fp->tv));
+    fp->ov = (struct b_offs *) calloc(MAXO, sizeof (*fp->ov));
     fp->gv = (struct b_geom *) calloc(MAXG, sizeof (*fp->gv));
     fp->lv = (struct b_lump *) calloc(MAXL, sizeof (*fp->lv));
     fp->nv = (struct b_node *) calloc(MAXN, sizeof (*fp->nv));
@@ -400,6 +413,8 @@ static void size_image(const char *name, int *w, int *h)
 static int read_mtrl(struct s_base *fp, const char *name)
 {
     static char line[MAXSTR];
+    static char word[MAXSTR];
+
     struct b_mtrl *mp;
     fs_file fin;
     int mi;
@@ -432,7 +447,27 @@ static int read_mtrl(struct s_base *fp, const char *name)
             mp->h[0] = strtod(line, NULL);
 
         if (fs_gets(line, sizeof (line), fin))
-            mp->fl = strtol(line, NULL, 10);
+        {
+            char *p = line;
+            int   f = 0;
+            int   n;
+
+            while (sscanf(p, "%s%n", word, &n) > 0)
+            {
+                if      (strcmp(word, "additive")    == 0) f |= M_ADDITIVE;
+                else if (strcmp(word, "clamp-s")     == 0) f |= M_CLAMP_S;
+                else if (strcmp(word, "clamp-t")     == 0) f |= M_CLAMP_T;
+                else if (strcmp(word, "decal")       == 0) f |= M_DECAL;
+                else if (strcmp(word, "environment") == 0) f |= M_ENVIRONMENT;
+                else if (strcmp(word, "reflective")  == 0) f |= M_REFLECTIVE;
+                else if (strcmp(word, "shadowed")    == 0) f |= M_SHADOWED;
+                else if (strcmp(word, "transparent") == 0) f |= M_TRANSPARENT;
+                else if (strcmp(word, "two-sided")   == 0) f |= M_TWO_SIDED;
+
+                p += n;
+            }
+            mp->fl = f;
+        }
 
         if (fs_gets(line, sizeof (line), fin))
             mp->angle = strtod(line, NULL);
@@ -496,9 +531,11 @@ static void move_body(struct s_base *fp,
 
         for (i = 0; i < bp->gc; i++)
         {
-            b[fp->gv[fp->iv[bp->g0 + i]].vi] = 1;
-            b[fp->gv[fp->iv[bp->g0 + i]].vj] = 1;
-            b[fp->gv[fp->iv[bp->g0 + i]].vk] = 1;
+            const struct b_geom *gp = fp->gv + fp->iv[bp->g0 + i];
+
+            b[fp->ov[gp->oi].vi] = 1;
+            b[fp->ov[gp->oj].vi] = 1;
+            b[fp->ov[gp->ok].vi] = 1;
         }
 
         /* Apply the motion to the marked vertices. */
@@ -555,24 +592,28 @@ static void read_f(struct s_base *fp, const char *line,
                    int v0, int t0, int s0, int mi)
 {
     struct b_geom *gp = fp->gv + incg(fp);
+    
+    struct b_offs *op = fp->ov + (gp->oi = inco(fp));
+    struct b_offs *oq = fp->ov + (gp->oj = inco(fp));
+    struct b_offs *or = fp->ov + (gp->ok = inco(fp));
 
     char c1;
     char c2;
 
     sscanf(line, "%d%c%d%c%d %d%c%d%c%d %d%c%d%c%d",
-           &gp->vi, &c1, &gp->ti, &c2, &gp->si,
-           &gp->vj, &c1, &gp->tj, &c2, &gp->sj,
-           &gp->vk, &c1, &gp->tk, &c2, &gp->sk);
+           &op->vi, &c1, &op->ti, &c2, &op->si,
+           &oq->vi, &c1, &oq->ti, &c2, &oq->si,
+           &or->vi, &c1, &or->ti, &c2, &or->si);
 
-    gp->vi += (v0 - 1);
-    gp->vj += (v0 - 1);
-    gp->vk += (v0 - 1);
-    gp->ti += (t0 - 1);
-    gp->tj += (t0 - 1);
-    gp->tk += (t0 - 1);
-    gp->si += (s0 - 1);
-    gp->sj += (s0 - 1);
-    gp->sk += (s0 - 1);
+    op->vi += (v0 - 1);
+    oq->vi += (v0 - 1);
+    or->vi += (v0 - 1);
+    op->ti += (t0 - 1);
+    oq->ti += (t0 - 1);
+    or->ti += (t0 - 1);
+    op->si += (s0 - 1);
+    oq->si += (s0 - 1);
+    or->si += (s0 - 1);
 
     gp->mi  = mi;
 }
@@ -1053,7 +1094,7 @@ static void make_bill(struct s_base *fp,
         if (strcmp(k[i], "image") == 0)
         {
             rp->mi = read_mtrl(fp, v[i]);
-            fp->mv[rp->mi].fl |= M_CLAMPED;
+            fp->mv[rp->mi].fl |= M_CLAMP_S | M_CLAMP_T;
         }
 
         if (strcmp(k[i], "origin") == 0)
@@ -1529,24 +1570,31 @@ static void clip_geom(struct s_base *fp,
 
     for (i = 0; i < n - 2; i++)
     {
-        fp->gv[fp->gc].mi = plane_m[si];
+        const int gi = incg(fp);
 
-        fp->gv[fp->gc].ti = t[0];
-        fp->gv[fp->gc].tj = t[i + 1];
-        fp->gv[fp->gc].tk = t[i + 2];
+        struct b_geom *gp = fp->gv + gi;
 
-        fp->gv[fp->gc].si = si;
-        fp->gv[fp->gc].sj = si;
-        fp->gv[fp->gc].sk = si;
+        struct b_offs *op = fp->ov + (gp->oi = inco(fp));
+        struct b_offs *oq = fp->ov + (gp->oj = inco(fp));
+        struct b_offs *or = fp->ov + (gp->ok = inco(fp));
 
-        fp->gv[fp->gc].vi = m[0];
-        fp->gv[fp->gc].vj = m[i + 1];
-        fp->gv[fp->gc].vk = m[i + 2];
+        gp->mi = plane_m[si];
 
-        fp->iv[fp->ic] = fp->gc;
-        inci(fp);
-        incg(fp);
+        op->ti = t[0];
+        oq->ti = t[i + 1];
+        or->ti = t[i + 2];
+
+        op->si = si;
+        oq->si = si;
+        or->si = si;
+
+        op->vi = m[0];
+        oq->vi = m[i + 1];
+        or->vi = m[i + 2];
+
+        fp->iv[fp->ic] = gi;
         lp->gc++;
+        inci(fp);
     }
 }
 
@@ -1672,26 +1720,34 @@ static int comp_texc(const struct b_texc *tp, const struct b_texc *tq)
     return 1;
 }
 
+static int comp_offs(const struct b_offs *op, const struct b_offs *oq)
+{
+    if (op->ti != oq->ti) return 0;
+    if (op->si != oq->si) return 0;
+    if (op->vi != oq->vi) return 0;
+
+    return 1;
+}
+
 static int comp_geom(const struct b_geom *gp, const struct b_geom *gq)
 {
     if (gp->mi != gq->mi) return 0;
-
-    if (gp->ti != gq->ti) return 0;
-    if (gp->si != gq->si) return 0;
-    if (gp->vi != gq->vi) return 0;
-
-    if (gp->tj != gq->tj) return 0;
-    if (gp->sj != gq->sj) return 0;
-    if (gp->vj != gq->vj) return 0;
-
-    if (gp->tk != gq->tk) return 0;
-    if (gp->sk != gq->sk) return 0;
-    if (gp->vk != gq->vk) return 0;
+    if (gp->oi != gq->oi) return 0;
+    if (gp->oj != gq->oj) return 0;
+    if (gp->ok != gq->ok) return 0;
 
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/
+
+static int mtrl_swaps[MAXM];
+static int vert_swaps[MAXV];
+static int edge_swaps[MAXE];
+static int side_swaps[MAXS];
+static int texc_swaps[MAXT];
+static int offs_swaps[MAXO];
+static int geom_swaps[MAXG];
 
 /*
  * For each file  element type, replace all references  to element 'i'
@@ -1709,7 +1765,35 @@ static void swap_mtrl(struct s_base *fp, int mi, int mj)
         if (fp->rv[i].mi == mi) fp->rv[i].mi = mj;
 }
 
-static int vert_swaps[MAXV];
+static void swap_vert(struct s_base *fp, int vi, int vj)
+{
+    int i, j;
+
+    for (i = 0; i < fp->ec; i++)
+    {
+        if (fp->ev[i].vi == vi) fp->ev[i].vi = vj;
+        if (fp->ev[i].vj == vi) fp->ev[i].vj = vj;
+    }
+
+    for (i = 0; i < fp->oc; i++)
+        if (fp->ov[i].vi == vi) fp->ov[i].vi = vj;
+
+    for (i = 0; i < fp->lc; i++)
+        for (j = 0; j < fp->lv[i].vc; j++)
+            if (fp->iv[fp->lv[i].v0 + j] == vi)
+                fp->iv[fp->lv[i].v0 + j]  = vj;
+}
+
+static void apply_mtrl_swaps(struct s_base *fp)
+{
+    int i;
+
+    for (i = 0; i < fp->gc; i++)
+        fp->gv[i].mi = mtrl_swaps[fp->gv[i].mi];
+    for (i = 0; i < fp->rc; i++)
+        fp->rv[i].mi = mtrl_swaps[fp->rv[i].mi];
+}
+
 
 static void apply_vert_swaps(struct s_base *fp)
 {
@@ -1721,42 +1805,13 @@ static void apply_vert_swaps(struct s_base *fp)
         fp->ev[i].vj = vert_swaps[fp->ev[i].vj];
     }
 
-    for (i = 0; i < fp->gc; i++)
-    {
-        fp->gv[i].vi = vert_swaps[fp->gv[i].vi];
-        fp->gv[i].vj = vert_swaps[fp->gv[i].vj];
-        fp->gv[i].vk = vert_swaps[fp->gv[i].vk];
-    }
+    for (i = 0; i < fp->oc; i++)
+        fp->ov[i].vi = vert_swaps[fp->ov[i].vi];
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].vc; j++)
             fp->iv[fp->lv[i].v0 + j] = vert_swaps[fp->iv[fp->lv[i].v0 + j]];
 }
-
-static void swap_vert(struct s_base *fp, int vi, int vj)
-{
-    int i, j;
-
-    for (i = 0; i < fp->ec; i++)
-    {
-        if (fp->ev[i].vi == vi) fp->ev[i].vi = vj;
-        if (fp->ev[i].vj == vi) fp->ev[i].vj = vj;
-    }
-
-    for (i = 0; i < fp->gc; i++)
-    {
-        if (fp->gv[i].vi == vi) fp->gv[i].vi = vj;
-        if (fp->gv[i].vj == vi) fp->gv[i].vj = vj;
-        if (fp->gv[i].vk == vi) fp->gv[i].vk = vj;
-    }
-
-    for (i = 0; i < fp->lc; i++)
-        for (j = 0; j < fp->lv[i].vc; j++)
-            if (fp->iv[fp->lv[i].v0 + j] == vi)
-                fp->iv[fp->lv[i].v0 + j]  = vj;
-}
-
-static int edge_swaps[MAXE];
 
 static void apply_edge_swaps(struct s_base *fp)
 {
@@ -1767,18 +1822,12 @@ static void apply_edge_swaps(struct s_base *fp)
             fp->iv[fp->lv[i].e0 + j] = edge_swaps[fp->iv[fp->lv[i].e0 + j]];
 }
 
-static int side_swaps[MAXS];
-
 static void apply_side_swaps(struct s_base *fp)
 {
     int i, j;
 
-    for (i = 0; i < fp->gc; i++)
-    {
-        fp->gv[i].si = side_swaps[fp->gv[i].si];
-        fp->gv[i].sj = side_swaps[fp->gv[i].sj];
-        fp->gv[i].sk = side_swaps[fp->gv[i].sk];
-    }
+    for (i = 0; i < fp->oc; i++)
+        fp->ov[i].si = side_swaps[fp->ov[i].si];
     for (i = 0; i < fp->nc; i++)
         fp->nv[i].si = side_swaps[fp->nv[i].si];
 
@@ -1787,21 +1836,25 @@ static void apply_side_swaps(struct s_base *fp)
             fp->iv[fp->lv[i].s0 + j] = side_swaps[fp->iv[fp->lv[i].s0 + j]];
 }
 
-static int texc_swaps[MAXT];
-
 static void apply_texc_swaps(struct s_base *fp)
+{
+    int i;
+
+    for (i = 0; i < fp->oc; i++)
+        fp->ov[i].ti = texc_swaps[fp->ov[i].ti];
+}
+
+static void apply_offs_swaps(struct s_base *fp)
 {
     int i;
 
     for (i = 0; i < fp->gc; i++)
     {
-        fp->gv[i].ti = texc_swaps[fp->gv[i].ti];
-        fp->gv[i].tj = texc_swaps[fp->gv[i].tj];
-        fp->gv[i].tk = texc_swaps[fp->gv[i].tk];
+        fp->gv[i].oi = offs_swaps[fp->gv[i].oi];
+        fp->gv[i].oj = offs_swaps[fp->gv[i].oj];
+        fp->gv[i].ok = offs_swaps[fp->gv[i].ok];
     }
 }
-
-static int geom_swaps[MAXG];
 
 static void apply_geom_swaps(struct s_base *fp)
 {
@@ -1826,21 +1879,19 @@ static void uniq_mtrl(struct s_base *fp)
     {
         for (j = 0; j < k; j++)
             if (comp_mtrl(fp->mv + i, fp->mv + j))
-            {
-                swap_mtrl(fp, i, j);
                 break;
-            }
+
+        mtrl_swaps[i] = j;
 
         if (j == k)
         {
             if (i != k)
-            {
                 fp->mv[k] = fp->mv[i];
-                swap_mtrl(fp, i, k);
-            }
             k++;
         }
     }
+
+    apply_mtrl_swaps(fp);
 
     fp->mc = k;
 }
@@ -1895,34 +1946,49 @@ static void uniq_edge(struct s_base *fp)
     fp->ec = k;
 }
 
-static int geomlist[MAXV];
-static int nextgeom[MAXG];
+static void uniq_offs(struct s_base *fp)
+{
+    int i, j, k = 0;
+
+    for (i = 0; i < fp->oc; i++)
+    {
+        for (j = 0; j < k; j++)
+            if (comp_offs(fp->ov + i, fp->ov + j))
+                break;
+
+        offs_swaps[i] = j;
+
+        if (j == k)
+        {
+            if (i != k)
+                fp->ov[k] = fp->ov[i];
+            k++;
+        }
+    }
+
+    apply_offs_swaps(fp);
+
+    fp->oc = k;
+}
 
 static void uniq_geom(struct s_base *fp)
 {
     int i, j, k = 0;
 
-    for (i = 0; i < MAXV; i++)
-        geomlist[i] = -1;
-
     for (i = 0; i < fp->gc; i++)
     {
-        int key = fp->gv[i].vj;
-
-        for (j = geomlist[key]; j != -1; j = nextgeom[j])
+        for (j = 0; j < k; j++)
             if (comp_geom(fp->gv + i, fp->gv + j))
-                goto found;
+                break;
 
-        fp->gv[k] = fp->gv[i];
-
-        nextgeom[k] = geomlist[key];
-        geomlist[key] = k;
-
-        j = k;
-        k++;
-
-found:
         geom_swaps[i] = j;
+
+        if (j == k)
+        {
+            if (i != k)
+                fp->gv[k] = fp->gv[i];
+            k++;
+        }
     }
 
     apply_geom_swaps(fp);
@@ -1991,6 +2057,7 @@ static void uniq_file(struct s_base *fp)
         uniq_edge(fp);
         uniq_side(fp);
         uniq_texc(fp);
+        uniq_offs(fp);
         uniq_geom(fp);
     }
 }
@@ -2034,21 +2101,21 @@ static void smth_file(struct s_base *fp)
             {
                 struct b_geom *gp = fp->gv + gi;
 
-                T[c].vi = gp->vi;
+                T[c].vi = fp->ov[gp->oi].vi;
+                T[c].si = fp->ov[gp->oi].si;
                 T[c].mi = gp->mi;
-                T[c].si = gp->si;
                 T[c].gi = gi;
                 c++;
 
-                T[c].vi = gp->vj;
+                T[c].vi = fp->ov[gp->oj].vi;
+                T[c].si = fp->ov[gp->oj].si;
                 T[c].mi = gp->mi;
-                T[c].si = gp->sj;
                 T[c].gi = gi;
                 c++;
 
-                T[c].vi = gp->vk;
+                T[c].vi = fp->ov[gp->ok].vi;
+                T[c].si = fp->ov[gp->ok].si;
                 T[c].mi = gp->mi;
-                T[c].si = gp->sk;
                 T[c].gi = gi;
                 c++;
             }
@@ -2131,25 +2198,45 @@ static void smth_file(struct s_base *fp)
             for (i = 0; i < c; ++i)
             {
                 struct b_geom *gp = fp->gv + T[i].gi;
+                struct b_offs *op = fp->ov + gp->oi;
+                struct b_offs *oq = fp->ov + gp->oj;
+                struct b_offs *or = fp->ov + gp->ok;
 
-                if (gp->vi == T[i].vi) gp->si = T[i].si;
-                if (gp->vj == T[i].vi) gp->sj = T[i].si;
-                if (gp->vk == T[i].vi) gp->sk = T[i].si;
+                if (op->vi == T[i].vi) op->si = T[i].si;
+                if (oq->vi == T[i].vi) oq->si = T[i].si;
+                if (or->vi == T[i].vi) or->si = T[i].si;
             }
 
             free(T);
         }
 
         uniq_side(fp);
+        uniq_offs(fp);
     }
 }
-
 
 /*---------------------------------------------------------------------------*/
 
 static void sort_file(struct s_base *fp)
 {
     int i, j;
+
+    /* Sort materials by type to minimize state changes. */
+
+    for (i = 0; i < fp->mc; i++)
+        for (j = i + 1; j < fp->mc; j++)
+            if (fp->mv[i].fl > fp->mv[j].fl)
+            {
+                struct b_mtrl t;
+
+                t         = fp->mv[i];
+                fp->mv[i] = fp->mv[j];
+                fp->mv[j] =         t;
+
+                swap_mtrl(fp,  i, -1);
+                swap_mtrl(fp,  j,  i);
+                swap_mtrl(fp, -1,  j);
+            }
 
     /* Sort billboards by material within distance. */
 
@@ -2426,12 +2513,11 @@ static void node_file(struct s_base *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void dump_file(struct s_base *p, const char *name)
+static void dump_file(struct s_base *p, const char *name, double t)
 {
-    int i, j;
+    int i;
     int c = 0;
     int n = 0;
-    int m;
 
     /* Count the number of solid lumps. */
 
@@ -2439,41 +2525,34 @@ static void dump_file(struct s_base *p, const char *name)
         if ((p->lv[i].fl & 1) == 0)
             n++;
 
-    /* Count the number of visible geoms. */
-
-    m = p->rc + (p->zc + p->jc + p->xc) * 32;
-
-    for (i = 0; i < p->hc; i++)
-        if (p->hv[i].t == ITEM_COIN)
-            m += 124;
-        else
-            m += 304;
-
-    for (i = 0; i < p->bc; i++)
-    {
-        for (j = 0; j < p->bv[i].lc; j++)
-            m += p->lv[p->bv[i].l0 + j].gc;
-        m += p->bv[i].gc;
-    }
-
     /* Count the total value of all coins. */
 
     for (i = 0; i < p->hc; i++)
         if (p->hv[i].t == ITEM_COIN)
             c += p->hv[i].n;
 
-    printf("%s (%d/%d/$%d)\n"
-           "  mtrl  vert  edge  side  texc"
-           "  geom  lump  path  node  body\n"
-           "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
-           "  item  goal  view  jump  swch"
-           "  bill  ball  char  dict  indx\n"
-           "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
-           name, n, m, c,
-           p->mc, p->vc, p->ec, p->sc, p->tc,
-           p->gc, p->lc, p->pc, p->nc, p->bc,
-           p->hc, p->zc, p->wc, p->jc, p->xc,
-           p->rc, p->uc, p->ac, p->dc, p->ic);
+    if (csv_output)
+        printf("%s,%d,%d,%.3f"
+               "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+               "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n",
+               name, n, c, t,
+               p->mc, p->vc, p->ec, p->sc, p->tc,
+               p->oc, p->gc, p->lc, p->pc, p->nc, p->bc,
+               p->hc, p->zc, p->wc, p->jc, p->xc,
+               p->rc, p->uc, p->ac, p->dc, p->ic);
+    else
+        printf("%s (%d/$%d) %.3f\n"
+               "  mtrl  vert  edge  side  texc"
+               "  offs  geom  lump  path  node  body\n"
+               "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
+               "  item  goal  view  jump  swch"
+               "  bill  ball  char  dict  indx\n"
+               "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
+               name, n, c, t,
+               p->mc, p->vc, p->ec, p->sc, p->tc,
+               p->oc, p->gc, p->lc, p->pc, p->nc, p->bc,
+               p->hc, p->zc, p->wc, p->jc, p->xc,
+               p->rc, p->uc, p->ac, p->dc, p->ic);
 }
 
 int main(int argc, char *argv[])
@@ -2494,10 +2573,15 @@ int main(int argc, char *argv[])
 
     if (argc > 2)
     {
+        int argi;
+
         input_file = argv[1];
 
-        if (argc > 3 && strcmp(argv[3], "--debug") == 0)
-            debug_output = 1;
+        for (argi = 3; argi < argc; ++argi)
+        {
+            if (strcmp(argv[argi], "--debug") == 0) debug_output = 1;
+            if (strcmp(argv[argi], "--csv")   == 0)   csv_output = 1;
+        }
 
         strncpy(src, argv[1], MAXSTR - 1);
         strncpy(dst, argv[1], MAXSTR - 1);
@@ -2520,28 +2604,34 @@ int main(int argc, char *argv[])
                 return 1;
             }
 
-            init_file(&f);
-            read_map(&f, fin);
+            gettimeofday(&t0, 0);
+            {
+                init_file(&f);
+                read_map(&f, fin);
 
-            resolve();
-            targets(&f);
+                resolve();
+                targets(&f);
 
-            clip_file(&f);
-            move_file(&f);
-            uniq_file(&f);
-            smth_file(&f);
-            sort_file(&f);
-            node_file(&f);
-            dump_file(&f, dst);
+                clip_file(&f);
+                move_file(&f);
+                uniq_file(&f);
+                smth_file(&f);
+                sort_file(&f);
+                node_file(&f);
 
-            sol_stor_base(&f, base_name(dst));
+                sol_stor_base(&f, base_name(dst));
+            }
+            gettimeofday(&t1, 0);
+
+            dump_file(&f, dst, (t1.tv_sec  - t0.tv_sec) +
+                               (t1.tv_usec - t0.tv_usec) / 1000000.0);
 
             fs_close(fin);
 
             free_imagedata();
         }
     }
-    else fprintf(stderr, "Usage: %s <map> <data> [--debug]\n", argv[0]);
+    else fprintf(stderr, "Usage: %s <map> <data> [--debug] [--csv]\n", argv[0]);
 
     return 0;
 }

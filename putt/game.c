@@ -20,7 +20,6 @@
 #include "vec3.h"
 #include "geom.h"
 #include "ball.h"
-#include "back.h"
 #include "hole.h"
 #include "hud.h"
 #include "image.h"
@@ -36,6 +35,8 @@
 
 static struct s_full file;
 static int           ball;
+
+static int state;
 
 static float view_a;                    /* Ideal view rotation about Y axis  */
 static float view_m;
@@ -84,7 +85,7 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-void game_init(const char *s)
+int game_init(const char *s)
 {
     int i;
 
@@ -94,7 +95,10 @@ void game_init(const char *s)
     idle_t = 1.0f;
 
     view_init();
-    sol_load_full(&file, s, config_get_d(CONFIG_SHADOW));
+
+    if (!(state = sol_load_full(&file, s, config_get_d(CONFIG_SHADOW))))
+        return 0;
+
     sol_init_sim(&file.vary);
 
     for (i = 0; i < file.base.dc; i++)
@@ -110,6 +114,7 @@ void game_init(const char *s)
                 idle_t = 1.0f;
         }
     }
+    return 1;
 }
 
 void game_free(void)
@@ -120,67 +125,29 @@ void game_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_draw_vect_prim(const struct s_vary *fp, GLenum mode)
-{
-    float p[3];
-    float x[3];
-    float z[3];
-    float r;
-
-    v_cpy(p, fp->uv[ball].p);
-    v_cpy(x, view_e[0]);
-    v_cpy(z, view_e[2]);
-
-    r = fp->uv[ball].r;
-
-    glBegin(mode);
-    {
-        glColor4f(1.0f, 1.0f, 0.5f, 0.5f);
-        glVertex3f(p[0] - x[0] * r,
-                   p[1] - x[1] * r,
-                   p[2] - x[2] * r);
-
-        glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
-        glVertex3f(p[0] + z[0] * view_m,
-                   p[1] + z[1] * view_m,
-                   p[2] + z[2] * view_m);
-
-        glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
-        glVertex3f(p[0] + x[0] * r,
-                   p[1] + x[1] * r,
-                   p[2] + x[2] * r);
-    }
-    glEnd();
-}
-
-static void game_draw_vect(const struct s_vary *fp)
+static void game_draw_vect(struct s_rend *rend, const struct s_vary *fp)
 {
     if (view_m > 0.f)
     {
-        glPushAttrib(GL_TEXTURE_BIT);
-        glPushAttrib(GL_POLYGON_BIT);
-        glPushAttrib(GL_LIGHTING_BIT);
-        glPushAttrib(GL_DEPTH_BUFFER_BIT);
+        glDisable(GL_LIGHTING);
+        glPushMatrix();
         {
-            glEnable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHTING);
-            glDisable(GL_TEXTURE_2D);
-            glDepthMask(GL_FALSE);
+            glTranslatef(fp->uv[ball].p[0],
+                         fp->uv[ball].p[1],
+                         fp->uv[ball].p[2]);
+            glRotatef(view_a, 0.0f, 1.0f, 0.0f);
+            glScalef(fp->uv[ball].r,
+                     fp->uv[ball].r * 0.1f, view_m);
 
-            glEnable(GL_DEPTH_TEST);
-            game_draw_vect_prim(fp, GL_TRIANGLES);
-
-            glDisable(GL_DEPTH_TEST);
-            game_draw_vect_prim(fp, GL_LINE_STRIP);
+            vect_draw(rend);
         }
-        glPopAttrib();
-        glPopAttrib();
-        glPopAttrib();
-        glPopAttrib();
+        glPopMatrix();
+        glEnable(GL_LIGHTING);
     }
 }
 
-static void game_draw_balls(const struct s_vary *fp,
+static void game_draw_balls(struct s_rend *rend,
+                            const struct s_vary *fp,
                             const float *bill_M, float t)
 {
     static const GLfloat color[5][4] = {
@@ -192,6 +159,8 @@ static void game_draw_balls(const struct s_vary *fp,
     };
 
     int ui;
+
+    glEnable(GL_COLOR_MATERIAL);
 
     for (ui = curr_party(); ui > 0; ui--)
     {
@@ -212,10 +181,11 @@ static void game_draw_balls(const struct s_vary *fp,
                          fp->uv[ui].r,
                          fp->uv[ui].r);
 
-                glEnable(GL_COLOR_MATERIAL);
-                glColor4fv(color[ui]);
-                ball_draw(ball_M, pend_M, bill_M, t);
-                glDisable(GL_COLOR_MATERIAL);
+                glColor4f(color[ui][0],
+                          color[ui][1],
+                          color[ui][2],
+                          color[ui][3]);
+                ball_draw(rend, ball_M, pend_M, bill_M, t);
             }
             glPopMatrix();
         }
@@ -234,15 +204,17 @@ static void game_draw_balls(const struct s_vary *fp,
                           color[ui][1],
                           color[ui][2], 0.5f);
 
-                mark_draw();
+                mark_draw(rend);
             }
             glPopMatrix();
         }
     }
+
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    glDisable(GL_COLOR_MATERIAL);
 }
 
-static void game_draw_goals(const struct s_base *fp)
+static void game_draw_goals(struct s_rend *rend, const struct s_base *fp)
 {
     int zi;
 
@@ -253,14 +225,15 @@ static void game_draw_goals(const struct s_base *fp)
             glTranslatef(fp->zv[zi].p[0],
                          fp->zv[zi].p[1],
                          fp->zv[zi].p[2]);
-            flag_draw();
+            flag_draw(rend);
         }
         glPopMatrix();
     }
 }
 
-static void game_draw_jumps(const struct s_base *fp)
+static void game_draw_jumps(struct s_rend *rend, const struct s_base *fp)
 {
+    float t = 0.001f * SDL_GetTicks();
     int ji;
 
     for (ji = 0; ji < fp->jc; ji++)
@@ -272,13 +245,13 @@ static void game_draw_jumps(const struct s_base *fp)
                          fp->jv[ji].p[2]);
 
             glScalef(fp->jv[ji].r, 1.f, fp->jv[ji].r);
-            jump_draw(!jump_e);
+            jump_draw(rend, t, !jump_e);
         }
         glPopMatrix();
     }
 }
 
-static void game_draw_swchs(const struct s_vary *fp)
+static void game_draw_swchs(struct s_rend *rend, const struct s_vary *fp)
 {
     int xi;
 
@@ -296,7 +269,7 @@ static void game_draw_swchs(const struct s_vary *fp)
                          xp->base->p[2]);
 
             glScalef(xp->base->r, 1.f, xp->base->r);
-            swch_draw(xp->f, xp->e);
+            swch_draw(rend, xp->f, xp->e);
         }
         glPopMatrix();
     }
@@ -306,21 +279,23 @@ static void game_draw_swchs(const struct s_vary *fp)
 
 void game_draw(int pose, float t)
 {
-    static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-    static const float s[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-    static const float e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    static const float h[1] = { 0.0f };
-
     const float light_p[4] = { 8.f, 32.f, 8.f, 0.f };
 
-    const struct s_draw *fp = &file.draw;
+    struct s_draw *fp = &file.draw;
+    struct s_rend rend = { NULL };
 
     float fov = FOV;
+
+    if (!state)
+        return;
+
+    fp->shadow_ui = ball;
+
+    sol_draw_enable(&rend);
 
     if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
     video_push_persp(fov, 0.1f, FAR_DIST);
-    glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {
         float T[16], M[16], v[3], rx, ry;
@@ -342,7 +317,7 @@ void game_draw(int pose, float t)
         glPushMatrix();
         {
             glTranslatef(view_p[0], view_p[1], view_p[2]);
-            back_draw(0);
+            back_draw(&rend, 0);
         }
         glPopMatrix();
 
@@ -351,14 +326,7 @@ void game_draw(int pose, float t)
 
         /* Draw the floor. */
 
-        sol_draw(fp, 0, 1);
-
-        if (config_get_d(CONFIG_SHADOW) && !pose)
-        {
-            shad_draw_set();
-            sol_shad(fp, ball);
-            shad_draw_clr();
-        }
+        sol_draw(fp, &rend, 0, 1);
 
         /* Draw the game elements. */
 
@@ -367,33 +335,26 @@ void game_draw(int pose, float t)
 
         if (pose == 0)
         {
-            game_draw_balls(fp->vary, T, t);
-            game_draw_vect(fp->vary);
+            game_draw_balls(&rend, fp->vary, T, t);
+            game_draw_vect(&rend, fp->vary);
         }
-
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
-
-        game_draw_goals(fp->base);
 
         glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
-        glDisable(GL_TEXTURE_2D);
         glDepthMask(GL_FALSE);
         {
-            game_draw_jumps(fp->base);
-            game_draw_swchs(fp->vary);
+            game_draw_goals(&rend, fp->base);
+            game_draw_jumps(&rend, fp->base);
+            game_draw_swchs(&rend, fp->vary);
         }
         glDepthMask(GL_TRUE);
-        glEnable(GL_TEXTURE_2D);
         glEnable(GL_LIGHTING);
         glDisable(GL_COLOR_MATERIAL);
     }
     glPopMatrix();
-    glPopAttrib();
     video_pop_matrix();
+
+    sol_draw_disable(&rend);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -408,6 +369,9 @@ void game_update_view(float dt)
     float e[3];
     float d[3];
     float s = 2.f * dt;
+
+    if (!state)
+        return;
 
     /* Center the view about the ball. */
 
@@ -548,6 +512,9 @@ int game_step(const float g[3], float dt)
     float st = 0.f;
     int i, n = 1, m = 0;
 
+    if (!state)
+        return GAME_NONE;
+
     s = (7.f * s + dt) / 8.f;
     t = s;
 
@@ -643,6 +610,9 @@ void game_set_fly(float k)
     float c1[3] = { 0.f, 0.f, 0.f };
     float p1[3] = { 0.f, 0.f, 0.f };
     float  v[3];
+
+    if (!state)
+        return;
 
     v_cpy(view_e[0], x);
     v_cpy(view_e[1], y);

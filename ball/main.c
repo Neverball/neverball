@@ -42,18 +42,30 @@ const char ICON[] = "icon/neverball.png";
 
 /*---------------------------------------------------------------------------*/
 
-static void shot(void)
+static int shot_pending;
+
+static void shot_prep(void)
+{
+    shot_pending = 1;
+}
+
+static void shot_take(void)
 {
     static char filename[MAXSTR];
 
-    sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
-    image_snap(filename);
+    if (shot_pending)
+    {
+        sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
+        image_snap(filename);
+        shot_pending = 0;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
 
 static void toggle_wire(void)
 {
+#if !ENABLE_OPENGLES
     static int wire = 0;
 
     if (wire)
@@ -70,6 +82,7 @@ static void toggle_wire(void)
         glDisable(GL_LIGHTING);
         wire = 1;
     }
+#endif
 }
 
 /*---------------------------------------------------------------------------*/
@@ -95,7 +108,7 @@ static int handle_key_dn(SDL_Event *e)
 
     else switch (c)
     {
-    case SDLK_F10:   shot();                    break;
+    case SDLK_F10:   shot_prep();               break;
     case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
     case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
 
@@ -532,6 +545,7 @@ int main(int argc, char *argv[])
             /* Render. */
 
             st_paint(0.001f * t0);
+            shot_take();
             video_swap();
 
             if (config_get_d(CONFIG_NICE))

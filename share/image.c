@@ -113,16 +113,16 @@ static GLuint make_texture(const void *p, int w, int h, int b)
 #ifdef GL_TEXTURE_MAX_ANISOTROPY_EXT
     int a = config_get_d(CONFIG_ANISO);
 #endif
+#ifdef GL_GENERATE_MIPMAP_SGIS
     int m = config_get_d(CONFIG_MIPMAP);
+#endif
     int k = config_get_d(CONFIG_TEXTURES);
     int W = w;
     int H = h;
 
-    GLint max;
+    GLint max = gli.max_texture_size;
 
     void *q = NULL;
-
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max);
 
     while (w / k > (int) max || h / k > (int) max)
         k *= 2;
@@ -135,8 +135,8 @@ static GLuint make_texture(const void *p, int w, int h, int b)
     glGenTextures(1, &o);
     glBindTexture(GL_TEXTURE_2D, o);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

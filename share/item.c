@@ -30,7 +30,6 @@ void item_color(const struct v_item *hp, float *c)
 {
     switch (hp->t)
     {
-
     case ITEM_COIN:
 
         if (hp->n >= 1)
@@ -38,18 +37,21 @@ void item_color(const struct v_item *hp, float *c)
             c[0] = 1.0f;
             c[1] = 1.0f;
             c[2] = 0.2f;
+            c[3] = 1.0f;
         }
         if (hp->n >= 5)
         {
             c[0] = 1.0f;
             c[1] = 0.2f;
             c[2] = 0.2f;
+            c[3] = 1.0f;
         }
         if (hp->n >= 10)
         {
             c[0] = 0.2f;
             c[1] = 0.2f;
             c[2] = 1.0f;
+            c[3] = 1.0f;
         }
         break;
 
@@ -58,6 +60,7 @@ void item_color(const struct v_item *hp, float *c)
         c[0] = 0.00f;
         c[1] = 0.51f;
         c[2] = 0.80f;
+        c[3] = 1.00f;
 
         break;
 
@@ -66,6 +69,7 @@ void item_color(const struct v_item *hp, float *c)
         c[0] = 1.00f;
         c[1] = 0.76f;
         c[2] = 0.00f;
+        c[3] = 1.00f;
 
         break;
 
@@ -74,6 +78,7 @@ void item_color(const struct v_item *hp, float *c)
         c[0] = 1.0f;
         c[1] = 1.0f;
         c[2] = 1.0f;
+        c[3] = 1.0f;
 
         break;
     }
@@ -93,15 +98,12 @@ void item_free(void)
     sol_free_full(&item_shrink_file);
 }
 
-void item_push(int type)
-{
-    glEnable(GL_COLOR_MATERIAL);
-}
-
-void item_draw(const struct v_item *hp, float r)
+void item_draw(struct s_rend *rend,
+               const struct v_item *hp,
+               const GLfloat *M, float t)
 {
     struct s_draw *draw = NULL;
-    float c[3];
+    float c[4];
 
     switch (hp->t)
     {
@@ -112,14 +114,20 @@ void item_draw(const struct v_item *hp, float r)
 
     item_color(hp, c);
 
-    glColor3fv(c);
-    sol_draw(draw, 0, 1);
-}
+    glColor4f(c[0], c[1], c[2], c[3]);
 
-void item_pull(void)
-{
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glDisable(GL_COLOR_MATERIAL);
+    glDepthMask(GL_FALSE);
+    {
+        sol_bill(draw, rend, M, t);
+    }
+    glDepthMask(GL_TRUE);
+
+    glPushMatrix();
+    {
+        glRotatef(360.0f * t, 0.0f, 1.0f, 0.0f);
+        sol_draw(draw, rend, 0, 1);
+    }
+    glPopMatrix();
 }
 
 /*---------------------------------------------------------------------------*/

@@ -56,27 +56,6 @@ int video_init(const char *title, const char *icon)
 
 /*---------------------------------------------------------------------------*/
 
-PFNGLACTIVETEXTUREARBPROC glActiveTextureARB_;
-
-int check_extension(const char *needle)
-{
-    const GLubyte *haystack, *c;
-
-    /* Search for the given string in the OpenGL extension strings. */
-
-    for (haystack = glGetString(GL_EXTENSIONS); *haystack; haystack++)
-    {
-        for (c = (const GLubyte *) needle; *c && *haystack; c++, haystack++)
-            if (*c != *haystack)
-                break;
-
-        if ((*c == 0) && (*haystack == ' ' || *haystack == '\0'))
-            return 1;
-    }
-
-    return 0;
-}
-
 int video_mode(int f, int w, int h)
 {
     int stereo  = config_get_d(CONFIG_STEREO)      ? 1 : 0;
@@ -107,8 +86,11 @@ int video_mode(int f, int w, int h)
         config_set_d(CONFIG_WIDTH,      w);
         config_set_d(CONFIG_HEIGHT,     h);
 
+        if (!glext_init())
+            return 0;
+
         glViewport(0, 0, w, h);
-        glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         glEnable(GL_NORMALIZE);
         glEnable(GL_CULL_FACE);
@@ -117,9 +99,10 @@ int video_mode(int f, int w, int h)
         glEnable(GL_LIGHTING);
         glEnable(GL_BLEND);
 
+#if !ENABLE_OPENGLES
         glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,
                       GL_SEPARATE_SPECULAR_COLOR);
-        glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
+#endif
 
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -129,28 +112,11 @@ int video_mode(int f, int w, int h)
 
         /* If GL supports multisample, and SDL got a multisample buffer... */
 
-#ifdef GL_ARB_multisample
-        if (check_extension("ARB_multisample"))
+        if (glext_check("ARB_multisample"))
         {
             SDL_GL_GetAttribute(SDL_GL_MULTISAMPLEBUFFERS, &buffers);
-            if (buffers)
-                glEnable(GL_MULTISAMPLE_ARB);
+            if (buffers) glEnable(GL_MULTISAMPLE);
         }
-#endif
-
-        if (check_extension("ARB_multitexture"))
-        {
-            union
-            {
-                void *ob;
-                PFNGLACTIVETEXTUREARBPROC fn;
-            } cast;
-
-            cast.ob = SDL_GL_GetProcAddress("glActiveTextureARB");
-            glActiveTextureARB_ = cast.fn;
-        }
-
-        glReadBuffer(GL_FRONT);
 
         /* Attempt manual swap control if SDL's is broken. */
 
@@ -281,52 +247,52 @@ int  video_get_grab(void)
 
 void video_push_persp(float fov, float n, float f)
 {
-    GLdouble m[4][4];
+    GLfloat m[4][4];
 
-    GLdouble r = fov / 2 * V_PI / 180;
-    GLdouble s = sin(r);
-    GLdouble c = cos(r) / s;
+    GLfloat r = fov / 2 * V_PI / 180;
+    GLfloat s = sin(r);
+    GLfloat c = cos(r) / s;
 
-    GLdouble a = ((GLdouble) config_get_d(CONFIG_WIDTH) /
-                  (GLdouble) config_get_d(CONFIG_HEIGHT));
+    GLfloat a = ((GLfloat) config_get_d(CONFIG_WIDTH) /
+                 (GLfloat) config_get_d(CONFIG_HEIGHT));
 
     glMatrixMode(GL_PROJECTION);
     {
         glPushMatrix();
         glLoadIdentity();
 
-        m[0][0] =  c/a;
-        m[0][1] =  0.0;
-        m[0][2] =  0.0;
-        m[0][3] =  0.0;
-        m[1][0] =  0.0;
-        m[1][1] =    c;
-        m[1][2] =  0.0;
-        m[1][3] =  0.0;
-        m[2][0] =  0.0;
-        m[2][1] =  0.0;
+        m[0][0] = c / a;
+        m[0][1] =  0.0f;
+        m[0][2] =  0.0f;
+        m[0][3] =  0.0f;
+        m[1][0] =  0.0f;
+        m[1][1] =     c;
+        m[1][2] =  0.0f;
+        m[1][3] =  0.0f;
+        m[2][0] =  0.0f;
+        m[2][1] =  0.0f;
         m[2][2] = -(f + n) / (f - n);
-        m[2][3] = -1.0;
-        m[3][0] =  0.0;
-        m[3][1] =  0.0;
-        m[3][2] = -2.0 * n * f / (f - n);
-        m[3][3] =  0.0;
+        m[2][3] = -1.0f;
+        m[3][0] =  0.0f;
+        m[3][1] =  0.0f;
+        m[3][2] = -2.0f * n * f / (f - n);
+        m[3][3] =  0.0f;
 
-        glMultMatrixd(&m[0][0]);
+        glMultMatrixf(&m[0][0]);
     }
     glMatrixMode(GL_MODELVIEW);
 }
 
 void video_push_ortho(void)
 {
-    GLdouble w = (GLdouble) config_get_d(CONFIG_WIDTH);
-    GLdouble h = (GLdouble) config_get_d(CONFIG_HEIGHT);
+    GLfloat w = (GLfloat) config_get_d(CONFIG_WIDTH);
+    GLfloat h = (GLfloat) config_get_d(CONFIG_HEIGHT);
 
     glMatrixMode(GL_PROJECTION);
     {
         glPushMatrix();
         glLoadIdentity();
-        glOrtho(0.0, w, 0.0, h, -1.0, +1.0);
+        glOrtho_(0.0, w, 0.0, h, -1.0, +1.0);
     }
     glMatrixMode(GL_MODELVIEW);
 }
@@ -343,12 +309,10 @@ void video_pop_matrix(void)
 void video_clear(void)
 {
     if (config_get_d(CONFIG_REFLECTION))
-        glClear(GL_COLOR_BUFFER_BIT |
-                GL_DEPTH_BUFFER_BIT |
+        glClear(GL_DEPTH_BUFFER_BIT |
                 GL_STENCIL_BUFFER_BIT);
     else
-        glClear(GL_COLOR_BUFFER_BIT |
-                GL_DEPTH_BUFFER_BIT);
+        glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 /*---------------------------------------------------------------------------*/

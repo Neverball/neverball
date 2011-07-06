@@ -26,8 +26,8 @@
 enum
 {
     SOL_VER_MINIMUM = 6,
-    SOL_VER_PATH_FLAGS,
-    SOL_VER_CURRENT = SOL_VER_PATH_FLAGS
+    SOL_VER_GLES,
+    SOL_VER_CURRENT = SOL_VER_GLES
 };
 
 #define SOL_MAGIC (0xAF | 'S' << 8 | 'O' << 16 | 'L' << 24)
@@ -63,6 +63,40 @@ static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
     get_index(fin, &mp->fl);
 
     fs_read(mp->f, 1, PATHMAX, fin);
+
+    if (sol_version < SOL_VER_GLES)
+    {
+        static const int flags[][2] = {
+            { 1, M_SHADOWED },
+            { 2, M_TRANSPARENT },
+            { 4, M_REFLECTIVE | M_SHADOWED },
+            { 8, M_ENVIRONMENT },
+            { 16, M_ADDITIVE },
+            { 32, M_CLAMP_S | M_CLAMP_T },
+            { 64, M_DECAL },
+            { 128, M_TWO_SIDED }
+        };
+
+        /* Convert 1.5.4 material flags. */
+
+        if (mp->fl)
+        {
+            int i, f;
+
+            for (f = 0, i = 0; i < ARRAYSIZE(flags); i++)
+                if (mp->fl & flags[i][0])
+                    f |= flags[i][1];
+
+            mp->fl = f;
+        }
+        else
+        {
+            /* Must be "mtrl/invisible". */
+
+            mp->fl = M_TRANSPARENT;
+            mp->d[3] = 0.0f;
+        }
+    }
 }
 
 static void sol_load_vert(fs_file fin, struct b_vert *vp)
@@ -87,18 +121,68 @@ static void sol_load_texc(fs_file fin, struct b_texc *tp)
     get_array(fin,  tp->u, 2);
 }
 
-static void sol_load_geom(fs_file fin, struct b_geom *gp)
+static void sol_load_offs(fs_file fin, struct b_offs *op)
+{
+    get_index(fin, &op->ti);
+    get_index(fin, &op->si);
+    get_index(fin, &op->vi);
+}
+
+static void sol_load_geom(fs_file fin, struct b_geom *gp, struct s_base *fp)
 {
     get_index(fin, &gp->mi);
-    get_index(fin, &gp->ti);
-    get_index(fin, &gp->si);
-    get_index(fin, &gp->vi);
-    get_index(fin, &gp->tj);
-    get_index(fin, &gp->sj);
-    get_index(fin, &gp->vj);
-    get_index(fin, &gp->tk);
-    get_index(fin, &gp->sk);
-    get_index(fin, &gp->vk);
+
+    if (sol_version >= SOL_VER_GLES)
+    {
+        get_index(fin, &gp->oi);
+        get_index(fin, &gp->oj);
+        get_index(fin, &gp->ok);
+    }
+    else
+    {
+        struct b_offs ov[3];
+        int i, j, iv[3], oc;
+        void *p;
+
+        oc = 0;
+
+        for (i = 0; i < 3; i++)
+        {
+            get_index(fin, &ov[i].ti);
+            get_index(fin, &ov[i].si);
+            get_index(fin, &ov[i].vi);
+
+            iv[i] = -1;
+
+            for (j = 0; j < fp->oc; j++)
+                if (ov[i].ti == fp->ov[j].ti &&
+                    ov[i].si == fp->ov[j].si &&
+                    ov[i].vi == fp->ov[j].vi)
+                {
+                    iv[i] = j;
+                    break;
+                }
+
+            if (j == fp->oc)
+                oc++;
+        }
+
+        if (oc && (p = realloc(fp->ov, sizeof (struct b_offs) * (fp->oc + oc))))
+        {
+            fp->ov = p;
+
+            for (i = 0; i < 3; i++)
+                if (iv[i] < 0)
+                {
+                    fp->ov[fp->oc] = ov[i];
+                    iv[i] = fp->oc++;
+                }
+        }
+
+        gp->oi = iv[0];
+        gp->oj = iv[1];
+        gp->ok = iv[2];
+    }
 }
 
 static void sol_load_lump(fs_file fin, struct b_lump *lp)
@@ -134,7 +218,7 @@ static void sol_load_path(fs_file fin, struct b_path *pp)
     pp->tm = TIME_TO_MS(pp->t);
     pp->t  = MS_TO_TIME(pp->tm);
 
-    if (sol_version >= SOL_VER_PATH_FLAGS)
+    if (sol_version >= SOL_VER_GLES)
         get_index(fin, &pp->fl);
 
     pp->e[0] = 1.0f;
@@ -235,6 +319,10 @@ static void sol_load_indx(fs_file fin, struct s_base *fp)
     get_index(fin, &fp->ec);
     get_index(fin, &fp->sc);
     get_index(fin, &fp->tc);
+
+    if (sol_version >= SOL_VER_GLES)
+        get_index(fin, &fp->oc);
+
     get_index(fin, &fp->gc);
     get_index(fin, &fp->lc);
     get_index(fin, &fp->nc);
@@ -271,6 +359,8 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
         fp->sv = (struct b_side *) calloc(fp->sc, sizeof (*fp->sv));
     if (fp->tc)
         fp->tv = (struct b_texc *) calloc(fp->tc, sizeof (*fp->tv));
+    if (fp->oc)
+        fp->ov = (struct b_offs *) calloc(fp->oc, sizeof (*fp->ov));
     if (fp->gc)
         fp->gv = (struct b_geom *) calloc(fp->gc, sizeof (*fp->gv));
     if (fp->lc)
@@ -309,7 +399,8 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
     for (i = 0; i < fp->ec; i++) sol_load_edge(fin, fp->ev + i);
     for (i = 0; i < fp->sc; i++) sol_load_side(fin, fp->sv + i);
     for (i = 0; i < fp->tc; i++) sol_load_texc(fin, fp->tv + i);
-    for (i = 0; i < fp->gc; i++) sol_load_geom(fin, fp->gv + i);
+    for (i = 0; i < fp->oc; i++) sol_load_offs(fin, fp->ov + i);
+    for (i = 0; i < fp->gc; i++) sol_load_geom(fin, fp->gv + i, fp);
     for (i = 0; i < fp->lc; i++) sol_load_lump(fin, fp->lv + i);
     for (i = 0; i < fp->nc; i++) sol_load_node(fin, fp->nv + i);
     for (i = 0; i < fp->pc; i++) sol_load_path(fin, fp->pv + i);
@@ -396,6 +487,7 @@ void sol_free_base(struct s_base *fp)
     if (fp->ev) free(fp->ev);
     if (fp->sv) free(fp->sv);
     if (fp->tv) free(fp->tv);
+    if (fp->ov) free(fp->ov);
     if (fp->gv) free(fp->gv);
     if (fp->lv) free(fp->lv);
     if (fp->nv) free(fp->nv);
@@ -450,18 +542,19 @@ static void sol_stor_texc(fs_file fout, struct b_texc *tp)
     put_array(fout,  tp->u, 2);
 }
 
+static void sol_stor_offs(fs_file fout, struct b_offs *op)
+{
+    put_index(fout, op->ti);
+    put_index(fout, op->si);
+    put_index(fout, op->vi);
+}
+
 static void sol_stor_geom(fs_file fout, struct b_geom *gp)
 {
     put_index(fout, gp->mi);
-    put_index(fout, gp->ti);
-    put_index(fout, gp->si);
-    put_index(fout, gp->vi);
-    put_index(fout, gp->tj);
-    put_index(fout, gp->sj);
-    put_index(fout, gp->vj);
-    put_index(fout, gp->tk);
-    put_index(fout, gp->sk);
-    put_index(fout, gp->vk);
+    put_index(fout, gp->oi);
+    put_index(fout, gp->oj);
+    put_index(fout, gp->ok);
 }
 
 static void sol_stor_lump(fs_file fout, struct b_lump *lp)
@@ -589,6 +682,7 @@ static void sol_stor_file(fs_file fout, struct s_base *fp)
     put_index(fout, fp->ec);
     put_index(fout, fp->sc);
     put_index(fout, fp->tc);
+    put_index(fout, fp->oc);
     put_index(fout, fp->gc);
     put_index(fout, fp->lc);
     put_index(fout, fp->nc);
@@ -611,6 +705,7 @@ static void sol_stor_file(fs_file fout, struct s_base *fp)
     for (i = 0; i < fp->ec; i++) sol_stor_edge(fout, fp->ev + i);
     for (i = 0; i < fp->sc; i++) sol_stor_side(fout, fp->sv + i);
     for (i = 0; i < fp->tc; i++) sol_stor_texc(fout, fp->tv + i);
+    for (i = 0; i < fp->oc; i++) sol_stor_offs(fout, fp->ov + i);
     for (i = 0; i < fp->gc; i++) sol_stor_geom(fout, fp->gv + i);
     for (i = 0; i < fp->lc; i++) sol_stor_lump(fout, fp->lv + i);
     for (i = 0; i < fp->nc; i++) sol_stor_node(fout, fp->nv + i);

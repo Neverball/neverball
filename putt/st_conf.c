@@ -14,7 +14,6 @@
 
 #include "gui.h"
 #include "hud.h"
-#include "back.h"
 #include "geom.h"
 #include "ball.h"
 #include "part.h"
@@ -255,7 +254,7 @@ static void conf_paint(int id, float st)
 {
     video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
-        back_draw(0);
+        back_draw_easy();
     }
     video_pop_matrix();
     gui_paint(id);
@@ -307,10 +306,7 @@ static int conf_buttn(int b, int d)
 static int null_enter(struct state *st, struct state *prev)
 {
     gui_free();
-    swch_free();
-    jump_free();
-    flag_free();
-    mark_free();
+    geom_free();
     ball_free();
     shad_free();
 
@@ -321,10 +317,7 @@ static void null_leave(struct state *st, struct state *next, int id)
 {
     shad_init();
     ball_init();
-    mark_init();
-    flag_init();
-    jump_init();
-    swch_init();
+    geom_init();
     gui_init();
 }
 

@@ -22,7 +22,6 @@
 #include "game.h"
 #include "geom.h"
 #include "hud.h"
-#include "back.h"
 #include "audio.h"
 #include "config.h"
 #include "fs.h"
@@ -219,7 +218,7 @@ const char *curr_par(void)
 
 /*---------------------------------------------------------------------------*/
 
-void hole_goto(int h, int p)
+int hole_goto(int h, int p)
 {
     int i;
 
@@ -228,20 +227,24 @@ void hole_goto(int h, int p)
         if (h >= 0) hole  = h;
         if (p >= 0) party = p;
 
-        player = (hole - 1) % party + 1;
-        done   = 0;
-
-        back_init(hole_v[hole].back);
-        game_init(hole_v[hole].file);
-
-        for (i = 1; i <= party; i++)
+        if (game_init(hole_v[hole].file))
         {
-            game_get_pos(ball_p[i], ball_e[i]);
-            stat_v[i] = 0;
+            back_init(hole_v[hole].back);
+
+            player = (hole - 1) % party + 1;
+            done   = 0;
+
+            for (i = 1; i <= party; i++)
+            {
+                game_get_pos(ball_p[i], ball_e[i]);
+                stat_v[i] = 0;
+            }
+            game_ball(player);
+            hole_song();
+            return 1;
         }
-        game_ball(player);
-        hole_song();
     }
+    return 0;
 }
 
 int hole_next(void)
@@ -271,9 +274,8 @@ int hole_move(void)
         game_free();
         back_free();
 
-        hole_goto(hole, party);
-
-        return 1;
+        if (hole_goto(hole, party))
+            return 1;
     }
     return 0;
 }

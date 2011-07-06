@@ -25,332 +25,406 @@
 #include "config.h"
 #include "video.h"
 
-#define PI 3.1415926535897932
+#include "solid_draw.h"
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint mark_list;
+static const struct tex_env *curr_tex_env;
 
-void mark_init(void)
-{
-    int i, slices = 32;
+static void tex_env_conf_default(int, int);
+static void tex_env_conf_shadow(int, int);
 
-    mark_list = glGenLists(1);
-
-    glNewList(mark_list, GL_COMPILE);
+const struct tex_env tex_env_default = {
+    tex_env_conf_default,
+    1,
     {
-        glBegin(GL_TRIANGLE_FAN);
+        { GL_TEXTURE0, TEX_STAGE_TEXTURE }
+    }
+};
+
+const struct tex_env tex_env_shadow = {
+    tex_env_conf_shadow,
+    2,
+    {
+        { GL_TEXTURE0, TEX_STAGE_SHADOW },
+        { GL_TEXTURE1, TEX_STAGE_TEXTURE }
+    }
+};
+
+const struct tex_env tex_env_shadow_clip = {
+    tex_env_conf_shadow,
+    3,
+    {
+        { GL_TEXTURE0, TEX_STAGE_SHADOW },
+        { GL_TEXTURE1, TEX_STAGE_CLIP },
+        { GL_TEXTURE2, TEX_STAGE_TEXTURE }
+    }
+};
+
+static void tex_env_conf_default(int stage, int enable)
+{
+    switch (stage)
+    {
+    case TEX_STAGE_TEXTURE:
+        if (enable)
         {
-            glNormal3f(0.f, 1.f, 0.f);
+            glEnable(GL_TEXTURE_2D);
 
-            for (i = 0; i < slices; i++)
+            /* Modulate is the default mode. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+            glMatrixMode(GL_TEXTURE);
+            glLoadIdentity();
+            glMatrixMode(GL_MODELVIEW);
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
+        break;
+    }
+}
+
+static void tex_env_conf_shadow(int stage, int enable)
+{
+    switch (stage)
+    {
+    case TEX_STAGE_SHADOW:
+        if (enable)
+        {
+            glDisable(GL_TEXTURE_2D);
+
+            /* Modulate primary color and shadow alpha. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_MODULATE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_RGB, GL_PREVIOUS);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC1_RGB, GL_TEXTURE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_ONE_MINUS_SRC_ALPHA);
+
+            /* Copy incoming alpha. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_REPLACE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_ALPHA, GL_PREVIOUS);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
+
+            glMatrixMode(GL_TEXTURE);
+            glLoadIdentity();
+            glMatrixMode(GL_MODELVIEW);
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
+        break;
+
+    case TEX_STAGE_CLIP:
+        if (enable)
+        {
+            glDisable(GL_TEXTURE_2D);
+
+            /* Interpolate shadowed and non-shadowed primary color. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_INTERPOLATE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_RGB, GL_PREVIOUS);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC1_RGB, GL_PRIMARY_COLOR);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC2_RGB, GL_TEXTURE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_SRC_COLOR);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB, GL_SRC_ALPHA);
+
+            /* Copy incoming alpha. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_REPLACE);
+            glTexEnvi(GL_TEXTURE_ENV, GL_SRC0_ALPHA, GL_PREVIOUS);
+            glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
+
+            glMatrixMode(GL_TEXTURE);
+            glLoadIdentity();
+            glMatrixMode(GL_MODELVIEW);
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
+        break;
+
+    case TEX_STAGE_TEXTURE:
+        tex_env_conf_default(TEX_STAGE_TEXTURE, enable);
+        break;
+    }
+}
+
+static void tex_env_conf(const struct tex_env *env, int enable)
+{
+    size_t i;
+
+    for (i = 0; i < env->count; i++)
+    {
+        const struct tex_stage *st = &env->stages[i];
+        glActiveTexture_(st->unit);
+        glClientActiveTexture_(st->unit);
+        env->conf(st->stage, enable);
+    }
+
+    /* Last stage remains selected. */
+}
+
+/*
+ * Set up current texture pipeline.
+ */
+void tex_env_active(const struct tex_env *env)
+{
+    if (curr_tex_env == env)
+        return;
+
+    if (curr_tex_env)
+    {
+        tex_env_conf(curr_tex_env, 0);
+        curr_tex_env = NULL;
+    }
+
+    tex_env_conf(env, 1);
+    curr_tex_env = env;
+}
+
+/*
+ * Select stage of the current texture pipeline.
+ */
+int tex_env_stage(int stage)
+{
+    size_t i;
+
+    if (curr_tex_env)
+    {
+        for (i = 0; i < curr_tex_env->count; i++)
+        {
+            const struct tex_stage *st = &curr_tex_env->stages[i];
+
+            if (st->stage == stage)
             {
-                float x = fcosf(-2.f * PI * i / slices);
-                float y = fsinf(-2.f * PI * i / slices);
-
-                glVertex3f(x, 0, y);
+                glActiveTexture_(st->unit);
+                glClientActiveTexture_(st->unit);
+                return 1;
             }
         }
-        glEnd();
     }
-    glEndList();
-}
-
-void mark_draw(void)
-{
-    glEnable(GL_COLOR_MATERIAL);
-    glDisable(GL_TEXTURE_2D);
-    glDepthMask(GL_FALSE);
-    {
-        glCallList(mark_list);
-    }
-    glDepthMask(GL_TRUE);
-    glEnable(GL_TEXTURE_2D);
-    glDisable(GL_COLOR_MATERIAL);
-}
-
-void mark_free(void)
-{
-    if (glIsList(mark_list))
-        glDeleteLists(mark_list, 1);
-
-    mark_list = 0;
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint goal_list;
+static struct s_full beam;
+static struct s_full jump;
+static struct s_full goal;
+static struct s_full flag;
+static struct s_full mark;
+static struct s_full vect;
+static struct s_full back;
 
-void goal_init(void)
+static int back_state = 0;
+
+/*---------------------------------------------------------------------------*/
+
+void geom_init(void)
 {
-    int i, n = 32;
-
-    goal_list = glGenLists(1);
-
-    glNewList(goal_list, GL_COMPILE);
-    {
-        glBegin(GL_QUAD_STRIP);
-        {
-            for (i = 0; i <= n; i++)
-            {
-                float x = fcosf(2.f * PI * i / n);
-                float y = fsinf(2.f * PI * i / n);
-
-                glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
-                glVertex3f(x, 0.0f, y);
-
-                glColor4f(1.0f, 1.0f, 0.0f, 0.0f);
-                glVertex3f(x, GOAL_HEIGHT, y);
-            }
-        }
-        glEnd();
-    }
-    glEndList();
+    sol_load_full(&beam, "geom/beam/beam.sol", 0);
+    sol_load_full(&jump, "geom/jump/jump.sol", 0);
+    sol_load_full(&goal, "geom/goal/goal.sol", 0);
+    sol_load_full(&flag, "geom/flag/flag.sol", 0);
+    sol_load_full(&mark, "geom/mark/mark.sol", 0);
+    sol_load_full(&vect, "geom/vect/vect.sol", 0);
 }
 
-void goal_free(void)
+void geom_free(void)
 {
-    if (glIsList(goal_list))
-        glDeleteLists(goal_list, 1);
-
-    goal_list = 0;
-}
-
-void goal_draw(void)
-{
-    glCallList(goal_list);
+    sol_free_full(&vect);
+    sol_free_full(&mark);
+    sol_free_full(&flag);
+    sol_free_full(&goal);
+    sol_free_full(&jump);
+    sol_free_full(&beam);
 }
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint jump_list;
-
-void jump_init(void)
+void back_init(const char *name)
 {
-    int k, i, n = 32;
+    if (back_state)
+        back_free();
 
-    jump_list = glGenLists(2);
+    /* Load the background SOL and modify its material in-place to use the   */
+    /* named gradient texture.                                               */
 
-    for (k = 0; k < 2; k++)
-    {
-        glNewList(jump_list + k, GL_COMPILE);
-        {
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n);
-                    float y = fsinf(2.f * PI * i / n);
+    sol_load_full(&back, "geom/back/back.sol", 0);
+    back.draw.mv[0].o = make_image_from_file(name);
 
-                    glColor4f(0.75f, 0.5f, 1.0f, (k == 0 ? 0.5f : 0.8f));
-                    glVertex3f(x, 0.0f, y);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 
-                    glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
-                    glVertex3f(x, JUMP_HEIGHT, y);
-                }
-            }
-            glEnd();
-        }
-        glEndList();
-    }
+    back_state = 1;
 }
 
-void jump_free(void)
+void back_free(void)
 {
-    glDeleteLists(jump_list, 2);
-    jump_list = 0;
-}
+    if (back_state)
+        sol_free_full(&back);
 
-void jump_draw(int highlight)
-{
-    glCallList(jump_list + highlight);
+    back_state = 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint swch_list;
-
-static GLfloat swch_colors[8][4] = {
-    { 1.0f, 0.0f, 0.0f, 0.5f }, /* red out */
-    { 1.0f, 0.0f, 0.0f, 0.0f },
-    { 1.0f, 0.0f, 0.0f, 0.8f }, /* red in */
-    { 1.0f, 0.0f, 0.0f, 0.0f },
-    { 0.0f, 1.0f, 0.0f, 0.5f }, /* green out */
-    { 0.0f, 1.0f, 0.0f, 0.0f },
-    { 0.0f, 1.0f, 0.0f, 0.8f }, /* green in */
-    { 0.0f, 1.0f, 0.0f, 0.0f }};
-
-void swch_init(void)
+static void jump_part_draw(struct s_rend *rend, GLfloat s, GLfloat a)
 {
-    int k, i, n = 32;
+    glMatrixMode(GL_TEXTURE);
+    glTranslatef(s, 0.0f, 0.0f);
+    glMatrixMode(GL_MODELVIEW);
 
-    swch_list = glGenLists(4);
-
-    /* Create the display lists. */
-
-    for (k = 0; k < 4; k++)
-    {
-        glNewList(swch_list + k, GL_COMPILE);
-        {
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n);
-                    float y = fsinf(2.f * PI * i / n);
-
-                    glColor4fv(swch_colors[2 * k + 0]);
-                    glVertex3f(x, 0.0f, y);
-
-                    glColor4fv(swch_colors[2 * k + 1]);
-                    glVertex3f(x, SWCH_HEIGHT, y);
-                }
-            }
-            glEnd();
-        }
-        glEndList();
-    }
+    glRotatef(a, 0.0f, 1.0f, 0.0f);
+    sol_draw(&jump.draw, rend, 1, 1);
+    glScalef(0.9f, 0.9f, 0.9f);
 }
 
-void swch_free(void)
+static void goal_part_draw(struct s_rend *rend, GLfloat s)
 {
-    if (glIsList(swch_list))
-        glDeleteLists(swch_list, 4);
+    glMatrixMode(GL_TEXTURE);
+    glTranslatef(0.0f, -s, 0.0f);
+    glMatrixMode(GL_MODELVIEW);
 
-    swch_list = 0;
-}
-
-void swch_draw(int b, int e)
-{
-    glCallList(swch_list + b * 2 + e);
+    sol_draw(&goal.draw, rend, 1, 1);
+    glScalef(0.8f, 1.1f, 0.8f);
 }
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint flag_list;
-
-void flag_init(void)
+void goal_draw(struct s_rend *rend, float t)
 {
-    int i, n = 8;
-
-    flag_list = glGenLists(1);
-
-    glNewList(flag_list, GL_COMPILE);
+    glPushMatrix();
     {
-        glEnable(GL_COLOR_MATERIAL);
+        glScalef(1.0f, 3.0f, 1.0f);
+        glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
+
+        sol_draw(&beam.draw, rend, 1, 1);
+
+        goal_part_draw(rend, t * 0.10f);
+        goal_part_draw(rend, t * 0.10f);
+        goal_part_draw(rend, t * 0.10f);
+        goal_part_draw(rend, t * 0.10f);
+
+        glMatrixMode(GL_TEXTURE);
+        glLoadIdentity();
+        glMatrixMode(GL_MODELVIEW);
+
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    glPopMatrix();
+}
+
+void jump_draw(struct s_rend *rend, float t, int h)
+{
+    static GLfloat c[4][4] = {
+        { 0.75f, 0.5f, 1.0f, 0.5f },
+        { 0.75f, 0.5f, 1.0f, 0.8f },
+    };
+
+    glPushMatrix();
+    {
+        glColor4f(c[h][0], c[h][1], c[h][2], c[h][3]);
+
+        glScalef(1.0f, 2.0f, 1.0f);
+
+        sol_draw(&beam.draw, rend, 1, 1);
+
+        jump_part_draw(rend, t * 0.15f, t * 360.0f);
+        jump_part_draw(rend, t * 0.20f, t * 360.0f);
+        jump_part_draw(rend, t * 0.25f, t * 360.0f);
+
+        glMatrixMode(GL_TEXTURE);
+        glLoadIdentity();
+        glMatrixMode(GL_MODELVIEW);
+
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    glPopMatrix();
+}
+
+void swch_draw(struct s_rend *rend, int b, int e)
+{
+    static GLfloat c[4][4] = {
+        { 1.0f, 0.0f, 0.0f, 0.5f }, /* red out */
+        { 1.0f, 0.0f, 0.0f, 0.8f }, /* red in */
+        { 0.0f, 1.0f, 0.0f, 0.5f }, /* green out */
+        { 0.0f, 1.0f, 0.0f, 0.8f }, /* green in */
+    };
+
+    const int h = 2 * b + e;
+
+    glPushMatrix();
+    {
+        glScalef(1.0f, 2.0f, 1.0f);
+
+        glColor4f(c[h][0], c[h][1], c[h][2], c[h][3]);
+        sol_draw(&beam.draw, rend, 1, 1);
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    glPopMatrix();
+}
+
+void flag_draw(struct s_rend *rend)
+{
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    sol_draw(&flag.draw, rend, 1, 1);
+}
+
+void mark_draw(struct s_rend *rend)
+{
+    sol_draw(&mark.draw, rend, 1, 1);
+}
+
+void vect_draw(struct s_rend *rend)
+{
+    sol_draw(&vect.draw, rend, 0, 1);
+    sol_draw(&vect.draw, rend, 0, 0);
+}
+
+void back_draw(struct s_rend *rend, float t)
+{
+    glPushMatrix();
+    {
+        GLfloat dx =  60.0f * fsinf(t / 10.0f);
+        GLfloat dz = 180.0f * fsinf(t / 12.0f);
+
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
         glDisable(GL_LIGHTING);
-        glDisable(GL_TEXTURE_2D);
+        glDepthMask(GL_FALSE);
         {
-            glBegin(GL_TRIANGLES);
-            {
-                glColor3f(1.0f, 0.0f, 0.0f);
+            glScalef(-BACK_DIST, BACK_DIST, -BACK_DIST);
+            if (t) glRotatef(dz, 0.0f, 0.0f, 1.0f);
+            if (t) glRotatef(dx, 1.0f, 0.0f, 0.0f);
 
-                glVertex3f(              0.0f, GOAL_HEIGHT,        0.0f);
-                glVertex3f(GOAL_HEIGHT * 0.2f, GOAL_HEIGHT * 0.9f, 0.0f);
-                glVertex3f(              0.0f, GOAL_HEIGHT * 0.8f, 0.0f);
-
-                glVertex3f(              0.0f, GOAL_HEIGHT,        0.0f);
-                glVertex3f(              0.0f, GOAL_HEIGHT * 0.8f, 0.0f);
-                glVertex3f(GOAL_HEIGHT * 0.2f, GOAL_HEIGHT * 0.9f, 0.0f);
-            }
-            glEnd();
-
-            glBegin(GL_QUAD_STRIP);
-            {
-                for (i = 0; i <= n; i++)
-                {
-                    float x = fcosf(2.f * PI * i / n) * 0.01f;
-                    float y = fsinf(2.f * PI * i / n) * 0.01f;
-
-                    glColor3f(1.0f, 1.0f, 1.0f);
-                    glVertex3f(x, 0.0f,        y);
-                    glVertex3f(x, GOAL_HEIGHT, y);
-                }
-            }
-            glEnd();
+            sol_draw(&back.draw, rend, 1, 1);
         }
-        glEnable(GL_TEXTURE_2D);
+        glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);
-        glDisable(GL_COLOR_MATERIAL);
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_DEPTH_TEST);
     }
-    glEndList();
+    glPopMatrix();
 }
 
-void flag_free(void)
+void back_draw_easy(void)
 {
-    if (glIsList(flag_list))
-        glDeleteLists(flag_list, 1);
+    struct s_rend rend = { NULL };
 
-    flag_list = 0;
-}
-
-void flag_draw(void)
-{
-    glCallList(flag_list);
-}
-
-/*---------------------------------------------------------------------------*/
-
-static GLuint clip_text;
-
-static GLubyte clip_data[] = { 0xff, 0xff, 0x0, 0x0 };
-
-void clip_init(void)
-{
-    if (!glActiveTextureARB_)
-        return;
-
-    glActiveTextureARB_(GL_TEXTURE1_ARB);
-    {
-        glGenTextures(1, &clip_text);
-        glBindTexture(GL_TEXTURE_1D, clip_text);
-
-        glTexImage1D(GL_TEXTURE_1D, 0,
-                     GL_LUMINANCE_ALPHA, 2, 0,
-                     GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, clip_data);
-
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    }
-    glActiveTextureARB_(GL_TEXTURE0_ARB);
-}
-
-void clip_free(void)
-{
-    if (glIsTexture(clip_text))
-        glDeleteTextures(1, &clip_text);
-}
-
-void clip_draw_set(void)
-{
-    if (!glActiveTextureARB_)
-        return;
-
-    glActiveTextureARB_(GL_TEXTURE1_ARB);
-    {
-        glBindTexture(GL_TEXTURE_1D, clip_text);
-
-        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-
-        glEnable(GL_TEXTURE_GEN_S);
-        glEnable(GL_TEXTURE_1D);
-    }
-    glActiveTextureARB_(GL_TEXTURE0_ARB);
-}
-
-void clip_draw_clr(void)
-{
-    if (!glActiveTextureARB_)
-        return;
-
-    glActiveTextureARB_(GL_TEXTURE1_ARB);
-    {
-        glDisable(GL_TEXTURE_GEN_S);
-        glDisable(GL_TEXTURE_1D);
-    }
-    glActiveTextureARB_(GL_TEXTURE0_ARB);
+    sol_draw_enable(&rend);
+    back_draw(&rend, 0.0f);
+    sol_draw_disable(&rend);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -369,6 +443,9 @@ void clip_draw_clr(void)
  */
 
 static GLuint shad_text;
+static GLuint clip_text;
+
+static GLubyte clip_data[] = { 0xff, 0xff, 0x0, 0x0 };
 
 void shad_init(void)
 {
@@ -376,83 +453,63 @@ void shad_init(void)
 
     if (config_get_d(CONFIG_SHADOW) == 2)
     {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     }
 
-    clip_init();
+    /* Create the clip texture. */
+
+    glGenTextures(1, &clip_text);
+    glBindTexture(GL_TEXTURE_2D, clip_text);
+
+    glTexImage2D(GL_TEXTURE_2D, 0,
+                 GL_LUMINANCE_ALPHA, 1, 2, 0,
+                 GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, clip_data);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
 void shad_free(void)
 {
-    if (glIsTexture(shad_text))
-        glDeleteTextures(1, &shad_text);
-
-    clip_free();
+    glDeleteTextures(1, &shad_text);
+    glDeleteTextures(1, &clip_text);
 }
 
 void shad_draw_set(void)
 {
-    glBindTexture(GL_TEXTURE_2D, shad_text);
-
-    glMatrixMode(GL_TEXTURE);
+    if (tex_env_stage(TEX_STAGE_SHADOW))
     {
-        glLoadIdentity();
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, shad_text);
+
+        if (tex_env_stage(TEX_STAGE_CLIP))
+        {
+            glBindTexture(GL_TEXTURE_2D, clip_text);
+            glEnable(GL_TEXTURE_2D);
+        }
+
+        tex_env_stage(TEX_STAGE_TEXTURE);
     }
-    glMatrixMode(GL_MODELVIEW);
-
-    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-
-    glEnable(GL_TEXTURE_GEN_S);
-    glEnable(GL_TEXTURE_GEN_T);
-
-    clip_draw_set();
 }
 
 void shad_draw_clr(void)
 {
-    glDisable(GL_TEXTURE_GEN_S);
-    glDisable(GL_TEXTURE_GEN_T);
-
-    clip_draw_clr();
-}
-
-/*---------------------------------------------------------------------------*/
-
-void fade_draw(float k)
-{
-    if (k > 0.0f)
+    if (tex_env_stage(TEX_STAGE_SHADOW))
     {
-        int w = config_get_d(CONFIG_WIDTH);
-        int h = config_get_d(CONFIG_HEIGHT);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glDisable(GL_TEXTURE_2D);
 
-        video_push_ortho();
+        if (tex_env_stage(TEX_STAGE_CLIP))
         {
-            glEnable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHTING);
-            glDisable(GL_DEPTH_TEST);
+            glBindTexture(GL_TEXTURE_2D, 0);
             glDisable(GL_TEXTURE_2D);
-
-            glColor4f(0.0f, 0.0f, 0.0f, k);
-
-            glBegin(GL_QUADS);
-            {
-                glVertex2i(0, 0);
-                glVertex2i(w, 0);
-                glVertex2i(w, h);
-                glVertex2i(0, h);
-            }
-            glEnd();
-
-            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-            glEnable(GL_TEXTURE_2D);
-            glEnable(GL_DEPTH_TEST);
-            glEnable(GL_LIGHTING);
-            glDisable(GL_COLOR_MATERIAL);
         }
-        video_pop_matrix();
+
+        tex_env_stage(TEX_STAGE_TEXTURE);
     }
 }
 

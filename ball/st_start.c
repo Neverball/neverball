@@ -46,7 +46,9 @@ static int challenge_id;
 static void gui_level(int id, int i)
 {
     struct level *l = get_level(i);
-    const GLfloat *fore = 0, *back = 0;
+
+    const GLubyte *fore = 0;
+    const GLubyte *back = 0;
 
     int jd;
 

@@ -22,7 +22,7 @@
 #include "config.h"
 #include "video.h"
 #include "text.h"
-#include "back.h"
+#include "geom.h"
 
 #include "game_common.h"
 #include "game_server.h"
@@ -152,7 +152,7 @@ static void name_paint(int id, float t)
     {
         video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
         {
-            back_draw(0);
+            back_draw_easy();
         }
         video_pop_matrix();
     }

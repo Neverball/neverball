@@ -14,7 +14,6 @@
 
 #include "gui.h"
 #include "hud.h"
-#include "back.h"
 #include "geom.h"
 #include "item.h"
 #include "ball.h"
@@ -124,7 +123,7 @@ static void conf_shared_paint(int id, float t)
 {
     video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
-        back_draw(0);
+        back_draw_easy();
     }
     video_pop_matrix();
     gui_paint(id);
@@ -422,9 +421,7 @@ static int null_enter(struct state *st, struct state *prev)
 {
     hud_free();
     gui_free();
-    swch_free();
-    jump_free();
-    goal_free();
+    geom_free();
     item_free();
     ball_free();
     shad_free();
@@ -435,13 +432,11 @@ static int null_enter(struct state *st, struct state *prev)
 
 static void null_leave(struct state *st, struct state *next, int id)
 {
-    part_init(GOAL_HEIGHT, JUMP_HEIGHT);
+    part_init();
     shad_init();
     ball_init();
     item_init();
-    goal_init();
-    jump_init();
-    swch_init();
+    geom_init();
     gui_init();
     hud_init();
 }

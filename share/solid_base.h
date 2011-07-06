@@ -29,27 +29,28 @@
  * structure to which the variable  refers.  Y determines the usage of
  * the variable.
  *
- * The Xs are as documented by struct s_file:
+ * The Xs are as documented by struct s_base:
  *
- *     f  File          (struct s_file)
- *     m  Material      (struct s_mtrl)
- *     v  Vertex        (struct s_vert)
- *     e  Edge          (struct s_edge)
- *     s  Side          (struct s_side)
- *     t  Texture coord (struct s_texc)
- *     g  Geometry      (struct s_geom)
- *     l  Lump          (struct s_lump)
- *     n  Node          (struct s_node)
- *     p  Path          (struct s_path)
- *     b  Body          (struct s_body)
- *     h  Item          (struct s_item)
- *     z  Goal          (struct s_goal)
- *     j  Jump          (struct s_jump)
- *     x  Switch        (struct s_swch)
- *     r  Billboard     (struct s_bill)
- *     u  User          (struct s_ball)
- *     w  Viewpoint     (struct s_view)
- *     d  Dictionary    (struct s_dict)
+ *     f  File          (struct s_base)
+ *     m  Material      (struct b_mtrl)
+ *     v  Vertex        (struct b_vert)
+ *     e  Edge          (struct b_edge)
+ *     s  Side          (struct b_side)
+ *     t  Texture coord (struct b_texc)
+ *     g  Geometry      (struct b_geom)
+ *     o  Offset        (struct b_offs)
+ *     l  Lump          (struct b_lump)
+ *     n  Node          (struct b_node)
+ *     p  Path          (struct b_path)
+ *     b  Body          (struct b_body)
+ *     h  Item          (struct b_item)
+ *     z  Goal          (struct b_goal)
+ *     j  Jump          (struct b_jump)
+ *     x  Switch        (struct b_swch)
+ *     r  Billboard     (struct b_bill)
+ *     u  User          (struct b_ball)
+ *     w  Viewpoint     (struct b_view)
+ *     d  Dictionary    (struct b_dict)
  *     i  Index         (int)
  *     a  Text          (char)
  *
@@ -71,7 +72,7 @@
  * Those members that do not conform to this convention are explicitly
  * documented with a comment.
  *
- * These prefixes are still available: c k o q y.
+ * These prefixes are still available: c k q y.
  */
 
 /*
@@ -83,15 +84,15 @@
 
 /* Material type flags */
 
-#define M_OPAQUE       1
-#define M_TRANSPARENT  2
-#define M_REFLECTIVE   4
-#define M_ENVIRONMENT  8
-#define M_ADDITIVE    16
-#define M_CLAMPED     32
-#define M_DECAL       64
-#define M_TWO_SIDED  128
-#define M_SHADOWED   256
+#define M_REFLECTIVE  (1 <<  8)
+#define M_TRANSPARENT (1 <<  7)
+#define M_SHADOWED    (1 <<  6)
+#define M_DECAL       (1 <<  5)
+#define M_ENVIRONMENT (1 <<  4)
+#define M_TWO_SIDED   (1 <<  3)
+#define M_ADDITIVE    (1 <<  2)
+#define M_CLAMP_S     (1 <<  1)
+#define M_CLAMP_T     (1 <<  0)
 
 /* Billboard types. */
 
@@ -153,12 +154,15 @@ struct b_texc
     float u[2];                                /* texture coordinate         */
 };
 
+struct b_offs
+{
+    int ti, si, vi;
+};
+
 struct b_geom
 {
     int mi;
-    int ti, si, vi;
-    int tj, sj, vj;
-    int tk, sk, vk;
+    int oi, oj, ok;
 };
 
 struct b_lump
@@ -280,6 +284,7 @@ struct s_base
     int ec;
     int sc;
     int tc;
+    int oc;
     int gc;
     int lc;
     int nc;
@@ -301,6 +306,7 @@ struct s_base
     struct b_edge *ev;
     struct b_side *sv;
     struct b_texc *tv;
+    struct b_offs *ov;
     struct b_geom *gv;
     struct b_lump *lv;
     struct b_node *nv;

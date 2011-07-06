@@ -291,7 +291,7 @@ void hud_speed_pulse(int speed)
 
     for (i = SPEED_NONE + 1; i < SPEED_MAX; i++)
     {
-        const GLfloat *c = gui_gry;
+        const GLubyte *c = gui_gry;
 
         if (speed != SPEED_NONE)
         {

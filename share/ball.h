@@ -15,13 +15,17 @@
 #ifndef BALL_H
 #define BALL_H
 
+#include "solid_draw.h"
+
 /*---------------------------------------------------------------------------*/
 
 #define BALL_FUDGE 0.001f
 
 void ball_init(void);
 void ball_free(void);
-void ball_draw(const float *,
+
+void ball_draw(struct s_rend *,
+               const float *,
                const float *,
                const float *, float);
 
