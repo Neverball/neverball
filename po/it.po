@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2011-06-28 02:46+0300\n"
-"PO-Revision-Date: 2011-06-30 15:20+0100\n"
+"PO-Revision-Date: 2011-07-06 11:50+0100\n"
 "Last-Translator: Andrea Del Santo <htnever@gmail.com>\n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -266,7 +266,7 @@ msgstr "Attivato"
 
 #: ball/st_conf.c:251
 msgid "Reflection"
-msgstr "Riflessione"
+msgstr "Effetto Specchio"
 
 #: ball/st_conf.c:260
 msgid "Background"
@@ -1009,7 +1009,7 @@ msgstr "Neverball Medium"
 
 #: data/set-medium.txt
 msgid "Difficulty: Beginner through Expert\\\\25 levels which provide a balanced\\challenge for players. Try to claim\\some of the records provided.\\"
-msgstr "Grado di difficoltà: medio - poco difficile\\\\25 livelli con qualche sporgenza dove è necessario conoscere il gico.\\sbizzarrisciti a conquistare i trofei.importantes.\\ \\"
+msgstr "Grado di difficoltà: medio - poco difficile\\\\25 livelli con qualche sporgenza dove è necessario conoscere il gico.\\sbizzarrisciti a conquistare i trofei.\\ \\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -1425,7 +1425,7 @@ msgstr "Cerca di raggiungere la cima\\per darti un obiettivo maggiore!"
 
 #: data/map-medium/spiraldn.map
 msgid "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might work.\\"
-msgstr "Lontano dai bordi.\\\\(o no?)\\"
+msgstr "Conviene stare lontani dai bordi.\\\\(o no?)\\"
 
 #: data/map-medium/spiralup.map
 msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
