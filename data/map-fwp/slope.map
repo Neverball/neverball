@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "1.2"
+"version" "1.3"
 "author" "Florian Priester"
 "shot" "shot-fwp/slope.png"
 "back" "map-back/city.sol"
@@ -8473,343 +8473,343 @@
 }
 // entity 5
 {
-"classname" "misc_model"
-"origin" "-260 516 256"
-"model" "obj/post.obj"
-}
-// entity 6
-{
-"classname" "misc_model"
-"origin" "-160 516 256"
-"model" "obj/xrail3.obj"
-}
-// entity 7
-{
-"classname" "misc_model"
-"origin" "-64 516 256"
-"model" "obj/post.obj"
-}
-// entity 8
-{
-"classname" "misc_model"
-"origin" "64 516 256"
-"model" "obj/post.obj"
-}
-// entity 9
-{
-"classname" "misc_model"
-"origin" "160 516 256"
-"model" "obj/xrail3.obj"
-}
-// entity 10
-{
-"classname" "misc_model"
-"origin" "260 516 256"
-"model" "obj/post.obj"
-}
-// entity 11
-{
-"classname" "misc_model"
-"origin" "-260 256 128"
-"model" "obj/post.obj"
-}
-// entity 12
-{
-"classname" "misc_model"
-"origin" "260 256 128"
-"model" "obj/post.obj"
-}
-// entity 13
-{
-"classname" "misc_model"
-"origin" "-260 -4 0"
-"model" "obj/post.obj"
-}
-// entity 14
-{
-"classname" "misc_model"
-"origin" "0 -4 0"
-"model" "obj/post.obj"
-}
-// entity 15
-{
-"classname" "misc_model"
-"origin" "0 -4 0"
-"model" "obj/xrail8.obj"
-}
-// entity 16
-{
-"classname" "misc_model"
-"origin" "260 -4 0"
-"model" "obj/post.obj"
-}
-// entity 17
-{
 "classname" "light"
 "origin" "-192 448 240"
 "light" "5"
 }
-// entity 18
+// entity 6
 {
 "classname" "light"
 "origin" "-128 448 240"
 "light" "1"
 }
-// entity 19
+// entity 7
 {
 "classname" "light"
 "origin" "-64 448 240"
 "light" "5"
 }
-// entity 20
+// entity 8
 {
 "classname" "light"
 "origin" "0 448 240"
 "light" "1"
 }
-// entity 21
+// entity 9
 {
 "classname" "light"
 "origin" "64 448 240"
 "light" "5"
 }
-// entity 22
+// entity 10
 {
 "classname" "light"
 "origin" "128 448 240"
 "light" "1"
 }
-// entity 23
+// entity 11
 {
 "classname" "light"
 "origin" "192 448 240"
 "light" "5"
 }
-// entity 24
+// entity 12
 {
 "classname" "light"
 "origin" "-192 384 208"
 "light" "1"
 }
-// entity 25
+// entity 13
 {
 "classname" "light"
 "origin" "-128 384 208"
 "light" "5"
 }
-// entity 26
+// entity 14
 {
 "classname" "light"
 "origin" "-64 384 208"
 "light" "1"
 }
-// entity 27
+// entity 15
 {
 "classname" "light"
 "origin" "0 384 208"
 "light" "5"
 }
-// entity 28
+// entity 16
 {
 "classname" "light"
 "origin" "64 384 208"
 "light" "1"
 }
-// entity 29
+// entity 17
 {
 "classname" "light"
 "origin" "128 384 208"
 "light" "5"
 }
-// entity 30
+// entity 18
 {
 "classname" "light"
 "origin" "192 384 208"
 "light" "1"
 }
-// entity 31
+// entity 19
 {
 "classname" "light"
 "origin" "-192 320 176"
 "light" "5"
 }
-// entity 32
+// entity 20
 {
 "classname" "light"
 "origin" "-128 320 176"
 "light" "1"
 }
-// entity 33
+// entity 21
 {
 "classname" "light"
 "origin" "-64 320 176"
 "light" "5"
 }
-// entity 34
+// entity 22
 {
 "classname" "light"
 "origin" "64 320 176"
 "light" "5"
 }
-// entity 35
+// entity 23
 {
 "classname" "light"
 "origin" "128 320 176"
 "light" "1"
 }
-// entity 36
+// entity 24
 {
 "classname" "light"
 "origin" "192 320 176"
 "light" "5"
 }
-// entity 37
+// entity 25
 {
 "classname" "light"
 "origin" "-192 256 144"
 "light" "1"
 }
-// entity 38
+// entity 26
 {
 "classname" "light"
 "origin" "-128 256 144"
 "light" "5"
 }
-// entity 39
+// entity 27
 {
 "classname" "light"
 "origin" "0 256 144"
 "light" "10"
 }
-// entity 40
+// entity 28
 {
 "classname" "light"
 "origin" "128 256 144"
 "light" "5"
 }
-// entity 41
+// entity 29
 {
 "classname" "light"
 "origin" "192 256 144"
 "light" "1"
 }
-// entity 42
+// entity 30
 {
 "classname" "light"
 "origin" "-192 192 112"
 "light" "5"
 }
-// entity 43
+// entity 31
 {
 "classname" "light"
 "origin" "-128 192 112"
 "light" "1"
 }
-// entity 44
+// entity 32
 {
 "classname" "light"
 "origin" "-64 192 112"
 "light" "5"
 }
-// entity 45
+// entity 33
 {
 "classname" "light"
 "origin" "64 192 112"
 "light" "5"
 }
-// entity 46
+// entity 34
 {
 "classname" "light"
 "origin" "128 192 112"
 "light" "1"
 }
-// entity 47
+// entity 35
 {
 "classname" "light"
 "origin" "192 192 112"
 "light" "5"
 }
-// entity 48
+// entity 36
 {
 "classname" "light"
 "origin" "-192 128 80"
 "light" "1"
 }
-// entity 49
+// entity 37
 {
 "classname" "light"
 "origin" "-128 128 80"
 "light" "5"
 }
-// entity 50
+// entity 38
 {
 "classname" "light"
 "origin" "-64 128 80"
 "light" "1"
 }
-// entity 51
+// entity 39
 {
 "classname" "light"
 "origin" "0 128 80"
 "light" "5"
 }
-// entity 52
+// entity 40
 {
 "classname" "light"
 "origin" "64 128 80"
 "light" "1"
 }
-// entity 53
+// entity 41
 {
 "classname" "light"
 "origin" "128 128 80"
 "light" "5"
 }
-// entity 54
+// entity 42
 {
 "classname" "light"
 "origin" "192 128 80"
 "light" "1"
 }
-// entity 55
+// entity 43
 {
 "classname" "light"
 "origin" "-192 64 48"
 "light" "5"
 }
-// entity 56
+// entity 44
 {
 "classname" "light"
 "origin" "-128 64 48"
 "light" "1"
 }
-// entity 57
+// entity 45
 {
 "classname" "light"
 "origin" "-64 64 48"
 "light" "5"
 }
-// entity 58
+// entity 46
 {
 "classname" "light"
 "origin" "0 64 48"
 "light" "1"
 }
-// entity 59
+// entity 47
 {
 "classname" "light"
 "origin" "64 64 48"
 "light" "5"
 }
-// entity 60
+// entity 48
 {
 "classname" "light"
 "origin" "128 64 48"
 "light" "1"
 }
-// entity 61
+// entity 49
 {
 "classname" "light"
 "origin" "192 64 48"
 "light" "5"
+}
+// entity 50
+{
+"classname" "misc_model"
+"origin" "-260 516 256"
+"model" "obj/post.obj"
+}
+// entity 51
+{
+"classname" "misc_model"
+"origin" "-160 516 256"
+"model" "obj/xrail3.obj"
+}
+// entity 52
+{
+"classname" "misc_model"
+"origin" "-64 516 256"
+"model" "obj/post.obj"
+}
+// entity 53
+{
+"classname" "misc_model"
+"origin" "64 516 256"
+"model" "obj/post.obj"
+}
+// entity 54
+{
+"classname" "misc_model"
+"origin" "160 516 256"
+"model" "obj/xrail3.obj"
+}
+// entity 55
+{
+"classname" "misc_model"
+"origin" "260 516 256"
+"model" "obj/post.obj"
+}
+// entity 56
+{
+"classname" "misc_model"
+"origin" "-260 256 128"
+"model" "obj/post.obj"
+}
+// entity 57
+{
+"classname" "misc_model"
+"origin" "260 256 128"
+"model" "obj/post.obj"
+}
+// entity 58
+{
+"classname" "misc_model"
+"origin" "-260 -4 0"
+"model" "obj/post.obj"
+}
+// entity 59
+{
+"classname" "misc_model"
+"origin" "0 -4 0"
+"model" "obj/post.obj"
+}
+// entity 60
+{
+"classname" "misc_model"
+"origin" "0 -4 0"
+"model" "obj/xrail8.obj"
+}
+// entity 61
+{
+"classname" "misc_model"
+"origin" "260 -4 0"
+"model" "obj/post.obj"
 }
