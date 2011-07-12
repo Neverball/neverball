@@ -823,7 +823,7 @@ void game_set_z(float k)
     input_set_z(+ANGLE_BOUND * k);
 }
 
-void game_set_ang(int x, int z)
+void game_set_ang(float x, float z)
 {
     input_set_x(x);
     input_set_z(z);

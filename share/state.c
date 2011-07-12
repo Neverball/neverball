@@ -140,7 +140,7 @@ void st_stick(int a, float v)
         state->stick(state->gui_id, a, v, bump);
 }
 
-void st_angle(int x, int z)
+void st_angle(float x, float z)
 {
     if (state && state->angle)
         state->angle(state->gui_id, x, z);

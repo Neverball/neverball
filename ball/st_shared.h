@@ -10,7 +10,7 @@ int  shared_point_basic(int id, int x, int y);
 void shared_point(int id, int x, int y, int dx, int dy);
 int  shared_stick_basic(int id, int a, float v, int bump);
 void shared_stick(int id, int a, float v, int bump);
-void shared_angle(int id, int x, int z);
+void shared_angle(int id, float x, float z);
 int  shared_click(int b, int d);
 
 #endif

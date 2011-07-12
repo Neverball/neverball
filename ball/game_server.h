@@ -16,7 +16,7 @@ float game_server_blend(void);
 
 void  game_set_goal(void);
 
-void  game_set_ang(int, int);
+void  game_set_ang(float, float);
 void  game_set_pos(int, int);
 void  game_set_x  (float);
 void  game_set_z  (float);

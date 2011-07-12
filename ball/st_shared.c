@@ -69,7 +69,7 @@ void shared_stick(int id, int a, float v, int bump)
     shared_stick_basic(id, a, v, bump);
 }
 
-void shared_angle(int id, int x, int z)
+void shared_angle(int id, float x, float z)
 {
     game_set_ang(x, z);
 }

@@ -233,8 +233,8 @@ static int loop(void)
         int b;
         int s;
 
-        st_angle((int) tilt_get_x(),
-                 (int) tilt_get_z());
+        st_angle(tilt_get_x(),
+                 tilt_get_z());
 
         while (tilt_get_button(&b, &s))
         {
