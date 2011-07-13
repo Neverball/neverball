@@ -27,6 +27,7 @@
 #include "base_image.h"
 #include "base_config.h"
 #include "lang.h"
+#include "config.h"
 
 #include "solid_draw.h"
 #include "solid_all.h"
@@ -767,10 +768,11 @@ void sol_draw_enable(struct s_rend *rend)
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
-    if (gli.max_texture_units > 2)
-        tex_env_active(&tex_env_shadow_clip);
-    else if (gli.max_texture_units > 1)
-        tex_env_active(&tex_env_shadow);
+    if (config_get_d(CONFIG_SHADOW))
+        tex_env_select(&tex_env_shadow_clip,
+                       &tex_env_shadow,
+                       &tex_env_default,
+                       NULL);
     else
         tex_env_active(&tex_env_default);
 

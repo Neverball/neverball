@@ -2,6 +2,7 @@
 #define GEOM_H
 
 #include "solid_draw.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -66,6 +67,7 @@ extern const struct tex_env tex_env_default;
 extern const struct tex_env tex_env_shadow;
 extern const struct tex_env tex_env_shadow_clip;
 
+void tex_env_select(const struct tex_env *, ...) NULL_TERMINATED;
 void tex_env_active(const struct tex_env *);
 int  tex_env_stage(int);
 

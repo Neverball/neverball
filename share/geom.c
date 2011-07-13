@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdarg.h>
 
 #include "glext.h"
 #include "geom.h"
@@ -191,6 +192,27 @@ void tex_env_active(const struct tex_env *env)
 
     tex_env_conf(env, 1);
     curr_tex_env = env;
+}
+
+/*
+ * Select an appropriate texture pipeline out of several.
+ */
+void tex_env_select(const struct tex_env *first, ...)
+{
+    const struct tex_env *sel = &tex_env_default;
+    const struct tex_env *env;
+
+    va_list ap;
+
+    va_start(ap, first);
+
+    for (env = first; env; env = va_arg(ap, const struct tex_env *))
+        if (env->count <= gli.max_texture_units && env->count >= sel->count)
+            sel = env;
+
+    va_end(ap);
+
+    tex_env_active(sel);
 }
 
 /*
