@@ -66,23 +66,23 @@ void image_snap(const char *filename)
 
         /* Allocate the pixel buffer and copy pixels there. */
 
-        if ((p = (unsigned char *) malloc(w * h * 3)))
+        if ((p = (unsigned char *) malloc(w * h * 4)))
         {
-            glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, p);
+            glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, p);
 
             /* Allocate and initialize the row pointers. */
 
             if ((bytep = (png_bytep *) png_malloc(writep, h * sizeof (png_bytep))))
             {
                 for (i = 0; i < h; ++i)
-                    bytep[h - i - 1] = (png_bytep) (p + i * w * 3);
-
-                png_set_rows (writep, infop, bytep);
+                    bytep[h - i - 1] = (png_bytep) (p + i * w * 4);
 
                 /* Write the PNG image file. */
 
                 png_write_info(writep, infop);
-                png_write_png (writep, infop, 0, NULL);
+                png_set_filler(writep, 0, PNG_FILLER_AFTER);
+                png_write_image(writep, bytep);
+                png_write_end(writep, infop);
 
                 free(bytep);
             }
