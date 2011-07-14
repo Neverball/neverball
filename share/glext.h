@@ -109,6 +109,8 @@ int glext_init(void);
 
 #define glOrtho_               glOrthof
 
+#define glStringMarker_(s) ((void) (s))
+
 #else /* No native linkage?  Define the extension API. */
 
 #define glOrtho_               glOrtho
@@ -145,6 +147,17 @@ extern PFNGLISBUFFER_PROC      glIsBuffer_;
 typedef void (*PFNGLPOINTPARAMETERFV_PROC)(GLenum, const GLfloat *);
 
 extern PFNGLPOINTPARAMETERFV_PROC glPointParameterfv_;
+
+/*---------------------------------------------------------------------------*/
+/* GREMEDY_string_marker                                                     */
+
+typedef void (*PFNGLSTRINGMARKERGREMEDY_PROC)(GLsizei, const void *);
+
+extern PFNGLSTRINGMARKERGREMEDY_PROC glStringMarkerGREMEDY_;
+
+#define glStringMarker_(s)      \
+    if (glStringMarkerGREMEDY_) \
+        glStringMarkerGREMEDY_(0, (s))
 
 /*---------------------------------------------------------------------------*/
 #endif /* !ENABLE_OPENGLES */

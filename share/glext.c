@@ -35,6 +35,8 @@ PFNGLISBUFFER_PROC            glIsBuffer_;
 
 PFNGLPOINTPARAMETERFV_PROC    glPointParameterfv_;
 
+PFNGLSTRINGMARKERGREMEDY_PROC glStringMarkerGREMEDY_;
+
 #endif
 
 /*---------------------------------------------------------------------------*/
@@ -119,6 +121,9 @@ int glext_init(void)
 
         gli.point_parameters = 1;
     }
+
+    if (glext_check("GREMEDY_string_marker"))
+        SDL_GL_GFPA(glStringMarkerGREMEDY_, "glStringMarkerGREMEDY");
 
     return (gli.multitexture &&
             gli.vertex_buffer_object &&
