@@ -63,8 +63,17 @@ static const char *pick_demo(Array items)
 
 /*---------------------------------------------------------------------------*/
 
+enum
+{
+    MODE_NONE,
+    MODE_LEVEL,
+    MODE_LEVEL_FADE,
+    MODE_DEMO,
+    MODE_DEMO_FADE
+};
+
 static float real_time = 0.0f;
-static int   mode      = 0;
+static int   mode      = MODE_NONE;
 
 static Array items;
 
@@ -187,10 +196,12 @@ static int title_enter(struct state *st, struct state *prev)
 
     /* Initialize the title level for display. */
 
-    init_title_level();
+    if (init_title_level())
+        mode = MODE_LEVEL;
+    else
+        mode = MODE_NONE;
 
     real_time = 0.0f;
-    mode = 0;
 
     SDL_EnableUNICODE(1);
 
@@ -218,7 +229,7 @@ static void title_timer(int id, float dt)
 
     switch (mode)
     {
-    case 0: /* Mode 0: Pan across title level. */
+    case MODE_LEVEL: /* Pan across title level. */
 
         if (real_time <= 20.0f)
         {
@@ -228,11 +239,11 @@ static void title_timer(int id, float dt)
         {
             game_fade(+1.0f);
             real_time = 0.0f;
-            mode = 1;
+            mode = MODE_LEVEL_FADE;
         }
         break;
 
-    case 1: /* Mode 1: Fade out.  Load demo level. */
+    case MODE_LEVEL_FADE: /* Fade out.  Load demo level. */
 
         if (real_time > 1.0f)
         {
@@ -244,39 +255,39 @@ static void title_timer(int id, float dt)
                 demo_replay_init(demo, NULL, NULL, NULL, NULL, NULL);
                 game_client_fly(0.0f);
                 real_time = 0.0f;
-                mode = 2;
+                mode = MODE_DEMO;
             }
             else
             {
                 game_fade(-1.0f);
                 real_time = 0.0f;
-                mode = 0;
+                mode = MODE_LEVEL;
             }
         }
         break;
 
-    case 2: /* Mode 2: Run demo. */
+    case MODE_DEMO: /* Run demo. */
 
         if (!demo_replay_step(dt))
         {
             demo_replay_stop(0);
             game_fade(+1.0f);
             real_time = 0.0f;
-            mode = 3;
+            mode = MODE_DEMO_FADE;
         }
         else
             game_client_blend(demo_replay_blend());
 
         break;
 
-    case 3: /* Mode 3: Fade out.  Load title level. */
+    case MODE_DEMO_FADE: /* Fade out.  Load title level. */
 
         if (real_time > 1.0f)
         {
             init_title_level();
 
             real_time = 0.0f;
-            mode = 0;
+            mode = MODE_LEVEL;
         }
         break;
     }

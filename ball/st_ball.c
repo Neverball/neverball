@@ -155,11 +155,15 @@ static void load_ball_demo(void)
 
     /* "g" is a stupid hack to keep the goal locked. */
 
-    demo_replay_init("gui/ball.nbr", &g, NULL, NULL, NULL, NULL);
+    if (!demo_replay_init("gui/ball.nbr", &g, NULL, NULL, NULL, NULL))
+    {
+        ball_action(BALL_BACK);
+        return;
+    }
+
     audio_music_fade_to(0.0f, "bgm/inter.ogg");
     game_client_fly(0);
     game_kill_fade();
-
     back_init("back/gui.png");
 }
 

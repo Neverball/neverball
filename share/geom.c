@@ -283,12 +283,12 @@ void back_init(const char *name)
     /* Load the background SOL and modify its material in-place to use the   */
     /* named gradient texture.                                               */
 
-    sol_load_full(&back, "geom/back/back.sol", 0);
-    back.draw.mv[0].o = make_image_from_file(name);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-
-    back_state = 1;
+    if (sol_load_full(&back, "geom/back/back.sol", 0))
+    {
+        back.draw.mv[0].o = make_image_from_file(name);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        back_state = 1;
+    }
 }
 
 void back_free(void)

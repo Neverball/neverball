@@ -926,6 +926,9 @@ void sol_back(const struct s_draw *draw,
 void sol_bill(const struct s_draw *draw,
               struct s_rend *rend, const float *M, float t)
 {
+    if (!(draw && draw->base && draw->base->rc))
+        return;
+
     sol_bill_enable(draw);
     {
         int ri;
