@@ -218,18 +218,23 @@ static void game_refl_all(struct s_rend *rend, const struct game_draw *gd)
 
 /*---------------------------------------------------------------------------*/
 
-static void game_draw_light(void)
+static void game_draw_light(const struct game_draw *gd, int d)
 {
     const float light_p[2][4] = {
-        { -8.0f, +32.0f, -8.0f, 0.0f },
-        { +8.0f, +32.0f, +8.0f, 0.0f },
+        { -8.0f, +32.0f, -8.0f, 1.0f },
+        { +8.0f, +32.0f, +8.0f, 1.0f },
     };
     const float light_c[2][4] = {
         { 1.0f, 0.8f, 0.8f, 1.0f },
         { 0.8f, 1.0f, 0.8f, 1.0f },
     };
 
+    const struct game_view *view = &gd->view;
+
     /* Configure the lighting. */
+
+    glPushMatrix();
+    glTranslatef(+view->p[0], +view->p[1] * d, +view->p[2]);
 
     glEnable(GL_LIGHT0);
     glLightfv(GL_LIGHT0, GL_POSITION, light_p[0]);
@@ -240,6 +245,8 @@ static void game_draw_light(void)
     glLightfv(GL_LIGHT1, GL_POSITION, light_p[1]);
     glLightfv(GL_LIGHT1, GL_DIFFUSE,  light_c[1]);
     glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
+
+    glPopMatrix();
 }
 
 static void game_draw_back(struct s_rend *rend,
@@ -467,7 +474,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
                     {
                         glScalef(+1.0f, -1.0f, +1.0f);
 
-                        game_draw_light();
+                        game_draw_light(gd, -1);
 
                         game_draw_back(&rend, gd, pose,    -1, t);
                         game_draw_fore(&rend, gd, pose, U, -1, t);
@@ -482,7 +489,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
             /* Ready the lights for foreground rendering. */
 
-            game_draw_light();
+            game_draw_light(gd, 1);
 
             /* When reflection is disabled, mirrors must be rendered opaque  */
             /* to prevent the background from showing.                       */
