@@ -98,7 +98,7 @@ struct s_draw
 
 struct s_rend
 {
-    const struct d_mtrl *mp;
+    struct d_mtrl mtrl;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -112,6 +112,7 @@ void sol_draw_disable(struct s_rend *);
 void sol_load_mtrl(struct d_mtrl *, const struct b_mtrl *);
 void sol_free_mtrl(struct d_mtrl *);
 
+void sol_color_mtrl(struct s_rend *, int);
 void sol_apply_mtrl(const struct d_mtrl *, struct s_rend *);
 
 void sol_back(const struct s_draw *, struct s_rend *, float, float, float);

@@ -160,7 +160,7 @@ static void game_draw_balls(struct s_rend *rend,
 
     int ui;
 
-    glEnable(GL_COLOR_MATERIAL);
+    sol_color_mtrl(rend, 1);
 
     for (ui = curr_party(); ui > 0; ui--)
     {
@@ -211,7 +211,7 @@ static void game_draw_balls(struct s_rend *rend,
     }
 
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    glDisable(GL_COLOR_MATERIAL);
+    sol_color_mtrl(rend, 0);
 }
 
 static void game_draw_goals(struct s_rend *rend, const struct s_base *fp)
@@ -282,7 +282,7 @@ void game_draw(int pose, float t)
     const float light_p[4] = { 8.f, 32.f, 8.f, 0.f };
 
     struct s_draw *fp = &file.draw;
-    struct s_rend rend = { NULL };
+    struct s_rend rend;
 
     float fov = FOV;
 

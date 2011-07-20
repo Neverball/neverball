@@ -60,7 +60,7 @@ static void game_draw_items(struct s_rend *rend,
 {
     int hi;
 
-    glEnable(GL_COLOR_MATERIAL);
+    sol_color_mtrl(rend, 1);
     {
         for (hi = 0; hi < vary->hc; hi++)
             if (vary->hv[hi].t == ITEM_COIN && vary->hv[hi].n > 0)
@@ -103,7 +103,7 @@ static void game_draw_items(struct s_rend *rend,
     }
 
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    glDisable(GL_COLOR_MATERIAL);
+    sol_color_mtrl(rend, 0);
 }
 
 static void game_draw_goals(struct s_rend *rend,
@@ -489,13 +489,13 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
             if (gd->draw.reflective && !config_get_d(CONFIG_REFLECTION))
             {
-                glEnable(GL_COLOR_MATERIAL);
+                sol_color_mtrl(&rend, 1);
                 {
                     glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
                     game_refl_all(&rend, gd);
                     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
                 }
-                glDisable(GL_COLOR_MATERIAL);
+                sol_color_mtrl(&rend, 0);
             }
 
             /* Draw the mirrors and the rest of the foreground. */

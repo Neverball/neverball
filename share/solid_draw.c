@@ -225,11 +225,74 @@ static struct d_mtrl default_draw_mtrl =
     0
 };
 
+#if DEBUG_MTRL
+static void check_mtrl(const char *name, GLenum pname, GLuint curr)
+{
+    static char buff[64];
+
+    GLuint real;
+    GLfloat v[4];
+
+    glGetMaterialfv(GL_FRONT, pname, v);
+
+    if (pname != GL_SHININESS)
+        real = (tobyte(v[0])       |
+                tobyte(v[1]) << 8  |
+                tobyte(v[2]) << 16 |
+                tobyte(v[3]) << 24);
+    else
+        real = (tobyte(v[0]));
+
+    if (real != curr)
+    {
+        sprintf(buff, "%s mismatch (0x%08X -> 0x%08X)", name, real, curr);
+        glStringMarker_(buff);
+    }
+}
+
+static void assert_mtrl(const struct d_mtrl *mp)
+{
+    if (glIsEnabled(GL_COLOR_MATERIAL))
+        return;
+
+    check_mtrl("ambient",   GL_AMBIENT,   mp->a);
+    check_mtrl("diffuse",   GL_DIFFUSE,   mp->d);
+    check_mtrl("specular",  GL_SPECULAR,  mp->s);
+    check_mtrl("emission",  GL_EMISSION,  mp->e);
+    check_mtrl("shininess", GL_SHININESS, mp->h);
+}
+#endif
+
+void sol_color_mtrl(struct s_rend *rend, int enable)
+{
+    if (enable)
+    {
+        glEnable(GL_COLOR_MATERIAL);
+    }
+    else
+    {
+        glDisable(GL_COLOR_MATERIAL);
+
+        /*
+         * Well-behaved code sets color to white before disabling
+         * color material.  This keeps material tracking synchronized
+         * with GL state.
+         */
+
+        rend->mtrl.d = 0xffffffff;
+        rend->mtrl.a = 0xffffffff;
+    }
+}
+
 void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 {
-    const struct b_mtrl *mp_base = mp_draw->base;
-    const struct d_mtrl *mq_draw = rend->mp;
-    const struct b_mtrl *mq_base = mq_draw->base;
+    const struct b_mtrl *mp_base =  mp_draw->base;
+    const struct d_mtrl *mq_draw = &rend->mtrl;
+    const struct b_mtrl *mq_base =  mq_draw->base;
+
+#if DEBUG_MTRL
+    assert_mtrl(&rend->mtrl);
+#endif
 
     /* Bind the texture. */
 
@@ -319,7 +382,7 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
             glDisable(GL_POLYGON_OFFSET_FILL);
     }
 
-    rend->mp = mp_draw;
+    rend->mtrl = *mp_draw;
 }
 
 static GLuint sol_find_texture(const char *name)
@@ -787,7 +850,7 @@ void sol_draw_enable(struct s_rend *rend)
     }
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    rend->mp = &default_draw_mtrl;
+    rend->mtrl = default_draw_mtrl;
 }
 
 void sol_draw_disable(struct s_rend *rend)

@@ -442,7 +442,7 @@ void back_draw(struct s_rend *rend, float t)
 
 void back_draw_easy(void)
 {
-    struct s_rend rend = { NULL };
+    struct s_rend rend;
 
     sol_draw_enable(&rend);
     back_draw(&rend, 0.0f);
