@@ -370,7 +370,6 @@ static void game_draw_fore(struct s_rend *rend,
 
         /* Draw the billboards, entities, and  particles. */
 
-        glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
         {
@@ -385,7 +384,6 @@ static void game_draw_fore(struct s_rend *rend,
         }
         glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);
-        glDisable(GL_COLOR_MATERIAL);
 
         if (d < 0)
             glDisable(GL_CLIP_PLANE0);

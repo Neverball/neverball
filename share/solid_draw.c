@@ -977,7 +977,6 @@ void sol_fade(const struct s_draw *draw, float k)
         glPushMatrix();
         glLoadIdentity();
         {
-            glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
             glDisable(GL_TEXTURE_2D);
@@ -993,7 +992,6 @@ void sol_fade(const struct s_draw *draw, float k)
             glEnable(GL_TEXTURE_2D);
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_LIGHTING);
-            glDisable(GL_COLOR_MATERIAL);
         }
         glMatrixMode(GL_PROJECTION);
         glPopMatrix();

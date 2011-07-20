@@ -339,7 +339,6 @@ void game_draw(int pose, float t)
             game_draw_vect(&rend, fp->vary);
         }
 
-        glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
         {
@@ -349,7 +348,6 @@ void game_draw(int pose, float t)
         }
         glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);
-        glDisable(GL_COLOR_MATERIAL);
     }
     glPopMatrix();
     video_pop_matrix();

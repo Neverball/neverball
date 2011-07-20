@@ -1522,7 +1522,6 @@ void gui_paint(int id)
     {
         video_push_ortho();
         {
-            glEnable(GL_COLOR_MATERIAL);
             glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
             {
@@ -1539,7 +1538,6 @@ void gui_paint(int id)
             }
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_LIGHTING);
-            glDisable(GL_COLOR_MATERIAL);
         }
         video_pop_matrix();
     }
