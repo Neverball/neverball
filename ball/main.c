@@ -71,15 +71,11 @@ static void toggle_wire(void)
     if (wire)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_LIGHTING);
         wire = 0;
     }
     else
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glDisable(GL_TEXTURE_2D);
-        glDisable(GL_LIGHTING);
         wire = 1;
     }
 #endif
