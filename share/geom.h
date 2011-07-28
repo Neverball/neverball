@@ -66,6 +66,7 @@ struct tex_env
 extern const struct tex_env tex_env_default;
 extern const struct tex_env tex_env_shadow;
 extern const struct tex_env tex_env_shadow_clip;
+extern const struct tex_env tex_env_pose;
 
 void tex_env_select(const struct tex_env *, ...) NULL_TERMINATED;
 void tex_env_active(const struct tex_env *);

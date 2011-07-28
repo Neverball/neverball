@@ -277,6 +277,21 @@ static void game_draw_swchs(struct s_rend *rend, const struct s_vary *fp)
 
 /*---------------------------------------------------------------------------*/
 
+static void game_shadow_conf(int enable)
+{
+    if (enable && config_get_d(CONFIG_SHADOW))
+    {
+        tex_env_select(&tex_env_shadow_clip,
+                       &tex_env_shadow,
+                       &tex_env_default,
+                       NULL);
+    }
+    else
+    {
+        tex_env_active(&tex_env_default);
+    }
+}
+
 void game_draw(int pose, float t)
 {
     const float light_p[4] = { 8.f, 32.f, 8.f, 0.f };
@@ -291,6 +306,7 @@ void game_draw(int pose, float t)
 
     fp->shadow_ui = ball;
 
+    game_shadow_conf(1);
     sol_draw_enable(&rend);
 
     if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
@@ -353,6 +369,7 @@ void game_draw(int pose, float t)
     video_pop_matrix();
 
     sol_draw_disable(&rend);
+    game_shadow_conf(0);
 }
 
 /*---------------------------------------------------------------------------*/

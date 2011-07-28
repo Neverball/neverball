@@ -355,6 +355,22 @@ static void game_draw_fore(struct s_rend *rend,
             sol_draw(draw, rend, 0, 1);
             break;
 
+        case POSE_BALL:
+            if (config_get_d(CONFIG_SHADOW) && gli.max_texture_units > 1)
+            {
+                /*
+                 * We need the check above because otherwise the
+                 * active texture env is set up in a way that makes
+                 * level geometry visible, and we don't want that.
+                 */
+
+                glDepthMask(GL_FALSE);
+                sol_draw(draw, rend, 0, 1);
+                glDepthMask(GL_TRUE);
+            }
+            game_draw_balls(rend, draw->vary, M, t);
+            break;
+
         case POSE_NONE:
             /* Draw the floor. */
 
@@ -363,10 +379,6 @@ static void game_draw_fore(struct s_rend *rend,
             /* Draw the coins. */
 
             game_draw_items(rend, draw->vary, M, t);
-
-            /* Fall through. */
-
-        case POSE_BALL:
 
             /* Draw the ball. */
 
@@ -400,13 +412,42 @@ static void game_draw_fore(struct s_rend *rend,
 
 /*---------------------------------------------------------------------------*/
 
+static void game_shadow_conf(int pose, int enable)
+{
+    if (enable && config_get_d(CONFIG_SHADOW))
+    {
+        switch (pose)
+        {
+        case POSE_LEVEL:
+            /* No shadow. */
+            tex_env_active(&tex_env_default);
+            break;
+
+        case POSE_BALL:
+            /* Shadow only. */
+            tex_env_select(&tex_env_pose,
+                           &tex_env_default,
+                           NULL);
+            break;
+
+        default:
+            /* Regular shadow. */
+            tex_env_select(&tex_env_shadow_clip,
+                           &tex_env_shadow,
+                           &tex_env_default,
+                           NULL);
+            break;
+        }
+    }
+    else
+    {
+        tex_env_active(&tex_env_default);
+    }
+}
+
 void game_draw(struct game_draw *gd, int pose, float t)
 {
     float fov = (float) config_get_d(CONFIG_VIEW_FOV);
-    int sh = config_get_d(CONFIG_SHADOW);
-
-    if (pose == POSE_LEVEL)
-        config_set_d(CONFIG_SHADOW, 0);
 
     if (gd->jump_b) fov *= 2.f * fabsf(gd->jump_dt - 0.5);
 
@@ -417,6 +458,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         gd->draw.shadow_ui = 0;
 
+        game_shadow_conf(pose, 1);
         sol_draw_enable(&rend);
 
         video_push_persp(fov, 0.1f, FAR_DIST);
@@ -516,11 +558,10 @@ void game_draw(struct game_draw *gd, int pose, float t)
         /* Draw the fade overlay. */
 
         sol_fade(&gd->draw, gd->fade_k);
-        sol_draw_disable(&rend);
-    }
 
-    if (pose == POSE_LEVEL)
-        config_set_d(CONFIG_SHADOW, sh);
+        sol_draw_disable(&rend);
+        game_shadow_conf(pose, 0);
+    }
 }
 
 /*---------------------------------------------------------------------------*/

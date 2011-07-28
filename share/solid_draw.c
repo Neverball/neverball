@@ -27,7 +27,6 @@
 #include "base_image.h"
 #include "base_config.h"
 #include "lang.h"
-#include "config.h"
 
 #include "solid_draw.h"
 #include "solid_all.h"
@@ -835,14 +834,6 @@ void sol_draw_enable(struct s_rend *rend)
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
-    if (config_get_d(CONFIG_SHADOW))
-        tex_env_select(&tex_env_shadow_clip,
-                       &tex_env_shadow,
-                       &tex_env_default,
-                       NULL);
-    else
-        tex_env_active(&tex_env_default);
-
     if (tex_env_stage(TEX_STAGE_SHADOW))
     {
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -872,8 +863,6 @@ void sol_draw_disable(struct s_rend *rend)
         tex_env_stage(TEX_STAGE_TEXTURE);
     }
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-    tex_env_active(&tex_env_default);
 
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);

@@ -34,6 +34,7 @@ static const struct tex_env *curr_tex_env;
 
 static void tex_env_conf_default(int, int);
 static void tex_env_conf_shadow(int, int);
+static void tex_env_conf_pose(int, int);
 
 const struct tex_env tex_env_default = {
     tex_env_conf_default,
@@ -59,6 +60,15 @@ const struct tex_env tex_env_shadow_clip = {
         { GL_TEXTURE0, TEX_STAGE_SHADOW },
         { GL_TEXTURE1, TEX_STAGE_CLIP },
         { GL_TEXTURE2, TEX_STAGE_TEXTURE }
+    }
+};
+
+const struct tex_env tex_env_pose = {
+    tex_env_conf_pose,
+    2,
+    {
+        { GL_TEXTURE0, TEX_STAGE_SHADOW },
+        { GL_TEXTURE1, TEX_STAGE_TEXTURE }
     }
 };
 
@@ -157,6 +167,37 @@ static void tex_env_conf_shadow(int stage, int enable)
 
     case TEX_STAGE_TEXTURE:
         tex_env_conf_default(TEX_STAGE_TEXTURE, enable);
+        break;
+    }
+}
+
+static void tex_env_conf_pose(int stage, int enable)
+{
+    /*
+     * We can't do the obvious thing and use a single texture unit for
+     * this, because everything assumes that the "texture" stage is
+     * permanently available.
+     */
+
+    switch (stage)
+    {
+    case TEX_STAGE_SHADOW:
+        if (enable)
+        {
+            glDisable(GL_TEXTURE_2D);
+
+            /* Make shadow texture override everything else. */
+
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
+        break;
+
+    case TEX_STAGE_TEXTURE:
+        tex_env_conf_default(stage, enable);
         break;
     }
 }
