@@ -85,7 +85,9 @@ struct s_draw
 
     GLuint bill;
 
-    int reflective;
+    unsigned int reflective:1;
+    unsigned int shadowed:1;
+
     int shadow_ui;
 };
 
@@ -98,7 +100,10 @@ struct s_draw
 
 struct s_rend
 {
-    struct d_mtrl mtrl;
+    struct d_mtrl mtrl;                 /* Current material                  */
+    int flags;                          /* Current material base flags       */
+
+    unsigned int shadow:1;
 };
 
 /*---------------------------------------------------------------------------*/

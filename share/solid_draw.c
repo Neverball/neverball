@@ -288,7 +288,9 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 {
     const struct b_mtrl *mp_base =  mp_draw->base;
     const struct d_mtrl *mq_draw = &rend->mtrl;
-    const struct b_mtrl *mq_base =  mq_draw->base;
+
+    int mp_flags = rend->shadow ? mp_base->fl : mp_base->fl & ~M_SHADOWED;
+    int mq_flags = rend->flags;
 
 #if DEBUG_MTRL
     assert_mtrl(&rend->mtrl);
@@ -314,9 +316,9 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 
     /* Ball shadow. */
 
-    if ((mp_base->fl & M_SHADOWED) ^ (mq_base->fl & M_SHADOWED))
+    if ((mp_flags & M_SHADOWED) ^ (mq_flags & M_SHADOWED))
     {
-        if (mp_base->fl & M_SHADOWED)
+        if (mp_flags & M_SHADOWED)
             shad_draw_set();
         else
             shad_draw_clr();
@@ -325,9 +327,9 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
     /* Environment mapping. */
 
 #if !ENABLE_OPENGLES
-    if ((mp_base->fl & M_ENVIRONMENT) ^ (mq_base->fl & M_ENVIRONMENT))
+    if ((mp_flags & M_ENVIRONMENT) ^ (mq_flags & M_ENVIRONMENT))
     {
-        if (mp_base->fl & M_ENVIRONMENT)
+        if (mp_flags & M_ENVIRONMENT)
         {
             glEnable(GL_TEXTURE_GEN_S);
             glEnable(GL_TEXTURE_GEN_T);
@@ -345,9 +347,9 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 
     /* Additive blending. */
 
-    if ((mp_base->fl & M_ADDITIVE) ^ (mq_base->fl & M_ADDITIVE))
+    if ((mp_flags & M_ADDITIVE) ^ (mq_flags & M_ADDITIVE))
     {
-        if (mp_base->fl & M_ADDITIVE)
+        if (mp_flags & M_ADDITIVE)
             glBlendFunc(GL_ONE, GL_ONE);
         else
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -355,9 +357,9 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 
     /* Visibility-from-behind. */
 
-    if ((mp_base->fl & M_TWO_SIDED) ^ (mq_base->fl & M_TWO_SIDED))
+    if ((mp_flags & M_TWO_SIDED) ^ (mq_flags & M_TWO_SIDED))
     {
-        if (mp_base->fl & M_TWO_SIDED)
+        if (mp_flags & M_TWO_SIDED)
         {
             glDisable(GL_CULL_FACE);
             glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 1);
@@ -371,9 +373,9 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 
     /* Decal offset. */
 
-    if ((mp_base->fl & M_DECAL) ^ (mq_base->fl & M_DECAL))
+    if ((mp_flags & M_DECAL) ^ (mq_flags & M_DECAL))
     {
-        if (mp_base->fl & M_DECAL)
+        if (mp_flags & M_DECAL)
         {
             glEnable(GL_POLYGON_OFFSET_FILL);
             glPolygonOffset(-1.0f, -2.0f);
@@ -383,6 +385,7 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
     }
 
     rend->mtrl = *mp_draw;
+    rend->flags = mp_flags;
 }
 
 static GLuint sol_find_texture(const char *name)
@@ -774,6 +777,7 @@ int sol_load_draw(struct s_draw *draw, const struct s_vary *vary, int s)
     /* Initialize shadow state. */
 
     draw->shadow_ui = -1;
+    draw->shadowed = s;
 
     /* Initialize all bodies for this file. */
 
@@ -851,6 +855,7 @@ void sol_draw_enable(struct s_rend *rend)
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
     rend->mtrl = default_draw_mtrl;
+    rend->flags = default_base_mtrl.fl;
 }
 
 void sol_draw_disable(struct s_rend *rend)
@@ -878,6 +883,10 @@ void sol_draw_disable(struct s_rend *rend)
 
 void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test)
 {
+    /* Pass use-shadow-flag to material tracking. */
+
+    rend->shadow = draw->shadowed;
+
     /* Render all opaque geometry, decals last. */
 
     sol_draw_all(draw, rend, 0);
@@ -898,10 +907,16 @@ void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test
 
     glBindBuffer_(GL_ARRAY_BUFFER,         0);
     glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    rend->shadow = 0;
 }
 
 void sol_refl(const struct s_draw *draw, struct s_rend *rend)
 {
+    /* Pass use-shadow-flag to material tracking. */
+
+    rend->shadow = draw->shadowed;
+
     /* Render all reflective geometry. */
 
     sol_draw_all(draw, rend, 4);
@@ -910,13 +925,15 @@ void sol_refl(const struct s_draw *draw, struct s_rend *rend)
 
     glBindBuffer_(GL_ARRAY_BUFFER,         0);
     glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    rend->shadow = 0;
 }
 
 void sol_back(const struct s_draw *draw,
               struct s_rend *rend,
               float n, float f, float t)
 {
-    if (!draw || !draw->base)
+    if (!(draw && draw->base && draw->base->rc))
         return;
 
     glDisable(GL_LIGHTING);
