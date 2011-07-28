@@ -568,13 +568,9 @@ static float sol_test_body(float dt,
 
         if ((u = sol_test_node(dt, U, &ball, vary->base, np, z, z)) < dt)
         {
-            float d[4];
-
             /* Compute the final orientation. */
 
-            q_by_axisangle(d, A, v_len(A) * u);
-            q_mul(e, E, d);
-            q_nrm(e, e);
+            sol_body_e(e, vary, bp, u);
 
             /* Return world space coordinates. */
 

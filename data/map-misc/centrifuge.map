@@ -121,6 +121,7 @@
 "target" "spin0"
 "speed" "1.6"
 "angle" "-119.999992"
+"smooth" "0"
 }
 // entity 2
 {
@@ -220,6 +221,7 @@
 "targetname" "spin0"
 "target" "spin120"
 "speed" "1.6"
+"smooth" "0"
 }
 // entity 5
 {
@@ -229,6 +231,7 @@
 "target" "spin240"
 "speed" "1.6"
 "angle" "120.000000"
+"smooth" "0"
 }
 // entity 6
 {

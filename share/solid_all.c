@@ -97,10 +97,15 @@ void sol_body_e(float e[4],
 
         if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
         {
-            if (!vary->pv[bp->pi].f)
-                dt = 0;
+            float s;
 
-            q_slerp(e, pp->e, pq->e, (bp->t + dt) / pp->t);
+            if (vary->pv[bp->pi].f)
+                s = (bp->t + dt) / pp->t;
+            else
+                s = bp->t / pp->t;
+
+            q_slerp(e, pp->e, pq->e, pp->s ? erp(s) : s);
+
             return;
         }
     }
