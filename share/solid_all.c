@@ -116,53 +116,21 @@ void sol_body_e(float e[4],
     e[3] = 0.0f;
 }
 
-void sol_body_w(float w[3],
-                const struct s_vary *vary,
-                const struct v_body *bp)
+/*
+ * Determine if the body might be rotating.
+ */
+int sol_body_w(const struct s_vary *vary,
+               const struct v_body *bp)
 {
-    struct b_path *pp = vary->base->pv + bp->pi;
-
     if (bp->pi >= 0 && vary->pv[bp->pi].f)
     {
+        struct b_path *pp = vary->base->pv + bp->pi;
         struct b_path *pq = vary->base->pv + pp->pi;
 
         if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
-        {
-            float d[4], i[4], a;
-
-            /*
-             * a * d = b
-             * d = b / a
-             * d = b * (1 / a)
-             */
-
-            i[0] =  pp->e[0];
-            i[1] = -pp->e[1];
-            i[2] = -pp->e[2];
-            i[3] = -pp->e[3];
-
-            q_mul(d, pq->e, i);
-            q_nrm(d, d);
-
-            /* Match slerp by using the short path. */
-
-            if (d[0] < 0)
-            {
-                d[0] = -d[0];
-                d[1] = -d[1];
-                d[2] = -d[2];
-                d[3] = -d[3];
-            }
-
-            q_as_axisangle(d, w, &a);
-            v_scl(w, w, a / pp->t);
-            return;
-        }
+            return 1;
     }
-
-    w[0] = 0.0f;
-    w[1] = 0.0f;
-    w[2] = 0.0f;
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/

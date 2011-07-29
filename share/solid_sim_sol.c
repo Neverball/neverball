@@ -514,14 +514,13 @@ static float sol_test_body(float dt,
                            const struct s_vary *vary,
                            const struct v_body *bp)
 {
-    float U[3], O[3], E[4], W[3], A[3], u;
+    float U[3], O[3], E[4], W[3], u;
 
     const struct b_node *np = vary->base->nv + bp->base->ni;
 
     sol_body_p(O, vary, bp->pi, bp->t);
     sol_body_v(W, vary, bp->pi, bp->t, dt);
     sol_body_e(E, vary, bp, 0);
-    sol_body_w(A, vary, bp);
 
     /*
      * For rotating bodies, rather than rotate every normal and vertex
@@ -534,7 +533,7 @@ static float sol_test_body(float dt,
      * v = w x p
      */
 
-    if (E[0] != 1.0f || v_dot(A, A) != 0.0f)
+    if (E[0] != 1.0f || sol_body_w(vary, bp))
     {
         /* The body has a non-identity orientation or it is rotating. */
 

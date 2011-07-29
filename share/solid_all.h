@@ -7,7 +7,7 @@ void sol_body_p(float p[3], const struct s_vary *, int pi, float t);
 void sol_body_v(float v[3], const struct s_vary *, int pi, float t, float dt);
 void sol_body_e(float e[3], const struct s_vary *, const struct v_body *bp,
                 float dt);
-void sol_body_w(float w[3], const struct s_vary *, const struct v_body *bp);
+int  sol_body_w(const struct s_vary *, const struct v_body *bp);
 
 void sol_rotate(float e[3][3], const float w[3], float dt);
 
