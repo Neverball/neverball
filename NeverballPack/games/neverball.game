@@ -15,7 +15,7 @@
   shaderpath="mtrl"
   archivetypes="pk3"
   texturetypes="jpg png"
-  modeltypes=""
+  modeltypes="obj"
   maptypes="mapq3"
   shaders="quake3"
   entityclass="quake3"
