@@ -33,6 +33,16 @@
 #include <GL/glext.h>
 #endif
 
+/* Windows calling convention cruft. */
+
+#ifndef APIENTRY
+#define APIENTRY
+#endif
+
+#ifndef APIENTRYP
+#define APIENTRYP APIENTRY *
+#endif
+
 /*---------------------------------------------------------------------------*/
 
 #ifndef GL_MULTISAMPLE
@@ -118,8 +128,8 @@ int glext_init(void);
 /*---------------------------------------------------------------------------*/
 /* ARB_multitexture                                                          */
 
-typedef void (*PFNGLACTIVETEXTURE_PROC)(GLenum);
-typedef void (*PFNGLCLIENTACTIVETEXTURE_PROC)(GLenum);
+typedef void (APIENTRYP PFNGLACTIVETEXTURE_PROC)(GLenum);
+typedef void (APIENTRYP PFNGLCLIENTACTIVETEXTURE_PROC)(GLenum);
 
 extern PFNGLCLIENTACTIVETEXTURE_PROC glClientActiveTexture_;
 extern PFNGLACTIVETEXTURE_PROC       glActiveTexture_;
@@ -127,12 +137,12 @@ extern PFNGLACTIVETEXTURE_PROC       glActiveTexture_;
 /*---------------------------------------------------------------------------*/
 /* ARB_vertex_buffer_object                                                  */
 
-typedef void      (*PFNGLGENBUFFERS_PROC)(GLsizei, GLuint *);
-typedef void      (*PFNGLBINDBUFFER_PROC)(GLenum, GLuint);
-typedef void      (*PFNGLBUFFERDATA_PROC)(GLenum, GLsizeiptr, const GLvoid *, GLenum);
-typedef void      (*PFNGLBUFFERSUBDATA_PROC)(GLenum, GLintptr, GLsizeiptr, const GLvoid *);
-typedef void      (*PFNGLDELETEBUFFERS_PROC)(GLsizei, const GLuint *);
-typedef GLboolean (*PFNGLISBUFFER_PROC)(GLuint);
+typedef void      (APIENTRYP PFNGLGENBUFFERS_PROC)(GLsizei, GLuint *);
+typedef void      (APIENTRYP PFNGLBINDBUFFER_PROC)(GLenum, GLuint);
+typedef void      (APIENTRYP PFNGLBUFFERDATA_PROC)(GLenum, GLsizeiptr, const GLvoid *, GLenum);
+typedef void      (APIENTRYP PFNGLBUFFERSUBDATA_PROC)(GLenum, GLintptr, GLsizeiptr, const GLvoid *);
+typedef void      (APIENTRYP PFNGLDELETEBUFFERS_PROC)(GLsizei, const GLuint *);
+typedef GLboolean (APIENTRYP PFNGLISBUFFER_PROC)(GLuint);
 
 extern PFNGLGENBUFFERS_PROC    glGenBuffers_;
 extern PFNGLBINDBUFFER_PROC    glBindBuffer_;
@@ -144,14 +154,14 @@ extern PFNGLISBUFFER_PROC      glIsBuffer_;
 /*---------------------------------------------------------------------------*/
 /* ARB_point_parameters                                                      */
 
-typedef void (*PFNGLPOINTPARAMETERFV_PROC)(GLenum, const GLfloat *);
+typedef void (APIENTRYP PFNGLPOINTPARAMETERFV_PROC)(GLenum, const GLfloat *);
 
 extern PFNGLPOINTPARAMETERFV_PROC glPointParameterfv_;
 
 /*---------------------------------------------------------------------------*/
 /* GREMEDY_string_marker                                                     */
 
-typedef void (*PFNGLSTRINGMARKERGREMEDY_PROC)(GLsizei, const void *);
+typedef void (APIENTRYP PFNGLSTRINGMARKERGREMEDY_PROC)(GLsizei, const void *);
 
 extern PFNGLSTRINGMARKERGREMEDY_PROC glStringMarkerGREMEDY_;
 
