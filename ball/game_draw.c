@@ -356,7 +356,7 @@ static void game_draw_fore(struct s_rend *rend,
             break;
 
         case POSE_BALL:
-            if (config_get_d(CONFIG_SHADOW) && gli.max_texture_units > 1)
+            if (curr_tex_env == &tex_env_pose)
             {
                 /*
                  * We need the check above because otherwise the

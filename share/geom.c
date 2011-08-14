@@ -30,7 +30,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-static const struct tex_env *curr_tex_env;
+const struct tex_env *curr_tex_env;
 
 static void tex_env_conf_default(int, int);
 static void tex_env_conf_shadow(int, int);
