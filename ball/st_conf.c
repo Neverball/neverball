@@ -226,7 +226,7 @@ static int conf_gui(void)
 
         conf_header(id, _("Options"), CONF_BACK);
 
-        conf_state(id, _("Video"), _("Configure"), CONF_VIDEO);
+        conf_state(id, _("Graphics"), _("Configure"), CONF_VIDEO);
 
         gui_space(id);
 
@@ -377,7 +377,7 @@ static int conf_video_gui(void)
                 config_get_d(CONFIG_WIDTH),
                 config_get_d(CONFIG_HEIGHT));
 
-        conf_header(id, _("Video Options"), CONF_VIDEO_BACK);
+        conf_header(id, _("Graphics Options"), CONF_VIDEO_BACK);
 
         conf_toggle(id, _("Fullscreen"), f,
                     _("Yes"), CONF_VIDEO_FULL, 1,
