@@ -158,8 +158,7 @@ static void sol_load_bill(struct s_draw *draw)
 
 static void sol_free_bill(struct s_draw *draw)
 {
-    if (glIsBuffer_(draw->bill))
-        glDeleteBuffers_(1, &draw->bill);
+    glDeleteBuffers_(1, &draw->bill);
 }
 
 static void sol_draw_bill(GLfloat w, GLfloat h, GLboolean edge)
@@ -454,8 +453,7 @@ void sol_load_mtrl(struct d_mtrl *mp, const struct b_mtrl *mq)
 
 void sol_free_mtrl(struct d_mtrl *mp)
 {
-    if (glIsTexture(mp->o))
-        glDeleteTextures(1, &mp->o);
+    glDeleteTextures(1, &mp->o);
 }
 
 static int sol_test_mtrl(const struct d_mtrl *mp, int p)
@@ -643,10 +641,8 @@ static void sol_load_mesh(struct d_mesh *mp,
 
 static void sol_free_mesh(struct d_mesh *mp)
 {
-    if (glIsBuffer_(mp->ebo))
-        glDeleteBuffers_(1, &mp->ebo);
-    if (glIsBuffer_(mp->vbo))
-        glDeleteBuffers_(1, &mp->vbo);
+    glDeleteBuffers_(1, &mp->ebo);
+    glDeleteBuffers_(1, &mp->vbo);
 }
 
 void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)

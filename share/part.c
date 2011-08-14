@@ -155,8 +155,7 @@ void part_init(void)
 
 void part_free(void)
 {
-    if (glIsBuffer_(coin_vbo))
-        glDeleteBuffers_(1, &coin_vbo);
+    glDeleteBuffers_(1, &coin_vbo);
 
     sol_free_mtrl(&coin_draw_mtrl);
 }

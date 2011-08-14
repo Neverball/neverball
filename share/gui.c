@@ -405,15 +405,13 @@ void gui_free(void)
 
     /* Release the VBOs. */
 
-    if (glIsBuffer_(vert_obj))
-        glDeleteBuffers_(1, &vert_obj);
+    glDeleteBuffers_(1, &vert_obj);
 
     /* Release any remaining widget texture and display list indices. */
 
     for (id = 1; id < WIDGET_MAX; id++)
     {
-        if (glIsTexture(widget[id].image))
-            glDeleteTextures(1, &widget[id].image);
+        glDeleteTextures(1, &widget[id].image);
 
         widget[id].type  = GUI_FREE;
         widget[id].image = 0;
@@ -590,8 +588,7 @@ static char *gui_truncate(const char *text,
 
 void gui_set_image(int id, const char *file)
 {
-    if (glIsTexture(widget[id].image))
-        glDeleteTextures(1, &widget[id].image);
+    glDeleteTextures(1, &widget[id].image);
 
     widget[id].image = make_image_from_file(file);
 }
@@ -601,8 +598,7 @@ void gui_set_label(int id, const char *text)
     int w = 0;
     int h = 0;
 
-    if (glIsTexture(widget[id].image))
-        glDeleteTextures(1, &widget[id].image);
+    glDeleteTextures(1, &widget[id].image);
 
     text = gui_truncate(text, widget[id].w - radius,
                         font[widget[id].size],
@@ -1237,8 +1233,7 @@ int gui_delete(int id)
 
         /* Release any GL resources held by this widget. */
 
-        if (glIsTexture(widget[id].image))
-            glDeleteTextures(1, &widget[id].image);
+        glDeleteTextures(1, &widget[id].image);
 
         /* Mark this widget unused. */
 
