@@ -123,9 +123,9 @@ static int gui_hot(int id)
 
 /* Vertex buffer definitions for widget rendering. */
 
-#define RECT_LEN 36
-#define TEXT_LEN 8
-#define WIDGET_LEN (RECT_LEN + TEXT_LEN)
+#define RECT_VERT 36
+#define TEXT_VERT 8
+#define WIDGET_VERT (RECT_VERT + TEXT_VERT)
 
 struct vert
 {
@@ -134,7 +134,7 @@ struct vert
     GLshort p[2];
 };
 
-static struct vert vert_buf[WIDGET_MAX * WIDGET_LEN];
+static struct vert vert_buf[WIDGET_MAX * WIDGET_VERT];
 static GLuint      vert_obj = 0;
 
 /*---------------------------------------------------------------------------*/
@@ -180,12 +180,12 @@ static void draw_enable(GLboolean c, GLboolean u, GLboolean p)
 
 static void draw_rect(int id)
 {
-    glDrawArrays(GL_TRIANGLE_STRIP, id * WIDGET_LEN,  RECT_LEN);
+    glDrawArrays(GL_TRIANGLE_STRIP, id * WIDGET_VERT,  RECT_VERT);
 }
 
 static void draw_text(int id)
 {
-    glDrawArrays(GL_TRIANGLE_STRIP, id * WIDGET_LEN + RECT_LEN, TEXT_LEN);
+    glDrawArrays(GL_TRIANGLE_STRIP, id * WIDGET_VERT + RECT_VERT, TEXT_VERT);
 }
 
 static void draw_disable(void)
@@ -201,7 +201,7 @@ static void draw_disable(void)
 
 static void gui_rect(int id, int x, int y, int w, int h, int f, int r)
 {
-    struct vert *v = vert_buf + id * WIDGET_LEN;
+    struct vert *v = vert_buf + id * WIDGET_VERT;
     struct vert *p = v;
 
     /* Generate vertex data for the widget's rounded rectangle. */
@@ -245,14 +245,14 @@ static void gui_rect(int id, int x, int y, int w, int h, int f, int r)
 
     glBindBuffer_   (GL_ARRAY_BUFFER, vert_obj);
     glBufferSubData_(GL_ARRAY_BUFFER,
-                     id * WIDGET_LEN * sizeof (struct vert),
-                            RECT_LEN * sizeof (struct vert), v);
+                     id * WIDGET_VERT * sizeof (struct vert),
+                            RECT_VERT * sizeof (struct vert), v);
 }
 
 static void gui_text(int id, int x, int y,
                              int w, int h, const GLubyte *c0, const GLubyte *c1)
 {
-    struct vert *v = vert_buf + id * WIDGET_LEN + RECT_LEN;
+    struct vert *v = vert_buf + id * WIDGET_VERT + RECT_VERT;
 
     /* Assume the applied texture size is rect size rounded to power-of-two. */
 
@@ -286,14 +286,14 @@ static void gui_text(int id, int x, int y,
         set_vert(v + 7, x + ww,     y,          s1, t1, c0);
 
     }
-    else memset(v, 0, TEXT_LEN * sizeof (struct vert));
+    else memset(v, 0, TEXT_VERT * sizeof (struct vert));
 
     /* Copy this off to the VBO. */
 
     glBindBuffer_   (GL_ARRAY_BUFFER, vert_obj);
     glBufferSubData_(GL_ARRAY_BUFFER,
-                     (id * WIDGET_LEN + RECT_LEN) * sizeof (struct vert),
-                                        TEXT_LEN  * sizeof (struct vert), v);
+                     (id * WIDGET_VERT + RECT_VERT) * sizeof (struct vert),
+                                         TEXT_VERT  * sizeof (struct vert), v);
 }
 
 /*---------------------------------------------------------------------------*/
