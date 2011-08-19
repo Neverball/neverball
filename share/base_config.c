@@ -21,6 +21,10 @@
 #include "common.h"
 #include "fs.h"
 
+#ifdef _WIN32
+#include <shlobj.h>
+#endif
+
 /*---------------------------------------------------------------------------*/
 
 static const char *pick_data_path(const char *arg_data_path)
@@ -46,11 +50,16 @@ static const char *pick_data_path(const char *arg_data_path)
 
 static const char *pick_home_path(void)
 {
+#ifdef _WIN32
+    static char path[MAX_PATH];
+
+    if (SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, path) == S_OK)
+        return path;
+    else
+        return fs_base_dir();
+#else
     const char *path;
 
-#ifdef _WIN32
-    return (path = getenv("APPDATA")) ? path : fs_base_dir();
-#else
     return (path = getenv("HOME")) ? path : fs_base_dir();
 #endif
 }

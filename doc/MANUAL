@@ -96,12 +96,9 @@ is created in  the user's home directory,  specifically, the directory
 set in the HOME environment variable.
 
 Under Windows  it is called "Neverball"  and is created  in the user's
-application  data directory,  the  location of  which  is obtained  by
-inspecting the  APPDATA environment variable.   An easy way  to access
-this directory is by typing  %APPDATA% in the Windows Explorer address
-bar.  If the location could not  be determined, it is assumed that the
-user has permission to write to  the game directory, and the user data
-directory is created within.
+Documents  folder. If  that location  could not  be determined,  it is
+assumed that the  user has permission to write  to the game directory,
+and the user data directory is created within.
 
 
 * HIGH SCORES
