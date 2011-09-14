@@ -684,6 +684,20 @@ void gui_set_fill(int id)
     widget[id].type |= GUI_FILL;
 }
 
+/*
+ * Activate a widget, allowing it  to behave as a normal state widget.
+ * This may  be used  to create  image buttons, or  cause an  array of
+ * widgets to behave as a single state widget.
+ */
+int gui_set_state(int id, int token, int value)
+{
+    widget[id].type |= GUI_STATE;
+    widget[id].token = token;
+    widget[id].value = value;
+
+    return id;
+}
+
 /*---------------------------------------------------------------------------*/
 
 int gui_image(int pd, const char *file, int w, int h)
@@ -1208,20 +1222,6 @@ int gui_search(int id, int x, int y)
     return 0;
 }
 
-/*
- * Activate a widget, allowing it  to behave as a normal state widget.
- * This may  be used  to create  image buttons, or  cause an  array of
- * widgets to behave as a single state widget.
- */
-int gui_active(int id, int token, int value)
-{
-    widget[id].type |= GUI_STATE;
-    widget[id].token = token;
-    widget[id].value = value;
-
-    return id;
-}
-
 int gui_delete(int id)
 {
     if (id)
@@ -1629,7 +1629,7 @@ void gui_focus(int i)
     active = i;
 }
 
-int gui_click(void)
+int gui_active(void)
 {
     return active;
 }

@@ -67,7 +67,7 @@ static void gui_level(int id, int i)
     jd = gui_label(id, level_name(l), GUI_SML, GUI_ALL, back, fore);
 
     if (level_opened(l) || config_cheat())
-        gui_active(jd, i, 0);
+        gui_set_state(jd, i, 0);
 }
 
 static void start_over_level(int i)
@@ -303,7 +303,7 @@ static int start_keybd(int c, int d)
         {
             if (start_action(gui_score_next(gui_score_get())))
             {
-                start_over(gui_click(), 0);
+                start_over(gui_active(), 0);
                 return 1;
             }
             else
@@ -319,7 +319,7 @@ static int start_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return start_action(gui_token(gui_click()));
+            return start_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return start_action(START_BACK);
     }

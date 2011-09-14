@@ -301,7 +301,7 @@ static int goal_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return goal_action(gui_token(gui_click()));
+            return goal_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goal_action(GOAL_BACK);
     }

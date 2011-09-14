@@ -163,7 +163,7 @@ static int fail_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return fail_action(gui_token(gui_click()));
+            return fail_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return fail_action(FAIL_BACK);
     }

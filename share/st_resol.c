@@ -169,7 +169,7 @@ static void resol_stick(int id, int a, float v, int bump)
 static int resol_click(int b, int d)
 {
     if (b == SDL_BUTTON_LEFT && d == 1)
-        return resol_action(gui_token(gui_click()));
+        return resol_action(gui_token(gui_active()));
     return 1;
 }
 
@@ -183,7 +183,7 @@ static int resol_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return resol_action(gui_token(gui_click()));
+            return resol_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return resol_action(RESOL_BACK);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))

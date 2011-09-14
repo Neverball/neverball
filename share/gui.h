@@ -67,6 +67,7 @@ void gui_set_clock(int, int);
 void gui_set_color(int, const GLubyte *, const GLubyte *);
 void gui_set_trunc(int, enum trunc);
 void gui_set_fill(int);
+int  gui_set_state(int, int, int);
 
 /*---------------------------------------------------------------------------*/
 
@@ -90,7 +91,6 @@ int  gui_space(int);
 void gui_dump(int, int);
 void gui_layout(int, int, int);
 int  gui_search(int, int, int);
-int  gui_active(int, int, int);
 int  gui_delete(int);
 
 /*---------------------------------------------------------------------------*/
@@ -100,10 +100,9 @@ void gui_pulse(int, float);
 void gui_timer(int, float);
 int  gui_point(int, int, int);
 int  gui_stick(int, int, float, int);
-void gui_stuck(void);
-int  gui_click(void);
 void gui_focus(int);
 
+int  gui_active(void);
 int  gui_token(int);
 int  gui_value(int);
 void gui_toggle(int);

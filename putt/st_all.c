@@ -249,7 +249,7 @@ static void title_point(int id, int x, int y, int dx, int dy)
 
 static int title_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? title_action(gui_token(gui_click())) : 1;
+    return d && b == SDL_BUTTON_LEFT ? title_action(gui_token(gui_active())) : 1;
 }
 
 static int title_buttn(int b, int d)
@@ -257,7 +257,7 @@ static int title_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return title_action(gui_token(gui_click()));
+            return title_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return title_action(TITLE_EXIT);
     }
@@ -340,7 +340,7 @@ static int course_enter(struct state *st, struct state *prev)
                             {
                                 md = gui_image(ld, course_shot(k),
                                                w / 3 / c, h / 3 / r);
-                                gui_active(md, k, 0);
+                                gui_set_state(md, k, 0);
 
                                 if (k == 0)
                                     gui_focus(md);
@@ -423,7 +423,7 @@ static void course_stick(int id, int a, float v, int bump)
 
 static int course_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? course_action(gui_token(gui_click())) : 1;
+    return d && b == SDL_BUTTON_LEFT ? course_action(gui_token(gui_active())) : 1;
 }
 
 static int course_buttn(int b, int d)
@@ -431,7 +431,7 @@ static int course_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return course_action(gui_token(gui_click()));
+            return course_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return course_action(COURSE_BACK);
     }
@@ -540,7 +540,7 @@ static void party_point(int id, int x, int y, int dx, int dy)
 
 static int party_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? party_action(gui_token(gui_click())) : 1;
+    return d && b == SDL_BUTTON_LEFT ? party_action(gui_token(gui_active())) : 1;
 }
 
 static int party_buttn(int b, int d)
@@ -548,7 +548,7 @@ static int party_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return party_action(gui_token(gui_click()));
+            return party_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return party_action(PARTY_B);
     }
@@ -646,7 +646,7 @@ static void pause_point(int id, int x, int y, int dx, int dy)
 
 static int pause_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? pause_action(gui_token(gui_click())) : 1;
+    return d && b == SDL_BUTTON_LEFT ? pause_action(gui_token(gui_active())) : 1;
 }
 
 static int pause_keybd(int c, int d)
@@ -661,7 +661,7 @@ static int pause_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return pause_action(gui_token(gui_click()));
+            return pause_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return pause_action(PAUSE_CONTINUE);
     }

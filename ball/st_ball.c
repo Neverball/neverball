@@ -254,7 +254,7 @@ static int ball_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return ball_action(gui_token(gui_click()));
+            return ball_action(gui_token(gui_active()));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return ball_action(BALL_BACK);

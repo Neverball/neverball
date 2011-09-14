@@ -134,7 +134,7 @@ static int conf_shared_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return conf_shared_action(gui_token(gui_click()));
+            return conf_shared_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return conf_shared_action(CONF_SHARED_BACK);
     }

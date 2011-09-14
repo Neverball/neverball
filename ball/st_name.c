@@ -182,7 +182,7 @@ static int name_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
-            int c = gui_token(gui_click());
+            int c = gui_token(gui_active());
 
             if (c >= 0 && !GUI_ISMSK(c))
                 return name_action(gui_keyboard_char(c));

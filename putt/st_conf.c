@@ -278,7 +278,7 @@ static void conf_stick(int id, int a, float v, int bump)
 static int conf_click(int b, int d)
 {
     if (b == SDL_BUTTON_LEFT && d == 1)
-        return conf_action(gui_token(gui_click()));
+        return conf_action(gui_token(gui_active()));
     return 1;
 }
 
@@ -292,7 +292,7 @@ static int conf_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return conf_action(gui_token(gui_click()));
+            return conf_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return goto_state(&st_title);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))

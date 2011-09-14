@@ -166,7 +166,7 @@ static int save_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
-            int c = gui_token(gui_click());
+            int c = gui_token(gui_active());
 
             if (c >= 0 && !GUI_ISMSK(c))
                 return save_action(gui_keyboard_char(c));
@@ -230,7 +230,7 @@ static int clobber_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return clobber_action(gui_token(gui_click()));
+            return clobber_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return clobber_action(SAVE_CANCEL);
     }

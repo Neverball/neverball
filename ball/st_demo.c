@@ -123,8 +123,7 @@ static int gui_demo_thumbs(int id)
                             thumb->name = gui_state(ld, " ", GUI_SML, j, 0);
 
                             gui_set_trunc(thumb->name, TRUNC_TAIL);
-
-                            gui_active(ld, j, 0);
+                            gui_set_state(ld, j, 0);
                         }
                     }
                     else
@@ -371,7 +370,7 @@ static int demo_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_action(total ? gui_token(gui_click()) : GUI_BACK);
+            return demo_action(total ? gui_token(gui_active()) : GUI_BACK);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return demo_action(GUI_BACK);
     }
@@ -646,7 +645,7 @@ static int demo_end_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_end_action(gui_token(gui_click()));
+            return demo_end_action(gui_token(gui_active()));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
@@ -701,7 +700,7 @@ static int demo_del_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_del_action(gui_token(gui_click()));
+            return demo_del_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return demo_del_action(DEMO_KEEP);
     }

@@ -288,7 +288,7 @@ static int help_tricks(int id)
                 gui_state(ld, _("Watch demo"), GUI_SML, 0, 0);
                 gui_filler(ld);
 
-                gui_active(ld, HELP_DEMO_1, 0);
+                gui_set_state(ld, HELP_DEMO_1, 0);
             }
 
             if ((ld = gui_vstack(kd)))
@@ -298,7 +298,7 @@ static int help_tricks(int id)
                 gui_state(ld, _("Watch demo"), GUI_SML, 0, 0);
                 gui_filler(ld);
 
-                gui_active(ld, HELP_DEMO_2, 0);
+                gui_set_state(ld, HELP_DEMO_2, 0);
             }
         }
 
@@ -363,7 +363,7 @@ static int help_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return help_action(gui_token(gui_click()));
+            return help_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return help_action(HELP_BACK);
     }
