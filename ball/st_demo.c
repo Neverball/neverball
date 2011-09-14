@@ -815,7 +815,7 @@ struct state st_demo_compat = {
     shared_point,
     shared_stick,
     shared_angle,
-    shared_click,
+    shared_click_basic,
     NULL,
     demo_compat_buttn
 };

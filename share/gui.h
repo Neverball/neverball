@@ -100,6 +100,7 @@ void gui_pulse(int, float);
 void gui_timer(int, float);
 int  gui_point(int, int, int);
 int  gui_stick(int, int, float, int);
+int  gui_click(int, int);
 void gui_focus(int);
 
 int  gui_active(void);

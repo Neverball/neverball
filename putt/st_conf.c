@@ -277,8 +277,9 @@ static void conf_stick(int id, int a, float v, int bump)
 
 static int conf_click(int b, int d)
 {
-    if (b == SDL_BUTTON_LEFT && d == 1)
+    if (gui_click(b, d))
         return conf_action(gui_token(gui_active()));
+
     return 1;
 }
 

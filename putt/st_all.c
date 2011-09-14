@@ -249,7 +249,7 @@ static void title_point(int id, int x, int y, int dx, int dy)
 
 static int title_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? title_action(gui_token(gui_active())) : 1;
+    return gui_click(b, d) ? title_action(gui_token(gui_active())) : 1;
 }
 
 static int title_buttn(int b, int d)
@@ -423,7 +423,7 @@ static void course_stick(int id, int a, float v, int bump)
 
 static int course_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? course_action(gui_token(gui_active())) : 1;
+    return gui_click(b, d) ? course_action(gui_token(gui_active())) : 1;
 }
 
 static int course_buttn(int b, int d)
@@ -540,7 +540,7 @@ static void party_point(int id, int x, int y, int dx, int dy)
 
 static int party_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? party_action(gui_token(gui_active())) : 1;
+    return gui_click(b, d) ? party_action(gui_token(gui_active())) : 1;
 }
 
 static int party_buttn(int b, int d)
@@ -646,7 +646,7 @@ static void pause_point(int id, int x, int y, int dx, int dy)
 
 static int pause_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? pause_action(gui_token(gui_active())) : 1;
+    return gui_click(b, d) ? pause_action(gui_token(gui_active())) : 1;
 }
 
 static int pause_keybd(int c, int d)

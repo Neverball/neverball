@@ -99,6 +99,7 @@ struct widget
 
 static struct widget widget[WIDGET_MAX];
 static int           active;
+static int           sticky;
 static int           radius;
 static TTF_Font     *font[3] = { NULL, NULL, NULL };
 
@@ -1897,6 +1898,25 @@ int gui_stick(int id, int a, float v, int bump)
         return 0;
     else
         return active = jd;
+}
+
+int gui_click(int b, int d)
+{
+    if (b == SDL_BUTTON_LEFT)
+    {
+        if (d)
+        {
+            sticky = active;
+            return 0;
+        }
+        else
+        {
+            int c = (sticky && sticky == active);
+            sticky = 0;
+            return c;
+        }
+    }
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/
