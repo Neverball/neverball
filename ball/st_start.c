@@ -301,19 +301,9 @@ static int start_keybd(int c, int d)
         }
         else if (config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
         {
-            int active = gui_click();
-
             if (start_action(gui_score_next(gui_score_get())))
             {
-                /* HACK ALERT
-                 *
-                 * This assumes that 'active' is a valid widget ID even after
-                 * the above start_action has recreated the entire widget
-                 * hierarchy.  Maybe it is.  Maybe it isn't.
-                 */
-                gui_focus(active);
-                start_over(active, 0);
-
+                start_over(gui_click(), 0);
                 return 1;
             }
             else
