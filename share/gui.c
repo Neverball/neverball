@@ -1618,7 +1618,9 @@ int gui_point(int id, int x, int y)
 
     /* If the active widget has changed, return the new active id. */
 
-    if (jd == 0 || jd == active)
+    if (jd == 0)
+        return active = 0;
+    else if (jd == active)
         return 0;
     else
         return active = jd;
