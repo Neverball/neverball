@@ -157,9 +157,8 @@ static int nodemo_gui(void)
     {
         gui_label(id, _("Warning!"), GUI_MED, GUI_ALL, 0, 0);
         gui_space(id);
-        gui_multi(id, _("The default replay file could not be opened.\\"
-                        "You will not be able to save a replay when\\"
-                        "playing this level.\\") ,
+        gui_multi(id, _("A replay file could not be opened for writing.\\"
+                        "This game will not be recorded.\\"),
                   GUI_SML, GUI_ALL, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);
