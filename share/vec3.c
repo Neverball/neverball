@@ -422,8 +422,6 @@ void q_slerp(float q[4], const float a[4], const float b[4], float t)
     {
         u = 1.0f - t;
         v = t;
-
-        i = 1;
     }
     else
     {
@@ -431,8 +429,6 @@ void q_slerp(float q[4], const float a[4], const float b[4], float t)
         s = fsinf(r);
         u = fsinf((1.0f - t) * r) / s;
         v = fsinf((t)        * r) / s * i;
-
-        i = 0;
     }
 
     q[0] = a[0] * u + b[0] * v;
@@ -440,7 +436,7 @@ void q_slerp(float q[4], const float a[4], const float b[4], float t)
     q[2] = a[2] * u + b[2] * v;
     q[3] = a[3] * u + b[3] * v;
 
-    if (i) q_nrm(q, q);
+    q_nrm(q, q);
 }
 
 /*---------------------------------------------------------------------------*/
