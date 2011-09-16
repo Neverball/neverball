@@ -975,6 +975,7 @@ static void make_body(struct s_base *fp,
     struct b_body *bp = fp->bv + bi;
 
     bp->pi = -1;
+    bp->pj = -1;
     bp->ni = -1;
 
     for (i = 0; i < c; i++)
@@ -982,8 +983,11 @@ static void make_body(struct s_base *fp,
         if (strcmp(k[i], "targetname") == 0)
             make_sym(v[i], bi);
 
-        else if (strcmp(k[i], "target") == 0)
+        else if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
             make_ref(v[i], &bp->pi);
+
+        else if (strcmp(k[i], "target2") == 0)
+            make_ref(v[i], &bp->pj);
 
         else if (strcmp(k[i], "material") == 0)
             mi = read_mtrl(fp, v[i]);

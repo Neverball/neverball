@@ -202,6 +202,8 @@ struct b_path
 struct b_body
 {
     int pi;
+    int pj;
+
     int ni;
     int l0;
     int lc;

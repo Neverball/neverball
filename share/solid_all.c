@@ -37,51 +37,67 @@ static float derp(float t)
 }
 #endif
 
-void sol_body_p(float p[3], const struct s_vary *vary, int pi, float t)
+void sol_body_p(float p[3],
+                const struct s_vary *vary,
+                const struct v_body *bp,
+                float dt)
 {
     float v[3];
 
-    if (pi >= 0)
+    if (bp->mi >= 0)
     {
-        const struct b_path *pp = vary->base->pv + pi;
+        const struct v_move *mp = vary->mv + bp->mi;
+
+        const struct b_path *pp = vary->base->pv + mp->pi;
         const struct b_path *pq = vary->base->pv + pp->pi;
 
-        float s = MIN(t / pp->t, 1.0f);
+        float s;
+
+        if (vary->pv[mp->pi].f)
+            s = (mp->t + dt) / pp->t;
+        else
+            s = mp->t / pp->t;
 
         v_sub(v, pq->p, pp->p);
         v_mad(p, pp->p, v, pp->s ? erp(s) : s);
+
+        return;
     }
-    else
-    {
-        p[0] = 0.0f;
-        p[1] = 0.0f;
-        p[2] = 0.0f;
-    }
+
+    p[0] = 0.0f;
+    p[1] = 0.0f;
+    p[2] = 0.0f;
 }
 
 void sol_body_v(float v[3],
                 const struct s_vary *vary,
-                int pi, float t, float dt)
+                const struct v_body *bp,
+                float dt)
 {
-    if (pi >= 0 && vary->pv[pi].f)
+    if (bp->mi >= 0)
     {
-        float p[3], q[3];
+        const struct v_move *mp = vary->mv + bp->mi;
 
-        sol_body_p(p, vary, pi, t);
-        sol_body_p(q, vary, pi, t + dt);
+        if (vary->pv[mp->pi].f)
+        {
+            float p[3], q[3];
 
-        v_sub(v, q, p);
+            sol_body_p(p, vary, bp, 0.0f);
+            sol_body_p(q, vary, bp, dt);
 
-        v[0] /= dt;
-        v[1] /= dt;
-        v[2] /= dt;
+            v_sub(v, q, p);
+
+            v[0] /= dt;
+            v[1] /= dt;
+            v[2] /= dt;
+
+            return;
+        }
     }
-    else
-    {
-        v[0] = 0.0f;
-        v[1] = 0.0f;
-        v[2] = 0.0f;
-    }
+
+    v[0] = 0.0f;
+    v[1] = 0.0f;
+    v[2] = 0.0f;
 }
 
 void sol_body_e(float e[4],
@@ -89,20 +105,21 @@ void sol_body_e(float e[4],
                 const struct v_body *bp,
                 float dt)
 {
-    struct b_path *pp = vary->base->pv + bp->pi;
-
-    if (bp->pi >= 0)
+    if (bp->mj >= 0)
     {
-        struct b_path *pq = vary->base->pv + pp->pi;
+        const struct v_move *mp = vary->mv + bp->mj;
+
+        const struct b_path *pp = vary->base->pv + mp->pi;
+        const struct b_path *pq = vary->base->pv + pp->pi;
 
         if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
         {
             float s;
 
-            if (vary->pv[bp->pi].f)
-                s = (bp->t + dt) / pp->t;
+            if (vary->pv[mp->pi].f)
+                s = (mp->t + dt) / pp->t;
             else
-                s = bp->t / pp->t;
+                s = mp->t / pp->t;
 
             q_slerp(e, pp->e, pq->e, pp->s ? erp(s) : s);
 
@@ -122,13 +139,18 @@ void sol_body_e(float e[4],
 int sol_body_w(const struct s_vary *vary,
                const struct v_body *bp)
 {
-    if (bp->pi >= 0 && vary->pv[bp->pi].f)
+    if (bp->mj >= 0)
     {
-        struct b_path *pp = vary->base->pv + bp->pi;
-        struct b_path *pq = vary->base->pv + pp->pi;
+        const struct v_move *mp = vary->mv + bp->mj;
 
-        if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
-            return 1;
+        if (vary->pv[mp->pi].f)
+        {
+            const struct b_path *pp = vary->base->pv + mp->pi;
+            const struct b_path *pq = vary->base->pv + pp->pi;
+
+            if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
+                return 1;
+        }
     }
     return 0;
 }
@@ -309,38 +331,39 @@ void sol_swch_step(struct s_vary *vary, float dt, int ms)
 }
 
 /*
- * Compute the positions of all bodies after DT seconds have passed.
+ * Compute the positions of all movers after DT seconds have passed.
  */
-void sol_body_step(struct s_vary *vary, float dt, int ms)
+void sol_move_step(struct s_vary *vary, float dt, int ms)
 {
     int i;
 
     union cmd cmd;
 
-    for (i = 0; i < vary->bc; i++)
+    for (i = 0; i < vary->mc; i++)
     {
-        struct v_body *bp = vary->bv + i;
-        struct v_path *pp = vary->pv + bp->pi;
+        struct v_move *mp = vary->mv + i;
 
-        if (bp->pi >= 0 && pp->f)
+        if (vary->pv[mp->pi].f)
         {
-            bp->t += dt;
-            bp->tm += ms;
+            struct v_path *pp = vary->pv + mp->pi;
 
-            if (bp->tm >= pp->base->tm)
+            mp->t  += dt;
+            mp->tm += ms;
+
+            if (mp->tm >= pp->base->tm)
             {
-                bp->t  = 0;
-                bp->tm = 0;
-                bp->pi = pp->base->pi;
+                mp->t  = 0;
+                mp->tm = 0;
+                mp->pi = pp->base->pi;
 
-                cmd.type        = CMD_BODY_TIME;
-                cmd.bodytime.bi = i;
-                cmd.bodytime.t  = bp->t;
+                cmd.type        = CMD_MOVE_TIME;
+                cmd.movetime.mi = i;
+                cmd.movetime.t  = mp->t;
                 sol_cmd_enq(&cmd);
 
-                cmd.type        = CMD_BODY_PATH;
-                cmd.bodypath.bi = i;
-                cmd.bodypath.pi = bp->pi;
+                cmd.type        = CMD_MOVE_PATH;
+                cmd.movepath.mi = i;
+                cmd.movepath.pi = mp->pi;
                 sol_cmd_enq(&cmd);
             }
         }

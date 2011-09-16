@@ -518,9 +518,9 @@ static float sol_test_body(float dt,
 
     const struct b_node *np = vary->base->nv + bp->base->ni;
 
-    sol_body_p(O, vary, bp->pi, bp->t);
-    sol_body_v(W, vary, bp->pi, bp->t, dt);
-    sol_body_e(E, vary, bp, 0);
+    sol_body_p(O, vary, bp, 0.0f);
+    sol_body_v(W, vary, bp, dt);
+    sol_body_e(E, vary, bp, 0.0f);
 
     /*
      * For rotating bodies, rather than rotate every normal and vertex
@@ -733,26 +733,22 @@ float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
         for (c = 16; c > 0 && tt > 0; c--)
         {
             float st;
-            int bi, ms;
+            int mi, ms;
 
             /* HACK: avoid stepping across path changes. */
 
             st = tt;
 
-            for (bi = 0; bi < vary->bc; bi++)
+            for (mi = 0; mi < vary->mc; mi++)
             {
-                struct v_body *bp = vary->bv + bi;
+                struct v_move *mp = vary->mv + mi;
+                struct v_path *pp = vary->pv + mp->pi;
 
-                if (bp->pi >= 0)
-                {
-                    struct v_path *pp = vary->pv + bp->pi;
+                if (!pp->f)
+                    continue;
 
-                    if (!pp->f)
-                        continue;
-
-                    if (bp->tm + ms_peek(st) > pp->base->tm)
-                        st = MS_TO_TIME(pp->base->tm - bp->tm);
-                }
+                if (mp->tm + ms_peek(st) > pp->base->tm)
+                    st = MS_TO_TIME(pp->base->tm - mp->tm);
             }
 
             /* Miss collisions if we reach the iteration limit. */
@@ -768,7 +764,7 @@ float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
 
             ms = ms_step(nt);
 
-            sol_body_step(vary, nt, ms);
+            sol_move_step(vary, nt, ms);
             sol_swch_step(vary, nt, ms);
             sol_ball_step(vary, nt);
 

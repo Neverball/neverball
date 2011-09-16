@@ -215,10 +215,9 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_BODY_PATH:
-            sol_lerp_cmd(&gl.lerp, &cs, cmd);
-            break;
-
         case CMD_BODY_TIME:
+        case CMD_MOVE_PATH:
+        case CMD_MOVE_TIME:
             sol_lerp_cmd(&gl.lerp, &cs, cmd);
             break;
 

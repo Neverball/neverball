@@ -65,6 +65,8 @@ enum cmd_type
     CMD_STEP_SIMULATION,
     CMD_MAP,
     CMD_TILT_AXES,
+    CMD_MOVE_PATH,
+    CMD_MOVE_TIME,
 
     CMD_MAX
 };
@@ -275,6 +277,20 @@ struct cmd_tilt_axes
     float x[3], z[3];
 };
 
+struct cmd_move_path
+{
+    CMD_HEADER;
+    int mi;
+    int pi;
+};
+
+struct cmd_move_time
+{
+    CMD_HEADER;
+    int   mi;
+    float t;
+};
+
 union cmd
 {
     CMD_HEADER;
@@ -310,6 +326,8 @@ union cmd
     struct cmd_step_simulation    stepsim;
     struct cmd_map                map;
     struct cmd_tilt_axes          tiltaxes;
+    struct cmd_move_path          movepath;
+    struct cmd_move_time          movetime;
 };
 
 #undef CMD_HEADER

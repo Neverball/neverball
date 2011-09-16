@@ -45,16 +45,43 @@ int sol_load_vary(struct s_vary *fp, const struct s_base *base)
 
     if (fp->base->bc)
     {
+        struct alloc mv;
+
         fp->bv = calloc(fp->base->bc, sizeof (*fp->bv));
         fp->bc = fp->base->bc;
 
+        alloc_new(&mv, sizeof (*fp->mv), (void **) &fp->mv, &fp->mc);
+
         for (i = 0; i < fp->base->bc; i++)
         {
-            struct v_body *bp = fp->bv + i;
-            struct b_body *bq = fp->base->bv + i;
+            struct b_body *bbody = fp->base->bv + i;
+            struct v_body *vbody = fp->bv + i;
+            struct v_move *vmove;
 
-            bp->base = bq;
-            bp->pi   = bq->pi;
+            vbody->base = bbody;
+
+            vbody->mi = -1;
+            vbody->mj = -1;
+
+            if (bbody->pi >= 0 && (vmove = alloc_add(&mv)))
+            {
+                memset(vmove, 0, sizeof (*vmove));
+
+                vbody->mi = fp->mc - 1;
+                vmove->pi = bbody->pi;
+            }
+
+            if (bbody->pj == bbody->pi)
+            {
+                vbody->mj = vbody->mi;
+            }
+            else if (bbody->pj >= 0 && (vmove = alloc_add(&mv)))
+            {
+                memset(vmove, 0, sizeof (*vmove));
+
+                vbody->mj = fp->mc - 1;
+                vmove->pi = bbody->pj;
+            }
         }
     }
 
@@ -126,7 +153,7 @@ int sol_load_vary(struct s_vary *fp, const struct s_base *base)
 void sol_free_vary(struct s_vary *fp)
 {
     if (fp->pv) free(fp->pv);
-    if (fp->bv) free(fp->bv);
+    if (fp->mv) free(fp->mv);
     if (fp->hv) free(fp->hv);
     if (fp->xv) free(fp->xv);
     if (fp->uv) free(fp->uv);
@@ -170,11 +197,31 @@ int sol_lerp_cmd(struct s_lerp *fp, struct cmd_state *cs, const union cmd *cmd)
         break;
 
     case CMD_BODY_PATH:
-        fp->bv[cmd->bodypath.bi][CURR].pi = cmd->bodypath.pi;
+    case CMD_BODY_TIME:
+        /* Backward compatibility: update linear mover only. */
+
+        if (cmd->type == CMD_BODY_PATH)
+        {
+            int mi;
+
+            if ((mi = fp->vary->bv[cmd->bodypath.bi].mi) >= 0)
+                fp->mv[mi][CURR].pi = cmd->bodypath.pi;
+        }
+        if (cmd->type == CMD_BODY_TIME)
+        {
+            int mi;
+
+            if ((mi = fp->vary->bv[cmd->bodytime.bi].mi) >= 0)
+                fp->mv[mi][CURR].t = cmd->bodytime.t;
+        }
         break;
 
-    case CMD_BODY_TIME:
-        fp->bv[cmd->bodytime.bi][CURR].t = cmd->bodytime.t;
+    case CMD_MOVE_PATH:
+        fp->mv[cmd->movepath.mi][CURR].pi = cmd->movepath.pi;
+        break;
+
+    case CMD_MOVE_TIME:
+        fp->mv[cmd->movepath.mi][CURR].t = cmd->movetime.t;
         break;
 
     case CMD_BALL_RADIUS:
@@ -212,24 +259,17 @@ int sol_lerp_cmd(struct s_lerp *fp, struct cmd_state *cs, const union cmd *cmd)
 
     case CMD_STEP_SIMULATION:
         /*
-         * Simulate body motion.
-         *
-         * This is done on the client side due to replay file size
-         * concerns and isn't done as part of CMD_END_OF_UPDATE to
-         * match the server state as closely as possible.  Body time
-         * is still synchronized with the server on a semi-regular
-         * basis and path indices are handled through CMD_BODY_PATH,
-         * thus this code doesn't need to be as sophisticated as
-         * sol_body_step.
+         * Step each mover ahead. This  way we cut down on replay size
+         * significantly  while  still  keeping  things in  sync  with
+         * occasional CMD_MOVE_PATH and CMD_MOVE_TIME.
          */
 
-        for (i = 0; i < fp->bc; i++)
+        for (i = 0; i < fp->mc; i++)
         {
-            struct l_body *bp = &fp->bv[i][CURR];
-            struct v_path *pp = &fp->vary->pv[bp->pi];
+            struct l_move *mp = &fp->mv[i][CURR];
 
-            if (bp->pi >= 0 && pp->f)
-                bp->t += cmd->stepsim.dt;
+            if (mp->pi >= 0 && fp->vary->pv[mp->pi].f)
+                mp->t += cmd->stepsim.dt;
         }
         break;
 
@@ -244,8 +284,8 @@ void sol_lerp_copy(struct s_lerp *fp)
 {
     int i;
 
-    for (i = 0; i < fp->bc; i++)
-        fp->bv[i][PREV] = fp->bv[i][CURR];
+    for (i = 0; i < fp->mc; i++)
+        fp->mv[i][PREV] = fp->mv[i][CURR];
 
     for (i = 0; i < fp->uc; i++)
         fp->uv[i][PREV] = fp->uv[i][CURR];
@@ -255,15 +295,15 @@ void sol_lerp_apply(struct s_lerp *fp, float a)
 {
     int i;
 
-    for (i = 0; i < fp->bc; i++)
+    for (i = 0; i < fp->mc; i++)
     {
-        if (fp->bv[i][PREV].pi == fp->bv[i][CURR].pi)
-            fp->vary->bv[i].t = (fp->bv[i][PREV].t * (1.0f - a) +
-                                 fp->bv[i][CURR].t * a);
+        if (fp->mv[i][PREV].pi == fp->mv[i][CURR].pi)
+            fp->vary->mv[i].t = (fp->mv[i][PREV].t * (1.0f - a) +
+                                 fp->mv[i][CURR].t * a);
         else
-            fp->vary->bv[i].t = fp->bv[i][CURR].t * a;
+            fp->vary->mv[i].t = fp->mv[i][CURR].t * a;
 
-        fp->vary->bv[i].pi = fp->bv[i][CURR].pi;
+        fp->vary->mv[i].pi = fp->mv[i][CURR].pi;
     }
 
     for (i = 0; i < fp->uc; i++)
@@ -283,13 +323,13 @@ int sol_load_lerp(struct s_lerp *fp, struct s_vary *vary)
 
     fp->vary = vary;
 
-    if (fp->vary->bc)
+    if (fp->vary->mc)
     {
-        fp->bv = calloc(fp->vary->bc, sizeof (*fp->bv));
-        fp->bc = fp->vary->bc;
+        fp->mv = calloc(fp->vary->mc, sizeof (*fp->mv));
+        fp->mc = fp->vary->mc;
 
-        for (i = 0; i < fp->vary->bc; i++)
-            fp->bv[i][CURR].pi = fp->vary->bv[i].pi;
+        for (i = 0; i < fp->vary->mc; i++)
+            fp->mv[i][CURR].pi = fp->vary->mv[i].pi;
     }
 
     if (fp->vary->uc)
@@ -314,7 +354,7 @@ int sol_load_lerp(struct s_lerp *fp, struct s_vary *vary)
 
 void sol_free_lerp(struct s_lerp *fp)
 {
-    if (fp->bv) free(fp->bv);
+    if (fp->mv) free(fp->mv);
     if (fp->uv) free(fp->uv);
 
     memset(fp, 0, sizeof (*fp));

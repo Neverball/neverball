@@ -233,6 +233,17 @@ static void sol_load_path(fs_file fin, struct b_path *pp)
 static void sol_load_body(fs_file fin, struct b_body *bp)
 {
     get_index(fin, &bp->pi);
+
+    if (sol_version >= SOL_VER_GLES)
+    {
+        get_index(fin, &bp->pj);
+
+        if (bp->pj < 0)
+            bp->pj = bp->pi;
+    }
+    else
+        bp->pj = bp->pi;
+
     get_index(fin, &bp->ni);
     get_index(fin, &bp->l0);
     get_index(fin, &bp->lc);
@@ -595,6 +606,7 @@ static void sol_stor_path(fs_file fout, struct b_path *pp)
 static void sol_stor_body(fs_file fout, struct b_body *bp)
 {
     put_index(fout, bp->pi);
+    put_index(fout, bp->pj);
     put_index(fout, bp->ni);
     put_index(fout, bp->l0);
     put_index(fout, bp->lc);

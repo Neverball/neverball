@@ -6,6 +6,7 @@ Defines the geometry of a moving object.  Think of it as a container or a groupi
 
 Attributes:
 * <target key="target" name="Target">Refers to the first path_corner of the path along which the func_train will travel.</target>
+* <target key="target2" name="Target (orientation)">Optionally refers to a second path that controls the orientation of the func_train. This is useful when you want to control the position and orientation independently of each other.</target>
 </group>
 
 

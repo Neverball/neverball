@@ -65,8 +65,8 @@ static void sol_transform(const struct s_vary *vary,
 
     /* Apply the body position and rotation to the model-view matrix. */
 
-    sol_body_p(p, vary, bp->pi, bp->t);
-    sol_body_e(e, vary, bp, 0);
+    sol_body_p(p, vary, bp, 0.0f);
+    sol_body_e(e, vary, bp, 0.0f);
 
     q_as_axisangle(e, v, &a);
 

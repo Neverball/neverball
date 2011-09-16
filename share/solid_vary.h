@@ -35,6 +35,12 @@ struct v_body
 {
     const struct b_body *base;
 
+    int mi;
+    int mj;
+};
+
+struct v_move
+{
     float t;                                   /* time on current path       */
     int   tm;                                  /* milliseconds               */
 
@@ -75,12 +81,14 @@ struct s_vary
 
     int pc;
     int bc;
+    int mc;
     int hc;
     int xc;
     int uc;
 
     struct v_path *pv;
     struct v_body *bv;
+    struct v_move *mv;
     struct v_item *hv;
     struct v_swch *xv;
     struct v_ball *uv;
@@ -97,7 +105,7 @@ void sol_free_vary(struct s_vary *);
  * Buffers changes to the varying SOL data for interpolation purposes.
  */
 
-struct l_body
+struct l_move
 {
     float t;                                   /* time on current path       */
 
@@ -116,10 +124,10 @@ struct s_lerp
 {
     struct s_vary *vary;
 
-    int bc;
+    int mc;
     int uc;
 
-    struct l_body (*bv)[2];
+    struct l_move (*mv)[2];
     struct l_ball (*uv)[2];
 };
 
