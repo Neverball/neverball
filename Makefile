@@ -100,6 +100,9 @@ else
 FS_LIBS := -lphysfs
 endif
 
+# On some systems we need to link this directly.
+X11_LIBS := -lX11
+
 # The  non-conditionalised values  below  are specific  to the  native
 # system. The native system of this Makefile is Linux (or GNU+Linux if
 # you prefer). Please be sure to  override ALL of them for each target
@@ -115,7 +118,7 @@ ifeq ($(ENABLE_TILT),loop)
 endif
 endif
 
-OGL_LIBS := -lGL -lm
+OGL_LIBS := -lGL
 
 ifeq ($(PLATFORM),mingw)
     ifneq ($(ENABLE_NLS),0)
@@ -123,7 +126,8 @@ ifeq ($(PLATFORM),mingw)
     endif
 
     TILT_LIBS :=
-    OGL_LIBS  := -lopengl32 -lm
+    OGL_LIBS  := -lopengl32
+    X11_LIBS :=
 endif
 
 ifeq ($(PLATFORM),darwin)
@@ -133,15 +137,16 @@ ifeq ($(PLATFORM),darwin)
 
     TILT_LIBS :=
     OGL_LIBS  := -framework OpenGL
+    X11_LIBS  :=
 endif
 
-BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS)
+BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS) -lm
 
 ifeq ($(PLATFORM),darwin)
     BASE_LIBS += -L/opt/local/lib
 endif
 
-ALL_LIBS := $(SDL_LIBS) $(BASE_LIBS) $(TILT_LIBS) $(INTL_LIBS) -lSDL_ttf \
+ALL_LIBS := $(SDL_LIBS) $(X11_LIBS) $(BASE_LIBS) $(TILT_LIBS) $(INTL_LIBS) -lSDL_ttf \
     -lvorbisfile $(OGL_LIBS)
 
 #------------------------------------------------------------------------------
