@@ -44,25 +44,21 @@ const GLubyte gui_shd[4] = { 0x00, 0x00, 0x00, 0x80 };  /* Shadow */
 
 #define WIDGET_MAX 256
 
-#define GUI_TYPE 0xFFFC
-
-#define GUI_FREE  0
+#define GUI_FREE   0
+#define GUI_HARRAY 1
+#define GUI_VARRAY 2
+#define GUI_HSTACK 3
+#define GUI_VSTACK 4
+#define GUI_FILLER 5
+#define GUI_IMAGE  6
+#define GUI_LABEL  7
+#define GUI_COUNT  8
+#define GUI_CLOCK  9
+#define GUI_SPACE  10
+#define GUI_BUTTON 11
 
 #define GUI_STATE 1
 #define GUI_FILL  2
-
-#define GUI_FLAGS 2
-
-#define GUI_HARRAY (1  << GUI_FLAGS)
-#define GUI_VARRAY (2  << GUI_FLAGS)
-#define GUI_HSTACK (3  << GUI_FLAGS)
-#define GUI_VSTACK (4  << GUI_FLAGS)
-#define GUI_FILLER (5  << GUI_FLAGS)
-#define GUI_IMAGE  (6  << GUI_FLAGS)
-#define GUI_LABEL  (7  << GUI_FLAGS)
-#define GUI_COUNT  (8  << GUI_FLAGS)
-#define GUI_CLOCK  (9  << GUI_FLAGS)
-#define GUI_SPACE  (10 << GUI_FLAGS)
 
 #define GUI_LINES 8
 
@@ -71,6 +67,7 @@ const GLubyte gui_shd[4] = { 0x00, 0x00, 0x00, 0x80 };  /* Shadow */
 struct widget
 {
     int     type;
+    int     flags;
     int     token;
     int     value;
     int     size;
@@ -117,7 +114,7 @@ static SDL_RWops *fontrwops;
 
 static int gui_hot(int id)
 {
-    return (widget[id].type & GUI_STATE);
+    return (widget[id].flags & GUI_STATE);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -415,6 +412,7 @@ void gui_free(void)
         glDeleteTextures(1, &widget[id].image);
 
         widget[id].type  = GUI_FREE;
+        widget[id].flags = 0;
         widget[id].image = 0;
         widget[id].cdr   = 0;
         widget[id].car   = 0;
@@ -446,6 +444,7 @@ static int gui_widget(int pd, int type)
             /* Set the type and default properties. */
 
             widget[id].type   = type;
+            widget[id].flags  = 0;
             widget[id].token  = 0;
             widget[id].value  = 0;
             widget[id].size   = 0;
@@ -682,7 +681,7 @@ void gui_set_trunc(int id, enum trunc trunc)
 
 void gui_set_fill(int id)
 {
-    widget[id].type |= GUI_FILL;
+    widget[id].flags |= GUI_FILL;
 }
 
 /*
@@ -692,9 +691,9 @@ void gui_set_fill(int id)
  */
 int gui_set_state(int id, int token, int value)
 {
-    widget[id].type |= GUI_STATE;
-    widget[id].token = token;
-    widget[id].value = value;
+    widget[id].flags |= GUI_STATE;
+    widget[id].token  = token;
+    widget[id].value  = value;
 
     return id;
 }
@@ -728,8 +727,10 @@ int gui_state(int pd, const char *text, int size, int token, int value)
 {
     int id;
 
-    if ((id = gui_widget(pd, GUI_STATE)))
+    if ((id = gui_widget(pd, GUI_BUTTON)))
     {
+        widget[id].flags |= GUI_STATE;
+
         widget[id].image = make_image_from_font(NULL, NULL,
                                                    &widget[id].w,
                                                    &widget[id].h,
@@ -976,7 +977,7 @@ static void gui_button_up(int id)
 static void gui_widget_up(int id)
 {
     if (id)
-        switch (widget[id].type & GUI_TYPE)
+        switch (widget[id].type)
         {
         case GUI_HARRAY: gui_harray_up(id); break;
         case GUI_VARRAY: gui_varray_up(id); break;
@@ -1058,9 +1059,9 @@ static void gui_hstack_dn(int id, int x, int y, int w, int h)
     /* Measure the total width requested by non-filler children. */
 
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-        if ((widget[jd].type & GUI_TYPE) == GUI_FILLER)
+        if (widget[jd].type == GUI_FILLER)
             c += 1;
-        else if (widget[jd].type & GUI_FILL)
+        else if (widget[jd].flags & GUI_FILL)
         {
             c  += 1;
             jw += widget[jd].w;
@@ -1073,9 +1074,9 @@ static void gui_hstack_dn(int id, int x, int y, int w, int h)
 
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
     {
-        if ((widget[jd].type & GUI_TYPE) == GUI_FILLER)
+        if (widget[jd].type == GUI_FILLER)
             gui_widget_dn(jd, jx, y, (w - jw) / c, h);
-        else if (widget[jd].type & GUI_FILL)
+        else if (widget[jd].flags & GUI_FILL)
             gui_widget_dn(jd, jx, y, widget[jd].w + (w - jw) / c, h);
         else
             gui_widget_dn(jd, jx, y, widget[jd].w, h);
@@ -1096,9 +1097,9 @@ static void gui_vstack_dn(int id, int x, int y, int w, int h)
     /* Measure the total height requested by non-filler children. */
 
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-        if ((widget[jd].type & GUI_TYPE) == GUI_FILLER)
+        if (widget[jd].type == GUI_FILLER)
             c += 1;
-        else if (widget[jd].type & GUI_FILL)
+        else if (widget[jd].flags & GUI_FILL)
         {
             c  += 1;
             jh += widget[jd].h;
@@ -1111,9 +1112,9 @@ static void gui_vstack_dn(int id, int x, int y, int w, int h)
 
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
     {
-        if ((widget[jd].type & GUI_TYPE) == GUI_FILLER)
+        if (widget[jd].type == GUI_FILLER)
             gui_widget_dn(jd, x, jy, w, (h - jh) / c);
-        else if (widget[jd].type & GUI_FILL)
+        else if (widget[jd].flags & GUI_FILL)
             gui_widget_dn(jd, x, jy, w, widget[jd].h + (h - jh) / c);
         else
             gui_widget_dn(jd, x, jy, w, widget[jd].h);
@@ -1157,7 +1158,7 @@ static void gui_button_dn(int id, int x, int y, int w, int h)
 static void gui_widget_dn(int id, int x, int y, int w, int h)
 {
     if (id)
-        switch (widget[id].type & GUI_TYPE)
+        switch (widget[id].type)
         {
         case GUI_HARRAY: gui_harray_dn(id, x, y, w, h); break;
         case GUI_VARRAY: gui_varray_dn(id, x, y, w, h); break;
@@ -1239,6 +1240,7 @@ int gui_delete(int id)
         /* Mark this widget unused. */
 
         widget[id].type  = GUI_FREE;
+        widget[id].flags = 0;
         widget[id].image = 0;
         widget[id].cdr   = 0;
         widget[id].car   = 0;
@@ -1265,7 +1267,7 @@ static void gui_paint_rect(int id, int st)
         i = st | (((widget[id].value) ? 2 : 0) |
                   ((id == active)     ? 1 : 0));
 
-    switch (widget[id].type & GUI_TYPE)
+    switch (widget[id].type)
     {
     case GUI_IMAGE:
     case GUI_SPACE:
@@ -1497,7 +1499,7 @@ static void gui_paint_label(int id)
 
 static void gui_paint_text(int id)
 {
-    switch (widget[id].type & GUI_TYPE)
+    switch (widget[id].type)
     {
     case GUI_SPACE:  break;
     case GUI_FILLER: break;
@@ -1549,7 +1551,7 @@ void gui_dump(int id, int d)
     {
         char *type = "?";
 
-        switch (widget[id].type & GUI_TYPE)
+        switch (widget[id].type)
         {
         case GUI_HARRAY: type = "harray"; break;
         case GUI_VARRAY: type = "varray"; break;
@@ -1560,6 +1562,7 @@ void gui_dump(int id, int d)
         case GUI_LABEL:  type = "label";  break;
         case GUI_COUNT:  type = "count";  break;
         case GUI_CLOCK:  type = "clock";  break;
+        case GUI_BUTTON: type = "button"; break;
         }
 
         for (i = 0; i < d; i++)
