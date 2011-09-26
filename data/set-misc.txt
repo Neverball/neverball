@@ -20,3 +20,4 @@ map-misc/texture-debug.sol
 map-misc/timer-test.sol
 map-misc/edge-test.sol
 map-misc/centrifuge.sol
+map-misc/timer-test_2.sol

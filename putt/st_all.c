@@ -15,7 +15,6 @@
 #include <math.h>
 
 #include "hud.h"
-#include "back.h"
 #include "geom.h"
 #include "gui.h"
 #include "vec3.h"
@@ -50,8 +49,8 @@ static char *number(int i)
 }
 
 static int score_card(const char  *title,
-                      const float *c0,
-                      const float *c1)
+                      const GLubyte *c0,
+                      const GLubyte *c1)
 {
     int id, jd, kd, ld;
 
@@ -250,7 +249,7 @@ static void title_point(int id, int x, int y, int dx, int dy)
 
 static int title_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? title_action(gui_token(gui_click())) : 1;
+    return gui_click(b, d) ? title_action(gui_token(gui_active())) : 1;
 }
 
 static int title_buttn(int b, int d)
@@ -258,7 +257,7 @@ static int title_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return title_action(gui_token(gui_click()));
+            return title_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return title_action(TITLE_EXIT);
     }
@@ -285,13 +284,36 @@ static int course_action(int i)
     return 1;
 }
 
+static int comp_size(int n, int s)
+{
+    return n <= s * s ? s : comp_size(n, s + 1);
+}
+
+static int comp_cols(int n)
+{
+    return comp_size(n, 1);
+}
+
+static int comp_rows(int n)
+{
+    int s = comp_size(n, 1);
+
+    return n <= s * (s - 1) ? s - 1 : s;
+}
+
 static int course_enter(struct state *st, struct state *prev)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
 
-    int id, jd, kd, ld, md, i = 0, j, n = course_count();
-    int m = (int)(sqrt(n/2.0)*2);
+    int id, jd, kd, ld, md;
+
+    int i, j, r, c, n;
+
+    n = course_count();
+
+    r = comp_rows(n);
+    c = comp_cols(n);
 
     if ((id = gui_vstack(0)))
     {
@@ -306,19 +328,21 @@ static int course_enter(struct state *st, struct state *prev)
 
             if ((kd = gui_varray(jd)))
             {
-                for(i = 0; i < n; i += m)
+                for(i = 0; i < r; i++)
                 {
                     if ((ld = gui_harray(kd)))
                     {
-                        for (j = (m - 1); j >= 0; j--)
+                        for (j = c - 1; j >= 0; j--)
                         {
-                            if (i + j < n)
-                            {
-                                md = gui_image(ld, course_shot(i + j),
-                                               w / 3 / m, h / 3 / m);
-                                gui_active(md, i + j, 0);
+                            int k = i * c + j;
 
-                                if (i + j == 0)
+                            if (k < n)
+                            {
+                                md = gui_image(ld, course_shot(k),
+                                               w / 3 / c, h / 3 / r);
+                                gui_set_state(md, k, 0);
+
+                                if (k == 0)
                                     gui_focus(md);
                             }
                             else
@@ -399,7 +423,7 @@ static void course_stick(int id, int a, float v, int bump)
 
 static int course_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? course_action(gui_token(gui_click())) : 1;
+    return gui_click(b, d) ? course_action(gui_token(gui_active())) : 1;
 }
 
 static int course_buttn(int b, int d)
@@ -407,7 +431,7 @@ static int course_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return course_action(gui_token(gui_click()));
+            return course_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return course_action(COURSE_BACK);
     }
@@ -429,23 +453,23 @@ static int party_action(int i)
     {
     case PARTY_1:
         audio_play(AUD_MENU, 1.f);
-        hole_goto(1, 1);
-        goto_state(&st_next);
+        if (hole_goto(1, 1))
+            goto_state(&st_next);
         break;
     case PARTY_2:
         audio_play(AUD_MENU, 1.f);
-        hole_goto(1, 2);
-        goto_state(&st_next);
+        if (hole_goto(1, 2))
+            goto_state(&st_next);
         break;
     case PARTY_3:
         audio_play(AUD_MENU, 1.f);
-        hole_goto(1, 3);
-        goto_state(&st_next);
+        if (hole_goto(1, 3))
+            goto_state(&st_next);
         break;
     case PARTY_4:
         audio_play(AUD_MENU, 1.f);
-        hole_goto(1, 4);
-        goto_state(&st_next);
+        if (hole_goto(1, 4))
+            goto_state(&st_next);
         break;
     case PARTY_B:
         audio_play(AUD_MENU, 1.f);
@@ -516,7 +540,7 @@ static void party_point(int id, int x, int y, int dx, int dy)
 
 static int party_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? party_action(gui_token(gui_click())) : 1;
+    return gui_click(b, d) ? party_action(gui_token(gui_active())) : 1;
 }
 
 static int party_buttn(int b, int d)
@@ -524,7 +548,7 @@ static int party_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return party_action(gui_token(gui_click()));
+            return party_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return party_action(PARTY_B);
     }
@@ -622,7 +646,7 @@ static void pause_point(int id, int x, int y, int dx, int dy)
 
 static int pause_click(int b, int d)
 {
-    return d && b == SDL_BUTTON_LEFT ? pause_action(gui_token(gui_click())) : 1;
+    return gui_click(b, d) ? pause_action(gui_token(gui_active())) : 1;
 }
 
 static int pause_keybd(int c, int d)
@@ -637,7 +661,7 @@ static int pause_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return pause_action(gui_token(gui_click()));
+            return pause_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return pause_action(PAUSE_CONTINUE);
     }
@@ -753,9 +777,8 @@ static int next_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
-            if (num > 0)
+            if (num > 0 && hole_goto(num, -1))
             {
-                hole_goto(num, -1);
                 num = 0;
                 return goto_state(&st_next);
             }

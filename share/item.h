@@ -15,16 +15,15 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "solid.h"
+#include "solid_vary.h"
+#include "solid_draw.h"
 
 #define ITEM_RADIUS 0.15f
 
-void item_color(const struct s_item *, float *);
+void item_color(const struct v_item *, float *);
 void item_init(void);
 void item_free(void);
 
-void item_push(int);
-void item_draw(const struct s_item *, float);
-void item_pull(void);
+void item_draw(struct s_rend *, const struct v_item *, const float *, float);
 
 #endif

@@ -14,7 +14,6 @@
 
 #include "gui.h"
 #include "hud.h"
-#include "back.h"
 #include "geom.h"
 #include "item.h"
 #include "ball.h"
@@ -109,7 +108,7 @@ static void conf_shared_init(int (*action_fn)(int))
 {
     conf_shared_action = action_fn;
 
-    game_client_free();
+    game_client_free(NULL);
     back_init("back/gui.png");
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 }
@@ -124,7 +123,7 @@ static void conf_shared_paint(int id, float t)
 {
     video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
-        back_draw(0);
+        back_draw_easy();
     }
     video_pop_matrix();
     gui_paint(id);
@@ -135,7 +134,7 @@ static int conf_shared_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return conf_shared_action(gui_token(gui_click()));
+            return conf_shared_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return conf_shared_action(CONF_SHARED_BACK);
     }
@@ -227,7 +226,7 @@ static int conf_gui(void)
 
         conf_header(id, _("Options"), CONF_BACK);
 
-        conf_state(id, _("Video"), _("Configure"), CONF_VIDEO);
+        conf_state(id, _("Graphics"), _("Configure"), CONF_VIDEO);
 
         gui_space(id);
 
@@ -378,7 +377,7 @@ static int conf_video_gui(void)
                 config_get_d(CONFIG_WIDTH),
                 config_get_d(CONFIG_HEIGHT));
 
-        conf_header(id, _("Video Options"), CONF_VIDEO_BACK);
+        conf_header(id, _("Graphics Options"), CONF_VIDEO_BACK);
 
         conf_toggle(id, _("Fullscreen"), f,
                     _("Yes"), CONF_VIDEO_FULL, 1,
@@ -422,9 +421,7 @@ static int null_enter(struct state *st, struct state *prev)
 {
     hud_free();
     gui_free();
-    swch_free();
-    jump_free();
-    goal_free();
+    geom_free();
     item_free();
     ball_free();
     shad_free();
@@ -435,13 +432,11 @@ static int null_enter(struct state *st, struct state *prev)
 
 static void null_leave(struct state *st, struct state *next, int id)
 {
-    part_init(GOAL_HEIGHT, JUMP_HEIGHT);
+    part_init();
     shad_init();
     ball_init();
     item_init();
-    goal_init();
-    jump_init();
-    swch_init();
+    geom_init();
     gui_init();
     hud_init();
 }

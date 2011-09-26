@@ -42,43 +42,132 @@ const char ICON[] = "icon/neverball.png";
 
 /*---------------------------------------------------------------------------*/
 
-static void shot(void)
+static int shot_pending;
+
+static void shot_prep(void)
+{
+    shot_pending = 1;
+}
+
+static void shot_take(void)
 {
     static char filename[MAXSTR];
 
-    sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
-    image_snap(filename);
+    if (shot_pending)
+    {
+        sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
+        image_snap(filename);
+        shot_pending = 0;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
 
 static void toggle_wire(void)
 {
+#if !ENABLE_OPENGLES
     static int wire = 0;
 
     if (wire)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_LIGHTING);
         wire = 0;
     }
     else
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glDisable(GL_TEXTURE_2D);
-        glDisable(GL_LIGHTING);
         wire = 1;
     }
+#endif
 }
 
 /*---------------------------------------------------------------------------*/
+
+static int handle_key_dn(SDL_Event *e)
+{
+    int d = 1;
+    int c;
+
+    c = e->key.keysym.sym;
+
+    if (config_tst_d(CONFIG_KEY_FORWARD, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -1.0f);
+
+    else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +1.0f);
+
+    else if (config_tst_d(CONFIG_KEY_LEFT, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -1.0f);
+
+    else if (config_tst_d(CONFIG_KEY_RIGHT, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +1.0f);
+
+    else switch (c)
+    {
+    case SDLK_F10:   shot_prep();               break;
+    case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
+    case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
+
+    case SDLK_F7:
+        if (config_cheat())
+            toggle_wire();
+        break;
+    case SDLK_RETURN:
+        d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
+        break;
+    case SDLK_ESCAPE:
+        d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 1);
+        break;
+
+    default:
+        if (SDL_EnableUNICODE(-1))
+            d = st_keybd(e->key.keysym.unicode, 1);
+        else
+            d = st_keybd(e->key.keysym.sym, 1);
+    }
+
+    return d;
+}
+
+static int handle_key_up(SDL_Event *e)
+{
+    int d = 1;
+    int c;
+
+    c = e->key.keysym.sym;
+
+    if (config_tst_d(CONFIG_KEY_FORWARD, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
+
+    else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
+
+    else if (config_tst_d(CONFIG_KEY_LEFT, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
+
+    else if (config_tst_d(CONFIG_KEY_RIGHT, c))
+        st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
+
+    else switch (c)
+    {
+    case SDLK_RETURN:
+        d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
+        break;
+    case SDLK_ESCAPE:
+        d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 0);
+        break;
+
+    default:
+        d = st_keybd(e->key.keysym.sym, 0);
+    }
+
+    return d;
+}
 
 static int loop(void)
 {
     SDL_Event e;
     int d = 1;
-    int c;
 
     /* Process SDL events. */
 
@@ -106,76 +195,12 @@ static int loop(void)
             break;
 
         case SDL_KEYDOWN:
-
-            c = e.key.keysym.sym;
-
-            if (config_tst_d(CONFIG_KEY_FORWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -1.0f);
-
-            else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +1.0f);
-
-            else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -1.0f);
-
-            else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +1.0f);
-
-            else switch (c)
-            {
-            case SDLK_F10:   shot();                    break;
-            case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
-            case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
-
-            case SDLK_F7:
-                if (config_cheat())
-                    toggle_wire();
-                break;
-
-            case SDLK_RETURN:
-                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
-                break;
-            case SDLK_ESCAPE:
-                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 1);
-                break;
-
-            default:
-                if (SDL_EnableUNICODE(-1))
-                    d = st_keybd(e.key.keysym.unicode, 1);
-                else
-                    d = st_keybd(e.key.keysym.sym, 1);
-            }
-
+            d = handle_key_dn(&e);
             break;
 
         case SDL_KEYUP:
-
-            c = e.key.keysym.sym;
-
-            if      (config_tst_d(CONFIG_KEY_FORWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
-
-            else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
-
-            else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
-
-            else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
-
-            else switch (c)
-            {
-            case SDLK_RETURN:
-                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
-                break;
-            case SDLK_ESCAPE:
-                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 0);
-                break;
-
-            default:
-                d = st_keybd(e.key.keysym.sym, 0);
-            }
+            d = handle_key_up(&e);
+            break;
 
         case SDL_ACTIVEEVENT:
             if (e.active.state == SDL_APPINPUTFOCUS)
@@ -204,8 +229,8 @@ static int loop(void)
         int b;
         int s;
 
-        st_angle((int) tilt_get_x(),
-                 (int) tilt_get_z());
+        st_angle(tilt_get_x(),
+                 tilt_get_z());
 
         while (tilt_get_button(&b, &s))
         {
@@ -516,6 +541,7 @@ int main(int argc, char *argv[])
             /* Render. */
 
             st_paint(0.001f * t0);
+            shot_take();
             video_swap();
 
             if (config_get_d(CONFIG_NICE))

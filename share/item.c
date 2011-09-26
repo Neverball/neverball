@@ -15,21 +15,21 @@
 #include "item.h"
 #include "glext.h"
 #include "vec3.h"
-#include "solid_gl.h"
 #include "image.h"
 #include "config.h"
 
+#include "solid_draw.h"
+
 /*---------------------------------------------------------------------------*/
 
-static struct s_file item_coin_file;
-static struct s_file item_grow_file;
-static struct s_file item_shrink_file;
+static struct s_full item_coin_file;
+static struct s_full item_grow_file;
+static struct s_full item_shrink_file;
 
-void item_color(const struct s_item *hp, float *c)
+void item_color(const struct v_item *hp, float *c)
 {
     switch (hp->t)
     {
-
     case ITEM_COIN:
 
         if (hp->n >= 1)
@@ -37,18 +37,21 @@ void item_color(const struct s_item *hp, float *c)
             c[0] = 1.0f;
             c[1] = 1.0f;
             c[2] = 0.2f;
+            c[3] = 1.0f;
         }
         if (hp->n >= 5)
         {
             c[0] = 1.0f;
             c[1] = 0.2f;
             c[2] = 0.2f;
+            c[3] = 1.0f;
         }
         if (hp->n >= 10)
         {
             c[0] = 0.2f;
             c[1] = 0.2f;
             c[2] = 1.0f;
+            c[3] = 1.0f;
         }
         break;
 
@@ -57,6 +60,7 @@ void item_color(const struct s_item *hp, float *c)
         c[0] = 0.00f;
         c[1] = 0.51f;
         c[2] = 0.80f;
+        c[3] = 1.00f;
 
         break;
 
@@ -65,6 +69,7 @@ void item_color(const struct s_item *hp, float *c)
         c[0] = 1.00f;
         c[1] = 0.76f;
         c[2] = 0.00f;
+        c[3] = 1.00f;
 
         break;
 
@@ -73,6 +78,7 @@ void item_color(const struct s_item *hp, float *c)
         c[0] = 1.0f;
         c[1] = 1.0f;
         c[2] = 1.0f;
+        c[3] = 1.0f;
 
         break;
     }
@@ -80,45 +86,48 @@ void item_color(const struct s_item *hp, float *c)
 
 void item_init(void)
 {
-    sol_load_gl(&item_coin_file,   "item/coin/coin.sol",     0);
-    sol_load_gl(&item_grow_file,   "item/grow/grow.sol",     0);
-    sol_load_gl(&item_shrink_file, "item/shrink/shrink.sol", 0);
+    sol_load_full(&item_coin_file,   "item/coin/coin.sol",     0);
+    sol_load_full(&item_grow_file,   "item/grow/grow.sol",     0);
+    sol_load_full(&item_shrink_file, "item/shrink/shrink.sol", 0);
 }
 
 void item_free(void)
 {
-    sol_free_gl(&item_coin_file);
-    sol_free_gl(&item_grow_file);
-    sol_free_gl(&item_shrink_file);
+    sol_free_full(&item_coin_file);
+    sol_free_full(&item_grow_file);
+    sol_free_full(&item_shrink_file);
 }
 
-void item_push(int type)
+void item_draw(struct s_rend *rend,
+               const struct v_item *hp,
+               const GLfloat *M, float t)
 {
-    glEnable(GL_COLOR_MATERIAL);
-}
-
-void item_draw(const struct s_item *hp, float r)
-{
-    float c[3];
-    struct s_file *fp = NULL;
+    struct s_draw *draw = NULL;
+    float c[4];
 
     switch (hp->t)
     {
-    case ITEM_COIN:   fp = &item_coin_file;   break;
-    case ITEM_GROW:   fp = &item_grow_file;   break;
-    case ITEM_SHRINK: fp = &item_shrink_file; break;
+    case ITEM_COIN:   draw = &item_coin_file.draw;   break;
+    case ITEM_GROW:   draw = &item_grow_file.draw;   break;
+    case ITEM_SHRINK: draw = &item_shrink_file.draw; break;
     }
 
     item_color(hp, c);
 
-    glColor3fv(c);
-    sol_draw(fp, 0, 1);
-}
+    glColor4f(c[0], c[1], c[2], c[3]);
 
-void item_pull(void)
-{
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glDisable(GL_COLOR_MATERIAL);
+    glDepthMask(GL_FALSE);
+    {
+        sol_bill(draw, rend, M, t);
+    }
+    glDepthMask(GL_TRUE);
+
+    glPushMatrix();
+    {
+        glRotatef(360.0f * t, 0.0f, 1.0f, 0.0f);
+        sol_draw(draw, rend, 0, 1);
+    }
+    glPopMatrix();
 }
 
 /*---------------------------------------------------------------------------*/

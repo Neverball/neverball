@@ -17,7 +17,6 @@
 #include <string.h>
 
 #include "gui.h"
-#include "back.h"
 #include "geom.h"
 #include "part.h"
 #include "audio.h"
@@ -146,7 +145,7 @@ static void resol_paint(int id, float st)
 {
     video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
-        back_draw(0);
+        back_draw_easy();
     }
     video_pop_matrix();
     gui_paint(id);
@@ -169,8 +168,9 @@ static void resol_stick(int id, int a, float v, int bump)
 
 static int resol_click(int b, int d)
 {
-    if (b == SDL_BUTTON_LEFT && d == 1)
-        return resol_action(gui_token(gui_click()));
+    if (gui_click(b, d))
+        return resol_action(gui_token(gui_active()));
+
     return 1;
 }
 
@@ -184,7 +184,7 @@ static int resol_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return resol_action(gui_token(gui_click()));
+            return resol_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return resol_action(RESOL_BACK);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))

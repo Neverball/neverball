@@ -147,13 +147,12 @@ static void set_load_hs(void)
     {
         char states[MAXLVL + 2];
 
-        if (fs_gets(states, sizeof (states), fp) &&
-            strlen(states) - 1 == s->count)
+        if (fs_gets(states, sizeof (states), fp))
         {
             struct level *l;
-            int i;
+            int i, n = MIN(strlen(states) - 1, s->count);
 
-            for (i = 0; i < s->count; i++)
+            for (i = 0; i < n; i++)
             {
                 l = &level_v[i];
 
@@ -164,7 +163,7 @@ static void set_load_hs(void)
             get_score(fp, &s->time_score);
             get_score(fp, &s->coin_score);
 
-            for (i = 0; i < s->count; i++)
+            for (i = 0; i < n; i++)
             {
                 l = &level_v[i];
 
@@ -504,9 +503,9 @@ void level_snap(int i, const char *path)
         game_client_fly(1.0f);
         game_kill_fade();
         game_client_draw(POSE_LEVEL, 0);
-        SDL_GL_SwapBuffers();
-
         image_snap(filename);
+
+        SDL_GL_SwapBuffers();
     }
 
     free(filename);

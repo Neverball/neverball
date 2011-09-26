@@ -20,7 +20,6 @@
 #include "vec3.h"
 #include "geom.h"
 #include "ball.h"
-#include "back.h"
 #include "hole.h"
 #include "hud.h"
 #include "image.h"
@@ -28,14 +27,16 @@
 #include "config.h"
 #include "video.h"
 
-#include "solid_gl.h"
+#include "solid_draw.h"
 #include "solid_sim.h"
 #include "solid_all.h"
 
 /*---------------------------------------------------------------------------*/
 
-static struct s_file file;
+static struct s_full file;
 static int           ball;
+
+static int state;
 
 static float view_a;                    /* Ideal view rotation about Y axis  */
 static float view_m;
@@ -84,7 +85,7 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-void game_init(const char *s)
+int game_init(const char *s)
 {
     int i;
 
@@ -94,13 +95,16 @@ void game_init(const char *s)
     idle_t = 1.0f;
 
     view_init();
-    sol_load_gl(&file, s, config_get_d(CONFIG_SHADOW));
-    sol_init_sim(&file);
 
-    for (i = 0; i < file.dc; i++)
+    if (!(state = sol_load_full(&file, s, config_get_d(CONFIG_SHADOW))))
+        return 0;
+
+    sol_init_sim(&file.vary);
+
+    for (i = 0; i < file.base.dc; i++)
     {
-        const char *k = file.av + file.dv[i].ai;
-        const char *v = file.av + file.dv[i].aj;
+        const char *k = file.base.av + file.base.dv[i].ai;
+        const char *v = file.base.av + file.base.dv[i].aj;
 
         if (strcmp(k, "idle") == 0)
         {
@@ -110,77 +114,40 @@ void game_init(const char *s)
                 idle_t = 1.0f;
         }
     }
+    return 1;
 }
 
 void game_free(void)
 {
     sol_quit_sim();
-    sol_free_gl(&file);
+    sol_free_full(&file);
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void game_draw_vect_prim(const struct s_file *fp, GLenum mode)
-{
-    float p[3];
-    float x[3];
-    float z[3];
-    float r;
-
-    v_cpy(p, fp->uv[ball].p);
-    v_cpy(x, view_e[0]);
-    v_cpy(z, view_e[2]);
-
-    r = fp->uv[ball].r;
-
-    glBegin(mode);
-    {
-        glColor4f(1.0f, 1.0f, 0.5f, 0.5f);
-        glVertex3f(p[0] - x[0] * r,
-                   p[1] - x[1] * r,
-                   p[2] - x[2] * r);
-
-        glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
-        glVertex3f(p[0] + z[0] * view_m,
-                   p[1] + z[1] * view_m,
-                   p[2] + z[2] * view_m);
-
-        glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
-        glVertex3f(p[0] + x[0] * r,
-                   p[1] + x[1] * r,
-                   p[2] + x[2] * r);
-    }
-    glEnd();
-}
-
-static void game_draw_vect(const struct s_file *fp)
+static void game_draw_vect(struct s_rend *rend, const struct s_vary *fp)
 {
     if (view_m > 0.f)
     {
-        glPushAttrib(GL_TEXTURE_BIT);
-        glPushAttrib(GL_POLYGON_BIT);
-        glPushAttrib(GL_LIGHTING_BIT);
-        glPushAttrib(GL_DEPTH_BUFFER_BIT);
+        glDisable(GL_LIGHTING);
+        glPushMatrix();
         {
-            glEnable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHTING);
-            glDisable(GL_TEXTURE_2D);
-            glDepthMask(GL_FALSE);
+            glTranslatef(fp->uv[ball].p[0],
+                         fp->uv[ball].p[1],
+                         fp->uv[ball].p[2]);
+            glRotatef(view_a, 0.0f, 1.0f, 0.0f);
+            glScalef(fp->uv[ball].r,
+                     fp->uv[ball].r * 0.1f, view_m);
 
-            glEnable(GL_DEPTH_TEST);
-            game_draw_vect_prim(fp, GL_TRIANGLES);
-
-            glDisable(GL_DEPTH_TEST);
-            game_draw_vect_prim(fp, GL_LINE_STRIP);
+            vect_draw(rend);
         }
-        glPopAttrib();
-        glPopAttrib();
-        glPopAttrib();
-        glPopAttrib();
+        glPopMatrix();
+        glEnable(GL_LIGHTING);
     }
 }
 
-static void game_draw_balls(const struct s_file *fp,
+static void game_draw_balls(struct s_rend *rend,
+                            const struct s_vary *fp,
                             const float *bill_M, float t)
 {
     static const GLfloat color[5][4] = {
@@ -192,6 +159,8 @@ static void game_draw_balls(const struct s_file *fp,
     };
 
     int ui;
+
+    sol_color_mtrl(rend, 1);
 
     for (ui = curr_party(); ui > 0; ui--)
     {
@@ -212,10 +181,11 @@ static void game_draw_balls(const struct s_file *fp,
                          fp->uv[ui].r,
                          fp->uv[ui].r);
 
-                glEnable(GL_COLOR_MATERIAL);
-                glColor4fv(color[ui]);
-                ball_draw(ball_M, pend_M, bill_M, t);
-                glDisable(GL_COLOR_MATERIAL);
+                glColor4f(color[ui][0],
+                          color[ui][1],
+                          color[ui][2],
+                          color[ui][3]);
+                ball_draw(rend, ball_M, pend_M, bill_M, t);
             }
             glPopMatrix();
         }
@@ -234,15 +204,17 @@ static void game_draw_balls(const struct s_file *fp,
                           color[ui][1],
                           color[ui][2], 0.5f);
 
-                mark_draw();
+                mark_draw(rend);
             }
             glPopMatrix();
         }
     }
+
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    sol_color_mtrl(rend, 0);
 }
 
-static void game_draw_goals(const struct s_file *fp)
+static void game_draw_goals(struct s_rend *rend, const struct s_base *fp)
 {
     int zi;
 
@@ -253,14 +225,15 @@ static void game_draw_goals(const struct s_file *fp)
             glTranslatef(fp->zv[zi].p[0],
                          fp->zv[zi].p[1],
                          fp->zv[zi].p[2]);
-            flag_draw();
+            flag_draw(rend);
         }
         glPopMatrix();
     }
 }
 
-static void game_draw_jumps(const struct s_file *fp)
+static void game_draw_jumps(struct s_rend *rend, const struct s_base *fp)
 {
+    float t = 0.001f * SDL_GetTicks();
     int ji;
 
     for (ji = 0; ji < fp->jc; ji++)
@@ -272,29 +245,31 @@ static void game_draw_jumps(const struct s_file *fp)
                          fp->jv[ji].p[2]);
 
             glScalef(fp->jv[ji].r, 1.f, fp->jv[ji].r);
-            jump_draw(!jump_e);
+            jump_draw(rend, t, !jump_e);
         }
         glPopMatrix();
     }
 }
 
-static void game_draw_swchs(const struct s_file *fp)
+static void game_draw_swchs(struct s_rend *rend, const struct s_vary *fp)
 {
     int xi;
 
     for (xi = 0; xi < fp->xc; xi++)
     {
-        if (fp->xv[xi].i)
+        struct v_swch *xp = fp->xv + xi;
+
+        if (xp->base->i)
             continue;
 
         glPushMatrix();
         {
-            glTranslatef(fp->xv[xi].p[0],
-                         fp->xv[xi].p[1],
-                         fp->xv[xi].p[2]);
+            glTranslatef(xp->base->p[0],
+                         xp->base->p[1],
+                         xp->base->p[2]);
 
-            glScalef(fp->xv[xi].r, 1.f, fp->xv[xi].r);
-            swch_draw(fp->xv[xi].f, fp->xv[xi].e);
+            glScalef(xp->base->r, 1.f, xp->base->r);
+            swch_draw(rend, xp->f, xp->e);
         }
         glPopMatrix();
     }
@@ -302,23 +277,41 @@ static void game_draw_swchs(const struct s_file *fp)
 
 /*---------------------------------------------------------------------------*/
 
+static void game_shadow_conf(int enable)
+{
+    if (enable && config_get_d(CONFIG_SHADOW))
+    {
+        tex_env_select(&tex_env_shadow_clip,
+                       &tex_env_shadow,
+                       &tex_env_default,
+                       NULL);
+    }
+    else
+    {
+        tex_env_active(&tex_env_default);
+    }
+}
+
 void game_draw(int pose, float t)
 {
-    static const float a[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-    static const float s[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-    static const float e[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    static const float h[1] = { 0.0f };
+    const float light_p[4] = { 8.f, 32.f, 8.f, 0.f };
 
-    const float light_p[4] = { 8.f, 32.f, 8.f, 1.f };
-
-    const struct s_file *fp = &file;
+    struct s_draw *fp = &file.draw;
+    struct s_rend rend;
 
     float fov = FOV;
+
+    if (!state)
+        return;
+
+    fp->shadow_ui = ball;
+
+    game_shadow_conf(1);
+    sol_draw_enable(&rend);
 
     if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
     video_push_persp(fov, 0.1f, FAR_DIST);
-    glPushAttrib(GL_LIGHTING_BIT);
     glPushMatrix();
     {
         float T[16], M[16], v[3], rx, ry;
@@ -340,7 +333,7 @@ void game_draw(int pose, float t)
         glPushMatrix();
         {
             glTranslatef(view_p[0], view_p[1], view_p[2]);
-            back_draw(0);
+            back_draw(&rend, 0);
         }
         glPopMatrix();
 
@@ -349,14 +342,7 @@ void game_draw(int pose, float t)
 
         /* Draw the floor. */
 
-        sol_draw(fp, 0, 1);
-
-        if (config_get_d(CONFIG_SHADOW) && !pose)
-        {
-            shad_draw_set(fp->uv[ball].p, fp->uv[ball].r);
-            sol_shad(fp);
-            shad_draw_clr();
-        }
+        sol_draw(fp, &rend, 0, 1);
 
         /* Draw the game elements. */
 
@@ -365,33 +351,25 @@ void game_draw(int pose, float t)
 
         if (pose == 0)
         {
-            game_draw_balls(fp, T, t);
-            game_draw_vect(fp);
+            game_draw_balls(&rend, fp->vary, T, t);
+            game_draw_vect(&rend, fp->vary);
         }
 
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   a);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  s);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  e);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, h);
-
-        game_draw_goals(fp);
-
-        glEnable(GL_COLOR_MATERIAL);
         glDisable(GL_LIGHTING);
-        glDisable(GL_TEXTURE_2D);
         glDepthMask(GL_FALSE);
         {
-            game_draw_jumps(fp);
-            game_draw_swchs(fp);
+            game_draw_goals(&rend, fp->base);
+            game_draw_jumps(&rend, fp->base);
+            game_draw_swchs(&rend, fp->vary);
         }
         glDepthMask(GL_TRUE);
-        glEnable(GL_TEXTURE_2D);
         glEnable(GL_LIGHTING);
-        glDisable(GL_COLOR_MATERIAL);
     }
     glPopMatrix();
-    glPopAttrib();
     video_pop_matrix();
+
+    sol_draw_disable(&rend);
+    game_shadow_conf(0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -407,10 +385,13 @@ void game_update_view(float dt)
     float d[3];
     float s = 2.f * dt;
 
+    if (!state)
+        return;
+
     /* Center the view about the ball. */
 
-    v_cpy(view_c, file.uv[ball].p);
-    v_inv(view_v, file.uv[ball].v);
+    v_cpy(view_c, file.vary.uv[ball].p);
+    v_inv(view_v, file.vary.uv[ball].v);
 
     switch (config_get_d(CONFIG_CAMERA))
     {
@@ -467,7 +448,7 @@ static int game_update_state(float dt)
 {
     static float t = 0.f;
 
-    struct s_file *fp = &file;
+    struct s_vary *fp = &file.vary;
     float p[3];
 
     if (dt > 0.f)
@@ -477,13 +458,13 @@ static int game_update_state(float dt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, ball) == SWCH_TRIGGER)
+    if (sol_swch_test(fp, ball) == SWCH_INSIDE)
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
     if (jump_e == 1 && jump_b == 0 && (sol_jump_test(fp, jump_p, ball) ==
-                                       JUMP_TRIGGER))
+                                       JUMP_INSIDE))
     {
         jump_b  = 1;
         jump_e  = 0;
@@ -536,7 +517,7 @@ static int game_update_state(float dt)
 
 int game_step(const float g[3], float dt)
 {
-    struct s_file *fp = &file;
+    struct s_vary *fp = &file.vary;
 
     static float s = 0.f;
     static float t = 0.f;
@@ -545,6 +526,9 @@ int game_step(const float g[3], float dt)
     float b = 0.f;
     float st = 0.f;
     int i, n = 1, m = 0;
+
+    if (!state)
+        return GAME_NONE;
 
     s = (7.f * s + dt) / 8.f;
     t = s;
@@ -602,9 +586,9 @@ void game_putt(void)
      * friction too early and stopping the ball prematurely.
      */
 
-    file.uv[ball].v[0] = -4.f * view_e[2][0] * view_m;
-    file.uv[ball].v[1] = -4.f * view_e[2][1] * view_m + BALL_FUDGE;
-    file.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
+    file.vary.uv[ball].v[0] = -4.f * view_e[2][0] * view_m;
+    file.vary.uv[ball].v[1] = -4.f * view_e[2][1] * view_m + BALL_FUDGE;
+    file.vary.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
 
     view_m = 0.f;
 }
@@ -631,7 +615,7 @@ void game_set_mag(int d)
 
 void game_set_fly(float k)
 {
-    struct s_file *fp = &file;
+    struct s_vary *fp = &file.vary;
 
     float  x[3] = { 1.f, 0.f, 0.f };
     float  y[3] = { 0.f, 1.f, 0.f };
@@ -642,9 +626,12 @@ void game_set_fly(float k)
     float p1[3] = { 0.f, 0.f, 0.f };
     float  v[3];
 
+    if (!state)
+        return;
+
     v_cpy(view_e[0], x);
     v_cpy(view_e[1], y);
-    v_sub(view_e[2], fp->uv[ball].p, fp->zv[0].p);
+    v_sub(view_e[2], fp->uv[ball].p, fp->base->zv[0].p);
 
     if (fabs(v_dot(view_e[1], view_e[2])) > 0.999)
         v_cpy(view_e[2], z);
@@ -668,18 +655,18 @@ void game_set_fly(float k)
 
     /* k = +1.0 view is s_view 0 */
 
-    if (k >= 0 && fp->wc > 0)
+    if (k >= 0 && fp->base->wc > 0)
     {
-        v_cpy(p1, fp->wv[0].p);
-        v_cpy(c1, fp->wv[0].q);
+        v_cpy(p1, fp->base->wv[0].p);
+        v_cpy(c1, fp->base->wv[0].q);
     }
 
     /* k = -1.0 view is s_view 1 */
 
-    if (k <= 0 && fp->wc > 1)
+    if (k <= 0 && fp->base->wc > 1)
     {
-        v_cpy(p1, fp->wv[1].p);
-        v_cpy(c1, fp->wv[1].q);
+        v_cpy(p1, fp->base->wv[1].p);
+        v_cpy(c1, fp->base->wv[1].q);
     }
 
     /* Interpolate the views. */
@@ -710,32 +697,32 @@ void game_ball(int i)
     jump_e = 1;
     jump_b = 0;
 
-    for (ui = 0; ui < file.uc; ui++)
+    for (ui = 0; ui < file.vary.uc; ui++)
     {
-        file.uv[ui].v[0] = 0.f;
-        file.uv[ui].v[1] = 0.f;
-        file.uv[ui].v[2] = 0.f;
+        file.vary.uv[ui].v[0] = 0.f;
+        file.vary.uv[ui].v[1] = 0.f;
+        file.vary.uv[ui].v[2] = 0.f;
 
-        file.uv[ui].w[0] = 0.f;
-        file.uv[ui].w[1] = 0.f;
-        file.uv[ui].w[2] = 0.f;
+        file.vary.uv[ui].w[0] = 0.f;
+        file.vary.uv[ui].w[1] = 0.f;
+        file.vary.uv[ui].w[2] = 0.f;
     }
 }
 
 void game_get_pos(float p[3], float e[3][3])
 {
-    v_cpy(p,    file.uv[ball].p);
-    v_cpy(e[0], file.uv[ball].e[0]);
-    v_cpy(e[1], file.uv[ball].e[1]);
-    v_cpy(e[2], file.uv[ball].e[2]);
+    v_cpy(p,    file.vary.uv[ball].p);
+    v_cpy(e[0], file.vary.uv[ball].e[0]);
+    v_cpy(e[1], file.vary.uv[ball].e[1]);
+    v_cpy(e[2], file.vary.uv[ball].e[2]);
 }
 
 void game_set_pos(float p[3], float e[3][3])
 {
-    v_cpy(file.uv[ball].p,    p);
-    v_cpy(file.uv[ball].e[0], e[0]);
-    v_cpy(file.uv[ball].e[1], e[1]);
-    v_cpy(file.uv[ball].e[2], e[2]);
+    v_cpy(file.vary.uv[ball].p,    p);
+    v_cpy(file.vary.uv[ball].e[0], e[0]);
+    v_cpy(file.vary.uv[ball].e[1], e[1]);
+    v_cpy(file.vary.uv[ball].e[2], e[2]);
 }
 
 /*---------------------------------------------------------------------------*/

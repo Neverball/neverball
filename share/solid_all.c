@@ -17,7 +17,8 @@
 
 #include "solid_all.h"
 #include "solid_cmd.h"
-#include "solid.h"
+#include "solid_vary.h"
+
 #include "common.h"
 #include "vec3.h"
 #include "geom.h"
@@ -36,70 +37,92 @@ static float derp(float t)
 }
 #endif
 
-void sol_body_p(float p[3], const struct s_file *fp, int pi, float t)
+void sol_body_p(float p[3],
+                const struct s_vary *vary,
+                const struct v_body *bp,
+                float dt)
 {
     float v[3];
 
-    if (pi >= 0)
+    if (bp->mi >= 0)
     {
-        const struct s_path *pp = fp->pv + pi;
-        const struct s_path *pq = fp->pv + pp->pi;
+        const struct v_move *mp = vary->mv + bp->mi;
 
-        float s = MIN(t / pp->t, 1.0f);
+        const struct b_path *pp = vary->base->pv + mp->pi;
+        const struct b_path *pq = vary->base->pv + pp->pi;
+
+        float s;
+
+        if (vary->pv[mp->pi].f)
+            s = (mp->t + dt) / pp->t;
+        else
+            s = mp->t / pp->t;
 
         v_sub(v, pq->p, pp->p);
         v_mad(p, pp->p, v, pp->s ? erp(s) : s);
+
+        return;
     }
-    else
-    {
-        p[0] = 0.0f;
-        p[1] = 0.0f;
-        p[2] = 0.0f;
-    }
+
+    p[0] = 0.0f;
+    p[1] = 0.0f;
+    p[2] = 0.0f;
 }
 
 void sol_body_v(float v[3],
-                const struct s_file *fp,
-                int pi, float t, float dt)
+                const struct s_vary *vary,
+                const struct v_body *bp,
+                float dt)
 {
-    if (pi >= 0 && fp->pv[pi].f)
+    if (bp->mi >= 0)
     {
-        float p[3], q[3];
+        const struct v_move *mp = vary->mv + bp->mi;
 
-        sol_body_p(p, fp, pi, t);
-        sol_body_p(q, fp, pi, t + dt);
+        if (vary->pv[mp->pi].f)
+        {
+            float p[3], q[3];
 
-        v_sub(v, q, p);
+            sol_body_p(p, vary, bp, 0.0f);
+            sol_body_p(q, vary, bp, dt);
 
-        v[0] /= dt;
-        v[1] /= dt;
-        v[2] /= dt;
+            v_sub(v, q, p);
+
+            v[0] /= dt;
+            v[1] /= dt;
+            v[2] /= dt;
+
+            return;
+        }
     }
-    else
-    {
-        v[0] = 0.0f;
-        v[1] = 0.0f;
-        v[2] = 0.0f;
-    }
+
+    v[0] = 0.0f;
+    v[1] = 0.0f;
+    v[2] = 0.0f;
 }
 
 void sol_body_e(float e[4],
-                const struct s_file *fp,
-                const struct s_body *bp,
+                const struct s_vary *vary,
+                const struct v_body *bp,
                 float dt)
 {
-    struct s_path *pp = fp->pv + bp->pi;
-
-    if (bp->pi >= 0)
+    if (bp->mj >= 0)
     {
-        struct s_path *pq = fp->pv + pp->pi;
+        const struct v_move *mp = vary->mv + bp->mj;
+
+        const struct b_path *pp = vary->base->pv + mp->pi;
+        const struct b_path *pq = vary->base->pv + pp->pi;
 
         if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
         {
-            if (!pp->f)
-                dt = 0;
+            float s;
 
-            q_slerp(e, pp->e, pq->e, (bp->t + dt) / pp->t);
+            if (vary->pv[mp->pi].f)
+                s = (mp->t + dt) / pp->t;
+            else
+                s = mp->t / pp->t;
+
+            q_slerp(e, pp->e, pq->e, pp->s ? erp(s) : s);
+
             return;
         }
     }
@@ -110,53 +133,26 @@ void sol_body_e(float e[4],
     e[3] = 0.0f;
 }
 
-void sol_body_w(float w[3],
-                const struct s_file *fp,
-                const struct s_body *bp)
+/*
+ * Determine if the body might be rotating.
+ */
+int sol_body_w(const struct s_vary *vary,
+               const struct v_body *bp)
 {
-    struct s_path *pp = fp->pv + bp->pi;
-
-    if (bp->pi >= 0 && pp->f)
+    if (bp->mj >= 0)
     {
-        struct s_path *pq = fp->pv + pp->pi;
+        const struct v_move *mp = vary->mv + bp->mj;
 
-        if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
+        if (vary->pv[mp->pi].f)
         {
-            float d[4], i[4], a;
+            const struct b_path *pp = vary->base->pv + mp->pi;
+            const struct b_path *pq = vary->base->pv + pp->pi;
 
-            /*
-             * a * d = b
-             * d = b / a
-             * d = b * (1 / a)
-             */
-
-            i[0] =  pp->e[0];
-            i[1] = -pp->e[1];
-            i[2] = -pp->e[2];
-            i[3] = -pp->e[3];
-
-            q_mul(d, pq->e, i);
-            q_nrm(d, d);
-
-            /* Match slerp by using the short path. */
-
-            if (d[0] < 0)
-            {
-                d[0] = -d[0];
-                d[1] = -d[1];
-                d[2] = -d[2];
-                d[3] = -d[3];
-            }
-
-            q_as_axisangle(d, w, &a);
-            v_scl(w, w, a / pp->t);
-            return;
+            if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
+                return 1;
         }
     }
-
-    w[0] = 0.0f;
-    w[1] = 0.0f;
-    w[2] = 0.0f;
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -200,7 +196,7 @@ void sol_rotate(float e[3][3], const float w[3], float dt)
  * Compute the new angular velocity and orientation of a ball pendulum.
  * A gives the accelleration of the ball.  G gives the gravity vector.
  */
-void sol_pendulum(struct s_ball *up,
+void sol_pendulum(struct v_ball *up,
                   const float a[3],
                   const float g[3], float dt)
 {
@@ -248,49 +244,85 @@ void sol_pendulum(struct s_ball *up,
 
 /*---------------------------------------------------------------------------*/
 
+static void sol_path_flag(struct s_vary *vary, int pi, int f)
+{
+    union cmd cmd;
+
+    if (vary->pv[pi].f == f)
+        return;
+
+    vary->pv[pi].f = f;
+
+    cmd.type = CMD_PATH_FLAG;
+    cmd.pathflag.pi = pi;
+    cmd.pathflag.f = vary->pv[pi].f;
+    sol_cmd_enq(&cmd);
+}
+
+static void sol_path_loop(struct s_vary *vary, int p0, int f)
+{
+    int pi = p0;
+    int pj = p0;
+    int pk;
+
+    do  /* Tortoise and hare cycle traverser. */
+    {
+        sol_path_flag(vary, pi, f);
+
+        pi = vary->base->pv[pi].pi;
+        pj = vary->base->pv[pj].pi;
+        pj = vary->base->pv[pj].pi;
+    }
+    while (pi != pj);
+
+    /*
+     * At this point, the indices point to a node in the loop, but we
+     * still need to walk any remaining nodes in that loop. This is
+     * essentially the second part of the tortoise and hare algorithm
+     * which finds the start of the loop, although we only care about
+     * walking the remaining nodes.
+     */
+
+    pj = p0;
+    pk = pi;
+
+    do
+    {
+        sol_path_flag(vary, pi, f);
+
+        pi = vary->base->pv[pi].pi;
+        pj = vary->base->pv[pj].pi;
+    }
+    while (pi != pj && pi != pk);
+}
+
+/*---------------------------------------------------------------------------*/
+
 /*
  * Compute the states of all switches after DT seconds have passed.
  */
-void sol_swch_step(struct s_file *fp, float dt)
+void sol_swch_step(struct s_vary *vary, float dt, int ms)
 {
     int xi;
 
     union cmd cmd;
 
-    for (xi = 0; xi < fp->xc; xi++)
+    for (xi = 0; xi < vary->xc; xi++)
     {
-        struct s_swch *xp = fp->xv + xi;
+        struct v_swch *xp = vary->xv + xi;
 
-        volatile float t = xp->t;
-
-        if (t < xp->t0)
+        if (xp->tm < xp->base->tm)
         {
-            xp->t = (t += dt);
+            xp->t += dt;
+            xp->tm += ms;
 
-            if (t >= xp->t0)
+            if (xp->tm >= xp->base->tm)
             {
-                int pi = xp->pi;
-                int pj = xp->pi;
+                sol_path_loop(vary, xp->base->pi, xp->base->f);
 
-                do  /* Tortoise and hare cycle traverser. */
-                {
-                    fp->pv[pi].f = xp->f0;
-                    fp->pv[pj].f = xp->f0;
+                xp->f = xp->base->f;
 
-                    cmd.type        = CMD_PATH_FLAG;
-                    cmd.pathflag.pi = pi;
-                    cmd.pathflag.f  = fp->pv[pi].f;
-                    sol_cmd_enq(&cmd);
-
-                    pi = fp->pv[pi].pi;
-                    pj = fp->pv[pj].pi;
-                    pj = fp->pv[pj].pi;
-                }
-                while (pi != pj);
-
-                xp->f = xp->f0;
-
-                cmd.type          = CMD_SWCH_TOGGLE;
+                cmd.type = CMD_SWCH_TOGGLE;
                 cmd.swchtoggle.xi = xi;
                 sol_cmd_enq(&cmd);
             }
@@ -299,38 +331,39 @@ void sol_swch_step(struct s_file *fp, float dt)
 }
 
 /*
- * Compute the positions of all bodies after DT seconds have passed.
+ * Compute the positions of all movers after DT seconds have passed.
  */
-void sol_body_step(struct s_file *fp, float dt)
+void sol_move_step(struct s_vary *vary, float dt, int ms)
 {
     int i;
 
     union cmd cmd;
 
-    for (i = 0; i < fp->bc; i++)
+    for (i = 0; i < vary->mc; i++)
     {
-        struct s_body *bp = fp->bv + i;
-        struct s_path *pp = fp->pv + bp->pi;
+        struct v_move *mp = vary->mv + i;
 
-        volatile float t = bp->t;
-
-        if (bp->pi >= 0 && pp->f)
+        if (vary->pv[mp->pi].f)
         {
-            bp->t = (t += dt);
+            struct v_path *pp = vary->pv + mp->pi;
 
-            if (t >= pp->t)
+            mp->t  += dt;
+            mp->tm += ms;
+
+            if (mp->tm >= pp->base->tm)
             {
-                bp->t  = 0;
-                bp->pi = pp->pi;
+                mp->t  = 0;
+                mp->tm = 0;
+                mp->pi = pp->base->pi;
 
-                cmd.type        = CMD_BODY_TIME;
-                cmd.bodytime.bi = i;
-                cmd.bodytime.t  = bp->t;
+                cmd.type        = CMD_MOVE_TIME;
+                cmd.movetime.mi = i;
+                cmd.movetime.t  = mp->t;
                 sol_cmd_enq(&cmd);
 
-                cmd.type        = CMD_BODY_PATH;
-                cmd.bodypath.bi = i;
-                cmd.bodypath.pi = bp->pi;
+                cmd.type        = CMD_MOVE_PATH;
+                cmd.movepath.mi = i;
+                cmd.movepath.pi = mp->pi;
                 sol_cmd_enq(&cmd);
             }
         }
@@ -340,13 +373,13 @@ void sol_body_step(struct s_file *fp, float dt)
 /*
  * Compute the positions of all balls after DT seconds have passed.
  */
-void sol_ball_step(struct s_file *fp, float dt)
+void sol_ball_step(struct s_vary *vary, float dt)
 {
     int i;
 
-    for (i = 0; i < fp->uc; i++)
+    for (i = 0; i < vary->uc; i++)
     {
-        struct s_ball *up = fp->uv + i;
+        struct v_ball *up = vary->uv + i;
 
         v_mad(up->p, up->p, up->v, dt);
 
@@ -356,15 +389,15 @@ void sol_ball_step(struct s_file *fp, float dt)
 
 /*---------------------------------------------------------------------------*/
 
-int sol_item_test(struct s_file *fp, float *p, float item_r)
+int sol_item_test(struct s_vary *vary, float *p, float item_r)
 {
-    const float *ball_p = fp->uv->p;
-    const float  ball_r = fp->uv->r;
+    const float *ball_p = vary->uv->p;
+    const float  ball_r = vary->uv->r;
     int hi;
 
-    for (hi = 0; hi < fp->hc; hi++)
+    for (hi = 0; hi < vary->hc; hi++)
     {
-        struct s_item *hp = fp->hv + hi;
+        struct v_item *hp = vary->hv + hi;
         float r[3];
 
         v_sub(r, ball_p, hp->p);
@@ -381,15 +414,15 @@ int sol_item_test(struct s_file *fp, float *p, float item_r)
     return -1;
 }
 
-struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
+struct b_goal *sol_goal_test(struct s_vary *vary, float *p, int ui)
 {
-    const float *ball_p = fp->uv[ui].p;
-    const float  ball_r = fp->uv[ui].r;
+    const float *ball_p = vary->uv[ui].p;
+    const float  ball_r = vary->uv[ui].r;
     int zi;
 
-    for (zi = 0; zi < fp->zc; zi++)
+    for (zi = 0; zi < vary->base->zc; zi++)
     {
-        struct s_goal *zp = fp->zv + zi;
+        struct b_goal *zp = vary->base->zv + zi;
         float r[3];
 
         r[0] = ball_p[0] - zp->p[0];
@@ -413,15 +446,15 @@ struct s_goal *sol_goal_test(struct s_file *fp, float *p, int ui)
 /*
  * Test for a ball entering a teleporter.
  */
-int sol_jump_test(struct s_file *fp, float *p, int ui)
+int sol_jump_test(struct s_vary *vary, float *p, int ui)
 {
-    const float *ball_p = fp->uv[ui].p;
-    const float  ball_r = fp->uv[ui].r;
-    int ji, in = 0;
+    const float *ball_p = vary->uv[ui].p;
+    const float  ball_r = vary->uv[ui].r;
+    int ji, touch = 0;
 
-    for (ji = 0; ji < fp->jc; ji++)
+    for (ji = 0; ji < vary->base->jc; ji++)
     {
-        struct s_jump *jp = fp->jv + ji;
+        struct b_jump *jp = vary->base->jv + ji;
         float d, r[3];
 
         r[0] = ball_p[0] - jp->p[0];
@@ -433,7 +466,7 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
         d = v_len(r) + ball_r - jp->r;
 
         /*
-         * The "inside"  distance, which must be  cleared before being
+         * The "touch"  distance, which  must be cleared  before being
          * able to trigger a  teleporter, is the ball's radius.  (This
          * is different from switches.)
          */
@@ -442,7 +475,7 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
             ball_p[1] > jp->p[1] &&
             ball_p[1] < jp->p[1] + JUMP_HEIGHT / 2)
         {
-            in = 1;
+            touch = 1;
 
             if (d <= 0.0f)
             {
@@ -450,65 +483,62 @@ int sol_jump_test(struct s_file *fp, float *p, int ui)
                 p[1] = jp->q[1] + (ball_p[1] - jp->p[1]);
                 p[2] = jp->q[2] + (ball_p[2] - jp->p[2]);
 
-                return JUMP_TRIGGER;
+                return JUMP_INSIDE;
             }
         }
     }
-    return in ? JUMP_INSIDE : JUMP_OUTSIDE;
+    return touch ? JUMP_TOUCH : JUMP_OUTSIDE;
 }
 
 /*
  * Test for a ball entering a switch.
  */
-int sol_swch_test(struct s_file *fp, int ui)
+int sol_swch_test(struct s_vary *vary, int ui)
 {
-    const float *ball_p = fp->uv[ui].p;
-    const float  ball_r = fp->uv[ui].r;
+    const float *ball_p = vary->uv[ui].p;
+    const float  ball_r = vary->uv[ui].r;
 
     union cmd cmd;
 
     int xi, rc = SWCH_OUTSIDE;
 
-    for (xi = 0; xi < fp->xc; xi++)
+    for (xi = 0; xi < vary->xc; xi++)
     {
-        struct s_swch *xp = fp->xv + xi;
+        struct v_swch *xp = vary->xv + xi;
 
         /* FIXME enter/exit events don't work for timed switches */
 
-        if (xp->t0 == 0 || xp->f == xp->f0)
+        if (xp->base->t == 0 || xp->f == xp->base->f)
         {
             float d, r[3];
 
-            r[0] = ball_p[0] - xp->p[0];
-            r[1] = ball_p[2] - xp->p[2];
+            r[0] = ball_p[0] - xp->base->p[0];
+            r[1] = ball_p[2] - xp->base->p[2];
             r[2] = 0;
 
             /* Distance of the far side from the edge of the halo. */
 
-            d = v_len(r) + ball_r - xp->r;
+            d = v_len(r) + ball_r - xp->base->r;
 
             /*
-             * The  "inside" distance,  which must  be  cleared before
+             * The  "touch"  distance, which  must  be cleared  before
              * being able to trigger a switch, is the ball's diameter.
              * (This is different from teleporters.)
              */
 
             if (d <= ball_r * 2 &&
-                ball_p[1] > xp->p[1] &&
-                ball_p[1] < xp->p[1] + SWCH_HEIGHT / 2)
+                ball_p[1] > xp->base->p[1] &&
+                ball_p[1] < xp->base->p[1] + SWCH_HEIGHT / 2)
             {
                 if (!xp->e && d <= 0.0f)
                 {
-                    int pi = xp->pi;
-                    int pj = xp->pi;
-
                     /* The ball enters. */
 
-                    if (xp->t0 == 0)
+                    if (xp->base->tm == 0)
                     {
                         xp->e = 1;
 
-                        cmd.type         = CMD_SWCH_ENTER;
+                        cmd.type = CMD_SWCH_ENTER;
                         cmd.swchenter.xi = xi;
                         sol_cmd_enq(&cmd);
                     }
@@ -517,35 +547,24 @@ int sol_swch_test(struct s_file *fp, int ui)
 
                     xp->f = xp->f ? 0 : 1;
 
-                    cmd.type          = CMD_SWCH_TOGGLE;
+                    cmd.type = CMD_SWCH_TOGGLE;
                     cmd.swchtoggle.xi = xi;
                     sol_cmd_enq(&cmd);
 
-                    do  /* Tortoise and hare cycle traverser. */
-                    {
-                        fp->pv[pi].f = xp->f;
-                        fp->pv[pj].f = xp->f;
-
-                        cmd.type        = CMD_PATH_FLAG;
-                        cmd.pathflag.pi = pi;
-                        cmd.pathflag.f  = fp->pv[pi].f;
-                        sol_cmd_enq(&cmd);
-
-                        pi = fp->pv[pi].pi;
-                        pj = fp->pv[pj].pi;
-                        pj = fp->pv[pj].pi;
-                    }
-                    while (pi != pj);
+                    sol_path_loop(vary, xp->base->pi, xp->f);
 
                     /* It toggled to non-default state, start the timer. */
 
-                    if (xp->f != xp->f0)
+                    if (xp->f != xp->base->f)
+                    {
                         xp->t = 0.0f;
+                        xp->tm = 0;
+                    }
 
                     /* If visible, set the result. */
 
-                    if (!xp->i)
-                        rc = SWCH_TRIGGER;
+                    if (!xp->base->i)
+                        rc = SWCH_INSIDE;
                 }
             }
 
@@ -555,7 +574,7 @@ int sol_swch_test(struct s_file *fp, int ui)
             {
                 xp->e = 0;
 
-                cmd.type        = CMD_SWCH_EXIT;
+                cmd.type = CMD_SWCH_EXIT;
                 cmd.swchexit.xi = xi;
                 sol_cmd_enq(&cmd);
             }

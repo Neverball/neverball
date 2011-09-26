@@ -20,7 +20,6 @@
 
 #include "demo.h"
 #include "audio.h"
-#include "solid.h"
 #include "config.h"
 #include "binary.h"
 #include "common.h"
@@ -376,6 +375,11 @@ static void demo_update_read(float dt)
 }
 
 static struct lockstep update_step = { demo_update_read, DT };
+
+float demo_replay_blend(void)
+{
+    return lockstep_blend(&update_step);
+}
 
 /*---------------------------------------------------------------------------*/
 

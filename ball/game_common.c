@@ -15,7 +15,8 @@
 #include "game_common.h"
 #include "vec3.h"
 #include "config.h"
-#include "solid.h"
+#include "solid_vary.h"
+#include "common.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -113,7 +114,7 @@ void game_view_init(struct game_view *view)
     view->e[2][2] = 1.0f;
 }
 
-void game_view_fly(struct game_view *view, const struct s_file *fp, float k)
+void game_view_fly(struct game_view *view, const struct s_vary *vary, float k)
 {
     /* float  x[3] = { 1.f, 0.f, 0.f }; */
     float  y[3] = { 0.f, 1.f, 0.f };
@@ -128,10 +129,10 @@ void game_view_fly(struct game_view *view, const struct s_file *fp, float k)
 
     /* k = 0.0 view is at the ball. */
 
-    if (fp->uc > 0)
+    if (vary->uc > 0)
     {
-        v_cpy(c0, fp->uv[0].p);
-        v_cpy(p0, fp->uv[0].p);
+        v_cpy(c0, vary->uv[0].p);
+        v_cpy(p0, vary->uv[0].p);
     }
 
     v_mad(p0, p0, y, view->dp);
@@ -140,18 +141,18 @@ void game_view_fly(struct game_view *view, const struct s_file *fp, float k)
 
     /* k = +1.0 view is s_view 0 */
 
-    if (k >= 0 && fp->wc > 0)
+    if (k >= 0 && vary->base->wc > 0)
     {
-        v_cpy(p1, fp->wv[0].p);
-        v_cpy(c1, fp->wv[0].q);
+        v_cpy(p1, vary->base->wv[0].p);
+        v_cpy(c1, vary->base->wv[0].q);
     }
 
     /* k = -1.0 view is s_view 1 */
 
-    if (k <= 0 && fp->wc > 1)
+    if (k <= 0 && vary->base->wc > 1)
     {
-        v_cpy(p1, fp->wv[1].p);
-        v_cpy(c1, fp->wv[1].q);
+        v_cpy(p1, vary->base->wv[1].p);
+        v_cpy(c1, vary->base->wv[1].q);
     }
 
     /* Interpolate the views. */
@@ -193,6 +194,50 @@ void lockstep_run(struct lockstep *ls, float dt)
 void lockstep_scl(struct lockstep *ls, float ts)
 {
     ls->ts = ts;
+}
+
+/*---------------------------------------------------------------------------*/
+
+/* Poor man's cache. */
+
+struct s_base  game_base;
+static char   *base_path;
+
+int game_base_load(const char *path)
+{
+    if (base_path)
+    {
+        if (strcmp(base_path, path) == 0)
+            return 1;
+
+        sol_free_base(&game_base);
+
+        free(base_path);
+        base_path = NULL;
+    }
+
+    if (sol_load_base(&game_base, path))
+    {
+        base_path = strdup(path);
+        return 1;
+    }
+
+    return 0;
+}
+
+
+void game_base_free(const char *next)
+{
+    if (base_path)
+    {
+        if (next && strcmp(base_path, next) == 0)
+            return;
+
+        sol_free_base(&game_base);
+
+        free(base_path);
+        base_path = NULL;
+    }
 }
 
 /*---------------------------------------------------------------------------*/

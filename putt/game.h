@@ -34,7 +34,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-void  game_init(const char *);
+int   game_init(const char *);
 void  game_free(void);
 
 void  game_draw(int, float);

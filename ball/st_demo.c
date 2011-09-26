@@ -20,7 +20,6 @@
 #include "demo.h"
 #include "progress.h"
 #include "audio.h"
-#include "solid.h"
 #include "config.h"
 #include "util.h"
 #include "common.h"
@@ -124,8 +123,7 @@ static int gui_demo_thumbs(int id)
                             thumb->name = gui_state(ld, " ", GUI_SML, j, 0);
 
                             gui_set_trunc(thumb->name, TRUNC_TAIL);
-
-                            gui_active(ld, j, 0);
+                            gui_set_state(ld, j, 0);
                         }
                     }
                     else
@@ -372,7 +370,7 @@ static int demo_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_action(total ? gui_token(gui_click()) : GUI_BACK);
+            return demo_action(total ? gui_token(gui_active()) : GUI_BACK);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return demo_action(GUI_BACK);
     }
@@ -470,7 +468,10 @@ static void demo_play_timer(int id, float dt)
         goto_state(&st_demo_end);
     }
     else
+    {
         progress_step();
+        game_client_blend(demo_replay_blend());
+    }
 }
 
 static void set_speed(int d)
@@ -644,7 +645,7 @@ static int demo_end_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_end_action(gui_token(gui_click()));
+            return demo_end_action(gui_token(gui_active()));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
@@ -699,7 +700,7 @@ static int demo_del_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_del_action(gui_token(gui_click()));
+            return demo_del_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return demo_del_action(DEMO_KEEP);
     }
@@ -814,7 +815,7 @@ struct state st_demo_compat = {
     shared_point,
     shared_stick,
     shared_angle,
-    shared_click,
+    shared_click_basic,
     NULL,
     demo_compat_buttn
 };

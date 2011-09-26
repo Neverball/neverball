@@ -60,13 +60,13 @@ int goto_state(struct state *st)
 
 void st_paint(float t)
 {
-    int stereo = config_get_d(CONFIG_STEREO);
-
     state_drawn = 1;
 
     if (state && state->paint)
     {
-        if (stereo)
+        /* TODO: reimplement stereo using LR instead of quad-buffer.
+
+        if (config_get_d(CONFIG_STEREO))
         {
             glDrawBuffer(GL_BACK_LEFT);
             video_clear();
@@ -77,6 +77,7 @@ void st_paint(float t)
             state->paint(state->gui_id, t);
         }
         else
+        */
         {
             video_clear();
             state->paint(state->gui_id, t);
@@ -139,7 +140,7 @@ void st_stick(int a, float v)
         state->stick(state->gui_id, a, v, bump);
 }
 
-void st_angle(int x, int z)
+void st_angle(float x, float z)
 {
     if (state && state->angle)
         state->angle(state->gui_id, x, z);

@@ -22,7 +22,7 @@
 #include "ball.h"
 #include "cmd.h"
 #include "audio.h"
-#include "back.h"
+#include "geom.h"
 #include "video.h"
 #include "demo.h"
 
@@ -155,11 +155,15 @@ static void load_ball_demo(void)
 
     /* "g" is a stupid hack to keep the goal locked. */
 
-    demo_replay_init("gui/ball.nbr", &g, NULL, NULL, NULL, NULL);
+    if (!demo_replay_init("gui/ball.nbr", &g, NULL, NULL, NULL, NULL))
+    {
+        ball_action(BALL_BACK);
+        return;
+    }
+
     audio_music_fade_to(0.0f, "bgm/inter.ogg");
     game_client_fly(0);
     game_kill_fade();
-
     back_init("back/gui.png");
 }
 
@@ -172,7 +176,7 @@ static int ball_gui(void)
     {
         if ((jd = gui_harray(id)))
         {
-            gui_label(jd, _("Ball"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Ball Model"), GUI_SML, GUI_ALL, 0, 0);
             gui_space(jd);
             gui_start(jd, _("Back"), GUI_SML, BALL_BACK, 0);
         }
@@ -188,6 +192,7 @@ static int ball_gui(void)
                                 gui_wht, gui_wht);
 
             gui_set_trunc(name_id, TRUNC_TAIL);
+            gui_set_fill(name_id);
 
             gui_state(jd, " < ", GUI_SML, BALL_PREV, 0);
         }
@@ -223,7 +228,7 @@ static void ball_paint(int id, float t)
 {
     video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
     {
-        back_draw(0);
+        back_draw_easy();
     }
     video_pop_matrix();
 
@@ -240,6 +245,8 @@ static void ball_timer(int id, float dt)
         demo_replay_stop(0);
         load_ball_demo();
     }
+
+    game_client_blend(demo_replay_blend());
 }
 
 static int ball_buttn(int b, int d)
@@ -247,7 +254,7 @@ static int ball_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return ball_action(gui_token(gui_click()));
+            return ball_action(gui_token(gui_active()));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return ball_action(BALL_BACK);

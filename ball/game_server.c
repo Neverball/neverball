@@ -36,7 +36,7 @@
 
 static int server_state = 0;
 
-static struct s_file file;
+static struct s_vary vary;
 
 static float timer      = 0.f;          /* Clock time                        */
 static int   timer_down = 1;            /* Timer go up or down?              */
@@ -184,17 +184,17 @@ static void game_cmd_goalopen(void)
 static void game_cmd_updball(void)
 {
     cmd.type = CMD_BALL_POSITION;
-    v_cpy(cmd.ballpos.p, file.uv[0].p);
+    v_cpy(cmd.ballpos.p, vary.uv[0].p);
     game_proxy_enq(&cmd);
 
     cmd.type = CMD_BALL_BASIS;
-    v_cpy(cmd.ballbasis.e[0], file.uv[0].e[0]);
-    v_cpy(cmd.ballbasis.e[1], file.uv[0].e[1]);
+    v_cpy(cmd.ballbasis.e[0], vary.uv[0].e[0]);
+    v_cpy(cmd.ballbasis.e[1], vary.uv[0].e[1]);
     game_proxy_enq(&cmd);
 
     cmd.type = CMD_BALL_PEND_BASIS;
-    v_cpy(cmd.ballpendbasis.E[0], file.uv[0].E[0]);
-    v_cpy(cmd.ballpendbasis.E[1], file.uv[0].E[1]);
+    v_cpy(cmd.ballpendbasis.E[0], vary.uv[0].E[0]);
+    v_cpy(cmd.ballpendbasis.E[1], vary.uv[0].E[1]);
     game_proxy_enq(&cmd);
 }
 
@@ -217,7 +217,7 @@ static void game_cmd_updview(void)
 static void game_cmd_ballradius(void)
 {
     cmd.type         = CMD_BALL_RADIUS;
-    cmd.ballradius.r = file.uv[0].r;
+    cmd.ballradius.r = vary.uv[0].r;
     game_proxy_enq(&cmd);
 }
 
@@ -240,14 +240,14 @@ static void game_cmd_init_items(void)
     cmd.type = CMD_CLEAR_ITEMS;
     game_proxy_enq(&cmd);
 
-    for (i = 0; i < file.hc; i++)
+    for (i = 0; i < vary.hc; i++)
     {
         cmd.type = CMD_MAKE_ITEM;
 
-        v_cpy(cmd.mkitem.p, file.hv[i].p);
+        v_cpy(cmd.mkitem.p, vary.hv[i].p);
 
-        cmd.mkitem.t = file.hv[i].t;
-        cmd.mkitem.n = file.hv[i].n;
+        cmd.mkitem.t = vary.hv[i].t;
+        cmd.mkitem.n = vary.hv[i].n;
 
         game_proxy_enq(&cmd);
     }
@@ -322,11 +322,11 @@ static int   got_orig = 0;              /* Do we know original ball size?    */
 
 static int   grow_state = 0;            /* Current state (values -1, 0, +1)  */
 
-static void grow_init(const struct s_file *fp, int type)
+static void grow_init(const struct s_vary *vary, int type)
 {
     if (!got_orig)
     {
-        grow_orig  = fp->uv->r;
+        grow_orig  = vary->uv->r;
         grow_goal  = grow_orig;
         grow_strt  = grow_orig;
 
@@ -383,11 +383,11 @@ static void grow_init(const struct s_file *fp, int type)
     if (grow)
     {
         grow_t = 0.0;
-        grow_strt = fp->uv->r;
+        grow_strt = vary->uv->r;
     }
 }
 
-static void grow_step(const struct s_file *fp, float dt)
+static void grow_step(const struct s_vary *vary, float dt)
 {
     float dr;
 
@@ -408,8 +408,8 @@ static void grow_step(const struct s_file *fp, float dt)
 
     /* No sinking through the floor! Keeps ball's bottom constant. */
 
-    fp->uv->p[1] += (dr - fp->uv->r);
-    fp->uv->r     =  dr;
+    vary->uv->p[1] += (dr - vary->uv->r);
+    vary->uv->r     =  dr;
 
     game_cmd_ballradius();
 }
@@ -420,11 +420,7 @@ static struct lockstep server_step;
 
 int game_server_init(const char *file_name, int t, int e)
 {
-    struct
-    {
-        int x, y;
-    } version;
-
+    struct { int x, y; } version;
     int i;
 
     timer      = (float) t / 100.f;
@@ -432,21 +428,30 @@ int game_server_init(const char *file_name, int t, int e)
     coins      = 0;
     status     = GAME_NONE;
 
-    if (server_state)
-        game_server_free();
+    game_server_free(file_name);
 
-    if (!sol_load_only_file(&file, file_name))
+    /* Load SOL data. */
+
+    if (!game_base_load(file_name))
         return (server_state = 0);
 
+    if (!sol_load_vary(&vary, &game_base))
+    {
+        game_base_free(NULL);
+        return (server_state = 0);
+    }
+
     server_state = 1;
+
+    /* Get SOL version. */
 
     version.x = 0;
     version.y = 0;
 
-    for (i = 0; i < file.dc; i++)
+    for (i = 0; i < vary.base->dc; i++)
     {
-        char *k = file.av + file.dv[i].ai;
-        char *v = file.av + file.dv[i].aj;
+        char *k = vary.base->av + vary.base->dv[i].ai;
+        char *v = vary.base->av + vary.base->dv[i].aj;
 
         if (strcmp(k, "version") == 0)
             sscanf(v, "%d.%d", &version.x, &version.y);
@@ -464,40 +469,34 @@ int game_server_init(const char *file_name, int t, int e)
     goal_e = e ? 1    : 0;
     goal_k = e ? 1.0f : 0.0f;
 
-    /* Initialize the view. */
+    /* Initialize the view (and put it at the ball). */
 
-    game_view_init(&view);
-
+    game_view_fly(&view, &vary, 0.0f);
     view_k = 1.0f;
 
-    /* Initialize ball size tracking... */
+    /* Initialize ball size tracking. */
 
     got_orig = 0;
     grow = 0;
 
     /* Initialize simulation. */
 
-    sol_init_sim(&file);
-
+    sol_init_sim(&vary);
     sol_cmd_enq_func(game_proxy_enq);
 
-    /* Queue client commands. */
+    /* Send initial update. */
 
     game_cmd_map(file_name, version.x, version.y);
     game_cmd_ups();
     game_cmd_timer();
 
-    if (goal_e) game_cmd_goalopen();
+    if (goal_e)
+        game_cmd_goalopen();
 
     game_cmd_init_balls();
     game_cmd_init_items();
 
-    /* Store the initial view. */
-
-    game_server_fly(0.0f);
-
-    /* End first update. */
-
+    game_cmd_updview();
     game_cmd_eou();
 
     /* Reset lockstep state. */
@@ -507,12 +506,15 @@ int game_server_init(const char *file_name, int t, int e)
     return server_state;
 }
 
-void game_server_free(void)
+void game_server_free(const char *next)
 {
     if (server_state)
     {
         sol_quit_sim();
-        sol_free(&file);
+        sol_free_vary(&vary);
+
+        game_base_free(next);
+
         server_state = 0;
     }
 }
@@ -530,11 +532,11 @@ static void game_update_view(float dt)
 
     /* Center the view about the ball. */
 
-    v_cpy(view.c, file.uv->p);
+    v_cpy(view.c, vary.uv->p);
 
-    view_v[0] = -file.uv->v[0];
+    view_v[0] = -vary.uv->v[0];
     view_v[1] =  0.0f;
-    view_v[2] = -file.uv->v[2];
+    view_v[2] = -vary.uv->v[2];
 
     switch (input_get_c())
     {
@@ -584,11 +586,11 @@ static void game_update_view(float dt)
 
     v_scl(v,    view.e[1], view.dp * view_k);
     v_mad(v, v, view.e[2], view.dz * view_k);
-    v_add(view.p, v, file.uv->p);
+    v_add(view.p, v, vary.uv->p);
 
     /* Compute the new view center. */
 
-    v_cpy(view.c, file.uv->p);
+    v_cpy(view.c, vary.uv->p);
     v_mad(view.c, view.c, view.e[1], dc);
 
     /* Note the current view angle. */
@@ -622,21 +624,20 @@ static void game_update_time(float dt, int b)
 
 static int game_update_state(int bt)
 {
-    struct s_file *fp = &file;
-    struct s_goal *zp;
+    struct b_goal *zp;
     int hi;
 
     float p[3];
 
     /* Test for an item. */
 
-    if (bt && (hi = sol_item_test(fp, p, ITEM_RADIUS)) != -1)
+    if (bt && (hi = sol_item_test(&vary, p, ITEM_RADIUS)) != -1)
     {
-        struct s_item *hp = &file.hv[hi];
+        struct v_item *hp = vary.hv + hi;
 
         game_cmd_pkitem(hi);
 
-        grow_init(fp, hp->t);
+        grow_init(&vary, hp->t);
 
         if (hp->t == ITEM_COIN)
         {
@@ -653,26 +654,26 @@ static int game_update_state(int bt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, 0) == SWCH_TRIGGER)
+    if (sol_swch_test(&vary, 0) == SWCH_INSIDE)
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
 
-    if (jump_e == 1 && jump_b == 0 && (sol_jump_test(fp, jump_p, 0) ==
-                                       JUMP_TRIGGER))
+    if (jump_e == 1 && jump_b == 0 && (sol_jump_test(&vary, jump_p, 0) ==
+                                       JUMP_INSIDE))
     {
         jump_b  = 1;
         jump_e  = 0;
         jump_dt = 0.f;
 
-        v_sub(jump_w, jump_p, fp->uv->p);
+        v_sub(jump_w, jump_p, vary.uv->p);
         v_add(jump_w, view.p, jump_w);
 
         audio_play(AUD_JUMP, 1.f);
 
         game_cmd_jump(1);
     }
-    if (jump_e == 0 && jump_b == 0 && (sol_jump_test(fp, jump_p, 0) ==
+    if (jump_e == 0 && jump_b == 0 && (sol_jump_test(&vary, jump_p, 0) ==
                                        JUMP_OUTSIDE))
     {
         jump_e = 1;
@@ -681,7 +682,7 @@ static int game_update_state(int bt)
 
     /* Test for a goal. */
 
-    if (bt && goal_e && (zp = sol_goal_test(fp, p, 0)))
+    if (bt && goal_e && (zp = sol_goal_test(&vary, p, 0)))
     {
         audio_play(AUD_GOAL, 1.0f);
         return GAME_GOAL;
@@ -697,7 +698,7 @@ static int game_update_state(int bt)
 
     /* Test for fall-out. */
 
-    if (bt && fp->uv[0].p[1] < fp->vv[0].p[1])
+    if (bt && vary.uv[0].p[1] < vary.base->vv[0].p[1])
     {
         audio_play(AUD_FALL, 1.0f);
         return GAME_FALL;
@@ -710,8 +711,6 @@ static int game_step(const float g[3], float dt, int bt)
 {
     if (server_state)
     {
-        struct s_file *fp = &file;
-
         float h[3];
 
         /* Smooth jittery or discontinuous input. */
@@ -724,7 +723,7 @@ static int game_step(const float g[3], float dt, int bt)
         game_cmd_tiltaxes();
         game_cmd_tiltangles();
 
-        grow_step(fp, dt);
+        grow_step(&vary, dt);
 
         game_tilt_grav(h, g, &tilt);
 
@@ -736,8 +735,8 @@ static int game_step(const float g[3], float dt, int bt)
 
             if (0.5f < jump_dt)
             {
-                v_cpy(fp->uv->p, jump_p);
-                v_cpy(view.p,    jump_w);
+                v_cpy(vary.uv->p, jump_p);
+                v_cpy(view.p,      jump_w);
             }
             if (1.0f < jump_dt)
                 jump_b = 0;
@@ -746,7 +745,7 @@ static int game_step(const float g[3], float dt, int bt)
         {
             /* Run the sim. */
 
-            float b = sol_step(fp, h, dt, 0, NULL);
+            float b = sol_step(&vary, h, dt, 0, NULL);
 
             /* Mix the sound of a ball bounce. */
 
@@ -756,9 +755,9 @@ static int game_step(const float g[3], float dt, int bt)
 
                 if (got_orig)
                 {
-                    if      (fp->uv->r > grow_orig) audio_play(AUD_BUMPL, k);
-                    else if (fp->uv->r < grow_orig) audio_play(AUD_BUMPS, k);
-                    else                            audio_play(AUD_BUMPM, k);
+                    if      (vary.uv->r > grow_orig) audio_play(AUD_BUMPL, k);
+                    else if (vary.uv->r < grow_orig) audio_play(AUD_BUMPS, k);
+                    else                             audio_play(AUD_BUMPM, k);
                 }
                 else audio_play(AUD_BUMPM, k);
             }
@@ -797,6 +796,11 @@ void game_server_step(float dt)
     lockstep_run(&server_step, dt);
 }
 
+float game_server_blend(void)
+{
+    return lockstep_blend(&server_step);
+}
+
 /*---------------------------------------------------------------------------*/
 
 void game_set_goal(void)
@@ -805,11 +809,6 @@ void game_set_goal(void)
     goal_e = 1;
 
     game_cmd_goalopen();
-}
-
-void game_clr_goal(void)
-{
-    goal_e = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -824,7 +823,7 @@ void game_set_z(float k)
     input_set_z(+ANGLE_BOUND * k);
 }
 
-void game_set_ang(int x, int z)
+void game_set_ang(float x, float z)
 {
     input_set_x(x);
     input_set_z(z);
@@ -846,12 +845,6 @@ void game_set_cam(int c)
 void game_set_rot(float r)
 {
     input_set_r(r);
-}
-
-void game_server_fly(float k)
-{
-    game_view_fly(&view, &file, k);
-    game_cmd_updview();
 }
 
 /*---------------------------------------------------------------------------*/

@@ -66,23 +66,23 @@ void image_snap(const char *filename)
 
         /* Allocate the pixel buffer and copy pixels there. */
 
-        if ((p = (unsigned char *) malloc(w * h * 3)))
+        if ((p = (unsigned char *) malloc(w * h * 4)))
         {
-            glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, p);
+            glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, p);
 
             /* Allocate and initialize the row pointers. */
 
             if ((bytep = (png_bytep *) png_malloc(writep, h * sizeof (png_bytep))))
             {
                 for (i = 0; i < h; ++i)
-                    bytep[h - i - 1] = (png_bytep) (p + i * w * 3);
-
-                png_set_rows (writep, infop, bytep);
+                    bytep[h - i - 1] = (png_bytep) (p + i * w * 4);
 
                 /* Write the PNG image file. */
 
                 png_write_info(writep, infop);
-                png_write_png (writep, infop, 0, NULL);
+                png_set_filler(writep, 0, PNG_FILLER_AFTER);
+                png_write_image(writep, bytep);
+                png_write_end(writep, infop);
 
                 free(bytep);
             }
@@ -113,16 +113,16 @@ static GLuint make_texture(const void *p, int w, int h, int b)
 #ifdef GL_TEXTURE_MAX_ANISOTROPY_EXT
     int a = config_get_d(CONFIG_ANISO);
 #endif
+#ifdef GL_GENERATE_MIPMAP_SGIS
     int m = config_get_d(CONFIG_MIPMAP);
+#endif
     int k = config_get_d(CONFIG_TEXTURES);
     int W = w;
     int H = h;
 
-    GLint max;
+    GLint max = gli.max_texture_size;
 
     void *q = NULL;
-
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max);
 
     while (w / k > (int) max || h / k > (int) max)
         k *= 2;
@@ -135,8 +135,8 @@ static GLuint make_texture(const void *p, int w, int h, int b)
     glGenTextures(1, &o);
     glBindTexture(GL_TEXTURE_2D, o);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

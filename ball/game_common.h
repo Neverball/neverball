@@ -2,7 +2,7 @@
 #define GAME_COMMON_H
 
 #include "lang.h"
-#include "solid.h"
+#include "solid_vary.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -89,7 +89,7 @@ struct game_view
 };
 
 void game_view_init(struct game_view *);
-void game_view_fly(struct game_view *, const struct s_file *, float);
+void game_view_fly(struct game_view *, const struct s_vary *, float);
 
 /*---------------------------------------------------------------------------*/
 
@@ -112,6 +112,15 @@ struct lockstep
 void lockstep_clr(struct lockstep *);
 void lockstep_run(struct lockstep *, float);
 void lockstep_scl(struct lockstep *, float);
+
+#define lockstep_blend(ls) ((ls)->at / (ls)->dt)
+
+/*---------------------------------------------------------------------------*/
+
+extern struct s_base game_base;
+
+int  game_base_load(const char *);
+void game_base_free(const char *);
 
 /*---------------------------------------------------------------------------*/
 

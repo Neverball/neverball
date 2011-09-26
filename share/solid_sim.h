@@ -12,17 +12,17 @@
  * General Public License for more details.
  */
 
-#ifndef SOL_SIM_H
-#define SOL_SIM_H
+#ifndef SOLID_SIM_H
+#define SOLID_SIM_H
 
-#include "solid.h"
+#include "solid_vary.h"
 
 /*---------------------------------------------------------------------------*/
 
-void sol_init_sim(struct s_file *);
+void sol_init_sim(struct s_vary *);
 void sol_quit_sim(void);
 
-float sol_step(struct s_file *, const float *, float, int, int *);
+float sol_step(struct s_vary *, const float *, float, int, int *);
 
 /*---------------------------------------------------------------------------*/
 

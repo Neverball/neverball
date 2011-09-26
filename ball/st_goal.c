@@ -252,6 +252,7 @@ static void goal_timer(int id, float dt)
         {
             game_server_step(dt);
             game_client_sync(demo_fp);
+            game_client_blend(game_server_blend());
         }
         else if (t > 0.05f && coins_id)
         {
@@ -300,7 +301,7 @@ static int goal_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return goal_action(gui_token(gui_click()));
+            return goal_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return goal_action(GOAL_BACK);
     }

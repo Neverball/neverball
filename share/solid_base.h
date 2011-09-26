@@ -12,10 +12,9 @@
  * General Public License for more details.
  */
 
-#ifndef SOL_H
-#define SOL_H
+#ifndef SOLID_BASE_H
+#define SOLID_BASE_H
 
-#include "glext.h"
 #include "base_config.h"
 
 /*
@@ -30,27 +29,28 @@
  * structure to which the variable  refers.  Y determines the usage of
  * the variable.
  *
- * The Xs are as documented by struct s_file:
+ * The Xs are as documented by struct s_base:
  *
- *     f  File          (struct s_file)
- *     m  Material      (struct s_mtrl)
- *     v  Vertex        (struct s_vert)
- *     e  Edge          (struct s_edge)
- *     s  Side          (struct s_side)
- *     t  Texture coord (struct s_texc)
- *     g  Geometry      (struct s_geom)
- *     l  Lump          (struct s_lump)
- *     n  Node          (struct s_node)
- *     p  Path          (struct s_path)
- *     b  Body          (struct s_body)
- *     h  Item          (struct s_item)
- *     z  Goal          (struct s_goal)
- *     j  Jump          (struct s_jump)
- *     x  Switch        (struct s_swch)
- *     r  Billboard     (struct s_bill)
- *     u  User          (struct s_ball)
- *     w  Viewpoint     (struct s_view)
- *     d  Dictionary    (struct s_dict)
+ *     f  File          (struct s_base)
+ *     m  Material      (struct b_mtrl)
+ *     v  Vertex        (struct b_vert)
+ *     e  Edge          (struct b_edge)
+ *     s  Side          (struct b_side)
+ *     t  Texture coord (struct b_texc)
+ *     g  Geometry      (struct b_geom)
+ *     o  Offset        (struct b_offs)
+ *     l  Lump          (struct b_lump)
+ *     n  Node          (struct b_node)
+ *     p  Path          (struct b_path)
+ *     b  Body          (struct b_body)
+ *     h  Item          (struct b_item)
+ *     z  Goal          (struct b_goal)
+ *     j  Jump          (struct b_jump)
+ *     x  Switch        (struct b_swch)
+ *     r  Billboard     (struct b_bill)
+ *     u  User          (struct b_ball)
+ *     w  Viewpoint     (struct b_view)
+ *     d  Dictionary    (struct b_dict)
  *     i  Index         (int)
  *     a  Text          (char)
  *
@@ -72,21 +72,27 @@
  * Those members that do not conform to this convention are explicitly
  * documented with a comment.
  *
- * These prefixes are still available: c k o q y.
+ * These prefixes are still available: c k q y.
+ */
+
+/*
+ * Additionally, solid data is split into three main parts: static
+ * data (base), simulation data (vary), and rendering data (draw).
  */
 
 /*---------------------------------------------------------------------------*/
 
 /* Material type flags */
 
-#define M_OPAQUE       1
-#define M_TRANSPARENT  2
-#define M_REFLECTIVE   4
-#define M_ENVIRONMENT  8
-#define M_ADDITIVE    16
-#define M_CLAMPED     32
-#define M_DECAL       64
-#define M_TWO_SIDED  128
+#define M_REFLECTIVE  (1 <<  8)
+#define M_TRANSPARENT (1 <<  7)
+#define M_SHADOWED    (1 <<  6)
+#define M_DECAL       (1 <<  5)
+#define M_ENVIRONMENT (1 <<  4)
+#define M_TWO_SIDED   (1 <<  3)
+#define M_ADDITIVE    (1 <<  2)
+#define M_CLAMP_S     (1 <<  1)
+#define M_CLAMP_T     (1 <<  0)
 
 /* Billboard types. */
 
@@ -112,7 +118,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-struct s_mtrl
+struct b_mtrl
 {
     float d[4];                                /* diffuse color              */
     float a[4];                                /* ambient color              */
@@ -123,41 +129,43 @@ struct s_mtrl
 
     int fl;                                    /* material flags             */
 
-    GLuint o;                                  /* OpenGL texture object      */
     char   f[PATHMAX];                         /* texture file name          */
 };
 
-struct s_vert
+struct b_vert
 {
     float p[3];                                /* vertex position            */
 };
 
-struct s_edge
+struct b_edge
 {
     int vi;
     int vj;
 };
 
-struct s_side
+struct b_side
 {
     float n[3];                                /* plane normal vector        */
     float d;                                   /* distance from origin       */
 };
 
-struct s_texc
+struct b_texc
 {
     float u[2];                                /* texture coordinate         */
 };
 
-struct s_geom
+struct b_offs
 {
-    int mi;
     int ti, si, vi;
-    int tj, sj, vj;
-    int tk, sk, vk;
 };
 
-struct s_lump
+struct b_geom
+{
+    int mi;
+    int oi, oj, ok;
+};
+
+struct b_lump
 {
     int fl;                                    /* lump flags                 */
     int v0, vc;
@@ -166,7 +174,7 @@ struct s_lump
     int s0, sc;
 };
 
-struct s_node
+struct b_node
 {
     int si;
     int ni;
@@ -175,11 +183,12 @@ struct s_node
     int lc;
 };
 
-struct s_path
+struct b_path
 {
     float p[3];                                /* starting position          */
     float e[4];                                /* orientation (quaternion)   */
     float t;                                   /* travel time                */
+    int   tm;                                  /* milliseconds               */
 
     int pi;
     int f;                                     /* enable flag                */
@@ -190,16 +199,11 @@ struct s_path
     /* TODO: merge enable and smooth into flags. */
 };
 
-struct s_body
+struct b_body
 {
-    float t;                                   /* time on current path       */
-
-    GLuint ol;                                 /* opaque geometry list       */
-    GLuint tl;                                 /* transparent geometry list  */
-    GLuint rl;                                 /* reflective geometry list   */
-    GLuint sl;                                 /* shadowed geometry list     */
-
     int pi;
+    int pj;
+
     int ni;
     int l0;
     int lc;
@@ -207,34 +211,32 @@ struct s_body
     int gc;
 };
 
-struct s_item
+struct b_item
 {
     float p[3];                                /* position                   */
     int   t;                                   /* type                       */
     int   n;                                   /* value                      */
 };
 
-struct s_goal
+struct b_goal
 {
     float p[3];                                /* position                   */
     float r;                                   /* radius                     */
 };
 
-struct s_swch
+struct b_swch
 {
     float p[3];                                /* position                   */
     float r;                                   /* radius                     */
     int  pi;                                   /* the linked path            */
 
-    float t0;                                  /* default timer              */
-    float t;                                   /* current timer              */
-    int   f0;                                  /* default state              */
-    int   f;                                   /* current state              */
+    float t;                                   /* default timer              */
+    int   tm;                                  /* milliseconds               */
+    int   f;                                   /* default state              */
     int   i;                                   /* is invisible?              */
-    int   e;                                   /* is a ball inside it?       */
 };
 
-struct s_bill
+struct b_bill
 {
     int  fl;
     int  mi;
@@ -251,37 +253,32 @@ struct s_bill
     float p[3];
 };
 
-struct s_jump
+struct b_jump
 {
     float p[3];                                /* position                   */
     float q[3];                                /* target position            */
     float r;                                   /* radius                     */
 };
 
-struct s_ball
+struct b_ball
 {
-    float e[3][3];                             /* basis of orientation       */
     float p[3];                                /* position vector            */
-    float v[3];                                /* velocity vector            */
-    float w[3];                                /* angular velocity vector    */
-    float E[3][3];                             /* basis of pendulum          */
-    float W[3];                                /* angular pendulum velocity  */
     float r;                                   /* radius                     */
 };
 
-struct s_view
+struct b_view
 {
     float p[3];
     float q[3];
 };
 
-struct s_dict
+struct b_dict
 {
     int ai;
     int aj;
 };
 
-struct s_file
+struct s_base
 {
     int ac;
     int mc;
@@ -289,6 +286,7 @@ struct s_file
     int ec;
     int sc;
     int tc;
+    int oc;
     int gc;
     int lc;
     int nc;
@@ -305,33 +303,34 @@ struct s_file
     int ic;
 
     char          *av;
-    struct s_mtrl *mv;
-    struct s_vert *vv;
-    struct s_edge *ev;
-    struct s_side *sv;
-    struct s_texc *tv;
-    struct s_geom *gv;
-    struct s_lump *lv;
-    struct s_node *nv;
-    struct s_path *pv;
-    struct s_body *bv;
-    struct s_item *hv;
-    struct s_goal *zv;
-    struct s_jump *jv;
-    struct s_swch *xv;
-    struct s_bill *rv;
-    struct s_ball *uv;
-    struct s_view *wv;
-    struct s_dict *dv;
+    struct b_mtrl *mv;
+    struct b_vert *vv;
+    struct b_edge *ev;
+    struct b_side *sv;
+    struct b_texc *tv;
+    struct b_offs *ov;
+    struct b_geom *gv;
+    struct b_lump *lv;
+    struct b_node *nv;
+    struct b_path *pv;
+    struct b_body *bv;
+    struct b_item *hv;
+    struct b_goal *zv;
+    struct b_jump *jv;
+    struct b_swch *xv;
+    struct b_bill *rv;
+    struct b_ball *uv;
+    struct b_view *wv;
+    struct b_dict *dv;
     int           *iv;
 };
 
 /*---------------------------------------------------------------------------*/
 
-int   sol_load_only_file(struct s_file *, const char *);
-int   sol_load_only_head(struct s_file *, const char *);
-int   sol_stor(struct s_file *, const char *);
-void  sol_free(struct s_file *);
+int  sol_load_base(struct s_base *, const char *);
+int  sol_load_meta(struct s_base *, const char *);
+void sol_free_base(struct s_base *);
+int  sol_stor_base(struct s_base *, const char *);
 
 /*---------------------------------------------------------------------------*/
 

@@ -1,0 +1,37 @@
+
+// entity 0
+{
+"classname" "worldspawn"
+"author" "Robert Kooima"
+"version" "1"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"shot" "shot-easy/peasy.jpg"
+"song" "bgm/track1.ogg"
+"time" "12000"
+"goal" "10"
+"time_hs" "600 2000"
+"coin_hs" "20 15"
+"goal_hs" "2200 5000"
+"message" "Mouse buttons rotate the view.\Press Escape to pause or quit.\\\\Click to begin.\"
+// brush 0
+{
+( 248 512 0 ) ( 248 376 0 ) ( 0 512 0 ) mtrl/turf-green-check2 0 0 0 0.5 0.5 0 0 0
+( 248 512 0 ) ( 0 512 0 ) ( 248 512 -128 ) mtrl/turf-grey 0 128 0 0.5 0.5 0 0 0
+( 512 136 0 ) ( 512 136 -128 ) ( 512 0 0 ) mtrl/turf-grey 240 128 0 0.5 0.5 0 0 0
+( -8 376 -16 ) ( 240 376 -16 ) ( -8 512 -16 ) mtrl/turf-grey 16 0 0 0.5 0.5 0 0 0
+( 264 0 -128 ) ( 264 0 0 ) ( 512 0 -128 ) mtrl/turf-grey 48 128 0 0.5 0.5 0 0 0
+( 0 376 -128 ) ( 0 512 -128 ) ( 0 376 0 ) mtrl/turf-grey 64 128 0 0.5 0.5 0 0 0
+}
+}
+// entity 1
+{
+"classname" "info_player_start"
+"origin" "64 192 24"
+}
+// entity 2
+{
+"classname" "info_player_intermission"
+"target" "t1"
+"origin" "640 -128 448"
+}

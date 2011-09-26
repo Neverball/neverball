@@ -1,8 +1,6 @@
 #ifndef GAME_CLIENT_H
 #define GAME_CLIENT_H
 
-#include <stdio.h>
-#include "solid.h"
 #include "fs.h"
 
 /*---------------------------------------------------------------------------*/
@@ -15,9 +13,10 @@ enum
 };
 
 int   game_client_init(const char *);
-void  game_client_free(void);
+void  game_client_free(const char *);
 void  game_client_sync(fs_file);
 void  game_client_draw(int, float);
+void  game_client_blend(float);
 
 int   curr_clock(void);
 int   curr_coins(void);

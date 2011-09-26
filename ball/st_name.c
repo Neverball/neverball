@@ -22,7 +22,7 @@
 #include "config.h"
 #include "video.h"
 #include "text.h"
-#include "back.h"
+#include "geom.h"
 
 #include "game_common.h"
 #include "game_server.h"
@@ -128,7 +128,7 @@ static int name_enter(struct state *st, struct state *prev)
 {
     if (draw_back)
     {
-        game_client_free();
+        game_client_free(NULL);
         back_init("back/gui.png");
     }
 
@@ -152,7 +152,7 @@ static void name_paint(int id, float t)
     {
         video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
         {
-            back_draw(0);
+            back_draw_easy();
         }
         video_pop_matrix();
     }
@@ -182,7 +182,7 @@ static int name_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
-            int c = gui_token(gui_click());
+            int c = gui_token(gui_active());
 
             if (c >= 0 && !GUI_ISMSK(c))
                 return name_action(gui_keyboard_char(c));
