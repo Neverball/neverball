@@ -274,12 +274,12 @@ static int conf_enter(struct state *st, struct state *prev)
 enum
 {
     CONF_VIDEO_BACK = CONF_SHARED_BACK,
-    CONF_VIDEO_FULL,
-    CONF_VIDEO_RES,
-    CONF_VIDEO_TEX,
-    CONF_VIDEO_REF,
-    CONF_VIDEO_BAC,
-    CONF_VIDEO_SHD
+    CONF_VIDEO_FULLSCREEN,
+    CONF_VIDEO_RESOLUTION,
+    CONF_VIDEO_TEXTURES,
+    CONF_VIDEO_REFLECTION,
+    CONF_VIDEO_BACKGROUND,
+    CONF_VIDEO_SHADOW
 };
 
 static int conf_video_action(int tok, int val)
@@ -292,19 +292,19 @@ static int conf_video_action(int tok, int val)
 
     switch (tok)
     {
-    case CONF_VIDEO_FULL:
+    case CONF_VIDEO_FULLSCREEN:
         goto_state(&st_null);
         r = video_mode(val, w, h);
         goto_state(&st_conf_video);
         break;
 
-    case CONF_VIDEO_TEX:
+    case CONF_VIDEO_TEXTURES:
         goto_state(&st_null);
         config_set_d(CONFIG_TEXTURES, val);
         goto_state(&st_conf_video);
         break;
 
-    case CONF_VIDEO_REF:
+    case CONF_VIDEO_REFLECTION:
         goto_state(&st_null);
         config_set_d(CONFIG_REFLECTION, val);
 
@@ -317,13 +317,13 @@ static int conf_video_action(int tok, int val)
         goto_state(&st_conf_video);
         break;
 
-    case CONF_VIDEO_BAC:
+    case CONF_VIDEO_BACKGROUND:
         goto_state(&st_null);
         config_set_d(CONFIG_BACKGROUND, val);
         goto_state(&st_conf_video);
         break;
 
-    case CONF_VIDEO_SHD:
+    case CONF_VIDEO_SHADOW:
         goto_state(&st_null);
         config_set_d(CONFIG_SHADOW, val);
         goto_state(&st_conf_video);
@@ -333,7 +333,7 @@ static int conf_video_action(int tok, int val)
         goto_state(&st_conf);
         break;
 
-    case CONF_VIDEO_RES:
+    case CONF_VIDEO_RESOLUTION:
         goto_state(&st_resol);
         break;
     }
@@ -361,23 +361,23 @@ static int conf_video_gui(void)
 
         conf_header(id, _("Graphics Options"), CONF_VIDEO_BACK);
 
-        conf_toggle(id, _("Fullscreen"), CONF_VIDEO_FULL, f,
+        conf_toggle(id, _("Fullscreen"), CONF_VIDEO_FULLSCREEN, f,
                     _("Yes"), 1, _("No"), 0);
 
-        conf_state(id, _("Resolution"), resolution, CONF_VIDEO_RES);
+        conf_state(id, _("Resolution"), resolution, CONF_VIDEO_RESOLUTION);
 
         gui_space(id);
 
-        conf_toggle(id, _("Textures"), CONF_VIDEO_TEX, t,
+        conf_toggle(id, _("Textures"), CONF_VIDEO_TEXTURES, t,
                     _("High"), 1, _("Low"), 2);
 
-        conf_toggle(id, _("Reflection"), CONF_VIDEO_REF, r,
+        conf_toggle(id, _("Reflection"), CONF_VIDEO_REFLECTION, r,
                     _("On"), 1, _("Off"), 0);
 
-        conf_toggle(id, _("Background"), CONF_VIDEO_BAC, b,
+        conf_toggle(id, _("Background"), CONF_VIDEO_BACKGROUND, b,
                     _("On"), 1, _("Off"), 0);
 
-        conf_toggle(id, _("Shadow"), CONF_VIDEO_SHD, s,
+        conf_toggle(id, _("Shadow"), CONF_VIDEO_SHADOW, s,
                     _("On"), 1, _("Off"), 0);
 
         gui_layout(id, 0, 0);
