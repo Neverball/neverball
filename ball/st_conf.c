@@ -107,6 +107,32 @@ static void conf_header(int id, const char *text, int token)
     gui_space(id);
 }
 
+struct option
+{
+    char text[8];
+    int  value;
+};
+
+static void conf_select(int id, const char *text, int token, int value,
+                        const struct option *opts, int num)
+{
+    int jd, kd, ld;
+    int i;
+
+    if ((jd = gui_harray(id)) && (kd = gui_harray(jd)))
+    {
+        for (i = 0; i < num; i++)
+        {
+            ld = gui_state(kd, _(opts[i].text), GUI_SML,
+                           token, opts[i].value);
+
+            gui_set_hilite(ld, (opts[i].value == value));
+        }
+
+        gui_label(jd, text, GUI_SML, GUI_ALL, 0, 0);
+    }
+}
+
 /*---------------------------------------------------------------------------*/
 
 enum
@@ -276,10 +302,11 @@ enum
     CONF_VIDEO_BACK = CONF_SHARED_BACK,
     CONF_VIDEO_FULLSCREEN,
     CONF_VIDEO_RESOLUTION,
-    CONF_VIDEO_TEXTURES,
     CONF_VIDEO_REFLECTION,
     CONF_VIDEO_BACKGROUND,
-    CONF_VIDEO_SHADOW
+    CONF_VIDEO_SHADOW,
+    CONF_VIDEO_VSYNC,
+    CONF_VIDEO_MULTISAMPLE
 };
 
 static int conf_video_action(int tok, int val)
@@ -295,12 +322,6 @@ static int conf_video_action(int tok, int val)
     case CONF_VIDEO_FULLSCREEN:
         goto_state(&st_null);
         r = video_mode(val, w, h);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_TEXTURES:
-        goto_state(&st_null);
-        config_set_d(CONFIG_TEXTURES, val);
         goto_state(&st_conf_video);
         break;
 
@@ -336,6 +357,20 @@ static int conf_video_action(int tok, int val)
     case CONF_VIDEO_RESOLUTION:
         goto_state(&st_resol);
         break;
+
+    case CONF_VIDEO_VSYNC:
+        goto_state(&st_null);
+        config_set_d(CONFIG_VSYNC, val);
+        r = video_init(TITLE, ICON);
+        goto_state(&st_conf_video);
+        break;
+
+    case CONF_VIDEO_MULTISAMPLE:
+        goto_state(&st_null);
+        config_set_d(CONFIG_MULTISAMPLE, val);
+        r = video_init(TITLE, ICON);
+        goto_state(&st_conf_video);
+        break;
     }
 
     return r;
@@ -343,15 +378,23 @@ static int conf_video_action(int tok, int val)
 
 static int conf_video_gui(void)
 {
+    static const struct option multisample_opts[] = {
+        { N_("8x"), 8 },
+        { N_("4x"), 4 },
+        { N_("2x"), 2 },
+        { N_("No"), 0 },
+    };
+
     int id;
 
     if ((id = gui_vstack(0)))
     {
         int f = config_get_d(CONFIG_FULLSCREEN);
-        int t = config_get_d(CONFIG_TEXTURES);
         int r = config_get_d(CONFIG_REFLECTION);
         int b = config_get_d(CONFIG_BACKGROUND);
         int s = config_get_d(CONFIG_SHADOW);
+        int v = config_get_d(CONFIG_VSYNC);
+        int m = config_get_d(CONFIG_MULTISAMPLE);
 
         char resolution[sizeof ("12345678 x 12345678")];
 
@@ -361,15 +404,20 @@ static int conf_video_gui(void)
 
         conf_header(id, _("Graphics Options"), CONF_VIDEO_BACK);
 
-        conf_toggle(id, _("Fullscreen"), CONF_VIDEO_FULLSCREEN, f,
-                    _("Yes"), 1, _("No"), 0);
-
         conf_state(id, _("Resolution"), resolution, CONF_VIDEO_RESOLUTION);
 
         gui_space(id);
 
-        conf_toggle(id, _("Textures"), CONF_VIDEO_TEXTURES, t,
-                    _("High"), 1, _("Low"), 2);
+        conf_toggle(id, _("Fullscreen"), CONF_VIDEO_FULLSCREEN, f,
+                    _("Yes"), 1, _("No"), 0);
+
+        conf_toggle(id, _("V-sync"), CONF_VIDEO_VSYNC, v,
+                    _("Yes"), 1, _("No"), 0);
+
+        conf_select(id, _("Antialiasing"), CONF_VIDEO_MULTISAMPLE, m,
+                    multisample_opts, ARRAYSIZE(multisample_opts));
+
+        gui_space(id);
 
         conf_toggle(id, _("Reflection"), CONF_VIDEO_REFLECTION, r,
                     _("On"), 1, _("Off"), 0);

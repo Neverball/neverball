@@ -31,7 +31,7 @@
 #endif /* ENABLE_NLS */
 
 /* No-op, useful for marking up strings for extraction-only. */
-#define N_(String)  (String)
+#define N_(String)   String
 
 /*---------------------------------------------------------------------------*/
 
