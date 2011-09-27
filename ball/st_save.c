@@ -169,7 +169,7 @@ static int save_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
             int tok = gui_token(gui_active());
-            int val = gui_token(gui_active());
+            int val = gui_value(gui_active());
 
             return save_action(tok, (tok == GUI_CHAR ?
                                      gui_keyboard_char(val) :
