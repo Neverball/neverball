@@ -5,23 +5,25 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define GUI_BIT      (1 << 24)
+enum
+{
+    GUI_NONE = 0,
 
-#define GUI_MSK(i)   ((i) | GUI_BIT)
-#define GUI_UNMSK(i) ((i) & ~GUI_BIT)
-#define GUI_ISMSK(i) ((i) & GUI_BIT ? 1 : 0)
+    GUI_BACK,
+    GUI_PREV,
+    GUI_NEXT,
+    GUI_BS,
+    GUI_CL,
+    GUI_CHAR,
+    GUI_NAME,
+    GUI_SCORE,
 
-#define GUI_NULL GUI_MSK(0)
-#define GUI_BACK GUI_MSK(1)
-#define GUI_PREV GUI_MSK(2)
-#define GUI_NEXT GUI_MSK(3)
-#define GUI_BS   GUI_MSK(4)
-#define GUI_CL   GUI_MSK(5)
-#define GUI_NAME GUI_MSK(6)
+    GUI_LAST
+};
 
-#define GUI_SCORE_COIN  GUI_MSK(8)
-#define GUI_SCORE_TIME  GUI_MSK(16)
-#define GUI_SCORE_GOAL GUI_MSK(32)
+#define GUI_SCORE_COIN 0x1
+#define GUI_SCORE_TIME 0x2
+#define GUI_SCORE_GOAL 0x4
 
 void gui_score_set(int);
 int  gui_score_get(void);

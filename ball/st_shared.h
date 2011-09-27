@@ -2,6 +2,7 @@
 #define ST_SHARED_H
 
 #include "state.h"
+#include "util.h"
 
 void shared_leave(struct state *, struct state *next, int id);
 void shared_paint(int id, float st);

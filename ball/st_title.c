@@ -79,13 +79,16 @@ static Array items;
 
 static int play_id = 0;
 
-#define TITLE_PLAY 1
-#define TITLE_HELP 2
-#define TITLE_DEMO 3
-#define TITLE_CONF 4
-#define TITLE_EXIT 5
+enum
+{
+    TITLE_PLAY = GUI_LAST,
+    TITLE_HELP,
+    TITLE_DEMO,
+    TITLE_CONF,
+    TITLE_EXIT
+};
 
-static int title_action(int i)
+static int title_action(int tok, int val)
 {
     static const char keyphrase[] = "CHEAT";
     static char queue[sizeof (keyphrase)] = "";
@@ -94,28 +97,26 @@ static int title_action(int i)
 
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case TITLE_PLAY:
         if (strlen(config_get_s(CONFIG_PLAYER)) == 0)
             return goto_name(&st_set, &st_title, 0);
         else
             return goto_state(&st_set);
-
         break;
 
     case TITLE_HELP: return goto_state(&st_help); break;
     case TITLE_DEMO: return goto_state(&st_demo); break;
     case TITLE_CONF: return goto_state(&st_conf); break;
     case TITLE_EXIT: return 0;                    break;
-
-    default:
+    case GUI_CHAR:
 
         /* Let the queue fill up. */
 
         if (queue_len < sizeof (queue) - 1)
         {
-            queue[queue_len]     = (char) i;
+            queue[queue_len]     = (char) val;
             queue[queue_len + 1] = '\0';
         }
 
@@ -128,7 +129,7 @@ static int title_action(int i)
             for (k = 1; k < queue_len; k++)
                 queue[k - 1] = queue[k];
 
-            queue[queue_len - 1] = (char) i;
+            queue[queue_len - 1] = (char) val;
         }
 
         if (strcmp(queue, keyphrase) == 0)
@@ -302,17 +303,20 @@ static void title_timer(int id, float dt)
 
 static int title_keybd(int c, int d)
 {
-    if (d && (c & 0xFF80) == 0 && c > ' ')
-        return title_action(c);
-    return 1;
+    if (d)
+        return title_action(GUI_CHAR, c);
+    else
+        return 1;
 }
 
 static int title_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return title_action(gui_token(gui_active()));
+            return title_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return 0;
     }

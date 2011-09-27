@@ -37,7 +37,9 @@ static char player[MAXNAM];
 
 /*---------------------------------------------------------------------------*/
 
-static struct state *ok_state, *cancel_state;
+static struct state *ok_state;
+static struct state *cancel_state;
+
 static unsigned int draw_back;
 
 int goto_name(struct state *ok, struct state *cancel, unsigned int back)
@@ -53,16 +55,19 @@ int goto_name(struct state *ok, struct state *cancel, unsigned int back)
 
 /*---------------------------------------------------------------------------*/
 
-#define NAME_OK     -1
-#define NAME_CANCEL -2
+enum
+{
+    NAME_OK = GUI_LAST,
+    NAME_CANCEL
+};
 
 static int name_id;
 
-static int name_action(int i)
+static int name_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case NAME_OK:
         if (strlen(player) == 0)
@@ -84,8 +89,8 @@ static int name_action(int i)
             gui_set_label(name_id, player);
         break;
 
-    default:
-        if (text_add_char(i, player, sizeof (player)))
+    case GUI_CHAR:
+        if (text_add_char(val, player, sizeof (player)))
             gui_set_label(name_id, player);
     }
     return 1;
@@ -169,9 +174,9 @@ static int name_keybd(int c, int d)
         gui_focus(enter_id);
 
         if (c == '\b' || c == 0x7F)
-            return name_action(GUI_BS);
+            return name_action(GUI_BS, 0);
         if (c >= ' ')
-            return name_action(c);
+            return name_action(GUI_CHAR, c);
     }
     return 1;
 }
@@ -182,15 +187,15 @@ static int name_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
-            int c = gui_token(gui_active());
+            int tok = gui_token(gui_active());
+            int val = gui_value(gui_active());
 
-            if (c >= 0 && !GUI_ISMSK(c))
-                return name_action(gui_keyboard_char(c));
-            else
-                return name_action(c);
+            return name_action(tok, (tok == GUI_CHAR ?
+                                     gui_keyboard_char(val) :
+                                     val));
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            name_action(NAME_CANCEL);
+            name_action(NAME_CANCEL, 0);
     }
     return 1;
 }

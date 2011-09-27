@@ -51,7 +51,7 @@ static void conf_slider(int id, const char *text,
 
         for (i = num - 1; i >= 0; i--)
         {
-            ids[i] = gui_state(kd, NULL, GUI_SML, token + i, 0);
+            ids[i] = gui_state(kd, NULL, GUI_SML, token, i);
 
             gui_set_hilite(ids[i], (i == value));
         }
@@ -73,9 +73,9 @@ static int conf_state(int id, const char *label, const char *text, int token)
     return rd;
 }
 
-static void conf_toggle(int id, const char *label, int value,
-                        const char *text1, int token1, int value1,
-                        const char *text0, int token0, int value0)
+static void conf_toggle(int id, const char *label, int token, int value,
+                        const char *text1, int value1,
+                        const char *text0, int value0)
 {
     int jd, kd;
 
@@ -83,8 +83,8 @@ static void conf_toggle(int id, const char *label, int value,
     {
         int btn0, btn1;
 
-        btn0 = gui_state(kd, text0, GUI_SML, token0, 0);
-        btn1 = gui_state(kd, text1, GUI_SML, token1, 0);
+        btn0 = gui_state(kd, text0, GUI_SML, token, value0);
+        btn1 = gui_state(kd, text1, GUI_SML, token, value1);
 
         gui_set_hilite(btn0, (value == value0));
         gui_set_hilite(btn1, (value == value1));
@@ -109,11 +109,14 @@ static void conf_header(int id, const char *text, int token)
 
 /*---------------------------------------------------------------------------*/
 
-#define CONF_SHARED_BACK 1              /* Shared GUI token.                 */
+enum
+{
+    CONF_SHARED_BACK = GUI_LAST         /* Shared GUI token.                 */
+};
 
-static int (*conf_shared_action)(int i);
+static int (*conf_shared_action)(int tok, int val);
 
-static void conf_shared_init(int (*action_fn)(int))
+static void conf_shared_init(int (*action_fn)(int, int))
 {
     conf_shared_action = action_fn;
 
@@ -142,10 +145,12 @@ static int conf_shared_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return conf_shared_action(gui_token(gui_active()));
+            return conf_shared_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return conf_shared_action(CONF_SHARED_BACK);
+            return conf_shared_action(CONF_SHARED_BACK, 0);
     }
     return 1;
 }
@@ -156,6 +161,8 @@ enum
 {
     CONF_BACK = CONF_SHARED_BACK,
     CONF_VIDEO,
+    CONF_SOUND_VOLUME,
+    CONF_MUSIC_VOLUME,
     CONF_PLAYER,
     CONF_BALL
 };
@@ -163,7 +170,7 @@ enum
 static int music_id[11];
 static int sound_id[11];
 
-static int conf_action(int i)
+static int conf_action(int tok, int val)
 {
     int s = config_get_d(CONFIG_SOUND_VOLUME);
     int m = config_get_d(CONFIG_MUSIC_VOLUME);
@@ -171,7 +178,7 @@ static int conf_action(int i)
 
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case CONF_BACK:
         goto_state(&st_title);
@@ -189,29 +196,24 @@ static int conf_action(int i)
         goto_state(&st_ball);
         break;
 
-    default:
-        if (100 <= i && i <= 110)
-        {
-            int n = i - 100;
+    case CONF_SOUND_VOLUME:
+        config_set_d(CONFIG_SOUND_VOLUME, val);
+        audio_volume(val, m);
+        audio_play(AUD_BUMPM, 1.f);
 
-            config_set_d(CONFIG_SOUND_VOLUME, n);
-            audio_volume(n, m);
-            audio_play(AUD_BUMPM, 1.f);
+        gui_toggle(sound_id[val]);
+        gui_toggle(sound_id[s]);
+        break;
 
-            gui_toggle(sound_id[n]);
-            gui_toggle(sound_id[s]);
-        }
-        if (200 <= i && i <= 210)
-        {
-            int n = i - 200;
+    case CONF_MUSIC_VOLUME:
+        config_set_d(CONFIG_MUSIC_VOLUME, val);
+        audio_volume(s, val);
+        audio_play(AUD_BUMPM, 1.f);
 
-            config_set_d(CONFIG_MUSIC_VOLUME, n);
-            audio_volume(s, n);
-            audio_play(AUD_BUMPM, 1.f);
+        gui_toggle(music_id[val]);
+        gui_toggle(music_id[m]);
 
-            gui_toggle(music_id[n]);
-            gui_toggle(music_id[m]);
-        }
+        break;
     }
 
     return r;
@@ -239,9 +241,9 @@ static int conf_gui(void)
 
         gui_space(id);
 
-        conf_slider(id, _("Sound Volume"), 100, s,
+        conf_slider(id, _("Sound Volume"), CONF_SOUND_VOLUME, s,
                     sound_id, ARRAYSIZE(sound_id));
-        conf_slider(id, _("Music Volume"), 200, m,
+        conf_slider(id, _("Music Volume"), CONF_MUSIC_VOLUME, m,
                     music_id, ARRAYSIZE(music_id));
 
         gui_space(id);
@@ -272,20 +274,15 @@ static int conf_enter(struct state *st, struct state *prev)
 enum
 {
     CONF_VIDEO_BACK = CONF_SHARED_BACK,
-    CONF_VIDEO_WIN,
     CONF_VIDEO_FULL,
     CONF_VIDEO_RES,
-    CONF_VIDEO_TEXLO,
-    CONF_VIDEO_TEXHI,
-    CONF_VIDEO_REFOF,
-    CONF_VIDEO_REFON,
-    CONF_VIDEO_BACOF,
-    CONF_VIDEO_BACON,
-    CONF_VIDEO_SHDOF,
-    CONF_VIDEO_SHDON
+    CONF_VIDEO_TEX,
+    CONF_VIDEO_REF,
+    CONF_VIDEO_BAC,
+    CONF_VIDEO_SHD
 };
 
-static int conf_video_action(int i)
+static int conf_video_action(int tok, int val)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
@@ -293,66 +290,42 @@ static int conf_video_action(int i)
 
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case CONF_VIDEO_FULL:
         goto_state(&st_null);
-        r = video_mode(1, w, h);
+        r = video_mode(val, w, h);
         goto_state(&st_conf_video);
         break;
 
-    case CONF_VIDEO_WIN:
+    case CONF_VIDEO_TEX:
         goto_state(&st_null);
-        r = video_mode(0, w, h);
+        config_set_d(CONFIG_TEXTURES, val);
         goto_state(&st_conf_video);
         break;
 
-    case CONF_VIDEO_TEXHI:
+    case CONF_VIDEO_REF:
         goto_state(&st_null);
-        config_set_d(CONFIG_TEXTURES, 1);
+        config_set_d(CONFIG_REFLECTION, val);
+
+        if (val)
+        {
+            /* Ensure we have a stencil buffer. */
+            r = video_init(TITLE, ICON);
+        }
+
         goto_state(&st_conf_video);
         break;
 
-    case CONF_VIDEO_TEXLO:
+    case CONF_VIDEO_BAC:
         goto_state(&st_null);
-        config_set_d(CONFIG_TEXTURES, 2);
+        config_set_d(CONFIG_BACKGROUND, val);
         goto_state(&st_conf_video);
         break;
 
-    case CONF_VIDEO_REFON:
+    case CONF_VIDEO_SHD:
         goto_state(&st_null);
-        config_set_d(CONFIG_REFLECTION, 1);
-        r = video_init(TITLE, ICON);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_REFOF:
-        goto_state(&st_null);
-        config_set_d(CONFIG_REFLECTION, 0);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_BACON:
-        goto_state(&st_null);
-        config_set_d(CONFIG_BACKGROUND, 1);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_BACOF:
-        goto_state(&st_null);
-        config_set_d(CONFIG_BACKGROUND, 0);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_SHDON:
-        goto_state(&st_null);
-        config_set_d(CONFIG_SHADOW, 1);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_SHDOF:
-        goto_state(&st_null);
-        config_set_d(CONFIG_SHADOW, 0);
+        config_set_d(CONFIG_SHADOW, val);
         goto_state(&st_conf_video);
         break;
 
@@ -388,29 +361,24 @@ static int conf_video_gui(void)
 
         conf_header(id, _("Graphics Options"), CONF_VIDEO_BACK);
 
-        conf_toggle(id, _("Fullscreen"), f,
-                    _("Yes"), CONF_VIDEO_FULL, 1,
-                    _("No"), CONF_VIDEO_WIN,  0);
+        conf_toggle(id, _("Fullscreen"), CONF_VIDEO_FULL, f,
+                    _("Yes"), 1, _("No"), 0);
 
         conf_state(id, _("Resolution"), resolution, CONF_VIDEO_RES);
 
         gui_space(id);
 
-        conf_toggle(id, _("Textures"), t,
-                    _("High"), CONF_VIDEO_TEXHI, 1,
-                    _("Low"), CONF_VIDEO_TEXLO, 2);
+        conf_toggle(id, _("Textures"), CONF_VIDEO_TEX, t,
+                    _("High"), 1, _("Low"), 2);
 
-        conf_toggle(id, _("Reflection"), r,
-                    _("On"), CONF_VIDEO_REFON, 1,
-                    _("Off"), CONF_VIDEO_REFOF, 0);
+        conf_toggle(id, _("Reflection"), CONF_VIDEO_REF, r,
+                    _("On"), 1, _("Off"), 0);
 
-        conf_toggle(id, _("Background"), b,
-                    _("On"), CONF_VIDEO_BACON, 1,
-                    _("Off"), CONF_VIDEO_BACOF, 0);
+        conf_toggle(id, _("Background"), CONF_VIDEO_BAC, b,
+                    _("On"), 1, _("Off"), 0);
 
-        conf_toggle(id, _("Shadow"), s,
-                    _("On"), CONF_VIDEO_SHDON, 1,
-                    _("Off"), CONF_VIDEO_SHDOF, 0);
+        conf_toggle(id, _("Shadow"), CONF_VIDEO_SHD, s,
+                    _("On"), 1, _("Off"), 0);
 
         gui_layout(id, 0, 0);
     }

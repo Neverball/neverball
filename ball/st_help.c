@@ -28,54 +28,62 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define HELP_BACK     0
-#define HELP_RULES    1
-#define HELP_CONTROLS 2
-#define HELP_MODES    3
-#define HELP_TRICKS   4
-#define HELP_DEMO_1   6
-#define HELP_DEMO_2   7
+enum
+{
+    HELP_BACK = GUI_LAST,
+    HELP_PAGE,
+    HELP_DEMO
+};
 
-static int tab = HELP_RULES;
+enum
+{
+    PAGE_RULES,
+    PAGE_CONTROLS,
+    PAGE_MODES,
+    PAGE_TRICKS
+};
+
+static const char demos[][16] = {
+    "gui/demo1.nbr",
+    "gui/demo2.nbr"
+};
+
+static int page = PAGE_RULES;
 
 /*---------------------------------------------------------------------------*/
 
-static int help_action(int t)
+static int help_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (t)
+    switch (tok)
     {
     case HELP_BACK:
-        tab = HELP_RULES;
+        page = PAGE_RULES;
         return goto_state(&st_title);
-        break;
 
-    case HELP_DEMO_1:
-        if (demo_replay_init("gui/demo1.nbr", NULL, NULL, NULL, NULL, NULL))
+    case HELP_DEMO:
+        if (demo_replay_init(demos[val], NULL, NULL, NULL, NULL, NULL))
             return goto_state(&st_help_demo);
         break;
 
-    case HELP_DEMO_2:
-        if (demo_replay_init("gui/demo2.nbr", NULL, NULL, NULL, NULL, NULL))
-            return goto_state(&st_help_demo);
-        break;
-
-    default:
-        tab = t;
+    case HELP_PAGE:
+        page = val;
         return goto_state(&st_help);
-        break;
+
     }
     return 1;
 }
 
 /* -------------------------------------------------------------------------- */
 
-static int help_button(int id, const char *text, int token)
+static int help_button(int id, const char *text, int token, int value)
 {
-    int jd = gui_state(id, text, GUI_SML, token, 0);
+    int jd = gui_state(id, text, GUI_SML, token, value);
 
-    if (token == tab)
+    /* Hilight current page. */
+
+    if (token == HELP_PAGE && value == page)
     {
         gui_set_hilite(jd, 1);
         gui_focus(jd);
@@ -92,18 +100,18 @@ static int help_menu(int id)
 
     if ((jd = gui_harray(id)))
     {
-        help_button(jd, _("Tricks"),   HELP_TRICKS);
-        help_button(jd, _("Modes"),    HELP_MODES);
-        help_button(jd, _("Controls"), HELP_CONTROLS);
-        help_button(jd, _("Rules"),    HELP_RULES);
-        help_button(jd, _("Back"),     HELP_BACK);
+        help_button(jd, _("Tricks"),   HELP_PAGE, PAGE_TRICKS);
+        help_button(jd, _("Modes"),    HELP_PAGE, PAGE_MODES);
+        help_button(jd, _("Controls"), HELP_PAGE, PAGE_CONTROLS);
+        help_button(jd, _("Rules"),    HELP_PAGE, PAGE_RULES);
+        help_button(jd, _("Back"),     HELP_BACK, 0);
     }
     return jd;
 }
 
 /* -------------------------------------------------------------------------- */
 
-static int help_rules(int id)
+static int page_rules(int id)
 {
     const char *s0 = _(
         "Move the mouse or joystick\\"
@@ -166,7 +174,7 @@ static int help_rules(int id)
     return id;
 }
 
-static int help_controls(int id)
+static int page_controls(int id)
 {
     const char *s4 = _("Left and right mouse buttons rotate the view.");
     const char *s5 = _("Hold Shift for faster view rotation.");
@@ -227,7 +235,7 @@ static int help_controls(int id)
     return id;
 }
 
-static int help_modes(int id)
+static int page_modes(int id)
 {
     int jd, kd;
 
@@ -260,7 +268,7 @@ static int help_modes(int id)
     return id;
 }
 
-static int help_tricks(int id)
+static int page_tricks(int id)
 {
     const char *s0 = _(
         "Corners can be used to jump.\\"
@@ -291,7 +299,7 @@ static int help_tricks(int id)
                 gui_state(ld, _("Watch demo"), GUI_SML, 0, 0);
                 gui_filler(ld);
 
-                gui_set_state(ld, HELP_DEMO_1, 0);
+                gui_set_state(ld, HELP_DEMO, 0);
             }
 
             if ((ld = gui_vstack(kd)))
@@ -301,7 +309,7 @@ static int help_tricks(int id)
                 gui_state(ld, _("Watch demo"), GUI_SML, 0, 0);
                 gui_filler(ld);
 
-                gui_set_state(ld, HELP_DEMO_2, 0);
+                gui_set_state(ld, HELP_DEMO, 1);
             }
         }
 
@@ -339,15 +347,12 @@ static int help_gui(void)
     {
         help_menu(id);
 
-        switch (tab)
+        switch (page)
         {
-        case HELP_RULES:    help_rules(id);    break;
-        case HELP_CONTROLS: help_controls(id); break;
-        case HELP_MODES:    help_modes(id);    break;
-        case HELP_TRICKS:   help_tricks(id);   break;
-
-        default:
-            break;
+        case PAGE_RULES:    page_rules(id);    break;
+        case PAGE_CONTROLS: page_controls(id); break;
+        case PAGE_MODES:    page_modes(id);    break;
+        case PAGE_TRICKS:   page_tricks(id);   break;
         }
 
         gui_layout(id, 0, +1);
@@ -365,10 +370,12 @@ static int help_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return help_action(gui_token(gui_active()));
+            return help_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return help_action(HELP_BACK);
+            return help_action(HELP_BACK, 0);
     }
     return 1;
 }

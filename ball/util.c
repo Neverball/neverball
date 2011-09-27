@@ -176,13 +176,13 @@ void gui_score_board(int pd, unsigned int types, int e, int h)
 {
     int id, jd, kd, ld;
 
-    assert((types & GUI_SCORE_COIN)  == GUI_SCORE_COIN ||
-           (types & GUI_SCORE_TIME)  == GUI_SCORE_TIME ||
-           (types & GUI_SCORE_GOAL) == GUI_SCORE_GOAL );
+    assert((types & GUI_SCORE_COIN) ||
+           (types & GUI_SCORE_TIME) ||
+           (types & GUI_SCORE_GOAL) );
 
     /* Make sure current score type matches the spec. */
 
-    while ((types & score_type) != score_type)
+    while (!(types & score_type))
         score_type = gui_score_next(score_type);
 
     if ((id = gui_hstack(pd)))
@@ -197,24 +197,24 @@ void gui_score_board(int pd, unsigned int types, int e, int h)
             {
                 gui_filler(kd);
 
-                if ((types & GUI_SCORE_COIN) == GUI_SCORE_COIN)
+                if (types & GUI_SCORE_COIN)
                 {
                     coin_btn_id = gui_state(kd, _("Most Coins"), GUI_SML,
-                                            GUI_SCORE_COIN, 0);
+                                            GUI_SCORE, GUI_SCORE_COIN);
 
                     gui_set_hilite(coin_btn_id, score_type == GUI_SCORE_COIN);
                 }
-                if ((types & GUI_SCORE_TIME) == GUI_SCORE_TIME)
+                if (types & GUI_SCORE_TIME)
                 {
                     time_btn_id = gui_state(kd, _("Best Times"), GUI_SML,
-                                            GUI_SCORE_TIME, 0);
+                                            GUI_SCORE, GUI_SCORE_TIME);
 
                     gui_set_hilite(time_btn_id, score_type == GUI_SCORE_TIME);
                 }
-                if ((types & GUI_SCORE_GOAL) == GUI_SCORE_GOAL)
+                if (types & GUI_SCORE_GOAL)
                 {
                     goal_btn_id = gui_state(kd, _("Fast Unlock"), GUI_SML,
-                                            GUI_SCORE_GOAL, 0);
+                                            GUI_SCORE, GUI_SCORE_GOAL);
 
                     gui_set_hilite(goal_btn_id, score_type == GUI_SCORE_GOAL);
                 }
@@ -281,8 +281,8 @@ int  gui_score_next(int t)
 {
     switch (t)
     {
-    case GUI_SCORE_COIN:  return GUI_SCORE_TIME;
-    case GUI_SCORE_TIME:  return GUI_SCORE_GOAL;
+    case GUI_SCORE_COIN: return GUI_SCORE_TIME;
+    case GUI_SCORE_TIME: return GUI_SCORE_GOAL;
     case GUI_SCORE_GOAL: return GUI_SCORE_COIN;
 
     default:
@@ -311,58 +311,58 @@ void gui_keyboard(int id)
             {
                 gui_filler(ld);
 
-                keyd['9'] = gui_state(ld, "9", GUI_SML, '9', 0);
-                keyd['8'] = gui_state(ld, "8", GUI_SML, '8', 0);
-                keyd['7'] = gui_state(ld, "7", GUI_SML, '7', 0);
-                keyd['6'] = gui_state(ld, "6", GUI_SML, '6', 0);
-                keyd['5'] = gui_state(ld, "5", GUI_SML, '5', 0);
-                keyd['4'] = gui_state(ld, "4", GUI_SML, '4', 0);
-                keyd['3'] = gui_state(ld, "3", GUI_SML, '3', 0);
-                keyd['2'] = gui_state(ld, "2", GUI_SML, '2', 0);
-                keyd['1'] = gui_state(ld, "1", GUI_SML, '1', 0);
-                keyd['0'] = gui_state(ld, "0", GUI_SML, '0', 0);
+                keyd['9'] = gui_state(ld, "9", GUI_SML, GUI_CHAR, '9');
+                keyd['8'] = gui_state(ld, "8", GUI_SML, GUI_CHAR, '8');
+                keyd['7'] = gui_state(ld, "7", GUI_SML, GUI_CHAR, '7');
+                keyd['6'] = gui_state(ld, "6", GUI_SML, GUI_CHAR, '6');
+                keyd['5'] = gui_state(ld, "5", GUI_SML, GUI_CHAR, '5');
+                keyd['4'] = gui_state(ld, "4", GUI_SML, GUI_CHAR, '4');
+                keyd['3'] = gui_state(ld, "3", GUI_SML, GUI_CHAR, '3');
+                keyd['2'] = gui_state(ld, "2", GUI_SML, GUI_CHAR, '2');
+                keyd['1'] = gui_state(ld, "1", GUI_SML, GUI_CHAR, '1');
+                keyd['0'] = gui_state(ld, "0", GUI_SML, GUI_CHAR, '0');
                 gui_filler(ld);
             }
             if ((ld = gui_hstack(kd)))
             {
                 gui_filler(ld);
-                keyd['J'] = gui_state(ld, "J", GUI_SML, 'J', 0);
-                keyd['I'] = gui_state(ld, "I", GUI_SML, 'I', 0);
-                keyd['H'] = gui_state(ld, "H", GUI_SML, 'H', 0);
-                keyd['G'] = gui_state(ld, "G", GUI_SML, 'G', 0);
-                keyd['F'] = gui_state(ld, "F", GUI_SML, 'F', 0);
-                keyd['E'] = gui_state(ld, "E", GUI_SML, 'E', 0);
-                keyd['D'] = gui_state(ld, "D", GUI_SML, 'D', 0);
-                keyd['C'] = gui_state(ld, "C", GUI_SML, 'C', 0);
-                keyd['B'] = gui_state(ld, "B", GUI_SML, 'B', 0);
-                keyd['A'] = gui_state(ld, "A", GUI_SML, 'A', 0);
+                keyd['J'] = gui_state(ld, "J", GUI_SML, GUI_CHAR, 'J');
+                keyd['I'] = gui_state(ld, "I", GUI_SML, GUI_CHAR, 'I');
+                keyd['H'] = gui_state(ld, "H", GUI_SML, GUI_CHAR, 'H');
+                keyd['G'] = gui_state(ld, "G", GUI_SML, GUI_CHAR, 'G');
+                keyd['F'] = gui_state(ld, "F", GUI_SML, GUI_CHAR, 'F');
+                keyd['E'] = gui_state(ld, "E", GUI_SML, GUI_CHAR, 'E');
+                keyd['D'] = gui_state(ld, "D", GUI_SML, GUI_CHAR, 'D');
+                keyd['C'] = gui_state(ld, "C", GUI_SML, GUI_CHAR, 'C');
+                keyd['B'] = gui_state(ld, "B", GUI_SML, GUI_CHAR, 'B');
+                keyd['A'] = gui_state(ld, "A", GUI_SML, GUI_CHAR, 'A');
                 gui_filler(ld);
             }
             if ((ld = gui_hstack(kd)))
             {
                 gui_filler(ld);
-                keyd['T'] = gui_state(ld, "T", GUI_SML, 'T', 0);
-                keyd['S'] = gui_state(ld, "S", GUI_SML, 'S', 0);
-                keyd['R'] = gui_state(ld, "R", GUI_SML, 'R', 0);
-                keyd['Q'] = gui_state(ld, "Q", GUI_SML, 'Q', 0);
-                keyd['P'] = gui_state(ld, "P", GUI_SML, 'P', 0);
-                keyd['O'] = gui_state(ld, "O", GUI_SML, 'O', 0);
-                keyd['N'] = gui_state(ld, "N", GUI_SML, 'N', 0);
-                keyd['M'] = gui_state(ld, "M", GUI_SML, 'M', 0);
-                keyd['L'] = gui_state(ld, "L", GUI_SML, 'L', 0);
-                keyd['K'] = gui_state(ld, "K", GUI_SML, 'K', 0);
+                keyd['T'] = gui_state(ld, "T", GUI_SML, GUI_CHAR, 'T');
+                keyd['S'] = gui_state(ld, "S", GUI_SML, GUI_CHAR, 'S');
+                keyd['R'] = gui_state(ld, "R", GUI_SML, GUI_CHAR, 'R');
+                keyd['Q'] = gui_state(ld, "Q", GUI_SML, GUI_CHAR, 'Q');
+                keyd['P'] = gui_state(ld, "P", GUI_SML, GUI_CHAR, 'P');
+                keyd['O'] = gui_state(ld, "O", GUI_SML, GUI_CHAR, 'O');
+                keyd['N'] = gui_state(ld, "N", GUI_SML, GUI_CHAR, 'N');
+                keyd['M'] = gui_state(ld, "M", GUI_SML, GUI_CHAR, 'M');
+                keyd['L'] = gui_state(ld, "L", GUI_SML, GUI_CHAR, 'L');
+                keyd['K'] = gui_state(ld, "K", GUI_SML, GUI_CHAR, 'K');
                 gui_filler(ld);
             }
             if ((ld = gui_hstack(kd)))
             {
                 gui_filler(ld);
                 gui_state(ld, "<", GUI_SML, GUI_BS, 0);
-                keyd['Z'] = gui_state(ld, "Z", GUI_SML, 'Z', 0);
-                keyd['Y'] = gui_state(ld, "Y", GUI_SML, 'Y', 0);
-                keyd['X'] = gui_state(ld, "X", GUI_SML, 'X', 0);
-                keyd['W'] = gui_state(ld, "W", GUI_SML, 'W', 0);
-                keyd['V'] = gui_state(ld, "V", GUI_SML, 'V', 0);
-                keyd['U'] = gui_state(ld, "U", GUI_SML, 'U', 0);
+                keyd['Z'] = gui_state(ld, "Z", GUI_SML, GUI_CHAR, 'Z');
+                keyd['Y'] = gui_state(ld, "Y", GUI_SML, GUI_CHAR, 'Y');
+                keyd['X'] = gui_state(ld, "X", GUI_SML, GUI_CHAR, 'X');
+                keyd['W'] = gui_state(ld, "W", GUI_SML, GUI_CHAR, 'W');
+                keyd['V'] = gui_state(ld, "V", GUI_SML, GUI_CHAR, 'V');
+                keyd['U'] = gui_state(ld, "U", GUI_SML, GUI_CHAR, 'U');
                 gui_state(ld, _("caps"), GUI_SML, GUI_CL, 0);
                 gui_filler(ld);
             }
@@ -410,12 +410,6 @@ char gui_keyboard_char(char c)
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * XXX Watch  out when  using these  functions. Be  sure to  check for
- * GUI_NULL in addition to GUI_NEXT and GUI_PREV when using the latter
- * two as labels for a switch with a default label.
- */
-
 int gui_navig(int id, int prev, int next)
 {
     int jd;
@@ -424,8 +418,8 @@ int gui_navig(int id, int prev, int next)
     {
         if (next || prev)
         {
-            gui_maybe(jd, _("Next"), GUI_NEXT, GUI_NULL, next);
-            gui_maybe(jd, _("Prev"), GUI_PREV, GUI_NULL, prev);
+            gui_maybe(jd, _("Next"), GUI_NEXT, GUI_NONE, next);
+            gui_maybe(jd, _("Prev"), GUI_PREV, GUI_NONE, prev);
         }
 
         gui_space(jd);

@@ -39,11 +39,16 @@ static int desc_id;
 
 static int do_init = 1;
 
-static int set_action(int i)
+enum
+{
+    SET_SELECT = GUI_LAST
+};
+
+static int set_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case GUI_BACK:
         set_quit();
@@ -68,14 +73,10 @@ static int set_action(int i)
 
         break;
 
-    case GUI_NULL:
-        return 1;
-        break;
-
-    default:
-        if (set_exists(i))
+    case SET_SELECT:
+        if (set_exists(val))
         {
-            set_goto(i);
+            set_goto(val);
             return goto_state(&st_start);
         }
     }
@@ -86,7 +87,7 @@ static int set_action(int i)
 static void gui_set(int id, int i)
 {
     if (set_exists(i))
-        gui_state(id, set_name(i), GUI_SML, i, 0);
+        gui_state(id, set_name(i), GUI_SML, SET_SELECT, i);
     else
         gui_label(id, "", GUI_SML, GUI_ALL, 0, 0);
 }
@@ -156,27 +157,29 @@ static void set_over(int i)
 static void set_point(int id, int x, int y, int dx, int dy)
 {
     int jd = shared_point_basic(id, x, y);
-    int i  = gui_token(jd);
-    if (jd && set_exists(i))
-        set_over(i);
+
+    if (jd && gui_token(jd) == SET_SELECT)
+        set_over(gui_value(jd));
 }
 
 static void set_stick(int id, int a, float v, int bump)
 {
     int jd = shared_stick_basic(id, a, v, bump);
-    int i  = gui_token(jd);
-    if (jd && set_exists(i))
-        set_over(i);
+
+    if (jd && gui_token(jd) == SET_SELECT)
+        set_over(gui_value(jd));
 }
 
 static int set_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return set_action(gui_token(gui_active()));
+            return set_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return set_action(GUI_BACK);
+            return set_action(GUI_BACK, 0);
     }
     return 1;
 }

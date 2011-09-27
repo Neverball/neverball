@@ -37,7 +37,7 @@
 
 enum
 {
-    BALL_NEXT = 1,
+    BALL_NEXT = GUI_LAST,
     BALL_PREV,
     BALL_BACK
 };
@@ -119,11 +119,11 @@ static void set_curr_ball(void)
     gui_set_label(name_id, base_name(ball_file));
 }
 
-static int ball_action(int i)
+static int ball_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case BALL_NEXT:
         if (++curr_ball == array_len(balls))
@@ -157,7 +157,7 @@ static void load_ball_demo(void)
 
     if (!demo_replay_init("gui/ball.nbr", &g, NULL, NULL, NULL, NULL))
     {
-        ball_action(BALL_BACK);
+        ball_action(BALL_BACK, 0);
         return;
     }
 
@@ -253,11 +253,13 @@ static int ball_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return ball_action(gui_token(gui_active()));
+            return ball_action(gui_token(active), gui_value(active));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return ball_action(BALL_BACK);
+            return ball_action(BALL_BACK, 0);
     }
     return 1;
 }

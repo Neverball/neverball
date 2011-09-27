@@ -32,25 +32,29 @@ static SDL_Rect **modes;
 
 /*---------------------------------------------------------------------------*/
 
-#define RESOL_BACK -1
+enum
+{
+    RESOL_BACK = 1,
+    RESOL_SELECT
+};
 
-static int resol_action(int i)
+static int resol_action(int tok, int val)
 {
     int r = 1;
 
     audio_play("snd/menu.ogg", 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case RESOL_BACK:
         goto_state(st_back);
         st_back = NULL;
         break;
 
-    default:
+    case RESOL_SELECT:
         goto_state(&st_null);
         r = video_mode(config_get_d(CONFIG_FULLSCREEN),
-                       modes[i]->w, modes[i]->h);
+                       modes[val]->w, modes[val]->h);
         goto_state(&st_resol);
         break;
     }
@@ -74,7 +78,7 @@ static int fill_row(int id, SDL_Rect **modes, int i, int n)
 
         complete = fill_row(id, modes, i + 1, n - 1);
 
-        btn = gui_state(id, label, GUI_SML, i, 0);
+        btn = gui_state(id, label, GUI_SML, RESOL_SELECT, i);
 
         gui_set_hilite(btn, (config_get_d(CONFIG_WIDTH)  == modes[i]->w &&
                              config_get_d(CONFIG_HEIGHT) == modes[i]->h));
@@ -171,32 +175,36 @@ static void resol_stick(int id, int a, float v, int bump)
 static int resol_click(int b, int d)
 {
     if (gui_click(b, d))
-        return resol_action(gui_token(gui_active()));
+    {
+        int active = gui_active();
 
+        return resol_action(gui_token(active), gui_value(active));
+    }
     return 1;
 }
 
 static int resol_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? resol_action(RESOL_BACK) : 1;
+    return (d && c == SDLK_ESCAPE) ? resol_action(RESOL_BACK, 0) : 1;
 }
 
 static int resol_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return resol_action(gui_token(gui_active()));
+            return resol_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return resol_action(RESOL_BACK);
+            return resol_action(RESOL_BACK, 0);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return resol_action(RESOL_BACK);
+            return resol_action(RESOL_BACK, 0);
     }
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/
-
 
 struct state st_resol = {
     resol_enter,

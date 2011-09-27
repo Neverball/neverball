@@ -56,28 +56,29 @@ int goto_save(struct state *ok, struct state *cancel)
 
 static int file_id;
 
-#define SAVE_SAVE   -1
-#define SAVE_CANCEL -2
-
-static int save_action(int i)
+enum
 {
-    char *n;
+    SAVE_SAVE = GUI_LAST,
+    SAVE_CANCEL
+};
 
+static int save_action(int tok, int val)
+{
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case SAVE_SAVE:
-        n = filename;
-
-        if (strlen(n) == 0)
+        if (strlen(filename) == 0)
             return 1;
 
-        if (demo_exists(n))
+        if (demo_exists(filename))
+        {
             return goto_state(&st_clobber);
+        }
         else
         {
-            demo_rename(n);
+            demo_rename(filename);
             return goto_state(ok_state);
         }
 
@@ -93,8 +94,9 @@ static int save_action(int i)
             gui_set_label(file_id, filename);
         break;
 
-    default:
-        if (!path_is_sep(i) && text_add_char(i, filename, sizeof (filename)))
+    case GUI_CHAR:
+        if (!path_is_sep(val) &&
+            text_add_char(val, filename, sizeof (filename)))
             gui_set_label(file_id, filename);
     }
     return 1;
@@ -153,9 +155,9 @@ static int save_keybd(int c, int d)
         gui_focus(enter_id);
 
         if (c == '\b' || c == 0x7F)
-            return save_action(GUI_BS);
+            return save_action(GUI_BS, 0);
         if (c >= ' ')
-            return save_action(c);
+            return save_action(GUI_CHAR, c);
     }
     return 1;
 }
@@ -166,26 +168,26 @@ static int save_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
-            int c = gui_token(gui_active());
+            int tok = gui_token(gui_active());
+            int val = gui_token(gui_active());
 
-            if (c >= 0 && !GUI_ISMSK(c))
-                return save_action(gui_keyboard_char(c));
-            else
-                return save_action(c);
+            return save_action(tok, (tok == GUI_CHAR ?
+                                     gui_keyboard_char(val) :
+                                     val));
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return save_action(SAVE_CANCEL);
+            return save_action(SAVE_CANCEL, 0);
     }
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static int clobber_action(int i)
+static int clobber_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    if (i == SAVE_SAVE)
+    if (tok == SAVE_SAVE)
     {
         demo_rename(filename);
         return goto_state(ok_state);
@@ -229,10 +231,12 @@ static int clobber_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return clobber_action(gui_token(gui_active()));
+            return clobber_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return clobber_action(SAVE_CANCEL);
+            return clobber_action(SAVE_CANCEL, 0);
     }
     return 1;
 }

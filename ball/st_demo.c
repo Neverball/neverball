@@ -49,11 +49,16 @@ static int last_viewed = 0;
 
 /*---------------------------------------------------------------------------*/
 
-static int demo_action(int i)
+enum
+{
+    DEMO_SELECT = GUI_LAST
+};
+
+static int demo_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case GUI_BACK:
         return goto_state(&st_title);
@@ -68,14 +73,10 @@ static int demo_action(int i)
         return goto_state(&st_demo);
         break;
 
-    case GUI_NULL:
-        return 1;
-        break;
-
-    default:
-        if (progress_replay(DIR_ITEM_GET(items, i)->path))
+    case DEMO_SELECT:
+        if (progress_replay(DIR_ITEM_GET(items, val)->path))
         {
-            last_viewed = i;
+            last_viewed = val;
             demo_play_goto(0);
             return goto_state(&st_demo_play);
         }
@@ -120,10 +121,12 @@ static int gui_demo_thumbs(int id)
                             gui_space(ld);
 
                             thumb->shot = gui_image(ld, " ", w / 6, h / 6);
-                            thumb->name = gui_state(ld, " ", GUI_SML, j, 0);
+                            thumb->name = gui_label(ld, " ",
+                                                    GUI_SML, GUI_ALL,
+                                                    gui_wht, gui_wht);
 
                             gui_set_trunc(thumb->name, TRUNC_TAIL);
-                            gui_set_state(ld, j, 0);
+                            gui_set_state(ld, DEMO_SELECT, j);
                         }
                     }
                     else
@@ -350,29 +353,35 @@ static void demo_timer(int id, float dt)
 static void demo_point(int id, int x, int y, int dx, int dy)
 {
     int jd = shared_point_basic(id, x, y);
-    int i  = gui_token(jd);
 
-    if (jd && i >= 0 && !GUI_ISMSK(i))
-        gui_demo_update_status(i);
+    if (jd && gui_token(jd) == DEMO_SELECT)
+        gui_demo_update_status(gui_value(jd));
 }
 
 static void demo_stick(int id, int a, float v, int bump)
 {
     int jd = shared_stick_basic(id, a, v, bump);
-    int i  = gui_token(jd);
 
-    if (jd && i >= 0 && !GUI_ISMSK(i))
-        gui_demo_update_status(i);
+    if (jd && gui_token(jd) == DEMO_SELECT)
+        gui_demo_update_status(gui_value(jd));
 }
 
 static int demo_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_action(total ? gui_token(gui_active()) : GUI_BACK);
+        {
+            if (total)
+                return demo_action(gui_token(active), gui_value(active));
+            else
+                return demo_action(GUI_BACK, 0);
+        }
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return demo_action(GUI_BACK);
+            return demo_action(GUI_BACK, 0);
     }
     return 1;
 }
@@ -539,17 +548,20 @@ static int demo_play_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-#define DEMO_KEEP      0
-#define DEMO_DEL       1
-#define DEMO_QUIT      2
-#define DEMO_REPLAY    3
-#define DEMO_CONTINUE  4
+enum
+{
+    DEMO_KEEP = GUI_LAST,
+    DEMO_DEL,
+    DEMO_QUIT,
+    DEMO_REPLAY,
+    DEMO_CONTINUE
+};
 
-static int demo_end_action(int i)
+static int demo_end_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case DEMO_DEL:
         demo_paused = 0;
@@ -632,7 +644,7 @@ static int demo_end_keybd(int c, int d)
     if (d)
     {
         if (demo_paused && config_tst_d(CONFIG_KEY_PAUSE, c))
-            return demo_end_action(DEMO_CONTINUE);
+            return demo_end_action(DEMO_CONTINUE, 0);
     }
     return 1;
 }
@@ -641,15 +653,17 @@ static int demo_end_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_end_action(gui_token(gui_active()));
+            return demo_end_action(gui_token(active), gui_value(active));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
             if (demo_paused)
-                return demo_end_action(DEMO_CONTINUE);
+                return demo_end_action(DEMO_CONTINUE, 0);
             else
-                return demo_end_action(standalone ? DEMO_QUIT : DEMO_KEEP);
+                return demo_end_action(standalone ? DEMO_QUIT : DEMO_KEEP, 0);
         }
     }
     return 1;
@@ -657,10 +671,10 @@ static int demo_end_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int demo_del_action(int i)
+static int demo_del_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
-    demo_replay_stop(i == DEMO_DEL);
+    demo_replay_stop(tok == DEMO_DEL);
     return goto_state(&st_demo);
 }
 
@@ -696,10 +710,12 @@ static int demo_del_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_del_action(gui_token(gui_active()));
+            return demo_del_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return demo_del_action(DEMO_KEEP);
+            return demo_del_action(DEMO_KEEP, 0);
     }
     return 1;
 }
