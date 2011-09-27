@@ -130,6 +130,8 @@ static int conf_action(int i)
 static int conf_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
+    int btn0, btn1;
+    int i;
 
     back_init("back/gui.png");
 
@@ -161,8 +163,11 @@ static int conf_enter(struct state *st, struct state *prev)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, _("No"),  GUI_SML, CONF_WIN,  (f == 0));
-            gui_state(kd, _("Yes"), GUI_SML, CONF_FULL, (f == 1));
+            btn0 = gui_state(kd, _("No"),  GUI_SML, CONF_WIN,  0);
+            btn1 = gui_state(kd, _("Yes"), GUI_SML, CONF_FULL, 0);
+
+            if (f) gui_set_hilite(btn1, 1);
+            else   gui_set_hilite(btn0, 1);
 
             gui_label(jd, _("Fullscreen"), GUI_SML, GUI_ALL, 0, 0);
         }
@@ -180,8 +185,11 @@ static int conf_enter(struct state *st, struct state *prev)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, _("Low"),  GUI_SML, CONF_TEXLO, (t == 2));
-            gui_state(kd, _("High"), GUI_SML, CONF_TEXHI, (t == 1));
+            btn0 = gui_state(kd, _("Low"),  GUI_SML, CONF_TEXLO, 0);
+            btn1 = gui_state(kd, _("High"), GUI_SML, CONF_TEXHI, 0);
+
+            gui_set_hilite(btn0, (t == 2));
+            gui_set_hilite(btn1, (t == 1));
 
             gui_label(jd, _("Textures"), GUI_SML, GUI_ALL, 0, 0);
         }
@@ -189,8 +197,11 @@ static int conf_enter(struct state *st, struct state *prev)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, _("Off"),  GUI_SML, CONF_SHDOF, (h == 0));
-            gui_state(kd, _("On"),   GUI_SML, CONF_SHDON, (h == 1));
+            btn0 = gui_state(kd, _("Off"),  GUI_SML, CONF_SHDOF, (h == 0));
+            btn1 = gui_state(kd, _("On"),   GUI_SML, CONF_SHDON, (h == 1));
+
+            if (h) gui_set_hilite(btn1, 1);
+            else   gui_set_hilite(btn0, 1);
 
             gui_label(jd, _("Shadow"), GUI_SML, GUI_ALL, 0, 0);
         }
@@ -202,17 +213,12 @@ static int conf_enter(struct state *st, struct state *prev)
         {
             /* A series of empty buttons forms the sound volume control. */
 
-            sound_id[10] = gui_state(kd, NULL, GUI_SML, 110, (s == 10));
-            sound_id[ 9] = gui_state(kd, NULL, GUI_SML, 109, (s ==  9));
-            sound_id[ 8] = gui_state(kd, NULL, GUI_SML, 108, (s ==  8));
-            sound_id[ 7] = gui_state(kd, NULL, GUI_SML, 107, (s ==  7));
-            sound_id[ 6] = gui_state(kd, NULL, GUI_SML, 106, (s ==  6));
-            sound_id[ 5] = gui_state(kd, NULL, GUI_SML, 105, (s ==  5));
-            sound_id[ 4] = gui_state(kd, NULL, GUI_SML, 104, (s ==  4));
-            sound_id[ 3] = gui_state(kd, NULL, GUI_SML, 103, (s ==  3));
-            sound_id[ 2] = gui_state(kd, NULL, GUI_SML, 102, (s ==  2));
-            sound_id[ 1] = gui_state(kd, NULL, GUI_SML, 101, (s ==  1));
-            sound_id[ 0] = gui_state(kd, NULL, GUI_SML, 100, (s ==  0));
+            for (i = 10; i >= 0; i--)
+            {
+                sound_id[i] = gui_state(kd, NULL, GUI_SML, 100 + i, 0);
+
+                gui_set_hilite(sound_id[i], (s == i));
+            }
 
             gui_label(jd, _("Sound Volume"), GUI_SML, GUI_ALL, 0, 0);
         }
@@ -222,17 +228,12 @@ static int conf_enter(struct state *st, struct state *prev)
         {
             /* A series of empty buttons forms the music volume control. */
 
-            music_id[10] = gui_state(kd, NULL, GUI_SML, 210, (m == 10));
-            music_id[ 9] = gui_state(kd, NULL, GUI_SML, 209, (m ==  9));
-            music_id[ 8] = gui_state(kd, NULL, GUI_SML, 208, (m ==  8));
-            music_id[ 7] = gui_state(kd, NULL, GUI_SML, 207, (m ==  7));
-            music_id[ 6] = gui_state(kd, NULL, GUI_SML, 206, (m ==  6));
-            music_id[ 5] = gui_state(kd, NULL, GUI_SML, 205, (m ==  5));
-            music_id[ 4] = gui_state(kd, NULL, GUI_SML, 204, (m ==  4));
-            music_id[ 3] = gui_state(kd, NULL, GUI_SML, 203, (m ==  3));
-            music_id[ 2] = gui_state(kd, NULL, GUI_SML, 202, (m ==  2));
-            music_id[ 1] = gui_state(kd, NULL, GUI_SML, 201, (m ==  1));
-            music_id[ 0] = gui_state(kd, NULL, GUI_SML, 200, (m ==  0));
+            for (i = 10; i >= 0; i--)
+            {
+                music_id[i] = gui_state(kd, NULL, GUI_SML, 200 + i, 0);
+
+                gui_set_hilite(music_id[i], (m == i));
+            }
 
             gui_label(jd, _("Music Volume"), GUI_SML, GUI_ALL, 0, 0);
         }

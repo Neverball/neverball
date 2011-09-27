@@ -207,9 +207,10 @@ static int start_gui(void)
                         for (j = 4; j >= 0; j--)
                             gui_level(ld, i * 5 + j);
 
-                challenge_id = gui_state(kd, _("Challenge"),
-                                         GUI_SML, START_CHALLENGE,
-                                         curr_mode() == MODE_CHALLENGE);
+                challenge_id = gui_state(kd, _("Challenge"), GUI_SML,
+                                         START_CHALLENGE, 0);
+
+                gui_set_hilite(challenge_id, curr_mode() == MODE_CHALLENGE);
             }
         }
         gui_space(id);
@@ -224,16 +225,22 @@ static int start_gui(void)
 
             if ((kd = gui_harray(jd)))
             {
+                int btn0, btn1;
+
                 /* TODO, replace the whitespace hack with something sane. */
 
-                gui_state(kd,
-                          /* Translators: adjust the amount of whitespace here
-                           * as necessary for the buttons to look good. */
-                          _("   No   "), GUI_SML, START_OPEN_GOALS,
-                          config_get_d(CONFIG_LOCK_GOALS) == 0);
+                btn0 = gui_state(kd,
+                                 /* Translators: adjust the amount of
+                                  * whitespace here as necessary for
+                                  * the buttons to look good. */
+                                 _("   No   "), GUI_SML, START_OPEN_GOALS, 0);
 
-                gui_state(kd, _("Yes"), GUI_SML, START_LOCK_GOALS,
-                          config_get_d(CONFIG_LOCK_GOALS) == 1);
+                btn1 = gui_state(kd, _("Yes"), GUI_SML, START_LOCK_GOALS, 0);
+
+                if (config_get_d(CONFIG_LOCK_GOALS))
+                    gui_set_hilite(btn1, 1);
+                else
+                    gui_set_hilite(btn0, 1);
             }
 
             gui_space(jd);

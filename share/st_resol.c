@@ -68,14 +68,16 @@ static int fill_row(int id, SDL_Rect **modes, int i, int n)
     if (modes[i])
     {
         char label[20];
+        int btn;
 
         sprintf(label, "%d x %d", modes[i]->w, modes[i]->h);
 
         complete = fill_row(id, modes, i + 1, n - 1);
 
-        gui_state(id, label, GUI_SML, i,
-                  config_get_d(CONFIG_WIDTH)  == modes[i]->w &&
-                  config_get_d(CONFIG_HEIGHT) == modes[i]->h);
+        btn = gui_state(id, label, GUI_SML, i, 0);
+
+        gui_set_hilite(btn, (config_get_d(CONFIG_WIDTH)  == modes[i]->w &&
+                             config_get_d(CONFIG_HEIGHT) == modes[i]->h));
     }
     else
     {

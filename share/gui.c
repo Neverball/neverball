@@ -57,8 +57,9 @@ const GLubyte gui_shd[4] = { 0x00, 0x00, 0x00, 0x80 };  /* Shadow */
 #define GUI_SPACE  10
 #define GUI_BUTTON 11
 
-#define GUI_STATE 1
-#define GUI_FILL  2
+#define GUI_STATE  1
+#define GUI_FILL   2
+#define GUI_HILITE 4
 
 #define GUI_LINES 8
 
@@ -700,6 +701,14 @@ int gui_set_state(int id, int token, int value)
     return id;
 }
 
+void gui_set_hilite(int id, int hilite)
+{
+    if (hilite)
+        widget[id].flags |= GUI_HILITE;
+    else
+        widget[id].flags &= ~GUI_HILITE;
+}
+
 /*---------------------------------------------------------------------------*/
 
 int gui_image(int pd, const char *file, int w, int h)
@@ -1266,8 +1275,8 @@ static void gui_paint_rect(int id, int st)
     /* Use the widget status to determine the background color. */
 
     if (gui_hot(id))
-        i = st | (((widget[id].value) ? 2 : 0) |
-                  ((id == active)     ? 1 : 0));
+        i = st | (((widget[id].flags & GUI_HILITE) ? 2 : 0) |
+                  ((id == active)                  ? 1 : 0));
 
     switch (widget[id].type)
     {
@@ -1654,7 +1663,7 @@ int gui_value(int id)
 
 void gui_toggle(int id)
 {
-    widget[id].value = widget[id].value ? 0 : 1;
+    widget[id].flags ^= GUI_HILITE;
 }
 
 /*---------------------------------------------------------------------------*/

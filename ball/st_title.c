@@ -169,15 +169,19 @@ static int title_gui(void)
             {
                 if (config_cheat())
                     play_id = gui_start(kd, sgettext("menu^Cheat"),
-                                        GUI_MED, TITLE_PLAY, 1);
+                                        GUI_MED, TITLE_PLAY, 0);
                 else
                     play_id = gui_start(kd, sgettext("menu^Play"),
-                                        GUI_MED, TITLE_PLAY, 1);
+                                        GUI_MED, TITLE_PLAY, 0);
 
                 gui_state(kd, sgettext("menu^Replay"),  GUI_MED, TITLE_DEMO, 0);
                 gui_state(kd, sgettext("menu^Help"),    GUI_MED, TITLE_HELP, 0);
                 gui_state(kd, sgettext("menu^Options"), GUI_MED, TITLE_CONF, 0);
                 gui_state(kd, sgettext("menu^Exit"),    GUI_MED, TITLE_EXIT, 0);
+
+                /* Hilight the start button. */
+
+                gui_set_hilite(play_id, 1);
             }
 
             gui_filler(jd);

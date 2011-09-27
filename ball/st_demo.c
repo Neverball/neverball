@@ -590,19 +590,16 @@ static int demo_end_gui(void)
 
             if (standalone)
             {
-                start_id = gui_start(jd, _("Quit"), GUI_SML, DEMO_QUIT, 1);
+                start_id = gui_start(jd, _("Quit"), GUI_SML, DEMO_QUIT, 0);
             }
             else
             {
-                start_id = gui_start(jd, _("Keep"), GUI_SML, DEMO_KEEP, 1);
+                start_id = gui_start(jd, _("Keep"), GUI_SML, DEMO_KEEP, 0);
                 gui_state(jd, _("Delete"), GUI_SML, DEMO_DEL, 0);
             }
 
             if (demo_paused)
-            {
-                gui_start(jd, _("Continue"), GUI_SML, DEMO_CONTINUE, 1);
-                gui_toggle(start_id);
-            }
+                gui_start(jd, _("Continue"), GUI_SML, DEMO_CONTINUE, 0);
             else
                 gui_state(jd, _("Repeat"),   GUI_SML, DEMO_REPLAY,   0);
         }
@@ -677,7 +674,7 @@ static int demo_del_gui(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_start(jd, _("No"),  GUI_SML, DEMO_KEEP, 1);
+            gui_start(jd, _("No"),  GUI_SML, DEMO_KEEP, 0);
             gui_state(jd, _("Yes"), GUI_SML, DEMO_DEL,  0);
         }
 

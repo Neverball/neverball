@@ -50,7 +50,11 @@ static void conf_slider(int id, const char *text,
         /* A series of empty buttons forms a "slider". */
 
         for (i = num - 1; i >= 0; i--)
-            ids[i] = gui_state(kd, NULL, GUI_SML, token + i, (i == value));
+        {
+            ids[i] = gui_state(kd, NULL, GUI_SML, token + i, 0);
+
+            gui_set_hilite(ids[i], (i == value));
+        }
 
         gui_label(jd, text, GUI_SML, GUI_ALL, 0, 0);
     }
@@ -77,8 +81,13 @@ static void conf_toggle(int id, const char *label, int value,
 
     if ((jd = gui_harray(id)) && (kd = gui_harray(jd)))
     {
-        gui_state(kd, text0, GUI_SML, token0, (value == value0));
-        gui_state(kd, text1, GUI_SML, token1, (value == value1));
+        int btn0, btn1;
+
+        btn0 = gui_state(kd, text0, GUI_SML, token0, 0);
+        btn1 = gui_state(kd, text1, GUI_SML, token1, 0);
+
+        gui_set_hilite(btn0, (value == value0));
+        gui_set_hilite(btn1, (value == value1));
 
         gui_label(jd, label, GUI_SML, GUI_ALL, 0, 0);
     }

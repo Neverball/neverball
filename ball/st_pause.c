@@ -87,7 +87,7 @@ static int pause_gui(void)
             if (progress_same_avail())
                 gui_state(jd, _("Restart"), GUI_SML, PAUSE_RESTART, 0);
 
-            gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 1);
+            gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 0);
         }
 
         gui_pulse(title_id, 1.2f);

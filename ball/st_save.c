@@ -206,7 +206,7 @@ static int clobber_gui(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_start(jd, _("No"),  GUI_SML, SAVE_CANCEL, 1);
+            gui_start(jd, _("No"),  GUI_SML, SAVE_CANCEL, 0);
             gui_state(jd, _("Yes"), GUI_SML, SAVE_SAVE,   0);
         }
 

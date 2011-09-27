@@ -199,21 +199,24 @@ void gui_score_board(int pd, unsigned int types, int e, int h)
 
                 if ((types & GUI_SCORE_COIN) == GUI_SCORE_COIN)
                 {
-                    coin_btn_id = gui_state(kd, _("Most Coins"),
-                                            GUI_SML, GUI_SCORE_COIN,
-                                            score_type == GUI_SCORE_COIN);
+                    coin_btn_id = gui_state(kd, _("Most Coins"), GUI_SML,
+                                            GUI_SCORE_COIN, 0);
+
+                    gui_set_hilite(coin_btn_id, score_type == GUI_SCORE_COIN);
                 }
                 if ((types & GUI_SCORE_TIME) == GUI_SCORE_TIME)
                 {
-                    time_btn_id = gui_state(kd, _("Best Times"),
-                                            GUI_SML, GUI_SCORE_TIME,
-                                            score_type == GUI_SCORE_TIME);
+                    time_btn_id = gui_state(kd, _("Best Times"), GUI_SML,
+                                            GUI_SCORE_TIME, 0);
+
+                    gui_set_hilite(time_btn_id, score_type == GUI_SCORE_TIME);
                 }
                 if ((types & GUI_SCORE_GOAL) == GUI_SCORE_GOAL)
                 {
-                    goal_btn_id = gui_state(kd, _("Fast Unlock"),
-                                            GUI_SML, GUI_SCORE_GOAL,
-                                            score_type == GUI_SCORE_GOAL);
+                    goal_btn_id = gui_state(kd, _("Fast Unlock"), GUI_SML,
+                                            GUI_SCORE_GOAL, 0);
+
+                    gui_set_hilite(goal_btn_id, score_type == GUI_SCORE_GOAL);
                 }
 
                 if (h)

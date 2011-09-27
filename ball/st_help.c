@@ -73,10 +73,13 @@ static int help_action(int t)
 
 static int help_button(int id, const char *text, int token)
 {
-    int jd = gui_state(id, text, GUI_SML, token, (token == tab));
+    int jd = gui_state(id, text, GUI_SML, token, 0);
 
     if (token == tab)
+    {
+        gui_set_hilite(jd, 1);
         gui_focus(jd);
+    }
 
     return jd;
 }
