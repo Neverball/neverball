@@ -598,20 +598,22 @@ void gui_set_label(int id, const char *text)
     int w = 0;
     int h = 0;
 
+    char *str;
+
     glDeleteTextures(1, &widget[id].image);
 
-    text = gui_truncate(text, widget[id].w - radius,
-                        font[widget[id].size],
-                        widget[id].trunc);
+    str = gui_truncate(text, widget[id].w - radius,
+                       font[widget[id].size],
+                       widget[id].trunc);
 
     widget[id].image = make_image_from_font(NULL, NULL, &w, &h,
-                                            text, font[widget[id].size]);
+                                            str, font[widget[id].size]);
     widget[id].text_w = w;
     widget[id].text_h = h;
 
     gui_text(id, -w / 2, -h / 2, w, h, widget[id].color0, widget[id].color1);
 
-    free((void *) text); /* Really? */
+    free(str);
 }
 
 void gui_set_count(int id, int value)
