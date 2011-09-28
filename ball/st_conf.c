@@ -187,19 +187,44 @@ enum
 {
     CONF_BACK = CONF_SHARED_BACK,
     CONF_VIDEO,
+    CONF_MOUSE_SENSE,
     CONF_SOUND_VOLUME,
     CONF_MUSIC_VOLUME,
     CONF_PLAYER,
     CONF_BALL
 };
 
+static int mouse_id[11];
 static int music_id[11];
 static int sound_id[11];
 
+/*
+ * This maps mouse_sense 300 (default) to the 7th of an 11 button
+ * series. Effectively there are more options for a lower-than-default
+ * sensitivity than for a higher one.
+ */
+
+#define MOUSE_RANGE_MIN  100
+#define MOUSE_RANGE_INC  50
+#define MOUSE_RANGE_MAX (MOUSE_RANGE_MIN + (MOUSE_RANGE_INC * 10))
+
+/*
+ * Map mouse_sense values to [0, 10]. A higher mouse_sense value means
+ * lower sensitivity, thus counter-intuitively, 0 maps to the higher
+ * value.
+ */
+
+#define MOUSE_RANGE_MAP(m) \
+    CLAMP(0, (MOUSE_RANGE_MAX - m) / MOUSE_RANGE_INC, 10)
+
+#define MOUSE_RANGE_UNMAP(i) \
+    (MOUSE_RANGE_MAX - (i * MOUSE_RANGE_INC))
+
 static int conf_action(int tok, int val)
 {
-    int s = config_get_d(CONFIG_SOUND_VOLUME);
-    int m = config_get_d(CONFIG_MUSIC_VOLUME);
+    int sound = config_get_d(CONFIG_SOUND_VOLUME);
+    int music = config_get_d(CONFIG_MUSIC_VOLUME);
+    int mouse = MOUSE_RANGE_MAP(config_get_d(CONFIG_MOUSE_SENSE));
     int r = 1;
 
     audio_play(AUD_MENU, 1.0f);
@@ -222,22 +247,29 @@ static int conf_action(int tok, int val)
         goto_state(&st_ball);
         break;
 
+    case CONF_MOUSE_SENSE:
+        config_set_d(CONFIG_MOUSE_SENSE, MOUSE_RANGE_UNMAP(val));
+
+        gui_toggle(mouse_id[val]);
+        gui_toggle(mouse_id[mouse]);
+        break;
+
     case CONF_SOUND_VOLUME:
         config_set_d(CONFIG_SOUND_VOLUME, val);
-        audio_volume(val, m);
+        audio_volume(val, music);
         audio_play(AUD_BUMPM, 1.f);
 
         gui_toggle(sound_id[val]);
-        gui_toggle(sound_id[s]);
+        gui_toggle(sound_id[sound]);
         break;
 
     case CONF_MUSIC_VOLUME:
         config_set_d(CONFIG_MUSIC_VOLUME, val);
-        audio_volume(s, val);
+        audio_volume(sound, val);
         audio_play(AUD_BUMPM, 1.f);
 
         gui_toggle(music_id[val]);
-        gui_toggle(music_id[m]);
+        gui_toggle(music_id[music]);
 
         break;
     }
@@ -253,8 +285,9 @@ static int conf_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        int s = config_get_d(CONFIG_SOUND_VOLUME);
-        int m = config_get_d(CONFIG_MUSIC_VOLUME);
+        int sound = config_get_d(CONFIG_SOUND_VOLUME);
+        int music = config_get_d(CONFIG_MUSIC_VOLUME);
+        int mouse = MOUSE_RANGE_MAP(config_get_d(CONFIG_MOUSE_SENSE));
 
         const char *player = config_get_s(CONFIG_PLAYER);
         const char *ball   = config_get_s(CONFIG_BALL_FILE);
@@ -267,9 +300,14 @@ static int conf_gui(void)
 
         gui_space(id);
 
-        conf_slider(id, _("Sound Volume"), CONF_SOUND_VOLUME, s,
+        conf_slider(id, _("Mouse sensitivity"), CONF_MOUSE_SENSE, mouse,
+                    mouse_id, ARRAYSIZE(mouse_id));
+
+        gui_space(id);
+
+        conf_slider(id, _("Sound Volume"), CONF_SOUND_VOLUME, sound,
                     sound_id, ARRAYSIZE(sound_id));
-        conf_slider(id, _("Music Volume"), CONF_MUSIC_VOLUME, m,
+        conf_slider(id, _("Music Volume"), CONF_MUSIC_VOLUME, music,
                     music_id, ARRAYSIZE(music_id));
 
         gui_space(id);
