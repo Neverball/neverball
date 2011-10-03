@@ -93,7 +93,10 @@ static void scan_level_attribs(struct level *l, const struct s_base *base)
             }
         }
         else if (strcmp(k, "version") == 0)
-            SAFECPY(l->version, v);
+        {
+            SAFECPY(l->version_str, v);
+            sscanf(v, "%d", &l->version_num);
+        }
         else if (strcmp(k, "author") == 0)
             SAFECPY(l->author, v);
         else if (strcmp(k, "bonus") == 0)

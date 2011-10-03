@@ -60,6 +60,10 @@ static struct level level_v[MAXLVL];
 
 /*---------------------------------------------------------------------------*/
 
+#define SCORE_VERSION 2
+
+static int score_version;
+
 static void put_score(fs_file fp, const struct score *s)
 {
     int i;
@@ -101,26 +105,9 @@ void set_store_hs(void)
 
     if ((fp = fs_open(config_cheat() ? s->cheat_scores : s->user_scores, "w")))
     {
-        const struct level *l;
-
-        char states[MAXLVL + 2] = "";
         int i;
 
-        for (i = 0; i < s->count; i++)
-        {
-            l = &level_v[i];
-
-            if (l->is_locked)
-                states[i] = 'L';
-            else if (l->is_completed)
-                states[i] = 'C';
-            else
-                states[i] = 'O';
-        }
-
-        states[s->count] = '\n';
-
-        fs_puts(states, fp);
+        fs_printf(fp, "version %d\nset %s\n", SCORE_VERSION, s->id);
 
         put_score(fp, &s->time_score);
         put_score(fp, &s->coin_score);
@@ -128,6 +115,13 @@ void set_store_hs(void)
         for (i = 0; i < s->count; i++)
         {
             const struct level *l = &level_v[i];
+
+            int flags = 0;
+
+            if (l->is_locked)    flags |= LEVEL_LOCKED;
+            if (l->is_completed) flags |= LEVEL_COMPLETED;
+
+            fs_printf(fp, "level %d %d %s\n", flags, l->version_num, l->file);
 
             put_score(fp, &l->scores[SCORE_TIME]);
             put_score(fp, &l->scores[SCORE_GOAL]);
@@ -138,6 +132,87 @@ void set_store_hs(void)
     }
 }
 
+static void set_load_hs_v1(fs_file fp, struct set *s, char *buf, int size)
+{
+    struct level *l;
+    int i, n;
+
+    /* First line holds level states. */
+
+    n = MIN(strlen(buf), s->count);
+
+    for (i = 0; i < n; i++)
+    {
+        l = &level_v[i];
+
+        l->is_locked    = (buf[i] == 'L');
+        l->is_completed = (buf[i] == 'C');
+    }
+
+    get_score(fp, &s->time_score);
+    get_score(fp, &s->coin_score);
+
+    for (i = 0; i < n; i++)
+    {
+        l = &level_v[i];
+
+        get_score(fp, &l->scores[SCORE_TIME]);
+        get_score(fp, &l->scores[SCORE_GOAL]);
+        get_score(fp, &l->scores[SCORE_COIN]);
+    }
+}
+
+static struct level *find_level(const struct set *s, const char *file)
+{
+    int i;
+
+    for (i = 0; i < s->count; i++)
+        if (strcmp(level_v[i].file, file) == 0)
+            return &level_v[i];
+
+    return NULL;
+}
+
+static void set_load_hs_v2(fs_file fp, struct set *s, char *buf, int size)
+{
+    while (fs_gets(buf, size, fp))
+    {
+        int version = 0;
+        int flags = 0;
+        int n = 0;
+
+        strip_newline(buf);
+
+        if (strncmp(buf, "set ", 4) == 0)
+        {
+            get_score(fp, &s->time_score);
+            get_score(fp, &s->coin_score);
+        }
+        else if (sscanf(buf, "level %d %d %n", &flags, &version, &n) >= 2)
+        {
+            struct level *l;
+
+            if ((l = find_level(s, buf + n)))
+            {
+                /* Always prefer "locked" flag from the score file. */
+
+                l->is_locked = !!(flags & LEVEL_LOCKED);
+
+                /* Only use "completed" flag and scores on version match. */
+
+                if (version == l->version_num)
+                {
+                    l->is_completed = !!(flags & LEVEL_COMPLETED);
+
+                    get_score(fp, &l->scores[SCORE_TIME]);
+                    get_score(fp, &l->scores[SCORE_GOAL]);
+                    get_score(fp, &l->scores[SCORE_COIN]);
+                }
+            }
+        }
+    }
+}
+
 static void set_load_hs(void)
 {
     struct set *s = SET_GET(sets, curr);
@@ -145,32 +220,21 @@ static void set_load_hs(void)
 
     if ((fp = fs_open(config_cheat() ? s->cheat_scores : s->user_scores, "r")))
     {
-        char states[MAXLVL + 2];
+        char buf[MAXSTR];
 
-        if (fs_gets(states, sizeof (states), fp))
+        if (fs_gets(buf, sizeof (buf), fp))
         {
-            struct level *l;
-            int i, n = MIN(strlen(states) - 1, s->count);
+            strip_newline(buf);
 
-            for (i = 0; i < n; i++)
+            if (sscanf(buf, "version %d", &score_version) == 1)
             {
-                l = &level_v[i];
-
-                l->is_locked    = (states[i] == 'L');
-                l->is_completed = (states[i] == 'C');
+                switch (score_version)
+                {
+                case 2: set_load_hs_v2(fp, s, buf, sizeof (buf)); break;
+                }
             }
-
-            get_score(fp, &s->time_score);
-            get_score(fp, &s->coin_score);
-
-            for (i = 0; i < n; i++)
-            {
-                l = &level_v[i];
-
-                get_score(fp, &l->scores[SCORE_TIME]);
-                get_score(fp, &l->scores[SCORE_GOAL]);
-                get_score(fp, &l->scores[SCORE_COIN]);
-            }
+            else
+                set_load_hs_v1(fp, s, buf, sizeof (buf));
         }
 
         fs_close(fp);
