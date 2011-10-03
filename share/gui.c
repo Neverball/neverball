@@ -297,7 +297,7 @@ static void gui_text(int id, int x, int y,
 
 /*---------------------------------------------------------------------------*/
 
-static const char *pick_font_path(void)
+static const char *gui_font_path(void)
 {
     const char *path;
 
@@ -314,28 +314,21 @@ static const char *pick_font_path(void)
     return path;
 }
 
-void gui_init(void)
+static int gui_font_init(const char *path)
 {
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
     int s = (h < w) ? h : w;
-    int i, j;
-
-    /* Initialize font rendering. */
 
     if (TTF_Init() == 0)
     {
-        const char *fontpath = pick_font_path();
-
         int s0 = s / 26;
         int s1 = s / 13;
         int s2 = s /  7;
 
-        memset(widget, 0, sizeof (struct widget) * WIDGET_MAX);
-
         /* Load the font. */
 
-        if ((fontdata = fs_load(fontpath, &fontdatalen)))
+        if ((fontdata = fs_load(path, &fontdatalen)))
         {
             fontrwops = SDL_RWFromConstMem(fontdata, fontdatalen);
 
@@ -359,11 +352,37 @@ void gui_init(void)
             font[GUI_MED] = NULL;
             font[GUI_LRG] = NULL;
 
-            fprintf(stderr, L_("Could not load font '%s'.\n"), fontpath);
+            fprintf(stderr, L_("Could not load font '%s'.\n"), path);
         }
 
         radius = s / 60;
+
+        return 1;
     }
+    return 0;
+}
+
+static void gui_font_quit(void)
+{
+    if (font[GUI_LRG]) TTF_CloseFont(font[GUI_LRG]);
+    if (font[GUI_MED]) TTF_CloseFont(font[GUI_MED]);
+    if (font[GUI_SML]) TTF_CloseFont(font[GUI_SML]);
+
+    if (fontrwops) SDL_RWclose(fontrwops);
+    if (fontdata)  free(fontdata);
+
+    TTF_Quit();
+}
+
+void gui_init(void)
+{
+    int i, j;
+
+    memset(widget, 0, sizeof (struct widget) * WIDGET_MAX);
+
+    /* Initialize font rendering. */
+
+    gui_font_init(gui_font_path());
 
     /* Initialize the VBOs. */
 
@@ -421,14 +440,7 @@ void gui_free(void)
 
     /* Release all loaded fonts and finalize font rendering. */
 
-    if (font[GUI_LRG]) TTF_CloseFont(font[GUI_LRG]);
-    if (font[GUI_MED]) TTF_CloseFont(font[GUI_MED]);
-    if (font[GUI_SML]) TTF_CloseFont(font[GUI_SML]);
-
-    if (fontrwops) SDL_RWclose(fontrwops);
-    if (fontdata)  free(fontdata);
-
-    TTF_Quit();
+    gui_font_quit();
 }
 
 /*---------------------------------------------------------------------------*/
