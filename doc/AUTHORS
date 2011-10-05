@@ -207,9 +207,7 @@ D: Windows packaging
 N: Евгений Лежнин / Yevgeny Lezhnin (zlv)
 D: Russian translation
 
-# No names should follow this comment  and unless you really are after
-# "Mehdi Yousfi-Monod" when sorted alphabetically, don't add your name
-# here.
+# No names should follow this comment.
 
 # This "contributor" is special.
 N: Countless others for play testing and bug reports
