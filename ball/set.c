@@ -175,6 +175,12 @@ static struct level *find_level(const struct set *s, const char *file)
 
 static void set_load_hs_v2(fs_file fp, struct set *s, char *buf, int size)
 {
+    struct score time_score;
+    struct score coin_score;
+
+    int set_score = 0;
+    int set_match = 1;
+
     while (fs_gets(buf, size, fp))
     {
         int version = 0;
@@ -185,8 +191,10 @@ static void set_load_hs_v2(fs_file fp, struct set *s, char *buf, int size)
 
         if (strncmp(buf, "set ", 4) == 0)
         {
-            get_score(fp, &s->time_score);
-            get_score(fp, &s->coin_score);
+            get_score(fp, &time_score);
+            get_score(fp, &coin_score);
+
+            set_score = 1;
         }
         else if (sscanf(buf, "level %d %d %n", &flags, &version, &n) >= 2)
         {
@@ -208,8 +216,16 @@ static void set_load_hs_v2(fs_file fp, struct set *s, char *buf, int size)
                     get_score(fp, &l->scores[SCORE_GOAL]);
                     get_score(fp, &l->scores[SCORE_COIN]);
                 }
+                else set_match = 0;
             }
+            else set_match = 0;
         }
+    }
+
+    if (set_match && set_score)
+    {
+        s->time_score = time_score;
+        s->coin_score = coin_score;
     }
 }
 
