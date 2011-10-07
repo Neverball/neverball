@@ -444,10 +444,10 @@ static int conf_video_gui(void)
 
         conf_state(id, _("Resolution"), resolution, CONF_VIDEO_RESOLUTION);
 
-        gui_space(id);
-
         conf_toggle(id, _("Fullscreen"), CONF_VIDEO_FULLSCREEN, f,
                     _("Yes"), 1, _("No"), 0);
+
+        gui_space(id);
 
         conf_toggle(id, _("V-sync"), CONF_VIDEO_VSYNC, v,
                     _("Yes"), 1, _("No"), 0);
