@@ -287,7 +287,7 @@ static int goal_keybd(int c, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
-            return goal_action(GUI_SCORE, gui_score_next(gui_score_get()));
+            return goal_action(GUI_SCORE, GUI_SCORE_NEXT(gui_score_get()));
         if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
             return goal_action(GOAL_SAME, 0);
     }

@@ -183,7 +183,7 @@ void gui_score_board(int pd, unsigned int types, int e, int h)
     /* Make sure current score type matches the spec. */
 
     while (!(types & score_type))
-        score_type = gui_score_next(score_type);
+        score_type = GUI_SCORE_NEXT(score_type);
 
     if ((id = gui_hstack(pd)))
     {
@@ -265,6 +265,10 @@ void set_score_board(const struct score *sc, int hc,
     set_score_color(coin_btn_id, hc, gui_grn, gui_wht);
     set_score_color(time_btn_id, ht, gui_grn, gui_wht);
     set_score_color(goal_btn_id, hg, gui_grn, gui_wht);
+
+    gui_set_hilite(coin_btn_id, (score_type == GUI_SCORE_COIN));
+    gui_set_hilite(time_btn_id, (score_type == GUI_SCORE_TIME));
+    gui_set_hilite(goal_btn_id, (score_type == GUI_SCORE_GOAL));
 }
 
 void gui_score_set(int t)
@@ -275,19 +279,6 @@ void gui_score_set(int t)
 int  gui_score_get(void)
 {
     return score_type;
-}
-
-int  gui_score_next(int t)
-{
-    switch (t)
-    {
-    case GUI_SCORE_COIN: return GUI_SCORE_TIME;
-    case GUI_SCORE_TIME: return GUI_SCORE_GOAL;
-    case GUI_SCORE_GOAL: return GUI_SCORE_COIN;
-
-    default:
-        return GUI_SCORE_COIN;
-    }
 }
 
 /*---------------------------------------------------------------------------*/

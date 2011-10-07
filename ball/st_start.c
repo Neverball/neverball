@@ -142,6 +142,7 @@ static int start_action(int tok, int val)
         break;
 
     case GUI_SCORE:
+        /* FIXME, there's no need to rebuild the entire screen. */
         gui_score_set(val);
         return goto_state(&st_start);
 
@@ -277,6 +278,17 @@ static void start_stick(int id, int a, float v, int bump)
     start_over(gui_stick(id, a, v, bump), 1);
 }
 
+static int start_score(int d)
+{
+    int s = (d < 0 ?
+             GUI_SCORE_PREV(gui_score_get()) :
+             GUI_SCORE_NEXT(gui_score_get()));
+
+    gui_score_set(s);
+    start_over(gui_active(), 0.0f);
+    return 1;
+}
+
 static int start_keybd(int c, int d)
 {
     if (d)
@@ -303,15 +315,7 @@ static int start_keybd(int c, int d)
             free(dir);
         }
         else if (config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
-        {
-            if (start_action(GUI_SCORE, gui_score_next(gui_score_get())))
-            {
-                start_over(gui_active(), 0);
-                return 1;
-            }
-            else
-                return 0;
-        }
+            return start_score(+1);
     }
 
     return 1;
@@ -331,6 +335,22 @@ static int start_buttn(int b, int d)
     return 1;
 }
 
+static int start_click(int b, int d)
+{
+    if (gui_click(b, d))
+    {
+        return start_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
+    }
+
+    if (d)
+    {
+        if (b == SDL_BUTTON_WHEELUP)   start_score(-1);
+        if (b == SDL_BUTTON_WHEELDOWN) start_score(+1);
+    }
+
+    return 1;
+}
+
 /*---------------------------------------------------------------------------*/
 
 struct state st_start = {
@@ -341,7 +361,7 @@ struct state st_start = {
     start_point,
     start_stick,
     shared_angle,
-    shared_click,
+    start_click,
     start_keybd,
     start_buttn
 };
