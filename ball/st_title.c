@@ -90,7 +90,7 @@ enum
 
 static int title_action(int tok, int val)
 {
-    static const char keyphrase[] = "CHEAT";
+    static const char keyphrase[] = "xyzzy";
     static char queue[sizeof (keyphrase)] = "";
 
     size_t queue_len = strlen(queue);
