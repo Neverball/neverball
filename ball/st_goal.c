@@ -120,7 +120,6 @@ static int goal_gui(void)
         if (curr_mode() == MODE_CHALLENGE)
         {
             int coins, score, balls;
-            char msg[MAXSTR] = "";
             int i;
 
             /* Reverse-engineer initial score and balls. */
@@ -141,10 +140,6 @@ static int goal_gui(void)
                     if (progress_reward_ball(i))
                         balls--;
             }
-
-            sprintf(msg, ngettext("%d new bonus level",
-                                  "%d new bonus levels",
-                                  curr_bonus()), curr_bonus());
 
             if ((jd = gui_hstack(id)))
             {
@@ -178,7 +173,23 @@ static int goal_gui(void)
                         gui_set_count(coins_id, coins);
                     }
 
-                    gui_label(kd, msg, GUI_SML, GUI_BOT, 0, 0);
+                    if ((ld = gui_harray(kd)))
+                    {
+                        struct level *l;
+
+                        gui_label(ld, "", GUI_SML, GUI_SE, 0, 0);
+
+                        for (i = MAXLVL - 1; i >= 0; i--)
+                            if ((l = get_level(i)) && level_bonus(l))
+                            {
+                                const GLubyte *c = (level_opened(l) ?
+                                                    gui_grn : gui_gry);
+
+                                gui_label(ld, l->name, GUI_SML, 0, c, c);
+                            }
+
+                        gui_label(ld, "", GUI_SML, GUI_SW, 0, 0);
+                    }
                 }
 
                 gui_filler(jd);

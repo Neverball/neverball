@@ -45,8 +45,6 @@ static struct level *next;
 
 static int done  =  0;
 
-static int bonus =  0;
-
 static struct progress curr;
 static struct progress prev;
 
@@ -77,7 +75,6 @@ static int coin_rank = 3;
 void progress_init(int m)
 {
     mode  = m;
-    bonus = 0;
 
     replay = 0;
 
@@ -203,7 +200,6 @@ void progress_stat(int s)
                 {
                     level_open(next);
                     dirty = 1;
-                    bonus++;
                 }
             }
         }
@@ -384,7 +380,6 @@ struct level *curr_level(void) { return level; }
 int curr_balls(void) { return curr.balls; }
 int curr_score(void) { return curr.score; }
 int curr_mode (void) { return mode;       }
-int curr_bonus(void) { return bonus;      }
 int curr_goal (void) { return goal;       }
 
 int progress_time_rank(void) { return time_rank; }
