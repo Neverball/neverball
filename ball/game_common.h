@@ -52,6 +52,7 @@ enum
     VIEW_CHASE,
     VIEW_LAZY,
     VIEW_MANUAL,
+    VIEW_TEST,
 
     VIEW_MAX
 };

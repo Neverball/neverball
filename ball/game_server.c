@@ -561,13 +561,41 @@ static void game_update_view(float dt)
         v_mad(view.e[2], view.e[2], view_v, v_dot(view_v, view_v) * dt / 4);
 
         break;
+
+    case VIEW_TEST:
+
+        /*
+         * Random curiosity of view vector computation for chase view.
+         *
+         * z + v * |v|^2 * dt / 4 =
+         * z + u * |v|^3 * dt / 4
+         */
+
+        /*
+         * So let's experiment with that.
+         *
+         * z + v * |v|   * dt / 4 =
+         * z + u * |v|^2 * dt / 4
+         */
+
+        if (da == 0.0f)
+        {
+            v_sub(view.e[2], view.p, view.c);
+            v_nrm(view.e[2], view.e[2]);
+            v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * dt / 4);
+        }
+
+        break;
     }
 
     /* Apply manual rotation. */
 
-    m_rot(M, Y, V_RAD(da));
-    m_vxfm(v, M, view.e[2]);
-    v_cpy(view.e[2], v);
+    if (da != 0.0f)
+    {
+        m_rot(M, Y, V_RAD(da));
+        m_vxfm(v, M, view.e[2]);
+        v_cpy(view.e[2], v);
+    }
 
     /* Orthonormalize the new view reference frame. */
 
