@@ -523,12 +523,22 @@ void game_server_free(const char *next)
 
 static void game_update_view(float dt)
 {
+    static float da_time;               /* Time since manual rotation        */
+    const float da_fade = 0.5f;         /* Time to restore auto rotation     */
+
     float dc = view.dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float da = input_get_r() * dt * 90.0f;
     float k;
 
     float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };
     float view_v[3];
+
+    /* Track time since manual rotation. */
+
+    if (da != 0.0f)
+        da_time = 0.0f;
+    else
+        da_time += dt;
 
     /* Center the view about the ball. */
 
@@ -562,7 +572,8 @@ static void game_update_view(float dt)
 
         break;
 
-    case VIEW_TEST:
+    case VIEW_TEST1:
+    case VIEW_TEST2:
 
         /*
          * Random curiosity of view vector computation for chase view.
@@ -582,7 +593,22 @@ static void game_update_view(float dt)
         {
             v_sub(view.e[2], view.p, view.c);
             v_nrm(view.e[2], view.e[2]);
-            v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * dt / 4);
+
+            if (input_get_c() == VIEW_TEST1)
+            {
+                v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * dt / 4);
+            }
+            else if (input_get_c() == VIEW_TEST2)
+            {
+                /* Gradually restore view vector convergence rate. */
+
+                float s = CLAMP(0.0f,
+                                (da_time * da_time * da_time) /
+                                (da_fade * da_fade * da_fade),
+                                1.0f);
+
+                v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * s * dt / 4);
+            }
         }
 
         break;

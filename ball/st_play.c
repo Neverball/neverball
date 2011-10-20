@@ -81,7 +81,8 @@ static void keybd_camera(int c)
         toggle_camera();
 
     if (config_cheat() && c == SDLK_F4)
-        set_camera(VIEW_TEST);
+        set_camera(config_tst_d(CONFIG_CAMERA, VIEW_TEST1) ?
+                   VIEW_TEST2 : VIEW_TEST1);
 }
 
 static void click_camera(int b)
