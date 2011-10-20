@@ -175,7 +175,7 @@ static int goal_gui(void)
 
                     if ((ld = gui_harray(kd)))
                     {
-                        struct level *l;
+                        const struct level *l;
 
                         gui_label(ld, "", GUI_SML, GUI_SE, 0, 0);
 
@@ -185,7 +185,7 @@ static int goal_gui(void)
                                 const GLubyte *c = (level_opened(l) ?
                                                     gui_grn : gui_gry);
 
-                                gui_label(ld, l->name, GUI_SML, 0, c, c);
+                                gui_label(ld, level_name(l), GUI_SML, 0, c, c);
                             }
 
                         gui_label(ld, "", GUI_SML, GUI_SW, 0, 0);
