@@ -523,8 +523,11 @@ void game_server_free(const char *next)
 
 static void game_update_view(float dt)
 {
-    static float da_time;               /* Time since manual rotation        */
-    const float da_fade = 0.5f;         /* Time to restore auto rotation     */
+    static float da_time;               /* Manual rotation time              */
+    static float da_fade;
+
+    const float da_fade_min = 0.4f;
+    const float da_fade_max = 1.2f;
 
     float dc = view.dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float da = input_get_r() * dt * 90.0f;
@@ -533,12 +536,34 @@ static void game_update_view(float dt)
     float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };
     float view_v[3];
 
-    /* Track time since manual rotation. */
+    /* Track manual rotation time. */
 
-    if (da != 0.0f)
-        da_time = 0.0f;
-    else
+    if (da == 0.0f)
+    {
+        if (da_time < 0.0f)
+        {
+            /* Transition time is influenced by activity time. */
+
+            da_fade = CLAMP(da_fade_min, -da_time, da_fade_max);
+            da_time = 0.0f;
+        }
+
+        /* Inactivity. */
+
         da_time += dt;
+    }
+    else
+    {
+        if (da_time > 0.0f)
+        {
+            da_fade = 0.0f;
+            da_time = 0.0f;
+        }
+
+        /* Activity (yes, this is negative). */
+
+        da_time -= dt;
+    }
 
     /* Center the view about the ball. */
 
