@@ -48,6 +48,12 @@ static struct game_view view;           /* Current view                      */
 
 static float view_k;
 
+static float view_time;                 /* Manual rotation time              */
+static float view_fade;
+
+#define VIEW_FADE_MIN 0.4f
+#define VIEW_FADE_MAX 1.2f
+
 static int   coins  = 0;                /* Collected coins                   */
 static int   goal_e = 0;                /* Goal enabled flag                 */
 static float goal_k = 0;                /* Goal animation                    */
@@ -472,7 +478,11 @@ int game_server_init(const char *file_name, int t, int e)
     /* Initialize the view (and put it at the ball). */
 
     game_view_fly(&view, &vary, 0.0f);
+
     view_k = 1.0f;
+
+    view_time = 0.0f;
+    view_fade = 0.0f;
 
     /* Initialize ball size tracking. */
 
@@ -523,12 +533,6 @@ void game_server_free(const char *next)
 
 static void game_update_view(float dt)
 {
-    static float da_time;               /* Manual rotation time              */
-    static float da_fade;
-
-    const float da_fade_min = 0.4f;
-    const float da_fade_max = 1.2f;
-
     float dc = view.dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float da = input_get_r() * dt * 90.0f;
     float k;
@@ -540,29 +544,29 @@ static void game_update_view(float dt)
 
     if (da == 0.0f)
     {
-        if (da_time < 0.0f)
+        if (view_time < 0.0f)
         {
             /* Transition time is influenced by activity time. */
 
-            da_fade = CLAMP(da_fade_min, -da_time, da_fade_max);
-            da_time = 0.0f;
+            view_fade = CLAMP(VIEW_FADE_MIN, -view_time, VIEW_FADE_MAX);
+            view_time = 0.0f;
         }
 
         /* Inactivity. */
 
-        da_time += dt;
+        view_time += dt;
     }
     else
     {
-        if (da_time > 0.0f)
+        if (view_time > 0.0f)
         {
-            da_fade = 0.0f;
-            da_time = 0.0f;
+            view_fade = 0.0f;
+            view_time = 0.0f;
         }
 
         /* Activity (yes, this is negative). */
 
-        da_time -= dt;
+        view_time -= dt;
     }
 
     /* Center the view about the ball. */
@@ -627,10 +631,10 @@ static void game_update_view(float dt)
             {
                 /* Gradually restore view vector convergence rate. */
 
-                float s = CLAMP(0.0f,
-                                (da_time * da_time * da_time) /
-                                (da_fade * da_fade * da_fade),
-                                1.0f);
+                float s;
+
+                s = fpowf(view_time, 3.0f) / fpowf(view_fade, 3.0f);
+                s = CLAMP(0.0f, s, 1.0f);
 
                 v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * s * dt / 4);
             }

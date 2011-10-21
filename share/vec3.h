@@ -27,6 +27,7 @@
 #define ftanf(a)      ((float) tan((double) a))
 #define fabsf(a)      ((float) fabs((double) a))
 #define fsqrtf(a)     ((float) sqrt((double) a))
+#define fpowf(x,y)    ((float) pow((double) x, (double) y))
 #define fasinf(a)     ((float) asin((double) a))
 #define facosf(a)     ((float) acos((double) a))
 #define fmodf(x,y)    ((float) fmod((double) x, (double) y))
