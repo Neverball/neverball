@@ -51,8 +51,8 @@ static float view_k;
 static float view_time;                 /* Manual rotation time              */
 static float view_fade;
 
-#define VIEW_FADE_MIN 0.4f
-#define VIEW_FADE_MAX 1.2f
+#define VIEW_FADE_MIN 0.2f
+#define VIEW_FADE_MAX 1.0f
 
 static int   coins  = 0;                /* Collected coins                   */
 static int   goal_e = 0;                /* Goal enabled flag                 */
