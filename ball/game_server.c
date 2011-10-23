@@ -620,8 +620,13 @@ static void game_update_view(float dt)
 
         if (da == 0.0f)
         {
-            v_sub(view.e[2], view.p, view.c);
-            v_nrm(view.e[2], view.e[2]);
+            /* Keep view vector intact while fading manual rotation. */
+
+            if (view_fade == 0.0f)
+            {
+                v_sub(view.e[2], view.p, view.c);
+                v_nrm(view.e[2], view.e[2]);
+            }
 
             if (input_get_c() == VIEW_TEST1)
             {
@@ -633,7 +638,7 @@ static void game_update_view(float dt)
 
                 float s;
 
-                s = fpowf(view_time, 3.0f) / fpowf(view_fade, 3.0f);
+                s = fpowf(view_time, 2.0f) / fpowf(view_fade, 2.0f);
                 s = CLAMP(0.0f, s, 1.0f);
 
                 v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * s * dt / 4);
