@@ -1286,9 +1286,8 @@ static void gui_paint_rect(int id, int st)
 
     /* Use the widget status to determine the background color. */
 
-    if (gui_hot(id))
-        i = st | (((widget[id].flags & GUI_HILITE) ? 2 : 0) |
-                  ((id == active)                  ? 1 : 0));
+    i = st | (((widget[id].flags & GUI_HILITE) ? 2 : 0) |
+              ((id == active)                  ? 1 : 0));
 
     switch (widget[id].type)
     {
