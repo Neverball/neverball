@@ -91,12 +91,12 @@ static const char *table[][2] = {
 
 /*---------------------------------------------------------------------------*/
 
-const char *pretty_keyname(SDLKey key)
+const char *pretty_keyname(int key)
 {
     const char *ugly_keyname;
     int i;
 
-    if ((ugly_keyname = SDL_GetKeyName(key)) == NULL)
+    if ((ugly_keyname = SDL_GetKeyName((SDLKey) key)) == NULL)
         return NULL;
 
     for (i = 0; i < ARRAYSIZE(table); i++)

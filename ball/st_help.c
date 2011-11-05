@@ -176,21 +176,21 @@ static int page_rules(int id)
 
 static int page_controls(int id)
 {
-    const char *s4 = _("Left and right mouse buttons rotate the view.");
-    const char *s5 = _("Hold Shift for faster view rotation.");
-    const char *s6 = _("Pause / Release Pointer");
-    const char *s7 = _("Exit / Cancel Menu");
-    const char *s8 = _("Chase View");
-    const char *s9 = _("Lazy View");
-    const char *sA = _("Manual View");
-    const char *sC = _("Screenshot");
+    const char *s_rotate  = _("Left and right mouse buttons rotate the view.\\"
+                              "Hold Shift for faster view rotation.");
+    const char *s_pause   = _("Pause / Release Pointer");
+    const char *s_exit    = _("Exit / Cancel Menu");
+    const char *s_camera1 = _("Chase View");
+    const char *s_camera2 = _("Lazy View");
+    const char *s_camera3 = _("Manual View");
+    const char *s_shot    = _("Screenshot");
 
-    const char *k0 = pretty_keyname((SDLKey) config_get_d(CONFIG_KEY_PAUSE));
-    const char *k1 = pretty_keyname(SDLK_ESCAPE);
-    const char *k2 = pretty_keyname((SDLKey) config_get_d(CONFIG_KEY_CAMERA_1));
-    const char *k3 = pretty_keyname((SDLKey) config_get_d(CONFIG_KEY_CAMERA_2));
-    const char *k4 = pretty_keyname((SDLKey) config_get_d(CONFIG_KEY_CAMERA_3));
-    const char *k6 = pretty_keyname(SDLK_F10);
+    const char *k_pause   = pretty_keyname(config_get_d(CONFIG_KEY_PAUSE));
+    const char *k_escape  = pretty_keyname((int) SDLK_ESCAPE);
+    const char *k_camera1 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_1));
+    const char *k_camera2 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_2));
+    const char *k_camera3 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_3));
+    const char *k_shot    = pretty_keyname((int) SDLK_F10);
 
     int jd;
 
@@ -198,39 +198,38 @@ static int page_controls(int id)
 
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, s6, GUI_SML, GUI_NE, gui_wht, gui_wht);
-        gui_label(jd, k0, GUI_SML, GUI_NW, gui_yel, gui_yel);
+        gui_label(jd, s_pause, GUI_SML, GUI_NE, gui_wht, gui_wht);
+        gui_label(jd, k_pause, GUI_SML, GUI_NW, gui_yel, gui_yel);
     }
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, s7, GUI_SML, 0,      gui_wht, gui_wht);
-        gui_label(jd, k1, GUI_SML, 0,      gui_yel, gui_yel);
+        gui_label(jd, s_exit,   GUI_SML, 0, gui_wht, gui_wht);
+        gui_label(jd, k_escape, GUI_SML, 0, gui_yel, gui_yel);
     }
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, s8, GUI_SML, 0,      gui_wht, gui_wht);
-        gui_label(jd, k2, GUI_SML, 0,      gui_yel, gui_yel);
+        gui_label(jd, s_camera1, GUI_SML, 0, gui_wht, gui_wht);
+        gui_label(jd, k_camera1, GUI_SML, 0, gui_yel, gui_yel);
     }
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, s9, GUI_SML, 0,      gui_wht, gui_wht);
-        gui_label(jd, k3, GUI_SML, 0,      gui_yel, gui_yel);
+        gui_label(jd, s_camera2, GUI_SML, 0, gui_wht, gui_wht);
+        gui_label(jd, k_camera2, GUI_SML, 0, gui_yel, gui_yel);
     }
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, sA, GUI_SML, 0,      gui_wht, gui_wht);
-        gui_label(jd, k4, GUI_SML, 0,      gui_yel, gui_yel);
+        gui_label(jd, s_camera3, GUI_SML, 0, gui_wht, gui_wht);
+        gui_label(jd, k_camera3, GUI_SML, 0, gui_yel, gui_yel);
     }
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, sC, GUI_SML, GUI_SE, gui_wht, gui_wht);
-        gui_label(jd, k6, GUI_SML, GUI_SW, gui_yel, gui_yel);
+        gui_label(jd, s_shot, GUI_SML, GUI_SE, gui_wht, gui_wht);
+        gui_label(jd, k_shot, GUI_SML, GUI_SW, gui_yel, gui_yel);
     }
 
     gui_space(id);
 
-    gui_label(id, s4, GUI_SML, GUI_TOP, gui_wht, gui_wht);
-    gui_label(id, s5, GUI_SML, GUI_BOT, gui_wht, gui_wht);
+    gui_multi(id, s_rotate, GUI_SML, GUI_ALL, gui_wht, gui_wht);
 
     return id;
 }
