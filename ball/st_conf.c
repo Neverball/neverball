@@ -300,7 +300,7 @@ static int conf_gui(void)
 
         gui_space(id);
 
-        conf_slider(id, _("Mouse sensitivity"), CONF_MOUSE_SENSE, mouse,
+        conf_slider(id, _("Mouse Sensitivity"), CONF_MOUSE_SENSE, mouse,
                     mouse_id, ARRAYSIZE(mouse_id));
 
         gui_space(id);
@@ -417,10 +417,10 @@ static int conf_video_action(int tok, int val)
 static int conf_video_gui(void)
 {
     static const struct option multisample_opts[] = {
-        { N_("8x"), 8 },
-        { N_("4x"), 4 },
+        { N_("Off"), 0 },
         { N_("2x"), 2 },
-        { N_("No"), 0 },
+        { N_("4x"), 4 },
+        { N_("8x"), 8 },
     };
 
     int id;
@@ -440,17 +440,17 @@ static int conf_video_gui(void)
                 config_get_d(CONFIG_WIDTH),
                 config_get_d(CONFIG_HEIGHT));
 
-        conf_header(id, _("Graphics Options"), CONF_VIDEO_BACK);
+        conf_header(id, _("Graphics"), CONF_VIDEO_BACK);
 
         conf_state(id, _("Resolution"), resolution, CONF_VIDEO_RESOLUTION);
 
         conf_toggle(id, _("Fullscreen"), CONF_VIDEO_FULLSCREEN, f,
-                    _("Yes"), 1, _("No"), 0);
+                    _("On"), 1, _("Off"), 0);
 
         gui_space(id);
 
-        conf_toggle(id, _("V-sync"), CONF_VIDEO_VSYNC, v,
-                    _("Yes"), 1, _("No"), 0);
+        conf_toggle(id, _("V-Sync"), CONF_VIDEO_VSYNC, v,
+                    _("On"), 1, _("Off"), 0);
 
         conf_select(id, _("Antialiasing"), CONF_VIDEO_MULTISAMPLE, m,
                     multisample_opts, ARRAYSIZE(multisample_opts));
