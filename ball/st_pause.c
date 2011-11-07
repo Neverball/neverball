@@ -79,7 +79,7 @@ static int pause_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        title_id = gui_label(id, _("Paused"), GUI_LRG, GUI_ALL, 0, 0);
+        title_id = gui_label(id, _("Paused"), GUI_LRG, 0, 0);
 
         gui_space(id);
 

@@ -158,7 +158,7 @@ static int title_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, "Neverball", GUI_LRG, GUI_ALL, 0, 0);
+        gui_label(id, "Neverball", GUI_LRG, 0, 0);
 
         gui_space(id);
 

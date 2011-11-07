@@ -138,14 +138,14 @@ static int page_rules(int id)
             if ((ld = gui_vstack(kd)))
             {
                 gui_space(ld);
-                gui_multi(ld, s0, GUI_SML, GUI_ALL, gui_wht, gui_wht);
+                gui_multi(ld, s0, GUI_SML, gui_wht, gui_wht);
                 gui_filler(ld);
             }
 
             if ((ld = gui_vstack(kd)))
             {
                 gui_space(ld);
-                gui_multi(ld, s1, GUI_SML, GUI_ALL, gui_wht, gui_wht);
+                gui_multi(ld, s1, GUI_SML, gui_wht, gui_wht);
                 gui_filler(ld);
             }
         }
@@ -192,78 +192,84 @@ static int page_controls(int id)
     const char *k_camera3 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_3));
     const char *k_shot    = pretty_keyname((int) SDLK_F10);
 
-    int jd;
+    int jd, kd;
 
     gui_space(id);
 
-    if ((jd = gui_harray(id)))
+    if ((jd = gui_vstack(id)))
     {
-        gui_label(jd, s_pause, GUI_SML, GUI_NE, gui_wht, gui_wht);
-        gui_label(jd, k_pause, GUI_SML, GUI_NW, gui_yel, gui_yel);
-    }
-    if ((jd = gui_harray(id)))
-    {
-        gui_label(jd, s_exit,   GUI_SML, GUI_E, gui_wht, gui_wht);
-        gui_label(jd, k_escape, GUI_SML, GUI_W, gui_yel, gui_yel);
-    }
-    if ((jd = gui_harray(id)))
-    {
-        gui_label(jd, s_camera1, GUI_SML, GUI_E, gui_wht, gui_wht);
-        gui_label(jd, k_camera1, GUI_SML, GUI_W, gui_yel, gui_yel);
-    }
-    if ((jd = gui_harray(id)))
-    {
-        gui_label(jd, s_camera2, GUI_SML, GUI_E, gui_wht, gui_wht);
-        gui_label(jd, k_camera2, GUI_SML, GUI_W, gui_yel, gui_yel);
-    }
-    if ((jd = gui_harray(id)))
-    {
-        gui_label(jd, s_camera3, GUI_SML, GUI_E, gui_wht, gui_wht);
-        gui_label(jd, k_camera3, GUI_SML, GUI_W, gui_yel, gui_yel);
-    }
-    if ((jd = gui_harray(id)))
-    {
-        gui_label(jd, s_shot, GUI_SML, GUI_SE, gui_wht, gui_wht);
-        gui_label(jd, k_shot, GUI_SML, GUI_SW, gui_yel, gui_yel);
+        if ((kd = gui_harray(jd)))
+        {
+            gui_label(kd, s_pause, GUI_SML, gui_wht, gui_wht);
+            gui_label(kd, k_pause, GUI_SML, gui_yel, gui_yel);
+        }
+        if ((kd = gui_harray(jd)))
+        {
+            gui_label(kd, s_exit,   GUI_SML, gui_wht, gui_wht);
+            gui_label(kd, k_escape, GUI_SML, gui_yel, gui_yel);
+        }
+        if ((kd = gui_harray(jd)))
+        {
+            gui_label(kd, s_camera1, GUI_SML, gui_wht, gui_wht);
+            gui_label(kd, k_camera1, GUI_SML, gui_yel, gui_yel);
+        }
+        if ((kd = gui_harray(jd)))
+        {
+            gui_label(kd, s_camera2, GUI_SML, gui_wht, gui_wht);
+            gui_label(kd, k_camera2, GUI_SML, gui_yel, gui_yel);
+        }
+        if ((kd = gui_harray(jd)))
+        {
+            gui_label(kd, s_camera3, GUI_SML, gui_wht, gui_wht);
+            gui_label(kd, k_camera3, GUI_SML, gui_yel, gui_yel);
+        }
+        if ((kd = gui_harray(jd)))
+        {
+            gui_label(kd, s_shot, GUI_SML, gui_wht, gui_wht);
+            gui_label(kd, k_shot, GUI_SML, gui_yel, gui_yel);
+        }
+
+        gui_set_rect(jd, GUI_ALL);
     }
 
     gui_space(id);
 
-    gui_multi(id, s_rotate, GUI_SML, GUI_ALL, gui_wht, gui_wht);
+    gui_multi(id, s_rotate, GUI_SML, gui_wht, gui_wht);
 
     return id;
 }
 
 static int page_modes(int id)
 {
-    int jd, kd;
+    int jd;
 
     gui_space(id);
 
-    if ((jd = gui_hstack(id)))
+    if ((jd = gui_vstack(id)))
     {
-        gui_filler(jd);
+        gui_label(jd, _("Normal Mode"), GUI_SML, 0, 0);
+        gui_multi(jd,
+                  _("Finish a level before the time runs out.\\"
+                    "You need to collect coins in order to open the goal."),
+                  GUI_SML, gui_wht, gui_wht);
 
-        if ((kd = gui_vstack(jd)))
-        {
-            gui_label(kd, _("Normal Mode"), GUI_SML, GUI_TOP, 0, 0);
-            gui_multi(kd,
-                      _("Finish a level before the time runs out.\\"
-                        "You need to collect coins in order to open the goal."),
-                      GUI_SML, GUI_BOT, gui_wht, gui_wht);
-
-            gui_space(kd);
-
-            gui_label(kd, _("Challenge Mode"), GUI_SML, GUI_TOP, 0, 0);
-            gui_multi(kd,
-                      _("Start playing from the first level of the set.\\"
-                        "You start with only three balls, do not lose them.\\"
-                        "Earn an extra ball for each 100 coins collected."),
-                      GUI_SML, GUI_BOT, gui_wht, gui_wht);
-        }
-
-        gui_filler(jd);
+        gui_set_rect(jd, GUI_ALL);
     }
+
+    gui_space(id);
+
+    if ((jd = gui_vstack(id)))
+    {
+        gui_label(jd, _("Challenge Mode"), GUI_SML, 0, 0);
+        gui_multi(jd,
+                  _("Start playing from the first level of the set.\\"
+                    "You start with only three balls, do not lose them.\\"
+                    "Earn an extra ball for each 100 coins collected."),
+                  GUI_SML, gui_wht, gui_wht);
+
+        gui_set_rect(jd, GUI_ALL);
+    }
+
     return id;
 }
 
@@ -319,14 +325,14 @@ static int page_tricks(int id)
             if ((ld = gui_vstack(kd)))
             {
                 gui_space(ld);
-                gui_multi(ld, s0, GUI_SML, GUI_ALL, gui_wht, gui_wht);
+                gui_multi(ld, s0, GUI_SML, gui_wht, gui_wht);
                 gui_filler(ld);
             }
 
             if ((ld = gui_vstack(kd)))
             {
                 gui_space(ld);
-                gui_multi(ld, s1, GUI_SML, GUI_ALL, gui_wht, gui_wht);
+                gui_multi(ld, s1, GUI_SML, gui_wht, gui_wht);
                 gui_filler(ld);
             }
         }

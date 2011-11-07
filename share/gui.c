@@ -577,17 +577,17 @@ void gui_init(void)
 
     for (i = 0; i < 3; i++)
     {
-        digit_id[i][ 0] = gui_label(0, "0", i, 0, 0, 0);
-        digit_id[i][ 1] = gui_label(0, "1", i, 0, 0, 0);
-        digit_id[i][ 2] = gui_label(0, "2", i, 0, 0, 0);
-        digit_id[i][ 3] = gui_label(0, "3", i, 0, 0, 0);
-        digit_id[i][ 4] = gui_label(0, "4", i, 0, 0, 0);
-        digit_id[i][ 5] = gui_label(0, "5", i, 0, 0, 0);
-        digit_id[i][ 6] = gui_label(0, "6", i, 0, 0, 0);
-        digit_id[i][ 7] = gui_label(0, "7", i, 0, 0, 0);
-        digit_id[i][ 8] = gui_label(0, "8", i, 0, 0, 0);
-        digit_id[i][ 9] = gui_label(0, "9", i, 0, 0, 0);
-        digit_id[i][10] = gui_label(0, ":", i, 0, 0, 0);
+        digit_id[i][ 0] = gui_label(0, "0", i, 0, 0);
+        digit_id[i][ 1] = gui_label(0, "1", i, 0, 0);
+        digit_id[i][ 2] = gui_label(0, "2", i, 0, 0);
+        digit_id[i][ 3] = gui_label(0, "3", i, 0, 0);
+        digit_id[i][ 4] = gui_label(0, "4", i, 0, 0);
+        digit_id[i][ 5] = gui_label(0, "5", i, 0, 0);
+        digit_id[i][ 6] = gui_label(0, "6", i, 0, 0);
+        digit_id[i][ 7] = gui_label(0, "7", i, 0, 0);
+        digit_id[i][ 8] = gui_label(0, "8", i, 0, 0);
+        digit_id[i][ 9] = gui_label(0, "9", i, 0, 0);
+        digit_id[i][10] = gui_label(0, ":", i, 0, 0);
     }
 
     for (i = 0; i < 3; i++)
@@ -959,8 +959,8 @@ int gui_state(int pd, const char *text, int size, int token, int value)
     return id;
 }
 
-int gui_label(int pd, const char *text, int size, int rect, const GLubyte *c0,
-                                                            const GLubyte *c1)
+int gui_label(int pd, const char *text, int size, const GLubyte *c0,
+                                                  const GLubyte *c1)
 {
     int id;
 
@@ -973,13 +973,12 @@ int gui_label(int pd, const char *text, int size, int rect, const GLubyte *c0,
         widget[id].size   = size;
         widget[id].color0 = c0 ? c0 : gui_yel;
         widget[id].color1 = c1 ? c1 : gui_red;
-        widget[id].rect   = rect;
         widget[id].flags |= GUI_RECT;
     }
     return id;
 }
 
-int gui_count(int pd, int value, int size, int rect)
+int gui_count(int pd, int value, int size)
 {
     int i, id;
 
@@ -993,13 +992,12 @@ int gui_count(int pd, int value, int size, int rect)
         widget[id].size   = size;
         widget[id].color0 = gui_yel;
         widget[id].color1 = gui_red;
-        widget[id].rect   = rect;
         widget[id].flags |= GUI_RECT;
     }
     return id;
 }
 
-int gui_clock(int pd, int value, int size, int rect)
+int gui_clock(int pd, int value, int size)
 {
     int id;
 
@@ -1011,7 +1009,6 @@ int gui_clock(int pd, int value, int size, int rect)
         widget[id].size   = size;
         widget[id].color0 = gui_yel;
         widget[id].color1 = gui_red;
-        widget[id].rect   = rect;
         widget[id].flags |= GUI_RECT;
     }
     return id;
@@ -1037,8 +1034,8 @@ int gui_space(int pd)
  * Preserve the rect specification across the entire array.
  */
 
-int gui_multi(int pd, const char *text, int size, int rect, const GLubyte *c0,
-                                                            const GLubyte *c1)
+int gui_multi(int pd, const char *text, int size, const GLubyte *c0,
+                                                  const GLubyte *c1)
 {
     int id = 0;
 
@@ -1064,11 +1061,10 @@ int gui_multi(int pd, const char *text, int size, int rect, const GLubyte *c0,
         /* Create a label widget for each line. */
 
         for (i = 0; i < j; i++)
-            gui_label(id, s[i], size, 0, c0, c1);
+            gui_label(id, s[i], size, c0, c1);
 
         /* Set rectangle on the container. */
 
-        widget[id].rect   = rect;
         widget[id].flags |= GUI_RECT;
     }
     return id;

@@ -176,7 +176,7 @@ static int ball_gui(void)
     {
         if ((jd = gui_harray(id)))
         {
-            gui_label(jd, _("Ball Model"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Ball Model"), GUI_SML, 0, 0);
             gui_space(jd);
             gui_start(jd, _("Back"), GUI_SML, BALL_BACK, 0);
         }
@@ -187,8 +187,7 @@ static int ball_gui(void)
         {
             gui_state(jd, " > ", GUI_SML, BALL_NEXT, 0);
 
-            name_id = gui_label(jd, "very-long-ball-name",
-                                GUI_SML, GUI_ALL,
+            name_id = gui_label(jd, "very-long-ball-name", GUI_SML,
                                 gui_wht, gui_wht);
 
             gui_set_trunc(name_id, TRUNC_TAIL);

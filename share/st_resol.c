@@ -100,7 +100,7 @@ static int resol_gui(void)
     {
         if ((jd = gui_harray(id)))
         {
-            gui_label(jd, _("Resolution"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Resolution"), GUI_SML, 0, 0);
             gui_space(jd);
             gui_start(jd, _("Back"),       GUI_SML, RESOL_BACK, 0);
         }

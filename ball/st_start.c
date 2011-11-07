@@ -57,7 +57,7 @@ static void gui_level(int id, int i)
 
     if (!l)
     {
-        gui_label(id, " ", GUI_SML, GUI_ALL, gui_blk, gui_blk);
+        gui_label(id, " ", GUI_SML, gui_blk, gui_blk);
         return;
     }
 
@@ -67,7 +67,7 @@ static void gui_level(int id, int i)
         back = level_completed(l) ? fore    : gui_yel;
     }
 
-    jd = gui_label(id, level_name(l), GUI_SML, GUI_ALL, back, fore);
+    jd = gui_label(id, level_name(l), GUI_SML, back, fore);
 
     if (level_opened(l) || config_cheat())
         gui_set_state(jd, START_LEVEL, i);
@@ -173,8 +173,7 @@ static int start_gui(void)
         if ((jd = gui_hstack(id)))
         {
 
-            gui_label(jd, set_name(curr_set()), GUI_SML, GUI_ALL,
-                      gui_yel, gui_red);
+            gui_label(jd, set_name(curr_set()), GUI_SML, gui_yel, gui_red);
             gui_filler(jd);
             gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);
         }
@@ -189,8 +188,7 @@ static int start_gui(void)
                 {
                     shot_id = gui_image(kd, set_shot(curr_set()),
                                         6 * w / 16, 6 * h / 16);
-                    file_id = gui_label(kd, " ", GUI_SML, GUI_ALL,
-                                        gui_yel, gui_red);
+                    file_id = gui_label(kd, " ", GUI_SML, gui_yel, gui_red);
                 }
             }
             else
@@ -242,8 +240,7 @@ static int start_gui(void)
 
             gui_space(jd);
 
-            gui_label(jd, _("Lock Goals of Completed Levels?"),
-                      GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Lock Goals of Completed Levels?"), GUI_SML, 0, 0);
 
             gui_filler(jd);
         }

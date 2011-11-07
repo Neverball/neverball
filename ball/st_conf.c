@@ -56,7 +56,7 @@ static void conf_slider(int id, const char *text,
             gui_set_hilite(ids[i], (i == value));
         }
 
-        gui_label(jd, text, GUI_SML, GUI_ALL, 0, 0);
+        gui_label(jd, text, GUI_SML, 0, 0);
     }
 }
 
@@ -67,7 +67,7 @@ static int conf_state(int id, const char *label, const char *text, int token)
     if ((jd = gui_harray(id)) && (kd = gui_harray(jd)))
     {
         rd = gui_state(kd, text, GUI_SML, token, 0);
-        gui_label(jd, label, GUI_SML, GUI_ALL, 0, 0);
+        gui_label(jd, label, GUI_SML, 0, 0);
     }
 
     return rd;
@@ -89,7 +89,7 @@ static void conf_toggle(int id, const char *label, int token, int value,
         gui_set_hilite(btn0, (value == value0));
         gui_set_hilite(btn1, (value == value1));
 
-        gui_label(jd, label, GUI_SML, GUI_ALL, 0, 0);
+        gui_label(jd, label, GUI_SML, 0, 0);
     }
 }
 
@@ -99,7 +99,7 @@ static void conf_header(int id, const char *text, int token)
 
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, text, GUI_SML, GUI_ALL, 0, 0);
+        gui_label(jd, text, GUI_SML, 0, 0);
         gui_space(jd);
         gui_start(jd, _("Back"), GUI_SML, token, 0);
     }
@@ -129,7 +129,7 @@ static void conf_select(int id, const char *text, int token, int value,
             gui_set_hilite(ld, (opts[i].value == value));
         }
 
-        gui_label(jd, text, GUI_SML, GUI_ALL, 0, 0);
+        gui_label(jd, text, GUI_SML, 0, 0);
     }
 }
 

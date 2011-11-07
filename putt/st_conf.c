@@ -153,7 +153,7 @@ static int conf_enter(struct state *st, struct state *prev)
 
         if ((jd = gui_harray(id)))
         {
-            gui_label(jd, _("Options"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Options"), GUI_SML, 0, 0);
             gui_space(jd);
             gui_start(jd, _("Back"),    GUI_SML, CONF_BACK, 0);
         }
@@ -169,7 +169,7 @@ static int conf_enter(struct state *st, struct state *prev)
             if (f) gui_set_hilite(btn1, 1);
             else   gui_set_hilite(btn0, 1);
 
-            gui_label(jd, _("Fullscreen"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Fullscreen"), GUI_SML, 0, 0);
         }
 
         if ((jd = gui_harray(id)) &&
@@ -177,7 +177,7 @@ static int conf_enter(struct state *st, struct state *prev)
         {
             gui_state(kd, resolution, GUI_SML, CONF_RESOL, 0);
 
-            gui_label(jd, _("Resolution"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Resolution"), GUI_SML, 0, 0);
         }
 
         gui_space(id);
@@ -191,7 +191,7 @@ static int conf_enter(struct state *st, struct state *prev)
             gui_set_hilite(btn0, (t == 2));
             gui_set_hilite(btn1, (t == 1));
 
-            gui_label(jd, _("Textures"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Textures"), GUI_SML, 0, 0);
         }
 
         if ((jd = gui_harray(id)) &&
@@ -203,7 +203,7 @@ static int conf_enter(struct state *st, struct state *prev)
             if (h) gui_set_hilite(btn1, 1);
             else   gui_set_hilite(btn0, 1);
 
-            gui_label(jd, _("Shadow"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Shadow"), GUI_SML, 0, 0);
         }
 
         gui_space(id);
@@ -220,7 +220,7 @@ static int conf_enter(struct state *st, struct state *prev)
                 gui_set_hilite(sound_id[i], (s == i));
             }
 
-            gui_label(jd, _("Sound Volume"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Sound Volume"), GUI_SML, 0, 0);
         }
 
         if ((jd = gui_harray(id)) &&
@@ -235,7 +235,7 @@ static int conf_enter(struct state *st, struct state *prev)
                 gui_set_hilite(music_id[i], (m == i));
             }
 
-            gui_label(jd, _("Music Volume"), GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Music Volume"), GUI_SML, 0, 0);
         }
 
         gui_layout(id, 0, 0);

@@ -32,7 +32,7 @@ static int over_gui(void)
 {
     int id;
 
-    if ((id = gui_label(0, _("GAME OVER"), GUI_LRG, GUI_ALL, gui_gry, gui_red)))
+    if ((id = gui_label(0, _("GAME OVER"), GUI_LRG, gui_gry, gui_red)))
     {
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);

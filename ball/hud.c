@@ -66,14 +66,15 @@ void hud_init(void)
     {
         if ((id = gui_vstack(Rhud_id)))
         {
-            gui_label(id, _("Coins"), GUI_SML, GUI_N, gui_wht, gui_wht);
-            gui_label(id, _("Goal"),  GUI_SML, 0,     gui_wht, gui_wht);
+            gui_label(id, _("Coins"), GUI_SML, gui_wht, gui_wht);
+            gui_label(id, _("Goal"),  GUI_SML, gui_wht, gui_wht);
         }
         if ((id = gui_vstack(Rhud_id)))
         {
-            coin_id = gui_count(id, 100, GUI_SML, GUI_NW);
-            goal_id = gui_count(id, 10,  GUI_SML, GUI_W);
+            coin_id = gui_count(id, 100, GUI_SML);
+            goal_id = gui_count(id, 10,  GUI_SML);
         }
+        gui_set_rect(Rhud_id, GUI_NW);
         gui_layout(Rhud_id, +1, -1);
     }
 
@@ -81,20 +82,23 @@ void hud_init(void)
     {
         if ((id = gui_vstack(Lhud_id)))
         {
-            ball_id = gui_count(id, 10,   GUI_SML, GUI_NE);
-            scor_id = gui_count(id, 1000, GUI_SML, GUI_E);
+            ball_id = gui_count(id, 10,   GUI_SML);
+            scor_id = gui_count(id, 1000, GUI_SML);
         }
         if ((id = gui_vstack(Lhud_id)))
         {
-            gui_label(id, _("Balls"), GUI_SML, GUI_N, gui_wht, gui_wht);
-            gui_label(id, _("Score"), GUI_SML, 0,     gui_wht, gui_wht);
+            gui_label(id, _("Balls"), GUI_SML, gui_wht, gui_wht);
+            gui_label(id, _("Score"), GUI_SML, gui_wht, gui_wht);
         }
+        gui_set_rect(Lhud_id, GUI_NE);
         gui_layout(Lhud_id, -1, -1);
     }
 
-    if ((time_id = gui_clock(0, 59999, GUI_MED, GUI_TOP)))
+    if ((time_id = gui_clock(0, 59999, GUI_MED)))
+    {
+        gui_set_rect(time_id, GUI_TOP);
         gui_layout(time_id, 0, -1);
-
+    }
 
     /* Find the longest view name. */
 
@@ -102,29 +106,26 @@ void hud_init(void)
         if (strlen(view_to_str(v)) > strlen(str_view))
             str_view = view_to_str(v);
 
-    if ((view_id = gui_label(0, str_view, GUI_SML, GUI_SW, gui_wht, gui_wht)))
+    if ((view_id = gui_label(0, str_view, GUI_SML, gui_wht, gui_wht)))
+    {
+        gui_set_rect(view_id, GUI_SW);
         gui_layout(view_id, 1, 1);
+    }
 
-    if ((fps_id = gui_count(0, 1000, GUI_SML, GUI_SE)))
+    if ((fps_id = gui_count(0, 1000, GUI_SML)))
+    {
+        gui_set_rect(fps_id, GUI_SE);
         gui_layout(fps_id, -1, 1);
+    }
 
     if ((speed_id = gui_varray(0)))
     {
         int i;
 
         for (i = SPEED_MAX - 1; i > SPEED_NONE; i--)
-        {
-            int rect = GUI_W;
+            speed_ids[i] = gui_label(speed_id, speed_labels[i], GUI_SML, 0, 0);
 
-            if (i == SPEED_MAX - 1)
-                rect = GUI_NW;
-            if (i == SPEED_NONE + 1)
-                rect = GUI_SW;
-
-            speed_ids[i] = gui_label(speed_id, speed_labels[i],
-                                     GUI_SML, rect, 0, 0);
-        }
-
+        gui_set_rect(speed_id, GUI_LFT);
         gui_layout(speed_id, +1, 0);
     }
 }

@@ -64,72 +64,48 @@ static void gui_scores(int id, int e)
 {
     const char *s = "1234567";
 
-    int j, jd, kd, ld, md;
+    int j, jd, kd, ld;
 
     score_extra_row = e;
 
-    if ((jd = gui_hstack(id)))
+    if ((jd = gui_vstack(id)))
     {
-        gui_filler(jd);
-
         if ((kd = gui_vstack(jd)))
         {
-            score_label = gui_label(kd, _("Unavailable"),
-                                    GUI_SML, GUI_TOP, 0, 0);
+            score_label = gui_label(kd, _("Unavailable"), GUI_SML, 0, 0);
 
-            if ((ld = gui_hstack(kd)))
+            for (j = RANK_HARD; j < RANK_LAST; j++)
+                if ((ld = gui_hstack(kd)))
+                {
+                    score_coin[j] = gui_count(ld, 1000, GUI_SML);
+                    score_name[j] = gui_label(ld, s, GUI_SML, gui_yel, gui_wht);
+                    score_time[j] = gui_clock(ld, 359999, GUI_SML);
+
+                    gui_set_trunc(score_name[j], TRUNC_TAIL);
+                    gui_set_fill (score_name[j]);
+                }
+
+            gui_set_rect(kd, GUI_ALL);
+        }
+
+        if (e)
+        {
+            gui_space(jd);
+
+            if ((kd = gui_hstack(jd)))
             {
-                if ((md = gui_vstack(ld)))
-                {
-                    for (j = RANK_HARD; j < RANK_EASY; j++)
-                        score_coin[j] = gui_count(md, 1000, GUI_SML, GUI_E);
+                j = RANK_LAST;
 
-                    score_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_SE);
+                score_coin[j] = gui_count(kd, 1000, GUI_SML);
+                score_name[j] = gui_label(kd, s, GUI_SML, gui_yel, gui_wht);
+                score_time[j] = gui_clock(kd, 359999, GUI_SML);
 
-                    if (e)
-                    {
-                        gui_space(md);
-                        score_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_RGT);
-                    }
-                }
+                gui_set_trunc(score_name[j], TRUNC_TAIL);
+                gui_set_fill (score_name[j]);
 
-                if ((md = gui_vstack(ld)))
-                {
-                    for (j = RANK_HARD; j < RANK_LAST; j++)
-                    {
-                        score_name[j] = gui_label(md, s, GUI_SML,
-                                                  (j + 1 == RANK_LAST ?
-                                                   GUI_S : 0),
-                                                  gui_yel, gui_wht);
-                        gui_set_trunc(score_name[j], TRUNC_TAIL);
-                    }
-
-                    if (e)
-                    {
-                        gui_space(md);
-                        score_name[j++] = gui_label(md, s, GUI_SML,
-                                                    GUI_N | GUI_S,
-                                                    gui_yel, gui_wht);
-                        gui_set_trunc(score_name[j - 1], TRUNC_TAIL);
-                    }
-                }
-
-                if ((md = gui_vstack(ld)))
-                {
-                    for (j = RANK_HARD; j < RANK_EASY; j++)
-                        score_time[j] = gui_clock(md, 359999, GUI_SML, GUI_W);
-
-                    score_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_SW);
-
-                    if (e)
-                    {
-                        gui_space(md);
-                        score_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_LFT);
-                    }
-                }
+                gui_set_rect(kd, GUI_ALL);
             }
         }
-        gui_filler(jd);
     }
 }
 
@@ -177,7 +153,7 @@ static int score_type = GUI_SCORE_COIN;
 
 void gui_score_board(int pd, unsigned int types, int e, int h)
 {
-    int id, jd, kd, ld;
+    int id, jd, kd;
 
     assert((types & GUI_SCORE_COIN) ||
            (types & GUI_SCORE_TIME) ||
@@ -192,56 +168,51 @@ void gui_score_board(int pd, unsigned int types, int e, int h)
     {
         gui_filler(id);
 
-        if ((jd = gui_hstack(id)))
+        if ((jd = gui_vstack(id)))
         {
             gui_filler(jd);
 
-            if ((kd = gui_vstack(jd)))
+            if (types & GUI_SCORE_COIN)
             {
-                gui_filler(kd);
+                coin_btn_id = gui_state(jd, _("Most Coins"), GUI_SML,
+                                        GUI_SCORE, GUI_SCORE_COIN);
 
-                if (types & GUI_SCORE_COIN)
+                gui_set_hilite(coin_btn_id, score_type == GUI_SCORE_COIN);
+            }
+            if (types & GUI_SCORE_TIME)
+            {
+                time_btn_id = gui_state(jd, _("Best Times"), GUI_SML,
+                                        GUI_SCORE, GUI_SCORE_TIME);
+
+                gui_set_hilite(time_btn_id, score_type == GUI_SCORE_TIME);
+            }
+            if (types & GUI_SCORE_GOAL)
+            {
+                goal_btn_id = gui_state(jd, _("Fast Unlock"), GUI_SML,
+                                        GUI_SCORE, GUI_SCORE_GOAL);
+
+                gui_set_hilite(goal_btn_id, score_type == GUI_SCORE_GOAL);
+            }
+
+            if (h)
+            {
+                gui_space(jd);
+
+                if ((kd = gui_hstack(jd)))
                 {
-                    coin_btn_id = gui_state(kd, _("Most Coins"), GUI_SML,
-                                            GUI_SCORE, GUI_SCORE_COIN);
-
-                    gui_set_hilite(coin_btn_id, score_type == GUI_SCORE_COIN);
+                    gui_filler(kd);
+                    gui_state(kd, _("Change Name"), GUI_SML, GUI_NAME, 0);
+                    gui_filler(kd);
                 }
-                if (types & GUI_SCORE_TIME)
-                {
-                    time_btn_id = gui_state(kd, _("Best Times"), GUI_SML,
-                                            GUI_SCORE, GUI_SCORE_TIME);
-
-                    gui_set_hilite(time_btn_id, score_type == GUI_SCORE_TIME);
-                }
-                if (types & GUI_SCORE_GOAL)
-                {
-                    goal_btn_id = gui_state(kd, _("Fast Unlock"), GUI_SML,
-                                            GUI_SCORE, GUI_SCORE_GOAL);
-
-                    gui_set_hilite(goal_btn_id, score_type == GUI_SCORE_GOAL);
-                }
-
-                if (h)
-                {
-                    gui_space(kd);
-
-                    if ((ld = gui_hstack(kd)))
-                    {
-                        gui_filler(ld);
-                        gui_state(ld, _("Change Name"), GUI_SML, GUI_NAME, 0);
-                        gui_filler(ld);
-                    }
-                }
-
-                gui_filler(kd);
             }
 
             gui_filler(jd);
         }
 
         gui_filler(id);
+
         gui_scores(id, e);
+
         gui_filler(id);
     }
 }

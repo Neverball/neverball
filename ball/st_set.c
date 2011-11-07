@@ -89,7 +89,7 @@ static void gui_set(int id, int i)
     if (set_exists(i))
         gui_state(id, set_name(i), GUI_SML, SET_SELECT, i);
     else
-        gui_label(id, "", GUI_SML, GUI_ALL, 0, 0);
+        gui_label(id, "", GUI_SML, 0, 0);
 }
 
 static int set_gui(void)
@@ -105,7 +105,7 @@ static int set_gui(void)
     {
         if ((jd = gui_hstack(id)))
         {
-            gui_label(jd, _("Level Set"), GUI_SML, GUI_ALL, gui_yel, gui_red);
+            gui_label(jd, _("Level Set"), GUI_SML, gui_yel, gui_red);
             gui_filler(jd);
             gui_navig(jd, first > 0, first + SET_STEP < total);
         }
@@ -124,8 +124,7 @@ static int set_gui(void)
         }
 
         gui_space(id);
-        desc_id = gui_multi(id, " \\ \\ \\ \\ \\", GUI_SML, GUI_ALL,
-                            gui_yel, gui_wht);
+        desc_id = gui_multi(id, " \\ \\ \\ \\ \\", GUI_SML, gui_yel, gui_wht);
 
         gui_layout(id, 0, 0);
     }

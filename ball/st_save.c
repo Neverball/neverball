@@ -110,10 +110,10 @@ static int save_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, _("Replay Name"), GUI_MED, GUI_ALL, 0, 0);
+        gui_label(id, _("Replay Name"), GUI_MED, 0, 0);
         gui_space(id);
 
-        file_id = gui_label(id, " ", GUI_MED, GUI_ALL, gui_yel, gui_yel);
+        file_id = gui_label(id, " ", GUI_MED, gui_yel, gui_yel);
 
         gui_space(id);
         gui_keyboard(id);
@@ -202,9 +202,9 @@ static int clobber_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, _("Overwrite?"), GUI_MED, GUI_ALL, gui_red, gui_red);
+        kd = gui_label(id, _("Overwrite?"), GUI_MED, gui_red, gui_red);
 
-        file_id = gui_label(id, "MMMMMMMM", GUI_MED, GUI_ALL, gui_yel, gui_yel);
+        file_id = gui_label(id, "MMMMMMMM", GUI_MED, gui_yel, gui_yel);
 
         if ((jd = gui_harray(id)))
         {

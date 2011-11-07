@@ -93,10 +93,10 @@ int  gui_filler(int);
 int  gui_image(int, const char *, int, int);
 int  gui_start(int, const char *, int, int, int);
 int  gui_state(int, const char *, int, int, int);
-int  gui_label(int, const char *, int, int, const GLubyte *, const GLubyte *);
-int  gui_multi(int, const char *, int, int, const GLubyte *, const GLubyte *);
-int  gui_count(int, int, int, int);
-int  gui_clock(int, int, int, int);
+int  gui_label(int, const char *, int, const GLubyte *, const GLubyte *);
+int  gui_multi(int, const char *, int, const GLubyte *, const GLubyte *);
+int  gui_count(int, int, int);
+int  gui_clock(int, int, int);
 int  gui_space(int);
 
 /*---------------------------------------------------------------------------*/

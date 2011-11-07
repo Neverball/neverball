@@ -121,8 +121,7 @@ static int gui_demo_thumbs(int id)
                             gui_space(ld);
 
                             thumb->shot = gui_image(ld, " ", w / 6, h / 6);
-                            thumb->name = gui_label(ld, " ",
-                                                    GUI_SML, GUI_ALL,
+                            thumb->name = gui_label(ld, " ", GUI_SML,
                                                     gui_wht, gui_wht);
 
                             gui_set_trunc(thumb->name, TRUNC_TAIL);
@@ -189,10 +188,9 @@ static int gui_demo_status(int id)
             {
                 gui_filler(ld);
 
-                time_id   = gui_clock(ld, 35000,  GUI_SML, GUI_NE);
-                coin_id   = gui_count(ld, 100,    GUI_SML, GUI_E);
-                status_id = gui_label(ld, status, GUI_SML, GUI_SE,
-                                      gui_red, gui_red);
+                time_id   = gui_clock(ld, 35000,  GUI_SML);
+                coin_id   = gui_count(ld, 100,    GUI_SML);
+                status_id = gui_label(ld, status, GUI_SML, gui_red, gui_red);
 
                 gui_filler(ld);
             }
@@ -201,40 +199,47 @@ static int gui_demo_status(int id)
             {
                 gui_filler(ld);
 
-                gui_label(ld, _("Time"),   GUI_SML, GUI_NW, gui_wht, gui_wht);
-                gui_label(ld, _("Coins"),  GUI_SML, GUI_W,  gui_wht, gui_wht);
-                gui_label(ld, _("Status"), GUI_SML, GUI_SW, gui_wht, gui_wht);
+                gui_label(ld, _("Time"),   GUI_SML, gui_wht, gui_wht);
+                gui_label(ld, _("Coins"),  GUI_SML, gui_wht, gui_wht);
+                gui_label(ld, _("Status"), GUI_SML, gui_wht, gui_wht);
 
                 gui_filler(ld);
             }
+
+            gui_set_rect(kd, GUI_ALL);
         }
 
         gui_space(jd);
 
-        if ((kd = gui_vstack(jd)))
+        if ((kd = gui_hstack(jd)))
         {
-            gui_filler(kd);
+            if ((ld = gui_vstack(kd)))
+            {
+                gui_filler(ld);
 
-            name_id   = gui_label(kd, " ", GUI_SML, GUI_NE, 0, 0);
-            player_id = gui_label(kd, " ", GUI_SML, GUI_E,  0, 0);
-            date_id   = gui_label(kd, date_to_str(time(NULL)),
-                                  GUI_SML, GUI_SE, 0, 0);
+                name_id   = gui_label(ld, " ", GUI_SML, 0, 0);
+                player_id = gui_label(ld, " ", GUI_SML, 0, 0);
+                date_id   = gui_label(ld, date_to_str(time(NULL)),
+                                      GUI_SML, 0, 0);
 
-            gui_filler(kd);
+                gui_filler(ld);
 
-            gui_set_trunc(name_id,   TRUNC_TAIL);
-            gui_set_trunc(player_id, TRUNC_TAIL);
-        }
+                gui_set_trunc(name_id,   TRUNC_TAIL);
+                gui_set_trunc(player_id, TRUNC_TAIL);
+            }
 
-        if ((kd = gui_vstack(jd)))
-        {
-            gui_filler(kd);
+            if ((ld = gui_vstack(kd)))
+            {
+                gui_filler(ld);
 
-            gui_label(kd, _("Replay"), GUI_SML, GUI_NW, gui_wht, gui_wht);
-            gui_label(kd, _("Player"), GUI_SML, GUI_W,  gui_wht, gui_wht);
-            gui_label(kd, _("Date"),   GUI_SML, GUI_SW, gui_wht, gui_wht);
+                gui_label(ld, _("Replay"), GUI_SML, gui_wht, gui_wht);
+                gui_label(ld, _("Player"), GUI_SML, gui_wht, gui_wht);
+                gui_label(ld, _("Date"),   GUI_SML, gui_wht, gui_wht);
 
-            gui_filler(kd);
+                gui_filler(ld);
+            }
+
+            gui_set_rect(kd, GUI_ALL);
         }
 
         gui_filler(jd);
@@ -282,7 +287,7 @@ static int demo_gui(void)
         if ((jd = gui_hstack(id)))
         {
 
-            gui_label(jd, _("Select Replay"), GUI_SML, GUI_ALL, 0,0);
+            gui_label(jd, _("Select Replay"), GUI_SML, 0,0);
             gui_filler(jd);
             gui_navig(jd, first > 0, first + DEMO_STEP < total);
         }
@@ -298,7 +303,7 @@ static int demo_gui(void)
     }
     else
     {
-        gui_label(id, _("No Replays"), GUI_MED, GUI_ALL, 0, 0);
+        gui_label(id, _("No Replays"), GUI_MED, 0, 0);
         gui_layout(id, 0, 0);
     }
 
@@ -408,7 +413,7 @@ static int demo_play_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, _("Replay"), GUI_LRG, GUI_ALL, gui_blu, gui_grn);
+        gui_label(id, _("Replay"), GUI_LRG, gui_blu, gui_grn);
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
     }
@@ -590,11 +595,9 @@ static int demo_end_gui(void)
     if ((id = gui_vstack(0)))
     {
         if (demo_paused)
-            kd = gui_label(id, _("Replay Paused"), GUI_LRG, GUI_ALL,
-                           gui_gry, gui_red);
+            kd = gui_label(id, _("Replay Paused"), GUI_LRG, gui_gry, gui_red);
         else
-            kd = gui_label(id, _("Replay Ends"),   GUI_LRG, GUI_ALL,
-                           gui_gry, gui_red);
+            kd = gui_label(id, _("Replay Ends"),   GUI_LRG, gui_gry, gui_red);
 
         if ((jd = gui_harray(id)))
         {
@@ -684,7 +687,7 @@ static int demo_del_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, _("Delete Replay?"), GUI_MED, GUI_ALL, gui_red, gui_red);
+        kd = gui_label(id, _("Delete Replay?"), GUI_MED, gui_red, gui_red);
 
         if ((jd = gui_harray(id)))
         {
@@ -728,12 +731,12 @@ static int demo_compat_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, _("Warning!"), GUI_MED, GUI_ALL, 0, 0);
+        gui_label(id, _("Warning!"), GUI_MED, 0, 0);
         gui_space(id);
         gui_multi(id, _("The current replay was recorded with a\\"
                         "different (or unknown) version of this level.\\"
                         "Be prepared to encounter visual errors.\\"),
-                  GUI_SML, GUI_ALL, gui_wht, gui_wht);
+                  GUI_SML, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);
     }

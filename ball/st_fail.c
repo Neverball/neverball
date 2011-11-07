@@ -86,7 +86,7 @@ static int fail_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, label, GUI_LRG, GUI_ALL, gui_gry, gui_red);
+        kd = gui_label(id, label, GUI_LRG, gui_gry, gui_red);
 
         gui_space(id);
 
