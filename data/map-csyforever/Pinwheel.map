@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "message" "Pinwheel\Try not to get confused here."
-"shot" "shot-csyforeverm/Pinwheel.png"
+"shot" "shot-csyforever/Pinwheel.png"
 "time" "12000"
 "goal" "40"
 "song" "bgm/track1.ogg"

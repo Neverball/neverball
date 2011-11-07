@@ -2,9 +2,9 @@
 // entity 0
 {
 "classname" "worldspawn"
-"message" "One-way Teleport\A one-way teleport brings\you to a new place,\but not vise-versa.\For an added challenge,\try to get all the blue coins."
+"message" "One-way Teleport\For an added challenge,\try to get all the blue coins."
 "back" "map-back/ocean.sol"
-"shot" "shot-csyforeverm/OneWayTeleport.png"
+"shot" "shot-csyforever/OneWayTeleport.png"
 "grad" "back/ocean.png"
 "time" "15000"
 "goal" "25"

@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Speed Jumps\Get ready for some high speed jumping!"
 "back" "map-back/alien.sol"
-"shot" "shot-csyforeverm/SpeedJumps.png"
+"shot" "shot-csyforever/SpeedJumps.png"
 "grad" "back/alien.png"
 "song" "bgm/track5.ogg"
 "time" "9000"

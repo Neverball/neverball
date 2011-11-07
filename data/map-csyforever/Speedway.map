@@ -3,7 +3,7 @@
 {
 "classname" "worldspawn"
 "message" "Speedway\Get as many coins as you\can while opportunities exist.\You are in a mega-neverball!"
-"shot" "shot-csyforeverm/Speedway.png"
+"shot" "shot-csyforever/Speedway.png"
 "time" "6000"
 "goal" "60"
 "song" "bgm/track3.ogg"

@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Invisible Pinwheel Legs\As before, but some of the flooring is invisible,\and the walls that were there have been removed."
 "back" "map-back/alien.sol"
-"shot" "shot-csyforeverm/InvisiblePinwheelLegs.png"
+"shot" "shot-csyforever/InvisiblePinwheelLegs.png"
 "grad" "back/alien.png"
 "song" "bgm/track5.ogg"
 "time" "9000"

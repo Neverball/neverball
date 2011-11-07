@@ -1,6 +1,6 @@
-Neverball Forever Medium
-Difficulty: Intermediate through Expert\25 levels with a not-so-smooth learning curve.\Included intros can be useful.\\Author: Challenge Space Yard\
-csym
+Neverball Forever Normal
+Difficulty: Intermediate through Expert\25 levels with a not-so-smooth learning curve.\\\Author: Challenge Space Yard\
+csy
 shot-csyforeverm/Cross.png
 65000	80000	95000	1800	1100	500
 map-csyforeverm/Cross.sol
@@ -26,5 +26,5 @@ map-csyforeverm/RocketRide.sol
 map-csyforeverm/Trains.sol
 map-csyforeverm/BentRoad.sol
 map-csyforeverm/ForkedRoad.sol
-map-csyforeverm/AmazingPath.sol
 map-csyforeverm/Challenger.sol
+map-csyforeverm/AmazingPath.sol

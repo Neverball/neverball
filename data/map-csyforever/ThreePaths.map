@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Three Paths\Each path is narrower and harder\to maintain control on than the last one.\But each path pays better than the last one!\You decide how far you go on this level!"
 "back" "map-back/city.sol"
-"shot" "shot-csyforeverm/ThreePaths.png"
+"shot" "shot-csyforever/ThreePaths.png"
 "grad" "back/city.png"
 "time" "15000"
 "goal" "32"

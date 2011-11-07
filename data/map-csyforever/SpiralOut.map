@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Spiral Outward\Careful not to put too much tilting on the ball\as you may fall out."
 "grad" "back/land.png"
-"shot" "shot-csyforeverm/SpiralOut.png"
+"shot" "shot-csyforever/SpiralOut.png"
 "time" "10500"
 "goal" "15"
 "song" "bgm/track1.ogg"

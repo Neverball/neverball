@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Glassy Intersection\This level is made of only glass, and quite challenging.\Note: There are no invisible blocks."
 "back" "map-back/city.sol"
-"shot" "shot-csyforeverm/GlassyIntersection.png"
+"shot" "shot-csyforever/GlassyIntersection.png"
 "grad" "back/city.png"
 "song" "bgm/track3.ogg"
 "time" "15000"

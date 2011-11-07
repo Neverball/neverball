@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Spiral Inward\As before, but going inward instead."
 "back" "map-back/ocean.sol"
-"shot" "shot-csyforeverm/SpiralIn.png"
+"shot" "shot-csyforever/SpiralIn.png"
 "grad" "back/ocean.png"
 "time" "10500"
 "goal" "20"

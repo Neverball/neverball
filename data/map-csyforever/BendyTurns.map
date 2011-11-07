@@ -4,7 +4,7 @@
 "classname" "worldspawn"
 "message" "Bendy Turns\There aren't many coins to collect, unless you want\to try and go for it all on the narrow path!"
 "back" "map-back/city.sol"
-"shot" "shot-csyforeverm/BendyTurns.png"
+"shot" "shot-csyforever/BendyTurns.png"
 "grad" "back/city.png"
 "song" "bgm/track3.ogg"
 "time" "13500"
