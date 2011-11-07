@@ -80,6 +80,7 @@ void gui_set_trunc(int, enum trunc);
 void gui_set_fill(int);
 int  gui_set_state(int, int, int);
 void gui_set_hilite(int, int);
+void gui_set_rect(int, int);
 
 /*---------------------------------------------------------------------------*/
 

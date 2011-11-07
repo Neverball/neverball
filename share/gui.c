@@ -60,6 +60,7 @@ const GLubyte gui_shd[4] = { 0x00, 0x00, 0x00, 0x80 };  /* Shadow */
 #define GUI_STATE  1
 #define GUI_FILL   2
 #define GUI_HILITE 4
+#define GUI_RECT   8
 
 #define GUI_LINES 8
 
@@ -98,7 +99,8 @@ struct widget
 static struct widget widget[WIDGET_MAX];
 static int           active;
 static int           sticky;
-static int           radius;
+static int           padding;
+static int           borders[4];
 static TTF_Font     *font[3] = { NULL, NULL, NULL };
 
 /* Digit widgets for the HUD. */
@@ -122,9 +124,19 @@ static int gui_hot(int id)
 
 /* Vertex buffer definitions for widget rendering. */
 
-#define RECT_VERT 36
-#define TEXT_VERT 8
-#define WIDGET_VERT (RECT_VERT + TEXT_VERT)
+/* Vertex count */
+
+#define RECT_VERT 16
+#define TEXT_VERT  8
+#define IMAGE_VERT 4
+
+#define WIDGET_VERT (RECT_VERT + MAX(TEXT_VERT, IMAGE_VERT))
+
+/* Element count */
+
+#define RECT_ELEM 28
+
+#define WIDGET_ELEM (RECT_ELEM)
 
 struct vert
 {
@@ -135,6 +147,17 @@ struct vert
 
 static struct vert vert_buf[WIDGET_MAX * WIDGET_VERT];
 static GLuint      vert_vbo = 0;
+static GLuint      vert_ebo = 0;
+
+static GLuint      rect_tex[4] = {
+    0,             /* off and inactive    */
+    0,             /* off and   active    */
+    0,             /* on  and inactive    */
+    0              /* on  and   active    */
+};
+
+static float rect_t[4];
+static float rect_s[4];
 
 /*---------------------------------------------------------------------------*/
 
@@ -155,7 +178,8 @@ static void set_vert(struct vert *v, int x, int y,
 
 static void draw_enable(GLboolean c, GLboolean u, GLboolean p)
 {
-    glBindBuffer_(GL_ARRAY_BUFFER, vert_vbo);
+    glBindBuffer_(GL_ARRAY_BUFFER,         vert_vbo);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, vert_ebo);
 
     if (c)
     {
@@ -179,7 +203,8 @@ static void draw_enable(GLboolean c, GLboolean u, GLboolean p)
 
 static void draw_rect(int id)
 {
-    glDrawArrays(GL_TRIANGLE_STRIP, id * WIDGET_VERT,  RECT_VERT);
+    glDrawElements(GL_TRIANGLE_STRIP, RECT_ELEM, GL_UNSIGNED_SHORT,
+                   (const GLvoid *) (id * WIDGET_ELEM * sizeof (GLushort)));
 }
 
 static void draw_text(int id)
@@ -187,9 +212,15 @@ static void draw_text(int id)
     glDrawArrays(GL_TRIANGLE_STRIP, id * WIDGET_VERT + RECT_VERT, TEXT_VERT);
 }
 
+static void draw_image(int id)
+{
+    glDrawArrays(GL_TRIANGLE_STRIP, id * WIDGET_VERT + RECT_VERT, IMAGE_VERT);
+}
+
 static void draw_disable(void)
 {
-    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+    glBindBuffer_(GL_ARRAY_BUFFER,         0);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -198,58 +229,66 @@ static void draw_disable(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void gui_rect(int id, int x, int y, int w, int h, int f, int r)
+/*
+ * Generate vertices for a 3x3 rectangle. Vertices are arranged
+ * top-to-bottom and left-to-right, triangle strips are arranged
+ * left-to-right and top-to-bottom (one strip per row). Degenerate
+ * triangles (two extra indices per stitch) are inserted for a
+ * continous strip.
+ */
+
+static const GLushort rect_elem_base[RECT_ELEM] = {
+    0, 1, 4, 5, 8, 9, 12, 13, 13, 1,    /* Top    */
+    1, 2, 5, 6, 9, 10, 13, 14, 14, 2,   /* Middle */
+    2, 3, 6, 7, 10, 11, 14, 15          /* Bottom */
+};
+
+static void gui_geom_rect(int id, int x, int y, int w, int h, int f)
 {
+    GLushort rect_elem[RECT_ELEM];
+
     struct vert *v = vert_buf + id * WIDGET_VERT;
     struct vert *p = v;
 
-    /* Generate vertex data for the widget's rounded rectangle. */
+    int X[4];
+    int Y[4];
 
-    int n = 8;
-    int i;
+    int i, j;
 
-    /* Left side... */
+    /* Generate vertex and element data for the widget's rectangle. */
 
-    for (i = 0; i <= n; i++)
-    {
-        float a = 0.5f * V_PI * (float) i / (float) n;
-        float s = r * fsinf(a);
-        float c = r * fcosf(a);
+    X[0] = x;
+    X[1] = x +     ((f & GUI_W) ? borders[0] : 0);
+    X[2] = x + w - ((f & GUI_E) ? borders[1] : 0);
+    X[3] = x + w;
 
-        float X  = x     + r - c;
-        float Ya = y + h + ((f & GUI_NW) == GUI_NW ? (s - r) : 0);
-        float Yb = y     + ((f & GUI_SW) == GUI_SW ? (r - s) : 0);
+    Y[0] = y + h;
+    Y[1] = y + h - ((f & GUI_N) ? borders[2] : 0);
+    Y[2] = y +     ((f & GUI_S) ? borders[3] : 0);
+    Y[3] = y;
 
-        set_vert(p++, X, Ya, (X - x) / w, (Ya - y) / h, gui_wht);
-        set_vert(p++, X, Yb, (X - x) / w, (Yb - y) / h, gui_wht);
-    }
+    for (i = 0; i < 4; i++)
+        for (j = 0; j < 4; j++)
+            set_vert(p++, X[i], Y[j], rect_s[i], rect_t[j], gui_wht);
 
-    /* Right side... */
+    for (i = 0; i < RECT_ELEM; i++)
+        rect_elem[i] = id * WIDGET_VERT + rect_elem_base[i];
 
-    for (i = 0; i <= n; i++)
-    {
-        float a = 0.5f * V_PI * (float) i / (float) n;
-        float s = r * fsinf(a);
-        float c = r * fcosf(a);
-
-        float X  = x + w - r + s;
-        float Ya = y + h + ((f & GUI_NE) == GUI_NE ? (c - r) : 0);
-        float Yb = y     + ((f & GUI_SE) == GUI_SE ? (r - c) : 0);
-
-        set_vert(p++, X, Ya, (X - x) / w, (Ya - y) / h, gui_wht);
-        set_vert(p++, X, Yb, (X - x) / w, (Yb - y) / h, gui_wht);
-    }
-
-    /* Copy this off to the VBO. */
+    /* Copy this off to the VBOs. */
 
     glBindBuffer_   (GL_ARRAY_BUFFER, vert_vbo);
     glBufferSubData_(GL_ARRAY_BUFFER,
                      id * WIDGET_VERT * sizeof (struct vert),
                             RECT_VERT * sizeof (struct vert), v);
+
+    glBindBuffer_   (GL_ELEMENT_ARRAY_BUFFER, vert_ebo);
+    glBufferSubData_(GL_ELEMENT_ARRAY_BUFFER,
+                     id * WIDGET_ELEM * sizeof (GLushort),
+                            RECT_ELEM * sizeof (GLushort), rect_elem);
 }
 
-static void gui_text(int id, int x, int y,
-                             int w, int h, const GLubyte *c0, const GLubyte *c1)
+static void gui_geom_text(int id, int x, int y, int w, int h,
+                          const GLubyte *c0, const GLubyte *c1)
 {
     struct vert *v = vert_buf + id * WIDGET_VERT + RECT_VERT;
 
@@ -293,6 +332,82 @@ static void gui_text(int id, int x, int y,
     glBufferSubData_(GL_ARRAY_BUFFER,
                      (id * WIDGET_VERT + RECT_VERT) * sizeof (struct vert),
                                          TEXT_VERT  * sizeof (struct vert), v);
+}
+
+static void gui_geom_image(int id, int x, int y, int w, int h, int f)
+{
+    struct vert *v = vert_buf + id * WIDGET_VERT + RECT_VERT;
+
+    int X[2];
+    int Y[2];
+
+    /* Trace inner vertices of the background rectangle. */
+
+    X[0] = x +     ((f & GUI_W) ? borders[0] : 0);
+    X[1] = x + w - ((f & GUI_E) ? borders[1] : 0);
+
+    Y[0] = y + h - ((f & GUI_N) ? borders[2] : 0);
+    Y[1] = y +     ((f & GUI_S) ? borders[3] : 0);
+
+    set_vert(v + 0, X[0], Y[0], 0.0f, 1.0f, gui_wht);
+    set_vert(v + 1, X[0], Y[1], 0.0f, 0.0f, gui_wht);
+    set_vert(v + 2, X[1], Y[0], 1.0f, 1.0f, gui_wht);
+    set_vert(v + 3, X[1], Y[1], 1.0f, 0.0f, gui_wht);
+
+    /* Copy this off to the VBO. */
+
+    glBindBuffer_   (GL_ARRAY_BUFFER, vert_vbo);
+    glBufferSubData_(GL_ARRAY_BUFFER,
+                     (id * WIDGET_VERT + RECT_VERT) * sizeof (struct vert),
+                     IMAGE_VERT * sizeof (struct vert), v);
+}
+
+static void gui_geom_widget(int id, int flags)
+{
+    int jd;
+
+    int w = widget[id].w;
+    int h = widget[id].h;
+
+    /* Recall stored width and height for text rendering. */
+
+    int W = widget[id].text_w;
+    int H = widget[id].text_h;
+    int R = widget[id].rect;
+
+    const GLubyte *c0 = widget[id].color0;
+    const GLubyte *c1 = widget[id].color1;
+
+    if ((widget[id].flags & GUI_RECT) && !(flags & GUI_RECT))
+    {
+        gui_geom_rect(id, -w / 2, -h / 2, w, h, R);
+        flags |= GUI_RECT;
+    }
+
+    switch (widget[id].type)
+    {
+    case GUI_FILLER:
+    case GUI_SPACE:
+        break;
+
+    case GUI_HARRAY:
+    case GUI_VARRAY:
+    case GUI_HSTACK:
+    case GUI_VSTACK:
+
+        for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+            gui_geom_widget(jd, flags);
+
+        break;
+
+    case GUI_IMAGE:
+        gui_geom_image(id, -w / 2, -h / 2, w, h, R);
+        break;
+
+    default:
+        gui_geom_text(id, -W / 2, -H / 2, W, H, c0, c1);
+        break;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -355,7 +470,7 @@ static int gui_font_init(const char *path)
             fprintf(stderr, L_("Could not load font '%s'.\n"), path);
         }
 
-        radius = s / 60;
+        padding = s / 60;
 
         return 1;
     }
@@ -374,6 +489,60 @@ static void gui_font_quit(void)
     TTF_Quit();
 }
 
+static void gui_rect_init(void)
+{
+    char buff[MAXSTR];
+    fs_file fp;
+
+    float b[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    float s[4] = { 0.25f, 0.25f, 0.25f, 0.25f };
+
+    int i;
+
+    /* Load description. */
+
+    if ((fp = fs_open("gui/desc.txt", "r")))
+    {
+        while ((fs_gets(buff, sizeof (buff), fp)))
+        {
+            strip_newline(buff);
+
+            if (strncmp(buff, "slice ", 6) == 0)
+                sscanf(buff + 6, "%f %f %f %f", &s[0], &s[1], &s[2], &s[3]);
+
+            if (strncmp(buff, "scale ", 6) == 0)
+                sscanf(buff + 6, "%f %f %f %f", &b[0], &b[1], &b[2], &b[3]);
+        }
+
+        fs_close(fp);
+    }
+
+    rect_s[0] =  0.0f;
+    rect_s[1] =  s[0];
+    rect_s[2] = (1.0f - s[1]);
+    rect_s[3] =  1.0f;
+
+    rect_t[0] =  1.0f;
+    rect_t[1] = (1.0 - s[2]);
+    rect_t[2] =  s[3];
+    rect_t[3] =  0.0f;
+
+    for (i = 0; i < 4; i++)
+        borders[i] = padding * b[i];
+
+    /* Load textures. */
+
+    rect_tex[0] = make_image_from_file("gui/back-plain.png");
+    rect_tex[1] = make_image_from_file("gui/back-plain-focus.png");
+    rect_tex[2] = make_image_from_file("gui/back-hilite.png");
+    rect_tex[3] = make_image_from_file("gui/back-hilite-focus.png");
+}
+
+static void gui_rect_quit(void)
+{
+    glDeleteTextures(4, rect_tex);
+}
+
 void gui_init(void)
 {
     int i, j;
@@ -384,6 +553,10 @@ void gui_init(void)
 
     gui_font_init(gui_font_path());
 
+    /* Initialize rectangle resources. */
+
+    gui_rect_init();
+
     /* Initialize the VBOs. */
 
     memset(vert_buf, 0, sizeof (vert_buf));
@@ -392,6 +565,13 @@ void gui_init(void)
     glBindBuffer_(GL_ARRAY_BUFFER, vert_vbo);
     glBufferData_(GL_ARRAY_BUFFER, sizeof (vert_buf), vert_buf, GL_STATIC_DRAW);
     glBindBuffer_(GL_ARRAY_BUFFER, 0);
+
+    glGenBuffers_(1,                      &vert_ebo);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, vert_ebo);
+    glBufferData_(GL_ELEMENT_ARRAY_BUFFER,
+                  WIDGET_MAX * WIDGET_ELEM * sizeof (GLushort),
+                  NULL, GL_STATIC_DRAW);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     /* Cache digit glyphs for HUD rendering. */
 
@@ -424,6 +604,7 @@ void gui_free(void)
     /* Release the VBOs. */
 
     glDeleteBuffers_(1, &vert_vbo);
+    glDeleteBuffers_(1, &vert_ebo);
 
     /* Release any remaining widget texture and display list indices. */
 
@@ -441,6 +622,10 @@ void gui_free(void)
     /* Release all loaded fonts and finalize font rendering. */
 
     gui_font_quit();
+
+    /* Release rectangle resources. */
+
+    gui_rect_quit();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -615,7 +800,7 @@ void gui_set_label(int id, const char *text)
 
     glDeleteTextures(1, &widget[id].image);
 
-    str = gui_truncate(text, widget[id].w - radius,
+    str = gui_truncate(text, widget[id].w - padding,
                        font[widget[id].size],
                        widget[id].trunc);
 
@@ -624,7 +809,9 @@ void gui_set_label(int id, const char *text)
     widget[id].text_w = w;
     widget[id].text_h = h;
 
-    gui_text(id, -w / 2, -h / 2, w, h, widget[id].color0, widget[id].color1);
+    gui_geom_text(id, -w / 2, -h / 2, w, h,
+                  widget[id].color0,
+                  widget[id].color1);
 
     free(str);
 }
@@ -655,7 +842,7 @@ void gui_set_color(int id, const GLubyte *c0,
             widget[id].color0 = c0;
             widget[id].color1 = c1;
 
-            gui_text(id, -w / 2, -h / 2, w, h, c0, c1);
+            gui_geom_text(id, -w / 2, -h / 2, w, h, c0, c1);
         }
     }
 }
@@ -721,6 +908,12 @@ void gui_set_hilite(int id, int hilite)
         widget[id].flags &= ~GUI_HILITE;
 }
 
+void gui_set_rect(int id, int rect)
+{
+    widget[id].rect   = rect;
+    widget[id].flags |= GUI_RECT;
+}
+
 /*---------------------------------------------------------------------------*/
 
 int gui_image(int pd, const char *file, int w, int h)
@@ -729,9 +922,10 @@ int gui_image(int pd, const char *file, int w, int h)
 
     if ((id = gui_widget(pd, GUI_IMAGE)))
     {
-        widget[id].image = make_image_from_file(file);
-        widget[id].w = w;
-        widget[id].h = h;
+        widget[id].image  = make_image_from_file(file);
+        widget[id].w      = w;
+        widget[id].h      = h;
+        widget[id].flags |= GUI_RECT;
     }
     return id;
 }
@@ -752,7 +946,7 @@ int gui_state(int pd, const char *text, int size, int token, int value)
 
     if ((id = gui_widget(pd, GUI_BUTTON)))
     {
-        widget[id].flags |= GUI_STATE;
+        widget[id].flags |= (GUI_STATE | GUI_RECT);
 
         widget[id].image = make_image_from_font(NULL, NULL,
                                                    &widget[id].w,
@@ -780,6 +974,7 @@ int gui_label(int pd, const char *text, int size, int rect, const GLubyte *c0,
         widget[id].color0 = c0 ? c0 : gui_yel;
         widget[id].color1 = c1 ? c1 : gui_red;
         widget[id].rect   = rect;
+        widget[id].flags |= GUI_RECT;
     }
     return id;
 }
@@ -799,6 +994,7 @@ int gui_count(int pd, int value, int size, int rect)
         widget[id].color0 = gui_yel;
         widget[id].color1 = gui_red;
         widget[id].rect   = rect;
+        widget[id].flags |= GUI_RECT;
     }
     return id;
 }
@@ -816,6 +1012,7 @@ int gui_clock(int pd, int value, int size, int rect)
         widget[id].color0 = gui_yel;
         widget[id].color1 = gui_red;
         widget[id].rect   = rect;
+        widget[id].flags |= GUI_RECT;
     }
     return id;
 }
@@ -850,7 +1047,6 @@ int gui_multi(int pd, const char *text, int size, int rect, const GLubyte *c0,
         const char *p;
 
         char s[GUI_LINES][MAXSTR];
-        int  r[GUI_LINES];
         int  i, j;
 
         size_t n = 0;
@@ -861,23 +1057,19 @@ int gui_multi(int pd, const char *text, int size, int rect, const GLubyte *c0,
         {
             strncpy(s[j], p, (n = strcspn(p, "\\")));
             s[j][n] = 0;
-            r[j]    = rect & (GUI_W | GUI_E);
 
             if (*(p += n) == '\\') p++;
-        }
-
-        /* Set the curves for the first and last lines. */
-
-        if (j > 0)
-        {
-            r[0]     |= rect & (GUI_NW | GUI_NE);
-            r[j - 1] |= rect & (GUI_SW | GUI_SE);
         }
 
         /* Create a label widget for each line. */
 
         for (i = 0; i < j; i++)
-            gui_label(id, s[i], size, r[i], c0, c1);
+            gui_label(id, s[i], size, 0, c0, c1);
+
+        /* Set rectangle on the container. */
+
+        widget[id].rect   = rect;
+        widget[id].flags |= GUI_RECT;
     }
     return id;
 }
@@ -985,16 +1177,16 @@ static void gui_button_up(int id)
     /* Padded text elements look a little nicer. */
 
     if (widget[id].w < config_get_d(CONFIG_WIDTH))
-        widget[id].w += radius;
+        widget[id].w += padding;
     if (widget[id].h < config_get_d(CONFIG_HEIGHT))
-        widget[id].h += radius;
+        widget[id].h += padding;
 
-    /* A button should be at least wide enough to accomodate the rounding. */
+    /* A button should be at least wide enough to accomodate the borders. */
 
-    if (widget[id].w < 2 * radius)
-        widget[id].w = 2 * radius;
-    if (widget[id].h < 2 * radius)
-        widget[id].h = 2 * radius;
+    if (widget[id].w < borders[0] + borders[1])
+        widget[id].w = borders[0] + borders[1];
+    if (widget[id].h < borders[2] + borders[3])
+        widget[id].h = borders[2] + borders[3];
 }
 
 static void gui_widget_up(int id)
@@ -1158,24 +1350,10 @@ static void gui_filler_dn(int id, int x, int y, int w, int h)
 
 static void gui_button_dn(int id, int x, int y, int w, int h)
 {
-    /* Recall stored width and height for text rendering. */
-
-    int W = widget[id].text_w;
-    int H = widget[id].text_h;
-    int R = widget[id].rect;
-
-    const GLubyte *c0 = widget[id].color0;
-    const GLubyte *c1 = widget[id].color1;
-
     widget[id].x = x;
     widget[id].y = y;
     widget[id].w = w;
     widget[id].h = h;
-
-    /* Create vertex array data for the text area and rounded rectangle. */
-
-    gui_rect(id, -w / 2, -h / 2, w, h, R, radius);
-    gui_text(id, -W / 2, -H / 2, W, H, c0, c1);
 }
 
 static void gui_widget_dn(int id, int x, int y, int w, int h)
@@ -1222,6 +1400,10 @@ void gui_layout(int id, int xd, int yd)
     else             y = (H - h) / 2;
 
     gui_widget_dn(id, x, y, w, h);
+
+    /* Set up GUI rendering state. */
+
+    gui_geom_widget(id, 0);
 
     /* Hilite the widget under the cursor, if any. */
 
@@ -1273,15 +1455,8 @@ int gui_delete(int id)
 
 /*---------------------------------------------------------------------------*/
 
-static void gui_paint_rect(int id, int st)
+static void gui_paint_rect(int id, int st, int flags)
 {
-    static const GLfloat back[4][4] = {
-        { 0.1f, 0.1f, 0.1f, 0.5f },             /* off and inactive    */
-        { 0.5f, 0.5f, 0.5f, 0.8f },             /* off and   active    */
-        { 1.0f, 0.7f, 0.3f, 0.5f },             /* on  and inactive    */
-        { 1.0f, 0.7f, 0.3f, 0.8f },             /* on  and   active    */
-    };
-
     int jd, i = 0;
 
     /* Use the widget status to determine the background color. */
@@ -1289,13 +1464,25 @@ static void gui_paint_rect(int id, int st)
     i = st | (((widget[id].flags & GUI_HILITE) ? 2 : 0) |
               ((id == active)                  ? 1 : 0));
 
+    if ((widget[id].flags & GUI_RECT) && !(flags & GUI_RECT))
+    {
+        /* Draw a leaf's background, colored by widget state. */
+
+        glPushMatrix();
+        {
+            glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
+                         (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+
+            glBindTexture(GL_TEXTURE_2D, rect_tex[i]);
+            draw_rect(id);
+        }
+        glPopMatrix();
+
+        flags |= GUI_RECT;
+    }
+
     switch (widget[id].type)
     {
-    case GUI_IMAGE:
-    case GUI_SPACE:
-    case GUI_FILLER:
-        break;
-
     case GUI_HARRAY:
     case GUI_VARRAY:
     case GUI_HSTACK:
@@ -1304,23 +1491,7 @@ static void gui_paint_rect(int id, int st)
         /* Recursively paint all subwidgets. */
 
         for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-            gui_paint_rect(jd, i);
-
-        break;
-
-    default:
-
-        /* Draw a leaf's background, colored by widget state. */
-
-        glPushMatrix();
-        {
-            glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
-                         (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
-
-            glColor4f(back[i][0], back[i][1], back[i][2], back[i][3]);
-            draw_rect(id);
-        }
-        glPopMatrix();
+            gui_paint_rect(jd, i, flags);
 
         break;
     }
@@ -1370,7 +1541,7 @@ static void gui_paint_image(int id)
 
         glBindTexture(GL_TEXTURE_2D, widget[id].image);
         glColor4ub(gui_wht[0], gui_wht[1], gui_wht[2], gui_wht[3]);
-        draw_rect(id);
+        draw_image(id);
     }
     glPopMatrix();
 }
@@ -1545,12 +1716,10 @@ void gui_paint(int id)
             glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
             {
-                draw_enable(GL_FALSE, GL_FALSE, GL_TRUE);
-                glDisable(GL_TEXTURE_2D);
-                gui_paint_rect(id, 0);
+                draw_enable(GL_FALSE, GL_TRUE, GL_TRUE);
+                gui_paint_rect(id, 0, 0);
 
                 draw_enable(GL_TRUE, GL_TRUE, GL_TRUE);
-                glEnable(GL_TEXTURE_2D);
                 gui_paint_text(id);
 
                 draw_disable();
