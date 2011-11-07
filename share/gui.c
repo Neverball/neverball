@@ -217,8 +217,8 @@ static void gui_rect(int id, int x, int y, int w, int h, int f, int r)
         float c = r * fcosf(a);
 
         float X  = x     + r - c;
-        float Ya = y + h + ((f & GUI_NW) ? (s - r) : 0);
-        float Yb = y     + ((f & GUI_SW) ? (r - s) : 0);
+        float Ya = y + h + ((f & GUI_NW) == GUI_NW ? (s - r) : 0);
+        float Yb = y     + ((f & GUI_SW) == GUI_SW ? (r - s) : 0);
 
         set_vert(p++, X, Ya, (X - x) / w, (Ya - y) / h, gui_wht);
         set_vert(p++, X, Yb, (X - x) / w, (Yb - y) / h, gui_wht);
@@ -233,8 +233,8 @@ static void gui_rect(int id, int x, int y, int w, int h, int f, int r)
         float c = r * fcosf(a);
 
         float X  = x + w - r + s;
-        float Ya = y + h + ((f & GUI_NE) ? (c - r) : 0);
-        float Yb = y     + ((f & GUI_SE) ? (r - c) : 0);
+        float Ya = y + h + ((f & GUI_NE) == GUI_NE ? (c - r) : 0);
+        float Yb = y     + ((f & GUI_SE) == GUI_SE ? (r - c) : 0);
 
         set_vert(p++, X, Ya, (X - x) / w, (Ya - y) / h, gui_wht);
         set_vert(p++, X, Yb, (X - x) / w, (Yb - y) / h, gui_wht);
@@ -461,7 +461,7 @@ static int gui_widget(int pd, int type)
             widget[id].token  = 0;
             widget[id].value  = 0;
             widget[id].size   = 0;
-            widget[id].rect   = GUI_NW | GUI_SW | GUI_NE | GUI_SE;
+            widget[id].rect   = GUI_ALL;
             widget[id].w      = 0;
             widget[id].h      = 0;
             widget[id].image  = 0;
