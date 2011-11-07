@@ -134,7 +134,7 @@ struct vert
 };
 
 static struct vert vert_buf[WIDGET_MAX * WIDGET_VERT];
-static GLuint      vert_obj = 0;
+static GLuint      vert_vbo = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -155,7 +155,7 @@ static void set_vert(struct vert *v, int x, int y,
 
 static void draw_enable(GLboolean c, GLboolean u, GLboolean p)
 {
-    glBindBuffer_(GL_ARRAY_BUFFER, vert_obj);
+    glBindBuffer_(GL_ARRAY_BUFFER, vert_vbo);
 
     if (c)
     {
@@ -242,7 +242,7 @@ static void gui_rect(int id, int x, int y, int w, int h, int f, int r)
 
     /* Copy this off to the VBO. */
 
-    glBindBuffer_   (GL_ARRAY_BUFFER, vert_obj);
+    glBindBuffer_   (GL_ARRAY_BUFFER, vert_vbo);
     glBufferSubData_(GL_ARRAY_BUFFER,
                      id * WIDGET_VERT * sizeof (struct vert),
                             RECT_VERT * sizeof (struct vert), v);
@@ -289,7 +289,7 @@ static void gui_text(int id, int x, int y,
 
     /* Copy this off to the VBO. */
 
-    glBindBuffer_   (GL_ARRAY_BUFFER, vert_obj);
+    glBindBuffer_   (GL_ARRAY_BUFFER, vert_vbo);
     glBufferSubData_(GL_ARRAY_BUFFER,
                      (id * WIDGET_VERT + RECT_VERT) * sizeof (struct vert),
                                          TEXT_VERT  * sizeof (struct vert), v);
@@ -388,8 +388,8 @@ void gui_init(void)
 
     memset(vert_buf, 0, sizeof (vert_buf));
 
-    glGenBuffers_(1,              &vert_obj);
-    glBindBuffer_(GL_ARRAY_BUFFER, vert_obj);
+    glGenBuffers_(1,              &vert_vbo);
+    glBindBuffer_(GL_ARRAY_BUFFER, vert_vbo);
     glBufferData_(GL_ARRAY_BUFFER, sizeof (vert_buf), vert_buf, GL_STATIC_DRAW);
     glBindBuffer_(GL_ARRAY_BUFFER, 0);
 
@@ -423,7 +423,7 @@ void gui_free(void)
 
     /* Release the VBOs. */
 
-    glDeleteBuffers_(1, &vert_obj);
+    glDeleteBuffers_(1, &vert_vbo);
 
     /* Release any remaining widget texture and display list indices. */
 
