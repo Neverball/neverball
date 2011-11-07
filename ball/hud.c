@@ -66,13 +66,13 @@ void hud_init(void)
     {
         if ((id = gui_vstack(Rhud_id)))
         {
-            gui_label(id, _("Coins"), GUI_SML, 0, gui_wht, gui_wht);
-            gui_label(id, _("Goal"),  GUI_SML, 0, gui_wht, gui_wht);
+            gui_label(id, _("Coins"), GUI_SML, GUI_N, gui_wht, gui_wht);
+            gui_label(id, _("Goal"),  GUI_SML, 0,     gui_wht, gui_wht);
         }
         if ((id = gui_vstack(Rhud_id)))
         {
             coin_id = gui_count(id, 100, GUI_SML, GUI_NW);
-            goal_id = gui_count(id, 10,  GUI_SML, 0);
+            goal_id = gui_count(id, 10,  GUI_SML, GUI_W);
         }
         gui_layout(Rhud_id, +1, -1);
     }
@@ -82,12 +82,12 @@ void hud_init(void)
         if ((id = gui_vstack(Lhud_id)))
         {
             ball_id = gui_count(id, 10,   GUI_SML, GUI_NE);
-            scor_id = gui_count(id, 1000, GUI_SML, 0);
+            scor_id = gui_count(id, 1000, GUI_SML, GUI_E);
         }
         if ((id = gui_vstack(Lhud_id)))
         {
-            gui_label(id, _("Balls"), GUI_SML, 0, gui_wht, gui_wht);
-            gui_label(id, _("Score"), GUI_SML, 0, gui_wht, gui_wht);
+            gui_label(id, _("Balls"), GUI_SML, GUI_N, gui_wht, gui_wht);
+            gui_label(id, _("Score"), GUI_SML, 0,     gui_wht, gui_wht);
         }
         gui_layout(Lhud_id, -1, -1);
     }
@@ -114,7 +114,7 @@ void hud_init(void)
 
         for (i = SPEED_MAX - 1; i > SPEED_NONE; i--)
         {
-            int rect = 0;
+            int rect = GUI_W;
 
             if (i == SPEED_MAX - 1)
                 rect = GUI_NW;

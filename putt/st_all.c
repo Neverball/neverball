@@ -72,33 +72,33 @@ static int score_card(const char  *title,
         {
             if ((kd = gui_varray(jd)))
             {
-                if (p1) gui_label(kd, _("O"),         0, GUI_NE, 0, 0);
-                if (p1) gui_label(kd, hole_out(0), 0, 0,           gui_wht, gui_wht);
-                if (p1) gui_label(kd, hole_out(1), 0, GUI_SE * l1, gui_red, gui_wht);
-                if (p2) gui_label(kd, hole_out(2), 0, GUI_SE * l2, gui_grn, gui_wht);
-                if (p3) gui_label(kd, hole_out(3), 0, GUI_SE * l3, gui_blu, gui_wht);
-                if (p4) gui_label(kd, hole_out(4), 0, GUI_SE * l4, gui_yel, gui_wht);
+                if (p1) gui_label(kd, _("O"),      0, GUI_NE,      0, 0);
+                if (p1) gui_label(kd, hole_out(0), 0, GUI_E,       gui_wht, gui_wht);
+                if (p1) gui_label(kd, hole_out(1), 0, GUI_E | (GUI_S * l1), gui_red, gui_wht);
+                if (p2) gui_label(kd, hole_out(2), 0, GUI_E | (GUI_S * l2), gui_grn, gui_wht);
+                if (p3) gui_label(kd, hole_out(3), 0, GUI_E | (GUI_S * l3), gui_blu, gui_wht);
+                if (p4) gui_label(kd, hole_out(4), 0, GUI_E | (GUI_S * l4), gui_yel, gui_wht);
             }
 
             if ((kd = gui_harray(jd)))
                 for (i = m; i > 0; i--)
                     if ((ld = gui_varray(kd)))
                     {
-                        if (p1) gui_label(ld, number(i), 0, (i == 1) ? GUI_NW : 0, 0, 0);
+                        if (p1) gui_label(ld, number(i), 0, (i == 1) ? GUI_NW : GUI_N, 0, 0);
                         if (p1) gui_label(ld, hole_score(i, 0), 0, 0, gui_wht, gui_wht);
-                        if (p1) gui_label(ld, hole_score(i, 1), 0, 0, gui_red, gui_wht);
-                        if (p2) gui_label(ld, hole_score(i, 2), 0, 0, gui_grn, gui_wht);
-                        if (p3) gui_label(ld, hole_score(i, 3), 0, 0, gui_blu, gui_wht);
-                        if (p4) gui_label(ld, hole_score(i, 4), 0, 0, gui_yel, gui_wht);
+                        if (p1) gui_label(ld, hole_score(i, 1), 0, GUI_S * l1, gui_red, gui_wht);
+                        if (p2) gui_label(ld, hole_score(i, 2), 0, GUI_S * l2, gui_grn, gui_wht);
+                        if (p3) gui_label(ld, hole_score(i, 3), 0, GUI_S * l3, gui_blu, gui_wht);
+                        if (p4) gui_label(ld, hole_score(i, 4), 0, GUI_S * l4, gui_yel, gui_wht);
                     }
             if ((kd = gui_varray(jd)))
             {
                 gui_filler(kd);
                 if (p1) gui_label(kd, _("Par"), 0, GUI_NW,      gui_wht, gui_wht);
-                if (p1) gui_label(kd, _("P1"),  0, GUI_SW * l1, gui_red, gui_wht);
-                if (p2) gui_label(kd, _("P2"),  0, GUI_SW * l2, gui_grn, gui_wht);
-                if (p3) gui_label(kd, _("P3"),  0, GUI_SW * l3, gui_blu, gui_wht);
-                if (p4) gui_label(kd, _("P4"),  0, GUI_SW * l4, gui_yel, gui_wht);
+                if (p1) gui_label(kd, _("P1"),  0, GUI_W | (GUI_S * l1), gui_red, gui_wht);
+                if (p2) gui_label(kd, _("P2"),  0, GUI_W | (GUI_S * l2), gui_grn, gui_wht);
+                if (p3) gui_label(kd, _("P3"),  0, GUI_W | (GUI_S * l3), gui_blu, gui_wht);
+                if (p4) gui_label(kd, _("P4"),  0, GUI_W | (GUI_S * l4), gui_yel, gui_wht);
             }
         }
 
@@ -109,40 +109,40 @@ static int score_card(const char  *title,
             if ((kd = gui_varray(jd)))
             {
                 if (p1) gui_label(kd, _("Tot"),    0, GUI_TOP, 0, 0);
-                if (p1) gui_label(kd, hole_tot(0), 0, 0,           gui_wht, gui_wht);
-                if (p1) gui_label(kd, hole_tot(1), 0, GUI_BOT * l1, gui_red, gui_wht);
-                if (p2) gui_label(kd, hole_tot(2), 0, GUI_BOT * l2, gui_grn, gui_wht);
-                if (p3) gui_label(kd, hole_tot(3), 0, GUI_BOT * l3, gui_blu, gui_wht);
-                if (p4) gui_label(kd, hole_tot(4), 0, GUI_BOT * l4, gui_yel, gui_wht);
+                if (p1) gui_label(kd, hole_tot(0), 0, GUI_W | GUI_E, gui_wht, gui_wht);
+                if (p1) gui_label(kd, hole_tot(1), 0, GUI_W | GUI_E | (GUI_S * l1), gui_red, gui_wht);
+                if (p2) gui_label(kd, hole_tot(2), 0, GUI_W | GUI_E | (GUI_S * l2), gui_grn, gui_wht);
+                if (p3) gui_label(kd, hole_tot(3), 0, GUI_W | GUI_E | (GUI_S * l3), gui_blu, gui_wht);
+                if (p4) gui_label(kd, hole_tot(4), 0, GUI_W | GUI_E | (GUI_S * l4), gui_yel, gui_wht);
             }
             if ((kd = gui_varray(jd)))
             {
                 if (p1) gui_label(kd, _("I"),     0, GUI_NE, 0, 0);
-                if (p1) gui_label(kd, hole_in(0), 0, 0,           gui_wht, gui_wht);
-                if (p1) gui_label(kd, hole_in(1), 0, GUI_SE * l1, gui_red, gui_wht);
-                if (p2) gui_label(kd, hole_in(2), 0, GUI_SE * l2, gui_grn, gui_wht);
-                if (p3) gui_label(kd, hole_in(3), 0, GUI_SE * l3, gui_blu, gui_wht);
-                if (p4) gui_label(kd, hole_in(4), 0, GUI_SE * l4, gui_yel, gui_wht);
+                if (p1) gui_label(kd, hole_in(0), 0, GUI_E, gui_wht, gui_wht);
+                if (p1) gui_label(kd, hole_in(1), 0, GUI_E | (GUI_S * l1), gui_red, gui_wht);
+                if (p2) gui_label(kd, hole_in(2), 0, GUI_E | (GUI_S * l2), gui_grn, gui_wht);
+                if (p3) gui_label(kd, hole_in(3), 0, GUI_E | (GUI_S * l3), gui_blu, gui_wht);
+                if (p4) gui_label(kd, hole_in(4), 0, GUI_E | (GUI_S * l4), gui_yel, gui_wht);
             }
             if ((kd = gui_harray(jd)))
                 for (i = n; i > m; i--)
                     if ((ld = gui_varray(kd)))
                     {
-                        if (p1) gui_label(ld, number(i), 0, (i == m+1) ? GUI_NW : 0, 0, 0);
+                        if (p1) gui_label(ld, number(i), 0, (i == m+1) ? GUI_NW : GUI_N, 0, 0);
                         if (p1) gui_label(ld, hole_score(i, 0), 0, 0, gui_wht, gui_wht);
-                        if (p1) gui_label(ld, hole_score(i, 1), 0, 0, gui_red, gui_wht);
-                        if (p2) gui_label(ld, hole_score(i, 2), 0, 0, gui_grn, gui_wht);
-                        if (p3) gui_label(ld, hole_score(i, 3), 0, 0, gui_blu, gui_wht);
-                        if (p4) gui_label(ld, hole_score(i, 4), 0, 0, gui_yel, gui_wht);
+                        if (p1) gui_label(ld, hole_score(i, 1), 0, GUI_S * l1, gui_red, gui_wht);
+                        if (p2) gui_label(ld, hole_score(i, 2), 0, GUI_S * l2, gui_grn, gui_wht);
+                        if (p3) gui_label(ld, hole_score(i, 3), 0, GUI_S * l3, gui_blu, gui_wht);
+                        if (p4) gui_label(ld, hole_score(i, 4), 0, GUI_S * l4, gui_yel, gui_wht);
                     }
             if ((kd = gui_varray(jd)))
             {
                 gui_filler(kd);
                 if (p1) gui_label(kd, _("Par"), 0, GUI_NW,      gui_wht, gui_wht);
-                if (p1) gui_label(kd, _("P1"),  0, GUI_SW * l1, gui_red, gui_wht);
-                if (p2) gui_label(kd, _("P2"),  0, GUI_SW * l2, gui_grn, gui_wht);
-                if (p3) gui_label(kd, _("P3"),  0, GUI_SW * l3, gui_blu, gui_wht);
-                if (p4) gui_label(kd, _("P4"),  0, GUI_SW * l4, gui_yel, gui_wht);
+                if (p1) gui_label(kd, _("P1"),  0, GUI_W | (GUI_S * l1), gui_red, gui_wht);
+                if (p2) gui_label(kd, _("P2"),  0, GUI_W | (GUI_S * l2), gui_grn, gui_wht);
+                if (p3) gui_label(kd, _("P3"),  0, GUI_W | (GUI_S * l3), gui_blu, gui_wht);
+                if (p4) gui_label(kd, _("P4"),  0, GUI_W | (GUI_S * l4), gui_yel, gui_wht);
             }
         }
 

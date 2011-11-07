@@ -203,23 +203,23 @@ static int page_controls(int id)
     }
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, s_exit,   GUI_SML, 0, gui_wht, gui_wht);
-        gui_label(jd, k_escape, GUI_SML, 0, gui_yel, gui_yel);
+        gui_label(jd, s_exit,   GUI_SML, GUI_E, gui_wht, gui_wht);
+        gui_label(jd, k_escape, GUI_SML, GUI_W, gui_yel, gui_yel);
     }
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, s_camera1, GUI_SML, 0, gui_wht, gui_wht);
-        gui_label(jd, k_camera1, GUI_SML, 0, gui_yel, gui_yel);
+        gui_label(jd, s_camera1, GUI_SML, GUI_E, gui_wht, gui_wht);
+        gui_label(jd, k_camera1, GUI_SML, GUI_W, gui_yel, gui_yel);
     }
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, s_camera2, GUI_SML, 0, gui_wht, gui_wht);
-        gui_label(jd, k_camera2, GUI_SML, 0, gui_yel, gui_yel);
+        gui_label(jd, s_camera2, GUI_SML, GUI_E, gui_wht, gui_wht);
+        gui_label(jd, k_camera2, GUI_SML, GUI_W, gui_yel, gui_yel);
     }
     if ((jd = gui_harray(id)))
     {
-        gui_label(jd, s_camera3, GUI_SML, 0, gui_wht, gui_wht);
-        gui_label(jd, k_camera3, GUI_SML, 0, gui_yel, gui_yel);
+        gui_label(jd, s_camera3, GUI_SML, GUI_E, gui_wht, gui_wht);
+        gui_label(jd, k_camera3, GUI_SML, GUI_W, gui_yel, gui_yel);
     }
     if ((jd = gui_harray(id)))
     {

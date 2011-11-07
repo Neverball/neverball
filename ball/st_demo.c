@@ -190,7 +190,7 @@ static int gui_demo_status(int id)
                 gui_filler(ld);
 
                 time_id   = gui_clock(ld, 35000,  GUI_SML, GUI_NE);
-                coin_id   = gui_count(ld, 100,    GUI_SML, 0);
+                coin_id   = gui_count(ld, 100,    GUI_SML, GUI_E);
                 status_id = gui_label(ld, status, GUI_SML, GUI_SE,
                                       gui_red, gui_red);
 
@@ -202,7 +202,7 @@ static int gui_demo_status(int id)
                 gui_filler(ld);
 
                 gui_label(ld, _("Time"),   GUI_SML, GUI_NW, gui_wht, gui_wht);
-                gui_label(ld, _("Coins"),  GUI_SML, 0,      gui_wht, gui_wht);
+                gui_label(ld, _("Coins"),  GUI_SML, GUI_W,  gui_wht, gui_wht);
                 gui_label(ld, _("Status"), GUI_SML, GUI_SW, gui_wht, gui_wht);
 
                 gui_filler(ld);
@@ -216,7 +216,7 @@ static int gui_demo_status(int id)
             gui_filler(kd);
 
             name_id   = gui_label(kd, " ", GUI_SML, GUI_NE, 0, 0);
-            player_id = gui_label(kd, " ", GUI_SML, 0,      0, 0);
+            player_id = gui_label(kd, " ", GUI_SML, GUI_E,  0, 0);
             date_id   = gui_label(kd, date_to_str(time(NULL)),
                                   GUI_SML, GUI_SE, 0, 0);
 
@@ -231,7 +231,7 @@ static int gui_demo_status(int id)
             gui_filler(kd);
 
             gui_label(kd, _("Replay"), GUI_SML, GUI_NW, gui_wht, gui_wht);
-            gui_label(kd, _("Player"), GUI_SML, 0,      gui_wht, gui_wht);
+            gui_label(kd, _("Player"), GUI_SML, GUI_W,  gui_wht, gui_wht);
             gui_label(kd, _("Date"),   GUI_SML, GUI_SW, gui_wht, gui_wht);
 
             gui_filler(kd);

@@ -861,7 +861,7 @@ int gui_multi(int pd, const char *text, int size, int rect, const GLubyte *c0,
         {
             strncpy(s[j], p, (n = strcspn(p, "\\")));
             s[j][n] = 0;
-            r[j]    = 0;
+            r[j]    = rect & (GUI_W | GUI_E);
 
             if (*(p += n) == '\\') p++;
         }

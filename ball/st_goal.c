@@ -152,18 +152,18 @@ static int goal_gui(void)
                         if ((md = gui_harray(ld)))
                         {
                             balls_id = gui_count(md, 100, GUI_MED, GUI_NE);
-                            gui_label(md, _("Balls"), GUI_SML, 0,
+                            gui_label(md, _("Balls"), GUI_SML, GUI_N,
                                       gui_wht, gui_wht);
                         }
                         if ((md = gui_harray(ld)))
                         {
-                            score_id = gui_count(md, 1000, GUI_MED, 0);
-                            gui_label(md, _("Score"), GUI_SML, 0,
+                            score_id = gui_count(md, 1000, GUI_MED, GUI_N);
+                            gui_label(md, _("Score"), GUI_SML, GUI_N,
                                       gui_wht, gui_wht);
                         }
                         if ((md = gui_harray(ld)))
                         {
-                            coins_id = gui_count(md, 100, GUI_MED, 0);
+                            coins_id = gui_count(md, 100, GUI_MED, GUI_N);
                             gui_label(md, _("Coins"), GUI_SML, GUI_NW,
                                       gui_wht, gui_wht);
                         }
@@ -185,7 +185,9 @@ static int goal_gui(void)
                                 const GLubyte *c = (level_opened(l) ?
                                                     gui_grn : gui_gry);
 
-                                gui_label(ld, level_name(l), GUI_SML, 0, c, c);
+                                gui_label(ld, level_name(l),
+                                          GUI_SML, GUI_S,
+                                          c, c);
                             }
 
                         gui_label(ld, "", GUI_SML, GUI_SW, 0, 0);

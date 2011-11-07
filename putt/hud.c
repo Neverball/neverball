@@ -42,12 +42,12 @@ void hud_init(void)
     if ((Lhud_id = gui_hstack(0)))
     {
         gui_label(Lhud_id, curr_scr(), GUI_MED, GUI_NE, color[i], gui_wht);
-        gui_label(Lhud_id, _("Score"), GUI_SML, 0,      gui_wht,  gui_wht);
+        gui_label(Lhud_id, _("Score"), GUI_SML, GUI_N,  gui_wht,  gui_wht);
         gui_layout(Lhud_id, -1, -1);
     }
     if ((Rhud_id = gui_hstack(0)))
     {
-        gui_label(Rhud_id, curr_par(), GUI_MED, 0,      color[i], gui_wht);
+        gui_label(Rhud_id, curr_par(), GUI_MED, GUI_N,  color[i], gui_wht);
         gui_label(Rhud_id, _("Par"),   GUI_SML, GUI_NW, gui_wht,  gui_wht);
         gui_layout(Rhud_id, +1, -1);
     }

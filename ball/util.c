@@ -82,7 +82,7 @@ static void gui_scores(int id, int e)
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = RANK_HARD; j < RANK_EASY; j++)
-                        score_coin[j] = gui_count(md, 1000, GUI_SML, 0);
+                        score_coin[j] = gui_count(md, 1000, GUI_SML, GUI_E);
 
                     score_coin[j++] = gui_count(md, 1000, GUI_SML, GUI_SE);
 
@@ -97,7 +97,9 @@ static void gui_scores(int id, int e)
                 {
                     for (j = RANK_HARD; j < RANK_LAST; j++)
                     {
-                        score_name[j] = gui_label(md, s, GUI_SML, 0,
+                        score_name[j] = gui_label(md, s, GUI_SML,
+                                                  (j + 1 == RANK_LAST ?
+                                                   GUI_S : 0),
                                                   gui_yel, gui_wht);
                         gui_set_trunc(score_name[j], TRUNC_TAIL);
                     }
@@ -105,7 +107,8 @@ static void gui_scores(int id, int e)
                     if (e)
                     {
                         gui_space(md);
-                        score_name[j++] = gui_label(md, s, GUI_SML, 0,
+                        score_name[j++] = gui_label(md, s, GUI_SML,
+                                                    GUI_N | GUI_S,
                                                     gui_yel, gui_wht);
                         gui_set_trunc(score_name[j - 1], TRUNC_TAIL);
                     }
@@ -114,7 +117,7 @@ static void gui_scores(int id, int e)
                 if ((md = gui_vstack(ld)))
                 {
                     for (j = RANK_HARD; j < RANK_EASY; j++)
-                        score_time[j] = gui_clock(md, 359999, GUI_SML, 0);
+                        score_time[j] = gui_clock(md, 359999, GUI_SML, GUI_W);
 
                     score_time[j++] = gui_clock(md, 359999, GUI_SML, GUI_SW);
 
