@@ -532,10 +532,10 @@ static void gui_rect_init(void)
 
     /* Load textures. */
 
-    rect_tex[0] = make_image_from_file("gui/back-plain.png");
-    rect_tex[1] = make_image_from_file("gui/back-plain-focus.png");
-    rect_tex[2] = make_image_from_file("gui/back-hilite.png");
-    rect_tex[3] = make_image_from_file("gui/back-hilite-focus.png");
+    rect_tex[0] = make_image_from_file("gui/back-plain.png",        0);
+    rect_tex[1] = make_image_from_file("gui/back-plain-focus.png",  0);
+    rect_tex[2] = make_image_from_file("gui/back-hilite.png",       0);
+    rect_tex[3] = make_image_from_file("gui/back-hilite-focus.png", 0);
 }
 
 static void gui_rect_quit(void)
@@ -788,7 +788,7 @@ void gui_set_image(int id, const char *file)
 {
     glDeleteTextures(1, &widget[id].image);
 
-    widget[id].image = make_image_from_file(file);
+    widget[id].image = make_image_from_file(file, 0);
 }
 
 void gui_set_label(int id, const char *text)
@@ -805,7 +805,7 @@ void gui_set_label(int id, const char *text)
                        widget[id].trunc);
 
     widget[id].image = make_image_from_font(NULL, NULL, &w, &h,
-                                            str, font[widget[id].size]);
+                                            str, font[widget[id].size], 0);
     widget[id].text_w = w;
     widget[id].text_h = h;
 
@@ -922,7 +922,7 @@ int gui_image(int pd, const char *file, int w, int h)
 
     if ((id = gui_widget(pd, GUI_IMAGE)))
     {
-        widget[id].image  = make_image_from_file(file);
+        widget[id].image  = make_image_from_file(file, 0);
         widget[id].w      = w;
         widget[id].h      = h;
         widget[id].flags |= GUI_RECT;
@@ -949,9 +949,9 @@ int gui_state(int pd, const char *text, int size, int token, int value)
         widget[id].flags |= (GUI_STATE | GUI_RECT);
 
         widget[id].image = make_image_from_font(NULL, NULL,
-                                                   &widget[id].w,
-                                                   &widget[id].h,
-                                                   text, font[size]);
+                                                &widget[id].w,
+                                                &widget[id].h,
+                                                text, font[size], 0);
         widget[id].size  = size;
         widget[id].token = token;
         widget[id].value = value;
@@ -969,7 +969,7 @@ int gui_label(int pd, const char *text, int size, int rect, const GLubyte *c0,
         widget[id].image = make_image_from_font(NULL, NULL,
                                                 &widget[id].w,
                                                 &widget[id].h,
-                                                text, font[size]);
+                                                text, font[size], 0);
         widget[id].size   = size;
         widget[id].color0 = c0 ? c0 : gui_yel;
         widget[id].color1 = c1 ? c1 : gui_red;

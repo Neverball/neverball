@@ -101,7 +101,7 @@ void image_snap(const char *filename)
 /*
  * Create an OpenGL texture object using the given image buffer.
  */
-static GLuint make_texture(const void *p, int w, int h, int b)
+static GLuint make_texture(const void *p, int w, int h, int b, int fl)
 {
     static const GLenum format[] =
         { 0, GL_LUMINANCE, GL_LUMINANCE_ALPHA, GL_RGB, GL_RGBA };
@@ -114,7 +114,7 @@ static GLuint make_texture(const void *p, int w, int h, int b)
     int a = config_get_d(CONFIG_ANISO);
 #endif
 #ifdef GL_GENERATE_MIPMAP_SGIS
-    int m = config_get_d(CONFIG_MIPMAP);
+    int m = (fl & IF_MIPMAP) ? config_get_d(CONFIG_MIPMAP) : 0;
 #endif
     int k = config_get_d(CONFIG_TEXTURES);
     int W = w;
@@ -168,7 +168,7 @@ static GLuint make_texture(const void *p, int w, int h, int b)
 /*
  * Load an image from the named file.  Return an OpenGL texture object.
  */
-GLuint make_image_from_file(const char *filename)
+GLuint make_image_from_file(const char *filename, int fl)
 {
     void  *p;
     int    w;
@@ -180,7 +180,7 @@ GLuint make_image_from_file(const char *filename)
 
     if ((p = image_load(filename, &w, &h, &b)))
     {
-        o = make_texture(p, w, h, b);
+        o = make_texture(p, w, h, b, fl);
         free(p);
     }
 
@@ -196,7 +196,7 @@ GLuint make_image_from_file(const char *filename)
  */
 GLuint make_image_from_font(int *W, int *H,
                             int *w, int *h,
-                            const char *text, TTF_Font *font)
+                            const char *text, TTF_Font *font, int fl)
 {
     GLuint o = 0;
 
@@ -251,7 +251,7 @@ GLuint make_image_from_font(int *W, int *H,
 
             /* Create the OpenGL texture object. */
 
-            o = make_texture(p, w2, h2, b);
+            o = make_texture(p, w2, h2, b, fl);
 
             free(p);
             SDL_FreeSurface(src);

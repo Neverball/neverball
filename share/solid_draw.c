@@ -400,12 +400,12 @@ static GLuint sol_find_texture(const char *name)
 
     /* Check for a PNG. */
 
-    if ((o = make_image_from_file(png)))
+    if ((o = make_image_from_file(png, IF_MIPMAP)))
         return o;
 
     /* Check for a JPG. */
 
-    if ((o = make_image_from_file(jpg)))
+    if ((o = make_image_from_file(jpg, IF_MIPMAP)))
         return o;
 
     return 0;
