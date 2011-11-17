@@ -1039,7 +1039,7 @@ int gui_multi(int pd, const char *text, int size, const GLubyte *c0,
 {
     int id = 0;
 
-    if (text && (id = gui_varray(pd)))
+    if (text && *text && (id = gui_varray(pd)))
     {
         const char *p;
 
