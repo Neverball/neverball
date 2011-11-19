@@ -334,4 +334,21 @@ int  sol_stor_base(struct s_base *, const char *);
 
 /*---------------------------------------------------------------------------*/
 
+struct path
+{
+    char prefix[16];
+    char suffix[8];
+};
+
+#define CONCAT_PATH(dst, path, name) do { \
+    SAFECPY((dst), (path)->prefix);       \
+    SAFECAT((dst), (name));               \
+    SAFECAT((dst), (path)->suffix);       \
+} while (0)
+
+extern const struct path tex_paths[4];
+extern const struct path mtrl_paths[2];
+
+/*---------------------------------------------------------------------------*/
+
 #endif

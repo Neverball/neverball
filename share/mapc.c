@@ -351,8 +351,7 @@ static int size_load(const char *file, int *w, int *h)
 
 static void size_image(const char *name, int *w, int *h)
 {
-    char jpg[MAXSTR];
-    char png[MAXSTR];
+    char path[MAXSTR];
     int i;
 
     if (imagedata)
@@ -368,13 +367,16 @@ static void size_image(const char *name, int *w, int *h)
     *w = 0;
     *h = 0;
 
-    strcpy(jpg, name); strcat(jpg, ".jpg");
-    strcpy(png, name); strcat(png, ".png");
-
-    if (size_load(png, w, h) ||
-        size_load(jpg, w, h))
+    for (i = 0; i < ARRAYSIZE(tex_paths); i++)
     {
+        CONCAT_PATH(path, &tex_paths[i], name);
 
+        if (size_load(path, w, h))
+            break;
+    }
+
+    if (*w > 0 && *h > 0)
+    {
         if (image_n + 1 >= image_alloc)
         {
             struct _imagedata *tmp =
@@ -417,7 +419,7 @@ static int read_mtrl(struct s_base *fp, const char *name)
 
     struct b_mtrl *mp;
     fs_file fin;
-    int mi;
+    int mi, i;
 
     for (mi = 0; mi < fp->mc; mi++)
         if (strncmp(name, fp->mv[mi].f, MAXSTR) == 0)
@@ -436,7 +438,17 @@ static int read_mtrl(struct s_base *fp, const char *name)
     mp->fl   = 0;
     mp->angle = 45.0f;
 
-    if ((fin = fs_open(name, "r")))
+    fin = NULL;
+
+    for (i = 0; i < ARRAYSIZE(mtrl_paths); i++)
+    {
+        CONCAT_PATH(line, &mtrl_paths[i], name);
+
+        if ((fin = fs_open(line, "r")))
+            break;
+    }
+
+    if (fin)
     {
         scan_vec4(fin, line, mp->d);
         scan_vec4(fin, line, mp->a);

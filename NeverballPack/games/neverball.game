@@ -12,7 +12,7 @@
   basegame="data"
   basegamename="Neverball"
   unknowngamename="Custom Neverball modification"
-  shaderpath="mtrl"
+  shaderpath="textures"
   archivetypes="pk3"
   texturetypes="jpg png"
   modeltypes="obj"

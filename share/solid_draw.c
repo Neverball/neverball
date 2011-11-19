@@ -388,26 +388,17 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 
 static GLuint sol_find_texture(const char *name)
 {
-    char png[MAXSTR];
-    char jpg[MAXSTR];
-
+    char path[MAXSTR];
     GLuint o;
+    int i;
 
-    /* Prefer a lossless copy of the texture over a lossy compression. */
+    for (i = 0; i < ARRAYSIZE(tex_paths); i++)
+    {
+        CONCAT_PATH(path, &tex_paths[i], name);
 
-    strncpy(png, name, PATHMAX); strcat(png, ".png");
-    strncpy(jpg, name, PATHMAX); strcat(jpg, ".jpg");
-
-    /* Check for a PNG. */
-
-    if ((o = make_image_from_file(png, IF_MIPMAP)))
-        return o;
-
-    /* Check for a JPG. */
-
-    if ((o = make_image_from_file(jpg, IF_MIPMAP)))
-        return o;
-
+        if ((o = make_image_from_file(path, IF_MIPMAP)))
+            return o;
+    }
     return 0;
 }
 

@@ -748,3 +748,17 @@ int sol_stor_base(struct s_base *fp, const char *filename)
 }
 
 /*---------------------------------------------------------------------------*/
+
+const struct path tex_paths[4] = {
+    { "textures/", ".png" },
+    { "textures/", ".jpg" },
+    { "",          ".png" },
+    { "",          ".jpg" }
+};
+
+const struct path mtrl_paths[2] = {
+    { "textures/", "" },
+    { "",          "" }
+};
+
+/*---------------------------------------------------------------------------*/
