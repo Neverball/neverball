@@ -76,7 +76,7 @@ static void hole_init_rc(const char *filename)
                           hole_v[count].file,
                           hole_v[count].back,
                           &hole_v[count].par,
-                          hole_v[count].song) == 4)
+                          hole_v[count].song) >= 1)
                 count++;
         }
 
@@ -86,6 +86,37 @@ static void hole_init_rc(const char *filename)
 
 /*---------------------------------------------------------------------------*/
 
+int hole_load(int h, const char *filename)
+{
+    struct s_base base;
+
+    SAFECPY(hole_v[h].file, filename);
+
+    if (sol_load_meta(&base, filename))
+    {
+        int i;
+
+        for (i = 0; i < base.dc; i++)
+        {
+            const char *k = base.av + base.dv[i].ai;
+            const char *v = base.av + base.dv[i].aj;
+
+            if      (strcmp("back", k) == 0)
+                SAFECPY(hole_v[h].back, v);
+            else if (strcmp("par", k) == 0)
+                hole_v[h].par = atoi(v);
+            else if (strcmp("song", k) == 0)
+                SAFECPY(hole_v[h].song, v);
+        }
+
+        score_v[h][0] = hole_v[h].par;
+
+        sol_free_base(&base);
+        return 1;
+    }
+    return 0;
+}
+
 void hole_init(const char *filename)
 {
     int i;
@@ -93,10 +124,20 @@ void hole_init(const char *filename)
     memset(hole_v,  0, sizeof (struct hole) * MAXHOL);
     memset(score_v, 0, sizeof (int) * MAXPLY * MAXHOL);
 
-    hole_init_rc(filename);
+    if (filename)
+    {
+        hole_init_rc(filename);
 
-    for (i = 0; i < count; i++)
-        score_v[i][0] = hole_v[i].par;
+        for (i = 0; i < count; i++)
+            hole_load(i, hole_v[i].file);
+    }
+    else
+    {
+        /* Standalone mode.                       */
+        /* Why is this 2, you ask? Good question. */
+
+        count = 2;
+    }
 }
 
 void hole_free(void)

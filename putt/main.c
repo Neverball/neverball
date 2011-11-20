@@ -83,6 +83,7 @@ static void toggle_wire(void)
     }
 #endif
 }
+
 /*---------------------------------------------------------------------------*/
 
 static int loop(void)
@@ -200,6 +201,48 @@ static int loop(void)
     return d;
 }
 
+/*---------------------------------------------------------------------------*/
+
+static char *opt_data;
+static char *opt_hole;
+
+static void opt_parse(int argc, char **argv)
+{
+    int i;
+
+    for (i = 1; i < argc; i++)
+    {
+        if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--data") == 0)
+        {
+            if (++i < argc)
+                opt_data = argv[i];
+        }
+        else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--hole") == 0)
+        {
+            if (++i < argc)
+                opt_hole = argv[i];
+        }
+    }
+
+    if (argc == 2)
+    {
+        size_t len = strlen(argv[1]);
+
+        if (len > 4)
+        {
+            char *ext = argv[1] + len - 4;
+
+            if (strcmp(ext, ".map") == 0)
+                strcpy(ext, ".sol");
+
+            if (strcmp(ext, ".sol") == 0)
+                opt_hole = argv[1];
+        }
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
 int main(int argc, char *argv[])
 {
     int camera = 0;
@@ -215,7 +258,10 @@ int main(int argc, char *argv[])
     srand((int) time(NULL));
 
     lang_init("neverball");
-    config_paths(argc > 1 ? argv[1] : NULL);
+
+    opt_parse(argc, argv);
+
+    config_paths(opt_data);
     fs_mkdir("Screenshots");
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
@@ -252,7 +298,30 @@ int main(int argc, char *argv[])
             /* Run the main game loop. */
 
             init_state(&st_null);
-            goto_state(&st_title);
+
+            if (opt_hole)
+            {
+                const char *path = fs_resolve(opt_hole);
+                int loaded = 0;
+
+                if (path)
+                {
+                    hole_init(NULL);
+
+                    if (hole_load(0, path) &&
+                        hole_load(1, path) &&
+                        hole_goto(1, 1))
+                    {
+                        goto_state(&st_next);
+                        loaded = 1;
+                    }
+                }
+
+                if (!loaded)
+                    goto_state(&st_title);
+            }
+            else
+                goto_state(&st_title);
 
             while (loop())
                 if ((t1 = SDL_GetTicks()) > t0)
