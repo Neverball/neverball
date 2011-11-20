@@ -90,7 +90,12 @@ int hole_load(int h, const char *filename)
 {
     struct s_base base;
 
-    SAFECPY(hole_v[h].file, filename);
+    if (filename != hole_v[h].file)
+    {
+        /* Note filename if it came from elsewhere. */
+
+        SAFECPY(hole_v[h].file, filename);
+    }
 
     if (sol_load_meta(&base, filename))
     {
