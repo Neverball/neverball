@@ -631,7 +631,11 @@ void game_set_fly(float k)
 
     v_cpy(view_e[0], x);
     v_cpy(view_e[1], y);
-    v_sub(view_e[2], fp->uv[ball].p, fp->base->zv[0].p);
+
+    if (fp->base->zc > 0)
+        v_sub(view_e[2], fp->uv[ball].p, fp->base->zv[0].p);
+    else
+        v_cpy(view_e[2], z);
 
     if (fabs(v_dot(view_e[1], view_e[2])) > 0.999)
         v_cpy(view_e[2], z);
