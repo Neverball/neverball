@@ -101,7 +101,7 @@ int hole_load(int h, const char *filename)
             const char *k = base.av + base.dv[i].ai;
             const char *v = base.av + base.dv[i].aj;
 
-            if      (strcmp("back", k) == 0)
+            if      (strcmp("grad", k) == 0)
                 SAFECPY(hole_v[h].back, v);
             else if (strcmp("par", k) == 0)
                 hole_v[h].par = atoi(v);
