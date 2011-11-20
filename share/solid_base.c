@@ -482,6 +482,8 @@ int sol_load_meta(struct s_base *fp, const char *filename)
     fs_file fin;
     int res = 0;
 
+    memset(fp, 0, sizeof (*fp));
+
     if ((fin = fs_open(filename, "r")))
     {
         res = sol_load_head(fin, fp);
