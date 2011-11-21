@@ -351,6 +351,16 @@ void progress_rename(int set_only)
 {
     const char *player = config_get_s(CONFIG_PLAYER);
 
+    if (curr_mode() == MODE_STANDALONE)
+    {
+        /* HACK Avoid touching the set. */
+
+        level_rename_player(level, time_rank, goal_rank, coin_rank, player);
+        demo_rename_player(USER_REPLAY_FILE, player);
+
+        return;
+    }
+
     if (set_only)
     {
         set_rename_player(score_rank, times_rank, player);
@@ -358,7 +368,6 @@ void progress_rename(int set_only)
     else
     {
         level_rename_player(level, time_rank, goal_rank, coin_rank, player);
-
         demo_rename_player(USER_REPLAY_FILE, player);
 
         if (progress_done())
