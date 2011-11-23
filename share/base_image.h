@@ -4,6 +4,7 @@
 /*---------------------------------------------------------------------------*/
 
 void  image_size(int *, int *, int, int);
+void  image_near2(int *, int *, int, int);
 
 void *image_load(const char *, int *, int *, int *);
 

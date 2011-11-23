@@ -101,7 +101,7 @@ void image_snap(const char *filename)
 /*
  * Create an OpenGL texture object using the given image buffer.
  */
-static GLuint make_texture(const void *p, int w, int h, int b, int fl)
+GLuint make_texture(const void *p, int w, int h, int b, int fl)
 {
     static const GLenum format[] =
         { 0, GL_LUMINANCE, GL_LUMINANCE_ALPHA, GL_RGB, GL_RGBA };

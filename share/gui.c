@@ -489,6 +489,46 @@ static void gui_font_quit(void)
     TTF_Quit();
 }
 
+static GLuint gui_rect_image(const char *path)
+{
+    const int W = config_get_d(CONFIG_WIDTH);
+    const int H = config_get_d(CONFIG_HEIGHT);
+
+    int W2, H2;
+
+    int w, h, b;
+    void *p;
+
+    /*
+     * Disable mipmapping and do a manual downscale.  Heuristic for
+     * downscaling the texture: assume target size to be roughly 1/16
+     * of a full screen texture, smallest size being 32x32.
+     */
+
+    image_near2(&W2, &H2, W, H);
+
+    W2 = MAX(W2 / 16, 32);
+    H2 = MAX(H2 / 16, 32);
+
+    if ((p = image_load(path, &w, &h, &b)))
+    {
+        void *q;
+
+        /* Prefer a small scale factor. */
+
+        int s = MAX(w, h) / MAX(W2, H2);
+
+        if (s > 1 && (q = image_scale(p, w, h, b, &w, &h, s)))
+        {
+            free(p);
+            p = q;
+        }
+
+        return make_texture(p, w, h, b, 0);
+    }
+    return 0;
+}
+
 static void gui_rect_init(void)
 {
     char buff[MAXSTR];
@@ -532,10 +572,10 @@ static void gui_rect_init(void)
 
     /* Load textures. */
 
-    rect_tex[0] = make_image_from_file("gui/back-plain.png",        0);
-    rect_tex[1] = make_image_from_file("gui/back-plain-focus.png",  0);
-    rect_tex[2] = make_image_from_file("gui/back-hilite.png",       0);
-    rect_tex[3] = make_image_from_file("gui/back-hilite-focus.png", 0);
+    rect_tex[0] = gui_rect_image("gui/back-plain.png");
+    rect_tex[1] = gui_rect_image("gui/back-plain-focus.png");
+    rect_tex[2] = gui_rect_image("gui/back-hilite.png");
+    rect_tex[3] = gui_rect_image("gui/back-hilite-focus.png");
 }
 
 static void gui_rect_quit(void)

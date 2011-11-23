@@ -37,6 +37,16 @@ void image_size(int *W, int *H, int w, int h)
     while (*H < h) *H *= 2;
 }
 
+void image_near2(int *W, int *H, int w, int h)
+{
+    image_size(W, H, w, h);
+
+    if (*W > 1 && (*W - w > w - (*W / 2)))
+        *W /= 2;
+    if (*H > 1 && (*H - h > h - (*H / 2)))
+        *H /= 2;
+}
+
 /*---------------------------------------------------------------------------*/
 
 static void *image_load_png(const char *filename, int *width,
