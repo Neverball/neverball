@@ -372,13 +372,13 @@ static void game_draw_fore(struct s_rend *rend,
             break;
 
         case POSE_NONE:
-            /* Draw the floor. */
-
-            sol_draw(draw, rend, 0, 1);
-
             /* Draw the coins. */
 
             game_draw_items(rend, draw->vary, M, t);
+
+            /* Draw the floor. */
+
+            sol_draw(draw, rend, 0, 1);
 
             /* Draw the ball. */
 
