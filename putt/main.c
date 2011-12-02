@@ -21,6 +21,7 @@
 #include <string.h>
 #include <locale.h>
 
+#include "version.h"
 #include "glext.h"
 #include "audio.h"
 #include "image.h"

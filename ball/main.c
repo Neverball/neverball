@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "version.h"
 #include "glext.h"
 #include "config.h"
 #include "video.h"
