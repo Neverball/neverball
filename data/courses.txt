@@ -6,3 +6,6 @@ holes-abc.txt
 holes-slippi.txt
 holes-kk.txt
 holes-vidski.txt
+holes-csyforever.txt
+holes-csyforeverh.txt
+holes-csyforeverx.txt
