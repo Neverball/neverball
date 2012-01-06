@@ -60,48 +60,46 @@ static void game_draw_items(struct s_rend *rend,
 {
     int hi;
 
+    int type = ITEM_NONE;
+    int value = 0;
+
     sol_color_mtrl(rend, 1);
     {
         for (hi = 0; hi < vary->hc; hi++)
-            if (vary->hv[hi].t == ITEM_COIN && vary->hv[hi].n > 0)
+        {
+            struct v_item *hp = &vary->hv[hi];
+
+            /* Skip picked up items. */
+
+            if (hp->t == ITEM_NONE)
+                continue;
+
+            /* Lazily update color. */
+
+            if (hp->t != type || hp->n != value)
             {
-                glPushMatrix();
-                {
-                    glTranslatef(vary->hv[hi].p[0],
-                                 vary->hv[hi].p[1],
-                                 vary->hv[hi].p[2]);
-                    item_draw(rend, &vary->hv[hi], bill_M, t);
-                }
-                glPopMatrix();
+                float c[4];
+
+                item_color(hp, c);
+
+                glColor4f(c[0], c[1], c[2], c[3]);
+
+                type = hp->t;
+                value = hp->n;
             }
 
-        for (hi = 0; hi < vary->hc; hi++)
-            if (vary->hv[hi].t == ITEM_SHRINK)
-            {
-                glPushMatrix();
-                {
-                    glTranslatef(vary->hv[hi].p[0],
-                                 vary->hv[hi].p[1],
-                                 vary->hv[hi].p[2]);
-                    item_draw(rend, &vary->hv[hi], bill_M, t);
-                }
-                glPopMatrix();
-            }
+            /* Draw model. */
 
-        for (hi = 0; hi < vary->hc; hi++)
-            if (vary->hv[hi].t == ITEM_GROW)
+            glPushMatrix();
             {
-                glPushMatrix();
-                {
-                    glTranslatef(vary->hv[hi].p[0],
-                                 vary->hv[hi].p[1],
-                                 vary->hv[hi].p[2]);
-                    item_draw(rend, &vary->hv[hi], bill_M, t);
-                }
-                glPopMatrix();
+                glTranslatef(hp->p[0],
+                             hp->p[1],
+                             hp->p[2]);
+                item_draw(rend, hp, bill_M, t);
             }
+            glPopMatrix();
+        }
     }
-
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     sol_color_mtrl(rend, 0);
 }

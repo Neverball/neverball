@@ -2269,6 +2269,21 @@ static void sort_file(struct s_base *fp)
                 fp->rv[j] =         t;
             }
 
+    /* Sort items by type and value. */
+
+    for (i = 0; i < fp->hc; i++)
+        for (j = i + 1; j < fp->hc; j++)
+            if ((fp->hv[j].t > fp->hv[i].t) ||
+                (fp->hv[j].t == fp->hv[i].t &&
+                 fp->hv[j].n > fp->hv[i].n))
+            {
+                struct b_item t;
+
+                t         = fp->hv[i];
+                fp->hv[i] = fp->hv[j];
+                fp->hv[j] =         t;
+            }
+
     /* Ensure the first vertex is the lowest. */
 
     for (i = 0; i < fp->vc; i++)
