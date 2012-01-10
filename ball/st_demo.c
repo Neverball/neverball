@@ -601,15 +601,13 @@ static int demo_end_gui(void)
 
         if ((jd = gui_harray(id)))
         {
-            int start_id = 0;
-
             if (standalone)
             {
-                start_id = gui_start(jd, _("Quit"), GUI_SML, DEMO_QUIT, 0);
+                gui_start(jd, _("Quit"), GUI_SML, DEMO_QUIT, 0);
             }
             else
             {
-                start_id = gui_start(jd, _("Keep"), GUI_SML, DEMO_KEEP, 0);
+                gui_start(jd, _("Keep"), GUI_SML, DEMO_KEEP, 0);
                 gui_state(jd, _("Delete"), GUI_SML, DEMO_DEL, 0);
             }
 

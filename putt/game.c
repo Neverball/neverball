@@ -314,15 +314,12 @@ void game_draw(int pose, float t)
     video_push_persp(fov, 0.1f, FAR_DIST);
     glPushMatrix();
     {
-        float T[16], M[16], v[3], rx, ry;
+        float T[16], M[16], v[3];
 
         m_view(T, view_c, view_p, view_e[1]);
         m_xps(M, T);
 
         v_sub(v, view_c, view_p);
-
-        rx = V_DEG(fatan2f(-v[1], fsqrtf(v[0] * v[0] + v[2] * v[2])));
-        ry = V_DEG(fatan2f(+v[0], -v[2]));
 
         glTranslatef(0.f, 0.f, -v_len(v));
         glMultMatrixf(M);
