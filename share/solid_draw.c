@@ -818,6 +818,8 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
 
 void sol_draw_enable(struct s_rend *rend)
 {
+    memset(rend, 0, sizeof (*rend));
+
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
