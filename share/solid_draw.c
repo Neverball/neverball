@@ -132,11 +132,6 @@ static void sol_transform(const struct s_vary *vary,
 static void sol_load_bill(struct s_draw *draw)
 {
     static const GLfloat data[] = {
-        0.0f,  0.0f, -1.0f, -1.0f,
-        1.0f,  0.0f,  1.0f, -1.0f,
-        0.0f,  1.0f, -1.0f,  1.0f,
-        1.0f,  1.0f,  1.0f,  1.0f,
-
         0.0f,  0.0f, -0.5f,  0.0f,
         1.0f,  0.0f,  0.5f,  0.0f,
         0.0f,  1.0f, -0.5f,  1.0f,
@@ -161,18 +156,12 @@ static void sol_free_bill(struct s_draw *draw)
     glDeleteBuffers_(1, &draw->bill);
 }
 
-static void sol_draw_bill(GLfloat w, GLfloat h, GLboolean edge)
+static void sol_draw_bill(GLboolean edge)
 {
-    glPushMatrix();
-    {
-        glScalef(0.5f * w, 0.5f * h, 1.0f);
-
-        if (edge)
-            glTranslatef(0.0f, 0.5f, 0.0f);
-
+    if (edge)
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    }
-    glPopMatrix();
+    else
+        glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -944,6 +933,8 @@ void sol_back(const struct s_draw *draw,
                     float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
                     float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
 
+                    sol_apply_mtrl(draw->mv + rp->mi, rend);
+
                     glPushMatrix();
                     {
                         if (ry) glRotatef(ry, 0.0f, 1.0f, 0.0f);
@@ -963,12 +954,7 @@ void sol_back(const struct s_draw *draw,
 
                         glScalef(w, h, 1.0f);
 
-                        sol_apply_mtrl(draw->mv + rp->mi, rend);
-
-                        if (rp->fl & B_EDGE)
-                            glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
-                        else
-                            glDrawArrays(GL_TRIANGLE_STRIP, 8, 4);
+                        sol_draw_bill(rp->fl & B_EDGE);
                     }
                     glPopMatrix();
                 }
@@ -1016,7 +1002,9 @@ void sol_bill(const struct s_draw *draw,
                 if (fabsf(ry) > 0.0f) glRotatef(ry, 0.0f, 1.0f, 0.0f);
                 if (fabsf(rz) > 0.0f) glRotatef(rz, 0.0f, 0.0f, 1.0f);
 
-                sol_draw_bill(w, h, GL_FALSE);
+                glScalef(w, h, 1.0f);
+
+                sol_draw_bill(GL_FALSE);
             }
             glPopMatrix();
         }
