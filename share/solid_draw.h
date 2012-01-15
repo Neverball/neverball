@@ -124,8 +124,7 @@ void sol_back(const struct s_draw *, struct s_rend *, float, float, float);
 void sol_refl(const struct s_draw *, struct s_rend *);
 void sol_draw(const struct s_draw *, struct s_rend *, int, int);
 void sol_bill(const struct s_draw *, struct s_rend *, const float *, float);
-
-void sol_fade(const struct s_draw *, float);
+void sol_fade(const struct s_draw *, struct s_rend *, float);
 
 /*---------------------------------------------------------------------------*/
 

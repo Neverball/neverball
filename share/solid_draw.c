@@ -1012,7 +1012,7 @@ void sol_bill(const struct s_draw *draw,
     sol_bill_disable();
 }
 
-void sol_fade(const struct s_draw *draw, float k)
+void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
 {
     if (k > 0.0f)
     {
@@ -1030,6 +1030,7 @@ void sol_fade(const struct s_draw *draw, float k)
             glColor4f(0.0f, 0.0f, 0.0f, k);
 
             sol_bill_enable(draw);
+            sol_apply_mtrl(&default_draw_mtrl, rend);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
             sol_bill_disable();
 
