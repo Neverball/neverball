@@ -73,7 +73,7 @@ static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
             { 8, M_ENVIRONMENT },
             { 16, M_ADDITIVE },
             { 32, M_CLAMP_S | M_CLAMP_T },
-            { 64, M_DECAL },
+            { 64, M_DECAL | M_SHADOWED },
             { 128, M_TWO_SIDED }
         };
 
