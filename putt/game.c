@@ -330,7 +330,7 @@ void game_draw(int pose, float t)
         glPushMatrix();
         {
             glTranslatef(view_p[0], view_p[1], view_p[2]);
-            back_draw(&rend, 0);
+            back_draw(&rend);
         }
         glPopMatrix();
 

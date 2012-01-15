@@ -270,10 +270,10 @@ static void game_draw_back(struct s_rend *rend,
 
         if (config_get_d(CONFIG_BACKGROUND))
         {
-            back_draw(rend, 0);
+            back_draw(rend);
             sol_back(&gd->back.draw, rend, 0, FAR_DIST, t);
         }
-        else back_draw(rend, 0);
+        else back_draw(rend);
     }
     glPopMatrix();
 }

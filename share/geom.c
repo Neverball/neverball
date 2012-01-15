@@ -455,30 +455,24 @@ void vect_draw(struct s_rend *rend)
     sol_draw(&vect.draw, rend, 0, 0);
 }
 
-void back_draw(struct s_rend *rend, float t)
+void back_draw(struct s_rend *rend)
 {
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_LIGHTING);
+    glDepthMask(GL_FALSE);
+
     glPushMatrix();
     {
-        GLfloat dx =  60.0f * fsinf(t / 10.0f);
-        GLfloat dz = 180.0f * fsinf(t / 12.0f);
-
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_LIGHTING);
-        glDepthMask(GL_FALSE);
-        {
-            glScalef(-BACK_DIST, BACK_DIST, -BACK_DIST);
-            if (t) glRotatef(dz, 0.0f, 0.0f, 1.0f);
-            if (t) glRotatef(dx, 1.0f, 0.0f, 0.0f);
-
-            sol_draw(&back.draw, rend, 1, 1);
-        }
-        glDepthMask(GL_TRUE);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_CULL_FACE);
-        glEnable(GL_DEPTH_TEST);
+        glScalef(-BACK_DIST, BACK_DIST, -BACK_DIST);
+        sol_draw(&back.draw, rend, 1, 1);
     }
     glPopMatrix();
+
+    glDepthMask(GL_TRUE);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 }
 
 void back_draw_easy(void)
@@ -486,7 +480,7 @@ void back_draw_easy(void)
     struct s_rend rend;
 
     sol_draw_enable(&rend);
-    back_draw(&rend, 0.0f);
+    back_draw(&rend);
     sol_draw_disable(&rend);
 }
 
