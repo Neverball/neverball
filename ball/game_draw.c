@@ -522,7 +522,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
                     glPopMatrix();
                     glFrontFace(GL_CCW);
 
-                    glStencilFunc(GL_ALWAYS, 0, 0xFFFFFFF);
+                    glStencilFunc(GL_ALWAYS, 0, 0xFFFFFFFF);
                 }
                 glDisable(GL_STENCIL_TEST);
             }
