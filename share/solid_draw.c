@@ -187,6 +187,8 @@ static void sol_bill_enable(const struct s_draw *draw)
 static void sol_bill_disable(void)
 {
     glEnableClientState(GL_NORMAL_ARRAY);
+
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
 }
 
 /*---------------------------------------------------------------------------*/

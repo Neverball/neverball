@@ -280,11 +280,13 @@ static void gui_geom_rect(int id, int x, int y, int w, int h, int f)
     glBufferSubData_(GL_ARRAY_BUFFER,
                      id * WIDGET_VERT * sizeof (struct vert),
                             RECT_VERT * sizeof (struct vert), v);
+    glBindBuffer_   (GL_ARRAY_BUFFER, 0);
 
     glBindBuffer_   (GL_ELEMENT_ARRAY_BUFFER, vert_ebo);
     glBufferSubData_(GL_ELEMENT_ARRAY_BUFFER,
                      id * WIDGET_ELEM * sizeof (GLushort),
                             RECT_ELEM * sizeof (GLushort), rect_elem);
+    glBindBuffer_   (GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 static void gui_geom_text(int id, int x, int y, int w, int h,
@@ -332,6 +334,7 @@ static void gui_geom_text(int id, int x, int y, int w, int h,
     glBufferSubData_(GL_ARRAY_BUFFER,
                      (id * WIDGET_VERT + RECT_VERT) * sizeof (struct vert),
                                          TEXT_VERT  * sizeof (struct vert), v);
+    glBindBuffer_   (GL_ARRAY_BUFFER, 0);
 }
 
 static void gui_geom_image(int id, int x, int y, int w, int h, int f)
@@ -360,6 +363,7 @@ static void gui_geom_image(int id, int x, int y, int w, int h, int f)
     glBufferSubData_(GL_ARRAY_BUFFER,
                      (id * WIDGET_VERT + RECT_VERT) * sizeof (struct vert),
                      IMAGE_VERT * sizeof (struct vert), v);
+    glBindBuffer_   (GL_ARRAY_BUFFER, 0);
 }
 
 static void gui_geom_widget(int id, int flags)
