@@ -541,12 +541,16 @@ void shad_draw_set(void)
     if (tex_env_stage(TEX_STAGE_SHADOW))
     {
         glEnable(GL_TEXTURE_2D);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
         glBindTexture(GL_TEXTURE_2D, shad_text);
 
         if (tex_env_stage(TEX_STAGE_CLIP))
         {
-            glBindTexture(GL_TEXTURE_2D, clip_text);
             glEnable(GL_TEXTURE_2D);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+            glBindTexture(GL_TEXTURE_2D, clip_text);
         }
 
         tex_env_stage(TEX_STAGE_TEXTURE);
@@ -558,12 +562,16 @@ void shad_draw_clr(void)
     if (tex_env_stage(TEX_STAGE_SHADOW))
     {
         glBindTexture(GL_TEXTURE_2D, 0);
+
         glDisable(GL_TEXTURE_2D);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
         if (tex_env_stage(TEX_STAGE_CLIP))
         {
             glBindTexture(GL_TEXTURE_2D, 0);
+
             glDisable(GL_TEXTURE_2D);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         }
 
         tex_env_stage(TEX_STAGE_TEXTURE);

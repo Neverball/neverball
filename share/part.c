@@ -236,17 +236,7 @@ void part_draw_coin(struct s_rend *rend)
     glBindBuffer_(GL_ARRAY_BUFFER, 0);
 #endif
 
-    if (tex_env_stage(TEX_STAGE_SHADOW))
-    {
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        if (tex_env_stage(TEX_STAGE_CLIP))
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        tex_env_stage(TEX_STAGE_TEXTURE);
-    }
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
     glDisableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     {
@@ -272,16 +262,6 @@ void part_draw_coin(struct s_rend *rend)
     }
     glDisableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
-
-    if (tex_env_stage(TEX_STAGE_SHADOW))
-    {
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        if (tex_env_stage(TEX_STAGE_CLIP))
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        tex_env_stage(TEX_STAGE_TEXTURE);
-    }
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 

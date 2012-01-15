@@ -178,12 +178,15 @@ static void sol_bill_enable(const struct s_draw *draw)
 
     glBindBuffer_(GL_ARRAY_BUFFER, draw->bill);
 
+    glDisableClientState(GL_NORMAL_ARRAY);
+
     glTexCoordPointer(2, GL_FLOAT, s * 4, (GLvoid *) (    0));
     glVertexPointer  (2, GL_FLOAT, s * 4, (GLvoid *) (s * 2));
 }
 
 static void sol_bill_disable(void)
 {
+    glEnableClientState(GL_NORMAL_ARRAY);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -811,16 +814,6 @@ void sol_draw_enable(struct s_rend *rend)
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
-
-    if (tex_env_stage(TEX_STAGE_SHADOW))
-    {
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        if (tex_env_stage(TEX_STAGE_CLIP))
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        tex_env_stage(TEX_STAGE_TEXTURE);
-    }
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
     rend->mtrl = default_draw_mtrl;
@@ -831,17 +824,7 @@ void sol_draw_disable(struct s_rend *rend)
 {
     sol_apply_mtrl(&default_draw_mtrl, rend);
 
-    if (tex_env_stage(TEX_STAGE_SHADOW))
-    {
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        if (tex_env_stage(TEX_STAGE_CLIP))
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        tex_env_stage(TEX_STAGE_TEXTURE);
-    }
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
 }
