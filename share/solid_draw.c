@@ -818,6 +818,8 @@ void sol_draw_enable(struct s_rend *rend)
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
+    glBindTexture(GL_TEXTURE_2D, 0);
+
     rend->mtrl = default_draw_mtrl;
     rend->flags = default_base_mtrl.fl;
 }
