@@ -1016,7 +1016,8 @@ void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
 
             sol_bill_enable(draw);
             sol_apply_mtrl(&default_draw_mtrl, rend);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+            glScalef(2.0f, 2.0f, 1.0f);
+            sol_draw_bill(GL_FALSE);
             sol_bill_disable();
 
             glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
