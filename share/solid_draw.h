@@ -103,6 +103,7 @@ struct s_rend
     struct d_mtrl mtrl;                 /* Current material                  */
     int flags;                          /* Current material base flags       */
 
+    unsigned int color_mtrl:1;          /* Color material flag               */
     unsigned int shadow:1;
 };
 

@@ -263,19 +263,21 @@ void sol_color_mtrl(struct s_rend *rend, int enable)
     if (enable)
     {
         glEnable(GL_COLOR_MATERIAL);
+
+        rend->color_mtrl = 1;
     }
     else
     {
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
         glDisable(GL_COLOR_MATERIAL);
 
-        /*
-         * Well-behaved code sets color to white before disabling
-         * color material.  This keeps material tracking synchronized
-         * with GL state.
-         */
+        /* This keeps material tracking synchronized with GL state. */
 
         rend->mtrl.d = 0xffffffff;
         rend->mtrl.a = 0xffffffff;
+
+        rend->color_mtrl = 0;
     }
 }
 
@@ -298,9 +300,9 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 
     /* Set material properties. */
 
-    if (mp_draw->d != mq_draw->d)
+    if (mp_draw->d != mq_draw->d && !rend->color_mtrl)
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mp_base->d);
-    if (mp_draw->a != mq_draw->a)
+    if (mp_draw->a != mq_draw->a && !rend->color_mtrl)
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mp_base->a);
     if (mp_draw->s != mq_draw->s)
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mp_base->s);
