@@ -70,8 +70,11 @@ static void sol_transform(const struct s_vary *vary,
 
     q_as_axisangle(e, v, &a);
 
-    glTranslatef(p[0], p[1], p[2]);
-    glRotatef(V_DEG(a), v[0], v[1], v[2]);
+    if (!(p[0] == 0 && p[1] == 0 && p[2] == 0))
+        glTranslatef(p[0], p[1], p[2]);
+
+    if (!((v[0] == 0 && v[1] == 0 && v[2] == 0) || a == 0))
+        glRotatef(V_DEG(a), v[0], v[1], v[2]);
 
     /* Apply the shadow transform to the texture matrix. */
 
