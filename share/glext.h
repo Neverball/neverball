@@ -69,7 +69,7 @@
 #define GL_ELEMENT_ARRAY_BUFFER       0x8893
 #endif
 
-#ifndef GL_STATC_DRAW
+#ifndef GL_STATIC_DRAW
 #define GL_STATIC_DRAW                0x88E4
 #endif
 
@@ -85,7 +85,7 @@
 #define GL_COORD_REPLACE              0x8862
 #endif
 
-#ifndef GL_POINT_DISTANCE_ATTENUATIAN
+#ifndef GL_POINT_DISTANCE_ATTENUATION
 #define GL_POINT_DISTANCE_ATTENUATION 0x8129
 #endif
 
