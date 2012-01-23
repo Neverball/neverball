@@ -832,7 +832,7 @@ void gui_set_image(int id, const char *file)
 {
     glDeleteTextures(1, &widget[id].image);
 
-    widget[id].image = make_image_from_file(file, 0);
+    widget[id].image = make_image_from_file(file, IF_MIPMAP);
 }
 
 void gui_set_label(int id, const char *text)
@@ -966,7 +966,7 @@ int gui_image(int pd, const char *file, int w, int h)
 
     if ((id = gui_widget(pd, GUI_IMAGE)))
     {
-        widget[id].image  = make_image_from_file(file, 0);
+        widget[id].image  = make_image_from_file(file, IF_MIPMAP);
         widget[id].w      = w;
         widget[id].h      = h;
         widget[id].flags |= GUI_RECT;
