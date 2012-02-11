@@ -227,7 +227,6 @@ BALL_OBJS := \
 	ball/demo.o         \
 	ball/demo_dir.o     \
 	ball/util.o         \
-	ball/speed.o        \
 	ball/st_conf.o      \
 	ball/st_demo.o      \
 	ball/st_save.o      \

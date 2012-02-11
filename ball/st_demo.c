@@ -24,7 +24,6 @@
 #include "util.h"
 #include "common.h"
 #include "demo_dir.h"
-#include "speed.h"
 
 #include "game_common.h"
 #include "game_server.h"

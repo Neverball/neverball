@@ -26,7 +26,6 @@
 #include "level.h"
 #include "array.h"
 #include "dir.h"
-#include "speed.h"
 
 #include "game_server.h"
 #include "game_client.h"

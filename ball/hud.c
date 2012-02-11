@@ -23,7 +23,6 @@
 #include "config.h"
 #include "video.h"
 #include "audio.h"
-#include "speed.h"
 
 #include "game_common.h"
 #include "game_client.h"
