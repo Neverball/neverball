@@ -56,7 +56,6 @@ static float view_fade;
 
 static int   coins  = 0;                /* Collected coins                   */
 static int   goal_e = 0;                /* Goal enabled flag                 */
-static float goal_k = 0;                /* Goal animation                    */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
@@ -472,8 +471,7 @@ int game_server_init(const char *file_name, int t, int e)
     jump_e = 1;
     jump_b = 0;
 
-    goal_e = e ? 1    : 0;
-    goal_k = e ? 1.0f : 0.0f;
+    goal_e = e ? 1 : 0;
 
     /* Initialize the view (and put it at the ball). */
 
@@ -685,9 +683,6 @@ static void game_update_view(float dt)
 
 static void game_update_time(float dt, int b)
 {
-    if (goal_e && goal_k < 1.0f)
-        goal_k += dt;
-
    /* The ticking clock. */
 
     if (b && timer_down)
