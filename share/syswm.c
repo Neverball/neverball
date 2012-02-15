@@ -96,20 +96,20 @@ void set_EWMH_icon(const char *filename)
                     if (b < 3)
                     {
                         if (b == 2)
-                            *dp |= *(pp + 1) << 24;
+                            *dp |= pp[1] << 24;
 
-                        *dp |= *(pp + 0) << 16;
-                        *dp |= *(pp + 0) << 8;
-                        *dp |= *(pp + 0) << 0;
+                        *dp |= pp[0] << 16;
+                        *dp |= pp[0] << 8;
+                        *dp |= pp[0] << 0;
                     }
                     else
                     {
                         if (b == 4)
-                            *dp |= *(pp + 3) << 24;
+                            *dp |= pp[3] << 24;
 
-                        *dp |= *(pp + 0) << 16;
-                        *dp |= *(pp + 1) << 8;
-                        *dp |= *(pp + 2) << 0;
+                        *dp |= pp[0] << 16;
+                        *dp |= pp[1] << 8;
+                        *dp |= pp[2] << 0;
                     }
                 }
 
