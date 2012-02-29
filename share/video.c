@@ -23,7 +23,8 @@
 
 int video_init(const char *title, const char *icon)
 {
-    SDL_QuitSubSystem(SDL_INIT_VIDEO);
+    if (SDL_WasInit(SDL_INIT_VIDEO))
+        SDL_QuitSubSystem(SDL_INIT_VIDEO);
 
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) == -1)
     {
