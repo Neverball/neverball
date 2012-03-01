@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.4\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2010-10-29 02:46+0300\n"
-"PO-Revision-Date: 2012-02-17 21:30+0300\n"
+"PO-Revision-Date: 2012-03-01 16:55+0300\n"
 "Last-Translator: Andrey Frantsuzov <pokazsch@yandex.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -360,7 +360,7 @@ msgstr "Эта запись была сделана в другой\\или не
 
 #: ball/st_done.c:61
 msgid "New Set Record"
-msgstr "Новый рекорд набора уровней"
+msgstr "Новый рекорд набора"
 
 #: ball/st_done.c:62
 msgid "Set Complete"
@@ -368,7 +368,7 @@ msgstr "Набор уровней пройден"
 
 #: ball/st_done.c:82
 msgid "Select Level"
-msgstr "Выбор уровня"
+msgstr "Завершить"
 
 #: ball/st_fall_out.c:82
 msgid "Fall-out!"
@@ -416,7 +416,7 @@ msgstr[2] "%d новых дополнительных уровней"
 #: ball/st_goal.c:208
 #: ball/st_goal.c:210
 msgid "Finish"
-msgstr "Финиш"
+msgstr "ФИНИШ"
 
 #: ball/st_help.c:92
 msgid "Tricks"
