@@ -10,4 +10,5 @@ map-csyforeverpx/BentObstacle.sol	back/blues.png	4	bgm/track2.ogg
 map-csyforeverpx/UpsideDown.sol	back/greys.png	3	bgm/track3.ogg
 map-csyforeverpx/Twister.sol	back/blu_wht.png	5	bgm/track3.ogg
 map-csyforeverpx/ExtremeBullyBoxes.sol	back/purples.png	7	bgm/track3.ogg
+map-csyforeverpx/LoopAcrobatic.sol	back/grn_yel.png	3	bgm/track4.ogg
 map-csyforeverpx/LongEndurance.sol	back/blu_wht.png	135	bgm/track6.ogg
