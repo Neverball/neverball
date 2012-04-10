@@ -1304,6 +1304,10 @@ msgstr "=Abenteuer=\\Viele Aufgaben und Risiken, aber auch viele Münzen."
 msgid "=Atrium=\\Remove the coins from their columns."
 msgstr "=Atrium=\\Holen Sie die Münzen von ihren Säulen."
 
+#: data/map-fwp/buoys.map
+msgid "=Buoys=\\He who controls the timers, controls the gates."
+msgstr "=Bojen=\\Wer die Zeitschalter beherrscht, beherrscht die Tore."
+
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
 msgstr "=Frachtgut=\\Lassen Sie sich davontragen."
