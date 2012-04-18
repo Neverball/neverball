@@ -41,8 +41,8 @@ static int sol_file(fs_file fin)
     int magic;
     int version;
 
-    get_index(fin, &magic);
-    get_index(fin, &version);
+    magic   = get_index(fin);
+    version = get_index(fin);
 
     if (magic != SOL_MAGIC || (version < SOL_VER_MINIMUM ||
                                version > SOL_VER_CURRENT))
@@ -55,12 +55,13 @@ static int sol_file(fs_file fin)
 
 static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
 {
-    get_array(fin,  mp->d, 4);
-    get_array(fin,  mp->a, 4);
-    get_array(fin,  mp->s, 4);
-    get_array(fin,  mp->e, 4);
-    get_array(fin,  mp->h, 1);
-    get_index(fin, &mp->fl);
+    get_array(fin, mp->d, 4);
+    get_array(fin, mp->a, 4);
+    get_array(fin, mp->s, 4);
+    get_array(fin, mp->e, 4);
+    get_array(fin, mp->h, 1);
+
+    mp->fl = get_index(fin);
 
     fs_read(mp->f, 1, PATHMAX, fin);
 
@@ -101,42 +102,43 @@ static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
 
 static void sol_load_vert(fs_file fin, struct b_vert *vp)
 {
-    get_array(fin,  vp->p, 3);
+    get_array(fin, vp->p, 3);
 }
 
 static void sol_load_edge(fs_file fin, struct b_edge *ep)
 {
-    get_index(fin, &ep->vi);
-    get_index(fin, &ep->vj);
+    ep->vi = get_index(fin);
+    ep->vj = get_index(fin);
 }
 
 static void sol_load_side(fs_file fin, struct b_side *sp)
 {
-    get_array(fin,  sp->n, 3);
-    get_float(fin, &sp->d);
+    get_array(fin, sp->n, 3);
+
+    sp->d = get_float(fin);
 }
 
 static void sol_load_texc(fs_file fin, struct b_texc *tp)
 {
-    get_array(fin,  tp->u, 2);
+    get_array(fin, tp->u, 2);
 }
 
 static void sol_load_offs(fs_file fin, struct b_offs *op)
 {
-    get_index(fin, &op->ti);
-    get_index(fin, &op->si);
-    get_index(fin, &op->vi);
+    op->ti = get_index(fin);
+    op->si = get_index(fin);
+    op->vi = get_index(fin);
 }
 
 static void sol_load_geom(fs_file fin, struct b_geom *gp, struct s_base *fp)
 {
-    get_index(fin, &gp->mi);
+    gp->mi = get_index(fin);
 
     if (sol_version >= SOL_VER_GLES)
     {
-        get_index(fin, &gp->oi);
-        get_index(fin, &gp->oj);
-        get_index(fin, &gp->ok);
+        gp->oi = get_index(fin);
+        gp->oj = get_index(fin);
+        gp->ok = get_index(fin);
     }
     else
     {
@@ -148,9 +150,9 @@ static void sol_load_geom(fs_file fin, struct b_geom *gp, struct s_base *fp)
 
         for (i = 0; i < 3; i++)
         {
-            get_index(fin, &ov[i].ti);
-            get_index(fin, &ov[i].si);
-            get_index(fin, &ov[i].vi);
+            ov[i].ti = get_index(fin);
+            ov[i].si = get_index(fin);
+            ov[i].vi = get_index(fin);
 
             iv[i] = -1;
 
@@ -187,39 +189,40 @@ static void sol_load_geom(fs_file fin, struct b_geom *gp, struct s_base *fp)
 
 static void sol_load_lump(fs_file fin, struct b_lump *lp)
 {
-    get_index(fin, &lp->fl);
-    get_index(fin, &lp->v0);
-    get_index(fin, &lp->vc);
-    get_index(fin, &lp->e0);
-    get_index(fin, &lp->ec);
-    get_index(fin, &lp->g0);
-    get_index(fin, &lp->gc);
-    get_index(fin, &lp->s0);
-    get_index(fin, &lp->sc);
+    lp->fl = get_index(fin);
+    lp->v0 = get_index(fin);
+    lp->vc = get_index(fin);
+    lp->e0 = get_index(fin);
+    lp->ec = get_index(fin);
+    lp->g0 = get_index(fin);
+    lp->gc = get_index(fin);
+    lp->s0 = get_index(fin);
+    lp->sc = get_index(fin);
 }
 
 static void sol_load_node(fs_file fin, struct b_node *np)
 {
-    get_index(fin, &np->si);
-    get_index(fin, &np->ni);
-    get_index(fin, &np->nj);
-    get_index(fin, &np->l0);
-    get_index(fin, &np->lc);
+    np->si = get_index(fin);
+    np->ni = get_index(fin);
+    np->nj = get_index(fin);
+    np->l0 = get_index(fin);
+    np->lc = get_index(fin);
 }
 
 static void sol_load_path(fs_file fin, struct b_path *pp)
 {
-    get_array(fin,  pp->p, 3);
-    get_float(fin, &pp->t);
-    get_index(fin, &pp->pi);
-    get_index(fin, &pp->f);
-    get_index(fin, &pp->s);
+    get_array(fin, pp->p, 3);
+
+    pp->t  = get_float(fin);
+    pp->pi = get_index(fin);
+    pp->f  = get_index(fin);
+    pp->s  = get_index(fin);
 
     pp->tm = TIME_TO_MS(pp->t);
     pp->t  = MS_TO_TIME(pp->tm);
 
     if (sol_version >= SOL_VER_GLES)
-        get_index(fin, &pp->fl);
+        pp->fl = get_index(fin);
 
     pp->e[0] = 1.0f;
     pp->e[1] = 0.0f;
@@ -232,11 +235,11 @@ static void sol_load_path(fs_file fin, struct b_path *pp)
 
 static void sol_load_body(fs_file fin, struct b_body *bp)
 {
-    get_index(fin, &bp->pi);
+    bp->pi = get_index(fin);
 
     if (sol_version >= SOL_VER_GLES)
     {
-        get_index(fin, &bp->pj);
+        bp->pj = get_index(fin);
 
         if (bp->pj < 0)
             bp->pj = bp->pi;
@@ -244,39 +247,39 @@ static void sol_load_body(fs_file fin, struct b_body *bp)
     else
         bp->pj = bp->pi;
 
-    get_index(fin, &bp->ni);
-    get_index(fin, &bp->l0);
-    get_index(fin, &bp->lc);
-    get_index(fin, &bp->g0);
-    get_index(fin, &bp->gc);
+    bp->ni = get_index(fin);
+    bp->l0 = get_index(fin);
+    bp->lc = get_index(fin);
+    bp->g0 = get_index(fin);
+    bp->gc = get_index(fin);
 }
 
 static void sol_load_item(fs_file fin, struct b_item *hp)
 {
-    get_array(fin,  hp->p, 3);
-    get_index(fin, &hp->t);
-    get_index(fin, &hp->n);
+    get_array(fin, hp->p, 3);
+
+    hp->t = get_index(fin);
+    hp->n = get_index(fin);
 }
 
 static void sol_load_goal(fs_file fin, struct b_goal *zp)
 {
-    get_array(fin,  zp->p, 3);
-    get_float(fin, &zp->r);
+    get_array(fin, zp->p, 3);
+
+    zp->r = get_float(fin);
 }
 
 static void sol_load_swch(fs_file fin, struct b_swch *xp)
 {
-    float f;
-    int i;
+    get_array(fin, xp->p, 3);
 
-    get_array(fin,  xp->p, 3);
-    get_float(fin, &xp->r);
-    get_index(fin, &xp->pi);
-    get_float(fin, &xp->t);
-    get_float(fin, &f);
-    get_index(fin, &xp->f);
-    get_index(fin, &i);
-    get_index(fin, &xp->i);
+    xp->r  = get_float(fin);
+    xp->pi = get_index(fin);
+    xp->t  = get_float(fin);
+    (void)   get_float(fin);
+    xp->f  = get_index(fin);
+    (void)   get_index(fin);
+    xp->i  = get_index(fin);
 
     xp->tm = TIME_TO_MS(xp->t);
     xp->t = MS_TO_TIME(xp->tm);
@@ -284,69 +287,72 @@ static void sol_load_swch(fs_file fin, struct b_swch *xp)
 
 static void sol_load_bill(fs_file fin, struct b_bill *rp)
 {
-    get_index(fin, &rp->fl);
-    get_index(fin, &rp->mi);
-    get_float(fin, &rp->t);
-    get_float(fin, &rp->d);
-    get_array(fin,  rp->w,  3);
-    get_array(fin,  rp->h,  3);
-    get_array(fin,  rp->rx, 3);
-    get_array(fin,  rp->ry, 3);
-    get_array(fin,  rp->rz, 3);
-    get_array(fin,  rp->p,  3);
+    rp->fl = get_index(fin);
+    rp->mi = get_index(fin);
+    rp->t  = get_float(fin);
+    rp->d  = get_float(fin);
+
+    get_array(fin, rp->w,  3);
+    get_array(fin, rp->h,  3);
+    get_array(fin, rp->rx, 3);
+    get_array(fin, rp->ry, 3);
+    get_array(fin, rp->rz, 3);
+    get_array(fin, rp->p,  3);
 }
 
 static void sol_load_jump(fs_file fin, struct b_jump *jp)
 {
-    get_array(fin,  jp->p, 3);
-    get_array(fin,  jp->q, 3);
-    get_float(fin, &jp->r);
+    get_array(fin, jp->p, 3);
+    get_array(fin, jp->q, 3);
+
+    jp->r = get_float(fin);
 }
 
 static void sol_load_ball(fs_file fin, struct b_ball *up)
 {
-    get_array(fin,  up->p, 3);
-    get_float(fin, &up->r);
+    get_array(fin, up->p, 3);
+
+    up->r = get_float(fin);
 }
 
 static void sol_load_view(fs_file fin, struct b_view *wp)
 {
-    get_array(fin,  wp->p, 3);
-    get_array(fin,  wp->q, 3);
+    get_array(fin, wp->p, 3);
+    get_array(fin, wp->q, 3);
 }
 
 static void sol_load_dict(fs_file fin, struct b_dict *dp)
 {
-    get_index(fin, &dp->ai);
-    get_index(fin, &dp->aj);
+    dp->ai = get_index(fin);
+    dp->aj = get_index(fin);
 }
 
 static void sol_load_indx(fs_file fin, struct s_base *fp)
 {
-    get_index(fin, &fp->ac);
-    get_index(fin, &fp->dc);
-    get_index(fin, &fp->mc);
-    get_index(fin, &fp->vc);
-    get_index(fin, &fp->ec);
-    get_index(fin, &fp->sc);
-    get_index(fin, &fp->tc);
+    fp->ac = get_index(fin);
+    fp->dc = get_index(fin);
+    fp->mc = get_index(fin);
+    fp->vc = get_index(fin);
+    fp->ec = get_index(fin);
+    fp->sc = get_index(fin);
+    fp->tc = get_index(fin);
 
     if (sol_version >= SOL_VER_GLES)
-        get_index(fin, &fp->oc);
+        fp->oc = get_index(fin);
 
-    get_index(fin, &fp->gc);
-    get_index(fin, &fp->lc);
-    get_index(fin, &fp->nc);
-    get_index(fin, &fp->pc);
-    get_index(fin, &fp->bc);
-    get_index(fin, &fp->hc);
-    get_index(fin, &fp->zc);
-    get_index(fin, &fp->jc);
-    get_index(fin, &fp->xc);
-    get_index(fin, &fp->rc);
-    get_index(fin, &fp->uc);
-    get_index(fin, &fp->wc);
-    get_index(fin, &fp->ic);
+    fp->gc = get_index(fin);
+    fp->lc = get_index(fin);
+    fp->nc = get_index(fin);
+    fp->pc = get_index(fin);
+    fp->bc = get_index(fin);
+    fp->hc = get_index(fin);
+    fp->zc = get_index(fin);
+    fp->jc = get_index(fin);
+    fp->xc = get_index(fin);
+    fp->rc = get_index(fin);
+    fp->uc = get_index(fin);
+    fp->wc = get_index(fin);
+    fp->ic = get_index(fin);
 }
 
 static int sol_load_file(fs_file fin, struct s_base *fp)
@@ -423,7 +429,7 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
     for (i = 0; i < fp->rc; i++) sol_load_bill(fin, fp->rv + i);
     for (i = 0; i < fp->uc; i++) sol_load_ball(fin, fp->uv + i);
     for (i = 0; i < fp->wc; i++) sol_load_view(fin, fp->wv + i);
-    for (i = 0; i < fp->ic; i++) get_index(fin, fp->iv + i);
+    for (i = 0; i < fp->ic; i++) fp->iv[i] = get_index(fin);
 
     /* Magically "fix" all of our code. */
 

@@ -20,13 +20,13 @@ void put_index(fs_file, int);
 void put_short(fs_file, short);
 void put_array(fs_file, const float *, size_t);
 
-void get_float(fs_file, float *);
-void get_index(fs_file, int   *);
-void get_short(fs_file, short *);
-void get_array(fs_file, float *, size_t);
+float get_float(fs_file);
+int   get_index(fs_file);
+short get_short(fs_file);
+void  get_array(fs_file, float *, size_t);
 
 void put_string(fs_file fout, const char *);
-void get_string(fs_file fin, char *, int );
+void get_string(fs_file fin, char *, int);
 
 /*---------------------------------------------------------------------------*/
 

@@ -47,23 +47,23 @@ static int demo_header_read(fs_file fp, struct demo *d)
 {
     int magic;
     int version;
-    int t, unused;
+    int t;
 
     struct tm date;
     char datestr[DATELEN];
 
-    get_index(fp, &magic);
-    get_index(fp, &version);
+    magic   = get_index(fp);
+    version = get_index(fp);
 
-    get_index(fp, &t);
+    t = get_index(fp);
 
     if (magic == DEMO_MAGIC && version == DEMO_VERSION && t)
     {
         d->timer = t;
 
-        get_index(fp, &d->coins);
-        get_index(fp, &d->status);
-        get_index(fp, &d->mode);
+        d->coins  = get_index(fp);
+        d->status = get_index(fp);
+        d->mode   = get_index(fp);
 
         get_string(fp, d->player, sizeof (d->player));
         get_string(fp, datestr, sizeof (datestr));
@@ -86,12 +86,12 @@ static int demo_header_read(fs_file fp, struct demo *d)
         get_string(fp, d->shot, PATHMAX);
         get_string(fp, d->file, PATHMAX);
 
-        get_index(fp, &d->time);
-        get_index(fp, &d->goal);
-        get_index(fp, &unused);
-        get_index(fp, &d->score);
-        get_index(fp, &d->balls);
-        get_index(fp, &d->times);
+        d->time  = get_index(fp);
+        d->goal  = get_index(fp);
+        (void)     get_index(fp);
+        d->score = get_index(fp);
+        d->balls = get_index(fp);
+        d->times = get_index(fp);
 
         return 1;
     }

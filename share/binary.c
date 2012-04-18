@@ -79,9 +79,11 @@ void put_array(fs_file fout, const float *v, size_t n)
 
 /*---------------------------------------------------------------------------*/
 
-void get_float(fs_file fin, float *f)
+float get_float(fs_file fin)
 {
-    unsigned char *p = (unsigned char *) f;
+    float f;
+
+    unsigned char *p = (unsigned char *) &f;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     p[3] = (unsigned char) fs_getc(fin);
@@ -94,11 +96,14 @@ void get_float(fs_file fin, float *f)
     p[2] = (unsigned char) fs_getc(fin);
     p[3] = (unsigned char) fs_getc(fin);
 #endif
+    return f;
 }
 
-void get_index(fs_file fin, int *i)
+int get_index(fs_file fin)
 {
-    unsigned char *p = (unsigned char *) i;
+    int i;
+
+    unsigned char *p = (unsigned char *) &i;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     p[3] = (unsigned char) fs_getc(fin);
@@ -111,11 +116,14 @@ void get_index(fs_file fin, int *i)
     p[2] = (unsigned char) fs_getc(fin);
     p[3] = (unsigned char) fs_getc(fin);
 #endif
+    return i;
 }
 
-void get_short(fs_file fin, short *s)
+short get_short(fs_file fin)
 {
-    unsigned char *p = (unsigned char *) s;
+    short s;
+
+    unsigned char *p = (unsigned char *) &s;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     p[1] = (unsigned char) fs_getc(fin);
@@ -124,6 +132,7 @@ void get_short(fs_file fin, short *s)
     p[0] = (unsigned char) fs_getc(fin);
     p[1] = (unsigned char) fs_getc(fin);
 #endif
+    return s;
 }
 
 void get_array(fs_file fin, float *v, size_t n)
@@ -131,7 +140,7 @@ void get_array(fs_file fin, float *v, size_t n)
     size_t i;
 
     for (i = 0; i < n; i++)
-        get_float(fin, v + i);
+        v[i] = get_float(fin);
 }
 
 /*---------------------------------------------------------------------------*/
