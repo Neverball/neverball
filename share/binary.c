@@ -151,21 +151,21 @@ void put_string(fs_file fout, const char *s)
     fs_putc('\0', fout);
 }
 
-void get_string(fs_file fin, char *s, int max)
+void get_string(fs_file fin, char *s, size_t max)
 {
+    size_t pos = 0;
     int c;
 
     while ((c = fs_getc(fin)) >= 0)
     {
-        if (max > 0)
+        if (pos < max)
         {
-            *s++ = c;
-            max--;
+            s[pos++] = c;
 
             /* Terminate the string, but keep reading until NUL. */
 
-            if (max == 0)
-                *(s - 1) = 0;
+            if (pos == max)
+                s[pos - 1] = 0;
         }
 
         if (c == 0)

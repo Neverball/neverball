@@ -1,8 +1,6 @@
 #ifndef BINARY_H
 #define BINARY_H
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "fs.h"
@@ -26,7 +24,7 @@ short get_short(fs_file);
 void  get_array(fs_file, float *, size_t);
 
 void put_string(fs_file fout, const char *);
-void get_string(fs_file fin, char *, int);
+void get_string(fs_file fin, char *, size_t);
 
 /*---------------------------------------------------------------------------*/
 
