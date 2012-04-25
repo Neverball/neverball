@@ -33,24 +33,26 @@
 
 /*---------------------------------------------------------------------------*/
 
-/* EXCLUDED material flags for each rendering pass. */
-
-static const int pass_ex[] = {
-    M_REFLECTIVE | M_TRANSPARENT | M_DECAL,
-    M_REFLECTIVE | M_TRANSPARENT,
-    M_REFLECTIVE,
-    M_REFLECTIVE | M_DECAL,
-    0,
+enum
+{
+    PASS_OPAQUE = 0,
+    PASS_OPAQUE_DECAL,
+    PASS_TRANSPARENT_DECAL,
+    PASS_TRANSPARENT,
+    PASS_REFLECTIVE,
+    PASS_MAX
 };
 
-/* INCLUDED material flags for each rendering pass. */
-
-static const int pass_in[] = {
-    0,
-    M_DECAL,
-    M_DECAL | M_TRANSPARENT,
-    M_TRANSPARENT,
-    M_REFLECTIVE,
+static struct
+{
+    int in;
+    int ex;
+} passes[PASS_MAX] = {
+    { 0, M_REFLECTIVE | M_TRANSPARENT | M_DECAL },
+    { M_DECAL, M_REFLECTIVE | M_TRANSPARENT },
+    { M_DECAL | M_TRANSPARENT, M_REFLECTIVE },
+    { M_TRANSPARENT, M_REFLECTIVE | M_DECAL },
+    { M_REFLECTIVE, 0 }
 };
 
 /*---------------------------------------------------------------------------*/
@@ -448,10 +450,10 @@ void sol_free_mtrl(struct d_mtrl *mp)
 
 static int sol_test_mtrl(const struct d_mtrl *mp, int p)
 {
-    /* Test whether the material flags exclude f0 and include f1. */
+    /* Test whether the material flags match inclusion rules. */
 
-    return ((mp->base->fl & pass_in[p]) == pass_in[p] &&
-            (mp->base->fl & pass_ex[p]) == 0);
+    return ((mp->base->fl & passes[p].in) == passes[p].in &&
+            (mp->base->fl & passes[p].ex) == 0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -848,16 +850,16 @@ void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test
 
     /* Render all opaque geometry, decals last. */
 
-    sol_draw_all(draw, rend, 0);
-    sol_draw_all(draw, rend, 1);
+    sol_draw_all(draw, rend, PASS_OPAQUE);
+    sol_draw_all(draw, rend, PASS_OPAQUE_DECAL);
 
     /* Render all transparent geometry, decals first. */
 
     if (!test) glDisable(GL_DEPTH_TEST);
     if (!mask) glDepthMask(GL_FALSE);
     {
-        sol_draw_all(draw, rend, 2);
-        sol_draw_all(draw, rend, 3);
+        sol_draw_all(draw, rend, PASS_TRANSPARENT_DECAL);
+        sol_draw_all(draw, rend, PASS_TRANSPARENT);
     }
     if (!mask) glDepthMask(GL_TRUE);
     if (!test) glEnable(GL_DEPTH_TEST);
@@ -878,7 +880,7 @@ void sol_refl(const struct s_draw *draw, struct s_rend *rend)
 
     /* Render all reflective geometry. */
 
-    sol_draw_all(draw, rend, 4);
+    sol_draw_all(draw, rend, PASS_REFLECTIVE);
 
     /* Revert the buffer object state. */
 
