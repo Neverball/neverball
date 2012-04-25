@@ -2235,23 +2235,23 @@ static void smth_file(struct s_base *fp)
 
 static void sort_file(struct s_base *fp)
 {
-    int i, j;
+    int i, j, k;
 
     /* Sort materials by type to minimize state changes. */
 
-    for (i = 0; i < fp->mc; i++)
-        for (j = i + 1; j < fp->mc; j++)
-            if (fp->mv[i].fl > fp->mv[j].fl)
+    for (i = 1; i < fp->mc; i++)
+        for (j = 0, k = 1; j < fp->mc - i; j++, k++)
+            if (fp->mv[j].fl > fp->mv[k].fl)
             {
                 struct b_mtrl t;
 
-                t         = fp->mv[i];
-                fp->mv[i] = fp->mv[j];
-                fp->mv[j] =         t;
+                t         = fp->mv[j];
+                fp->mv[j] = fp->mv[k];
+                fp->mv[k] =         t;
 
-                swap_mtrl(fp,  i, -1);
-                swap_mtrl(fp,  j,  i);
-                swap_mtrl(fp, -1,  j);
+                swap_mtrl(fp,  j, -1);
+                swap_mtrl(fp,  k,  j);
+                swap_mtrl(fp, -1,  k);
             }
 
     /* Sort billboards by material within distance. */
