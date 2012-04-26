@@ -790,10 +790,13 @@ void sol_free_draw(struct s_draw *draw)
 
     sol_free_bill(draw);
 
-    for (i = 0; i < draw->bc; i++)
-        sol_free_body(draw->bv + i);
     for (i = 0; i < draw->mc; i++)
         sol_free_mtrl(draw->mv + i);
+    for (i = 0; i < draw->bc; i++)
+        sol_free_body(draw->bv + i);
+
+    free(draw->mv);
+    free(draw->bv);
 }
 
 /*---------------------------------------------------------------------------*/

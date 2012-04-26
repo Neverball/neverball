@@ -503,6 +503,8 @@ static GLuint gui_rect_image(const char *path)
     int w, h, b;
     void *p;
 
+    GLuint o = 0;
+
     /*
      * Disable mipmapping and do a manual downscale.  Heuristic for
      * downscaling the texture: assume target size to be roughly 1/16
@@ -528,9 +530,13 @@ static GLuint gui_rect_image(const char *path)
             p = q;
         }
 
-        return make_texture(p, w, h, b, 0);
+        o = make_texture(p, w, h, b, 0);
+
+        free(p);
+        p = NULL;
     }
-    return 0;
+
+    return o;
 }
 
 static void gui_rect_init(void)
