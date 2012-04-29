@@ -43,7 +43,11 @@ enum
     PASS_MAX
 };
 
-static struct
+/*
+ * Included and excluded material flags for each rendering pass.
+ */
+
+static const struct
 {
     int in;
     int ex;
