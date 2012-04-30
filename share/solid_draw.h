@@ -25,6 +25,20 @@
 
 /*---------------------------------------------------------------------------*/
 
+/* Named rendering pass indices. */
+
+enum
+{
+    PASS_OPAQUE = 0,
+    PASS_OPAQUE_DECAL,
+    PASS_TRANSPARENT_DECAL,
+    PASS_TRANSPARENT,
+    PASS_REFLECTIVE,
+    PASS_MAX
+};
+
+/*---------------------------------------------------------------------------*/
+
 struct d_vert
 {
     float p[3];
@@ -66,7 +80,7 @@ struct d_body
 {
     const struct b_body *base;
 
-    int pass[5];
+    int pass[PASS_MAX];
     int mc;
 
     struct d_mesh *mv;

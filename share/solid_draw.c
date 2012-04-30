@@ -33,16 +33,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-enum
-{
-    PASS_OPAQUE = 0,
-    PASS_OPAQUE_DECAL,
-    PASS_TRANSPARENT_DECAL,
-    PASS_TRANSPARENT,
-    PASS_REFLECTIVE,
-    PASS_MAX
-};
-
 /*
  * Included and excluded material flags for each rendering pass.
  */
@@ -812,7 +802,6 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
     /* Draw all meshes of all bodies matching the given material flags. */
 
     for (bi = 0; bi < draw->bc; ++bi)
-
         if (draw->bv[bi].pass[p])
         {
             glPushMatrix();
