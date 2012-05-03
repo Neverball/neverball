@@ -25,10 +25,12 @@
 
 enum
 {
-    SOL_VER_MINIMUM = 6,
-    SOL_VER_GLES,
-    SOL_VER_CURRENT = SOL_VER_GLES
+    SOL_VERSION_1_5 = 6,
+    SOL_VERSION_DEV
 };
+
+#define SOL_VERSION_MIN  SOL_VERSION_1_5
+#define SOL_VERSION_CURR SOL_VERSION_DEV
 
 #define SOL_MAGIC (0xAF | 'S' << 8 | 'O' << 16 | 'L' << 24)
 
@@ -44,8 +46,8 @@ static int sol_file(fs_file fin)
     magic   = get_index(fin);
     version = get_index(fin);
 
-    if (magic != SOL_MAGIC || (version < SOL_VER_MINIMUM ||
-                               version > SOL_VER_CURRENT))
+    if (magic != SOL_MAGIC || (version < SOL_VERSION_MIN ||
+                               version > SOL_VERSION_CURR))
         return 0;
 
     sol_version = version;
@@ -65,7 +67,7 @@ static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
 
     fs_read(mp->f, 1, PATHMAX, fin);
 
-    if (sol_version < SOL_VER_GLES)
+    if (sol_version < SOL_VERSION_DEV)
     {
         static const int flags[][2] = {
             { 1, M_SHADOWED },
@@ -134,7 +136,7 @@ static void sol_load_geom(fs_file fin, struct b_geom *gp, struct s_base *fp)
 {
     gp->mi = get_index(fin);
 
-    if (sol_version >= SOL_VER_GLES)
+    if (sol_version >= SOL_VERSION_DEV)
     {
         gp->oi = get_index(fin);
         gp->oj = get_index(fin);
@@ -221,7 +223,7 @@ static void sol_load_path(fs_file fin, struct b_path *pp)
     pp->tm = TIME_TO_MS(pp->t);
     pp->t  = MS_TO_TIME(pp->tm);
 
-    if (sol_version >= SOL_VER_GLES)
+    if (sol_version >= SOL_VERSION_DEV)
         pp->fl = get_index(fin);
 
     pp->e[0] = 1.0f;
@@ -237,7 +239,7 @@ static void sol_load_body(fs_file fin, struct b_body *bp)
 {
     bp->pi = get_index(fin);
 
-    if (sol_version >= SOL_VER_GLES)
+    if (sol_version >= SOL_VERSION_DEV)
     {
         bp->pj = get_index(fin);
 
@@ -337,7 +339,7 @@ static void sol_load_indx(fs_file fin, struct s_base *fp)
     fp->sc = get_index(fin);
     fp->tc = get_index(fin);
 
-    if (sol_version >= SOL_VER_GLES)
+    if (sol_version >= SOL_VERSION_DEV)
         fp->oc = get_index(fin);
 
     fp->gc = get_index(fin);
@@ -690,7 +692,7 @@ static void sol_stor_file(fs_file fout, struct s_base *fp)
 {
     int i;
     int magic   = SOL_MAGIC;
-    int version = SOL_VER_CURRENT;
+    int version = SOL_VERSION_CURR;
 
     put_index(fout, magic);
     put_index(fout, version);
