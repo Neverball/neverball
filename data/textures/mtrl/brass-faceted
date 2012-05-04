@@ -1,7 +1,7 @@
-1.0 1.0 1.0 1.0
-0.2 0.2 0.2 1.0
-0.0 0.0 0.0 1.0
-0.0 0.0 0.0 1.0
-0.0
-environment shadowed
-0.0
+diffuse   1.0 1.0 1.0 1.0
+ambient   0.2 0.2 0.2 1.0
+specular  0.0 0.0 0.0 1.0
+emissive  0.0 0.0 0.0 1.0
+shininess 0.0
+flags     environment shadowed
+angle     0.0

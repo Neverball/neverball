@@ -1,7 +1,7 @@
-1.0 1.0 1.0 1.0
-0.0 0.0 0.0 1.0
-0.0 0.0 0.0 1.0
-1.0 1.0 1.0 1.0
-0.0
-additive clamp-s clamp-t transparent 
-45.0
+diffuse   1.0 1.0 1.0 1.0
+ambient   0.0 0.0 0.0 1.0
+specular  0.0 0.0 0.0 1.0
+emissive  1.0 1.0 1.0 1.0
+shininess 0.0
+flags     additive clamp-s clamp-t transparent 
+angle     45.0

@@ -1,7 +1,7 @@
-1.0 1.0 1.0 0.5
-0.2 0.2 0.2 1.0
-0.0 0.0 0.0 1.0
-0.0 0.0 0.0 1.0
-0.0
-reflective shadowed 
-45.0
+diffuse   1.0 1.0 1.0 0.5
+ambient   0.2 0.2 0.2 1.0
+specular  0.0 0.0 0.0 1.0
+emissive  0.0 0.0 0.0 1.0
+shininess 0.0
+flags     reflective shadowed 
+angle     45.0

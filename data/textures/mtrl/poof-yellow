@@ -1,7 +1,7 @@
-1.0 1.0 1.0 1.0
-0.2 0.2 0.2 1.0
-0.0 0.0 0.0 1.0
-0.0 0.0 0.0 1.0
-0.0
-clamp-s clamp-t decal transparent 
-45.0
+diffuse   1.0 1.0 1.0 1.0
+ambient   0.2 0.2 0.2 1.0
+specular  0.0 0.0 0.0 1.0
+emissive  0.0 0.0 0.0 1.0
+shininess 0.0
+flags     clamp-s clamp-t decal transparent 
+angle     45.0
