@@ -114,11 +114,12 @@ struct s_draw
 
 struct s_rend
 {
-    struct d_mtrl mtrl;                 /* Current material                  */
-    int flags;                          /* Current material base flags       */
+    struct d_mtrl curr_mtrl;            /* Current material                  */
+
+    int curr_flags;                     /* Effective material flags          */
+    int skip_flags;                     /* Ignored material flags            */
 
     unsigned int color_mtrl:1;          /* Color material flag               */
-    unsigned int shadow:1;
 };
 
 /*---------------------------------------------------------------------------*/

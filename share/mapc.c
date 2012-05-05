@@ -422,6 +422,8 @@ static const struct
     { "shadowed",    M_SHADOWED },
     { "transparent", M_TRANSPARENT },
     { "two-sided",   M_TWO_SIDED },
+    { "semi-opaque", M_SEMI_OPAQUE | M_TRANSPARENT },
+    { "alpha-test",  M_ALPHA_TEST },
 };
 
 static int read_mtrl(struct s_base *fp, const char *name)
@@ -511,6 +513,12 @@ static int read_mtrl(struct s_base *fp, const char *name)
                 mp->fl = f;
             }
             else if (sscanf(p, "angle %f", &mp->angle) == 1)
+            {
+            }
+            else if (sscanf(p, "semi-opaque %f", &mp->semi_opaque) == 1)
+            {
+            }
+            else if (sscanf(p, "alpha-test %f", &mp->alpha_test) == 1)
             {
             }
             else if (verbose)

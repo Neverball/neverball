@@ -84,6 +84,8 @@
 
 /* Material type flags */
 
+#define M_ALPHA_TEST  (1 << 10)
+#define M_SEMI_OPAQUE (1 <<  9)
 #define M_REFLECTIVE  (1 <<  8)
 #define M_TRANSPARENT (1 <<  7)
 #define M_SHADOWED    (1 <<  6)
@@ -130,6 +132,12 @@ struct b_mtrl
     int fl;                                    /* material flags             */
 
     char   f[PATHMAX];                         /* texture file name          */
+
+    /* M_SEMI_OPAQUE */
+    float semi_opaque;                         /* alpha threshold            */
+
+    /* M_ALPHA_TEST */
+    float alpha_test;                          /* reference value            */
 };
 
 struct b_vert

@@ -67,7 +67,17 @@ static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
 
     fs_read(mp->f, 1, PATHMAX, fin);
 
-    if (sol_version < SOL_VERSION_DEV)
+    if (sol_version >= SOL_VERSION_DEV)
+    {
+        if (mp->fl & M_SEMI_OPAQUE)
+            mp->semi_opaque = get_float(fin);
+        if (mp->fl & M_ALPHA_TEST)
+            mp->alpha_test = get_float(fin);
+    }
+
+    /* Convert 1.5.4 material flags. */
+
+    if (sol_version == SOL_VERSION_1_5)
     {
         static const int flags[][2] = {
             { 1, M_SHADOWED },
@@ -79,8 +89,6 @@ static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
             { 64, M_DECAL | M_SHADOWED },
             { 128, M_TWO_SIDED }
         };
-
-        /* Convert 1.5.4 material flags. */
 
         if (mp->fl)
         {
@@ -539,6 +547,11 @@ static void sol_stor_mtrl(fs_file fout, struct b_mtrl *mp)
     put_index(fout, mp->fl);
 
     fs_write(mp->f, 1, PATHMAX, fout);
+
+    if (mp->fl & M_SEMI_OPAQUE)
+        put_float(fout, mp->semi_opaque);
+    if (mp->fl & M_ALPHA_TEST)
+        put_float(fout, mp->alpha_test);
 }
 
 static void sol_stor_vert(fs_file fout, struct b_vert *vp)
