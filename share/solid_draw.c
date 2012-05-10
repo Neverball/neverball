@@ -447,7 +447,7 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
     {
         /* Update alpha function. */
 
-        glAlphaFunc(GL_GEQUAL, mp_base->semi_opaque);
+        glAlphaFunc(GL_GEQUAL, mp_base->alpha_test);
     }
 
     rend->curr_mtrl  = *mp_draw;
