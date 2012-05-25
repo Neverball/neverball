@@ -2,11 +2,12 @@ Neverball Forever Normal
 Difficulty: Intermediate through Expert\25 levels with a not-so-smooth learning curve.\\\Author: Challenge Space Yard\
 csy
 shot-csyforever/Cross.png
-65000	80000	95000	1800	1100	500
+61500	73000	90000	1650	1000	480
 map-csyforever/Cross.sol
 map-csyforever/Pinwheel.sol
 map-csyforever/GiantNeverball.sol
 map-csyforever/TinyNeverball.sol
+map-csyforever/NarrowBends.sol
 map-csyforever/SpiralOut.sol
 map-csyforever/SymmetryChallenge.sol
 map-csyforever/SpiralIn.sol
@@ -17,13 +18,12 @@ map-csyforever/Speedway.sol
 map-csyforever/ThreePaths.sol
 map-csyforever/GlassyIntersection.sol
 map-csyforever/SwitchReaction.sol
-map-csyforever/BendyTurns.sol
 map-csyforever/SpeedJumps.sol
 map-csyforever/Intermediate.sol
 map-csyforever/InvisiblePinwheelLegs.sol
 map-csyforever/Crosses.sol
+map-csyforever/HyperSpeed.sol
 map-csyforever/RocketRide.sol
-map-csyforever/Trains.sol
 map-csyforever/BentRoad.sol
 map-csyforever/ForkedRoad.sol
 map-csyforever/Challenger.sol

@@ -3,9 +3,9 @@
 {
 "classname" "worldspawn"
 "message" "Rocket Ride\Can you say 'Weeeeeeeeeeeee!'?"
-"song" "bgm/track5.ogg"
-"back" "map-back/alien.sol"
-"grad" "back/alien.png"
+"song" "bgm/track4.ogg"
+"back" "map-back/jupiter.sol"
+"grad" "back/space.png"
 "shot" "shot-csyforever/RocketRide.png"
 "time" "4500"
 "goal" "4"

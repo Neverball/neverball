@@ -3,11 +3,11 @@
 {
 "classname" "worldspawn"
 "message" "Invisible Walls\Watch out for any walls that you bump into!\They will not turn visible when you hit them!"
-"grad" "back/ocean.png"
-"back" "map-back/ocean.sol"
+"grad" "back/city.png"
+"back" "map-back/city.sol"
 "time" "12000"
 "goal" "20"
-"song" "bgm/track2.ogg"
+"song" "bgm/track3.ogg"
 "shot" "shot-csyforever/InvisibleWalls.png"
 "author" "Challenge Space Yard"
 "version" "2.0"
@@ -17,12 +17,12 @@
 "time_hs" "1700 2400"
 // brush 0
 {
-( 0 128 0 ) ( 0 0 0 ) ( -128 128 0 ) mtrl/mirror 0 0 0 0.5 0.5 0 0 0
-( -256 -384 -16 ) ( -256 -384 0 ) ( -384 -256 0 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( -256 -384 0 ) ( -256 -384 -16 ) ( -256 -512 -16 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0
-( -128 0 -16 ) ( 0 0 -16 ) ( -128 128 -16 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
-( -88 -512 -64 ) ( -88 -512 64 ) ( 40 -512 -64 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
-( -384 0 -64 ) ( -384 128 -64 ) ( -384 0 64 ) mtrl/rail 0 0 0 0.5 0.5 0 0 0
+( 0 128 0 ) ( 0 0 0 ) ( -128 128 0 ) mtrl/mirror 0 -32 0 0.5 0.5 0 0 0
+( -256 -384 -16 ) ( -256 -384 0 ) ( -384 -256 0 ) mtrl/invisible 0 -32 0 0.5 0.5 0 0 0
+( -256 -384 0 ) ( -256 -384 -16 ) ( -256 -512 -16 ) mtrl/invisible 0 -32 0 0.5 0.5 0 0 0
+( -128 0 -16 ) ( 0 0 -16 ) ( -128 128 -16 ) mtrl/rail 0 -32 0 0.5 0.5 0 0 0
+( -88 -512 -64 ) ( -88 -512 64 ) ( 40 -512 -64 ) mtrl/rail 0 -32 0 0.5 0.5 0 0 0
+( -384 0 -64 ) ( -384 128 -64 ) ( -384 0 64 ) mtrl/rail 0 -32 0 0.5 0.5 0 0 0
 }
 // brush 1
 {
