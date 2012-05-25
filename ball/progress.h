@@ -34,7 +34,6 @@ struct level *curr_level(void);
 int  curr_balls(void);
 int  curr_score(void);
 int  curr_mode (void);
-int  curr_bonus(void);
 int  curr_goal (void);
 
 int  progress_time_rank(void);

@@ -326,7 +326,7 @@ void back_init(const char *name)
 
     if (sol_load_full(&back, "geom/back/back.sol", 0))
     {
-        back.draw.mv[0].o = make_image_from_file(name);
+        back.draw.mv[0].o = make_image_from_file(name, IF_MIPMAP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         back_state = 1;
     }
@@ -455,30 +455,24 @@ void vect_draw(struct s_rend *rend)
     sol_draw(&vect.draw, rend, 0, 0);
 }
 
-void back_draw(struct s_rend *rend, float t)
+void back_draw(struct s_rend *rend)
 {
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_LIGHTING);
+    glDepthMask(GL_FALSE);
+
     glPushMatrix();
     {
-        GLfloat dx =  60.0f * fsinf(t / 10.0f);
-        GLfloat dz = 180.0f * fsinf(t / 12.0f);
-
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_LIGHTING);
-        glDepthMask(GL_FALSE);
-        {
-            glScalef(-BACK_DIST, BACK_DIST, -BACK_DIST);
-            if (t) glRotatef(dz, 0.0f, 0.0f, 1.0f);
-            if (t) glRotatef(dx, 1.0f, 0.0f, 0.0f);
-
-            sol_draw(&back.draw, rend, 1, 1);
-        }
-        glDepthMask(GL_TRUE);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_CULL_FACE);
-        glEnable(GL_DEPTH_TEST);
+        glScalef(-BACK_DIST, BACK_DIST, -BACK_DIST);
+        sol_draw(&back.draw, rend, 1, 1);
     }
     glPopMatrix();
+
+    glDepthMask(GL_TRUE);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 }
 
 void back_draw_easy(void)
@@ -486,7 +480,7 @@ void back_draw_easy(void)
     struct s_rend rend;
 
     sol_draw_enable(&rend);
-    back_draw(&rend, 0.0f);
+    back_draw(&rend);
     sol_draw_disable(&rend);
 }
 
@@ -512,7 +506,7 @@ static GLubyte clip_data[] = { 0xff, 0xff, 0x0, 0x0 };
 
 void shad_init(void)
 {
-    shad_text = make_image_from_file(IMG_SHAD);
+    shad_text = make_image_from_file(IMG_SHAD, IF_MIPMAP);
 
     if (config_get_d(CONFIG_SHADOW) == 2)
     {
@@ -547,12 +541,16 @@ void shad_draw_set(void)
     if (tex_env_stage(TEX_STAGE_SHADOW))
     {
         glEnable(GL_TEXTURE_2D);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
         glBindTexture(GL_TEXTURE_2D, shad_text);
 
         if (tex_env_stage(TEX_STAGE_CLIP))
         {
-            glBindTexture(GL_TEXTURE_2D, clip_text);
             glEnable(GL_TEXTURE_2D);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+            glBindTexture(GL_TEXTURE_2D, clip_text);
         }
 
         tex_env_stage(TEX_STAGE_TEXTURE);
@@ -564,12 +562,16 @@ void shad_draw_clr(void)
     if (tex_env_stage(TEX_STAGE_SHADOW))
     {
         glBindTexture(GL_TEXTURE_2D, 0);
+
         glDisable(GL_TEXTURE_2D);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
         if (tex_env_stage(TEX_STAGE_CLIP))
         {
             glBindTexture(GL_TEXTURE_2D, 0);
+
             glDisable(GL_TEXTURE_2D);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         }
 
         tex_env_stage(TEX_STAGE_TEXTURE);

@@ -351,8 +351,7 @@ static int size_load(const char *file, int *w, int *h)
 
 static void size_image(const char *name, int *w, int *h)
 {
-    char jpg[MAXSTR];
-    char png[MAXSTR];
+    char path[MAXSTR];
     int i;
 
     if (imagedata)
@@ -368,13 +367,16 @@ static void size_image(const char *name, int *w, int *h)
     *w = 0;
     *h = 0;
 
-    strcpy(jpg, name); strcat(jpg, ".jpg");
-    strcpy(png, name); strcat(png, ".png");
-
-    if (size_load(png, w, h) ||
-        size_load(jpg, w, h))
+    for (i = 0; i < ARRAYSIZE(tex_paths); i++)
     {
+        CONCAT_PATH(path, &tex_paths[i], name);
 
+        if (size_load(path, w, h))
+            break;
+    }
+
+    if (*w > 0 && *h > 0)
+    {
         if (image_n + 1 >= image_alloc)
         {
             struct _imagedata *tmp =
@@ -406,9 +408,23 @@ static void size_image(const char *name, int *w, int *h)
 
 /* Read the given material file, adding a new material to the solid.  */
 
-#define scan_vec4(f, s, v)                                              \
-    if (fs_gets((s), sizeof (s), (f)))                                  \
-        sscanf((s), "%f %f %f %f", (v), (v) + 1, (v) + 2, (v) + 3)
+static const struct
+{
+    char name[16];
+    int flag;
+} mtrl_flags[] = {
+    { "additive",    M_ADDITIVE },
+    { "clamp-s",     M_CLAMP_S },
+    { "clamp-t",     M_CLAMP_T },
+    { "decal",       M_DECAL },
+    { "environment", M_ENVIRONMENT },
+    { "reflective",  M_REFLECTIVE },
+    { "shadowed",    M_SHADOWED },
+    { "transparent", M_TRANSPARENT },
+    { "two-sided",   M_TWO_SIDED },
+    { "semi-opaque", M_SEMI_OPAQUE | M_TRANSPARENT },
+    { "alpha-test",  M_ALPHA_TEST },
+};
 
 static int read_mtrl(struct s_base *fp, const char *name)
 {
@@ -417,7 +433,7 @@ static int read_mtrl(struct s_base *fp, const char *name)
 
     struct b_mtrl *mp;
     fs_file fin;
-    int mi;
+    int mi, i;
 
     for (mi = 0; mi < fp->mc; mi++)
         if (strncmp(name, fp->mv[mi].f, MAXSTR) == 0)
@@ -436,41 +452,78 @@ static int read_mtrl(struct s_base *fp, const char *name)
     mp->fl   = 0;
     mp->angle = 45.0f;
 
-    if ((fin = fs_open(name, "r")))
+    fin = NULL;
+
+    for (i = 0; i < ARRAYSIZE(mtrl_paths); i++)
     {
-        scan_vec4(fin, line, mp->d);
-        scan_vec4(fin, line, mp->a);
-        scan_vec4(fin, line, mp->s);
-        scan_vec4(fin, line, mp->e);
+        CONCAT_PATH(line, &mtrl_paths[i], name);
 
-        if (fs_gets(line, sizeof (line), fin))
-            mp->h[0] = strtod(line, NULL);
+        if ((fin = fs_open(line, "r")))
+            break;
+    }
 
-        if (fs_gets(line, sizeof (line), fin))
+    if (fin)
+    {
+        while (fs_gets(line, sizeof (line), fin))
         {
-            char *p = line;
-            int   f = 0;
-            int   n;
+            char *p = strip_newline(line);
 
-            while (sscanf(p, "%s%n", word, &n) > 0)
+            if (sscanf(p, "diffuse %f %f %f %f",
+                       &mp->d[0], &mp->d[1],
+                       &mp->d[2], &mp->d[3]) == 4)
             {
-                if      (strcmp(word, "additive")    == 0) f |= M_ADDITIVE;
-                else if (strcmp(word, "clamp-s")     == 0) f |= M_CLAMP_S;
-                else if (strcmp(word, "clamp-t")     == 0) f |= M_CLAMP_T;
-                else if (strcmp(word, "decal")       == 0) f |= M_DECAL;
-                else if (strcmp(word, "environment") == 0) f |= M_ENVIRONMENT;
-                else if (strcmp(word, "reflective")  == 0) f |= M_REFLECTIVE;
-                else if (strcmp(word, "shadowed")    == 0) f |= M_SHADOWED;
-                else if (strcmp(word, "transparent") == 0) f |= M_TRANSPARENT;
-                else if (strcmp(word, "two-sided")   == 0) f |= M_TWO_SIDED;
-
-                p += n;
             }
-            mp->fl = f;
-        }
+            else if (sscanf(p, "ambient %f %f %f %f",
+                            &mp->a[0], &mp->a[1],
+                            &mp->a[2], &mp->a[3]) == 4)
+            {
+            }
+            else if (sscanf(p, "specular %f %f %f %f",
+                            &mp->s[0], &mp->s[1],
+                            &mp->s[2], &mp->s[3]) == 4)
+            {
+            }
+            else if (sscanf(p, "emissive %f %f %f %f",
+                            &mp->e[0], &mp->e[1],
+                            &mp->e[2], &mp->e[3]) == 4)
+            {
+            }
+            else if (sscanf(p, "shininess %f", &mp->h[0]) == 1)
+            {
+            }
+            else if (strncmp(p, "flags ", 6) == 0)
+            {
+                int f = 0;
+                int n;
 
-        if (fs_gets(line, sizeof (line), fin))
-            mp->angle = strtod(line, NULL);
+                p += 6;
+
+                while (sscanf(p, "%s%n", word, &n) > 0)
+                {
+                    for (i = 0; i < ARRAYSIZE(mtrl_flags); i++)
+                        if (strcmp(word, mtrl_flags[i].name) == 0)
+                        {
+                            f |= mtrl_flags[i].flag;
+                            break;
+                        }
+
+                    p += n;
+                }
+
+                mp->fl = f;
+            }
+            else if (sscanf(p, "angle %f", &mp->angle) == 1)
+            {
+            }
+            else if (sscanf(p, "semi-opaque %f", &mp->semi_opaque) == 1)
+            {
+            }
+            else if (sscanf(p, "alpha-test %f", &mp->alpha_test) == 1)
+            {
+            }
+            else if (verbose)
+                fprintf(stderr, "%s: unknown directive \"%s\"\n", name, p);
+        }
 
         fs_close(fin);
     }
@@ -2223,23 +2276,23 @@ static void smth_file(struct s_base *fp)
 
 static void sort_file(struct s_base *fp)
 {
-    int i, j;
+    int i, j, k;
 
     /* Sort materials by type to minimize state changes. */
 
-    for (i = 0; i < fp->mc; i++)
-        for (j = i + 1; j < fp->mc; j++)
-            if (fp->mv[i].fl > fp->mv[j].fl)
+    for (i = 1; i < fp->mc; i++)
+        for (j = 0, k = 1; j < fp->mc - i; j++, k++)
+            if (fp->mv[j].fl > fp->mv[k].fl)
             {
                 struct b_mtrl t;
 
-                t         = fp->mv[i];
-                fp->mv[i] = fp->mv[j];
-                fp->mv[j] =         t;
+                t         = fp->mv[j];
+                fp->mv[j] = fp->mv[k];
+                fp->mv[k] =         t;
 
-                swap_mtrl(fp,  i, -1);
-                swap_mtrl(fp,  j,  i);
-                swap_mtrl(fp, -1,  j);
+                swap_mtrl(fp,  j, -1);
+                swap_mtrl(fp,  k,  j);
+                swap_mtrl(fp, -1,  k);
             }
 
     /* Sort billboards by material within distance. */
@@ -2255,6 +2308,21 @@ static void sort_file(struct s_base *fp)
                 t         = fp->rv[i];
                 fp->rv[i] = fp->rv[j];
                 fp->rv[j] =         t;
+            }
+
+    /* Sort items by type and value. */
+
+    for (i = 0; i < fp->hc; i++)
+        for (j = i + 1; j < fp->hc; j++)
+            if ((fp->hv[j].t > fp->hv[i].t) ||
+                (fp->hv[j].t == fp->hv[i].t &&
+                 fp->hv[j].n > fp->hv[i].n))
+            {
+                struct b_item t;
+
+                t         = fp->hv[i];
+                fp->hv[i] = fp->hv[j];
+                fp->hv[j] =         t;
             }
 
     /* Ensure the first vertex is the lowest. */

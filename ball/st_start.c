@@ -30,10 +30,13 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define START_BACK        -1
-#define START_CHALLENGE   -2
-#define START_OPEN_GOALS  -3
-#define START_LOCK_GOALS  -4
+enum
+{
+    START_BACK = GUI_LAST,
+    START_CHALLENGE,
+    START_LOCK_GOALS,
+    START_LEVEL
+};
 
 static int shot_id;
 static int file_id;
@@ -54,7 +57,7 @@ static void gui_level(int id, int i)
 
     if (!l)
     {
-        gui_label(id, " ", GUI_SML, GUI_ALL, gui_blk, gui_blk);
+        gui_label(id, " ", GUI_SML, gui_blk, gui_blk);
         return;
     }
 
@@ -64,10 +67,10 @@ static void gui_level(int id, int i)
         back = level_completed(l) ? fore    : gui_yel;
     }
 
-    jd = gui_label(id, level_name(l), GUI_SML, GUI_ALL, back, fore);
+    jd = gui_label(id, level_name(l), GUI_SML, back, fore);
 
     if (level_opened(l) || config_cheat())
-        gui_set_state(jd, i, 0);
+        gui_set_state(jd, START_LEVEL, i);
 }
 
 static void start_over_level(int i)
@@ -89,7 +92,7 @@ static void start_over_level(int i)
 
 static void start_over(int id, int pulse)
 {
-    int i;
+    int tok;
 
     if (id == 0)
         return;
@@ -97,9 +100,9 @@ static void start_over(int id, int pulse)
     if (pulse)
         gui_pulse(id, 1.2f);
 
-    i = gui_token(id);
+    tok = gui_token(id);
 
-    if (i == START_CHALLENGE || i == START_BACK)
+    if (tok == START_CHALLENGE || tok == START_BACK)
     {
         gui_set_image(shot_id, set_shot(curr_set()));
 
@@ -108,17 +111,17 @@ static void start_over(int id, int pulse)
                         NULL, -1);
     }
 
-    if (i >= 0 && !GUI_ISMSK(i))
-        start_over_level(i);
+    if (tok == START_LEVEL)
+        start_over_level(gui_value(id));
 }
 
 /*---------------------------------------------------------------------------*/
 
-static int start_action(int i)
+static int start_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case START_BACK:
         return goto_state(&st_set);
@@ -134,27 +137,23 @@ static int start_action(int i)
         else
         {
             progress_init(MODE_CHALLENGE);
-            return start_action(0);
+            return start_action(START_LEVEL, 0);
         }
         break;
 
-    case GUI_SCORE_COIN:
-    case GUI_SCORE_TIME:
-    case GUI_SCORE_GOAL:
-        gui_score_set(i);
-        return goto_state(&st_start);
-
-    case START_OPEN_GOALS:
-        config_set_d(CONFIG_LOCK_GOALS, 0);
+    case GUI_SCORE:
+        /* FIXME, there's no need to rebuild the entire screen. */
+        gui_score_set(val);
         return goto_state(&st_start);
 
     case START_LOCK_GOALS:
-        config_set_d(CONFIG_LOCK_GOALS, 1);
+        config_set_d(CONFIG_LOCK_GOALS, val);
         return goto_state(&st_start);
 
-    default:
-        if (progress_play(get_level(i)))
+    case START_LEVEL:
+        if (progress_play(get_level(val)))
             return goto_state(&st_level);
+
         break;
     }
 
@@ -174,8 +173,7 @@ static int start_gui(void)
         if ((jd = gui_hstack(id)))
         {
 
-            gui_label(jd, set_name(curr_set()), GUI_SML, GUI_ALL,
-                      gui_yel, gui_red);
+            gui_label(jd, set_name(curr_set()), GUI_SML, gui_yel, gui_red);
             gui_filler(jd);
             gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);
         }
@@ -190,8 +188,7 @@ static int start_gui(void)
                 {
                     shot_id = gui_image(kd, set_shot(curr_set()),
                                         6 * w / 16, 6 * h / 16);
-                    file_id = gui_label(kd, " ", GUI_SML, GUI_ALL,
-                                        gui_yel, gui_red);
+                    file_id = gui_label(kd, " ", GUI_SML, gui_yel, gui_red);
                 }
             }
             else
@@ -207,9 +204,10 @@ static int start_gui(void)
                         for (j = 4; j >= 0; j--)
                             gui_level(ld, i * 5 + j);
 
-                challenge_id = gui_state(kd, _("Challenge"),
-                                         GUI_SML, START_CHALLENGE,
-                                         curr_mode() == MODE_CHALLENGE);
+                challenge_id = gui_state(kd, _("Challenge"), GUI_SML,
+                                         START_CHALLENGE, 0);
+
+                gui_set_hilite(challenge_id, curr_mode() == MODE_CHALLENGE);
             }
         }
         gui_space(id);
@@ -224,22 +222,25 @@ static int start_gui(void)
 
             if ((kd = gui_harray(jd)))
             {
-                /* TODO, replace the whitespace hack with something sane. */
+                int btn0, btn1;
 
-                gui_state(kd,
-                          /* Translators: adjust the amount of whitespace here
-                           * as necessary for the buttons to look good. */
-                          _("   No   "), GUI_SML, START_OPEN_GOALS,
-                          config_get_d(CONFIG_LOCK_GOALS) == 0);
+                btn0 = gui_state(kd,
+                                 /* Translators: adjust the amount of
+                                  * whitespace here as necessary for
+                                  * the buttons to look good. */
+                                 _("   No   "), GUI_SML, START_LOCK_GOALS, 0);
 
-                gui_state(kd, _("Yes"), GUI_SML, START_LOCK_GOALS,
-                          config_get_d(CONFIG_LOCK_GOALS) == 1);
+                btn1 = gui_state(kd, _("Yes"), GUI_SML, START_LOCK_GOALS, 1);
+
+                if (config_get_d(CONFIG_LOCK_GOALS))
+                    gui_set_hilite(btn1, 1);
+                else
+                    gui_set_hilite(btn0, 1);
             }
 
             gui_space(jd);
 
-            gui_label(jd, _("Lock Goals of Completed Levels?"),
-                      GUI_SML, GUI_ALL, 0, 0);
+            gui_label(jd, _("Lock Goals of Completed Levels?"), GUI_SML, 0, 0);
 
             gui_filler(jd);
         }
@@ -274,6 +275,17 @@ static void start_stick(int id, int a, float v, int bump)
     start_over(gui_stick(id, a, v, bump), 1);
 }
 
+static int start_score(int d)
+{
+    int s = (d < 0 ?
+             GUI_SCORE_PREV(gui_score_get()) :
+             GUI_SCORE_NEXT(gui_score_get()));
+
+    gui_score_set(s);
+    start_over(gui_active(), 0.0f);
+    return 1;
+}
+
 static int start_keybd(int c, int d)
 {
     if (d)
@@ -300,15 +312,7 @@ static int start_keybd(int c, int d)
             free(dir);
         }
         else if (config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
-        {
-            if (start_action(gui_score_next(gui_score_get())))
-            {
-                start_over(gui_active(), 0);
-                return 1;
-            }
-            else
-                return 0;
-        }
+            return start_score(+1);
     }
 
     return 1;
@@ -318,11 +322,29 @@ static int start_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return start_action(gui_token(gui_active()));
+            return start_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return start_action(START_BACK);
+            return start_action(START_BACK, 0);
     }
+    return 1;
+}
+
+static int start_click(int b, int d)
+{
+    if (gui_click(b, d))
+    {
+        return start_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
+    }
+
+    if (d)
+    {
+        if (b == SDL_BUTTON_WHEELUP)   start_score(-1);
+        if (b == SDL_BUTTON_WHEELDOWN) start_score(+1);
+    }
+
     return 1;
 }
 
@@ -336,7 +358,7 @@ struct state st_start = {
     start_point,
     start_stick,
     shared_angle,
-    shared_click,
+    start_click,
     start_keybd,
     start_buttn
 };

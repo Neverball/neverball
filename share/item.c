@@ -102,8 +102,7 @@ void item_draw(struct s_rend *rend,
                const struct v_item *hp,
                const GLfloat *M, float t)
 {
-    struct s_draw *draw = NULL;
-    float c[4];
+    struct s_draw *draw = &item_coin_file.draw;
 
     switch (hp->t)
     {
@@ -111,10 +110,6 @@ void item_draw(struct s_rend *rend,
     case ITEM_GROW:   draw = &item_grow_file.draw;   break;
     case ITEM_SHRINK: draw = &item_shrink_file.draw; break;
     }
-
-    item_color(hp, c);
-
-    glColor4f(c[0], c[1], c[2], c[3]);
 
     glDepthMask(GL_FALSE);
     {

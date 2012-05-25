@@ -152,11 +152,12 @@ int sol_load_vary(struct s_vary *fp, const struct s_base *base)
 
 void sol_free_vary(struct s_vary *fp)
 {
-    if (fp->pv) free(fp->pv);
-    if (fp->mv) free(fp->mv);
-    if (fp->hv) free(fp->hv);
-    if (fp->xv) free(fp->xv);
-    if (fp->uv) free(fp->uv);
+    free(fp->pv);
+    free(fp->bv);
+    free(fp->mv);
+    free(fp->hv);
+    free(fp->xv);
+    free(fp->uv);
 
     memset(fp, 0, sizeof (*fp));
 }

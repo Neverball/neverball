@@ -6,3 +6,6 @@
 /neverputt
 /mapc
 /contrib/curve
+
+.version
+share/version.h

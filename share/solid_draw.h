@@ -25,6 +25,20 @@
 
 /*---------------------------------------------------------------------------*/
 
+/* Named rendering pass indices. */
+
+enum
+{
+    PASS_OPAQUE = 0,
+    PASS_OPAQUE_DECAL,
+    PASS_TRANSPARENT_DECAL,
+    PASS_TRANSPARENT,
+    PASS_REFLECTIVE,
+    PASS_MAX
+};
+
+/*---------------------------------------------------------------------------*/
+
 struct d_vert
 {
     float p[3];
@@ -66,7 +80,7 @@ struct d_body
 {
     const struct b_body *base;
 
-    int pass[5];
+    int pass[PASS_MAX];
     int mc;
 
     struct d_mesh *mv;
@@ -100,10 +114,12 @@ struct s_draw
 
 struct s_rend
 {
-    struct d_mtrl mtrl;                 /* Current material                  */
-    int flags;                          /* Current material base flags       */
+    struct d_mtrl curr_mtrl;            /* Current material                  */
 
-    unsigned int shadow:1;
+    int curr_flags;                     /* Effective material flags          */
+    int skip_flags;                     /* Ignored material flags            */
+
+    unsigned int color_mtrl:1;          /* Color material flag               */
 };
 
 /*---------------------------------------------------------------------------*/
@@ -124,8 +140,7 @@ void sol_back(const struct s_draw *, struct s_rend *, float, float, float);
 void sol_refl(const struct s_draw *, struct s_rend *);
 void sol_draw(const struct s_draw *, struct s_rend *, int, int);
 void sol_bill(const struct s_draw *, struct s_rend *, const float *, float);
-
-void sol_fade(const struct s_draw *, float);
+void sol_fade(const struct s_draw *, struct s_rend *, float);
 
 /*---------------------------------------------------------------------------*/
 

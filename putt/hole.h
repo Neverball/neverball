@@ -9,6 +9,7 @@
 void  hole_init(const char *);
 void  hole_free(void);
 int   hole_exists(int);
+int   hole_load(int, const char *);
 
 char *hole_player(int);
 char *hole_score(int, int);

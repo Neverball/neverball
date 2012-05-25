@@ -31,15 +31,18 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define DONE_OK   1
+enum
+{
+    DONE_OK = GUI_LAST
+};
 
 static int resume;
 
-static int done_action(int i)
+static int done_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case DONE_OK:
         return goto_state(&st_exit);
@@ -47,10 +50,8 @@ static int done_action(int i)
     case GUI_NAME:
         return goto_name(&st_done, &st_done, 0);
 
-    case GUI_SCORE_COIN:
-    case GUI_SCORE_TIME:
-    case GUI_SCORE_GOAL:
-        gui_score_set(i);
+    case GUI_SCORE:
+        gui_score_set(val);
         return goto_state(&st_done);
     }
     return 1;
@@ -65,15 +66,14 @@ static int done_gui(void)
 
     int high = progress_set_high();
 
-
     if ((id = gui_vstack(0)))
     {
         int gid;
 
         if (high)
-            gid = gui_label(id, s1, GUI_MED, GUI_ALL, gui_grn, gui_grn);
+            gid = gui_label(id, s1, GUI_MED, gui_grn, gui_grn);
         else
-            gid = gui_label(id, s2, GUI_MED, GUI_ALL, gui_blu, gui_grn);
+            gid = gui_label(id, s2, GUI_MED, gui_blu, gui_grn);
 
         gui_space(id);
         gui_score_board(id, GUI_SCORE_COIN | GUI_SCORE_TIME, 1, high);
@@ -107,7 +107,7 @@ static int done_enter(struct state *st, struct state *prev)
 static int done_keybd(int c, int d)
 {
     if (d && config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
-        return done_action(gui_score_next(gui_score_get()));
+        return done_action(GUI_SCORE, GUI_SCORE_NEXT(gui_score_get()));
 
     return 1;
 }
@@ -116,10 +116,12 @@ static int done_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return done_action(gui_token(gui_active()));
+            return done_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return done_action(DONE_OK);
+            return done_action(DONE_OK, 0);
     }
     return 1;
 }

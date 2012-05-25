@@ -27,19 +27,22 @@
 #include "st_pause.h"
 #include "st_shared.h"
 
-#define PAUSE_CONTINUE 1
-#define PAUSE_RESTART  2
-#define PAUSE_EXIT     3
+enum
+{
+    PAUSE_CONTINUE = GUI_LAST,
+    PAUSE_RESTART,
+    PAUSE_EXIT
+};
 
 static struct state *st_continue;
 
 /*---------------------------------------------------------------------------*/
 
-static int pause_action(int i)
+static int pause_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch(i)
+    switch (tok)
     {
     case PAUSE_CONTINUE:
         SDL_PauseAudio(0);
@@ -76,7 +79,7 @@ static int pause_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        title_id = gui_label(id, _("Paused"), GUI_LRG, GUI_ALL, 0, 0);
+        title_id = gui_label(id, _("Paused"), GUI_LRG, 0, 0);
 
         gui_space(id);
 
@@ -87,7 +90,7 @@ static int pause_gui(void)
             if (progress_same_avail())
                 gui_state(jd, _("Restart"), GUI_SML, PAUSE_RESTART, 0);
 
-            gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 1);
+            gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 0);
         }
 
         gui_pulse(title_id, 1.2f);
@@ -126,10 +129,10 @@ static int pause_keybd(int c, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
-            return pause_action(PAUSE_CONTINUE);
+            return pause_action(PAUSE_CONTINUE, 0);
 
         if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
-            return pause_action(PAUSE_RESTART);
+            return pause_action(PAUSE_RESTART, 0);
     }
     return 1;
 }
@@ -138,11 +141,13 @@ static int pause_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return pause_action(gui_token(gui_active()));
+            return pause_action(gui_token(active), gui_value(active));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return pause_action(PAUSE_CONTINUE);
+            return pause_action(PAUSE_CONTINUE, 0);
     }
     return 1;
 }

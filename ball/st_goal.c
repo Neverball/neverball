@@ -34,13 +34,16 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define GOAL_NEXT 1
-#define GOAL_SAME 2
-#define GOAL_SAVE 3
-#define GOAL_BACK 4
-#define GOAL_DONE 5
-#define GOAL_OVER 6
-#define GOAL_LAST 7
+enum
+{
+    GOAL_NEXT = GUI_LAST,
+    GOAL_SAME,
+    GOAL_SAVE,
+    GOAL_BACK,
+    GOAL_DONE,
+    GOAL_OVER,
+    GOAL_LAST
+};
 
 static int balls_id;
 static int coins_id;
@@ -48,15 +51,13 @@ static int score_id;
 
 static int resume;
 
-static int goal_action(int i)
+static int goal_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case GOAL_BACK:
-        /* Fall through. */
-
     case GOAL_OVER:
         progress_stop();
         return goto_state(&st_exit);
@@ -78,10 +79,8 @@ static int goal_action(int i)
         progress_stop();
         return goto_state(&st_exit);
 
-    case GUI_SCORE_COIN:
-    case GUI_SCORE_TIME:
-    case GUI_SCORE_GOAL:
-        gui_score_set(i);
+    case GUI_SCORE:
+        gui_score_set(val);
         return goto_state(&st_goal);
 
     case GOAL_NEXT:
@@ -112,16 +111,15 @@ static int goal_gui(void)
         int gid;
 
         if (high)
-            gid = gui_label(id, s1, GUI_MED, GUI_ALL, gui_grn, gui_grn);
+            gid = gui_label(id, s1, GUI_MED, gui_grn, gui_grn);
         else
-            gid = gui_label(id, s2, GUI_LRG, GUI_ALL, gui_blu, gui_grn);
+            gid = gui_label(id, s2, GUI_LRG, gui_blu, gui_grn);
 
         gui_space(id);
 
         if (curr_mode() == MODE_CHALLENGE)
         {
             int coins, score, balls;
-            char msg[MAXSTR] = "";
             int i;
 
             /* Reverse-engineer initial score and balls. */
@@ -143,10 +141,6 @@ static int goal_gui(void)
                         balls--;
             }
 
-            sprintf(msg, ngettext("%d new bonus level",
-                                  "%d new bonus levels",
-                                  curr_bonus()), curr_bonus());
-
             if ((jd = gui_hstack(id)))
             {
                 gui_filler(jd);
@@ -157,20 +151,20 @@ static int goal_gui(void)
                     {
                         if ((md = gui_harray(ld)))
                         {
-                            balls_id = gui_count(md, 100, GUI_MED, GUI_NE);
-                            gui_label(md, _("Balls"), GUI_SML, 0,
+                            balls_id = gui_count(md, 100, GUI_MED);
+                            gui_label(md, _("Balls"), GUI_SML,
                                       gui_wht, gui_wht);
                         }
                         if ((md = gui_harray(ld)))
                         {
-                            score_id = gui_count(md, 1000, GUI_MED, 0);
-                            gui_label(md, _("Score"), GUI_SML, 0,
+                            score_id = gui_count(md, 1000, GUI_MED);
+                            gui_label(md, _("Score"), GUI_SML,
                                       gui_wht, gui_wht);
                         }
                         if ((md = gui_harray(ld)))
                         {
-                            coins_id = gui_count(md, 100, GUI_MED, 0);
-                            gui_label(md, _("Coins"), GUI_SML, GUI_NW,
+                            coins_id = gui_count(md, 100, GUI_MED);
+                            gui_label(md, _("Coins"), GUI_SML,
                                       gui_wht, gui_wht);
                         }
 
@@ -179,7 +173,25 @@ static int goal_gui(void)
                         gui_set_count(coins_id, coins);
                     }
 
-                    gui_label(kd, msg, GUI_SML, GUI_BOT, 0, 0);
+                    if ((ld = gui_harray(kd)))
+                    {
+                        const struct level *l;
+
+                        gui_label(ld, "", GUI_SML, 0, 0);
+
+                        for (i = MAXLVL - 1; i >= 0; i--)
+                            if ((l = get_level(i)) && level_bonus(l))
+                            {
+                                const GLubyte *c = (level_opened(l) ?
+                                                    gui_grn : gui_gry);
+
+                                gui_label(ld, level_name(l), GUI_SML, c, c);
+                            }
+
+                        gui_label(ld, "", GUI_SML, 0, 0);
+                    }
+
+                    gui_set_rect(kd, GUI_ALL);
                 }
 
                 gui_filler(jd);
@@ -288,9 +300,9 @@ static int goal_keybd(int c, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
-            return goal_action(gui_score_next(gui_score_get()));
+            return goal_action(GUI_SCORE, GUI_SCORE_NEXT(gui_score_get()));
         if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
-            return goal_action(GOAL_SAME);
+            return goal_action(GOAL_SAME, 0);
     }
 
     return 1;
@@ -300,10 +312,12 @@ static int goal_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return goal_action(gui_token(gui_active()));
+            return goal_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goal_action(GOAL_BACK);
+            return goal_action(GOAL_BACK, 0);
     }
     return 1;
 }

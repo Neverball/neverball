@@ -48,9 +48,14 @@ static struct game_view view;           /* Current view                      */
 
 static float view_k;
 
+static float view_time;                 /* Manual rotation time              */
+static float view_fade;
+
+#define VIEW_FADE_MIN 0.2f
+#define VIEW_FADE_MAX 1.0f
+
 static int   coins  = 0;                /* Collected coins                   */
 static int   goal_e = 0;                /* Goal enabled flag                 */
-static float goal_k = 0;                /* Goal animation                    */
 static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
@@ -466,13 +471,16 @@ int game_server_init(const char *file_name, int t, int e)
     jump_e = 1;
     jump_b = 0;
 
-    goal_e = e ? 1    : 0;
-    goal_k = e ? 1.0f : 0.0f;
+    goal_e = e ? 1 : 0;
 
     /* Initialize the view (and put it at the ball). */
 
     game_view_fly(&view, &vary, 0.0f);
+
     view_k = 1.0f;
+
+    view_time = 0.0f;
+    view_fade = 0.0f;
 
     /* Initialize ball size tracking. */
 
@@ -530,6 +538,35 @@ static void game_update_view(float dt)
     float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };
     float view_v[3];
 
+    /* Track manual rotation time. */
+
+    if (da == 0.0f)
+    {
+        if (view_time < 0.0f)
+        {
+            /* Transition time is influenced by activity time. */
+
+            view_fade = CLAMP(VIEW_FADE_MIN, -view_time, VIEW_FADE_MAX);
+            view_time = 0.0f;
+        }
+
+        /* Inactivity. */
+
+        view_time += dt;
+    }
+    else
+    {
+        if (view_time > 0.0f)
+        {
+            view_fade = 0.0f;
+            view_time = 0.0f;
+        }
+
+        /* Activity (yes, this is negative). */
+
+        view_time -= dt;
+    }
+
     /* Center the view about the ball. */
 
     v_cpy(view.c, vary.uv->p);
@@ -561,13 +598,57 @@ static void game_update_view(float dt)
         v_mad(view.e[2], view.e[2], view_v, v_dot(view_v, view_v) * dt / 4);
 
         break;
+
+    case VIEW_TEST1:
+    case VIEW_TEST2:
+
+        /*
+         * Random curiosity of view vector computation for chase view.
+         *
+         * z + v * |v|^2 * dt / 4 =
+         * z + u * |v|^3 * dt / 4
+         */
+
+        /*
+         * So let's experiment with that.
+         *
+         * z + v * |v|   * dt / 4 =
+         * z + u * |v|^2 * dt / 4
+         */
+
+        if (da == 0.0f)
+        {
+            v_sub(view.e[2], view.p, view.c);
+            v_nrm(view.e[2], view.e[2]);
+
+            if (input_get_c() == VIEW_TEST1)
+            {
+                v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * dt / 4);
+            }
+            else if (input_get_c() == VIEW_TEST2)
+            {
+                /* Gradually restore view vector convergence rate. */
+
+                float s;
+
+                s = fpowf(view_time, 3.0f) / fpowf(view_fade, 3.0f);
+                s = CLAMP(0.0f, s, 1.0f);
+
+                v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * s * dt / 4);
+            }
+        }
+
+        break;
     }
 
     /* Apply manual rotation. */
 
-    m_rot(M, Y, V_RAD(da));
-    m_vxfm(v, M, view.e[2]);
-    v_cpy(view.e[2], v);
+    if (da != 0.0f)
+    {
+        m_rot(M, Y, V_RAD(da));
+        m_vxfm(v, M, view.e[2]);
+        v_cpy(view.e[2], v);
+    }
 
     /* Orthonormalize the new view reference frame. */
 
@@ -602,9 +683,6 @@ static void game_update_view(float dt)
 
 static void game_update_time(float dt, int b)
 {
-    if (goal_e && goal_k < 1.0f)
-        goal_k += dt;
-
    /* The ticking clock. */
 
     if (b && timer_down)

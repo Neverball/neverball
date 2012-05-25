@@ -104,8 +104,9 @@ END_FUNC;
 GET_FUNC(CMD_MAKE_ITEM)
 {
     get_array(fp, cmd->mkitem.p, 3);
-    get_index(fp, &cmd->mkitem.t);
-    get_index(fp, &cmd->mkitem.n);
+
+    cmd->mkitem.t = get_index(fp);
+    cmd->mkitem.n = get_index(fp);
 }
 END_FUNC;
 
@@ -122,7 +123,7 @@ END_FUNC;
 
 GET_FUNC(CMD_PICK_ITEM)
 {
-    get_index(fp, &cmd->pkitem.hi);
+    cmd->pkitem.hi = get_index(fp);
 }
 END_FUNC;
 
@@ -140,8 +141,8 @@ END_FUNC;
 
 GET_FUNC(CMD_TILT_ANGLES)
 {
-    get_float(fp, &cmd->tiltangles.x);
-    get_float(fp, &cmd->tiltangles.z);
+    cmd->tiltangles.x = get_float(fp);
+    cmd->tiltangles.z = get_float(fp);
 }
 END_FUNC;
 
@@ -162,8 +163,8 @@ GET_FUNC(CMD_SOUND)
     static char buff[MAXSTR];
 
     get_string(fp, buff, sizeof (buff));
-    get_float(fp, &cmd->sound.a);
 
+    cmd->sound.a = get_float(fp);
     cmd->sound.n = strdup(buff);
 }
 END_FUNC;
@@ -181,7 +182,7 @@ END_FUNC;
 
 GET_FUNC(CMD_TIMER)
 {
-    get_float(fp, &cmd->timer.t);
+    cmd->timer.t = get_float(fp);
 }
 END_FUNC;
 
@@ -198,7 +199,7 @@ END_FUNC;
 
 GET_FUNC(CMD_STATUS)
 {
-    get_index(fp, &cmd->status.t);
+    cmd->status.t = get_index(fp);
 }
 END_FUNC;
 
@@ -215,7 +216,7 @@ END_FUNC;
 
 GET_FUNC(CMD_COINS)
 {
-    get_index(fp, &cmd->coins.n);
+    cmd->coins.n = get_index(fp);
 }
 END_FUNC;
 
@@ -249,8 +250,8 @@ END_FUNC;
 
 GET_FUNC(CMD_BODY_PATH)
 {
-    get_index(fp, &cmd->bodypath.bi);
-    get_index(fp, &cmd->bodypath.pi);
+    cmd->bodypath.bi = get_index(fp);
+    cmd->bodypath.pi = get_index(fp);
 }
 END_FUNC;
 
@@ -268,8 +269,8 @@ END_FUNC;
 
 GET_FUNC(CMD_BODY_TIME)
 {
-    get_index(fp, &cmd->bodytime.bi);
-    get_float(fp, &cmd->bodytime.t);
+    cmd->bodytime.bi = get_index(fp);
+    cmd->bodytime.t  = get_float(fp);
 }
 END_FUNC;
 
@@ -294,7 +295,7 @@ END_FUNC;
 
 GET_FUNC(CMD_SWCH_ENTER)
 {
-    get_index(fp, &cmd->swchenter.xi);
+    cmd->swchenter.xi = get_index(fp);
 }
 END_FUNC;
 
@@ -311,7 +312,7 @@ END_FUNC;
 
 GET_FUNC(CMD_SWCH_TOGGLE)
 {
-    get_index(fp, &cmd->swchenter.xi);
+    cmd->swchenter.xi = get_index(fp);
 }
 END_FUNC;
 
@@ -328,7 +329,7 @@ END_FUNC;
 
 GET_FUNC(CMD_SWCH_EXIT)
 {
-    get_index(fp, &cmd->swchenter.xi);
+    cmd->swchenter.xi = get_index(fp);
 }
 END_FUNC;
 
@@ -345,7 +346,7 @@ END_FUNC;
 
 GET_FUNC(CMD_UPDATES_PER_SECOND)
 {
-    get_index(fp, &cmd->ups.n);
+    cmd->ups.n = get_index(fp);
 }
 END_FUNC;
 
@@ -362,7 +363,7 @@ END_FUNC;
 
 GET_FUNC(CMD_BALL_RADIUS)
 {
-    get_float(fp, &cmd->ballradius.r);
+    cmd->ballradius.r = get_float(fp);
 }
 END_FUNC;
 
@@ -503,7 +504,7 @@ END_FUNC;
 
 GET_FUNC(CMD_CURRENT_BALL)
 {
-    get_index(fp, &cmd->currball.ui);
+    cmd->currball.ui = get_index(fp);
 }
 END_FUNC;
 
@@ -521,8 +522,8 @@ END_FUNC;
 
 GET_FUNC(CMD_PATH_FLAG)
 {
-    get_index(fp, &cmd->pathflag.pi);
-    get_index(fp, &cmd->pathflag.f);
+    cmd->pathflag.pi = get_index(fp);
+    cmd->pathflag.f  = get_index(fp);
 }
 END_FUNC;
 
@@ -539,7 +540,7 @@ END_FUNC;
 
 GET_FUNC(CMD_STEP_SIMULATION)
 {
-    get_float(fp, &cmd->stepsim.dt);
+    cmd->stepsim.dt = get_float(fp);
 }
 END_FUNC;
 
@@ -565,8 +566,8 @@ GET_FUNC(CMD_MAP)
 
     cmd->map.name = strdup(buff);
 
-    get_index(fp, &cmd->map.version.x);
-    get_index(fp, &cmd->map.version.y);
+    cmd->map.version.x = get_index(fp);
+    cmd->map.version.y = get_index(fp);
 }
 END_FUNC;
 
@@ -603,8 +604,8 @@ END_FUNC;
 
 GET_FUNC(CMD_MOVE_PATH)
 {
-    get_index(fp, &cmd->movepath.mi);
-    get_index(fp, &cmd->movepath.pi);
+    cmd->movepath.mi = get_index(fp);
+    cmd->movepath.pi = get_index(fp);
 }
 END_FUNC;
 
@@ -622,8 +623,8 @@ END_FUNC;
 
 GET_FUNC(CMD_MOVE_TIME)
 {
-    get_index(fp, &cmd->movetime.mi);
-    get_float(fp, &cmd->movetime.t);
+    cmd->movetime.mi = get_index(fp);
+    cmd->movetime.t  = get_float(fp);
 }
 END_FUNC;
 
@@ -696,7 +697,7 @@ int cmd_get(fs_file fp, union cmd *cmd)
 
     if ((type = fs_getc(fp)) >= 0)
     {
-        get_short(fp, &size);
+        size = get_short(fp);
 
         /* Discard unrecognised commands. */
 

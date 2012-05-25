@@ -3,14 +3,9 @@
 
 BUILD := $(shell head -n1 BUILD 2> /dev/null || echo release)
 
-ifeq ($(BUILD),release)
-    VERSION := 1.5.5
-else
-    VERSION := $(shell sh scripts/version.sh)
-    ifeq ($(VERSION),unknown)
-        VERSION := 1.5.5-dev
-    endif
-endif
+VERSION := 1.6.0
+VERSION := $(shell sh scripts/version.sh "$(BUILD)" "$(VERSION)" \
+	"share/version.in.h" "share/version.h" ".version")
 
 $(info Will make a "$(BUILD)" build of Neverball $(VERSION).)
 
@@ -68,8 +63,7 @@ endif
 SDL_CPPFLAGS := $(shell sdl-config --cflags) -U_GNU_SOURCE
 PNG_CPPFLAGS := $(shell libpng-config --cflags)
 
-ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare \
-    -DVERSION=\"$(VERSION)\"
+ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare
 
 ALL_CPPFLAGS += \
     -DCONFIG_USER=\"$(USERDIR)\" \
@@ -233,7 +227,6 @@ BALL_OBJS := \
 	ball/demo.o         \
 	ball/demo_dir.o     \
 	ball/util.o         \
-	ball/speed.o        \
 	ball/st_conf.o      \
 	ball/st_demo.o      \
 	ball/st_save.o      \

@@ -65,18 +65,20 @@ static int level_gui(void)
                 else
                     sprintf(setattr, "%s", set_name(curr_set()));
 
-                gui_label(kd, lvlattr, b ? GUI_MED : GUI_LRG, GUI_TOP,
-                          b ? gui_wht : 0, b ? gui_grn : 0);
-                gui_label(kd, setattr, GUI_SML,               GUI_BOT,
-                          gui_wht,         gui_wht);
+                gui_label(kd, lvlattr,
+                          b ? GUI_MED : GUI_LRG,
+                          b ? gui_wht : 0,
+                          b ? gui_grn : 0);
+
+                gui_label(kd, setattr, GUI_SML, gui_wht, gui_wht);
+
+                gui_set_rect(kd, GUI_ALL);
             }
             gui_filler(jd);
         }
         gui_space(id);
 
-        gui_multi(id, level_msg(curr_level()),
-                  GUI_SML, GUI_ALL,
-                  gui_wht, gui_wht);
+        gui_multi(id, level_msg(curr_level()), GUI_SML, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);
     }
@@ -155,11 +157,11 @@ static int nodemo_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, _("Warning!"), GUI_MED, GUI_ALL, 0, 0);
+        gui_label(id, _("Warning!"), GUI_MED, 0, 0);
         gui_space(id);
         gui_multi(id, _("A replay file could not be opened for writing.\\"
                         "This game will not be recorded.\\"),
-                  GUI_SML, GUI_ALL, gui_wht, gui_wht);
+                  GUI_SML, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);
     }

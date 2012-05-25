@@ -39,6 +39,8 @@ const char *view_to_str(int v)
     case VIEW_CHASE:   return _("Chase");
     case VIEW_LAZY:    return _("Lazy");
     case VIEW_MANUAL:  return _("Manual");
+    case VIEW_TEST1:   return _("Test 1");
+    case VIEW_TEST2:   return _("Test 2");
     default:           return _("Unknown");
     }
 }
@@ -239,5 +241,18 @@ void game_base_free(const char *next)
         base_path = NULL;
     }
 }
+
+/*---------------------------------------------------------------------------*/
+
+float SPEED_FACTORS[SPEED_MAX] = {
+    0.0f,
+    1.0f / 8,
+    1.0f / 4,
+    1.0f / 2,
+    1.0f,
+    1.0f * 2,
+    1.0f * 4,
+    1.0f * 8
+};
 
 /*---------------------------------------------------------------------------*/

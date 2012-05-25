@@ -123,7 +123,7 @@ static struct
     { &CONFIG_TEXTURES,     "textures",     1 },
     { &CONFIG_REFLECTION,   "reflection",   1 },
     { &CONFIG_MULTISAMPLE,  "multisample",  0 },
-    { &CONFIG_MIPMAP,       "mipmap",       0 },
+    { &CONFIG_MIPMAP,       "mipmap",       1 },
     { &CONFIG_ANISO,        "aniso",        0 },
     { &CONFIG_BACKGROUND,   "background",   1 },
     { &CONFIG_SHADOW,       "shadow",       1 },

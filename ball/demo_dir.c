@@ -44,11 +44,28 @@ static int scan_item(struct dir_item *item)
     return str_ends_with(item->path, ".nbr");
 }
 
+static int cmp_items(const void *A, const void *B)
+{
+    const struct dir_item *a = A, *b = B;
+
+    if (strcmp(base_name_sans(a->path, ".nbr"), USER_REPLAY_FILE) == 0)
+        return -1;
+    if (strcmp(base_name_sans(b->path, ".nbr"), USER_REPLAY_FILE) == 0)
+        return +1;
+
+    return strcmp(a->path, b->path);
+}
+
 /*---------------------------------------------------------------------------*/
 
 Array demo_dir_scan(void)
 {
-    return fs_dir_scan("Replays", scan_item);
+    Array items;
+
+    if ((items = fs_dir_scan("Replays", scan_item)))
+        array_sort(items, cmp_items);
+
+    return items;
 }
 
 void demo_dir_load(Array items, int lo, int hi)

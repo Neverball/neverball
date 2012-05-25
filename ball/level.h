@@ -13,6 +13,9 @@ enum
     SCORE_COIN
 };
 
+#define LEVEL_LOCKED    0x1
+#define LEVEL_COMPLETED 0x2
+
 struct level
 {
     char file[PATHMAX];
@@ -21,7 +24,8 @@ struct level
 
     char message[MAXSTR];
 
-    char version[MAXSTR];
+    char version_str[32];
+    int  version_num;
     char author[MAXSTR];
 
     int time; /* Time limit   */

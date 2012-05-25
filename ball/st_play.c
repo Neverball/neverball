@@ -79,6 +79,10 @@ static void keybd_camera(int c)
 
     if (config_tst_d(CONFIG_KEY_CAMERA_TOGGLE, c))
         toggle_camera();
+
+    if (config_cheat() && c == SDLK_F4)
+        set_camera(config_tst_d(CONFIG_CAMERA, VIEW_TEST1) ?
+                   VIEW_TEST2 : VIEW_TEST1);
 }
 
 static void click_camera(int b)
@@ -113,7 +117,7 @@ static int play_ready_gui(void)
 {
     int id;
 
-    if ((id = gui_label(0, _("Ready?"), GUI_LRG, GUI_ALL, 0, 0)))
+    if ((id = gui_label(0, _("Ready?"), GUI_LRG, 0, 0)))
     {
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
@@ -197,7 +201,7 @@ static int play_set_gui(void)
 {
     int id;
 
-    if ((id = gui_label(0, _("Set?"), GUI_LRG, GUI_ALL, 0, 0)))
+    if ((id = gui_label(0, _("Set?"), GUI_LRG, 0, 0)))
     {
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
@@ -303,7 +307,7 @@ static int play_loop_gui(void)
 {
     int id;
 
-    if ((id = gui_label(0, _("GO!"), GUI_LRG, GUI_ALL, gui_blu, gui_grn)))
+    if ((id = gui_label(0, _("GO!"), GUI_LRG, gui_blu, gui_grn)))
     {
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);

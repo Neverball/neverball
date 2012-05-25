@@ -33,24 +33,35 @@
 
 /*---------------------------------------------------------------------------*/
 
-/* EXCLUDED material flags for each rendering pass. */
+/*
+ * Included and excluded material flags for each rendering pass.
+ */
 
-static const int pass_ex[] = {
-    M_REFLECTIVE | M_TRANSPARENT | M_DECAL,
-    M_REFLECTIVE | M_TRANSPARENT,
-    M_REFLECTIVE,
-    M_REFLECTIVE | M_DECAL,
-    0,
-};
+/*
+ * The second pair of flags for each pass is a hack to accomodate
+ * semi-opaque materials (which are simultaneously opaque and
+ * transparent).
+ */
 
-/* INCLUDED material flags for each rendering pass. */
+static const struct
+{
+    int in;
+    int ex;
+} passes[PASS_MAX][2] = {
+    { { 0,             M_REFLECTIVE | M_TRANSPARENT | M_DECAL },
+      { M_SEMI_OPAQUE, M_REFLECTIVE | M_DECAL } },
 
-static const int pass_in[] = {
-    0,
-    M_DECAL,
-    M_DECAL | M_TRANSPARENT,
-    M_TRANSPARENT,
-    M_REFLECTIVE,
+    { { M_DECAL,                 M_REFLECTIVE | M_TRANSPARENT },
+      { M_DECAL | M_SEMI_OPAQUE, M_REFLECTIVE } },
+
+    { { M_DECAL | M_TRANSPARENT, M_REFLECTIVE },
+      { M_DECAL | M_TRANSPARENT, M_REFLECTIVE } },
+
+    { { M_TRANSPARENT, M_REFLECTIVE | M_DECAL },
+      { M_TRANSPARENT, M_REFLECTIVE | M_DECAL } },
+
+    { { M_REFLECTIVE, 0 },
+      { M_REFLECTIVE, 0 } }
 };
 
 /*---------------------------------------------------------------------------*/
@@ -70,8 +81,11 @@ static void sol_transform(const struct s_vary *vary,
 
     q_as_axisangle(e, v, &a);
 
-    glTranslatef(p[0], p[1], p[2]);
-    glRotatef(V_DEG(a), v[0], v[1], v[2]);
+    if (!(p[0] == 0 && p[1] == 0 && p[2] == 0))
+        glTranslatef(p[0], p[1], p[2]);
+
+    if (!((v[0] == 0 && v[1] == 0 && v[2] == 0) || a == 0))
+        glRotatef(V_DEG(a), v[0], v[1], v[2]);
 
     /* Apply the shadow transform to the texture matrix. */
 
@@ -132,11 +146,6 @@ static void sol_transform(const struct s_vary *vary,
 static void sol_load_bill(struct s_draw *draw)
 {
     static const GLfloat data[] = {
-        0.0f,  0.0f, -1.0f, -1.0f,
-        1.0f,  0.0f,  1.0f, -1.0f,
-        0.0f,  1.0f, -1.0f,  1.0f,
-        1.0f,  1.0f,  1.0f,  1.0f,
-
         0.0f,  0.0f, -0.5f,  0.0f,
         1.0f,  0.0f,  0.5f,  0.0f,
         0.0f,  1.0f, -0.5f,  1.0f,
@@ -161,18 +170,12 @@ static void sol_free_bill(struct s_draw *draw)
     glDeleteBuffers_(1, &draw->bill);
 }
 
-static void sol_draw_bill(GLfloat w, GLfloat h, GLboolean edge)
+static void sol_draw_bill(GLboolean edge)
 {
-    glPushMatrix();
-    {
-        glScalef(0.5f * w, 0.5f * h, 1.0f);
-
-        if (edge)
-            glTranslatef(0.0f, 0.5f, 0.0f);
-
+    if (edge)
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    }
-    glPopMatrix();
+    else
+        glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -189,12 +192,17 @@ static void sol_bill_enable(const struct s_draw *draw)
 
     glBindBuffer_(GL_ARRAY_BUFFER, draw->bill);
 
+    glDisableClientState(GL_NORMAL_ARRAY);
+
     glTexCoordPointer(2, GL_FLOAT, s * 4, (GLvoid *) (    0));
     glVertexPointer  (2, GL_FLOAT, s * 4, (GLvoid *) (s * 2));
 }
 
 static void sol_bill_disable(void)
 {
+    glEnableClientState(GL_NORMAL_ARRAY);
+
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -266,29 +274,34 @@ void sol_color_mtrl(struct s_rend *rend, int enable)
     if (enable)
     {
         glEnable(GL_COLOR_MATERIAL);
+
+        rend->color_mtrl = 1;
     }
     else
     {
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
         glDisable(GL_COLOR_MATERIAL);
 
-        /*
-         * Well-behaved code sets color to white before disabling
-         * color material.  This keeps material tracking synchronized
-         * with GL state.
-         */
+        /* Keep material tracking synchronized with GL state. */
 
-        rend->mtrl.d = 0xffffffff;
-        rend->mtrl.a = 0xffffffff;
+        rend->curr_mtrl.d = 0xffffffff;
+        rend->curr_mtrl.a = 0xffffffff;
+
+        rend->color_mtrl = 0;
     }
 }
 
 void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 {
     const struct b_mtrl *mp_base =  mp_draw->base;
-    const struct d_mtrl *mq_draw = &rend->mtrl;
+    const struct d_mtrl *mq_draw = &rend->curr_mtrl;
+    const struct b_mtrl *mq_base =  mq_draw->base;
 
-    int mp_flags = rend->shadow ? mp_base->fl : mp_base->fl & ~M_SHADOWED;
-    int mq_flags = rend->flags;
+    /* Mask ignored flags. */
+
+    int mp_flags = mp_base->fl & ~rend->skip_flags;
+    int mq_flags = rend->curr_flags;
 
 #if DEBUG_MTRL
     assert_mtrl(&rend->mtrl);
@@ -301,9 +314,9 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 
     /* Set material properties. */
 
-    if (mp_draw->d != mq_draw->d)
+    if (mp_draw->d != mq_draw->d && !rend->color_mtrl)
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mp_base->d);
-    if (mp_draw->a != mq_draw->a)
+    if (mp_draw->a != mq_draw->a && !rend->color_mtrl)
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mp_base->a);
     if (mp_draw->s != mq_draw->s)
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mp_base->s);
@@ -382,32 +395,78 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
             glDisable(GL_POLYGON_OFFSET_FILL);
     }
 
-    rend->mtrl = *mp_draw;
-    rend->flags = mp_flags;
+    /* Semi-opacity. */
+
+    if ((mp_flags & M_SEMI_OPAQUE) ^ (mq_flags & M_SEMI_OPAQUE))
+    {
+        if (mp_flags & M_SEMI_OPAQUE)
+        {
+            glAlphaFunc(GL_GEQUAL, mp_base->semi_opaque);
+
+            glEnable(GL_ALPHA_TEST);
+            glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+        }
+        else
+        {
+            glDisable(GL_ALPHA_TEST);
+            glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+        }
+    }
+
+    if (((mp_flags & mq_flags) & M_SEMI_OPAQUE) && (mp_base->semi_opaque !=
+                                                    mq_base->semi_opaque))
+    {
+        /* Update alpha function. */
+
+        glAlphaFunc(GL_GEQUAL, mp_base->semi_opaque);
+    }
+
+    /* Alpha test. */
+
+    /*
+     * Kind of/sort of works with semi-opacity, as long as geometry is
+     * rendered in two passes and the semi-opacity flag is masked
+     * during the second pass.
+     */
+
+    if ((mp_flags & M_SEMI_OPAQUE) == 0 && ((mp_flags & M_ALPHA_TEST) ^
+                                            (mq_flags & M_ALPHA_TEST)))
+    {
+        if (mp_flags & M_ALPHA_TEST)
+        {
+            glAlphaFunc(GL_GEQUAL, mp_base->alpha_test);
+
+            glEnable(GL_ALPHA_TEST);
+        }
+        else
+            glDisable(GL_ALPHA_TEST);
+    }
+
+    if (((mp_flags & mq_flags) & M_ALPHA_TEST) && (mp_base->alpha_test !=
+                                                   mq_base->alpha_test))
+    {
+        /* Update alpha function. */
+
+        glAlphaFunc(GL_GEQUAL, mp_base->alpha_test);
+    }
+
+    rend->curr_mtrl  = *mp_draw;
+    rend->curr_flags =  mp_flags;
 }
 
 static GLuint sol_find_texture(const char *name)
 {
-    char png[MAXSTR];
-    char jpg[MAXSTR];
-
+    char path[MAXSTR];
     GLuint o;
+    int i;
 
-    /* Prefer a lossless copy of the texture over a lossy compression. */
+    for (i = 0; i < ARRAYSIZE(tex_paths); i++)
+    {
+        CONCAT_PATH(path, &tex_paths[i], name);
 
-    strncpy(png, name, PATHMAX); strcat(png, ".png");
-    strncpy(jpg, name, PATHMAX); strcat(jpg, ".jpg");
-
-    /* Check for a PNG. */
-
-    if ((o = make_image_from_file(png)))
-        return o;
-
-    /* Check for a JPG. */
-
-    if ((o = make_image_from_file(jpg)))
-        return o;
-
+        if ((o = make_image_from_file(path, IF_MIPMAP)))
+            return o;
+    }
     return 0;
 }
 
@@ -458,10 +517,12 @@ void sol_free_mtrl(struct d_mtrl *mp)
 
 static int sol_test_mtrl(const struct d_mtrl *mp, int p)
 {
-    /* Test whether the material flags exclude f0 and include f1. */
+    /* Test whether the material flags match inclusion rules. */
 
-    return ((mp->base->fl & pass_in[p]) == pass_in[p] &&
-            (mp->base->fl & pass_ex[p]) == 0);
+    return (((mp->base->fl & passes[p][0].in) == passes[p][0].in &&
+             (mp->base->fl & passes[p][0].ex) == 0) ||
+            ((mp->base->fl & passes[p][1].in) == passes[p][1].in &&
+             (mp->base->fl & passes[p][1].ex) == 0));
 }
 
 /*---------------------------------------------------------------------------*/
@@ -798,10 +859,13 @@ void sol_free_draw(struct s_draw *draw)
 
     sol_free_bill(draw);
 
-    for (i = 0; i < draw->bc; i++)
-        sol_free_body(draw->bv + i);
     for (i = 0; i < draw->mc; i++)
         sol_free_mtrl(draw->mv + i);
+    for (i = 0; i < draw->bc; i++)
+        sol_free_body(draw->bv + i);
+
+    free(draw->mv);
+    free(draw->bv);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -813,7 +877,6 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
     /* Draw all meshes of all bodies matching the given material flags. */
 
     for (bi = 0; bi < draw->bc; ++bi)
-
         if (draw->bv[bi].pass[p])
         {
             glPushMatrix();
@@ -827,39 +890,23 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
 
 void sol_draw_enable(struct s_rend *rend)
 {
+    memset(rend, 0, sizeof (*rend));
+
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
-
-    if (tex_env_stage(TEX_STAGE_SHADOW))
-    {
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        if (tex_env_stage(TEX_STAGE_CLIP))
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        tex_env_stage(TEX_STAGE_TEXTURE);
-    }
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    rend->mtrl = default_draw_mtrl;
-    rend->flags = default_base_mtrl.fl;
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    rend->curr_mtrl  = default_draw_mtrl;
+    rend->curr_flags = default_base_mtrl.fl;
 }
 
 void sol_draw_disable(struct s_rend *rend)
 {
     sol_apply_mtrl(&default_draw_mtrl, rend);
 
-    if (tex_env_stage(TEX_STAGE_SHADOW))
-    {
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        if (tex_env_stage(TEX_STAGE_CLIP))
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        tex_env_stage(TEX_STAGE_TEXTURE);
-    }
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
 }
@@ -868,22 +915,26 @@ void sol_draw_disable(struct s_rend *rend)
 
 void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test)
 {
-    /* Pass use-shadow-flag to material tracking. */
+    /* Disable shadowed material setup if not requested. */
 
-    rend->shadow = draw->shadowed;
+    rend->skip_flags |= (draw->shadowed ? 0 : M_SHADOWED);
 
     /* Render all opaque geometry, decals last. */
 
-    sol_draw_all(draw, rend, 0);
-    sol_draw_all(draw, rend, 1);
+    sol_draw_all(draw, rend, PASS_OPAQUE);
+    sol_draw_all(draw, rend, PASS_OPAQUE_DECAL);
+
+    /* Disable semi-opaque material setup.  */
+
+    rend->skip_flags |= M_SEMI_OPAQUE;
 
     /* Render all transparent geometry, decals first. */
 
     if (!test) glDisable(GL_DEPTH_TEST);
     if (!mask) glDepthMask(GL_FALSE);
     {
-        sol_draw_all(draw, rend, 2);
-        sol_draw_all(draw, rend, 3);
+        sol_draw_all(draw, rend, PASS_TRANSPARENT_DECAL);
+        sol_draw_all(draw, rend, PASS_TRANSPARENT);
     }
     if (!mask) glDepthMask(GL_TRUE);
     if (!test) glEnable(GL_DEPTH_TEST);
@@ -893,25 +944,25 @@ void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test
     glBindBuffer_(GL_ARRAY_BUFFER,         0);
     glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    rend->shadow = 0;
+    rend->skip_flags = 0;
 }
 
 void sol_refl(const struct s_draw *draw, struct s_rend *rend)
 {
-    /* Pass use-shadow-flag to material tracking. */
+    /* Disable shadowed material setup if not requested. */
 
-    rend->shadow = draw->shadowed;
+    rend->skip_flags |= (draw->shadowed ? 0 : M_SHADOWED);
 
     /* Render all reflective geometry. */
 
-    sol_draw_all(draw, rend, 4);
+    sol_draw_all(draw, rend, PASS_REFLECTIVE);
 
     /* Revert the buffer object state. */
 
     glBindBuffer_(GL_ARRAY_BUFFER,         0);
     glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    rend->shadow = 0;
+    rend->skip_flags = 0;
 }
 
 void sol_back(const struct s_draw *draw,
@@ -951,6 +1002,8 @@ void sol_back(const struct s_draw *draw,
                     float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
                     float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
 
+                    sol_apply_mtrl(draw->mv + rp->mi, rend);
+
                     glPushMatrix();
                     {
                         if (ry) glRotatef(ry, 0.0f, 1.0f, 0.0f);
@@ -970,12 +1023,7 @@ void sol_back(const struct s_draw *draw,
 
                         glScalef(w, h, 1.0f);
 
-                        sol_apply_mtrl(draw->mv + rp->mi, rend);
-
-                        if (rp->fl & B_EDGE)
-                            glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
-                        else
-                            glDrawArrays(GL_TRIANGLE_STRIP, 8, 4);
+                        sol_draw_bill(rp->fl & B_EDGE);
                     }
                     glPopMatrix();
                 }
@@ -1023,7 +1071,9 @@ void sol_bill(const struct s_draw *draw,
                 if (fabsf(ry) > 0.0f) glRotatef(ry, 0.0f, 1.0f, 0.0f);
                 if (fabsf(rz) > 0.0f) glRotatef(rz, 0.0f, 0.0f, 1.0f);
 
-                sol_draw_bill(w, h, GL_FALSE);
+                glScalef(w, h, 1.0f);
+
+                sol_draw_bill(GL_FALSE);
             }
             glPopMatrix();
         }
@@ -1031,7 +1081,7 @@ void sol_bill(const struct s_draw *draw,
     sol_bill_disable();
 }
 
-void sol_fade(const struct s_draw *draw, float k)
+void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
 {
     if (k > 0.0f)
     {
@@ -1049,7 +1099,9 @@ void sol_fade(const struct s_draw *draw, float k)
             glColor4f(0.0f, 0.0f, 0.0f, k);
 
             sol_bill_enable(draw);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+            sol_apply_mtrl(&default_draw_mtrl, rend);
+            glScalef(2.0f, 2.0f, 1.0f);
+            sol_draw_bill(GL_FALSE);
             sol_bill_disable();
 
             glColor4f(1.0f, 1.0f, 1.0f, 1.0f);

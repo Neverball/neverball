@@ -79,43 +79,44 @@ static Array items;
 
 static int play_id = 0;
 
-#define TITLE_PLAY 1
-#define TITLE_HELP 2
-#define TITLE_DEMO 3
-#define TITLE_CONF 4
-#define TITLE_EXIT 5
-
-static int title_action(int i)
+enum
 {
-    static const char keyphrase[] = "CHEAT";
+    TITLE_PLAY = GUI_LAST,
+    TITLE_HELP,
+    TITLE_DEMO,
+    TITLE_CONF,
+    TITLE_EXIT
+};
+
+static int title_action(int tok, int val)
+{
+    static const char keyphrase[] = "xyzzy";
     static char queue[sizeof (keyphrase)] = "";
 
     size_t queue_len = strlen(queue);
 
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case TITLE_PLAY:
         if (strlen(config_get_s(CONFIG_PLAYER)) == 0)
             return goto_name(&st_set, &st_title, 0);
         else
             return goto_state(&st_set);
-
         break;
 
     case TITLE_HELP: return goto_state(&st_help); break;
     case TITLE_DEMO: return goto_state(&st_demo); break;
     case TITLE_CONF: return goto_state(&st_conf); break;
     case TITLE_EXIT: return 0;                    break;
-
-    default:
+    case GUI_CHAR:
 
         /* Let the queue fill up. */
 
         if (queue_len < sizeof (queue) - 1)
         {
-            queue[queue_len]     = (char) i;
+            queue[queue_len]     = (char) val;
             queue[queue_len + 1] = '\0';
         }
 
@@ -128,7 +129,7 @@ static int title_action(int i)
             for (k = 1; k < queue_len; k++)
                 queue[k - 1] = queue[k];
 
-            queue[queue_len - 1] = (char) i;
+            queue[queue_len - 1] = (char) val;
         }
 
         if (strcmp(queue, keyphrase) == 0)
@@ -157,7 +158,7 @@ static int title_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, "Neverball", GUI_LRG, GUI_ALL, 0, 0);
+        gui_label(id, "Neverball", GUI_LRG, 0, 0);
 
         gui_space(id);
 
@@ -169,15 +170,19 @@ static int title_gui(void)
             {
                 if (config_cheat())
                     play_id = gui_start(kd, sgettext("menu^Cheat"),
-                                        GUI_MED, TITLE_PLAY, 1);
+                                        GUI_MED, TITLE_PLAY, 0);
                 else
                     play_id = gui_start(kd, sgettext("menu^Play"),
-                                        GUI_MED, TITLE_PLAY, 1);
+                                        GUI_MED, TITLE_PLAY, 0);
 
                 gui_state(kd, sgettext("menu^Replay"),  GUI_MED, TITLE_DEMO, 0);
                 gui_state(kd, sgettext("menu^Help"),    GUI_MED, TITLE_HELP, 0);
                 gui_state(kd, sgettext("menu^Options"), GUI_MED, TITLE_CONF, 0);
                 gui_state(kd, sgettext("menu^Exit"),    GUI_MED, TITLE_EXIT, 0);
+
+                /* Hilight the start button. */
+
+                gui_set_hilite(play_id, 1);
             }
 
             gui_filler(jd);
@@ -298,17 +303,20 @@ static void title_timer(int id, float dt)
 
 static int title_keybd(int c, int d)
 {
-    if (d && (c & 0xFF80) == 0 && c > ' ')
-        return title_action(c);
-    return 1;
+    if (d)
+        return title_action(GUI_CHAR, c);
+    else
+        return 1;
 }
 
 static int title_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return title_action(gui_token(gui_active()));
+            return title_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
             return 0;
     }

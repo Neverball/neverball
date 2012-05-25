@@ -32,24 +32,25 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define FAIL_NEXT 1
-#define FAIL_SAME 2
-#define FAIL_SAVE 3
-#define FAIL_BACK 4
-#define FAIL_OVER 5
+enum
+{
+    FAIL_NEXT = GUI_LAST,
+    FAIL_SAME,
+    FAIL_SAVE,
+    FAIL_BACK,
+    FAIL_OVER
+};
 
 static int resume;
 static int status;
 
-static int fail_action(int i)
+static int fail_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case FAIL_BACK:
-        /* Fall through. */
-
     case FAIL_OVER:
         progress_stop();
         return goto_state(&st_exit);
@@ -85,7 +86,7 @@ static int fail_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, label, GUI_LRG, GUI_ALL, gui_gry, gui_red);
+        kd = gui_label(id, label, GUI_LRG, gui_gry, gui_red);
 
         gui_space(id);
 
@@ -162,10 +163,12 @@ static int fail_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return fail_action(gui_token(gui_active()));
+            return fail_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return fail_action(FAIL_BACK);
+            return fail_action(FAIL_BACK, 0);
     }
     return 1;
 }

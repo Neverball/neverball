@@ -84,6 +84,8 @@
 
 /* Material type flags */
 
+#define M_ALPHA_TEST  (1 << 10)
+#define M_SEMI_OPAQUE (1 <<  9)
 #define M_REFLECTIVE  (1 <<  8)
 #define M_TRANSPARENT (1 <<  7)
 #define M_SHADOWED    (1 <<  6)
@@ -130,6 +132,12 @@ struct b_mtrl
     int fl;                                    /* material flags             */
 
     char   f[PATHMAX];                         /* texture file name          */
+
+    /* M_SEMI_OPAQUE */
+    float semi_opaque;                         /* alpha threshold            */
+
+    /* M_ALPHA_TEST */
+    float alpha_test;                          /* reference value            */
 };
 
 struct b_vert
@@ -331,6 +339,23 @@ int  sol_load_base(struct s_base *, const char *);
 int  sol_load_meta(struct s_base *, const char *);
 void sol_free_base(struct s_base *);
 int  sol_stor_base(struct s_base *, const char *);
+
+/*---------------------------------------------------------------------------*/
+
+struct path
+{
+    char prefix[16];
+    char suffix[8];
+};
+
+#define CONCAT_PATH(dst, path, name) do { \
+    SAFECPY((dst), (path)->prefix);       \
+    SAFECAT((dst), (name));               \
+    SAFECAT((dst), (path)->suffix);       \
+} while (0)
+
+extern const struct path tex_paths[4];
+extern const struct path mtrl_paths[2];
 
 /*---------------------------------------------------------------------------*/
 

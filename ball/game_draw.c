@@ -60,48 +60,46 @@ static void game_draw_items(struct s_rend *rend,
 {
     int hi;
 
+    int type = ITEM_NONE;
+    int value = 0;
+
     sol_color_mtrl(rend, 1);
     {
         for (hi = 0; hi < vary->hc; hi++)
-            if (vary->hv[hi].t == ITEM_COIN && vary->hv[hi].n > 0)
+        {
+            struct v_item *hp = &vary->hv[hi];
+
+            /* Skip picked up items. */
+
+            if (hp->t == ITEM_NONE)
+                continue;
+
+            /* Lazily update color. */
+
+            if (hp->t != type || hp->n != value)
             {
-                glPushMatrix();
-                {
-                    glTranslatef(vary->hv[hi].p[0],
-                                 vary->hv[hi].p[1],
-                                 vary->hv[hi].p[2]);
-                    item_draw(rend, &vary->hv[hi], bill_M, t);
-                }
-                glPopMatrix();
+                float c[4];
+
+                item_color(hp, c);
+
+                glColor4f(c[0], c[1], c[2], c[3]);
+
+                type = hp->t;
+                value = hp->n;
             }
 
-        for (hi = 0; hi < vary->hc; hi++)
-            if (vary->hv[hi].t == ITEM_SHRINK)
-            {
-                glPushMatrix();
-                {
-                    glTranslatef(vary->hv[hi].p[0],
-                                 vary->hv[hi].p[1],
-                                 vary->hv[hi].p[2]);
-                    item_draw(rend, &vary->hv[hi], bill_M, t);
-                }
-                glPopMatrix();
-            }
+            /* Draw model. */
 
-        for (hi = 0; hi < vary->hc; hi++)
-            if (vary->hv[hi].t == ITEM_GROW)
+            glPushMatrix();
             {
-                glPushMatrix();
-                {
-                    glTranslatef(vary->hv[hi].p[0],
-                                 vary->hv[hi].p[1],
-                                 vary->hv[hi].p[2]);
-                    item_draw(rend, &vary->hv[hi], bill_M, t);
-                }
-                glPopMatrix();
+                glTranslatef(hp->p[0],
+                             hp->p[1],
+                             hp->p[2]);
+                item_draw(rend, hp, bill_M, t);
             }
+            glPopMatrix();
+        }
     }
-
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     sol_color_mtrl(rend, 0);
 }
@@ -272,10 +270,10 @@ static void game_draw_back(struct s_rend *rend,
 
         if (config_get_d(CONFIG_BACKGROUND))
         {
-            back_draw(rend, 0);
+            back_draw(rend);
             sol_back(&gd->back.draw, rend, 0, FAR_DIST, t);
         }
-        else back_draw(rend, 0);
+        else back_draw(rend);
     }
     glPopMatrix();
 }
@@ -372,13 +370,13 @@ static void game_draw_fore(struct s_rend *rend,
             break;
 
         case POSE_NONE:
-            /* Draw the floor. */
-
-            sol_draw(draw, rend, 0, 1);
-
             /* Draw the coins. */
 
             game_draw_items(rend, draw->vary, M, t);
+
+            /* Draw the floor. */
+
+            sol_draw(draw, rend, 0, 1);
 
             /* Draw the ball. */
 
@@ -524,7 +522,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
                     glPopMatrix();
                     glFrontFace(GL_CCW);
 
-                    glStencilFunc(GL_ALWAYS, 0, 0xFFFFFFF);
+                    glStencilFunc(GL_ALWAYS, 0, 0xFFFFFFFF);
                 }
                 glDisable(GL_STENCIL_TEST);
             }
@@ -557,7 +555,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         /* Draw the fade overlay. */
 
-        sol_fade(&gd->draw, gd->fade_k);
+        sol_fade(&gd->draw, &rend, gd->fade_k);
 
         sol_draw_disable(&rend);
         game_shadow_conf(pose, 0);

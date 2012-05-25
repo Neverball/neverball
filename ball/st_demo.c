@@ -24,7 +24,6 @@
 #include "util.h"
 #include "common.h"
 #include "demo_dir.h"
-#include "speed.h"
 
 #include "game_common.h"
 #include "game_server.h"
@@ -49,11 +48,16 @@ static int last_viewed = 0;
 
 /*---------------------------------------------------------------------------*/
 
-static int demo_action(int i)
+enum
+{
+    DEMO_SELECT = GUI_LAST
+};
+
+static int demo_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case GUI_BACK:
         return goto_state(&st_title);
@@ -68,14 +72,10 @@ static int demo_action(int i)
         return goto_state(&st_demo);
         break;
 
-    case GUI_NULL:
-        return 1;
-        break;
-
-    default:
-        if (progress_replay(DIR_ITEM_GET(items, i)->path))
+    case DEMO_SELECT:
+        if (progress_replay(DIR_ITEM_GET(items, val)->path))
         {
-            last_viewed = i;
+            last_viewed = val;
             demo_play_goto(0);
             return goto_state(&st_demo_play);
         }
@@ -120,10 +120,11 @@ static int gui_demo_thumbs(int id)
                             gui_space(ld);
 
                             thumb->shot = gui_image(ld, " ", w / 6, h / 6);
-                            thumb->name = gui_state(ld, " ", GUI_SML, j, 0);
+                            thumb->name = gui_label(ld, " ", GUI_SML,
+                                                    gui_wht, gui_wht);
 
                             gui_set_trunc(thumb->name, TRUNC_TAIL);
-                            gui_set_state(ld, j, 0);
+                            gui_set_state(ld, DEMO_SELECT, j);
                         }
                     }
                     else
@@ -186,10 +187,9 @@ static int gui_demo_status(int id)
             {
                 gui_filler(ld);
 
-                time_id   = gui_clock(ld, 35000,  GUI_SML, GUI_NE);
-                coin_id   = gui_count(ld, 100,    GUI_SML, 0);
-                status_id = gui_label(ld, status, GUI_SML, GUI_SE,
-                                      gui_red, gui_red);
+                time_id   = gui_clock(ld, 35000,  GUI_SML);
+                coin_id   = gui_count(ld, 100,    GUI_SML);
+                status_id = gui_label(ld, status, GUI_SML, gui_red, gui_red);
 
                 gui_filler(ld);
             }
@@ -198,40 +198,47 @@ static int gui_demo_status(int id)
             {
                 gui_filler(ld);
 
-                gui_label(ld, _("Time"),   GUI_SML, GUI_NW, gui_wht, gui_wht);
-                gui_label(ld, _("Coins"),  GUI_SML, 0,      gui_wht, gui_wht);
-                gui_label(ld, _("Status"), GUI_SML, GUI_SW, gui_wht, gui_wht);
+                gui_label(ld, _("Time"),   GUI_SML, gui_wht, gui_wht);
+                gui_label(ld, _("Coins"),  GUI_SML, gui_wht, gui_wht);
+                gui_label(ld, _("Status"), GUI_SML, gui_wht, gui_wht);
 
                 gui_filler(ld);
             }
+
+            gui_set_rect(kd, GUI_ALL);
         }
 
         gui_space(jd);
 
-        if ((kd = gui_vstack(jd)))
+        if ((kd = gui_hstack(jd)))
         {
-            gui_filler(kd);
+            if ((ld = gui_vstack(kd)))
+            {
+                gui_filler(ld);
 
-            name_id   = gui_label(kd, " ", GUI_SML, GUI_NE, 0, 0);
-            player_id = gui_label(kd, " ", GUI_SML, 0,      0, 0);
-            date_id   = gui_label(kd, date_to_str(time(NULL)),
-                                  GUI_SML, GUI_SE, 0, 0);
+                name_id   = gui_label(ld, " ", GUI_SML, 0, 0);
+                player_id = gui_label(ld, " ", GUI_SML, 0, 0);
+                date_id   = gui_label(ld, date_to_str(time(NULL)),
+                                      GUI_SML, 0, 0);
 
-            gui_filler(kd);
+                gui_filler(ld);
 
-            gui_set_trunc(name_id,   TRUNC_TAIL);
-            gui_set_trunc(player_id, TRUNC_TAIL);
-        }
+                gui_set_trunc(name_id,   TRUNC_TAIL);
+                gui_set_trunc(player_id, TRUNC_TAIL);
+            }
 
-        if ((kd = gui_vstack(jd)))
-        {
-            gui_filler(kd);
+            if ((ld = gui_vstack(kd)))
+            {
+                gui_filler(ld);
 
-            gui_label(kd, _("Replay"), GUI_SML, GUI_NW, gui_wht, gui_wht);
-            gui_label(kd, _("Player"), GUI_SML, 0,      gui_wht, gui_wht);
-            gui_label(kd, _("Date"),   GUI_SML, GUI_SW, gui_wht, gui_wht);
+                gui_label(ld, _("Replay"), GUI_SML, gui_wht, gui_wht);
+                gui_label(ld, _("Player"), GUI_SML, gui_wht, gui_wht);
+                gui_label(ld, _("Date"),   GUI_SML, gui_wht, gui_wht);
 
-            gui_filler(kd);
+                gui_filler(ld);
+            }
+
+            gui_set_rect(kd, GUI_ALL);
         }
 
         gui_filler(jd);
@@ -279,7 +286,7 @@ static int demo_gui(void)
         if ((jd = gui_hstack(id)))
         {
 
-            gui_label(jd, _("Select Replay"), GUI_SML, GUI_ALL, 0,0);
+            gui_label(jd, _("Select Replay"), GUI_SML, 0,0);
             gui_filler(jd);
             gui_navig(jd, first > 0, first + DEMO_STEP < total);
         }
@@ -295,7 +302,7 @@ static int demo_gui(void)
     }
     else
     {
-        gui_label(id, _("No Replays"), GUI_MED, GUI_ALL, 0, 0);
+        gui_label(id, _("No Replays"), GUI_MED, 0, 0);
         gui_layout(id, 0, 0);
     }
 
@@ -350,29 +357,35 @@ static void demo_timer(int id, float dt)
 static void demo_point(int id, int x, int y, int dx, int dy)
 {
     int jd = shared_point_basic(id, x, y);
-    int i  = gui_token(jd);
 
-    if (jd && i >= 0 && !GUI_ISMSK(i))
-        gui_demo_update_status(i);
+    if (jd && gui_token(jd) == DEMO_SELECT)
+        gui_demo_update_status(gui_value(jd));
 }
 
 static void demo_stick(int id, int a, float v, int bump)
 {
     int jd = shared_stick_basic(id, a, v, bump);
-    int i  = gui_token(jd);
 
-    if (jd && i >= 0 && !GUI_ISMSK(i))
-        gui_demo_update_status(i);
+    if (jd && gui_token(jd) == DEMO_SELECT)
+        gui_demo_update_status(gui_value(jd));
 }
 
 static int demo_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_action(total ? gui_token(gui_active()) : GUI_BACK);
+        {
+            if (total)
+                return demo_action(gui_token(active), gui_value(active));
+            else
+                return demo_action(GUI_BACK, 0);
+        }
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return demo_action(GUI_BACK);
+            return demo_action(GUI_BACK, 0);
     }
     return 1;
 }
@@ -399,7 +412,7 @@ static int demo_play_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, _("Replay"), GUI_LRG, GUI_ALL, gui_blu, gui_grn);
+        gui_label(id, _("Replay"), GUI_LRG, gui_blu, gui_grn);
         gui_layout(id, 0, 0);
         gui_pulse(id, 1.2f);
     }
@@ -539,17 +552,20 @@ static int demo_play_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-#define DEMO_KEEP      0
-#define DEMO_DEL       1
-#define DEMO_QUIT      2
-#define DEMO_REPLAY    3
-#define DEMO_CONTINUE  4
+enum
+{
+    DEMO_KEEP = GUI_LAST,
+    DEMO_DEL,
+    DEMO_QUIT,
+    DEMO_REPLAY,
+    DEMO_CONTINUE
+};
 
-static int demo_end_action(int i)
+static int demo_end_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
-    switch (i)
+    switch (tok)
     {
     case DEMO_DEL:
         demo_paused = 0;
@@ -578,31 +594,24 @@ static int demo_end_gui(void)
     if ((id = gui_vstack(0)))
     {
         if (demo_paused)
-            kd = gui_label(id, _("Replay Paused"), GUI_LRG, GUI_ALL,
-                           gui_gry, gui_red);
+            kd = gui_label(id, _("Replay Paused"), GUI_LRG, gui_gry, gui_red);
         else
-            kd = gui_label(id, _("Replay Ends"),   GUI_LRG, GUI_ALL,
-                           gui_gry, gui_red);
+            kd = gui_label(id, _("Replay Ends"),   GUI_LRG, gui_gry, gui_red);
 
         if ((jd = gui_harray(id)))
         {
-            int start_id = 0;
-
             if (standalone)
             {
-                start_id = gui_start(jd, _("Quit"), GUI_SML, DEMO_QUIT, 1);
+                gui_start(jd, _("Quit"), GUI_SML, DEMO_QUIT, 0);
             }
             else
             {
-                start_id = gui_start(jd, _("Keep"), GUI_SML, DEMO_KEEP, 1);
+                gui_start(jd, _("Keep"), GUI_SML, DEMO_KEEP, 0);
                 gui_state(jd, _("Delete"), GUI_SML, DEMO_DEL, 0);
             }
 
             if (demo_paused)
-            {
-                gui_start(jd, _("Continue"), GUI_SML, DEMO_CONTINUE, 1);
-                gui_toggle(start_id);
-            }
+                gui_start(jd, _("Continue"), GUI_SML, DEMO_CONTINUE, 0);
             else
                 gui_state(jd, _("Repeat"),   GUI_SML, DEMO_REPLAY,   0);
         }
@@ -635,7 +644,7 @@ static int demo_end_keybd(int c, int d)
     if (d)
     {
         if (demo_paused && config_tst_d(CONFIG_KEY_PAUSE, c))
-            return demo_end_action(DEMO_CONTINUE);
+            return demo_end_action(DEMO_CONTINUE, 0);
     }
     return 1;
 }
@@ -644,15 +653,17 @@ static int demo_end_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_end_action(gui_token(gui_active()));
+            return demo_end_action(gui_token(active), gui_value(active));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
         {
             if (demo_paused)
-                return demo_end_action(DEMO_CONTINUE);
+                return demo_end_action(DEMO_CONTINUE, 0);
             else
-                return demo_end_action(standalone ? DEMO_QUIT : DEMO_KEEP);
+                return demo_end_action(standalone ? DEMO_QUIT : DEMO_KEEP, 0);
         }
     }
     return 1;
@@ -660,10 +671,10 @@ static int demo_end_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int demo_del_action(int i)
+static int demo_del_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
-    demo_replay_stop(i == DEMO_DEL);
+    demo_replay_stop(tok == DEMO_DEL);
     return goto_state(&st_demo);
 }
 
@@ -673,11 +684,11 @@ static int demo_del_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, _("Delete Replay?"), GUI_MED, GUI_ALL, gui_red, gui_red);
+        kd = gui_label(id, _("Delete Replay?"), GUI_MED, gui_red, gui_red);
 
         if ((jd = gui_harray(id)))
         {
-            gui_start(jd, _("No"),  GUI_SML, DEMO_KEEP, 1);
+            gui_start(jd, _("No"),  GUI_SML, DEMO_KEEP, 0);
             gui_state(jd, _("Yes"), GUI_SML, DEMO_DEL,  0);
         }
 
@@ -699,10 +710,12 @@ static int demo_del_buttn(int b, int d)
 {
     if (d)
     {
+        int active = gui_active();
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return demo_del_action(gui_token(gui_active()));
+            return demo_del_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return demo_del_action(DEMO_KEEP);
+            return demo_del_action(DEMO_KEEP, 0);
     }
     return 1;
 }
@@ -715,12 +728,12 @@ static int demo_compat_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, _("Warning!"), GUI_MED, GUI_ALL, 0, 0);
+        gui_label(id, _("Warning!"), GUI_MED, 0, 0);
         gui_space(id);
         gui_multi(id, _("The current replay was recorded with a\\"
                         "different (or unknown) version of this level.\\"
                         "Be prepared to encounter visual errors.\\"),
-                  GUI_SML, GUI_ALL, gui_wht, gui_wht);
+                  GUI_SML, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);
     }

@@ -63,6 +63,9 @@ static float v_sol(const float p[3], const float v[3], float r)
          Yet, the potential division by zero below seems fine.
     if (fabsf(a) < SMALL) return LARGE;
 */
+    /* Testing for equality against zero is acceptable. */
+
+    if (a == 0.0f) return LARGE;
 
     if      (d < 0.0f) return LARGE;
     else if (d > 0.0f)
@@ -213,7 +216,7 @@ static float v_side(float Q[3],
     float wn = v_dot(w, n);
     float t  = LARGE;
 
-    if (vn - wn <= 0.0f)
+    if (vn - wn < 0.0f)
     {
         float on = v_dot(o, n);
         float pn = v_dot(p, n);

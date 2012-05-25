@@ -34,8 +34,10 @@
 
 /* Math. */
 
-#define MIN(x, y) ((x) < (y) ? (x) : (y))
-#define MAX(x, y) ((x) > (y) ? (x) : (y))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+
+#define CLAMP(a, b, c) MIN(MAX(a, b), c)
 
 #define SIGN(n) ((n) < 0 ? -1 : ((n) ? +1 : 0))
 #define ROUND(f) ((int) ((f) + 0.5f * SIGN(f)))

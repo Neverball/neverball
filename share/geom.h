@@ -26,7 +26,7 @@ void swch_draw(struct s_rend *, int, int);
 void flag_draw(struct s_rend *);
 void mark_draw(struct s_rend *);
 void vect_draw(struct s_rend *);
-void back_draw(struct s_rend *, float);
+void back_draw(struct s_rend *);
 
 /*---------------------------------------------------------------------------*/
 

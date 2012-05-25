@@ -26,10 +26,21 @@
 #define GUI_MED  1
 #define GUI_LRG  2
 
-#define GUI_NW   1
-#define GUI_SW   2
-#define GUI_NE   4
-#define GUI_SE   8
+/* Sides */
+
+#define GUI_N    1
+#define GUI_E    2
+#define GUI_S    4
+#define GUI_W    8
+
+/* Corners */
+
+#define GUI_NW   (GUI_N | GUI_W)
+#define GUI_SW   (GUI_S | GUI_W)
+#define GUI_NE   (GUI_N | GUI_E)
+#define GUI_SE   (GUI_S | GUI_E)
+
+/* Multiple corners */
 
 #define GUI_LFT  (GUI_NW  | GUI_SW)
 #define GUI_RGT  (GUI_NE  | GUI_SE)
@@ -68,6 +79,8 @@ void gui_set_color(int, const GLubyte *, const GLubyte *);
 void gui_set_trunc(int, enum trunc);
 void gui_set_fill(int);
 int  gui_set_state(int, int, int);
+void gui_set_hilite(int, int);
+void gui_set_rect(int, int);
 
 /*---------------------------------------------------------------------------*/
 
@@ -80,10 +93,10 @@ int  gui_filler(int);
 int  gui_image(int, const char *, int, int);
 int  gui_start(int, const char *, int, int, int);
 int  gui_state(int, const char *, int, int, int);
-int  gui_label(int, const char *, int, int, const GLubyte *, const GLubyte *);
-int  gui_multi(int, const char *, int, int, const GLubyte *, const GLubyte *);
-int  gui_count(int, int, int, int);
-int  gui_clock(int, int, int, int);
+int  gui_label(int, const char *, int, const GLubyte *, const GLubyte *);
+int  gui_multi(int, const char *, int, const GLubyte *, const GLubyte *);
+int  gui_count(int, int, int);
+int  gui_clock(int, int, int);
 int  gui_space(int);
 
 /*---------------------------------------------------------------------------*/

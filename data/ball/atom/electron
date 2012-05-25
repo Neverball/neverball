@@ -1,7 +1,7 @@
-1.0 1.0 1.0 1.0
-0.2 0.2 0.2 1.0
-0.0 0.0 0.0 1.0
-0.0 0.0 0.0 1.0
-0.0
-clamp-s clamp-t transparent two-sided 
-45.0
+diffuse   1.0 1.0 1.0 1.0
+ambient   0.2 0.2 0.2 1.0
+specular  0.0 0.0 0.0 1.0
+emissive  0.0 0.0 0.0 1.0
+shininess 0.0
+flags     clamp-s clamp-t transparent two-sided 
+angle     45.0
