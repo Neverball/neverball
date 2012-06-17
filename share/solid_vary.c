@@ -222,7 +222,7 @@ int sol_lerp_cmd(struct s_lerp *fp, struct cmd_state *cs, const union cmd *cmd)
         break;
 
     case CMD_MOVE_TIME:
-        fp->mv[cmd->movepath.mi][CURR].t = cmd->movetime.t;
+        fp->mv[cmd->movetime.mi][CURR].t = cmd->movetime.t;
         break;
 
     case CMD_BALL_RADIUS:
