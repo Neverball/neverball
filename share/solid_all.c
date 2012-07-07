@@ -248,6 +248,9 @@ static void sol_path_flag(struct s_vary *vary, int pi, int f)
 {
     union cmd cmd;
 
+    if (pi < 0 || pi >= vary->pc)
+        return;
+
     if (vary->pv[pi].f == f)
         return;
 
@@ -264,6 +267,9 @@ static void sol_path_loop(struct s_vary *vary, int p0, int f)
     int pi = p0;
     int pj = p0;
     int pk;
+
+    if (p0 < 0 || p0 >= vary->pc)
+        return;
 
     do  /* Tortoise and hare cycle traverser. */
     {
