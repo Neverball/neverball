@@ -142,7 +142,7 @@ msgstr ""
 "  -h, --help                informazioni sull'uso.\n"
 "  -v, --version             informazioni sulla versione.\n"
 "  -d, --data <dir>          utilizza 'dir' come diretory principale del gioco.\n"
-"  -r, --replay <archivo>    riproduci un raplay da 'file'.\n"
+"  -r, --replay <archivo>    riproduci un replay da 'file'.\n"
 
 #: ball/main.c:263
 #, c-format
@@ -162,7 +162,7 @@ msgstr "Sfida"
 #: ball/progress.c:393
 #: ball/st_help.c:239
 msgid "Normal Mode"
-msgstr "Modalità Win-and-unlock"
+msgstr "Modalità Sblocco"
 
 #: ball/progress.c:393
 msgid "Normal"
