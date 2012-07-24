@@ -1,4 +1,3 @@
-
 // entity 0
 {
 "classname" "worldspawn"
@@ -2617,134 +2616,134 @@
 // entity 3
 {
 "classname" "light"
-"origin" "96 353 16"
+"origin" "96 352 16"
 "light" "1"
 }
 // entity 4
 {
 "classname" "light"
 "light" "1"
-"origin" "96 929 -112"
+"origin" "96 928 -112"
 }
 // entity 5
 {
 "classname" "light"
-"origin" "32 993 -112"
+"origin" "32 992 -112"
 "light" "1"
 }
 // entity 6
 {
 "classname" "light"
 "light" "1"
-"origin" "672 929 -240"
+"origin" "672 928 -240"
 }
 // entity 7
 {
 "classname" "light"
-"origin" "672 993 -240"
+"origin" "672 992 -240"
 "light" "1"
 }
 // entity 8
 {
 "classname" "light"
 "light" "1"
-"origin" "736 929 -240"
+"origin" "736 928 -240"
 }
 // entity 9
 {
 "classname" "light"
-"origin" "672 353 -368"
+"origin" "672 352 -368"
 "light" "1"
 }
 // entity 10
 {
 "classname" "light"
 "light" "1"
-"origin" "736 353 -368"
+"origin" "736 352 -368"
 }
 // entity 11
 {
 "classname" "light"
-"origin" "736 289 -368"
+"origin" "736 288 -368"
 "light" "1"
 }
 // entity 12
 {
 "classname" "light"
 "light" "1"
-"origin" "672 289 -368"
+"origin" "672 288 -368"
 }
 // entity 13
 {
 "classname" "light"
-"origin" "96 353 -496"
+"origin" "96 352 -496"
 "light" "5"
 }
 // entity 14
 {
 "classname" "light"
 "light" "5"
-"origin" "96 929 -624"
+"origin" "96 928 -624"
 }
 // entity 15
 {
 "classname" "light"
-"origin" "32 993 -624"
+"origin" "32 992 -624"
 "light" "1"
 }
 // entity 16
 {
 "classname" "light"
 "light" "5"
-"origin" "672 929 -752"
+"origin" "672 928 -752"
 }
 // entity 17
 {
 "classname" "light"
-"origin" "736 929 -752"
+"origin" "736 928 -752"
 "light" "1"
 }
 // entity 18
 {
 "classname" "light"
 "light" "1"
-"origin" "672 993 -752"
+"origin" "672 992 -752"
 }
 // entity 19
 {
 "classname" "light"
-"origin" "672 353 -880"
+"origin" "672 352 -880"
 "light" "5"
 }
 // entity 20
 {
 "classname" "light"
 "light" "1"
-"origin" "736 353 -880"
+"origin" "736 352 -880"
 }
 // entity 21
 {
 "classname" "light"
-"origin" "736 289 -880"
+"origin" "736 288 -880"
 "light" "1"
 }
 // entity 22
 {
 "classname" "light"
 "light" "1"
-"origin" "672 289 -880"
+"origin" "672 288 -880"
 }
 // entity 23
 {
 "classname" "light"
-"origin" "96 353 -1008"
+"origin" "96 352 -1008"
 "light" "5"
 }
 // entity 24
 {
 "classname" "light"
 "light" "5"
-"origin" "32 289 -1008"
+"origin" "32 288 -1008"
 }
 // entity 25
 {
