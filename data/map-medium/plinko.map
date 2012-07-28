@@ -1498,12 +1498,12 @@
 {
 "classname" "light"
 "light" "10"
-"origin" "416 400 16"
+"origin" "420 400 16"
 }
 // entity 75
 {
 "classname" "light"
-"origin" "416 336 16"
+"origin" "420 336 16"
 "light" "10"
 }
 // entity 76
@@ -1521,14 +1521,14 @@
 // entity 78
 {
 "classname" "light"
-"origin" "-232 400 16"
+"origin" "-228 400 16"
 "light" "10"
 }
 // entity 79
 {
 "classname" "light"
 "light" "10"
-"origin" "-232 336 16"
+"origin" "-228 336 16"
 }
 // entity 80
 {
