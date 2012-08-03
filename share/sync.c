@@ -16,15 +16,7 @@
 #include "glext.h"
 
 /*---------------------------------------------------------------------------*/
-#if defined(_WIN32)
-
-void sync_init(void)
-{
-    return;
-}
-
-/*---------------------------------------------------------------------------*/
-#elif defined(__APPLE__)
+#if defined(__APPLE__)
 
 #include <OpenGL/OpenGL.h>
 
@@ -87,6 +79,12 @@ void sync_init(void)
     info.info.x11.unlock_func();
 }
 
-#endif
-
 /*---------------------------------------------------------------------------*/
+#else
+
+void sync_init(void)
+{
+    return;
+}
+
+#endif
