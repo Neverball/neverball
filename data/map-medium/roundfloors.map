@@ -6383,7 +6383,7 @@
 // entity 2
 {
 "classname" "light"
-"origin" "-32 32 16"
+"origin" "-34 34 16"
 "light" "1"
 }
 // entity 3
@@ -6395,7 +6395,7 @@
 // entity 4
 {
 "classname" "light"
-"origin" "32 32 16"
+"origin" "34 34 16"
 "light" "1"
 }
 // entity 5
@@ -6407,7 +6407,7 @@
 // entity 6
 {
 "classname" "light"
-"origin" "32 -32 16"
+"origin" "34 -34 16"
 "light" "1"
 }
 // entity 7
@@ -6419,7 +6419,7 @@
 // entity 8
 {
 "classname" "light"
-"origin" "-32 -32 16"
+"origin" "-34 -34 16"
 "light" "1"
 }
 // entity 9
@@ -6437,7 +6437,7 @@
 // entity 11
 {
 "classname" "light"
-"origin" "-64 48 -144"
+"origin" "-56.625 56.625 -144"
 "light" "5"
 }
 // entity 12
@@ -6449,7 +6449,7 @@
 // entity 13
 {
 "classname" "light"
-"origin" "56 56 -144"
+"origin" "56.625 56.625 -144"
 "light" "5"
 }
 // entity 14
@@ -6461,7 +6461,7 @@
 // entity 15
 {
 "classname" "light"
-"origin" "56 -56 -144"
+"origin" "56.625 -56.625 -144"
 "light" "5"
 }
 // entity 16
@@ -6473,7 +6473,7 @@
 // entity 17
 {
 "classname" "light"
-"origin" "-104 -104 -144"
+"origin" "-101.875 -101.875 -144"
 "light" "1"
 }
 // entity 18
@@ -6485,7 +6485,7 @@
 // entity 19
 {
 "classname" "light"
-"origin" "-88 72 -80"
+"origin" "-79.25 79.25 -80"
 "light" "1"
 }
 // entity 20
@@ -6497,13 +6497,13 @@
 // entity 21
 {
 "classname" "light"
-"origin" "80 80 -80"
+"origin" "79.25 79.25 -80"
 "light" "1"
 }
 // entity 22
 {
 "classname" "light"
-"origin" "80 -80 -80"
+"origin" "79.25 -79.25 -80"
 "light" "1"
 }
 // entity 23
@@ -6515,13 +6515,13 @@
 // entity 24
 {
 "classname" "light"
-"origin" "-80 -80 -80"
+"origin" "-79.25 -79.25 -80"
 "light" "1"
 }
 // entity 25
 {
 "classname" "light"
-"origin" "-40 20 -80"
+"origin" "-41.625 24 -80"
 "light" "5"
 }
 // entity 26
@@ -6533,13 +6533,13 @@
 // entity 27
 {
 "classname" "light"
-"origin" "40 20 -80"
+"origin" "41.625 24 -80"
 "light" "5"
 }
 // entity 28
 {
 "classname" "light"
-"origin" "40 -20 -80"
+"origin" "41.625 -24 -80"
 "light" "5"
 }
 // entity 29
@@ -6551,19 +6551,19 @@
 // entity 30
 {
 "classname" "light"
-"origin" "-40 -20 -80"
+"origin" "-41.625 -24 -80"
 "light" "5"
 }
 // entity 31
 {
 "classname" "light"
-"origin" "-136 -56 -144"
+"origin" "-133 -55.125 -144"
 "light" "1"
 }
 // entity 32
 {
 "classname" "light"
-"origin" "-104 104 -144"
+"origin" "-101.875 101.875 -144"
 "light" "1"
 }
 // entity 33
@@ -6575,7 +6575,7 @@
 // entity 34
 {
 "classname" "light"
-"origin" "104 104 -144"
+"origin" "101.875 101.875 -144"
 "light" "1"
 }
 // entity 35
@@ -6587,7 +6587,7 @@
 // entity 36
 {
 "classname" "light"
-"origin" "104 -104 -144"
+"origin" "101.875 -101.875 -144"
 "light" "1"
 }
 // entity 37
@@ -6599,7 +6599,7 @@
 // entity 38
 {
 "classname" "light"
-"origin" "56 -56 -32"
+"origin" "56.625 -56.625 -32"
 "light" "1"
 }
 // entity 39
@@ -6623,19 +6623,19 @@
 // entity 42
 {
 "classname" "light"
-"origin" "56 56 -32"
+"origin" "56.625 56.625 -32"
 "light" "1"
 }
 // entity 43
 {
 "classname" "light"
-"origin" "-64 48 -32"
+"origin" "-56.625 56.625 -32"
 "light" "1"
 }
 // entity 44
 {
 "classname" "light"
-"origin" "-56 -56 -32"
+"origin" "-56.625 -56.625 -32"
 "light" "1"
 }
 // entity 45
@@ -6647,7 +6647,7 @@
 // entity 46
 {
 "classname" "light"
-"origin" "-56 -56 -144"
+"origin" "-56.625 -56.625 -144"
 "light" "5"
 }
 // entity 47
@@ -6695,43 +6695,43 @@
 // entity 54
 {
 "classname" "light"
-"origin" "128 -56 -144"
+"origin" "133 -55.125 -144"
 "light" "1"
 }
 // entity 55
 {
 "classname" "light"
-"origin" "64 -128 -144"
+"origin" "55.125 -133 -144"
 "light" "1"
 }
 // entity 56
 {
 "classname" "light"
-"origin" "-64 -128 -144"
+"origin" "-55.125 -133 -144"
 "light" "1"
 }
 // entity 57
 {
 "classname" "light"
-"origin" "128 56 -144"
+"origin" "133 55.125 -144"
 "light" "1"
 }
 // entity 58
 {
 "classname" "light"
-"origin" "-64 128 -144"
+"origin" "-55.125 133 -144"
 "light" "1"
 }
 // entity 59
 {
 "classname" "light"
-"origin" "-136 48 -144"
+"origin" "-133 55.125 -144"
 "light" "1"
 }
 // entity 60
 {
 "classname" "light"
-"origin" "64 128 -144"
+"origin" "55.125 133 -144"
 "light" "1"
 }
 // entity 61
@@ -6773,7 +6773,7 @@
 // entity 67
 {
 "classname" "light"
-"origin" "-20 -16 -80"
+"origin" "-17.375 -10 -80"
 "light" "10"
 }
 // entity 68
@@ -6785,6 +6785,6 @@
 // entity 69
 {
 "classname" "light"
-"origin" "20 -16 -80"
+"origin" "17.375 -10 -80"
 "light" "10"
 }
