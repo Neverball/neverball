@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2011-06-28 02:46+0300\n"
-"PO-Revision-Date: 2012-06-04 19:16+0100\n"
+"PO-Revision-Date: 2012-08-27 15:52+0100\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -665,7 +665,7 @@ msgstr "<<"
 #: share/gui.c:236
 #, c-format
 msgid "Font '%s' doesn't exist, trying default font.\n"
-msgstr "Il font '%s' non esiste. provare con il carattere predefinito.\n"
+msgstr "Il font '%s' non esiste, provare con il carattere predefinito.\n"
 
 #: share/gui.c:292
 #, c-format
@@ -750,7 +750,7 @@ msgstr "Home"
 
 #: share/keynames.c:49
 msgid "End"
-msgstr "End"
+msgstr "Fine"
 
 #: share/keynames.c:50
 msgid "Page Up"
@@ -1737,6 +1737,21 @@ msgstr "mtrl/words"
 
 msgid "item/coin/coin"
 msgstr "item/coin/euro_coin"
+
+msgid "A day in my garden!"
+msgstr "Un giorno nel mio giardino!"
+
+msgid "Get Money, follow the box!"
+msgstr "Segui le scatole"
+
+msgid "Unlock timers and reach the goal!"
+msgstr "Sblocca gli interruttori!"
+
+msgid "Soccer!\\Reach enough coins,\than score the goal!"
+msgstr "Raggiungi le monete, segna un goal!"
+
+msgid "They want to kill you!"
+msgstr "Loro vogliono ucciderti!"
 
 #~ msgid "Geometry"
 #~ msgstr "Geometria"
