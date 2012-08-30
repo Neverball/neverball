@@ -1753,6 +1753,9 @@ msgstr "Raggiungi le monete, segna un goal!"
 msgid "They want to kill you!"
 msgstr "Loro vogliono ucciderti!"
 
+msgid "Just a lap from you to the goal!"
+msgstr "Ti manca solo un giro!"
+
 #~ msgid "Geometry"
 #~ msgstr "Geometria"
 
