@@ -776,7 +776,7 @@ static int game_update_state(int bt)
 
     /* Test for fall-out. */
 
-    if (bt && vary.uv[0].p[1] < vary.base->vv[0].p[1])
+    if (bt && (vary.base->vc == 0 || vary.uv[0].p[1] < vary.base->vv[0].p[1]))
     {
         audio_play(AUD_FALL, 1.0f);
         return GAME_FALL;
