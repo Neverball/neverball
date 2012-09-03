@@ -19,9 +19,9 @@ below for details.
     ESC    Pause and resume / Exit
     SHIFT  Fast camera rotation
 
-    F1     Chase Camera (default)
-    F2     Lazy Camera
-    F3     Manual Camera
+    1      Chase Camera (default)
+    2      Lazy Camera
+    3      Manual Camera
 
     F6     Hide HUD
     F8     Toggle nice mode
@@ -159,9 +159,9 @@ values follow.
 
         This key inverts the vertical mouse axis if set to 1.
 
-    key_camera_1      f1
-    key_camera_2      f2
-    key_camera_3      f3
+    key_camera_1      1
+    key_camera_2      2
+    key_camera_3      3
     key_camera_l      d
     key_camera_r      s
     key_camera_toggle e

@@ -80,7 +80,7 @@ static void keybd_camera(int c)
     if (config_tst_d(CONFIG_KEY_CAMERA_TOGGLE, c))
         toggle_camera();
 
-    if (config_cheat() && c == SDLK_F4)
+    if (config_cheat() && c == SDLK_4)
         set_camera(config_tst_d(CONFIG_CAMERA, VIEW_TEST1) ?
                    VIEW_TEST2 : VIEW_TEST1);
 }

@@ -167,9 +167,9 @@ static struct
     { &CONFIG_JOYSTICK_CAMERA_TOGGLE, "joystick_camera_toggle", 12 },
     { &CONFIG_JOYSTICK_ROTATE_FAST,   "joystick_rotate_fast",   13 },
 
-    { &CONFIG_KEY_CAMERA_1,      "key_camera_1",      SDLK_F1 },
-    { &CONFIG_KEY_CAMERA_2,      "key_camera_2",      SDLK_F2 },
-    { &CONFIG_KEY_CAMERA_3,      "key_camera_3",      SDLK_F3 },
+    { &CONFIG_KEY_CAMERA_1,      "key_camera_1",      SDLK_1 },
+    { &CONFIG_KEY_CAMERA_2,      "key_camera_2",      SDLK_2 },
+    { &CONFIG_KEY_CAMERA_3,      "key_camera_3",      SDLK_3 },
     { &CONFIG_KEY_CAMERA_TOGGLE, "key_camera_toggle", SDLK_e },
     { &CONFIG_KEY_CAMERA_R,      "key_camera_r",      SDLK_d },
     { &CONFIG_KEY_CAMERA_L,      "key_camera_l",      SDLK_s },
