@@ -190,7 +190,7 @@ static int page_controls(int id)
     const char *k_camera1 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_1));
     const char *k_camera2 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_2));
     const char *k_camera3 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_3));
-    const char *k_shot    = pretty_keyname((int) SDLK_F10);
+    const char *k_shot    = pretty_keyname((int) KEY_SCREENSHOT);
 
     int jd, kd;
 

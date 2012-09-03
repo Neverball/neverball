@@ -266,8 +266,6 @@ values follow.
         want to  test the  performance of the  game on  your hardware,
         disable it.
 
-        Press F8 to toggle this flag in-game.
-
     ball_file ball/basic-ball/basic-ball
 
         This key determines the model used for the ball.
@@ -300,10 +298,9 @@ values follow.
 
     screenshot 0
 
-        This key holds  the current screen-shot index.   The number is
-        incremented every time a new screen-shot is taken (by pressing
-        F10 or in  uniform mode) and it is appended  to the image file
-        name.
+        This key  holds the current  screenshot index.  The  number is
+        incremented every time a  new screenshot is taken (by pressing
+        F12) and it is appended to the image file name.
 
     stereo 0
 

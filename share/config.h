@@ -15,14 +15,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-/*
- * This file contains:
- * 1- some global config methods (stored in a config file)
- * 2- some SDL based functions
- *
- * If you're looking for constants, you should also see base_config.h
- */
-
 #include <SDL.h>
 
 #include "base_config.h"
@@ -139,5 +131,14 @@ void config_clr_cheat(void);
 int config_screenshot(void);
 
 /*---------------------------------------------------------------------------*/
+
+/* Names for some hard-coded keys. */
+
+#define KEY_LOOKAROUND SDLK_F5
+#define KEY_WIREFRAME  SDLK_F6
+#define KEY_LEVELSHOTS SDLK_F8
+#define KEY_FPS        SDLK_F9
+#define KEY_POSE       SDLK_F10
+#define KEY_SCREENSHOT SDLK_F12
 
 #endif

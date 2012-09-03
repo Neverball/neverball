@@ -112,7 +112,7 @@ static int level_click(int b, int d)
 
 static int level_keybd(int c, int d)
 {
-    if (d && c == SDLK_F12)
+    if (d && c == KEY_POSE)
         return goto_state(&st_poser);
     return 1;
 }

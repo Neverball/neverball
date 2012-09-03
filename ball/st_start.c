@@ -295,7 +295,7 @@ static int start_keybd(int c, int d)
             set_cheat();
             return goto_state(&st_start);
         }
-        else if (c == SDLK_F12 && config_cheat())
+        else if (c == KEY_LEVELSHOTS && config_cheat())
         {
             char *dir = concat_string("Screenshots/shot-",
                                       set_id(curr_set()), NULL);

@@ -463,10 +463,10 @@ static int play_loop_keybd(int c, int d)
             fast_rotate = 0;
     }
 
-    if (d && c == SDLK_F12 && config_cheat())
+    if (d && c == KEY_LOOKAROUND && config_cheat())
         return goto_state(&st_look);
 
-    if (d && c == SDLK_F6)
+    if (d && c == KEY_POSE)
         show_hud = !show_hud;
 
     if (d && c == SDLK_c && config_cheat())
@@ -542,7 +542,7 @@ static void look_point(int id, int x, int y, int dx, int dy)
 
 static int look_keybd(int c, int d)
 {
-    if (d && c == SDLK_F12)
+    if (d && c == KEY_LOOKAROUND)
         return goto_state(&st_play_loop);
 
     return 1;

@@ -133,11 +133,15 @@ static int loop(void)
 
             else switch (c)
             {
-            case SDLK_F10: shot_prep();               break;
-            case SDLK_F9:  config_tgl_d(CONFIG_FPS);  break;
-            case SDLK_F8:  config_tgl_d(CONFIG_NICE); break;
-            case SDLK_F7:  toggle_wire();             break;
-
+            case KEY_SCREENSHOT:
+                shot_prep();
+                break;
+            case KEY_FPS:
+                config_tgl_d(CONFIG_FPS);
+                break;
+            case KEY_WIREFRAME:
+                toggle_wire();
+                break;
             case SDLK_RETURN:
                 d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
                 break;

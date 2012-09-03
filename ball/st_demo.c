@@ -529,7 +529,7 @@ static int demo_play_keybd(int c, int d)
             return goto_state(&st_demo_end);
         }
 
-        if (c == SDLK_F6)
+        if (c == KEY_POSE)
             show_hud = !show_hud;
     }
     return 1;

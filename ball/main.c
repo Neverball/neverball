@@ -105,11 +105,13 @@ static int handle_key_dn(SDL_Event *e)
 
     else switch (c)
     {
-    case SDLK_F10:   shot_prep();               break;
-    case SDLK_F9:    config_tgl_d(CONFIG_FPS);  break;
-    case SDLK_F8:    config_tgl_d(CONFIG_NICE); break;
-
-    case SDLK_F7:
+    case KEY_SCREENSHOT:
+        shot_prep();
+        break;
+    case KEY_FPS:
+        config_tgl_d(CONFIG_FPS);
+        break;
+    case KEY_WIREFRAME:
         if (config_cheat())
             toggle_wire();
         break;

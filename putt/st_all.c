@@ -796,7 +796,7 @@ static int next_keybd(int c, int d)
 {
     if (d)
     {
-        if (c == SDLK_F12)
+        if (c == KEY_POSE)
             return goto_state(&st_poser);
         if (config_tst_d(CONFIG_KEY_PAUSE, c))
             return goto_pause(&st_over, 0);
