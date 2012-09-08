@@ -164,6 +164,38 @@ void sol_free_vary(struct s_vary *fp)
 
 /*---------------------------------------------------------------------------*/
 
+int sol_vary_cmd(struct s_vary *fp, struct cmd_state *cs, const union cmd *cmd)
+{
+    struct v_ball *up;
+    int rc = 0;
+
+    switch (cmd->type)
+    {
+    case CMD_MAKE_BALL:
+        if ((up = realloc(fp->uv, sizeof (*up) * (fp->uc + 1))))
+        {
+            fp->uv = up;
+            cs->curr_ball = fp->uc;
+            fp->uc++;
+            rc = 1;
+        }
+        break;
+
+    case CMD_CLEAR_BALLS:
+        free(fp->uv);
+        fp->uv = NULL;
+        fp->uc = 0;
+        break;
+
+    default:
+        break;
+    }
+
+    return rc;
+}
+
+/*---------------------------------------------------------------------------*/
+
 #define CURR 0
 #define PREV 1
 
@@ -172,57 +204,64 @@ int sol_lerp_cmd(struct s_lerp *fp, struct cmd_state *cs, const union cmd *cmd)
     struct l_ball (*uv)[2];
     struct l_ball *up;
 
-    int i, rc = 0;
+    int idx, mi, i;
+    int rc = 0;
 
     switch (cmd->type)
     {
     case CMD_MAKE_BALL:
         if ((uv = realloc(fp->uv, sizeof (*uv) * (fp->uc + 1))))
         {
-            struct v_ball *up;
-
             fp->uv = uv;
-            fp->uc++;
 
-            /* Sync the main structure. */
+            /* Update varying state. */
 
-            if ((up = realloc(fp->vary->uv, sizeof (*up) * fp->uc)))
+            if (sol_vary_cmd(fp->vary, cs, cmd))
             {
-                fp->vary->uv = up;
-                fp->vary->uc = fp->uc;
-
-                cs->curr_ball = fp->uc - 1;
+                fp->uc++;
                 rc = 1;
             }
         }
         break;
 
-    case CMD_BODY_PATH:
-    case CMD_BODY_TIME:
-        /* Backward compatibility: update linear mover only. */
-
-        if (cmd->type == CMD_BODY_PATH)
-        {
-            int mi;
-
-            if ((mi = fp->vary->bv[cmd->bodypath.bi].mi) >= 0)
-                fp->mv[mi][CURR].pi = cmd->bodypath.pi;
-        }
-        if (cmd->type == CMD_BODY_TIME)
-        {
-            int mi;
-
-            if ((mi = fp->vary->bv[cmd->bodytime.bi].mi) >= 0)
-                fp->mv[mi][CURR].t = cmd->bodytime.t;
-        }
-        break;
-
     case CMD_MOVE_PATH:
-        fp->mv[cmd->movepath.mi][CURR].pi = cmd->movepath.pi;
+        if ((mi = cmd->movepath.mi) >= 0 && mi < fp->mc)
+        {
+            /* Be extra paranoid. */
+
+            if ((idx = cmd->movepath.pi) >= 0 && idx < fp->vary->base->pc)
+                fp->mv[mi][CURR].pi = idx;
+        }
         break;
 
     case CMD_MOVE_TIME:
-        fp->mv[cmd->movetime.mi][CURR].t = cmd->movetime.t;
+        if ((mi = cmd->movetime.mi) >= 0 && mi < fp->mc)
+        {
+            fp->mv[mi][CURR].t = cmd->movetime.t;
+        }
+        break;
+
+    case CMD_BODY_PATH:
+        /* Backward compatibility: update linear mover only. */
+
+        if ((idx = cmd->bodypath.bi) >= 0 && idx < fp->vary->bc &&
+            (mi = fp->vary->bv[idx].mi) >= 0)
+        {
+            /* Be EXTRA paranoid. */
+
+            if ((idx = cmd->bodypath.pi) >= 0 && idx < fp->vary->base->pc)
+                fp->mv[mi][CURR].pi = idx;
+        }
+        break;
+
+    case CMD_BODY_TIME:
+        /* Same as CMD_BODY_PATH. */
+
+        if ((idx = cmd->bodytime.bi) >= 0 && idx < fp->vary->bc &&
+            (mi = fp->vary->bv[idx].mi) >= 0)
+        {
+            fp->mv[mi][CURR].pi = cmd->bodytime.t;
+        }
         break;
 
     case CMD_BALL_RADIUS:
@@ -234,9 +273,8 @@ int sol_lerp_cmd(struct s_lerp *fp, struct cmd_state *cs, const union cmd *cmd)
         fp->uv = NULL;
         fp->uc = 0;
 
-        free(fp->vary->uv);
-        fp->vary->uv = NULL;
-        fp->vary->uc = 0;
+        sol_vary_cmd(fp->vary, cs, cmd);
+
         break;
 
     case CMD_BALL_POSITION:

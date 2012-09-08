@@ -74,6 +74,8 @@ static void game_run_cmd(const union cmd *cmd)
         float v[3];
         float dt;
 
+        int idx;
+
         if (cs.next_update)
         {
             game_lerp_copy(&gl);
@@ -125,28 +127,24 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_MAKE_BALL:
-            /* Allocate a new ball and mark it as the current ball. */
-
-            if (sol_lerp_cmd(&gl.lerp, &cs, cmd))
-                cs.curr_ball = gl.lerp.uc - 1;
-
+            sol_lerp_cmd(&gl.lerp, &cs, cmd);
             break;
 
         case CMD_MAKE_ITEM:
-            /* Allocate and initialise a new item. */
+            /* Allocate and initialize a new item. */
 
             if ((hp = realloc(vary->hv, sizeof (*hp) * (vary->hc + 1))))
             {
-                struct v_item h;
-
-                v_cpy(h.p, cmd->mkitem.p);
-
-                h.t = cmd->mkitem.t;
-                h.n = cmd->mkitem.n;
-
                 vary->hv = hp;
-                vary->hv[vary->hc] = h;
+                hp = &vary->hv[vary->hc];
                 vary->hc++;
+
+                memset(hp, 0, sizeof (*hp));
+
+                v_cpy(hp->p, cmd->mkitem.p);
+
+                hp->t = cmd->mkitem.t;
+                hp->n = cmd->mkitem.n;
             }
 
             break;
@@ -154,15 +152,15 @@ static void game_run_cmd(const union cmd *cmd)
         case CMD_PICK_ITEM:
             /* Set up particle effects and discard the item. */
 
-            assert(cmd->pkitem.hi < vary->hc);
+            if ((idx = cmd->pkitem.hi) >= 0 && idx < vary->hc)
+            {
+                hp = &vary->hv[idx];
 
-            hp = vary->hv + cmd->pkitem.hi;
+                item_color(hp, v);
+                part_burst(hp->p, v);
 
-            item_color(hp, v);
-            part_burst(hp->p, v);
-
-            hp->t = ITEM_NONE;
-
+                hp->t = ITEM_NONE;
+            }
             break;
 
         case CMD_TILT_ANGLES:
@@ -214,10 +212,10 @@ static void game_run_cmd(const union cmd *cmd)
             gd.jump_e = 1;
             break;
 
-        case CMD_BODY_PATH:
-        case CMD_BODY_TIME:
         case CMD_MOVE_PATH:
         case CMD_MOVE_TIME:
+        case CMD_BODY_PATH:
+        case CMD_BODY_TIME:
             sol_lerp_cmd(&gl.lerp, &cs, cmd);
             break;
 
@@ -235,15 +233,18 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_SWCH_ENTER:
-            vary->xv[cmd->swchenter.xi].e = 1;
+            if ((idx = cmd->swchenter.xi) >= 0 && idx < vary->xc)
+                vary->xv[idx].e = 1;
             break;
 
         case CMD_SWCH_TOGGLE:
-            vary->xv[cmd->swchtoggle.xi].f = !vary->xv[cmd->swchtoggle.xi].f;
+            if ((idx = cmd->swchtoggle.xi) >= 0 && idx < vary->xc)
+                vary->xv[idx].f = !vary->xv[idx].f;
             break;
 
         case CMD_SWCH_EXIT:
-            vary->xv[cmd->swchexit.xi].e = 0;
+            if ((idx = cmd->swchexit.xi) >= 0 && idx < vary->xc)
+                vary->xv[idx].e = 0;
             break;
 
         case CMD_UPDATES_PER_SECOND:
@@ -255,11 +256,8 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_CLEAR_ITEMS:
-            if (vary->hv)
-            {
-                free(vary->hv);
-                vary->hv = NULL;
-            }
+            free(vary->hv);
+            vary->hv = NULL;
             vary->hc = 0;
             break;
 
@@ -294,11 +292,13 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_CURRENT_BALL:
-            cs.curr_ball = cmd->currball.ui;
+            if ((idx = cmd->currball.ui) >= 0 && idx < vary->uc)
+                cs.curr_ball = idx;
             break;
 
         case CMD_PATH_FLAG:
-            vary->pv[cmd->pathflag.pi].f = cmd->pathflag.f;
+            if ((idx = cmd->pathflag.pi) >= 0 && idx < vary->pc)
+                vary->pv[idx].f = cmd->pathflag.f;
             break;
 
         case CMD_STEP_SIMULATION:
@@ -310,7 +310,7 @@ static void game_run_cmd(const union cmd *cmd)
              * Note a version (mis-)match between the loaded map and what
              * the server has. (This doesn't actually load a map.)
              */
-            game_compat_map = version.x == cmd->map.version.x;
+            game_compat_map = (version.x == cmd->map.version.x);
             break;
 
         case CMD_TILT_AXES:
