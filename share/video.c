@@ -216,6 +216,7 @@ static int grabbed = 0;
 
 void video_set_grab(int w)
 {
+#ifdef NDEBUG
     if (w)
     {
         SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
@@ -228,14 +229,17 @@ void video_set_grab(int w)
 
     SDL_WM_GrabInput(SDL_GRAB_ON);
     SDL_ShowCursor(SDL_DISABLE);
+#endif
 
     grabbed = 1;
 }
 
 void video_clr_grab(void)
 {
+#ifdef NDEBUG
     SDL_WM_GrabInput(SDL_GRAB_OFF);
     SDL_ShowCursor(SDL_ENABLE);
+#endif
     grabbed = 0;
 }
 
