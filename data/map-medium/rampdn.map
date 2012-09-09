@@ -12,7 +12,7 @@
 "goal" "40"
 "time" "9000"
 "version" "1"
-"message" "You'll need to exert some control over your\view here.  Press F3 to stop the auto-rotation.\Use the mouse buttons to rotate it manually.\Press F1 to return to the auto-rotating view.\"
+"message" "You'll need to exert some control over your\view here.  Press 3 to stop the auto-rotation.\Use the mouse buttons to rotate it manually.\Press 1 to return to the auto-rotating view.\"
 // brush 0
 {
 ( 336 128 -16 ) ( 0 128 -16 ) ( 0 0 -16 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
