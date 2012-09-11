@@ -23,10 +23,9 @@ below for details.
     2      Lazy Camera
     3      Manual Camera
 
-    F6     Hide HUD
-    F8     Toggle nice mode
     F9     Toggle frame counter
-    F10    Snap a screenshot
+    F10    Hide HUD
+    F12    Snap a screenshot
 
     UP     Tilt the floor forward
     DOWN   Tilt the floor backward
@@ -49,7 +48,7 @@ each set.  The player starts out  at the first level and must complete
 each level in turn to unlock subsequent levels until all levels in the
 set are completed.   A level is "unlocked" by  completing the previous
 level in the  progression or if it  is the first level of  the set.  A
-level  is "completed"  by collecing  the required  amount of  coins to
+level  is "completed"  by collecting the required  amount of  coins to
 activate the goal in the level and reaching said goal.
 
 There are  two game  modes or  ways of  progressing through  levels in
@@ -112,7 +111,7 @@ levels are also stored.  To achieve  a set score, the player must play
 through all levels of a set in challenge mode.
 
 The total set time will  include time spent during both successful and
-unsuccesful level  plays, thus  time-outs and fall-outs  count against
+unsuccessful level plays, thus  time-outs and fall-outs  count against
 the total time.
 
 The  total  set  coin  count  will include  only  coins  collected  on
@@ -162,8 +161,8 @@ values follow.
     key_camera_1      1
     key_camera_2      2
     key_camera_3      3
-    key_camera_l      d
-    key_camera_r      s
+    key_camera_l      s
+    key_camera_r      d
     key_camera_toggle e
 
         These keys  define keyboard mappings for  camera selection and
@@ -189,7 +188,7 @@ values follow.
     mouse_camera_3      none
     mouse_camera_l      left
     mouse_camera_r      right
-    mouse_camera_toggle none
+    mouse_camera_toggle middle
 
         These   keys  match   the  respective   key_camera_*  options.
         Accepted values are: "none" (for no mapping), "left", "right",
@@ -294,7 +293,7 @@ values follow.
 
         This  key enables  print-out (to  standard output)  of running
         statistics of  the current  frame time  and frames-per-second,
-        averaged over 250 milliseconds.  Most people won't need this.
+        averaged over one second.  Most people won't need this.
 
     screenshot 0
 
@@ -320,7 +319,7 @@ values follow.
         supported by  your hardware.  (The best  value eventually gets
         written to the config file.)
 
-    mipmap 0
+    mipmap 1
     aniso  0
 
         These  keys  control  mipmapping  and  anisotropic  filtering,
@@ -330,7 +329,7 @@ values follow.
         video  memory, and  are referenced  when a  texture is  viewed
         from  a distance.   This  improves video  cache coherence  and
         eliminates texture  "swimming" on detailed textures  when seen
-        from afar.  To enable mipmapping, set mipmap to 1.
+        from afar.  To disable mipmapping, set mipmap to 0.
 
         Related to mipmapping is anisotropic filtering.  "Anisotropic"
         basically means "not the same from all directions".  It refers
