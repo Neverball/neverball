@@ -56,19 +56,19 @@ extern const GLubyte gui_grn[4];
 extern const GLubyte gui_blk[4];
 extern const GLubyte gui_gry[4];
 
-/*---------------------------------------------------------------------------*/
-
-void gui_init(void);
-void gui_free(void);
-
-/*---------------------------------------------------------------------------*/
-
 enum trunc
 {
     TRUNC_NONE,
     TRUNC_HEAD,
     TRUNC_TAIL
 };
+
+/*---------------------------------------------------------------------------*/
+
+void gui_init(void);
+void gui_free(void);
+
+/*---------------------------------------------------------------------------*/
 
 void gui_set_label(int, const char *);
 void gui_set_image(int, const char *);
