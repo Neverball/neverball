@@ -2,8 +2,8 @@
 {
 "classname" "worldspawn"
 "coin_hs" "42 30"
-"time_hs" "1400 4500"
-"goal_hs" "2600 4500"
+"time_hs" "1400 3000"
+"goal_hs" "2600 4000"
 "goal" "20"
 "time" "4500"
 "song" "bgm/track1.ogg"

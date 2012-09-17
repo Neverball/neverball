@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"coin_hs" "100 50"
+"coin_hs" "100 75"
 "time_hs" "1000 2000"
 "goal_hs" "3000 4000"
 "goal" "50"
