@@ -9,7 +9,7 @@
 "song" "bgm/track1.ogg"
 "time" "4500"
 "goal" "30"
-"time_hs" "350 2000"
+"time_hs" "350 1000"
 "coin_hs" "52 40"
 "goal_hs" "1200 2500"
 "message" "Yes, the ball does fit quite nicely through\those little holes.\"

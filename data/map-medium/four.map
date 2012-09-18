@@ -9,7 +9,7 @@
 "song" "bgm/track2.ogg"
 "time" "9000"
 "goal" "13"
-"time_hs" "600 2000"
+"time_hs" "600 1100"
 "coin_hs" "130 20"
 "goal_hs" "750 3000"
 "message" "Balance risk versus reward.\"

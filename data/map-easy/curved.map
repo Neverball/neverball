@@ -1,10 +1,9 @@
-
 // entity 0
 {
 "classname" "worldspawn"
 "message" "As before, but without the training wheels.\Keep the ball on a level floor\and maintain precise control.\Build some momentum to reach the corners.\"
 "coin_hs" "92 50"
-"time_hs" "500 2000"
+"time_hs" "500 1000"
 "goal_hs" "1000 3250"
 "goal" "20"
 "time" "6000"

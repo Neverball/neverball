@@ -8,7 +8,7 @@
 "grad" "back/alien.png"
 "song" "bgm/track5.ogg"
 "coin_hs" "108 65"
-"time_hs" "1000 2000"
+"time_hs" "1000 1100"
 "goal_hs" "1000 2000"
 "goal" "1"
 "time" "9000"

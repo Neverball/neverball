@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "coin_hs" "220 140"
-"time_hs" "550 3000"
+"time_hs" "550 1000"
 "goal_hs" "800 4000"
 "goal" "24"
 "time" "9000"

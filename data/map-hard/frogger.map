@@ -9,7 +9,7 @@
 "song" "bgm/track6.ogg"
 "time" "9000"
 "goal" "30"
-"time_hs" "600 2000"
+"time_hs" "600 900"
 "coin_hs" "82 50"
 "goal_hs" "2000 4500"
 "message" "Ribbit!\"

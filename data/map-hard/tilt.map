@@ -9,7 +9,7 @@
 "song" "bgm/track2.ogg"
 "time" "7500"
 "goal" "50"
-"time_hs" "1200 4500"
+"time_hs" "1200 2400"
 "goal_hs" "3000 6000"
 "coin_hs" "92 71"
 "message" "The floor is as flat as you make it.\"

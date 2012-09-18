@@ -4,7 +4,7 @@
 "bonus" "1"
 "message" "You'll only get about 15 seconds at each step,\so don't delay.  Get the coins and\get to the next switch.\"
 "coin_hs" "168 80"
-"time_hs" "3000 6000"
+"time_hs" "3000 4000"
 "goal_hs" "3000 6500"
 "goal" "45"
 "time" "9000"

@@ -9,7 +9,7 @@
 "song" "bgm/track4.ogg"
 "time" "12000"
 "goal" "60"
-"time_hs" "1300 3000"
+"time_hs" "1300 2500"
 "coin_hs" "150 100"
 "goal_hs" "3000 6000"
 "message" "Take it slowly.\"

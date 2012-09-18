@@ -9,7 +9,7 @@
 "song" "bgm/track2.ogg"
 "time" "6000"
 "goal" "60"
-"time_hs" "900 3000"
+"time_hs" "900 1600"
 "goal_hs" "3500 5000"
 "coin_hs" "92 70"
 "message" "There's not enough floor here.\Hopefully that's not a problem.\"

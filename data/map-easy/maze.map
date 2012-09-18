@@ -10,7 +10,7 @@
 "song" "bgm/track5.ogg"
 "time" "9000"
 "goal" "10"
-"time_hs" "1600 4500"
+"time_hs" "1600 2500"
 "coin_hs" "40 20"
 "goal_hs" "3000 6000"
 // brush 0

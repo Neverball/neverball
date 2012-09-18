@@ -9,7 +9,7 @@
 "song" "bgm/track5.ogg"
 "time" "12000"
 "goal" "20"
-"time_hs" "3000 6000"
+"time_hs" "3000 4500"
 "coin_hs" "90 30"
 "goal_hs" "3000 6500"
 "message" "Go for a ride.\"

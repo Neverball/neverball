@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "Stay away from the edges!\When approaching a drop, begin slowing down\early. You need just as much room to slow\down as you did to speed up.\"
 "coin_hs" "34 28"
-"time_hs" "350 2000"
+"time_hs" "350 800"
 "goal_hs" "1200 2500"
 "goal" "20"
 "time" "4500"

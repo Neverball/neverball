@@ -9,7 +9,7 @@
 "song" "bgm/track5.ogg"
 "time" "4500"
 "goal" "30"
-"time_hs" "2400 4000"
+"time_hs" "2400 3500"
 "coin_hs" "46 40"
 "goal_hs" "2650 4100"
 "message" "Just as before, but moving up instead of down.\No cheating this time.\"

@@ -9,7 +9,7 @@
 "song" "bgm/track1.ogg"
 "time" "12000"
 "goal" "10"
-"time_hs" "600 2000"
+"time_hs" "600 1000"
 "coin_hs" "20 15"
 "goal_hs" "2200 5000"
 "message" "Mouse buttons rotate the view.\Press Escape to pause or quit.\\\\Click to begin.\"

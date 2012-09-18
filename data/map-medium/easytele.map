@@ -9,7 +9,7 @@
 "song" "bgm/track2.ogg"
 "time" "9000"
 "goal" "40"
-"time_hs" "1000 3000"
+"time_hs" "1000 2000"
 "coin_hs" "92 52"
 "goal_hs" "3000 5500"
 "message" "Use teleporters to go\where you otherwise couldn't.\"
