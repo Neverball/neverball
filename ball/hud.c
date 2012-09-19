@@ -131,11 +131,18 @@ void hud_init(void)
 
 void hud_free(void)
 {
+    int i;
+
     gui_delete(Rhud_id);
     gui_delete(Lhud_id);
     gui_delete(time_id);
     gui_delete(view_id);
     gui_delete(fps_id);
+
+    gui_delete(speed_id);
+
+    for (i = SPEED_NONE + 1; i < SPEED_MAX; i++)
+        gui_delete(speed_ids[i]);
 }
 
 void hud_paint(void)
