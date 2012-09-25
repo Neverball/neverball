@@ -243,27 +243,62 @@ static void init_file(struct s_base *fp)
 
 #define MAXSYM 2048
 
-static char symv[MAXSYM][MAXSTR];
-static int  valv[MAXSYM];
-
-static char refv[MAXSYM][MAXSTR];
-static int *pntv[MAXSYM];
-
-static int  strc;
-static int  refc;
-
-static void make_sym(const char *s, int  v)
+enum
 {
-    strncpy(symv[strc], s, MAXSTR - 1);
-    valv[strc] = v;
-    strc++;
+    SYM_NONE = 0,
+
+    SYM_PATH,
+    SYM_TARG,
+
+    SYM_MAX
+};
+
+struct sym
+{
+    int  type;
+    char name[MAXSTR];
+    int  val;
+};
+
+struct ref
+{
+    int  type;
+    char name[MAXSTR];
+    int *ptr;
+};
+
+static struct sym syms[MAXSYM];
+static struct ref refs[MAXSYM];
+
+static int symc;
+static int refc;
+
+static void make_sym(int type, const char *name, int val)
+{
+    if (symc + 1 < MAXSYM)
+    {
+        struct sym *sym = &syms[symc];
+
+        sym->type = type;
+        strncpy(sym->name, name, MAXSTR - 1);
+        sym->val = val;
+
+        symc++;
+    }
 }
 
-static void make_ref(const char *r, int *p)
+static void make_ref(int type, const char *name, int *ptr)
 {
-    strncpy(refv[refc], r, MAXSTR - 1);
-    pntv[refc] = p;
-    refc++;
+    if (refc + 1 < MAXSYM)
+    {
+        struct ref *ref = &refs[refc];
+
+        ref->type = type;
+        strncpy(ref->name, name, MAXSTR - 1);
+        ref->ptr = ptr;
+
+        refc++;
+    }
 }
 
 static void resolve(void)
@@ -271,12 +306,17 @@ static void resolve(void)
     int i, j;
 
     for (i = 0; i < refc; i++)
-        for (j = 0; j < strc; j++)
-            if (strncmp(refv[i], symv[j], MAXSTR) == 0)
+        for (j = 0; j < symc; j++)
+        {
+            struct ref *ref = &refs[i];
+            struct sym *sym = &syms[j];
+
+            if (ref->type == sym->type && strcmp(ref->name, sym->name) == 0)
             {
-                *(pntv[i]) = valv[j];
+                *(ref->ptr) = sym->val;
                 break;
             }
+        }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -911,10 +951,10 @@ static void make_path(struct s_base *fp,
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "targetname") == 0)
-            make_sym(v[i], pi);
+            make_sym(SYM_PATH, v[i], pi);
 
         if (strcmp(k[i], "target") == 0)
-            make_ref(v[i], &pp->pi);
+            make_ref(SYM_PATH, v[i], &pp->pi);
 
         if (strcmp(k[i], "state") == 0)
             pp->f = atoi(v[i]);
@@ -1033,14 +1073,11 @@ static void make_body(struct s_base *fp,
 
     for (i = 0; i < c; i++)
     {
-        if (strcmp(k[i], "targetname") == 0)
-            make_sym(v[i], bi);
-
-        else if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
-            make_ref(v[i], &bp->pi);
+        if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
+            make_ref(SYM_PATH, v[i], &bp->pi);
 
         else if (strcmp(k[i], "target2") == 0)
-            make_ref(v[i], &bp->pj);
+            make_ref(SYM_PATH, v[i], &bp->pj);
 
         else if (strcmp(k[i], "material") == 0)
             mi = read_mtrl(fp, v[i]);
@@ -1219,7 +1256,7 @@ static void make_view(struct s_base *fp,
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "target") == 0)
-            make_ref(v[i], targ_wi + wi);
+            make_ref(SYM_TARG, v[i], targ_wi + wi);
 
         if (strcmp(k[i], "origin") == 0)
         {
@@ -1256,7 +1293,7 @@ static void make_jump(struct s_base *fp,
             sscanf(v[i], "%f", &jp->r);
 
         if (strcmp(k[i], "target") == 0)
-            make_ref(v[i], targ_ji + ji);
+            make_ref(SYM_TARG, v[i], targ_ji + ji);
 
         if (strcmp(k[i], "origin") == 0)
         {
@@ -1294,7 +1331,7 @@ static void make_swch(struct s_base *fp,
             sscanf(v[i], "%f", &xp->r);
 
         if (strcmp(k[i], "target") == 0)
-            make_ref(v[i], &xp->pi);
+            make_ref(SYM_PATH, v[i], &xp->pi);
 
         if (strcmp(k[i], "timer") == 0)
             sscanf(v[i], "%f", &xp->t);
@@ -1331,7 +1368,7 @@ static void make_targ(struct s_base *fp,
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "targetname") == 0)
-            make_sym(v[i], targ_n);
+            make_sym(SYM_TARG, v[i], targ_n);
 
         if (strcmp(k[i], "origin") == 0)
         {
