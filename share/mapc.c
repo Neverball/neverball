@@ -275,7 +275,7 @@ static int refc;
 
 static void make_sym(int type, const char *name, int val)
 {
-    if (symc + 1 < MAXSYM)
+    if (symc < MAXSYM - 1)
     {
         struct sym *sym = &syms[symc];
 
@@ -289,7 +289,7 @@ static void make_sym(int type, const char *name, int val)
 
 static void make_ref(int type, const char *name, int *ptr)
 {
-    if (refc + 1 < MAXSYM)
+    if (refc < MAXSYM - 1)
     {
         struct ref *ref = &refs[refc];
 
