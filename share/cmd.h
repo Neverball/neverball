@@ -20,10 +20,8 @@
  * apply to command addition, removal, and modification:
  *
  * - New commands are added at the bottom of the list.
- *
  * - Existing commands are never modified nor removed.
- *
- * - The list is never reordered.  (It's tempting...)
+ * - The list is never reordered.  (It's tempting.)
  *
  * However, commands can be renamed (e.g., to add a "deprecated" tag,
  * because it's superseded by another command).
@@ -293,7 +291,10 @@ struct cmd_move_time
 
 union cmd
 {
-    CMD_HEADER;
+    enum cmd_type type;
+
+    struct { CMD_HEADER; } header;
+
     struct cmd_end_of_update      eou;
     struct cmd_make_ball          mkball;
     struct cmd_make_item          mkitem;
