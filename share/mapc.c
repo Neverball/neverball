@@ -2258,8 +2258,9 @@ static void smth_file(struct s_base *fp)
                     if (T[l].si != T[i].si)
                     {
                         const float *Nl = fp->sv[T[l].si].n;
+                        float deg = V_DEG(facosf(v_dot(Ni, Nl)));
 
-                        if (V_DEG(facosf(v_dot(Ni, Nl))) > angle)
+                        if (ROUND(deg * 1000.0f) > ROUND(angle * 1000.0f))
                             break;
 
                         N[0] += Nl[0];
