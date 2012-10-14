@@ -266,29 +266,31 @@ const char *demo_format_name(const char *fmt,
 
 /*---------------------------------------------------------------------------*/
 
+static struct demo demo_play;
+
 int demo_play_init(const char *name, const struct level *level,
                    int mode, int scores, int balls, int times)
 {
-    struct demo demo;
+    struct demo *d = &demo_play;
 
-    memset(&demo, 0, sizeof (demo));
+    memset(d, 0, sizeof (*d));
 
-    SAFECPY(demo.filename, demo_path(name));
-    SAFECPY(demo.player, config_get_s(CONFIG_PLAYER));
-    SAFECPY(demo.shot, level_shot(level));
-    SAFECPY(demo.file, level_file(level));
+    SAFECPY(d->filename, demo_path(USER_REPLAY_FILE));
+    SAFECPY(d->player, config_get_s(CONFIG_PLAYER));
+    SAFECPY(d->shot, level_shot(level));
+    SAFECPY(d->file, level_file(level));
 
-    demo.mode  = mode;
-    demo.date  = time(NULL);
-    demo.time  = level_time(level);
-    demo.goal  = level_goal(level);
-    demo.score = scores;
-    demo.balls = balls;
-    demo.times = times;
+    d->mode  = mode;
+    d->date  = time(NULL);
+    d->time  = level_time(level);
+    d->goal  = level_goal(level);
+    d->score = scores;
+    d->balls = balls;
+    d->times = times;
 
-    if ((demo_fp = fs_open(demo.filename, "w")))
+    if ((demo_fp = fs_open(d->filename, "w")))
     {
-        demo_header_write(demo_fp, &demo);
+        demo_header_write(demo_fp, d);
         return 1;
     }
     return 0;
@@ -310,12 +312,14 @@ void demo_play_stat(int status, int coins, int timer)
     }
 }
 
-void demo_play_stop(void)
+void demo_play_stop(int d)
 {
     if (demo_fp)
     {
         fs_close(demo_fp);
         demo_fp = NULL;
+
+        if (d) fs_remove(demo_play.filename);
     }
 }
 

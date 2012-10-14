@@ -49,7 +49,7 @@ const char *demo_format_name(const char *fmt,
 int  demo_play_init(const char *, const struct level *, int, int, int, int);
 void demo_play_step(void);
 void demo_play_stat(int, int, int);
-void demo_play_stop(void);
+void demo_play_stop(int);
 
 int  demo_saved (void);
 void demo_rename(const char *);

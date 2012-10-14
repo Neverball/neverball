@@ -108,7 +108,7 @@ static int init_level(void)
         return 1;
     }
 
-    demo_play_stop();
+    demo_play_stop(1);
     return 0;
 }
 
@@ -246,7 +246,14 @@ void progress_stat(int s)
 
 void progress_stop(void)
 {
-    demo_play_stop();
+    int d;
+
+    if (level)
+        d = (curr_clock() == level_time(level));
+    else
+        d = 0;
+
+    demo_play_stop(d);
 }
 
 void progress_exit(void)
