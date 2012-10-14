@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2011-06-28 02:46+0300\n"
-"PO-Revision-Date: 2012-08-27 15:52+0100\n"
+"PO-Revision-Date: 2012-10-14 15:30+0100\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -253,18 +253,18 @@ msgstr "Textures"
 #: ball/st_conf.c:266
 #: putt/st_conf.c:193
 msgid "Off"
-msgstr "Disattivato"
+msgstr "No"
 
 #: ball/st_conf.c:249
 #: ball/st_conf.c:258
 #: ball/st_conf.c:267
 #: putt/st_conf.c:194
 msgid "On"
-msgstr "Attivato"
+msgstr "Si"
 
 #: ball/st_conf.c:251
 msgid "Reflection"
-msgstr "Effetto Specchio"
+msgstr "Specchi"
 
 #: ball/st_conf.c:260
 msgid "Background"
