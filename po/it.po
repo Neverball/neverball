@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2011-06-28 02:46+0300\n"
-"PO-Revision-Date: 2012-10-15 18:07+0100\n"
+"PO-Revision-Date: 2012-10-16 14:21+0100\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "Sfida"
 #: ball/progress.c:393
 #: ball/st_help.c:239
 msgid "Normal Mode"
-msgstr "Modalità Normale"
+msgstr "Modalità Sblocco"
 
 #: ball/progress.c:393
 msgid "Normal"
@@ -283,12 +283,12 @@ msgstr "Volume"
 #: ball/st_conf.c:311
 #: putt/st_conf.c:238
 msgid "Music Volume"
-msgstr "Volume Musica"
+msgstr "Volume della Musica"
 
 #: ball/st_conf.c:320
 #: ball/st_name.c:101
 msgid "Player Name"
-msgstr "Nome Giocatore"
+msgstr "Nome del giocatore"
 
 #: ball/st_demo.c:202
 msgid "Time"
@@ -446,15 +446,19 @@ msgstr "Regole"
 
 #: ball/st_help.c:106
 msgid "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor causing the\\ball to roll.\\"
-msgstr "Con il mouse, il joystick o le\\frecce della testiera muovo il\\pianoper inclinarloper muovere\\la pallina. "
+msgstr "Con il mouse, il joystick\\o le frecce della testiera muovo il piano\\per inclinarloper muovere\\la pallina. "
 
 #: ball/st_help.c:111
 msgid "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and finish\\the level.\\"
 msgstr "Salta sulle monetine per\\catturarle. Prendine abbastanza per\\sbloccare il goal e finire\\la sfida!.\\"
 
 #: ball/st_help.c:168
-msgid "Left and right mouse buttons rotate the view.\\Hold Shift for faster view rotation."
-msgstr "Il tasti del mouse ruotano la visuale.\\ Premi Shift per ruotare la visuale"
+msgid "Left and right mouse buttons rotate the view."
+msgstr "Il tasti del mouse ruotano la visuale. "
+
+#: ball/st_help.c:169
+msgid "Hold Shift for faster view rotation."
+msgstr "premi Shift per ruotare velocemente la visuale "
 
 #: ball/st_help.c:170
 msgid "Pause / Release Pointer"
@@ -474,7 +478,7 @@ msgstr "Visuale Rigida"
 
 #: ball/st_help.c:174
 msgid "Manual View"
-msgstr "Visuale Manuale"
+msgstr "Visualizzazione Manuale"
 
 #: ball/st_help.c:175
 msgid "Screenshot"
@@ -490,16 +494,16 @@ msgstr "Si comincia con il primo livello del set.\\Hai a disposizione 3 palline.
 
 #: ball/st_help.c:263
 msgid "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You may be able\\to reach new places.\\"
-msgstr "Gli angoli sono ottimi per saltare.\\  Rotola velocemente verso\\un angolo per spiccare il volo.\\ devi esserne capace, però.\\"
+msgstr "Gli angoli sono ottimi per\\saltare. rotola velocemente verso\\un angolo per spiccare il volo. devi esserne capace,\\ però.\\"
 
 #: ball/st_help.c:268
 msgid "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn the camera by 45\\degrees for best results.\\"
-msgstr "Inclinare il piano in due direzioni\\aumenta il dislivello. Per ottenere\\ maggiore velocità usa la\\visualizzazione manuale inclinata\\ di 45 gradi verso sinistra\\"
+msgstr "Inclinare il piano in due direzioni aumenta\\il dislivello. Per ottenere maggiore velocità\\usa la visualizzazione manuale\\inclinata di 45 gradi verso sinistra\\"
 
 #: ball/st_help.c:288
 #: ball/st_help.c:298
 msgid "Watch demo"
-msgstr "Demo"
+msgstr "Guarda la demo"
 
 #: ball/st_level.c:55
 #, c-format
@@ -571,11 +575,11 @@ msgstr "Level Set"
 #. * as necessary for the buttons to look good.
 #: ball/st_start.c:228
 msgid "   No   "
-msgstr "   No   "
+msgstr " No "
 
 #: ball/st_start.c:237
 msgid "Lock Goals of Completed Levels?"
-msgstr "Bloccare obiettivi se già stati superati?"
+msgstr "Bloccare l'obiettivo se il livello è gia superato?"
 
 #: ball/st_time_out.c:78
 msgid "Time's Up!"
@@ -995,7 +999,7 @@ msgstr "Neverball Easy"
 
 #: data/set-easy.txt
 msgid "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr "Grado di difficoltà: facile - medio\\\\25 livelli per imparare a giocare e apprendere la tecnica.\\leggi i trucchi e le istruzioni negli Intro.\\ \\"
+msgstr "Difficoltà: da Facile a Medio\\\\25 livelli per imparare a giocare.\\Leggi i trucchi e le istruzioni negli intro.\\ \\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
@@ -1003,7 +1007,7 @@ msgstr "Neverball Medium"
 
 #: data/set-medium.txt
 msgid "Difficulty: Beginner through Expert\\\\25 levels which provide a balanced\\challenge for players. Try to claim\\some of the records provided.\\"
-msgstr "Grado di difficoltà: medio - poco difficile\\\\25 livelli con qualche sporgenza dove è necessario conoscere il gico.\\sbizzarrisciti a conquistare i trofei.\\ \\"
+msgstr "Difficoltà: Da Facile a Difficile\\\\25 livelli con qualche sfida equilibrata.\\Batti i record.\\ \\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -1011,7 +1015,7 @@ msgstr "Neverball Hard"
 
 #: data/set-hard.txt
 msgid "Difficulty: Intermediate through Expert\\\\25 levels with more of a challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, and Fast Unlock records.\\"
-msgstr "Grado di difficoltà: medio - esperto\\\\25 livelli con molte difficoltà in più per i giocatori\\più esperienti. Anche qui è possibile concentrarsi\\sulla conquista dei trofei.\\"
+msgstr "Difficoltà: Da Medio a Difficile\\\\25 livelli con molte difficoltà in più\\per i giocatori più esperienti.\\Batti tutti i record.\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
@@ -1019,7 +1023,7 @@ msgstr "Tour de Force"
 
 #: data/set-mym.txt
 msgid "Difficulty: Expert through Insane\\\\25 levels with even greater challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "Per giocatori con molta esperienza\\\\25 livelli con percorsi di guerra esaltanti\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Difficoltà: Da Difficile a Estremo\\\\25 livelli con sfide più grandi.\\Autore: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-mym2.txt
 msgid "Retour de force"
@@ -1035,7 +1039,7 @@ msgstr "Nevermanìa"
 
 #: data/set-fwp.txt
 msgid "Difficulty: Expert through Impossible\\\\Assorted levels for advanced players.\\Author: Florian Priester\\\\"
-msgstr "difficoltà: forse impossibile\\\\Set per giocatori veramente appassionati.\\Author: Florian Priester"
+msgstr "Difficoltà: Da Difficile a Impossibile\\\\Set per giocatori veramente appassionati.\\Autore: Florian Priester"
 
 #: data/set-misc.txt
 msgid "Neverball Misc"
@@ -1751,18 +1755,6 @@ msgstr "Loro vogliono ucciderti!"
 
 msgid "Just a lap from you to the goal!"
 msgstr "Ti manca solo un giro!"
-
-msgid "Mouse Sensitivity"
-msgstr "Sensibilità Mouse"
-
-msgid "Graphics"
-msgstr "Grafica"
-
-msgid "Configure"
-msgstr "Configura"
-
-msgid "Ball Model"
-msgstr "Modello"
 
 #~ msgid "Geometry"
 #~ msgstr "Geometria"
