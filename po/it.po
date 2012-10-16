@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2011-06-28 02:46+0300\n"
-"PO-Revision-Date: 2012-10-16 14:21+0100\n"
+"PO-Revision-Date: 2012-10-16 21:59+0100\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -446,11 +446,11 @@ msgstr "Regole"
 
 #: ball/st_help.c:106
 msgid "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor causing the\\ball to roll.\\"
-msgstr "Con il mouse, il joystick\\o le frecce della testiera muovo il piano\\per inclinarloper muovere\\la pallina. "
+msgstr "Con il mouse, il joystick o le frecce\\ della testiera muovi il\\piano per spostare la pallina."
 
 #: ball/st_help.c:111
 msgid "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and finish\\the level.\\"
-msgstr "Salta sulle monetine per\\catturarle. Prendine abbastanza per\\sbloccare il goal e finire\\la sfida!.\\"
+msgstr "Salta sulle monetine per\\catturarle. Prendine abbastanza\\ per sbloccare il goal\\ e finire la sfida!.\\"
 
 #: ball/st_help.c:168
 msgid "Left and right mouse buttons rotate the view."
@@ -494,16 +494,16 @@ msgstr "Si comincia con il primo livello del set.\\Hai a disposizione 3 palline.
 
 #: ball/st_help.c:263
 msgid "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You may be able\\to reach new places.\\"
-msgstr "Gli angoli sono ottimi per\\saltare. rotola velocemente verso\\un angolo per spiccare il volo. devi esserne capace,\\ però.\\"
+msgstr "Gli angoli sono ottimi per\\ saltare. Rotola velocemente verso\\un angolo per spiccare il volo.\\ Devi esserne capace, però.\\"
 
 #: ball/st_help.c:268
 msgid "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn the camera by 45\\degrees for best results.\\"
-msgstr "Inclinare il piano in due direzioni aumenta\\il dislivello. Per ottenere maggiore velocità\\usa la visualizzazione manuale\\inclinata di 45 gradi verso sinistra\\"
+msgstr "Inclinare il piano in due direzioni\\aumenta il dislivello. Per ottenere\\maggiore velocità usa la visuale\\ manuale inclinata di 45 gradi\\ verso sinistra.\\"
 
 #: ball/st_help.c:288
 #: ball/st_help.c:298
 msgid "Watch demo"
-msgstr "Guarda la demo"
+msgstr "Guarda demo"
 
 #: ball/st_level.c:55
 #, c-format
