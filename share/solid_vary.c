@@ -260,7 +260,7 @@ int sol_lerp_cmd(struct s_lerp *fp, struct cmd_state *cs, const union cmd *cmd)
         if ((idx = cmd->bodytime.bi) >= 0 && idx < fp->vary->bc &&
             (mi = fp->vary->bv[idx].mi) >= 0)
         {
-            fp->mv[mi][CURR].pi = cmd->bodytime.t;
+            fp->mv[mi][CURR].t = cmd->bodytime.t;
         }
         break;
 
