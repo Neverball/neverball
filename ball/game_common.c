@@ -38,27 +38,27 @@ const char *cam_to_str(int c)
 {
     static char str[64];
 
-    const int r_chase  = 250;
-    const int r_lazy   = 0;
-    const int r_manual = -1;
+    const int s_chase  = 250;
+    const int s_lazy   = 0;
+    const int s_manual = -1;
 
-    int r = cam_response(c);
+    int s = cam_speed(c);
 
-    if (r == r_chase)  return _("Chase Camera");
-    if (r == r_lazy)   return _("Lazy Camera");
-    if (r == r_manual) return _("Manual Camera");
+    if (s == s_chase)  return _("Chase Camera");
+    if (s == s_lazy)   return _("Lazy Camera");
+    if (s == s_manual) return _("Manual Camera");
 
     sprintf(str, _("Camera %d"), c + 1);
 
     return str;
 }
 
-int cam_response(int c)
+int cam_speed(int c)
 {
     static const int *cfgs[] = {
-        &CONFIG_CAMERA_1_RESPONSE,
-        &CONFIG_CAMERA_2_RESPONSE,
-        &CONFIG_CAMERA_3_RESPONSE
+        &CONFIG_CAMERA_1_SPEED,
+        &CONFIG_CAMERA_2_SPEED,
+        &CONFIG_CAMERA_3_SPEED
     };
 
     if (c >= 0 && c < ARRAYSIZE(cfgs))

@@ -538,7 +538,7 @@ static void game_update_view(float dt)
     float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };
     float view_v[3];
 
-    float rsp = (float) cam_response(input_get_c()) / 1000.0f;
+    float spd = (float) cam_speed(input_get_c()) / 1000.0f;
 
     /* Track manual rotation time. */
 
@@ -579,7 +579,7 @@ static void game_update_view(float dt)
 
     /* Compute view vector. */
 
-    if (rsp >= 0.0f)
+    if (spd >= 0.0f)
     {
         /* Viewpoint chases ball position. */
 
@@ -595,7 +595,7 @@ static void game_update_view(float dt)
             s = fpowf(view_time, 3.0f) / fpowf(view_fade, 3.0f);
             s = CLAMP(0.0f, s, 1.0f);
 
-            v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * rsp * s * dt);
+            v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * spd * s * dt);
         }
     }
     else

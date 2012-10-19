@@ -58,7 +58,7 @@ enum
 
 const char *cam_to_str(int);
 
-int cam_response(int);
+int cam_speed(int);
 
 /*---------------------------------------------------------------------------*/
 

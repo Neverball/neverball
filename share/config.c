@@ -98,9 +98,9 @@ int CONFIG_CHEAT;
 int CONFIG_STATS;
 int CONFIG_SCREENSHOT;
 int CONFIG_LOCK_GOALS;
-int CONFIG_CAMERA_1_RESPONSE;
-int CONFIG_CAMERA_2_RESPONSE;
-int CONFIG_CAMERA_3_RESPONSE;
+int CONFIG_CAMERA_1_SPEED;
+int CONFIG_CAMERA_2_SPEED;
+int CONFIG_CAMERA_3_SPEED;
 
 
 /* String options. */
@@ -197,9 +197,9 @@ static struct
     { &CONFIG_SCREENSHOT,  "screenshot",  0 },
     { &CONFIG_LOCK_GOALS,  "lock_goals",  0 },
 
-    { &CONFIG_CAMERA_1_RESPONSE, "camera_1_response", 250 },
-    { &CONFIG_CAMERA_2_RESPONSE, "camera_2_response", 0 },
-    { &CONFIG_CAMERA_3_RESPONSE, "camera_3_response", -1 },
+    { &CONFIG_CAMERA_1_SPEED, "camera_1_speed", 250 },
+    { &CONFIG_CAMERA_2_SPEED, "camera_2_speed", 0 },
+    { &CONFIG_CAMERA_3_SPEED, "camera_3_speed", -1 },
 };
 
 static struct
