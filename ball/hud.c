@@ -37,7 +37,7 @@ static int coin_id;
 static int ball_id;
 static int scor_id;
 static int goal_id;
-static int view_id;
+static int cam_id;
 static int fps_id;
 
 static int speed_id;
@@ -47,7 +47,7 @@ static const char *speed_labels[SPEED_MAX] = {
     "", "8", "4", "2", "1", "2", "4", "8"
 };
 
-static float view_timer;
+static float cam_timer;
 static float speed_timer;
 
 static void hud_fps(void)
@@ -58,7 +58,7 @@ static void hud_fps(void)
 void hud_init(void)
 {
     int id;
-    const char *str_view;
+    const char *str_cam;
     int v;
 
     if ((Rhud_id = gui_hstack(0)))
@@ -99,16 +99,16 @@ void hud_init(void)
         gui_layout(time_id, 0, -1);
     }
 
-    /* Find the longest view name. */
+    /* Find the longest camera name. */
 
-    for (str_view = "", v = VIEW_NONE + 1; v < VIEW_MAX; v++)
-        if (strlen(view_to_str(v)) > strlen(str_view))
-            str_view = view_to_str(v);
+    for (str_cam = "", v = CAM_NONE + 1; v < CAM_MAX; v++)
+        if (strlen(cam_to_str(v)) > strlen(str_cam))
+            str_cam = cam_to_str(v);
 
-    if ((view_id = gui_label(0, str_view, GUI_SML, gui_wht, gui_wht)))
+    if ((cam_id = gui_label(0, str_cam, GUI_SML, gui_wht, gui_wht)))
     {
-        gui_set_rect(view_id, GUI_SW);
-        gui_layout(view_id, 1, 1);
+        gui_set_rect(cam_id, GUI_SW);
+        gui_layout(cam_id, 1, 1);
     }
 
     if ((fps_id = gui_count(0, 1000, GUI_SML)))
@@ -136,7 +136,7 @@ void hud_free(void)
     gui_delete(Rhud_id);
     gui_delete(Lhud_id);
     gui_delete(time_id);
-    gui_delete(view_id);
+    gui_delete(cam_id);
     gui_delete(fps_id);
 
     gui_delete(speed_id);
@@ -156,7 +156,7 @@ void hud_paint(void)
     if (config_get_d(CONFIG_FPS))
         gui_paint(fps_id);
 
-    hud_view_paint();
+    hud_cam_paint();
     hud_speed_paint();
 }
 
@@ -265,29 +265,29 @@ void hud_timer(float dt)
     gui_timer(Lhud_id, dt);
     gui_timer(time_id, dt);
 
-    hud_view_timer(dt);
+    hud_cam_timer(dt);
     hud_speed_timer(dt);
 }
 
 /*---------------------------------------------------------------------------*/
 
-void hud_view_pulse(int c)
+void hud_cam_pulse(int c)
 {
-    gui_set_label(view_id, view_to_str(c));
-    gui_pulse(view_id, 1.2f);
-    view_timer = 2.0f;
+    gui_set_label(cam_id, cam_to_str(c));
+    gui_pulse(cam_id, 1.2f);
+    cam_timer = 2.0f;
 }
 
-void hud_view_timer(float dt)
+void hud_cam_timer(float dt)
 {
-    view_timer -= dt;
-    gui_timer(view_id, dt);
+    cam_timer -= dt;
+    gui_timer(cam_id, dt);
 }
 
-void hud_view_paint(void)
+void hud_cam_paint(void)
 {
-    if (view_timer > 0.0f)
-        gui_paint(view_id);
+    if (cam_timer > 0.0f)
+        gui_paint(cam_id);
 }
 
 /*---------------------------------------------------------------------------*/

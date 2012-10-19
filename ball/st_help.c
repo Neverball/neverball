@@ -180,9 +180,9 @@ static int page_controls(int id)
                               "Hold Shift for faster view rotation.");
     const char *s_pause   = _("Pause / Release Pointer");
     const char *s_exit    = _("Exit / Cancel Menu");
-    const char *s_camera1 = _("Chase View");
-    const char *s_camera2 = _("Lazy View");
-    const char *s_camera3 = _("Manual View");
+    const char *s_camera1 = _("Chase Camera");
+    const char *s_camera2 = _("Lazy Camera");
+    const char *s_camera3 = _("Manual Camera");
     const char *s_shot    = _("Screenshot");
 
     const char *k_pause   = pretty_keyname(config_get_d(CONFIG_KEY_PAUSE));
@@ -282,7 +282,7 @@ static int page_tricks(int id)
         "to reach new places.\\");
     const char *s1 = _(
         "Tilting in 2 directions increases\\"
-        "the slope. Use the manual view\\"
+        "the slope. Use the manual camera\\"
         "and turn the camera by 45\\"
         "degrees for best results.\\");
 

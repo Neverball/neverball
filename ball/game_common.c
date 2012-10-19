@@ -24,24 +24,24 @@ const char *status_to_str(int s)
 {
     switch (s)
     {
-    case GAME_NONE:    return _("Aborted");
-    case GAME_TIME:    return _("Time-out");
-    case GAME_GOAL:    return _("Success");
-    case GAME_FALL:    return _("Fall-out");
-    default:           return _("Unknown");
+    case GAME_NONE: return _("Aborted");
+    case GAME_TIME: return _("Time-out");
+    case GAME_GOAL: return _("Success");
+    case GAME_FALL: return _("Fall-out");
+    default:        return _("Unknown");
     }
 }
 
-const char *view_to_str(int v)
+const char *cam_to_str(int c)
 {
-    switch (v)
+    switch (c)
     {
-    case VIEW_CHASE:   return _("Chase");
-    case VIEW_LAZY:    return _("Lazy");
-    case VIEW_MANUAL:  return _("Manual");
-    case VIEW_TEST1:   return _("Test 1");
-    case VIEW_TEST2:   return _("Test 2");
-    default:           return _("Unknown");
+    case CAM_CHASE:  return _("Chase");
+    case CAM_LAZY:   return _("Lazy");
+    case CAM_MANUAL: return _("Manual");
+    case CAM_TEST1:  return _("Test 1");
+    case CAM_TEST2:  return _("Test 2");
+    default:         return _("Unknown");
     }
 }
 

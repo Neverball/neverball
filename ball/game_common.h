@@ -47,18 +47,18 @@ const char *status_to_str(int);
 
 enum
 {
-    VIEW_NONE = -1,
+    CAM_NONE = -1,
 
-    VIEW_CHASE,
-    VIEW_LAZY,
-    VIEW_MANUAL,
-    VIEW_TEST1,
-    VIEW_TEST2,
+    CAM_CHASE,
+    CAM_LAZY,
+    CAM_MANUAL,
+    CAM_TEST1,
+    CAM_TEST2,
 
-    VIEW_MAX
+    CAM_MAX
 };
 
-const char *view_to_str(int);
+const char *cam_to_str(int);
 
 /*---------------------------------------------------------------------------*/
 

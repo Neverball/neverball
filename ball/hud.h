@@ -10,9 +10,9 @@ void hud_paint(void);
 void hud_timer(float);
 void hud_update(int);
 
-void hud_view_pulse(int);
-void hud_view_timer(float);
-void hud_view_paint();
+void hud_cam_pulse(int);
+void hud_cam_timer(float);
+void hud_cam_paint();
 
 void hud_speed_pulse(int);
 void hud_speed_timer(float);

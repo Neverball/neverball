@@ -57,13 +57,13 @@ static int pause_or_exit(void)
 static void set_camera(int c)
 {
     config_set_d(CONFIG_CAMERA, c);
-    hud_view_pulse(c);
+    hud_cam_pulse(c);
 }
 
 static void toggle_camera(void)
 {
-    int cam = (config_tst_d(CONFIG_CAMERA, VIEW_MANUAL) ?
-               VIEW_CHASE : VIEW_MANUAL);
+    int cam = (config_tst_d(CONFIG_CAMERA, CAM_MANUAL) ?
+               CAM_CHASE : CAM_MANUAL);
 
     set_camera(cam);
 }
@@ -71,28 +71,28 @@ static void toggle_camera(void)
 static void keybd_camera(int c)
 {
     if (config_tst_d(CONFIG_KEY_CAMERA_1, c))
-        set_camera(VIEW_CHASE);
+        set_camera(CAM_CHASE);
     if (config_tst_d(CONFIG_KEY_CAMERA_2, c))
-        set_camera(VIEW_LAZY);
+        set_camera(CAM_LAZY);
     if (config_tst_d(CONFIG_KEY_CAMERA_3, c))
-        set_camera(VIEW_MANUAL);
+        set_camera(CAM_MANUAL);
 
     if (config_tst_d(CONFIG_KEY_CAMERA_TOGGLE, c))
         toggle_camera();
 
     if (config_cheat() && c == SDLK_4)
-        set_camera(config_tst_d(CONFIG_CAMERA, VIEW_TEST1) ?
-                   VIEW_TEST2 : VIEW_TEST1);
+        set_camera(config_tst_d(CONFIG_CAMERA, CAM_TEST1) ?
+                   CAM_TEST2 : CAM_TEST1);
 }
 
 static void click_camera(int b)
 {
     if (config_tst_d(CONFIG_MOUSE_CAMERA_1, b))
-        set_camera(VIEW_CHASE);
+        set_camera(CAM_CHASE);
     if (config_tst_d(CONFIG_MOUSE_CAMERA_2, b))
-        set_camera(VIEW_LAZY);
+        set_camera(CAM_LAZY);
     if (config_tst_d(CONFIG_MOUSE_CAMERA_3, b))
-        set_camera(VIEW_MANUAL);
+        set_camera(CAM_MANUAL);
 
     if (config_tst_d(CONFIG_MOUSE_CAMERA_TOGGLE, b))
         toggle_camera();
@@ -101,11 +101,11 @@ static void click_camera(int b)
 static void buttn_camera(int b)
 {
     if (config_tst_d(CONFIG_JOYSTICK_CAMERA_1, b))
-        set_camera(VIEW_CHASE);
+        set_camera(CAM_CHASE);
     if (config_tst_d(CONFIG_JOYSTICK_CAMERA_2, b))
-        set_camera(VIEW_LAZY);
+        set_camera(CAM_LAZY);
     if (config_tst_d(CONFIG_JOYSTICK_CAMERA_3, b))
-        set_camera(VIEW_MANUAL);
+        set_camera(CAM_MANUAL);
 
     if (config_tst_d(CONFIG_JOYSTICK_CAMERA_TOGGLE, b))
         toggle_camera();
@@ -131,7 +131,7 @@ static int play_ready_enter(struct state *st, struct state *prev)
     audio_play(AUD_READY, 1.0f);
     video_set_grab(1);
 
-    hud_view_pulse(config_get_d(CONFIG_CAMERA));
+    hud_cam_pulse(config_get_d(CONFIG_CAMERA));
 
     return play_ready_gui();
 }
@@ -139,7 +139,7 @@ static int play_ready_enter(struct state *st, struct state *prev)
 static void play_ready_paint(int id, float t)
 {
     game_client_draw(0, t);
-    hud_view_paint();
+    hud_cam_paint();
     gui_paint(id);
 }
 
@@ -153,7 +153,7 @@ static void play_ready_timer(int id, float dt)
         goto_state(&st_play_set);
 
     game_step_fade(dt);
-    hud_view_timer(dt);
+    hud_cam_timer(dt);
     gui_timer(id, dt);
 }
 
@@ -220,7 +220,7 @@ static int play_set_enter(struct state *st, struct state *prev)
 static void play_set_paint(int id, float t)
 {
     game_client_draw(0, t);
-    hud_view_paint();
+    hud_cam_paint();
     gui_paint(id);
 }
 
@@ -234,7 +234,7 @@ static void play_set_timer(int id, float dt)
         goto_state(&st_play_loop);
 
     game_step_fade(dt);
-    hud_view_timer(dt);
+    hud_cam_timer(dt);
     gui_timer(id, dt);
 }
 

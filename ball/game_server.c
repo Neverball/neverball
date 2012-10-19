@@ -577,13 +577,13 @@ static void game_update_view(float dt)
 
     switch (input_get_c())
     {
-    case VIEW_LAZY: /* Viewpoint chases the ball position. */
+    case CAM_LAZY: /* Viewpoint chases the ball position. */
 
         v_sub(view.e[2], view.p, view.c);
 
         break;
 
-    case VIEW_MANUAL:  /* View vector is given by view angle. */
+    case CAM_MANUAL: /* View vector is given by view angle. */
 
         view.e[2][0] = fsinf(V_RAD(view.a));
         view.e[2][1] = 0.0;
@@ -591,7 +591,7 @@ static void game_update_view(float dt)
 
         break;
 
-    case VIEW_CHASE: /* View vector approaches the ball velocity vector. */
+    case CAM_CHASE: /* View vector approaches the ball velocity vector. */
 
         v_sub(view.e[2], view.p, view.c);
         v_nrm(view.e[2], view.e[2]);
@@ -599,8 +599,8 @@ static void game_update_view(float dt)
 
         break;
 
-    case VIEW_TEST1:
-    case VIEW_TEST2:
+    case CAM_TEST1:
+    case CAM_TEST2:
 
         /*
          * Random curiosity of view vector computation for chase view.
@@ -621,11 +621,11 @@ static void game_update_view(float dt)
             v_sub(view.e[2], view.p, view.c);
             v_nrm(view.e[2], view.e[2]);
 
-            if (input_get_c() == VIEW_TEST1)
+            if (input_get_c() == CAM_TEST1)
             {
                 v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * dt / 4);
             }
-            else if (input_get_c() == VIEW_TEST2)
+            else if (input_get_c() == CAM_TEST2)
             {
                 /* Gradually restore view vector convergence rate. */
 
