@@ -96,6 +96,9 @@ extern int CONFIG_CHEAT;
 extern int CONFIG_STATS;
 extern int CONFIG_SCREENSHOT;
 extern int CONFIG_LOCK_GOALS;
+extern int CONFIG_CAMERA_1_RESPONSE;
+extern int CONFIG_CAMERA_2_RESPONSE;
+extern int CONFIG_CAMERA_3_RESPONSE;
 
 /* String options. */
 

@@ -32,17 +32,39 @@ const char *status_to_str(int s)
     }
 }
 
+/*---------------------------------------------------------------------------*/
+
 const char *cam_to_str(int c)
 {
-    switch (c)
-    {
-    case CAM_CHASE:  return _("Chase");
-    case CAM_LAZY:   return _("Lazy");
-    case CAM_MANUAL: return _("Manual");
-    case CAM_TEST1:  return _("Test 1");
-    case CAM_TEST2:  return _("Test 2");
-    default:         return _("Unknown");
-    }
+    static char str[64];
+
+    const int r_chase  = 250;
+    const int r_lazy   = 0;
+    const int r_manual = -1;
+
+    int r = cam_response(c);
+
+    if (r == r_chase)  return _("Chase Camera");
+    if (r == r_lazy)   return _("Lazy Camera");
+    if (r == r_manual) return _("Manual Camera");
+
+    sprintf(str, _("Camera %d"), c + 1);
+
+    return str;
+}
+
+int cam_response(int c)
+{
+    static const int *cfgs[] = {
+        &CONFIG_CAMERA_1_RESPONSE,
+        &CONFIG_CAMERA_2_RESPONSE,
+        &CONFIG_CAMERA_3_RESPONSE
+    };
+
+    if (c >= 0 && c < ARRAYSIZE(cfgs))
+        return config_get_d(*cfgs[c]);
+
+    return 250;
 }
 
 /*---------------------------------------------------------------------------*/

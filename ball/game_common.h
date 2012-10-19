@@ -49,16 +49,16 @@ enum
 {
     CAM_NONE = -1,
 
-    CAM_CHASE,
-    CAM_LAZY,
-    CAM_MANUAL,
-    CAM_TEST1,
-    CAM_TEST2,
+    CAM_1,
+    CAM_2,
+    CAM_3,
 
     CAM_MAX
 };
 
 const char *cam_to_str(int);
+
+int cam_response(int);
 
 /*---------------------------------------------------------------------------*/
 

@@ -538,6 +538,8 @@ static void game_update_view(float dt)
     float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };
     float view_v[3];
 
+    float rsp = (float) cam_response(input_get_c()) / 1000.0f;
+
     /* Track manual rotation time. */
 
     if (da == 0.0f)
@@ -575,70 +577,34 @@ static void game_update_view(float dt)
     view_v[1] =  0.0f;
     view_v[2] = -vary.uv->v[2];
 
-    switch (input_get_c())
+    /* Compute view vector. */
+
+    if (rsp >= 0.0f)
     {
-    case CAM_LAZY: /* Viewpoint chases the ball position. */
+        /* Viewpoint chases ball position. */
 
-        v_sub(view.e[2], view.p, view.c);
+        if (da == 0.0f)
+        {
+            float s;
 
-        break;
+            v_sub(view.e[2], view.p, view.c);
+            v_nrm(view.e[2], view.e[2]);
 
-    case CAM_MANUAL: /* View vector is given by view angle. */
+            /* Gradually restore view vector convergence rate. */
+
+            s = fpowf(view_time, 3.0f) / fpowf(view_fade, 3.0f);
+            s = CLAMP(0.0f, s, 1.0f);
+
+            v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * rsp * s * dt);
+        }
+    }
+    else
+    {
+        /* View vector is given by view angle. */
 
         view.e[2][0] = fsinf(V_RAD(view.a));
         view.e[2][1] = 0.0;
         view.e[2][2] = fcosf(V_RAD(view.a));
-
-        break;
-
-    case CAM_CHASE: /* View vector approaches the ball velocity vector. */
-
-        v_sub(view.e[2], view.p, view.c);
-        v_nrm(view.e[2], view.e[2]);
-        v_mad(view.e[2], view.e[2], view_v, v_dot(view_v, view_v) * dt / 4);
-
-        break;
-
-    case CAM_TEST1:
-    case CAM_TEST2:
-
-        /*
-         * Random curiosity of view vector computation for chase view.
-         *
-         * z + v * |v|^2 * dt / 4 =
-         * z + u * |v|^3 * dt / 4
-         */
-
-        /*
-         * So let's experiment with that.
-         *
-         * z + v * |v|   * dt / 4 =
-         * z + u * |v|^2 * dt / 4
-         */
-
-        if (da == 0.0f)
-        {
-            v_sub(view.e[2], view.p, view.c);
-            v_nrm(view.e[2], view.e[2]);
-
-            if (input_get_c() == CAM_TEST1)
-            {
-                v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * dt / 4);
-            }
-            else if (input_get_c() == CAM_TEST2)
-            {
-                /* Gradually restore view vector convergence rate. */
-
-                float s;
-
-                s = fpowf(view_time, 3.0f) / fpowf(view_fade, 3.0f);
-                s = CLAMP(0.0f, s, 1.0f);
-
-                v_mad(view.e[2], view.e[2], view_v, v_len(view_v) * s * dt / 4);
-            }
-        }
-
-        break;
     }
 
     /* Apply manual rotation. */

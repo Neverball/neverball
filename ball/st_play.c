@@ -62,8 +62,8 @@ static void set_camera(int c)
 
 static void toggle_camera(void)
 {
-    int cam = (config_tst_d(CONFIG_CAMERA, CAM_MANUAL) ?
-               CAM_CHASE : CAM_MANUAL);
+    int cam = (config_tst_d(CONFIG_CAMERA, CAM_3) ?
+               CAM_1 : CAM_3);
 
     set_camera(cam);
 }
@@ -71,28 +71,24 @@ static void toggle_camera(void)
 static void keybd_camera(int c)
 {
     if (config_tst_d(CONFIG_KEY_CAMERA_1, c))
-        set_camera(CAM_CHASE);
+        set_camera(CAM_1);
     if (config_tst_d(CONFIG_KEY_CAMERA_2, c))
-        set_camera(CAM_LAZY);
+        set_camera(CAM_2);
     if (config_tst_d(CONFIG_KEY_CAMERA_3, c))
-        set_camera(CAM_MANUAL);
+        set_camera(CAM_3);
 
     if (config_tst_d(CONFIG_KEY_CAMERA_TOGGLE, c))
         toggle_camera();
-
-    if (config_cheat() && c == SDLK_4)
-        set_camera(config_tst_d(CONFIG_CAMERA, CAM_TEST1) ?
-                   CAM_TEST2 : CAM_TEST1);
 }
 
 static void click_camera(int b)
 {
     if (config_tst_d(CONFIG_MOUSE_CAMERA_1, b))
-        set_camera(CAM_CHASE);
+        set_camera(CAM_1);
     if (config_tst_d(CONFIG_MOUSE_CAMERA_2, b))
-        set_camera(CAM_LAZY);
+        set_camera(CAM_2);
     if (config_tst_d(CONFIG_MOUSE_CAMERA_3, b))
-        set_camera(CAM_MANUAL);
+        set_camera(CAM_3);
 
     if (config_tst_d(CONFIG_MOUSE_CAMERA_TOGGLE, b))
         toggle_camera();
@@ -101,11 +97,11 @@ static void click_camera(int b)
 static void buttn_camera(int b)
 {
     if (config_tst_d(CONFIG_JOYSTICK_CAMERA_1, b))
-        set_camera(CAM_CHASE);
+        set_camera(CAM_1);
     if (config_tst_d(CONFIG_JOYSTICK_CAMERA_2, b))
-        set_camera(CAM_LAZY);
+        set_camera(CAM_2);
     if (config_tst_d(CONFIG_JOYSTICK_CAMERA_3, b))
-        set_camera(CAM_MANUAL);
+        set_camera(CAM_3);
 
     if (config_tst_d(CONFIG_JOYSTICK_CAMERA_TOGGLE, b))
         toggle_camera();
