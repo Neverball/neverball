@@ -38,15 +38,11 @@ const char *cam_to_str(int c)
 {
     static char str[64];
 
-    const int s_chase  = 250;
-    const int s_lazy   = 0;
-    const int s_manual = -1;
-
     int s = cam_speed(c);
 
-    if (s == s_chase)  return _("Chase Camera");
-    if (s == s_lazy)   return _("Lazy Camera");
-    if (s == s_manual) return _("Manual Camera");
+    if (s <    0) return _("Manual Camera");
+    if (s <= 100) return _("Lazy Camera");
+    if (s <= 500) return _("Chase Camera");
 
     sprintf(str, _("Camera %d"), c + 1);
 
