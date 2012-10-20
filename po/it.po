@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2011-06-28 02:46+0300\n"
-"PO-Revision-Date: 2012-10-16 21:59+0100\n"
+"PO-Revision-Date: 2012-10-20 13:31+0100\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -1755,6 +1755,15 @@ msgstr "Loro vogliono ucciderti!"
 
 msgid "Just a lap from you to the goal!"
 msgstr "Ti manca solo un giro!"
+
+msgid "Chase Camera"
+msgstr "Flessibile"
+
+msgid "Lazy Camera"
+msgstr "Rigida"
+
+msgid "Manual Camera"
+msgstr "Manuale"
 
 #~ msgid "Geometry"
 #~ msgstr "Geometria"
