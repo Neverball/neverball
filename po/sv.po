@@ -7,122 +7,130 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2009-08-11 01:07+0300\n"
+"POT-Creation-Date: 2012-10-20 16:56+0300\n"
 "PO-Revision-Date: 2011-07-20 11:11+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ball/demo.c:233
+#: ball/demo.c:226
 msgid "Missing format character in replay name\n"
 msgstr "Saknat formattecken i inspelningsnamnet\n"
 
-#: ball/demo.c:238
+#: ball/demo.c:231
 #, c-format
 msgid "Invalid format character in replay name: \"%%%c\"\n"
 msgstr "Ogiltigt formattecken i inspelningsnamnet: \"%%%c\"\n"
 
-#: ball/game_common.c:8
+#: ball/game_common.c:27
 msgid "Aborted"
 msgstr "Avbruten"
 
-#: ball/game_common.c:9
+#: ball/game_common.c:28
 msgid "Time-out"
 msgstr "Tiden är slut"
 
-#: ball/game_common.c:10
+#: ball/game_common.c:29
 msgid "Success"
 msgstr "Du lyckades"
 
-#: ball/game_common.c:11
+#: ball/game_common.c:30
 msgid "Fall-out"
 msgstr "Du ramlade"
 
-#: ball/game_common.c:12
-#: ball/game_common.c:24
-#: ball/progress.c:376
+#: ball/game_common.c:31 ball/progress.c:417
 msgid "Unknown"
 msgstr "Okänd"
 
-#: ball/game_common.c:20
-msgid "Chase"
-msgstr "Jakt"
+#: ball/game_common.c:43 ball/st_help.c:185
+#, fuzzy
+#| msgid "Manual View"
+msgid "Manual Camera"
+msgstr "Manuell vy"
 
-#: ball/game_common.c:21
-msgid "Lazy"
-msgstr "Slapphet"
+#: ball/game_common.c:44 ball/st_help.c:184
+#, fuzzy
+#| msgid "Lazy View"
+msgid "Lazy Camera"
+msgstr "Slapphetsvy"
 
-#: ball/game_common.c:22
-msgid "Manual"
-msgstr "Manuell"
+#: ball/game_common.c:45 ball/st_help.c:183
+#, fuzzy
+#| msgid "Chase View"
+msgid "Chase Camera"
+msgstr "Jaktvy"
 
-#: ball/game_common.c:23
-msgid "Top-Down"
-msgstr "Upp-ned"
+#: ball/game_common.c:47
+#, c-format
+msgid "Camera %d"
+msgstr ""
 
-#: ball/game_common.h:9
+#: ball/game_common.h:10
 msgid "snd/select.ogg"
 msgstr "snd/select.ogg"
 
-#: ball/game_common.h:10
+#: ball/game_common.h:11
 msgid "snd/ready.ogg"
 msgstr "snd/ready.ogg"
 
-#: ball/game_common.h:11
+#: ball/game_common.h:12
 msgid "snd/set.ogg"
 msgstr "snd/set.ogg"
 
-#: ball/game_common.h:12
+#: ball/game_common.h:13
 msgid "snd/go.ogg"
 msgstr "snd/go.ogg"
 
-#: ball/game_common.h:23
+#: ball/game_common.h:24
 msgid "snd/record.ogg"
 msgstr "snd/record.ogg"
 
-#: ball/game_common.h:24
+#: ball/game_common.h:25
 msgid "snd/fall.ogg"
 msgstr "snd/fall.ogg"
 
-#: ball/game_common.h:25
+#: ball/game_common.h:26
 msgid "snd/time.ogg"
 msgstr "snd/time.ogg"
 
-#: ball/game_common.h:26
+#: ball/game_common.h:27
 msgid "snd/over.ogg"
 msgstr "snd/over.ogg"
 
-#: ball/hud.c:60
-#: ball/st_demo.c:197
-#: ball/st_goal.c:186
+#: ball/hud.c:68 ball/st_demo.c:202 ball/st_goal.c:167
 msgid "Coins"
 msgstr "Mynt"
 
-#: ball/hud.c:61
+#: ball/hud.c:69
 msgid "Goal"
 msgstr "Mål"
 
-#: ball/hud.c:80
-#: ball/st_goal.c:176
+#: ball/hud.c:89 ball/st_goal.c:155
 msgid "Balls"
 msgstr "Bollar"
 
-#: ball/hud.c:81
-#: ball/st_goal.c:181
-#: putt/hud.c:45
+#: ball/hud.c:90 ball/st_goal.c:161 putt/hud.c:45
 msgid "Score"
 msgstr "Poäng"
 
-#: ball/level.c:140
+#: ball/level.c:138
 #, c-format
 msgid "Failure to load level file '%s'\n"
 msgstr "Misslyckades med att läsa in nivåfilen \"%s\"\n"
 
-#: ball/main.c:254
-#, c-format
+#: ball/main.c:283
+#, fuzzy, c-format
+#| msgid ""
+#| "Usage: %s [options ...]\n"
+#| "Options:\n"
+#| "  -h, --help                show this usage message.\n"
+#| "  -v, --version             show version.\n"
+#| "  -d, --data <dir>          use 'dir' as game data directory.\n"
+#| "  -r, --replay <file>       play the replay 'file'.\n"
 msgid ""
 "Usage: %s [options ...]\n"
 "Options:\n"
@@ -130,6 +138,7 @@ msgid ""
 "  -v, --version             show version.\n"
 "  -d, --data <dir>          use 'dir' as game data directory.\n"
 "  -r, --replay <file>       play the replay 'file'.\n"
+"  -l, --level <file>        load the level 'file'\n"
 msgstr ""
 "Användning: %s [flaggor ...]\n"
 "Flaggor:\n"
@@ -138,410 +147,407 @@ msgstr ""
 "  -d, --data <kat>          använd \"kat\" som katalog för speldata.\n"
 "  -r, --replay <fil>        spela upp inspelningen \"fil\".\n"
 
-#: ball/main.c:263
+#: ball/main.c:293
 #, c-format
 msgid "Option '%s' requires an argument.\n"
 msgstr "Flaggan \"%s\" kräver ett argument.\n"
 
-#: ball/progress.c:374
-#: ball/st_help.c:247
+#: ball/progress.c:414 ball/st_help.c:263
 msgid "Challenge Mode"
 msgstr "Utmanarläge"
 
-#: ball/progress.c:374
-#: ball/st_start.c:208
+#: ball/progress.c:414 ball/st_start.c:207
 msgid "Challenge"
 msgstr "Utmaning"
 
-#: ball/progress.c:375
-#: ball/st_help.c:239
+#: ball/progress.c:415 ball/st_help.c:250
 msgid "Normal Mode"
 msgstr "Normalt läge"
 
-#: ball/progress.c:375
+#: ball/progress.c:415
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/progress.c:376
+#: ball/progress.c:416
+#, fuzzy
+#| msgid "Challenge Mode"
+msgid "Standalone Mode"
+msgstr "Utmanarläge"
+
+#: ball/progress.c:416
+msgid "Standalone"
+msgstr ""
+
+#: ball/progress.c:417
 msgid "Unknown Mode"
 msgstr "Okänt läge"
 
-#: ball/set.c:183
-#, c-format
-msgid "Failure to load user score file '%s'"
-msgstr "Misslyckades med att läsa in användarpoängfilen \"%s\""
-
-#: ball/set.c:203
+#: ball/set.c:276
 #, c-format
 msgid "Failure to load set file '%s'\n"
 msgstr "Misslyckades med att läsa in bansamlingsfilen \"%s\"\n"
 
-#: ball/st_ball.c:165
-#: ball/st_conf.c:353
-msgid "Ball"
-msgstr "Boll"
+#: ball/st_ball.c:179 ball/st_conf.c:316
+#, fuzzy
+#| msgid "Normal Mode"
+msgid "Ball Model"
+msgstr "Normalt läge"
 
-#: ball/st_ball.c:167
-#: ball/st_conf.c:229
-#: ball/st_help.c:96
-#: ball/st_start.c:178
-#: ball/util.c:427
-#: share/st_resol.c:106
-#: putt/st_all.c:344
-#: putt/st_all.c:492
-#: putt/st_conf.c:171
+#: ball/st_ball.c:181 ball/st_conf.c:104 ball/st_help.c:107
+#: ball/st_start.c:178 ball/util.c:392 share/st_resol.c:105 putt/st_all.c:393
+#: putt/st_all.c:541 putt/st_conf.c:158
 msgid "Back"
 msgstr "Bakåt"
 
-#: ball/st_conf.c:227
-#: putt/st_conf.c:169
+#: ball/st_conf.c:297 putt/st_conf.c:156
 msgid "Options"
 msgstr "Alternativ"
 
-#: ball/st_conf.c:237
-#: ball/st_demo.c:600
-#: ball/st_save.c:206
-#: putt/st_conf.c:179
-msgid "No"
-msgstr "Nej"
+#: ball/st_conf.c:299 ball/st_conf.c:443
+msgid "Graphics"
+msgstr ""
 
-#: ball/st_conf.c:238
-#: ball/st_demo.c:601
-#: ball/st_save.c:207
-#: ball/st_start.c:236
-#: putt/st_conf.c:180
-msgid "Yes"
-msgstr "Ja"
+#: ball/st_conf.c:299
+msgid "Configure"
+msgstr ""
 
-#: ball/st_conf.c:240
-#: putt/st_conf.c:182
-msgid "Fullscreen"
-msgstr "Helskärm"
+#: ball/st_conf.c:303
+msgid "Mouse Sensitivity"
+msgstr ""
 
-#: ball/st_conf.c:248
-#: share/st_resol.c:104
-#: putt/st_conf.c:190
-msgid "Resolution"
-msgstr "Upplösning"
-
-#: ball/st_conf.c:256
-#: ball/st_conf.c:265
-#: putt/st_conf.c:198
-#: putt/st_conf.c:207
-msgid "Low"
-msgstr "Låg"
-
-#: ball/st_conf.c:257
-#: ball/st_conf.c:266
-#: putt/st_conf.c:199
-#: putt/st_conf.c:208
-msgid "High"
-msgstr "Hög"
-
-#: ball/st_conf.c:259
-#: putt/st_conf.c:201
-msgid "Textures"
-msgstr "Texturer"
-
-#: ball/st_conf.c:268
-#: putt/st_conf.c:210
-msgid "Geometry"
-msgstr "Geometri"
-
-#: ball/st_conf.c:274
-#: ball/st_conf.c:283
-#: ball/st_conf.c:292
-#: putt/st_conf.c:216
-msgid "Off"
-msgstr "Av"
-
-#: ball/st_conf.c:275
-#: ball/st_conf.c:284
-#: ball/st_conf.c:293
-#: putt/st_conf.c:217
-msgid "On"
-msgstr "På"
-
-#: ball/st_conf.c:277
-msgid "Reflection"
-msgstr "Reflektion"
-
-#: ball/st_conf.c:286
-msgid "Background"
-msgstr "Bakgrund"
-
-#: ball/st_conf.c:295
-#: putt/st_conf.c:219
-msgid "Shadow"
-msgstr "Skugga"
-
-#: ball/st_conf.c:317
-#: putt/st_conf.c:241
+#: ball/st_conf.c:308 putt/st_conf.c:223
 msgid "Sound Volume"
 msgstr "Ljudvolym"
 
-#: ball/st_conf.c:337
-#: putt/st_conf.c:261
+#: ball/st_conf.c:310 putt/st_conf.c:238
 msgid "Music Volume"
 msgstr "Musikvolym"
 
-#: ball/st_conf.c:346
-#: ball/st_name.c:107
+#: ball/st_conf.c:315 ball/st_name.c:107
 msgid "Player Name"
 msgstr "Spelarnamn"
 
-#: ball/st_demo.c:196
+#: ball/st_conf.c:420 ball/st_conf.c:448 ball/st_conf.c:453 ball/st_conf.c:461
+#: ball/st_conf.c:464 ball/st_conf.c:467 putt/st_conf.c:200
+msgid "Off"
+msgstr "Av"
+
+#: ball/st_conf.c:421
+msgid "2x"
+msgstr ""
+
+#: ball/st_conf.c:422
+msgid "4x"
+msgstr ""
+
+#: ball/st_conf.c:423
+msgid "8x"
+msgstr ""
+
+#: ball/st_conf.c:445 share/st_resol.c:103 putt/st_conf.c:180
+msgid "Resolution"
+msgstr "Upplösning"
+
+#: ball/st_conf.c:447 putt/st_conf.c:172
+msgid "Fullscreen"
+msgstr "Helskärm"
+
+#: ball/st_conf.c:448 ball/st_conf.c:453 ball/st_conf.c:461 ball/st_conf.c:464
+#: ball/st_conf.c:467 putt/st_conf.c:201
+msgid "On"
+msgstr "På"
+
+#: ball/st_conf.c:452
+msgid "V-Sync"
+msgstr ""
+
+#: ball/st_conf.c:455
+msgid "Antialiasing"
+msgstr ""
+
+#: ball/st_conf.c:460
+msgid "Reflection"
+msgstr "Reflektion"
+
+#: ball/st_conf.c:463
+msgid "Background"
+msgstr "Bakgrund"
+
+#: ball/st_conf.c:466 putt/st_conf.c:206
+msgid "Shadow"
+msgstr "Skugga"
+
+#: ball/st_demo.c:201
 msgid "Time"
 msgstr "Tid"
 
-#: ball/st_demo.c:198
+#: ball/st_demo.c:203
 msgid "Status"
 msgstr "Status"
 
-#: ball/st_demo.c:225
-#: ball/st_demo.c:384
+#: ball/st_demo.c:234 ball/st_demo.c:415
 msgid "Replay"
 msgstr "Inspelning"
 
-#: ball/st_demo.c:226
-#: putt/st_all.c:680
+#: ball/st_demo.c:235 putt/st_all.c:731
 msgid "Player"
 msgstr "Spelare"
 
-#: ball/st_demo.c:227
+#: ball/st_demo.c:236
 msgid "Date"
 msgstr "Datum"
 
-#: ball/st_demo.c:280
+#: ball/st_demo.c:289
 msgid "Select Replay"
 msgstr "Välj inspelning"
 
-#: ball/st_demo.c:296
+#: ball/st_demo.c:305
 msgid "No Replays"
 msgstr "Inga inspelningar"
 
-#: ball/st_demo.c:505
+#: ball/st_demo.c:597
 msgid "Replay Paused"
 msgstr "Pausad"
 
-#: ball/st_demo.c:508
+#: ball/st_demo.c:599
 msgid "Replay Ends"
 msgstr "Inspelning avslutad"
 
-#: ball/st_demo.c:517
-#: ball/st_pause.c:110
-#: putt/st_all.c:592
+#: ball/st_demo.c:605 ball/st_pause.c:88 putt/st_all.c:641
 msgid "Quit"
 msgstr "Avsluta"
 
-#: ball/st_demo.c:521
+#: ball/st_demo.c:609
 msgid "Keep"
 msgstr "Behåll"
 
-#: ball/st_demo.c:522
-#: share/keynames.c:39
+#: ball/st_demo.c:610 share/keynames.c:39
 msgid "Delete"
 msgstr "Ta bort"
 
-#: ball/st_demo.c:527
-#: ball/st_pause.c:115
-#: putt/st_all.c:593
+#: ball/st_demo.c:614 ball/st_pause.c:93 putt/st_all.c:642
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: ball/st_demo.c:531
+#: ball/st_demo.c:616
 msgid "Repeat"
 msgstr "Upprepa"
 
-#: ball/st_demo.c:596
+#: ball/st_demo.c:687
 msgid "Delete Replay?"
 msgstr "Ta bort inspelning?"
 
-#: ball/st_demo.c:634
+#: ball/st_demo.c:691 ball/st_save.c:211 putt/st_conf.c:166
+msgid "No"
+msgstr "Nej"
+
+#: ball/st_demo.c:692 ball/st_save.c:212 ball/st_start.c:233
+#: putt/st_conf.c:167
+msgid "Yes"
+msgstr "Ja"
+
+#: ball/st_demo.c:731 ball/st_level.c:160
 msgid "Warning!"
 msgstr "Varning!"
 
-#: ball/st_demo.c:636
-msgid "The current replay was recorded with a\\different (or unknown) version of this level.\\Be prepared to encounter visual errors.\\"
-msgstr "Den aktuella inspelning spelades in med en\\annan (eller okänd) version av denna nivå.\\Du kan uppleva visuella felaktigheter.\\"
+#: ball/st_demo.c:733
+msgid ""
+"The current replay was recorded with a\\different (or unknown) version of "
+"this level.\\Be prepared to encounter visual errors.\\"
+msgstr ""
+"Den aktuella inspelning spelades in med en\\annan (eller okänd) version av "
+"denna nivå.\\Du kan uppleva visuella felaktigheter.\\"
 
-#: ball/st_done.c:66
+#: ball/st_done.c:62
 msgid "New Set Record"
 msgstr "Nytt bansamlingsrekord"
 
-#: ball/st_done.c:67
+#: ball/st_done.c:63
 msgid "Set Complete"
 msgstr "Bansamlingen är komplett"
 
-#: ball/st_done.c:96
+#: ball/st_done.c:82
 msgid "Select Level"
 msgstr "Välj nivå"
 
-#: ball/st_fall_out.c:87
+#: ball/st_fail.c:83
 msgid "Fall-out!"
 msgstr "Du ramlade!"
 
-#: ball/st_fall_out.c:94
-#: ball/st_time_out.c:85
+#: ball/st_fail.c:85
+msgid "Time's Up!"
+msgstr "Tiden är slut!"
+
+#: ball/st_fail.c:96
 msgid "Exit"
 msgstr "Avsluta"
 
-#: ball/st_fall_out.c:97
-#: ball/st_goal.c:219
-#: ball/st_time_out.c:88
+#: ball/st_fail.c:99 ball/st_goal.c:221
 msgid "Next Level"
 msgstr "Nästa nivå"
 
-#: ball/st_fall_out.c:100
-#: ball/st_goal.c:222
-#: ball/st_time_out.c:91
+#: ball/st_fail.c:102 ball/st_goal.c:224
 msgid "Retry Level"
 msgstr "Börja om"
 
-#: ball/st_fall_out.c:103
-#: ball/st_goal.c:225
-#: ball/st_time_out.c:94
+#: ball/st_fail.c:105 ball/st_goal.c:227
 msgid "Save Replay"
 msgstr "Spara inspelning"
 
-#: ball/st_goal.c:115
+#: ball/st_goal.c:102
 msgid "New Record"
 msgstr "Nytt rekord"
 
-#: ball/st_goal.c:116
+#: ball/st_goal.c:103
 msgid "GOAL"
 msgstr "MÅL"
 
-#: ball/st_goal.c:166
-#, c-format
-msgid "%d new bonus level"
-msgid_plural "%d new bonus levels"
-msgstr[0] "%d ny bonusnivå"
-msgstr[1] "%d nya bonusnivåer"
-
-#: ball/st_goal.c:214
-#: ball/st_goal.c:216
+#: ball/st_goal.c:216 ball/st_goal.c:218
 msgid "Finish"
 msgstr "Mål"
 
-#: ball/st_help.c:92
-msgid "Techniques"
-msgstr "Teknik"
+#: ball/st_help.c:103
+msgid "Tricks"
+msgstr ""
 
-#: ball/st_help.c:93
+#: ball/st_help.c:104
 msgid "Modes"
 msgstr "Lägen"
 
-#: ball/st_help.c:94
+#: ball/st_help.c:105
 msgid "Controls"
 msgstr "Styrning"
 
-#: ball/st_help.c:95
+#: ball/st_help.c:106
 msgid "Rules"
 msgstr "Regler"
 
-#: ball/st_help.c:106
-msgid "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor causing the\\ball to roll.\\"
-msgstr "Rör musen eller styrspaken\\eller använd piltangenterna för\\att tilta golvet vilket\\får bollen att rulla.\\"
+#: ball/st_help.c:117
+msgid ""
+"Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
+"causing the\\ball to roll.\\"
+msgstr ""
+"Rör musen eller styrspaken\\eller använd piltangenterna för\\att tilta "
+"golvet vilket\\får bollen att rulla.\\"
 
-#: ball/st_help.c:111
-msgid "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and finish\\the level.\\"
-msgstr "Rulla över mynt för att samla\\dem.  Samla mynt för\\att låsa upp målet och\\avsluta nivån.\\"
+#: ball/st_help.c:122
+msgid ""
+"Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
+"finish\\the level.\\"
+msgstr ""
+"Rulla över mynt för att samla\\dem.  Samla mynt för\\att låsa upp målet och"
+"\\avsluta nivån.\\"
 
-#: ball/st_help.c:168
-msgid "Left and right mouse buttons rotate the view."
+#: ball/st_help.c:179
+#, fuzzy
+#| msgid "Left and right mouse buttons rotate the view."
+msgid ""
+"Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
+"rotation."
 msgstr "Vänster och höger musknapp roterar vyn."
 
-#: ball/st_help.c:169
-msgid "Hold Shift for faster view rotation."
-msgstr "Håll ner Skift för snabbare vyrotation."
-
-#: ball/st_help.c:170
+#: ball/st_help.c:181
 msgid "Pause / Release Pointer"
 msgstr "Paus / Släpp pekare"
 
-#: ball/st_help.c:171
+#: ball/st_help.c:182
 msgid "Exit / Cancel Menu"
 msgstr "Avsluta / Avbrytsmeny"
 
-#: ball/st_help.c:172
-msgid "Chase View"
-msgstr "Jaktvy"
-
-#: ball/st_help.c:173
-msgid "Lazy View"
-msgstr "Slapphetsvy"
-
-#: ball/st_help.c:174
-msgid "Manual View"
-msgstr "Manuell vy"
-
-#: ball/st_help.c:175
+#: ball/st_help.c:186
 msgid "Screenshot"
 msgstr "Skärmbild"
 
-#: ball/st_help.c:241
-msgid "Finish a level before the time runs out.\\You need to collect coins in order to open the goal."
-msgstr "Avsluta en nivå innan tiden tar slut.\\Du måste samla mynt för att öppna målet."
+#: ball/st_help.c:252
+msgid ""
+"Finish a level before the time runs out.\\You need to collect coins in order "
+"to open the goal."
+msgstr ""
+"Avsluta en nivå innan tiden tar slut.\\Du måste samla mynt för att öppna "
+"målet."
 
-#: ball/st_help.c:249
-msgid "Start playing from the first level of the set.\\You start with only three balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr "Börja spela från första nivån i bansamlingen.\\Du börjar med endast tre bollar, förlora dem inte.\\Tjäna en extraboll för varje 100 mynt du samlar."
+#: ball/st_help.c:265
+msgid ""
+"Start playing from the first level of the set.\\You start with only three "
+"balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
+msgstr ""
+"Börja spela från första nivån i bansamlingen.\\Du börjar med endast tre "
+"bollar, förlora dem inte.\\Tjäna en extraboll för varje 100 mynt du samlar."
 
-#: ball/st_help.c:263
-msgid "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You may be able\\to reach new places.\\"
-msgstr "Hörn kan användas för att hoppa.\\Börja rulla och sikta\\på vinkeln. Du kanske kan\\komma till nya platser.\\"
+#: ball/st_help.c:279
+msgid ""
+"Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
+"may be able\\to reach new places.\\"
+msgstr ""
+"Hörn kan användas för att hoppa.\\Börja rulla och sikta\\på vinkeln. Du "
+"kanske kan\\komma till nya platser.\\"
 
-#: ball/st_help.c:268
-msgid "Tilting in 2 directions increases\\the slope. Use the manual view\\and turn the camera by 45\\degrees for best results.\\"
-msgstr "Tiltning i två riktningar ökar\\lutningen. Använd manuell vy\\och sätt kameran på 45\\grader för bästa resultat.\\"
+#: ball/st_help.c:284
+#, fuzzy
+#| msgid ""
+#| "Tilting in 2 directions increases\\the slope. Use the manual view\\and "
+#| "turn the camera by 45\\degrees for best results.\\"
+msgid ""
+"Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
+"turn the camera by 45\\degrees for best results.\\"
+msgstr ""
+"Tiltning i två riktningar ökar\\lutningen. Använd manuell vy\\och sätt "
+"kameran på 45\\grader för bästa resultat.\\"
 
-#: ball/st_help.c:288
-#: ball/st_help.c:298
+#: ball/st_help.c:304 ball/st_help.c:314
 msgid "Watch demo"
 msgstr "Se på demo"
 
-#: ball/st_level.c:52
+#: ball/st_level.c:56
 #, c-format
 msgid "Bonus Level %s"
 msgstr "Bonusnivå %s"
 
-#: ball/st_level.c:54
+#: ball/st_level.c:58
 #, c-format
 msgid "Level %s"
 msgstr "Nivå %s"
+
+#: ball/st_level.c:64
+#, c-format
+msgid "Standalone level"
+msgstr ""
+
+#: ball/st_level.c:162
+msgid ""
+"A replay file could not be opened for writing.\\This game will not be "
+"recorded.\\"
+msgstr ""
 
 #: ball/st_name.c:118
 msgid "OK"
 msgstr "OK"
 
-#: ball/st_name.c:120
-#: ball/st_save.c:126
+#: ball/st_name.c:120 ball/st_save.c:126
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ball/st_over.c:38
+#: ball/st_over.c:35
 msgid "GAME OVER"
 msgstr "SPELET ÄR ÖVER"
 
-#: ball/st_pause.c:104
-#: putt/st_all.c:587
+#: ball/st_pause.c:82 putt/st_all.c:636
 msgid "Paused"
 msgstr "Pausad"
 
-#: ball/st_pause.c:113
+#: ball/st_pause.c:91
 msgid "Restart"
 msgstr "Börja om"
 
-#: ball/st_play.c:123
+#: ball/st_play.c:116
 msgid "Ready?"
 msgstr "På era platser"
 
-#: ball/st_play.c:203
+#: ball/st_play.c:200
 msgid "Set?"
 msgstr "Färdiga"
 
-#: ball/st_play.c:293
+#: ball/st_play.c:306
 msgid "GO!"
 msgstr "KÖR!"
 
@@ -553,54 +559,46 @@ msgstr "Inspelningsnamn"
 msgid "Save"
 msgstr "Spara"
 
-#: ball/st_save.c:200
+#: ball/st_save.c:205
 msgid "Overwrite?"
 msgstr "Skriv över?"
 
-#: ball/st_set.c:117
+#: ball/st_set.c:108
 msgid "Level Set"
 msgstr "Bansamling"
 
-#. Translators: adjust the amount of whitespace here
-#. * as necessary for the buttons to look good.
-#: ball/st_start.c:233
+#. Translators: adjust the amount of
+#. * whitespace here as necessary for
+#. * the buttons to look good.
+#: ball/st_start.c:231
 msgid "   No   "
 msgstr "  Nej   "
 
-#: ball/st_start.c:242
+#: ball/st_start.c:243
 msgid "Lock Goals of Completed Levels?"
 msgstr "Lås mål för kompletta nivåer?"
 
-#: ball/st_time_out.c:78
-msgid "Time's Up!"
-msgstr "Tiden är slut!"
-
-#: ball/st_title.c:127
-#: ball/st_title.c:161
+#: ball/st_title.c:138 ball/st_title.c:172
 msgid "menu^Cheat"
 msgstr "Fuska"
 
-#: ball/st_title.c:133
-#: ball/st_title.c:164
-#: putt/st_all.c:214
+#: ball/st_title.c:144 ball/st_title.c:175 putt/st_all.c:238
 msgid "menu^Play"
 msgstr "Spela"
 
-#: ball/st_title.c:167
+#: ball/st_title.c:178
 msgid "menu^Replay"
 msgstr "Inspelning"
 
-#: ball/st_title.c:168
+#: ball/st_title.c:179
 msgid "menu^Help"
 msgstr "Hjälp"
 
-#: ball/st_title.c:169
-#: putt/st_all.c:215
+#: ball/st_title.c:180 putt/st_all.c:239
 msgid "menu^Options"
 msgstr "Alternativ"
 
-#: ball/st_title.c:170
-#: putt/st_all.c:216
+#: ball/st_title.c:181 putt/st_all.c:240
 msgid "menu^Exit"
 msgstr "Avsluta"
 
@@ -616,50 +614,48 @@ msgstr "Medel"
 msgid "Easy"
 msgstr "Lätt"
 
-#: ball/util.c:77
-#: ball/util.c:142
+#: ball/util.c:75 ball/util.c:121
 msgid "Unavailable"
 msgstr "Inte tillgänglig"
 
-#: ball/util.c:200
-#: ball/util.c:247
+#: ball/util.c:177 ball/util.c:227
 msgid "Most Coins"
 msgstr "Flest mynt"
 
-#: ball/util.c:206
-#: ball/util.c:251
+#: ball/util.c:184 ball/util.c:231
 msgid "Best Times"
 msgstr "Bästa tider"
 
-#: ball/util.c:212
-#: ball/util.c:255
+#: ball/util.c:191 ball/util.c:235
 msgid "Fast Unlock"
 msgstr "Snabb upplåsning"
 
-#: ball/util.c:224
+#: ball/util.c:204
 msgid "Change Name"
 msgstr "Byt namn"
 
-#: ball/util.c:360
+#: ball/util.c:331
 msgid "caps"
 msgstr ""
 
-#: ball/util.c:421
+#: ball/util.c:386
 msgid "Next"
 msgstr "Nästa"
 
-#: ball/util.c:422
+#: ball/util.c:387
 msgid "Prev"
 msgstr "Föreg"
 
-#: share/gui.c:236
-#, c-format
-msgid "Font \"%s\" doesn't exist, trying default font.\n"
+#: share/gui.c:427
+#, fuzzy, c-format
+#| msgid "Font \"%s\" doesn't exist, trying default font.\n"
+msgid "Font '%s' doesn't exist, trying default font.\n"
 msgstr "Typsnittet \"%s\" finns inte, provar standardtypsnittet.\n"
 
-#: share/gui.c:270
-#, c-format
-msgid "Could not load font %s.\n"
+#: share/gui.c:474
+#, fuzzy, c-format
+#| msgid "Could not load font %s.\n"
+msgid "Could not load font '%s'.\n"
 msgstr "Kunde inte läsa in typsnittet %s.\n"
 
 #: share/gui.h:23
@@ -717,8 +713,7 @@ msgstr "Lika med"
 msgid "Up"
 msgstr "Upp"
 
-#: share/keynames.c:43
-#: share/keynames.c:46
+#: share/keynames.c:43 share/keynames.c:46
 msgid "Down"
 msgstr "Ner"
 
@@ -902,136 +897,169 @@ msgstr "Euro"
 msgid "Undo"
 msgstr "Ångra"
 
-#: share/syswm.c:44
+#: share/syswm.c:58
 #, c-format
 msgid "Failed to get WM info: %s\n"
 msgstr "Misslyckades med att få WM-info: %s\n"
 
-#: share/syswm.c:115
+#: share/syswm.c:129
 msgid "Failed to allocate memory for EWMH icon data.\n"
 msgstr "Misslyckades med att allokera minne för EWMH-ikondata.\n"
 
-#: putt/hole.c:107
-#: putt/hud.c:51
-#: putt/st_all.c:98
-#: putt/st_all.c:142
+#: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:107 putt/st_all.c:168
 msgid "Par"
 msgstr "Par"
 
-#: putt/hole.c:109
-#: putt/st_all.c:99
-#: putt/st_all.c:143
+#: putt/hole.c:162 putt/st_all.c:108 putt/st_all.c:169
 msgid "P1"
 msgstr "P1"
 
-#: putt/hole.c:110
-#: putt/st_all.c:100
-#: putt/st_all.c:144
+#: putt/hole.c:163 putt/st_all.c:109 putt/st_all.c:170
 msgid "P2"
 msgstr "P2"
 
-#: putt/hole.c:111
-#: putt/st_all.c:101
-#: putt/st_all.c:145
+#: putt/hole.c:164 putt/st_all.c:110 putt/st_all.c:171
 msgid "P3"
 msgstr "P3"
 
-#: putt/hole.c:112
-#: putt/st_all.c:102
-#: putt/st_all.c:146
+#: putt/hole.c:165 putt/st_all.c:111 putt/st_all.c:172
 msgid "P4"
 msgstr "P4"
 
-#: putt/st_all.c:76
+#: putt/st_all.c:75
 msgid "O"
 msgstr ""
 
-#: putt/st_all.c:112
+#: putt/st_all.c:124
 msgid "Tot"
 msgstr "Tot"
 
-#: putt/st_all.c:121
+#: putt/st_all.c:136
 msgid "I"
 msgstr ""
 
-#: putt/st_all.c:303
+#: putt/st_all.c:350
 msgid "Select Course"
 msgstr "Välj bansamling"
 
-#: putt/st_all.c:469
+#: putt/st_all.c:518
 msgid "Players?"
 msgstr "Spelare?"
 
-#: putt/st_all.c:673
+#: putt/st_all.c:722
 #, c-format
 msgid "Hole %02d"
 msgstr "Hål %02d"
 
-#: putt/st_all.c:998
+#: putt/st_all.c:1048
 msgid "It's In!"
 msgstr "Den är i!"
 
-#: putt/st_all.c:1140
+#: putt/st_all.c:1190
 msgid "1 Stroke Penalty"
 msgstr ""
 
-#: putt/st_all.c:1218
+#: putt/st_all.c:1268
 msgid "Scores"
 msgstr "Poäng"
 
-#: putt/st_all.c:1271
+#: putt/st_all.c:1321
 msgid "Final Scores"
 msgstr "Finalpoäng"
+
+#: putt/st_conf.c:188
+msgid "Low"
+msgstr "Låg"
+
+#: putt/st_conf.c:189
+msgid "High"
+msgstr "Hög"
+
+#: putt/st_conf.c:194
+msgid "Textures"
+msgstr "Texturer"
 
 #: data/set-easy.txt
 msgid "Neverball Easy"
 msgstr "Neverball Lätt"
 
 #: data/set-easy.txt
-msgid "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr "Svårighet: Nybörjare till medelduktiga\\\\25 nivåer med en mjuk inlärningskurva.\\Läs nivåintroduktioner för speltips.\\ \\"
+msgid ""
+"Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
+"learning curve.\\Read level introductions for gameplay tips.\\ \\"
+msgstr ""
+"Svårighet: Nybörjare till medelduktiga\\\\25 nivåer med en mjuk "
+"inlärningskurva.\\Läs nivåintroduktioner för speltips.\\ \\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
 msgstr "Neverball Medel"
 
 #: data/set-medium.txt
-msgid "Difficulty: Beginner through Expert\\\\25 levels which provide a balanced\\challenge for players. Try to claim\\some of the records provided.\\"
+msgid ""
+"Difficulty: Beginner through Expert\\\\25 levels which provide a balanced"
+"\\challenge for players. Try to claim\\some of the records provided.\\"
 msgstr ""
-"Svårighet: Nybörjare till experter\\\\25 nivåer som ger en balanserad\\utmaning för spelare. Prova att ta\\n"
-"ågra av banrekorden.\\"
+"Svårighet: Nybörjare till experter\\\\25 nivåer som ger en balanserad"
+"\\utmaning för spelare. Prova att ta\\några av banrekorden.\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
 msgstr "Neverball Svår"
 
 #: data/set-hard.txt
-msgid "Difficulty: Intermediate through Expert\\\\25 levels with more of a challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, and Fast Unlock records.\\"
-msgstr "Svårighet: Medelduktiga till experter\\\\25 nivåer med mer utmaningar för\\den erfarna spelaren. Prova att ta\\rekorden för Bästa tider,\\Flest mynt och Snabb upplåsning.\\"
+msgid ""
+"Difficulty: Intermediate through Expert\\\\25 levels with more of a "
+"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
+"and Fast Unlock records.\\"
+msgstr ""
+"Svårighet: Medelduktiga till experter\\\\25 nivåer med mer utmaningar för"
+"\\den erfarna spelaren. Prova att ta\\rekorden för Bästa tider,\\Flest mynt "
+"och Snabb upplåsning.\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
 msgstr "Tour de force"
 
 #: data/set-mym.txt
-msgid "Difficulty: Expert through Insane\\\\25 levels with even greater challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "Svårighet: Experter till Galet svårt\\\\25 nivåer med ännu mera utmaningar.\\Upphovsman: Mehdi Yousfi-Monod (mym)\\ \\"
+msgid ""
+"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
+"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+"Svårighet: Experter till Galet svårt\\\\25 nivåer med ännu mera utmaningar."
+"\\Upphovsman: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-mym2.txt
 msgid "Retour de force"
 msgstr "Retour de force"
 
 #: data/set-mym2.txt
-msgid "Difficulty: A little bit harder than my first set.\\\\More challenge, particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "Svårighet: Lite svårare än min första bansamling.\\\\Fler utmaningar, speciellt för myntsamling.\\Upphovsman: Mehdi Yousfi-Monod (mym)\\ \\"
+msgid ""
+"Difficulty: A little bit harder than my first set.\\\\More challenge, "
+"particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+"Svårighet: Lite svårare än min första bansamling.\\\\Fler utmaningar, "
+"speciellt för myntsamling.\\Upphovsman: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-fwp.txt
 msgid "Nevermania"
 msgstr "Nevermania"
 
 #: data/set-fwp.txt
-msgid "Levels for Neverball Experts\\Author: Florian Priester\\\\\\\\"
-msgstr "Nivåer för Neverball-experter\\Upphovsman: Florian Priester\\\\\\\\"
+msgid ""
+"Difficulty: Expert through Impossible\\\\Assorted levels for advanced "
+"players.\\Author: Florian Priester\\\\"
+msgstr ""
+
+#: data/set-tones.txt
+#, fuzzy
+#| msgid "Bonus Level %s"
+msgid "Tones Levels"
+msgstr "Bonusnivå %s"
+
+#: data/set-tones.txt
+msgid "Difficulty: Moderate to Difficult.\\\\Author: Ian Walker\\\\"
+msgstr ""
 
 #: data/set-misc.txt
 msgid "Neverball Misc"
@@ -1041,125 +1069,221 @@ msgstr "Neverball Blandat"
 msgid "Unsorted levels\\For testing purposes\\\\\\\\"
 msgstr "Osorterade nivåer\\För testsyfte\\\\\\\\"
 
-#: data/courses.txt
-msgid "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ \\Difficulty: Easy to Medium\\Author: rlk\\"
-msgstr "Den ursprungliga 18-hålsbanan i Neverputt.\\Med en smidig inlärningskurva.\\ \\Svårighet: Lätt till medel\\Upphovsman: rlk\\"
+#: data/holes-putt.txt
+msgid ""
+"The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
+"\\Difficulty: Easy to Medium\\Author: rlk\\"
+msgstr ""
+"Den ursprungliga 18-hålsbanan i Neverputt.\\Med en smidig inlärningskurva.\\ "
+"\\Svårighet: Lätt till medel\\Upphovsman: rlk\\"
 
-#: data/courses.txt
+#: data/holes-paxed.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr "En annan 18-hålsbana\\ \\ \\Svårighet: Medel\\Upphovsman: paxed\\"
 
-#: data/courses.txt
+#: data/holes-paxed2.txt
 msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr "Ännu en 18-hålsbana\\ \\ \\Svårighet: Medel\\Upphovsman: paxed\\"
 
-#: data/courses.txt
+#: data/holes-paxed3.txt
 msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr "Ännu fler hål\\ \\ \\Svårighet: Medel\\Upphovsman: paxed\\"
 
-#: data/courses.txt
-msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
+#: data/holes-abc.txt
+msgid ""
+"A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
 msgstr "En 26-hålsbana\\följ alfabetet\\\\Svårighet: Svår\\Upphovsman: paxed\\"
 
-#: data/courses.txt
+#: data/holes-slippi.txt
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
 msgstr "Crazy Golf\\ \\\\Svårighet: Lätt till medel\\Upphovsman: slippifishi\\"
 
-#: data/courses.txt
-msgid "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert Through Insane\\Author: Byron James Johnson"
-msgstr "Tricky Golf\\\\En 18-hålsbana med många utmaningar\\Svårighet: Experter till Galet svårt\\Upphovsman: Byron James Johnson"
+#: data/holes-kk.txt
+msgid ""
+"Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
+"Through Insane\\Author: Byron James Johnson"
+msgstr ""
+"Tricky Golf\\\\En 18-hålsbana med många utmaningar\\Svårighet: Experter till "
+"Galet svårt\\Upphovsman: Byron James Johnson"
+
+#: data/holes-vidski.txt
+msgid ""
+"Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to hard."
+"\\Author: vidski\\"
+msgstr ""
+
+#: data/gui/ball.map data/map-easy/peasy.map
+msgid ""
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
+msgstr ""
+"Musknappar roterar vyn.\\Tryck på Escape för att pausa eller avsluta.\\\\\\"
+"\\Klicka för att börja.\\"
 
 #: data/map-easy/bumper.map
-msgid "Try to avoid being hit by moving objects.\\One bump can throw the ball\\completely out of control.\\"
-msgstr "Försök att undvika att träffas av rörliga objekt.\\En träff kan få bollen\\att tappa kontrollen.\\"
+msgid ""
+"Try to avoid being hit by moving objects.\\One bump can throw the ball"
+"\\completely out of control.\\"
+msgstr ""
+"Försök att undvika att träffas av rörliga objekt.\\En träff kan få bollen"
+"\\att tappa kontrollen.\\"
 
 #: data/map-easy/bumps.map
-msgid "Learn to control a bouncing ball.\\Look at the shadow to know where the\\ball will land.  If you're feeling confident in\\your mastery of bouncing, take a risk\\for a big payoff.\\"
-msgstr "Lär dig att kontrolla en studsande boll.\\Se på skuggan för att vet var bollen\\kommer att landa.  Om du känner dig säker nog\\med studsandet så ta en\\risk för en stor vinst.\\"
+msgid ""
+"Learn to control a bouncing ball.\\Look at the shadow to know where the"
+"\\ball will land.  If you're feeling confident in\\your mastery of bouncing, "
+"take a risk\\for a big payoff.\\"
+msgstr ""
+"Lär dig att kontrolla en studsande boll.\\Se på skuggan för att vet var "
+"bollen\\kommer att landa.  Om du känner dig säker nog\\med studsandet så ta "
+"en\\risk för en stor vinst.\\"
 
 #: data/map-easy/coins.map
-msgid "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to begin.\\"
-msgstr "Denna gång måste du få 50 mynt för att låsa upp målet.\\Röda mynt är värda 5, blåa mynt är värda 10.\\Ta dig till målet innan tiden tar slut!\\\\Klicka för att börja.\\"
+msgid ""
+"This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
+"blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
+"begin.\\"
+msgstr ""
+"Denna gång måste du få 50 mynt för att låsa upp målet.\\Röda mynt är värda "
+"5, blåa mynt är värda 10.\\Ta dig till målet innan tiden tar slut!\\\\Klicka "
+"för att börja.\\"
 
 #: data/map-easy/corners.map
-msgid "Here are some more opportunities for you to\\fall off into the void. Hit the bump hard to\\grab some big coins and score a short time.\\"
+msgid ""
+"Here are some more opportunities for you to\\fall off into the void. Hit the "
+"bump hard to\\grab some big coins and score a short time.\\"
 msgstr ""
 
 #: data/map-easy/curved.map
-msgid "As before, but without the training wheels.\\Keep the ball on a level floor\\and maintain precise control.\\Build some momentum to reach the corners.\\"
+msgid ""
+"As before, but without the training wheels.\\Keep the ball on a level floor"
+"\\and maintain precise control.\\Build some momentum to reach the corners.\\"
 msgstr ""
 
-#: data/map-easy/easy.map data/map-misc/texture-debug.map
-#: data/map-misc/timer-test.map
-msgid "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr "Rör på musen för att tilta golvet.\\Samla 10 mynt för att låsa upp målet.\\Rulla bollen till målet för\\att avsluta nivån.\\\\Klicka för att börja.\\"
+#: data/map-easy/easy.map data/map-misc/centrifuge.map
+#: data/map-misc/texture-debug.map data/map-misc/timer-test.map
+msgid ""
+"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
+"\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgstr ""
+"Rör på musen för att tilta golvet.\\Samla 10 mynt för att låsa upp målet."
+"\\Rulla bollen till målet för\\att avsluta nivån.\\\\Klicka för att börja.\\"
 
 #: data/map-easy/easyhalfpipe.map
-msgid "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over accelerate and you will\\be able to stay in control."
+msgid ""
+"Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
+"accelerate and you will\\be able to stay in control."
 msgstr ""
 
 #: data/map-easy/fence.map
-msgid "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope remains level.\\This way, you maintain full control of the ball.\\Use momentum to get up to the big coins.\\"
-msgstr "''Platt'' är relativt.\\Lär dig att hålla golvet vid en viss vinkel\\så att en backe är jämn.\\På detta sätt får du full kontroll över bollen.\\Använd momentum för att komma till de stora mynten.\\"
+msgid ""
+"''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
+"remains level.\\This way, you maintain full control of the ball.\\Use "
+"momentum to get up to the big coins.\\"
+msgstr ""
+"''Platt'' är relativt.\\Lär dig att hålla golvet vid en viss vinkel\\så att "
+"en backe är jämn.\\På detta sätt får du full kontroll över bollen.\\Använd "
+"momentum för att komma till de stora mynten.\\"
 
 #: data/map-easy/goals.map
-msgid "There are 100 coins here.\\This one shouldn't be too difficult,\\if you don't accidentally make a goal first.\\"
-msgstr "Det finns 100 mynt här.\\Denna bör inte vara så svår,\\om du inte kommer till målet av misstag.\\"
+msgid ""
+"There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
+"don't accidentally make a goal first.\\"
+msgstr ""
+"Det finns 100 mynt här.\\Denna bör inte vara så svår,\\om du inte kommer "
+"till målet av misstag.\\"
 
 #: data/map-easy/goslow.map
-msgid "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower speed means better control.\\Watch the clock and use the time wisely.\\\\Click to begin.\\"
-msgstr "Tilta golvet så lite som möjligt.\\Mindre tilt betyder lägre hastighet.\\Lägre hastighet betyder bättre kontroll.\\Titta på klockan och använd tiden på rätt sätt.\\\\Klicka för att börja.\\"
+#, fuzzy
+#| msgid ""
+#| "Tilt the floor as little as possible.\\Less tilt means lower speed."
+#| "\\Lower speed means better control.\\Watch the clock and use the time "
+#| "wisely.\\\\Click to begin.\\"
+msgid ""
+"Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
+"speed means better control.\\Watch the clock and use the time wisely.\\"
+msgstr ""
+"Tilta golvet så lite som möjligt.\\Mindre tilt betyder lägre hastighet."
+"\\Lägre hastighet betyder bättre kontroll.\\Titta på klockan och använd "
+"tiden på rätt sätt.\\\\Klicka för att börja.\\"
 
 #: data/map-easy/greed.map
-msgid "Each bridge is narrower than the one before.\\But each pays better than the last as well!\\You get to decide how far you go on this one.\\"
+msgid ""
+"Each bridge is narrower than the one before.\\But each pays better than the "
+"last as well!\\You get to decide how far you go on this one.\\"
 msgstr ""
 
 #: data/map-easy/groundbreak.map
-msgid "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole instead of falling into it."
+msgid ""
+"Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
+"will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
+"instead of falling into it."
 msgstr ""
 
 #: data/map-easy/hole.map
-msgid "Stay away from the edges!\\When approaching a drop, begin slowing down\\early. You need just as much room to slow\\down as you did to speed up.\\"
+msgid ""
+"Stay away from the edges!\\When approaching a drop, begin slowing down"
+"\\early. You need just as much room to slow\\down as you did to speed up.\\"
 msgstr ""
 
 #: data/map-easy/lollipop.map
-msgid "Follow the yellow lick road!\\\\The blue coins are especially challenging,\\but with some experimentation and practice,\\you'll be able to collect them all."
+msgid ""
+"Follow the yellow lick road!\\\\The blue coins are especially challenging,"
+"\\but with some experimentation and practice,\\you'll be able to collect "
+"them all."
 msgstr ""
 
 #: data/map-easy/maze.map
-msgid "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow and\\off the walls. All the coins are collectable\\in the given time.\\"
+msgid ""
+"The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
+"and\\off the walls. All the coins are collectable\\in the given time.\\"
 msgstr ""
 
 #: data/map-easy/mazebump.map
-msgid "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers - it will help you\\to reach the goal."
+msgid ""
+"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers "
+"- it will help you\\to reach the goal."
 msgstr ""
 
 #: data/map-easy/mover.map
-msgid "A moving platform can be tricky.\\Use precise timing to get aboard,\\and precise balance to stay there.\\Don't let it move out from under you.\\Ride the platforms to grab the big coins.\\"
+msgid ""
+"A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
+"precise balance to stay there.\\Don't let it move out from under you.\\Ride "
+"the platforms to grab the big coins.\\"
 msgstr ""
 
-#: data/map-easy/peasy.map
-msgid "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click to begin.\\"
-msgstr "Musknappar roterar vyn.\\Tryck på Escape för att pausa eller avsluta.\\\\\\\\Klicka för att börja.\\"
-
 #: data/map-easy/roundcoins.map
-msgid "When you are on the elevators,\\make small adjustments to keep the ball steady.\\You can collect many coins by\\keeping the ball in one place.\\Too much movement and you will fall off."
+msgid ""
+"When you are on the elevators,\\make small adjustments to keep the ball "
+"steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
+"much movement and you will fall off."
 msgstr ""
 
 #: data/map-easy/roundlaby.map
-msgid "There is only one path to reach the goal,\\but lots of paths for collecting coins.\\Make sure you collect enough\\to unlock the goal."
-msgstr "Det finns bara en väg till målet,\\men massor av vägar för att samla mynt.\\Försäkra dig om att du samlar tillräckligt\\många för att låsa upp målet."
+msgid ""
+"There is only one path to reach the goal,\\but lots of paths for collecting "
+"coins.\\Make sure you collect enough\\to unlock the goal."
+msgstr ""
+"Det finns bara en väg till målet,\\men massor av vägar för att samla mynt."
+"\\Försäkra dig om att du samlar tillräckligt\\många för att låsa upp målet."
 
 #: data/map-easy/slalom.map
-msgid "Follow the trail of coins to reach the goal.\\If you hit a post while moving quickly,\\you will bounce far off course."
+msgid ""
+"Follow the trail of coins to reach the goal.\\If you hit a post while moving "
+"quickly,\\you will bounce far off course."
 msgstr ""
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
-msgstr "Backar kräver mer hastighet att komma över.\\Var försiktig så du inte kör för fort!"
+msgstr ""
+"Backar kräver mer hastighet att komma över.\\Var försiktig så du inte kör "
+"för fort!"
 
 #: data/map-easy/speedbumps.map
-msgid "When the ball is on a moving platform,\\it will be pulled in the direction of movement.\\Use the rails to steady yourself,\\and collect the coins you need\\to open the goal."
+msgid ""
+"When the ball is on a moving platform,\\it will be pulled in the direction "
+"of movement.\\Use the rails to steady yourself,\\and collect the coins you "
+"need\\to open the goal."
 msgstr ""
 
 #: data/map-easy/thwomp2.map
@@ -1167,8 +1291,12 @@ msgid "Grab all the coins...\\but don't get bullied!"
 msgstr ""
 
 #: data/map-easy/wakka.map
-msgid "Here's another coin grab.\\Perhaps you already know a good route.\\Teleportation might come in handy.\\"
-msgstr "Här är ännu en myntsamling.\\Du kanske redan vet en bra väg.\\Teleportering kan vara behjälpligt.\\"
+msgid ""
+"Here's another coin grab.\\Perhaps you already know a good route."
+"\\Teleportation might come in handy.\\"
+msgstr ""
+"Här är ännu en myntsamling.\\Du kanske redan vet en bra väg.\\Teleportering "
+"kan vara behjälpligt.\\"
 
 #: data/map-fwp/adventure.map
 msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
@@ -1177,6 +1305,10 @@ msgstr "=Äventyr=\\Många saker att göra, mynt att samla, risker att ta."
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."
 msgstr "=Atrium=\\Ta bort mynten från deras pelare."
+
+#: data/map-fwp/buoys.map
+msgid "=Buoys=\\He who controls the timers, controls the gates."
+msgstr ""
 
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
@@ -1188,6 +1320,10 @@ msgstr "=Konfetti=\\Hjälp! Det måste finnas ett sätt genom detta."
 
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
+msgstr ""
+
+#: data/map-fwp/ladybirds.map
+msgid "=Ladybirds=\\Don't let them bug you."
 msgstr ""
 
 #: data/map-fwp/mountains.map
@@ -1210,6 +1346,10 @@ msgstr "=Räls=\\Förlora inte balansen."
 msgid "=Ramps=\\Can you make it to the top?"
 msgstr "=Ramper=\\Kan du ta dig till toppen?"
 
+#: data/map-fwp/rings.map
+msgid "=Rings=\\Roll your way through this trap."
+msgstr ""
+
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
 msgstr "=Backe=\\Försök inte att bli en modern Sisyfos."
@@ -1224,7 +1364,8 @@ msgstr ""
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
-msgstr "=Tennis=\\Det finns massor av prispengar som bara väntar på att plockas upp."
+msgstr ""
+"=Tennis=\\Det finns massor av prispengar som bara väntar på att plockas upp."
 
 #: data/map-fwp/tree.map
 msgid "=Tree=\\Follow the spiral staircase to the goal."
@@ -1243,11 +1384,15 @@ msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
 msgstr "Det finns inte mycket golv här.\\Hoppas att det inte är ett problem.\\"
 
 #: data/map-hard/curbs.map
-msgid "To make progress here you'll need to hit the\\edges hard and control your bouncing.\\It's often easiest to hit the curb at a corner.\\"
+msgid ""
+"To make progress here you'll need to hit the\\edges hard and control your "
+"bouncing.\\It's often easiest to hit the curb at a corner.\\"
 msgstr ""
 
 #: data/map-hard/flip.map
-msgid "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each trigger switches colors in direct contact."
+msgid ""
+"Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
+"trigger switches colors in direct contact."
 msgstr ""
 
 #: data/map-hard/frogger.map
@@ -1255,7 +1400,9 @@ msgid "Ribbit!\\"
 msgstr "Kvack!\\"
 
 #: data/map-hard/gaps.map
-msgid "Time the switches carefully to synchronize\\the motion of the platforms.\\Move quickly across the gaps.\\"
+msgid ""
+"Time the switches carefully to synchronize\\the motion of the platforms."
+"\\Move quickly across the gaps.\\"
 msgstr ""
 
 #: data/map-hard/grid.map
@@ -1263,7 +1410,9 @@ msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
 msgstr "Jodå, bollen passar ganska bra i\\dessa små hål.\\"
 
 #: data/map-hard/hallways.map
-msgid "Control your speed and your bounces.\\Teleporters will always bring you\\back somewhere in the level."
+msgid ""
+"Control your speed and your bounces.\\Teleporters will always bring you"
+"\\back somewhere in the level."
 msgstr ""
 
 #: data/map-hard/hump.map
@@ -1271,7 +1420,9 @@ msgid "Momentum may work against you.\\"
 msgstr "Momentum kan bli ett problem för dig.\\"
 
 #: data/map-hard/invis.map
-msgid "Allow your greed to guide you.\\For an added challenge,\\try to get to all of the coins.\\It can be done without guesswork.\\"
+msgid ""
+"Allow your greed to guide you.\\For an added challenge,\\try to get to all "
+"of the coins.\\It can be done without guesswork.\\"
 msgstr ""
 
 #: data/map-hard/movers.map
@@ -1279,7 +1430,10 @@ msgid "Go for a ride.\\"
 msgstr ""
 
 #: data/map-hard/nostairs.map
-msgid "There are two goals here.\\You can complete this level\\the easy way or the hard way.\\Of course, by going the easy way\\you can forget about all\\those red and blue coins."
+msgid ""
+"There are two goals here.\\You can complete this level\\the easy way or the "
+"hard way.\\Of course, by going the easy way\\you can forget about all\\those "
+"red and blue coins."
 msgstr ""
 
 #: data/map-hard/paths.map
@@ -1295,8 +1449,12 @@ msgid "Slow and steady.\\"
 msgstr "Långsamt och stadigt.\\"
 
 #: data/map-hard/pyramid.map
-msgid "You'll only get about 15 seconds at each step,\\so don't delay.  Get the coins and\\get to the next switch.\\"
-msgstr "Du får bara runt 15 sekunder på varje steg,\\så vänta inte.  Samla mynten och\\ta dig till nästa brytare.\\"
+msgid ""
+"You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
+"coins and\\get to the next switch.\\"
+msgstr ""
+"Du får bara runt 15 sekunder på varje steg,\\så vänta inte.  Samla mynten och"
+"\\ta dig till nästa brytare.\\"
 
 #: data/map-hard/quads.map
 msgid "Don't get bullied.\\"
@@ -1310,8 +1468,10 @@ msgstr "Jag tror jag kan.\\Jag tror jag kan.\\"
 msgid "So close, yet so very far.\\"
 msgstr "Så nära, men ändå så långt bort.\\"
 
-#: data/map-hard/risers.map
-msgid "Ride the elevators to the top.\\They move quickly,\\so don't dally too long.\\"
+#: data/map-hard/risers.map data/map-misc/edge-test.map
+msgid ""
+"Ride the elevators to the top.\\They move quickly,\\so don't dally too long."
+"\\"
 msgstr ""
 
 #: data/map-hard/spiralin.map
@@ -1323,11 +1483,16 @@ msgid "Don't worry.\\The green part isn't going anywhere.\\"
 msgstr ""
 
 #: data/map-hard/sync.map
-msgid "Use the switches to set the platforms\\in motion.  Time it so they come\\together in the middle.\\"
+msgid ""
+"Use the switches to set the platforms\\in motion.  Time it so they come"
+"\\together in the middle.\\"
 msgstr ""
 
 #: data/map-hard/teleport.map
-msgid "The ball must be entirely within a teleporter\\in order to trigger it.\\Remember that the ball carries its momentum\\through a teleporter, so plan ahead.\\"
+msgid ""
+"The ball must be entirely within a teleporter\\in order to trigger it."
+"\\Remember that the ball carries its momentum\\through a teleporter, so plan "
+"ahead.\\"
 msgstr ""
 
 #: data/map-hard/tilt.map
@@ -1339,7 +1504,9 @@ msgid "Stairway to heaven"
 msgstr "Trappa till himlen"
 
 #: data/map-medium/angle.map
-msgid "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take the easy cash or\\go all the way for a big payoff.\\"
+msgid ""
+"Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
+"the easy cash or\\go all the way for a big payoff.\\"
 msgstr ""
 
 #: data/map-medium/coneskeleton.map
@@ -1347,11 +1514,15 @@ msgid "Plenty of coins for the taking.\\Can you take them all?"
 msgstr "Massor av mynt att samla.\\Kan du ta dem alla?"
 
 #: data/map-medium/cross.map
-msgid "Use momentum to reach\\the upper platforms,\\but keep the ball in control\\for safe landing.\\\\The manual view may help here.\\"
+msgid ""
+"Use momentum to reach\\the upper platforms,\\but keep the ball in control"
+"\\for safe landing.\\\\The manual view may help here.\\"
 msgstr ""
 
 #: data/map-medium/drops.map
-msgid "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
+msgid ""
+"Remember to keep an eye on the shadow to\\help control a bouncing ball.  And "
+"don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
 msgstr ""
 
 #: data/map-medium/easytele.map
@@ -1371,7 +1542,10 @@ msgid "Catch the train before it leaves the station.\\"
 msgstr "Hoppa på tåget innan det lämnar stationen.\\"
 
 #: data/map-medium/learngrow.map
-msgid "The ball will fit in those small holes,\\if you can just find something to make it smaller.\\Other places may require a bigger ball.\\One thing is certain - you'll want a plan!"
+msgid ""
+"The ball will fit in those small holes,\\if you can just find something to "
+"make it smaller.\\Other places may require a bigger ball.\\One thing is "
+"certain - you'll want a plan!"
 msgstr ""
 
 #: data/map-medium/locks.map
@@ -1379,7 +1553,9 @@ msgid "Hit the switches to move the barriers.\\"
 msgstr "Aktivera brytarna för att flytta barriärerna.\\"
 
 #: data/map-medium/multicurves.map
-msgid "The temptation to move quickly\\could prove your undoing.\\\\Then again, maybe not..."
+msgid ""
+"The temptation to move quickly\\could prove your undoing.\\\\Then again, "
+"maybe not..."
 msgstr ""
 
 #: data/map-medium/plinko.map
@@ -1391,35 +1567,51 @@ msgid "You can never go home again..."
 msgstr "Du kan aldrig gå hem igen..."
 
 #: data/map-medium/rampdn.map
-msgid "You'll need to exert some control over your\\view here.  Press F3 to stop the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press F1 to return to the auto-rotating view.\\"
+msgid ""
+"You'll need to exert some control over your\\view here.  Press 3 to stop the "
+"auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
+"return to the auto-rotating view.\\"
 msgstr ""
 
 #: data/map-medium/roundfloors.map
-msgid "This wedding cake is plenty rich,\\but be careful as you go\\to each lower layer."
+msgid ""
+"This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
+"layer."
 msgstr ""
 
 #: data/map-medium/sparselines.map
-msgid "Bump the logs at speed to change lanes.\\Try to reach the top for an extra challenge!"
+msgid ""
+"Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
+"challenge!"
 msgstr ""
 
 #: data/map-medium/spiraldn.map
-msgid "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might work.\\"
+msgid ""
+"Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
+"work.\\"
 msgstr ""
 
 #: data/map-medium/spiralup.map
-msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
+msgid ""
+"Just as before, but moving up instead of down.\\No cheating this time.\\"
 msgstr ""
 
 #: data/map-medium/stairs.map
-msgid "Here's yet another test of your ability\\to control bouncing.  Moving down the\\stairs too quickly can be hazardous.\\"
+msgid ""
+"Here's yet another test of your ability\\to control bouncing.  Moving down "
+"the\\stairs too quickly can be hazardous.\\"
 msgstr ""
 
 #: data/map-medium/telemaze.map
-msgid "This maze has no walls.\\But that doesn't make the solution\\any easier to find.\\"
+msgid ""
+"This maze has no walls.\\But that doesn't make the solution\\any easier to "
+"find.\\"
 msgstr ""
 
 #: data/map-medium/timer.map
-msgid "That one switch controls all five barriers.\\Be quick, because the switch is on a timer.\\When it expires, the barriers will rise.\\"
+msgid ""
+"That one switch controls all five barriers.\\Be quick, because the switch is "
+"on a timer.\\When it expires, the barriers will rise.\\"
 msgstr ""
 
 #: data/map-medium/title.map
@@ -1431,11 +1623,15 @@ msgid "Follow the trail of coins\\to make it through the labyrinth."
 msgstr ""
 
 #: data/map-medium/zigzag.map
-msgid "There are plenty of coins here if you're\\willing to take the time to grab them.\\"
+msgid ""
+"There are plenty of coins here if you're\\willing to take the time to grab "
+"them.\\"
 msgstr ""
 
 #: data/map-misc/bigball-old.map
-msgid "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a challenge."
+msgid ""
+"Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
+"challenge."
 msgstr ""
 
 #: data/map-misc/billiard.map
@@ -1447,7 +1643,9 @@ msgid "Block around the clock."
 msgstr ""
 
 #: data/map-misc/bounce.map
-msgid "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the 'chase' camera mode."
+msgid ""
+"Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
+"'chase' camera mode."
 msgstr ""
 
 #: data/map-misc/bounce2.map
@@ -1455,7 +1653,9 @@ msgid "Follow the arrows."
 msgstr "Följ pilarna."
 
 #: data/map-misc/checkers.map
-msgid "It's a real game of checkers, but no one wins...\\You have to bounce to reach the blue coins."
+msgid ""
+"It's a real game of checkers, but no one wins...\\You have to bounce to "
+"reach the blue coins."
 msgstr ""
 
 #: data/map-misc/elevator.map
@@ -1486,12 +1686,16 @@ msgstr "Ramla ner för trappor.\\Aj!\\Det gör ont."
 msgid "Just let it happen...\\then start to worry!"
 msgstr ""
 
+#: data/map-misc/timer-test_2.map
+msgid "Another test for timer accuracy."
+msgstr ""
+
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
 msgstr ""
 
 #: data/map-mym/circuit1.map
-msgid "La course effrénée.\\Let's make some laps."
+msgid "La course effrénée.\\Let's run some laps."
 msgstr ""
 
 #: data/map-mym/circuit2.map
@@ -1511,7 +1715,10 @@ msgid "La ballade tranquille.\\What a quiet walk."
 msgstr "La ballade tranquille.\\En lugn promenad."
 
 #: data/map-mym/dance2.map
-msgid "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After activating the last moving platform,\\ turn around the Thwomp until the goal is reachable."
+msgid ""
+"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
+"activating the last moving platform,\\ turn around the Thwomp until the goal "
+"is reachable."
 msgstr ""
 
 #: data/map-mym/descent.map
@@ -1519,11 +1726,15 @@ msgid "La descente infernale.\\Easy enough to start?"
 msgstr "La descente infernale.\\Enkelt nog att börja med?"
 
 #: data/map-mym/drive1.map
-msgid "La conduite stressante.\\Attention:\\The platform under the ball moves forward."
+msgid ""
+"La conduite stressante.\\Attention:\\The platform under the ball moves "
+"forward."
 msgstr ""
 
 #: data/map-mym/drive2.map
-msgid "La conduite dangereuse.\\The platform under the ball moves quickly forward.\\You would do well to advance."
+msgid ""
+"La conduite dangereuse.\\The platform under the ball moves quickly forward."
+"\\You would do well to advance."
 msgstr ""
 
 #: data/map-mym/earthquake.map
@@ -1540,14 +1751,17 @@ msgstr "La tour de verre.\\Hitta vägen till slutet."
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr "La maîtrise de Neverball.\\Tycker du fortfarande att Neverball är för enkelt?"
+msgstr ""
+"La maîtrise de Neverball.\\Tycker du fortfarande att Neverball är för enkelt?"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
 msgstr "Les boucles renversantes.\\Upp-och-ner!"
 
 #: data/map-mym/loop2.map
-msgid "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to land..."
+msgid ""
+"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
+"land..."
 msgstr ""
 
 #: data/map-mym/maze1.map
@@ -1555,11 +1769,15 @@ msgid "Le chemin dissimulé.\\Test your memory."
 msgstr "Le chemin dissimulé.\\Testa ditt minne."
 
 #: data/map-mym/maze2.map
-msgid "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking another one?"
+msgid ""
+"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
+"another one?"
 msgstr ""
 
 #: data/map-mym/narrow.map
-msgid "Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first slope."
+msgid ""
+"Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
+"slope."
 msgstr ""
 
 #: data/map-mym/running.map
@@ -1567,7 +1785,8 @@ msgid "Les épreuves minutées.\\Run baby, run!"
 msgstr "Les épreuves minutées.\\Spring baby, spring!"
 
 #: data/map-mym/scrambling.map
-msgid "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgid ""
+"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
 msgstr ""
 
 #: data/map-mym/snow.map
@@ -1603,7 +1822,9 @@ msgid "Le grand cône.\\Living in a cone."
 msgstr "Le grand cône.\\Livet i en kon."
 
 #: data/map-mym2/bombman.map
-msgid "Les flammes ardentes.\\Do this remind you of something?"
+#, fuzzy
+#| msgid "Les flammes ardentes.\\Do this remind you of something?"
+msgid "Les flammes ardentes.\\Does this remind you of something?"
 msgstr "Les flammes ardentes.\\Påminner inte detta dig om något?"
 
 #: data/map-mym2/bounces.map
@@ -1611,11 +1832,16 @@ msgid "Les sauts du célèbre plombier.\\Follow the coins."
 msgstr "Les sauts du célèbre plombier.\\Följ mynten."
 
 #: data/map-mym2/fall.map
-msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 teleports to unlock and reach the goal."
+msgid ""
+"Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
+"teleports to unlock and reach the goal."
 msgstr ""
 
 #: data/map-mym2/freefall.map
-msgid "This level is full of challenges:\\understand the level's functioning,\\learn to fly and to survive,\\grab half of all coins to open the goal,\\find and reach the goal,\\and more..."
+msgid ""
+"This level is full of challenges:\\understand the level's functioning,"
+"\\learn to fly and to survive,\\grab half of all coins to open the goal,"
+"\\find and reach the goal,\\and more..."
 msgstr ""
 
 #: data/map-mym2/grinder.map
@@ -1627,8 +1853,12 @@ msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
 msgstr "Ne pas se laisser emporter dans le néant.\\Gå inte för lågt."
 
 #: data/map-mym2/longpipe.map
-msgid "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last jump!"
-msgstr "Si si, ce tuyau a une fin.\\Livet i ett rör.\\Tips: sakta ner för sista hoppet!"
+msgid ""
+"Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
+"jump!"
+msgstr ""
+"Si si, ce tuyau a une fin.\\Livet i ett rör.\\Tips: sakta ner för sista "
+"hoppet!"
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
@@ -1647,7 +1877,9 @@ msgid "Hé, on pousse pas !\\Not too fast, not too slow."
 msgstr "Hé, on pousse pas !\\Inte för snabbt, inte för långsamt."
 
 #: data/map-mym2/rainbow.map
-msgid "Rainbow Road.\\Make 3 laps to open the goal."
+#, fuzzy
+#| msgid "Rainbow Road.\\Make 3 laps to open the goal."
+msgid "Rainbow Road.\\Do 3 laps to open the goal."
 msgstr "Rainbow Road.\\Kör 3 varv för att öppna målet."
 
 #: data/map-mym2/rodeo.map
@@ -1663,15 +1895,19 @@ msgid "Préparez un petit sac.\\The stomach-tester."
 msgstr "Préparez un petit sac.\\Magtestaren."
 
 #: data/map-mym2/sonic.map
-msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
+#, fuzzy
+#| msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
+msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
 msgstr "Un petit échauffement.\\Välkommen till Mehdis nya banor!"
 
 #: data/map-mym2/speed.map
-msgid "Plus vite que la vitesse.\\Speedness definition."
+msgid "Plus vite que la vitesse.\\The definition of speed."
 msgstr ""
 
 #: data/map-mym2/speeddance.map
-msgid "La danse asiatique\\Trust in the arrows."
+#, fuzzy
+#| msgid "La danse asiatique\\Trust in the arrows."
+msgid "La danse asiatique\\Trust the arrows."
 msgstr "La danse asiatique\\Lita på pilarna."
 
 #: data/map-mym2/translation.map
@@ -1684,6 +1920,95 @@ msgstr ""
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
+msgstr ""
+
+#: data/map-tones/bigtube.map
+msgid "Speed is the name of the game."
+msgstr ""
+
+#: data/map-tones/blue.map
+msgid "Tread carefully...\\and keep moving!\\"
+msgstr ""
+
+#: data/map-tones/bumperoo.map
+msgid "Who's the boss around here anyway?"
+msgstr ""
+
+#: data/map-tones/canals.map
+msgid "You might have to get wet\\if you want all the coins."
+msgstr ""
+
+#: data/map-tones/check.map
+msgid "Keep your eye on the sky!\\but don't run out of time...\\"
+msgstr ""
+
+#: data/map-tones/city.map
+msgid "Stepping stones."
+msgstr ""
+
+#: data/map-tones/discs.map
+msgid "Work your way to the top."
+msgstr ""
+
+#: data/map-tones/easyian.map
+msgid ""
+"Collect 45 coins to unlock the goal.\\You can use the teleporter to gain "
+"enough speed\\for the jump."
+msgstr ""
+
+#: data/map-tones/easyone.map
+msgid "Control your speed\\to avoid a bumpy ride."
+msgstr ""
+
+#: data/map-tones/hotwheels.map
+msgid "Learn the course and stick to the rails!"
+msgstr ""
+
+#: data/map-tones/hurdles.map
+msgid "Let's start with an easy warm-up.\\Build speed and leap to the goal."
+msgstr ""
+
+#: data/map-tones/leaps.map
+msgid "Look before you leap..."
+msgstr ""
+
+#: data/map-tones/marble.map
+msgid "Mind your footing!"
+msgstr ""
+
+#: data/map-tones/marble.map
+msgid "Watch your footing..."
+msgstr ""
+
+#: data/map-tones/runner.map
+msgid "Walk the plank.\\After the teleport, go for speed!"
+msgstr ""
+
+#: data/map-tones/skiball.map
+msgid ""
+"Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
+msgstr ""
+
+#: data/map-tones/swish.map
+msgid "Timing is everything."
+msgstr ""
+
+#: data/map-tones/swoop.map
+msgid "What goes down must come up!\\"
+msgstr ""
+
+#: data/map-tones/tonesmaze.map
+msgid ""
+"Make sure you are\\safely on a purple platform\\before 20 seconds have "
+"elapsed!"
+msgstr ""
+
+#: data/map-tones/twisted.map
+msgid "Afraid of heights?\\Try not to get dizzy."
+msgstr ""
+
+#: data/map-tones/waves.map
+msgid "Surf's Up !!"
 msgstr ""
 
 #. Desktop entry comment
@@ -1720,3 +2045,37 @@ msgstr "mtrl/words"
 msgid "item/coin/coin"
 msgstr ""
 
+#~ msgid "Chase"
+#~ msgstr "Jakt"
+
+#~ msgid "Lazy"
+#~ msgstr "Slapphet"
+
+#~ msgid "Manual"
+#~ msgstr "Manuell"
+
+#~ msgid "Top-Down"
+#~ msgstr "Upp-ned"
+
+#~ msgid "Failure to load user score file '%s'"
+#~ msgstr "Misslyckades med att läsa in användarpoängfilen \"%s\""
+
+#~ msgid "Ball"
+#~ msgstr "Boll"
+
+#~ msgid "Geometry"
+#~ msgstr "Geometri"
+
+#~ msgid "%d new bonus level"
+#~ msgid_plural "%d new bonus levels"
+#~ msgstr[0] "%d ny bonusnivå"
+#~ msgstr[1] "%d nya bonusnivåer"
+
+#~ msgid "Techniques"
+#~ msgstr "Teknik"
+
+#~ msgid "Hold Shift for faster view rotation."
+#~ msgstr "Håll ner Skift för snabbare vyrotation."
+
+#~ msgid "Levels for Neverball Experts\\Author: Florian Priester\\\\\\\\"
+#~ msgstr "Nivåer för Neverball-experter\\Upphovsman: Florian Priester\\\\\\\\"

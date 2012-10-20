@@ -7,55 +7,67 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2010-10-29 02:46+0300\n"
+"POT-Creation-Date: 2012-10-20 16:56+0300\n"
 "PO-Revision-Date: 2009-05-01 00:39+0300\n"
 "Last-Translator: luojie <lililjlj@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ball/demo.c:234
+#: ball/demo.c:226
 msgid "Missing format character in replay name\n"
 msgstr ""
 
-#: ball/demo.c:239
+#: ball/demo.c:231
 #, c-format
 msgid "Invalid format character in replay name: \"%%%c\"\n"
 msgstr ""
 
-#: ball/game_common.c:26
+#: ball/game_common.c:27
 msgid "Aborted"
 msgstr "中止"
 
-#: ball/game_common.c:27
+#: ball/game_common.c:28
 msgid "Time-out"
 msgstr "超时"
 
-#: ball/game_common.c:28
+#: ball/game_common.c:29
 msgid "Success"
 msgstr "呈贡"
 
-#: ball/game_common.c:29
+#: ball/game_common.c:30
 msgid "Fall-out"
 msgstr "掉落"
 
-#: ball/game_common.c:30 ball/game_common.c:41 ball/progress.c:394
+#: ball/game_common.c:31 ball/progress.c:417
 msgid "Unknown"
 msgstr "未知"
 
-#: ball/game_common.c:38
-msgid "Chase"
-msgstr "追踪"
+#: ball/game_common.c:43 ball/st_help.c:185
+#, fuzzy
+#| msgid "Manual View"
+msgid "Manual Camera"
+msgstr "手动视角"
 
-#: ball/game_common.c:39
-msgid "Lazy"
-msgstr "懒惰"
+#: ball/game_common.c:44 ball/st_help.c:184
+#, fuzzy
+#| msgid "Lazy View"
+msgid "Lazy Camera"
+msgstr "懒惰视角"
 
-#: ball/game_common.c:40
-msgid "Manual"
-msgstr "手动"
+#: ball/game_common.c:45 ball/st_help.c:183
+#, fuzzy
+#| msgid "Chase View"
+msgid "Chase Camera"
+msgstr "追踪视角"
+
+#: ball/game_common.c:47
+#, c-format
+msgid "Camera %d"
+msgstr ""
 
 #: ball/game_common.h:10
 msgid "snd/select.ogg"
@@ -89,29 +101,29 @@ msgstr "snd/time.ogg"
 msgid "snd/over.ogg"
 msgstr "snd/over.ogg"
 
-#: ball/hud.c:60 ball/st_demo.c:203 ball/st_goal.c:177
+#: ball/hud.c:68 ball/st_demo.c:202 ball/st_goal.c:167
 msgid "Coins"
 msgstr "硬币"
 
-#: ball/hud.c:61
+#: ball/hud.c:69
 msgid "Goal"
 msgstr "出口"
 
-#: ball/hud.c:80 ball/st_goal.c:165
+#: ball/hud.c:89 ball/st_goal.c:155
 msgid "Balls"
 msgstr "球数"
 
-#: ball/hud.c:81 ball/st_goal.c:171 putt/hud.c:45
+#: ball/hud.c:90 ball/st_goal.c:161 putt/hud.c:45
 msgid "Score"
 msgstr "分数"
 
-#: ball/level.c:133
+#: ball/level.c:138
 #, fuzzy, c-format
 #| msgid "Error while loading level file '%s': %s\n"
 msgid "Failure to load level file '%s'\n"
 msgstr "读取关卡文件'%s'时出错: %s\n"
 
-#: ball/main.c:254
+#: ball/main.c:283
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: %s [options ...]\n"
@@ -128,6 +140,7 @@ msgid ""
 "  -v, --version             show version.\n"
 "  -d, --data <dir>          use 'dir' as game data directory.\n"
 "  -r, --replay <file>       play the replay 'file'.\n"
+"  -l, --level <file>        load the level 'file'\n"
 msgstr ""
 "Usage: %s [options ...]\n"
 "Options:\n"
@@ -137,195 +150,221 @@ msgstr ""
 "  -r, --replay <file>       play the replay 'file'.\n"
 "  -i, --info                display info about a replay.\n"
 
-#: ball/main.c:263
+#: ball/main.c:293
 #, c-format
 msgid "Option '%s' requires an argument.\n"
 msgstr ""
 
-#: ball/progress.c:392 ball/st_help.c:247
+#: ball/progress.c:414 ball/st_help.c:263
 msgid "Challenge Mode"
 msgstr "挑战模式"
 
-#: ball/progress.c:392 ball/st_start.c:206
+#: ball/progress.c:414 ball/st_start.c:207
 msgid "Challenge"
 msgstr "挑战"
 
-#: ball/progress.c:393 ball/st_help.c:239
+#: ball/progress.c:415 ball/st_help.c:250
 msgid "Normal Mode"
 msgstr "正常模式"
 
-#: ball/progress.c:393
+#: ball/progress.c:415
 msgid "Normal"
 msgstr "正常"
 
-#: ball/progress.c:394
+#: ball/progress.c:416
+#, fuzzy
+#| msgid "Challenge Mode"
+msgid "Standalone Mode"
+msgstr "挑战模式"
+
+#: ball/progress.c:416
+msgid "Standalone"
+msgstr ""
+
+#: ball/progress.c:417
 msgid "Unknown Mode"
 msgstr "未知模式"
 
-#: ball/set.c:182
-#, fuzzy, c-format
-#| msgid "Error while loading level file '%s': %s\n"
-msgid "Failure to load user score file '%s'\n"
-msgstr "读取关卡文件'%s'时出错: %s\n"
-
-#: ball/set.c:202
+#: ball/set.c:276
 #, fuzzy, c-format
 #| msgid "Error while loading level file '%s': %s\n"
 msgid "Failure to load set file '%s'\n"
 msgstr "读取关卡文件'%s'时出错: %s\n"
 
-#: ball/st_ball.c:175 ball/st_conf.c:327
+#: ball/st_ball.c:179 ball/st_conf.c:316
 #, fuzzy
-#| msgid "Balls"
-msgid "Ball"
-msgstr "球数"
+#| msgid "Normal Mode"
+msgid "Ball Model"
+msgstr "正常模式"
 
-#: ball/st_ball.c:177 ball/st_conf.c:212 ball/st_help.c:96 ball/st_start.c:176
-#: ball/util.c:430 share/st_resol.c:99 putt/st_all.c:344 putt/st_all.c:492
-#: putt/st_conf.c:157
+#: ball/st_ball.c:181 ball/st_conf.c:104 ball/st_help.c:107
+#: ball/st_start.c:178 ball/util.c:392 share/st_resol.c:105 putt/st_all.c:393
+#: putt/st_all.c:541 putt/st_conf.c:158
 msgid "Back"
 msgstr "返回"
 
-#: ball/st_conf.c:210 putt/st_conf.c:155
+#: ball/st_conf.c:297 putt/st_conf.c:156
 msgid "Options"
 msgstr "选项"
 
-#: ball/st_conf.c:220 ball/st_demo.c:642 ball/st_save.c:209 putt/st_conf.c:165
-msgid "No"
-msgstr "不"
+#: ball/st_conf.c:299 ball/st_conf.c:443
+msgid "Graphics"
+msgstr ""
 
-#: ball/st_conf.c:221 ball/st_demo.c:643 ball/st_save.c:210
-#: ball/st_start.c:231 putt/st_conf.c:166
-msgid "Yes"
-msgstr "是"
+#: ball/st_conf.c:299
+msgid "Configure"
+msgstr ""
 
-#: ball/st_conf.c:223 putt/st_conf.c:168
-msgid "Fullscreen"
-msgstr "全屏"
+#: ball/st_conf.c:303
+msgid "Mouse Sensitivity"
+msgstr ""
 
-#: ball/st_conf.c:231 share/st_resol.c:97 putt/st_conf.c:176
-msgid "Resolution"
-msgstr "分辨率"
-
-#: ball/st_conf.c:239 putt/st_conf.c:184
-msgid "Low"
-msgstr "低"
-
-#: ball/st_conf.c:240 putt/st_conf.c:185
-msgid "High"
-msgstr "高"
-
-#: ball/st_conf.c:242 putt/st_conf.c:187
-msgid "Textures"
-msgstr "纹理贴图"
-
-#: ball/st_conf.c:248 ball/st_conf.c:257 ball/st_conf.c:266 putt/st_conf.c:193
-msgid "Off"
-msgstr "关闭"
-
-#: ball/st_conf.c:249 ball/st_conf.c:258 ball/st_conf.c:267 putt/st_conf.c:194
-msgid "On"
-msgstr "开启"
-
-#: ball/st_conf.c:251
-msgid "Reflection"
-msgstr "映像"
-
-#: ball/st_conf.c:260
-msgid "Background"
-msgstr "背景"
-
-#: ball/st_conf.c:269 putt/st_conf.c:196
-msgid "Shadow"
-msgstr "阴影"
-
-#: ball/st_conf.c:291 putt/st_conf.c:218
+#: ball/st_conf.c:308 putt/st_conf.c:223
 msgid "Sound Volume"
 msgstr "音效音量"
 
-#: ball/st_conf.c:311 putt/st_conf.c:238
+#: ball/st_conf.c:310 putt/st_conf.c:238
 msgid "Music Volume"
 msgstr "音乐音量"
 
-#: ball/st_conf.c:320 ball/st_name.c:101
+#: ball/st_conf.c:315 ball/st_name.c:107
 msgid "Player Name"
 msgstr "玩家的名字"
 
-#: ball/st_demo.c:202
+#: ball/st_conf.c:420 ball/st_conf.c:448 ball/st_conf.c:453 ball/st_conf.c:461
+#: ball/st_conf.c:464 ball/st_conf.c:467 putt/st_conf.c:200
+msgid "Off"
+msgstr "关闭"
+
+#: ball/st_conf.c:421
+msgid "2x"
+msgstr ""
+
+#: ball/st_conf.c:422
+msgid "4x"
+msgstr ""
+
+#: ball/st_conf.c:423
+msgid "8x"
+msgstr ""
+
+#: ball/st_conf.c:445 share/st_resol.c:103 putt/st_conf.c:180
+msgid "Resolution"
+msgstr "分辨率"
+
+#: ball/st_conf.c:447 putt/st_conf.c:172
+msgid "Fullscreen"
+msgstr "全屏"
+
+#: ball/st_conf.c:448 ball/st_conf.c:453 ball/st_conf.c:461 ball/st_conf.c:464
+#: ball/st_conf.c:467 putt/st_conf.c:201
+msgid "On"
+msgstr "开启"
+
+#: ball/st_conf.c:452
+msgid "V-Sync"
+msgstr ""
+
+#: ball/st_conf.c:455
+msgid "Antialiasing"
+msgstr ""
+
+#: ball/st_conf.c:460
+msgid "Reflection"
+msgstr "映像"
+
+#: ball/st_conf.c:463
+msgid "Background"
+msgstr "背景"
+
+#: ball/st_conf.c:466 putt/st_conf.c:206
+msgid "Shadow"
+msgstr "阴影"
+
+#: ball/st_demo.c:201
 msgid "Time"
 msgstr "时间"
 
-#: ball/st_demo.c:204
+#: ball/st_demo.c:203
 msgid "Status"
 msgstr "状态"
 
-#: ball/st_demo.c:231 ball/st_demo.c:402
+#: ball/st_demo.c:234 ball/st_demo.c:415
 msgid "Replay"
 msgstr "回放"
 
-#: ball/st_demo.c:232 putt/st_all.c:680
+#: ball/st_demo.c:235 putt/st_all.c:731
 msgid "Player"
 msgstr "玩家"
 
-#: ball/st_demo.c:233
+#: ball/st_demo.c:236
 msgid "Date"
 msgstr "日期"
 
-#: ball/st_demo.c:283
+#: ball/st_demo.c:289
 msgid "Select Replay"
 msgstr "选择回放"
 
-#: ball/st_demo.c:299
+#: ball/st_demo.c:305
 msgid "No Replays"
 msgstr "没有"
 
-#: ball/st_demo.c:543
+#: ball/st_demo.c:597
 msgid "Replay Paused"
 msgstr "暂停回放"
 
-#: ball/st_demo.c:546
+#: ball/st_demo.c:599
 msgid "Replay Ends"
 msgstr "结束"
 
-#: ball/st_demo.c:555 ball/st_pause.c:85 putt/st_all.c:592
+#: ball/st_demo.c:605 ball/st_pause.c:88 putt/st_all.c:641
 msgid "Quit"
 msgstr "退出"
 
-#: ball/st_demo.c:559
+#: ball/st_demo.c:609
 msgid "Keep"
 msgstr "保留"
 
-#: ball/st_demo.c:560 share/keynames.c:39
+#: ball/st_demo.c:610 share/keynames.c:39
 msgid "Delete"
 msgstr "删除"
 
-#: ball/st_demo.c:565 ball/st_pause.c:90 putt/st_all.c:593
+#: ball/st_demo.c:614 ball/st_pause.c:93 putt/st_all.c:642
 msgid "Continue"
 msgstr "继续"
 
-#: ball/st_demo.c:569
+#: ball/st_demo.c:616
 msgid "Repeat"
 msgstr "重复"
 
-#: ball/st_demo.c:638
+#: ball/st_demo.c:687
 msgid "Delete Replay?"
 msgstr "删除回放？"
 
-#: ball/st_demo.c:680 ball/st_level.c:155
+#: ball/st_demo.c:691 ball/st_save.c:211 putt/st_conf.c:166
+msgid "No"
+msgstr "不"
+
+#: ball/st_demo.c:692 ball/st_save.c:212 ball/st_start.c:233
+#: putt/st_conf.c:167
+msgid "Yes"
+msgstr "是"
+
+#: ball/st_demo.c:731 ball/st_level.c:160
 msgid "Warning!"
 msgstr "警告"
 
-#: ball/st_demo.c:682
+#: ball/st_demo.c:733
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
 msgstr ""
 
-#: ball/st_done.c:61
+#: ball/st_done.c:62
 msgid "New Set Record"
 msgstr "新记录"
 
-#: ball/st_done.c:62
+#: ball/st_done.c:63
 msgid "Set Complete"
 msgstr "完成"
 
@@ -333,112 +372,97 @@ msgstr "完成"
 msgid "Select Level"
 msgstr "选择关卡"
 
-#: ball/st_fall_out.c:82
+#: ball/st_fail.c:83
 msgid "Fall-out!"
 msgstr "落下！"
 
-#: ball/st_fall_out.c:89 ball/st_time_out.c:85
+#: ball/st_fail.c:85
+msgid "Time's Up!"
+msgstr "时间用尽！"
+
+#: ball/st_fail.c:96
 msgid "Exit"
 msgstr "退出"
 
-#: ball/st_fall_out.c:92 ball/st_goal.c:213 ball/st_time_out.c:88
+#: ball/st_fail.c:99 ball/st_goal.c:221
 msgid "Next Level"
 msgstr "下一关"
 
-#: ball/st_fall_out.c:95 ball/st_goal.c:216 ball/st_time_out.c:91
+#: ball/st_fail.c:102 ball/st_goal.c:224
 msgid "Retry Level"
 msgstr "重来"
 
-#: ball/st_fall_out.c:98 ball/st_goal.c:219 ball/st_time_out.c:94
+#: ball/st_fail.c:105 ball/st_goal.c:227
 msgid "Save Replay"
 msgstr "保存回放"
 
-#: ball/st_goal.c:106
+#: ball/st_goal.c:102
 msgid "New Record"
 msgstr "新记录"
 
-#: ball/st_goal.c:107
+#: ball/st_goal.c:103
 msgid "GOAL"
 msgstr "出口"
 
-#: ball/st_goal.c:150
-#, c-format
-msgid "%d new bonus level"
-msgid_plural "%d new bonus levels"
-msgstr[0] "%d  新的奖励关卡"
-msgstr[1] "%d  新的奖励关卡"
-
-#: ball/st_goal.c:208 ball/st_goal.c:210
+#: ball/st_goal.c:216 ball/st_goal.c:218
 msgid "Finish"
 msgstr "结束"
 
-#: ball/st_help.c:92
+#: ball/st_help.c:103
 msgid "Tricks"
 msgstr ""
 
-#: ball/st_help.c:93
+#: ball/st_help.c:104
 msgid "Modes"
 msgstr "模式"
 
-#: ball/st_help.c:94
+#: ball/st_help.c:105
 msgid "Controls"
 msgstr "控制"
 
-#: ball/st_help.c:95
+#: ball/st_help.c:106
 msgid "Rules"
 msgstr "规则"
 
-#: ball/st_help.c:106
+#: ball/st_help.c:117
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
 msgstr "移动鼠标或操纵杆\\或者按下键盘方向\\键，改变平面让球\\滚动。"
 
-#: ball/st_help.c:111
+#: ball/st_help.c:122
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
 msgstr "滚过硬币获取它们，\\收集足够多后给出口解锁。\\"
 
-#: ball/st_help.c:168
-msgid "Left and right mouse buttons rotate the view."
+#: ball/st_help.c:179
+#, fuzzy
+#| msgid "Left and right mouse buttons rotate the view."
+msgid ""
+"Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
+"rotation."
 msgstr "鼠标左右键旋转。"
 
-#: ball/st_help.c:169
-msgid "Hold Shift for faster view rotation."
-msgstr "按住Shift键加速视角旋转。"
-
-#: ball/st_help.c:170
+#: ball/st_help.c:181
 msgid "Pause / Release Pointer"
 msgstr "暂停 / 释放"
 
-#: ball/st_help.c:171
+#: ball/st_help.c:182
 msgid "Exit / Cancel Menu"
 msgstr "退出 /取消菜单"
 
-#: ball/st_help.c:172
-msgid "Chase View"
-msgstr "追踪视角"
-
-#: ball/st_help.c:173
-msgid "Lazy View"
-msgstr "懒惰视角"
-
-#: ball/st_help.c:174
-msgid "Manual View"
-msgstr "手动视角"
-
-#: ball/st_help.c:175
+#: ball/st_help.c:186
 msgid "Screenshot"
 msgstr "截图"
 
-#: ball/st_help.c:241
+#: ball/st_help.c:252
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
 "to open the goal."
 msgstr "时间用完之前结束关卡。\\需要收集硬币才能打开出口。"
 
-#: ball/st_help.c:249
+#: ball/st_help.c:265
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
@@ -446,43 +470,48 @@ msgstr ""
 "从第一个关卡开始玩。\\只有3个球可用，不要失去它们。\\收集100当量的硬币赢取额"
 "外一个球。"
 
-#: ball/st_help.c:263
+#: ball/st_help.c:279
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
 msgstr ""
 
-#: ball/st_help.c:268
+#: ball/st_help.c:284
 msgid ""
-"Tilting in 2 directions increases\\the slope. Use the manual view\\and turn "
-"the camera by 45\\degrees for best results.\\"
+"Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
+"turn the camera by 45\\degrees for best results.\\"
 msgstr ""
 
-#: ball/st_help.c:288 ball/st_help.c:298
+#: ball/st_help.c:304 ball/st_help.c:314
 msgid "Watch demo"
 msgstr "观看 demo"
 
-#: ball/st_level.c:55
+#: ball/st_level.c:56
 #, c-format
 msgid "Bonus Level %s"
 msgstr "奖励关卡  %s"
 
-#: ball/st_level.c:57
+#: ball/st_level.c:58
 #, c-format
 msgid "Level %s"
 msgstr "关卡 %s"
 
-#: ball/st_level.c:157
-msgid ""
-"The default replay file could not be opened.\\You will not be able to save a "
-"replay when\\playing this level.\\"
+#: ball/st_level.c:64
+#, c-format
+msgid "Standalone level"
 msgstr ""
 
-#: ball/st_name.c:112
+#: ball/st_level.c:162
+msgid ""
+"A replay file could not be opened for writing.\\This game will not be "
+"recorded.\\"
+msgstr ""
+
+#: ball/st_name.c:118
 msgid "OK"
 msgstr "确定"
 
-#: ball/st_name.c:114 ball/st_save.c:124
+#: ball/st_name.c:120 ball/st_save.c:126
 msgid "Cancel"
 msgstr "取消"
 
@@ -490,77 +519,74 @@ msgstr "取消"
 msgid "GAME OVER"
 msgstr "游戏结束"
 
-#: ball/st_pause.c:79 putt/st_all.c:587
+#: ball/st_pause.c:82 putt/st_all.c:636
 msgid "Paused"
 msgstr "暂停"
 
-#: ball/st_pause.c:88
+#: ball/st_pause.c:91
 msgid "Restart"
 msgstr "重新开始"
 
-#: ball/st_play.c:118
+#: ball/st_play.c:116
 msgid "Ready?"
 msgstr "预备？"
 
-#: ball/st_play.c:202
+#: ball/st_play.c:200
 msgid "Set?"
 msgstr "开始？"
 
-#: ball/st_play.c:308
+#: ball/st_play.c:306
 msgid "GO!"
 msgstr "开球！"
 
-#: ball/st_save.c:111
+#: ball/st_save.c:113
 msgid "Replay Name"
 msgstr "回放名称"
 
-#: ball/st_save.c:122
+#: ball/st_save.c:124
 msgid "Save"
 msgstr "保存"
 
-#: ball/st_save.c:203
+#: ball/st_save.c:205
 msgid "Overwrite?"
 msgstr "覆盖？"
 
-#: ball/st_set.c:107
+#: ball/st_set.c:108
 msgid "Level Set"
 msgstr "关卡集合"
 
-#. Translators: adjust the amount of whitespace here
-#. * as necessary for the buttons to look good.
-#: ball/st_start.c:228
+#. Translators: adjust the amount of
+#. * whitespace here as necessary for
+#. * the buttons to look good.
+#: ball/st_start.c:231
 msgid "   No   "
 msgstr "   不"
 
-#: ball/st_start.c:237
+#: ball/st_start.c:243
 msgid "Lock Goals of Completed Levels?"
 msgstr "锁定已完成关卡的出口？"
 
-#: ball/st_time_out.c:78
-msgid "Time's Up!"
-msgstr "时间用尽！"
-
-#: ball/st_title.c:127 ball/st_title.c:161
+#: ball/st_title.c:138 ball/st_title.c:172
 msgid "menu^Cheat"
 msgstr "作弊"
 
-#: ball/st_title.c:133 ball/st_title.c:164 putt/st_all.c:214
+#: ball/st_title.c:144 ball/st_title.c:175 putt/st_all.c:238
 msgid "menu^Play"
 msgstr "开  始"
 
-#: ball/st_title.c:167
+#: ball/st_title.c:178
 msgid "menu^Replay"
 msgstr "回  放"
 
-#: ball/st_title.c:168
+#: ball/st_title.c:179
 msgid "menu^Help"
 msgstr "帮  助"
 
-#: ball/st_title.c:169 putt/st_all.c:215
+#: ball/st_title.c:180 putt/st_all.c:239
 msgid "menu^Options"
 msgstr "选  项"
 
-#: ball/st_title.c:170 putt/st_all.c:216
+#: ball/st_title.c:181 putt/st_all.c:240
 msgid "menu^Exit"
 msgstr "退  出"
 
@@ -576,44 +602,44 @@ msgstr "中等"
 msgid "Easy"
 msgstr "简单"
 
-#: ball/util.c:77 ball/util.c:142
+#: ball/util.c:75 ball/util.c:121
 msgid "Unavailable"
 msgstr "不可用"
 
-#: ball/util.c:202 ball/util.c:250
+#: ball/util.c:177 ball/util.c:227
 msgid "Most Coins"
 msgstr "大多硬币"
 
-#: ball/util.c:208 ball/util.c:254
+#: ball/util.c:184 ball/util.c:231
 msgid "Best Times"
 msgstr "最佳时间"
 
-#: ball/util.c:214 ball/util.c:258
+#: ball/util.c:191 ball/util.c:235
 msgid "Fast Unlock"
 msgstr "快速解锁"
 
-#: ball/util.c:226
+#: ball/util.c:204
 msgid "Change Name"
 msgstr "改名"
 
-#: ball/util.c:363
+#: ball/util.c:331
 msgid "caps"
 msgstr ""
 
-#: ball/util.c:424
+#: ball/util.c:386
 msgid "Next"
 msgstr "下一页"
 
-#: ball/util.c:425
+#: ball/util.c:387
 msgid "Prev"
 msgstr "上一页"
 
-#: share/gui.c:236
+#: share/gui.c:427
 #, c-format
 msgid "Font '%s' doesn't exist, trying default font.\n"
 msgstr ""
 
-#: share/gui.c:292
+#: share/gui.c:474
 #, c-format
 msgid "Could not load font '%s'.\n"
 msgstr ""
@@ -866,66 +892,78 @@ msgstr ""
 msgid "Failed to allocate memory for EWMH icon data.\n"
 msgstr ""
 
-#: putt/hole.c:115 putt/hud.c:51 putt/st_all.c:98 putt/st_all.c:142
+#: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:107 putt/st_all.c:168
 msgid "Par"
 msgstr ""
 
-#: putt/hole.c:117 putt/st_all.c:99 putt/st_all.c:143
+#: putt/hole.c:162 putt/st_all.c:108 putt/st_all.c:169
 msgid "P1"
 msgstr "P1"
 
-#: putt/hole.c:118 putt/st_all.c:100 putt/st_all.c:144
+#: putt/hole.c:163 putt/st_all.c:109 putt/st_all.c:170
 msgid "P2"
 msgstr "P2"
 
-#: putt/hole.c:119 putt/st_all.c:101 putt/st_all.c:145
+#: putt/hole.c:164 putt/st_all.c:110 putt/st_all.c:171
 msgid "P3"
 msgstr "P3"
 
-#: putt/hole.c:120 putt/st_all.c:102 putt/st_all.c:146
+#: putt/hole.c:165 putt/st_all.c:111 putt/st_all.c:172
 msgid "P4"
 msgstr "P4"
 
-#: putt/st_all.c:76
+#: putt/st_all.c:75
 msgid "O"
 msgstr ""
 
-#: putt/st_all.c:112
+#: putt/st_all.c:124
 msgid "Tot"
 msgstr ""
 
-#: putt/st_all.c:121
+#: putt/st_all.c:136
 msgid "I"
 msgstr ""
 
-#: putt/st_all.c:303
+#: putt/st_all.c:350
 msgid "Select Course"
 msgstr ""
 
-#: putt/st_all.c:469
+#: putt/st_all.c:518
 msgid "Players?"
 msgstr "玩家？"
 
-#: putt/st_all.c:673
+#: putt/st_all.c:722
 #, c-format
 msgid "Hole %02d"
 msgstr ""
 
-#: putt/st_all.c:998
+#: putt/st_all.c:1048
 msgid "It's In!"
 msgstr "进了！"
 
-#: putt/st_all.c:1140
+#: putt/st_all.c:1190
 msgid "1 Stroke Penalty"
 msgstr ""
 
-#: putt/st_all.c:1218
+#: putt/st_all.c:1268
 msgid "Scores"
 msgstr "分数"
 
-#: putt/st_all.c:1271
+#: putt/st_all.c:1321
 msgid "Final Scores"
 msgstr "最终得分"
+
+#: putt/st_conf.c:188
+msgid "Low"
+msgstr "低"
+
+#: putt/st_conf.c:189
+msgid "High"
+msgstr "高"
+
+#: putt/st_conf.c:194
+msgid "Textures"
+msgstr "纹理贴图"
 
 #: data/set-easy.txt
 msgid "Neverball Easy"
@@ -997,6 +1035,16 @@ msgid ""
 "players.\\Author: Florian Priester\\\\"
 msgstr ""
 
+#: data/set-tones.txt
+#, fuzzy
+#| msgid "Bonus Level %s"
+msgid "Tones Levels"
+msgstr "奖励关卡  %s"
+
+#: data/set-tones.txt
+msgid "Difficulty: Moderate to Difficult.\\\\Author: Ian Walker\\\\"
+msgstr ""
+
 #: data/set-misc.txt
 msgid "Neverball Misc"
 msgstr "Neverball杂项"
@@ -1036,6 +1084,18 @@ msgstr ""
 msgid ""
 "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
 "Through Insane\\Author: Byron James Johnson"
+msgstr ""
+
+#: data/holes-vidski.txt
+msgid ""
+"Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to hard."
+"\\Author: vidski\\"
+msgstr ""
+
+#: data/gui/ball.map data/map-easy/peasy.map
+msgid ""
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
 msgstr ""
 
 #: data/map-easy/bumper.map
@@ -1147,12 +1207,6 @@ msgid ""
 "the platforms to grab the big coins.\\"
 msgstr ""
 
-#: data/map-easy/peasy.map
-msgid ""
-"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
-"to begin.\\"
-msgstr ""
-
 #: data/map-easy/roundcoins.map
 msgid ""
 "When you are on the elevators,\\make small adjustments to keep the ball "
@@ -1201,6 +1255,10 @@ msgstr "=冒险=\\很多事情要做，收集硬币，风险不小。"
 msgid "=Atrium=\\Remove the coins from their columns."
 msgstr ""
 
+#: data/map-fwp/buoys.map
+msgid "=Buoys=\\He who controls the timers, controls the gates."
+msgstr ""
+
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
 msgstr ""
@@ -1211,6 +1269,10 @@ msgstr ""
 
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
+msgstr ""
+
+#: data/map-fwp/ladybirds.map
+msgid "=Ladybirds=\\Don't let them bug you."
 msgstr ""
 
 #: data/map-fwp/mountains.map
@@ -1231,6 +1293,10 @@ msgstr ""
 
 #: data/map-fwp/ramps.map
 msgid "=Ramps=\\Can you make it to the top?"
+msgstr ""
+
+#: data/map-fwp/rings.map
+msgid "=Rings=\\Roll your way through this trap."
 msgstr ""
 
 #: data/map-fwp/slope.map
@@ -1448,9 +1514,9 @@ msgstr "你永远也回不了家了..."
 
 #: data/map-medium/rampdn.map
 msgid ""
-"You'll need to exert some control over your\\view here.  Press F3 to stop "
-"the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press F1 "
-"to return to the auto-rotating view.\\"
+"You'll need to exert some control over your\\view here.  Press 3 to stop the "
+"auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
+"return to the auto-rotating view.\\"
 msgstr ""
 
 #: data/map-medium/roundfloors.map
@@ -1566,12 +1632,16 @@ msgstr ""
 msgid "Just let it happen...\\then start to worry!"
 msgstr ""
 
+#: data/map-misc/timer-test_2.map
+msgid "Another test for timer accuracy."
+msgstr ""
+
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
 msgstr ""
 
 #: data/map-mym/circuit1.map
-msgid "La course effrénée.\\Let's make some laps."
+msgid "La course effrénée.\\Let's run some laps."
 msgstr ""
 
 #: data/map-mym/circuit2.map
@@ -1651,7 +1721,7 @@ msgstr ""
 
 #: data/map-mym/narrow.map
 msgid ""
-"Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the first "
+"Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
 "slope."
 msgstr ""
 
@@ -1697,7 +1767,7 @@ msgid "Le grand cône.\\Living in a cone."
 msgstr ""
 
 #: data/map-mym2/bombman.map
-msgid "Les flammes ardentes.\\Do this remind you of something?"
+msgid "Les flammes ardentes.\\Does this remind you of something?"
 msgstr ""
 
 #: data/map-mym2/bounces.map
@@ -1748,7 +1818,9 @@ msgid "Hé, on pousse pas !\\Not too fast, not too slow."
 msgstr ""
 
 #: data/map-mym2/rainbow.map
-msgid "Rainbow Road.\\Make 3 laps to open the goal."
+#, fuzzy
+#| msgid "Rainbow Road.\\Make 3 laps to open the goal."
+msgid "Rainbow Road.\\Do 3 laps to open the goal."
 msgstr "彩虹桥。\\3圈后打开出口。"
 
 #: data/map-mym2/rodeo.map
@@ -1764,15 +1836,15 @@ msgid "Préparez un petit sac.\\The stomach-tester."
 msgstr ""
 
 #: data/map-mym2/sonic.map
-msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
+msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
 msgstr ""
 
 #: data/map-mym2/speed.map
-msgid "Plus vite que la vitesse.\\Speedness definition."
+msgid "Plus vite que la vitesse.\\The definition of speed."
 msgstr ""
 
 #: data/map-mym2/speeddance.map
-msgid "La danse asiatique\\Trust in the arrows."
+msgid "La danse asiatique\\Trust the arrows."
 msgstr ""
 
 #: data/map-mym2/translation.map
@@ -1785,6 +1857,95 @@ msgstr ""
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
+msgstr ""
+
+#: data/map-tones/bigtube.map
+msgid "Speed is the name of the game."
+msgstr ""
+
+#: data/map-tones/blue.map
+msgid "Tread carefully...\\and keep moving!\\"
+msgstr ""
+
+#: data/map-tones/bumperoo.map
+msgid "Who's the boss around here anyway?"
+msgstr ""
+
+#: data/map-tones/canals.map
+msgid "You might have to get wet\\if you want all the coins."
+msgstr ""
+
+#: data/map-tones/check.map
+msgid "Keep your eye on the sky!\\but don't run out of time...\\"
+msgstr ""
+
+#: data/map-tones/city.map
+msgid "Stepping stones."
+msgstr ""
+
+#: data/map-tones/discs.map
+msgid "Work your way to the top."
+msgstr ""
+
+#: data/map-tones/easyian.map
+msgid ""
+"Collect 45 coins to unlock the goal.\\You can use the teleporter to gain "
+"enough speed\\for the jump."
+msgstr ""
+
+#: data/map-tones/easyone.map
+msgid "Control your speed\\to avoid a bumpy ride."
+msgstr ""
+
+#: data/map-tones/hotwheels.map
+msgid "Learn the course and stick to the rails!"
+msgstr ""
+
+#: data/map-tones/hurdles.map
+msgid "Let's start with an easy warm-up.\\Build speed and leap to the goal."
+msgstr ""
+
+#: data/map-tones/leaps.map
+msgid "Look before you leap..."
+msgstr ""
+
+#: data/map-tones/marble.map
+msgid "Mind your footing!"
+msgstr ""
+
+#: data/map-tones/marble.map
+msgid "Watch your footing..."
+msgstr ""
+
+#: data/map-tones/runner.map
+msgid "Walk the plank.\\After the teleport, go for speed!"
+msgstr ""
+
+#: data/map-tones/skiball.map
+msgid ""
+"Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
+msgstr ""
+
+#: data/map-tones/swish.map
+msgid "Timing is everything."
+msgstr ""
+
+#: data/map-tones/swoop.map
+msgid "What goes down must come up!\\"
+msgstr ""
+
+#: data/map-tones/tonesmaze.map
+msgid ""
+"Make sure you are\\safely on a purple platform\\before 20 seconds have "
+"elapsed!"
+msgstr ""
+
+#: data/map-tones/twisted.map
+msgid "Afraid of heights?\\Try not to get dizzy."
+msgstr ""
+
+#: data/map-tones/waves.map
+msgid "Surf's Up !!"
 msgstr ""
 
 #. Desktop entry comment
@@ -1820,6 +1981,33 @@ msgstr "mtrl/words"
 
 msgid "item/coin/coin"
 msgstr "item/coin/coin"
+
+#~ msgid "Chase"
+#~ msgstr "追踪"
+
+#~ msgid "Lazy"
+#~ msgstr "懒惰"
+
+#~ msgid "Manual"
+#~ msgstr "手动"
+
+#, fuzzy
+#~| msgid "Error while loading level file '%s': %s\n"
+#~ msgid "Failure to load user score file '%s'\n"
+#~ msgstr "读取关卡文件'%s'时出错: %s\n"
+
+#, fuzzy
+#~| msgid "Balls"
+#~ msgid "Ball"
+#~ msgstr "球数"
+
+#~ msgid "%d new bonus level"
+#~ msgid_plural "%d new bonus levels"
+#~ msgstr[0] "%d  新的奖励关卡"
+#~ msgstr[1] "%d  新的奖励关卡"
+
+#~ msgid "Hold Shift for faster view rotation."
+#~ msgstr "按住Shift键加速视角旋转。"
 
 #~ msgid "Geometry"
 #~ msgstr "几何"
