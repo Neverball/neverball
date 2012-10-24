@@ -119,6 +119,21 @@ static int loop(void)
 
             c = e.key.keysym.sym;
 
+#ifdef __APPLE__
+            if (c == SDLK_q && e.key.keysym.mod & KMOD_META)
+            {
+                d = 0;
+                break;
+            }
+#endif
+#ifdef WIN32
+            if (c == SDLK_F4 && e.key.keysym.mod & KMOD_ALT)
+            {
+                d = 0;
+                break;
+            }
+#endif
+
             switch (c)
             {
             case KEY_SCREENSHOT:
