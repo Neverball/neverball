@@ -89,6 +89,16 @@ static int handle_key_dn(SDL_Event *e)
     int d = 1;
     int c = e->key.keysym.sym;
 
+    /* SDL made me do it. */
+#ifdef __APPLE__
+    if (c == SDLK_q && e->key.keysym.mod & KMOD_META)
+        return 0;
+#endif
+#ifdef WIN32
+    if (c == SDLK_F4 && e->key.keysym.mod & KMOD_ALT)
+        return 0;
+#endif
+
     switch (c)
     {
     case KEY_SCREENSHOT:
@@ -109,23 +119,6 @@ static int handle_key_dn(SDL_Event *e)
         break;
 
     default:
-
-        /* SDL made me do it. */
-#ifdef __APPLE__
-        if (c == SDLK_q && e->key.keysym.mod & KMOD_META)
-        {
-            d = 0;
-            break;
-        }
-#endif
-#ifdef WIN32
-        if (c == SDLK_F4 && e->key.keysym.mod & KMOD_ALT)
-        {
-            d = 0;
-            break;
-        }
-#endif
-
         if (config_tst_d(CONFIG_KEY_FORWARD, c))
             st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -1.0f);
         else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
