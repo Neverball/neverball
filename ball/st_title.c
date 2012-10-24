@@ -304,9 +304,11 @@ static void title_timer(int id, float dt)
 static int title_keybd(int c, int d)
 {
     if (d)
-        return title_action(GUI_CHAR, c);
-    else
-        return 1;
+    {
+        if (c >= ' ')
+            return title_action(GUI_CHAR, c);
+    }
+    return 1;
 }
 
 static int title_buttn(int b, int d)
