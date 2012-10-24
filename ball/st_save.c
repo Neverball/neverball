@@ -152,12 +152,16 @@ static int save_keybd(int c, int d)
 {
     if (d)
     {
-        gui_focus(enter_id);
-
         if (c == '\b' || c == 0x7F)
+        {
+            gui_focus(enter_id);
             return save_action(GUI_BS, 0);
+        }
         if (c >= ' ')
+        {
+            gui_focus(enter_id);
             return save_action(GUI_CHAR, c);
+        }
     }
     return 1;
 }
