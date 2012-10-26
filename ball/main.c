@@ -82,6 +82,13 @@ static void toggle_wire(void)
 #endif
 }
 
+static void toggle_lerp(void)
+{
+    extern int enable_interpolation;
+
+    enable_interpolation = !enable_interpolation;
+}
+
 /*---------------------------------------------------------------------------*/
 
 static int handle_key_dn(SDL_Event *e)
@@ -110,6 +117,10 @@ static int handle_key_dn(SDL_Event *e)
     case KEY_WIREFRAME:
         if (config_cheat())
             toggle_wire();
+        break;
+    case KEY_LERP:
+        if (config_cheat())
+            toggle_lerp();
         break;
     case SDLK_RETURN:
         d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);

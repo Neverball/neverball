@@ -457,9 +457,14 @@ void game_client_free(const char *next)
 
 /*---------------------------------------------------------------------------*/
 
+int enable_interpolation = 1;
+
 void game_client_blend(float a)
 {
-    gl.alpha = a;
+    if (enable_interpolation)
+        gl.alpha = a;
+    else
+        gl.alpha = 1.0f;
 }
 
 void game_client_draw(int pose, float t)
