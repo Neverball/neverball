@@ -1,5 +1,5 @@
-#ifndef KEYNAMES_H
-#define KEYNAMES_H
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
 
 const char *pretty_keyname(int);
 

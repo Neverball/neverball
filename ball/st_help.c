@@ -16,7 +16,7 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
-#include "keynames.h"
+#include "keyboard.h"
 
 #include "game_common.h"
 #include "game_server.h"

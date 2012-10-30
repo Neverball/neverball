@@ -15,14 +15,15 @@
 #include <SDL_keyboard.h>
 #include <string.h>
 
-#include "lang.h"
+#include "keyboard.h"
 #include "common.h"
+#include "lang.h"
 
 /*---------------------------------------------------------------------------*/
 
 /* Initial template generated from $SDL/src/events/SDL_keyboard.c */
 
-static const char *table[][2] = {
+static const char *keynames[][2] = {
     /* Translators,
      *
      * This is a mostly-complete list of human-readable SDL key names.  There
@@ -99,9 +100,9 @@ const char *pretty_keyname(int key)
     if ((ugly_keyname = SDL_GetKeyName((SDLKey) key)) == NULL)
         return NULL;
 
-    for (i = 0; i < ARRAYSIZE(table); i++)
-        if (strcmp(table[i][0], ugly_keyname) == 0)
-            return _(table[i][1]);
+    for (i = 0; i < ARRAYSIZE(keynames); i++)
+        if (strcmp(keynames[i][0], ugly_keyname) == 0)
+            return _(keynames[i][1]);
 
     return ugly_keyname;
 }
