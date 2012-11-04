@@ -37,7 +37,8 @@ static int cmp_dir_items(const void *A, const void *B)
 
 static int is_archive(struct dir_item *item)
 {
-    return strcmp(item->path + strlen(item->path) - 4, ".zip") == 0;
+    return (str_ends_with(item->path, ".zip") ||
+            str_ends_with(item->path, ".pk3"));
 }
 
 static void add_archives(const char *path)
