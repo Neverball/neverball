@@ -50,8 +50,8 @@ static struct progress prev;
 
 /* Set stats. */
 
-static int score_rank = 3;
-static int times_rank = 3;
+static int score_rank = RANK_LAST;
+static int times_rank = RANK_LAST;
 
 /* Level stats. */
 
@@ -66,9 +66,9 @@ static int goal_i = 0; /* Initial goal value. */
 static int goal_e      = 0; /* Goal enabled flag                */
 static int same_goal_e = 0; /* Reuse existing goal enabled flag */
 
-static int time_rank = 3;
-static int goal_rank = 3;
-static int coin_rank = 3;
+static int time_rank = RANK_LAST;
+static int goal_rank = RANK_LAST;
+static int coin_rank = RANK_LAST;
 
 /*---------------------------------------------------------------------------*/
 
@@ -84,7 +84,8 @@ void progress_init(int m)
 
     prev = curr;
 
-    score_rank = times_rank = 3;
+    score_rank = RANK_LAST;
+    times_rank = RANK_LAST;
 
     done  = 0;
 }
@@ -132,7 +133,9 @@ int  progress_play(struct level *l)
 
         prev = curr;
 
-        time_rank = goal_rank = coin_rank = 3;
+        time_rank = RANK_LAST;
+        goal_rank = RANK_LAST;
+        coin_rank = RANK_LAST;
 
         return init_level();
     }
