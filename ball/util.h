@@ -44,7 +44,7 @@ void gui_keyboard(int);
 void gui_keyboard_lock(void);
 char gui_keyboard_char(char);
 
-int  gui_navig(int, int, int);
+int  gui_navig(int id, int total, int first, int step);
 int  gui_maybe(int, const char *, int, int, int);
 
 /*---------------------------------------------------------------------------*/

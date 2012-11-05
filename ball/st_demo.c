@@ -288,7 +288,7 @@ static int demo_gui(void)
 
             gui_label(jd, _("Select Replay"), GUI_SML, 0,0);
             gui_filler(jd);
-            gui_navig(jd, first > 0, first + DEMO_STEP < total);
+            gui_navig(jd, total, first, DEMO_STEP);
         }
 
         gui_demo_thumbs(id);

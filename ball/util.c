@@ -15,6 +15,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <assert.h>
+#include <math.h>
 
 #include "gui.h"
 #include "util.h"
@@ -375,8 +376,14 @@ char gui_keyboard_char(char c)
 
 /*---------------------------------------------------------------------------*/
 
-int gui_navig(int id, int prev, int next)
+int gui_navig(int id, int total, int first, int step)
 {
+    int pages = (int) ceil((double) total / step);
+    int page = first / step + 1;
+
+    int prev = (page > 1);
+    int next = (page < pages);
+
     int jd;
 
     if ((jd = gui_hstack(id)))
@@ -384,6 +391,14 @@ int gui_navig(int id, int prev, int next)
         if (next || prev)
         {
             gui_maybe(jd, _("Next"), GUI_NEXT, GUI_NONE, next);
+
+            if (pages > 1)
+            {
+                char str[16];
+                sprintf(str, "%d/%d", page, pages);
+                gui_label(jd, str, GUI_SML, gui_wht, gui_wht);
+            }
+
             gui_maybe(jd, _("Prev"), GUI_PREV, GUI_NONE, prev);
         }
 

@@ -107,7 +107,7 @@ static int set_gui(void)
         {
             gui_label(jd, _("Level Set"), GUI_SML, gui_yel, gui_red);
             gui_filler(jd);
-            gui_navig(jd, first > 0, first + SET_STEP < total);
+            gui_navig(jd, total, first, SET_STEP);
         }
 
         gui_space(id);
