@@ -303,6 +303,9 @@ static int demo_gui(void)
     else
     {
         gui_label(id, _("No Replays"), GUI_MED, 0, 0);
+        gui_space(id);
+        gui_state(id, _("Back"), GUI_SML, GUI_BACK, 0);
+
         gui_layout(id, 0, 0);
     }
 
@@ -348,9 +351,6 @@ static void demo_leave(struct state *st, struct state *next, int id)
 
 static void demo_timer(int id, float dt)
 {
-    if (total == 0 && time_state() > 4.0f)
-        goto_state(&st_title);
-
     gui_timer(id, dt);
 }
 
