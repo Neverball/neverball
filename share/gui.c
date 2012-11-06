@@ -1718,6 +1718,11 @@ static void gui_paint_clock(int id)
 
 static void gui_paint_label(int id)
 {
+    /* Short-circuit empty labels. */
+
+    if (widget[id].image == 0)
+        return;
+
     /* Draw the widget text box, textured using the glyph. */
 
     glPushMatrix();
