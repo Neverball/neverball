@@ -373,8 +373,6 @@ static void gui_geom_widget(int id, int flags)
     int w = widget[id].w;
     int h = widget[id].h;
 
-    /* Recall stored width and height for text rendering. */
-
     int W = widget[id].text_w;
     int H = widget[id].text_h;
     int R = widget[id].rect;
@@ -854,10 +852,12 @@ void gui_set_label(int id, const char *text)
                        font[widget[id].size],
                        widget[id].trunc);
 
-    widget[id].image = make_image_from_font(NULL, NULL, &w, &h,
+    widget[id].image = make_image_from_font(NULL, NULL,
+                                            &widget[id].text_w,
+                                            &widget[id].text_h,
                                             str, font[widget[id].size], 0);
-    widget[id].text_w = w;
-    widget[id].text_h = h;
+    w = widget[id].text_w;
+    h = widget[id].text_h;
 
     gui_geom_text(id, -w / 2, -h / 2, w, h,
                   widget[id].color0,
@@ -999,9 +999,11 @@ int gui_state(int pd, const char *text, int size, int token, int value)
         widget[id].flags |= (GUI_STATE | GUI_RECT);
 
         widget[id].image = make_image_from_font(NULL, NULL,
-                                                &widget[id].w,
-                                                &widget[id].h,
+                                                &widget[id].text_w,
+                                                &widget[id].text_h,
                                                 text, font[size], 0);
+        widget[id].w     = widget[id].text_w;
+        widget[id].h     = widget[id].text_h;
         widget[id].size  = size;
         widget[id].token = token;
         widget[id].value = value;
@@ -1017,9 +1019,11 @@ int gui_label(int pd, const char *text, int size, const GLubyte *c0,
     if ((id = gui_widget(pd, GUI_LABEL)))
     {
         widget[id].image = make_image_from_font(NULL, NULL,
-                                                &widget[id].w,
-                                                &widget[id].h,
+                                                &widget[id].text_w,
+                                                &widget[id].text_h,
                                                 text, font[size], 0);
+        widget[id].w      = widget[id].text_w;
+        widget[id].h      = widget[id].text_h;
         widget[id].size   = size;
         widget[id].color0 = c0 ? c0 : gui_yel;
         widget[id].color1 = c1 ? c1 : gui_red;
@@ -1212,11 +1216,6 @@ static void gui_vstack_up(int id)
 
 static void gui_button_up(int id)
 {
-    /* Store width and height for later use in text rendering. */
-
-    widget[id].text_w = widget[id].w;
-    widget[id].text_h = widget[id].h;
-
     if (widget[id].w < widget[id].h && widget[id].w > 0)
         widget[id].w = widget[id].h;
 
