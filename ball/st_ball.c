@@ -78,6 +78,12 @@ static int has_ball_sols(struct dir_item *item)
     return yes;
 }
 
+static int cmp_dir_items(const void *A, const void *B)
+{
+    const struct dir_item *a = A, *b = B;
+    return strcmp(a->path, b->path);
+}
+
 static void scan_balls(void)
 {
     int i;
@@ -86,6 +92,8 @@ static void scan_balls(void)
 
     if ((balls = fs_dir_scan("ball", has_ball_sols)))
     {
+        array_sort(balls, cmp_dir_items);
+
         for (i = 0; i < array_len(balls); i++)
         {
             const char *path = DIR_ITEM_GET(balls, i)->path;
