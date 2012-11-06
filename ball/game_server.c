@@ -60,7 +60,6 @@ static int   jump_e = 1;                /* Jumping enabled flag              */
 static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
-static float jump_w[3];                 /* View destination                  */
 
 /*---------------------------------------------------------------------------*/
 
@@ -710,9 +709,6 @@ static int game_update_state(int bt)
         jump_e  = 0;
         jump_dt = 0.f;
 
-        v_sub(jump_w, jump_p, vary.uv->p);
-        v_add(jump_w, view.p, jump_w);
-
         audio_play(AUD_JUMP, 1.f);
 
         game_cmd_jump(1);
@@ -773,16 +769,28 @@ static int game_step(const float g[3], float dt, int bt)
 
         if (jump_b)
         {
+            int exiting = (jump_dt > 0.5f);
+
             jump_dt += dt;
 
             /* Handle a jump. */
 
-            if (0.5f < jump_dt)
+            if (jump_dt > 0.5f)
             {
+                /* Translate view at the exact instant of the jump. */
+
+                if (!exiting)
+                {
+                    float dp[3];
+                    v_sub(dp,     jump_p, vary.uv->p);
+                    v_add(view.p, view.p, dp);
+                }
+
+                /* Translate ball and hold it at the destination. */
+
                 v_cpy(vary.uv->p, jump_p);
-                v_cpy(view.p,      jump_w);
             }
-            if (1.0f < jump_dt)
+            if (jump_dt > 1.0f)
                 jump_b = 0;
         }
         else
