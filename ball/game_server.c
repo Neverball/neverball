@@ -530,7 +530,7 @@ void game_server_free(const char *next)
 
 static void game_update_view(float dt)
 {
-    float dc = view.dc * (jump_b ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
+    float dc = view.dc * (jump_b > 0 ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float da = input_get_r() * dt * 90.0f;
     float k;
 
@@ -767,10 +767,8 @@ static int game_step(const float g[3], float dt, int bt)
 
         game_tilt_grav(h, g, &tilt);
 
-        if (jump_b)
+        if (jump_b > 0)
         {
-            int exiting = (jump_dt > 0.5f);
-
             jump_dt += dt;
 
             /* Handle a jump. */
@@ -779,11 +777,14 @@ static int game_step(const float g[3], float dt, int bt)
             {
                 /* Translate view at the exact instant of the jump. */
 
-                if (!exiting)
+                if (jump_b == 1)
                 {
                     float dp[3];
+
                     v_sub(dp,     jump_p, vary.uv->p);
                     v_add(view.p, view.p, dp);
+
+                    jump_b = 2;
                 }
 
                 /* Translate ball and hold it at the destination. */
