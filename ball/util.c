@@ -384,22 +384,22 @@ int gui_navig(int id, int total, int first, int step)
     int prev = (page > 1);
     int next = (page < pages);
 
-    int jd;
+    int jd, kd;
 
     if ((jd = gui_hstack(id)))
     {
         if (next || prev)
         {
-            gui_maybe(jd, _("Next"), GUI_NEXT, GUI_NONE, next);
+            gui_maybe(jd, " > ", GUI_NEXT, GUI_NONE, next);
 
-            if (pages > 1)
+            if ((kd = gui_label(jd, "999/999", GUI_SML, gui_wht, gui_wht)))
             {
                 char str[16];
                 sprintf(str, "%d/%d", page, pages);
-                gui_label(jd, str, GUI_SML, gui_wht, gui_wht);
+                gui_set_label(kd, str);
             }
 
-            gui_maybe(jd, _("Prev"), GUI_PREV, GUI_NONE, prev);
+            gui_maybe(jd, " < ", GUI_PREV, GUI_NONE, prev);
         }
 
         gui_space(jd);
