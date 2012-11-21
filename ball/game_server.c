@@ -773,7 +773,7 @@ static int game_step(const float g[3], float dt, int bt)
 
             /* Handle a jump. */
 
-            if (jump_dt > 0.5f)
+            if (jump_dt >= 0.5f)
             {
                 /* Translate view at the exact instant of the jump. */
 
@@ -791,7 +791,8 @@ static int game_step(const float g[3], float dt, int bt)
 
                 v_cpy(vary.uv->p, jump_p);
             }
-            if (jump_dt > 1.0f)
+
+            if (jump_dt >= 1.0f)
                 jump_b = 0;
         }
         else

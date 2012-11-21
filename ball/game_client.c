@@ -117,7 +117,7 @@ static void game_run_cmd(const union cmd *cmd)
                 {
                     gl.jump_dt[CURR] += dt;
 
-                    if (1.0f < gl.jump_dt[PREV])
+                    if (gl.jump_dt[PREV] >= 1.0f)
                         gd.jump_b = 0;
                 }
 
