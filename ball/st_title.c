@@ -158,11 +158,12 @@ static int title_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, "Neverball", GUI_LRG, 0, 0);
+        if ((jd = gui_label(id, "  Neverball  ", GUI_LRG, 0, 0)))
+            gui_set_fill(jd);
 
         gui_space(id);
 
-        if ((jd = gui_harray(id)))
+        if ((jd = gui_hstack(id)))
         {
             gui_filler(jd);
 
