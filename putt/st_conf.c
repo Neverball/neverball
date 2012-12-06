@@ -163,8 +163,8 @@ static int conf_enter(struct state *st, struct state *prev)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            btn0 = gui_state(kd, _("No"),  GUI_SML, CONF_WIN,  0);
-            btn1 = gui_state(kd, _("Yes"), GUI_SML, CONF_FULL, 0);
+            btn0 = gui_state(kd, _("Off"),  GUI_SML, CONF_WIN,  0);
+            btn1 = gui_state(kd, _("On"),   GUI_SML, CONF_FULL, 0);
 
             if (f) gui_set_hilite(btn1, 1);
             else   gui_set_hilite(btn0, 1);

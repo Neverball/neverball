@@ -224,13 +224,8 @@ static int start_gui(void)
             {
                 int btn0, btn1;
 
-                btn0 = gui_state(kd,
-                                 /* Translators: adjust the amount of
-                                  * whitespace here as necessary for
-                                  * the buttons to look good. */
-                                 _("   No   "), GUI_SML, START_LOCK_GOALS, 0);
-
-                btn1 = gui_state(kd, _("Yes"), GUI_SML, START_LOCK_GOALS, 1);
+                btn0 = gui_state(kd, _("Unlocked"), GUI_SML, START_LOCK_GOALS, 0);
+                btn1 = gui_state(kd, _("Locked"),   GUI_SML, START_LOCK_GOALS, 1);
 
                 if (config_get_d(CONFIG_LOCK_GOALS))
                     gui_set_hilite(btn1, 1);
@@ -240,7 +235,7 @@ static int start_gui(void)
 
             gui_space(jd);
 
-            gui_label(jd, _("Lock Goals of Completed Levels?"), GUI_SML, 0, 0);
+            gui_label(jd, _("Goal State in Completed Levels"), GUI_SML, 0, 0);
 
             gui_filler(jd);
         }

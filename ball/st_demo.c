@@ -688,8 +688,8 @@ static int demo_del_gui(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_start(jd, _("No"),  GUI_SML, DEMO_KEEP, 0);
-            gui_state(jd, _("Yes"), GUI_SML, DEMO_DEL,  0);
+            gui_start(jd, _("Keep"),   GUI_SML, DEMO_KEEP, 0);
+            gui_state(jd, _("Delete"), GUI_SML, DEMO_DEL,  0);
         }
 
         gui_pulse(kd, 1.2f);
