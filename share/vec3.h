@@ -33,6 +33,8 @@
 #define fmodf(x,y)    ((float) fmod((double) x, (double) y))
 #define fatan2f(x, y) ((float) atan2((double) x, (double) y))
 
+#define flerp(f0, f1, a) ((f0) + ((f1) - (f0)) * (a))
+
 /*---------------------------------------------------------------------------*/
 
 #define v_dot(u, v)  ((u)[0] * (v)[0] + (u)[1] * (v)[1] + (u)[2] * (v)[2])
@@ -80,10 +82,10 @@
     (u)[2] = (p)[2] + (v)[2] * (t); \
 } while (0)
 
-#define v_lerp(u, v, w, a) do {                    \
-    (u)[0] = (v)[0] * (1.0f - (a)) + (w)[0] * (a); \
-    (u)[1] = (v)[1] * (1.0f - (a)) + (w)[1] * (a); \
-    (u)[2] = (v)[2] * (1.0f - (a)) + (w)[2] * (a); \
+#define v_lerp(u, v, w, a) do {    \
+    (u)[0] = flerp(v[0], w[0], a); \
+    (u)[1] = flerp(v[1], w[1], a); \
+    (u)[2] = flerp(v[2], w[2], a); \
 } while (0)
 
 #define e_cpy(d, e) do {   \

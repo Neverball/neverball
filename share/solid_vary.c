@@ -337,8 +337,7 @@ void sol_lerp_apply(struct s_lerp *fp, float a)
     for (i = 0; i < fp->mc; i++)
     {
         if (fp->mv[i][PREV].pi == fp->mv[i][CURR].pi)
-            fp->vary->mv[i].t = (fp->mv[i][PREV].t * (1.0f - a) +
-                                 fp->mv[i][CURR].t * a);
+            fp->vary->mv[i].t = flerp(fp->mv[i][PREV].t, fp->mv[i][CURR].t, a);
         else
             fp->vary->mv[i].t = fp->mv[i][CURR].t * a;
 
@@ -351,8 +350,7 @@ void sol_lerp_apply(struct s_lerp *fp, float a)
         v_lerp(fp->vary->uv[i].p, fp->uv[i][PREV].p, fp->uv[i][CURR].p, a);
         e_lerp(fp->vary->uv[i].E, fp->uv[i][PREV].E, fp->uv[i][CURR].E, a);
 
-        fp->vary->uv[i].r = (fp->uv[i][PREV].r * (1.0f - a) +
-                             fp->uv[i][CURR].r * a);
+        fp->vary->uv[i].r = flerp(fp->uv[i][PREV].r, fp->uv[i][CURR].r, a);
     }
 }
 

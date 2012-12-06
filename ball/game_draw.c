@@ -613,8 +613,8 @@ void game_lerp_apply(struct game_lerp *gl, struct game_draw *gd)
     v_lerp(gd->tilt.x, gl->tilt[PREV].x, gl->tilt[CURR].x, a);
     v_lerp(gd->tilt.z, gl->tilt[PREV].z, gl->tilt[CURR].z, a);
 
-    gd->tilt.rx = (gl->tilt[PREV].rx * (1.0f - a) + gl->tilt[CURR].rx * a);
-    gd->tilt.rz = (gl->tilt[PREV].rz * (1.0f - a) + gl->tilt[CURR].rz * a);
+    gd->tilt.rx = flerp(gl->tilt[PREV].rx, gl->tilt[CURR].rx, a);
+    gd->tilt.rz = flerp(gl->tilt[PREV].rz, gl->tilt[CURR].rz, a);
 
     /* View. */
 
@@ -624,8 +624,8 @@ void game_lerp_apply(struct game_lerp *gl, struct game_draw *gd)
 
     /* Effects. */
 
-    gd->goal_k = (gl->goal_k[PREV] * (1.0f - a) + gl->goal_k[CURR] * a);
-    gd->jump_dt = (gl->jump_dt[PREV] * (1.0f - a) + gl->jump_dt[CURR] * a);
+    gd->goal_k = flerp(gl->goal_k[PREV], gl->goal_k[CURR], a);
+    gd->jump_dt = flerp(gl->jump_dt[PREV], gl->jump_dt[CURR], a);
 }
 
 /*---------------------------------------------------------------------------*/
