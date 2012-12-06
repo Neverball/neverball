@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2012-10-20 16:56+0300\n"
+"POT-Creation-Date: 2012-12-06 17:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,7 +42,7 @@ msgstr ""
 msgid "Fall-out"
 msgstr ""
 
-#: ball/game_common.c:31 ball/progress.c:417
+#: ball/game_common.c:31 ball/progress.c:420
 msgid "Unknown"
 msgstr ""
 
@@ -116,7 +116,7 @@ msgstr ""
 msgid "Failure to load level file '%s'\n"
 msgstr ""
 
-#: ball/main.c:283
+#: ball/main.c:294
 #, c-format
 msgid ""
 "Usage: %s [options ...]\n"
@@ -128,36 +128,36 @@ msgid ""
 "  -l, --level <file>        load the level 'file'\n"
 msgstr ""
 
-#: ball/main.c:293
+#: ball/main.c:304
 #, c-format
 msgid "Option '%s' requires an argument.\n"
 msgstr ""
 
-#: ball/progress.c:414 ball/st_help.c:263
+#: ball/progress.c:417 ball/st_help.c:263
 msgid "Challenge Mode"
 msgstr ""
 
-#: ball/progress.c:414 ball/st_start.c:207
+#: ball/progress.c:417 ball/st_start.c:207
 msgid "Challenge"
 msgstr ""
 
-#: ball/progress.c:415 ball/st_help.c:250
+#: ball/progress.c:418 ball/st_help.c:250
 msgid "Normal Mode"
 msgstr ""
 
-#: ball/progress.c:415
+#: ball/progress.c:418
 msgid "Normal"
 msgstr ""
 
-#: ball/progress.c:416
+#: ball/progress.c:419
 msgid "Standalone Mode"
 msgstr ""
 
-#: ball/progress.c:416
+#: ball/progress.c:419
 msgid "Standalone"
 msgstr ""
 
-#: ball/progress.c:417
+#: ball/progress.c:420
 msgid "Unknown Mode"
 msgstr ""
 
@@ -166,12 +166,12 @@ msgstr ""
 msgid "Failure to load set file '%s'\n"
 msgstr ""
 
-#: ball/st_ball.c:179 ball/st_conf.c:316
+#: ball/st_ball.c:187 ball/st_conf.c:316
 msgid "Ball Model"
 msgstr ""
 
-#: ball/st_ball.c:181 ball/st_conf.c:104 ball/st_help.c:107
-#: ball/st_start.c:178 ball/util.c:392 share/st_resol.c:105 putt/st_all.c:393
+#: ball/st_ball.c:189 ball/st_conf.c:104 ball/st_demo.c:307 ball/st_help.c:107
+#: ball/st_start.c:178 ball/util.c:407 share/st_resol.c:105 putt/st_all.c:393
 #: putt/st_all.c:541 putt/st_conf.c:158
 msgid "Back"
 msgstr ""
@@ -205,7 +205,7 @@ msgid "Player Name"
 msgstr ""
 
 #: ball/st_conf.c:420 ball/st_conf.c:448 ball/st_conf.c:453 ball/st_conf.c:461
-#: ball/st_conf.c:464 ball/st_conf.c:467 putt/st_conf.c:200
+#: ball/st_conf.c:464 ball/st_conf.c:467 putt/st_conf.c:166 putt/st_conf.c:200
 msgid "Off"
 msgstr ""
 
@@ -230,7 +230,7 @@ msgid "Fullscreen"
 msgstr ""
 
 #: ball/st_conf.c:448 ball/st_conf.c:453 ball/st_conf.c:461 ball/st_conf.c:464
-#: ball/st_conf.c:467 putt/st_conf.c:201
+#: ball/st_conf.c:467 putt/st_conf.c:167 putt/st_conf.c:201
 msgid "On"
 msgstr ""
 
@@ -294,11 +294,11 @@ msgstr ""
 msgid "Quit"
 msgstr ""
 
-#: ball/st_demo.c:609
+#: ball/st_demo.c:609 ball/st_demo.c:691
 msgid "Keep"
 msgstr ""
 
-#: ball/st_demo.c:610 share/keynames.c:39
+#: ball/st_demo.c:610 ball/st_demo.c:692 share/keyboard.c:40
 msgid "Delete"
 msgstr ""
 
@@ -312,15 +312,6 @@ msgstr ""
 
 #: ball/st_demo.c:687
 msgid "Delete Replay?"
-msgstr ""
-
-#: ball/st_demo.c:691 ball/st_save.c:211 putt/st_conf.c:166
-msgid "No"
-msgstr ""
-
-#: ball/st_demo.c:692 ball/st_save.c:212 ball/st_start.c:233
-#: putt/st_conf.c:167
-msgid "Yes"
 msgstr ""
 
 #: ball/st_demo.c:731 ball/st_level.c:160
@@ -480,7 +471,7 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: ball/st_name.c:120 ball/st_save.c:126
+#: ball/st_name.c:120 ball/st_save.c:126 ball/st_save.c:215
 msgid "Cancel"
 msgstr ""
 
@@ -516,99 +507,96 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ball/st_save.c:205
+#: ball/st_save.c:209
 msgid "Overwrite?"
+msgstr ""
+
+#: ball/st_save.c:216
+msgid "Overwrite"
 msgstr ""
 
 #: ball/st_set.c:108
 msgid "Level Set"
 msgstr ""
 
-#. Translators: adjust the amount of
-#. * whitespace here as necessary for
-#. * the buttons to look good.
-#: ball/st_start.c:231
-msgid "   No   "
+#: ball/st_start.c:227
+msgid "Unlocked"
 msgstr ""
 
-#: ball/st_start.c:243
-msgid "Lock Goals of Completed Levels?"
+#: ball/st_start.c:228
+msgid "Locked"
 msgstr ""
 
-#: ball/st_title.c:138 ball/st_title.c:172
+#: ball/st_start.c:238
+msgid "Goal State in Completed Levels"
+msgstr ""
+
+#: ball/st_title.c:138 ball/st_title.c:173
 msgid "menu^Cheat"
 msgstr ""
 
-#: ball/st_title.c:144 ball/st_title.c:175 putt/st_all.c:238
+#: ball/st_title.c:144 ball/st_title.c:176 putt/st_all.c:238
 msgid "menu^Play"
 msgstr ""
 
-#: ball/st_title.c:178
+#: ball/st_title.c:179
 msgid "menu^Replay"
 msgstr ""
 
-#: ball/st_title.c:179
+#: ball/st_title.c:180
 msgid "menu^Help"
 msgstr ""
 
-#: ball/st_title.c:180 putt/st_all.c:239
+#: ball/st_title.c:181 putt/st_all.c:239
 msgid "menu^Options"
 msgstr ""
 
-#: ball/st_title.c:181 putt/st_all.c:240
+#: ball/st_title.c:182 putt/st_all.c:240
 msgid "menu^Exit"
 msgstr ""
 
-#: ball/util.c:27
+#: ball/util.c:28
 msgid "Hard"
 msgstr ""
 
-#: ball/util.c:28
+#: ball/util.c:29
 msgid "Medium"
 msgstr ""
 
-#: ball/util.c:29
+#: ball/util.c:30
 msgid "Easy"
 msgstr ""
 
-#: ball/util.c:75 ball/util.c:121
+#: ball/util.c:76 ball/util.c:122
 msgid "Unavailable"
 msgstr ""
 
-#: ball/util.c:177 ball/util.c:227
+#: ball/util.c:178 ball/util.c:228
 msgid "Most Coins"
 msgstr ""
 
-#: ball/util.c:184 ball/util.c:231
+#: ball/util.c:185 ball/util.c:232
 msgid "Best Times"
 msgstr ""
 
-#: ball/util.c:191 ball/util.c:235
+#: ball/util.c:192 ball/util.c:236
 msgid "Fast Unlock"
 msgstr ""
 
-#: ball/util.c:204
+#: ball/util.c:205
 msgid "Change Name"
 msgstr ""
 
-#: ball/util.c:331
+#: ball/util.c:332
 msgid "caps"
 msgstr ""
 
-#: ball/util.c:386
-msgid "Next"
-msgstr ""
-
-#: ball/util.c:387
-msgid "Prev"
-msgstr ""
-
-#: share/gui.c:427
+#: share/gui.c:425
 #, c-format
 msgid "Font '%s' doesn't exist, trying default font.\n"
 msgstr ""
 
-#: share/gui.c:474
+#: share/gui.c:472
 #, c-format
 msgid "Could not load font '%s'.\n"
 msgstr ""
@@ -628,227 +616,227 @@ msgstr ""
 #. * might not be corresponding names for all these keys in your language,
 #. * and that's perfectly fine -- in such cases just copy the source string.
 #.
-#: share/keynames.c:32
+#: share/keyboard.c:33
 msgid "Backspace"
 msgstr ""
 
-#: share/keynames.c:33
+#: share/keyboard.c:34
 msgid "Tab"
 msgstr ""
 
-#: share/keynames.c:34
+#: share/keyboard.c:35
 msgid "Clear"
 msgstr ""
 
-#: share/keynames.c:35
+#: share/keyboard.c:36
 msgid "Return"
 msgstr ""
 
-#: share/keynames.c:36
+#: share/keyboard.c:37
 msgid "Pause"
 msgstr ""
 
-#: share/keynames.c:37
+#: share/keyboard.c:38
 msgid "Escape"
 msgstr ""
 
-#: share/keynames.c:38
+#: share/keyboard.c:39
 msgid "Space"
 msgstr ""
 
-#: share/keynames.c:40
+#: share/keyboard.c:41
 msgid "Enter"
 msgstr ""
 
-#: share/keynames.c:41
+#: share/keyboard.c:42
 msgid "Equals"
 msgstr ""
 
-#: share/keynames.c:42
+#: share/keyboard.c:43
 msgid "Up"
 msgstr ""
 
-#: share/keynames.c:43 share/keynames.c:46
+#: share/keyboard.c:44 share/keyboard.c:47
 msgid "Down"
 msgstr ""
 
-#: share/keynames.c:44
+#: share/keyboard.c:45
 msgid "Right"
 msgstr ""
 
-#: share/keynames.c:45
+#: share/keyboard.c:46
 msgid "Left"
 msgstr ""
 
-#: share/keynames.c:47
+#: share/keyboard.c:48
 msgid "Insert"
 msgstr ""
 
-#: share/keynames.c:48
+#: share/keyboard.c:49
 msgid "Home"
 msgstr ""
 
-#: share/keynames.c:49
+#: share/keyboard.c:50
 msgid "End"
 msgstr ""
 
-#: share/keynames.c:50
+#: share/keyboard.c:51
 msgid "Page Up"
 msgstr ""
 
-#: share/keynames.c:51
+#: share/keyboard.c:52
 msgid "Page Down"
 msgstr ""
 
-#: share/keynames.c:52
+#: share/keyboard.c:53
 msgid "F1"
 msgstr ""
 
-#: share/keynames.c:53
+#: share/keyboard.c:54
 msgid "F2"
 msgstr ""
 
-#: share/keynames.c:54
+#: share/keyboard.c:55
 msgid "F3"
 msgstr ""
 
-#: share/keynames.c:55
+#: share/keyboard.c:56
 msgid "F4"
 msgstr ""
 
-#: share/keynames.c:56
+#: share/keyboard.c:57
 msgid "F5"
 msgstr ""
 
-#: share/keynames.c:57
+#: share/keyboard.c:58
 msgid "F6"
 msgstr ""
 
-#: share/keynames.c:58
+#: share/keyboard.c:59
 msgid "F7"
 msgstr ""
 
-#: share/keynames.c:59
+#: share/keyboard.c:60
 msgid "F8"
 msgstr ""
 
-#: share/keynames.c:60
+#: share/keyboard.c:61
 msgid "F9"
 msgstr ""
 
-#: share/keynames.c:61
+#: share/keyboard.c:62
 msgid "F10"
 msgstr ""
 
-#: share/keynames.c:62
+#: share/keyboard.c:63
 msgid "F11"
 msgstr ""
 
-#: share/keynames.c:63
+#: share/keyboard.c:64
 msgid "F12"
 msgstr ""
 
-#: share/keynames.c:64
+#: share/keyboard.c:65
 msgid "F13"
 msgstr ""
 
-#: share/keynames.c:65
+#: share/keyboard.c:66
 msgid "F14"
 msgstr ""
 
-#: share/keynames.c:66
+#: share/keyboard.c:67
 msgid "F15"
 msgstr ""
 
-#: share/keynames.c:67
+#: share/keyboard.c:68
 msgid "Num Lock"
 msgstr ""
 
-#: share/keynames.c:68
+#: share/keyboard.c:69
 msgid "Caps Lock"
 msgstr ""
 
-#: share/keynames.c:69
+#: share/keyboard.c:70
 msgid "Scroll Lock"
 msgstr ""
 
-#: share/keynames.c:70
+#: share/keyboard.c:71
 msgid "Right Shift"
 msgstr ""
 
-#: share/keynames.c:71
+#: share/keyboard.c:72
 msgid "Left Shift"
 msgstr ""
 
-#: share/keynames.c:72
+#: share/keyboard.c:73
 msgid "Right CTRL"
 msgstr ""
 
-#: share/keynames.c:73
+#: share/keyboard.c:74
 msgid "Left CTRL"
 msgstr ""
 
-#: share/keynames.c:74
+#: share/keyboard.c:75
 msgid "Right Alt"
 msgstr ""
 
-#: share/keynames.c:75
+#: share/keyboard.c:76
 msgid "Left Alt"
 msgstr ""
 
-#: share/keynames.c:76
+#: share/keyboard.c:77
 msgid "Right Meta"
 msgstr ""
 
-#: share/keynames.c:77
+#: share/keyboard.c:78
 msgid "Left Meta"
 msgstr ""
 
-#: share/keynames.c:78
+#: share/keyboard.c:79
 msgid "Left Super"
 msgstr ""
 
-#: share/keynames.c:79
+#: share/keyboard.c:80
 msgid "Right Super"
 msgstr ""
 
-#: share/keynames.c:80
+#: share/keyboard.c:81
 msgid "Alt Gr"
 msgstr ""
 
-#: share/keynames.c:81
+#: share/keyboard.c:82
 msgid "Compose"
 msgstr ""
 
-#: share/keynames.c:82
+#: share/keyboard.c:83
 msgid "Help"
 msgstr ""
 
-#: share/keynames.c:83
+#: share/keyboard.c:84
 msgid "Print Screen"
 msgstr ""
 
-#: share/keynames.c:84
+#: share/keyboard.c:85
 msgid "Sys Req"
 msgstr ""
 
-#: share/keynames.c:85
+#: share/keyboard.c:86
 msgid "Break"
 msgstr ""
 
-#: share/keynames.c:86
+#: share/keyboard.c:87
 msgid "Menu"
 msgstr ""
 
-#: share/keynames.c:87
+#: share/keyboard.c:88
 msgid "Power"
 msgstr ""
 
-#: share/keynames.c:88
+#: share/keyboard.c:89
 msgid "Euro"
 msgstr ""
 
-#: share/keynames.c:89
+#: share/keyboard.c:90
 msgid "Undo"
 msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2012-10-20 16:56+0300\n"
+"POT-Creation-Date: 2012-12-06 17:58+0200\n"
 "PO-Revision-Date: 2008-10-04 21:54+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -43,7 +43,7 @@ msgstr "Veiksmīgs"
 msgid "Fall-out"
 msgstr "Kritiens"
 
-#: ball/game_common.c:31 ball/progress.c:417
+#: ball/game_common.c:31 ball/progress.c:420
 msgid "Unknown"
 msgstr "Nezināms"
 
@@ -124,7 +124,7 @@ msgstr "Rezultāts"
 msgid "Failure to load level file '%s'\n"
 msgstr "Kļūda, ielādējot līmeņa failu \"%s\": %s\n"
 
-#: ball/main.c:283
+#: ball/main.c:294
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: %s [options ...]\n"
@@ -151,38 +151,38 @@ msgstr ""
 "  -r, --replay <fails>      parādīt ierakstu \"fails\".\n"
 "  -i, --info                parādīt informāciju par ierakstu.\n"
 
-#: ball/main.c:293
+#: ball/main.c:304
 #, c-format
 msgid "Option '%s' requires an argument.\n"
 msgstr "Opcijai \"%s\" jānorāda arguments.\n"
 
-#: ball/progress.c:414 ball/st_help.c:263
+#: ball/progress.c:417 ball/st_help.c:263
 msgid "Challenge Mode"
 msgstr "Spēku pārbaude"
 
-#: ball/progress.c:414 ball/st_start.c:207
+#: ball/progress.c:417 ball/st_start.c:207
 msgid "Challenge"
 msgstr "Spēku pārbaude"
 
-#: ball/progress.c:415 ball/st_help.c:250
+#: ball/progress.c:418 ball/st_help.c:250
 msgid "Normal Mode"
 msgstr "Normālais režīms"
 
-#: ball/progress.c:415
+#: ball/progress.c:418
 msgid "Normal"
 msgstr "Normālais"
 
-#: ball/progress.c:416
+#: ball/progress.c:419
 #, fuzzy
 #| msgid "Challenge Mode"
 msgid "Standalone Mode"
 msgstr "Spēku pārbaude"
 
-#: ball/progress.c:416
+#: ball/progress.c:419
 msgid "Standalone"
 msgstr ""
 
-#: ball/progress.c:417
+#: ball/progress.c:420
 msgid "Unknown Mode"
 msgstr "Nezināms režīms"
 
@@ -192,14 +192,14 @@ msgstr "Nezināms režīms"
 msgid "Failure to load set file '%s'\n"
 msgstr "Nav iespējams ielādēt komplekta failu \"%s\": %s\n"
 
-#: ball/st_ball.c:179 ball/st_conf.c:316
+#: ball/st_ball.c:187 ball/st_conf.c:316
 #, fuzzy
 #| msgid "Normal Mode"
 msgid "Ball Model"
 msgstr "Normālais režīms"
 
-#: ball/st_ball.c:181 ball/st_conf.c:104 ball/st_help.c:107
-#: ball/st_start.c:178 ball/util.c:392 share/st_resol.c:105 putt/st_all.c:393
+#: ball/st_ball.c:189 ball/st_conf.c:104 ball/st_demo.c:307 ball/st_help.c:107
+#: ball/st_start.c:178 ball/util.c:407 share/st_resol.c:105 putt/st_all.c:393
 #: putt/st_all.c:541 putt/st_conf.c:158
 msgid "Back"
 msgstr "Atpakaļ"
@@ -233,7 +233,7 @@ msgid "Player Name"
 msgstr "Spēlētāja vārds"
 
 #: ball/st_conf.c:420 ball/st_conf.c:448 ball/st_conf.c:453 ball/st_conf.c:461
-#: ball/st_conf.c:464 ball/st_conf.c:467 putt/st_conf.c:200
+#: ball/st_conf.c:464 ball/st_conf.c:467 putt/st_conf.c:166 putt/st_conf.c:200
 msgid "Off"
 msgstr "Bez"
 
@@ -258,7 +258,7 @@ msgid "Fullscreen"
 msgstr "Pilns ekrāns"
 
 #: ball/st_conf.c:448 ball/st_conf.c:453 ball/st_conf.c:461 ball/st_conf.c:464
-#: ball/st_conf.c:467 putt/st_conf.c:201
+#: ball/st_conf.c:467 putt/st_conf.c:167 putt/st_conf.c:201
 msgid "On"
 msgstr "Ar"
 
@@ -322,11 +322,11 @@ msgstr "Ieraksta beigas"
 msgid "Quit"
 msgstr "Iziet"
 
-#: ball/st_demo.c:609
+#: ball/st_demo.c:609 ball/st_demo.c:691
 msgid "Keep"
 msgstr "Paturēt"
 
-#: ball/st_demo.c:610 share/keynames.c:39
+#: ball/st_demo.c:610 ball/st_demo.c:692 share/keyboard.c:40
 msgid "Delete"
 msgstr "Izdzēst"
 
@@ -341,15 +341,6 @@ msgstr "Atkārtot"
 #: ball/st_demo.c:687
 msgid "Delete Replay?"
 msgstr "Dzēst ierakstu?"
-
-#: ball/st_demo.c:691 ball/st_save.c:211 putt/st_conf.c:166
-msgid "No"
-msgstr "Nē"
-
-#: ball/st_demo.c:692 ball/st_save.c:212 ball/st_start.c:233
-#: putt/st_conf.c:167
-msgid "Yes"
-msgstr "Jā"
 
 #: ball/st_demo.c:731 ball/st_level.c:160
 msgid "Warning!"
@@ -524,7 +515,7 @@ msgstr ""
 msgid "OK"
 msgstr "Labi"
 
-#: ball/st_name.c:120 ball/st_save.c:126
+#: ball/st_name.c:120 ball/st_save.c:126 ball/st_save.c:215
 msgid "Cancel"
 msgstr "Atcelt"
 
@@ -560,101 +551,104 @@ msgstr "Ieraksta nosaukums"
 msgid "Save"
 msgstr "Saglabāt"
 
-#: ball/st_save.c:205
+#: ball/st_save.c:209
 msgid "Overwrite?"
+msgstr "Pārrakstīt?"
+
+#: ball/st_save.c:216
+#, fuzzy
+#| msgid "Overwrite?"
+msgid "Overwrite"
 msgstr "Pārrakstīt?"
 
 #: ball/st_set.c:108
 msgid "Level Set"
 msgstr "Līmeņu komplekts"
 
-#. Translators: adjust the amount of
-#. * whitespace here as necessary for
-#. * the buttons to look good.
-#: ball/st_start.c:231
-msgid "   No   "
-msgstr "   Nē   "
+#: ball/st_start.c:227
+#, fuzzy
+#| msgid "Caps Lock"
+msgid "Unlocked"
+msgstr "Caps Lock"
 
-#: ball/st_start.c:243
-msgid "Lock Goals of Completed Levels?"
+#: ball/st_start.c:228
+msgid "Locked"
+msgstr ""
+
+#: ball/st_start.c:238
+#, fuzzy
+#| msgid "Lock Goals of Completed Levels?"
+msgid "Goal State in Completed Levels"
 msgstr "Vai slēgt pabeigtu līmeņu mērķus?"
 
-#: ball/st_title.c:138 ball/st_title.c:172
+#: ball/st_title.c:138 ball/st_title.c:173
 msgid "menu^Cheat"
 msgstr "Krāpties"
 
-#: ball/st_title.c:144 ball/st_title.c:175 putt/st_all.c:238
+#: ball/st_title.c:144 ball/st_title.c:176 putt/st_all.c:238
 msgid "menu^Play"
 msgstr "Spēlēt"
 
-#: ball/st_title.c:178
+#: ball/st_title.c:179
 msgid "menu^Replay"
 msgstr "Skatīties"
 
-#: ball/st_title.c:179
+#: ball/st_title.c:180
 msgid "menu^Help"
 msgstr "Palīdzība"
 
-#: ball/st_title.c:180 putt/st_all.c:239
+#: ball/st_title.c:181 putt/st_all.c:239
 msgid "menu^Options"
 msgstr "Opcijas"
 
-#: ball/st_title.c:181 putt/st_all.c:240
+#: ball/st_title.c:182 putt/st_all.c:240
 msgid "menu^Exit"
 msgstr "Iziet"
 
-#: ball/util.c:27
+#: ball/util.c:28
 msgid "Hard"
 msgstr "Grūti"
 
-#: ball/util.c:28
+#: ball/util.c:29
 msgid "Medium"
 msgstr "Vidēji"
 
-#: ball/util.c:29
+#: ball/util.c:30
 msgid "Easy"
 msgstr "Viegli"
 
-#: ball/util.c:75 ball/util.c:121
+#: ball/util.c:76 ball/util.c:122
 msgid "Unavailable"
 msgstr ""
 
-#: ball/util.c:177 ball/util.c:227
+#: ball/util.c:178 ball/util.c:228
 msgid "Most Coins"
 msgstr "Visvairāk monētu"
 
-#: ball/util.c:184 ball/util.c:231
+#: ball/util.c:185 ball/util.c:232
 msgid "Best Times"
 msgstr "Labākie laiki"
 
-#: ball/util.c:191 ball/util.c:235
+#: ball/util.c:192 ball/util.c:236
 #, fuzzy
 #| msgid "Caps Lock"
 msgid "Fast Unlock"
 msgstr "Caps Lock"
 
-#: ball/util.c:204
+#: ball/util.c:205
 msgid "Change Name"
 msgstr "Mainīt vārdu"
 
-#: ball/util.c:331
+#: ball/util.c:332
 msgid "caps"
 msgstr "lielie"
 
-#: ball/util.c:386
-msgid "Next"
-msgstr "Nākamie"
-
-#: ball/util.c:387
-msgid "Prev"
-msgstr "Iepriekš."
-
-#: share/gui.c:427
+#: share/gui.c:425
 #, c-format
 msgid "Font '%s' doesn't exist, trying default font.\n"
 msgstr ""
 
-#: share/gui.c:474
+#: share/gui.c:472
 #, c-format
 msgid "Could not load font '%s'.\n"
 msgstr ""
@@ -674,227 +668,227 @@ msgstr "Neizdevās konvertēt SDL_ttf virsmu: %s\n"
 #. * might not be corresponding names for all these keys in your language,
 #. * and that's perfectly fine -- in such cases just copy the source string.
 #.
-#: share/keynames.c:32
+#: share/keyboard.c:33
 msgid "Backspace"
 msgstr "Backspace"
 
-#: share/keynames.c:33
+#: share/keyboard.c:34
 msgid "Tab"
 msgstr "Tab"
 
-#: share/keynames.c:34
+#: share/keyboard.c:35
 msgid "Clear"
 msgstr "Clear"
 
-#: share/keynames.c:35
+#: share/keyboard.c:36
 msgid "Return"
 msgstr "Enter"
 
-#: share/keynames.c:36
+#: share/keyboard.c:37
 msgid "Pause"
 msgstr "Pauze"
 
-#: share/keynames.c:37
+#: share/keyboard.c:38
 msgid "Escape"
 msgstr "Escape"
 
-#: share/keynames.c:38
+#: share/keyboard.c:39
 msgid "Space"
 msgstr "Atstarpe"
 
-#: share/keynames.c:40
+#: share/keyboard.c:41
 msgid "Enter"
 msgstr "Enter"
 
-#: share/keynames.c:41
+#: share/keyboard.c:42
 msgid "Equals"
 msgstr "Vienāds"
 
-#: share/keynames.c:42
+#: share/keyboard.c:43
 msgid "Up"
 msgstr "Augšup"
 
-#: share/keynames.c:43 share/keynames.c:46
+#: share/keyboard.c:44 share/keyboard.c:47
 msgid "Down"
 msgstr "Lejup"
 
-#: share/keynames.c:44
+#: share/keyboard.c:45
 msgid "Right"
 msgstr "Pa labi"
 
-#: share/keynames.c:45
+#: share/keyboard.c:46
 msgid "Left"
 msgstr "Pa kreisi"
 
-#: share/keynames.c:47
+#: share/keyboard.c:48
 msgid "Insert"
 msgstr "Insert"
 
-#: share/keynames.c:48
+#: share/keyboard.c:49
 msgid "Home"
 msgstr "Home"
 
-#: share/keynames.c:49
+#: share/keyboard.c:50
 msgid "End"
 msgstr "End"
 
-#: share/keynames.c:50
+#: share/keyboard.c:51
 msgid "Page Up"
 msgstr "Page Up"
 
-#: share/keynames.c:51
+#: share/keyboard.c:52
 msgid "Page Down"
 msgstr "Page Down"
 
-#: share/keynames.c:52
+#: share/keyboard.c:53
 msgid "F1"
 msgstr "F1"
 
-#: share/keynames.c:53
+#: share/keyboard.c:54
 msgid "F2"
 msgstr "F2"
 
-#: share/keynames.c:54
+#: share/keyboard.c:55
 msgid "F3"
 msgstr "F3"
 
-#: share/keynames.c:55
+#: share/keyboard.c:56
 msgid "F4"
 msgstr "F4"
 
-#: share/keynames.c:56
+#: share/keyboard.c:57
 msgid "F5"
 msgstr "F5"
 
-#: share/keynames.c:57
+#: share/keyboard.c:58
 msgid "F6"
 msgstr "F6"
 
-#: share/keynames.c:58
+#: share/keyboard.c:59
 msgid "F7"
 msgstr "F7"
 
-#: share/keynames.c:59
+#: share/keyboard.c:60
 msgid "F8"
 msgstr "F8"
 
-#: share/keynames.c:60
+#: share/keyboard.c:61
 msgid "F9"
 msgstr "F9"
 
-#: share/keynames.c:61
+#: share/keyboard.c:62
 msgid "F10"
 msgstr "F10"
 
-#: share/keynames.c:62
+#: share/keyboard.c:63
 msgid "F11"
 msgstr "F11"
 
-#: share/keynames.c:63
+#: share/keyboard.c:64
 msgid "F12"
 msgstr "F12"
 
-#: share/keynames.c:64
+#: share/keyboard.c:65
 msgid "F13"
 msgstr "F13"
 
-#: share/keynames.c:65
+#: share/keyboard.c:66
 msgid "F14"
 msgstr "F14"
 
-#: share/keynames.c:66
+#: share/keyboard.c:67
 msgid "F15"
 msgstr "F15"
 
-#: share/keynames.c:67
+#: share/keyboard.c:68
 msgid "Num Lock"
 msgstr "Num Lock"
 
-#: share/keynames.c:68
+#: share/keyboard.c:69
 msgid "Caps Lock"
 msgstr "Caps Lock"
 
-#: share/keynames.c:69
+#: share/keyboard.c:70
 msgid "Scroll Lock"
 msgstr "Scroll Lock"
 
-#: share/keynames.c:70
+#: share/keyboard.c:71
 msgid "Right Shift"
 msgstr "Labais Shift"
 
-#: share/keynames.c:71
+#: share/keyboard.c:72
 msgid "Left Shift"
 msgstr "Kreisais Shift"
 
-#: share/keynames.c:72
+#: share/keyboard.c:73
 msgid "Right CTRL"
 msgstr "Labais CTRL"
 
-#: share/keynames.c:73
+#: share/keyboard.c:74
 msgid "Left CTRL"
 msgstr "Kreisais CTRL"
 
-#: share/keynames.c:74
+#: share/keyboard.c:75
 msgid "Right Alt"
 msgstr "Labais Alt"
 
-#: share/keynames.c:75
+#: share/keyboard.c:76
 msgid "Left Alt"
 msgstr "Kreisais Alt"
 
-#: share/keynames.c:76
+#: share/keyboard.c:77
 msgid "Right Meta"
 msgstr "Labais Meta"
 
-#: share/keynames.c:77
+#: share/keyboard.c:78
 msgid "Left Meta"
 msgstr "Kreisais Meta"
 
-#: share/keynames.c:78
+#: share/keyboard.c:79
 msgid "Left Super"
 msgstr "Kreisais Super"
 
-#: share/keynames.c:79
+#: share/keyboard.c:80
 msgid "Right Super"
 msgstr "Labais Super"
 
-#: share/keynames.c:80
+#: share/keyboard.c:81
 msgid "Alt Gr"
 msgstr "Alt Gr"
 
-#: share/keynames.c:81
+#: share/keyboard.c:82
 msgid "Compose"
 msgstr "Compose"
 
-#: share/keynames.c:82
+#: share/keyboard.c:83
 msgid "Help"
 msgstr "Help"
 
-#: share/keynames.c:83
+#: share/keyboard.c:84
 msgid "Print Screen"
 msgstr "Print Screen"
 
-#: share/keynames.c:84
+#: share/keyboard.c:85
 msgid "Sys Req"
 msgstr "Sys Req"
 
-#: share/keynames.c:85
+#: share/keyboard.c:86
 msgid "Break"
 msgstr "Break"
 
-#: share/keynames.c:86
+#: share/keyboard.c:87
 msgid "Menu"
 msgstr "Menu"
 
-#: share/keynames.c:87
+#: share/keyboard.c:88
 msgid "Power"
 msgstr "Power"
 
-#: share/keynames.c:88
+#: share/keyboard.c:89
 msgid "Euro"
 msgstr "Euro"
 
-#: share/keynames.c:89
+#: share/keyboard.c:90
 msgid "Undo"
 msgstr "Undo"
 
@@ -1988,6 +1982,21 @@ msgstr "mtrl/words-lv"
 
 msgid "item/coin/coin"
 msgstr ""
+
+#~ msgid "No"
+#~ msgstr "Nē"
+
+#~ msgid "Yes"
+#~ msgstr "Jā"
+
+#~ msgid "   No   "
+#~ msgstr "   Nē   "
+
+#~ msgid "Next"
+#~ msgstr "Nākamie"
+
+#~ msgid "Prev"
+#~ msgstr "Iepriekš."
 
 #~ msgid "Chase"
 #~ msgstr "Vajājošais"
