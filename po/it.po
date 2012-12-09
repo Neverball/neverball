@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2012-12-06 17:58+0200\n"
-"PO-Revision-Date: 2012-12-09 16:24+0100\n"
+"PO-Revision-Date: 2012-12-09 21:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: \n"
@@ -213,7 +213,7 @@ msgstr "Opzioni"
 #: ball/st_conf.c:299
 #: ball/st_conf.c:443
 msgid "Graphics"
-msgstr "Grafica"
+msgstr "Video"
 
 #: ball/st_conf.c:299
 msgid "Configure"
@@ -231,12 +231,12 @@ msgstr "Volume"
 #: ball/st_conf.c:310
 #: putt/st_conf.c:238
 msgid "Music Volume"
-msgstr "Volume della Musica"
+msgstr "Musica"
 
 #: ball/st_conf.c:315
 #: ball/st_name.c:107
 msgid "Player Name"
-msgstr "Nome del giocatore"
+msgstr "Nome"
 
 #: ball/st_conf.c:420
 #: ball/st_conf.c:448
