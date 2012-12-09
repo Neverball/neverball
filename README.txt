@@ -12,17 +12,18 @@ worth 5.  Blue coins are worth 10.  A ball is awarded for 100 coins.
 
                                 * * *
 
-Neverball is distributed under the terms of GNU General Public Licence
-version 2  (or a later version  at your option).  A copy of GPL  v2 is
-available in the file COPYING.
+COPYING.txt
+    Neverball is distributed under the terms of GNU General Public
+    Licence version 2 (or a later version at your option).
 
-See INSTALL  for instructions  on how  to build  the game  from source
-code.
+doc/install.txt
+    Instructions on how to build the game from source code.
 
-A description of how to play the game can be found in doc/MANUAL.
+doc/manual.txt
+    A detailed description of how to play and configure the game.
 
-A mostly-complete list of all contributors  to the game is included in
-the file doc/AUTHORS.
+doc/authors.txt
+    A list of people who have contributed to Neverball.
 
 
                                 * * *
@@ -44,8 +45,3 @@ Neverwiki (documentation and level design tips)
 
 Official IRC channel
     #neverball on chat.freenode.net
-
-
-                                * * *
-
-Web: <http://neverball.org/>
