@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2012-12-06 17:58+0200\n"
-"PO-Revision-Date: 2012-12-02 17:15-0000\n"
+"PO-Revision-Date: 2012-12-09 22:45-0000\n"
 "Last-Translator: GunChleoc <fiosAIGforamnagaidhligDOTnet>\n"
 "Language-Team: Fòram na Gàidhlig http://www.foramnagaidhlig.net\n"
 "Language: gd\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ball/demo.c:226
 msgid "Missing format character in replay name\n"
-msgstr "Caractar fòrmataidh a dhìth ann an ainm an ath-chluiche\n"
+msgstr "tayCaractar fòrmataidh a dhìth ann an ainm an ath-chluiche\n"
 
 #: ball/demo.c:231
 #, c-format
@@ -540,30 +540,27 @@ msgid "Overwrite?"
 msgstr "Sgrìobhadh thairis air?"
 
 #: ball/st_save.c:216
-#, fuzzy
 #| msgid "Overwrite?"
 msgid "Overwrite"
-msgstr "Sgrìobhadh thairis air?"
+msgstr "Sgrìobh thairis air"
 
 #: ball/st_set.c:108
 msgid "Level Set"
 msgstr "Seata leibheilean"
 
 #: ball/st_start.c:227
-#, fuzzy
 #| msgid "Fast Unlock"
 msgid "Unlocked"
-msgstr "Fosgladh luath"
+msgstr "Fosgailte"
 
 #: ball/st_start.c:228
 msgid "Locked"
-msgstr ""
+msgstr "Glaiste"
 
 #: ball/st_start.c:238
-#, fuzzy
 #| msgid "Lock Goals of Completed Levels?"
 msgid "Goal State in Completed Levels"
-msgstr "Glais targaidean aig leibheilean coileanta?"
+msgstr "Targaidean nan leibheilean coileanta"
 
 #: ball/st_title.c:138 ball/st_title.c:173
 msgid "menu^Cheat"
