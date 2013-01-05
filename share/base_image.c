@@ -292,22 +292,28 @@ void image_white(void *p, int w, int h, int b)
 {
     unsigned char *s = (unsigned char *) p;
 
-    int r;
-    int c;
+    int i;
 
-    for (r = 0; r < h; r++)
-        for (c = 0; c < w; c++)
+    assert(b >= 1 && b <= 4);
+
+    if (b == 1 || b == 3)
+    {
+        memset(s, 0xFF, w * h * b);
+    }
+    else if (b == 2)
+    {
+        for (i = 0; i < w * h * b; i += 2)
+            s[i] = 0xFF;
+    }
+    else
+    {
+        for (i = 0; i < w * h * b; i += 4)
         {
-            int k = (r * w + c) * b;
-
-            s[k + 0] = 0xFF;
-
-            if (b > 2)
-            {
-                s[k + 1] = 0xFF;
-                s[k + 2] = 0xFF;
-            }
+            s[i + 0] = 0xFF;
+            s[i + 1] = 0xFF;
+            s[i + 2] = 0xFF;
         }
+    }
 }
 
 /*
