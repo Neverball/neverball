@@ -223,19 +223,18 @@ void *image_next2(const void *p, int w, int h, int b, int *w2, int *h2)
 
     if ((dst = (unsigned char *) calloc(W * H * b, sizeof (unsigned char))))
     {
-        int r, dr = (H - h) / 2;
-        int c, dc = (W - w) / 2;
-        int i;
+        const int dr = (H - h) / 2;
+        const int dc = (W - w) / 2;
+
+        int r;
 
         for (r = 0; r < h; ++r)
-            for (c = 0; c < w; ++c)
-                for (i = 0; i < b; ++i)
-                {
-                    int R = r + dr;
-                    int C = c + dc;
+        {
+            const int R = r + dr;
+            const int C =     dc;
 
-                    dst[(R * W + C) * b + i] = src[(r * w + c) * b + i];
-                }
+            memcpy(&dst[(R * W + C) * b], &src[(r * w) * b], w * b);
+        }
 
         if (w2) *w2 = W;
         if (h2) *h2 = H;
