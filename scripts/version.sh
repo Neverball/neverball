@@ -12,7 +12,10 @@ export LC_ALL
 svn_version()
 {
     svn_rev="$(svnversion . /svn/neverball/trunk | tr : +)"
-    [ "$svn_rev" != "exported" ] && echo "r$svn_rev"
+    case "$svn_rev" in
+        [1-9]*) echo "r$svn_rev" ;;
+        *) false ;;
+    esac
 }
 
 if [ "$BUILD" != "release" ]; then
