@@ -1,14 +1,14 @@
 # SCOTTISH GAELIC TRANSLATION FILE
 # Copyright (C) YEAR Robert Kooima
 # This file is distributed under the same license as the PACKAGE package.
-# GunChleoc <fios@foramnagaidhlig.net>, 2012.
+# GunChleoc <fios@foramnagaidhlig.net>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2012-12-06 17:58+0200\n"
-"PO-Revision-Date: 2012-12-09 22:45-0000\n"
-"Last-Translator: GunChleoc <fiosAIGforamnagaidhligDOTnet>\n"
+"PO-Revision-Date: 2013-04-08 19:12+0100\n"
+"Last-Translator: GunChleoc <fios@foramnagaidhlig.net>\n"
 "Language-Team: Fòram na Gàidhlig http://www.foramnagaidhlig.net\n"
 "Language: gd\n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Virtaal 0.7.1\n"
 
 #: ball/demo.c:226
 msgid "Missing format character in replay name\n"
-msgstr "tayCaractar fòrmataidh a dhìth ann an ainm an ath-chluiche\n"
+msgstr "reCaractar fòrmataidh a dhìth ann an ainm an ath-chluiche\n"
 
 #: ball/demo.c:231
 #, c-format
@@ -337,7 +337,7 @@ msgstr ""
 
 #: ball/st_done.c:62
 msgid "New Set Record"
-msgstr "Clàr nan curaidh seata ùr"
+msgstr "Sàr-thoradh ùr an t-seata"
 
 #: ball/st_done.c:63
 msgid "Set Complete"
@@ -373,7 +373,7 @@ msgstr "Sàbhail ath-chluich"
 
 #: ball/st_goal.c:102
 msgid "New Record"
-msgstr "Clàr nan curaidh ùr"
+msgstr "Sàr-thoradh ùr"
 
 #: ball/st_goal.c:103
 msgid "GOAL"
@@ -505,7 +505,7 @@ msgstr "Sgur dheth"
 
 #: ball/st_over.c:35
 msgid "GAME OVER"
-msgstr "GEAMA SEACHAD"
+msgstr "CRÌOCH A' GHEAMA"
 
 #: ball/st_pause.c:82 putt/st_all.c:636
 msgid "Paused"
@@ -517,15 +517,15 @@ msgstr "Ath-thòiseachadh"
 
 #: ball/st_play.c:116
 msgid "Ready?"
-msgstr "Ullaich!"
+msgstr "Deiseil?"
 
 #: ball/st_play.c:200
 msgid "Set?"
-msgstr "Deiseil!"
+msgstr "Deònach?"
 
 #: ball/st_play.c:306
 msgid "GO!"
-msgstr "SIUTHAD!"
+msgstr "DÈAN ÀS!"
 
 #: ball/st_save.c:113
 msgid "Replay Name"
@@ -990,8 +990,8 @@ msgid ""
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
 "and Fast Unlock records.\\"
 msgstr ""
-"Duilgheas: meadhanach gu adhartach\\\\25 leibheilean le dùbhlan nas dorra dha"
-"\\chluicheadairean eòlach. Feuch an dèan thu a' chùis air\\buinn as motha, "
+"Duilgheas: meadhanach gu adhartach\\\\25 leibheilean le dùbhlan nas dorra "
+"dha\\chluicheadairean eòlach. Feuch an dèan thu a' chùis air\\buinn as motha, "
 "ùineachan as fhearr is fosgladh luath.\\"
 
 #: data/set-mym.txt
