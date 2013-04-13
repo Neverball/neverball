@@ -1372,6 +1372,10 @@ msgstr "=Konfetti=\\Hilfe! Irgendwie muß man hier doch durchkommen."
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
 msgstr "=Scheiben=\\Gleitende Plattformen richtig nutzen - nur wie?"
 
+#: data/map-fwp/inferno.map
+msgid "=Inferno=\\The fire thwomps will try to foil your mission."
+msgstr "=Inferno=\\Die Feuer-Thwomps sind ein gewisser Störfaktor."
+
 #: data/map-fwp/ladybirds.map
 msgid "=Ladybirds=\\Don't let them bug you."
 msgstr "=Marienkäfer=\\Lassen Sie sich von den Viechern nicht unterkriegen."

@@ -22,3 +22,4 @@ map-fwp/adventure.sol
 map-fwp/rings.sol
 map-fwp/ladybirds.sol
 map-fwp/buoys.sol
+map-fwp/inferno.sol
