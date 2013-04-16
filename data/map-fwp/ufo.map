@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "5.1"
+"version" "5.2"
 "author" "Florian Priester"
 "shot" "shot-fwp/ufo.png"
 "back" "map-back/jupiter.sol"
@@ -11416,6 +11416,7 @@
 "origin" "0 1088 300"
 "radius" "0.375"
 "target" "barrierClosed0"
+"timer" "600"
 }
 // entity 22
 {
@@ -11423,6 +11424,7 @@
 "origin" "0 1088 300"
 "radius" "0.375"
 "target" "barrierOpen0"
+"timer" "600"
 "invisible" "1"
 }
 // entity 23

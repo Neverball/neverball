@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "1.1"
+"version" "1.2"
 "author" "Florian Priester"
 "shot" "shot-fwp/buoys.png"
 "back" "map-back/ocean.sol"
@@ -27756,6 +27756,7 @@
 "origin" "-386.039 386.039 0"
 "radius" "0.3125"
 "target" "blockerALeft0"
+"timer" "600"
 }
 // entity 166
 {
@@ -27763,6 +27764,7 @@
 "origin" "-386.039 386.039 0"
 "radius" "0.3125"
 "target" "blockerARight0"
+"timer" "600"
 "invisible" "1"
 }
 // entity 167
@@ -27771,6 +27773,7 @@
 "origin" "386.039 -386.039 0"
 "radius" "0.3125"
 "target" "blockerBLeft0"
+"timer" "600"
 }
 // entity 168
 {
@@ -27778,6 +27781,7 @@
 "origin" "386.039 -386.039 0"
 "radius" "0.3125"
 "target" "blockerBRight0"
+"timer" "600"
 "invisible" "1"
 }
 // entity 169

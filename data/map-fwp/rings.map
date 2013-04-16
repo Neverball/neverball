@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "1.1"
+"version" "1.2"
 "author" "Florian Priester"
 "shot" "shot-fwp/rings.png"
 "back" "map-back/jupiter.sol"
@@ -33963,6 +33963,7 @@
 "origin" "0 -128 -128"
 "radius" "0.5"
 "target" "doorALeft0"
+"timer" "600"
 "invisible" "1"
 }
 // entity 12
@@ -33971,6 +33972,7 @@
 "origin" "0 -128 -128"
 "radius" "0.5"
 "target" "doorARight0"
+"timer" "600"
 "invisible" "1"
 }
 // entity 13
@@ -34763,6 +34765,7 @@
 "origin" "0 0 -160"
 "radius" "0.37695"
 "target" "doorBLeft0"
+"timer" "600"
 }
 // entity 22
 {
@@ -34770,6 +34773,7 @@
 "origin" "0 0 -160"
 "radius" "0.37695"
 "target" "doorBRight0"
+"timer" "600"
 "invisible" "1"
 }
 // entity 23
