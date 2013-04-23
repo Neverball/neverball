@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "1.6"
+"version" "1.7"
 "author" "Florian Priester"
 "shot" "shot-fwp/oddities.png"
 "back" "map-back/alien.sol"
@@ -5770,14 +5770,14 @@
 // entity 117
 {
 "classname" "info_player_deathmatch"
-"origin" "-256 132 40"
-"radius" "0.015625"
+"origin" "-256 132 32"
+"radius" "0.03125"
 }
 // entity 118
 {
 "classname" "info_player_deathmatch"
-"origin" "256 132 40"
-"radius" "0.015625"
+"origin" "256 132 32"
+"radius" "0.03125"
 }
 // entity 119
 {
