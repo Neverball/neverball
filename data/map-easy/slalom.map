@@ -10,7 +10,7 @@
 "shot" "shot-easy/slalom.jpg"
 "grad" "back/ocean.png"
 "back" "map-back/ocean.sol"
-"version" "1"
+"version" "1.1"
 "contributor" "Mehdi Yousfi-Monod"
 "author" "Jean Privat"
 "message" "Follow the trail of coins to reach the goal.\If you hit a post while moving quickly,\you will bounce far off course."

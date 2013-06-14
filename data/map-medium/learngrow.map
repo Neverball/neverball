@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "The ball will fit in those small holes,\if you can just find something to make it smaller.\Other places may require a bigger ball.\One thing is certain - you'll want a plan!"
 "author" "Mehdi Yousfi-Monod"
-"version" "1"
+"version" "1.1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"
 "shot" "shot-medium/learngrow.jpg"

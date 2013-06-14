@@ -11,7 +11,7 @@
 "goal_hs" "1500 5250"
 "goal" "40"
 "time" "9000"
-"version" "1"
+"version" "1.1"
 "message" "You'll need to exert some control over your\view here.  Press 3 to stop the auto-rotation.\Use the mouse buttons to rotate it manually.\Press 1 to return to the auto-rotating view.\"
 // brush 0
 {

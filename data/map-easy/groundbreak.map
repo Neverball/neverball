@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "Getting to the goal\shouldn't be a problem,\but getting all of the coins will\require some planning.\\Hint: often it is faster to avoid\a hole instead of falling into it."
 "author" "Janis Rucis"
-"version" "1"
+"version" "1.1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "shot" "shot-easy/groundbreak.jpg"

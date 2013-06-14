@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "message" "Stairway to heaven"
-"version" "1"
+"version" "1.1"
 "shot" "shot-medium/accordian.jpg"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"

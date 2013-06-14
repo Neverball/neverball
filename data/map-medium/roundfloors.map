@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "This wedding cake is plenty rich,\but be careful as you go\to each lower layer."
 "author" "Mehdi Yousfi-Monod"
-"version" "1"
+"version" "1.1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "shot" "shot-medium/roundfloors.jpg"

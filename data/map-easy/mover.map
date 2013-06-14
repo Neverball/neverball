@@ -10,7 +10,7 @@
 "shot" "shot-easy/mover.jpg"
 "grad" "back/alien.png"
 "back" "map-back/alien.sol"
-"version" "1"
+"version" "1.1"
 "author" "Robert Kooima"
 "message" "A moving platform can be tricky.\Use precise timing to get aboard,\and precise balance to stay there.\Don't let it move out from under you.\Ride the platforms to grab the big coins.\"
 // brush 0

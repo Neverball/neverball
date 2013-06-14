@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "Puzzling but profitable.\\Take time to observe the motions\of the bumpers - it will help you\to reach the goal."
 "author" "Mehdi Yousfi-Monod"
-"version" "1"
+"version" "1.1"
 "back" "map-back/alien.sol"
 "grad" "back/alien.png"
 "song" "bgm/track5.ogg"

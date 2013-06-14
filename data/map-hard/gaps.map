@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "Time the switches carefully to synchronize\the motion of the platforms.\Move quickly across the gaps.\"
 "author" "Robert Kooima"
-"version" "1"
+"version" "1.1"
 "back" "map-back/volcano.sol"
 "grad" "back/volcano.png"
 "shot" "shot-hard/gaps.jpg"

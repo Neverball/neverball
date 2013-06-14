@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "Ascend the slope to reach your goal.\(Easier said than done.)"
 "author" "Mehdi Yousfi-Monod"
-"version" "1"
+"version" "1.1"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
 "shot" "shot-medium/hardrise.jpg"

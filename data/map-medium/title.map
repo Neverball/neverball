@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"version" "2"
+"version" "2.1"
 "shot" "shot-medium/title.jpg"
 "song" "bgm/title.ogg"
 "back" "map-back/jupiter.sol"

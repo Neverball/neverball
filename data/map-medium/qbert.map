@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "You can never go home again..."
 "author" "Mehdi Yousfi-Monod"
-"version" "1"
+"version" "1.1"
 "shot" "shot-medium/qbert.jpg"
 "back" "map-back/city.sol"
 "grad" "back/city.png"

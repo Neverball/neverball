@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
-"version" "1"
+"version" "1.1"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "shot" "shot-medium/locks.jpg"

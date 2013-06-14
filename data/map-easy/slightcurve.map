@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "Hills require more speed to get over.\Be careful not to go too fast!"
 "author" "Mehdi Yousfi-Monod"
-"version" "1"
+"version" "1.1"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
 "shot" "shot-easy/slightcurve.jpg"

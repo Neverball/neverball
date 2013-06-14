@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "When you are on the elevators,\make small adjustments to keep the ball steady.\You can collect many coins by\keeping the ball in one place.\Too much movement and you will fall off."
 "author" "Mehdi Yousfi-Monod"
-"version" "1"
+"version" "1.1"
 "back" "map-back/jupiter.sol"
 "grad" "back/space.png"
 "shot" "shot-easy/roundcoins.jpg"

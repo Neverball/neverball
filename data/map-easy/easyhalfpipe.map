@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "Half-pipes can be fun,\but they make it easy to fall out.\Don't over accelerate and you will\be able to stay in control."
 "author" "Mehdi Yousfi-Monod"
-"version" "1"
+"version" "1.1"
 "grad" "back/space.png"
 "back" "map-back/jupiter.sol"
 "shot" "shot-easy/easyhalfpipe.jpg"
