@@ -130,10 +130,6 @@ void   m_mult(float *, const float *, const float *);
 void   m_pxfm(float *, const float *, const float *);
 void   m_vxfm(float *, const float *, const float *);
 
-void   m_view(float *, const float *,
-                       const float *,
-                       const float *);
-
 /*---------------------------------------------------------------------------*/
 
 #define q_dot(q, r) ((q)[0] * (r)[0] + v_dot((q) + 1, (r) + 1))

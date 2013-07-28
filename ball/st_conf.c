@@ -344,6 +344,7 @@ enum
     CONF_VIDEO_BACKGROUND,
     CONF_VIDEO_SHADOW,
     CONF_VIDEO_VSYNC,
+    CONF_VIDEO_HMD,
     CONF_VIDEO_MULTISAMPLE
 };
 
@@ -403,6 +404,13 @@ static int conf_video_action(int tok, int val)
         goto_state(&st_conf_video);
         break;
 
+    case CONF_VIDEO_HMD:
+        goto_state(&st_null);
+        config_set_d(CONFIG_HMD, val);
+        r = video_init(TITLE, ICON);
+        goto_state(&st_conf_video);
+        break;
+
     case CONF_VIDEO_MULTISAMPLE:
         goto_state(&st_null);
         config_set_d(CONFIG_MULTISAMPLE, val);
@@ -432,6 +440,7 @@ static int conf_video_gui(void)
         int b = config_get_d(CONFIG_BACKGROUND);
         int s = config_get_d(CONFIG_SHADOW);
         int v = config_get_d(CONFIG_VSYNC);
+        int h = config_get_d(CONFIG_HMD);
         int m = config_get_d(CONFIG_MULTISAMPLE);
 
         char resolution[sizeof ("12345678 x 12345678")];
@@ -445,6 +454,9 @@ static int conf_video_gui(void)
         conf_state(id, _("Resolution"), resolution, CONF_VIDEO_RESOLUTION);
 
         conf_toggle(id, _("Fullscreen"), CONF_VIDEO_FULLSCREEN, f,
+                    _("On"), 1, _("Off"), 0);
+
+        conf_toggle(id, _("HMD"), CONF_VIDEO_HMD, h,
                     _("On"), 1, _("Off"), 0);
 
         gui_space(id);

@@ -29,6 +29,7 @@
 #include "gui.h"
 #include "set.h"
 #include "tilt.h"
+#include "hmd.h"
 #include "fs.h"
 #include "common.h"
 
@@ -554,9 +555,10 @@ int main(int argc, char *argv[])
 
             /* Render. */
 
+            hmd_step();
             st_paint(0.001f * t0);
-            shot_take();
             video_swap();
+            shot_take();
 
             if (config_get_d(CONFIG_NICE))
                 SDL_Delay(1);

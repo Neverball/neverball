@@ -18,6 +18,36 @@
 #include "config.h"
 #include "syswm.h"
 #include "sync.h"
+#include "gui.h"
+#include "hmd.h"
+
+/*---------------------------------------------------------------------------*/
+
+/* Normally...... show the system cursor and hide the virtual cursor.        */
+/* In HMD mode... show the virtual cursor and hide the system cursor.        */
+
+static void video_show_cursor()
+{
+    if (hmd_stat())
+    {
+        gui_set_cursor(1);
+        SDL_ShowCursor(SDL_DISABLE);
+    }
+    else
+    {
+        gui_set_cursor(0);
+        SDL_ShowCursor(SDL_ENABLE);
+    }
+}
+
+/* When the cursor is to be hidden, make sure neither the virtual cursor     */
+/* nor the system cursor is visible.                                         */
+
+static void video_hide_cursor()
+{
+    gui_set_cursor(0);
+    SDL_ShowCursor(SDL_DISABLE);
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,6 +94,9 @@ int video_mode(int f, int w, int h)
     int buffers = config_get_d(CONFIG_MULTISAMPLE) ? 1 : 0;
     int samples = config_get_d(CONFIG_MULTISAMPLE);
     int vsync   = config_get_d(CONFIG_VSYNC)       ? 1 : 0;
+    int hmd     = config_get_d(CONFIG_HMD)         ? 1 : 0;
+
+    hmd_free();
 
     SDL_GL_SetAttribute(SDL_GL_STEREO,             stereo);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE,       stencil);
@@ -124,6 +157,13 @@ int video_mode(int f, int w, int h)
         if (vsync && SDL_GL_GetAttribute(SDL_GL_SWAP_CONTROL, &vsync) == -1)
             sync_init();
 
+        /* Set up HMD display if requested. */
+
+        if (hmd)
+            hmd_init();
+
+        video_show_cursor();
+
         return 1;
     }
 
@@ -173,6 +213,7 @@ void video_swap(void)
 {
     int dt;
 
+    hmd_swap();
     SDL_GL_SwapBuffers();
 
     /* Accumulate time passed and frames rendered. */
@@ -228,7 +269,7 @@ void video_set_grab(int w)
     }
 
     SDL_WM_GrabInput(SDL_GRAB_ON);
-    SDL_ShowCursor(SDL_DISABLE);
+    video_hide_cursor();
 #endif
 
     grabbed = 1;
@@ -238,7 +279,7 @@ void video_clr_grab(void)
 {
 #ifdef NDEBUG
     SDL_WM_GrabInput(SDL_GRAB_OFF);
-    SDL_ShowCursor(SDL_ENABLE);
+    video_show_cursor();
 #endif
     grabbed = 0;
 }
@@ -250,56 +291,91 @@ int  video_get_grab(void)
 
 /*---------------------------------------------------------------------------*/
 
+void video_calc_view(float *M, const float *c,
+                               const float *p,
+                               const float *u)
+{
+    float x[3];
+    float y[3];
+    float z[3];
+
+    v_sub(z, p, c);
+    v_nrm(z, z);
+    v_crs(x, u, z);
+    v_nrm(x, x);
+    v_crs(y, z, x);
+
+    m_basis(M, x, y, z);
+}
+
+/*---------------------------------------------------------------------------*/
+
 void video_push_persp(float fov, float n, float f)
 {
-    GLfloat m[4][4];
-
-    GLfloat r = fov / 2 * V_PI / 180;
-    GLfloat s = sin(r);
-    GLfloat c = cos(r) / s;
-
-    GLfloat a = ((GLfloat) config_get_d(CONFIG_WIDTH) /
-                 (GLfloat) config_get_d(CONFIG_HEIGHT));
-
-    glMatrixMode(GL_PROJECTION);
+    if (hmd_stat())
+        hmd_persp();
+    else
     {
-        glPushMatrix();
-        glLoadIdentity();
+        GLfloat m[4][4];
 
-        m[0][0] = c / a;
-        m[0][1] =  0.0f;
-        m[0][2] =  0.0f;
-        m[0][3] =  0.0f;
-        m[1][0] =  0.0f;
-        m[1][1] =     c;
-        m[1][2] =  0.0f;
-        m[1][3] =  0.0f;
-        m[2][0] =  0.0f;
-        m[2][1] =  0.0f;
-        m[2][2] = -(f + n) / (f - n);
-        m[2][3] = -1.0f;
-        m[3][0] =  0.0f;
-        m[3][1] =  0.0f;
-        m[3][2] = -2.0f * n * f / (f - n);
-        m[3][3] =  0.0f;
+        GLfloat r = fov / 2 * V_PI / 180;
+        GLfloat s = sin(r);
+        GLfloat c = cos(r) / s;
 
-        glMultMatrixf(&m[0][0]);
+        GLfloat a = ((GLfloat) config_get_d(CONFIG_WIDTH) /
+                     (GLfloat) config_get_d(CONFIG_HEIGHT));
+
+        glMatrixMode(GL_PROJECTION);
+        {
+            glPushMatrix();
+            glLoadIdentity();
+
+            m[0][0] = c / a;
+            m[0][1] =  0.0f;
+            m[0][2] =  0.0f;
+            m[0][3] =  0.0f;
+            m[1][0] =  0.0f;
+            m[1][1] =     c;
+            m[1][2] =  0.0f;
+            m[1][3] =  0.0f;
+            m[2][0] =  0.0f;
+            m[2][1] =  0.0f;
+            m[2][2] = -(f + n) / (f - n);
+            m[2][3] = -1.0f;
+            m[3][0] =  0.0f;
+            m[3][1] =  0.0f;
+            m[3][2] = -2.0f * n * f / (f - n);
+            m[3][3] =  0.0f;
+
+            glMultMatrixf(&m[0][0]);
+        }
+        glMatrixMode(GL_MODELVIEW);
+        {
+            glLoadIdentity();
+        }
     }
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void video_push_ortho(void)
 {
-    GLfloat w = (GLfloat) config_get_d(CONFIG_WIDTH);
-    GLfloat h = (GLfloat) config_get_d(CONFIG_HEIGHT);
-
-    glMatrixMode(GL_PROJECTION);
+    if (hmd_stat())
+        hmd_ortho();
+    else
     {
-        glPushMatrix();
-        glLoadIdentity();
-        glOrtho_(0.0, w, 0.0, h, -1.0, +1.0);
+        GLfloat w = (GLfloat) config_get_d(CONFIG_WIDTH);
+        GLfloat h = (GLfloat) config_get_d(CONFIG_HEIGHT);
+
+        glMatrixMode(GL_PROJECTION);
+        {
+            glPushMatrix();
+            glLoadIdentity();
+            glOrtho_(0.0, w, 0.0, h, -1.0, +1.0);
+        }
+        glMatrixMode(GL_MODELVIEW);
+        {
+            glLoadIdentity();
+        }
     }
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void video_pop_matrix(void)

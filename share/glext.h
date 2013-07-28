@@ -159,6 +159,62 @@ typedef void (APIENTRYP PFNGLPOINTPARAMETERFV_PROC)(GLenum, const GLfloat *);
 extern PFNGLPOINTPARAMETERFV_PROC glPointParameterfv_;
 
 /*---------------------------------------------------------------------------*/
+/* OpenGL Shading Language                                                   */
+
+typedef void   (APIENTRYP PFNGLGETSHADERIV_PROC)(GLuint, GLenum, GLint *);
+typedef void   (APIENTRYP PFNGLGETSHADERINFOLOG_PROC)(GLuint, GLsizei, GLsizei *, GLchar *);
+typedef void   (APIENTRYP PFNGLGETPROGRAMIV_PROC)(GLuint, GLenum, GLint *);
+typedef void   (APIENTRYP PFNGLGETPROGRAMINFOLOG_PROC)(GLuint, GLsizei, GLsizei *, GLchar *);
+typedef GLuint (APIENTRYP PFNGLCREATESHADER_PROC)(GLenum);
+typedef GLuint (APIENTRYP PFNGLCREATEPROGRAM_PROC)(void);
+typedef void   (APIENTRYP PFNGLSHADERSOURCE_PROC)(GLuint, GLsizei, const GLchar * const *, const GLint *);
+typedef void   (APIENTRYP PFNGLCOMPILESHADER_PROC)(GLuint);
+typedef void   (APIENTRYP PFNGLDELETESHADER_PROC)(GLuint);
+typedef void   (APIENTRYP PFNGLDELETEPROGRAM_PROC)(GLuint);
+typedef void   (APIENTRYP PFNGLATTACHSHADER_PROC)(GLuint, GLuint);
+typedef void   (APIENTRYP PFNGLLINKPROGRAM_PROC)(GLuint);
+typedef void   (APIENTRYP PFNGLUSEPROGRAM_PROC)(GLuint);
+typedef GLint  (APIENTRYP PFNGLGETUNIFORMLOCATION_PROC)(GLuint, const GLchar *);
+typedef void   (APIENTRYP PFNGLUNIFORM1F_PROC)(GLint, GLfloat);
+typedef void   (APIENTRYP PFNGLUNIFORM2F_PROC)(GLint, GLfloat, GLfloat);
+typedef void   (APIENTRYP PFNGLUNIFORM3F_PROC)(GLint, GLfloat, GLfloat, GLfloat);
+typedef void   (APIENTRYP PFNGLUNIFORM4F_PROC)(GLint, GLfloat, GLfloat, GLfloat, GLfloat);
+
+extern PFNGLGETSHADERIV_PROC         glGetShaderiv_;
+extern PFNGLGETSHADERINFOLOG_PROC    glGetShaderInfoLog_;
+extern PFNGLGETPROGRAMIV_PROC        glGetProgramiv_;
+extern PFNGLGETPROGRAMINFOLOG_PROC   glGetProgramInfoLog_;
+extern PFNGLCREATESHADER_PROC        glCreateShader_;
+extern PFNGLCREATEPROGRAM_PROC       glCreateProgram_;
+extern PFNGLSHADERSOURCE_PROC        glShaderSource_;
+extern PFNGLCOMPILESHADER_PROC       glCompileShader_;
+extern PFNGLDELETESHADER_PROC        glDeleteShader_;
+extern PFNGLDELETEPROGRAM_PROC       glDeleteProgram_;
+extern PFNGLATTACHSHADER_PROC        glAttachShader_;
+extern PFNGLLINKPROGRAM_PROC         glLinkProgram_;
+extern PFNGLUSEPROGRAM_PROC          glUseProgram_;
+extern PFNGLGETUNIFORMLOCATION_PROC  glGetUniformLocation_;
+extern PFNGLUNIFORM1F_PROC           glUniform1f_;
+extern PFNGLUNIFORM2F_PROC           glUniform2f_;
+extern PFNGLUNIFORM3F_PROC           glUniform3f_;
+extern PFNGLUNIFORM4F_PROC           glUniform4f_;
+
+/*---------------------------------------------------------------------------*/
+/* ARB_framebuffer_object                                                    */
+
+typedef void (APIENTRYP PFNGLBINDFRAMEBUFFER_PROC)(GLenum, GLuint);
+typedef void (APIENTRYP PFNGLDELETEFRAMEBUFFERS_PROC)(GLsizei, const GLuint *);
+typedef void (APIENTRYP PFNGLGENFRAMEBUFFERS_PROC)(GLsizei, GLuint *);
+typedef void (APIENTRYP PFNGLFRAMEBUFFERTEXTURE2D_PROC)(GLenum, GLenum, GLenum, GLuint, GLint);
+typedef GLenum (APIENTRYP PFNGLCHECKFRAMEBUFFERSTATUS_PROC)(GLenum);
+
+extern PFNGLBINDFRAMEBUFFER_PROC        glBindFramebuffer_;
+extern PFNGLDELETEFRAMEBUFFERS_PROC     glDeleteFramebuffers_;
+extern PFNGLGENFRAMEBUFFERS_PROC        glGenFramebuffers_;
+extern PFNGLFRAMEBUFFERTEXTURE2D_PROC   glFramebufferTexture2D_;
+extern PFNGLCHECKFRAMEBUFFERSTATUS_PROC glCheckFramebufferStatus_;
+
+/*---------------------------------------------------------------------------*/
 /* GREMEDY_string_marker                                                     */
 
 typedef void (APIENTRYP PFNGLSTRINGMARKERGREMEDY_PROC)(GLsizei, const void *);
@@ -184,6 +240,8 @@ struct gl_info
     unsigned int multitexture:1;
     unsigned int vertex_buffer_object:1;
     unsigned int point_parameters:1;
+    unsigned int shader_objects:1;
+    unsigned int framebuffer_object:1;
 };
 
 extern struct gl_info gli;

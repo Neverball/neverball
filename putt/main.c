@@ -32,6 +32,7 @@
 #include "hole.h"
 #include "game.h"
 #include "gui.h"
+#include "hmd.h"
 #include "fs.h"
 
 #include "st_conf.h"
@@ -341,9 +342,10 @@ int main(int argc, char *argv[])
                 if ((t1 = SDL_GetTicks()) > t0)
                 {
                     st_timer((t1 - t0) / 1000.f);
+                    hmd_step();
                     st_paint(0.001f * t1);
+                    video_swap();
                     shot_take();
-                    SDL_GL_SwapBuffers();
 
                     t0 = t1;
 

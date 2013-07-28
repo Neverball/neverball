@@ -277,26 +277,6 @@ void m_vxfm(float *v, const float *M, const float *w)
 
 /*---------------------------------------------------------------------------*/
 
-void m_view(float *M,
-            const float *c,
-            const float *p,
-            const float *u)
-{
-    float x[3];
-    float y[3];
-    float z[3];
-
-    v_sub(z, p, c);
-    v_nrm(z, z);
-    v_crs(x, u, z);
-    v_nrm(x, x);
-    v_crs(y, z, x);
-
-    m_basis(M, x, y, z);
-}
-
-/*---------------------------------------------------------------------------*/
-
 void q_as_axisangle(const float q[4], float u[3], float *a)
 {
     *a = 2.0f * facosf(q[0]);

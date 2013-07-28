@@ -14,7 +14,7 @@ $(info Will make a "$(BUILD)" build of Neverball $(VERSION).)
 # Recognized PLATFORM values: darwin, mingw.
 
 ifeq ($(shell uname), Darwin)
-    PLATFORM := darwin
+	PLATFORM := darwin
 endif
 
 #------------------------------------------------------------------------------
@@ -25,22 +25,22 @@ DATADIR   := ./data
 LOCALEDIR := ./locale
 
 ifeq ($(PLATFORM),mingw)
-    USERDIR := Neverball
+	USERDIR := Neverball
 endif
 
 ifneq ($(BUILD),release)
-    USERDIR := $(USERDIR)-dev
+	USERDIR := $(USERDIR)-dev
 endif
 
 #------------------------------------------------------------------------------
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
 ifeq ($(DEBUG),1)
-    CFLAGS   := -g
-    CPPFLAGS :=
+	CFLAGS   := -g
+	CPPFLAGS :=
 else
-    CFLAGS   := -O2
-    CPPFLAGS := -DNDEBUG
+	CFLAGS   := -O2
+	CPPFLAGS := -DNDEBUG
 endif
 
 #------------------------------------------------------------------------------
@@ -49,13 +49,13 @@ endif
 # Compiler...
 
 ifeq ($(ENABLE_TILT),wii)
-    # -std=c99 because we need isnormal and -fms-extensions because
-    # libwiimote headers make heavy use of the "unnamed fields" GCC
-    # extension.
+	# -std=c99 because we need isnormal and -fms-extensions because
+	# libwiimote headers make heavy use of the "unnamed fields" GCC
+	# extension.
 
-    ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions $(CFLAGS)
+	ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions $(CFLAGS)
 else
-    ALL_CFLAGS := -Wall -ansi -pedantic $(CFLAGS)
+	ALL_CFLAGS := -Wall -ansi -pedantic $(CFLAGS)
 endif
 
 # Preprocessor...
@@ -66,18 +66,18 @@ PNG_CPPFLAGS := $(shell libpng-config --cflags)
 ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare
 
 ALL_CPPFLAGS += \
-    -DCONFIG_USER=\"$(USERDIR)\" \
-    -DCONFIG_DATA=\"$(DATADIR)\" \
-    -DCONFIG_LOCALE=\"$(LOCALEDIR)\"
+	-DCONFIG_USER=\"$(USERDIR)\" \
+	-DCONFIG_DATA=\"$(DATADIR)\" \
+	-DCONFIG_LOCALE=\"$(LOCALEDIR)\"
 
 ifeq ($(ENABLE_NLS),0)
-    ALL_CPPFLAGS += -DENABLE_NLS=0
+	ALL_CPPFLAGS += -DENABLE_NLS=0
 else
-    ALL_CPPFLAGS += -DENABLE_NLS=1
+	ALL_CPPFLAGS += -DENABLE_NLS=1
 endif
 
 ifeq ($(PLATFORM),darwin)
-    ALL_CPPFLAGS += -I/opt/local/include
+	ALL_CPPFLAGS += -I/opt/local/include
 endif
 
 ALL_CPPFLAGS += $(CPPFLAGS)
@@ -94,6 +94,10 @@ else
 FS_LIBS := -lphysfs
 endif
 
+ifeq ($(ENABLE_HMD),1)
+	HMD_LIBS := -lopenhmd
+endif
+
 # On some systems we need to link this directly.
 X11_LIBS := -lX11
 
@@ -105,48 +109,48 @@ X11_LIBS := -lX11
 INTL_LIBS :=
 
 ifeq ($(ENABLE_TILT),wii)
-    TILT_LIBS := -lcwiimote -lbluetooth
+	TILT_LIBS := -lcwiimote -lbluetooth
 else
 ifeq ($(ENABLE_TILT),loop)
-    TILT_LIBS := -lusb-1.0 -lfreespace
+	TILT_LIBS := -lusb-1.0 -lfreespace
 endif
 endif
 
 OGL_LIBS := -lGL
 
 ifeq ($(PLATFORM),mingw)
-    ifneq ($(ENABLE_NLS),0)
-        INTL_LIBS := -lintl
-    endif
+	ifneq ($(ENABLE_NLS),0)
+		INTL_LIBS := -lintl
+	endif
 
-    TILT_LIBS :=
-    OGL_LIBS  := -lopengl32
-    X11_LIBS :=
+	TILT_LIBS :=
+	OGL_LIBS  := -lopengl32
+	X11_LIBS :=
 endif
 
 ifeq ($(PLATFORM),darwin)
-    ifneq ($(ENABLE_NLS),0)
-        INTL_LIBS := -lintl
-    endif
+	ifneq ($(ENABLE_NLS),0)
+		INTL_LIBS := -lintl
+	endif
 
-    TILT_LIBS :=
-    OGL_LIBS  := -framework OpenGL
-    X11_LIBS  :=
+	TILT_LIBS :=
+	OGL_LIBS  := -framework OpenGL
+	X11_LIBS  :=
 endif
 
 BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS) -lm
 
 ifeq ($(PLATFORM),darwin)
-    BASE_LIBS += -L/opt/local/lib
+	BASE_LIBS += -L/opt/local/lib
 endif
 
-ALL_LIBS := $(SDL_LIBS) $(X11_LIBS) $(BASE_LIBS) $(TILT_LIBS) $(INTL_LIBS) -lSDL_ttf \
-    -lvorbisfile $(OGL_LIBS)
+ALL_LIBS := $(SDL_LIBS) $(X11_LIBS) $(BASE_LIBS) $(HMD_LIBS) $(TILT_LIBS) \
+	$(INTL_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
 
 #------------------------------------------------------------------------------
 
 ifeq ($(PLATFORM),mingw)
-    EXT := .exe
+	EXT := .exe
 endif
 
 MAPC_TARG := mapc$(EXT)
@@ -154,11 +158,10 @@ BALL_TARG := neverball$(EXT)
 PUTT_TARG := neverputt$(EXT)
 
 ifeq ($(PLATFORM),mingw)
-    MAPC := $(WINE) ./$(MAPC_TARG)
+	MAPC := $(WINE) ./$(MAPC_TARG)
 else
-    MAPC := ./$(MAPC_TARG)
+	MAPC := ./$(MAPC_TARG)
 endif
-
 
 #------------------------------------------------------------------------------
 
@@ -208,6 +211,9 @@ BALL_OBJS := \
 	share/cmd.o         \
 	share/array.o       \
 	share/dir.o         \
+	share/hmd.o         \
+	share/fbo.o         \
+	share/glsl.o        \
 	share/fs_common.o   \
 	share/fs_png.o      \
 	share/fs_jpg.o      \
@@ -277,6 +283,9 @@ PUTT_OBJS := \
 	share/fs_rwops.o    \
 	share/fs_ov.o       \
 	share/dir.o         \
+	share/hmd.o         \
+	share/fbo.o         \
+	share/glsl.o        \
 	share/array.o       \
 	share/sync.o        \
 	putt/hud.o          \
@@ -330,7 +339,7 @@ DESKTOPS := $(basename $(wildcard dist/*.desktop.in))
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
-%.sol : %.map $(MAPC_TARG)
+%.sol : %.map # $(MAPC_TARG)
 	$(MAPC) $< data
 
 %.desktop : %.desktop.in

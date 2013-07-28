@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 Robert Kooima
+ * Copyright (C) 2013 Robert Kooima
  *
  * NEVERBALL is  free software; you can redistribute  it and/or modify
  * it under the  terms of the GNU General  Public License as published
@@ -12,34 +12,22 @@
  * General Public License for more details.
  */
 
-#ifndef VIDEO_H
-#define VIDEO_H
+#ifndef HMD_H
+#define HMD_H
 
 /*---------------------------------------------------------------------------*/
 
-int video_init(const char *, const char *);
+int  hmd_stat();
+void hmd_init();
+void hmd_free();
+void hmd_step();
+void hmd_swap();
 
-/*---------------------------------------------------------------------------*/
+void hmd_prep_left();
+void hmd_prep_right();
 
-int  video_mode(int, int, int);
-
-int  video_perf(void);
-void video_swap(void);
-
-void video_set_grab(int w);
-void video_clr_grab(void);
-int  video_get_grab(void);
-
-/*---------------------------------------------------------------------------*/
-
-void video_calc_view(float *, const float *,
-                              const float *,
-                              const float *);
-
-void video_push_persp(float, float, float);
-void video_push_ortho(void);
-void video_pop_matrix(void);
-void video_clear(void);
+void hmd_persp();
+void hmd_ortho();
 
 /*---------------------------------------------------------------------------*/
 

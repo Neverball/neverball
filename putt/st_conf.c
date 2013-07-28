@@ -32,6 +32,8 @@ enum
 {
     CONF_FULL = 1,
     CONF_WIN,
+    CONF_HMDON,
+    CONF_HMDOF,
     CONF_TEXHI,
     CONF_TEXLO,
     CONF_SHDON,
@@ -45,6 +47,7 @@ static int sound_id[11];
 
 static int conf_action(int i)
 {
+    int f = config_get_d(CONFIG_FULLSCREEN);
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
     int s = config_get_d(CONFIG_SOUND_VOLUME);
@@ -64,6 +67,20 @@ static int conf_action(int i)
     case CONF_WIN:
         goto_state(&st_null);
         r = video_mode(0, w, h);
+        goto_state(&st_conf);
+        break;
+
+    case CONF_HMDON:
+        goto_state(&st_null);
+        config_set_d(CONFIG_HMD, 1);
+        r = video_mode(f, w, h);
+        goto_state(&st_conf);
+        break;
+
+    case CONF_HMDOF:
+        goto_state(&st_null);
+        config_set_d(CONFIG_HMD, 0);
+        r = video_mode(f, w, h);
         goto_state(&st_conf);
         break;
 
@@ -140,6 +157,7 @@ static int conf_enter(struct state *st, struct state *prev)
     if ((id = gui_vstack(0)))
     {
         int f = config_get_d(CONFIG_FULLSCREEN);
+        int H = config_get_d(CONFIG_HMD);
         int t = config_get_d(CONFIG_TEXTURES);
         int h = config_get_d(CONFIG_SHADOW);
         int s = config_get_d(CONFIG_SOUND_VOLUME);
@@ -170,6 +188,18 @@ static int conf_enter(struct state *st, struct state *prev)
             else   gui_set_hilite(btn0, 1);
 
             gui_label(jd, _("Fullscreen"), GUI_SML, 0, 0);
+        }
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            btn0 = gui_state(kd, _("Off"),  GUI_SML, CONF_HMDOF, 0);
+            btn1 = gui_state(kd, _("On"),   GUI_SML, CONF_HMDON, 0);
+
+            if (H) gui_set_hilite(btn1, 1);
+            else   gui_set_hilite(btn0, 1);
+
+            gui_label(jd, _("HMD"), GUI_SML, 0, 0);
         }
 
         if ((jd = gui_harray(id)) &&
