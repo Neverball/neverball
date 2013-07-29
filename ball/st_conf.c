@@ -435,14 +435,6 @@ static int conf_video_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        int f = config_get_d(CONFIG_FULLSCREEN);
-        int r = config_get_d(CONFIG_REFLECTION);
-        int b = config_get_d(CONFIG_BACKGROUND);
-        int s = config_get_d(CONFIG_SHADOW);
-        int v = config_get_d(CONFIG_VSYNC);
-        int h = config_get_d(CONFIG_HMD);
-        int m = config_get_d(CONFIG_MULTISAMPLE);
-
         char resolution[sizeof ("12345678 x 12345678")];
 
         sprintf(resolution, "%d x %d",
@@ -450,33 +442,28 @@ static int conf_video_gui(void)
                 config_get_d(CONFIG_HEIGHT));
 
         conf_header(id, _("Graphics"), CONF_VIDEO_BACK);
+        conf_state (id, _("Resolution"), resolution, CONF_VIDEO_RESOLUTION);
 
-        conf_state(id, _("Resolution"), resolution, CONF_VIDEO_RESOLUTION);
-
-        conf_toggle(id, _("Fullscreen"), CONF_VIDEO_FULLSCREEN, f,
-                    _("On"), 1, _("Off"), 0);
-
-        conf_toggle(id, _("HMD"), CONF_VIDEO_HMD, h,
-                    _("On"), 1, _("Off"), 0);
-
+        conf_toggle(id, _("Fullscreen"),   CONF_VIDEO_FULLSCREEN,
+                    config_get_d(CONFIG_FULLSCREEN), _("On"), 1, _("Off"), 0);
+#ifdef ENABLE_HMD
+        conf_toggle(id, _("HMD"),          CONF_VIDEO_HMD,
+                    config_get_d(CONFIG_HMD),        _("On"), 1, _("Off"), 0);
+#endif
         gui_space(id);
-
-        conf_toggle(id, _("V-Sync"), CONF_VIDEO_VSYNC, v,
-                    _("On"), 1, _("Off"), 0);
-
-        conf_select(id, _("Antialiasing"), CONF_VIDEO_MULTISAMPLE, m,
+        conf_toggle(id, _("V-Sync"),       CONF_VIDEO_VSYNC,
+                    config_get_d(CONFIG_VSYNC),      _("On"), 1, _("Off"), 0);
+        conf_select(id, _("Antialiasing"), CONF_VIDEO_MULTISAMPLE,
+                    config_get_d(CONFIG_MULTISAMPLE),
                     multisample_opts, ARRAYSIZE(multisample_opts));
 
         gui_space(id);
-
-        conf_toggle(id, _("Reflection"), CONF_VIDEO_REFLECTION, r,
-                    _("On"), 1, _("Off"), 0);
-
-        conf_toggle(id, _("Background"), CONF_VIDEO_BACKGROUND, b,
-                    _("On"), 1, _("Off"), 0);
-
-        conf_toggle(id, _("Shadow"), CONF_VIDEO_SHADOW, s,
-                    _("On"), 1, _("Off"), 0);
+        conf_toggle(id, _("Reflection"),   CONF_VIDEO_REFLECTION,
+                    config_get_d(CONFIG_REFLECTION), _("On"), 1, _("Off"), 0);
+        conf_toggle(id, _("Background"),   CONF_VIDEO_BACKGROUND,
+                    config_get_d(CONFIG_BACKGROUND), _("On"), 1, _("Off"), 0);
+        conf_toggle(id, _("Shadow"),       CONF_VIDEO_SHADOW,
+                    config_get_d(CONFIG_SHADOW),     _("On"), 1, _("Off"), 0);
 
         gui_layout(id, 0, 0);
     }

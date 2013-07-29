@@ -58,6 +58,10 @@ else
 	ALL_CFLAGS := -Wall -ansi -pedantic $(CFLAGS)
 endif
 
+ifeq ($(ENABLE_HMD),1)
+	ALL_CFLAGS += -DENABLE_HMD
+endif
+
 # Preprocessor...
 
 SDL_CPPFLAGS := $(shell sdl-config --cflags) -U_GNU_SOURCE

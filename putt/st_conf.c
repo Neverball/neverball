@@ -156,13 +156,6 @@ static int conf_enter(struct state *st, struct state *prev)
 
     if ((id = gui_vstack(0)))
     {
-        int f = config_get_d(CONFIG_FULLSCREEN);
-        int H = config_get_d(CONFIG_HMD);
-        int t = config_get_d(CONFIG_TEXTURES);
-        int h = config_get_d(CONFIG_SHADOW);
-        int s = config_get_d(CONFIG_SOUND_VOLUME);
-        int m = config_get_d(CONFIG_MUSIC_VOLUME);
-
         char resolution[20];
 
         sprintf(resolution, "%d x %d",
@@ -184,23 +177,29 @@ static int conf_enter(struct state *st, struct state *prev)
             btn0 = gui_state(kd, _("Off"),  GUI_SML, CONF_WIN,  0);
             btn1 = gui_state(kd, _("On"),   GUI_SML, CONF_FULL, 0);
 
-            if (f) gui_set_hilite(btn1, 1);
-            else   gui_set_hilite(btn0, 1);
+            if (config_get_d(CONFIG_FULLSCREEN))
+                gui_set_hilite(btn1, 1);
+            else
+                gui_set_hilite(btn0, 1);
 
             gui_label(jd, _("Fullscreen"), GUI_SML, 0, 0);
         }
 
+#ifdef ENABLE_HMD
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
             btn0 = gui_state(kd, _("Off"),  GUI_SML, CONF_HMDOF, 0);
             btn1 = gui_state(kd, _("On"),   GUI_SML, CONF_HMDON, 0);
 
-            if (H) gui_set_hilite(btn1, 1);
-            else   gui_set_hilite(btn0, 1);
+            if (config_get_d(CONFIG_HMD))
+                gui_set_hilite(btn1, 1);
+            else
+                gui_set_hilite(btn0, 1);
 
             gui_label(jd, _("HMD"), GUI_SML, 0, 0);
         }
+#endif
 
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
@@ -218,8 +217,8 @@ static int conf_enter(struct state *st, struct state *prev)
             btn0 = gui_state(kd, _("Low"),  GUI_SML, CONF_TEXLO, 0);
             btn1 = gui_state(kd, _("High"), GUI_SML, CONF_TEXHI, 0);
 
-            gui_set_hilite(btn0, (t == 2));
-            gui_set_hilite(btn1, (t == 1));
+            gui_set_hilite(btn0, (config_get_d(CONFIG_TEXTURES) == 2));
+            gui_set_hilite(btn1, (config_get_d(CONFIG_TEXTURES) == 1));
 
             gui_label(jd, _("Textures"), GUI_SML, 0, 0);
         }
@@ -227,11 +226,13 @@ static int conf_enter(struct state *st, struct state *prev)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            btn0 = gui_state(kd, _("Off"),  GUI_SML, CONF_SHDOF, (h == 0));
-            btn1 = gui_state(kd, _("On"),   GUI_SML, CONF_SHDON, (h == 1));
+            btn0 = gui_state(kd, _("Off"),  GUI_SML, CONF_SHDOF, 0);
+            btn1 = gui_state(kd, _("On"),   GUI_SML, CONF_SHDON, 0);
 
-            if (h) gui_set_hilite(btn1, 1);
-            else   gui_set_hilite(btn0, 1);
+            if (config_get_d(CONFIG_SHADOW))
+                gui_set_hilite(btn1, 1);
+            else
+                gui_set_hilite(btn0, 1);
 
             gui_label(jd, _("Shadow"), GUI_SML, 0, 0);
         }
@@ -243,10 +244,11 @@ static int conf_enter(struct state *st, struct state *prev)
         {
             /* A series of empty buttons forms the sound volume control. */
 
+            int s = config_get_d(CONFIG_SOUND_VOLUME);
+
             for (i = 10; i >= 0; i--)
             {
                 sound_id[i] = gui_state(kd, NULL, GUI_SML, 100 + i, 0);
-
                 gui_set_hilite(sound_id[i], (s == i));
             }
 
@@ -258,10 +260,11 @@ static int conf_enter(struct state *st, struct state *prev)
         {
             /* A series of empty buttons forms the music volume control. */
 
+            int m = config_get_d(CONFIG_MUSIC_VOLUME);
+
             for (i = 10; i >= 0; i--)
             {
                 music_id[i] = gui_state(kd, NULL, GUI_SML, 200 + i, 0);
-
                 gui_set_hilite(music_id[i], (m == i));
             }
 

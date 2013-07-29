@@ -12,6 +12,8 @@
  * General Public License for more details.
  */
 
+#ifdef ENABLE_HMD
+
 #include <openhmd/openhmd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -248,7 +250,7 @@ void hmd_prep_right()
 void hmd_persp()
 {
     float M[16];
-        
+
     if (eye)
     {
         glMatrixMode(GL_PROJECTION);
@@ -257,7 +259,7 @@ void hmd_persp()
 
         glMatrixMode(GL_MODELVIEW);
         ohmd_device_getf(dev, OHMD_RIGHT_EYE_GL_MODELVIEW_MATRIX, M);
-        glLoadMatrixf(M);        
+        glLoadMatrixf(M);
     }
     else
     {
@@ -280,3 +282,20 @@ void hmd_ortho()
 }
 
 /*---------------------------------------------------------------------------*/
+
+#else /* not ENABLE_HMD */
+
+int  hmd_stat() { return 0; }
+void hmd_init() { }
+void hmd_free() { }
+void hmd_step() { }
+void hmd_swap() { }
+
+void hmd_prep_left()  { }
+void hmd_prep_right() { }
+
+void hmd_persp() { }
+void hmd_ortho() { }
+
+#endif
+
