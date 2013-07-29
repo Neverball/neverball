@@ -1,0 +1,1838 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Robert Kooima
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
+"POT-Creation-Date: 2012-12-06 17:58+0200\n"
+"PO-Revision-Date: 2013-07-29 08:43+0100\n"
+"Last-Translator: \n"
+"Language-Team: Andrea Del Santo <htnever@gmail.org>, Giacomo Frate <giacomo.frate@gmail.com>, Serena Innocenti\n"
+"Language: Esperanto\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ball/demo.c:226
+msgid "Missing format character in replay name\n"
+msgstr "Formatokaraktero ellasas en la nomo de la reludo\n"
+
+#: ball/demo.c:231
+#, c-format
+msgid "Invalid format character in replay name: \"%%%c\"\n"
+msgstr "Formatokaraktero estas malvalida en la nomo de la reludo: \"%%%c\"\n"
+
+#: ball/game_common.c:27
+msgid "Aborted"
+msgstr "Nuligita"
+
+#: ball/game_common.c:28
+msgid "Time-out"
+msgstr "Fujo finis"
+
+#: ball/game_common.c:29
+msgid "Success"
+msgstr "Venko"
+
+#: ball/game_common.c:30
+msgid "Fall-out"
+msgstr "Vi falis"
+
+#: ball/game_common.c:31
+#: ball/progress.c:420
+msgid "Unknown"
+msgstr "Malkonata"
+
+#: ball/game_common.c:43
+#: ball/st_help.c:185
+msgid "Manual Camera"
+msgstr "Blokita vido"
+
+#: ball/game_common.c:44
+#: ball/st_help.c:184
+msgid "Lazy Camera"
+msgstr "Rigida vido"
+
+#: ball/game_common.c:45
+#: ball/st_help.c:183
+msgid "Chase Camera"
+msgstr "Malrigida vido"
+
+#: ball/game_common.c:47
+#, c-format
+msgid "Camera %d"
+msgstr "%d vido"
+
+#: ball/game_common.h:10
+msgid "snd/select.ogg"
+msgstr "snd/select.ogg"
+
+#: ball/game_common.h:11
+msgid "snd/ready.ogg"
+msgstr "snd/ready.ogg"
+
+#: ball/game_common.h:12
+msgid "snd/set.ogg"
+msgstr "snd/set.ogg"
+
+#: ball/game_common.h:13
+msgid "snd/go.ogg"
+msgstr "snd/go.ogg"
+
+#: ball/game_common.h:24
+msgid "snd/record.ogg"
+msgstr "snd/record.ogg"
+
+#: ball/game_common.h:25
+msgid "snd/fall.ogg"
+msgstr "snd/fall.ogg"
+
+#: ball/game_common.h:26
+msgid "snd/time.ogg"
+msgstr "snd/time.ogg"
+
+#: ball/game_common.h:27
+msgid "snd/over.ogg"
+msgstr "snd/over.ogg"
+
+#: ball/hud.c:68
+#: ball/st_demo.c:202
+#: ball/st_goal.c:167
+msgid "Coins"
+msgstr "Devizoj"
+
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "Serĉota"
+
+#: ball/hud.c:89
+#: ball/st_goal.c:155
+msgid "Balls"
+msgstr "Pilkoj"
+
+#: ball/hud.c:90
+#: ball/st_goal.c:161
+#: putt/hud.c:45
+msgid "Score"
+msgstr "Punktoj"
+
+#: ball/level.c:138
+#, c-format
+msgid "Failure to load level file '%s'\n"
+msgstr "Malsukcesis ŝarĝante reludodossieron  '%s'\n"
+
+#: ball/main.c:294
+#, c-format
+msgid ""
+"Usage: %s [options ...]\n"
+"Options:\n"
+"  -h, --help                show this usage message.\n"
+"  -v, --version             show version.\n"
+"  -d, --data <dir>          use 'dir' as game data directory.\n"
+"  -r, --replay <file>       play the replay 'file'.\n"
+"  -l, --level <file>        load the level 'file'\n"
+msgstr ""
+"Uzo: %s [opcioj...]\n"
+"Options:\n"
+"  -h, --help                montras tiu mesaĝon.\n"
+"  -v, --version             montras version.\n"
+"  -d, --data <dir>          uzas 'dir' kiel informokatalogo\n"
+"  -r, --replay <file>       play the replay 'file'.\n"
+"  -l, --level <file>        load the level 'file'\n"
+
+#: ball/main.c:304
+#, c-format
+msgid "Option '%s' requires an argument.\n"
+msgstr "Opcio '%s' bezonas topikon.\n"
+
+#: ball/progress.c:417
+#: ball/st_help.c:263
+msgid "Challenge Mode"
+msgstr "Defie"
+
+#: ball/progress.c:417
+#: ball/st_start.c:207
+msgid "Challenge"
+msgstr "Defio"
+
+#: ball/progress.c:418
+#: ball/st_help.c:250
+msgid "Normal Mode"
+msgstr "Normale"
+
+#: ball/progress.c:418
+msgid "Normal"
+msgstr "Normala"
+
+#: ball/progress.c:419
+msgid "Standalone Mode"
+msgstr "Solaestante"
+
+#: ball/progress.c:419
+msgid "Standalone"
+msgstr "Solaestanta"
+
+#: ball/progress.c:420
+msgid "Unknown Mode"
+msgstr "Malsciata kategorio"
+
+#: ball/set.c:276
+#, c-format
+msgid "Failure to load set file '%s'\n"
+msgstr "Malsukcezis ŝarĝi la nivelaron '%s'\n"
+
+#: ball/st_ball.c:187
+#: ball/st_conf.c:316
+msgid "Ball Model"
+msgstr "Formo de la pilko"
+
+#: ball/st_ball.c:189
+#: ball/st_conf.c:104
+#: ball/st_demo.c:307
+#: ball/st_help.c:107
+#: ball/st_start.c:178
+#: ball/util.c:407
+#: share/st_resol.c:105
+#: putt/st_all.c:393
+#: putt/st_all.c:541
+#: putt/st_conf.c:158
+msgid "Back"
+msgstr "Retri"
+
+#: ball/st_conf.c:297
+#: putt/st_conf.c:156
+msgid "Options"
+msgstr "Opcioj"
+
+#: ball/st_conf.c:299
+#: ball/st_conf.c:443
+msgid "Graphics"
+msgstr "Grafikoj"
+
+#: ball/st_conf.c:299
+msgid "Configure"
+msgstr "Agordi"
+
+#: ball/st_conf.c:303
+msgid "Mouse Sensitivity"
+msgstr "Sentiveco"
+
+#: ball/st_conf.c:308
+#: putt/st_conf.c:223
+msgid "Sound Volume"
+msgstr "Kiom je Sono?"
+
+#: ball/st_conf.c:310
+#: putt/st_conf.c:238
+msgid "Music Volume"
+msgstr "Kiom je Muziko?"
+
+#: ball/st_conf.c:315
+#: ball/st_name.c:107
+msgid "Player Name"
+msgstr "Ludantonomo"
+
+#: ball/st_conf.c:420
+#: ball/st_conf.c:448
+#: ball/st_conf.c:453
+#: ball/st_conf.c:461
+#: ball/st_conf.c:464
+#: ball/st_conf.c:467
+#: putt/st_conf.c:166
+#: putt/st_conf.c:200
+msgid "Off"
+msgstr "Ne"
+
+#: ball/st_conf.c:421
+msgid "2x"
+msgstr "2x"
+
+#: ball/st_conf.c:422
+msgid "4x"
+msgstr "4x"
+
+#: ball/st_conf.c:423
+msgid "8x"
+msgstr "8x"
+
+#: ball/st_conf.c:445
+#: share/st_resol.c:103
+#: putt/st_conf.c:180
+msgid "Resolution"
+msgstr "Kvadratigio"
+
+#: ball/st_conf.c:447
+#: putt/st_conf.c:172
+msgid "Fullscreen"
+msgstr "Plena ekrano"
+
+#: ball/st_conf.c:448
+#: ball/st_conf.c:453
+#: ball/st_conf.c:461
+#: ball/st_conf.c:464
+#: ball/st_conf.c:467
+#: putt/st_conf.c:167
+#: putt/st_conf.c:201
+msgid "On"
+msgstr "Jes"
+
+#: ball/st_conf.c:452
+msgid "V-Sync"
+msgstr "V-Sync"
+
+#: ball/st_conf.c:455
+msgid "Antialiasing"
+msgstr "Antialiasing"
+
+#: ball/st_conf.c:460
+msgid "Reflection"
+msgstr "Speguloj"
+
+#: ball/st_conf.c:463
+msgid "Background"
+msgstr "Fonoj"
+
+#: ball/st_conf.c:466
+#: putt/st_conf.c:206
+msgid "Shadow"
+msgstr "Ombroj"
+
+#: ball/st_demo.c:201
+msgid "Time"
+msgstr "Tempo"
+
+#: ball/st_demo.c:203
+msgid "Status"
+msgstr "Statuso"
+
+#: ball/st_demo.c:234
+#: ball/st_demo.c:415
+msgid "Replay"
+msgstr "Reludo"
+
+#: ball/st_demo.c:235
+#: putt/st_all.c:731
+msgid "Player"
+msgstr "Iudanto"
+
+#: ball/st_demo.c:236
+msgid "Date"
+msgstr "Tago"
+
+#: ball/st_demo.c:289
+msgid "Select Replay"
+msgstr "Selektu reludon"
+
+#: ball/st_demo.c:305
+msgid "No Replays"
+msgstr "Neniu reludoj"
+
+#: ball/st_demo.c:597
+msgid "Replay Paused"
+msgstr "Reludo paŭzis"
+
+#: ball/st_demo.c:599
+msgid "Replay Ends"
+msgstr "Reludo finis"
+
+#: ball/st_demo.c:605
+#: ball/st_pause.c:88
+#: putt/st_all.c:641
+msgid "Quit"
+msgstr "Eliri"
+
+#: ball/st_demo.c:609
+#: ball/st_demo.c:691
+msgid "Keep"
+msgstr "Subteni"
+
+#: ball/st_demo.c:610
+#: ball/st_demo.c:692
+#: share/keyboard.c:40
+msgid "Delete"
+msgstr "Forviŝi"
+
+#: ball/st_demo.c:614
+#: ball/st_pause.c:93
+#: putt/st_all.c:642
+msgid "Continue"
+msgstr "Daŭrigi"
+
+#: ball/st_demo.c:616
+msgid "Repeat"
+msgstr "Ripeti"
+
+#: ball/st_demo.c:687
+msgid "Delete Replay?"
+msgstr "Kiu vi forviŝi reludon?"
+
+#: ball/st_demo.c:731
+#: ball/st_level.c:160
+msgid "Warning!"
+msgstr "Atentu!"
+
+#: ball/st_demo.c:733
+msgid "The current replay was recorded with a\\different (or unknown) version of this level.\\Be prepared to encounter visual errors.\\"
+msgstr "La aktuala reludo estas rekordinta kun\\malsama (aŭ malsciata) version de ĉi livelo.\\Preparu rekonti eraroj en la grafiko.\\"
+
+#: ball/st_done.c:62
+msgid "New Set Record"
+msgstr "Novan recordon"
+
+#: ball/st_done.c:63
+msgid "Set Complete"
+msgstr "Aro kompletigita"
+
+#: ball/st_done.c:82
+msgid "Select Level"
+msgstr "Selektu nivelon"
+
+#: ball/st_fail.c:83
+msgid "Fall-out!"
+msgstr "Vi falis!"
+
+#: ball/st_fail.c:85
+msgid "Time's Up!"
+msgstr "Fujo finis!"
+
+#: ball/st_fail.c:96
+msgid "Exit"
+msgstr "Eliro"
+
+#: ball/st_fail.c:99
+#: ball/st_goal.c:221
+msgid "Next Level"
+msgstr "Sekva Nivelo"
+
+#: ball/st_fail.c:102
+#: ball/st_goal.c:224
+msgid "Retry Level"
+msgstr "Reprovi Nivelon"
+
+#: ball/st_fail.c:105
+#: ball/st_goal.c:227
+msgid "Save Replay"
+msgstr "Savi Reludon"
+
+#: ball/st_goal.c:102
+msgid "New Record"
+msgstr "Nova Rekordo"
+
+#: ball/st_goal.c:103
+msgid "GOAL"
+msgstr "Celo"
+
+#: ball/st_goal.c:216
+#: ball/st_goal.c:218
+msgid "Finish"
+msgstr "Fino"
+
+#: ball/st_help.c:103
+msgid "Tricks"
+msgstr "Lertaĵo"
+
+#: ball/st_help.c:104
+msgid "Modes"
+msgstr "Manieroj"
+
+#: ball/st_help.c:105
+msgid "Controls"
+msgstr "Kontroloj"
+
+#: ball/st_help.c:106
+msgid "Rules"
+msgstr "Reguloj"
+
+#: ball/st_help.c:117
+msgid "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor causing the\\ball to roll.\\"
+msgstr "Movu muson aŭ stirilon aŭ\\uzu klavojn por balanciĝi la\\plankon kaŭsante pilkon bobeni.\\"
+
+#: ball/st_help.c:122
+msgid "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and finish\\the level.\\"
+msgstr "Bobenu inter monerojn por\\aglomeri. Aglomeru monerojn por\\malŝlosi la celon kaj plenigi nivelon.\\"
+
+#: ball/st_help.c:179
+msgid "Left and right mouse buttons rotate the view.\\Hold Shift for faster view rotation."
+msgstr "Liva kaj dekstra butonoj rotacias vidpunkton"
+
+#: ball/st_help.c:181
+msgid "Pause / Release Pointer"
+msgstr "Paŭzi / Liberigi indikilon"
+
+#: ball/st_help.c:182
+msgid "Exit / Cancel Menu"
+msgstr "Eliri / Nuligi menuon"
+
+#: ball/st_help.c:186
+msgid "Screenshot"
+msgstr "Ekrankopio"
+
+#: ball/st_help.c:252
+msgid "Finish a level before the time runs out.\\You need to collect coins in order to open the goal."
+msgstr "Apredu nivelon antaŭ tempo finiĝas.\\Vi bezonas aglomeri monetaron por\\apertigi la celon."
+
+#: ball/st_help.c:265
+msgid "Start playing from the first level of the set.\\You start with only three balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
+msgstr "Ludantiĝu el unua nivelo. Vi ludekas\\ kun sola tria pilko, ne malgajni ilin. Vi\\ gajnas pilkon por aglomeri centa pilkoj."
+
+#: ball/st_help.c:279
+msgid "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You may be able\\to reach new places.\\"
+msgstr "Anguloj uzeblas por salti.\\Ekruligu kaj celu angulojn.\\Vi povas atingi nova lokoj.\\"
+
+#: ball/st_help.c:284
+msgid "Tilting in 2 directions increases\\the slope. Use the manual camera\\and turn the camera by 45\\degrees for best results.\\"
+msgstr "Retroklini dudirekte pliiĝas la\\deklivon. Uzu blokita vidon kaj turniĝu\\la vidon je 45 gradoj\\por la plibonaj rezultoj.\\"
+
+#: ball/st_help.c:304
+#: ball/st_help.c:314
+msgid "Watch demo"
+msgstr "Spekti provon"
+
+#: ball/st_level.c:56
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Plia Nivelo %s"
+
+#: ball/st_level.c:58
+#, c-format
+msgid "Level %s"
+msgstr "Nivelo %s"
+
+#: ball/st_level.c:64
+#, c-format
+msgid "Standalone level"
+msgstr "Memstara nivelo"
+
+#: ball/st_level.c:162
+msgid "A replay file could not be opened for writing.\\This game will not be recorded.\\"
+msgstr "Reludo ne povas apertati. La ludo ne rekordatos.\\"
+
+#: ball/st_name.c:118
+msgid "OK"
+msgstr "OK"
+
+#: ball/st_name.c:120
+#: ball/st_save.c:126
+#: ball/st_save.c:215
+msgid "Cancel"
+msgstr "Nuligi"
+
+#: ball/st_over.c:35
+msgid "GAME OVER"
+msgstr "FINITA LUDO"
+
+#: ball/st_pause.c:82
+#: putt/st_all.c:636
+msgid "Paused"
+msgstr "Paŭzita"
+
+#: ball/st_pause.c:91
+msgid "Restart"
+msgstr "Reeki"
+
+#: ball/st_play.c:116
+msgid "Ready?"
+msgstr "Pretas?"
+
+#: ball/st_play.c:200
+msgid "Set?"
+msgstr "Ekas?"
+
+#: ball/st_play.c:306
+msgid "GO!"
+msgstr "Eku!"
+
+#: ball/st_save.c:113
+msgid "Replay Name"
+msgstr "Reludo nomo"
+
+#: ball/st_save.c:124
+msgid "Save"
+msgstr "Savi"
+
+#: ball/st_save.c:209
+msgid "Overwrite?"
+msgstr "Surskribi?"
+
+#: ball/st_save.c:216
+msgid "Overwrite"
+msgstr "Surskribi"
+
+#: ball/st_set.c:108
+msgid "Level Set"
+msgstr "Nivelaro"
+
+#: ball/st_start.c:227
+msgid "Unlocked"
+msgstr "Malkluza"
+
+#: ball/st_start.c:228
+msgid "Locked"
+msgstr "Kluza"
+
+#: ball/st_start.c:238
+msgid "Goal State in Completed Levels"
+msgstr "Celostato en la completaj niveloj"
+
+#: ball/st_title.c:138
+#: ball/st_title.c:173
+msgid "menu^Cheat"
+msgstr "Trompi"
+
+#: ball/st_title.c:144
+#: ball/st_title.c:176
+#: putt/st_all.c:238
+msgid "menu^Play"
+msgstr "Ludi"
+
+#: ball/st_title.c:179
+msgid "menu^Replay"
+msgstr "Reludoj"
+
+#: ball/st_title.c:180
+msgid "menu^Help"
+msgstr "Helpo"
+
+#: ball/st_title.c:181
+#: putt/st_all.c:239
+msgid "menu^Options"
+msgstr "Opcioj"
+
+#: ball/st_title.c:182
+#: putt/st_all.c:240
+msgid "menu^Exit"
+msgstr "Eliri"
+
+#: ball/util.c:28
+msgid "Hard"
+msgstr "Malfaciloj"
+
+#: ball/util.c:29
+msgid "Medium"
+msgstr "Nefaciloj"
+
+#: ball/util.c:30
+msgid "Easy"
+msgstr "Faciloj"
+
+#: ball/util.c:76
+#: ball/util.c:122
+msgid "Unavailable"
+msgstr "Malhavebla"
+
+#: ball/util.c:178
+#: ball/util.c:228
+msgid "Most Coins"
+msgstr "Monetaroj"
+
+#: ball/util.c:185
+#: ball/util.c:232
+msgid "Best Times"
+msgstr "Tempoj"
+
+#: ball/util.c:192
+#: ball/util.c:236
+msgid "Fast Unlock"
+msgstr "Malŝlosoj"
+
+#: ball/util.c:205
+msgid "Change Name"
+msgstr "Nomigi"
+
+#: ball/util.c:332
+msgid "caps"
+msgstr "caps"
+
+#: share/gui.c:425
+#, c-format
+msgid "Font '%s' doesn't exist, trying default font.\n"
+msgstr "Litertipo '%s' ne ekzistas, mi provas defaŭlta litertipon.\n"
+
+#: share/gui.c:472
+#, c-format
+msgid "Could not load font '%s'.\n"
+msgstr "Ne povas ŝarĝi litertipon '%s'.\n"
+
+#: share/gui.h:23
+msgid "ttf/DejaVuSans-Bold.ttf"
+msgstr "ttf/DejaVuSans-Bold.ttf"
+
+#: share/image.c:229
+#, c-format
+msgid "Failed to convert SDL_ttf surface: %s\n"
+msgstr "Ne povas konverti SDL_ttf supraĵo: %s\n"
+
+#. Translators,
+#. *
+#. * This is a mostly-complete list of human-readable SDL key names.  There
+#. * might not be corresponding names for all these keys in your language,
+#. * and that's perfectly fine -- in such cases just copy the source string.
+#.
+#: share/keyboard.c:33
+msgid "Backspace"
+msgstr "Backspace"
+
+#: share/keyboard.c:34
+msgid "Tab"
+msgstr "Tab"
+
+#: share/keyboard.c:35
+msgid "Clear"
+msgstr "Clear"
+
+#: share/keyboard.c:36
+msgid "Return"
+msgstr "Return"
+
+#: share/keyboard.c:37
+msgid "Pause"
+msgstr "Pause"
+
+#: share/keyboard.c:38
+msgid "Escape"
+msgstr "Escape"
+
+#: share/keyboard.c:39
+msgid "Space"
+msgstr "Space"
+
+#: share/keyboard.c:41
+msgid "Enter"
+msgstr "Enter"
+
+#: share/keyboard.c:42
+msgid "Equals"
+msgstr "Equals"
+
+#: share/keyboard.c:43
+msgid "Up"
+msgstr "Up"
+
+#: share/keyboard.c:44
+#: share/keyboard.c:47
+msgid "Down"
+msgstr "Down"
+
+#: share/keyboard.c:45
+msgid "Right"
+msgstr "Right"
+
+#: share/keyboard.c:46
+msgid "Left"
+msgstr "Left"
+
+#: share/keyboard.c:48
+msgid "Insert"
+msgstr "Insert"
+
+#: share/keyboard.c:49
+msgid "Home"
+msgstr "Domo"
+
+#: share/keyboard.c:50
+msgid "End"
+msgstr "End"
+
+#: share/keyboard.c:51
+msgid "Page Up"
+msgstr "Page Up"
+
+#: share/keyboard.c:52
+msgid "Page Down"
+msgstr "Page Down"
+
+#: share/keyboard.c:53
+msgid "F1"
+msgstr "F1"
+
+#: share/keyboard.c:54
+msgid "F2"
+msgstr "F2"
+
+#: share/keyboard.c:55
+msgid "F3"
+msgstr "F3"
+
+#: share/keyboard.c:56
+msgid "F4"
+msgstr "F4"
+
+#: share/keyboard.c:57
+msgid "F5"
+msgstr "F5"
+
+#: share/keyboard.c:58
+msgid "F6"
+msgstr "F6"
+
+#: share/keyboard.c:59
+msgid "F7"
+msgstr "F7"
+
+#: share/keyboard.c:60
+msgid "F8"
+msgstr "F8"
+
+#: share/keyboard.c:61
+msgid "F9"
+msgstr "F9"
+
+#: share/keyboard.c:62
+msgid "F10"
+msgstr "F10"
+
+#: share/keyboard.c:63
+msgid "F11"
+msgstr "F11"
+
+#: share/keyboard.c:64
+msgid "F12"
+msgstr "F12"
+
+#: share/keyboard.c:65
+msgid "F13"
+msgstr "F13"
+
+#: share/keyboard.c:66
+msgid "F14"
+msgstr "F14"
+
+#: share/keyboard.c:67
+msgid "F15"
+msgstr "F15"
+
+#: share/keyboard.c:68
+msgid "Num Lock"
+msgstr "Num Lock"
+
+#: share/keyboard.c:69
+msgid "Caps Lock"
+msgstr "Caps Lock"
+
+#: share/keyboard.c:70
+msgid "Scroll Lock"
+msgstr "Scroll Lock"
+
+#: share/keyboard.c:71
+msgid "Right Shift"
+msgstr "Dekstra Shift"
+
+#: share/keyboard.c:72
+msgid "Left Shift"
+msgstr "Liva Shift"
+
+#: share/keyboard.c:73
+msgid "Right CTRL"
+msgstr "Dekstra CTRL"
+
+#: share/keyboard.c:74
+msgid "Left CTRL"
+msgstr "Liva CTRL"
+
+#: share/keyboard.c:75
+msgid "Right Alt"
+msgstr "Dekstra Alt"
+
+#: share/keyboard.c:76
+msgid "Left Alt"
+msgstr "Liva Alt"
+
+#: share/keyboard.c:77
+msgid "Right Meta"
+msgstr "Dekstra Meta"
+
+#: share/keyboard.c:78
+msgid "Left Meta"
+msgstr "Liva Meta"
+
+#: share/keyboard.c:79
+msgid "Left Super"
+msgstr "Liva Super"
+
+#: share/keyboard.c:80
+msgid "Right Super"
+msgstr "Dekstra Super"
+
+#: share/keyboard.c:81
+msgid "Alt Gr"
+msgstr "Alt Gr"
+
+#: share/keyboard.c:82
+msgid "Compose"
+msgstr "Compose"
+
+#: share/keyboard.c:83
+msgid "Help"
+msgstr "Helpo"
+
+#: share/keyboard.c:84
+msgid "Print Screen"
+msgstr "Print Screen"
+
+#: share/keyboard.c:85
+msgid "Sys Req"
+msgstr "Sys Req"
+
+#: share/keyboard.c:86
+msgid "Break"
+msgstr "Break"
+
+#: share/keyboard.c:87
+msgid "Menu"
+msgstr "Menuo"
+
+#: share/keyboard.c:88
+msgid "Power"
+msgstr "Potenco"
+
+#: share/keyboard.c:89
+msgid "Euro"
+msgstr "Euro"
+
+#: share/keyboard.c:90
+msgid "Undo"
+msgstr "Malfari"
+
+#: share/syswm.c:58
+#, c-format
+msgid "Failed to get WM info: %s\n"
+msgstr "Ne povis ricevi WM infojn: %s\n"
+
+#: share/syswm.c:129
+msgid "Failed to allocate memory for EWMH icon data.\n"
+msgstr "Ne povas spacecigi memoro por EWMH ikonodataoj.\n"
+
+#: putt/hole.c:160
+#: putt/hud.c:52
+#: putt/st_all.c:107
+#: putt/st_all.c:168
+msgid "Par"
+msgstr "Par"
+
+#: putt/hole.c:162
+#: putt/st_all.c:108
+#: putt/st_all.c:169
+msgid "P1"
+msgstr "L1"
+
+#: putt/hole.c:163
+#: putt/st_all.c:109
+#: putt/st_all.c:170
+msgid "P2"
+msgstr "L2"
+
+#: putt/hole.c:164
+#: putt/st_all.c:110
+#: putt/st_all.c:171
+msgid "P3"
+msgstr "L3"
+
+#: putt/hole.c:165
+#: putt/st_all.c:111
+#: putt/st_all.c:172
+msgid "P4"
+msgstr "P4"
+
+#: putt/st_all.c:75
+msgid "O"
+msgstr "O"
+
+#: putt/st_all.c:124
+msgid "Tot"
+msgstr "Suma"
+
+#: putt/st_all.c:136
+msgid "I"
+msgstr "I"
+
+#: putt/st_all.c:350
+msgid "Select Course"
+msgstr "Selektu Kurson"
+
+#: putt/st_all.c:518
+msgid "Players?"
+msgstr "Kiom Ludantoj?"
+
+#: putt/st_all.c:722
+#, c-format
+msgid "Hole %02d"
+msgstr "Truo %02d"
+
+#: putt/st_all.c:1048
+msgid "It's In!"
+msgstr "Enas!"
+
+#: putt/st_all.c:1190
+msgid "1 Stroke Penalty"
+msgstr "1 Streko Puno"
+
+#: putt/st_all.c:1268
+msgid "Scores"
+msgstr "Poentoj"
+
+#: putt/st_all.c:1321
+msgid "Final Scores"
+msgstr "Finaj Poentoj"
+
+#: putt/st_conf.c:188
+msgid "Low"
+msgstr "Malalta"
+
+#: putt/st_conf.c:189
+msgid "High"
+msgstr "Alta"
+
+#: putt/st_conf.c:194
+msgid "Textures"
+msgstr "Teksturoj"
+
+#: data/set-easy.txt
+msgid "Neverball Easy"
+msgstr "Neverball Facilo"
+
+#: data/set-easy.txt
+msgid "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth learning curve.\\Read level introductions for gameplay tips.\\ \\"
+msgstr "Malfacileco: Neofita ĝis Intermedia\\\\25 niveloj kun malrapide lernataj kurboj.\\Legu la inciloj de la niveloj por ricevi gameplay avizoj.\\ \\"
+
+#: data/set-medium.txt
+msgid "Neverball Medium"
+msgstr "Neverball Nefacilo"
+
+#: data/set-medium.txt
+msgid "Difficulty: Beginner through Expert\\\\25 levels which provide a balanced\\challenge for players. Try to claim\\some of the records provided.\\"
+msgstr "Malfacileco: Neofita ĝis Spertula\\\\25 niveloj kiu provizas bilancita defion\\por ludantoj. Provu reklamacii\\kelkaj inter ekzistantaj rekordoj"
+
+#: data/set-hard.txt
+msgid "Neverball Hard"
+msgstr "Neverball Malfacilo"
+
+#: data/set-hard.txt
+msgid "Difficulty: Intermediate through Expert\\\\25 levels with more of a challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, and Fast Unlock records.\\"
+msgstr "Malfacileco: Intermedia ĝis Spertula\\\\25 niveloj kun plej defioj por spertulaj\\ludantoj. Provu reklamacii Plibona Tempo, Plimultaj Moneroj kaj Plirapida Malŝloso.\\"
+
+#: data/set-mym.txt
+msgid "Tour de force"
+msgstr "Tour de force"
+
+#: data/set-mym.txt
+msgid "Difficulty: Expert through Insane\\\\25 levels with even greater challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Malfacileco: Tremalfacila ĝis Aliena\\\\25 niveloj kun pligranda defio.\\Aŭtoro: Mehdi Yousfi-Monod (mym)\\ \\"
+
+#: data/set-mym2.txt
+msgid "Retour de force"
+msgstr "Retour de force"
+
+#: data/set-mym2.txt
+msgid "Difficulty: A little bit harder than my first set.\\\\More challenge, particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Malfacileco: ĝuste pli malfacila ol mia unua aro.\\\\Pli defioj, partikulare aglomerante monerojn.\\Aŭtoro: Mehdi Yoursfi-Monod (mym)\\ \\"
+
+#: data/set-fwp.txt
+msgid "Nevermania"
+msgstr "Nevermania"
+
+#: data/set-fwp.txt
+msgid "Difficulty: Expert through Impossible\\\\Assorted levels for advanced players.\\Author: Florian Priester\\\\"
+msgstr "Malfacileco: Malfacila ĝis Tremalfacila\\\\Plurspeca niveloj por spertecoj.\\Aŭtoro: Florian Priester\\\\"
+
+#: data/set-tones.txt
+msgid "Tones Levels"
+msgstr "Tonea Niveloj"
+
+#: data/set-tones.txt
+msgid "Difficulty: Moderate to Difficult.\\\\Author: Ian Walker\\\\"
+msgstr "Malfacileco: Intermedia ĝis Nefacila.\\\\Aŭtoro: Ian Walker"
+
+#: data/set-misc.txt
+msgid "Neverball Misc"
+msgstr "Neverball Provoj"
+
+#: data/set-misc.txt
+msgid "Unsorted levels\\For testing purposes\\\\\\\\"
+msgstr "Nesortitaj niveloj\\por provoj\\\\\\\\"
+
+#: data/holes-putt.txt
+msgid "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ \\Difficulty: Easy to Medium\\Author: rlk\\"
+msgstr "La unua dekoktruila Neverputt kurso.\\Kun malrapide lernataj kurboj.\\ \\Malfacileco: Facila ĝis Nefacila\\Aŭtoro: rlk"
+
+#: data/holes-paxed.txt
+msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "Alia dekoktruila kurso\\ \\ \\Malfacilezo: Nefacila\\Aŭtoro: paxed\\"
+
+#: data/holes-paxed2.txt
+msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "Alia 18-truila curso\\ \\ \\Malfacileco: Media\\Aŭtoro: paxed\\"
+
+#: data/holes-paxed3.txt
+msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "Fine plia truiloj\\ \\ \\Malfacileco: Media\\Aŭtoro: paxed\\"
+
+#: data/holes-abc.txt
+msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
+msgstr "26-truila curso\\kiu proceduras la literaro\\\\Malfacileco: Malfacila\\Aŭtoro: paxed\\"
+
+#: data/holes-slippi.txt
+msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
+msgstr "Freneza Golfo\\ \\\\Malfacileco: Facila ĝis media\\Aŭtoro: slippifishi\\"
+
+#: data/holes-kk.txt
+msgid "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert Through Insane\\Author: Byron James Johnson"
+msgstr "Artifika Golfo\\\\18-truila curso kun multaj defioj\\Malfacileco: Spertulo ĝis Neebla\\Aŭtoro: Byron James Johnson"
+
+#: data/holes-vidski.txt
+msgid "Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to hard.\\Author: vidski\\"
+msgstr "Golf Ĝambalaja\\\\Vidski-a fifama truilaro.\\Malfacileco: Intermedia  ĝis Malfacila.\\Author: vidski\\"
+
+#: data/gui/ball.map data/map-easy/peasy.map
+msgid "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click to begin.\\"
+msgstr "Musobutonoj rotacias la vidon.\\Premu 'Escape'-n por paŭzigi aŭ eliri."
+
+#: data/map-easy/bumper.map
+msgid "Try to avoid being hit by moving objects.\\One bump can throw the ball\\completely out of control.\\"
+msgstr "Provu eviti ke vi batatas de la movanta objektoj.\\Boso povas necontroligi la pilkon\\tute.\\"
+
+#: data/map-easy/bumps.map
+msgid "Learn to control a bouncing ball.\\Look at the shadow to know where the\\ball will land.  If you're feeling confident in\\your mastery of bouncing, take a risk\\for a big payoff.\\"
+msgstr "Lerni kiel kontroli risortecan pilkon.\\Rigardu la ombron por scii kie la pilko\\ surteriĝos. Se vi memfidas en via mastreco de\\risorteci, risku por granda premio.\\"
+
+#: data/map-easy/coins.map
+msgid "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to begin.\\"
+msgstr ""
+
+#: data/map-easy/corners.map
+msgid "Here are some more opportunities for you to\\fall off into the void. Hit the bump hard to\\grab some big coins and score a short time.\\"
+msgstr ""
+
+#: data/map-easy/curved.map
+msgid "As before, but without the training wheels.\\Keep the ball on a level floor\\and maintain precise control.\\Build some momentum to reach the corners.\\"
+msgstr ""
+
+#: data/map-easy/easy.map data/map-misc/centrifuge.map
+#: data/map-misc/texture-debug.map data/map-misc/timer-test.map
+msgid "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgstr ""
+
+#: data/map-easy/easyhalfpipe.map
+msgid "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over accelerate and you will\\be able to stay in control."
+msgstr ""
+
+#: data/map-easy/fence.map
+msgid "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope remains level.\\This way, you maintain full control of the ball.\\Use momentum to get up to the big coins.\\"
+msgstr ""
+
+#: data/map-easy/goals.map
+msgid "There are 100 coins here.\\This one shouldn't be too difficult,\\if you don't accidentally make a goal first.\\"
+msgstr ""
+
+#: data/map-easy/goslow.map
+msgid "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower speed means better control.\\Watch the clock and use the time wisely.\\"
+msgstr ""
+
+#: data/map-easy/greed.map
+msgid "Each bridge is narrower than the one before.\\But each pays better than the last as well!\\You get to decide how far you go on this one.\\"
+msgstr ""
+
+#: data/map-easy/groundbreak.map
+msgid "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole instead of falling into it."
+msgstr ""
+
+#: data/map-easy/hole.map
+msgid "Stay away from the edges!\\When approaching a drop, begin slowing down\\early. You need just as much room to slow\\down as you did to speed up.\\"
+msgstr ""
+
+#: data/map-easy/lollipop.map
+msgid "Follow the yellow lick road!\\\\The blue coins are especially challenging,\\but with some experimentation and practice,\\you'll be able to collect them all."
+msgstr ""
+
+#: data/map-easy/maze.map
+msgid "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow and\\off the walls. All the coins are collectable\\in the given time.\\"
+msgstr ""
+
+#: data/map-easy/mazebump.map
+msgid "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers - it will help you\\to reach the goal."
+msgstr ""
+
+#: data/map-easy/mover.map
+msgid "A moving platform can be tricky.\\Use precise timing to get aboard,\\and precise balance to stay there.\\Don't let it move out from under you.\\Ride the platforms to grab the big coins.\\"
+msgstr ""
+
+#: data/map-easy/roundcoins.map
+msgid "When you are on the elevators,\\make small adjustments to keep the ball steady.\\You can collect many coins by\\keeping the ball in one place.\\Too much movement and you will fall off."
+msgstr ""
+
+#: data/map-easy/roundlaby.map
+msgid "There is only one path to reach the goal,\\but lots of paths for collecting coins.\\Make sure you collect enough\\to unlock the goal."
+msgstr ""
+
+#: data/map-easy/slalom.map
+msgid "Follow the trail of coins to reach the goal.\\If you hit a post while moving quickly,\\you will bounce far off course."
+msgstr ""
+
+#: data/map-easy/slightcurve.map
+msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
+msgstr ""
+
+#: data/map-easy/speedbumps.map
+msgid "When the ball is on a moving platform,\\it will be pulled in the direction of movement.\\Use the rails to steady yourself,\\and collect the coins you need\\to open the goal."
+msgstr ""
+
+#: data/map-easy/thwomp2.map
+msgid "Grab all the coins...\\but don't get bullied!"
+msgstr "Ekkapti la moneroj...\\sen ĉikaniti!"
+
+#: data/map-easy/wakka.map
+msgid "Here's another coin grab.\\Perhaps you already know a good route.\\Teleportation might come in handy.\\"
+msgstr ""
+
+#: data/map-fwp/adventure.map
+msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
+msgstr "=Riskemo=\\Multaj aĵoj farendas, moneroj aglomerendas,\\ riskoj prenendas."
+
+#: data/map-fwp/atrium.map
+msgid "=Atrium=\\Remove the coins from their columns."
+msgstr "=Enirejo=\\Aglomeru monerojn en ilia kolonoj"
+
+#: data/map-fwp/buoys.map
+msgid "=Buoys=\\He who controls the timers, controls the gates."
+msgstr "=Buoj=\\Tiu kiu kontrolas la tempumilojn, kontrolas la barierojn."
+
+#: data/map-fwp/cargo.map
+msgid "=Cargo=\\Let yourself be carried away."
+msgstr "=Ŝarĵo=\\Lasu ke vi portatas fore."
+
+#: data/map-fwp/confetti.map
+msgid "=Confetti=\\Help! There has got to be a way through this mess."
+msgstr "=Konfetoj=\\Helpi! Tie devas esti irejon trans la fiaĵo."
+
+#: data/map-fwp/discs.map
+msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
+msgstr "=Diskoj=\\Se kajoj korekte uzatas, ili prenos vin ĝis la celon."
+
+#: data/map-fwp/ladybirds.map
+msgid "=Ladybirds=\\Don't let them bug you."
+msgstr "=Kokcineloj=\\Ne lasu ke ili iritas vin."
+
+#: data/map-fwp/mountains.map
+msgid "=Mountains=\\Ups and downs are a part of life."
+msgstr "=Montoj=\\Suproj kaj suboj partumas vivon."
+
+#: data/map-fwp/museum.map
+msgid "=Museum=\\Please do not touch the exhibits."
+msgstr "=Muzeo=\\Bonvolu, ne tuŝu eksponitoj."
+
+#: data/map-fwp/oddities.map
+msgid "=Oddities=\\Something is not quite right here..."
+msgstr "=Droloj=\\Io ne multe rektas tie..."
+
+#: data/map-fwp/rails.map
+msgid "=Rails=\\Do not lose your balance."
+msgstr "=Raloj=\\Ne fiekvilibru"
+
+#: data/map-fwp/ramps.map
+msgid "=Ramps=\\Can you make it to the top?"
+msgstr "=Rampejoj=\\Ĉu vi povas iri en la supron?"
+
+#: data/map-fwp/rings.map
+msgid "=Rings=\\Roll your way through this trap."
+msgstr "=Cirkloj=\\Bobeni trans la embusko."
+
+#: data/map-fwp/slope.map
+msgid "=Slope=\\Try not to become a modern-day Sisyphus."
+msgstr "=Deklivo=\\Provu neiĝi hodiaŭa Sisyphus."
+
+#: data/map-fwp/spacetime.map
+msgid "=Spacetime=\\Not much space, not much time."
+msgstr "=Spacotempo=\\Ne multa spacas, ne multa tempas."
+
+#: data/map-fwp/swarm.map
+msgid "=Swarm=\\Warning: Trespassers will be thwomped."
+msgstr "=Svarmo=\\Atentu: Promenantaj batitos."
+
+#: data/map-fwp/tennis.map
+msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
+msgstr "=Teniso=\\Multa gajnaĵa moneroj estas, kaj ili aglomerendas."
+
+#: data/map-fwp/tree.map
+msgid "=Tree=\\Follow the spiral staircase to the goal."
+msgstr "=Arbo=\\Sekvu helica ŝtuparo al la celo."
+
+#: data/map-fwp/ufo.map
+msgid "=UFO=\\Ride the spaceship they don't want you to know about."
+msgstr "=NIFO=\\Drajvu kosmoŝipon pri kiu ili ne volas ke vi scias."
+
+#: data/map-hard/airways.map
+msgid "2 switches have to be enabled\\to open the path to the goal."
+msgstr "Dua ŝanĝiloj ebligendas\\por apertigi la irejon ĝis la celon."
+
+#: data/map-hard/check.map
+msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
+msgstr ""
+
+#: data/map-hard/curbs.map
+msgid "To make progress here you'll need to hit the\\edges hard and control your bouncing.\\It's often easiest to hit the curb at a corner.\\"
+msgstr ""
+
+#: data/map-hard/flip.map
+msgid "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each trigger switches colors in direct contact."
+msgstr ""
+
+#: data/map-hard/frogger.map
+msgid "Ribbit!\\"
+msgstr "Ribbit!\\"
+
+#: data/map-hard/gaps.map
+msgid "Time the switches carefully to synchronize\\the motion of the platforms.\\Move quickly across the gaps.\\"
+msgstr ""
+
+#: data/map-hard/grid.map
+msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
+msgstr ""
+
+#: data/map-hard/hallways.map
+msgid "Control your speed and your bounces.\\Teleporters will always bring you\\back somewhere in the level."
+msgstr ""
+
+#: data/map-hard/hump.map
+msgid "Momentum may work against you.\\"
+msgstr "Momentum lavoros kontraŭ vi.\\"
+
+#: data/map-hard/invis.map
+msgid "Allow your greed to guide you.\\For an added challenge,\\try to get to all of the coins.\\It can be done without guesswork.\\"
+msgstr ""
+
+#: data/map-hard/movers.map
+msgid "Go for a ride.\\"
+msgstr "Iru rajdi.\\"
+
+#: data/map-hard/nostairs.map
+msgid "There are two goals here.\\You can complete this level\\the easy way or the hard way.\\Of course, by going the easy way\\you can forget about all\\those red and blue coins."
+msgstr ""
+
+#: data/map-hard/paths.map
+msgid "So many different paths to take...\\have you tried all of them?"
+msgstr ""
+
+#: data/map-hard/pipe.map
+msgid "Ceci n'est pas une pipe.\\"
+msgstr "Tiu ne estas tubo.\\"
+
+#: data/map-hard/poker.map
+msgid "Slow and steady.\\"
+msgstr "Malrapide kaj firme.\\"
+
+#: data/map-hard/pyramid.map
+msgid "You'll only get about 15 seconds at each step,\\so don't delay.  Get the coins and\\get to the next switch.\\"
+msgstr ""
+
+#: data/map-hard/quads.map
+msgid "Don't get bullied.\\"
+msgstr "Ne brutalatu.\\"
+
+#: data/map-hard/rampup.map
+msgid "I think I can.\\I think I can.\\"
+msgstr "Pensas mi povas.\\Pensas mi povas.\\"
+
+#: data/map-hard/ring.map
+msgid "So close, yet so very far.\\"
+msgstr "Tiel proxima ankoraŭ fora.\\"
+
+#: data/map-hard/risers.map data/map-misc/edge-test.map
+msgid "Ride the elevators to the top.\\They move quickly,\\so don't dally too long.\\"
+msgstr ""
+
+#: data/map-hard/spiralin.map
+msgid "Have fun picking up those\\red and blue coins.\\"
+msgstr "Amuziĝu ekkaptante ruĝaj kaj\\ bluaj moneroj.\\"
+
+#: data/map-hard/spread.map
+msgid "Don't worry.\\The green part isn't going anywhere.\\"
+msgstr "Ne zorgu.\\Verda landparto irontas nenie.\\"
+
+#: data/map-hard/sync.map
+msgid "Use the switches to set the platforms\\in motion.  Time it so they come\\together in the middle.\\"
+msgstr ""
+
+#: data/map-hard/teleport.map
+msgid "The ball must be entirely within a teleporter\\in order to trigger it.\\Remember that the ball carries its momentum\\through a teleporter, so plan ahead.\\"
+msgstr ""
+
+#: data/map-hard/tilt.map
+msgid "The floor is as flat as you make it.\\"
+msgstr "Bemolo bemolas bemole.\\"
+
+#: data/map-medium/accordian.map
+msgid "Stairway to heaven"
+msgstr "Ŝtuparo al la ĉielo"
+
+#: data/map-medium/angle.map
+msgid "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take the easy cash or\\go all the way for a big payoff.\\"
+msgstr ""
+
+#: data/map-medium/coneskeleton.map
+msgid "Plenty of coins for the taking.\\Can you take them all?"
+msgstr "Abundaj moneroj povas ekkeptiti.\\Ĉu ilin vi povas ekkepti?"
+
+#: data/map-medium/cross.map
+msgid "Use momentum to reach\\the upper platforms,\\but keep the ball in control\\for safe landing.\\\\The manual view may help here.\\"
+msgstr ""
+
+#: data/map-medium/drops.map
+msgid "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
+msgstr ""
+
+#: data/map-medium/easytele.map
+msgid "Use teleporters to go\\where you otherwise couldn't.\\"
+msgstr ""
+
+#: data/map-medium/four.map
+msgid "Balance risk versus reward.\\"
+msgstr "Riskoj versus premioj.\\"
+
+#: data/map-medium/hardrise.map
+msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
+msgstr ""
+
+#: data/map-medium/islands.map
+msgid "Catch the train before it leaves the station.\\"
+msgstr ""
+
+#: data/map-medium/learngrow.map
+msgid "The ball will fit in those small holes,\\if you can just find something to make it smaller.\\Other places may require a bigger ball.\\One thing is certain - you'll want a plan!"
+msgstr ""
+
+#: data/map-medium/locks.map
+msgid "Hit the switches to move the barriers.\\"
+msgstr "Transiru la ŝaltoj por movi la muroj.\\"
+
+#: data/map-medium/multicurves.map
+msgid "The temptation to move quickly\\could prove your undoing.\\\\Then again, maybe not..."
+msgstr ""
+
+#: data/map-medium/plinko.map
+msgid "Take it slowly.\\"
+msgstr "Iru malrapide.\\"
+
+#: data/map-medium/qbert.map
+msgid "You can never go home again..."
+msgstr "Vi ne povas iri domon nove..."
+
+#: data/map-medium/rampdn.map
+msgid "You'll need to exert some control over your\\view here.  Press 3 to stop the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to return to the auto-rotating view.\\"
+msgstr ""
+
+#: data/map-medium/roundfloors.map
+msgid "This wedding cake is plenty rich,\\but be careful as you go\\to each lower layer."
+msgstr ""
+
+#: data/map-medium/sparselines.map
+msgid "Bump the logs at speed to change lanes.\\Try to reach the top for an extra challenge!"
+msgstr ""
+
+#: data/map-medium/spiraldn.map
+msgid "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might work.\\"
+msgstr ""
+
+#: data/map-medium/spiralup.map
+msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
+msgstr ""
+
+#: data/map-medium/stairs.map
+msgid "Here's yet another test of your ability\\to control bouncing.  Moving down the\\stairs too quickly can be hazardous.\\"
+msgstr ""
+
+#: data/map-medium/telemaze.map
+msgid "This maze has no walls.\\But that doesn't make the solution\\any easier to find.\\"
+msgstr ""
+
+#: data/map-medium/timer.map
+msgid "That one switch controls all five barriers.\\Be quick, because the switch is on a timer.\\When it expires, the barriers will rise.\\"
+msgstr ""
+
+#: data/map-medium/title.map
+msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
+msgstr "Neniampilko\\\\http://neverball.org\\\\Created by Robert Kooima\\"
+
+#: data/map-medium/woodmaze.map
+msgid "Follow the trail of coins\\to make it through the labyrinth."
+msgstr ""
+
+#: data/map-medium/zigzag.map
+msgid "There are plenty of coins here if you're\\willing to take the time to grab them.\\"
+msgstr ""
+
+#: data/map-misc/bigball-old.map
+msgid "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a challenge."
+msgstr ""
+
+#: data/map-misc/billiard.map
+msgid "Try to grab all of the blue coins...\\it won't be easy!"
+msgstr "Ekkeptu la bluaj moneroj...\\Ne facilos!"
+
+#: data/map-misc/blockers.map
+msgid "Block around the clock."
+msgstr "Ĉirkaŭiru la horloĝojn."
+
+#: data/map-misc/bounce.map
+msgid "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the 'chase' camera mode."
+msgstr ""
+
+#: data/map-misc/bounce2.map
+msgid "Follow the arrows."
+msgstr "Sekvu sagojn"
+
+#: data/map-misc/checkers.map
+msgid "It's a real game of checkers, but no one wins...\\You have to bounce to reach the blue coins."
+msgstr ""
+
+#: data/map-misc/elevator.map
+msgid "Calm and meditation may bring you to the Nirvana."
+msgstr ""
+
+#: data/map-misc/freefall-old.map
+msgid "Savoir chuter.\\Follow the blue markers."
+msgstr "Savoir chuter.\\Sekvi la bluajn markilojn."
+
+#: data/map-misc/grow_demo.map
+msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
+msgstr ""
+
+#: data/map-misc/groweasy.map
+msgid "There are special coins which can make your\\ball larger or smaller."
+msgstr ""
+
+#: data/map-misc/ocean.map
+msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
+msgstr "Iru naĝi...\\ĉiuj la moneroj subas.\\"
+
+#: data/map-misc/stairs.map
+msgid "Fall down stairs.\\Ough!\\It hurts."
+msgstr "Fali el la ŝtuparo.\\Oŭ!\\Ĝi dolorigas."
+
+#: data/map-misc/thwomp1.map
+msgid "Just let it happen...\\then start to worry!"
+msgstr "Ĝi okazos...\\Tiam, zorgiĝu!"
+
+#: data/map-misc/timer-test_2.map
+msgid "Another test for timer accuracy."
+msgstr "Alia ekzameno por la akurateco de la tempumiloj."
+
+#: data/map-mym/assault.map
+msgid "Le parcours du combattant.\\Ready for the assault course?"
+msgstr "Le parcours du combattant.\\Ĉu vi pretas por la asaltcursoj?"
+
+#: data/map-mym/circuit1.map
+msgid "La course effrénée.\\Let's run some laps."
+msgstr "La course effrénée.\\Ni kuru kelkaj rondoj."
+
+#: data/map-mym/circuit2.map
+msgid "Les rampes abruptes.\\Control your speed."
+msgstr "Les rampres abruptes.\\Kontroli la rapidecon."
+
+#: data/map-mym/climb.map
+msgid "L'escalade ardue.\\Do you suffer from vertigo?"
+msgstr "L'escalade ardue.\\Ĉu vi suferas la vertiĝojn?"
+
+#: data/map-mym/comeback.map
+msgid "Le cycle éternel.\\Avoid teleporters..."
+msgstr "Evitu pordoj..."
+
+#: data/map-mym/dance1.map
+msgid "La ballade tranquille.\\What a quiet walk."
+msgstr "Tiom malrapida promeno."
+
+#: data/map-mym/dance2.map
+msgid "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After activating the last moving platform,\\ turn around the Thwomp until the goal is reachable."
+msgstr "La ballade dansante.\\Danci en la movanta kajo!\\Tip: Post vi malaktivigas la lastan movantan kajon,\\ rivoluu ĉirkaŭ la Thwompo ĝis la celo atingebliĝas."
+
+#: data/map-mym/descent.map
+msgid "La descente infernale.\\Easy enough to start?"
+msgstr "La descente infernale.\\Ĉu ĝi facilas sufiĉe, ekante?"
+
+#: data/map-mym/drive1.map
+msgid "La conduite stressante.\\Attention:\\The platform under the ball moves forward."
+msgstr ""
+
+#: data/map-mym/drive2.map
+msgid "La conduite dangereuse.\\The platform under the ball moves quickly forward.\\You would do well to advance."
+msgstr ""
+
+#: data/map-mym/earthquake.map
+msgid "Le passage incertain.\\Isn't too easy?"
+msgstr "Ĉu ĝi tre facilas?"
+
+#: data/map-mym/ghosts.map
+msgid "Ghost Valley.\\Make 3 laps to open the goal."
+msgstr ""
+
+#: data/map-mym/glasstower.map
+msgid "La tour de verre.\\Find the way to the exit."
+msgstr ""
+
+#: data/map-mym/hard.map
+msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
+msgstr ""
+
+#: data/map-mym/loop1.map
+msgid "Les boucles renversantes.\\Upside down!"
+msgstr ""
+
+#: data/map-mym/loop2.map
+msgid "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to land..."
+msgstr ""
+
+#: data/map-mym/maze1.map
+msgid "Le chemin dissimulé.\\Test your memory."
+msgstr ""
+
+#: data/map-mym/maze2.map
+msgid "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking another one?"
+msgstr ""
+
+#: data/map-mym/narrow.map
+msgid "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first slope."
+msgstr ""
+
+#: data/map-mym/running.map
+msgid "Les épreuves minutées.\\Run baby, run!"
+msgstr "Les épreuves minutées.\\Kuru knabo, kuru!"
+
+#: data/map-mym/scrambling.map
+msgid "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgstr ""
+
+#: data/map-mym/snow.map
+msgid "La descente rafraîchissante.\\Not so fast, not so fast."
+msgstr ""
+
+#: data/map-mym/trust.map
+msgid "Le chemin de la foi.\\Self-confidence."
+msgstr "Memfido."
+
+#: data/map-mym/turn.map
+msgid "Le sens trigonométrique.\\Turn, wait and jump."
+msgstr "Le sens trigonométrique.\\Rivoluu, atendi kaj salti."
+
+#: data/map-mym/up.map
+msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
+msgstr ""
+
+#: data/map-mym2/backforth.map
+msgid "Un va-et-vient frustrant.\\Remember the activation order."
+msgstr ""
+
+#: data/map-mym2/basket.map
+msgid "Street Neverball\\Choose your party and score 3 points."
+msgstr ""
+
+#: data/map-mym2/bigball.map
+msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
+msgstr "Ĝi facilas, celo ĝuste superas vin."
+
+#: data/map-mym2/bigcone.map
+msgid "Le grand cône.\\Living in a cone."
+msgstr "Vivi en la strobilo."
+
+#: data/map-mym2/bombman.map
+msgid "Les flammes ardentes.\\Does this remind you of something?"
+msgstr "Ĉu tiu memorigas ion al vi?"
+
+#: data/map-mym2/bounces.map
+msgid "Les sauts du célèbre plombier.\\Follow the coins."
+msgstr "Sekvi la monerojn."
+
+#: data/map-mym2/fall.map
+msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 teleports to unlock and reach the goal."
+msgstr "Neverball Areno.\\Uzu la dua pordoj por malŝlosi kaj atingi celon."
+
+#: data/map-mym2/freefall.map
+msgid "This level is full of challenges:\\understand the level's functioning,\\learn to fly and to survive,\\grab half of all coins to open the goal,\\find and reach the goal,\\and more..."
+msgstr ""
+
+#: data/map-mym2/grinder.map
+msgid "Le petit moulin.\\The good timing to go in the cabin."
+msgstr ""
+
+#: data/map-mym2/littlecones.map
+msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
+msgstr ""
+
+#: data/map-mym2/longpipe.map
+msgid "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last jump!"
+msgstr ""
+
+#: data/map-mym2/morenarrow.map
+msgid "Plus dur que la difficulté.\\Good luck."
+msgstr "Plus dur que la difficulté.\\Bonŝancu."
+
+#: data/map-mym2/movinglumps.map
+msgid "Être patient.\\Not too hard."
+msgstr "Ne malfacilas."
+
+#: data/map-mym2/movingpath.map
+msgid "Le passage éphémère.\\Trust the coins."
+msgstr "Fidu la monerojn."
+
+#: data/map-mym2/push.map
+msgid "Hé, on pousse pas !\\Not too fast, not too slow."
+msgstr ""
+
+#: data/map-mym2/rainbow.map
+msgid "Rainbow Road.\\Do 3 laps to open the goal."
+msgstr ""
+
+#: data/map-mym2/rodeo.map
+msgid "Le rodéo de Neverball.\\You'll fall quickly."
+msgstr ""
+
+#: data/map-mym2/runstop.map
+msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
+msgstr "J'y vais, ou j'y vais pas?\\Ne nebalancu."
+
+#: data/map-mym2/shaker.map
+msgid "Préparez un petit sac.\\The stomach-tester."
+msgstr "La provanto vomemon."
+
+#: data/map-mym2/sonic.map
+msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
+msgstr ""
+
+#: data/map-mym2/speed.map
+msgid "Plus vite que la vitesse.\\The definition of speed."
+msgstr ""
+
+#: data/map-mym2/speeddance.map
+msgid "La danse asiatique\\Trust the arrows."
+msgstr ""
+
+#: data/map-mym2/translation.map
+msgid "Suis le mouvement.\\Warning, the road is moving."
+msgstr ""
+
+#: data/map-mym2/updown.map
+msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
+msgstr "Sinkriĝi kun plialtigistoj."
+
+#: data/map-mym2/webs.map
+msgid "Les toiles attirantes.\\Get out of the webs."
+msgstr ""
+
+#: data/map-tones/bigtube.map
+msgid "Speed is the name of the game."
+msgstr "Nomo de la ludo estas Rapideco."
+
+#: data/map-tones/blue.map
+msgid "Tread carefully...\\and keep moving!\\"
+msgstr "Tretu atente...\\kaj adu movi!\\"
+
+#: data/map-tones/bumperoo.map
+msgid "Who's the boss around here anyway?"
+msgstr "Kiu estras tie?"
+
+#: data/map-tones/canals.map
+msgid "You might have to get wet\\if you want all the coins."
+msgstr ""
+
+#: data/map-tones/check.map
+msgid "Keep your eye on the sky!\\but don't run out of time...\\"
+msgstr ""
+
+#: data/map-tones/city.map
+msgid "Stepping stones."
+msgstr "Paŝi ŝtonojn."
+
+#: data/map-tones/discs.map
+msgid "Work your way to the top."
+msgstr "Paŝ al la supro."
+
+#: data/map-tones/easyian.map
+msgid "Collect 45 coins to unlock the goal.\\You can use the teleporter to gain enough speed\\for the jump."
+msgstr ""
+
+#: data/map-tones/easyone.map
+msgid "Control your speed\\to avoid a bumpy ride."
+msgstr ""
+
+#: data/map-tones/hotwheels.map
+msgid "Learn the course and stick to the rails!"
+msgstr "Lerni la curson kaj kuru super la raloj."
+
+#: data/map-tones/hurdles.map
+msgid "Let's start with an easy warm-up.\\Build speed and leap to the goal."
+msgstr ""
+
+#: data/map-tones/leaps.map
+msgid "Look before you leap..."
+msgstr "Regardi preter vi eksaltas..."
+
+#: data/map-tones/marble.map
+msgid "Mind your footing!"
+msgstr "Kontrolu via paŝoj"
+
+#: data/map-tones/marble.map
+msgid "Watch your footing..."
+msgstr "Gardi via paŝoj..."
+
+#: data/map-tones/runner.map
+msgid "Walk the plank.\\After the teleport, go for speed!"
+msgstr ""
+
+#: data/map-tones/skiball.map
+msgid "Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
+msgstr ""
+
+#: data/map-tones/swish.map
+msgid "Timing is everything."
+msgstr "Tempo valoras ĉion."
+
+#: data/map-tones/swoop.map
+msgid "What goes down must come up!\\"
+msgstr "Kiu subiras, tiu malantaŭiras!\\"
+
+#: data/map-tones/tonesmaze.map
+msgid "Make sure you are\\safely on a purple platform\\before 20 seconds have elapsed!"
+msgstr ""
+
+#: data/map-tones/twisted.map
+msgid "Afraid of heights?\\Try not to get dizzy."
+msgstr ""
+
+#: data/map-tones/waves.map
+msgid "Surf's Up !!"
+msgstr "Surfu!"
+
+#. Desktop entry comment
+#: dist/neverball.desktop.in
+msgid "A 3D arcade game with a ball"
+msgstr "3Da arkada ludo kun pilko"
+
+#. Desktop entry comment
+#: dist/neverputt.desktop.in
+msgid "A 3D mini golf game"
+msgstr "3Da golfvideoludo"
+
+#. Translators,
+#.
+#. Listed here are the Neverball materials (relative to the data directory)
+#. that can be localised.  Each material <mtrl> has a corresponding JPG or PNG
+#. texture.  To localise a material, create a localised texture for it (copy
+#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify it)
+#. and translate the material name to match (from <mtrl> to
+#. <mtrl>-<lang-code>).
+#.
+#. Author's comments on the original mtrl/words texture:
+#.
+#. "Courier New, 40pt, bold. The words are centered in cells of 256x64 pixels.
+#. For the vertical centering, the x-height is used as the reference. Some
+#. manual corrections were made; for example, the hyphen in 'Fall-out' was
+#. shortened in order to increase the margin on each side of the word."
+#.
+#. Those on GNU+Linux having the ImageMagick program suite installed may find
+#. the provided scripts/gen-words.sh shell script useful.
+msgid "mtrl/words"
+msgstr "mtrl/words"
+
+msgid "item/coin/coin"
+msgstr "item/coin/coin"
+
