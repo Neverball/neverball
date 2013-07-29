@@ -224,7 +224,9 @@ static int exit_enter(struct state *st, struct state *prev)
         SDL_PushEvent(&e);
     }
 
-    return 0;
+    /* HACK: The GUI ID gets lost if you goto_state during a goto_state. */
+
+    return curr_state()->gui_id;
 }
 
 /*---------------------------------------------------------------------------*/
