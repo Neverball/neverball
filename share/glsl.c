@@ -24,9 +24,9 @@
 
 int check_shader_log(GLuint shader)
 {
-    GLchar *p = 0;
-    GLint   s = 0;
-    GLint   n = 0;
+    char *p = 0;
+    GLint s = 0;
+    GLint n = 0;
 
     /* Check the shader compile status.  If failed, print the log. */
 
@@ -35,7 +35,7 @@ int check_shader_log(GLuint shader)
 
     if (s == 0)
     {
-        if ((p = (GLchar *) calloc(n + 1, 1)))
+        if ((p = (char *) calloc(n + 1, 1)))
         {
             glGetShaderInfoLog_(shader, n, NULL, p);
 
@@ -49,9 +49,9 @@ int check_shader_log(GLuint shader)
 
 int check_program_log(GLuint program)
 {
-    GLchar *p = 0;
-    GLint   s = 0;
-    GLint   n = 0;
+    char *p = 0;
+    GLint s = 0;
+    GLint n = 0;
 
     /* Check the program link status.  If failed, print the log. */
 
@@ -60,7 +60,7 @@ int check_program_log(GLuint program)
 
     if (s == 0)
     {
-        if ((p = (GLchar *) calloc(n + 1, 1)))
+        if ((p = (char *) calloc(n + 1, 1)))
         {
             glGetProgramInfoLog_(program, n, NULL, p);
 
@@ -82,7 +82,7 @@ GLuint glsl_init_shader(GLenum type, const char *str)
 
         GLuint shader = glCreateShader_(type);
 
-        glShaderSource_ (shader, 1, (const GLchar **) &str, NULL);
+        glShaderSource_ (shader, 1, (const char **) &str, NULL);
         glCompileShader_(shader);
 
         /* If the shader is valid, return it.  Else, delete it. */

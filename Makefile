@@ -90,7 +90,7 @@ ALL_CPPFLAGS += $(CPPFLAGS)
 # Libraries
 
 SDL_LIBS := $(shell sdl-config --libs)
-PNG_LIBS := $(shell libpng-config --libs)
+PNG_LIBS := $(shell libpng-config --libs) -lz
 
 ifeq ($(ENABLE_FS),stdio)
 FS_LIBS :=
@@ -336,6 +336,8 @@ MAPS := $(shell find data -name "*.map" \! -name "*.autosave.map")
 SOLS := $(MAPS:%.map=%.sol)
 
 DESKTOPS := $(basename $(wildcard dist/*.desktop.in))
+
+WINDRES := windres.exe
 
 #------------------------------------------------------------------------------
 

@@ -52,11 +52,9 @@
 #ifndef GL_TEXTURE0
 #define GL_TEXTURE0                   0x84C0
 #endif
-
 #ifndef GL_TEXTURE1
 #define GL_TEXTURE1                   0x84C1
 #endif
-
 #ifndef GL_TEXTURE2
 #define GL_TEXTURE2                   0x84C2
 #endif
@@ -64,7 +62,6 @@
 #ifndef GL_ARRAY_BUFFER
 #define GL_ARRAY_BUFFER               0x8892
 #endif
-
 #ifndef GL_ELEMENT_ARRAY_BUFFER
 #define GL_ELEMENT_ARRAY_BUFFER       0x8893
 #endif
@@ -72,7 +69,6 @@
 #ifndef GL_STATIC_DRAW
 #define GL_STATIC_DRAW                0x88E4
 #endif
-
 #ifndef GL_DYNAMIC_DRAW
 #define GL_DYNAMIC_DRAW               0x88E8
 #endif
@@ -80,13 +76,65 @@
 #ifndef GL_POINT_SPRITE
 #define GL_POINT_SPRITE               0x8861
 #endif
-
 #ifndef GL_COORD_REPLACE
 #define GL_COORD_REPLACE              0x8862
 #endif
-
 #ifndef GL_POINT_DISTANCE_ATTENUATION
 #define GL_POINT_DISTANCE_ATTENUATION 0x8129
+#endif
+
+#ifndef GL_SRC0_RGB
+#define GL_SRC0_RGB                   0x8580
+#endif
+#ifndef GL_SRC1_RGB
+#define GL_SRC1_RGB                   0x8581
+#endif
+#ifndef GL_SRC2_RGB
+#define GL_SRC2_RGB                   0x8582
+#endif
+#ifndef GL_SRC0_ALPHA
+#define GL_SRC0_ALPHA                 0x8588
+#endif
+
+#ifndef GL_DEPTH_STENCIL
+#define GL_DEPTH_STENCIL              0x84F9
+#endif
+#ifndef GL_DEPTH24_STENCIL8
+#define GL_DEPTH24_STENCIL8           0x88F0
+#endif
+#ifndef GL_UNSIGNED_INT_24_8
+#define GL_UNSIGNED_INT_24_8          0x84FA
+#endif
+#ifndef GL_FRAMEBUFFER
+#define GL_FRAMEBUFFER                0x8D40
+#endif
+#ifndef GL_COLOR_ATTACHMENT0
+#define GL_COLOR_ATTACHMENT0          0x8CE0
+#endif
+#ifndef GL_DEPTH_ATTACHMENT
+#define GL_DEPTH_ATTACHMENT           0x8D00
+#endif
+#ifndef GL_STENCIL_ATTACHMENT
+#define GL_STENCIL_ATTACHMENT         0x8D20
+#endif
+#ifndef GL_FRAMEBUFFER_COMPLETE
+#define GL_FRAMEBUFFER_COMPLETE       0x8CD5
+#endif
+
+#ifndef GL_VERTEX_SHADER
+#define GL_VERTEX_SHADER              0x8B31
+#endif
+#ifndef GL_FRAGMENT_SHADER
+#define GL_FRAGMENT_SHADER            0x8B30
+#endif
+#ifndef GL_LINK_STATUS
+#define GL_LINK_STATUS                0x8B82
+#endif
+#ifndef GL_COMPILE_STATUS
+#define GL_COMPILE_STATUS             0x8B81
+#endif
+#ifndef GL_INFO_LOG_LENGTH
+#define GL_INFO_LOG_LENGTH            0x8B84
 #endif
 
 /*---------------------------------------------------------------------------*/
@@ -139,8 +187,8 @@ extern PFNGLACTIVETEXTURE_PROC       glActiveTexture_;
 
 typedef void      (APIENTRYP PFNGLGENBUFFERS_PROC)(GLsizei, GLuint *);
 typedef void      (APIENTRYP PFNGLBINDBUFFER_PROC)(GLenum, GLuint);
-typedef void      (APIENTRYP PFNGLBUFFERDATA_PROC)(GLenum, GLsizeiptr, const GLvoid *, GLenum);
-typedef void      (APIENTRYP PFNGLBUFFERSUBDATA_PROC)(GLenum, GLintptr, GLsizeiptr, const GLvoid *);
+typedef void      (APIENTRYP PFNGLBUFFERDATA_PROC)(GLenum, long, const GLvoid *, GLenum);
+typedef void      (APIENTRYP PFNGLBUFFERSUBDATA_PROC)(GLenum, long, long, const GLvoid *);
 typedef void      (APIENTRYP PFNGLDELETEBUFFERS_PROC)(GLsizei, const GLuint *);
 typedef GLboolean (APIENTRYP PFNGLISBUFFER_PROC)(GLuint);
 
@@ -162,19 +210,19 @@ extern PFNGLPOINTPARAMETERFV_PROC glPointParameterfv_;
 /* OpenGL Shading Language                                                   */
 
 typedef void   (APIENTRYP PFNGLGETSHADERIV_PROC)(GLuint, GLenum, GLint *);
-typedef void   (APIENTRYP PFNGLGETSHADERINFOLOG_PROC)(GLuint, GLsizei, GLsizei *, GLchar *);
+typedef void   (APIENTRYP PFNGLGETSHADERINFOLOG_PROC)(GLuint, GLsizei, GLsizei *, char *);
 typedef void   (APIENTRYP PFNGLGETPROGRAMIV_PROC)(GLuint, GLenum, GLint *);
-typedef void   (APIENTRYP PFNGLGETPROGRAMINFOLOG_PROC)(GLuint, GLsizei, GLsizei *, GLchar *);
+typedef void   (APIENTRYP PFNGLGETPROGRAMINFOLOG_PROC)(GLuint, GLsizei, GLsizei *, char *);
 typedef GLuint (APIENTRYP PFNGLCREATESHADER_PROC)(GLenum);
 typedef GLuint (APIENTRYP PFNGLCREATEPROGRAM_PROC)(void);
-typedef void   (APIENTRYP PFNGLSHADERSOURCE_PROC)(GLuint, GLsizei, const GLchar * const *, const GLint *);
+typedef void   (APIENTRYP PFNGLSHADERSOURCE_PROC)(GLuint, GLsizei, const char * const *, const GLint *);
 typedef void   (APIENTRYP PFNGLCOMPILESHADER_PROC)(GLuint);
 typedef void   (APIENTRYP PFNGLDELETESHADER_PROC)(GLuint);
 typedef void   (APIENTRYP PFNGLDELETEPROGRAM_PROC)(GLuint);
 typedef void   (APIENTRYP PFNGLATTACHSHADER_PROC)(GLuint, GLuint);
 typedef void   (APIENTRYP PFNGLLINKPROGRAM_PROC)(GLuint);
 typedef void   (APIENTRYP PFNGLUSEPROGRAM_PROC)(GLuint);
-typedef GLint  (APIENTRYP PFNGLGETUNIFORMLOCATION_PROC)(GLuint, const GLchar *);
+typedef GLint  (APIENTRYP PFNGLGETUNIFORMLOCATION_PROC)(GLuint, const char *);
 typedef void   (APIENTRYP PFNGLUNIFORM1F_PROC)(GLint, GLfloat);
 typedef void   (APIENTRYP PFNGLUNIFORM2F_PROC)(GLint, GLfloat, GLfloat);
 typedef void   (APIENTRYP PFNGLUNIFORM3F_PROC)(GLint, GLfloat, GLfloat, GLfloat);
