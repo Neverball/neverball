@@ -14,6 +14,7 @@
 
 #ifdef ENABLE_HMD
 
+#define OHMD_STATIC 1
 #include <openhmd/openhmd.h>
 #include <stdlib.h>
 #include <stdio.h>

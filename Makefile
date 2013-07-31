@@ -99,7 +99,7 @@ FS_LIBS := -lphysfs
 endif
 
 ifeq ($(ENABLE_HMD),1)
-	HMD_LIBS := -lopenhmd
+	HMD_LIBS := -lopenhmd -lhidapi
 endif
 
 # On some systems we need to link this directly.
@@ -131,6 +131,7 @@ ifeq ($(PLATFORM),mingw)
 	OGL_LIBS  := -lopengl32
 	X11_LIBS  :=
 	SDL_LIBS  := $(shell sdl-config --static-libs)
+	HMD_LIBS  += -lSetupapi
 endif
 
 ifeq ($(PLATFORM),darwin)
@@ -153,11 +154,11 @@ OGG_LIBS := -lvorbisfile -lvorbisenc -lvorbis -logg
 TTF_LIBS := -lSDL_ttf -lfreetype
 
 ifeq ($(PLATFORM),mingw)
-	ALL_LIBS := -static $(SDL_LIBS) $(X11_LIBS) $(BASE_LIBS) $(HMD_LIBS) \
-		$(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) $(OGG_LIBS) $(OGL_LIBS)
+	ALL_LIBS := -static $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
+		$(OGG_LIBS) $(SDL_LIBS) $(X11_LIBS) $(OGL_LIBS) $(BASE_LIBS)
 else
-	ALL_LIBS := $(SDL_LIBS) $(X11_LIBS) $(BASE_LIBS) $(HMD_LIBS) \
-		$(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) $(OGG_LIBS) $(OGL_LIBS)
+	ALL_LIBS := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
+		$(OGG_LIBS) $(SDL_LIBS) $(X11_LIBS) $(OGL_LIBS) $(BASE_LIBS)
 endif
 #------------------------------------------------------------------------------
 
