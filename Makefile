@@ -124,12 +124,13 @@ OGL_LIBS := -lGL
 
 ifeq ($(PLATFORM),mingw)
 	ifneq ($(ENABLE_NLS),0)
-		INTL_LIBS := -lintl
+		INTL_LIBS := -lintl -liconv
 	endif
 
 	TILT_LIBS :=
 	OGL_LIBS  := -lopengl32
-	X11_LIBS :=
+	X11_LIBS  :=
+	SDL_LIBS  := $(shell sdl-config --static-libs)
 endif
 
 ifeq ($(PLATFORM),darwin)
@@ -148,9 +149,16 @@ ifeq ($(PLATFORM),darwin)
 	BASE_LIBS += -L/opt/local/lib
 endif
 
-ALL_LIBS := $(SDL_LIBS) $(X11_LIBS) $(BASE_LIBS) $(HMD_LIBS) $(TILT_LIBS) \
-	$(INTL_LIBS) -lSDL_ttf -lvorbisfile $(OGL_LIBS)
+OGG_LIBS := -lvorbisfile -lvorbisenc -lvorbis -logg
+TTF_LIBS := -lSDL_ttf -lfreetype
 
+ifeq ($(PLATFORM),mingw)
+	ALL_LIBS := -static $(SDL_LIBS) $(X11_LIBS) $(BASE_LIBS) $(HMD_LIBS) \
+		$(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) $(OGG_LIBS) $(OGL_LIBS)
+else
+	ALL_LIBS := $(SDL_LIBS) $(X11_LIBS) $(BASE_LIBS) $(HMD_LIBS) \
+		$(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) $(OGG_LIBS) $(OGL_LIBS)
+endif
 #------------------------------------------------------------------------------
 
 ifeq ($(PLATFORM),mingw)
