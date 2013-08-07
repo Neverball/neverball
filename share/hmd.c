@@ -59,42 +59,44 @@ static GLuint right_vbo = 0;
    currently they have hard-coded values needed to match the FOV given by OHMD.
 */
 
-static const char *hmd_vert =
-    "void main()\n"
-    "{\n"
-        "gl_Position = ftransform();\n"
-    "}\n";
+static const char *hmd_vert[] = {
+    "void main()\n",
+    "{\n",
+        "gl_Position = ftransform();\n",
+    "}\n",
+};
 
-static const char *hmd_frag =      \
-    "#version 120\n"
+static const char *hmd_frag[] = {
+    "#version 120\n",
 
-    "uniform sampler2D warpTexture;\n"
-    "uniform vec2      LensCenter;\n"
-    "uniform vec2      ScreenCenter;\n"
-    "uniform vec2      ScreenSize;\n"
+    "uniform sampler2D warpTexture;\n",
+    "uniform vec2      LensCenter;\n",
+    "uniform vec2      ScreenCenter;\n",
+    "uniform vec2      ScreenSize;\n",
 
-    "const vec2 Scale   = vec2(0.1469278, 0.2350845);\n"
-    "const vec2 ScaleIn = vec2(4, 2.5);\n"
-    "const vec4 HMDWarpParam = vec4(1, 0.22, 0.24, 0);\n"
+    "const vec2 Scale   = vec2(0.1469278, 0.2350845);\n",
+    "const vec2 ScaleIn = vec2(4, 2.5);\n",
+    "const vec4 HMDWarpParam = vec4(1, 0.22, 0.24, 0);\n",
 
-    "vec2 HMDWarp(vec2 in01)\n"
-    "{\n"
-        "vec2 theta = (in01 - LensCenter) * ScaleIn;\n"
-        "float rSq = theta.x * theta.x + theta.y * theta.y;\n"
+    "vec2 HMDWarp(vec2 in01)\n",
+    "{\n",
+        "vec2 theta = (in01 - LensCenter) * ScaleIn;\n",
+        "float rSq = theta.x * theta.x + theta.y * theta.y;\n",
         "vec2 rvector = theta * (HMDWarpParam.x + "
                                 "HMDWarpParam.y * rSq + "
                                 "HMDWarpParam.z * rSq * rSq + "
-                                "HMDWarpParam.w * rSq * rSq * rSq);\n"
-        "return LensCenter + Scale * rvector;\n"
-    "}\n"
+                                "HMDWarpParam.w * rSq * rSq * rSq);\n",
+        "return LensCenter + Scale * rvector;\n",
+    "}\n",
 
-    "void main()\n"
-    "{\n"
-         "vec2 tc = HMDWarp(gl_FragCoord.xy / ScreenSize);\n"
-         "tc.x = gl_FragCoord.x < ScreenSize.x / 2.0 ? (2.0 * tc.x) : (2.0 * (tc.x - 0.5));\n"
-         "vec2 tt = step(vec2(0.0), tc) * step(tc, vec2(1.0));\n"
-         "gl_FragColor = tt.x * tt.y * texture2D(warpTexture, tc);\n"
-    "}\n";
+    "void main()\n",
+    "{\n",
+         "vec2 tc = HMDWarp(gl_FragCoord.xy / ScreenSize);\n",
+         "tc.x = gl_FragCoord.x < ScreenSize.x / 2.0 ? (2.0 * tc.x) : (2.0 * (tc.x - 0.5));\n",
+         "vec2 tt = step(vec2(0.0), tc) * step(tc, vec2(1.0));\n",
+         "gl_FragColor = tt.x * tt.y * texture2D(warpTexture, tc);\n",
+    "}\n",
+};
 
 static const GLfloat left_rect[4][2] = {
     { -1, -1 }, {  0, -1 }, { -1,  1 }, {  0,  1 }
@@ -133,8 +135,10 @@ void hmd_init()
 
                 /* Create and initialize the distortion shader. */
 
-                glsl_create(&left_glsl,  hmd_vert, hmd_frag);
-                glsl_create(&right_glsl, hmd_vert, hmd_frag);
+                glsl_create(&left_glsl,  sizeof (hmd_vert) / sizeof (char *), hmd_vert,
+                                         sizeof (hmd_frag) / sizeof (char *), hmd_frag);
+                glsl_create(&right_glsl, sizeof (hmd_vert) / sizeof (char *), hmd_vert,
+                                         sizeof (hmd_frag) / sizeof (char *), hmd_frag);
 
                 glUseProgram_  (left_glsl.program);
                 glsl_uniform2f(&left_glsl, "LensCenter", 0.2863248, 0.5);

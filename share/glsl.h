@@ -28,7 +28,8 @@ struct glsl
 
 typedef struct glsl glsl;
 
-GLboolean glsl_create(glsl *, const char *, const char *);
+GLboolean glsl_create(glsl *, int, const char *const *,
+	                          int, const char *const *);
 void      glsl_delete(glsl *);
 
 void      glsl_uniform1f(glsl *, const char *, GLfloat);

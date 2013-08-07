@@ -74,27 +74,22 @@ int check_program_log(GLuint program)
 
 /*----------------------------------------------------------------------------*/
 
-GLuint glsl_init_shader(GLenum type, const char *str)
+GLuint glsl_init_shader(GLenum type, int strc, const char *const *strv)
 {
-    if (str)
-    {
-        /* Compile a new shader with the given source. */
+    /* Compile a new shader with the given source. */
 
-        GLuint shader = glCreateShader_(type);
+    GLuint shader = glCreateShader_(type);
 
-        glShaderSource_ (shader, 1, (const char **) &str, NULL);
-        glCompileShader_(shader);
+    glShaderSource_ (shader, strc, strv, NULL);
+    glCompileShader_(shader);
 
-        /* If the shader is valid, return it.  Else, delete it. */
+    /* If the shader is valid, return it.  Else, delete it. */
 
-        if (check_shader_log(shader))
-            return shader;
-        else
-        {
-            fprintf(stderr, "%s", str);
-            glDeleteShader_(shader);
-        }
-    }
+    if (check_shader_log(shader))
+        return shader;
+    else
+        glDeleteShader_(shader);
+
     return 0;
 }
 
@@ -120,23 +115,20 @@ GLuint glsl_init_program(GLuint shader_vert,
     return 0;
 }
 
-GLboolean glsl_create(glsl *G, const char *vert_str,
-                               const char *frag_str)
+GLboolean glsl_create(glsl *G, int vertc, const char *const *vertv,
+                               int fragc, const char *const *fragv)
 {
-    if (vert_str && frag_str)
+    /* Compile the shaders. */
+
+    G->vert_shader = glsl_init_shader(GL_VERTEX_SHADER,   vertc, vertv);
+    G->frag_shader = glsl_init_shader(GL_FRAGMENT_SHADER, fragc, fragv);
+
+    /* Link the program. */
+
+    if (G->vert_shader && G->frag_shader)
     {
-        /* Compile the shaders. */
-
-        G->vert_shader = glsl_init_shader(GL_VERTEX_SHADER,   vert_str);
-        G->frag_shader = glsl_init_shader(GL_FRAGMENT_SHADER, frag_str);
-
-        /* Link the program. */
-
-        if (G->vert_shader && G->frag_shader)
-        {
-            G->program = glsl_init_program(G->vert_shader, G->frag_shader);
-            return GL_TRUE;
-        }
+        G->program = glsl_init_program(G->vert_shader, G->frag_shader);
+        return GL_TRUE;
     }
     return GL_FALSE;
 }
