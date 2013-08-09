@@ -39,8 +39,7 @@ static OVR::Util::Render::StereoEyeParams Params;
 static fbo L_fbo   = { 0, 0, 0 };
 static fbo R_fbo   = { 0, 0, 0 };
 
-static glsl L_glsl = { 0, 0, 0 };
-static glsl R_glsl = { 0, 0, 0 };
+static glsl distortion = { 0, 0, 0 };
 
 static GLuint L_vbo = 0;
 static GLuint R_vbo = 0;
@@ -107,35 +106,8 @@ static void hmd_gl_init()
 
     /* Create and initialize the distortion shader. */
 
-    float d = 1 - (2 * Info.LensSeparationDistance) / Info.HScreenSize;
-    float s = 1 / Stereo.GetDistortionScale();
-    float a = Info.HResolution / 2.0f / Info.VResolution;
-
-    glsl_create(&L_glsl, sizeof (hmd_vert) / sizeof (char *), hmd_vert,
-                         sizeof (hmd_frag) / sizeof (char *), hmd_frag);
-    glsl_create(&R_glsl, sizeof (hmd_vert) / sizeof (char *), hmd_vert,
-                         sizeof (hmd_frag) / sizeof (char *), hmd_frag);
-
-    glUseProgram_  (L_glsl.program);
-    glsl_uniform2f(&L_glsl, "LensCenter", 0.5 + 0.5f * d, 0.5);
-    glsl_uniform2f(&L_glsl, "ScaleOut", 0.5f * s, 0.5f * s * a);
-    glsl_uniform2f(&L_glsl, "ScaleIn",  2.0f,     2.0f     / a);
-    glsl_uniform4f(&L_glsl, "DistortionK", Info.DistortionK[0],
-                                           Info.DistortionK[1],
-                                           Info.DistortionK[2],
-                                           Info.DistortionK[3]);
-
-
-    glUseProgram_  (R_glsl.program);
-    glsl_uniform2f(&L_glsl, "ScaleOut", 0.5f * s, 0.5f * s * a);
-    glsl_uniform2f(&L_glsl, "ScaleIn",  2.0f,     2.0f     / a);
-    glsl_uniform2f(&R_glsl, "LensCenter", 0.5 - 0.5f * d, 0.5);
-    glsl_uniform4f(&R_glsl, "DistortionK", Info.DistortionK[0],
-                                           Info.DistortionK[1],
-                                           Info.DistortionK[2],
-                                           Info.DistortionK[3]);
-
-    glUseProgram_(0);
+    glsl_create(&distortion, sizeof (hmd_vert) / sizeof (char *), hmd_vert,
+                             sizeof (hmd_frag) / sizeof (char *), hmd_frag);
 
     /* Initialize VBOs for the on-screen rectangles. */
 
@@ -148,16 +120,18 @@ static void hmd_gl_init()
     glBindBuffer_(GL_ARRAY_BUFFER, 0);
 }
 
-static void hmd_gl_draw(GLuint program, GLuint texture, GLuint buffer)
+static void hmd_gl_draw(GLuint texture, GLuint buffer)
 {
     if (buffer)
     {
-        glUseProgram_(program);
         glBindTexture(GL_TEXTURE_2D, texture);
         glBindBuffer_(GL_ARRAY_BUFFER, buffer);
+
         glVertexPointer  (2, GL_FLOAT, sizeof (struct point), (GLvoid *) 0);
         glTexCoordPointer(2, GL_FLOAT, sizeof (struct point), (GLvoid *) 8);
+
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindBuffer_(GL_ARRAY_BUFFER, 0);
     }
 }
 
@@ -166,8 +140,7 @@ static void hmd_gl_free()
     fbo_delete(&L_fbo);
     fbo_delete(&R_fbo);
 
-    glsl_delete(&L_glsl);
-    glsl_delete(&R_glsl);
+    glsl_delete(&distortion);
 
     if (L_vbo) glDeleteBuffers_(1, &L_vbo);
     if (R_vbo) glDeleteBuffers_(1, &R_vbo);
@@ -275,6 +248,10 @@ extern "C" void hmd_step()
 
 extern "C" void hmd_swap()
 {
+    GLfloat d = 1 - (2 * Info.LensSeparationDistance) / Info.HScreenSize;
+    GLfloat s = Stereo.GetDistortionScale();
+    GLfloat a = Info.HResolution / 2.0f / Info.VResolution;
+
     /* Prepare to draw a screen-filling pair of rectangles. */
 
     glBindFramebuffer_(GL_FRAMEBUFFER, 0);
@@ -285,22 +262,32 @@ extern "C" void hmd_swap()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
+    /* Draw the left and right eyes, distorted, to the screen. */
+
     glDisable(GL_BLEND);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    /* Draw the left and right eyes, distorted, to the screen. */
+    glUseProgram_(distortion.program);
+    {
+        glsl_uniform2f(&distortion, "ScaleOut", 0.5f / s, 0.5f * a / s);
+        glsl_uniform2f(&distortion, "ScaleIn",  2.0f,     2.0f / a);
+        glsl_uniform4f(&distortion, "DistortionK", Info.DistortionK[0],
+                                                   Info.DistortionK[1],
+                                                   Info.DistortionK[2],
+                                                   Info.DistortionK[3]);
 
-    hmd_gl_draw(L_glsl.program, L_fbo.color_texture, L_vbo);
-    hmd_gl_draw(R_glsl.program, R_fbo.color_texture, R_vbo);
+        glsl_uniform2f(&distortion, "LensCenter", 0.5 + 0.5f * d, 0.5);
+        hmd_gl_draw(L_fbo.color_texture, L_vbo);
 
-    /* Revert the state. */
-
-    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+        glsl_uniform2f(&distortion, "LensCenter", 0.5 - 0.5f * d, 0.5);
+        hmd_gl_draw(R_fbo.color_texture, R_vbo);
+    }
     glUseProgram_(0);
-    glEnable(GL_BLEND);
+
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
+    glEnable(GL_BLEND);
 }
 
 extern "C" void hmd_prep_left()
