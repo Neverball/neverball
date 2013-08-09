@@ -23,17 +23,19 @@
 
 static ohmd_context *ctx = NULL;
 static ohmd_device  *dev = NULL;
-static int           eye = 0;
 
-static int hmd_hres = 0;
-static int hmd_vres = 0;
+static float P[16];
+static float M[16];
+
+static int hres = 0;
+static int vres = 0;
 
 /*---------------------------------------------------------------------------*/
 
 void hmd_init()
 {
-    hmd_hres = config_get_d(CONFIG_WIDTH);
-    hmd_vres = config_get_d(CONFIG_HEIGHT);
+    hres = config_get_d(CONFIG_WIDTH);
+    vres = config_get_d(CONFIG_HEIGHT);
 
     /* Start up OpenHMD. */
 
@@ -45,13 +47,13 @@ void hmd_init()
             {
                 /* Create the off-screen frame buffers. */
 
-                ohmd_device_geti(dev, OHMD_SCREEN_HORIZONTAL_RESOLUTION, &hmd_hres);
-                ohmd_device_geti(dev, OHMD_SCREEN_VERTICAL_RESOLUTION,   &hmd_vres);
+                ohmd_device_geti(dev, OHMD_SCREEN_HORIZONTAL_RESOLUTION, &hres);
+                ohmd_device_geti(dev, OHMD_SCREEN_VERTICAL_RESOLUTION,   &vres);
             }
         }
     }
 
-    hmd_common_init(hmd_hres, hmd_vres);
+    hmd_common_init(hres, vres);
 }
 
 void hmd_free()
@@ -62,7 +64,6 @@ void hmd_free()
 
     dev = NULL;
     ctx = NULL;
-    eye =    0;
 }
 
 void hmd_step()
@@ -84,47 +85,31 @@ void hmd_swap()
 void hmd_prep_left()
 {
     hmd_common_left();
-    eye = 0;
+    ohmd_device_getf(dev, OHMD_LEFT_EYE_GL_PROJECTION_MATRIX, P);
+    ohmd_device_getf(dev, OHMD_LEFT_EYE_GL_MODELVIEW_MATRIX,  M);
 }
 
 void hmd_prep_right()
 {
     hmd_common_right();
-    eye = 1;
+    ohmd_device_getf(dev, OHMD_RIGHT_EYE_GL_PROJECTION_MATRIX, P);
+    ohmd_device_getf(dev, OHMD_RIGHT_EYE_GL_MODELVIEW_MATRIX,  M);
 }
 
 void hmd_persp(float n, float f)
 {
-    float M[16];
-
-    if (eye)
-    {
-        glMatrixMode(GL_PROJECTION);
-        ohmd_device_getf(dev, OHMD_RIGHT_EYE_GL_PROJECTION_MATRIX, M);
-        glLoadMatrixf(M);
-
-        glMatrixMode(GL_MODELVIEW);
-        ohmd_device_getf(dev, OHMD_RIGHT_EYE_GL_MODELVIEW_MATRIX, M);
-        glLoadMatrixf(M);
-    }
-    else
-    {
-        glMatrixMode(GL_PROJECTION);
-        ohmd_device_getf(dev, OHMD_LEFT_EYE_GL_PROJECTION_MATRIX, M);
-        glLoadMatrixf(M);
-
-        glMatrixMode(GL_MODELVIEW);
-        ohmd_device_getf(dev, OHMD_LEFT_EYE_GL_MODELVIEW_MATRIX, M);
-        glLoadMatrixf(M);
-    }
+    glMatrixMode(GL_PROJECTION);
+    glLoadMatrixf(P);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadMatrixf(M);
 }
 
 void hmd_ortho()
 {
     hmd_persp(0.5f, 2.0f);
 
-    glScalef    ( 1.25f / hmd_vres,  1.25f / hmd_vres,  1.0f);
-    glTranslatef(-0.50f * hmd_hres, -0.50f * hmd_vres, -1.0f);
+    glScalef    ( 1.25f / vres,  1.25f / vres,  1.0f);
+    glTranslatef(-0.50f * hres, -0.50f * vres, -1.0f);
 }
 
 /*---------------------------------------------------------------------------*/
