@@ -339,15 +339,15 @@ endif
 endif
 
 ifeq ($(ENABLE_HMD),openhmd)
-BALL_OBJS += share/hmd_openhmd.o
-PUTT_OBJS += share/hmd_openhmd.o
+BALL_OBJS += share/hmd_openhmd.o share/hmd_common.o
+PUTT_OBJS += share/hmd_openhmd.o share/hmd_common.o
 else
 ifeq ($(ENABLE_HMD),libovr)
-BALL_OBJS += share/hmd_libovr.o
-PUTT_OBJS += share/hmd_libovr.o
+BALL_OBJS += share/hmd_libovr.o share/hmd_common.o
+PUTT_OBJS += share/hmd_libovr.o share/hmd_common.o
 else
-BALL_OBJS += share/hmd_null.o
-PUTT_OBJS += share/hmd_null.o
+BALL_OBJS += share/hmd_null.o share/hmd_common.o
+PUTT_OBJS += share/hmd_null.o share/hmd_common.o
 endif
 endif
 

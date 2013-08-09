@@ -16,10 +16,9 @@
 
 extern "C"
 {
+    #include "hmd_common.h"
     #include "config.h"
     #include "glext.h"
-    #include "glsl.h"
-    #include "fbo.h"
 }
 
 /*---------------------------------------------------------------------------*/
@@ -36,160 +35,7 @@ static OVR::Util::Render::StereoEyeParams Params;
 
 /*---------------------------------------------------------------------------*/
 
-static fbo L_fbo   = { 0, 0, 0 };
-static fbo R_fbo   = { 0, 0, 0 };
-
-static glsl distortion = { 0, 0, 0 };
-
-static GLuint L_vbo = 0;
-static GLuint R_vbo = 0;
-
-struct point
-{
-    GLfloat x;
-    GLfloat y;
-    GLfloat u;
-    GLfloat v;
-};
-
-static const struct point L_rect[4] = {
-    { -1, -1,  0,  0 }, {  0, -1,  1,  0 },
-    { -1,  1,  0,  1 }, {  0,  1,  1,  1 }
-};
-static const struct point R_rect[4] = {
-    {  0, -1,  0,  0 }, {  1, -1,  1,  0 },
-    {  0,  1,  0,  1 }, {  1,  1,  1,  1 }
-};
-
-static const char *hmd_vert[] = {
-    "void main()\n",
-    "{\n",
-        "gl_TexCoord[0] = gl_MultiTexCoord0;\n",
-        "gl_Position    = ftransform();\n",
-    "}\n",
-};
-
-#if 0
-
-static const char *hmd_frag[] = {
-    "#version 120\n",
-
-    "uniform sampler2D warpTexture;\n",
-    "uniform vec2      LensCenter;\n",
-    "uniform vec4      DistortionK;\n",
-    "uniform vec2      ScaleIn;\n",
-    "uniform vec2      ScaleOut;\n",
-
-    "vec2 HMDWarp(vec2 c)\n",
-    "{\n",
-        "vec2 theta = (c - LensCenter) * ScaleIn;\n",
-        "float rr = theta.x * theta.x + theta.y * theta.y;\n",
-        "vec2 rvector = theta * (DistortionK.x + ",
-                                "DistortionK.y * rr + ",
-                                "DistortionK.z * rr * rr + ",
-                                "DistortionK.w * rr * rr * rr);\n",
-        "return LensCenter + ScaleOut * rvector;\n",
-    "}\n",
-
-    "void main()\n",
-    "{\n",
-         "vec2 c = HMDWarp(gl_TexCoord[0].xy);\n",
-         "vec2 b = step(vec2(0.0), c) * step(c, vec2(1.0));\n",
-         "gl_FragColor = b.x * b.y * texture2D(warpTexture, c);\n",
-    "}\n",
-};
-
-#else
-
-static const char *hmd_frag[] = {
-    "#version 120\n",
-
-    "uniform sampler2D warpTexture;\n",
-    "uniform vec2      LensCenter;\n",
-    "uniform vec4      DistortionK;\n",
-    "uniform vec4      ChromAbParam;\n",
-    "uniform vec2      ScaleIn;\n",
-    "uniform vec2      ScaleOut;\n",
-
-    "vec2 GetOut(vec2 v)\n",
-    "{\n",
-        "return LensCenter + ScaleOut * v;\n",
-    "}\n",
-
-    "void main()\n",
-    "{\n",
-        "vec2  v  = (gl_TexCoord[0].xy - LensCenter) * ScaleIn;\n",
-        "float rr = v.x * v.x + v.y * v.y;\n",
-
-        "vec2 w = v * (DistortionK.x + ",
-                      "DistortionK.y * rr + ",
-                      "DistortionK.z * rr * rr + ",
-                      "DistortionK.w * rr * rr * rr);\n",
-
-        "vec2 tb = GetOut(w * (ChromAbParam.z + ChromAbParam.w * rr));\n",
-        "vec2 tr = GetOut(w * (ChromAbParam.x + ChromAbParam.y * rr));\n",
-        "vec2 tg = GetOut(w);\n",
-
-        "vec2 b = step(vec2(0.0), tb) * step(tb, vec2(1.0));\n",
-
-        "gl_FragColor = b.x * b.y * vec4(texture2D(warpTexture, tr).r,",
-                                        "texture2D(warpTexture, tg).g,",
-                                        "texture2D(warpTexture, tb).b, 1.0);\n",
-    "}\n",
-};
-
-#endif
-
-static void hmd_gl_init()
-{
-    /* Create the off-screen frame buffers. */
-
-    fbo_create(&L_fbo, 5 * Info.HResolution / 4 / 2, 5 * Info.VResolution / 4);
-    fbo_create(&R_fbo, 5 * Info.HResolution / 4 / 2, 5 * Info.VResolution / 4);
-
-    /* Create and initialize the distortion shader. */
-
-    glsl_create(&distortion, sizeof (hmd_vert) / sizeof (char *), hmd_vert,
-                             sizeof (hmd_frag) / sizeof (char *), hmd_frag);
-
-    /* Initialize VBOs for the on-screen rectangles. */
-
-    glGenBuffers_(1, &L_vbo);
-    glBindBuffer_(GL_ARRAY_BUFFER, L_vbo);
-    glBufferData_(GL_ARRAY_BUFFER, sizeof (L_rect), L_rect, GL_STATIC_DRAW);
-    glGenBuffers_(1, &R_vbo);
-    glBindBuffer_(GL_ARRAY_BUFFER, R_vbo);
-    glBufferData_(GL_ARRAY_BUFFER, sizeof (R_rect), R_rect, GL_STATIC_DRAW);
-    glBindBuffer_(GL_ARRAY_BUFFER, 0);
-}
-
-static void hmd_gl_draw(GLuint texture, GLuint buffer)
-{
-    if (buffer)
-    {
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glBindBuffer_(GL_ARRAY_BUFFER, buffer);
-
-        glVertexPointer  (2, GL_FLOAT, sizeof (struct point), (GLvoid *) 0);
-        glTexCoordPointer(2, GL_FLOAT, sizeof (struct point), (GLvoid *) 8);
-
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        glBindBuffer_(GL_ARRAY_BUFFER, 0);
-    }
-}
-
-static void hmd_gl_free()
-{
-    fbo_delete(&L_fbo);
-    fbo_delete(&R_fbo);
-
-    glsl_delete(&distortion);
-
-    if (L_vbo) glDeleteBuffers_(1, &L_vbo);
-    if (R_vbo) glDeleteBuffers_(1, &R_vbo);
-}
-
-static void hmd_gl_matrix(OVR::Matrix4f& M)
+static void hmd_matrix(OVR::Matrix4f& M)
 {
     GLdouble T[16];
 
@@ -270,12 +116,13 @@ extern "C" void hmd_init()
     Stereo.SetStereoMode(Stereo_LeftRight_Multipass);
     Stereo.SetFullViewport(Viewport(0, 0, Info.HResolution,
                                           Info.VResolution));
-    hmd_gl_init();
+
+    hmd_common_init(Info.HResolution, Info.VResolution);
 }
 
 extern "C" void hmd_free()
 {
-    hmd_gl_free();
+    hmd_common_free();
 
     pSensor  = 0;
     pHMD     = 0;
@@ -291,66 +138,21 @@ extern "C" void hmd_step()
 
 extern "C" void hmd_swap()
 {
-    GLfloat d = 1 - (2 * Info.LensSeparationDistance) / Info.HScreenSize;
-    GLfloat s = Stereo.GetDistortionScale();
-    GLfloat a = Info.HResolution / 2.0f / Info.VResolution;
+    float center = 1 - (2 * Info.LensSeparationDistance) / Info.HScreenSize;
+    float scale  = Stereo.GetDistortionScale();
 
-    /* Prepare to draw a screen-filling pair of rectangles. */
-
-    glBindFramebuffer_(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, Info.HResolution, Info.VResolution);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    glDisable(GL_BLEND);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-    glUseProgram_(distortion.program);
-    {
-        /* Set distortion parameters for both eyes. */
-
-        glsl_uniform2f(&distortion, "ScaleOut", 0.5f / s, 0.5f * a / s);
-        glsl_uniform2f(&distortion, "ScaleIn",  2.0f,     2.0f / a);
-        glsl_uniform4f(&distortion, "DistortionK",  Info.DistortionK[0],
-                                                    Info.DistortionK[1],
-                                                    Info.DistortionK[2],
-                                                    Info.DistortionK[3]);
-        glsl_uniform4f(&distortion, "ChromAbParam", Info.ChromaAbCorrection[0],
-                                                    Info.ChromaAbCorrection[1],
-                                                    Info.ChromaAbCorrection[2],
-                                                    Info.ChromaAbCorrection[3]);
-        /* Draw the left eye. */
-
-        glsl_uniform2f(&distortion, "LensCenter", 0.5 + 0.5f * d, 0.5);
-        hmd_gl_draw(L_fbo.color_texture, L_vbo);
-
-        /* Draw the right eye.*/
-
-        glsl_uniform2f(&distortion, "LensCenter", 0.5 - 0.5f * d, 0.5);
-        hmd_gl_draw(R_fbo.color_texture, R_vbo);
-    }
-    glUseProgram_(0);
-
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glEnable(GL_BLEND);
+    hmd_common_swap(center, scale, Info.DistortionK, Info.ChromaAbCorrection);
 }
 
 extern "C" void hmd_prep_left()
 {
-    glBindFramebuffer_(GL_FRAMEBUFFER, L_fbo.framebuffer);
-    glViewport(0, 0, L_fbo.width, L_fbo.height);
+    hmd_common_left();
     Params = Stereo.GetEyeRenderParams(OVR::Util::Render::StereoEye_Left);
 }
 
 extern "C" void hmd_prep_right()
 {
-    glBindFramebuffer_(GL_FRAMEBUFFER, R_fbo.framebuffer);
-    glViewport(0, 0, R_fbo.width, R_fbo.height);
+    hmd_common_right();
     Params = Stereo.GetEyeRenderParams(OVR::Util::Render::StereoEye_Right);
 }
 
@@ -359,9 +161,9 @@ extern "C" void hmd_persp(float n, float f)
     /* Projection and view matrices. */
 
     glMatrixMode(GL_PROJECTION);
-    hmd_gl_matrix(Params.Projection);
+    hmd_matrix(Params.Projection);
     glMatrixMode(GL_MODELVIEW);
-    hmd_gl_matrix(Params.ViewAdjust);
+    hmd_matrix(Params.ViewAdjust);
 
     /* Head orientation. */
 
