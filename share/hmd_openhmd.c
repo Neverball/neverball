@@ -32,6 +32,11 @@ static int vres = 0;
 
 /*---------------------------------------------------------------------------*/
 
+void hmd_stat()
+{
+    return config_get_d(CONFIG_HMD);
+}
+
 void hmd_init()
 {
     hres = config_get_d(CONFIG_WIDTH);

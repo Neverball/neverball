@@ -321,7 +321,7 @@ void game_draw(int pose, float t)
 
         v_cpy(c, view_c);
 
-        if (config_get_d(CONFIG_HMD))
+        if (hmd_stat())
             c[1] += view_dy;
 
         video_calc_view(T, c, view_p, view_e[1]);

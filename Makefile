@@ -103,7 +103,7 @@ FS_LIBS := -lphysfs
 endif
 
 ifeq ($(ENABLE_HMD),openhmd)
-	HMD_LIBS := -lopenhmd -lhidapi
+	HMD_LIBS := -lopenhmd #-lhidapi
 endif
 ifeq ($(ENABLE_HMD),libovr)
 	HMD_LIBS := -L/usr/local/OculusSDK/LibOVR/Lib/MacOS/Release -lovr -lstdc++ -framework IOKit
@@ -302,7 +302,6 @@ PUTT_OBJS := \
 	share/fs_rwops.o    \
 	share/fs_ov.o       \
 	share/dir.o         \
-	share/hmd.o         \
 	share/fbo.o         \
 	share/glsl.o        \
 	share/array.o       \
