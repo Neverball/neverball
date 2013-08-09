@@ -21,14 +21,16 @@
 
 struct fbo
 {
-    GLuint framebuffer;
-    GLuint color_texture;
-    GLuint depth_texture;
+    GLuint  framebuffer;
+    GLuint  color_texture;
+    GLuint  depth_texture;
+    GLsizei width;
+    GLsizei height;
 };
 
 typedef struct fbo fbo;
 
-GLboolean fbo_create(fbo *, int, int);
+GLboolean fbo_create(fbo *, GLsizei, GLsizei);
 void      fbo_delete(fbo *);
 
 /*----------------------------------------------------------------------------*/

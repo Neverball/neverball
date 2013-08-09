@@ -18,8 +18,11 @@
 
 /*---------------------------------------------------------------------------*/
 
-GLboolean fbo_create(fbo *F, int w, int h)
+GLboolean fbo_create(fbo *F, GLsizei w, GLsizei h)
 {
+    F->width  = w;
+    F->height = h;
+
     glGenTextures     (1, &F->color_texture);
     glGenTextures     (1, &F->depth_texture);
     glGenFramebuffers_(1, &F->framebuffer);
@@ -43,9 +46,9 @@ GLboolean fbo_create(fbo *F, int w, int h)
     glBindFramebuffer_     (GL_FRAMEBUFFER, F->framebuffer);
     glFramebufferTexture2D_(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                             GL_TEXTURE_2D, F->color_texture, 0);
-    glFramebufferTexture2D_(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, 
+    glFramebufferTexture2D_(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
                             GL_TEXTURE_2D, F->depth_texture, 0);
-    glFramebufferTexture2D_(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, 
+    glFramebufferTexture2D_(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
                             GL_TEXTURE_2D, F->depth_texture, 0);
     glBindFramebuffer_     (GL_FRAMEBUFFER, 0);
 
