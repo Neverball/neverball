@@ -58,8 +58,12 @@ else
 	ALL_CFLAGS := -Wall -ansi -pedantic $(CFLAGS)
 endif
 
-ifeq ($(ENABLE_HMD),1)
+ifeq ($(ENABLE_HMD),openhmd)
 	ALL_CFLAGS += -DENABLE_HMD
+endif
+ifeq ($(ENABLE_HMD),libovr)
+	ALL_CFLAGS := -Wall $(CFLAGS) -fno-rtti -fno-exceptions
+	ALL_CFLAGS += -DENABLE_HMD -I/usr/local/OculusSDK/LibOVR/Include
 endif
 
 # Preprocessor...
@@ -98,8 +102,11 @@ else
 FS_LIBS := -lphysfs
 endif
 
-ifeq ($(ENABLE_HMD),1)
+ifeq ($(ENABLE_HMD),openhmd)
 	HMD_LIBS := -lopenhmd -lhidapi
+endif
+ifeq ($(ENABLE_HMD),libovr)
+	HMD_LIBS := -L/usr/local/OculusSDK/LibOVR/Lib/MacOS/Release -lovr -lstdc++ -framework IOKit
 endif
 
 # On some systems we need to link this directly.
@@ -224,7 +231,6 @@ BALL_OBJS := \
 	share/cmd.o         \
 	share/array.o       \
 	share/dir.o         \
-	share/hmd.o         \
 	share/fbo.o         \
 	share/glsl.o        \
 	share/fs_common.o   \
@@ -332,6 +338,19 @@ BALL_OBJS += share/tilt_null.o
 endif
 endif
 
+ifeq ($(ENABLE_HMD),openhmd)
+BALL_OBJS += share/hmd_openhmd.o
+PUTT_OBJS += share/hmd_openhmd.o
+else
+ifeq ($(ENABLE_HMD),libovr)
+BALL_OBJS += share/hmd_libovr.o
+PUTT_OBJS += share/hmd_libovr.o
+else
+BALL_OBJS += share/hmd_null.o
+PUTT_OBJS += share/hmd_null.o
+endif
+endif
+
 ifeq ($(PLATFORM),mingw)
 BALL_OBJS += neverball.ico.o
 PUTT_OBJS += neverputt.ico.o
@@ -353,6 +372,10 @@ WINDRES := windres.exe
 %.o : %.c
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
+
+%.o : %.C
+	g++ $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
+	g++ $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
 %.sol : %.map $(MAPC_TARG)
 	$(MAPC) $< data

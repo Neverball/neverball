@@ -571,6 +571,7 @@ int main(int argc, char *argv[])
         SDL_JoystickClose(joy);
 
     tilt_free();
+    hmd_free();
     SDL_Quit();
 
     return 0;

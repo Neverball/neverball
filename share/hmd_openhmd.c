@@ -12,8 +12,6 @@
  * General Public License for more details.
  */
 
-#ifdef ENABLE_HMD
-
 #define OHMD_STATIC 1
 #include <openhmd/openhmd.h>
 #include <stdlib.h>
@@ -252,7 +250,7 @@ void hmd_prep_right()
     }
 }
 
-void hmd_persp()
+void hmd_persp(float n, float f)
 {
     float M[16];
 
@@ -287,20 +285,3 @@ void hmd_ortho()
 }
 
 /*---------------------------------------------------------------------------*/
-
-#else /* not ENABLE_HMD */
-
-int  hmd_stat() { return 0; }
-void hmd_init() { }
-void hmd_free() { }
-void hmd_step() { }
-void hmd_swap() { }
-
-void hmd_prep_left()  { }
-void hmd_prep_right() { }
-
-void hmd_persp() { }
-void hmd_ortho() { }
-
-#endif
-

@@ -12,23 +12,18 @@
  * General Public License for more details.
  */
 
-#ifndef HMD_H
-#define HMD_H
-
 /*---------------------------------------------------------------------------*/
 
-int  hmd_stat();
-void hmd_init();
-void hmd_free();
-void hmd_step();
-void hmd_swap();
+int  hmd_stat() { return 0; }
+void hmd_init() { }
+void hmd_free() { }
+void hmd_step() { }
+void hmd_swap() { }
 
-void hmd_prep_left();
-void hmd_prep_right();
+void hmd_prep_left()  { }
+void hmd_prep_right() { }
 
-void hmd_persp(float, float);
-void hmd_ortho();
+void hmd_persp() { }
+void hmd_ortho() { }
 
 /*---------------------------------------------------------------------------*/
-
-#endif

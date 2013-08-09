@@ -313,7 +313,7 @@ void video_calc_view(float *M, const float *c,
 void video_push_persp(float fov, float n, float f)
 {
     if (hmd_stat())
-        hmd_persp();
+        hmd_persp(n, f);
     else
     {
         GLfloat m[4][4];
