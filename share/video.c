@@ -28,7 +28,7 @@
 
 static void video_show_cursor()
 {
-    if (hmd_stat())
+    if (config_get_d(CONFIG_HMD))
     {
         gui_set_cursor(1);
         SDL_ShowCursor(SDL_DISABLE);
@@ -213,7 +213,9 @@ void video_swap(void)
 {
     int dt;
 
-    hmd_swap();
+    if (config_get_d(CONFIG_HMD))
+        hmd_swap();
+
     SDL_GL_SwapBuffers();
 
     /* Accumulate time passed and frames rendered. */
@@ -312,7 +314,7 @@ void video_calc_view(float *M, const float *c,
 
 void video_push_persp(float fov, float n, float f)
 {
-    if (hmd_stat())
+    if (config_get_d(CONFIG_HMD))
         hmd_persp(n, f);
     else
     {
@@ -358,7 +360,7 @@ void video_push_persp(float fov, float n, float f)
 
 void video_push_ortho(void)
 {
-    if (hmd_stat())
+    if (config_get_d(CONFIG_HMD))
         hmd_ortho();
     else
     {

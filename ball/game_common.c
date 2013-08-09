@@ -113,7 +113,7 @@ void game_view_init(struct game_view *view)
 {
     /* In VR, ensure the default view is level. */
 
-    if (hmd_stat())
+    if (config_get_d(CONFIG_HMD))
     {
         view->dp = config_get_d(CONFIG_VIEW_DP) / 100.0f;
         view->dc = config_get_d(CONFIG_VIEW_DP) / 100.0f;

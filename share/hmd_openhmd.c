@@ -23,23 +23,23 @@
 #include "fbo.h"
 #include "hmd.h"
 
-static ohmd_context *ctx  = NULL;
-static ohmd_device  *dev  = NULL;
-static int           eye  = 0;
+static ohmd_context *ctx = NULL;
+static ohmd_device  *dev = NULL;
+static int           eye = 0;
 
 static int hmd_hres = 0;
 static int hmd_vres = 0;
 static int fbo_hres = 0;
 static int fbo_vres = 0;
 
-static fbo left_fbo;
-static fbo right_fbo;
+static fbo L_fbo   = { 0, 0, 0 };
+static fbo R_fbo   = { 0, 0, 0 };
 
-static glsl left_glsl;
-static glsl right_glsl;
+static glsl L_glsl = { 0, 0, 0 };
+static glsl R_glsl = { 0, 0, 0 };
 
-static GLuint left_vbo  = 0;
-static GLuint right_vbo = 0;
+static GLuint L_vbo = 0;
+static GLuint R_vbo = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -96,22 +96,20 @@ static const char *hmd_frag[] = {
     "}\n",
 };
 
-static const GLfloat left_rect[4][2] = {
+static const GLfloat L_rect[4][2] = {
     { -1, -1 }, {  0, -1 }, { -1,  1 }, {  0,  1 }
 };
-static const GLfloat right_rect[4][2] = {
+static const GLfloat R_rect[4][2] = {
     {  0, -1 }, {  1, -1 }, {  0,  1 }, {  1,  1 }
 };
 
 /*---------------------------------------------------------------------------*/
 
-int hmd_stat()
-{
-    return (ctx && dev) ? 1 : 0;
-}
-
 void hmd_init()
 {
+    hmd_hres = config_get_d(CONFIG_WIDTH);
+    hmd_vres = config_get_d(CONFIG_HEIGHT);
+
     /* Start up OpenHMD. */
 
     if ((ctx = ohmd_ctx_create()))
@@ -124,58 +122,58 @@ void hmd_init()
 
                 ohmd_device_geti(dev, OHMD_SCREEN_HORIZONTAL_RESOLUTION, &hmd_hres);
                 ohmd_device_geti(dev, OHMD_SCREEN_VERTICAL_RESOLUTION,   &hmd_vres);
-
-                fbo_hres = 5 * hmd_hres / 8;
-                fbo_vres = 5 * hmd_vres / 4;
-
-                fbo_create(&left_fbo,  fbo_hres, fbo_vres);
-                fbo_create(&right_fbo, fbo_hres, fbo_vres);
-
-                /* Create and initialize the distortion shader. */
-
-                glsl_create(&left_glsl,  sizeof (hmd_vert) / sizeof (char *), hmd_vert,
-                                         sizeof (hmd_frag) / sizeof (char *), hmd_frag);
-                glsl_create(&right_glsl, sizeof (hmd_vert) / sizeof (char *), hmd_vert,
-                                         sizeof (hmd_frag) / sizeof (char *), hmd_frag);
-
-                glUseProgram_  (left_glsl.program);
-                glsl_uniform2f(&left_glsl, "LensCenter", 0.2863248, 0.5);
-                glsl_uniform2f(&left_glsl, "ScreenCenter", 0.25, 0.5);
-                glsl_uniform2f(&left_glsl, "ScreenSize", hmd_hres, hmd_vres);
-
-                glUseProgram_  (right_glsl.program);
-                glsl_uniform2f(&right_glsl, "LensCenter", 0.7136753, 0.5);
-                glsl_uniform2f(&right_glsl, "ScreenCenter", 0.75, 0.5);
-                glsl_uniform2f(&right_glsl, "ScreenSize", hmd_hres, hmd_vres);
-
-                glUseProgram_(0);
-
-                /* Initialize VBOs for the on-screen rectangles. */
-
-                glGenBuffers_(1, &left_vbo);
-                glBindBuffer_(GL_ARRAY_BUFFER, left_vbo);
-                glBufferData_(GL_ARRAY_BUFFER, sizeof (left_rect), left_rect, GL_STATIC_DRAW);
-                glGenBuffers_(1, &right_vbo);
-                glBindBuffer_(GL_ARRAY_BUFFER, right_vbo);
-                glBufferData_(GL_ARRAY_BUFFER, sizeof (right_rect), right_rect, GL_STATIC_DRAW);
-                glBindBuffer_(GL_ARRAY_BUFFER, 0);
             }
         }
     }
+
+    fbo_hres = 5 * hmd_hres / 8;
+    fbo_vres = 5 * hmd_vres / 4;
+
+    fbo_create(&L_fbo,  fbo_hres, fbo_vres);
+    fbo_create(&R_fbo, fbo_hres, fbo_vres);
+
+    /* Create and initialize the distortion shader. */
+
+    glsl_create(&L_glsl,  sizeof (hmd_vert) / sizeof (char *), hmd_vert,
+                             sizeof (hmd_frag) / sizeof (char *), hmd_frag);
+    glsl_create(&R_glsl, sizeof (hmd_vert) / sizeof (char *), hmd_vert,
+                             sizeof (hmd_frag) / sizeof (char *), hmd_frag);
+
+    glUseProgram_  (L_glsl.program);
+    glsl_uniform2f(&L_glsl, "LensCenter", 0.2863248, 0.5);
+    glsl_uniform2f(&L_glsl, "ScreenCenter", 0.25, 0.5);
+    glsl_uniform2f(&L_glsl, "ScreenSize", hmd_hres, hmd_vres);
+
+    glUseProgram_  (R_glsl.program);
+    glsl_uniform2f(&R_glsl, "LensCenter", 0.7136753, 0.5);
+    glsl_uniform2f(&R_glsl, "ScreenCenter", 0.75, 0.5);
+    glsl_uniform2f(&R_glsl, "ScreenSize", hmd_hres, hmd_vres);
+
+    glUseProgram_(0);
+
+    /* Initialize VBOs for the on-screen rectangles. */
+
+    glGenBuffers_(1, &L_vbo);
+    glBindBuffer_(GL_ARRAY_BUFFER, L_vbo);
+    glBufferData_(GL_ARRAY_BUFFER, sizeof (L_rect), L_rect, GL_STATIC_DRAW);
+    glGenBuffers_(1, &R_vbo);
+    glBindBuffer_(GL_ARRAY_BUFFER, R_vbo);
+    glBufferData_(GL_ARRAY_BUFFER, sizeof (R_rect), R_rect, GL_STATIC_DRAW);
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
 }
 
 void hmd_free()
 {
     if (ctx) ohmd_ctx_destroy(ctx);
 
-    fbo_delete (&left_fbo);
-    fbo_delete (&right_fbo);
+    fbo_delete (&L_fbo);
+    fbo_delete (&R_fbo);
 
-    glsl_delete(&left_glsl);
-    glsl_delete(&right_glsl);
+    glsl_delete(&L_glsl);
+    glsl_delete(&R_glsl);
 
-    if (left_vbo)  glDeleteBuffers_(1, &left_vbo);
-    if (right_vbo) glDeleteBuffers_(1, &right_vbo);
+    if (L_vbo)  glDeleteBuffers_(1, &L_vbo);
+    if (R_vbo) glDeleteBuffers_(1, &R_vbo);
 
     dev = NULL;
     ctx = NULL;
@@ -184,70 +182,60 @@ void hmd_free()
 
 void hmd_step()
 {
-    if (hmd_stat())
-        ohmd_ctx_update(ctx);
+    if (ctx) ohmd_ctx_update(ctx);
 }
 
 void hmd_swap()
 {
-    if (hmd_stat())
-    {
-        glDisable(GL_BLEND);
-        glEnableClientState(GL_VERTEX_ARRAY);
+    glDisable(GL_BLEND);
+    glEnableClientState(GL_VERTEX_ARRAY);
 
-        /* Prepare to draw a screen-filling pair of rectangles. */
+    /* Prepare to draw a screen-filling pair of rectangles. */
 
-        glBindFramebuffer_(GL_FRAMEBUFFER, 0);
-        glViewport(0, 0, hmd_hres, hmd_vres);
+    glBindFramebuffer_(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, hmd_hres, hmd_vres);
 
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
-        /* Draw the left eye view, distorted, to the screen. */
+    /* Draw the left eye view, distorted, to the screen. */
 
-        glUseProgram_(left_glsl.program);
-        glBindTexture(GL_TEXTURE_2D, left_fbo.color_texture);
-        glBindBuffer_(GL_ARRAY_BUFFER, left_vbo);
-        glVertexPointer(2, GL_FLOAT, 0, (GLvoid *) 0);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glUseProgram_(L_glsl.program);
+    glBindTexture(GL_TEXTURE_2D, L_fbo.color_texture);
+    glBindBuffer_(GL_ARRAY_BUFFER, L_vbo);
+    glVertexPointer(2, GL_FLOAT, 0, (GLvoid *) 0);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-        /* Draw the right eye view, distorted, to the screen. */
+    /* Draw the right eye view, distorted, to the screen. */
 
-        glUseProgram_(right_glsl.program);
-        glBindTexture(GL_TEXTURE_2D, right_fbo.color_texture);
-        glBindBuffer_(GL_ARRAY_BUFFER, right_vbo);
-        glVertexPointer(2, GL_FLOAT, 0, (GLvoid *) 0);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glUseProgram_(R_glsl.program);
+    glBindTexture(GL_TEXTURE_2D, R_fbo.color_texture);
+    glBindBuffer_(GL_ARRAY_BUFFER, R_vbo);
+    glVertexPointer(2, GL_FLOAT, 0, (GLvoid *) 0);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-        /* Revert that state. */
+    /* Revert that state. */
 
-        glBindBuffer_(GL_ARRAY_BUFFER, 0);
-        glUseProgram_(0);
-        glEnable(GL_BLEND);
-        glDisableClientState(GL_VERTEX_ARRAY);
-    }
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+    glUseProgram_(0);
+    glEnable(GL_BLEND);
+    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void hmd_prep_left()
 {
-    if (hmd_stat())
-    {
-        glBindFramebuffer_(GL_FRAMEBUFFER, left_fbo.framebuffer);
-        glViewport(0, 0, fbo_hres, fbo_vres);
-        eye = 0;
-    }
+    glBindFramebuffer_(GL_FRAMEBUFFER, L_fbo.framebuffer);
+    glViewport(0, 0, fbo_hres, fbo_vres);
+    eye = 0;
 }
 
 void hmd_prep_right()
 {
-    if (hmd_stat())
-    {
-        glBindFramebuffer_(GL_FRAMEBUFFER, right_fbo.framebuffer);
-        glViewport(0, 0, fbo_hres, fbo_vres);
-        eye = 1;
-    }
+    glBindFramebuffer_(GL_FRAMEBUFFER, R_fbo.framebuffer);
+    glViewport(0, 0, fbo_hres, fbo_vres);
+    eye = 1;
 }
 
 void hmd_persp(float n, float f)
@@ -278,7 +266,7 @@ void hmd_persp(float n, float f)
 
 void hmd_ortho()
 {
-    hmd_persp();
+    hmd_persp(0.5f, 2.0f);
 
     glScalef    ( 1.25f / hmd_vres,  1.25f / hmd_vres,  1.0f);
     glTranslatef(-0.50f * hmd_hres, -0.50f * hmd_vres, -1.0f);

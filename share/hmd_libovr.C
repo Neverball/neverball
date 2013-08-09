@@ -36,11 +36,11 @@ static OVR::Util::Render::StereoEyeParams Params;
 
 /*---------------------------------------------------------------------------*/
 
-static fbo L_fbo;
-static fbo R_fbo;
+static fbo L_fbo   = { 0, 0, 0 };
+static fbo R_fbo   = { 0, 0, 0 };
 
-static glsl L_glsl;
-static glsl R_glsl;
+static glsl L_glsl = { 0, 0, 0 };
+static glsl R_glsl = { 0, 0, 0 };
 
 static GLuint L_vbo = 0;
 static GLuint R_vbo = 0;
@@ -199,12 +199,6 @@ static void hmd_gl_matrix(OVR::Matrix4f& M)
 
 /*---------------------------------------------------------------------------*/
 
-extern "C" int hmd_stat()
-{
-    return 1;
-    // return (OVR::System::IsInitialized() && pHMD) ? 1 : 0;
-}
-
 extern "C" void hmd_init()
 {
     // Set default HMD info for a 7" OVR DK1 in case OVR fails for any reason.
@@ -271,7 +265,7 @@ extern "C" void hmd_free()
     pHMD     = 0;
     pManager = 0;
 
-    // OVR::System::Destroy();
+    OVR::System::Destroy();
 }
 
 extern "C" void hmd_step()

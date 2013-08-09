@@ -67,7 +67,7 @@ void st_paint(float t)
     {
         video_clear();
 
-        if (hmd_stat())
+        if (config_get_d(CONFIG_HMD))
         {
             hmd_prep_left();
             video_clear();
@@ -79,7 +79,7 @@ void st_paint(float t)
         }
         else
             state->paint(state->gui_id, t);
-    }    
+    }
 }
 
 void st_timer(float dt)
@@ -97,7 +97,7 @@ void st_point(int x, int y, int dx, int dy)
 {
     if (state && state->point)
     {
-        if (hmd_stat())
+        if (config_get_d(CONFIG_HMD))
             state->point(state->gui_id, x * 2, y, dx, dy);
         else
             state->point(state->gui_id, x,     y, dx, dy);
