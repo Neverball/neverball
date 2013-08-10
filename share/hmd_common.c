@@ -50,7 +50,7 @@ static const char *hmd_vert[] = {
     "void main()\n",
     "{\n",
         "gl_TexCoord[0] = gl_MultiTexCoord0;\n",
-        "gl_Position    = ftransform();\n",
+        "gl_Position    = gl_Vertex;\n",
     "}\n",
 };
 
@@ -187,11 +187,6 @@ void hmd_common_swap(float center,
 
     glBindFramebuffer_(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, w, h);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
 
     glDisable(GL_BLEND);
     glEnableClientState(GL_VERTEX_ARRAY);
