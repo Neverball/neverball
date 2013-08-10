@@ -37,11 +37,15 @@ endif
 
 ifeq ($(DEBUG),1)
 	CFLAGS   := -g
+	CXXFLAGS := -g
 	CPPFLAGS :=
 else
 	CFLAGS   := -O2
+	CXXFLAGS := -O2
 	CPPFLAGS := -DNDEBUG
 endif
+
+CXXFLAGS += -fno-rtti -fno-exceptions
 
 #------------------------------------------------------------------------------
 # Mandatory flags
@@ -56,14 +60,6 @@ ifeq ($(ENABLE_TILT),wii)
 	ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions $(CFLAGS)
 else
 	ALL_CFLAGS := -Wall -ansi -pedantic $(CFLAGS)
-endif
-
-ifeq ($(ENABLE_HMD),openhmd)
-	ALL_CFLAGS += -DENABLE_HMD
-endif
-ifeq ($(ENABLE_HMD),libovr)
-	ALL_CFLAGS := -Wall $(CFLAGS) -fno-rtti -fno-exceptions
-	ALL_CFLAGS += -DENABLE_HMD -I/usr/local/OculusSDK/LibOVR/Include
 endif
 
 # Preprocessor...
@@ -84,11 +80,41 @@ else
 	ALL_CPPFLAGS += -DENABLE_NLS=1
 endif
 
+ifeq ($(ENABLE_HMD),openhmd)
+	ALL_CPPFLAGS += -DENABLE_HMD
+endif
+ifeq ($(ENABLE_HMD),libovr)
+	ALL_CPPFLAGS += -DENABLE_HMD
+endif
+
 ifeq ($(PLATFORM),darwin)
 	ALL_CPPFLAGS += -I/opt/local/include
 endif
 
 ALL_CPPFLAGS += $(CPPFLAGS)
+
+#------------------------------------------------------------------------------
+# HMD handling is a complicated with 6 platform-backend combinations.
+
+ifeq ($(ENABLE_HMD),openhmd)
+	ifeq ($(PLATFORM),mingw)
+		HMD_LIBS := -lopenhmd -lhidapi -lSetupapi
+	else
+		HMD_LIBS := -lopenhmd
+	endif
+endif
+
+ifeq ($(ENABLE_HMD),libovr)
+	HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/Linux/Release/x86_64 -lovr -lstdc++ -ludev
+	ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
+
+	ifeq ($(PLATFORM),mingw)
+	endif
+	ifeq ($(PLATFORM),darwin)
+		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MacOS/Release -lovr -lstdc++ -framework IOKit
+		ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
+	endif
+endif
 
 #------------------------------------------------------------------------------
 # Libraries
@@ -102,15 +128,8 @@ else
 FS_LIBS := -lphysfs
 endif
 
-ifeq ($(ENABLE_HMD),openhmd)
-	HMD_LIBS := -lopenhmd #-lhidapi
-endif
-ifeq ($(ENABLE_HMD),libovr)
-	HMD_LIBS := -L/usr/local/OculusSDK/LibOVR/Lib/MacOS/Release -lovr -lstdc++ -framework IOKit
-endif
-
 # On some systems we need to link this directly.
-X11_LIBS := -lX11
+X11_LIBS := -lX11 -lXinerama
 
 # The  non-conditionalised values  below  are specific  to the  native
 # system. The native system of this Makefile is Linux (or GNU+Linux if
@@ -138,7 +157,6 @@ ifeq ($(PLATFORM),mingw)
 	OGL_LIBS  := -lopengl32
 	X11_LIBS  :=
 	SDL_LIBS  := $(shell sdl-config --static-libs)
-	HMD_LIBS  += -lSetupapi
 endif
 
 ifeq ($(PLATFORM),darwin)
@@ -160,13 +178,9 @@ endif
 OGG_LIBS := -lvorbisfile -lvorbisenc -lvorbis -logg
 TTF_LIBS := -lSDL_ttf -lfreetype
 
-ifeq ($(PLATFORM),mingw)
-	ALL_LIBS := -static $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
-		$(OGG_LIBS) $(SDL_LIBS) $(X11_LIBS) $(OGL_LIBS) $(BASE_LIBS)
-else
-	ALL_LIBS := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
-		$(OGG_LIBS) $(SDL_LIBS) $(X11_LIBS) $(OGL_LIBS) $(BASE_LIBS)
-endif
+ALL_LIBS := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
+	$(OGG_LIBS) $(SDL_LIBS) $(X11_LIBS) $(OGL_LIBS) $(BASE_LIBS)
+
 #------------------------------------------------------------------------------
 
 ifeq ($(PLATFORM),mingw)
@@ -373,8 +387,8 @@ WINDRES := windres.exe
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
 %.o : %.C
-	g++ $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
-	g++ $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
+	$(CXX) $(CXXFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
+	$(CXX) $(CXXFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
 %.sol : %.map $(MAPC_TARG)
 	$(MAPC) $< data

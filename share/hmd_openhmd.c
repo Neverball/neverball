@@ -32,7 +32,7 @@ static int vres = 0;
 
 /*---------------------------------------------------------------------------*/
 
-void hmd_stat()
+int hmd_stat()
 {
     return config_get_d(CONFIG_HMD);
 }
