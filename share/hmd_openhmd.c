@@ -12,7 +12,6 @@
  * General Public License for more details.
  */
 
-#define OHMD_STATIC 1
 #include <openhmd/openhmd.h>
 #include <stdlib.h>
 #include <stdio.h>

@@ -81,7 +81,7 @@ else
 endif
 
 ifeq ($(ENABLE_HMD),openhmd)
-	ALL_CPPFLAGS += -DENABLE_HMD
+	ALL_CPPFLAGS += -DENABLE_HMD -DOHMD_STATIC=1
 endif
 ifeq ($(ENABLE_HMD),libovr)
 	ALL_CPPFLAGS += -DENABLE_HMD
