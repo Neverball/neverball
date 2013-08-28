@@ -45,8 +45,6 @@ else
 	CPPFLAGS := -DNDEBUG
 endif
 
-CXXFLAGS += -fno-rtti -fno-exceptions
-
 #------------------------------------------------------------------------------
 # Mandatory flags
 
@@ -61,6 +59,8 @@ ifeq ($(ENABLE_TILT),wii)
 else
 	ALL_CFLAGS := -Wall -ansi -pedantic $(CFLAGS)
 endif
+
+ALL_CXXFLAGS := -fno-rtti -fno-exceptions $(CXXFLAGS)
 
 # Preprocessor...
 
@@ -105,13 +105,13 @@ ifeq ($(ENABLE_HMD),openhmd)
 endif
 
 ifeq ($(ENABLE_HMD),libovr)
-	HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/Linux/Release/x86_64 -lovr -lstdc++ -ludev
+	HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/Linux/Release/x86_64 -lovr -ludev
 	ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
 
 	ifeq ($(PLATFORM),mingw)
 	endif
 	ifeq ($(PLATFORM),darwin)
-		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MacOS/Release -lovr -lstdc++ -framework IOKit
+		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MacOS/Release -lovr -framework IOKit
 		ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
 	endif
 endif
@@ -386,9 +386,9 @@ WINDRES := windres.exe
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
-%.o : %.C
-	$(CXX) $(CXXFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
-	$(CXX) $(CXXFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
+%.o : %.cpp
+	$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
+	$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
 %.sol : %.map $(MAPC_TARG)
 	$(MAPC) $< data
@@ -403,11 +403,17 @@ WINDRES := windres.exe
 
 all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales desktops
 
+ifeq ($(ENABLE_HMD),libovr)
+LINK := $(CXX) $(ALL_CXXFLAGS)
+else
+LINK := $(CC) $(ALL_CFLAGS)
+endif
+
 $(BALL_TARG) : $(BALL_OBJS)
-	$(CC) $(ALL_CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LDFLAGS) $(ALL_LIBS)
+	$(LINK) -o $(BALL_TARG) $(BALL_OBJS) $(LDFLAGS) $(ALL_LIBS)
 
 $(PUTT_TARG) : $(PUTT_OBJS)
-	$(CC) $(ALL_CFLAGS) -o $(PUTT_TARG) $(PUTT_OBJS) $(LDFLAGS) $(ALL_LIBS)
+	$(LINK) -o $(PUTT_TARG) $(PUTT_OBJS) $(LDFLAGS) $(ALL_LIBS)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
 	$(CC) $(ALL_CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LDFLAGS) $(BASE_LIBS)
