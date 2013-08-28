@@ -109,6 +109,8 @@ ifeq ($(ENABLE_HMD),libovr)
 	ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
 
 	ifeq ($(PLATFORM),mingw)
+		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MinGW/Release/w32 -lovr -lsetupapi
+		ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
 	endif
 	ifeq ($(PLATFORM),darwin)
 		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MacOS/Release -lovr -framework IOKit
@@ -378,7 +380,9 @@ SOLS := $(MAPS:%.map=%.sol)
 
 DESKTOPS := $(basename $(wildcard dist/*.desktop.in))
 
-WINDRES := windres.exe
+# The build environment defines this (or should).
+# This is a fallback that likely only works on a Windows host.
+WINDRES ?= windres
 
 #------------------------------------------------------------------------------
 

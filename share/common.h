@@ -49,7 +49,10 @@ int rand_between(int low, int high);
 
 /* Arrays and strings. */
 
+#ifndef ARRAYSIZE
 #define ARRAYSIZE(a) (sizeof (a) / sizeof ((a)[0]))
+#endif
+
 #define MAXSTRLEN(a) (sizeof (a) - 1)
 
 #define SAFECPY(dst, src) \
