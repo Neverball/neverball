@@ -56,6 +56,8 @@ static const char *hmd_vert[] = {
 
 #if 0
 
+/* This fragment shader does not perform chromatic aberration correction. */
+
 static const char *hmd_frag[] = {
     "#version 120\n",
 

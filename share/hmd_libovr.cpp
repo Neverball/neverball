@@ -106,7 +106,6 @@ extern "C" void hmd_init()
                     Fusion.AttachToSensor(pSensor);
 
                     pHMD->GetDeviceInfo(&Info);
-
                 }
             }
         }
@@ -178,7 +177,9 @@ extern "C" void hmd_persp(float n, float f)
         float         a;
 
         Fusion.GetOrientation().GetAxisAngle(&v, &a);
+        glTranslatef(0.0f, -0.1f, 0.f);
         glRotatef(OVR::RadToDegree(-a), v.x, v.y, v.z);
+        glTranslatef(0.0f, +0.1f, 0.f);
     }
 }
 
