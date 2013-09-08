@@ -438,9 +438,8 @@ endif
 desktops : $(DESKTOPS)
 
 clean-src :
-	$(RM) $(BALL_TARG) $(BALL_OBJS) $(BALL_DEPS)
-	$(RM) $(PUTT_TARG) $(PUTT_OBJS) $(PUTT_DEPS)
-	$(RM) $(MAPC_TARG) $(MAPC_OBJS) $(MAPC_DEPS)
+	$(RM) $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG)
+	find \( -name '*.o' -o -name '*.d' \) -delete
 
 clean : clean-src
 	$(RM) $(SOLS)
