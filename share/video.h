@@ -23,6 +23,7 @@ int video_init(const char *, const char *);
 
 int  video_mode(int, int, int);
 
+void video_snap(const char *);
 int  video_perf(void);
 void video_swap(void);
 

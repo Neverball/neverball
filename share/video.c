@@ -13,6 +13,8 @@
  */
 
 #include "video.h"
+#include "common.h"
+#include "image.h"
 #include "vec3.h"
 #include "glext.h"
 #include "config.h"
@@ -47,6 +49,35 @@ static void video_hide_cursor()
 {
     gui_set_cursor(0);
     SDL_ShowCursor(SDL_DISABLE);
+}
+
+/*---------------------------------------------------------------------------*/
+
+static char snapshot_path[MAXSTR] = "";
+
+static void snapshot_init(void)
+{
+    snapshot_path[0] = 0;
+}
+
+static void snapshot_prep(const char *path)
+{
+    if (path && *path)
+        SAFECPY(snapshot_path, path);
+}
+
+static void snapshot_take(void)
+{
+    if (snapshot_path[0])
+    {
+        image_snap(snapshot_path);
+        snapshot_path[0] = 0;
+    }
+}
+
+void video_snap(const char *path)
+{
+    snapshot_prep(path);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -162,6 +193,10 @@ int video_mode(int f, int w, int h)
         if (hmd)
             hmd_init();
 
+        /* Initialize screen snapshotting. */
+
+        snapshot_init();
+
         video_show_cursor();
 
         return 1;
@@ -215,6 +250,10 @@ void video_swap(void)
 
     if (hmd_stat())
         hmd_swap();
+
+    /* Take a screenshot of the complete back buffer and swap it. */
+
+    snapshot_take();
 
     SDL_GL_SwapBuffers();
 

@@ -44,23 +44,11 @@ const char ICON[] = "icon/neverball.png";
 
 /*---------------------------------------------------------------------------*/
 
-static int shot_pending;
-
-static void shot_prep(void)
-{
-    shot_pending = 1;
-}
-
-static void shot_take(void)
+static void shot(void)
 {
     static char filename[MAXSTR];
-
-    if (shot_pending)
-    {
-        sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
-        image_snap(filename);
-        shot_pending = 0;
-    }
+    sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
+    video_snap(filename);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -110,7 +98,7 @@ static int handle_key_dn(SDL_Event *e)
     switch (c)
     {
     case KEY_SCREENSHOT:
-        shot_prep();
+        shot();
         break;
     case KEY_FPS:
         config_tgl_d(CONFIG_FPS);
@@ -558,7 +546,6 @@ int main(int argc, char *argv[])
             hmd_step();
             st_paint(0.001f * t0);
             video_swap();
-            shot_take();
 
             if (config_get_d(CONFIG_NICE))
                 SDL_Delay(1);
